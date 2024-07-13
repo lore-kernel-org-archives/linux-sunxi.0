@@ -1,194 +1,134 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8668D176AAB
-	for <linux-sunxi@lists.linux.dev>; Fri, 12 Jul 2024 16:54:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A7F27E57C
+	for <linux-sunxi@lists.linux.dev>; Sat, 13 Jul 2024 12:37:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720803250; cv=none; b=EW59cTzezPUzARa05xY40U0Ws+ZHnMU8dAMYAWKf/+IRRXf2tB1WWlZMXzFY6e4DIi3OHAq0gfEAEihukDgMa+xCJLBOYPsDhlWwMXLoTVJUVu5eF6aqnDCz2ICI10Islg3tC5IbBfM+j5fL1z706VVbR8BMJdhkz+CSJrxmDkE=
+	t=1720874260; cv=none; b=iDgiXEOSkmnUyUfENqKpTxVx2rJGc0EpltPyEx8wYL78Js8si5+g6WTtd8LM0MOTpedwVFUZRhepzLWFIkCcYnAT7zCe49sZ1tkKqkMDQgAvZdneHr6+L+chKajRfW7CfPu/rriiis4FMbZIXRx60ykWiSfrNEcALTYIBu7AWEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720803250; c=relaxed/simple;
-	bh=bP+jVUhknYlQgb6EFuJu6Rx7WZDnsWagIu65kkudUr8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=rfaohH23RZ2B7HjZ+hUxFQGVVaZgd5CJ2FW6xbvC6kYhG8+2B0XZfOxCEr6BRNQPP8P9vnrBSkkw0EbTP5WCvj4PdxkECVNH2AZdp0PFgTuB6rgOSSwTPpeHIwCL0JmrQC1sul5/Cr6Q3ATORLIEcTW1FwlCFdb9uUoMK5CCsMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8D15B1042;
-	Fri, 12 Jul 2024 09:54:33 -0700 (PDT)
-Received: from donnerap.arm.com (donnerap.manchester.arm.com [10.32.101.20])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DD4103F766;
-	Fri, 12 Jul 2024 09:54:06 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Tom Rini <trini@konsulko.com>,
-	Jaehoon Chung <jh80.chung@samsung.com>
-Cc: Jagan Teki <jagan@amarulasolutions.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Chris Morgan <macromorgan@hotmail.com>,
-	Ryan Walklin <ryan@testtoast.com>,
-	Philippe Simons <simons.philippe@gmail.com>,
-	u-boot@lists.denx.de,
+	s=arc-20240116; t=1720874260; c=relaxed/simple;
+	bh=ALEtotDXe1wTfhh/A0WxVHMSMACce8epsNr3CJUeDxU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UEunY86HoVWmr9rxCAqoJ06yrGD8D022JHpHS6HW0ic5G/HNXe/A7X52CzPQCZtyYS/wHRUC3G5Dh7k9F7h2XdFMSENr3lmZm/XYFJhPbZbtossHKasshMpgUo5w6znM0SS0RreK0H2HDmhUnEmG2hS+ly1YX1I/SQMGA8fbQyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=QSkJzazX; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="QSkJzazX"
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-595712c49ebso3501791a12.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 13 Jul 2024 05:37:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1720874256; x=1721479056; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hQLJcgSqmrEQyTwsPNpqaNNOR1im9T0KFBjj4JZBLIg=;
+        b=QSkJzazXgjqJD3ctAbbMAp/n7oI1Uv54oaCf1+HKt8n+DpHneL52ZWV0FprS7lZiM6
+         BuGbQDld0oMEc0UcHp9tzW14//cTAmi2GV3wZVYVvNuEW/YTboDENydm+Eyp3X30eqly
+         oNrLXjAYf2HI8jMa2jcXpfd8Dt4tGbhkZ46yTOfh/DWzTKbOUp21ITpvugk8d9bYfDkv
+         oacHIFNLdiYUDBvD9u1UFLGHgmGl2q+gl0FdjRrcrhIul/RAzMqdRblfNVXxrUCvgzoX
+         SfzWotzQVDYoc6Wx6Gj1ii0j7//z0Imk/D1IUNT0eXo11AJbH6xszG5zlKi0tAIE+CbV
+         IzPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720874256; x=1721479056;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hQLJcgSqmrEQyTwsPNpqaNNOR1im9T0KFBjj4JZBLIg=;
+        b=l+SEkcU2yfy68zQIIW1fyxygns3W4OWyRfjLv9nJJdAybvX+RSS8mXfJZTSHhVOqQs
+         SceZpuKMJywuL6DhnW1Asgu15QHLfW95FyRmH+k+tY3mQzuDIaKZHtlPD2TgdsXDszFJ
+         +z59386Fql2KzAJmG/zjB060qfIfU9P9DvGlSGCdyr90JQM27Ut7/78Nx0431DaejMYo
+         gOp+LYMwveoj416AD48ZYXYKj4bNtPXYfzAVvLHmsVsfFj51leCobpwJKSKnCnsdoNnd
+         8Y3/PRoL4ADYKZhVWJlSr3WQvgFNRWRnhKAzN9E1g+XToDILdXaO7c6QvFGl9quyxGVM
+         tumA==
+X-Forwarded-Encrypted: i=1; AJvYcCWRdURSTXuO9ubgyKavJLTg3YZ4fia6KsUt9Qs4v/Fi3ZInw0q9JtzXsrPNSVmUnVhMQA/TUYJ1s64OeSm8PtUVU/gfMJTsA8aGSjg=
+X-Gm-Message-State: AOJu0YycVzCx8Vl6L4RuZfBpjnSDqKBYHf8OGn9KhoH+qUCrzRZU4ZTb
+	ai+kbwi8Jm7ZAMgA6TeYuQSoAL6xeREUtpuGbrg9pX2nwLt+iffbIyEjgU7maYc=
+X-Google-Smtp-Source: AGHT+IFoeMrCBWUO2pW01nr/SM+st8eNPSLq69gJBv83LXWhWaXsXistVx+E/nH5md9gax+j+IcniQ==
+X-Received: by 2002:a50:d518:0:b0:585:437c:d7fc with SMTP id 4fb4d7f45d1cf-594bc7c7e61mr8692805a12.32.1720874256509;
+        Sat, 13 Jul 2024 05:37:36 -0700 (PDT)
+Received: from localhost ([2a02:8071:b783:6940:3c82:4e3d:25d1:b685])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-59b2504b8a2sm724185a12.30.2024.07.13.05.37.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 Jul 2024 05:37:36 -0700 (PDT)
+Date: Sat, 13 Jul 2024 14:37:34 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Hironori KIKUCHI <kikuchan98@gmail.com>
+Cc: linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Aleksandr Shubin <privatesub2@gmail.com>, Cheo Fusi <fusibrandon13@gmail.com>, linux-pwm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH v2 6/6] power: pmic: sunxi: use generic AXP SPL driver for AXP305
-Date: Fri, 12 Jul 2024 17:53:52 +0100
-Message-Id: <20240712165352.3767166-7-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240712165352.3767166-1-andre.przywara@arm.com>
-References: <20240712165352.3767166-1-andre.przywara@arm.com>
+Subject: Re: [PATCH 2/5] pwm: sun20i: Add support for Allwinner H616 PWM
+Message-ID: <c7iwx6erdqv7uahd47ymlwcid67wbfizkblngv7r3dx7i2i735@ujams5zx6b5b>
+References: <20240531141152.327592-1-kikuchan98@gmail.com>
+ <20240531141152.327592-3-kikuchan98@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="rimaol34dtjgodgo"
+Content-Disposition: inline
+In-Reply-To: <20240531141152.327592-3-kikuchan98@gmail.com>
 
-The generic AXP SPL driver implementation can cover all regulators we
-need for the AXP305.
 
-Add the descriptions for four of the six DC/DC regulators of the AXP305,
-and enable that when CONFIG_AXP305_POWER is enabled. We won't need DCDC2
-and DCDC3, but by using the position in the array for the index we keep
-the code cleaner.
-Also remove the old driver, and switch the Makefile to include the new,
-generic driver.
+--rimaol34dtjgodgo
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- drivers/power/Makefile  |  2 +-
- drivers/power/axp305.c  | 82 -----------------------------------------
- drivers/power/axp_spl.c | 16 ++++++++
- 3 files changed, 17 insertions(+), 83 deletions(-)
- delete mode 100644 drivers/power/axp305.c
+Hello,
 
-diff --git a/drivers/power/Makefile b/drivers/power/Makefile
-index 30e0daf0621..8d36f87ed32 100644
---- a/drivers/power/Makefile
-+++ b/drivers/power/Makefile
-@@ -12,7 +12,7 @@ ifdef CONFIG_SPL_BUILD
- obj-$(CONFIG_AXP152_POWER)	+= axp152.o
- obj-$(CONFIG_AXP209_POWER)	+= axp209.o
- obj-$(CONFIG_AXP221_POWER)	+= axp221.o
--obj-$(CONFIG_AXP305_POWER)	+= axp305.o
-+obj-$(CONFIG_AXP305_POWER)	+= axp_spl.o
- obj-$(CONFIG_AXP313_POWER)	+= axp_spl.o
- obj-$(CONFIG_AXP717_POWER)	+= axp_spl.o
- obj-$(CONFIG_AXP809_POWER)	+= axp809.o
-diff --git a/drivers/power/axp305.c b/drivers/power/axp305.c
-deleted file mode 100644
-index 0312ad9af76..00000000000
---- a/drivers/power/axp305.c
-+++ /dev/null
-@@ -1,82 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0+
--/*
-- * AXP305 driver
-- *
-- * (C) Copyright 2020 Jernej Skrabec <jernej.skrabec@siol.net>
-- *
-- * Based on axp221.c
-- * (C) Copyright 2014 Hans de Goede <hdegoede@redhat.com>
-- * (C) Copyright 2013 Oliver Schinagl <oliver@schinagl.nl>
-- */
--
--#include <command.h>
--#include <errno.h>
--#include <asm/arch/pmic_bus.h>
--#include <axp_pmic.h>
--
--#define AXP305_DCDC4_1600MV_OFFSET 46
--
--static u8 axp305_mvolt_to_cfg(int mvolt, int min, int max, int div)
--{
--	if (mvolt < min)
--		mvolt = min;
--	else if (mvolt > max)
--		mvolt = max;
--
--	return  (mvolt - min) / div;
--}
--
--int axp_set_dcdc4(unsigned int mvolt)
--{
--	int ret;
--	u8 cfg;
--
--	if (mvolt >= 1600)
--		cfg = AXP305_DCDC4_1600MV_OFFSET +
--			axp305_mvolt_to_cfg(mvolt, 1600, 3300, 100);
--	else
--		cfg = axp305_mvolt_to_cfg(mvolt, 600, 1500, 20);
--
--	if (mvolt == 0)
--		return pmic_bus_clrbits(AXP305_OUTPUT_CTRL1,
--					AXP305_OUTPUT_CTRL1_DCDCD_EN);
--
--	ret = pmic_bus_write(AXP305_DCDCD_VOLTAGE, cfg);
--	if (ret)
--		return ret;
--
--	return pmic_bus_setbits(AXP305_OUTPUT_CTRL1,
--				AXP305_OUTPUT_CTRL1_DCDCD_EN);
--}
--
--int axp_init(void)
--{
--	u8 axp_chip_id;
--	int ret;
--
--	ret = pmic_bus_init();
--	if (ret)
--		return ret;
--
--	ret = pmic_bus_read(AXP305_CHIP_VERSION, &axp_chip_id);
--	if (ret)
--		return ret;
--
--	if ((axp_chip_id & AXP305_CHIP_VERSION_MASK) != 0x40)
--		return -ENODEV;
--
--	return ret;
--}
--
--#if !CONFIG_IS_ENABLED(ARM_PSCI_FW) && !IS_ENABLED(CONFIG_SYSRESET_CMD_POWEROFF)
--int do_poweroff(struct cmd_tbl *cmdtp, int flag, int argc, char *const argv[])
--{
--	pmic_bus_write(AXP305_SHUTDOWN, AXP305_POWEROFF);
--
--	/* infinite loop during shutdown */
--	while (1) {}
--
--	/* not reached */
--	return 0;
--}
--#endif
-diff --git a/drivers/power/axp_spl.c b/drivers/power/axp_spl.c
-index 68cbf60eedf..3c86eb20ab4 100644
---- a/drivers/power/axp_spl.c
-+++ b/drivers/power/axp_spl.c
-@@ -50,6 +50,22 @@ static const struct axp_reg_desc_spl axp_spl_dcdc_regulators[] = {
- #define AXP_SHUTDOWN_REG	0x1a
- #define AXP_SHUTDOWN_MASK	BIT(7)
- 
-+#elif defined(CONFIG_AXP305_POWER)				/* AXP305 */
-+
-+static const struct axp_reg_desc_spl axp_spl_dcdc_regulators[] = {
-+	{ 0x10, BIT(0), 0x12, 0x7f,  600, 1520,  10, 50 },
-+	{ 0x10, BIT(1), 0x13, 0x1f, 1000, 2550,  50, NA },
-+	{ 0x10, BIT(2), 0x14, 0x7f,  600, 1520,  10, 50 },
-+	{ 0x10, BIT(3), 0x15, 0x3f,  600, 1500,  20, NA },
-+	{ 0x10, BIT(4), 0x16, 0x1f, 1100, 3400, 100, NA },
-+};
-+
-+#define AXP_CHIP_VERSION	0x3
-+#define AXP_CHIP_VERSION_MASK	0xcf
-+#define AXP_CHIP_ID		0x40
-+#define AXP_SHUTDOWN_REG	0x32
-+#define AXP_SHUTDOWN_MASK	BIT(7)
-+
- #else
- 
- 	#error "Please define the regulator registers in axp_spl_regulators[]."
--- 
-2.25.1
+On Fri, May 31, 2024 at 11:11:34PM +0900, Hironori KIKUCHI wrote:
+> @@ -20,8 +20,17 @@
+>  #include <linux/pwm.h>
+>  #include <linux/reset.h>
+> =20
+> +#define SUN20I_PWM_REG_OFFSET_PER_D1		(0x0080)
+> +#define SUN20I_PWM_REG_OFFSET_PCR_D1		(0x0100 + 0x0000)
+> +#define SUN20I_PWM_REG_OFFSET_PPR_D1		(0x0100 + 0x0004)
+> +#define SUN20I_PWM_REG_OFFSET_PER_H616		(0x0040)
+> +#define SUN20I_PWM_REG_OFFSET_PCR_H616		(0x0060 + 0x0000)
+> +#define SUN20I_PWM_REG_OFFSET_PPR_H616		(0x0060 + 0x0004)
 
+Instead of having a conditional for each register, it would be easier
+to do:
+
+	#define SUN20I_PWM_CHANBASE_D1		0x80
+	#define SUN20I_PWM_CHANBASE_H616	0x40
+
+(maybe with a more suitable name) and then do:
+
+	#define SUN20I_PWM_PER(sun20i_chip)		((sun20i_chip)->chanbase + 0)
+	#define SUN20I_PWM_PCR(sun20i_chip)		((sun20i_chip)->chanbase + 0x20)
+	#define SUN20I_PWM_PPR(sun20i_chip)		((sun20i_chip)->chanbase + 0x24)
+
+I would expect these definitions to appear in the order of register
+addresses, that is below SUN20I_PWM_CLK_CFG. This reduces the size of
+the private data struct, is easier to understnad to a human (I think)
+and I claim this results in more compact code (without having it
+verified).
+
+Best regards
+Uwe
+
+--rimaol34dtjgodgo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmaSdQoACgkQj4D7WH0S
+/k6+QAf7BrtLVy5151/xN7lxLwW6Yq2j8mA3JiYPAFPnA54ZPTb1RUd0ybEyztdz
+mwlX1ucMc0CbzENqiyRUw4u6cYqx2kx8pYLCk/A6fDrp4AktR0IqwAHVLXTh89t+
+blf1YDbxgizYv6FrSeYFArjXcb1Tg8CaPRF8fJHNRJ9Aovw8D+n99gwj3OUluEtk
+uqqSyAalJn17RjCWa+z4bdxuR9LBSxD7h9s9ojc/COfkKyYlGi71CUJqKEc/EBmF
+cRERitwx/uRcWsQxHedROjLhuQw450WXZ0CVgcAQBgBRCOd4vaVg5Ld13p91RIvd
+yL0kmYFaFR8bbDKLr6sjPDPDVDoj/w==
+=vciA
+-----END PGP SIGNATURE-----
+
+--rimaol34dtjgodgo--
