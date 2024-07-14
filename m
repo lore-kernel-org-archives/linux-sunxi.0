@@ -1,206 +1,210 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh4-smtp.messagingengine.com (fhigh4-smtp.messagingengine.com [103.168.172.155])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 501CC131BAF
-	for <linux-sunxi@lists.linux.dev>; Sat, 13 Jul 2024 12:58:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D0DC14AB2
+	for <linux-sunxi@lists.linux.dev>; Sun, 14 Jul 2024 08:21:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720875523; cv=none; b=o8PwN3pBamS5ZrV9lYN6PZpLKAhixVFMPy3U/IMTfSuIf+aVfDXv0+Gcy0t6IylFVVzhV0GcZJTfnlhLaD+bYsOa653Lr0Zyz3ggM7kPwc4lJn5/hN1NISn9g43iJgnPGMs6KobpSG0zM5lLthV2TBZKcwV519Z8gkqfNvW7NiA=
+	t=1720945294; cv=none; b=B2fVuwkhwUcRxUBotgGhejH0c23166ZdIsdE2ODK7UquBSJVBPHUjX+3DW9bplEUVjquNLWWzoFEXCaq1h5C5Rb2IwKVP3Cqk8LAuxSU7YMCwKHloErf40UJQWt74cjkgd6MVb+iblGntfO0jjYkg07/K//3XyY+8KBAtToqA3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720875523; c=relaxed/simple;
-	bh=WAquGU1sAv0NQOiFQhQCK/WB0bF5GrpFisW+DKCCuOA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A7OalIdMxRGFDp1Fuxw/RkPTv/cxsOOLySfgYfvBOrNIRHjUdZGoSxq5FruQfU/5xiYkmjl8sH4KxGbxTm0tbzlKHAdsuM5y/F8dIpiQ0SQAPm3YNKWeNUHiDOaxBQwBnTUrju457rOqV2k6+sKFDaNvpAFWQxzfk5XjNJlWU0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=RZUZaSdk; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1720945294; c=relaxed/simple;
+	bh=oILEim+yet/y9ZdoxFerJttju2yxUhnbecsxlC3fWus=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=d5EW4PoRhPCkU0uajw6OvbbeY/ED7H/QlyUQUUeL+42eC8oRsJljrsYYMt7y7gRAGQyDfw5f8hK3ftUNPINBSGqB4niKVUogJkIfxxp9R3kCO1o27RDgCpvdTe/I7dpoPFZX4Otd9mkmu9taRvY0BRhTZXwLqyBG2D0um2IZvb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=9a63XTCX; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=AoxQaBck; arc=none smtp.client-ip=103.168.172.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="RZUZaSdk"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-58bac81f419so3447374a12.0
-        for <linux-sunxi@lists.linux.dev>; Sat, 13 Jul 2024 05:58:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1720875520; x=1721480320; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0vmUQWDwVUQYFm+xuW2pF4/BnR+RAgeFcmOR+FIC/lg=;
-        b=RZUZaSdki0etNcFkc8TBPl0URcGB2F9+xXsFbPMH6Xe5BntIwQfNL1RUn/CBfJ/NRC
-         AZOjx8HVHAL0B3OCkd5K8TuUtNrYRml2fPVwhLB8LKnmSnuwYY9CmyAgDOOCAga/F1F2
-         0s4ZoDhDpAh5BHiAzL5n/3j/AoZNLEqOwSxyL2RtS3x+4KrsEetv7Q9yRO7fZonWHbju
-         k6jEULbIxIBJWkGS77kKCIa7TytnXPHRRez9vmtfkNc85XheEzaNwMjoU6y+OAANjN/z
-         taVuXqDYr/CFsRIrwXiVx5YzcK+ZcWmsGP50klAGrI/qkpnlFWsBQopHssduCHyPmJ5R
-         bFLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720875520; x=1721480320;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0vmUQWDwVUQYFm+xuW2pF4/BnR+RAgeFcmOR+FIC/lg=;
-        b=WjLLxs1C4QcbrWkjq2/MsIfbiEjY/C6naTwZPHnX1YI7m/MlWBXzvRGLNRdSxszaRA
-         BglWElyyRyfdBqvNghLk7EaRAoOzdaWOVHuL2shdZBSr5UFDbvd0Klz4w3KSO0/N4yZY
-         Mtls+Sc5cNZ0A5UmFceY49OHUyFz0cCbnp/NtEKtUvnUNspfr+4pfGDTPOshSLFtpkB9
-         t5aLud6DlwiMBV0Ye52Lf/c9GptAWaya5t0lWtYRXlM4ZjaaTsDcZIjMoRi+0xoK+0/o
-         yS6UhscTF9lbZeXMSSlqUksitJT8Yp4MKQ3TOYVkARsUmUvMfKAvbYEzsEBtZa5oAHeS
-         sE0g==
-X-Forwarded-Encrypted: i=1; AJvYcCXTsJhug4/JCv2U8fQ7KUpEA0nHk3mIyeoougYPpB/iJjbv6NzobfSglXFjpusG+GpnjWH1oRv05K//VxLyYA/Zntjxo2wt/jPXL+Y=
-X-Gm-Message-State: AOJu0YymquuvwCT5wHiRamtnq0HCMMZaweg004m4aDub4xONOOvpqipJ
-	f6ETVsh+Z9WbgffAQDCH33DxMpdr3f19mLI+26Y9ivxmRGLZl8pHqQCCV4Jjy0A=
-X-Google-Smtp-Source: AGHT+IE8wLD/Rbqxem5MwJOVkSSIYdsvSdPnmm+cu+yuuQej1nhyJW0GbSd3h+h9V0sEUnfR/NKrAg==
-X-Received: by 2002:a05:6402:26c6:b0:595:7640:ee79 with SMTP id 4fb4d7f45d1cf-5957640f148mr10139310a12.17.1720875517634;
-        Sat, 13 Jul 2024 05:58:37 -0700 (PDT)
-Received: from localhost ([2a02:8071:b783:6940:36f3:9aff:fec2:7e46])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-59b255263ecsm740996a12.44.2024.07.13.05.58.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Jul 2024 05:58:36 -0700 (PDT)
-Date: Sat, 13 Jul 2024 14:58:35 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Hironori KIKUCHI <kikuchan98@gmail.com>
-Cc: Andre Przywara <andre.przywara@arm.com>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Aleksandr Shubin <privatesub2@gmail.com>, Cheo Fusi <fusibrandon13@gmail.com>, linux-pwm@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 5/5] dt-bindings: pwm: sun20i: Add options to select a
- clock source and DIV_M
-Message-ID: <e7dvk2g4ymz527tklywy2elka4ndzvftfujobnjmfdepgt3lm5@dzex45st2wya>
-References: <20240531141152.327592-1-kikuchan98@gmail.com>
- <20240531141152.327592-6-kikuchan98@gmail.com>
- <851280ad-ac0e-47d1-99e2-4f3b5ea29f2f@kernel.org>
- <CAG40kxEbMQc-ni0HDVR7rtj48aFu-jz8sYUAO+fdmZSmXWrizw@mail.gmail.com>
- <da382d43-fa82-44c0-9630-086f59e6efa2@kernel.org>
- <CAG40kxHKdC=uwyWzsBo1LTAXARDQGs0N4TBdD5nE1zhos48cbg@mail.gmail.com>
- <20240603010912.44b99988@minigeek.lan>
- <CAG40kxETZBO1-UBr=rqEu0uWrfOe74k-M12qW7Rg_kX8U32UPg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="9a63XTCX";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="AoxQaBck"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id 927B511420AE;
+	Sun, 14 Jul 2024 04:21:31 -0400 (EDT)
+Received: from imap47 ([10.202.2.97])
+  by compute5.internal (MEProxy); Sun, 14 Jul 2024 04:21:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm2; t=1720945291; x=
+	1721031691; bh=po1oCdvm18zLY5+6w4WOQn3fs5dbLvfSeGN+fl5jjxs=; b=9
+	a63XTCXNYx1G9Dz0zRb4dDCRH9tOI/OTRZ8YTTT4nKIMKfh7dVv8mN9+5FqdKWDt
+	RfRKRR2AIkVALqsCkyq3Vm4lB79ygdvETKpcS14wDgU+uXg5WymsP5bo5f/E2l0B
+	TmSOQaIncNsDw4Fl3RoBjMm4uqZA6ueTtRbcnMf9FqTNrfkRom6uR8optvjpJbqy
+	KRM0hiymjyecVmdtvBb+ngxLaxOsZRlEbN868AHkUkWkfX5Eal37ffELNROZefSr
+	vw9jnYvuUEvLUWW2MAv7Rwjo0bhNs5Xf5zdpWN6yl8zgjHQbRrtpvCt/9H/sSPc3
+	bMXPw2e3wthm0gGWuYb3g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1720945291; x=1721031691; bh=po1oCdvm18zLY5+6w4WOQn3fs5db
+	LvfSeGN+fl5jjxs=; b=AoxQaBckPtY0UTiAR3lY9fV+7Xy10sPH6ZdsAsz5XJb4
+	Ehbw7APjPPxjbvpxqNKzPrE0rBqbD3kP/6w/HzC/NYzr09E4q6Dlek7BVTa0zffB
+	1Qa1lRDyhvZmiRd2/xHojQHwvWAHNu/X77Np5au0hYnYUQ6p/O+2OA79IfryEqUY
+	qJg964ZeHVDc9LetPoJHSoxenxOqww8Cr0k54zdi+KxvokxIRRFjOypgoEegd0A/
+	EN+5ucAiqVNy9Id5/aMLRNJqHGw41RvionsSB/YhsaF/R4fDPu9Egg31kHIveaSL
+	Tw6UpjUgg9blsA5B7o6k4OYL2gZkGQr0s55EJ+8wjA==
+X-ME-Sender: <xms:ioqTZphpoc83BSf_N-Y5Pl3cWHfxC8m21IxI-3ZmM9dA-fKq00fntw>
+    <xme:ioqTZuChrtyBEBa03ukWZ3D4_aXb28J-4Ri3NBYp4dSXqNqlRMvSSrBssZgQfm5bL
+    V9TDZflrOt9GvKFdw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrgedtgddtfecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdfthigr
+    nhcuhggrlhhklhhinhdfuceorhihrghnsehtvghsthhtohgrshhtrdgtohhmqeenucggtf
+    frrghtthgvrhhnpeehvdevieegudejueefgeffhefhffevudfhieejgfdtffetlefgteeu
+    veeiudeijeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpehrhigrnhesthgvshhtthhorghsthdrtghomh
+X-ME-Proxy: <xmx:ioqTZpGEqk1IF6yqG6E7yBSpKQE-NLBw0KwKO9PAouXwJCbfR0MEMA>
+    <xmx:ioqTZuQjRH3LIpkqSjcqzkNwlXzzYZiQv2N0nlaePMnzqHe-ZK252g>
+    <xmx:ioqTZmzktZiJnellOxUFE9uyZWcEjhRt2Y7H_h0nEoG8xQuDv7Zaiw>
+    <xmx:ioqTZk7mIS1OKWUFmclw6xXdksH5jfTvgtax-6GEiwP_Gjj1ooZffg>
+    <xmx:i4qTZqcF-jaQoRSmBoXrV2g5xVDhuubk51MrITSB1HIlLfxuFjlliA5d>
+Feedback-ID: idc0145fc:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 070B3A60078; Sun, 14 Jul 2024 04:21:29 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-568-g843fbadbe-fm-20240701.003-g843fbadb
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="uowver6aitbe3emx"
-Content-Disposition: inline
-In-Reply-To: <CAG40kxETZBO1-UBr=rqEu0uWrfOe74k-M12qW7Rg_kX8U32UPg@mail.gmail.com>
+Message-Id: <f970326b-3763-4179-a6ca-fd30a27fc793@app.fastmail.com>
+In-Reply-To: <20240712165352.3767166-5-andre.przywara@arm.com>
+References: <20240712165352.3767166-1-andre.przywara@arm.com>
+ <20240712165352.3767166-5-andre.przywara@arm.com>
+Date: Sun, 14 Jul 2024 20:20:44 +1200
+From: "Ryan Walklin" <ryan@testtoast.com>
+To: "Andre Przywara" <andre.przywara@arm.com>,
+ "Tom Rini" <trini@konsulko.com>, "Jaehoon Chung" <jh80.chung@samsung.com>
+Cc: "Jagan Teki" <jagan@amarulasolutions.com>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+ "Samuel Holland" <samuel@sholland.org>,
+ "Chris Morgan" <macromorgan@hotmail.com>,
+ "Philippe Simons" <simons.philippe@gmail.com>, u-boot@lists.denx.de,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 4/6] power: pmic: sunxi: add AXP717 SPL support
+Content-Type: text/plain
 
+Hi Andre,
 
---uowver6aitbe3emx
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Sat, 13 Jul 2024, at 4:53 AM, Andre Przywara wrote:
 
-Hello,
+>  #define AXP209_I2C_ADDR			0x34
+> +#define AXP717_I2C_ADDR			0x34
+> 
+>  #define AXP305_I2C_ADDR			0x36
+>  #define AXP313_I2C_ADDR			0x36
+> @@ -36,6 +37,8 @@ static int pmic_i2c_address(void)
+>  		return AXP305_I2C_ADDR;
+>  	if (IS_ENABLED(CONFIG_AXP313_POWER))
+>  		return AXP313_I2C_ADDR;
+> +	if (IS_ENABLED(CONFIG_AXP717_POWER))
+> +		return AXP717_I2C_ADDR;
+> 
+>  	/* Other AXP2xx and AXP8xx variants */
+>  	return AXP209_I2C_ADDR;
 
-On Mon, Jun 03, 2024 at 05:42:08PM +0900, Hironori KIKUCHI wrote:
-> 2024=E5=B9=B46=E6=9C=883=E6=97=A5(=E6=9C=88) 9:10 Andre Przywara <andre.p=
-rzywara@arm.com>:
-> >
-> > On Sun, 2 Jun 2024 15:15:13 +0900
-> > Hironori KIKUCHI <kikuchan98@gmail.com> wrote:
-> >
-> > > > On 31/05/2024 19:57, Hironori KIKUCHI wrote:
-> > > > >>> ---
-> > > > >>>  .../bindings/pwm/allwinner,sun20i-pwm.yaml    | 19 +++++++++++=
-++++++++
-> > > > >>>  1 file changed, 19 insertions(+)
-> > > > >>>
-> > > > >>> diff --git a/Documentation/devicetree/bindings/pwm/allwinner,su=
-n20i-pwm.yaml b/Documentation/devicetree/bindings/pwm/allwinner,sun20i-pwm.=
-yaml
-> > > > >>> index b9b6d7e7c87..436a1d344ab 100644
-> > > > >>> --- a/Documentation/devicetree/bindings/pwm/allwinner,sun20i-pw=
-m.yaml
-> > > > >>> +++ b/Documentation/devicetree/bindings/pwm/allwinner,sun20i-pw=
-m.yaml
-> > > > >>> @@ -45,6 +45,25 @@ properties:
-> > > > >>>      description: The number of PWM channels configured for thi=
-s instance
-> > > > >>>      enum: [6, 9]
-> > > > >>>
-> > > > >>> +  allwinner,pwm-pair-clock-sources:
-> > > > >>> +    description: The clock source names for each PWM pair
-> > > > >>> +    items:
-> > > > >>> +      enum: [hosc, apb]
-> > > > >>> +    minItems: 1
-> > > > >>> +    maxItems: 8
-> > > > >>
-> > > > >> Missing type... and add 8 of such items to your example to make =
-it complete.
-> > > > >
-> > > > > Thank you. I'll fix it.
-> > > > >
-> > > > >>
-> > > > >>> +
-> > > > >>> +  allwinner,pwm-pair-clock-prescales:
-> > > > >>> +    description: The prescale (DIV_M register) values for each=
- PWM pair
-> > > > >>> +    $ref: /schemas/types.yaml#/definitions/uint32-matrix
-> > > > >>> +    items:
-> > > > >>> +      items:
-> > > > >>> +        minimum: 0
-> > > > >>> +        maximum: 8
-> > > > >>> +      minItems: 1
-> > > > >>> +      maxItems: 1
-> > > > >>> +    minItems: 1
-> > > > >>> +    maxItems: 8
-> > > > >>
-> > > > >> This does not look like matrix but array.
-> > > > >
-> > > > > I wanted to specify values like this:
-> > > > >
-> > > > >     allwinner,pwm-pair-clock-prescales =3D <0>, <1>, <3>;
-> > > > >     allwinner,pwm-pair-clock-sources =3D "hosc", "apb", "hosc":
-> > > > >
-> > > > > These should correspond to each PWM pair.
-> > > > > This way, I thought we might be able to visually understand the r=
-elationship
-> > > > > between prescalers and sources, like clock-names and clocks.
-> > > > >
-> > > > > Is this notation uncommon, perhaps?
-> > > >
-> > > > It's still an array.
-> > >
-> > > Oh I understood and clear. Thank you.
+Small point, but is this check strictly necessary, given that the AXP717 uses the same I2C address as the AXP209? If CONFIG_AXP717_POWER is not checked here, this logic will still fall through to the default AXP209 address, which will also be correct for the 717.
 
-For clocks there is already a binding to assign a working configuration.
-assigned-clocks, assigned-clock-rates and assigned-clock-parents are the
-relevant properties. If you create a clk from the parent clock selector
-and mdiv, you can stick to the existing bindings.
+> diff --git a/board/sunxi/board.c b/board/sunxi/board.c
+> index ed86f1df5dc..9928069c0eb 100644
+> --- a/board/sunxi/board.c
+> +++ b/board/sunxi/board.c
+> @@ -562,7 +562,7 @@ void sunxi_board_init(void)
+>  #if defined CONFIG_AXP152_POWER || defined CONFIG_AXP209_POWER || \
+>  	defined CONFIG_AXP221_POWER || defined CONFIG_AXP305_POWER || \
+>  	defined CONFIG_AXP809_POWER || defined CONFIG_AXP818_POWER || \
+> -	defined CONFIG_AXP313_POWER
+> +	defined CONFIG_AXP313_POWER || defined CONFIG_AXP717_POWER
+>  	power_failed = axp_init();
+> 
+>  	if (IS_ENABLED(CONFIG_AXP_DISABLE_BOOT_ON_POWERON) && !power_failed) {
+> diff --git a/drivers/power/Kconfig b/drivers/power/Kconfig
+> index 33b8bc1214d..5556a22cf69 100644
+> --- a/drivers/power/Kconfig
+> +++ b/drivers/power/Kconfig
+> @@ -109,6 +109,13 @@ config AXP313_POWER
+>  	Select this to enable support for the AXP313 PMIC found on some
+>  	H616 boards.
+> 
+> +config AXP717_POWER
+> +	bool "axp717 pmic support"
+> +	select AXP_PMIC_BUS
+> +	select CMD_POWEROFF
+> +	---help---
+> +	Select this to enable support for the AXP717 PMIC found on some boards.
+> +
+>  config AXP809_POWER
+>  	bool "axp809 pmic support"
+>  	depends on MACH_SUN9I
+> @@ -151,10 +158,11 @@ config AXP_DCDC1_VOLT
+> 
+>  config AXP_DCDC2_VOLT
+>  	int "axp pmic dcdc2 voltage"
+> -	depends on AXP152_POWER || AXP209_POWER || AXP221_POWER || 
+> AXP809_POWER || AXP818_POWER || AXP313_POWER
+> +	depends on AXP152_POWER || AXP209_POWER || AXP221_POWER || 
+> AXP809_POWER || AXP818_POWER || AXP313_POWER || AXP717_POWER
+>  	default 900 if AXP818_POWER
+>  	default 1400 if AXP152_POWER || AXP209_POWER
+>  	default 1000 if AXP313_POWER
+> +	default 1000 if AXP717_POWER
+>  	default 1200 if MACH_SUN6I
+>  	default 1100 if MACH_SUN8I
+>  	default 0 if MACH_SUN9I
+> @@ -167,11 +175,11 @@ config AXP_DCDC2_VOLT
+>  	On A80 boards dcdc2 powers the GPU and can be left off.
+>  	On A83T boards dcdc2 is used for VDD-CPUA(cluster 0) and should be 
+> 0.9V.
+>  	On R40 boards dcdc2 is VDD-CPU and should be 1.1V
+> -	On boards using the AXP313 it's often VDD-CPU.
+> +	On boards using the AXP313 or AXP717 it's often VDD-CPU.
+> 
+>  config AXP_DCDC3_VOLT
+>  	int "axp pmic dcdc3 voltage"
+> -	depends on AXP152_POWER || AXP209_POWER || AXP221_POWER || 
+> AXP809_POWER || AXP818_POWER || AXP313_POWER
+> +	depends on AXP152_POWER || AXP209_POWER || AXP221_POWER || 
+> AXP809_POWER || AXP818_POWER || AXP313_POWER || AXP717_POWER
+>  	default 900 if AXP809_POWER || AXP818_POWER
+>  	default 1500 if AXP152_POWER
+>  	default 1250 if AXP209_POWER
+> @@ -188,7 +196,8 @@ config AXP_DCDC3_VOLT
+>  	On A80 boards dcdc3 is used for VDD-CPUA(cluster 0) and should be 
+> 0.9V.
+>  	On A83T boards dcdc3 is used for VDD-CPUB(cluster 1) and should be 
+> 0.9V.
+>  	On R40 boards dcdc3 is VDD-SYS and VDD-GPU and should be 1.1V.
+> -	On boards using the AXP313 it's often VDD-DRAM and should be 1.1V for 
+> LPDDR4.
+> +	On boards using the AXP313 or AXP717 it's often VDD-DRAM and should
+> +	be 1.1V for LPDDR4.
+> 
+>  config AXP_DCDC4_VOLT
+>  	int "axp pmic dcdc4 voltage"
+> diff --git a/drivers/power/Makefile b/drivers/power/Makefile
+> index 0f39459dec4..6df23a81c29 100644
+> --- a/drivers/power/Makefile
+> +++ b/drivers/power/Makefile
+> @@ -14,6 +14,7 @@ obj-$(CONFIG_AXP209_POWER)	+= axp209.o
+>  obj-$(CONFIG_AXP221_POWER)	+= axp221.o
+>  obj-$(CONFIG_AXP305_POWER)	+= axp305.o
+>  obj-$(CONFIG_AXP313_POWER)	+= axp313.o
+> +obj-$(CONFIG_AXP717_POWER)	+= axp_spl.o
+>  obj-$(CONFIG_AXP809_POWER)	+= axp809.o
+>  obj-$(CONFIG_AXP818_POWER)	+= axp818.o
+>  endif
+> -- 
+> 2.25.1
 
-> > > [...]
-> >
-> > So I understand the problem, but I don't think expressing this in the
-> > devicetree is the right solution. It seems like a tempting pragmatical
-> > approach, but it sounds like the wrong way: this is not a hardware
-> > *description* of any kind, but rather a way to describe a certain user
-> > intention or a configuration. So this looks like a rather embedded
-> > approach to me, where you have a certain fixed register setup in mind,
-> > and want to somehow force this to the hardware.
-> > Another problem with this approach is that it doesn't really cover the
-> > sysfs interface, which is very dynamic by nature.
->=20
-> ... Indeed. You're right.
-> Now I've realized it was a bad idea.
-> It should be done in sysfs or sysctl perhaps.
+Tested with RG35XX-H and RG35XX-Plus boards (Allwinner H700 with AXP717). Confirmed both DCDC2 and DCDC3 are set correctly in SPL, allowing successful DRAM init and boot.
 
-I don't think a driver specific knob somewhere is a practical solution.
+Tested-by: Ryan Walklin <ryan@testtoast.com>
 
-Best regards
-Uwe
+Regards,
 
---uowver6aitbe3emx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmaSefgACgkQj4D7WH0S
-/k4PpQf+JL1igIDXxEuQOrrhdPtcCKOdnbzUcXc+5O9UEjZtnLuPHQl7QQwJlQlE
-hdaGoTu19JrWCqs6c2NBp7Bfvudj9NxreEMVkZoWwneCx8FlpJ4Ize5UPUSJKM/S
-UQsh2krG6bGultPD95aHLU0y1xAlgosDgBt1LNnBEADuXFsoQDJwalzjsV6pCiNI
-YBk0rdnq2CA1F6821F1qDQxo/0HwaYD8li3/88pPJwk0chy1GghP+rQs14lanT0c
-p5aPUo5lgT9FX0kamw2LKClegbbmGiXVqzdquxyEvZXGVCOs03RMfp87X9TqSYvd
-X6oU4c5oER1lPKnzIbBMXuhAjzFr/Q==
-=09cS
------END PGP SIGNATURE-----
-
---uowver6aitbe3emx--
+Ryan
