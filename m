@@ -1,135 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C622D18EFD6;
-	Mon, 15 Jul 2024 14:29:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6F8018FA01
+	for <linux-sunxi@lists.linux.dev>; Mon, 15 Jul 2024 14:31:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721053795; cv=none; b=HTB71mVLDLyk72WiD+uxcl+SoX1VBpoiKm6FmpHs17CDTI8vnWf4o6C/vjGDIXCv91V4EDufoXBj+Ao2j5zX5590V0XX0/R+CpXPgNa//AvL7ljLzULC9f8/k1+LEpYKdSNpTEDZWadcHH3L47AlCoaj1P63Id16CAShJH/QU60=
+	t=1721053892; cv=none; b=YgPP9E9w1nBmd8bqAcbGkyPBNnSDwUfB1F2A78HSeaV1HV4ulskNhKqNC3+OJpAogoIFVciDv8gbde79zswHyg+oPLS7rKjFLYJmm2oqwNWuXqTUskBheQyW0zUybLBImpRWqmF3LcdX+X9I2mpgDwYbKQSe7h0xaKJQt9cIeUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721053795; c=relaxed/simple;
-	bh=nxq0+TBcPx//9WPCN3IZTTvsyzqcjAq5NWop8L7I0wk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JknbjSl1ekFBv/6ogPIRsgzDv6xNX4lTPce0MAnZYwwXAEUspGW4RSWkghXZf2sOozLXweGDu7kVAOTphiY0n+9XNkePFpvrkyaMaKwt6D5/mFEkwb8JabjgJyOfnwQzNpA5g6jxCyMyn6mhQHG/cKi38g/Ayxi9Bpct6sFSItU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BlYtjQfa; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BlYtjQfa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D75F5C32782;
-	Mon, 15 Jul 2024 14:29:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721053795;
-	bh=nxq0+TBcPx//9WPCN3IZTTvsyzqcjAq5NWop8L7I0wk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BlYtjQfabuJ16UBKJUdA8PBluyZ66h0gMgx79ICqTbn57T0szbKi+gfw2TLQjOlCq
-	 dvM2UZhQJX5u3qBJsvpFXFQQtd/JYPo5pPy3cg/aEgIax5yJKbgMVaGoL2p/pQrllz
-	 lIraA1AXKivn4VC4mvfDTm/klLDw+VrOn/a2h+4zpzjqdF6T7zYtNHCBlN6H+EyyAj
-	 hKqeZomt8Q0zHwMsImLFeHbNGADNObDT4SzXqxiQSkX+ILAG5FStKoygg/QbmlU5xu
-	 qDoWBwBkFQWN31aByS9aGF+ONJULUNzYTXCaRi3yevPtZBGuUK2JAWPfbGd+d4GeSI
-	 LlI1XtEpUGDQw==
-Date: Mon, 15 Jul 2024 16:29:52 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Matteo Martelli <matteomartelli3@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Marcus Cooper <codekipper@gmail.com>, =?utf-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>, 
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/1] ASoC: sunxi: sun4i-i2s: fix LRCLK polarity in i2s
- mode
-Message-ID: <20240715-rigorous-bipedal-sloth-c8df1b@houat>
-References: <20240529140658.180966-2-matteomartelli3@gmail.com>
- <20240529140658.180966-3-matteomartelli3@gmail.com>
- <20240606-savvy-wallaby-of-champagne-d4a50e@houat>
- <6662bf1b61bbc_2f51737023@njaxe.notmuch>
- <20240702-copperhead-of-unusual-intensity-7f43a8@houat>
- <668419fb8ef9f_2a76d370f1@njaxe.notmuch>
+	s=arc-20240116; t=1721053892; c=relaxed/simple;
+	bh=crb+jqK+oSxvrPaIxqH++HtwQvHGvekMPic165ghUJA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=F/cOkJ+dCF/wkdes/ZSz57dR5W2arKGHvhzLL7PmND4+FJ3IQB/2JPTfhPIq3QRTpXD2DsqsEW5YA9vfdI4gz1CiT4P1/VNbs/X0qbdLfFiEQHGse9FhF2DV1ZvJ1DMaz6ureEkplytRI979Vj084hkJHuY9GQNrnkyo9EMOPIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6CA3CFEC;
+	Mon, 15 Jul 2024 07:31:55 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8D5533F766;
+	Mon, 15 Jul 2024 07:31:28 -0700 (PDT)
+Date: Mon, 15 Jul 2024 15:31:25 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Tom Rini <trini@konsulko.com>, Jaehoon Chung <jh80.chung@samsung.com>
+Cc: Jagan Teki <jagan@amarulasolutions.com>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Chris
+ Morgan <macromorgan@hotmail.com>, Ryan Walklin <ryan@testtoast.com>,
+ Philippe Simons <simons.philippe@gmail.com>, u-boot@lists.denx.de,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 2/6] power: pmic: sunxi: only build AXP drivers for
+ SPL
+Message-ID: <20240715153125.7aaf86be@donnerap.manchester.arm.com>
+In-Reply-To: <20240712165352.3767166-3-andre.przywara@arm.com>
+References: <20240712165352.3767166-1-andre.przywara@arm.com>
+	<20240712165352.3767166-3-andre.przywara@arm.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="ggci2m6r2jctn4b5"
-Content-Disposition: inline
-In-Reply-To: <668419fb8ef9f_2a76d370f1@njaxe.notmuch>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Fri, 12 Jul 2024 17:53:48 +0100
+Andre Przywara <andre.przywara@arm.com> wrote:
 
---ggci2m6r2jctn4b5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> The axp<xxx>.c drivers are only used for the SPL, for U-Boot proper we
+> have a separate, DM compliant driver.
+> Mask the build instructions with CONFIG_SPL_BUILD, to avoid them being
+> build for U-Boot proper as well.
 
-On Tue, Jul 02, 2024 at 05:17:15PM GMT, Matteo Martelli wrote:
-> Maxime Ripard wrote:
-> > On Fri, Jun 07, 2024 at 10:04:43AM GMT, Matteo Martelli wrote:
-> > > Maxime Ripard wrote:
-> > > > > -	/*
-> > > > > -	 * DAI clock polarity
-> > > > > -	 *
-> > > > > -	 * The setup for LRCK contradicts the datasheet, but under a
-> > > > > -	 * scope it's clear that the LRCK polarity is reversed
-> > > > > -	 * compared to the expected polarity on the bus.
-> > > > > -	 */
-> > > >=20
-> > > > I think we should keep that comment somewhere.
-> > >=20
-> > > I think that keeping that comment would be very misleading since the =
-LRCLK
-> > > setup would not contradict the datasheet anymore [1][2].
-> > >
-> > > Also, do you recall any details about the mentioned scope test setup?=
- Was i2s
-> > > mode tested in that occasion? It would help clarify the situation.
-> >=20
-> > I can't remember if I tested i2s, I think I did though. But most of the
-> > work was done on either TDM or DSP modes, and I remember very clearly
-> > that the LRCK polarity was inverted compared to what Allwinner document=
-s.
-> >=20
-> > So the doc was, at best, misleading for these formats and we should keep
-> > the comments.
->=20
-> Thanks for the reply Maxime, would you be able to point out the Allwinner
-> document part that is (or was) misleading? The current datasheets (see li=
-nks
-> [1][2]) look correct, the current driver setup for TDM and DSP modes resp=
-ects
-> those datasheets and it's not "reversed compared to the expected polarity=
- on
-> the bus" as the comment states.=20
+For the records: this breaks builds of boards with the AXP221, since they
+need axp_get_sid() for the cpuinfo() function in U-Boot proper, and
+axp_set_eldo() for some hideous code in sunxi_display.c. I have a decent
+fix for the former, but the latter requires some refactoring. So I will
+keep the axp221.o line out of this SPL-only guard for now.
 
-I clearly remember having to debug something there, but I don't remember
-much more, sorry.
+Cheers,
+Andre
 
-I guess if you have tested on the H3 I2S, TDM and DSP and it all works
-as expected with your changes, go ahead and ignore my comment then.
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  drivers/power/Makefile | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/power/Makefile b/drivers/power/Makefile
+> index c7ee4595fc8..0f39459dec4 100644
+> --- a/drivers/power/Makefile
+> +++ b/drivers/power/Makefile
+> @@ -8,6 +8,7 @@ obj-$(CONFIG_$(SPL_TPL_)POWER_DOMAIN) += domain/
+>  obj-y += pmic/
+>  obj-y += regulator/
+>  
+> +ifdef CONFIG_SPL_BUILD
+>  obj-$(CONFIG_AXP152_POWER)	+= axp152.o
+>  obj-$(CONFIG_AXP209_POWER)	+= axp209.o
+>  obj-$(CONFIG_AXP221_POWER)	+= axp221.o
+> @@ -15,6 +16,7 @@ obj-$(CONFIG_AXP305_POWER)	+= axp305.o
+>  obj-$(CONFIG_AXP313_POWER)	+= axp313.o
+>  obj-$(CONFIG_AXP809_POWER)	+= axp809.o
+>  obj-$(CONFIG_AXP818_POWER)	+= axp818.o
+> +endif
+>  obj-$(CONFIG_EXYNOS_TMU)	+= exynos-tmu.o
+>  obj-$(CONFIG_SY8106A_POWER)	+= sy8106a.o
+>  obj-$(CONFIG_TPS6586X_POWER)	+= tps6586x.o
 
-> Also I didn't find any related errata in their changelog.=20
-
-Yeah... Allwinner doesn't do errata.
-
-> Could it be possible that during those mentioned tests you
-> were still referring to the datasheets of other SoCs like A10 for
-> instance? Or maybe that the misleading information was in another
-> document rather than the main datasheets? If that's the case, would
-> you still think that the comment should be kept as it is?
-
-Possibly, or an older version of the datasheet, I really can't remember.
-
-Maxime
-
---ggci2m6r2jctn4b5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZpUyVwAKCRAnX84Zoj2+
-dpRhAX9rVoOPV7K1v5rwd1iUrmkhEORAmr0cfgUZNxyR8/cSEim1hcX57CmTWGSm
-e0tAKXABfjp2ifpTGlhcNzUrMX3C4k1OAzdhLXmS0m3xq1NAhBIUXvnDrtB5j+78
-1ezliQOBSg==
-=t7qy
------END PGP SIGNATURE-----
-
---ggci2m6r2jctn4b5--
