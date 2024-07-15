@@ -1,126 +1,135 @@
-Received: from mx1.sberdevices.ru (mx2.sberdevices.ru [45.89.224.132])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5836E18C177
-	for <linux-sunxi@lists.linux.dev>; Mon, 15 Jul 2024 12:10:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.89.224.132
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C622D18EFD6;
+	Mon, 15 Jul 2024 14:29:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721045449; cv=none; b=B0C8kKIP/VxZvNPHgrRtALlsQRNvS9igJFUAHoF1bz+LK9GpSKq4uabb4FnOSV+B6cmxWwdSA2loMxS70mAZR5LIrstK4M3bv9B7CXdU4DfXjLI6ji8lT7IeR5mhM8F6EhwTUlp22gqkGI7Di+9wpA6ejkyXCHNB26BJ6DTxm9E=
+	t=1721053795; cv=none; b=HTB71mVLDLyk72WiD+uxcl+SoX1VBpoiKm6FmpHs17CDTI8vnWf4o6C/vjGDIXCv91V4EDufoXBj+Ao2j5zX5590V0XX0/R+CpXPgNa//AvL7ljLzULC9f8/k1+LEpYKdSNpTEDZWadcHH3L47AlCoaj1P63Id16CAShJH/QU60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721045449; c=relaxed/simple;
-	bh=5VS9knY6mSAsq6EZrauM5Q+IHj4rwJ2jkjgzDucTy1M=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XEOOJILBZVCWVHnaJApDe+pvS0s365hFy8DS6TJVHBiTUwFnnN0ZVIzjN9Y7Bf6wxmgcIbGPS2rVWlEmPXTUZQ1p/YFm9zGerwqMZ1L8YMIbQbOUQM6QBJOtz48xHVlwsLhwdlLgLkc9k/fZ6EFY2jNyWyJO/bHOC56DwsOk8Mw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com; spf=pass smtp.mailfrom=salutedevices.com; dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b=EcJXTAI4; arc=none smtp.client-ip=45.89.224.132
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=salutedevices.com
+	s=arc-20240116; t=1721053795; c=relaxed/simple;
+	bh=nxq0+TBcPx//9WPCN3IZTTvsyzqcjAq5NWop8L7I0wk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JknbjSl1ekFBv/6ogPIRsgzDv6xNX4lTPce0MAnZYwwXAEUspGW4RSWkghXZf2sOozLXweGDu7kVAOTphiY0n+9XNkePFpvrkyaMaKwt6D5/mFEkwb8JabjgJyOfnwQzNpA5g6jxCyMyn6mhQHG/cKi38g/Ayxi9Bpct6sFSItU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BlYtjQfa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="EcJXTAI4"
-Received: from p-infra-ksmg-sc-msk02.sberdevices.ru (localhost [127.0.0.1])
-	by mx1.sberdevices.ru (Postfix) with ESMTP id E51D8120006;
-	Mon, 15 Jul 2024 15:10:38 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru E51D8120006
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
-	s=mail; t=1721045438;
-	bh=fi1IQpHZDvlWQpXfAPzXTTqWvujhfPCIqbFuSJVBLoc=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:From;
-	b=EcJXTAI4Q5I7lfVV3gaO0aomYs3DIQxEnUyhiLFsGhcf7LZR4D5oVp998E9jCBhqw
-	 7QEXB039VBTJYnbTJ1AZXFuD9lKpajCZ0/aLuDTZ9+KQM4mYumH3NVSiUUHWZysk6u
-	 55P7MnE3/DBu6VjS/B8CH4RAby3vj+DBjNfwkDQF/Hy5SvPOQQji5Hq3yL2FglUJdV
-	 INWixKkCpg/9SYb/IewX+ttgFtvP8CbjaqtV7ZRJEte4TL5fK5uTR26oBVYmmK6cBz
-	 I69UorV4O4Jlbvly9Yb2VdYJPhowHJKH2Uz3NfCIvhrBSWv+RIVzDvms83hp74JpI9
-	 plPr0jJ/QYM2g==
-Received: from smtp.sberdevices.ru (p-i-exch-sc-m02.sberdevices.ru [172.16.192.103])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mx1.sberdevices.ru (Postfix) with ESMTPS;
-	Mon, 15 Jul 2024 15:10:38 +0300 (MSK)
-Received: from localhost (100.64.160.123) by p-i-exch-sc-m02.sberdevices.ru
- (172.16.192.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 15 Jul
- 2024 15:10:38 +0300
-Date: Mon, 15 Jul 2024 15:10:37 +0300
-From: Dmitry Rokosov <ddrokosov@salutedevices.com>
-To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-CC: Neil Armstrong <neil.armstrong@linaro.org>, Jerome Brunet
-	<jbrunet@baylibre.com>, Michael Turquette <mturquette@baylibre.com>, Stephen
- Boyd <sboyd@kernel.org>, Kevin Hilman <khilman@baylibre.com>, Martin
- Blumenstingl <martin.blumenstingl@googlemail.com>, Vladimir Zapolskiy
-	<vz@mleia.com>, Bjorn Andersson <andersson@kernel.org>, Chen-Yu Tsai
-	<wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
-	<samuel@sholland.org>, Michal Simek <michal.simek@amd.com>,
-	<linux-amlogic@lists.infradead.org>, <linux-clk@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-msm@vger.kernel.org>, <linux-sunxi@lists.linux.dev>
-Subject: Re: [DMARC error][DKIM error] [PATCH 02/10] clk: meson: a1: pll:
- Constify struct regmap_config
-Message-ID: <20240715121037.hekmgg4sxdomi3b7@CAB-WSD-L081021>
-References: <20240703-clk-const-regmap-v1-0-7d15a0671d6f@gmail.com>
- <20240703-clk-const-regmap-v1-2-7d15a0671d6f@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BlYtjQfa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D75F5C32782;
+	Mon, 15 Jul 2024 14:29:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721053795;
+	bh=nxq0+TBcPx//9WPCN3IZTTvsyzqcjAq5NWop8L7I0wk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BlYtjQfabuJ16UBKJUdA8PBluyZ66h0gMgx79ICqTbn57T0szbKi+gfw2TLQjOlCq
+	 dvM2UZhQJX5u3qBJsvpFXFQQtd/JYPo5pPy3cg/aEgIax5yJKbgMVaGoL2p/pQrllz
+	 lIraA1AXKivn4VC4mvfDTm/klLDw+VrOn/a2h+4zpzjqdF6T7zYtNHCBlN6H+EyyAj
+	 hKqeZomt8Q0zHwMsImLFeHbNGADNObDT4SzXqxiQSkX+ILAG5FStKoygg/QbmlU5xu
+	 qDoWBwBkFQWN31aByS9aGF+ONJULUNzYTXCaRi3yevPtZBGuUK2JAWPfbGd+d4GeSI
+	 LlI1XtEpUGDQw==
+Date: Mon, 15 Jul 2024 16:29:52 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Matteo Martelli <matteomartelli3@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Marcus Cooper <codekipper@gmail.com>, =?utf-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>, 
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/1] ASoC: sunxi: sun4i-i2s: fix LRCLK polarity in i2s
+ mode
+Message-ID: <20240715-rigorous-bipedal-sloth-c8df1b@houat>
+References: <20240529140658.180966-2-matteomartelli3@gmail.com>
+ <20240529140658.180966-3-matteomartelli3@gmail.com>
+ <20240606-savvy-wallaby-of-champagne-d4a50e@houat>
+ <6662bf1b61bbc_2f51737023@njaxe.notmuch>
+ <20240702-copperhead-of-unusual-intensity-7f43a8@houat>
+ <668419fb8ef9f_2a76d370f1@njaxe.notmuch>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="ggci2m6r2jctn4b5"
 Content-Disposition: inline
-In-Reply-To: <20240703-clk-const-regmap-v1-2-7d15a0671d6f@gmail.com>
-User-Agent: NeoMutt/20220415
-X-ClientProxiedBy: p-i-exch-sc-m02.sberdevices.ru (172.16.192.103) To
- p-i-exch-sc-m02.sberdevices.ru (172.16.192.103)
-X-KSMG-Rule-ID: 10
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Lua-Profiles: 186522 [Jul 15 2024]
-X-KSMG-AntiSpam-Version: 6.1.0.4
-X-KSMG-AntiSpam-Envelope-From: ddrokosov@salutedevices.com
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Info: LuaCore: 24 0.3.24 186c4d603b899ccfd4883d230c53f273b80e467f, {Tracking_uf_ne_domains}, {Track_E25351}, {Tracking_from_domain_doesnt_match_to}, 127.0.0.199:7.1.2;lists.infradead.org:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;smtp.sberdevices.ru:5.0.1,7.1.1;salutedevices.com:7.1.1;100.64.160.123:7.1.2, FromAlignment: s, ApMailHostAddress: 100.64.160.123
-X-MS-Exchange-Organization-SCL: -1
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiPhishing: Clean, bases: 2024/07/15 09:24:00
-X-KSMG-LinksScanning: Clean, bases: 2024/07/15 09:25:00
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2024/07/15 05:41:00 #25996221
-X-KSMG-AntiVirus-Status: Clean, skipped
+In-Reply-To: <668419fb8ef9f_2a76d370f1@njaxe.notmuch>
 
-On Wed, Jul 03, 2024 at 11:50:15AM +0200, Javier Carrasco wrote:
-> `a1_pll_regmap_cfg` is not modified and can be declared as const to
->  move its data to a read-only section.
-> 
-> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 
-Reviewed-by: Dmitry Rokosov <ddrokosov@salutedevices.com>
+--ggci2m6r2jctn4b5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> ---
->  drivers/clk/meson/a1-pll.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/clk/meson/a1-pll.c b/drivers/clk/meson/a1-pll.c
-> index a16e537d139a..4d0a6305b07f 100644
-> --- a/drivers/clk/meson/a1-pll.c
-> +++ b/drivers/clk/meson/a1-pll.c
-> @@ -295,7 +295,7 @@ static struct clk_regmap *const a1_pll_regmaps[] = {
->  	&hifi_pll,
->  };
->  
-> -static struct regmap_config a1_pll_regmap_cfg = {
-> +static const struct regmap_config a1_pll_regmap_cfg = {
->  	.reg_bits   = 32,
->  	.val_bits   = 32,
->  	.reg_stride = 4,
-> 
-> -- 
-> 2.40.1
-> 
-> 
-> _______________________________________________
-> linux-amlogic mailing list
-> linux-amlogic@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-amlogic
+On Tue, Jul 02, 2024 at 05:17:15PM GMT, Matteo Martelli wrote:
+> Maxime Ripard wrote:
+> > On Fri, Jun 07, 2024 at 10:04:43AM GMT, Matteo Martelli wrote:
+> > > Maxime Ripard wrote:
+> > > > > -	/*
+> > > > > -	 * DAI clock polarity
+> > > > > -	 *
+> > > > > -	 * The setup for LRCK contradicts the datasheet, but under a
+> > > > > -	 * scope it's clear that the LRCK polarity is reversed
+> > > > > -	 * compared to the expected polarity on the bus.
+> > > > > -	 */
+> > > >=20
+> > > > I think we should keep that comment somewhere.
+> > >=20
+> > > I think that keeping that comment would be very misleading since the =
+LRCLK
+> > > setup would not contradict the datasheet anymore [1][2].
+> > >
+> > > Also, do you recall any details about the mentioned scope test setup?=
+ Was i2s
+> > > mode tested in that occasion? It would help clarify the situation.
+> >=20
+> > I can't remember if I tested i2s, I think I did though. But most of the
+> > work was done on either TDM or DSP modes, and I remember very clearly
+> > that the LRCK polarity was inverted compared to what Allwinner document=
+s.
+> >=20
+> > So the doc was, at best, misleading for these formats and we should keep
+> > the comments.
+>=20
+> Thanks for the reply Maxime, would you be able to point out the Allwinner
+> document part that is (or was) misleading? The current datasheets (see li=
+nks
+> [1][2]) look correct, the current driver setup for TDM and DSP modes resp=
+ects
+> those datasheets and it's not "reversed compared to the expected polarity=
+ on
+> the bus" as the comment states.=20
 
--- 
-Thank you,
-Dmitry
+I clearly remember having to debug something there, but I don't remember
+much more, sorry.
+
+I guess if you have tested on the H3 I2S, TDM and DSP and it all works
+as expected with your changes, go ahead and ignore my comment then.
+
+> Also I didn't find any related errata in their changelog.=20
+
+Yeah... Allwinner doesn't do errata.
+
+> Could it be possible that during those mentioned tests you
+> were still referring to the datasheets of other SoCs like A10 for
+> instance? Or maybe that the misleading information was in another
+> document rather than the main datasheets? If that's the case, would
+> you still think that the comment should be kept as it is?
+
+Possibly, or an older version of the datasheet, I really can't remember.
+
+Maxime
+
+--ggci2m6r2jctn4b5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZpUyVwAKCRAnX84Zoj2+
+dpRhAX9rVoOPV7K1v5rwd1iUrmkhEORAmr0cfgUZNxyR8/cSEim1hcX57CmTWGSm
+e0tAKXABfjp2ifpTGlhcNzUrMX3C4k1OAzdhLXmS0m3xq1NAhBIUXvnDrtB5j+78
+1ezliQOBSg==
+=t7qy
+-----END PGP SIGNATURE-----
+
+--ggci2m6r2jctn4b5--
