@@ -1,127 +1,144 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3974D1E888
-	for <linux-sunxi@lists.linux.dev>; Tue, 16 Jul 2024 12:24:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED7901CAB9
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Jul 2024 18:45:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721132653; cv=none; b=nMspavJm6I96cPFp3ANKymB9h1Yr5ELz0NAUZvx+QgMZUSzS9FY/15gyNy9Q3qDEr10rPDqmEzOS0NDBNUCPo00SEC3G7tS2qPsj3bUOinmKSdvx9c/IuHMG93uNmgKYtCW0UsHAnd1kcPSrdp4wlouM7SoTzSfOr+sxSfkNyWY=
+	t=1721155534; cv=none; b=rYu5LRSRqX+3KJ3fSSs+Joq3wBg2+f5JETgROKWfZjQeJ+hkgbAIc4yI66HlSjcBYw6YltDTY6I3snw83SiI1H/ry+HBfJKpAOFhay9dhchcHXufDsV1HTiXIXVCCCEyOUpATRBu1CNe09t4d3KANvTtUfqabUkBMHpteBmsJoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721132653; c=relaxed/simple;
-	bh=/fNiYzNK5uopMSGNIUb9gKmqyzKjTgYJz7rttDRTHU4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XAu9dH8pYmcObhCXWDAtBCkairSptcFSLXcTXAm5uuMkpXOI80TZ3C+njBdO33973BlYyDjc9eHDtGwc4gkGYN203Y2gkvZIoMPaIPehWyAHsph3DahgJQXpXMiw33ze6UMTguflIBD+eMYVEVa1abhg7TXTG/EXbd6F+VBCpe0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BC9F11063;
-	Tue, 16 Jul 2024 05:24:35 -0700 (PDT)
-Received: from donnerap.arm.com (donnerap.manchester.arm.com [10.32.101.20])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 715DC3F766;
-	Tue, 16 Jul 2024 05:24:09 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Tom Rini <trini@konsulko.com>
-Cc: u-boot@lists.denx.de,
-	Jagan Teki <jagan@amarulasolutions.com>,
-	Michael Walle <mwalle@kernel.org>,
-	linux-sunxi@lists.linux.dev,
+	s=arc-20240116; t=1721155534; c=relaxed/simple;
+	bh=9ECS4fcyyA+zKb1MLbpL38yiHu/bFR+FT5mq4ef7LGE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SiOvvq0+fuOutBIeAWnYmYMFZLvOKLCp2HF32yUM2X6pXZOH8kfhbk29hNMa8OdyxZEoEkGwEMDH9rvZx3r7GBw/jJOoH2hJCRDl51ARiNycRwlKSU2VDE3F0jNEj5twqqB/rOXi5zR/22m4OL8rlFqvdWt9ZRX8eNWSin2cnng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=konsulko.com; spf=pass smtp.mailfrom=konsulko.com; dkim=pass (1024-bit key) header.d=konsulko.com header.i=@konsulko.com header.b=GOYixRs2; arc=none smtp.client-ip=209.85.160.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=konsulko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=konsulko.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=konsulko.com header.i=@konsulko.com header.b="GOYixRs2"
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-25e00f348e6so3219115fac.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 16 Jul 2024 11:45:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google; t=1721155532; x=1721760332; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=egmncopyTsHQ/w5X+HEIqFZyngHARi1ikY0nG6xtZE8=;
+        b=GOYixRs2IR5AddmwxuQ0ymWS8TlUYLrQE7/qCeD50MZCyA8h6uv5B38CYyk3NI2A1m
+         ptfLoAb8XmZhavl494pDDBSxDJJC7m86j60VoPsm+nLy26tvPTjjqob/chVfnLFxkh7Q
+         i2LH8//IXu5Bekz0bYwutWjVN52eUjtmOSPYQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721155532; x=1721760332;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=egmncopyTsHQ/w5X+HEIqFZyngHARi1ikY0nG6xtZE8=;
+        b=AyZQ1SR5I2fY8kmjeahswMhkccojmkHgtLDL2zthmkIeYI3ODaKMhymxic4wu6OX0W
+         qTl5jHBTPvMJWJVTUVUa/IwftNahpcDSzFE1IQF8JgAKKppZw9gdSD93w68FBs0UR8vY
+         qNLXIel2y5xWJV+b9du4ZNZbP1UsJgoLD5deb6W5HgYhg4QplKk40sUvLqgM+MjseNEG
+         8VNo36HGssHwIRQrW1qnLq0J0+mt0YQmHh/Fmaq5aHMSDIjwEls6T4NuCZD0AyVCdd2D
+         MeHuAUGUAxhtJSN354gWlID5ll0vCC9qp2WnWcBgPxKvYnqGMDexOQmm+nLiTvxsmg1P
+         U86w==
+X-Forwarded-Encrypted: i=1; AJvYcCVK12QS7ACYboloj3zQpJh33mFj8BU6YRPGuUh3GYK8vDd4alubtR3d2ukeUaC9KXDjmdOXcna+6K2LEJp8mUTkVnSBd8m5iutskHM=
+X-Gm-Message-State: AOJu0YzIQooLC1vp89vaTwE3sF5r0+D4yjVDCZObusoLrc2EPAo3BNac
+	q8G7TEQ5AcP2rt1AL4v3Na2Wf460wg3Jmo6oZQTxw4Yg24kKLztHCuJ4DDlJEh4=
+X-Google-Smtp-Source: AGHT+IHy+uCpgjbk1cp3geEm45Y1XvWbVTF8V96NY3XvlwNrEdahdHOfkYsv77mUgI4L6FPjHN5BYg==
+X-Received: by 2002:a05:6870:e40a:b0:25e:660:104a with SMTP id 586e51a60fabf-260bdf87673mr2724928fac.37.1721155531978;
+        Tue, 16 Jul 2024 11:45:31 -0700 (PDT)
+Received: from bill-the-cat (fixed-189-203-103-45.totalplay.net. [189.203.103.45])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2607512f564sm1430444fac.14.2024.07.16.11.45.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Jul 2024 11:45:31 -0700 (PDT)
+Date: Tue, 16 Jul 2024 12:45:29 -0600
+From: Tom Rini <trini@konsulko.com>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: u-boot@lists.denx.de, Jagan Teki <jagan@amarulasolutions.com>,
+	Michael Walle <mwalle@kernel.org>, linux-sunxi@lists.linux.dev,
 	Ryan Walklin <ryan@testtoast.com>,
 	Chris Morgan <macromorgan@hotmail.com>
-Subject: Pull request: u-boot-sunxi/master for v2024.10
-Date: Tue, 16 Jul 2024 13:24:05 +0100
-Message-Id: <20240716122405.78613-1-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.25.1
+Subject: Re: Pull request: u-boot-sunxi/master for v2024.10
+Message-ID: <20240716184410.GI561963@bill-the-cat>
+References: <20240716122405.78613-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="KcOV5shS6T72FihI"
+Content-Disposition: inline
+In-Reply-To: <20240716122405.78613-1-andre.przywara@arm.com>
+X-Clacks-Overhead: GNU Terry Pratchett
 
-Hi Tom,
 
-please pull the sunxi/master branch, containing the first part of the
-2024.10 changes.
-Nothing really major here, some rework of the SPL PMIC drivers, adding
-support for the AXP717 on the way, which is showing up on newer boards
-now, most prominently some Anbernic handheld gaming devices.
-The rest is enabling Ethernet and SPI boot on the Allwinner V3s SoC,
-plus two fixes.
-This also updates the "traditional U-Boot" DTs to that of kernel v6.9.
-I will look into upgrading some SoCs to dts/upstream in the coming cycle,
-though this will not cover all SoCs for now, as we carry some non-mainline
-fix to improve compatibility with older kernels. Will see how it goes,
-but for now we stick with the "old way".
+--KcOV5shS6T72FihI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The branch survived the gitlab CI run, and Linux boot testing on some
-selected boards.
+On Tue, Jul 16, 2024 at 01:24:05PM +0100, Andre Przywara wrote:
 
-Please pull!
+> Hi Tom,
+>=20
+> please pull the sunxi/master branch, containing the first part of the
+> 2024.10 changes.
+> Nothing really major here, some rework of the SPL PMIC drivers, adding
+> support for the AXP717 on the way, which is showing up on newer boards
+> now, most prominently some Anbernic handheld gaming devices.
+> The rest is enabling Ethernet and SPI boot on the Allwinner V3s SoC,
+> plus two fixes.
+> This also updates the "traditional U-Boot" DTs to that of kernel v6.9.
+> I will look into upgrading some SoCs to dts/upstream in the coming cycle,
+> though this will not cover all SoCs for now, as we carry some non-mainline
+> fix to improve compatibility with older kernels. Will see how it goes,
+> but for now we stick with the "old way".
+>=20
+> The branch survived the gitlab CI run, and Linux boot testing on some
+> selected boards.
+>=20
+> Please pull!
+>=20
+> Cheers,
+> Andre
+>=20
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> The following changes since commit b182816c1fb436916661949213c543bf4d4225=
+0b:
+>=20
+>   turris_1x: Normalize Kconfig usage (2024-07-13 10:42:15 -0600)
+>=20
+> are available in the Git repository at:
+>=20
+>   https://source.denx.de/u-boot/custodians/u-boot-sunxi.git master
+>=20
+> for you to fetch changes up to 674e4f994f5da537cab62ad86bc8bdf5acaae88c:
+>=20
+>   spi: sunxi: drop max_hz handling (2024-07-16 01:40:40 +0100)
+>=20
 
-Cheers,
-Andre
+Applied to u-boot/master, thanks!
 
-============================================================
-The following changes since commit b182816c1fb436916661949213c543bf4d42250b:
+--=20
+Tom
 
-  turris_1x: Normalize Kconfig usage (2024-07-13 10:42:15 -0600)
+--KcOV5shS6T72FihI
+Content-Type: application/pgp-signature; name="signature.asc"
 
-are available in the Git repository at:
+-----BEGIN PGP SIGNATURE-----
 
-  https://source.denx.de/u-boot/custodians/u-boot-sunxi.git master
+iQGzBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmaWv8gACgkQFHw5/5Y0
+tywMXgv/VYFJ3AuDPSxvXOW6Qw/EsCkwYJn17vertA6imDHtXjLGLMgSxHkTdLGI
+GGR5it2+XrpG91pKYZmbCXmJnOEIjIfjoD7JJzynOSW1+ZCRsiPuPgE7Y+Xv3/MA
+NNdpmuiR21MIf2A4x2BHQLSG9wo5Je9WgUPdbw/9ZNpZkeCcTJ4/r9DwgHS1Eo5z
+XRYKzjDq+apReTSPUelVd6o46wld6yuWiK0+E8eXn+ebq3ia5c9GlLI+B1VFmWZj
+1t+Ag0Wsd8cgEqei/Xo7Zdbp2Ki8bYyLNrlTX0w77SvTKq+jnqXPV4ggH5ZkY1N0
+jB2sW9sOqS83JX4uA96Yd150nM2dPGIN5/rR0hinEOBjZEy3CtzJTa7ypLTCQNpw
+M8Iw61LohXIiQ+WIXMZZLs8ea7i80uqqh3qjgcvQUWk9/1G2u0J+Bej/XAWrZ+oS
+4KoP56+RovqZvN0LWPHgWuBZa515fE4w/kEFLdDI2ux59FWL1hMXss0VMdHv6DPf
+gJMITna4
+=8Hwy
+-----END PGP SIGNATURE-----
 
-for you to fetch changes up to 674e4f994f5da537cab62ad86bc8bdf5acaae88c:
-
-  spi: sunxi: drop max_hz handling (2024-07-16 01:40:40 +0100)
-
-----------------------------------------------------------------
-Andre Przywara (8):
-      power: regulator: add AXP717 support
-      power: pmic: sunxi: only build AXP drivers for SPL
-      power: pmic: sunxi: introduce generic SPL AXP DC/DC driver
-      power: pmic: sunxi: add AXP717 SPL support
-      power: pmic: sunxi: use generic AXP SPL driver for AXP313
-      power: pmic: sunxi: use generic AXP SPL driver for AXP305
-      sunxi: dts: arm/arm64: update devicetree files from Linux-v6.9
-      sunxi: spl: h616: fix booting from high MMC offset
-
-Michael Walle (4):
-      clk: sunxi: add EMAC and EPHY clocks and resets for the V3s SoC
-      net: sun8i_emac: add support for the V3s
-      sunxi: SPL SPI: add support for the V3s SoC
-      spi: sunxi: drop max_hz handling
-
- arch/arm/dts/sun50i-h6-beelink-gs1.dts             |   2 +
- arch/arm/dts/sun50i-h6-tanix.dtsi                  |   2 +
- arch/arm/dts/sun50i-h6.dtsi                        |   7 +-
- arch/arm/dts/sun50i-h616-bigtreetech-cb1-manta.dts |   2 +-
- arch/arm/dts/sun50i-h616-bigtreetech-cb1.dtsi      |   4 +-
- arch/arm/dts/sun50i-h616-bigtreetech-pi.dts        |   2 +-
- arch/arm/dts/sun50i-h616.dtsi                      | 155 +++++++++
- arch/arm/dts/sun50i-h618-longan-module-3h.dtsi     |  75 +++++
- arch/arm/dts/sun50i-h618-longanpi-3h.dts           | 144 +++++++++
- arch/arm/dts/sun50i-h618-transpeed-8k618-t.dts     |  23 ++
- arch/arm/dts/sun50i-h64-remix-mini-pc.dts          | 356 +++++++++++++++++++++
- arch/arm/dts/sun8i-r40-feta40i.dtsi                |   7 +
- arch/arm/mach-sunxi/Kconfig                        |   2 +-
- arch/arm/mach-sunxi/board.c                        |   5 +-
- arch/arm/mach-sunxi/pmic_bus.c                     |   3 +
- arch/arm/mach-sunxi/spl_spi_sunxi.c                |   3 +-
- board/sunxi/board.c                                |   2 +-
- drivers/clk/sunxi/clk_v3s.c                        |   6 +
- drivers/net/sun8i_emac.c                           |   7 +
- drivers/power/Kconfig                              |  17 +-
- drivers/power/Makefile                             |   9 +-
- drivers/power/axp305.c                             |  82 -----
- drivers/power/axp313.c                             | 133 --------
- drivers/power/axp_spl.c                            | 173 ++++++++++
- drivers/power/pmic/axp.c                           |   1 +
- drivers/power/regulator/axp_regulator.c            |  28 ++
- drivers/spi/spi-sunxi.c                            |  21 +-
- include/axp_pmic.h                                 |   1 +
- 28 files changed, 1026 insertions(+), 246 deletions(-)
- create mode 100644 arch/arm/dts/sun50i-h618-longan-module-3h.dtsi
- create mode 100644 arch/arm/dts/sun50i-h618-longanpi-3h.dts
- create mode 100644 arch/arm/dts/sun50i-h64-remix-mini-pc.dts
- delete mode 100644 drivers/power/axp305.c
- delete mode 100644 drivers/power/axp313.c
- create mode 100644 drivers/power/axp_spl.c
+--KcOV5shS6T72FihI--
