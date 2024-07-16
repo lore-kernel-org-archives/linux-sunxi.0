@@ -1,136 +1,127 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3773519645E
-	for <linux-sunxi@lists.linux.dev>; Tue, 16 Jul 2024 09:27:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3974D1E888
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Jul 2024 12:24:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721122057; cv=none; b=uMB1rHmpl9SiTryVyCAZmDSyDoaLu61Ci/r05ORfGSeHskjSPKZ951qs1Ou3oxXQxMbtGupusmShK90g3CHYL+wUJw4HM55uLyUwRG9TTxh7kx1NGPzNMqENyeuWj9g0YopywhpZktXpj/gwmrULevS/VidY+/ZJEIUTcwocZpQ=
+	t=1721132653; cv=none; b=nMspavJm6I96cPFp3ANKymB9h1Yr5ELz0NAUZvx+QgMZUSzS9FY/15gyNy9Q3qDEr10rPDqmEzOS0NDBNUCPo00SEC3G7tS2qPsj3bUOinmKSdvx9c/IuHMG93uNmgKYtCW0UsHAnd1kcPSrdp4wlouM7SoTzSfOr+sxSfkNyWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721122057; c=relaxed/simple;
-	bh=0AvImW20JI33GnYfDuA9xlRzQVQN5eOuU1t4kmhQGTI=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 Mime-Version:Content-Type; b=hYgpxhZ8HdYeBfnNHvp2g+Xi+h5X97OrytYii6ZhRc533Wgm0yTYg4J8EWTtxhMPJQ+WQGHq3EB+zTYtufDFgXG61qNShf0KscxBkyJJqf+G3AOXVLdGM8MOI7RNNd9vjWT8HMTwYnajWkPKHUWqhzRxOpbHS0AE7Irm2K1Ktag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FyG+GYR1; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FyG+GYR1"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-42679f33fefso35674725e9.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 16 Jul 2024 02:27:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721122054; x=1721726854; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2PEU4qwN7WxP6VJDTGvYtCPzC+v0lV1/cj8lPv93ylU=;
-        b=FyG+GYR1IbXDyqoup/Cvkh5ZyMYwIfjoyVzktaMGIedwV+w7oTkK5nb078LzBD4jS0
-         KR8q0U2Z7m3WV3wYJPR+aRdLTVxBGkVZxtZIn5FqtZ3IBNn+QiDTXK0t5l/Ku8PFz7IX
-         or3ruImipJI83rIfEDjLTVYWVnY+G+lP6D+AaC04ULNlJUKMy7tV068vCFDYovXu7Tf/
-         CznxxlFL1KcxVtxNCRA0VKFyl+Xjml3reV+UPfx/kzF5Urp8vslTYmKKVbBW0m+jO+B1
-         mAmo7UlvGMIkDuMsFrdEaqpHsmv3hCDgQXcPNiViWX2URAVSb3GfMgjx05jeKIXfWT+O
-         86uA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721122054; x=1721726854;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=2PEU4qwN7WxP6VJDTGvYtCPzC+v0lV1/cj8lPv93ylU=;
-        b=pf00bIxYDdX2cBL5ETDmQHhlRW1j8zroCd8/23ITUBUix9UqpJ3kg032QdM0L3i3kx
-         urh9wMmpmavQffjm6/SkNJHMsJBgFReQU/uwIRqwLymQIa9yeU5VtbGetxmlOg9G60QY
-         yrzDy/wHXnfNJUzXbbUYRdJ83AK8geMNroJYOX0DvD/XM/EKlsLLjbhEZZKjyQesg2kl
-         jf1+Nfjp3UARwLISRrEFj+kH/3Ko6kKY+P+z+VMH7yAzDC62RIbrfLYk3ZdyTxSmVbtK
-         sVVzM25+xZfS6KG61/F95Pa6cg3sWAdFs7yNTeshXr/7MhmhJRCnnntToVloyh7F4RKD
-         sE6A==
-X-Forwarded-Encrypted: i=1; AJvYcCXQ8h6l2w8dd1ty9rft7codqdBxp4659DFPe4OSF3R5smQ17gJXEoZARJyMuA7zRrUO3M5x5A+jSzR4/tPH1AmnMQLTDv/x8rjZIHk=
-X-Gm-Message-State: AOJu0YzH4HlvEq6kcA4IXv6Ljpwavrqqp8JdoDstn9GOh50AFD/LIt0J
-	FOZhPu+etcpnITOPhhm4oAZnaMZzdpA3KYh/BLuxVupbK+Q3uxqn
-X-Google-Smtp-Source: AGHT+IEGHl0l97n2oZGPosdV8rJBmnt5GWQ20KKOkfy2e9pjEUSSh+vmDhtfqRS+c9+nFRYnAae6Rw==
-X-Received: by 2002:a05:600c:3152:b0:426:6eb9:db07 with SMTP id 5b1f17b1804b1-427ba684a4fmr10488545e9.13.1721122054395;
-        Tue, 16 Jul 2024 02:27:34 -0700 (PDT)
-Received: from localhost (host-79-55-57-217.retail.telecomitalia.it. [79.55.57.217])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-427bb9976casm9090835e9.1.2024.07.16.02.27.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jul 2024 02:27:33 -0700 (PDT)
-Date: Tue, 16 Jul 2024 11:27:33 +0200
-From: Matteo Martelli <matteomartelli3@gmail.com>
-To: Maxime Ripard <mripard@kernel.org>, 
- Matteo Martelli <matteomartelli3@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Marcus Cooper <codekipper@gmail.com>, 
- =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>, 
- linux-sound@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org
-Message-ID: <66963d0531f17_7063708a@njaxe.notmuch>
-In-Reply-To: <20240715-rigorous-bipedal-sloth-c8df1b@houat>
-References: <20240529140658.180966-2-matteomartelli3@gmail.com>
- <20240529140658.180966-3-matteomartelli3@gmail.com>
- <20240606-savvy-wallaby-of-champagne-d4a50e@houat>
- <6662bf1b61bbc_2f51737023@njaxe.notmuch>
- <20240702-copperhead-of-unusual-intensity-7f43a8@houat>
- <668419fb8ef9f_2a76d370f1@njaxe.notmuch>
- <20240715-rigorous-bipedal-sloth-c8df1b@houat>
-Subject: Re: [PATCH 1/1] ASoC: sunxi: sun4i-i2s: fix LRCLK polarity in i2s
- mode
+	s=arc-20240116; t=1721132653; c=relaxed/simple;
+	bh=/fNiYzNK5uopMSGNIUb9gKmqyzKjTgYJz7rttDRTHU4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XAu9dH8pYmcObhCXWDAtBCkairSptcFSLXcTXAm5uuMkpXOI80TZ3C+njBdO33973BlYyDjc9eHDtGwc4gkGYN203Y2gkvZIoMPaIPehWyAHsph3DahgJQXpXMiw33ze6UMTguflIBD+eMYVEVa1abhg7TXTG/EXbd6F+VBCpe0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BC9F11063;
+	Tue, 16 Jul 2024 05:24:35 -0700 (PDT)
+Received: from donnerap.arm.com (donnerap.manchester.arm.com [10.32.101.20])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 715DC3F766;
+	Tue, 16 Jul 2024 05:24:09 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Tom Rini <trini@konsulko.com>
+Cc: u-boot@lists.denx.de,
+	Jagan Teki <jagan@amarulasolutions.com>,
+	Michael Walle <mwalle@kernel.org>,
+	linux-sunxi@lists.linux.dev,
+	Ryan Walklin <ryan@testtoast.com>,
+	Chris Morgan <macromorgan@hotmail.com>
+Subject: Pull request: u-boot-sunxi/master for v2024.10
+Date: Tue, 16 Jul 2024 13:24:05 +0100
+Message-Id: <20240716122405.78613-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Maxime Ripard wrote:
-> On Tue, Jul 02, 2024 at 05:17:15PM GMT, Matteo Martelli wrote:
-> > Maxime Ripard wrote:
-> > > On Fri, Jun 07, 2024 at 10:04:43AM GMT, Matteo Martelli wrote:
-> > > > Maxime Ripard wrote:
-> > > > > > -	/*
-> > > > > > -	 * DAI clock polarity
-> > > > > > -	 *
-> > > > > > -	 * The setup for LRCK contradicts the datasheet, but under a
-> > > > > > -	 * scope it's clear that the LRCK polarity is reversed
-> > > > > > -	 * compared to the expected polarity on the bus.
-> > > > > > -	 */
-> > > > > 
-> > > > > I think we should keep that comment somewhere.
-> > > > 
-> > > > I think that keeping that comment would be very misleading since the LRCLK
-> > > > setup would not contradict the datasheet anymore [1][2].
-> > > >
-> > > > Also, do you recall any details about the mentioned scope test setup? Was i2s
-> > > > mode tested in that occasion? It would help clarify the situation.
-> > > 
-> > > I can't remember if I tested i2s, I think I did though. But most of the
-> > > work was done on either TDM or DSP modes, and I remember very clearly
-> > > that the LRCK polarity was inverted compared to what Allwinner documents.
-> > > 
-> > > So the doc was, at best, misleading for these formats and we should keep
-> > > the comments.
-> > 
-> > Thanks for the reply Maxime, would you be able to point out the Allwinner
-> > document part that is (or was) misleading? The current datasheets (see links
-> > [1][2]) look correct, the current driver setup for TDM and DSP modes respects
-> > those datasheets and it's not "reversed compared to the expected polarity on
-> > the bus" as the comment states. 
-> 
-> I clearly remember having to debug something there, but I don't remember
-> much more, sorry.
-> 
-> I guess if you have tested on the H3 I2S, TDM and DSP and it all works
-> as expected with your changes, go ahead and ignore my comment then.
+Hi Tom,
 
-I did test it on the A64 SoC only (all modes I2S, TDM and DSP working).
+please pull the sunxi/master branch, containing the first part of the
+2024.10 changes.
+Nothing really major here, some rework of the SPL PMIC drivers, adding
+support for the AXP717 on the way, which is showing up on newer boards
+now, most prominently some Anbernic handheld gaming devices.
+The rest is enabling Ethernet and SPI boot on the Allwinner V3s SoC,
+plus two fixes.
+This also updates the "traditional U-Boot" DTs to that of kernel v6.9.
+I will look into upgrading some SoCs to dts/upstream in the coming cycle,
+though this will not cover all SoCs for now, as we carry some non-mainline
+fix to improve compatibility with older kernels. Will see how it goes,
+but for now we stick with the "old way".
 
-Best reguards,
-Matteo
+The branch survived the gitlab CI run, and Linux boot testing on some
+selected boards.
+
+Please pull!
+
+Cheers,
+Andre
+
+============================================================
+The following changes since commit b182816c1fb436916661949213c543bf4d42250b:
+
+  turris_1x: Normalize Kconfig usage (2024-07-13 10:42:15 -0600)
+
+are available in the Git repository at:
+
+  https://source.denx.de/u-boot/custodians/u-boot-sunxi.git master
+
+for you to fetch changes up to 674e4f994f5da537cab62ad86bc8bdf5acaae88c:
+
+  spi: sunxi: drop max_hz handling (2024-07-16 01:40:40 +0100)
+
+----------------------------------------------------------------
+Andre Przywara (8):
+      power: regulator: add AXP717 support
+      power: pmic: sunxi: only build AXP drivers for SPL
+      power: pmic: sunxi: introduce generic SPL AXP DC/DC driver
+      power: pmic: sunxi: add AXP717 SPL support
+      power: pmic: sunxi: use generic AXP SPL driver for AXP313
+      power: pmic: sunxi: use generic AXP SPL driver for AXP305
+      sunxi: dts: arm/arm64: update devicetree files from Linux-v6.9
+      sunxi: spl: h616: fix booting from high MMC offset
+
+Michael Walle (4):
+      clk: sunxi: add EMAC and EPHY clocks and resets for the V3s SoC
+      net: sun8i_emac: add support for the V3s
+      sunxi: SPL SPI: add support for the V3s SoC
+      spi: sunxi: drop max_hz handling
+
+ arch/arm/dts/sun50i-h6-beelink-gs1.dts             |   2 +
+ arch/arm/dts/sun50i-h6-tanix.dtsi                  |   2 +
+ arch/arm/dts/sun50i-h6.dtsi                        |   7 +-
+ arch/arm/dts/sun50i-h616-bigtreetech-cb1-manta.dts |   2 +-
+ arch/arm/dts/sun50i-h616-bigtreetech-cb1.dtsi      |   4 +-
+ arch/arm/dts/sun50i-h616-bigtreetech-pi.dts        |   2 +-
+ arch/arm/dts/sun50i-h616.dtsi                      | 155 +++++++++
+ arch/arm/dts/sun50i-h618-longan-module-3h.dtsi     |  75 +++++
+ arch/arm/dts/sun50i-h618-longanpi-3h.dts           | 144 +++++++++
+ arch/arm/dts/sun50i-h618-transpeed-8k618-t.dts     |  23 ++
+ arch/arm/dts/sun50i-h64-remix-mini-pc.dts          | 356 +++++++++++++++++++++
+ arch/arm/dts/sun8i-r40-feta40i.dtsi                |   7 +
+ arch/arm/mach-sunxi/Kconfig                        |   2 +-
+ arch/arm/mach-sunxi/board.c                        |   5 +-
+ arch/arm/mach-sunxi/pmic_bus.c                     |   3 +
+ arch/arm/mach-sunxi/spl_spi_sunxi.c                |   3 +-
+ board/sunxi/board.c                                |   2 +-
+ drivers/clk/sunxi/clk_v3s.c                        |   6 +
+ drivers/net/sun8i_emac.c                           |   7 +
+ drivers/power/Kconfig                              |  17 +-
+ drivers/power/Makefile                             |   9 +-
+ drivers/power/axp305.c                             |  82 -----
+ drivers/power/axp313.c                             | 133 --------
+ drivers/power/axp_spl.c                            | 173 ++++++++++
+ drivers/power/pmic/axp.c                           |   1 +
+ drivers/power/regulator/axp_regulator.c            |  28 ++
+ drivers/spi/spi-sunxi.c                            |  21 +-
+ include/axp_pmic.h                                 |   1 +
+ 28 files changed, 1026 insertions(+), 246 deletions(-)
+ create mode 100644 arch/arm/dts/sun50i-h618-longan-module-3h.dtsi
+ create mode 100644 arch/arm/dts/sun50i-h618-longanpi-3h.dts
+ create mode 100644 arch/arm/dts/sun50i-h64-remix-mini-pc.dts
+ delete mode 100644 drivers/power/axp305.c
+ delete mode 100644 drivers/power/axp313.c
+ create mode 100644 drivers/power/axp_spl.c
