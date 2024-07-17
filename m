@@ -1,118 +1,129 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A84C184F
-	for <linux-sunxi@lists.linux.dev>; Wed, 17 Jul 2024 17:51:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6320018EBF;
+	Wed, 17 Jul 2024 23:33:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721238719; cv=none; b=sERKmmAXzZpcnmwffRIJklJ/HIV/WGmpLXf4aaPJSxifPtuLUZUbgT+cedItPR54GDQwHeSB5UuNtBAHwtDOWLqF0VYL+YYON5bXKFzTgYKOMQTqo73iTej87o2nNxMed5LwfwBgNw7zQHgv96pLQQEFqHv8pKR68rn5h/NdocE=
+	t=1721259217; cv=none; b=fRfYZUcdXXi0t3lLUdiTUHeWEDlggNi7Hj14pp00RH70U4Cd13AvA3dHS3EZVN4HvEPG9U0KvVKkYAPfw7nABuESTbU1pu60TjkhvnStESUqh3bRwvuIFRBCbIXJ61Hcu+uHQbConDKW4gS4qdMrhNxpp19mbIWwBlUJOvptN/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721238719; c=relaxed/simple;
-	bh=4KymJMjItiHjaDBo7ehEb15/1IBo4nmyw7/rY1jCfXo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ytnaz9PWjrPpCIsDX+RPYN3ImfnOM9Ir8tNgLglTvwkHgN9s/CJytTY75hiq3N4BRuyoH2zbEcrGmkH5ktW7/oyEGENw4akmSaas/BIFjxP0ZjaO694OdzCvw5zeWmi5BAyzzaIr3VAedWLp86WnN7UNJBgqfFAxbZq6YZuBR8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=konsulko.com; spf=pass smtp.mailfrom=konsulko.com; dkim=pass (1024-bit key) header.d=konsulko.com header.i=@konsulko.com header.b=U/TlRzcQ; arc=none smtp.client-ip=209.85.210.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=konsulko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=konsulko.com
+	s=arc-20240116; t=1721259217; c=relaxed/simple;
+	bh=/vntp9yziGCzvLchAgMHXkRgHgytqWIKu6wEIUPrxlQ=;
+	h=Message-ID:Content-Type:MIME-Version:In-Reply-To:References:
+	 Subject:From:Cc:To:Date; b=I50lv1Kqj5NSMeWUI/RxfLgvaOT/bjzYxs5YFYqh5viv3r2OTB0xp2uxNR1QGTFPnQh/1nkp4ZMZ274iyQ2DzsJFbhzO+AKWXPUp2/irJIIEtZEbnImKhbuiObOlztCb55V1E6FhPbXGWxuJpcQJwRpVpaKf+l0ldX9EKoG8K/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m/tYahsI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=konsulko.com header.i=@konsulko.com header.b="U/TlRzcQ"
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-703d5b29e06so276138a34.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 17 Jul 2024 10:51:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1721238716; x=1721843516; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4KymJMjItiHjaDBo7ehEb15/1IBo4nmyw7/rY1jCfXo=;
-        b=U/TlRzcQcCEg8SqnusLFjZnDci8jaRv+ygcNnRl4z5GI0fxGy5ysOY43Rkz/Bqa3oO
-         DFJAJZOwHYRZBp2Zp3xliFemXT83a/g+hGAc7AjUsRsoYxMVmzGJSl+F9YXzELr8XRyp
-         a6vlbbLrxjflvzYY7Rvm0G5tIzUEBWzmEz0V4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721238716; x=1721843516;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4KymJMjItiHjaDBo7ehEb15/1IBo4nmyw7/rY1jCfXo=;
-        b=VQj2GppuoXh6KWlmsDDt21DVesxogdrfPvR9wWpigoOx5JJYhXJjoMHTTxLTyJhpgs
-         h4DCXXUrFPKH7heoSZqsGOhlYwsuL1qyp8vQzqWjY7hMkzbGRcdNJDsVCm7BGxLaTq2d
-         zIh6tD+UNKyZIxsBRSY6v2e5b/UxlK8h+9I6oSsuPINPRmgxnkemFURNAm+IM0uEpyur
-         kCv5IU+V5qBpJnvvfVNRYSwHuBI39OMUkaN/MhRtMv8KoaMxhDp0GlPUqf6VdArJeXsJ
-         xpNYTciln3wfm4snE09rjzrlpKxHQU5gfCy6ru1h7mp7UtpoKAc8AOpAqFVYU7NSjNKP
-         BHUA==
-X-Forwarded-Encrypted: i=1; AJvYcCUw/72YJ0q6zdF0DdX1V038CICGGUSGUmCvzJrZvtXCt9ejkGu//6JqBdmFdzaTjxswyYXX/SMD2nVs7AkMCgHKPOalvZsyofEqH7M=
-X-Gm-Message-State: AOJu0YwtBELIcyWqSamq48g1tYDwTuBQWfvy322mRsghxNh6YQuzy8HO
-	/Fpp5Ykib8GSIVo1x+Q48Nnxg5ewyI4IlCViFUK+SMNFMu26ZQi4dYiVzN1A2oY=
-X-Google-Smtp-Source: AGHT+IFtTJrC+WOBRp63pjXboEs9Fo+tznfniYpnBCLJ5/IlGHpi2jq8bf5MlJtU489IIlRdW1eSkg==
-X-Received: by 2002:a05:6830:264b:b0:703:6477:460a with SMTP id 46e09a7af769-708e3861904mr2562251a34.29.1721238716501;
-        Wed, 17 Jul 2024 10:51:56 -0700 (PDT)
-Received: from bill-the-cat (fixed-189-203-103-45.totalplay.net. [189.203.103.45])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-708e7806ccesm159463a34.23.2024.07.17.10.51.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jul 2024 10:51:56 -0700 (PDT)
-Date: Wed, 17 Jul 2024 11:51:53 -0600
-From: Tom Rini <trini@konsulko.com>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Jagan Teki <jagan@amarulasolutions.com>, u-boot@lists.denx.de,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] sunxi: dts: arm/arm64: update devicetree files from
- Linux-v6.10
-Message-ID: <20240717175153.GR561963@bill-the-cat>
-References: <20240717143415.343827-1-andre.przywara@arm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m/tYahsI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A59E2C2BD10;
+	Wed, 17 Jul 2024 23:33:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721259216;
+	bh=/vntp9yziGCzvLchAgMHXkRgHgytqWIKu6wEIUPrxlQ=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=m/tYahsI7GcAsn0eTT4WF3W3BC90QDmQbipyzN62A8EQrxsGjJuDHvLvxJTe9ClPb
+	 SxfN7qFIZCngz7gztSRBpz2eEzrUCy4jUV1ydb6l65kKp+wAq1QWNBsZy5KABTYVQR
+	 tq+sCrNewY9i6SpEr8eZIOLHRCKt7Ey7NF7M1f0KLVQ+ZcrJeHrDZjeNPd1EsmFr+5
+	 4zTlnoxdZoC9fCxuCKnodh5r8fGggVstFE9nygPb3O0rvXh68bBkRq/sZ9W1kFT6Vp
+	 PNOejeGFpQtHdc4Q11bbXLpU6fBG4A6iIgpFlB92tbnMPPxy5xVe6T52lr0cg39ZBV
+	 sbhS/c+mN45rg==
+Message-ID: <1e36b1ba8af3584128550822a70cb072.sboyd@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ZjjATnUyRyajD0lO"
-Content-Disposition: inline
-In-Reply-To: <20240717143415.343827-1-andre.przywara@arm.com>
-X-Clacks-Overhead: GNU Terry Pratchett
-
-
---ZjjATnUyRyajD0lO
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240717-of_property_for_each_u32-v2-1-4060990f49c9@bootlin.com>
+References: <20240717-of_property_for_each_u32-v2-1-4060990f49c9@bootlin.com>
+Subject: Re: [PATCH v2] of: remove internal arguments from of_property_for_each_u32()
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: Peng Fan (OSS) <peng.fan@oss.nxp.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, llvm@lists.linux.dev, linux-clk@vger.kernel.org, linux-omap@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-samsung-soc@vger.kernel.org, linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org, linux-pwm@vger.kernel.org, linux-serial@vger.kernel.org, linux-usb@vger.kernel.org, patches@opensource.cirrus.com, linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, Luca Ceresoli <luca.ceresoli@bootlin.com>, Andre Przywara <andre.przywara@arm.com>, Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, Uwe =?utf-8?q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, Richard Fitzgerald <rf@opensource.cirrus.com>
+To: Aaro Koskinen <aaro.koskinen@iki.fi>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Alim Akhtar <alim.akhtar@samsung.com>, Andreas Kemnade <andreas@kemnade.info>, Bartosz Golaszewski <brgl@bgdev.pl>, Bjorn Andersson <andersson@kernel.org>, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Chen-Yu Tsai <wens@csie.org>, Chester Lin <chester62515@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, Damien Le Moal <dlemoal@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, Dong Aisheng <aisheng.dong@nxp.com>, Doug Berger <opendmb@gmail.com>, Emilio =?utf-8?q?L=C3=B3pez?= <emilio@elopez.com.ar>, Fabio Estevam <festevam@gmail.com>, Florian Fainelli <florian.fainelli@broadcom.com>, Ghennadi Procopciuc <ghennadi.procopciuc@oss.nxp.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jacky Bai <ping.bai@nxp.com>, Jaroslav Kysela <perex@perex.cz>, Jernej Skrabec <jernej.skrabec@gmail.com>, Jiri Slaby <jirislaby@kernel.org>, Jonathan Cameron <jic23@kernel.org>, Kevin Hilman <khilman@baylibre.com>, Krzysztof Kozlowski <krzk@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Lee Jones <lee@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linus Walleij <linus.walleij@linaro.org>, Luca Ceresoli <luca.ceresoli@bootlin.com>, Mark Brown <broonie@kernel.org>, Matthias Brugger <mbrugger@suse.com>, Michael Ellerman <mpe@ellerman.id.au>, Michael Turquette <mturquette@baylibre.com>, Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Naveen N. Rao <naveen.n.rao@linux.ibm.com>, Nicholas Piggin <npiggin@gmail.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, Pengutronix Kernel Team <kernel@pengutronix.de>, Richard Leitner <richard.leitner@linux.dev>, Rob Herring <robh@kernel.org>, Roger Quadros <rogerq@kernel.org>, Samuel Holland <samuel@sholland.org>, Saravana Kannan <saravanak@google.com>, Shawn Guo <shawnguo@kernel.org>, Takashi Iwai <tiwai@suse.com>, Thomas Gleixner <tglx@linutronix.de>, Tony Lindgren <tony@atomide.com>, Uwe =?utf-8?q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+Date: Wed, 17 Jul 2024 16:33:34 -0700
+User-Agent: alot/0.10
 
-On Wed, Jul 17, 2024 at 03:34:15PM +0100, Andre Przywara wrote:
+Quoting Luca Ceresoli (2024-07-17 09:16:32)
+> diff --git a/drivers/clk/clk-si5351.c b/drivers/clk/clk-si5351.c
+> index 4ce83c5265b8..d4904f59f83f 100644
+> --- a/drivers/clk/clk-si5351.c
+> +++ b/drivers/clk/clk-si5351.c
+> @@ -1175,8 +1175,8 @@ static int si5351_dt_parse(struct i2c_client *clien=
+t,
+>  {
+>         struct device_node *child, *np =3D client->dev.of_node;
+>         struct si5351_platform_data *pdata;
+> -       struct property *prop;
+> -       const __be32 *p;
+> +       u32 array[4];
+> +       int sz, i;
+>         int num =3D 0;
+>         u32 val;
+> =20
+> @@ -1191,20 +1191,24 @@ static int si5351_dt_parse(struct i2c_client *cli=
+ent,
+>          * property silabs,pll-source : <num src>, [<..>]
+>          * allow to selectively set pll source
+>          */
+> -       of_property_for_each_u32(np, "silabs,pll-source", prop, p, num) {
+> +       sz =3D of_property_read_variable_u32_array(np, "silabs,pll-source=
+", array, 2, 4);
+> +       sz =3D (sz =3D=3D -EINVAL) ? 0 : sz; /* Missing property is OK */
+> +       if (sz < 0)
+> +               return dev_err_probe(&client->dev, sz, "invalid pll-sourc=
+e");
 
-> Sync the devicetree files from the official Linux kernel tree, v6.10.
-> This is covering Allwinner SoCs with 32-bit and 64-bit ARM cores.
->=20
-> Besides mostly cosmectic changes, this adds cpufreq support to H616
-> boards, Nothing that U-Boot needs for itself, but helpful to pass on
-> to kernels. We also get the .dts files for the Tanix TX1 TV box and
-> three Anbernic handheld gaming devices.
->=20
-> As before, this omits the non-backwards compatible changes to the R_INTC
-> controller, to remain compatible with older kernels.
->=20
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Needs a newline on the printk message.
 
-This reminded me I needed to see that v6.10-dts is tagged upstream now.
-So, for the record, when can we move sunxi to OF_UPSTREAM? Or what's
-blocking it? Thanks!
+> +       if (sz % 2)
+> +               return dev_err_probe(&client->dev, -EINVAL,
+> +                                    "missing pll-source for pll %d\n", a=
+rray[sz - 1]);
+> +
+> +       for (i =3D 0; i < sz; i +=3D 2) {
+> +               num =3D array[i];
+> +               val =3D array[i + 1];
+> +
+>                 if (num >=3D 2) {
+>                         dev_err(&client->dev,
+>                                 "invalid pll %d on pll-source prop\n", nu=
+m);
+>                         return -EINVAL;
+>                 }
+> =20
+> -               p =3D of_prop_next_u32(prop, p, &val);
+> -               if (!p) {
+> -                       dev_err(&client->dev,
+> -                               "missing pll-source for pll %d\n", num);
+> -                       return -EINVAL;
+> -               }
+> -
+>                 switch (val) {
+>                 case 0:
+>                         pdata->pll_src[num] =3D SI5351_PLL_SRC_XTAL;
+> @@ -1232,19 +1236,24 @@ static int si5351_dt_parse(struct i2c_client *cli=
+ent,
+>         pdata->pll_reset[0] =3D true;
+>         pdata->pll_reset[1] =3D true;
+> =20
+> -       of_property_for_each_u32(np, "silabs,pll-reset-mode", prop, p, nu=
+m) {
+> +       sz =3D of_property_read_variable_u32_array(np, "silabs,pll-reset-=
+mode", array, 2, 4);
+> +       sz =3D (sz =3D=3D -EINVAL) ? 0 : sz; /* Missing property is OK */
+> +       if (sz < 0)
+> +               return dev_err_probe(&client->dev, sz, "invalid pll-reset=
+-mode");
 
---=20
-Tom
+Needs a newline on the printk message.
 
---ZjjATnUyRyajD0lO
-Content-Type: application/pgp-signature; name="signature.asc"
+> +       if (sz % 2)
+> +               return dev_err_probe(&client->dev, -EINVAL,
+> +                                    "missing pll-reset-mode for pll %d\n=
+", array[sz - 1]);
+> +
 
------BEGIN PGP SIGNATURE-----
+With those fixed
 
-iQGzBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmaYBLIACgkQFHw5/5Y0
-tyxacgwAkdiWRTXME+anSGff1UOKYHvC5BMiBaJWZB7O0K503672kDnvcfzudMZ1
-BR8hS0JeRemfUOYDdMT6/cLH51JIANVCU2sJk1KUcoPFX4jqupdEoaIk3Rfa8Qyy
-BjKG4wTG1t5ePLlDsF8grCkGdl7nS/i8NG8g4VmQLsPSpTFya+1+Y4KVjEtncVdq
-VY9UCvhRcvwLVhOfb8gyfyz9nWixgQthfYhjfU9DvoblnreHQi15iNFNpOcRosG1
-iCCW/olVDCckJbNlZvtvhLv/sxSbtqNIOHe+n/Qr91R5Xv8oQhKtynvMphYPynPV
-1/7tMC4ESR+TjTBXM9qx18d87zTiuhUvKCWgW6jgBSbwZIsuOjgZ48G0a3LzN170
-+akgflgdIeheR7N5nYtzZ9pO1Jl4UpNAljDLA8E2iAj41IecHZP3Ymz+TA4hdP84
-fN8p4cebzR75G1YOBLlSEnN9HQ0knIfwTYomvwfj3soy6sittyCbl7hw4wt033X/
-t5px4VFz
-=B40U
------END PGP SIGNATURE-----
-
---ZjjATnUyRyajD0lO--
+Acked-by: Stephen Boyd <sboyd@kernel.org> # clk
