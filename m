@@ -1,124 +1,228 @@
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A00E03D0AD;
-	Thu, 18 Jul 2024 06:57:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EBA618C36
+	for <linux-sunxi@lists.linux.dev>; Fri, 19 Jul 2024 16:19:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721285831; cv=none; b=HODNZskKMNX99dhV7owxCEXXnS3aVR2VT1Zri88be9HSxPy73RvyomUVEfqU/zxtBuQiyTdiJyAE4y6X6PLkLSjWQvXntTrxo1yHHxP5G6Xg2Gtd9EZ7YiyxNsHearhhc9nG3Shd2jxN84tXhstGNk/Wfg074B5fSWHGoClHHTY=
+	t=1721405945; cv=none; b=Wtoi/kHRsCZwJL2GBLkZVXkgMxQO6A4fGB7PJNbd49yPsDvTvw9CzcLHvweJFn0xRlp/s/yp+WkfQHoL7akD6l5ASnRDTpimXZb9Q3HcvILgtYqxu+cUjjXxeblqjP6+sUuFbvFH6FCc2SVB+Eqz/Iv546c57C/8R8VBGeNWMPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721285831; c=relaxed/simple;
-	bh=z+aCMhKYfdvSH3LqcS7QRiHX5Ygt46joT7nhNjNOLXA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=B3osjfSE/it3xzciKMbgI5lETFTQv2bBNueVMnhmqn9eXs0zUXETnbuDALv4ptEMNLa58YmGAMIniLN0iWoVBcJtH6KLwM+LJr7Z7pwBWWSSl9NWmlr1gerlHzfgPlFpvtT96gpGD1k9caG3xuIWD2PrNx14zuTQl9kPgTGRBO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=OlB6nsD5; arc=none smtp.client-ip=217.70.183.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1721405945; c=relaxed/simple;
+	bh=frqJw9BdGab/eG7UEYqHiUqCd0SF6PEuYJeaQAL1EDI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=aacjJK2ncJTQ0u9ywCzWTjoJNSN+uL9cj/E5vl4q4mmhtl3EQqNUagm5N+/WFJKcsbtLVElo3j+TqWPMgs3QJ3JLmN/hIVN7afUQuANZkigdrQWNahJbr+AJAmn20wDbCtzPGcioNkEDs9bX/tNIhgfO0QDuSop5mNu5bR+r/Cs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=QNqcc6R1; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="OlB6nsD5"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 66B00C0011;
-	Thu, 18 Jul 2024 06:56:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1721285821;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TgZHkXL2FGs1/bjZPDSboGR72yBe//NfgloPvNTjUQ0=;
-	b=OlB6nsD5RtGZmYjd7bhjEoZx7QMkbbOT8V45YhxxCFz4y2iiCJe+cf2PVPl+VsXD6UUMqk
-	Yc28bGhZQ13OubzP5CW/pjPqqFo91MRM0eVoREVGLvn0MLgNZy6pPxquFKWhNBkv4SbFT2
-	sax9ioW5vC5M5bokQz4XncM9ZdU0GCDemzBwA+l1XJdTnXTEUKHI48dxPqMAjv00+G3aQG
-	rBXI5/ojqb79XSjovNP74Rn6wSf1My85vfzfK9OmlUEoc3d8vGPg+knHhqSD5yHTRQLUcZ
-	BDxiKiWHxBRawYhcLiwX+N2Krj0xmgk4IRTokaqbJaztXMntEG+p6mo1v3ON7A==
-Date: Thu, 18 Jul 2024 08:56:51 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Stephen Boyd <sboyd@kernel.org>
-Cc: Aaro Koskinen <aaro.koskinen@iki.fi>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Alim Akhtar <alim.akhtar@samsung.com>,
- Andreas Kemnade <andreas@kemnade.info>, Bartosz Golaszewski
- <brgl@bgdev.pl>, Bjorn Andersson <andersson@kernel.org>, Broadcom internal
- kernel review list <bcm-kernel-feedback-list@broadcom.com>, Chen-Yu Tsai
- <wens@csie.org>, Chester Lin <chester62515@gmail.com>, Christophe Leroy
- <christophe.leroy@csgroup.eu>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Damien Le Moal <dlemoal@kernel.org>, Daniel Lezcano
- <daniel.lezcano@linaro.org>, Dong Aisheng <aisheng.dong@nxp.com>, Doug
- Berger <opendmb@gmail.com>, Emilio =?UTF-8?Q?L=C3=B3pez?=
- <emilio@elopez.com.ar>, Fabio Estevam <festevam@gmail.com>, Florian
- Fainelli <florian.fainelli@broadcom.com>, Ghennadi Procopciuc
- <ghennadi.procopciuc@oss.nxp.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Jacky Bai <ping.bai@nxp.com>, Jaroslav Kysela
- <perex@perex.cz>, Jernej Skrabec <jernej.skrabec@gmail.com>, Jiri Slaby 
- <jirislaby@kernel.org>, Jonathan Cameron <jic23@kernel.org>, Kevin Hilman
- <khilman@baylibre.com>, Krzysztof Kozlowski <krzk@kernel.org>, Lars-Peter
- Clausen <lars@metafoo.de>, Lee Jones <lee@kernel.org>, Liam Girdwood
- <lgirdwood@gmail.com>, Linus Walleij <linus.walleij@linaro.org>, Mark Brown
- <broonie@kernel.org>, Matthias Brugger <mbrugger@suse.com>, Michael
- Ellerman <mpe@ellerman.id.au>, Michael Turquette <mturquette@baylibre.com>,
- Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, Nicholas Piggin
- <npiggin@gmail.com>, Nicolas Ferre <nicolas.ferre@microchip.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, Richard Leitner
- <richard.leitner@linux.dev>, Rob Herring <robh@kernel.org>, Roger Quadros
- <rogerq@kernel.org>, Samuel Holland <samuel@sholland.org>, Saravana Kannan
- <saravanak@google.com>, Shawn Guo <shawnguo@kernel.org>, Takashi Iwai
- <tiwai@suse.com>, Thomas Gleixner  <tglx@linutronix.de>, Tony Lindgren
- <tony@atomide.com>, Uwe =?UTF-8?Q?Kleine-K=C3=B6nig?=
- <ukleinek@kernel.org>, "Peng Fan (OSS)" <peng.fan@oss.nxp.com>, Thomas
- Petazzoni <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, llvm@lists.linux.dev,
- linux-clk@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-serial@vger.kernel.org,
- linux-usb@vger.kernel.org, patches@opensource.cirrus.com,
- linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, Andre Przywara <andre.przywara@arm.com>,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Jonathan Cameron
- <Jonathan.Cameron@huawei.com>, Uwe =?UTF-8?Q?Kleine-K=C3=B6nig?=
- <u.kleine-koenig@baylibre.com>, Richard Fitzgerald
- <rf@opensource.cirrus.com>
-Subject: Re: [PATCH v2] of: remove internal arguments from
- of_property_for_each_u32()
-Message-ID: <20240718085651.63ddfb20@booty>
-In-Reply-To: <1e36b1ba8af3584128550822a70cb072.sboyd@kernel.org>
-References: <20240717-of_property_for_each_u32-v2-1-4060990f49c9@bootlin.com>
-	<1e36b1ba8af3584128550822a70cb072.sboyd@kernel.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="QNqcc6R1"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1fb4a807708so19612865ad.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 19 Jul 2024 09:19:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1721405942; x=1722010742; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZvTcywAcHnE3ccrA5W/X7F37iDdF0a7QIeZ/ZzqpasE=;
+        b=QNqcc6R1RHl37TEXMa99t5i+I+3pu/+rDY/Vi4X17TV4atQ+aTtY6Q7xcGfXSwSdkw
+         QyGRW2NU3/j3T7YUh8KeGi8Gr59aCCzy26M4dX05ilU4LRkZrZAakIx1ed4yys0iaQlY
+         Svmgw+MaXFpoPy6e9YDCIBEgV15j8s68YLroUxIUUf+a4OwH0V3INWubSakKuFbNi/S2
+         FDT7hqlTdDRvA0Vy/4/YKiEXeQZkaL+V0HTS0Mz2WGxrMDyI4+WdITKemKBF4oQ76odF
+         AVixov2I7lYcNtjVywyRxRjYLdrMoHN65do68h4p1y5HOHc8iNJt2jwbhmekfxt3V/B0
+         FfGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721405942; x=1722010742;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZvTcywAcHnE3ccrA5W/X7F37iDdF0a7QIeZ/ZzqpasE=;
+        b=Mknae+NbELY1QdH1SpH/FQKIYKZWAeBlPnJimauW3rXOA0O8stqsJSiQeoFUVohGu5
+         d9nkCt+92DiddCEx1nc5qzMFwlPVbqoyATqGGgVDXPOT7IY/IgQBAKQebpYAZupWB4LI
+         6gkpGOlDPLw6lAKzPnCJkxq2G4ghTQbCvuqAqGzYX8JdjlFTyR6Cr39sdBFSeb+PO4tN
+         TBpvKLwm2w5WNjwLbqKZLurDGaznYUBlPAA1HQIM1To8GiEEHZXgNhjC8jsl6Tazjhdn
+         jOC9/pnBt0Qa5OF3BmTi0D0wAS8YmlLVzC48jt3gS6Me2y93gwMUuTvHeUeAC5Tzxn45
+         YALA==
+X-Forwarded-Encrypted: i=1; AJvYcCVEOahFPBXsttRMyaLbeL+qNtVyricTm6BcVWzmxNkyQDfreBkAFUjIfL4FhAgPCS0z6H7wJg4lIrGjYQTJhZIJrcuT63TjMv64aaI=
+X-Gm-Message-State: AOJu0Yxs/zc+pZvbVAhvnUzAqEB3XDiOLhH8h5qDGaylqoVNRtfmFhx/
+	Ng5z/cjd2kqZl+VYXox7lD6ha9qEnYxXlqIr3KzHJDJ29ZDYHatsoBKktrMVRrk=
+X-Google-Smtp-Source: AGHT+IEnztRVjDBl/VXuUX5KyPM/Lh6IXEquqgPtuInDBAH8YRCYZbo+qv61JPxdW0gms+3mX11OPQ==
+X-Received: by 2002:a17:902:e547:b0:1fc:5879:1d08 with SMTP id d9443c01a7336-1fd7457cd31mr2957215ad.32.1721405942583;
+        Fri, 19 Jul 2024 09:19:02 -0700 (PDT)
+Received: from charlie.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fd6f490dcbsm6461435ad.297.2024.07.19.09.19.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Jul 2024 09:19:01 -0700 (PDT)
+From: Charlie Jenkins <charlie@rivosinc.com>
+Subject: [PATCH v5 00/13] riscv: Add support for xtheadvector
+Date: Fri, 19 Jul 2024 09:18:55 -0700
+Message-Id: <20240719-xtheadvector-v5-0-4b485fc7d55f@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-GND-Sasl: luca.ceresoli@bootlin.com
+X-B4-Tracking: v=1; b=H4sIAO+RmmYC/23OwW7DIAwG4FeJOI8JY0LCTn2PqocQzMJhyQQVa
+ lXl3eu2h3VRjr/l77dvolBOVMRXcxOZaippmTm0H40Yp2H+JpkCZ6GVNqpFJS/niYZQaTwvWfa
+ IAQN03mgUTH4zxXR51h1PnKdUeO36bK/wmL6KrHL/iypIJTFS6yB0EZQ75FSXkubxc1x+xKOr6
+ jcPm0eqZu+6wfQWcAjW7Hh899v7yN7HiI68s7anHW/+fKf0xhv22vPlXqvgATZ+Xdc7YF6gAGs
+ BAAA=
+To: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Paul Walmsley <paul.walmsley@sifive.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Samuel Holland <samuel.holland@sifive.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
+ Guo Ren <guoren@kernel.org>, Evan Green <evan@rivosinc.com>, 
+ Andy Chiu <andy.chiu@sifive.com>, Jessica Clarke <jrtc27@jrtc27.com>
+Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ Charlie Jenkins <charlie@rivosinc.com>, 
+ Conor Dooley <conor.dooley@microchip.com>, Heiko Stuebner <heiko@sntech.de>, 
+ Heiko Stuebner <heiko@sntech.de>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1721405940; l=6768;
+ i=charlie@rivosinc.com; s=20231120; h=from:subject:message-id;
+ bh=frqJw9BdGab/eG7UEYqHiUqCd0SF6PEuYJeaQAL1EDI=;
+ b=wJC99mGy7X3igQnBeFpXFDvIqTXJxBPFlXD2BrRsvp/Iv3yJbl8wHAh7Rt5pxK1hlXo5Fo+Id
+ xqMR0LZ9ohADW4pyJV0PHcP6v0pxl1sGig3xjMsxn8lXhw8/Qq1SsPQ
+X-Developer-Key: i=charlie@rivosinc.com; a=ed25519;
+ pk=t4RSWpMV1q5lf/NWIeR9z58bcje60/dbtxxmoSfBEcs=
 
-Hello Stephen,
+xtheadvector is a custom extension that is based upon riscv vector
+version 0.7.1 [1]. All of the vector routines have been modified to
+support this alternative vector version based upon whether xtheadvector
+was determined to be supported at boot.
 
-On Wed, 17 Jul 2024 16:33:34 -0700
-Stephen Boyd <sboyd@kernel.org> wrote:
+vlenb is not supported on the existing xtheadvector hardware, so a
+devicetree property thead,vlenb is added to provide the vlenb to Linux.
 
-> > @@ -1191,20 +1191,24 @@ static int si5351_dt_parse(struct i2c_client *client,
-> >          * property silabs,pll-source : <num src>, [<..>]
-> >          * allow to selectively set pll source
-> >          */
-> > -       of_property_for_each_u32(np, "silabs,pll-source", prop, p, num) {
-> > +       sz = of_property_read_variable_u32_array(np, "silabs,pll-source", array, 2, 4);
-> > +       sz = (sz == -EINVAL) ? 0 : sz; /* Missing property is OK */
-> > +       if (sz < 0)
-> > +               return dev_err_probe(&client->dev, sz, "invalid pll-source");  
-> 
-> Needs a newline on the printk message.
+There is a new hwprobe key RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0 that is
+used to request which thead vendor extensions are supported on the
+current platform. This allows future vendors to allocate hwprobe keys
+for their vendor.
 
-Ouch! Fix queued for v3.
+Support for xtheadvector is also added to the vector kselftests.
 
-Thanks,
-Luca
+Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
 
+[1] https://github.com/T-head-Semi/thead-extension-spec/blob/95358cb2cca9489361c61d335e03d3134b14133f/xtheadvector.adoc
+
+---
+This series is a continuation of a different series that was fragmented
+into two other series in an attempt to get part of it merged in the 6.10
+merge window. The split-off series did not get merged due to a NAK on
+the series that added the generic riscv,vlenb devicetree entry. This
+series has converted riscv,vlenb to thead,vlenb to remedy this issue.
+
+The original series is titled "riscv: Support vendor extensions and
+xtheadvector" [3].
+
+The series titled "riscv: Extend cpufeature.c to detect vendor
+extensions" is still under development and this series is based on that
+series! [4]
+
+I have tested this with an Allwinner Nezha board. I ran into issues
+booting the board after 6.9-rc1 so I applied these patches to 6.8. There
+are a couple of minor merge conflicts that do arrise when doing that, so
+please let me know if you have been able to boot this board with a 6.9
+kernel. I used SkiffOS [1] to manage building the image, but upgraded
+the U-Boot version to Samuel Holland's more up-to-date version [2] and
+changed out the device tree used by U-Boot with the device trees that
+are present in upstream linux and this series. Thank you Samuel for all
+of the work you did to make this task possible.
+
+[1] https://github.com/skiffos/SkiffOS/tree/master/configs/allwinner/nezha
+[2] https://github.com/smaeul/u-boot/commit/2e89b706f5c956a70c989cd31665f1429e9a0b48
+[3] https://lore.kernel.org/all/20240503-dev-charlie-support_thead_vector_6_9-v6-0-cb7624e65d82@rivosinc.com/
+[4] https://lore.kernel.org/linux-riscv/20240609-support_vendor_extensions-v2-0-9a43f1fdcbb9@rivosinc.com/
+
+---
+Changes in v5:
+- Rebase on for-next
+- Link to v4: https://lore.kernel.org/r/20240702-xtheadvector-v4-0-2bad6820db11@rivosinc.com
+
+Changes in v4:
+- Replace inline asm with C (Samuel)
+- Rename VCSRs to CSRs (Samuel)
+- Replace .insn directives with .4byte directives
+- Link to v3: https://lore.kernel.org/r/20240619-xtheadvector-v3-0-bff39eb9668e@rivosinc.com
+
+Changes in v3:
+- Add back Heiko's signed-off-by (Conor)
+- Mark RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0 as a bitmask
+- Link to v2: https://lore.kernel.org/r/20240610-xtheadvector-v2-0-97a48613ad64@rivosinc.com
+
+Changes in v2:
+- Removed extraneous references to "riscv,vlenb" (Jess)
+- Moved declaration of "thead,vlenb" into cpus.yaml and added
+  restriction that it's only applicable to thead cores (Conor)
+- Check CONFIG_RISCV_ISA_XTHEADVECTOR instead of CONFIG_RISCV_ISA_V for
+  thead,vlenb (Jess)
+- Fix naming of hwprobe variables (Evan)
+- Link to v1: https://lore.kernel.org/r/20240609-xtheadvector-v1-0-3fe591d7f109@rivosinc.com
+
+---
+Charlie Jenkins (12):
+      dt-bindings: riscv: Add xtheadvector ISA extension description
+      dt-bindings: cpus: add a thead vlen register length property
+      riscv: dts: allwinner: Add xtheadvector to the D1/D1s devicetree
+      riscv: Add thead and xtheadvector as a vendor extension
+      riscv: vector: Use vlenb from DT for thead
+      riscv: csr: Add CSR encodings for CSR_VXRM/CSR_VXSAT
+      riscv: Add xtheadvector instruction definitions
+      riscv: vector: Support xtheadvector save/restore
+      riscv: hwprobe: Add thead vendor extension probing
+      riscv: hwprobe: Document thead vendor extensions and xtheadvector extension
+      selftests: riscv: Fix vector tests
+      selftests: riscv: Support xtheadvector in vector tests
+
+Heiko Stuebner (1):
+      RISC-V: define the elements of the VCSR vector CSR
+
+ Documentation/arch/riscv/hwprobe.rst               |  10 +
+ Documentation/devicetree/bindings/riscv/cpus.yaml  |  19 ++
+ .../devicetree/bindings/riscv/extensions.yaml      |  10 +
+ arch/riscv/Kconfig.vendor                          |  26 ++
+ arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi      |   3 +-
+ arch/riscv/include/asm/cpufeature.h                |   2 +
+ arch/riscv/include/asm/csr.h                       |  15 ++
+ arch/riscv/include/asm/hwprobe.h                   |   5 +-
+ arch/riscv/include/asm/switch_to.h                 |   2 +-
+ arch/riscv/include/asm/vector.h                    | 223 ++++++++++++----
+ arch/riscv/include/asm/vendor_extensions/thead.h   |  42 +++
+ .../include/asm/vendor_extensions/thead_hwprobe.h  |  18 ++
+ .../include/asm/vendor_extensions/vendor_hwprobe.h |  37 +++
+ arch/riscv/include/uapi/asm/hwprobe.h              |   3 +-
+ arch/riscv/include/uapi/asm/vendor/thead.h         |   3 +
+ arch/riscv/kernel/cpufeature.c                     |  54 +++-
+ arch/riscv/kernel/kernel_mode_vector.c             |   8 +-
+ arch/riscv/kernel/process.c                        |   4 +-
+ arch/riscv/kernel/signal.c                         |   6 +-
+ arch/riscv/kernel/sys_hwprobe.c                    |   5 +
+ arch/riscv/kernel/vector.c                         |  24 +-
+ arch/riscv/kernel/vendor_extensions.c              |  10 +
+ arch/riscv/kernel/vendor_extensions/Makefile       |   2 +
+ arch/riscv/kernel/vendor_extensions/thead.c        |  18 ++
+ .../riscv/kernel/vendor_extensions/thead_hwprobe.c |  19 ++
+ tools/testing/selftests/riscv/abi/ptrace           | Bin 0 -> 759368 bytes
+ tools/testing/selftests/riscv/vector/.gitignore    |   3 +-
+ tools/testing/selftests/riscv/vector/Makefile      |  17 +-
+ .../selftests/riscv/vector/v_exec_initval_nolibc.c |  93 +++++++
+ tools/testing/selftests/riscv/vector/v_helpers.c   |  67 +++++
+ tools/testing/selftests/riscv/vector/v_helpers.h   |   7 +
+ tools/testing/selftests/riscv/vector/v_initval.c   |  22 ++
+ .../selftests/riscv/vector/v_initval_nolibc.c      |  68 -----
+ .../selftests/riscv/vector/vstate_exec_nolibc.c    |  20 +-
+ .../testing/selftests/riscv/vector/vstate_prctl.c  | 295 ++++++++++++---------
+ 35 files changed, 887 insertions(+), 273 deletions(-)
+---
+base-commit: 554462ced9ac97487c8f725fe466a9c20ed87521
+change-id: 20240530-xtheadvector-833d3d17b423
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+- Charlie
+
