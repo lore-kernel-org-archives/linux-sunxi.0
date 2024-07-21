@@ -1,130 +1,157 @@
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3C9212EBE1
-	for <linux-sunxi@lists.linux.dev>; Sat, 20 Jul 2024 17:14:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
+Received: from smtpfb1-g21.free.fr (smtpfb1-g21.free.fr [212.27.42.9])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A0314400
+	for <linux-sunxi@lists.linux.dev>; Sun, 21 Jul 2024 17:49:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721495662; cv=none; b=dsELI1P0+a0WzcdtV5JN5WwaVdR99oZ0nyco4yMl3LnXt56OLZGdy3AOz9Qw1Ar79t9tHFUpNZ85YcTyw1cFRjgzvFg1SxwUO8TftegPgQbIZejVnEe/TiXJNI0EtklnZTmiK4ZEzgJUvLFGxI3ezVnVfjlXF+851D5lXv8CloM=
+	t=1721584152; cv=none; b=bDtmM2F8v5r/zk3ULkZHaWjYWCde/LadIhU1ReqVp5dK8xpEb0VfWWsjzVKes4qFSWUyNe0+cofiK0bwFvj07lDmZiYHmFBB5vdi//suSF69Dq0fcPc+AUdciKKNElzcjiTP/l1x0E71s5vAtHbsLAE4xghHCwu+nkrXrc+Z9Ow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721495662; c=relaxed/simple;
-	bh=OyN3ZWdPIPj2MOFpYW4ki2sZjTT2bQzpVNtgtoKSR/Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=he6eISVj29nto2pChd63FwYldkgseArW9dns9I3Q7K+33HwFpcJC0WxvChbdDvC1LHOoKyqixBrQVRBQhO5oEMqkHRh89Z/oqxlCem/Il9jJoYOAADnZ7tl31RCaDWT3GYvN0oxEhmT8IXEiGHEYjHCKvXk9fvOnILP4wK2DUiw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=konsulko.com; spf=pass smtp.mailfrom=konsulko.com; dkim=pass (1024-bit key) header.d=konsulko.com header.i=@konsulko.com header.b=qZKbFnZ4; arc=none smtp.client-ip=209.85.210.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=konsulko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=konsulko.com
+	s=arc-20240116; t=1721584152; c=relaxed/simple;
+	bh=3uqE0qV1jieKAoiymx0Gu0bjGrvSXKALH68K4QQeE/Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Ycuk6uBo2cEUutmeWdcKfAtgW3PN8Xnqr3taIlS5L0+M4VQbm30zcU5hq/Zza5XOHIqsNFoq5nRmhF10f6nYvjirVk8qEesnP6etkqaQK4K9YbmwvAhGECgUpbFcHO0yGlaBZ2MX2+T7dPPf0FUsU1V6A3oQKh7bm1wfaUpv+Ro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=free.fr; spf=pass smtp.mailfrom=free.fr; dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b=SxtDaVwV; arc=none smtp.client-ip=212.27.42.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=free.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=konsulko.com header.i=@konsulko.com header.b="qZKbFnZ4"
-Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-7035b717880so1762566a34.1
-        for <linux-sunxi@lists.linux.dev>; Sat, 20 Jul 2024 10:14:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1721495659; x=1722100459; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8loVbkb8m8vGN6/0kVpkglgJYN9ScAPRJ8PdoeWP720=;
-        b=qZKbFnZ4xVLcCNmIFFrpULC9su/I+l+8MEHQR5y6sNxAwQ+uIyc1jafCRB/EJ9SbGF
-         8klYjMKu1QGn2K6NfJwjWPu0B85pBDORE3KLm3vwXpQjqQvdsCu9ricoYzRAU/GvYcm/
-         XjZ/+k74fR+aaFCH0r7k3S+B4NurwXQ+8RFLo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721495659; x=1722100459;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8loVbkb8m8vGN6/0kVpkglgJYN9ScAPRJ8PdoeWP720=;
-        b=PZ0uX3YETM5LeJwrNkLwFoAM8/SwD5kV/51bdCL22t0+DGtSqArFwWYFt4tbbn8wpU
-         YruWirV7wuTMNNU2OCugbE2kkNn/14z/JZwke+B2PJIhrfJRgQs+oQyDeyiT6RsVuZXl
-         kzuNBR8xStfbH6okIgoGf7n0kU06oK2NSZ3lrAlHtCUZrMiQtIBqEiy6DoiJzRkpfm+S
-         ZLUmPvqdzQUEWLmlMq8SqT0YHN35Wfa2qljzZcTb+AS5W1IqxUi+kGRbU9ZC6us0qi4t
-         EhFHvCQ3mHSA2RZ/yUqGBgwKMVBJkBVYnHHoJIM/X7dOqNMb8GFq7nX7WEIP6CDJiuT+
-         FzcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVUTkVh9EOvFLCgA1qTYo3yq/WJQf2hvR8afiOpV9q6YIArBcCmbIqI4l3aGFdAVmwoij1uo6fd114+L7uNlY5z0JiCPhDRZujw+pI=
-X-Gm-Message-State: AOJu0YyV0CcCyRWNJKIR6yk/7GibyVOKrS//A/KiI+g7Mzw53E9m9dZA
-	e4VO3LcnV0dM+ZIw84SnIMQBtJOzchQ7sTS89BGZmJpxVWr4cfaFGzHFc5JvAxo=
-X-Google-Smtp-Source: AGHT+IGfUJ1Wonm6IyIgH0EF61tRcgqSPgMxUJUAlzn4LYw3brdx7sYrSussEET44zyo1B9f84HQXw==
-X-Received: by 2002:a05:6830:378d:b0:704:49d1:6c93 with SMTP id 46e09a7af769-708fdb3b456mr1457847a34.5.1721495659173;
-        Sat, 20 Jul 2024 10:14:19 -0700 (PDT)
-Received: from bill-the-cat (fixed-189-203-103-45.totalplay.net. [189.203.103.45])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-708f6195e28sm773993a34.75.2024.07.20.10.14.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Jul 2024 10:14:18 -0700 (PDT)
-Date: Sat, 20 Jul 2024 11:14:15 -0600
-From: Tom Rini <trini@konsulko.com>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: u-boot@lists.denx.de, Jagan Teki <jagan@amarulasolutions.com>,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] sunxi: dts: arm/arm64: update devicetree files from
- Linux-v6.10
-Message-ID: <20240720171415.GG561963@bill-the-cat>
-References: <20240717143415.343827-1-andre.przywara@arm.com>
- <20240717175153.GR561963@bill-the-cat>
- <191A0F66-E2AE-4D1B-ACBE-E411E135BB61@arm.com>
+	dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b="SxtDaVwV"
+Received: from smtp6-g21.free.fr (smtp6-g21.free.fr [212.27.42.6])
+	by smtpfb1-g21.free.fr (Postfix) with ESMTP id 4D88D93095F
+	for <linux-sunxi@lists.linux.dev>; Sun, 21 Jul 2024 19:49:00 +0200 (CEST)
+Received: from win10. (unknown [91.165.221.98])
+	(Authenticated sender: michel.promonet@free.fr)
+	by smtp6-g21.free.fr (Postfix) with ESMTPSA id 42FA2780511;
+	Sun, 21 Jul 2024 19:48:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
+	s=smtp-20201208; t=1721584132;
+	bh=3uqE0qV1jieKAoiymx0Gu0bjGrvSXKALH68K4QQeE/Q=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=SxtDaVwVkGt/RPdGnZC6r6w2sYQOS+X3Xl/HCKxQl75FPc6tXdScQeRQijt0fTy4A
+	 43AFb5JP1EA5pxZv0XugNDqQWhuqnSy86+p9osnxQKNRTpdTk/YbzOmyTTSud7VBsF
+	 vRpdg7mFzhCWzcifm2tHk6TVbqApHHiCQNivoSbkOeIqfGh1++WfXrP8wIUSJLJ/Y7
+	 fa1NK4/eR/Jqr9++dygRnsuqG65xuI+IpoE49tn6lV6mI3dlK/dri/REoCwFgo4E8E
+	 DGMaScf8x+nvpG4/HhMFxBi9FjDIhbbKMKMOQHVkXrcUFJHXrglGlUfwdytRr22YKL
+	 JoPolmZ+wAVeQ==
+From: Michel Promonet <michel.promonet@free.fr>
+To: linux-sunxi@lists.linux.dev
+Cc: Michel Promonet <michel.promonet@free.fr>
+Subject: [PATCH] sunxi: add csi video support for nanopi-neo-air
+Date: Sun, 21 Jul 2024 19:48:14 +0200
+Message-ID: <20240721174832.11916-1-michel.promonet@free.fr>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <michel.promonet@free.fr>
+References: <michel.promonet@free.fr>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="xTSkFB0xJ5Uan9zl"
-Content-Disposition: inline
-In-Reply-To: <191A0F66-E2AE-4D1B-ACBE-E411E135BB61@arm.com>
-X-Clacks-Overhead: GNU Terry Pratchett
+Content-Transfer-Encoding: 8bit
 
+---
+ .../dts/allwinner/sun8i-h3-nanopi-neo-air.dts | 85 +++++++++++++++++++
+ 1 file changed, 85 insertions(+)
 
---xTSkFB0xJ5Uan9zl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+diff --git a/arch/arm/boot/dts/allwinner/sun8i-h3-nanopi-neo-air.dts b/arch/arm/boot/dts/allwinner/sun8i-h3-nanopi-neo-air.dts
+index 6d85370e04f1..bab171e1d449 100644
+--- a/arch/arm/boot/dts/allwinner/sun8i-h3-nanopi-neo-air.dts
++++ b/arch/arm/boot/dts/allwinner/sun8i-h3-nanopi-neo-air.dts
+@@ -77,6 +77,39 @@ wifi_pwrseq: pwrseq {
+ 		compatible = "mmc-pwrseq-simple";
+ 		reset-gpios = <&r_pio 0 7 GPIO_ACTIVE_LOW>; /* PL7 */
+ 	};
++
++        cam_xclk: cam-xclk {
++                #clock-cells = <0>;
++                compatible = "fixed-clock";
++                clock-frequency = <24000000>;
++                clock-output-names = "cam-xclk";
++        };
++
++        reg_cam_avdd: cam-avdd {
++                compatible = "regulator-fixed";
++                regulator-name = "cam-avdd";
++                regulator-min-microvolt = <2800000>;
++                regulator-max-microvolt = <2800000>;
++                vin-supply = <&reg_vcc3v3>;
++        };
++
++        reg_cam_dovdd: cam-dovdd {
++                compatible = "regulator-fixed";
++                regulator-name = "cam-dovdd";
++                regulator-min-microvolt = <1800000>;
++                regulator-max-microvolt = <1800000>;
++                vin-supply = <&reg_vcc3v3>;
++        };
++
++        reg_cam_dvdd: cam-dvdd {
++                compatible = "regulator-fixed";
++                regulator-name = "cam-dvdd";
++                regulator-min-microvolt = <1500000>;
++                regulator-max-microvolt = <1500000>;
++                vin-supply = <&reg_vcc3v3>;
++        };
++
++
+ };
+ 
+ &mmc0 {
+@@ -141,3 +174,55 @@ &usbphy {
+ 	/* USB VBUS is always on */
+ 	status = "okay";
+ };
++
++&csi {
++    status = "okay";
++
++    port {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        /* Parallel bus endpoint */
++        csi_from_ov5640: endpoint {
++            remote-endpoint = <&ov5640_to_csi>;
++            bus-width = <8>;
++            data-shift = <2>;
++            hsync-active = <1>; /* Active high */
++            vsync-active = <0>; /* Active low */
++            data-active = <1>;  /* Active high */
++            pclk-sample = <1>;  /* Rising */
++        };
++    };
++};
++
++&i2c2 {
++   status = "okay";
++
++   ov5640: camera@3c {
++        compatible = "ovti,ov5640";
++        reg = <0x3c>;
++        clocks = <&cam_xclk>;
++        clock-names = "xclk";
++
++        reset-gpios = <&pio 4 14 GPIO_ACTIVE_LOW>;
++        powerdown-gpios = <&pio 4 15 GPIO_ACTIVE_HIGH>;
++        AVDD-supply = <&reg_cam_avdd>;
++        DOVDD-supply = <&reg_cam_dovdd>;
++        DVDD-supply = <&reg_cam_dvdd>;
++
++        port {
++            ov5640_to_csi: endpoint {
++                remote-endpoint = <&csi_from_ov5640>;
++                bus-width = <8>;
++                data-shift = <2>;
++                hsync-active = <1>; /* Active high */
++                vsync-active = <0>; /* Active low */
++                data-active = <1>;  /* Active high */
++                pclk-sample = <1>;  /* Rising */
++            };
++        };
++    };
++};
++&i2c2_pins {
++   bias-pull-up;
++};
+-- 
+2.43.0
 
-On Fri, Jul 19, 2024 at 11:21:54PM +0100, Andre Przywara wrote:
-> Hi Tom,
-> Sorry for top posting, am on the road.
->=20
-> First: The Allwinner drivers in U-Boot work with mainline kernel DTs for =
-ages, so there are no code changes required.
-> We manually sync the DTs from the kernel for years, but I always do one c=
-hange:
->=20
-> In kernel v5.13 the Allwinner IRQ controller (not the GIC) DT binding and=
- DTs changed in an incompatible way, and some critical devices now route th=
-eir IRQ through that controller instead of to the GIC. If an older kernel s=
-ees such a new DT, some critical devices fail to probe due to that, and the=
- kernel does not boot. Using the old DT routing fixes that, at the expense =
-of losing some advanced power saving features.
-> So in the interest of  better compatibility with older kernels and $fdtco=
-ntroladdr (default for UEFI boot), I always kept the old way during the U-B=
-oot sync. This affects all devices with the popular H3, A64 and H6 SoCs, am=
-ong others. A20 and older or H616s are not affected.
->=20
-> So my plan was to migrate the latter group ASAP (after the v6.10 sync), a=
-nd then maybe the others in the next cycle, which means pulling the plug on=
- original Debian Buster kernels, for instance. 5.13 is three years old by n=
-ow, so I guess this might be fine now.
->=20
-> Does that make sense?
-
-Yes, that sounds reasonable, thanks for explaining.
-
---=20
-Tom
-
---xTSkFB0xJ5Uan9zl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQGyBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmab8GcACgkQFHw5/5Y0
-tywviwv3eqNqWeeffp2JhUfw4aW60YZQZ4PtvZ7oaqtrzqVzwj82AOfY3T5ihh3F
-6nw3l15O4qDDXeUY++MCMHxQ+w6Gm0sKmpk9p7B0mV7xTKsq2lp7YghVzG1Y/vzg
-ATYmfaw6Nw0pHXOljIrO0Fg05bUUV6OUwhqlx9/5Teahpqh4i+3FuAieZqafWITK
-DBBCcTsBS0S7ZDBNVEsaYwQtQqalE5HskUCktTnTU6A2CJvUWHIQ9O9IzbSsOEjg
-wtIuNQWbbSAvbCU3kG8BsuUKbYK8mUbLYWDx1nPHUsgrz3xMl5rRyTy2NmIiF11N
-9kHz7Vsc1T+3sK4mx0B4gUBzL9zFGv8cUHfl6KrUrPNEybGKDpRynyIea327U45G
-QpwTeKsoB/OtpE1FUEgpFZ6M449n7iQEpcZ0hFHPf8oYUwBNOvRGbuMUltnrfRZ/
-0rNWZWEfdHQN5Pqc+cfT/GMnJHnBbEJgp3R72V5QSW0Yar0fG9eXiB3/9GTuFwhD
-X6pKsO4=
-=HQMt
------END PGP SIGNATURE-----
-
---xTSkFB0xJ5Uan9zl--
