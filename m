@@ -1,213 +1,190 @@
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD3C38DC7
-	for <linux-sunxi@lists.linux.dev>; Mon, 22 Jul 2024 18:47:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.48
+Received: from smtpfb2-g21.free.fr (smtpfb2-g21.free.fr [212.27.42.10])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 416941C6A8
+	for <linux-sunxi@lists.linux.dev>; Mon, 22 Jul 2024 20:55:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721674054; cv=none; b=KTBRJM0SGK9MdTk1AzaKLRDjz30zZe68NWxOiKkBwCV7gMF6To1nSKoF1eT1xqXR9LtiNl2uOYy9YwH4GNSjIh3jAwGU+s5oRe/klpStBXL7+ohGn9ilhzLN5L1utgkH9z3Snl6eYhXbeRLASzTLkP3AGUwvmewo4BSKRXhKHQM=
+	t=1721681733; cv=none; b=qjbO+n9Sn/WBGeuwZOzOoYBryBBMMecZXVaJ3HuiRqgvkL4DBFgccSfT8ezNrgZHuKVBZQjHNiOXZJgaIxoGuln7OBRpOoo4CqV3iXJkLEXNXnCgvRKO1pMR8FcGvlPk1k7lH+W4eLZPxqgMK7OfrFXWKHRBeTX1QbkwOPH7qDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721674054; c=relaxed/simple;
-	bh=asA28J//MR/tZw5E77Yd89aREdVKDUWw1npsUkxp9pc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j0gFVqJ0m/M3eGdqQN3PZg9af52FRTs5AkCJ1UbdoSBiqY4LEdE3UWsaMprNdIPSN0Qajo20oxLrlvCseVKkIiZYwDoN/6yqOgWqjPBxL8tMUEm7JOsRHcib+nt6iWUxqbO8DneA8oDxQpYDlY0BQSxLv0V0MIiiKnfwsh+aeJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=KXCEJLPH; arc=none smtp.client-ip=209.85.166.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
+	s=arc-20240116; t=1721681733; c=relaxed/simple;
+	bh=jsUHexksoByqvy5GER9YIilq8psp5584Ip+Y338o2Gg=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:Subject:MIME-Version:
+	 Content-Type; b=FlibgdIkkfjroamb5o58W8ZNLcRy/suZ4h5jLeYXnHJOGQ0aFE7pW4mBqOyKKk5a7X3n6HuLFSNP/8ZNOmmZxXBIjw8IQhSSSsUsCEb9naGFFPJTw7V+P3ycn6QyViq+03Tm3dBOaDf6Ig/ZywHFSrtwIy/cWn82Ruvte383uHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=free.fr; spf=pass smtp.mailfrom=free.fr; dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b=nQnj8tkF; arc=none smtp.client-ip=212.27.42.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=free.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="KXCEJLPH"
-Received: by mail-io1-f48.google.com with SMTP id ca18e2360f4ac-8152f0c63c1so180747239f.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 22 Jul 2024 11:47:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1721674051; x=1722278851; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OzTRfDaexdJXU/NKu+dqGzHLJmOKAxsba4iUWApjtBs=;
-        b=KXCEJLPHvXPlLb83tXLV72iwrCgT4X7epVyG8a3Ozl4uQhHS9AIHiNlygKyJM58cGa
-         DtZnySSItedxO7IRgL6eACiwQ/EpTLVmJpuZZwEL9Z9sn3dF73lb7t4WayoWGuTSFTS4
-         QP0SpDZ8i5ehLctCBPP2NdnPGGmepVu84U1aBUHXz03rPaohM/u+mGF2MUj9KamHiT2t
-         usddQku1z7r2RYosVw+CdkFhLAQEIgKErvSkrIafhcV/v7Mu4cHEuj+Kqpu0qzGNYaW0
-         cXWB2dZjybcsKjpmNTo9Y7PaNu2d54+takV60mguO+YI9I6Rlwnq1rk72yVQc6YQww59
-         Z13Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721674051; x=1722278851;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OzTRfDaexdJXU/NKu+dqGzHLJmOKAxsba4iUWApjtBs=;
-        b=XoADS2fuzrb3fQNrU/fRhrdo2/3FMvUbHgARx2jfRqkjyBicOzNh2eUJATqhfP2Zko
-         DgV+SF6HXJ8sr+5Pz9FPKESGxRZSkZn2Zto80T+M9vMV/PDNM/rCW0D6fbfqoPPc3gI9
-         PjJ3Vik8AxFxnOAmm7iROk/MekE+abQVFcyc4OwLljYKKk5hYJPsudbB4I95x1VHKmo8
-         WcjF/eWJ2CQI8+g7zMsmpvlJxzDOFX70Oa1Y5zpAAW20nJTt9A39+PyGbcNHIkrte/6T
-         D7aXJgdWdMR/RusGyUx9CPU0MIeG3Ee74ojhWEuFuFT5sG9gFFY2ocMQtWcOmLldqMMN
-         g0CA==
-X-Forwarded-Encrypted: i=1; AJvYcCWCItzX2UvNNMcOuq+eQwB2pUtCJtJzu0RpOxxILxUxZsRnmk78JzOpKDMERlryLDoFannQuKHwaRPqGbSqjtFEfHWbyfPy5VXWK78=
-X-Gm-Message-State: AOJu0YxiukrPjdrMCH3uLzD0IDEoWBi0j/OoFAjKWEEuSRkH+Ja0cXrC
-	7XABvQIMgkglx6wgTTCnPSEjfpEGTvZ/NcZ4WfiwPAFbMRVOVI0aIfsjOcDmVVo=
-X-Google-Smtp-Source: AGHT+IFOuPIoea3HTs+tbRyLXH40CUhD1wo+gozLPHK8gHW5C0xpq+X2GQXcdlWAxPs41NzeH0m9PA==
-X-Received: by 2002:a05:6602:48d:b0:804:2b28:75db with SMTP id ca18e2360f4ac-81ea3b3a2cfmr103988639f.10.1721674051211;
-        Mon, 22 Jul 2024 11:47:31 -0700 (PDT)
-Received: from localhost ([140.82.166.162])
-        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-819abb08682sm258753339f.1.2024.07.22.11.47.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jul 2024 11:47:30 -0700 (PDT)
-Date: Mon, 22 Jul 2024 13:47:29 -0500
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Samuel Holland <samuel.holland@sifive.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
-	Guo Ren <guoren@kernel.org>, Evan Green <evan@rivosinc.com>, Andy Chiu <andy.chiu@sifive.com>, 
-	Jessica Clarke <jrtc27@jrtc27.com>, linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v5 12/13] selftests: riscv: Fix vector tests
-Message-ID: <20240722-0940cd64c0d8bb03f2427022@orel>
-References: <20240719-xtheadvector-v5-0-4b485fc7d55f@rivosinc.com>
- <20240719-xtheadvector-v5-12-4b485fc7d55f@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b="nQnj8tkF"
+Received: from smtp5-g21.free.fr (smtp5-g21.free.fr [212.27.42.5])
+	by smtpfb2-g21.free.fr (Postfix) with ESMTP id 7904A42D705
+	for <linux-sunxi@lists.linux.dev>; Mon, 22 Jul 2024 22:55:26 +0200 (CEST)
+Received: from zimbra21-e3.priv.proxad.net (unknown [172.20.243.171])
+	by smtp5-g21.free.fr (Postfix) with ESMTP id CF3C960134;
+	Mon, 22 Jul 2024 22:55:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
+	s=smtp-20201208; t=1721681718;
+	bh=jsUHexksoByqvy5GER9YIilq8psp5584Ip+Y338o2Gg=;
+	h=Date:From:To:Cc:In-Reply-To:Subject:From;
+	b=nQnj8tkFSOnsuB4gePxfyr/3QxuXVIiXdeeJe14sVSNpI/6l8dPBNFWUnljwTCINB
+	 QvGpxtrPbIgzGgN/g38dwg8bs/5IGa02ofhm23cTGBckEkH1z81aDQzduy/aMAEgyP
+	 gOe5mVQtwXMMhWH9GP0iz9oYoUADEp71oQ+XIP4UrM0Qq/SchOw2NbEt3kixGqSVbS
+	 Fyy3WA9ko4+MgLO+Rhr4DTf40tE97UV3BRUt/BdAW4guVJ+UkKgZagrJa9manc7LtU
+	 wzGRxhLYmb/VX1H0ZzgMBc7I9vMEQa2aHJVSi3hSYATQHLlwmo6px1xg14KJGpVpv7
+	 0E3g6sF/m1/6g==
+Date: Mon, 22 Jul 2024 22:55:18 +0200 (CEST)
+From: michel.promonet@free.fr
+To: wens@kernel.org
+Cc: linux-sunxi@lists.linux.dev
+Message-ID: <1952918170.10546380.1721681718378.JavaMail.root@zimbra21-e3.priv.proxad.net>
+In-Reply-To: <CAGb2v64ANoSb==Ni4XYf7nrD-ktZLJejc2JfQ8+JE2eOqvjG8Q@mail.gmail.com>
+Subject: Re: [PATCH] sunxi: add csi video support for nanopi-neo-air
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240719-xtheadvector-v5-12-4b485fc7d55f@rivosinc.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Zimbra 7.2.0-GA2598 (ZimbraWebClient - GC126 (Win)/7.2.0-GA2598)
+X-Authenticated-User: michel.promonet@free.fr
 
-On Fri, Jul 19, 2024 at 09:19:07AM GMT, Charlie Jenkins wrote:
-> Overhaul the riscv vector tests to use kselftest_harness to help the
-> test cases correctly report the results and decouple the individual test
-> cases from each other. With this refactoring, only run the test cases is
-> vector is reported and properly report the test case as skipped
-> otherwise. The v_initval_nolibc test was previously not checking if
-> vector was supported and used a function (malloc) which invalidates
-> the state of the vector registers.
-> 
-> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+Hi ChenYu,
+
+Thanks for your feedback.
+As the documentation of nanopi neo air seems to only describe CAM500A/CAM50=
+0B using ov5640, I was wondering this was acceptable.
+
+Best Regards,
+Michel.
+
+----- Mail original -----
+De: "Chen-Yu Tsai" <wens@kernel.org>
+=C3=80: "Michel Promonet" <michel.promonet@free.fr>
+Cc: linux-sunxi@lists.linux.dev
+Envoy=C3=A9: Lundi 22 Juillet 2024 07:01:04
+Objet: Re: [PATCH] sunxi: add csi video support for nanopi-neo-air
+
+On Mon, Jul 22, 2024 at 1:49=E2=80=AFAM Michel Promonet <michel.promonet@fr=
+ee.fr> wrote:
+
+This is an attached module, not directly on the board. As such we won't
+accept the change to the board dts.
+
+Also, this is not the correct format for a patch. This needs a proper commi=
+t
+message, and your Signed-off-by.
+
+See Documentation/process/submitting-patches.rst.
+
+
+ChenYu
+
 > ---
->  tools/testing/selftests/riscv/abi/ptrace           | Bin 0 -> 759368 bytes
->  tools/testing/selftests/riscv/vector/.gitignore    |   3 +-
->  tools/testing/selftests/riscv/vector/Makefile      |  17 +-
->  .../selftests/riscv/vector/v_exec_initval_nolibc.c |  84 +++++++
->  tools/testing/selftests/riscv/vector/v_helpers.c   |  56 +++++
->  tools/testing/selftests/riscv/vector/v_helpers.h   |   5 +
->  tools/testing/selftests/riscv/vector/v_initval.c   |  16 ++
->  .../selftests/riscv/vector/v_initval_nolibc.c      |  68 ------
->  .../testing/selftests/riscv/vector/vstate_prctl.c  | 266 ++++++++++++---------
->  9 files changed, 324 insertions(+), 191 deletions(-)
-> 
-> diff --git a/tools/testing/selftests/riscv/abi/ptrace b/tools/testing/selftests/riscv/abi/ptrace
-> new file mode 100755
-> index 000000000000..2b03e77b4dcf
-> Binary files /dev/null and b/tools/testing/selftests/riscv/abi/ptrace differ
-> diff --git a/tools/testing/selftests/riscv/vector/.gitignore b/tools/testing/selftests/riscv/vector/.gitignore
-> index 9ae7964491d5..7d9c87cd0649 100644
-> --- a/tools/testing/selftests/riscv/vector/.gitignore
-> +++ b/tools/testing/selftests/riscv/vector/.gitignore
-> @@ -1,3 +1,4 @@
->  vstate_exec_nolibc
->  vstate_prctl
-> -v_initval_nolibc
-> +v_initval
-> +v_exec_initval_nolibc
-> diff --git a/tools/testing/selftests/riscv/vector/Makefile b/tools/testing/selftests/riscv/vector/Makefile
-> index bfff0ff4f3be..995746359477 100644
-> --- a/tools/testing/selftests/riscv/vector/Makefile
-> +++ b/tools/testing/selftests/riscv/vector/Makefile
-> @@ -2,18 +2,27 @@
->  # Copyright (C) 2021 ARM Limited
->  # Originally tools/testing/arm64/abi/Makefile
->  
-> -TEST_GEN_PROGS := vstate_prctl v_initval_nolibc
-> -TEST_GEN_PROGS_EXTENDED := vstate_exec_nolibc
-> +TEST_GEN_PROGS := v_initval vstate_prctl
-> +TEST_GEN_PROGS_EXTENDED := vstate_exec_nolibc v_exec_initval_nolibc sys_hwprobe.o v_helpers.o
->  
->  include ../../lib.mk
->  
-> -$(OUTPUT)/vstate_prctl: vstate_prctl.c ../hwprobe/sys_hwprobe.S
-> +$(OUTPUT)/sys_hwprobe.o: ../hwprobe/sys_hwprobe.S
-> +	$(CC) -static -c -o$@ $(CFLAGS) $^
+>  .../dts/allwinner/sun8i-h3-nanopi-neo-air.dts | 85 +++++++++++++++++++
+>  1 file changed, 85 insertions(+)
+>
+> diff --git a/arch/arm/boot/dts/allwinner/sun8i-h3-nanopi-neo-air.dts b/ar=
+ch/arm/boot/dts/allwinner/sun8i-h3-nanopi-neo-air.dts
+> index 6d85370e04f1..bab171e1d449 100644
+> --- a/arch/arm/boot/dts/allwinner/sun8i-h3-nanopi-neo-air.dts
+> +++ b/arch/arm/boot/dts/allwinner/sun8i-h3-nanopi-neo-air.dts
+> @@ -77,6 +77,39 @@ wifi_pwrseq: pwrseq {
+>                 compatible =3D "mmc-pwrseq-simple";
+>                 reset-gpios =3D <&r_pio 0 7 GPIO_ACTIVE_LOW>; /* PL7 */
+>         };
 > +
-> +$(OUTPUT)/v_helpers.o: v_helpers.c
-> +	$(CC) -static -c -o$@ $(CFLAGS) $^
+> +        cam_xclk: cam-xclk {
+> +                #clock-cells =3D <0>;
+> +                compatible =3D "fixed-clock";
+> +                clock-frequency =3D <24000000>;
+> +                clock-output-names =3D "cam-xclk";
+> +        };
 > +
-> +$(OUTPUT)/vstate_prctl: vstate_prctl.c $(OUTPUT)/sys_hwprobe.o $(OUTPUT)/v_helpers.o
->  	$(CC) -static -o$@ $(CFLAGS) $(LDFLAGS) $^
->  
->  $(OUTPUT)/vstate_exec_nolibc: vstate_exec_nolibc.c
->  	$(CC) -nostdlib -static -include ../../../../include/nolibc/nolibc.h \
->  		-Wall $(CFLAGS) $(LDFLAGS) $^ -o $@ -lgcc
->  
-> -$(OUTPUT)/v_initval_nolibc: v_initval_nolibc.c
-> +$(OUTPUT)/v_initval: v_initval.c $(OUTPUT)/sys_hwprobe.o $(OUTPUT)/v_helpers.o
-> +	$(CC) -static -o$@ $(CFLAGS) $(LDFLAGS) $^
+> +        reg_cam_avdd: cam-avdd {
+> +                compatible =3D "regulator-fixed";
+> +                regulator-name =3D "cam-avdd";
+> +                regulator-min-microvolt =3D <2800000>;
+> +                regulator-max-microvolt =3D <2800000>;
+> +                vin-supply =3D <&reg_vcc3v3>;
+> +        };
 > +
-> +$(OUTPUT)/v_exec_initval_nolibc: v_exec_initval_nolibc.c
->  	$(CC) -nostdlib -static -include ../../../../include/nolibc/nolibc.h \
->  		-Wall $(CFLAGS) $(LDFLAGS) $^ -o $@ -lgcc
-> diff --git a/tools/testing/selftests/riscv/vector/v_exec_initval_nolibc.c b/tools/testing/selftests/riscv/vector/v_exec_initval_nolibc.c
-> new file mode 100644
-> index 000000000000..74b13806baf0
-> --- /dev/null
-> +++ b/tools/testing/selftests/riscv/vector/v_exec_initval_nolibc.c
-> @@ -0,0 +1,84 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Get values of vector registers as soon as the program starts to test if
-> + * is properly cleaning the values before starting a new program. Vector
-> + * registers are caller saved, so no function calls may happen before reading
-> + * the values. To further ensure consistency, this file is compiled without
-> + * libc and without auto-vectorization.
-> + *
-> + * To be "clean" all values must be either all ones or all zeroes.
-> + */
+> +        reg_cam_dovdd: cam-dovdd {
+> +                compatible =3D "regulator-fixed";
+> +                regulator-name =3D "cam-dovdd";
+> +                regulator-min-microvolt =3D <1800000>;
+> +                regulator-max-microvolt =3D <1800000>;
+> +                vin-supply =3D <&reg_vcc3v3>;
+> +        };
 > +
-> +#define __stringify_1(x...)	#x
-> +#define __stringify(x...)	__stringify_1(x)
+> +        reg_cam_dvdd: cam-dvdd {
+> +                compatible =3D "regulator-fixed";
+> +                regulator-name =3D "cam-dvdd";
+> +                regulator-min-microvolt =3D <1500000>;
+> +                regulator-max-microvolt =3D <1500000>;
+> +                vin-supply =3D <&reg_vcc3v3>;
+> +        };
 > +
-> +int main(int argc, char **argv)
-> +{
-> +	char prev_value = 0, value;
-> +	unsigned long vl;
-> +	int first = 1;
 > +
-> +	asm volatile (
-> +		".option push\n\t"
-> +		".option arch, +v\n\t"
-> +		"vsetvli	%[vl], x0, e8, m1, ta, ma\n\t"
-> +		".option pop\n\t"
-> +		: [vl] "=r" (vl)
-> +	);
+>  };
+>
+>  &mmc0 {
+> @@ -141,3 +174,55 @@ &usbphy {
+>         /* USB VBUS is always on */
+>         status =3D "okay";
+>  };
 > +
-> +#define CHECK_VECTOR_REGISTER(register) ({					\
-> +	for (int i = 0; i < vl; i++) {						\
-> +		asm volatile (							\
-> +			".option push\n\t"					\
-> +			".option arch, +v\n\t"					\
-> +			"vmv.x.s %0, " __stringify(register) "\n\t"		\
-> +			"vsrl.vi " __stringify(register) ", " __stringify(register) ", 8\n\t" \
-> +			".option pop\n\t"					\
-> +			: "=r" (value));					\
-> +		if (first) {							\
-> +			first = 0;						\
-> +		} else if (value != prev_value || !(value == 0x00 || value == 0xff)) { \
-> +			printf("Register " __stringify(register) " values not clean! value: %u\n", value);	\
-> +			exit(-1);						\
-
-I think we should ensure all tests in tools/testing/selftests/riscv/ use
-TAP output, exiting with ksft_finished(), or at least exit with 0 for
-success. For example, vstate_exec_nolibc exits with 2 for success since
-it exits with the return value of prctl(PR_RISCV_V_GET_CONTROL). And
-vstate_prctl.c exits with several different negative values, which means
-it'll exit with several different values around 255. To figure what went
-wrong, one will have to convert those exit codes to the original negative
-values in order to look them up. Having these types of inconsistent exit
-values complicates QA.
-
-Thanks,
-drew
+> +&csi {
+> +    status =3D "okay";
+> +
+> +    port {
+> +        #address-cells =3D <1>;
+> +        #size-cells =3D <0>;
+> +
+> +        /* Parallel bus endpoint */
+> +        csi_from_ov5640: endpoint {
+> +            remote-endpoint =3D <&ov5640_to_csi>;
+> +            bus-width =3D <8>;
+> +            data-shift =3D <2>;
+> +            hsync-active =3D <1>; /* Active high */
+> +            vsync-active =3D <0>; /* Active low */
+> +            data-active =3D <1>;  /* Active high */
+> +            pclk-sample =3D <1>;  /* Rising */
+> +        };
+> +    };
+> +};
+> +
+> +&i2c2 {
+> +   status =3D "okay";
+> +
+> +   ov5640: camera@3c {
+> +        compatible =3D "ovti,ov5640";
+> +        reg =3D <0x3c>;
+> +        clocks =3D <&cam_xclk>;
+> +        clock-names =3D "xclk";
+> +
+> +        reset-gpios =3D <&pio 4 14 GPIO_ACTIVE_LOW>;
+> +        powerdown-gpios =3D <&pio 4 15 GPIO_ACTIVE_HIGH>;
+> +        AVDD-supply =3D <&reg_cam_avdd>;
+> +        DOVDD-supply =3D <&reg_cam_dovdd>;
+> +        DVDD-supply =3D <&reg_cam_dvdd>;
+> +
+> +        port {
+> +            ov5640_to_csi: endpoint {
+> +                remote-endpoint =3D <&csi_from_ov5640>;
+> +                bus-width =3D <8>;
+> +                data-shift =3D <2>;
+> +                hsync-active =3D <1>; /* Active high */
+> +                vsync-active =3D <0>; /* Active low */
+> +                data-active =3D <1>;  /* Active high */
+> +                pclk-sample =3D <1>;  /* Rising */
+> +            };
+> +        };
+> +    };
+> +};
+> +&i2c2_pins {
+> +   bias-pull-up;
+> +};
+> --
+> 2.43.0
+>
+>
