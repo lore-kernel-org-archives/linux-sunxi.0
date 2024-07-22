@@ -1,157 +1,180 @@
-Received: from smtpfb1-g21.free.fr (smtpfb1-g21.free.fr [212.27.42.9])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A0314400
-	for <linux-sunxi@lists.linux.dev>; Sun, 21 Jul 2024 17:49:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.9
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D9D828E7
+	for <linux-sunxi@lists.linux.dev>; Mon, 22 Jul 2024 05:01:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721584152; cv=none; b=bDtmM2F8v5r/zk3ULkZHaWjYWCde/LadIhU1ReqVp5dK8xpEb0VfWWsjzVKes4qFSWUyNe0+cofiK0bwFvj07lDmZiYHmFBB5vdi//suSF69Dq0fcPc+AUdciKKNElzcjiTP/l1x0E71s5vAtHbsLAE4xghHCwu+nkrXrc+Z9Ow=
+	t=1721624479; cv=none; b=kz61G/cvYrVsfzIIfZTDJah+RaCD86urPFBQu345cbVujyvBTaraiI9WHgIS/Z5tTnDAm4u9pl7UNU6PGexjKVMbfDg829bL73SRX2tdYfk+L/EfkFPs/ELyUOpnDcryxj5Ysxb7q7wZLrgiO8aB9CACyYI2EqSRADYCM06I/7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721584152; c=relaxed/simple;
-	bh=3uqE0qV1jieKAoiymx0Gu0bjGrvSXKALH68K4QQeE/Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ycuk6uBo2cEUutmeWdcKfAtgW3PN8Xnqr3taIlS5L0+M4VQbm30zcU5hq/Zza5XOHIqsNFoq5nRmhF10f6nYvjirVk8qEesnP6etkqaQK4K9YbmwvAhGECgUpbFcHO0yGlaBZ2MX2+T7dPPf0FUsU1V6A3oQKh7bm1wfaUpv+Ro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=free.fr; spf=pass smtp.mailfrom=free.fr; dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b=SxtDaVwV; arc=none smtp.client-ip=212.27.42.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=free.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
+	s=arc-20240116; t=1721624479; c=relaxed/simple;
+	bh=sddsde6IU7VujNwf1wY+ARhIj6J6QyHgZE7VsppWB2M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AkQP9ycH2NstDK9PvFdNn/H++w5g895Ii2UDx2Wg/hOZEwUP+pAGm3Bxd4cKagrkF+exquuF9p0kEooT21N99e9pT2PFlViCKRbILdKokcNYSsOQ3DYprj2SbtBDgIUvi1rFiPsTlPe75eDKYs0iowvEvrn2nLMbcU3FGCgk7ck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CA1sqE+C; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b="SxtDaVwV"
-Received: from smtp6-g21.free.fr (smtp6-g21.free.fr [212.27.42.6])
-	by smtpfb1-g21.free.fr (Postfix) with ESMTP id 4D88D93095F
-	for <linux-sunxi@lists.linux.dev>; Sun, 21 Jul 2024 19:49:00 +0200 (CEST)
-Received: from win10. (unknown [91.165.221.98])
-	(Authenticated sender: michel.promonet@free.fr)
-	by smtp6-g21.free.fr (Postfix) with ESMTPSA id 42FA2780511;
-	Sun, 21 Jul 2024 19:48:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
-	s=smtp-20201208; t=1721584132;
-	bh=3uqE0qV1jieKAoiymx0Gu0bjGrvSXKALH68K4QQeE/Q=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=SxtDaVwVkGt/RPdGnZC6r6w2sYQOS+X3Xl/HCKxQl75FPc6tXdScQeRQijt0fTy4A
-	 43AFb5JP1EA5pxZv0XugNDqQWhuqnSy86+p9osnxQKNRTpdTk/YbzOmyTTSud7VBsF
-	 vRpdg7mFzhCWzcifm2tHk6TVbqApHHiCQNivoSbkOeIqfGh1++WfXrP8wIUSJLJ/Y7
-	 fa1NK4/eR/Jqr9++dygRnsuqG65xuI+IpoE49tn6lV6mI3dlK/dri/REoCwFgo4E8E
-	 DGMaScf8x+nvpG4/HhMFxBi9FjDIhbbKMKMOQHVkXrcUFJHXrglGlUfwdytRr22YKL
-	 JoPolmZ+wAVeQ==
-From: Michel Promonet <michel.promonet@free.fr>
-To: linux-sunxi@lists.linux.dev
-Cc: Michel Promonet <michel.promonet@free.fr>
-Subject: [PATCH] sunxi: add csi video support for nanopi-neo-air
-Date: Sun, 21 Jul 2024 19:48:14 +0200
-Message-ID: <20240721174832.11916-1-michel.promonet@free.fr>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <michel.promonet@free.fr>
-References: <michel.promonet@free.fr>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CA1sqE+C"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2314C116B1
+	for <linux-sunxi@lists.linux.dev>; Mon, 22 Jul 2024 05:01:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721624479;
+	bh=sddsde6IU7VujNwf1wY+ARhIj6J6QyHgZE7VsppWB2M=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+	b=CA1sqE+C7xA9KPwnBDPNT3YaYcCcEhBCkDam+tT7QgfrybswWzos8/nrSffEhGl7M
+	 DCiSrtKybylq+IQdeXDnoqKMmYyG6/4OUI8ZlV3WzeMYICimhryOQqXC/629HgkzML
+	 BxNgIiqj1hipFSowbviwmEy+RV9I3s5smPhRw9khl1a8ianbiKAa7Blogx9aaprCjI
+	 YkkdfqI+RfFJj1S91hDAIia6unU783e30lqH4kjK3FtV4rG5vATHQYLZc7yywmxI+K
+	 ZfljFymWpnFR7rEUvY8xkx3zaamYrgwUR3ldzbhTBvW7S2+CB8qG0vy6V79XEGjjGq
+	 3ry/R0AcplbAw==
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2eeb1051360so38909231fa.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 21 Jul 2024 22:01:18 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwEkOFSbFmVZvEN7+RAzmcY2TNjxfrc1EL83qKMLY4xeAr9DgUh
+	J62LAz80O/kXW4VQD+dzEDG1PkB+RxcNXKJy3oCji6OyztBmQ+CnIz6KgE3BmpVlqruLmuO1yri
+	la+foEYGfqwXZXGoKFDWxNeIU+nE=
+X-Google-Smtp-Source: AGHT+IGVd4/rzZOAHUEZ1s+YbzxfaEfc/bxI8iDfRi7X+ojPQmbf7S4m2JTqpK3mdzNOcVPFjI+nZoHA2MA2vYVr37Q=
+X-Received: by 2002:a05:651c:1a0c:b0:2ef:2dac:9078 with SMTP id
+ 38308e7fff4ca-2ef2dac92e3mr21027081fa.16.1721624477223; Sun, 21 Jul 2024
+ 22:01:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <michel.promonet@free.fr> <20240721174832.11916-1-michel.promonet@free.fr>
+In-Reply-To: <20240721174832.11916-1-michel.promonet@free.fr>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Mon, 22 Jul 2024 13:01:04 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64ANoSb==Ni4XYf7nrD-ktZLJejc2JfQ8+JE2eOqvjG8Q@mail.gmail.com>
+Message-ID: <CAGb2v64ANoSb==Ni4XYf7nrD-ktZLJejc2JfQ8+JE2eOqvjG8Q@mail.gmail.com>
+Subject: Re: [PATCH] sunxi: add csi video support for nanopi-neo-air
+To: Michel Promonet <michel.promonet@free.fr>
+Cc: linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
----
- .../dts/allwinner/sun8i-h3-nanopi-neo-air.dts | 85 +++++++++++++++++++
- 1 file changed, 85 insertions(+)
+On Mon, Jul 22, 2024 at 1:49=E2=80=AFAM Michel Promonet <michel.promonet@fr=
+ee.fr> wrote:
 
-diff --git a/arch/arm/boot/dts/allwinner/sun8i-h3-nanopi-neo-air.dts b/arch/arm/boot/dts/allwinner/sun8i-h3-nanopi-neo-air.dts
-index 6d85370e04f1..bab171e1d449 100644
---- a/arch/arm/boot/dts/allwinner/sun8i-h3-nanopi-neo-air.dts
-+++ b/arch/arm/boot/dts/allwinner/sun8i-h3-nanopi-neo-air.dts
-@@ -77,6 +77,39 @@ wifi_pwrseq: pwrseq {
- 		compatible = "mmc-pwrseq-simple";
- 		reset-gpios = <&r_pio 0 7 GPIO_ACTIVE_LOW>; /* PL7 */
- 	};
-+
-+        cam_xclk: cam-xclk {
-+                #clock-cells = <0>;
-+                compatible = "fixed-clock";
-+                clock-frequency = <24000000>;
-+                clock-output-names = "cam-xclk";
-+        };
-+
-+        reg_cam_avdd: cam-avdd {
-+                compatible = "regulator-fixed";
-+                regulator-name = "cam-avdd";
-+                regulator-min-microvolt = <2800000>;
-+                regulator-max-microvolt = <2800000>;
-+                vin-supply = <&reg_vcc3v3>;
-+        };
-+
-+        reg_cam_dovdd: cam-dovdd {
-+                compatible = "regulator-fixed";
-+                regulator-name = "cam-dovdd";
-+                regulator-min-microvolt = <1800000>;
-+                regulator-max-microvolt = <1800000>;
-+                vin-supply = <&reg_vcc3v3>;
-+        };
-+
-+        reg_cam_dvdd: cam-dvdd {
-+                compatible = "regulator-fixed";
-+                regulator-name = "cam-dvdd";
-+                regulator-min-microvolt = <1500000>;
-+                regulator-max-microvolt = <1500000>;
-+                vin-supply = <&reg_vcc3v3>;
-+        };
-+
-+
- };
- 
- &mmc0 {
-@@ -141,3 +174,55 @@ &usbphy {
- 	/* USB VBUS is always on */
- 	status = "okay";
- };
-+
-+&csi {
-+    status = "okay";
-+
-+    port {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        /* Parallel bus endpoint */
-+        csi_from_ov5640: endpoint {
-+            remote-endpoint = <&ov5640_to_csi>;
-+            bus-width = <8>;
-+            data-shift = <2>;
-+            hsync-active = <1>; /* Active high */
-+            vsync-active = <0>; /* Active low */
-+            data-active = <1>;  /* Active high */
-+            pclk-sample = <1>;  /* Rising */
-+        };
-+    };
-+};
-+
-+&i2c2 {
-+   status = "okay";
-+
-+   ov5640: camera@3c {
-+        compatible = "ovti,ov5640";
-+        reg = <0x3c>;
-+        clocks = <&cam_xclk>;
-+        clock-names = "xclk";
-+
-+        reset-gpios = <&pio 4 14 GPIO_ACTIVE_LOW>;
-+        powerdown-gpios = <&pio 4 15 GPIO_ACTIVE_HIGH>;
-+        AVDD-supply = <&reg_cam_avdd>;
-+        DOVDD-supply = <&reg_cam_dovdd>;
-+        DVDD-supply = <&reg_cam_dvdd>;
-+
-+        port {
-+            ov5640_to_csi: endpoint {
-+                remote-endpoint = <&csi_from_ov5640>;
-+                bus-width = <8>;
-+                data-shift = <2>;
-+                hsync-active = <1>; /* Active high */
-+                vsync-active = <0>; /* Active low */
-+                data-active = <1>;  /* Active high */
-+                pclk-sample = <1>;  /* Rising */
-+            };
-+        };
-+    };
-+};
-+&i2c2_pins {
-+   bias-pull-up;
-+};
--- 
-2.43.0
+This is an attached module, not directly on the board. As such we won't
+accept the change to the board dts.
 
+Also, this is not the correct format for a patch. This needs a proper commi=
+t
+message, and your Signed-off-by.
+
+See Documentation/process/submitting-patches.rst.
+
+
+ChenYu
+
+> ---
+>  .../dts/allwinner/sun8i-h3-nanopi-neo-air.dts | 85 +++++++++++++++++++
+>  1 file changed, 85 insertions(+)
+>
+> diff --git a/arch/arm/boot/dts/allwinner/sun8i-h3-nanopi-neo-air.dts b/ar=
+ch/arm/boot/dts/allwinner/sun8i-h3-nanopi-neo-air.dts
+> index 6d85370e04f1..bab171e1d449 100644
+> --- a/arch/arm/boot/dts/allwinner/sun8i-h3-nanopi-neo-air.dts
+> +++ b/arch/arm/boot/dts/allwinner/sun8i-h3-nanopi-neo-air.dts
+> @@ -77,6 +77,39 @@ wifi_pwrseq: pwrseq {
+>                 compatible =3D "mmc-pwrseq-simple";
+>                 reset-gpios =3D <&r_pio 0 7 GPIO_ACTIVE_LOW>; /* PL7 */
+>         };
+> +
+> +        cam_xclk: cam-xclk {
+> +                #clock-cells =3D <0>;
+> +                compatible =3D "fixed-clock";
+> +                clock-frequency =3D <24000000>;
+> +                clock-output-names =3D "cam-xclk";
+> +        };
+> +
+> +        reg_cam_avdd: cam-avdd {
+> +                compatible =3D "regulator-fixed";
+> +                regulator-name =3D "cam-avdd";
+> +                regulator-min-microvolt =3D <2800000>;
+> +                regulator-max-microvolt =3D <2800000>;
+> +                vin-supply =3D <&reg_vcc3v3>;
+> +        };
+> +
+> +        reg_cam_dovdd: cam-dovdd {
+> +                compatible =3D "regulator-fixed";
+> +                regulator-name =3D "cam-dovdd";
+> +                regulator-min-microvolt =3D <1800000>;
+> +                regulator-max-microvolt =3D <1800000>;
+> +                vin-supply =3D <&reg_vcc3v3>;
+> +        };
+> +
+> +        reg_cam_dvdd: cam-dvdd {
+> +                compatible =3D "regulator-fixed";
+> +                regulator-name =3D "cam-dvdd";
+> +                regulator-min-microvolt =3D <1500000>;
+> +                regulator-max-microvolt =3D <1500000>;
+> +                vin-supply =3D <&reg_vcc3v3>;
+> +        };
+> +
+> +
+>  };
+>
+>  &mmc0 {
+> @@ -141,3 +174,55 @@ &usbphy {
+>         /* USB VBUS is always on */
+>         status =3D "okay";
+>  };
+> +
+> +&csi {
+> +    status =3D "okay";
+> +
+> +    port {
+> +        #address-cells =3D <1>;
+> +        #size-cells =3D <0>;
+> +
+> +        /* Parallel bus endpoint */
+> +        csi_from_ov5640: endpoint {
+> +            remote-endpoint =3D <&ov5640_to_csi>;
+> +            bus-width =3D <8>;
+> +            data-shift =3D <2>;
+> +            hsync-active =3D <1>; /* Active high */
+> +            vsync-active =3D <0>; /* Active low */
+> +            data-active =3D <1>;  /* Active high */
+> +            pclk-sample =3D <1>;  /* Rising */
+> +        };
+> +    };
+> +};
+> +
+> +&i2c2 {
+> +   status =3D "okay";
+> +
+> +   ov5640: camera@3c {
+> +        compatible =3D "ovti,ov5640";
+> +        reg =3D <0x3c>;
+> +        clocks =3D <&cam_xclk>;
+> +        clock-names =3D "xclk";
+> +
+> +        reset-gpios =3D <&pio 4 14 GPIO_ACTIVE_LOW>;
+> +        powerdown-gpios =3D <&pio 4 15 GPIO_ACTIVE_HIGH>;
+> +        AVDD-supply =3D <&reg_cam_avdd>;
+> +        DOVDD-supply =3D <&reg_cam_dovdd>;
+> +        DVDD-supply =3D <&reg_cam_dvdd>;
+> +
+> +        port {
+> +            ov5640_to_csi: endpoint {
+> +                remote-endpoint =3D <&csi_from_ov5640>;
+> +                bus-width =3D <8>;
+> +                data-shift =3D <2>;
+> +                hsync-active =3D <1>; /* Active high */
+> +                vsync-active =3D <0>; /* Active low */
+> +                data-active =3D <1>;  /* Active high */
+> +                pclk-sample =3D <1>;  /* Rising */
+> +            };
+> +        };
+> +    };
+> +};
+> +&i2c2_pins {
+> +   bias-pull-up;
+> +};
+> --
+> 2.43.0
+>
+>
