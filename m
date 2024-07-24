@@ -1,90 +1,126 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 861D1139D04
-	for <linux-sunxi@lists.linux.dev>; Tue, 23 Jul 2024 03:54:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19E0C13E020;
+	Wed, 24 Jul 2024 13:53:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721706865; cv=none; b=UY0+2XHEx62Ec8+LTAd6myJRkqclxc1TkmaGjZ4QrHhBoMdjVdALh1KAhFv/OhnXMDfxNU8ugEN77WfK5Rxy2S2k/PznneKfvZ+OwbpaxDIdYBow9VXPhqOO//QWC/JOQEyxODL6eD8GrKpbR4AHUd0MgjPLTA0wSHCBvVsWyx4=
+	t=1721829229; cv=none; b=Of54QKWwm9zLi4vWmrdWwLS0W+5US7IXypSgdw+T3pyfwNwOiDEIHlQgA5IahSycuauC3XNP5HnS6GPy4qOAyb0VQlc0TuUhDpt3w/2CFAA68wiE+zpJdDr9RDB/hNA/4k3bRDDWYoZe74TyKBG4rBVpMM2uYrvwgAXaf97Pm34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721706865; c=relaxed/simple;
-	bh=2mfBfGvPkaBeH2hLbWeN6l9L0QxXvLWhmVsi1nmC0QY=;
+	s=arc-20240116; t=1721829229; c=relaxed/simple;
+	bh=JHsErZ1Ymd3xIUMEC7/hpzB8p/mlL/O9e+IDU+AKN8I=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dD0dLIrl7V1OkKpJ957A9Wvn+A51N9OgM0bFr4xj3x7vrdn6ee2b4QeCCipz3cD0utFDmf4Ms/y2UlDWzld0ZcQPgP09eXulPaSuQnL2uV0sx8LIfgX4uUdsbl5PAeKFvoD3KpNgH7k+te/eg2t7WJ7SlIlf8shNOZVR2CW0U0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-52f04c29588so2190530e87.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 22 Jul 2024 20:54:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721706857; x=1722311657;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2mfBfGvPkaBeH2hLbWeN6l9L0QxXvLWhmVsi1nmC0QY=;
-        b=WCItXwyCwqYO9K9rdy0x0qPkL5R2X9sn/9peg5aKjEm9HwjuDtX85gzN28VyQLOjrB
-         w0WxmVNp3PYZFO3XF7mNhM7CCv7N/s7Udz5rJOk6P8/YAiMfMEkAHxfWDbh1FoSYaqfV
-         v+wCjHfV5OiWn4qJ0D1E5n+epy/5/ush3/I+7z4lLhUZU5hRl813Pzz4A66BJtgParSR
-         9fAAyNor4bGtOYQq6Q717Esv2k6gqenywKHUFDklI/Ah/B9iOSueKoLzpSTDvRWpoxO+
-         VGhwYlFHbQjlpM5wvY+DKjBxrGs42p3r3PKe/EF9cyu746q6SwOz+H5RemfbSplsO4/f
-         IBAA==
-X-Forwarded-Encrypted: i=1; AJvYcCULJXS7sLW/ymUgwFcQ+xfbytfAbLJJeC9q5ifyyJjIV1kCtosIgAealXvUzznMEEp/trQu1F3uOcZtIsBaGoxpCd+rvKqQKRnZb0k=
-X-Gm-Message-State: AOJu0YzfrYMxqiIdr5lb0s3VvNZiHkYIkv+7+TzZGCYdkqiLOodYSc9k
-	SegwrSucAJ7m2wQJ1apetk6D69sRYi5P8crC4FYI9NuEYANCbZ/R0GWaXHfw
-X-Google-Smtp-Source: AGHT+IF6gtwmaFF4qqotEi3yKl/Td0Ef0IyWejlf+4rK0YQCPEquclZyzx3YpS4S4rLLyj587azfIw==
-X-Received: by 2002:ac2:4bc2:0:b0:52c:9383:4c16 with SMTP id 2adb3069b0e04-52efb7a0b03mr5530832e87.22.1721706855652;
-        Mon, 22 Jul 2024 20:54:15 -0700 (PDT)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com. [209.85.208.172])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52ef5573612sm1428025e87.238.2024.07.22.20.54.15
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Jul 2024 20:54:15 -0700 (PDT)
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2eeb1ba0481so74675401fa.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 22 Jul 2024 20:54:15 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCX09+76C86AI593NnOZPE8A7oPeG+FfqtRngFNcSTGr87kmqg59iTmR8RRkdhry4zkP2A6ln6Y7TSM9luD+kycU7En7eDA7RT9B1hU=
-X-Received: by 2002:a2e:bc0f:0:b0:2ef:296d:1dda with SMTP id
- 38308e7fff4ca-2ef296d21bbmr48058911fa.1.1721706855131; Mon, 22 Jul 2024
- 20:54:15 -0700 (PDT)
+	 To:Cc:Content-Type; b=TJsT0CBfTEOQMIVQlyWkBevdoFguptojPGm9FwEDwtdWFfadBeDQXamOWZm19iHJs9fWKCgfL5zTdVKUUVHRa906iwSe4AWuUicAA0HABzPkCdqoPNeXOh0S9FVOonBwZq0hMfvlR9qkWSVdjztg5xa0oVH7PU/BRoaTYDYTF7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BGPKT56V; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BGPKT56V"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93542C32781;
+	Wed, 24 Jul 2024 13:53:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721829228;
+	bh=JHsErZ1Ymd3xIUMEC7/hpzB8p/mlL/O9e+IDU+AKN8I=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=BGPKT56VEeBc8yP6yo1qCgMrxA/O/B2Q0kFKhq94WBvnF7xY9t/4j0181EMqkzsYV
+	 Ftd0EIBsPxO+8vNb1jXJW8qyEcGDXXdaowIHKOPFE0VLUfy5GgPAPtfFO9UioU30TR
+	 GZg18Fg1JLPu+L+qcogoRInHtzq4sv1UniyqvSknpz5QtpxZtyCTMKseBE//jUa0Nj
+	 UdRSNb/p0xuWNgHRivIlBFWuuVg8GZQrE1/E5sJBaFtTeKC7MnOu3thI4xZKIgsSrG
+	 wYOt5RO8+dvhK8L1e6mcbXdYqqWg+GXR1EYqTkis8EnN+UT5SbReBOFbusF50ZMVZp
+	 +OlDxYnMTCTEA==
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2ef2c56d9dcso39539101fa.2;
+        Wed, 24 Jul 2024 06:53:48 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVIpkfdovs1VQ+OAGz9D/igASGpZYv1ja8/gfSGCOumx87v6ab5FvU3AcjzAN1jgOct52q9w9IJJU/uqAzWy/Uj+vqnvCKMEevLUCcQnU0c6Ea+ak8FwxLC0i/kNO3AfCPG
+X-Gm-Message-State: AOJu0YzDPiOwViHln1CazTWpuB4HSOGXkXVHnRmtGHTqUbeIuPpZI02L
+	7ZZlmJLHwJ+sSj2w1fWdA33FfCPxvCzCfAB55QnRSILY+WjzDxO1aS9ZaCFdoJeRCQ6GhEqCXip
+	yMLTz6zphubIg12Uh7bph2J3NXg==
+X-Google-Smtp-Source: AGHT+IEk3YhHLLuWHQez8La65BtnRIR9t5/9BONqzEk5mOwWdTbwESXZpTYF2WmMXYwp6gfL+EkMMSd8FeS9sIIdSCk=
+X-Received: by 2002:a05:6512:3984:b0:51a:f689:b4df with SMTP id
+ 2adb3069b0e04-52efb7db65bmr9357884e87.44.1721829216849; Wed, 24 Jul 2024
+ 06:53:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240722-xtheadvector-v6-0-c9af0130fa00@rivosinc.com> <20240722-xtheadvector-v6-3-c9af0130fa00@rivosinc.com>
-In-Reply-To: <20240722-xtheadvector-v6-3-c9af0130fa00@rivosinc.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Tue, 23 Jul 2024 11:54:02 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65WLShdZLBcKBUviHMWFOM4oZmwVHWzVqCfz2rKdnoWyA@mail.gmail.com>
-Message-ID: <CAGb2v65WLShdZLBcKBUviHMWFOM4oZmwVHWzVqCfz2rKdnoWyA@mail.gmail.com>
-Subject: Re: [PATCH v6 03/13] riscv: dts: allwinner: Add xtheadvector to the
- D1/D1s devicetree
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Jisheng Zhang <jszhang@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Samuel Holland <samuel.holland@sifive.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, Guo Ren <guoren@kernel.org>, 
-	Evan Green <evan@rivosinc.com>, Andy Chiu <andy.chiu@sifive.com>, 
-	Jessica Clarke <jrtc27@jrtc27.com>, Andrew Jones <ajones@ventanamicro.com>, 
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	Conor Dooley <conor.dooley@microchip.com>
+References: <20240717-of_property_for_each_u32-v2-1-4060990f49c9@bootlin.com>
+ <1e36b1ba8af3584128550822a70cb072.sboyd@kernel.org> <20240718085651.63ddfb20@booty>
+In-Reply-To: <20240718085651.63ddfb20@booty>
+From: Rob Herring <robh@kernel.org>
+Date: Wed, 24 Jul 2024 08:53:24 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKtOTgoDgfwq9Guvt_LbtnHHGJ+PDt-wgVRHU=oVzwhHw@mail.gmail.com>
+Message-ID: <CAL_JsqKtOTgoDgfwq9Guvt_LbtnHHGJ+PDt-wgVRHU=oVzwhHw@mail.gmail.com>
+Subject: Re: [PATCH v2] of: remove internal arguments from of_property_for_each_u32()
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Stephen Boyd <sboyd@kernel.org>, Aaro Koskinen <aaro.koskinen@iki.fi>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Andreas Kemnade <andreas@kemnade.info>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	Bjorn Andersson <andersson@kernel.org>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Chester Lin <chester62515@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Damien Le Moal <dlemoal@kernel.org>, 
+	Daniel Lezcano <daniel.lezcano@linaro.org>, Dong Aisheng <aisheng.dong@nxp.com>, 
+	Doug Berger <opendmb@gmail.com>, =?UTF-8?Q?Emilio_L=C3=B3pez?= <emilio@elopez.com.ar>, 
+	Fabio Estevam <festevam@gmail.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Ghennadi Procopciuc <ghennadi.procopciuc@oss.nxp.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jacky Bai <ping.bai@nxp.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Jiri Slaby <jirislaby@kernel.org>, Jonathan Cameron <jic23@kernel.org>, 
+	Kevin Hilman <khilman@baylibre.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Lee Jones <lee@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, Mark Brown <broonie@kernel.org>, 
+	Matthias Brugger <mbrugger@suse.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Michael Turquette <mturquette@baylibre.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, 
+	Nicholas Piggin <npiggin@gmail.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Richard Leitner <richard.leitner@linux.dev>, 
+	Roger Quadros <rogerq@kernel.org>, Samuel Holland <samuel@sholland.org>, 
+	Saravana Kannan <saravanak@google.com>, Shawn Guo <shawnguo@kernel.org>, 
+	Takashi Iwai <tiwai@suse.com>, Thomas Gleixner <tglx@linutronix.de>, Tony Lindgren <tony@atomide.com>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
+	"Peng Fan (OSS)" <peng.fan@oss.nxp.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	llvm@lists.linux.dev, linux-clk@vger.kernel.org, linux-omap@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-samsung-soc@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org, 
+	linux-pwm@vger.kernel.org, linux-serial@vger.kernel.org, 
+	linux-usb@vger.kernel.org, patches@opensource.cirrus.com, 
+	linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-riscv@lists.infradead.org, Andre Przywara <andre.przywara@arm.com>, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 23, 2024 at 5:58=E2=80=AFAM Charlie Jenkins <charlie@rivosinc.c=
-om> wrote:
+On Thu, Jul 18, 2024 at 1:57=E2=80=AFAM Luca Ceresoli <luca.ceresoli@bootli=
+n.com> wrote:
 >
-> The D1/D1s SoCs support xtheadvector so it can be included in the
-> devicetree. Also include vlenb for the cpu.
+> Hello Stephen,
 >
-> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> On Wed, 17 Jul 2024 16:33:34 -0700
+> Stephen Boyd <sboyd@kernel.org> wrote:
+>
+> > > @@ -1191,20 +1191,24 @@ static int si5351_dt_parse(struct i2c_client =
+*client,
+> > >          * property silabs,pll-source : <num src>, [<..>]
+> > >          * allow to selectively set pll source
+> > >          */
+> > > -       of_property_for_each_u32(np, "silabs,pll-source", prop, p, nu=
+m) {
+> > > +       sz =3D of_property_read_variable_u32_array(np, "silabs,pll-so=
+urce", array, 2, 4);
+> > > +       sz =3D (sz =3D=3D -EINVAL) ? 0 : sz; /* Missing property is O=
+K */
+> > > +       if (sz < 0)
+> > > +               return dev_err_probe(&client->dev, sz, "invalid pll-s=
+ource");
+> >
+> > Needs a newline on the printk message.
+>
+> Ouch! Fix queued for v3.
 
-Acked-by: Chen-Yu Tsai <wens@csie.org>
+I need v3 like today if I'm going to send it for rc1.
 
-Please take this with all the other patches.
+Rob
