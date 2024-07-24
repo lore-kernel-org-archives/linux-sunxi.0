@@ -1,37 +1,59 @@
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ADCE17C6A;
-	Wed, 24 Jul 2024 16:33:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E8B116B3B8
+	for <linux-sunxi@lists.linux.dev>; Wed, 24 Jul 2024 19:14:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721838831; cv=none; b=q8C9vgLJIIeByNITNXJxsb8Ix+Jq/0RJztj6hIPMJ8j59TCdo7HSyC07nGKHCayzYR8Hz+RmZgO2gGHSbIj6dg3XXTWxDE4kJQu1xEU1fj3kHeTJ2srZmgUys+ndnLzvp7fMGff/vwbOAB/EsqpcQZPyoOXp1nUcukyifN43++Q=
+	t=1721848442; cv=none; b=WFtvgGdgZXNPyCIzzo5UQ4RNNnuAY/YoAfKAPzhml34eo+ERlMDRLqv1h4uJiTjd2ibWji64XWauGqK62KYDdf4NwBe1Hde5QTA9ifeY7euwUrCK0dA2BgxBnkkgOkDs9v6vvv01bdZq+Cj/DvcZuzHM3wgmGujHSaDZlDNAbFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721838831; c=relaxed/simple;
-	bh=80PkPCj295H8HJQtds2l/RgNkrWLvApkGAvI/16cf9I=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=m7XhAte2/WlnPzJGmcPW9dowElIIZ/W794Ly8oocPrKjVpd5aceRUgHousCPiL3bbsTmnCD8MfQ3QqX4EocPj+5xyTBeHjU6Kor++wpGotkxDbWck7vWC4+9Vd7560D0ozamNCWVyJUUEJ6aNqSJ8/E4YKYfRpTawDUYpEdecK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=pRG66Yfp; arc=none smtp.client-ip=217.70.183.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1721848442; c=relaxed/simple;
+	bh=HDyW4OKcATYcmOGJW1pqc68intlppLBSsV9QxPNcEz8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=YPVYxpnd/0Np+OGp5jmUrzRM4QJvEaLpuy+Sd6rMI4c3vDJ4GmbRsF5n6fbdic2uI599lvqGTP10kGh0JTujmph8FkNmRVBRF7n69R43XFqvkJkON3+L5ohNGX4i8MsxWPwwcYe9LtpAgBjai2eLen2y9BpAOK03bOXeU1mAdRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=nWW0bR6k; arc=none smtp.client-ip=209.85.215.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="pRG66Yfp"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 3360FC0004;
-	Wed, 24 Jul 2024 16:33:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1721838825;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=1fBttl8+qceYB1kPpwxwzCvw/gmIC6+d2i7r+757d9o=;
-	b=pRG66Yfpc3d3EShHAtl+Ubvg88oM386aya7O/tb4eKDs8jL6rP+4HSK/kgSiXQrgoaO6Zn
-	6cV6Fu11Qjv1jUYDXjrFLkCaCYqarPQxs9xGXTYX7DTlTg35VGjbvKakOjtjcCH/p+nifm
-	YSPLrHlPeHU6tjs1AcYhvnqrD9W1qZgZFpyAzV4FxLpRo2aHh8o+DCtZ9iCr+0KdVwAFuj
-	AQw7aiAgdmAbfJWKlmSqL7Unh746wcfdX6fRm/ilGcmEk+5TEnZlfBttIVHMqrhuu2NCbK
-	Pfz9fbcdflSRfpG++6UWTzEEPTvFRGbCtkh7pj4uByv3AGyEiwIEpTfSeF366Q==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Wed, 24 Jul 2024 18:33:06 +0200
-Subject: [PATCH v3] of: remove internal arguments from
- of_property_for_each_u32()
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="nWW0bR6k"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-7928d2abe0aso956379a12.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 24 Jul 2024 12:14:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1721848440; x=1722453240; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dc6RTkugPLXnGOf7kgEFpncgSDKIBk0i/pHC6Z6/Jg8=;
+        b=nWW0bR6kJAvLCCRaCPJa6ho6okJ2nHNw1feK4Gw7V69lda500FwKF62vv/yLDND2o1
+         j2u7B/ap65zTPto/acGR2XRsvBvmw8g+/ayJVhSdCYxNSbP73AaxVq1uWh+yYw7yG5Tj
+         sp11U9WOYzocr8i6X4e1iDyVN7wcZvOaZUh6kKBcWTlpkdD8/k6SxaqiImmzw1cE3hDy
+         tUQKNli0yvA07Rc21MEbR6Lrt1O7D19C/CUVIvvq60V9YS8vcASmgA5clOy7VCAlCXWn
+         cKAuNE74ZKCfKR+RyrIlbbzHBJUSZ3RCu8po39diNU0UEQh2l9QmmcY5k7B8v062Gi9s
+         ah6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721848440; x=1722453240;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dc6RTkugPLXnGOf7kgEFpncgSDKIBk0i/pHC6Z6/Jg8=;
+        b=PTATuCAklUFNSIyWSFpQ1CxFE1nm8IX3pGCfn+bGAhVVjanCGIkBZYxcwWhGs6Rj9G
+         iMZGTLK4dIHu3THewPJ8YAQOPemJJ6AVcKXo5EfDq1nAxYkuAaiTu8Ox+Di1OAePl6Wl
+         U9XKIgJ3H/wDD+q56dLFV7Ad7yJifUb1OmtuMlI8VxbwOJRxB0Yq6GjAB9FZZtxoYGtX
+         bOajfX2QcrsSuD5cJOmqoVbedw+JavwJhYxK6h0QaVKix23emwpFQETtIRcNKXcMhNzp
+         oQBq3Q85/NtGEUm2BAiOIqPFjZe/hz/8Jh31azUOzk8GcNetkzKrPETywyFTmbdNlZaf
+         luiQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUpjLs1o0KX4i2QIOj07OB5lTiyeHihuI2BHp63/UgR+zq24RQlI3AnfOzcq4gxiwqp8Iwel3AQPl/GXmbRMXdmQX+Qpm0p+Kl1xYs=
+X-Gm-Message-State: AOJu0YySY3cnIJ3nkUdJgEEz5phKdLbFRxFIzB2yf2bskFPT6anfdbap
+	hkLwG7GsSa/L9AlEUS9uXbBzVYxExgpLYK6aC2gs1TL7rwXGtYn+WTYFchOL3fw=
+X-Google-Smtp-Source: AGHT+IF2lkgyH3ipXW4dYplDhf3pwXiHlPGdqhyCGZJmnq6o9ERzmiZgwpNnsvxAZhXQ2fFhZ0/x4w==
+X-Received: by 2002:a17:90a:4d87:b0:2ca:f755:1040 with SMTP id 98e67ed59e1d1-2cf21547c07mr994142a91.7.1721848440377;
+        Wed, 24 Jul 2024 12:14:00 -0700 (PDT)
+Received: from charlie.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cdb73edecesm2022359a91.32.2024.07.24.12.13.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Jul 2024 12:13:59 -0700 (PDT)
+From: Charlie Jenkins <charlie@rivosinc.com>
+Subject: [PATCH v7 00/13] riscv: Add support for xtheadvector
+Date: Wed, 24 Jul 2024 12:13:51 -0700
+Message-Id: <20240724-xtheadvector-v7-0-b741910ada3e@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -39,817 +61,177 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240724-of_property_for_each_u32-v3-1-bea82ce429e2@bootlin.com>
-X-B4-Tracking: v=1; b=H4sIAMEsoWYC/33N0QrCIBTG8VcJrzOOzrbsqveIEOe0CbUzdElj7
- N1zg6Au6vL/wfmdiUQbvI3kuJlIsMlHj12OYrshptXd1VLf5CYcuIAKGEWn+oC9DcOoHAZltWn
- Vo+BUlOAa4HrfgCH5vA/W+edKny+5Wx8HDOP6KbFlfaPFbzQxClRww5yB+sC1PtWIw813O4N3s
- rCJf1Cs+kNxyqiAEqQEJ6SR39Q8zy/s8O77DQEAAA==
-To: Miguel Ojeda <ojeda@kernel.org>, Rob Herring <robh@kernel.org>, 
- Saravana Kannan <saravanak@google.com>, 
- Nathan Chancellor <nathan@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Tony Lindgren <tony@atomide.com>, 
- Bjorn Andersson <andersson@kernel.org>, 
- =?utf-8?q?Emilio_L=C3=B3pez?= <emilio@elopez.com.ar>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
- Daniel Lezcano <daniel.lezcano@linaro.org>, 
- Thomas Gleixner <tglx@linutronix.de>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, Jonathan Cameron <jic23@kernel.org>, 
- Lee Jones <lee@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Jiri Slaby <jirislaby@kernel.org>, 
- Richard Leitner <richard.leitner@linux.dev>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Nicolas Ferre <nicolas.ferre@microchip.com>, 
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
- Christophe Leroy <christophe.leroy@csgroup.eu>, 
- "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, 
- Damien Le Moal <dlemoal@kernel.org>, Aaro Koskinen <aaro.koskinen@iki.fi>, 
- Andreas Kemnade <andreas@kemnade.info>, Kevin Hilman <khilman@baylibre.com>, 
- Roger Quadros <rogerq@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
- Doug Berger <opendmb@gmail.com>, Lars-Peter Clausen <lars@metafoo.de>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
- Chester Lin <chester62515@gmail.com>, Matthias Brugger <mbrugger@suse.com>, 
- Ghennadi Procopciuc <ghennadi.procopciuc@oss.nxp.com>, 
- Dong Aisheng <aisheng.dong@nxp.com>, Fabio Estevam <festevam@gmail.com>, 
- Jacky Bai <ping.bai@nxp.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>
-Cc: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- llvm@lists.linux.dev, linux-clk@vger.kernel.org, linux-omap@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-samsung-soc@vger.kernel.org, 
- linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org, 
- linux-pwm@vger.kernel.org, linux-serial@vger.kernel.org, 
- linux-usb@vger.kernel.org, patches@opensource.cirrus.com, 
- linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
- linux-riscv@lists.infradead.org, Andre Przywara <andre.przywara@arm.com>, 
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
- Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mailer: b4 0.14.0
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAG9SoWYC/23Oy07DMBAF0F+pvMZo7PEjZsV/IBZ+Ei9IqqSyi
+ qr8O9OyIJgs78jnXt/YmpeaV/ZyurElt7rWeaJgn04sjn76yLwmykyCVKAR+PUyZp9ajpd54QN
+ iwiRsUBIZkfOSS70+6t7eKY91pWdfj/Ym7tefIgPub1ETHDiWrJ1Itghwr0tt81qn+BznT3bva
+ nLnRfeRJsk769VgBPpk1IHHve/3kXwoBV0OzpghH3j16y3IzivyMtDyICEFIQ683vl/+5q8Cmr
+ QJdqkdTnwZudlv2/IR+cLCITiATq/bds3tIppJusBAAA=
+To: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Paul Walmsley <paul.walmsley@sifive.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Samuel Holland <samuel.holland@sifive.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
+ Guo Ren <guoren@kernel.org>, Evan Green <evan@rivosinc.com>, 
+ Andy Chiu <andy.chiu@sifive.com>, Jessica Clarke <jrtc27@jrtc27.com>, 
+ Andrew Jones <ajones@ventanamicro.com>
+Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ Charlie Jenkins <charlie@rivosinc.com>, 
+ Conor Dooley <conor.dooley@microchip.com>, Heiko Stuebner <heiko@sntech.de>, 
+ Heiko Stuebner <heiko@sntech.de>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1721848437; l=7095;
+ i=charlie@rivosinc.com; s=20231120; h=from:subject:message-id;
+ bh=HDyW4OKcATYcmOGJW1pqc68intlppLBSsV9QxPNcEz8=;
+ b=f3enMXbJ/trQYvs+Dn6l+vn9AxiY48aFwvwOn8igXqnU3DemMj+b8qlJPttYXKzlCnmIA1nn0
+ t5SiPgAhHg8Cbn/IV+iU1ImNQY9KJhScsGYrWjVAZmumMt/7hzaclMY
+X-Developer-Key: i=charlie@rivosinc.com; a=ed25519;
+ pk=t4RSWpMV1q5lf/NWIeR9z58bcje60/dbtxxmoSfBEcs=
 
-The of_property_for_each_u32() macro needs five parameters, two of which
-are primarily meant as internal variables for the macro itself (in the
-for() clause). Yet these two parameters are used by a few drivers, and this
-can be considered misuse or at least bad practice.
+xtheadvector is a custom extension that is based upon riscv vector
+version 0.7.1 [1]. All of the vector routines have been modified to
+support this alternative vector version based upon whether xtheadvector
+was determined to be supported at boot.
 
-Now that the kernel uses C11 to build, these two parameters can be avoided
-by declaring them internally, thus changing this pattern:
+vlenb is not supported on the existing xtheadvector hardware, so a
+devicetree property thead,vlenb is added to provide the vlenb to Linux.
 
-  struct property *prop;
-  const __be32 *p;
-  u32 val;
+There is a new hwprobe key RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0 that is
+used to request which thead vendor extensions are supported on the
+current platform. This allows future vendors to allocate hwprobe keys
+for their vendor.
 
-  of_property_for_each_u32(np, "xyz", prop, p, val) { ... }
+Support for xtheadvector is also added to the vector kselftests.
 
-to this:
+Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
 
-  u32 val;
+[1] https://github.com/T-head-Semi/thead-extension-spec/blob/95358cb2cca9489361c61d335e03d3134b14133f/xtheadvector.adoc
 
-  of_property_for_each_u32(np, "xyz", val) { ... }
-
-However two variables cannot be declared in the for clause even with C11,
-so declare one struct that contain the two variables we actually need. As
-the variables inside this struct are not meant to be used by users of this
-macro, give the struct instance the noticeable name "_it" so it is visible
-during code reviews, helping to avoid new code to use it directly.
-
-Most usages are trivially converted as they do not use those two
-parameters, as expected. The non-trivial cases are:
-
- - drivers/clk/clk.c, of_clk_get_parent_name(): easily doable anyway
- - drivers/clk/clk-si5351.c, si5351_dt_parse(): this is more complex as the
-   checks had to be replicated in a different way, making code more verbose
-   and somewhat uglier, but I refrained from a full rework to keep as much
-   of the original code untouched having no hardware to test my changes
-
-All the changes have been build tested. The few for which I have the
-hardware have been runtime-tested too.
-
-Reviewed-by: Andre Przywara <andre.przywara@arm.com> # drivers/clk/sunxi/clk-simple-gates.c, drivers/clk/sunxi/clk-sun8i-bus-gates.c
-Acked-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org> # drivers/gpio/gpio-brcmstb.c
-Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com> # drivers/irqchip/irq-atmel-aic-common.c
-Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com> # drivers/iio/adc/ti_am335x_adc.c
-Acked-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com> # drivers/pwm/pwm-samsung.c
-Acked-by: Richard Leitner <richard.leitner@linux.dev> # drivers/usb/misc/usb251xb.c
-Acked-by: Mark Brown <broonie@kernel.org> # sound/soc/codecs/arizona.c
-Reviewed-by: Richard Fitzgerald <rf@opensource.cirrus.com> # sound/soc/codecs/arizona.c
-Acked-by: Michael Ellerman <mpe@ellerman.id.au> # arch/powerpc/sysdev/xive/spapr.c
-Acked-by: Stephen Boyd <sboyd@kernel.org> # clk
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
-[Note: to reduce the noise I have trimmed the get_maintainers list
-manually. Should you want to be removed, or someone else added, to future
-versions, just tell me. Sorry for the noise.]
+This series is a continuation of a different series that was fragmented
+into two other series in an attempt to get part of it merged in the 6.10
+merge window. The split-off series did not get merged due to a NAK on
+the series that added the generic riscv,vlenb devicetree entry. This
+series has converted riscv,vlenb to thead,vlenb to remedy this issue.
 
-This series aims at simplifying of_property_for_each_u32() as well as
-making it more difficult to misuse it in the future.
+The original series is titled "riscv: Support vendor extensions and
+xtheadvector" [3].
 
-The long-term goal is changing this pattern:
+The series titled "riscv: Extend cpufeature.c to detect vendor
+extensions" is still under development and this series is based on that
+series! [4]
 
-  struct property *prop;
-  const __be32 *p;
-  u32 val;
- 
-  of_property_for_each_u32(np, "xyz", prop, p, val) { ... }
+I have tested this with an Allwinner Nezha board. I ran into issues
+booting the board after 6.9-rc1 so I applied these patches to 6.8. There
+are a couple of minor merge conflicts that do arrise when doing that, so
+please let me know if you have been able to boot this board with a 6.9
+kernel. I used SkiffOS [1] to manage building the image, but upgraded
+the U-Boot version to Samuel Holland's more up-to-date version [2] and
+changed out the device tree used by U-Boot with the device trees that
+are present in upstream linux and this series. Thank you Samuel for all
+of the work you did to make this task possible.
 
-to this:
+[1] https://github.com/skiffos/SkiffOS/tree/master/configs/allwinner/nezha
+[2] https://github.com/smaeul/u-boot/commit/2e89b706f5c956a70c989cd31665f1429e9a0b48
+[3] https://lore.kernel.org/all/20240503-dev-charlie-support_thead_vector_6_9-v6-0-cb7624e65d82@rivosinc.com/
+[4] https://lore.kernel.org/lkml/20240719-support_vendor_extensions-v3-4-0af7587bbec0@rivosinc.com/T/
 
-  u32 val;
-
-  of_property_for_each_u32(np, "xyz", val) { ... }
-
-So, removing the 3rd and 4th arguments which are typically meant to be
-internal. Those two parameters used to be unavoidable until the kernel
-moved to building with the C11 standard unconditionally. Since then, it is
-now possible to get rid of them. However a few users of
-of_property_for_each_u32() do actually use those arguments, which
-complicates the transition. For this reason this series does the following:
-
- * Add of_property_for_each_u32_new(), which does not have those two
-   arguments (patch 1)
- * Convert _almost_ every usage to of_property_for_each_u32_new()
- * Rename of_property_for_each_u32() to of_property_for_each_u32_old() and
-   deprecate it, as a incentive to code not (yet) in mainline to upgrade
-   to the *_new() version (last patch)
-
-The plan for the next series is to additionally:
-
- * Convert the few remaining of_property_for_each_u32_old() instantes to
-   of_property_for_each_u32_new()
- * Remove of_property_for_each_u32_old()
- * Rename of_property_for_each_u32_new() to of_property_for_each_u32()
 ---
+Changes in v7:
+- Add defs for has_xtheadvector_no_alternatives() and has_xtheadvector()
+  when vector disabled. (Palmer)
+- Link to v6: https://lore.kernel.org/r/20240722-xtheadvector-v6-0-c9af0130fa00@rivosinc.com
+
+Changes in v6:
+- Fix return type of is_vector_supported()/is_xthead_supported() to be bool
+- Link to v5: https://lore.kernel.org/r/20240719-xtheadvector-v5-0-4b485fc7d55f@rivosinc.com
+
+Changes in v5:
+- Rebase on for-next
+- Link to v4: https://lore.kernel.org/r/20240702-xtheadvector-v4-0-2bad6820db11@rivosinc.com
+
+Changes in v4:
+- Replace inline asm with C (Samuel)
+- Rename VCSRs to CSRs (Samuel)
+- Replace .insn directives with .4byte directives
+- Link to v3: https://lore.kernel.org/r/20240619-xtheadvector-v3-0-bff39eb9668e@rivosinc.com
+
 Changes in v3:
-- Link to v2: https://lore.kernel.org/r/20240717-of_property_for_each_u32-v2-1-4060990f49c9@bootlin.com
+- Add back Heiko's signed-off-by (Conor)
+- Mark RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0 as a bitmask
+- Link to v2: https://lore.kernel.org/r/20240610-xtheadvector-v2-0-97a48613ad64@rivosinc.com
 
 Changes in v2:
-- Link to v1: https://lore.kernel.org/r/20240703-of_property_for_each_u32-v1-0-42c1fc0b82aa@bootlin.com
----
-
-Changed in v3:
- - add missing newlines to printk strings
- - Link to v2: https://lore.kernel.org/r/20240717-of_property_for_each_u32-v2-1-4060990f49c9@bootlin.com
-
-Note! I have carried the ack/review tags received on v1, but since those
-were on individual, per-driver patches I cannot claim the approve the whole
-work. So I have added the specific file that was acked. For those who
-reviewed v1 (thanks!), I'll assume that's OK unless you tell otherwise.
-
-Changed in v2:
- - squashed into a single patch as suggested by Rob
-   - so _new and _old macros do not appear anymore
-   - added to To/Cc all names reported by get_maintainers instead of
-     trimming as I did for v1
- - converted the few users not yet converted in v1
- - improve commit message
- - Link to v1: https://lore.kernel.org/r/20240703-of_property_for_each_u32-v1-0-42c1fc0b82aa@bootlin.com
----
- arch/powerpc/sysdev/xive/native.c       |  4 +--
- arch/powerpc/sysdev/xive/spapr.c        |  3 +--
- drivers/bus/ti-sysc.c                   |  4 +--
- drivers/clk/clk-conf.c                  |  4 +--
- drivers/clk/clk-si5351.c                | 43 ++++++++++++++++++++-------------
- drivers/clk/clk.c                       | 12 ++++-----
- drivers/clk/qcom/common.c               |  4 +--
- drivers/clk/sunxi/clk-simple-gates.c    |  4 +--
- drivers/clk/sunxi/clk-sun8i-bus-gates.c |  4 +--
- drivers/clocksource/samsung_pwm_timer.c |  4 +--
- drivers/gpio/gpio-brcmstb.c             |  5 +---
- drivers/iio/adc/ti_am335x_adc.c         |  4 +--
- drivers/irqchip/irq-atmel-aic-common.c  |  4 +--
- drivers/irqchip/irq-pic32-evic.c        |  4 +--
- drivers/mfd/ti_am335x_tscadc.c          |  4 +--
- drivers/pinctrl/nxp/pinctrl-s32cc.c     |  4 +--
- drivers/pinctrl/pinctrl-k210.c          |  4 +--
- drivers/pwm/pwm-samsung.c               |  4 +--
- drivers/tty/sysrq.c                     |  4 +--
- drivers/usb/misc/usb251xb.c             |  4 +--
- include/linux/of.h                      | 15 ++++++------
- sound/soc/codecs/arizona.c              | 12 ++++-----
- 22 files changed, 61 insertions(+), 93 deletions(-)
-
-diff --git a/arch/powerpc/sysdev/xive/native.c b/arch/powerpc/sysdev/xive/native.c
-index 517b963e3e6a..a0934b516933 100644
---- a/arch/powerpc/sysdev/xive/native.c
-+++ b/arch/powerpc/sysdev/xive/native.c
-@@ -559,9 +559,7 @@ bool __init xive_native_init(void)
- 	struct device_node *np;
- 	struct resource r;
- 	void __iomem *tima;
--	struct property *prop;
- 	u8 max_prio = 7;
--	const __be32 *p;
- 	u32 val, cpu;
- 	s64 rc;
- 
-@@ -592,7 +590,7 @@ bool __init xive_native_init(void)
- 		max_prio = val - 1;
- 
- 	/* Iterate the EQ sizes and pick one */
--	of_property_for_each_u32(np, "ibm,xive-eq-sizes", prop, p, val) {
-+	of_property_for_each_u32(np, "ibm,xive-eq-sizes", val) {
- 		xive_queue_shift = val;
- 		if (val == PAGE_SHIFT)
- 			break;
-diff --git a/arch/powerpc/sysdev/xive/spapr.c b/arch/powerpc/sysdev/xive/spapr.c
-index e45419264391..f2fa985a2c77 100644
---- a/arch/powerpc/sysdev/xive/spapr.c
-+++ b/arch/powerpc/sysdev/xive/spapr.c
-@@ -814,7 +814,6 @@ bool __init xive_spapr_init(void)
- 	struct device_node *np;
- 	struct resource r;
- 	void __iomem *tima;
--	struct property *prop;
- 	u8 max_prio;
- 	u32 val;
- 	u32 len;
-@@ -866,7 +865,7 @@ bool __init xive_spapr_init(void)
- 	}
- 
- 	/* Iterate the EQ sizes and pick one */
--	of_property_for_each_u32(np, "ibm,xive-eq-sizes", prop, reg, val) {
-+	of_property_for_each_u32(np, "ibm,xive-eq-sizes", val) {
- 		xive_queue_shift = val;
- 		if (val == PAGE_SHIFT)
- 			break;
-diff --git a/drivers/bus/ti-sysc.c b/drivers/bus/ti-sysc.c
-index 8767e04d6c89..2b59ef61dda2 100644
---- a/drivers/bus/ti-sysc.c
-+++ b/drivers/bus/ti-sysc.c
-@@ -2291,11 +2291,9 @@ static int sysc_init_idlemode(struct sysc *ddata, u8 *idlemodes,
- 			      const char *name)
- {
- 	struct device_node *np = ddata->dev->of_node;
--	struct property *prop;
--	const __be32 *p;
- 	u32 val;
- 
--	of_property_for_each_u32(np, name, prop, p, val) {
-+	of_property_for_each_u32(np, name, val) {
- 		if (val >= SYSC_NR_IDLEMODES) {
- 			dev_err(ddata->dev, "invalid idlemode: %i\n", val);
- 			return -EINVAL;
-diff --git a/drivers/clk/clk-conf.c b/drivers/clk/clk-conf.c
-index 1a4e6340f95c..058420562020 100644
---- a/drivers/clk/clk-conf.c
-+++ b/drivers/clk/clk-conf.c
-@@ -81,13 +81,11 @@ static int __set_clk_parents(struct device_node *node, bool clk_supplier)
- static int __set_clk_rates(struct device_node *node, bool clk_supplier)
- {
- 	struct of_phandle_args clkspec;
--	struct property	*prop;
--	const __be32 *cur;
- 	int rc, index = 0;
- 	struct clk *clk;
- 	u32 rate;
- 
--	of_property_for_each_u32(node, "assigned-clock-rates", prop, cur, rate) {
-+	of_property_for_each_u32(node, "assigned-clock-rates", rate) {
- 		if (rate) {
- 			rc = of_parse_phandle_with_args(node, "assigned-clocks",
- 					"#clock-cells",	index, &clkspec);
-diff --git a/drivers/clk/clk-si5351.c b/drivers/clk/clk-si5351.c
-index 4ce83c5265b8..a4c92c5ef3ff 100644
---- a/drivers/clk/clk-si5351.c
-+++ b/drivers/clk/clk-si5351.c
-@@ -1175,8 +1175,8 @@ static int si5351_dt_parse(struct i2c_client *client,
- {
- 	struct device_node *child, *np = client->dev.of_node;
- 	struct si5351_platform_data *pdata;
--	struct property *prop;
--	const __be32 *p;
-+	u32 array[4];
-+	int sz, i;
- 	int num = 0;
- 	u32 val;
- 
-@@ -1191,20 +1191,24 @@ static int si5351_dt_parse(struct i2c_client *client,
- 	 * property silabs,pll-source : <num src>, [<..>]
- 	 * allow to selectively set pll source
- 	 */
--	of_property_for_each_u32(np, "silabs,pll-source", prop, p, num) {
-+	sz = of_property_read_variable_u32_array(np, "silabs,pll-source", array, 2, 4);
-+	sz = (sz == -EINVAL) ? 0 : sz; /* Missing property is OK */
-+	if (sz < 0)
-+		return dev_err_probe(&client->dev, sz, "invalid pll-source\n");
-+	if (sz % 2)
-+		return dev_err_probe(&client->dev, -EINVAL,
-+				     "missing pll-source for pll %d\n", array[sz - 1]);
-+
-+	for (i = 0; i < sz; i += 2) {
-+		num = array[i];
-+		val = array[i + 1];
-+
- 		if (num >= 2) {
- 			dev_err(&client->dev,
- 				"invalid pll %d on pll-source prop\n", num);
- 			return -EINVAL;
- 		}
- 
--		p = of_prop_next_u32(prop, p, &val);
--		if (!p) {
--			dev_err(&client->dev,
--				"missing pll-source for pll %d\n", num);
--			return -EINVAL;
--		}
--
- 		switch (val) {
- 		case 0:
- 			pdata->pll_src[num] = SI5351_PLL_SRC_XTAL;
-@@ -1232,19 +1236,24 @@ static int si5351_dt_parse(struct i2c_client *client,
- 	pdata->pll_reset[0] = true;
- 	pdata->pll_reset[1] = true;
- 
--	of_property_for_each_u32(np, "silabs,pll-reset-mode", prop, p, num) {
-+	sz = of_property_read_variable_u32_array(np, "silabs,pll-reset-mode", array, 2, 4);
-+	sz = (sz == -EINVAL) ? 0 : sz; /* Missing property is OK */
-+	if (sz < 0)
-+		return dev_err_probe(&client->dev, sz, "invalid pll-reset-mode\n");
-+	if (sz % 2)
-+		return dev_err_probe(&client->dev, -EINVAL,
-+				     "missing pll-reset-mode for pll %d\n", array[sz - 1]);
-+
-+	for (i = 0; i < sz; i += 2) {
-+		num = array[i];
-+		val = array[i + 1];
-+
- 		if (num >= 2) {
- 			dev_err(&client->dev,
- 				"invalid pll %d on pll-reset-mode prop\n", num);
- 			return -EINVAL;
- 		}
- 
--		p = of_prop_next_u32(prop, p, &val);
--		if (!p) {
--			dev_err(&client->dev,
--				"missing pll-reset-mode for pll %d\n", num);
--			return -EINVAL;
--		}
- 
- 		switch (val) {
- 		case 0:
-diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
-index 8cca52be993f..285ed1ad8a37 100644
---- a/drivers/clk/clk.c
-+++ b/drivers/clk/clk.c
-@@ -5364,9 +5364,8 @@ EXPORT_SYMBOL_GPL(of_clk_get_parent_count);
- const char *of_clk_get_parent_name(const struct device_node *np, int index)
- {
- 	struct of_phandle_args clkspec;
--	struct property *prop;
- 	const char *clk_name;
--	const __be32 *vp;
-+	bool found = false;
- 	u32 pv;
- 	int rc;
- 	int count;
-@@ -5383,15 +5382,16 @@ const char *of_clk_get_parent_name(const struct device_node *np, int index)
- 	/* if there is an indices property, use it to transfer the index
- 	 * specified into an array offset for the clock-output-names property.
- 	 */
--	of_property_for_each_u32(clkspec.np, "clock-indices", prop, vp, pv) {
-+	of_property_for_each_u32(clkspec.np, "clock-indices", pv) {
- 		if (index == pv) {
- 			index = count;
-+			found = true;
- 			break;
- 		}
- 		count++;
- 	}
- 	/* We went off the end of 'clock-indices' without finding it */
--	if (prop && !vp)
-+	if (of_property_present(clkspec.np, "clock-indices") && !found)
- 		return NULL;
- 
- 	if (of_property_read_string_index(clkspec.np, "clock-output-names",
-@@ -5504,14 +5504,12 @@ static int parent_ready(struct device_node *np)
- int of_clk_detect_critical(struct device_node *np, int index,
- 			   unsigned long *flags)
- {
--	struct property *prop;
--	const __be32 *cur;
- 	uint32_t idx;
- 
- 	if (!np || !flags)
- 		return -EINVAL;
- 
--	of_property_for_each_u32(np, "clock-critical", prop, cur, idx)
-+	of_property_for_each_u32(np, "clock-critical", idx)
- 		if (index == idx)
- 			*flags |= CLK_IS_CRITICAL;
- 
-diff --git a/drivers/clk/qcom/common.c b/drivers/clk/qcom/common.c
-index 48f81e3a5e80..5aff92bf5913 100644
---- a/drivers/clk/qcom/common.c
-+++ b/drivers/clk/qcom/common.c
-@@ -226,11 +226,9 @@ EXPORT_SYMBOL_GPL(qcom_cc_register_sleep_clk);
- static void qcom_cc_drop_protected(struct device *dev, struct qcom_cc *cc)
- {
- 	struct device_node *np = dev->of_node;
--	struct property *prop;
--	const __be32 *p;
- 	u32 i;
- 
--	of_property_for_each_u32(np, "protected-clocks", prop, p, i) {
-+	of_property_for_each_u32(np, "protected-clocks", i) {
- 		if (i >= cc->num_rclks)
- 			continue;
- 
-diff --git a/drivers/clk/sunxi/clk-simple-gates.c b/drivers/clk/sunxi/clk-simple-gates.c
-index 0399627c226a..845efc1ec800 100644
---- a/drivers/clk/sunxi/clk-simple-gates.c
-+++ b/drivers/clk/sunxi/clk-simple-gates.c
-@@ -21,11 +21,9 @@ static void __init sunxi_simple_gates_setup(struct device_node *node,
- {
- 	struct clk_onecell_data *clk_data;
- 	const char *clk_parent, *clk_name;
--	struct property *prop;
- 	struct resource res;
- 	void __iomem *clk_reg;
- 	void __iomem *reg;
--	const __be32 *p;
- 	int number, i = 0, j;
- 	u8 clk_bit;
- 	u32 index;
-@@ -47,7 +45,7 @@ static void __init sunxi_simple_gates_setup(struct device_node *node,
- 	if (!clk_data->clks)
- 		goto err_free_data;
- 
--	of_property_for_each_u32(node, "clock-indices", prop, p, index) {
-+	of_property_for_each_u32(node, "clock-indices", index) {
- 		of_property_read_string_index(node, "clock-output-names",
- 					      i, &clk_name);
- 
-diff --git a/drivers/clk/sunxi/clk-sun8i-bus-gates.c b/drivers/clk/sunxi/clk-sun8i-bus-gates.c
-index b87f331f63c9..8482ac8e5898 100644
---- a/drivers/clk/sunxi/clk-sun8i-bus-gates.c
-+++ b/drivers/clk/sunxi/clk-sun8i-bus-gates.c
-@@ -24,11 +24,9 @@ static void __init sun8i_h3_bus_gates_init(struct device_node *node)
- 	const char *parents[PARENT_MAX];
- 	struct clk_onecell_data *clk_data;
- 	const char *clk_name;
--	struct property *prop;
- 	struct resource res;
- 	void __iomem *clk_reg;
- 	void __iomem *reg;
--	const __be32 *p;
- 	int number, i;
- 	u8 clk_bit;
- 	int index;
-@@ -58,7 +56,7 @@ static void __init sun8i_h3_bus_gates_init(struct device_node *node)
- 		goto err_free_data;
- 
- 	i = 0;
--	of_property_for_each_u32(node, "clock-indices", prop, p, index) {
-+	of_property_for_each_u32(node, "clock-indices", index) {
- 		of_property_read_string_index(node, "clock-output-names",
- 					      i, &clk_name);
- 
-diff --git a/drivers/clocksource/samsung_pwm_timer.c b/drivers/clocksource/samsung_pwm_timer.c
-index 6e46781bc9ac..b9561e3f196c 100644
---- a/drivers/clocksource/samsung_pwm_timer.c
-+++ b/drivers/clocksource/samsung_pwm_timer.c
-@@ -418,8 +418,6 @@ void __init samsung_pwm_clocksource_init(void __iomem *base,
- static int __init samsung_pwm_alloc(struct device_node *np,
- 				    const struct samsung_pwm_variant *variant)
- {
--	struct property *prop;
--	const __be32 *cur;
- 	u32 val;
- 	int i, ret;
- 
-@@ -427,7 +425,7 @@ static int __init samsung_pwm_alloc(struct device_node *np,
- 	for (i = 0; i < SAMSUNG_PWM_NUM; ++i)
- 		pwm.irq[i] = irq_of_parse_and_map(np, i);
- 
--	of_property_for_each_u32(np, "samsung,pwm-outputs", prop, cur, val) {
-+	of_property_for_each_u32(np, "samsung,pwm-outputs", val) {
- 		if (val >= SAMSUNG_PWM_NUM) {
- 			pr_warn("%s: invalid channel index in samsung,pwm-outputs property\n", __func__);
- 			continue;
-diff --git a/drivers/gpio/gpio-brcmstb.c b/drivers/gpio/gpio-brcmstb.c
-index 8dce78ea7139..5762e517338e 100644
---- a/drivers/gpio/gpio-brcmstb.c
-+++ b/drivers/gpio/gpio-brcmstb.c
-@@ -591,8 +591,6 @@ static int brcmstb_gpio_probe(struct platform_device *pdev)
- 	void __iomem *reg_base;
- 	struct brcmstb_gpio_priv *priv;
- 	struct resource *res;
--	struct property *prop;
--	const __be32 *p;
- 	u32 bank_width;
- 	int num_banks = 0;
- 	int num_gpios = 0;
-@@ -636,8 +634,7 @@ static int brcmstb_gpio_probe(struct platform_device *pdev)
- 	flags = BGPIOF_BIG_ENDIAN_BYTE_ORDER;
- #endif
- 
--	of_property_for_each_u32(np, "brcm,gpio-bank-widths", prop, p,
--			bank_width) {
-+	of_property_for_each_u32(np, "brcm,gpio-bank-widths", bank_width) {
- 		struct brcmstb_gpio_bank *bank;
- 		struct gpio_chip *gc;
- 
-diff --git a/drivers/iio/adc/ti_am335x_adc.c b/drivers/iio/adc/ti_am335x_adc.c
-index 95fa857e8aad..426e3c9f88a1 100644
---- a/drivers/iio/adc/ti_am335x_adc.c
-+++ b/drivers/iio/adc/ti_am335x_adc.c
-@@ -564,13 +564,11 @@ static int tiadc_parse_dt(struct platform_device *pdev,
- 			  struct tiadc_device *adc_dev)
- {
- 	struct device_node *node = pdev->dev.of_node;
--	struct property *prop;
--	const __be32 *cur;
- 	int channels = 0;
- 	u32 val;
- 	int i;
- 
--	of_property_for_each_u32(node, "ti,adc-channels", prop, cur, val) {
-+	of_property_for_each_u32(node, "ti,adc-channels", val) {
- 		adc_dev->channel_line[channels] = val;
- 
- 		/* Set Default values for optional DT parameters */
-diff --git a/drivers/irqchip/irq-atmel-aic-common.c b/drivers/irqchip/irq-atmel-aic-common.c
-index 072bd227b6c6..4525366d16d6 100644
---- a/drivers/irqchip/irq-atmel-aic-common.c
-+++ b/drivers/irqchip/irq-atmel-aic-common.c
-@@ -111,8 +111,6 @@ static void __init aic_common_ext_irq_of_init(struct irq_domain *domain)
- 	struct device_node *node = irq_domain_get_of_node(domain);
- 	struct irq_chip_generic *gc;
- 	struct aic_chip_data *aic;
--	struct property *prop;
--	const __be32 *p;
- 	u32 hwirq;
- 
- 	gc = irq_get_domain_generic_chip(domain, 0);
-@@ -120,7 +118,7 @@ static void __init aic_common_ext_irq_of_init(struct irq_domain *domain)
- 	aic = gc->private;
- 	aic->ext_irqs |= 1;
- 
--	of_property_for_each_u32(node, "atmel,external-irqs", prop, p, hwirq) {
-+	of_property_for_each_u32(node, "atmel,external-irqs", hwirq) {
- 		gc = irq_get_domain_generic_chip(domain, hwirq);
- 		if (!gc) {
- 			pr_warn("AIC: external irq %d >= %d skip it\n",
-diff --git a/drivers/irqchip/irq-pic32-evic.c b/drivers/irqchip/irq-pic32-evic.c
-index 277240325cbc..eb6ca516a166 100644
---- a/drivers/irqchip/irq-pic32-evic.c
-+++ b/drivers/irqchip/irq-pic32-evic.c
-@@ -190,13 +190,11 @@ static void __init pic32_ext_irq_of_init(struct irq_domain *domain)
- {
- 	struct device_node *node = irq_domain_get_of_node(domain);
- 	struct evic_chip_data *priv = domain->host_data;
--	struct property *prop;
--	const __le32 *p;
- 	u32 hwirq;
- 	int i = 0;
- 	const char *pname = "microchip,external-irqs";
- 
--	of_property_for_each_u32(node, pname, prop, p, hwirq) {
-+	of_property_for_each_u32(node, pname, hwirq) {
- 		if (i >= ARRAY_SIZE(priv->ext_irqs)) {
- 			pr_warn("More than %d external irq, skip rest\n",
- 				ARRAY_SIZE(priv->ext_irqs));
-diff --git a/drivers/mfd/ti_am335x_tscadc.c b/drivers/mfd/ti_am335x_tscadc.c
-index 4bbd542d753e..0c1364d88469 100644
---- a/drivers/mfd/ti_am335x_tscadc.c
-+++ b/drivers/mfd/ti_am335x_tscadc.c
-@@ -119,8 +119,6 @@ static	int ti_tscadc_probe(struct platform_device *pdev)
- 	struct clk *clk;
- 	struct device_node *node;
- 	struct mfd_cell *cell;
--	struct property *prop;
--	const __be32 *cur;
- 	bool use_tsc = false, use_mag = false;
- 	u32 val;
- 	int err;
-@@ -167,7 +165,7 @@ static	int ti_tscadc_probe(struct platform_device *pdev)
- 	}
- 
- 	node = of_get_child_by_name(pdev->dev.of_node, "adc");
--	of_property_for_each_u32(node, "ti,adc-channels", prop, cur, val) {
-+	of_property_for_each_u32(node, "ti,adc-channels", val) {
- 		adc_channels++;
- 		if (val > 7) {
- 			dev_err(&pdev->dev, " PIN numbers are 0..7 (not %d)\n",
-diff --git a/drivers/pinctrl/nxp/pinctrl-s32cc.c b/drivers/pinctrl/nxp/pinctrl-s32cc.c
-index f0cad2c501f7..08d80fb935b3 100644
---- a/drivers/pinctrl/nxp/pinctrl-s32cc.c
-+++ b/drivers/pinctrl/nxp/pinctrl-s32cc.c
-@@ -735,9 +735,7 @@ static int s32_pinctrl_parse_groups(struct device_node *np,
- 				     struct s32_pin_group *grp,
- 				     struct s32_pinctrl_soc_info *info)
- {
--	const __be32 *p;
- 	struct device *dev;
--	struct property *prop;
- 	unsigned int *pins, *sss;
- 	int i, npins;
- 	u32 pinmux;
-@@ -768,7 +766,7 @@ static int s32_pinctrl_parse_groups(struct device_node *np,
- 		return -ENOMEM;
- 
- 	i = 0;
--	of_property_for_each_u32(np, "pinmux", prop, p, pinmux) {
-+	of_property_for_each_u32(np, "pinmux", pinmux) {
- 		pins[i] = get_pin_no(pinmux);
- 		sss[i] = get_pin_func(pinmux);
- 
-diff --git a/drivers/pinctrl/pinctrl-k210.c b/drivers/pinctrl/pinctrl-k210.c
-index b6d1ed9ec9a3..f4dcfa56c9e5 100644
---- a/drivers/pinctrl/pinctrl-k210.c
-+++ b/drivers/pinctrl/pinctrl-k210.c
-@@ -763,8 +763,6 @@ static int k210_pinctrl_dt_subnode_to_map(struct pinctrl_dev *pctldev,
- 					  unsigned int *reserved_maps,
- 					  unsigned int *num_maps)
- {
--	struct property *prop;
--	const __be32 *p;
- 	int ret, pinmux_groups;
- 	u32 pinmux_group;
- 	unsigned long *configs = NULL;
-@@ -797,7 +795,7 @@ static int k210_pinctrl_dt_subnode_to_map(struct pinctrl_dev *pctldev,
- 	if (ret < 0)
- 		goto exit;
- 
--	of_property_for_each_u32(np, "pinmux", prop, p, pinmux_group) {
-+	of_property_for_each_u32(np, "pinmux", pinmux_group) {
- 		const char *group_name, *func_name;
- 		u32 pin = FIELD_GET(K210_PG_PIN, pinmux_group);
- 		u32 func = FIELD_GET(K210_PG_FUNC, pinmux_group);
-diff --git a/drivers/pwm/pwm-samsung.c b/drivers/pwm/pwm-samsung.c
-index efb60c9f0cb3..20734e7a216d 100644
---- a/drivers/pwm/pwm-samsung.c
-+++ b/drivers/pwm/pwm-samsung.c
-@@ -510,8 +510,6 @@ static int pwm_samsung_parse_dt(struct pwm_chip *chip)
- 	struct samsung_pwm_chip *our_chip = to_samsung_pwm_chip(chip);
- 	struct device_node *np = pwmchip_parent(chip)->of_node;
- 	const struct of_device_id *match;
--	struct property *prop;
--	const __be32 *cur;
- 	u32 val;
- 
- 	match = of_match_node(samsung_pwm_matches, np);
-@@ -520,7 +518,7 @@ static int pwm_samsung_parse_dt(struct pwm_chip *chip)
- 
- 	memcpy(&our_chip->variant, match->data, sizeof(our_chip->variant));
- 
--	of_property_for_each_u32(np, "samsung,pwm-outputs", prop, cur, val) {
-+	of_property_for_each_u32(np, "samsung,pwm-outputs", val) {
- 		if (val >= SAMSUNG_PWM_NUM) {
- 			dev_err(pwmchip_parent(chip),
- 				"%s: invalid channel index in samsung,pwm-outputs property\n",
-diff --git a/drivers/tty/sysrq.c b/drivers/tty/sysrq.c
-index e5974b8239c9..dab332681036 100644
---- a/drivers/tty/sysrq.c
-+++ b/drivers/tty/sysrq.c
-@@ -770,8 +770,6 @@ static void sysrq_of_get_keyreset_config(void)
- {
- 	u32 key;
- 	struct device_node *np;
--	struct property *prop;
--	const __be32 *p;
- 
- 	np = of_find_node_by_path("/chosen/linux,sysrq-reset-seq");
- 	if (!np) {
-@@ -782,7 +780,7 @@ static void sysrq_of_get_keyreset_config(void)
- 	/* Reset in case a __weak definition was present */
- 	sysrq_reset_seq_len = 0;
- 
--	of_property_for_each_u32(np, "keyset", prop, p, key) {
-+	of_property_for_each_u32(np, "keyset", key) {
- 		if (key == KEY_RESERVED || key > KEY_MAX ||
- 		    sysrq_reset_seq_len == SYSRQ_KEY_RESET_MAX)
- 			break;
-diff --git a/drivers/usb/misc/usb251xb.c b/drivers/usb/misc/usb251xb.c
-index 7da404f55a6d..3970bf9ca818 100644
---- a/drivers/usb/misc/usb251xb.c
-+++ b/drivers/usb/misc/usb251xb.c
-@@ -382,11 +382,9 @@ static void usb251xb_get_ports_field(struct usb251xb *hub,
- 				    bool ds_only, u8 *fld)
- {
- 	struct device *dev = hub->dev;
--	struct property *prop;
--	const __be32 *p;
- 	u32 port;
- 
--	of_property_for_each_u32(dev->of_node, prop_name, prop, p, port) {
-+	of_property_for_each_u32(dev->of_node, prop_name, port) {
- 		if ((port >= ds_only ? 1 : 0) && (port <= port_cnt))
- 			*fld |= BIT(port);
- 		else
-diff --git a/include/linux/of.h b/include/linux/of.h
-index a0bedd038a05..13ad808bb8f7 100644
---- a/include/linux/of.h
-+++ b/include/linux/of.h
-@@ -430,11 +430,9 @@ extern int of_detach_node(struct device_node *);
- #define of_match_ptr(_ptr)	(_ptr)
- 
- /*
-- * struct property *prop;
-- * const __be32 *p;
-  * u32 u;
-  *
-- * of_property_for_each_u32(np, "propname", prop, p, u)
-+ * of_property_for_each_u32(np, "propname", u)
-  *         printk("U32 value: %x\n", u);
-  */
- const __be32 *of_prop_next_u32(struct property *prop, const __be32 *cur,
-@@ -1431,11 +1429,12 @@ static inline int of_property_read_s32(const struct device_node *np,
- 	     err == 0;							\
- 	     err = of_phandle_iterator_next(it))
- 
--#define of_property_for_each_u32(np, propname, prop, p, u)	\
--	for (prop = of_find_property(np, propname, NULL),	\
--		p = of_prop_next_u32(prop, NULL, &u);		\
--		p;						\
--		p = of_prop_next_u32(prop, p, &u))
-+#define of_property_for_each_u32(np, propname, u)			\
-+	for (struct {struct property *prop; const __be32 *item; } _it =	\
-+		{of_find_property(np, propname, NULL),			\
-+		 of_prop_next_u32(_it.prop, NULL, &u)};			\
-+	     _it.item;							\
-+	     _it.item = of_prop_next_u32(_it.prop, _it.item, &u))
- 
- #define of_property_for_each_string(np, propname, prop, s)	\
- 	for (prop = of_find_property(np, propname, NULL),	\
-diff --git a/sound/soc/codecs/arizona.c b/sound/soc/codecs/arizona.c
-index 7434aeeda292..402b9a2ff024 100644
---- a/sound/soc/codecs/arizona.c
-+++ b/sound/soc/codecs/arizona.c
-@@ -2786,15 +2786,13 @@ int arizona_of_get_audio_pdata(struct arizona *arizona)
- {
- 	struct arizona_pdata *pdata = &arizona->pdata;
- 	struct device_node *np = arizona->dev->of_node;
--	struct property *prop;
--	const __be32 *cur;
- 	u32 val;
- 	u32 pdm_val[ARIZONA_MAX_PDM_SPK];
- 	int ret;
- 	int count = 0;
- 
- 	count = 0;
--	of_property_for_each_u32(np, "wlf,inmode", prop, cur, val) {
-+	of_property_for_each_u32(np, "wlf,inmode", val) {
- 		if (count == ARRAY_SIZE(pdata->inmode))
- 			break;
- 
-@@ -2803,7 +2801,7 @@ int arizona_of_get_audio_pdata(struct arizona *arizona)
- 	}
- 
- 	count = 0;
--	of_property_for_each_u32(np, "wlf,dmic-ref", prop, cur, val) {
-+	of_property_for_each_u32(np, "wlf,dmic-ref", val) {
- 		if (count == ARRAY_SIZE(pdata->dmic_ref))
- 			break;
- 
-@@ -2812,7 +2810,7 @@ int arizona_of_get_audio_pdata(struct arizona *arizona)
- 	}
- 
- 	count = 0;
--	of_property_for_each_u32(np, "wlf,out-mono", prop, cur, val) {
-+	of_property_for_each_u32(np, "wlf,out-mono", val) {
- 		if (count == ARRAY_SIZE(pdata->out_mono))
- 			break;
- 
-@@ -2821,7 +2819,7 @@ int arizona_of_get_audio_pdata(struct arizona *arizona)
- 	}
- 
- 	count = 0;
--	of_property_for_each_u32(np, "wlf,max-channels-clocked", prop, cur, val) {
-+	of_property_for_each_u32(np, "wlf,max-channels-clocked", val) {
- 		if (count == ARRAY_SIZE(pdata->max_channels_clocked))
- 			break;
- 
-@@ -2830,7 +2828,7 @@ int arizona_of_get_audio_pdata(struct arizona *arizona)
- 	}
- 
- 	count = 0;
--	of_property_for_each_u32(np, "wlf,out-volume-limit", prop, cur, val) {
-+	of_property_for_each_u32(np, "wlf,out-volume-limit", val) {
- 		if (count == ARRAY_SIZE(pdata->out_vol_limit))
- 			break;
- 
+- Removed extraneous references to "riscv,vlenb" (Jess)
+- Moved declaration of "thead,vlenb" into cpus.yaml and added
+  restriction that it's only applicable to thead cores (Conor)
+- Check CONFIG_RISCV_ISA_XTHEADVECTOR instead of CONFIG_RISCV_ISA_V for
+  thead,vlenb (Jess)
+- Fix naming of hwprobe variables (Evan)
+- Link to v1: https://lore.kernel.org/r/20240609-xtheadvector-v1-0-3fe591d7f109@rivosinc.com
 
 ---
-base-commit: d2f2d929511d092e52f9e50371f8da76d8979a82
-change-id: 20240701-of_property_for_each_u32-460fd02a5d0c
+Charlie Jenkins (12):
+      dt-bindings: riscv: Add xtheadvector ISA extension description
+      dt-bindings: cpus: add a thead vlen register length property
+      riscv: dts: allwinner: Add xtheadvector to the D1/D1s devicetree
+      riscv: Add thead and xtheadvector as a vendor extension
+      riscv: vector: Use vlenb from DT for thead
+      riscv: csr: Add CSR encodings for CSR_VXRM/CSR_VXSAT
+      riscv: Add xtheadvector instruction definitions
+      riscv: vector: Support xtheadvector save/restore
+      riscv: hwprobe: Add thead vendor extension probing
+      riscv: hwprobe: Document thead vendor extensions and xtheadvector extension
+      selftests: riscv: Fix vector tests
+      selftests: riscv: Support xtheadvector in vector tests
 
-Best regards,
+Heiko Stuebner (1):
+      RISC-V: define the elements of the VCSR vector CSR
+
+ Documentation/arch/riscv/hwprobe.rst               |  10 +
+ Documentation/devicetree/bindings/riscv/cpus.yaml  |  19 ++
+ .../devicetree/bindings/riscv/extensions.yaml      |  10 +
+ arch/riscv/Kconfig.vendor                          |  26 ++
+ arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi      |   3 +-
+ arch/riscv/include/asm/cpufeature.h                |   2 +
+ arch/riscv/include/asm/csr.h                       |  15 ++
+ arch/riscv/include/asm/hwprobe.h                   |   5 +-
+ arch/riscv/include/asm/switch_to.h                 |   2 +-
+ arch/riscv/include/asm/vector.h                    | 225 ++++++++++++----
+ arch/riscv/include/asm/vendor_extensions/thead.h   |  42 +++
+ .../include/asm/vendor_extensions/thead_hwprobe.h  |  18 ++
+ .../include/asm/vendor_extensions/vendor_hwprobe.h |  37 +++
+ arch/riscv/include/uapi/asm/hwprobe.h              |   3 +-
+ arch/riscv/include/uapi/asm/vendor/thead.h         |   3 +
+ arch/riscv/kernel/cpufeature.c                     |  54 +++-
+ arch/riscv/kernel/kernel_mode_vector.c             |   8 +-
+ arch/riscv/kernel/process.c                        |   4 +-
+ arch/riscv/kernel/signal.c                         |   6 +-
+ arch/riscv/kernel/sys_hwprobe.c                    |   5 +
+ arch/riscv/kernel/vector.c                         |  24 +-
+ arch/riscv/kernel/vendor_extensions.c              |  10 +
+ arch/riscv/kernel/vendor_extensions/Makefile       |   2 +
+ arch/riscv/kernel/vendor_extensions/thead.c        |  18 ++
+ .../riscv/kernel/vendor_extensions/thead_hwprobe.c |  19 ++
+ tools/testing/selftests/riscv/vector/.gitignore    |   3 +-
+ tools/testing/selftests/riscv/vector/Makefile      |  17 +-
+ .../selftests/riscv/vector/v_exec_initval_nolibc.c |  93 +++++++
+ tools/testing/selftests/riscv/vector/v_helpers.c   |  68 +++++
+ tools/testing/selftests/riscv/vector/v_helpers.h   |   8 +
+ tools/testing/selftests/riscv/vector/v_initval.c   |  22 ++
+ .../selftests/riscv/vector/v_initval_nolibc.c      |  68 -----
+ .../selftests/riscv/vector/vstate_exec_nolibc.c    |  20 +-
+ .../testing/selftests/riscv/vector/vstate_prctl.c  | 295 ++++++++++++---------
+ 34 files changed, 891 insertions(+), 273 deletions(-)
+---
+base-commit: 554462ced9ac97487c8f725fe466a9c20ed87521
+change-id: 20240530-xtheadvector-833d3d17b423
 -- 
-Luca Ceresoli <luca.ceresoli@bootlin.com>
+- Charlie
 
