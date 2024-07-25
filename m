@@ -1,61 +1,61 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86D034206E
-	for <linux-sunxi@lists.linux.dev>; Thu, 25 Jul 2024 04:16:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 897B66F2F8
+	for <linux-sunxi@lists.linux.dev>; Thu, 25 Jul 2024 04:16:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721881010; cv=none; b=rAyij18rfWQVk1mUB6Y5S1I13noX1DXJ0N5p5ifawbWDvtQrUY3/qKpxamL2N4iWcOOh5sofVApzI1EeFIB99GiG2z7edCKVVz2kYZ/aneHrM9upuq0+dztwGVttYeQVvcaN1KYMsqcKgqDjYIEJVRJmwNV4XvOf4tvNfUdwFsI=
+	t=1721881012; cv=none; b=B2ZFmU/oqxThK1CRl+LBBJoHHQ/NgRYBADk6evyYJ00qpDQdH6sHrAs1gLa4dJ3k6iS65ONRnv5CTK/YyED+9qZeaK1xsAApmZs+w9eQa3nNJyiACc6lbadHnNenHO6/In3aYIlA/vD0ewpm63NB3A4juOxhFaG5MjbDigi/0zY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721881010; c=relaxed/simple;
-	bh=wrX0uryyy89vYlAinvVr2O6QBZz257uuEBuSnzas59I=;
+	s=arc-20240116; t=1721881012; c=relaxed/simple;
+	bh=/awdvkpT37Pcv9l+R6WHhK0Ytr8TrWH5wurC23dujZY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=XnT9+bM6VahXsbac0N5QEvxAR6pz1azVTsBMRnAXKrbzxRPCs8cbtiIVS3hwl+Lo9z4r8kdiq55hBpIBJmaLOcPzih6mVJwC82Sk5XOrmXTylseNN785kpxDAW6OXptjSUmSUFzSOe0fAqCCtHVeyh/1onNmJyBD0ZSAhi7hfIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=bKshPqSo; arc=none smtp.client-ip=209.85.210.181
+	 In-Reply-To:To:Cc; b=Vq4Ayz9S9ELKMBu1y2j3/5G+AFBvR4ahSmbco2xeXjTl3PlN0pUR3FW6ZwJCCspgWx4tpopK/2qIVeCaxF3REiEu6lwjC9cPK9DO3ubQRdbJBMN1y5rP6gGiPOkR5bjzzhC+qWDUB5MaZrWID1BOO0ezO6/apkFM/1zysp5SSFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=AE28DSZB; arc=none smtp.client-ip=209.85.214.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="bKshPqSo"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-70d357040dbso418524b3a.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 24 Jul 2024 21:16:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="AE28DSZB"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1fd90c2fc68so4242385ad.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 24 Jul 2024 21:16:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1721881008; x=1722485808; darn=lists.linux.dev;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1721881010; x=1722485810; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=425S2jEpk/4yk63j4Ow9jwZmOCFjeEcHZbKGmEqnWN8=;
-        b=bKshPqSo6fKj8SIxXS3/2hyZdkuer1xcsyLdUH9zUkn+YVclWs3opj6tcziYrKrehR
-         Qc1u02kYNKVc4gqYmwND5+zpkrtMrOnJXotLvYATycYufvg8jBk4sG66s+N2lei2lDFe
-         VG7tw8+hxJJaniQzJiMXXC8yRjG24NxXXaAejS+4zuQM8IMn15p4MGWZXpxIESZm5fKl
-         +EcwuUrwesjZ6TcJ/S92YVOpQBFR6ZkMANY8RvSm9p/dZ4g/t2fp9wZUed1/9oKsHb2I
-         /GT39VPWD0PAw8ijWGWVnGIW6iuzuNHbBjEyZfiGaelAa2lN4ZD+Exv2X/0gmWdKzTov
-         0TkQ==
+        bh=7liFIbqG3XLVQtLXjuEuZ9H5FIup228+UAuRj2s502A=;
+        b=AE28DSZB30FgU3ON9SzN4NidfZqdib+kbrn+80PEo8d+apfetjpf1F6mDWA7f2qniY
+         4KoByag5YTVz/YPRPiLgHq0+cbm3l0gZwe5NWVeX4QypAiy+hO7edAQNjbmtd/ac4m64
+         calFsi2AAZvcwf+1FTJ9JhSwTQd/HRfGpnOFwRz4bMUW6nwgWjHdtwTxHmImcN2VaP1Y
+         W2K3x3Cei0XSaj1ph7jaqiQ9CZRilua4aptBsHkiV/EGf+axvJAyphd5/a9OF5Us67kQ
+         Lh1/AW7Vr3iMSjmrZvZyQj13YZ2AVu6905XGWV2Hrecnl9540FZDKTDTAtJcRLRF12bz
+         083A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721881008; x=1722485808;
+        d=1e100.net; s=20230601; t=1721881010; x=1722485810;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=425S2jEpk/4yk63j4Ow9jwZmOCFjeEcHZbKGmEqnWN8=;
-        b=e9jRIz81QtaZtZjSj2slx6UcExXS3ZijlDnCpsoPub2qE8eRKcHZHuO7Vzan5SQelZ
-         GHwrqNQ0EO5oX1jzWnxyhxhNCBFDTdGa0VkSRf1kvWjn14fsWisS7mykgh3lR5PaGq8n
-         SjyLlR8BwzjG8oT4nOv/UyIYOnp0FyjydIVLaT96z7fn13xhel9T01p8ZzAfLRbXTbVs
-         XeBf33PPuoIfpOAM1gb/J4dIzMxqLVIKJTLkJWQTg7D50yZeaapbM1DmS1umqo/Lmdcr
-         KgE1Oou6eoJCen0ZsUDbsQGPhOh07z5lohGzFtGoDAs7r3QSe22ZKM6fBOWk9+axGH4I
-         G2xg==
-X-Forwarded-Encrypted: i=1; AJvYcCWS+H4sN4WspKpb0y5hqN+F82RRhXlIli7HCH+TTmwG1Pet1OY0ADMKhF+6PZdgpa2aqYcFNFU350Jg1eBqWDpZWe7y5ZuAcNKY9us=
-X-Gm-Message-State: AOJu0YzIs21arzgMmQX3Of2z/eYQhYW5flG5PzXgt3F0oMUOvtBWwuTO
-	+FOPUlukhVRUWVvsOIdafzf78EhI6MJpXz20SkrD2GmmDU5NphFCWrhUV7Id9BU=
-X-Google-Smtp-Source: AGHT+IELFiGNwGGv7BR7vYWVLsiKiV4ZaPKzv5DoyOE6vOqbQlIXSrJhQprJhQfqNRbBaTkdXj3ZOQ==
-X-Received: by 2002:a05:6a20:432c:b0:1c3:b1b6:5066 with SMTP id adf61e73a8af0-1c472893397mr2419803637.13.1721881007915;
-        Wed, 24 Jul 2024 21:16:47 -0700 (PDT)
+        bh=7liFIbqG3XLVQtLXjuEuZ9H5FIup228+UAuRj2s502A=;
+        b=vhW3npKXZvpJBzaaIEGia4T5yqZe8KS9KZoPKeyDb9CZpm3I90qHskmufPisItAHJk
+         LU+FVkzmYwqnT78cC0pw76L5tznEGXZZVI7fFaqEP4shOK3qEgmBP/i+Tz+bYeWUDkjx
+         +HlW3on6F8TadZ7TkIBXa8UQy23Sc2feXctIpp7/cCk8WkcGEtslsJofE0zPojfpPXBf
+         umopWkHnVWQ//GrmgQnQvbnAZ9ktPVZZ4tU3q8Uzy6BkXqLCfok+d6lz30+ATioa6woy
+         zXNejOWJAJ7aL07wffHYx9dQ7/XW+EI3/68LhdC3TZVvmnWOXNbk4K484dctj476px+z
+         uyhQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXnPxQm0xKUAC7NP96lnKe0WdDm/LzL6/r0RhGmUG5iHUMb0HgOUTcYOLaSfc6wWx9LPsbpu6YBl0NlyNXX8fAHPd+u7vMmzv0///M=
+X-Gm-Message-State: AOJu0YxHhA1jnHtZYvU2EsH1DF6M21lrTB/+duAWPSNvQxNpaINeFIe0
+	zBu4L7Uph7d3NpDfXRg/dsJliDPksuYbDndullwAolyqm/SE68qW7hiimO0HEFk=
+X-Google-Smtp-Source: AGHT+IG9p5ieQtAxVwtwRrKMsQ3tH0oS7hdi8tXU1NiTxKTEptmOQ6kEQXaoXkVzZB80bKpXwXAfnQ==
+X-Received: by 2002:a17:902:c407:b0:1fa:fc6a:858a with SMTP id d9443c01a7336-1fed384285emr18528395ad.15.1721881009991;
+        Wed, 24 Jul 2024 21:16:49 -0700 (PDT)
 Received: from charlie.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fed7f2b80bsm3781825ad.205.2024.07.24.21.16.45
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fed7f2b80bsm3781825ad.205.2024.07.24.21.16.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jul 2024 21:16:47 -0700 (PDT)
+        Wed, 24 Jul 2024 21:16:49 -0700 (PDT)
 From: Charlie Jenkins <charlie@rivosinc.com>
-Date: Wed, 24 Jul 2024 21:16:23 -0700
-Subject: [PATCH v8 06/13] RISC-V: define the elements of the VCSR vector
- CSR
+Date: Wed, 24 Jul 2024 21:16:24 -0700
+Subject: [PATCH v8 07/13] riscv: csr: Add CSR encodings for
+ CSR_VXRM/CSR_VXSAT
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -64,7 +64,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240724-xtheadvector-v8-6-cf043168e137@rivosinc.com>
+Message-Id: <20240724-xtheadvector-v8-7-cf043168e137@rivosinc.com>
 References: <20240724-xtheadvector-v8-0-cf043168e137@rivosinc.com>
 In-Reply-To: <20240724-xtheadvector-v8-0-cf043168e137@rivosinc.com>
 To: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
@@ -82,46 +82,48 @@ To: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
 Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, 
  linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- Charlie Jenkins <charlie@rivosinc.com>, Heiko Stuebner <heiko@sntech.de>, 
- Conor Dooley <conor.dooley@microchip.com>, Heiko Stuebner <heiko@sntech.de>
+ Charlie Jenkins <charlie@rivosinc.com>, Heiko Stuebner <heiko@sntech.de>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1721880993; l=930;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1721880993; l=1045;
  i=charlie@rivosinc.com; s=20231120; h=from:subject:message-id;
- bh=0jkC45FH0LUvSVfvCEJuCBZ027fqPbAipPAnc4zFoN4=;
- b=XoiS1Ep8clInqZ7ahG0jkemQdoRrDU7bl84W8H28OTMlrx89tCkebW1m05ZpUpyXPXMGRWIyU
- Fq/qygjnv8pA9unHDFBhSb8y5j5eJkXw3j05S6lI2uSroDPOkH6rML3
+ bh=/awdvkpT37Pcv9l+R6WHhK0Ytr8TrWH5wurC23dujZY=;
+ b=mF9QzvOtJ0E+YvogarHlMEGaWmhoxEtzqz8fpE1XE4GA1FOcmeiBqgyml12mHdPeg4HK29G9Q
+ k3wj39Bgwa2AfUMTGV1y098m1KBZgSQ0bod6LyBScyOjBMjAsLalkez
 X-Developer-Key: i=charlie@rivosinc.com; a=ed25519;
  pk=t4RSWpMV1q5lf/NWIeR9z58bcje60/dbtxxmoSfBEcs=
 
-From: Heiko Stuebner <heiko@sntech.de>
+The VXRM vector csr for xtheadvector has an encoding of 0xa and VXSAT
+has an encoding of 0x9.
 
-The VCSR CSR contains two elements VXRM[2:1] and VXSAT[0].
-
-Define constants for those to access the elements in a readable way.
-
-Acked-by: Guo Ren <guoren@kernel.org>
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-Signed-off-by: Heiko Stuebner <heiko.stuebner@vrull.eu>
+Co-developed-by: Heiko Stuebner <heiko@sntech.de>
+Signed-off-by: Heiko Stuebner <heiko@sntech.de>
 Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
 ---
- arch/riscv/include/asm/csr.h | 4 ++++
- 1 file changed, 4 insertions(+)
+ arch/riscv/include/asm/csr.h | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
 diff --git a/arch/riscv/include/asm/csr.h b/arch/riscv/include/asm/csr.h
-index 25966995da04..3eeb07d73065 100644
+index 3eeb07d73065..c0a60c4ed911 100644
 --- a/arch/riscv/include/asm/csr.h
 +++ b/arch/riscv/include/asm/csr.h
-@@ -300,6 +300,10 @@
+@@ -300,9 +300,14 @@
  #define CSR_STIMECMP		0x14D
  #define CSR_STIMECMPH		0x15D
  
-+#define VCSR_VXRM_MASK			3
-+#define VCSR_VXRM_SHIFT			1
-+#define VCSR_VXSAT_MASK			1
+-#define VCSR_VXRM_MASK			3
+-#define VCSR_VXRM_SHIFT			1
+-#define VCSR_VXSAT_MASK			1
++/* xtheadvector symbolic CSR names */
++#define CSR_VXSAT		0x9
++#define CSR_VXRM		0xa
 +
++/* xtheadvector CSR masks */
++#define CSR_VXRM_MASK		3
++#define CSR_VXRM_SHIFT		1
++#define CSR_VXSAT_MASK		1
+ 
  /* Supervisor-Level Window to Indirectly Accessed Registers (AIA) */
  #define CSR_SISELECT		0x150
- #define CSR_SIREG		0x151
 
 -- 
 2.44.0
