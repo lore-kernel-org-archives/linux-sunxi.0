@@ -1,125 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 583D01BF308;
-	Thu,  1 Aug 2024 00:17:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 182FE1802B
+	for <linux-sunxi@lists.linux.dev>; Thu,  1 Aug 2024 03:41:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722471424; cv=none; b=N3KOrmjX7PhH49w5uN46ay8oE/0IekjWjnuY/4cuPenF1pDgDg9j6sDmrXyrWOPmF70AQQ6z2h0aZsWLAlgIEw/mpPpMl92Bz9x+iPPU1QKX/71YvGbmfPntu203FEYOnwnyzyhD5CdJJ/d0tK3g8HS18KKJWWVYRhdXvT3Vno0=
+	t=1722483685; cv=none; b=l6IwH+f7qSIpcQ/9Pw0jnctAtpN67TpGZFqCYF2cFdEcRnj2We1NTFc6vniEDGlgLEUmdV9/Y9C6KRaoB5QMXLhEI67cSuDkZPLKtByKhdEcIKjxh09gaVEAO+D8ceYnMASzmHS84Bh47GVRVlNCLD0eUNRwsgURIQLoU/go5kg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722471424; c=relaxed/simple;
-	bh=Cu9u7/IC/vzqe1yfpc+sjG23kEBqYrFG0a0R4YHkCa4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EsKAlyZSB7sCAQ7mpaAS5f80FL8Q123Q+9qN6us7qXVQorWTu9JbFuaWLsIMAf3jCSyDmLREnyRt0h7YjhiMSQhFnlxcnVdCW+LvfjFL2vC6NR7iQXWvV8tAGNfcGLoW+d0dBJAUqUhV7lTHxanuNInqbHCozDrW9h/oy6GfxMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c4DFNPgc; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c4DFNPgc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBB24C116B1;
-	Thu,  1 Aug 2024 00:17:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722471424;
-	bh=Cu9u7/IC/vzqe1yfpc+sjG23kEBqYrFG0a0R4YHkCa4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=c4DFNPgcCmrNRB7Jo45QkQicBPXl+Q2H522FxHoHdpwI6HxmZDFifs6SugmgtM1jG
-	 BDaRz3qSegkNLtiJhcJZCgYBdWAbBuGybjLBn2Ih2UBxW9g5FHm4hDg6l/SVc3TdzJ
-	 eDYTDe0WS+H303or0iGBlwjj4Y2rkHhNhWLCuWI35glJNqodN8udiLOluuvEuu8fyy
-	 FxLBAzhb+eEnxGqyd6MPWOA7JUa+4FWUxXXVgp/UeMq3pm2rLaxPlfq7TRtzJMVc2b
-	 GK+T1wIWLjGjRrmUeZchD2vEs65YtEt9fygCWiJS/g+YqqSI07Wyx7hiWA1ZhKCxRF
-	 /2T2k7+LH9glA==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Andre Przywara <andre.przywara@arm.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Joerg Roedel <jroedel@suse.de>,
-	Sasha Levin <sashal@kernel.org>,
-	joro@8bytes.org,
-	will@kernel.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	iommu@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.10 093/121] iommu: sun50i: allocate page tables from below 4 GiB
-Date: Wed, 31 Jul 2024 20:00:31 -0400
-Message-ID: <20240801000834.3930818-93-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240801000834.3930818-1-sashal@kernel.org>
-References: <20240801000834.3930818-1-sashal@kernel.org>
+	s=arc-20240116; t=1722483685; c=relaxed/simple;
+	bh=m4xYWVIGQDvqhmSV4J6ZUQ0pXgYRiqcojx1bzWRAQZY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=usSY4RZ691oA1QF5t5LE29Mxnb6aekv89I2N/H5rEGBOr0tXYu/HmDWIiqvBAUVROXNmfTpIx36n4ZQBypo18VperojcqOtVtAqHA2CSIntDA93s41P3WRa470xAzeEFk8gyPwHa/6xB91EtqYLrM1plkxkZbX1h8QMNOtwt+Q4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-52f024f468bso9433990e87.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 31 Jul 2024 20:41:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722483679; x=1723088479;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=rpFbA20aLHJ+Am8YxkTg4RUa3XKubG9hiY6Kx7P8xtw=;
+        b=ZgWOLLEutzjASFa5ym9TF0X7r7bSyA7//n7OXd/TXsuaweAlY8ClXvax57UxiPdv/W
+         OMtEcvJYIlDY50WlBzXJqbHYtV+DyMusSb7VucCVXhxmpB2mx/zVFcPUGt5AR6euwCoJ
+         wVWgNOGK4i0CulPrwSaZQOyotL97qckKvrJlcTSTE5jDGA+X63xPsSijAD3JPRl7YL6I
+         1o50g6YeI9gRrbTAdxgoVETWCi8yr/FyDU+083WpjYhXKxWqVIMFb4YpUQWwbli18Lol
+         cfPj3jEQirz2Zr+j0Pd1hvAvMyrvIiWJGgIbyqGAhVcS+jjDbHeGAzoO8j7hfGPLImCO
+         Ai6g==
+X-Forwarded-Encrypted: i=1; AJvYcCWWrG1DcRBR8yxNRJza6nPJVSCScdwnX81hCFzy58WINRJdox0Va3v6WfQOk2S2EwKbifYaUGPAoCdwUqjxOwU4Zlss9GhEh2TmS7c=
+X-Gm-Message-State: AOJu0YxB1B+c+vJDsPGAxxsAZAKA2Z/axWnrA96HF2lQzy7XxXPuYa6V
+	8QRqzQFykjU9Tv3x97UTgg1Zw35WxmH/IUJhBxxraM+WIaOlrlGFDhZ9Hmxr
+X-Google-Smtp-Source: AGHT+IFYtU/fycEg3TVAvj6KnUlCwzC9moMJeG1nz8Q0P7txSGhd0oZYEYiSv5VrV4OSYWMDPhOiHA==
+X-Received: by 2002:a05:6512:3f08:b0:52e:9c0a:3514 with SMTP id 2adb3069b0e04-530b61ebfb2mr516918e87.44.1722483678889;
+        Wed, 31 Jul 2024 20:41:18 -0700 (PDT)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com. [209.85.208.170])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52fd5c2cfb1sm2439410e87.269.2024.07.31.20.41.17
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 31 Jul 2024 20:41:17 -0700 (PDT)
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2ef2c56da6cso74434681fa.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 31 Jul 2024 20:41:17 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUE/Q4lXLDrI+7IYDQpXPO8MLivDz0bjM/Oxu3uKl4X8Z/Vkt3xXTf7FEp6A2GsDhNy1YpWaHCPgPIvHPWd9iEujdaync2CJomKDp4=
+X-Received: by 2002:a2e:84d6:0:b0:2ee:7a71:6e3b with SMTP id
+ 38308e7fff4ca-2f15310167cmr6804891fa.27.1722483677641; Wed, 31 Jul 2024
+ 20:41:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.10.2
-Content-Transfer-Encoding: 8bit
+References: <20240731191312.1710417-2-robh@kernel.org>
+In-Reply-To: <20240731191312.1710417-2-robh@kernel.org>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Thu, 1 Aug 2024 11:41:04 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65GvkyMS3kZWEADGWKvZ818w5uvJASkEMrox535c4Ba_Q@mail.gmail.com>
+Message-ID: <CAGb2v65GvkyMS3kZWEADGWKvZ818w5uvJASkEMrox535c4Ba_Q@mail.gmail.com>
+Subject: Re: [PATCH] cpufreq: Use of_property_present()
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, Naveen N Rao <naveen@kernel.org>, 
+	Patrice Chotard <patrice.chotard@foss.st.com>, Yangtao Li <tiny.windzz@gmail.com>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, linux-pm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Andre Przywara <andre.przywara@arm.com>
+On Thu, Aug 1, 2024 at 3:13=E2=80=AFAM Rob Herring (Arm) <robh@kernel.org> =
+wrote:
+>
+> Use of_property_present() to test for property presence rather than
+> of_(find|get)_property(). This is part of a larger effort to remove
+> callers of of_find_property() and similar functions. of_find_property()
+> leaks the DT struct property and data pointers which is a problem for
+> dynamically allocated nodes which may be freed.
+>
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> ---
+>  drivers/cpufreq/cpufreq-dt.c           | 11 +++--------
+>  drivers/cpufreq/pmac64-cpufreq.c       |  2 +-
+>  drivers/cpufreq/sti-cpufreq.c          |  2 +-
 
-[ Upstream commit 7b9331a3ae93adfae54c6a56d23513e1f7db5dcb ]
+>  drivers/cpufreq/sun50i-cpufreq-nvmem.c |  2 +-
 
-The Allwinner IOMMU is a strict 32-bit device, with its input addresses,
-the page table root pointer as well as both level's page tables and also
-the target addresses all required to be below 4GB.
-The Allwinner H6 SoC only supports 32-bit worth of physical addresses
-anyway, so this isn't a problem so far, but the H616 and later SoCs extend
-the PA space beyond 32 bit to accommodate more DRAM.
-To make sure we stay within the 32-bit PA range required by the IOMMU,
-force the memory for the page tables to come from below 4GB. by using
-allocations with the DMA32 flag.
-Also reject any attempt to map target addresses beyond 4GB, and print a
-warning to give users a hint while this fails.
-
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-Reviewed-by: Chen-Yu Tsai <wens@csie.org>
-Link: https://lore.kernel.org/r/20240616224056.29159-3-andre.przywara@arm.com
-Signed-off-by: Joerg Roedel <jroedel@suse.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/iommu/sun50i-iommu.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/iommu/sun50i-iommu.c b/drivers/iommu/sun50i-iommu.c
-index c519b991749d7..b5221579c9815 100644
---- a/drivers/iommu/sun50i-iommu.c
-+++ b/drivers/iommu/sun50i-iommu.c
-@@ -601,6 +601,14 @@ static int sun50i_iommu_map(struct iommu_domain *domain, unsigned long iova,
- 	u32 *page_table, *pte_addr;
- 	int ret = 0;
- 
-+	/* the IOMMU can only handle 32-bit addresses, both input and output */
-+	if ((uint64_t)paddr >> 32) {
-+		ret = -EINVAL;
-+		dev_warn_once(iommu->dev,
-+			      "attempt to map address beyond 4GB\n");
-+		goto out;
-+	}
-+
- 	page_table = sun50i_dte_get_page_table(sun50i_domain, iova, gfp);
- 	if (IS_ERR(page_table)) {
- 		ret = PTR_ERR(page_table);
-@@ -681,7 +689,8 @@ sun50i_iommu_domain_alloc_paging(struct device *dev)
- 	if (!sun50i_domain)
- 		return NULL;
- 
--	sun50i_domain->dt = iommu_alloc_pages(GFP_KERNEL, get_order(DT_SIZE));
-+	sun50i_domain->dt = iommu_alloc_pages(GFP_KERNEL | GFP_DMA32,
-+					      get_order(DT_SIZE));
- 	if (!sun50i_domain->dt)
- 		goto err_free_domain;
- 
-@@ -996,7 +1005,7 @@ static int sun50i_iommu_probe(struct platform_device *pdev)
- 
- 	iommu->pt_pool = kmem_cache_create(dev_name(&pdev->dev),
- 					   PT_SIZE, PT_SIZE,
--					   SLAB_HWCACHE_ALIGN,
-+					   SLAB_HWCACHE_ALIGN | SLAB_CACHE_DMA32,
- 					   NULL);
- 	if (!iommu->pt_pool)
- 		return -ENOMEM;
--- 
-2.43.0
-
+Acked-by: Chen-Yu Tsai <wens@csie.org>
