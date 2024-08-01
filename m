@@ -1,99 +1,117 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6534A1EB490
-	for <linux-sunxi@lists.linux.dev>; Thu,  1 Aug 2024 05:51:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A35E16C856;
+	Thu,  1 Aug 2024 08:23:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722491515; cv=none; b=OKGT+kL17NWuzghnPUQNpZ5ULer1SX39qOkPwsb945NmtL0Ol6BWz43pdhqcq6z0oFiKgogyR1FnCiFEU9oBKBvsrYEb8dY6eJF3j2du30R875pkjXw9llIayAESBuUG7mx7PB8p3kWTfDauajhp7lvoN832gU5y8Jx+1KNVIJo=
+	t=1722500605; cv=none; b=SbSEKg6nsQZSL8ykh0FUsZLrlgKb1FfEn+AoBv32T0dvFm0efTxig98k6P+twbNce9OpPEQBZ9RjH8XudB+LOP5Ou7EtBcy4ULYYFOG5vb9vPUBEuIMRHRs/xoxYZ5DhSC4bwyLAhHDKmCEJZ0n+elHFuLxF6uyRNnJHzyrMSrE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722491515; c=relaxed/simple;
-	bh=mHdBEdoA646mRvFAlQiOSeu1k6r5IpBY8UYszqgYIDA=;
+	s=arc-20240116; t=1722500605; c=relaxed/simple;
+	bh=Z51j2yPPzqzqUbfDzj+Co7O6I0fAkjzKGVvNCuTWfG0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ku0nmF/fMPqMueqRQA08O2ifDUvmYlhTgearRswcTQ4dQ9tPophVUuL8jHBRM4ekFNfnqUq5fsRWbpJfqCa+7MIZucjSHzqHvym8MJyN4Fbjc8o2Dwd2kdC8/HKr/igBmhsh+9ylu38g1AVM5BRmilb+eOrUqMCLPwDJ/mozZqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bhDlqFFj; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=NfVPw3iMrhWkZSKF8PYkpkwUckK8yQGFuXCfbkn5Cs10ZMVqQlwT73A+3+ktzBpzSTnL0ZDV3wdX5PW6HdLp6bqew9LRqfgk+21lbgkaKcPINSd1gPyekyNn5Adeigj37WLFJNfkjrECq5vc3jI/Xny3ETgPOm3666zRENZLVUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pLPPm9tY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bhDlqFFj"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-70d2b921cd1so5791831b3a.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 31 Jul 2024 22:51:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1722491514; x=1723096314; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7gBLGL+mmGX6AVb3elsBnCFrc79BJCRR+zjbmuB2kqk=;
-        b=bhDlqFFjok5yyIYqq58FXFr3y86SyqzRW5+EXfdqSZYuJTntbq84O6/rS4oWXmiAIJ
-         Yv2+uYa5TbxvXpXcmxmliv1xrcTBgJCQ66JTiwQqbUqQuitpv307SAg5sj4R8p3xCI0t
-         DKQNWS13VYN7CdAo14EJTF4yIyqF4VsocL6r/hGF/wIXf7HNvhDxQ59HF909lvMc32yO
-         PvpI0bRVgTnMfq/Z4NXUppz4lAER9o8PdIYEviw3OebHupLgvcPp/vr0prDcn8RxbX+t
-         00Sv/y4CEP+vvy1sMLhj+9qC0NGyJn8Gr+9hF5Zu7CMy6N7hRP/yZvs7ws5Gk+WLO4Mx
-         zfzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722491514; x=1723096314;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7gBLGL+mmGX6AVb3elsBnCFrc79BJCRR+zjbmuB2kqk=;
-        b=e2VD25T3wV19LGlewsCkdXAkfiHdo7F2ZvLRcqC3aioOx1eQ8mg0KKa8k+iqV9CI5U
-         akOq+fJHHyMM+JQoGjDSIOYrBS/wcp3Kbu+EOskgBQEwgwSEpSp5N2zAW3iT7KWIrqes
-         5bJImXTM9/qRm7CnzQrmBJ9OYRLKEn6sCWp9ioQBi+bBDXgxGi+pVeAzNlPfHbCpV9TC
-         jCshaKA+WCFEnMVpAVGTFMrpM24sGDdVKf1QMznA24ex1HBnCTMl0k5BeEWdl/6SdmKD
-         yHdQ5fTwhSqFg89/yiAGQIRhO1jLRm38maAV61ObjJY6R8R89fSU9c16x066mwZxeYxa
-         cpGQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVBBX3ZJhhrWc2NC9OfM37tQ1pfhOiVB1s6UmVHM7JconniZkqFw2Jr0NxTYoYcKiKsP/VJTp8XUb09sl4zLe2hBRVKiKsLt9qZHTk=
-X-Gm-Message-State: AOJu0Yx/xf0QEYu8RozL79i4Gbbarw/XAwJ/9EN+y697WvppC2ec1T7l
-	ai5DdrQBnexYfu6oDUd35iswAKFaHbm+L+moLKjZSBh8bgG124Po+pgtoBoxE0I=
-X-Google-Smtp-Source: AGHT+IHi3LdaOVqsILRzUG5RajCZhFYqsgwTEJCbU7Q/0owEgSj/B+R4O+r/bPYrYZw7jZacX4sQzQ==
-X-Received: by 2002:a05:6a20:ac44:b0:1bd:feed:c031 with SMTP id adf61e73a8af0-1c68cf30d2dmr1821935637.28.1722491513712;
-        Wed, 31 Jul 2024 22:51:53 -0700 (PDT)
-Received: from localhost ([122.172.84.129])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cfdc4add69sm2325862a91.47.2024.07.31.22.51.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Jul 2024 22:51:52 -0700 (PDT)
-Date: Thu, 1 Aug 2024 11:21:50 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Naveen N Rao <naveen@kernel.org>,
-	Patrice Chotard <patrice.chotard@foss.st.com>,
-	Yangtao Li <tiny.windzz@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] cpufreq: Use of_property_present()
-Message-ID: <20240801055150.ojas7q5w5jzhmeut@vireshk-i7>
-References: <20240731191312.1710417-2-robh@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pLPPm9tY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67EE0C4AF09;
+	Thu,  1 Aug 2024 08:23:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722500604;
+	bh=Z51j2yPPzqzqUbfDzj+Co7O6I0fAkjzKGVvNCuTWfG0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pLPPm9tY25L0+aND/5OqSFFujF5t/EgH5zvh599BAyny/hYainjuQBiogHSNCgAGO
+	 Y7kzwEXsRDNBjv54Y/EEqw4BYKXaEFCn7v8OjHApMbOQHaqfcokUckHAbLhZHpKJe5
+	 hd3tMOKqmpZDVv1s9l/YmjAwOMeZjPTUNRJQ8L7MZhaA5CUl2Xi2pKuygsj4hNtTxg
+	 4pvoVD8Y9Q30b4LU+wzujooBFZ1aBPO2sHxy2t1ySYeoom2lG7hyga67Rpkh3+fR+A
+	 rNWCSOBwmn/R7rA9x0qk8d9C7fR34HD8VujJRj+ZEbiHZzhonhHNAlXzDLw+9fMPxZ
+	 5tbr1xSKq7UDw==
+Date: Thu, 1 Aug 2024 10:23:22 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>, 
+	Sebastian Wick <sebastian.wick@redhat.com>, Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
+	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Sui Jingfeng <sui.jingfeng@linux.dev>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+	Pekka Paalanen <pekka.paalanen@collabora.com>, =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
+	Andy Yan <andyshrk@163.com>
+Subject: Re: [PATCH v15 00/29] drm/connector: Create HDMI Connector
+ infrastructure
+Message-ID: <20240801-fluffy-cuttlefish-of-abracadabra-389feb@houat>
+References: <20240527-kms-hdmi-connector-state-v15-0-c5af16c3aae2@kernel.org>
+ <e33dc3c4-9d7d-4c85-97db-b6fd94142131@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="2k5tde7ytku6vb3x"
+Content-Disposition: inline
+In-Reply-To: <e33dc3c4-9d7d-4c85-97db-b6fd94142131@xs4all.nl>
+
+
+--2k5tde7ytku6vb3x
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240731191312.1710417-2-robh@kernel.org>
+Content-Transfer-Encoding: quoted-printable
 
-On 31-07-24, 13:12, Rob Herring (Arm) wrote:
-> Use of_property_present() to test for property presence rather than
-> of_(find|get)_property(). This is part of a larger effort to remove
-> callers of of_find_property() and similar functions. of_find_property()
-> leaks the DT struct property and data pointers which is a problem for
-> dynamically allocated nodes which may be freed.
-> 
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> ---
->  drivers/cpufreq/cpufreq-dt.c           | 11 +++--------
->  drivers/cpufreq/pmac64-cpufreq.c       |  2 +-
->  drivers/cpufreq/sti-cpufreq.c          |  2 +-
->  drivers/cpufreq/sun50i-cpufreq-nvmem.c |  2 +-
->  4 files changed, 6 insertions(+), 11 deletions(-)
+Hi Hans,
 
-Applied. Thanks.
+On Wed, Jul 31, 2024 at 04:56:16PM GMT, Hans Verkuil wrote:
+> Hi Maxime,
+>=20
+> On 27/05/2024 15:57, Maxime Ripard wrote:
+> <snip>
+>=20
+> > Hans Verkuil also expressed interest in implementing a mechanism in v4l2
+> > to retrieve infoframes from HDMI receiver and implementing a tool to
+> > decode (and eventually check) infoframes. His current work on
+> > edid-decode to enable that based on that series can be found here:
+> > https://git.linuxtv.org/hverkuil/edid-decode.git/log/?h=3Dhverkuil
+>=20
+> Since this patch series is now merged in mainline I also pushed support
+> for parsing InfoFrames to the edid-decode git repo.
+>=20
+> I believe the parsing part of the InfoFrames is complete, but the conform=
+ity
+> checks for the AVI and HDMI InfoFrames are still work-in-progress. But it
+> should be easier to develop this now that is merged.
+>=20
+> The git repo for edid-decode is here: https://git.linuxtv.org/edid-decode=
+=2Egit/
+>=20
+> I added test files to the test/if directory, and if you run:
+>=20
+> edid-decode -I audio.test -I avi.test -I vendor.test -I spd.test edid.tes=
+t -c
+>=20
+> you'll get the output below.
 
--- 
-viresh
+That's awesome to hear, I'll send a patch for the KMS documentation to
+mention it=20
+
+Thanks!
+Maxime
+
+--2k5tde7ytku6vb3x
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZqtF9QAKCRAnX84Zoj2+
+dgiBAX4lptP5eciLgerJmky6HFfb4t9iXMA0gMwf454GyprB/6H1qL24e8eHqpXe
+LgfVUI8BfRJ6NBLAdSH0nE87Xf5l/pBV5IacFmB10VRbZ+YSt/9xWQ37E0U2KJAl
+R21moyCKpQ==
+=3fHv
+-----END PGP SIGNATURE-----
+
+--2k5tde7ytku6vb3x--
