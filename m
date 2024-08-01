@@ -1,90 +1,99 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 182FE1802B
-	for <linux-sunxi@lists.linux.dev>; Thu,  1 Aug 2024 03:41:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6534A1EB490
+	for <linux-sunxi@lists.linux.dev>; Thu,  1 Aug 2024 05:51:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722483685; cv=none; b=l6IwH+f7qSIpcQ/9Pw0jnctAtpN67TpGZFqCYF2cFdEcRnj2We1NTFc6vniEDGlgLEUmdV9/Y9C6KRaoB5QMXLhEI67cSuDkZPLKtByKhdEcIKjxh09gaVEAO+D8ceYnMASzmHS84Bh47GVRVlNCLD0eUNRwsgURIQLoU/go5kg=
+	t=1722491515; cv=none; b=OKGT+kL17NWuzghnPUQNpZ5ULer1SX39qOkPwsb945NmtL0Ol6BWz43pdhqcq6z0oFiKgogyR1FnCiFEU9oBKBvsrYEb8dY6eJF3j2du30R875pkjXw9llIayAESBuUG7mx7PB8p3kWTfDauajhp7lvoN832gU5y8Jx+1KNVIJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722483685; c=relaxed/simple;
-	bh=m4xYWVIGQDvqhmSV4J6ZUQ0pXgYRiqcojx1bzWRAQZY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=usSY4RZ691oA1QF5t5LE29Mxnb6aekv89I2N/H5rEGBOr0tXYu/HmDWIiqvBAUVROXNmfTpIx36n4ZQBypo18VperojcqOtVtAqHA2CSIntDA93s41P3WRa470xAzeEFk8gyPwHa/6xB91EtqYLrM1plkxkZbX1h8QMNOtwt+Q4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-52f024f468bso9433990e87.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 31 Jul 2024 20:41:22 -0700 (PDT)
+	s=arc-20240116; t=1722491515; c=relaxed/simple;
+	bh=mHdBEdoA646mRvFAlQiOSeu1k6r5IpBY8UYszqgYIDA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ku0nmF/fMPqMueqRQA08O2ifDUvmYlhTgearRswcTQ4dQ9tPophVUuL8jHBRM4ekFNfnqUq5fsRWbpJfqCa+7MIZucjSHzqHvym8MJyN4Fbjc8o2Dwd2kdC8/HKr/igBmhsh+9ylu38g1AVM5BRmilb+eOrUqMCLPwDJ/mozZqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bhDlqFFj; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bhDlqFFj"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-70d2b921cd1so5791831b3a.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 31 Jul 2024 22:51:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1722491514; x=1723096314; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7gBLGL+mmGX6AVb3elsBnCFrc79BJCRR+zjbmuB2kqk=;
+        b=bhDlqFFjok5yyIYqq58FXFr3y86SyqzRW5+EXfdqSZYuJTntbq84O6/rS4oWXmiAIJ
+         Yv2+uYa5TbxvXpXcmxmliv1xrcTBgJCQ66JTiwQqbUqQuitpv307SAg5sj4R8p3xCI0t
+         DKQNWS13VYN7CdAo14EJTF4yIyqF4VsocL6r/hGF/wIXf7HNvhDxQ59HF909lvMc32yO
+         PvpI0bRVgTnMfq/Z4NXUppz4lAER9o8PdIYEviw3OebHupLgvcPp/vr0prDcn8RxbX+t
+         00Sv/y4CEP+vvy1sMLhj+9qC0NGyJn8Gr+9hF5Zu7CMy6N7hRP/yZvs7ws5Gk+WLO4Mx
+         zfzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722483679; x=1723088479;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rpFbA20aLHJ+Am8YxkTg4RUa3XKubG9hiY6Kx7P8xtw=;
-        b=ZgWOLLEutzjASFa5ym9TF0X7r7bSyA7//n7OXd/TXsuaweAlY8ClXvax57UxiPdv/W
-         OMtEcvJYIlDY50WlBzXJqbHYtV+DyMusSb7VucCVXhxmpB2mx/zVFcPUGt5AR6euwCoJ
-         wVWgNOGK4i0CulPrwSaZQOyotL97qckKvrJlcTSTE5jDGA+X63xPsSijAD3JPRl7YL6I
-         1o50g6YeI9gRrbTAdxgoVETWCi8yr/FyDU+083WpjYhXKxWqVIMFb4YpUQWwbli18Lol
-         cfPj3jEQirz2Zr+j0Pd1hvAvMyrvIiWJGgIbyqGAhVcS+jjDbHeGAzoO8j7hfGPLImCO
-         Ai6g==
-X-Forwarded-Encrypted: i=1; AJvYcCWWrG1DcRBR8yxNRJza6nPJVSCScdwnX81hCFzy58WINRJdox0Va3v6WfQOk2S2EwKbifYaUGPAoCdwUqjxOwU4Zlss9GhEh2TmS7c=
-X-Gm-Message-State: AOJu0YxB1B+c+vJDsPGAxxsAZAKA2Z/axWnrA96HF2lQzy7XxXPuYa6V
-	8QRqzQFykjU9Tv3x97UTgg1Zw35WxmH/IUJhBxxraM+WIaOlrlGFDhZ9Hmxr
-X-Google-Smtp-Source: AGHT+IFYtU/fycEg3TVAvj6KnUlCwzC9moMJeG1nz8Q0P7txSGhd0oZYEYiSv5VrV4OSYWMDPhOiHA==
-X-Received: by 2002:a05:6512:3f08:b0:52e:9c0a:3514 with SMTP id 2adb3069b0e04-530b61ebfb2mr516918e87.44.1722483678889;
-        Wed, 31 Jul 2024 20:41:18 -0700 (PDT)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com. [209.85.208.170])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52fd5c2cfb1sm2439410e87.269.2024.07.31.20.41.17
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 31 Jul 2024 20:41:17 -0700 (PDT)
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2ef2c56da6cso74434681fa.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 31 Jul 2024 20:41:17 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUE/Q4lXLDrI+7IYDQpXPO8MLivDz0bjM/Oxu3uKl4X8Z/Vkt3xXTf7FEp6A2GsDhNy1YpWaHCPgPIvHPWd9iEujdaync2CJomKDp4=
-X-Received: by 2002:a2e:84d6:0:b0:2ee:7a71:6e3b with SMTP id
- 38308e7fff4ca-2f15310167cmr6804891fa.27.1722483677641; Wed, 31 Jul 2024
- 20:41:17 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1722491514; x=1723096314;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7gBLGL+mmGX6AVb3elsBnCFrc79BJCRR+zjbmuB2kqk=;
+        b=e2VD25T3wV19LGlewsCkdXAkfiHdo7F2ZvLRcqC3aioOx1eQ8mg0KKa8k+iqV9CI5U
+         akOq+fJHHyMM+JQoGjDSIOYrBS/wcp3Kbu+EOskgBQEwgwSEpSp5N2zAW3iT7KWIrqes
+         5bJImXTM9/qRm7CnzQrmBJ9OYRLKEn6sCWp9ioQBi+bBDXgxGi+pVeAzNlPfHbCpV9TC
+         jCshaKA+WCFEnMVpAVGTFMrpM24sGDdVKf1QMznA24ex1HBnCTMl0k5BeEWdl/6SdmKD
+         yHdQ5fTwhSqFg89/yiAGQIRhO1jLRm38maAV61ObjJY6R8R89fSU9c16x066mwZxeYxa
+         cpGQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVBBX3ZJhhrWc2NC9OfM37tQ1pfhOiVB1s6UmVHM7JconniZkqFw2Jr0NxTYoYcKiKsP/VJTp8XUb09sl4zLe2hBRVKiKsLt9qZHTk=
+X-Gm-Message-State: AOJu0Yx/xf0QEYu8RozL79i4Gbbarw/XAwJ/9EN+y697WvppC2ec1T7l
+	ai5DdrQBnexYfu6oDUd35iswAKFaHbm+L+moLKjZSBh8bgG124Po+pgtoBoxE0I=
+X-Google-Smtp-Source: AGHT+IHi3LdaOVqsILRzUG5RajCZhFYqsgwTEJCbU7Q/0owEgSj/B+R4O+r/bPYrYZw7jZacX4sQzQ==
+X-Received: by 2002:a05:6a20:ac44:b0:1bd:feed:c031 with SMTP id adf61e73a8af0-1c68cf30d2dmr1821935637.28.1722491513712;
+        Wed, 31 Jul 2024 22:51:53 -0700 (PDT)
+Received: from localhost ([122.172.84.129])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cfdc4add69sm2325862a91.47.2024.07.31.22.51.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 31 Jul 2024 22:51:52 -0700 (PDT)
+Date: Thu, 1 Aug 2024 11:21:50 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Naveen N Rao <naveen@kernel.org>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Yangtao Li <tiny.windzz@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] cpufreq: Use of_property_present()
+Message-ID: <20240801055150.ojas7q5w5jzhmeut@vireshk-i7>
+References: <20240731191312.1710417-2-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240731191312.1710417-2-robh@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20240731191312.1710417-2-robh@kernel.org>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Thu, 1 Aug 2024 11:41:04 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65GvkyMS3kZWEADGWKvZ818w5uvJASkEMrox535c4Ba_Q@mail.gmail.com>
-Message-ID: <CAGb2v65GvkyMS3kZWEADGWKvZ818w5uvJASkEMrox535c4Ba_Q@mail.gmail.com>
-Subject: Re: [PATCH] cpufreq: Use of_property_present()
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Naveen N Rao <naveen@kernel.org>, 
-	Patrice Chotard <patrice.chotard@foss.st.com>, Yangtao Li <tiny.windzz@gmail.com>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, linux-pm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 1, 2024 at 3:13=E2=80=AFAM Rob Herring (Arm) <robh@kernel.org> =
-wrote:
->
+On 31-07-24, 13:12, Rob Herring (Arm) wrote:
 > Use of_property_present() to test for property presence rather than
 > of_(find|get)_property(). This is part of a larger effort to remove
 > callers of of_find_property() and similar functions. of_find_property()
 > leaks the DT struct property and data pointers which is a problem for
 > dynamically allocated nodes which may be freed.
->
+> 
 > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 > ---
 >  drivers/cpufreq/cpufreq-dt.c           | 11 +++--------
 >  drivers/cpufreq/pmac64-cpufreq.c       |  2 +-
 >  drivers/cpufreq/sti-cpufreq.c          |  2 +-
-
 >  drivers/cpufreq/sun50i-cpufreq-nvmem.c |  2 +-
+>  4 files changed, 6 insertions(+), 11 deletions(-)
 
-Acked-by: Chen-Yu Tsai <wens@csie.org>
+Applied. Thanks.
+
+-- 
+viresh
