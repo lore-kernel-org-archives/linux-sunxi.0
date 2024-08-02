@@ -1,54 +1,54 @@
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E69B1547C5
-	for <linux-sunxi@lists.linux.dev>; Fri,  2 Aug 2024 19:22:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C4CD1547EA
+	for <linux-sunxi@lists.linux.dev>; Fri,  2 Aug 2024 19:22:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722626573; cv=none; b=PGFqLlQC+q62XCYAAP2xD/jakHbP1fNVjswww1ruIcemZm0kgZVoAd6q9bH7QkNDnJbyuCGL77yfey92MvEUAiuKgJf+rn1bwrZa5CJ28HeFgRH6at3+5Wo+Qo/yxku/X6P1BuA1Cc2iOomJqArVhdKH7eeJ68ZmkexqQ4XWoIg=
+	t=1722626573; cv=none; b=lmDwDmWcsZM39AXXXLSk/1dFQmdPBcQyz/R9iVHjWucHujY/vmxg3cad4hsaFcSXMcc7QOA1MGIEEY9vnmvhCgUUfetx8f6B//pGNoGSyt92uf4G/M/5JyqnhBrxTle3+09jfvaiNaIPm7I/qprMMLiuppEw/xr3dqFlUHPXZdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1722626573; c=relaxed/simple;
-	bh=oeKh3JxFFyFc9s3MxdEoaLMTx5bHc9Y7RCEmv06+bT0=;
+	bh=LrihmKdwSa2HCqhUaNRUZZtZeL+1LnhboUcWlT0Xaqw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=OJkHq+LWiKehnj81n23C75ABWF80D78MqqcfMaEzVgQjUX5iEkhql2oXAiJTdCXPDDH1hYftSOfTWfpV/28bdO+M/sSHYPKWSOpcMtqNZBdyt/hcqdZWd30FwAjCEIqnypvdeK+cYftQQBrlDJBE8eB4MtBF3BYWzCHgPvPeWGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A8JgpbYy; arc=none smtp.client-ip=209.85.167.177
+	 MIME-Version; b=h7NVDn5BrGk9d+WuDDrknq9bnX5PapCB9Pj80pyZmBP9wDLcuB4FfkZXfHE4hoxOIevvN36MbnPevDmr4rvdEp6GM2p7P6GhKOIAJCiBJC/uMy+Btcx1QjbVvqlwKjI8fdQpVjkd9q1H5nCR6Y39pdzb0pthsooW2DH7JmZFcIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=INN5Em9m; arc=none smtp.client-ip=209.85.167.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A8JgpbYy"
-Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-3db1657c0fdso5230522b6e.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 02 Aug 2024 12:22:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="INN5Em9m"
+Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-3db1eb76702so5454112b6e.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 02 Aug 2024 12:22:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722626570; x=1723231370; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1722626571; x=1723231371; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MibRB3AQvGbIlGoFS4ggjPfR2n/+IwZ38Kf7aUZ1OD8=;
-        b=A8JgpbYyitm7MDzN7FrnQc5gBamSNcklpL08buVD39Bl2VoT0/trictHw35DXMy/X9
-         pYLHmtZWrcpX2VJqyfeR0Ee8f/69GGxP+Qs3Rk6TuOTmuZ6J7yKfnMLOH3gxKKZmR7g7
-         9PnSckaWUCl+VWWKDZrm0Ianx64SAnbn2CArdk5zOV5SMYpUOfMD4ns6vlE/B1NY5yHN
-         kmIA7OrY94R2FFtIkBl6GkHNHE0LGPQlLicE8Oo5ixOFy8YK3NPblxq3yu+FU8EmBn0J
-         SoktpEfhjQ5Vue/ODQoa6Ka4GDothrq6ztZNYym4ZWVFt1ybFva1DAB/JLgV+QI3UCCi
-         IqkA==
+        bh=EOS6CB7c1t/IxbcoB65fP4OgyGzoOrEBpGmlG4zcGvM=;
+        b=INN5Em9mLG4U7TAj/3lmwJfaShlzTGHvZ5CZCOAUyrW5lex88HYtE0xg+BlKM32Vy5
+         YMHuq1whCaS9SjXD04hg1ZuC4cwVmE2qZme+SRR9ZG5Ut1fxs9do02rh6+/iDDdvXsR5
+         V+/GQz0xbiUgoazqnrOsQP0a+yh4HlpPkSPNTHeRfPjlSEZXdTTYqS0wAeJizT/CYjms
+         SweN7K0iXDhbgxDrZIvDkcAD8qxY3Pylp1ieQ2u95usJmljfz22TUWeo+k4JfaiX/wxq
+         yvde0Vi6fWFIefi96d1IMHQND+r9YKrQ80lMX7v58Fr8Av1zp+pwTVgXYXVd6bZwoBTm
+         653A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722626570; x=1723231370;
+        d=1e100.net; s=20230601; t=1722626571; x=1723231371;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=MibRB3AQvGbIlGoFS4ggjPfR2n/+IwZ38Kf7aUZ1OD8=;
-        b=nY+rClJuWS0UC1wLLSlaiOPK9GxyGn8Ee+MfBvIUr/EbcgZv2kulausGPrECD7XJhu
-         qfM6tIp/UJnLWQF8j1h3rUzlMhrX8MYfF8ZocKAg19zC3iWJsxUoqECp5RnoW14QV1MD
-         PiqN18zJJq7eTF4iFMRqw+Fyzp092W1AySwBSR7c0Re+LJ7VDYT9ZiXW+fYzDIjlpteS
-         gDb7nDQee15ym2Owhl26EncXROydjT3SeOUj5+4cqFzgX7oPELJ4ZujRfuWKBWl7nqdV
-         Ft4vWVePtRYma9EhsTY81drmuwBxg1gIpLdnGuQVcIN1ElzIh3y9okDNBYOTb2UIj2tM
-         sDaw==
-X-Gm-Message-State: AOJu0Ywaa7shNChwwjGjBbLvq9L6QBmCXauySlC05JpxTcbVqfKMNQj3
-	BfgpFjNrTyy/NiqxN2bwo/c1bBWiwPj+4iX8FYOZM9nvIJX3gTYNfULrXw==
-X-Google-Smtp-Source: AGHT+IGiyHXqIqt2Gxy3xDWDxaI1wwnaQV2gEmdDkbsTJ9N/Zvz54RsUGUUI1CFHapa/j3O/y0nxFg==
-X-Received: by 2002:a05:6808:2126:b0:3d9:3e48:8af7 with SMTP id 5614622812f47-3db55830c83mr6143565b6e.40.1722626570257;
-        Fri, 02 Aug 2024 12:22:50 -0700 (PDT)
+        bh=EOS6CB7c1t/IxbcoB65fP4OgyGzoOrEBpGmlG4zcGvM=;
+        b=Cw4eAt77fCrkG731OSC0JIM/idHJdyxfL/KBfcIcYraigVtn/TT9XTzAlyoNRQGAPV
+         q9a6+YvDtnX1IbVuP45w2zR/iwbwUb8JgH+Wdbm/6fnbm2zHmsj3dY6cDoKMnafPbfLD
+         5ggzl/EMx3/Cn6Upoec5ygw2BIxnuUnUZjfkJ+C1Jvu0ED9yE99kKhWpgwckjROsLRra
+         5nynq994bvurFdAhHmB+luQ8jGF4hMHc600XdxcTDtReRvkllQX3vsUwMktqBS4K8osC
+         BgEKeYMnUgsbGSn+OO7eE7xsCEupgezRS/dbfe9oBwBa9s2e4JRlyRscEspPDR2phDuj
+         yK/A==
+X-Gm-Message-State: AOJu0YwarItUNLEdYHuAKFii8+39gv8TKlurAhX19V9taByJG2Oxg6cu
+	ZJIfSCa2rAVP0xIwB/AK4VjzDqjEbg3r0J9Sj80MqIkS+zzxt0tM1GvsRg==
+X-Google-Smtp-Source: AGHT+IFJcAjiqo+BzQ7QTY8ocYPFJ2ywrHoQ1xB5Idyd/7diq5ZppHkiZrLU53qgCT0FJHZgYfZPjg==
+X-Received: by 2002:a05:6808:1919:b0:3db:27e6:8be5 with SMTP id 5614622812f47-3db55847b72mr5731454b6e.42.1722626571189;
+        Fri, 02 Aug 2024 12:22:51 -0700 (PDT)
 Received: from localhost.localdomain ([2600:1700:fb0:1bcf::54])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-3db563b7065sm584592b6e.46.2024.08.02.12.22.49
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-3db563b7065sm584592b6e.46.2024.08.02.12.22.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 02 Aug 2024 12:22:50 -0700 (PDT)
 From: Chris Morgan <macroalpha82@gmail.com>
@@ -72,10 +72,11 @@ Cc: linux-pm@vger.kernel.org,
 	robh@kernel.org,
 	lars@metafoo.de,
 	jic23@kernel.org,
-	Chris Morgan <macromorgan@hotmail.com>
-Subject: [PATCH V2 01/15] iio: adc: axp20x_adc: Add adc_en1 and adc_en1 to axp_data
-Date: Fri,  2 Aug 2024 14:20:12 -0500
-Message-Id: <20240802192026.446344-2-macroalpha82@gmail.com>
+	Chris Morgan <macromorgan@hotmail.com>,
+	Chen-Yu Tsai <wens@kernel.org>
+Subject: [PATCH V2 02/15] power: supply: axp20x_battery: Remove design from min and max voltage
+Date: Fri,  2 Aug 2024 14:20:13 -0500
+Message-Id: <20240802192026.446344-3-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240802192026.446344-1-macroalpha82@gmail.com>
 References: <20240802192026.446344-1-macroalpha82@gmail.com>
@@ -89,101 +90,72 @@ Content-Transfer-Encoding: 8bit
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-Add the register for adc_en1 and adc_en2 to the axp_data struct. This
-allows us to specify a different register to enable the adc channels
-for different devices such as the AXP717.
+The POWER_SUPPLY_PROP_VOLTAGE_MIN_DESIGN and
+POWER_SUPPLY_PROP_VOLTAGE_MAX_DESIGN values should be immutable
+properties of the battery, but for this driver they are writable values
+and used as the minimum and maximum values for charging. Remove the
+DESIGN designation from these values.
 
+Fixes: 46c202b5f25f ("power: supply: add battery driver for AXP20X and AXP22X PMICs")
+Suggested-by: Chen-Yu Tsai <wens@kernel.org>
 Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 ---
- drivers/iio/adc/axp20x_adc.c | 22 +++++++++++++++-------
- 1 file changed, 15 insertions(+), 7 deletions(-)
+ drivers/power/supply/axp20x_battery.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/iio/adc/axp20x_adc.c b/drivers/iio/adc/axp20x_adc.c
-index b487e577befb..368ba6ee7a80 100644
---- a/drivers/iio/adc/axp20x_adc.c
-+++ b/drivers/iio/adc/axp20x_adc.c
-@@ -889,7 +889,9 @@ struct axp_data {
- 	const struct iio_info		*iio_info;
- 	int				num_channels;
- 	struct iio_chan_spec const	*channels;
-+	unsigned long			adc_en1;
- 	unsigned long			adc_en1_mask;
-+	unsigned long			adc_en2;
- 	unsigned long			adc_en2_mask;
- 	int				(*adc_rate)(struct axp20x_adc_iio *info,
- 						    int rate);
-@@ -910,7 +912,9 @@ static const struct axp_data axp20x_data = {
- 	.iio_info = &axp20x_adc_iio_info,
- 	.num_channels = ARRAY_SIZE(axp20x_adc_channels),
- 	.channels = axp20x_adc_channels,
-+	.adc_en1 = AXP20X_ADC_EN1,
- 	.adc_en1_mask = AXP20X_ADC_EN1_MASK,
-+	.adc_en2 = AXP20X_ADC_EN2,
- 	.adc_en2_mask = AXP20X_ADC_EN2_MASK,
- 	.adc_rate = axp20x_adc_rate,
- 	.maps = axp20x_maps,
-@@ -920,6 +924,7 @@ static const struct axp_data axp22x_data = {
- 	.iio_info = &axp22x_adc_iio_info,
- 	.num_channels = ARRAY_SIZE(axp22x_adc_channels),
- 	.channels = axp22x_adc_channels,
-+	.adc_en1 = AXP20X_ADC_EN1,
- 	.adc_en1_mask = AXP22X_ADC_EN1_MASK,
- 	.adc_rate = axp22x_adc_rate,
- 	.maps = axp22x_maps,
-@@ -929,6 +934,7 @@ static const struct axp_data axp813_data = {
- 	.iio_info = &axp813_adc_iio_info,
- 	.num_channels = ARRAY_SIZE(axp813_adc_channels),
- 	.channels = axp813_adc_channels,
-+	.adc_en1 = AXP20X_ADC_EN1,
- 	.adc_en1_mask = AXP22X_ADC_EN1_MASK,
- 	.adc_rate = axp813_adc_rate,
- 	.maps = axp22x_maps,
-@@ -988,14 +994,16 @@ static int axp20x_probe(struct platform_device *pdev)
- 	indio_dev->channels = info->data->channels;
+diff --git a/drivers/power/supply/axp20x_battery.c b/drivers/power/supply/axp20x_battery.c
+index 6ac5c80cfda2..7520b599eb3d 100644
+--- a/drivers/power/supply/axp20x_battery.c
++++ b/drivers/power/supply/axp20x_battery.c
+@@ -303,11 +303,11 @@ static int axp20x_battery_get_prop(struct power_supply *psy,
+ 		val->intval = reg & AXP209_FG_PERCENT;
+ 		break;
  
- 	/* Enable the ADCs on IP */
--	regmap_write(info->regmap, AXP20X_ADC_EN1, info->data->adc_en1_mask);
-+	regmap_write(info->regmap, info->data->adc_en1,
-+		     info->data->adc_en1_mask);
+-	case POWER_SUPPLY_PROP_VOLTAGE_MAX_DESIGN:
++	case POWER_SUPPLY_PROP_VOLTAGE_MAX:
+ 		return axp20x_batt->data->get_max_voltage(axp20x_batt,
+ 							  &val->intval);
  
- 	if (info->data->adc_en2_mask)
--		regmap_set_bits(info->regmap, AXP20X_ADC_EN2,
-+		regmap_set_bits(info->regmap, info->data->adc_en2,
- 				info->data->adc_en2_mask);
+-	case POWER_SUPPLY_PROP_VOLTAGE_MIN_DESIGN:
++	case POWER_SUPPLY_PROP_VOLTAGE_MIN:
+ 		ret = regmap_read(axp20x_batt->regmap, AXP20X_V_OFF, &reg);
+ 		if (ret)
+ 			return ret;
+@@ -455,10 +455,10 @@ static int axp20x_battery_set_prop(struct power_supply *psy,
+ 	struct axp20x_batt_ps *axp20x_batt = power_supply_get_drvdata(psy);
  
- 	/* Configure ADCs rate */
--	info->data->adc_rate(info, 100);
-+	if (info->data->adc_rate)
-+		info->data->adc_rate(info, 100);
+ 	switch (psp) {
+-	case POWER_SUPPLY_PROP_VOLTAGE_MIN_DESIGN:
++	case POWER_SUPPLY_PROP_VOLTAGE_MIN:
+ 		return axp20x_set_voltage_min_design(axp20x_batt, val->intval);
  
- 	ret = iio_map_array_register(indio_dev, info->data->maps);
- 	if (ret < 0) {
-@@ -1015,10 +1023,10 @@ static int axp20x_probe(struct platform_device *pdev)
- 	iio_map_array_unregister(indio_dev);
+-	case POWER_SUPPLY_PROP_VOLTAGE_MAX_DESIGN:
++	case POWER_SUPPLY_PROP_VOLTAGE_MAX:
+ 		return axp20x_batt->data->set_max_voltage(axp20x_batt, val->intval);
  
- fail_map:
--	regmap_write(info->regmap, AXP20X_ADC_EN1, 0);
-+	regmap_write(info->regmap, info->data->adc_en1, 0);
+ 	case POWER_SUPPLY_PROP_CONSTANT_CHARGE_CURRENT:
+@@ -493,8 +493,8 @@ static enum power_supply_property axp20x_battery_props[] = {
+ 	POWER_SUPPLY_PROP_CONSTANT_CHARGE_CURRENT,
+ 	POWER_SUPPLY_PROP_CONSTANT_CHARGE_CURRENT_MAX,
+ 	POWER_SUPPLY_PROP_HEALTH,
+-	POWER_SUPPLY_PROP_VOLTAGE_MAX_DESIGN,
+-	POWER_SUPPLY_PROP_VOLTAGE_MIN_DESIGN,
++	POWER_SUPPLY_PROP_VOLTAGE_MAX,
++	POWER_SUPPLY_PROP_VOLTAGE_MIN,
+ 	POWER_SUPPLY_PROP_CAPACITY,
+ };
  
- 	if (info->data->adc_en2_mask)
--		regmap_write(info->regmap, AXP20X_ADC_EN2, 0);
-+		regmap_write(info->regmap, info->data->adc_en2, 0);
- 
- 	return ret;
+@@ -502,8 +502,8 @@ static int axp20x_battery_prop_writeable(struct power_supply *psy,
+ 					 enum power_supply_property psp)
+ {
+ 	return psp == POWER_SUPPLY_PROP_STATUS ||
+-	       psp == POWER_SUPPLY_PROP_VOLTAGE_MIN_DESIGN ||
+-	       psp == POWER_SUPPLY_PROP_VOLTAGE_MAX_DESIGN ||
++	       psp == POWER_SUPPLY_PROP_VOLTAGE_MIN ||
++	       psp == POWER_SUPPLY_PROP_VOLTAGE_MAX ||
+ 	       psp == POWER_SUPPLY_PROP_CONSTANT_CHARGE_CURRENT ||
+ 	       psp == POWER_SUPPLY_PROP_CONSTANT_CHARGE_CURRENT_MAX;
  }
-@@ -1031,10 +1039,10 @@ static void axp20x_remove(struct platform_device *pdev)
- 	iio_device_unregister(indio_dev);
- 	iio_map_array_unregister(indio_dev);
- 
--	regmap_write(info->regmap, AXP20X_ADC_EN1, 0);
-+	regmap_write(info->regmap, info->data->adc_en1, 0);
- 
- 	if (info->data->adc_en2_mask)
--		regmap_write(info->regmap, AXP20X_ADC_EN2, 0);
-+		regmap_write(info->regmap, info->data->adc_en2, 0);
- }
- 
- static struct platform_driver axp20x_adc_driver = {
 -- 
 2.34.1
 
