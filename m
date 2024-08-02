@@ -1,54 +1,54 @@
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DE35165F1B
-	for <linux-sunxi@lists.linux.dev>; Fri,  2 Aug 2024 19:22:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 476031547E6
+	for <linux-sunxi@lists.linux.dev>; Fri,  2 Aug 2024 19:22:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722626578; cv=none; b=GPG1MLbu2uQ5UXpBIzifYaaFaePreHdT6bcYvTnJkREHUw7SqYR2n6tw+rka8aU1AQH717I8tm/Q3MezoUcrqXyBl02jxxczLV6FtjqSFYFOg9x/ZLV8y8xG0jIYZzcn9T2biSJZQ76Jx56KZZ5f3WrW/4h3WhxVD3ULB+tzc6E=
+	t=1722626579; cv=none; b=IGL5rLC8oQ7Dlm58jsMVxy5FT7ajuinnzyeOFjBiBOMBOXjZ22nngw6OJPGhLtVbFiG+aqOkXlpXeFIKC3tKStOgLZHyf0o4Yz8+n8wIwSzwDr7dPRfXrKPI4ckUQSyo0a6lekQNXr4h8QxTRX5f/lBEfRehdx+xdQsNN0z/v04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722626578; c=relaxed/simple;
-	bh=f8AlV+mmh3WAs+Msf35YzLUk4BjA6ykCslKCpn/PXLg=;
+	s=arc-20240116; t=1722626579; c=relaxed/simple;
+	bh=a4Ix1bN7kYAyaexe/JE52OKfO2ZR8L/mUIPikwT94Q8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=pJDZFVE52c9Bid71hLcelJwXWQ/uE8/gWxJ2Gks6Y8NGnqNAjAuyXE3ivxDgkLHU4AhxkiKSE3shG+t14lpr+XP1QNW5W6vvF+7wJ27Z2ecE3GRIhnSYro4F1Kwo2/CBhVJhy0qVfJMwm58T1WNIMMDO4hmiyqX7NJRygo8JoRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wnd4WS/V; arc=none smtp.client-ip=209.85.167.174
+	 MIME-Version; b=ch6AHFS8aCkzoREW2hkxqN9Q7tKX958lRkd4sR4t2gfh9x5U/RVpX2zg+G0mrv/B/pkzn4YOeIL0iX+ZD7WLwhqqYJcaNujMDOqLmD/f66l4v/uoA9NSE2WhdhOalep2Os5TugbFpV3o/dRMjfX2T/f6e0lsbIc5L8hDCeHUafY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VOc6bCcH; arc=none smtp.client-ip=209.85.167.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wnd4WS/V"
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-3db1e21b0e4so5605042b6e.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 02 Aug 2024 12:22:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VOc6bCcH"
+Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3db145c8010so5428482b6e.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 02 Aug 2024 12:22:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722626576; x=1723231376; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1722626577; x=1723231377; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0JKFFQnfJOtoACQdVtR48AZhBo/Ifj44v65RGoC713c=;
-        b=Wnd4WS/Vd2kqjPjgXRHDLfWI8TBdHvOBfPtwYcIlj9Vbqs22laCj8Yufo2Fc2HM/mX
-         ArYF0plOzkc4WMZECOp+vy6Hf6KVR2GVa+zeqOBgd0gupfe8RewMD4wHlERv/DvObNQK
-         no6Qtal4VNWSu5lvt0sh+N4OmDvY1CBKGbBbl/H8NPmFRIgwSUZaeT05tD4iKdlZSd2m
-         roEyFHhTSCcWvH5k44GyMtnXqEvffCdB/+RYVO+S4N1+tzBwl7UKK5hw3JFIaNW63zNm
-         TX1irMv1YhdDZZN/M+LR5f+sfG8zNZeTiUwwf2QNJAcWo68otZ3/o7w7ekV1CBFEKLFB
-         d5MA==
+        bh=mouIfH8iXKAgiuPl+irz5vubIoLkf5e+ydr2Ab2V/ac=;
+        b=VOc6bCcHGAsxXj36BCAFGdORq7rPPAqFt96sjmga227bZqvseDDNNjzWqUcknZ31Ts
+         0hsdJsrnE3d9DACs2BMwt4Wu+Q2xCYguBMUqMaL63uGUjlRGE1y7kuFsqgZdrk0pie99
+         IAMcL+TDiTva6uR9O3+CpcEq8OY7X782HB9julujxu9Tf1RGBJ4+58nV+Oqflr+w6K5R
+         d0GIqsQqb66cH3c6BK6oxzWXVJ8cy4Mtgbpf8ASvf1ZhXsslPQdhLipEgWfXZ1NT+U+p
+         Svo7SKFZYWT01q5uDREZdmENZq6tuqWXGEhTJ76AQ0Xnu3Pcezs37tWRnuno6kbu76ip
+         Fgeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722626576; x=1723231376;
+        d=1e100.net; s=20230601; t=1722626577; x=1723231377;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0JKFFQnfJOtoACQdVtR48AZhBo/Ifj44v65RGoC713c=;
-        b=azBAlX220zVOG6Acswq6gpkRWAoRd22v/HVU0nQRrx3pch9kZz2Q0Ue/2rQ7Q989zc
-         gaRYJ1H3AMnZr+//wVs0U9sokDqOZnmVbc6RdKgNubyxzzNLncRvAZTWxSib0kFuPK13
-         8IzPKhqwoz9v86bk8S9lEk5EcSRh9rUvRb0GhDoHEBlMJeRsboHiyBgHFC9nfNVa6+zL
-         D7q0jHV3E6zjMbNHjUczMBIUUDXcvFu714a6gfdV8BP7juVP+Orn1i6pEzc/HqSjOAJK
-         slkJsytSCzC3TTJi8yxsD81upYeJNw2tVprti3lwAe2+J32KzGUC16WBf9GHSSk1XDJ3
-         hZMw==
-X-Gm-Message-State: AOJu0YwCONXR445xbES4N4r0oq29j4fWfFhSCSMFLJagtyySOnczEbGf
-	sYQMYgBnTTNWNXmPQQxJFxKH2N8MmkoBVySeX1ShgANeafC2mdGmk3itEw==
-X-Google-Smtp-Source: AGHT+IF3I1srJKWNYL7jsDJ+sv7ElDL9LAdwud9872cKrlkAH4dok6Ad4PODlX3yNJcRGI/V+jR8vg==
-X-Received: by 2002:a05:6808:198f:b0:3db:fe8:f744 with SMTP id 5614622812f47-3db558123e9mr5306167b6e.24.1722626576429;
-        Fri, 02 Aug 2024 12:22:56 -0700 (PDT)
+        bh=mouIfH8iXKAgiuPl+irz5vubIoLkf5e+ydr2Ab2V/ac=;
+        b=jji0hjp9ctSqoWB+DZf2qr5B0BheSOwNEIAbYVH9Xo916rLal6VwwPY3oSfP3BteXC
+         Nh8IZxJz+3tumQrS/VifYuaKDLG/a54nydzYpw7MS82a0gZBndXjrsO3YTiQkky85wat
+         /xxwjDusPA8ebjyBiTFazGElfC93u8eawbcsyHK5UDtLgwUmGQqDSVVlz89JKHN5LbpZ
+         efXZmC8e96E3ev1fbYRytuvkvb3jsfu2bgxlJavwuJv6sdBKhSiRF386lfLifCs/PIsA
+         bTsg8hQui5G9w8OZqqIdqq02R9jjLB+JGgAkonx4+H9Gi8d7MSXxGh8/U6HsHcqO5BRL
+         Yblg==
+X-Gm-Message-State: AOJu0YwiuKvv8gn2t+qZngF8lw/lOGML4poEwqj63Z7lOKyLgq5W5ALz
+	ubj2kd8t8xiguFgEfJuSPTaeUpMnMtPqmF5BgTq7O+j+yn2JeKBmBlVmSQ==
+X-Google-Smtp-Source: AGHT+IEvGd6Xp975ECbxmLXitW6A80ucHgMhA2P1pDKhXhsdpg83qCIyCSwuxXQ3qrx89OpC/iWJSw==
+X-Received: by 2002:a05:6808:23c5:b0:3d9:2b15:65d4 with SMTP id 5614622812f47-3db5580b007mr5610603b6e.21.1722626577346;
+        Fri, 02 Aug 2024 12:22:57 -0700 (PDT)
 Received: from localhost.localdomain ([2600:1700:fb0:1bcf::54])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-3db563b7065sm584592b6e.46.2024.08.02.12.22.55
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-3db563b7065sm584592b6e.46.2024.08.02.12.22.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 02 Aug 2024 12:22:56 -0700 (PDT)
 From: Chris Morgan <macroalpha82@gmail.com>
@@ -72,11 +72,10 @@ Cc: linux-pm@vger.kernel.org,
 	robh@kernel.org,
 	lars@metafoo.de,
 	jic23@kernel.org,
-	Chris Morgan <macromorgan@hotmail.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH V2 08/15] dt-bindings: iio: adc: Add AXP717 compatible
-Date: Fri,  2 Aug 2024 14:20:19 -0500
-Message-Id: <20240802192026.446344-9-macroalpha82@gmail.com>
+	Chris Morgan <macromorgan@hotmail.com>
+Subject: [PATCH V2 09/15] dt-bindings: power: supply: axp20x: Add AXP717 compatible
+Date: Fri,  2 Aug 2024 14:20:20 -0500
+Message-Id: <20240802192026.446344-10-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240802192026.446344-1-macroalpha82@gmail.com>
 References: <20240802192026.446344-1-macroalpha82@gmail.com>
@@ -90,44 +89,28 @@ Content-Transfer-Encoding: 8bit
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-Add compatible binding for the axp717.
+Add support for the AXP717. It has BC 1.2 detection like the AXP813
+and uses ADC channels like all other AXP devices, but otherwise is
+very different requiring new registers for most functions.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Acked-by: Chen-Yu Tsai <wens@csie.org>
 Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 ---
- .../bindings/iio/adc/x-powers,axp209-adc.yaml        | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ .../bindings/power/supply/x-powers,axp20x-usb-power-supply.yaml  | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/iio/adc/x-powers,axp209-adc.yaml b/Documentation/devicetree/bindings/iio/adc/x-powers,axp209-adc.yaml
-index d40689f233f2..1caa896fce82 100644
---- a/Documentation/devicetree/bindings/iio/adc/x-powers,axp209-adc.yaml
-+++ b/Documentation/devicetree/bindings/iio/adc/x-powers,axp209-adc.yaml
-@@ -37,6 +37,17 @@ description: |
-    3 | batt_dischrg_i
-    4 | ts_v
- 
-+  AXP717
-+  ------
-+   0 | batt_v
-+   1 | ts_v
-+   2 | vbus_v
-+   3 | vsys_v
-+   4 | pmic_temp
-+   5 | batt_chrg_i
-+   6 | vmid_v
-+   7 | bkup_batt_v
-+
-   AXP813
-   ------
-    0 | pmic_temp
-@@ -52,6 +63,7 @@ properties:
-     oneOf:
-       - const: x-powers,axp209-adc
-       - const: x-powers,axp221-adc
-+      - const: x-powers,axp717-adc
-       - const: x-powers,axp813-adc
- 
+diff --git a/Documentation/devicetree/bindings/power/supply/x-powers,axp20x-usb-power-supply.yaml b/Documentation/devicetree/bindings/power/supply/x-powers,axp20x-usb-power-supply.yaml
+index 903e0bac24a0..e5879c85c9a3 100644
+--- a/Documentation/devicetree/bindings/power/supply/x-powers,axp20x-usb-power-supply.yaml
++++ b/Documentation/devicetree/bindings/power/supply/x-powers,axp20x-usb-power-supply.yaml
+@@ -26,6 +26,7 @@ properties:
+           - x-powers,axp202-usb-power-supply
+           - x-powers,axp221-usb-power-supply
+           - x-powers,axp223-usb-power-supply
++          - x-powers,axp717-usb-power-supply
+           - x-powers,axp813-usb-power-supply
        - items:
+           - const: x-powers,axp803-usb-power-supply
 -- 
 2.34.1
 
