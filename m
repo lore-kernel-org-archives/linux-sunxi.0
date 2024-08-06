@@ -1,106 +1,178 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 114CC5339D;
-	Mon,  5 Aug 2024 14:21:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B22931BE85C
+	for <linux-sunxi@lists.linux.dev>; Tue,  6 Aug 2024 14:38:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722867715; cv=none; b=Uw9tm31DmVf2fOOM+5T4cZ9TZUEEI4ySB35DUL23+2G4SMQMk/pIm7WL94Jure1QpmdYyXf86s99nTUNJKVsvwJcfs9liwXWWaq0dqACHe3zQmqFYrTIB0MAzwt+1tMKtlVCx8TYUqYbQ4i7RGUC5AvfvRa4xpiVfDrOc9M7L/w=
+	t=1722955112; cv=none; b=rzDhYt0ZJ4J3YyIsoOSAYDvNg3oW/EI6MvlcY39OJW1LqA8N8yg/6jRPRuJ2p6KkO3IIhwWYCTgI+Mr6+MjccxHFiqkQr4VRtHuAjR+dn66WDKmNWt5NRo6Ys8VU5L7VBQ8cs4LNeEaGrblL0uOemd0Ci0dU6P+Pbs70MgWYW78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722867715; c=relaxed/simple;
-	bh=hen2BAOote4ovnEFkZpQyYc/wpKosPIuJ6C+p6n+xZE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NabiK9xhZ5FPZfw+v/b1kzxcNvlapE0CgEXE3efx/WG8ZAw7QwvPwK6dacho9mEhJlkNtDCEx54mL9LECzQdC2zzMRrKag6nVfFATWLwyde0lVMfCA4I8FvNup3acAKYDMQmU/w1O16Y8Q6HW7y+XJBOI14rmCCI5u1pNLh9E1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PEavpQ1B; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PEavpQ1B"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E7FBC32782;
-	Mon,  5 Aug 2024 14:21:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722867714;
-	bh=hen2BAOote4ovnEFkZpQyYc/wpKosPIuJ6C+p6n+xZE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PEavpQ1BjwqrHIFt/pEToIPtj3vmUU3xqVPzJ1rne0u8qoGXchczfZ1L84wxAjfqp
-	 dtDQ+/iFydr0/BaaRHNQI7IFqgN8hjqli1CQGTvx2bWvuKAcYg9ao4nzswW63fgSB+
-	 F7OxhjPDDmP9NJ6s/IU3oypuO7RsoxsVak4/ZQdbnbKVsqZmGS3x1H75G6BC3XqpGR
-	 9IHzMqxUu7yYDogZpR5jAjnRoJ/iMPEChECnVZveV++MOSD6z+WnffKl1qM5p6JxgH
-	 yg4A1EDC1dI1Vr+vPV1mJ7f5SHKvbGL0SouRZ83CoZs74i1h3zzwemvej3lUkplmy9
-	 xYxOO4D64MmbQ==
-Date: Mon, 5 Aug 2024 15:21:49 +0100
-From: Lee Jones <lee@kernel.org>
-To: Chen-Yu Tsai <wens@csie.org>
-Cc: Andre Przywara <andre.przywara@arm.com>,
-	Mark Brown <broonie@kernel.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Ryan Walklin <ryan@testtoast.com>,
-	Chris Morgan <macroalpha82@gmail.com>
-Subject: Re: [PATCH v2 0/5] regulator: Fix AXP717 PMIC support
-Message-ID: <20240805142149.GD1019230@google.com>
-References: <20240418000736.24338-1-andre.przywara@arm.com>
- <CAGb2v64DLez_FwH=Na=swQ30BdZa8JPaueFkM=ozjU56=f1DXQ@mail.gmail.com>
+	s=arc-20240116; t=1722955112; c=relaxed/simple;
+	bh=kQuvqUxf3XH1k3BK/eiEkWcwE1TBt0PlzZWS+bsBOBI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Zy9M1vsn9eymiHqDcMdRsy2qXMwijTBNk8ID/LtT6hbst6gO4F068KQFDpsk3QE6j6/CJYr/YiPBxlJbtO5lM+o3ea8PBHZ7l/YhTfHbzr4ZQU2Mt3MrVZx7XokxEYg5ZBW1xwXPVWDvUbd/U3EGUJ2HTxW6olVScSlNLL7Z5GY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BC0C9FEC;
+	Tue,  6 Aug 2024 07:38:55 -0700 (PDT)
+Received: from donnerap.arm.com (donnerap.manchester.arm.com [10.32.100.26])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1A8B13F7B4;
+	Tue,  6 Aug 2024 07:38:28 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Tom Rini <trini@konsulko.com>
+Cc: u-boot@lists.denx.de,
+	Seung-Woo Kim <sw0312.kim@samsung.com>,
+	Michael Walle <mwalle@kernel.org>,
+	linux-sunxi@lists.linux.dev
+Subject: Pull request: u-boot-sunxi/master for v2024.10
+Date: Tue,  6 Aug 2024 15:38:23 +0100
+Message-Id: <20240806143823.1438437-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGb2v64DLez_FwH=Na=swQ30BdZa8JPaueFkM=ozjU56=f1DXQ@mail.gmail.com>
 
-On Thu, 01 Aug 2024, Chen-Yu Tsai wrote:
+Hi Tom,
 
-> Hi,
-> 
-> On Thu, Apr 18, 2024 at 8:07 AM Andre Przywara <andre.przywara@arm.com> wrote:
-> >
-> > This is v2 of the fixes to the AXP717 PMIC support series. Lee put the
-> > original patches in an immutable branch already, so these here go on top.
-> > Patch 1 is new in v2, and adds the IRQ status and acknowledge registers
-> > to the writable range. Thanks to Chris for pointing this out.
-> > Patch 2 contains fixes to the regulator descriptions: the LDOs had the
-> > wrong supply source, and two numbers were wrong. The datasheet describes
-> > the voltage ranges and register values differently from what our macros
-> > expect, in a way that literally begs for off-by-ones, so here you go.
-> > Also there is an actual wrong number in the datasheet, add a comment to
-> > document this.
-> > I don't know if that's still feasible, but those two patches would be a
-> > good candidate to squash into the patches that they fix.
-> >
-> > The other three patches add the "boost" regulator, which is meant to
-> > provide the 5V USB VBUS power when operating from the battery. It's the
-> > usual trinity of binding/mfd/regulator patches.
-> > Again this could be squashed into the respective patches from the
-> > original series, if people agree.
-> >
-> > Please have a look and test!
-> >
-> > Based on mfd/ib-mfd-regulator-6.10, as detailed below.
-> >
-> > Cheers,
-> > Andre
-> >
-> > Changelog v1 .. v2:
-> > - add tags
-> > - add patch to add missing IRQ ack register range
-> > - add comment to document bug in datasheet
-> >
-> > Andre Przywara (5):
-> >   mfd: axp20x: AXP717: Fix missing IRQ status registers range
-> >   regulator: axp20x: AXP717: fix LDO supply rails and off-by-ones
-> >   dt-bindings: mfd: x-powers,axp152: add boost regulator
-> >   mfd: axp20x: AXP717: Add support for boost regulator
-> >   regulator: axp20x: AXP717: Add boost regulator
-> 
-> The latter three patches still haven't been merged.
-> 
-> Andre, can you resend them for Lee or Mark to merge? Otherwise I
-> can't take the RG35XXSP DT patches.
+please pull the sunxi/master branch, containing some more changes for
+2024.10.
+This updates the "old style" DTs to that of Linux v6.10, matching what
+OF_UPSTREAM is at now. Hopefully we won't need to do this (manually)
+anymore. Since this brings in the DT for a new board (Tanix TX1), also
+add the defconfig for that, which has just been waiting for that sync.
+There are three more fixes: two for the SPI clock setup, which avoids
+too high frequencies in some cases, and one fix to avoid a build warning
+with GCC 14 for the sunxi TOC0 part of the mkimage tool.
 
-Right, please rebase and resubmit.  I've lost all context now.
+The gitlab CI passed, and I tested the SPI flash on the OrangePi Zero 3
+and also booted that into Linux.
 
--- 
-Lee Jones [李琼斯]
+Please pull!
+
+Cheers,
+Andre
+
+============================================================
+The following changes since commit 6becf9ba1ab82af6f4fcf9f4d0da38f9c75212d2:
+
+  Merge tag 'u-boot-imx-master-20240802' of https://gitlab.denx.de/u-boot/custodians/u-boot-imx (2024-08-02 14:40:59 -0600)
+
+are available in the Git repository at:
+
+  https://source.denx.de/u-boot/custodians/u-boot-sunxi.git master
+
+for you to fetch changes up to 541a1649e74787682902d820d0b79e16bad69a4f:
+
+  spi: sunxi: fix clock divider calculation for max frequency setting (2024-08-06 11:20:10 +0100)
+
+----------------------------------------------------------------
+Andre Przywara (2):
+      sunxi: dts: arm/arm64: update devicetree files from Linux-v6.10
+      sunxi: h616: add Tanix TX1 support
+
+Michael Walle (2):
+      spi: sunxi: fix CDR2 calculation
+      spi: sunxi: fix clock divider calculation for max frequency setting
+
+Seung-Woo Kim (1):
+      tools: imagetool: Remove unnecessary check from toc0_verify_cert_item()
+
+ arch/arm/dts/Makefile                             |   1 +
+ arch/arm/dts/sun50i-a64-bananapi-m64.dts          |   2 +-
+ arch/arm/dts/sun50i-a64-nanopi-a64.dts            |   2 +-
+ arch/arm/dts/sun50i-a64-olinuxino.dts             |   2 +-
+ arch/arm/dts/sun50i-a64-orangepi-win.dts          |   2 +-
+ arch/arm/dts/sun50i-a64-pinebook.dts              |   2 +-
+ arch/arm/dts/sun50i-a64-pinephone.dtsi            |  16 +-
+ arch/arm/dts/sun50i-a64-pinetab.dts               |   2 +-
+ arch/arm/dts/sun50i-a64-teres-i.dts               |   2 +-
+ arch/arm/dts/sun50i-a64.dtsi                      |  18 +-
+ arch/arm/dts/sun50i-h313-tanix-tx1.dts            | 183 ++++++++++++
+ arch/arm/dts/sun50i-h5-nanopi-neo-plus2.dts       |   2 +-
+ arch/arm/dts/sun50i-h5-nanopi-r1s-h5.dts          |   4 +-
+ arch/arm/dts/sun50i-h5-orangepi-prime.dts         |   2 +-
+ arch/arm/dts/sun50i-h5-orangepi-zero-plus.dts     |   2 +-
+ arch/arm/dts/sun50i-h5-orangepi-zero-plus2.dts    |   2 +-
+ arch/arm/dts/sun50i-h6-beelink-gs1.dts            |   2 +-
+ arch/arm/dts/sun50i-h6-orangepi-3.dts             |   2 +-
+ arch/arm/dts/sun50i-h6-orangepi-lite2.dts         |   2 +-
+ arch/arm/dts/sun50i-h6-orangepi.dtsi              |   2 +-
+ arch/arm/dts/sun50i-h6-pine-h64-model-b.dts       |   6 +-
+ arch/arm/dts/sun50i-h6-pine-h64.dts               |   2 +-
+ arch/arm/dts/sun50i-h6.dtsi                       |   2 +-
+ arch/arm/dts/sun50i-h616-bigtreetech-cb1.dtsi     |   5 +
+ arch/arm/dts/sun50i-h616-cpu-opp.dtsi             | 115 ++++++++
+ arch/arm/dts/sun50i-h616-orangepi-zero2.dts       |   5 +
+ arch/arm/dts/sun50i-h616-x96-mate.dts             |   5 +
+ arch/arm/dts/sun50i-h616.dtsi                     |  19 +-
+ arch/arm/dts/sun50i-h618-longan-module-3h.dtsi    |   5 +
+ arch/arm/dts/sun50i-h618-orangepi-zero2w.dts      |   5 +
+ arch/arm/dts/sun50i-h618-orangepi-zero3.dts       |   5 +
+ arch/arm/dts/sun50i-h618-transpeed-8k618-t.dts    |   7 +-
+ arch/arm/dts/sun50i-h64-remix-mini-pc.dts         |   2 +-
+ arch/arm/dts/sun50i-h700-anbernic-rg35xx-2024.dts | 327 ++++++++++++++++++++++
+ arch/arm/dts/sun50i-h700-anbernic-rg35xx-h.dts    |  36 +++
+ arch/arm/dts/sun50i-h700-anbernic-rg35xx-plus.dts |  53 ++++
+ arch/arm/dts/sun5i-a13.dtsi                       |   4 +-
+ arch/arm/dts/sun5i-gr8-chip-pro.dts               |   2 +-
+ arch/arm/dts/sun5i-r8-chip.dts                    |   2 +-
+ arch/arm/dts/sun6i-a31-hummingbird.dts            |   4 +-
+ arch/arm/dts/sun6i-a31.dtsi                       |  16 +-
+ arch/arm/dts/sun6i-a31s-sinovoip-bpi-m2.dts       |   2 +-
+ arch/arm/dts/sun7i-a20-bananapi-m1-plus.dts       |   2 +-
+ arch/arm/dts/sun7i-a20-cubietruck.dts             |   2 +-
+ arch/arm/dts/sun7i-a20-hummingbird.dts            |   4 +-
+ arch/arm/dts/sun7i-a20-olimex-som-evb-emmc.dts    |   2 +-
+ arch/arm/dts/sun7i-a20-olimex-som204-evb-emmc.dts |   2 +-
+ arch/arm/dts/sun7i-a20-olimex-som204-evb.dts      |   4 +-
+ arch/arm/dts/sun7i-a20-olinuxino-lime2.dts        |   2 +-
+ arch/arm/dts/sun7i-a20-wits-pro-a20-dkt.dts       |   2 +-
+ arch/arm/dts/sun7i-a20.dtsi                       |   4 +-
+ arch/arm/dts/sun8i-a23-a33.dtsi                   |  14 +-
+ arch/arm/dts/sun8i-a23-polaroid-mid2407pxe03.dts  |   4 +-
+ arch/arm/dts/sun8i-a23-polaroid-mid2809pxe04.dts  |   4 +-
+ arch/arm/dts/sun8i-a33-ga10h-v1.1.dts             |   2 +-
+ arch/arm/dts/sun8i-a33-inet-d978-rev2.dts         |   2 +-
+ arch/arm/dts/sun8i-a33.dtsi                       |  10 +-
+ arch/arm/dts/sun8i-a83t-bananapi-m3.dts           |   2 +-
+ arch/arm/dts/sun8i-a83t-cubietruck-plus.dts       |   2 +-
+ arch/arm/dts/sun8i-a83t-tbs-a711.dts              |   2 +-
+ arch/arm/dts/sun8i-a83t.dtsi                      |   8 +-
+ arch/arm/dts/sun8i-h2-plus-bananapi-m2-zero.dts   |   2 +-
+ arch/arm/dts/sun8i-h2-plus-orangepi-r1.dts        |   5 +-
+ arch/arm/dts/sun8i-h2-plus-orangepi-zero.dts      |   6 +-
+ arch/arm/dts/sun8i-h3-beelink-x2.dts              |   4 +-
+ arch/arm/dts/sun8i-h3-nanopi-duo2.dts             |   4 +-
+ arch/arm/dts/sun8i-h3-nanopi-m1-plus.dts          |   4 +-
+ arch/arm/dts/sun8i-h3-nanopi-neo-air.dts          |   2 +-
+ arch/arm/dts/sun8i-h3-nanopi-r1.dts               |   2 +-
+ arch/arm/dts/sun8i-h3-orangepi-2.dts              |   4 +-
+ arch/arm/dts/sun8i-h3-orangepi-lite.dts           |   2 +-
+ arch/arm/dts/sun8i-h3-orangepi-pc-plus.dts        |   2 +-
+ arch/arm/dts/sun8i-h3-orangepi-zero-plus2.dts     |   2 +-
+ arch/arm/dts/sun8i-q8-common.dtsi                 |   4 +-
+ arch/arm/dts/sun8i-r16-bananapi-m2m.dts           |   2 +-
+ arch/arm/dts/sun8i-r16-parrot.dts                 |   2 +-
+ arch/arm/dts/sun8i-r40-bananapi-m2-ultra.dts      |   2 +-
+ arch/arm/dts/sun8i-r40-oka40i-c.dts               |   2 +-
+ arch/arm/dts/sun8i-s3-pinecube.dts                |   2 +-
+ arch/arm/dts/sun8i-v3s.dtsi                       |   4 +-
+ arch/arm/dts/sun8i-v40-bananapi-m2-berry.dts      |   2 +-
+ arch/arm/dts/sun9i-a80.dtsi                       |   4 +-
+ arch/arm/dts/sunxi-bananapi-m2-plus.dtsi          |   2 +-
+ arch/arm/dts/sunxi-h3-h5-emlid-neutis.dtsi        |   2 +-
+ arch/arm/dts/sunxi-h3-h5.dtsi                     |   4 +-
+ board/sunxi/MAINTAINERS                           |   6 +
+ configs/tanix_tx1_defconfig                       |  25 ++
+ drivers/spi/spi-sunxi.c                           |  16 +-
+ tools/sunxi_toc0.c                                |   2 +-
+ 89 files changed, 939 insertions(+), 136 deletions(-)
+ create mode 100644 arch/arm/dts/sun50i-h313-tanix-tx1.dts
+ create mode 100644 arch/arm/dts/sun50i-h616-cpu-opp.dtsi
+ create mode 100644 arch/arm/dts/sun50i-h700-anbernic-rg35xx-2024.dts
+ create mode 100644 arch/arm/dts/sun50i-h700-anbernic-rg35xx-h.dts
+ create mode 100644 arch/arm/dts/sun50i-h700-anbernic-rg35xx-plus.dts
+ create mode 100644 configs/tanix_tx1_defconfig
