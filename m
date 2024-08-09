@@ -1,165 +1,243 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF27D16D9A2
-	for <linux-sunxi@lists.linux.dev>; Fri,  9 Aug 2024 07:08:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ADECC8D1
+	for <linux-sunxi@lists.linux.dev>; Fri,  9 Aug 2024 08:09:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723187335; cv=none; b=GPL8wLDjKwLw6VMtf8pcMYmvoF+jyrlug/7KbpAuSq7VCVYiIZBq4VpMmMxzfrft6NL1Jjh4HbhlwImUqM4vWWAqgzpNnl1OwkDT9+/Ckd7mnZepII+0ztQQHwhdfAMq+TMo9GDpDxAb6+IJFtaI7Rhw+hW0SrBzkW8DIfB0ldk=
+	t=1723190956; cv=none; b=dsiqL3VZZTSv559gb2dRx+3R8GBK+cslpwlTC0PG/vC3k6BRgwPM8cqb2T/wruKSWLxsGrURo1PP3gRHTDBBIHjUUUc1i25RENixYoXSJ6vAbDAeASyN/gJM22cIkadE6cwOYVXc3o+52i8/hWjJtEVMQqflKLBn9CNFUpvKwwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723187335; c=relaxed/simple;
-	bh=1N26HGLw//R3d32px3tfcAXifr5s/f7rI6nJGtHpe08=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KzRKcqg41Og0SyZOmKOzwsJaIG4BxqiJAn28wZir8CzvJr3xKDGrz7t6nn4qjFPBEwt2e0hHB1cYSfrSQLp1UBAwbQmNsfg2yREUq19NmSri+tRm+wL82T2C4firD3YAAuC/UlCBgYdho8ozTkIBUTP8lvdAaBlY66vzqw+RdX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Vqje6S5B; arc=none smtp.client-ip=209.85.214.172
+	s=arc-20240116; t=1723190956; c=relaxed/simple;
+	bh=MiupinPYtVFVoULAp4AM0FSVF1A0l2X2WcE1JaT1WzI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KJVm1DpFnIq27Uq+M4tQ1ghkVQZJp+RlQL2xIl701yyqyUPm9qPCdplx/uiKAstSWRznQrQWA8fpp3ldlCYi5TsmRKzOv8MLAhdCIx9an4Nc61ugE0zEIgQ5y39ONr6JturNA7z1Al0dOI0WsRQrnVogO3D98MWmc8xySNs2gSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ZsjraUrp; arc=none smtp.client-ip=209.85.208.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Vqje6S5B"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1fd640a6454so16534855ad.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 09 Aug 2024 00:08:53 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ZsjraUrp"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5a2a90243c9so1639782a12.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 09 Aug 2024 01:09:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1723187333; x=1723792133; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TSZy4qeB9prpZkXZFFSCy09Nr7J/x1zL/3+bFofkJV8=;
-        b=Vqje6S5BpYPPXWuSlDlqI9QjzJpgcF8NFAt4p9YtG0x8JdBw4BeJfYtWqFyrBZ02BM
-         JbRvZ5StnBqsOc4LfwOs+PQhGtDHucPF952o3KMw8uYpNSaI4ueiX/nAO3vUX3KL1AjL
-         dZ7NguThiVweviUhWDViBFTtw5cRSqTPZQOLE=
+        d=chromium.org; s=google; t=1723190953; x=1723795753; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7UOjCAID+UZ2tEQeZhluoBp+qMsVXiycrhYlTzLnVcU=;
+        b=ZsjraUrpveQOH4WuR6ekkrHpv2O9mdhQQu+88HFiZ0JP0HAZAoFcQi2HotkxmsSAU5
+         wKI2oPKPGAauCzfSCjO/XSnY6ckD9gSzp/i57ogmQ03dWitEtplmDGXF3eSylvyRQ8Fq
+         8f7WJPvkpTvQpdMEkUh+1u6XyHflE0axfbs3A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723187333; x=1723792133;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TSZy4qeB9prpZkXZFFSCy09Nr7J/x1zL/3+bFofkJV8=;
-        b=rQ96Jk2OHEQUHfwzNJE6k/j5MuOTCdvx4yE6JmHjlPyvQv9M0aupUcKTDeqtkuTZR2
-         2NWwWbOYG6OxZaJiqzLS1ERy0L/7V+F6qfTHdxP4NkhJ4f+JeOhO1wFEiZfWf33uWQCL
-         xK/RQ8R5olex364Z40/EERTKPfEy3Yrh3IwWs9tgZUqL+7o8VPPOVRezf7rI2rZDkGD3
-         AGhYsRYvZ6rl10+cTxZvUh75vNIPhmMJPtxeMiLxbVTBUWjpiyI1ssdHC4Y2JeXZffRJ
-         emaKg8vecAiW3WlyDftj9rhy7szNF4ux++s4nvmptfVFLTZe8RFU1ni1v5nC7p/ojyNj
-         L8dQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVd5yjpT7XdSyqoEd8xBm4BCavpPthebOWn86Qc7yxNH66pO4gdqu7I/byxRxNPfN15blqNBEOYBOKzTX9l4cI3ab/7eIylnghlkfo=
-X-Gm-Message-State: AOJu0YyOnLD2ElxctIiwVIt9+SQ06RKrKh7FawSqwgGBEKGfrbANCXvJ
-	wSUkB9RbdqfTkcCoHIVYWne5zkrfA1CFKZpiOtgTWm18yhn416aMCZuuQFRvug==
-X-Google-Smtp-Source: AGHT+IEojA8/Dm/IiJ94OPxhJiSpOpo4eMo23qz6LSsMPk8j238AnhJYY+ravisXXY3kEbh0Zu1A8A==
-X-Received: by 2002:a17:903:41ca:b0:1fb:7435:c2cc with SMTP id d9443c01a7336-200ae5e6889mr6909505ad.45.1723187333055;
-        Fri, 09 Aug 2024 00:08:53 -0700 (PDT)
-Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:e48b:2b26:14f9:21cb])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ff59294515sm136254215ad.244.2024.08.09.00.08.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Aug 2024 00:08:52 -0700 (PDT)
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Amit Kucheria <amitk@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>
-Cc: Icenowy Zheng <uwu@icenowy.me>,
-	Mark Brown <broonie@kernel.org>,
-	linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	=?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= <nfraprado@collabora.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	linux-mediatek@lists.infradead.org,
-	Hsin-Te Yuan <yuanhsinte@chromium.org>,
-	Chen-Yu Tsai <wenst@chromium.org>
-Subject: [PATCH v2] thermal/of: support thermal zones w/o trips subnode
-Date: Fri,  9 Aug 2024 15:08:19 +0800
-Message-ID: <20240809070822.2835371-1-wenst@chromium.org>
-X-Mailer: git-send-email 2.46.0.76.ge559c4bf1a-goog
+        d=1e100.net; s=20230601; t=1723190953; x=1723795753;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7UOjCAID+UZ2tEQeZhluoBp+qMsVXiycrhYlTzLnVcU=;
+        b=XZLMUKRWQ5zjhhYFtKL6diUUP6kwD/nmqd0Pi9ogEM9yPZLGhzew+vJIutNzUrubNl
+         er8clv9cO49YwJyfXxyavuCAOpvypLORCLKObtP2b4Ct+H0Fx8NTRhEgO7OOw6mxwX00
+         hbvPXyZ9vOktXOU2t1eAjEqIKRCJcdocWoNf9xTKvvU3Rtbe/2wTRAZ3OjQFsQ1SNmRD
+         UTI8ZvMg8CHzcLYGOYTzN/gW62/tog/ckgpWeRtZ1QOhgXHZku6PUqyjSCuTCF1oBrCn
+         3CG2AkcNhR0gMyu82NSz70tOX95WFGZTPPlVGS9h/WPYLMPY+kRfWqzXGhZTQLG6Yk6s
+         +XMA==
+X-Forwarded-Encrypted: i=1; AJvYcCXBA448Vgpn+9U1CA2RT+oL26XczscdavUuK6UayHwa6FzxY4XVOsodCeWgbqwxzYnsimI/1wwsqXIJHOV3ZXVvzyEAMLDHN9ONJBE=
+X-Gm-Message-State: AOJu0YwgoV2AWCyPvZaOGY1zOfuXr0O7epEfkB5WjyfXHrf/PUqzcIb/
+	8JCZ0+/SLBpJjRdNBobeXkojfZxd1vjb4dQSPLoqYOXtGFJkCccAPdHVmq1hPleZI1XZ252jz9M
+	RWvOy
+X-Google-Smtp-Source: AGHT+IEU7XGscmTtJN9pxov/HzVYUD2Q7nKUhHJtvFAfmQA3T2o75DNkeFs0wGFRwUUrynXitGiL8A==
+X-Received: by 2002:a05:6402:13c7:b0:5bb:8e11:f686 with SMTP id 4fb4d7f45d1cf-5bd0a5bcf9dmr703653a12.16.1723190952605;
+        Fri, 09 Aug 2024 01:09:12 -0700 (PDT)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com. [209.85.218.48])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5bbb2bf9363sm1345269a12.8.2024.08.09.01.09.12
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 09 Aug 2024 01:09:12 -0700 (PDT)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a7aa4bf4d1eso221438466b.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 09 Aug 2024 01:09:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUDpc/bggmrHbxqJ6cZul4VpIl0/nAON3hvm0ebNsqd0LRI+NdXLhMqCPpt28SsdXtdb7UR2GDPS2Cbgjen45+/98hciftcSE2Qpxo=
+X-Received: by 2002:a05:6512:3e1c:b0:530:adfe:8607 with SMTP id
+ 2adb3069b0e04-530ee9f3594mr770871e87.51.1723190567467; Fri, 09 Aug 2024
+ 01:02:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240429-fix-cocci-v3-0-3c4865f5a4b0@chromium.org>
+ <20240429-fix-cocci-v3-26-3c4865f5a4b0@chromium.org> <20240503112758.763d8d31@sal.lan>
+ <c4287024-8012-458d-9829-15ffbceb25cf@moroto.mountain> <CANiDSCsU+jgYkUmHZOC8xPsL2DbgU7_sWrby1bQAXQNnp+g6Bg@mail.gmail.com>
+ <fe95e3c3a89de4566a4eb53ca8b26c25@manjaro.org> <CANiDSCswvsTh+0oJmHkYC=-qE8g09bHr44amBsUXkK6j1eCMWA@mail.gmail.com>
+ <CAOcJUbwJkbEG6+u==de7CzXDUPGj6J3-p-7E3o+iAzjgSgybSg@mail.gmail.com>
+In-Reply-To: <CAOcJUbwJkbEG6+u==de7CzXDUPGj6J3-p-7E3o+iAzjgSgybSg@mail.gmail.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Fri, 9 Aug 2024 10:02:35 +0200
+X-Gmail-Original-Message-ID: <CANiDSCt=HOKwAT2zBg1tTbGbD-U-2K8+hi5WbdCM9ULWJvZ_Lw@mail.gmail.com>
+Message-ID: <CANiDSCt=HOKwAT2zBg1tTbGbD-U-2K8+hi5WbdCM9ULWJvZ_Lw@mail.gmail.com>
+Subject: Re: [PATCH v3 26/26] media: dvb-frontends: tda10048: Make the range
+ of z explicit.
+To: Michael Ira Krufky <mkrufky@linuxtv.org>
+Cc: Dragan Simic <dsimic@manjaro.org>, Dan Carpenter <dan.carpenter@linaro.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Martin Tuma <martin.tuma@digiteqautomotive.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Hugues Fruchet <hugues.fruchet@foss.st.com>, Alain Volmat <alain.volmat@foss.st.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Sowjanya Komatineni <skomatineni@nvidia.com>, 
+	Luca Ceresoli <luca.ceresoli@bootlin.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Sergey Kozlov <serjk@netup.ru>, Abylay Ospan <aospan@netup.ru>, 
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Dmitry Osipenko <digetx@gmail.com>, 
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
+	Sylvain Petinot <sylvain.petinot@foss.st.com>, 
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, Vikash Garodia <quic_vgarodia@quicinc.com>, 
+	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, 
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Icenowy Zheng <uwu@icenowy.me>
+Hi
 
-Although the current device tree binding of thermal zones require the
-trips subnode, the binding in kernel v5.15 does not require it, and many
-device trees shipped with the kernel, for example,
-allwinner/sun50i-a64.dtsi and mediatek/mt8183-kukui.dtsi in ARM64, still
-comply to the old binding and contain no trips subnode.
+It does not seem that we will find the datasheet.
 
-Allow the code to successfully register thermal zones w/o trips subnode
-for DT binding compatibility now.
+Any objection to land the patch as it? It is as incorrect as the
+original code ;)
 
-Furtherly, the inconsistency between DTs and bindings should be resolved
-by either adding empty trips subnode or dropping the trips subnode
-requirement.
+Regards!
 
-Fixes: d0c75fa2c17f ("thermal/of: Initialize trip points separately")
-Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-Reviewed-by: Mark Brown <broonie@kernel.org>
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
----
-Resurrecting this patch specifically for MediaTek MT8183 Kukui devices.
+On Mon, 13 May 2024 at 16:26, Michael Ira Krufky <mkrufky@linuxtv.org> wrot=
+e:
+>
+> On Mon, May 13, 2024 at 9:38=E2=80=AFAM Ricardo Ribalda <ribalda@chromium=
+.org> wrote:
+> >
+> > On Fri, 3 May 2024 at 16:08, Dragan Simic <dsimic@manjaro.org> wrote:
+> > >
+> > > Hello Ricardo,
+> > >
+> > > On 2024-05-03 13:56, Ricardo Ribalda wrote:
+> > > > I am trying to get the DS, but
+> > > > https://www.nxp.com/acrobat_download/literature/9397/75015931.pdf i=
+s a
+> > > > dead links now.
+> > > >
+> > > > Anyone have access to the datasheet?
+> > >
+> > > It's kind of available on the link below, but for some strange reason
+> > > the download fails after downloading the first 128 KB or so.
+> > >
+> > > https://web.archive.org/web/20080907185532/https://www.nxp.com/acroba=
+t_download/literature/9397/75015931.pdf\
+> >
+> > Mike, by any chance do you have a copy of the DS?
+> >
+> >
+> > >
+> > >
+> > > > On Fri, 3 May 2024 at 13:55, Dan Carpenter <dan.carpenter@linaro.or=
+g>
+> > > > wrote:
+> > > >>
+> > > >> On Fri, May 03, 2024 at 11:27:58AM +0100, Mauro Carvalho Chehab wr=
+ote:
+> > > >> > Em Mon, 29 Apr 2024 15:05:05 +0000
+> > > >> > Ricardo Ribalda <ribalda@chromium.org> escreveu:
+> > > >> >
+> > > >> > > We do not expect the sample_freq to be over 613MHz.
+> > > >> > >
+> > > >> > > Found by cocci:
+> > > >> > > drivers/media/dvb-frontends/tda10048.c:345:1-7: WARNING: do_di=
+v() does a 64-by-32 division, please consider using div64_u64 instead.
+> > > >> > >
+> > > >> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > >> > > ---
+> > > >> > >  drivers/media/dvb-frontends/tda10048.c | 4 +++-
+> > > >> > >  1 file changed, 3 insertions(+), 1 deletion(-)
+> > > >> > >
+> > > >> > > diff --git a/drivers/media/dvb-frontends/tda10048.c b/drivers/=
+media/dvb-frontends/tda10048.c
+> > > >> > > index 3e725cdcc66b..1886f733dbbf 100644
+> > > >> > > --- a/drivers/media/dvb-frontends/tda10048.c
+> > > >> > > +++ b/drivers/media/dvb-frontends/tda10048.c
+> > > >> > > @@ -328,7 +328,8 @@ static int tda10048_set_wref(struct dvb_fr=
+ontend *fe, u32 sample_freq_hz,
+> > > >> > >                          u32 bw)
+> > > >> > >  {
+> > > >> > >     struct tda10048_state *state =3D fe->demodulator_priv;
+> > > >> > > -   u64 t, z;
+> > > >> > > +   u32 z;
+> > > >> > > +   u64 t;
+> > > >> > >
+> > > >> > >     dprintk(1, "%s()\n", __func__);
+> > > >> > >
+> > > >> > > @@ -341,6 +342,7 @@ static int tda10048_set_wref(struct dvb_fr=
+ontend *fe, u32 sample_freq_hz,
+> > > >> > >     /* t *=3D 2147483648 on 32bit platforms */
+> > > >> > >     t *=3D (2048 * 1024);
+> > > >> > >     t *=3D 1024;
+> > > >> > > +   /* Sample frequency is under 613MHz */
+> > > >> >
+> > > >> > Are you sure about that? Some DVB devices have very high frequen=
+cy
+> > > >> > clocks, specially if they're also used for satellite, so I can't
+> > > >> > be sure by just looking at the driver's code.
+> > > >> >
+> > > >> > Also, we had already a bunch of regressions with "fixes" like th=
+is
+> > > >> > that actually broke frontend drivers.
+> > > >>
+> > > >> This patch preserves the existing behavior. The sample_freq_hz
+> > > >> variable
+> > > >> is a u32 so, in the original code, z couldn't have been more than
+> > > >> U32_MAX even though it was declared as a u64.
+> >
+> >
+> > I agree with Dan, we keep the existing behaviour. So it wont hurt to
+> > merge the code...
+> >
+> > All  that said, if someone has access to the DS, I do not mind reviewin=
+g it.
+> >
+> >
+> > > >>
+> > > >> It's possible that the original code was wrong.  We have seen that=
+ in
+> > > >> other places in this patchset.  Adding a note about the datasheet =
+is
+> > > >> also a good idea.
+> > > >>
+> > > >> regards,
+> > > >> dan carpenter
+> > > >>
+> >
+> >
+> >
+> > --
+> > Ricardo Ribalda
+> >
+>
+> Nice to hear from you!  :-)
+>
+> I believe that I may have a copy of it on an old "spinny" hard drive
+> somewhere in one of the ancient desktop computers I have lining my
+> basement walls, lol.  It will take me some time to locate it.  I hope
+> this isn't urgent o:-)
+>
+> ...It so happens that the dev box I used when I worked on that driver
+> is up right now, but the datasheet isn't in my home directory.  There
+> are two other drives in the chassis but not connected / powered - I'll
+> give these a look and let you know if I find anything.
+>
+> Best,
+> Michael Krufky
 
-Changes since v1:
-- set *ntrips at beginning of thermal_of_trips_init()
-- Keep goto out_of_node_put in of_get_child_count(trips) == 0 branch
-- Check return value of thermal_of_trips_init(), if it is -ENXIO, print
-  warning and clear |trips| pointer
-- Drop |mask| change, as the variable was removed
 
-I kept Mark's reviewed-by since the changes are more stylish than
-functional.
----
- drivers/thermal/thermal_of.c | 19 ++++++++++++-------
- 1 file changed, 12 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/thermal/thermal_of.c b/drivers/thermal/thermal_of.c
-index aa34b6e82e26..f237e74c92fc 100644
---- a/drivers/thermal/thermal_of.c
-+++ b/drivers/thermal/thermal_of.c
-@@ -128,16 +128,17 @@ static struct thermal_trip *thermal_of_trips_init(struct device_node *np, int *n
- 	struct device_node *trips, *trip;
- 	int ret, count;
- 
-+	*ntrips = 0;
- 	trips = of_get_child_by_name(np, "trips");
- 	if (!trips) {
--		pr_err("Failed to find 'trips' node\n");
--		return ERR_PTR(-EINVAL);
-+		pr_debug("Failed to find 'trips' node\n");
-+		return ERR_PTR(-ENXIO);
- 	}
- 
- 	count = of_get_child_count(trips);
- 	if (!count) {
--		pr_err("No trip point defined\n");
--		ret = -EINVAL;
-+		pr_debug("No trip point defined\n");
-+		ret = -ENXIO;
- 		goto out_of_node_put;
- 	}
- 
-@@ -162,7 +163,6 @@ static struct thermal_trip *thermal_of_trips_init(struct device_node *np, int *n
- 
- out_kfree:
- 	kfree(tt);
--	*ntrips = 0;
- out_of_node_put:
- 	of_node_put(trips);
- 
-@@ -490,8 +490,13 @@ static struct thermal_zone_device *thermal_of_zone_register(struct device_node *
- 
- 	trips = thermal_of_trips_init(np, &ntrips);
- 	if (IS_ERR(trips)) {
--		pr_err("Failed to find trip points for %pOFn id=%d\n", sensor, id);
--		return ERR_CAST(trips);
-+		if (PTR_ERR(trips) != -ENXIO) {
-+			pr_err("Failed to find trip points for %pOFn id=%d\n", sensor, id);
-+			return ERR_CAST(trips);
-+		}
-+
-+		pr_warn("Failed to find trip points for %pOFn id=%d\n", sensor, id);
-+		trips = NULL;
- 	}
- 
- 	ret = thermal_of_monitor_init(np, &delay, &pdelay);
--- 
-2.46.0.76.ge559c4bf1a-goog
-
+--=20
+Ricardo Ribalda
