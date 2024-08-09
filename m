@@ -1,243 +1,101 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ADECC8D1
-	for <linux-sunxi@lists.linux.dev>; Fri,  9 Aug 2024 08:09:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0A6BC8D1;
+	Fri,  9 Aug 2024 22:31:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723190956; cv=none; b=dsiqL3VZZTSv559gb2dRx+3R8GBK+cslpwlTC0PG/vC3k6BRgwPM8cqb2T/wruKSWLxsGrURo1PP3gRHTDBBIHjUUUc1i25RENixYoXSJ6vAbDAeASyN/gJM22cIkadE6cwOYVXc3o+52i8/hWjJtEVMQqflKLBn9CNFUpvKwwI=
+	t=1723242683; cv=none; b=JZTG/exRkOu0hAcOTgYIQPp2bHuw+SHlzH7zNAySKSgE7ZrPEeSE0PB3QphJCucP0xkcUi/neiRFDZdvVbhhmvlgGfRRUTcwpbLmNUBRbKvvGX1u3NMl79l5gfdwZnnso49BOCROqrQpauZipKZrF4pIJ+f2n45hO91eb0JJcN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723190956; c=relaxed/simple;
-	bh=MiupinPYtVFVoULAp4AM0FSVF1A0l2X2WcE1JaT1WzI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KJVm1DpFnIq27Uq+M4tQ1ghkVQZJp+RlQL2xIl701yyqyUPm9qPCdplx/uiKAstSWRznQrQWA8fpp3ldlCYi5TsmRKzOv8MLAhdCIx9an4Nc61ugE0zEIgQ5y39ONr6JturNA7z1Al0dOI0WsRQrnVogO3D98MWmc8xySNs2gSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ZsjraUrp; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1723242683; c=relaxed/simple;
+	bh=ST2yZJ1z3NPLh4z1Z9oZd5wDiM05Ls+yHvSmTrATXTA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mAnXjmF5LNwXE7YdYLaY3BWD4El+SOuFzhkasv2P0557ram4o9VZ+Wv9U7ohPjcbc961AU7KvLlQhiBOgP0GV1huva0wAlU8O9u7CQHykRH8IgEz9WWW/W97anzfZ3q10/qbMH/cMoUyPFzyDdBuInjKvvYamufs+SDW0i7s4LQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IdfNHUFS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ZsjraUrp"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5a2a90243c9so1639782a12.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 09 Aug 2024 01:09:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1723190953; x=1723795753; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7UOjCAID+UZ2tEQeZhluoBp+qMsVXiycrhYlTzLnVcU=;
-        b=ZsjraUrpveQOH4WuR6ekkrHpv2O9mdhQQu+88HFiZ0JP0HAZAoFcQi2HotkxmsSAU5
-         wKI2oPKPGAauCzfSCjO/XSnY6ckD9gSzp/i57ogmQ03dWitEtplmDGXF3eSylvyRQ8Fq
-         8f7WJPvkpTvQpdMEkUh+1u6XyHflE0axfbs3A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723190953; x=1723795753;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7UOjCAID+UZ2tEQeZhluoBp+qMsVXiycrhYlTzLnVcU=;
-        b=XZLMUKRWQ5zjhhYFtKL6diUUP6kwD/nmqd0Pi9ogEM9yPZLGhzew+vJIutNzUrubNl
-         er8clv9cO49YwJyfXxyavuCAOpvypLORCLKObtP2b4Ct+H0Fx8NTRhEgO7OOw6mxwX00
-         hbvPXyZ9vOktXOU2t1eAjEqIKRCJcdocWoNf9xTKvvU3Rtbe/2wTRAZ3OjQFsQ1SNmRD
-         UTI8ZvMg8CHzcLYGOYTzN/gW62/tog/ckgpWeRtZ1QOhgXHZku6PUqyjSCuTCF1oBrCn
-         3CG2AkcNhR0gMyu82NSz70tOX95WFGZTPPlVGS9h/WPYLMPY+kRfWqzXGhZTQLG6Yk6s
-         +XMA==
-X-Forwarded-Encrypted: i=1; AJvYcCXBA448Vgpn+9U1CA2RT+oL26XczscdavUuK6UayHwa6FzxY4XVOsodCeWgbqwxzYnsimI/1wwsqXIJHOV3ZXVvzyEAMLDHN9ONJBE=
-X-Gm-Message-State: AOJu0YwgoV2AWCyPvZaOGY1zOfuXr0O7epEfkB5WjyfXHrf/PUqzcIb/
-	8JCZ0+/SLBpJjRdNBobeXkojfZxd1vjb4dQSPLoqYOXtGFJkCccAPdHVmq1hPleZI1XZ252jz9M
-	RWvOy
-X-Google-Smtp-Source: AGHT+IEU7XGscmTtJN9pxov/HzVYUD2Q7nKUhHJtvFAfmQA3T2o75DNkeFs0wGFRwUUrynXitGiL8A==
-X-Received: by 2002:a05:6402:13c7:b0:5bb:8e11:f686 with SMTP id 4fb4d7f45d1cf-5bd0a5bcf9dmr703653a12.16.1723190952605;
-        Fri, 09 Aug 2024 01:09:12 -0700 (PDT)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com. [209.85.218.48])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5bbb2bf9363sm1345269a12.8.2024.08.09.01.09.12
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Aug 2024 01:09:12 -0700 (PDT)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a7aa4bf4d1eso221438466b.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 09 Aug 2024 01:09:12 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUDpc/bggmrHbxqJ6cZul4VpIl0/nAON3hvm0ebNsqd0LRI+NdXLhMqCPpt28SsdXtdb7UR2GDPS2Cbgjen45+/98hciftcSE2Qpxo=
-X-Received: by 2002:a05:6512:3e1c:b0:530:adfe:8607 with SMTP id
- 2adb3069b0e04-530ee9f3594mr770871e87.51.1723190567467; Fri, 09 Aug 2024
- 01:02:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IdfNHUFS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7583BC32782;
+	Fri,  9 Aug 2024 22:31:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723242682;
+	bh=ST2yZJ1z3NPLh4z1Z9oZd5wDiM05Ls+yHvSmTrATXTA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IdfNHUFSCvgO3CKBq6FBAR2WeVIHxj1nhcVXFpM90cS4e3R4lvmJlY0jAlCdyiao7
+	 bTvJg/0lzSHLV2vMiVmamYiBijYQA7Pk2WZwG1Oz99TlRYq9G0qi36ZCnWiBELc8Yk
+	 GfwK3agTSeyPYjBV0GypsBfN0gzSVGty7jXfSJzACMBD9gTH0M3QegApEtBVPfkeux
+	 ELsWhY/ZLNszj9JXhqp/fWzZ4s8WZOi84U2YqzhC8CkAd4vT5rzdhPbDvI2X1azdyS
+	 PC+9Lmwr28VwuRYElgTjS2Anp0/hkhMnQK7CtWsea9xdVT0ZwIV1fR9oepAD0hYJq3
+	 lvy0RwPbyqe6w==
+Date: Fri, 9 Aug 2024 23:31:15 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Guo Ren <guoren@kernel.org>, Evan Green <evan@rivosinc.com>,
+	Andy Chiu <andy.chiu@sifive.com>,
+	Jessica Clarke <jrtc27@jrtc27.com>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Heiko Stuebner <heiko@sntech.de>
+Subject: Re: [PATCH v9 00/13] riscv: Add support for xtheadvector
+Message-ID: <20240809-slapping-graph-461287bac506@spud>
+References: <20240806-xtheadvector-v9-0-62a56d2da5d0@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240429-fix-cocci-v3-0-3c4865f5a4b0@chromium.org>
- <20240429-fix-cocci-v3-26-3c4865f5a4b0@chromium.org> <20240503112758.763d8d31@sal.lan>
- <c4287024-8012-458d-9829-15ffbceb25cf@moroto.mountain> <CANiDSCsU+jgYkUmHZOC8xPsL2DbgU7_sWrby1bQAXQNnp+g6Bg@mail.gmail.com>
- <fe95e3c3a89de4566a4eb53ca8b26c25@manjaro.org> <CANiDSCswvsTh+0oJmHkYC=-qE8g09bHr44amBsUXkK6j1eCMWA@mail.gmail.com>
- <CAOcJUbwJkbEG6+u==de7CzXDUPGj6J3-p-7E3o+iAzjgSgybSg@mail.gmail.com>
-In-Reply-To: <CAOcJUbwJkbEG6+u==de7CzXDUPGj6J3-p-7E3o+iAzjgSgybSg@mail.gmail.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 9 Aug 2024 10:02:35 +0200
-X-Gmail-Original-Message-ID: <CANiDSCt=HOKwAT2zBg1tTbGbD-U-2K8+hi5WbdCM9ULWJvZ_Lw@mail.gmail.com>
-Message-ID: <CANiDSCt=HOKwAT2zBg1tTbGbD-U-2K8+hi5WbdCM9ULWJvZ_Lw@mail.gmail.com>
-Subject: Re: [PATCH v3 26/26] media: dvb-frontends: tda10048: Make the range
- of z explicit.
-To: Michael Ira Krufky <mkrufky@linuxtv.org>
-Cc: Dragan Simic <dsimic@manjaro.org>, Dan Carpenter <dan.carpenter@linaro.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Martin Tuma <martin.tuma@digiteqautomotive.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Hugues Fruchet <hugues.fruchet@foss.st.com>, Alain Volmat <alain.volmat@foss.st.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Sowjanya Komatineni <skomatineni@nvidia.com>, 
-	Luca Ceresoli <luca.ceresoli@bootlin.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Sergey Kozlov <serjk@netup.ru>, Abylay Ospan <aospan@netup.ru>, 
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Dmitry Osipenko <digetx@gmail.com>, 
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
-	Sylvain Petinot <sylvain.petinot@foss.st.com>, 
-	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, Vikash Garodia <quic_vgarodia@quicinc.com>, 
-	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konrad.dybcio@linaro.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, 
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="UxYzrmqfRoz1zos6"
+Content-Disposition: inline
+In-Reply-To: <20240806-xtheadvector-v9-0-62a56d2da5d0@rivosinc.com>
+
+
+--UxYzrmqfRoz1zos6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi
+On Tue, Aug 06, 2024 at 05:31:36PM -0700, Charlie Jenkins wrote:
+> xtheadvector is a custom extension that is based upon riscv vector
+> version 0.7.1 [1]. All of the vector routines have been modified to
+> support this alternative vector version based upon whether xtheadvector
+> was determined to be supported at boot.
+>=20
+> vlenb is not supported on the existing xtheadvector hardware, so a
+> devicetree property thead,vlenb is added to provide the vlenb to Linux.
+>=20
+> There is a new hwprobe key RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0 that is
+> used to request which thead vendor extensions are supported on the
+> current platform. This allows future vendors to allocate hwprobe keys
+> for their vendor.
+>=20
+> Support for xtheadvector is also added to the vector kselftests.
 
-It does not seem that we will find the datasheet.
+So uh, since noone seems to have brought it up, in the light of the issues
+with thead's vector implementation, (https://ghostwriteattack.com/) do we
+want to enable it at all?
 
-Any objection to land the patch as it? It is as incorrect as the
-original code ;)
+--UxYzrmqfRoz1zos6
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Regards!
+-----BEGIN PGP SIGNATURE-----
 
-On Mon, 13 May 2024 at 16:26, Michael Ira Krufky <mkrufky@linuxtv.org> wrot=
-e:
->
-> On Mon, May 13, 2024 at 9:38=E2=80=AFAM Ricardo Ribalda <ribalda@chromium=
-.org> wrote:
-> >
-> > On Fri, 3 May 2024 at 16:08, Dragan Simic <dsimic@manjaro.org> wrote:
-> > >
-> > > Hello Ricardo,
-> > >
-> > > On 2024-05-03 13:56, Ricardo Ribalda wrote:
-> > > > I am trying to get the DS, but
-> > > > https://www.nxp.com/acrobat_download/literature/9397/75015931.pdf i=
-s a
-> > > > dead links now.
-> > > >
-> > > > Anyone have access to the datasheet?
-> > >
-> > > It's kind of available on the link below, but for some strange reason
-> > > the download fails after downloading the first 128 KB or so.
-> > >
-> > > https://web.archive.org/web/20080907185532/https://www.nxp.com/acroba=
-t_download/literature/9397/75015931.pdf\
-> >
-> > Mike, by any chance do you have a copy of the DS?
-> >
-> >
-> > >
-> > >
-> > > > On Fri, 3 May 2024 at 13:55, Dan Carpenter <dan.carpenter@linaro.or=
-g>
-> > > > wrote:
-> > > >>
-> > > >> On Fri, May 03, 2024 at 11:27:58AM +0100, Mauro Carvalho Chehab wr=
-ote:
-> > > >> > Em Mon, 29 Apr 2024 15:05:05 +0000
-> > > >> > Ricardo Ribalda <ribalda@chromium.org> escreveu:
-> > > >> >
-> > > >> > > We do not expect the sample_freq to be over 613MHz.
-> > > >> > >
-> > > >> > > Found by cocci:
-> > > >> > > drivers/media/dvb-frontends/tda10048.c:345:1-7: WARNING: do_di=
-v() does a 64-by-32 division, please consider using div64_u64 instead.
-> > > >> > >
-> > > >> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > >> > > ---
-> > > >> > >  drivers/media/dvb-frontends/tda10048.c | 4 +++-
-> > > >> > >  1 file changed, 3 insertions(+), 1 deletion(-)
-> > > >> > >
-> > > >> > > diff --git a/drivers/media/dvb-frontends/tda10048.c b/drivers/=
-media/dvb-frontends/tda10048.c
-> > > >> > > index 3e725cdcc66b..1886f733dbbf 100644
-> > > >> > > --- a/drivers/media/dvb-frontends/tda10048.c
-> > > >> > > +++ b/drivers/media/dvb-frontends/tda10048.c
-> > > >> > > @@ -328,7 +328,8 @@ static int tda10048_set_wref(struct dvb_fr=
-ontend *fe, u32 sample_freq_hz,
-> > > >> > >                          u32 bw)
-> > > >> > >  {
-> > > >> > >     struct tda10048_state *state =3D fe->demodulator_priv;
-> > > >> > > -   u64 t, z;
-> > > >> > > +   u32 z;
-> > > >> > > +   u64 t;
-> > > >> > >
-> > > >> > >     dprintk(1, "%s()\n", __func__);
-> > > >> > >
-> > > >> > > @@ -341,6 +342,7 @@ static int tda10048_set_wref(struct dvb_fr=
-ontend *fe, u32 sample_freq_hz,
-> > > >> > >     /* t *=3D 2147483648 on 32bit platforms */
-> > > >> > >     t *=3D (2048 * 1024);
-> > > >> > >     t *=3D 1024;
-> > > >> > > +   /* Sample frequency is under 613MHz */
-> > > >> >
-> > > >> > Are you sure about that? Some DVB devices have very high frequen=
-cy
-> > > >> > clocks, specially if they're also used for satellite, so I can't
-> > > >> > be sure by just looking at the driver's code.
-> > > >> >
-> > > >> > Also, we had already a bunch of regressions with "fixes" like th=
-is
-> > > >> > that actually broke frontend drivers.
-> > > >>
-> > > >> This patch preserves the existing behavior. The sample_freq_hz
-> > > >> variable
-> > > >> is a u32 so, in the original code, z couldn't have been more than
-> > > >> U32_MAX even though it was declared as a u64.
-> >
-> >
-> > I agree with Dan, we keep the existing behaviour. So it wont hurt to
-> > merge the code...
-> >
-> > All  that said, if someone has access to the DS, I do not mind reviewin=
-g it.
-> >
-> >
-> > > >>
-> > > >> It's possible that the original code was wrong.  We have seen that=
- in
-> > > >> other places in this patchset.  Adding a note about the datasheet =
-is
-> > > >> also a good idea.
-> > > >>
-> > > >> regards,
-> > > >> dan carpenter
-> > > >>
-> >
-> >
-> >
-> > --
-> > Ricardo Ribalda
-> >
->
-> Nice to hear from you!  :-)
->
-> I believe that I may have a copy of it on an old "spinny" hard drive
-> somewhere in one of the ancient desktop computers I have lining my
-> basement walls, lol.  It will take me some time to locate it.  I hope
-> this isn't urgent o:-)
->
-> ...It so happens that the dev box I used when I worked on that driver
-> is up right now, but the datasheet isn't in my home directory.  There
-> are two other drives in the chassis but not connected / powered - I'll
-> give these a look and let you know if I find anything.
->
-> Best,
-> Michael Krufky
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZraYswAKCRB4tDGHoIJi
+0tonAQDXX0xZWgDaeNkL+G/im0IoleTzmXCNVYAibHmhnDOBLQEAu5Jwr4Jh84y8
+So09QD8P3MlYkua1tqt96HA8i7/76ws=
+=PJBU
+-----END PGP SIGNATURE-----
 
-
-
---=20
-Ricardo Ribalda
+--UxYzrmqfRoz1zos6--
