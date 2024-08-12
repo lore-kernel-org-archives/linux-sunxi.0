@@ -1,173 +1,178 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DD4474BE1
-	for <linux-sunxi@lists.linux.dev>; Mon, 12 Aug 2024 02:40:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723430450; cv=pass; b=KesJDL3T6vfihGb83U3DqppaPHNpZRX3a90F4QBS+IWlBX/3fz7QqFCA5dPyRFpAd2kouIOq5PtQ4gA6bBYMmPuF3LRnxQ983UsbCqsqIVP3+rhPQKHXdMYVkVt7z3cpo/SbT1Q8MClVg6OU5xw4gHvrr4GbumwSC7eporGaR/o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723430450; c=relaxed/simple;
-	bh=65+gWY9EaBD21v5ldSx+W3zF2jB76wR9xWNxIiSuVw8=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=dl7r79s5dE6PvQwTwsrozLy/A7tVXrYiOkFpxl2BahDUPegntekPnVr0VvNCq/vplDzf9fP2xkmdw1ZQlNf1YswjQg/UWGEy9/IXSUmVn2m4MQ6NQIxQ7s5YIyW7HyIo4rMHHS5pV1+9mwqqmMWWxxXXLKO4QuzsbDxcNezeoHk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me; spf=pass smtp.mailfrom=icenowy.me; dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b=c/KcvIuC; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icenowy.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96ACF25761
+	for <linux-sunxi@lists.linux.dev>; Mon, 12 Aug 2024 02:46:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1723430792; cv=none; b=TCLzlJnT0JyJRRsg6s552AxTygadUu4NeenO2iLOMTrPh0TlI2J0BTksqD9GA+c5etWZ+M4byTDyEqAx+lyIJwt0moIaUg4UDtYWJjtp0th9X6jvLNsRVRcS5orY5AJ5OYYu0PaqaZExuRMjfk3GnzQmhCwOOL0S0APE0iieyI0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1723430792; c=relaxed/simple;
+	bh=s4g+rWdtyLJ2+k/zFKG4OLxwh21QhtnKKOMQUeaP5f0=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=XnNhJ/h1HbixRP9qtJNwClzHGbwQ+R24WI4pyfh8NtFRc4QkswXnokyIQCFN/b7FhrUtuXv7A6stmgneI95X1GiSeDbwNsttTTxPeXuiN2wdNOvzk0ig4hftrKFhN2W9pOa/fBInb5+WJzLJYkJuBnTYtL7LFeTxk9PghAMOLpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=NYEThejB; arc=none smtp.client-ip=116.203.91.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b="c/KcvIuC"
-ARC-Seal: i=1; a=rsa-sha256; t=1723430443; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=J3/5FwIt0MpGBF2Jxn2ffOLjlnvHB9SUSo7ydgazZzlM06/TknaU/+UANeQSQc/aJJDFrQWtAQK/stIxbfPe9c4gH7YoLcBMe6VdEp9978FjrGc/aWQxWp30gNx8ZxKaLhGyEeln+nzjqHdl62026iJWjkA+KjfyDaoVISVhgH4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1723430443; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=65+gWY9EaBD21v5ldSx+W3zF2jB76wR9xWNxIiSuVw8=; 
-	b=jaUUQhnjSquaygpMWmmAewpIXn3poZojehL4z4e62fxWX8AXtaJkBg/gj+xA2M3RcjqzCfW1dXAe4tMNXlBPoj1BBSF7w7WMACSzlBiorJ35YcbafWq2g1/2/Va96bw6msAi0OFmeI4PYv3C2+akg+Ef2554ONJH49mf4QaS51I=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=icenowy.me;
-	spf=pass  smtp.mailfrom=uwu@icenowy.me;
-	dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1723430443;
-	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
-	bh=65+gWY9EaBD21v5ldSx+W3zF2jB76wR9xWNxIiSuVw8=;
-	b=c/KcvIuCZ7DsC+p+a+/ujkETPRTlWO7p9FPlUxgFEVxgzdp//7eRpi7wjAMSt8G4
-	YXOq7vWpXi/syERxn5Yqm8aDetTkHbqgzzOy114O4tmurFqeq94/k5vTncWE+sswB1H
-	tr5hzHv+SlJSXGhhwCUyoCWobVtvBeQMVgE8hI0bEHCjV71y44kT/uoMbTnE0U86mps
-	Wis52kDJdxSu08h7GiOP8YK21HSDqsz3bB0i4XtDOMR6+QqoltW5B7trKj2w76D+EVY
-	4JFeuwTMGTD6mUUfoLA5E2oe/4flOdy32C6PQPVtFd4m0DAL5wSUMkoquP4lDEhtNJU
-	3Cl8235zhg==
-Received: by mx.zohomail.com with SMTPS id 1723430442527283.9672861832379;
-	Sun, 11 Aug 2024 19:40:42 -0700 (PDT)
-Message-ID: <24406e36f6facd93e798113303e22925b0a2dcc1.camel@icenowy.me>
-Subject: Re: [PATCH] arm64: dts: allwinner: Add GPU thermal trips to the SoC
- dtsi for A64
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Dragan Simic <dsimic@manjaro.org>, linux-sunxi@lists.linux.dev
-Cc: wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org, 
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	linux-kernel@vger.kernel.org, wenst@chromium.org, broonie@kernel.org
-Date: Mon, 12 Aug 2024 10:40:36 +0800
-In-Reply-To: <a17e0df64c5b976b47f19c5a29c02759cd9e5b8c.1723427375.git.dsimic@manjaro.org>
-References: 
-	<a17e0df64c5b976b47f19c5a29c02759cd9e5b8c.1723427375.git.dsimic@manjaro.org>
-Organization: Anthon Open-Source Community
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.44.4 
+	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="NYEThejB"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ZohoMailClient: External
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
+	t=1723430787;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=089PudqgBA1kwVP//URA8GhF+maY+DeiRcHXBOIyNeQ=;
+	b=NYEThejB2Y+7BlG/F+TfmyDdXLEYxl+x6C+D1oMmqmMFFu4vbjUXzWAtsnKq0uv7TvZrgE
+	1i8K1ov+On8WpKtCHGNhaesL0n88sjI0WwLtwGkUF8cUrZc1LJ+Anp/FbMW77Q9XpHQ9Hl
+	kW60zKWbbIq5wfrOpRRld9rwZFSA+47rEIbwoFlT3GaqZNuFBedlcahuTArf1xZqPK8bPL
+	AxlkkCqhiUrOLROwt8hnn/Z8cTsZScBzP4RbZzPE5uClklEwKz/R/vG/7dJHYbtE+EgK9F
+	NEeLstVnSEziAvGyNdp3SFtCC3hUVAG0bcHgRyF57ikXhb7O3DYJE6NIFfjHuw==
+Date: Mon, 12 Aug 2024 04:46:27 +0200
+From: Dragan Simic <dsimic@manjaro.org>
+To: Icenowy Zheng <uwu@icenowy.me>
+Cc: linux-sunxi@lists.linux.dev, wens@csie.org, jernej.skrabec@gmail.com,
+ samuel@sholland.org, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, linux-kernel@vger.kernel.org, wenst@chromium.org,
+ broonie@kernel.org
+Subject: Re: [PATCH] arm64: dts: allwinner: Add GPU thermal trips to the SoC
+ dtsi for A64
+In-Reply-To: <24406e36f6facd93e798113303e22925b0a2dcc1.camel@icenowy.me>
+References: <a17e0df64c5b976b47f19c5a29c02759cd9e5b8c.1723427375.git.dsimic@manjaro.org>
+ <24406e36f6facd93e798113303e22925b0a2dcc1.camel@icenowy.me>
+Message-ID: <25b65e9ef1cae59a8366532cc8db576b@manjaro.org>
+X-Sender: dsimic@manjaro.org
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+Authentication-Results: ORIGINATING;
+	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
 
-5ZyoIDIwMjQtMDgtMTLmmJ/mnJ/kuIDnmoQgMDQ6MDAgKzAyMDDvvIxEcmFnYW4gU2ltaWPlhpnp
-gZPvvJoKPiBBZGQgdGhlcm1hbCB0cmlwcyBmb3IgdGhlIHR3byBHUFUgdGhlcm1hbCBzZW5zb3Jz
-IGZvdW5kIGluIHRoZQo+IEFsbHdpbm5lciBBNjQuCj4gVGhlcmUncyBvbmx5IG9uZSBHUFUgT1BQ
-IGRlZmluZWQgc2luY2UgdGhlIGNvbW1pdCAxNDI4ZjBjMTlmOWMKPiAoImFybTY0OiBkdHM6Cj4g
-YWxsd2lubmVyOiBhNjQ6IFJ1biBHUFUgYXQgNDMyIE1IeiIpLCBzbyBkZWZpbmluZyBvbmx5IHRo
-ZSBjcml0aWNhbAo+IHRoZXJtYWwKPiB0cmlwcyBtYWtlcyBzZW5zZSBmb3IgdGhlIEE2NCdzIHR3
-byBHUFUgdGhlcm1hbCB6b25lcy4KPiAKPiBIYXZpbmcgdGhlc2UgY3JpdGljYWwgdGhlcm1hbCB0
-cmlwcyBkZWZpbmVkIGVuc3VyZXMgdGhhdCBubyBob3Qgc3BvdHMKPiBkZXZlbG9wCj4gaW5zaWRl
-IHRoZSBTb0MgZGllIHRoYXQgZXhjZWVkIHRoZSBtYXhpbXVtIGp1bmN0aW9uIHRlbXBlcmF0dXJl
-LsKgCj4gVGhhdCBtaWdodAo+IGhhdmUgYmVlbiBwb3NzaWJsZSBiZWZvcmUsIGFsdGhvdWdoIHF1
-aXRlIHVubGlrZWx5LCBiZWNhdXNlIHRoZSBDUFUKPiBhbmQgR1BVCj4gcG9ydGlvbnMgb2YgdGhl
-IFNvQyBhcmUgcGFja2VkIGNsb3NlbHkgaW5zaWRlIHRoZSBTb0MsIHNvIHRoZQo+IG92ZXJoZWF0
-aW5nIEdQVQo+IHdvdWxkIGluZXZpdGFibHkgcmVzdWx0IGluIHRoZSBoZWF0IHNvYWtpbmcgaW50
-byB0aGUgQ1BVIHBvcnRpb24gb2YKPiB0aGUgU29DLAo+IGNhdXNpbmcgdGhlIENQVSB0aGVybWFs
-IHNlbnNvciB0byByZXR1cm4gaGlnaCByZWFkaW5ncyBhbmQgdHJpZ2dlcgo+IHRoZSBDUFUKPiBj
-cml0aWNhbCB0aGVybWFsIHRyaXBzLsKgIEhvd2V2ZXIsIGl0J3MgYmV0dGVyIG5vdCB0byByZWx5
-IG9uIHRoZSBoZWF0Cj4gc29hawo+IGFuZCBoYXZlIHRoZSBjcml0aWNhbCBHUFUgdGhlcm1hbCB0
-cmlwcyBwcm9wZXJseSBkZWZpbmVkIGluc3RlYWQuCj4gCj4gV2hpbGUgdGhlcmUsIHJlbW92ZSBh
-IGZldyBzcG90dGVkIGNvbW1lbnRzIHRoYXQgYXJlIHJhdGhlciByZWR1bmRhbnQsCj4gYmVjYXVz
-ZQo+IGl0J3MgcHJldHR5IG11Y2ggb2J2aW91cyB3aGF0IHVuaXRzIGFyZSB1c2VkIGluIHRob3Nl
-IHBsYWNlcy4KClRoaXMgc2hvdWxkIGJlIGFub3RoZXIgaW5kaXZpZHVhbCBwYXRjaCwgSSB0aGlu
-ay4KCj4gCj4gU2lnbmVkLW9mZi1ieTogRHJhZ2FuIFNpbWljIDxkc2ltaWNAbWFuamFyby5vcmc+
-Cj4gLS0tCj4gwqBhcmNoL2FybTY0L2Jvb3QvZHRzL2FsbHdpbm5lci9zdW41MGktYTY0LmR0c2kg
-fCAyMiArKysrKysrKysrKysrKy0tLQo+IC0tCj4gwqAxIGZpbGUgY2hhbmdlZCwgMTYgaW5zZXJ0
-aW9ucygrKSwgNiBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvYXJjaC9hcm02NC9ib290
-L2R0cy9hbGx3aW5uZXIvc3VuNTBpLWE2NC5kdHNpCj4gYi9hcmNoL2FybTY0L2Jvb3QvZHRzL2Fs
-bHdpbm5lci9zdW41MGktYTY0LmR0c2kKPiBpbmRleCBlODY4Y2E1YWU3NTMuLmJjNWQzYTJlNmM5
-OCAxMDA2NDQKPiAtLS0gYS9hcmNoL2FybTY0L2Jvb3QvZHRzL2FsbHdpbm5lci9zdW41MGktYTY0
-LmR0c2kKPiArKysgYi9hcmNoL2FybTY0L2Jvb3QvZHRzL2FsbHdpbm5lci9zdW41MGktYTY0LmR0
-c2kKPiBAQCAtMjEyLDcgKzIxMiw2IEBAIHRpbWVyIHsKPiDCoAo+IMKgwqDCoMKgwqDCoMKgwqB0
-aGVybWFsLXpvbmVzIHsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGNwdV90aGVy
-bWFsOiBjcHUwLXRoZXJtYWwgewo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgLyogbWlsbGlzZWNvbmRzICovCgpUaGUgdW5pdCBvZiBhIDAgaXNuJ3Qgbm90
-IHNvIG9idmlvdXMgSSB0aGluaywgc28gSSBzdWdnZXN0IHRvIGtlZXAKdGhpcy4KCj4gwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcG9sbGluZy1kZWxheS1w
-YXNzaXZlID0gPDA+Owo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoHBvbGxpbmctZGVsYXkgPSA8MD47Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgdGhlcm1hbC1zZW5zb3JzID0gPCZ0aHMgMD47Cj4gQEAgLTIz
-Niw0MCArMjM1LDUxIEBAIG1hcDEgewo+IMKgCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgdHJpcHMgewo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBjcHVfYWxlcnQwOiBjcHUtYWxl
-cnQwIHsKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgLyogbWlsbGlDZWxzaXVzICovCj4gwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqB0ZW1wZXJhdHVyZSA9IDw3NTAwMD47Cj4gwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqBoeXN0ZXJlc2lzID0gPDIwMDA+Owo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgdHlw
-ZSA9ICJwYXNzaXZlIjsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgfTsKPiDCoAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBjcHVfYWxlcnQxOiBjcHUt
-YWxlcnQxIHsKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgLyogbWlsbGlDZWxzaXVzICovCj4gwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqB0ZW1wZXJhdHVyZSA9IDw5MDAwMD47Cj4gwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqBoeXN0ZXJlc2lzID0gPDIwMDA+Owo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-dHlwZSA9ICJob3QiOwo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB9Owo+IMKgCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGNwdV9jcml0OiBjcHUtY3Jp
-dCB7Cj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoC8qIG1pbGxpQ2Vsc2l1cyAqLwo+IMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgdGVtcGVyYXR1cmUgPSA8MTEwMDAwPjsKPiDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoGh5c3RlcmVzaXMgPSA8MjAwMD47Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB0eXBl
-ID0gImNyaXRpY2FsIjsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgfTsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqB9Owo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-fTsKPiDCoAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZ3B1MF90aGVybWFsOiBn
-cHUwLXRoZXJtYWwgewo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgLyogbWlsbGlzZWNvbmRzICovCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgcG9sbGluZy1kZWxheS1wYXNzaXZlID0gPDA+Owo+IMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHBvbGxpbmctZGVsYXkgPSA8
-MD47Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgdGhl
-cm1hbC1zZW5zb3JzID0gPCZ0aHMgMT47Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgdHJpcHMgewo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGdwdTBfY3JpdDogZ3B1MC1jcml0
-IHsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgdGVtcGVyYXR1cmUgPSA8MTEwMDAwPjsKPiArwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgaHlzdGVyZXNpcyA9IDwyMDAwPjsKPiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgdHlwZSA9ICJjcml0aWNhbCI7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgfTsKPiArwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoH07Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqB9Owo+IMKgCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBncHUxX3Ro
-ZXJtYWw6IGdwdTEtdGhlcm1hbCB7Cj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAvKiBtaWxsaXNlY29uZHMgKi8KPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBwb2xsaW5nLWRlbGF5LXBhc3NpdmUgPSA8MD47Cj4g
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcG9sbGluZy1k
-ZWxheSA9IDwwPjsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqB0aGVybWFsLXNlbnNvcnMgPSA8JnRocyAyPjsKPiArCj4gK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB0cmlwcyB7Cj4gK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZ3B1MV9jcml0OiBn
-cHUxLWNyaXQgewo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB0ZW1wZXJhdHVyZSA9IDwxMTAwMDA+
-Owo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBoeXN0ZXJlc2lzID0gPDIwMDA+Owo+ICvCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqB0eXBlID0gImNyaXRpY2FsIjsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB9Owo+ICvCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgfTsKPiDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoH07Cj4gwqDCoMKgwqDCoMKgwqDCoH07Cj4gwqAKCg==
+Hello Icenowy,
 
+On 2024-08-12 04:40, Icenowy Zheng wrote:
+> 在 2024-08-12星期一的 04:00 +0200，Dragan Simic写道：
+>> Add thermal trips for the two GPU thermal sensors found in the
+>> Allwinner A64.
+>> There's only one GPU OPP defined since the commit 1428f0c19f9c
+>> ("arm64: dts:
+>> allwinner: a64: Run GPU at 432 MHz"), so defining only the critical
+>> thermal
+>> trips makes sense for the A64's two GPU thermal zones.
+>> 
+>> Having these critical thermal trips defined ensures that no hot spots
+>> develop
+>> inside the SoC die that exceed the maximum junction temperature. 
+>> That might
+>> have been possible before, although quite unlikely, because the CPU
+>> and GPU
+>> portions of the SoC are packed closely inside the SoC, so the
+>> overheating GPU
+>> would inevitably result in the heat soaking into the CPU portion of
+>> the SoC,
+>> causing the CPU thermal sensor to return high readings and trigger
+>> the CPU
+>> critical thermal trips.  However, it's better not to rely on the heat
+>> soak
+>> and have the critical GPU thermal trips properly defined instead.
+>> 
+>> While there, remove a few spotted comments that are rather redundant,
+>> because
+>> it's pretty much obvious what units are used in those places.
+> 
+> This should be another individual patch, I think.
+
+Perhaps, which I already thought about, but it might also be best
+to simply drop the removal of those redundant comments entirely.
+Let's also see what will other people say.
+
+>> Signed-off-by: Dragan Simic <dsimic@manjaro.org>
+>> ---
+>>  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 22 ++++++++++++++---
+>> --
+>>  1 file changed, 16 insertions(+), 6 deletions(-)
+>> 
+>> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+>> b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+>> index e868ca5ae753..bc5d3a2e6c98 100644
+>> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+>> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+>> @@ -212,7 +212,6 @@ timer {
+>>  
+>>         thermal-zones {
+>>                 cpu_thermal: cpu0-thermal {
+>> -                       /* milliseconds */
+> 
+> The unit of a 0 isn't not so obvious I think, so I suggest to keep
+> this.
+
+Quite frankly, I think it should be obvious to anyone tackling
+the thermal zones and trips.
+
+>>                         polling-delay-passive = <0>;
+>>                         polling-delay = <0>;
+>>                         thermal-sensors = <&ths 0>;
+>> @@ -236,40 +235,51 @@ map1 {
+>>  
+>>                         trips {
+>>                                 cpu_alert0: cpu-alert0 {
+>> -                                       /* milliCelsius */
+>>                                         temperature = <75000>;
+>>                                         hysteresis = <2000>;
+>>                                         type = "passive";
+>>                                 };
+>>  
+>>                                 cpu_alert1: cpu-alert1 {
+>> -                                       /* milliCelsius */
+>>                                         temperature = <90000>;
+>>                                         hysteresis = <2000>;
+>>                                         type = "hot";
+>>                                 };
+>>  
+>>                                 cpu_crit: cpu-crit {
+>> -                                       /* milliCelsius */
+>>                                         temperature = <110000>;
+>>                                         hysteresis = <2000>;
+>>                                         type = "critical";
+>>                                 };
+>>                         };
+>>                 };
+>>  
+>>                 gpu0_thermal: gpu0-thermal {
+>> -                       /* milliseconds */
+>>                         polling-delay-passive = <0>;
+>>                         polling-delay = <0>;
+>>                         thermal-sensors = <&ths 1>;
+>> +
+>> +                       trips {
+>> +                               gpu0_crit: gpu0-crit {
+>> +                                       temperature = <110000>;
+>> +                                       hysteresis = <2000>;
+>> +                                       type = "critical";
+>> +                               };
+>> +                       };
+>>                 };
+>>  
+>>                 gpu1_thermal: gpu1-thermal {
+>> -                       /* milliseconds */
+>>                         polling-delay-passive = <0>;
+>>                         polling-delay = <0>;
+>>                         thermal-sensors = <&ths 2>;
+>> +
+>> +                       trips {
+>> +                               gpu1_crit: gpu1-crit {
+>> +                                       temperature = <110000>;
+>> +                                       hysteresis = <2000>;
+>> +                                       type = "critical";
+>> +                               };
+>> +                       };
+>>                 };
+>>         };
+>>  
