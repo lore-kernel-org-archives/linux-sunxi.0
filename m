@@ -1,165 +1,146 @@
 Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E74CEF4F1
-	for <linux-sunxi@lists.linux.dev>; Mon, 12 Aug 2024 01:22:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A7F553364
+	for <linux-sunxi@lists.linux.dev>; Mon, 12 Aug 2024 02:00:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723425730; cv=none; b=tKY0sNmzhG5CSByMgQxxj7SscyJ+5p4hNXvwuTnjNA4C4xTpPo8DHH3WKMxd2ADn8IjfSosCoXRozFd9PQ975NUIkKvJDvEGdPWhW8y8fVtYDxzYIwMHoTdZgmo1NA+BfXqmf7hcFvVXWr6nBHx3bBYsg8GQAk/ek+PFTm5716g=
+	t=1723428031; cv=none; b=GWYzlslamTzh0JSBhq6wClRfHzrExAYfZkOHgVCvipFCqLNaSUs2bmvxXYcNIIqT52ogCly+sd6h0cm1wRXvnF1rsucLG1MRSRbBL1OowjP3bBzpGDjSuTCoAOm9QTum6lkrADnNZ6Fla+hbHWpFCdmFET/I2uOWG17YVNbHo60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723425730; c=relaxed/simple;
-	bh=qzYqKKwqyk5y44/gCG1R9OePQRAqQfShNPTLuQoA4kU=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=U52VbvOrDdWtInbIz4vryUj8FwgS+OuUmP/DR7O7n1vMwguCZ3zsilDWJAfJaVJL6Lj/yW+/CGv75oLzJ8v3Knnx46l/eNup2jC7pUb6mDmlRG5dcuLdzS4cWfMB4WRNIjYATZe7s/P9j/h//pELmggw7P+NSRog6TpDIpEexDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=UvNEosSz; arc=none smtp.client-ip=116.203.91.91
+	s=arc-20240116; t=1723428031; c=relaxed/simple;
+	bh=LTqswOMYIvuMSo69TxBE4FFx+VdMdKLPpGZu0+5lvU0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=uW6h9JNaysC+bKng5L480x4rJxdGdb5qbkxXdwFtgXDo+JzUs04sYWET/bHx4v9qyTLhGVAgH1v1+Xl1k1xwBNGd3N/ncEGN63ckHI/UpBGMyfU4lFSopbHAW6im8UOTd4QfV6hZn/LsOJcEwhqAXYDQh11ISM0djCEqiPQgzos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=wpIwxb4e; arc=none smtp.client-ip=116.203.91.91
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="UvNEosSz"
+	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="wpIwxb4e"
+From: Dragan Simic <dsimic@manjaro.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
+	t=1723428025;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=RKcmkKHprKaGo3TWBWY608Q1owHtNCcC2SHOqOY293I=;
+	b=wpIwxb4eGG3D+c3GHnXUf2CVr2ZT5w5LkFjXVbn6V+OdSXmxFIYnbfF7h/0LsrPP4zw0lr
+	1ioc2dY0WgyiIUs571TB5lTB0FbbBkluaAwCU+hR3uVzQYRDcbk/xt6Wp1WuGwq5o8fDIC
+	NXZswVRI0U1qFgTCfdGgnsiJ24zqaitL0yMrOLttPSkRLp2DlHkseCGX3WbdNy4GgEwWXW
+	s7YcdmGWaSbZayrdsswAwDQQR8L5TLP7t+gYYlVrpuIsHQ2fNB6GE5tm+Cr7S9RgqRwk9Q
+	D11j34PSBO++joPeH7pImp0P9Zhd6fhzgVZH+SDGwYh29uHZYirse4erlMYR4w==
+To: linux-sunxi@lists.linux.dev
+Cc: wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	linux-kernel@vger.kernel.org,
+	uwu@icenowy.me,
+	wenst@chromium.org,
+	broonie@kernel.org
+Subject: [PATCH] arm64: dts: allwinner: Add GPU thermal trips to the SoC dtsi for A64
+Date: Mon, 12 Aug 2024 04:00:20 +0200
+Message-Id: <a17e0df64c5b976b47f19c5a29c02759cd9e5b8c.1723427375.git.dsimic@manjaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
-	t=1723425725;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=A5fSNqHi9NEqILrnhCWCR3tGDVIu+LDzvUUnKDBNWDM=;
-	b=UvNEosSziXo3OIwb8LAWlDOA7gMZRS0gU8LGeBcoAttZl8r13bUVa0J0DAz810IsP4hqEK
-	ihDRwja9yYXx4BqV2Ol0YvRngaUi+hKQB4bEbHrDCxi3c+mBPStcfxHSTYB658B1OJIKEb
-	tqYlNfa0ZrU7b+g97LC1AXT8UjobuoFh1K/wb4OmZ/hhcfCBZGWF6eX9rSpe6H7D0qOCDy
-	YiMlyOGClyet/g00T4Gv/eUub8YLeYVuo3KicN+GEKgux7eYUTjwPO7eD6STdcLnpODw8C
-	v+o1nX5JGpcGzfQrvnBSTyXWB9mQP5uVRCPZcBlU4AacFq9k8m+cJtnHwIBr2A==
-Date: Mon, 12 Aug 2024 03:22:05 +0200
-From: Dragan Simic <dsimic@manjaro.org>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Daniel Lezcano <daniel.lezcano@linaro.org>, Amit Kucheria
- <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>, Icenowy Zheng
- <uwu@icenowy.me>, Mark Brown <broonie@kernel.org>, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, =?UTF-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Pra?=
- =?UTF-8?Q?do?= <nfraprado@collabora.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Matthias Brugger
- <matthias.bgg@gmail.com>, linux-mediatek@lists.infradead.org, Hsin-Te Yuan
- <yuanhsinte@chromium.org>
-Subject: Re: [PATCH v2] thermal/of: support thermal zones w/o trips subnode
-In-Reply-To: <20240809070822.2835371-1-wenst@chromium.org>
-References: <20240809070822.2835371-1-wenst@chromium.org>
-Message-ID: <b00273d65dfc4b48cca474784184c62b@manjaro.org>
-X-Sender: dsimic@manjaro.org
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Authentication-Results: ORIGINATING;
 	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
 
-Hello Chen-Yu,
+Add thermal trips for the two GPU thermal sensors found in the Allwinner A64.
+There's only one GPU OPP defined since the commit 1428f0c19f9c ("arm64: dts:
+allwinner: a64: Run GPU at 432 MHz"), so defining only the critical thermal
+trips makes sense for the A64's two GPU thermal zones.
 
-Thanks for the patch.  Please see one comment below.
+Having these critical thermal trips defined ensures that no hot spots develop
+inside the SoC die that exceed the maximum junction temperature.  That might
+have been possible before, although quite unlikely, because the CPU and GPU
+portions of the SoC are packed closely inside the SoC, so the overheating GPU
+would inevitably result in the heat soaking into the CPU portion of the SoC,
+causing the CPU thermal sensor to return high readings and trigger the CPU
+critical thermal trips.  However, it's better not to rely on the heat soak
+and have the critical GPU thermal trips properly defined instead.
 
-On 2024-08-09 09:08, Chen-Yu Tsai wrote:
-> From: Icenowy Zheng <uwu@icenowy.me>
-> 
-> Although the current device tree binding of thermal zones require the
-> trips subnode, the binding in kernel v5.15 does not require it, and 
-> many
-> device trees shipped with the kernel, for example,
-> allwinner/sun50i-a64.dtsi and mediatek/mt8183-kukui.dtsi in ARM64, 
-> still
-> comply to the old binding and contain no trips subnode.
-> 
-> Allow the code to successfully register thermal zones w/o trips subnode
-> for DT binding compatibility now.
-> 
-> Furtherly, the inconsistency between DTs and bindings should be 
-> resolved
-> by either adding empty trips subnode or dropping the trips subnode
-> requirement.
-> 
-> Fixes: d0c75fa2c17f ("thermal/of: Initialize trip points separately")
-> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-> Reviewed-by: Mark Brown <broonie@kernel.org>
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> ---
-> Resurrecting this patch specifically for MediaTek MT8183 Kukui devices.
-> 
-> Changes since v1:
-> - set *ntrips at beginning of thermal_of_trips_init()
-> - Keep goto out_of_node_put in of_get_child_count(trips) == 0 branch
-> - Check return value of thermal_of_trips_init(), if it is -ENXIO, print
->   warning and clear |trips| pointer
-> - Drop |mask| change, as the variable was removed
-> 
-> I kept Mark's reviewed-by since the changes are more stylish than
-> functional.
-> ---
->  drivers/thermal/thermal_of.c | 19 ++++++++++++-------
->  1 file changed, 12 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/thermal/thermal_of.c 
-> b/drivers/thermal/thermal_of.c
-> index aa34b6e82e26..f237e74c92fc 100644
-> --- a/drivers/thermal/thermal_of.c
-> +++ b/drivers/thermal/thermal_of.c
-> @@ -128,16 +128,17 @@ static struct thermal_trip
-> *thermal_of_trips_init(struct device_node *np, int *n
->  	struct device_node *trips, *trip;
->  	int ret, count;
-> 
-> +	*ntrips = 0;
->  	trips = of_get_child_by_name(np, "trips");
->  	if (!trips) {
-> -		pr_err("Failed to find 'trips' node\n");
-> -		return ERR_PTR(-EINVAL);
-> +		pr_debug("Failed to find 'trips' node\n");
-> +		return ERR_PTR(-ENXIO);
->  	}
-> 
->  	count = of_get_child_count(trips);
->  	if (!count) {
-> -		pr_err("No trip point defined\n");
-> -		ret = -EINVAL;
-> +		pr_debug("No trip point defined\n");
-> +		ret = -ENXIO;
->  		goto out_of_node_put;
->  	}
-> 
-> @@ -162,7 +163,6 @@ static struct thermal_trip
-> *thermal_of_trips_init(struct device_node *np, int *n
-> 
->  out_kfree:
->  	kfree(tt);
-> -	*ntrips = 0;
->  out_of_node_put:
->  	of_node_put(trips);
+While there, remove a few spotted comments that are rather redundant, because
+it's pretty much obvious what units are used in those places.
 
-It might be a bit cleaner to keep the "*ntrips = 0" assignment
-in the error handling path(s) only, with the positions of the goto
-labels adjusted a bit, and then assign -ENXIO to "ret" and jump
-to the right label when of_get_child_by_name(np, "trips") fails,
-instead of returning from there.
+Signed-off-by: Dragan Simic <dsimic@manjaro.org>
+---
+ arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 22 ++++++++++++++-----
+ 1 file changed, 16 insertions(+), 6 deletions(-)
 
-If it's unclear what I'm talking about, please let me know and
-I'll send back the proposed hunk.
-
-> @@ -490,8 +490,13 @@ static struct thermal_zone_device
-> *thermal_of_zone_register(struct device_node *
-> 
->  	trips = thermal_of_trips_init(np, &ntrips);
->  	if (IS_ERR(trips)) {
-> -		pr_err("Failed to find trip points for %pOFn id=%d\n", sensor, id);
-> -		return ERR_CAST(trips);
-> +		if (PTR_ERR(trips) != -ENXIO) {
-> +			pr_err("Failed to find trip points for %pOFn id=%d\n", sensor, id);
-> +			return ERR_CAST(trips);
-> +		}
-> +
-> +		pr_warn("Failed to find trip points for %pOFn id=%d\n", sensor, id);
-> +		trips = NULL;
->  	}
-> 
->  	ret = thermal_of_monitor_init(np, &delay, &pdelay);
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+index e868ca5ae753..bc5d3a2e6c98 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+@@ -212,7 +212,6 @@ timer {
+ 
+ 	thermal-zones {
+ 		cpu_thermal: cpu0-thermal {
+-			/* milliseconds */
+ 			polling-delay-passive = <0>;
+ 			polling-delay = <0>;
+ 			thermal-sensors = <&ths 0>;
+@@ -236,40 +235,51 @@ map1 {
+ 
+ 			trips {
+ 				cpu_alert0: cpu-alert0 {
+-					/* milliCelsius */
+ 					temperature = <75000>;
+ 					hysteresis = <2000>;
+ 					type = "passive";
+ 				};
+ 
+ 				cpu_alert1: cpu-alert1 {
+-					/* milliCelsius */
+ 					temperature = <90000>;
+ 					hysteresis = <2000>;
+ 					type = "hot";
+ 				};
+ 
+ 				cpu_crit: cpu-crit {
+-					/* milliCelsius */
+ 					temperature = <110000>;
+ 					hysteresis = <2000>;
+ 					type = "critical";
+ 				};
+ 			};
+ 		};
+ 
+ 		gpu0_thermal: gpu0-thermal {
+-			/* milliseconds */
+ 			polling-delay-passive = <0>;
+ 			polling-delay = <0>;
+ 			thermal-sensors = <&ths 1>;
++
++			trips {
++				gpu0_crit: gpu0-crit {
++					temperature = <110000>;
++					hysteresis = <2000>;
++					type = "critical";
++				};
++			};
+ 		};
+ 
+ 		gpu1_thermal: gpu1-thermal {
+-			/* milliseconds */
+ 			polling-delay-passive = <0>;
+ 			polling-delay = <0>;
+ 			thermal-sensors = <&ths 2>;
++
++			trips {
++				gpu1_crit: gpu1-crit {
++					temperature = <110000>;
++					hysteresis = <2000>;
++					type = "critical";
++				};
++			};
+ 		};
+ 	};
+ 
