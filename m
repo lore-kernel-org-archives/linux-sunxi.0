@@ -1,101 +1,165 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0A6BC8D1;
-	Fri,  9 Aug 2024 22:31:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E74CEF4F1
+	for <linux-sunxi@lists.linux.dev>; Mon, 12 Aug 2024 01:22:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723242683; cv=none; b=JZTG/exRkOu0hAcOTgYIQPp2bHuw+SHlzH7zNAySKSgE7ZrPEeSE0PB3QphJCucP0xkcUi/neiRFDZdvVbhhmvlgGfRRUTcwpbLmNUBRbKvvGX1u3NMl79l5gfdwZnnso49BOCROqrQpauZipKZrF4pIJ+f2n45hO91eb0JJcN0=
+	t=1723425730; cv=none; b=tKY0sNmzhG5CSByMgQxxj7SscyJ+5p4hNXvwuTnjNA4C4xTpPo8DHH3WKMxd2ADn8IjfSosCoXRozFd9PQ975NUIkKvJDvEGdPWhW8y8fVtYDxzYIwMHoTdZgmo1NA+BfXqmf7hcFvVXWr6nBHx3bBYsg8GQAk/ek+PFTm5716g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723242683; c=relaxed/simple;
-	bh=ST2yZJ1z3NPLh4z1Z9oZd5wDiM05Ls+yHvSmTrATXTA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mAnXjmF5LNwXE7YdYLaY3BWD4El+SOuFzhkasv2P0557ram4o9VZ+Wv9U7ohPjcbc961AU7KvLlQhiBOgP0GV1huva0wAlU8O9u7CQHykRH8IgEz9WWW/W97anzfZ3q10/qbMH/cMoUyPFzyDdBuInjKvvYamufs+SDW0i7s4LQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IdfNHUFS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723425730; c=relaxed/simple;
+	bh=qzYqKKwqyk5y44/gCG1R9OePQRAqQfShNPTLuQoA4kU=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=U52VbvOrDdWtInbIz4vryUj8FwgS+OuUmP/DR7O7n1vMwguCZ3zsilDWJAfJaVJL6Lj/yW+/CGv75oLzJ8v3Knnx46l/eNup2jC7pUb6mDmlRG5dcuLdzS4cWfMB4WRNIjYATZe7s/P9j/h//pELmggw7P+NSRog6TpDIpEexDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=UvNEosSz; arc=none smtp.client-ip=116.203.91.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IdfNHUFS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7583BC32782;
-	Fri,  9 Aug 2024 22:31:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723242682;
-	bh=ST2yZJ1z3NPLh4z1Z9oZd5wDiM05Ls+yHvSmTrATXTA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IdfNHUFSCvgO3CKBq6FBAR2WeVIHxj1nhcVXFpM90cS4e3R4lvmJlY0jAlCdyiao7
-	 bTvJg/0lzSHLV2vMiVmamYiBijYQA7Pk2WZwG1Oz99TlRYq9G0qi36ZCnWiBELc8Yk
-	 GfwK3agTSeyPYjBV0GypsBfN0gzSVGty7jXfSJzACMBD9gTH0M3QegApEtBVPfkeux
-	 ELsWhY/ZLNszj9JXhqp/fWzZ4s8WZOi84U2YqzhC8CkAd4vT5rzdhPbDvI2X1azdyS
-	 PC+9Lmwr28VwuRYElgTjS2Anp0/hkhMnQK7CtWsea9xdVT0ZwIV1fR9oepAD0hYJq3
-	 lvy0RwPbyqe6w==
-Date: Fri, 9 Aug 2024 23:31:15 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Guo Ren <guoren@kernel.org>, Evan Green <evan@rivosinc.com>,
-	Andy Chiu <andy.chiu@sifive.com>,
-	Jessica Clarke <jrtc27@jrtc27.com>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Heiko Stuebner <heiko@sntech.de>
-Subject: Re: [PATCH v9 00/13] riscv: Add support for xtheadvector
-Message-ID: <20240809-slapping-graph-461287bac506@spud>
-References: <20240806-xtheadvector-v9-0-62a56d2da5d0@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="UvNEosSz"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="UxYzrmqfRoz1zos6"
-Content-Disposition: inline
-In-Reply-To: <20240806-xtheadvector-v9-0-62a56d2da5d0@rivosinc.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
+	t=1723425725;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=A5fSNqHi9NEqILrnhCWCR3tGDVIu+LDzvUUnKDBNWDM=;
+	b=UvNEosSziXo3OIwb8LAWlDOA7gMZRS0gU8LGeBcoAttZl8r13bUVa0J0DAz810IsP4hqEK
+	ihDRwja9yYXx4BqV2Ol0YvRngaUi+hKQB4bEbHrDCxi3c+mBPStcfxHSTYB658B1OJIKEb
+	tqYlNfa0ZrU7b+g97LC1AXT8UjobuoFh1K/wb4OmZ/hhcfCBZGWF6eX9rSpe6H7D0qOCDy
+	YiMlyOGClyet/g00T4Gv/eUub8YLeYVuo3KicN+GEKgux7eYUTjwPO7eD6STdcLnpODw8C
+	v+o1nX5JGpcGzfQrvnBSTyXWB9mQP5uVRCPZcBlU4AacFq9k8m+cJtnHwIBr2A==
+Date: Mon, 12 Aug 2024 03:22:05 +0200
+From: Dragan Simic <dsimic@manjaro.org>
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>, Amit Kucheria
+ <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>, Icenowy Zheng
+ <uwu@icenowy.me>, Mark Brown <broonie@kernel.org>, linux-pm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, =?UTF-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Pra?=
+ =?UTF-8?Q?do?= <nfraprado@collabora.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>, linux-mediatek@lists.infradead.org, Hsin-Te Yuan
+ <yuanhsinte@chromium.org>
+Subject: Re: [PATCH v2] thermal/of: support thermal zones w/o trips subnode
+In-Reply-To: <20240809070822.2835371-1-wenst@chromium.org>
+References: <20240809070822.2835371-1-wenst@chromium.org>
+Message-ID: <b00273d65dfc4b48cca474784184c62b@manjaro.org>
+X-Sender: dsimic@manjaro.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Authentication-Results: ORIGINATING;
+	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
 
+Hello Chen-Yu,
 
---UxYzrmqfRoz1zos6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks for the patch.  Please see one comment below.
 
-On Tue, Aug 06, 2024 at 05:31:36PM -0700, Charlie Jenkins wrote:
-> xtheadvector is a custom extension that is based upon riscv vector
-> version 0.7.1 [1]. All of the vector routines have been modified to
-> support this alternative vector version based upon whether xtheadvector
-> was determined to be supported at boot.
->=20
-> vlenb is not supported on the existing xtheadvector hardware, so a
-> devicetree property thead,vlenb is added to provide the vlenb to Linux.
->=20
-> There is a new hwprobe key RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0 that is
-> used to request which thead vendor extensions are supported on the
-> current platform. This allows future vendors to allocate hwprobe keys
-> for their vendor.
->=20
-> Support for xtheadvector is also added to the vector kselftests.
+On 2024-08-09 09:08, Chen-Yu Tsai wrote:
+> From: Icenowy Zheng <uwu@icenowy.me>
+> 
+> Although the current device tree binding of thermal zones require the
+> trips subnode, the binding in kernel v5.15 does not require it, and 
+> many
+> device trees shipped with the kernel, for example,
+> allwinner/sun50i-a64.dtsi and mediatek/mt8183-kukui.dtsi in ARM64, 
+> still
+> comply to the old binding and contain no trips subnode.
+> 
+> Allow the code to successfully register thermal zones w/o trips subnode
+> for DT binding compatibility now.
+> 
+> Furtherly, the inconsistency between DTs and bindings should be 
+> resolved
+> by either adding empty trips subnode or dropping the trips subnode
+> requirement.
+> 
+> Fixes: d0c75fa2c17f ("thermal/of: Initialize trip points separately")
+> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+> Reviewed-by: Mark Brown <broonie@kernel.org>
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> ---
+> Resurrecting this patch specifically for MediaTek MT8183 Kukui devices.
+> 
+> Changes since v1:
+> - set *ntrips at beginning of thermal_of_trips_init()
+> - Keep goto out_of_node_put in of_get_child_count(trips) == 0 branch
+> - Check return value of thermal_of_trips_init(), if it is -ENXIO, print
+>   warning and clear |trips| pointer
+> - Drop |mask| change, as the variable was removed
+> 
+> I kept Mark's reviewed-by since the changes are more stylish than
+> functional.
+> ---
+>  drivers/thermal/thermal_of.c | 19 ++++++++++++-------
+>  1 file changed, 12 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/thermal/thermal_of.c 
+> b/drivers/thermal/thermal_of.c
+> index aa34b6e82e26..f237e74c92fc 100644
+> --- a/drivers/thermal/thermal_of.c
+> +++ b/drivers/thermal/thermal_of.c
+> @@ -128,16 +128,17 @@ static struct thermal_trip
+> *thermal_of_trips_init(struct device_node *np, int *n
+>  	struct device_node *trips, *trip;
+>  	int ret, count;
+> 
+> +	*ntrips = 0;
+>  	trips = of_get_child_by_name(np, "trips");
+>  	if (!trips) {
+> -		pr_err("Failed to find 'trips' node\n");
+> -		return ERR_PTR(-EINVAL);
+> +		pr_debug("Failed to find 'trips' node\n");
+> +		return ERR_PTR(-ENXIO);
+>  	}
+> 
+>  	count = of_get_child_count(trips);
+>  	if (!count) {
+> -		pr_err("No trip point defined\n");
+> -		ret = -EINVAL;
+> +		pr_debug("No trip point defined\n");
+> +		ret = -ENXIO;
+>  		goto out_of_node_put;
+>  	}
+> 
+> @@ -162,7 +163,6 @@ static struct thermal_trip
+> *thermal_of_trips_init(struct device_node *np, int *n
+> 
+>  out_kfree:
+>  	kfree(tt);
+> -	*ntrips = 0;
+>  out_of_node_put:
+>  	of_node_put(trips);
 
-So uh, since noone seems to have brought it up, in the light of the issues
-with thead's vector implementation, (https://ghostwriteattack.com/) do we
-want to enable it at all?
+It might be a bit cleaner to keep the "*ntrips = 0" assignment
+in the error handling path(s) only, with the positions of the goto
+labels adjusted a bit, and then assign -ENXIO to "ret" and jump
+to the right label when of_get_child_by_name(np, "trips") fails,
+instead of returning from there.
 
---UxYzrmqfRoz1zos6
-Content-Type: application/pgp-signature; name="signature.asc"
+If it's unclear what I'm talking about, please let me know and
+I'll send back the proposed hunk.
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZraYswAKCRB4tDGHoIJi
-0tonAQDXX0xZWgDaeNkL+G/im0IoleTzmXCNVYAibHmhnDOBLQEAu5Jwr4Jh84y8
-So09QD8P3MlYkua1tqt96HA8i7/76ws=
-=PJBU
------END PGP SIGNATURE-----
-
---UxYzrmqfRoz1zos6--
+> @@ -490,8 +490,13 @@ static struct thermal_zone_device
+> *thermal_of_zone_register(struct device_node *
+> 
+>  	trips = thermal_of_trips_init(np, &ntrips);
+>  	if (IS_ERR(trips)) {
+> -		pr_err("Failed to find trip points for %pOFn id=%d\n", sensor, id);
+> -		return ERR_CAST(trips);
+> +		if (PTR_ERR(trips) != -ENXIO) {
+> +			pr_err("Failed to find trip points for %pOFn id=%d\n", sensor, id);
+> +			return ERR_CAST(trips);
+> +		}
+> +
+> +		pr_warn("Failed to find trip points for %pOFn id=%d\n", sensor, id);
+> +		trips = NULL;
+>  	}
+> 
+>  	ret = thermal_of_monitor_init(np, &delay, &pdelay);
