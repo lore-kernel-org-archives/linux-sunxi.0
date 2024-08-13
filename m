@@ -1,59 +1,34 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1B726AAD
-	for <linux-sunxi@lists.linux.dev>; Tue, 13 Aug 2024 00:45:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E019D1A073C;
+	Tue, 13 Aug 2024 15:55:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723509936; cv=none; b=NDmQbGAOgOLRVBddusMuPitCWf8781XjFI3XfJrq/dmUmNKKSfb4PPzwehrQlTdot7f+Rn9I/ZxBAE/VoO+z45An1NKfMORGOvbHBK13JcqHTOQjJfnhi5J+U15ngdxq/D8adb9xmUJ6KsDS0hd58TbL7XM4taiBor8dWR44hgM=
+	t=1723564535; cv=none; b=FEDzJLoLl5J4UaTWQ6lo4XJI0+ig5QZMZhmbEPlWbCV+frhla7s3FiJHY99nOFazJcVxvyszMy3ESDMNa0NCimQwhcubeKp/ZeEQZyU4fqraMVt1zUCxRvS52N5ODcSV37QWCjcaWBKlZhaV+5558hes0e/+iipYJnBmZANPmlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723509936; c=relaxed/simple;
-	bh=1sBgTIKoJ6AjCZ9d/4YTN6ajHX8hpg8Jnb/EcKKS2RQ=;
+	s=arc-20240116; t=1723564535; c=relaxed/simple;
+	bh=2qbznLVAWa/HOCkibpwEKuFx9BRG0jfLiyGPm/O5D0U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eQij6Ptj+wjKWpE62Nr3cDp5UY34X8tWZcJ6rE4JCHUqTW3G7p9ZLBC3cvbM3cdDeEvjWeAqYHOG6NNPOWpB9+4LX7Q+IHHvxrOE1nE7kTMV0xYqZyZmKFRNPX1SAzUFapkSteQeMFBGuJQb7EgXI5jthkSzeDo/bluC/MBZ6TU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=Aj6jiFK+; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=DrysTMLe8/lW4Ac9VRJvwngkcSIWbSRXJGhNcYxhEy9FCfbpQhDsehFYZW9P19vR8u/vCZWaDb7HQJ6WUf4mU2LtpUmB4R8laEoloNWTQL2ST8KIm+sSd2ev+NNZSZLf9f/TpYmSZXRIGiQxMrDllAsS5F5JHlv0Cok5LgPjG48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TdDaa/og; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="Aj6jiFK+"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1ff1cd07f56so41143635ad.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 12 Aug 2024 17:45:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1723509934; x=1724114734; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1Beo73jI8KH5p03NxQPXLaupS8Ut84TtJmPr0+Y+H6g=;
-        b=Aj6jiFK+ZCUYbEa2aBowwAASxRPjYF/OxYpeydVTuV/4y0ovosqI84ZDsEiZeqc9fO
-         cMbQCBtKRlaF6atQIumkxJTqQaBlfgJQz8YAC1peIPjnbIcCfW/wac9M5Vo5rW/2vJo1
-         imlWl2NhGRNVmvG6pWk2LU8gubNuXn/pQe7kdu99oIvGiM6faFWg9lXsQp7rklcfT54y
-         VITIWYxxqGiz5ucknIIa+lBL0aDwPC5R8+6NEVUMj56g4ixTFUif480d9W6sT5mwresV
-         c7BTZvi/KRwh3mTbfRgdJ7pLicq1WTuAHeadPwsWLzP3ekyHym3VF5DNpkdA3Wu5JLBf
-         PU/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723509934; x=1724114734;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1Beo73jI8KH5p03NxQPXLaupS8Ut84TtJmPr0+Y+H6g=;
-        b=wHRMToLuwArRimUKhGrO8qicT8FMwqfLvDq+VhqAsWHw1ag0SX0pOjv77dMSkDjG6N
-         vVcxux6/gA3xNqfrz8rQ2QkHuORRSpYBY+GB0nKgHAzYlLD2O9VkuQx2i6AFnz1/Q2Ap
-         Sq8Yhs9RYHP3mab9zp7MTC9LqC4ncUb9y38WtG05TacgcTyRRFc5d1SKE1vl//hINVj3
-         Mjk8ko49Bz6mnYUMyGLjzmj/jlsMcvhTNDtP/d+Zph7pz4W83noHdo+7esATRFRicPZM
-         7cPG4/Bt+53eNxvmkr+FG6t063NbI0kkgmcq5JCRDGwR3gZhocgKnvPg2tqyFf7H1v43
-         kqJg==
-X-Forwarded-Encrypted: i=1; AJvYcCXrwQysoQzC17N5Bsj4SZU/tnGaYaYpQSW7/73gH74rl9WL6ytupiE8d4A3l+ucdIZbd0PJg4tlpGH2Ug==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyoBr1emfnkM2+W6LmvthxONgdmnN4z9p11i0dNdECkEeerm54v
-	zQ4vHoekvPb+1Wufrm3ERQhtJ9ug1J5Zr+2P99EdYbR0ahyyLNEBSBLlzNa2P6o=
-X-Google-Smtp-Source: AGHT+IHdEc1RzSfknb4O0tEELFITV1/FMiLC99gVJNOSQQB/c+hZmMPVy98DA8PMYeZcE4ZXSNQJNQ==
-X-Received: by 2002:a17:902:e80b:b0:1fb:57e7:5bb4 with SMTP id d9443c01a7336-201ca1831c4mr26201755ad.37.1723509934094;
-        Mon, 12 Aug 2024 17:45:34 -0700 (PDT)
-Received: from ghost ([2601:647:6700:64d0:239c:9f30:d4d6:f989])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-201cd1c86ddsm2537295ad.263.2024.08.12.17.45.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Aug 2024 17:45:33 -0700 (PDT)
-Date: Mon, 12 Aug 2024 17:45:30 -0700
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: Conor Dooley <conor@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TdDaa/og"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B120C4AF09;
+	Tue, 13 Aug 2024 15:55:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723564534;
+	bh=2qbznLVAWa/HOCkibpwEKuFx9BRG0jfLiyGPm/O5D0U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TdDaa/og08j0LYWxMjIfmT62Kse6nlmDNAqFUWXRmeAOd4L8HUcdtoNGpFIKZ2ovK
+	 Wo8eroMPA7ljNcvycCtAJoCPSOW0sL4ez8CU0njPbAl5s4w3e1pL1xt0z/5bkAsd3W
+	 AyI8VSs3BZHOYosptDMzpeCBZYGxHn2H8y8LbYAnhcsMLr91GM20TL0ixceE9tPfzb
+	 Vx1zlFj6nEUair4k8rdOYdoG4DTk8CIJwZHafLxB8o8P/RrW8+9bZFSBxfXNpqDFNr
+	 VwMB5tfnO4Fx23eAhjULiqlqOWHy4r2C5DEKNZSBu0vrreLkayROtBxCfuvWvflTI4
+	 xxXxYgEv0gapw==
+Date: Tue, 13 Aug 2024 16:55:27 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Charlie Jenkins <charlie@rivosinc.com>
 Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Paul Walmsley <paul.walmsley@sifive.com>,
 	Palmer Dabbelt <palmer@dabbelt.com>,
@@ -73,43 +48,69 @@ Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor.dooley@microchip.com>,
 	Heiko Stuebner <heiko@sntech.de>
 Subject: Re: [PATCH v9 00/13] riscv: Add support for xtheadvector
-Message-ID: <ZrqsqsCtKwfG4Q5B@ghost>
+Message-ID: <20240813-strode-revival-07b8556a8bfe@spud>
 References: <20240806-xtheadvector-v9-0-62a56d2da5d0@rivosinc.com>
  <20240809-slapping-graph-461287bac506@spud>
+ <ZrqsqsCtKwfG4Q5B@ghost>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="wVALGEdsN5/GZu0E"
+Content-Disposition: inline
+In-Reply-To: <ZrqsqsCtKwfG4Q5B@ghost>
+
+
+--wVALGEdsN5/GZu0E
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240809-slapping-graph-461287bac506@spud>
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 09, 2024 at 11:31:15PM +0100, Conor Dooley wrote:
-> On Tue, Aug 06, 2024 at 05:31:36PM -0700, Charlie Jenkins wrote:
-> > xtheadvector is a custom extension that is based upon riscv vector
-> > version 0.7.1 [1]. All of the vector routines have been modified to
-> > support this alternative vector version based upon whether xtheadvector
-> > was determined to be supported at boot.
-> > 
-> > vlenb is not supported on the existing xtheadvector hardware, so a
-> > devicetree property thead,vlenb is added to provide the vlenb to Linux.
-> > 
-> > There is a new hwprobe key RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0 that is
-> > used to request which thead vendor extensions are supported on the
-> > current platform. This allows future vendors to allocate hwprobe keys
-> > for their vendor.
-> > 
-> > Support for xtheadvector is also added to the vector kselftests.
-> 
-> So uh, since noone seems to have brought it up, in the light of the issues
-> with thead's vector implementation, (https://ghostwriteattack.com/) do we
-> want to enable it at all?
+On Mon, Aug 12, 2024 at 05:45:30PM -0700, Charlie Jenkins wrote:
+> On Fri, Aug 09, 2024 at 11:31:15PM +0100, Conor Dooley wrote:
+> > On Tue, Aug 06, 2024 at 05:31:36PM -0700, Charlie Jenkins wrote:
+> > > xtheadvector is a custom extension that is based upon riscv vector
+> > > version 0.7.1 [1]. All of the vector routines have been modified to
+> > > support this alternative vector version based upon whether xtheadvect=
+or
+> > > was determined to be supported at boot.
+> > >=20
+> > > vlenb is not supported on the existing xtheadvector hardware, so a
+> > > devicetree property thead,vlenb is added to provide the vlenb to Linu=
+x.
+> > >=20
+> > > There is a new hwprobe key RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0 that =
+is
+> > > used to request which thead vendor extensions are supported on the
+> > > current platform. This allows future vendors to allocate hwprobe keys
+> > > for their vendor.
+> > >=20
+> > > Support for xtheadvector is also added to the vector kselftests.
+> >=20
+> > So uh, since noone seems to have brought it up, in the light of the iss=
+ues
+> > with thead's vector implementation, (https://ghostwriteattack.com/) do =
+we
+> > want to enable it at all?
+>=20
+> I can make it clear in the kconfig that xtheadvector is succeptible to
+> this attack and that it should be enabled with caution. I think we
+> should let people that understand the risk to enable it.
 
-I can make it clear in the kconfig that xtheadvector is succeptible to
-this attack and that it should be enabled with caution. I think we
-should let people that understand the risk to enable it.
+I think the clearest way might be "depends on BROKEN"?
 
-- Charlie
+--wVALGEdsN5/GZu0E
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZruB7wAKCRB4tDGHoIJi
+0tDJAQCrAAwyJAAGcGaB0lSjHQowc1+M+60A33xWLVpFubDEggD+PdA/5VviAMYd
+FtjIx2BGIAbBB5DLVfsxw4duVA3eAQc=
+=/cR1
+-----END PGP SIGNATURE-----
+
+--wVALGEdsN5/GZu0E--
