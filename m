@@ -1,158 +1,310 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8F761C8FDD
-	for <linux-sunxi@lists.linux.dev>; Wed, 14 Aug 2024 20:18:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 439D71C7B78
+	for <linux-sunxi@lists.linux.dev>; Wed, 14 Aug 2024 21:13:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723666696; cv=none; b=thGu9+SEaiVaMOzycBNL5TWp49wuHSJGqTGyN/uJ+4OHDSGbEcRnkkRvG1nena+zy1Zgwk49SGNcLULa8oo2uBvvi1zI86DQ1qdGcWXaAOekomOcsM2JQXspYlqKeYuOArSLAuLtDxOAOFDULi1CHeIv3SjbZpeeYbI/YhiSgw0=
+	t=1723669986; cv=none; b=bpqwC3YOEwW6VA6W+31umsi3RnbrU9pyEdnSBAdHYvmtC7Vn8Kha35T9ej86DzoWdwwd7Vcx18iWUHnO8uGhbbiLSqR5nTT8hPphhWAtBFXSzH1XgIA4DEs9MhmEEvN1QFpyYPeOVQEx1VGuvNOT4VqNCXO06wV0Y13zAoxZ8Qo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723666696; c=relaxed/simple;
-	bh=qjB1r7xWZkiqepaZBKt71uec8dzopsPxrHTPtf78T+A=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=mpbFeSoh5ftKqA7ojO3N4i+LyKaBehKVsPKh7xCZRw3HKVEhEAzQt9uq7en/KkRYsGto7KA1tpB9I3gguYoNB3u6nEypKgWj8BIqGzSZ9aiQXwq0H1GpFfoKSFSMJuhRWwuh/YSmrhGy+U/3h6jK857gzhR5QO8v17ImPoEhZlw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ucJhzgi9; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1723669986; c=relaxed/simple;
+	bh=OWLB4A3W+IkHeRUaO3oHs3PXbpk5OuPFsN4t33tni2A=;
+	h=Message-ID:Date:From:To:Cc:Subject:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m2pJveClGpKa5YamlkMz6gyt0jOfxv5TJDLCMzGiiuOYtanVn6V2Mk9YJMY22DqtfRlE0bPVpX3dbRYccOTDNfNblRok2UHrLX+uQH53VLOLHeZeL+igtKd4DZbfmQA+OlwN28hjGbsQ5jN5IuxT6A9UzePhhmeCbLdfeV07+2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qcre0Vs2; arc=none smtp.client-ip=209.85.167.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ucJhzgi9"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-368712acb8dso153727f8f.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 14 Aug 2024 13:18:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qcre0Vs2"
+Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-3dd16257b7bso129083b6e.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 14 Aug 2024 14:13:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1723666693; x=1724271493; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KkMza/iQJ0QUiOTZWS7zmA9N7fZVP+GD4cxhszqTjVw=;
-        b=ucJhzgi9pKOrUjNbHGO2ONetiHbKyee0qRRg78b3ImMy4OLdNpSE/I5dkE/zd0yahj
-         gy4x64wsKJ++7Z5uBAmJtikw4R3XMrjw8rnsoN9dAakSvWuurnK06KluaXdmF0OaPt35
-         LTE2r3cpi+B2IrL0SIpN7KRvc7EmyBiniQus44CdvX4O+xV6rixQoqk183a2bVq2+9I4
-         sz6IL7oQhNnz14SZqx8oHyzzyl1R3VVz/ocFw/I/CBWHyzLEvwpP++UdsrDpwfVV4YRb
-         CljKEtlb9gqyDMpD2uUyVwEp3hsgv7uTlLYO+uohwgPQt8PBVGBh4Uwom+UxFiJy76Ra
-         0W/A==
+        d=gmail.com; s=20230601; t=1723669984; x=1724274784; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=E0PsU1V81otLoWVv/G1qLYZtjV9Tg/8agLNzDh9hSwo=;
+        b=Qcre0Vs2xoFuCWFuxRVv/rDfHtrSmq2WtmXUJ5gmu9kUaHYtfwnbQ5e5XXmze8VnAg
+         4kCcUu+171wzqoRbOsoVjY/2mpswYMxafGkCAGqITjFT2CarJIqLAFStPUlS/B+nFBLO
+         9IKVHF5y6IZb9X2n1cZ5v0mPeiTdK9KkxKZpyHFi/cRpXZ8bRlpl9R2uc8QegVWz8JwE
+         reKApdxjka8yflWfebqrp0tPwCRHVURa2DtKjn6Nt6oeSxYZRF5KQl9nMAlsGbwIwEPl
+         XkB31wpd3t2Agmm53fANvQMDdYupqEdbMGexZuQsvqrLGnlAe2NS78inECIMvxxugCBB
+         dp8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723666693; x=1724271493;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KkMza/iQJ0QUiOTZWS7zmA9N7fZVP+GD4cxhszqTjVw=;
-        b=XOq5BqPiijEH+34vk9RaZntn1I1NaqcVdAozNnzulMYqD0LPqN9BDdJuUeDyE5BPt1
-         sGCwys2VICYQkEpH/jmlXJGBNfLGN6B+fqbGutuBalSo4j1nA0XOT7sp/dkchigDUqUE
-         /iXBanEgx+IdpVwfIFuuQ9yeK0zxuenGjtyFHKZD1anEtVBX+iCEUUmLWaoJWnPje/1l
-         uyt4tW/qYfvQ4ghVfNkVnaVank36XC3fY61QsQ4h6LKU65CQ+gFU/CVj2Gv+uvmoh1J0
-         athaJdkPlMxOgLBWvWWm5DD5BdID6vH8I+MtoZljzs/f6ECThaxvl+nC4V3DTG+jf0O0
-         YNxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUVInLialE0KF6J6wh6mZIJZQlxUQm6dn45S3HxJxYA+eh99aXlbU1KuFM1ES6S22I4BZfJNgpUMltEeHN6m7T0UW951z+Z+JSdq7s=
-X-Gm-Message-State: AOJu0YyW41mkfQIa9BiCEcVTJsZepPS2rcBwiSqzXBn6MNXplsflRfYP
-	FWsJlyvSPtb3Xsb9DVFsqnjXJjxfCAPVFtsmUZxa1qyoj3Nk1yBaamfsaK0TJIA=
-X-Google-Smtp-Source: AGHT+IGnTWLywH9MaoyhJRh9e6rqTQpuA5DArTXIC0CU3PtawcT4ViUxduJrjccfNP+6pW3j7swlVg==
-X-Received: by 2002:adf:e702:0:b0:369:ba89:a577 with SMTP id ffacd0b85a97d-371777b1bd1mr2864629f8f.34.1723666693157;
-        Wed, 14 Aug 2024 13:18:13 -0700 (PDT)
-Received: from [127.0.1.1] ([178.197.215.209])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36e4ebd3631sm13623519f8f.110.2024.08.14.13.18.11
+        d=1e100.net; s=20230601; t=1723669984; x=1724274784;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=E0PsU1V81otLoWVv/G1qLYZtjV9Tg/8agLNzDh9hSwo=;
+        b=trvrnH79TwiJWQoDNO3w7NdkO7RrSS5zj+uQWrVTR1j1cO98s5A9ck/hb6mX+stt4w
+         pHTRjOiJKyXseLEftksh2PsVv75nnK9QjFKxRQqHjiik8Hb3qIXyrN4d124jIyrPiYs5
+         cMZWpNrFAiTc5ux5+eEOTFXzq+Rqzl31sygF1JPjjFgJdvuAz/00nUhN74+PCE/RI4ft
+         J25Hc/4/iAyQhDSco3BmClhfEHLnXNs/kNKhmXBF8n7CBnSn+wvF1xIi+W4eUkO5HYlM
+         hQaTyY8QzMGOzETNIx/9xAQZKCsJHilGTuct507Y94sGk2rx0vGXXkMISdHhOLvwPM07
+         ggiQ==
+X-Gm-Message-State: AOJu0YykQlmSSHrG5qtSKORoFSmtYweTKDmFJZjyaSi0Kzyl1MDc3IXm
+	je8JyOYQ4z354wOCC9u+HV0k6hBXhaaOULQdITCAYZfoZAMVNMDh
+X-Google-Smtp-Source: AGHT+IHPFbvzVVdUw502MWTJGOKLHnC1j3KggFd0N+p5LyKQWM3LNqxF2J0bV4X2lPo9bjtcCBrWNw==
+X-Received: by 2002:a05:6808:1789:b0:3d9:4163:654f with SMTP id 5614622812f47-3dd2997b5camr4570717b6e.32.1723669984114;
+        Wed, 14 Aug 2024 14:13:04 -0700 (PDT)
+Received: from neuromancer. ([2600:1700:fb0:1bcf::54])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-3dd060b4e13sm2221748b6e.45.2024.08.14.14.13.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Aug 2024 13:18:12 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Wed, 14 Aug 2024 22:17:53 +0200
-Subject: [PATCH 7/7] thermal: sun8i: Use scoped device node handling to
- simplify error paths
+        Wed, 14 Aug 2024 14:13:03 -0700 (PDT)
+Message-ID: <66bd1ddf.ca0a0220.13e5d4.8871@mx.google.com>
+X-Google-Original-Message-ID: <Zr0d3U5ATHATlSaU@neuromancer.>
+Date: Wed, 14 Aug 2024 16:13:01 -0500
+From: Chris Morgan <macroalpha82@gmail.com>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: linux-sunxi@lists.linux.dev, linux-pm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-iio@vger.kernel.org, quentin.schulz@free-electrons.com,
+	mripard@kernel.org, tgamblin@baylibre.com,
+	aidanmacdonald.0x0@gmail.com, u.kleine-koenig@pengutronix.de,
+	lee@kernel.org, samuel@sholland.org, jernej.skrabec@gmail.com,
+	sre@kernel.org, wens@csie.org, conor+dt@kernel.org,
+	krzk+dt@kernel.org, robh@kernel.org, lars@metafoo.de,
+	Chris Morgan <macromorgan@hotmail.com>,
+	Philippe Simons <simons.philippe@gmail.com>
+Subject: Re: [PATCH V2 14/15] power: supply: axp20x_battery: add support for
+ AXP717
+References: <20240802192026.446344-1-macroalpha82@gmail.com>
+ <20240802192026.446344-15-macroalpha82@gmail.com>
+ <20240803121044.20481897@jic23-huawei>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240814-b4-cleanup-h-of-node-put-thermal-v1-7-7a1381e1627e@linaro.org>
-References: <20240814-b4-cleanup-h-of-node-put-thermal-v1-0-7a1381e1627e@linaro.org>
-In-Reply-To: <20240814-b4-cleanup-h-of-node-put-thermal-v1-0-7a1381e1627e@linaro.org>
-To: "Rafael J. Wysocki" <rafael@kernel.org>, 
- Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>, 
- Lukasz Luba <lukasz.luba@arm.com>, Amit Kucheria <amitk@kernel.org>, 
- Thara Gopinath <thara.gopinath@gmail.com>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, 
- Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>
-Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1690;
- i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=qjB1r7xWZkiqepaZBKt71uec8dzopsPxrHTPtf78T+A=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmvRD1tu+OfU0AIMkIy7rwyVDG9h4CyZBJq2lx9
- T9f0OzUoMWJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZr0Q9QAKCRDBN2bmhouD
- 1+c6D/9L71ii7X8SXP+hER4rvtyMdzBnxiA9V6HcUp4+DoljLDog0tR7F9bq8L6vfBfgJrUClwB
- l1BVN5h89/Nq0ZXHFkTZysFdiBmTrSUJiaCbHRhA8EEEGmxZVyARP6yTAOxy5nSIP3RapG0kZPa
- sCn1XVWO6zFIg3hYsZga906bNygVn+vaw1eSkNWmdj1IyNlvXGoyncGt4gGBHszuA3V7NUwplXL
- xUFYvwGZoE6MDswhKkYs2Mzd/2444ochaXS8mooZDTpOefionTRgovxfXlcAoi+qGsdmEPe3WPG
- uumzRLm4iwQ4aUkhVSygpRVh9eK0Qt+adknlmqWQROyiW7i1rdhF5jkzVwONHNolQDQjUhp+qfV
- WAXfmTI1sx2pPmSgEtrnmvJCz7z+6qxfDxXqnzcMluf2pZjn6GMyh6zcmimIDnlfRgi+lf84E12
- IMmZ7UEX7spYVxwaTsWizJd10bPP8LPk3tQiwBy7LrZ27d8NLlrb7LJbPp4ukO4P4jPCRrr1s1R
- E0D0QDeC9mZNZrhwTx+GSfood/gTRLj55h3tz78QkMXT9jMkWPnF8MYMXWbWpDbez5q+Ibb/L1x
- FomdxaFfQIkSN3Q6NRtv78555UJxK6REVC8guvyyfhFFFu5fI/+AnnVGddvsx8vv9gUrEVgoAr/
- 8szxukJ5Iy1aydg==
-X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
- fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240803121044.20481897@jic23-huawei>
 
-Obtain the device node reference with scoped/cleanup.h to reduce error
-handling and make the code a bit simpler.
+On Sat, Aug 03, 2024 at 12:10:44PM +0100, Jonathan Cameron wrote:
+> On Fri,  2 Aug 2024 14:20:25 -0500
+> Chris Morgan <macroalpha82@gmail.com> wrote:
+> 
+> > From: Chris Morgan <macromorgan@hotmail.com>
+> > 
+> > Add support for the AXP717 PMIC battery charger. The AXP717 differs
+> > greatly from existing AXP battery chargers in that it cannot measure
+> > the discharge current. The datasheet does not document the current
+> > value's offset or scale, so the POWER_SUPPLY_PROP_CURRENT_NOW is left
+> > unscaled.
+> > 
+> > Tested-by: Philippe Simons <simons.philippe@gmail.com>
+> > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> Hi.
+> 
+> A few drive by comments,
+> 
+> Jonathan
+> 
+> > ---
+> >  drivers/power/supply/axp20x_battery.c | 444 ++++++++++++++++++++++++++
+> >  1 file changed, 444 insertions(+)
+> > 
+> > diff --git a/drivers/power/supply/axp20x_battery.c b/drivers/power/supply/axp20x_battery.c
+> > index c903c588b361..53af4ad0549d 100644
+> > --- a/drivers/power/supply/axp20x_battery.c
+> > +++ b/drivers/power/supply/axp20x_battery.c
+> > @@ -32,9 +32,19 @@
+> >  #include <linux/mfd/axp20x.h>
+> >  
+> >  #define AXP20X_PWR_STATUS_BAT_CHARGING	BIT(2)
+> > +#define AXP717_PWR_STATUS_MASK		GENMASK(6, 5)
+> > +#define AXP717_PWR_STATUS_BAT_STANDBY	(0 << 5)
+> > +#define AXP717_PWR_STATUS_BAT_CHRG	(1 << 5)
+> > +#define AXP717_PWR_STATUS_BAT_DISCHRG	(2 << 5)
+> 
+> Fine to match local style in this patch, but just thought I'd
+> comment that this driver would probably be more readable with
+> use of FIELD_PREP and changing convention to not shift the defined
+> values for contents of each field.
+> 
+> To change to that it would either need to be before this patch,
+> or done as a follow up.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- drivers/thermal/sun8i_thermal.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+I'll take your other comments and apply them, but if it's okay with
+you I'll opt to not use FIELD_PREP/FIELD_GET for the moment, so the
+style remains the same. I will make sure to use those macros for
+other drivers I'm working on though as they seem handy.
 
-diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_thermal.c
-index 3203d8bd13a8..22674790629a 100644
---- a/drivers/thermal/sun8i_thermal.c
-+++ b/drivers/thermal/sun8i_thermal.c
-@@ -9,6 +9,7 @@
-  */
- 
- #include <linux/bitmap.h>
-+#include <linux/cleanup.h>
- #include <linux/clk.h>
- #include <linux/device.h>
- #include <linux/interrupt.h>
-@@ -348,19 +349,18 @@ static void sun8i_ths_reset_control_assert(void *data)
- 
- static struct regmap *sun8i_ths_get_sram_regmap(struct device_node *node)
- {
--	struct device_node *sram_node;
- 	struct platform_device *sram_pdev;
- 	struct regmap *regmap = NULL;
- 
--	sram_node = of_parse_phandle(node, "allwinner,sram", 0);
-+	struct device_node *sram_node __free(device_node) =
-+		of_parse_phandle(node, "allwinner,sram", 0);
- 	if (!sram_node)
- 		return ERR_PTR(-ENODEV);
- 
- 	sram_pdev = of_find_device_by_node(sram_node);
- 	if (!sram_pdev) {
- 		/* platform device might not be probed yet */
--		regmap = ERR_PTR(-EPROBE_DEFER);
--		goto out_put_node;
-+		return ERR_PTR(-EPROBE_DEFER);
- 	}
- 
- 	/* If no regmap is found then the other device driver is at fault */
-@@ -369,8 +369,7 @@ static struct regmap *sun8i_ths_get_sram_regmap(struct device_node *node)
- 		regmap = ERR_PTR(-EINVAL);
- 
- 	platform_device_put(sram_pdev);
--out_put_node:
--	of_node_put(sram_node);
-+
- 	return regmap;
- }
- 
+> 
+> 
+> >  struct axp20x_batt_ps;
+> >  
+> > @@ -143,6 +176,41 @@ static int axp22x_battery_get_max_voltage(struct axp20x_batt_ps *axp20x_batt,
+> >  	return 0;
+> >  }
+> >  
+> > +static int axp717_battery_get_max_voltage(struct axp20x_batt_ps *axp20x_batt,
+> > +					  int *val)
+> > +{
+> > +	int ret, reg;
+> > +
+> > +	ret = regmap_read(axp20x_batt->regmap, AXP717_CV_CHG_SET, &reg);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	switch (reg & AXP717_CHRG_CV_VOLT_MASK) {
+> > +	case AXP717_CHRG_CV_4_0V:
+> > +		*val = 4000000;
+> > +		break;
+> > +	case AXP717_CHRG_CV_4_1V:
+> > +		*val = 4100000;
+> > +		break;
+> > +	case AXP717_CHRG_CV_4_2V:
+> > +		*val = 4200000;
+> > +		break;
+> > +	case AXP717_CHRG_CV_4_35V:
+> > +		*val = 4350000;
+> > +		break;
+> > +	case AXP717_CHRG_CV_4_4V:
+> > +		*val = 4400000;
+> > +		break;
+> > +	case AXP717_CHRG_CV_5_0V:
+> > +		*val = 5000000;
+> > +		break;
+> > +	default:
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	return 0;
+> Could just return instead of breaking an save reader having to look to see
+> if anything else happens after the switch finishes.
 
--- 
-2.43.0
+Acknowledged.
 
+> 
+> > +}
+> > +
+> >  static int axp813_battery_get_max_voltage(struct axp20x_batt_ps *axp20x_batt,
+> >  					  int *val)
+> >  {
+> > @@ -188,6 +256,22 @@ static int axp20x_get_constant_charge_current(struct axp20x_batt_ps *axp,
+> >  	return 0;
+> >  }
+> >  
+> > +static int axp717_get_constant_charge_current(struct axp20x_batt_ps *axp,
+> > +					      int *val)
+> > +{
+> > +	int ret;
+> > +
+> > +	ret = regmap_read(axp->regmap, AXP717_ICC_CHG_SET, val);
+> Trivial but I'd use a separate local variable for the register value.  
+
+Will do.
+
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	*val &= AXP717_ICC_CHARGER_LIM_MASK;
+> 
+> FIELD_GET() would be much more readable here as we'd not need to go
+> check if LIM_MASK included bit 0 and it could be used directly inline
+> with the below as
+> 
+
+Nack, if that's okay (as mentioned above). If it's not let me know and
+I'll go back and redo this driver.
+
+> 	*val = FIELD_GET(AXP717_IC_CHARGER_LIM_MASK, val) * axp->data->ccc_scale;
+> 
+> > +
+> > +	*val = *val * axp->data->ccc_scale;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  static int axp20x_battery_get_prop(struct power_supply *psy,
+> >  				   enum power_supply_property psp,
+> >  				   union power_supply_propval *val)
+> > @@ -340,6 +424,175 @@ static int axp20x_battery_get_prop(struct power_supply *psy,
+> >  	return 0;
+> >  }
+> >  
+> > +static int axp717_battery_get_prop(struct power_supply *psy,
+> > +				   enum power_supply_property psp,
+> > +				   union power_supply_propval *val)
+> > +{
+> > +	struct axp20x_batt_ps *axp20x_batt = power_supply_get_drvdata(psy);
+> > +	int ret = 0, reg;
+> > +
+> > +	switch (psp) {
+> > +	case POWER_SUPPLY_PROP_PRESENT:
+> > +	case POWER_SUPPLY_PROP_ONLINE:
+> > +		ret = regmap_read(axp20x_batt->regmap, AXP717_ON_INDICATE,
+> > +				  &reg);
+> > +		if (ret)
+> > +			return ret;
+> > +
+> > +		val->intval = !!(reg & AXP717_PWR_OP_BATT_PRESENT);
+> 
+> FIELD_GET() here would be cleaner.
+> 
+> > +		break;
+> > +
+> >;
+> > +	}
+> > +
+> > +	return 0;
+> 
+> As nothing to do down here, I think early returns would make things more redabel.
+> 
+
+Will do.
+
+> > +}
+> > +
+> >  static int axp20x_battery_set_prop(struct power_supply *psy,
+> >  				   enum power_supply_property psp,
+> >  				   const union power_supply_propval *val)
+> > @@ -492,6 +805,42 @@ static int axp20x_battery_set_prop(struct power_supply *psy,
+> >  	}
+> >  }
+> >  
+> > +static int axp717_battery_set_prop(struct power_supply *psy,
+> > +				   enum power_supply_property psp,
+> > +				   const union power_supply_propval *val)
+> > +{
+> > +	struct axp20x_batt_ps *axp20x_batt = power_supply_get_drvdata(psy);
+> > +
+> > +	switch (psp) {
+> > +	case POWER_SUPPLY_PROP_VOLTAGE_MIN:
+> > +		return axp717_set_voltage_min_design(axp20x_batt, val->intval);
+> > +
+> > +	case POWER_SUPPLY_PROP_VOLTAGE_MAX:
+> > +		return axp20x_batt->data->set_max_voltage(axp20x_batt, val->intval);
+> > +
+> > +	case POWER_SUPPLY_PROP_CONSTANT_CHARGE_CURRENT_MAX:
+> > +		return axp717_set_constant_charge_current(axp20x_batt,
+> > +							  val->intval);
+> > +	case POWER_SUPPLY_PROP_STATUS:
+> > +		switch (val->intval) {
+> > +		case POWER_SUPPLY_STATUS_CHARGING:
+> > +			return regmap_update_bits(axp20x_batt->regmap,
+> > +						  AXP717_MODULE_EN_CONTROL_2,
+> > +						  AXP717_CHRG_ENABLE,
+> > +						  AXP717_CHRG_ENABLE);
+> > +
+> > +		case POWER_SUPPLY_STATUS_DISCHARGING:
+> > +		case POWER_SUPPLY_STATUS_NOT_CHARGING:
+> > +			return regmap_update_bits(axp20x_batt->regmap,
+> > +						  AXP717_MODULE_EN_CONTROL_2,
+> > +						  AXP717_CHRG_ENABLE, 0);
+> > +		}
+> > +		fallthrough;
+> Why bother? Just return -EINVAL here.
+> 
+
+Will do.
+
+> > +	default:
+> > +		return -EINVAL;
+> > +	}
+> > +}
+> > +
+
+Thank you for your review,
+Chris
