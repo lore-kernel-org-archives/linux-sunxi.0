@@ -1,208 +1,149 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6218824211
-	for <linux-sunxi@lists.linux.dev>; Thu, 15 Aug 2024 04:45:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D6B73BB21
+	for <linux-sunxi@lists.linux.dev>; Thu, 15 Aug 2024 07:10:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723697124; cv=none; b=PLUoDvxZ6TXAKRrmEzaWeyW0SfOkjyu2wjOGKt7C9WhKQ/xhyfpSfRqF+vAf7lq2Y9wnP+soFl+/P2gtUecHEQgPzl6k1uNOxxR/8RLH90eaFiJuxdLI6La71Z/EtwxNLv3F656Q7znOP9hj8S13xedNY5owsIrLRAdd8f03CN8=
+	t=1723705827; cv=none; b=e5FHJL+TzieccQsOe9W+kYC3oIyLv0aqPEFm45SM+LYFva4fQy0V+R/XRCd5woTuhcCef7MziwvEo97RmE42togdBbXzn6GVQevCnJN+p9uVeJSTz4Vp2OsPW6WwH5sui5xWWw185plDBNxO2/zrl+BNl8Rd2m/HXhI9HW3SDc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723697124; c=relaxed/simple;
-	bh=JkdoOGgPP6inJk2z4l4GoXRUjTrMLXdiFgyShXtRHmc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ErS1YZFatE4IQ/9jhG4TW5cB88u3Y34iO/4oh3oD9XQZwGYzpsoYRLaFe6The7ZZyX/pe7aA2L3HfGm9etfcbVjW89DVHVbJSuvwiWZirYDT1HEIHuVN9/MoamzFPkdee6yOIvvcQXR43TuRisf7U4kfTg4KdAzmj6WvuQX4yAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=nQQGjS8u; arc=none smtp.client-ip=209.85.167.47
+	s=arc-20240116; t=1723705827; c=relaxed/simple;
+	bh=+G2x58+Rfzt9S7NTB27xB1O9RQRhx/e+CR+izCKso3I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oyZmcShUk2NpygAMZpH+dxBXk0APd1/xStJvPPU6B6PYGmbgbN/UbqhnhawdbM26t2pJIvFKgPw4izS9rnmYECcusyOKs7uGD1xxWd/xT3Avrh2s/33FP01chg8WJbt7JFd2G30H59JSL/8yI5ExSI4mcbDyBg58R9FV0qA3JM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=AYiUC39b; arc=none smtp.client-ip=209.85.210.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="nQQGjS8u"
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-52f04c29588so748618e87.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 14 Aug 2024 21:45:21 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="AYiUC39b"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7106e2d0ec1so487615b3a.2
+        for <linux-sunxi@lists.linux.dev>; Thu, 15 Aug 2024 00:10:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1723697119; x=1724301919; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1T1veMt9WGefVzxV61hQN46s0M2ozLoU6sDsGtd5rg0=;
-        b=nQQGjS8uHvxwjNt1oQ4XbTO03SelNXmIKYOneQuMTcJSEZ8jLVp+gwkWpSR1g+PcpN
-         qhkiZRMK51SFV9vQFlz0e+v+UDFaBRN576mDm9Y9ARAki92hJ6dE9ssurP9IULr4mLau
-         5l/lIZcvTGUbRMSnHQLvhBRYO/L8CC0XWO39s=
+        d=chromium.org; s=google; t=1723705825; x=1724310625; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=J08p29teShFomh8KvO2Ddu4MMDaSeQCVywSAkToMLKQ=;
+        b=AYiUC39bjQ10NdEHMNSznO8sSZrWq0UlpPcuhf0nLeLqTLkqcmnMRHOXA4lQnLybIU
+         gqtOfOx2iCa6gfxKwqG8ad+55VK8oojmBf3tJw7dxYGKjV+YvLuEZXNZsA0m3h5Mqd/p
+         PTRGHH23YlUcNdrzdbzqSMVUAAUleHiwDdmjk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723697119; x=1724301919;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1T1veMt9WGefVzxV61hQN46s0M2ozLoU6sDsGtd5rg0=;
-        b=QPOxYt2hJYLo7nD/2sQO3pOmI/w9AzIu8AGa9HrNNIbIdoCBuw8dn0+aTUoqnAy2x9
-         R66GcCwoCrcpDYxDaGtmD/j9fCmPkLnX3KXYWqP+nvwcVda09r1RATPCKfSug+dPdZnx
-         JwnuzG1vByHSdK59uS+ElHr5KiQwAWAgV0OR2JnbuD3yAlTER5jQKXX14+hzUneY0WnO
-         WceRbMS7VgiQNKkKybwpXCj2n8FY7qQo5Q9q/zajOriCTklt5hFWToW7vlCBdOucYVyC
-         8ejlj6Zd6WAWNENBcSTc7npHQDt8ZGs4mBo5lCNoqV1PyAR17prmOVAE2OHU8z2HztPt
-         srPw==
-X-Forwarded-Encrypted: i=1; AJvYcCViAt00n2oLbVl4xIoqk8aLXyTsBsmz2j8zO7fJU00PXYu7SiwETZtMj1PSz0u83Yxacil+QhW1xU6e/YQXKY0eXSGh0olmmFY1zVw=
-X-Gm-Message-State: AOJu0Yw7aB+IQNipl3X7DBH6Y4ysYoslBxzVI7A2CN+UYqwoC42bdul3
-	5vQE7nb+Ui0CGG2YPt3mXZh6oAOnPehUUCCWAa1jdERgOGdiYGq6MjQQnMcr2jHuZaRpVCk/JFv
-	0vyZqNsDowrnuwarwM1P6jzclu63gw9e8ad8A
-X-Google-Smtp-Source: AGHT+IE0yv+XOrbSGJIzzzRVJje3yinlPEAf+QPJIrtQzzafv5gyr4BXZK+TLc3EfZzK62nIdXUHueYK0wWEpSky5y0=
-X-Received: by 2002:a05:6512:3b2b:b0:52c:fd46:bf07 with SMTP id
- 2adb3069b0e04-532edbbe468mr2990731e87.49.1723697119152; Wed, 14 Aug 2024
- 21:45:19 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1723705825; x=1724310625;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=J08p29teShFomh8KvO2Ddu4MMDaSeQCVywSAkToMLKQ=;
+        b=qbdhtTnEGpyjAzuFbZ8MRUotb8yNcJ5zKrYdHwBED+TbFgFt1d0pgv61cKYT+elTuL
+         sVf0nsgLMZ8hSZ00UTCqK586uUSbvOMABJ7eWhKW73FlpdLo8LotAe7TL0ocTydykGaE
+         ZxTazho+Zlc10y+7fO19IuaO8WLlcrvU+egCJbLsJj/Riaji3S3aRc+ABRkt5FzB8ZMK
+         t/iW1Nbep9wDxHfnpyldKjGuTvzP1uaGmNzpMbfE+mLVIVzXprpAfG0j8THGxANt2Obk
+         Y0FCPyPYXGjebPZkCBEKW8tR4PRcN8I9918GU1tVI4Zp3uYWlqgpNUOeOSnqN3F4iqRY
+         QAZw==
+X-Forwarded-Encrypted: i=1; AJvYcCUMhSNHavCLYsK1CXyoTkCiMKQ/qid+Obhok7hFh8iDHDbOr09eFQCgfGOW1aw4Lh+h6B+bREcQtx70qzkOnpwk92NVttIqlLjEiAE=
+X-Gm-Message-State: AOJu0YwiwolHJw32zN1vV3ImDVtqJeJbw9H47sUQDuquecc7ocQXIZ4A
+	1pKu9Mr/5TOSHLcP1wqDdluqMsrEjJSmw2rDvKu58soTdrTcqgTPojFLYINKvg==
+X-Google-Smtp-Source: AGHT+IHiXJsW+fRg102OhEnKAhvxwqG0Aaky2UVkllFzxbNrNdYCyuMBqkLJT5RdAPJhpDiPBU7AYw==
+X-Received: by 2002:a05:6a00:4b49:b0:70e:8070:f9d0 with SMTP id d2e1a72fcca58-7126710d3a1mr6179895b3a.9.1723705824996;
+        Thu, 15 Aug 2024 00:10:24 -0700 (PDT)
+Received: from google.com ([2401:fa00:1:10:745d:58f7:b3cd:901f])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7127af19683sm536163b3a.163.2024.08.15.00.10.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Aug 2024 00:10:24 -0700 (PDT)
+Date: Thu, 15 Aug 2024 15:10:19 +0800
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	Amit Kucheria <amitk@kernel.org>,
+	Thara Gopinath <thara.gopinath@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Vasily Khoruzhick <anarsoul@gmail.com>,
+	Yangtao Li <tiny.windzz@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 1/7] thermal: of: Use scoped device node handling to
+ simplify of_find_trip_id()
+Message-ID: <20240815071019.GA350960@google.com>
+References: <20240814-b4-cleanup-h-of-node-put-thermal-v1-0-7a1381e1627e@linaro.org>
+ <20240814-b4-cleanup-h-of-node-put-thermal-v1-1-7a1381e1627e@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240809070822.2835371-1-wenst@chromium.org> <b00273d65dfc4b48cca474784184c62b@manjaro.org>
- <CAGXv+5ERoH=jQGzo=mo2K-r3Meh2-5Kgvjf9Eh7bfNgcQYfWoA@mail.gmail.com>
-In-Reply-To: <CAGXv+5ERoH=jQGzo=mo2K-r3Meh2-5Kgvjf9Eh7bfNgcQYfWoA@mail.gmail.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Thu, 15 Aug 2024 12:45:07 +0800
-Message-ID: <CAGXv+5GQixa389nudKk=U3Rh2jN8VuWQGKb9rsixhvj3KGFQDg@mail.gmail.com>
-Subject: Re: [PATCH v2] thermal/of: support thermal zones w/o trips subnode
-To: Dragan Simic <dsimic@manjaro.org>
-Cc: Daniel Lezcano <daniel.lezcano@linaro.org>, Amit Kucheria <amitk@kernel.org>, 
-	Zhang Rui <rui.zhang@intel.com>, Icenowy Zheng <uwu@icenowy.me>, Mark Brown <broonie@kernel.org>, 
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	=?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, linux-mediatek@lists.infradead.org, 
-	Hsin-Te Yuan <yuanhsinte@chromium.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240814-b4-cleanup-h-of-node-put-thermal-v1-1-7a1381e1627e@linaro.org>
 
-On Mon, Aug 12, 2024 at 12:46=E2=80=AFPM Chen-Yu Tsai <wenst@chromium.org> =
-wrote:
->
-> On Mon, Aug 12, 2024 at 9:22=E2=80=AFAM Dragan Simic <dsimic@manjaro.org>=
- wrote:
-> >
-> > Hello Chen-Yu,
-> >
-> > Thanks for the patch.  Please see one comment below.
-> >
-> > On 2024-08-09 09:08, Chen-Yu Tsai wrote:
-> > > From: Icenowy Zheng <uwu@icenowy.me>
-> > >
-> > > Although the current device tree binding of thermal zones require the
-> > > trips subnode, the binding in kernel v5.15 does not require it, and
-> > > many
-> > > device trees shipped with the kernel, for example,
-> > > allwinner/sun50i-a64.dtsi and mediatek/mt8183-kukui.dtsi in ARM64,
-> > > still
-> > > comply to the old binding and contain no trips subnode.
-> > >
-> > > Allow the code to successfully register thermal zones w/o trips subno=
-de
-> > > for DT binding compatibility now.
-> > >
-> > > Furtherly, the inconsistency between DTs and bindings should be
-> > > resolved
-> > > by either adding empty trips subnode or dropping the trips subnode
-> > > requirement.
-> > >
-> > > Fixes: d0c75fa2c17f ("thermal/of: Initialize trip points separately")
-> > > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-> > > Reviewed-by: Mark Brown <broonie@kernel.org>
-> > > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> > > ---
-> > > Resurrecting this patch specifically for MediaTek MT8183 Kukui device=
-s.
-> > >
-> > > Changes since v1:
-> > > - set *ntrips at beginning of thermal_of_trips_init()
-> > > - Keep goto out_of_node_put in of_get_child_count(trips) =3D=3D 0 bra=
-nch
-> > > - Check return value of thermal_of_trips_init(), if it is -ENXIO, pri=
-nt
-> > >   warning and clear |trips| pointer
-> > > - Drop |mask| change, as the variable was removed
-> > >
-> > > I kept Mark's reviewed-by since the changes are more stylish than
-> > > functional.
-> > > ---
-> > >  drivers/thermal/thermal_of.c | 19 ++++++++++++-------
-> > >  1 file changed, 12 insertions(+), 7 deletions(-)
-> > >
-> > > diff --git a/drivers/thermal/thermal_of.c
-> > > b/drivers/thermal/thermal_of.c
-> > > index aa34b6e82e26..f237e74c92fc 100644
-> > > --- a/drivers/thermal/thermal_of.c
-> > > +++ b/drivers/thermal/thermal_of.c
-> > > @@ -128,16 +128,17 @@ static struct thermal_trip
-> > > *thermal_of_trips_init(struct device_node *np, int *n
-> > >       struct device_node *trips, *trip;
-> > >       int ret, count;
-> > >
-> > > +     *ntrips =3D 0;
-> > >       trips =3D of_get_child_by_name(np, "trips");
-> > >       if (!trips) {
-> > > -             pr_err("Failed to find 'trips' node\n");
-> > > -             return ERR_PTR(-EINVAL);
-> > > +             pr_debug("Failed to find 'trips' node\n");
-> > > +             return ERR_PTR(-ENXIO);
-> > >       }
-> > >
-> > >       count =3D of_get_child_count(trips);
-> > >       if (!count) {
-> > > -             pr_err("No trip point defined\n");
-> > > -             ret =3D -EINVAL;
-> > > +             pr_debug("No trip point defined\n");
-> > > +             ret =3D -ENXIO;
-> > >               goto out_of_node_put;
-> > >       }
-> > >
-> > > @@ -162,7 +163,6 @@ static struct thermal_trip
-> > > *thermal_of_trips_init(struct device_node *np, int *n
-> > >
-> > >  out_kfree:
-> > >       kfree(tt);
-> > > -     *ntrips =3D 0;
-> > >  out_of_node_put:
-> > >       of_node_put(trips);
-> >
-> > It might be a bit cleaner to keep the "*ntrips =3D 0" assignment
-> > in the error handling path(s) only, with the positions of the goto
-> > labels adjusted a bit, and then assign -ENXIO to "ret" and jump
-> > to the right label when of_get_child_by_name(np, "trips") fails,
-> > instead of returning from there.
-> >
-> > If it's unclear what I'm talking about, please let me know and
-> > I'll send back the proposed hunk.
->
-> I think I understand: move "*ntrips =3D 0" to after of_node_put() in the
-> error path, and have the "!trips" branch jump to "out_of_node_put" as
-> well. That works since of_node_put() checks the pointer first.
->
-> I'll wait a bit and see if there are any more comments.
+On Wed, Aug 14, 2024 at 10:17:47PM +0200, Krzysztof Kozlowski wrote:
+> Obtain the device node reference with scoped/cleanup.h and use scoped
+> for_each_child_of_node_scoped() to reduce error handling in
+> of_find_trip_id() and make the code a bit simpler.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Actually, Krzysztof (+CC) is cleaning up this function using scoped
-variables. So it might actually make more sense to move "*ntrips =3D 0"
-to the top once the error path is completely removed.
+Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
 
-ChenYu
-
-> ChenYu
->
-> > > @@ -490,8 +490,13 @@ static struct thermal_zone_device
-> > > *thermal_of_zone_register(struct device_node *
-> > >
-> > >       trips =3D thermal_of_trips_init(np, &ntrips);
-> > >       if (IS_ERR(trips)) {
-> > > -             pr_err("Failed to find trip points for %pOFn id=3D%d\n"=
-, sensor, id);
-> > > -             return ERR_CAST(trips);
-> > > +             if (PTR_ERR(trips) !=3D -ENXIO) {
-> > > +                     pr_err("Failed to find trip points for %pOFn id=
-=3D%d\n", sensor, id);
-> > > +                     return ERR_CAST(trips);
-> > > +             }
-> > > +
-> > > +             pr_warn("Failed to find trip points for %pOFn id=3D%d\n=
-", sensor, id);
-> > > +             trips =3D NULL;
-> > >       }
-> > >
-> > >       ret =3D thermal_of_monitor_init(np, &delay, &pdelay);
+> ---
+>  drivers/thermal/thermal_of.c | 20 ++++++--------------
+>  1 file changed, 6 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/thermal/thermal_of.c b/drivers/thermal/thermal_of.c
+> index 1f252692815a..a2278d4ad886 100644
+> --- a/drivers/thermal/thermal_of.c
+> +++ b/drivers/thermal/thermal_of.c
+> @@ -8,6 +8,7 @@
+>  
+>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+>  
+> +#include <linux/cleanup.h>
+>  #include <linux/err.h>
+>  #include <linux/export.h>
+>  #include <linux/of.h>
+> @@ -22,11 +23,9 @@
+>  
+>  static int of_find_trip_id(struct device_node *np, struct device_node *trip)
+>  {
+> -	struct device_node *trips;
+> -	struct device_node *t;
+>  	int i = 0;
+>  
+> -	trips = of_get_child_by_name(np, "trips");
+> +	struct device_node *trips __free(device_node) = of_get_child_by_name(np, "trips");
+>  	if (!trips) {
+>  		pr_err("Failed to find 'trips' node\n");
+>  		return -EINVAL;
+> @@ -35,20 +34,13 @@ static int of_find_trip_id(struct device_node *np, struct device_node *trip)
+>  	/*
+>  	 * Find the trip id point associated with the cooling device map
+>  	 */
+> -	for_each_child_of_node(trips, t) {
+> -
+> -		if (t == trip) {
+> -			of_node_put(t);
+> -			goto out;
+> -		}
+> +	for_each_child_of_node_scoped(trips, t) {
+> +		if (t == trip)
+> +			return i;
+>  		i++;
+>  	}
+>  
+> -	i = -ENXIO;
+> -out:
+> -	of_node_put(trips);
+> -
+> -	return i;
+> +	return -ENXIO;
+>  }
+>  
+>  /*
+> 
+> -- 
+> 2.43.0
+> 
