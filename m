@@ -1,109 +1,201 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1B761C6886
-	for <linux-sunxi@lists.linux.dev>; Fri, 16 Aug 2024 17:12:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F3BC46450
+	for <linux-sunxi@lists.linux.dev>; Sat, 17 Aug 2024 02:42:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723828369; cv=none; b=TCbfG56JuZ91vqt4Rh2UMEH2bGfsJuZqATtzW+sX17b6GriyBJWeaoobhbLz//PxR6gWDIcBcCzCla2LSye4WnufPQ1heysT1shyyYCnw1TLi2QGU4tzqeelXVU0qJypw1ddU6F3Sw/QmnVxvuOT6oEB+/HD07YaSaufBnAYiWU=
+	t=1723862538; cv=none; b=J66iej+bp/iaJyFgx8r0KCXxI8DmMNSb727kPIeWaeVNk5k4ZtJy8Az24/KTtX77QP3DUILGjD0zbROeyRultJzOwhTu58tLUF7Dcp6kTvoGPQ/pFgHOgCYejfr5lOvI40gqXmuv2pYiHD7iiRJ8QyEQbfWp/C9UNNWDgebu13Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723828369; c=relaxed/simple;
-	bh=BJbAOhfmR88tLFChbQZVoqdcx/W/pQUrC9UyjkKSkb4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=LKyXRyK76rTaD4bNRXOZi24W8irPhM4KG9tiwfYHN210pyZ8Hp26YAQb7/7kM/uBOFjpxxyZLtIJsH8EDrN/KRGHVVS6oVQBt4VWcNdpd3Cu3/zpvY/ht0HWULktvdAaO75Ter4q2yEuSzjJjAAP1WNGRGtkOte31eCWfMQ6S/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dc1nw+6d; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1723862538; c=relaxed/simple;
+	bh=C286EmAyP/FNAORtOpe5XqhVBh9YZxbtRsVtQFWHtY4=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=jP+bndDAswxtBS0knuU1C+HGhMIssNa+cNRlVgW/WgWtLVPH0zsE1WztcVsiBSvuRrNVFONlJYJEpSQutrCwKy2wpvBG2avvzZXYYY7JCRvV3N6KvSRM8jPTjuXDdYK5hVpIh7yX+I48PqAvquQ1uAjlvLXsn/GQ/IemgduXkUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=FJs1vkA1; arc=none smtp.client-ip=116.203.91.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dc1nw+6d"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-70d28023accso1802588b3a.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 16 Aug 2024 10:12:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723828367; x=1724433167; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gdy9zSqWjuC2tMQ6qbmA2POy13/um9sPqP+u934ObRk=;
-        b=Dc1nw+6dR987m6Ct/1v5W9Z4UDq4zvHN1bWY57U8gqBzc72ePZxmWEJJ0FAKS3RMSb
-         14XFHXGyY0J13+5t9eFAMKr45THi8tEzDevuhkf+CXN2DDVPQFVgstI573aTufhZP/1F
-         Ih50hVvmB3QimoKg5p1b2MsVZww+/RA/GF73gIAGkyzeT7lqfeHFinbd3vQd3MoEqwWp
-         CHbm/5RinczUy6gq1zZC4h2fTE8424+z8BD1sbyHujkpdmELtUtOxC5a+ElBTuDlWneg
-         6bJE03u2GYACYiCL0H3KaaypFz/R6pKV25wBOCzxdgLFQdFVpfRRB0K/ihpwEFyN7+HT
-         cIpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723828367; x=1724433167;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gdy9zSqWjuC2tMQ6qbmA2POy13/um9sPqP+u934ObRk=;
-        b=FfbS5CIAiCa6794itUDtZeT2ujWlAIxOnLP0seRKHefEStE7M7/L1H9qUhe8mCf4Jq
-         FCcUq+WnX00wvtd/NNZndV+P3QcYBFEOVm+Pc9uwS+zHGYg04VslVRTMBVSmRGCSDm4k
-         t4tXofhAXj9SA9a82rh+b0W09KrZq0EWiGJCW2W189D6dIpF4hZL0bzW+eeAriTQJSqf
-         aVr/G7XT6/p/8W+cbRUirDzrTJJ4API88QMr7SvGu72RtZVGiOGaS/diuHxBNwVvfVcR
-         4P4a2mz61ygZ2mNuXRwxhbu19eloTa+FlyQkxpC9Om+PbscMeiTTrZewdgBGk3gt+2wp
-         mdOA==
-X-Forwarded-Encrypted: i=1; AJvYcCX2Fixy1WnCQD9bBmSGo2YKqOmBrmhKGoNiUttAc6NxExoIW9PyekjmUTnW9kAF2g9LvBefLlDT+pGps3nwu+qR9dC5zScSKZ0gD+Y=
-X-Gm-Message-State: AOJu0YzaxHQlIs4njrAgfpanJAEbcMk4YT0cZtyHMGJpJ45ubC+L3DR6
-	D5w02G+UoSn7cIrGbBBMZKBjgmNK0IhnN46jLK4K90YDDs56EQgU
-X-Google-Smtp-Source: AGHT+IGksQuXa1bgiFvGegX5wQp8wdValbEh0BdyCcOBVJ1wMLE2USqtsc8QY2Gh0jFU6u6YMS+NPw==
-X-Received: by 2002:a05:6a20:6f8a:b0:1c6:a83c:d5db with SMTP id adf61e73a8af0-1c904fb49b2mr4408239637.31.1723828366480;
-        Fri, 16 Aug 2024 10:12:46 -0700 (PDT)
-Received: from embed-PC.. ([106.222.235.192])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7127add3ea3sm2955952b3a.16.2024.08.16.10.12.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Aug 2024 10:12:45 -0700 (PDT)
-From: Abhishek Tamboli <abhishektamboli9@gmail.com>
-To: pavel@ucw.cz,
-	lee@kernel.org,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org
-Cc: linux-leds@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	rbmarliere@gmail.com,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] leds: sun50i-a100: Replace msleep() with usleep_range()
-Date: Fri, 16 Aug 2024 22:41:29 +0530
-Message-Id: <20240816171129.6411-1-abhishektamboli9@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="FJs1vkA1"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
+	t=1723862526;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=t3PBtFS4FGd7SCAA1CPDEsl/8k7nrplme33HqFORp+I=;
+	b=FJs1vkA1ZlGCNKZAgEddbKLErQb+R2TpueJ69yhDSU/8qvqN6yc+rb9cvSRe+hGqQIogQL
+	C531SWWND+q9RZL08oOSEFLg1y1KDiqUv1XmBJk5tftvbhaq5At+MhZ/pF9+Jykv3EsRKB
+	p/KusXYhHVegnH+HI86MJWEUgi3DVGiI1YuTNgwUqfpOB3z0OuaVi1zj6fGS9VJVbSFM+3
+	RoCW1WPhJLbqPdoivlBRqSWHRjzC3ZiWFuhbo3uvhW0QLE8NOZcE+MEVYClMOK9wlbiPc1
+	NDnCFAukjD7cI8cA+oRLGoNp0pmRfRoeKhwX4lAd/IV4djT90xKhpcfUEDgvzA==
+Date: Sat, 17 Aug 2024 04:42:05 +0200
+From: Dragan Simic <dsimic@manjaro.org>
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>, Amit Kucheria
+ <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>, Icenowy Zheng
+ <uwu@icenowy.me>, Mark Brown <broonie@kernel.org>, linux-pm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, =?UTF-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Pra?=
+ =?UTF-8?Q?do?= <nfraprado@collabora.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>, linux-mediatek@lists.infradead.org, Hsin-Te Yuan
+ <yuanhsinte@chromium.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v2] thermal/of: support thermal zones w/o trips subnode
+In-Reply-To: <CAGXv+5GQixa389nudKk=U3Rh2jN8VuWQGKb9rsixhvj3KGFQDg@mail.gmail.com>
+References: <20240809070822.2835371-1-wenst@chromium.org>
+ <b00273d65dfc4b48cca474784184c62b@manjaro.org>
+ <CAGXv+5ERoH=jQGzo=mo2K-r3Meh2-5Kgvjf9Eh7bfNgcQYfWoA@mail.gmail.com>
+ <CAGXv+5GQixa389nudKk=U3Rh2jN8VuWQGKb9rsixhvj3KGFQDg@mail.gmail.com>
+Message-ID: <35a2ef84aaa9f650bd63bfc25e336ef3@manjaro.org>
+X-Sender: dsimic@manjaro.org
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
 Content-Transfer-Encoding: 8bit
+Authentication-Results: ORIGINATING;
+	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
 
-Replace msleep() with usleep_range() in sun50i_a100_ledc_suspend()
-to address the checkpatch.pl warning. msleep() for such short delay
-can lead to inaccurate sleep times. Switch to usleep_range()
-provide more precise delay.
+Hello Chen-Yu,
 
-Fix the following warning from checkpatch.pl:
+On 2024-08-15 06:45, Chen-Yu Tsai wrote:
+> On Mon, Aug 12, 2024 at 12:46 PM Chen-Yu Tsai <wenst@chromium.org> 
+> wrote:
+>> 
+>> On Mon, Aug 12, 2024 at 9:22 AM Dragan Simic <dsimic@manjaro.org> 
+>> wrote:
+>> >
+>> > Hello Chen-Yu,
+>> >
+>> > Thanks for the patch.  Please see one comment below.
+>> >
+>> > On 2024-08-09 09:08, Chen-Yu Tsai wrote:
+>> > > From: Icenowy Zheng <uwu@icenowy.me>
+>> > >
+>> > > Although the current device tree binding of thermal zones require the
+>> > > trips subnode, the binding in kernel v5.15 does not require it, and
+>> > > many
+>> > > device trees shipped with the kernel, for example,
+>> > > allwinner/sun50i-a64.dtsi and mediatek/mt8183-kukui.dtsi in ARM64,
+>> > > still
+>> > > comply to the old binding and contain no trips subnode.
+>> > >
+>> > > Allow the code to successfully register thermal zones w/o trips subnode
+>> > > for DT binding compatibility now.
+>> > >
+>> > > Furtherly, the inconsistency between DTs and bindings should be
+>> > > resolved
+>> > > by either adding empty trips subnode or dropping the trips subnode
+>> > > requirement.
+>> > >
+>> > > Fixes: d0c75fa2c17f ("thermal/of: Initialize trip points separately")
+>> > > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+>> > > Reviewed-by: Mark Brown <broonie@kernel.org>
+>> > > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+>> > > ---
+>> > > Resurrecting this patch specifically for MediaTek MT8183 Kukui devices.
+>> > >
+>> > > Changes since v1:
+>> > > - set *ntrips at beginning of thermal_of_trips_init()
+>> > > - Keep goto out_of_node_put in of_get_child_count(trips) == 0 branch
+>> > > - Check return value of thermal_of_trips_init(), if it is -ENXIO, print
+>> > >   warning and clear |trips| pointer
+>> > > - Drop |mask| change, as the variable was removed
+>> > >
+>> > > I kept Mark's reviewed-by since the changes are more stylish than
+>> > > functional.
+>> > > ---
+>> > >  drivers/thermal/thermal_of.c | 19 ++++++++++++-------
+>> > >  1 file changed, 12 insertions(+), 7 deletions(-)
+>> > >
+>> > > diff --git a/drivers/thermal/thermal_of.c
+>> > > b/drivers/thermal/thermal_of.c
+>> > > index aa34b6e82e26..f237e74c92fc 100644
+>> > > --- a/drivers/thermal/thermal_of.c
+>> > > +++ b/drivers/thermal/thermal_of.c
+>> > > @@ -128,16 +128,17 @@ static struct thermal_trip
+>> > > *thermal_of_trips_init(struct device_node *np, int *n
+>> > >       struct device_node *trips, *trip;
+>> > >       int ret, count;
+>> > >
+>> > > +     *ntrips = 0;
+>> > >       trips = of_get_child_by_name(np, "trips");
+>> > >       if (!trips) {
+>> > > -             pr_err("Failed to find 'trips' node\n");
+>> > > -             return ERR_PTR(-EINVAL);
+>> > > +             pr_debug("Failed to find 'trips' node\n");
+>> > > +             return ERR_PTR(-ENXIO);
+>> > >       }
+>> > >
+>> > >       count = of_get_child_count(trips);
+>> > >       if (!count) {
+>> > > -             pr_err("No trip point defined\n");
+>> > > -             ret = -EINVAL;
+>> > > +             pr_debug("No trip point defined\n");
+>> > > +             ret = -ENXIO;
+>> > >               goto out_of_node_put;
+>> > >       }
+>> > >
+>> > > @@ -162,7 +163,6 @@ static struct thermal_trip
+>> > > *thermal_of_trips_init(struct device_node *np, int *n
+>> > >
+>> > >  out_kfree:
+>> > >       kfree(tt);
+>> > > -     *ntrips = 0;
+>> > >  out_of_node_put:
+>> > >       of_node_put(trips);
+>> >
+>> > It might be a bit cleaner to keep the "*ntrips = 0" assignment
+>> > in the error handling path(s) only, with the positions of the goto
+>> > labels adjusted a bit, and then assign -ENXIO to "ret" and jump
+>> > to the right label when of_get_child_by_name(np, "trips") fails,
+>> > instead of returning from there.
+>> >
+>> > If it's unclear what I'm talking about, please let me know and
+>> > I'll send back the proposed hunk.
+>> 
+>> I think I understand: move "*ntrips = 0" to after of_node_put() in the
+>> error path, and have the "!trips" branch jump to "out_of_node_put" as
+>> well. That works since of_node_put() checks the pointer first.
+>> 
+>> I'll wait a bit and see if there are any more comments.
+> 
+> Actually, Krzysztof (+CC) is cleaning up this function using scoped
+> variables. So it might actually make more sense to move "*ntrips = 0"
+> to the top once the error path is completely removed.
 
-WARNING: msleep < 20ms can sleep for up to 20ms;
-see Documentation/timers/timers-howto.rst
-+		msleep(1);
+I see, it would make sense to move "*ntrips = 0" to the top, but what
+bugs me with that approach a bit is that we's still have another 
+instance
+of "*ntrips = 0" in the error paths.  Thus, it might be cleaner to have
+only one instance of "*ntrips = 0", in the error paths, and use "ret = 
+..."
+plus "goto ..." pairs instead of single "return ..." statements.
 
-Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
----
- drivers/leds/leds-sun50i-a100.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+That way, we'd keep "*ntrips = 0" in the error pathso only, which would
+clearly show that's part of the error handling only.  Though, I'd be 
+also
+fine with moving "*ntrips = 0" to the top, if you find that cleaner.
 
-diff --git a/drivers/leds/leds-sun50i-a100.c b/drivers/leds/leds-sun50i-a100.c
-index 119eff9471f0..4c468d487486 100644
---- a/drivers/leds/leds-sun50i-a100.c
-+++ b/drivers/leds/leds-sun50i-a100.c
-@@ -368,7 +368,7 @@ static int sun50i_a100_ledc_suspend(struct device *dev)
- 		if (!xfer_active)
- 			break;
-
--		msleep(1);
-+		usleep_range(1000, 1100);
- 	}
-
- 	clk_disable_unprepare(priv->mod_clk);
---
-2.34.1
-
+>> > > @@ -490,8 +490,13 @@ static struct thermal_zone_device
+>> > > *thermal_of_zone_register(struct device_node *
+>> > >
+>> > >       trips = thermal_of_trips_init(np, &ntrips);
+>> > >       if (IS_ERR(trips)) {
+>> > > -             pr_err("Failed to find trip points for %pOFn id=%d\n", sensor, id);
+>> > > -             return ERR_CAST(trips);
+>> > > +             if (PTR_ERR(trips) != -ENXIO) {
+>> > > +                     pr_err("Failed to find trip points for %pOFn id=%d\n", sensor, id);
+>> > > +                     return ERR_CAST(trips);
+>> > > +             }
+>> > > +
+>> > > +             pr_warn("Failed to find trip points for %pOFn id=%d\n", sensor, id);
+>> > > +             trips = NULL;
+>> > >       }
+>> > >
+>> > >       ret = thermal_of_monitor_init(np, &delay, &pdelay);
