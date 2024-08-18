@@ -1,65 +1,64 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+Received: from mail-io1-f42.google.com (mail-io1-f42.google.com [209.85.166.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4138BB666
-	for <linux-sunxi@lists.linux.dev>; Sun, 18 Aug 2024 13:40:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB49B666
+	for <linux-sunxi@lists.linux.dev>; Sun, 18 Aug 2024 13:42:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723988425; cv=none; b=aSlf5StIdQdR1WQOBrBCkp5zZOOGEmbytI2UHBm/OCvO1K2bM2Rqd9GPxg3ZWE6VoCHewavy0BYM1vMkkTqhPQht+0OJClZoE088p5F2TSWZudPa6dFfkxfGLLBOMfy9St9Bs1claOprrOhvu4FmJu5wn67V+LaSD1abpIcpjZc=
+	t=1723988529; cv=none; b=B4Uwfe3l/1aoq5eHSp2oBG8w1X2ZOVtKt87OPjvnV6XM/b/psrf0oqtDxzrvtqtfrWkP/ZizSxA7DC3w0NZkw4Iu1X8wHXfyp3scdUa6VTG3dbi3u6f56cBHi9jyyTFZSXoww/siPfpsWLuCIc2/6tItC2ub12nCa2mkiBZ03wI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723988425; c=relaxed/simple;
-	bh=ldamHuImR/6va6FjXYNn6RxdAp0P3Pw8Rryj40Qiquc=;
+	s=arc-20240116; t=1723988529; c=relaxed/simple;
+	bh=whPaRlGmH+NJXjZNAC8fa7shH0Iu+3/wkcGkkBavjHg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ryOCOUQA6SoZJ0qvGF6e58DUTLjxVxQ8YE1AlQ2ANj6OOJ1eeXozBgSkkkTGi4xV80rN6Zkj09ZFrnjGT4TWIjaEUH4LopTuHfeMHbg7QdHTVGUrIvmHoihH54B3BvJtfRD23SR4lH4WbYuQu6KWTpmRnOw3k9ZAPj8obiqL83I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.180
+	 To:Cc:Content-Type; b=XU5FdS7O581K/feiumHz7CsHys+PDRkGhK7mIMn8v3wkDrPKnbnuxrkyS8R/nIXvWGq7ZefzJHAilTzdVy2B/2J6HPuu8Keq0V6tb4SPnR9iU1oh7eEDnVwRNPjRJvpYhKx8rM1gw2lKYFOYzzs8nSTHkC3D17Lh3mk7EcAyLeY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.166.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2f0271b0ae9so44496621fa.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 18 Aug 2024 06:40:22 -0700 (PDT)
+Received: by mail-io1-f42.google.com with SMTP id ca18e2360f4ac-824d911b6c4so132327039f.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 18 Aug 2024 06:42:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723988421; x=1724593221;
+        d=1e100.net; s=20230601; t=1723988523; x=1724593323;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :reply-to:in-reply-to:references:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=qvRzy9hrujHqDH8ifWbdcELEDvdI4LK/lGCJqnW2vRs=;
-        b=nc0uxRnJSrQvxpwpjvX+CMHL7WRbPxSy11QAw9mPnIYVAk/+3mlR6GEkWyLMCkObXR
-         cL+CbJbo7bQ4nUNl8P6WSHZYHAn3ouL0XyHZSAz0J3xTpR5iy/54/xqbc/9zDu9Wyy/r
-         9m2qBGieYjwyTAA9+2x7sBrbzDvSJqG3ycp4pgtqjav2kL8X4mVXDDfP4fdM5RKKfe43
-         jyUFYM5xgPb3/B+vFoZvGLomMDnS8XG47HYZWBS7SKwonizrRB9ZoHVafH7K+W0HTGWz
-         9wUOjkkg4a6xrLicrwhoOgNIxScrkDFsnnSIjzJkqbskEWgD+zHST4sYXzHuMMo+1Jj4
-         cTiQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUuOHCtwFwTvO4mxXzjd68HKi+ItrRoQXBnJ/nbLC8agt6o+9WAi9nBIYWfZ+NbnqyhzYNTx2AWZqzu6Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzxaicl0RzEG5h7W8jJiKn6REyjPOaVCV6ifqfXvrIDHQQ4g+RH
-	WOsFXVN53gn9Q931r0MKVZ2DtCanh8LG4uhW1Iq1XZshhuiWb88eXapf1zbT
-X-Google-Smtp-Source: AGHT+IHf7XNxNZcSEig1EvDyxh2SDv57rArhhSdfIaCdjX9WmgF/H2nKokyVyel1bc5U+GhTwxZGVg==
-X-Received: by 2002:a2e:a990:0:b0:2ee:7a3a:9969 with SMTP id 38308e7fff4ca-2f3be57219cmr60487191fa.5.1723988420012;
-        Sun, 18 Aug 2024 06:40:20 -0700 (PDT)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com. [209.85.208.182])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2f3b74b325csm12352951fa.71.2024.08.18.06.40.18
+        bh=whPaRlGmH+NJXjZNAC8fa7shH0Iu+3/wkcGkkBavjHg=;
+        b=a/ikV9fmx08KbMBwjja6QYSj40FVWf4xzD9A59WgTnuf3xvXMWOZllkrBBnX66ge7f
+         XbAlOQW1Flgv56jnSw3OPxifYMQurzexGbwUIExFndqE4tOFlfdF5XpFqlQ/qbboYVhc
+         +gUN2Cl0Jh65QfI6E9QDyTt1aoC0petwxPHoQ/+F9fZo5oc/34THlVBWC1OnM5kFnzVL
+         3W/tm94yJ2TXZUrL98E3FzRUhp2eCyDZ2b88AXGnWB+9FAzdXf5dZHENY1WwXAs9RU2s
+         EaDJxM+Okst1Z4RQgtWg2V07j33pAud7npYNiNBds6XFMEyJCFdNOaze1OGwjYHLCPma
+         43xw==
+X-Forwarded-Encrypted: i=1; AJvYcCV/q4CNeLTV5bAot/C1nPPF9ILxJuGYY5svUYykMhl6f8uae4MR1ptnxAnnYuptJdkVgU7XCmcY/69O918Xd4U5dCOXc/b0CJior/M=
+X-Gm-Message-State: AOJu0Ywg+jlNaslkX8Z0wOC1OJeIPjCFPaBs9kDv1bwSrNfafkSXhwo/
+	KYqv0RBd5PzCQLufsxNLWrMSsR8AWgspNWl4Uhr3IT8+xaPCuh1ZkXF2oQb3DxY=
+X-Google-Smtp-Source: AGHT+IHrkOy/6W53UytkYm6A/IcxVMfP8BO5aV2UuKGzrxH/0ZWMhs19k8d32YNyaO8mV/iLalhfdw==
+X-Received: by 2002:a05:6602:620d:b0:81f:92b6:8235 with SMTP id ca18e2360f4ac-824f266a23cmr1048886539f.6.1723988522695;
+        Sun, 18 Aug 2024 06:42:02 -0700 (PDT)
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com. [209.85.166.41])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4ccd7096964sm2480931173.173.2024.08.18.06.42.01
         for <linux-sunxi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 18 Aug 2024 06:40:18 -0700 (PDT)
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2f16767830dso38360261fa.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 18 Aug 2024 06:40:18 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUg7OBVYcuXsNyCuthA69tfKF5lzFl/Ls4qFFg6lvWP9DR98ZdwTgy9MGF1cdgjy2VUf/kjdEOt/0tOvA==@lists.linux.dev
-X-Received: by 2002:a2e:b55a:0:b0:2ec:500c:b2e0 with SMTP id
- 38308e7fff4ca-2f3be595f74mr47743761fa.22.1723988418234; Sun, 18 Aug 2024
- 06:40:18 -0700 (PDT)
+        Sun, 18 Aug 2024 06:42:02 -0700 (PDT)
+Received: by mail-io1-f41.google.com with SMTP id ca18e2360f4ac-81f95052c2cso215879839f.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 18 Aug 2024 06:42:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUKRhy/qOsR6Gz+oEyx8vkF/rQtslX+c08K27TSCpZRM638HmGdhMggm8VgG9HF/ffuS63d/iY9jhUzWuwwCtjtxqFwIufLyaXwkX4=
+X-Received: by 2002:a05:6602:2d94:b0:824:d6ed:e479 with SMTP id
+ ca18e2360f4ac-824f266b92emr827432839f.7.1723988521614; Sun, 18 Aug 2024
+ 06:42:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240817230503.158889-1-ryan@testtoast.com> <20240817230503.158889-23-ryan@testtoast.com>
-In-Reply-To: <20240817230503.158889-23-ryan@testtoast.com>
+References: <20240817230503.158889-1-ryan@testtoast.com> <20240817230503.158889-5-ryan@testtoast.com>
+In-Reply-To: <20240817230503.158889-5-ryan@testtoast.com>
 Reply-To: wens@csie.org
 From: Chen-Yu Tsai <wens@csie.org>
-Date: Sun, 18 Aug 2024 21:40:04 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64Fpt_tP5gSZftmexOY-sS6dsC=+KmgAJmMoRuhsEvK7g@mail.gmail.com>
-Message-ID: <CAGb2v64Fpt_tP5gSZftmexOY-sS6dsC=+KmgAJmMoRuhsEvK7g@mail.gmail.com>
-Subject: Re: [PATCH v3 22/26] clk: sunxi-ng: ccu: add Display Engine 3.3
- (DE33) support
+Date: Sun, 18 Aug 2024 21:41:48 +0800
+X-Gmail-Original-Message-ID: <CAGb2v67OCPz4O38Lgduu1pasjE56dCuGbzYNL_RtjqsnTJZqCA@mail.gmail.com>
+Message-ID: <CAGb2v67OCPz4O38Lgduu1pasjE56dCuGbzYNL_RtjqsnTJZqCA@mail.gmail.com>
+Subject: Re: [PATCH v3 04/26] drm: sun4i: de2: Initialize layer fields earlier
 To: Ryan Walklin <ryan@testtoast.com>
 Cc: Maxime Ripard <mripard@kernel.org>, 
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
@@ -74,101 +73,17 @@ Cc: Maxime Ripard <mripard@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Aug 18, 2024 at 7:08=E2=80=AFAM Ryan Walklin <ryan@testtoast.com> w=
+On Sun, Aug 18, 2024 at 7:06=E2=80=AFAM Ryan Walklin <ryan@testtoast.com> w=
 rote:
 >
 > From: Jernej Skrabec <jernej.skrabec@gmail.com>
 >
-> The DE33 is a newer version of the Allwinner Display Engine IP block,
-> found in the H616, H618, H700 and T507 SoCs. DE2 and DE3 are already
-> supported by the mainline driver.
+> drm_universal_plane_init() can already call some callbacks, like
+> format_mod_supported, during initialization. Because of that, fields
+> should be initialized beforehand.
 >
-> The DE33 in the H616 has mixer0 and writeback units. The clocks
-> and resets required are identical to the H3 and H5 respectively, so use
-> those existing structs for the H616 description.
->
-> There are two additional 32-bit registers (at offsets 0x24 and 0x28)
-> which require clearing and setting respectively to bring up the
-> hardware. The function of these registers is currently unknown, and the
-> values are taken from the out-of-tree driver.
->
-> Add the required clock description struct and compatible string to the
-> DE2 driver.
->
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Co-developed-by: Ryan Walklin <ryan@testtoast.com>
 > Signed-off-by: Ryan Walklin <ryan@testtoast.com>
->
-> --
-> Changelog v2..v3:
-> - Lowercase hex value
-> - Correct #include for writel()
-> ---
->  drivers/clk/sunxi-ng/ccu-sun8i-de2.c | 25 +++++++++++++++++++++++++
->  1 file changed, 25 insertions(+)
->
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-de2.c b/drivers/clk/sunxi-ng/=
-ccu-sun8i-de2.c
-> index 7683ea08d8e30..e0fdf9bda10b1 100644
-> --- a/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
-> +++ b/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
-> @@ -7,6 +7,7 @@
->  #include <linux/clk-provider.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
-> +#include <linux/of_address.h>
 
-Still incorrect.
-
->  #include <linux/platform_device.h>
->  #include <linux/reset.h>
->
-> @@ -239,6 +240,16 @@ static const struct sunxi_ccu_desc sun50i_h5_de2_clk=
-_desc =3D {
->         .num_resets     =3D ARRAY_SIZE(sun50i_h5_de2_resets),
->  };
->
-> +static const struct sunxi_ccu_desc sun50i_h616_de33_clk_desc =3D {
-> +       .ccu_clks       =3D sun8i_de2_ccu_clks,
-> +       .num_ccu_clks   =3D ARRAY_SIZE(sun8i_de2_ccu_clks),
-> +
-> +       .hw_clks        =3D &sun8i_h3_de2_hw_clks,
-> +
-> +       .resets         =3D sun50i_h5_de2_resets,
-> +       .num_resets     =3D ARRAY_SIZE(sun50i_h5_de2_resets),
-> +};
-> +
->  static int sunxi_de2_clk_probe(struct platform_device *pdev)
->  {
->         struct clk *bus_clk, *mod_clk;
-> @@ -290,6 +301,16 @@ static int sunxi_de2_clk_probe(struct platform_devic=
-e *pdev)
->                         "Couldn't deassert reset control: %d\n", ret);
->                 goto err_disable_mod_clk;
->         }
-> +
-> +       /*
-> +        * The DE33 requires these additional (unknown) registers set
-> +        * during initialisation.
-> +        */
-> +       if (of_device_is_compatible(pdev->dev.of_node,
-> +                                   "allwinner,sun50i-h616-de33-clk")) {
-> +               writel(0, reg + 0x24);
-> +               writel(0x0000a980, reg + 0x28);
-> +       }
->
->         ret =3D devm_sunxi_ccu_probe(&pdev->dev, reg, ccu_desc);
->         if (ret)
-> @@ -335,6 +356,10 @@ static const struct of_device_id sunxi_de2_clk_ids[]=
- =3D {
->                 .compatible =3D "allwinner,sun50i-h6-de3-clk",
->                 .data =3D &sun50i_h5_de2_clk_desc,
->         },
-> +       {
-> +               .compatible =3D "allwinner,sun50i-h616-de33-clk",
-> +               .data =3D &sun50i_h616_de33_clk_desc,
-> +       },
->         { }
->  };
->  MODULE_DEVICE_TABLE(of, sunxi_de2_clk_ids);
-> --
-> 2.46.0
->
+Reviewed-by: Chen-Yu Tsai <wens@csie.org>
