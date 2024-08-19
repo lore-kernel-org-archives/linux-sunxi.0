@@ -1,84 +1,143 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DB86188CA6;
-	Mon, 19 Aug 2024 16:34:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8353917557E
+	for <linux-sunxi@lists.linux.dev>; Mon, 19 Aug 2024 16:48:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724085243; cv=none; b=t1l4Lf9FntXxz9A25VysC+0hxGnVVhm5ZUiUWXC/BL42DfGT9CbvILS/xP+clh8YKBN+cUv9ikrFXcARp1Bfeh3OmUTJ051S0FHUTAWtfajo1H6VQOwIKYUVwOkZk3SRuiPYfQZ5DzVrIRHPKySjuD93Cqhu/ILM+qJaoDJ6u7Y=
+	t=1724086124; cv=none; b=rjCqTxz90IX2plNtW4yOjaAdCMWcc2dPvSyxGiXOc35+ch+GAUiA+UtV6lfr3rfmqwggvIo8n4G4v0rEbM08Lrcqw2yEQTmedt1aufdR89NguT077qlBM2yuUidEJc2X9tpZ9iOkZDAH+JP6o42+346+57z9RGcH3CSTzRrXNqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724085243; c=relaxed/simple;
-	bh=OpA0bFu4iJtsDTOjp51pA0FGakX8XWm8K0OLXNLj9ik=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WYxPXz8K656L7nTIzgUAwb7NztJkQw0gUk9fvXOQYprx+bvnYqRaN00Vn4+f96EdN6L+mt+CasO8VAs7clLPHTsNPEquoDTYAJDaVPFvnNL3bVZKy1wBZchAVl3In5GzDihripihE84iVRe2F9ddkag6UPlTtF5izBUE45u1Zdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XIasNv4A; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724086124; c=relaxed/simple;
+	bh=MBQcwzxFBPjk9Fm00UF7+n+iTFUcUyUcheP/DBInH68=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MGzLRU45dvqmXjMu6Oj1Ov69HLjn+LdgAlNZGk7lcmKohRn59L731r/Wnoe79QOiaZoALW8IWYoBeoGkaDh1wLWFT620bk8u39DlDewaBiQOCjK0JBOIq4CgroUR6QbYfMDQDAnHj/PpJhAGMeuAoYhXl7ECyKaDo7eFR2UUs0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BCSBeroK; arc=none smtp.client-ip=209.85.210.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XIasNv4A"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F6C1C32782;
-	Mon, 19 Aug 2024 16:34:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724085243;
-	bh=OpA0bFu4iJtsDTOjp51pA0FGakX8XWm8K0OLXNLj9ik=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XIasNv4AlouUSJ194eK4+OU0lPELs9UFLWyb7ofQUcsH56JfMV5pMKj7A3y0qM6/o
-	 qu61VSm7+A+8wpaqIvwOAJI8YYFyQMrK8Dud89vx+xRlwBkJ4Pdn4Kf6vg1HUs1vtO
-	 spACC3+NtZXIwxi8VIFh2t1cJQkSQYX05HBOCo0Rm/DpMs4AdRWCoDjyBMxAKMREnu
-	 U4iYLRFahvq5f2Cy1rgfxfVkhV1wakh6MRxve5OhAwvTzb3TBHiJctVFbMPwBKsdUI
-	 NLuUIMXQWJyg+BQcEmYZJcqWB2pWhweHHxkY4OUtnnfWHsypOXhA9Hh7vcpqQ+7eFh
-	 ZMXlcxmLR8frA==
-Date: Mon, 19 Aug 2024 17:33:57 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Chen-Yu Tsai <wens@csie.org>
-Cc: Andre Przywara <andre.przywara@arm.com>, Lee Jones <lee@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	Chris Morgan <macroalpha82@gmail.com>,
-	John Watts <contact@jookia.org>, Ryan Walklin <ryan@testtoast.com>,
-	Philippe Simons <simons.philippe@gmail.com>
-Subject: Re: [PATCH v3 0/3] regulator: Add AXP717 boost support
-Message-ID: <bb15d8ec-060d-46c7-9446-86a483d05af4@sirena.org.uk>
-References: <20240816001824.6028-1-andre.przywara@arm.com>
- <CAGb2v66LeA5gV-WTn3_Hyfx2o83_46Z5nBoLV12D4SLUmy0DLw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BCSBeroK"
+Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-709485aca4bso2233094a34.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 19 Aug 2024 09:48:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724086122; x=1724690922; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/e5lsHcVaB+uAytpXe/h2T5BUGUbMv4au3JS+eKlceA=;
+        b=BCSBeroKdbfJJ5nuc1rfKToyTA1yUsdgMh7NUCD42tlG1llUGPAmTfEw4jrxB8QqYl
+         WpErrSQHL9r11kHCT54CkAFOOL5Zk+9X2q4xBiZxNKhDX94Yv72efKw+hZhFGZKVGyml
+         dAIIJDA9ZrIVGE+qylb9CBD3qoB15SZRczUSpWxkjmW533Jy/S1DR11lxS1gi5Jt6EzS
+         tFcgKAp+1LJe0pbMXffwPRyuzPlZgiA7qv87XP+9wOU/OqnpEH8M92t0eYslDovweAaQ
+         +aXPvUkF8EvoxfNfa6AfqDteyGmEoaAOkhEy2IPgH6/IzmWsUpokQY7Zph8y09dKmMqt
+         U14A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724086122; x=1724690922;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/e5lsHcVaB+uAytpXe/h2T5BUGUbMv4au3JS+eKlceA=;
+        b=GRN3OtfGgDwJVNvYbgs7eOArFQO6rKxXDGLcyEX6I5+/SCmK/Vc1Oh7y7mfpGtSTkj
+         IPO8DBRfqnh0/bQiFIwbRRwBBo5DjJ49UONUKlcFdPD6RK3pOR3CkpkvgWPkGN0UmT8+
+         /HzRaHhAvoJxghmLk9Tj9hSELOVfXVsIoN3avbhXOG1hGz523e/PdN0iPPPY9AtugjpR
+         Ji6WXD1MzlrDz4h0pdHTfuwZs8XZdsad9eOu0RY+FIo3OTcbxajrTu9wuZtOLngQfHAV
+         lmPu1QuRL3VRuYd52Atwsf8CpYXJrI43pf6PAcAUWApGjKhpzHC/ShQmm9oq1o1D+9L6
+         kaHw==
+X-Gm-Message-State: AOJu0YyqdcFNvmjadVP/IXug7E0ppHcttuHY3V/y59kTxiutgbYg8k6O
+	NG0V6SrOi6gitzDecxhli3ZyGo/jT80OB/KD3fQQzUviUqlF4pgdL3qDHA==
+X-Google-Smtp-Source: AGHT+IHUayXAxzAfw8JT4WbVwDnTS2IAPvqLrAz9kWPM8obo31aP1Msh/iEPvQgqi656nkRvCtLl4g==
+X-Received: by 2002:a05:6830:6602:b0:708:d84d:f62a with SMTP id 46e09a7af769-70cac89c004mr15724939a34.22.1724086122192;
+        Mon, 19 Aug 2024 09:48:42 -0700 (PDT)
+Received: from localhost.localdomain ([2600:1700:fb0:1bcf::54])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-70ca649c61csm2332428a34.26.2024.08.19.09.48.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Aug 2024 09:48:42 -0700 (PDT)
+From: Chris Morgan <macroalpha82@gmail.com>
+To: linux-sunxi@lists.linux.dev
+Cc: linux-pm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	quentin.schulz@free-electrons.com,
+	mripard@kernel.org,
+	tgamblin@baylibre.com,
+	aidanmacdonald.0x0@gmail.com,
+	u.kleine-koenig@pengutronix.de,
+	lee@kernel.org,
+	samuel@sholland.org,
+	jernej.skrabec@gmail.com,
+	sre@kernel.org,
+	wens@csie.org,
+	conor+dt@kernel.org,
+	krzk+dt@kernel.org,
+	robh@kernel.org,
+	lars@metafoo.de,
+	jic23@kernel.org,
+	jonathan.cameron@huawei.com,
+	Chris Morgan <macromorgan@hotmail.com>
+Subject: [PATCH V3 00/15] Add Battery and USB Supply for AXP717
+Date: Mon, 19 Aug 2024 11:46:04 -0500
+Message-Id: <20240819164619.556309-1-macroalpha82@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="+Nn/pGhbaqeE+VRq"
-Content-Disposition: inline
-In-Reply-To: <CAGb2v66LeA5gV-WTn3_Hyfx2o83_46Z5nBoLV12D4SLUmy0DLw@mail.gmail.com>
-X-Cookie: Interchangeable parts won't.
+Content-Transfer-Encoding: 8bit
 
+From: Chris Morgan <macromorgan@hotmail.com>
 
---+Nn/pGhbaqeE+VRq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Add support for monitoring the USB charger and battery charger on the
+AXP717 PMIC. This required some driver refactoring of the axp20x USB
+and battery charger as the AXP717 is somewhat different but can still
+benefit from some common elements.
 
-On Tue, Aug 20, 2024 at 12:31:02AM +0800, Chen-Yu Tsai wrote:
+Note that as of now the charging current now value may be incorrect as
+the scale and offsets were not documented in the datasheet. I suspect
+the scale is 1 and the offset is somewhere around 450mA though.
 
-> Not sure which tree this is going through, but since Lee already gave
-> acks, maybe we could have it all go through the regulator tree?
+Changes from V2:
+ - Added constraints for input-current-limit-microamp constraints for
+   x-powers,axp20x-usb-power-supply.yaml.
+ - Used FIELD_GET() and removed unnecessary -EINVAL per comments from
+   Jonathan Cameron.
 
-That's what I'm expecting given the acks.
+Changes from V1:
+ - Refactored against mainline to remove BOOST pre-requisite.
+ - Corrected commit subjects for DT bindings.
+ - Split refactoring and AXP717 support into different patches.
+ - Added IRQ for VBUS over voltage. There appears to be a bug
+   with the VBUS fault IRQ because it is assigned IRQ num 0.
+ - Corrected battery driver to report POWER_SUPPLY_PROP_VOLTAGE_MIN
+   and POWER_SUPPLY_PROP_VOLTAGE_MAX instead of *_DESIGN.
 
---+Nn/pGhbaqeE+VRq
-Content-Type: application/pgp-signature; name="signature.asc"
+Chris Morgan (15):
+  iio: adc: axp20x_adc: Add adc_en1 and adc_en1 to axp_data
+  power: supply: axp20x_battery: Remove design from min and max voltage
+  power: supply: axp20x_battery: Make iio and battery config per device
+  power: supply: axp20x_usb_power: Make VBUS and IIO config per device
+  dt-bindings: power: supply: axp20x: Add input-current-limit-microamp
+  power: supply: axp20x_usb_power: add input-current-limit-microamp
+  dt-bindings: power: supply: axp20x-battery: Add monitored-battery
+  dt-bindings: iio: adc: Add AXP717 compatible
+  dt-bindings: power: supply: axp20x: Add AXP717 compatible
+  dt-bindings: power: supply: axp20x: Add AXP717 compatible
+  mfd: axp20x: Add ADC, BAT, and USB cells for AXP717
+  iio: adc: axp20x_adc: add support for AXP717 ADC
+  power: supply: axp20x_usb_power: Add support for AXP717
+  power: supply: axp20x_battery: add support for AXP717
+  arm64: dts: allwinner: h700: Add charger for Anbernic RG35XX
 
------BEGIN PGP SIGNATURE-----
+ .../bindings/iio/adc/x-powers,axp209-adc.yaml |  12 +
+ .../x-powers,axp20x-battery-power-supply.yaml |   7 +
+ .../x-powers,axp20x-usb-power-supply.yaml     |  70 ++-
+ .../sun50i-h700-anbernic-rg35xx-2024.dts      |  21 +
+ drivers/iio/adc/axp20x_adc.c                  | 182 +++++-
+ drivers/mfd/axp20x.c                          |  25 +-
+ drivers/power/supply/axp20x_battery.c         | 590 ++++++++++++++++--
+ drivers/power/supply/axp20x_usb_power.c       | 353 ++++++++++-
+ include/linux/mfd/axp20x.h                    |  27 +
+ 9 files changed, 1186 insertions(+), 101 deletions(-)
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbDc/QACgkQJNaLcl1U
-h9CGjQgAgJ4qmvHzn49tyTRUbU9m5Iq7+gsFn+Yt4++njHTN7abl/zLO9p/z3BhL
-pZUbYOdzNwVmLxcoGkItnrH2a6nihNmlDWtRqbu3t4bmO5RqP5fnWPLngJBnu17r
-5/u2ZnujGyht8PT0iNJDTEFpf0KXtneKY348AgXeUdBPCRJoYasZgT101Z9PqwsK
-bIShhuowuZWaH7zZMFr/DaXmXpam0g+B/N8Hx4YkkuoW8zvgltPjMgAoArV7rGqc
-23dvlChWu5D7MI6bvRF2zyq/mgUi8A7iZPxVxw5dUJp9m9fsIXLuRrpmkWnfwsBZ
-lffWNBgBTTF3QkiGbmRnWzZVehgbKg==
-=OxhH
------END PGP SIGNATURE-----
+-- 
+2.34.1
 
---+Nn/pGhbaqeE+VRq--
