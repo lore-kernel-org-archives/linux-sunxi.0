@@ -1,56 +1,56 @@
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04F1917837D
-	for <linux-sunxi@lists.linux.dev>; Mon, 19 Aug 2024 16:48:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E76D417A59B
+	for <linux-sunxi@lists.linux.dev>; Mon, 19 Aug 2024 16:48:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724086126; cv=none; b=RH8S71jKxwFlKkKt9yaDIBLMJcR4cmVIdZ4sS6bPpOJyl0B4HQVLuRCMHINHQsx43Lb/hiVNV4MvZ0HlNG8GSpXWARjorEsolOfjziL4suXRHDayWY4K9ojL790TrItTigV8bVCplznjbs8ErwP8N/ylV3FQzoX2P2njdNCp0IY=
+	t=1724086127; cv=none; b=KP2FL0gYXfKwkA5NQOraYlgjy8W9adZ9fAOPncvc8KNgYBDRGS0kIjK1FyNnAxVInkhYCIq297U1Z80vvnj+CMi3k66Y4pRQqxvJ/6H+0/yYzYfaKL6NI/HzRZ03z1H0z585rkzoqy69nJ/Kq8DY5V+wvoEywfubTqF4OUpTu1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724086126; c=relaxed/simple;
-	bh=LrihmKdwSa2HCqhUaNRUZZtZeL+1LnhboUcWlT0Xaqw=;
+	s=arc-20240116; t=1724086127; c=relaxed/simple;
+	bh=7oiVFaUcI0C5oMqqUaovkqLRY8Weg4Zg7WG/UFywWlQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=kfKmSNJFn3tdY5aEmhGNKtPi9pzum1ZISsD5JUP4uymzySo4gTvWpfNPISTalhvX8gekGmqI3Nn3atgqmsdMZ8dd1Y5yUEMwLcCsUKcriwByDWgpZWAOPYJ8fyg0mQcL2yBEvVKoZXdcx08byvf1kLZb45Qo0G139KiTM/PVGZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dlGcWnSA; arc=none smtp.client-ip=209.85.210.54
+	 MIME-Version; b=ipNaT+6PeZe5MkZL2md929+/9+mSqQ+TJbXydLVODv6xxggXrHl2fOgjWrmOgZ8IIeSXx2XTvbOHSA8iOqMO3DlatTch8GKD8ne0mF0eQDKHpvfRzqnLRVYemTf6QHTNQY4QaA5Y10Ncl/09npjLvxf12ZnYihwfv49CdX6A2Aw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e8GqNV+G; arc=none smtp.client-ip=209.85.210.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dlGcWnSA"
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-70949118d26so3724726a34.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 19 Aug 2024 09:48:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e8GqNV+G"
+Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-70930f8eabbso1610082a34.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 19 Aug 2024 09:48:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724086124; x=1724690924; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1724086125; x=1724690925; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EOS6CB7c1t/IxbcoB65fP4OgyGzoOrEBpGmlG4zcGvM=;
-        b=dlGcWnSAIMONVwrof8HDirQ2sdTMS8O3Vl+eHnVF4mXpHVfs+ggwCBS62feYtqKeou
-         iHTegd/gd3RDBNFlLhc+ETCBWruH6wgASPhksz+QOU07zAf35+5uVOXkfvPGDlQctW/t
-         ZwQZ4HAiNrJGy2VKApsc8g1TOuiVM6dfubpbcRPex0rt3ByYyW8EAqSRLZTVR0MJs6x0
-         bv9DO4tRTC1hWTF+JuzV13cWcfxME75OebnJZ69k3NGWbmcqM7Xc2jpW65XQ1l/l++qu
-         lNKFKQr2tB4TEXpFQU988HBrYE2wAABOp+evryLrtf6O20f1T1Cm/787wDpC2qsAN+44
-         mvQg==
+        bh=w6uKad2/4G0gY3Nm8pi2ZP0lDyan1DAsdC6ygDIyfJY=;
+        b=e8GqNV+G0rUy+VVE5gf0Xp8UMB1Tb8ZzjSSNVe2VTv8A9YzhZX0KZDIT/v3wY/pkhW
+         /ZLtBZl82lZsWHD3tTjGsUHll7Sw/UuOeAYWmZFoZtsEZf76OUZCBCbF//FNR9xx/ymf
+         Qvj0wqx46tPSFW2OOmMZXvj0HCf/mtfKOujLpRUP/MGxZi6MtSIDjLpZKkcf9vSIWGpU
+         LQBxP87ntrCm3mHRBAZba2anIrX4TVTP36fLZWZc5eBh7AxWp02c5tpUPNDuZSNxx7BZ
+         4G4zQO7LBCNPE7GqYwTBXx8eroyIqK5uKQ4z2sf/z5R4N9LTDOAefDi1Bvdz/3MMPBLw
+         yuRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724086124; x=1724690924;
+        d=1e100.net; s=20230601; t=1724086125; x=1724690925;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EOS6CB7c1t/IxbcoB65fP4OgyGzoOrEBpGmlG4zcGvM=;
-        b=hHXXDxTNy7dZ5ql6CHZlIOGBpnRf0aIHDpge90lMtXavgvXkaLrz5rdjvKB3AgKeKa
-         x//zWbgSu+MRIJztbRmFbo/cFecvKgyANGhSw50xe6JUvi28BiU9VPhlr0HL/Ie6NFLT
-         YPcixfLtwQ68fcoforcJYUiAXr6rN6rUEuisxnu9/e3b/iyKBmVqnZKWQodYSIncYvhS
-         xiuwt3+hEARWu7DcqT/LhHwFaqrRGFA/7juP5EPXzhLSymoNcId7KoLDNwSsqwWSEPls
-         tw5fmvS+i0YYZnwhtKmiPdYqEwh6rlkvvrn4e+X3cIpeJP7kbpXcDHC0LT0VqnRy1Dx5
-         Cc5Q==
-X-Gm-Message-State: AOJu0Yx6B9SKZ41v+qQimhRAoONQBD7WiCqjC+5EewkiP6taWpHP1l7x
-	/1JHOw9CYttA1Hyhl66LeFFr+c88ynC9g9l3w1HnVaf0F1tQlMoS2Xrlsg==
-X-Google-Smtp-Source: AGHT+IGRbx6BxU4vKawFjexC1H9e2LGpEq+T3o1X+Pv/qXuObKZyJbfFheTtea7zTF3p2BUGf2M5zw==
-X-Received: by 2002:a05:6830:d1c:b0:709:4936:d8fd with SMTP id 46e09a7af769-70cac8bf963mr15151806a34.29.1724086123933;
-        Mon, 19 Aug 2024 09:48:43 -0700 (PDT)
+        bh=w6uKad2/4G0gY3Nm8pi2ZP0lDyan1DAsdC6ygDIyfJY=;
+        b=wfY/wRkkNLK5WURYiYcTrmehe3hL6WNK2c4m0cAxeyFtthtczyR4pM5gUVRY3l4Tv6
+         efbepImI2Nh7kECS5Q+nGPRONS+wYTx7Za45g3w8iizgun+ulamSH5MdD2EHjFp3gAMW
+         lwQvB6sUzjSplLAFXSpkJuEXRDxtLgtzPeS9NZYUlBMSvXlhGZvzc2WeYRv8dyz4yl5h
+         e5vpItk47d6FgYpy0/j2XSGmLf3z+q8qqkffzjKA2q29l1f1EzY3t3MhEXUKKdkcrgz4
+         1eC5qCgSEQmbI7kvhNWVA5j8LVrZut+/nQaZQUtiU0u3BOLMf5FyDZOdtjmanDCXScss
+         SCJw==
+X-Gm-Message-State: AOJu0YyPXa12aLRw3wfUIH8m3kVPhQm6R60o3YVEh8mHZo4xFe0FPFJy
+	hpW4cBvS2Ig8aW7oxrcAVLeKS7NMAGApLFnH94AdrGFSircK1OY56LqGJA==
+X-Google-Smtp-Source: AGHT+IEwdTajK32hPcu8uNm7Coe7QuoNGEKT0SOfI0VRHK0bdQK2q5Psfs0K6YXmcF7x1EbHUUprPA==
+X-Received: by 2002:a05:6830:3c8c:b0:709:419f:2ae7 with SMTP id 46e09a7af769-70cac8b1dbamr16175460a34.29.1724086124741;
+        Mon, 19 Aug 2024 09:48:44 -0700 (PDT)
 Received: from localhost.localdomain ([2600:1700:fb0:1bcf::54])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-70ca649c61csm2332428a34.26.2024.08.19.09.48.43
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-70ca649c61csm2332428a34.26.2024.08.19.09.48.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Aug 2024 09:48:43 -0700 (PDT)
+        Mon, 19 Aug 2024 09:48:44 -0700 (PDT)
 From: Chris Morgan <macroalpha82@gmail.com>
 To: linux-sunxi@lists.linux.dev
 Cc: linux-pm@vger.kernel.org,
@@ -73,11 +73,10 @@ Cc: linux-pm@vger.kernel.org,
 	lars@metafoo.de,
 	jic23@kernel.org,
 	jonathan.cameron@huawei.com,
-	Chris Morgan <macromorgan@hotmail.com>,
-	Chen-Yu Tsai <wens@kernel.org>
-Subject: [PATCH V3 02/15] power: supply: axp20x_battery: Remove design from min and max voltage
-Date: Mon, 19 Aug 2024 11:46:06 -0500
-Message-Id: <20240819164619.556309-3-macroalpha82@gmail.com>
+	Chris Morgan <macromorgan@hotmail.com>
+Subject: [PATCH V3 03/15] power: supply: axp20x_battery: Make iio and battery config per device
+Date: Mon, 19 Aug 2024 11:46:07 -0500
+Message-Id: <20240819164619.556309-4-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240819164619.556309-1-macroalpha82@gmail.com>
 References: <20240819164619.556309-1-macroalpha82@gmail.com>
@@ -91,71 +90,235 @@ Content-Transfer-Encoding: 8bit
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-The POWER_SUPPLY_PROP_VOLTAGE_MIN_DESIGN and
-POWER_SUPPLY_PROP_VOLTAGE_MAX_DESIGN values should be immutable
-properties of the battery, but for this driver they are writable values
-and used as the minimum and maximum values for charging. Remove the
-DESIGN designation from these values.
+Move the configuration of battery specific information and available
+iio channels from the probe function to a device specific routine,
+allowing us to use this driver for devices with slightly different
+configurations (such as the AXP717).
 
-Fixes: 46c202b5f25f ("power: supply: add battery driver for AXP20X and AXP22X PMICs")
-Suggested-by: Chen-Yu Tsai <wens@kernel.org>
 Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 ---
- drivers/power/supply/axp20x_battery.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ drivers/power/supply/axp20x_battery.c | 137 +++++++++++++++++---------
+ 1 file changed, 88 insertions(+), 49 deletions(-)
 
 diff --git a/drivers/power/supply/axp20x_battery.c b/drivers/power/supply/axp20x_battery.c
-index 6ac5c80cfda2..7520b599eb3d 100644
+index 7520b599eb3d..c903c588b361 100644
 --- a/drivers/power/supply/axp20x_battery.c
 +++ b/drivers/power/supply/axp20x_battery.c
-@@ -303,11 +303,11 @@ static int axp20x_battery_get_prop(struct power_supply *psy,
- 		val->intval = reg & AXP209_FG_PERCENT;
- 		break;
+@@ -58,11 +58,19 @@
+ struct axp20x_batt_ps;
  
--	case POWER_SUPPLY_PROP_VOLTAGE_MAX_DESIGN:
-+	case POWER_SUPPLY_PROP_VOLTAGE_MAX:
- 		return axp20x_batt->data->get_max_voltage(axp20x_batt,
- 							  &val->intval);
- 
--	case POWER_SUPPLY_PROP_VOLTAGE_MIN_DESIGN:
-+	case POWER_SUPPLY_PROP_VOLTAGE_MIN:
- 		ret = regmap_read(axp20x_batt->regmap, AXP20X_V_OFF, &reg);
- 		if (ret)
- 			return ret;
-@@ -455,10 +455,10 @@ static int axp20x_battery_set_prop(struct power_supply *psy,
- 	struct axp20x_batt_ps *axp20x_batt = power_supply_get_drvdata(psy);
- 
- 	switch (psp) {
--	case POWER_SUPPLY_PROP_VOLTAGE_MIN_DESIGN:
-+	case POWER_SUPPLY_PROP_VOLTAGE_MIN:
- 		return axp20x_set_voltage_min_design(axp20x_batt, val->intval);
- 
--	case POWER_SUPPLY_PROP_VOLTAGE_MAX_DESIGN:
-+	case POWER_SUPPLY_PROP_VOLTAGE_MAX:
- 		return axp20x_batt->data->set_max_voltage(axp20x_batt, val->intval);
- 
- 	case POWER_SUPPLY_PROP_CONSTANT_CHARGE_CURRENT:
-@@ -493,8 +493,8 @@ static enum power_supply_property axp20x_battery_props[] = {
- 	POWER_SUPPLY_PROP_CONSTANT_CHARGE_CURRENT,
- 	POWER_SUPPLY_PROP_CONSTANT_CHARGE_CURRENT_MAX,
- 	POWER_SUPPLY_PROP_HEALTH,
--	POWER_SUPPLY_PROP_VOLTAGE_MAX_DESIGN,
--	POWER_SUPPLY_PROP_VOLTAGE_MIN_DESIGN,
-+	POWER_SUPPLY_PROP_VOLTAGE_MAX,
-+	POWER_SUPPLY_PROP_VOLTAGE_MIN,
- 	POWER_SUPPLY_PROP_CAPACITY,
+ struct axp_data {
+-	int	ccc_scale;
+-	int	ccc_offset;
+-	bool	has_fg_valid;
++	int		ccc_scale;
++	int		ccc_offset;
++	unsigned int	ccc_reg;
++	unsigned int	ccc_mask;
++	bool		has_fg_valid;
++	const struct	power_supply_desc *bat_ps_desc;
+ 	int	(*get_max_voltage)(struct axp20x_batt_ps *batt, int *val);
+ 	int	(*set_max_voltage)(struct axp20x_batt_ps *batt, int val);
++	int	(*cfg_iio_chan)(struct platform_device *pdev,
++				struct axp20x_batt_ps *axp_batt);
++	void	(*set_bat_info)(struct platform_device *pdev,
++				struct axp20x_batt_ps *axp_batt,
++				struct power_supply_battery_info *info);
  };
  
-@@ -502,8 +502,8 @@ static int axp20x_battery_prop_writeable(struct power_supply *psy,
- 					 enum power_supply_property psp)
- {
- 	return psp == POWER_SUPPLY_PROP_STATUS ||
--	       psp == POWER_SUPPLY_PROP_VOLTAGE_MIN_DESIGN ||
--	       psp == POWER_SUPPLY_PROP_VOLTAGE_MAX_DESIGN ||
-+	       psp == POWER_SUPPLY_PROP_VOLTAGE_MIN ||
-+	       psp == POWER_SUPPLY_PROP_VOLTAGE_MAX ||
- 	       psp == POWER_SUPPLY_PROP_CONSTANT_CHARGE_CURRENT ||
+ struct axp20x_batt_ps {
+@@ -508,7 +516,7 @@ static int axp20x_battery_prop_writeable(struct power_supply *psy,
  	       psp == POWER_SUPPLY_PROP_CONSTANT_CHARGE_CURRENT_MAX;
+ }
+ 
+-static const struct power_supply_desc axp20x_batt_ps_desc = {
++static const struct power_supply_desc axp209_batt_ps_desc = {
+ 	.name = "axp20x-battery",
+ 	.type = POWER_SUPPLY_TYPE_BATTERY,
+ 	.properties = axp20x_battery_props,
+@@ -518,27 +526,94 @@ static const struct power_supply_desc axp20x_batt_ps_desc = {
+ 	.set_property = axp20x_battery_set_prop,
+ };
+ 
++static int axp209_bat_cfg_iio_channels(struct platform_device *pdev,
++				       struct axp20x_batt_ps *axp_batt)
++{
++	axp_batt->batt_v = devm_iio_channel_get(&pdev->dev, "batt_v");
++	if (IS_ERR(axp_batt->batt_v)) {
++		if (PTR_ERR(axp_batt->batt_v) == -ENODEV)
++			return -EPROBE_DEFER;
++		return PTR_ERR(axp_batt->batt_v);
++	}
++
++	axp_batt->batt_chrg_i = devm_iio_channel_get(&pdev->dev,
++							"batt_chrg_i");
++	if (IS_ERR(axp_batt->batt_chrg_i)) {
++		if (PTR_ERR(axp_batt->batt_chrg_i) == -ENODEV)
++			return -EPROBE_DEFER;
++		return PTR_ERR(axp_batt->batt_chrg_i);
++	}
++
++	axp_batt->batt_dischrg_i = devm_iio_channel_get(&pdev->dev,
++							   "batt_dischrg_i");
++	if (IS_ERR(axp_batt->batt_dischrg_i)) {
++		if (PTR_ERR(axp_batt->batt_dischrg_i) == -ENODEV)
++			return -EPROBE_DEFER;
++		return PTR_ERR(axp_batt->batt_dischrg_i);
++	}
++
++	return 0;
++}
++
++static void axp209_set_battery_info(struct platform_device *pdev,
++				    struct axp20x_batt_ps *axp_batt,
++				    struct power_supply_battery_info *info)
++{
++	int vmin = info->voltage_min_design_uv;
++	int ccc = info->constant_charge_current_max_ua;
++
++	if (vmin > 0 && axp20x_set_voltage_min_design(axp_batt, vmin))
++		dev_err(&pdev->dev,
++			"couldn't set voltage_min_design\n");
++
++	/* Set max to unverified value to be able to set CCC */
++	axp_batt->max_ccc = ccc;
++
++	if (ccc <= 0 || axp20x_set_constant_charge_current(axp_batt, ccc)) {
++		dev_err(&pdev->dev,
++			"couldn't set ccc from DT: fallback to min value\n");
++		ccc = 300000;
++		axp_batt->max_ccc = ccc;
++		axp20x_set_constant_charge_current(axp_batt, ccc);
++	}
++}
++
+ static const struct axp_data axp209_data = {
+ 	.ccc_scale = 100000,
+ 	.ccc_offset = 300000,
++	.ccc_reg = AXP20X_CHRG_CTRL1,
++	.ccc_mask = AXP20X_CHRG_CTRL1_TGT_CURR,
++	.bat_ps_desc = &axp209_batt_ps_desc,
+ 	.get_max_voltage = axp20x_battery_get_max_voltage,
+ 	.set_max_voltage = axp20x_battery_set_max_voltage,
++	.cfg_iio_chan = axp209_bat_cfg_iio_channels,
++	.set_bat_info = axp209_set_battery_info,
+ };
+ 
+ static const struct axp_data axp221_data = {
+ 	.ccc_scale = 150000,
+ 	.ccc_offset = 300000,
++	.ccc_reg = AXP20X_CHRG_CTRL1,
++	.ccc_mask = AXP20X_CHRG_CTRL1_TGT_CURR,
+ 	.has_fg_valid = true,
++	.bat_ps_desc = &axp209_batt_ps_desc,
+ 	.get_max_voltage = axp22x_battery_get_max_voltage,
+ 	.set_max_voltage = axp22x_battery_set_max_voltage,
++	.cfg_iio_chan = axp209_bat_cfg_iio_channels,
++	.set_bat_info = axp209_set_battery_info,
+ };
+ 
+ static const struct axp_data axp813_data = {
+ 	.ccc_scale = 200000,
+ 	.ccc_offset = 200000,
++	.ccc_reg = AXP20X_CHRG_CTRL1,
++	.ccc_mask = AXP20X_CHRG_CTRL1_TGT_CURR,
+ 	.has_fg_valid = true,
++	.bat_ps_desc = &axp209_batt_ps_desc,
+ 	.get_max_voltage = axp813_battery_get_max_voltage,
+ 	.set_max_voltage = axp20x_battery_set_max_voltage,
++	.cfg_iio_chan = axp209_bat_cfg_iio_channels,
++	.set_bat_info = axp209_set_battery_info,
+ };
+ 
+ static const struct of_device_id axp20x_battery_ps_id[] = {
+@@ -561,6 +636,7 @@ static int axp20x_power_probe(struct platform_device *pdev)
+ 	struct power_supply_config psy_cfg = {};
+ 	struct power_supply_battery_info *info;
+ 	struct device *dev = &pdev->dev;
++	int ret;
+ 
+ 	if (!of_device_is_available(pdev->dev.of_node))
+ 		return -ENODEV;
+@@ -572,29 +648,6 @@ static int axp20x_power_probe(struct platform_device *pdev)
+ 
+ 	axp20x_batt->dev = &pdev->dev;
+ 
+-	axp20x_batt->batt_v = devm_iio_channel_get(&pdev->dev, "batt_v");
+-	if (IS_ERR(axp20x_batt->batt_v)) {
+-		if (PTR_ERR(axp20x_batt->batt_v) == -ENODEV)
+-			return -EPROBE_DEFER;
+-		return PTR_ERR(axp20x_batt->batt_v);
+-	}
+-
+-	axp20x_batt->batt_chrg_i = devm_iio_channel_get(&pdev->dev,
+-							"batt_chrg_i");
+-	if (IS_ERR(axp20x_batt->batt_chrg_i)) {
+-		if (PTR_ERR(axp20x_batt->batt_chrg_i) == -ENODEV)
+-			return -EPROBE_DEFER;
+-		return PTR_ERR(axp20x_batt->batt_chrg_i);
+-	}
+-
+-	axp20x_batt->batt_dischrg_i = devm_iio_channel_get(&pdev->dev,
+-							   "batt_dischrg_i");
+-	if (IS_ERR(axp20x_batt->batt_dischrg_i)) {
+-		if (PTR_ERR(axp20x_batt->batt_dischrg_i) == -ENODEV)
+-			return -EPROBE_DEFER;
+-		return PTR_ERR(axp20x_batt->batt_dischrg_i);
+-	}
+-
+ 	axp20x_batt->regmap = dev_get_regmap(pdev->dev.parent, NULL);
+ 	platform_set_drvdata(pdev, axp20x_batt);
+ 
+@@ -603,8 +656,12 @@ static int axp20x_power_probe(struct platform_device *pdev)
+ 
+ 	axp20x_batt->data = (struct axp_data *)of_device_get_match_data(dev);
+ 
++	ret = axp20x_batt->data->cfg_iio_chan(pdev, axp20x_batt);
++	if (ret)
++		return ret;
++
+ 	axp20x_batt->batt = devm_power_supply_register(&pdev->dev,
+-						       &axp20x_batt_ps_desc,
++						       axp20x_batt->data->bat_ps_desc,
+ 						       &psy_cfg);
+ 	if (IS_ERR(axp20x_batt->batt)) {
+ 		dev_err(&pdev->dev, "failed to register power supply: %ld\n",
+@@ -613,33 +670,15 @@ static int axp20x_power_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	if (!power_supply_get_battery_info(axp20x_batt->batt, &info)) {
+-		int vmin = info->voltage_min_design_uv;
+-		int ccc = info->constant_charge_current_max_ua;
+-
+-		if (vmin > 0 && axp20x_set_voltage_min_design(axp20x_batt,
+-							      vmin))
+-			dev_err(&pdev->dev,
+-				"couldn't set voltage_min_design\n");
+-
+-		/* Set max to unverified value to be able to set CCC */
+-		axp20x_batt->max_ccc = ccc;
+-
+-		if (ccc <= 0 || axp20x_set_constant_charge_current(axp20x_batt,
+-								   ccc)) {
+-			dev_err(&pdev->dev,
+-				"couldn't set constant charge current from DT: fallback to minimum value\n");
+-			ccc = 300000;
+-			axp20x_batt->max_ccc = ccc;
+-			axp20x_set_constant_charge_current(axp20x_batt, ccc);
+-		}
++		axp20x_batt->data->set_bat_info(pdev, axp20x_batt, info);
++		power_supply_put_battery_info(axp20x_batt->batt, info);
+ 	}
+ 
+ 	/*
+ 	 * Update max CCC to a valid value if battery info is present or set it
+ 	 * to current register value by default.
+ 	 */
+-	axp20x_get_constant_charge_current(axp20x_batt,
+-					   &axp20x_batt->max_ccc);
++	axp20x_get_constant_charge_current(axp20x_batt, &axp20x_batt->max_ccc);
+ 
+ 	return 0;
  }
 -- 
 2.34.1
