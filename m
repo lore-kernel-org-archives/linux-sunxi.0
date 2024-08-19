@@ -1,56 +1,56 @@
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB0B817BEAB
-	for <linux-sunxi@lists.linux.dev>; Mon, 19 Aug 2024 16:48:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A01C617C992
+	for <linux-sunxi@lists.linux.dev>; Mon, 19 Aug 2024 16:48:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724086128; cv=none; b=NrJoggGrBEFca252XK79rzqSNR+KTwepWumIczho4dbXvwbBRpzR0LP99ThFwHIsEAjOlbIvkruN/tqyr9E/f/dPKU6gb52sGmi4yZ2yIEtrVGe/go/ZajV8UlTymJIfCnZGXXOMcHCHPSN9z74jwZCfPMX3ImFk1syEL7h5EVY=
+	t=1724086129; cv=none; b=O3N9KJ1ET87Y4n8Cv6oRchjGklLSTOk5qlUlsYXuLBwsvSzIVi6ehBM5H2bKAW8ksy9IJaT/9Cx5FHxvyoSwmesPvgvCryt0iL0DWodjEtBlv58Z9g4b+OrumpQ7YHYTrEOrkXhiuUCDRQBSyPKhjvaTP39omhfwmXlFUpu5A4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724086128; c=relaxed/simple;
-	bh=PXcsBzwFl2GwJIvfGM2Lg71OZ1PddeIewm5S+RRkQ44=;
+	s=arc-20240116; t=1724086129; c=relaxed/simple;
+	bh=V/didJfH9Mli5oAKhwkzsu03vK9Kmk0ArxEypPCD82w=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Gp7txll2V8IK0QGMTyHh4ucsl2o5fmd1AAD2yUiRBqCOY+HRULhCJtkY/WKNkBV1vOue89eGck4JzEbmXbIAh8DE1ze50Gp7gpVi9VnGEKX9jP8Fu3lNSmVBGqm6zn/8E+r4Ex8ltJ5gkmUybPh3/OCEp3IgSF2zaeWhCXG9Gv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q09Aw5ms; arc=none smtp.client-ip=209.85.210.45
+	 MIME-Version; b=BqQhBOQwYCdqbX64ttk5yP0FDx75PWCjul2hUvsSGCmrpaT0lkwSkEMM+KH/4XYtoQ8AdMk/g92lfVwlx6pEZneGXOYbvwVEOsdT3RIzbmLY1EyoNx9yF1FK6aDtMVnVijEwqHMsMrBTw523AcRQy3evH6b+BxqzO6G134Q19sM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dxLubRsb; arc=none smtp.client-ip=209.85.210.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q09Aw5ms"
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-7094468d392so2537341a34.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 19 Aug 2024 09:48:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dxLubRsb"
+Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-7093ba310b0so1929397a34.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 19 Aug 2024 09:48:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1724086126; x=1724690926; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=I0UhxZ2XxQFgvUjgiU5dDgFB2D6T8k8pYUXnFuEDKNs=;
-        b=Q09Aw5msG9gnNSBKWocS49W4ORxr5AdW0f8Y3bi+Cc235FNoheIXASTuSdJ571gcnM
-         tj0F2BsNcp3rqG2T2i5kIjTXGk2bDXEakzWogt+upAcECdm2Yc/dFoqjzFPjTFOSSwPr
-         rIoKd9yEs7O+2dedvI0P6ca2kcxVDshrLO/ztAdJgTRjepAACv59bm6yBz8qtAcmgS3r
-         na21w1HMO1zmQ/636r60YwK3t6+RVe3GoAp+MbtZQIUrVxrqRrrhHp9ym/EopZwEtRnF
-         eSXEZ0yvcXRSTq7vGXm//9+tpPD4AGQvrK7GPC+rj7uT1yLyUa4MsMZ9qciYfGmNd0LD
-         zjZg==
+        bh=LDis15Hzp2Vx+5TQlBnC0YVroTqVlccFthHOCI8Z73Q=;
+        b=dxLubRsb4hpsy4qIRgquuOFl3/0zSiZOHPXukyJEU/FpaGXKjt2MVvGa6wrNIZP5u/
+         bQImZSH+kDEOqZlMlUjugSKxogBJ/y9Ga6ANzbVV6AZbZvynunDoMLFGQWt3G8SRnaB+
+         EfwxK3ubZWMf1A5WODIe1sBR3852TjYYcx6esRNXK5EcbA4gFSdxq3uEOteKKG1IZo/8
+         NyCDzlGKGlzNaBmCw/00QodpNmNgFhSEN6alLpMyWOy5Nst4HHnvJvhZ8F4jALxbVVoh
+         XVtAm1mCYUxDwxFwcUtD0gBxheVwyx2oKPpyII2lOOCqc7OgbS6kKz5nEXgk0TZfVBDE
+         8W4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1724086126; x=1724690926;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=I0UhxZ2XxQFgvUjgiU5dDgFB2D6T8k8pYUXnFuEDKNs=;
-        b=r3P6CHPVRsquEDYNuMsRuqRFsm6dji12msj7hRIhXtGAt6THU7kGRwH8bIJulsyxXP
-         SXHpoouoQ74kaTspZmxMBFhHOblgZ74PbTAw1Lkd3GSpyv/yzJCpigOy63FlxHqFLLZN
-         xDWcUWrv6VuFuES6TME4yZ3UlmIPVgSs9IGPZP6qne+KvcjydVgJe2gqsxZ3AorCHtMS
-         iEusTSc089BoCIK0vj1FacoUUcdq4YfvQkVT5PfOdmfyZjF+ENry6NVQItaNaZW4+3a0
-         ihKbVgbWPqLjjIZnYkbEYXFcrhvtI0Wms4wJDyeDLmS4mLgOOe87/QVawvf9NiB8hJg6
-         +zOA==
-X-Gm-Message-State: AOJu0YypShb4h9iYjtAyR+apGI6YW4KuFaYzNde+mE5zNKRo45ddbcpx
-	tLlyvCl2hwXHTSPIr6VfEfyix00pTNf/zXAzx7gWa3ojynS5RXpyotPIOw==
-X-Google-Smtp-Source: AGHT+IFKVHyXBq2kvibehw/FWwU6sMR+9rBonmmxLiBPSvlRFOSxmGmsGuw+ct2LJQdqTm9QFHZWEA==
-X-Received: by 2002:a05:6830:7107:b0:709:4060:1093 with SMTP id 46e09a7af769-70cac897e6amr15970781a34.22.1724086125773;
-        Mon, 19 Aug 2024 09:48:45 -0700 (PDT)
+        bh=LDis15Hzp2Vx+5TQlBnC0YVroTqVlccFthHOCI8Z73Q=;
+        b=RxP6J7oQk5yCWOw2DZyubWZLZ3Yxfxa1nBcA9W9iWDSXJ6AtACfAR+D7Pku1A9/3yI
+         AnA4Rbpwb1nSizPzGR1y5vNbxMXoAuVoUJ7aLzgwDRexcFA0r0Mf135BEZ/rr5NtONi2
+         8nrXRbizVLEyHyXFsqBiF1CH1khsYZNpzmcZLhwqlpkvqlDzre3fF6q6MEPrsbnp5D5N
+         fioYmsIwveasXS+SloVxZ3mvfmtKjaq5NDi04JVFqXNX7qPl8seltxKA1DWFmB9DGPTt
+         vzj9r7AaBUihllahqOCK4wf7s0FNoN3eywRGX6d26080i642GXU2OQGq9h+DfQarcVHS
+         5NYw==
+X-Gm-Message-State: AOJu0Yy7nFu75VeO+K6qSWgpWILJbOH/GYBjA9qpbfoW0zEttwXz/mtN
+	9qztOpY1ep8MdvoPVmz4bj3TBSufQOImCiTXffH8z/sk92qTc4G1HAVfuQ==
+X-Google-Smtp-Source: AGHT+IHJmQOitznYw7nxXig16L2gz0qkKmEqys1jVwJ8LH/stIDVmGhzuz59B5CSI59rRM0lCJakKQ==
+X-Received: by 2002:a05:6830:448a:b0:70c:a547:1c3c with SMTP id 46e09a7af769-70cac83c080mr14115806a34.5.1724086126620;
+        Mon, 19 Aug 2024 09:48:46 -0700 (PDT)
 Received: from localhost.localdomain ([2600:1700:fb0:1bcf::54])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-70ca649c61csm2332428a34.26.2024.08.19.09.48.44
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-70ca649c61csm2332428a34.26.2024.08.19.09.48.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Aug 2024 09:48:45 -0700 (PDT)
+        Mon, 19 Aug 2024 09:48:46 -0700 (PDT)
 From: Chris Morgan <macroalpha82@gmail.com>
 To: linux-sunxi@lists.linux.dev
 Cc: linux-pm@vger.kernel.org,
@@ -74,9 +74,9 @@ Cc: linux-pm@vger.kernel.org,
 	jic23@kernel.org,
 	jonathan.cameron@huawei.com,
 	Chris Morgan <macromorgan@hotmail.com>
-Subject: [PATCH V3 04/15] power: supply: axp20x_usb_power: Make VBUS and IIO config per device
-Date: Mon, 19 Aug 2024 11:46:08 -0500
-Message-Id: <20240819164619.556309-5-macroalpha82@gmail.com>
+Subject: [PATCH V3 05/15] dt-bindings: power: supply: axp20x: Add input-current-limit-microamp
+Date: Mon, 19 Aug 2024 11:46:09 -0500
+Message-Id: <20240819164619.556309-6-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240819164619.556309-1-macroalpha82@gmail.com>
 References: <20240819164619.556309-1-macroalpha82@gmail.com>
@@ -90,184 +90,105 @@ Content-Transfer-Encoding: 8bit
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-Make reading of the vbus value and configuring of the iio channels
-device specific, to allow additional devices (such as the AXP717) to
-be supported by this driver.
+Allow specifying a hard limit of the maximum input current. Some PMICs
+such as the AXP717 can pull up to 3.25A, so allow a value to be
+specified that clamps this in the event the hardware is not designed
+for it.
 
 Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 ---
- drivers/power/supply/axp20x_usb_power.c | 87 +++++++++++++++----------
- 1 file changed, 54 insertions(+), 33 deletions(-)
+ .../x-powers,axp20x-usb-power-supply.yaml     | 69 ++++++++++++++++++-
+ 1 file changed, 66 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/power/supply/axp20x_usb_power.c b/drivers/power/supply/axp20x_usb_power.c
-index dae7e5cfc54e..cd9e92f2ce71 100644
---- a/drivers/power/supply/axp20x_usb_power.c
-+++ b/drivers/power/supply/axp20x_usb_power.c
-@@ -45,6 +45,8 @@
-  */
- #define DEBOUNCE_TIME			msecs_to_jiffies(50)
+diff --git a/Documentation/devicetree/bindings/power/supply/x-powers,axp20x-usb-power-supply.yaml b/Documentation/devicetree/bindings/power/supply/x-powers,axp20x-usb-power-supply.yaml
+index 34b7959d6772..9cc300e78f60 100644
+--- a/Documentation/devicetree/bindings/power/supply/x-powers,axp20x-usb-power-supply.yaml
++++ b/Documentation/devicetree/bindings/power/supply/x-powers,axp20x-usb-power-supply.yaml
+@@ -15,9 +15,6 @@ maintainers:
+   - Chen-Yu Tsai <wens@csie.org>
+   - Sebastian Reichel <sre@kernel.org>
  
-+struct axp20x_usb_power;
-+
- struct axp_data {
- 	const struct power_supply_desc	*power_desc;
- 	const char * const		*irq_names;
-@@ -58,6 +60,10 @@ struct axp_data {
- 	struct reg_field		usb_bc_det_fld;
- 	struct reg_field		vbus_disable_bit;
- 	bool				vbus_needs_polling: 1;
-+	void (*axp20x_read_vbus)(struct work_struct *work);
-+	int (*axp20x_cfg_iio_chan)(struct platform_device *pdev,
-+				   struct axp20x_usb_power *power);
-+	int (*axp20x_cfg_adc_reg)(struct axp20x_usb_power *power);
- };
- 
- struct axp20x_usb_power {
-@@ -385,6 +391,36 @@ static int axp20x_usb_power_prop_writeable(struct power_supply *psy,
- 	       psp == POWER_SUPPLY_PROP_INPUT_CURRENT_LIMIT;
- }
- 
-+static int axp20x_configure_iio_channels(struct platform_device *pdev,
-+					 struct axp20x_usb_power *power)
-+{
-+	power->vbus_v = devm_iio_channel_get(&pdev->dev, "vbus_v");
-+	if (IS_ERR(power->vbus_v)) {
-+		if (PTR_ERR(power->vbus_v) == -ENODEV)
-+			return -EPROBE_DEFER;
-+		return PTR_ERR(power->vbus_v);
-+	}
-+
-+	power->vbus_i = devm_iio_channel_get(&pdev->dev, "vbus_i");
-+	if (IS_ERR(power->vbus_i)) {
-+		if (PTR_ERR(power->vbus_i) == -ENODEV)
-+			return -EPROBE_DEFER;
-+		return PTR_ERR(power->vbus_i);
-+	}
-+
-+	return 0;
-+}
-+
-+static int axp20x_configure_adc_registers(struct axp20x_usb_power *power)
-+{
-+	/* Enable vbus voltage and current measurement */
-+	return regmap_update_bits(power->regmap, AXP20X_ADC_EN1,
-+				  AXP20X_ADC_EN1_VBUS_CURR |
-+				  AXP20X_ADC_EN1_VBUS_VOLT,
-+				  AXP20X_ADC_EN1_VBUS_CURR |
-+				  AXP20X_ADC_EN1_VBUS_VOLT);
-+}
-+
- static enum power_supply_property axp20x_usb_power_properties[] = {
- 	POWER_SUPPLY_PROP_HEALTH,
- 	POWER_SUPPLY_PROP_PRESENT,
-@@ -505,6 +541,9 @@ static const struct axp_data axp192_data = {
- 	.curr_lim_fld   = REG_FIELD(AXP20X_VBUS_IPSOUT_MGMT, 0, 1),
- 	.vbus_valid_bit = REG_FIELD(AXP192_USB_OTG_STATUS, 2, 2),
- 	.vbus_mon_bit   = REG_FIELD(AXP20X_VBUS_MON, 3, 3),
-+	.axp20x_read_vbus = &axp20x_usb_power_poll_vbus,
-+	.axp20x_cfg_iio_chan = axp20x_configure_iio_channels,
-+	.axp20x_cfg_adc_reg = axp20x_configure_adc_registers,
- };
- 
- static const struct axp_data axp202_data = {
-@@ -516,6 +555,9 @@ static const struct axp_data axp202_data = {
- 	.curr_lim_fld   = REG_FIELD(AXP20X_VBUS_IPSOUT_MGMT, 0, 1),
- 	.vbus_valid_bit = REG_FIELD(AXP20X_USB_OTG_STATUS, 2, 2),
- 	.vbus_mon_bit   = REG_FIELD(AXP20X_VBUS_MON, 3, 3),
-+	.axp20x_read_vbus = &axp20x_usb_power_poll_vbus,
-+	.axp20x_cfg_iio_chan = axp20x_configure_iio_channels,
-+	.axp20x_cfg_adc_reg = axp20x_configure_adc_registers,
- };
- 
- static const struct axp_data axp221_data = {
-@@ -526,6 +568,9 @@ static const struct axp_data axp221_data = {
- 	.curr_lim_table_size = ARRAY_SIZE(axp221_usb_curr_lim_table),
- 	.curr_lim_fld   = REG_FIELD(AXP20X_VBUS_IPSOUT_MGMT, 0, 1),
- 	.vbus_needs_polling = true,
-+	.axp20x_read_vbus = &axp20x_usb_power_poll_vbus,
-+	.axp20x_cfg_iio_chan = axp20x_configure_iio_channels,
-+	.axp20x_cfg_adc_reg = axp20x_configure_adc_registers,
- };
- 
- static const struct axp_data axp223_data = {
-@@ -536,6 +581,9 @@ static const struct axp_data axp223_data = {
- 	.curr_lim_table_size = ARRAY_SIZE(axp20x_usb_curr_lim_table),
- 	.curr_lim_fld   = REG_FIELD(AXP20X_VBUS_IPSOUT_MGMT, 0, 1),
- 	.vbus_needs_polling = true,
-+	.axp20x_read_vbus = &axp20x_usb_power_poll_vbus,
-+	.axp20x_cfg_iio_chan = axp20x_configure_iio_channels,
-+	.axp20x_cfg_adc_reg = axp20x_configure_adc_registers,
- };
- 
- static const struct axp_data axp813_data = {
-@@ -549,6 +597,9 @@ static const struct axp_data axp813_data = {
- 	.usb_bc_det_fld = REG_FIELD(AXP288_BC_DET_STAT, 5, 7),
- 	.vbus_disable_bit = REG_FIELD(AXP20X_VBUS_IPSOUT_MGMT, 7, 7),
- 	.vbus_needs_polling = true,
-+	.axp20x_read_vbus = &axp20x_usb_power_poll_vbus,
-+	.axp20x_cfg_iio_chan = axp20x_configure_iio_channels,
-+	.axp20x_cfg_adc_reg = axp20x_configure_adc_registers,
- };
- 
- #ifdef CONFIG_PM_SLEEP
-@@ -590,36 +641,6 @@ static int axp20x_usb_power_resume(struct device *dev)
- static SIMPLE_DEV_PM_OPS(axp20x_usb_power_pm_ops, axp20x_usb_power_suspend,
- 						  axp20x_usb_power_resume);
- 
--static int configure_iio_channels(struct platform_device *pdev,
--				  struct axp20x_usb_power *power)
--{
--	power->vbus_v = devm_iio_channel_get(&pdev->dev, "vbus_v");
--	if (IS_ERR(power->vbus_v)) {
--		if (PTR_ERR(power->vbus_v) == -ENODEV)
--			return -EPROBE_DEFER;
--		return PTR_ERR(power->vbus_v);
--	}
+-allOf:
+-  - $ref: power-supply.yaml#
 -
--	power->vbus_i = devm_iio_channel_get(&pdev->dev, "vbus_i");
--	if (IS_ERR(power->vbus_i)) {
--		if (PTR_ERR(power->vbus_i) == -ENODEV)
--			return -EPROBE_DEFER;
--		return PTR_ERR(power->vbus_i);
--	}
--
--	return 0;
--}
--
--static int configure_adc_registers(struct axp20x_usb_power *power)
--{
--	/* Enable vbus voltage and current measurement */
--	return regmap_update_bits(power->regmap, AXP20X_ADC_EN1,
--				  AXP20X_ADC_EN1_VBUS_CURR |
--				  AXP20X_ADC_EN1_VBUS_VOLT,
--				  AXP20X_ADC_EN1_VBUS_CURR |
--				  AXP20X_ADC_EN1_VBUS_VOLT);
--}
--
- static int axp20x_regmap_field_alloc_optional(struct device *dev,
- 					      struct regmap *regmap,
- 					      struct reg_field fdesc,
-@@ -707,7 +728,7 @@ static int axp20x_usb_power_probe(struct platform_device *pdev)
- 		return ret;
+ properties:
+   compatible:
+     oneOf:
+@@ -31,8 +28,74 @@ properties:
+           - const: x-powers,axp803-usb-power-supply
+           - const: x-powers,axp813-usb-power-supply
  
- 	ret = devm_delayed_work_autocancel(&pdev->dev, &power->vbus_detect,
--					   axp20x_usb_power_poll_vbus);
-+					   axp_data->axp20x_read_vbus);
- 	if (ret)
- 		return ret;
++  input-current-limit-microamp:
++    description:
++      Optional value to clamp the maximum input current limit to for
++      the device. If omitted, the programmed value from the EFUSE will
++      be used.
  
-@@ -718,9 +739,9 @@ static int axp20x_usb_power_probe(struct platform_device *pdev)
- 			return ret;
+ required:
+   - compatible
  
- 		if (IS_ENABLED(CONFIG_AXP20X_ADC))
--			ret = configure_iio_channels(pdev, power);
-+			ret = axp_data->axp20x_cfg_iio_chan(pdev, power);
- 		else
--			ret = configure_adc_registers(power);
-+			ret = axp_data->axp20x_cfg_adc_reg(power);
- 
- 		if (ret)
- 			return ret;
++allOf:
++  - $ref: power-supply.yaml#
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - x-powers,axp192-usb-power-supply
++    then:
++      properties:
++        input-current-limit-microamp:
++          enum: [100000, 500000]
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - x-powers,axp202-usb-power-supply
++              - x-powers,axp223-usb-power-supply
++    then:
++      properties:
++        input-current-limit-microamp:
++          enum: [100000, 500000, 900000]
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - x-powers,axp221-usb-power-supply
++    then:
++      properties:
++        input-current-limit-microamp:
++          enum: [500000, 900000]
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - x-powers,axp717-usb-power-supply
++    then:
++      properties:
++        input-current-limit-microamp:
++          description: Maximum input current in increments of 50000 uA.
++          minimum: 100000
++          maximum: 3250000
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - x-powers,axp813-usb-power-supply
++    then:
++      properties:
++        input-current-limit-microamp:
++          enum: [100000, 500000, 900000, 1500000, 2000000, 2500000,
++                 3000000, 3500000, 4000000]
++
+ additionalProperties: false
 -- 
 2.34.1
 
