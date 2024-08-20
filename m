@@ -1,130 +1,158 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3838D1DD3A0
-	for <linux-sunxi@lists.linux.dev>; Mon, 19 Aug 2024 23:06:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18F484643B
+	for <linux-sunxi@lists.linux.dev>; Tue, 20 Aug 2024 03:26:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724108774; cv=none; b=TnqS/+NJEoNo8YYwKiYxSVnVVrOUB+3rGOKwG8/M4YphoJT1v7he28HBU3aWFG69nlX8LP/F6EN969T7weavnLEz9PDPBsv03x+6xU9k1oPtA0dT3g7qCt8gECH7o4c8S3S+S4HCuBGUP45Cwb7MuaoQgF2AesbaZofhXDyNbY4=
+	t=1724124383; cv=none; b=oJ6k0pKNxXwLaIvlhYijIJag9xXx59V6ZD4wZ3o+gbm1v/6jQgQyUgIJB762oZr5vI4S125C60ys1BGOUd7cuJlS13ZrhuKFsFiHsJx0ZL4bIJ8cIKp5AKWZipgPdsor86+C5ShOq3Ei9RarlAYMNkp6YTj5DxZnT+u4Yoq+sYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724108774; c=relaxed/simple;
-	bh=plHoBq5KbfGDrv6dOpY2JUmRVsjTfFCvCQ7zjz1FPA8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SKzMLm2SWUIupMT7XWmG/A4hHckx12JNVHtyHsXj8XTSSrh2KyiDv65W56wScn9JYm+beDpCgK4BtNOxa52gsbgnGwNo//T7k6C8SWBuLnMCttcv50PsGggW3W1JQiZ5Kvg+pRBW/rgIylF7RhvFqo4fIe9s9eo8o/uDlO/yMVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=dxuXZthQ; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1724124383; c=relaxed/simple;
+	bh=KE/PULkJsZKFrnjGgWeIrSqHAyb40nU3jcf8fplExkQ=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=h0IqND8cv1LMIPfbhSrFVU6ZDGxNYbmOtLI0MtXCer7qLBoQWk+xEzjlfziZeed9ywW/32dvjRxp6PO6i+r4QYVHZgIzkFh38qLXoANqvAKHx9/3MtC04OtGUSV8Lg9mnzpb3uykuxc/hcj0CC49jCHnRcVYuYGNN+zACv6MRdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=S3hDBGLv; arc=none smtp.client-ip=116.203.91.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="dxuXZthQ"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1fc47abc040so37388745ad.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 19 Aug 2024 16:06:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1724108772; x=1724713572; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RAaL9iLsfBr3KmkxqVCqI8crZ4M3zG1jsxZQrqUkREk=;
-        b=dxuXZthQKQ3FvCKBUic3RAyCoBZnjHmYtGO4yoqk/2uRLXyxYMTuegdyMO74/VdHqo
-         VxXejpaN1McZk3v2I8EXqfZ7PgcgoycHO+EfFYvH+LAmb38h0H1v/bqIk6rnEpJXqISj
-         J4vViWbt+5pOI73kIUPcg0PQx3JpBvLOkzy3DuKsQETOvC1Ps3BGThFysCJzqGrmyGw1
-         BcB4LxYxI2DTMsht3HnUWC52RavqLvJNl8mYlQDQNWkTrb46/dMKKxMn7FmWHNIPvudF
-         wEMNtEkoMspiES5GAwx78l2Hblk52z5qd1ooLuD2GnrkU/cidkLg++pTw+o2lPGFTtH/
-         KlAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724108772; x=1724713572;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RAaL9iLsfBr3KmkxqVCqI8crZ4M3zG1jsxZQrqUkREk=;
-        b=fzlSF7LfHt8KQMTLF90pXcPqbzLNoFlRcEXxJpd8ZJiu8UsS1tzyE+oM0eh3EKq/5N
-         nijRf37FqaE9jYlOjBA810PhjnxG3JvnP2G8+qpjOYntCd+MiLPDEfAUNG8QBP1efPaH
-         VzxpMbcJ2eCELAzD55EzizFqF2a4n+TQeg1nskU8bl8OWRe8yNwLVrq/jCG0f4lSYK8N
-         P7FGLFwPUMG0brPjhUxD5j+2sxGBdQqNkHNHB+08Xig15BCg7Vez4Cnygkp6KTvMX8bS
-         z+3Nz7KJqb7tZS+xjXDb0kQ8B0/xjIwVhWNriv4ELLxfIpVUO4i8Jx0x3bmwMkCuvAMc
-         LkAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXG19h+Pu9JSKuq+A0nVQsniY2HGxoHjHI1/tt2ofCtYJrQTFms/Dm014Ii10sR5hYbNnpvytV54Ba/sduJG57vmYcykKNHEF6jOAA=
-X-Gm-Message-State: AOJu0Yx00BfS62cGjKC8vUl5Qm1ak+wWysukMx3ZArdVMVpPpOi5mOPQ
-	IEzOMsiZepHeT2Rse6iqP5+rmG7b/YAR6kXQeZw0yVWQAPTP4xBH+SKcgAu00Eo=
-X-Google-Smtp-Source: AGHT+IHBfVyuiRiWWmeZGAb3eMUhDH5U34j0O0Tsptrx7dedS32uu6dqmeIX1/j/vghFFG3MWZ8Y4w==
-X-Received: by 2002:a17:902:da84:b0:201:fac8:ff68 with SMTP id d9443c01a7336-2031517e5bcmr5848595ad.50.1724108772271;
-        Mon, 19 Aug 2024 16:06:12 -0700 (PDT)
-Received: from ghost ([50.145.13.30])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-201f037592csm67028215ad.142.2024.08.19.16.06.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Aug 2024 16:06:11 -0700 (PDT)
-Date: Mon, 19 Aug 2024 16:06:08 -0700
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: Conor Dooley <conor@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Guo Ren <guoren@kernel.org>, Evan Green <evan@rivosinc.com>,
-	Andy Chiu <andy.chiu@sifive.com>,
-	Jessica Clarke <jrtc27@jrtc27.com>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Heiko Stuebner <heiko@sntech.de>
-Subject: Re: [PATCH v9 00/13] riscv: Add support for xtheadvector
-Message-ID: <ZsPP4GMwPVBfq+fL@ghost>
-References: <20240806-xtheadvector-v9-0-62a56d2da5d0@rivosinc.com>
- <20240809-slapping-graph-461287bac506@spud>
- <ZrqsqsCtKwfG4Q5B@ghost>
- <20240813-strode-revival-07b8556a8bfe@spud>
+	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="S3hDBGLv"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240813-strode-revival-07b8556a8bfe@spud>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
+	t=1724124377;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=emZjidsQEPIpW+TQw3p+hYsmcENgp0Z3u/QNNP8WrEA=;
+	b=S3hDBGLvWkRgUwq01kVm2Qbh70Ui1A4q0GC9d/lu/xMJgx0L6DvgqNH8NysWDgIDiLUyjA
+	zX8rztTIj9px4oSnXwl4it4kSa2PNOleesZfCBQOjEXV3I6L/CBd7kEHvYpErJZHHdI/gI
+	8upN0DvTku2eOVy530tx+iBQXYCJU0I38brGykFlbCpvb1LDJz3ns1mLnTaz5R6FgcPOpK
+	pdxXBaaViZkBHjJTV87R3B21fgto3FwLfySbHgITxIyM50RSHkjwDT4vTLjHlIJ9mQ3DDY
+	ZGwrsEcH2E6zDkTbxImUzRHAvIFtDwWmWY2PEw9u/0Qr0dGD49Yuoiizaau/zw==
+Date: Tue, 20 Aug 2024 05:26:15 +0200
+From: Dragan Simic <dsimic@manjaro.org>
+To: Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: Icenowy Zheng <uwu@icenowy.me>, linux-sunxi@lists.linux.dev,
+ wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ linux-kernel@vger.kernel.org, wenst@chromium.org, broonie@kernel.org
+Subject: Re: [PATCH] arm64: dts: allwinner: Add GPU thermal trips to the SoC
+ dtsi for A64
+In-Reply-To: <d8584ac7-5576-4f26-8bc8-1ecbb4bd4611@linaro.org>
+References: <a17e0df64c5b976b47f19c5a29c02759cd9e5b8c.1723427375.git.dsimic@manjaro.org>
+ <24406e36f6facd93e798113303e22925b0a2dcc1.camel@icenowy.me>
+ <25b65e9ef1cae59a8366532cc8db576b@manjaro.org>
+ <d8584ac7-5576-4f26-8bc8-1ecbb4bd4611@linaro.org>
+Message-ID: <124e8c2a984d3c2775264fae85cd41b7@manjaro.org>
+X-Sender: dsimic@manjaro.org
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+Authentication-Results: ORIGINATING;
+	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
 
-On Tue, Aug 13, 2024 at 04:55:27PM +0100, Conor Dooley wrote:
-> On Mon, Aug 12, 2024 at 05:45:30PM -0700, Charlie Jenkins wrote:
-> > On Fri, Aug 09, 2024 at 11:31:15PM +0100, Conor Dooley wrote:
-> > > On Tue, Aug 06, 2024 at 05:31:36PM -0700, Charlie Jenkins wrote:
-> > > > xtheadvector is a custom extension that is based upon riscv vector
-> > > > version 0.7.1 [1]. All of the vector routines have been modified to
-> > > > support this alternative vector version based upon whether xtheadvector
-> > > > was determined to be supported at boot.
-> > > > 
-> > > > vlenb is not supported on the existing xtheadvector hardware, so a
-> > > > devicetree property thead,vlenb is added to provide the vlenb to Linux.
-> > > > 
-> > > > There is a new hwprobe key RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0 that is
-> > > > used to request which thead vendor extensions are supported on the
-> > > > current platform. This allows future vendors to allocate hwprobe keys
-> > > > for their vendor.
-> > > > 
-> > > > Support for xtheadvector is also added to the vector kselftests.
-> > > 
-> > > So uh, since noone seems to have brought it up, in the light of the issues
-> > > with thead's vector implementation, (https://ghostwriteattack.com/) do we
-> > > want to enable it at all?
-> > 
-> > I can make it clear in the kconfig that xtheadvector is succeptible to
-> > this attack and that it should be enabled with caution. I think we
-> > should let people that understand the risk to enable it.
+Hello Daniel,
+
+On 2024-08-19 17:42, Daniel Lezcano wrote:
+> On 12/08/2024 04:46, Dragan Simic wrote:
+>> On 2024-08-12 04:40, Icenowy Zheng wrote:
+>>> 在 2024-08-12星期一的 04:00 +0200，Dragan Simic写道：
+>>>> Add thermal trips for the two GPU thermal sensors found in the
+>>>> Allwinner A64.
+>>>> There's only one GPU OPP defined since the commit 1428f0c19f9c
+>>>> ("arm64: dts:
+>>>> allwinner: a64: Run GPU at 432 MHz"), so defining only the critical
+>>>> thermal
+>>>> trips makes sense for the A64's two GPU thermal zones.
+>>>> 
+>>>> Having these critical thermal trips defined ensures that no hot 
+>>>> spots
+>>>> develop
+>>>> inside the SoC die that exceed the maximum junction temperature.
+>>>> That might
+>>>> have been possible before, although quite unlikely, because the CPU
+>>>> and GPU
+>>>> portions of the SoC are packed closely inside the SoC, so the
+>>>> overheating GPU
+>>>> would inevitably result in the heat soaking into the CPU portion of
+>>>> the SoC,
+>>>> causing the CPU thermal sensor to return high readings and trigger
+>>>> the CPU
+>>>> critical thermal trips.  However, it's better not to rely on the 
+>>>> heat
+>>>> soak
+>>>> and have the critical GPU thermal trips properly defined instead.
+>>>> 
+>>>> While there, remove a few spotted comments that are rather 
+>>>> redundant,
+>>>> because
+>>>> it's pretty much obvious what units are used in those places.
+>>> 
+>>> This should be another individual patch, I think.
+>> 
+>> Perhaps, which I already thought about, but it might also be best
+>> to simply drop the removal of those redundant comments entirely.
+>> Let's also see what will other people say.
+>> 
+>>>> Signed-off-by: Dragan Simic <dsimic@manjaro.org>
+>>>> ---
+>>>>  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 22 
+>>>> ++++++++++++++---
+>>>> --  1 file changed, 16 insertions(+), 6 deletions(-)
+>>>> 
+>>>> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+>>>> b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+>>>> index e868ca5ae753..bc5d3a2e6c98 100644
+>>>> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+>>>> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+>>>> @@ -212,7 +212,6 @@ timer {
+>>>> 
+>>>>         thermal-zones {
+>>>>                 cpu_thermal: cpu0-thermal {
+>>>> -                       /* milliseconds */
+>>> 
+>>> The unit of a 0 isn't not so obvious I think, so I suggest to keep
+>>> this.
+>> 
+>> Quite frankly, I think it should be obvious to anyone tackling
+>> the thermal zones and trips.
 > 
-> I think the clearest way might be "depends on BROKEN"?
+> You can remove also polling-delay-passive and  polling-passive when
+> they are equal to zero. If they are absent they will be set to zero by
+> default.
 
-Sorry for the delay, I am not sure if BROKEN is the best way of doing
-this. There is the generic CPU_MITIGATIONS config that I think we should
-use to handle this at boot time. This would allow generic kernels to be
-used on the platform, but a kernel config of "mitigations=off" would
-allow xtheadvector to be enabled. I'll look into this a bit more and
-send out a patch. Palmer merged a patch into for-next to enable
-GENERIC_CPU_VULNERABILITIES for riscv so I will add ghostwrite there
-as well.
+Good point, thanks!  Though, I'd rather leave those "... = <0>;"
+removals for a small follow-up series, because those changes touch
+more actual code than just the comments, so it's better to keep them
+as separate changes for easier bisection later, if it's ever needed.
+Hopefully never. :)
 
-- Charlie
+I just made a note for myself to create and submit those follow-up
+cleanup patches later, for all affected Allwinner and Rockchip SoC
+dtsi files.
 
+> That said, I take the opportunity to spot some inconsistency in this
+> DT not related to this change.
+> 
+> 1. There is a passive trip point and one cooling device mapped to it.
+> With a polling-delay-passive=0, the mitigation will fail
+
+Huh, how is the CPU throttling working then?  Thanks for pointing it
+out, I'll address this issue in the follow-up patches.
+
+> 2. There is a second mapping for the hot trip point. That does not
+> make sense, it is not possible because there is no mitigation for
+> 'hot' and 'critical' trip points.
+
+Yup, I see no special handling of tz->ops.hot, so having the hot trip
+point makes no sense.  Thanks again for pointing it out, I'll address
+this issue in the follow-up patches as well.
+
+I'll send the v2 soon, as a small patch series, and I'll send a few
+follow-up patches later.
