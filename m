@@ -1,56 +1,56 @@
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB56517BB16
-	for <linux-sunxi@lists.linux.dev>; Wed, 21 Aug 2024 21:57:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F52117BB33
+	for <linux-sunxi@lists.linux.dev>; Wed, 21 Aug 2024 21:57:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724277456; cv=none; b=LQ+2273SsxBtvL+s1iFXF5KpKnIWzRMWpKPmjDbrqwfQGnMCyY8MVNKozhQYiyaCJBxNnB+79BS65zi8v3yTQRPGDOUrvCyDr21wVwC3hG3+PlqGXcG7xksVL+cvQBaA4DCw88g5e1swJj0xniJKPGck1yjntooDn+6X9iueTgU=
+	t=1724277457; cv=none; b=U7jc5vA9hvWS5e5jBMgeebOHpX3Xylmhg5kPmFCOl96UGXb1186x6TCZcv6yZgGjEvj7ho5MgNUpR0unyOrdydkDgoejxr1vByel6h4yZxEugWo8gJ1lwmxCt3XahFQI20AHIld3x87/CcesNTDBRk88g5UGawEAcGLePzNs5l8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724277456; c=relaxed/simple;
-	bh=5a+ymo3BBR1upvcXnfIAo+PqatW4K0NQ636IZHuJqs0=;
+	s=arc-20240116; t=1724277457; c=relaxed/simple;
+	bh=16TxacFQRSnmxQxajH2B5k39AW2lRgjLC38Elp8ySLw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=eT0YJKsGXwQsoOBciEuqjOIglyaxq1qAxFKY8bkEDjBslGSA1UYNJ5KGiZpO3YtAUxWfT2l04b6MZMscFI+9TQ483xNFwB2cSoDUYaH7ucil0tuFqSDxnyl2OQ7TcxLUb17Gb2x3X80M2MsggKezCEYiV30fwv7qbC74SActnSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iWA/S/UN; arc=none smtp.client-ip=209.85.167.170
+	 MIME-Version; b=DzcUFMRpA0Ew8rrCYnlgGQOwIDNOBxkR6p+pdl0b+pAP9la4nUNXWpisbsJQx+2iqfM9Yx+JuMjvGacm6pHMeiBjATUdq8IQxvd81LnyMV3PppQ4nnWgqo3Kl7UBSzWwhgJvkpIw+Y+D+3SX3g7XWsx5SYNKB8D2Oqw7mQxDHxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c4hLidHc; arc=none smtp.client-ip=209.85.167.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iWA/S/UN"
-Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-3db35ec5688so71396b6e.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 21 Aug 2024 14:57:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c4hLidHc"
+Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-3db16a98d16so88865b6e.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 21 Aug 2024 14:57:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724277453; x=1724882253; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1724277454; x=1724882254; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VW8pLbjHmp58tJfvrusMBZ0t6nfvqNtc57mmOOIaTIw=;
-        b=iWA/S/UNoDArHUxZ2Ot0rget6PNOSqSStWnxQ1k2LvVzSlYv27vUfOV3S5JuLBN4cZ
-         eg/5mMzzm0IRtK+e8jv9KcZloZypff9j1aE1cuTsYq5k5HtRuhtbiG4iSjojARpD2pR8
-         2+JwmXZBfev2Jm9S1ojl99Q0ntBKdHMnbFNr5k/ihRN7xtrKdEe5F7BycbZ4Rd8F2xFT
-         B9fQh36zV47YB6eC9sdmKPjsR6VmCZwUFhxRr0RADDf7sWAil1gAPm82w3lJcOT6VSJk
-         c+N+rNAEsXFQzkOnFgCb/yYrzne154UqNUCeqfiw6PdMu/cY5vdLyvCmbgHG7t17db8u
-         c06g==
+        bh=RkkzIKfrsu8xLnQwZgjeVDvaKU/MUJN67PA3Rk4p0CM=;
+        b=c4hLidHc/nqf6ctVEfCqSZQFUbYA9D4eC5vMmLyAfo9394ahsRNG0F7d5llG6lyKg4
+         I6kaKVF4S4GKg0ukouo2166oTDbpoibkUAzw3nkM6lvRnSl+zEEGb9Wib/tni3UKet5g
+         kvRKTnRLmVOF2Ugb6PKNN6Xy3AEKERVbniQ1Y10E5l76DiWefPK3zprS8Rwr3Sxt6n/T
+         TqkvD0X1XnSDZpEUrm8jP/l/JdFQ5P8XiiA3u7YXR9FuFsKKd6P4Q7ACjWDVgFrPG23x
+         rY6wHOMKX3Q8kg6ClCmmoaWWYV64RUmJj9Vc40mxL2vPUaso3chHuNLuOCNY4AsZPiow
+         IGvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724277453; x=1724882253;
+        d=1e100.net; s=20230601; t=1724277454; x=1724882254;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VW8pLbjHmp58tJfvrusMBZ0t6nfvqNtc57mmOOIaTIw=;
-        b=fEU7R+N0/WYKqjipa0zUrMRNqxtWtZD/YpYTLdUjEt7NlkUqaXmNkvcCjssA98WKJZ
-         Dgvxsj73PdSL8ryptZUQaVrHuk6D8cDc01Hg9W2KUDbbWv1IvvNJYL/bvRynysFi2MVN
-         BEbGdWnBFu8tCCdn55eSJxiS3NB4N+ogEirPK6NqqWrYxpnn1mHTFdvxNLxSiNJR1lpf
-         91f8aCp7RbrnBnvDJhLnaEXI928hOqcIXbt3qXmDT9QCq4IuIYfz1hbM6IkCLHdTx7at
-         3qqsPEfTPx51IZ0twI5MT6MW0sTmVCzDcNRSDayIcAaOkMbgMQuSIWEu+Bok6pZXlFMv
-         I3+Q==
-X-Gm-Message-State: AOJu0YyD3GgpeSFij5sNrilHEo02FtpL08EEgAf1fjqer3h1/xO9kOpV
-	oAcI9qT6q1drZBbocYXnmnHwFZTC/bxqzZQlvo7mkgqWlWKGrLPy0I2fLg==
-X-Google-Smtp-Source: AGHT+IHGclXhRe7MiZ2gdXv83D4GWjeaFVDAh8ffxoiueuIZjAXOFvrAwN7o6rMnhdMLZv0E2Dx/ug==
-X-Received: by 2002:a05:6808:2f07:b0:3db:198d:97cc with SMTP id 5614622812f47-3de19d20c0emr4500013b6e.33.1724277453646;
-        Wed, 21 Aug 2024 14:57:33 -0700 (PDT)
+        bh=RkkzIKfrsu8xLnQwZgjeVDvaKU/MUJN67PA3Rk4p0CM=;
+        b=lH5KJX+j9sV4YumZa+JH+wMmpAoehivjCGRUSLZGIyijYex+XGqlG9CuYbG1X8xITW
+         vdDoT1NJqEllMuHh7Uyp9U9pc7w+5Y3y/tQMak5PdMTmYMqQH9qsW9bhwIbMC4Qfx4ie
+         X1/PhZrxAcxZXE/bkEc1lRFBVXuwxGGLjclvcblyUf/wsfeB2Mx4YrzeFpxW3PHmOjEr
+         VNRipba6eMgT/3gz4ZK+0/TnzJC6tPLqkmHEv4HNb7bpl/+wbkdqqvommU1KvglLMPaj
+         KSF4JO6wS4/IOXs7MmgNhKDABKWPHRElULCyjX2787LGFFVtMbDkmbb/m9RM2jMDoG2K
+         OSIg==
+X-Gm-Message-State: AOJu0YwklXdromY6Iov4Dr+Xva2GOZbEBQZKP+RgX9nf01u0N5De9xjt
+	DNEkptTj5c+pNw0C1zmMN989CnEaeYZTHK2RuYzUs0fEI+xdPmmHJogSSA==
+X-Google-Smtp-Source: AGHT+IGG5pB023gZP8ZguddlFNlR28q2cmj9bTwLc1Bj1tHSp3mMg1g9qpl/sTQ1MotPq+SJ7pl1cw==
+X-Received: by 2002:a05:6808:1796:b0:3da:aae9:7165 with SMTP id 5614622812f47-3de194f96e3mr4164334b6e.14.1724277454392;
+        Wed, 21 Aug 2024 14:57:34 -0700 (PDT)
 Received: from localhost.localdomain ([2600:1700:fb0:1bcf:81a9:2325:e0f7:7376])
         by smtp.gmail.com with ESMTPSA id 5614622812f47-3de225555b6sm47070b6e.17.2024.08.21.14.57.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Aug 2024 14:57:33 -0700 (PDT)
+        Wed, 21 Aug 2024 14:57:34 -0700 (PDT)
 From: Chris Morgan <macroalpha82@gmail.com>
 To: linux-sunxi@lists.linux.dev
 Cc: linux-pm@vger.kernel.org,
@@ -73,10 +73,11 @@ Cc: linux-pm@vger.kernel.org,
 	lars@metafoo.de,
 	jic23@kernel.org,
 	jonathan.cameron@huawei.com,
-	Chris Morgan <macromorgan@hotmail.com>
-Subject: [PATCH V4 06/15] power: supply: axp20x_usb_power: add input-current-limit-microamp
-Date: Wed, 21 Aug 2024 16:54:47 -0500
-Message-Id: <20240821215456.962564-7-macroalpha82@gmail.com>
+	Chris Morgan <macromorgan@hotmail.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH V4 07/15] dt-bindings: power: supply: axp20x-battery: Add monitored-battery
+Date: Wed, 21 Aug 2024 16:54:48 -0500
+Message-Id: <20240821215456.962564-8-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240821215456.962564-1-macroalpha82@gmail.com>
 References: <20240821215456.962564-1-macroalpha82@gmail.com>
@@ -90,69 +91,32 @@ Content-Transfer-Encoding: 8bit
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-Allow users to specify a maximum input current for the device. Some
-devices allow up to 3.25A of input current (such as the AXP717), which
-may be too much for some implementations.
+Document the monitored-battery property, which the existing driver can
+use to set certain properties.
 
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 ---
- drivers/power/supply/axp20x_usb_power.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ .../power/supply/x-powers,axp20x-battery-power-supply.yaml  | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/power/supply/axp20x_usb_power.c b/drivers/power/supply/axp20x_usb_power.c
-index cd9e92f2ce71..69fbb5861934 100644
---- a/drivers/power/supply/axp20x_usb_power.c
-+++ b/drivers/power/supply/axp20x_usb_power.c
-@@ -80,6 +80,7 @@ struct axp20x_usb_power {
- 	struct iio_channel *vbus_v;
- 	struct iio_channel *vbus_i;
- 	struct delayed_work vbus_detect;
-+	int max_input_cur;
- 	unsigned int old_status;
- 	unsigned int online;
- 	unsigned int num_irqs;
-@@ -323,6 +324,13 @@ static int axp20x_usb_power_set_input_current_limit(struct axp20x_usb_power *pow
- 	if (intval == -1)
- 		return -EINVAL;
+diff --git a/Documentation/devicetree/bindings/power/supply/x-powers,axp20x-battery-power-supply.yaml b/Documentation/devicetree/bindings/power/supply/x-powers,axp20x-battery-power-supply.yaml
+index e0b95ecbbebd..f196bf70b248 100644
+--- a/Documentation/devicetree/bindings/power/supply/x-powers,axp20x-battery-power-supply.yaml
++++ b/Documentation/devicetree/bindings/power/supply/x-powers,axp20x-battery-power-supply.yaml
+@@ -28,6 +28,12 @@ properties:
+           - const: x-powers,axp813-battery-power-supply
+       - const: x-powers,axp813-battery-power-supply
  
-+	if (power->max_input_cur && (intval > power->max_input_cur)) {
-+		dev_warn(power->dev,
-+			 "reqested current %d clamped to max current %d\n",
-+			 intval, power->max_input_cur);
-+		intval = power->max_input_cur;
-+	}
++  monitored-battery:
++    description:
++      Specifies the phandle of an optional simple-battery connected to
++      this gauge.
++    $ref: /schemas/types.yaml#/definitions/phandle
 +
- 	/*
- 	 * BC1.2 detection can cause a race condition if we try to set a current
- 	 * limit while it's in progress. When it finishes it will overwrite the
-@@ -661,6 +669,18 @@ static int axp20x_regmap_field_alloc_optional(struct device *dev,
- 	return 0;
- }
+ required:
+   - compatible
  
-+/* Optionally allow users to specify a maximum charging current. */
-+static void axp20x_usb_power_parse_dt(struct device *dev,
-+				      struct axp20x_usb_power *power)
-+{
-+	int ret;
-+
-+	ret = device_property_read_u32(dev, "input-current-limit-microamp",
-+				       &power->max_input_cur);
-+	if (ret)
-+		dev_dbg(dev, "%s() no input-current-limit specified\n", __func__);
-+}
-+
- static int axp20x_usb_power_probe(struct platform_device *pdev)
- {
- 	struct axp20x_dev *axp20x = dev_get_drvdata(pdev->dev.parent);
-@@ -697,6 +717,8 @@ static int axp20x_usb_power_probe(struct platform_device *pdev)
- 	if (IS_ERR(power->curr_lim_fld))
- 		return PTR_ERR(power->curr_lim_fld);
- 
-+	axp20x_usb_power_parse_dt(&pdev->dev, power);
-+
- 	ret = axp20x_regmap_field_alloc_optional(&pdev->dev, power->regmap,
- 						 axp_data->vbus_valid_bit,
- 						 &power->vbus_valid_bit);
 -- 
 2.34.1
 
