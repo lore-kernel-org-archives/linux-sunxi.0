@@ -1,149 +1,143 @@
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D01D517BB08
-	for <linux-sunxi@lists.linux.dev>; Wed, 21 Aug 2024 21:57:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FF0B4C74
+	for <linux-sunxi@lists.linux.dev>; Thu, 22 Aug 2024 00:35:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724277463; cv=none; b=hUJv02vgcaiNCr+daZUd5RU9NLx6UzvrEdpVjsPO1fZ9hr9bHGpIDGR+RPY2VJc9SZBRquw3OD+AqM1x2KX+ywwbnSYZDeL6sl9/5Bb6L2ZuVtQUSO4urYgedInI7B/X0tItiqQ2/RZK7B9xMZDSXxA8wxQzf/wNRjmWwBwnAis=
+	t=1724286959; cv=none; b=uOW7gRlpgPOQnaDY0ZYEnja7hpArMlUA9Z6E8RIuKI5tAc6/RoEHAet21lpwPrksJInw7qXee+XNc6mg6Q5DgrCZiOZZWfSbc/jt1gNl+6eT0xq4p9zAIKN/trtJ3cjPyx8D2kY+DPKgrh/32hw+7olDCy9gw4GQstB8kQCk5HY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724277463; c=relaxed/simple;
-	bh=rOUWIONG2jx+3YsOkzOxNCT50C8BqSOGk+kTUHABbDo=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=IMaQdDKUy7sthpPohSSgbVjzmlHq1BB4DuioX/21h+LDnJuL+tYMkcRV+XxgQixBjAFdYzixj/JufLGfeiXCVLpRMfKOTY3R8jMkx/xBeBcjryqTXIN5ry2GrL+7ki3mqkrtpVnnasTM1PtsUtnNoZ3fGXs304H/Sdp+Vg37X9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QouXpUO2; arc=none smtp.client-ip=209.85.167.173
+	s=arc-20240116; t=1724286959; c=relaxed/simple;
+	bh=5MhG4H5fiBM7tHVKwlGcSJFdOHF6L+Ner2aE272rbRY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=olNdTH0ng2lqQWLUh2uPo2CSMzrnl5f4C3NcMXhaBF+WhktxbRXbYwCs0FezZPHrDIXkpZAU/A+T/1qDTFlFrk19BNHRl/FUywt6SYS1p08sH3dYDr3iZWJUr4dsDv5knLoKa7INtrH+6NZs+xjX6lUU0ONsHNJxgfz6em5TqFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JNeOSDFs; arc=none smtp.client-ip=209.85.219.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QouXpUO2"
-Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3db23a608eeso95347b6e.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 21 Aug 2024 14:57:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JNeOSDFs"
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-6bf84c3d043so1102906d6.3
+        for <linux-sunxi@lists.linux.dev>; Wed, 21 Aug 2024 17:35:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724277461; x=1724882261; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1724286956; x=1724891756; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IKDNW6bXNlNSyXqPzsgaizF0W6jVGjlSVIlGtBFqzzU=;
-        b=QouXpUO26yy4NThfjcRrkrYOIN1lYrE9kIlsnOxK1PtYP5SCwsI9vzN1VmCIOO/zPS
-         WEEgLusHXg2UVrb6nToJyBpeCZew3WrvRq+lXs+zTEFH1fVd9KOyCTDkUMCQ9osRTJfA
-         pWPerwsPm+ETBgppUVm+4Oywg7s3DVCGwK9hXHxT+UmFPg/yo8OeQUiL/2CdmIo4Z9zx
-         TeFqByWDCbvMyYX3SWO5oRdzp5NcRupmK0OPWAbYHp/cLv0O2zfC7af29C0mHQA3rSIC
-         ibd7d2/xQ6g/dhiR7lvjhHp5jPbZhzw5gGnlEqLv8oKC2xNp3AUGTb12jbq+Oug7JahY
-         arbg==
+        bh=22zWPOj1TpYR/jHva6dX8P4bxYu0jWvouDXLuCxJapI=;
+        b=JNeOSDFsh0mo2LV47PQGvtWXCL1htPrMTaXEQ12KGgClAgiG64pX88F7iRA6FSrhoc
+         Fz5rEQXvwms1cA4jWyg7dWZoaSGGugb2Ifxc2f5RWm4+iRPomPEf3Jjt6ojKXl3LVHkN
+         klpS28KMO5yNtvSCRaCZJkc/RlegcGWXWUfMjWOIi2j42h70hf+qSNYHiIhX9se5e12f
+         6Vh8+eulnhEEd6wF/EYjylj10RrOhv2ka+LjF+J/OGeDoYUAG0EDsIqfj23d4mvSndKt
+         /aCnAtjQemGSBTh5VgonWoIiCATCvnOllelTtrH6B+bunwnvud6eqRbHVS+CHdcalS81
+         cAdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724277461; x=1724882261;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1724286956; x=1724891756;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=IKDNW6bXNlNSyXqPzsgaizF0W6jVGjlSVIlGtBFqzzU=;
-        b=sWgmsv9K5krd5OglqkpMRzQC7mZRZ3zuccBn9nM2N4vkQ/nwEgBG1S33LS7fOjVzMl
-         jfjy4bvT0L/IzEJ72NItpwaJfw3xPrK/JWD3v0/KtKspmpRgpQEgsJfar1BQP2zfI7TX
-         quI6iAdI1OF56zglBmrGicoXMmKBODD7yLnzR5ePImGDgV6b1oQu4KVgLRYDag1eV4sT
-         pfzFG1V2w5NRLHy3SGqFBFXypCLp3VYZ1iLxQlOOs7ulwmXxCa69/kDp3h09L0em0tpX
-         FEOElyTqIhqLkMy17gzibHB9K09afIIJstCAMRpmW0e6tjC+XGUNZdAPYyGvZ7mp6MlS
-         YVfA==
-X-Gm-Message-State: AOJu0Yw1UaqjDgmXcm3pC8emyr3sY86EF7yEF6ue5zze5UjbFcd81K/h
-	Jn0EbWQZBij1CiwoaCZYMHPNAOncrBI7DB0Nba3qDdkDTxZy+U1wO4dyhg==
-X-Google-Smtp-Source: AGHT+IEot75d+ugH+I/XEKDoM+SkcrQKtwBcwYYvPfnFSXY6xNGTuXU9+zWMvMu4JO0C2GONh/4oUw==
-X-Received: by 2002:a05:6808:1892:b0:3d6:2ff3:937 with SMTP id 5614622812f47-3de1957157cmr4703770b6e.40.1724277460736;
-        Wed, 21 Aug 2024 14:57:40 -0700 (PDT)
-Received: from localhost.localdomain ([2600:1700:fb0:1bcf:81a9:2325:e0f7:7376])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-3de225555b6sm47070b6e.17.2024.08.21.14.57.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Aug 2024 14:57:40 -0700 (PDT)
-From: Chris Morgan <macroalpha82@gmail.com>
-To: linux-sunxi@lists.linux.dev
-Cc: linux-pm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	quentin.schulz@free-electrons.com,
-	mripard@kernel.org,
-	tgamblin@baylibre.com,
-	aidanmacdonald.0x0@gmail.com,
-	u.kleine-koenig@pengutronix.de,
-	lee@kernel.org,
-	samuel@sholland.org,
-	jernej.skrabec@gmail.com,
-	sre@kernel.org,
-	wens@csie.org,
-	conor+dt@kernel.org,
-	krzk+dt@kernel.org,
-	robh@kernel.org,
-	lars@metafoo.de,
-	jic23@kernel.org,
-	jonathan.cameron@huawei.com,
-	Chris Morgan <macromorgan@hotmail.com>
-Subject: [PATCH V4 15/15] arm64: dts: allwinner: h700: Add charger for Anbernic RG35XX
-Date: Wed, 21 Aug 2024 16:54:56 -0500
-Message-Id: <20240821215456.962564-16-macroalpha82@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240821215456.962564-1-macroalpha82@gmail.com>
-References: <20240821215456.962564-1-macroalpha82@gmail.com>
+        bh=22zWPOj1TpYR/jHva6dX8P4bxYu0jWvouDXLuCxJapI=;
+        b=d0hYcLHsYqdJOQsM3cG9y0Oi0QXRQ3q5UFLmtpGqnQL+87mCVulvXYvjmGTAR6fmWo
+         9z8n7l3+SHzXxJFJW28bvB15M8inaf1KO5qhfhu/zSTCLMkIQy1kdmXRpkcElIEXS+Ip
+         x02Z+9IpXVZWv0icSj2g6nzwaXFmS6yeZtX1nC8b74A+DTv+4xzOXRvzdd0xMBwc/qL1
+         tGTN22kkpJRGhx248ReXfxFyetxYcXrgCoXpoHpvPGmxbnIiROZYZsJCmfmVexKqN2t/
+         sMQvNRfGx47V8emH9UPHDsPkGUIGq9ct3Jea1daWgyaXnrq6djU3X1jFceiYQzw20Agf
+         s57g==
+X-Forwarded-Encrypted: i=1; AJvYcCWIRjpM+Q1jW4lUbjrKbSKQndNxqqBe6rIjjG4vTL0hIpbRq4UDWBDAIzaZIwQGtCc4+44jAppoMkWPPQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwaGCuIITBGdJZJZGLVnsS3lIFRQeaepoFcxuFJ+7y2euiYIc0x
+	56LBHsU6IFepJ4TPlnsCAN/4Afk20Tvd1GTgV1vNj1e7Mf8B2dtOj1MkQBdN3pPbgoTEr2GFeGg
+	MV6kXQNZ3FLeV+/YvhYgZw9sPmRA=
+X-Google-Smtp-Source: AGHT+IFA7v3PE7COTekEBnadVG/BYIOlP9BEhcpwuRDzMHbYs2DiX9GTE7X59ozXJ7MpVRg4cwF21rX4O6OpKBulwMg=
+X-Received: by 2002:a05:6214:4520:b0:6b7:ae86:e33e with SMTP id
+ 6a1803df08f44-6c155e09dfdmr34354096d6.37.1724286956259; Wed, 21 Aug 2024
+ 17:35:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240820125840.9032-1-rongqianfeng@vivo.com>
+In-Reply-To: <20240820125840.9032-1-rongqianfeng@vivo.com>
+From: Julian Calaby <julian.calaby@gmail.com>
+Date: Thu, 22 Aug 2024 10:35:45 +1000
+Message-ID: <CAGRGNgXn94ZPROLN4JButpnc+ffFFr1SwtTFM=bvcPH95DFQgQ@mail.gmail.com>
+Subject: Re: [PATCH] gpu: drm: Use devm_clk_get_enabled() helpers
+To: Rong Qianfeng <rongqianfeng@vivo.com>
+Cc: Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, opensource.kernel@vivo.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Chris Morgan <macromorgan@hotmail.com>
+Hi Rong,
 
-Add the necessary nodes for the AXP717 to allow for monitoring the USB
-and battery charger.
+On Tue, Aug 20, 2024 at 10:59=E2=80=AFPM Rong Qianfeng <rongqianfeng@vivo.c=
+om> wrote:
+>
+> Replace devm_clk_get() and clk_prepare_enable() with
+> devm_clk_get_enabled() that also disables and unprepares it on
+> driver detach.
+>
+> Signed-off-by: Rong Qianfeng <rongqianfeng@vivo.com>
+> ---
+>  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c | 13 +++----------
+>  drivers/gpu/drm/sun4i/sun6i_drc.c         | 15 ++++-----------
+>  drivers/gpu/drm/sun4i/sun8i_mixer.c       | 13 +++----------
+>  3 files changed, 10 insertions(+), 31 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/sun4i/sun6i_drc.c b/drivers/gpu/drm/sun4i/su=
+n6i_drc.c
+> index 0d342f43fa93..f263ad282828 100644
+> --- a/drivers/gpu/drm/sun4i/sun6i_drc.c
+> +++ b/drivers/gpu/drm/sun4i/sun6i_drc.c
+> @@ -42,33 +42,28 @@ static int sun6i_drc_bind(struct device *dev, struct =
+device *master,
+>                 return ret;
+>         }
+>
+> -       drc->bus_clk =3D devm_clk_get(dev, "ahb");
+> +       drc->bus_clk =3D devm_clk_get_enabled(dev, "ahb");
+>         if (IS_ERR(drc->bus_clk)) {
+>                 dev_err(dev, "Couldn't get our bus clock\n");
+>                 ret =3D PTR_ERR(drc->bus_clk);
+>                 goto err_assert_reset;
+>         }
+> -       clk_prepare_enable(drc->bus_clk);
+>
+> -       drc->mod_clk =3D devm_clk_get(dev, "mod");
+> +       drc->mod_clk =3D devm_clk_get_enabled(dev, "mod");
+>         if (IS_ERR(drc->mod_clk)) {
+>                 dev_err(dev, "Couldn't get our mod clock\n");
+>                 ret =3D PTR_ERR(drc->mod_clk);
+> -               goto err_disable_bus_clk;
+> +               goto err_assert_reset;
+>         }
+>
+>         ret =3D clk_set_rate_exclusive(drc->mod_clk, 300000000);
+>         if (ret) {
+>                 dev_err(dev, "Couldn't set the module clock frequency\n")=
+;
+> -               goto err_disable_bus_clk;
+> +               goto err_assert_reset;
+>         }
+>
+> -       clk_prepare_enable(drc->mod_clk);
 
-Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
----
- .../sun50i-h700-anbernic-rg35xx-2024.dts      | 21 +++++++++++++++++++
- 1 file changed, 21 insertions(+)
+Am I reading this right: is this changing the init sequence so that
+the clock is enabled before setting a rate?
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
-index afb49e65859f..83b5c03b1bb8 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
-@@ -21,6 +21,12 @@ aliases {
- 		serial0 = &uart0;
- 	};
- 
-+	battery: battery {
-+		compatible = "simple-battery";
-+		constant-charge-current-max-microamp = <1024000>;
-+		voltage-max-design-microvolt = <4200000>;
-+	};
-+
- 	chosen {
- 		stdout-path = "serial0:115200n8";
- 	};
-@@ -217,6 +223,16 @@ axp717: pmic@3a3 {
- 		vin3-supply = <&reg_vcc5v>;
- 		vin4-supply = <&reg_vcc5v>;
- 
-+		axp_adc: adc {
-+			compatible = "x-powers,axp717-adc";
-+			#io-channel-cells = <1>;
-+		};
-+
-+		battery_power: battery-power {
-+			compatible = "x-powers,axp717-battery-power-supply";
-+			monitored-battery = <&battery>;
-+		};
-+
- 		regulators {
- 			reg_dcdc1: dcdc1 {
- 				regulator-always-on;
-@@ -307,6 +323,11 @@ reg_cpusldo: cpusldo {
- 				/* unused */
- 			};
- 		};
-+
-+		usb_power: usb-power {
-+			compatible = "x-powers,axp717-usb-power-supply";
-+			input-current-limit-microamp = <1500000>;
-+		};
- 	};
- };
- 
--- 
-2.34.1
+This is the sort of thing that might cause glitches and issues in some
+hardware, so it'd be polite to test such a change on the actual
+hardware before posting it.
 
+Thanks,
+
+--=20
+Julian Calaby
+
+Email: julian.calaby@gmail.com
+Profile: http://www.google.com/profiles/julian.calaby/
