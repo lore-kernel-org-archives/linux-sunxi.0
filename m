@@ -1,71 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73B7F1C9449;
-	Thu, 22 Aug 2024 13:54:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F07E2C87A
+	for <linux-sunxi@lists.linux.dev>; Thu, 22 Aug 2024 15:35:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724334858; cv=none; b=uJnxiqDdIa1sLeh02Fd5qsFpXLBATUBn5uq7zrFN+vLgx81fp9Lw+WprpFQqkDszoF3PefjZDXovr4LSdumbL/MWHppRD/UpfFCOZi0GO9C75dwfO0PIAHs98TAsW48PVZWf0UXtJzX5ajPyM2DpY11SGEbmUhd3vm3dnK4fbew=
+	t=1724340934; cv=none; b=Gr6C51s+imOnm+1SX0Lywv8PPmv3WRJm0spzXSfm2gCiDR8Kx+fxbmH7KLPVjAr0EGpWMGDy6sBHEEWhBNGWtWr1oD3pN9QQzCvNnRp8X81I7WgdN5UVF2qRqafppUSoaGCP5LtXvlzBGgxNFHm4IwoWs65FpFXW2JtqgA1P2WI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724334858; c=relaxed/simple;
-	bh=6WD4597q5Hvbt9P6xZ0ON6oN0TTnndPGmI59xwiWKqc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=JulUHf1smT3jBDRx3LqL6ZHQiKMscxbMrF6USi1FaM76dLM8gza1ofNHZ3ZOtlYzbwlUsI8F5kQPt/t4kFtcw2uiBv73PGiMgkd4FjmVSHNgW2ybNAPIRRTEqBambPBBLiDh9OqRcYiw2crVPRfM2dLTIaz6FP0bUG//a5Y4/rc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XBxMu/Qq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724340934; c=relaxed/simple;
+	bh=ynR/rlt2GTIBZ6UQWXHvIDOQFJGcuX9UXR6Ua9Iv6O8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PJDHrSzblPMxFyOikiFU5Mp+ARj8AZkeBKjgC8Iw+8CJEmV/RKeGmSgvVWs3ic+UIxu02fQG2IZzlEDRwGkBEOVc6B0E6BPawSZMA/WFdeToACfOlF9HyZC8/1itTM4/yjpFJow6IJ4W0nR5ddwpKqxBi3zkKqRy6szPlwFQnU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=sGOq2dDg; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XBxMu/Qq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E107C32782;
-	Thu, 22 Aug 2024 13:54:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724334858;
-	bh=6WD4597q5Hvbt9P6xZ0ON6oN0TTnndPGmI59xwiWKqc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=XBxMu/QqDQ4cGB8jQFs1IuSkBYSIxCFS3goNt5UkG1qfywV9HMJKJn3vGjSfSmUfl
-	 IhHn6hRwgI8+BpGkioxnq2VTS5iuilqM/YBZ1PPJuluU9hrm2hQ8CNXkWAAEe8V3Dt
-	 B3alQjdqHvQPf40OzSHlmvHpVTbG/TZx5l0z7Ah5NeX6oXVSOXm7a8zx7uuHDdSWBt
-	 FDaM9kEKQ6NYtMzjaF8GJ2JXA/BCggqwpzq6Ah6zIRzd7DmT3BH4pl4GKAIHkiv3Oi
-	 sNLndTaZdVtCWsXn2U8OdkO8HrkUV1HD2oPtMLEwcWu6Ft3him2oste9xccH+cwUBy
-	 Siz3hYaYy5PVQ==
-From: Lee Jones <lee@kernel.org>
-To: linux-sunxi@lists.linux.dev, Chris Morgan <macroalpha82@gmail.com>
-Cc: linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-iio@vger.kernel.org, 
- quentin.schulz@free-electrons.com, mripard@kernel.org, 
- tgamblin@baylibre.com, aidanmacdonald.0x0@gmail.com, 
- u.kleine-koenig@pengutronix.de, lee@kernel.org, samuel@sholland.org, 
- jernej.skrabec@gmail.com, sre@kernel.org, wens@csie.org, 
- conor+dt@kernel.org, krzk+dt@kernel.org, robh@kernel.org, lars@metafoo.de, 
- jic23@kernel.org, jonathan.cameron@huawei.com, 
- Chris Morgan <macromorgan@hotmail.com>
-In-Reply-To: <20240821215456.962564-12-macroalpha82@gmail.com>
-References: <20240821215456.962564-1-macroalpha82@gmail.com>
- <20240821215456.962564-12-macroalpha82@gmail.com>
-Subject: Re: (subset) [PATCH V4 11/15] mfd: axp20x: Add ADC, BAT, and USB
- cells for AXP717
-Message-Id: <172433485381.1334876.7027428905035727559.b4-ty@kernel.org>
-Date: Thu, 22 Aug 2024 14:54:13 +0100
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="sGOq2dDg"
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9C9BF899;
+	Thu, 22 Aug 2024 17:34:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1724340866;
+	bh=ynR/rlt2GTIBZ6UQWXHvIDOQFJGcuX9UXR6Ua9Iv6O8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=sGOq2dDgB6V8mJ7SkGjZNeZtyNmsfo5V1Wjxl/UwNwGChBH+Eymh/N7V+QP48kg2H
+	 7X3IZvn8oVJsC0fHCLCtQj73P3D0V6zYUsc/e6sq0+s3vwtI0PJBPbUV0T5m+8q7XL
+	 iKYX4JiLq01dmYQd36s/1/t7SOUa+740kD5ayegU=
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To: libcamera-devel@lists.libcamera.org
+Cc: Chen-Yu Tsai <wens@csie.org>,
+	Eugen Hristev <eugen.hristev@collabora.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Sakari Ailus <sakari.ailus@iki.fi>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	linux-renesas-soc@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v2 0/7] media: v4l2: Improve media link validation
+Date: Thu, 22 Aug 2024 18:35:20 +0300
+Message-ID: <20240822153527.25320-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.44.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.13.0
 
-On Wed, 21 Aug 2024 16:54:52 -0500, Chris Morgan wrote:
-> Add support for the AXP717 PMIC to utilize the ADC (for reading
-> voltage, current, and temperature information from the PMIC) as well
-> as the USB charger and battery.
-> 
-> 
+Hello,
 
-Applied, thanks!
+This patch series improves the link validation helpers to make it easier
+for drivers to validate all links in a pipeline.
 
-[11/15] mfd: axp20x: Add ADC, BAT, and USB cells for AXP717
-        commit: e1043ad46060c181ffb8f981ccb25d9f698b2f09
+The vast majority of drivers use the v4l2_subdev_link_validate()
+function as their .link_validate() handler for subdevs. This correctly
+validates subdev-to-subdev links. For links between subdevs and video
+capture devices, a few drivers implement the .link_validate() operation
+of their video devices, while others implement manual validation in
+their .streamon() handler, or don't implement validation at all. Links
+between video output devices are in an even worse state, as the link
+validation logic at pipeline start time does not call the
+.link_validate() operation on the source side of a link, leaving manual
+validation in .streamon() the only option. Adding insult to injury,
+v4l2_subdev_link_validate() prints a warning when the link's source is
+not a subdev, which forces drivers to implement a manual subdev link
+validation handler for subdevs connected to output video nodes.
 
---
-Lee Jones [李琼斯]
+It turns out that v4l2_subdev_link_validate() is even used in the
+.link_validate() implementation of video devices by two drivers. This is
+clearly wrong, and is addressed by patches 1/7 to 3/7. Note that patch
+3/7 should ideally implement real validation of the link between the
+subdev and video capture device, but that requires understanding of the
+driver's logic as well as testing, so I have left it out as an exercise
+for the driver's maintainer. The patch doesn't introduce any regression.
+
+Patch 4/7 then starts refactoring the v4l2_subdev_link_validate() to
+separate the current warning in two categories, with a WARN_ON() for an
+issue that indicates a clear driver bug (and does not occur in any
+driver in mainline at the moment), and keeping the pr_warn_once() for
+other issues that are present in multiple drivers.
+
+Patch 5/7 continues with expanding v4l2_subdev_link_validate() to better
+support links from video output devices to subdevs, delegating the
+validation to the video output device's .link_validate() operation. This
+allows using v4l2_subdev_link_validate() for all subdevs in a driver,
+regardless of whether they are connected to other subdevs, video capture
+devices or video output devices, and implementing all the link
+validation for video devices in their .link_validate() operation.
+
+Patches 6/7 and 7/7 then address the v4l2_subdev_link_validate() warning
+for the vsp1 driver. Patch 6/7 silences the warning. This is
+unfortunately done with a workaround, as the ideal implementation,
+moving all validation for video devices to their .link_validate()
+operation as showcased in patch 7/7, breaks operation of the vsp1 unit
+test suite. While that is fixable in the test suite, it indicates that
+other userspace applications may also break as a result.
+
+To my great sadness, I had to mark patch 7/7 as [DNI]. This does not
+make the v4l2_subdev_link_validate() improvements in patch 5/7
+pointless, as they are useful for new drivers, as well as drivers that
+don't include multiple video devices in a pipeline.
+
+Laurent Pinchart (7):
+  media: microchip-isc: Drop v4l2_subdev_link_validate() for video
+    devices
+  media: sun4i_csi: Implement link validate for sun4i_csi subdev
+  media: sun4i_csi: Don't use v4l2_subdev_link_validate() for video
+    device
+  media: v4l2-subdev: Refactor warnings in v4l2_subdev_link_validate()
+  media: v4l2-subdev: Support hybrid links in
+    v4l2_subdev_link_validate()
+  media: renesas: vsp1: Implement .link_validate() for video devices
+  [DNI] media: renesas: vsp1: Validate all links through
+    .link_validate()
+
+ .../platform/microchip/microchip-isc-base.c   |  19 +---
+ .../media/platform/renesas/vsp1/vsp1_video.c  | 104 +++++++++---------
+ .../platform/sunxi/sun4i-csi/sun4i_csi.c      |  12 ++
+ drivers/media/v4l2-core/v4l2-subdev.c         |  50 +++++++--
+ include/media/v4l2-subdev.h                   |   6 +
+ 5 files changed, 115 insertions(+), 76 deletions(-)
+
+
+base-commit: a043ea54bbb975ca9239c69fd17f430488d33522
+-- 
+Regards,
+
+Laurent Pinchart
 
