@@ -1,44 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC0B317DE16;
-	Thu, 22 Aug 2024 10:39:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73B7F1C9449;
+	Thu, 22 Aug 2024 13:54:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724323198; cv=none; b=ZGKnJ78iYOszla7zeCwNTQzs3uZGqSYd6ltXwB2NnOj9pcEXaT/i+By/ZguE6GXgiMX9gs1XFT7nYXj85K9N0iyI/W2+pRm1jcTOqQoPvsmE8Z4Zlr0Y+5P65NaDE3WYiapeEopCimyMB394DtCjioLx4Svq9DGy8ZEchn6r1H8=
+	t=1724334858; cv=none; b=uJnxiqDdIa1sLeh02Fd5qsFpXLBATUBn5uq7zrFN+vLgx81fp9Lw+WprpFQqkDszoF3PefjZDXovr4LSdumbL/MWHppRD/UpfFCOZi0GO9C75dwfO0PIAHs98TAsW48PVZWf0UXtJzX5ajPyM2DpY11SGEbmUhd3vm3dnK4fbew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724323198; c=relaxed/simple;
-	bh=485sC5htGkQO+bcO6uAudwe1l+1z182B98DT/0EBhQk=;
+	s=arc-20240116; t=1724334858; c=relaxed/simple;
+	bh=6WD4597q5Hvbt9P6xZ0ON6oN0TTnndPGmI59xwiWKqc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=DIwucanPcUYKE5tNBFaHdafkwjwFLIJThnnQecBJ/esU15utr4THYBqJ5CmPU/XZzBE1MUXaKGivVIQmOSj0p+kimaR9ezbbYHiJ/Dd6LaRVXbiw3TI58fIuBId8GdzuRIoopCpA2++uEZFZhF3aTbkBFqEX7na3X8mWNPLqHEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CQiRinaB; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=JulUHf1smT3jBDRx3LqL6ZHQiKMscxbMrF6USi1FaM76dLM8gza1ofNHZ3ZOtlYzbwlUsI8F5kQPt/t4kFtcw2uiBv73PGiMgkd4FjmVSHNgW2ybNAPIRRTEqBambPBBLiDh9OqRcYiw2crVPRfM2dLTIaz6FP0bUG//a5Y4/rc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XBxMu/Qq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CQiRinaB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D6E6C32782;
-	Thu, 22 Aug 2024 10:39:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XBxMu/Qq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E107C32782;
+	Thu, 22 Aug 2024 13:54:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724323197;
-	bh=485sC5htGkQO+bcO6uAudwe1l+1z182B98DT/0EBhQk=;
+	s=k20201202; t=1724334858;
+	bh=6WD4597q5Hvbt9P6xZ0ON6oN0TTnndPGmI59xwiWKqc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=CQiRinaBV9nEhy6u5Yd1esF30tlcz2TZT+eJs5cqZuQNRytLysINpr+WCaU4EVQUq
-	 ZEaUe4ndARtlRJKQdRoR/wlN20gmiRHoMm2mwMZT/o3YSPlgkX+zVqXLtk2tRkbuZy
-	 6BT52w5nEUqi9HfVaGsoYO2g5Ah1FTMQNEVcD3Fa+puREG8kSth6ijUIPmk7HQceU0
-	 GhkREw0EKaRG9xxhWIte45I5mGfDNuV6SI9/5hi8s4GqQbyfL7mjTh9GI1UzbPZ+9K
-	 XVP6n2gu4floh79DHbyk8AZ5dhSdY6C7YcUt4eWie0jkPxDfznZ/DOsThonSrFq4o2
-	 006SeUe1b3KTg==
+	b=XBxMu/QqDQ4cGB8jQFs1IuSkBYSIxCFS3goNt5UkG1qfywV9HMJKJn3vGjSfSmUfl
+	 IhHn6hRwgI8+BpGkioxnq2VTS5iuilqM/YBZ1PPJuluU9hrm2hQ8CNXkWAAEe8V3Dt
+	 B3alQjdqHvQPf40OzSHlmvHpVTbG/TZx5l0z7Ah5NeX6oXVSOXm7a8zx7uuHDdSWBt
+	 FDaM9kEKQ6NYtMzjaF8GJ2JXA/BCggqwpzq6Ah6zIRzd7DmT3BH4pl4GKAIHkiv3Oi
+	 sNLndTaZdVtCWsXn2U8OdkO8HrkUV1HD2oPtMLEwcWu6Ft3him2oste9xccH+cwUBy
+	 Siz3hYaYy5PVQ==
 From: Lee Jones <lee@kernel.org>
-To: pavel@ucw.cz, lee@kernel.org, wens@csie.org, jernej.skrabec@gmail.com, 
- samuel@sholland.org, Abhishek Tamboli <abhishektamboli9@gmail.com>
-Cc: linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, skhan@linuxfoundation.org, 
- rbmarliere@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20240816171129.6411-1-abhishektamboli9@gmail.com>
-References: <20240816171129.6411-1-abhishektamboli9@gmail.com>
-Subject: Re: (subset) [PATCH] leds: sun50i-a100: Replace msleep() with
- usleep_range()
-Message-Id: <172432319478.1263517.9477247439443460396.b4-ty@kernel.org>
-Date: Thu, 22 Aug 2024 11:39:54 +0100
+To: linux-sunxi@lists.linux.dev, Chris Morgan <macroalpha82@gmail.com>
+Cc: linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-iio@vger.kernel.org, 
+ quentin.schulz@free-electrons.com, mripard@kernel.org, 
+ tgamblin@baylibre.com, aidanmacdonald.0x0@gmail.com, 
+ u.kleine-koenig@pengutronix.de, lee@kernel.org, samuel@sholland.org, 
+ jernej.skrabec@gmail.com, sre@kernel.org, wens@csie.org, 
+ conor+dt@kernel.org, krzk+dt@kernel.org, robh@kernel.org, lars@metafoo.de, 
+ jic23@kernel.org, jonathan.cameron@huawei.com, 
+ Chris Morgan <macromorgan@hotmail.com>
+In-Reply-To: <20240821215456.962564-12-macroalpha82@gmail.com>
+References: <20240821215456.962564-1-macroalpha82@gmail.com>
+ <20240821215456.962564-12-macroalpha82@gmail.com>
+Subject: Re: (subset) [PATCH V4 11/15] mfd: axp20x: Add ADC, BAT, and USB
+ cells for AXP717
+Message-Id: <172433485381.1334876.7027428905035727559.b4-ty@kernel.org>
+Date: Thu, 22 Aug 2024 14:54:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -49,20 +54,17 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.13.0
 
-On Fri, 16 Aug 2024 22:41:29 +0530, Abhishek Tamboli wrote:
-> Replace msleep() with usleep_range() in sun50i_a100_ledc_suspend()
-> to address the checkpatch.pl warning. msleep() for such short delay
-> can lead to inaccurate sleep times. Switch to usleep_range()
-> provide more precise delay.
+On Wed, 21 Aug 2024 16:54:52 -0500, Chris Morgan wrote:
+> Add support for the AXP717 PMIC to utilize the ADC (for reading
+> voltage, current, and temperature information from the PMIC) as well
+> as the USB charger and battery.
 > 
-> Fix the following warning from checkpatch.pl:
 > 
-> [...]
 
 Applied, thanks!
 
-[1/1] leds: sun50i-a100: Replace msleep() with usleep_range()
-      commit: 8f3f07517834382e819e168740bf855273f13d47
+[11/15] mfd: axp20x: Add ADC, BAT, and USB cells for AXP717
+        commit: e1043ad46060c181ffb8f981ccb25d9f698b2f09
 
 --
 Lee Jones [李琼斯]
