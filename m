@@ -1,139 +1,125 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E93A52C1A5
-	for <linux-sunxi@lists.linux.dev>; Thu, 22 Aug 2024 15:46:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBCB98494
+	for <linux-sunxi@lists.linux.dev>; Sat, 24 Aug 2024 07:09:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724341617; cv=none; b=pvMzU/T1+RJQviNKdFxfUDLuVHRCToHTmH1Hx6TcMIbihMrgvVj9lC/pLnZmElCbMOD1UDTh+VehDEI4/QUGAboQMWrhLI2ORjiBocNxCdog+v1WaH1EknOAJQG5NXsotqv1GamZWzNa9+gdIkONYT8nHXOSkRCX7nYN6XUxPio=
+	t=1724483374; cv=none; b=TU5yY7X1ftO7i4W6HZYfWzAFPYgrwRaaq14TjON0MHeP79OvlqfHmY2GwLY/XvlHsXIKPrayLJaawb6ugllnkaDi+yfm3GrpkUlc/n3bpQTXZOrNgVIdFEPSs9K2MBRM/NEsfUvvb3xKk9sLSP6PbjuFK9awQHo7sma5k8kcETo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724341617; c=relaxed/simple;
-	bh=odocXFEfjk2fSHShpJrHq0/0iPDFPuc98DH4j03ndBU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GnDqBbNnEDtZHDH5G22bdci5KCH2cDxfE4Im//wX4fGEc0czfKk7PaZ8XMBkp3VQ+VZQRonO8uvy/RVzXvOLUnWkPJ0RsQCyHES75bxp2TVdSjGjRtbD1cbRisnrYBXMud/8NzAfv8ANLTUSBDBxTL+r6hj3qd6aqFDc6MiP/fs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=p7SqWnWo; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1724483374; c=relaxed/simple;
+	bh=oW829Qj1Acj1xLhwGdFiHwNZ5GC5viGfHLykdWuf2UY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=A3DNwhoEJYAbRXxa5DrFox3A+1gdJDd3i2e5MdKOdpf1SgeKJBU8f4l+eiQmGT7TUmIRn0JnK7u1TRoJ0DFYkQxuij9eV3RGM0fFeJ7FYOQiS4PxuaBEgQW/m89DPYvfFksXj6AgKuYHupjOSdsOrqpM5zIeCfNDJ6wgy6GrV6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PvKnlvlP; arc=none smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="p7SqWnWo"
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 57AF8219;
-	Thu, 22 Aug 2024 17:45:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1724341551;
-	bh=odocXFEfjk2fSHShpJrHq0/0iPDFPuc98DH4j03ndBU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=p7SqWnWodX/PLoXr6fs3cy4xFnBPO1NTGAQ0quIzD3yDqc30l8jTuGz1jQFJW6mTe
-	 AQYz/L78Kk7O7tnKkL90WvPk/5BZh37HMybk2MORA2/CikA9RyFcEIA5OY9LP0TpYj
-	 4cSoMVTV72zW6IbXYG0ZmGcSxRNGVH5X9/VqVmYI=
-Date: Thu, 22 Aug 2024 18:46:52 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: libcamera-devel@lists.libcamera.org
-Cc: Chen-Yu Tsai <wens@csie.org>,
-	Eugen Hristev <eugen.hristev@collabora.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Sakari Ailus <sakari.ailus@iki.fi>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	linux-renesas-soc@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 0/7] media: v4l2: Improve media link validation
-Message-ID: <20240822154652.GA26081@pendragon.ideasonboard.com>
-References: <20240822153527.25320-1-laurent.pinchart+renesas@ideasonboard.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PvKnlvlP"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a8692bbec79so349376466b.3
+        for <linux-sunxi@lists.linux.dev>; Sat, 24 Aug 2024 00:09:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724483371; x=1725088171; darn=lists.linux.dev;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kfjDR/1rSB9keE+iHqPgfwEHIVsDSqAHRyufwZuzetI=;
+        b=PvKnlvlPTYdR8Z+sVxf3o3RPtVc3VimIL6DD7fySzS2u38DCCHMEkgZqsmhlC7BDSu
+         2vY63+650Tw4SmTD/k9Opeg+ryyrPsB4UKZFSSNdeUJSP4VbhXz+kSMBNPKkAmr3BP7E
+         XmTYCqfVcKjfDsp6tKgp/sUNkiISi/wr/IXlONZ/YoNkPacM4O5MK6W4GQ/57bWY6Yej
+         EtbQ2hoVAUD6yqYAIko9YrEjrcnfP/zmZLhEdK+tSgXckbqNCaUzndt3VDLNw5KFeu3+
+         HYhCcypVLmsstbWaDLmzZFphBxpD2E8m/Zel3+tyWVJt2meOUtU7MyhufrKlfgTpArSH
+         zaag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724483371; x=1725088171;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kfjDR/1rSB9keE+iHqPgfwEHIVsDSqAHRyufwZuzetI=;
+        b=xEGGmSpZT4S12yVHedSCA9RPw1iJmFMcrlEVy54Xkkh4BbjiLF8skQEfkatHSFIpEX
+         mLgRAB211ARU/j1luXk/I6MBR7rYCq5fPOGOh1LAPIfpwUWi3WxS1lgDsqWkdECGsL3y
+         Gr8Co0XNWb0XE+cKGqYEwUkWsNVEwGTFfMaZqhyUxwS5TGvwW7B8Hs1DMgHxiDtMr5eM
+         REmyDQdbWpkYAAI+gEO4pWPiwl7OFDOerjDhPPPBv3UobG3tyhLPyGUcavLwfMTQLXoz
+         pEuPQj9a6Vq5rs2DrUYQNCrKZ4IOYHQAs3hzU2IqUokILGewzeFgt/jwIJxxAtsmU16O
+         pK7g==
+X-Forwarded-Encrypted: i=1; AJvYcCXgVV8DYS/O3th1bAeUWFTOO1OIDbVIugaB/xT88Kb/Y/qxeFa9OGYLN7EI1kG+DtNY+LFOiMHiraBTvA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxGQiXZ386w38b/Wqj3aOLQ54eEzW5uwWh41LaLTeFRpWpGR4tI
+	CPS2ldagPBxuBti7HKBrPnSUFWsy9qkfaXy32gEZ1RG8rIGqkfuu
+X-Google-Smtp-Source: AGHT+IGXpjiUM9XnUIP8+efruOHQLPcgeCdaJd02WdJcnnVH0P5w/ib5uHRsIa/UiP82Qoz8QJxsKw==
+X-Received: by 2002:a17:907:e249:b0:a86:9487:f1d2 with SMTP id a640c23a62f3a-a86a52c65d0mr278144766b.40.1724483370607;
+        Sat, 24 Aug 2024 00:09:30 -0700 (PDT)
+Received: from cleve-worktop. (85-193-33-51.rib.o2.cz. [85.193.33.51])
+        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-a868f437997sm360192266b.106.2024.08.24.00.09.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 24 Aug 2024 00:09:30 -0700 (PDT)
+From: =?utf-8?q?Kry=C5=A1tof_=C4=8Cern=C3=BD?= <cleverline1mc@gmail.com>
+Date: Sat, 24 Aug 2024 09:09:05 +0200
+Subject: [PATCH PATCH] arm64: dts: sunxi: nanopi-neo-plus2: Add pio
+ regulators
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240822153527.25320-1-laurent.pinchart+renesas@ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20240824-b4-fix-nanopineoplus2-pio-regs-v1-1-7c5f7da445af@gmail.com>
+X-B4-Tracking: v=1; b=H4sIABCHyWYC/x2N0QqDMAwAf0XybMC1Kbj9yvCh2qiBkZaGyUD89
+ xUfD467E4yrsMGrO6HyISZZGzz6DpY96sYoqTG4wdEwOsKZcJUfatRcRDmXz9ccFslYeTOcA3k
+ f0hifTNAipXLT78F7uq4/Hv8LZnAAAAA=
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Kry=C5=A1tof_=C4=8Cern=C3=BD?= <cleverline1mc@gmail.com>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1724483370; l=1230;
+ i=cleverline1mc@gmail.com; s=20240824; h=from:subject:message-id;
+ bh=oW829Qj1Acj1xLhwGdFiHwNZ5GC5viGfHLykdWuf2UY=;
+ b=r2KcuKbi/bWODmEtaXS/TN+uKOeiAFQiRRt1HI6i/CAL58u7++m/huOwFodBeYWEiRXZvC8aJ
+ 5D0VzG/NMN5ArYwQRD/EiRm+7Za/J4Iyylpj3wh80rOACXGT1d6kcdn
+X-Developer-Key: i=cleverline1mc@gmail.com; a=ed25519;
+ pk=CQifx5FUgTQKAoj5VCYrwYHi235AkXQ5yT1P6gkaBxM=
 
-This patch series was sent to libcamera-devel instead of linux-media.
-I've now fixed that mistake, sorry the noise. Please reply to the series
-sent to the right mailing list.
+The board does not have a dedicated regulator for pio and r_pio,
+but this fixes the kernel warning about dummy regulators being used.
+Tested on the actual board.
 
-On Thu, Aug 22, 2024 at 06:35:20PM +0300, Laurent Pinchart wrote:
-> Hello,
-> 
-> This patch series improves the link validation helpers to make it easier
-> for drivers to validate all links in a pipeline.
-> 
-> The vast majority of drivers use the v4l2_subdev_link_validate()
-> function as their .link_validate() handler for subdevs. This correctly
-> validates subdev-to-subdev links. For links between subdevs and video
-> capture devices, a few drivers implement the .link_validate() operation
-> of their video devices, while others implement manual validation in
-> their .streamon() handler, or don't implement validation at all. Links
-> between video output devices are in an even worse state, as the link
-> validation logic at pipeline start time does not call the
-> .link_validate() operation on the source side of a link, leaving manual
-> validation in .streamon() the only option. Adding insult to injury,
-> v4l2_subdev_link_validate() prints a warning when the link's source is
-> not a subdev, which forces drivers to implement a manual subdev link
-> validation handler for subdevs connected to output video nodes.
-> 
-> It turns out that v4l2_subdev_link_validate() is even used in the
-> .link_validate() implementation of video devices by two drivers. This is
-> clearly wrong, and is addressed by patches 1/7 to 3/7. Note that patch
-> 3/7 should ideally implement real validation of the link between the
-> subdev and video capture device, but that requires understanding of the
-> driver's logic as well as testing, so I have left it out as an exercise
-> for the driver's maintainer. The patch doesn't introduce any regression.
-> 
-> Patch 4/7 then starts refactoring the v4l2_subdev_link_validate() to
-> separate the current warning in two categories, with a WARN_ON() for an
-> issue that indicates a clear driver bug (and does not occur in any
-> driver in mainline at the moment), and keeping the pr_warn_once() for
-> other issues that are present in multiple drivers.
-> 
-> Patch 5/7 continues with expanding v4l2_subdev_link_validate() to better
-> support links from video output devices to subdevs, delegating the
-> validation to the video output device's .link_validate() operation. This
-> allows using v4l2_subdev_link_validate() for all subdevs in a driver,
-> regardless of whether they are connected to other subdevs, video capture
-> devices or video output devices, and implementing all the link
-> validation for video devices in their .link_validate() operation.
-> 
-> Patches 6/7 and 7/7 then address the v4l2_subdev_link_validate() warning
-> for the vsp1 driver. Patch 6/7 silences the warning. This is
-> unfortunately done with a workaround, as the ideal implementation,
-> moving all validation for video devices to their .link_validate()
-> operation as showcased in patch 7/7, breaks operation of the vsp1 unit
-> test suite. While that is fixable in the test suite, it indicates that
-> other userspace applications may also break as a result.
-> 
-> To my great sadness, I had to mark patch 7/7 as [DNI]. This does not
-> make the v4l2_subdev_link_validate() improvements in patch 5/7
-> pointless, as they are useful for new drivers, as well as drivers that
-> don't include multiple video devices in a pipeline.
-> 
-> Laurent Pinchart (7):
->   media: microchip-isc: Drop v4l2_subdev_link_validate() for video
->     devices
->   media: sun4i_csi: Implement link validate for sun4i_csi subdev
->   media: sun4i_csi: Don't use v4l2_subdev_link_validate() for video
->     device
->   media: v4l2-subdev: Refactor warnings in v4l2_subdev_link_validate()
->   media: v4l2-subdev: Support hybrid links in
->     v4l2_subdev_link_validate()
->   media: renesas: vsp1: Implement .link_validate() for video devices
->   [DNI] media: renesas: vsp1: Validate all links through
->     .link_validate()
-> 
->  .../platform/microchip/microchip-isc-base.c   |  19 +---
->  .../media/platform/renesas/vsp1/vsp1_video.c  | 104 +++++++++---------
->  .../platform/sunxi/sun4i-csi/sun4i_csi.c      |  12 ++
->  drivers/media/v4l2-core/v4l2-subdev.c         |  50 +++++++--
->  include/media/v4l2-subdev.h                   |   6 +
->  5 files changed, 115 insertions(+), 76 deletions(-)
-> 
-> 
-> base-commit: a043ea54bbb975ca9239c69fd17f430488d33522
+Signed-off-by: Kryštof Černý <cleverline1mc@gmail.com>
+---
+ arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts
+index b69032c44557..2841c9a8aa50 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts
+@@ -146,6 +146,18 @@ &ohci3 {
+ 	status = "okay";
+ };
+ 
++&pio {
++	vcc-pa-supply = <&reg_vcc3v3>;
++	vcc-pc-supply = <&reg_vcc3v3>;
++	vcc-pd-supply = <&reg_vcc3v3>;
++	vcc-pf-supply = <&reg_vcc3v3>;
++	vcc-pg-supply = <&reg_vcc3v3>;
++};
++
++&r_pio {
++	vcc-pl-supply = <&reg_vcc3v3>;
++};
++
+ &uart0 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&uart0_pa_pins>;
+
+---
+base-commit: c3f38fa61af77b49866b006939479069cd451173
+change-id: 20240824-b4-fix-nanopineoplus2-pio-regs-b54335d8a9e4
+
+Best regards,
 -- 
-Regards,
+Kryštof Černý <cleverline1mc@gmail.com>
 
-Laurent Pinchart
