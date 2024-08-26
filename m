@@ -1,100 +1,168 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5745C14D44D
-	for <linux-sunxi@lists.linux.dev>; Mon, 26 Aug 2024 13:34:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4931199EA3
+	for <linux-sunxi@lists.linux.dev>; Mon, 26 Aug 2024 22:45:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724679286; cv=none; b=ox5tiNKMWx3lUbWEZA1jphBHjgLH8c00jUYPVEwfzWCMr4avuD1z5WTaJ1SI1gGYKK06eYudK2/U/IxKmUZhS/G7pV4FVHnqeRFoJu7xfCmrBm/TZFrfLvYGNNcvVTHQNatIAltVQ8hjggC2t1OUl190LWDei1ZWqYCo8+LaAsg=
+	t=1724712333; cv=none; b=T6ZbPDMCR/tr8TF5PH3QPdaCEmG8bzVALCRlUnsRnyqey3+0EcTMvfukfnISp1PW4v9Lhd2bm2BuHTeuAZ16i/1jZB93DTNy5l5Ox9j9hDuLGsk456qOjJeT4NzYnVqeauaQXqhyTIlzjqICoq5nIW+Q7jSKFbNlb+TIXZU+aGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724679286; c=relaxed/simple;
-	bh=1vNVZm3RuOHtSHsX35LnHADrFjU9GNLyHdfcBZtJHug=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=Ckma37vcUwMvJzmihGNyI1U0OPCjiFMXRZcjX6yGcvnq7homLBjRTp0t3VIZW6d/YOLfZMXwKNrindyoqqcQULcAoh4tn1KQjccFzcYnDdNqvDClvYDDHQXxdyXz2CBwTnvryJetXcXSs63V4W7YL2lqPm+QxC/Mmq9tTjenaaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OR2XZhwC; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OR2XZhwC"
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5334fdabefbso3854213e87.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 26 Aug 2024 06:34:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724679282; x=1725284082; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mhayvbickugtnI/gSdhlZbd6aElEpFdhIZRy3HzXNA8=;
-        b=OR2XZhwC8xTGx29n5blAhXFyBZdZqeBXC6azgReeQ8MBEQ7DR+pknjpwyoFKxBIMsj
-         fMu6RFniB0AeFHvG5761EyBhxs0ifUh6mN3qdJOn6vG/h149IqPZeQBOm2GGgBSzGlNe
-         Hsw98mwK38OsE+PbDruYUeEUivldpcbKz3IH/LWDqocy4vTmfrP7bULptNqXePm4pBfq
-         ZeZHgk1bQhgJGTyRDPi2AS/JF5YZ0vZ64/CzrKx3nJaO5v6GJXIRpnpVs8rLerSAfQ0D
-         ySTk2qelz5uExZasqBE+kXbI2b0RNCciCuIZTeQAVHMwLMYoykbbhLHFwjxCEpHQcfKk
-         XPvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724679282; x=1725284082;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mhayvbickugtnI/gSdhlZbd6aElEpFdhIZRy3HzXNA8=;
-        b=EYokJhVcNPeB9KaxEhjqBpdtBkJx2fNPhhtOOJf+NqqubQFfT8XAjGPppZ+fRQvaiN
-         I5l/+F892FB8vx27N0NMIVhtlyS4zNOfD8pjQeQSWvUcjboBA08rgfRIe9lT3fiAbecd
-         iYt/ILKUzodP4wfJHxPK3G0wz42ReA7B5erv58f3N3/Ub1damP+gIeDJmfEgPAZtp2TD
-         twIHR+rUYpv5df+OLfoFa0nRDBQJXsenTVDAxIACmw+KDdtZSpXDKLXGrzjZpF8qDyH+
-         VCzlYIzd0OZa/tRC9jyC+WbRxhxevkxoaxgLp5oe1frkuxsxaWJiPkHJj4QoOrFW1eZ3
-         AX7A==
-X-Forwarded-Encrypted: i=1; AJvYcCU365llNB4khGrPzIDoZIqg97KZ2QZQMohyuUM9hqhhZhHbK6fgHHh/gb59PBRYKTlmPs0vqttJ9ac97w==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz0zqu39U4NuxEtYYmCWhD4AHSMVbvaar0GYk7WKeN7wcAgWjUP
-	YNC+ipM3zrkD15D7ksT0L5HXBo8LJMf6TQnlasu1llMDKv9GHh7sAAnt/8th
-X-Google-Smtp-Source: AGHT+IFARPPf33n6hTYxTuY4Jj7ZnZQLt9uAcMoT3c9criEuY/VXXzr60PV9cxN3DieunHsbPhSOhQ==
-X-Received: by 2002:a05:6512:b15:b0:52e:fa08:f0f5 with SMTP id 2adb3069b0e04-5343841ca53mr3549521e87.13.1724679281864;
-        Mon, 26 Aug 2024 06:34:41 -0700 (PDT)
-Received: from [192.168.1.105] ([31.173.86.54])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5334ea59263sm1462328e87.146.2024.08.26.06.34.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Aug 2024 06:34:41 -0700 (PDT)
-Subject: Re: [PATCH v3 1/7] media: microchip-isc: Drop
- v4l2_subdev_link_validate() for video devices
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- linux-media@vger.kernel.org
-Cc: Chen-Yu Tsai <wens@csie.org>, Eugen Hristev
- <eugen.hristev@collabora.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Maxime Ripard <mripard@kernel.org>, Sakari Ailus <sakari.ailus@iki.fi>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- linux-renesas-soc@vger.kernel.org, linux-sunxi@lists.linux.dev
-References: <20240826124106.3823-1-laurent.pinchart+renesas@ideasonboard.com>
- <20240826124106.3823-2-laurent.pinchart+renesas@ideasonboard.com>
-From: Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Message-ID: <3bafe8a9-756a-40e9-a60c-e57e2d5e13d3@gmail.com>
-Date: Mon, 26 Aug 2024 16:34:37 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+	s=arc-20240116; t=1724712333; c=relaxed/simple;
+	bh=nlVeaFDeJycv8bOlvV80IU26OalvyxUWvNVbkeKJzrA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZeI2W6X4C52N+QihwoLcJ6Yi3jPY8ruHUZ7or8Ar9THlO86P19TYqUv29teXLlSUHAJxxivGLkXq3GGSPWZn0bI6gdj/NFQuZTuQhPZ40pKWFTDefb9qwG2/KL/xzY5xn71MawXdBdfbzy1JrbK3yMZkCkn/qQgt7/Ru+O+C0rQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1E523DA7;
+	Mon, 26 Aug 2024 15:45:56 -0700 (PDT)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 023683F66E;
+	Mon, 26 Aug 2024 15:45:27 -0700 (PDT)
+Date: Mon, 26 Aug 2024 23:44:52 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: =?UTF-8?B?S3J5xaF0b2YgxIxlcm7DvQ==?= <cleverline1mc@gmail.com>
+Cc: wens@csie.org, Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
+ Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH PATCH] arm64: dts: sunxi: nanopi-neo-plus2: Add pio
+ regulators
+Message-ID: <20240826234452.0d015548@minigeek.lan>
+In-Reply-To: <aa33692c-4cae-4c41-959d-f2ecd56334b7@gmail.com>
+References: <20240824-b4-fix-nanopineoplus2-pio-regs-v1-1-7c5f7da445af@gmail.com>
+	<761f18d4-9274-4983-a128-94efb96e1c59@kernel.org>
+	<51f28d92-f670-47de-8e2d-53cbecfac081@gmail.com>
+	<CAGb2v65M6Zz7=TfRwF0urbELNaaazMZYsd3dtHYzwdJvzoho3A@mail.gmail.com>
+	<aa33692c-4cae-4c41-959d-f2ecd56334b7@gmail.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20240826124106.3823-2-laurent.pinchart+renesas@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 8/26/24 3:41 PM, Laurent Pinchart wrote:
+On Sat, 24 Aug 2024 16:24:41 +0200
+Kry=C5=A1tof =C4=8Cern=C3=BD <cleverline1mc@gmail.com> wrote:
 
-> The v4l2_subdev_link_validate() function is a helper designed to
-> validate links whose sink is a subdev. When called on a link whose sink
-> is a video device, it only prints a warning and returns. As the
-> microchip-isc driver implements manual validate of the subdev to video
-> device link, we can just dropp the v4l2_subdev_link_validate() to avoid
+Hi Kry=C5=A1tof,
 
-   s/dropp/drop/. :-)
+many thanks for taking care of those warnings and sending a patch,
+that's the right way of fixing things and I wish more people would
+actually do that!
 
-> the warning.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-[...]
+I also checked the schematics and the H5 datasheet, so:
 
-MBR, Sergey
+> Yes, you are right with vcc-pd, I misunderstood it, thank you. Let me=20
+> explain and ask about the rest:
+> VDD_SYS_3.3V =3D reg_vcc3v3
+> Groups PA, PE, PF are powered from vcc-io, according to Allwinner H5=20
+> datasheet, Vcc-io is connected to VDD_SYS_3.3V, just like mmc0. Should=20
+> those be set or omitted?
+
+Yes, you can set those supplies to reg_vcc3v3.
+It seems like most of the boards's I/O (expect PD) is actually 3.3V,
+driven from that one discrete regulator, which is correctly described
+as reg_vcc3v3. This isn't very clear in the DT (it looks like a "dummy"
+regulator), which is what probably triggered Krzysztof's comment.
+To make this more obvious, please change the regulator description as
+seen in sun50i-h618-longanpi-3h.dts: There should be one 5V regulator,
+as the external power input, from the MicroUSB port. Every other
+regulator should be "chained" to that, via the vin-supply property.
+And add a comment mentioning that it's a discrete regulator, maybe
+even mentioning the chip name (SY8089A).
+
+> vcc-pc (ball G15), which is labeled as vcc_io2 (probably wrong), which=20
+> is also connected to VDD_SYS_3.3V.
+
+As Chen-Yu mentioned, VCC-PC is not mentioned in the schematics, but it
+must be 3.3V: there is a pull-up for PC7, to 3.3V, also there is no
+1.8V regulator, so the eMMC must work with 3.3V, supported by the
+missing vqmmc-supply property for mmc2.
+=20
+> vcc-pd (ball J15) is bonded to VDD_PHY_2.5V, which is always on and made=
+=20
+> from VDD_SYS_3.3V, so I should make a new fixed regulator of name=20
+> "reg_gmac_2v5"? Mainline eth driver does not implement this pin, so it=20
+> would be used only for the pio.
+
+Yes, please have another "regulator-fixed", feeding of reg_vcc3v3, and
+mention it's a discrete RT9193.
+
+> vcc-pg (ball H7) is also VDD_SYS_3.3V.
+
+Yes, that's the same reg_vcc3v3.
+
+> While PL is supplied from vcc-rtc (vcc_rtc, ball K6), it is connected=20
+> directly to the VDD_SYS_3.3V too, should this be the same regulator or a=
+=20
+> new one or omitted too?
+
+Since they are directly wired together, it's indeed the same reg_vcc3v3
+regulator.
+
+> Do you agree with my findings? I hope they are 100% now. If so, I will=20
+> try to make V2 with a new fixed regulator of 2.5V for the PD.
+>=20
+> Many thanks for your replies, I will do better next time.
+
+No worries, except for the VCC-PD at 2.5V this was actually all correct.
+So well done, especially for a first try!
+
+Cheers,
+Andre
+
+
+>=20
+> Dne 24. 08. 24 v 14:34 Chen-Yu Tsai napsal(a):
+> > Hi,
+> >
+> > On Sat, Aug 24, 2024 at 5:08=E2=80=AFPM Kry=C5=A1tof =C4=8Cern=C3=BD <c=
+leverline1mc@gmail.com> wrote: =20
+> >> I am sorry if the message is wrong, this is my first patch ever sent to
+> >> the Linux kernel. I have checked the schematic of the board and it
+> >> shares the same power line with mmc0, so I assumed I can use the same
+> >> regulator. Thanks for your feedback and I would be glad for your furth=
+er
+> >> response. =20
+> > So some of the pin groups do have dedicated supplies, and should thus be
+> > described, but not all of them. The schematic only shows dedicated
+> > supplies for PD and PG pingroups. So just add those. PD supply is from
+> > 2.5V ethernet PHY I/O regulator supply, so you would need to add that
+> > as well.
+> >
+> > The datasheet also mentions a separate supply pin for PC pingroup, but
+> > it is not shown in the schematic. I would just omit that.
+> >
+> > And as Krzysztof mentioned, device tree changes should be to model
+> > the hardware, not to work around some operating system warning. At
+> > least most of the time that is. So your commit message should also
+> > be about fixing the description or providing more detail, and not
+> > about the operating system.
+> >
+> >
+> > ChenYu
+> > =20
+> >> Dne 24. 08. 24 v 9:40 Krzysztof Kozlowski napsal(a): =20
+> >>> On 24/08/2024 09:09, Kry=C5=A1tof =C4=8Cern=C3=BD wrote: =20
+> >>>> The board does not have a dedicated regulator for pio and r_pio,
+> >>>> but this fixes the kernel warning about dummy regulators being used.
+> >>>> Tested on the actual board.
+> >>>> =20
+> >>> Judging by commit msg these are not correct regulators. Please do not
+> >>> add incorrect hardware description to silence some warnings coming fr=
+om
+> >>> OS. Either you need proper (correct) hardware description or fix the
+> >>> problem other way, assuming there is anything to fix in the first pla=
+ce.
+> >>>
+> >>> Best regards,
+> >>> Krzysztof
+> >>> =20
+>=20
+
