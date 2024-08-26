@@ -1,33 +1,33 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBB9F155315
-	for <linux-sunxi@lists.linux.dev>; Mon, 26 Aug 2024 11:04:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B21426AED
+	for <linux-sunxi@lists.linux.dev>; Mon, 26 Aug 2024 11:11:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724670291; cv=none; b=dmZXWJ2P8/AQHxIuxsDMR3U/j+8m2okKH0qDDQfjvfbXa+WHsRXBs0ydUvd8/JpVT9oQVVekqiAJk6aI4mPnypuFsbQqx2vgxr/mP1rf3Cqmdil3zZfJ2948XVyoKtEwY/KMDWLBy62Qgli9aktCoLk9qLoiJueJ48901lGpurM=
+	t=1724670663; cv=none; b=gesm1aS1Ib3bo0IgbQuaQNXVIzs+NL3VhVguAOaxIx6H4WbJePv3sEWQ43/NMAulWh5mvPkEyp/Gae4ZED1Iuurk1lEmpQ/XqEyFYPPUBwWne9KQQLxSIQ36eDc7W9OgcFYjGp8tXAHSXoOmW8GEhGr2RO7TOm/E8wBSorkXzY4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724670291; c=relaxed/simple;
-	bh=2WvVXAlgR6hFVxDqgFaJMyO5Bzv/CRoY35e4IWOH72I=;
+	s=arc-20240116; t=1724670663; c=relaxed/simple;
+	bh=RRkCScZ1WzBWErKzfPhLvRc5v4pQhCbNmabMej1eOX8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gzPm48myiWk89VMUWJ+j/OtigPkTyoeNHBsF6jsgxTsx6v264Kyw36e+wJvfBnz2tioVrkUVPvglFI3Bgnrhp3adtd56ehaNu+rZef5tyViBN79xRybYNJrXIAWINIHFPavxLI+54fNvk1RJsXUkrl28G/xcjew4me+WYcrto+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=CtJ5UVN9; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=QZkVk5fa7i1rOsG70iFnWQ2HxIXlUGRem5SbxXlnBO7AtejhQGC30otPYejhOVRoDV0OxZUlX+bnWb/YxUFe0ba/CdLVxE0X0LUSLtUleFWpguvODAlQ8EPLje9dzd0dQQoltfFG1JLkv6Ex+P8vYycVRU7pYdyQNbCUNeRBT38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=aDe5occb; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CtJ5UVN9"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="aDe5occb"
 Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5EC6C741;
-	Mon, 26 Aug 2024 13:03:41 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 23D72480;
+	Mon, 26 Aug 2024 13:09:54 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1724670221;
-	bh=2WvVXAlgR6hFVxDqgFaJMyO5Bzv/CRoY35e4IWOH72I=;
+	s=mail; t=1724670594;
+	bh=RRkCScZ1WzBWErKzfPhLvRc5v4pQhCbNmabMej1eOX8=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=CtJ5UVN9XU6uwULDRVfa6thAQu9/nHgh+fHFs0+TC6KcRthCQ3C7t9HN3Jo/tQ2SE
-	 DAgTNtCgz39vqWrcYFdoV2aJEHBCL7Y0IFuhAB+PUnb2ICPyLV2wKukgJ+oZId5vk1
-	 vzPFomzWFtJaAiGOMh8la5wIEPLneqXTRhZ2Uixc=
-Message-ID: <2d9c3516-442f-4e41-8620-cc0eaf9b1f03@ideasonboard.com>
-Date: Mon, 26 Aug 2024 14:04:44 +0300
+	b=aDe5occbLGyxxUyyHonhQTCzuZSdZQrOiUX+HsaTRYDWqkxct248yEdRm0QiVxTNu
+	 BvxrsZOgOzr4JT+c2MgZn28SAZA1cWoXAClZ9+kKUprb1tecnA/zltIwjhzIo5ruUW
+	 +B3ckOvMDOcpUkZJhFVyY18G4SAgRo28fY1rfdX8=
+Message-ID: <cd7d4f07-6d30-492b-b9ee-998b2528fd4d@ideasonboard.com>
+Date: Mon, 26 Aug 2024 14:10:57 +0300
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -35,8 +35,8 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/7] media: sun4i_csi: Don't use
- v4l2_subdev_link_validate() for video device
+Subject: Re: [PATCH v2 4/7] media: v4l2-subdev: Refactor warnings in
+ v4l2_subdev_link_validate()
 To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
  linux-media@vger.kernel.org
 Cc: Chen-Yu Tsai <wens@csie.org>, Eugen Hristev
@@ -46,7 +46,7 @@ Cc: Chen-Yu Tsai <wens@csie.org>, Eugen Hristev
  Maxime Ripard <mripard@kernel.org>, Sakari Ailus <sakari.ailus@iki.fi>,
  linux-renesas-soc@vger.kernel.org, linux-sunxi@lists.linux.dev
 References: <20240822154531.25912-1-laurent.pinchart+renesas@ideasonboard.com>
- <20240822154531.25912-4-laurent.pinchart+renesas@ideasonboard.com>
+ <20240822154531.25912-5-laurent.pinchart+renesas@ideasonboard.com>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -92,55 +92,69 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240822154531.25912-4-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20240822154531.25912-5-laurent.pinchart+renesas@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
 On 22/08/2024 18:45, Laurent Pinchart wrote:
-> The v4l2_subdev_link_validate() function is a helper designed to
-> validate links whose sink is a subdev. When called on a link whose sink
-> is a video device, it only prints a warning and returns. Its usage in
-> the sun4i_csi driver is wrong, leaving the link from the sub4i_csi
-> subdev to the capture video device unvalidated.
-> 
-> Planned improvements to the v4l2_subdev_link_validate() function will
-> turn the warning into an error, breaking the sun4i_csi driver. As an
-> interim measure, move the warning to the sun4i_csi driver in a custom
-> validation handler, and drop the call to the helper.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Acked-by: Chen-Yu Tsai <wens@csie.org>
-> ---
->   drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c | 9 ++++++++-
->   1 file changed, 8 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
-> index dbb26c7b2f8d..d07e980aba61 100644
-> --- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
-> +++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
-> @@ -35,8 +35,15 @@ struct sun4i_csi_traits {
->   	bool has_isp;
->   };
->   
-> +static int sun4i_csi_video_link_validate(struct media_link *link)
-> +{
-> +	dev_warn_once(link->graph_obj.mdev->dev,
-> +		      "Driver bug: link validation not implemented\n");
-> +	return 0;
-> +}
-> +
->   static const struct media_entity_operations sun4i_csi_video_entity_ops = {
-> -	.link_validate = v4l2_subdev_link_validate,
-> +	.link_validate = sun4i_csi_video_link_validate,
->   };
->   
->   static const struct media_entity_operations sun4i_csi_subdev_entity_ops = {
+> The v4l2_subdev_link_validate() function prints a one-time warning if it
+> gets called on a link whose source or sink is not a subdev. As links get
+> validated in the context of their sink, a call to the helper when the
+> link's sink is not a subdev indicates that the driver has set its
+> .link_validate() handler to v4l2_subdev_link_validate() on a non-subdev
+> entity, which is a clear driver bug. On the other hand, the link's
+> source not being a subdev indicates that the helper is used for a subdev
+> connected to a video output device, which is a lesser issue, if only
+> because this is currently common practice.
 
-I fear this might just leave it broken, but I don't have a better idea.
+Hmm, what does this mean... So we have a sink subdev, which might be 
+linked to a source subdev (in which case everything is fine), or it 
+might be linked to a non-subdev source.
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Why is it a bug to be linked to a non-subdev source? And if it is a bug, 
+why is ok (only pr_warn_once)?
 
   Tomi
+
+> There are no drivers left in the kernel that use
+> v4l2_subdev_link_validate() in a context where it may get called on a
+> non-subdev sink. Replace the pr_warn_once() with a WARN_ON_ONCE() in
+> this case to make sure that new offenders won't be introduced.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+> Changes since v1:
+> 
+> - Switch from WARN_ON() to WARN_ON_ONCE()
+> ---
+>   drivers/media/v4l2-core/v4l2-subdev.c | 14 +++++++++-----
+>   1 file changed, 9 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index 7c5812d55315..d3196042d5c5 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -1443,11 +1443,15 @@ int v4l2_subdev_link_validate(struct media_link *link)
+>   	bool states_locked;
+>   	int ret;
+>   
+> -	if (!is_media_entity_v4l2_subdev(link->sink->entity) ||
+> -	    !is_media_entity_v4l2_subdev(link->source->entity)) {
+> -		pr_warn_once("%s of link '%s':%u->'%s':%u is not a V4L2 sub-device, driver bug!\n",
+> -			     !is_media_entity_v4l2_subdev(link->sink->entity) ?
+> -			     "sink" : "source",
+> +	/*
+> +	 * Links are validated in the context of the sink entity. Usage of this
+> +	 * helper on a sink that is not a subdev is a clear driver bug.
+> +	 */
+> +	if (WARN_ON_ONCE(!is_media_entity_v4l2_subdev(link->sink->entity)))
+> +		return -EINVAL;
+> +
+> +	if (!is_media_entity_v4l2_subdev(link->source->entity)) {
+> +		pr_warn_once("source of link '%s':%u->'%s':%u is not a V4L2 sub-device, driver bug!\n",
+>   			     link->source->entity->name, link->source->index,
+>   			     link->sink->entity->name, link->sink->index);
+>   		return 0;
 
