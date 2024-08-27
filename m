@@ -1,59 +1,60 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC73FC133
-	for <linux-sunxi@lists.linux.dev>; Tue, 27 Aug 2024 21:01:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B05E51D362C
+	for <linux-sunxi@lists.linux.dev>; Tue, 27 Aug 2024 21:01:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724792485; cv=none; b=cvIitRAGPTSSWTHJrTGZeGuAyR+hbOesxK8q10MC9jafjLA7dZIAwzu3hREWOdVbgJA1R0JEaY7uSwFZiU598a+7HExBq9V9vZ5l7lAvEIIhApaSIhUY4D91K0/oxe8gYJ4CVmOnNkwtBQC2vQLjjt7otNla3B8eDU35gEW6v9k=
+	t=1724792488; cv=none; b=Nacn3mJPMqclMN2wwW9ejvDrevH3Lc/D6S69mcLBRx0z7ACA+1tSaQOng/XXRU4X9cG6tsPalsMPvRhBxSVkKKU4xdHD58JtQJM023tze3+tqM8tOBQ0qSSpC64LMHRMikfvwVroMXuf4FgJDJPmjVFlDwRP/GqJYSvPB9aWy3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724792485; c=relaxed/simple;
-	bh=usWNg3YCPNSMfYd3cIsqzqUm/OvMLGLPE61i3N326PM=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=i60hH+xlvBljMQw6zoMNQtOz8Rs//HOzSyiexIeW0ykGLJch9mCKWJrSi2p78wQwqEN7wfBEP93DG6GKcspMbQPEuYPWpgow5z8rhYocxPQ/2EAntMZsdJP938uBJ2qzSKzB8MsIT1KbRzAPyVNbHxXtMRoMPRQEwyMsbz+E5w4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LOfiS+xO; arc=none smtp.client-ip=209.85.208.53
+	s=arc-20240116; t=1724792488; c=relaxed/simple;
+	bh=ZUQNvjzepWA4pCK8RLWIXzlmS349ucRwrxxaYBZS3Do=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=UCUddjInOg20OfSM+TZJ8/391PvzbOHrDRNzxLACVmmLO0p8jUNt64C+N1nM+nquISyBGeDJMHJpFv4sPEmVVDaQutekVHDxuXBVwxFLVr0vvB9htWU+v5onG34z/cWIRqq7awDFLmKMPlsN4dYikevpnfePHyCbq3Didw2S8oc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T6nx+iSq; arc=none smtp.client-ip=209.85.167.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LOfiS+xO"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5c0abaae174so2843763a12.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 27 Aug 2024 14:01:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T6nx+iSq"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5334a8a1b07so7379052e87.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 27 Aug 2024 14:01:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724792482; x=1725397282; darn=lists.linux.dev;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6mF59s4e9GQ30bjpcbJxfb6SjZW26Gx1uj0s1ti4M5I=;
-        b=LOfiS+xO12wsgnKh4lzB/zbOa+8blMIriwZg4+4L/sYkuhzSz6MuzCmPQ038rkzxeK
-         ZHkNqdA78rjCCEQMzP7atzjHb/T4gBxUFm0ur7Y20sdw+SpXIiMHqLrNpzCUHO7W5+/b
-         QmgVeH5p9aqHA/lxvzGKQrQH0wnF460Q5OlTyZ1j9SH6sC4jY2ac/ZwmR3nVGUhU2Eqk
-         0+r4w1IcdX/lkgIpNuS6aTVG6hQ/5KlfviEE9H8n+pym+/WdUJNDtNd46YSR9mzxlwvI
-         2PjSZ+BwJPQHGUXOkHF+gykqTrqKJPg/88mRSQpW7KW7henkre26oBr5jk8LIwoaxaSb
-         oK5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724792482; x=1725397282;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20230601; t=1724792485; x=1725397285; darn=lists.linux.dev;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=6mF59s4e9GQ30bjpcbJxfb6SjZW26Gx1uj0s1ti4M5I=;
-        b=EnMQ6KjAspkfbB4tE3rf5tG4s+h4oJuyHAIpgXvMYxLPLm0JqSEzl2OPyaGjYvSKjG
-         H6qQEoBPSKZLfP/7XcP9xcWB8crymvI8K2/pCdXoc+e4WsDha77clBf0HRDiHKQXDWC/
-         DCKwcLvXfb2l4gPwPh7duPUij99MZZcULIyypFHpiI0585KNlmMiBQNgf5nxhQBX16Lb
-         XLz3w7PhFiapvlCiPaq88LyipJgk7/OWfNAc7cks5vOEqKkpV4H48tLBEbCiAIrOmVH2
-         hHLxUDgqhrfAGmqr6hOpG9lSa/8Nnl70e9vuWY+JOiZj1ZlvIdsZkn00BCbocupd5iOw
-         LMBw==
-X-Forwarded-Encrypted: i=1; AJvYcCV6N3mY4C02h0iZc63XWX6vCiZMTTXDlu5r4SPX5flXbq0YwYMJi7cmxK/mF3fFyVPWNE/fHPMSi/02Qg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxaDNXQi4mcI9xR+Ov/BlQi5RU+WJPwQOi9y9yXmtnQ0PImqEka
-	ONE4h1UCpQw4TTCHVNNgIVXjhEZmlWVVzkKso3AQXZphUM8i+Lg9a/iUv71LwyY=
-X-Google-Smtp-Source: AGHT+IHeAYIq8ZK2b9C5inDMUKXAqiguCU5CEk35GI/I03s053vBBofOZLle6SADgKilXe/GFeohOA==
-X-Received: by 2002:a05:6402:1ecb:b0:5bf:8f3:7869 with SMTP id 4fb4d7f45d1cf-5c0ba2b8b7emr2727653a12.21.1724792481486;
-        Tue, 27 Aug 2024 14:01:21 -0700 (PDT)
+        bh=557eQ0nrkCY+/ANVkKP3VQXQ7163oT4FiuaAuauOfKc=;
+        b=T6nx+iSqwobdQ1xatOyXUhxSEcPaFScEe++DVxKrJgabcX8t3QShBuGwr80VlJkOz7
+         cC2iMUghED0Sm/2Rr1KS27xkqFpEuROSH2Yh2vUQCMM/2sxxMi1asfeQeaivSfUXJaec
+         UyVzHc93al31dxG0YErMIuLEoiUQKQOnULRHergNZKB2g0NC+RrmZDbRb6ejYi+1g3tZ
+         1126kiJzfHLYWXazYNKZS/IJ6BReMHL+DVdZiowGSrJg62wzRtDiV51c67IS/ZXRFOzK
+         QpOsSpyvRBQkCQP5hVIoXya3rHAfsR16AtLR0zi02WwCMf1vzdsNuWuB9XcdOEJiok2K
+         grjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724792485; x=1725397285;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=557eQ0nrkCY+/ANVkKP3VQXQ7163oT4FiuaAuauOfKc=;
+        b=jEOsH3RGIzbf7y3Jum6tlta8FdFcWy9/d0JP10CdLAasE8mYCczGpYirpwlfFVdiy1
+         YP0SxxBbEVFHdG/x2HXo6rszTR4ql3q/9bnDVQrK4hWK1aUTiBgdHp8i3fv6xwWJYZYV
+         DXkv4Qkw60rdGyWmxGTZiLzsn9mGdl9CV2vhlViukMm38ob+D73J5UOzU6hgPJzkC5H1
+         UeL+FxTmDqFW11jOoodjglKX3Ai3hPPZ1n62bVoIn9gXtXVfH9kmMpFiNr9CSFDstAkC
+         l9LuWHZlaybqNgnYN5uaHU0dda5oc69S7dmTot7Dap7/cnAStkr4ITqYh7rxdmu310Fs
+         yYrA==
+X-Forwarded-Encrypted: i=1; AJvYcCWhE8Zdn2siAjRYWU4wPSe3x2d8Fj8irtVh0Gleq2XQMBcbtzXq9i5okadHf5hkcIdCnN4U85U/b7dX3g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzuBrPyBtK/IU2mvqH6T8hbwa8p15m7VhmvNevLax3HsBnjl6lO
+	wMWudrCC+n+ft+FGeYJaSZzL21i021sIK5yVMWApctejpnNyfxqj
+X-Google-Smtp-Source: AGHT+IElOZVXVj/FlEZ3fbmtBkOLSrsihpcHyRreC5BIEGKSLXXKFN04zZD8UqjwCA5j+FE4FKXBkA==
+X-Received: by 2002:a05:6512:3da9:b0:52e:f950:31f5 with SMTP id 2adb3069b0e04-53438832e67mr10098468e87.18.1724792484028;
+        Tue, 27 Aug 2024 14:01:24 -0700 (PDT)
 Received: from cleve-worktop. (85-193-33-82.rib.o2.cz. [85.193.33.82])
-        by smtp.googlemail.com with ESMTPSA id 4fb4d7f45d1cf-5c0bb1c3114sm1405835a12.13.2024.08.27.14.01.20
+        by smtp.googlemail.com with ESMTPSA id 4fb4d7f45d1cf-5c0bb1c3114sm1405835a12.13.2024.08.27.14.01.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Aug 2024 14:01:21 -0700 (PDT)
+        Tue, 27 Aug 2024 14:01:22 -0700 (PDT)
 From: =?utf-8?q?Kry=C5=A1tof_=C4=8Cern=C3=BD?= <cleverline1mc@gmail.com>
-Subject: [PATCH v2 0/3] Fix regulators and assign them on NanoPi NEO Plus2
-Date: Tue, 27 Aug 2024 23:00:42 +0200
-Message-Id: <20240827-nanopi-neo-plus2-regfix-v2-0-497684ec82c7@gmail.com>
+Date: Tue, 27 Aug 2024 23:00:44 +0200
+Subject: [PATCH v2 2/3] Use regulators for pio on NanoPi NEO Plus2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -62,10 +63,9 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAHo+zmYC/03MQQqDMBCF4auUWXeKCVFLV71H6WKMEx3QJCStF
- MS7N9ZNl/+D962QOQlnuJ1WSLxIluBL6PMJ7Eh+YJS+NOhKm+qqW/TkQxT0HDBO76wx8eDkg11
- TKdVYVtoSlHdMXOaf/HiWdinM+BoT079nsDO43w+2qAcaJexwxkWhwtbWru3JmJrcfZhJposNM
- 2zbF65nCeW/AAAA
+Message-Id: <20240827-nanopi-neo-plus2-regfix-v2-2-497684ec82c7@gmail.com>
+References: <20240827-nanopi-neo-plus2-regfix-v2-0-497684ec82c7@gmail.com>
+In-Reply-To: <20240827-nanopi-neo-plus2-regfix-v2-0-497684ec82c7@gmail.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
  Jernej Skrabec <jernej.skrabec@gmail.com>, 
@@ -74,34 +74,45 @@ Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
  =?utf-8?q?Kry=C5=A1tof_=C4=8Cern=C3=BD?= <cleverline1mc@gmail.com>
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1724792480; l=806;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1724792480; l=958;
  i=cleverline1mc@gmail.com; s=20240824; h=from:subject:message-id;
- bh=usWNg3YCPNSMfYd3cIsqzqUm/OvMLGLPE61i3N326PM=;
- b=zxoLESLLq24R3sH7xZvnxDTPC8MqEWSAzHNx/zAj1mXEbGLtRE4nQnz+MmEA4+ixlxw333hPa
- WI+S+UoeoChC7utoYf9tHcOJeQ1xTiSN01kiF1O5DZfUnIGfThWSjqE
+ bh=ZUQNvjzepWA4pCK8RLWIXzlmS349ucRwrxxaYBZS3Do=;
+ b=OhH9WG6Wv6Z7PRWzl1EICmfw7GOLJF8ftG+PLNKrN978hxBL+u9qLUob7ALa9BomlnNZ/FhFT
+ BEERtDUuzqqBHX0a/5HrQR62Z6mGP4Wyw9rbExnS+yHEhGYtAGdeoVt
 X-Developer-Key: i=cleverline1mc@gmail.com; a=ed25519;
  pk=CQifx5FUgTQKAoj5VCYrwYHi235AkXQ5yT1P6gkaBxM=
 
-Many thanks for your feedback, especially from André Przywara,
-I learned a lot from you and your kind words motivated me to do a follow-up.
-Regulators should correspond to reality (schematics).
-Proper regulators were added for pio and r_pio.
-Added missing regulator for mmc2.
+Pin controllers pio and r_pio will have proper regulators assigned.
 
 Signed-off-by: Kryštof Černý <cleverline1mc@gmail.com>
 ---
-Kryštof Černý (3):
-      Fix NanoPi NEO Plus2 regulators
-      Use regulators for pio on NanoPi NEO Plus2
-      Add vqmmc-supply on NanoPi NEO Plus2
+ arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
- .../dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts   | 38 ++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
----
-base-commit: 6f923748057a4f6aa187e0d5b22990d633a48d12
-change-id: 20240827-nanopi-neo-plus2-regfix-b60116ce12ca
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts
+index dee4cd82636b..526443bb736c 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts
+@@ -171,6 +171,18 @@ &ohci3 {
+ 	status = "okay";
+ };
+ 
++&pio {
++	vcc-pa-supply = <&reg_vcc3v3>;
++	vcc-pc-supply = <&reg_vcc3v3>;
++	vcc-pd-supply = <&reg_gmac_2v5>;
++	vcc-pf-supply = <&reg_vcc3v3>;
++	vcc-pg-supply = <&reg_vcc3v3>;
++};
++
++&r_pio {
++	vcc-pl-supply = <&reg_vcc3v3>;
++};
++
+ &uart0 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&uart0_pa_pins>;
 
-Best regards,
 -- 
-Kryštof Černý <cleverline1mc@gmail.com>
+2.39.2
 
