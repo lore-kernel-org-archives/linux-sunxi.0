@@ -1,100 +1,113 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 825701A76DF;
-	Wed, 28 Aug 2024 15:25:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7A9F18756D
+	for <linux-sunxi@lists.linux.dev>; Wed, 28 Aug 2024 15:45:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724858731; cv=none; b=tV40/7esJ9TAwzUYOQC9eCiWbI1Z6slROT2yiwc/FiBsWY0z3lnFSLUbJ2Jyxz4TGhkG1Aj7vtep3RZHs0yaSlY0grKA4KRpTw1LOS6whYCF/IuTQ1BSsc0xGP2AplKsXc/5e+qvSHWHiJP7LJkxnib+Hhx/bbyI+3AMqXnOgOk=
+	t=1724859931; cv=none; b=SPhL0NrdTp7FMj7KucaFKfr+TVivAwJkaeja44GpXsg25lVNiEVQlm76sd4GraZi1E2LG4GTdfVz02D/4uwh49AknO1+9Yr2JTDTNPguqo1DA7p3IBrhI6JXztCNiEbqQp8eiH/5JrAPCBnooGlBsq+u36ke991O5mrevGodXW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724858731; c=relaxed/simple;
-	bh=I1Nby7tDKVVdapSHtGQT7L9Eim8jq/dT28PjMGd+PHE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r3tMRwof3rvufRb5VpW+W52dGonLBakZIwt3oOnoSNRjQvl/Ld/norSE8rb2T13321rOMZ1AbuvfVvo69e/CGg9jf8fGUONHbYZ+pQie8XNAo+YrcOeHK4RpgtQXLPyJoyQBBR04Nqr4NDb0L3yTr7VfoNBrLoqzKMaFhfeOIvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=4QYF/WTy; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1724859931; c=relaxed/simple;
+	bh=9rDI0xYGqmCC8+sKfivqoITazVvLBqPzlZCtPeKME2I=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 Mime-Version:Content-Type; b=TA+gaSieptHF0ngTQfgLrstsQg35TKtKdbX4ggxdd5aWdlYD78f5BAHKpLtSonZhHVFVYq5rFYuSfkrc3D5Hphaaz0jSckfmxUZo3D0sIvbxR+Eb4Umv1DDDICEpry5nDKzFYO9xOrVXEZah8CJdg+HLtm1xiE2U/EJlDGPstFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xolqg+5L; arc=none smtp.client-ip=209.85.219.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="4QYF/WTy"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=q9URPVBkUtuX1b5vQ91DBWUEAecVTYj3WQtfiiyjLe8=; b=4QYF/WTy90NVcHGEOPZW700puH
-	PsWHZNWpHEEmbUSmKRVNivVlJQkwuHYMKXyODQQdUQ9oRrpIMyHeXgljjtrbAc62/dTBO/DeDzES2
-	ljIryYIG/AOUumjbxUyE+dFDD5Ya7ABiL3AzxT0XW2O9c/AC8edgXY63kxxwLYPrXxP8=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1sjKXU-005wr6-5U; Wed, 28 Aug 2024 17:24:52 +0200
-Date: Wed, 28 Aug 2024 17:24:52 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Jinjie Ruan <ruanjinjie@huawei.com>, woojung.huh@microchip.com,
-	f.fainelli@gmail.com, olteanv@gmail.com, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	linus.walleij@linaro.org, alsi@bang-olufsen.dk,
-	justin.chen@broadcom.com, sebastian.hesselbarth@gmail.com,
-	alexandre.torgue@foss.st.com, joabreu@synopsys.com,
-	mcoquelin.stm32@gmail.com, wens@csie.org, jernej.skrabec@gmail.com,
-	samuel@sholland.org, hkallweit1@gmail.com, linux@armlinux.org.uk,
-	ansuelsmth@gmail.com, UNGLinuxDriver@microchip.com,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	bcm-kernel-feedback-list@broadcom.com,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-stm32@st-md-mailman.stormreply.com, jic23@kernel.org
-Subject: Re: [PATCH net-next v2 00/13] net: Simplified with scoped function
-Message-ID: <6d88b103-ba8a-4631-bbf5-b9046b9b82cd@lunn.ch>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xolqg+5L"
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-6bf6dedbfe1so38799086d6.3
+        for <linux-sunxi@lists.linux.dev>; Wed, 28 Aug 2024 08:45:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724859929; x=1725464729; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PZOUe+6mBEPTZP4TSVhRf36gjDMv1iagTqH5nqm+dEk=;
+        b=Xolqg+5Lzh0ZjDsDnBotIINeLsSINryF89/RX5Yd1oXV+haXMP1N+bVfPWEOoE399k
+         TD4jfyZ2FX38Ilx0u/A7eGWqJxXznaZqetFvx/N5yAW1NNllGgtHpsNZI9MlPselBd9s
+         uqT3GQejsqzCaJ/Tcu1W+QfbNO9O1Woveq1ZguTbR5BHTF8nlrCzCScgzdK6KE6Od/xR
+         VTCUKQsXx+GpoBuZ1kczbxPjrCCGWZxHmylnduJaVgNEwoeLwhj4pRhV9Y8jCKRO9ktE
+         1i77/L08MRO6OXFnRa+UH7uwfB8rrySNn6g6oU6Fd7uhCMJJU1azG66dFDuFWyohvFaJ
+         W/zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724859929; x=1725464729;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=PZOUe+6mBEPTZP4TSVhRf36gjDMv1iagTqH5nqm+dEk=;
+        b=PW5BfBAUxyH50rMzwAUodMzNmScs6/RUS7GPuk9zS3/gHfNLEsL5iycrZ7ShZcRLPO
+         odDdJOJK2+tJRYtxpyv9ECILqDHRDtLWabZohzUZqesmQtEvtk+xptH1OMwouC/SBAiF
+         iGTco+iCNTPLVm8hq/d4XBhOHGjd3xtDvL8+lxPDlFMk1qvi/RK1KaeI389uZh8IBXDS
+         qGLzEBEPiPzu9DyElEi27OwFStpgp4EOePe7VKwygZKuELF9VHOzIo4oFpeohN/huvwc
+         MvlN3IHot+qR+oVzduR4tCICral0IuvX4TgUPyqUpokqrI4Mud+qAXyYNvbsFVLpdViG
+         LU5A==
+X-Forwarded-Encrypted: i=1; AJvYcCXC1w9PZU7ad0fwtj7oUY8Zzt4l95ya7AKI+LLiXLu/zpx9xbRHW4MvqblnCrTBd+Da0WMBDjmiwdKFcw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwnEJCDMK8QLONtyrIosY/5SZJLScG5ciuD5XDEzMsCfk77km37
+	VwdbA65BG+DOyLibMmepgF7zP8hYg0ZE4M8Cr/Txp/t4OkneC+3q
+X-Google-Smtp-Source: AGHT+IFQmS19Ly4t1qu81gaSL06dZhIAsQ4bEbru5NbdTJjKT/mLIQ+HckN7wPPi8lsCzxxsTBJIfw==
+X-Received: by 2002:a05:6214:3c98:b0:6bf:7b7f:68e with SMTP id 6a1803df08f44-6c336337142mr33041406d6.40.1724859928753;
+        Wed, 28 Aug 2024 08:45:28 -0700 (PDT)
+Received: from localhost (193.132.150.34.bc.googleusercontent.com. [34.150.132.193])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6c162d216fasm65998426d6.22.2024.08.28.08.45.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Aug 2024 08:45:28 -0700 (PDT)
+Date: Wed, 28 Aug 2024 11:45:28 -0400
+From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+To: Jinjie Ruan <ruanjinjie@huawei.com>, 
+ woojung.huh@microchip.com, 
+ andrew@lunn.ch, 
+ f.fainelli@gmail.com, 
+ olteanv@gmail.com, 
+ davem@davemloft.net, 
+ edumazet@google.com, 
+ kuba@kernel.org, 
+ pabeni@redhat.com, 
+ linus.walleij@linaro.org, 
+ alsi@bang-olufsen.dk, 
+ justin.chen@broadcom.com, 
+ sebastian.hesselbarth@gmail.com, 
+ alexandre.torgue@foss.st.com, 
+ joabreu@synopsys.com, 
+ mcoquelin.stm32@gmail.com, 
+ wens@csie.org, 
+ jernej.skrabec@gmail.com, 
+ samuel@sholland.org, 
+ hkallweit1@gmail.com, 
+ linux@armlinux.org.uk, 
+ ansuelsmth@gmail.com, 
+ UNGLinuxDriver@microchip.com, 
+ netdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ bcm-kernel-feedback-list@broadcom.com, 
+ linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, 
+ linux-stm32@st-md-mailman.stormreply.com, 
+ krzk@kernel.org, 
+ jic23@kernel.org
+Cc: ruanjinjie@huawei.com
+Message-ID: <66cf4618f313_34a7b1294bb@willemb.c.googlers.com.notmuch>
+In-Reply-To: <20240828032343.1218749-6-ruanjinjie@huawei.com>
 References: <20240828032343.1218749-1-ruanjinjie@huawei.com>
- <6092e318-ae0c-44f6-89fa-989a384921b7@lunn.ch>
- <71deb322-4b54-4c1c-a665-d9de84ea9baf@kernel.org>
+ <20240828032343.1218749-6-ruanjinjie@huawei.com>
+Subject: Re: [PATCH net-next v2 05/13] net: phy: Fix missing of_node_put() for
+ leds
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <71deb322-4b54-4c1c-a665-d9de84ea9baf@kernel.org>
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Aug 28, 2024 at 04:45:32PM +0200, Krzysztof Kozlowski wrote:
-> On 28/08/2024 16:32, Andrew Lunn wrote:
-> > On Wed, Aug 28, 2024 at 11:23:30AM +0800, Jinjie Ruan wrote:
-> >> Simplify with scoped for each OF child loop and __free(), as well as
-> >> dev_err_probe().
-> >>
-> >> Changes in v2:
-> >> - Subject prefix: next -> net-next.
-> >> - Split __free() from scoped for each OF child loop clean.
-> >> - Fix use of_node_put() instead of __free() for the 5th patch.
-> > 
-> > I personally think all these __free() are ugly and magical. Can it
+Jinjie Ruan wrote:
+> The call of of_get_child_by_name() will cause refcount incremented
+> for leds, if it succeeds, it should call of_node_put() to decrease
+> it, fix it.
 > 
-> It is code readability so quite subjective.
+> Fixes: 01e5b728e9e4 ("net: phy: Add a binding for PHY LEDs")
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 
-Try.
-
-But the __ is also a red flag. Anything starting with _ or __ in
-general should not be used in common code. That prefix is supposed to
-indicate it is internal plumbing which should be hidden away, out of
-sight, not to be used directly. Yet here it is, being scattered
-everywhere.
-
-I also wounder if this is lipstick on a pig. I suspect the reference
-counting on DT object is broken everywhere, because it is almost never
-used. In general, DT blobs exist from boot to shutdown. They don't go
-away, so these reference counts are never used. DT overlays do exist,
-but account for what, 1% of DT objects? And how often does an overlay
-actually get unloaded? Has anybody written a fuzzer to try unloading
-parts of DT blobs? I suspect we would quickly drown in bug reports.
-
-Adding missing of_node_put() seems to be high on the list of bot
-driven patches, which cause a lot of maintainer effort for no real
-gain. And those submitting the patches probably have little
-understanding of what they are doing, other than making the bot happy.
-Do we really want to be adding ugly code, probably with a few
-additional bugs thrown in, just to make a bot happy, but probably no
-real benefit?
-
-	Andrew
+Fixes should go to net. Should not be part of this series?
