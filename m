@@ -1,30 +1,30 @@
 Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 495CA176ABB
-	for <linux-sunxi@lists.linux.dev>; Wed, 28 Aug 2024 12:50:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27003184118
+	for <linux-sunxi@lists.linux.dev>; Wed, 28 Aug 2024 12:51:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724849460; cv=none; b=tCbb7GXwmRntOeNwtRc3jRwBigtafZU8rYwomlPEwQ9TVsxyAg9ok4rwsXPmPQnqpJIvEUq//9ygpkT9SYrlN98lnUxPYE/E0iQlUIX2OJUBvRauyqNIZo9c1okc6utPmPL4Ba7jhCsmYTE/4Nzxkzs4db8L3pMf1b6jWDK8etU=
+	t=1724849510; cv=none; b=LSBJj5lE/7oxskMnprqE+LZ8pR+AnK+H1fthP4Bm/aK/P55G4nxWNqWg6Lebx2QWlu6+gaIIXHdsTVSDnZf1qNM0mZuYpekq3Atr9Y7vjEGwk0PoaCJHiId33exhLLSWXJvUwpTtWCaGqQZPmBJyWotvKfQtkTzDefC/eVXpn7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724849460; c=relaxed/simple;
-	bh=aOaxSElHnaagbkY8OyeiccDo9OUVw4rBOYlTk2Upjbc=;
+	s=arc-20240116; t=1724849510; c=relaxed/simple;
+	bh=RChMV0YjnMOQ06hoUxR+88NP0TvbgCbQvbdKCPE51AQ=;
 	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cRRekxG49/681b3vzovVnrG8EwPyy2oWjj1NK+fk8meDhPIXj9absqNiyisui8GlxvqKyv0o5KPrxXuGvYFQ9LLT5oL3IevI7XMhODxIGSUS/9/Gf3lzbfAl5li3oKvSnwrUsrsHZ+/mI465O7trk0PAjXQ0YH1SxzywRpyaWeA=
+	 MIME-Version:Content-Type; b=ufONkV0woDhT+a5Ax02ZNHCtWr3xtJEsCw1RaJtNPQer83e2FVMnBfIPKpcrfqtAgg+hR3EnKBq+kVl6tE2N2XZ0uKN0PR5fAga8IgSg3ZlehsiJiPpJPfzFR+sE1x9wZE+jIi2/bJJ8q0tQOMsSkzvmmIXFGLPesmvvnc+znho=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.216])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Wv4226g0Tz6K9PD;
-	Wed, 28 Aug 2024 20:47:38 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Wv42944X3z6K6lm;
+	Wed, 28 Aug 2024 20:47:45 +0800 (CST)
 Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
-	by mail.maildlp.com (Postfix) with ESMTPS id 29A3F140B39;
-	Wed, 28 Aug 2024 20:50:57 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id EC1F01400D1;
+	Wed, 28 Aug 2024 20:51:46 +0800 (CST)
 Received: from localhost (10.203.177.66) by lhrpeml500005.china.huawei.com
  (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Wed, 28 Aug
- 2024 13:50:56 +0100
-Date: Wed, 28 Aug 2024 13:50:55 +0100
+ 2024 13:51:46 +0100
+Date: Wed, 28 Aug 2024 13:51:45 +0100
 From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
 To: Jinjie Ruan <ruanjinjie@huawei.com>
 CC: <woojung.huh@microchip.com>, <andrew@lunn.ch>, <f.fainelli@gmail.com>,
@@ -40,12 +40,12 @@ CC: <woojung.huh@microchip.com>, <andrew@lunn.ch>, <f.fainelli@gmail.com>,
 	<linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
 	<linux-stm32@st-md-mailman.stormreply.com>, <krzk@kernel.org>,
 	<jic23@kernel.org>
-Subject: Re: [PATCH net-next v2 11/13] net: dsa: microchip: Use __free() to
- simplfy code
-Message-ID: <20240828135055.000026b5@Huawei.com>
-In-Reply-To: <20240828032343.1218749-12-ruanjinjie@huawei.com>
+Subject: Re: [PATCH net-next v2 12/13] net: bcmasp: Simplify with scoped for
+ each OF child loop
+Message-ID: <20240828135145.00006138@Huawei.com>
+In-Reply-To: <20240828032343.1218749-13-ruanjinjie@huawei.com>
 References: <20240828032343.1218749-1-ruanjinjie@huawei.com>
-	<20240828032343.1218749-12-ruanjinjie@huawei.com>
+	<20240828032343.1218749-13-ruanjinjie@huawei.com>
 Organization: Huawei Technologies Research and Development (UK) Ltd.
 X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
@@ -59,10 +59,11 @@ Content-Transfer-Encoding: 7bit
 X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
  lhrpeml500005.china.huawei.com (7.191.163.240)
 
-On Wed, 28 Aug 2024 11:23:41 +0800
+On Wed, 28 Aug 2024 11:23:42 +0800
 Jinjie Ruan <ruanjinjie@huawei.com> wrote:
 
-> Avoids the need for manual cleanup of_node_put() by using __free().
+> Use scoped for_each_available_child_of_node_scoped() when
+> iterating over device nodes to make code a bit simpler.
 > 
 > Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
