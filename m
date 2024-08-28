@@ -1,29 +1,29 @@
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C462C14831F
-	for <linux-sunxi@lists.linux.dev>; Wed, 28 Aug 2024 03:15:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCF6D14A60C
+	for <linux-sunxi@lists.linux.dev>; Wed, 28 Aug 2024 03:16:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.255
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724814960; cv=none; b=AFOcJWjFmjnD/e932o74sO73Vv0kMgEJnhjrktfHVAWvsTPz5O4JNbyYxGwPs1aa6env6eq+hG69dCUkLebmHHQ4wvWq2ar6NDVNW2x9V8WruqdxOaP5Hf2ml0oJgrwDmOvNaM8+KtroPg+Rwq1zvOdkI0G8HOygmuOZLYYwaLw=
+	t=1724814962; cv=none; b=XeT+B3Nj4JI2ohYPcCy5NGDFxCKufG3Lq+kge0DeVe17I6NyknDGfjILVSzBCoWabvMQra/1/vym6tTd8Zwklud2YhH3dKq7TNwuyezZKVALphMAeSimsYMA1CLeOWipSeDBfio4wN54x6NydnR15bwfIWW1653UoboG0bCw6Wk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724814960; c=relaxed/simple;
-	bh=Hcitsk+sQ0vwRdxz06apI9Y3L8CDjtyTC4GBbhELy7k=;
+	s=arc-20240116; t=1724814962; c=relaxed/simple;
+	bh=Gev1lKhNw2YUXtznkPCdM7q5XhDo5N0K0LK/Zn4+bqU=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ehz4sMleewy271fj/TRsJpGY/1lQknGW6Mu03NndE9jRR/7dA3Mvi1u68HbLm7gg4wiENWnA45GwK7b49Zp37lf07KjMH2hA6Snpwo3oWQsLOztHLFXgFxnS0R/yLhKWmDc1eh8VpQSzXxq1qX6u04mYfuqTYNUOpRtPxepBHcU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.189
+	 MIME-Version:Content-Type; b=a7aTEftXhZnMR3Jth8gZi4z535QuZwmyNLcegr+p8VDMaBOh5h1W0ugy33TetB6oCRkkIpaGwWI7WY7Ninb6u3+YuCDT1NniTczosMRBgNGkZiLtzSu5KGMT7OBIymEg1RaAyxGM16JdVgXH7YbjpWXxnJQvO3HNzmfju3dwcR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.255
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.252])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4WtqDp5s06zQqxb;
-	Wed, 28 Aug 2024 11:11:06 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.19.163.48])
+	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4WtqKV3ndnz16PRW;
+	Wed, 28 Aug 2024 11:15:10 +0800 (CST)
 Received: from kwepemh500013.china.huawei.com (unknown [7.202.181.146])
-	by mail.maildlp.com (Postfix) with ESMTPS id 408A6180AE8;
-	Wed, 28 Aug 2024 11:15:56 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id 45E95180087;
+	Wed, 28 Aug 2024 11:15:58 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemh500013.china.huawei.com
  (7.202.181.146) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Wed, 28 Aug
- 2024 11:15:55 +0800
+ 2024 11:15:57 +0800
 From: Jinjie Ruan <ruanjinjie@huawei.com>
 To: <woojung.huh@microchip.com>, <andrew@lunn.ch>, <f.fainelli@gmail.com>,
 	<olteanv@gmail.com>, <davem@davemloft.net>, <edumazet@google.com>,
@@ -39,9 +39,9 @@ To: <woojung.huh@microchip.com>, <andrew@lunn.ch>, <f.fainelli@gmail.com>,
 	<linux-stm32@st-md-mailman.stormreply.com>, <krzk@kernel.org>,
 	<jic23@kernel.org>
 CC: <ruanjinjie@huawei.com>
-Subject: [PATCH net-next v2 04/13] net: dsa: realtek: Use __free() to simplify code
-Date: Wed, 28 Aug 2024 11:23:34 +0800
-Message-ID: <20240828032343.1218749-5-ruanjinjie@huawei.com>
+Subject: [PATCH net-next v2 06/13] net: phy: Use for_each_available_child_of_node_scoped()
+Date: Wed, 28 Aug 2024 11:23:36 +0800
+Message-ID: <20240828032343.1218749-7-ruanjinjie@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240828032343.1218749-1-ruanjinjie@huawei.com>
 References: <20240828032343.1218749-1-ruanjinjie@huawei.com>
@@ -56,47 +56,41 @@ Content-Type: text/plain
 X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
  kwepemh500013.china.huawei.com (7.202.181.146)
 
-Avoid need to manually handle of_node_put() by using __free(), which
-can simplfy code.
+Avoid need to manually handle of_node_put() by using
+for_each_available_child_of_node_scoped(), which can simplfy code.
 
 Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 ---
-v2
 - Split into 2 patches.
 ---
- drivers/net/dsa/realtek/rtl8366rb.c | 5 ++---
+ drivers/net/phy/phy_device.c | 5 ++---
  1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/net/dsa/realtek/rtl8366rb.c b/drivers/net/dsa/realtek/rtl8366rb.c
-index 7001b8b1c028..0acdcdd93ea2 100644
---- a/drivers/net/dsa/realtek/rtl8366rb.c
-+++ b/drivers/net/dsa/realtek/rtl8366rb.c
-@@ -1009,7 +1009,6 @@ static int rtl8366rb_setup_all_leds_off(struct realtek_priv *priv)
- 
- static int rtl8366rb_setup_leds(struct realtek_priv *priv)
+diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
+index 243dae686992..560e338b307a 100644
+--- a/drivers/net/phy/phy_device.c
++++ b/drivers/net/phy/phy_device.c
+@@ -3407,7 +3407,7 @@ static int of_phy_led(struct phy_device *phydev,
+ static int of_phy_leds(struct phy_device *phydev)
  {
--	struct device_node *leds_np;
- 	struct dsa_switch *ds = &priv->ds;
- 	struct dsa_port *dp;
- 	int ret = 0;
-@@ -1018,7 +1017,8 @@ static int rtl8366rb_setup_leds(struct realtek_priv *priv)
- 		if (!dp->dn)
- 			continue;
+ 	struct device_node *node = phydev->mdio.dev.of_node;
+-	struct device_node *leds, *led;
++	struct device_node *leds;
+ 	int err;
  
--		leds_np = of_get_child_by_name(dp->dn, "leds");
-+		struct device_node *leds_np __free(device_node) =
-+			of_get_child_by_name(dp->dn, "leds");
- 		if (!leds_np) {
- 			dev_dbg(priv->dev, "No leds defined for port %d",
- 				dp->index);
-@@ -1032,7 +1032,6 @@ static int rtl8366rb_setup_leds(struct realtek_priv *priv)
- 				break;
- 		}
+ 	if (!IS_ENABLED(CONFIG_OF_MDIO))
+@@ -3420,10 +3420,9 @@ static int of_phy_leds(struct phy_device *phydev)
+ 	if (!leds)
+ 		return 0;
  
--		of_node_put(leds_np);
- 		if (ret)
- 			return ret;
- 	}
+-	for_each_available_child_of_node(leds, led) {
++	for_each_available_child_of_node_scoped(leds, led) {
+ 		err = of_phy_led(phydev, led);
+ 		if (err) {
+-			of_node_put(led);
+ 			of_node_put(leds);
+ 			phy_leds_unregister(phydev);
+ 			return err;
 -- 
 2.34.1
 
