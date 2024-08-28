@@ -1,29 +1,29 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82A6314AD3F
-	for <linux-sunxi@lists.linux.dev>; Wed, 28 Aug 2024 03:16:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9C4714D6E4
+	for <linux-sunxi@lists.linux.dev>; Wed, 28 Aug 2024 03:16:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724814964; cv=none; b=uI/VJIJAgzrDlen/Ij1MppVsFROMy90Cf8w4jQiVi9ssm0boVd5vjx4L8XsWnbaxlIJRLIcBBcLshRP0oWsrVXoL2bqWKEeBQZiwPZ6f2HY62VtZzbeiM3zGDJLZXwl6Wg6UbIUPcV5QkOZkPkHOUhmR/pNgORUUW4nq/XNs1JE=
+	t=1724814965; cv=none; b=c+jKAkLOzJoReuZysymmwy4Le9XxWTxPyVHwf+xI6c9n0Qv8TLkhK28S09KV/o42LTbQUd3xGnkaZCGFffv5zDLPu/6L80k2/h7GiFmIgPL4jaOJIq88q6ogKJJqXWLdT/tDf3AahO5iKI9uaWGsGLKMa14G3MqBVSt/MMQcbig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724814964; c=relaxed/simple;
-	bh=1OCWzjGLwAeFFQa37W1kA8JVPAji1S4eB3ktGoXoK9o=;
+	s=arc-20240116; t=1724814965; c=relaxed/simple;
+	bh=KtCLfUO5d4KcCMinRnDksVftKcIPGroSL2PjQSzRVaI=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Mr0XEfVQSCRTs8+nFl8Ud2WC+h0ifZXTpRAvBRKdy4XUOhvqWZzRXPQmtqcYM9uGn8hKq7tSqzWDyFeADD/t2f+W7wUTMFf5ITqNGKvlHVRtpDdcwgtSNcAZSZ1ubnR7q6T43e9+eU9wviC5DGpdKRADJ438P7iJssttW/cmKXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
+	 MIME-Version:Content-Type; b=pMpEpI7spyhCTe6jU2VPAy9zKbtqTWf1DMGcSruNnE3d3/hNBf6jsdIu7QCvqnvISLzXmnAxwbp92eKNBzX+r5jsQZIhGkM/ecnjdZtKLwhEWjFLHhcFGhdb1PyK0/UTuKKJnNoZWAwG188qXyUr8dwg4kg2aafyWas8LpjTLmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.174])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4WtqJV5WXjzpTr8;
-	Wed, 28 Aug 2024 11:14:18 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.19.163.44])
+	by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4WtqJ5580Pz1xwPj;
+	Wed, 28 Aug 2024 11:13:57 +0800 (CST)
 Received: from kwepemh500013.china.huawei.com (unknown [7.202.181.146])
-	by mail.maildlp.com (Postfix) with ESMTPS id 4BD2314022E;
-	Wed, 28 Aug 2024 11:16:00 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id 3792F140135;
+	Wed, 28 Aug 2024 11:15:55 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemh500013.china.huawei.com
  (7.202.181.146) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Wed, 28 Aug
- 2024 11:15:59 +0800
+ 2024 11:15:54 +0800
 From: Jinjie Ruan <ruanjinjie@huawei.com>
 To: <woojung.huh@microchip.com>, <andrew@lunn.ch>, <f.fainelli@gmail.com>,
 	<olteanv@gmail.com>, <davem@davemloft.net>, <edumazet@google.com>,
@@ -39,9 +39,9 @@ To: <woojung.huh@microchip.com>, <andrew@lunn.ch>, <f.fainelli@gmail.com>,
 	<linux-stm32@st-md-mailman.stormreply.com>, <krzk@kernel.org>,
 	<jic23@kernel.org>
 CC: <ruanjinjie@huawei.com>
-Subject: [PATCH net-next v2 08/13] net: mdio: mux-mmioreg: Simplified with dev_err_probe()
-Date: Wed, 28 Aug 2024 11:23:38 +0800
-Message-ID: <20240828032343.1218749-9-ruanjinjie@huawei.com>
+Subject: [PATCH net-next v2 03/13] net: dsa: realtek: Use for_each_child_of_node_scoped()
+Date: Wed, 28 Aug 2024 11:23:33 +0800
+Message-ID: <20240828032343.1218749-4-ruanjinjie@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240828032343.1218749-1-ruanjinjie@huawei.com>
 References: <20240828032343.1218749-1-ruanjinjie@huawei.com>
@@ -56,88 +56,46 @@ Content-Type: text/plain
 X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
  kwepemh500013.china.huawei.com (7.202.181.146)
 
-Use the dev_err_probe() helper to simplify code.
+Avoid need to manually handle of_node_put() by using
+for_each_child_of_node_scoped(), which can simplfy code.
 
 Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 ---
 v2:
 - Split into 2 patches.
 ---
- drivers/net/mdio/mdio-mux-mmioreg.c | 45 ++++++++++++-----------------
- 1 file changed, 19 insertions(+), 26 deletions(-)
+ drivers/net/dsa/realtek/rtl8366rb.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/net/mdio/mdio-mux-mmioreg.c b/drivers/net/mdio/mdio-mux-mmioreg.c
-index 4d87e61fec7b..08c484ccdcbe 100644
---- a/drivers/net/mdio/mdio-mux-mmioreg.c
-+++ b/drivers/net/mdio/mdio-mux-mmioreg.c
-@@ -109,30 +109,26 @@ static int mdio_mux_mmioreg_probe(struct platform_device *pdev)
- 		return -ENOMEM;
+diff --git a/drivers/net/dsa/realtek/rtl8366rb.c b/drivers/net/dsa/realtek/rtl8366rb.c
+index 9e821b42e5f3..7001b8b1c028 100644
+--- a/drivers/net/dsa/realtek/rtl8366rb.c
++++ b/drivers/net/dsa/realtek/rtl8366rb.c
+@@ -1009,7 +1009,7 @@ static int rtl8366rb_setup_all_leds_off(struct realtek_priv *priv)
  
- 	ret = of_address_to_resource(np, 0, &res);
--	if (ret) {
--		dev_err(&pdev->dev, "could not obtain memory map for node %pOF\n",
--			np);
--		return ret;
--	}
-+	if (ret)
-+		return dev_err_probe(&pdev->dev, ret,
-+				     "could not obtain memory map for node %pOF\n", np);
- 	s->phys = res.start;
+ static int rtl8366rb_setup_leds(struct realtek_priv *priv)
+ {
+-	struct device_node *leds_np, *led_np;
++	struct device_node *leds_np;
+ 	struct dsa_switch *ds = &priv->ds;
+ 	struct dsa_port *dp;
+ 	int ret = 0;
+@@ -1025,13 +1025,11 @@ static int rtl8366rb_setup_leds(struct realtek_priv *priv)
+ 			continue;
+ 		}
  
- 	s->iosize = resource_size(&res);
- 	if (s->iosize != sizeof(uint8_t) &&
- 	    s->iosize != sizeof(uint16_t) &&
- 	    s->iosize != sizeof(uint32_t)) {
--		dev_err(&pdev->dev, "only 8/16/32-bit registers are supported\n");
--		return -EINVAL;
-+		return dev_err_probe(&pdev->dev, -EINVAL,
-+				     "only 8/16/32-bit registers are supported\n");
- 	}
+-		for_each_child_of_node(leds_np, led_np) {
++		for_each_child_of_node_scoped(leds_np, led_np) {
+ 			ret = rtl8366rb_setup_led(priv, dp,
+ 						  of_fwnode_handle(led_np));
+-			if (ret) {
+-				of_node_put(led_np);
++			if (ret)
+ 				break;
+-			}
+ 		}
  
- 	iprop = of_get_property(np, "mux-mask", &len);
--	if (!iprop || len != sizeof(uint32_t)) {
--		dev_err(&pdev->dev, "missing or invalid mux-mask property\n");
--		return -ENODEV;
--	}
--	if (be32_to_cpup(iprop) >= BIT(s->iosize * 8)) {
--		dev_err(&pdev->dev, "only 8/16/32-bit registers are supported\n");
--		return -EINVAL;
--	}
-+	if (!iprop || len != sizeof(uint32_t))
-+		return dev_err_probe(&pdev->dev, -ENODEV,
-+				     "missing or invalid mux-mask property\n");
-+	if (be32_to_cpup(iprop) >= BIT(s->iosize * 8))
-+		return dev_err_probe(&pdev->dev, -EINVAL,
-+				     "only 8/16/32-bit registers are supported\n");
- 	s->mask = be32_to_cpup(iprop);
- 
- 	/*
-@@ -142,17 +138,14 @@ static int mdio_mux_mmioreg_probe(struct platform_device *pdev)
- 	for_each_available_child_of_node_scoped(np, np2) {
- 		u64 reg;
- 
--		if (of_property_read_reg(np2, 0, &reg, NULL)) {
--			dev_err(&pdev->dev, "mdio-mux child node %pOF is "
--				"missing a 'reg' property\n", np2);
--			return -ENODEV;
--		}
--		if ((u32)reg & ~s->mask) {
--			dev_err(&pdev->dev, "mdio-mux child node %pOF has "
--				"a 'reg' value with unmasked bits\n",
--				np2);
--			return -ENODEV;
--		}
-+		if (of_property_read_reg(np2, 0, &reg, NULL))
-+			return dev_err_probe(&pdev->dev, -ENODEV,
-+					     "mdio-mux child node %pOF is missing a 'reg' property\n",
-+					     np2);
-+		if ((u32)reg & ~s->mask)
-+			return dev_err_probe(&pdev->dev, -ENODEV,
-+					     "mdio-mux child node %pOF has a 'reg' value with unmasked bits\n",
-+					     np2);
- 	}
- 
- 	ret = mdio_mux_init(&pdev->dev, pdev->dev.of_node,
+ 		of_node_put(leds_np);
 -- 
 2.34.1
 
