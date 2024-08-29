@@ -1,29 +1,29 @@
-Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BD4B15C14B
-	for <linux-sunxi@lists.linux.dev>; Thu, 29 Aug 2024 06:23:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.35
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 244031662F1
+	for <linux-sunxi@lists.linux.dev>; Thu, 29 Aug 2024 06:23:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724912608; cv=none; b=hBfiBAcjJop+1YdmQtS5jNp0KPRWAeSntGXcbLFh/kQua4yny5Gov3jF+0CvkwzgRGiObf31UFHlRSPCB1RoD3o3Kum7sA8kdroV+gBFKzwoYvxyRA6yPbgipTT6IP3UIon6++uB1Yw1WYtR//I5xzNVl1uG2E0xFtuwOVwZXaM=
+	t=1724912609; cv=none; b=F7RSFrOeI/a5ylF7JNSJ23jflnKeUgwoE5/oDXgdcQt3n6lkpZcaCbKmG1KW7irbHNcVxX6dwq0sYXDTldWl4bJstj+GRB8hfH95qDxDsow7bbiWO1dxYWznxw7eJ+yt18XhSUFrGATF4X1c98gmh6+JtrraegCJbKrm7PvnOuE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724912608; c=relaxed/simple;
-	bh=M3qKQE/U8c0EraIvCeSRwTBvPBGRapy1KhFj4ZNKKok=;
+	s=arc-20240116; t=1724912609; c=relaxed/simple;
+	bh=RRA9SYmxB5ylmwLyUdV8pgqZhfl5pw2uLR3VD07/E1E=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iIlWGiEexVyekHIvqDHOWt2qZ4muHgX0OKSyzntsOA7vLZccmI/RzuDozLr73JT8Jd4xa469qcqY65+fIarSLifDRRDd+zMPsiYZW/2TxtuH3Z91AutVlZwWhgd5/xHYm+kG5A0uQ3cz3MTGXsEBV5W4TvJmSeOBMXX150C0IoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.35
+	 MIME-Version:Content-Type; b=lbwujo1hAqYn5zuU1BZQnkFJENlnbcB/q9nhhdxkPyfGAQTSPdkiVl13PoCX/b+IEZ+ApmextofxRKHvhmJJwoMJRclbxT34hrN755JpGtpNYs223dzOO/w6NWSL7FWMGxjz40/4A46ZxT3u+12xWhqn8x8nILKmpe9z/KA2qBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.163])
-	by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4WvWS00lfHz1S9CT;
-	Thu, 29 Aug 2024 14:23:12 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.19.163.48])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4WvWRg0yt1zyQy9;
+	Thu, 29 Aug 2024 14:22:55 +0800 (CST)
 Received: from kwepemh500013.china.huawei.com (unknown [7.202.181.146])
-	by mail.maildlp.com (Postfix) with ESMTPS id 0DEBF180019;
-	Thu, 29 Aug 2024 14:23:25 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id 5A34218007C;
+	Thu, 29 Aug 2024 14:23:26 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemh500013.china.huawei.com
  (7.202.181.146) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 29 Aug
- 2024 14:23:23 +0800
+ 2024 14:23:25 +0800
 From: Jinjie Ruan <ruanjinjie@huawei.com>
 To: <woojung.huh@microchip.com>, <andrew@lunn.ch>, <f.fainelli@gmail.com>,
 	<olteanv@gmail.com>, <davem@davemloft.net>, <edumazet@google.com>,
@@ -39,9 +39,9 @@ To: <woojung.huh@microchip.com>, <andrew@lunn.ch>, <f.fainelli@gmail.com>,
 	<linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
 	<krzk@kernel.org>, <jic23@kernel.org>
 CC: <ruanjinjie@huawei.com>
-Subject: [PATCH net-next v3 07/13] net: mdio: mux-mmioreg: Simplified with scoped function
-Date: Thu, 29 Aug 2024 14:31:12 +0800
-Message-ID: <20240829063118.67453-8-ruanjinjie@huawei.com>
+Subject: [PATCH net-next v3 09/13] net: mv643xx_eth: Simplify with scoped for each OF child loop
+Date: Thu, 29 Aug 2024 14:31:14 +0800
+Message-ID: <20240829063118.67453-10-ruanjinjie@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240829063118.67453-1-ruanjinjie@huawei.com>
 References: <20240829063118.67453-1-ruanjinjie@huawei.com>
@@ -56,55 +56,43 @@ Content-Type: text/plain
 X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
  kwepemh500013.china.huawei.com (7.202.181.146)
 
-Avoids the need for manual cleanup of_node_put() in early exits
-from the loop by using for_each_available_child_of_node_scoped().
+Use scoped for_each_available_child_of_node_scoped() when iterating
+over device nodes to make code a bit simpler.
 
 Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 ---
 v3:
 - Add Reviewed-by.
-v2:
-- Split into 2 patches.
 ---
- drivers/net/mdio/mdio-mux-mmioreg.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/net/ethernet/marvell/mv643xx_eth.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/net/mdio/mdio-mux-mmioreg.c b/drivers/net/mdio/mdio-mux-mmioreg.c
-index de08419d0c98..4d87e61fec7b 100644
---- a/drivers/net/mdio/mdio-mux-mmioreg.c
-+++ b/drivers/net/mdio/mdio-mux-mmioreg.c
-@@ -96,7 +96,7 @@ static int mdio_mux_mmioreg_switch_fn(int current_child, int desired_child,
- 
- static int mdio_mux_mmioreg_probe(struct platform_device *pdev)
+diff --git a/drivers/net/ethernet/marvell/mv643xx_eth.c b/drivers/net/ethernet/marvell/mv643xx_eth.c
+index f35ae2c88091..9e80899546d9 100644
+--- a/drivers/net/ethernet/marvell/mv643xx_eth.c
++++ b/drivers/net/ethernet/marvell/mv643xx_eth.c
+@@ -2802,7 +2802,7 @@ static int mv643xx_eth_shared_of_add_port(struct platform_device *pdev,
+ static int mv643xx_eth_shared_of_probe(struct platform_device *pdev)
  {
--	struct device_node *np2, *np = pdev->dev.of_node;
+ 	struct mv643xx_eth_shared_platform_data *pd;
+-	struct device_node *pnp, *np = pdev->dev.of_node;
 +	struct device_node *np = pdev->dev.of_node;
- 	struct mdio_mux_mmioreg_state *s;
- 	struct resource res;
- 	const __be32 *iprop;
-@@ -139,20 +139,18 @@ static int mdio_mux_mmioreg_probe(struct platform_device *pdev)
- 	 * Verify that the 'reg' property of each child MDIO bus does not
- 	 * set any bits outside of the 'mask'.
- 	 */
--	for_each_available_child_of_node(np, np2) {
-+	for_each_available_child_of_node_scoped(np, np2) {
- 		u64 reg;
+ 	int ret;
  
- 		if (of_property_read_reg(np2, 0, &reg, NULL)) {
- 			dev_err(&pdev->dev, "mdio-mux child node %pOF is "
- 				"missing a 'reg' property\n", np2);
--			of_node_put(np2);
- 			return -ENODEV;
+ 	/* bail out if not registered from DT */
+@@ -2816,10 +2816,9 @@ static int mv643xx_eth_shared_of_probe(struct platform_device *pdev)
+ 
+ 	mv643xx_eth_property(np, "tx-checksum-limit", pd->tx_csum_limit);
+ 
+-	for_each_available_child_of_node(np, pnp) {
++	for_each_available_child_of_node_scoped(np, pnp) {
+ 		ret = mv643xx_eth_shared_of_add_port(pdev, pnp);
+ 		if (ret) {
+-			of_node_put(pnp);
+ 			mv643xx_eth_shared_of_remove();
+ 			return ret;
  		}
- 		if ((u32)reg & ~s->mask) {
- 			dev_err(&pdev->dev, "mdio-mux child node %pOF has "
- 				"a 'reg' value with unmasked bits\n",
- 				np2);
--			of_node_put(np2);
- 			return -ENODEV;
- 		}
- 	}
 -- 
 2.34.1
 
