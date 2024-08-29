@@ -1,28 +1,29 @@
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E551914A4EB
-	for <linux-sunxi@lists.linux.dev>; Thu, 29 Aug 2024 06:23:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.255
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1423614C59C
+	for <linux-sunxi@lists.linux.dev>; Thu, 29 Aug 2024 06:23:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724912604; cv=none; b=kJFu8Zueo1/5DOAhy8MDjY4Bm8v0zMhwIylB4N1BZz6Pp0LTvbHl8N57GOMVH5+BNVyUUuuJGcWKa5HSisdmXIa8MrzQTa2OCD1piOHCpr0YYJ+j0aLlkNa0HlioD2pVYIqtLeJTBMrHZ5bXIfTVKjIu/mSHGh95LRmqTUX07kA=
+	t=1724912605; cv=none; b=GBD/mOsDRTfd8x+oW3DqBIC4o3bEEdupsgMzirDjcKnbkCXN9YvCWz4EkDkr+swqXyThjxuryI99r3xccBEI1e9ASBFe8V4wLg+202CiDTQLvEaOV7sXQeNk3t01uN6/xDKF388HA37iUPzheuGLiLzws9TPJtSqEmiD35R+y+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724912604; c=relaxed/simple;
-	bh=w9V2nYpCOv3yUpxRlfoF+9rM9Ej4RplyKeeZ3zq/f+4=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=H/EyEAx1du2oR/mhNBghHz45rmFRv0as0KqfUykmAiDWArilgMkedB7a8hTIpF4Ucai62O2u1EfOpd7h37i1iBiiSLuKAskyG9/Xup3b3kkAC36MMA72fNUHLH5QRXcan67B0Px0+p7Hw+oB7qx0aDrlAql8c7c3Kc5tYY5HaQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.255
+	s=arc-20240116; t=1724912605; c=relaxed/simple;
+	bh=C2KPCMDV8PNgc3PGpuWU5pi0y5zq1XefhXEB6ugn73c=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TZBsxIga5qwrVz0rriJLjcMysY8z3GJbAfFB3Z8IspwokwTsRDkYwq6y4LhbH73wToSJPnKFVM5Y7ifhvWV+P3dXFk30pUsPPwpXVUhi4fDRczbOBs6xjClwTB2RfpJZFaf+aqYWIyRTovQYncmgt+oQ/u+XN12fMT1/BPuMbhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.105])
-	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4WvWR90bpqz18Mp4;
-	Thu, 29 Aug 2024 14:22:29 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.19.88.194])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4WvWRY5FRCzyR3l;
+	Thu, 29 Aug 2024 14:22:49 +0800 (CST)
 Received: from kwepemh500013.china.huawei.com (unknown [7.202.181.146])
-	by mail.maildlp.com (Postfix) with ESMTPS id 4E3681401F2;
-	Thu, 29 Aug 2024 14:23:18 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id EEE6214035F;
+	Thu, 29 Aug 2024 14:23:20 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemh500013.china.huawei.com
  (7.202.181.146) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 29 Aug
- 2024 14:23:17 +0800
+ 2024 14:23:19 +0800
 From: Jinjie Ruan <ruanjinjie@huawei.com>
 To: <woojung.huh@microchip.com>, <andrew@lunn.ch>, <f.fainelli@gmail.com>,
 	<olteanv@gmail.com>, <davem@davemloft.net>, <edumazet@google.com>,
@@ -38,10 +39,12 @@ To: <woojung.huh@microchip.com>, <andrew@lunn.ch>, <f.fainelli@gmail.com>,
 	<linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
 	<krzk@kernel.org>, <jic23@kernel.org>
 CC: <ruanjinjie@huawei.com>
-Subject: [PATCH net-next v3 00/13] net: Simplified with scoped function
-Date: Thu, 29 Aug 2024 14:31:05 +0800
-Message-ID: <20240829063118.67453-1-ruanjinjie@huawei.com>
+Subject: [PATCH net-next v3 03/13] net: dsa: realtek: Use for_each_child_of_node_scoped()
+Date: Thu, 29 Aug 2024 14:31:08 +0800
+Message-ID: <20240829063118.67453-4-ruanjinjie@huawei.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240829063118.67453-1-ruanjinjie@huawei.com>
+References: <20240829063118.67453-1-ruanjinjie@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,42 +56,51 @@ Content-Type: text/plain
 X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
  kwepemh500013.china.huawei.com (7.202.181.146)
 
-Simplify with scoped for each OF child loop and __free(), as well as
-dev_err_probe().
+Avoid need to manually handle of_node_put() by using
+for_each_child_of_node_scoped(), which can simplfy code.
 
-Changes in v3:
-- Sort the variables, longest first, shortest last.
+Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+---
+v3:
+- Sort the variables, longest first, shortest last
 - Add Reviewed-by.
+v2:
+- Split into 2 patches.
+---
+ drivers/net/dsa/realtek/rtl8366rb.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-Changes in v2:
-- Subject prefix: next -> net-next.
-- Split __free() from scoped for each OF child loop clean.
-- Fix use of_node_put() instead of __free() for the 5th patch.
-
-Jinjie Ruan (13):
-  net: stmmac: dwmac-sun8i: Use for_each_child_of_node_scoped()
-  net: stmmac: dwmac-sun8i: Use __free() to simplify code
-  net: dsa: realtek: Use for_each_child_of_node_scoped()
-  net: dsa: realtek: Use __free() to simplify code
-  net: phy: Fix missing of_node_put() for leds
-  net: phy: Use for_each_available_child_of_node_scoped()
-  net: mdio: mux-mmioreg: Simplified with scoped function
-  net: mdio: mux-mmioreg: Simplified with dev_err_probe()
-  net: mv643xx_eth: Simplify with scoped for each OF child loop
-  net: dsa: microchip: Use scoped function to simplfy code
-  net: dsa: microchip: Use __free() to simplfy code
-  net: bcmasp: Simplify with scoped for each OF child loop
-  net: bcmasp: Simplify with __free()
-
- drivers/net/dsa/microchip/ksz_common.c        | 12 ++---
- drivers/net/dsa/realtek/rtl8366rb.c           | 21 +++-----
- drivers/net/ethernet/broadcom/asp2/bcmasp.c   | 18 +++----
- drivers/net/ethernet/marvell/mv643xx_eth.c    |  5 +-
- .../net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 20 +++-----
- drivers/net/mdio/mdio-mux-mmioreg.c           | 51 ++++++++-----------
- drivers/net/phy/phy_device.c                  |  7 +--
- 7 files changed, 51 insertions(+), 83 deletions(-)
-
+diff --git a/drivers/net/dsa/realtek/rtl8366rb.c b/drivers/net/dsa/realtek/rtl8366rb.c
+index 9e821b42e5f3..11243f89c98a 100644
+--- a/drivers/net/dsa/realtek/rtl8366rb.c
++++ b/drivers/net/dsa/realtek/rtl8366rb.c
+@@ -1009,8 +1009,8 @@ static int rtl8366rb_setup_all_leds_off(struct realtek_priv *priv)
+ 
+ static int rtl8366rb_setup_leds(struct realtek_priv *priv)
+ {
+-	struct device_node *leds_np, *led_np;
+ 	struct dsa_switch *ds = &priv->ds;
++	struct device_node *leds_np;
+ 	struct dsa_port *dp;
+ 	int ret = 0;
+ 
+@@ -1025,13 +1025,11 @@ static int rtl8366rb_setup_leds(struct realtek_priv *priv)
+ 			continue;
+ 		}
+ 
+-		for_each_child_of_node(leds_np, led_np) {
++		for_each_child_of_node_scoped(leds_np, led_np) {
+ 			ret = rtl8366rb_setup_led(priv, dp,
+ 						  of_fwnode_handle(led_np));
+-			if (ret) {
+-				of_node_put(led_np);
++			if (ret)
+ 				break;
+-			}
+ 		}
+ 
+ 		of_node_put(leds_np);
 -- 
 2.34.1
 
