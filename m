@@ -1,33 +1,33 @@
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB4261AED48;
-	Thu, 29 Aug 2024 12:44:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D7661AB530;
+	Thu, 29 Aug 2024 12:46:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724935448; cv=none; b=KlFNtbI/w8YfAYmKb7lsGiSJ6bslFiYXBwk3cU+sBQZKlErIMO1rc5HvwYzuXLvC8kObkCwlWmf5nE2HyH/1rLjgnz5QWHW8Fs5qRb6pfukHVADQx5pVnodkTPe3VB3V06f80MWBoDm6kPQGnsv2XcDRLzy9bTtqQK1c3yUEN2k=
+	t=1724935620; cv=none; b=REc/C+46xxHQMHqPYaY91nIoEoebrS/qylPbpXPGLOl2nicmNgdHfUfb3/hTlAyOBNEaBC+axfCQIZrCAxaajvxzSYOq64WsSsYfFQOo5JE8E+eTfFH2nSavc/cqv8/SsRvJV49GbCGySEjoNTEwAYWX3aHbmQrwxc/BMp0KwNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724935448; c=relaxed/simple;
-	bh=kmQ5H8GpQ9AThZb7Z64Sq14B+iL6YKG8nt5xNCwt4As=;
+	s=arc-20240116; t=1724935620; c=relaxed/simple;
+	bh=Oq8nxUfpNDwgKleng1j8/+AF3qcMu74H3fGZd4bWY3c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SX7euNsODcCCrMN37gFgD1uJv9BkDNGGVeazde6QkWuo9G5+LyMUkvvq8e9FtfUL4X421loBQERtMro6IfOFITshDsEyOw6fLsYI4aq2w9qkMHBG5VbO6zOqG91JdJjsBTG2HrcIg9ajb0VAQYl8HPF09aUJogw4euZ7m1oGC/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=3SiSgawQ; arc=none smtp.client-ip=156.67.10.101
+	 Content-Type:Content-Disposition:In-Reply-To; b=YHxHZmRuies3DimyETGVCydz/hPIpQK9tx0hLJruEezfu/K49xn5LbzcRi0mOKXSCsRRDXT6AsO0m4wfmFAmOvWGIB/0RiTjXmM4yBZbdur03gHZ7l/tAVWHlqSnK+dGkXig4pJXous8A9OaI1vXRG47Gb/JFwxc3jKf0SgD/Tc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=e0P3AuXO; arc=none smtp.client-ip=156.67.10.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="3SiSgawQ"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="e0P3AuXO"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
 	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
 	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=Of0pRpVC7r+22aF49u6u4Qqa9/5GKIrskiwj0PoVtq0=; b=3SiSgawQGgKE5NEvT3nyW6yPr/
-	qXD685UmZvTZnoKmezrZk5PaGzZjNCcylw+U6i4+EyIwNNLzDSVwx3pj3njoXayglQS6XIiz0goES
-	nMcOibjxm4qrlPtLTEreyiOdz2+vDn8b+6D57tvKnmbYap0iVGC4YfvjVXo0Fs1/Cm+U=;
+	bh=+U3E/oe1eaYC5ux06BtbIDVN6znZGIAxDu2IHziTnU4=; b=e0P3AuXOsvlN4MV4b1JNjYzRGW
+	F/+zEk+2LAPjt7CVekG5HGaKh0sRfDB5D+UI2R59k3664F0/dOzmss+cTbWG6NaCevGExU+KGkVBH
+	SCgyhn5uXer/N9raqghFZWKvhJHHksOxOUfGiiV1R5G5Fn0/l4f/R5TLSl9ndop2uT2o=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1sjeV0-00623A-8j; Thu, 29 Aug 2024 14:43:38 +0200
-Date: Thu, 29 Aug 2024 14:43:38 +0200
+	id 1sjeXt-00624P-SS; Thu, 29 Aug 2024 14:46:37 +0200
+Date: Thu, 29 Aug 2024 14:46:37 +0200
 From: Andrew Lunn <andrew@lunn.ch>
 To: Jinjie Ruan <ruanjinjie@huawei.com>
 Cc: woojung.huh@microchip.com, f.fainelli@gmail.com, olteanv@gmail.com,
@@ -43,9 +43,11 @@ Cc: woojung.huh@microchip.com, f.fainelli@gmail.com, olteanv@gmail.com,
 	linux-stm32@st-md-mailman.stormreply.com,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
 	krzk@kernel.org, jic23@kernel.org
-Subject: Re: [PATCH net-next v3 00/13] net: Simplified with scoped function
-Message-ID: <25cef928-6b26-447e-8106-77db0aa5954b@lunn.ch>
+Subject: Re: [PATCH net-next v3 01/13] net: stmmac: dwmac-sun8i: Use
+ for_each_child_of_node_scoped()
+Message-ID: <6169002c-eba4-44c1-8e30-4fff308b61c5@lunn.ch>
 References: <20240829063118.67453-1-ruanjinjie@huawei.com>
+ <20240829063118.67453-2-ruanjinjie@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -54,16 +56,22 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240829063118.67453-1-ruanjinjie@huawei.com>
+In-Reply-To: <20240829063118.67453-2-ruanjinjie@huawei.com>
 
-On Thu, Aug 29, 2024 at 02:31:05PM +0800, Jinjie Ruan wrote:
-> Simplify with scoped for each OF child loop and __free(), as well as
-> dev_err_probe().
+On Thu, Aug 29, 2024 at 02:31:06PM +0800, Jinjie Ruan wrote:
+> Avoid need to manually handle of_node_put() by using
+> for_each_child_of_node_scoped(), which can simplfy code.
+> 
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-I said the for_each_child_of_node_scoped() parts are fine. The
-__free() parts are ugly, and i would like to reject them. So please
-post just the for_each_child_of_node_scoped() parts for merging, while
-we discuss what to do about __free().
+Your Signed-off-by: should always be last. I've posted this comment to
+quite a few patches to netdev over the last couple of days. Are you
+not reading the list?
+
+With that corrected, please add my:
+
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 
     Andrew
 
