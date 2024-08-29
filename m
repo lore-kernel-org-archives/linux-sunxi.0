@@ -1,31 +1,31 @@
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C42804120B
-	for <linux-sunxi@lists.linux.dev>; Thu, 29 Aug 2024 02:29:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.190
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD8B6171BB
+	for <linux-sunxi@lists.linux.dev>; Thu, 29 Aug 2024 02:46:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724898579; cv=none; b=lVu9d+kWTKmitb5qCABcJRfaGYQSkSJvZ+ZapqXAD9dXGX/e4Z/tEaIyBACoQvao5A7RmfGV/qcQAGy8Vyv+Z9tUl8QgLrrhFM7rZ4mndPoVidMMbN1KQDS9RaSF5fgrHJAmHrMCYBmz8wjINbY8nY3KohZfnTSWiu8J4Q6bHbU=
+	t=1724899584; cv=none; b=cF6FP5dlA7kFj0/Ex5Z2m1HWUTgAKqOlqpq+GM6LxPeEZDzXLt776iz7kT+clACReToFAm0QbewRKIISRkgmPs49vkDhQ5PyZZUzvfqWfhwVitdMe/RCuXdA4Qkb4cJ01Hb0he2VOqBzGbLglPp9CWVSqd10p2mHN9LZdqfXhBs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724898579; c=relaxed/simple;
-	bh=hACEn4Z4Mb+ZnX5+j/CA2+UG9MzE+WMhS4j94taGCGk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=sSk2ZDxAvQ10UxBz7kx2SsPSyWlNAk/06GtH8yh3camcdgENJ3ga2gD2Ls20hYDGo0h3+MVIluN87EBNP6WK0H57bVcXKpD/eTEJzcSAVJELcgiGKOuIFBRnpjFCtuDeyYl/qVcv3ncLvgIW44BBjEV3gjB+o1jmvZ60BN46zSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.190
+	s=arc-20240116; t=1724899584; c=relaxed/simple;
+	bh=PSOJy8XFAwIQYiIo+WbIeFtJHCtBfiNt9ppspedr6bY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=X1ym40uGXXKNMm1opfseXqGIWa/IFY9sFHECWPIYC/L/i8vvXelkgyMt3hnYtT47IqLVIQJ9uGXxHLylzntLFT1JaGPlW46inbygCey+Jxrs2USDVEk93Oj2LZwfG8rRneh6Pt4fMMTK2DhooYncwLW6TnXI9mL7sAr8cOW+GVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.234])
-	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4WvQ8r6wKtz20n3V;
-	Thu, 29 Aug 2024 10:24:44 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.19.163.252])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4WvQcp3pHfzyQWq;
+	Thu, 29 Aug 2024 10:45:30 +0800 (CST)
 Received: from kwepemh500013.china.huawei.com (unknown [7.202.181.146])
-	by mail.maildlp.com (Postfix) with ESMTPS id 0BD531400FD;
-	Thu, 29 Aug 2024 10:29:35 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id D33D4180AE6;
+	Thu, 29 Aug 2024 10:46:19 +0800 (CST)
 Received: from [10.67.109.254] (10.67.109.254) by
  kwepemh500013.china.huawei.com (7.202.181.146) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 29 Aug 2024 10:29:33 +0800
-Message-ID: <5fbe123d-99d1-1b48-4c84-fe8e1b0cf109@huawei.com>
-Date: Thu, 29 Aug 2024 10:29:33 +0800
+ 15.2.1544.11; Thu, 29 Aug 2024 10:46:18 +0800
+Message-ID: <373de0af-8aa1-263b-eb5a-3dfdd1fa19fd@huawei.com>
+Date: Thu, 29 Aug 2024 10:46:17 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -34,69 +34,44 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.0
-Subject: Re: [PATCH net-next v2 01/13] net: stmmac: dwmac-sun8i: Use
- for_each_child_of_node_scoped()
+Subject: Re: [PATCH net-next v2 05/13] net: phy: Fix missing of_node_put() for
+ leds
 Content-Language: en-US
-To: Andrew Lunn <andrew@lunn.ch>
-CC: <woojung.huh@microchip.com>, <f.fainelli@gmail.com>, <olteanv@gmail.com>,
-	<davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-	<pabeni@redhat.com>, <linus.walleij@linaro.org>, <alsi@bang-olufsen.dk>,
-	<justin.chen@broadcom.com>, <sebastian.hesselbarth@gmail.com>,
-	<alexandre.torgue@foss.st.com>, <joabreu@synopsys.com>,
-	<mcoquelin.stm32@gmail.com>, <wens@csie.org>, <jernej.skrabec@gmail.com>,
-	<samuel@sholland.org>, <hkallweit1@gmail.com>, <linux@armlinux.org.uk>,
-	<ansuelsmth@gmail.com>, <UNGLinuxDriver@microchip.com>,
-	<netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<bcm-kernel-feedback-list@broadcom.com>,
+To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	<woojung.huh@microchip.com>, <andrew@lunn.ch>, <f.fainelli@gmail.com>,
+	<olteanv@gmail.com>, <davem@davemloft.net>, <edumazet@google.com>,
+	<kuba@kernel.org>, <pabeni@redhat.com>, <linus.walleij@linaro.org>,
+	<alsi@bang-olufsen.dk>, <justin.chen@broadcom.com>,
+	<sebastian.hesselbarth@gmail.com>, <alexandre.torgue@foss.st.com>,
+	<joabreu@synopsys.com>, <mcoquelin.stm32@gmail.com>, <wens@csie.org>,
+	<jernej.skrabec@gmail.com>, <samuel@sholland.org>, <hkallweit1@gmail.com>,
+	<linux@armlinux.org.uk>, <ansuelsmth@gmail.com>,
+	<UNGLinuxDriver@microchip.com>, <netdev@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <bcm-kernel-feedback-list@broadcom.com>,
 	<linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
 	<linux-stm32@st-md-mailman.stormreply.com>, <krzk@kernel.org>,
 	<jic23@kernel.org>
 References: <20240828032343.1218749-1-ruanjinjie@huawei.com>
- <20240828032343.1218749-2-ruanjinjie@huawei.com>
- <52435305-d134-4cee-8660-f7bf60206ddf@lunn.ch>
+ <20240828032343.1218749-6-ruanjinjie@huawei.com>
+ <66cf4618f313_34a7b1294bb@willemb.c.googlers.com.notmuch>
 From: Jinjie Ruan <ruanjinjie@huawei.com>
-In-Reply-To: <52435305-d134-4cee-8660-f7bf60206ddf@lunn.ch>
+In-Reply-To: <66cf4618f313_34a7b1294bb@willemb.c.googlers.com.notmuch>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
  kwepemh500013.china.huawei.com (7.202.181.146)
 
 
 
-On 2024/8/28 22:17, Andrew Lunn wrote:
-> On Wed, Aug 28, 2024 at 11:23:31AM +0800, Jinjie Ruan wrote:
->> Avoid need to manually handle of_node_put() by using
->> for_each_child_of_node_scoped(), which can simplfy code.
+On 2024/8/28 23:45, Willem de Bruijn wrote:
+> Jinjie Ruan wrote:
+>> The call of of_get_child_by_name() will cause refcount incremented
+>> for leds, if it succeeds, it should call of_node_put() to decrease
+>> it, fix it.
 >>
+>> Fixes: 01e5b728e9e4 ("net: phy: Add a binding for PHY LEDs")
 >> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
->> ---
->>  drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 6 ++----
->>  1 file changed, 2 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
->> index cc93f73a380e..8c5b4e0c0976 100644
->> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
->> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
->> @@ -774,7 +774,7 @@ static int sun8i_dwmac_reset(struct stmmac_priv *priv)
->>  static int get_ephy_nodes(struct stmmac_priv *priv)
->>  {
->>  	struct sunxi_priv_data *gmac = priv->plat->bsp_priv;
->> -	struct device_node *mdio_mux, *iphynode;
->> +	struct device_node *mdio_mux;
->>  	struct device_node *mdio_internal;
->>  	int ret;
 > 
-> Networking uses reverse Christmas tree. Variables are sorted, longest
-> first, shortest last. So you need to move mdio_mux after
-> mdio_internal.
+> Fixes should go to net. Should not be part of this series?
 
-Right, it will look more clear.
-
-> 
-> The rest looks O.K.
-> 
-> 
->     Andrew
-> 
-> ---
-> pw-bot: cr
+Thank you! I will separate it out.
