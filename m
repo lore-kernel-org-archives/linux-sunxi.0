@@ -1,83 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 325D71D554;
-	Wed, 28 Aug 2024 18:10:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C42804120B
+	for <linux-sunxi@lists.linux.dev>; Thu, 29 Aug 2024 02:29:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.190
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724868647; cv=none; b=siyz7Vy094TWH+Yt1I5KT/arqbIkRFDbd30L6ZMpK4gi3rPxm46f3aDsU32zysvUM6xTHdLAsg4F9Kd/tRFeVSqUmPWH/e4FOXXV8ZPCmKCkWlKkFNKDrp7EnRpF7aLxsNlB+jNcEUsyYgKx4RN54hvxPCXDeE11tXZ64qLCjJw=
+	t=1724898579; cv=none; b=lVu9d+kWTKmitb5qCABcJRfaGYQSkSJvZ+ZapqXAD9dXGX/e4Z/tEaIyBACoQvao5A7RmfGV/qcQAGy8Vyv+Z9tUl8QgLrrhFM7rZ4mndPoVidMMbN1KQDS9RaSF5fgrHJAmHrMCYBmz8wjINbY8nY3KohZfnTSWiu8J4Q6bHbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724868647; c=relaxed/simple;
-	bh=BLWFViZHyhfvUvUKzWyXSIKJCD0OeyNnNaETiXaafdA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qb2V0+oMx435tXxKy0JjT/Jp4dUji4QfYoMgdVivyOFmvSSmoeBj38uin/zCVGMO+6sPoJz0jOquZLJPdaYo9Lp1AtQT7j87CN1LjLScKLzAi/p7LTMXQpKXmSCElECaIQxeW3FYCI1dGbUUaO06AKOhyr8dw0dyhxh6WUMldxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z1sipsWp; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z1sipsWp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12471C4CEC0;
-	Wed, 28 Aug 2024 18:10:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724868647;
-	bh=BLWFViZHyhfvUvUKzWyXSIKJCD0OeyNnNaETiXaafdA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Z1sipsWpuNXKP+EOz6AL6w/fPKCe1izfUeP1TLDV4jTuBM8Pj5WwIHJZv/5wkVS5z
-	 fCAChL1rCsdgyblCaFMvYGC1soBs6KWFaWLkCJocYbXmltsjwOxeS5sSsU4cbA9kG/
-	 +iokNUm8LrSXg5Nm85d7OSywxmqqJGSjfbPAJryEHs6zlYK2OT/fPzLlXjbOVrVXXw
-	 33KIaV3vl08lsNHVR1EAZ/vlIN2sefXmfIoZagjtQvbapHyJpfYJgdNExUKjC5jPlA
-	 2jj4rn41vLLE9NH5gVZupLtUo5xV4HIPo4Wh0s84eJeF4Rs5XPG7sSbhoFaQcM5OP1
-	 RpmJnWcc/yPIA==
-Date: Wed, 28 Aug 2024 11:10:45 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Andrew Lunn <andrew@lunn.ch>, Jinjie Ruan <ruanjinjie@huawei.com>,
- woojung.huh@microchip.com, f.fainelli@gmail.com, olteanv@gmail.com,
- davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
- linus.walleij@linaro.org, alsi@bang-olufsen.dk, justin.chen@broadcom.com,
- sebastian.hesselbarth@gmail.com, alexandre.torgue@foss.st.com,
- joabreu@synopsys.com, mcoquelin.stm32@gmail.com, wens@csie.org,
- jernej.skrabec@gmail.com, samuel@sholland.org, hkallweit1@gmail.com,
- linux@armlinux.org.uk, ansuelsmth@gmail.com, UNGLinuxDriver@microchip.com,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- bcm-kernel-feedback-list@broadcom.com,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-stm32@st-md-mailman.stormreply.com, jic23@kernel.org
-Subject: Re: [PATCH net-next v2 00/13] net: Simplified with scoped function
-Message-ID: <20240828111045.11dfc157@kernel.org>
-In-Reply-To: <71deb322-4b54-4c1c-a665-d9de84ea9baf@kernel.org>
-References: <20240828032343.1218749-1-ruanjinjie@huawei.com>
-	<6092e318-ae0c-44f6-89fa-989a384921b7@lunn.ch>
-	<71deb322-4b54-4c1c-a665-d9de84ea9baf@kernel.org>
+	s=arc-20240116; t=1724898579; c=relaxed/simple;
+	bh=hACEn4Z4Mb+ZnX5+j/CA2+UG9MzE+WMhS4j94taGCGk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=sSk2ZDxAvQ10UxBz7kx2SsPSyWlNAk/06GtH8yh3camcdgENJ3ga2gD2Ls20hYDGo0h3+MVIluN87EBNP6WK0H57bVcXKpD/eTEJzcSAVJELcgiGKOuIFBRnpjFCtuDeyYl/qVcv3ncLvgIW44BBjEV3gjB+o1jmvZ60BN46zSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.190
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.88.234])
+	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4WvQ8r6wKtz20n3V;
+	Thu, 29 Aug 2024 10:24:44 +0800 (CST)
+Received: from kwepemh500013.china.huawei.com (unknown [7.202.181.146])
+	by mail.maildlp.com (Postfix) with ESMTPS id 0BD531400FD;
+	Thu, 29 Aug 2024 10:29:35 +0800 (CST)
+Received: from [10.67.109.254] (10.67.109.254) by
+ kwepemh500013.china.huawei.com (7.202.181.146) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Thu, 29 Aug 2024 10:29:33 +0800
+Message-ID: <5fbe123d-99d1-1b48-4c84-fe8e1b0cf109@huawei.com>
+Date: Thu, 29 Aug 2024 10:29:33 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH net-next v2 01/13] net: stmmac: dwmac-sun8i: Use
+ for_each_child_of_node_scoped()
+Content-Language: en-US
+To: Andrew Lunn <andrew@lunn.ch>
+CC: <woojung.huh@microchip.com>, <f.fainelli@gmail.com>, <olteanv@gmail.com>,
+	<davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+	<pabeni@redhat.com>, <linus.walleij@linaro.org>, <alsi@bang-olufsen.dk>,
+	<justin.chen@broadcom.com>, <sebastian.hesselbarth@gmail.com>,
+	<alexandre.torgue@foss.st.com>, <joabreu@synopsys.com>,
+	<mcoquelin.stm32@gmail.com>, <wens@csie.org>, <jernej.skrabec@gmail.com>,
+	<samuel@sholland.org>, <hkallweit1@gmail.com>, <linux@armlinux.org.uk>,
+	<ansuelsmth@gmail.com>, <UNGLinuxDriver@microchip.com>,
+	<netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<bcm-kernel-feedback-list@broadcom.com>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
+	<linux-stm32@st-md-mailman.stormreply.com>, <krzk@kernel.org>,
+	<jic23@kernel.org>
+References: <20240828032343.1218749-1-ruanjinjie@huawei.com>
+ <20240828032343.1218749-2-ruanjinjie@huawei.com>
+ <52435305-d134-4cee-8660-f7bf60206ddf@lunn.ch>
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+In-Reply-To: <52435305-d134-4cee-8660-f7bf60206ddf@lunn.ch>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ kwepemh500013.china.huawei.com (7.202.181.146)
 
-On Wed, 28 Aug 2024 16:45:32 +0200 Krzysztof Kozlowski wrote:
-> On 28/08/2024 16:32, Andrew Lunn wrote:
-> > On Wed, Aug 28, 2024 at 11:23:30AM +0800, Jinjie Ruan wrote:  
-> >> Simplify with scoped for each OF child loop and __free(), as well as
-> >> dev_err_probe().
-> >>
-> >> Changes in v2:
-> >> - Subject prefix: next -> net-next.
-> >> - Split __free() from scoped for each OF child loop clean.
-> >> - Fix use of_node_put() instead of __free() for the 5th patch.  
-> > 
-> > I personally think all these __free() are ugly and magical. Can it  
+
+
+On 2024/8/28 22:17, Andrew Lunn wrote:
+> On Wed, Aug 28, 2024 at 11:23:31AM +0800, Jinjie Ruan wrote:
+>> Avoid need to manually handle of_node_put() by using
+>> for_each_child_of_node_scoped(), which can simplfy code.
+>>
+>> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+>> ---
+>>  drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 6 ++----
+>>  1 file changed, 2 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+>> index cc93f73a380e..8c5b4e0c0976 100644
+>> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+>> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+>> @@ -774,7 +774,7 @@ static int sun8i_dwmac_reset(struct stmmac_priv *priv)
+>>  static int get_ephy_nodes(struct stmmac_priv *priv)
+>>  {
+>>  	struct sunxi_priv_data *gmac = priv->plat->bsp_priv;
+>> -	struct device_node *mdio_mux, *iphynode;
+>> +	struct device_node *mdio_mux;
+>>  	struct device_node *mdio_internal;
+>>  	int ret;
 > 
-> It is code readability so quite subjective. Jakub also rejected one of
-> such __free() changes, so maybe all these cases here should be rejected?
+> Networking uses reverse Christmas tree. Variables are sorted, longest
+> first, shortest last. So you need to move mdio_mux after
+> mdio_internal.
 
-Andrew's comments on refcounting on DT objects notwithstanding --
-I do like the _scoped() iterator quite a bit, FWIW. I think it's one 
-of the better uses of the auto-cleanup and local variable declarations.
+Right, it will look more clear.
 
-Direct uses of __free() are more questionable in my opinion.
-
-Using advanced constructs to build clean subsystem APIs is great,
-sprinkling unreadable constructs to save LoC is what C++ is for. 
-(Lets see how many people this offends ;))
+> 
+> The rest looks O.K.
+> 
+> 
+>     Andrew
+> 
+> ---
+> pw-bot: cr
