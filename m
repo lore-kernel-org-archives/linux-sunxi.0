@@ -1,130 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA85814E2E9;
-	Fri, 30 Aug 2024 17:53:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A294914A4EA
+	for <linux-sunxi@lists.linux.dev>; Fri, 30 Aug 2024 22:17:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725040424; cv=none; b=a2jYGMfkJnRiOSx9fzji49O0V8Hzvkx5ToInhfcCFGImLVnAMpf3u4xBcqq5+0C1CEuiml8PTuh8TLlskRwSc7C2oWK+IbWYHSti4p5osI0pRTX5ullnFdFrsyJHerhGnyZwfJ7dFdWWxXRJ2G1Lz+DrZ3k5IMkvTHuyPEzLHss=
+	t=1725056278; cv=none; b=NQw4GnPgDv9NEVlt6cm+fhbLQg730+dJ4+YEIEbzqw1x2JWzs5I706/yKkWvwlLTsw1pEYS1Qrwns3k8w7RvkrvchyaBQHCJw3xuq3asJ7wOEhXUhAuHxejcsp8o9GQr7ZXKV89V3h75VSwSbDTSGGpmUiTvY9LCc+a4lEbYDHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725040424; c=relaxed/simple;
-	bh=V7ik8+g9EvFhyAtXi65t7GvUuDMdpcYjkAiOc+Gu1R0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YB59of4rPjfYhZ5QHDRh1+puDpEL+FfHzasVhZU4hGMY3TJA/KLOyCmSyHT0MdtnkwZhKk5XiFXNphMM06igpIzuWggiN00CKhelw5uQNTynvObhW8+YzLIuzyi9OiaZ9P6CYXnvoL0gWARoRVp1rptZPSXJ4PZ+IKePv9gQPEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bOhhrsUU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725056278; c=relaxed/simple;
+	bh=k5WO4QDBBlsQUtbcAzwg6NCzLWWJqOLIFTUVIpEZcoU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=I1gO9aNRlp6uI5CHFZNmGJr+LiLtzLwreshy5KpQBnPn3LNwdbG1bDHSlKM6zNUYt9dP9KBUD4N0Ek5uRWPrNvSmyZbuLL5bmsUJsghJ9Ti5320SKhMscyWuxk69Igmm/dae2hOLRzEfqHaOJjxY0QbNhZc17MHKEMqqvTmSTGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=j6k9ryKS; arc=none smtp.client-ip=209.85.219.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bOhhrsUU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59506C4CEC2;
-	Fri, 30 Aug 2024 17:53:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725040424;
-	bh=V7ik8+g9EvFhyAtXi65t7GvUuDMdpcYjkAiOc+Gu1R0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=bOhhrsUUfSGefp2lNf1zKNmilhNcXxkJtr8mT7J2Zke8n3XT9tWk49BzrH4YDAVHL
-	 +tJ6Dmxa+aA0V6VMDfgOSFxMzKE2clr2rNhfnfWWh9e0xj0mMcGIYyr4Mjcj/Ek/yV
-	 zHc8lVvqE6qU5rf35ua41JDjuYAn7Ecen/eIfzudCsnGmA+BqZuq2UuZ2rPF0bitZq
-	 X/8anM8bTczatHbSW9x/xBzG/VM+s9xxt3O7lzjk17Lpi7rab841YrrYY5bqxebuIO
-	 UhFZah0WsdV5mh9YC52M1qhO0vdzQJEa66S/tPzxYfD4CL+Q5G4FXNJ4XalAy5qTJ/
-	 VmhN3Aw4adKcA==
-Message-ID: <403cc76f-7ba4-412b-9784-af6a6e14cf4a@kernel.org>
-Date: Fri, 30 Aug 2024 19:53:38 +0200
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="j6k9ryKS"
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e17c1881a52so2569303276.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 30 Aug 2024 15:17:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1725056274; x=1725661074; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=k5WO4QDBBlsQUtbcAzwg6NCzLWWJqOLIFTUVIpEZcoU=;
+        b=j6k9ryKSCSe1OdaC+emXvk010iavE1TW8IWCNT8OoZ4uBB1ujfJKHw1g/r+6zV+vW6
+         wUVXKL131J8iD3JDLshdILm9PaztP0Cos3RCfBb5JZYTlNOUQOa1EAy7zp/qABXyuTO9
+         eo3gtGrZsLf7HHlLEJ6oOZLmjLrbEI7wL5jbDVJWkBFajO2UiU69WnDumKT0xDxu2NsZ
+         sGolGW+FbgQ69B8Zkkw1gdWpb7B1hQ7MLrfAOpJZ9A/5GyBtsAYq78n4YV8gUY6JIYMy
+         vO8QXFe0Ix9XXhCVVp01ichCi+r4nGyRaxLrisTlbSenQSDX+L6HnxBP7wauYrh3qP+a
+         eQuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725056274; x=1725661074;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=k5WO4QDBBlsQUtbcAzwg6NCzLWWJqOLIFTUVIpEZcoU=;
+        b=S/xhC5n+NkwUcxR3vs9aGEkrrBrf43FIW8oDqUBOe3+6EdlFSBeJTGkI/SC66Xjozt
+         ULTmRtR3t0PUmWFOoKMJM3cD1Mwff9uStvtYjic1ndB9E1jUSv46zshoQgP8Qn90uHDE
+         zyr2k4pbbCrlKNVw50oGQc+QGzjwKx5BuKJTLt0fjd/yXLfzsRhulAzIU3VVuRt3iqGZ
+         EqnJgCi2ei8/ZHwUJ9DSIp9ixManP43wrmI6ePeBOegU/jkZyS7otKZumVkKwsRLNhOU
+         nvvLqAufRgF9QtMnwSTyanPwp+B/BUg1FQK8FTyzwmFLbGMGJicR+Q/B1R1EQBB5FBlT
+         6IQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV6nl3iCpikSW8e3IeHshOCJ8WuuQgpPZG4ALPp49XJu+pzGMioQhe8NJqOXDzpIOD7Avjr9HfahmRSQQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzKLADSp3gQD1arKW643BhXzKxV1MX0ZhBz2MlmDqtDRiLy2vrC
+	fpCSy9izbd3j006QrOu0Ux/rSiSFdcvEjFGHE5Iy1d2F+N0T1A5/rG0cdJ2VJ8J5TQjJOLx6Omb
+	GXwSiMnqY5NnMSRcyjVgrt3z8hBFILQxU2RcQzA==
+X-Google-Smtp-Source: AGHT+IEmUy2IA6mF/xZvxmao3unx9PJZHOnyHquLRhrCfhleDGsJQGbKCiuRac4ps36sc2viLuEP9uTKmgAJ4mvsDS0=
+X-Received: by 2002:a05:6902:1ac5:b0:e1a:7033:73b2 with SMTP id
+ 3f1490d57ef6-e1a7a3d8163mr3422353276.24.1725056274315; Fri, 30 Aug 2024
+ 15:17:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] clk: sunxi: sun9i-mmc: Use dev_err_probe() to simplfy
- code
-To: Chen Yufan <chenyufan@vivo.com>, =?UTF-8?Q?Emilio_L=C3=B3pez?=
- <emilio@elopez.com.ar>, Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Cc: opensource.kernel@vivo.com
-References: <20240830072747.11032-1-chenyufan@vivo.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240830072747.11032-1-chenyufan@vivo.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240827075219.3793198-1-ruanjinjie@huawei.com> <20240827075219.3793198-3-ruanjinjie@huawei.com>
+In-Reply-To: <20240827075219.3793198-3-ruanjinjie@huawei.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Sat, 31 Aug 2024 00:17:41 +0200
+Message-ID: <CACRpkdayBQ6TrV0Nn9jWX45YaP6repY0FU6CP=FnubLbonpEbQ@mail.gmail.com>
+Subject: Re: [PATCH -next 2/7] net: dsa: realtek: Use for_each_child_of_node_scoped()
+ and __free()
+To: Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: woojung.huh@microchip.com, andrew@lunn.ch, f.fainelli@gmail.com, 
+	olteanv@gmail.com, davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
+	pabeni@redhat.com, alsi@bang-olufsen.dk, justin.chen@broadcom.com, 
+	sebastian.hesselbarth@gmail.com, alexandre.torgue@foss.st.com, 
+	joabreu@synopsys.com, mcoquelin.stm32@gmail.com, wens@csie.org, 
+	jernej.skrabec@gmail.com, samuel@sholland.org, hkallweit1@gmail.com, 
+	linux@armlinux.org.uk, ansuelsmth@gmail.com, UNGLinuxDriver@microchip.com, 
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	bcm-kernel-feedback-list@broadcom.com, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com, 
+	krzk@kernel.org, jic23@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 30/08/2024 09:27, Chen Yufan wrote:
-> Use dev_err_probe() can make code a bit simpler.
-> 
-> Signed-off-by: Chen Yufan <chenyufan@vivo.com>
-> ---
->  drivers/clk/sunxi/clk-sun9i-mmc.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/clk/sunxi/clk-sun9i-mmc.c b/drivers/clk/sunxi/clk-sun9i-mmc.c
-> index 91074017c04f..e6b62e421936 100644
-> --- a/drivers/clk/sunxi/clk-sun9i-mmc.c
-> +++ b/drivers/clk/sunxi/clk-sun9i-mmc.c
-> @@ -134,10 +134,8 @@ static int sun9i_a80_mmc_config_clk_probe(struct platform_device *pdev)
->  	}
->  
->  	ret = reset_control_deassert(data->reset);
-> -	if (ret) {
-> -		dev_err(&pdev->dev, "Reset deassert err %d\n", ret);
-> -		return ret;
-> -	}
-> +	if (ret)
-> +		return dev_err_probe(&pdev->dev, ret, "Reset deassert err %d\n");
+On Tue, Aug 27, 2024 at 9:45=E2=80=AFAM Jinjie Ruan <ruanjinjie@huawei.com>=
+ wrote:
 
-This is ridiculous.
+> Avoid need to manually handle of_node_put() by using
+> for_each_child_of_node_scoped() and __free(), which can simplfy code.
+>
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 
-You change something which cannot defer, while leaving other places
-which actually can defer and could benefit.
+Neat!
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-Stop spamming with such low quality patches.
-
-Best regards,
-Krzysztof
-
+Yours,
+Linus Walleij
