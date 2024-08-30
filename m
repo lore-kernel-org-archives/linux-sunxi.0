@@ -1,29 +1,29 @@
-Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1F8D55896
-	for <linux-sunxi@lists.linux.dev>; Fri, 30 Aug 2024 03:05:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46D708121B
+	for <linux-sunxi@lists.linux.dev>; Fri, 30 Aug 2024 03:06:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.191
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724987154; cv=none; b=BwS7vR7y3fr659P2Iw5jIoL8WQJzMgwBGdg5jv+U0Qc1GB71hbvJv/emdAX6lVJLI26PYCWdPYXI0hinyW1NP8Wv5qFAhlDe2zAgTO3cn9LA9jTWBWOr0cfykvHm5f0098QJDG2IsBFQdFUFRXqU9reGegOEoLfsX7ZR0vJcloI=
+	t=1724987166; cv=none; b=HbtzyiUmAQgywEtLoTLGbiXhqT7o82G9tMuz4SjciFkNKwH8bmivoYhyMN7DwqgXi9mMtAR7EZESM44nuV/I9655tEovZkRz+gmNXZGlXTvYp9bNaJml073d6HCXxFPGnf8BFpPFMSigf5ESsUvnmettGHus7n9TbnaUWX7PX3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724987154; c=relaxed/simple;
-	bh=OeQC3mVGMaxIz8MfG4l1DZlSCVoC+D0oyUO1TzMd7mk=;
+	s=arc-20240116; t=1724987166; c=relaxed/simple;
+	bh=hKTkaTpoW9gqK66C5RMJYDBgnFgkrwlHKbYwRuYMtvE=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=G2jFs+e64m3pg6KcBHmIt4xPwTpOHJ9xgkCpVlb6fA1+X6U25wJY7m/mlowc4j5B3HJpsusVnZJYNmULGJSDjcHCkrht6DYyKTngXID+L5yaQv1nI/DVVaRh7mHTyjcoR+AArN9/ZxD1IqpctoeJnohr3qlC4dToREYlHJwbZZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.32
+	 MIME-Version:Content-Type; b=AX4j8OXgsj0li89WucMpDhPIx2GRq6VlNjjk63a7Lc4C3LuVjX+oFqKrKSGQikt/3124KTlE7v70eT+MFVM66GIeRwR+jdW3AKpoF+MyQt4x05R03MRL3BunozxMKHLenN+slv0w6Ppv41O4/9s2H+36p8baczBL5OcScxQSyKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.191
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.234])
-	by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4Ww2zK65xrz1xwgV;
-	Fri, 30 Aug 2024 11:03:41 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.19.88.214])
+	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Ww2xn28S8z1HHvL;
+	Fri, 30 Aug 2024 11:02:21 +0800 (CST)
 Received: from kwepemh500013.china.huawei.com (unknown [7.202.181.146])
-	by mail.maildlp.com (Postfix) with ESMTPS id 3EDD21402C6;
-	Fri, 30 Aug 2024 11:05:40 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id DFC821A016C;
+	Fri, 30 Aug 2024 11:05:42 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemh500013.china.huawei.com
  (7.202.181.146) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 30 Aug
- 2024 11:05:39 +0800
+ 2024 11:05:41 +0800
 From: Jinjie Ruan <ruanjinjie@huawei.com>
 To: <woojung.huh@microchip.com>, <andrew@lunn.ch>, <f.fainelli@gmail.com>,
 	<olteanv@gmail.com>, <davem@davemloft.net>, <edumazet@google.com>,
@@ -38,9 +38,9 @@ To: <woojung.huh@microchip.com>, <andrew@lunn.ch>, <f.fainelli@gmail.com>,
 	<linux-stm32@st-md-mailman.stormreply.com>, <krzk@kernel.org>,
 	<jic23@kernel.org>
 CC: <ruanjinjie@huawei.com>
-Subject: [PATCH net-next v4 1/8] net: stmmac: dwmac-sun8i: Use for_each_child_of_node_scoped()
-Date: Fri, 30 Aug 2024 11:13:18 +0800
-Message-ID: <20240830031325.2406672-2-ruanjinjie@huawei.com>
+Subject: [PATCH net-next v4 4/8] net: mdio: mux-mmioreg: Simplified with scoped function
+Date: Fri, 30 Aug 2024 11:13:21 +0800
+Message-ID: <20240830031325.2406672-5-ruanjinjie@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240830031325.2406672-1-ruanjinjie@huawei.com>
 References: <20240830031325.2406672-1-ruanjinjie@huawei.com>
@@ -55,8 +55,8 @@ Content-Type: text/plain
 X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
  kwepemh500013.china.huawei.com (7.202.181.146)
 
-Avoid need to manually handle of_node_put() by using
-for_each_child_of_node_scoped(), which can simplfy code.
+Avoids the need for manual cleanup of_node_put() in early exits
+from the loop by using for_each_available_child_of_node_scoped().
 
 Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
@@ -64,51 +64,48 @@ Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 ---
 v4:
 - Add Reviewed-by.
-- Signed-off-by: should always be last.
 v3:
-- Sort the variables, longest first, shortest last
 - Add Reviewed-by.
+v2:
+- Split into 2 patches.
 ---
- drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 6 ++----
+ drivers/net/mdio/mdio-mux-mmioreg.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-index cc93f73a380e..4a0ae92b3055 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-@@ -774,8 +774,8 @@ static int sun8i_dwmac_reset(struct stmmac_priv *priv)
- static int get_ephy_nodes(struct stmmac_priv *priv)
+diff --git a/drivers/net/mdio/mdio-mux-mmioreg.c b/drivers/net/mdio/mdio-mux-mmioreg.c
+index de08419d0c98..4d87e61fec7b 100644
+--- a/drivers/net/mdio/mdio-mux-mmioreg.c
++++ b/drivers/net/mdio/mdio-mux-mmioreg.c
+@@ -96,7 +96,7 @@ static int mdio_mux_mmioreg_switch_fn(int current_child, int desired_child,
+ 
+ static int mdio_mux_mmioreg_probe(struct platform_device *pdev)
  {
- 	struct sunxi_priv_data *gmac = priv->plat->bsp_priv;
--	struct device_node *mdio_mux, *iphynode;
- 	struct device_node *mdio_internal;
-+	struct device_node *mdio_mux;
- 	int ret;
+-	struct device_node *np2, *np = pdev->dev.of_node;
++	struct device_node *np = pdev->dev.of_node;
+ 	struct mdio_mux_mmioreg_state *s;
+ 	struct resource res;
+ 	const __be32 *iprop;
+@@ -139,20 +139,18 @@ static int mdio_mux_mmioreg_probe(struct platform_device *pdev)
+ 	 * Verify that the 'reg' property of each child MDIO bus does not
+ 	 * set any bits outside of the 'mask'.
+ 	 */
+-	for_each_available_child_of_node(np, np2) {
++	for_each_available_child_of_node_scoped(np, np2) {
+ 		u64 reg;
  
- 	mdio_mux = of_get_child_by_name(priv->device->of_node, "mdio-mux");
-@@ -793,7 +793,7 @@ static int get_ephy_nodes(struct stmmac_priv *priv)
- 	}
- 
- 	/* Seek for internal PHY */
--	for_each_child_of_node(mdio_internal, iphynode) {
-+	for_each_child_of_node_scoped(mdio_internal, iphynode) {
- 		gmac->ephy_clk = of_clk_get(iphynode, 0);
- 		if (IS_ERR(gmac->ephy_clk))
- 			continue;
-@@ -801,14 +801,12 @@ static int get_ephy_nodes(struct stmmac_priv *priv)
- 		if (IS_ERR(gmac->rst_ephy)) {
- 			ret = PTR_ERR(gmac->rst_ephy);
- 			if (ret == -EPROBE_DEFER) {
--				of_node_put(iphynode);
- 				of_node_put(mdio_internal);
- 				return ret;
- 			}
- 			continue;
+ 		if (of_property_read_reg(np2, 0, &reg, NULL)) {
+ 			dev_err(&pdev->dev, "mdio-mux child node %pOF is "
+ 				"missing a 'reg' property\n", np2);
+-			of_node_put(np2);
+ 			return -ENODEV;
  		}
- 		dev_info(priv->device, "Found internal PHY node\n");
--		of_node_put(iphynode);
- 		of_node_put(mdio_internal);
- 		return 0;
+ 		if ((u32)reg & ~s->mask) {
+ 			dev_err(&pdev->dev, "mdio-mux child node %pOF has "
+ 				"a 'reg' value with unmasked bits\n",
+ 				np2);
+-			of_node_put(np2);
+ 			return -ENODEV;
+ 		}
  	}
 -- 
 2.34.1
