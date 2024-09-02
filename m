@@ -1,92 +1,132 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C080D14A611
-	for <linux-sunxi@lists.linux.dev>; Mon,  2 Sep 2024 08:23:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E411F1CB501
+	for <linux-sunxi@lists.linux.dev>; Mon,  2 Sep 2024 15:20:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725265391; cv=none; b=ev5n09NOrcbadAvjLj4tlVEoQ51CDzPveZOJjnXCtOZz5esNd5Zx/ZIxdTuBg01L8LNv8UCBzkLgnIDM65EWYO5MaI+LMfckO4wVlzIMmX2RK2j/AGf52LATjP17xdziRCQLm7wOqA/6fzSEqZT/EIF8Q4x/8U5CweXbVmcTZ34=
+	t=1725290444; cv=none; b=Do98fBfli+j02eMtlO3UFs6X2YAyBClXsJFqk5Jju9OBUni4f7d9TJ2CfcbJfOArKP1D2wzlDQMiDfDyntEySfKqRoMa57+rZeIRKBvNRFSctIySx/YmQo2axiD0jiMT6R+krtRtuQ3tUIZU9OyPt+DL0/ReTBMRYGOG3AvFZnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725265391; c=relaxed/simple;
-	bh=XQq/D4lV27FYzTNjf3gFkYUSIKcxiur4dtzJLIKtst0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OgZcP9oYCcbOKsEJlf8O1etnhY4Ka7LVDG3RmURZhIownhAuEM3Y+5RC9xaqdxTow/REA45O6hGDurWPtP8GHMVlWgWpaurk3kPQ/2Y9c1pyqbb76uD1mZCcV3xdnsmZWl/SZ7epKbJR+8Fn+j4aFttVb6nJCTAyyostsraYLik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mqEJ88M/; arc=none smtp.client-ip=209.85.208.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1725290444; c=relaxed/simple;
+	bh=GeH9LMhm4Ne8HqJSfNDQNC9dd/i8G8yAxV2IQi/Yu3g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sNNfkGIKvUZzhMmdOOCauZ+jmcvye81YQjAIR/MqHDnOLnXbg4sScocOCwYNLk/8xoy+yGgXmveluWpWIMwHXUdI49jLIJThUzBUC2ei3IHvy0QH/duPK7PUgUuuKMZRzZxjIn7Snv8zozCB7xtnoAb0ltwE1Vo68DtjcfD9Y4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=PUiLRZNf; arc=none smtp.client-ip=209.85.219.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mqEJ88M/"
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2f3f0bdbcd9so45761171fa.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 02 Sep 2024 01:23:09 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="PUiLRZNf"
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6c35ac3a7e6so9863676d6.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 02 Sep 2024 08:20:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1725265388; x=1725870188; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XQq/D4lV27FYzTNjf3gFkYUSIKcxiur4dtzJLIKtst0=;
-        b=mqEJ88M/ymyvqW3J9CHaXoEhg4LpIXkk+fT8wJnwB7PkTI5zRGax+RfBPxfkgvP3z/
-         zbAKZqSoirVtpOWdGzyH0U6mUgFD/zb7LUqR+TA220TbCFue+zeDofisnvWFTpwjofMn
-         bGXuQJMlhk/KrS73utLJAKAyrxe5y0HoX5OfU+HXR5swrRyjngc1cwNl4aap9Zei06g9
-         oCLtU9HjtW8e/UZE5naiie3N66UugHqAFh6DLr0rfYgwCN9Sjqe74rzwPqBMZ+hv46ZI
-         0/vst86Kk8RdivSoP1qaF3JvEhYiHJqxv5uYikmnPYaDQmDFm/5IeP5SRyX9wJWOqPA7
-         /03A==
+        d=broadcom.com; s=google; t=1725290442; x=1725895242; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=xiBpNTd7P01i/u+Ss9hpT6kKoKywqkPJFpIHasijFy0=;
+        b=PUiLRZNfpv6UP4p5MENycLtOuAPIcn/9fy/E31U8z+Jz0iwd5TNB4QBpkqBACrYmSY
+         aWsZV7dpxXRlFBeiEuPKf9vPNpFbESlCAPdXQhGVJOEZ0bWaoNyQFRTl7MJyHKcUAQct
+         wFW0wCwyDFKTVRRyF157LxCpSizfSoJmzbDnA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725265388; x=1725870188;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XQq/D4lV27FYzTNjf3gFkYUSIKcxiur4dtzJLIKtst0=;
-        b=a/DSZNlT4IPhbFvix7aCZd2PEL8d1Dl1EXgt6fWYFzDpNlAviUBCcI9/InPF8zca63
-         80TdTNK/4k0+1oCmN2q88icjDnsiWsxkpZrHRZ8TfPMHhtoptj9PrV4omjINEoeMwbO/
-         yeJOKpLmCW2/LwWgWWmy9EfJvpOaraMTxoic7S4jDIKY6+q2IeEsTMUEYDvh5oFkvKcb
-         tKti0TkugtPZa4QKHK/FnsvVr9Bkyx1JMROlZJr08WytPI0/cVmqa9a0vbGEKMVi7Fsk
-         odyxSAfteYiKo37TzNJdBW56i8XZd9yMa6OM1o1U8CDwpDsJuClX+i/k2kGliVu50qTp
-         folA==
-X-Forwarded-Encrypted: i=1; AJvYcCUyjoVIUAAEPTBzegWURYlR8WgXKdflKOXvghInX848onDQl4CuWApuZHxxXMj47vfStq/Y7OQad21bCw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzEIWLQToFEVjwYrJzFTP+018ASeHzkQY2uc9uypSed9Ol6du4a
-	JZdRM6u0gmurr9RAPawap3iw82hemkhfSRL044DIKbdEGxpSxkf3K1EQYiOiu4/Jk4RTfQh3CuB
-	qwLqgwej4jm8KFIlRsOOg7Aw5iLAlJjlU3CTPfw==
-X-Google-Smtp-Source: AGHT+IGOsbWk+h5fSydwDiIytPpQSxAoU7GXpQxygF+8ahTjkzoifYF0BEllNauSFfQHoLbA8weKozExCyYDDMJzjoo=
-X-Received: by 2002:a05:6512:b94:b0:535:3dfb:a4fc with SMTP id
- 2adb3069b0e04-53546b0548dmr7633008e87.22.1725265387226; Mon, 02 Sep 2024
- 01:23:07 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1725290442; x=1725895242;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xiBpNTd7P01i/u+Ss9hpT6kKoKywqkPJFpIHasijFy0=;
+        b=sv2UGb0pgZF4Zz3reIPtV1jVfIsafsIGq4cWdGLpgKUa2e5jWsoBDqgnA8WaroVfGQ
+         CEo9ntr6iBiNowP86Zns4ScBXjbQEhUPaViUF8adN0Tnol/4DMwPEKvlCcNS7DNTMWBM
+         a1JdDHcUmuPmNWyCeUcV1Kv+JJRHKa3tJoNJhlc8b0p+YjndYWtuLDAgAZmioU8pSN12
+         lvqIhFrKB49GN3971qcz3/hcM2Fzmmxs/ljD08e9yHaAqXV0KZvcfFjxOezv7plv+o9V
+         FBN2LyJ/jhIzq/QyikEmPetg3kPNpkOZndQ5bKPGRmHH10XCAWdndiKcwig03qXPwbQT
+         Tn/w==
+X-Forwarded-Encrypted: i=1; AJvYcCVYbS8/fqpMKdeCZPfYCQJBlcOq2C7sZUW3rMwsUWaVAQHgx4dSwpWQCuDF1t8sJqi77Px10lOhYLVpAQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx0Q8ALa7wqCAGJ1ZaYixWx8U4kRFmLvhIMEiLk4WqmKQZDR10Z
+	9eb376R+V3uGpXcIhSJ9b5Oi7aACwfD3O3N0JrCnSpG9R4fByvCkAleVOmRWNA==
+X-Google-Smtp-Source: AGHT+IEGddCxgqRqe+vE7jpwRTDhsJODyWT1+afqzlrLtqCjBLp9OyPB0x/+8hLyKZ1oIF+izd420A==
+X-Received: by 2002:a05:6214:451e:b0:6c3:54a4:eea1 with SMTP id 6a1803df08f44-6c3551c8ecdmr88033546d6.9.1725290441597;
+        Mon, 02 Sep 2024 08:20:41 -0700 (PDT)
+Received: from [192.168.1.3] (ip68-4-215-93.oc.oc.cox.net. [68.4.215.93])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-45682c82715sm40718581cf.7.2024.09.02.08.20.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Sep 2024 08:20:40 -0700 (PDT)
+Message-ID: <1e92f33b-9900-4834-80e1-dcbb48cd8394@broadcom.com>
+Date: Mon, 2 Sep 2024 08:20:35 -0700
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240830031325.2406672-1-ruanjinjie@huawei.com> <20240830031325.2406672-3-ruanjinjie@huawei.com>
-In-Reply-To: <20240830031325.2406672-3-ruanjinjie@huawei.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 2 Sep 2024 10:22:56 +0200
-Message-ID: <CACRpkdat9Y0vJXUbBEeoNP7QG3UGRTU3rOYD3PAi4frk05bSKA@mail.gmail.com>
-Subject: Re: [PATCH net-next v4 2/8] net: dsa: realtek: Use for_each_child_of_node_scoped()
-To: Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: woojung.huh@microchip.com, andrew@lunn.ch, f.fainelli@gmail.com, 
-	olteanv@gmail.com, davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
-	pabeni@redhat.com, alsi@bang-olufsen.dk, justin.chen@broadcom.com, 
-	sebastian.hesselbarth@gmail.com, alexandre.torgue@foss.st.com, 
-	joabreu@synopsys.com, mcoquelin.stm32@gmail.com, wens@csie.org, 
-	jernej.skrabec@gmail.com, samuel@sholland.org, hkallweit1@gmail.com, 
-	linux@armlinux.org.uk, UNGLinuxDriver@microchip.com, netdev@vger.kernel.org, 
-	bcm-kernel-feedback-list@broadcom.com, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com, 
-	krzk@kernel.org, jic23@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 01/12] net: dsa: bcm_sf2: Convert using
+ devm_clk_get_optional_enabled() in bcm_sf2_sw_probe()
+To: Li Zetao <lizetao1@huawei.com>, andrew@lunn.ch, olteanv@gmail.com,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, wens@csie.org, jernej.skrabec@gmail.com,
+ samuel@sholland.org, heiko@sntech.de, yisen.zhuang@huawei.com,
+ salil.mehta@huawei.com, hauke@hauke-m.de, alexandre.torgue@foss.st.com,
+ joabreu@synopsys.com, mcoquelin.stm32@gmail.com, wellslutw@gmail.com,
+ radhey.shyam.pandey@amd.com, michal.simek@amd.com,
+ ajay.kathat@microchip.com, claudiu.beznea@tuxon.dev, kvalo@kernel.org,
+ u.kleine-koenig@pengutronix.de, jacky_chou@aspeedtech.com
+Cc: netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-wireless@vger.kernel.org
+References: <20240831021334.1907921-1-lizetao1@huawei.com>
+ <20240831021334.1907921-2-lizetao1@huawei.com>
+Content-Language: en-US
+From: Florian Fainelli <florian.fainelli@broadcom.com>
+Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
+ xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
+ M0Txqn1tOWoIc4QUl6Ggqf5KP6FoRkCrgMMTnUAINsINYXK+3OLe7HjP10h2jDRX4Ajs4Ghs
+ JrZOBru6rH0YrgAhr6O5gG7NE1jhly+EsOa2MpwOiXO4DE/YKZGuVe6Bh87WqmILs9KvnNrQ
+ PcycQnYKTVpqE95d4M824M5cuRB6D1GrYovCsjA9uxo22kPdOoQRAu5gBBn3AdtALFyQj9DQ
+ KQuc39/i/Kt6XLZ/RsBc6qLs+p+JnEuPJngTSfWvzGjpx0nkwCMi4yBb+xk7Hki4kEslABEB
+ AAHNMEZsb3JpYW4gRmFpbmVsbGkgPGZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tPsLB
+ IQQQAQgAywUCZWl41AUJI+Jo+hcKAAG/SMv+fS3xUQWa0NryPuoRGjsA3SAUAAAAAAAWAAFr
+ ZXktdXNhZ2UtbWFza0BwZ3AuY29tjDAUgAAAAAAgAAdwcmVmZXJyZWQtZW1haWwtZW5jb2Rp
+ bmdAcGdwLmNvbXBncG1pbWUICwkIBwMCAQoFF4AAAAAZGGxkYXA6Ly9rZXlzLmJyb2FkY29t
+ Lm5ldAUbAwAAAAMWAgEFHgEAAAAEFQgJChYhBNXZKpfnkVze1+R8aIExtcQpvGagAAoJEIEx
+ tcQpvGagWPEH/2l0DNr9QkTwJUxOoP9wgHfmVhqc0ZlDsBFv91I3BbhGKI5UATbipKNqG13Z
+ TsBrJHcrnCqnTRS+8n9/myOF0ng2A4YT0EJnayzHugXm+hrkO5O9UEPJ8a+0553VqyoFhHqA
+ zjxj8fUu1px5cbb4R9G4UAySqyeLLeqnYLCKb4+GklGSBGsLMYvLmIDNYlkhMdnnzsSUAS61
+ WJYW6jjnzMwuKJ0ZHv7xZvSHyhIsFRiYiEs44kiYjbUUMcXor/uLEuTIazGrE3MahuGdjpT2
+ IOjoMiTsbMc0yfhHp6G/2E769oDXMVxCCbMVpA+LUtVIQEA+8Zr6mX0Yk4nDS7OiBlvOwE0E
+ U8AbwQEIAKxr71oqe+0+MYCc7WafWEcpQHFUwvYLcdBoOnmJPxDwDRpvU5LhqSPvk/yJdh9k
+ 4xUDQu3rm1qIW2I9Puk5n/Jz/lZsqGw8T13DKyu8eMcvaA/irm9lX9El27DPHy/0qsxmxVmU
+ pu9y9S+BmaMb2CM9IuyxMWEl9ruWFS2jAWh/R8CrdnL6+zLk60R7XGzmSJqF09vYNlJ6Bdbs
+ MWDXkYWWP5Ub1ZJGNJQ4qT7g8IN0qXxzLQsmz6tbgLMEHYBGx80bBF8AkdThd6SLhreCN7Uh
+ IR/5NXGqotAZao2xlDpJLuOMQtoH9WVNuuxQQZHVd8if+yp6yRJ5DAmIUt5CCPcAEQEAAcLB
+ gQQYAQIBKwUCU8AbwgUbDAAAAMBdIAQZAQgABgUCU8AbwQAKCRCTYAaomC8PVQ0VCACWk3n+
+ obFABEp5Rg6Qvspi9kWXcwCcfZV41OIYWhXMoc57ssjCand5noZi8bKg0bxw4qsg+9cNgZ3P
+ N/DFWcNKcAT3Z2/4fTnJqdJS//YcEhlr8uGs+ZWFcqAPbteFCM4dGDRruo69IrHfyyQGx16s
+ CcFlrN8vD066RKevFepb/ml7eYEdN5SRALyEdQMKeCSf3mectdoECEqdF/MWpfWIYQ1hEfdm
+ C2Kztm+h3Nkt9ZQLqc3wsPJZmbD9T0c9Rphfypgw/SfTf2/CHoYVkKqwUIzI59itl5Lze+R5
+ wDByhWHx2Ud2R7SudmT9XK1e0x7W7a5z11Q6vrzuED5nQvkhAAoJEIExtcQpvGagugcIAJd5
+ EYe6KM6Y6RvI6TvHp+QgbU5dxvjqSiSvam0Ms3QrLidCtantcGT2Wz/2PlbZqkoJxMQc40rb
+ fXa4xQSvJYj0GWpadrDJUvUu3LEsunDCxdWrmbmwGRKqZraV2oG7YEddmDqOe0Xm/NxeSobc
+ MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
+ 7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
+ 95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
+In-Reply-To: <20240831021334.1907921-2-lizetao1@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Aug 30, 2024 at 5:06=E2=80=AFAM Jinjie Ruan <ruanjinjie@huawei.com>=
- wrote:
 
-> Avoid need to manually handle of_node_put() by using
-> for_each_child_of_node_scoped(), which can simplfy code.
->
-> Reviewed-by: Andrew Lunn <andrew@lunn.ch>
-> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+On 8/30/2024 7:13 PM, Li Zetao wrote:
+> Use devm_clk_get_optional_enabled() instead of devm_clk_get_optional() +
+> clk_prepare_enable(), which can make the clk consistent with the device
+> life cycle and reduce the risk of unreleased clk resources. Since the
+> device framework has automatically released the clk resource, there is
+> no need to execute clk_disable_unprepare(clk) on the error path, drop
+> the out_clk_mdiv and out_clk labels, and the original error process can
+> be returned directly.
+> 
+> Signed-off-by: Li Zetao <lizetao1@huawei.com>
 
-Yours,
-Linus Walleij
+Acked-by: Florian Fainelli <florian.fainelli@broadcom.com>
+-- 
+Florian
+
