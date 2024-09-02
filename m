@@ -1,60 +1,60 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC6641A3044
-	for <linux-sunxi@lists.linux.dev>; Mon,  2 Sep 2024 15:26:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 712571A3056
+	for <linux-sunxi@lists.linux.dev>; Mon,  2 Sep 2024 15:27:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725290815; cv=none; b=VVav6lw0XbcaOtajavnjCaG0Iv7HOUtB5I+vin0ZLjdH+8MWmVVIC/cJgMuucnM7DM7g9nUBagxwvYA0ZxW+sn1ITMwfAPUH1qNg6/dMzAAb7xP7RtT+zK2m++PypnDlwzIXJajelSpiFUgUpkZaoDg/qn+A4oOmktxbkqa9Mzk=
+	t=1725290831; cv=none; b=DOhDstPLACaa4S82DPD7RxpKPU0xpsuXiZda5FG+qrsolldHcflJaPUuU/1QaQZT7H3Us8Ku3CrozfbHQ0dcEUyiK9JWlE9zo1XEGpu3qsT0KVW1FnT4EDyq4Suz5WGhvtC88numSRTSh1w2bLNqOpXgZh9Zwo27g5pF1DNrIEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725290815; c=relaxed/simple;
-	bh=Hydo6wLSX3TmJ6hAUsNs1boJ8DEeaK4QrC2lqHk6uqA=;
+	s=arc-20240116; t=1725290831; c=relaxed/simple;
+	bh=NrgGCBWphUa6pn16X1Axjzk9mG5BENYVNOkJJsvyqaA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=Y12KFRoQiu2R7kYns02JU3zkMCcZE8dKmS5yjokbk9fv+5gSd8p8OGd/ogIZpxC/GIftinQhxQJyj7K7wcd7uRr9ahEX0d6k5b1430Nnm+gEOZgfg25DtCRo/GMylW4Afa2a0fmFi9OdHe9QQgfi/7BXDxZRoFM/mbfIW5M6OLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L+ecP1Zh; arc=none smtp.client-ip=209.85.222.173
+	 In-Reply-To:Content-Type; b=OP2PG2B7W/R0+1jEK8b1/U83itVnZj7WKIbLUbzezUUz5gCM4eZgRuBxK9axWs581FjaIbfJkcNsTjBrI6FpxvDpPbp5PhLhcJJ7q2l+ud2LWTeNzav9w26RbPpwXflWPoWNlIe1V+3sQM1XRzW7GYolem1u7z5559Xp/o7wqfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K4Ass/G4; arc=none smtp.client-ip=209.85.160.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L+ecP1Zh"
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-7a809736a2cso239679585a.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 02 Sep 2024 08:26:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K4Ass/G4"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-45685a3b1d8so34629271cf.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 02 Sep 2024 08:27:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725290813; x=1725895613; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1725290829; x=1725895629; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:to:subject:user-agent:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=uNfXUNQx+nhuwQWEGfz+S/XnwSwbncT6JEGOYEdU0M4=;
-        b=L+ecP1Zh6VSM3fblYHsEVOd0L6sWv0lsH+Sl0LxWVCdNwagXPk4KCgf2Nu1wOqKTdW
-         OiOx93P93/droJmdJG6tx/Y1QwdXxMaXNpTXul3oxweNKYuq8CtEr82gZXEiJi6Z5HEa
-         4jNCbBh72qPSb4myiIIDqVfxqZjcK6ZEE2at+aBqGHq1SATI9yLl1ftyZTW3nqOgewbd
-         hNfyP5Cb7vNPNdDkgUvMtuKy9nubKPP4dxLcjA0K7MO1mdLDN9lE0zWVKTklVBUEXLFG
-         Vg9zC5B0VCiNmc3ye0+dP5Z0uixi21srYq1iw+w0/h8PEJpck8m0SyDSrhH7RB5DlwDK
-         WPAg==
+        bh=yn0qNt/zGhRL+OYRVXMnNoHz4+u9oRNyoVfW+1+Klb8=;
+        b=K4Ass/G4OgJQfp66Q/IoJSxh6xrYwO54/yWdv9OddbsR+91Ycn8dMPLzx3H41/hQDM
+         8F34mvrv/rvtmm3gUR+2iRJJj+jlJKeahNN88ILU+rj/II4gzpJmKehW4Bxwnje0dHAb
+         vwsEqtvAq4qgosxzm/NpnmD3Ni5vBfZ4S8LCeBuI95JFvDaNVXoKMAVkigRiMtn2Padc
+         UAEjfQr46Ve3OL8Oo1rhuVMMBYQEBj5k5bwIRyapbzIJ7+0vYfxov8q0oRvjC9T3c9ZV
+         afLNk4yreKOmgl+h77cAeqTkIQ3Tvopsk4BgjH1OMlikNfkorWHeU/23M4hxIV3QOqky
+         9izg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725290813; x=1725895613;
+        d=1e100.net; s=20230601; t=1725290829; x=1725895629;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:to:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=uNfXUNQx+nhuwQWEGfz+S/XnwSwbncT6JEGOYEdU0M4=;
-        b=iTDHvZFtJgCX4A7b5XVNQZxWlAEwfQKIIi7z2RlFJtwzT0mNmJvRRoveRK1AbaTgqj
-         Ffz15H7YhyhLAcIZa1FBgkgsgjXdehipR4+XE/QQO0fWKNkIObVmh6T8jtF1O+V0YPLM
-         Aqvb0Q09HJRpAuR4Q95lTtnlUd9fnSB7TfcT2sbmKf0ggTzvgy1yltwkqY3mHkDvuIn9
-         GVU4JRZnEPtAZqgma8UJNQ3kQUMg/i8GTVdq5ZboiAUoUjnvLSm8vJ4YwSoe9QJ61wt3
-         5bfg/EcgXHn6HuzOkpZ2AXNIdANIar++Gybnh6SYe04VEv4QTHtoxXQ8LNq2FHYlot0z
-         lBXg==
-X-Forwarded-Encrypted: i=1; AJvYcCWY2Q2HjBNph3VF/gDzLkNdjic+HQg3jZokmd4IgR9ZvTatgyeVoxc2ez7bEbc65mr/IKSA9MHgXLvycg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzzbVKcHX5UiaWlUYwvH5MY+OWqPmJKquJCf05+Lj+uo5E5bQNA
-	4arUIyPgRv88rEhU8KWBbG4gDAS2NialtpQ3Vj+iAjPdJDuhtlBN
-X-Google-Smtp-Source: AGHT+IE4kIg+Qa/iS71GsqlGe/l6mPS+q7sB9NhTWGT8eov4lUyJRNI5Fa4CGrJD/voh9lSFpEaabw==
-X-Received: by 2002:a05:6214:4413:b0:6c1:77ca:66e6 with SMTP id 6a1803df08f44-6c3c62b3173mr3077176d6.32.1725290812560;
-        Mon, 02 Sep 2024 08:26:52 -0700 (PDT)
+        bh=yn0qNt/zGhRL+OYRVXMnNoHz4+u9oRNyoVfW+1+Klb8=;
+        b=g3X7unJ1plg3O6JXx3C+kOHn7wxYBAM3z3gzVUPXLwgC+t+zgmH5zvhrj6XKRX32Nz
+         KuVmyVVZ32ZTOUAmmp8FZm106lVE4Tdak0r2ftpbGhG3ZXbpjGDWB2LoiT58D3UmZ+te
+         ilk8N/hgsftIWS4GAcsYYBPP3dxkI4iN3f0SCFz0L2uI0+21LnhovHkfDKJips/r/59/
+         w+Tr2X6pgB9TwuIWZI1LUTvEM39hYgnx7z1aD2D3V692hh/DQAUShq+J0H8YCovTY8F0
+         wJwANME+dlKfxNDlNgiJh4wPO7mtpdFwCK5UhnYPuKm5+oNpRKdm079wKIfBq1b1MKGi
+         v10g==
+X-Forwarded-Encrypted: i=1; AJvYcCVuU2KB7mnYNr1OULAYrzKWgNKQC1SBhO3YQldjHrOdsOT6Fhw2WcBTsFi04/xfEou1aZ+9keAIgLUkYQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwYfoRopKcp9J1ChBqnXOqCNOtrB7ntmDvgvH4//8HCMk6/okOt
+	Ntkweykies3MXs/Fzwkuh4Z50XI/IKcZTPjTFMBhIJDjkZvOmQG4
+X-Google-Smtp-Source: AGHT+IHsh7TbDxj/S/ueFJoif6v3pnl6T+3d2f6M9FiCfeWDaYi7kmMexXjJ6EzI0V6gM/Tf/y2NMw==
+X-Received: by 2002:a05:6214:62e:b0:6c3:7064:8175 with SMTP id 6a1803df08f44-6c370648831mr9215406d6.18.1725290829040;
+        Mon, 02 Sep 2024 08:27:09 -0700 (PDT)
 Received: from [192.168.1.3] (ip68-4-215-93.oc.oc.cox.net. [68.4.215.93])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6c35d4cb133sm19249306d6.70.2024.09.02.08.26.48
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6c361eacd36sm16365946d6.137.2024.09.02.08.27.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Sep 2024 08:26:51 -0700 (PDT)
-Message-ID: <7a83e58d-dd4b-49d0-9ccc-5f5177341575@gmail.com>
-Date: Mon, 2 Sep 2024 08:26:48 -0700
+        Mon, 02 Sep 2024 08:27:08 -0700 (PDT)
+Message-ID: <1f2c95ef-465f-4f07-aece-b04d98c38adf@gmail.com>
+Date: Mon, 2 Sep 2024 08:27:04 -0700
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -62,8 +62,8 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v4 3/8] net: phy: Use
- for_each_available_child_of_node_scoped()
+Subject: Re: [PATCH net-next v4 4/8] net: mdio: mux-mmioreg: Simplified with
+ scoped function
 To: Jinjie Ruan <ruanjinjie@huawei.com>, woojung.huh@microchip.com,
  andrew@lunn.ch, olteanv@gmail.com, davem@davemloft.net, edumazet@google.com,
  kuba@kernel.org, pabeni@redhat.com, linus.walleij@linaro.org,
@@ -76,7 +76,7 @@ To: Jinjie Ruan <ruanjinjie@huawei.com>, woojung.huh@microchip.com,
  linux-sunxi@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com,
  krzk@kernel.org, jic23@kernel.org
 References: <20240830031325.2406672-1-ruanjinjie@huawei.com>
- <20240830031325.2406672-4-ruanjinjie@huawei.com>
+ <20240830031325.2406672-5-ruanjinjie@huawei.com>
 Content-Language: en-US
 From: Florian Fainelli <f.fainelli@gmail.com>
 Autocrypt: addr=f.fainelli@gmail.com; keydata=
@@ -112,15 +112,15 @@ Autocrypt: addr=f.fainelli@gmail.com; keydata=
  y5arMQorqTFWlEOgRA8OP47L9knl9i4xuR0euV6DChDrguup2aJVU8JPBBgRAgAPAhsMBQJU
  X9LxBQkeXB3fAAoJEGFXmRW1Y3YOj4UAn3nrFLPZekMeqX5aD/aq/dsbXSfyAKC45Go0YyxV
  HGuUuzv+GKZ6nsysJw==
-In-Reply-To: <20240830031325.2406672-4-ruanjinjie@huawei.com>
+In-Reply-To: <20240830031325.2406672-5-ruanjinjie@huawei.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
 On 8/29/2024 8:13 PM, Jinjie Ruan wrote:
-> Avoid need to manually handle of_node_put() by using
-> for_each_available_child_of_node_scoped(), which can simplfy code.
+> Avoids the need for manual cleanup of_node_put() in early exits
+> from the loop by using for_each_available_child_of_node_scoped().
 > 
 > Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 > Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
