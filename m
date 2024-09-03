@@ -1,85 +1,181 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6976C1AB6D3;
-	Mon,  2 Sep 2024 16:39:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 587FE185B5E
+	for <linux-sunxi@lists.linux.dev>; Tue,  3 Sep 2024 02:27:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725295141; cv=none; b=qQcM1CVsYr+GWKBhMj9g1cXAzThuf01HPmoiEwYpIJ6vkfR4+SBVfyYnfnIblFIS7OZNoMtFl9LieXqp2Fi79isLOzn3sadKWCYVQGBzSCswZda/uYCgaDIdGUgRC9O41LykxW9aTu9TwsRUTtTlUY0qnX42fpbPlRzDF4bB9cA=
+	t=1725330481; cv=none; b=vBPlbK86awAB++eEoAXLmjTdeLAvfmu1u5jmjtSwqFG5aen2PThlfTWQMiofDfndKVBxXsQslTCWgEYmn4Hk4bOb/YMuVN5P6lgBIsXUjHWJKuzr9Od/5wC6Vr7W59Iawnd3Alq7McjiDeAMhs4mmHuNMihvh5BwOOgWPu75sWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725295141; c=relaxed/simple;
-	bh=THOWirjnif2PCoJgyUp+GH1dq/VbXAjyaMqmMGMYEYY=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
-	 MIME-Version:Content-Type; b=nXzmapzJNKWS4G2eIBsL49uBM/65+/UQk0Hdj7XzckeK9m5GnD9vgAdVrzr0wdO93fo6uTtQp0Dlc4H9y7SeWq0UkoGJhFagleeeM8NN1hWT8sJFuUAWfgdUrTaonWmaE2jUpdeVRuiiISJhCKEh3w6Gh143DfpgVuc68fxwerI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LZYQXRGG; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LZYQXRGG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD0BFC4CEC2;
-	Mon,  2 Sep 2024 16:38:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725295141;
-	bh=THOWirjnif2PCoJgyUp+GH1dq/VbXAjyaMqmMGMYEYY=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-	b=LZYQXRGGQMR4i8GrOz6Nvk9Mte2YR2JtOQ1HrrFs5dAU8NvnvkHkaLwCyexWjYdts
-	 ubDoH6lTtoo3lJ3OMooT1HxkdZbjY2OsIB0QGT+ktHIytZ698mxNnQSS8fPTDY28G0
-	 5iLvTPev/gqdUwsbixADfRCPPrbNp+3GDl8hm+nImdtoSaWa86BcbY+6Ei0RES8iLl
-	 AOAwElrHsMcPFBvhvaafng1q0jE4Zz3SNXjQ9ZSUpJjLV86fRRbNj1QLcKXHOUcSMx
-	 k95sFsMmx4WARbzCI8l80Ur743CDSkT9rtMZLfnPR3DkVwewHV8LU00ZRabUpGsRS/
-	 frSCIn8VVw79Q==
-From: Kalle Valo <kvalo@kernel.org>
-To: Li Zetao <lizetao1@huawei.com>
-Cc: <florian.fainelli@broadcom.com>,  <andrew@lunn.ch>,
-  <olteanv@gmail.com>,  <davem@davemloft.net>,  <edumazet@google.com>,
-  <kuba@kernel.org>,  <pabeni@redhat.com>,  <wens@csie.org>,
-  <jernej.skrabec@gmail.com>,  <samuel@sholland.org>,  <heiko@sntech.de>,
-  <yisen.zhuang@huawei.com>,  <salil.mehta@huawei.com>,
-  <hauke@hauke-m.de>,  <alexandre.torgue@foss.st.com>,
-  <joabreu@synopsys.com>,  <mcoquelin.stm32@gmail.com>,
-  <wellslutw@gmail.com>,  <radhey.shyam.pandey@amd.com>,
-  <michal.simek@amd.com>,  <ajay.kathat@microchip.com>,
-  <claudiu.beznea@tuxon.dev>,  <u.kleine-koenig@pengutronix.de>,
-  <jacky_chou@aspeedtech.com>,  <netdev@vger.kernel.org>,
-  <linux-arm-kernel@lists.infradead.org>,  <linux-sunxi@lists.linux.dev>,
-  <linux-rockchip@lists.infradead.org>,
-  <linux-stm32@st-md-mailman.stormreply.com>,
-  <linux-wireless@vger.kernel.org>
-Subject: Re: [PATCH net-next 11/12] wifi: wilc1000: Convert using
- devm_clk_get_optional_enabled() in wilc_sdio_probe()
-References: <20240831021334.1907921-1-lizetao1@huawei.com>
-	<20240831021334.1907921-12-lizetao1@huawei.com>
-Date: Mon, 02 Sep 2024 19:38:53 +0300
-In-Reply-To: <20240831021334.1907921-12-lizetao1@huawei.com> (Li Zetao's
-	message of "Sat, 31 Aug 2024 10:13:33 +0800")
-Message-ID: <87a5gqko2q.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+	s=arc-20240116; t=1725330481; c=relaxed/simple;
+	bh=d6CeH9FZXCDGHQBf1C3j1Iz7qG85kQbtB7iEZcAR2Ps=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=TiJ7zPnYAuoCtevbEZQBWo5uOWkdCrZqrnPczIAHifMNE4ipPspSWheRh7UZjgDmYleValM6FH0vHpgvHH+lGppdN2HO4W44/STSpFkeTB3RFGbmwlCV0v/t7AC2kl8usDlztMqrS8FGWjvF9cLrCOlmCJzuut7+FrJ7x3KmBcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.162.254])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4WyTxl6gknzgYtl;
+	Tue,  3 Sep 2024 10:25:47 +0800 (CST)
+Received: from kwepemd500012.china.huawei.com (unknown [7.221.188.25])
+	by mail.maildlp.com (Postfix) with ESMTPS id 7E3E21800FE;
+	Tue,  3 Sep 2024 10:27:54 +0800 (CST)
+Received: from [10.67.111.176] (10.67.111.176) by
+ kwepemd500012.china.huawei.com (7.221.188.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.34; Tue, 3 Sep 2024 10:27:53 +0800
+Message-ID: <73e02ee9-6631-4473-8219-d75253aaf0fc@huawei.com>
+Date: Tue, 3 Sep 2024 10:27:52 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 10/12] net: xilinx: axienet: Convert using
+ devm_clk_get_optional_enabled() in axienet_probe()
+To: "Pandey, Radhey Shyam" <radhey.shyam.pandey@amd.com>,
+	"florian.fainelli@broadcom.com" <florian.fainelli@broadcom.com>,
+	"andrew@lunn.ch" <andrew@lunn.ch>, "olteanv@gmail.com" <olteanv@gmail.com>,
+	"davem@davemloft.net" <davem@davemloft.net>, "edumazet@google.com"
+	<edumazet@google.com>, "kuba@kernel.org" <kuba@kernel.org>,
+	"pabeni@redhat.com" <pabeni@redhat.com>, "wens@csie.org" <wens@csie.org>,
+	"jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>, "samuel@sholland.org"
+	<samuel@sholland.org>, "heiko@sntech.de" <heiko@sntech.de>,
+	"yisen.zhuang@huawei.com" <yisen.zhuang@huawei.com>, "salil.mehta@huawei.com"
+	<salil.mehta@huawei.com>, "hauke@hauke-m.de" <hauke@hauke-m.de>,
+	"alexandre.torgue@foss.st.com" <alexandre.torgue@foss.st.com>,
+	"joabreu@synopsys.com" <joabreu@synopsys.com>, "mcoquelin.stm32@gmail.com"
+	<mcoquelin.stm32@gmail.com>, "wellslutw@gmail.com" <wellslutw@gmail.com>,
+	"Simek, Michal" <michal.simek@amd.com>, "ajay.kathat@microchip.com"
+	<ajay.kathat@microchip.com>, "claudiu.beznea@tuxon.dev"
+	<claudiu.beznea@tuxon.dev>, "kvalo@kernel.org" <kvalo@kernel.org>,
+	"u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
+	"jacky_chou@aspeedtech.com" <jacky_chou@aspeedtech.com>
+CC: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-sunxi@lists.linux.dev"
+	<linux-sunxi@lists.linux.dev>, "linux-rockchip@lists.infradead.org"
+	<linux-rockchip@lists.infradead.org>,
+	"linux-stm32@st-md-mailman.stormreply.com"
+	<linux-stm32@st-md-mailman.stormreply.com>, "linux-wireless@vger.kernel.org"
+	<linux-wireless@vger.kernel.org>
+References: <20240831021334.1907921-1-lizetao1@huawei.com>
+ <20240831021334.1907921-11-lizetao1@huawei.com>
+ <MN0PR12MB595396074210F8390ACE409DB7912@MN0PR12MB5953.namprd12.prod.outlook.com>
+From: Li Zetao <lizetao1@huawei.com>
+In-Reply-To: <MN0PR12MB595396074210F8390ACE409DB7912@MN0PR12MB5953.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: dggpeml100004.china.huawei.com (7.185.36.247) To
+ kwepemd500012.china.huawei.com (7.221.188.25)
 
-Li Zetao <lizetao1@huawei.com> writes:
 
-> Use devm_clk_get_optional_enabled() instead of devm_clk_get_optional() +
-> clk_prepare_enable(), which can make the clk consistent with the device
-> life cycle and reduce the risk of unreleased clk resources. Since the
-> device framework has automatically released the clk resource, there is
-> no need to execute clk_disable_unprepare(clk) on the error path, drop
-> the clk_disable_unprepare label, and the original error process can change
-> to dispose_irq.
->
-> Signed-off-by: Li Zetao <lizetao1@huawei.com>
-> ---
->  drivers/net/wireless/microchip/wilc1000/sdio.c | 10 +++-------
->  1 file changed, 3 insertions(+), 7 deletions(-)
 
-wifi patches (patches 11 and 12) go via wireless-next, please submit
-those separately.
+在 2024/9/1 20:28, Pandey, Radhey Shyam 写道:
+>> -----Original Message-----
+>> From: Li Zetao <lizetao1@huawei.com>
+>> Sent: Saturday, August 31, 2024 7:44 AM
+>> To: florian.fainelli@broadcom.com; andrew@lunn.ch; olteanv@gmail.com;
+>> davem@davemloft.net; edumazet@google.com; kuba@kernel.org;
+>> pabeni@redhat.com; wens@csie.org; jernej.skrabec@gmail.com;
+>> samuel@sholland.org; heiko@sntech.de; yisen.zhuang@huawei.com;
+>> salil.mehta@huawei.com; hauke@hauke-m.de;
+>> alexandre.torgue@foss.st.com; joabreu@synopsys.com;
+>> mcoquelin.stm32@gmail.com; wellslutw@gmail.com; Pandey, Radhey
+>> Shyam <radhey.shyam.pandey@amd.com>; Simek, Michal
+>> <michal.simek@amd.com>; ajay.kathat@microchip.com;
+>> claudiu.beznea@tuxon.dev; kvalo@kernel.org; lizetao1@huawei.com;
+>> u.kleine-koenig@pengutronix.de; jacky_chou@aspeedtech.com
+>> Cc: netdev@vger.kernel.org; linux-arm-kernel@lists.infradead.org; linux-
+>> sunxi@lists.linux.dev; linux-rockchip@lists.infradead.org; linux-stm32@st-
+>> md-mailman.stormreply.com; linux-wireless@vger.kernel.org
+>> Subject: [PATCH net-next 10/12] net: xilinx: axienet: Convert using
+>> devm_clk_get_optional_enabled() in axienet_probe()
+>>
+>> Use devm_clk_get_optional_enabled() instead of devm_clk_get_optional() +
+>> clk_prepare_enable(), which can make the clk consistent with the device life
+>> cycle and reduce the risk of unreleased clk resources. Since the device
+>> framework has automatically released the clk resource, there is no need to
+>> execute clk_disable_unprepare(clk) on the error path.
+>>
+>> Signed-off-by: Li Zetao <lizetao1@huawei.com>
+> 
+> Reviewed-by: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+> Thanks!
+> 
+>> ---
+>>   drivers/net/ethernet/xilinx/xilinx_axienet_main.c | 15 ++++-----------
+>>   1 file changed, 4 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/drivers/net/ethernet/xilinx/xilinx_axienet_main.c
+>> b/drivers/net/ethernet/xilinx/xilinx_axienet_main.c
+>> index fe6a0e2e463f..48b41e95aa74 100644
+>> --- a/drivers/net/ethernet/xilinx/xilinx_axienet_main.c
+>> +++ b/drivers/net/ethernet/xilinx/xilinx_axienet_main.c
+>> @@ -2584,22 +2584,17 @@ static int axienet_probe(struct platform_device
+>> *pdev)
+>>   	seqcount_mutex_init(&lp->hw_stats_seqcount, &lp->stats_lock);
+>>   	INIT_DEFERRABLE_WORK(&lp->stats_work, axienet_refresh_stats);
+>>
+>> -	lp->axi_clk = devm_clk_get_optional(&pdev->dev, "s_axi_lite_clk");
+>> -	if (!lp->axi_clk) {
+>> +	lp->axi_clk = devm_clk_get_optional_enabled(&pdev->dev,
+>> "s_axi_lite_clk");
+>> +	if (!lp->axi_clk)
+>>   		/* For backward compatibility, if named AXI clock is not
+>> present,
+>>   		 * treat the first clock specified as the AXI clock.
+>>   		 */
+>> -		lp->axi_clk = devm_clk_get_optional(&pdev->dev, NULL);
+>> -	}
+>> +		lp->axi_clk = devm_clk_get_optional_enabled(&pdev->dev,
+>> NULL);
+>> +
+>>   	if (IS_ERR(lp->axi_clk)) {
+>>   		ret = PTR_ERR(lp->axi_clk);
+>>   		goto free_netdev;
+>>   	}
+>> -	ret = clk_prepare_enable(lp->axi_clk);
+>> -	if (ret) {
+>> -		dev_err(&pdev->dev, "Unable to enable AXI clock: %d\n",
+>> ret);
+>> -		goto free_netdev;
+>> -	}
+>>
+>>   	lp->misc_clks[0].id = "axis_clk";
+>>   	lp->misc_clks[1].id = "ref_clk";
+>> @@ -2915,7 +2910,6 @@ static int axienet_probe(struct platform_device
+>> *pdev)
+>>   		axienet_mdio_teardown(lp);
+>>   cleanup_clk:
+> 
+> I also find that there is goto to cleanup_clk when devm_clk_bulk_get_optional/
+> clk_bulk_prepare_enable fails which is not correct but as it is existing bug it
+> can go a separate patch.
+Thanks for the reminder, I considered solving this problem by using 
+devm_add_action_or_reset
 
--- 
-https://patchwork.kernel.org/project/linux-wireless/list/
-
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
-https://docs.kernel.org/process/submitting-patches.html
+Thanks,
+Li Zetao.
+> 
+>>   	clk_bulk_disable_unprepare(XAE_NUM_MISC_CLOCKS, lp-
+>>> misc_clks);
+>> -	clk_disable_unprepare(lp->axi_clk);
+>>
+>>   free_netdev:
+>>   	free_netdev(ndev);
+>> @@ -2939,7 +2933,6 @@ static void axienet_remove(struct platform_device
+>> *pdev)
+>>   	axienet_mdio_teardown(lp);
+>>
+>>   	clk_bulk_disable_unprepare(XAE_NUM_MISC_CLOCKS, lp-
+>>> misc_clks);
+>> -	clk_disable_unprepare(lp->axi_clk);
+>>
+>>   	free_netdev(ndev);
+>>   }
+>> --
+>> 2.34.1
+> 
