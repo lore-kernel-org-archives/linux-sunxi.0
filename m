@@ -1,181 +1,101 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 587FE185B5E
-	for <linux-sunxi@lists.linux.dev>; Tue,  3 Sep 2024 02:27:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725330481; cv=none; b=vBPlbK86awAB++eEoAXLmjTdeLAvfmu1u5jmjtSwqFG5aen2PThlfTWQMiofDfndKVBxXsQslTCWgEYmn4Hk4bOb/YMuVN5P6lgBIsXUjHWJKuzr9Od/5wC6Vr7W59Iawnd3Alq7McjiDeAMhs4mmHuNMihvh5BwOOgWPu75sWI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725330481; c=relaxed/simple;
-	bh=d6CeH9FZXCDGHQBf1C3j1Iz7qG85kQbtB7iEZcAR2Ps=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=TiJ7zPnYAuoCtevbEZQBWo5uOWkdCrZqrnPczIAHifMNE4ipPspSWheRh7UZjgDmYleValM6FH0vHpgvHH+lGppdN2HO4W44/STSpFkeTB3RFGbmwlCV0v/t7AC2kl8usDlztMqrS8FGWjvF9cLrCOlmCJzuut7+FrJ7x3KmBcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.162.254])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4WyTxl6gknzgYtl;
-	Tue,  3 Sep 2024 10:25:47 +0800 (CST)
-Received: from kwepemd500012.china.huawei.com (unknown [7.221.188.25])
-	by mail.maildlp.com (Postfix) with ESMTPS id 7E3E21800FE;
-	Tue,  3 Sep 2024 10:27:54 +0800 (CST)
-Received: from [10.67.111.176] (10.67.111.176) by
- kwepemd500012.china.huawei.com (7.221.188.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.34; Tue, 3 Sep 2024 10:27:53 +0800
-Message-ID: <73e02ee9-6631-4473-8219-d75253aaf0fc@huawei.com>
-Date: Tue, 3 Sep 2024 10:27:52 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45ABA13D52F
+	for <linux-sunxi@lists.linux.dev>; Tue,  3 Sep 2024 05:51:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725342679; cv=pass; b=Ki6PjLV/rnUDmss9f8rCa4XnEi+JU3d3rt/2HJpFx/uAB35Y8wInAvAdlCX26R41c2KjsrHkfLt7+edBozmzud8Am9OhVX/VecqAzSkLkkFNEl6TzSyczJDvsqsJqOJmMBd6pZK0evKbYKRuenGZS4ASnv3Z3FQKXS+HllR7Q7I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725342679; c=relaxed/simple;
+	bh=Asacfa8oCipwNiYXQVn9REN5uoZngBF6Q6zI9Dz/bdw=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=KPbD2plCYRPALTz5P/WKWtaSKzQD8TBlr9CrC1xEkhsPjTShPzjwWz6miuWluUI0V9lLVzti6RAM7wc+23WVpZ0tp17mmAoGsNiES/nyKdPMfvvtNrDdySaqLO2ty3RCSL20+zZv/5VKmDp76rB00TITL9XabSMeugdD563cw60=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me; spf=pass smtp.mailfrom=icenowy.me; dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b=XyCVZLRO; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icenowy.me
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b="XyCVZLRO"
+ARC-Seal: i=1; a=rsa-sha256; t=1725342669; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=d8GQhO1fHmoboE1FJwUCrihjkhjeIBsggkmMFyM10DMg0Kop9tRrHI4/EBRQrEuh9K85oOE+5FTZD9oqvGbJYoUlSRO3dBv5Eqz6zNPGImxXHBOBlPxpEq0Q3/y5Z5Mre0x/FfS/QRlEnBzPAsB4aPvQ9ThewJv6aMupym1KGFk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1725342669; h=Content-Type:Content-Transfer-Encoding:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To:Cc; 
+	bh=Asacfa8oCipwNiYXQVn9REN5uoZngBF6Q6zI9Dz/bdw=; 
+	b=i3rxpu+l1cK+Ajn3oEdwT8bwC8H106Je4Y12V2MjcxB21r1gFkazEgb3r2yGnaw+dvn5Z1so7OJOWWmxBEXNucWPAzCiP6nIUxPvQm6lO10DqN08SZK82eb6RqOz1N+ew6aczE3uig3AzXByNAFmTTG+14ZQKNivvPtilcwQbS4=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=icenowy.me;
+	spf=pass  smtp.mailfrom=uwu@icenowy.me;
+	dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1725342669;
+	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+	h=Message-ID:Subject:Subject:From:From:To:To:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To:Cc;
+	bh=Asacfa8oCipwNiYXQVn9REN5uoZngBF6Q6zI9Dz/bdw=;
+	b=XyCVZLROwb3AK8le4SdPdY+culb9+h50WvszxApSrXAgvv743dUEsdjH5EXdqEuW
+	figZdveoNgNd0PfFV61fZSnLGjAtXzwxcJwOhBMp7zpUchRC576UFGBrcapqdpGO0Hz
+	cskpm7v5rArb+sOmIMFzS4JmjwMONDnEw6DG6y9IQIEcFBh/hCQhLflmNo1vv2DJcT+
+	cf7obWTQlfCs3AbgEZGLMYV8yzbJLi6c3TT3/Q30GSJeCcp4GFDQJLEl//IZaO4mk1l
+	n6Lr/xBuosz/nyrJ8kkX4Rl1y3dl/BigQDdtVss8Z1E1bGdiEuUVEUNRXdoDKWNCn8l
+	6QQ9eIBwPw==
+Received: by mx.zohomail.com with SMTPS id 172534266742979.07579990685713;
+	Mon, 2 Sep 2024 22:51:07 -0700 (PDT)
+Message-ID: <34afe6c1857190a23521815d85660f6125f0d302.camel@icenowy.me>
+Subject: Re: [PATCH 3/3] arm64: dts: allwinner: a64: Add WiFi/BT on Pine64
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Peter Robinson <pbrobinson@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski
+	 <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai
+	 <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+	 <samuel@sholland.org>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Date: Tue, 03 Sep 2024 13:50:59 +0800
+In-Reply-To: <20240901122135.1389702-3-pbrobinson@gmail.com>
+References: <20240901122135.1389702-1-pbrobinson@gmail.com>
+	 <20240901122135.1389702-3-pbrobinson@gmail.com>
+Organization: Anthon Open-Source Community
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.44.4 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 10/12] net: xilinx: axienet: Convert using
- devm_clk_get_optional_enabled() in axienet_probe()
-To: "Pandey, Radhey Shyam" <radhey.shyam.pandey@amd.com>,
-	"florian.fainelli@broadcom.com" <florian.fainelli@broadcom.com>,
-	"andrew@lunn.ch" <andrew@lunn.ch>, "olteanv@gmail.com" <olteanv@gmail.com>,
-	"davem@davemloft.net" <davem@davemloft.net>, "edumazet@google.com"
-	<edumazet@google.com>, "kuba@kernel.org" <kuba@kernel.org>,
-	"pabeni@redhat.com" <pabeni@redhat.com>, "wens@csie.org" <wens@csie.org>,
-	"jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>, "samuel@sholland.org"
-	<samuel@sholland.org>, "heiko@sntech.de" <heiko@sntech.de>,
-	"yisen.zhuang@huawei.com" <yisen.zhuang@huawei.com>, "salil.mehta@huawei.com"
-	<salil.mehta@huawei.com>, "hauke@hauke-m.de" <hauke@hauke-m.de>,
-	"alexandre.torgue@foss.st.com" <alexandre.torgue@foss.st.com>,
-	"joabreu@synopsys.com" <joabreu@synopsys.com>, "mcoquelin.stm32@gmail.com"
-	<mcoquelin.stm32@gmail.com>, "wellslutw@gmail.com" <wellslutw@gmail.com>,
-	"Simek, Michal" <michal.simek@amd.com>, "ajay.kathat@microchip.com"
-	<ajay.kathat@microchip.com>, "claudiu.beznea@tuxon.dev"
-	<claudiu.beznea@tuxon.dev>, "kvalo@kernel.org" <kvalo@kernel.org>,
-	"u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
-	"jacky_chou@aspeedtech.com" <jacky_chou@aspeedtech.com>
-CC: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-sunxi@lists.linux.dev"
-	<linux-sunxi@lists.linux.dev>, "linux-rockchip@lists.infradead.org"
-	<linux-rockchip@lists.infradead.org>,
-	"linux-stm32@st-md-mailman.stormreply.com"
-	<linux-stm32@st-md-mailman.stormreply.com>, "linux-wireless@vger.kernel.org"
-	<linux-wireless@vger.kernel.org>
-References: <20240831021334.1907921-1-lizetao1@huawei.com>
- <20240831021334.1907921-11-lizetao1@huawei.com>
- <MN0PR12MB595396074210F8390ACE409DB7912@MN0PR12MB5953.namprd12.prod.outlook.com>
-From: Li Zetao <lizetao1@huawei.com>
-In-Reply-To: <MN0PR12MB595396074210F8390ACE409DB7912@MN0PR12MB5953.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: dggpeml100004.china.huawei.com (7.185.36.247) To
- kwepemd500012.china.huawei.com (7.221.188.25)
+X-ZohoMailClient: External
 
+5ZyoIDIwMjQtMDktMDHmmJ/mnJ/ml6XnmoQgMTM6MjEgKzAxMDDvvIxQZXRlciBSb2JpbnNvbuWG
+memBk++8mgo+IEVuYWJsZSB0aGUgcnRsODcyM2JzIFdpRmkvQlQgbW9kdWxlcyBvbiB0aGUgUGlu
+ZTY0LgoKSSB0aGluayB0aGUgbWFpbnRhaW5lciBwcmV2aW91c2x5IHByZWZlciB0byBlbmFibGUg
+dGhlc2UgbW9kdWxlcyB3aXRoCkRUIG92ZXJsYXlzLgoKPiAKPiBTaWduZWQtb2ZmLWJ5OiBQZXRl
+ciBSb2JpbnNvbiA8cGJyb2JpbnNvbkBnbWFpbC5jb20+Cj4gLS0tCj4gwqAuLi4vYm9vdC9kdHMv
+YWxsd2lubmVyL3N1bjUwaS1hNjQtcGluZTY0LmR0c8KgwqDCoCB8IDE3Cj4gKysrKysrKysrKysr
+KysrKy0KPiDCoDEgZmlsZSBjaGFuZ2VkLCAxNiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0p
+Cj4gCj4gZGlmZiAtLWdpdCBhL2FyY2gvYXJtNjQvYm9vdC9kdHMvYWxsd2lubmVyL3N1bjUwaS1h
+NjQtcGluZTY0LmR0cwo+IGIvYXJjaC9hcm02NC9ib290L2R0cy9hbGx3aW5uZXIvc3VuNTBpLWE2
+NC1waW5lNjQuZHRzCj4gaW5kZXggZjA0ZjBmMWJhZGM0Li4xZDUxNDg1OWU2NjQgMTAwNjQ0Cj4g
+LS0tIGEvYXJjaC9hcm02NC9ib290L2R0cy9hbGx3aW5uZXIvc3VuNTBpLWE2NC1waW5lNjQuZHRz
+Cj4gKysrIGIvYXJjaC9hcm02NC9ib290L2R0cy9hbGx3aW5uZXIvc3VuNTBpLWE2NC1waW5lNjQu
+ZHRzCj4gQEAgLTEzOCw2ICsxMzgsMTQgQEAgJm1tYzEgewo+IMKgwqDCoMKgwqDCoMKgwqBtbWMt
+cHdyc2VxID0gPCZ3aWZpX3B3cnNlcT47Cj4gwqDCoMKgwqDCoMKgwqDCoGJ1cy13aWR0aCA9IDw0
+PjsKPiDCoMKgwqDCoMKgwqDCoMKgbm9uLXJlbW92YWJsZTsKPiArwqDCoMKgwqDCoMKgwqBzdGF0
+dXMgPSAib2theSI7Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoHJ0bDg3MjNiczogd2lmaUAxIHsKPiAr
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmVnID0gPDE+Owo+ICvCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqBpbnRlcnJ1cHQtcGFyZW50ID0gPCZyX3Bpbz47Cj4gK8KgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoGludGVycnVwdHMgPSA8MCAzIElSUV9UWVBFX0xFVkVMX0xP
+Vz47IC8qIFBMMyAqLwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpbnRlcnJ1cHQt
+bmFtZXMgPSAiaG9zdC13YWtlIjsKPiArwqDCoMKgwqDCoMKgwqB9Owo+IMKgfTsKPiDCoAo+IMKg
+Jm9oY2kwIHsKPiBAQCAtMzAzLDcgKzMxMSwxNCBAQCAmdWFydDEgewo+IMKgwqDCoMKgwqDCoMKg
+wqBwaW5jdHJsLW5hbWVzID0gImRlZmF1bHQiOwo+IMKgwqDCoMKgwqDCoMKgwqBwaW5jdHJsLTAg
+PSA8JnVhcnQxX3BpbnM+LCA8JnVhcnQxX3J0c19jdHNfcGlucz47Cj4gwqDCoMKgwqDCoMKgwqDC
+oHVhcnQtaGFzLXJ0c2N0czsKPiAtwqDCoMKgwqDCoMKgwqBzdGF0dXMgPSAiZGlzYWJsZWQiOwo+
+ICvCoMKgwqDCoMKgwqDCoHN0YXR1cyA9ICJva2F5IjsKPiArCj4gK8KgwqDCoMKgwqDCoMKgYmx1
+ZXRvb3RoIHsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgY29tcGF0aWJsZSA9ICJy
+ZWFsdGVrLHJ0bDg3MjNicy1idCI7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGRl
+dmljZS13YWtlLWdwaW9zID0gPCZyX3BpbyAwIDYgR1BJT19BQ1RJVkVfSElHSD47IC8qCj4gUEw2
+ICovCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGVuYWJsZS1ncGlvcyA9IDwmcl9w
+aW8gMCA0IEdQSU9fQUNUSVZFX0hJR0g+OyAvKiBQTDQKPiAqLwo+ICvCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqBob3N0LXdha2UtZ3Bpb3MgPSA8JnJfcGlvIDAgNSBHUElPX0FDVElWRV9I
+SUdIPjsgLyoKPiBQTDUgKi8KPiArwqDCoMKgwqDCoMKgwqB9Owo+IMKgfTsKPiDCoAo+IMKgLyog
+T24gUGktMiBjb25uZWN0b3IgKi8KCg==
 
-
-在 2024/9/1 20:28, Pandey, Radhey Shyam 写道:
->> -----Original Message-----
->> From: Li Zetao <lizetao1@huawei.com>
->> Sent: Saturday, August 31, 2024 7:44 AM
->> To: florian.fainelli@broadcom.com; andrew@lunn.ch; olteanv@gmail.com;
->> davem@davemloft.net; edumazet@google.com; kuba@kernel.org;
->> pabeni@redhat.com; wens@csie.org; jernej.skrabec@gmail.com;
->> samuel@sholland.org; heiko@sntech.de; yisen.zhuang@huawei.com;
->> salil.mehta@huawei.com; hauke@hauke-m.de;
->> alexandre.torgue@foss.st.com; joabreu@synopsys.com;
->> mcoquelin.stm32@gmail.com; wellslutw@gmail.com; Pandey, Radhey
->> Shyam <radhey.shyam.pandey@amd.com>; Simek, Michal
->> <michal.simek@amd.com>; ajay.kathat@microchip.com;
->> claudiu.beznea@tuxon.dev; kvalo@kernel.org; lizetao1@huawei.com;
->> u.kleine-koenig@pengutronix.de; jacky_chou@aspeedtech.com
->> Cc: netdev@vger.kernel.org; linux-arm-kernel@lists.infradead.org; linux-
->> sunxi@lists.linux.dev; linux-rockchip@lists.infradead.org; linux-stm32@st-
->> md-mailman.stormreply.com; linux-wireless@vger.kernel.org
->> Subject: [PATCH net-next 10/12] net: xilinx: axienet: Convert using
->> devm_clk_get_optional_enabled() in axienet_probe()
->>
->> Use devm_clk_get_optional_enabled() instead of devm_clk_get_optional() +
->> clk_prepare_enable(), which can make the clk consistent with the device life
->> cycle and reduce the risk of unreleased clk resources. Since the device
->> framework has automatically released the clk resource, there is no need to
->> execute clk_disable_unprepare(clk) on the error path.
->>
->> Signed-off-by: Li Zetao <lizetao1@huawei.com>
-> 
-> Reviewed-by: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-> Thanks!
-> 
->> ---
->>   drivers/net/ethernet/xilinx/xilinx_axienet_main.c | 15 ++++-----------
->>   1 file changed, 4 insertions(+), 11 deletions(-)
->>
->> diff --git a/drivers/net/ethernet/xilinx/xilinx_axienet_main.c
->> b/drivers/net/ethernet/xilinx/xilinx_axienet_main.c
->> index fe6a0e2e463f..48b41e95aa74 100644
->> --- a/drivers/net/ethernet/xilinx/xilinx_axienet_main.c
->> +++ b/drivers/net/ethernet/xilinx/xilinx_axienet_main.c
->> @@ -2584,22 +2584,17 @@ static int axienet_probe(struct platform_device
->> *pdev)
->>   	seqcount_mutex_init(&lp->hw_stats_seqcount, &lp->stats_lock);
->>   	INIT_DEFERRABLE_WORK(&lp->stats_work, axienet_refresh_stats);
->>
->> -	lp->axi_clk = devm_clk_get_optional(&pdev->dev, "s_axi_lite_clk");
->> -	if (!lp->axi_clk) {
->> +	lp->axi_clk = devm_clk_get_optional_enabled(&pdev->dev,
->> "s_axi_lite_clk");
->> +	if (!lp->axi_clk)
->>   		/* For backward compatibility, if named AXI clock is not
->> present,
->>   		 * treat the first clock specified as the AXI clock.
->>   		 */
->> -		lp->axi_clk = devm_clk_get_optional(&pdev->dev, NULL);
->> -	}
->> +		lp->axi_clk = devm_clk_get_optional_enabled(&pdev->dev,
->> NULL);
->> +
->>   	if (IS_ERR(lp->axi_clk)) {
->>   		ret = PTR_ERR(lp->axi_clk);
->>   		goto free_netdev;
->>   	}
->> -	ret = clk_prepare_enable(lp->axi_clk);
->> -	if (ret) {
->> -		dev_err(&pdev->dev, "Unable to enable AXI clock: %d\n",
->> ret);
->> -		goto free_netdev;
->> -	}
->>
->>   	lp->misc_clks[0].id = "axis_clk";
->>   	lp->misc_clks[1].id = "ref_clk";
->> @@ -2915,7 +2910,6 @@ static int axienet_probe(struct platform_device
->> *pdev)
->>   		axienet_mdio_teardown(lp);
->>   cleanup_clk:
-> 
-> I also find that there is goto to cleanup_clk when devm_clk_bulk_get_optional/
-> clk_bulk_prepare_enable fails which is not correct but as it is existing bug it
-> can go a separate patch.
-Thanks for the reminder, I considered solving this problem by using 
-devm_add_action_or_reset
-
-Thanks,
-Li Zetao.
-> 
->>   	clk_bulk_disable_unprepare(XAE_NUM_MISC_CLOCKS, lp-
->>> misc_clks);
->> -	clk_disable_unprepare(lp->axi_clk);
->>
->>   free_netdev:
->>   	free_netdev(ndev);
->> @@ -2939,7 +2933,6 @@ static void axienet_remove(struct platform_device
->> *pdev)
->>   	axienet_mdio_teardown(lp);
->>
->>   	clk_bulk_disable_unprepare(XAE_NUM_MISC_CLOCKS, lp-
->>> misc_clks);
->> -	clk_disable_unprepare(lp->axi_clk);
->>
->>   	free_netdev(ndev);
->>   }
->> --
->> 2.34.1
-> 
