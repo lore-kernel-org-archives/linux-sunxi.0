@@ -1,85 +1,188 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A449A1CA6BA;
-	Tue,  3 Sep 2024 12:53:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 241632A1D6
+	for <linux-sunxi@lists.linux.dev>; Tue,  3 Sep 2024 15:52:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725368034; cv=none; b=LfeWgaTcX2hs0+KlmxcJR+vk+I+PdvOWhcdD4e1W6mH1UjnRAGCcuLXwbpRjJog6Geq2S6V6hEHL31nkZSyGFxr/4MsQut3/JnroexUT8IIeAhxrpvhmIa2bE8bVLZukfwfm1mi2EZwGzzGrUn233dZ1HulwerAtsApPPnYhsRo=
+	t=1725378746; cv=none; b=JsJUcahp6/hkJ2ZCP/9aBBndeOLvn735xNvafKTlEHfRmXxE7WnCSMyrghYagAq3HOrUeYjSn2B5aL7DEpBKLQmqyrSMDIgb+uh8rhSex8ONbXs4JCGz1z1yy5Tml6fuC6147W4H+zNHRCYf9iHiDVbDizA2JXH9aBPppq80AUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725368034; c=relaxed/simple;
-	bh=RpfTj4cLn7W36k5murVGOj34MGnuyTIV+vel5+SvHHE=;
+	s=arc-20240116; t=1725378746; c=relaxed/simple;
+	bh=hT2ARd2B5jXaFHA/22ApPc30vh73M73KfxEL3R+0Rqs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dO8yH2i5LOwbLOFwc/q6jwb0vx6Xwr9iOVIPw4DbTv4GdrAjukJEP0NIQt2QIpqdqZHReywEII0Dcae4x71VV3MLnIpQMTTPcTUbdEuE9UO2WU49OJnZqOS2n9dRnW9/5l7bWIqy//Sb89SPDcqZS/MJjTGqgyKAEZIuJ5QFCeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=LCp1jyR+; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xg1GLTiFeRKFoBIo3Gy5q5sz9XO7BSEVOAT0lJXCqRSfBRAKFTKAsK/AIbXWFh+ilNLKPSBvNljzBf4tOKfjpue1q8QVLwa7vVoPf12u3RAi3oFxeJZF/EvV6LOcdxtLRQJ5gB9HoFkmOjH6Rt4TI5kMBCdf/wDMT4UwX6Vizwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=WGKe/tl+; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="LCp1jyR+"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=Y/PFMegEDd62ur1zarCVrWPBLzIeJ3N20ZfW4Ez4TaM=; b=LCp1jyR+IICHAWThuJ0aN9V9P0
-	++GbqJunHyY4Bpw0sGSkcx92JlhyKeXjKtxZ8zdYlqu8j2GEWS1EHM9lpp2e+jQk5i8iyxMxMI2Cg
-	m0wuS+PDEbExhY5LRl9kPBtUfYMV6UO9SzN7B+ZZ7o2HA9iKGiD6MttFcddJf6RrcxC0=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1slT2B-006QUP-VC; Tue, 03 Sep 2024 14:53:23 +0200
-Date: Tue, 3 Sep 2024 14:53:23 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Florian Fainelli <f.fainelli@gmail.com>
-Cc: Jinjie Ruan <ruanjinjie@huawei.com>, woojung.huh@microchip.com,
-	olteanv@gmail.com, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, linus.walleij@linaro.org,
-	alsi@bang-olufsen.dk, justin.chen@broadcom.com,
-	sebastian.hesselbarth@gmail.com, alexandre.torgue@foss.st.com,
-	joabreu@synopsys.com, mcoquelin.stm32@gmail.com, wens@csie.org,
-	jernej.skrabec@gmail.com, samuel@sholland.org, hkallweit1@gmail.com,
-	linux@armlinux.org.uk, UNGLinuxDriver@microchip.com,
-	netdev@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-stm32@st-md-mailman.stormreply.com, krzk@kernel.org,
-	jic23@kernel.org
-Subject: Re: [PATCH net-next v4 5/8] net: mdio: mux-mmioreg: Simplified with
- dev_err_probe()
-Message-ID: <38a3c576-a342-4644-8509-53a6a7f45576@lunn.ch>
-References: <20240830031325.2406672-1-ruanjinjie@huawei.com>
- <20240830031325.2406672-6-ruanjinjie@huawei.com>
- <27a0d076-ed61-486b-b961-8a0982e7b96d@gmail.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="WGKe/tl+"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5c255e3c327so2831012a12.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 03 Sep 2024 08:52:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1725378742; x=1725983542; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DuEfnvjjt6m1/doYMjeYKF5Vb/dLCWma3sPSNO69eh8=;
+        b=WGKe/tl++ut57T0cZi12OhVplB+ZVIhBpnF5CJShu42vPyrcDRg7tab0vlEl4rapm6
+         YqN7SdIOF0IpLSS+5hYBKQLdkpbVaJN8zUUwSURFyq6EJTZEYfIH/4N4RBjgO7vOmr09
+         x7kFENZrTIU5AfDG53RvWq9VEu3r76XC2X/+2sfPYnBmrHyL/lKnrMGiCC6nQYnsXMQt
+         eAjsuAFBZyy6C0eFAqyzRoSr5QMvGAR0FAdmyj7few/mFAaV5m3mC9CTkhc2KY8ZQ1EL
+         qC1kM7hvyi88aO//MvaHJh+/JtSfxu5LLJsHVLaFwllgTe3h2vFlFIWujN9bIeYXBVD2
+         UN2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725378742; x=1725983542;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DuEfnvjjt6m1/doYMjeYKF5Vb/dLCWma3sPSNO69eh8=;
+        b=YsQycpYKZLdNYiV4A7nxlEQ3Hs0KwCrSqDAsCanIMqXzEZhplS4FpeNKkzBEUz4bFm
+         EdNvcmu1zBP7niHDeA9paAOradKaMJAAFrX84pNwEbmst/xwcLBXppFcdWuAKcaSi5kt
+         ctXsHYLmA7dqi1V/ev4Gv4hO6hIuSz2h1eNP06KBdc0lUpYPXMZTLA9Ol8TbKwYiJn+6
+         b6eqXpuk/iPUdHfJxEPYVsCwKISlQ0WAoZt16FAcV9GWoOTc/cTidy5RGtrF1X7E2f7Z
+         vpDouw0XdQY6Fus3jtMaRAzP5w44MSBYXcUERx7cL92IpOnsqDOxbUYa2juLcprRONkq
+         6FqQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUwP62yzL88LKgSrzE+Kq8zBFtAaP3+1fFtV4NNMMCD5zqUxYukxhU05xSQ2d/uYyd1TA34amuNJuuJtQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyojulR/Px2kpJF67Rq0A7CIt7wehNBHbxPAGjbFueC3kIqNJ6B
+	V3B0LMovwumg9X6XZvSYy05IfE3Xwvd0pI/Un6RqeQkfT1WYsWeUjlgdbEX0KCY=
+X-Google-Smtp-Source: AGHT+IGX8n0w2RrQgN7NxW87zoP0ZbH3F+TZlJRkbLUatpnJln6Op8KzPk3dbNz6NHkJ9YOZ5PBNdQ==
+X-Received: by 2002:a17:907:86a9:b0:a86:73cb:99ef with SMTP id a640c23a62f3a-a89faf0fc8dmr584529166b.39.1725378742211;
+        Tue, 03 Sep 2024 08:52:22 -0700 (PDT)
+Received: from localhost (p5dc68f76.dip0.t-ipconnect.de. [93.198.143.118])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8988feb2a3sm701051566b.3.2024.09.03.08.52.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Sep 2024 08:52:21 -0700 (PDT)
+Date: Tue, 3 Sep 2024 17:52:20 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Li Zetao <lizetao1@huawei.com>
+Cc: florian.fainelli@broadcom.com, andrew@lunn.ch, olteanv@gmail.com, 
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, 
+	wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org, heiko@sntech.de, 
+	yisen.zhuang@huawei.com, salil.mehta@huawei.com, hauke@hauke-m.de, 
+	alexandre.torgue@foss.st.com, joabreu@synopsys.com, mcoquelin.stm32@gmail.com, 
+	wellslutw@gmail.com, radhey.shyam.pandey@amd.com, michal.simek@amd.com, 
+	ajay.kathat@microchip.com, claudiu.beznea@tuxon.dev, kvalo@kernel.org, 
+	jacky_chou@aspeedtech.com, netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-wireless@vger.kernel.org
+Subject: Re: [PATCH net-next 05/12] net: ftgmac100: Convert using
+ devm_clk_get_enabled() in ftgmac100_setup_clk()
+Message-ID: <7mfqy5mcwxrppb25j57za7jzk6d5llexfgnngl66tle3ic32yy@63cj63tsh3xh>
+References: <20240831021334.1907921-1-lizetao1@huawei.com>
+ <20240831021334.1907921-6-lizetao1@huawei.com>
+ <nyfm5mxrrvfeu7s25qzjxbatvgnppq7exmca3sccmm6lz7nxan@xxsdgcrueoen>
+ <0becf4e0-2f66-4c26-b0b3-59ee232eaaef@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="se74eiqu42ro53lu"
 Content-Disposition: inline
-In-Reply-To: <27a0d076-ed61-486b-b961-8a0982e7b96d@gmail.com>
+In-Reply-To: <0becf4e0-2f66-4c26-b0b3-59ee232eaaef@huawei.com>
 
-> > @@ -109,30 +109,25 @@ static int mdio_mux_mmioreg_probe(struct platform_device *pdev)
-> >   		return -ENOMEM;
-> >   	ret = of_address_to_resource(np, 0, &res);
-> > -	if (ret) {
-> > -		dev_err(&pdev->dev, "could not obtain memory map for node %pOF\n",
-> > -			np);
-> > -		return ret;
-> > -	}
-> > +	if (ret)
-> > +		return dev_err_probe(&pdev->dev, ret,
-> > +				     "could not obtain memory map for node %pOF\n", np);
-> 
-> Besides that one, which I don't think is even a candidate for resource
-> deferral in the first place given the OF platform implementation, it does
-> not seem to help that much to switch to dev_err_probe() other than just
-> combining the error message and return code in a single statement. So it's
-> fewer lines of codes, but it is not exactly what dev_err_probe() was
-> originally intended for IMHO.
 
-Agreed. Rather than abuse dev_err_probe(), maybe a dev_err_error()
-would be added with the same prototype, does the same formatting, and
-skips all the PROBE_DEFFER logic. The problem would be, it would
-encourage more of this churn.
+--se74eiqu42ro53lu
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-	Andrew
+Hello,
+
+On Tue, Sep 03, 2024 at 06:46:48PM +0800, Li Zetao wrote:
+> =E5=9C=A8 2024/9/3 16:09, Uwe Kleine-K=C3=B6nig =E5=86=99=E9=81=93:
+> > On Sat, Aug 31, 2024 at 10:13:27AM +0800, Li Zetao wrote:
+> > > Use devm_clk_get_enabled() instead of devm_clk_get() +
+> > > clk_prepare_enable(), which can make the clk consistent with the devi=
+ce
+> > > life cycle and reduce the risk of unreleased clk resources. Since the
+> > > device framework has automatically released the clk resource, there is
+> > > no need to execute clk_disable_unprepare(clk) on the error path, drop
+> > > the cleanup_clk label, and the original error process can return dire=
+ctly.
+> > >=20
+> > > Signed-off-by: Li Zetao <lizetao1@huawei.com>
+> > > ---
+> > >   drivers/net/ethernet/faraday/ftgmac100.c | 27 ++++++---------------=
+---
+> > >   1 file changed, 7 insertions(+), 20 deletions(-)
+> > >=20
+> > > diff --git a/drivers/net/ethernet/faraday/ftgmac100.c b/drivers/net/e=
+thernet/faraday/ftgmac100.c
+> > > index 4c546c3aef0f..eb57c822c5ac 100644
+> > > --- a/drivers/net/ethernet/faraday/ftgmac100.c
+> > > +++ b/drivers/net/ethernet/faraday/ftgmac100.c
+> > > @@ -1752,13 +1752,10 @@ static int ftgmac100_setup_clk(struct ftgmac1=
+00 *priv)
+> > >   	struct clk *clk;
+> > >   	int rc;
+> > > -	clk =3D devm_clk_get(priv->dev, NULL /* MACCLK */);
+> > > +	clk =3D devm_clk_get_enabled(priv->dev, NULL /* MACCLK */);
+> > >   	if (IS_ERR(clk))
+> > >   		return PTR_ERR(clk);
+> > >   	priv->clk =3D clk;
+> > > -	rc =3D clk_prepare_enable(priv->clk);
+> > > -	if (rc)
+> > > -		return rc;
+> > >   	/* Aspeed specifies a 100MHz clock is required for up to
+> > >   	 * 1000Mbit link speeds. As NCSI is limited to 100Mbit, 25MHz
+> > > @@ -1767,21 +1764,17 @@ static int ftgmac100_setup_clk(struct ftgmac1=
+00 *priv)
+> > >   	rc =3D clk_set_rate(priv->clk, priv->use_ncsi ? FTGMAC_25MHZ :
+> > >   			  FTGMAC_100MHZ);
+> > >   	if (rc)
+> > > -		goto cleanup_clk;
+> > > +		return rc;
+> > >   	/* RCLK is for RMII, typically used for NCSI. Optional because it'=
+s not
+> > >   	 * necessary if it's the AST2400 MAC, or the MAC is configured for
+> > >   	 * RGMII, or the controller is not an ASPEED-based controller.
+> > >   	 */
+> > > -	priv->rclk =3D devm_clk_get_optional(priv->dev, "RCLK");
+> > > -	rc =3D clk_prepare_enable(priv->rclk);
+> > > -	if (!rc)
+> > > -		return 0;
+> > > +	priv->rclk =3D devm_clk_get_optional_enabled(priv->dev, "RCLK");
+> > > +	if (IS_ERR(priv->rclk))
+> > > +		return PTR_ERR(priv->rclk);
+> > > -cleanup_clk:
+> > > -	clk_disable_unprepare(priv->clk);
+> > > -
+> > > -	return rc;
+> > > +	return 0;
+> >=20
+> > You're changing semantics here. Before your patch ftgmac100_setup_clk()
+> > was left with priv->clk disabled; now you keep it enabled.
+> Before my patch, ftgmac100_setup_clk() was only left with priv->clk disab=
+led
+> when error occurs, and was left with priv->clk enabled when no error occu=
+rs
+> because when enabling priv->rclk successfully, it will return 0 directly,
+> and when enabling priv->rclk failed, it will disable priv->clk.
+>=20
+> It turns out that the code logic is a bit counter-intuitive, but the
+> readability has been improved after adjustments.
+
+Indeed. This is IMHO worth mentioning in the commit log to prevent the
+next reviewer stumble over the same code construct.
+
+Best regards
+Uwe
+
+--se74eiqu42ro53lu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmbXMLEACgkQj4D7WH0S
+/k5L/wf9Gs22UgHjYPS/+O96Cu4w4UcP3q7nPHpOoDSXi2BXtkrd7ABWKXFV2G9v
+0DkiId7UylOmQ86aa7znTZywltkTX8AItXV6lq02kZPov3/57jw8RcpHRc694mrH
+PxmFxBPFAtoh5SlzCoBzgViqv+dfxcd9r4yniENbBn1gH2j1SH/XsJRypXr8PaUy
+HHvPiIhlO4ylM2U3QM3ojnUNGER5I5Oq2Ge8PYhd7B118KogrbcAlMm52+cN+Emt
+M+kDaR5zXhRN/Xlknj3YnVNtzyYxfF6iNjOLSVQue1CxjbsHXwYWt+gUMwZ9U7mi
+M/GMHgxWenCtKXfzEgHtrXqAzvSsNA==
+=H+qA
+-----END PGP SIGNATURE-----
+
+--se74eiqu42ro53lu--
