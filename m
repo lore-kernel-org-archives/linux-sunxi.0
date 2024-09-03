@@ -1,71 +1,67 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29CD51D223A;
-	Tue,  3 Sep 2024 21:58:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 331031EBFE4;
+	Tue,  3 Sep 2024 22:16:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725400681; cv=none; b=JhS6uWp0/HDU/cZBbbCfCHldZWKz+0Vnar58WMyKA+Ne6WjkooQuzlI1tR1JNRGD036cgTLUHai04KWGXBLh2vqPf3pIegzRU1qF78vjPRMCZiy9SXuJ1fdu0Lfq9UlHjGpaCuNDKLfWbbPGnWhyIdPoIuTOPvBpArZjfQaERKk=
+	t=1725401812; cv=none; b=jCIwumUGaHU/zbHbLuHMHLkKLMVMOebCnh9/E7TKU0Zaa4wSFatnDMfim3/1/CBSzIa3yctnLbOm98lBj2HyZqzkb6bW6URb/7TTwU0CvVwz9oOpqf35FaaFdCMBI/QelrBlNuQOt/1tkZwBrrgocK37jaxTmZr9rIyorpaENwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725400681; c=relaxed/simple;
-	bh=bfkASTT+Az0WHoeeWuQspysfBtzPVt+pivV/Wg/6HLk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=B6cwA6V3rDlEj+EcxpNojgtiYdWyBrzyJxhugjN156A3NYW3LCrgz5YejIccuq1pLunyFgMs4TFBn112fENH8QkpiZO6eFuDTrNUa4kT1RqU8Y5toEneqLDadCgfnCA/HQTta8EYE+gHNkap45x7tZP8mAHmRB5/qgmnnfXq1AU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CD69C4CEC9;
-	Tue,  3 Sep 2024 21:58:00 +0000 (UTC)
-Received: by mercury (Postfix, from userid 1000)
-	id 473811060534; Tue, 03 Sep 2024 23:57:58 +0200 (CEST)
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: linux-sunxi@lists.linux.dev, Chris Morgan <macroalpha82@gmail.com>
-Cc: linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-iio@vger.kernel.org, 
- quentin.schulz@free-electrons.com, mripard@kernel.org, 
- tgamblin@baylibre.com, aidanmacdonald.0x0@gmail.com, 
- u.kleine-koenig@pengutronix.de, lee@kernel.org, samuel@sholland.org, 
- jernej.skrabec@gmail.com, sre@kernel.org, wens@csie.org, 
- conor+dt@kernel.org, krzk+dt@kernel.org, robh@kernel.org, lars@metafoo.de, 
- jic23@kernel.org, jonathan.cameron@huawei.com, 
- Chris Morgan <macromorgan@hotmail.com>
-In-Reply-To: <20240821215456.962564-1-macroalpha82@gmail.com>
-References: <20240821215456.962564-1-macroalpha82@gmail.com>
-Subject: Re: (subset) [PATCH V4 00/15] Add Battery and USB Supply for
- AXP717
-Message-Id: <172540067828.972525.2485048078454932049.b4-ty@collabora.com>
-Date: Tue, 03 Sep 2024 23:57:58 +0200
+	s=arc-20240116; t=1725401812; c=relaxed/simple;
+	bh=u/TGDgT9nMGoSIjabJLW3PnQ9BU6/qBVyJyzNBpjKA0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IGwykmQbKa2OvaFKaVH2qhLfUIBsVl7dtrac5wwpZYTo3mTo1b6u+5+UMCL9l0ufzljBKMbZf8R+C6KC+mSMXPVM2nVkhfdKij3CC4NTapS2kIss9YZXCr3QEHSVerd3kgQQR0I99GzVIOaNCO9UvMLQjCz595Ixbup6bSitvpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ctev56XH; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ctev56XH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8034BC4CEC4;
+	Tue,  3 Sep 2024 22:16:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725401811;
+	bh=u/TGDgT9nMGoSIjabJLW3PnQ9BU6/qBVyJyzNBpjKA0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Ctev56XHYQrMTxPIN36pvA5ji059bJWHtvJO4u3nY/6RQ1NKpLkf3wmKgjl0pn3Hm
+	 GA0XR5S0Ix9Fs8eEHOaU0HoInL/Z4zW9M0SU0aYcHSX+16A/xh6c7sCIt6ZmgEFoGK
+	 vv9THsKS/7EtDD7qXK3wNxvcpvRMA8OePdoMwhzgC/7D7bWlkAhwQdtHnrfWOHynCW
+	 /+NIm/AEoNbl0jAgj8qn1/vSMXAolEUFLuYLgE/mX+byeMC+cLHMUkI5tkqROCjiPJ
+	 HlEdinz/2+T6DVUkaMLEJro5qq+Z5rkTdcYGmJ3N8FUqON2c2mAxfAsyFDy19Uj0K+
+	 Nf1uOZQD3k+0g==
+Date: Tue, 3 Sep 2024 15:16:49 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Li Zetao <lizetao1@huawei.com>
+Cc: <florian.fainelli@broadcom.com>, <andrew@lunn.ch>, <olteanv@gmail.com>,
+ <davem@davemloft.net>, <edumazet@google.com>, <pabeni@redhat.com>,
+ <wens@csie.org>, <jernej.skrabec@gmail.com>, <samuel@sholland.org>,
+ <heiko@sntech.de>, <yisen.zhuang@huawei.com>, <salil.mehta@huawei.com>,
+ <hauke@hauke-m.de>, <alexandre.torgue@foss.st.com>, <joabreu@synopsys.com>,
+ <mcoquelin.stm32@gmail.com>, <wellslutw@gmail.com>,
+ <radhey.shyam.pandey@amd.com>, <michal.simek@amd.com>,
+ <ajay.kathat@microchip.com>, <claudiu.beznea@tuxon.dev>,
+ <kvalo@kernel.org>, <u.kleine-koenig@pengutronix.de>,
+ <jacky_chou@aspeedtech.com>, <netdev@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
+ <linux-rockchip@lists.infradead.org>,
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ <linux-wireless@vger.kernel.org>
+Subject: Re: [PATCH net-next 09/12] net: ethernet: sunplus: Convert using
+ devm_clk_get_enabled() in spl2sw_probe()
+Message-ID: <20240903151649.1b466145@kernel.org>
+In-Reply-To: <20240831021334.1907921-10-lizetao1@huawei.com>
+References: <20240831021334.1907921-1-lizetao1@huawei.com>
+	<20240831021334.1907921-10-lizetao1@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.1
 
+On Sat, 31 Aug 2024 10:13:31 +0800 Li Zetao wrote:
+> +	comm->clk = devm_clk_get_enabled(&pdev->dev, NULL);
 
-On Wed, 21 Aug 2024 16:54:41 -0500, Chris Morgan wrote:
-> From: Chris Morgan <macromorgan@hotmail.com>
-> 
-> Add support for monitoring the USB charger and battery charger on the
-> AXP717 PMIC. This required some driver refactoring of the axp20x USB
-> and battery charger as the AXP717 is somewhat different but can still
-> benefit from some common elements.
-> 
-> [...]
-
-Applied, thanks!
-
-[09/15] dt-bindings: power: supply: axp20x: Add AXP717 compatible
-        commit: e44c5691822962dc6f50793029bef5e71f5b0a62
-[10/15] dt-bindings: power: supply: axp20x: Add AXP717 compatible
-        commit: e44c5691822962dc6f50793029bef5e71f5b0a62
-[13/15] power: supply: axp20x_usb_power: Add support for AXP717
-        commit: 75098176d17fab88c06120b453b4b0d1641e2a41
-[14/15] power: supply: axp20x_battery: add support for AXP717
-        commit: 6625767049c2e0960ba9835392a6ef9143170be6
-
-Best regards,
+You can remove clk from the driver struct now.
+Please check if the same applies to other patches.
 -- 
-Sebastian Reichel <sebastian.reichel@collabora.com>
-
+pw-bot: cr
