@@ -1,188 +1,208 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.matrix.am (mail.matrix.am [116.203.124.247])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 241632A1D6
-	for <linux-sunxi@lists.linux.dev>; Tue,  3 Sep 2024 15:52:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EFE71D88CB
+	for <linux-sunxi@lists.linux.dev>; Tue,  3 Sep 2024 20:55:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.124.247
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725378746; cv=none; b=JsJUcahp6/hkJ2ZCP/9aBBndeOLvn735xNvafKTlEHfRmXxE7WnCSMyrghYagAq3HOrUeYjSn2B5aL7DEpBKLQmqyrSMDIgb+uh8rhSex8ONbXs4JCGz1z1yy5Tml6fuC6147W4H+zNHRCYf9iHiDVbDizA2JXH9aBPppq80AUE=
+	t=1725396953; cv=none; b=YwDC2QAdgsmlc0nkE2opeDjUrcjJQzlkU9/0U+xt4u7kIg+lYGzxrCN5KVYbdBtWVzqdv04nZSqZ9PG74ZCbggYWuPU8P3rysfmfu57fweq8WX0yNCo60VqF4FVVG0QcGDpwU4NNlR80m1bHt/+59fAdRt0Jh7JNlOH+V5I3JnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725378746; c=relaxed/simple;
-	bh=hT2ARd2B5jXaFHA/22ApPc30vh73M73KfxEL3R+0Rqs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xg1GLTiFeRKFoBIo3Gy5q5sz9XO7BSEVOAT0lJXCqRSfBRAKFTKAsK/AIbXWFh+ilNLKPSBvNljzBf4tOKfjpue1q8QVLwa7vVoPf12u3RAi3oFxeJZF/EvV6LOcdxtLRQJ5gB9HoFkmOjH6Rt4TI5kMBCdf/wDMT4UwX6Vizwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=WGKe/tl+; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1725396953; c=relaxed/simple;
+	bh=DUMm6nz6XnzBridnUivBSoK7+llNYN2oF8ISpeNJzEM=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=c8SsVW4k3DT4f53e/SgW2y3CWDqua8JHn0P1L/GLaCtcHjq70ParKMO1jeQIE9RW7XhZyAWRXFlPtdNHgxl4bonB0flp2uf8dn/h0lI+NPcqHYA+TTKViklu8PIREYDAM0m0z60u3BcvCvZ9KXVIZHT93rs+yjkkyD3mA2qv3Aw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=arnet.am; spf=pass smtp.mailfrom=arnet.am; dkim=pass (1024-bit key) header.d=arnet.am header.i=@arnet.am header.b=cHi03LIw; arc=none smtp.client-ip=116.203.124.247
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=arnet.am
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arnet.am
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="WGKe/tl+"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5c255e3c327so2831012a12.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 03 Sep 2024 08:52:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1725378742; x=1725983542; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=DuEfnvjjt6m1/doYMjeYKF5Vb/dLCWma3sPSNO69eh8=;
-        b=WGKe/tl++ut57T0cZi12OhVplB+ZVIhBpnF5CJShu42vPyrcDRg7tab0vlEl4rapm6
-         YqN7SdIOF0IpLSS+5hYBKQLdkpbVaJN8zUUwSURFyq6EJTZEYfIH/4N4RBjgO7vOmr09
-         x7kFENZrTIU5AfDG53RvWq9VEu3r76XC2X/+2sfPYnBmrHyL/lKnrMGiCC6nQYnsXMQt
-         eAjsuAFBZyy6C0eFAqyzRoSr5QMvGAR0FAdmyj7few/mFAaV5m3mC9CTkhc2KY8ZQ1EL
-         qC1kM7hvyi88aO//MvaHJh+/JtSfxu5LLJsHVLaFwllgTe3h2vFlFIWujN9bIeYXBVD2
-         UN2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725378742; x=1725983542;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DuEfnvjjt6m1/doYMjeYKF5Vb/dLCWma3sPSNO69eh8=;
-        b=YsQycpYKZLdNYiV4A7nxlEQ3Hs0KwCrSqDAsCanIMqXzEZhplS4FpeNKkzBEUz4bFm
-         EdNvcmu1zBP7niHDeA9paAOradKaMJAAFrX84pNwEbmst/xwcLBXppFcdWuAKcaSi5kt
-         ctXsHYLmA7dqi1V/ev4Gv4hO6hIuSz2h1eNP06KBdc0lUpYPXMZTLA9Ol8TbKwYiJn+6
-         b6eqXpuk/iPUdHfJxEPYVsCwKISlQ0WAoZt16FAcV9GWoOTc/cTidy5RGtrF1X7E2f7Z
-         vpDouw0XdQY6Fus3jtMaRAzP5w44MSBYXcUERx7cL92IpOnsqDOxbUYa2juLcprRONkq
-         6FqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUwP62yzL88LKgSrzE+Kq8zBFtAaP3+1fFtV4NNMMCD5zqUxYukxhU05xSQ2d/uYyd1TA34amuNJuuJtQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyojulR/Px2kpJF67Rq0A7CIt7wehNBHbxPAGjbFueC3kIqNJ6B
-	V3B0LMovwumg9X6XZvSYy05IfE3Xwvd0pI/Un6RqeQkfT1WYsWeUjlgdbEX0KCY=
-X-Google-Smtp-Source: AGHT+IGX8n0w2RrQgN7NxW87zoP0ZbH3F+TZlJRkbLUatpnJln6Op8KzPk3dbNz6NHkJ9YOZ5PBNdQ==
-X-Received: by 2002:a17:907:86a9:b0:a86:73cb:99ef with SMTP id a640c23a62f3a-a89faf0fc8dmr584529166b.39.1725378742211;
-        Tue, 03 Sep 2024 08:52:22 -0700 (PDT)
-Received: from localhost (p5dc68f76.dip0.t-ipconnect.de. [93.198.143.118])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8988feb2a3sm701051566b.3.2024.09.03.08.52.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Sep 2024 08:52:21 -0700 (PDT)
-Date: Tue, 3 Sep 2024 17:52:20 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Li Zetao <lizetao1@huawei.com>
-Cc: florian.fainelli@broadcom.com, andrew@lunn.ch, olteanv@gmail.com, 
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, 
-	wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org, heiko@sntech.de, 
-	yisen.zhuang@huawei.com, salil.mehta@huawei.com, hauke@hauke-m.de, 
-	alexandre.torgue@foss.st.com, joabreu@synopsys.com, mcoquelin.stm32@gmail.com, 
-	wellslutw@gmail.com, radhey.shyam.pandey@amd.com, michal.simek@amd.com, 
-	ajay.kathat@microchip.com, claudiu.beznea@tuxon.dev, kvalo@kernel.org, 
-	jacky_chou@aspeedtech.com, netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-wireless@vger.kernel.org
-Subject: Re: [PATCH net-next 05/12] net: ftgmac100: Convert using
- devm_clk_get_enabled() in ftgmac100_setup_clk()
-Message-ID: <7mfqy5mcwxrppb25j57za7jzk6d5llexfgnngl66tle3ic32yy@63cj63tsh3xh>
-References: <20240831021334.1907921-1-lizetao1@huawei.com>
- <20240831021334.1907921-6-lizetao1@huawei.com>
- <nyfm5mxrrvfeu7s25qzjxbatvgnppq7exmca3sccmm6lz7nxan@xxsdgcrueoen>
- <0becf4e0-2f66-4c26-b0b3-59ee232eaaef@huawei.com>
+	dkim=pass (1024-bit key) header.d=arnet.am header.i=@arnet.am header.b="cHi03LIw"
+Received: from arnet (unknown [37.252.77.193])
+	by mail.matrix.am (Postfix) with ESMTPSA id B941D4050F;
+	Tue,  3 Sep 2024 22:45:48 +0200 (CEST)
+Received: from arnet (localhost [127.0.0.1])
+	by arnet (OpenSMTPD) with ESMTP id e0e800fd;
+	Tue, 3 Sep 2024 20:45:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=arnet.am; h=date:from:to
+	:cc:subject:message-id:in-reply-to:references:mime-version
+	:content-type; s=mail; bh=DUMm6nz6XnzBridnUivBSoK7+llNYN2oF8ISpe
+	NJzEM=; b=cHi03LIwRwH87jaf0gvizX2Gekez+BoesdeObdIShZzW+NkSOTohJn
+	8m41M9YGit1OqyqwKuyFJss6Wi5AW+Dkz11+dAcXK/3FOHnY0WA8WfFsRzRocOOa
+	dyTzwRHoCulGhsEKCdV3Ev4m2wzgTZ4XoSWeI4sBkiEIkCyH9fLVA=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=arnet.am; h=date:from:to:cc
+	:subject:message-id:in-reply-to:references:mime-version
+	:content-type; q=dns; s=mail; b=JKE2IdFoB0/9Zk1SzuASLJgxAb9M1l6W
+	pRh6cezKJVmHtWCoaAq00y7yV58NvuFt3DzdWYg3F3Aa3G+JXIBhb0xQOqj8XjkV
+	MHyjl2GKM8s1LBCeWzRFnuJXfbFeu9i/fleHQ39i/vPamSyGhkCx3Jc4LdBIFIfO
+	l6XKJl6Fb+c=
+Received: from localhost (<unknown> [10.0.0.5])
+	by arnet (OpenSMTPD) with ESMTPSA id 7d9355e0 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Tue, 3 Sep 2024 20:45:46 +0000 (UTC)
+Date: Wed, 4 Sep 2024 00:46:15 +0400
+From: =?UTF-8?B?1bbVuNaA1aHVtdaA?= <norayr@arnet.am>
+To: Dragan Simic <dsimic@manjaro.org>
+Cc: linux-sunxi@lists.linux.dev, wens@csie.org, jernej.skrabec@gmail.com,
+ samuel@sholland.org, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, linux-kernel@vger.kernel.org, uwu@icenowy.me,
+ wenst@chromium.org, broonie@kernel.org, daniel.lezcano@linaro.org
+Subject: Re: [PATCH v2] arm64: dts: allwinner: a64: Add GPU thermal trips to
+ the SoC dtsi
+Message-Id: <20240904004615.15ccf4ec1d764c5a163ebc13@arnet.am>
+In-Reply-To: <0a6110a7b27a050bd58ab3663087eecd8e873ac0.1724126053.git.dsimic@manjaro.org>
+References: <0a6110a7b27a050bd58ab3663087eecd8e873ac0.1724126053.git.dsimic@manjaro.org>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="se74eiqu42ro53lu"
-Content-Disposition: inline
-In-Reply-To: <0becf4e0-2f66-4c26-b0b3-59ee232eaaef@huawei.com>
+Mime-Version: 1.0
+Content-Type: multipart/signed; protocol="application/pgp-signature";
+ micalg="PGP-SHA256";
+ boundary="Signature=_Wed__4_Sep_2024_00_46_15_+0400_R/qTOGzL1=rQB4Mt"
 
-
---se74eiqu42ro53lu
-Content-Type: text/plain; charset=utf-8
+--Signature=_Wed__4_Sep_2024_00_46_15_+0400_R/qTOGzL1=rQB4Mt
+Content-Type: text/plain; charset=US-ASCII
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hello,
 
-On Tue, Sep 03, 2024 at 06:46:48PM +0800, Li Zetao wrote:
-> =E5=9C=A8 2024/9/3 16:09, Uwe Kleine-K=C3=B6nig =E5=86=99=E9=81=93:
-> > On Sat, Aug 31, 2024 at 10:13:27AM +0800, Li Zetao wrote:
-> > > Use devm_clk_get_enabled() instead of devm_clk_get() +
-> > > clk_prepare_enable(), which can make the clk consistent with the devi=
-ce
-> > > life cycle and reduce the risk of unreleased clk resources. Since the
-> > > device framework has automatically released the clk resource, there is
-> > > no need to execute clk_disable_unprepare(clk) on the error path, drop
-> > > the cleanup_clk label, and the original error process can return dire=
-ctly.
-> > >=20
-> > > Signed-off-by: Li Zetao <lizetao1@huawei.com>
-> > > ---
-> > >   drivers/net/ethernet/faraday/ftgmac100.c | 27 ++++++---------------=
+I have tested this patch to the device tree on my pinephone (1.2 edition) u=
+nder Gentoo Linux (vanilla-sources-6.10.7)
+before the test, my dmesg contained:
+
 ---
-> > >   1 file changed, 7 insertions(+), 20 deletions(-)
-> > >=20
-> > > diff --git a/drivers/net/ethernet/faraday/ftgmac100.c b/drivers/net/e=
-thernet/faraday/ftgmac100.c
-> > > index 4c546c3aef0f..eb57c822c5ac 100644
-> > > --- a/drivers/net/ethernet/faraday/ftgmac100.c
-> > > +++ b/drivers/net/ethernet/faraday/ftgmac100.c
-> > > @@ -1752,13 +1752,10 @@ static int ftgmac100_setup_clk(struct ftgmac1=
-00 *priv)
-> > >   	struct clk *clk;
-> > >   	int rc;
-> > > -	clk =3D devm_clk_get(priv->dev, NULL /* MACCLK */);
-> > > +	clk =3D devm_clk_get_enabled(priv->dev, NULL /* MACCLK */);
-> > >   	if (IS_ERR(clk))
-> > >   		return PTR_ERR(clk);
-> > >   	priv->clk =3D clk;
-> > > -	rc =3D clk_prepare_enable(priv->clk);
-> > > -	if (rc)
-> > > -		return rc;
-> > >   	/* Aspeed specifies a 100MHz clock is required for up to
-> > >   	 * 1000Mbit link speeds. As NCSI is limited to 100Mbit, 25MHz
-> > > @@ -1767,21 +1764,17 @@ static int ftgmac100_setup_clk(struct ftgmac1=
-00 *priv)
-> > >   	rc =3D clk_set_rate(priv->clk, priv->use_ncsi ? FTGMAC_25MHZ :
-> > >   			  FTGMAC_100MHZ);
-> > >   	if (rc)
-> > > -		goto cleanup_clk;
-> > > +		return rc;
-> > >   	/* RCLK is for RMII, typically used for NCSI. Optional because it'=
-s not
-> > >   	 * necessary if it's the AST2400 MAC, or the MAC is configured for
-> > >   	 * RGMII, or the controller is not an ASPEED-based controller.
-> > >   	 */
-> > > -	priv->rclk =3D devm_clk_get_optional(priv->dev, "RCLK");
-> > > -	rc =3D clk_prepare_enable(priv->rclk);
-> > > -	if (!rc)
-> > > -		return 0;
-> > > +	priv->rclk =3D devm_clk_get_optional_enabled(priv->dev, "RCLK");
-> > > +	if (IS_ERR(priv->rclk))
-> > > +		return PTR_ERR(priv->rclk);
-> > > -cleanup_clk:
-> > > -	clk_disable_unprepare(priv->clk);
-> > > -
-> > > -	return rc;
-> > > +	return 0;
-> >=20
-> > You're changing semantics here. Before your patch ftgmac100_setup_clk()
-> > was left with priv->clk disabled; now you keep it enabled.
-> Before my patch, ftgmac100_setup_clk() was only left with priv->clk disab=
-led
-> when error occurs, and was left with priv->clk enabled when no error occu=
-rs
-> because when enabling priv->rclk successfully, it will return 0 directly,
-> and when enabling priv->rclk failed, it will disable priv->clk.
+[    0.156933] thermal_sys: Registered thermal governor 'fair_share'
+[    0.156942] thermal_sys: Registered thermal governor 'bang_bang'
+[    0.156960] thermal_sys: Registered thermal governor 'step_wise'
+[    0.156976] thermal_sys: Registered thermal governor 'user_space'
+[    0.156992] thermal_sys: Registered thermal governor 'power_allocator'
+[    1.409536] thermal_sys: Failed to find 'trips' node
+[    1.409555] thermal_sys: Failed to find trip points for thermal-sensor i=
+d=3D1
+[    1.409594] thermal_sys: Failed to find 'trips' node
+[    1.409607] thermal_sys: Failed to find trip points for thermal-sensor i=
+d=3D2
+----
+
+after applying the patch and booting with newer dtb, when i grep for the st=
+ring 'thermal' in dmesg i only have:
+
+----
+[    0.159456] thermal_sys: Registered thermal governor 'fair_share'
+[    0.159465] thermal_sys: Registered thermal governor 'bang_bang'
+[    0.159484] thermal_sys: Registered thermal governor 'step_wise'
+[    0.159499] thermal_sys: Registered thermal governor 'user_space'
+[    0.159515] thermal_sys: Registered thermal governor 'power_allocator'
+----
+
+Tested-by: Norayr Chilingarian <norayr@arnet.am>
+
+On Tue, 20 Aug 2024 05:57:47 +0200
+Dragan Simic <dsimic@manjaro.org> wrote:
+
+> Add thermal trips for the two GPU thermal sensors found in the Allwinner =
+A64.
+> There's only one GPU OPP defined since the commit 1428f0c19f9c ("arm64: d=
+ts:
+> allwinner: a64: Run GPU at 432 MHz"), so defining only the critical therm=
+al
+> trips makes sense for the A64's two GPU thermal zones.
 >=20
-> It turns out that the code logic is a bit counter-intuitive, but the
-> readability has been improved after adjustments.
+> Having these critical thermal trips defined ensures that no hot spots dev=
+elop
+> inside the SoC die that exceed the maximum junction temperature.  That mi=
+ght
+> have been possible before, although quite unlikely, because the CPU and G=
+PU
+> portions of the SoC are packed closely inside the SoC, so the overheating=
+ GPU
+> would inevitably result in the heat soaking into the CPU portion of the S=
+oC,
+> causing the CPU thermal sensor to return high readings and trigger the CPU
+> critical thermal trips.  However, it's better not to rely on the heat soak
+> and have the critical GPU thermal trips properly defined instead.
+>=20
+> Signed-off-by: Dragan Simic <dsimic@manjaro.org>
+> ---
+>=20
+> Notes:
+>     Changes in v2:
+>       - Added "a64:" at the end of the patch subject prefix and adjusted =
+the
+>         patch subject a bit, to match the usual prefix better
+>       - Dropped the removal of potentially redundant comments that descri=
+be
+>         the units, as suggested by Icenowy [1] and Chen-Yu [2]
+>    =20
+>     Link to v1: https://lore.kernel.org/linux-sunxi/a17e0df64c5b976b47f19=
+c5a29c02759cd9e5b8c.1723427375.git.dsimic@manjaro.org/T/#u
+>    =20
+>     [1] https://lore.kernel.org/linux-sunxi/24406e36f6facd93e798113303e22=
+925b0a2dcc1.camel@icenowy.me/
+>     [2] https://lore.kernel.org/linux-sunxi/662f2332efb1d6c21e722066562a7=
+2b9@manjaro.org/T/#mdd7b18962c1ae339141061af51b89cd68bc04d50
+>=20
+>  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+>=20
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/b=
+oot/dts/allwinner/sun50i-a64.dtsi
+> index e868ca5ae753..a5c3920e0f04 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+> @@ -263,13 +263,29 @@ gpu0_thermal: gpu0-thermal {
+>  			polling-delay-passive =3D <0>;
+>  			polling-delay =3D <0>;
+>  			thermal-sensors =3D <&ths 1>;
+> +
+> +			trips {
+> +				gpu0_crit: gpu0-crit {
+> +					temperature =3D <110000>;
+> +					hysteresis =3D <2000>;
+> +					type =3D "critical";
+> +				};
+> +			};
+>  		};
+> =20
+>  		gpu1_thermal: gpu1-thermal {
+>  			/* milliseconds */
+>  			polling-delay-passive =3D <0>;
+>  			polling-delay =3D <0>;
+>  			thermal-sensors =3D <&ths 2>;
+> +
+> +			trips {
+> +				gpu1_crit: gpu1-crit {
+> +					temperature =3D <110000>;
+> +					hysteresis =3D <2000>;
+> +					type =3D "critical";
+> +				};
+> +			};
+>  		};
+>  	};
+> =20
 
-Indeed. This is IMHO worth mentioning in the commit log to prevent the
-next reviewer stumble over the same code construct.
 
-Best regards
-Uwe
 
---se74eiqu42ro53lu
-Content-Type: application/pgp-signature; name="signature.asc"
+--Signature=_Wed__4_Sep_2024_00_46_15_+0400_R/qTOGzL1=rQB4Mt
+Content-Type: application/pgp-signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmbXMLEACgkQj4D7WH0S
-/k5L/wf9Gs22UgHjYPS/+O96Cu4w4UcP3q7nPHpOoDSXi2BXtkrd7ABWKXFV2G9v
-0DkiId7UylOmQ86aa7znTZywltkTX8AItXV6lq02kZPov3/57jw8RcpHRc694mrH
-PxmFxBPFAtoh5SlzCoBzgViqv+dfxcd9r4yniENbBn1gH2j1SH/XsJRypXr8PaUy
-HHvPiIhlO4ylM2U3QM3ojnUNGER5I5Oq2Ge8PYhd7B118KogrbcAlMm52+cN+Emt
-M+kDaR5zXhRN/Xlknj3YnVNtzyYxfF6iNjOLSVQue1CxjbsHXwYWt+gUMwZ9U7mi
-M/GMHgxWenCtKXfzEgHtrXqAzvSsNA==
-=H+qA
+iQIzBAEBCAAdFiEE/NXb7z5U+F4QLot8j7bhHrSgEjYFAmbXdZcACgkQj7bhHrSg
+EjYAxg//RiUpiRXuwUNDYUo0zByDk75PdUXyOxZYrH9NRIl3KPp/5uGZS13/nP4T
+YxrtRxm7/Kez9ZFq26DDxjjCDbK6ux1WiPMRDHoB/u7p8cWfMYplnueYa0YI3U0b
+QCuOSs43VIHkYjKAiJQ11G9ZoP8AYfSeI/fiP2DDq7vbhfkyLuRdUCFQseW9Jp3S
+shkb3yh4lShqQJSq7AALF8lrat2aEYOrsJ32zfTGBIbz/Jc5u8ldGCaPb7RrkYaa
+YeYHgKPcip2vVspA2S3bKffTmWF8t0OXFCWTD7FM1ouNcXTSw/J6ZpDq6n94ZW77
+acAGoCuc0v6eomlxTsHUKeUY/0cm8y3Jp1rITFHDjK3X6M1zmSbWacBTlcWEcQj8
+Tr5PWOkkU06MwHQHY7hRjAECObYMl7/m069eknOfE0RjPDkix4wb0z4WJnhDHnpB
+fk320HxFeujsA6X2Y4T78CaF9wnVLXfRCPfsH1q+xUndnb7zmXN+JMabbMo20SJ/
+uLT6da4+zDqUb0RpgRHokmyfsx013hvg3yr7PBwos3vTyBnB46DmGP7Sd5/3tQdc
+iIlhX/fVoLrNXsWllAWJmioljl0aC32/7HiBh3IzzZRlH5WonR4UE/v1tsqhIiAE
+PTjXJnslPE9LrVRwaTtoBk3wZyAIJRVJKUbCp2hyiJbf47y6gdc=
+=dVCU
 -----END PGP SIGNATURE-----
 
---se74eiqu42ro53lu--
+--Signature=_Wed__4_Sep_2024_00_46_15_+0400_R/qTOGzL1=rQB4Mt--
