@@ -1,101 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96D7B1B12EC;
-	Tue,  3 Sep 2024 11:00:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A449A1CA6BA;
+	Tue,  3 Sep 2024 12:53:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725361232; cv=none; b=TD15GIWTGKO3wDqNOqb7XPI2gfIY5gOwBfln9sCBKT2LNP6a6QOj1ieMDBh41V4Nw7VkqW4SSNRgHsKDBFGcHgxGEINpl4ncGir7303oEB0PSM738kpjN6iGDItDdQ81/rl40aEnAMZCAT9cx+pB33qMjEiBbAdVgF+Cf9o0PrQ=
+	t=1725368034; cv=none; b=LfeWgaTcX2hs0+KlmxcJR+vk+I+PdvOWhcdD4e1W6mH1UjnRAGCcuLXwbpRjJog6Geq2S6V6hEHL31nkZSyGFxr/4MsQut3/JnroexUT8IIeAhxrpvhmIa2bE8bVLZukfwfm1mi2EZwGzzGrUn233dZ1HulwerAtsApPPnYhsRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725361232; c=relaxed/simple;
-	bh=ylMqV+jJH9dxcuCIPmf7jFWF++944PIohyUMVAUrUr4=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=OSZddk3d6xR6VFhn0330rRhCLXNQEWGpF1+Y9tl1r2Ld6xWk3fqg7Xy8fDz+ATROeBESWvsWucNkdQh/m74ILOMTz8VIwqUZ0f5nqwsJ+BcNpy1R7ZnK5AULK5jcHiyEWTPCYYVb5AfQEocZBIRwSVviVSLNTWXICSZ8vaXwsXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IjbeojbN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725368034; c=relaxed/simple;
+	bh=RpfTj4cLn7W36k5murVGOj34MGnuyTIV+vel5+SvHHE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dO8yH2i5LOwbLOFwc/q6jwb0vx6Xwr9iOVIPw4DbTv4GdrAjukJEP0NIQt2QIpqdqZHReywEII0Dcae4x71VV3MLnIpQMTTPcTUbdEuE9UO2WU49OJnZqOS2n9dRnW9/5l7bWIqy//Sb89SPDcqZS/MJjTGqgyKAEZIuJ5QFCeY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=LCp1jyR+; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IjbeojbN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1404CC4CEC9;
-	Tue,  3 Sep 2024 11:00:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725361232;
-	bh=ylMqV+jJH9dxcuCIPmf7jFWF++944PIohyUMVAUrUr4=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=IjbeojbNE5gbiQqgVSKXWrua+vTQU4QpXPN0ft2U2UOxsIDV1zfGRfEGqjhm+7uKA
-	 cSzetxYkfncpnwUTqrhz694qhDDc7ac9rsN/HuF08CJYQKaaHUAPpXo9yN5G2XYtBg
-	 GbixvswnB4F1pnDkMjxkz/5CG7uFpwVNsT3zHO0tmMA3mRikJDVvNZ2vjH28Hl2f6k
-	 N0XndhQIQFvwY4uiH1th2XXM1aPbEEJ9wv10q7gyz96hHpZxz2UBEE0fs2og8EVSAn
-	 siDq4zBURfBqJkJsVr85YIq1q7b5QhdlMMducpcUWIClQzm188W1Gei4vCK096vvMw
-	 pEB7Ixjf6fcjg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id ED8D73805D82;
-	Tue,  3 Sep 2024 11:00:33 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="LCp1jyR+"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=Y/PFMegEDd62ur1zarCVrWPBLzIeJ3N20ZfW4Ez4TaM=; b=LCp1jyR+IICHAWThuJ0aN9V9P0
+	++GbqJunHyY4Bpw0sGSkcx92JlhyKeXjKtxZ8zdYlqu8j2GEWS1EHM9lpp2e+jQk5i8iyxMxMI2Cg
+	m0wuS+PDEbExhY5LRl9kPBtUfYMV6UO9SzN7B+ZZ7o2HA9iKGiD6MttFcddJf6RrcxC0=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1slT2B-006QUP-VC; Tue, 03 Sep 2024 14:53:23 +0200
+Date: Tue, 3 Sep 2024 14:53:23 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Florian Fainelli <f.fainelli@gmail.com>
+Cc: Jinjie Ruan <ruanjinjie@huawei.com>, woojung.huh@microchip.com,
+	olteanv@gmail.com, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, linus.walleij@linaro.org,
+	alsi@bang-olufsen.dk, justin.chen@broadcom.com,
+	sebastian.hesselbarth@gmail.com, alexandre.torgue@foss.st.com,
+	joabreu@synopsys.com, mcoquelin.stm32@gmail.com, wens@csie.org,
+	jernej.skrabec@gmail.com, samuel@sholland.org, hkallweit1@gmail.com,
+	linux@armlinux.org.uk, UNGLinuxDriver@microchip.com,
+	netdev@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-stm32@st-md-mailman.stormreply.com, krzk@kernel.org,
+	jic23@kernel.org
+Subject: Re: [PATCH net-next v4 5/8] net: mdio: mux-mmioreg: Simplified with
+ dev_err_probe()
+Message-ID: <38a3c576-a342-4644-8509-53a6a7f45576@lunn.ch>
+References: <20240830031325.2406672-1-ruanjinjie@huawei.com>
+ <20240830031325.2406672-6-ruanjinjie@huawei.com>
+ <27a0d076-ed61-486b-b961-8a0982e7b96d@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v4 0/8] net: Simplified with scoped function
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <172536123276.255858.14746783448329293832.git-patchwork-notify@kernel.org>
-Date: Tue, 03 Sep 2024 11:00:32 +0000
-References: <20240830031325.2406672-1-ruanjinjie@huawei.com>
-In-Reply-To: <20240830031325.2406672-1-ruanjinjie@huawei.com>
-To: Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: woojung.huh@microchip.com, andrew@lunn.ch, f.fainelli@gmail.com,
- olteanv@gmail.com, davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, linus.walleij@linaro.org, alsi@bang-olufsen.dk,
- justin.chen@broadcom.com, sebastian.hesselbarth@gmail.com,
- alexandre.torgue@foss.st.com, joabreu@synopsys.com,
- mcoquelin.stm32@gmail.com, wens@csie.org, jernej.skrabec@gmail.com,
- samuel@sholland.org, hkallweit1@gmail.com, linux@armlinux.org.uk,
- UNGLinuxDriver@microchip.com, netdev@vger.kernel.org,
- bcm-kernel-feedback-list@broadcom.com, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com,
- krzk@kernel.org, jic23@kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <27a0d076-ed61-486b-b961-8a0982e7b96d@gmail.com>
 
-Hello:
-
-This series was applied to netdev/net-next.git (main)
-by Paolo Abeni <pabeni@redhat.com>:
-
-On Fri, 30 Aug 2024 11:13:17 +0800 you wrote:
-> Simplify with scoped for each OF child loop, as well as dev_err_probe().
+> > @@ -109,30 +109,25 @@ static int mdio_mux_mmioreg_probe(struct platform_device *pdev)
+> >   		return -ENOMEM;
+> >   	ret = of_address_to_resource(np, 0, &res);
+> > -	if (ret) {
+> > -		dev_err(&pdev->dev, "could not obtain memory map for node %pOF\n",
+> > -			np);
+> > -		return ret;
+> > -	}
+> > +	if (ret)
+> > +		return dev_err_probe(&pdev->dev, ret,
+> > +				     "could not obtain memory map for node %pOF\n", np);
 > 
-> Changes in v4:
-> - Drop the fix patch and __free() patch.
-> - Rebased on the fix patch has been stripped out.
-> - Remove the extra parentheses.
-> - Ensure Signed-off-by: should always be last.
-> - Add Reviewed-by.
-> - Update the cover letter commit message.
-> 
-> [...]
+> Besides that one, which I don't think is even a candidate for resource
+> deferral in the first place given the OF platform implementation, it does
+> not seem to help that much to switch to dev_err_probe() other than just
+> combining the error message and return code in a single statement. So it's
+> fewer lines of codes, but it is not exactly what dev_err_probe() was
+> originally intended for IMHO.
 
-Here is the summary with links:
-  - [net-next,v4,1/8] net: stmmac: dwmac-sun8i: Use for_each_child_of_node_scoped()
-    https://git.kernel.org/netdev/net-next/c/81b4eb62878a
-  - [net-next,v4,2/8] net: dsa: realtek: Use for_each_child_of_node_scoped()
-    https://git.kernel.org/netdev/net-next/c/51c884291a94
-  - [net-next,v4,3/8] net: phy: Use for_each_available_child_of_node_scoped()
-    https://git.kernel.org/netdev/net-next/c/1dce520abd46
-  - [net-next,v4,4/8] net: mdio: mux-mmioreg: Simplified with scoped function
-    https://git.kernel.org/netdev/net-next/c/b00f7f4f8e93
-  - [net-next,v4,5/8] net: mdio: mux-mmioreg: Simplified with dev_err_probe()
-    https://git.kernel.org/netdev/net-next/c/4078513fc86c
-  - [net-next,v4,6/8] net: mv643xx_eth: Simplify with scoped for each OF child loop
-    https://git.kernel.org/netdev/net-next/c/3a3eea209e6d
-  - [net-next,v4,7/8] net: dsa: microchip: Use scoped function to simplfy code
-    https://git.kernel.org/netdev/net-next/c/f834d572b7e9
-  - [net-next,v4,8/8] net: bcmasp: Simplify with scoped for each OF child loop
-    https://git.kernel.org/netdev/net-next/c/e8ac8974451e
+Agreed. Rather than abuse dev_err_probe(), maybe a dev_err_error()
+would be added with the same prototype, does the same formatting, and
+skips all the PROBE_DEFFER logic. The problem would be, it would
+encourage more of this churn.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+	Andrew
