@@ -1,74 +1,79 @@
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C05F463C
-	for <linux-sunxi@lists.linux.dev>; Wed,  4 Sep 2024 01:27:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0865358ABC;
+	Wed,  4 Sep 2024 05:21:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725413233; cv=none; b=ak7FqrFOvsIEPeFJMlHBSCzjnvKB/s+zomc9u4MtqpA//L0nvF1AyEJLVK0sKWSvJeUdM1wk4NCvUZNAwqZpEWA36UmRZwp1DiAhUA7ycycRfMaiBZGJKo7p69DChEYHjA9qVk6G0/yy9PfAHaOEOhLAOeOqhMVzp//BWhlGQQM=
+	t=1725427280; cv=none; b=uK6BHgtttwxTKz6raNevcQDTeCROr61WWQirX/aeeilY7yFRHmN5boTEZNFguYxD2OZupUeF+7sEYedYpPNYkUx0A+GLJtwyJQH6Z/UcCsXn5+WfH34wPoJmzJCNx4+u6TwDdurwMTwxp5BMksRE+buZKdoUR0puRSzwb3E9qWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725413233; c=relaxed/simple;
-	bh=iTQTZmGNu7XqhC4rMffYfZH32Fiaq2tQgFElUVMGpTE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=NmrtB1jBCpgpz9Jd0igmvPdBCpQZp4PmqVLjhhKPtgtgevaVat8x9M8kzwjElhWq6h06KZxUDQnyOTHdg589j89B8ud7XnjELYrH5PnweaKvm0/VxtuX7j8d11RZ7POy+03WX6U4eV9GoIUYNI+aaPO3TnmWSiFtvyJbAvxGLeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.105])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Wz4Tv11ddz69LX;
-	Wed,  4 Sep 2024 09:22:11 +0800 (CST)
-Received: from kwepemd500012.china.huawei.com (unknown [7.221.188.25])
-	by mail.maildlp.com (Postfix) with ESMTPS id 35A5D140158;
-	Wed,  4 Sep 2024 09:27:08 +0800 (CST)
-Received: from [10.67.111.176] (10.67.111.176) by
- kwepemd500012.china.huawei.com (7.221.188.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.34; Wed, 4 Sep 2024 09:27:07 +0800
-Message-ID: <b4f6e9ae-bda8-4496-82a7-de70004e2f29@huawei.com>
-Date: Wed, 4 Sep 2024 09:27:06 +0800
+	s=arc-20240116; t=1725427280; c=relaxed/simple;
+	bh=uaJfOIjYuBmNzxZ+1UBlZdKM/kOwRLXqL994IS8E/aM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=syPwDrv1rJoJAvoeMBBQ2F82fuatGMEgpEuejoA3Pp0bmqezfMCjrqJ5FT3ZN30YUXV5++/woTDU2N6Lp17aGXdtfQvsbUqvWKJmTFyjoB3yLcgoWSAyCdFii3MLNXrbYgd8/hKmYESjmp2SImxadF0p+J3u4I/6PfWSn1kP3Eg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=WvFo6HRM; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="WvFo6HRM"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+	In-Reply-To:References; bh=0FiySO0ehAi2iikWHKUB4ZlYAWXZ+o7GoMT2M1CTeSI=; b=Wv
+	Fo6HRMDncl5nsiz6wV007AXZL1lu65SAoBmZrWKLc9J1ldZzv6TadWQMvA6MBFguNWhbwtTipQMZV
+	gXC5g8CfCXoHjoaD23vl2QXkIeoZP7Wdbs7c+vQa1yMqDvVQZO6j5hHr2pUvVPi/zVQkyKTW9XT1p
+	XoF/5XcZwl4NZaw=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1sliRV-006Ujj-0O; Wed, 04 Sep 2024 07:20:33 +0200
+Date: Wed, 4 Sep 2024 07:20:32 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Li Zetao <lizetao1@huawei.com>
+Cc: Jakub Kicinski <kuba@kernel.org>, florian.fainelli@broadcom.com,
+	olteanv@gmail.com, davem@davemloft.net, edumazet@google.com,
+	pabeni@redhat.com, wens@csie.org, jernej.skrabec@gmail.com,
+	samuel@sholland.org, heiko@sntech.de, yisen.zhuang@huawei.com,
+	salil.mehta@huawei.com, hauke@hauke-m.de,
+	alexandre.torgue@foss.st.com, joabreu@synopsys.com,
+	mcoquelin.stm32@gmail.com, wellslutw@gmail.com,
+	radhey.shyam.pandey@amd.com, michal.simek@amd.com,
+	ajay.kathat@microchip.com, claudiu.beznea@tuxon.dev,
+	kvalo@kernel.org, u.kleine-koenig@pengutronix.de,
+	jacky_chou@aspeedtech.com, netdev@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-rockchip@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-wireless@vger.kernel.org
+Subject: Re: [PATCH net-next 09/12] net: ethernet: sunplus: Convert using
+ devm_clk_get_enabled() in spl2sw_probe()
+Message-ID: <65a6fdd6-5afc-47b6-ab24-3ba05007eb48@lunn.ch>
+References: <20240831021334.1907921-1-lizetao1@huawei.com>
+ <20240831021334.1907921-10-lizetao1@huawei.com>
+ <20240903151649.1b466145@kernel.org>
+ <b4f6e9ae-bda8-4496-82a7-de70004e2f29@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 09/12] net: ethernet: sunplus: Convert using
- devm_clk_get_enabled() in spl2sw_probe()
-To: Jakub Kicinski <kuba@kernel.org>
-CC: <florian.fainelli@broadcom.com>, <andrew@lunn.ch>, <olteanv@gmail.com>,
-	<davem@davemloft.net>, <edumazet@google.com>, <pabeni@redhat.com>,
-	<wens@csie.org>, <jernej.skrabec@gmail.com>, <samuel@sholland.org>,
-	<heiko@sntech.de>, <yisen.zhuang@huawei.com>, <salil.mehta@huawei.com>,
-	<hauke@hauke-m.de>, <alexandre.torgue@foss.st.com>, <joabreu@synopsys.com>,
-	<mcoquelin.stm32@gmail.com>, <wellslutw@gmail.com>,
-	<radhey.shyam.pandey@amd.com>, <michal.simek@amd.com>,
-	<ajay.kathat@microchip.com>, <claudiu.beznea@tuxon.dev>, <kvalo@kernel.org>,
-	<u.kleine-koenig@pengutronix.de>, <jacky_chou@aspeedtech.com>,
-	<netdev@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-rockchip@lists.infradead.org>,
-	<linux-stm32@st-md-mailman.stormreply.com>, <linux-wireless@vger.kernel.org>
-References: <20240831021334.1907921-1-lizetao1@huawei.com>
- <20240831021334.1907921-10-lizetao1@huawei.com>
- <20240903151649.1b466145@kernel.org>
-From: Li Zetao <lizetao1@huawei.com>
-In-Reply-To: <20240903151649.1b466145@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: dggpeml100007.china.huawei.com (7.185.36.28) To
- kwepemd500012.china.huawei.com (7.221.188.25)
+In-Reply-To: <b4f6e9ae-bda8-4496-82a7-de70004e2f29@huawei.com>
 
-Hi,
-
-在 2024/9/4 6:16, Jakub Kicinski 写道:
-> On Sat, 31 Aug 2024 10:13:31 +0800 Li Zetao wrote:
->> +	comm->clk = devm_clk_get_enabled(&pdev->dev, NULL);
+On Wed, Sep 04, 2024 at 09:27:06AM +0800, Li Zetao wrote:
+> Hi,
 > 
-> You can remove clk from the driver struct now.
-I don’t quite understand why clk can be removed from the driver struct, 
-maybe I missed some important discussion information in the community, 
-please let me know, thank you.
-> Please check if the same applies to other patches.
+> 在 2024/9/4 6:16, Jakub Kicinski 写道:
+> > On Sat, 31 Aug 2024 10:13:31 +0800 Li Zetao wrote:
+> > > +	comm->clk = devm_clk_get_enabled(&pdev->dev, NULL);
+> > 
+> > You can remove clk from the driver struct now.
+> I don’t quite understand why clk can be removed from the driver struct,
 
-Thanks,
-Li Zetao.
+After you patch, where is it used?
+
+	Andrew
