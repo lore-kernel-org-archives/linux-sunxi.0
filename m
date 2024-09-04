@@ -1,34 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 927641DC068;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 927001DC061;
 	Wed,  4 Sep 2024 14:57:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725461820; cv=none; b=CeW5ywWPJkzEgLroXjft1ZTAcOumqaGNO9rQ2f2D+gmqoZjBaCC36V2cye5ns+zHRBTLia6g0v2T2NfIuvW6OIJsBrIoS8uQsZ51o8SHsvSBhyxga7Rw30h13mgPYq5eCWBjCTQEpwwEFoeNWeTuGP8fh7pFjX6ftcxJMPELceM=
+	t=1725461820; cv=none; b=U9/VBc7rnxFxPYMrhA8sk3D5uCyCQfm4+cfPC+S+xbVs3cdNP/llyFOJJF9Qt0PocDwGvMfddMioC6D7Ie1stlnZiyC3m8CVk5a7hSnt8iyc49LWcW4MX6KlrJ0ARgqgpzF4j0w0ha81X+ZDvjQXz+BNR+eYahQp8uSOLbiiC3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1725461820; c=relaxed/simple;
-	bh=5ksqwFARJ4ocknn249vhi6HhbLRdgZZBwQyXMMaNgwY=;
+	bh=Rr1nqpusYjQ2Y3RkVEkM8vCK+kqo+gxtMCYsFdLMMeA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=PGcb+YBARGIILRot7uiUYFTOffGIDEitawvPaPSiguObYgTBpIQFqVxFvKnjwlyggpmhLumqfxvpqkQEDmhm976otnE88qVsoKyPJ72lJFTEdwKgDJNUzv1g7J92EJD1UJf6vJteRW0Apc8tHHXpseblxk5mf593YYOTQsQsrnM=
+	 MIME-Version:Content-Type; b=rjKJkVO3q4GQwkkTb/t9By0p7N+g3O74JP2omcumNxQ26yNKy9349/VO4mxeKtpdOS+7GUyUqXlynqW8BUrjxigkK43Q9nog3gBDfQuAwWvWfVBiy5A9djxXVoIY8rytE98vT7HY1PFOrQt3w3IQeKb3YsQfremO/nGa08ZJozE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27F85C4CEC6;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11BDFC4CEC2;
 	Wed,  4 Sep 2024 14:57:00 +0000 (UTC)
 Received: from wens.tw (localhost [127.0.0.1])
-	by wens.tw (Postfix) with ESMTP id 45CF25FC00;
+	by wens.tw (Postfix) with ESMTP id 2C6645F882;
 	Wed,  4 Sep 2024 22:56:57 +0800 (CST)
 From: Chen-Yu Tsai <wens@csie.org>
-To: linux-sunxi@lists.linux.dev, Dragan Simic <dsimic@manjaro.org>
-Cc: jernej.skrabec@gmail.com, samuel@sholland.org, 
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
- linux-kernel@vger.kernel.org, uwu@icenowy.me, wenst@chromium.org, 
- broonie@kernel.org, daniel.lezcano@linaro.org
-In-Reply-To: <0a6110a7b27a050bd58ab3663087eecd8e873ac0.1724126053.git.dsimic@manjaro.org>
-References: <0a6110a7b27a050bd58ab3663087eecd8e873ac0.1724126053.git.dsimic@manjaro.org>
-Subject: Re: [PATCH v2] arm64: dts: allwinner: a64: Add GPU thermal trips
- to the SoC dtsi
-Message-Id: <172546181728.1883804.16312630644940365957.b4-ty@csie.org>
+To: linux-sunxi@lists.linux.dev, Chris Morgan <macroalpha82@gmail.com>
+Cc: linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-iio@vger.kernel.org, 
+ quentin.schulz@free-electrons.com, mripard@kernel.org, 
+ tgamblin@baylibre.com, aidanmacdonald.0x0@gmail.com, 
+ u.kleine-koenig@pengutronix.de, lee@kernel.org, samuel@sholland.org, 
+ jernej.skrabec@gmail.com, sre@kernel.org, conor+dt@kernel.org, 
+ krzk+dt@kernel.org, robh@kernel.org, lars@metafoo.de, jic23@kernel.org, 
+ jonathan.cameron@huawei.com, Chris Morgan <macromorgan@hotmail.com>
+In-Reply-To: <20240821215456.962564-1-macroalpha82@gmail.com>
+References: <20240821215456.962564-1-macroalpha82@gmail.com>
+Subject: Re: (subset) [PATCH V4 00/15] Add Battery and USB Supply for
+ AXP717
+Message-Id: <172546181715.1883804.14864644851699017908.b4-ty@csie.org>
 Date: Wed, 04 Sep 2024 22:56:57 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -40,27 +43,20 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13.0
 
-On Tue, 20 Aug 2024 05:57:47 +0200, Dragan Simic wrote:
-> Add thermal trips for the two GPU thermal sensors found in the Allwinner A64.
-> There's only one GPU OPP defined since the commit 1428f0c19f9c ("arm64: dts:
-> allwinner: a64: Run GPU at 432 MHz"), so defining only the critical thermal
-> trips makes sense for the A64's two GPU thermal zones.
+On Wed, 21 Aug 2024 16:54:41 -0500, Chris Morgan wrote:
+> From: Chris Morgan <macromorgan@hotmail.com>
 > 
-> Having these critical thermal trips defined ensures that no hot spots develop
-> inside the SoC die that exceed the maximum junction temperature.  That might
-> have been possible before, although quite unlikely, because the CPU and GPU
-> portions of the SoC are packed closely inside the SoC, so the overheating GPU
-> would inevitably result in the heat soaking into the CPU portion of the SoC,
-> causing the CPU thermal sensor to return high readings and trigger the CPU
-> critical thermal trips.  However, it's better not to rely on the heat soak
-> and have the critical GPU thermal trips properly defined instead.
+> Add support for monitoring the USB charger and battery charger on the
+> AXP717 PMIC. This required some driver refactoring of the axp20x USB
+> and battery charger as the AXP717 is somewhat different but can still
+> benefit from some common elements.
 > 
 > [...]
 
 Applied to sunxi/for-next in sunxi/linux.git, thanks!
 
-[1/1] arm64: dts: allwinner: a64: Add GPU thermal trips to the SoC dtsi
-      https://git.kernel.org/sunxi/linux/c/89f1a037e97c
+[15/15] arm64: dts: allwinner: h700: Add charger for Anbernic RG35XX
+        https://git.kernel.org/sunxi/linux/c/6b5502c1d43d
 
 Best regards,
 -- 
