@@ -1,57 +1,57 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE5017623F
-	for <linux-sunxi@lists.linux.dev>; Thu,  5 Sep 2024 04:17:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9E6017ADE7
+	for <linux-sunxi@lists.linux.dev>; Thu,  5 Sep 2024 04:17:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725509874; cv=none; b=Q+0XVwhHFQTVWgHqngoA82VJJMJbFueBUEnj7NK6fK1G59VtkLxYplvzBQYOrzwqD2IZIGIsg/BZvsnGW56WHuvPRJYpLkX6vD0gMfOPpwvLhBsFK/oOOkIc7mLzVAZ+9WWLRuQBik5jWPFAVWotibClNMGw5nBrnlpvZw7DGac=
+	t=1725509876; cv=none; b=YwYOdCvIaiW+aGMldu6vauB3HXHHGGDO+ZnjFqILzx40ckErpTOsAfdqf4+UHJie7vxRXUM+TWZSjL9cEc05JNLJX5Dyqc4Cud7WtEhRsfh+Afn7KAq5oKQsCp4UOCFaixgPx5jWPTXrMqwsDynxSrgcg+GvC2crrGtbW2TlGic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725509874; c=relaxed/simple;
-	bh=K3lNfpiPv/q6z+V6V8RF6mvsiNWEY/iFwwY6BFi6TGU=;
+	s=arc-20240116; t=1725509876; c=relaxed/simple;
+	bh=BenMc1sLXCG+5vmkHGPDz29enhWQ1tx8bPuULH06bMo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=b1/TqFGRgx6ep/MKLJaTnP7wqDEEb2s/eKPs4KCiHRCuAJGD2hj4fcQZ89h2+2zRVhpLzT+/8yCK6hpEI8umVkevzaLrjhzWMsiqtFoH0A7UT4c5HdWYG9PDtT1+waeMgQwvpHjEc8EyGiBsMZUJAe9Z5fQq8BEIKv8lz3nuYNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j3UjO1mv; arc=none smtp.client-ip=209.85.215.177
+	 MIME-Version; b=SgZmuuOgLLG1gRNyirFC1pM/PfD2W4NS6i7rVkLUi+3BUlcTEydb3R9acruTwm9zERFoMMxrK6305GS7eGrfJdU1tf46z87u+m91AaS8vOICys8P3ZUlzyWqwddc9Xct3DDh/OHhnx6OC6dXLSzeF7VlrTORrlrjhRcdAxH2XEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NsxpND98; arc=none smtp.client-ip=209.85.161.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j3UjO1mv"
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-7cd830e0711so220029a12.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 04 Sep 2024 21:17:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NsxpND98"
+Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-5e017808428so224214eaf.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 04 Sep 2024 21:17:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725509873; x=1726114673; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1725509874; x=1726114674; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=T7/TrOieKDmokvB+76CstcAo/MHXLXuZvmD2LpyYQbI=;
-        b=j3UjO1mv9Pdo6dJrR/TuBDJ2T6V0P7/gpRWQgD1CsJRJ+jCDBRR5t2XfPcqUOGx9L9
-         UC44jlFnGA4FVRs+TUfdOIN7/k2+bCks6VGhYq9ltGsqckDTpVo1cRfjC+AKz1w9OOUu
-         eA7CIDRlcJZ2d/sWJL0tGEr4ndU9PDYHR71Xz4hQdGpjBevc+4Vl5PbskPI94/E1PfRG
-         XLKnVxsqfljMAJOa3W5Kne8pvpuCfjYAQilVFWyzXqAgIaTxeh9mt6fLZ5oXtVmNbKUl
-         uQnzK8m8uAbccTkx3LOvBHh58or1KibcsFmytehZCN6/viPDw87MSf3o+HqFyLCmDaCJ
-         elmg==
+        bh=j8VPXswHBHTUlmDFHKrQ5BC1wv3BR4y3AP5bfe5KlEs=;
+        b=NsxpND98azteG56B7yT+ZxUhICy6VsLN54kAo6sNY4msWr2lklW69xUvtsK9i3CWrg
+         V1hDK1sNQOYih6Dh80yjV1ejU63NdfrhQmuk5JA+4S3oEnRxbWRmwsv83mH+65t/Sj5O
+         neUtSEw83ByKOzSvlEstdu3SWQj6cXyckPFRyWWL9RIlTrkBz1H+fUqexhSfSfIpyjB2
+         4MkI2q56XrJPKWFGYA0eJbTvx2MzNZf3xcVlpJ33UOjLdcMzz9HkXxjIz1+JQLtZ2npi
+         W8ILA+OKsJbDXWSgTaGnLt+Yj57RM0tpJ7ox2Igq1rdSHNokYw7KZSwnj/v6s2yCLwY8
+         WD3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725509873; x=1726114673;
+        d=1e100.net; s=20230601; t=1725509874; x=1726114674;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=T7/TrOieKDmokvB+76CstcAo/MHXLXuZvmD2LpyYQbI=;
-        b=vPOLKn+yDRQL1PtWCEdCYxgH2Lwn2uZJXtshzX/wJedw0k5QtrqGA5gkKNeSs4lypQ
-         G3wpW2hUvu+UHpubr/At97Jp49VUfNvCelhVDLIXpov/iyjMyovAJCMa4uffHtKdB1gE
-         8LlPH70lSkNs2sVP0Vs+5Pb0hyjuqjQzYhRB+p1mAuHclLmE2QAXZwp5llDdmGKSlxML
-         wDA88OYOx75KgQLhzMxoVeP40TExClWjn9tMp4KzNaG/DDYwH2aAOG4MqSol4zGCh93S
-         9ytQ7drPXOFauozNboMUkaImMwiJkbs0E9mNv9yXCemG11z0meg0M+93SBbFTkhUa3o7
-         rG2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCW9VfjI1TWrGd8uyT8tin5jEzaCmqL46z6TA7aP5CRHqjsVJUbU4b7+wqe8vpVHWgB+P+WmzTSuruDy2w==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzzi1Ew0vrk8nV1d+zELALQHdm8+dzjjIPl+laTT6xrEhqJYsFv
-	hZIFNIPYlMq3iY5cXlZUCSpDR1gyHWYrIgNVcPLbMHxoHSeJc4a3
-X-Google-Smtp-Source: AGHT+IEVTNgBOGvJQB0FLDExyZ1paUWKmbJHsocyoE4L6WqC4aDyBtqt1vWJsKWhqiIBmoYibKVEkg==
-X-Received: by 2002:a17:902:e5ce:b0:206:a6fe:2343 with SMTP id d9443c01a7336-206b7d0aaf2mr83347615ad.8.1725509872338;
-        Wed, 04 Sep 2024 21:17:52 -0700 (PDT)
+        bh=j8VPXswHBHTUlmDFHKrQ5BC1wv3BR4y3AP5bfe5KlEs=;
+        b=N5pUy7X9vAi2LsSRvnEuiUpJzmXQ88Y4janJpqdGHY4U6Bvh1+J5Zam2BneB3rZQFT
+         a1sKcMoLh8ynD8obi/M6mGqaFXG8g/l39cFJBqAE7Z+Molz8xZEO3ZgCn0DZCDO1TbAV
+         YOKrVwwctNqpT06S5P4iyElOcoE9awRtF8IylWIk5HEuL7V7b8y6SpqOaqCKhDNwTY9u
+         j/FZcFdHBvYNLMevRelIeZuOqSwTdTuNlRlrADZBLkYwwSulY9J6h7rDrmmfXNSV0Geg
+         85eDeFDscxHLQ5lPeeUGT+M9ugppJVgFSSI+zrUOlz10OCx368iftcPtpwHSJwzOQG07
+         P3ww==
+X-Forwarded-Encrypted: i=1; AJvYcCVOIhPomRwx7/pwy1B40GcIqN6i6tdC7nUWHDlWxAanABzYyeU2v284UfARNQIxZTQ73sWMx96LlpjuIQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwPQj83vSVUY1nrQ4hCPrzP8GesvEklmCQztzBLw5xhwWqViG+q
+	gl04DmkHWlYYRMldRt973VP8UzIfbGOorokZVYFkwLcJ+ZPaGhpi
+X-Google-Smtp-Source: AGHT+IGI2QjJK2UofL6z1AHMX7SrEpAd/PMAyIbsnSlBJf71WYXVl7JagSZR9Rgb4HVgwu3bRh55Vg==
+X-Received: by 2002:a05:6358:898:b0:1b8:f18:3e53 with SMTP id e5c5f4694b2df-1b8117bcb29mr1047970355d.9.1725509874043;
+        Wed, 04 Sep 2024 21:17:54 -0700 (PDT)
 Received: from dtor-ws.sjc.corp.google.com ([2620:15c:9d:2:13bd:b4e:4c0f:4c37])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7d4fbd8d52esm2450216a12.32.2024.09.04.21.17.51
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7d4fbd8d52esm2450216a12.32.2024.09.04.21.17.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Sep 2024 21:17:52 -0700 (PDT)
+        Wed, 04 Sep 2024 21:17:53 -0700 (PDT)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: linux-input@vger.kernel.org
 Cc: =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
@@ -67,9 +67,9 @@ Cc: =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
 	linux-hyperv@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH 06/24] Input: atkbd - use guard notation when pausing serio port
-Date: Wed,  4 Sep 2024 21:17:11 -0700
-Message-ID: <20240905041732.2034348-7-dmitry.torokhov@gmail.com>
+Subject: [PATCH 07/24] Input: sunkbd - use guard notation when pausing serio port
+Date: Wed,  4 Sep 2024 21:17:12 -0700
+Message-ID: <20240905041732.2034348-8-dmitry.torokhov@gmail.com>
 X-Mailer: git-send-email 2.46.0.469.g59c65b2a67-goog
 In-Reply-To: <20240905041732.2034348-1-dmitry.torokhov@gmail.com>
 References: <20240905041732.2034348-1-dmitry.torokhov@gmail.com>
@@ -87,37 +87,25 @@ when control leaves critical section.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/input/keyboard/atkbd.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/input/keyboard/sunkbd.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/input/keyboard/atkbd.c b/drivers/input/keyboard/atkbd.c
-index 5855d4fc6e6a..ec94fcfa4cde 100644
---- a/drivers/input/keyboard/atkbd.c
-+++ b/drivers/input/keyboard/atkbd.c
-@@ -713,9 +713,9 @@ static int atkbd_event(struct input_dev *dev,
+diff --git a/drivers/input/keyboard/sunkbd.c b/drivers/input/keyboard/sunkbd.c
+index 72fb46029710..3299e1919b37 100644
+--- a/drivers/input/keyboard/sunkbd.c
++++ b/drivers/input/keyboard/sunkbd.c
+@@ -241,9 +241,8 @@ static void sunkbd_reinit(struct work_struct *work)
  
- static inline void atkbd_enable(struct atkbd *atkbd)
+ static void sunkbd_enable(struct sunkbd *sunkbd, bool enable)
  {
--	serio_pause_rx(atkbd->ps2dev.serio);
-+	guard(serio_pause_rx)(atkbd->ps2dev.serio);
-+
- 	atkbd->enabled = true;
--	serio_continue_rx(atkbd->ps2dev.serio);
- }
+-	serio_pause_rx(sunkbd->serio);
+-	sunkbd->enabled = enable;
+-	serio_continue_rx(sunkbd->serio);
++	scoped_guard(serio_pause_rx, sunkbd->serio)
++		sunkbd->enabled = enable;
  
- /*
-@@ -725,9 +725,9 @@ static inline void atkbd_enable(struct atkbd *atkbd)
- 
- static inline void atkbd_disable(struct atkbd *atkbd)
- {
--	serio_pause_rx(atkbd->ps2dev.serio);
-+	guard(serio_pause_rx)(atkbd->ps2dev.serio);
-+
- 	atkbd->enabled = false;
--	serio_continue_rx(atkbd->ps2dev.serio);
- }
- 
- static int atkbd_activate(struct atkbd *atkbd)
+ 	if (!enable) {
+ 		wake_up_interruptible(&sunkbd->wait);
 -- 
 2.46.0.469.g59c65b2a67-goog
 
