@@ -1,57 +1,57 @@
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B4931527B4
-	for <linux-sunxi@lists.linux.dev>; Thu,  5 Sep 2024 04:17:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE5017623F
+	for <linux-sunxi@lists.linux.dev>; Thu,  5 Sep 2024 04:17:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725509873; cv=none; b=BbIRkA0NBX6dFjww1IoQBEYwU+g757x7IXEG/SGKZc/nbullPjv4as+BqT0cjUKKpPM9VYs0pqOGG8l7gVxqX/kfPq12ihFp780Xh0QMq7Bs8CL13o3j1OUfuNtNoTr9XOIHHCTa8fbjeFE8pO/7MkzhuOicF07jgYxbTtagXrw=
+	t=1725509874; cv=none; b=Q+0XVwhHFQTVWgHqngoA82VJJMJbFueBUEnj7NK6fK1G59VtkLxYplvzBQYOrzwqD2IZIGIsg/BZvsnGW56WHuvPRJYpLkX6vD0gMfOPpwvLhBsFK/oOOkIc7mLzVAZ+9WWLRuQBik5jWPFAVWotibClNMGw5nBrnlpvZw7DGac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725509873; c=relaxed/simple;
-	bh=GTMszsxFP3FUMteNDzoBJGZ+be0o81i435ERu6zYnMc=;
+	s=arc-20240116; t=1725509874; c=relaxed/simple;
+	bh=K3lNfpiPv/q6z+V6V8RF6mvsiNWEY/iFwwY6BFi6TGU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=celuRdjzUlImffjVhoggn93pTDKBtqZoG1RcduYi9zmaX8sEw5JUFyey/1fTd+0JypjgWX6TuKikYzrldulBdOJxlJni6ekaxgrSsvayuVtJ4sjgEDuK1RImqJwke24/BaGyvoEo0tcI7EgXxufb2szvqYTwVP0pNSLX8eBBkL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JvFiSxCB; arc=none smtp.client-ip=209.85.167.179
+	 MIME-Version; b=b1/TqFGRgx6ep/MKLJaTnP7wqDEEb2s/eKPs4KCiHRCuAJGD2hj4fcQZ89h2+2zRVhpLzT+/8yCK6hpEI8umVkevzaLrjhzWMsiqtFoH0A7UT4c5HdWYG9PDtT1+waeMgQwvpHjEc8EyGiBsMZUJAe9Z5fQq8BEIKv8lz3nuYNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j3UjO1mv; arc=none smtp.client-ip=209.85.215.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JvFiSxCB"
-Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-3df07fe03acso184743b6e.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 04 Sep 2024 21:17:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j3UjO1mv"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-7cd830e0711so220029a12.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 04 Sep 2024 21:17:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725509871; x=1726114671; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1725509873; x=1726114673; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=S0EXapSSsCRGMYSuYgIhJLIKriJqRLmvnrfU3aGsX6c=;
-        b=JvFiSxCBbxegDjag8C1PapE+UbdbE1BxjAIlD/KaD1N1u2o2QifV85WAnzctIKJ1Vm
-         IkJSDMH5sJSolj81LhtEsQUqBnsbfCuzcH1zofIIeJRmSKOz9lrFGeE7XvwNKsOBGOnI
-         mQv9SvPcMPw/eypR0liKtXuX7Vb/5hpSBBHY2CCkta+/jFLkGZPXEppzdw8Q8vLy5nlZ
-         MDnAIyacLzQV3wr0AhjlHf7ZwlNlQAKTSWU5WpQ+RbEb9ssM+4QmVhSBfc6nFn8iU2lR
-         Ll4PPNUaVey3vt3kkzBIW1A/4c8mZSWvKzvoybteAgc5pvY0ACNwUgXplnNmruF7zDio
-         i+BA==
+        bh=T7/TrOieKDmokvB+76CstcAo/MHXLXuZvmD2LpyYQbI=;
+        b=j3UjO1mv9Pdo6dJrR/TuBDJ2T6V0P7/gpRWQgD1CsJRJ+jCDBRR5t2XfPcqUOGx9L9
+         UC44jlFnGA4FVRs+TUfdOIN7/k2+bCks6VGhYq9ltGsqckDTpVo1cRfjC+AKz1w9OOUu
+         eA7CIDRlcJZ2d/sWJL0tGEr4ndU9PDYHR71Xz4hQdGpjBevc+4Vl5PbskPI94/E1PfRG
+         XLKnVxsqfljMAJOa3W5Kne8pvpuCfjYAQilVFWyzXqAgIaTxeh9mt6fLZ5oXtVmNbKUl
+         uQnzK8m8uAbccTkx3LOvBHh58or1KibcsFmytehZCN6/viPDw87MSf3o+HqFyLCmDaCJ
+         elmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725509871; x=1726114671;
+        d=1e100.net; s=20230601; t=1725509873; x=1726114673;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=S0EXapSSsCRGMYSuYgIhJLIKriJqRLmvnrfU3aGsX6c=;
-        b=gAZFLn5JgwuyXiwcJ/odK/0eFryOqJjog/CC065a/xE901aU4sY+KQ9XrXxRoiPjr1
-         Bgdr2SAFVI/bt/lINQnJA1MKumttN4db6GE+t4kZGQt27pLG3k0zv+N/o0u/yCcP+qey
-         NKCwrQum1YM7fIWBvabrXBHXiU1x8js9+mQ84knVSXopflAh7WZuihhDMcBN+/Tpr8wd
-         XioBIl2vJB2HZX0ucZknU20uNY9jugE+wiBepM4vBrrfiY4lh/o9QDCP94dNiJ1PKZ6w
-         wBoNEXm6FWSfe5z20N5ujvqyYRP8woPwsUKzaOC5zkXdiOG0UuR+Rft60RvuOhPIngxm
-         ynVw==
-X-Forwarded-Encrypted: i=1; AJvYcCUp3M+6f3msJB7K9KB7aa6Q1ix3tBCRwvzyt/dAHMJBOqJB2Ya5BYiGLca+ldOx5Gz+Pzx4cth2LwgZpw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwROH6YtqvvyiYSfD8QGVGQfMXJHTOJucsV/A7ArDYz2FbmgvOO
-	L9DdKy8NY/DlMP3Itp7t2orTzJZUybYdPaMx4r+leiiWnd40CuUJ
-X-Google-Smtp-Source: AGHT+IGhPGvVxRbF3Iu8u5rEKkCm3Ue+quK2XnAYIQLdPlMcym1uORvuIvaEIla7+lCAvI2New5hng==
-X-Received: by 2002:a05:6808:3197:b0:3da:aae9:7182 with SMTP id 5614622812f47-3df1d5b87b5mr19628930b6e.2.1725509871047;
-        Wed, 04 Sep 2024 21:17:51 -0700 (PDT)
+        bh=T7/TrOieKDmokvB+76CstcAo/MHXLXuZvmD2LpyYQbI=;
+        b=vPOLKn+yDRQL1PtWCEdCYxgH2Lwn2uZJXtshzX/wJedw0k5QtrqGA5gkKNeSs4lypQ
+         G3wpW2hUvu+UHpubr/At97Jp49VUfNvCelhVDLIXpov/iyjMyovAJCMa4uffHtKdB1gE
+         8LlPH70lSkNs2sVP0Vs+5Pb0hyjuqjQzYhRB+p1mAuHclLmE2QAXZwp5llDdmGKSlxML
+         wDA88OYOx75KgQLhzMxoVeP40TExClWjn9tMp4KzNaG/DDYwH2aAOG4MqSol4zGCh93S
+         9ytQ7drPXOFauozNboMUkaImMwiJkbs0E9mNv9yXCemG11z0meg0M+93SBbFTkhUa3o7
+         rG2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCW9VfjI1TWrGd8uyT8tin5jEzaCmqL46z6TA7aP5CRHqjsVJUbU4b7+wqe8vpVHWgB+P+WmzTSuruDy2w==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzzi1Ew0vrk8nV1d+zELALQHdm8+dzjjIPl+laTT6xrEhqJYsFv
+	hZIFNIPYlMq3iY5cXlZUCSpDR1gyHWYrIgNVcPLbMHxoHSeJc4a3
+X-Google-Smtp-Source: AGHT+IEVTNgBOGvJQB0FLDExyZ1paUWKmbJHsocyoE4L6WqC4aDyBtqt1vWJsKWhqiIBmoYibKVEkg==
+X-Received: by 2002:a17:902:e5ce:b0:206:a6fe:2343 with SMTP id d9443c01a7336-206b7d0aaf2mr83347615ad.8.1725509872338;
+        Wed, 04 Sep 2024 21:17:52 -0700 (PDT)
 Received: from dtor-ws.sjc.corp.google.com ([2620:15c:9d:2:13bd:b4e:4c0f:4c37])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7d4fbd8d52esm2450216a12.32.2024.09.04.21.17.49
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7d4fbd8d52esm2450216a12.32.2024.09.04.21.17.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Sep 2024 21:17:50 -0700 (PDT)
+        Wed, 04 Sep 2024 21:17:52 -0700 (PDT)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: linux-input@vger.kernel.org
 Cc: =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
@@ -67,9 +67,9 @@ Cc: =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
 	linux-hyperv@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH 05/24] Input: synaptics - use guard notation when pausing serio port
-Date: Wed,  4 Sep 2024 21:17:10 -0700
-Message-ID: <20240905041732.2034348-6-dmitry.torokhov@gmail.com>
+Subject: [PATCH 06/24] Input: atkbd - use guard notation when pausing serio port
+Date: Wed,  4 Sep 2024 21:17:11 -0700
+Message-ID: <20240905041732.2034348-7-dmitry.torokhov@gmail.com>
 X-Mailer: git-send-email 2.46.0.469.g59c65b2a67-goog
 In-Reply-To: <20240905041732.2034348-1-dmitry.torokhov@gmail.com>
 References: <20240905041732.2034348-1-dmitry.torokhov@gmail.com>
@@ -87,35 +87,37 @@ when control leaves critical section.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/input/mouse/synaptics.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/input/keyboard/atkbd.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
-index 380aa1614442..2735f86c23cc 100644
---- a/drivers/input/mouse/synaptics.c
-+++ b/drivers/input/mouse/synaptics.c
-@@ -650,9 +650,8 @@ static int synaptics_pt_start(struct serio *serio)
- 	struct psmouse *parent = psmouse_from_serio(serio->parent);
- 	struct synaptics_data *priv = parent->private;
+diff --git a/drivers/input/keyboard/atkbd.c b/drivers/input/keyboard/atkbd.c
+index 5855d4fc6e6a..ec94fcfa4cde 100644
+--- a/drivers/input/keyboard/atkbd.c
++++ b/drivers/input/keyboard/atkbd.c
+@@ -713,9 +713,9 @@ static int atkbd_event(struct input_dev *dev,
  
--	serio_pause_rx(parent->ps2dev.serio);
-+	guard(serio_pause_rx)(parent->ps2dev.serio);
- 	priv->pt_port = serio;
--	serio_continue_rx(parent->ps2dev.serio);
- 
- 	return 0;
- }
-@@ -662,9 +661,8 @@ static void synaptics_pt_stop(struct serio *serio)
- 	struct psmouse *parent = psmouse_from_serio(serio->parent);
- 	struct synaptics_data *priv = parent->private;
- 
--	serio_pause_rx(parent->ps2dev.serio);
-+	guard(serio_pause_rx)(parent->ps2dev.serio);
- 	priv->pt_port = NULL;
--	serio_continue_rx(parent->ps2dev.serio);
+ static inline void atkbd_enable(struct atkbd *atkbd)
+ {
+-	serio_pause_rx(atkbd->ps2dev.serio);
++	guard(serio_pause_rx)(atkbd->ps2dev.serio);
++
+ 	atkbd->enabled = true;
+-	serio_continue_rx(atkbd->ps2dev.serio);
  }
  
- static int synaptics_is_pt_packet(u8 *buf)
+ /*
+@@ -725,9 +725,9 @@ static inline void atkbd_enable(struct atkbd *atkbd)
+ 
+ static inline void atkbd_disable(struct atkbd *atkbd)
+ {
+-	serio_pause_rx(atkbd->ps2dev.serio);
++	guard(serio_pause_rx)(atkbd->ps2dev.serio);
++
+ 	atkbd->enabled = false;
+-	serio_continue_rx(atkbd->ps2dev.serio);
+ }
+ 
+ static int atkbd_activate(struct atkbd *atkbd)
 -- 
 2.46.0.469.g59c65b2a67-goog
 
