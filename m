@@ -1,57 +1,57 @@
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A7F1386C6
-	for <linux-sunxi@lists.linux.dev>; Thu,  5 Sep 2024 04:18:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF49218A956
+	for <linux-sunxi@lists.linux.dev>; Thu,  5 Sep 2024 04:18:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725509886; cv=none; b=l8eX2WduX6p1eBOGz81W5T3LSWyTsf8heYdDSzeuQNxHCVhyL27geMOkudHqVY08zJb88jL5nUv9w3NUim4B8sxAtz/QMfmivL08PPraH2MQzLThjdKva695WX5sALiMsa4sbrOpfmvgO7FDOuyuUp220zyG/NIExLOJS1PpCdQ=
+	t=1725509888; cv=none; b=ZgYqTW7fWXdv8G2weyJJV9OGT6pttWEDVBu1KAWU7WG+Z5Kq/4LgJSieuSotBFRVVY7T+dBt7hQMhuNDngjDt6NjsayUG1d2F6lxt0Jl236ZnMAS/+9hegEB0JFQZfprOuFqN7e0peKoRCZ3InwV6uGKnejkzuQZ8wsHDdBRO9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725509886; c=relaxed/simple;
-	bh=6OZz/CQ5C04CYHdb2al2sR2aCuKWbUvrddF0iZDtVw8=;
+	s=arc-20240116; t=1725509888; c=relaxed/simple;
+	bh=XvngD4VqarzUQtOcte+139wHHgYptJyp/bfLvV9NY2g=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jXHHTpflfyGAMSsRI37UbI+S4hyuZp3uiUOSMamEby7p56Si9Gf34+BRaUGB/szehF7FfLOws+EpKNPwNIuhs3lC41bL2krx53zvxlxTPMUi8qb0hkXR31LmzrdBNZFwxJlIOZmjGyEbF494LsTEHsA7FE/HXfCvHx/58zni2Vw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OnBkV+vb; arc=none smtp.client-ip=209.85.210.47
+	 MIME-Version; b=PTt/4u0r+QkS2rD3g+yBWAHox55wRfSxGdOce+ogNftABy1HMc7eea0cyw00cD1xHH/l2UeiNLWvQ1C4vH535iV4hwtjRkJ5bsiMekjYH++m0v27OfLBQt25SjwwLLJhLwiTKRX3fd1FLf1JoaQ0Ad8dX/XcuXoXQk2JpuBHkyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KRC6Cb72; arc=none smtp.client-ip=209.85.160.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OnBkV+vb"
-Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-70f645a30dcso287381a34.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 04 Sep 2024 21:18:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KRC6Cb72"
+Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-27051f63018so202544fac.3
+        for <linux-sunxi@lists.linux.dev>; Wed, 04 Sep 2024 21:18:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725509884; x=1726114684; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1725509886; x=1726114686; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=p3btFCntery0ta6nV0jjerZVdR60/Gk5jQnmpE6Mqz8=;
-        b=OnBkV+vbO+GBG58QT7jrzceZ11fTzpELDDaXVi8ZpoOVNbDlHaw0PCaQ1r9gUrk5E4
-         BXJ6bop5+qfNGofAs3Y2+5vi1jg/5YxyqvmsrTZYcAZnUx5zEAADxGSjiI/+hKPgcs1z
-         rNqcj8dQ/9I81v4WhqfaPNkQR3mgbaOBdkVSyMl9k8T04EuE9XNyrqTokN7fFTL2HINU
-         VwRm8J04Fd73ffCrxVKTL/HQw0u8TwNlWLM6WZyaRS++2f1TNPJAPiUTvxTVOIIaO08k
-         evdiyMMXbXClT1YIldN00GBB062MseW6kWE8VlqpzEL/dyxuUG7CIq07RppdUlvQpT3S
-         +mVA==
+        bh=8RJDHa/X116xPB0VZS9gOnIwjZdjbYo4abWgUGhtfDc=;
+        b=KRC6Cb72wwKTWcTx+QVHMH9rQjYHEKOzHcXXUNyhl6P13NH0l9Pg990ndvNoHdJwJm
+         6UBrEfORmdM/oyAgm2+jwWF5XyEN7elikTv/JvGsmTUuHpaCV97SUUA7w5GBoumiVoGG
+         IkJgOScITxgjdPhjbzZ6TI/ONbL7s9y7cStOE/4JTsW3c0OBVCUyPmASPRF9UQTWpf5L
+         KVzL645GoUe+cvkFPe82juvoCd1BHAj7WgliZOqOqq8Q6NL6hYwg4qLlr2gd/JTiUUvL
+         WoVDy8qoCZXXtIXN5dcWNbkBy+yfJxV3bck88VQcZBtXDFLWoTwpWXVHn2NinLSazNPx
+         xf4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725509884; x=1726114684;
+        d=1e100.net; s=20230601; t=1725509886; x=1726114686;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=p3btFCntery0ta6nV0jjerZVdR60/Gk5jQnmpE6Mqz8=;
-        b=LXnX4viaup6lppPi3EM0UQ7NNzJKUgLI67o8JYlQf1iqhLMVVmHIfxjNJlE0nqHDzE
-         duHA/gAv0vSbr2OIHYjul6vvD7uEf0VK/i1N8Ex3/Ea6Bq52szk9l2TuBxOw/HrVrErl
-         pR60bMMeNY7DacKvlu1BhG3xN/WtrPR5K76iIXGZ32yBWEcH80nXcwDb3rXs5m2qwDkT
-         N/CT+6FAjWGoV1EpL2RN8w427lOmn3ZY/jJ4Pbz2oJvT0cXmfEDsewCZkNb54KBWT2Ei
-         NdEXZ8hA1v5hihMbWL+MC9ZDchpX5SJaow+CC1duq8AQ9DagWc2nMYOAhRtKHwWulVJO
-         Z7fA==
-X-Forwarded-Encrypted: i=1; AJvYcCXa8qqK4Z8Z/SamVi9ccAiT1nbby99P5K9VGAmLgM2fLDW1iNkKvoEyVoeirTRG+3ojcLmvQdQgZ6Rpsg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz/BrYThDiCHhHrDJyeyLthCy+lN7jYdte80ev9M2k8vPZzAMVK
-	EzF5p3mh44857PM/Og7U1dXfJMU6YduMcx9G8OmjjsavcopxDUhR
-X-Google-Smtp-Source: AGHT+IFL+aSox2tT+ROcWimEdBXmALGnwGMrd8DuDbiXAmTxOicOS1tEjKJAt+iSvmj/V84cB+BBpg==
-X-Received: by 2002:a05:6830:349b:b0:709:4793:8757 with SMTP id 46e09a7af769-710af68fc2fmr8717442a34.2.1725509884434;
-        Wed, 04 Sep 2024 21:18:04 -0700 (PDT)
+        bh=8RJDHa/X116xPB0VZS9gOnIwjZdjbYo4abWgUGhtfDc=;
+        b=jucIZDYc76hWP5zm8DxwPGaMpapZCu0dD8CcAqw8AaSWlF/MzwT0lQgMdTN5Bw7LZS
+         YqXTrrTjgiLea2WaY3r0ATI38TKR+yrJpQv/BflZeJ6+oZj9z4YNolk7wlYWRfuIVHbi
+         k1Th1j0292vStdPPsuddUcqYm5SG9UNWknBvbwuKcPZzS/9Y8MZ5QNAhe9+YuepU6ILM
+         tedxYxb5CG3gLCRHAPMeZf9zSLI9TWndtynqJyraLjKkrhOLPk5shBq39DimUJ1xvZVX
+         m5ppPuN/BQwBj+sap5KN0iPEQFRDiGQyyX4xRzlbQbq+i2RGhSqvtNJaITEazKLVHK6e
+         88DA==
+X-Forwarded-Encrypted: i=1; AJvYcCW6MYoYLWTYS3aDgtjrMgM37v9Coyfdi+nagTdOvxxu2JybkNEOk0SpDu3sXmhUgVzn3ONu+nfrU9LMpA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzMdbNHW6k0Fm7jWg6i0U4jBa1X0ehOW/eE8ntaL8be6o7FQIx2
+	2C0Wk44Pv9i8HADdMiGjI/EjCYq2xEj6khFiv/oRsNbrGtd0clbk
+X-Google-Smtp-Source: AGHT+IH6QFeFw4VUowxHMGT9IipF2N4THVz6A6eh0ihPM11BJx1xPLmHqcSlKYJ5qoFGXbsOklObVw==
+X-Received: by 2002:a05:6870:6b89:b0:260:ebf7:d0e7 with SMTP id 586e51a60fabf-277d03ac4f7mr18125009fac.15.1725509885896;
+        Wed, 04 Sep 2024 21:18:05 -0700 (PDT)
 Received: from dtor-ws.sjc.corp.google.com ([2620:15c:9d:2:13bd:b4e:4c0f:4c37])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7d4fbd8d52esm2450216a12.32.2024.09.04.21.18.03
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7d4fbd8d52esm2450216a12.32.2024.09.04.21.18.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Sep 2024 21:18:04 -0700 (PDT)
+        Wed, 04 Sep 2024 21:18:05 -0700 (PDT)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: linux-input@vger.kernel.org
 Cc: =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
@@ -67,9 +67,9 @@ Cc: =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
 	linux-hyperv@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH 14/24] Input: ps2-gpio - use guard notation when acquiring mutex
-Date: Wed,  4 Sep 2024 21:17:19 -0700
-Message-ID: <20240905041732.2034348-15-dmitry.torokhov@gmail.com>
+Subject: [PATCH 15/24] Input: ps2mult - use guard notation when acquiring spinlock
+Date: Wed,  4 Sep 2024 21:17:20 -0700
+Message-ID: <20240905041732.2034348-16-dmitry.torokhov@gmail.com>
 X-Mailer: git-send-email 2.46.0.469.g59c65b2a67-goog
 In-Reply-To: <20240905041732.2034348-1-dmitry.torokhov@gmail.com>
 References: <20240905041732.2034348-1-dmitry.torokhov@gmail.com>
@@ -82,33 +82,105 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Using guard notation makes the code more compact and error handling
-more robust by ensuring that mutexes are released in all code paths
+more robust by ensuring that locks are released in all code paths
 when control leaves critical section.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/input/serio/ps2-gpio.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/input/serio/ps2mult.c | 25 +++++++------------------
+ 1 file changed, 7 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/input/serio/ps2-gpio.c b/drivers/input/serio/ps2-gpio.c
-index 0c8b390b8b4f..c9c382989e55 100644
---- a/drivers/input/serio/ps2-gpio.c
-+++ b/drivers/input/serio/ps2-gpio.c
-@@ -133,12 +133,12 @@ static int ps2_gpio_write(struct serio *serio, unsigned char val)
- 	int ret = 0;
+diff --git a/drivers/input/serio/ps2mult.c b/drivers/input/serio/ps2mult.c
+index 937ecdea491d..b96cee52fc52 100644
+--- a/drivers/input/serio/ps2mult.c
++++ b/drivers/input/serio/ps2mult.c
+@@ -76,9 +76,8 @@ static int ps2mult_serio_write(struct serio *serio, unsigned char data)
+ 	struct ps2mult *psm = serio_get_drvdata(mx_port);
+ 	struct ps2mult_port *port = serio->port_data;
+ 	bool need_escape;
+-	unsigned long flags;
  
- 	if (in_task()) {
--		mutex_lock(&drvdata->tx.mutex);
-+		guard(mutex)(&drvdata->tx.mutex);
+-	spin_lock_irqsave(&psm->lock, flags);
++	guard(spinlock_irqsave)(&psm->lock);
+ 
+ 	if (psm->out_port != port)
+ 		ps2mult_select_port(psm, port);
+@@ -93,8 +92,6 @@ static int ps2mult_serio_write(struct serio *serio, unsigned char data)
+ 
+ 	serio_write(mx_port, data);
+ 
+-	spin_unlock_irqrestore(&psm->lock, flags);
+-
+ 	return 0;
+ }
+ 
+@@ -102,11 +99,10 @@ static int ps2mult_serio_start(struct serio *serio)
+ {
+ 	struct ps2mult *psm = serio_get_drvdata(serio->parent);
+ 	struct ps2mult_port *port = serio->port_data;
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&psm->lock, flags);
++	guard(spinlock_irqsave)(&psm->lock);
 +
- 		__ps2_gpio_write(serio, val);
- 		if (!wait_for_completion_timeout(&drvdata->tx.complete,
- 						 msecs_to_jiffies(10000)))
- 			ret = SERIO_TIMEOUT;
--		mutex_unlock(&drvdata->tx.mutex);
- 	} else {
- 		__ps2_gpio_write(serio, val);
+ 	port->registered = true;
+-	spin_unlock_irqrestore(&psm->lock, flags);
+ 
+ 	return 0;
+ }
+@@ -115,11 +111,10 @@ static void ps2mult_serio_stop(struct serio *serio)
+ {
+ 	struct ps2mult *psm = serio_get_drvdata(serio->parent);
+ 	struct ps2mult_port *port = serio->port_data;
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&psm->lock, flags);
++	guard(spinlock_irqsave)(&psm->lock);
++
+ 	port->registered = false;
+-	spin_unlock_irqrestore(&psm->lock, flags);
+ }
+ 
+ static int ps2mult_create_port(struct ps2mult *psm, int i)
+@@ -148,16 +143,12 @@ static int ps2mult_create_port(struct ps2mult *psm, int i)
+ 
+ static void ps2mult_reset(struct ps2mult *psm)
+ {
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&psm->lock, flags);
++	guard(spinlock_irqsave)(&psm->lock);
+ 
+ 	serio_write(psm->mx_serio, PS2MULT_SESSION_END);
+ 	serio_write(psm->mx_serio, PS2MULT_SESSION_START);
+ 
+ 	ps2mult_select_port(psm, &psm->ports[PS2MULT_KBD_PORT]);
+-
+-	spin_unlock_irqrestore(&psm->lock, flags);
+ }
+ 
+ static int ps2mult_connect(struct serio *serio, struct serio_driver *drv)
+@@ -234,11 +225,10 @@ static irqreturn_t ps2mult_interrupt(struct serio *serio,
+ {
+ 	struct ps2mult *psm = serio_get_drvdata(serio);
+ 	struct ps2mult_port *in_port;
+-	unsigned long flags;
+ 
+ 	dev_dbg(&serio->dev, "Received %02x flags %02x\n", data, dfl);
+ 
+-	spin_lock_irqsave(&psm->lock, flags);
++	guard(spinlock_irqsave)(&psm->lock);
+ 
+ 	if (psm->escape) {
+ 		psm->escape = false;
+@@ -285,7 +275,6 @@ static irqreturn_t ps2mult_interrupt(struct serio *serio,
  	}
+ 
+  out:
+-	spin_unlock_irqrestore(&psm->lock, flags);
+ 	return IRQ_HANDLED;
+ }
+ 
 -- 
 2.46.0.469.g59c65b2a67-goog
 
