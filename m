@@ -1,119 +1,89 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E069C1A4F13
-	for <linux-sunxi@lists.linux.dev>; Thu,  5 Sep 2024 17:37:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 159B31482E9
+	for <linux-sunxi@lists.linux.dev>; Thu,  5 Sep 2024 22:59:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725557847; cv=none; b=E3d5wE2G73aRwb/rmkYh6Li/Pu8niesBQXQvW+ECf0Lk8CdE3IMlZ27/CoGJ8fg896oEwsZbc8VqZ2d2ISLI3mPpxkceoJQbSE6hkcjmJkINhsc1Qez0HKK5mXvSlC4VCUUPnioaM9/q575pO8YOMKB4LS2u2++FjqEHMdZdids=
+	t=1725577175; cv=none; b=RzuxLkL/y3y08jlLmFIued11feji+6oO34+FgfQdNkVHHwUzo5A8WXCC7AoMykSNss9ntxMSYEmMY86/In0D/jETOBg5vU6n+TSbYnzEWSYBSNG86e6oM1f0OU+lkReV+VnuGjGoeF+yf4uBgsTwWYAXq7kE9HUbMd+SmtJta7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725557847; c=relaxed/simple;
-	bh=ZUQNvjzepWA4pCK8RLWIXzlmS349ucRwrxxaYBZS3Do=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Hzz4JM3sIVQ2gKal/A9A8oN+oq0NoMKSfheadg+s6JkwB98H0T2eRfLAdqppMHpr6UkZhO54q+6iW0fyY6Me+Yau30BzBDCfckWn2Vbg6ciJr7GCpDJicNbD4FLiDuOs/Asw476qGec6IyPxfhru/zeiA3CcJ13FFZOO9k6fwKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KZSmPSjR; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KZSmPSjR"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-42bfb50e4e6so8368845e9.2
-        for <linux-sunxi@lists.linux.dev>; Thu, 05 Sep 2024 10:37:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725557844; x=1726162644; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=557eQ0nrkCY+/ANVkKP3VQXQ7163oT4FiuaAuauOfKc=;
-        b=KZSmPSjRvHP/7+yJFFIlh6z09sTf+V9387U9de80LcQAnLZcDvXJ1t1vpBJ/ZVv7H3
-         zrRNnrEHlRkYT1b5iFC6euRY4zAzs5RPSaaiCS2JIRcVzfzqbCWabCtVxVpw2Fg4ZInk
-         fRAWbquNok2j23xL3RNVlix7v3xHou9plVaTPCK4jBSTU5Joj3BrxBkSK1RXAgitGmRB
-         kxqU1kx4YclEOruOvoT4P49VUBGQPXqONZSOCJXpZgwW/1qVKQNZv/kFe4RapKxAjedL
-         lsQGQyX5bxy11h7gLyHP5At9u576XjNWIxTjs0rxmjUYlP5+ZGykhbkSz/fOX8K7og2R
-         EtWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725557844; x=1726162644;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=557eQ0nrkCY+/ANVkKP3VQXQ7163oT4FiuaAuauOfKc=;
-        b=pnU+8TTdBEefA3vYxGvIvsVDq1Np3udgvMaFz1xG3/SAO1jE71lx1mpqg18Ocr297D
-         nKMDRsI1jtya6GLEslbnhAIPQyAks3TgjzgPfLWVgsCGiKZCS85vs5Io20A1xoSZWbJo
-         5EHCMp0VicWN1PXcpIBq3moIIghYjFhrTn0jZJtcp/8WrTImDzM39vwl0SBV51ppe3DQ
-         GoitvefWrOq/Kv+gCDH0hdvGvA3vRXMmReaEpfmCcfdq023e3Tyc0HTQkYwgpYmaAdJ5
-         R2FocBmZ05f97m04gAxHikODY04PDHTZbliGsuMS/5BQqojoGGm/OYneBUqFPLlRMyCg
-         btuw==
-X-Forwarded-Encrypted: i=1; AJvYcCXBIhDD7oWV+POOjOLcoShrbntmWrXRKecnHB8L21sDZ3TQK1rN7gmyE8DS27mNAep2eKTjJytsxvfF9g==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy8HmL0kxStXZFgoArVG+/hK9rSISEfvjlK9GiHKsqM/VJ1F3P9
-	DkKFr10w1ZMCymz2VgDwTCk7ptW4GwBPPvNNnDDwx7Gz018DV+BV
-X-Google-Smtp-Source: AGHT+IHG7cIYEiQK4CjUWPerdwh6CKrVoOAyBG3msAvSCV3Qn00TYv6w1O7L2+TkplQKEGL8B3Og9w==
-X-Received: by 2002:a05:600c:3596:b0:426:66e9:b844 with SMTP id 5b1f17b1804b1-42bb02c0711mr192660435e9.8.1725557844242;
-        Thu, 05 Sep 2024 10:37:24 -0700 (PDT)
-Received: from cleve-worktop. (85-193-33-185.rib.o2.cz. [85.193.33.185])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-42bb37f7849sm245704605e9.7.2024.09.05.10.37.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Sep 2024 10:37:23 -0700 (PDT)
-From: =?utf-8?q?Kry=C5=A1tof_=C4=8Cern=C3=BD?= <cleverline1mc@gmail.com>
-Date: Thu, 05 Sep 2024 19:37:11 +0200
-Subject: [PATCH v3 2/2] arm64: dts: allwinner: H5: NanoPi NEO Plus2: Use
- regulators for pio
+	s=arc-20240116; t=1725577175; c=relaxed/simple;
+	bh=IVj1CpJpWrMZkbLOmAh8pJn8rBEU5hLsJM2ZdHrtno8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pgb+ye1txwqmjLS1rQYzRkd0x+3nl3gwMGYmAAwnB9jFUdCpee7yJsMJx+2LiTj3t7Lnsksp2oRXQrQwCAwb+Z6POFjykKXmcJazthX7hmMj3ADCBp67l0ol4sF0XK+58r+99OlkxI0wwp3C/NgiONGG9qblYdEJrvIKUUGhGs8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 88308DA7;
+	Thu,  5 Sep 2024 15:59:57 -0700 (PDT)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 393F13F73B;
+	Thu,  5 Sep 2024 15:59:29 -0700 (PDT)
+Date: Thu, 5 Sep 2024 23:58:47 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: =?UTF-8?B?S3J5xaF0b2YgxIxlcm7DvQ==?= <cleverline1mc@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/2] NanoPi NEO Plus2: Fix regulators and assign them
+Message-ID: <20240905235847.3b4b1374@minigeek.lan>
+In-Reply-To: <20240905-nanopi-neo-plus2-regfix-v3-0-1895dff59598@gmail.com>
+References: <20240905-nanopi-neo-plus2-regfix-v3-0-1895dff59598@gmail.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240905-nanopi-neo-plus2-regfix-v3-2-1895dff59598@gmail.com>
-References: <20240905-nanopi-neo-plus2-regfix-v3-0-1895dff59598@gmail.com>
-In-Reply-To: <20240905-nanopi-neo-plus2-regfix-v3-0-1895dff59598@gmail.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- =?utf-8?q?Kry=C5=A1tof_=C4=8Cern=C3=BD?= <cleverline1mc@gmail.com>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1725557840; l=958;
- i=cleverline1mc@gmail.com; s=20240824; h=from:subject:message-id;
- bh=ZUQNvjzepWA4pCK8RLWIXzlmS349ucRwrxxaYBZS3Do=;
- b=HR9gGVSIHOvwivYhckB8+lKbHqe+U0NuPSVXQyZHFvG79aOdTUJqu593cgFwNB7Tm+0Wxox4m
- GvATeaSEke+ALXSM3Dxy21o3ZbF5vQNIEpWqEBoAD5294oLrtCJ2zZu
-X-Developer-Key: i=cleverline1mc@gmail.com; a=ed25519;
- pk=CQifx5FUgTQKAoj5VCYrwYHi235AkXQ5yT1P6gkaBxM=
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Pin controllers pio and r_pio will have proper regulators assigned.
+On Thu, 05 Sep 2024 19:37:09 +0200
+Kry=C5=A1tof =C4=8Cern=C3=BD <cleverline1mc@gmail.com> wrote:
 
-Signed-off-by: Kryštof Černý <cleverline1mc@gmail.com>
----
- arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Hi Kry=C5=A1tof,
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts
-index dee4cd82636b..526443bb736c 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts
-@@ -171,6 +171,18 @@ &ohci3 {
- 	status = "okay";
- };
- 
-+&pio {
-+	vcc-pa-supply = <&reg_vcc3v3>;
-+	vcc-pc-supply = <&reg_vcc3v3>;
-+	vcc-pd-supply = <&reg_gmac_2v5>;
-+	vcc-pf-supply = <&reg_vcc3v3>;
-+	vcc-pg-supply = <&reg_vcc3v3>;
-+};
-+
-+&r_pio {
-+	vcc-pl-supply = <&reg_vcc3v3>;
-+};
-+
- &uart0 {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&uart0_pa_pins>;
+thanks for the follow-up!
 
--- 
-2.39.2
+> Just minor changes based on feedback.
+>=20
+> Signed-off-by: Kry=C5=A1tof =C4=8Cern=C3=BD <cleverline1mc@gmail.com>
+
+There is no need for a Signed-off-by: in the cover letter.
+But you are supposed to add any tags, like my "Reviewed-by", to a new
+revision.
+I guess unfortunately you missed the v6.12 merge window by an hour or
+so, but in any case I hope Chen-Yu can copy in the tags when applying.
+
+> ---
+> Changes in v3:
+> - Renamed patches - added prefix.
+> - Remove the patch that added regulator to emmc.
+> - Link to v2: https://lore.kernel.org/r/20240827-nanopi-neo-plus2-regfix-=
+v2-0-497684ec82c7@gmail.com
+
+Thanks for the changelog, that's helpful. Ideally you would stack this
+up with the changes from previous revisions, so listing the changes
+from v1 .. v2 here as well.
+
+Cheers,
+Andre
+
+>=20
+> ---
+> Kry=C5=A1tof =C4=8Cern=C3=BD (2):
+>       arm64: dts: allwinner: H5: NanoPi Neo Plus2: Fix regulators
+>       arm64: dts: allwinner: H5: NanoPi NEO Plus2: Use regulators for pio
+>=20
+>  .../dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts   | 37 ++++++++++++++++=
+++++++
+>  1 file changed, 37 insertions(+)
+> ---
+> base-commit: 6f923748057a4f6aa187e0d5b22990d633a48d12
+> change-id: 20240827-nanopi-neo-plus2-regfix-b60116ce12ca
+>=20
+> Best regards,
 
