@@ -1,107 +1,108 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C52B1A0B0F
-	for <linux-sunxi@lists.linux.dev>; Thu,  5 Sep 2024 17:25:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A70019C579
+	for <linux-sunxi@lists.linux.dev>; Thu,  5 Sep 2024 17:37:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725557115; cv=none; b=PRIjq4w0n5jExFbnZtEV553R0SyRhuGgM4zRcddVkFzuMSYtQCEWDANL52c3sVdAQ4AS7zJ5eibSqc5ugSkC+8QrhjNyfYCygZT9hM4QdEBkYjtnP4kZTyLQEQ1uqLYOchbjVE8pkVvnK6sr9nekIRqH/8ngoJDuWL51q9WVe/8=
+	t=1725557845; cv=none; b=SDVnfu/IBK8a7HpdlTIw09RYFsYj3XNqXd730ko2Nb91zIMhE2WsitEoxSubg2nCQiqX8r52nb6rk3kcEWXB0e6wdbhxaIOEX5b26HMFmpcifMQ4TSsXcCKAYYUFirs67OgXKIZSX3mdQCLigWJzctdtQzrnaEQhbvOT7UVZe8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725557115; c=relaxed/simple;
-	bh=oA+JaK45bIvDN0Y/g2haYI3ERCCF35W5j6c76i1XHWk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=rk2lm9QR+o3pe1KC5vyn5TKsygv095tkow7ahNTTWn4oJWlYjWXxCtiszva6dfGF44Qmfk5ycmzwbBcetTgF1GLmYUu8A+WfHLjguK+mw0e7/k1OrWiPwa8B0CNJ0BZkR7mdRJYNa0G2xRmew+US8Y/IPmMZpgBHkfm9SHpnHd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=VJ9ZDnhV; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1725557845; c=relaxed/simple;
+	bh=QAO4zUKegzIVbTCAiUAXPouHjb63cshPgOVmMLANiKk=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=hATPcsPIjc1iSGvsjt9+KNKsPrIMEMrHpxrv760vc4YHr6GnpMgFsv1fvPachXh2LeKWpEnyW4hWjTIdC78d+H8oBrnXIhlOU7qNa7U/ljLXpSSIP+fkgXWtkIReZN55MAq+HP/+Iw6snJuvSilwN1EfBsCRsNv53nnbysj+05I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XnT86sC+; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="VJ9ZDnhV"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 485H6VQw012415;
-	Thu, 5 Sep 2024 12:24:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=2EPLvM+fTjNtBBRKdAtax43O9eQJ3gxJ5hQy/CTb4Wg=; b=
-	VJ9ZDnhVEjybUXSFuEkkY1m4J26M2uWOb4LI/E2E4ORRD0JAsVO3YQ4A8lSoKQhW
-	2PRR7L7P81m0idpUk9U5x2IzMXPDhD61QpRjoh/8Lah7udUAcTm3FJCfBPvQMN16
-	VC/KJDrsvpxfKjup2poagnIkMYEes47trH/+M8EsO8J2PAumxasdvLcB++KpAqzj
-	7xm0RgTdYoWAKEykbgFcwb+RiClNkJ+DWD2eQrMpxRRIX9hWnQgAeuHPEZm/Fsai
-	JnIEyan/xomUEYLwb5LP7qWzAztyba2nJOOLCIp8xqrGaRwHJvU+Q7qp0aujMrAz
-	F2lDsnQYRU4P454t905lBg==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 41c0jxehg6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 05 Sep 2024 12:24:42 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 5 Sep 2024
- 18:24:35 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Thu, 5 Sep 2024 18:24:35 +0100
-Received: from [141.131.157.113] (macMW3KVPQQ2W.ad.cirrus.com [141.131.157.113])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 6D335820244;
-	Thu,  5 Sep 2024 17:24:32 +0000 (UTC)
-Message-ID: <c2b7654b-74ae-4195-be0d-463b33af5965@opensource.cirrus.com>
-Date: Thu, 5 Sep 2024 12:24:31 -0500
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XnT86sC+"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-42c5347b2f7so9142395e9.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 05 Sep 2024 10:37:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725557842; x=1726162642; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=v6dwp5+FG3mYl3iAH/R5p+Cpn2uLGGqSBL6USwliexo=;
+        b=XnT86sC+BNPWK89oXilWxE1ONQy9nOoQMhhlFl3ofKwDQpY1xYY4OTZU/44247oDZ0
+         B5MUqAkfrL8Ct501n17hZo7pjnxTvv/ij4DFh8xH4tkeYa3oxLOuY7Q1pu5yE1yP88wo
+         Vhf3cardp0jC3cbCDkHj0O+vdvm2bqg76czacmRkrjoqGMtuSCGUfLra4hdg2qf7jPlH
+         IMtXiw6lmIuj1lmlTihC3MWyIRkxO8ctYzKaaDy8TvFKpszowKtG411kfWqJf6u1hb2q
+         5L76gya4g0YguoJdWDJFWFiSIyzdWRuRJmSeoUuVzuz5AP89182qQhpUrBHiLVc+WMro
+         LuPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725557842; x=1726162642;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=v6dwp5+FG3mYl3iAH/R5p+Cpn2uLGGqSBL6USwliexo=;
+        b=gd7K+FQmyxnWJEMe8iLnurJdRGmWYRWEnSf8nFMxvacYjN6W6g+8mPq9HRH6UsyiW1
+         jwbgbd1hAPWYVhEB3K1vT5JPKUI+LI9gKvJqvph6JLwd8KPjvx/RY1T1rpB+3hrzAjcl
+         AHy/+5caDWgkH8cjYHTSix1iHDCAL19ex4C4DzAxK7prKHul46ZYLddtWa9vJu8G6yYg
+         fTdO2HhF/PJJYftwP/umasD6yuHuUAuAX5omTgwPAxVvt0AD4Fp9Ipw+koDsKiLcx0zI
+         ybgvl6iYn1Gzcz5W6OfwP1CLMECyOBK0D8DTp09lwHggKNT6Gxfy0FDMWIDPp2288VxV
+         TMUA==
+X-Forwarded-Encrypted: i=1; AJvYcCWQ4WX53PICEzn1kZmFQ+uIiFoB6i4kAW3Dyy5GcGnkP9H3AmLer09dyTKiBx5XOSm6tqfRTwGAwha5Vg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyo1p0N57K8oUCundTrdjzkVzmVCyGO03nehe2YvlFuC5H7CMO7
+	BfNyL9vHVZM91B8fKex1rPpYXAgkXapTKLm4KZ7WaA2ENk0LARUs
+X-Google-Smtp-Source: AGHT+IF7qL7hjpQRpe8F1oifMTqAJQN8x6pLigqqQWNP8W7C97x0zMgdmF7381zQz86A7gmatgOVBA==
+X-Received: by 2002:a05:600c:3b11:b0:429:a05:32fb with SMTP id 5b1f17b1804b1-42bb01b4428mr160392165e9.10.1725557841763;
+        Thu, 05 Sep 2024 10:37:21 -0700 (PDT)
+Received: from cleve-worktop. (85-193-33-185.rib.o2.cz. [85.193.33.185])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-42bb37f7849sm245704605e9.7.2024.09.05.10.37.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Sep 2024 10:37:21 -0700 (PDT)
+From: =?utf-8?q?Kry=C5=A1tof_=C4=8Cern=C3=BD?= <cleverline1mc@gmail.com>
+Subject: [PATCH v3 0/2] NanoPi NEO Plus2: Fix regulators and assign them
+Date: Thu, 05 Sep 2024 19:37:09 +0200
+Message-Id: <20240905-nanopi-neo-plus2-regfix-v3-0-1895dff59598@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/13] ALSA: update sample rate definitions
-To: Jerome Brunet <jbrunet@baylibre.com>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, David Rhodes <david.rhodes@cirrus.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Liam Girdwood
-	<lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Cezary Rojewski
-	<cezary.rojewski@intel.com>,
-        Pierre-Louis Bossart
-	<pierre-louis.bossart@linux.intel.com>,
-        Liam Girdwood
-	<liam.r.girdwood@linux.intel.com>,
-        Peter Ujfalusi
-	<peter.ujfalusi@linux.intel.com>,
-        Bard Liao
-	<yung-chuan.liao@linux.intel.com>,
-        Ranjani Sridharan
-	<ranjani.sridharan@linux.intel.com>,
-        Kai Vehmanen
-	<kai.vehmanen@linux.intel.com>,
-        Srinivas Kandagatla
-	<srinivas.kandagatla@linaro.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        "Jernej
- Skrabec" <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>
-CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <patches@opensource.cirrus.com>, <alsa-devel@alsa-project.org>,
-        <linux-arm-msm@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>
-References: <20240905-alsa-12-24-128-v1-0-8371948d3921@baylibre.com>
-Content-Language: en-US
-From: "Rhodes, David" <drhodes@opensource.cirrus.com>
-In-Reply-To: <20240905-alsa-12-24-128-v1-0-8371948d3921@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: DCprltle2cLpNuwRuuh1hqg0jsfwhZ4c
-X-Proofpoint-GUID: DCprltle2cLpNuwRuuh1hqg0jsfwhZ4c
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAEXs2WYC/4XOQQ6CMBAF0KuQrh1Da6HoynsYFqUMMAm0pEWiI
+ dzdAht2Lv8k//1ZWEBPGNgjWZjHmQI5G8PtkjDTadsiUB0zE6mQaSEUWG3dSGDRwdi/gwCPbUM
+ fqPKU89wgF0az2B49xvMuv8qYG+8GmDqP+uxJqCRs9YON6oGO5DY4wMyBgzJZo2otZaabZzto6
+ q/GDdtKR2Fy/ru/P4tt6/+ns4AU5F3lhURTCKNOZLmu6w8AcuOWFAEAAA==
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Kry=C5=A1tof_=C4=8Cern=C3=BD?= <cleverline1mc@gmail.com>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1725557840; l=782;
+ i=cleverline1mc@gmail.com; s=20240824; h=from:subject:message-id;
+ bh=QAO4zUKegzIVbTCAiUAXPouHjb63cshPgOVmMLANiKk=;
+ b=s3bCCIt5WLyYQ6C/5gtmFO/gtd5JWGKczWJGLJvZzX771vKcV6GZEfFZ8h4SJIugdb4byUrNf
+ MXegnWlLZ3hD4cOIv2pNkYjgcRNZ+ZDQ0KGlBS9uVusHHMMsVhPcF/z
+X-Developer-Key: i=cleverline1mc@gmail.com; a=ed25519;
+ pk=CQifx5FUgTQKAoj5VCYrwYHi235AkXQ5yT1P6gkaBxM=
 
-On 9/5/24 9:12 AM, Jerome Brunet wrote:
-> This patchset adds rate definitions for 12kHz, 24kHz and 128kHz.
-> 
-> It is follow-up on the series/discussion [0] about adding 128kHz for
-> spdif/eARC support. The outcome was to add 12kHz and 24kHz as well and
-> clean up the drivers that no longer require custom rules to allow these
-> rates.
-> 
+Just minor changes based on feedback.
 
-Reviewed-by: David Rhodes <drhodes@opensource.cirrus.com>
+Signed-off-by: Kryštof Černý <cleverline1mc@gmail.com>
+---
+Changes in v3:
+- Renamed patches - added prefix.
+- Remove the patch that added regulator to emmc.
+- Link to v2: https://lore.kernel.org/r/20240827-nanopi-neo-plus2-regfix-v2-0-497684ec82c7@gmail.com
 
-Thanks,
-David
+---
+Kryštof Černý (2):
+      arm64: dts: allwinner: H5: NanoPi Neo Plus2: Fix regulators
+      arm64: dts: allwinner: H5: NanoPi NEO Plus2: Use regulators for pio
+
+ .../dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts   | 37 ++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
+---
+base-commit: 6f923748057a4f6aa187e0d5b22990d633a48d12
+change-id: 20240827-nanopi-neo-plus2-regfix-b60116ce12ca
+
+Best regards,
+-- 
+Kryštof Černý <cleverline1mc@gmail.com>
+
