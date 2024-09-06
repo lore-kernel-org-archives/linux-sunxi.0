@@ -1,90 +1,192 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF2A9BE46
-	for <linux-sunxi@lists.linux.dev>; Fri,  6 Sep 2024 00:18:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD0614B090
+	for <linux-sunxi@lists.linux.dev>; Fri,  6 Sep 2024 07:26:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725581917; cv=none; b=jLTDjrlU/PUveLrcgi9jFQEywuz70I4/bcw+u5bP4OMW2Ud12r61hWEpAaDuIJNwN7a3zKOgmq1+bgvRae/fctKHmbxJYygQX2UzzNTkAncQzByWGfs9gKhN8r+aClzyW/oUv93MsTWA7JjSnpLoz3rA4Qydjqt6taGqhD7WngI=
+	t=1725607581; cv=none; b=uk1qdykj+OkVGKzhfQCGC8g+cD5eM2GV2ekVYZQAgJzJLrsC6dnMhUsS6YHyxWzn2UKsCQ+Mfp4OPV4jT2XcYq6xPR/dpqaCVQzkXSasXY7DNj+Eg9t5Rmj+lQkKK8kK1hl0eFodBOJ5X2B6MEjUF4aEStdbBeUs92NmlM/xKxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725581917; c=relaxed/simple;
-	bh=NC5X27Thr4dFVYkiG74pqo5oAzTnH0f9ePun42RhP6U=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=s/uO4Hx5C1Lmw3WPHfU3vqUCalxuC/o1w6ZzvyKAlzAn6Grp1p1bgcdd27TFHLDQ3cC1HW+AvNQt8fBYi0aH2GZzWfyLmaBdeZ1eu17H4+LN5W2dIio3TZ/tn4PWR3p3oRgghuMIxcCEExDCls2t8XtXcFzWcsPJb8lrGe3P2Ko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 624E7DA7;
-	Thu,  5 Sep 2024 17:19:00 -0700 (PDT)
-Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B09023F66E;
-	Thu,  5 Sep 2024 17:18:32 -0700 (PDT)
-Date: Fri, 6 Sep 2024 01:17:51 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: uis <uis9936@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, wens@csie.org, jernej.skrabec@gmail.com,
- samuel@sholland.org
-Subject: Re: [PATCH] arm: dts: allwinner: a10: Add DMA for emac
-Message-ID: <20240906011751.35bd01eb@minigeek.lan>
-In-Reply-To: <CA+vsu7uNL0N9XQp=gxA4wO14iVAHqo8ySFXuPPkQiTqMqVJJzA@mail.gmail.com>
-References: <CA+vsu7uNL0N9XQp=gxA4wO14iVAHqo8ySFXuPPkQiTqMqVJJzA@mail.gmail.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	s=arc-20240116; t=1725607581; c=relaxed/simple;
+	bh=w24ClMpk/3FWOO/uXiViU0olb2BuJQQrGQS/6CnBfuE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jbB1svccCTYW7hEm4A7L3Rw8bKVpRyPzxWjpbSMKoQVJLpXlkuKmv4aVMOSCwRliqQVaNG+f4AM4qjQC0OiBUTsmwIgSYDmeo4DSbaASaQLThmECOineeO7dqS9jh3Q0vsTMxpvg7PuRUJY6rwVSkV+yZ3fkct4k05uXzCu8Slc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0bdCY3yK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Eyqhmktm; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0bdCY3yK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Eyqhmktm; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0bdCY3yK";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Eyqhmktm";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0bdCY3yK";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Eyqhmktm"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 0786C1F896;
+	Fri,  6 Sep 2024 07:26:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1725607578; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hqoweOcBDbSA+7HZiUYq5Pgtsyq80P3DQd88C5/WAT4=;
+	b=0bdCY3yKGm8H/78zikBOmnv7J25+SU5hegtuofsLGKVl7Kmn32ajD46MIeamJytzFXGFLy
+	hFsTIqfcv8HhbeeTJpiPSwzFKSt9W5DW8LwKnH6vP3K+8h/LRTusEHbnph/otzjRy8OZVq
+	V8YVw8wobPDbmOYC+EeWEDUojry7QLE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1725607578;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hqoweOcBDbSA+7HZiUYq5Pgtsyq80P3DQd88C5/WAT4=;
+	b=EyqhmktmWFiZJmZW8M/wUVN8guG1vJe0G6sWL8OW3r9Rxm1DVjHnSTVToLVfVZbdSRUEOq
+	UI+ULZ/FmGxqD7BQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1725607578; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hqoweOcBDbSA+7HZiUYq5Pgtsyq80P3DQd88C5/WAT4=;
+	b=0bdCY3yKGm8H/78zikBOmnv7J25+SU5hegtuofsLGKVl7Kmn32ajD46MIeamJytzFXGFLy
+	hFsTIqfcv8HhbeeTJpiPSwzFKSt9W5DW8LwKnH6vP3K+8h/LRTusEHbnph/otzjRy8OZVq
+	V8YVw8wobPDbmOYC+EeWEDUojry7QLE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1725607578;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hqoweOcBDbSA+7HZiUYq5Pgtsyq80P3DQd88C5/WAT4=;
+	b=EyqhmktmWFiZJmZW8M/wUVN8guG1vJe0G6sWL8OW3r9Rxm1DVjHnSTVToLVfVZbdSRUEOq
+	UI+ULZ/FmGxqD7BQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5E2B61395F;
+	Fri,  6 Sep 2024 07:26:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id CgfEFZmu2mYgNAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 06 Sep 2024 07:26:17 +0000
+Date: Fri, 06 Sep 2024 09:27:03 +0200
+Message-ID: <87h6atfdiw.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Jerome Brunet <jbrunet@baylibre.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	alsa-devel@alsa-project.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 00/13] ALSA: update sample rate definitions
+In-Reply-To: <20240905-alsa-12-24-128-v1-0-8371948d3921@baylibre.com>
+References: <20240905-alsa-12-24-128-v1-0-8371948d3921@baylibre.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-Spam-Score: -1.80
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,cirrus.com,opensource.cirrus.com,gmail.com,kernel.org,intel.com,linux.intel.com,linaro.org,csie.org,sholland.org,vger.kernel.org,alsa-project.org,lists.infradead.org,lists.linux.dev];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-On Wed, 4 Sep 2024 12:10:57 +0300
-uis <uis9936@gmail.com> wrote:
-
-Hi,
-
-> RX DMA should be already used by driver, TX still isn't
-
-As Chen-Yu mentioned, you would need a better commit message.
-
-I tested this on the original Cubieboard, and it worked fine. With some
-very crude netcat based testing I didn't see any performance or CPU
-benefit, but the DMA engine seemed to have been utilised, and the
-"missing DMA" messages vanished from dmesg.
-Also checked the manual for the DRQ numbers: they match.
-
-So with a proper commit message:
-
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-
-> Signed-off-by: uis <uis9936@gmail.com>
-
-I think the kernel contribution rules require a bit more of a real name
-here.
-
-Cheers,
-Andre
-
+On Thu, 05 Sep 2024 16:12:51 +0200,
+Jerome Brunet wrote:
+> 
+> This patchset adds rate definitions for 12kHz, 24kHz and 128kHz.
+> 
+> It is follow-up on the series/discussion [0] about adding 128kHz for
+> spdif/eARC support. The outcome was to add 12kHz and 24kHz as well and
+> clean up the drivers that no longer require custom rules to allow these
+> rates.
+> 
+> Identifying these drivers is not straight forward, I tried my best but I
+> may have missed some. Those will continue to work anyway so it is not
+> critical. Some drivers using these rates have not been changed on
+> purpose. The reason for this may be:
+> * The driver used other uncommon rates that still don't have a definition
+>   so a custom rule is still required.
+> * The constraint structure is used in some other way by the driver and
+>   removing it would not help the readability or maintainability. This is
+>   the case the freescale asrc drivers for example.
+> 
+> There is one change per driver so, if there is a problem later on, it will
+> easier to properly add Fixes tag.
+> 
+> The series has been tested with
+> * ARM64 defconfig - spdif 128kHz at runtime.
+> * x86_64 allmodconfig - compile test only
+> 
+> Last, the change adding IEC958 definitions has been dropped for this
+> patchset and will be resent separately
+> 
+> [0]: https://lore.kernel.org/all/20240628122429.2018059-1-jbrunet@baylibre.com/
+> 
 > ---
->  arch/arm/boot/dts/allwinner/sun4i-a10.dtsi | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/arch/arm/boot/dts/allwinner/sun4i-a10.dtsi
-> b/arch/arm/boot/dts/allwinner/sun4i-a10.dtsi
-> index 51a6464aab9a..299e12aadf9c 100644
-> --- a/arch/arm/boot/dts/allwinner/sun4i-a10.dtsi
-> +++ b/arch/arm/boot/dts/allwinner/sun4i-a10.dtsi
-> @@ -314,6 +314,9 @@ emac: ethernet@1c0b000 {
->   reg = <0x01c0b000 0x1000>;
->   interrupts = <55>;
->   clocks = <&ccu CLK_AHB_EMAC>;
-> + dmas = <&dma SUN4I_DMA_DEDICATED 7>,
-> +       <&dma SUN4I_DMA_DEDICATED 6>;
-> + dma-names = "rx", "tx";
->   allwinner,sram = <&emac_sram 1>;
->   pinctrl-names = "default";
->   pinctrl-0 = <&emac_pins>;
-> --
-> I had to resend message as plain text
-> 
+> Jerome Brunet (13):
+>       ALSA: pcm: add more sample rate definitions
+>       ALSA: cmipci: drop SNDRV_PCM_RATE_KNOT
+>       ALSA: emu10k1: drop SNDRV_PCM_RATE_KNOT
+>       ALSA: hdsp: drop SNDRV_PCM_RATE_KNOT
+>       ALSA: hdspm: drop SNDRV_PCM_RATE_KNOT
+>       ASoC: cs35l36: drop SNDRV_PCM_RATE_KNOT
+>       ASoC: cs35l41: drop SNDRV_PCM_RATE_KNOT
+>       ASoC: cs53l30: drop SNDRV_PCM_RATE_KNOT
+>       ASoC: Intel: avs: drop SNDRV_PCM_RATE_KNOT
+>       ASoC: qcom: q6asm-dai: drop SNDRV_PCM_RATE_KNOT
+>       ASoC: sunxi: sun4i-codec: drop SNDRV_PCM_RATE_KNOT
+>       ASoC: cs35l34: drop useless rate contraint
+>       ASoC: spdif: extend supported rates to 768kHz
 
+A nice cleanup series.
+Applied all now to for-next branch.
+
+
+Thanks!
+
+Takashi
