@@ -1,130 +1,253 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from msa.smtpout.orange.fr (smtp-70.smtpout.orange.fr [80.12.242.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B5B7947A;
-	Sat,  7 Sep 2024 13:30:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEA09165F02
+	for <linux-sunxi@lists.linux.dev>; Sat,  7 Sep 2024 17:25:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725715822; cv=none; b=gCeDPSv59RLStylUgBb/486hj3T3ymuKM8zEDaSvdyZdO1+fjsUHd88kDTobugibZMvUrzSooRAz7McU/2y8zO3iu+vjRy3fAlLEcvpB+NfHP2JduR9CxA4bMvx8j5VQU8fN6XTA89sgIT9Qsnyq9QVgwpvC88JDqY/LOiUzX1U=
+	t=1725729920; cv=none; b=TL6CEtJEIXi+Q9ZHPipyL7jZcju7iKvNubvBSjRY4uHaGUZdnB0sFMGrgQ5QYdbPqOEPNd+wvP9IAzFuvU8/gzZBBcJKqRyaTCGOoBl9raUf9LdQbi9evDqvQuH6zSDWxfrOLf1NDctarvayt22aFxGRifNVAuTMwm2I5ZVKpjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725715822; c=relaxed/simple;
-	bh=aY18vlW/L4kb/gRa6VcsduMXnD5MdEnK7MC9k8KzS2M=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=a0hG/OwP+hUEqMe9LjxPRG1q+hQrhfPEH1vj7LWGhsPgCwPTVrGFTO+GP8CSqo3ah3P9vrDYzsoccjdzolTf/W4dCTJIUYKDHccGc8AhjTF/Ml3Z+lAiLhC/Fxdcff++DwqqnNXI/5tH7StRgpB+LSVLVBu2KxfMD7acIsFJPPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D3oiQbe2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725729920; c=relaxed/simple;
+	bh=86gVC7KMzi7Wetv1Et1ncZl/QNOzFtKq5uQFL0ag4Jg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=BULILbCiq1XPvwisQL4fs+GJ3Va2QMMcOoYuPO6fmu1ENXegqrooewVo8cym4o2ahr/fHX1l/uY2oaTMEzwoHWGHHTVl4Z6DL33Ii2NZM0M5BIoz6MwRC89hbz0CC6v1tS43+K16gWebANkU/prr1nr7BaBv12J6YKsp+gvAHlA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=L3iY79qA; arc=none smtp.client-ip=80.12.242.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D3oiQbe2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87618C4CEC2;
-	Sat,  7 Sep 2024 13:30:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725715821;
-	bh=aY18vlW/L4kb/gRa6VcsduMXnD5MdEnK7MC9k8KzS2M=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=D3oiQbe2QgRd3H0U4NZ1b7p7SZtUJeQAxP7E53oY4EVY44Q/yf1BHh3URlksXF8h2
-	 h27FzkWsjkaDXQMfqd6qISAMjG1VzPU8XO6cwsnAD4sCPhPj69SgGKFNAQrHPDVbFx
-	 azd73H7wzlJqUuDDNhpGu3CPlGy9XyMNJBKASgKmJ+LBKXl1cGXLUtaayMm4h9Iukk
-	 JrjdMwO/xcCWdmg+44vy6Bj9oPdq+hidsQv2KAiUDMW33rGxvYdYbbfWnP0+mCuj4D
-	 xgXwUx4g+FVhGY5gTPDknXab7iXRLbHSw/QGLYg7dlScYxNe53hPWUk6K8Q+6LEV8f
-	 a/hHcK3/mcsCg==
-Date: Sat, 7 Sep 2024 14:30:11 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Chris Morgan <macroalpha82@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, linux-pm@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-iio@vger.kernel.org, quentin.schulz@free-electrons.com,
- mripard@kernel.org, tgamblin@baylibre.com, aidanmacdonald.0x0@gmail.com,
- u.kleine-koenig@pengutronix.de, lee@kernel.org, samuel@sholland.org,
- jernej.skrabec@gmail.com, sre@kernel.org, wens@csie.org,
- conor+dt@kernel.org, krzk+dt@kernel.org, robh@kernel.org, lars@metafoo.de,
- jonathan.cameron@huawei.com, Chris Morgan <macromorgan@hotmail.com>
-Subject: Re: [PATCH V4 00/15] Add Battery and USB Supply for AXP717
-Message-ID: <20240907143011.56ab068f@jic23-huawei>
-In-Reply-To: <20240821215456.962564-1-macroalpha82@gmail.com>
-References: <20240821215456.962564-1-macroalpha82@gmail.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="L3iY79qA"
+Received: from fedora.home ([90.11.132.44])
+	by smtp.orange.fr with ESMTPA
+	id mzBIscbar0aTdmzBTsLH7S; Sat, 07 Sep 2024 19:25:16 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1725729916;
+	bh=QqNd1qOb7nNU0uwNQowVVSCA68Q31RBB+cNS1Dla0LY=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=L3iY79qAD7iFw0HcamIQ0KNnfHVwnj6xPI+WJOE4FHwzVRXV64BuqwI3TAxROau4w
+	 Ca2QCl8ABng/ByMLP127VveQ3+zrE7I3ETPCgVm0oKtNhp/vvUlgTxITuxY+t5XMoo
+	 UgQ7og9DQLR9G80D3DgYB9kKTgmjjJLCyPmOdNv/Y+BXDm6+XGH0dCkMqx/fqCGL45
+	 PDEA3wI4rcp4WaEIoVtBs6RqAcdx7K7PRRt+KD52qpBKRui+wkCuEG75NH2imwq1gt
+	 m35+LZPp6UeDRw/ab3ciNjzXw/w+p8qDmJ/HAIjBBRD8daFoy3ZtPX+yaSqAeg5xSu
+	 mvdMkpSdJK9Cw==
+X-ME-Helo: fedora.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sat, 07 Sep 2024 19:25:16 +0200
+X-ME-IP: 90.11.132.44
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	linux-iio@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH 2/2] iio: adc: Convert to IIO_MAP()
+Date: Sat,  7 Sep 2024 19:24:47 +0200
+Message-ID: <48f08224fab5a7595f650dbcef012d7cac3f972b.1725729801.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.46.0
+In-Reply-To: <5729dc3cc3892ecf0d8ea28c5f7307b34e27493e.1725729801.git.christophe.jaillet@wanadoo.fr>
+References: <5729dc3cc3892ecf0d8ea28c5f7307b34e27493e.1725729801.git.christophe.jaillet@wanadoo.fr>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Wed, 21 Aug 2024 16:54:41 -0500
-Chris Morgan <macroalpha82@gmail.com> wrote:
+Use IIO_MAP() instead of hand-writing it. It is much less verbose.
 
-> From: Chris Morgan <macromorgan@hotmail.com>
-> 
-> Add support for monitoring the USB charger and battery charger on the
-> AXP717 PMIC. This required some driver refactoring of the axp20x USB
-> and battery charger as the AXP717 is somewhat different but can still
-> benefit from some common elements.
-> 
-> Note that as of now the charging current now value may be incorrect as
-> the scale and offsets were not documented in the datasheet. I suspect
-> the scale is 1 and the offset is somewhere around 450mA though.
-Applied 1, 8 and 12 to the IIO togreg branch.
+The change has been do with the following coccinelle script:
 
-I was waiting for some mess related to my tree to pan out upstream.
-Unfortunately that leaves us rather tight on timing for the coming
-merge window but hopefully Greg will take a last minute pull request
-for char-misc.
+@@
+identifier STRUCT_NAME;
+constant NAME, CHANNEL, LABEL;
+@@
 
-Jonathan
+	static const struct iio_map STRUCT_NAME[] = {
+	...,
+-	{
+-		.consumer_dev_name = NAME,
+-		.consumer_channel = CHANNEL,
+-		.adc_channel_label = LABEL,
+-	},
++	IIO_MAP(LABEL, NAME, CHANNEL),
+	...
+	};
 
-> 
-> Changes from V3:
->  - Remove accidental AXP717_BOOST regulator in header file, as it is
->    not part of this patch series.
->  - Add an absolute min/max constraint for input-current-limit-microamp
->    in device tree documentation.
->  - Correct an issue found by kernel test robot <lkp@intel.com> by
->    explicitly adding linux/bitfield.h include. Details here:
->    https://lore.kernel.org/oe-kbuild-all/202408201228.Hee4eSYl-lkp@intel.com/
-> 
-> Changes from V2:
->  - Added constraints for input-current-limit-microamp constraints for
->    x-powers,axp20x-usb-power-supply.yaml.
->  - Used FIELD_GET() and removed unnecessary -EINVAL per comments from
->    Jonathan Cameron.
-> 
-> Changes from V1:
->  - Refactored against mainline to remove BOOST pre-requisite.
->  - Corrected commit subjects for DT bindings.
->  - Split refactoring and AXP717 support into different patches.
->  - Added IRQ for VBUS over voltage. There appears to be a bug
->    with the VBUS fault IRQ because it is assigned IRQ num 0.
->  - Corrected battery driver to report POWER_SUPPLY_PROP_VOLTAGE_MIN
->    and POWER_SUPPLY_PROP_VOLTAGE_MAX instead of *_DESIGN.
-> 
-> 
-> Chris Morgan (15):
->   iio: adc: axp20x_adc: Add adc_en1 and adc_en2 to axp_data
->   power: supply: axp20x_battery: Remove design from min and max voltage
->   power: supply: axp20x_battery: Make iio and battery config per device
->   power: supply: axp20x_usb_power: Make VBUS and IIO config per device
->   dt-bindings: power: supply: axp20x: Add input-current-limit-microamp
->   power: supply: axp20x_usb_power: add input-current-limit-microamp
->   dt-bindings: power: supply: axp20x-battery: Add monitored-battery
->   dt-bindings: iio: adc: Add AXP717 compatible
->   dt-bindings: power: supply: axp20x: Add AXP717 compatible
->   dt-bindings: power: supply: axp20x: Add AXP717 compatible
->   mfd: axp20x: Add ADC, BAT, and USB cells for AXP717
->   iio: adc: axp20x_adc: add support for AXP717 ADC
->   power: supply: axp20x_usb_power: Add support for AXP717
->   power: supply: axp20x_battery: add support for AXP717
->   arm64: dts: allwinner: h700: Add charger for Anbernic RG35XX
-> 
->  .../bindings/iio/adc/x-powers,axp209-adc.yaml |  12 +
->  .../x-powers,axp20x-battery-power-supply.yaml |   7 +
->  .../x-powers,axp20x-usb-power-supply.yaml     |  72 ++-
->  .../sun50i-h700-anbernic-rg35xx-2024.dts      |  21 +
->  drivers/iio/adc/axp20x_adc.c                  | 182 +++++-
->  drivers/mfd/axp20x.c                          |  25 +-
->  drivers/power/supply/axp20x_battery.c         | 591 ++++++++++++++++--
->  drivers/power/supply/axp20x_usb_power.c       | 353 ++++++++++-
->  include/linux/mfd/axp20x.h                    |  26 +
->  9 files changed, 1188 insertions(+), 101 deletions(-)
-> 
+
+@@
+identifier STRUCT_NAME;
+constant NAME, LABEL;
+@@
+
+	static const struct iio_map STRUCT_NAME[] = {
+	...,
+-	{
+-		.consumer_dev_name = NAME,
+-		.adc_channel_label = LABEL,
+-	},
++	IIO_MAP(LABEL, NAME, NULL),
+	...
+	};
+
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+--
+Compile tested only
+---
+ drivers/iio/adc/axp20x_adc.c      | 54 +++++++------------------------
+ drivers/iio/adc/da9150-gpadc.c    | 24 +++-----------
+ drivers/iio/adc/lp8788_adc.c      | 12 ++-----
+ drivers/iio/adc/sun4i-gpadc-iio.c |  5 +--
+ 4 files changed, 19 insertions(+), 76 deletions(-)
+
+diff --git a/drivers/iio/adc/axp20x_adc.c b/drivers/iio/adc/axp20x_adc.c
+index cac3bacf2589..9a935044833a 100644
+--- a/drivers/iio/adc/axp20x_adc.c
++++ b/drivers/iio/adc/axp20x_adc.c
+@@ -132,51 +132,21 @@ enum axp813_adc_channel_v {
+ };
+ 
+ static const struct iio_map axp20x_maps[] = {
+-	{
+-		.consumer_dev_name = "axp20x-usb-power-supply",
+-		.consumer_channel = "vbus_v",
+-		.adc_channel_label = "vbus_v",
+-	}, {
+-		.consumer_dev_name = "axp20x-usb-power-supply",
+-		.consumer_channel = "vbus_i",
+-		.adc_channel_label = "vbus_i",
+-	}, {
+-		.consumer_dev_name = "axp20x-ac-power-supply",
+-		.consumer_channel = "acin_v",
+-		.adc_channel_label = "acin_v",
+-	}, {
+-		.consumer_dev_name = "axp20x-ac-power-supply",
+-		.consumer_channel = "acin_i",
+-		.adc_channel_label = "acin_i",
+-	}, {
+-		.consumer_dev_name = "axp20x-battery-power-supply",
+-		.consumer_channel = "batt_v",
+-		.adc_channel_label = "batt_v",
+-	}, {
+-		.consumer_dev_name = "axp20x-battery-power-supply",
+-		.consumer_channel = "batt_chrg_i",
+-		.adc_channel_label = "batt_chrg_i",
+-	}, {
+-		.consumer_dev_name = "axp20x-battery-power-supply",
+-		.consumer_channel = "batt_dischrg_i",
+-		.adc_channel_label = "batt_dischrg_i",
+-	}, { /* sentinel */ }
++	IIO_MAP("vbus_v", "axp20x-usb-power-supply", "vbus_v"),
++	IIO_MAP("vbus_i", "axp20x-usb-power-supply", "vbus_i"),
++	IIO_MAP("acin_v", "axp20x-ac-power-supply", "acin_v"),
++	IIO_MAP("acin_i", "axp20x-ac-power-supply", "acin_i"),
++	IIO_MAP("batt_v", "axp20x-battery-power-supply", "batt_v"),
++	IIO_MAP("batt_chrg_i", "axp20x-battery-power-supply", "batt_chrg_i"),
++	IIO_MAP("batt_dischrg_i", "axp20x-battery-power-supply", "batt_dischrg_i"),
++	{ /* sentinel */ }
+ };
+ 
+ static const struct iio_map axp22x_maps[] = {
+-	{
+-		.consumer_dev_name = "axp20x-battery-power-supply",
+-		.consumer_channel = "batt_v",
+-		.adc_channel_label = "batt_v",
+-	}, {
+-		.consumer_dev_name = "axp20x-battery-power-supply",
+-		.consumer_channel = "batt_chrg_i",
+-		.adc_channel_label = "batt_chrg_i",
+-	}, {
+-		.consumer_dev_name = "axp20x-battery-power-supply",
+-		.consumer_channel = "batt_dischrg_i",
+-		.adc_channel_label = "batt_dischrg_i",
+-	}, { /* sentinel */ }
++	IIO_MAP("batt_v", "axp20x-battery-power-supply", "batt_v"),
++	IIO_MAP("batt_chrg_i", "axp20x-battery-power-supply", "batt_chrg_i"),
++	IIO_MAP("batt_dischrg_i", "axp20x-battery-power-supply", "batt_dischrg_i"),
++	{ /* sentinel */ }
+ };
+ 
+ /*
+diff --git a/drivers/iio/adc/da9150-gpadc.c b/drivers/iio/adc/da9150-gpadc.c
+index 82628746ba8e..0290345ade84 100644
+--- a/drivers/iio/adc/da9150-gpadc.c
++++ b/drivers/iio/adc/da9150-gpadc.c
+@@ -292,26 +292,10 @@ static const struct iio_chan_spec da9150_gpadc_channels[] = {
+ 
+ /* Default maps used by da9150-charger */
+ static const struct iio_map da9150_gpadc_default_maps[] = {
+-	{
+-		.consumer_dev_name = "da9150-charger",
+-		.consumer_channel = "CHAN_IBUS",
+-		.adc_channel_label = "IBUS",
+-	},
+-	{
+-		.consumer_dev_name = "da9150-charger",
+-		.consumer_channel = "CHAN_VBUS",
+-		.adc_channel_label = "VBUS",
+-	},
+-	{
+-		.consumer_dev_name = "da9150-charger",
+-		.consumer_channel = "CHAN_TJUNC",
+-		.adc_channel_label = "TJUNC_CORE",
+-	},
+-	{
+-		.consumer_dev_name = "da9150-charger",
+-		.consumer_channel = "CHAN_VBAT",
+-		.adc_channel_label = "VBAT",
+-	},
++	IIO_MAP("IBUS", "da9150-charger", "CHAN_IBUS"),
++	IIO_MAP("VBUS", "da9150-charger", "CHAN_VBUS"),
++	IIO_MAP("TJUNC_CORE", "da9150-charger", "CHAN_TJUNC"),
++	IIO_MAP("VBAT", "da9150-charger", "CHAN_VBAT"),
+ 	{},
+ };
+ 
+diff --git a/drivers/iio/adc/lp8788_adc.c b/drivers/iio/adc/lp8788_adc.c
+index 0d49be0061a2..33bf8aef79e3 100644
+--- a/drivers/iio/adc/lp8788_adc.c
++++ b/drivers/iio/adc/lp8788_adc.c
+@@ -150,16 +150,8 @@ static const struct iio_chan_spec lp8788_adc_channels[] = {
+ 
+ /* default maps used by iio consumer (lp8788-charger driver) */
+ static const struct iio_map lp8788_default_iio_maps[] = {
+-	{
+-		.consumer_dev_name = "lp8788-charger",
+-		.consumer_channel = "lp8788_vbatt_5p0",
+-		.adc_channel_label = "VBATT_5P0",
+-	},
+-	{
+-		.consumer_dev_name = "lp8788-charger",
+-		.consumer_channel = "lp8788_adc1",
+-		.adc_channel_label = "ADC1",
+-	},
++	IIO_MAP("VBATT_5P0", "lp8788-charger", "lp8788_vbatt_5p0"),
++	IIO_MAP("ADC1", "lp8788-charger", "lp8788_adc1"),
+ 	{ }
+ };
+ 
+diff --git a/drivers/iio/adc/sun4i-gpadc-iio.c b/drivers/iio/adc/sun4i-gpadc-iio.c
+index 5d459f050634..00a3a4db0fe0 100644
+--- a/drivers/iio/adc/sun4i-gpadc-iio.c
++++ b/drivers/iio/adc/sun4i-gpadc-iio.c
+@@ -115,10 +115,7 @@ struct sun4i_gpadc_iio {
+ }
+ 
+ static const struct iio_map sun4i_gpadc_hwmon_maps[] = {
+-	{
+-		.adc_channel_label = "temp_adc",
+-		.consumer_dev_name = "iio_hwmon.0",
+-	},
++	IIO_MAP("temp_adc", "iio_hwmon.0", NULL),
+ 	{ /* sentinel */ },
+ };
+ 
+-- 
+2.46.0
 
