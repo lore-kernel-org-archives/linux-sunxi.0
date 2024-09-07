@@ -1,183 +1,149 @@
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.smtpout.orange.fr (smtp-25.smtpout.orange.fr [80.12.242.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC6251514DC
-	for <linux-sunxi@lists.linux.dev>; Sat,  7 Sep 2024 03:10:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF8F532C8E
+	for <linux-sunxi@lists.linux.dev>; Sat,  7 Sep 2024 05:34:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725678652; cv=none; b=AbaZ/bt52JZLs7V2L6Ia1G5fRP4+4LavUH0tV5UgA8d8tZCaGSrdqCbXqHr4HzmetPgdVbM4hn2WXjZgfjQ99kqqcNysJsfEg1jS8iJnEdE34ynDt4wQXMlkV5F7i1uh0RecDNh0m4SXCwJ5zuTeJISyG0+rqggtKO+s+2swwII=
+	t=1725687300; cv=none; b=ZWfHz69LOinvhP4i1z7JwSfqq/hB4FWpD0ix9QvjIgMbpx/Q/1njU2s2k2Ya5UUKlfQ6GMUhV48mDl05ahHlZvgRGnRpgnvx42p5mmKszbMHc84nS0N2/X7yN4m1uyWXc4eVZPyxpGD7lwRZNpPv8wZHYN7hl7QM25n+glORwc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725678652; c=relaxed/simple;
-	bh=3LkLjxpWEKDfGssDbCj1BcZ6R0Gz4xgvQlw3VPzlsf0=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sZZu1Nq6fml7Kx3WX27q+x1ejdysaSGwOzo+udL74SaiM6zC6LQ7n4rjhEWxKjfpc71P1y3ZuCyzAozFRO1v7k+KZguf5kTf9qGLtS4Qz3aFFNzLapaRsRKY9r2jyeDHU8K8PRLBdPaInCN95nIQE92mU2f5+q5zoKZwWfwUazI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.252])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4X0yln13H6z69WR;
-	Sat,  7 Sep 2024 11:10:45 +0800 (CST)
-Received: from kwepemd500012.china.huawei.com (unknown [7.221.188.25])
-	by mail.maildlp.com (Postfix) with ESMTPS id 90FCB1800CF;
-	Sat,  7 Sep 2024 11:10:46 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemd500012.china.huawei.com
- (7.221.188.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.34; Sat, 7 Sep
- 2024 11:10:45 +0800
-From: Li Zetao <lizetao1@huawei.com>
-To: <mchehab@kernel.org>, <florian.fainelli@broadcom.com>, <andrew@lunn.ch>,
-	<olteanv@gmail.com>, <davem@davemloft.net>, <edumazet@google.com>,
-	<kuba@kernel.org>, <pabeni@redhat.com>, <wens@csie.org>,
-	<jernej.skrabec@gmail.com>, <samuel@sholland.org>, <heiko@sntech.de>,
-	<yisen.zhuang@huawei.com>, <salil.mehta@huawei.com>, <hauke@hauke-m.de>,
-	<alexandre.torgue@foss.st.com>, <joabreu@synopsys.com>,
-	<mcoquelin.stm32@gmail.com>, <wellslutw@gmail.com>,
-	<radhey.shyam.pandey@amd.com>, <michal.simek@amd.com>, <hdegoede@redhat.com>,
-	<ilpo.jarvinen@linux.intel.com>, <ruanjinjie@huawei.com>,
-	<lizetao1@huawei.com>, <hverkuil-cisco@xs4all.nl>,
-	<u.kleine-koenig@pengutronix.de>, <jacky_chou@aspeedtech.com>,
-	<jacob.e.keller@intel.com>
-CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<netdev@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-rockchip@lists.infradead.org>,
-	<linux-stm32@st-md-mailman.stormreply.com>,
-	<platform-driver-x86@vger.kernel.org>
-Subject: [PATCH net-next v2 09/10] net: ethernet: sunplus: Convert using devm_clk_get_enabled() in spl2sw_probe()
-Date: Sat, 7 Sep 2024 11:19:25 +0800
-Message-ID: <20240907031926.3591353-10-lizetao1@huawei.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240907031926.3591353-1-lizetao1@huawei.com>
-References: <20240907031926.3591353-1-lizetao1@huawei.com>
+	s=arc-20240116; t=1725687300; c=relaxed/simple;
+	bh=bWdr1VYjmts1AtM3hv/151cs6BQWWh7DP6hLoyQaDLI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IEO2wa2vglU6rQEqU7IaxYWSErDARddY6BNK593SeCB6wzRj0c6MCvrotVgt0T8X1P1P0LMBI5uWlEoDLuSxvcM56Y7yM2STeJ73AxXveD7On8iTXlBlMNSRU6x9/m8SgoQgk4NWOhyAoSK8E2//oLEdqA6fJRwshgcNsgyklnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=Ov4MO2/E; arc=none smtp.client-ip=80.12.242.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="Ov4MO2/E"
+Received: from [192.168.1.37] ([90.11.132.44])
+	by smtp.orange.fr with ESMTPA
+	id mo5jsZENhQYYumo5jsI8EG; Sat, 07 Sep 2024 07:34:49 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1725687289;
+	bh=zhb/fr3/ahbe9u0OOQ3I4zVqjQ6OdAdflP4aJvLzC4g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=Ov4MO2/EsHbrXOn9mC5X45wUoZIu5LI6TUyK0ggF1aC8TviLvfB2vCpHsKNXLYgO5
+	 vBaAVBW+bZ0l5ZTWIpIqG1k5s5ogB6GbmyJep53eZUBPf7UrWql6sNXCVJAV7qwJ/1
+	 IKAMTL4XPED5b32aaNhI45/3uOfPJ3CGw0qz15LWBCyr9YqZ3KUAXf9faq3OFP5C8r
+	 RcDhXSGvkEV2+CZzDd2oTGxqPwspFww7txYJdfKzDwGcoeUud15+vIoJ0S0x/fCqRZ
+	 1y+Kq0GAzZTDRh8RQOXn6s6TFr9lLo8cXOffoCQL4+J2ZW41amN0iv7I2iv+YmsbqH
+	 V9/TpYOhfBxiA==
+X-ME-Helo: [192.168.1.37]
+X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
+X-ME-Date: Sat, 07 Sep 2024 07:34:49 +0200
+X-ME-IP: 90.11.132.44
+Message-ID: <daf856a8-32ad-47ac-91b2-0aa2253636f8@wanadoo.fr>
+Date: Sat, 7 Sep 2024 07:34:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v2 02/10] net: ethernet: Convert using
+ devm_clk_get_enabled() in emac_probe()
+To: Li Zetao <lizetao1@huawei.com>, mchehab@kernel.org,
+ florian.fainelli@broadcom.com, andrew@lunn.ch, olteanv@gmail.com,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, wens@csie.org, jernej.skrabec@gmail.com,
+ samuel@sholland.org, heiko@sntech.de, yisen.zhuang@huawei.com,
+ salil.mehta@huawei.com, hauke@hauke-m.de, alexandre.torgue@foss.st.com,
+ joabreu@synopsys.com, mcoquelin.stm32@gmail.com, wellslutw@gmail.com,
+ radhey.shyam.pandey@amd.com, michal.simek@amd.com, hdegoede@redhat.com,
+ ilpo.jarvinen@linux.intel.com, ruanjinjie@huawei.com,
+ hverkuil-cisco@xs4all.nl, u.kleine-koenig@pengutronix.de,
+ jacky_chou@aspeedtech.com, jacob.e.keller@intel.com
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, platform-driver-x86@vger.kernel.org
+References: <20240907031926.3591353-1-lizetao1@huawei.com>
+ <20240907031926.3591353-3-lizetao1@huawei.com>
+Content-Language: en-US, fr-FR
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20240907031926.3591353-3-lizetao1@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- kwepemd500012.china.huawei.com (7.221.188.25)
 
-Use devm_clk_get_enabled() instead of devm_clk_get() +
-clk_prepare_enable(), which can make the clk consistent with the device
-life cycle and reduce the risk of unreleased clk resources. Since the
-device framework has automatically released the clk resource, there is
-no need to execute clk_disable_unprepare(clk) on the error path, drop
-the out_clk_disable label, and the original error process can return
-directly. Some comments have also been adjusted.
+Le 07/09/2024 à 05:19, Li Zetao a écrit :
+> Use devm_clk_get_enabled() instead of devm_clk_get() +
+> clk_prepare_enable(), which can make the clk consistent with the device
+> life cycle and reduce the risk of unreleased clk resources. Since the
+> device framework has automatically released the clk resource, there is
+> no need to execute clk_disable_unprepare(clk) on the error path, drop
+> the out_clk_disable_unprepare label, and the original error process can
+> changed to the out_dispose_mapping error path.
+> 
+> Signed-off-by: Li Zetao <lizetao1@huawei.com>
 
-After this modification , it is no longer necessary to use clk, so delete
-the clk member of the spl2sw_common structure.
+Hi,
 
-Signed-off-by: Li Zetao <lizetao1@huawei.com>
----
-v1 -> v2: Delete the clk member of the spl2sw_common structure
-v1:
-https://lore.kernel.org/all/20240831021334.1907921-10-lizetao1@huawei.com/
+I think that the subject should be "net: ethernet: allwinner:", or maybe 
+even "net: allwinner:"
 
- drivers/net/ethernet/sunplus/spl2sw_define.h |  1 -
- drivers/net/ethernet/sunplus/spl2sw_driver.c | 25 +++++++-------------
- 2 files changed, 9 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/net/ethernet/sunplus/spl2sw_define.h b/drivers/net/ethernet/sunplus/spl2sw_define.h
-index acc6c1228ebc..6318eccc6c4e 100644
---- a/drivers/net/ethernet/sunplus/spl2sw_define.h
-+++ b/drivers/net/ethernet/sunplus/spl2sw_define.h
-@@ -224,7 +224,6 @@ struct spl2sw_common {
- 
- 	struct platform_device *pdev;
- 	struct reset_control *rstc;
--	struct clk *clk;
- 
- 	void *desc_base;
- 	dma_addr_t desc_dma;
-diff --git a/drivers/net/ethernet/sunplus/spl2sw_driver.c b/drivers/net/ethernet/sunplus/spl2sw_driver.c
-index 391a1bc7f446..887da05bc204 100644
---- a/drivers/net/ethernet/sunplus/spl2sw_driver.c
-+++ b/drivers/net/ethernet/sunplus/spl2sw_driver.c
-@@ -327,6 +327,7 @@ static int spl2sw_probe(struct platform_device *pdev)
- 	struct net_device *ndev;
- 	struct spl2sw_mac *mac;
- 	u8 mac_addr[ETH_ALEN];
-+	struct clk *clk;
- 	int irq, i, ret;
- 
- 	if (platform_get_drvdata(pdev))
-@@ -355,12 +356,12 @@ static int spl2sw_probe(struct platform_device *pdev)
- 		return ret;
- 	irq = ret;
- 
--	/* Get clock controller. */
--	comm->clk = devm_clk_get(&pdev->dev, NULL);
--	if (IS_ERR(comm->clk)) {
--		dev_err_probe(&pdev->dev, PTR_ERR(comm->clk),
-+	/* Get and enable clock controller. */
-+	clk = devm_clk_get_enabled(&pdev->dev, NULL);
-+	if (IS_ERR(clk)) {
-+		dev_err_probe(&pdev->dev, PTR_ERR(clk),
- 			      "Failed to retrieve clock controller!\n");
--		return PTR_ERR(comm->clk);
-+		return PTR_ERR(clk);
- 	}
- 
- 	/* Get reset controller. */
-@@ -371,10 +372,6 @@ static int spl2sw_probe(struct platform_device *pdev)
- 		return PTR_ERR(comm->rstc);
- 	}
- 
--	/* Enable clock. */
--	ret = clk_prepare_enable(comm->clk);
--	if (ret)
--		return ret;
- 	udelay(1);
- 
- 	/* Reset MAC */
-@@ -388,7 +385,7 @@ static int spl2sw_probe(struct platform_device *pdev)
- 			       dev_name(&pdev->dev), comm);
- 	if (ret) {
- 		dev_err(&pdev->dev, "Failed to request irq #%d!\n", irq);
--		goto out_clk_disable;
-+		return ret;
- 	}
- 
- 	/* Initialize TX and RX descriptors. */
-@@ -396,7 +393,7 @@ static int spl2sw_probe(struct platform_device *pdev)
- 	if (ret) {
- 		dev_err(&pdev->dev, "Fail to initialize mac descriptors!\n");
- 		spl2sw_descs_free(comm);
--		goto out_clk_disable;
-+		return ret;
- 	}
- 
- 	/* Initialize MAC. */
-@@ -406,7 +403,7 @@ static int spl2sw_probe(struct platform_device *pdev)
- 	ret = spl2sw_mdio_init(comm);
- 	if (ret) {
- 		dev_err(&pdev->dev, "Failed to initialize mdio bus!\n");
--		goto out_clk_disable;
-+		return ret;
- 	}
- 
- 	/* Get child node ethernet-ports. */
-@@ -506,8 +503,6 @@ static int spl2sw_probe(struct platform_device *pdev)
- out_free_mdio:
- 	spl2sw_mdio_remove(comm);
- 
--out_clk_disable:
--	clk_disable_unprepare(comm->clk);
- 	return ret;
- }
- 
-@@ -536,8 +531,6 @@ static void spl2sw_remove(struct platform_device *pdev)
- 	netif_napi_del(&comm->tx_napi);
- 
- 	spl2sw_mdio_remove(comm);
--
--	clk_disable_unprepare(comm->clk);
- }
- 
- static const struct of_device_id spl2sw_of_match[] = {
--- 
-2.34.1
+clk can now be removed from struct emac_board_info I think.
+You should check for all patches, as asked in [1].
+
+I've not looked all patches, but lantiq_xrx200() looks also a good 
+candidate for removing clk from a structure.
+
+CJ
+
+[1]: https://lore.kernel.org/all/20240903151649.1b466145@kernel.org/
+
+CJ
+
+> ---
+>   drivers/net/ethernet/allwinner/sun4i-emac.c | 13 ++-----------
+>   1 file changed, 2 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/net/ethernet/allwinner/sun4i-emac.c b/drivers/net/ethernet/allwinner/sun4i-emac.c
+> index d761c08fe5c1..8f42501729b7 100644
+> --- a/drivers/net/ethernet/allwinner/sun4i-emac.c
+> +++ b/drivers/net/ethernet/allwinner/sun4i-emac.c
+> @@ -1005,22 +1005,16 @@ static int emac_probe(struct platform_device *pdev)
+>   	if (emac_configure_dma(db))
+>   		netdev_info(ndev, "configure dma failed. disable dma.\n");
+>   
+> -	db->clk = devm_clk_get(&pdev->dev, NULL);
+> +	db->clk = devm_clk_get_enabled(&pdev->dev, NULL);
+>   	if (IS_ERR(db->clk)) {
+>   		ret = PTR_ERR(db->clk);
+>   		goto out_dispose_mapping;
+>   	}
+>   
+> -	ret = clk_prepare_enable(db->clk);
+> -	if (ret) {
+> -		dev_err(&pdev->dev, "Error couldn't enable clock (%d)\n", ret);
+> -		goto out_dispose_mapping;
+> -	}
+> -
+>   	ret = sunxi_sram_claim(&pdev->dev);
+>   	if (ret) {
+>   		dev_err(&pdev->dev, "Error couldn't map SRAM to device\n");
+> -		goto out_clk_disable_unprepare;
+> +		goto out_dispose_mapping;
+>   	}
+>   
+>   	db->phy_node = of_parse_phandle(np, "phy-handle", 0);
+> @@ -1068,8 +1062,6 @@ static int emac_probe(struct platform_device *pdev)
+>   
+>   out_release_sram:
+>   	sunxi_sram_release(&pdev->dev);
+> -out_clk_disable_unprepare:
+> -	clk_disable_unprepare(db->clk);
+>   out_dispose_mapping:
+>   	irq_dispose_mapping(ndev->irq);
+>   	dma_release_channel(db->rx_chan);
+> @@ -1095,7 +1087,6 @@ static void emac_remove(struct platform_device *pdev)
+>   
+>   	unregister_netdev(ndev);
+>   	sunxi_sram_release(&pdev->dev);
+> -	clk_disable_unprepare(db->clk);
+>   	irq_dispose_mapping(ndev->irq);
+>   	iounmap(db->membase);
+>   	free_netdev(ndev);
 
