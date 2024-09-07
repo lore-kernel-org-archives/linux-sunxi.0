@@ -1,29 +1,29 @@
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEDBD40870
-	for <linux-sunxi@lists.linux.dev>; Sat,  7 Sep 2024 03:01:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.191
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B565B3B1BC
+	for <linux-sunxi@lists.linux.dev>; Sat,  7 Sep 2024 03:01:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725678093; cv=none; b=Xl+aeb/M0Lfv6OH62giCGI5OcBN1mEBD79GXidjT1SR+TmblNG3/PVZEKuOgUBHZ4kihqRfmQN2idZrXtSeJI2+YNpdLnKKnsPQf4MWfcJpM0Iv6LW+Tn86iDwx7NrSo1SoNdOuryAlkAs0/C8KSvO1PqvRExaatXzcxHUwlEKs=
+	t=1725678093; cv=none; b=sgtkhLMid1DEaKUJ2hHrILo8QM0hNzBORf29rTnslAerF6DLD6H9B01HUh98bkSG2I3XJlv/2JVOpb8P03A/WuXpiACYny1bcWbcarVm+7tYricdPcW+9NlNyseRt7TVMzJvlWA8QOoMZWiXHbshzh2ci1554tNGt0YzXj8KmwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1725678093; c=relaxed/simple;
-	bh=7W1tcdm2zh5G5w60OHuhn10sbehAYbPyEfodQj/6jmU=;
+	bh=3DrBXBN4zHFdmZQPm97ddSdyM4eMMKuEHq8ZpIhhgb8=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kr5O3C8fWp+8LJFGlVA4g/ROUaMd4ABqJXhwR8Mq/c3+Eso3PsGPE6iYG2sKE2MSJr0GIVxVsevVGCZfMKpqdTmrcMeq/xv9I+1jcLYLfLp4Cihh1oDhCWOeu4qAMvF/fd0tR+vG1hlo/98Rd0PyDpTFlf+xf+hZYw4t6TVW03M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.191
+	 MIME-Version:Content-Type; b=JPChYk7Wy935Ll3DJkPPl9HkujJPkpVkgs8QyZq3qQvfk/KtIzspH0I/QzSdoYn5C/R04Oh4gGZWwGYED3FwPH4+SAjE8otPCISlWiQ69ox2/Ho2V08naNBA9e0GnlZawg2NDOtOnPDdzM8dcI6PVMXLunBDv71W3v8FwFLp8gA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.162.112])
-	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4X0yT20Tvrz1HJL8;
-	Sat,  7 Sep 2024 10:57:58 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.19.163.48])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4X0yXB5KYYzyRRW;
+	Sat,  7 Sep 2024 11:00:42 +0800 (CST)
 Received: from kwepemd500012.china.huawei.com (unknown [7.221.188.25])
-	by mail.maildlp.com (Postfix) with ESMTPS id 75D881400D3;
-	Sat,  7 Sep 2024 11:01:28 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id B4300180064;
+	Sat,  7 Sep 2024 11:01:23 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemd500012.china.huawei.com
  (7.221.188.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.34; Sat, 7 Sep
- 2024 11:01:27 +0800
+ 2024 11:01:22 +0800
 From: Li Zetao <lizetao1@huawei.com>
 To: <mchehab@kernel.org>, <davem@davemloft.net>, <edumazet@google.com>,
 	<kuba@kernel.org>, <pabeni@redhat.com>, <wens@csie.org>,
@@ -41,9 +41,9 @@ CC: <linux-media@vger.kernel.org>, <netdev@vger.kernel.org>,
 	<linux-rockchip@lists.infradead.org>,
 	<linux-stm32@st-md-mailman.stormreply.com>,
 	<platform-driver-x86@vger.kernel.org>
-Subject: [PATCH net-next v2 08/10] net: stmmac: dwmac-dwc-qos-eth: Convert using devm_clk_get_enabled() in dwc_qos_probe()
-Date: Sat, 7 Sep 2024 11:10:07 +0800
-Message-ID: <20240907031009.3591057-10-lizetao1@huawei.com>
+Subject: [PATCH net-next v2 03/10] net: ethernet: arc: Convert using devm_clk_get_enabled() in emac_probe()
+Date: Sat, 7 Sep 2024 11:10:02 +0800
+Message-ID: <20240907031009.3591057-5-lizetao1@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240907031009.3591057-1-lizetao1@huawei.com>
 References: <20240907031009.3591057-1-lizetao1@huawei.com>
@@ -63,167 +63,120 @@ clk_prepare_enable(), which can make the clk consistent with the device
 life cycle and reduce the risk of unreleased clk resources. Since the
 device framework has automatically released the clk resource, there is
 no need to execute clk_disable_unprepare(clk) on the error path, drop
-the disable label, and the original error process can return directly.
-
-The tegra_eqos_probe() also has similar modifications.
+the out_clk_disable_unprepare label, and the original error process can
+changed to the out_dispose_mapping error path.
 
 Signed-off-by: Li Zetao <lizetao1@huawei.com>
 ---
- .../stmicro/stmmac/dwmac-dwc-qos-eth.c        | 98 ++++---------------
- 1 file changed, 17 insertions(+), 81 deletions(-)
+ drivers/net/ethernet/arc/emac_rockchip.c | 34 +++++-------------------
+ 1 file changed, 6 insertions(+), 28 deletions(-)
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c
-index ec924c6c76c6..d6e9a93771f4 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c
-@@ -123,49 +123,24 @@ static int dwc_qos_probe(struct platform_device *pdev,
- 			 struct plat_stmmacenet_data *plat_dat,
- 			 struct stmmac_resources *stmmac_res)
- {
--	int err;
--
--	plat_dat->stmmac_clk = devm_clk_get(&pdev->dev, "apb_pclk");
-+	plat_dat->stmmac_clk = devm_clk_get_enabled(&pdev->dev, "apb_pclk");
- 	if (IS_ERR(plat_dat->stmmac_clk)) {
- 		dev_err(&pdev->dev, "apb_pclk clock not found.\n");
- 		return PTR_ERR(plat_dat->stmmac_clk);
+diff --git a/drivers/net/ethernet/arc/emac_rockchip.c b/drivers/net/ethernet/arc/emac_rockchip.c
+index 493d6356c8ca..22b3ebe059d9 100644
+--- a/drivers/net/ethernet/arc/emac_rockchip.c
++++ b/drivers/net/ethernet/arc/emac_rockchip.c
+@@ -144,7 +144,7 @@ static int emac_rockchip_probe(struct platform_device *pdev)
+ 		goto out_netdev;
  	}
  
--	err = clk_prepare_enable(plat_dat->stmmac_clk);
--	if (err < 0) {
--		dev_err(&pdev->dev, "failed to enable apb_pclk clock: %d\n",
--			err);
--		return err;
+-	priv->refclk = devm_clk_get(dev, "macref");
++	priv->refclk = devm_clk_get_enabled(dev, "macref");
+ 	if (IS_ERR(priv->refclk)) {
+ 		dev_err(dev, "failed to retrieve reference clock (%ld)\n",
+ 			PTR_ERR(priv->refclk));
+@@ -152,18 +152,12 @@ static int emac_rockchip_probe(struct platform_device *pdev)
+ 		goto out_netdev;
+ 	}
+ 
+-	err = clk_prepare_enable(priv->refclk);
+-	if (err) {
+-		dev_err(dev, "failed to enable reference clock (%d)\n", err);
+-		goto out_netdev;
 -	}
 -
--	plat_dat->pclk = devm_clk_get(&pdev->dev, "phy_ref_clk");
-+	plat_dat->pclk = devm_clk_get_enabled(&pdev->dev, "phy_ref_clk");
- 	if (IS_ERR(plat_dat->pclk)) {
- 		dev_err(&pdev->dev, "phy_ref_clk clock not found.\n");
--		err = PTR_ERR(plat_dat->pclk);
--		goto disable;
--	}
+ 	/* Optional regulator for PHY */
+ 	priv->regulator = devm_regulator_get_optional(dev, "phy");
+ 	if (IS_ERR(priv->regulator)) {
+ 		if (PTR_ERR(priv->regulator) == -EPROBE_DEFER) {
+ 			err = -EPROBE_DEFER;
+-			goto out_clk_disable;
++			goto out_netdev;
+ 		}
+ 		dev_err(dev, "no regulator found\n");
+ 		priv->regulator = NULL;
+@@ -173,7 +167,7 @@ static int emac_rockchip_probe(struct platform_device *pdev)
+ 		err = regulator_enable(priv->regulator);
+ 		if (err) {
+ 			dev_err(dev, "failed to enable phy-supply (%d)\n", err);
+-			goto out_clk_disable;
++			goto out_netdev;
+ 		}
+ 	}
+ 
+@@ -200,7 +194,7 @@ static int emac_rockchip_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	if (priv->soc_data->need_div_macclk) {
+-		priv->macclk = devm_clk_get(dev, "macclk");
++		priv->macclk = devm_clk_get_enabled(dev, "macclk");
+ 		if (IS_ERR(priv->macclk)) {
+ 			dev_err(dev, "failed to retrieve mac clock (%ld)\n",
+ 				PTR_ERR(priv->macclk));
+@@ -208,37 +202,26 @@ static int emac_rockchip_probe(struct platform_device *pdev)
+ 			goto out_regulator_disable;
+ 		}
+ 
+-		err = clk_prepare_enable(priv->macclk);
+-		if (err) {
+-			dev_err(dev, "failed to enable mac clock (%d)\n", err);
+-			goto out_regulator_disable;
+-		}
 -
--	err = clk_prepare_enable(plat_dat->pclk);
--	if (err < 0) {
--		dev_err(&pdev->dev, "failed to enable phy_ref clock: %d\n",
--			err);
--		goto disable;
-+		return PTR_ERR(plat_dat->pclk);
+ 		/* RMII TX/RX needs always a rate of 25MHz */
+ 		err = clk_set_rate(priv->macclk, 25000000);
+ 		if (err) {
+ 			dev_err(dev,
+ 				"failed to change mac clock rate (%d)\n", err);
+-			goto out_clk_disable_macclk;
++			goto out_regulator_disable;
+ 		}
+ 	}
+ 
+ 	err = arc_emac_probe(ndev, interface);
+ 	if (err) {
+ 		dev_err(dev, "failed to probe arc emac (%d)\n", err);
+-		goto out_clk_disable_macclk;
++		goto out_regulator_disable;
  	}
  
  	return 0;
--
--disable:
--	clk_disable_unprepare(plat_dat->stmmac_clk);
--	return err;
- }
  
- static void dwc_qos_remove(struct platform_device *pdev)
- {
--	struct net_device *ndev = platform_get_drvdata(pdev);
--	struct stmmac_priv *priv = netdev_priv(ndev);
- 
--	clk_disable_unprepare(priv->plat->pclk);
--	clk_disable_unprepare(priv->plat->stmmac_clk);
- }
- 
- #define SDMEMCOMPPADCTRL 0x8800
-@@ -283,53 +258,27 @@ static int tegra_eqos_probe(struct platform_device *pdev,
- 	if (!is_of_node(dev->fwnode))
- 		goto bypass_clk_reset_gpio;
- 
--	eqos->clk_master = devm_clk_get(&pdev->dev, "master_bus");
--	if (IS_ERR(eqos->clk_master)) {
--		err = PTR_ERR(eqos->clk_master);
--		goto error;
--	}
-+	eqos->clk_master = devm_clk_get_enabled(&pdev->dev, "master_bus");
-+	if (IS_ERR(eqos->clk_master))
-+		return PTR_ERR(eqos->clk_master);
- 
--	err = clk_prepare_enable(eqos->clk_master);
--	if (err < 0)
--		goto error;
--
--	eqos->clk_slave = devm_clk_get(&pdev->dev, "slave_bus");
--	if (IS_ERR(eqos->clk_slave)) {
--		err = PTR_ERR(eqos->clk_slave);
--		goto disable_master;
--	}
-+	eqos->clk_slave = devm_clk_get_enabled(&pdev->dev, "slave_bus");
-+	if (IS_ERR(eqos->clk_slave))
-+		return PTR_ERR(eqos->clk_slave);
- 
- 	data->stmmac_clk = eqos->clk_slave;
- 
--	err = clk_prepare_enable(eqos->clk_slave);
--	if (err < 0)
--		goto disable_master;
--
--	eqos->clk_rx = devm_clk_get(&pdev->dev, "rx");
--	if (IS_ERR(eqos->clk_rx)) {
--		err = PTR_ERR(eqos->clk_rx);
--		goto disable_slave;
--	}
--
--	err = clk_prepare_enable(eqos->clk_rx);
--	if (err < 0)
--		goto disable_slave;
-+	eqos->clk_rx = devm_clk_get_enabled(&pdev->dev, "rx");
-+	if (IS_ERR(eqos->clk_rx))
-+		return PTR_ERR(eqos->clk_rx);
- 
--	eqos->clk_tx = devm_clk_get(&pdev->dev, "tx");
--	if (IS_ERR(eqos->clk_tx)) {
--		err = PTR_ERR(eqos->clk_tx);
--		goto disable_rx;
--	}
--
--	err = clk_prepare_enable(eqos->clk_tx);
--	if (err < 0)
--		goto disable_rx;
-+	eqos->clk_tx = devm_clk_get_enabled(&pdev->dev, "tx");
-+	if (IS_ERR(eqos->clk_tx))
-+		return PTR_ERR(eqos->clk_tx);
- 
- 	eqos->reset = devm_gpiod_get(&pdev->dev, "phy-reset", GPIOD_OUT_HIGH);
--	if (IS_ERR(eqos->reset)) {
--		err = PTR_ERR(eqos->reset);
--		goto disable_tx;
--	}
-+	if (IS_ERR(eqos->reset))
-+		return PTR_ERR(eqos->reset);
- 
- 	usleep_range(2000, 4000);
- 	gpiod_set_value(eqos->reset, 0);
-@@ -370,15 +319,6 @@ static int tegra_eqos_probe(struct platform_device *pdev,
- 	reset_control_assert(eqos->rst);
- reset_phy:
- 	gpiod_set_value(eqos->reset, 1);
--disable_tx:
--	clk_disable_unprepare(eqos->clk_tx);
--disable_rx:
--	clk_disable_unprepare(eqos->clk_rx);
--disable_slave:
--	clk_disable_unprepare(eqos->clk_slave);
--disable_master:
--	clk_disable_unprepare(eqos->clk_master);
--error:
+-out_clk_disable_macclk:
+-	if (priv->soc_data->need_div_macclk)
+-		clk_disable_unprepare(priv->macclk);
+ out_regulator_disable:
+ 	if (priv->regulator)
+ 		regulator_disable(priv->regulator);
+-out_clk_disable:
+-	clk_disable_unprepare(priv->refclk);
+ out_netdev:
+ 	free_netdev(ndev);
  	return err;
+@@ -251,14 +234,9 @@ static void emac_rockchip_remove(struct platform_device *pdev)
+ 
+ 	arc_emac_remove(ndev);
+ 
+-	clk_disable_unprepare(priv->refclk);
+-
+ 	if (priv->regulator)
+ 		regulator_disable(priv->regulator);
+ 
+-	if (priv->soc_data->need_div_macclk)
+-		clk_disable_unprepare(priv->macclk);
+-
+ 	free_netdev(ndev);
  }
  
-@@ -388,10 +328,6 @@ static void tegra_eqos_remove(struct platform_device *pdev)
- 
- 	reset_control_assert(eqos->rst);
- 	gpiod_set_value(eqos->reset, 1);
--	clk_disable_unprepare(eqos->clk_tx);
--	clk_disable_unprepare(eqos->clk_rx);
--	clk_disable_unprepare(eqos->clk_slave);
--	clk_disable_unprepare(eqos->clk_master);
- }
- 
- struct dwc_eth_dwmac_data {
 -- 
 2.34.1
 
