@@ -1,29 +1,29 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D3CCC125
-	for <linux-sunxi@lists.linux.dev>; Sat,  7 Sep 2024 03:01:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E36D038DDB
+	for <linux-sunxi@lists.linux.dev>; Sat,  7 Sep 2024 03:01:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.191
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725678085; cv=none; b=iHagolspWtdd8RWG3q7aivD5H1mj68W1OJnEMi0k5R44NNgtwAHeD13Xfs/DMxDCl8UXFMNOYUS0Gt7/wIixBVd3Kl49AemSZFGbR/P7LwIMrbPmUKV0V9UbgB1vz9oPaDULf4f7BNV9ZuhjTaw6TT9CKQ7z1QI5ZhRX136olaU=
+	t=1725678089; cv=none; b=WY36SUqstf9Na0UT5l70V/jDb3rV6yGLFFfYZeHaBEHL1qiLf7ZhWgKVUlCJlX86spMr618hi+Qc7ye9M3WAgnMFahmQm5MWJS3oWx13KuJi+dvpGyjPwPhdi5Dqb9Qz4FA1/IiUZcVwoxdTQv0dfS2VbD1zItabbpU8FXiXL2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725678085; c=relaxed/simple;
-	bh=SKmwUqTwR74emfqWD5UsJQHM+pl4VItIE/gtYktQgus=;
+	s=arc-20240116; t=1725678089; c=relaxed/simple;
+	bh=3b+7A5e6yMhko3erhk5rlZdd6Ltt1amgAMxhEwLvi74=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RFmOF+8udEX5yYxLuo64MoPRGCZGc9lgfFShXcnY8gswudxW+93vxibZAr5NER/0vhNbZnxriM/RV8vldckdIjNm93EFwqaFP9mxS31JCFiQ5eBctjWGPlB4h43InylxWMEmEZXvyBkR52xr0wcxw4FTvvDdNuVXdJ0w5etEi6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
+	 MIME-Version:Content-Type; b=jWVVDuS4Pd9MyUL6NuG6iQWOrYy7qIJ8+yAtUFeVnSjiOfdkLBsmh59/74izPoksYUmFjJDRjVEMM8PNJM0dKHJy5hig1T5/INkG1EgGEuS9pAWlkgZ91VG4UqXsbfTQApj3dLj2Saba9oGumsoKdDl/C6Zp7xlQfQoc5h9dz+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.191
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.105])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4X0yVh19smzpVVL;
-	Sat,  7 Sep 2024 10:59:24 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.19.163.17])
+	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4X0yXZ0L87z1j83Y;
+	Sat,  7 Sep 2024 11:01:02 +0800 (CST)
 Received: from kwepemd500012.china.huawei.com (unknown [7.221.188.25])
-	by mail.maildlp.com (Postfix) with ESMTPS id D335E1402C8;
-	Sat,  7 Sep 2024 11:01:20 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id 9D7401A0188;
+	Sat,  7 Sep 2024 11:01:25 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemd500012.china.huawei.com
  (7.221.188.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.34; Sat, 7 Sep
- 2024 11:01:19 +0800
+ 2024 11:01:24 +0800
 From: Li Zetao <lizetao1@huawei.com>
 To: <mchehab@kernel.org>, <davem@davemloft.net>, <edumazet@google.com>,
 	<kuba@kernel.org>, <pabeni@redhat.com>, <wens@csie.org>,
@@ -41,9 +41,9 @@ CC: <linux-media@vger.kernel.org>, <netdev@vger.kernel.org>,
 	<linux-rockchip@lists.infradead.org>,
 	<linux-stm32@st-md-mailman.stormreply.com>,
 	<platform-driver-x86@vger.kernel.org>
-Subject: [PATCH -next v2] platform/olpc: Remove redundant null pointer checks in olpc_ec_setup_debugfs()
-Date: Sat, 7 Sep 2024 11:09:59 +0800
-Message-ID: <20240907031009.3591057-2-lizetao1@huawei.com>
+Subject: [PATCH net-next v2 05/10] net: ftgmac100: Convert using devm_clk_get_enabled() in ftgmac100_setup_clk()
+Date: Sat, 7 Sep 2024 11:10:04 +0800
+Message-ID: <20240907031009.3591057-7-lizetao1@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240907031009.3591057-1-lizetao1@huawei.com>
 References: <20240907031009.3591057-1-lizetao1@huawei.com>
@@ -58,34 +58,98 @@ Content-Type: text/plain
 X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
  kwepemd500012.china.huawei.com (7.221.188.25)
 
-Since the debugfs_create_dir() never returns a null pointer, checking
-the return value for a null pointer is redundant. Since
-debugfs_create_file() can deal with a ERR_PTR() style pointer, drop
-the check.
+Use devm_clk_get_enabled() instead of devm_clk_get() +
+clk_prepare_enable(), which can make the clk consistent with the device
+life cycle and reduce the risk of unreleased clk resources. Since the
+device framework has automatically released the clk resource, there is
+no need to execute clk_disable_unprepare(clk) on the error path, drop
+the cleanup_clk label, and the original error process can return directly.
+
+It turns out that checking the return value of clk_prepare_enable is a bit
+counter-intuitive. Here use PTR_ERR_OR_ZERO to make it more intuitive.
 
 Signed-off-by: Li Zetao <lizetao1@huawei.com>
 ---
-v1 -> v2:
+v1 -> v2: Optimize return value checking and add commit information for easy
+understanding
 v1:
-https://lore.kernel.org/all/20240903143714.2004947-1-lizetao1@huawei.com/
+https://lore.kernel.org/all/20240831021334.1907921-6-lizetao1@huawei.com/
 
- drivers/platform/olpc/olpc-ec.c | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/net/ethernet/faraday/ftgmac100.c | 26 +++++-------------------
+ 1 file changed, 5 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/platform/olpc/olpc-ec.c b/drivers/platform/olpc/olpc-ec.c
-index 921520475ff6..48e9861bb571 100644
---- a/drivers/platform/olpc/olpc-ec.c
-+++ b/drivers/platform/olpc/olpc-ec.c
-@@ -332,9 +332,6 @@ static struct dentry *olpc_ec_setup_debugfs(void)
- 	struct dentry *dbgfs_dir;
+diff --git a/drivers/net/ethernet/faraday/ftgmac100.c b/drivers/net/ethernet/faraday/ftgmac100.c
+index f3cc14cc757d..f2911507d7b8 100644
+--- a/drivers/net/ethernet/faraday/ftgmac100.c
++++ b/drivers/net/ethernet/faraday/ftgmac100.c
+@@ -1767,13 +1767,10 @@ static int ftgmac100_setup_clk(struct ftgmac100 *priv)
+ 	struct clk *clk;
+ 	int rc;
  
- 	dbgfs_dir = debugfs_create_dir("olpc-ec", NULL);
--	if (IS_ERR_OR_NULL(dbgfs_dir))
--		return NULL;
+-	clk = devm_clk_get(priv->dev, NULL /* MACCLK */);
++	clk = devm_clk_get_enabled(priv->dev, NULL /* MACCLK */);
+ 	if (IS_ERR(clk))
+ 		return PTR_ERR(clk);
+ 	priv->clk = clk;
+-	rc = clk_prepare_enable(priv->clk);
+-	if (rc)
+-		return rc;
+ 
+ 	/* Aspeed specifies a 100MHz clock is required for up to
+ 	 * 1000Mbit link speeds. As NCSI is limited to 100Mbit, 25MHz
+@@ -1782,21 +1779,14 @@ static int ftgmac100_setup_clk(struct ftgmac100 *priv)
+ 	rc = clk_set_rate(priv->clk, priv->use_ncsi ? FTGMAC_25MHZ :
+ 			  FTGMAC_100MHZ);
+ 	if (rc)
+-		goto cleanup_clk;
++		return rc;
+ 
+ 	/* RCLK is for RMII, typically used for NCSI. Optional because it's not
+ 	 * necessary if it's the AST2400 MAC, or the MAC is configured for
+ 	 * RGMII, or the controller is not an ASPEED-based controller.
+ 	 */
+-	priv->rclk = devm_clk_get_optional(priv->dev, "RCLK");
+-	rc = clk_prepare_enable(priv->rclk);
+-	if (!rc)
+-		return 0;
 -
- 	debugfs_create_file("cmd", 0600, dbgfs_dir, NULL, &ec_dbgfs_ops);
+-cleanup_clk:
+-	clk_disable_unprepare(priv->clk);
+-
+-	return rc;
++	priv->rclk = devm_clk_get_optional_enabled(priv->dev, "RCLK");
++	return PTR_ERR_OR_ZERO(priv->rclk);
+ }
  
- 	return dbgfs_dir;
+ static bool ftgmac100_has_child_node(struct device_node *np, const char *name)
+@@ -2020,16 +2010,13 @@ static int ftgmac100_probe(struct platform_device *pdev)
+ 	err = register_netdev(netdev);
+ 	if (err) {
+ 		dev_err(&pdev->dev, "Failed to register netdev\n");
+-		goto err_register_netdev;
++		goto err_phy_connect;
+ 	}
+ 
+ 	netdev_info(netdev, "irq %d, mapped at %p\n", netdev->irq, priv->base);
+ 
+ 	return 0;
+ 
+-err_register_netdev:
+-	clk_disable_unprepare(priv->rclk);
+-	clk_disable_unprepare(priv->clk);
+ err_phy_connect:
+ 	ftgmac100_phy_disconnect(netdev);
+ err_ncsi_dev:
+@@ -2058,9 +2045,6 @@ static void ftgmac100_remove(struct platform_device *pdev)
+ 		ncsi_unregister_dev(priv->ndev);
+ 	unregister_netdev(netdev);
+ 
+-	clk_disable_unprepare(priv->rclk);
+-	clk_disable_unprepare(priv->clk);
+-
+ 	/* There's a small chance the reset task will have been re-queued,
+ 	 * during stop, make sure it's gone before we free the structure.
+ 	 */
 -- 
 2.34.1
 
