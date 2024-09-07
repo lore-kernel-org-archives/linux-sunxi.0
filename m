@@ -1,29 +1,29 @@
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A9F414D444
-	for <linux-sunxi@lists.linux.dev>; Sat,  7 Sep 2024 03:10:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCBBA158219
+	for <linux-sunxi@lists.linux.dev>; Sat,  7 Sep 2024 03:10:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725678650; cv=none; b=hUebOMKmkLlHhXB0NBEa3EQoUe8rjrzzHDj2Sx3j2pi6FVwOr3sc97tly+qXF2EeIst8q7TMbktqa+OTdo2ZeQUmus2ZqS7DRfqOKSC8DVTMinTv0/KXoSSy3+qDeZAVlusm6lL7XOU2pOqGGzRK3ydOsA+gF8byh1DpGStqYKk=
+	t=1725678651; cv=none; b=Wkrp4o589JqBLg5eqgmmB1M85t0S2J1Ez+aXyl5GcWdtu0IJvGNiF608mQEXGG4aHa7rmLC6yi0pcUUlZK5pkgTpjHggOIhNrQuYM6g41q4jmfN8bwi8xH4uZUNei71bSRHXtnfzj/DeC9665MgyyB94QsPbACZ/2PU1ftPaDh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725678650; c=relaxed/simple;
-	bh=7W1tcdm2zh5G5w60OHuhn10sbehAYbPyEfodQj/6jmU=;
+	s=arc-20240116; t=1725678651; c=relaxed/simple;
+	bh=QTU7fufNN1BaBlcJYY1qHswGUbgAx/DUxgQa8eGoits=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rQOW2058DqeGeBx2HBTW2rd6ef0W/kse5sUnNiTHP1eKnWYvg8wGlWja7fNAcGrwzfh4pCCwTeG2jHNSeRvMmdxVVrWEiLQ6vRiJ/gI6BTodRZNJ7hfV4mlajq1bAa/plzImYInugxI1kbG64EfZAFBsppCHXbcXkPQEqYt4vA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.189
+	 MIME-Version:Content-Type; b=FHph9qV4yzm/ilCaFYWbZqABaWeF0svkMgrySWl56GXLSPADaRSQjjRJW/pG7OTc/uaBiyca9gieh5f5I7X3Pt7xn2ddgcZrN31JXqzuRyOnKitvn2uxXPrvGcDi4O74WFNBBne7r/h//N5mGlY9VqyZ9uaeSgz6JC8S0m0MrFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.48])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4X0ylm10dwz69NV;
-	Sat,  7 Sep 2024 11:10:44 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.19.88.214])
+	by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4X0yjT4WHVz1xwt7;
+	Sat,  7 Sep 2024 11:08:45 +0800 (CST)
 Received: from kwepemd500012.china.huawei.com (unknown [7.221.188.25])
-	by mail.maildlp.com (Postfix) with ESMTPS id 906F0180064;
-	Sat,  7 Sep 2024 11:10:45 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id 9151D1A016C;
+	Sat,  7 Sep 2024 11:10:47 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemd500012.china.huawei.com
  (7.221.188.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.34; Sat, 7 Sep
- 2024 11:10:44 +0800
+ 2024 11:10:46 +0800
 From: Li Zetao <lizetao1@huawei.com>
 To: <mchehab@kernel.org>, <florian.fainelli@broadcom.com>, <andrew@lunn.ch>,
 	<olteanv@gmail.com>, <davem@davemloft.net>, <edumazet@google.com>,
@@ -42,9 +42,9 @@ CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
 	<linux-sunxi@lists.linux.dev>, <linux-rockchip@lists.infradead.org>,
 	<linux-stm32@st-md-mailman.stormreply.com>,
 	<platform-driver-x86@vger.kernel.org>
-Subject: [PATCH net-next v2 08/10] net: stmmac: dwmac-dwc-qos-eth: Convert using devm_clk_get_enabled() in dwc_qos_probe()
-Date: Sat, 7 Sep 2024 11:19:24 +0800
-Message-ID: <20240907031926.3591353-9-lizetao1@huawei.com>
+Subject: [PATCH net-next v2 10/10] net: xilinx: axienet: Convert using devm_clk_get_optional_enabled() in axienet_probe()
+Date: Sat, 7 Sep 2024 11:19:26 +0800
+Message-ID: <20240907031926.3591353-11-lizetao1@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240907031926.3591353-1-lizetao1@huawei.com>
 References: <20240907031926.3591353-1-lizetao1@huawei.com>
@@ -59,172 +59,65 @@ Content-Type: text/plain
 X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
  kwepemd500012.china.huawei.com (7.221.188.25)
 
-Use devm_clk_get_enabled() instead of devm_clk_get() +
+Use devm_clk_get_optional_enabled() instead of devm_clk_get_optional() +
 clk_prepare_enable(), which can make the clk consistent with the device
 life cycle and reduce the risk of unreleased clk resources. Since the
 device framework has automatically released the clk resource, there is
-no need to execute clk_disable_unprepare(clk) on the error path, drop
-the disable label, and the original error process can return directly.
+no need to execute clk_disable_unprepare(clk) on the error path.
 
-The tegra_eqos_probe() also has similar modifications.
-
+Reviewed-by: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
 Signed-off-by: Li Zetao <lizetao1@huawei.com>
 ---
- .../stmicro/stmmac/dwmac-dwc-qos-eth.c        | 98 ++++---------------
- 1 file changed, 17 insertions(+), 81 deletions(-)
+ drivers/net/ethernet/xilinx/xilinx_axienet_main.c | 15 ++++-----------
+ 1 file changed, 4 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c
-index ec924c6c76c6..d6e9a93771f4 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c
-@@ -123,49 +123,24 @@ static int dwc_qos_probe(struct platform_device *pdev,
- 			 struct plat_stmmacenet_data *plat_dat,
- 			 struct stmmac_resources *stmmac_res)
- {
--	int err;
--
--	plat_dat->stmmac_clk = devm_clk_get(&pdev->dev, "apb_pclk");
-+	plat_dat->stmmac_clk = devm_clk_get_enabled(&pdev->dev, "apb_pclk");
- 	if (IS_ERR(plat_dat->stmmac_clk)) {
- 		dev_err(&pdev->dev, "apb_pclk clock not found.\n");
- 		return PTR_ERR(plat_dat->stmmac_clk);
+diff --git a/drivers/net/ethernet/xilinx/xilinx_axienet_main.c b/drivers/net/ethernet/xilinx/xilinx_axienet_main.c
+index 374dff70ef0d..87c5dcec2325 100644
+--- a/drivers/net/ethernet/xilinx/xilinx_axienet_main.c
++++ b/drivers/net/ethernet/xilinx/xilinx_axienet_main.c
+@@ -2592,22 +2592,17 @@ static int axienet_probe(struct platform_device *pdev)
+ 	seqcount_mutex_init(&lp->hw_stats_seqcount, &lp->stats_lock);
+ 	INIT_DEFERRABLE_WORK(&lp->stats_work, axienet_refresh_stats);
+ 
+-	lp->axi_clk = devm_clk_get_optional(&pdev->dev, "s_axi_lite_clk");
+-	if (!lp->axi_clk) {
++	lp->axi_clk = devm_clk_get_optional_enabled(&pdev->dev, "s_axi_lite_clk");
++	if (!lp->axi_clk)
+ 		/* For backward compatibility, if named AXI clock is not present,
+ 		 * treat the first clock specified as the AXI clock.
+ 		 */
+-		lp->axi_clk = devm_clk_get_optional(&pdev->dev, NULL);
+-	}
++		lp->axi_clk = devm_clk_get_optional_enabled(&pdev->dev, NULL);
++
+ 	if (IS_ERR(lp->axi_clk)) {
+ 		ret = PTR_ERR(lp->axi_clk);
+ 		goto free_netdev;
  	}
- 
--	err = clk_prepare_enable(plat_dat->stmmac_clk);
--	if (err < 0) {
--		dev_err(&pdev->dev, "failed to enable apb_pclk clock: %d\n",
--			err);
--		return err;
+-	ret = clk_prepare_enable(lp->axi_clk);
+-	if (ret) {
+-		dev_err(&pdev->dev, "Unable to enable AXI clock: %d\n", ret);
+-		goto free_netdev;
 -	}
--
--	plat_dat->pclk = devm_clk_get(&pdev->dev, "phy_ref_clk");
-+	plat_dat->pclk = devm_clk_get_enabled(&pdev->dev, "phy_ref_clk");
- 	if (IS_ERR(plat_dat->pclk)) {
- 		dev_err(&pdev->dev, "phy_ref_clk clock not found.\n");
--		err = PTR_ERR(plat_dat->pclk);
--		goto disable;
--	}
--
--	err = clk_prepare_enable(plat_dat->pclk);
--	if (err < 0) {
--		dev_err(&pdev->dev, "failed to enable phy_ref clock: %d\n",
--			err);
--		goto disable;
-+		return PTR_ERR(plat_dat->pclk);
- 	}
  
- 	return 0;
--
--disable:
--	clk_disable_unprepare(plat_dat->stmmac_clk);
--	return err;
+ 	lp->misc_clks[0].id = "axis_clk";
+ 	lp->misc_clks[1].id = "ref_clk";
+@@ -2923,7 +2918,6 @@ static int axienet_probe(struct platform_device *pdev)
+ 		axienet_mdio_teardown(lp);
+ cleanup_clk:
+ 	clk_bulk_disable_unprepare(XAE_NUM_MISC_CLOCKS, lp->misc_clks);
+-	clk_disable_unprepare(lp->axi_clk);
+ 
+ free_netdev:
+ 	free_netdev(ndev);
+@@ -2947,7 +2941,6 @@ static void axienet_remove(struct platform_device *pdev)
+ 	axienet_mdio_teardown(lp);
+ 
+ 	clk_bulk_disable_unprepare(XAE_NUM_MISC_CLOCKS, lp->misc_clks);
+-	clk_disable_unprepare(lp->axi_clk);
+ 
+ 	free_netdev(ndev);
  }
- 
- static void dwc_qos_remove(struct platform_device *pdev)
- {
--	struct net_device *ndev = platform_get_drvdata(pdev);
--	struct stmmac_priv *priv = netdev_priv(ndev);
- 
--	clk_disable_unprepare(priv->plat->pclk);
--	clk_disable_unprepare(priv->plat->stmmac_clk);
- }
- 
- #define SDMEMCOMPPADCTRL 0x8800
-@@ -283,53 +258,27 @@ static int tegra_eqos_probe(struct platform_device *pdev,
- 	if (!is_of_node(dev->fwnode))
- 		goto bypass_clk_reset_gpio;
- 
--	eqos->clk_master = devm_clk_get(&pdev->dev, "master_bus");
--	if (IS_ERR(eqos->clk_master)) {
--		err = PTR_ERR(eqos->clk_master);
--		goto error;
--	}
-+	eqos->clk_master = devm_clk_get_enabled(&pdev->dev, "master_bus");
-+	if (IS_ERR(eqos->clk_master))
-+		return PTR_ERR(eqos->clk_master);
- 
--	err = clk_prepare_enable(eqos->clk_master);
--	if (err < 0)
--		goto error;
--
--	eqos->clk_slave = devm_clk_get(&pdev->dev, "slave_bus");
--	if (IS_ERR(eqos->clk_slave)) {
--		err = PTR_ERR(eqos->clk_slave);
--		goto disable_master;
--	}
-+	eqos->clk_slave = devm_clk_get_enabled(&pdev->dev, "slave_bus");
-+	if (IS_ERR(eqos->clk_slave))
-+		return PTR_ERR(eqos->clk_slave);
- 
- 	data->stmmac_clk = eqos->clk_slave;
- 
--	err = clk_prepare_enable(eqos->clk_slave);
--	if (err < 0)
--		goto disable_master;
--
--	eqos->clk_rx = devm_clk_get(&pdev->dev, "rx");
--	if (IS_ERR(eqos->clk_rx)) {
--		err = PTR_ERR(eqos->clk_rx);
--		goto disable_slave;
--	}
--
--	err = clk_prepare_enable(eqos->clk_rx);
--	if (err < 0)
--		goto disable_slave;
-+	eqos->clk_rx = devm_clk_get_enabled(&pdev->dev, "rx");
-+	if (IS_ERR(eqos->clk_rx))
-+		return PTR_ERR(eqos->clk_rx);
- 
--	eqos->clk_tx = devm_clk_get(&pdev->dev, "tx");
--	if (IS_ERR(eqos->clk_tx)) {
--		err = PTR_ERR(eqos->clk_tx);
--		goto disable_rx;
--	}
--
--	err = clk_prepare_enable(eqos->clk_tx);
--	if (err < 0)
--		goto disable_rx;
-+	eqos->clk_tx = devm_clk_get_enabled(&pdev->dev, "tx");
-+	if (IS_ERR(eqos->clk_tx))
-+		return PTR_ERR(eqos->clk_tx);
- 
- 	eqos->reset = devm_gpiod_get(&pdev->dev, "phy-reset", GPIOD_OUT_HIGH);
--	if (IS_ERR(eqos->reset)) {
--		err = PTR_ERR(eqos->reset);
--		goto disable_tx;
--	}
-+	if (IS_ERR(eqos->reset))
-+		return PTR_ERR(eqos->reset);
- 
- 	usleep_range(2000, 4000);
- 	gpiod_set_value(eqos->reset, 0);
-@@ -370,15 +319,6 @@ static int tegra_eqos_probe(struct platform_device *pdev,
- 	reset_control_assert(eqos->rst);
- reset_phy:
- 	gpiod_set_value(eqos->reset, 1);
--disable_tx:
--	clk_disable_unprepare(eqos->clk_tx);
--disable_rx:
--	clk_disable_unprepare(eqos->clk_rx);
--disable_slave:
--	clk_disable_unprepare(eqos->clk_slave);
--disable_master:
--	clk_disable_unprepare(eqos->clk_master);
--error:
- 	return err;
- }
- 
-@@ -388,10 +328,6 @@ static void tegra_eqos_remove(struct platform_device *pdev)
- 
- 	reset_control_assert(eqos->rst);
- 	gpiod_set_value(eqos->reset, 1);
--	clk_disable_unprepare(eqos->clk_tx);
--	clk_disable_unprepare(eqos->clk_rx);
--	clk_disable_unprepare(eqos->clk_slave);
--	clk_disable_unprepare(eqos->clk_master);
- }
- 
- struct dwc_eth_dwmac_data {
 -- 
 2.34.1
 
