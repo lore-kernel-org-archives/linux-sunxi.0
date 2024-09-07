@@ -1,29 +1,29 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A65C3B1BC
-	for <linux-sunxi@lists.linux.dev>; Sat,  7 Sep 2024 03:01:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B89623D982
+	for <linux-sunxi@lists.linux.dev>; Sat,  7 Sep 2024 03:01:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725678091; cv=none; b=PCnQ68yOAMjqEoE+9uJTVOp0YJFw3xhqNY1Mw3ntByDBdmkBho3eCifhgVYL9Uhbvskn7OlkBlG0c466HAVSZIqVZ45/L83R3C5yth+fwE6jhHjGJOS/QqNNTbJF+i5qWI1QveeGyFZA81ksMbx7kFgNXmduaFfH405VA8Y8Sk0=
+	t=1725678092; cv=none; b=DNVQqnKb+1hUVlfzXM9dmxeams1VEQxoK0TB43SmZvO6ek3R7PFAAbdnEb21BarNSJgh2XOVQJ/zPcoJTAhYvb9O4NEh++fNuLUK5wBFTe2ZJs+BDu0FASKg90ze3LYHLQuyuy8Bz4PW3kzbN0SVM16u+Tw8p9fwF9j7G5F66Fs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725678091; c=relaxed/simple;
-	bh=NTT6omI+1h722IadGdfo3Cu5+r9CNZ+yAF34IF8fqzU=;
+	s=arc-20240116; t=1725678092; c=relaxed/simple;
+	bh=uuPsbGSC03RIrdjCtzWhXiL4H5CVg5+9qxkQe4VXg8M=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hkcbpHzgDwSwLXmmJ97ZbBCpivUY7IdMC4srymtN+UKLfMQ7xZCjCDSBukbax9/uS9jDw/B0wV7clAuBSYzbmQFQv0XzrQrSQlV/0jFu+BLqUarNu3OhiiaKkVmLKvRPCT971/IT3UtGpR6GOmuCpNzk9lqTTfjn5FgUPRf9kAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
+	 MIME-Version:Content-Type; b=CNDo73CoTn3T+C4mWA10ZzSmBfkdAoa12ZxJl2FoszUv24SSgdwCo1RU/6GWF5PvJ7D7Qv/yCemRephynvheEghTGs7yg8AqAyER2M3LRAxHugsMDdgK9ees4ym4FC9G9xJpyAG8yMrl71OUo6mzIoYGoMB6hkKy8yq40nCS/4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.252])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4X0yVp5msjzpVXD;
-	Sat,  7 Sep 2024 10:59:30 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.19.88.214])
+	by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4X0yXV32zwz1S9mZ;
+	Sat,  7 Sep 2024 11:00:58 +0800 (CST)
 Received: from kwepemd500012.china.huawei.com (unknown [7.221.188.25])
-	by mail.maildlp.com (Postfix) with ESMTPS id 7BCF51800CF;
-	Sat,  7 Sep 2024 11:01:27 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id C24471A016C;
+	Sat,  7 Sep 2024 11:01:22 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemd500012.china.huawei.com
  (7.221.188.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.34; Sat, 7 Sep
- 2024 11:01:26 +0800
+ 2024 11:01:21 +0800
 From: Li Zetao <lizetao1@huawei.com>
 To: <mchehab@kernel.org>, <davem@davemloft.net>, <edumazet@google.com>,
 	<kuba@kernel.org>, <pabeni@redhat.com>, <wens@csie.org>,
@@ -41,9 +41,9 @@ CC: <linux-media@vger.kernel.org>, <netdev@vger.kernel.org>,
 	<linux-rockchip@lists.infradead.org>,
 	<linux-stm32@st-md-mailman.stormreply.com>,
 	<platform-driver-x86@vger.kernel.org>
-Subject: [PATCH net-next v2 07/10] net: lantiq_xrx200: Convert using devm_clk_get_enabled() in xrx200_probe()
-Date: Sat, 7 Sep 2024 11:10:06 +0800
-Message-ID: <20240907031009.3591057-9-lizetao1@huawei.com>
+Subject: [PATCH net-next v2 02/10] net: ethernet: Convert using devm_clk_get_enabled() in emac_probe()
+Date: Sat, 7 Sep 2024 11:10:01 +0800
+Message-ID: <20240907031009.3591057-4-lizetao1@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240907031009.3591057-1-lizetao1@huawei.com>
 References: <20240907031009.3591057-1-lizetao1@huawei.com>
@@ -63,66 +63,60 @@ clk_prepare_enable(), which can make the clk consistent with the device
 life cycle and reduce the risk of unreleased clk resources. Since the
 device framework has automatically released the clk resource, there is
 no need to execute clk_disable_unprepare(clk) on the error path, drop
-the err_unprepare_clk label, and the original error process can change to
-the err_uninit_dma error path. Some comments have also been adjusted.
+the out_clk_disable_unprepare label, and the original error process can
+changed to the out_dispose_mapping error path.
 
 Signed-off-by: Li Zetao <lizetao1@huawei.com>
 ---
- drivers/net/ethernet/lantiq_xrx200.c | 17 +++--------------
- 1 file changed, 3 insertions(+), 14 deletions(-)
+ drivers/net/ethernet/allwinner/sun4i-emac.c | 13 ++-----------
+ 1 file changed, 2 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/net/ethernet/lantiq_xrx200.c b/drivers/net/ethernet/lantiq_xrx200.c
-index 07904a528f21..976748551643 100644
---- a/drivers/net/ethernet/lantiq_xrx200.c
-+++ b/drivers/net/ethernet/lantiq_xrx200.c
-@@ -589,8 +589,8 @@ static int xrx200_probe(struct platform_device *pdev)
- 	if (priv->chan_tx.dma.irq < 0)
- 		return -ENOENT;
+diff --git a/drivers/net/ethernet/allwinner/sun4i-emac.c b/drivers/net/ethernet/allwinner/sun4i-emac.c
+index d761c08fe5c1..8f42501729b7 100644
+--- a/drivers/net/ethernet/allwinner/sun4i-emac.c
++++ b/drivers/net/ethernet/allwinner/sun4i-emac.c
+@@ -1005,22 +1005,16 @@ static int emac_probe(struct platform_device *pdev)
+ 	if (emac_configure_dma(db))
+ 		netdev_info(ndev, "configure dma failed. disable dma.\n");
  
--	/* get the clock */
--	priv->clk = devm_clk_get(dev, NULL);
-+	/* get the clock and enable clock gate */
-+	priv->clk = devm_clk_get_enabled(dev, NULL);
- 	if (IS_ERR(priv->clk)) {
- 		dev_err(dev, "failed to get clock\n");
- 		return PTR_ERR(priv->clk);
-@@ -605,11 +605,6 @@ static int xrx200_probe(struct platform_device *pdev)
- 	if (err)
- 		return err;
+-	db->clk = devm_clk_get(&pdev->dev, NULL);
++	db->clk = devm_clk_get_enabled(&pdev->dev, NULL);
+ 	if (IS_ERR(db->clk)) {
+ 		ret = PTR_ERR(db->clk);
+ 		goto out_dispose_mapping;
+ 	}
  
--	/* enable clock gate */
--	err = clk_prepare_enable(priv->clk);
--	if (err)
--		goto err_uninit_dma;
+-	ret = clk_prepare_enable(db->clk);
+-	if (ret) {
+-		dev_err(&pdev->dev, "Error couldn't enable clock (%d)\n", ret);
+-		goto out_dispose_mapping;
+-	}
 -
- 	/* set IPG to 12 */
- 	xrx200_pmac_mask(priv, PMAC_RX_IPG_MASK, 0xb, PMAC_RX_IPG);
+ 	ret = sunxi_sram_claim(&pdev->dev);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "Error couldn't map SRAM to device\n");
+-		goto out_clk_disable_unprepare;
++		goto out_dispose_mapping;
+ 	}
  
-@@ -628,13 +623,10 @@ static int xrx200_probe(struct platform_device *pdev)
+ 	db->phy_node = of_parse_phandle(np, "phy-handle", 0);
+@@ -1068,8 +1062,6 @@ static int emac_probe(struct platform_device *pdev)
  
- 	err = register_netdev(net_dev);
- 	if (err)
--		goto err_unprepare_clk;
-+		goto err_uninit_dma;
+ out_release_sram:
+ 	sunxi_sram_release(&pdev->dev);
+-out_clk_disable_unprepare:
+-	clk_disable_unprepare(db->clk);
+ out_dispose_mapping:
+ 	irq_dispose_mapping(ndev->irq);
+ 	dma_release_channel(db->rx_chan);
+@@ -1095,7 +1087,6 @@ static void emac_remove(struct platform_device *pdev)
  
- 	return 0;
- 
--err_unprepare_clk:
--	clk_disable_unprepare(priv->clk);
--
- err_uninit_dma:
- 	xrx200_hw_cleanup(priv);
- 
-@@ -654,9 +646,6 @@ static void xrx200_remove(struct platform_device *pdev)
- 	/* remove the actual device */
- 	unregister_netdev(net_dev);
- 
--	/* release the clock */
--	clk_disable_unprepare(priv->clk);
--
- 	/* shut down hardware */
- 	xrx200_hw_cleanup(priv);
- }
+ 	unregister_netdev(ndev);
+ 	sunxi_sram_release(&pdev->dev);
+-	clk_disable_unprepare(db->clk);
+ 	irq_dispose_mapping(ndev->irq);
+ 	iounmap(db->membase);
+ 	free_netdev(ndev);
 -- 
 2.34.1
 
