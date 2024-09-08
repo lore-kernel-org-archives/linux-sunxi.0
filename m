@@ -1,104 +1,91 @@
-Received: from msa.smtpout.orange.fr (out-66.smtpout.orange.fr [193.252.22.66])
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29F2C16C86C
-	for <linux-sunxi@lists.linux.dev>; Sun,  8 Sep 2024 13:41:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.22.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3F6F1C01
+	for <linux-sunxi@lists.linux.dev>; Sun,  8 Sep 2024 21:47:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725802914; cv=none; b=LUIatuBG8CsYVPwd9+e2kOSDsKw4EOhdERL9ezVUT/zo6aMyVR5/41uUgj4wEIFL8D0gh5SQQjmSC8srlP1UkzN82/vZ6Nt0bWR+qoD0ykDUKa4lAKzKkfz2nyhyf84s2rhHH3xSvDDtfIZznNxmU7mN2J6IUyMBjo+ecOo2sks=
+	t=1725832076; cv=none; b=NMecGrpXpRrQExvTIFvWjTLo4TKmRE5DUsQHst50x1UgGDjZsaIolzXUY2oyc65CSh7OQvq1WPAnAIB+GnzgCZ95ngqEbRTl/n7yOsJsI9yGSRZQqnpan0yf1kbXKldswgztPpDfZRozvykpv2dGaVnLcfy3+NA9yvZAJVl5NKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725802914; c=relaxed/simple;
-	bh=X54QgKZkowUFWekxz5jn1MXRDbhBtNSUV2+YPjIO3lY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Wl3NeermX0zDqSmSR9A6b5fzl5SbJH2PNsIrXS4eWRie0AGlR0vh72eFvMfcoafQtFnFNu0FwcUify9oqfxaL8TpcaOqigf5Elu7BURPeH8BOUK4TOT7iF69bXlDErzyRTTaPcpOGOfGJKF5Va0KLgDt+8r/noaZ3ZrPuO62wX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=NJ0YRBV6; arc=none smtp.client-ip=193.252.22.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	s=arc-20240116; t=1725832076; c=relaxed/simple;
+	bh=XJ4CSrhgxMN9+EF0tqC13ww61yxAj9wlkBh9vifA1Wo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Wav9K/orVQc9rU7YpUI/XNzvPvYsriwWTjHRNlAwEdgcIWEvQTC46HaM4OU971w2YTmUAvsn4R3t2+JRYSNTsmok0P2Jda+JPAahQgebLJAUW7ttBq4GE0f5ScphQsvf4tWH0IGGN60VKjPMPKzCxDRCNGN8a8si8u0EwgqC01k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RlIHsnlk; arc=none smtp.client-ip=209.85.208.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="NJ0YRBV6"
-Received: from [192.168.1.37] ([90.11.132.44])
-	by smtp.orange.fr with ESMTPA
-	id nGLKsM1d52iYJnGLKsH1eE; Sun, 08 Sep 2024 13:44:38 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1725795878;
-	bh=O7lWOpC+TJoMHHozDCqt61jx1ZWnzh85Y8vzc+JCg+g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=NJ0YRBV61CW3WPmbnIZrQPCymP9w08VhacUQSWX8uzP6PWbTlD3E+pOny5Xqrte9M
-	 df6KYzPaT0u9Npft0iFlsyLDzYetPebXkqCFpkNy5x6uLqcHnsxwup0nZv9/WPELu5
-	 ElUFy7wZWHD2ajTVCQ4acY8o4idmOYECbfAzAULJhwa7cUEc4TioWs+j76WAdc9h81
-	 itckHpGXtwVAqbsgCx5dria+JjWUabOsuJ7gFrTAMGqBYbwAw5AA3juTgg5ZzjP9ZN
-	 6uaWTygyGOrqtxmKR1YqT0rbVY+Z9tIdp4IAKVhM2F4t9vlWCy6NlxrDIh8PmnUmhu
-	 FtqpnHNgaTq4A==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Sun, 08 Sep 2024 13:44:38 +0200
-X-ME-IP: 90.11.132.44
-Message-ID: <eb89a77d-c733-4efd-be19-b95039ae10ee@wanadoo.fr>
-Date: Sun, 8 Sep 2024 13:44:33 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RlIHsnlk"
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2f74e468baeso42573521fa.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 08 Sep 2024 14:47:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725832073; x=1726436873; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MWck7tjojIGtA3jbkTcAOWGGnySDnERm4jXqJmtrvo4=;
+        b=RlIHsnlkjzqNHkFV3rzNE13106kcJWa3yglCdoJIXo0mAqSsaxUCcJFR6Wy/92ihpu
+         jZDIudujUzCns5sJoKeLPN4iuvbZSe00mWFkxfhySmy2WAA6DJDsBYvZ5nYq5R+FS99J
+         j+PidBaG5U7uFiloAK1Lc+5u5DgBYX8EJMJHqb+aEYHHRMXr8Pfe9Dto0lPl7B3lKleF
+         WAJ+mLCG+aWulcoar4UbVmIQRVDnG7bVFVI6cpPT7i6oTpAQbYEmn1WVkLiv96Rx2Zi7
+         MWdTGQmNw8+UQZbGz+sZD5MoOJ50WxnEKxOTYuRzUmAclGgCkW0N0OkOywJG4qbcgfSM
+         2ttQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725832073; x=1726436873;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MWck7tjojIGtA3jbkTcAOWGGnySDnERm4jXqJmtrvo4=;
+        b=X9fNDRb96QStZYq1M7p+NoGtE5v19SEXFp5OiL5k7Gst/AwkumiCiF+LVxniAW7X3v
+         EkqfeRxRQe2a2C021FaJLxiiJBRJdfVHUvTqr8DLPaUj3RwfEj+khypwaogrpyrM+6Cq
+         646mpq8l+i6XNjMxIUTmGiiE0mmxq3n3E/fZeo0Pay/7BbEhuYV3/ddcl5pacnjdjGib
+         RUSo7ntmjGe7cuPrUF5ndc0JLRYF930iM3SmCeZJU7R4MhQMKh5pcUb0KMOA23b5t10N
+         f4ztgoBIJV55LB2+y1X1WLl23BVWxgU8BXqChSXLwURI1H6D3FY4FzxKlskPBE3HUCmr
+         z6dw==
+X-Forwarded-Encrypted: i=1; AJvYcCVt+Sbjc8aL84zDxq11FJftMigIM+6lHSHTwYOPl6tWlR4MtRo2n3WCd+rQWu210FYZg7iol/5WWHmeQg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzryKehTDh+OD13fsST3goXBx5P/y88XxgRgNaFKpIH3um4bgtp
+	LqtKYuzFcPiTLZzZRtgvC1+8zFsk420InxiTJIcF0RU2/+nFfVUX
+X-Google-Smtp-Source: AGHT+IHH5LDq+cJeQo9Iu/YbHJ4F6xDRCHMrQ5Oe3uoIDa6QEvOqs9sr+epk1Zv6hklICrrZK9RnRg==
+X-Received: by 2002:a2e:910a:0:b0:2f1:a30c:cd15 with SMTP id 38308e7fff4ca-2f75b930786mr28087061fa.36.1725832071787;
+        Sun, 08 Sep 2024 14:47:51 -0700 (PDT)
+Received: from localhost.localdomain ([94.19.228.143])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2f75c009a5dsm6094001fa.72.2024.09.08.14.47.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Sep 2024 14:47:51 -0700 (PDT)
+From: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+To: Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Shoji Keita <awaittrot@shjk.jp>,
+	Icenowy Zheng <icenowy@aosc.io>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Andrey Skvortsov <andrej.skvortzov@gmail.com>
+Subject: [PATCH 0/2] Fix magnetometers on PinePhone
+Date: Mon,  9 Sep 2024 00:47:16 +0300
+Message-ID: <20240908214718.36316-1-andrej.skvortzov@gmail.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] iio: adc: Constify struct iio_map
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Chen-Yu Tsai <wens@csie.org>,
- Support Opensource <support.opensource@diasemi.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-References: <5729dc3cc3892ecf0d8ea28c5f7307b34e27493e.1725729801.git.christophe.jaillet@wanadoo.fr>
- <20240908114546.395661ef@jic23-huawei>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20240908114546.395661ef@jic23-huawei>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Le 08/09/2024 à 12:45, Jonathan Cameron a écrit :
-> On Sat,  7 Sep 2024 19:24:46 +0200
-> Christophe JAILLET <christophe.jaillet-39ZsbGIQGT5GWvitb5QawA@public.gmane.org> wrote:
-> 
->> 'struct iio_map' are not modified in these drivers.
->>
->> Constifying this structure moves some data to a read-only section, so
->> increase overall security.
->>
->> In order to do it, the prototype of iio_map_array_register() and
->> devm_iio_map_array_register(), and a few structures that hold a
->> "struct iio_map *" need to be adjusted.
->>
->> On a x86_64, with allmodconfig, as an example:
->> Before:
->> ======
->>     text	   data	    bss	    dec	    hex	filename
->>    21086	    760	      0	  21846	   5556	drivers/iio/adc/axp20x_adc.o
->>
->> After:
->> =====
->>     text	   data	    bss	    dec	    hex	filename
->>    21470	    360	      0	  21830	   5546	drivers/iio/adc/axp20x_adc.o
->>    33842	   1697	    384	  35923	   8c53	drivers/iio/addac/ad74413r.o
-> Cropping was a bit random, given before and after have different files.
+Introduce support for alternative magnetometer (AF8133J) used on new
+batches of PinePhones and define mount-matrix for both magnetometers.
 
-Argh, the 2nd line related to ad74413r.o should be removed. Only the 1st 
-one is relevant.
+Icenowy Zheng (1):
+  arm64: dts: sun50i-a64-pinephone: Add AF8133J to PinePhone
 
-Sorry about that.
+Shoji Keita (1):
+  arm64: dts: sun50i-a64-pinephone: Add mount-matrix for PinePhone
+    magnetometers
 
-> 
-> Anyhow, doesn't matter much, so applied as is.
-> Note this is 6.13 material now.
-> 
-> Thanks,
+ .../dts/allwinner/sun50i-a64-pinephone.dtsi    | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-Thanks,
-
-CJ
-
-> 
-> Jonathan
+-- 
+2.45.2
 
