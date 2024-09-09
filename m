@@ -1,120 +1,91 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB9E8148837
-	for <linux-sunxi@lists.linux.dev>; Mon,  9 Sep 2024 16:31:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AA43136E37
+	for <linux-sunxi@lists.linux.dev>; Mon,  9 Sep 2024 17:17:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725899468; cv=none; b=GkD5s5LqML6PH16FhxkEn0sP3/zz+RGpU7vftNtdMfTKeO4niZRFAmTGq01KrdtlROLFjCPDvfn8faBYKl8gsItOQNOAe9zWnvTmV46GDNkGuD4wskQeNdfjwaMkSo1MyNy44e9f0JzAy97S80giHw81H8akS2IZnmu2Z1lAMGI=
+	t=1725902222; cv=none; b=pJoDh+7D/4gDV07cau7GVJF3AmGAfC0FZWfRtJaAuqJrHwaTW0A9Yd63OtfNFDJeu6DaCS/RipCZ2qGtY5n94WDXBlSihQKCi/LBVZCMl9bjQhX4EhM9AkGGZVXJWMtxUHj1USAQ6Fg7gysrUfbmTqjetU88eqSk/PhXbyflF2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725899468; c=relaxed/simple;
-	bh=GUDL2TE371GbyE5n1pNlV2wQ1gYkMczH7tLNOGHFQIc=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lNoyHvQlW9+wwwlA72yigoJW3Qp47efwrNzxbIZrDvaXjJkWkzy8GtcY9CIjnpnAsOmjxz0wkhN2Cfozy9QqPuCTP0+hko+uJOPR0kUNKX6Kd47snhygo01cfF1L4VTvNpMXWcZuqz8H/0XfE+PJR8XQuRvIiTNcd6bjKOjwP2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=DBiSk+Uo; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1725902222; c=relaxed/simple;
+	bh=J7ZxKBd8GNjoUAMjkac/WKKJV8okz4PGJYbZ3Y3ZgkY=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=avZw4+A9J/4aQYo2I5ib3LMtSBOWEcd5ut0/qIoOg/1lntqjnsDcZ31cBsCFXSYh+v4yfXAFWcVGyT4HSU7eirU1N+7cbPC37o5fsFMb+uv5EBsawRdFzNU2KErWMA1FdBOEjNMozgylahL3DNBpMV4IhhHFz1nEaJ5rhk+lJ1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fyPrg+9F; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="DBiSk+Uo"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 489ApF4e013877;
-	Mon, 9 Sep 2024 11:30:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=6U6qZUIO+sUMJTVje+
-	G598Zd4h5A4XVzroJm81aghfk=; b=DBiSk+UoAnEWIx1O2j/uIljsq0kfRknJiY
-	lCG5jWwliVsZVqXpTpxnX6SCU+JmQ9oZrxENAeXdIrneKzhZ7obYRfTxYTW3magv
-	BgKJkwDh1v2SZDjlOoA2ac4HkppLlzl+PhacmbG6M2/QltrKe+ZbsV9pH88lp1k4
-	K4NU7RzzbQaQCqYntxP54HFLSrT4Lo382m6ZeRBLeiFB3dJNJM/YKnYhq1m05gfg
-	N4XVlGeuHupRdGYavPiK9WUEWWIk1D0VIGmfEqAsAr6sG+XfMu7qb6YyvpMSTGxh
-	AaPDauQTGaclAglzdrD5TpPusAiCGM7/wjtzxR7qklC/Fr+Lwl/w==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 41gk8hsxp1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 09 Sep 2024 11:30:51 -0500 (CDT)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 9 Sep 2024
- 17:30:49 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Mon, 9 Sep 2024 17:30:49 +0100
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 9CBB7820249;
-	Mon,  9 Sep 2024 16:30:49 +0000 (UTC)
-Date: Mon, 9 Sep 2024 17:30:48 +0100
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Jerome Brunet <jbrunet@baylibre.com>
-CC: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        "David
- Rhodes" <david.rhodes@cirrus.com>,
-        Richard Fitzgerald
-	<rf@opensource.cirrus.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
-	<broonie@kernel.org>,
-        Cezary Rojewski <cezary.rojewski@intel.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        Liam Girdwood
-	<liam.r.girdwood@linux.intel.com>,
-        Peter Ujfalusi
-	<peter.ujfalusi@linux.intel.com>,
-        Bard Liao
-	<yung-chuan.liao@linux.intel.com>,
-        Ranjani Sridharan
-	<ranjani.sridharan@linux.intel.com>,
-        Kai Vehmanen
-	<kai.vehmanen@linux.intel.com>,
-        Srinivas Kandagatla
-	<srinivas.kandagatla@linaro.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        "Jernej
- Skrabec" <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>, <linux-sound@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        <alsa-devel@alsa-project.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>
-Subject: Re: [PATCH 01/13] ALSA: pcm: add more sample rate definitions
-Message-ID: <Zt8iuGXyBC3NoYYN@opensource.cirrus.com>
-References: <20240905-alsa-12-24-128-v1-0-8371948d3921@baylibre.com>
- <20240905-alsa-12-24-128-v1-1-8371948d3921@baylibre.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fyPrg+9F"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-20536dcc6e9so29564945ad.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 09 Sep 2024 10:17:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725902221; x=1726507021; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=hauHXk0UHvL9WIL9OJwYkRJrxeJ42bwu7guvi9wUyZ0=;
+        b=fyPrg+9FDTm8thcGx3BHyqMndQBHWLvhqiBp+U3JD86IKK5Dt7UQ13k87IGDZulfyJ
+         Y+hAVTjz+/bRq16Zz0X3tcmfBs+6+sknSXVf2jKcZAOL8orvUf9fLmBOA3Q2PIrDaQXs
+         c0RP0/IvmiMTd/vRKfMqqJs/T0+7BeBWTZiuNNNJuLo3NC+Zb6EIslyb/3AeMx207yhr
+         Hh+lTTabXE/n8j0FKIKU9FyJzWJtgwlTxHmAkCg1skfuWsr4lczWldvfxkHjKZA51pGG
+         NRGS6UNNe1TTHG8JkJNgn1WKRl07NK1OFsf7j5/3hNUVeysR1UI3y1V4f40g+t4lomZj
+         nSMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725902221; x=1726507021;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hauHXk0UHvL9WIL9OJwYkRJrxeJ42bwu7guvi9wUyZ0=;
+        b=GS0wfI5WCG+v50xOcZDusdABK3UOiuTC/8EwPIMPOcup3bE2K/H2szbAHwyPSxfdfT
+         E+Jpr3qvcxDs6agHG2YnaLKhO3CjaThnWFSbjsfVI/+Z8WtxJyvXgxIbKe6KveVAfc23
+         j36585D0SOtjZZWc7xRygLNU6HDXpmzf7K8wOvIMeBqRk+CyPYwITtG5Hr/DzHQM+iMH
+         7HjswjcQ5bTsWK5yvFPEzlgjLjp/amyl+4KupZmVir0Be0xZfi7pcGmxqjgI74um5zNw
+         yLXk1MmycEKzTIvVXyMR38CNhxbW1htGpEkUXCPUvmRrCqi8ceVh5kt7zWjVVycCpiCF
+         neNA==
+X-Forwarded-Encrypted: i=1; AJvYcCU+DOcoF1SNQzkgg5vYgf8wnNsHIGDfy3KdkHnXYm/JsWx/F0aeSx2kAh5q7YwS0babE1H0KDbZ53HJ/Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy1nxkJIMRANQZ+CV6NrBpxfvllRCazOlkThj9899efPyfekM+9
+	0qQnqI2kC6H82bf03BrLb+3+maYS03pTiKohptoGNzK7NCE25WNG
+X-Google-Smtp-Source: AGHT+IHnNeEvODa1Qt6cj+F9ZMmq0nJBVXi/m6bl9hffcSzJHoVbOj9/wfPZtg6NqY9graxO1THDuw==
+X-Received: by 2002:a17:903:120d:b0:205:866d:174f with SMTP id d9443c01a7336-207070002e8mr83668675ad.44.1725902220449;
+        Mon, 09 Sep 2024 10:17:00 -0700 (PDT)
+Received: from ?IPV6:2601:1c2:c184:dc00:6c38:4539:e063:d0ba? ([2601:1c2:c184:dc00:6c38:4539:e063:d0ba])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20710f31729sm36233705ad.261.2024.09.09.10.16.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Sep 2024 10:16:59 -0700 (PDT)
+Message-ID: <08466bb0-4306-4941-97e1-e62ba07d8ea2@gmail.com>
+Date: Mon, 9 Sep 2024 10:16:56 -0700
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20240905-alsa-12-24-128-v1-1-8371948d3921@baylibre.com>
-X-Proofpoint-GUID: YPCWMWTx_zWDnZTmxJDrF_5U1tHpWoN7
-X-Proofpoint-ORIG-GUID: YPCWMWTx_zWDnZTmxJDrF_5U1tHpWoN7
-X-Proofpoint-Spam-Reason: safe
+User-Agent: Mozilla Thunderbird
+From: Sam Edwards <cfsworks@gmail.com>
+Subject: Re: [PATCH v6 3/3] riscv: dts: allwinner: d1: Add thermal sensor
+To: bigunclemax@gmail.com
+Cc: anarsoul@gmail.com, andre.przywara@arm.com, aou@eecs.berkeley.edu,
+ conor+dt@kernel.org, contact@jookia.org, cristian.ciocaltea@collabora.com,
+ daniel.lezcano@linaro.org, devicetree@vger.kernel.org,
+ jernej.skrabec@gmail.com, krzysztof.kozlowski+dt@linaro.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, lukasz.luba@arm.com, mkl@pengutronix.de,
+ palmer@dabbelt.com, paul.walmsley@sifive.com, rafael@kernel.org,
+ robh+dt@kernel.org, rui.zhang@intel.com, samuel@sholland.org,
+ tiny.windzz@gmail.com, wens@csie.org
+References: <20231217210629.131486-4-bigunclemax@gmail.com>
+Content-Language: en-US
+In-Reply-To: <20231217210629.131486-4-bigunclemax@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Sep 05, 2024 at 04:12:52PM +0200, Jerome Brunet wrote:
-> This adds a sample rate definition for 12kHz, 24kHz and 128kHz.
-> 
-> Admittedly, just a few drivers are currently using these sample
-> rates but there is enough of a recurrence to justify adding a definition
-> for them and remove some custom rate constraint code while at it.
-> 
-> The new definitions are not added to the interval definitions, such as
-> SNDRV_PCM_RATE_8000_44100, because it would silently add new supported
-> rates to drivers that may or may not support them. For sure the drivers
-> have not been tested for these new rates so it is better to leave them out
-> of interval definitions.
-> 
-> That being said, the added rates are multiples of well know rates families,
-> it is very likely that a lot of devices out there actually supports them.
-> 
-> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
-> ---
+Hi Maksim,
 
-Almost wonder if a comment with the SNDRV_PCM_RATE_8000_xxx
-defines might also be an idea to warn they don't include all the
-rates, although it is I guess easily seen from the define itself
-so not sure if it might be over kill. But I am happy either way.
+Apologies if I have failed to find a v7 of this patch in my searching, 
+but I'm seeing that patch #3 here was never applied, so Linux still does 
+not enable the thermal sensor in these chips. I just thought I'd give 
+you a heads-up in case you weren't aware. :)
 
-Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-
-Thanks,
-Charles
+Thanks for all your hard work,
+Sam
