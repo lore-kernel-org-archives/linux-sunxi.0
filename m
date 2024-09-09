@@ -1,48 +1,48 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B69F136E28
-	for <linux-sunxi@lists.linux.dev>; Mon,  9 Sep 2024 16:14:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4386014C583
+	for <linux-sunxi@lists.linux.dev>; Mon,  9 Sep 2024 16:24:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725898469; cv=none; b=fllyQ+z2xWqUZc51O/g4bk6nbWW+/iJTaXUVE73HzwiLqYHAhmAX3GoFwzVbP9hn6v1p025MB8F6MuocE+j8R015MVy48KMmw4KQw57kGKS1AvAPgx2GkmsP7720uq3Dy8OHxVis51ghlJ0Rr0kO3FQLps6c9QI8RLPGPshjhig=
+	t=1725899061; cv=none; b=hEz8JmVOvVWixHgGq9jA7Nwkf56wOo2p5J/l+SlbmBACZwRo842AJIq5ISDQNTHcdujG2MlChrbgclqQ1mY8LFaQnr2A0pLYHcEGCJMbWmrXRqtFOFH1kXD5Faf1BA8E0UpcC29uFsSmatzIMtHoCj1v6IrVXKm3Abgwg4ujx18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725898469; c=relaxed/simple;
-	bh=VrRAFzjcKwIsh88F/FkxrhW6vZ1qLxrEu/SiiVbuS5c=;
+	s=arc-20240116; t=1725899061; c=relaxed/simple;
+	bh=0Rh4KmqChPzqTEwbrGqXfSqb6i9rs9C8GBy9+jQDHQw=;
 	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W8SBfg7wvCyadFbNder5aBkQQ37pDnBsHvJjlffgoy9/zj+p4020rrHn2n1eipP+s2V5tI38BxySuq80oliOj5X73m0lbdXYLDNipNeS14C3ptcDD77cBaDfjkkcYThzrsMHttkRfb0dOY8E5eMtlrpeDjjtoxggp+H/vAk635E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=g1tD73zq; arc=none smtp.client-ip=67.231.152.168
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jk2W4kliVUU8Drvl+VPweS97eHn0IG87KlySpjTIajKFK1cvBWx59oS9rdCeqxD79PQpJbpjQubkdZYFki81MqMschwepvIoGW/IqtQ8QRxBuRj7A9uu+nPO7Vd7cxcCyTnGur9tMbHPGwIc513F302cvBh3pBpxZ1OnLfPZFfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=YpBd1XgC; arc=none smtp.client-ip=67.231.149.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="g1tD73zq"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4893U6wt017870;
-	Mon, 9 Sep 2024 11:14:09 -0500
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="YpBd1XgC"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4896dwsf001006;
+	Mon, 9 Sep 2024 11:24:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
 	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=+TxF7gv/3QTNLJRsQ1
-	boHrC4jtsRF3xAKieFb8tX/v0=; b=g1tD73zqDAW5UyYZ/r9/snrIbazZ2Vbe4x
-	/Wz0Pg5oD4NSSqRsYqgbRiJs7wt2wkrnV4jycmFUJ7iO+vk/H1VBYkV5Ki1UAZQr
-	aTxDef3kUaMrqijiizfyiEyCM7iBNlSnygReONW84pDu2VTyCtcI95O9cI41/1vr
-	UK0imKc9A3DAbtdT1TL68bnVZ6PKRn2YuRlhIkoFYHd1Ptw9K0skxshQEWRzmcF+
-	LnhB0YxkERMFwS0CEO6NSY0UsRkPw46WfsDK/Tah1LS4fXTFNLUB/jCVp6+bfl6Y
-	Hp+Wk5IjqpkseDbB9phnAc0zOGObdRgP8T3VFeHWOLL8UVF6Waow==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 41gk8hsx2u-1
+	:references:subject:to; s=PODMain02222019; bh=iJQ6QpbXlFmFTrokEH
+	XawRi6AwzM3shtaMUFaKsiIKQ=; b=YpBd1XgCh84u0CRKwzEoYhHgOoOwIEDlal
+	jr2P0DnO2t4R5SevDkUDcYEfZ3/j91BxhkTD1qLELjfgfN9bLIc71ky5vwlcmKj9
+	9Ymufg2t5/hM+zQm2iocLgLwCG3YjC8XprR6IfO12n7a3ZUkPqZdAfR1bCdRgyak
+	1w5Ky2tZDqCFyGIO+CXxdO4pyPnth8nKnlHN6aKhh9MDbhcTcRHse9bE7oQy4AfD
+	kLNZsqMVGsUYKBEeVGF3eB00me34r+z7FmYMc6aN9s5y7m48rHkLS+jmpc7Ymqv8
+	rRrQwm0hudv2tbDIgC1cadkZjyzBRxrHsMdYgcgUUXVa+HOhevMg==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 41gm7x1uny-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 09 Sep 2024 11:14:09 -0500 (CDT)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+	Mon, 09 Sep 2024 11:24:03 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 9 Sep 2024
- 17:14:07 +0100
+ 17:24:01 +0100
 Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Mon, 9 Sep 2024 17:14:07 +0100
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Mon, 9 Sep 2024 17:24:01 +0100
 Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 99CA7820249;
-	Mon,  9 Sep 2024 16:14:07 +0000 (UTC)
-Date: Mon, 9 Sep 2024 17:14:06 +0100
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 8DEA0820249;
+	Mon,  9 Sep 2024 16:24:01 +0000 (UTC)
+Date: Mon, 9 Sep 2024 17:24:00 +0100
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: Jerome Brunet <jbrunet@baylibre.com>
 CC: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
@@ -73,10 +73,10 @@ CC: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
         <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
         <alsa-devel@alsa-project.org>, <linux-arm-msm@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>
-Subject: Re: [PATCH 12/13] ASoC: cs35l34: drop useless rate contraint
-Message-ID: <Zt8ezoQ+c7RQsVx+@opensource.cirrus.com>
+Subject: Re: [PATCH 06/13] ASoC: cs35l36: drop SNDRV_PCM_RATE_KNOT
+Message-ID: <Zt8hIGzvPIsmZho/@opensource.cirrus.com>
 References: <20240905-alsa-12-24-128-v1-0-8371948d3921@baylibre.com>
- <20240905-alsa-12-24-128-v1-12-8371948d3921@baylibre.com>
+ <20240905-alsa-12-24-128-v1-6-8371948d3921@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -85,79 +85,22 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20240905-alsa-12-24-128-v1-12-8371948d3921@baylibre.com>
-X-Proofpoint-GUID: hCMVSLl-DL3z0Nijst2ymaLrBhwxD4k9
-X-Proofpoint-ORIG-GUID: hCMVSLl-DL3z0Nijst2ymaLrBhwxD4k9
+In-Reply-To: <20240905-alsa-12-24-128-v1-6-8371948d3921@baylibre.com>
+X-Proofpoint-GUID: YzC5zK9-HLCkV04WUzI1FtnUinHTtgDV
+X-Proofpoint-ORIG-GUID: YzC5zK9-HLCkV04WUzI1FtnUinHTtgDV
 X-Proofpoint-Spam-Reason: safe
 
-On Thu, Sep 05, 2024 at 04:13:03PM +0200, Jerome Brunet wrote:
-> The cs35l34 adds a useless rate constraint on startup.
-> It does not set SNDRV_PCM_RATE_KNOT and the rates set are already a subset
-> of the ones provided in the constraint list, so it is a no-op.
+On Thu, Sep 05, 2024 at 04:12:57PM +0200, Jerome Brunet wrote:
+> The custom rate constraint list was necessary to support 12kHz and 24kHz.
+> These rates are now available through SNDRV_PCM_RATE_12000 and
+> SNDRV_PCM_RATE_24000.
 > 
-> >From the rest of the code, it is likely HW supports more than the 32, 44.1
-> and 48kHz listed in CS35L34_RATES but there is no way to know for sure
-> without proper documentation.
-> 
-> Keep the driver as it is for now and just drop the useless constraint.
+> Use them and drop the custom rate constraint rule.
 > 
 > Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
 > ---
-
-Yeah according to the datasheet it should support all the rates
-listed in the cs35l34_src_rates list. But given the weird way
-that CS35L34_RATES is implemented I think you are right best to
-leave it as it is for now, incase there was a reason. Perhaps if
-I find some time I might see if I have one in a draw somewhere in
-the future.
 
 Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
 Thanks,
 Charles
->  sound/soc/codecs/cs35l34.c | 21 ---------------------
->  1 file changed, 21 deletions(-)
-> 
-> diff --git a/sound/soc/codecs/cs35l34.c b/sound/soc/codecs/cs35l34.c
-> index e63a518e3b8e..287b27476a10 100644
-> --- a/sound/soc/codecs/cs35l34.c
-> +++ b/sound/soc/codecs/cs35l34.c
-> @@ -562,26 +562,6 @@ static int cs35l34_pcm_hw_params(struct snd_pcm_substream *substream,
->  	return ret;
->  }
->  
-> -static const unsigned int cs35l34_src_rates[] = {
-> -	8000, 11025, 12000, 16000, 22050, 24000, 32000, 44100, 48000
-> -};
-> -
-> -
-> -static const struct snd_pcm_hw_constraint_list cs35l34_constraints = {
-> -	.count  = ARRAY_SIZE(cs35l34_src_rates),
-> -	.list   = cs35l34_src_rates,
-> -};
-> -
-> -static int cs35l34_pcm_startup(struct snd_pcm_substream *substream,
-> -			       struct snd_soc_dai *dai)
-> -{
-> -
-> -	snd_pcm_hw_constraint_list(substream->runtime, 0,
-> -				SNDRV_PCM_HW_PARAM_RATE, &cs35l34_constraints);
-> -	return 0;
-> -}
-> -
-> -
->  static int cs35l34_set_tristate(struct snd_soc_dai *dai, int tristate)
->  {
->  
-> @@ -639,7 +619,6 @@ static int cs35l34_dai_set_sysclk(struct snd_soc_dai *dai,
->  }
->  
->  static const struct snd_soc_dai_ops cs35l34_ops = {
-> -	.startup = cs35l34_pcm_startup,
->  	.set_tristate = cs35l34_set_tristate,
->  	.set_fmt = cs35l34_set_dai_fmt,
->  	.hw_params = cs35l34_pcm_hw_params,
-> 
-> -- 
-> 2.45.2
-> 
