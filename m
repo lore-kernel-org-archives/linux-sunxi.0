@@ -1,48 +1,48 @@
 Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 647D42C87A
-	for <linux-sunxi@lists.linux.dev>; Mon,  9 Sep 2024 16:27:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB9E8148837
+	for <linux-sunxi@lists.linux.dev>; Mon,  9 Sep 2024 16:31:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725899247; cv=none; b=Mz6TIRnyiKQkbF+d5d65Io0XJjI+xepqVCsrXrLDGUzEwa2jPTR80z1orpSmSwH4K6nmnD4ptifK2NJg3T1oQNHjYC/IvoY5SAIRhstVxyc1oUm/I2SGJula1SYzP9/4PXaXIpei4EschOgkT+OqE5ipvoNJVN3KL38F7LWKJTE=
+	t=1725899468; cv=none; b=GkD5s5LqML6PH16FhxkEn0sP3/zz+RGpU7vftNtdMfTKeO4niZRFAmTGq01KrdtlROLFjCPDvfn8faBYKl8gsItOQNOAe9zWnvTmV46GDNkGuD4wskQeNdfjwaMkSo1MyNy44e9f0JzAy97S80giHw81H8akS2IZnmu2Z1lAMGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725899247; c=relaxed/simple;
-	bh=H0jr+SzHPYKBvJPT/gKmwpTLaQo1a/FuWVAfEnVAPxU=;
+	s=arc-20240116; t=1725899468; c=relaxed/simple;
+	bh=GUDL2TE371GbyE5n1pNlV2wQ1gYkMczH7tLNOGHFQIc=;
 	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=enRD8nmXLjnj0DJMXF7tHWEsPWfNyy1GYUDJ8XnzivSbrY57j5O3T1zIhMI5HL0wyzoMyCWHcEenQbMjGsmBZo2WYDviFE+bJmfrLntz4jbgdbKHVuY3YVZo6zbYGpnsojsFCKXAjZ0QA+YcfHE2MvQAhkG8P8/tyQNZnlt959g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Fzqwn3mr; arc=none smtp.client-ip=67.231.152.168
+	 Content-Type:Content-Disposition:In-Reply-To; b=lNoyHvQlW9+wwwlA72yigoJW3Qp47efwrNzxbIZrDvaXjJkWkzy8GtcY9CIjnpnAsOmjxz0wkhN2Cfozy9QqPuCTP0+hko+uJOPR0kUNKX6Kd47snhygo01cfF1L4VTvNpMXWcZuqz8H/0XfE+PJR8XQuRvIiTNcd6bjKOjwP2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=DBiSk+Uo; arc=none smtp.client-ip=67.231.152.168
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Fzqwn3mr"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="DBiSk+Uo"
 Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4894jfAW028462;
-	Mon, 9 Sep 2024 11:27:11 -0500
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 489ApF4e013877;
+	Mon, 9 Sep 2024 11:30:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
 	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=z4rvLQhreBX1tTyXW/
-	B2/IXr7T8zpQHCXJ3hUqhaUnk=; b=Fzqwn3mrW1ZSfs46JfVbmeX/952TMhHjL2
-	GepVdeGd4v6hqo+5EaXtW9oSYJ8UE7FsTJqw3hrdnbchjcZXkxYrleZr6h4PB7X7
-	b+fAKcdvWIifhmyuFncRGHBG6aCWRkzbvK4NFlZzZ9crLnN2akdc2CQ0Ixp2ZoLd
-	Jcf/QbXMJ5YLL7hO69p4cNmT/XuP0FobWWSD/AAqP/kkMB4ztvG1fFdbrodKsykM
-	6GW8NsoWOAsIx+B8dBvowKqnvocOzbPsa3PDhIMznvBUMjO/etVttOsaadlU4Dkf
-	LbcqP2s5onS2SQ0yPvcyXPY6l7aYjkQXGkb8q986fKGhKbSrtwCQ==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 41gk8hsxjd-1
+	:references:subject:to; s=PODMain02222019; bh=6U6qZUIO+sUMJTVje+
+	G598Zd4h5A4XVzroJm81aghfk=; b=DBiSk+UoAnEWIx1O2j/uIljsq0kfRknJiY
+	lCG5jWwliVsZVqXpTpxnX6SCU+JmQ9oZrxENAeXdIrneKzhZ7obYRfTxYTW3magv
+	BgKJkwDh1v2SZDjlOoA2ac4HkppLlzl+PhacmbG6M2/QltrKe+ZbsV9pH88lp1k4
+	K4NU7RzzbQaQCqYntxP54HFLSrT4Lo382m6ZeRBLeiFB3dJNJM/YKnYhq1m05gfg
+	N4XVlGeuHupRdGYavPiK9WUEWWIk1D0VIGmfEqAsAr6sG+XfMu7qb6YyvpMSTGxh
+	AaPDauQTGaclAglzdrD5TpPusAiCGM7/wjtzxR7qklC/Fr+Lwl/w==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 41gk8hsxp1-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 09 Sep 2024 11:27:11 -0500 (CDT)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+	Mon, 09 Sep 2024 11:30:51 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 9 Sep 2024
- 17:27:09 +0100
+ 17:30:49 +0100
 Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
  anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Mon, 9 Sep 2024 17:27:09 +0100
+ 15.2.1544.9 via Frontend Transport; Mon, 9 Sep 2024 17:30:49 +0100
 Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 6439E820249;
-	Mon,  9 Sep 2024 16:27:09 +0000 (UTC)
-Date: Mon, 9 Sep 2024 17:27:08 +0100
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 9CBB7820249;
+	Mon,  9 Sep 2024 16:30:49 +0000 (UTC)
+Date: Mon, 9 Sep 2024 17:30:48 +0100
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: Jerome Brunet <jbrunet@baylibre.com>
 CC: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
@@ -73,10 +73,10 @@ CC: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
         <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
         <alsa-devel@alsa-project.org>, <linux-arm-msm@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>
-Subject: Re: [PATCH 08/13] ASoC: cs53l30: drop SNDRV_PCM_RATE_KNOT
-Message-ID: <Zt8h3PTmASuz4G+H@opensource.cirrus.com>
+Subject: Re: [PATCH 01/13] ALSA: pcm: add more sample rate definitions
+Message-ID: <Zt8iuGXyBC3NoYYN@opensource.cirrus.com>
 References: <20240905-alsa-12-24-128-v1-0-8371948d3921@baylibre.com>
- <20240905-alsa-12-24-128-v1-8-8371948d3921@baylibre.com>
+ <20240905-alsa-12-24-128-v1-1-8371948d3921@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -85,20 +85,34 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20240905-alsa-12-24-128-v1-8-8371948d3921@baylibre.com>
-X-Proofpoint-GUID: 8GjYTWpfJsCbPlFYmX7IjUPvN4bERpHt
-X-Proofpoint-ORIG-GUID: 8GjYTWpfJsCbPlFYmX7IjUPvN4bERpHt
+In-Reply-To: <20240905-alsa-12-24-128-v1-1-8371948d3921@baylibre.com>
+X-Proofpoint-GUID: YPCWMWTx_zWDnZTmxJDrF_5U1tHpWoN7
+X-Proofpoint-ORIG-GUID: YPCWMWTx_zWDnZTmxJDrF_5U1tHpWoN7
 X-Proofpoint-Spam-Reason: safe
 
-On Thu, Sep 05, 2024 at 04:12:59PM +0200, Jerome Brunet wrote:
-> The custom rate constraint list was necessary to support 12kHz and 24kHz.
-> These rates are now available through SNDRV_PCM_RATE_12000 and
-> SNDRV_PCM_RATE_24000.
+On Thu, Sep 05, 2024 at 04:12:52PM +0200, Jerome Brunet wrote:
+> This adds a sample rate definition for 12kHz, 24kHz and 128kHz.
 > 
-> Use them and drop the custom rate constraint rule.
+> Admittedly, just a few drivers are currently using these sample
+> rates but there is enough of a recurrence to justify adding a definition
+> for them and remove some custom rate constraint code while at it.
+> 
+> The new definitions are not added to the interval definitions, such as
+> SNDRV_PCM_RATE_8000_44100, because it would silently add new supported
+> rates to drivers that may or may not support them. For sure the drivers
+> have not been tested for these new rates so it is better to leave them out
+> of interval definitions.
+> 
+> That being said, the added rates are multiples of well know rates families,
+> it is very likely that a lot of devices out there actually supports them.
 > 
 > Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
 > ---
+
+Almost wonder if a comment with the SNDRV_PCM_RATE_8000_xxx
+defines might also be an idea to warn they don't include all the
+rates, although it is I guess easily seen from the define itself
+so not sure if it might be over kill. But I am happy either way.
 
 Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
