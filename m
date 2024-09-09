@@ -1,99 +1,163 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD9B619BB7;
-	Mon,  9 Sep 2024 15:25:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B69F136E28
+	for <linux-sunxi@lists.linux.dev>; Mon,  9 Sep 2024 16:14:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725895543; cv=none; b=fHIv2wPQK2VRVk7XxZhWfTx1TWpgdHEcnModnRLGj1xxTuY2DFq1d0v0nB3VYdVjFRJLZwYlM+SdHyFdy1XZtXHb5EdCL0JrVlJWv5BbjtSOCzJFeXvAiy6dRayqLY9XaSnl8gi6N4VIOtUDvtJ9syTAXU8Ld8Z1oGqbleT5218=
+	t=1725898469; cv=none; b=fllyQ+z2xWqUZc51O/g4bk6nbWW+/iJTaXUVE73HzwiLqYHAhmAX3GoFwzVbP9hn6v1p025MB8F6MuocE+j8R015MVy48KMmw4KQw57kGKS1AvAPgx2GkmsP7720uq3Dy8OHxVis51ghlJ0Rr0kO3FQLps6c9QI8RLPGPshjhig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725895543; c=relaxed/simple;
-	bh=jMxN4Fl6ZnMlSt04M3dr89+fByKAO4mVkUVIINe02Sw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=JKPkodGdqdM7dhQ9gihmD+t6mK5C+tJ0jv2gWY2Bu3l9zOOUGf7/7TrLNuLwECLPyaZ07VDLVoMgnvVUbAY3fpLy2r4QffPENzVKZfTGPQh0rf6o4ErgMA3NOCkkwRyPsxSSxiXmyU6sT/v3xsSG9hKbc2vcYHd01/q6acXlGbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dG/iZst+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725898469; c=relaxed/simple;
+	bh=VrRAFzjcKwIsh88F/FkxrhW6vZ1qLxrEu/SiiVbuS5c=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=W8SBfg7wvCyadFbNder5aBkQQ37pDnBsHvJjlffgoy9/zj+p4020rrHn2n1eipP+s2V5tI38BxySuq80oliOj5X73m0lbdXYLDNipNeS14C3ptcDD77cBaDfjkkcYThzrsMHttkRfb0dOY8E5eMtlrpeDjjtoxggp+H/vAk635E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=g1tD73zq; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dG/iZst+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 174E5C4CEC5;
-	Mon,  9 Sep 2024 15:25:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725895543;
-	bh=jMxN4Fl6ZnMlSt04M3dr89+fByKAO4mVkUVIINe02Sw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=dG/iZst+guFHDwsPDx9GzQ4zc5dp2bB5lilnL+IkKuJByQK6ucKvjofURcbWxV5L1
-	 jWu3TzAWUFxVRjFXJr1WzWz5Ltsl1eQDQlBlSt2cv3w7gdE+6HPkOwQSZw9m0Gwafs
-	 A6qsTRbrDXKYDogcp/92ajdxjUNoKnEC6lK7dSzuIoMhlJVOUu/9Z+IUmo4/DcDXAr
-	 a2C1MsqGhTbg97vJSEF+RPNtWZmI09Glb+feeVUQzoF3Hq9S9BHcGE7dtmnk98vyGG
-	 MeAtmcrRgIePHVSMUaqijbkL5X5J67l5SJOgbGZtu2fmoETmRH+K5tmmqd+vawo5fP
-	 qeqZUp38IM8vw==
-From: Mark Brown <broonie@kernel.org>
-To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, 
- Andre Przywara <andre.przywara@arm.com>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-sunxi@lists.linux.dev, Chris Morgan <macroalpha82@gmail.com>, 
- John Watts <contact@jookia.org>, Ryan Walklin <ryan@testtoast.com>, 
- Philippe Simons <simons.philippe@gmail.com>
-In-Reply-To: <20240816001824.6028-1-andre.przywara@arm.com>
-References: <20240816001824.6028-1-andre.przywara@arm.com>
-Subject: Re: [PATCH v3 0/3] regulator: Add AXP717 boost support
-Message-Id: <172589553731.1703361.17276333493990928207.b4-ty@kernel.org>
-Date: Mon, 09 Sep 2024 16:25:37 +0100
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="g1tD73zq"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4893U6wt017870;
+	Mon, 9 Sep 2024 11:14:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=+TxF7gv/3QTNLJRsQ1
+	boHrC4jtsRF3xAKieFb8tX/v0=; b=g1tD73zqDAW5UyYZ/r9/snrIbazZ2Vbe4x
+	/Wz0Pg5oD4NSSqRsYqgbRiJs7wt2wkrnV4jycmFUJ7iO+vk/H1VBYkV5Ki1UAZQr
+	aTxDef3kUaMrqijiizfyiEyCM7iBNlSnygReONW84pDu2VTyCtcI95O9cI41/1vr
+	UK0imKc9A3DAbtdT1TL68bnVZ6PKRn2YuRlhIkoFYHd1Ptw9K0skxshQEWRzmcF+
+	LnhB0YxkERMFwS0CEO6NSY0UsRkPw46WfsDK/Tah1LS4fXTFNLUB/jCVp6+bfl6Y
+	Hp+Wk5IjqpkseDbB9phnAc0zOGObdRgP8T3VFeHWOLL8UVF6Waow==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 41gk8hsx2u-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 09 Sep 2024 11:14:09 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 9 Sep 2024
+ 17:14:07 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Mon, 9 Sep 2024 17:14:07 +0100
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 99CA7820249;
+	Mon,  9 Sep 2024 16:14:07 +0000 (UTC)
+Date: Mon, 9 Sep 2024 17:14:06 +0100
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Jerome Brunet <jbrunet@baylibre.com>
+CC: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        "David
+ Rhodes" <david.rhodes@cirrus.com>,
+        Richard Fitzgerald
+	<rf@opensource.cirrus.com>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+	<broonie@kernel.org>,
+        Cezary Rojewski <cezary.rojewski@intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        Liam Girdwood
+	<liam.r.girdwood@linux.intel.com>,
+        Peter Ujfalusi
+	<peter.ujfalusi@linux.intel.com>,
+        Bard Liao
+	<yung-chuan.liao@linux.intel.com>,
+        Ranjani Sridharan
+	<ranjani.sridharan@linux.intel.com>,
+        Kai Vehmanen
+	<kai.vehmanen@linux.intel.com>,
+        Srinivas Kandagatla
+	<srinivas.kandagatla@linaro.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        "Jernej
+ Skrabec" <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>, <linux-sound@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
+        <alsa-devel@alsa-project.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>
+Subject: Re: [PATCH 12/13] ASoC: cs35l34: drop useless rate contraint
+Message-ID: <Zt8ezoQ+c7RQsVx+@opensource.cirrus.com>
+References: <20240905-alsa-12-24-128-v1-0-8371948d3921@baylibre.com>
+ <20240905-alsa-12-24-128-v1-12-8371948d3921@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-99b12
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240905-alsa-12-24-128-v1-12-8371948d3921@baylibre.com>
+X-Proofpoint-GUID: hCMVSLl-DL3z0Nijst2ymaLrBhwxD4k9
+X-Proofpoint-ORIG-GUID: hCMVSLl-DL3z0Nijst2ymaLrBhwxD4k9
+X-Proofpoint-Spam-Reason: safe
 
-On Fri, 16 Aug 2024 01:18:21 +0100, Andre Przywara wrote:
-> This is remainder of the AXP717 fix series, containing support for the
-> boost regulator. This is meant to increase the battery voltage to the 5
-> volts required to provide the USB VBUS power.
-> It's the usual trinity of DT bindings patch (1/3), the MFD part
-> describing the PMIC registers (2/3) and the final patch to model the
-> regulator (3/3).
-> Compared to v2, this drops the merged patches, and just retains the
-> boost related parts. It also changes the internal name of the register
-> to AXP717_MODULE_EN_CONTROL_2, since there is another control register
-> we will need later for battery support.
+On Thu, Sep 05, 2024 at 04:13:03PM +0200, Jerome Brunet wrote:
+> The cs35l34 adds a useless rate constraint on startup.
+> It does not set SNDRV_PCM_RATE_KNOT and the rates set are already a subset
+> of the ones provided in the constraint list, so it is a no-op.
 > 
-> [...]
+> >From the rest of the code, it is likely HW supports more than the 32, 44.1
+> and 48kHz listed in CS35L34_RATES but there is no way to know for sure
+> without proper documentation.
+> 
+> Keep the driver as it is for now and just drop the useless constraint.
+> 
+> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+> ---
 
-Applied to
+Yeah according to the datasheet it should support all the rates
+listed in the cs35l34_src_rates list. But given the weird way
+that CS35L34_RATES is implemented I think you are right best to
+leave it as it is for now, incase there was a reason. Perhaps if
+I find some time I might see if I have one in a draw somewhere in
+the future.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
-
-Thanks!
-
-[1/3] dt-bindings: mfd: x-powers,axp152: add boost regulator
-      commit: b4c21faf69b8eec1016c776be4777f39f194e3b0
-[2/3] mfd: axp20x: AXP717: Add support for boost regulator
-      commit: bb2ac59f8205165fce5aee9135bd1e2ea9b1a74b
-[3/3] regulator: axp20x: AXP717: Add boost regulator
-      commit: 22dfe2ea1d63f15d8b9661e7690ac0a03159db6a
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
 Thanks,
-Mark
-
+Charles
+>  sound/soc/codecs/cs35l34.c | 21 ---------------------
+>  1 file changed, 21 deletions(-)
+> 
+> diff --git a/sound/soc/codecs/cs35l34.c b/sound/soc/codecs/cs35l34.c
+> index e63a518e3b8e..287b27476a10 100644
+> --- a/sound/soc/codecs/cs35l34.c
+> +++ b/sound/soc/codecs/cs35l34.c
+> @@ -562,26 +562,6 @@ static int cs35l34_pcm_hw_params(struct snd_pcm_substream *substream,
+>  	return ret;
+>  }
+>  
+> -static const unsigned int cs35l34_src_rates[] = {
+> -	8000, 11025, 12000, 16000, 22050, 24000, 32000, 44100, 48000
+> -};
+> -
+> -
+> -static const struct snd_pcm_hw_constraint_list cs35l34_constraints = {
+> -	.count  = ARRAY_SIZE(cs35l34_src_rates),
+> -	.list   = cs35l34_src_rates,
+> -};
+> -
+> -static int cs35l34_pcm_startup(struct snd_pcm_substream *substream,
+> -			       struct snd_soc_dai *dai)
+> -{
+> -
+> -	snd_pcm_hw_constraint_list(substream->runtime, 0,
+> -				SNDRV_PCM_HW_PARAM_RATE, &cs35l34_constraints);
+> -	return 0;
+> -}
+> -
+> -
+>  static int cs35l34_set_tristate(struct snd_soc_dai *dai, int tristate)
+>  {
+>  
+> @@ -639,7 +619,6 @@ static int cs35l34_dai_set_sysclk(struct snd_soc_dai *dai,
+>  }
+>  
+>  static const struct snd_soc_dai_ops cs35l34_ops = {
+> -	.startup = cs35l34_pcm_startup,
+>  	.set_tristate = cs35l34_set_tristate,
+>  	.set_fmt = cs35l34_set_dai_fmt,
+>  	.hw_params = cs35l34_pcm_hw_params,
+> 
+> -- 
+> 2.45.2
+> 
