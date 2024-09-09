@@ -1,73 +1,94 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F0B91531C4
-	for <linux-sunxi@lists.linux.dev>; Mon,  9 Sep 2024 19:23:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 630FE189F3E;
+	Mon,  9 Sep 2024 21:01:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725909816; cv=none; b=k6j/yrpsWWugltkxg9rR1ZWosfR6Nqp3j8oZG4n0R0jdjh2xAdnnZQk4+4xxjId+Cz+2bDD3oaW9k/55S7PrWAlDCI6Yl1LUnfsAomlFnajJJieUeMuSHiOiAwANYzYMj0NcZcSvq83j+j656Oy4ZgsY2K4Q81x2Kxw71mE0PwM=
+	t=1725915712; cv=none; b=Yl/qCcrSEHNlv2obRcXOUwZ+WnMZOUPshzBbiMtGeXGx1gtg7IqVIzGVaRse1ZMz79EW+OfzNOPy3tV6QO5BGbPS7Wi2rpDT3bDxzd2ohnwTgUg4fHWKg98kMs/BcFhNRsE4LjVDs7Pb6r8lLyxOmgCkQh8LC4+BHUUxvXpK288=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725909816; c=relaxed/simple;
-	bh=u2RN3vQAYk/XvwmBVDV7ioRu8REE5BqsQ8i7L2NZpoo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tuQju5B761Vh1TUtqF9kxls5dq+gQ8Uyi8gnycKQ0gyWnAp+eNtN6ufJUkU+q83sJxKx4K5KpvnDY0ZNQB05gbIHuT7tuRJVA07+qajLgM2XVxQnY3Mwmh0wNkXJpLT2pJC+BHXhL7hVYNXWao0lakknO9Fcafl38hnwuYYwEzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3EDBF106F;
-	Mon,  9 Sep 2024 12:24:02 -0700 (PDT)
-Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 71BF83F73B;
-	Mon,  9 Sep 2024 12:23:29 -0700 (PDT)
-Date: Mon, 9 Sep 2024 20:23:26 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Sam Edwards <cfsworks@gmail.com>
-Cc: bigunclemax@gmail.com, anarsoul@gmail.com, aou@eecs.berkeley.edu,
- conor+dt@kernel.org, contact@jookia.org, cristian.ciocaltea@collabora.com,
- daniel.lezcano@linaro.org, devicetree@vger.kernel.org,
- jernej.skrabec@gmail.com, krzysztof.kozlowski+dt@linaro.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-sunxi@lists.linux.dev, lukasz.luba@arm.com, mkl@pengutronix.de,
- palmer@dabbelt.com, paul.walmsley@sifive.com, rafael@kernel.org,
- robh+dt@kernel.org, rui.zhang@intel.com, samuel@sholland.org,
- tiny.windzz@gmail.com, wens@csie.org
-Subject: Re: [PATCH v6 3/3] riscv: dts: allwinner: d1: Add thermal sensor
-Message-ID: <20240909202326.59927766@minigeek.lan>
-In-Reply-To: <08466bb0-4306-4941-97e1-e62ba07d8ea2@gmail.com>
-References: <20231217210629.131486-4-bigunclemax@gmail.com>
-	<08466bb0-4306-4941-97e1-e62ba07d8ea2@gmail.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	s=arc-20240116; t=1725915712; c=relaxed/simple;
+	bh=fk1O36vP6EYATpW7zFnE0wBAJf09Xs8FlL14jwq2K04=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=s8v4TYUuS23W+4wR/aG+231F4/z8cLpBUBxEFWE+AU1mJx43pFP+NK0USRGtYF3qEUC0+I+RfeGZWjK3YUUHSlboWUzy+Ebw2+FxZMwYABt0YFBoVjwx+0fEFXwQA8aanlgQiCUIO5XGY4UUPl4iHRHYZOVS5KCAltHtAaCiYsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U83w8q4v; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U83w8q4v"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95DBDC4CEC5;
+	Mon,  9 Sep 2024 21:01:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725915712;
+	bh=fk1O36vP6EYATpW7zFnE0wBAJf09Xs8FlL14jwq2K04=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=U83w8q4vmWuUNWWa8wp6WXXICFHNrWHnRAOLoFaJwf+YGIhqaA4++V14XBYpETLmz
+	 Rrd3E+kOLKplgGDfpABUQym08RyIiH3l4jAbmyk5bBAK0s0gOBxgw2KpqYkk67k29Q
+	 bB2annXHCrM4S5XPhPdfW+/6Ff0w15aInu8EqGFqDTaWc6XH5oDKdHJJFazQNbDIc4
+	 p3AukalcGRDrdrFRfFF1YtRIBR9v1CMyNI+juVxM1lxCtHvdKIJ/p3GvzmaDqMOg0z
+	 e01KB1mHz9lEzQnWY0Dh6JJLHfYFid95AQrKjY5TyB7IUFJ0wwiByyCgketuPB89UX
+	 ftt0aAFvxLWog==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: linux-sound@vger.kernel.org, asahi@lists.linux.dev, 
+ alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org, 
+ patches@opensource.cirrus.com, linux-arm-msm@vger.kernel.org, 
+ linuxppc-dev@lists.ozlabs.org, imx@lists.linux.dev, 
+ linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, sound-open-firmware@alsa-project.org, 
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
+ linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org
+In-Reply-To: <20240909151230.909818-2-u.kleine-koenig@baylibre.com>
+References: <20240909151230.909818-2-u.kleine-koenig@baylibre.com>
+Subject: Re: [PATCH] ASoC: Switch back to struct platform_driver::remove()
+Message-Id: <172591570834.136248.17412626468486255591.b4-ty@kernel.org>
+Date: Mon, 09 Sep 2024 22:01:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.15-dev-99b12
 
-On Mon, 9 Sep 2024 10:16:56 -0700
-Sam Edwards <cfsworks@gmail.com> wrote:
-
-Hi,
-
-> Hi Maksim,
+On Mon, 09 Sep 2024 17:12:30 +0200, Uwe Kleine-König wrote:
+> After commit 0edb555a65d1 ("platform: Make platform_driver::remove()
+> return void") .remove() is (again) the right callback to implement for
+> platform drivers.
 > 
-> Apologies if I have failed to find a v7 of this patch in my searching, 
-> but I'm seeing that patch #3 here was never applied, so Linux still does 
-> not enable the thermal sensor in these chips. I just thought I'd give 
-> you a heads-up in case you weren't aware. :)
-
-There is an unaddressed comment on this patch: to remove the "disabled"
-status line. Sam, feel free to fix this and send the patch again,
-unless Maksim beats you to it.
-
-Cheers,
-Andre
-
+> Convert all drivers below sound/soc to use .remove(), with the eventual
+> goal to drop struct platform_driver::remove_new(). As .remove() and
+> .remove_new() have the same prototypes, conversion is done by just
+> changing the structure member name in the driver initializer.
 > 
-> Thanks for all your hard work,
-> Sam
-> 
+> [...]
+
+Applied to
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: Switch back to struct platform_driver::remove()
+      commit: 130af75b5c05eef4ecd8593371f3e924bcd41241
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
