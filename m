@@ -1,120 +1,299 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DDF417BEC8
-	for <linux-sunxi@lists.linux.dev>; Sun,  8 Sep 2024 21:48:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF5F51AF4FB
+	for <linux-sunxi@lists.linux.dev>; Mon,  9 Sep 2024 07:31:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725832087; cv=none; b=skS6OOEPmjKLkm+sJeUMZWpvapfuySSRKQNCo6TNUw6btifOHusu+Yy0Lm82pDpggxOI7JiemmlpJXqt60P937dY+IAvPFJ8D2q949es0q1bYo1+y+tGajzDnCihixFSHBQf0eYA+gUaSt+v60e8HOBEZ7yH7xi4bmx7f0d4P+g=
+	t=1725867097; cv=none; b=r5D70xHoWAh1OYP2bBG4AmEItZkXAUcEFGE447Bs0eYqLYFPLQ4aQpFgEwYA6Rv510ieIbL4+Yh/OnCVM4EcQdTe/nlc07CiPiZ4qJd+UYjR6HFEvifS1RjjM8f+lu77glpdf2tj4TsYU1ZCz4DqSxE0CjsfyQG8TBh5XrAwHTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725832087; c=relaxed/simple;
-	bh=61A2TmpCBTvA1OQSWxfcDyW9YW/y1h704XtvhNpV7BQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=G9w/eZ9EtUCZ/PvRZ526w8PGf9DQCOAoZxPea25xth4awJ1vW70TpYZlPYnoQAYuW0oYwHvox+8cpFAGfTnQrrgkXlZS8fcdSNzw/eDMaRahdRd7WseeXBKZEryDku2TyTBjsPHbUSssVK+RpaRV0I/st0nu92yMYndj3KKppr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DxdUM3bO; arc=none smtp.client-ip=209.85.208.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1725867097; c=relaxed/simple;
+	bh=gQiHO3f1Zn1rXB9zUJbXdejwW615HN9Fc/TavEGaxCk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XYBN7+NNbT+n4mLLlZJQRpXMc0CstlugT+Pac8UugXfLiVqpot8G/BPm6d3F3sHqM3MxqMWahxdAKKqH5U+JppiXCzY6AxJhQetXWnsSZjnXxhjJrhhO66NcoIwVGYshVTDFpTOjDxv33Ps4q/7+Wmf6pE7974fSCNjfCOp9ALs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=e3w0pG1u; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DxdUM3bO"
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2f75c205e4aso14507191fa.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 08 Sep 2024 14:48:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="e3w0pG1u"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3770320574aso2404943f8f.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 09 Sep 2024 00:31:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725832084; x=1726436884; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+5lHdD1vu8tp19LY7L9NdChS/5uF8VF0FGda3xCecrM=;
-        b=DxdUM3bOZdupE0v46ydkyF6kz5t2G3kexVwruqOwpgZPwpGCapvVbEg5vVbWs9OtIc
-         6ptyiVjAQjS0GOZ9QrZtIQaplT0rXiE2vvzSpZ+5bl9qNDwZgwqnxtVsaNzkXwwZ4nJ7
-         Jf7jJ+3R8HlfuVsorc7CZK9UqR6K/DR/tnjqB4V4uBZWfANHXTqyoSgR5yCtnIq1ZQgC
-         unvVUUHwN3lgUyuFBYuhXdXvixuWB2hNY7Z41P0x/tuueFCCsP9n3ZY543xcDIXKNxtt
-         0W+j/GxO94b/re9pQ87FaIuhyxCZlehA/5px+2gP0RFOQw33OSDSpFsp7lzxoxPNvL67
-         pl/Q==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1725867093; x=1726471893; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=algUI0QLeOROhTSxgwM/XgwQRVsCRfSMXvqmelJBycM=;
+        b=e3w0pG1uO7rs17ixivC6xwrKFBOTmiDiGBipCDextfk14IEEBlQN8KTCjSKNLvTP7n
+         AK2/qkkITZdFVLfP0BrS7/CUYx4SAcy2DmeRtzzqZuqZ+76WLsBIALrD/DMnNG0E+lRf
+         WbdRG0b+AQavjNrLC1NX8D1ROQR8M923m+Tv9HKtwN/yKGtHlnjEBAeC4tIh5AMYJoVW
+         TT01jWiwS340oQ5y185ijcVt1IEWUm0NoqEcbeECiHKYLMyqB+14no3PZPuEKNRLWzEo
+         r99TMKEbhEynAxYtJUJQmg/OPdrSYzJ+n1tIo2xuR90UW6Sf0Jdb2cOCYPg9N2+/kOtM
+         hWIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725832084; x=1726436884;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+5lHdD1vu8tp19LY7L9NdChS/5uF8VF0FGda3xCecrM=;
-        b=taIxeMCYhGrQT3ix+BR3TXXPoax1fWvBg7pj/xMEvuVtCeSgZU5XSW1vMdcxisW2GC
-         F6dKsWw368pjZcFBdgoZu1cXr49T8HMAuKOoq+4MGes0H5d1F/XJxeJEcfr1yen0v3U/
-         YSSsSVgb1A4BXj3oU2lixx+117BfUcTBDxOh62a/BazQ9fAJoetMC3D8x0CBj+vTEyq3
-         TkBAPo8t3Mb20xCSj0loCsokbCyWkvJAPe2Y/3nhlrQEoYaSKSPIKaqVJbW2Li7E7rnn
-         /ws9zX8+7hUFMNyc/aFI2JjFlMHPSRxyZ7dyun0kKOzOueMcScC+EFVqH/pJbVFF0xlg
-         oCQA==
-X-Forwarded-Encrypted: i=1; AJvYcCVbERB9tU6gaHv08S8NYSZf2s42SevRij8fGQUnVKhTGR7pxx/tS8WO7HtAWai/EKOWkPiqaRDvLBmyXg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxPCXfj+x48nHaNo0l0QCq4Fsyb5zYno17gMJ9TFbxuBaSbOlR+
-	P1ffYLhomzawBBx4gPc6yaFwtjOTt0inxXR6cSoSui4YdD985aMf
-X-Google-Smtp-Source: AGHT+IGWrBJfazLT3p6fzD1nzJeGKGktro5pYGcc4Vwm9vZSCn+YQvZnQ7GH/Qcypc5LoLYr8Z+kkg==
-X-Received: by 2002:a05:651c:1543:b0:2f7:614f:7d3e with SMTP id 38308e7fff4ca-2f7614f80b5mr27281081fa.30.1725832083627;
-        Sun, 08 Sep 2024 14:48:03 -0700 (PDT)
-Received: from localhost.localdomain ([94.19.228.143])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2f75c009a5dsm6094001fa.72.2024.09.08.14.48.03
+        d=1e100.net; s=20230601; t=1725867093; x=1726471893;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=algUI0QLeOROhTSxgwM/XgwQRVsCRfSMXvqmelJBycM=;
+        b=OYQjhR4WNhBdhy2+sbXu3CBLRBRGepRHFbKvZop4KyxFpViENmMFRIMaIWYF5STuhQ
+         0qIQ7FxxRQqTftD90FyCgHLOfPqROpS7NtykWKr3BtXS7R1iqnWoybCu9idNJmFFX7H+
+         v+0FcDkL9AjiQm0EHCmmkRy9BUWEyQ8arlBH1VQ9OxcVPq5Dlrh+B2cKNatbEYvCepW3
+         HNCfde04B8c30X7cueKUnFfw99Mte3S4F0Hdor0ZM7rHi2c2XnNUGAC+BhsZVbSNpE1y
+         ogHqaaftJuTkyI9aLszdB4EhRtI2g8UR/RH4XGqbLeBxK5a+cD5HIjI4RmDdWdwTGl0u
+         4mWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUfR+FTrw7y+fKgA+vxxopdVuAo5x/SrElXw+n4oVM8nXfhK3vCzE1gxuJHzMvqOZDLDU2Mzbvs0GLqhg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyLVXS9fTRdb7kq0+vqqBKmPmJZNBdlvJ8CR2YuHuUfrYS0fq2P
+	XiFU9dIlmaOZW17HXGm4ruOl1auKktuDBHoyI470drDnCJuDWN9Z/QfoSHGA8m8=
+X-Google-Smtp-Source: AGHT+IHgaZuUQkXgiW70YsGx6pFN2Q8UnleEfPWXf2SEjd85hOos1vXa+FbgCunpBcCwXced94bUxg==
+X-Received: by 2002:adf:eb92:0:b0:374:c42f:bac1 with SMTP id ffacd0b85a97d-378895c28camr5533266f8f.8.1725867092934;
+        Mon, 09 Sep 2024 00:31:32 -0700 (PDT)
+Received: from localhost (p5dc68d3d.dip0.t-ipconnect.de. [93.198.141.61])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37895649728sm5246202f8f.16.2024.09.09.00.31.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Sep 2024 14:48:03 -0700 (PDT)
-From: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-To: Chen-Yu Tsai <wens@csie.org>,
+        Mon, 09 Sep 2024 00:31:32 -0700 (PDT)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: linux-pwm@vger.kernel.org
+Cc: Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
 	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-riscv@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Shoji Keita <awaittrot@shjk.jp>,
-	Icenowy Zheng <icenowy@aosc.io>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Andrey Skvortsov <andrej.skvortzov@gmail.com>
-Subject: [PATCH 2/2] arm64: dts: sun50i-a64-pinephone: Add mount-matrix for PinePhone magnetometers
-Date: Mon,  9 Sep 2024 00:47:18 +0300
-Message-ID: <20240908214718.36316-3-andrej.skvortzov@gmail.com>
+	linux-tegra@vger.kernel.org
+Subject: [PATCH] pwm: Switch back to struct platform_driver::remove()
+Date: Mon,  9 Sep 2024 09:31:24 +0200
+Message-ID: <20240909073125.382040-2-u.kleine-koenig@baylibre.com>
 X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240908214718.36316-1-andrej.skvortzov@gmail.com>
-References: <20240908214718.36316-1-andrej.skvortzov@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7495; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=gQiHO3f1Zn1rXB9zUJbXdejwW615HN9Fc/TavEGaxCk=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBm3qRNwHXKVLHdqMWmR3m01/w7KD4IOtJZ2S4S3 hYoZ/t4eHWJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZt6kTQAKCRCPgPtYfRL+ TgX3B/94GOc20Ud5SybmEO6X7+ZHeMi2EdjC6V3OaNIZmgYLs5uv92kOlCXXcC9uGt1NMRRw4da V6Es5MQoRRjOhngbOvUMFVEPqQUOPvSvvIcyEqHrdSgNR+kLuwABJwItWQUubgbHEmwrxcsApJL d8lyKl1Uii2vUiElWUwSMzuClaIrfebDrtVoTcsoh5czARG2CZvwwU/6AEELqeVd+7lJ4b/8VpJ HG2TIghljnNvmGk3VBo8ozMkuo65Cn4hujYa2+da01e+XHptnq9s6b12VhJpTX0vOKllydeD9ai cr1LrA1aDC32bvCovGyljSCuwyBq6EVpkStdVsvemLEZPQyX
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 
-From: Shoji Keita <awaittrot@shjk.jp>
+After commit 0edb555a65d1 ("platform: Make platform_driver::remove()
+return void") .remove() is (again) the right callback to implement for
+platform drivers.
 
-For lis3mdl, values are based on datasheet and PCB drawing
-and tested on a real device.
+Convert all pwm drivers to use .remove(), with the eventual goal to drop
+struct platform_driver::remove_new(). As .remove() and .remove_new() have
+the same prototypes, conversion is done by just changing the structure
+member name in the driver initializer.
 
-For af8133j, values are from testing on a real device.
-
-Signed-off-by: Shoji Keita <awaittrot@shjk.jp>
-Signed-off-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
 ---
- arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/pwm/pwm-atmel-hlcdc.c  | 2 +-
+ drivers/pwm/pwm-atmel-tcb.c    | 2 +-
+ drivers/pwm/pwm-clk.c          | 2 +-
+ drivers/pwm/pwm-hibvt.c        | 2 +-
+ drivers/pwm/pwm-img.c          | 2 +-
+ drivers/pwm/pwm-lpc18xx-sct.c  | 2 +-
+ drivers/pwm/pwm-omap-dmtimer.c | 2 +-
+ drivers/pwm/pwm-rcar.c         | 2 +-
+ drivers/pwm/pwm-rockchip.c     | 2 +-
+ drivers/pwm/pwm-sifive.c       | 2 +-
+ drivers/pwm/pwm-sun4i.c        | 2 +-
+ drivers/pwm/pwm-tegra.c        | 2 +-
+ drivers/pwm/pwm-tiecap.c       | 2 +-
+ drivers/pwm/pwm-tiehrpwm.c     | 2 +-
+ 14 files changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-index 66fbb35a7fae9..d35d747292ce6 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-@@ -195,6 +195,9 @@ af8133j: magnetometer@1c {
- 		reset-gpios = <&pio 1 1 GPIO_ACTIVE_LOW>;
- 		avdd-supply = <&reg_dldo1>;
- 		dvdd-supply = <&reg_dldo1>;
-+		mount-matrix = "0", "-1", "0",
-+				"-1", "0", "0",
-+				"0", "0", "-1";
+diff --git a/drivers/pwm/pwm-atmel-hlcdc.c b/drivers/pwm/pwm-atmel-hlcdc.c
+index eb39955a6d77..387a0d1fa4f2 100644
+--- a/drivers/pwm/pwm-atmel-hlcdc.c
++++ b/drivers/pwm/pwm-atmel-hlcdc.c
+@@ -299,7 +299,7 @@ static struct platform_driver atmel_hlcdc_pwm_driver = {
+ 		.pm = pm_ptr(&atmel_hlcdc_pwm_pm_ops),
+ 	},
+ 	.probe = atmel_hlcdc_pwm_probe,
+-	.remove_new = atmel_hlcdc_pwm_remove,
++	.remove = atmel_hlcdc_pwm_remove,
+ };
+ module_platform_driver(atmel_hlcdc_pwm_driver);
  
- 		/* status will be fixed up in firmware */
- 		status = "disabled";
-@@ -206,6 +209,9 @@ lis3mdl: magnetometer@1e {
- 		reg = <0x1e>;
- 		vdd-supply = <&reg_dldo1>;
- 		vddio-supply = <&reg_dldo1>;
-+		mount-matrix = "0", "1", "0",
-+				"-1", "0", "0",
-+				"0", "0", "1";
- 	};
+diff --git a/drivers/pwm/pwm-atmel-tcb.c b/drivers/pwm/pwm-atmel-tcb.c
+index f9a9c12cbcdd..5ee4254d1e48 100644
+--- a/drivers/pwm/pwm-atmel-tcb.c
++++ b/drivers/pwm/pwm-atmel-tcb.c
+@@ -527,7 +527,7 @@ static struct platform_driver atmel_tcb_pwm_driver = {
+ 		.pm = pm_ptr(&atmel_tcb_pwm_pm_ops),
+ 	},
+ 	.probe = atmel_tcb_pwm_probe,
+-	.remove_new = atmel_tcb_pwm_remove,
++	.remove = atmel_tcb_pwm_remove,
+ };
+ module_platform_driver(atmel_tcb_pwm_driver);
  
- 	/* Light/proximity sensor */
+diff --git a/drivers/pwm/pwm-clk.c b/drivers/pwm/pwm-clk.c
+index c19a482d7e28..f8f5af57acba 100644
+--- a/drivers/pwm/pwm-clk.c
++++ b/drivers/pwm/pwm-clk.c
+@@ -130,7 +130,7 @@ static struct platform_driver pwm_clk_driver = {
+ 		.of_match_table = pwm_clk_dt_ids,
+ 	},
+ 	.probe = pwm_clk_probe,
+-	.remove_new = pwm_clk_remove,
++	.remove = pwm_clk_remove,
+ };
+ module_platform_driver(pwm_clk_driver);
+ 
+diff --git a/drivers/pwm/pwm-hibvt.c b/drivers/pwm/pwm-hibvt.c
+index 2eb0b13d4e10..e02ee6383dbc 100644
+--- a/drivers/pwm/pwm-hibvt.c
++++ b/drivers/pwm/pwm-hibvt.c
+@@ -276,7 +276,7 @@ static struct platform_driver hibvt_pwm_driver = {
+ 		.of_match_table = hibvt_pwm_of_match,
+ 	},
+ 	.probe = hibvt_pwm_probe,
+-	.remove_new = hibvt_pwm_remove,
++	.remove = hibvt_pwm_remove,
+ };
+ module_platform_driver(hibvt_pwm_driver);
+ 
+diff --git a/drivers/pwm/pwm-img.c b/drivers/pwm/pwm-img.c
+index d6596583ed4e..71542956feca 100644
+--- a/drivers/pwm/pwm-img.c
++++ b/drivers/pwm/pwm-img.c
+@@ -416,7 +416,7 @@ static struct platform_driver img_pwm_driver = {
+ 		.of_match_table = img_pwm_of_match,
+ 	},
+ 	.probe = img_pwm_probe,
+-	.remove_new = img_pwm_remove,
++	.remove = img_pwm_remove,
+ };
+ module_platform_driver(img_pwm_driver);
+ 
+diff --git a/drivers/pwm/pwm-lpc18xx-sct.c b/drivers/pwm/pwm-lpc18xx-sct.c
+index 04b76d257fd8..f351baa63453 100644
+--- a/drivers/pwm/pwm-lpc18xx-sct.c
++++ b/drivers/pwm/pwm-lpc18xx-sct.c
+@@ -446,7 +446,7 @@ static struct platform_driver lpc18xx_pwm_driver = {
+ 		.of_match_table = lpc18xx_pwm_of_match,
+ 	},
+ 	.probe = lpc18xx_pwm_probe,
+-	.remove_new = lpc18xx_pwm_remove,
++	.remove = lpc18xx_pwm_remove,
+ };
+ module_platform_driver(lpc18xx_pwm_driver);
+ 
+diff --git a/drivers/pwm/pwm-omap-dmtimer.c b/drivers/pwm/pwm-omap-dmtimer.c
+index e514f3614c43..1858a77401f8 100644
+--- a/drivers/pwm/pwm-omap-dmtimer.c
++++ b/drivers/pwm/pwm-omap-dmtimer.c
+@@ -455,7 +455,7 @@ static struct platform_driver pwm_omap_dmtimer_driver = {
+ 		.of_match_table = pwm_omap_dmtimer_of_match,
+ 	},
+ 	.probe = pwm_omap_dmtimer_probe,
+-	.remove_new = pwm_omap_dmtimer_remove,
++	.remove = pwm_omap_dmtimer_remove,
+ };
+ module_platform_driver(pwm_omap_dmtimer_driver);
+ 
+diff --git a/drivers/pwm/pwm-rcar.c b/drivers/pwm/pwm-rcar.c
+index 4cfecd88ede0..2261789cc27d 100644
+--- a/drivers/pwm/pwm-rcar.c
++++ b/drivers/pwm/pwm-rcar.c
+@@ -253,7 +253,7 @@ MODULE_DEVICE_TABLE(of, rcar_pwm_of_table);
+ 
+ static struct platform_driver rcar_pwm_driver = {
+ 	.probe = rcar_pwm_probe,
+-	.remove_new = rcar_pwm_remove,
++	.remove = rcar_pwm_remove,
+ 	.driver = {
+ 		.name = "pwm-rcar",
+ 		.of_match_table = rcar_pwm_of_table,
+diff --git a/drivers/pwm/pwm-rockchip.c b/drivers/pwm/pwm-rockchip.c
+index 0fa7575dbb54..c5f50e5eaf41 100644
+--- a/drivers/pwm/pwm-rockchip.c
++++ b/drivers/pwm/pwm-rockchip.c
+@@ -386,7 +386,7 @@ static struct platform_driver rockchip_pwm_driver = {
+ 		.of_match_table = rockchip_pwm_dt_ids,
+ 	},
+ 	.probe = rockchip_pwm_probe,
+-	.remove_new = rockchip_pwm_remove,
++	.remove = rockchip_pwm_remove,
+ };
+ module_platform_driver(rockchip_pwm_driver);
+ 
+diff --git a/drivers/pwm/pwm-sifive.c b/drivers/pwm/pwm-sifive.c
+index ed7957cc51fd..d5b647e6be78 100644
+--- a/drivers/pwm/pwm-sifive.c
++++ b/drivers/pwm/pwm-sifive.c
+@@ -336,7 +336,7 @@ MODULE_DEVICE_TABLE(of, pwm_sifive_of_match);
+ 
+ static struct platform_driver pwm_sifive_driver = {
+ 	.probe = pwm_sifive_probe,
+-	.remove_new = pwm_sifive_remove,
++	.remove = pwm_sifive_remove,
+ 	.driver = {
+ 		.name = "pwm-sifive",
+ 		.of_match_table = pwm_sifive_of_match,
+diff --git a/drivers/pwm/pwm-sun4i.c b/drivers/pwm/pwm-sun4i.c
+index 5c29590d1821..e60dc7d6b591 100644
+--- a/drivers/pwm/pwm-sun4i.c
++++ b/drivers/pwm/pwm-sun4i.c
+@@ -493,7 +493,7 @@ static struct platform_driver sun4i_pwm_driver = {
+ 		.of_match_table = sun4i_pwm_dt_ids,
+ 	},
+ 	.probe = sun4i_pwm_probe,
+-	.remove_new = sun4i_pwm_remove,
++	.remove = sun4i_pwm_remove,
+ };
+ module_platform_driver(sun4i_pwm_driver);
+ 
+diff --git a/drivers/pwm/pwm-tegra.c b/drivers/pwm/pwm-tegra.c
+index a3d69976148f..172063b51d44 100644
+--- a/drivers/pwm/pwm-tegra.c
++++ b/drivers/pwm/pwm-tegra.c
+@@ -432,7 +432,7 @@ static struct platform_driver tegra_pwm_driver = {
+ 		.pm = &tegra_pwm_pm_ops,
+ 	},
+ 	.probe = tegra_pwm_probe,
+-	.remove_new = tegra_pwm_remove,
++	.remove = tegra_pwm_remove,
+ };
+ 
+ module_platform_driver(tegra_pwm_driver);
+diff --git a/drivers/pwm/pwm-tiecap.c b/drivers/pwm/pwm-tiecap.c
+index d6c2b1b1387e..d91b2bdc88fc 100644
+--- a/drivers/pwm/pwm-tiecap.c
++++ b/drivers/pwm/pwm-tiecap.c
+@@ -324,7 +324,7 @@ static struct platform_driver ecap_pwm_driver = {
+ 		.pm = pm_ptr(&ecap_pwm_pm_ops),
+ 	},
+ 	.probe = ecap_pwm_probe,
+-	.remove_new = ecap_pwm_remove,
++	.remove = ecap_pwm_remove,
+ };
+ module_platform_driver(ecap_pwm_driver);
+ 
+diff --git a/drivers/pwm/pwm-tiehrpwm.c b/drivers/pwm/pwm-tiehrpwm.c
+index e5104725d9b7..0125e73b98df 100644
+--- a/drivers/pwm/pwm-tiehrpwm.c
++++ b/drivers/pwm/pwm-tiehrpwm.c
+@@ -603,7 +603,7 @@ static struct platform_driver ehrpwm_pwm_driver = {
+ 		.pm = pm_ptr(&ehrpwm_pwm_pm_ops),
+ 	},
+ 	.probe = ehrpwm_pwm_probe,
+-	.remove_new = ehrpwm_pwm_remove,
++	.remove = ehrpwm_pwm_remove,
+ };
+ module_platform_driver(ehrpwm_pwm_driver);
+ 
+
+base-commit: 9aaeb87ce1e966169a57f53a02ba05b30880ffb8
 -- 
 2.45.2
 
