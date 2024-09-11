@@ -1,146 +1,322 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59013142E9D
-	for <linux-sunxi@lists.linux.dev>; Wed, 11 Sep 2024 12:20:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FF50186E24
+	for <linux-sunxi@lists.linux.dev>; Wed, 11 Sep 2024 12:41:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726057256; cv=none; b=lV1v6tH6UMio2Zw54Np2z4xMJw7pWm0z12oo38BUnm0FCGV8IB6dcfJxNXV69MatVfDIgh/7WgjNNDEavxBmb2vwwxt4TFwANl98uTWkT/H9f/i3KiMK3k11UACejyovjHoomn2jG5bHA1F5qKQK87X6KC0Kwwl+ru31S4F/UEk=
+	t=1726058505; cv=none; b=bVLQ45Xcmn+5xX9yCqKK+SzlC9FwxpN51tEZU93hyDvRP2XubGJMm1fAF+EAW+ZQjyvTgYeVK0MCk+ZgybyeO2Fz02M7WtT/tskiZFyVed2YWE06aFAzdTcSpaxZETkqJvvIJvEWlD4nF/SNMds7KuouobexvlvKlmfPbDDL2vY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726057256; c=relaxed/simple;
-	bh=+OtcHmKqOaBrLslEHoDVuszHtt0pMfNdMC/JAAqio6s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XQTJZ//boHNwQv+NiJLTzj3GFWbirfEyvomTSInEaYPKJKHZOwMUsLetGjoJdumYay/LD9cKQCglszIWs/wgph8SpbzIqaSjLXUHUF8SEjTtnt0sjAj7A1jyMe9TBS9qK5zlvI7BtokN6K8MMr9JptIHJaM8cExgPYttmZ6iOpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=htt+uc7F; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1726058505; c=relaxed/simple;
+	bh=RyZvahY/myfe8+jD8IB+VfIzKap/KOSNCMHgZR0X7u0=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FyN5hl7N4fNaccTxhiiBmEauIOntb1NDT/Wh3Iu7SHsTAD21c2immt17mTEBB5q+F55ZvPjBRuQkebP2W82teUTEhG3YW5y9F1XM3LGooyPKLlPyAprT7ywRco7V0tC4AX4S0feo4kYrXF8jXWFaMw4yWWp1rKVDh+QgV1ySl7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pZ9EfykG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1qiv1TY6; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pZ9EfykG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1qiv1TY6; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="htt+uc7F"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1726057253;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pZ9EfykG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1qiv1TY6";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pZ9EfykG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1qiv1TY6"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6622021B67;
+	Wed, 11 Sep 2024 12:41:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1726058500; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=n3lZx7MOn0cvUlutwjGz/taR5dti/49PxN0KWJf8nvQ=;
-	b=htt+uc7FawBknmj+/gAVNMAaOSOMhA65rcwT+vA1p+iYQx+z+Gch/R1+20hzjPkrTyo2mL
-	cESKq6w3H9WafGaFuOYfGdagRI1rIt7ZQVBDP4ATsLGpwhILR9TE6hScqaC4e1wQB3TAEf
-	HcwNwNoh4rPLM+wEfJPaiN/R3sNTshI=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-322-8Ubb9ZBSO42t35HoZjbzvw-1; Wed, 11 Sep 2024 08:20:52 -0400
-X-MC-Unique: 8Ubb9ZBSO42t35HoZjbzvw-1
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-a8a84b60255so426068566b.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 11 Sep 2024 05:20:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726057251; x=1726662051;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=n3lZx7MOn0cvUlutwjGz/taR5dti/49PxN0KWJf8nvQ=;
-        b=tMU+WAiyCx7+XCSm2n6TELgr5Wu+mZxh0F+FTvgyUI07PMq87uX0zUph2M/71t2v/v
-         kHgrqV1CrnugmV7BIEcgVBqKZMMXTKj09QRNgLinWgEzQouVmP64M04qD8BCsi+hwpSN
-         +32AkbV7HDdjFoQ+HDbiLP4iRfr0QdEoNEVBjdPMhj3Nl7XoX277H+J6MtwNDsv8lpRz
-         KltHXVpyepCuMol1NGli8V09+CdErf+mQs1VJXhlhVSIjzxHV24w8WbPi2QEX+Mi+uGY
-         Y37nMRr5fynPzr5X18zFemhpxeCjWs+Z5Bs78SmUWSS29VrsdDBxZvMqQbUPcIcmv/Ow
-         nPYw==
-X-Forwarded-Encrypted: i=1; AJvYcCUZjTcJ3chPlhvNI6fQDY5cbrF7GiWji3aXU4H39cvIFSHWgEC6imokZSHvoTfO/Zdxa2YZE50L4HfobQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw0coCGS9YHglqfdc1UFk5xZ2bHdv4NbAMBxbw0qD3r1zSq8tkb
-	1aKAR6TEU1G8b9Ty8LAE1QiqDgzk+X+CSmu8Gx09oCi7T9+pekVDlSyz4KFPrVVj0hqG1i3CFOL
-	liQNstw2aQe0Kibk+XG0DAwKYVooovOg5K3K7Sls8JnAMofDtiqghTAvX0gJB
-X-Received: by 2002:a17:907:c27:b0:a7a:9a78:4b5a with SMTP id a640c23a62f3a-a8ffad9da29mr446884566b.52.1726057250859;
-        Wed, 11 Sep 2024 05:20:50 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEse7/q3fks/g38TDGilxuqdMvvKGvYQPRWSe7VE2frNIQ+csBboiwxRmv/9sL6IOGSSY5V2w==
-X-Received: by 2002:a17:907:c27:b0:a7a:9a78:4b5a with SMTP id a640c23a62f3a-a8ffad9da29mr446880566b.52.1726057250314;
-        Wed, 11 Sep 2024 05:20:50 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8d259c76e2sm605309766b.79.2024.09.11.05.20.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Sep 2024 05:20:49 -0700 (PDT)
-Message-ID: <1d0478b2-efdf-4c1f-bf2c-a5cb2214168c@redhat.com>
-Date: Wed, 11 Sep 2024 14:20:48 +0200
+	bh=ErcldMOomOuYMXEhRc5d4j1g98Z9A7bYRweDzdDbWwA=;
+	b=pZ9EfykGEMzAaT8f+YITRoX4M3xwnk7GZuqwMSdzcrTSBOMTcWGdIh5c44fYo+VCkFoFxG
+	I+5yCIwAFdXXGLq2a0fz008kVpI2DVEWvyMc81D8VugSVvT3mJhTe6EcMxWMtMyRRF93RS
+	xc/veb3x7OHSSPe5oWwIoR6DmLoBBr8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1726058500;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ErcldMOomOuYMXEhRc5d4j1g98Z9A7bYRweDzdDbWwA=;
+	b=1qiv1TY6EKyoLfe79gLTWVuGlXQrW+fEUnSbHw3cphr75btCRfG0Q/nav8+K7StGoZwu4k
+	QgIJuTA9CuE+qHDA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1726058500; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ErcldMOomOuYMXEhRc5d4j1g98Z9A7bYRweDzdDbWwA=;
+	b=pZ9EfykGEMzAaT8f+YITRoX4M3xwnk7GZuqwMSdzcrTSBOMTcWGdIh5c44fYo+VCkFoFxG
+	I+5yCIwAFdXXGLq2a0fz008kVpI2DVEWvyMc81D8VugSVvT3mJhTe6EcMxWMtMyRRF93RS
+	xc/veb3x7OHSSPe5oWwIoR6DmLoBBr8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1726058500;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ErcldMOomOuYMXEhRc5d4j1g98Z9A7bYRweDzdDbWwA=;
+	b=1qiv1TY6EKyoLfe79gLTWVuGlXQrW+fEUnSbHw3cphr75btCRfG0Q/nav8+K7StGoZwu4k
+	QgIJuTA9CuE+qHDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B9193132CB;
+	Wed, 11 Sep 2024 12:41:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 263AKwOQ4WZxMwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 11 Sep 2024 12:41:39 +0000
+Date: Wed, 11 Sep 2024 14:42:27 +0200
+Message-ID: <87ldzy2wgc.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Jaroslav Kysela <perex@perex.cz>
+Cc: =?ISO-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,	Jerome Brunet
+ <jbrunet@baylibre.com>,	Takashi Iwai <tiwai@suse.com>,	David Rhodes
+ <david.rhodes@cirrus.com>,	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,	Mark Brown <broonie@kernel.org>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,	Liam Girdwood
+ <liam.r.girdwood@linux.intel.com>,	Bard Liao
+ <yung-chuan.liao@linux.intel.com>,	Ranjani Sridharan
+ <ranjani.sridharan@linux.intel.com>,	Kai Vehmanen
+ <kai.vehmanen@linux.intel.com>,	Srinivas Kandagatla
+ <srinivas.kandagatla@linaro.org>,	Chen-Yu Tsai <wens@csie.org>,	Jernej
+ Skrabec <jernej.skrabec@gmail.com>,	Samuel Holland <samuel@sholland.org>,
+	linux-sound@vger.kernel.org,	linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com,	alsa-devel@alsa-project.org,
+	linux-arm-msm@vger.kernel.org,	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 01/13] ALSA: pcm: add more sample rate definitions
+In-Reply-To: <4f58ebe8-78fe-41f3-9fc6-720d314c026e@perex.cz>
+References: <20240905-alsa-12-24-128-v1-0-8371948d3921@baylibre.com>
+	<20240905-alsa-12-24-128-v1-1-8371948d3921@baylibre.com>
+	<1ab3efaa-863c-4dd0-8f81-b50fd9775fad@linux.intel.com>
+	<87ed5q4kbe.wl-tiwai@suse.de>
+	<5c309853-c82c-475e-b8c2-fcdcfde20efc@linux.intel.com>
+	<87y13y31kq.wl-tiwai@suse.de>
+	<4f58ebe8-78fe-41f3-9fc6-720d314c026e@perex.cz>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH -next v2] platform/olpc: Remove redundant null pointer
- checks in olpc_ec_setup_debugfs()
-To: Li Zetao <lizetao1@huawei.com>, mchehab@kernel.org, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, wens@csie.org,
- jernej.skrabec@gmail.com, samuel@sholland.org, heiko@sntech.de,
- yisen.zhuang@huawei.com, salil.mehta@huawei.com, hauke@hauke-m.de,
- alexandre.torgue@foss.st.com, joabreu@synopsys.com,
- mcoquelin.stm32@gmail.com, wellslutw@gmail.com, radhey.shyam.pandey@amd.com,
- michal.simek@amd.com, ilpo.jarvinen@linux.intel.com, ruanjinjie@huawei.com,
- hverkuil-cisco@xs4all.nl, u.kleine-koenig@pengutronix.de,
- jacky_chou@aspeedtech.com, jacob.e.keller@intel.com
-Cc: linux-media@vger.kernel.org, netdev@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-rockchip@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, platform-driver-x86@vger.kernel.org
-References: <20240907031009.3591057-1-lizetao1@huawei.com>
- <20240907031009.3591057-2-lizetao1@huawei.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20240907031009.3591057-2-lizetao1@huawei.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -1.80
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TAGGED_RCPT(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[linux.intel.com,baylibre.com,suse.com,cirrus.com,opensource.cirrus.com,gmail.com,kernel.org,intel.com,linaro.org,csie.org,sholland.org,vger.kernel.org,alsa-project.org,lists.infradead.org,lists.linux.dev];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-Hi,
-
-On 9/7/24 5:09 AM, Li Zetao wrote:
-> Since the debugfs_create_dir() never returns a null pointer, checking
-> the return value for a null pointer is redundant. Since
-> debugfs_create_file() can deal with a ERR_PTR() style pointer, drop
-> the check.
+On Wed, 11 Sep 2024 12:58:53 +0200,
+Jaroslav Kysela wrote:
 > 
-> Signed-off-by: Li Zetao <lizetao1@huawei.com>
-
-Thank you for your patch, I've applied this patch to my review-hans 
-branch:
-https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
-
-Note it will show up in my review-hans branch once I've pushed my
-local branch there, which might take a while.
-
-Once I've run some tests on this branch the patches there will be
-added to the platform-drivers-x86/for-next branch and eventually
-will be included in the pdx86 pull-request to Linus for the next
-merge-window.
-
-Regards,
-
-Hans
-
-
-
-
-> ---
-> v1 -> v2:
-> v1:
-> https://lore.kernel.org/all/20240903143714.2004947-1-lizetao1@huawei.com/
+> On 11. 09. 24 12:51, Takashi Iwai wrote:
+> > On Wed, 11 Sep 2024 12:33:01 +0200,
+> > Péter Ujfalusi wrote:
+> >> 
+> >> On 11/09/2024 12:21, Takashi Iwai wrote:
+> >>>> Wondering if this is backwards compatible with the alsa-lib definitions,
+> >>>> specifically the topology parts which did unfortunately have a list of
+> >>>> rates that will map to a different index now:
+> >>>> 
+> >>>> 
+> >>>> typedef enum _snd_pcm_rates {
+> >>>> 	SND_PCM_RATE_UNKNOWN = -1,
+> >>>> 	SND_PCM_RATE_5512 = 0,
+> >>>> 	SND_PCM_RATE_8000,
+> >>>> 	SND_PCM_RATE_11025,
+> >>>> 	SND_PCM_RATE_16000,
+> >>>> 	SND_PCM_RATE_22050,
+> >>>> 	SND_PCM_RATE_32000,
+> >>>> 	SND_PCM_RATE_44100,
+> >>>> 	SND_PCM_RATE_48000,
+> >>>> 	SND_PCM_RATE_64000,
+> >>>> 	SND_PCM_RATE_88200,
+> >>>> 	SND_PCM_RATE_96000,
+> >>>> 	SND_PCM_RATE_176400,
+> >>>> 	SND_PCM_RATE_192000,
+> >>>> 	SND_PCM_RATE_CONTINUOUS = 30,
+> >>>> 	SND_PCM_RATE_KNOT = 31,
+> >>>> 	SND_PCM_RATE_LAST = SND_PCM_RATE_KNOT,
+> >>>> } snd_pcm_rates_t;
+> >>> 
+> >>> As far as I understand correctly, those rate bits used for topology
+> >>> are independent from the bits used for PCM core, although it used to
+> >>> be the same.  Maybe better to rename (such as SND_TPLG_RATE_*) so that
+> >>> it's clearer only for topology stuff.
+> >> 
+> >> Even if we rename these in alsa-lib we will need translation from
+> >> SND_TPLG_RATE_ to SND_PCM_RATE_ in kernel likely?
+> >> 
+> >> The topology files are out there and this is an ABI...
+> >> 
+> >>> But it'd be better if anyone can double-check.
+> >> 
+> >> Since the kernel just copies the rates bitfield, any rate above 11025
+> >> will be misaligned and result broken setup.
+> > 
+> > Yep, I noticed it now, too.
+> > 
+> > Below is the fix patch, totally untested.
+> > It'd be appreciated if anyone can test it quickly.
+> > 
+> > 
+> > thanks,
+> > 
+> > Takashi
+> > 
+> > -- 8< --
+> > From: Takashi Iwai <tiwai@suse.de>
+> > Subject: [PATCH] ALSA: pcm: Fix breakage of PCM rates used for topology
+> > 
+> > It turned out that the topology ABI takes the standard PCM rate bits
+> > as is, and it means that the recent change of the PCM rate bits would
+> > lead to the inconsistent rate values used for topology.
+> > 
+> > This patch reverts the original PCM rate bit definitions while adding
+> > the new rates to the extended bits instead.  This needed the change of
+> > snd_pcm_known_rates, too.  And this also required to fix the handling
+> > in snd_pcm_hw_limit_rates() that blindly assumed that the list is
+> > sorted while it became unsorted now.
+> > 
+> > Fixes: 090624b7dc83 ("ALSA: pcm: add more sample rate definitions")
+> > Signed-off-by: Takashi Iwai <tiwai@suse.de>
 > 
->  drivers/platform/olpc/olpc-ec.c | 3 ---
->  1 file changed, 3 deletions(-)
-> 
-> diff --git a/drivers/platform/olpc/olpc-ec.c b/drivers/platform/olpc/olpc-ec.c
-> index 921520475ff6..48e9861bb571 100644
-> --- a/drivers/platform/olpc/olpc-ec.c
-> +++ b/drivers/platform/olpc/olpc-ec.c
-> @@ -332,9 +332,6 @@ static struct dentry *olpc_ec_setup_debugfs(void)
->  	struct dentry *dbgfs_dir;
->  
->  	dbgfs_dir = debugfs_create_dir("olpc-ec", NULL);
-> -	if (IS_ERR_OR_NULL(dbgfs_dir))
-> -		return NULL;
-> -
->  	debugfs_create_file("cmd", 0600, dbgfs_dir, NULL, &ec_dbgfs_ops);
->  
->  	return dbgfs_dir;
+> This looks fine. But the topology rate bits should not depend on those
+> bits. It's a bit pitty that the standard PCM ABI does not use those
+> bits for user space and we are doing this change just for topology
+> ABI.
+
+Yeah, and theoretically it's possible to fix in topology side, but
+it'll be more cumbersome.
+
+Although it's not really a part of PCM ABI, I believe we should move
+the PCM rate bit definitions to uapi, for showing that it's set in
+stone.  Something like below.
+
+
+Takashi
+
+-- 8< --
+From: Takashi Iwai <tiwai@suse.de>
+Subject: [PATCH] ALSA: pcm: Move standard rate bit definitions into uapi
+
+Since the standard PCM rate bits are used for the topology ABI, it's a
+part of public ABI that must not be changed.  Move the definitions
+into uapi to indicate it more clearly.
+
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ include/sound/pcm.h         | 26 --------------------------
+ include/uapi/sound/asound.h | 26 ++++++++++++++++++++++++++
+ 2 files changed, 26 insertions(+), 26 deletions(-)
+
+diff --git a/include/sound/pcm.h b/include/sound/pcm.h
+index 824216799070..f28f6d6ac996 100644
+--- a/include/sound/pcm.h
++++ b/include/sound/pcm.h
+@@ -105,32 +105,6 @@ struct snd_pcm_ops {
+ 
+ #define SNDRV_PCM_POS_XRUN		((snd_pcm_uframes_t)-1)
+ 
+-/* If you change this don't forget to change rates[] table in pcm_native.c */
+-#define SNDRV_PCM_RATE_5512		(1U<<0)		/* 5512Hz */
+-#define SNDRV_PCM_RATE_8000		(1U<<1)		/* 8000Hz */
+-#define SNDRV_PCM_RATE_11025		(1U<<2)		/* 11025Hz */
+-#define SNDRV_PCM_RATE_16000		(1U<<3)		/* 16000Hz */
+-#define SNDRV_PCM_RATE_22050		(1U<<4)		/* 22050Hz */
+-#define SNDRV_PCM_RATE_32000		(1U<<5)		/* 32000Hz */
+-#define SNDRV_PCM_RATE_44100		(1U<<6)		/* 44100Hz */
+-#define SNDRV_PCM_RATE_48000		(1U<<7)		/* 48000Hz */
+-#define SNDRV_PCM_RATE_64000		(1U<<8)		/* 64000Hz */
+-#define SNDRV_PCM_RATE_88200		(1U<<9)		/* 88200Hz */
+-#define SNDRV_PCM_RATE_96000		(1U<<10)	/* 96000Hz */
+-#define SNDRV_PCM_RATE_176400		(1U<<11)	/* 176400Hz */
+-#define SNDRV_PCM_RATE_192000		(1U<<12)	/* 192000Hz */
+-#define SNDRV_PCM_RATE_352800		(1U<<13)	/* 352800Hz */
+-#define SNDRV_PCM_RATE_384000		(1U<<14)	/* 384000Hz */
+-#define SNDRV_PCM_RATE_705600		(1U<<15)	/* 705600Hz */
+-#define SNDRV_PCM_RATE_768000		(1U<<16)	/* 768000Hz */
+-/* extended rates */
+-#define SNDRV_PCM_RATE_12000		(1U<<17)	/* 12000Hz */
+-#define SNDRV_PCM_RATE_24000		(1U<<18)	/* 24000Hz */
+-#define SNDRV_PCM_RATE_128000		(1U<<19)	/* 128000Hz */
+-
+-#define SNDRV_PCM_RATE_CONTINUOUS	(1U<<30)	/* continuous range */
+-#define SNDRV_PCM_RATE_KNOT		(1U<<31)	/* supports more non-continuous rates */
+-
+ #define SNDRV_PCM_RATE_8000_44100	(SNDRV_PCM_RATE_8000|SNDRV_PCM_RATE_11025|\
+ 					 SNDRV_PCM_RATE_16000|SNDRV_PCM_RATE_22050|\
+ 					 SNDRV_PCM_RATE_32000|SNDRV_PCM_RATE_44100)
+diff --git a/include/uapi/sound/asound.h b/include/uapi/sound/asound.h
+index 4cd513215bcd..715ceb3eac7c 100644
+--- a/include/uapi/sound/asound.h
++++ b/include/uapi/sound/asound.h
+@@ -272,6 +272,32 @@ typedef int __bitwise snd_pcm_subformat_t;
+ #define	SNDRV_PCM_SUBFORMAT_MSBITS_24	((__force snd_pcm_subformat_t) 3)
+ #define	SNDRV_PCM_SUBFORMAT_LAST	SNDRV_PCM_SUBFORMAT_MSBITS_24
+ 
++/* Standard rate bits */
++#define SNDRV_PCM_RATE_5512		(1U<<0)		/* 5512Hz */
++#define SNDRV_PCM_RATE_8000		(1U<<1)		/* 8000Hz */
++#define SNDRV_PCM_RATE_11025		(1U<<2)		/* 11025Hz */
++#define SNDRV_PCM_RATE_16000		(1U<<3)		/* 16000Hz */
++#define SNDRV_PCM_RATE_22050		(1U<<4)		/* 22050Hz */
++#define SNDRV_PCM_RATE_32000		(1U<<5)		/* 32000Hz */
++#define SNDRV_PCM_RATE_44100		(1U<<6)		/* 44100Hz */
++#define SNDRV_PCM_RATE_48000		(1U<<7)		/* 48000Hz */
++#define SNDRV_PCM_RATE_64000		(1U<<8)		/* 64000Hz */
++#define SNDRV_PCM_RATE_88200		(1U<<9)		/* 88200Hz */
++#define SNDRV_PCM_RATE_96000		(1U<<10)	/* 96000Hz */
++#define SNDRV_PCM_RATE_176400		(1U<<11)	/* 176400Hz */
++#define SNDRV_PCM_RATE_192000		(1U<<12)	/* 192000Hz */
++#define SNDRV_PCM_RATE_352800		(1U<<13)	/* 352800Hz */
++#define SNDRV_PCM_RATE_384000		(1U<<14)	/* 384000Hz */
++#define SNDRV_PCM_RATE_705600		(1U<<15)	/* 705600Hz */
++#define SNDRV_PCM_RATE_768000		(1U<<16)	/* 768000Hz */
++/* extended rates */
++#define SNDRV_PCM_RATE_12000		(1U<<17)	/* 12000Hz */
++#define SNDRV_PCM_RATE_24000		(1U<<18)	/* 24000Hz */
++#define SNDRV_PCM_RATE_128000		(1U<<19)	/* 128000Hz */
++
++#define SNDRV_PCM_RATE_CONTINUOUS	(1U<<30)	/* continuous range */
++#define SNDRV_PCM_RATE_KNOT		(1U<<31)	/* supports more non-continuous rates */
++
+ #define SNDRV_PCM_INFO_MMAP		0x00000001	/* hardware supports mmap */
+ #define SNDRV_PCM_INFO_MMAP_VALID	0x00000002	/* period data are valid during transfer */
+ #define SNDRV_PCM_INFO_DOUBLE		0x00000004	/* Double buffering needed for PCM start/stop */
+-- 
+2.43.0
+
 
