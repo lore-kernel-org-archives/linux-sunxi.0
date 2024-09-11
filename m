@@ -1,77 +1,192 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 443B13BBC1;
-	Wed, 11 Sep 2024 03:08:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86EAD13D8AC
+	for <linux-sunxi@lists.linux.dev>; Wed, 11 Sep 2024 09:10:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726024131; cv=none; b=hJMOcxHegayJVKWAQmnLCrSs5dV8uaU2xljkjebwtGOEjW+HGw/8kX6rIw2yWLcz50/8MS048opqP2MnIuBjhOKPPsNkKixu/D5beGuT94yn2TjDhwFFW5ngdMFxtxhaTuCPTk8IZyEVaAWvYlwY37xr43PLG9PAjSOmt9ii1mA=
+	t=1726045812; cv=none; b=C9OKasLHsmAIxhmCjnNysXGi5GK7STIqUs7TblnZN31CwQuBKEUHoGmNDgRzatvYIcTAzc1IEx2wWLZYxCnRU9/0lguMHTPIw8qmZQntXgJL12VWlMr9bGyGiuZujTglh2Fl+CSDfS64EfRdVYgqihUiQYSITHouP1Ni0b4HBUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726024131; c=relaxed/simple;
-	bh=HEMopyFpUu8HJoyo6/3G/2qXbBjpHn1icDfAGuvUUL8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mTQQs2IANhDdrRI4tnAkmEHnz/GL+7HURzCeRNYGIDyWadwPAGGC7KBCdf5EgQFbOpf9ldcUREzj4S0SV9AnrMTNP3aWYn2+J9SMKxyUzi0l2WA9VkzCzmm1E7Nyx4rFc+DZZSmBFFcEiQ/qVQT8HVYSkPQtFoKdGWI9mkM/cwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qkc5suz4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1726045812; c=relaxed/simple;
+	bh=7hXzo1gtAmWQBm4/YCS0mRlX5+6bEz9+z5FQDrLjvUM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FC7JpROQaNjcRJy2y63GMlrnAId0QfefgnqaF079yiNlJtlp/N3M0yeuNsUMPXaqn49mnD9ObmDlB+tJ6ZIlaLfHgt7VsWqAjNMOzYn2hllJEF2qVMp6wluWUpzh4fAT8dtizOIj8hHV3+oUw9g7xc9aG6JtuLG847s49YmP44c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=de4MB2Mx; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qkc5suz4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27DB3C4CEC3;
-	Wed, 11 Sep 2024 03:08:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726024130;
-	bh=HEMopyFpUu8HJoyo6/3G/2qXbBjpHn1icDfAGuvUUL8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=qkc5suz42b+1q4lA5Sqr8EwF3Ml5GipTiZT9ykooM+Qp6DW2VLa1KT4ftQQlZdoYh
-	 eicfVfZC4fP1MFHxQ6yFV03y6qrOy0JmuZSyISJI4NmA3EzoH6SD0yj/4kQnMeXbRc
-	 urCd2KR9gdyU5JTSNuXDoKxkI8ej6MyEX6AaLfbV9AkXGM9ndJsOh1IzCNLhk+Vk9R
-	 i6Pu1aB9D97WUkhiBfwOAKdMCw939M2g5HIhImKk3TqNLyhqbWo1apohvoVdp3skWL
-	 eTI5CAYdElaDC5EhA9lhWnY9oRhZADU123CiIcWp2PsKB3JSFPH6wd+HVV82ufZ7R5
-	 BXLMgs+IdLr+g==
-Date: Tue, 10 Sep 2024 20:08:48 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Li Zetao <lizetao1@huawei.com>
-Cc: <mchehab@kernel.org>, <florian.fainelli@broadcom.com>, <andrew@lunn.ch>,
- <olteanv@gmail.com>, <davem@davemloft.net>, <edumazet@google.com>,
- <pabeni@redhat.com>, <wens@csie.org>, <jernej.skrabec@gmail.com>,
- <samuel@sholland.org>, <heiko@sntech.de>, <yisen.zhuang@huawei.com>,
- <salil.mehta@huawei.com>, <hauke@hauke-m.de>,
- <alexandre.torgue@foss.st.com>, <joabreu@synopsys.com>,
- <mcoquelin.stm32@gmail.com>, <wellslutw@gmail.com>,
- <radhey.shyam.pandey@amd.com>, <michal.simek@amd.com>,
- <hdegoede@redhat.com>, <ilpo.jarvinen@linux.intel.com>,
- <ruanjinjie@huawei.com>, <hverkuil-cisco@xs4all.nl>,
- <u.kleine-koenig@pengutronix.de>, <jacky_chou@aspeedtech.com>,
- <jacob.e.keller@intel.com>, <linux-media@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
- <linux-rockchip@lists.infradead.org>,
- <linux-stm32@st-md-mailman.stormreply.com>,
- <platform-driver-x86@vger.kernel.org>
-Subject: Re: [PATCH net-next v2 00/10] net: Convert using
- devm_clk_get_enabled()/devm_clk_get_optional_enabled()
-Message-ID: <20240910200848.0b028720@kernel.org>
-In-Reply-To: <20240907031926.3591353-1-lizetao1@huawei.com>
-References: <20240907031926.3591353-1-lizetao1@huawei.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="de4MB2Mx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726045810; x=1757581810;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=7hXzo1gtAmWQBm4/YCS0mRlX5+6bEz9+z5FQDrLjvUM=;
+  b=de4MB2Mx82+9stB2ONk6pEMomv2nwEwICe3rJvYu/VCwh0joTtQKb4xb
+   bdOQ9LI2wR1CY6eyvKHrmpUxkw99lXdyTZsWCoc4vP0NFdPCLyMxBs6zK
+   vWomFKvh9FjSMbpQVhdC81vhJbxRzKEdyvNyvSQBQqG+7NzOBySi+/TZU
+   sQ9DwLX55XStpyDozqHT70imtSCMS4nJg9uwOic0nun1zdJApEexIunP6
+   QnVC6AvQfdlHhFXwFM/ANMNsefX7D/Dn2l0jltzSbC0U47RB+rKEtwcQ2
+   m83IwdYshFLg4wqT1TR9WprhtbWLZg/DIpMWL4WoY1upP6wQiMGg1ZeKX
+   Q==;
+X-CSE-ConnectionGUID: nF695fm5TVGc5j5WIgnNmQ==
+X-CSE-MsgGUID: /QaHSzyQQ6OWSJ3sc7hwcA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="35425203"
+X-IronPort-AV: E=Sophos;i="6.10,219,1719903600"; 
+   d="scan'208";a="35425203"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2024 02:10:10 -0700
+X-CSE-ConnectionGUID: 31lL6o1/TaqLrSKlLBTY/w==
+X-CSE-MsgGUID: azG953GiQ+Kp2FB4snQTrA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,219,1719903600"; 
+   d="scan'208";a="67593407"
+Received: from sschumil-mobl2.ger.corp.intel.com (HELO [10.245.246.146]) ([10.245.246.146])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2024 02:10:03 -0700
+Message-ID: <1ab3efaa-863c-4dd0-8f81-b50fd9775fad@linux.intel.com>
+Date: Wed, 11 Sep 2024 11:09:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/13] ALSA: pcm: add more sample rate definitions
+To: Jerome Brunet <jbrunet@baylibre.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, David Rhodes <david.rhodes@cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Cezary Rojewski <cezary.rojewski@intel.com>,
+ Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ patches@opensource.cirrus.com, alsa-devel@alsa-project.org,
+ linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <20240905-alsa-12-24-128-v1-0-8371948d3921@baylibre.com>
+ <20240905-alsa-12-24-128-v1-1-8371948d3921@baylibre.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <20240905-alsa-12-24-128-v1-1-8371948d3921@baylibre.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Sat, 7 Sep 2024 11:19:16 +0800 Li Zetao wrote:
-> v1 -> v2:
->   1) Patch 5 optimizes the check and adds commit information for easier
->   inspection.
->   2) It is no longer necessary to use clk, so delete the clk member of
->   the spl2sw_common structure.
->   3) Remove patches 11 and 12, they should be sent to wireless-next
->   individually
 
-In addition to Christophe's suggestions the patches didn't get ingested
-correctly into patchwork, due to the quick repost of:
-https://lore.kernel.org/all/20240907031009.3591057-1-lizetao1@huawei.com/
-without bumping the patch version...
--- 
-pw-bot: cr
+
+On 9/5/24 16:12, Jerome Brunet wrote:
+> This adds a sample rate definition for 12kHz, 24kHz and 128kHz.
+> 
+> Admittedly, just a few drivers are currently using these sample
+> rates but there is enough of a recurrence to justify adding a definition
+> for them and remove some custom rate constraint code while at it.
+> 
+> The new definitions are not added to the interval definitions, such as
+> SNDRV_PCM_RATE_8000_44100, because it would silently add new supported
+> rates to drivers that may or may not support them. For sure the drivers
+> have not been tested for these new rates so it is better to leave them out
+> of interval definitions.
+> 
+> That being said, the added rates are multiples of well know rates families,
+> it is very likely that a lot of devices out there actually supports them.
+> 
+> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+> ---
+>  include/sound/pcm.h     | 31 +++++++++++++++++--------------
+>  sound/core/pcm_native.c |  6 +++---
+>  2 files changed, 20 insertions(+), 17 deletions(-)
+> 
+> diff --git a/include/sound/pcm.h b/include/sound/pcm.h
+> index 732121b934fd..c993350975a9 100644
+> --- a/include/sound/pcm.h
+> +++ b/include/sound/pcm.h
+> @@ -109,20 +109,23 @@ struct snd_pcm_ops {
+>  #define SNDRV_PCM_RATE_5512		(1U<<0)		/* 5512Hz */
+>  #define SNDRV_PCM_RATE_8000		(1U<<1)		/* 8000Hz */
+>  #define SNDRV_PCM_RATE_11025		(1U<<2)		/* 11025Hz */
+> -#define SNDRV_PCM_RATE_16000		(1U<<3)		/* 16000Hz */
+> -#define SNDRV_PCM_RATE_22050		(1U<<4)		/* 22050Hz */
+> -#define SNDRV_PCM_RATE_32000		(1U<<5)		/* 32000Hz */
+> -#define SNDRV_PCM_RATE_44100		(1U<<6)		/* 44100Hz */
+> -#define SNDRV_PCM_RATE_48000		(1U<<7)		/* 48000Hz */
+> -#define SNDRV_PCM_RATE_64000		(1U<<8)		/* 64000Hz */
+> -#define SNDRV_PCM_RATE_88200		(1U<<9)		/* 88200Hz */
+> -#define SNDRV_PCM_RATE_96000		(1U<<10)	/* 96000Hz */
+> -#define SNDRV_PCM_RATE_176400		(1U<<11)	/* 176400Hz */
+> -#define SNDRV_PCM_RATE_192000		(1U<<12)	/* 192000Hz */
+> -#define SNDRV_PCM_RATE_352800		(1U<<13)	/* 352800Hz */
+> -#define SNDRV_PCM_RATE_384000		(1U<<14)	/* 384000Hz */
+> -#define SNDRV_PCM_RATE_705600		(1U<<15)	/* 705600Hz */
+> -#define SNDRV_PCM_RATE_768000		(1U<<16)	/* 768000Hz */
+> +#define SNDRV_PCM_RATE_12000		(1U<<3)		/* 12000Hz */
+> +#define SNDRV_PCM_RATE_16000		(1U<<4)		/* 16000Hz */
+> +#define SNDRV_PCM_RATE_22050		(1U<<5)		/* 22050Hz */
+> +#define SNDRV_PCM_RATE_24000		(1U<<6)		/* 24000Hz */
+> +#define SNDRV_PCM_RATE_32000		(1U<<7)		/* 32000Hz */
+> +#define SNDRV_PCM_RATE_44100		(1U<<8)		/* 44100Hz */
+> +#define SNDRV_PCM_RATE_48000		(1U<<9)		/* 48000Hz */
+> +#define SNDRV_PCM_RATE_64000		(1U<<10)	/* 64000Hz */
+> +#define SNDRV_PCM_RATE_88200		(1U<<11)	/* 88200Hz */
+> +#define SNDRV_PCM_RATE_96000		(1U<<12)	/* 96000Hz */
+> +#define SNDRV_PCM_RATE_128000		(1U<<13)	/* 128000Hz */
+> +#define SNDRV_PCM_RATE_176400		(1U<<14)	/* 176400Hz */
+> +#define SNDRV_PCM_RATE_192000		(1U<<15)	/* 192000Hz */
+> +#define SNDRV_PCM_RATE_352800		(1U<<16)	/* 352800Hz */
+> +#define SNDRV_PCM_RATE_384000		(1U<<17)	/* 384000Hz */
+> +#define SNDRV_PCM_RATE_705600		(1U<<18)	/* 705600Hz */
+> +#define SNDRV_PCM_RATE_768000		(1U<<19)	/* 768000Hz */
+>  
+>  #define SNDRV_PCM_RATE_CONTINUOUS	(1U<<30)	/* continuous range */
+>  #define SNDRV_PCM_RATE_KNOT		(1U<<31)	/* supports more non-continuous rates */
+> diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+> index 44381514f695..7461a727615c 100644
+> --- a/sound/core/pcm_native.c
+> +++ b/sound/core/pcm_native.c
+> @@ -2418,13 +2418,13 @@ static int snd_pcm_hw_rule_sample_bits(struct snd_pcm_hw_params *params,
+>  	return snd_interval_refine(hw_param_interval(params, rule->var), &t);
+>  }
+>  
+> -#if SNDRV_PCM_RATE_5512 != 1 << 0 || SNDRV_PCM_RATE_192000 != 1 << 12
+> +#if SNDRV_PCM_RATE_5512 != 1 << 0 || SNDRV_PCM_RATE_768000 != 1 << 19
+>  #error "Change this table"
+>  #endif
+>  
+>  static const unsigned int rates[] = {
+> -	5512, 8000, 11025, 16000, 22050, 32000, 44100,
+> -	48000, 64000, 88200, 96000, 176400, 192000, 352800, 384000, 705600, 768000
+> +	5512, 8000, 11025, 12000, 16000, 22050, 24000, 32000, 44100, 48000, 64000,
+> +	88200, 96000, 128000, 176400, 192000, 352800, 384000, 705600, 768000,
+>  };
+>  
+>  const struct snd_pcm_hw_constraint_list snd_pcm_known_rates = {
+
+Wondering if this is backwards compatible with the alsa-lib definitions,
+specifically the topology parts which did unfortunately have a list of
+rates that will map to a different index now:
+
+
+typedef enum _snd_pcm_rates {
+	SND_PCM_RATE_UNKNOWN = -1,
+	SND_PCM_RATE_5512 = 0,
+	SND_PCM_RATE_8000,
+	SND_PCM_RATE_11025,
+	SND_PCM_RATE_16000,
+	SND_PCM_RATE_22050,
+	SND_PCM_RATE_32000,
+	SND_PCM_RATE_44100,
+	SND_PCM_RATE_48000,
+	SND_PCM_RATE_64000,
+	SND_PCM_RATE_88200,
+	SND_PCM_RATE_96000,
+	SND_PCM_RATE_176400,
+	SND_PCM_RATE_192000,
+	SND_PCM_RATE_CONTINUOUS = 30,
+	SND_PCM_RATE_KNOT = 31,
+	SND_PCM_RATE_LAST = SND_PCM_RATE_KNOT,
+} snd_pcm_rates_t;
