@@ -1,372 +1,115 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86F681957E4
-	for <linux-sunxi@lists.linux.dev>; Thu, 12 Sep 2024 05:56:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC4BE3A8E4
+	for <linux-sunxi@lists.linux.dev>; Thu, 12 Sep 2024 08:31:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726120577; cv=none; b=Q0VMXMpFbKF2le6LQHthW7dvtcMHttkWj0AMRYnAW87oLDHeXEQ/EXHkoPq6dG2SyIMiPADJYifAdRY3qGZNme43y74GlwKsab0LJu01OXYdJxrpOvqGRUENbP2WozsRHJJzzSNBf8X1iSsHPP7fyuuBKrmZMx1hWJQLDHqf10Q=
+	t=1726129861; cv=none; b=PMll9vxDHBbT8B4Y16medeFPupEDRAJeJPHcCf0HIi7sDfwpcqLEG9Y2QdR0Luxh4tAdAfvnAH/NGJX6Hb3Fi61cGrs8fNNBj43B9bqVSW3H1blL8REzsml5g8IQ+3CQaYZd/1QJO+25viQdNw928s2jJElXsSCescv1qEVo8z0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726120577; c=relaxed/simple;
-	bh=2MZb8AJQZs0wG05Wps2DKInawqFPfqgCL1L5PflC7B4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qbZDLmAopPgCveX3+5Yf5eKaHc/c4B2Ns+j8zQGgnOKCyWMXcQ3lMzcflB4eBrYcUzPY/nh1hzI1iccwtXxs3XhKTiP15A77yKmtMURx68QSKbtIkxHXpo0i7/xV7f0yna/IWSbMXLtZy+lzyX7nBtv3l8s0xXnZHWQj5fJfAZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=Xrk5QvSk; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1726129861; c=relaxed/simple;
+	bh=BnoeUpGqWxHWbBjwHyTUp1LxWEYQAvgqgD4Qow0g4hA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=onl9OCvbD7ol50/dx/OSyjc4L5s6ngKfY0mPCvw9m/UX3NtEf8VI7U9i3BFmy2SA4I5ZcXJX+xYih376pR0IMI/tAnT8caKMsZS9KsjP1QXYH/EcFsF8WmVgLi7X5hk1Rzcgs6nP64nbt7ICWDh5BaycAOjt2GND+uyuFiopeak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YYXe7yf1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="Xrk5QvSk"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2068a7c9286so6959515ad.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 11 Sep 2024 22:56:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1726120575; x=1726725375; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lZGiXXErbLpwtJqQgRszC/20gA32B7VjfeYUlTIyz2Y=;
-        b=Xrk5QvSkzepbyH8avALOm8mjc8bce7LvME8f5ArcqyeH1xIqljP7tN2NMo5hAGnLSX
-         M14/3a3lXUSfC07QgSAuR5h6ras/ZHJwyfhmBXvDOUhAOYm6P4VtwgA46XJjTvC6l/P8
-         shsHBMhRAjv2lBUzhRkbve6UAXf85b8L57Vf+35wJQy4sTSxvd/aNrEAhTqTzu5JegzU
-         /HPoNftym6R3tc7QBgvamLedStyIQRM615xkAqqG8dIJCRcEuQwB09KlnKqBJIr+ikkq
-         FymEbLn8TtQyT+OIWTMDpO6ycCxelPyHAjlNb0BrgKxzZmjcixPlIzE++SbDWnMSverV
-         VP8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726120575; x=1726725375;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lZGiXXErbLpwtJqQgRszC/20gA32B7VjfeYUlTIyz2Y=;
-        b=MB5gyeuoKwbOv/GnoQH81xLzWiDpueaEDCHuzE+hcpp7/x/l1ncBfismAJ7HwkIKTU
-         mxn+FyCAf7sJrqJ7MY36h2IKZ1FLaOBY9YfOjY3P+LToCwWfMqqz/apLVD6nxNvK2fLd
-         23S3F4SAXGhvmjmlnhbP4pczhi6NftQy3eO8yAZ1GOSbOtrd2GCYUQBNKi3/HlL59qA5
-         KIUCPVzFIvhw16AFo7TM4/O31Rlsai/0jVR2pVB8t3V4qN5csPTGgH21qxi0bll9drGf
-         8DDHa3Jfa5FwSvoXsFkInj/D5YblHFe/KfruLsM/chbCRQdqwmSIj0GobeMg6biClRbp
-         +hBA==
-X-Forwarded-Encrypted: i=1; AJvYcCVJS6GKS7JtQWlHF0kSIQLsn5XrgkKBUTI92Ab7IlTNQgDo4FrUKHlhkWyoK0LJ+48XxSbVEwOoxxU98w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxgTzabOvLjNjB2yEds4cZ6NeJmMaQie0EY2j7FtDthZenol5NO
-	gO+YPfqQQy6ENQr6OrEjPeau+X4v9h4Qa1JTgBdJiMyqA0YbIkwQMBF9aHMPv8A=
-X-Google-Smtp-Source: AGHT+IEP6KKwUZUW8OkMBb/fzUUdV4ELJioR4iSAdt1JCFUkRDRHnlZjxlI1+ScQqzaBoVsDlqO0MA==
-X-Received: by 2002:a17:902:e852:b0:205:8407:6321 with SMTP id d9443c01a7336-2076e32e467mr26718025ad.9.1726120574663;
-        Wed, 11 Sep 2024 22:56:14 -0700 (PDT)
-Received: from charlie.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2076afe99b6sm7870465ad.209.2024.09.11.22.56.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Sep 2024 22:56:13 -0700 (PDT)
-From: Charlie Jenkins <charlie@rivosinc.com>
-Date: Wed, 11 Sep 2024 22:55:22 -0700
-Subject: [PATCH v10 14/14] riscv: Add ghostwrite vulnerability
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YYXe7yf1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18D14C4CEC3;
+	Thu, 12 Sep 2024 08:31:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726129861;
+	bh=BnoeUpGqWxHWbBjwHyTUp1LxWEYQAvgqgD4Qow0g4hA=;
+	h=Date:From:List-Id:To:Cc:Subject:From;
+	b=YYXe7yf1S2wKkmyjtB60HDUrLUBgYvCaB4KDq3YHHRZONjhFWFHxlDQnq1owxoSJc
+	 +zwoM4PYcIOXrpZ+cCzSKJYSSnUnMdTcudpQx5FRqm1oBLNBjQBiioL/4Z2tHuTX1P
+	 0UKCiEDD4RjaivZ4jI0fB9kraFNNUEurkCaJP0ISdL0HHlDbcjCGtONodSnigHds3e
+	 UoBhlHzu/MitM9ysEWRyd2nNcixoxcYyuPcP1UcDrF45hKuhp8/8d4vv5xQYJbKh0C
+	 +I1XNBzR+OUGL/VYzldHwcHcIT9UNNR9UrJlVxzLYal/EtT698exwG00UClxWUaSGb
+	 dzycGIULqq9gw==
+Received: by wens.tw (Postfix, from userid 1000)
+	id CCD025F9F2; Thu, 12 Sep 2024 16:30:56 +0800 (CST)
+Date: Thu, 12 Sep 2024 16:30:56 +0800
+From: Chen-Yu Tsai <wens@kernel.org>
+To: soc@kernel.org
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej@kernel.org>,
+	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [GIT PULL] Allwinner SoC device tree changes for 6.12 part 2
+Message-ID: <ZuKmwD8VQrvNx8ir@wens.tw>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240911-xtheadvector-v10-14-8d3930091246@rivosinc.com>
-References: <20240911-xtheadvector-v10-0-8d3930091246@rivosinc.com>
-In-Reply-To: <20240911-xtheadvector-v10-0-8d3930091246@rivosinc.com>
-To: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Paul Walmsley <paul.walmsley@sifive.com>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
- Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Samuel Holland <samuel.holland@sifive.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
- Guo Ren <guoren@kernel.org>, Evan Green <evan@rivosinc.com>, 
- Andy Chiu <andy.chiu@sifive.com>, Jessica Clarke <jrtc27@jrtc27.com>, 
- Andrew Jones <ajones@ventanamicro.com>
-Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, 
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- Charlie Jenkins <charlie@rivosinc.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9377; i=charlie@rivosinc.com;
- h=from:subject:message-id; bh=2MZb8AJQZs0wG05Wps2DKInawqFPfqgCL1L5PflC7B4=;
- b=owGbwMvMwCHWx5hUnlvL8Y3xtFoSQ9qjptiFMw5nP9trcGhyZOLbtRZvpOqP7b6X2+nx55Y4v
- 1rzq847HaUsDGIcDLJiiiw81xqYW+/olx0VLZsAM4eVCWQIAxenAEzkRikjw8kZu9hvVjGoXk3b
- vvRgabHQ1BfzTnhorbhbdZajvjUkTp7hf/4B+f1yv02/VcdquBxsSyl53Xbll6Ms+zxRa+/jDSu
- DWAE=
-X-Developer-Key: i=charlie@rivosinc.com; a=openpgp;
- fpr=7D834FF11B1D8387E61C776FFB10D1F27D6B1354
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="suWzmaiDCCl7fJWq"
+Content-Disposition: inline
 
-Follow the patterns of the other architectures that use
-GENERIC_CPU_VULNERABILITIES for riscv to introduce the ghostwrite
-vulnerability and mitigation. The mitigation is to disable all vector
-which is accomplished by clearing the bit from the cpufeature field.
 
-Ghostwrite only affects thead c9xx CPUs that impelment xtheadvector, so
-the vulerability will only be mitigated on these CPUs.
+--suWzmaiDCCl7fJWq
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
----
- arch/riscv/Kconfig.errata            | 11 ++++++++
- arch/riscv/errata/thead/errata.c     | 28 ++++++++++++++++++
- arch/riscv/include/asm/bugs.h        | 22 +++++++++++++++
- arch/riscv/include/asm/errata_list.h |  3 +-
- arch/riscv/kernel/Makefile           |  2 ++
- arch/riscv/kernel/bugs.c             | 55 ++++++++++++++++++++++++++++++++++++
- arch/riscv/kernel/cpufeature.c       |  9 +++++-
- drivers/base/cpu.c                   |  3 ++
- include/linux/cpu.h                  |  1 +
- 9 files changed, 132 insertions(+), 2 deletions(-)
+Hi,
 
-diff --git a/arch/riscv/Kconfig.errata b/arch/riscv/Kconfig.errata
-index 2acc7d876e1f..e318119d570d 100644
---- a/arch/riscv/Kconfig.errata
-+++ b/arch/riscv/Kconfig.errata
-@@ -119,4 +119,15 @@ config ERRATA_THEAD_PMU
- 
- 	  If you don't know what to do here, say "Y".
- 
-+config ERRATA_THEAD_GHOSTWRITE
-+	bool "Apply T-Head Ghostwrite errata"
-+	depends on ERRATA_THEAD && RISCV_ISA_XTHEADVECTOR
-+	default y
-+	help
-+	  The T-Head C9xx cores have a vulnerability in the xtheadvector
-+	  instruction set. When this errata is enabled, the CPUs will be probed
-+	  to determine if they are vulnerable and disable xtheadvector.
-+
-+	  If you don't know what to do here, say "Y".
-+
- endmenu # "CPU errata selection"
-diff --git a/arch/riscv/errata/thead/errata.c b/arch/riscv/errata/thead/errata.c
-index f5120e07c318..5cc008ab41a8 100644
---- a/arch/riscv/errata/thead/errata.c
-+++ b/arch/riscv/errata/thead/errata.c
-@@ -10,6 +10,7 @@
- #include <linux/string.h>
- #include <linux/uaccess.h>
- #include <asm/alternative.h>
-+#include <asm/bugs.h>
- #include <asm/cacheflush.h>
- #include <asm/cpufeature.h>
- #include <asm/dma-noncoherent.h>
-@@ -142,6 +143,31 @@ static bool errata_probe_pmu(unsigned int stage,
- 	return true;
- }
- 
-+static bool errata_probe_ghostwrite(unsigned int stage,
-+				    unsigned long arch_id, unsigned long impid)
-+{
-+	if (!IS_ENABLED(CONFIG_ERRATA_THEAD_GHOSTWRITE))
-+		return false;
-+
-+	/*
-+	 * target-c9xx cores report arch_id and impid as 0
-+	 *
-+	 * While ghostwrite may not affect all c9xx cores that implement
-+	 * xtheadvector, there is no futher granularity than c9xx. Assume
-+	 * vulnerable for this entire class of processors when xtheadvector is
-+	 * enabled.
-+	 */
-+	if (arch_id != 0 || impid != 0)
-+		return false;
-+
-+	if (stage != RISCV_ALTERNATIVES_EARLY_BOOT)
-+		return false;
-+
-+	ghostwrite_set_vulnerable();
-+
-+	return true;
-+}
-+
- static u32 thead_errata_probe(unsigned int stage,
- 			      unsigned long archid, unsigned long impid)
- {
-@@ -155,6 +181,8 @@ static u32 thead_errata_probe(unsigned int stage,
- 	if (errata_probe_pmu(stage, archid, impid))
- 		cpu_req_errata |= BIT(ERRATA_THEAD_PMU);
- 
-+	errata_probe_ghostwrite(stage, archid, impid);
-+
- 	return cpu_req_errata;
- }
- 
-diff --git a/arch/riscv/include/asm/bugs.h b/arch/riscv/include/asm/bugs.h
-new file mode 100644
-index 000000000000..e294b15bf78e
---- /dev/null
-+++ b/arch/riscv/include/asm/bugs.h
-@@ -0,0 +1,22 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Interface for managing mitigations for riscv vulnerabilities.
-+ *
-+ * Copyright (C) 2024 Rivos Inc.
-+ */
-+
-+#ifndef __ASM_BUGS_H
-+#define __ASM_BUGS_H
-+
-+/* Watch out, ordering is important here. */
-+enum mitigation_state {
-+	UNAFFECTED,
-+	MITIGATED,
-+	VULNERABLE,
-+};
-+
-+void ghostwrite_set_vulnerable(void);
-+void ghostwrite_enable_mitigation(void);
-+enum mitigation_state ghostwrite_get_state(void);
-+
-+#endif /* __ASM_BUGS_H */
-diff --git a/arch/riscv/include/asm/errata_list.h b/arch/riscv/include/asm/errata_list.h
-index 7c8a71a526a3..6e426ed7919a 100644
---- a/arch/riscv/include/asm/errata_list.h
-+++ b/arch/riscv/include/asm/errata_list.h
-@@ -25,7 +25,8 @@
- #ifdef CONFIG_ERRATA_THEAD
- #define	ERRATA_THEAD_MAE 0
- #define	ERRATA_THEAD_PMU 1
--#define	ERRATA_THEAD_NUMBER 2
-+#define	ERRATA_THEAD_GHOSTWRITE 2
-+#define	ERRATA_THEAD_NUMBER 3
- #endif
- 
- #ifdef __ASSEMBLY__
-diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
-index 06d407f1b30b..d7a54e34178e 100644
---- a/arch/riscv/kernel/Makefile
-+++ b/arch/riscv/kernel/Makefile
-@@ -113,3 +113,5 @@ obj-$(CONFIG_COMPAT)		+= compat_vdso/
- obj-$(CONFIG_64BIT)		+= pi/
- obj-$(CONFIG_ACPI)		+= acpi.o
- obj-$(CONFIG_ACPI_NUMA)	+= acpi_numa.o
-+
-+obj-$(CONFIG_GENERIC_CPU_VULNERABILITIES) += bugs.o
-diff --git a/arch/riscv/kernel/bugs.c b/arch/riscv/kernel/bugs.c
-new file mode 100644
-index 000000000000..0c19691b4cd5
---- /dev/null
-+++ b/arch/riscv/kernel/bugs.c
-@@ -0,0 +1,55 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2024 Rivos Inc.
-+ */
-+
-+#include <linux/cpu.h>
-+#include <linux/device.h>
-+#include <linux/sprintf.h>
-+
-+#include <asm/bugs.h>
-+#include <asm/vendor_extensions/thead.h>
-+
-+static enum mitigation_state ghostwrite_state;
-+
-+void ghostwrite_set_vulnerable(void)
-+{
-+	ghostwrite_state = VULNERABLE;
-+}
-+
-+/*
-+ * Vendor extension alternatives will use the value set at the time of boot
-+ * alternative patching, thus this must be called before boot alternatives are
-+ * patched (and after extension probing) to be effective.
-+ */
-+void ghostwrite_enable_mitigation(void)
-+{
-+	if (IS_ENABLED(CONFIG_RISCV_ISA_XTHEADVECTOR) &&
-+	    ghostwrite_state == VULNERABLE && !cpu_mitigations_off()) {
-+		disable_xtheadvector();
-+		ghostwrite_state = MITIGATED;
-+	}
-+}
-+
-+enum mitigation_state ghostwrite_get_state(void)
-+{
-+	return ghostwrite_state;
-+}
-+
-+ssize_t cpu_show_ghostwrite(struct device *dev, struct device_attribute *attr, char *buf)
-+{
-+	if (IS_ENABLED(CONFIG_RISCV_ISA_XTHEADVECTOR)) {
-+		switch (ghostwrite_state) {
-+		case UNAFFECTED:
-+			return sprintf(buf, "Not affected\n");
-+		case MITIGATED:
-+			return sprintf(buf, "Mitigation: xtheadvector disabled\n");
-+		case VULNERABLE:
-+			fallthrough;
-+		default:
-+			return sprintf(buf, "Vulnerable\n");
-+		}
-+	} else {
-+		return sprintf(buf, "Not affected\n");
-+	}
-+}
-diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
-index 56b5054b8f86..1f4329bb8a9d 100644
---- a/arch/riscv/kernel/cpufeature.c
-+++ b/arch/riscv/kernel/cpufeature.c
-@@ -17,6 +17,7 @@
- #include <linux/of.h>
- #include <asm/acpi.h>
- #include <asm/alternative.h>
-+#include <asm/bugs.h>
- #include <asm/cacheflush.h>
- #include <asm/cpufeature.h>
- #include <asm/hwcap.h>
-@@ -867,7 +868,13 @@ static int __init riscv_fill_hwcap_from_ext_list(unsigned long *isa2hwcap)
- 		riscv_fill_vendor_ext_list(cpu);
- 	}
- 
--	if (has_xtheadvector_no_alternatives() && has_thead_homogeneous_vlenb() < 0) {
-+	/*
-+	 * Execute ghostwrite mitigation immediately after detecting extensions
-+	 * to disable xtheadvector if necessary.
-+	 */
-+	if (ghostwrite_get_state() == VULNERABLE) {
-+		ghostwrite_enable_mitigation();
-+	} else if (has_xtheadvector_no_alternatives() && has_thead_homogeneous_vlenb() < 0) {
- 		pr_warn("Unsupported heterogeneous vlenb detected, vector extension disabled.\n");
- 		disable_xtheadvector();
- 	}
-diff --git a/drivers/base/cpu.c b/drivers/base/cpu.c
-index fdaa24bb641a..a7e511849875 100644
---- a/drivers/base/cpu.c
-+++ b/drivers/base/cpu.c
-@@ -599,6 +599,7 @@ CPU_SHOW_VULN_FALLBACK(retbleed);
- CPU_SHOW_VULN_FALLBACK(spec_rstack_overflow);
- CPU_SHOW_VULN_FALLBACK(gds);
- CPU_SHOW_VULN_FALLBACK(reg_file_data_sampling);
-+CPU_SHOW_VULN_FALLBACK(ghostwrite);
- 
- static DEVICE_ATTR(meltdown, 0444, cpu_show_meltdown, NULL);
- static DEVICE_ATTR(spectre_v1, 0444, cpu_show_spectre_v1, NULL);
-@@ -614,6 +615,7 @@ static DEVICE_ATTR(retbleed, 0444, cpu_show_retbleed, NULL);
- static DEVICE_ATTR(spec_rstack_overflow, 0444, cpu_show_spec_rstack_overflow, NULL);
- static DEVICE_ATTR(gather_data_sampling, 0444, cpu_show_gds, NULL);
- static DEVICE_ATTR(reg_file_data_sampling, 0444, cpu_show_reg_file_data_sampling, NULL);
-+static DEVICE_ATTR(ghostwrite, 0444, cpu_show_ghostwrite, NULL);
- 
- static struct attribute *cpu_root_vulnerabilities_attrs[] = {
- 	&dev_attr_meltdown.attr,
-@@ -630,6 +632,7 @@ static struct attribute *cpu_root_vulnerabilities_attrs[] = {
- 	&dev_attr_spec_rstack_overflow.attr,
- 	&dev_attr_gather_data_sampling.attr,
- 	&dev_attr_reg_file_data_sampling.attr,
-+	&dev_attr_ghostwrite.attr,
- 	NULL
- };
- 
-diff --git a/include/linux/cpu.h b/include/linux/cpu.h
-index bdcec1732445..6a0a8f1c7c90 100644
---- a/include/linux/cpu.h
-+++ b/include/linux/cpu.h
-@@ -77,6 +77,7 @@ extern ssize_t cpu_show_gds(struct device *dev,
- 			    struct device_attribute *attr, char *buf);
- extern ssize_t cpu_show_reg_file_data_sampling(struct device *dev,
- 					       struct device_attribute *attr, char *buf);
-+extern ssize_t cpu_show_ghostwrite(struct device *dev, struct device_attribute *attr, char *buf);
- 
- extern __printf(4, 5)
- struct device *cpu_device_create(struct device *parent, void *drvdata,
+Here are a couple more Allwinner device tree changes for 6.12.
+Please consider pulling them.
 
--- 
-2.45.0
 
+Thanks
+ChenYu
+
+
+The following changes since commit 89f1a037e97cb2ec0948eb92bca17e7d8c4fc824:
+
+  arm64: dts: allwinner: a64: Add GPU thermal trips to the SoC dtsi (2024-0=
+9-04 22:43:49 +0800)
+
+are available in the Git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunx=
+i-dt-for-6.12-2
+
+for you to fetch changes up to 605f56405a6719dfdc9f91464c082856cd929d6c:
+
+  arm64: dts: allwinner: h5: NanoPi NEO Plus2: Use regulators for pio (2024=
+-09-11 16:54:32 +0800)
+
+----------------------------------------------------------------
+Allwinner SoC device tree changes for 6.12 part 2
+
+ARM64 device tree and binding-only changes
+- Add system and pin voltage regulator supplies for NanoPi NEO Plus2
+
+----------------------------------------------------------------
+Kry=C5=A1tof =C4=8Cern=C3=BD (2):
+      arm64: dts: allwinner: h5: NanoPi Neo Plus2: Fix regulators
+      arm64: dts: allwinner: h5: NanoPi NEO Plus2: Use regulators for pio
+
+ .../dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts   | 37 ++++++++++++++++++=
+++++
+ 1 file changed, 37 insertions(+)
+
+--suWzmaiDCCl7fJWq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE2nN1m/hhnkhOWjtHOJpUIZwPJDAFAmbipsAACgkQOJpUIZwP
+JDCueg//QN0lPcrwhM6PhSAr0gHmWL0r/Vg46hwME7sKnyIqvRJWUCqENTJ1WSg6
+at1tcuxp2kaS059vWB3T6kqgwboFZ3Ydf3iLVct2jKKM/AvLB4Wm37lk41tmWYEw
+IVAT7Vym1L6wz25mKp0d+jWbXO6bDPaKXsCEVraEa034c1DXMddlFCc1gSMYofhY
+Bx/hTAu51BHfT9kA0kDKwTl2ua6lLnhZld4+fTsMNFgDtTDMTJPJa4DqPi5Z5INP
+PJt28aILbbGbiCDhWzX3RIYYQa8g2vqcHtmtoiUG6aSL5/jjxG0ts1LMpShMSpJd
+u3rpD/ziQPn3j3lz9BWPi1OmqIvaax01hWAJ0LJ1IV4ZoPEljDozhNw6ZK+dDoes
+apVu3fE43HlOq8tyI4gkWu/lzLuY3nXtIgCL1raeAK1u42LAQ5EbdY4OcrhE/yOh
+k3JkoOOk+N/So8c8tWW0uTQ+pzt09uJ+ktPkLhV4YHAYTjtFCQmKbw7T3JmlP8FZ
+3S6nAKLwenakdWzxGjj7lep7L8QCYf73sA/GnEX4m7woQfiMZbS1hPiNN/FjnKjf
+EY8TlayAvbSSMO9SKffGpqc/9e/RllcYcoavUNFKmoVjE+9OWuG0u42zDZl83BZt
+5oPu2qsYMZ5cdvHuAQmtZofFSoSrB4arohM77hu22+0fNhWZpUo=
+=TB6J
+-----END PGP SIGNATURE-----
+
+--suWzmaiDCCl7fJWq--
