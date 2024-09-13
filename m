@@ -1,78 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46DC018C915;
-	Thu, 12 Sep 2024 08:34:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726130060; cv=none; b=BuJdwOuBX0PAAg/p7+QkNaIjVHzUMcwL/WgE8PrLOEa/s5RbMrRjy/fSYoepjWz9czj/LyVv/NwTv76Ib+UbE3cGDPPQYZBZThvRiEZDlfPO8x0f3Mn2STwz+LXFhuRYiuAdKifMDx9bK53NBMSZ6YFgYThDrfCYjiglAmbnLlQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726130060; c=relaxed/simple;
-	bh=Ku41fc1T+GKwYLO8P2D3ZeionndBbQ5FxSRlsy4rGD8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dUJlUdYx3LaesqnIqjWer7uFLR7J3knXymxatGtcswoyrH8GkcCPiw0UzmGEbkQ9n72vMrAZwW1lM1kmLq2a72eS3v3BdyAnN5pCq9tRC/Ieu2b9x3WGtzsCysyrUM4Ffu+yinUNlyYrc1PqFCInWo5x+no7FCyJ8V6n9ifThSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D7ZcoHqh; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8904F1D58A8
+	for <linux-sunxi@lists.linux.dev>; Fri, 13 Sep 2024 10:49:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726224553; cv=pass; b=S5Ir5tk1Zivzb0szAfngyQ+jio2jBgqc2hrojvXNJXvCUExYTm0EnEELCtmf7RHC1BrYiooC+hRCVGbGUOtJP3D116UPrfUHmBHNut5X/Us0yl8vh2Bp2T/LZMV7yVUAMn4bLjaTvosHdE6C8Y2uJMMjS2ddSr79Kv8eLJsTrpY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726224553; c=relaxed/simple;
+	bh=rrqHstqaOoJH0oNf7w9RLAC65EvHqF+QEqg7yXEXkXk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pNPjtVmoi0bODipGYewMSnGPcV3fVu+TC3hYypCR6a7i1JSACn9AGp4PVdKm9umLKVF2JE1+gkX4UXbEhCffnLS+QwsXq2gFhjfGbCJ5hYVGP5fbNgf2oPdgYFX2ujsXE7G+Qvq1wEvGKaCQen3Sa2qel21r01+FjvLKEi/4bkY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me; spf=pass smtp.mailfrom=icenowy.me; dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b=qZtLeqwm; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icenowy.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D7ZcoHqh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84A61C4CECC;
-	Thu, 12 Sep 2024 08:34:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726130059;
-	bh=Ku41fc1T+GKwYLO8P2D3ZeionndBbQ5FxSRlsy4rGD8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=D7ZcoHqho9j5hqC0Q3UimcEfd3sAaAc4wzARdnEb5Lql2UoBs7m92oRPsJ2qzrSCI
-	 QDf2j9gJ97OCRy078WKIWdErF1+8QM+6CRvCm9gXMIXlZpmmIIf3+x8GZziOplrO5K
-	 oyigFXrT/A92qDcaDhi6WiniT+2btFGQ1A+lqQDhEH9PeKGYsiyyOu5SKb56Xln8as
-	 wVBaXBMaK7qENR7gHdJvc81u8njtAqzd7lR01A7zCH2PBjrSSQYq4mlT96dDdjtZkI
-	 HjaaKV3qGjnSByNOjSXfI+9WgtE6dbCoPrVAOyZHhKRAkdv+2rjMT2aDmqM1nPf5vi
-	 GauUUHeDcMiLQ==
-Received: by wens.tw (Postfix, from userid 1000)
-	id EA07A5FC08; Thu, 12 Sep 2024 16:34:15 +0800 (CST)
-From: Chen-Yu Tsai <wens@kernel.org>
+	dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b="qZtLeqwm"
+ARC-Seal: i=1; a=rsa-sha256; t=1726224544; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=JgCHy26J5RTuZfALei11p0LhFB2xQIpGjsbqbvN9xv7ak/7OkkOAcXpS7EI5ZITdMYpf/oM3Xj/hui9a07q6BtSa1OYcb0b/n3BubOu93V8x/hD3BVGVfDnnO+DzLm8R7iFz//EBM77fiWXTIlwEtM52wHmIXMzZbXUUA7xoF1M=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1726224544; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=JgVVClL/nl81iGMgJH6Or+qEABIgBR2m9kRyKGMQOxs=; 
+	b=EkrO2d2Y0f9JOBlm+Ef1G5O9iV7x7U9rPwWWjsqLr9iKX1Fymcx8NjQyoGuCMG2vu+tsX1A5Hw8yAK7fR6fLEZ67HetLbHSdtsXvWUIgCbbrJLf5py2GqtsQ2iep+CQAKDMsVu9C/Sasw26mKNS8EchPsicMz7A07znK1f4cY5M=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=icenowy.me;
+	spf=pass  smtp.mailfrom=uwu@icenowy.me;
+	dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1726224544;
+	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=JgVVClL/nl81iGMgJH6Or+qEABIgBR2m9kRyKGMQOxs=;
+	b=qZtLeqwmL+sYAKut+OP6DssmODsfmsiVnRMD5/zrlLlQ6dL0H4LVkD5rBelNi6/R
+	vGjHGyRed5k1EaXuUVf1y9gcGrCmCdE0uetObtqmH5rluSOXFvMe0vv4RfmNh8CBeDU
+	QBgpmV8D0WOFEk1ETLqsCHzifCyD/pjijuy3L1QB3Fon4t0Miv0vEvh9Z3/655n8BmK
+	liAle6a9bdd9PM0kbns3EzfvfEvCVLnzvJ3iP+4Mo++vOE2OjmXmoAeRwh08Q7pnbfd
+	zClLtfNicvVWgNjPM29aKSxdw4Lfq6y3CjTjLmSPfnFQxgGQXPv/kboF4wcCqHObGqm
+	80xC5+IgwA==
+Received: by mx.zohomail.com with SMTPS id 1726224543413872.8186395558075;
+	Fri, 13 Sep 2024 03:49:03 -0700 (PDT)
+From: Icenowy Zheng <uwu@icenowy.me>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	=?UTF-8?q?Kry=C5=A1tof=20=C4=8Cern=C3=BD?= <cleverline1mc@gmail.com>
-Cc: Chen-Yu Tsai <wens@csie.org>,
-	devicetree@vger.kernel.org,
+	Andre Przywara <andre.przywara@arm.com>,
+	Maxime Ripard <mripard@kernel.org>
+Cc: devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/2] NanoPi NEO Plus2: Fix regulators and assign them
-Date: Thu, 12 Sep 2024 16:34:07 +0800
-Message-Id: <172613000178.1953155.16179648921609454400.b4-ty@csie.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240905-nanopi-neo-plus2-regfix-v3-0-1895dff59598@gmail.com>
-References: <20240905-nanopi-neo-plus2-regfix-v3-0-1895dff59598@gmail.com>
+	linux-kernel@vger.kernel.org,
+	Icenowy Zheng <uwu@icenowy.me>
+Subject: [PATCH 1/2] dt-bindings: arm: sunxi: document RerVision A33-Vstar board
+Date: Fri, 13 Sep 2024 18:48:44 +0800
+Message-ID: <20240913104845.4112986-1-uwu@icenowy.me>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-From: Chen-Yu Tsai <wens@csie.org>
+RerVision A33-Vstar is an evaluation board of their A33-Core1 SoM.
 
-On Thu, 05 Sep 2024 19:37:09 +0200, Kryštof Černý wrote:
-> Just minor changes based on feedback.
-> 
-> 
+Add its compatible (with the SoM compatible) to the sunxi board DT
+binding file.
 
-Applied to sunxi/dt-for-6.12 in sunxi/linux.git, thanks!
+Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+---
+ Documentation/devicetree/bindings/arm/sunxi.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-[1/2] arm64: dts: allwinner: H5: NanoPi Neo Plus2: Fix regulators
-      https://git.kernel.org/sunxi/linux/c/37ed8e75c660
-[2/2] arm64: dts: allwinner: H5: NanoPi NEO Plus2: Use regulators for pio
-      https://git.kernel.org/sunxi/linux/c/605f56405a67
-
-I also changed the "H5" in the subject to lowercase, matching most other
-commits.
-
-
-Best regards,
+diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
+index 09dc6f4249866..6e56530d02439 100644
+--- a/Documentation/devicetree/bindings/arm/sunxi.yaml
++++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+@@ -841,6 +841,12 @@ properties:
+           - const: allwinner,sun50i-h64
+           - const: allwinner,sun50i-a64
+ 
++      - description: RerVision A33-Vstar (with A33-Core1 SoM)
++        items:
++          - const: rervision,a33-vstar
++          - const: rervision,a33-core1
++          - const: allwinner,sun8i-a33
++
+       - description: RerVision H3-DVK
+         items:
+           - const: rervision,h3-dvk
 -- 
-Chen-Yu Tsai <wens@csie.org>
+2.46.0
+
