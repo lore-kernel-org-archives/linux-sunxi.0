@@ -1,82 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE05B2562E;
-	Fri, 13 Sep 2024 17:25:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726248344; cv=none; b=CAq3HnJfBenetT7oJjs23FzqVEwrqDSXiy/jglzAKVzyCvfR3DAR+PPtosxqSEPEpLCVdVBd8qGaxKqbQZ4x2ltCwgwjwA0HQUYsWFiQpeMPAGkaJvKeaIevq4BGkeMhsvUOFpTI+o6II0cmd3MILE64ty9z9z+K8vw2OH6bldc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726248344; c=relaxed/simple;
-	bh=2oJu5gnYXFlqvyj7LMUho0tUx9dwavN3a2NzpR93BWY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nam1D236PGyeIU1LccBVHUKoTjeq99RnBCbaYRCLV4FZiMtU1dc8bezXJkQVgRmmogVgCAEGdw+ak8PnglQYznncdYZPV2ALnfM254qNy9UuoQXdEre4wJEk759IzWC3u76s2i2I5rqQPO0vdCpmCkBp3uCMfd89XQH1c7PSpps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qn8CVC1c; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 731191FB4
+	for <linux-sunxi@lists.linux.dev>; Sat, 14 Sep 2024 01:56:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726278974; cv=pass; b=DFb0WXM9DbBl8jy2XLGMsDGeOpU5TPgMMqZHs3S5Ag3pu7U6hCgX5CIzcuN/pVVwdAYfqFXcKo4PN7W7Nn7g71ORQgLs4+nvJ0rEQbmsZXU2IEkCsnqM1IeyRYodnZnpcafg/Fj1JQ/XlrFB2k4zWrGOgidhqLteSXvF3gUTwhA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726278974; c=relaxed/simple;
+	bh=ayBCYZquB2nxVKX6mp0OElWmvLIk/UXOyDEVCYprcsY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=uljm9H+8AD78kTXQs847Iot+AGngkfYK3c/JTbEPah9QTv8FdSy4M5NnejytuPJmFxSFoI9WTIIPP4zt6oIfZjJmplv10lv+/XHZ8k6KVwjkhStlxNOlve4Uxdxdq5WrF+gLBd90HRR2a8lS0I6WdlWOYTrN9ARFlQ2rwBGeoLg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me; spf=pass smtp.mailfrom=icenowy.me; dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b=JJNmq9jL; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icenowy.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qn8CVC1c"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4AD2C4CEC0;
-	Fri, 13 Sep 2024 17:25:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726248344;
-	bh=2oJu5gnYXFlqvyj7LMUho0tUx9dwavN3a2NzpR93BWY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Qn8CVC1c0sXcmbgBhartxN2G0DABLvODrqju+/HuNwwkl8t13iONIxtXQHyKQmF48
-	 2PW1GD0t/KaQiKlRKx3glHGpPzib+98kuyTqen5W3Pw1VhGhb2sAAiNaq6/YubO6Wy
-	 omah2UfsUm5e4VS+Gq9HUDkYqv/9fQ9+tYp1CvSbXmnfwU0sD1nWmOFLvdhI72hVBp
-	 rRkJHI33j+sVlasTnEXsx+0xDVfQxZ5x3G/D5wUW5akXpqr0yPb0Z2FuK2eCvkbmtf
-	 HCMbSi8QCVX8teV5Pfc8nVGqUFiSnJcuMVhR1FYiiSeVEP1+yhuak+/2BXIYuFlON0
-	 c4ZX05DIvheAw==
-Date: Fri, 13 Sep 2024 18:25:39 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Icenowy Zheng <uwu@icenowy.me>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
+	dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b="JJNmq9jL"
+ARC-Seal: i=1; a=rsa-sha256; t=1726278962; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=RzJyEf15GliLrSVJ/uyX7penK2QMkryN+d4RXb6QJ+6ncXwSJGTy/7GOWV1ckmLDatEPFQzhxrIyognx/6uMMvLQFhIwNZf4YwweT2y940uaqn3k6jEUFiZ5MuZJ5WnbPHKR0BEWlOfzx7kwNigV3wCFNuUj1p+HDtSL5hWZzWk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1726278962; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=NXQ26KT6Pv90YwCJ3APT9lq+9hwmObUaP8zl7IDRZwQ=; 
+	b=YUuDxBcrCMqE7sf81QwLdoaT0JqQi+gxSRajQgUF5A7iIGvIJhjxVXj+fjoXfC24qjPSNJTCNjv13yZdQiPT+duK25CsK5hye+wuhUZHlDyiwHfC/FNYKVeYcIcqO128AUeov4IRRdz59c+ht5oFWRiJn2NL7G/pVchcVHPpaTQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=icenowy.me;
+	spf=pass  smtp.mailfrom=uwu@icenowy.me;
+	dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1726278962;
+	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+	bh=NXQ26KT6Pv90YwCJ3APT9lq+9hwmObUaP8zl7IDRZwQ=;
+	b=JJNmq9jLLHCaqwfhUXkVQTdtdGm8q9fe+oLihCQoK9+cANoPVN4caaGg+8aEw0gm
+	oCvW1te5P8I5iiwm722yBp/HW0m3VVe7hORwALOo+jD5hHi8jY2191pO/o0OPUPurss
+	mPRawi+IxSq/0UlgezWaITrvHz6YFwbjZCfrfiMsOGNg3AgPF2tWZ9Ui1eQW6b0k0fb
+	RVZ9ZYmJ72w6BQyBxJm+KLuduHvhw3yrif11BKHLOBHtJBdfsMoKl3cXKIPpIGhRjqo
+	LCyoVofFN7JlrR9uYYcAAus6RZObpHkaLp7xC79RQq4te1RwXC0hHLdRtMKYaWbJwjm
+	fGtv6NXA3g==
+Received: by mx.zohomail.com with SMTPS id 1726278961359640.2990860982334;
+	Fri, 13 Sep 2024 18:56:01 -0700 (PDT)
+Message-ID: <ad869e684c940435ba3fcf4dbccbfc770b38c16b.camel@icenowy.me>
 Subject: Re: [PATCH 1/2] dt-bindings: arm: sunxi: document RerVision
  A33-Vstar board
-Message-ID: <20240913-thong-endowment-cb760617f7c5@spud>
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Rob Herring <robh@kernel.org>
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Conor Dooley <conor+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-sunxi@lists.linux.dev, Andre Przywara <andre.przywara@arm.com>,
+ Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>
+Date: Sat, 14 Sep 2024 09:55:55 +0800
+In-Reply-To: <172623730520.4076253.7175037716930825765.robh@kernel.org>
 References: <20240913104845.4112986-1-uwu@icenowy.me>
+	 <172623730520.4076253.7175037716930825765.robh@kernel.org>
+Organization: Anthon Open-Source Community
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="oMRq14sTUO9x8LTg"
-Content-Disposition: inline
-In-Reply-To: <20240913104845.4112986-1-uwu@icenowy.me>
+X-ZohoMailClient: External
 
-
---oMRq14sTUO9x8LTg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Sep 13, 2024 at 06:48:44PM +0800, Icenowy Zheng wrote:
-> RerVision A33-Vstar is an evaluation board of their A33-Core1 SoM.
+=E5=9C=A8 2024-09-13=E6=98=9F=E6=9C=9F=E4=BA=94=E7=9A=84 09:24 -0500=EF=BC=
+=8CRob Herring (Arm)=E5=86=99=E9=81=93=EF=BC=9A
 >=20
-> Add its compatible (with the SoM compatible) to the sunxi board DT
-> binding file.
+> On Fri, 13 Sep 2024 18:48:44 +0800, Icenowy Zheng wrote:
+> > RerVision A33-Vstar is an evaluation board of their A33-Core1 SoM.
+> >=20
+> > Add its compatible (with the SoM compatible) to the sunxi board DT
+> > binding file.
+> >=20
+> > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+> > ---
+> > =C2=A0Documentation/devicetree/bindings/arm/sunxi.yaml | 6 ++++++
+> > =C2=A01 file changed, 6 insertions(+)
+> >=20
 >=20
-> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+>=20
+> My bot found new DTB warnings on the .dts files added or changed in
+> this
+> series.
+>=20
+> Some warnings may be from an existing SoC .dtsi. Or perhaps the
+> warnings
+> are fixed by another series. Ultimately, it is up to the platform
+> maintainer whether these warnings are acceptable or not. No need to
+> reply
+> unless the platform maintainer has comments.
+>=20
+> If you already ran DT checks and didn't see these error(s), then
+> make sure dt-schema is up to date:
+>=20
+> =C2=A0 pip3 install dtschema --upgrade
+>=20
+>=20
+> New warnings running 'make CHECK_DTBS=3Dy allwinner/sun8i-a33-
+> vstar.dtb' for 20240913104845.4112986-1-uwu@icenowy.me:
+>=20
+> arch/arm/boot/dts/allwinner/sun8i-a33-vstar.dtb: hub@1: '#address-
+> cells', '#size-cells', 'ethernet@4' do not match any of the regexes:
+> 'pinctrl-[0-9]+'
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0from schema $id:
+> http://devicetree.org/schemas/usb/genesys,gl850g.yaml#
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+I think I need help to properly reference usb-device.yaml to allow
+cells properties. Currently it's in a allOf: section of
+genesys,gl850g.yaml along with Genesys-specific per-compatible rules
+(USB2/USB3 hubs), but it looks that this fails to work.
 
---oMRq14sTUO9x8LTg
-Content-Type: application/pgp-signature; name="signature.asc"
+I copied the patternProperties rule from usb-hcd.yaml to allow
+downstream devices,  this works well.
 
------BEGIN PGP SIGNATURE-----
+BTW should a usb-hub.yaml be present to allow different hub bindings to
+share the code for downstream devices?
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZuR1kwAKCRB4tDGHoIJi
-0gOcAQCuUkpqUP9QEdlqxxHGGyvwYebhAMnJoIctTDLBrvMUkgEAkRTkmcuvEIfC
-KeZXgMjtPWP4wXx3KAyefwErq5gHxQ0=
-=2G1a
------END PGP SIGNATURE-----
+>=20
+>=20
+>=20
+>=20
+>=20
 
---oMRq14sTUO9x8LTg--
