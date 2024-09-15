@@ -1,112 +1,130 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0317143723
-	for <linux-sunxi@lists.linux.dev>; Sat, 14 Sep 2024 10:07:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4F8443AD9
+	for <linux-sunxi@lists.linux.dev>; Sun, 15 Sep 2024 10:12:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726308427; cv=none; b=f2LglGPA8vK1KY1CzbW06LF37F2/Muz8Z6kiqjA/7hQAX+uQFICeDWqR4mklkQh8ec2cg5beEA4vALj6HJXS7RlCvXoR6S4LNhqbppIE5TnzqmJdYfjYYLpHVru0jIaEzacaOICeBcSwVh66kRISUB9tR2aFS2kMxnPmyOk/P18=
+	t=1726395175; cv=none; b=U94P6ICFX5T1fOFlHtfdqjKdGDGcPqUSc+TVQOnwe738pmRb8foDW07v91kNbiLGOrTrOH+Nq34M0cE3R3xff6uX+saOWoNVLxwMQ7vzgJQt28//62gy4Z29TUX0Vt3LuNWEPHl0ZXbsMiE5PKD3baREPGlqPfzbD0o7lIyE0rs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726308427; c=relaxed/simple;
-	bh=B2uo95TFjLNThhU6mneOTIuZhASXTkzS/sf9qt5JAbM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=RtX1/wx4GsFuWf+dYHC4HiWejrieeb2y4GG8sncZFkgtYqmGGDNARR8uKbqV6p/XYZ0q6oq3UA85DKaGHOwhWaFPB2sVco+Ba59tZVw4IN+t1zCRvtLgf7Yom7Dgxxjpnikt4qt/cCEKbR5J5o0bCvul2sXgkFJ3Dy4wQpOZtTw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X9fDDHUq; arc=none smtp.client-ip=209.85.208.51
+	s=arc-20240116; t=1726395175; c=relaxed/simple;
+	bh=YufrWgDvYHagdRJ8Eafei4Z0REg/DPXuZsNa6mm46Zw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DWRu2yhGveppci1vgy4g5Y2iSuZyXpdKpkDXmEixqfi+/s6/5lltZf+W5E3KVeyaybQ1ERjsdzUjqnMnf0DeNP1z4QGayxmdiM4ZeiHnFKOS6euzxQCtSqQ7VakPQb05+XbEkANJ3+xeaslqhRU2Wi7l6VvaW+K93EPcYJNUeWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I0+aDH5V; arc=none smtp.client-ip=209.85.167.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X9fDDHUq"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5c26815e174so2066665a12.0
-        for <linux-sunxi@lists.linux.dev>; Sat, 14 Sep 2024 03:07:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I0+aDH5V"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-53654dbde59so4316830e87.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 15 Sep 2024 03:12:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726308424; x=1726913224; darn=lists.linux.dev;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=oEIrC6fkjUDhUytmEyujyx/BPZ/Dm0y8aAc80KqecXk=;
-        b=X9fDDHUqqVemgw1Idozao/q2QvkRC/mDl3LneZ5VgSQPGZYkn1TMnpC5/oq1gJuZkL
-         NUJ7HzI7Ei2JGZMs39xbsgiYxnG4HfdBtU+J1c22SojkeyLisQ/h+2ogdO/K2nZBDNrW
-         uiPAvfwwKm3F3DsCEJ5fIRHfAQgk+Vr4dwudEf3NHUlAaWNk/o0QKUv02oVbZ0QbHhab
-         gSrNXboHGe0kGrrAikaAQ2sVKH7pbHQRN/9p395VF7mIC+bK6Cerb1WlfBcmI5Enzl1r
-         g7SetIoIBVF6rOVxbA06GLf9udupHc/ht7wWy6p5YUjvqAdbQTfAtCQIBlNGanqaYFXZ
-         LgIw==
+        d=gmail.com; s=20230601; t=1726395172; x=1726999972; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=e3b+re0v8aGDDcxjlUeI6whVJWiks/9YnhQ8GIAVylM=;
+        b=I0+aDH5Vv8yImPkBtmvyYrNagc5QCH4nII4tj7RFR3LA0k+wbSfx8SlEnk1rxHPLOi
+         udgDL1CDqgb6N7TvkIHminr7t/5E0s+EHOCmbE+RG5FJOFpRyMCgP9X9P4LplYPTED1/
+         dJOL3Anjd4eDFa+YF6SnnchfeBEHR1JzSSiww8gD7PiDic75NixkY4KX9HQa/6UM0yBo
+         xxrFcKETmOAOP02OY5dpMuAOIA2rK+OMok2QoUd8dsR/p+F1rEvA2p6XvkfvN8En8suo
+         X9I92cHbCh4Q9ZHZzLM1O6XYL4iRuaVEVL/IXHE9QcRElHGhLIUFTLBiPQN8Pb0liyeu
+         2f5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726308424; x=1726913224;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1726395172; x=1726999972;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=oEIrC6fkjUDhUytmEyujyx/BPZ/Dm0y8aAc80KqecXk=;
-        b=ZxujeZVDU4+l+MRBlDaz7cxFbLBRd5K4CG1su/326imsRSdPuz2XVurTWomtvGoiCo
-         KsoITGF2vq1td1w0FH2feJ4KDamiRWKiAJmnRsOyL0jcM58/g0/TeZsheYTo1hkoY7Mc
-         RPoFDngpW4cXvdCihSn7hEY5LKUgYplV4Mbs80BgjV7H+4lgM4+Fv67F2peHMKUQTyxq
-         H8aiUR4XwrShCZ2UD+zII8l4Er8wAniGvtR1AnFBNK+I/oaeM+cb3c73TCkdguW8auzz
-         3B4jEKvNUycBvbDptdJpdSOPA51G2megcQld4BmNtKWnjANfp/hYjtW+TSCCAOz5WYEg
-         365A==
-X-Forwarded-Encrypted: i=1; AJvYcCVYtLjmHEEpeHtogF1yX9N2b4H9jhprWn4rMVcrF4O0D9CZS0Yl98kdeJyrwoiJy9Yil+g/d4wG+mqp+w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwL/otrR/6hYznOpKDURuUFrfiDm4h7ti7AQm0R5MrMMh7WMK8K
-	NB7Y0h/Z242jGe7VCgWSizUMI20TjDj4pkO79BDRH2nHeRq+7Hey
-X-Google-Smtp-Source: AGHT+IGXhJKaMfZi7R0EnhsiSO5qMw+KJZP5yHlgmcZg4J4vj0+/2FLyveFNjO4NJ+/HQOISxQcnNw==
-X-Received: by 2002:a17:907:94cc:b0:a8d:6921:e17d with SMTP id a640c23a62f3a-a9047d1adf4mr547920966b.33.1726308423034;
-        Sat, 14 Sep 2024 03:07:03 -0700 (PDT)
-Received: from cleve-worktop. (cst-prg-101-230.cust.vodafone.cz. [46.135.101.230])
-        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-a906111aa91sm61961666b.97.2024.09.14.03.07.02
+        bh=e3b+re0v8aGDDcxjlUeI6whVJWiks/9YnhQ8GIAVylM=;
+        b=Mq8uKDgBwOxa1X5rp5+Xcc1Ri+jD0nG8y/EpeovOJvyUBwClmdTQ4vt+UFy5eIMkpk
+         2WGj2+ZQCA5UZXOn7ImvEeFR2/3ij+qMBzxVlQf9FrnQbQPXLWbOUpUBCodh/7nJrI8y
+         e9Z0Y+x2DTi8JdekmL07lPFbmnyxyqN5s+UHTo/4FxZ0CR5jhOAxTv63dytKGu4Z8Qav
+         +ZZLToUknmCEFgKfKVY3YUU+eKdoh9nUNCGZb7Jv6nv9gxJVt/pRHfK6Zr5O8+UxIh8y
+         Ha0RyWlkgXH0vop0mB7NHFza88wzcsM6YfY+WJJ+NZK80JdAOXobjlwqcBsVGYNyL1Rm
+         GZSA==
+X-Forwarded-Encrypted: i=1; AJvYcCXMb9QuPdWY8/KdFmmieHMiOaBD+57zjnpUfDhpq7gTI5OTJIqXSnD5XGZ/ZJB9azM8vH3CNm7g5dBSFA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwzCdZ6Y39dKIdGW0vusA+C4eo7fUQRKuEaVAK6ExWyHXoE3kxj
+	YMXk8+DWxelLB6T2JZkEwvVXIi0Lukn1/OK9z9TvehXsTGf6DUXhr4QBelyN
+X-Google-Smtp-Source: AGHT+IGFULRwl29+zBkgy+dcU0s4TIiCfqrud8aX30zIW4nAlXdSrXZwnP6OgjhggVHe0DMx5YyVYw==
+X-Received: by 2002:a05:6512:3d93:b0:533:32cf:6420 with SMTP id 2adb3069b0e04-53679075a23mr3746955e87.8.1726395171536;
+        Sun, 15 Sep 2024 03:12:51 -0700 (PDT)
+Received: from localhost ([94.19.228.143])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-536870a8635sm518588e87.217.2024.09.15.03.12.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Sep 2024 03:07:02 -0700 (PDT)
-From: =?utf-8?q?Kry=C5=A1tof_=C4=8Cern=C3=BD?= <cleverline1mc@gmail.com>
-Date: Sat, 14 Sep 2024 12:07:00 +0200
-Subject: [PATCH] arm64: dts: allwinner: h5: NanoPi NEO Plus2: Add
- disable-wp to mmc0
+        Sun, 15 Sep 2024 03:12:50 -0700 (PDT)
+Date: Sun, 15 Sep 2024 13:12:50 +0300
+From: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+To: Chen-Yu Tsai <wens@csie.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Shoji Keita <awaittrot@shjk.jp>,
+	Icenowy Zheng <icenowy@aosc.io>,
+	Andre Przywara <andre.przywara@arm.com>
+Subject: Re: [PATCH 1/2] arm64: dts: sun50i-a64-pinephone: Add AF8133J to
+ PinePhone
+Message-ID: <ZuazIgLz5PP_Z8Cn@skv.local>
+Mail-Followup-To: Andrey Skvortsov <andrej.skvortzov@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Shoji Keita <awaittrot@shjk.jp>,
+	Icenowy Zheng <icenowy@aosc.io>,
+	Andre Przywara <andre.przywara@arm.com>
+References: <20240908214718.36316-1-andrej.skvortzov@gmail.com>
+ <20240908214718.36316-2-andrej.skvortzov@gmail.com>
+ <CAGb2v65Laka+YaPyAecwxEhMkoodrXnDPn+UTwZUS_wsSBMzyg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240914-b4-nanopineoplus2-fix-mmc0-wp-v1-1-12f54f0d6620@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAENg5WYC/x3MTQqDMBBA4avIrDuQpGklXqW48GfSDugkJKgFy
- d0NLj8evBMyJaYMXXNCop0zB6nQjwam3yBfQp6rwShjldMWR4sySIgsFOKyZYOe/7iuk8Ijopv
- b1o+O3i/9hPqIiWq+/5++lAuw8lKSbwAAAA==
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- =?utf-8?q?Kry=C5=A1tof_=C4=8Cern=C3=BD?= <cleverline1mc@gmail.com>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1726308424; l=918;
- i=cleverline1mc@gmail.com; s=20240824; h=from:subject:message-id;
- bh=B2uo95TFjLNThhU6mneOTIuZhASXTkzS/sf9qt5JAbM=;
- b=5Lrk4c31YFwAF0a+C3UhpMwhNyIjmtsc4QT30mPA4izeJ8UHvH/xMLNfmKhpSYe3KIDe0hyIO
- tiZn1Q+K3/0DbIMaaW9nHZBO+HNrRs5ChBEj9/rFZggux9tF1/X5LOw
-X-Developer-Key: i=cleverline1mc@gmail.com; a=ed25519;
- pk=CQifx5FUgTQKAoj5VCYrwYHi235AkXQ5yT1P6gkaBxM=
+In-Reply-To: <CAGb2v65Laka+YaPyAecwxEhMkoodrXnDPn+UTwZUS_wsSBMzyg@mail.gmail.com>
 
-The board does not have wp pin/switch for micro SD card (mmc0).
+Hi Chen-Yu Tsai,
 
-Signed-off-by: Kryštof Černý <cleverline1mc@gmail.com>
----
- arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts | 1 +
- 1 file changed, 1 insertion(+)
+On 24-09-09 16:08, Chen-Yu Tsai wrote:
+> On Mon, Sep 9, 2024 at 5:48 AM Andrey Skvortsov
+> <andrej.skvortzov@gmail.com> wrote:
+> >
+> > From: Icenowy Zheng <icenowy@aosc.io>
+> >
+> > New batches of PinePhones switched the magnetometer to AF8133J from
+> > LIS3MDL because lack of ST components.
+> >
+> > Both chips use the same PB1 pin, but in different modes.
+> > LIS3MDL uses it as an gpio input to handle interrupt.
+> > AF8133J uses it as an gpio output as a reset signal.
+> >
+> > It wasn't possible at runtime to enable both device tree nodes and
+> > detect supported sensor at probe time, because both drivers try to
+> > acquire the same gpio in different modes.
+> >
+> > Device tree fixup will be done in firmware without introducing new board
+> > revision and new dts.
+> 
+> FYI I've been working on an in-kernel prober [1] for such alternative
+> components. This does not require firmware support.
+> 
+> [1] https://lore.kernel.org/all/20240904090016.2841572-1-wenst@chromium.org/
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts
-index 526443bb736c..18fa541795a6 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts
-@@ -136,6 +136,7 @@ &mmc0 {
- 	vmmc-supply = <&reg_vcc3v3>;
- 	bus-width = <4>;
- 	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>; /* PF6 */
-+	disable-wp;
- 	status = "okay";
- };
- 
+Thank you for the information.
 
----
-base-commit: 57f962b956f1d116cd64d5c406776c4975de549d
-change-id: 20240914-b4-nanopineoplus2-fix-mmc0-wp-9d77fb9e6513
+I've tried to use in-kernel prober from your v7 patchset [1] on top of
+-next and it worked without any changes to firmware.
 
-Best regards,
+Since there is still on-going review of your patches it looks like
+it's to early to submit my changes for review. But I'm ready to test
+your new patches.
+
+[1] https://lore.kernel.org/all/20240911072751.365361-1-wenst@chromium.org/
+
 -- 
-Kryštof Černý <cleverline1mc@gmail.com>
-
+Best regards,
+Andrey Skvortsov
