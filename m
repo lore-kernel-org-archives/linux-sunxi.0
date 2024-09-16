@@ -1,104 +1,81 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D82C3146A7A
-	for <linux-sunxi@lists.linux.dev>; Sun, 15 Sep 2024 12:42:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7E6C15AD8B
+	for <linux-sunxi@lists.linux.dev>; Mon, 16 Sep 2024 14:08:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726404148; cv=none; b=VJGtgE/5khQvUxo6xVbz8JqqnF14U9bSRR3rtcjYrFYvzSj23XwbIRSq4gYmRs9H4M/8n1+bVIbLNDTYJ7FElLqgzT4EEpqtRlwX1CuVoaG6p4aa9y4GNQr18j2tOY+nOmDqWvD7qOOdhyAy6UcUFEcrjae/QeJ6pZs4p+nPdxE=
+	t=1726495702; cv=none; b=lOWfsERvlRatBkXHdnZNez2A/pr/d3LI2Ub0qUhVE6RerPjsLqpABEddZNIA8Lwrp9yZqCfwN4pkSXlXK0uQ6n4a16qEcI54wEHgNMOQBR1vmCNAkU9ys/o1mnfqKB036CBoChlHHRYdyRTMNRCMxJyZfPjiWvvulm34Zqg6Tps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726404148; c=relaxed/simple;
-	bh=WYUiwiY2xirV3YCWVuRo/1eCoCh+/9EzRMm1hSd4MfE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XWDmbdfFDlCFANy2HUNtWzWbNrz5aSY8DVtTc+JwK13NBPBleg4XBJixKJBlptpO+6Fb3k9GncAOnJssBpCKzPqp1c9xQJfCb9OeSR8Ph2W4ZU00aFcSAEQ9gJe+4CBA6/vvIlnuMl1j2j8nx+cu89QSZTr3d21vcbFPUCSLoB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MI4Mvtfr; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MI4Mvtfr"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-374c7d14191so2867306f8f.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 15 Sep 2024 05:42:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726404145; x=1727008945; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KAmoRpSGu0fthg3IsTh3p9z8Wk1qhoLI0UGs01+Vzbg=;
-        b=MI4Mvtfr4fz9sbT6m1NuP5RPN4rzQM4f1vEaZCrEEAa8PhjlzpB1wnpX5Ec//iqxRk
-         7NxzmKMQwf9TJlPWXxtQkBsGV/grcrOtZjczoArVAfOtcXKmnd92lY0lFXPBmUb4c/UC
-         m5OnaRQgM0mUxqA3TWYElLOE7l97OUC6iip3mLiak1o799p0T/E5JaXzsbRvgy8Kn9tg
-         1I1GyPfb0YeVWJy3dB+ZazaD1gqyUwXsRLpwaBszzyYNv+Ne90F2nCndKcgxTrIDzSnE
-         97A0QFI4UirrorsUMSu1l8kxtpT9MB7pbDJys/Bp532rLgBLU6OVb8j6bEXsPYx84Rze
-         xJ5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726404145; x=1727008945;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KAmoRpSGu0fthg3IsTh3p9z8Wk1qhoLI0UGs01+Vzbg=;
-        b=ifQRuG95R20UK9WHxpYQMYOxpOZVk25URxVKfiKD3lKF1l7X7C5sOi3vH83m474GdF
-         RX9cmYiNYq0UsfN4o/sOQqZoJwazJm7oNMbYDzoDfMEQE3slP5Yo/OLlGS+8/TKipozv
-         HrUdJwwXg/XkV4vBe+HntKHuMtw0SCn2qTumxZEH4ZArFmRY4Jwtr+KmyA0ywgUN+obr
-         YvSxt7VRVHs1DTsTZr8HSkMuvtw2LtHcllEaNpkhaNwLwgdII84niZiM53v34uyFQNgc
-         m+Wr8Bpz3B169uNYAiW/rfSzaXdHDF4k1bo3y68Wk74tyVS6t6DqHQ6YUdOeQJKs03YH
-         Aywg==
-X-Forwarded-Encrypted: i=1; AJvYcCWbS5SqMNyWsFwQAF6Karev0W7yFDlpZXYF2vUyzQZmZfjXpOTxqs8dM/1tb2tMUAnKwkcSvpWlYlKsxA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz/DXLi+mbG3ZnLJbrmUFW+sLxc5vwuqNi7gtluiWmXeiBaHTTp
-	ZFnccEieniMDNXr9oJGvpp2cYPt+EJnzzoJ0iaKs12GuY72vvHN+
-X-Google-Smtp-Source: AGHT+IH13ljMpV/M4s6ZTPZ7igI97OJY6H/YX0z75kicoEwj0ihA0PkxmlqVfGWTgPZhVPTCLOld8Q==
-X-Received: by 2002:adf:edce:0:b0:374:cb28:b3f8 with SMTP id ffacd0b85a97d-378c27a268bmr7448921f8f.1.1726404144909;
-        Sun, 15 Sep 2024 05:42:24 -0700 (PDT)
-Received: from void.void ([141.226.169.213])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378e73e80afsm4578802f8f.38.2024.09.15.05.42.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Sep 2024 05:42:24 -0700 (PDT)
-From: Andrew Kreimer <algonell@gmail.com>
-To: Maxime Ripard <mripard@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Samuel Holland <samuel@sholland.org>
-Cc: dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Andrew Kreimer <algonell@gmail.com>,
-	Matthew Wilcox <willy@infradead.org>
-Subject: [PATCH] drm/sun4i: Fix a typo
-Date: Sun, 15 Sep 2024 15:42:20 +0300
-Message-Id: <20240915124220.105873-1-algonell@gmail.com>
-X-Mailer: git-send-email 2.39.5
+	s=arc-20240116; t=1726495702; c=relaxed/simple;
+	bh=Y711tuCYCYeQ4ybUBi0ujUdlz7nkpz+HULZZPQxPNpM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ct9i23QzoZTSZlMVXwhNieV4M5RDkjvCADG+KEr/yVvwm7JhjzFieutvxPox1QrsDyqGRCEOU+goXQAni4sjhPNg6dqlkFcGihqzrnvjoetWPHb1n8H/elIrCyC2fm7G8AzvC75gWuMzSIHvY7I+6pbk1IQ/yXtARXHTBk7XFJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6E34911FB;
+	Mon, 16 Sep 2024 07:08:49 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7DB623F64C;
+	Mon, 16 Sep 2024 07:08:18 -0700 (PDT)
+Date: Mon, 16 Sep 2024 15:08:09 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: =?UTF-8?B?S3J5xaF0b2YgxIxlcm7DvQ==?= <cleverline1mc@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] arm64: dts: allwinner: h5: NanoPi NEO Plus2: Add
+ disable-wp to mmc0
+Message-ID: <20240916150809.21889537@donnerap.manchester.arm.com>
+In-Reply-To: <20240914-b4-nanopineoplus2-fix-mmc0-wp-v1-1-12f54f0d6620@gmail.com>
+References: <20240914-b4-nanopineoplus2-fix-mmc0-wp-v1-1-12f54f0d6620@gmail.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Fix a typo in comments.
+On Sat, 14 Sep 2024 12:07:00 +0200
+Kry=C5=A1tof =C4=8Cern=C3=BD <cleverline1mc@gmail.com> wrote:
 
-Reported-by: Matthew Wilcox <willy@infradead.org>
-Signed-off-by: Andrew Kreimer <algonell@gmail.com>
----
- drivers/gpu/drm/sun4i/sun8i_mixer.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> The board does not have wp pin/switch for micro SD card (mmc0).
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h b/drivers/gpu/drm/sun4i/sun8i_mixer.h
-index d7898c9c9cc0..0b24a5e3ac5f 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
-@@ -120,7 +120,7 @@
- /* format 21 is packed YUV444 10-bit */
- 
- /*
-- * Sub-engines listed bellow are unused for now. The EN registers are here only
-+ * Sub-engines listed below are unused for now. The EN registers are here only
-  * to be used to disable these sub-engines.
-  */
- #define SUN8I_MIXER_FCE_EN			0xa0000
--- 
-2.39.5
+That is true, but for *every* microSD card. So I wonder if we should add
+this property to all of the boards? I believe none of the arm64 boards have
+full size SD card slots?
+
+Cheers,
+Andre
+
+> Signed-off-by: Kry=C5=A1tof =C4=8Cern=C3=BD <cleverline1mc@gmail.com>
+> ---
+>  arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts=
+ b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts
+> index 526443bb736c..18fa541795a6 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts
+> @@ -136,6 +136,7 @@ &mmc0 {
+>  	vmmc-supply =3D <&reg_vcc3v3>;
+>  	bus-width =3D <4>;
+>  	cd-gpios =3D <&pio 5 6 GPIO_ACTIVE_LOW>; /* PF6 */
+> +	disable-wp;
+>  	status =3D "okay";
+>  };
+> =20
+>=20
+> ---
+> base-commit: 57f962b956f1d116cd64d5c406776c4975de549d
+> change-id: 20240914-b4-nanopineoplus2-fix-mmc0-wp-9d77fb9e6513
+>=20
+> Best regards,
 
