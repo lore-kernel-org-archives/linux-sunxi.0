@@ -1,89 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E47F10A18;
-	Mon, 16 Sep 2024 18:57:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 949FF200A3
+	for <linux-sunxi@lists.linux.dev>; Mon, 16 Sep 2024 20:45:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726513025; cv=none; b=Ub4sVzYPflXjWuWdz3q48eWtwKMTlx7/mtz+27O2y1zKlF77GuvR9GApqBDFOAfZny+oWHzF3wffYgkcELGMIkx6hTgm2S2hgb/qPTbwAnmYbsj8bupTBnqKfwqa1HmEJ4j5SLGjgK83q9poMquS/+w/vPHuu2GtZaenWe1NGAg=
+	t=1726519544; cv=none; b=cWTjf5JOk7f3uJZbZdBh5CErr+ljDAa6T+O/R2pu6Eu2jRSwBqztS06TGHOWZ4EEnTtF5XrjKiu9KqgN3p/6sUeg3LdGsR/wV7UKJgH5XcR03oSWpUwh/M/QmtfKlNx5B4Jdvhf/IzeHtokHyM2b1zAXNnooGucBxX7UsZ7xw74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726513025; c=relaxed/simple;
-	bh=2rOpEhNpvCP5tv41uT2H58Pziu7pmFrgPvj3jAcIgk8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rUFEHr2fj5n+GbmLdf42RSUgNVAq/45OIH65Uy5GoFQPEusaorwXF3CNUWKep74JZhvco7qLa8+ADvP++PsEiwTFQ8xDE7AihD0mqIgxICDXEMHzyZ3rLokU0IgRpZMcB4SQiKPLF2vcPDdO8cQMgZOJ+Im8G0OWHGq3GykB81U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lYjquCjV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1726519544; c=relaxed/simple;
+	bh=IEMrAmiBjvKw8O8F9JUIZi0o8LPAuOjEEr2hekilUOc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dOlsItgaYU2sOaAJyZPg1DSwwmwk/sNGUawRJbd/DE6VUttIbUvaKL2BgN0jUK0qbU6VBPSyJ0BKn/rBOKMPr1rEyPnGR81kxtqL3aF3RqCIu3K165wV/TTunzR9ZeIGPR4eMIzRNhlNq+263zQo0zYJWNmrZFtikjCUadKjSro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YnzPhbiI; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lYjquCjV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 619BFC4CEC4;
-	Mon, 16 Sep 2024 18:57:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726513024;
-	bh=2rOpEhNpvCP5tv41uT2H58Pziu7pmFrgPvj3jAcIgk8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lYjquCjVo93Cjg6pRa3FlOisSx9MJ0vXCu4xMq2Xjz4aidkOJMUNj+MnONJfY8OLP
-	 7aOsfYtBLdwKewXDfHgrowYJe2tuR/BgBKovwDNM7AEMfIx1n/eW0BPKaqfaXCEztm
-	 6frSYxvTmE7M70IH/+kpaw4Kc5GrGDjOH8AGqTb+F+vdcO1KAHBsqQcnoGfHBTyMDg
-	 lTMiQKecGCgTJGbUi/FX4GXOHoVZ7Cf0Fq6nPUOSd8yhBT+oGBA8h8qT/UAxAA+rxM
-	 NTITXtsr6HwaVyrryQY59zZmbjucqRJGzixpHDF0y0Q7EFaB5tZfp4rCnTp7iJCSTO
-	 Fm0LLPVS95KnA==
-Date: Mon, 16 Sep 2024 19:56:58 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YnzPhbiI"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5365aec6fc1so5449133e87.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 16 Sep 2024 13:45:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1726519540; x=1727124340; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=07RrCbel2n57k5JkA+rd7wEQD1Pp3W7MwcNJcieDSAA=;
+        b=YnzPhbiI8ZY/aE50+L5eDddalLXTgZjspnYFEaYZg7B6KAJeQbdloZakXjls8jDsET
+         upokt7DetccQYdpLkML+ZeRpEOOaBhxjdth/BCQHbR/uh2QRuBe8KAmKMp7t6cYbZgCN
+         oUbk9YVdv2qXeoVUjSsf+M7NzBw0DWo+2bUPD3R/tSc1+cUQN2Sp0V6927j4bshKXXmj
+         ixicUcDHzGP5Dd7JoYOLlGiai+Y4OjZteQYtYYiJiIQc2RobHlOfJQERNy9a3HZUg7Hc
+         f5V7CyuUOtCc9zrlZ12CtWnBEXGaJQtOet3nkwAVlb2CS5dFFKsg8jp0m9XRGoMTJUUn
+         Ev9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726519540; x=1727124340;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=07RrCbel2n57k5JkA+rd7wEQD1Pp3W7MwcNJcieDSAA=;
+        b=d697bikYyiXW9aTSqnkNXp8fazZ0c1o8P6FtziWcE9mUFL3h+hOHTpml3TzPUMMCFf
+         lYDraQ4BtVwIyXAUVqj215OJ5kZGWZNeB6ACO3hBaTAjtlfkjvCOZkLOWlgL2jsYNClb
+         cHOzMRmk6KdF5KTRQ7nBPbOuhQgPxJMzX854sWBBvZM+l1Wt+JSJ3D5vbd5SiuHr0I7L
+         MOLWrqtHyUnURMC/cCKwc9DUum+Al+IvoU2xhwsxnkj9Gy0ZnkZKFwk7dime5iR9Vuby
+         gfUZEr8lMMGyOvKu5jML7K0eyaRxZTtK2hFSHDf40S3LNiqpw0MJF2E3rUaR5G06Oe+l
+         U7Tw==
+X-Forwarded-Encrypted: i=1; AJvYcCWD8zQJCL/y4LpTrcjr5yEw1txtFnki0jsy9FzzxKegwX0SdYmcL0HJELjNufuxYfztdzI98jweRNmLrw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxxj0PAVonHB5hxLrzjHgfQxoV9zLaSXXDRgd074VcVItv6Xg08
+	Ksq2vg4B2yiHv72x+1lUrSbRSCUXSgLUN+FhJgIZkneMSaqJeKLh
+X-Google-Smtp-Source: AGHT+IGBoVGZktyfnJSc0q/3ib+Kll8oaCcvG9CIVVKc1VXar2Wf+ks+DR12B2Ikz4FXjCJJmsrGKQ==
+X-Received: by 2002:a05:6512:b03:b0:52f:244:206f with SMTP id 2adb3069b0e04-53678ff5e1cmr8511739e87.53.1726519538654;
+        Mon, 16 Sep 2024 13:45:38 -0700 (PDT)
+Received: from localhost.localdomain ([94.19.228.143])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-536870ad17dsm990738e87.241.2024.09.16.13.45.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Sep 2024 13:45:37 -0700 (PDT)
+From: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+To: Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Guo Ren <guoren@kernel.org>, Evan Green <evan@rivosinc.com>,
-	Andy Chiu <andy.chiu@sifive.com>,
-	Jessica Clarke <jrtc27@jrtc27.com>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v10 14/14] riscv: Add ghostwrite vulnerability
-Message-ID: <20240916-profanity-superjet-33a08a8b0b3f@spud>
-References: <20240911-xtheadvector-v10-0-8d3930091246@rivosinc.com>
- <20240911-xtheadvector-v10-14-8d3930091246@rivosinc.com>
- <20240916-pretext-freehand-20dca1376cd4@spud>
- <Zuh8dLsA50IHXymz@ghost>
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: =?UTF-8?q?Ond=C5=99ej=20Jirman?= <megi@xff.cz>,
+	Andrey Skvortsov <andrej.skvortzov@gmail.com>
+Subject: [PATCH] arm64: dts: sun50i-a64-pinephone: Add mount matrix for accelerometer
+Date: Mon, 16 Sep 2024 23:45:21 +0300
+Message-ID: <20240916204521.2033218-1-andrej.skvortzov@gmail.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="1W3qJ42zpxTLHb35"
-Content-Disposition: inline
-In-Reply-To: <Zuh8dLsA50IHXymz@ghost>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+From: Ondřej Jirman <megi@xff.cz>
 
---1W3qJ42zpxTLHb35
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+accelerometer is mounted the way x and z-axis are invereted, x and y
+axis have to be spawed to match device orientation.
+The mount matrix is based on PCB drawing and was tested on the device.
 
-On Mon, Sep 16, 2024 at 11:44:04AM -0700, Charlie Jenkins wrote:
-> I figured that since T-Head didn't feel it was
-> valuable to change the archid/implid between cores that Linux shouldn't
-> go out of its way to fix the granularity issue.
+Signed-off-by: Ondrej Jirman <megi@xff.cz>
+Signed-off-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+---
+ arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi | 3 +++
+ 1 file changed, 3 insertions(+)
 
-I mean, when you put it like that, I'm not particularly inclined to
-disagree...
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+index bc6af17e9267a..1da7506c38cd0 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+@@ -229,6 +229,9 @@ accelerometer@68 {
+ 		interrupts = <7 5 IRQ_TYPE_EDGE_RISING>; /* PH5 */
+ 		vdd-supply = <&reg_dldo1>;
+ 		vddio-supply = <&reg_dldo1>;
++		mount-matrix = "0", "1", "0",
++				"-1", "0", "0",
++				"0", "0", "-1";
+ 	};
+ };
+ 
+-- 
+2.45.2
 
---1W3qJ42zpxTLHb35
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZuh/egAKCRB4tDGHoIJi
-0m9ZAP4p4x2mD8mK/6PbASnwkCkRX6uLXgKlb3Og6pl+CuOYXQD+Pot5fkAszZBn
-jOtHr1hp7qBYQvOX0qqA+aF3UF/INAc=
-=rRd0
------END PGP SIGNATURE-----
-
---1W3qJ42zpxTLHb35--
