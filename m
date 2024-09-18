@@ -1,21 +1,21 @@
 Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE57D173347
-	for <linux-sunxi@lists.linux.dev>; Wed, 18 Sep 2024 11:22:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73DCF176248
+	for <linux-sunxi@lists.linux.dev>; Wed, 18 Sep 2024 11:27:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726658527; cv=none; b=cIGUME0IyQ2z3rhwZek/K8lKedom3zHX2Q7QXh961ScDpkj9rI9fCuGXVOyhe0EHEmNHwev3znJua7t/oF3GxCMxylV/t7v+tosSlxYlIfTPbMhBwLqUYq2z3QY84UfzscdsKUN7zUaEh0bS4l1Z77NqrNywxEM6170X5yK9B5g=
+	t=1726658840; cv=none; b=VtVxaalCazkP2LiskjbCwjKJjUx9yMI2xvnKN4QH0G3IvCAg/trLHW+3/e+D4AX7PvFrHSGyO9KmQnB/TA3V3hKS51JDKoA9RaFkceQElyzHP+xYtEA9lCN++47eZpd7rP3fgebDKOhOJbzxopP/q1bGy0xakfHZPbMNidOqlJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726658527; c=relaxed/simple;
-	bh=QPcKLiLHtvkR19LsDTYI4U97WFNuIjHxUqh/HtIWack=;
+	s=arc-20240116; t=1726658840; c=relaxed/simple;
+	bh=APZDhT+NJdFY/yYp7lXO/YQdWBelGRrnsx8C18CQ8Eg=;
 	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=Arm/8xKmEUdYm2/pqCSfhHwYFqniARg9GLOZ1gaeoOmV9xtdiAUuw2xs7xSXRwzFMC6rpiMj34S20d6Zpbm99P/lKP8Zo5LvT3emdDR1oV2RVmdSax55Mh/uP32h39pfLr3OJyH77iRQkCF+XZZYNcPZJOl0tgaBIPKJAN1L8v8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=KvMs5erI; arc=none smtp.client-ip=116.203.91.91
+	 Message-ID:Content-Type; b=FJaF8xr6o0EbNJ3aprhqASfQN/7a/RHoZ0bwl5HwxfV35xfBno4leP8cboOHmqhcU8zyUTlomEt265HF3WLXHn3CfsuHngShFQxpGfWYH7n1b1GvHz0HmQQN2A/Rgqpnxck8vMuEt+NtEnv4DRb6oSJ6OXy4PaUSE5Hi3PAJQsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=CtsfmNVL; arc=none smtp.client-ip=116.203.91.91
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="KvMs5erI"
+	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="CtsfmNVL"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -23,20 +23,20 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
-	t=1726658521;
+	t=1726658836;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=sYza3u0vELDcU9lkaNyZv0iy+jxWBvzkIZXSAAr5uf8=;
-	b=KvMs5erIV38u+YZeaQzZ6sRM0fjquDKuvX8XM6E736DlmbOALvcaHQqwLkXYVmGqHwBMjW
-	6feJM6kfdxI39Ct71p72A3ae1IDFAjk+D0JSBiT487aonlv8uo71lihDEFlaI/tKKGNuUD
-	PSIlZ1roat/rxvGP3gRIfNTBrbKsEmDby/a6l/ViQ9d4VXy35B8ssf6VD+j2K5nW35B/ZM
-	1BsOlOW9ycTHv9zKgqkwlW3PQsnaYfB7A1gKCfGbtW9D56ETYchA+cQUcoMIyeqVSdK2kg
-	lo1kCVDpKaHf/0uiHkjqKw5b6bpnV8TE+1nzu9/w3dQfpZpDtwfSuDXHienUwg==
-Date: Wed, 18 Sep 2024 13:22:01 +0200
+	bh=nfH01sB+DBUpTSjL37MwEOYgAbC2BjpMcYHpPwSx4fY=;
+	b=CtsfmNVLqtJ+WQam3YvWbhBJhaWK/pE93Z78JTKYcbMqgNBnzqYJO50ASggcDMRXG9GhAG
+	uAs+K/jGWO7Aote38bJpbYv9Bmcm7gnqtU0KVtWerqoqv8S4/WdyLtKMuTkG30ivTmeazG
+	s7nRL0AlNVZmiQeVR/CU7qqdFHVUzwRMpy8+4FkqrosQV0PietQZPx0G6ctiCte7GKEK9E
+	vw7s4tFxBSArSEv44Veg6Jv7ubptMHdLQv0M1B3pBfTKXYQOAEFmLBjd3w9PQioDR080y5
+	9rOS8gFVVjQvlzUTp7wYTNqi/3xYh39FItlTa5TdkbqTClxvKtKNhOoEkZvy1g==
+Date: Wed, 18 Sep 2024 13:27:16 +0200
 From: Dragan Simic <dsimic@manjaro.org>
-To: Dragan Simic <dsimic@manjaro.org>
+To: Andrey Skvortsov <andrej.skvortzov@gmail.com>
 Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Rob Herring
@@ -48,13 +48,16 @@ In-Reply-To: <ZuqyuvZ6tdzp5XSW@skv.local>
 References: <20240916204521.2033218-1-andrej.skvortzov@gmail.com>
  <6e5d0e9978bff30559c17f30d1495b59@manjaro.org> <ZunCysUTSfQU1ylg@skv.local>
  <c7664fda936d36e0d916ae09dd554d2e@manjaro.org> <ZuqyuvZ6tdzp5XSW@skv.local>
-Message-ID: <24da366b05406e4c16e88438938d6933@manjaro.org>
+Message-ID: <8df5fc79a3e899738aa944a290774c72@manjaro.org>
 X-Sender: dsimic@manjaro.org
 Content-Type: text/plain; charset=US-ASCII;
  format=flowed
 Content-Transfer-Encoding: 7bit
 Authentication-Results: ORIGINATING;
 	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
+
+[Sorry for the noise, the webmail I'm using somehow managed to mess up
+the recipients list.  Sending again with the list fixed.]
 
 Hello Andrey,
 
@@ -81,7 +84,7 @@ On 2024-09-18 13:00, Andrey Skvortsov wrote:
 > Thanks for the commit description, it's much better, than original
 > one.
 
-Thanks, I'm glad that you like it.
+  Thanks, I'm glad that you like it.
 
 >> Please note the Fixes tag, which will submit this bugfix patch
 >> for inclusion into the long-term/stable kernels.
