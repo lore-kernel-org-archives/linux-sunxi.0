@@ -1,152 +1,110 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2677135417
-	for <linux-sunxi@lists.linux.dev>; Wed, 18 Sep 2024 15:58:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 718641CABA
+	for <linux-sunxi@lists.linux.dev>; Thu, 19 Sep 2024 10:00:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726675124; cv=none; b=cLDOKqGZBP5UREXdcgSTqoaP2UjgBbPO3tziCReA2Tp+DzWDUuH+VYsRCwSUlGigw1eSOtp42J6+YMZf1DEl+iI/ai2pwbrMcSIH+a9b/z0P8AC5V+FmtipuXf2gX9PhwBHuIRVPBs0aulk1NXLYWzU1ZbKa8ZbFGrUd8S5otHY=
+	t=1726740054; cv=none; b=jMg+JNUSW0lL0CF1Iu5swybYe6oW94NZ7a1FRf8nmdKTfKAY7aGxos4Jt2fbMNYk9tL5cznXt1bUkK9S4+I3qaScbrD3j+5J/LR+uOjbSEHRtY1yyVIOIjbL9wpBCImL4Ssw8HDzQBrD/cAMM8j1k2UkYq0H8W0S/mfqo70ZabU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726675124; c=relaxed/simple;
-	bh=XTl0akMhLk29+AOFsdWdqvtoDJjo2Zyt/IJFizXRBlY=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VHVVOl0jH5URTW4RuqSw7uFZCOdu14OxV3rjJcacQiCOwv3vk4m7Li99f1uT2XWGkbO5c5I91sYVuCq5tCV1YGjfjfsmqdTMprMAEzfNSlMkhetMZcBnTk9hfEtu4G6jDZNM4GRwRNE09xPBBllyRrvJvnoHkj330UixSk3pZuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dun4oocf; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dun4oocf"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-53653ee23adso6322687e87.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 18 Sep 2024 08:58:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726675120; x=1727279920; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=/nN4RLUg+rsp0zC2dF8c0G2tRr1/u478Y/JOVZAT/Z0=;
-        b=Dun4oocfDJcEKIzcMPIhtUCUYMnViEvJ+kQK486TeYBsQdtqbfCMi2Yfm9NBUauF+b
-         WNsKfoj+E9EtlJpLLpuBLWaI20DVCoZCNntKSTuJo8jYGSqzfEKGBcLDaP51etWlHck8
-         nlj90sm72AVFBiaMVp8FTi9JK/RYO54o/soDecy3rOs3QxaLdT0DjD2/EG+mnFCd9ej3
-         NbEqtCMOwqK2FfPbHa9IWmOJiQfMOIL6aH8Pmtsg1aQWi7vvalJ7azoqTO6rdOeSufQQ
-         z6JKJmycFBnuCfXBT28mkxg6+CYmGht93x4HgQ3a5MDtCBxl+7gv/ES4/qCg0970avwF
-         9ziA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726675120; x=1727279920;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/nN4RLUg+rsp0zC2dF8c0G2tRr1/u478Y/JOVZAT/Z0=;
-        b=hQW76GSFp7c+Vt005vcTz82LqWmeZSbxlVCaj1KKp3v+26X/PP8wb+mj+PL+600eyb
-         3rmdc5Pc7tINs1VUuoJx2//r/pqK3oCqwAkhI9jQkcHZzrMQvLnTR5F1c5ey/a2ncXJK
-         m46FAVVsTrmcjku9IGJrDv+ZmcHPOBi1LwH3CGF6V7zIH9XGf8Y/ITijx0+jjKd5pKib
-         pQqh3QUooFFAfewAcesq63WlUuwgiI6Z90gd1Clo+BoBFDugLoxbsV9KO5cVx31mGYvO
-         jDr86IzgDRCKh5bcnn1H9vPPY/Ecn0ItYzW6eAO6scupftNJ7a6nbyAavoMIxoISuaYb
-         zd1A==
-X-Forwarded-Encrypted: i=1; AJvYcCWSKeKi0KBldTrbZv3Ft0IrBOUnp3AB/FXZgdBYTj5VAnPnyGYBSh9Vc3EcG3MC/5hNDz24HfUetkZ+DQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxGQJsAsSXAX746TCFCS5RityMXA38JVJPaUo9mG06+U5wDLbYA
-	Qeam+7Sip++RzAhQJhU6oB/RINwwmqdiaxJoDu6K3T/MEk3Ft2BU
-X-Google-Smtp-Source: AGHT+IH8VOQsJfHDSqWN86iefH7nUBxWL2kMFITGTcXQybMmXDSZE1mijRo3aKboOiGWLXoB8Q9s6w==
-X-Received: by 2002:a05:6512:33ca:b0:52c:dc97:45d1 with SMTP id 2adb3069b0e04-53678fb1db0mr12278687e87.10.1726675119540;
-        Wed, 18 Sep 2024 08:58:39 -0700 (PDT)
-Received: from localhost ([94.19.228.143])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53687096890sm1549135e87.130.2024.09.18.08.58.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Sep 2024 08:58:38 -0700 (PDT)
-Date: Wed, 18 Sep 2024 18:58:38 +0300
-From: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-To: Dragan Simic <dsimic@manjaro.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	=?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
-Subject: Re: [PATCH] arm64: dts: sun50i-a64-pinephone: Add mount matrix for
- accelerometer
-Message-ID: <Zur4rhyT50lwxE_v@skv.local>
-Mail-Followup-To: Andrey Skvortsov <andrej.skvortzov@gmail.com>,
-	Dragan Simic <dsimic@manjaro.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	=?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
-References: <20240916204521.2033218-1-andrej.skvortzov@gmail.com>
- <6e5d0e9978bff30559c17f30d1495b59@manjaro.org>
- <ZunCysUTSfQU1ylg@skv.local>
- <c7664fda936d36e0d916ae09dd554d2e@manjaro.org>
- <ZuqyuvZ6tdzp5XSW@skv.local>
- <8df5fc79a3e899738aa944a290774c72@manjaro.org>
- <ZurYndjVz7r0U6dz@skv.local>
+	s=arc-20240116; t=1726740054; c=relaxed/simple;
+	bh=sqvfYbzfe1fAW16uJxIic0EOdzlox5FP9GdoIDUmcDc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rx2w+8mOzMmW5T0oVTU6WfhhfZp8oMR63f1XRrGyEQECzayhJdal+fi6XZ6pj64HLMAv6ApeQ0OYoW+ixBzyYlMDIGTTOebBXeaB36JVRrPNl6hZZNdwFXlXeOs1n9+9jhFUt7r/Qka1gg5uG3/axWwxGkNQ+zps7PlLPehWczg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5AF6E1007;
+	Thu, 19 Sep 2024 03:01:22 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CC66B3F64C;
+	Thu, 19 Sep 2024 03:00:51 -0700 (PDT)
+Date: Thu, 19 Sep 2024 11:00:48 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: =?UTF-8?B?S3J5xaF0b2YgxIxlcm7DvQ==?= <cleverline1mc@gmail.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] arm64: dts: allwinner: h5: NanoPi NEO Plus2: Add
+ disable-wp to mmc0
+Message-ID: <20240919110048.7b76cb0e@donnerap.manchester.arm.com>
+In-Reply-To: <48EAA118-8890-4528-A3AA-6C131A8F8F75@gmail.com>
+References: <20240914-b4-nanopineoplus2-fix-mmc0-wp-v1-1-12f54f0d6620@gmail.com>
+	<20240916150809.21889537@donnerap.manchester.arm.com>
+	<D3EE8EF6-A6CC-4888-8699-A917471904CB@gmail.com>
+	<20240918110200.4f6be49c@donnerap.manchester.arm.com>
+	<48EAA118-8890-4528-A3AA-6C131A8F8F75@gmail.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZurYndjVz7r0U6dz@skv.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Dragan,
+On Thu, 19 Sep 2024 08:18:11 +0200
+Kry=C5=A1tof =C4=8Cern=C3=BD <cleverline1mc@gmail.com> wrote:
 
+> 18. z=C3=A1=C5=99=C3=AD 2024 12:02:00 SEL=C4=8C, Andre Przywara <andre.pr=
+zywara@arm.com> napsal:
+> >On Tue, 17 Sep 2024 17:51:11 +0200
+> >Kry=C5=A1tof =C4=8Cern=C3=BD <cleverline1mc@gmail.com> wrote:
+> >
+> >Hi Kry=C5=A1tof,
+> >
+> >(putting back the lists, please keep the discussion public, for everyone=
+'s
+> >benefit and for having this archived) =20
+>=20
+> Sorry, texted from a phone and used the wrong reply button.
+>=20
+> >> 16. z=C3=A1=C5=99=C3=AD 2024 16:08:09 SEL=C4=8C, Andre Przywara <andre=
+.przywara@arm.com> napsal: =20
+> >> >On Sat, 14 Sep 2024 12:07:00 +0200
+> >> >Kry=C5=A1tof =C4=8Cern=C3=BD <cleverline1mc@gmail.com> wrote:
+> >> >   =20
+> >> >> The board does not have wp pin/switch for micro SD card (mmc0).   =
+=20
+> >> >
+> >> >That is true, but for *every* microSD card. So I wonder if we should =
+add
+> >> >this property to all of the boards? I believe none of the arm64 board=
+s have
+> >> >full size SD card slots?   =20
+> >>=20
+> >> I believe this would be a correct thing to do for micro SD cards, few =
+boards do have this property set already, but most don't. However, I am not=
+ 100% certain (I have had a lot of SBCs, in my hands, but definitely not al=
+l of them), so I added it for this board only. So do you think it should be=
+ added for other boards too, or every user should add it for their SBC on t=
+heir own? =20
+> >
+> >Yes, I would like you to add this for the other arm64 boards, too.
+> >I appreciate your concerns about not knowing, but we can help out here.
+> >Maybe you can quickly go over the wiki and check each board's picture for
+> >having a microSD slot, just to be on the safe side. But I am pretty sure
+> >that full-size SD slots were only used on the first generation (A10)
+> >boards, and any arm64 board always uses micro-SD slots. I would double
+> >check this on my side during review.
+> >
+> >If we would wait for individual board owners to submit patches, we would
+> >wait forever. So thank you for spotting this, and sending a fix, but it
+> >would reduce churn and improve the situation for everyone if you would
+> >cover the other boards as well.
+> >
+> >Thanks!
+> >Andre
+> >
+> > =20
+> Do you mean all sunxi arm64? Or every arm64 board? Sunxi arm64 has like 5=
+0 boards or so, that would be probably possible to do manually. If you mean=
+ all arm64, that would be probably too much to handle at once.
 
-On 24-09-18 16:41, Andrey Skvortsov wrote:
-> On 24-09-18 13:27, Dragan Simic wrote:
+Ah, no, sorry, just the sunxi ones, handling all arm64 boards would indeed
+be quite an endeavour, and it's much harder to verify.
+git grep counts 22 out of the 34 arm64 sunxi boards missing disable-wp, so
+that sounds doable.
 
-> > > In device tree mount-matrix documentation [3] there is
-> > > 
-> > >  users would likely expect a value of 9.81 m/s^2 upwards along the (z)
-> > >  axis, i.e. out of the screen when the device is held with its screen
-> > >  flat on the planets surface.
-> > > 
-> 
-> how I read kernel documentation.
-
-Hm, I think I misunderstand this part in kernel
-documentation and you were correct.
-
-> Picture 2.
-> 
-> up
-> 
->      +--------+ 
->      !        ! 
->      ++++++++++ 
->          !      
->          !      
->          v      
->        gravity, Z
-> 
-> down
-> 
-> Screen (drawn as ++++++++++) is looking downwards ("its screen flat on
-> the planets surface"). Gravity and Z axis point into the same
-> direction and it's expected to read positive value.
-
-
-Sorry, for the noise.
-
-
-> Actually, unless my analysis is proven wrong, perhaps it would
-> be better if I'd submit this patch in its final form, because it
-> has diverged a lot from the original patch.  IIUC, Ondrej only
-> imported the original patch from somewhere, without some kind of
-> proper attribution. [4]
-
-please, submit your version of this patch. I'd be glad to review it (I
-think, I've already did)
-
->> [1] https://rimgo.reallyaweso.me/vrBXQPq.png
->> [2] https://rimgo.reallyaweso.me/uTmT1pr.png
->> [3] https://www.kernel.org/doc/Documentation/devicetree/bindings/iio/mount-matrix.txt
-
-> [4] https://xff.cz/kernels/6.9/patches/0221-arm64-dts-sun50i-a64-pinephone-Add-mount-matrix-for-.patch
-
-
--- 
-Best regards,
-Andrey Skvortsov
+Many thanks,
+Andre
