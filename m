@@ -1,127 +1,317 @@
-Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6F321F956
-	for <linux-sunxi@lists.linux.dev>; Thu, 19 Sep 2024 18:34:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1435AD21
+	for <linux-sunxi@lists.linux.dev>; Thu, 19 Sep 2024 18:35:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726770884; cv=none; b=Zp16/U73ksHJJjDL7iDHCY3MYP9VV4jmnimtEqAW2rg9JHoF2oW7bVPSAEW3v26I9Tkc1MI0Cu0OqqSXw4PM4m4kscrYxfHMMEvcmLKTOWyN1xbKZV2aaBaMxRRCZiqiVrjpUlmIgDv2ttlRBKzqjkrHhCihrqoeFZgGQF75Yhs=
+	t=1726770958; cv=none; b=BtQFPCOmDJDtDB0LKGQROYoOLnt19zOEv0lIuOxYzdMEZxKgElKSkDKi/A9epelLs5qKS5zO+C4CaizN9F5YXMwUzuBUPe0xBoITolYYp+GB4b9jM7u1/NE85Ma1DgYEX5wQ1OagL1ploxNrk10TN2WK/BzZHdzQjGlrFWm5zEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726770884; c=relaxed/simple;
-	bh=H8L3MMxZlrxSwYFY6yRO+F9fFEKVsbGYX7CDv5z/Ufo=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=OdMaTj+xNLY2KEs7z8oliz7ifZ2vbkziYyv1T1Nl4+ACdUAZSIWg7KKo8M/yNLw3hIcpTsY/vTtJx6JnYprqZBJzuu3lKaFcPEnNwcF12cuGiz484Yj78n5fcuMdpwUxQv86TTOVIRdl+CEWdnVezDN6JkQ4z2qce5e0MjCwlac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=nCHrOSvO; arc=none smtp.client-ip=116.203.91.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
+	s=arc-20240116; t=1726770958; c=relaxed/simple;
+	bh=W49WozanLprZEJxgdhsiRD8i1r/Epzp6B7fBpUrzNNE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=DTKjg0cWyfXbsnKY9myfRXSerwHuBop1cVmlvZj08444XP0/ybLvIhF+okpue4C7fNmkpMhJRsClhX8bTACnmRHJl72n3MdQ/WcNs36Me8TpXRsa2qbViLmbPHjb7+sTZlr3E1kj03jVJzf6IhQ0HMwXQmfG9oi4q2b0SxJq10Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NNwPwPY4; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="nCHrOSvO"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NNwPwPY4"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-42cb8dac900so10760695e9.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 19 Sep 2024 11:35:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1726770955; x=1727375755; darn=lists.linux.dev;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=T7wbTHSo9+XfWUpxWPDNev/PMADReLxOtwvmxGAdnEw=;
+        b=NNwPwPY4dc0LctgCFgqa3Wk/X77rl2oFVuMbtt1JUI4/LcsZ+R0mtKrflReJXS3PP8
+         MSi9YNW5dVs2z+IXa8xbYpbJNJUnRtyLu+PBh6P+4SzSM2vgpBLueUwgEXn5UNFE/P6s
+         A55D/7ss+DcX8v+j+vFCaw1Xam04osUuF5pOeI7sHOq7qkdQ78em0Nu2fuWWYdlFa4tc
+         +xrYUaAgyCvWZ5MEqQphTAcOfKmnWu6gD+hENVjEMcaxTo0CqsLBD5DVkijOd7lngzVo
+         H+Mir+2orebcmkDzMlDkB9cnzy1NUZc9ORc7CzfVWEF+bog91XiHhTomJCoODIvhEbr6
+         4lsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726770955; x=1727375755;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=T7wbTHSo9+XfWUpxWPDNev/PMADReLxOtwvmxGAdnEw=;
+        b=rOJcsjl5/OqYyqwFXGnjU6AXfbfXlHaw6oNJBBiBdzYYCKaH84aS+OTgq+XxR6zQe1
+         6NP19e7+S0YohE4Bqe5I/Am27FixGHjtAbuoY+iIiYa8pOPmOL8JrH6NOlPFyAb1L69D
+         hVBb2Po6gP2Ih/qscgtNL8sZS89nAvyGIanUSHghX1mRzUVIwBXhzVUFvZKvte0mQ+1F
+         TqqEsynOpxbcS4L+mw2IPZXUCMliQ3N8HvXwE9hZimODPQ4kwlirWpTUkt+nH9M+yhqr
+         bhA8frNYZWPrTLc+CfTCJAwRA+QmUdR3SnibCVrz4t8s4oJcqLyK/fgmiWiqAnMO/7bV
+         2ATw==
+X-Forwarded-Encrypted: i=1; AJvYcCU29WQwzvcbfjEw2qO/+v1nBBwX/ggXwl6wmE50QdbZEUklWzeufNijfO1kkDiVYDaXwAPBeGMbph34Tg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yybg7Hwyi1UEHjtkIauzPnVOpBgLD2OoiAxAA/cgBNWzrUwEVAN
+	3iUfYzjgEhGwjalCD17XO56uOaqr0MtlsJNLDbUokig7ISwGtywh
+X-Google-Smtp-Source: AGHT+IE52EiCmyv96iQ6F9zx0Vq2tE3Sx85XTboMQtqUo9n54qi1QYTgF3Q3MaSwtjjHK9zj1ChviA==
+X-Received: by 2002:a05:600c:4f51:b0:428:f0c2:ef4a with SMTP id 5b1f17b1804b1-42e7abf3db1mr3004865e9.13.1726770955107;
+        Thu, 19 Sep 2024 11:35:55 -0700 (PDT)
+Received: from cleve-worktop. (85-193-33-128.rib.o2.cz. [85.193.33.128])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-42e75440657sm29110805e9.20.2024.09.19.11.35.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Sep 2024 11:35:54 -0700 (PDT)
+From: =?utf-8?q?Kry=C5=A1tof_=C4=8Cern=C3=BD?= <cleverline1mc@gmail.com>
+Date: Thu, 19 Sep 2024 20:35:39 +0200
+Subject: [PATCH v2] arm64: dts: allwinner: Add disable-wp for boards with
+ micro SD card
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
-	t=1726770873;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dIULysZF5TMjnjwraqB7R4rq843vxTAF9l4sGzR+ceA=;
-	b=nCHrOSvOtD0+oRTQuarYBV89rrMdq/kQH6Z+Ir4t5BctX2hYMj/tmNNDqQASN4SOeTbUdU
-	xUPDRDX/Nzyr5wsZejOuZ2b20PlJcbIqobXgLrvAecwy1BxxW0OGhQOo5LktEjnYHpOp10
-	fIHL5Dei7FtU0QU1EpEsc43m92vW7CiYLNJByduEk0Tp4sZoY3ZlmG2UGfU+2cTmQY06Vw
-	/4wYp5rxUozH0esTWQ4DGYG3TRwl61bQYmEgZX3SB5bpg9hQIAhYNP/33Dl8yG7A8TXhiE
-	C9ugtx0FhGNVT5NxYD+22D3flLCIZTDQvq6VAjZhLVFNYXIBzomX08lksu5feQ==
-Date: Thu, 19 Sep 2024 20:34:32 +0200
-From: Dragan Simic <dsimic@manjaro.org>
-To: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, =?UTF-8?Q?Ond=C5=99ej_Jirman?= <megi@xff.cz>
-Subject: Re: [PATCH] arm64: dts: sun50i-a64-pinephone: Add mount matrix for
- accelerometer
-In-Reply-To: <Zur4rhyT50lwxE_v@skv.local>
-References: <20240916204521.2033218-1-andrej.skvortzov@gmail.com>
- <6e5d0e9978bff30559c17f30d1495b59@manjaro.org> <ZunCysUTSfQU1ylg@skv.local>
- <c7664fda936d36e0d916ae09dd554d2e@manjaro.org> <ZuqyuvZ6tdzp5XSW@skv.local>
- <8df5fc79a3e899738aa944a290774c72@manjaro.org> <ZurYndjVz7r0U6dz@skv.local>
- <Zur4rhyT50lwxE_v@skv.local>
-Message-ID: <b4139fedf81f3a3fc94d361b7f013109@manjaro.org>
-X-Sender: dsimic@manjaro.org
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20240919-b4-nanopineoplus2-fix-mmc0-wp-v2-1-c708a9abc9eb@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAPtu7GYC/42NWw6CMBREt0Lut9e0tUDwy30YPnjcwk3oI62ih
+ rB3Kysw83VmkjMbJIpMCa7FBpFWTuxdBnUqYJg7NxHymBmUUFo0UmOv0XXOB3bkw/JMCg2/0dp
+ B4CtgM9a16RuqSnmB7AiR8nz4723mmdPDx89xt8pf+695lZijTKmNGKtKidtkO17Og7fQ7vv+B
+ TbRJH/KAAAA
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Kry=C5=A1tof_=C4=8Cern=C3=BD?= <cleverline1mc@gmail.com>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1726770954; l=9820;
+ i=cleverline1mc@gmail.com; s=20240824; h=from:subject:message-id;
+ bh=W49WozanLprZEJxgdhsiRD8i1r/Epzp6B7fBpUrzNNE=;
+ b=wfXOiLSQZ9AQdNDPurMx4ypsx/yoUjo62d87kyOsMX3tbkihuOulnziUFV09yRHCP3whqkMBu
+ 8R7ihgSCnXZB6q2qFHDOYxW39Ooix/+QrajYbKIhNn7b2Wxvnu03vDt
+X-Developer-Key: i=cleverline1mc@gmail.com; a=ed25519;
+ pk=CQifx5FUgTQKAoj5VCYrwYHi235AkXQ5yT1P6gkaBxM=
 
-Hello Andrey,
+Adding disable-wp property for micro SD nodes of Allwinner arm64 devices.
+Boards were verified from online pictures/tables
+that they have micro SD slots.
 
-On 2024-09-18 17:58, Andrey Skvortsov wrote:
-> On 24-09-18 16:41, Andrey Skvortsov wrote:
->> On 24-09-18 13:27, Dragan Simic wrote:
-> 
->> > > In device tree mount-matrix documentation [3] there is
->> > >
->> > >  users would likely expect a value of 9.81 m/s^2 upwards along the (z)
->> > >  axis, i.e. out of the screen when the device is held with its screen
->> > >  flat on the planets surface.
->> > >
->> 
->> how I read kernel documentation.
-> 
-> Hm, I think I misunderstand this part in kernel
-> documentation and you were correct.
-> 
->> Picture 2.
->> 
->> up
->> 
->>      +--------+
->>      !        !
->>      ++++++++++
->>          !
->>          !
->>          v
->>        gravity, Z
->> 
->> down
->> 
->> Screen (drawn as ++++++++++) is looking downwards ("its screen flat on
->> the planets surface"). Gravity and Z axis point into the same
->> direction and it's expected to read positive value.
-> 
-> Sorry, for the noise.
+Signed-off-by: Kryštof Černý <cleverline1mc@gmail.com>
+---
+Sorry that my last messages were not in mailing list,
+one was wrongly sent and second was rejected, as the bot claimed it contained html.
+---
+Changes in v2:
+- NEW: Added the property to all Sunxi arm64 boards, as discussed in mailing list
+- Link to v1: https://lore.kernel.org/r/20240914-b4-nanopineoplus2-fix-mmc0-wp-v1-1-12f54f0d6620@gmail.com
+---
+ arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts    | 1 +
+ arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo2.dts         | 1 +
+ arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts       | 1 +
+ arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-pc2.dts        | 1 +
+ arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-prime.dts      | 1 +
+ arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus.dts  | 1 +
+ arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus2.dts | 1 +
+ arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts         | 1 +
+ arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts          | 1 +
+ arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi           | 1 +
+ arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts            | 1 +
+ arch/arm64/boot/dts/allwinner/sun50i-h6-tanix.dtsi              | 1 +
+ arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi    | 1 +
+ arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts          | 1 +
+ arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dts       | 1 +
+ arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts | 1 +
+ 16 files changed, 16 insertions(+)
 
-Oh, no worries at all.  It's always good to discuss and iron out
-any kinks, to eliminate any possible doubt.
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts
+index 526443bb736c..18fa541795a6 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts
+@@ -136,6 +136,7 @@ &mmc0 {
+ 	vmmc-supply = <&reg_vcc3v3>;
+ 	bus-width = <4>;
+ 	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>; /* PF6 */
++	disable-wp;
+ 	status = "okay";
+ };
+ 
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo2.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo2.dts
+index 05486cccee1c..128295f5a5d6 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo2.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo2.dts
+@@ -88,6 +88,7 @@ ext_rgmii_phy: ethernet-phy@7 {
+ 
+ &mmc0 {
+ 	vmmc-supply = <&reg_vcc3v3>;
++	disable-wp;
+ 	bus-width = <4>;
+ 	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>; /* PF6 */
+ 	status = "okay";
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts
+index 3a7ee44708a2..44fdc8b3f79d 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts
+@@ -157,6 +157,7 @@ eth_mac1: mac-address@fa {
+ 
+ &mmc0 {
+ 	vmmc-supply = <&reg_vcc3v3>;
++	disable-wp;
+ 	bus-width = <4>;
+ 	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>; /* PF6 */
+ 	status = "okay";
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-pc2.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-pc2.dts
+index ce3ae19e72db..0f29da7d51e6 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-pc2.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-pc2.dts
+@@ -153,6 +153,7 @@ &ir {
+ 
+ &mmc0 {
+ 	vmmc-supply = <&reg_vcc3v3>;
++	disable-wp;
+ 	bus-width = <4>;
+ 	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>; /* PF6 */
+ 	status = "okay";
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-prime.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-prime.dts
+index b699bb900e13..d4fc4e60e4e7 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-prime.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-prime.dts
+@@ -153,6 +153,7 @@ &ir {
+ 
+ &mmc0 {
+ 	vmmc-supply = <&reg_vcc3v3>;
++	disable-wp;
+ 	bus-width = <4>;
+ 	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>; /* PF6 */
+ 	status = "okay";
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus.dts
+index ae85131aac9c..3322cc4d9aa4 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus.dts
+@@ -82,6 +82,7 @@ ext_rgmii_phy: ethernet-phy@1 {
+ 
+ &mmc0 {
+ 	vmmc-supply = <&reg_vcc3v3>;
++	disable-wp;
+ 	bus-width = <4>;
+ 	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>; /* PF6 */
+ 	status = "okay";
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus2.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus2.dts
+index 734481e998b8..3eb986c354a9 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus2.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus2.dts
+@@ -79,6 +79,7 @@ hdmi_out_con: endpoint {
+ 
+ &mmc0 {
+ 	vmmc-supply = <&reg_vcc3v3>;
++	disable-wp;
+ 	bus-width = <4>;
+ 	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;
+ 	status = "okay";
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts b/arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts
+index 3be1e8c2fdb9..13a0e63afeaf 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts
+@@ -129,6 +129,7 @@ ext_rgmii_phy: ethernet-phy@1 {
+ &mmc0 {
+ 	vmmc-supply = <&reg_cldo1>;
+ 	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;
++	disable-wp;
+ 	bus-width = <4>;
+ 	status = "okay";
+ };
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts
+index 6c3bfe3d09d9..ab87c3447cd7 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts
+@@ -131,6 +131,7 @@ hdmi_out_con: endpoint {
+ &mmc0 {
+ 	vmmc-supply = <&reg_cldo1>;
+ 	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>; /* PF6 */
++	disable-wp;
+ 	bus-width = <4>;
+ 	status = "okay";
+ };
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi
+index 13b07141c334..d05dc5d6e6b9 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi
+@@ -94,6 +94,7 @@ hdmi_out_con: endpoint {
+ &mmc0 {
+ 	vmmc-supply = <&reg_cldo1>;
+ 	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;
++	disable-wp;
+ 	bus-width = <4>;
+ 	status = "okay";
+ };
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts b/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts
+index c8b275552872..fa7a765ee828 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts
+@@ -133,6 +133,7 @@ ext_rgmii_phy: ethernet-phy@1 {
+ &mmc0 {
+ 	vmmc-supply = <&reg_cldo1>;
+ 	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;
++	disable-wp;
+ 	bus-width = <4>;
+ 	status = "okay";
+ };
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-tanix.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h6-tanix.dtsi
+index 855b7d43bc50..bb7de37c0d58 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h6-tanix.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-tanix.dtsi
+@@ -124,6 +124,7 @@ &mmc0 {
+ 	pinctrl-0 = <&mmc0_pins>;
+ 	vmmc-supply = <&reg_vcc3v3>;
+ 	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;
++	disable-wp;
+ 	bus-width = <4>;
+ 	status = "okay";
+ };
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi
+index fc7315b94406..a3fe39f8e2ca 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi
+@@ -81,6 +81,7 @@ ext_rgmii_phy: ethernet-phy@1 {
+ 
+ &mmc0 {
+ 	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;	/* PF6 */
++	disable-wp;
+ 	bus-width = <4>;
+ 	status = "okay";
+ };
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts
+index 26d25b5b59e0..dd3bd9cca710 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts
+@@ -52,6 +52,7 @@ &ir {
+ &mmc0 {
+ 	vmmc-supply = <&reg_dcdce>;
+ 	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;	/* PF6 */
++	disable-wp;
+ 	bus-width = <4>;
+ 	status = "okay";
+ };
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dts
+index 18b29c6b867f..16c68177ff69 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dts
+@@ -111,6 +111,7 @@ ext_rgmii_phy: ethernet-phy@1 {
+ };
+ 
+ &mmc0 {
++	disable-wp;
+ 	bus-width = <4>;
+ 	cd-gpios = <&pio 5 6 GPIO_ACTIVE_HIGH>;	/* PF6 */
+ 	vmmc-supply = <&reg_vcc3v3>;
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts
+index d6631bfe629f..024377b333c1 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts
+@@ -71,6 +71,7 @@ &ir {
+ &mmc0 {
+ 	vmmc-supply = <&reg_dldo1>;
+ 	cd-gpios = <&pio 8 16 GPIO_ACTIVE_LOW>;	/* PI16 */
++	disable-wp;
+ 	bus-width = <4>;
+ 	status = "okay";
+ };
 
-The entire concept of how the values on the z-axis are read is
-a bit confusing indeed.  When the device is stationary on a level
-surface, with the screen pointing upwards, it's like the device is
-defying the Earth's gravity pull.  Well, not actually the device,
-but the surface it's resting on, :) but you get the point.
+---
+base-commit: 57f962b956f1d116cd64d5c406776c4975de549d
+change-id: 20240914-b4-nanopineoplus2-fix-mmc0-wp-9d77fb9e6513
 
->> Actually, unless my analysis is proven wrong, perhaps it would
->> be better if I'd submit this patch in its final form, because it
->> has diverged a lot from the original patch.  IIUC, Ondrej only
->> imported the original patch from somewhere, without some kind of
->> proper attribution. [4]
-> 
-> please, submit your version of this patch. I'd be glad to review it (I
-> think, I've already did)
+Best regards,
+-- 
+Kryštof Černý <cleverline1mc@gmail.com>
 
-Yes, you basically already did that. :)  Thanks, I'll send my version
-of the patch in the next few hours, with proper attribution included
-for you and Ondrej, of course.
-
->>> [1] https://rimgo.reallyaweso.me/vrBXQPq.png
->>> [2] https://rimgo.reallyaweso.me/uTmT1pr.png
->>> [3] 
->>> https://www.kernel.org/doc/Documentation/devicetree/bindings/iio/mount-matrix.txt
-> 
->> [4] 
->> https://xff.cz/kernels/6.9/patches/0221-arm64-dts-sun50i-a64-pinephone-Add-mount-matrix-for-.patch
