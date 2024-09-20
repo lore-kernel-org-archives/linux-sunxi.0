@@ -1,359 +1,503 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 493F413C683
-	for <linux-sunxi@lists.linux.dev>; Fri, 20 Sep 2024 10:52:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.smtpout.orange.fr (smtp-17.smtpout.orange.fr [80.12.242.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3424184542
+	for <linux-sunxi@lists.linux.dev>; Fri, 20 Sep 2024 20:27:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726829535; cv=none; b=Vm76eDgw6dqT0TyPF8WKFAEyFIQAp0doEOVc0GrYZrfq7K0VFHTbP78o2RvT5o1hkHDBg6FEm2kd/Ec+zjc8k8IQ/ZdGlaFgxMc2nsAOYOo8+XLO1wr/NpFoD9oKDtF7N0S07Tgrau9dvzjjCLGq81wkphy3Xzj0i1AHaUzKjaM=
+	t=1726864024; cv=none; b=LJDyFghVfYiCJZdgK7UZAiUh/dGA0/lR4B6Zj/nnodH1GROjqwdowz7p1GT9X3jJG/JewFkadFU2/Ux+ao432WqVoIEQPcOUwyOeIlvRVNaZsLnw66XLHgZojKQvWaJZZMHAMz8nVK8L+105K5gLStlEX5q+lQAzd4//IXQd3QM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726829535; c=relaxed/simple;
-	bh=+AVJHOZFocQEpR4sM/heuTB54p64ztcQeipzPwMW2T4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SgVjUNMOV8j86i8RQOkRJF91r7XbKewITH1wz7aKJ6hGI5B+phSCNEKEStc1aqmef5jLPVjra2S4pUUnXwtCwIOSCDiuMqFku3u2TKL3/c4UyhSxd2qYSY+ZORSJPWqC0v2r852v6u82jhESLbwb6mUci7eTdJDH87QFv1vSW34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F0D871007;
-	Fri, 20 Sep 2024 03:52:41 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0E9403F64C;
-	Fri, 20 Sep 2024 03:52:10 -0700 (PDT)
-Date: Fri, 20 Sep 2024 11:52:06 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: =?UTF-8?B?S3J5xaF0b2YgxIxlcm7DvQ==?= <cleverline1mc@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] arm64: dts: allwinner: Add disable-wp for boards
- with micro SD card
-Message-ID: <20240920115206.1ea2666b@donnerap.manchester.arm.com>
-In-Reply-To: <fed7f9f5-0189-4ac4-bcc5-4b59e8b1ccc1@gmail.com>
-References: <20240919-b4-nanopineoplus2-fix-mmc0-wp-v2-1-c708a9abc9eb@gmail.com>
-	<20240919212151.50957a14@minigeek.lan>
-	<fed7f9f5-0189-4ac4-bcc5-4b59e8b1ccc1@gmail.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1726864024; c=relaxed/simple;
+	bh=wdxl7L9ab6N6pMLE7KC4xJz+RoZj2ag/Gqszly5vPwQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HZkrZ5XwKXTw6T49B2vMoQEEd+wFLNV+gfUPNwtbLowAYExubGIGLSiYJHlinfopwRZpYWKudZ/xEFK/LAwzGaYTBu9MluT0EKhI0mQKxPg6m4xxIsNUB+xv+yNy+4AYHB4PDjZYgMSq3fwZ53vfrFJ2PZDUPn48aMA/u0nJL74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=JjaRMJ2P; arc=none smtp.client-ip=80.12.242.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="JjaRMJ2P"
+Received: from fedora.home ([90.11.132.44])
+	by smtp.orange.fr with ESMTPA
+	id rkCEsAP4R8upxrkCEsK3V6; Fri, 20 Sep 2024 22:25:45 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1726863945;
+	bh=soylroJMGBRTvCSChB7Q0b3qXpOF2F9XAqnaurhKvjk=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=JjaRMJ2PScHVbxdpQ0qY15DrqanQFw2CfDhgdpwSl1YL9eQ33X/z0yYI0YvcrkFcf
+	 sjUl7thsTXrYEu51ho/3677yCeGNlKwRoOWbmuEmHvf874AX0TAsgCEaaV8Zybl8gn
+	 aKOf7NJI8usc5F5klFVsComJygjp/X3iDqdozks0AJ42HNqL2slQJDSILA9ddtDIRo
+	 I63D7v12XDcHRTnR+tZgqj0xYZWGbu5X1YLHuzAJ+4gCIN8UvUz62bL+HK31+GkzVQ
+	 ICY42LgjhSpDdZH1nG5aLepX2SbSwh9xwfe2k16ZxN2B1/Vn8TPp2ThoFV/W8JSfXL
+	 TMrT+G10OQnjQ==
+X-ME-Helo: fedora.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Fri, 20 Sep 2024 22:25:45 +0200
+X-ME-IP: 90.11.132.44
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH] clk: sunxi-ng: Constify struct ccu_reset_map
+Date: Fri, 20 Sep 2024 22:25:24 +0200
+Message-ID: <44745f27034fa670605cd16966a39b7fe88fe5a6.1726863905.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.46.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, 20 Sep 2024 07:38:53 +0200
-Kry=C5=A1tof =C4=8Cern=C3=BD <cleverline1mc@gmail.com> wrote:
+'struct ccu_reset_map' are not modified in these drivers.
 
-Hi,
+Constifying this structure moves some data to a read-only section, so
+increase overall security.
 
-> Dne 19. 09. 24 v 22:21 Andre Przywara napsal(a):
-> > On Thu, 19 Sep 2024 20:35:39 +0200
-> > Kry=C5=A1tof =C4=8Cern=C3=BD <cleverline1mc@gmail.com> wrote:
-> >  =20
-> >> Adding disable-wp property for micro SD nodes of Allwinner arm64 devic=
-es.
-> >> Boards were verified from online pictures/tables
-> >> that they have micro SD slots. =20
-> >=20
-> > The changes itself look good to me, and I checked that the boards in
-> > question have a microSD card slot, so do not feature a write-protect
-> > switch.
-> > You seem to be missing the mmc0 node in
-> > sun50i-h616-bigtreetech-cb1.dtsi though, can you please add this file,
-> > to fix the two boards using this file as well?
-> >  =20
->=20
-> I wondered about that one, as it's just a compute module without the
-> actual slot, I thought it was not right to put it there, as
-> someone could wire it to full SD or eMMC in their own board.
-> Maybe put it to sun-50i-h616-bigtreetech-cb1-manta.dts and
-> sun-50i-h616-bigtreetech-pi.dts instead? The dtsi has broken-cd
-> property already, but as it seems it is wired to the connector.
-> I was not sure about this, what are your thoughts?
+On a x86_64, with allmodconfig, as an example:
+Before:
+======
+   text	   data	    bss	    dec	    hex	filename
+   1533	   2224	      0	   3757	    ead	drivers/clk/sunxi-ng/ccu-sun20i-d1-r.o
 
-Oh, you are right, so this is actually a "bug" in the existing DT.
-Could you please send a separate patch, moving this out of the .dtsi and
-into the two board .dts files, adding the disable-wp on the way?
-Please CC: Martin (who sent the original DTs).
+After:
+=====
+   text	   data	    bss	    dec	    hex	filename
+   1597	   2160	      0	   3757	    ead	drivers/clk/sunxi-ng/ccu-sun20i-d1-r.o
 
-> > With that added:
-> >  =20
-> >> Signed-off-by: Kry=C5=A1tof =C4=8Cern=C3=BD <cleverline1mc@gmail.com> =
-=20
-> >=20
-> > Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-> >=20
-> > There are some boards which have their base .dtsi in the arch/arm
-> > directory, but we can tackle those separately. =20
->=20
-> I missed them, if I add the property to sunxi-libretech-all-h3-cc.dtsi
-> and sunxi-bananapi-m2-plus.dtsi, could tag you as a reviewer?
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+Compile tested only
+---
+ drivers/clk/sunxi-ng/ccu-sun20i-d1-r.c   | 2 +-
+ drivers/clk/sunxi-ng/ccu-sun20i-d1.c     | 2 +-
+ drivers/clk/sunxi-ng/ccu-sun4i-a10.c     | 2 +-
+ drivers/clk/sunxi-ng/ccu-sun50i-a100-r.c | 2 +-
+ drivers/clk/sunxi-ng/ccu-sun50i-a100.c   | 2 +-
+ drivers/clk/sunxi-ng/ccu-sun50i-a64.c    | 2 +-
+ drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c   | 4 ++--
+ drivers/clk/sunxi-ng/ccu-sun50i-h6.c     | 2 +-
+ drivers/clk/sunxi-ng/ccu-sun50i-h616.c   | 2 +-
+ drivers/clk/sunxi-ng/ccu-sun5i.c         | 2 +-
+ drivers/clk/sunxi-ng/ccu-sun6i-a31.c     | 2 +-
+ drivers/clk/sunxi-ng/ccu-sun8i-a23.c     | 2 +-
+ drivers/clk/sunxi-ng/ccu-sun8i-a33.c     | 2 +-
+ drivers/clk/sunxi-ng/ccu-sun8i-a83t.c    | 2 +-
+ drivers/clk/sunxi-ng/ccu-sun8i-de2.c     | 8 ++++----
+ drivers/clk/sunxi-ng/ccu-sun8i-h3.c      | 4 ++--
+ drivers/clk/sunxi-ng/ccu-sun8i-r.c       | 6 +++---
+ drivers/clk/sunxi-ng/ccu-sun8i-r40.c     | 2 +-
+ drivers/clk/sunxi-ng/ccu-sun8i-v3s.c     | 4 ++--
+ drivers/clk/sunxi-ng/ccu-sun9i-a80-de.c  | 2 +-
+ drivers/clk/sunxi-ng/ccu-sun9i-a80-usb.c | 2 +-
+ drivers/clk/sunxi-ng/ccu-sun9i-a80.c     | 2 +-
+ drivers/clk/sunxi-ng/ccu-suniv-f1c100s.c | 2 +-
+ drivers/clk/sunxi-ng/ccu_common.h        | 2 +-
+ drivers/clk/sunxi-ng/ccu_reset.h         | 2 +-
+ 25 files changed, 33 insertions(+), 33 deletions(-)
 
-You can always CC: me, though I would spot it through the linux-sunxi list
-anyway (I have a special eye on this one).
-
-Anyway, if you feel like it, you can do the same exercise for the arch/arm
-directory, though it's a bit more tricky there, since there are far more
-and also older boards, some indeed with a full scale SD card slot.
-Definitely make this a separate patch, maybe even split this up by SoC or
-SoC groups. For instance I'd believe that any H3 boards would have microSD
-only, courtesy of being "newer". Since those are the ones that share .dtsi
-files with arch/arm64, that's probably a good target for one patch.
-
-It looks like there is not a single wp-gpios property for any of those
-boards. I wonder if disable-wp; is then correct regardless. If there are
-boards with full scale SD slots *and* the WP pin connected, this could be
-fixed later, on a case-by-case base. Compared to the current situation we
-don't seem to lose anything.
-And I just checked the BananaPi(-M1), with a full scale slot, and this one
-doesn't connect the WP pin, so "disable-wp;" is definitely correct there
-as well.
-
-> There is also a module called Emlid Neutis, the compute module itself
-> has not a slot, but the board that uses it does, unfortunately they are
-> not separate files, so I do not see a clear solution here, as above.
-
-Right, so similar to the Bigtreetech boards above, the split
-between the SoM .dtsi and the board .dts files doesn't seem to be right,
-but it affects more than just the SD card - namely UARTs, USB, audio
-routing, etc.
-So this would be a separate patch as well. I have a board with the N5
-module at home, so happy to verify that.
-
-Cheers,
-Andre
-
-> >  =20
-> >> ---
-> >> Sorry that my last messages were not in mailing list,
-> >> one was wrongly sent and second was rejected, as the bot claimed it
-> >> contained html. ---
-> >> Changes in v2:
-> >> - NEW: Added the property to all Sunxi arm64 boards, as discussed in
-> >> mailing list
-> >> - Link to v1:
-> >> https://lore.kernel.org/r/20240914-b4-nanopineoplus2-fix-mmc0-wp-v1-1-=
-12f54f0d6620@gmail.com
-> >> --- arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts    |
-> >> 1 + arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo2.dts         |
-> >> 1 + arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts       |
-> >> 1 + arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-pc2.dts        |
-> >> 1 + arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-prime.dts      |
-> >> 1 + arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus.dts  |
-> >> 1 + arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus2.dts |
-> >> 1 + arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts         |
-> >> 1 + arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts          |
-> >> 1 + arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi           |
-> >> 1 + arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts            |
-> >> 1 + arch/arm64/boot/dts/allwinner/sun50i-h6-tanix.dtsi              |
-> >> 1 + arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi    |
-> >> 1 + arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts          |
-> >> 1 + arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dts       |
-> >> 1 + arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts |
-> >> 1 + 16 files changed, 16 insertions(+)
-> >>
-> >> diff --git
-> >> a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts
-> >> b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts index
-> >> 526443bb736c..18fa541795a6 100644 ---
-> >> a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts +++
-> >> b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts @@
-> >> -136,6 +136,7 @@ &mmc0 { vmmc-supply =3D <&reg_vcc3v3>; bus-width =3D =
-<4>;
-> >>   	cd-gpios =3D <&pio 5 6 GPIO_ACTIVE_LOW>; /* PF6 */
-> >> +	disable-wp;
-> >>   	status =3D "okay";
-> >>   };
-> >>  =20
-> >> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo2.dts
-> >> b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo2.dts index
-> >> 05486cccee1c..128295f5a5d6 100644 ---
-> >> a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo2.dts +++
-> >> b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo2.dts @@ -88,6
-> >> +88,7 @@ ext_rgmii_phy: ethernet-phy@7 {
-> >>   &mmc0 {
-> >>   	vmmc-supply =3D <&reg_vcc3v3>;
-> >> +	disable-wp;
-> >>   	bus-width =3D <4>;
-> >>   	cd-gpios =3D <&pio 5 6 GPIO_ACTIVE_LOW>; /* PF6 */
-> >>   	status =3D "okay";
-> >> diff --git
-> >> a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts
-> >> b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts index
-> >> 3a7ee44708a2..44fdc8b3f79d 100644 ---
-> >> a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts +++
-> >> b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts @@ -157,6
-> >> +157,7 @@ eth_mac1: mac-address@fa { &mmc0 {
-> >>   	vmmc-supply =3D <&reg_vcc3v3>;
-> >> +	disable-wp;
-> >>   	bus-width =3D <4>;
-> >>   	cd-gpios =3D <&pio 5 6 GPIO_ACTIVE_LOW>; /* PF6 */
-> >>   	status =3D "okay";
-> >> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-pc2.dts
-> >> b/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-pc2.dts index
-> >> ce3ae19e72db..0f29da7d51e6 100644 ---
-> >> a/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-pc2.dts +++
-> >> b/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-pc2.dts @@ -153,6
-> >> +153,7 @@ &ir {
-> >>   &mmc0 {
-> >>   	vmmc-supply =3D <&reg_vcc3v3>;
-> >> +	disable-wp;
-> >>   	bus-width =3D <4>;
-> >>   	cd-gpios =3D <&pio 5 6 GPIO_ACTIVE_LOW>; /* PF6 */
-> >>   	status =3D "okay";
-> >> diff --git
-> >> a/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-prime.dts
-> >> b/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-prime.dts index
-> >> b699bb900e13..d4fc4e60e4e7 100644 ---
-> >> a/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-prime.dts +++
-> >> b/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-prime.dts @@
-> >> -153,6 +153,7 @@ &ir { &mmc0 {
-> >>   	vmmc-supply =3D <&reg_vcc3v3>;
-> >> +	disable-wp;
-> >>   	bus-width =3D <4>;
-> >>   	cd-gpios =3D <&pio 5 6 GPIO_ACTIVE_LOW>; /* PF6 */
-> >>   	status =3D "okay";
-> >> diff --git
-> >> a/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus.dts
-> >> b/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus.dts
-> >> index ae85131aac9c..3322cc4d9aa4 100644 ---
-> >> a/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus.dts +++
-> >> b/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus.dts @@
-> >> -82,6 +82,7 @@ ext_rgmii_phy: ethernet-phy@1 { &mmc0 {
-> >>   	vmmc-supply =3D <&reg_vcc3v3>;
-> >> +	disable-wp;
-> >>   	bus-width =3D <4>;
-> >>   	cd-gpios =3D <&pio 5 6 GPIO_ACTIVE_LOW>; /* PF6 */
-> >>   	status =3D "okay";
-> >> diff --git
-> >> a/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus2.dts
-> >> b/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus2.dts
-> >> index 734481e998b8..3eb986c354a9 100644 ---
-> >> a/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus2.dts +++
-> >> b/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus2.dts @@
-> >> -79,6 +79,7 @@ hdmi_out_con: endpoint { &mmc0 {
-> >>   	vmmc-supply =3D <&reg_vcc3v3>;
-> >> +	disable-wp;
-> >>   	bus-width =3D <4>;
-> >>   	cd-gpios =3D <&pio 5 6 GPIO_ACTIVE_LOW>;
-> >>   	status =3D "okay";
-> >> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts
-> >> b/arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts index
-> >> 3be1e8c2fdb9..13a0e63afeaf 100644 ---
-> >> a/arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts +++
-> >> b/arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts @@ -129,6
-> >> +129,7 @@ ext_rgmii_phy: ethernet-phy@1 { &mmc0 {
-> >>   	vmmc-supply =3D <&reg_cldo1>;
-> >>   	cd-gpios =3D <&pio 5 6 GPIO_ACTIVE_LOW>;
-> >> +	disable-wp;
-> >>   	bus-width =3D <4>;
-> >>   	status =3D "okay";
-> >>   };
-> >> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts
-> >> b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts index
-> >> 6c3bfe3d09d9..ab87c3447cd7 100644 ---
-> >> a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts +++
-> >> b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts @@ -131,6
-> >> +131,7 @@ hdmi_out_con: endpoint { &mmc0 {
-> >>   	vmmc-supply =3D <&reg_cldo1>;
-> >>   	cd-gpios =3D <&pio 5 6 GPIO_ACTIVE_LOW>; /* PF6 */
-> >> +	disable-wp;
-> >>   	bus-width =3D <4>;
-> >>   	status =3D "okay";
-> >>   };
-> >> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi
-> >> b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi index
-> >> 13b07141c334..d05dc5d6e6b9 100644 ---
-> >> a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi +++
-> >> b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi @@ -94,6
-> >> +94,7 @@ hdmi_out_con: endpoint { &mmc0 {
-> >>   	vmmc-supply =3D <&reg_cldo1>;
-> >>   	cd-gpios =3D <&pio 5 6 GPIO_ACTIVE_LOW>;
-> >> +	disable-wp;
-> >>   	bus-width =3D <4>;
-> >>   	status =3D "okay";
-> >>   };
-> >> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts
-> >> b/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts index
-> >> c8b275552872..fa7a765ee828 100644 ---
-> >> a/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts +++
-> >> b/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts @@ -133,6
-> >> +133,7 @@ ext_rgmii_phy: ethernet-phy@1 { &mmc0 {
-> >>   	vmmc-supply =3D <&reg_cldo1>;
-> >>   	cd-gpios =3D <&pio 5 6 GPIO_ACTIVE_LOW>;
-> >> +	disable-wp;
-> >>   	bus-width =3D <4>;
-> >>   	status =3D "okay";
-> >>   };
-> >> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-tanix.dtsi
-> >> b/arch/arm64/boot/dts/allwinner/sun50i-h6-tanix.dtsi index
-> >> 855b7d43bc50..bb7de37c0d58 100644 ---
-> >> a/arch/arm64/boot/dts/allwinner/sun50i-h6-tanix.dtsi +++
-> >> b/arch/arm64/boot/dts/allwinner/sun50i-h6-tanix.dtsi @@ -124,6 +124,7
-> >> @@ &mmc0 { pinctrl-0 =3D <&mmc0_pins>;
-> >>   	vmmc-supply =3D <&reg_vcc3v3>;
-> >>   	cd-gpios =3D <&pio 5 6 GPIO_ACTIVE_LOW>;
-> >> +	disable-wp;
-> >>   	bus-width =3D <4>;
-> >>   	status =3D "okay";
-> >>   };
-> >> diff --git
-> >> a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi
-> >> b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi index
-> >> fc7315b94406..a3fe39f8e2ca 100644 ---
-> >> a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi +++
-> >> b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi @@
-> >> -81,6 +81,7 @@ ext_rgmii_phy: ethernet-phy@1 { &mmc0 {
-> >>   	cd-gpios =3D <&pio 5 6 GPIO_ACTIVE_LOW>;	/* PF6 */
-> >> +	disable-wp;
-> >>   	bus-width =3D <4>;
-> >>   	status =3D "okay";
-> >>   };
-> >> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts
-> >> b/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts index
-> >> 26d25b5b59e0..dd3bd9cca710 100644 ---
-> >> a/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts +++
-> >> b/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts @@ -52,6
-> >> +52,7 @@ &ir { &mmc0 {
-> >>   	vmmc-supply =3D <&reg_dcdce>;
-> >>   	cd-gpios =3D <&pio 5 6 GPIO_ACTIVE_LOW>;	/* PF6 */
-> >> +	disable-wp;
-> >>   	bus-width =3D <4>;
-> >>   	status =3D "okay";
-> >>   };
-> >> diff --git
-> >> a/arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dts
-> >> b/arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dts index
-> >> 18b29c6b867f..16c68177ff69 100644 ---
-> >> a/arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dts +++
-> >> b/arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dts @@ -111,6
-> >> +111,7 @@ ext_rgmii_phy: ethernet-phy@1 { };
-> >>   &mmc0 {
-> >> +	disable-wp;
-> >>   	bus-width =3D <4>;
-> >>   	cd-gpios =3D <&pio 5 6 GPIO_ACTIVE_HIGH>;	/* PF6 */
-> >>   	vmmc-supply =3D <&reg_vcc3v3>;
-> >> diff --git
-> >> a/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts
-> >> b/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts
-> >> index d6631bfe629f..024377b333c1 100644 ---
-> >> a/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts +++
-> >> b/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts @@
-> >> -71,6 +71,7 @@ &ir { &mmc0 { vmmc-supply =3D <&reg_dldo1>;
-> >>   	cd-gpios =3D <&pio 8 16 GPIO_ACTIVE_LOW>;	/* PI16 */
-> >> +	disable-wp;
-> >>   	bus-width =3D <4>;
-> >>   	status =3D "okay";
-> >>   };
-> >>
-> >> ---
-> >> base-commit: 57f962b956f1d116cd64d5c406776c4975de549d
-> >> change-id: 20240914-b4-nanopineoplus2-fix-mmc0-wp-9d77fb9e6513
-> >>
-> >> Best regards, =20
-> >  =20
->=20
+diff --git a/drivers/clk/sunxi-ng/ccu-sun20i-d1-r.c b/drivers/clk/sunxi-ng/ccu-sun20i-d1-r.c
+index de36e21d3eaf..4084714adb15 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun20i-d1-r.c
++++ b/drivers/clk/sunxi-ng/ccu-sun20i-d1-r.c
+@@ -91,7 +91,7 @@ static struct clk_hw_onecell_data sun20i_d1_r_hw_clks = {
+ 	},
+ };
+ 
+-static struct ccu_reset_map sun20i_d1_r_ccu_resets[] = {
++static const struct ccu_reset_map sun20i_d1_r_ccu_resets[] = {
+ 	[RST_BUS_R_TIMER]	= { 0x11c, BIT(16) },
+ 	[RST_BUS_R_TWD]		= { 0x12c, BIT(16) },
+ 	[RST_BUS_R_PPU]		= { 0x1ac, BIT(16) },
+diff --git a/drivers/clk/sunxi-ng/ccu-sun20i-d1.c b/drivers/clk/sunxi-ng/ccu-sun20i-d1.c
+index 9b5cfac2ee70..9633d4506891 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun20i-d1.c
++++ b/drivers/clk/sunxi-ng/ccu-sun20i-d1.c
+@@ -1232,7 +1232,7 @@ static struct clk_hw_onecell_data sun20i_d1_hw_clks = {
+ 	},
+ };
+ 
+-static struct ccu_reset_map sun20i_d1_ccu_resets[] = {
++static const struct ccu_reset_map sun20i_d1_ccu_resets[] = {
+ 	[RST_MBUS]		= { 0x540, BIT(30) },
+ 	[RST_BUS_DE]		= { 0x60c, BIT(16) },
+ 	[RST_BUS_DI]		= { 0x62c, BIT(16) },
+diff --git a/drivers/clk/sunxi-ng/ccu-sun4i-a10.c b/drivers/clk/sunxi-ng/ccu-sun4i-a10.c
+index d1a1683baff4..54c794c50828 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun4i-a10.c
++++ b/drivers/clk/sunxi-ng/ccu-sun4i-a10.c
+@@ -1382,7 +1382,7 @@ static struct clk_hw_onecell_data sun7i_a20_hw_clks = {
+ 	.num	= CLK_NUMBER_SUN7I,
+ };
+ 
+-static struct ccu_reset_map sunxi_a10_a20_ccu_resets[] = {
++static const struct ccu_reset_map sunxi_a10_a20_ccu_resets[] = {
+ 	[RST_USB_PHY0]		= { 0x0cc, BIT(0) },
+ 	[RST_USB_PHY1]		= { 0x0cc, BIT(1) },
+ 	[RST_USB_PHY2]		= { 0x0cc, BIT(2) },
+diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a100-r.c b/drivers/clk/sunxi-ng/ccu-sun50i-a100-r.c
+index 2c791761a646..cdd9721f9e7d 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun50i-a100-r.c
++++ b/drivers/clk/sunxi-ng/ccu-sun50i-a100-r.c
+@@ -166,7 +166,7 @@ static struct clk_hw_onecell_data sun50i_a100_r_hw_clks = {
+ 	.num	= CLK_NUMBER,
+ };
+ 
+-static struct ccu_reset_map sun50i_a100_r_ccu_resets[] = {
++static const struct ccu_reset_map sun50i_a100_r_ccu_resets[] = {
+ 	[RST_R_APB1_TIMER]	=  { 0x11c, BIT(16) },
+ 	[RST_R_APB1_BUS_PWM]	=  { 0x13c, BIT(16) },
+ 	[RST_R_APB1_PPU]	=  { 0x17c, BIT(16) },
+diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a100.c b/drivers/clk/sunxi-ng/ccu-sun50i-a100.c
+index bbaa82978716..1b6a49bc7184 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun50i-a100.c
++++ b/drivers/clk/sunxi-ng/ccu-sun50i-a100.c
+@@ -1061,7 +1061,7 @@ static struct clk_hw_onecell_data sun50i_a100_hw_clks = {
+ 	.num = CLK_NUMBER,
+ };
+ 
+-static struct ccu_reset_map sun50i_a100_ccu_resets[] = {
++static const struct ccu_reset_map sun50i_a100_ccu_resets[] = {
+ 	[RST_MBUS]		= { 0x540, BIT(30) },
+ 
+ 	[RST_BUS_DE]		= { 0x60c, BIT(16) },
+diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+index c255dba2c96d..82d7dcbca1cc 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
++++ b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+@@ -858,7 +858,7 @@ static struct clk_hw_onecell_data sun50i_a64_hw_clks = {
+ 	.num	= CLK_NUMBER,
+ };
+ 
+-static struct ccu_reset_map sun50i_a64_ccu_resets[] = {
++static const struct ccu_reset_map sun50i_a64_ccu_resets[] = {
+ 	[RST_USB_PHY0]		=  { 0x0cc, BIT(0) },
+ 	[RST_USB_PHY1]		=  { 0x0cc, BIT(1) },
+ 	[RST_USB_HSIC]		=  { 0x0cc, BIT(2) },
+diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c b/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c
+index c72815841111..d0ce2779c550 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c
++++ b/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c
+@@ -179,7 +179,7 @@ static struct clk_hw_onecell_data sun50i_h616_r_hw_clks = {
+ 	.num	= CLK_NUMBER,
+ };
+ 
+-static struct ccu_reset_map sun50i_h6_r_ccu_resets[] = {
++static const struct ccu_reset_map sun50i_h6_r_ccu_resets[] = {
+ 	[RST_R_APB1_TIMER]	=  { 0x11c, BIT(16) },
+ 	[RST_R_APB1_TWD]	=  { 0x12c, BIT(16) },
+ 	[RST_R_APB1_PWM]	=  { 0x13c, BIT(16) },
+@@ -190,7 +190,7 @@ static struct ccu_reset_map sun50i_h6_r_ccu_resets[] = {
+ 	[RST_R_APB1_W1]		=  { 0x1ec, BIT(16) },
+ };
+ 
+-static struct ccu_reset_map sun50i_h616_r_ccu_resets[] = {
++static const struct ccu_reset_map sun50i_h616_r_ccu_resets[] = {
+ 	[RST_R_APB1_TWD]	=  { 0x12c, BIT(16) },
+ 	[RST_R_APB2_I2C]	=  { 0x19c, BIT(16) },
+ 	[RST_R_APB2_RSB]	=  { 0x1bc, BIT(16) },
+diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
+index a20b621ad8f1..bd6fc3df911d 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
++++ b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
+@@ -1076,7 +1076,7 @@ static struct clk_hw_onecell_data sun50i_h6_hw_clks = {
+ 	.num = CLK_NUMBER,
+ };
+ 
+-static struct ccu_reset_map sun50i_h6_ccu_resets[] = {
++static const struct ccu_reset_map sun50i_h6_ccu_resets[] = {
+ 	[RST_MBUS]		= { 0x540, BIT(30) },
+ 
+ 	[RST_BUS_DE]		= { 0x60c, BIT(16) },
+diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+index 84e406ddf9d1..af1c4f7c3f95 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
++++ b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+@@ -990,7 +990,7 @@ static struct clk_hw_onecell_data sun50i_h616_hw_clks = {
+ 	.num = CLK_NUMBER,
+ };
+ 
+-static struct ccu_reset_map sun50i_h616_ccu_resets[] = {
++static const struct ccu_reset_map sun50i_h616_ccu_resets[] = {
+ 	[RST_MBUS]		= { 0x540, BIT(30) },
+ 
+ 	[RST_BUS_DE]		= { 0x60c, BIT(16) },
+diff --git a/drivers/clk/sunxi-ng/ccu-sun5i.c b/drivers/clk/sunxi-ng/ccu-sun5i.c
+index 1f4bc0e773a7..c9bf1fdb8a8a 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun5i.c
++++ b/drivers/clk/sunxi-ng/ccu-sun5i.c
+@@ -731,7 +731,7 @@ static struct clk_hw_onecell_data sun5i_a10s_hw_clks = {
+ 	.num	= CLK_NUMBER,
+ };
+ 
+-static struct ccu_reset_map sun5i_a10s_ccu_resets[] = {
++static const struct ccu_reset_map sun5i_a10s_ccu_resets[] = {
+ 	[RST_USB_PHY0]		=  { 0x0cc, BIT(0) },
+ 	[RST_USB_PHY1]		=  { 0x0cc, BIT(1) },
+ 
+diff --git a/drivers/clk/sunxi-ng/ccu-sun6i-a31.c b/drivers/clk/sunxi-ng/ccu-sun6i-a31.c
+index e8b8d2dd7f2c..c2ad1209633e 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun6i-a31.c
++++ b/drivers/clk/sunxi-ng/ccu-sun6i-a31.c
+@@ -1146,7 +1146,7 @@ static struct clk_hw_onecell_data sun6i_a31_hw_clks = {
+ 	.num	= CLK_NUMBER,
+ };
+ 
+-static struct ccu_reset_map sun6i_a31_ccu_resets[] = {
++static const struct ccu_reset_map sun6i_a31_ccu_resets[] = {
+ 	[RST_USB_PHY0]		= { 0x0cc, BIT(0) },
+ 	[RST_USB_PHY1]		= { 0x0cc, BIT(1) },
+ 	[RST_USB_PHY2]		= { 0x0cc, BIT(2) },
+diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-a23.c b/drivers/clk/sunxi-ng/ccu-sun8i-a23.c
+index 6c2a08f722a8..9433dbac038e 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun8i-a23.c
++++ b/drivers/clk/sunxi-ng/ccu-sun8i-a23.c
+@@ -668,7 +668,7 @@ static struct clk_hw_onecell_data sun8i_a23_hw_clks = {
+ 	.num	= CLK_NUMBER,
+ };
+ 
+-static struct ccu_reset_map sun8i_a23_ccu_resets[] = {
++static const struct ccu_reset_map sun8i_a23_ccu_resets[] = {
+ 	[RST_USB_PHY0]		=  { 0x0cc, BIT(0) },
+ 	[RST_USB_PHY1]		=  { 0x0cc, BIT(1) },
+ 	[RST_USB_HSIC]		=  { 0x0cc, BIT(2) },
+diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-a33.c b/drivers/clk/sunxi-ng/ccu-sun8i-a33.c
+index 5e0bc08a9ce3..1ffc5ab9bc3c 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun8i-a33.c
++++ b/drivers/clk/sunxi-ng/ccu-sun8i-a33.c
+@@ -712,7 +712,7 @@ static struct clk_hw_onecell_data sun8i_a33_hw_clks = {
+ 	.num	= CLK_NUMBER,
+ };
+ 
+-static struct ccu_reset_map sun8i_a33_ccu_resets[] = {
++static const struct ccu_reset_map sun8i_a33_ccu_resets[] = {
+ 	[RST_USB_PHY0]		=  { 0x0cc, BIT(0) },
+ 	[RST_USB_PHY1]		=  { 0x0cc, BIT(1) },
+ 	[RST_USB_HSIC]		=  { 0x0cc, BIT(2) },
+diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-a83t.c b/drivers/clk/sunxi-ng/ccu-sun8i-a83t.c
+index cb4c6b16c467..a51fb2c10c94 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun8i-a83t.c
++++ b/drivers/clk/sunxi-ng/ccu-sun8i-a83t.c
+@@ -797,7 +797,7 @@ static struct clk_hw_onecell_data sun8i_a83t_hw_clks = {
+ 	.num	= CLK_NUMBER,
+ };
+ 
+-static struct ccu_reset_map sun8i_a83t_ccu_resets[] = {
++static const struct ccu_reset_map sun8i_a83t_ccu_resets[] = {
+ 	[RST_USB_PHY0]		= { 0x0cc, BIT(0) },
+ 	[RST_USB_PHY1]		= { 0x0cc, BIT(1) },
+ 	[RST_USB_HSIC]		= { 0x0cc, BIT(2) },
+diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-de2.c b/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
+index 7683ea08d8e3..a742f83746d1 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
++++ b/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
+@@ -146,7 +146,7 @@ static struct clk_hw_onecell_data sun50i_a64_de2_hw_clks = {
+ 	.num	= CLK_NUMBER_WITH_ROT,
+ };
+ 
+-static struct ccu_reset_map sun8i_a83t_de2_resets[] = {
++static const struct ccu_reset_map sun8i_a83t_de2_resets[] = {
+ 	[RST_MIXER0]	= { 0x08, BIT(0) },
+ 	/*
+ 	 * Mixer1 reset line is shared with wb, so only RST_WB is
+@@ -156,7 +156,7 @@ static struct ccu_reset_map sun8i_a83t_de2_resets[] = {
+ 	[RST_ROT]	= { 0x08, BIT(3) },
+ };
+ 
+-static struct ccu_reset_map sun8i_h3_de2_resets[] = {
++static const struct ccu_reset_map sun8i_h3_de2_resets[] = {
+ 	[RST_MIXER0]	= { 0x08, BIT(0) },
+ 	/*
+ 	 * Mixer1 reset line is shared with wb, so only RST_WB is
+@@ -166,14 +166,14 @@ static struct ccu_reset_map sun8i_h3_de2_resets[] = {
+ 	[RST_WB]	= { 0x08, BIT(2) },
+ };
+ 
+-static struct ccu_reset_map sun50i_a64_de2_resets[] = {
++static const struct ccu_reset_map sun50i_a64_de2_resets[] = {
+ 	[RST_MIXER0]	= { 0x08, BIT(0) },
+ 	[RST_MIXER1]	= { 0x08, BIT(1) },
+ 	[RST_WB]	= { 0x08, BIT(2) },
+ 	[RST_ROT]	= { 0x08, BIT(3) },
+ };
+ 
+-static struct ccu_reset_map sun50i_h5_de2_resets[] = {
++static const struct ccu_reset_map sun50i_h5_de2_resets[] = {
+ 	[RST_MIXER0]	= { 0x08, BIT(0) },
+ 	[RST_MIXER1]	= { 0x08, BIT(1) },
+ 	[RST_WB]	= { 0x08, BIT(2) },
+diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-h3.c b/drivers/clk/sunxi-ng/ccu-sun8i-h3.c
+index 13e57db2f8d5..74da5d27af72 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun8i-h3.c
++++ b/drivers/clk/sunxi-ng/ccu-sun8i-h3.c
+@@ -876,7 +876,7 @@ static struct clk_hw_onecell_data sun50i_h5_hw_clks = {
+ 	.num	= CLK_NUMBER_H5,
+ };
+ 
+-static struct ccu_reset_map sun8i_h3_ccu_resets[] = {
++static const struct ccu_reset_map sun8i_h3_ccu_resets[] = {
+ 	[RST_USB_PHY0]		=  { 0x0cc, BIT(0) },
+ 	[RST_USB_PHY1]		=  { 0x0cc, BIT(1) },
+ 	[RST_USB_PHY2]		=  { 0x0cc, BIT(2) },
+@@ -939,7 +939,7 @@ static struct ccu_reset_map sun8i_h3_ccu_resets[] = {
+ 	[RST_BUS_SCR0]		=  { 0x2d8, BIT(20) },
+ };
+ 
+-static struct ccu_reset_map sun50i_h5_ccu_resets[] = {
++static const struct ccu_reset_map sun50i_h5_ccu_resets[] = {
+ 	[RST_USB_PHY0]		=  { 0x0cc, BIT(0) },
+ 	[RST_USB_PHY1]		=  { 0x0cc, BIT(1) },
+ 	[RST_USB_PHY2]		=  { 0x0cc, BIT(2) },
+diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-r.c b/drivers/clk/sunxi-ng/ccu-sun8i-r.c
+index da6569334d68..2b3e094a32cb 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun8i-r.c
++++ b/drivers/clk/sunxi-ng/ccu-sun8i-r.c
+@@ -178,7 +178,7 @@ static struct clk_hw_onecell_data sun50i_a64_r_hw_clks = {
+ 	.num	= CLK_NUMBER,
+ };
+ 
+-static struct ccu_reset_map sun8i_a83t_r_ccu_resets[] = {
++static const struct ccu_reset_map sun8i_a83t_r_ccu_resets[] = {
+ 	[RST_APB0_IR]		=  { 0xb0, BIT(1) },
+ 	[RST_APB0_TIMER]	=  { 0xb0, BIT(2) },
+ 	[RST_APB0_RSB]		=  { 0xb0, BIT(3) },
+@@ -186,14 +186,14 @@ static struct ccu_reset_map sun8i_a83t_r_ccu_resets[] = {
+ 	[RST_APB0_I2C]		=  { 0xb0, BIT(6) },
+ };
+ 
+-static struct ccu_reset_map sun8i_h3_r_ccu_resets[] = {
++static const struct ccu_reset_map sun8i_h3_r_ccu_resets[] = {
+ 	[RST_APB0_IR]		=  { 0xb0, BIT(1) },
+ 	[RST_APB0_TIMER]	=  { 0xb0, BIT(2) },
+ 	[RST_APB0_UART]		=  { 0xb0, BIT(4) },
+ 	[RST_APB0_I2C]		=  { 0xb0, BIT(6) },
+ };
+ 
+-static struct ccu_reset_map sun50i_a64_r_ccu_resets[] = {
++static const struct ccu_reset_map sun50i_a64_r_ccu_resets[] = {
+ 	[RST_APB0_IR]		=  { 0xb0, BIT(1) },
+ 	[RST_APB0_TIMER]	=  { 0xb0, BIT(2) },
+ 	[RST_APB0_RSB]		=  { 0xb0, BIT(3) },
+diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-r40.c b/drivers/clk/sunxi-ng/ccu-sun8i-r40.c
+index 2f51ceab8016..a374aeeca3f4 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun8i-r40.c
++++ b/drivers/clk/sunxi-ng/ccu-sun8i-r40.c
+@@ -1162,7 +1162,7 @@ static struct clk_hw_onecell_data sun8i_r40_hw_clks = {
+ 	.num	= CLK_NUMBER,
+ };
+ 
+-static struct ccu_reset_map sun8i_r40_ccu_resets[] = {
++static const struct ccu_reset_map sun8i_r40_ccu_resets[] = {
+ 	[RST_USB_PHY0]		=  { 0x0cc, BIT(0) },
+ 	[RST_USB_PHY1]		=  { 0x0cc, BIT(1) },
+ 	[RST_USB_PHY2]		=  { 0x0cc, BIT(2) },
+diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-v3s.c b/drivers/clk/sunxi-ng/ccu-sun8i-v3s.c
+index d24c0d8dfee4..00d04f7ad94d 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun8i-v3s.c
++++ b/drivers/clk/sunxi-ng/ccu-sun8i-v3s.c
+@@ -644,7 +644,7 @@ static struct clk_hw_onecell_data sun8i_v3_hw_clks = {
+ 	.num	= CLK_I2S0 + 1,
+ };
+ 
+-static struct ccu_reset_map sun8i_v3s_ccu_resets[] = {
++static const struct ccu_reset_map sun8i_v3s_ccu_resets[] = {
+ 	[RST_USB_PHY0]		=  { 0x0cc, BIT(0) },
+ 
+ 	[RST_MBUS]		=  { 0x0fc, BIT(31) },
+@@ -679,7 +679,7 @@ static struct ccu_reset_map sun8i_v3s_ccu_resets[] = {
+ 	[RST_BUS_UART2]		=  { 0x2d8, BIT(18) },
+ };
+ 
+-static struct ccu_reset_map sun8i_v3_ccu_resets[] = {
++static const struct ccu_reset_map sun8i_v3_ccu_resets[] = {
+ 	[RST_USB_PHY0]		=  { 0x0cc, BIT(0) },
+ 
+ 	[RST_MBUS]		=  { 0x0fc, BIT(31) },
+diff --git a/drivers/clk/sunxi-ng/ccu-sun9i-a80-de.c b/drivers/clk/sunxi-ng/ccu-sun9i-a80-de.c
+index 0975ac58949f..d561c15f5122 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun9i-a80-de.c
++++ b/drivers/clk/sunxi-ng/ccu-sun9i-a80-de.c
+@@ -177,7 +177,7 @@ static struct clk_hw_onecell_data sun9i_a80_de_hw_clks = {
+ 	.num	= CLK_NUMBER,
+ };
+ 
+-static struct ccu_reset_map sun9i_a80_de_resets[] = {
++static const struct ccu_reset_map sun9i_a80_de_resets[] = {
+ 	[RST_FE0]	= { 0x0c, BIT(0) },
+ 	[RST_FE1]	= { 0x0c, BIT(1) },
+ 	[RST_FE2]	= { 0x0c, BIT(2) },
+diff --git a/drivers/clk/sunxi-ng/ccu-sun9i-a80-usb.c b/drivers/clk/sunxi-ng/ccu-sun9i-a80-usb.c
+index e5527c8cc64f..9e2b8d47fc54 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun9i-a80-usb.c
++++ b/drivers/clk/sunxi-ng/ccu-sun9i-a80-usb.c
+@@ -68,7 +68,7 @@ static struct clk_hw_onecell_data sun9i_a80_usb_hw_clks = {
+ 	.num	= CLK_NUMBER,
+ };
+ 
+-static struct ccu_reset_map sun9i_a80_usb_resets[] = {
++static const struct ccu_reset_map sun9i_a80_usb_resets[] = {
+ 	[RST_USB0_HCI]		= { 0x0, BIT(17) },
+ 	[RST_USB1_HCI]		= { 0x0, BIT(18) },
+ 	[RST_USB2_HCI]		= { 0x0, BIT(19) },
+diff --git a/drivers/clk/sunxi-ng/ccu-sun9i-a80.c b/drivers/clk/sunxi-ng/ccu-sun9i-a80.c
+index 756dd8fca6b0..5da9a16b4ec7 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun9i-a80.c
++++ b/drivers/clk/sunxi-ng/ccu-sun9i-a80.c
+@@ -1108,7 +1108,7 @@ static struct clk_hw_onecell_data sun9i_a80_hw_clks = {
+ 	.num	= CLK_NUMBER,
+ };
+ 
+-static struct ccu_reset_map sun9i_a80_ccu_resets[] = {
++static const struct ccu_reset_map sun9i_a80_ccu_resets[] = {
+ 	/* AHB0 reset controls */
+ 	[RST_BUS_FD]		= { 0x5a0, BIT(0) },
+ 	[RST_BUS_VE]		= { 0x5a0, BIT(1) },
+diff --git a/drivers/clk/sunxi-ng/ccu-suniv-f1c100s.c b/drivers/clk/sunxi-ng/ccu-suniv-f1c100s.c
+index 52f1a04269f8..fb37c0fc4fde 100644
+--- a/drivers/clk/sunxi-ng/ccu-suniv-f1c100s.c
++++ b/drivers/clk/sunxi-ng/ccu-suniv-f1c100s.c
+@@ -477,7 +477,7 @@ static struct clk_hw_onecell_data suniv_hw_clks = {
+ 	.num	= CLK_NUMBER,
+ };
+ 
+-static struct ccu_reset_map suniv_ccu_resets[] = {
++static const struct ccu_reset_map suniv_ccu_resets[] = {
+ 	[RST_USB_PHY0]		=  { 0x0cc, BIT(0) },
+ 
+ 	[RST_BUS_DMA]		=  { 0x2c0, BIT(6) },
+diff --git a/drivers/clk/sunxi-ng/ccu_common.h b/drivers/clk/sunxi-ng/ccu_common.h
+index 329734f8cf42..dd330426a6e5 100644
+--- a/drivers/clk/sunxi-ng/ccu_common.h
++++ b/drivers/clk/sunxi-ng/ccu_common.h
+@@ -50,7 +50,7 @@ struct sunxi_ccu_desc {
+ 
+ 	struct clk_hw_onecell_data	*hw_clks;
+ 
+-	struct ccu_reset_map		*resets;
++	const struct ccu_reset_map	*resets;
+ 	unsigned long			num_resets;
+ };
+ 
+diff --git a/drivers/clk/sunxi-ng/ccu_reset.h b/drivers/clk/sunxi-ng/ccu_reset.h
+index e9b973cae4af..941276a8ec2e 100644
+--- a/drivers/clk/sunxi-ng/ccu_reset.h
++++ b/drivers/clk/sunxi-ng/ccu_reset.h
+@@ -17,7 +17,7 @@ struct ccu_reset_map {
+ 
+ struct ccu_reset {
+ 	void __iomem			*base;
+-	struct ccu_reset_map		*reset_map;
++	const struct ccu_reset_map	*reset_map;
+ 	spinlock_t			*lock;
+ 
+ 	struct reset_controller_dev	rcdev;
+-- 
+2.46.1
 
