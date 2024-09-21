@@ -1,55 +1,55 @@
-Received: from fout6-smtp.messagingengine.com (fout6-smtp.messagingengine.com [103.168.172.149])
+Received: from fhigh3-smtp.messagingengine.com (fhigh3-smtp.messagingengine.com [103.168.172.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8273156F5D
-	for <linux-sunxi@lists.linux.dev>; Sat, 21 Sep 2024 09:53:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B190157A5C
+	for <linux-sunxi@lists.linux.dev>; Sat, 21 Sep 2024 09:53:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726912400; cv=none; b=L1WGicXCiI0/wQHAHjmRmVd+i9PfV9zavedj24jXsA+9jw2CCi/0NO/REocHyX0+cZKQQY6kk9jfSIuVtAGELMsQacj8CSwR+baSyJ1Vpe5s7tr1saNMiFncSKY5+IUtcfOOuPZKHJrr88bWCO85+AJzLwAQ2X7hXJR/JytyP34=
+	t=1726912402; cv=none; b=h6vvy3bxlanX1Qb6xNw5ZpZ6SWvSbzTvoc3xYfMoDgWw8wyMohP564p3Op8C/2UfcTy+fWKQ4NsPMIkXtYOUd9WRmRZF7FSkF80Rol3SZ6bYXPB/LD2qWXIORa1ZeKEp9Zf1Ork6oTnlVRimedCWBp3t8zV5KKx8NiX3IIJhct8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726912400; c=relaxed/simple;
-	bh=r2+rCrqwbcxwxDxgUi5Q27ELKyFEBo40VUVwIuJU0f0=;
+	s=arc-20240116; t=1726912402; c=relaxed/simple;
+	bh=op6Am6mnV9uhbauhy+Kqw0DurjlaAhAuqwuuQIBlcPQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sUCbug9HkfOKxlS3tVVGYMBaXEw6BxsLoTiJZne3sLzEkoIAcAjG0IU+6/J4lyZsqDcGPPDfVNTfpzEgV2noCeMN5LW4pvPZL+RSvvxF+i+Oir+CweY4sGjhy+OeWlVRzV3h6YdO6BzwdcA525BsQKvSTB/BHeuFGR/GR1CgfJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=mBkUNc8y; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=MofWFPhA; arc=none smtp.client-ip=103.168.172.149
+	 MIME-Version; b=sqoa28bAtJm+RJHyMr5NHGtDrEjy5Gu4QZ8+DLws9u2T5xLA4VVMpIfXWVQzIHhbfvb2BLwUnxV27imBEE0wc6Tq1VAM6FO4w7N99FaeciKV0gOnlvwJJcw2DBgZBFWflRSsaw4H/vvZnOWa+HikrO1BGuVpoXhyAhRWtNO5MjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=DbwGrAXo; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=F4drYuJy; arc=none smtp.client-ip=103.168.172.154
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="mBkUNc8y";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="MofWFPhA"
-Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
-	by mailfout.phl.internal (Postfix) with ESMTP id E4B681380302;
-	Sat, 21 Sep 2024 05:53:07 -0400 (EDT)
+	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="DbwGrAXo";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="F4drYuJy"
+Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 9B3961140259;
+	Sat, 21 Sep 2024 05:53:20 -0400 (EDT)
 Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-10.internal (MEProxy); Sat, 21 Sep 2024 05:53:07 -0400
+  by phl-compute-04.internal (MEProxy); Sat, 21 Sep 2024 05:53:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
 	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
 	:from:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1726912387; x=
-	1726998787; bh=AwHhBn3bbgR1hnB5MQJEZRwH1DqrqeD78dAXPRj4TlI=; b=m
-	BkUNc8yHXZdDzlfUYjEQe8tqulCM8a98lY4GpxakOelM9U6cTZz6MwJOtPE5oNX4
-	AEOUGrCvqZhq7Zy6ncvVeUP0BnWZYI5U16yZsny74q6QosAEHQVNIaF8kmGAoq17
-	VLyuLF+bGdkBv3hVBpued9jKq/WKdVLJXweLJ70V8cFmkBBN7eTBLa4dPGPdh5Hb
-	ip9F4qir6fqd9FVBEZlxyKA5tbxIWVJ/JasMDD3/6/WHezWv8mVnP5AGrsoX5zzb
-	+3hVi/XwxSVIiJ/LZwPlDKvKSsc5SQoXaijvJDbJW6guD+EA0f39/l2iuFU/jNsq
-	STRFmNI3NjcefXgjXqqpg==
+	:reply-to:subject:subject:to:to; s=fm2; t=1726912400; x=
+	1726998800; bh=UUs9KKw9gM7Rm8ttFhQy8Tmz+91u9KDG5MSJ+Ys1Ptg=; b=D
+	bwGrAXoYyxAhD3a6RpfKcDyUx8hf+RQHAr58YGEQzMzlp4H0aOHt0zPb/TbpONDS
+	zW3/LFaPmhda2Wiir4S7aadR0nQACg6ZbzWJOkpbiveSSpFBq4C9hcHC/gpGXu1k
+	l/7HcKTAY8DecMRUfaxPLVDHZy/2DR1LkoteXkyrbWhTBHKU3jNAwhMscJpc47s3
+	CswUw3TSXifFtEbFIG6jl5+5vdtkBOzfUf3XPyu0dEhSZmrQ5buPaRnngHwbhxRu
+	LKupW8AYoiimwkAuKr038Pkk6R3wedlcDl5t8D4PuUIcy+xpcESjH7FbeWZdJXdy
+	aXvbmxlot4emZLImSYO4A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1726912387; x=
-	1726998787; bh=AwHhBn3bbgR1hnB5MQJEZRwH1DqrqeD78dAXPRj4TlI=; b=M
-	ofWFPhApabbPlYP+lm3Bd8Z5NHPCEqYYWXhhurb3wEiRgtoTp5aF2Ls0wJIyX3eJ
-	fwp6ZyNlIRQQuRaMo5ysxFsq1Uq7raPbzVpr4yMUe0fOYTehFxZOvPoXjREhGknL
-	Opuk2XO2sAR7AeH/0v1RnwTfoefQZ2Cnm4o+1Kuc5jrE2wGsaaHftjqfi95RexDE
-	29LjVzGKorNFXEGjjKaJ8cvf9LKqRwSXiy0prW4FdRLku98IAGE6uD6OwNZ9jQio
-	efyaELaTz8yV1q7SGuopX7OlxJGwy4bCzQsXCVuDWzBWbuSViy5ZIUGs7tw2HzYI
-	z1PPoI59rbYLpPUADdXLg==
-X-ME-Sender: <xms:g5fuZqTOPRqPA--E-5srNLbEHGgra67OSXh-BsBxYrvLMf1sLBijGA>
-    <xme:g5fuZvxvHrMUprl_kHGoWI2PBhBxEG9Ha60laqgihdXAwiIISA4EffzOGS7tzLG9K
-    HqrliLb0_swz1SLMA>
-X-ME-Received: <xmr:g5fuZn1uQlgCCKsilCkZiWPVEvO0ktBQqy7p7B3OnkIKTfxF0oagjW8Rg6ndT9ZSsVnPKE8P1Xsfm6zz5mcoz5TQZcdYeeLI2gTCrzjYlXx32CiU>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1726912400; x=
+	1726998800; bh=UUs9KKw9gM7Rm8ttFhQy8Tmz+91u9KDG5MSJ+Ys1Ptg=; b=F
+	4drYuJy/AFhAbi3XGICrkv/J1VzGYsl8EqBHsrs7GC78LCfxTMY3PAHltJTaeXYj
+	a3CI/V4RfINJibAhgIk827a5NLrHGzmJAis6GMfx9o//8TQ5NgfdgWmaJn64Rwo2
+	AGXsKPt0jEJ9yvMFsK2trRmnm/mx4DyqtTxp8Ga2qqSvSfZ+5NxQXbDaHKbd8KCI
+	6PhNLup6Y6g1VpYrfnnkF6o2GYmgzWAYFb9apcL4DAI0qoOXmHT+F+iZtUhd+uUE
+	U7tplSuPX2q2OGJGGV2vRgpV/tZnKjugZzis0srGCN7POsyLF647qDwwoZcpPEfz
+	t7oZv/fVterX9ZefRs9rQ==
+X-ME-Sender: <xms:kJfuZigkXMSZYB4fyKN4_DNrrZiVgE5Kdcu4RA3B7r02BNzJatlqeQ>
+    <xme:kJfuZjBxjbAYCXG8PIUMtVnl4dRuDo07I5xoXhVdIAmPqj3PN2zE-LUZ8jh_TCT5Z
+    mXtWA6f58tf8Pit0w>
+X-ME-Received: <xmr:kJfuZqGpii9K4Q_ZybPs8Vx458a4MlR7vQBUE15vHCurwb7lC8JXC8HGS6atSZzP0sgW3scZSCsPJRBQp1JV7yiLgg8wm3YhKlesZtEZOMujasM8>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudelhedgvdduucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
     rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
@@ -66,14 +66,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudelhedgvdduucetufdoteggod
     hffihllhdrtghhpdhrtghpthhtohepjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgrihhl
     rdgtohhmpdhrtghpthhtohepshgrmhhuvghlsehshhholhhlrghnugdrohhrghdprhgtph
     htthhopehrohgshheskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:g5fuZmDFrMk8IBLpNmN1YiKepgbT5JfhcEHgRhTRik-B1IQWZxEH6w>
-    <xmx:g5fuZjgOqIhchY-MZ_ghKs_meh4MztiscmkwQk-TqY_wklBOGCxMSQ>
-    <xmx:g5fuZir62li__-fkqbSHA5WkSxDTYMw7pPOpKU3UEjj2zamp3et8GQ>
-    <xmx:g5fuZmjRUw_wDURz8SD4RQXyzZLBgQ0iYJJt3Wf5a2kWizbesKriqg>
-    <xmx:g5fuZuQKE0-ze3kWSrVLDJCMUO_Q_veNuEPYppap1E63C_EHiDP57y6m>
+X-ME-Proxy: <xmx:kJfuZrRLwBXSD1cdeBy5BkXAuJPRzp37dw1I_mDknNFih2gQF5xoow>
+    <xmx:kJfuZvy3FyVAgH0ikyIuVLuV_VXZ-k3LWGvgSxS6oZoY2Q3XzPnshA>
+    <xmx:kJfuZp5anL-ylAhytbHtrPmkeVCTbTHaaphVR5ws6NY-qHevtCte7Q>
+    <xmx:kJfuZswaQg96gMCNsBjRUSc4QLDd8HcAMXKxfVx7juil7LPISocZuA>
+    <xmx:kJfuZmhyProM1OjLr4eBJ-6KWQHL-Iib9Bak7qU4iTcCPhyqMZj_3yWN>
 Feedback-ID: idc0145fc:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 21 Sep 2024 05:53:01 -0400 (EDT)
+ 21 Sep 2024 05:53:14 -0400 (EDT)
 From: Ryan Walklin <ryan@testtoast.com>
 To: Maxime Ripard <mripard@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
@@ -97,9 +97,9 @@ Cc: Andre Przywara <andre.przywara@arm.com>,
 	devicetree@vger.kernel.org,
 	linux-clk@vger.kernel.org,
 	Ryan Walklin <ryan@testtoast.com>
-Subject: [PATCH v4 07/26] drm: sun4i: de3: add formatter flag to mixer config
-Date: Sat, 21 Sep 2024 21:45:56 +1200
-Message-ID: <20240921095153.213568-8-ryan@testtoast.com>
+Subject: [PATCH v4 09/26] drm: sun4i: de3: pass engine reference to ccsc setup function
+Date: Sat, 21 Sep 2024 21:45:58 +1200
+Message-ID: <20240921095153.213568-10-ryan@testtoast.com>
 X-Mailer: git-send-email 2.46.1
 In-Reply-To: <20240921095153.213568-1-ryan@testtoast.com>
 References: <20240921095153.213568-1-ryan@testtoast.com>
@@ -113,51 +113,52 @@ Content-Transfer-Encoding: 8bit
 
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Only the DE3 (and newer) display engines have a formatter module. This
-could be inferred from the is_de3 flag alone, however this will not
-scale with addition of future DE versions in subsequent patches.
+Configuration of the DE3 colorspace and dynamic range correction module
+requires knowledge of the current video format and encoding.
 
-Add a separate flag to signal this in the mixer configuration.
+Pass the display engine by reference to the csc setup function, rather
+than the register map alone, to allow access to this information.
 
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Signed-off-by: Ryan Walklin <ryan@testtoast.com>
 ---
- drivers/gpu/drm/sun4i/sun8i_mixer.c | 1 +
- drivers/gpu/drm/sun4i/sun8i_mixer.h | 2 ++
- 2 files changed, 3 insertions(+)
+ drivers/gpu/drm/sun4i/sun8i_csc.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-index bd0fe2c6624e6..252827715de1d 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-@@ -717,6 +717,7 @@ static const struct sun8i_mixer_cfg sun50i_a64_mixer1_cfg = {
- static const struct sun8i_mixer_cfg sun50i_h6_mixer0_cfg = {
- 	.ccsc		= CCSC_MIXER0_LAYOUT,
- 	.is_de3		= true,
-+	.has_formatter	= 1,
- 	.mod_rate	= 600000000,
- 	.scaler_mask	= 0xf,
- 	.scanline_yuv	= 4096,
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h b/drivers/gpu/drm/sun4i/sun8i_mixer.h
-index d7898c9c9cc0c..8417b8fef2e1f 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
-@@ -163,6 +163,7 @@ enum {
-  * @mod_rate: module clock rate that needs to be set in order to have
-  *	a functional block.
-  * @is_de3: true, if this is next gen display engine 3.0, false otherwise.
-+ * @has_formatter: true, if mixer has formatter core, for 10-bit and YUV handling
-  * @scaline_yuv: size of a scanline for VI scaler for YUV formats.
-  */
- struct sun8i_mixer_cfg {
-@@ -172,6 +173,7 @@ struct sun8i_mixer_cfg {
- 	int		ccsc;
- 	unsigned long	mod_rate;
- 	unsigned int	is_de3 : 1;
-+	unsigned int    has_formatter : 1;
- 	unsigned int	scanline_yuv;
- };
+diff --git a/drivers/gpu/drm/sun4i/sun8i_csc.c b/drivers/gpu/drm/sun4i/sun8i_csc.c
+index 68d955c63b05b..8a336ccb27d33 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_csc.c
++++ b/drivers/gpu/drm/sun4i/sun8i_csc.c
+@@ -148,17 +148,19 @@ static void sun8i_csc_setup(struct regmap *map, u32 base,
+ 	regmap_write(map, SUN8I_CSC_CTRL(base), val);
+ }
  
+-static void sun8i_de3_ccsc_setup(struct regmap *map, int layer,
++static void sun8i_de3_ccsc_setup(struct sunxi_engine *engine, int layer,
+ 				 enum format_type fmt_type,
+ 				 enum drm_color_encoding encoding,
+ 				 enum drm_color_range range)
+ {
+ 	u32 addr, val, mask;
++	struct regmap *map;
+ 	const u32 *table;
+ 	int i;
+ 
+ 	mask = SUN50I_MIXER_BLEND_CSC_CTL_EN(layer);
+ 	table = yuv2rgb_de3[range][encoding];
++	map = engine->regs;
+ 
+ 	switch (fmt_type) {
+ 	case FORMAT_TYPE_RGB:
+@@ -204,7 +206,7 @@ void sun8i_csc_set_ccsc(struct sun8i_mixer *mixer, int layer,
+ 	u32 base;
+ 
+ 	if (mixer->cfg->is_de3) {
+-		sun8i_de3_ccsc_setup(mixer->engine.regs, layer,
++		sun8i_de3_ccsc_setup(&mixer->engine, layer,
+ 				     fmt_type, encoding, range);
+ 		return;
+ 	}
 -- 
 2.46.1
 
