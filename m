@@ -1,75 +1,49 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 511A8EEA8
-	for <linux-sunxi@lists.linux.dev>; Sun, 22 Sep 2024 17:01:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A8FB41C6D;
+	Sun, 22 Sep 2024 20:52:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727024515; cv=none; b=DGAGK7FSJMo38TRrCh7PFs8jj+VVWRegvm2vf7/16/Mhp14IBA37oIFL2E0BduzgHw5R8OEYqG9U6o1ng9JTcFlR64rDGDP7xpSA3SLLq7ExdnFDtLJqDPrJqI5A0N9utq8UUt/yFqHGAqVAF5Foh0NdA0Of/oMJeQn9sWsWTEM=
+	t=1727038327; cv=none; b=jJVdkGMi0cf4h1LSA7KqBRXFXwuX6/bXxQ1ou5a8ZYuv8M0oQDDQ3pCGm3ILWAxtoUcgKXJLGRgNlAVtkDoRWPDq8ZpwdScz67j5tBcCbt8kZmllxNlBt2m0KKo+TSWSJ2+aHcjQpFiDbbT45i2z2/+LtthCcKvHtAlYL5WQFFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727024515; c=relaxed/simple;
-	bh=W0Q3t1cD54SXXSBH7q4jVSfQ0CDLGNlbuw5viLLpA7U=;
+	s=arc-20240116; t=1727038327; c=relaxed/simple;
+	bh=KwpcBLZJuz/IFUx3YzGkLkjPmwp09+c4661du4ZCO0E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O1KrcMoUqgV29/8CyWKcQjp8DwrmG706NVuBlHba2yA0ZO3N5scsSe1Kb3zXwmz4CCLllm2iIaSYrmlKGJmEbLFXZVFzAdt8SFvyagzbyZBwD+o2pO8NLRG18zjmEOQ5+Z8HtCpuxR69qOvXZw4c966soxlRueQCWHDIaH1dtOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iGqHmwAr; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=fUd7cO8jsGI83JyjERwzzcymcShTdh3++O9aMzUuKzfaEYdlGhFpJ+ysb8HD8DqTBtk0xXx9GzPnOUUxPs+qi8SygSm0EA12SirRrVeXs3bPwbJFWkun0fy9GOODiJ82smoVx45DEO+21VSVWq+aq3HvghVDZtcKKnWtDmRoiE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JvO3jHbs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iGqHmwAr"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-42e748f78d6so28006765e9.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 22 Sep 2024 10:01:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727024512; x=1727629312; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=e6OYj2UJLtKO0PzA2lDG8Hf51QXdlmbxTS6bMeQGk50=;
-        b=iGqHmwArOF34Nz2nyagE0DQ0CnNisH43PJcjdoMRDe6AufKJ6uUwbejHGxi44TiGq6
-         MC7Inhn5U7pJWuKHsSUIM1r5kyNA2Pfo309CekhjeguMFCTRe39dJ8lkfhQA2FGtroc4
-         dQ1v8YwjPkrkqZ6eOZ/o4VvnU7jneZp1R0kXg0vje3ScPsDH0cM26ryXcAO5+RdSZx5E
-         MiaWLS4bP0qYftv3DOP9a9OCUx1yS7Q9lLrZuAI401L9BMwpSUhifzwbkkLCeRcvwGmJ
-         LDx5fanp8ocPlYhDIZ0M9FofcgVBgRtF7SUWajgQP0UU4N3YqhhgEPq8HruVUph6dPnR
-         PxQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727024512; x=1727629312;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=e6OYj2UJLtKO0PzA2lDG8Hf51QXdlmbxTS6bMeQGk50=;
-        b=tcumJsniMNZL9Cft2nHCw0FratH9bYAIrizhKK5h8dJe0eBapBXQ99g6QqNWlJbnFp
-         +1dGGnXFeceYMaCAEjfgE1S4nxcP8poAdqZfWHmAnM2iQx52VwydeW+SiSzWh+VOmAgg
-         9vtTR1yUdvZeNnljPjUMPyBmc7tVPop+5dmSIsKu8RGr+EnCV1FymZN9y2l08s626S9W
-         nKbI0kSlTsQsdFlO8+mw7W1xuYCPqZEDkKo52DJ/LZYZ8l6T9tmP+3Us4c0d3Mo7QRSm
-         awzNrzWrvC5vn78xn0xGeAWqbuEX+m1tR5a+UvSoUSReQhEBgYgcwCEw8oyNkZOzgsIq
-         kDPA==
-X-Gm-Message-State: AOJu0Yzhmo2w+Qt+/IoHEu2k6/v2nB00eW001QiKY1IsRCDNRixe7uGC
-	9ttrsiVBRCAJ7Qbffdt8AY0s4yVigw8U5rZx32Pmj0JZLHIHLZyI
-X-Google-Smtp-Source: AGHT+IF+lPG/TGg29MYlU3BmR+FnM5mK3gvHfmebpJCRc6aD+5GdQAF0EcnCJztjRJv/IukZAZEtFw==
-X-Received: by 2002:a05:600c:358e:b0:428:1310:b6b5 with SMTP id 5b1f17b1804b1-42e7c1a3916mr61839915e9.34.1727024511350;
-        Sun, 22 Sep 2024 10:01:51 -0700 (PDT)
-Received: from localhost ([94.19.228.143])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42e754c643csm104582835e9.45.2024.09.22.10.01.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Sep 2024 10:01:50 -0700 (PDT)
-Date: Sun, 22 Sep 2024 20:01:49 +0300
-From: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-To: Dragan Simic <dsimic@manjaro.org>
-Cc: linux-sunxi@lists.linux.dev, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, wens@csie.org, jernej.skrabec@gmail.com,
-	samuel@sholland.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org, Ondrej Jirman <megi@xff.cz>
-Subject: Re: [PATCH] arm64: dts: allwinner: pinephone: Add mount matrix to
- accelerometer
-Message-ID: <ZvBNfeg9uowsM9ub@skv.local>
-Mail-Followup-To: Andrey Skvortsov <andrej.skvortzov@gmail.com>,
-	Dragan Simic <dsimic@manjaro.org>, linux-sunxi@lists.linux.dev,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	Ondrej Jirman <megi@xff.cz>
-References: <129f0c754d071cca1db5d207d9d4a7bd9831dff7.1726773282.git.dsimic@manjaro.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JvO3jHbs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D5E6C4CEC3;
+	Sun, 22 Sep 2024 20:52:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727038327;
+	bh=KwpcBLZJuz/IFUx3YzGkLkjPmwp09+c4661du4ZCO0E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JvO3jHbsSazItW/axOaPAiPivUaWzqbEewfZixUk6sJfk3MfknzS5Dw1gDDiXgeGQ
+	 yMxO6T3I1VrHMqxeeaJr3LfaGdroeDP2XpSfqsP9evyCFIR6SO7wxtRXoVKz1aZHGI
+	 s4y0LyQs3ewWJYlrXvwZVvc9Oac8kQm1g5LFdqTJQ2ZHF6xZDddn6wuvLeMQYBV5F7
+	 2+lYys86MW6ihh2Imn/BnP0KlIQaxVNnpr7G/6fZOt33FVW2czEoX68+GxyjvLkk65
+	 n81sHbVGIer5fSucbKGggOQagcU0YyBYQ3ZTQO0toqkGM6YFb6a1Rr01MekAtS/QmC
+	 dFg4vmcUMfoPA==
+Date: Sun, 22 Sep 2024 22:52:02 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Ryan Walklin <ryan@testtoast.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Andre Przywara <andre.przywara@arm.com>, 
+	Chris Morgan <macroalpha82@gmail.com>, John Watts <contact@jookia.org>, dri-devel@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, 
+	linux-clk@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: [PATCH v4 21/26] dt-bindings: allwinner: add H616 DE33 mixer
+ binding
+Message-ID: <wma4hpidn353lsika3a5t7qf3ochmtbowhp4g4vuqrvgzthltc@yfwp5qastn7f>
+References: <20240921095153.213568-1-ryan@testtoast.com>
+ <20240921095153.213568-22-ryan@testtoast.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -78,57 +52,33 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <129f0c754d071cca1db5d207d9d4a7bd9831dff7.1726773282.git.dsimic@manjaro.org>
+In-Reply-To: <20240921095153.213568-22-ryan@testtoast.com>
 
-On 24-09-19 21:15, Dragan Simic wrote:
-> The way InvenSense MPU-6050 accelerometer is mounted on the user-facing side
-> of the Pine64 PinePhone mainboard, which makes it rotated 90 degrees counter-
-> clockwise, [1] requires the accelerometer's x- and y-axis to be swapped, and
-> the direction of the accelerometer's y-axis to be inverted.
+On Sat, Sep 21, 2024 at 09:46:10PM +1200, Ryan Walklin wrote:
+> The Allwinner H616 and variants have a new display engine revision
+> (DE33).
 > 
-> Rectify this by adding a mount-matrix to the accelerometer definition in the
-> Pine64 PinePhone dtsi file.
+> The mixer configuration registers are significantly different to the DE3
+> and DE2 revisions, being split into separate top and display blocks,
+> therefore a fallback for the mixer compatible is not provided.
 > 
-> [1] https://files.pine64.org/doc/PinePhone/PinePhone%20mainboard%20bottom%20placement%20v1.1%2020191031.pdf
+> Add a display engine mixer binding for the DE33.
 > 
-> Fixes: 91f480d40942 ("arm64: dts: allwinner: Add initial support for Pine64 PinePhone")
-> Cc: stable@vger.kernel.org
-> Helped-by: Ondrej Jirman <megi@xff.cz>
-> Helped-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-> Signed-off-by: Dragan Simic <dsimic@manjaro.org>
-> ---
+> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> Reviewed-by: Chen-Yu Tsai <wens@csie.org>
 > 
-> Notes:
->     See also the linux-sunxi thread [2] that has led to this patch, which
->     provides a rather detailed analysis with additional details and pictures.
->     This patch effectively replaces the patch submitted in that thread.
->     
->     [2] https://lore.kernel.org/linux-sunxi/20240916204521.2033218-1-andrej.skvortzov@gmail.com/T/#u
-> 
->  arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-> index 6eab61a12cd8..b844759f52c0 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-> @@ -212,6 +212,9 @@ accelerometer@68 {
->  		interrupts = <7 5 IRQ_TYPE_EDGE_RISING>; /* PH5 */
->  		vdd-supply = <&reg_dldo1>;
->  		vddio-supply = <&reg_dldo1>;
-> +		mount-matrix = "0", "1", "0",
-> +			       "-1", "0", "0",
-> +			       "0", "0", "1";
->  	};
->  };
->  
+> --
 
-I've applied the patch to next-20240920, built and run on a
-device. Sensor now works as expected. Screen rotating in Phosh
-according to the device orientation.
+That's not a delimiter and you would see checkpatch warning (because it
+is quite confused).
 
-Reviewed-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+Please run scripts/checkpatch.pl and fix reported warnings. Then please
+run  and (probably) fix more warnings.
+Some warnings can be ignored, especially from --strict run, but the code
+here looks like it needs a fix. Feel free to get in touch if the warning
+is not clear.
 
--- 
 Best regards,
-Andrey Skvortsov
+Krzysztof
+
