@@ -1,266 +1,134 @@
-Received: from fout6-smtp.messagingengine.com (fout6-smtp.messagingengine.com [103.168.172.149])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11300168497
-	for <linux-sunxi@lists.linux.dev>; Sat, 21 Sep 2024 09:55:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 511A8EEA8
+	for <linux-sunxi@lists.linux.dev>; Sun, 22 Sep 2024 17:01:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726912509; cv=none; b=SLsonFKsDFNo/S38ZOvEKCvC8E5vZhH6qiRPXW7g0/p8ZHpYZW0HbiKLj7QJILdsMMJPjg8n0Jc8GnB6afqPaGqHU+iMI1D7Qsz2vq7Cp7BrUzm+MOg7J/eoQAZqsuAWAzBI6UM2nBu+4swxp9fVRH8CmpRm3cSMn6TzZWdXjU0=
+	t=1727024515; cv=none; b=DGAGK7FSJMo38TRrCh7PFs8jj+VVWRegvm2vf7/16/Mhp14IBA37oIFL2E0BduzgHw5R8OEYqG9U6o1ng9JTcFlR64rDGDP7xpSA3SLLq7ExdnFDtLJqDPrJqI5A0N9utq8UUt/yFqHGAqVAF5Foh0NdA0Of/oMJeQn9sWsWTEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726912509; c=relaxed/simple;
-	bh=ZkTrTMmiNEECilvc5ncxev/LWoA+LJBe6tT3BuDWoAc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=toLfYgwtfKb1tJF3tKGzyjx8jPNylDfEaLOPSfqTsIi9YpAf+dL9VstEzi+tvQD/QHo6TAvbR9/0FB+Sg8sMAJZX1U0Wp+Lokx1snsdhbCHOej0I0LFyihy1to17igB2reJMmEhj4cRelgh8nUHjjxTKQGV1UR35yQRB3F+cwW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=5ihgqOaI; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=lWVrYysW; arc=none smtp.client-ip=103.168.172.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
+	s=arc-20240116; t=1727024515; c=relaxed/simple;
+	bh=W0Q3t1cD54SXXSBH7q4jVSfQ0CDLGNlbuw5viLLpA7U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O1KrcMoUqgV29/8CyWKcQjp8DwrmG706NVuBlHba2yA0ZO3N5scsSe1Kb3zXwmz4CCLllm2iIaSYrmlKGJmEbLFXZVFzAdt8SFvyagzbyZBwD+o2pO8NLRG18zjmEOQ5+Z8HtCpuxR69qOvXZw4c966soxlRueQCWHDIaH1dtOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iGqHmwAr; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="5ihgqOaI";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="lWVrYysW"
-Received: from phl-compute-02.internal (phl-compute-02.phl.internal [10.202.2.42])
-	by mailfout.phl.internal (Postfix) with ESMTP id 70ADE13802EF;
-	Sat, 21 Sep 2024 05:55:07 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Sat, 21 Sep 2024 05:55:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
-	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
-	:from:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1726912507; x=
-	1726998907; bh=QWeAcEx5ydjrPlUyYTxWYAwZbE8Bk7NgntmEsZsvBn8=; b=5
-	ihgqOaIIDttbGwEEzim7wjuLGUYVIn9aW2mo4Q77Z6B52PTb+NAZFgMx4gt/n2M8
-	WG2cZa1hYQbiuB4mE6uiu3LrWb4gtXPBYp+/t98Gm79Fe/TKsT5hg0D5X5gSUZGP
-	JonBnFuJXepepAnMC3OGXDf5n4uPa78l1bLUIUw9iPmv7oFLKoKpw/rbel174uJY
-	+KaeCe+WYKTBK/oxnLVTDyT8LI/fFvAo9mbJO28CBc5GiEUwUSz6nd8/jHWE26dA
-	Zu3ohByf75e8TBT6JIu/RKaBfG9B2GdXfZlOACmcWVs/Rmd3h4DIE2NRHwS09lGB
-	Z/e6uJkgiUDnVsMDl4tcQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1726912507; x=
-	1726998907; bh=QWeAcEx5ydjrPlUyYTxWYAwZbE8Bk7NgntmEsZsvBn8=; b=l
-	WVrYysW0Xrms08UfZcLAzB37gCwCUm6xjbzfnJbDxu0PljowG7tdpnLLowFcKnHW
-	QwRl69oi+cDu78otNeRw3NTz63PUn682TcyoT0PkaeDcLxOAy5MramPE9gP0B9VH
-	vS8ZW3XByI95Do2zOamIbHQgufP1QQoulETGhEvTEI8vW3c8v5cqb4F9/emr05T3
-	InJZ1CkvyGgUzaUHH5Z9lsCP4UEYg2t4RUoru/YOATAXaTflt875GjwieWnijaxp
-	7Bda4P14Qcf3g1JKICz/KgzmPXDpI7IIink3/vX//tJTQHI9wI7cGgONjMOCfZ/h
-	LHHcsRBo7IefDk16N9w5A==
-X-ME-Sender: <xms:-5fuZiwl7VSFDGHndcwoNhAcV2nRtXGgGIgk_1gJN-o7XT1kVbWqRA>
-    <xme:-5fuZuR35Ow_AlsOGmVdXUObLzfrLeVE5PZjdwX-FezxDX9woUx9LiSgEUF6XcpoN
-    aW4_abyHT2aWvxX0A>
-X-ME-Received: <xmr:-5fuZkU8jlZlyDesU63MMCpWXYZzq-xAtltrTb6I7URgynXrXCKKcubWOMffLYRt8K3qh2U5Cs7FC_T1sG2owcaqW_cGmBrfR0JjSvpd6v07Uon2>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudelhedgvdduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhephffvvefufffkofgjfhgggfestdekredtredttden
-    ucfhrhhomheptfihrghnucghrghlkhhlihhnuceorhihrghnsehtvghsthhtohgrshhtrd
-    gtohhmqeenucggtffrrghtthgvrhhnpeffheeiffegtdfgffejteevgeefkeelieelkeev
-    ueetffetteduffevgeeiieehteenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmh
-    epmhgrihhlfhhrohhmpehrhigrnhesthgvshhtthhorghsthdrtghomhdpnhgspghrtghp
-    thhtohepvddvpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehmrhhiphgrrhguse
-    hkvghrnhgvlhdrohhrghdprhgtphhtthhopeifvghnshestghsihgvrdhorhhgpdhrtghp
-    thhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtg
-    homhdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthht
-    oheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopegurghnihgvlhesfh
-    hffihllhdrtghhpdhrtghpthhtohepjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgrihhl
-    rdgtohhmpdhrtghpthhtohepshgrmhhuvghlsehshhholhhlrghnugdrohhrghdprhgtph
-    htthhopehrohgshheskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:-5fuZogTNU9WsXO5bo-IW2RrgmjXtwbSrn3SjUr2PFqvsoPcJ4jNDw>
-    <xmx:-5fuZkBFyZaGYeTmE_nBIUMQoLgwBqFhEhk4dR590GndehQ3uZEvYA>
-    <xmx:-5fuZpKY0N9UHzhAyvxk9JSlI_yKXhYL1eqAhCfjFKgK1BXFl8VhgQ>
-    <xmx:-5fuZrCzGWqUgidKzAacgaX0Ze2YKUMJMoPSiax7OpI9Q2CSxfF-JQ>
-    <xmx:-5fuZmxFGAAsk2j5ittP__7bJVGqnc3-dA3fryvEvO-j7zn_z3IAkrL5>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 21 Sep 2024 05:55:01 -0400 (EDT)
-From: Ryan Walklin <ryan@testtoast.com>
-To: Maxime Ripard <mripard@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>
-Cc: Andre Przywara <andre.przywara@arm.com>,
-	Chris Morgan <macroalpha82@gmail.com>,
-	John Watts <contact@jookia.org>,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	devicetree@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	Ryan Walklin <ryan@testtoast.com>
-Subject: [PATCH v4 26/26] drm: sun4i: de33: csc: add Display Engine 3.3 (DE33) support
-Date: Sat, 21 Sep 2024 21:46:15 +1200
-Message-ID: <20240921095153.213568-27-ryan@testtoast.com>
-X-Mailer: git-send-email 2.46.1
-In-Reply-To: <20240921095153.213568-1-ryan@testtoast.com>
-References: <20240921095153.213568-1-ryan@testtoast.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iGqHmwAr"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-42e748f78d6so28006765e9.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 22 Sep 2024 10:01:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727024512; x=1727629312; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=e6OYj2UJLtKO0PzA2lDG8Hf51QXdlmbxTS6bMeQGk50=;
+        b=iGqHmwArOF34Nz2nyagE0DQ0CnNisH43PJcjdoMRDe6AufKJ6uUwbejHGxi44TiGq6
+         MC7Inhn5U7pJWuKHsSUIM1r5kyNA2Pfo309CekhjeguMFCTRe39dJ8lkfhQA2FGtroc4
+         dQ1v8YwjPkrkqZ6eOZ/o4VvnU7jneZp1R0kXg0vje3ScPsDH0cM26ryXcAO5+RdSZx5E
+         MiaWLS4bP0qYftv3DOP9a9OCUx1yS7Q9lLrZuAI401L9BMwpSUhifzwbkkLCeRcvwGmJ
+         LDx5fanp8ocPlYhDIZ0M9FofcgVBgRtF7SUWajgQP0UU4N3YqhhgEPq8HruVUph6dPnR
+         PxQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727024512; x=1727629312;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=e6OYj2UJLtKO0PzA2lDG8Hf51QXdlmbxTS6bMeQGk50=;
+        b=tcumJsniMNZL9Cft2nHCw0FratH9bYAIrizhKK5h8dJe0eBapBXQ99g6QqNWlJbnFp
+         +1dGGnXFeceYMaCAEjfgE1S4nxcP8poAdqZfWHmAnM2iQx52VwydeW+SiSzWh+VOmAgg
+         9vtTR1yUdvZeNnljPjUMPyBmc7tVPop+5dmSIsKu8RGr+EnCV1FymZN9y2l08s626S9W
+         nKbI0kSlTsQsdFlO8+mw7W1xuYCPqZEDkKo52DJ/LZYZ8l6T9tmP+3Us4c0d3Mo7QRSm
+         awzNrzWrvC5vn78xn0xGeAWqbuEX+m1tR5a+UvSoUSReQhEBgYgcwCEw8oyNkZOzgsIq
+         kDPA==
+X-Gm-Message-State: AOJu0Yzhmo2w+Qt+/IoHEu2k6/v2nB00eW001QiKY1IsRCDNRixe7uGC
+	9ttrsiVBRCAJ7Qbffdt8AY0s4yVigw8U5rZx32Pmj0JZLHIHLZyI
+X-Google-Smtp-Source: AGHT+IF+lPG/TGg29MYlU3BmR+FnM5mK3gvHfmebpJCRc6aD+5GdQAF0EcnCJztjRJv/IukZAZEtFw==
+X-Received: by 2002:a05:600c:358e:b0:428:1310:b6b5 with SMTP id 5b1f17b1804b1-42e7c1a3916mr61839915e9.34.1727024511350;
+        Sun, 22 Sep 2024 10:01:51 -0700 (PDT)
+Received: from localhost ([94.19.228.143])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42e754c643csm104582835e9.45.2024.09.22.10.01.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 22 Sep 2024 10:01:50 -0700 (PDT)
+Date: Sun, 22 Sep 2024 20:01:49 +0300
+From: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+To: Dragan Simic <dsimic@manjaro.org>
+Cc: linux-sunxi@lists.linux.dev, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, wens@csie.org, jernej.skrabec@gmail.com,
+	samuel@sholland.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org, Ondrej Jirman <megi@xff.cz>
+Subject: Re: [PATCH] arm64: dts: allwinner: pinephone: Add mount matrix to
+ accelerometer
+Message-ID: <ZvBNfeg9uowsM9ub@skv.local>
+Mail-Followup-To: Andrey Skvortsov <andrej.skvortzov@gmail.com>,
+	Dragan Simic <dsimic@manjaro.org>, linux-sunxi@lists.linux.dev,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Ondrej Jirman <megi@xff.cz>
+References: <129f0c754d071cca1db5d207d9d4a7bd9831dff7.1726773282.git.dsimic@manjaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <129f0c754d071cca1db5d207d9d4a7bd9831dff7.1726773282.git.dsimic@manjaro.org>
 
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
+On 24-09-19 21:15, Dragan Simic wrote:
+> The way InvenSense MPU-6050 accelerometer is mounted on the user-facing side
+> of the Pine64 PinePhone mainboard, which makes it rotated 90 degrees counter-
+> clockwise, [1] requires the accelerometer's x- and y-axis to be swapped, and
+> the direction of the accelerometer's y-axis to be inverted.
+> 
+> Rectify this by adding a mount-matrix to the accelerometer definition in the
+> Pine64 PinePhone dtsi file.
+> 
+> [1] https://files.pine64.org/doc/PinePhone/PinePhone%20mainboard%20bottom%20placement%20v1.1%2020191031.pdf
+> 
+> Fixes: 91f480d40942 ("arm64: dts: allwinner: Add initial support for Pine64 PinePhone")
+> Cc: stable@vger.kernel.org
+> Helped-by: Ondrej Jirman <megi@xff.cz>
+> Helped-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+> Signed-off-by: Dragan Simic <dsimic@manjaro.org>
+> ---
+> 
+> Notes:
+>     See also the linux-sunxi thread [2] that has led to this patch, which
+>     provides a rather detailed analysis with additional details and pictures.
+>     This patch effectively replaces the patch submitted in that thread.
+>     
+>     [2] https://lore.kernel.org/linux-sunxi/20240916204521.2033218-1-andrej.skvortzov@gmail.com/T/#u
+> 
+>  arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> index 6eab61a12cd8..b844759f52c0 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> @@ -212,6 +212,9 @@ accelerometer@68 {
+>  		interrupts = <7 5 IRQ_TYPE_EDGE_RISING>; /* PH5 */
+>  		vdd-supply = <&reg_dldo1>;
+>  		vddio-supply = <&reg_dldo1>;
+> +		mount-matrix = "0", "1", "0",
+> +			       "-1", "0", "0",
+> +			       "0", "0", "1";
+>  	};
+>  };
+>  
 
-Like earlier DE versions, the DE33 has a CSC (Color Space Correction)
-module. which provides color space conversion between BT2020/BT709, and
-dynamic range conversion between SDR/ST2084/HLG.
+I've applied the patch to next-20240920, built and run on a
+device. Sensor now works as expected. Screen rotating in Phosh
+according to the device orientation.
 
-Add support for the DE33.
+Reviewed-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Signed-off-by: Ryan Walklin <ryan@testtoast.com>
----
- drivers/gpu/drm/sun4i/sun8i_csc.c | 96 +++++++++++++++++++++++++++++++
- drivers/gpu/drm/sun4i/sun8i_csc.h |  3 +
- 2 files changed, 99 insertions(+)
-
-diff --git a/drivers/gpu/drm/sun4i/sun8i_csc.c b/drivers/gpu/drm/sun4i/sun8i_csc.c
-index 2d5a2cf7cba24..45bd1ca06400e 100644
---- a/drivers/gpu/drm/sun4i/sun8i_csc.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_csc.c
-@@ -238,6 +238,14 @@ static const u32 yuv2yuv_de3[2][3][3][12] = {
- 	},
- };
- 
-+static u32 sun8i_csc_base(struct sun8i_mixer *mixer, int layer)
-+{
-+	if (mixer->cfg->de_type == sun8i_mixer_de33)
-+		return sun8i_channel_base(mixer, layer) - 0x800;
-+	else
-+		return ccsc_base[mixer->cfg->ccsc][layer];
-+}
-+
- static void sun8i_csc_setup(struct regmap *map, u32 base,
- 			    enum format_type fmt_type,
- 			    enum drm_color_encoding encoding,
-@@ -358,6 +366,90 @@ static void sun8i_de3_ccsc_setup(struct sunxi_engine *engine, int layer,
- 			   mask, val);
- }
- 
-+/* extract constant from high word and invert sign if necessary */
-+static u32 sun8i_de33_ccsc_get_constant(u32 value)
-+{
-+	value >>= 16;
-+
-+	if (value & BIT(15))
-+		return 0x400 - (value & 0x3ff);
-+
-+	return value;
-+}
-+
-+static void sun8i_de33_convert_table(const u32 *src, u32 *dst)
-+{
-+	dst[0] = sun8i_de33_ccsc_get_constant(src[3]);
-+	dst[1] = sun8i_de33_ccsc_get_constant(src[7]);
-+	dst[2] = sun8i_de33_ccsc_get_constant(src[11]);
-+	memcpy(&dst[3], src, sizeof(u32) * 12);
-+	dst[6] &= 0xffff;
-+	dst[10] &= 0xffff;
-+	dst[14] &= 0xffff;
-+}
-+
-+static void sun8i_de33_ccsc_setup(struct sun8i_mixer *mixer, int layer,
-+				  enum format_type fmt_type,
-+				  enum drm_color_encoding encoding,
-+				  enum drm_color_range range)
-+{
-+	u32 addr, val = 0, base, csc[15];
-+	struct sunxi_engine *engine;
-+	struct regmap *map;
-+	const u32 *table;
-+	int i;
-+
-+	table = yuv2rgb_de3[range][encoding];
-+	base = sun8i_csc_base(mixer, layer);
-+	engine = &mixer->engine;
-+	map = engine->regs;
-+
-+	switch (fmt_type) {
-+	case FORMAT_TYPE_RGB:
-+		if (engine->format == MEDIA_BUS_FMT_RGB888_1X24)
-+			break;
-+		val = SUN8I_CSC_CTRL_EN;
-+		sun8i_de33_convert_table(rgb2yuv_de3[engine->encoding], csc);
-+		regmap_bulk_write(map, SUN50I_CSC_COEFF(base, 0), csc, 15);
-+		break;
-+	case FORMAT_TYPE_YUV:
-+		table = sun8i_csc_get_de3_yuv_table(encoding, range,
-+						    engine->format,
-+						    engine->encoding);
-+		if (!table)
-+			break;
-+		val = SUN8I_CSC_CTRL_EN;
-+		sun8i_de33_convert_table(table, csc);
-+		regmap_bulk_write(map, SUN50I_CSC_COEFF(base, 0), csc, 15);
-+		break;
-+	case FORMAT_TYPE_YVU:
-+		table = sun8i_csc_get_de3_yuv_table(encoding, range,
-+						    engine->format,
-+						    engine->encoding);
-+		if (!table)
-+			table = yuv2yuv_de3[range][encoding][encoding];
-+		val = SUN8I_CSC_CTRL_EN;
-+		sun8i_de33_convert_table(table, csc);
-+		for (i = 0; i < 15; i++) {
-+			addr = SUN50I_CSC_COEFF(base, i);
-+			if (i > 3) {
-+				if (((i - 3) & 3) == 1)
-+					addr = SUN50I_CSC_COEFF(base, i + 1);
-+				else if (((i - 3) & 3) == 2)
-+					addr = SUN50I_CSC_COEFF(base, i - 1);
-+			}
-+			regmap_write(map, addr, csc[i]);
-+		}
-+		break;
-+	default:
-+		val = 0;
-+		DRM_WARN("Wrong CSC mode specified.\n");
-+		return;
-+	}
-+
-+	regmap_write(map, SUN8I_CSC_CTRL(base), val);
-+}
-+
- void sun8i_csc_set_ccsc(struct sun8i_mixer *mixer, int layer,
- 			enum format_type fmt_type,
- 			enum drm_color_encoding encoding,
-@@ -369,6 +461,10 @@ void sun8i_csc_set_ccsc(struct sun8i_mixer *mixer, int layer,
- 		sun8i_de3_ccsc_setup(&mixer->engine, layer,
- 				     fmt_type, encoding, range);
- 		return;
-+	} else if (mixer->cfg->de_type == sun8i_mixer_de33) {
-+		sun8i_de33_ccsc_setup(mixer, layer, fmt_type,
-+				      encoding, range);
-+		return;
- 	}
- 
- 	if (layer < mixer->cfg->vi_num) {
-diff --git a/drivers/gpu/drm/sun4i/sun8i_csc.h b/drivers/gpu/drm/sun4i/sun8i_csc.h
-index b7546e06e315c..2b762cb79f02c 100644
---- a/drivers/gpu/drm/sun4i/sun8i_csc.h
-+++ b/drivers/gpu/drm/sun4i/sun8i_csc.h
-@@ -20,6 +20,9 @@ struct sun8i_mixer;
- #define SUN8I_CSC_CTRL(base)		((base) + 0x0)
- #define SUN8I_CSC_COEFF(base, i)	((base) + 0x10 + 4 * (i))
- 
-+#define SUN50I_CSC_COEFF(base, i)	((base) + 0x04 + 4 * (i))
-+#define SUN50I_CSC_ALPHA(base)		((base) + 0x40)
-+
- #define SUN8I_CSC_CTRL_EN		BIT(0)
- 
- enum format_type {
 -- 
-2.46.1
-
+Best regards,
+Andrey Skvortsov
