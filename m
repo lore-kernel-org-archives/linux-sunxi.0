@@ -1,142 +1,123 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 037B916087B
-	for <linux-sunxi@lists.linux.dev>; Thu, 26 Sep 2024 16:08:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F41715820C
+	for <linux-sunxi@lists.linux.dev>; Thu, 26 Sep 2024 16:48:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727366933; cv=none; b=a4fWeSzU2PA52k4QObgWgO+kNzL1KoOsytPYi22Zp3tm8EITbqKnDEYpb+xbwUjIz3SEmXhwDoyLHRUsEjkofR1JuK7C2fkDMhrquUnxeeiq0lMCs8qFlJoDcXhQVZNxYJytpdArFRFYyv+IlWC2uUmAQIbjcreAS3XZ05ebx2A=
+	t=1727369311; cv=none; b=df5LzAvuLPCtUWTDaBMnufTecPRamsQalR4zfZ6Re9Vc7B0yVt9odS8LM2eZH8DX1oh3c0GfWAd8k8sjW26knuyWVAeJRuvr1Osm3pD/tJ9oV65ZrRohGVZJmq12BmTSpMQPCzWlcxnu6gogo/aoQM+A0osn35SNE7yq5EVHdz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727366933; c=relaxed/simple;
-	bh=xTmIMKWrAEJ2sxUaBzK8+gdHqeGN97Vi3rD2yxlm2m8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=tZFB6pJdOYf6hHtR5R6rRdrYEvpZ0tjobCKKD7TnocwIpumti/CulWDauKs6toVB2hP+bkW+ELzccFDRkPRokKijEK36v96Kxh7dgRSZ/+fSk9GbqA9xzpQgMMqb6SuEtVrMj90YL1Wnby0S+iMUyzsXkaKnUJIz6KG65/PXtSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LHD8Vq56; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1727369311; c=relaxed/simple;
+	bh=3iLcjQkH5GQa4HPTVULpyY5LszmMUqJ2M/ZQuLeKLO4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=m44rX3aU1rRQPtpEHW8GZ95i6fZcywkJ0bcnZHD6858c9f0IVFAFr8Y0QNiv0jAwQCBovXYG9hgnE6rgYlRxb3+VCay/O2p49W6vL0CtqNh3keI+iikEmfY9jnixzbz21cntyz6Nhx5qTot4OrGJgr9v6vChT6fyraIJxHEsW68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LHD8Vq56"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a8d2b24b7a8so431331266b.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 26 Sep 2024 09:08:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727366930; x=1727971730; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GfSfRbf6HpAPUG9dd1ayagyvrPMaeTlKhJpm5dY0lEg=;
-        b=LHD8Vq56KBjbXQl14raiiBU6T5a8kpSjYOoCWYS8+anNAqhwYeY7dMMNwRweD0UWh4
-         RVTaMXGWoGclcIZ0s1+xwm/bS1cGIT00uJ0hDXF9XrOTQvat3B+dLtfowZox//4OWzxU
-         u2vtthjmTophtmk3GH8tZyXCsNY3o5ibrDRKwtIEGJBrkCOdpHMmTLzJwu6WdJOfJfpu
-         gIX3t2wewdcPj0KJ1z+pbjrxHs2TGG2W5M9xKdaDTWyusA6h+By8MBwsNHmLM22M97fx
-         hz6t/TdpDxNuqz7nA4imOPktyPs0r2qrkUsxzdQ/Hoglq4O7PFCW6aJKcS1m+d5fMdcC
-         GQ+A==
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5365cc68efaso1154653e87.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 26 Sep 2024 09:48:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727366930; x=1727971730;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GfSfRbf6HpAPUG9dd1ayagyvrPMaeTlKhJpm5dY0lEg=;
-        b=na/PLWVEcXOQ6e0DeigmTior+P05GtRwUpPpCETeC+OEBd5P1kNx/PQHOus2jhg/kO
-         GtORem5ZCW1A7w0sXO7uw0XemMmDzHn7w8TO+VgOj602gpIkwsljks9b9mNlgLkD5I5x
-         rWQ/dzihL1VT/m410ErEqdembz/u6uJpHwRPeXt2kYC4l9PwZgVV2/cxl/YjdoOjAYil
-         zL8hIpQyXWwnFwAl+XFH+vK5UKz5RjUn6dsQafHLZY8scHvH/vf1TYtLa3sCaEwdheJ+
-         gTuR6tqzdYv/NdzQIaa4oenUQdutyHnFV5lJfiLrXm0qmlZyNNu6eaWOOcffpXZozfp6
-         AseQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWSclalTd0bYRzNfsLSrB7luhiWqySV2b0kO1wQAGpKCLK60ak1VAQseTps4GpceabSgvtw0Z+WxcHg3g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyHnQU/ASW0UIbtqhALxLPGa7s15XBybOu1D9U7owi948zRAXQp
-	DkDxg/tkbiFXAuFghf9llqYtuR1ZVP8FcqDChhnWM+8OZ/zSZc00xHSLxYfD
-X-Google-Smtp-Source: AGHT+IEa8ZK99gytPYhlMMIfBCh2WLdWCb9VYkK2bIOBiKcxBkDWAAatz/BvNKwWyUydN132lAq7Sw==
-X-Received: by 2002:a17:907:d2e5:b0:a8d:5f69:c839 with SMTP id a640c23a62f3a-a93b15f92aamr392676866b.15.1727366930195;
-        Thu, 26 Sep 2024 09:08:50 -0700 (PDT)
-Received: from [127.0.1.1] (2a02-8389-41cf-e200-6d88-4cd9-a9d4-f267.cable.dynamic.v6.surfer.at. [2a02:8389:41cf:e200:6d88:4cd9:a9d4:f267])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c27c70d3sm13947966b.78.2024.09.26.09.08.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Sep 2024 09:08:48 -0700 (PDT)
-From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Date: Thu, 26 Sep 2024 18:08:40 +0200
-Subject: [PATCH 4/4] iio: adc: ad5755: use scoped
- device_for_each_child_node()
+        d=1e100.net; s=20230601; t=1727369304; x=1727974104;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HubwtGXoHYycyyJ/DTpsXcKHTqyuvb2GHfcFka+zhbM=;
+        b=SWh4FfXhSDPng//PErbeu98jKVC02/6aTQa99ehNcok9iRVXR54pEzCKwZQ3gUjBMf
+         CZskgpDRCzbJtOKx+TdOzbaWBrN5DgHjv612RLqwyZZgQMeZXxyX1mT453bmt0F4k+L1
+         uCD3c83BsBQR6h+P/LbTwc/9038KOujxxRQejMZL8TuArItTL3Rlf7FZC2kb3jwUdx6d
+         WkgIVaxs9iSt63u9FeGgPM5XfQApdrEU1xqJxt7sB3jZdfsi7KmP/UunloAFGH+KVRL8
+         UWqpffGplfJY9UAD2BTIoQXreVqGeZuKYWvZJIDvnmbKG9zK47LwfFBKkqFOHVsb5aht
+         bQSg==
+X-Forwarded-Encrypted: i=1; AJvYcCU4CGRVZ+4UziNlFEOPBMDX90JqhRHu5FX89oJ6L9wf5NWhc5klrMMUA3wJ4M58o5QHES6XLbTwzOamJw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwK4HMt6s4vvQQwv/jMjgPTh2TYmRhQ0+UjLiT2MTqBh7Fak6ro
+	sIC6tqChJRu+pHtx5mJ03ABTkjvjvikIsKDX6ujDYgtdz9B2rpYo6EE7oe9U
+X-Google-Smtp-Source: AGHT+IGjv3CJri1FNGCR8XdY1mjMdX9tDfrssXXg6sFg8DGxpFhGtK0eOht10wPtQjHKkMY5UkxwgQ==
+X-Received: by 2002:a05:6512:12d1:b0:536:55cc:9642 with SMTP id 2adb3069b0e04-5389fc44dbamr193894e87.26.1727369304238;
+        Thu, 26 Sep 2024 09:48:24 -0700 (PDT)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com. [209.85.208.174])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5389fd5dfafsm10118e87.100.2024.09.26.09.48.23
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Sep 2024 09:48:23 -0700 (PDT)
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2f75c205e4aso14347191fa.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 26 Sep 2024 09:48:23 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCX3DP0zkddi4kN8LSteGKc40BMINFlYhEFt48LTUbQ9WwHYCOsCGe8ArDzIKtbSMalSIuM9kOmx7G6F3w==@lists.linux.dev
+X-Received: by 2002:a2e:be93:0:b0:2f4:f279:36d3 with SMTP id
+ 38308e7fff4ca-2f9d3e3b935mr2254021fa.4.1727369303029; Thu, 26 Sep 2024
+ 09:48:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240926-iio_device_for_each_child_node_scoped-v1-4-64ca8a424578@gmail.com>
 References: <20240926-iio_device_for_each_child_node_scoped-v1-0-64ca8a424578@gmail.com>
-In-Reply-To: <20240926-iio_device_for_each_child_node_scoped-v1-0-64ca8a424578@gmail.com>
-To: Jonathan Cameron <jic23@kernel.org>, 
- Lars-Peter Clausen <lars@metafoo.de>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Michael Hennerich <Michael.Hennerich@analog.com>
-Cc: linux-arm-msm@vger.kernel.org, linux-iio@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, 
- Javier Carrasco <javier.carrasco.cruz@gmail.com>
-X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1727366918; l=1682;
- i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
- bh=xTmIMKWrAEJ2sxUaBzK8+gdHqeGN97Vi3rD2yxlm2m8=;
- b=PgLKXJGq2MweGHIGTLRvljlOM7oxtbS7Y8PJM25aEBf0vmjeCKYh8ES4/Km4e2w0Irtx2nvj1
- ddQdkAH4KPBDo3JfVnrEyLrV2hVMi0/5mNJUuT+Hf4ES1FMXY9K209/
-X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
- pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
+ <20240926-iio_device_for_each_child_node_scoped-v1-3-64ca8a424578@gmail.com>
+In-Reply-To: <20240926-iio_device_for_each_child_node_scoped-v1-3-64ca8a424578@gmail.com>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Fri, 27 Sep 2024 00:48:09 +0800
+X-Gmail-Original-Message-ID: <CAGb2v673tM84R=ixndabTmwane_dC+bu5YbNKHi1i+sd+tJksA@mail.gmail.com>
+Message-ID: <CAGb2v673tM84R=ixndabTmwane_dC+bu5YbNKHi1i+sd+tJksA@mail.gmail.com>
+Subject: Re: [PATCH 3/4] iio: adc: sun20i-gpadc: use scoped device_for_each_child_node()
+To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, linux-arm-msm@vger.kernel.org, 
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Switch to device_for_each_child_node_scoped() to simplify the code by
-removing the need for calls to fwnode_handle_put() in the error path, in
-this particular case dropping the jump to error_out as well.
+On Fri, Sep 27, 2024 at 12:08=E2=80=AFAM Javier Carrasco
+<javier.carrasco.cruz@gmail.com> wrote:
+>
+> Switch to device_for_each_child_node_scoped() to simplify the code by
+> removing the need for calls to fwnode_handle_put() in the error path.
+>
+> This prevents possible memory leaks if new error paths are added without
+> the required call to fwnode_handle_put().
+>
+> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 
-This prevents possible memory leaks if new error paths are added without
-the required call to fwnode_handle_put().
+Reviewed-by: Chen-Yu Tsai <wens@csie.org>
 
-Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
----
- drivers/iio/dac/ad5755.c | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/iio/dac/ad5755.c b/drivers/iio/dac/ad5755.c
-index 0b24cb19ac9d..05e80b6ae2cc 100644
---- a/drivers/iio/dac/ad5755.c
-+++ b/drivers/iio/dac/ad5755.c
-@@ -699,7 +699,6 @@ static const struct ad5755_platform_data ad5755_default_pdata = {
- 
- static struct ad5755_platform_data *ad5755_parse_fw(struct device *dev)
- {
--	struct fwnode_handle *pp;
- 	struct ad5755_platform_data *pdata;
- 	unsigned int tmp;
- 	unsigned int tmparray[3];
-@@ -746,11 +745,12 @@ static struct ad5755_platform_data *ad5755_parse_fw(struct device *dev)
- 	}
- 
- 	devnr = 0;
--	device_for_each_child_node(dev, pp) {
-+	device_for_each_child_node_scoped(dev, pp) {
- 		if (devnr >= AD5755_NUM_CHANNELS) {
- 			dev_err(dev,
- 				"There are too many channels defined in DT\n");
--			goto error_out;
-+			devm_kfree(dev, pdata);
-+			return NULL;
- 		}
- 
- 		pdata->dac[devnr].mode = AD5755_MODE_CURRENT_4mA_20mA;
-@@ -800,11 +800,6 @@ static struct ad5755_platform_data *ad5755_parse_fw(struct device *dev)
- 	}
- 
- 	return pdata;
--
-- error_out:
--	fwnode_handle_put(pp);
--	devm_kfree(dev, pdata);
--	return NULL;
- }
- 
- static int ad5755_probe(struct spi_device *spi)
-
--- 
-2.43.0
-
+> ---
+>  drivers/iio/adc/sun20i-gpadc-iio.c | 7 ++-----
+>  1 file changed, 2 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/iio/adc/sun20i-gpadc-iio.c b/drivers/iio/adc/sun20i-=
+gpadc-iio.c
+> index 6a893d484cf7..136b8d9c294f 100644
+> --- a/drivers/iio/adc/sun20i-gpadc-iio.c
+> +++ b/drivers/iio/adc/sun20i-gpadc-iio.c
+> @@ -155,7 +155,6 @@ static int sun20i_gpadc_alloc_channels(struct iio_dev=
+ *indio_dev,
+>         unsigned int channel;
+>         int num_channels, i, ret;
+>         struct iio_chan_spec *channels;
+> -       struct fwnode_handle *node;
+>
+>         num_channels =3D device_get_child_node_count(dev);
+>         if (num_channels =3D=3D 0)
+> @@ -167,12 +166,10 @@ static int sun20i_gpadc_alloc_channels(struct iio_d=
+ev *indio_dev,
+>                 return -ENOMEM;
+>
+>         i =3D 0;
+> -       device_for_each_child_node(dev, node) {
+> +       device_for_each_child_node_scoped(dev, node) {
+>                 ret =3D fwnode_property_read_u32(node, "reg", &channel);
+> -               if (ret) {
+> -                       fwnode_handle_put(node);
+> +               if (ret)
+>                         return dev_err_probe(dev, ret, "invalid channel n=
+umber\n");
+> -               }
+>
+>                 channels[i].type =3D IIO_VOLTAGE;
+>                 channels[i].indexed =3D 1;
+>
+> --
+> 2.43.0
+>
