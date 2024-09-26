@@ -1,257 +1,161 @@
-Received: from mailout04.t-online.de (mailout04.t-online.de [194.25.134.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85363166F16
-	for <linux-sunxi@lists.linux.dev>; Thu, 26 Sep 2024 18:01:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.25.134.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8D5C1B011E
+	for <linux-sunxi@lists.linux.dev>; Thu, 26 Sep 2024 23:21:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727373704; cv=none; b=RZegMt40Kmjk+ShKuNGLmpYdk6Ry4xoCXVYTUo7Y/DAK1wpwdYiUHcy2h6tz7bYTqzAwt84k79PndoJobobkE6e2U8TAWsbqnfj0DzlDlNI4zTfx5aL6do6u11U4lV8oetZSazpfqfCwB+op2a/lSwL9wGA1dyu6JcB5VW7EgR0=
+	t=1727392880; cv=none; b=sJk4cSZ/hiEAhxUF5niO/fO8kuVeh537MC2TSAQKGlWa0IyNX/U6VfQAGm1uWqRWan+j7/bGpgXD1uj4YTA1kNd1mEhWTQU+fF6ImRXXmQjpniijaKHa3/EP0lU6N/9EtJ8kVPMau4Ld2nuUpNbgaK/mf2qSATlY3W8N4rwp74c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727373704; c=relaxed/simple;
-	bh=mEV8JFw8qbJLqzs4umPKQk8RShH0/ZlMVSGlyTU885Q=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=fHqhzvpBIQMuBwOzIBFkd5B8UlITpCmvvITdq3ByEyUFVX+3dUAG6aoUoKGcvcYtFpRGWcPSCZeCdqlJ7errTIXb88Xi8BBCsEmFalK97KxZztG8eHutXxjuflplavJIkoXGctGQKq+VZNehMAm32LqC7ibRDcA+pjtA0O1O0JY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=t-online.de; spf=pass smtp.mailfrom=t-online.de; arc=none smtp.client-ip=194.25.134.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=t-online.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=t-online.de
-Received: from fwd79.aul.t-online.de (fwd79.aul.t-online.de [10.223.144.105])
-	by mailout04.t-online.de (Postfix) with SMTP id 57EFA1D60F;
-	Thu, 26 Sep 2024 19:53:54 +0200 (CEST)
-Received: from dino2.dhome ([77.47.123.226]) by fwd79.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1stsgb-1icZjV0; Thu, 26 Sep 2024 19:53:54 +0200
-Message-ID: <8a97a7d7be1b94fb4a92c486c458530792d0107a.camel@t-online.de>
-Subject: Re: [PATCH v4 1/1] drivers/rtc: rtc-sun6i: AutoCal Internal OSC
-From: Alois Fertl <A.Fertl@t-online.de>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: a.zummo@towertech.it, alexandre.belloni@bootlin.com, wens@csie.org, 
-	jernej.skrabec@gmail.com, samuel@sholland.org, linux-rtc@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Date: Thu, 26 Sep 2024 19:53:45 +0200
-In-Reply-To: <20240530181022.6fbc5a7d@donnerap.manchester.arm.com>
-References: <20240522182826.6824-1-a.fertl@t-online.de>
-	 <20240530181022.6fbc5a7d@donnerap.manchester.arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	s=arc-20240116; t=1727392880; c=relaxed/simple;
+	bh=ls6STftDXgqEjSON3lpk60MstLtR+0wj4jS0gZeSDb0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=p8SZyDZBHnhftHAh9iMY6d1/8HZR2sRbzmJzh8zIeLG89qqm4IUiY62MXUJTJZIYFPAnkpjLQH4195rkNj/Lcpda3p2wNUL8X8hfoq2tLbRJM31/3wUiThrXWAIF4bRf9Zhbz+shIDOJVvIofcCpmEj0oVVtnsTyZg2PJLtRlqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OKOJI3rS; arc=none smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OKOJI3rS"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a8d4093722bso207890266b.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 26 Sep 2024 16:21:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727392876; x=1727997676; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Bu40LWj131EvrXy4hSGWlLWhDgrzKYj+PB2hYeDUiWQ=;
+        b=OKOJI3rS9TcszxGCycoi7wmOfNSCAhCvirsHzIgsLDNwQeW32pPsSVEj+0S7vk5GtT
+         FpNiygpiHN75PDGuz/i3hC7bwgC34d5qS3jPO/Cl+/8iyaciSTxyJ46ONosxMtQM1qcr
+         XIlofNimWJGfnx/iEhzYOIgoSSUCmFVzG5f7yG2XoI1+sIjCLO84AI+8LeFF4LHLxYqo
+         Vy68kSehAiVM1FA/jVNc1Vv0MM/4sS1gFzVMWu2iFjrt30mpKdu8EyPYMi6c2Px+6+CA
+         7hWjvT9ThCeWm03ef5Mvh4xmBW7JDxjmjT7HT1xJil4YyrJPdffWnTZ0JQfvkewPiC5n
+         Q91g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727392876; x=1727997676;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Bu40LWj131EvrXy4hSGWlLWhDgrzKYj+PB2hYeDUiWQ=;
+        b=m60OR4wrhf9uwZItdn9Zgp6azrtxis1HmVvMCLOQBteXDp+iyihsagsiVkf9/Xs35P
+         GzmxO6uGXLkYeShMahEPzhbPu0sANfQ8yjQGBlnEfuxtN3VlmV2hmhKVJmB+cOvFzHzP
+         8TGIluJ267zqu6zQrHA1IAoiBX473YXfGPe31HdI1ae/Atd1iFrRPd1m7BQk/JkFt6EL
+         Eo+jdn0nXUVz8jhjQ2Uvbz3/K3Q9dPz8xOh7p73FV4rdHWmOmREM4I6YtuNRO5z4Uax9
+         MbEwRrHUh4Xgf+soKPt/K0VVSwYQ7o/icFScO1Dkd+YK8qHA8EqfOwRcDD5MwkBIs6OS
+         wihw==
+X-Forwarded-Encrypted: i=1; AJvYcCUFT2P8e5KMLL5RHaBxjMcpLU6/XLb8IXcOs81e4n5cpvQteya1lgehZiA7AscXFJxcLj/2ma5SkVuaDg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxqOQLmPXtwB/eIWjfEJEUJhPOKvItoU6NU5QHgSGguqBOdk2Vd
+	35K+w3uEDsMDrpl14AQbElklupIGw04ECtGbNatI5QqByG4CWIP6
+X-Google-Smtp-Source: AGHT+IHhqjy8WeTtGJCjL8APo5icRaeNMZCgJdUWodmCHHiaovrWOaRpdybBZblfcBNu/LZxuuDbbQ==
+X-Received: by 2002:a17:907:9488:b0:a8c:d6a3:d038 with SMTP id a640c23a62f3a-a93c492a74emr81977066b.37.1727392875801;
+        Thu, 26 Sep 2024 16:21:15 -0700 (PDT)
+Received: from [127.0.1.1] (2a02-8389-41cf-e200-3989-b03c-7705-998b.cable.dynamic.v6.surfer.at. [2a02:8389:41cf:e200:3989:b03c:7705:998b])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c27773c0sm50368166b.1.2024.09.26.16.21.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Sep 2024 16:21:15 -0700 (PDT)
+From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Subject: [PATCH 00/18] leds: switch to device_for_each_child_node_scoped()
+Date: Fri, 27 Sep 2024 01:20:51 +0200
+Message-Id: <20240927-leds_device_for_each_child_node_scoped-v1-0-95c0614b38c8@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1727373234-EF7FC5A0-584B78DD/0/0 CLEAN NORMAL
-X-TOI-MSGID: 3b30e07f-32f6-41af-83cd-c1ac5275b1e2
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFPs9WYC/x2N0QqDMAwAf0XyvIJ2duB+ZYxQktQGpJUGhiD++
+ 4qPB8fdCSZNxeA9nNDkp6a1dJgeA1COZRWn3Bn86Odx8S+3CRtyN0kw1YYSKSNl3RhLZUGjugu
+ 7EJfgQ5inZ4rQY3uTpMc9+nyv6w9hSLI6eAAAAA==
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Gene Chen <gene_chen@richtek.com>, 
+ Jacek Anaszewski <jacek.anaszewski@gmail.com>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, 
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>, stable@vger.kernel.org
+X-Mailer: b4 0.14-dev
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1727392874; l=3800;
+ i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
+ bh=ls6STftDXgqEjSON3lpk60MstLtR+0wj4jS0gZeSDb0=;
+ b=TYJknx8sMFUvP50SESSmj7bX6NpKm2bRxPVZmfQ4I0CTAI78hmnfsvCgYNyfMfsr3Zzok4S+j
+ J2NN3jjMDyzDfwjCYYydsp8LC3zBAjJbrjq41NeJcSn3DU93waqFbfe
+X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
+ pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
 
-On Thu, 2024-05-30 at 18:10 +0100, Andre Przywara wrote:
-> On Wed, 22 May 2024 20:28:26 +0200
-> Alois Fertl <a.fertl@t-online.de> wrote:
->=20
-> > I have a M98-8K PLUS Magcubic TV-Box based on the Allwinner H618
-> > SOC.
-> > On board is a Sp6330 wifi/bt module that requires a 32kHz clock to
-> > operate correctly. Without this change the clock from the SOC is
-> > ~29kHz and BT module does not start up. The patch enables the
-> > Internal
-> > OSC Clock Auto Calibration of the H616/H618 which than provides the
-> > necessary 32kHz and the BT module initializes successfully.
-> > Add a flag and set it for H6.
-> > Also the code is developed on the H618 board it only modifies the
-> > H6 as
-> > there is no support for H616/H618 in the current code.
->=20
-> I am a bit confused: so this patch doesn't fix your problem then,
-> because
-> the code you touch is not used on the H616/H618?
-> Actually I would have expected your patch to only change
-> drivers/clk/sunxi-ng/ccu-sun6i-rtc.c, since that's the only RTC clock
-> driver relevant for the H616.
+This series switches from the device_for_each_child_node() macro to its
+scoped variant, which in general makes the code more robust if new early
+exits are added to the loops, because there is no need for explicit
+calls to fwnode_handle_put(). Depending on the complexity of the loop
+and its error handling, the code gets simplified and it gets easier to
+follow.
 
-Thanks for your comment ans sorry for my late reaction.
+The non-scoped variant of the macro is error-prone, and it has been the
+source of multiple bugs where the child node refcount was not
+decremented accordingly in error paths within the loops. The first patch
+of this series is a good example, which fixes that kind of bug that is
+regularly found in node iterators.
 
-I was using a community maintained version of drivers/rtc/rtc-sun6i.c
-which adds support for the H616 into this file. The proposed change is
-than common for H6 AND H616 based on the introduced flag has_auto_cal.
-It does fix my problem.
-The patch however is based on mainline and therefor does not have the
-H616 extension.
+The uses of device_for_each_child_node() with no early exits have been
+left untouched because their simpilicty justifies the non-scoped
+variant.
 
->=20
-> > Signed-off-by: Alois Fertl <a.fertl@t-online.de>
-> > ---
-> >=20
-> > v1->v2
-> > - add flag and activate for H6 AND H616
-> >=20
-> > v2->v3
-> > - correct findings from review
-> >=20
-> > v3->v4
-> > - adjust to mainline tree
-> >=20
-> > I have also tried to test this using the new driver in sunxi-ng
-> > manually injecting the reverted patch
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/comm=
-it/?id=3D60d9f050da63b
->=20
-> So this was done on a H6 device? Because out of the box rtc-sun6i.c
-> is
-> used on the H6 only, and ccu-sun6i-rtc.c is only used on the H616.
->=20
-> Maybe I am missing something here ...
+Note that the child node is now declared in the macro, and therefore the
+explicit declaration is no longer required.
 
-Please see above.
->=20
-> > The code in drivers/clk/sunxi-ng/ccu-sun6i-rtc.c is being called
-> > and it
-> > initializes the relevant registers to the same values as the old
-> > driver,
-> > but the change ends up with a system that often hangs during
-> > booting and
-> > only ocasionally reaches the login state (one out of 10).
-> > The main difference I see adhoc is that the old drivers init is
-> > done
-> > using CLK_OF_DECLARE_DRIVER so initialization is done very early.
-> > The new driver does the initialisation via probe which is quite
-> > some
-> > time later.
-> > Can't tell if this is the cause for the problems.
->=20
-> That sounds odd, can you post your changes somewhere?
->=20
+The general functionality should not be affected by this modification.
+If functional changes are found, please report them back as errors.
 
-Just recently I was able to get the code in drivers/clk/sunxi-ng/ccu-
-sun6i-rtc.c working for my H618 box. It requires a change in just this
-ccu-sun6i-rtc.c file. Unfortunatly it is based on try and error picking
-and I don't understand why it is required.
+Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+---
+Javier Carrasco (18):
+      leds: flash: mt6360: fix device_for_each_child_node() refcounting in error paths
+      leds: flash: mt6370: switch to device_for_each_child_node_scoped()
+      leds: flash: leds-qcom-flash: switch to device_for_each_child_node_scoped()
+      leds: aw200xx: switch to device_for_each_child_node_scoped()
+      leds: cr0014114: switch to device_for_each_child_node_scoped()
+      leds: el15203000: switch to device_for_each_child_node_scoped()
+      leds: gpio: switch to device_for_each_child_node_scoped()
+      leds: lm3532: switch to device_for_each_child_node_scoped()
+      leds: lm3697: switch to device_for_each_child_node_scoped()
+      leds: lp50xx: switch to device_for_each_child_node_scoped()
+      leds: max77650: switch to device_for_each_child_node_scoped()
+      leds: ns2: switch to device_for_each_child_node_scoped()
+      leds: pca963x: switch to device_for_each_child_node_scoped()
+      leds: pwm: switch to device_for_each_child_node_scoped()
+      leds: sun50i-a100: switch to device_for_each_child_node_scoped()
+      leds: tca6507: switch to device_for_each_child_node_scoped()
+      leds: rgb: ktd202x: switch to device_for_each_child_node_scoped()
+      leds: rgb: mt6370: switch to device_for_each_child_node_scoped()
 
-The change is that the name "osc32k-out" is now equal tho the string
-used in drivers/rtc/rtc-sun6i.c.
+ drivers/leds/flash/leds-mt6360.c       |  3 +--
+ drivers/leds/flash/leds-mt6370-flash.c | 11 +++-------
+ drivers/leds/flash/leds-qcom-flash.c   |  4 +---
+ drivers/leds/leds-aw200xx.c            |  7 ++-----
+ drivers/leds/leds-cr0014114.c          |  4 +---
+ drivers/leds/leds-el15203000.c         | 14 ++++---------
+ drivers/leds/leds-gpio.c               |  9 +++------
+ drivers/leds/leds-lm3532.c             | 18 +++++++----------
+ drivers/leds/leds-lm3697.c             | 18 ++++++-----------
+ drivers/leds/leds-lp50xx.c             | 21 +++++++------------
+ drivers/leds/leds-max77650.c           | 18 ++++++-----------
+ drivers/leds/leds-ns2.c                |  7 ++-----
+ drivers/leds/leds-pca963x.c            | 11 +++-------
+ drivers/leds/leds-pwm.c                | 15 ++++----------
+ drivers/leds/leds-sun50i-a100.c        | 27 +++++++++----------------
+ drivers/leds/leds-tca6507.c            |  7 ++-----
+ drivers/leds/rgb/leds-ktd202x.c        |  8 +++-----
+ drivers/leds/rgb/leds-mt6370-rgb.c     | 37 ++++++++++------------------------
+ 18 files changed, 75 insertions(+), 164 deletions(-)
+---
+base-commit: 92fc9636d1471b7f68bfee70c776f7f77e747b97
+change-id: 20240926-leds_device_for_each_child_node_scoped-5a95255413fa
 
---- a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
-@@ -202,7 +202,7 @@ static const struct clk_hw *osc32k_parents[] =3D {
- };
-=20
- static struct clk_init_data osc32k_init_data =3D {
--       .name           =3D "osc32k",
-+       .name           =3D "osc32k-out",
-        .ops            =3D &ccu_mux_ops,
-        .parent_hws     =3D osc32k_parents,
-        .num_parents    =3D ARRAY_SIZE(osc32k_parents), /* updated during
-probe */
-@@ -271,13 +271,13 @@ static struct ccu_mux osc32k_fanout_clk =3D {
- };
-=20
-May be someone has a clue on this?
-
-> Generally, without a proper problem and without further testing, I
-> would
-> not like to touch the H6 RTC code needlessly.
-> For the H616 we have a concrete problem at hand, that justifies a
-> change,
-> also it's the proper driver for new devices, so that's where the
-> change
-> should happen.
-
-So the PATCH requested here looses importance because for the H6 it
-would improve RTC only in the rare case where there is no external 32k
-oscillator or when the external oscillator fails.
-
-Probably not worth the effort.
-
-Regards,
-Alois
->=20
-> Cheers,
-> Andre
->=20
-> >=20
-> > ---
-> > =C2=A0drivers/rtc/rtc-sun6i.c | 16 +++++++++++++++-
-> > =C2=A01 file changed, 15 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
-> > index 8e0c66906..57aa52d3b 100644
-> > --- a/drivers/rtc/rtc-sun6i.c
-> > +++ b/drivers/rtc/rtc-sun6i.c
-> > @@ -42,6 +42,11 @@
-> > =C2=A0
-> > =C2=A0#define SUN6I_LOSC_CLK_PRESCAL=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A00x0008
-> > =C2=A0
-> > +#define SUN6I_LOSC_CLK_AUTO_CAL=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A00x000c
-> > +#define SUN6I_LOSC_CLK_AUTO_CAL_16MS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0BIT(2)
-> > +#define SUN6I_LOSC_CLK_AUTO_CAL_ENABLE=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0BIT(1)
-> > +#define SUN6I_LOSC_CLK_AUTO_CAL_SEL_CAL=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0BIT(0)
-> > +
-> > =C2=A0/* RTC */
-> > =C2=A0#define SUN6I_RTC_YMD=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A00x0010
-> > =C2=A0#define SUN6I_RTC_HMS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A00x0014
-> > @@ -126,7 +131,6 @@
-> > =C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0 registers (R40, H6)
-> > =C2=A0 *=C2=A0=C2=A0 - SYS power domain controls (R40)
-> > =C2=A0 *=C2=A0=C2=A0 - DCXO controls (H6)
-> > - *=C2=A0=C2=A0 - RC oscillator calibration (H6)
-> > =C2=A0 *
-> > =C2=A0 * These functions are not covered by this driver.
-> > =C2=A0 */
-> > @@ -137,6 +141,7 @@ struct sun6i_rtc_clk_data {
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0unsigned int has_out_cl=
-k : 1;
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0unsigned int has_losc_e=
-n : 1;
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0unsigned int has_auto_s=
-wt : 1;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0unsigned int has_auto_cal : =
-1;
-> > =C2=A0};
-> > =C2=A0
-> > =C2=A0#define RTC_LINEAR_DAY=C2=A0BIT(0)
-> > @@ -267,6 +272,14 @@ static void __init sun6i_rtc_clk_init(struct
-> > device_node *node,
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0writel(reg, rtc->base +=
- SUN6I_LOSC_CTRL);
-> > =C2=A0
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (rtc->data->has_auto_cal)=
- {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0/* Enable internal OSC clock auto calibration */
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0reg =3D SUN6I_LOSC_CLK_AUTO_CAL_16MS |
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0SUN6I_=
-LOSC_CLK_AUTO_CAL_ENABLE |
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0SUN6I_=
-LOSC_CLK_AUTO_CAL_SEL_CAL;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0writel(reg, rtc->base + SUN6I_LOSC_CLK_AUTO_CAL);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
-> > +
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* Yes, I know, this is=
- ugly. */
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0sun6i_rtc =3D rtc;
-> > =C2=A0
-> > @@ -374,6 +387,7 @@ static const struct sun6i_rtc_clk_data
-> > sun50i_h6_rtc_data =3D {
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.has_out_clk =3D 1,
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.has_losc_en =3D 1,
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.has_auto_swt =3D 1,
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.has_auto_cal =3D 1,
-> > =C2=A0};
-> > =C2=A0
-> > =C2=A0static void __init sun50i_h6_rtc_clk_init(struct device_node
-> > *node)
->=20
+Best regards,
+-- 
+Javier Carrasco <javier.carrasco.cruz@gmail.com>
 
