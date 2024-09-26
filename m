@@ -1,60 +1,60 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84FF91B07BD
-	for <linux-sunxi@lists.linux.dev>; Thu, 26 Sep 2024 23:21:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F6581B1416
+	for <linux-sunxi@lists.linux.dev>; Thu, 26 Sep 2024 23:21:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727392885; cv=none; b=VkBJJBDjsHidzn9HZSNQeJ6gIq65OSkr9vwy5nz/sSikoQ5mS/rDUhDIBkQ2hAp8YrgZEQE1Cb7U2JuNqEWglVBUWQ31y2h+Sq5GQ2H4M268ftvTacuhElU8FjmQa3b8AnoHT7cQd0OLOvvpxCPwL4iMcZHvW77K5X1Lr970Sbw=
+	t=1727392888; cv=none; b=UPvZlO3mVX2eymn5p6I/Yq9mV1HeQyfFiHL3rjxWStN/nl8Te2Qq4jV+94TUhXunnmUH4DYTYiDGLZRx/K+1tcV9RMHlKexDXxZwv1lfjOC31KQY3CXWM/6mp2eXRAelvV4QT21xvN5QW6Ighjs5OXrfYcz99lVMrFN1f9gfZrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727392885; c=relaxed/simple;
-	bh=da+yiLrVSVhzxfXeLXUvwNG1cBTZv5IPC9inOzFUOgI=;
+	s=arc-20240116; t=1727392888; c=relaxed/simple;
+	bh=wZ6akrPJfNHUSfXIEENEHvfLrdMCasbCDwbd/LiltB0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ktSCx4pdhiDeZVwEWM7017T+n3zg/Iuba717SBE9CBCbqNYDs9Xa3owoVtkfpyoDhjd+EG4zAfbpC1W61h3248RXk6XMFkOTliI/gPbrGZisNrlqtA//nW8jK1t+N5QKsrzmXd6uBtgAtk7XlFflWHnvUs7pjtjWC6uJJ1eArd0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HdsMU4+T; arc=none smtp.client-ip=209.85.208.53
+	 In-Reply-To:To:Cc; b=nSQ/EUYNljMs2Q34J8RGhyWC73ac9L5N1IE2M/RXkfRXUgyj+MA84CcX5UAZyG5qmdOCcJyN2KaCyqTOBPu5dO6D1azgw8FIpM1Mbn292j5xDOrC3iTtrXfN0CkwPddCuopOuPeO32JW3+1+vY5AQSovTmEEC9of/7asYHoqjPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l4+KT6/G; arc=none smtp.client-ip=209.85.218.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HdsMU4+T"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5c8784e3bc8so1608897a12.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 26 Sep 2024 16:21:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l4+KT6/G"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a90188ae58eso183398466b.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 26 Sep 2024 16:21:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727392882; x=1727997682; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1727392884; x=1727997684; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=SRhQyVKcgRlVjIYoZT+41pIKZJrgjINAhed1beNUQXI=;
-        b=HdsMU4+TjsYm2psaJkYZNUVaEkKT2bCbNwKrtf+0CyY4lEczllKfiICTticSvOHdmg
-         ePmLouBOuGbD31oZLY4AulxFCTF5/q/RLZTUaMzcrbzgYCdXVBGQ150doY8JpBRxEJEt
-         VYysLnHS4e4g8PTsJckWL+dx2jGO/rp7Abp5Rur1uQQiyAHOYkfWTcO/Iy2cm1gtRqeE
-         n3oQuQ6eXhNSi2+2x/Wx0gn7iWaoT5teMDbv5vVkE8v/LdZgc7Ockkqz/G2526+nt/dv
-         2IonGUrZOr+AeYC+pwSIteh2eV0i/oPotNC8BIYs/+DzBeXOaJwPiIY0vo+RkVn5kzKs
-         5XUw==
+        bh=HNd4acINmmNerLNUmXoF50X4J1ylsjRdPZ4qMlEZiVs=;
+        b=l4+KT6/GQzgMqzdlT06UcjqXpxnRqpJUiFIt33ayhnYTfUkCy84FObeTeQQbET3Zj6
+         SKQuh46CVxtlnbUpZTQh7Ux5xXEM4X6T0WzH5q/BSTXNl3TpE3SCV/OQm/uux6KaaXB8
+         FRJ9a+EhXgSlpfYQvOEhlJcRHlio6IOVk/EmURSyiLgFWfR+0vLOQfIIuxmrl0xGBuYg
+         oApFOZEZdJov8TWNMK2zFG6xiMq+ysUTqrwxQNCxgvFDibrm0NhoTsEBWj+Wsactlh6k
+         bS5pbB6sp/Xd4friVrfCu5VpisbWVND5/DnM1/Sms3fPEVm12bXsyI/XQYncdL6r8Qbh
+         JMpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727392882; x=1727997682;
+        d=1e100.net; s=20230601; t=1727392884; x=1727997684;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SRhQyVKcgRlVjIYoZT+41pIKZJrgjINAhed1beNUQXI=;
-        b=TVPQMUO/ZjGLlyaGUsemarDBqZb+tIYdQyCj8bA5CG8yU0BU5dPZK42PodtCaKJRIy
-         Mbc4in2GmcRD06CqGqepTHaxgt1jWcC8Iv9BIfjKgmPaISs6Ns+oF20cX/Wg1AHledAL
-         UrCS+YwAmfC1drZxdbD4UiEbqbCwZIn0s735ssr0z+URLtk3fR+jfZpDVjoY6yBkLOYG
-         zxM1NHDxltosIkd6ycGjzPXxKfHWyX3e9dfRmZraYhGXg+QYSFycct5ZKxVGSxenzqlx
-         Ccio8KLvmEaTRdGRWQmDo6amMIlqTTirUOxV6lz6JURWRG6z/2KfNQscMJvkDJaM48jD
-         Wp+g==
-X-Forwarded-Encrypted: i=1; AJvYcCXGZyU6CijGJrDghwoMlXWxY0+q5SjbYL39s6k5hbwpL4J3qh82WDr0SBdFL84I+3I27Eb6+Xb2rzaJbA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxLaS5WSLCf8jftzMxgfKAbEaKx8vNZ+vTvu3W++SAsyJIovMlF
-	NbHfwtXeYett0wvYOWXtuHO0qZLescSsR9Eoum67acnoR7Jf6e/a
-X-Google-Smtp-Source: AGHT+IGd2PJRYpLODXkVXKvFBOHOE+/1R0umomGP/eN5VLC0TMztnCr42izK4H4rLnfkXKxJDXG3EA==
-X-Received: by 2002:a17:907:2d90:b0:a8d:510b:4f48 with SMTP id a640c23a62f3a-a93c491952fmr82476866b.22.1727392881724;
-        Thu, 26 Sep 2024 16:21:21 -0700 (PDT)
+        bh=HNd4acINmmNerLNUmXoF50X4J1ylsjRdPZ4qMlEZiVs=;
+        b=Y7uW37vOytxR7+vccPLuy9QEs2TqLrTfzuuAhU0ZhUaSiKEFrozUxbG4OXNbRGYcOY
+         BAvPBQf4alfOtOIXNbEnDtM2+BcY+EVrkLWf92xvbWG2HkV5BtBg2Eo3bRxuR9XlWSs+
+         HHPsvD9DsoqDcWHWQhSi42CikAZGmCkXmnPgSDvoCAYe653Hpl21yuQ8r79aF7Wh6iNe
+         3gsWCooPXyGnFhtMaxVUM2iWwX25qaflxYEcscv37OgRbyZjByXZ1fjvNnuK5AZt5bSd
+         ht5GqivSFc//Rj0PMNZ75Xv800LNCQmc2a6I5Mrblb+zOOsCgiEgahO49x4+m98H64QA
+         cWKg==
+X-Forwarded-Encrypted: i=1; AJvYcCVef1jT7F0WgQNOYAhxnwwxXmIyHRSYFU+pzvKl/8aA6R7kDNH8MmHyjKdkRPZlHZa3Mo+EsPmKgVdOsA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzH4xmjoAI98bNJ8t7ewamUIAlRYf9M51Ai1lIErBUG5cEu5hJ5
+	rw76I9vJ+oEtxNVQ7Bhu7hQqZIVt7Nt13lkAcZpgtmQmoECaPiqS
+X-Google-Smtp-Source: AGHT+IEaJkjaI1Z6tqe57O4cY/kSpV7TlwQqKprn1eIz034AUHy+NubnWwLak/p5Xh3t4FDbODMYtg==
+X-Received: by 2002:a17:907:96a7:b0:a8a:3f78:7b7b with SMTP id a640c23a62f3a-a93c4916e6cmr73897666b.14.1727392884471;
+        Thu, 26 Sep 2024 16:21:24 -0700 (PDT)
 Received: from [127.0.1.1] (2a02-8389-41cf-e200-3989-b03c-7705-998b.cable.dynamic.v6.surfer.at. [2a02:8389:41cf:e200:3989:b03c:7705:998b])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c27773c0sm50368166b.1.2024.09.26.16.21.19
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c27773c0sm50368166b.1.2024.09.26.16.21.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Sep 2024 16:21:21 -0700 (PDT)
+        Thu, 26 Sep 2024 16:21:24 -0700 (PDT)
 From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Date: Fri, 27 Sep 2024 01:20:53 +0200
-Subject: [PATCH 02/18] leds: flash: mt6370: switch to
+Date: Fri, 27 Sep 2024 01:20:54 +0200
+Subject: [PATCH 03/18] leds: flash: leds-qcom-flash: switch to
  device_for_each_child_node_scoped()
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -64,7 +64,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240927-leds_device_for_each_child_node_scoped-v1-2-95c0614b38c8@gmail.com>
+Message-Id: <20240927-leds_device_for_each_child_node_scoped-v1-3-95c0614b38c8@gmail.com>
 References: <20240927-leds_device_for_each_child_node_scoped-v1-0-95c0614b38c8@gmail.com>
 In-Reply-To: <20240927-leds_device_for_each_child_node_scoped-v1-0-95c0614b38c8@gmail.com>
 To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
@@ -81,11 +81,11 @@ Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-sunxi@lists.linux.dev, 
  Javier Carrasco <javier.carrasco.cruz@gmail.com>
 X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1727392874; l=1546;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1727392874; l=1584;
  i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
- bh=da+yiLrVSVhzxfXeLXUvwNG1cBTZv5IPC9inOzFUOgI=;
- b=+HkfaGOfTwfbLA3hl6LrR4cqzOrg7pu6sEXSeJ1n0Dv/N3Wgj5+SYNtD9fefjVYJnlMGIaRy1
- uy9KHs3e49mDqhgLOoZkQSYwrgF26sZfTIiULhEDZkfR2xEXsDOl9l8
+ bh=wZ6akrPJfNHUSfXIEENEHvfLrdMCasbCDwbd/LiltB0=;
+ b=51y1SjR6ulBD3qqgS2qUF2cR+3GmbQoLP5twgUKAKBCLM1UNA7NMBuE8fYTAvAWvhCwVEKFCh
+ S+CcP+wu+pwAJEAW1NzXp4grrO/7Uy2C/nu/OWMtTu//R6mCOAKLHae
 X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
  pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
 
@@ -97,47 +97,38 @@ without the required call to fwnode_handle_put().
 
 Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 ---
- drivers/leds/flash/leds-mt6370-flash.c | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+ drivers/leds/flash/leds-qcom-flash.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/leds/flash/leds-mt6370-flash.c b/drivers/leds/flash/leds-mt6370-flash.c
-index 912d9d622320..dbdbe92309db 100644
---- a/drivers/leds/flash/leds-mt6370-flash.c
-+++ b/drivers/leds/flash/leds-mt6370-flash.c
-@@ -509,7 +509,6 @@ static int mt6370_led_probe(struct platform_device *pdev)
+diff --git a/drivers/leds/flash/leds-qcom-flash.c b/drivers/leds/flash/leds-qcom-flash.c
+index 41ce034f700e..ab848c5acd2d 100644
+--- a/drivers/leds/flash/leds-qcom-flash.c
++++ b/drivers/leds/flash/leds-qcom-flash.c
+@@ -812,7 +812,6 @@ static int qcom_flash_led_probe(struct platform_device *pdev)
  {
- 	struct device *dev = &pdev->dev;
- 	struct mt6370_priv *priv;
+ 	struct qcom_flash_data *flash_data;
+ 	struct qcom_flash_led *led;
 -	struct fwnode_handle *child;
- 	size_t count;
- 	int i = 0, ret;
- 
-@@ -529,22 +528,18 @@ static int mt6370_led_probe(struct platform_device *pdev)
- 	if (!priv->regmap)
- 		return dev_err_probe(dev, -ENODEV, "Failed to get parent regmap\n");
+ 	struct device *dev = &pdev->dev;
+ 	struct regmap *regmap;
+ 	struct reg_field *regs;
+@@ -896,7 +895,7 @@ static int qcom_flash_led_probe(struct platform_device *pdev)
+ 	if (!flash_data->v4l2_flash)
+ 		return -ENOMEM;
  
 -	device_for_each_child_node(dev, child) {
 +	device_for_each_child_node_scoped(dev, child) {
- 		struct mt6370_led *led = priv->leds + i;
+ 		led = devm_kzalloc(dev, sizeof(*led), GFP_KERNEL);
+ 		if (!led) {
+ 			rc = -ENOMEM;
+@@ -914,7 +913,6 @@ static int qcom_flash_led_probe(struct platform_device *pdev)
+ 	return 0;
  
- 		led->priv = priv;
- 
- 		ret = mt6370_init_flash_properties(dev, led, child);
--		if (ret) {
--			fwnode_handle_put(child);
-+		if (ret)
- 			return ret;
--		}
- 
- 		ret = mt6370_led_register(dev, led, child);
--		if (ret) {
--			fwnode_handle_put(child);
-+		if (ret)
- 			return ret;
--		}
- 
- 		i++;
- 	}
+ release:
+-	fwnode_handle_put(child);
+ 	while (flash_data->v4l2_flash[flash_data->leds_count] && flash_data->leds_count)
+ 		v4l2_flash_release(flash_data->v4l2_flash[flash_data->leds_count--]);
+ 	return rc;
 
 -- 
 2.43.0
