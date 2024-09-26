@@ -1,60 +1,60 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0596E1B29A7
-	for <linux-sunxi@lists.linux.dev>; Thu, 26 Sep 2024 23:21:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A79011B29C7
+	for <linux-sunxi@lists.linux.dev>; Thu, 26 Sep 2024 23:21:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727392901; cv=none; b=CdHW4wClhl4uc03fhQ2tUJ8eKvc0bQH6YVOCKONaKp1GULlx8yLticilA+DAWL1rSnzVu+I8tSlT4TCqXkN+jqTCid09QGC5Ob57NSPelfkopldLKvcMKwVbplxBmcVAdR8AJbueVALCsc6ovkCzvqvAoQWQN5clXweDRM5tI/c=
+	t=1727392903; cv=none; b=Qm5GS54zVO3CmZbz7DBkDMdt+LIVhNEW/wMzOon0bp72aYF0RMk2ZZBru7DLJwQazBTDeGxdV1y04TkknWLQm9iXbB07zCSGgvXUSl9T0hQz7WI5sCL2jscwL511y0iYWDC4Y5+r57UvsC9Z6d34gXeofRtpSYkZ/loRP4SGoZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727392901; c=relaxed/simple;
-	bh=wVCMNpNXMBYRf/3Qo+CvGWvj1uX3gLZ/0II5tIZcKP4=;
+	s=arc-20240116; t=1727392903; c=relaxed/simple;
+	bh=GGAv58INZAAcONt61Bpt35Ntgip4w7Gu6UUVWWUtppE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=LNYFIRp9esC71/19aNujp1SVlBWJeW/Zzq897F1NbEbKmcqPBiB/d1LKqPxWxpJ2tAuUaDLaX/u8a3VzKpB0Ikq+YbE3SQWnc4qb02QLzu4spxXMxHxobNBvXzCONI55E7OeYPm+pQhS+65oY+YZuJ6FasokIBFGaRt2Q2dBps4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JDA90e/b; arc=none smtp.client-ip=209.85.167.48
+	 In-Reply-To:To:Cc; b=V4lPHeqkspIfKvfiZvqqdeFzb8414DhXtrXcNMpPJMI7WHEo95AEVgmsNCTFvvv4JS9GDVfIr6qsOEPXgYUxgK/jXhBPdXpKgQ+dVJW/NBiu1iTXxOngI+z+G8Gl7WRFDfDi7sB6ibDmlRobmLXveSGavb9uGCGDElQNeObuNug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OmgHOeRV; arc=none smtp.client-ip=209.85.221.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JDA90e/b"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5365d3f9d34so1917170e87.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 26 Sep 2024 16:21:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OmgHOeRV"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-378c16a4d3eso1502520f8f.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 26 Sep 2024 16:21:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727392898; x=1727997698; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1727392900; x=1727997700; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=SbKG8yQzAXSNKnNqMlC3vDG+SObBOdoBsMSFHrHh/gQ=;
-        b=JDA90e/buUU3lh20Pq1d5FRQJsUdTiLQ+9VGYR5iTweKYHj2FiQYBngSyp+2fnNzqj
-         ynGEUQMnHkVnBn64c7Q2Y4QaNN3LaZUuQwMSu7FonQkOtj22JXhe8mRjfZz6nI025J9M
-         F9E8n9fph2f2hfBQZQDt+vJihYMQpSFWjv5D1fTPnbe8n404VgWZrF/k67exjQtEHWrz
-         PcG06lPRhrjQLThWVF35F5K4h5OhUGspKeEFJeQxzRdfGH5lVv2/bKPH2GwXjQFhegmd
-         hHn/LRuL62DoJh7CzowURa8iygDeTc1MGlWXG5A9zX8nQxC4kW6PVrHdzpJQubx3vPYr
-         xD6g==
+        bh=QsOsZwrJIVejL5A3KYmk/iH+gmiGbQUrbC+6txQSDz8=;
+        b=OmgHOeRVlpenjzA4aa7PCfUczVRpsiNDIQ5OUAspTC3WThoPW1+RO2CXgtrKHzKKZ/
+         xpD0B/+u7XAbs+VA+EIk4wekSPvuC3PUcIFO+jB7TfD1QD1qtcrw29vdAsP8vGuFscbp
+         fdGjWN1SJwq7/R89EaEVIWUELuKeITkNu1nBGBSSgrL3fSWmnL8h5AtScu7RTU7PGU77
+         ZiaEyLbN9kuBSvKtraKxaEt9IJABs+fw9GTyLCJRkhJyncSfmoJQShGYf/X0ByfujlQ2
+         no45XnZA3wJwYbEyH12R094kPiPQgvGR96VChuB28BdUWN9djFF86sNmYOC660OgtOBF
+         qmRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727392898; x=1727997698;
+        d=1e100.net; s=20230601; t=1727392900; x=1727997700;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SbKG8yQzAXSNKnNqMlC3vDG+SObBOdoBsMSFHrHh/gQ=;
-        b=A2a8Jz9lqgN2BIkBn4Ws/E5eCfwecTiZwrvffR72ad3M7iQTmlnHLl/6NwyfJF/uW3
-         xB9EvZt96jggRYhbLBlJ8q4PrX+HzZ3I10GcHnK3Z3akfdcoIT0/3vBz/jQL3lgNbQWk
-         gAURaUkZVPrxHYm4hSgkwEp8nWom1t/Rc/Tt02grrdJqJ8mTiISPFO0PevbYAvjGT1Qo
-         PHM3ajsPRywmEnQuPWGEUsccgj+qEZOOeXUfo2s/QkUOfIp2dRVwBB0uewHNAlKp25H1
-         qgLqmHaybSC+8W5vR1rm8labQ6MAOJAzEfEMnt66kkV10Ny1orOuvdTEEox2bJmpl1Zc
-         1kHw==
-X-Forwarded-Encrypted: i=1; AJvYcCVryXe7DRC8776kiCMxB1n/qfctgWkhv6sekFdFpQCjFr2VktIrgUSovVtC4XJrN7V+kZ0ATOz3z4Cd5w==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw9EN24N17ZRaFL0MH1uBSnKXz/0LGm6GMmCM7uSuoqfnbgcteR
-	7S78rd0A/6XQm132dUy8MLJkVvfZZaCsoF79NUOh2rOdnEgSO91e
-X-Google-Smtp-Source: AGHT+IHargOBULwRmlTYho66CY6TIIKNF6jhPFgs1jxdfin7EzZ3x+Ihx+4IF9Pdg3mdG2UXbYfTUQ==
-X-Received: by 2002:a05:6512:3b0e:b0:533:4477:28a2 with SMTP id 2adb3069b0e04-5389fc3bd4cmr983572e87.16.1727392898039;
-        Thu, 26 Sep 2024 16:21:38 -0700 (PDT)
+        bh=QsOsZwrJIVejL5A3KYmk/iH+gmiGbQUrbC+6txQSDz8=;
+        b=Pkl/RtFTmAtiIKv85NWHja+/iiW3tZKI+6XFVV/RHzZEGgxMQR5gBYRAaMO4VkgL0c
+         4zI8Vm45UwsDhah6UgdFq3qumRCnk1tkyX2wYk7M2QA4aAXaOs0KtvF0+KPvvVw33i4R
+         LVDJv/jr2w4CqJQAoQNKNcWBhPGX2d65jPcOmVPoHGRLFH0aQ+I1xGIcSh18rHH3ydU7
+         L/FRO2d+W5/lsfNjUlsm7Wf/SSDlYyIcbIjdfWvFU3v7WCjOIsZb6prxlHMcUawMzWsF
+         JsZCf8NNWwDnT3xuR9iCoI6XBQNh/+fhyi5o6oZ3JaPzwwzXWWvVjA73wCYlEovXoKO2
+         iJkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX24Nldg6/5SflI+nTcX3MLUo6X8loUWqigbqTFn67NaZuJzs1cx3zJ6YSUkBiM0Ksgz/SraJCz0SU+dQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyXIluLd/x7broLhS3I/44m22DyMt0hG3m5fNagf/DmoSGGAaKu
+	YZ+LBDGDTIQZ2YkvlRqDfvUx9uOmnw9VSefsZfEXjsy/n2ny4aln
+X-Google-Smtp-Source: AGHT+IFUS8qz9IpKL5ZcAZ8OyFyLvVNgici/BBziOfQFbnEaYTDdxY4F9CAtftsOOYRvJ/CoOPKo9w==
+X-Received: by 2002:a5d:574b:0:b0:37c:cf1a:b2a8 with SMTP id ffacd0b85a97d-37cd59def87mr961455f8f.0.1727392899862;
+        Thu, 26 Sep 2024 16:21:39 -0700 (PDT)
 Received: from [127.0.1.1] (2a02-8389-41cf-e200-3989-b03c-7705-998b.cable.dynamic.v6.surfer.at. [2a02:8389:41cf:e200:3989:b03c:7705:998b])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c27773c0sm50368166b.1.2024.09.26.16.21.36
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c27773c0sm50368166b.1.2024.09.26.16.21.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Sep 2024 16:21:37 -0700 (PDT)
+        Thu, 26 Sep 2024 16:21:39 -0700 (PDT)
 From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Date: Fri, 27 Sep 2024 01:21:01 +0200
-Subject: [PATCH 10/18] leds: lp50xx: switch to
+Date: Fri, 27 Sep 2024 01:21:02 +0200
+Subject: [PATCH 11/18] leds: max77650: switch to
  device_for_each_child_node_scoped()
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -64,7 +64,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240927-leds_device_for_each_child_node_scoped-v1-10-95c0614b38c8@gmail.com>
+Message-Id: <20240927-leds_device_for_each_child_node_scoped-v1-11-95c0614b38c8@gmail.com>
 References: <20240927-leds_device_for_each_child_node_scoped-v1-0-95c0614b38c8@gmail.com>
 In-Reply-To: <20240927-leds_device_for_each_child_node_scoped-v1-0-95c0614b38c8@gmail.com>
 To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
@@ -81,11 +81,11 @@ Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-sunxi@lists.linux.dev, 
  Javier Carrasco <javier.carrasco.cruz@gmail.com>
 X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1727392874; l=2725;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1727392874; l=2297;
  i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
- bh=wVCMNpNXMBYRf/3Qo+CvGWvj1uX3gLZ/0II5tIZcKP4=;
- b=gvqzp5RpDFRs+Bq7QHctcXoi4uXIDmfAqWPfacNwek7XmLGTnkrq8CcrnDg8YhcpKi7G9Dh5l
- Mj0YUm6RICjA0yWhlPqzXPpjj3PJpAdJDq6e44FbnnPGX71dsvI63Wq
+ bh=GGAv58INZAAcONt61Bpt35Ntgip4w7Gu6UUVWWUtppE=;
+ b=8bF3DQ/2DWcbOXH4dFor2UErTpk8gkcWEtJam43Nw0mF8/Zn9foJ+D7oYX405KrNhZyrd0vzr
+ F5Z7Ns6Yd7HCiI8Ke73l2dScfUxJ1IBnD7u7ujtB4pnx6fEvO1lSltl
 X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
  pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
 
@@ -96,86 +96,70 @@ This also prevents possible memory leaks if new error paths are added
 without the required call to fwnode_handle_put().
 
 After switching to the scoped variant, there is no longer need for a
-jump to 'child_out', as an immediate return is possible.
+jump to 'err_node_out', as an immediate return is possible.
 
 Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 ---
- drivers/leds/leds-lp50xx.c | 21 +++++++--------------
- 1 file changed, 7 insertions(+), 14 deletions(-)
+ drivers/leds/leds-max77650.c | 18 ++++++------------
+ 1 file changed, 6 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
-index 175d4b06659b..32ca45aec76c 100644
---- a/drivers/leds/leds-lp50xx.c
-+++ b/drivers/leds/leds-lp50xx.c
-@@ -434,7 +434,6 @@ static int lp50xx_probe_leds(struct fwnode_handle *child, struct lp50xx *priv,
+diff --git a/drivers/leds/leds-max77650.c b/drivers/leds/leds-max77650.c
+index 1eeac56b0014..f8c47078a3bb 100644
+--- a/drivers/leds/leds-max77650.c
++++ b/drivers/leds/leds-max77650.c
+@@ -62,7 +62,6 @@ static int max77650_led_brightness_set(struct led_classdev *cdev,
  
- static int lp50xx_probe_dt(struct lp50xx *priv)
+ static int max77650_led_probe(struct platform_device *pdev)
  {
--	struct fwnode_handle *child = NULL;
- 	struct fwnode_handle *led_node = NULL;
- 	struct led_init_data init_data = {};
- 	struct led_classdev *led_cdev;
-@@ -454,17 +453,17 @@ static int lp50xx_probe_dt(struct lp50xx *priv)
- 	if (IS_ERR(priv->regulator))
- 		priv->regulator = NULL;
+-	struct fwnode_handle *child;
+ 	struct max77650_led *leds, *led;
+ 	struct device *dev;
+ 	struct regmap *map;
+@@ -84,14 +83,12 @@ static int max77650_led_probe(struct platform_device *pdev)
+ 	if (!num_leds || num_leds > MAX77650_LED_NUM_LEDS)
+ 		return -ENODEV;
  
--	device_for_each_child_node(priv->dev, child) {
-+	device_for_each_child_node_scoped(priv->dev, child) {
- 		led = &priv->leds[i];
- 		ret = fwnode_property_count_u32(child, "reg");
- 		if (ret < 0) {
- 			dev_err(priv->dev, "reg property is invalid\n");
--			goto child_out;
-+			return ret;
- 		}
+-	device_for_each_child_node(dev, child) {
++	device_for_each_child_node_scoped(dev, child) {
+ 		struct led_init_data init_data = {};
  
- 		ret = lp50xx_probe_leds(child, priv, led, ret);
- 		if (ret)
--			goto child_out;
-+			return ret;
- 
- 		init_data.fwnode = child;
- 		num_colors = 0;
-@@ -475,10 +474,8 @@ static int lp50xx_probe_dt(struct lp50xx *priv)
- 		 */
- 		mc_led_info = devm_kcalloc(priv->dev, LP50XX_LEDS_PER_MODULE,
- 					   sizeof(*mc_led_info), GFP_KERNEL);
--		if (!mc_led_info) {
--			ret = -ENOMEM;
--			goto child_out;
+ 		rv = fwnode_property_read_u32(child, "reg", &reg);
+-		if (rv || reg >= MAX77650_LED_NUM_LEDS) {
+-			rv = -EINVAL;
+-			goto err_node_put;
 -		}
-+		if (!mc_led_info)
-+			return -ENOMEM;
++		if (rv || reg >= MAX77650_LED_NUM_LEDS)
++			return -EINVAL;
  
- 		fwnode_for_each_child_node(child, led_node) {
- 			ret = fwnode_property_read_u32(led_node, "color",
-@@ -486,7 +483,7 @@ static int lp50xx_probe_dt(struct lp50xx *priv)
- 			if (ret) {
- 				fwnode_handle_put(led_node);
- 				dev_err(priv->dev, "Cannot read color\n");
--				goto child_out;
-+				return ret;
- 			}
+ 		led = &leds[reg];
+ 		led->map = map;
+@@ -108,23 +105,20 @@ static int max77650_led_probe(struct platform_device *pdev)
+ 		rv = devm_led_classdev_register_ext(dev, &led->cdev,
+ 						    &init_data);
+ 		if (rv)
+-			goto err_node_put;
++			return rv;
  
- 			mc_led_info[num_colors].color_index = color_id;
-@@ -504,16 +501,12 @@ static int lp50xx_probe_dt(struct lp50xx *priv)
- 						       &init_data);
- 		if (ret) {
- 			dev_err(priv->dev, "led register err: %d\n", ret);
--			goto child_out;
-+			return ret;
- 		}
- 		i++;
+ 		rv = regmap_write(map, led->regA, MAX77650_LED_A_DEFAULT);
+ 		if (rv)
+-			goto err_node_put;
++			return rv;
+ 
+ 		rv = regmap_write(map, led->regB, MAX77650_LED_B_DEFAULT);
+ 		if (rv)
+-			goto err_node_put;
++			return rv;
  	}
  
- 	return 0;
--
--child_out:
+ 	return regmap_write(map,
+ 			    MAX77650_REG_CNFG_LED_TOP,
+ 			    MAX77650_LED_TOP_DEFAULT);
+-err_node_put:
 -	fwnode_handle_put(child);
--	return ret;
+-	return rv;
  }
  
- static int lp50xx_probe(struct i2c_client *client)
+ static const struct of_device_id max77650_led_of_match[] = {
 
 -- 
 2.43.0
