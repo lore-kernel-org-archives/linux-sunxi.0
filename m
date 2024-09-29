@@ -1,95 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9270A5FEE6;
-	Sat, 28 Sep 2024 16:29:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1877113B5A1
+	for <linux-sunxi@lists.linux.dev>; Sun, 29 Sep 2024 08:53:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727540992; cv=none; b=gqsIRQzL33xN4xZW2y6ygH/194UV5+bQylMmsZd+6Bz2wWFmOe9PTWpB34ol2sH/DQoQqTPVk+5Cl4eh++CrW2P6PYFtL/7cpGXFgLrSokojl/fHk81RWmgAmlhAPZYr+NijXdI4DIENeWWeeIjgBZLJRJAy0BJsbISr7UxvXos=
+	t=1727599986; cv=none; b=njg2h4q2eNrV2BX+lbcbvZy2AYMb2K18PDkxCYPumHqNeLSMzz2aihD0Dyl0RfZ8JsGgyFfTM8amMm7GxI/wbszqK2S1blnEwwKCF8vCZfmRq9qtKQdOqTfmmnWxeqVIgodqINjhPpfhIIKC0+4BZhAvPcxCouZwdi7wxVM/A0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727540992; c=relaxed/simple;
-	bh=f7It2CatrjhmD2pcjpPk4oE/AIT6Ex9NUsQxqsMgh0c=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bzCKJjzKC1SaWfkvbIMs2Oq3uNg7WbxDuih3fMurtEECNl9SC/IFVZLqsr1GEydBOFSNfmnkkv4bFTSoHtXY0IZRLba+vyN+7JnAKZSeDYFoLjDjOcs15wiGPfDpCWIae/8jgJ3hSzfzj1IzIYSQAXhafVZODY2popoSQG9bq44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZrQJx65O; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1727599986; c=relaxed/simple;
+	bh=1PkOF795w3kt8UjhfPuwTTcq7ru+xoi0WPPYsSOrkE0=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=Spxy/ZPsUuSG450pWzIS+rrn6r1M8BtP2wC2c7QouPODYbs/D6laZ4/i9iRZjmKjLNDyfCtpNZ4s2Ud5uNo6EGRtif5E340Cof9RIwgJN87Owacz0vxONxNXECGsmLfmUNGF1et6ZQzpQX6RLfVr2vpIgMKfvT4I2kc50gD+qvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=5NmgZ0Fw; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=EK0RqoEs; arc=none smtp.client-ip=103.168.172.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZrQJx65O"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31187C4CEC3;
-	Sat, 28 Sep 2024 16:29:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727540992;
-	bh=f7It2CatrjhmD2pcjpPk4oE/AIT6Ex9NUsQxqsMgh0c=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ZrQJx65OhK6f12Q23BR5WzIdCRCFiUu3mSVHZSSFMWrFkhe0RQCly7Y1B9jzzG3Sd
-	 xsUxCx6Z2qXOiWudsogTHV6pTkE82r92WR4qkabGM5+106uENLSe7uhYtg9T950ita
-	 x/S9wQ9XGvtXkNRsEVcIumeF+yoF2t5CjGdmT92oW+uZiEieuXJm9RPZbVZCVsIl3S
-	 j7a5RI2+MdMYqRr4Qgo7dcHntvLcNjR9GBdu73mOCeIoUxTpiODFqkRA8ZXOGAURed
-	 H8CG9dRgrVzAunPkiyvyx585N1qEtXjlOR9/zqzG78cY1Ap8NQlP8YhK29p52DJLD1
-	 1pHWUhT7XnLUQ==
-Date: Sat, 28 Sep 2024 17:29:44 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, Michael Hennerich <Michael.Hennerich@analog.com>,
- linux-arm-msm@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 0/4] iio: adc: use scoped device_for_each_childe_node()
-Message-ID: <20240928172944.10da3b60@jic23-huawei>
-In-Reply-To: <20240926-iio_device_for_each_child_node_scoped-v1-0-64ca8a424578@gmail.com>
-References: <20240926-iio_device_for_each_child_node_scoped-v1-0-64ca8a424578@gmail.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="5NmgZ0Fw";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="EK0RqoEs"
+Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
+	by mailfout.phl.internal (Postfix) with ESMTP id 3BAA2138039C;
+	Sun, 29 Sep 2024 04:53:04 -0400 (EDT)
+Received: from phl-imap-07 ([10.202.2.97])
+  by phl-compute-04.internal (MEProxy); Sun, 29 Sep 2024 04:53:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm2;
+	 t=1727599984; x=1727686384; bh=T9BxQePmRdxHseNE/o37i5dBpNMdSdlc
+	UT0o+FQkSSM=; b=5NmgZ0Fwe/2D0fLrp+ZDnXqSCpxO3GTeMtgO3vyltBG5fp9t
+	li4MDj2bKH5KotZPJalgcvRDCuc8kiCMdN/Apz/8PRKVf+Xd1LkcFLQdwM8Vj0lB
+	fY/3EiAQHWx32466qAYXhAvfhO7EfHnpd3KZd7UsbjFXUbOc2/NIpmN0HHxaMd/K
+	F/DUGXSPxPJllS/axJecXxeSLxb0lks3akAQqfiQ9PxqaM2+dlkGTJ9H7vfKC/tF
+	ooylDyaR1ZGtQkCCy16G/sbxm6tUHH9pxeNyJqNqxhjHVYvqHnn/gRFMDa9kaijs
+	yKp/LsEFNUBu82TUfnK+r4xfr2jMM8SAY8iUXg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1727599984; x=
+	1727686384; bh=T9BxQePmRdxHseNE/o37i5dBpNMdSdlcUT0o+FQkSSM=; b=E
+	K0RqoEs825ywx7OQoWGXKtnPjTViCiPPUEiTKAYoV+nqWf+vK/DQVmR54PYIPGgN
+	L/f7VONJWDeDkwljnjqBcN8h4tYrMNAWieqSfH40CaGT0cznG3rmFnDC4ukuRBiv
+	CO+T90bClNywG07qSI4wslql6fseVcA3YzhVwrAenu6iOMXm38dGfyrHYlV6T9NH
+	7SOslbNPZTzmwxwvsIytUSOuU9CVavEBj3s3IRaVnoaYEDs0Jj5qxIwdDWRiO8wl
+	AWziSwJQED9cUPbwnjtt6uuSCteZFs5r/Yg5h3PFI9kSsRBBelNwdA70mcoUIaAh
+	jYpJSL28nXDtx8/EgdI1A==
+X-ME-Sender: <xms:bhX5Zo1fSJo930oekBINbZYPTPhH50-G9qG718n5q8l_O3vJzB55oQ>
+    <xme:bhX5ZjF5m1qz7fehUqGebzukhvGazaWqzVpU1UCcN9S76al3Whh1RrkLSYdV5q4I-
+    CO05eRh_gxYDBauGA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvddufedguddtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddt
+    necuhfhrohhmpedftfihrghnucghrghlkhhlihhnfdcuoehrhigrnhesthgvshhtthhorg
+    hsthdrtghomheqnecuggftrfgrthhtvghrnhepjefhueekjeejgfduvdffheevveejhfdt
+    uddthfduuddvveefjeffgfdvleefuefgnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
+    hrrghmpehmrghilhhfrhhomheprhihrghnsehtvghsthhtohgrshhtrdgtohhmpdhnsggp
+    rhgtphhtthhopedvfedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprghnughrvg
+    drphhriiihfigrrhgrsegrrhhmrdgtohhmpdhrtghpthhtohepmhhtuhhrqhhuvghtthgv
+    segsrgihlhhisghrvgdrtghomhdprhgtphhtthhopeifvghnshestghsihgvrdhorhhgpd
+    hrtghpthhtohepuggrnhhivghlsehffhiflhhlrdgthhdprhgtphhtthhopegrihhrlhhi
+    vggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepjhgvrhhnvghjrdhskhhrrggsvggtse
+    hgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrtghrohgrlhhphhgrkedvsehgmhgrihhl
+    rdgtohhmpdhrtghpthhtoheptghonhhtrggtthesjhhoohhkihgrrdhorhhgpdhrtghpth
+    htoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:bhX5Zg74oHGh8ke1_LfKqmQS9XBdBYO2tbJ2sLr-e233TamBeVRvSg>
+    <xmx:bhX5Zh2eMRaNI3Od9S8dVkFKCZ_9BZmJrbu5TbDt_0gHMai76_Tv5w>
+    <xmx:bhX5ZrEkLiz-_kjy3kGwjPqTT_zUPeAQywZdiob6HdXiS1xEgjv0iA>
+    <xmx:bhX5Zq9BrxaSSfWWjoSzdAsyG-WifU8CTmP3bjCtpE1gK5r0uU1EWw>
+    <xmx:cBX5Zk1Ebam-cqKHpAufa2lsI7HhQd4eMFLh0vAfjJQTO0iKHSMyueq5>
+Feedback-ID: idc0145fc:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 96816BA006E; Sun, 29 Sep 2024 04:53:02 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Date: Sun, 29 Sep 2024 21:52:41 +1300
+From: "Ryan Walklin" <ryan@testtoast.com>
+To: "Krzysztof Kozlowski" <krzk@kernel.org>
+Cc: "Maxime Ripard" <mripard@kernel.org>, "Chen-Yu Tsai" <wens@csie.org>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "David Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+ "Samuel Holland" <samuel@sholland.org>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>,
+ "Michael Turquette" <mturquette@baylibre.com>,
+ "Stephen Boyd" <sboyd@kernel.org>, "Andre Przywara" <andre.przywara@arm.com>,
+ "Chris Morgan" <macroalpha82@gmail.com>, "John Watts" <contact@jookia.org>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-clk@vger.kernel.org, "Conor Dooley" <conor.dooley@microchip.com>
+Message-Id: <4a8c7dcd-d5be-41c4-9735-bf6810a076e9@app.fastmail.com>
+In-Reply-To: 
+ <wma4hpidn353lsika3a5t7qf3ochmtbowhp4g4vuqrvgzthltc@yfwp5qastn7f>
+References: <20240921095153.213568-1-ryan@testtoast.com>
+ <20240921095153.213568-22-ryan@testtoast.com>
+ <wma4hpidn353lsika3a5t7qf3ochmtbowhp4g4vuqrvgzthltc@yfwp5qastn7f>
+Subject: Re: [PATCH v4 21/26] dt-bindings: allwinner: add H616 DE33 mixer binding
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
-On Thu, 26 Sep 2024 18:08:36 +0200
-Javier Carrasco <javier.carrasco.cruz@gmail.com> wrote:
 
-> The device_for_each_child_node() macro requires calls to
-> fwnode_handle_put() upon early exits (break/return), and that has been a
-> constant source of bugs in the kernel.
-> 
-> This series switches to the more secure, scoped version of the macro
-> in the IIO subsystem, wherever the loop contains error paths. This
-> change simplifies the code and removes the explicit calls to
-> fwnode_handle_put(). In all cases the child node is only used for
-> parsing, and not assigned to be used later.
-> 
-> The straightforward uses of the loop with no error paths have been left
-> untouched, as their simplicity justifies the non-scoped variant.
-> 
-> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-All look good to me.
+On Mon, 23 Sep 2024, at 8:52 AM, Krzysztof Kozlowski wrote:
+> On Sat, Sep 21, 2024 at 09:46:10PM +1200, Ryan Walklin wrote:
+>> --
+>
+> That's not a delimiter and you would see checkpatch warning (because it
+> is quite confused).
+>
+Thanks, will correct these for v5.
 
-I'll be rebasing on rc1 anyway, so there is plenty of time for any
-other reviews to come in.  In meantime I've queued these up on the testing
-branch of iio.git.
-
-Thanks,
-
-Jonathan
-> ---
-> Javier Carrasco (4):
->       iio: adc: qcom-pm8xxx-xoadc: use scoped device_for_each_child_node()
->       iio: adc: qcom-spmi-vadc: use scoped device_for_each_child_node()
->       iio: adc: sun20i-gpadc: use scoped device_for_each_child_node()
->       iio: adc: ad5755: use scoped device_for_each_child_node()
-> 
->  drivers/iio/adc/qcom-pm8xxx-xoadc.c |  8 +++-----
->  drivers/iio/adc/qcom-spmi-vadc.c    |  7 ++-----
->  drivers/iio/adc/sun20i-gpadc-iio.c  |  7 ++-----
->  drivers/iio/dac/ad5755.c            | 11 +++--------
->  4 files changed, 10 insertions(+), 23 deletions(-)
-> ---
-> base-commit: 92fc9636d1471b7f68bfee70c776f7f77e747b97
-> change-id: 20240926-iio_device_for_each_child_node_scoped-cb534e6f5d9b
-> 
+> Please run scripts/checkpatch.pl and fix reported warnings. Then please
+> run  and (probably) fix more warnings.
+> Some warnings can be ignored, especially from --strict run, but the code
+> here looks like it needs a fix. Feel free to get in touch if the warning
+> is not clear.
+>
 > Best regards,
+> Krzysztof
 
+Regards,
+
+Ryan
