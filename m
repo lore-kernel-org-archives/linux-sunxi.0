@@ -1,152 +1,314 @@
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11olkn2055.outbound.protection.outlook.com [40.92.18.55])
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10olkn2075.outbound.protection.outlook.com [40.92.41.75])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFEFD145345
-	for <linux-sunxi@lists.linux.dev>; Sun, 29 Sep 2024 12:44:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.18.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE958101C8
+	for <linux-sunxi@lists.linux.dev>; Sun, 29 Sep 2024 16:07:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.41.75
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727613855; cv=fail; b=k/aPgU4zWSRENdPDm1Ru5TLTbkGeiu7MRfvbJ3WKwZ8doWSuyRbTjA8oy7/8SYnjnn5nMnw2V0dX9orCqPB2ytW4pANr0PdT3+rfk3xQ5IznJiE+IO92yZxtrDXwL+xIGoIarP/WG86nrqN8t6JgjJzUaJF44S09yOyyTROhrlE=
+	t=1727626065; cv=fail; b=Uswm5SF6mbjOrGm1zOMsMNKJ4b+a/OUSxEWP9Ay1iWaAc7wnIrFEjMQ9BZGkmw7rJETnl2ysv1c3bwN9v+jmH3eCBG8eV1FZczjxry+4w4g+6uxS5mNEpYnn7Tj6ogHHXxSbRksr10s8sSEXLPrpWay/OhCBlKU1UefM9E0fsSo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727613855; c=relaxed/simple;
-	bh=VK9pD9dA/UMuLshJX9bm1k+TiVPLjcCvgt2nzEM2On0=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:Content-Type:
-	 MIME-Version; b=ZlzoIksFtzyolJJL3ckbj3o5Gi13H5pzBTxdUUTXnigpfbZtN/xAP1OSaJWwtEV2BYfE6ZGoBffSLHM52Rgzb+mECEt4LO3voo3UKwZlD9wwScP8uJqDilT3uXcQ6P45k1UCWjRQlgj5vxD1/QeFYnw02+nSATjpCHsa7w46qT0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=EpXb7mLa; arc=fail smtp.client-ip=40.92.18.55
+	s=arc-20240116; t=1727626065; c=relaxed/simple;
+	bh=ySgPWLjHaHkprvLr2m2jnNL5peYRc+YeHM7tG0Lz8Yk=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=a0/VS5mCSFY1cP8554uB8k1o+eKwWJ6uGN1apewL0+B2sVDgROpldju6tbc45wcQAopYMRbhCiTeFRV/G8p6D66B1ulLaQ25Lx5EcAB6HVgrrgPp2hwheuM/FJkQGyMKZ4mDZtMNMTElM2a2LihOFKV3mavnPPNz6W7WbJMkr5c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=sDEWTrSG; arc=fail smtp.client-ip=40.92.41.75
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="EpXb7mLa"
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="sDEWTrSG"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ULcsT/VN3UJAEyJDsSU85kvdAjy/0H/qdb8YDNtD7rN9L7R+D5w0FJ5MhJyG9mpKIK3E+eNhuAa46Tu6trhZkjhj5hfKnWYzn8eV4NaHUv1dxxKVa6TMBkzDfxjGVfALa9WWZ9fWTAJmpBcQ4u0NAbblw64vvLepnCU949aNuwywSfZOTP56AGwgWOWTiLc4fOTAhMXSQfFYLXZMk2G/GywL4kUBwZbELxaSzOe9Ug0L1D7SaSOePML1w9adTISjbQvYQit6sViSBIxf3J8AIrRDvxqDRMyJImzfKtB1JNVXqd2uSUg+EYSLGsgjGmDrJImn797bG/HT4RSg43RhJA==
+ b=jTuKEtksFMEhG+/Bu+Anv4PSMWM6DHYdkVhYDHzkDrrvadjTjmsTRgDBywWdRoasV+uLICfDiO8Pkl0IBIBOYa5SKNcsgPwGfAQg5hsfyYPSRb7y0YQ2UOntpMneHkoPzX0caxMfLp5pMrTEEVzEVNo98n6RYSgnv50/o9CZ+4PyLJaqIxSbQxEnIh2/UmDH8O+hMvmZ7Pcuo747hc0tZTmC1zkJuohBW8U/glsBqtqW2VVytTsMk7NNvPBZp5rL5txa7U7Y9UFYnJBEfN52z606RVHV6T1LMM0CRpD9rPp3Ixia/yA0DkOsulXaF923MdZPV1IUh0h2fHGn82hLBQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VK9pD9dA/UMuLshJX9bm1k+TiVPLjcCvgt2nzEM2On0=;
- b=w577RBccFo1ZVTiARgu6+d/7YwG4s0tCc8ccxjYGOQaov+5gN5P8dza4uBf2Uid2ewF03nz3zRD/Imz6FlvEOlsV5klf5w0Kijgxa0olXhJ/xpq+zPR7AOiCNx28oLjcBV+Tad3jX+G2Rc+o7aRvqzebZZiSgTzU1GUct5/MHP+jQ8HXSLY3gw3FJ2qtBJ5uJemYOSpnlCSy976IWtHtnCG9mF9RT3GP2qc86GVPOeqwBA8m6J9vLqDKpyRUpq6lLKTcFS65QU3E1FSG1ilc9i/E1+eS1JxNLO3kMyk5id349NApAJMdaiuXn6V1sZrIcMDGqrVr6J/ps+TOSgej5A==
+ bh=6oNe3bkxJaJGJtkwYFeOl/y3rA+/jU+YE/3Ws3zpixk=;
+ b=Yw1nDwPkSoIbkNvA7yti2dzdOPJCZTsWwgk7RoBLEH+XZW06Z8z5xkBiEGDD4g+Po3H/WZbK2LpqgtMjBz0oqds+f6eSznanu3LFNhNuMRUO5So6ZlSqRYUqtInhjHXneiWadFbtiGpEm4S58jYyRvmE5vYJH94xwq513dBUQ4kR4uyBrLoxiPe6TN10cwxamNxVVPT238kPmUvn4bWEAEY7hQXZxeHJHmo5k/5OtvhwaaTvVRu5LFuzwdtEoUTGNsen0CL6mynmARwyFuKGzVz+zQD1AU9UtbkyYm9jMMwdAZNhNe+q5e+jUefxamc2y/S1Roq7Sap8b46pNfOnzQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VK9pD9dA/UMuLshJX9bm1k+TiVPLjcCvgt2nzEM2On0=;
- b=EpXb7mLa81BqBXMSwV4FPWggf073TH4yC5/y+SisnuDL47LPIfi8AnYbUujseHGoDgboNuAJWTjtOS/IWmXNb3otfyFht19pOtPE2se1HDplgi/SBcjj68sxySh5dYNcryE5TEHOm93h6DHHOSEOsyrVOnMnB/m+yxVagD48NLWrE+CD6pKcxBz3X+7WrUd4HsJRaPI3Zxvb2ocRJY4fGzZYrpYSxh9NOefovhq7xjYV9tGuO093YB7v7La4rr8938bBx0KHZ9FK5WAuy7vHQTXHvXWEcSeozM9azpgmdIjcmRcOpp/OLOqVVQidAee8aC0DsISl7UPEdRK73o/1uQ==
+ bh=6oNe3bkxJaJGJtkwYFeOl/y3rA+/jU+YE/3Ws3zpixk=;
+ b=sDEWTrSGKG//5GNd7eOoV3VglH0WJSA95Sei+A8ubXuUlInCfz+2OOw0nCHSb2hQrJOI9+ffOFuu70kzj7F2G//6KOymripHtaZqDsDH0SvSi9iIqhBpf5i2uZapEA99L2262XegngNNJp21+ywtrCnGpSLwsYyuTeimFTUWPFLtscELqJe48ig72xQT7D1x7bi1jZJF/6PByXNJJ6qUtnONh5mHwshESchpxgxwvpb1ufqnAF2oMSV1jtKLzHbmWJxYK+q6aRYoRFP2xiUpNkMWUqHyqlo7FvGCGirewP8I4eTdPm6AKVkciuE70E1OJICATZNg2DRVs519CbNkiw==
 Received: from CH0PR20MB3932.namprd20.prod.outlook.com (2603:10b6:610:d8::9)
- by IA0PR20MB5705.namprd20.prod.outlook.com (2603:10b6:208:437::16) with
+ by PH7PR20MB5092.namprd20.prod.outlook.com (2603:10b6:510:1aa::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.26; Sun, 29 Sep
- 2024 12:44:08 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.28; Sun, 29 Sep
+ 2024 16:07:39 +0000
 Received: from CH0PR20MB3932.namprd20.prod.outlook.com
  ([fe80::f1b8:f67:339b:8e13]) by CH0PR20MB3932.namprd20.prod.outlook.com
  ([fe80::f1b8:f67:339b:8e13%5]) with mapi id 15.20.8005.024; Sun, 29 Sep 2024
- 12:44:08 +0000
-From: Aoba K <nExp_0x17@outlook.com>
-To: "charlie@rivosinc.com" <charlie@rivosinc.com>
-CC: "ajones@ventanamicro.com" <ajones@ventanamicro.com>,
-	"andy.chiu@sifive.com" <andy.chiu@sifive.com>, "aou@eecs.berkeley.edu"
-	<aou@eecs.berkeley.edu>, "conor.dooley@microchip.com"
-	<conor.dooley@microchip.com>, "conor@kernel.org" <conor@kernel.org>,
-	"corbet@lwn.net" <corbet@lwn.net>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "evan@rivosinc.com" <evan@rivosinc.com>,
-	"guoren@kernel.org" <guoren@kernel.org>, "heiko@sntech.de" <heiko@sntech.de>,
-	"jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>, "jrtc27@jrtc27.com"
-	<jrtc27@jrtc27.com>, "jszhang@kernel.org" <jszhang@kernel.org>,
-	"krzk+dt@kernel.org" <krzk+dt@kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
-	<linux-kselftest@vger.kernel.org>, "linux-riscv@lists.infradead.org"
-	<linux-riscv@lists.infradead.org>, "linux-sunxi@lists.linux.dev"
-	<linux-sunxi@lists.linux.dev>, "palmer@dabbelt.com" <palmer@dabbelt.com>,
-	"paul.walmsley@sifive.com" <paul.walmsley@sifive.com>, "robh@kernel.org"
-	<robh@kernel.org>, "samuel.holland@sifive.com" <samuel.holland@sifive.com>,
-	"samuel@sholland.org" <samuel@sholland.org>, "shuah@kernel.org"
-	<shuah@kernel.org>, "wens@csie.org" <wens@csie.org>
+ 16:07:39 +0000
+Message-ID:
+ <CH0PR20MB393254369E401BF068005C7FCE752@CH0PR20MB3932.namprd20.prod.outlook.com>
+Date: Mon, 30 Sep 2024 00:07:23 +0800
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v10 00/14] riscv: Add support for xtheadvector
-Thread-Topic: [PATCH v10 00/14] riscv: Add support for xtheadvector
-Thread-Index: AQHbEm1FbzdD9GcS4Uub6j6FPFxzJA==
-Date: Sun, 29 Sep 2024 12:44:07 +0000
-Message-ID: <a1f41f92-6bd0-48b6-a931-e7ad7aba18cc@outlook.com>
-In-Reply-To: <20240911-xtheadvector-v10-0-8d3930091246@rivosinc.com>
-Accept-Language: zh-CN, en-US
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: Albert Ou <aou@eecs.berkeley.edu>, Andy Chiu <andy.chiu@sifive.com>,
+ Andrew Jones <ajones@ventanamicro.com>, Conor Dooley <conor@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Conor Dooley <conor.dooley@microchip.com>,
+ Evan Green <evan@rivosinc.com>, Guo Ren <guoren@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>, Jessica Clarke <jrtc27@jrtc27.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jisheng Zhang
+ <jszhang@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Rob Herring <robh@kernel.org>,
+ Samuel Holland <samuel.holland@sifive.com>,
+ Samuel Holland <samuel@sholland.org>, Shuah Khan <shuah@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, linux-riscv@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
+References: <20240911-xtheadvector-v10-0-8d3930091246@rivosinc.com>
 Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CH0PR20MB3932:EE_|IA0PR20MB5705:EE_
-x-ms-office365-filtering-correlation-id: b444aba2-c96a-44ec-6e4d-08dce08468d3
-x-microsoft-antispam:
- BCL:0;ARA:14566002|8062599003|8060799006|38102599003|19110799003|461199028|7092599003|15080799006|102099032|10035399004|440099028|3412199025;
-x-microsoft-antispam-message-info:
- G5EoB1JQ1dWx6ULgBfNljYsad2rCscBLQAPtZ9y8dRl3zOWeup8vLHFbOxadvibfzH7todwMsmXajxkcoKBUQ3IWdIHvgtKffRY5+P/rG2S1IChvksaW8UVigeD6iRSNK0ZEv82fCF0a6mLFbsWfYLI6xPWyjdF/9Astp8dAXuokZzXH3xmsvIOWGKefL12lDO7fxBi4Ty61yJaWEk76i4DwKhYV96wf73eLl4n2E2a3pU+f50k8rltHKqX1DNncGo7BPY7qmplpuY/VCFbpIXo0W4R1VpmWjrWLHIjnt+usfTBM+z+qLMwx1OQIYLfQMOkXUwVOVVZjXyFSQaSKG5kzL/Pbnm4sIHo0NXtascFL0OE1ZIMimQj7iCvJB/jN5vF6jfL9glNm3HUdbA69csMOZfudjMPBhh1K/5i6m+1o+BK+PajubBI12FxAEANvF53gBdiOs8A31jY/kip7pvN048d5Roinp74CLr60n6kL/Kj+7qWRJxXCtJYm8Z5bW4t33NUKQ8syfZ4Ygl7cl2v8f1dzF9J78qkHczbHK7c1dc0UBDFGGCZFmfwR0StEhmb13ail43abqGmg4x1KR7+JVGJS128cSASkf/rFFKmspq+N9LtgaXiDI1/iZ6iSUQSI62McDOdwRnao2CS/ON27KYoaA64yUy2Bqo2nia1oNi+xjn1oTCwWTNu8tSRVPKW+sUwKzh8IkTUZhYTCdRwMvNZcbrg/HNduhf8m0x/YjI1wncbTKQ2uqUGiPBwo31ETEv8ZuA9jbHsERLBEA/Bb9weCFmTg8DTVOK7rkxoqphL1MC28YM72HigJEO4EytoflRVQ8oTX1yqBoLm9q42MY7G+oD+U0nZrgVUrUfM=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?T2diaXlPSGdDM3FFV2hjS2ZkaThFcnQ3QW8xR3BXQk55OFZOK01wVTBRK0Zk?=
- =?utf-8?B?Y1hRaFNLNllsNDlyQXhoQ1l6dnhYTmFmSFB2LzltZGRyTUc5ckVRdnFOTi9V?=
- =?utf-8?B?bks4eXZac1gvZHdkcnlsa2xoZ25Sdmk5clNiTlpNaG1EQ095bGRYWFZpa1hj?=
- =?utf-8?B?bXpzd1FONTIzUEtpaDllS2hVYWlJc1RJZkpMZTFKQ2E4RHp2SGtUZlY5amdt?=
- =?utf-8?B?YWNySklTWHlNaTZHTTdNWE1ndVh5N1hhVEdpNjdRQUgxMEZPMk9vZFRrbmZP?=
- =?utf-8?B?N21ZNk90dnNMVUVkQkJ1V2gzVXZYNVVoeHpxVjlibWdnSVViNHVpd3BQa3FW?=
- =?utf-8?B?NzVyYXBLeE1VMElXRkI0b3lPbXA0VmFPQU42azgvcXg0UDBSVTVkN01Ic3Rs?=
- =?utf-8?B?TmJLRGJwY2p1cW5MQlg4aUdHY21aYTBOWWRtbXNCVUxTMDExODZHVDl6Q3F3?=
- =?utf-8?B?QW9YMjFUUWJLUDh6WUJUb3dsY3o5WEF2ZzRVd3FPTG5jQTh1VFVKOStzenJH?=
- =?utf-8?B?aENjRjZmMnljVHkxL1JXRytKS091RHVpdS9NWitOUXV4V3I1QzBweWNwdklS?=
- =?utf-8?B?WC9ENGY5NVF6RGxkdExnR2laVXRvcWNGaXBrV08vVVFyWGlMZWpYMURaQ21C?=
- =?utf-8?B?Sm9PV1hRYVRzbklFVU9mcmJqRVlNNUlDblZadXRKWXZJZzI4bFVBTWpoVWQ0?=
- =?utf-8?B?Z1RlNk5uSTBhL255TURTY0VlOEtGVU5yaGdpeW5mRlFpeFBkNGdwdnZUUWc1?=
- =?utf-8?B?TFNLblc4eC9iaEcvY09ZWWpDelJhQk5VejBva1ZNb0Z4UE1XeDF6WVdyamFr?=
- =?utf-8?B?TkNWVmNLbFZIaXZCczhlWkxuUXpKYURPYzRjTmJFdlFYWGFpS1QxRW9TNDM3?=
- =?utf-8?B?c0RyUy9YejJDN2xJN3prQ0dyNjFVZU1ySWQ4Uy9oWFBIMTQ3aGVuTmZRbDB4?=
- =?utf-8?B?aFV5bWpBMjV1UFpsVENrZmNFWTZ6WFluays3clZ3bWRlMlU2Um9ROURpckJ0?=
- =?utf-8?B?aTF0WDJ2eTRCQWhWTGNSb3QvYTI1UldRY09MSXJ0WnhPQ25rdDJqVHhySm5X?=
- =?utf-8?B?NVFSK3p6bGNEUXdZVUxJZ2NIVTY3QW5CUC9KRVREL3k3S3pKUTBXZ2w2TWpI?=
- =?utf-8?B?UVFrM01mWGZ0ZHB4ZTJ4VUlqSTVWVVBmNm1zcmw1MHRPV25ZNnVzQTE2MmlG?=
- =?utf-8?B?NnFCSEk3a0trZENKbHp6MlhYQkRsT2cvS2RkaXZxUHRsR2dDdTRWekZDZ3ZM?=
- =?utf-8?B?WllHVFAzL0xXL3kvZXh1N0w0WVdMK2IwaFZqWFpzZXBjVFBEU09VenBrSUpI?=
- =?utf-8?B?YUpGemhXR0h1TmFVN3dtRCtyY1JkWFY5ckRybnVyNmNGdlkxSzl2U1lMM2Nw?=
- =?utf-8?B?Y3dzcXhkeGlmdTBYTW8zdUc3K2pYaXFWQzNVTTNuRmNvQVRPRThuTnFyT3Qw?=
- =?utf-8?B?TVJZbVBPSjJGR3lYZGgxYnByTjR1ZXpmQks5QWZxWTdNSmVuQVQ1L3BOakVa?=
- =?utf-8?B?T2pFZVhWblhtb1B4QUp2VSsyMldYaEZiSU1XUnhOVUdkNmtXZTNPVjhZR2Y2?=
- =?utf-8?B?dmNVWmJlY2xkZXZIMHNpeUFHVnVJejNtUjRHMFRmTWNEZ1drdXcwSFdYY2tu?=
- =?utf-8?Q?KMCCtv4TrLFbGeaU9J0DIdce8KSDB2tkxoJKnLZEQfyU=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <6487AC2D11AF5346BFE8F7280100128B@namprd20.prod.outlook.com>
-Content-Transfer-Encoding: base64
+From: Aoba K <nexp_0x17@outlook.com>
+In-Reply-To: <20240911-xtheadvector-v10-0-8d3930091246@rivosinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SG2PR03CA0105.apcprd03.prod.outlook.com
+ (2603:1096:4:7c::33) To CH0PR20MB3932.namprd20.prod.outlook.com
+ (2603:10b6:610:d8::9)
+X-Microsoft-Original-Message-ID:
+ <8287fba5-66e3-4774-9ebd-293ac2b3f85c@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH0PR20MB3932:EE_|PH7PR20MB5092:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8cf3e9bc-4978-43b9-74de-08dce0a0d72f
+X-Microsoft-Antispam:
+	BCL:0;ARA:14566002|461199028|6090799003|5072599009|19110799003|15080799006|8060799006|7092599003|440099028|4302099013|3412199025|10035399004|56899033|1602099012;
+X-Microsoft-Antispam-Message-Info:
+	U9uWCWu4MTMmiL+kfwa/f2xR3HQw32LHMOMw+fmRbZxZzAFBr/Ua2B8nNjB+K8K6Rpy+bxLVT5TQLRUJ6z8YQuTNZ/2cX8YlF227xg3FZiVe12Yxe45l07H7kxAp4c3sD7O57Ucrayx+c8AbI0iuYXtmQRYUjuMKVD3zvsgSJ59DKSBHluryb9JLrrMZtrhxcpiaA6Vtn1apIzqKzseBEWKZ1bK6j7PoUeCbNJ6kmh6RP1r25VeXOZlrYy58aTYd5OBkLMIQVkUzUtWQaeCPzFWJs+oRcOz2hMMAkppT/0fZ4FR+K8SjRAqTk7vTiFpYhNPS0EpgtBN/tgal0Yytn4Ug8YMV/5JG5BRVrysB/Y34vwbAWqP7UJNwGALQGte+O63E5TkjFH5uQYIEY0YVqAf+sXpw1iCqgTDHyR9pWVC8+6dpElHWF3aTOBxqpTxuSIIyJfWUIp/1f081J3u9WkcNchSCQdq+HCSlcwZtCB6eFcrHRnTcwaKSSDtC2HQ/DBx0P1+dKDfMvXBckptuPax0VAx/u+xu8uE2gHajgWX/R9iSvb48tEBMs0NYdg45bIr2CRhi6gzJvB0Y5yQ7vLm/5IH4eqvMMjK9qfpnaMx2l7UKfYN2Dd1HAXLORXM833TtG7kHNcBQKCHpQEIZKtiT2gUSW11e3ACZ3CnJ06jNmV1cWJsnF6ocMDj9EtNkXHEl3+SnLTYbQUkoEnXQCYW6jvgro3+OQs8WzWcKjrtx9Im4XtThTugt4pAerzw3BbQFUd3GBMcOxwgBDO2al3OqhtHm8yCLowV+G689v4W30cnVtW/9rI4zai4PCBI1AAi7s76SgXzHwrsLzqkuJCJW7SERTdAMwsdkT2lqeH058reOjAzsppS2ITjIbr5WcBEg4hRSVwyDwgNgRLolNhT8/EHwvQnxqkdOwvC7P6E=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bC9wUXNvTGFHZFdWWXBQOEZsTDh0eVRGNnl1UzY3bnJ5Z0ZnVndCdVYrMTBr?=
+ =?utf-8?B?VlJKZjg0blluOUp1VDI2TnJibnhZNHZQL2gxeXpEN1FVVkZLa2RIWk5LWmNR?=
+ =?utf-8?B?SXRzWTNkaHZranl6cDVNNm1yV01RRUhHTnplTWVsREFqOVI3YkdYRVVTa0VD?=
+ =?utf-8?B?K1FPN1o5SGZOVmw3a25ncytqc1RjY2hnVGsybzNlU2dNK2s5Zmw3OG41VHI3?=
+ =?utf-8?B?bnl2SXpZNS9wNlZSWTZGNitVL2VFV3lTNWkxam1sZDlTZDNTMlBORWYrcldo?=
+ =?utf-8?B?dVFOYkJZNlJiRTdtVEdSUE9rdGErVmhnVzVJbDhQVFBJN1BJMTBQbXlGdGZi?=
+ =?utf-8?B?Y2l1Uk9GcTV2YVRSU2hZREFScGJsL0taSmpwemNTUnQ1ckpHYi9EbXRGYkhU?=
+ =?utf-8?B?NkVvZ0dFN2tBUjNORzBTdlVIak9vQ2ozZ2dFRFc5REhMalY3OXVvTENBQUJv?=
+ =?utf-8?B?Nk1RKzNRWmMwSGdMKzBja3hLZTJBa0hkSWJ1aWtVWHdtQkxLd0o5Y0NTYzFh?=
+ =?utf-8?B?QnZhRXVBczFZRTg0U2tHb2RuMkdaektlMnF1a0lJWEEwaXhsWVd4UHFzUGQ0?=
+ =?utf-8?B?MElaOWRRbUNLS2NJOGp3LzcraGlTV0s4aHJ6N0ZYT2JEc0xLNk1KTzR6aHgw?=
+ =?utf-8?B?Vmtod2JaeDVrenA3cHB5YXc2dTNnTHIzNnFPaHgwSEljRHd2dFB1QlhXSTMw?=
+ =?utf-8?B?SkhGd1FrUitvN2dFZDFBVWZZRDFyMlFuSG9LQ3IxQlR2V1MwWEFiUXNqWC9C?=
+ =?utf-8?B?S0tBTHNNQU9pcSswTk5ld3ZwQ1pyeGJpdjRGcDd1N0FpRmFoVEpUSkU0Y0sr?=
+ =?utf-8?B?ZW8xVWJaYmpEd3hEeEhkbWRMZGxoUVY3cnRJVmRRRU94ajZEM1U5NUxTZVp1?=
+ =?utf-8?B?bUZTVzNJc3NMKzhzeDRHb3E4a21QK2g1QzhUVzNCZ1RjRWx5QjhCbXBXbkVM?=
+ =?utf-8?B?WnhZK1lic0RMaGowSlhyTEUyUm8zSFdxN0tmejAxeVhWV09JclJ3YkxHbEt5?=
+ =?utf-8?B?RStxOGNJY0QxZkhGVUhERUFhMk1vajZxRVBNV1UyQ1hseXBkMHdyTGV2cktv?=
+ =?utf-8?B?NEg1bHdrUnUrYjNadytKQ29SM09yOXVXemZlNXNKaG11dllnYnFwNzhIeURW?=
+ =?utf-8?B?SGpYSGpJeE1MQ1B4MFhsL29MSUtCUVk2TVJhamhVVDR2UWF2Y29BcFF2dUlR?=
+ =?utf-8?B?am85M3hjaDltemVBdGZWNDZwSTJpVGJNR0VXcTJEUEpjL082dnNSOURNNkZ5?=
+ =?utf-8?B?RGtTVDN6V0F0S2c0MFpwUkM2ZUE1RC9Qd1pVRGFWTmdrMElUZ0NSZW1EN2ly?=
+ =?utf-8?B?UE1jeWNLalRKS3VENzJGekdOZzQ3N2tjWUh4V3Jmb2pXNXVCb09uT1BTZzRI?=
+ =?utf-8?B?eStIZzBOWVBZSXRhR21iNFNoSXBQeENkWWhLbGpPTUtDS0xWTG9lMDloRDI5?=
+ =?utf-8?B?NjRXU3NyRmlVZ1hEVDZZQVZVa3E4ZGZOL05OV1ZuRGNLbHU4aFVNeEE3Ylda?=
+ =?utf-8?B?dmNoNVdTQjc0OGF1dHlXZ2lYaXVWT1FRRFFZaXh1ZzJZMDV3L20wMDhCU3l6?=
+ =?utf-8?B?NE1hZVRxTEw3eVF1Z3dHYS9LVmhRalNXWGgwbzNuRS84dGp6Ri82aWNnR2ZL?=
+ =?utf-8?Q?+OiBatGrMnYoTgOfqqrpgYJ1W7ZhGBmQ0r5gMYrim+z0=3D?=
 X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8cf3e9bc-4978-43b9-74de-08dce0a0d72f
 X-MS-Exchange-CrossTenant-AuthSource: CH0PR20MB3932.namprd20.prod.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: b444aba2-c96a-44ec-6e4d-08dce08468d3
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Sep 2024 12:44:07.8364
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2024 16:07:39.4340
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR20MB5705
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR20MB5092
 
-SGVsbG8gQ2hhcmxpZSwKCkkndmUgYmVlbiB3b3JraW5nIG9uIGJyaW5naW5nIHVwIHRoZSBTaXBl
-ZWQgTGljaGVlIFJWIERvY2sKKHdoaWNoIGFsc28gdXNlcyB0aGUgRDEgU29DKSB3aXRoIHRoZSBr
-ZXJuZWwgcGF0Y2hlcyB5b3UgcHJvdmlkZWQuClRoZSBwYXRjaGVzIGFwcGxpZWQgY2xlYW5seSB0
-byBQYWxtZXIncyBmb3ItbmV4dCBicmFuY2gsCmJ1dCBJJ3ZlIGVuY291bnRlcmVkIGEgY291cGxl
-IG9mIGlzc3VlczoKCjEuIFNraWZmb3MgQ29tcGlsYXRpb24gRXJyb3IgZHVyaW5nIHRoZSBjb21w
-aWxhdGlvbiBwcm9jZXNzIG9mIGBjZ29gOgpgdW5rbm93biByZWxvY2F0aW9uIHR5cGUgMTc7IGNv
-bXBpbGVkIHdpdGhvdXQgLWZwaWM/YApVbmZvcnR1bmF0ZWx5LCBJIGNsb3NlZCB0aGUgdGVybWlu
-YWwgYmVmb3JlIHNhdmluZyB0aGUgZnVsbCBsb2csCnNvIEkgZG9uJ3QgaGF2ZSB0aGUgY29tcGxl
-dGUgZGV0YWlscywgYnV0IHRoZSByZXN1bHQgc2hvdWxkIGJlIHJlcHJvZHVjaWJsZS4KV2hpbGUg
-dGhpcyBzaG91bGQgYmUgYSBTa2lmZk9TIGlzc3VlLCBtZW50aW9uIGl0IGluIGNhc2UgU2tpZmZP
-UyBpcyB0aGUgbWV0aG9kCnRoYXQgeW91IG1lbnRpb25lZCBmb3IgYnJpbmdpbmcgdXAgdGhlIGRl
-dmljZS4KCjIuIEltYWdlIEJ1aWxkaW5nIHdpdGggc2VocmFmL3Jpc2N2LWFyY2gtaW1hZ2UtYnVp
-bGRlcjoKQWZ0ZXIgYnVpbGRpbmcgdGhlIGltYWdlLCB0aGUgZGV2aWNlIGZhaWxlZCB0byBzdGFy
-dCBhdCBhbiBlYXJseSBzdGFnZS4KSSBzdXNwZWN0IHRoaXMgbWF5IGJlIHJlbGF0ZWQgdG8gaW5j
-b3JyZWN0IFJBTSBzaXplIGRldGVjdGlvbiwKYXMgdGhlIGJvYXJkIG9ubHkgaGFzIDUxMk1CIG9m
-IFJBTS4KSW50ZXJlc3RpbmdseSwgdGhlIHZlbmRvciBpbWFnZSByZXBvcnRzIDFHQiwgYW5kIHRo
-ZSBTaXBlZWQgd2Vic2l0ZSBhbHNvIHN0YXRlcwp0aGF0IHRoZSBEb2NrIGhhcyAxR0IsIGRlc3Bp
-dGUgdGhlcmUgYmVpbmcgbm8gZXh0cmEgbWVtb3J5IGJhbmsgcHJlc2VudC4KCllvdSBjYW4gZmlu
-ZCB0aGUgYm9vdCBsb2cgaGVyZTogaHR0cHM6Ly9mYXJzLmVlL2JkWWsubG9nCgpBbnkgaGVscCB3
-b3VsZCBiZSBhcHByZWNpYXRlZCwgYW5kIGJpZyB0aGFua3MgdG8geW91ciB3b3JrCnRvIG1ha2Ug
-dGhlIGVmZmljaWVudCBwYXJ0IG9mIHRoaXMgYm9hcmQgdG8gd29yayAoYWdhaW4pIQoKQ2hlZXJz
-LApBb2JhCg==
+
+On 2024/9/12 13:55, Charlie Jenkins wrote:
+> xtheadvector is a custom extension that is based upon riscv vector
+> version 0.7.1 [1]. All of the vector routines have been modified to
+> support this alternative vector version based upon whether xtheadvector
+> was determined to be supported at boot.
+>
+> vlenb is not supported on the existing xtheadvector hardware, so a
+> devicetree property thead,vlenb is added to provide the vlenb to Linux.
+>
+> There is a new hwprobe key RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0 that is
+> used to request which thead vendor extensions are supported on the
+> current platform. This allows future vendors to allocate hwprobe keys
+> for their vendor.
+>
+> Support for xtheadvector is also added to the vector kselftests.
+>
+> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+>
+> [1] https://github.com/T-head-Semi/thead-extension-spec/blob/95358cb2cca9489361c61d335e03d3134b14133f/xtheadvector.adoc
+>
+> ---
+> This series is a continuation of a different series that was fragmented
+> into two other series in an attempt to get part of it merged in the 6.10
+> merge window. The split-off series did not get merged due to a NAK on
+> the series that added the generic riscv,vlenb devicetree entry. This
+> series has converted riscv,vlenb to thead,vlenb to remedy this issue.
+>
+> The original series is titled "riscv: Support vendor extensions and
+> xtheadvector" [3].
+>
+> The series titled "riscv: Extend cpufeature.c to detect vendor
+> extensions" is still under development and this series is based on that
+> series! [4]
+>
+> I have tested this with an Allwinner Nezha board. I used SkiffOS [1] to
+> manage building the image, but upgraded the U-Boot version to Samuel
+> Holland's more up-to-date version [2] and changed out the device tree
+> used by U-Boot with the device trees that are present in upstream linux
+> and this series. Thank you Samuel for all of the work you did to make
+> this task possible.
+>
+> [1] https://github.com/skiffos/SkiffOS/tree/master/configs/allwinner/nezha
+> [2] https://github.com/smaeul/u-boot/commit/2e89b706f5c956a70c989cd31665f1429e9a0b48
+> [3] https://lore.kernel.org/all/20240503-dev-charlie-support_thead_vector_6_9-v6-0-cb7624e65d82@rivosinc.com/
+> [4] https://lore.kernel.org/lkml/20240719-support_vendor_extensions-v3-4-0af7587bbec0@rivosinc.com/T/
+>
+> ---
+> Changes in v10:
+> - In DT probing disable vector with new function to clear vendor
+>    extension bits for xtheadvector
+> - Add ghostwrite mitigations for c9xx CPUs. This disables xtheadvector
+>    unless mitigations=off is set as a kernel boot arg
+> - Link to v9: https://lore.kernel.org/r/20240806-xtheadvector-v9-0-62a56d2da5d0@rivosinc.com
+>
+> Changes in v9:
+> - Rebase onto palmer's for-next
+> - Fix sparse error in arch/riscv/kernel/vendor_extensions/thead.c
+> - Fix maybe-uninitialized warning in arch/riscv/include/asm/vendor_extensions/vendor_hwprobe.h
+> - Wrap some long lines
+> - Link to v8: https://lore.kernel.org/r/20240724-xtheadvector-v8-0-cf043168e137@rivosinc.com
+>
+> Changes in v8:
+> - Rebase onto palmer's for-next
+> - Link to v7: https://lore.kernel.org/r/20240724-xtheadvector-v7-0-b741910ada3e@rivosinc.com
+>
+> Changes in v7:
+> - Add defs for has_xtheadvector_no_alternatives() and has_xtheadvector()
+>    when vector disabled. (Palmer)
+> - Link to v6: https://lore.kernel.org/r/20240722-xtheadvector-v6-0-c9af0130fa00@rivosinc.com
+>
+> Changes in v6:
+> - Fix return type of is_vector_supported()/is_xthead_supported() to be bool
+> - Link to v5: https://lore.kernel.org/r/20240719-xtheadvector-v5-0-4b485fc7d55f@rivosinc.com
+>
+> Changes in v5:
+> - Rebase on for-next
+> - Link to v4: https://lore.kernel.org/r/20240702-xtheadvector-v4-0-2bad6820db11@rivosinc.com
+>
+> Changes in v4:
+> - Replace inline asm with C (Samuel)
+> - Rename VCSRs to CSRs (Samuel)
+> - Replace .insn directives with .4byte directives
+> - Link to v3: https://lore.kernel.org/r/20240619-xtheadvector-v3-0-bff39eb9668e@rivosinc.com
+>
+> Changes in v3:
+> - Add back Heiko's signed-off-by (Conor)
+> - Mark RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0 as a bitmask
+> - Link to v2: https://lore.kernel.org/r/20240610-xtheadvector-v2-0-97a48613ad64@rivosinc.com
+>
+> Changes in v2:
+> - Removed extraneous references to "riscv,vlenb" (Jess)
+> - Moved declaration of "thead,vlenb" into cpus.yaml and added
+>    restriction that it's only applicable to thead cores (Conor)
+> - Check CONFIG_RISCV_ISA_XTHEADVECTOR instead of CONFIG_RISCV_ISA_V for
+>    thead,vlenb (Jess)
+> - Fix naming of hwprobe variables (Evan)
+> - Link to v1: https://lore.kernel.org/r/20240609-xtheadvector-v1-0-3fe591d7f109@rivosinc.com
+>
+> ---
+> Charlie Jenkins (13):
+>        dt-bindings: riscv: Add xtheadvector ISA extension description
+>        dt-bindings: cpus: add a thead vlen register length property
+>        riscv: dts: allwinner: Add xtheadvector to the D1/D1s devicetree
+>        riscv: Add thead and xtheadvector as a vendor extension
+>        riscv: vector: Use vlenb from DT for thead
+>        riscv: csr: Add CSR encodings for CSR_VXRM/CSR_VXSAT
+>        riscv: Add xtheadvector instruction definitions
+>        riscv: vector: Support xtheadvector save/restore
+>        riscv: hwprobe: Add thead vendor extension probing
+>        riscv: hwprobe: Document thead vendor extensions and xtheadvector extension
+>        selftests: riscv: Fix vector tests
+>        selftests: riscv: Support xtheadvector in vector tests
+>        riscv: Add ghostwrite vulnerability
+>
+> Heiko Stuebner (1):
+>        RISC-V: define the elements of the VCSR vector CSR
+>
+>   Documentation/arch/riscv/hwprobe.rst               |  10 +
+>   Documentation/devicetree/bindings/riscv/cpus.yaml  |  19 ++
+>   .../devicetree/bindings/riscv/extensions.yaml      |  10 +
+>   arch/riscv/Kconfig.errata                          |  11 +
+>   arch/riscv/Kconfig.vendor                          |  26 ++
+>   arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi      |   3 +-
+>   arch/riscv/errata/thead/errata.c                   |  28 ++
+>   arch/riscv/include/asm/bugs.h                      |  22 ++
+>   arch/riscv/include/asm/cpufeature.h                |   2 +
+>   arch/riscv/include/asm/csr.h                       |  15 +
+>   arch/riscv/include/asm/errata_list.h               |   3 +-
+>   arch/riscv/include/asm/hwprobe.h                   |   3 +-
+>   arch/riscv/include/asm/switch_to.h                 |   2 +-
+>   arch/riscv/include/asm/vector.h                    | 225 +++++++++++----
+>   arch/riscv/include/asm/vendor_extensions/thead.h   |  48 ++++
+>   .../include/asm/vendor_extensions/thead_hwprobe.h  |  19 ++
+>   .../include/asm/vendor_extensions/vendor_hwprobe.h |  37 +++
+>   arch/riscv/include/uapi/asm/hwprobe.h              |   3 +-
+>   arch/riscv/include/uapi/asm/vendor/thead.h         |   3 +
+>   arch/riscv/kernel/Makefile                         |   2 +
+>   arch/riscv/kernel/bugs.c                           |  55 ++++
+>   arch/riscv/kernel/cpufeature.c                     |  58 +++-
+>   arch/riscv/kernel/kernel_mode_vector.c             |   8 +-
+>   arch/riscv/kernel/process.c                        |   4 +-
+>   arch/riscv/kernel/signal.c                         |   6 +-
+>   arch/riscv/kernel/sys_hwprobe.c                    |   5 +
+>   arch/riscv/kernel/vector.c                         |  24 +-
+>   arch/riscv/kernel/vendor_extensions.c              |  10 +
+>   arch/riscv/kernel/vendor_extensions/Makefile       |   2 +
+>   arch/riscv/kernel/vendor_extensions/thead.c        |  29 ++
+>   .../riscv/kernel/vendor_extensions/thead_hwprobe.c |  19 ++
+>   drivers/base/cpu.c                                 |   3 +
+>   include/linux/cpu.h                                |   1 +
+>   tools/testing/selftests/riscv/vector/.gitignore    |   3 +-
+>   tools/testing/selftests/riscv/vector/Makefile      |  17 +-
+>   .../selftests/riscv/vector/v_exec_initval_nolibc.c |  94 +++++++
+>   tools/testing/selftests/riscv/vector/v_helpers.c   |  68 +++++
+>   tools/testing/selftests/riscv/vector/v_helpers.h   |   8 +
+>   tools/testing/selftests/riscv/vector/v_initval.c   |  22 ++
+>   .../selftests/riscv/vector/v_initval_nolibc.c      |  68 -----
+>   .../selftests/riscv/vector/vstate_exec_nolibc.c    |  20 +-
+>   .../testing/selftests/riscv/vector/vstate_prctl.c  | 305 +++++++++++++--------
+>   42 files changed, 1048 insertions(+), 272 deletions(-)
+> ---
+> base-commit: 0e3f3649d44bf1b388a7613ade14c29cbdedf075
+> change-id: 20240530-xtheadvector-833d3d17b423
+
+
+Hello Charlie,
+
+
+Apologize for the last email, when dealing with pastebin it deleted the 
+last version...
+
+tl,dr for the last email: Patches not boot on Sipeed Lichee RV Dock 
+(with same D1 SoC).
+
+Logs here:
+
+https://fars.ee/XFzR
+
+(the board resets without kernel panic)
+
+
+Cheers,
+
+Aoba K
