@@ -1,55 +1,41 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC7D21CCEF7;
-	Tue,  1 Oct 2024 20:00:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D357FC0A;
+	Wed,  2 Oct 2024 03:49:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727812812; cv=none; b=MiQewwYZb/xEHE0Cbw3IPfh5OCBJ+M0+gRj6fRi6D2SfsIC169JlNkZTCRtKogb8Q7r3aATMPrXy+iL9bodlG2CsjM4B0pnjiHlLDg0m3+KPb8M3F2TUEhZpNVSkvMHnb4IRXaHDksJxkjcH4ccwmDv9MnyoYSXAwa+KK9+MCPc=
+	t=1727840945; cv=none; b=WEUNxlV8+MgG3jnsRYK+WxgrvpH2/nH3o1kAsEzxJLWWeYSbwPRc6xSi3Cupnkwungp8pez3EoMGqt1qpMAwVO2MC1dpB3CqGOE/62O0op77LKKmELJ9mg/gaOoZA6unDQ8iFkQDk+tVlNeoO/EzZcW42zTmaFbNxhSiZCnoKew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727812812; c=relaxed/simple;
-	bh=9nxNhpLrx3HJEq9JhEouMSM4YNgGI4tmenEeJnI7KaI=;
+	s=arc-20240116; t=1727840945; c=relaxed/simple;
+	bh=nAEKTIpBmymWLR+e+hBkypCfwSNJotZOEB0oMjBgW3A=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uv3R5UQQFHXY4/67gY2qRHQb+mwRPUm3qcOsVmfUDEEcZVtVOt8oQ/WURwSl0yTqJLLneMGENwRtqOYM/oHnRU0UYRWe7Wl01C78Gj57mHI0i1PYOj669xWpRdebsWaSrFHuXvgS4PHfbCD8JyhSiNgmAe0Rd365/lWom24HPwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=googlemail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=IUyVDGGw; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=googlemail.com
+	 To:Cc:Content-Type; b=qU4qu5t4/IvrbAjRIHOfoleV9IjSX2VsStbe7p6d9KuKAvjxUy3Sne1aR7UcUDdljiGu09nRo/X9lqJn/dqmhkADqy5qf/ep0YVtFFbmfAH3i6ywGTOT5cGQ79SQVrzqmbK80v8ivDLl/v11KksWtydxxLGEK9z/ApbSZ81MrCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Af2UjTVf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="IUyVDGGw"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-20b7eb9e81eso29551745ad.2;
-        Tue, 01 Oct 2024 13:00:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20230601; t=1727812810; x=1728417610; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Txj9X25LmbjQ//MeIX5ksz2p7RxnM6sQFO6w2mk7FrQ=;
-        b=IUyVDGGw6Y9vtAHd0mMNs5en065dERe7qVaDoa2O6Jzbf8/X5RXsCqqce/d/Q+Rlqa
-         6/6fYcoc3brZ68cvYiPPeMqmiMjypaZaePi6suVpXtPNsI5bZf3JNOt6UDL6Ju0FTCIv
-         Pa9pSkUKbf8vV2JG9g6z5iK8/hGUvGarzsGCZRg7Yv1Uukl8EFd/c39Xyubqx0vGooOZ
-         yPb5fC1vZL0YTe2Sq9+HcTzJKm9nDJIHuSjzveFPI3hmjuGRsmlGhaTze3Nk36izvvY4
-         3/TM6P9drGVF+AyWVmNODZLxc87p9tTa7iOzj1yEtr96DbUAGhlMwg/zLFCUHjeQbk0w
-         WYyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727812810; x=1728417610;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Txj9X25LmbjQ//MeIX5ksz2p7RxnM6sQFO6w2mk7FrQ=;
-        b=C5NhmpbrUTX+8gXsZmvo0cArRpIwjmcP2OpI/OpRDGzYNeCVyWp5bv/fhL2tpcY1oQ
-         YKUiBqAl2TxjD2T6oSx4yVOagLn+hDmobIHGvLBsRvIEK1il228LOLrB5l9f5kmdlBFF
-         0WCMx71jWMkg1sB1fVRGkfLaWxW+IsQiyU+yPlBDEJYgkEKFLJju0JXtKE3mhj3sH6jv
-         2Us9gsAykgjbR+gRsta1LVwbbumU+UOAxfYY3WEOZv04HItsA689REHqzMODOvhV62/A
-         tNuLNxS9Maft+FgcjqBuMAQLm+rx0DUlq6lKC9jjLHheVeD8gIWkc6A69GxxgmnPLcBL
-         ZogQ==
-X-Forwarded-Encrypted: i=1; AJvYcCULoxZmkE+9UuIFIcuebWLusvTSpAecg5yoUqEqpTvSV/l4LWkEQv+rPTz/WVMNU1rN8Zg=@lists.linux.dev, AJvYcCXIzd00RFy6IPF0W67GpOVJaWeG9shvmAurg0HAfVnuJOczCJsiPKAu1XBp1pgwCggwSOnISrqKqAE9llA=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyrZlGZ4jDrwiiX5OkD2Kf/xRBxXaf3xA/r793IrhgD5/fVg6fj
-	s1eRXV0uY3CF4VCRnZychGHO4gA7B/RsI99en/Fkr9gzltKnHDuKEg2UxQjtdXmgryaxJNc9MF4
-	VuTzZg6gQL2Y6UcuYW/tCUAjG/V4=
-X-Google-Smtp-Source: AGHT+IEzN68oFH6UETNrpbvCGpopcDsigqPvgYKygFNF7D6FUqPz4x1zQ8ZA7UoZNXXUi84OPMM6AhdceSvhM1DdNJ4=
-X-Received: by 2002:a17:902:e550:b0:20b:720d:734 with SMTP id
- d9443c01a7336-20bc5a5cd06mr11151925ad.41.1727812809889; Tue, 01 Oct 2024
- 13:00:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Af2UjTVf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F6F8C4CED2;
+	Wed,  2 Oct 2024 03:49:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727840945;
+	bh=nAEKTIpBmymWLR+e+hBkypCfwSNJotZOEB0oMjBgW3A=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Af2UjTVfNh6y+KURqioy4b8Bj7Yu5BpvrE0pOuTAaCdsWVGE8VQdAPbay4eP9DqPg
+	 vWMLCMNoxrjpq2dgf0Gkki5SuP7pwmk7jkH2meg7cuorJVxX/VF75raABEWvzkaMHi
+	 vhhxdgRpR3b7B5ke0UhpF0oO9c3sZ7F6qfo5LaAZzh2DiImZJl6yUno80Km9y1f2VX
+	 IIlH0yPKwIL8OBus0S8hdF72eqSA5xm2L3CztnHUgtzPMXEtvUhtadchDi41GC6Mt7
+	 Ca1gozPG5gv1ZiW5uDRIVS53lJA/EuDl2IF4CK5RlPgdKNeNXNE2aGU70QMIY0HzW0
+	 QHOaUeFAAHJ5A==
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5389917ef34so7228571e87.2;
+        Tue, 01 Oct 2024 20:49:04 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUeitkX88Q4QUVgwUn7e7p56E4BN4ngq6jiwKs7s19vWoXGCFN+DD0qERjtHm5u3OKXSOk=@lists.linux.dev, AJvYcCXrhd45mdp1/QuOm8vVFPr8hMYT2WiLms+K77/UMpBxIM8rr+XUN5yNRlpYu+Chm95LdkVgGN1H8GVNpTA=@lists.linux.dev
+X-Gm-Message-State: AOJu0YyciiuKsTzI8OCCTkJpNk8pVQNeCeqd9s+gsW8Omg5JN/L87rak
+	TnfW8D4EdsNKjCcgzFj8YHqF7155U3XO4wvgeIpPPizchEWEzsmPSZ3AoGbrI+rGX/80fi4lXO0
+	nZL0bosxjUbAde4fbYPcDrlwHOQ==
+X-Google-Smtp-Source: AGHT+IEqtnQCtoRUlnvKJ/juvutRb8LD+WF2Ji1IL7egoXyMFlaAGJMVK219VrK0qM0doCIPbjzZD5sR9nPD1sht5+g=
+X-Received: by 2002:a05:6512:1113:b0:533:4638:df40 with SMTP id
+ 2adb3069b0e04-539a067f65cmr743356e87.27.1727840943291; Tue, 01 Oct 2024
+ 20:49:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -58,16 +44,18 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20240930223550.353882-1-rosenp@gmail.com> <20240930223550.353882-3-rosenp@gmail.com>
 In-Reply-To: <20240930223550.353882-3-rosenp@gmail.com>
-From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date: Tue, 1 Oct 2024 21:59:58 +0200
-Message-ID: <CAFBinCB1Rz+C=Tj+RJAL5KZbk9K7cnpF_uR6rKkMeqyCuDBo4A@mail.gmail.com>
+From: Rob Herring <robh@kernel.org>
+Date: Tue, 1 Oct 2024 22:48:50 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKNMhUy3HUAanod27FnJAz35w7FLp7tp0Uo3SeVbG7EGw@mail.gmail.com>
+Message-ID: <CAL_JsqKNMhUy3HUAanod27FnJAz35w7FLp7tp0Uo3SeVbG7EGw@mail.gmail.com>
 Subject: Re: [PATCH 2/2] ARM: dts: assign reg to memory nodes
 To: Rosen Penev <rosenp@gmail.com>
-Cc: linux-arm-kernel@lists.infradead.org, Rob Herring <robh@kernel.org>, 
+Cc: linux-arm-kernel@lists.infradead.org, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
 	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
 	Antoine Tenart <atenart@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
 	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
 	Linus Walleij <linus.walleij@linaro.org>, Joel Stanley <joel@jms.id.au>, 
 	Andrew Jeffery <andrew@codeconstruct.com.au>, Jesper Nilsson <jesper.nilsson@axis.com>, 
 	Lars Persson <lars.persson@axis.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
@@ -102,25 +90,13 @@ Cc: linux-arm-kernel@lists.infradead.org, Rob Herring <robh@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hello Rosen,
-
-when you re-send this, please drop the Amlogic files.
-
-On Tue, Oct 1, 2024 at 12:36=E2=80=AFAM Rosen Penev <rosenp@gmail.com> wrot=
+On Mon, Sep 30, 2024 at 5:36=E2=80=AFPM Rosen Penev <rosenp@gmail.com> wrot=
 e:
-[...]
->  arch/arm/boot/dts/amlogic/meson6-atv1200.dts                    | 2 +-
-This file was dropped with [0]
+>
+> Fixes dtc warnings:
 
->  arch/arm/boot/dts/amlogic/meson8-minix-neo-x8.dts               | 2 +-
->  arch/arm/boot/dts/amlogic/meson8b-ec100.dts                     | 2 +-
->  arch/arm/boot/dts/amlogic/meson8b-mxq.dts                       | 2 +-
->  arch/arm/boot/dts/amlogic/meson8b-odroidc1.dts                  | 2 +-
->  arch/arm/boot/dts/amlogic/meson8m2-mxiii-plus.dts               | 2 +-
-These got updated with [1]
+Unfortunately we cannot make this change treewide. Any platform that
+relies on the ATAGS to DT bootloader support in the kernel
+decompressor expects /memory.
 
-
-[0] https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git/commi=
-t/?h=3Dv6.13/arm-dt&id=3De2a3f11ae11c9f9ee780bf49f00a69f12dce3529
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git/commi=
-t/?h=3Dv6.13/arm-dt&id=3D7947fd2d350e6057e7514459c7ee2db39d1096a2
+Rob
