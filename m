@@ -1,68 +1,67 @@
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96FF71D174F
-	for <linux-sunxi@lists.linux.dev>; Wed,  2 Oct 2024 16:05:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D0F1747F
+	for <linux-sunxi@lists.linux.dev>; Wed,  2 Oct 2024 16:34:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727885153; cv=none; b=iV8O/EJmtgimztMYh0RB0Sa9Ixd3lpPiNqugLDHJVpe2XcklhWePq+UxDokXE4BiTkF9S+MK+ABmd4ypHplbgAMhJ1n2vhg2x6ERUzPOlNw2GaA9PXmRCS+9chLqgdWsKwmPq4DNvUigqslZwGjOLh/SlC/cbRVtlg3GN3yoFhI=
+	t=1727886877; cv=none; b=NfTJ4tOeZ8no3U27oLyjAeNdhczcK1ohpZG5KxS5bX6f28FPJx9BwHyvrtpliQ+WXWR0jshJb/jbRfmfoTPxe/j6kW8Zp4fQEuuv6tv9vxjo/RwZib2L/yf0pdrh764SHGEY0C9kWLZ299a/VjbVawy2pcJwZOAfLsgMSuuwSEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727885153; c=relaxed/simple;
-	bh=ANC8Qb5v5SRqtuiLPKYG+H+JN4dcEV1+gCnN8O8CSzA=;
+	s=arc-20240116; t=1727886877; c=relaxed/simple;
+	bh=NnwQ7LAGAxixEU4C57nqV40K8xhTnDxUSYDnZ+6Jx4s=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=b5dDW6OLLslZSZHy9oANtpDsfmCobo5W+Haxo2ejL3fboRa03lY3yHymR9VIOtoZxYUFyONxmX5QHnacBwReFfwiZFjfmHLASc11jjrjjKQuWHn+IO5HlHfNBmRLF1w975xZEKsOClv5WUwYTeUCWhWlXe/RF7Pz7wjLw+yge5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jZNKmYZh; arc=none smtp.client-ip=209.85.128.178
+	 To:Cc:Content-Type; b=kXOIV8eXEk8n+NKo94wBb/VFDLxXRZLfaJAny3ipDfzt4HFT6AU2OaCqZtdb7bULqHeFweyYlUF7yOkwZ0WjjII+7w1dpqSqvH1uLB82RtGEpj38Iajzt5d/EWavUmQQZhthzAzo6Ryr4P2tQnlEZ1IWXHlsqAvWmMCye3XK1Ic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mOe9ApJ8; arc=none smtp.client-ip=209.85.219.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jZNKmYZh"
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-6e21ac45b70so57923547b3.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 02 Oct 2024 09:05:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mOe9ApJ8"
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-e116d2f5f7fso872176276.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 02 Oct 2024 09:34:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727885149; x=1728489949; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1727886873; x=1728491673; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5N4+gqSeb1KPAY46BU6QRBcQA4A0mtfnF/DfhNnvaYg=;
-        b=jZNKmYZhGP8dVp6U6CH22UjHNeVK0pvABJOWnKaVqzi7XHo6p17wTLNLat0xGRE8Lc
-         QnaRWZv8wnQcGwnSXQhlAg5hGYC7QXq+IFYa9Y8xE50P3HlWRO3gH44ZTCiWyFR/R6HS
-         2d/g8p4+roa9wWZ2p6HYu8l/JKQVVgAJC4jn4LF9rrKaykOIMHoTO3mX27YlHip6QrS0
-         gf6ZILPD43jE2yZ6bCnIO12QYd3Mp4INFZnga++Otk4xblKVTw/+LRl7dWD1Z3Nph1cQ
-         7i4/SfNt5TOfv+J1NpmQ+/jKytJ/0aANWDCZW6ePu2Ibe6NHWeL6jFmNke+fmCPHgXaE
-         g4Hg==
+        bh=fQVXcgcWb3+JCHYIMAuGzo6fMmStxHBjGOXfuvL8Pek=;
+        b=mOe9ApJ8QOdU/5UNykOBGJRNhv0suUole/shpDVUHw/cXYp52XHEKoT8Ycp7gGT4Oi
+         FriMngfAs5wiMWZAV0hyXEnToIYBmN29LrSyYa+9LWeAi7abcCWPhjU06guUKjhZTmCk
+         L4KbCSzmBQk9hA9SmzzzDYEm46UsRVbwnQtLmN3VRzgQHN5bf1K09CMROMgysXLT7QLY
+         kI1U3uOQkobgNbUD5bHRffQGJJXwaHKmX3vUEgOcre1/BQ7/Q9rDqq91Ue7iatmTNxiv
+         1OtXIJVIyjGAIVnvHBmM8b3ca0O4zTESdVNYJF35zHYjGKWgdoyHuVJHxjDImfwYrhR9
+         96lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727885149; x=1728489949;
+        d=1e100.net; s=20230601; t=1727886873; x=1728491673;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=5N4+gqSeb1KPAY46BU6QRBcQA4A0mtfnF/DfhNnvaYg=;
-        b=A95kIaIq+gxIwfaPR3EGTpAOzhv7hdRFKNf9JbAIo15eAF+5dpAJDbmpgZRz1Bq3lQ
-         Z9jR+H/YNP9nA6XpoHxZhJZRbUMgi3gVRdLrFXo/uXFMAx1o/BDLSdk+cAwkeLsO8h4C
-         c4aYuE0hPYNLhEp5vjjyCp8WfBz1LdqZzX+rZil2hxvHA+nAaKyDlwbseJfiDjbpkksn
-         9fGwddP66A/irmwYJxHQ7VDIhBheDEkuyPV7aMDTSv+mz9k8ye/oJbl7l9oG4/NaaevL
-         E+s/t/O8G8Qo0a/pn6GMJNgHMAqyyQC6YzF+p853RwD35dJ+o6y7slF00g3244jLZ/Ip
-         3TBA==
-X-Forwarded-Encrypted: i=1; AJvYcCUOsFYuweW934Pwy6DP5W/14gVCLwfCME+ZeQQ6gm0me/IyvEr3klCWvLb0f8hpKueXA8ZcOlTyL7BmWw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwrGYp98ZW/6qI5tsGv/wxGw5oy14hFMyYl+bSDxShXVGlJgz17
-	Ben4M3Sh9bqlvMsCfZEejzRS4QKArrFPrFHsHuBIowhrlZ+RwvE+UNnWMu+EjzWwhsgCsxp6/Yr
-	im9yqURm1GzbZWlIQBSMLtQUXEiw=
-X-Google-Smtp-Source: AGHT+IFUlmzbLTsFGYihjtzA3b4/xF4lQlYRCLWv50QanOiiRb9UJNd04Ll1C8wrxpzQb0JBZR9YOz+0MxaVbPy8aQQ=
-X-Received: by 2002:a05:690c:6d09:b0:627:778f:b0a8 with SMTP id
- 00721157ae682-6e2a2e37b2bmr40441297b3.42.1727885149175; Wed, 02 Oct 2024
- 09:05:49 -0700 (PDT)
+        bh=fQVXcgcWb3+JCHYIMAuGzo6fMmStxHBjGOXfuvL8Pek=;
+        b=u10x2lx/WWTpRGjor59cTxyrC2EY+bNvwW9fInIOApNbxmzmnVR4lnSzZ5GL6EBCxI
+         5CpFkSHRYsGwKlvPV0ESmlVO8+l4x+GveAsyROx7vVqHO6wFNnDHs/4fJxX4+ybZM1ER
+         RLdzkUNaogd8Hsegqu/Lueewu5Ht1hz9vpEzQoBQZEVPkyRFs8FIl5nHZWat4jfktERW
+         Ltqfbd8567jlxsaZRBU9M4uVeBr2Ztg+jbOyNmXorz3MvWnQHcQMScSJ/54dPTQvNHUz
+         58jTYqsjHlHA23bO6w1x3VtWscsb0DgtKZl9mxzFaFtQ9WLNz3QAQzwaFWBFxkoAm8qm
+         Or5w==
+X-Forwarded-Encrypted: i=1; AJvYcCX7Os7spUoNUqDoWhGiG0PfPNz15yjowoIoFj/itM8o1MTptXI4LAYVgqcA+PYNWACD++IQIg0IwtkaEQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxGGgNNKo+m8000XtAGxzabQqm3TB8pQ8CN8njllrjYEQqj8biJ
+	KsSLXn2QLR21xmzDrfcV3pGP6J40eceX6lrk/dVC6zIqok8KKn/IobFQ8LD01XTUhRlxRVtqnd0
+	Srk92ETHijz2gwCviW1nsfmDDp94=
+X-Google-Smtp-Source: AGHT+IFaurByFKQGb+Ek8BjD7IiDaNQu0XiestB8fze0pRLRSvBSEGmbKq6ZzNot0XGsSfWE0DJmHLynAXQkW4fMBb0=
+X-Received: by 2002:a05:6902:cc8:b0:e26:2863:403e with SMTP id
+ 3f1490d57ef6-e286fa8c623mr188070276.22.1727886873449; Wed, 02 Oct 2024
+ 09:34:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240911-xtheadvector-v10-0-8d3930091246@rivosinc.com> <20240911-xtheadvector-v10-2-8d3930091246@rivosinc.com>
-In-Reply-To: <20240911-xtheadvector-v10-2-8d3930091246@rivosinc.com>
+References: <20240911-xtheadvector-v10-0-8d3930091246@rivosinc.com> <20240911-xtheadvector-v10-5-8d3930091246@rivosinc.com>
+In-Reply-To: <20240911-xtheadvector-v10-5-8d3930091246@rivosinc.com>
 From: Andy Chiu <andybnac@gmail.com>
-Date: Thu, 3 Oct 2024 00:05:37 +0800
-Message-ID: <CAFTtA3NwGFioVAeipkA6aCUfRY12jKFJiR7MaCpCYNjdsT7TMQ@mail.gmail.com>
-Subject: Re: [PATCH v10 02/14] dt-bindings: cpus: add a thead vlen register
- length property
+Date: Thu, 3 Oct 2024 00:34:22 +0800
+Message-ID: <CAFTtA3O1Kb=DGVbyaz0bfP76mQCGxawq=rtW__TB_3Ubx6AobA@mail.gmail.com>
+Subject: Re: [PATCH v10 05/14] riscv: vector: Use vlenb from DT for thead
 To: Charlie Jenkins <charlie@rivosinc.com>
 Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
@@ -83,69 +82,226 @@ Charlie Jenkins <charlie@rivosinc.com> =E6=96=BC 2024=E5=B9=B49=E6=9C=8812=
 =E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=881:57=E5=AF=AB=E9=81=93=EF=BC=
 =9A
 >
-> Add a property analogous to the vlenb CSR so that software can detect
-> the vector length of each CPU prior to it being brought online.
-> Currently software has to assume that the vector length read from the
-> boot CPU applies to all possible CPUs. On T-Head CPUs implementing
-> pre-ratification vector, reading the th.vlenb CSR may produce an illegal
-> instruction trap, so this property is required on such systems.
+> If thead,vlenb is provided in the device tree, prefer that over reading
+> the vlenb csr.
 >
 > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-
-Reviewed-by: Andy Chiu <andybnac@gmail.com>
-
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
 > ---
->  Documentation/devicetree/bindings/riscv/cpus.yaml | 19 +++++++++++++++++=
-++
->  1 file changed, 19 insertions(+)
+>  arch/riscv/Kconfig.vendor                        | 13 +++++++
+>  arch/riscv/include/asm/cpufeature.h              |  2 +
+>  arch/riscv/include/asm/vendor_extensions/thead.h |  6 +++
+>  arch/riscv/kernel/cpufeature.c                   | 48 ++++++++++++++++++=
+++++++
+>  arch/riscv/kernel/vector.c                       | 12 +++++-
+>  arch/riscv/kernel/vendor_extensions/thead.c      | 11 ++++++
+>  6 files changed, 91 insertions(+), 1 deletion(-)
 >
-> diff --git a/Documentation/devicetree/bindings/riscv/cpus.yaml b/Document=
-ation/devicetree/bindings/riscv/cpus.yaml
-> index 8edc8261241a..c0cf6cf56749 100644
-> --- a/Documentation/devicetree/bindings/riscv/cpus.yaml
-> +++ b/Documentation/devicetree/bindings/riscv/cpus.yaml
-> @@ -26,6 +26,18 @@ description: |
->  allOf:
->    - $ref: /schemas/cpu.yaml#
->    - $ref: extensions.yaml
-> +  - if:
-> +      not:
-> +        properties:
-> +          compatible:
-> +            contains:
-> +              enum:
-> +                - thead,c906
-> +                - thead,c910
-> +                - thead,c920
-> +    then:
-> +      properties:
-> +        thead,vlenb: false
+> diff --git a/arch/riscv/Kconfig.vendor b/arch/riscv/Kconfig.vendor
+> index 9897442bd44f..b096548fe0ff 100644
+> --- a/arch/riscv/Kconfig.vendor
+> +++ b/arch/riscv/Kconfig.vendor
+> @@ -26,6 +26,19 @@ config RISCV_ISA_VENDOR_EXT_THEAD
+>           extensions. Without this option enabled, T-Head vendor extensio=
+ns will
+>           not be detected at boot and their presence not reported to user=
+space.
 >
->  properties:
->    compatible:
-> @@ -95,6 +107,13 @@ properties:
->      description:
->        The blocksize in bytes for the Zicboz cache operations.
->
-> +  thead,vlenb:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      VLEN/8, the vector register length in bytes. This property is requ=
-ired on
-> +      thead systems where the vector register length is not identical on=
- all harts, or
-> +      the vlenb CSR is not available.
+> +         If you don't know what to do here, say Y.
 > +
->    # RISC-V has multiple properties for cache op block sizes as the sizes
->    # differ between individual CBO extensions
->    cache-op-block-size: false
+> +config RISCV_ISA_XTHEADVECTOR
+> +       bool "xtheadvector extension support"
+> +       depends on RISCV_ISA_VENDOR_EXT_THEAD
+> +       depends on RISCV_ISA_V
+> +       depends on FPU
+> +       default y
+> +       help
+> +         Say N here if you want to disable all xtheadvector related proc=
+edures
+> +         in the kernel. This will disable vector for any T-Head board th=
+at
+> +         contains xtheadvector rather than the standard vector.
+> +
+>           If you don't know what to do here, say Y.
+>  endmenu
 >
-> --
-> 2.45.0
+> diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm=
+/cpufeature.h
+> index 45f9c1171a48..28bdeb1005e0 100644
+> --- a/arch/riscv/include/asm/cpufeature.h
+> +++ b/arch/riscv/include/asm/cpufeature.h
+> @@ -31,6 +31,8 @@ DECLARE_PER_CPU(struct riscv_cpuinfo, riscv_cpuinfo);
+>  /* Per-cpu ISA extensions. */
+>  extern struct riscv_isainfo hart_isa[NR_CPUS];
 >
+> +extern u32 thead_vlenb_of;
+> +
+>  void riscv_user_isa_enable(void);
 >
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+>  #define _RISCV_ISA_EXT_DATA(_name, _id, _subset_exts, _subset_exts_size,=
+ _validate) {  \
+> diff --git a/arch/riscv/include/asm/vendor_extensions/thead.h b/arch/risc=
+v/include/asm/vendor_extensions/thead.h
+> index 48421d1553ad..190c91e37e95 100644
+> --- a/arch/riscv/include/asm/vendor_extensions/thead.h
+> +++ b/arch/riscv/include/asm/vendor_extensions/thead.h
+> @@ -13,4 +13,10 @@
+>
+>  extern struct riscv_isa_vendor_ext_data_list riscv_isa_vendor_ext_list_t=
+head;
+>
+> +#ifdef CONFIG_RISCV_ISA_VENDOR_EXT_THEAD
+> +void disable_xtheadvector(void);
+> +#else
+> +void disable_xtheadvector(void) { }
+> +#endif
+> +
+>  #endif
+> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeatur=
+e.c
+> index 46e69b9d66a7..9340efd79af9 100644
+> --- a/arch/riscv/kernel/cpufeature.c
+> +++ b/arch/riscv/kernel/cpufeature.c
+> @@ -37,6 +37,8 @@ static DECLARE_BITMAP(riscv_isa, RISCV_ISA_EXT_MAX) __r=
+ead_mostly;
+>  /* Per-cpu ISA extensions. */
+>  struct riscv_isainfo hart_isa[NR_CPUS];
+>
+> +u32 thead_vlenb_of;
+> +
+>  /**
+>   * riscv_isa_extension_base() - Get base extension word
+>   *
+> @@ -772,6 +774,46 @@ static void __init riscv_fill_vendor_ext_list(int cp=
+u)
+>         }
+>  }
+>
+> +static int has_thead_homogeneous_vlenb(void)
+> +{
+> +       int cpu;
+> +       u32 prev_vlenb =3D 0;
+> +       u32 vlenb;
+> +
+> +       /* Ignore thead,vlenb property if xtheavector is not enabled in t=
+he kernel */
+> +       if (!IS_ENABLED(CONFIG_RISCV_ISA_XTHEADVECTOR))
+> +               return 0;
+> +
+> +       for_each_possible_cpu(cpu) {
+> +               struct device_node *cpu_node;
+> +
+> +               cpu_node =3D of_cpu_device_node_get(cpu);
+> +               if (!cpu_node) {
+> +                       pr_warn("Unable to find cpu node\n");
+> +                       return -ENOENT;
+> +               }
+> +
+> +               if (of_property_read_u32(cpu_node, "thead,vlenb", &vlenb)=
+) {
+> +                       of_node_put(cpu_node);
+> +
+> +                       if (prev_vlenb)
+> +                               return -ENOENT;
+> +                       continue;
+> +               }
+> +
+> +               if (prev_vlenb && vlenb !=3D prev_vlenb) {
+> +                       of_node_put(cpu_node);
+> +                       return -ENOENT;
+> +               }
+> +
+> +               prev_vlenb =3D vlenb;
+> +               of_node_put(cpu_node);
+> +       }
+> +
+> +       thead_vlenb_of =3D vlenb;
+> +       return 0;
+> +}
+> +
+>  static int __init riscv_fill_hwcap_from_ext_list(unsigned long *isa2hwca=
+p)
+>  {
+>         unsigned int cpu;
+> @@ -825,6 +867,12 @@ static int __init riscv_fill_hwcap_from_ext_list(uns=
+igned long *isa2hwcap)
+>                 riscv_fill_vendor_ext_list(cpu);
+>         }
+>
+> +       if (riscv_isa_vendor_extension_available(THEAD_VENDOR_ID, XTHEADV=
+ECTOR) &&
+> +           has_thead_homogeneous_vlenb() < 0) {
+> +               pr_warn("Unsupported heterogeneous vlenb detected, vector=
+ extension disabled.\n");
+> +               disable_xtheadvector();
+> +       }
+> +
+>         if (bitmap_empty(riscv_isa, RISCV_ISA_EXT_MAX))
+>                 return -ENOENT;
+>
+> diff --git a/arch/riscv/kernel/vector.c b/arch/riscv/kernel/vector.c
+> index 682b3feee451..9775d6a9c8ee 100644
+> --- a/arch/riscv/kernel/vector.c
+> +++ b/arch/riscv/kernel/vector.c
+> @@ -33,7 +33,17 @@ int riscv_v_setup_vsize(void)
+>  {
+>         unsigned long this_vsize;
+>
+> -       /* There are 32 vector registers with vlenb length. */
+> +       /*
+> +        * There are 32 vector registers with vlenb length.
+> +        *
+> +        * If the thead,vlenb property was provided by the firmware, use =
+that
+> +        * instead of probing the CSRs.
+> +        */
+> +       if (thead_vlenb_of) {
+> +               this_vsize =3D thead_vlenb_of * 32;
+> +               return 0;
+> +       }
+> +
+>         riscv_v_enable();
+>         this_vsize =3D csr_read(CSR_VLENB) * 32;
+>         riscv_v_disable();
+> diff --git a/arch/riscv/kernel/vendor_extensions/thead.c b/arch/riscv/ker=
+nel/vendor_extensions/thead.c
+> index 0f27baf8d245..519dbf70710a 100644
+> --- a/arch/riscv/kernel/vendor_extensions/thead.c
+> +++ b/arch/riscv/kernel/vendor_extensions/thead.c
+> @@ -5,6 +5,7 @@
+>  #include <asm/vendor_extensions/thead.h>
+>
+>  #include <linux/array_size.h>
+> +#include <linux/cpumask.h>
+>  #include <linux/types.h>
+>
+>  /* All T-Head vendor extensions supported in Linux */
+> @@ -16,3 +17,13 @@ struct riscv_isa_vendor_ext_data_list riscv_isa_vendor=
+_ext_list_thead =3D {
+>         .ext_data_count =3D ARRAY_SIZE(riscv_isa_vendor_ext_thead),
+>         .ext_data =3D riscv_isa_vendor_ext_thead,
+>  };
+> +
+> +void disable_xtheadvector(void)
+> +{
+> +       int cpu;
+> +
+> +       for_each_possible_cpu(cpu)
+> +               clear_bit(RISCV_ISA_VENDOR_EXT_XTHEADVECTOR, riscv_isa_ve=
+ndor_ext_list_thead.per_hart_isa_bitmap[cpu].isa);
+> +
+> +       clear_bit(RISCV_ISA_VENDOR_EXT_XTHEADVECTOR, riscv_isa_vendor_ext=
+_list_thead.all_harts_isa_bitmap.isa);
+> +}
+
+Given that we already have an infra to resolve and validate isa, with
+riscv_resolve_isa(), shouldn't we reuse that part of the code and
+assign "has_thead_homogeneous_vlenb()" as a validate function? I know
+it would need some modifications because it seems like
+riscv_resolve_isa is not there for vendor extensions yet.
+
+Sorry I am late on reviewing this series. I think we can refactor it
+as follow up patches if we want to keep up development.
+
+Thanks,
+Andy
