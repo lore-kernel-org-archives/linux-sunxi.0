@@ -1,307 +1,91 @@
-Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AC441D07BD
-	for <linux-sunxi@lists.linux.dev>; Wed,  2 Oct 2024 16:59:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.122
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FB2C13C3C2
+	for <linux-sunxi@lists.linux.dev>; Thu,  3 Oct 2024 11:15:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727888383; cv=none; b=ofpfuYzuz6GBQVsxUfytRAIqV5BC5CWQT47le85x6vi+6g2gMjQQmoZgCwEb6ArQluUK6lFnWTOoQdTtd0gj1PXBTFzbY8fABMaQOg0mWFy3ziO2skeJr56yQAFztrNExeIUMMtnEsCw7dEbonEUV7mHMdZe/rLPW7AxiXgd9Io=
+	t=1727954102; cv=none; b=ji1+DDxS+VoWtI1xB+RAVGC1rJicqV82G603x39bf61Dz3vh0dcpshCUmhSzm6xDaI8Vps+IbGiS5yazHPOAUi5AXWoSQhesHE3sZ/FUw99eA1w0PEF0kcdpPTrk7wB3QG62H4pov82A+jLP1AaM+1ihqENa/fyDTF0ObV0KymY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727888383; c=relaxed/simple;
-	bh=mQQG0qxo3tmSJx7Ys2f8RCMr8U4wdqZNGspopCwU2SQ=;
-	h=From:In-Reply-To:References:Mime-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PKLg2t5bmOFcedoN/6gIOWuLkcRUecx8I8UpK6lHwwwNi6pohC0Y10bv7oMRxXLb98xZ+Bjo7c/ftAFF8Dh3PDt4P8Mt4n2y2RM6jSW85hHZrWidpJol6bPw3UnTbFe5QANGTnO3L+n6MvWPtCgj4sy9xO+6fX4hlIYtZdO1qyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=iNRkmySF; arc=none smtp.client-ip=185.125.188.122
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="iNRkmySF"
-Received: from mail-oa1-f71.google.com (mail-oa1-f71.google.com [209.85.160.71])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id E0C9440593
-	for <linux-sunxi@lists.linux.dev>; Wed,  2 Oct 2024 16:59:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1727888373;
-	bh=jOHh59GRXNfOUGegaYQL6JngKA1K1v1abGrefUApkfM=;
-	h=From:In-Reply-To:References:Mime-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type;
-	b=iNRkmySF7hC/LEdTd/BwobgChPYGM7d/Jk3571q3IxGZI2Yxbnl2g8so+a1mmOdKB
-	 aOukgc0m85e+dbd7QDhBjtZBQU01c+cIC1YxEkS+JQhhB8awOwP/vBGoLF+6ufGfP4
-	 OdKSC5XUtLNu0LNeYb6mF1HzZ25L1cEg53SYzfjTa4hrUV2x+u6j8SFUp7C5ZYM4dH
-	 ISFZlPMxxc7cBkKrL1cH+XrXUOZIw9AGnTEjHAVZz6Z8/BRrU82cAFzilpTXManAzB
-	 qt69IavNkQPDcG7EQIolgkTnqWNcaNkkh1dey0tsgyR21pnZZLx4UqG4RwufaFW3IN
-	 90Ml0DqS94N4A==
-Received: by mail-oa1-f71.google.com with SMTP id 586e51a60fabf-27808f6bfefso74219fac.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 02 Oct 2024 09:59:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727888373; x=1728493173;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jOHh59GRXNfOUGegaYQL6JngKA1K1v1abGrefUApkfM=;
-        b=uXGM7sFkDztOOwud76i0NShEeJE2me4KKmxOJpirWe1shYf2mMcumr0QUMLJf8fmAz
-         Idl4bXL+0ZiqC8hliJRltw3kQXtr2wbaPSHzS28sf7ndo1+4HfN+5t8VsliJrXncX8p2
-         tU8LVFZFTStApoH0zz2FSVNmVIW76s/1jaOpK5WOsPQnhZfAwy36rWWmczn+vQPn6ayR
-         8N3G/t3EvSkqkq3QKiHLcKMReKaNFVc7Ptcl6LtoIWJ0F/pZHk2jICiuSpRWoulkV9z+
-         65Zz16oyu8/5zznu8G5W3Wro0XtzXgi5Js9OIM4F7cJOn9D9kFa81Qz7E4XM0PIrJ8Dq
-         XFJA==
-X-Forwarded-Encrypted: i=1; AJvYcCV8GFYvm5UVALJlbx87wAR5lGOVOiUqhwz7KF12S/GQSb+7giDt1GhH4rzxWxjVqLPozzxczaAeLatcAw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywbyr+5biAfUxh1aKUaJJpaRntv9GOhpSPmEgLN6bPj5INQ9qT3
-	d9512rT2Mr/DJD5H1R5bpsQNLTf21UAKKKeQ5+H3EB5MPOp+dCI9Ci0fi6hhwNoi/7WYTLBkNvC
-	cjmKtCxXDcN7I6e6GYr69BBaHqR1/q6k8Ko5rEd08HKkbxPPkShTnUSfKf/dlop7WOzgfjwJNHX
-	e5ziVzc2n8YTM0wy08G2BZmO+lUYfs50IvBb6mzCG+LdiDzg1B3Iw=
-X-Received: by 2002:a05:6871:a6aa:b0:287:541:c60 with SMTP id 586e51a60fabf-287889aa2b0mr2470186fac.1.1727888372567;
-        Wed, 02 Oct 2024 09:59:32 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGqcxKIhFuRh+HBH4VGMynHVutdUUyzDUM77wrN93IMmYcomKUkacOGnkCdDFPa2rdTrgDyhXCZk9+ZWOlwbms=
-X-Received: by 2002:a05:6871:a6aa:b0:287:541:c60 with SMTP id
- 586e51a60fabf-287889aa2b0mr2470156fac.1.1727888372149; Wed, 02 Oct 2024
- 09:59:32 -0700 (PDT)
-Received: from 348282803490 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 2 Oct 2024 09:59:31 -0700
-From: Emil Renner Berthing <emil.renner.berthing@canonical.com>
-In-Reply-To: <20240911-xtheadvector-v10-10-8d3930091246@rivosinc.com>
-References: <20240911-xtheadvector-v10-0-8d3930091246@rivosinc.com> <20240911-xtheadvector-v10-10-8d3930091246@rivosinc.com>
+	s=arc-20240116; t=1727954102; c=relaxed/simple;
+	bh=WiaApKJByJkkbq30GzUGjXpAzo95nozGboie/erMrTg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=on+Hn70zTdFMKyyHgoquCtP9MAiWv2Jy4ctW/Rxi00c/LSQ5CsGrQ/l4FZGFpleRg5aNem8+VKeDa2BfAfOnd7xAk4n7iE5bmw4kXZFzV0IYz+qm+0KZcbXVK3Rox6roLhux6KHJKat5uDwIQj+80LzsXwjfIBSvITXia4/trC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 17C08339;
+	Thu,  3 Oct 2024 04:15:30 -0700 (PDT)
+Received: from e110479.arm.com (unknown [10.57.55.26])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 602653F640;
+	Thu,  3 Oct 2024 04:14:57 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: devicetree@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Martin Botka <martin.botka@somainline.org>,
+	Chris Morgan <macromorgan@hotmail.com>
+Subject: [PATCH 0/5] regulator: add X-Powers AXP323 support
+Date: Thu,  3 Oct 2024 12:14:39 +0100
+Message-Id: <20241003111444.543964-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Date: Wed, 2 Oct 2024 09:59:31 -0700
-Message-ID: <CAJM55Z95=ga=2qPirda4XjLRX1OWbXRzWwbi9eXYeow_K_ZoQQ@mail.gmail.com>
-Subject: Re: [PATCH v10 10/14] riscv: hwprobe: Add thead vendor extension probing
-To: Charlie Jenkins <charlie@rivosinc.com>, Conor Dooley <conor@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Samuel Holland <samuel.holland@sifive.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <shuah@kernel.org>, Guo Ren <guoren@kernel.org>, Evan Green <evan@rivosinc.com>, 
-	Andy Chiu <andy.chiu@sifive.com>, Jessica Clarke <jrtc27@jrtc27.com>, 
-	Andrew Jones <ajones@ventanamicro.com>
-Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Charlie Jenkins wrote:
-> Add a new hwprobe key "RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0" which
-> allows userspace to probe for the new RISCV_ISA_VENDOR_EXT_XTHEADVECTOR
-> vendor extension.
->
-> This new key will allow userspace code to probe for which thead vendor
-> extensions are supported. This API is modeled to be consistent with
-> RISCV_HWPROBE_KEY_IMA_EXT_0. The bitmask returned will have each bit
-> corresponding to a supported thead vendor extension of the cpumask set.
-> Just like RISCV_HWPROBE_KEY_IMA_EXT_0, this allows a userspace program
-> to determine all of the supported thead vendor extensions in one call.
->
-> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> Reviewed-by: Evan Green <evan@rivosinc.com>
-> ---
->  arch/riscv/include/asm/hwprobe.h                   |  3 +-
->  .../include/asm/vendor_extensions/thead_hwprobe.h  | 19 +++++++++++
->  .../include/asm/vendor_extensions/vendor_hwprobe.h | 37 ++++++++++++++++++++++
->  arch/riscv/include/uapi/asm/hwprobe.h              |  3 +-
->  arch/riscv/include/uapi/asm/vendor/thead.h         |  3 ++
->  arch/riscv/kernel/sys_hwprobe.c                    |  5 +++
->  arch/riscv/kernel/vendor_extensions/Makefile       |  1 +
->  .../riscv/kernel/vendor_extensions/thead_hwprobe.c | 19 +++++++++++
->  8 files changed, 88 insertions(+), 2 deletions(-)
->
-> diff --git a/arch/riscv/include/asm/hwprobe.h b/arch/riscv/include/asm/hwprobe.h
-> index ef01c182af2b..6148e1eab64c 100644
-> --- a/arch/riscv/include/asm/hwprobe.h
-> +++ b/arch/riscv/include/asm/hwprobe.h
-> @@ -1,6 +1,6 @@
->  /* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
->  /*
-> - * Copyright 2023 Rivos, Inc
-> + * Copyright 2023-2024 Rivos, Inc
->   */
->
->  #ifndef _ASM_HWPROBE_H
-> @@ -21,6 +21,7 @@ static inline bool hwprobe_key_is_bitmask(__s64 key)
->  	case RISCV_HWPROBE_KEY_BASE_BEHAVIOR:
->  	case RISCV_HWPROBE_KEY_IMA_EXT_0:
->  	case RISCV_HWPROBE_KEY_CPUPERF_0:
-> +	case RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0:
->  		return true;
->  	}
->
-> diff --git a/arch/riscv/include/asm/vendor_extensions/thead_hwprobe.h b/arch/riscv/include/asm/vendor_extensions/thead_hwprobe.h
-> new file mode 100644
-> index 000000000000..65a9c5612466
-> --- /dev/null
-> +++ b/arch/riscv/include/asm/vendor_extensions/thead_hwprobe.h
-> @@ -0,0 +1,19 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#ifndef _ASM_RISCV_VENDOR_EXTENSIONS_THEAD_HWPROBE_H
-> +#define _ASM_RISCV_VENDOR_EXTENSIONS_THEAD_HWPROBE_H
-> +
-> +#include <linux/cpumask.h>
-> +
-> +#include <uapi/asm/hwprobe.h>
-> +
-> +#ifdef CONFIG_RISCV_ISA_VENDOR_EXT_THEAD
-> +void hwprobe_isa_vendor_ext_thead_0(struct riscv_hwprobe *pair, const struct cpumask *cpus);
-> +#else
-> +static inline void hwprobe_isa_vendor_ext_thead_0(struct riscv_hwprobe *pair,
-> +						  const struct cpumask *cpus)
-> +{
-> +	pair->value = 0;
-> +}
-> +#endif
-> +
-> +#endif
-> diff --git a/arch/riscv/include/asm/vendor_extensions/vendor_hwprobe.h b/arch/riscv/include/asm/vendor_extensions/vendor_hwprobe.h
-> new file mode 100644
-> index 000000000000..6b9293e984a9
-> --- /dev/null
-> +++ b/arch/riscv/include/asm/vendor_extensions/vendor_hwprobe.h
-> @@ -0,0 +1,37 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright 2024 Rivos, Inc
-> + */
-> +
-> +#ifndef _ASM_RISCV_SYS_HWPROBE_H
-> +#define _ASM_RISCV_SYS_HWPROBE_H
-> +
-> +#include <asm/cpufeature.h>
-> +
-> +#define VENDOR_EXT_KEY(ext)								\
-> +	do {										\
-> +		if (__riscv_isa_extension_available(isainfo->isa, RISCV_ISA_VENDOR_EXT_##ext)) \
-> +			pair->value |= RISCV_HWPROBE_VENDOR_EXT_##ext;			\
-> +		else									\
-> +			missing |= RISCV_HWPROBE_VENDOR_EXT_##ext;			\
-> +	} while (false)
-> +
-> +/*
-> + * Loop through and record extensions that 1) anyone has, and 2) anyone
-> + * doesn't have.
-> + *
-> + * _extension_checks is an arbitrary C block to set the values of pair->value
-> + * and missing. It should be filled with VENDOR_EXT_KEY expressions.
-> + */
-> +#define VENDOR_EXTENSION_SUPPORTED(pair, cpus, per_hart_vendor_bitmap, _extension_checks)	\
-> +	do {											\
-> +		int cpu;									\
-> +		u64 missing = 0;								\
-> +		for_each_cpu(cpu, (cpus)) {							\
-> +			struct riscv_isavendorinfo *isainfo = &(per_hart_vendor_bitmap)[cpu];	\
-> +			_extension_checks							\
-> +		}										\
-> +		(pair)->value &= ~missing;							\
-> +	} while (false)										\
-> +
-> +#endif /* _ASM_RISCV_SYS_HWPROBE_H */
-> diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
-> index b706c8e47b02..452d0b84f17f 100644
-> --- a/arch/riscv/include/uapi/asm/hwprobe.h
-> +++ b/arch/riscv/include/uapi/asm/hwprobe.h
-> @@ -1,6 +1,6 @@
->  /* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
->  /*
-> - * Copyright 2023 Rivos, Inc
-> + * Copyright 2023-2024 Rivos, Inc
->   */
->
->  #ifndef _UAPI_ASM_HWPROBE_H
-> @@ -82,6 +82,7 @@ struct riscv_hwprobe {
->  #define RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE	6
->  #define RISCV_HWPROBE_KEY_HIGHEST_VIRT_ADDRESS	7
->  #define RISCV_HWPROBE_KEY_TIME_CSR_FREQ	8
-> +#define RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0	9
->  /* Increase RISCV_HWPROBE_MAX_KEY when adding items. */
+The X-Powers AXP323 is a close sibling to the AXP313a PMIC, only that it
+allows to dual-phase the first two DC/DC converters. This is controlled
+via a new register. On the first glance that would sound like a
+compatible extension, but any random AXP313a driver would not know about
+the potential dual-phase nature of the second DCDC rail, so might want
+to turn that off, spoiling the whole setup. So this patchset introduces
+a new compatible string, without any fallbacks.
 
-I wanted to try this patchset on my Nezha board, but rebasing on v6.11
-this conflicts with
+Patch 1 adds the DT binding documentation, patch 2 fixes some fragile
+connection between PMIC IDs and an array. Patch 3 allows multiple AXP
+chips, since the AXP323 seems to be often paired with the AXP717, and
+there is some sysfs naming clash with the current code.
+Patch 4 then adds the MFD bits, to introduce the new device type and that
+extra register, while patch 4 eventually adds the new regulator device,
+and takes care about the proper poly-phase detection.
 
-  c42e2f076769 ("RISC-V: hwprobe: Add MISALIGNED_PERF key")
+One note: so far the poly-phased AXP PMICs had that setting already
+enabled at reset time, so we just detected it and were good. However the
+AXP323 on my board does not, so it requires enabling the dual-phase bit at
+boot time. The BSP kernel does that in their boot0 (SPL) early boot code,
+and the plan would be to do this either in U-Boot or TF-A for mainline.
+But should we actually expose this in the DT, as some new property, to
+give kernels a chance to set it? The rails in question power the secondary
+cluster, so it's not strictly required at boot time, but it's probably too
+late for the kernel anyway, given that SMP bringup is much earlier than
+drivers? I would appreciate any thoughts here.
 
-While fixing it up I bumped the RISCV_HWPROBE_MAX_KEY as the comment above told
-me to do, but now I notice you don't do that in this patch. Is that a bug or am
-I misunderstanding something?
+Thanks,
+Andre
 
-/Emil
+Andre Przywara (5):
+  dt-bindings: mfd: x-powers,axp152: Document AXP323
+  mfd: axp20x: ensure relationship between IDs and model names
+  mfd: axp20x: Allow multiple regulators
+  mfd: axp20x: Add support for AXP323
+  regulator: axp20x: add support for the AXP323
 
->
->  /* Flags */
-> diff --git a/arch/riscv/include/uapi/asm/vendor/thead.h b/arch/riscv/include/uapi/asm/vendor/thead.h
-> new file mode 100644
-> index 000000000000..43790ebe5faf
-> --- /dev/null
-> +++ b/arch/riscv/include/uapi/asm/vendor/thead.h
-> @@ -0,0 +1,3 @@
-> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> +
-> +#define		RISCV_HWPROBE_VENDOR_EXT_XTHEADVECTOR	(1 << 0)
-> diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwprobe.c
-> index 8d1b5c35d2a7..5a3dc8e66c85 100644
-> --- a/arch/riscv/kernel/sys_hwprobe.c
-> +++ b/arch/riscv/kernel/sys_hwprobe.c
-> @@ -15,6 +15,7 @@
->  #include <asm/uaccess.h>
->  #include <asm/unistd.h>
->  #include <asm/vector.h>
-> +#include <asm/vendor_extensions/thead_hwprobe.h>
->  #include <vdso/vsyscall.h>
->
->
-> @@ -241,6 +242,10 @@ static void hwprobe_one_pair(struct riscv_hwprobe *pair,
->  		pair->value = riscv_timebase;
->  		break;
->
-> +	case RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0:
-> +		hwprobe_isa_vendor_ext_thead_0(pair, cpus);
-> +		break;
-> +
->  	/*
->  	 * For forward compatibility, unknown keys don't fail the whole
->  	 * call, but get their element key set to -1 and value set to 0
-> diff --git a/arch/riscv/kernel/vendor_extensions/Makefile b/arch/riscv/kernel/vendor_extensions/Makefile
-> index 353522cb3bf0..866414c81a9f 100644
-> --- a/arch/riscv/kernel/vendor_extensions/Makefile
-> +++ b/arch/riscv/kernel/vendor_extensions/Makefile
-> @@ -2,3 +2,4 @@
->
->  obj-$(CONFIG_RISCV_ISA_VENDOR_EXT_ANDES)	+= andes.o
->  obj-$(CONFIG_RISCV_ISA_VENDOR_EXT_THEAD)	+= thead.o
-> +obj-$(CONFIG_RISCV_ISA_VENDOR_EXT_THEAD)	+= thead_hwprobe.o
-> diff --git a/arch/riscv/kernel/vendor_extensions/thead_hwprobe.c b/arch/riscv/kernel/vendor_extensions/thead_hwprobe.c
-> new file mode 100644
-> index 000000000000..2eba34011786
-> --- /dev/null
-> +++ b/arch/riscv/kernel/vendor_extensions/thead_hwprobe.c
-> @@ -0,0 +1,19 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +
-> +#include <asm/vendor_extensions/thead.h>
-> +#include <asm/vendor_extensions/thead_hwprobe.h>
-> +#include <asm/vendor_extensions/vendor_hwprobe.h>
-> +
-> +#include <linux/cpumask.h>
-> +#include <linux/types.h>
-> +
-> +#include <uapi/asm/hwprobe.h>
-> +#include <uapi/asm/vendor/thead.h>
-> +
-> +void hwprobe_isa_vendor_ext_thead_0(struct riscv_hwprobe *pair, const struct cpumask *cpus)
-> +{
-> +	VENDOR_EXTENSION_SUPPORTED(pair, cpus,
-> +				   riscv_isa_vendor_ext_list_thead.per_hart_isa_bitmap, {
-> +		VENDOR_EXT_KEY(XTHEADVECTOR);
-> +	});
-> +}
->
-> --
-> 2.45.0
->
->
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+ .../bindings/mfd/x-powers,axp152.yaml         |  3 +
+ drivers/mfd/axp20x-i2c.c                      |  1 +
+ drivers/mfd/axp20x.c                          | 58 ++++++++++++++-----
+ drivers/regulator/axp20x-regulator.c          | 13 ++++-
+ include/linux/mfd/axp20x.h                    |  4 +-
+ 5 files changed, 61 insertions(+), 18 deletions(-)
+
+-- 
+2.25.1
+
