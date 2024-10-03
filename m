@@ -1,136 +1,71 @@
-Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA3AE82899
-	for <linux-sunxi@lists.linux.dev>; Thu,  3 Oct 2024 15:22:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 755A519F42F;
+	Thu,  3 Oct 2024 15:49:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727968932; cv=none; b=toKvD0EJ+2LKLymfoMl7GibNhlvEGTt7rpsU8uPLsV2+w6aCJL/qXBLEmA/PMtcpd5tLWUlpONcKeFG2PCWyCRUOuGOHt54RHKaY+Q70aw1IEXtaYm5F79S6kcVNS6Yvq5fDYthTl6l36TuTcR8mM4/nmqp72UWDRUAaqSBVZ6A=
+	t=1727970547; cv=none; b=GPKLtY/JMTR0OgQ2Pm/p8XAh5M9AMUPYQj186lxXDbnawGGMcTxII1JcMbQOJF9S+G7QLksgboizGplPKx0AT9f/yZCKN7r4hq14P75V4RsFwzwG0nD9L2J6/8tbTaMRYlZCRBnoRFlKEcqesh/chXWKkAHq6zMCK0Sc+3Gnrlg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727968932; c=relaxed/simple;
-	bh=ykGMWjUKIDhhhzJrM9GpYwxSH8y2AXPqMcCTCatD3zo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Gi6gSU6AnrxdpYhh35qOX8Q0Ihn8Oonz6krU9YpBbrKN7atm8ECkROaVKNeh317Wh/lQXIyABPJiKBr7SpzZ/yq+ikam/Mj7lW9sCbACNb+XzYCmfSiZ2LKoFm0Agt+MXPZjKnVkHr+N6Ol4GduTTn+BUTfIxGEYbDUFr7uTHhY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.166.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-il1-f169.google.com with SMTP id e9e14a558f8ab-3a3525ba6aaso3481035ab.2
-        for <linux-sunxi@lists.linux.dev>; Thu, 03 Oct 2024 08:22:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727968926; x=1728573726;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=n4LKO0jgH7DyX+MQ6doJC00PWEp4e1Pim8oJtlmMS+s=;
-        b=FQaYu9JP8IC5k30SxrRvmImJgpegRfyRTiyhvdPEbR5RHPpxdydtxke0JTk+oarZqU
-         hsXrt4JQ7BoPSrYkw8wvSi/bS/PVe2MPs8eOQ/Czmcq7xWcPh8HyA9CblVMWbZ4BnMe/
-         ehPzw1omXSXYVMhmRtmXAXmxFgz+NeF7EBlUYDRD4e2T9fcfByEw0QnMN8R0LVO6Zn0+
-         2ogjtubuie+NTZ9fuklnU7bmvbnrrXuJWrCQYQtKDo1I5kpKWeOGsA/IzU6L891OXsb6
-         gFv7AOAEsWD1+yHhcWfdc5qeQ8N7onqydu+QOrB5p3o1nBJveZJvSlIKIhlNH4kk7dha
-         uzmQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWPaU8bTS+/v87teb5jpasj93XHZ0bgaUhrN+Ik5HlPfNSuVqGOQHgO5DyzoCX17C9z0Z2LF/KfbAk1wQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YygkNrVTZO4zTd4zWQ707H/Q60I3mZL8En8eh/xh8vkePvjZwNR
-	3+iYQYlozafvWmMDECGcksgbSVIfQE+/bsjnK5uBOW9ZxNBKDj9uSLoFsOeVLTs=
-X-Google-Smtp-Source: AGHT+IGtfmn0vns0kPY/ppL5MRYictA4Kj65qagvrUio9qdm4g1Roa5dfAqe3QlbV2pMqF9qJQr1cA==
-X-Received: by 2002:a05:6e02:1e03:b0:3a0:97df:997e with SMTP id e9e14a558f8ab-3a36592c2d4mr62161905ab.14.1727968925751;
-        Thu, 03 Oct 2024 08:22:05 -0700 (PDT)
-Received: from mail-io1-f53.google.com (mail-io1-f53.google.com. [209.85.166.53])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3a37199ff17sm2468765ab.81.2024.10.03.08.22.04
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Oct 2024 08:22:05 -0700 (PDT)
-Received: by mail-io1-f53.google.com with SMTP id ca18e2360f4ac-82aac438539so46777539f.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 03 Oct 2024 08:22:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXAsF2qHvLKMo+ANvc6oSD9tNjVhZy9iji8GtqaKfsAzfIItutzsaID6YP2ZVdUh0tJpX3xCNanp8FQEg==@lists.linux.dev
-X-Received: by 2002:a05:6602:29c4:b0:82c:ed3d:3a59 with SMTP id
- ca18e2360f4ac-834d84ba9fcmr818278039f.10.1727968924668; Thu, 03 Oct 2024
- 08:22:04 -0700 (PDT)
+	s=arc-20240116; t=1727970547; c=relaxed/simple;
+	bh=KpbNkjpvejKKJcVq1QmIf7uP4nL6twJU3R7Siw5zTTg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lJkFxF+znvnSrfSaCwdeginc7GxgpIySSfJ2fFqLW3pjFtD+bHxcp2xFVd5HRw1UrOpmc159PwiSJVs2L2J7vo+EwVbtHJfSRroRuflDpIbWE+pdsOddaZxFAipLqs4X9i0/76f3DSJbop/PrvGpLAfL+s/62qFM63HM/PDcMac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SIRxvv89; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SIRxvv89"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE7EEC4CEC5;
+	Thu,  3 Oct 2024 15:49:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727970547;
+	bh=KpbNkjpvejKKJcVq1QmIf7uP4nL6twJU3R7Siw5zTTg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SIRxvv89KC17m7lf7092R8WSIaQ3IIIu6RXFhdEXnxXPoWGmUHW/ODdJwAast3GLM
+	 ntNVHL3hfRBvwgTTBe0nUUPn11RB2dmYirpBeDFjOnCf3KaDlE5VQ45nZneOKlqMsO
+	 qqCUeq6H2TmGTz7MwByn8iaoo8EswERVrv7a+bpYfODoVB5pQCzWOb1e/Yc7eVbKYk
+	 sEae6eU8nPN12N9BEDvhRliluBr0gwnS5ZMrxqPE1XHD4EuAO7EmLWdDOrtbotdYnW
+	 jjCsAMrIhBAFmnAOSsg4XBeVn5NDAIsIEGtuasdXWNKfdQeY6Enb3EMBol6iycPZQH
+	 1XlwnAQpPFSYg==
+Date: Thu, 3 Oct 2024 10:49:06 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Lee Jones <lee@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	linux-sunxi@lists.linux.dev, Chen-Yu Tsai <wens@csie.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, devicetree@vger.kernel.org,
+	Martin Botka <martin.botka@somainline.org>,
+	Chris Morgan <macromorgan@hotmail.com>,
+	linux-kernel@vger.kernel.org,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>
+Subject: Re: [PATCH 1/5] dt-bindings: mfd: x-powers,axp152: Document AXP323
+Message-ID: <172797054379.1660109.7296466787725944140.robh@kernel.org>
+References: <20241003111444.543964-1-andre.przywara@arm.com>
+ <20241003111444.543964-2-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241003111444.543964-1-andre.przywara@arm.com> <20241003111444.543964-6-andre.przywara@arm.com>
-In-Reply-To: <20241003111444.543964-6-andre.przywara@arm.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Thu, 3 Oct 2024 23:21:49 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64OYNUsfCAUnh2QEYec-AHWyugG+sXBc3XRCz3jtUrDmg@mail.gmail.com>
-Message-ID: <CAGb2v64OYNUsfCAUnh2QEYec-AHWyugG+sXBc3XRCz3jtUrDmg@mail.gmail.com>
-Subject: Re: [PATCH 5/5] regulator: axp20x: add support for the AXP323
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, devicetree@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Martin Botka <martin.botka@somainline.org>, Chris Morgan <macromorgan@hotmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241003111444.543964-2-andre.przywara@arm.com>
 
-On Thu, Oct 3, 2024 at 7:15=E2=80=AFPM Andre Przywara <andre.przywara@arm.c=
-om> wrote:
->
-> The X-Powers AXP323 is a very close sibling of the AXP313A. The only
-> difference seems to be the ability to dual-phase the first two DC/DC
-> converters.
->
-> Place the new AXP323 ID next to the existing AXP313A checks, to let
-> them share most code.
-> The only difference is the poly-phase detection code, which gets
-> extended to check the respective bit in a newly used register.
->
+
+On Thu, 03 Oct 2024 12:14:40 +0100, Andre Przywara wrote:
+> The X-Powers AXP323 is a PMIC used on some newer Allwinner devices.
+> It is almost the same as the AXP313, but supports dual-phasing the first
+> two DC/DC converters. A pure AXP313 driver wouldn't know about this, and
+> might turn the linked DCDC2 regulator off, as it does not seem to be
+> used. This makes the AXP323 incompatible to the AXP313a.
+> 
+> Add the new compatible string, and treat it like the AXP313a.
+> 
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-
-Reviewed-by: Chen-Yu Tsai <wens@csie.org>
-
-
 > ---
->  drivers/regulator/axp20x-regulator.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
->
-> diff --git a/drivers/regulator/axp20x-regulator.c b/drivers/regulator/axp=
-20x-regulator.c
-> index 3ba76dbd0fb9..e3cc59b82ea6 100644
-> --- a/drivers/regulator/axp20x-regulator.c
-> +++ b/drivers/regulator/axp20x-regulator.c
-> @@ -1341,6 +1341,7 @@ static int axp20x_set_dcdc_freq(struct platform_dev=
-ice *pdev, u32 dcdcfreq)
->                 step =3D 150;
->                 break;
->         case AXP313A_ID:
-> +       case AXP323_ID:
->         case AXP717_ID:
->         case AXP15060_ID:
->                 /* The DCDC PWM frequency seems to be fixed to 3 MHz. */
-> @@ -1527,6 +1528,15 @@ static bool axp20x_is_polyphase_slave(struct axp20=
-x_dev *axp20x, int id)
->                 }
->                 break;
->
-> +       case AXP323_ID:
-> +               regmap_read(axp20x->regmap, AXP323_DCDC_MODE_CTRL2, &reg)=
-;
-> +
-> +               switch (id) {
-> +               case AXP313A_DCDC2:
-> +                       return !!(reg & BIT(1));
-> +               }
-> +               break;
-> +
->         default:
->                 return false;
->         }
-> @@ -1565,6 +1575,7 @@ static int axp20x_regulator_probe(struct platform_d=
-evice *pdev)
->                                                   "x-powers,drive-vbus-en=
-");
->                 break;
->         case AXP313A_ID:
-> +       case AXP323_ID:
->                 regulators =3D axp313a_regulators;
->                 nregulators =3D AXP313A_REG_ID_MAX;
->                 break;
-> --
-> 2.25.1
->
+>  Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
+
