@@ -1,71 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 755A519F42F;
-	Thu,  3 Oct 2024 15:49:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42A7D152787
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Oct 2024 09:41:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727970547; cv=none; b=GPKLtY/JMTR0OgQ2Pm/p8XAh5M9AMUPYQj186lxXDbnawGGMcTxII1JcMbQOJF9S+G7QLksgboizGplPKx0AT9f/yZCKN7r4hq14P75V4RsFwzwG0nD9L2J6/8tbTaMRYlZCRBnoRFlKEcqesh/chXWKkAHq6zMCK0Sc+3Gnrlg=
+	t=1728034895; cv=none; b=ifpmYi6kkPQIAPqJDCFpSDbIgQFlg3YPkK3AcvY8egRvA44hs9ZXQ8PaPdn0NNkSZsC91/Hhh6EV4LFPR2RfFScCQX7WeWSijvt7Mepsus1A7s0sH6JJtWduyLyv+yiAeZ/IdW6i+Y10uqKBlBnDiGwOBZUAXxECYOCBzsAbeMw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727970547; c=relaxed/simple;
-	bh=KpbNkjpvejKKJcVq1QmIf7uP4nL6twJU3R7Siw5zTTg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lJkFxF+znvnSrfSaCwdeginc7GxgpIySSfJ2fFqLW3pjFtD+bHxcp2xFVd5HRw1UrOpmc159PwiSJVs2L2J7vo+EwVbtHJfSRroRuflDpIbWE+pdsOddaZxFAipLqs4X9i0/76f3DSJbop/PrvGpLAfL+s/62qFM63HM/PDcMac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SIRxvv89; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SIRxvv89"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE7EEC4CEC5;
-	Thu,  3 Oct 2024 15:49:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727970547;
-	bh=KpbNkjpvejKKJcVq1QmIf7uP4nL6twJU3R7Siw5zTTg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SIRxvv89KC17m7lf7092R8WSIaQ3IIIu6RXFhdEXnxXPoWGmUHW/ODdJwAast3GLM
-	 ntNVHL3hfRBvwgTTBe0nUUPn11RB2dmYirpBeDFjOnCf3KaDlE5VQ45nZneOKlqMsO
-	 qqCUeq6H2TmGTz7MwByn8iaoo8EswERVrv7a+bpYfODoVB5pQCzWOb1e/Yc7eVbKYk
-	 sEae6eU8nPN12N9BEDvhRliluBr0gwnS5ZMrxqPE1XHD4EuAO7EmLWdDOrtbotdYnW
-	 jjCsAMrIhBAFmnAOSsg4XBeVn5NDAIsIEGtuasdXWNKfdQeY6Enb3EMBol6iycPZQH
-	 1XlwnAQpPFSYg==
-Date: Thu, 3 Oct 2024 10:49:06 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Lee Jones <lee@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	linux-sunxi@lists.linux.dev, Chen-Yu Tsai <wens@csie.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, devicetree@vger.kernel.org,
-	Martin Botka <martin.botka@somainline.org>,
-	Chris Morgan <macromorgan@hotmail.com>,
-	linux-kernel@vger.kernel.org,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>
-Subject: Re: [PATCH 1/5] dt-bindings: mfd: x-powers,axp152: Document AXP323
-Message-ID: <172797054379.1660109.7296466787725944140.robh@kernel.org>
+	s=arc-20240116; t=1728034895; c=relaxed/simple;
+	bh=F6TOiOTXaFP75m1kSPAmCfW4cJNNpGfzWfeBrZ2PDaw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=D9T3fTuhifBK2BYfxI0+66jt2A441YgWjKA79EqvluyKew+WT9rcxWH5UJUFVj8E/geuzuoTNhEGNxRaZRAMf8bI0BnXCdJHZNcTVICvLxanANinjPD4NaE4hvykZ/Y7f139IxA5uCj1WnlTEv4a8e1QmtYFNw5xoXmDw+3JFgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E9D5A339;
+	Fri,  4 Oct 2024 02:42:00 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 449973F64C;
+	Fri,  4 Oct 2024 02:41:29 -0700 (PDT)
+Date: Fri, 4 Oct 2024 10:41:24 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Chen-Yu Tsai <wens@csie.org>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Liam
+ Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Martin Botka <martin.botka@somainline.org>,
+ Chris Morgan <macromorgan@hotmail.com>
+Subject: Re: [PATCH 3/5] mfd: axp20x: Allow multiple regulators
+Message-ID: <20241004104124.7280c81a@donnerap.manchester.arm.com>
+In-Reply-To: <CAGb2v64c-KoCwzfXpPbyLtxgZbwoQ+e4uYAk7pcHCkrTRbfr3A@mail.gmail.com>
 References: <20241003111444.543964-1-andre.przywara@arm.com>
- <20241003111444.543964-2-andre.przywara@arm.com>
+	<20241003111444.543964-4-andre.przywara@arm.com>
+	<CAGb2v64c-KoCwzfXpPbyLtxgZbwoQ+e4uYAk7pcHCkrTRbfr3A@mail.gmail.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241003111444.543964-2-andre.przywara@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, 3 Oct 2024 23:19:16 +0800
+Chen-Yu Tsai <wens@csie.org> wrote:
 
-On Thu, 03 Oct 2024 12:14:40 +0100, Andre Przywara wrote:
-> The X-Powers AXP323 is a PMIC used on some newer Allwinner devices.
-> It is almost the same as the AXP313, but supports dual-phasing the first
-> two DC/DC converters. A pure AXP313 driver wouldn't know about this, and
-> might turn the linked DCDC2 regulator off, as it does not seem to be
-> used. This makes the AXP323 incompatible to the AXP313a.
-> 
-> Add the new compatible string, and treat it like the AXP313a.
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml | 3 +++
->  1 file changed, 3 insertions(+)
-> 
+Hi Chen-Yu,
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+thanks for having a look!
+
+> On Thu, Oct 3, 2024 at 7:15=E2=80=AFPM Andre Przywara <andre.przywara@arm=
+.com> wrote:
+> >
+> > At the moment trying to register a second AXP chip makes the probe fail,
+> > as some sysfs registration fails due to a duplicate name:
+> >
+> > ...
+> > [    3.688215] axp20x-i2c 0-0035: AXP20X driver loaded
+> > [    3.695610] axp20x-i2c 0-0036: AXP20x variant AXP323 found
+> > [    3.706151] sysfs: cannot create duplicate filename '/bus/platform/d=
+evices/axp20x-regulator'
+> > [    3.714718] CPU: 0 UID: 0 PID: 1 Comm: swapper/0 Not tainted 6.12.0-=
+rc1-00026-g50bf2e2c079d-dirty #192
+> > [    3.724020] Hardware name: Avaota A1 (DT)
+> > [    3.728029] Call trace:
+> > [    3.730477]  dump_backtrace+0x94/0xec
+> > [    3.734146]  show_stack+0x18/0x24
+> > [    3.737462]  dump_stack_lvl+0x80/0xf4
+> > [    3.741128]  dump_stack+0x18/0x24
+> > [    3.744444]  sysfs_warn_dup+0x64/0x80
+> > [    3.748109]  sysfs_do_create_link_sd+0xf0/0xf8
+> > [    3.752553]  sysfs_create_link+0x20/0x40
+> > [    3.756476]  bus_add_device+0x64/0x104
+> > [    3.760229]  device_add+0x310/0x760
+> > [    3.763717]  platform_device_add+0x10c/0x238
+> > [    3.767990]  mfd_add_device+0x4ec/0x5c8
+> > [    3.771829]  mfd_add_devices+0x88/0x11c
+> > [    3.775666]  axp20x_device_probe+0x70/0x184
+> > [    3.779851]  axp20x_i2c_probe+0x9c/0xd8
+> > ...
+> >
+> > This is because we use PLATFORM_DEVID_NONE for the mfd_add_devices()
+> > call, which would number the child devices in the same 0-based way, even
+> > for the second (or any other) instance.
+> >
+> > Use PLATFORM_DEVID_AUTO instead, which automatically assigns
+> > non-conflicting device numbers. =20
+>=20
+> That's weird... I don't remember running into this when working on the A8=
+0,
+> which had two albeit different AXP chips. That was a long time ago though.
+
+Yeah, I was wondering about this as well. And it's two different PMICs here
+as well: most A523/T527 system seem to come with an AXP717/AXP323 combo.
+Though there are not linked together in any way, like in this master/slave
+mode of the AXP806.
+I will test on (your old) A80 board, and will add a Fixes: tag in v2,
+should it also fail there.
+
+> > Signed-off-by: Andre Przywara <andre.przywara@arm.com> =20
+>=20
+> Reviewed-by: Chen-Yu Tsai <wens@csie.org>
+
+Thanks,
+Andre
+
+>=20
+> > ---
+> >  drivers/mfd/axp20x.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/mfd/axp20x.c b/drivers/mfd/axp20x.c
+> > index 5ceea359289f..bc08ae433260 100644
+> > --- a/drivers/mfd/axp20x.c
+> > +++ b/drivers/mfd/axp20x.c
+> > @@ -1419,7 +1419,7 @@ int axp20x_device_probe(struct axp20x_dev *axp20x)
+> >                 }
+> >         }
+> >
+> > -       ret =3D mfd_add_devices(axp20x->dev, -1, axp20x->cells,
+> > +       ret =3D mfd_add_devices(axp20x->dev, PLATFORM_DEVID_AUTO, axp20=
+x->cells,
+> >                               axp20x->nr_cells, NULL, 0, NULL);
+> >
+> >         if (ret) {
+> > --
+> > 2.25.1
+> > =20
 
