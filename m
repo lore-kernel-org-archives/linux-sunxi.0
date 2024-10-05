@@ -1,201 +1,113 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D35601482E1
-	for <linux-sunxi@lists.linux.dev>; Fri,  4 Oct 2024 09:42:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 489521662FA
+	for <linux-sunxi@lists.linux.dev>; Sat,  5 Oct 2024 18:44:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728034954; cv=none; b=gSt2lGALkntZFk6FrWvx3B9iqqY5ampFX/aIwcpF5ds0ZtkfUTc4yk963DFLffKuUCdjWe7eaPdYcqI6k7W3K1AutF8TXcOnIXyM/Ragf+siOtnbtYC0jvlMWslVjQmh1gXIEjDbtfF8UKsjQn3h7pLrrfLw6egnSUs+Vi29bUg=
+	t=1728153897; cv=none; b=F/22ICanY4PEBJNUWD2bcpA0d0Ogenwv5xQxQx21jP2x1AiPT4hma6ROZuXAU3UArLM3PIHl8A8PssqjU6ZG4TIfjtor4VolROxlkreW7GsfW56jovVrWjuKUngAMCnoy488sNc/sx+kxhgABGnUvBnyZ4sLAtiBXBUN/xISFQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728034954; c=relaxed/simple;
-	bh=qBrp9b2JFsXIIwmv/dzgme8ndotyZbizXpIi1iZzvW8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jAJGqbNWA0fz1Rr1FyLfBEZokKEO86Yn8pR8LEeBVdIyKgEIljgBHqfz7BtEdigJPDpVKzOjzKNBionV975uMPsWQn0w6T6z/Uuf7EWEg8ek0xpDb9Q5fV4RPGIVcLCpC6NmfSClkknEXalOuoFb9SnpwE7miNBduCkoleur6PE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AACD3339;
-	Fri,  4 Oct 2024 02:43:00 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 362B63F64C;
-	Fri,  4 Oct 2024 02:42:29 -0700 (PDT)
-Date: Fri, 4 Oct 2024 10:42:26 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Chen-Yu Tsai <wens@csie.org>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Liam
- Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Martin Botka <martin.botka@somainline.org>,
- Chris Morgan <macromorgan@hotmail.com>
-Subject: Re: [PATCH 4/5] mfd: axp20x: Add support for AXP323
-Message-ID: <20241004104226.04534d8c@donnerap.manchester.arm.com>
-In-Reply-To: <CAGb2v64jPk64Y-Aef1YPWkjCfp0eq6EasE2xszu8+WoX+Epv-A@mail.gmail.com>
-References: <20241003111444.543964-1-andre.przywara@arm.com>
-	<20241003111444.543964-5-andre.przywara@arm.com>
-	<CAGb2v64jPk64Y-Aef1YPWkjCfp0eq6EasE2xszu8+WoX+Epv-A@mail.gmail.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1728153897; c=relaxed/simple;
+	bh=6RLhYMi5+WUMBMxyQrcB3l0ygGZ73nNgwKYQMVuya1A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dhGgsyuKK1HtbklZFuM2JFhjcLqT+NM7Cm9J38DrcbX4iViNASuufcgEB0Trt1B0jGYAlA+Z1BsrR+HuuGxaOjSCheGEnNr3AQpbvWqeLXDh6rfSPzazgujkDyLU7QsLB8MR3X0Jqn7qQDomUFAbN2TxrhfBRtq+54XVQk5mLoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bkpwy5+j; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bkpwy5+j"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-42cb1758e41so24002435e9.1
+        for <linux-sunxi@lists.linux.dev>; Sat, 05 Oct 2024 11:44:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728153895; x=1728758695; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fRlB78UEFCV0w7cLJIZE7YuESd3mDDwJ36kzdZq9V+U=;
+        b=Bkpwy5+jENgGuIcyrnmyFg278D2H5cRh7lgm78BpsAiw+95QKicH7WR3NYqk8meNWu
+         JSSvNia5+9LG7hH/xeT5AD0qYX8TVoTNdYGBNCkJb+6iMcVz9UJexF6xRNPsJ8Yo//2F
+         6v6ES7qhCDzX2g95oN/6sF8SZxdkfMmvbDIltDq/2Nd9h/Wmm0sHKjShwlshfG9nfnqV
+         S3KBqxxzB62ssyExkOQctRo74UzG6yBUtifGCMRSZb6XhQbNztw+9Vi6k5SYgxzpYowe
+         6+1wxAEqzGV2PaJ/5G11j6RFLB17eIH9oobHB6r4TLwXcSEvSpPUURq/qW4X/aDKXqoE
+         FjkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728153895; x=1728758695;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fRlB78UEFCV0w7cLJIZE7YuESd3mDDwJ36kzdZq9V+U=;
+        b=suKrRxBCH6Fv9JAwPNmGE/nOZqFtnHAO8fQoxKgKvdSRMBuOMa5OPK8IsB8SygI2Hu
+         Nw0GWVTvMjLJHfA/xg/lmLx00iGAP9Lxl1t+bDvxGDCmmp0aUpNO+tBndh0u99D0x21F
+         ARBhOHSHit5r13VsRqgN8bPE0tm5goSgVWWBxuxNvJMScW1sHOUsifidbgqV1mPTGFzw
+         t4vCT0t9v8x0+fcQW6ZK2kAjgbbBHtp+4TWSh7cZNdXYwWv03ACo3TgkTf3wuWZARMv3
+         IQCHt+pmT8Aa/26S7U5ltzOwjLfIYcetUdeqMl8hV1nxlw4KzPjcQBSk1hU/aB2a8gQT
+         OZKg==
+X-Forwarded-Encrypted: i=1; AJvYcCU/quhJCd0KVYKnwLiQ3bFhvt2/oPzl5hnpb+eEUHf9veE0CxZZ8fYHodLAH4qw14VFC1LGS8Pg4T+eWA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyMocXXOMc4bhnhNq1db11aRiZ4DurB0ooDaOn1x1PAHoMIN/Ic
+	nLY3n8xQDm/iTBm33TOW3XIJkC24MgywI+12BF86xHYwwolyJ+PG
+X-Google-Smtp-Source: AGHT+IGS2SkoNgUtCC33Hu7GEybMTTgetpmYXGracfsFtDR9HtiXXW4uv8UCigJiKGvdOgxL1AhiBA==
+X-Received: by 2002:a05:600c:4ed1:b0:42b:a7c7:5667 with SMTP id 5b1f17b1804b1-42f85aee76amr42496935e9.25.1728153894453;
+        Sat, 05 Oct 2024 11:44:54 -0700 (PDT)
+Received: from [192.168.1.18] (102.242-182-91.adsl-dyn.isp.belgacom.be. [91.182.242.102])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d169203f4sm2230523f8f.53.2024.10.05.11.44.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 05 Oct 2024 11:44:54 -0700 (PDT)
+Message-ID: <bc6673fe-367e-4488-b936-1bce5552f543@gmail.com>
+Date: Sat, 5 Oct 2024 20:44:53 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/6] ASoC: add Allwinner H616 audio codec support
+To: Ryan Walklin <ryan@testtoast.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-clk@vger.kernel.org
+References: <20240929100750.860329-1-ryan@testtoast.com>
+Content-Language: en-US
+From: Philippe Simons <simons.philippe@gmail.com>
+In-Reply-To: <20240929100750.860329-1-ryan@testtoast.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, 3 Oct 2024 23:20:58 +0800
-Chen-Yu Tsai <wens@csie.org> wrote:
+tested on 6.12-rc1 with RG35XX-H
 
-> On Thu, Oct 3, 2024 at 7:15=E2=80=AFPM Andre Przywara <andre.przywara@arm=
-.com> wrote:
-> >
-> > The X-Powers AXP323 is a very close sibling of the AXP313A. The only
-> > difference seems to be the ability to dual-phase the first two DC/DC
-> > converter, which adds another register.
-> >
-> > Add the required boilerplate to introduce a new PMIC to the AXP MFD
-> > driver. Where possible, this just maps into the existing structs defined
-> > for the AXP313A, only deviating where needed.
-> >
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > ---
-> >  drivers/mfd/axp20x-i2c.c   |  1 +
-> >  drivers/mfd/axp20x.c       | 26 ++++++++++++++++++++++++++
-> >  include/linux/mfd/axp20x.h |  2 ++
-> >  3 files changed, 29 insertions(+)
-> >
-> > diff --git a/drivers/mfd/axp20x-i2c.c b/drivers/mfd/axp20x-i2c.c
-> > index 791a0b4cb64b..5c93136f977e 100644
-> > --- a/drivers/mfd/axp20x-i2c.c
-> > +++ b/drivers/mfd/axp20x-i2c.c
-> > @@ -65,6 +65,7 @@ static const struct of_device_id axp20x_i2c_of_match[=
-] =3D {
-> >         { .compatible =3D "x-powers,axp221", .data =3D (void *)AXP221_I=
-D },
-> >         { .compatible =3D "x-powers,axp223", .data =3D (void *)AXP223_I=
-D },
-> >         { .compatible =3D "x-powers,axp313a", .data =3D (void *)AXP313A=
-_ID },
-> > +       { .compatible =3D "x-powers,axp323", .data =3D (void *)AXP323_I=
-D },
-> >         { .compatible =3D "x-powers,axp717", .data =3D (void *)AXP717_I=
-D },
-> >         { .compatible =3D "x-powers,axp803", .data =3D (void *)AXP803_I=
-D },
-> >         { .compatible =3D "x-powers,axp806", .data =3D (void *)AXP806_I=
-D },
-> > diff --git a/drivers/mfd/axp20x.c b/drivers/mfd/axp20x.c
-> > index bc08ae433260..8d90962b56d9 100644
-> > --- a/drivers/mfd/axp20x.c
-> > +++ b/drivers/mfd/axp20x.c
-> > @@ -42,6 +42,7 @@ static const char * const axp20x_model_names[] =3D {
-> >         [AXP223_ID] =3D "AXP223",
-> >         [AXP288_ID] =3D "AXP288",
-> >         [AXP313A_ID] =3D "AXP313a",
-> > +       [AXP323_ID] =3D "AXP323",
-> >         [AXP717_ID] =3D "AXP717",
-> >         [AXP803_ID] =3D "AXP803",
-> >         [AXP806_ID] =3D "AXP806",
-> > @@ -193,6 +194,10 @@ static const struct regmap_range axp313a_writeable=
-_ranges[] =3D {
-> >         regmap_reg_range(AXP313A_ON_INDICATE, AXP313A_IRQ_STATE),
-> >  };
-> >
-> > +static const struct regmap_range axp323_writeable_ranges[] =3D {
-> > +       regmap_reg_range(AXP313A_ON_INDICATE, AXP323_DCDC_MODE_CTRL2),
-> > +};
-> > +
-> >  static const struct regmap_range axp313a_volatile_ranges[] =3D {
-> >         regmap_reg_range(AXP313A_SHUTDOWN_CTRL, AXP313A_SHUTDOWN_CTRL),
-> >         regmap_reg_range(AXP313A_IRQ_STATE, AXP313A_IRQ_STATE),
-> > @@ -203,6 +208,11 @@ static const struct regmap_access_table axp313a_wr=
-iteable_table =3D {
-> >         .n_yes_ranges =3D ARRAY_SIZE(axp313a_writeable_ranges),
-> >  };
-> >
-> > +static const struct regmap_access_table axp323_writeable_table =3D {
-> > +       .yes_ranges =3D axp323_writeable_ranges,
-> > +       .n_yes_ranges =3D ARRAY_SIZE(axp323_writeable_ranges),
-> > +};
-> > +
-> >  static const struct regmap_access_table axp313a_volatile_table =3D {
-> >         .yes_ranges =3D axp313a_volatile_ranges,
-> >         .n_yes_ranges =3D ARRAY_SIZE(axp313a_volatile_ranges),
-> > @@ -433,6 +443,15 @@ static const struct regmap_config axp313a_regmap_c=
-onfig =3D {
-> >         .cache_type =3D REGCACHE_MAPLE,
-> >  };
-> >
-> > +static const struct regmap_config axp323_regmap_config =3D {
-> > +       .reg_bits =3D 8,
-> > +       .val_bits =3D 8,
-> > +       .wr_table =3D &axp323_writeable_table,
-> > +       .volatile_table =3D &axp313a_volatile_table,
-> > +       .max_register =3D AXP323_DCDC_MODE_CTRL2,
-> > +       .cache_type =3D REGCACHE_RBTREE, =20
->=20
-> Maple tree instead?
+Tested-by: Philippe Simons <simons.philippe@gmail.com>
 
-Ah yes, you are right, this was lost over a rebase. Will fix in v2.
-
-> The rest looks fine, so once fixed,
->=20
-> Reviewed-by: Chen-Yu Tsai <wens@csie.org>
-
-Thanks!
-Andre
-
->=20
-> > +};
-> > +
-> >  static const struct regmap_config axp717_regmap_config =3D {
-> >         .reg_bits =3D 8,
-> >         .val_bits =3D 8,
-> > @@ -1221,6 +1240,7 @@ static int axp20x_power_off(struct sys_off_data *=
-data)
-> >         unsigned int shutdown_reg;
-> >
-> >         switch (axp20x->variant) {
-> > +       case AXP323_ID:
-> >         case AXP313A_ID:
-> >                 shutdown_reg =3D AXP313A_SHUTDOWN_CTRL;
-> >                 break;
-> > @@ -1289,6 +1309,12 @@ int axp20x_match_device(struct axp20x_dev *axp20=
-x)
-> >                 axp20x->regmap_cfg =3D &axp313a_regmap_config;
-> >                 axp20x->regmap_irq_chip =3D &axp313a_regmap_irq_chip;
-> >                 break;
-> > +       case AXP323_ID:
-> > +               axp20x->nr_cells =3D ARRAY_SIZE(axp313a_cells);
-> > +               axp20x->cells =3D axp313a_cells;
-> > +               axp20x->regmap_cfg =3D &axp323_regmap_config;
-> > +               axp20x->regmap_irq_chip =3D &axp313a_regmap_irq_chip;
-> > +               break;
-> >         case AXP717_ID:
-> >                 axp20x->nr_cells =3D ARRAY_SIZE(axp717_cells);
-> >                 axp20x->cells =3D axp717_cells;
-> > diff --git a/include/linux/mfd/axp20x.h b/include/linux/mfd/axp20x.h
-> > index 79ecaaaa2070..c3df0e615fbf 100644
-> > --- a/include/linux/mfd/axp20x.h
-> > +++ b/include/linux/mfd/axp20x.h
-> > @@ -19,6 +19,7 @@ enum axp20x_variants {
-> >         AXP223_ID,
-> >         AXP288_ID,
-> >         AXP313A_ID,
-> > +       AXP323_ID,
-> >         AXP717_ID,
-> >         AXP803_ID,
-> >         AXP806_ID,
-> > @@ -113,6 +114,7 @@ enum axp20x_variants {
-> >  #define AXP313A_SHUTDOWN_CTRL          0x1a
-> >  #define AXP313A_IRQ_EN                 0x20
-> >  #define AXP313A_IRQ_STATE              0x21
-> > +#define AXP323_DCDC_MODE_CTRL2         0x22
-> >
-> >  #define AXP717_ON_INDICATE             0x00
-> >  #define AXP717_PMU_STATUS_2            0x01
-> > --
-> > 2.25.1
-> > =20
-
+On 29/09/2024 12:06, Ryan Walklin wrote:
+> Hi,
+>
+> The Allwinner H616 has a playback-only audio codec, with a single stereo or
+> differential-mono line output.
+>
+> This patch adds support for the H616 (and H618/H700/T507) SoC. Based on the
+> Allwinner kernel SDK driver, and tested on the H700.
+>
+> Regards,
+>
+> Ryan
+>
+> Marcus Cooper (2):
+>    ASoC: sun4i-codec: Add support for different DAC FIFOC addresses to
+>      quirks
+>    ASoC: sun4i-codec: Add playback only flag to quirks
+>
+> Ryan Walklin (4):
+>    clk: sunxi-ng: h616: Add sigma-delta modulation settings for audio PLL
+>    dt-bindings: allwinner: add H616 sun4i audio codec binding
+>    ASoC: sun4i-codec: support allwinner H616 codec
+>    arm64: dts: allwinner: h616: Add audio codec node
+>
+>   .../sound/allwinner,sun4i-a10-codec.yaml      |  55 +++-
+>   .../arm64/boot/dts/allwinner/sun50i-h616.dtsi |  15 +
+>   drivers/clk/sunxi-ng/ccu-sun50i-h616.c        |  36 +--
+>   sound/soc/sunxi/sun4i-codec.c                 | 297 +++++++++++++++---
+>   4 files changed, 337 insertions(+), 66 deletions(-)
+>
