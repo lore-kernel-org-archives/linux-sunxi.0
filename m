@@ -1,113 +1,126 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 489521662FA
-	for <linux-sunxi@lists.linux.dev>; Sat,  5 Oct 2024 18:44:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C8B92AE6A
+	for <linux-sunxi@lists.linux.dev>; Sun,  6 Oct 2024 16:04:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728153897; cv=none; b=F/22ICanY4PEBJNUWD2bcpA0d0Ogenwv5xQxQx21jP2x1AiPT4hma6ROZuXAU3UArLM3PIHl8A8PssqjU6ZG4TIfjtor4VolROxlkreW7GsfW56jovVrWjuKUngAMCnoy488sNc/sx+kxhgABGnUvBnyZ4sLAtiBXBUN/xISFQY=
+	t=1728230673; cv=none; b=fcJBDWowzoxKfAoMdfGlu3b2uL37X/vs51QtV9dWBrMzy/AC8TJY7XkRbYCuEAs5k15Gewu0NVl8krgEWKifh0BGPZsVVpBe3ObXD0yAV9KeTOK4g8lzL8qc/vSG13ux1f1NZnjgZatBxghVeTxpTkgRtnuEU2c8g3a4p1zdGys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728153897; c=relaxed/simple;
-	bh=6RLhYMi5+WUMBMxyQrcB3l0ygGZ73nNgwKYQMVuya1A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dhGgsyuKK1HtbklZFuM2JFhjcLqT+NM7Cm9J38DrcbX4iViNASuufcgEB0Trt1B0jGYAlA+Z1BsrR+HuuGxaOjSCheGEnNr3AQpbvWqeLXDh6rfSPzazgujkDyLU7QsLB8MR3X0Jqn7qQDomUFAbN2TxrhfBRtq+54XVQk5mLoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bkpwy5+j; arc=none smtp.client-ip=209.85.128.48
+	s=arc-20240116; t=1728230673; c=relaxed/simple;
+	bh=34Fedq5x8l/T9bE90W84WAGeoMX0EdQtZtaZfYn9+js=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ny6zkm/VV3Gukq3vvmnZ6oJ5bOGRFKcHl5ySWqBo8hWQKRodwEiZsWPgILx2ukUYFKuCZkhhy5xAnkgY6JdtmnZyXg66X/kxeNffFfrhB7r3DY6xWbQgkw02vb57Juim6MHplWe/KSEd0q88FJWBmGSRvexST3P7syaK7/C0VBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jYnhUqqS; arc=none smtp.client-ip=209.85.219.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bkpwy5+j"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-42cb1758e41so24002435e9.1
-        for <linux-sunxi@lists.linux.dev>; Sat, 05 Oct 2024 11:44:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jYnhUqqS"
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-e25cf3c7278so3177198276.3
+        for <linux-sunxi@lists.linux.dev>; Sun, 06 Oct 2024 09:04:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728153895; x=1728758695; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=fRlB78UEFCV0w7cLJIZE7YuESd3mDDwJ36kzdZq9V+U=;
-        b=Bkpwy5+jENgGuIcyrnmyFg278D2H5cRh7lgm78BpsAiw+95QKicH7WR3NYqk8meNWu
-         JSSvNia5+9LG7hH/xeT5AD0qYX8TVoTNdYGBNCkJb+6iMcVz9UJexF6xRNPsJ8Yo//2F
-         6v6ES7qhCDzX2g95oN/6sF8SZxdkfMmvbDIltDq/2Nd9h/Wmm0sHKjShwlshfG9nfnqV
-         S3KBqxxzB62ssyExkOQctRo74UzG6yBUtifGCMRSZb6XhQbNztw+9Vi6k5SYgxzpYowe
-         6+1wxAEqzGV2PaJ/5G11j6RFLB17eIH9oobHB6r4TLwXcSEvSpPUURq/qW4X/aDKXqoE
-         FjkA==
+        d=gmail.com; s=20230601; t=1728230671; x=1728835471; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Uch5zWkAziPgJRQdKvEezF5yVQHunIRJ5aY+mbi1jxQ=;
+        b=jYnhUqqSscvyMNzy1BfxFsx6W9yYeWgYOFj28//C3ibd+IynYGzDh1URcDpLaI4r3s
+         qbjr5IWrb4pPeOD4EgqQ1pj6yvVXlEpGy3wDkW+DsrXI5QsytwjXC4DRfjAjeSu76h+8
+         qD5YJB4v2U9LgwD4JQj44863oM20Bd8Zl1C1jqGfEMrlN52MIVGcACXiN6QPOaiUWTB8
+         NqNVfgNEKTdPeVDks5DTesDn1HNlMxE6Kz95/PjUmIGN4up8bC6cypZbLYN9zcPTYWHK
+         D0co9p8cj3Eoi6px4raiOTDlK1K/bUeK9rbe3ZYrPvqSwzCTp4XxHFeYXY0K+9YCkZR3
+         TtGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728153895; x=1728758695;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fRlB78UEFCV0w7cLJIZE7YuESd3mDDwJ36kzdZq9V+U=;
-        b=suKrRxBCH6Fv9JAwPNmGE/nOZqFtnHAO8fQoxKgKvdSRMBuOMa5OPK8IsB8SygI2Hu
-         Nw0GWVTvMjLJHfA/xg/lmLx00iGAP9Lxl1t+bDvxGDCmmp0aUpNO+tBndh0u99D0x21F
-         ARBhOHSHit5r13VsRqgN8bPE0tm5goSgVWWBxuxNvJMScW1sHOUsifidbgqV1mPTGFzw
-         t4vCT0t9v8x0+fcQW6ZK2kAjgbbBHtp+4TWSh7cZNdXYwWv03ACo3TgkTf3wuWZARMv3
-         IQCHt+pmT8Aa/26S7U5ltzOwjLfIYcetUdeqMl8hV1nxlw4KzPjcQBSk1hU/aB2a8gQT
-         OZKg==
-X-Forwarded-Encrypted: i=1; AJvYcCU/quhJCd0KVYKnwLiQ3bFhvt2/oPzl5hnpb+eEUHf9veE0CxZZ8fYHodLAH4qw14VFC1LGS8Pg4T+eWA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyMocXXOMc4bhnhNq1db11aRiZ4DurB0ooDaOn1x1PAHoMIN/Ic
-	nLY3n8xQDm/iTBm33TOW3XIJkC24MgywI+12BF86xHYwwolyJ+PG
-X-Google-Smtp-Source: AGHT+IGS2SkoNgUtCC33Hu7GEybMTTgetpmYXGracfsFtDR9HtiXXW4uv8UCigJiKGvdOgxL1AhiBA==
-X-Received: by 2002:a05:600c:4ed1:b0:42b:a7c7:5667 with SMTP id 5b1f17b1804b1-42f85aee76amr42496935e9.25.1728153894453;
-        Sat, 05 Oct 2024 11:44:54 -0700 (PDT)
-Received: from [192.168.1.18] (102.242-182-91.adsl-dyn.isp.belgacom.be. [91.182.242.102])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d169203f4sm2230523f8f.53.2024.10.05.11.44.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 05 Oct 2024 11:44:54 -0700 (PDT)
-Message-ID: <bc6673fe-367e-4488-b936-1bce5552f543@gmail.com>
-Date: Sat, 5 Oct 2024 20:44:53 +0200
+        d=1e100.net; s=20230601; t=1728230671; x=1728835471;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Uch5zWkAziPgJRQdKvEezF5yVQHunIRJ5aY+mbi1jxQ=;
+        b=NtMuiWBlYr50KGpoMe8otwz5MReDIFfbBsgHKDzXcA87Hf8Xs8M7aMm7Yyd+bmQ5wi
+         wDv9pSkSyQ6oQZlThHx+eRwac6OITdQKV4KMWegNPjMN4MX+vrwlxY8hcs3Chrip2O5M
+         hRm7/klN+FVFploPcJ6ywWm1Bdxj97JUJr/03Bjtsieio+I5hWHtUCP9rouHFNs2CaP2
+         H7d5hhYR2wWlZ30PY1SYkfNnn7PbpSBmfhfsnHYewplx35DcdMUhtAV6Mr9cCquLSMvf
+         aXUsIcZwr3O7FCcWkreCywAAbrLe/b5A60XTh9acY2ni47E/jF3khu33fH4st4lmROif
+         SFsw==
+X-Forwarded-Encrypted: i=1; AJvYcCUE7M5BELD/qwwOxVfepEC787T3R0/f3+0V5die3g2b3X7WQrvYz2t0jlpGbxl2bI6fRiMUoARrdcf4QQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxbf8mzJnreTHj630N4aM4XM+WLQRNN1CspuXkd+zN3FjLXqFQL
+	XQrakUz9PRj7uCEKkChZ9k7PnAVyYmFN/RWuhhRMcd3bK7cbXLwt4Z94mhGBuWE43Yct6VVUCoP
+	PeS3wi4htV1St4Oe4+yJRzpOtjpQ=
+X-Google-Smtp-Source: AGHT+IHghEmYGvQOkKyyuJZaMY/eRKpityYTGhDKnMiJovkVuEa93BGTo1Fa/3AOIwWu8CpUXNrp8IgagfvkZZpUw1g=
+X-Received: by 2002:a05:6902:1142:b0:e26:1041:4986 with SMTP id
+ 3f1490d57ef6-e28937e2eadmr7591066276.26.1728230669839; Sun, 06 Oct 2024
+ 09:04:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/6] ASoC: add Allwinner H616 audio codec support
-To: Ryan Walklin <ryan@testtoast.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- linux-clk@vger.kernel.org
-References: <20240929100750.860329-1-ryan@testtoast.com>
-Content-Language: en-US
-From: Philippe Simons <simons.philippe@gmail.com>
-In-Reply-To: <20240929100750.860329-1-ryan@testtoast.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240911-xtheadvector-v10-0-8d3930091246@rivosinc.com> <20240911-xtheadvector-v10-6-8d3930091246@rivosinc.com>
+In-Reply-To: <20240911-xtheadvector-v10-6-8d3930091246@rivosinc.com>
+From: Andy Chiu <andybnac@gmail.com>
+Date: Mon, 7 Oct 2024 00:04:18 +0800
+Message-ID: <CAFTtA3M3NhooM5u7woDO3juAgQK=EpF-aSf69VJm30aj7iNfZA@mail.gmail.com>
+Subject: Re: [PATCH v10 06/14] RISC-V: define the elements of the VCSR vector CSR
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Samuel Holland <samuel.holland@sifive.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <shuah@kernel.org>, Guo Ren <guoren@kernel.org>, Evan Green <evan@rivosinc.com>, 
+	Andy Chiu <andy.chiu@sifive.com>, Jessica Clarke <jrtc27@jrtc27.com>, 
+	Andrew Jones <ajones@ventanamicro.com>, linux-riscv@lists.infradead.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, Heiko Stuebner <heiko@sntech.de>, 
+	Conor Dooley <conor.dooley@microchip.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tested on 6.12-rc1 with RG35XX-H
+Charlie Jenkins <charlie@rivosinc.com> =E6=96=BC 2024=E5=B9=B49=E6=9C=8812=
+=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=881:57=E5=AF=AB=E9=81=93=EF=BC=
+=9A
+>
+> From: Heiko Stuebner <heiko@sntech.de>
+>
+> The VCSR CSR contains two elements VXRM[2:1] and VXSAT[0].
+>
+> Define constants for those to access the elements in a readable way.
+>
+> Acked-by: Guo Ren <guoren@kernel.org>
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> Signed-off-by: Heiko Stuebner <heiko.stuebner@vrull.eu>
+> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
 
-Tested-by: Philippe Simons <simons.philippe@gmail.com>
+Reviewed-by: Andy Chiu <andybnac@gmail.com>
 
-On 29/09/2024 12:06, Ryan Walklin wrote:
-> Hi,
+> ---
+>  arch/riscv/include/asm/csr.h | 4 ++++
+>  1 file changed, 4 insertions(+)
 >
-> The Allwinner H616 has a playback-only audio codec, with a single stereo or
-> differential-mono line output.
+> diff --git a/arch/riscv/include/asm/csr.h b/arch/riscv/include/asm/csr.h
+> index 25966995da04..3eeb07d73065 100644
+> --- a/arch/riscv/include/asm/csr.h
+> +++ b/arch/riscv/include/asm/csr.h
+> @@ -300,6 +300,10 @@
+>  #define CSR_STIMECMP           0x14D
+>  #define CSR_STIMECMPH          0x15D
 >
-> This patch adds support for the H616 (and H618/H700/T507) SoC. Based on the
-> Allwinner kernel SDK driver, and tested on the H700.
+> +#define VCSR_VXRM_MASK                 3
+> +#define VCSR_VXRM_SHIFT                        1
+> +#define VCSR_VXSAT_MASK                        1
+> +
+>  /* Supervisor-Level Window to Indirectly Accessed Registers (AIA) */
+>  #define CSR_SISELECT           0x150
+>  #define CSR_SIREG              0x151
 >
-> Regards,
+> --
+> 2.45.0
 >
-> Ryan
 >
-> Marcus Cooper (2):
->    ASoC: sun4i-codec: Add support for different DAC FIFOC addresses to
->      quirks
->    ASoC: sun4i-codec: Add playback only flag to quirks
->
-> Ryan Walklin (4):
->    clk: sunxi-ng: h616: Add sigma-delta modulation settings for audio PLL
->    dt-bindings: allwinner: add H616 sun4i audio codec binding
->    ASoC: sun4i-codec: support allwinner H616 codec
->    arm64: dts: allwinner: h616: Add audio codec node
->
->   .../sound/allwinner,sun4i-a10-codec.yaml      |  55 +++-
->   .../arm64/boot/dts/allwinner/sun50i-h616.dtsi |  15 +
->   drivers/clk/sunxi-ng/ccu-sun50i-h616.c        |  36 +--
->   sound/soc/sunxi/sun4i-codec.c                 | 297 +++++++++++++++---
->   4 files changed, 337 insertions(+), 66 deletions(-)
->
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
