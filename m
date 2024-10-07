@@ -1,128 +1,99 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CB3017335C
-	for <linux-sunxi@lists.linux.dev>; Sun,  6 Oct 2024 22:49:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FC953C0D
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Oct 2024 00:14:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728254976; cv=none; b=fPvKo9vaiNeWdhAHQRxOVcelqgGnl3hBJDaLkrDRv8tgCj4vPT62GMwgEujXe6rJPN7k8DRj3pXD4pjYjhe8PreP3C8TpHRGEZzA9aylAk6but6tAfwj+c9VK1vwyBJX6eesLWQDr0omdNTBrm7IZvoTR/15bwIMcQ8T9zqvjMo=
+	t=1728260094; cv=none; b=QlGnZTRYS+yogcMQr1wMwYt4jEIvP4ULqW9LsHQ1khPKzctqwE/bv7xXv3EU3gMT50I4gPNY3EEGfxWGdcYBumTBAAESv8qAnBamyBX03vHhuSymvfjIBvWEEfP/S/BwDILptledpbvjzUqzl9xDV996ifIvb8Pda4HnXcILLaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728254976; c=relaxed/simple;
-	bh=IOOeMV89E7aNTUliK/fscRe2KpJ2omft6sLvy4jNzIA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=s2pD/Q7j9IUn8kKHzLA7YXFhroNmQCd4UvRY39A9fyZDS/mXQEPYtNjDVLzSwCG9dMJiPhJG54yjOiT6UPZd56r3MjQA0cgbgEj+zd2aaZa/SgWGHDoVp0xya6RWW4/75XMQmgWlV2EDc1A3NaK4W1fY/QhxC+jZ2L0RpzDAkg8=
+	s=arc-20240116; t=1728260094; c=relaxed/simple;
+	bh=RyT9o8Ch970sUrCRC8I/o12vFYRePBQPkZMBzOBZPaQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QtCTHrJ5m8JjIfkqQMzKK6OFl4PBej8YJqy2iCOARIefDDVy5EsiN6g2Qzw9djHVnaJi4c51L2eV883Ccm5Dh05859yzUiY+iMR0ZWPoTgOzBuxe38YyNqgK6sGaNo8bRrRMbyvdNc0fYO9FJeWYowIQ4EL02VVZLY1qmAWxvz4=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 66220FEC;
-	Sun,  6 Oct 2024 15:50:03 -0700 (PDT)
-Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4478E3F640;
-	Sun,  6 Oct 2024 15:49:32 -0700 (PDT)
-Date: Sun, 6 Oct 2024 23:48:49 +0100
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4933EFEC;
+	Sun,  6 Oct 2024 17:15:20 -0700 (PDT)
+Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0C92F3F640;
+	Sun,  6 Oct 2024 17:14:48 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
-To: Chen-Yu Tsai <wens@csie.org>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Liam
- Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Martin Botka <martin.botka@somainline.org>,
- Chris Morgan <macromorgan@hotmail.com>
-Subject: Re: [PATCH 3/5] mfd: axp20x: Allow multiple regulators
-Message-ID: <20241006234849.427682c7@minigeek.lan>
-In-Reply-To: <CAGb2v64c-KoCwzfXpPbyLtxgZbwoQ+e4uYAk7pcHCkrTRbfr3A@mail.gmail.com>
-References: <20241003111444.543964-1-andre.przywara@arm.com>
-	<20241003111444.543964-4-andre.przywara@arm.com>
-	<CAGb2v64c-KoCwzfXpPbyLtxgZbwoQ+e4uYAk7pcHCkrTRbfr3A@mail.gmail.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+To: Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: devicetree@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Martin Botka <martin.botka@somainline.org>,
+	Chris Morgan <macromorgan@hotmail.com>
+Subject: [PATCH v2 0/5] regulator: add X-Powers AXP323 support
+Date: Mon,  7 Oct 2024 01:14:03 +0100
+Message-ID: <20241007001408.27249-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.46.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, 3 Oct 2024 23:19:16 +0800
-Chen-Yu Tsai <wens@csie.org> wrote:
+A small update of version, just changing the regmap cache type to maple
+tree, and adding the accrued tags (thanks to the reviewers!).
+================================
+The X-Powers AXP323 is a close sibling to the AXP313a PMIC, only that it
+allows to dual-phase the first two DC/DC converters. This is controlled
+via a new register. On the first glance that would sound like a
+compatible extension, but any random AXP313a driver would not know about
+the potential dual-phase nature of the second DCDC rail, so might want
+to turn that off, spoiling the whole setup. So this patchset introduces
+a new compatible string, without any fallbacks.
 
-> On Thu, Oct 3, 2024 at 7:15=E2=80=AFPM Andre Przywara <andre.przywara@arm=
-.com> wrote:
-> >
-> > At the moment trying to register a second AXP chip makes the probe fail,
-> > as some sysfs registration fails due to a duplicate name:
-> >
-> > ...
-> > [    3.688215] axp20x-i2c 0-0035: AXP20X driver loaded
-> > [    3.695610] axp20x-i2c 0-0036: AXP20x variant AXP323 found
-> > [    3.706151] sysfs: cannot create duplicate filename '/bus/platform/d=
-evices/axp20x-regulator'
-> > [    3.714718] CPU: 0 UID: 0 PID: 1 Comm: swapper/0 Not tainted 6.12.0-=
-rc1-00026-g50bf2e2c079d-dirty #192
-> > [    3.724020] Hardware name: Avaota A1 (DT)
-> > [    3.728029] Call trace:
-> > [    3.730477]  dump_backtrace+0x94/0xec
-> > [    3.734146]  show_stack+0x18/0x24
-> > [    3.737462]  dump_stack_lvl+0x80/0xf4
-> > [    3.741128]  dump_stack+0x18/0x24
-> > [    3.744444]  sysfs_warn_dup+0x64/0x80
-> > [    3.748109]  sysfs_do_create_link_sd+0xf0/0xf8
-> > [    3.752553]  sysfs_create_link+0x20/0x40
-> > [    3.756476]  bus_add_device+0x64/0x104
-> > [    3.760229]  device_add+0x310/0x760
-> > [    3.763717]  platform_device_add+0x10c/0x238
-> > [    3.767990]  mfd_add_device+0x4ec/0x5c8
-> > [    3.771829]  mfd_add_devices+0x88/0x11c
-> > [    3.775666]  axp20x_device_probe+0x70/0x184
-> > [    3.779851]  axp20x_i2c_probe+0x9c/0xd8
-> > ...
-> >
-> > This is because we use PLATFORM_DEVID_NONE for the mfd_add_devices()
-> > call, which would number the child devices in the same 0-based way, even
-> > for the second (or any other) instance.
-> >
-> > Use PLATFORM_DEVID_AUTO instead, which automatically assigns
-> > non-conflicting device numbers. =20
->=20
-> That's weird... I don't remember running into this when working on the A8=
-0,
-> which had two albeit different AXP chips. That was a long time ago though.
+Patch 1 adds the DT binding documentation, patch 2 fixes some fragile
+connection between PMIC IDs and an array. Patch 3 allows multiple AXP
+chips, since the AXP323 seems to be often paired with the AXP717, and
+there is some sysfs naming clash with the current code.
+Patch 4 then adds the MFD bits, to introduce the new device type and that
+extra register, while patch 4 eventually adds the new regulator device,
+and takes care about the proper poly-phase detection.
 
-So I tested this on a Cubieboard 4, and it works there either way,
-with or without this patch. That's RSB instead of I2C, which honestly
-shouldn't make much of a difference, but maybe the call path differs?
-
-But since it still works, I think this patch is correct regardless.
+One note: so far the poly-phased AXP PMICs had that setting already
+enabled at reset time, so we just detected it and were good. However the
+AXP323 on my board does not, so it requires enabling the dual-phase bit at
+boot time. The BSP kernel does that in their boot0 (SPL) early boot code,
+and the plan would be to do this either in U-Boot or TF-A for mainline.
+But should we actually expose this in the DT, as some new property, to
+give kernels a chance to set it? The rails in question power the secondary
+cluster, so it's not strictly required at boot time, but it's probably too
+late for the kernel anyway, given that SMP bringup is much earlier than
+drivers? I would appreciate any thoughts here.
 
 Thanks,
 Andre
 
+Changelog:
+v1 ... v2:
+- change regmap cache type to maple tree (as all the others use)
+- add R-b: and ACK tags
 
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com> =20
->=20
-> Reviewed-by: Chen-Yu Tsai <wens@csie.org>
->=20
-> > ---
-> >  drivers/mfd/axp20x.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/mfd/axp20x.c b/drivers/mfd/axp20x.c
-> > index 5ceea359289f..bc08ae433260 100644
-> > --- a/drivers/mfd/axp20x.c
-> > +++ b/drivers/mfd/axp20x.c
-> > @@ -1419,7 +1419,7 @@ int axp20x_device_probe(struct axp20x_dev *axp20x)
-> >                 }
-> >         }
-> >
-> > -       ret =3D mfd_add_devices(axp20x->dev, -1, axp20x->cells,
-> > +       ret =3D mfd_add_devices(axp20x->dev, PLATFORM_DEVID_AUTO, axp20=
-x->cells,
-> >                               axp20x->nr_cells, NULL, 0, NULL);
-> >
-> >         if (ret) {
-> > --
-> > 2.25.1
-> > =20
->=20
+Andre Przywara (5):
+  dt-bindings: mfd: x-powers,axp152: Document AXP323
+  mfd: axp20x: ensure relationship between IDs and model names
+  mfd: axp20x: Allow multiple regulators
+  mfd: axp20x: Add support for AXP323
+  regulator: axp20x: add support for the AXP323
+
+ .../bindings/mfd/x-powers,axp152.yaml         |  3 +
+ drivers/mfd/axp20x-i2c.c                      |  1 +
+ drivers/mfd/axp20x.c                          | 58 ++++++++++++++-----
+ drivers/regulator/axp20x-regulator.c          | 13 ++++-
+ include/linux/mfd/axp20x.h                    |  4 +-
+ 5 files changed, 61 insertions(+), 18 deletions(-)
+
+-- 
+2.46.2
 
