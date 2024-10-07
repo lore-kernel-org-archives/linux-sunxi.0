@@ -1,42 +1,33 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C68EE1C6A1
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Oct 2024 00:15:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3AA018CBE6
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Oct 2024 22:27:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728260102; cv=none; b=DfD5NB/M9hdVQmKjv9EyEdPBfRUsMOWzLPpXagvk1LIPxvZ0zuQbAm0UheZu4iiE7TGmwWQn/Bjgp9XnjI6XPbqfqpe4pHzyCDe2wV48kyKOFLwSOZPOgFDxMYMGcFdzVihsDVBt4ejcWt9J+Lj0/EZMrg/8DaRclP3bSMUQUH0=
+	t=1728340033; cv=none; b=lY1Ewmd6dGKuZwk55FLhEsZxH8URrELbdHSdga9fOGdM8LOTbSgQUV1/OMJDULi+RGQER3OkhJaYemQYNQqmgKWz3cYyYhW1YJVqneJGmkpTCIleDqfnhzOpEb1Fhw1dQdqa905KsYnCHh2JQP+bPV50ZzLEip4I+dDPpUVJfsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728260102; c=relaxed/simple;
-	bh=bec/01JxAr7IzhBCiOlqiK9tbhRVeNxlqYeVvOESsz0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=amE7XK5WZu8KZcDdqY0ZGSIjt2VUQbKXpV09kPHNPwEC8hAqN7jNM/a50w7PWuovfoi6rARthXtGBi0ZupVyFfjRFKIH3gg4qyhQdOYuqenvo7sgpFsu0ZjlIOMouyHlzbc/jiHIVjnTS5TS4p5MY7nixJbijOPiFj4B3DFsTnQ=
+	s=arc-20240116; t=1728340033; c=relaxed/simple;
+	bh=NfxuE8ogIb0xbVT8N14wkNtxUZB3smDElLPFT4+igbQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fK4nj01/730t1yaWLJgxnk9udmvzz8paQaW+hMyQR8in4tPGMiSapkAHTsXDlbOJC8HVLqulq5ECMVo/pofxAgmRxkimn/cfc9ZZXpBC83YHoNulwVWO3P/9Enoy/ODgKTXjhG+P7r6TyF3/C2ki1wRB6prmd1CsgSnpS682DAU=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D233E1007;
-	Sun,  6 Oct 2024 17:15:29 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3F342DA7;
+	Mon,  7 Oct 2024 15:27:38 -0700 (PDT)
 Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9A1BC3F640;
-	Sun,  6 Oct 2024 17:14:58 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A821E3F73F;
+	Mon,  7 Oct 2024 15:27:07 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
-To: Lee Jones <lee@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+To: Jaehoon Chung <jh80.chung@samsung.com>,
+	Jagan Teki <jagan@amarulasolutions.com>
+Cc: Tom Rini <trini@konsulko.com>,
 	Chen-Yu Tsai <wens@csie.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: devicetree@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Martin Botka <martin.botka@somainline.org>,
-	Chris Morgan <macromorgan@hotmail.com>
-Subject: [PATCH v2 5/5] regulator: axp20x: add support for the AXP323
-Date: Mon,  7 Oct 2024 01:14:08 +0100
-Message-ID: <20241007001408.27249-6-andre.przywara@arm.com>
+	u-boot@lists.denx.de,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH] sunxi: power: axp809: Fix DCDC4 programming
+Date: Mon,  7 Oct 2024 23:26:25 +0100
+Message-ID: <20241007222625.18883-1-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.46.2
-In-Reply-To: <20241007001408.27249-1-andre.przywara@arm.com>
-References: <20241007001408.27249-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,58 +36,34 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The X-Powers AXP323 is a very close sibling of the AXP313A. The only
-difference seems to be the ability to dual-phase the first two DC/DC
-converters.
+When trying to set the DCDC4 regulator, the code was accidentally
+setting the voltage register for DCDC5 (VCC-DRAM). The higher voltage
+doesn't harm the DRAM chips, but upsets the Linux regulator driver: when
+it tried to correct that, it tripped over a separate DT bug.
+The DCDC5 DT limits are 1.425 and 1.575V, which cannot bet set with the
+rail's resolution of 50mV. The kernel driver gave up, and made in turn
+the system hang, as the PMIC powers essential devices.
 
-Place the new AXP323 ID next to the existing AXP313A checks, to let
-them share most code.
-The only difference is the poly-phase detection code, which gets
-extended to check the respective bit in a newly used register.
+Fix the copy&paste bug by using the correct PMIC voltage register.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-Reviewed-by: Chen-Yu Tsai <wens@csie.org>
-Reviewed-by: Mark Brown <broonie@kernel.org>
 ---
- drivers/regulator/axp20x-regulator.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ drivers/power/axp809.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/regulator/axp20x-regulator.c b/drivers/regulator/axp20x-regulator.c
-index 3ba76dbd0fb9e..e3cc59b82ea61 100644
---- a/drivers/regulator/axp20x-regulator.c
-+++ b/drivers/regulator/axp20x-regulator.c
-@@ -1341,6 +1341,7 @@ static int axp20x_set_dcdc_freq(struct platform_device *pdev, u32 dcdcfreq)
- 		step = 150;
- 		break;
- 	case AXP313A_ID:
-+	case AXP323_ID:
- 	case AXP717_ID:
- 	case AXP15060_ID:
- 		/* The DCDC PWM frequency seems to be fixed to 3 MHz. */
-@@ -1527,6 +1528,15 @@ static bool axp20x_is_polyphase_slave(struct axp20x_dev *axp20x, int id)
- 		}
- 		break;
+diff --git a/drivers/power/axp809.c b/drivers/power/axp809.c
+index 9e38e1a7450..ec3eca1ac4b 100644
+--- a/drivers/power/axp809.c
++++ b/drivers/power/axp809.c
+@@ -93,7 +93,7 @@ int axp_set_dcdc4(unsigned int mvolt)
+ 		return pmic_bus_clrbits(AXP809_OUTPUT_CTRL1,
+ 					AXP809_OUTPUT_CTRL1_DCDC4_EN);
  
-+	case AXP323_ID:
-+		regmap_read(axp20x->regmap, AXP323_DCDC_MODE_CTRL2, &reg);
-+
-+		switch (id) {
-+		case AXP313A_DCDC2:
-+			return !!(reg & BIT(1));
-+		}
-+		break;
-+
- 	default:
- 		return false;
- 	}
-@@ -1565,6 +1575,7 @@ static int axp20x_regulator_probe(struct platform_device *pdev)
- 						  "x-powers,drive-vbus-en");
- 		break;
- 	case AXP313A_ID:
-+	case AXP323_ID:
- 		regulators = axp313a_regulators;
- 		nregulators = AXP313A_REG_ID_MAX;
- 		break;
+-	ret = pmic_bus_write(AXP809_DCDC5_CTRL, cfg);
++	ret = pmic_bus_write(AXP809_DCDC4_CTRL, cfg);
+ 	if (ret)
+ 		return ret;
+ 
 -- 
 2.46.2
 
