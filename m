@@ -1,72 +1,289 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2EC51DEFE3
-	for <linux-sunxi@lists.linux.dev>; Tue,  8 Oct 2024 12:22:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D67A1DED4E
+	for <linux-sunxi@lists.linux.dev>; Tue,  8 Oct 2024 12:22:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728390128; cv=none; b=QgBfaKr9/QQt3QQASZLq9rlbjUQueH+T4c++H9ExN6HvgPg5wDg9lcEXCSa8PXpc3FJckfsl8VzcH6VgCKmhpJVCJQcoNCVirnknzlHxpZ73Bww4VLE0WZ6aFPmz3WT6EyCDi3+nkUApVs/RLHDr7mGFO7NC+ybXqs04ECX3ZF0=
+	t=1728390156; cv=none; b=tL4L6oJJXtmT+QHSQEi5XI9WEIKl6IBnRqfxAH7XIjM8BJb4A+B+uFjEnMYt9DX/3Jabs6sjqul2x8Mr8jwpgRNl1byH3r26h0DsILsYW8ABxaRC8SP/NFxUcymI7FWxevAuS3MFR1fOS0ZVPBm3RHIUNgcPos+xQxx6e0MqV1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728390128; c=relaxed/simple;
-	bh=+kJ9fXDK/6WJEeAzWsbpG+CnS97D8U/z3i52apM6/Qk=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=g6oEcK3TczcZmZTGw41a3u+xiiEAnw+gYg9hZ4vo+w51ORChnukKNdAXnzgtpLT0Log/0K3jURenKfUL1I+PwyQxrVsL5b1K99J1xfT9NRatYUNX6mVB1IPmDyCFho0Uwyb28+0x/UdC8gemzgXgE88pRwMuuSCtf0MEkoWSjEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4XNFWJ30y7z6K5rY;
-	Tue,  8 Oct 2024 20:21:48 +0800 (CST)
-Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
-	by mail.maildlp.com (Postfix) with ESMTPS id 49386140D1D;
-	Tue,  8 Oct 2024 20:22:03 +0800 (CST)
-Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
- (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 8 Oct
- 2024 14:21:58 +0200
-Date: Tue, 8 Oct 2024 13:21:57 +0100
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-CC: "Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano
-	<daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>, Lukasz Luba
-	<lukasz.luba@arm.com>, Amit Kucheria <amitk@kernel.org>, Thara Gopinath
-	<thara.gopinath@gmail.com>, Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>, Vasily Khoruzhick
-	<anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>, Chen-Yu Tsai
-	<wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
-	<samuel@sholland.org>, <linux-pm@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-	<linux-tegra@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-sunxi@lists.linux.dev>, Chen-Yu Tsai <wenst@chromium.org>
-Subject: Re: [PATCH v3 3/6] thermal: of: Use scoped device node handling to
- simplify of_thermal_zone_find()
-Message-ID: <20241008132157.00006789@Huawei.com>
-In-Reply-To: <20241008-b4-cleanup-h-of-node-put-thermal-v3-3-825122398f71@linaro.org>
-References: <20241008-b4-cleanup-h-of-node-put-thermal-v3-0-825122398f71@linaro.org>
-	<20241008-b4-cleanup-h-of-node-put-thermal-v3-3-825122398f71@linaro.org>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	s=arc-20240116; t=1728390156; c=relaxed/simple;
+	bh=IdSK4QKU/vFUWkenb4duA57O6N9eYQEIiXViL0X4QS8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=r+jaQ9FH+pyvTWqgv3S/mlTQNY9u7pZd2Bx3kxcjTJWe3o+r3fZwRHjzsSK8souPxZXYBWgcb/f1AAp+ZdBDXLMLzsrJWfO8CfcovlKtg5+Np0V2e5WmlnfHPrn7U8sg0UPewhogK3yexn383FQX/D+za6CkISyhpyW1rP/5Tk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1737DDA7;
+	Tue,  8 Oct 2024 05:23:02 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5B8E83F73F;
+	Tue,  8 Oct 2024 05:22:30 -0700 (PDT)
+Date: Tue, 8 Oct 2024 13:22:21 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Ryan Walklin <ryan@testtoast.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu
+ Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
+ Holland <samuel@sholland.org>, linux-sound@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, linux-clk@vger.kernel.org, Marcus Cooper
+ <codekipper@gmail.com>
+Subject: Re: [PATCH 1/6] ASoC: sun4i-codec: Add support for different DAC
+ FIFOC addresses to quirks
+Message-ID: <20241008132221.4c365a9f@donnerap.manchester.arm.com>
+In-Reply-To: <20240929100750.860329-2-ryan@testtoast.com>
+References: <20240929100750.860329-1-ryan@testtoast.com>
+	<20240929100750.860329-2-ryan@testtoast.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500003.china.huawei.com (7.191.162.67) To
- frapeml500008.china.huawei.com (7.182.85.71)
 
-On Tue, 08 Oct 2024 11:00:03 +0200
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+On Sun, 29 Sep 2024 23:06:02 +1300
+Ryan Walklin <ryan@testtoast.com> wrote:
 
-> Obtain the device node reference with scoped/cleanup.h to reduce error
-> handling and make the code a bit simpler.
+Hi,
+
+> From: Marcus Cooper <codekipper@gmail.com>
 > 
-> Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Ah. I was wondering why you didn't do this in patch 1.
-Sensible to split though I'd have put it as patch 2 for the lazy reviewer
-to spot more easily ;)
+> The Allwinner H616 SoC uses a different register address to control the
+> output FIFO.
+> 
+> Allow this to be specified separately from the ADC FIFO control
+> register.
 
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+That looks good to me, it follows the existing regmap_field pattern for the
+input FIFO, and I can confirm it changes every user of the DAC register.
+
+> Signed-off-by: Marcus Cooper <codekipper@gmail.com>
+> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+
+Cheers,
+Andre
+
+> ---
+>  sound/soc/sunxi/sun4i-codec.c | 83 +++++++++++++++++++++--------------
+>  1 file changed, 51 insertions(+), 32 deletions(-)
+> 
+> diff --git a/sound/soc/sunxi/sun4i-codec.c b/sound/soc/sunxi/sun4i-codec.c
+> index 330bc0c09f56b..37f5678b55291 100644
+> --- a/sound/soc/sunxi/sun4i-codec.c
+> +++ b/sound/soc/sunxi/sun4i-codec.c
+> @@ -238,6 +238,8 @@ struct sun4i_codec {
+>  
+>  	/* ADC_FIFOC register is at different offset on different SoCs */
+>  	struct regmap_field *reg_adc_fifoc;
+> +	/* DAC_FIFOC register is at different offset on different SoCs */
+> +	struct regmap_field *reg_dac_fifoc;
+>  
+>  	struct snd_dmaengine_dai_dma_data	capture_dma_data;
+>  	struct snd_dmaengine_dai_dma_data	playback_dma_data;
+> @@ -246,19 +248,19 @@ struct sun4i_codec {
+>  static void sun4i_codec_start_playback(struct sun4i_codec *scodec)
+>  {
+>  	/* Flush TX FIFO */
+> -	regmap_set_bits(scodec->regmap, SUN4I_CODEC_DAC_FIFOC,
+> -			BIT(SUN4I_CODEC_DAC_FIFOC_FIFO_FLUSH));
+> +	regmap_field_set_bits(scodec->reg_dac_fifoc,
+> +			      BIT(SUN4I_CODEC_DAC_FIFOC_FIFO_FLUSH));
+>  
+>  	/* Enable DAC DRQ */
+> -	regmap_set_bits(scodec->regmap, SUN4I_CODEC_DAC_FIFOC,
+> -			BIT(SUN4I_CODEC_DAC_FIFOC_DAC_DRQ_EN));
+> +	regmap_field_set_bits(scodec->reg_dac_fifoc,
+> +			      BIT(SUN4I_CODEC_DAC_FIFOC_DAC_DRQ_EN));
+>  }
+>  
+>  static void sun4i_codec_stop_playback(struct sun4i_codec *scodec)
+>  {
+>  	/* Disable DAC DRQ */
+> -	regmap_clear_bits(scodec->regmap, SUN4I_CODEC_DAC_FIFOC,
+> -			  BIT(SUN4I_CODEC_DAC_FIFOC_DAC_DRQ_EN));
+> +	regmap_field_clear_bits(scodec->reg_dac_fifoc,
+> +				BIT(SUN4I_CODEC_DAC_FIFOC_DAC_DRQ_EN));
+>  }
+>  
+>  static void sun4i_codec_start_capture(struct sun4i_codec *scodec)
+> @@ -356,13 +358,13 @@ static int sun4i_codec_prepare_playback(struct snd_pcm_substream *substream,
+>  	u32 val;
+>  
+>  	/* Flush the TX FIFO */
+> -	regmap_set_bits(scodec->regmap, SUN4I_CODEC_DAC_FIFOC,
+> -			   BIT(SUN4I_CODEC_DAC_FIFOC_FIFO_FLUSH));
+> +	regmap_field_set_bits(scodec->reg_dac_fifoc,
+> +			      BIT(SUN4I_CODEC_DAC_FIFOC_FIFO_FLUSH));
+>  
+>  	/* Set TX FIFO Empty Trigger Level */
+> -	regmap_update_bits(scodec->regmap, SUN4I_CODEC_DAC_FIFOC,
+> -			   0x3f << SUN4I_CODEC_DAC_FIFOC_TX_TRIG_LEVEL,
+> -			   0xf << SUN4I_CODEC_DAC_FIFOC_TX_TRIG_LEVEL);
+> +	regmap_field_update_bits(scodec->reg_dac_fifoc,
+> +				 0x3f << SUN4I_CODEC_DAC_FIFOC_TX_TRIG_LEVEL,
+> +				 0xf << SUN4I_CODEC_DAC_FIFOC_TX_TRIG_LEVEL);
+>  
+>  	if (substream->runtime->rate > 32000)
+>  		/* Use 64 bits FIR filter */
+> @@ -371,13 +373,13 @@ static int sun4i_codec_prepare_playback(struct snd_pcm_substream *substream,
+>  		/* Use 32 bits FIR filter */
+>  		val = BIT(SUN4I_CODEC_DAC_FIFOC_FIR_VERSION);
+>  
+> -	regmap_update_bits(scodec->regmap, SUN4I_CODEC_DAC_FIFOC,
+> -			   BIT(SUN4I_CODEC_DAC_FIFOC_FIR_VERSION),
+> -			   val);
+> +	regmap_field_update_bits(scodec->reg_dac_fifoc,
+> +				 BIT(SUN4I_CODEC_DAC_FIFOC_FIR_VERSION),
+> +				 val);
+>  
+>  	/* Send zeros when we have an underrun */
+> -	regmap_clear_bits(scodec->regmap, SUN4I_CODEC_DAC_FIFOC,
+> -			   BIT(SUN4I_CODEC_DAC_FIFOC_SEND_LASAT));
+> +	regmap_field_clear_bits(scodec->reg_dac_fifoc,
+> +				BIT(SUN4I_CODEC_DAC_FIFOC_SEND_LASAT));
+>  
+>  	return 0;
+>  };
+> @@ -510,9 +512,9 @@ static int sun4i_codec_hw_params_playback(struct sun4i_codec *scodec,
+>  	u32 val;
+>  
+>  	/* Set DAC sample rate */
+> -	regmap_update_bits(scodec->regmap, SUN4I_CODEC_DAC_FIFOC,
+> -			   7 << SUN4I_CODEC_DAC_FIFOC_DAC_FS,
+> -			   hwrate << SUN4I_CODEC_DAC_FIFOC_DAC_FS);
+> +	regmap_field_update_bits(scodec->reg_dac_fifoc,
+> +				 7 << SUN4I_CODEC_DAC_FIFOC_DAC_FS,
+> +				 hwrate << SUN4I_CODEC_DAC_FIFOC_DAC_FS);
+>  
+>  	/* Set the number of channels we want to use */
+>  	if (params_channels(params) == 1)
+> @@ -520,27 +522,27 @@ static int sun4i_codec_hw_params_playback(struct sun4i_codec *scodec,
+>  	else
+>  		val = 0;
+>  
+> -	regmap_update_bits(scodec->regmap, SUN4I_CODEC_DAC_FIFOC,
+> -			   BIT(SUN4I_CODEC_DAC_FIFOC_MONO_EN),
+> -			   val);
+> +	regmap_field_update_bits(scodec->reg_dac_fifoc,
+> +				 BIT(SUN4I_CODEC_DAC_FIFOC_MONO_EN),
+> +				 val);
+>  
+>  	/* Set the number of sample bits to either 16 or 24 bits */
+>  	if (hw_param_interval(params, SNDRV_PCM_HW_PARAM_SAMPLE_BITS)->min == 32) {
+> -		regmap_set_bits(scodec->regmap, SUN4I_CODEC_DAC_FIFOC,
+> -				   BIT(SUN4I_CODEC_DAC_FIFOC_TX_SAMPLE_BITS));
+> +		regmap_field_set_bits(scodec->reg_dac_fifoc,
+> +				      BIT(SUN4I_CODEC_DAC_FIFOC_TX_SAMPLE_BITS));
+>  
+>  		/* Set TX FIFO mode to padding the LSBs with 0 */
+> -		regmap_clear_bits(scodec->regmap, SUN4I_CODEC_DAC_FIFOC,
+> -				   BIT(SUN4I_CODEC_DAC_FIFOC_TX_FIFO_MODE));
+> +		regmap_field_clear_bits(scodec->reg_dac_fifoc,
+> +					BIT(SUN4I_CODEC_DAC_FIFOC_TX_FIFO_MODE));
+>  
+>  		scodec->playback_dma_data.addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
+>  	} else {
+> -		regmap_clear_bits(scodec->regmap, SUN4I_CODEC_DAC_FIFOC,
+> -				   BIT(SUN4I_CODEC_DAC_FIFOC_TX_SAMPLE_BITS));
+> +		regmap_field_clear_bits(scodec->reg_dac_fifoc,
+> +					BIT(SUN4I_CODEC_DAC_FIFOC_TX_SAMPLE_BITS));
+>  
+>  		/* Set TX FIFO mode to repeat the MSB */
+> -		regmap_set_bits(scodec->regmap, SUN4I_CODEC_DAC_FIFOC,
+> -				   BIT(SUN4I_CODEC_DAC_FIFOC_TX_FIFO_MODE));
+> +		regmap_field_set_bits(scodec->reg_dac_fifoc,
+> +				      BIT(SUN4I_CODEC_DAC_FIFOC_TX_FIFO_MODE));
+>  
+>  		scodec->playback_dma_data.addr_width = DMA_SLAVE_BUSWIDTH_2_BYTES;
+>  	}
+> @@ -587,8 +589,8 @@ static int sun4i_codec_startup(struct snd_pcm_substream *substream,
+>  	 * Stop issuing DRQ when we have room for less than 16 samples
+>  	 * in our TX FIFO
+>  	 */
+> -	regmap_set_bits(scodec->regmap, SUN4I_CODEC_DAC_FIFOC,
+> -			   3 << SUN4I_CODEC_DAC_FIFOC_DRQ_CLR_CNT);
+> +	regmap_field_set_bits(scodec->reg_dac_fifoc,
+> +			      3 << SUN4I_CODEC_DAC_FIFOC_DRQ_CLR_CNT);
+>  
+>  	return clk_prepare_enable(scodec->clk_module);
+>  }
+> @@ -1565,6 +1567,7 @@ struct sun4i_codec_quirks {
+>  	const struct snd_soc_component_driver *codec;
+>  	struct snd_soc_card * (*create_card)(struct device *dev);
+>  	struct reg_field reg_adc_fifoc;	/* used for regmap_field */
+> +	struct reg_field reg_dac_fifoc;	/* used for regmap_field */
+>  	unsigned int reg_dac_txdata;	/* TX FIFO offset for DMA config */
+>  	unsigned int reg_adc_rxdata;	/* RX FIFO offset for DMA config */
+>  	bool has_reset;
+> @@ -1575,6 +1578,7 @@ static const struct sun4i_codec_quirks sun4i_codec_quirks = {
+>  	.codec		= &sun4i_codec_codec,
+>  	.create_card	= sun4i_codec_create_card,
+>  	.reg_adc_fifoc	= REG_FIELD(SUN4I_CODEC_ADC_FIFOC, 0, 31),
+> +	.reg_dac_fifoc	= REG_FIELD(SUN4I_CODEC_DAC_FIFOC, 0, 31),
+>  	.reg_dac_txdata	= SUN4I_CODEC_DAC_TXDATA,
+>  	.reg_adc_rxdata	= SUN4I_CODEC_ADC_RXDATA,
+>  };
+> @@ -1584,6 +1588,7 @@ static const struct sun4i_codec_quirks sun6i_a31_codec_quirks = {
+>  	.codec		= &sun6i_codec_codec,
+>  	.create_card	= sun6i_codec_create_card,
+>  	.reg_adc_fifoc	= REG_FIELD(SUN6I_CODEC_ADC_FIFOC, 0, 31),
+> +	.reg_dac_fifoc	= REG_FIELD(SUN4I_CODEC_DAC_FIFOC, 0, 31),
+>  	.reg_dac_txdata	= SUN4I_CODEC_DAC_TXDATA,
+>  	.reg_adc_rxdata	= SUN6I_CODEC_ADC_RXDATA,
+>  	.has_reset	= true,
+> @@ -1594,6 +1599,7 @@ static const struct sun4i_codec_quirks sun7i_codec_quirks = {
+>  	.codec		= &sun7i_codec_codec,
+>  	.create_card	= sun4i_codec_create_card,
+>  	.reg_adc_fifoc	= REG_FIELD(SUN4I_CODEC_ADC_FIFOC, 0, 31),
+> +	.reg_dac_fifoc	= REG_FIELD(SUN4I_CODEC_DAC_FIFOC, 0, 31),
+>  	.reg_dac_txdata	= SUN4I_CODEC_DAC_TXDATA,
+>  	.reg_adc_rxdata	= SUN4I_CODEC_ADC_RXDATA,
+>  };
+> @@ -1603,6 +1609,7 @@ static const struct sun4i_codec_quirks sun8i_a23_codec_quirks = {
+>  	.codec		= &sun8i_a23_codec_codec,
+>  	.create_card	= sun8i_a23_codec_create_card,
+>  	.reg_adc_fifoc	= REG_FIELD(SUN6I_CODEC_ADC_FIFOC, 0, 31),
+> +	.reg_dac_fifoc	= REG_FIELD(SUN4I_CODEC_DAC_FIFOC, 0, 31),
+>  	.reg_dac_txdata	= SUN4I_CODEC_DAC_TXDATA,
+>  	.reg_adc_rxdata	= SUN6I_CODEC_ADC_RXDATA,
+>  	.has_reset	= true,
+> @@ -1618,6 +1625,7 @@ static const struct sun4i_codec_quirks sun8i_h3_codec_quirks = {
+>  	.codec		= &sun8i_a23_codec_codec,
+>  	.create_card	= sun8i_h3_codec_create_card,
+>  	.reg_adc_fifoc	= REG_FIELD(SUN6I_CODEC_ADC_FIFOC, 0, 31),
+> +	.reg_dac_fifoc	= REG_FIELD(SUN4I_CODEC_DAC_FIFOC, 0, 31),
+>  	.reg_dac_txdata	= SUN8I_H3_CODEC_DAC_TXDATA,
+>  	.reg_adc_rxdata	= SUN6I_CODEC_ADC_RXDATA,
+>  	.has_reset	= true,
+> @@ -1632,6 +1640,7 @@ static const struct sun4i_codec_quirks sun8i_v3s_codec_quirks = {
+>  	.codec		= &sun8i_a23_codec_codec,
+>  	.create_card	= sun8i_v3s_codec_create_card,
+>  	.reg_adc_fifoc	= REG_FIELD(SUN6I_CODEC_ADC_FIFOC, 0, 31),
+> +	.reg_dac_fifoc	= REG_FIELD(SUN4I_CODEC_DAC_FIFOC, 0, 31),
+>  	.reg_dac_txdata	= SUN8I_H3_CODEC_DAC_TXDATA,
+>  	.reg_adc_rxdata	= SUN6I_CODEC_ADC_RXDATA,
+>  	.has_reset	= true,
+> @@ -1739,6 +1748,16 @@ static int sun4i_codec_probe(struct platform_device *pdev)
+>  		return ret;
+>  	}
+>  
+> +	scodec->reg_dac_fifoc = devm_regmap_field_alloc(&pdev->dev,
+> +							scodec->regmap,
+> +							quirks->reg_dac_fifoc);
+> +	if (IS_ERR(scodec->reg_dac_fifoc)) {
+> +		ret = PTR_ERR(scodec->reg_dac_fifoc);
+> +		dev_err(&pdev->dev, "Failed to create regmap fields: %d\n",
+> +			ret);
+> +		return ret;
+> +	}
+> +
+>  	/* Enable the bus clock */
+>  	if (clk_prepare_enable(scodec->clk_apb)) {
+>  		dev_err(&pdev->dev, "Failed to enable the APB clock\n");
+
