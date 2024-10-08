@@ -1,77 +1,100 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2BEC1DD54F
-	for <linux-sunxi@lists.linux.dev>; Tue,  8 Oct 2024 12:26:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FF951E485
+	for <linux-sunxi@lists.linux.dev>; Tue,  8 Oct 2024 12:32:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728390385; cv=none; b=mEga89UM7a1gRD2ZljIrjDp8uo8CS3RL8J6NX/NLCREatzoqZUpq817PnYQm5ZlzOjnSgF8tosgnTbg4AFTTQLkCCTm4go1Rx6ZqEHGlU0AW1H5UDHEqTmSRFxzq1og2qTMaURl3nOARz99bsVlj8Estk3YyU0v0KT11p1nEX1k=
+	t=1728390733; cv=none; b=bMnpGi45u3srzcAwBGt9PdjoH/OxT9PnZ3aRR1vBOKcnwDLtXypLXmFBpgymyFjnPpun3A86LrWiNchqjcSymu1Ioe+aCS1AqN8mF2nmqQ5EBbupTWaorPXGRhqw+ljJnClFtaXChfGDC8A5RxHmPDFYl2wxcq0eZVZFqQUXtIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728390385; c=relaxed/simple;
-	bh=p3bcxcejmUjJNCb3MZHTGy1XXxE08A83rtDxcOF6fAg=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QRl2/OBTuLjd/iEaO+OMevU1MOj9tWO/NbwSuNa2GxqOOS9klZyht9KYK/34bYgWeObv62+PnO50G4Y+hxRvQZUpskAgKM28g1k6j1VcdZ5sLnFdNwG1W4VPPzq0mzADyz1FZY9zffECLUIqUSQdi5XGqWenXzWxPJxUEo1Mbuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.216])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4XNFb717R1z6GC0b;
-	Tue,  8 Oct 2024 20:25:07 +0800 (CST)
-Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
-	by mail.maildlp.com (Postfix) with ESMTPS id 908C71408F9;
-	Tue,  8 Oct 2024 20:26:21 +0800 (CST)
-Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
- (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 8 Oct
- 2024 14:26:20 +0200
-Date: Tue, 8 Oct 2024 13:26:19 +0100
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-CC: "Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano
-	<daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>, Lukasz Luba
-	<lukasz.luba@arm.com>, Amit Kucheria <amitk@kernel.org>, Thara Gopinath
-	<thara.gopinath@gmail.com>, Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>, Vasily Khoruzhick
-	<anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>, Chen-Yu Tsai
-	<wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
-	<samuel@sholland.org>, <linux-pm@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-	<linux-tegra@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-sunxi@lists.linux.dev>, Chen-Yu Tsai <wenst@chromium.org>
-Subject: Re: [PATCH v3 6/6] thermal: sun8i: Use scoped device node handling
- to simplify error paths
-Message-ID: <20241008132619.0000271c@Huawei.com>
-In-Reply-To: <20241008-b4-cleanup-h-of-node-put-thermal-v3-6-825122398f71@linaro.org>
-References: <20241008-b4-cleanup-h-of-node-put-thermal-v3-0-825122398f71@linaro.org>
-	<20241008-b4-cleanup-h-of-node-put-thermal-v3-6-825122398f71@linaro.org>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	s=arc-20240116; t=1728390733; c=relaxed/simple;
+	bh=boKgprdVHWc+66TWJ3kzgy/Y45mAsLRyTN0mo3JmbiQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NmaPTypJW/8psiSPmB0Exh3VfTgWEn2VPkJS9Ma87qmRTpf8EFB9KjwC0pCFZ2G90fveq1HhD7SxJmt57Hdb/q7LaPtHQqEzDWpz0x4dEKA5BVOx0QhgRNrBVfq83C26ePRAUtZESFt9tOajrZdYbOhq2rC10njZZ0bl34Xe1YE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7C0EADA7;
+	Tue,  8 Oct 2024 05:32:39 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 73B733F73F;
+	Tue,  8 Oct 2024 05:32:07 -0700 (PDT)
+Date: Tue, 8 Oct 2024 13:32:04 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Ryan Walklin <ryan@testtoast.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu
+ Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
+ Holland <samuel@sholland.org>, linux-sound@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, linux-clk@vger.kernel.org, Marcus Cooper
+ <codekipper@gmail.com>
+Subject: Re: [PATCH 2/6] ASoC: sun4i-codec: Add playback only flag to quirks
+Message-ID: <20241008133204.3ea38338@donnerap.manchester.arm.com>
+In-Reply-To: <20240929100750.860329-3-ryan@testtoast.com>
+References: <20240929100750.860329-1-ryan@testtoast.com>
+	<20240929100750.860329-3-ryan@testtoast.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500003.china.huawei.com (7.191.162.67) To
- frapeml500008.china.huawei.com (7.182.85.71)
 
-On Tue, 08 Oct 2024 11:00:06 +0200
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+On Sun, 29 Sep 2024 23:06:03 +1300
+Ryan Walklin <ryan@testtoast.com> wrote:
 
-> Obtain the device node reference with scoped/cleanup.h to reduce error
-> handling and make the code a bit simpler.
+> From: Marcus Cooper <codekipper@gmail.com>
 > 
-> Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-LGTM
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Some devices only have the playback side of the codec implemented
+> so add a quirk to check for this.
 
-I wonder if we will eventually get to the point where we might as well
-use the scoped case for the few remaining instances where there
-is no early exit and then end up dropping the unscoped one.
+That's odd, is this really the only place where we need to 
+consider the lack of sampling functionality? I mean it just prevents the
+fields to be populated in our internal struct, how does the rest of the
+kernel know that there is no capture? Is that magically achieved by those
+fields being zero now?
 
-I guess we'll see. Keep up the good work dealing with all these!
+Cheers,
+Andre
 
-Jonathan
+> Signed-off-by: Marcus Cooper <codekipper@gmail.com>
+> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+> ---
+>  sound/soc/sunxi/sun4i-codec.c | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
+> 
+> diff --git a/sound/soc/sunxi/sun4i-codec.c b/sound/soc/sunxi/sun4i-codec.c
+> index 37f5678b55291..312d2655c3f4e 100644
+> --- a/sound/soc/sunxi/sun4i-codec.c
+> +++ b/sound/soc/sunxi/sun4i-codec.c
+> @@ -1571,6 +1571,7 @@ struct sun4i_codec_quirks {
+>  	unsigned int reg_dac_txdata;	/* TX FIFO offset for DMA config */
+>  	unsigned int reg_adc_rxdata;	/* RX FIFO offset for DMA config */
+>  	bool has_reset;
+> +	bool playback_only;
+>  };
+>  
+>  static const struct sun4i_codec_quirks sun4i_codec_quirks = {
+> @@ -1779,10 +1780,13 @@ static int sun4i_codec_probe(struct platform_device *pdev)
+>  	scodec->playback_dma_data.maxburst = 8;
+>  	scodec->playback_dma_data.addr_width = DMA_SLAVE_BUSWIDTH_2_BYTES;
+>  
+> -	/* DMA configuration for RX FIFO */
+> -	scodec->capture_dma_data.addr = res->start + quirks->reg_adc_rxdata;
+> -	scodec->capture_dma_data.maxburst = 8;
+> -	scodec->capture_dma_data.addr_width = DMA_SLAVE_BUSWIDTH_2_BYTES;
+> +	if (!quirks->playback_only) {
+> +		/* DMA configuration for RX FIFO */
+> +		scodec->capture_dma_data.addr = res->start +
+> +						quirks->reg_adc_rxdata;
+> +		scodec->capture_dma_data.maxburst = 8;
+> +		scodec->capture_dma_data.addr_width = DMA_SLAVE_BUSWIDTH_2_BYTES;
+> +	}
+>  
+>  	ret = devm_snd_soc_register_component(&pdev->dev, quirks->codec,
+>  				     &sun4i_codec_dai, 1);
+
