@@ -1,99 +1,100 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2846FB66C
-	for <linux-sunxi@lists.linux.dev>; Thu, 10 Oct 2024 09:14:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B3591C9ED0
+	for <linux-sunxi@lists.linux.dev>; Thu, 10 Oct 2024 13:37:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728551658; cv=none; b=Vh42idDZMwgEvqTsC6zK5TqcrcOAlYAzl1IQxCmJAYBuj0HXK80TlGHn2I/+VuuuWE/yhRBbx9ZAEmRdcEUrHRiSecTDP/WQEMfzgurW4ppxRq8Fyc9q2Tu1CqIlWWxnJOLb1RTvkIApGslBCZvLFP+H9fgQQ46flZLJg9f4wqE=
+	t=1728567457; cv=none; b=BqW/PX4UHc1EjEASDdoU+Z5vk28OxfO13uVbD1uFfpM1Z8TYpJo79gOcdr+8068Bbz+dBzHxfWxgNkerIzlU/tm4QLY3pnlC3asYtKAadTNNqV1DUaJ2TPM4e/yxffrfyDUV+t7I51WyaJCS5ei3yOzwXr0EwMMo02igE6ldO7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728551658; c=relaxed/simple;
-	bh=7B20H6vzZwQe2Z6A8FZLKo4P5HOumDTuAH51dHchgrc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bqRv5aUGHrha3f2uOwW04jnVAze56Wy2qkM0LZMjC77EXiBUyy5qaoy4BLMk2p9mNjJaSMOEe/xZ+gYazImHLcqbDvrEFC2xWD22qLYK2gNunssAA8rSWnlMmHTEzXjND0mXuxThDGnIwQezPMPlrGOQtzHD5z2u9xplpcsXEF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J4teCbEW; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1728567457; c=relaxed/simple;
+	bh=SIKjiEYlDDDOqLRf8TeBLmmvdWfnUp8Y2f7+7Cs8lGQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=s3TyJ/DgWmD8BZVgFrKO5e5CYWHZJbgxRninoAXetSl5Sx3LNGy5c+Qe0yTaPPW28NiIc+u7vqf+MoMRad6xNZoj1d87kTbafFSjjGg2pP1BJCXPebZ8lxSTzbxZDRFR5ijq2KbjRDfw9y7whfDmFHEIQknlHrT+1DZ2CHNRwjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J4teCbEW"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5399675e14cso869660e87.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 10 Oct 2024 02:14:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728551655; x=1729156455; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=iS1oowt3gWPxEnT3I7D8ZHwjyqV0wJkTaD5F8v/SXSs=;
-        b=J4teCbEWOn5n+3M1wmn9Zw3Bo+WwFKSKPgc4YOrAwjBRBXYyZw5lAK77847hPnyuIb
-         s3ShcyMPQ0Qy7RbJeIBbbK5bC8EkilJIczPkk7Xo2gF6Z+WTottCoqcEpnrSJoBeCk/k
-         3LWWGOD2SANTvWTHS3aiD7mZzyUo8tSUuygtX/W9fGkpc2Tga+X+ToABvZHaZEZOOlvU
-         8Z31TW7k5mxLbEsdpfmLEODQES0HEr5SN9o+gbOknuVum7E+OKvEXEgkKXGmZAsjtCTL
-         RH7bLe3YB6b0GlrH1mDOFCTEH0HiWLzE43E3V/rxWABHlXzdL+Pc1cyI6QNwVhEblMMt
-         3vMA==
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-53995380bb3so1197685e87.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 10 Oct 2024 06:37:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728551655; x=1729156455;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iS1oowt3gWPxEnT3I7D8ZHwjyqV0wJkTaD5F8v/SXSs=;
-        b=oWpB8hruZW7mjTa5bMphtWTSYeU/yzztFPLx25OT+Ejo1ciJN20EN+ijPMjtazfDpo
-         zgGPQuXNQaMnoSwFDQaq8Q3YZWrtnoCM+nFDo04IjkRzbcnPT/k8tfijTmwHMfiSWhZE
-         B3bOxzFhnfDTweWwhOYftFoS2sxFkiZIKci7/bRI5ne4nIFIbosdnehbwJhRXrclp5xB
-         FEli0iZqYEylqatHKZVHdWQ8a77x+ybm0TfhUXXpSI1TLS5QLv5zW4Gxd5qY90UqJPQA
-         ywYZYROgA153JyQg95pbCQRantqMu6aNII2ViIIJ827IEUjGAfVThn9Sd46oPvtqnybx
-         h1JA==
-X-Forwarded-Encrypted: i=1; AJvYcCXeP7JA2oembQ0VxjErl+pZuIyJENuirTchjHWUYXZIAAEon2lIKGaPqFAorSjH6vyJ2uJsudA1JmpQIA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwKArMaWZC9hePzARFfPw2mHn4jjeJz3WevgzIxkRVz3C7ojjsQ
-	tpQmMQazRqXBq7VBGrYGCDXrzIq1+xL4ZhsFQ3ixsPZfwVAbBRK8
-X-Google-Smtp-Source: AGHT+IEabdPS/80LwHHvN4O9JjXcErRt0X3jKi/SEPXwMmL1sjvbwwX0uamKQJdfuWuquTPkH2rYfw==
-X-Received: by 2002:a05:6512:104d:b0:535:6cde:5c4d with SMTP id 2adb3069b0e04-539c48926bamr3578673e87.3.1728551654907;
-        Thu, 10 Oct 2024 02:14:14 -0700 (PDT)
-Received: from void.void ([94.230.83.74])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-430d748f0a5sm42337895e9.48.2024.10.10.02.14.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Oct 2024 02:14:14 -0700 (PDT)
-From: Andrew Kreimer <algonell@gmail.com>
-To: Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: linux-phy@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Andrew Kreimer <algonell@gmail.com>
-Subject: [PATCH] phy: sun4i-usb: Fix a typo
-Date: Thu, 10 Oct 2024 12:13:55 +0300
-Message-Id: <20241010091355.8271-1-algonell@gmail.com>
-X-Mailer: git-send-email 2.39.5
+        d=1e100.net; s=20230601; t=1728567452; x=1729172252;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZzwzKkCp6jPszo6ZyDDEvEEJi7wd/je50oKdYYshjiU=;
+        b=g49TiUNmotK+3EM1UnR9Qd2qrb66TkzW/7ADT6tWJDXy9K9DNyTCFLgMfIvzA1G5MA
+         97l5cWJo/6O15t0qNgFxTQ7YFEwYShHOdnS4RTi3A/N0ruxCxncsSPis6dPjf9JL+r6w
+         WGFbr2bfSRHXljvYMLYyGxnozgfiN3JLlEUGCgrjlmHxR5jeSUh9OOjvgguwAfs2RXcB
+         E1Uk8JZwfbj9e89aQjZTeDVmJNguEjOmi2iMRxeWBMTPwz+k6QF5DJnLLGhjRG+ok6EY
+         r9m6RfWfjT6PCJzYojKRKR/JD8og8+hGIhD1QZE8ddd0Q6mjJ/0AHYg+hSDNWb6sm8Ip
+         nYWg==
+X-Forwarded-Encrypted: i=1; AJvYcCW8UQK6wqu7lqOqxQnfuGUVytwDGuayGvFZ/ZTYX39c6O+mIbQJTtKLdAV/p3Jo3tZWXkeOUwhPSCrHNg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxm6KLhoXmg4JQu9W6RXnOnCfRoOudHtS7MsUmkhXkbK3BxzxBn
+	IGe501gNW8Jj9rzAD1eQUBXq0zuS0QhNoTAhaWsirOCI1mkWEN9AnH5MzSO+
+X-Google-Smtp-Source: AGHT+IGQigoppa3Y/X7ew+JL9rsjQNVeuPWvAckPGHcNAGeF46SLT5ReyixrME5/mQn/i8ei56AhNA==
+X-Received: by 2002:a05:6512:2822:b0:52f:413:7e8c with SMTP id 2adb3069b0e04-539c48989f7mr3582848e87.14.1728567451510;
+        Thu, 10 Oct 2024 06:37:31 -0700 (PDT)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com. [209.85.208.169])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-539cb90547esm257614e87.265.2024.10.10.06.37.30
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Oct 2024 06:37:30 -0700 (PDT)
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2faccccbca7so7694521fa.2
+        for <linux-sunxi@lists.linux.dev>; Thu, 10 Oct 2024 06:37:30 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUnp9cM3UXYTqXe1G9WJ/bV3mEy5w52s0u7i6bJHF8ZbVM84vvyagE4tTNZe/qInIiNl2lQcCTl22kJ7Q==@lists.linux.dev
+X-Received: by 2002:a2e:f19:0:b0:2fa:c57a:3b1c with SMTP id
+ 38308e7fff4ca-2fb1873eca8mr32339161fa.17.1728567450394; Thu, 10 Oct 2024
+ 06:37:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241010091355.8271-1-algonell@gmail.com>
+In-Reply-To: <20241010091355.8271-1-algonell@gmail.com>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Thu, 10 Oct 2024 22:37:16 +0900
+X-Gmail-Original-Message-ID: <CAGb2v64=WSCyKVyMtUv1d_WoLLnJjEx4WzC3mmF2uB+6O+0oZQ@mail.gmail.com>
+Message-ID: <CAGb2v64=WSCyKVyMtUv1d_WoLLnJjEx4WzC3mmF2uB+6O+0oZQ@mail.gmail.com>
+Subject: Re: [PATCH] phy: sun4i-usb: Fix a typo
+To: Andrew Kreimer <algonell@gmail.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	kernel-janitors@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fix a typo in comments: wether -> whether.
+On Thu, Oct 10, 2024 at 6:14=E2=80=AFPM Andrew Kreimer <algonell@gmail.com>=
+ wrote:
+>
+> Fix a typo in comments: wether -> whether.
+>
+> Signed-off-by: Andrew Kreimer <algonell@gmail.com>
 
-Signed-off-by: Andrew Kreimer <algonell@gmail.com>
----
- include/linux/phy/phy-sun4i-usb.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Acked-by: Chen-Yu Tsai <wens@csie.org>
 
-diff --git a/include/linux/phy/phy-sun4i-usb.h b/include/linux/phy/phy-sun4i-usb.h
-index 91eb755ee73b..f3e7b13608e4 100644
---- a/include/linux/phy/phy-sun4i-usb.h
-+++ b/include/linux/phy/phy-sun4i-usb.h
-@@ -11,7 +11,7 @@
- /**
-  * sun4i_usb_phy_set_squelch_detect() - Enable/disable squelch detect
-  * @phy: reference to a sun4i usb phy
-- * @enabled: wether to enable or disable squelch detect
-+ * @enabled: whether to enable or disable squelch detect
-  */
- void sun4i_usb_phy_set_squelch_detect(struct phy *phy, bool enabled);
- 
--- 
-2.39.5
-
+> ---
+>  include/linux/phy/phy-sun4i-usb.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/include/linux/phy/phy-sun4i-usb.h b/include/linux/phy/phy-su=
+n4i-usb.h
+> index 91eb755ee73b..f3e7b13608e4 100644
+> --- a/include/linux/phy/phy-sun4i-usb.h
+> +++ b/include/linux/phy/phy-sun4i-usb.h
+> @@ -11,7 +11,7 @@
+>  /**
+>   * sun4i_usb_phy_set_squelch_detect() - Enable/disable squelch detect
+>   * @phy: reference to a sun4i usb phy
+> - * @enabled: wether to enable or disable squelch detect
+> + * @enabled: whether to enable or disable squelch detect
+>   */
+>  void sun4i_usb_phy_set_squelch_detect(struct phy *phy, bool enabled);
+>
+> --
+> 2.39.5
+>
