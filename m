@@ -1,110 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC5B19C552;
-	Wed,  9 Oct 2024 14:20:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2846FB66C
+	for <linux-sunxi@lists.linux.dev>; Thu, 10 Oct 2024 09:14:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728483650; cv=none; b=K3XoMoXInFPvzuW8pt9KMc30EvdTd/1phLvN0S4A0gfn2S3vN/3jV4/cj9euz2XU4EbipHwSTrvIJ3qYu9moBFHw7SU1ssjhV0bKU/vGlYgtJBfJ1LlUT+2DlOwYItGwYlh4AQ7B09g/v9A3sGzZCRgCxFm2o+BpsPSJOXZnq9c=
+	t=1728551658; cv=none; b=Vh42idDZMwgEvqTsC6zK5TqcrcOAlYAzl1IQxCmJAYBuj0HXK80TlGHn2I/+VuuuWE/yhRBbx9ZAEmRdcEUrHRiSecTDP/WQEMfzgurW4ppxRq8Fyc9q2Tu1CqIlWWxnJOLb1RTvkIApGslBCZvLFP+H9fgQQ46flZLJg9f4wqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728483650; c=relaxed/simple;
-	bh=QViY9lx7IRmLT83VCb/QN5MYrQn/DBbOjGPf3qXYL5s=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=bB9gHtScZelvGypDBtQNmdQoEQU8X9pHbJSJjy8aH62xnrOCZ/kwzQ8pCAE5be2emaK1pRtw0OLrQzDEX9YOkz1iUHxem55eWZDM329VfJnMoaRkSSrrmDG8VHebqjuEkhyJeY2gx0qwrzrzhf5ysX/GUijGVYl2dmB75nXHybU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PYLSgIOn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728551658; c=relaxed/simple;
+	bh=7B20H6vzZwQe2Z6A8FZLKo4P5HOumDTuAH51dHchgrc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bqRv5aUGHrha3f2uOwW04jnVAze56Wy2qkM0LZMjC77EXiBUyy5qaoy4BLMk2p9mNjJaSMOEe/xZ+gYazImHLcqbDvrEFC2xWD22qLYK2gNunssAA8rSWnlMmHTEzXjND0mXuxThDGnIwQezPMPlrGOQtzHD5z2u9xplpcsXEF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J4teCbEW; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PYLSgIOn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D826C4CEC3;
-	Wed,  9 Oct 2024 14:20:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728483650;
-	bh=QViY9lx7IRmLT83VCb/QN5MYrQn/DBbOjGPf3qXYL5s=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=PYLSgIOnaefqWMugYlxXrb0D/Ib2TT0NidJoR91A+I1KWnvbwjXA0TxGSS0XmSl/t
-	 e1h6UyqPFeZRjST9LWLXu/xaRjJm09Wwqh+ivTZ2pJHOuW5b1ziZDieAyV1AHxfoh5
-	 XlHRXxaULCD77+zDBcjrqONuXkTD9gHK7jaPvJ5oBraQM0/TDKqWKc/tLkoMY/NEwb
-	 sgN5WDbkK/YRwUZNth0ww+iuxri65xvNLYd5sOxsUSeL/0hbp4iFspHsDXjOUaYp21
-	 i9ADNApYJRTUBPG17ZeZkWmSrrI+wtRizpR3mthj9G/+KycKO84hmPqYJdjET+30xB
-	 PmzE+wa1LVh7Q==
-From: Lee Jones <lee@kernel.org>
-To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Gene Chen <gene_chen@richtek.com>, 
- Jacek Anaszewski <jacek.anaszewski@gmail.com>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
- Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, stable@vger.kernel.org
-In-Reply-To: <20240927-leds_device_for_each_child_node_scoped-v1-0-95c0614b38c8@gmail.com>
-References: <20240927-leds_device_for_each_child_node_scoped-v1-0-95c0614b38c8@gmail.com>
-Subject: Re: [PATCH 00/18] leds: switch to
- device_for_each_child_node_scoped()
-Message-Id: <172848364679.581850.9636321610214125502.b4-ty@kernel.org>
-Date: Wed, 09 Oct 2024 15:20:46 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J4teCbEW"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5399675e14cso869660e87.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 10 Oct 2024 02:14:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728551655; x=1729156455; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=iS1oowt3gWPxEnT3I7D8ZHwjyqV0wJkTaD5F8v/SXSs=;
+        b=J4teCbEWOn5n+3M1wmn9Zw3Bo+WwFKSKPgc4YOrAwjBRBXYyZw5lAK77847hPnyuIb
+         s3ShcyMPQ0Qy7RbJeIBbbK5bC8EkilJIczPkk7Xo2gF6Z+WTottCoqcEpnrSJoBeCk/k
+         3LWWGOD2SANTvWTHS3aiD7mZzyUo8tSUuygtX/W9fGkpc2Tga+X+ToABvZHaZEZOOlvU
+         8Z31TW7k5mxLbEsdpfmLEODQES0HEr5SN9o+gbOknuVum7E+OKvEXEgkKXGmZAsjtCTL
+         RH7bLe3YB6b0GlrH1mDOFCTEH0HiWLzE43E3V/rxWABHlXzdL+Pc1cyI6QNwVhEblMMt
+         3vMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728551655; x=1729156455;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iS1oowt3gWPxEnT3I7D8ZHwjyqV0wJkTaD5F8v/SXSs=;
+        b=oWpB8hruZW7mjTa5bMphtWTSYeU/yzztFPLx25OT+Ejo1ciJN20EN+ijPMjtazfDpo
+         zgGPQuXNQaMnoSwFDQaq8Q3YZWrtnoCM+nFDo04IjkRzbcnPT/k8tfijTmwHMfiSWhZE
+         B3bOxzFhnfDTweWwhOYftFoS2sxFkiZIKci7/bRI5ne4nIFIbosdnehbwJhRXrclp5xB
+         FEli0iZqYEylqatHKZVHdWQ8a77x+ybm0TfhUXXpSI1TLS5QLv5zW4Gxd5qY90UqJPQA
+         ywYZYROgA153JyQg95pbCQRantqMu6aNII2ViIIJ827IEUjGAfVThn9Sd46oPvtqnybx
+         h1JA==
+X-Forwarded-Encrypted: i=1; AJvYcCXeP7JA2oembQ0VxjErl+pZuIyJENuirTchjHWUYXZIAAEon2lIKGaPqFAorSjH6vyJ2uJsudA1JmpQIA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwKArMaWZC9hePzARFfPw2mHn4jjeJz3WevgzIxkRVz3C7ojjsQ
+	tpQmMQazRqXBq7VBGrYGCDXrzIq1+xL4ZhsFQ3ixsPZfwVAbBRK8
+X-Google-Smtp-Source: AGHT+IEabdPS/80LwHHvN4O9JjXcErRt0X3jKi/SEPXwMmL1sjvbwwX0uamKQJdfuWuquTPkH2rYfw==
+X-Received: by 2002:a05:6512:104d:b0:535:6cde:5c4d with SMTP id 2adb3069b0e04-539c48926bamr3578673e87.3.1728551654907;
+        Thu, 10 Oct 2024 02:14:14 -0700 (PDT)
+Received: from void.void ([94.230.83.74])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-430d748f0a5sm42337895e9.48.2024.10.10.02.14.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Oct 2024 02:14:14 -0700 (PDT)
+From: Andrew Kreimer <algonell@gmail.com>
+To: Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: linux-phy@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Andrew Kreimer <algonell@gmail.com>
+Subject: [PATCH] phy: sun4i-usb: Fix a typo
+Date: Thu, 10 Oct 2024 12:13:55 +0300
+Message-Id: <20241010091355.8271-1-algonell@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.13.0
 
-On Fri, 27 Sep 2024 01:20:51 +0200, Javier Carrasco wrote:
-> This series switches from the device_for_each_child_node() macro to its
-> scoped variant, which in general makes the code more robust if new early
-> exits are added to the loops, because there is no need for explicit
-> calls to fwnode_handle_put(). Depending on the complexity of the loop
-> and its error handling, the code gets simplified and it gets easier to
-> follow.
-> 
-> [...]
+Fix a typo in comments: wether -> whether.
 
-Applied, thanks!
+Signed-off-by: Andrew Kreimer <algonell@gmail.com>
+---
+ include/linux/phy/phy-sun4i-usb.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[01/18] leds: flash: mt6360: fix device_for_each_child_node() refcounting in error paths
-        commit: 73b03b27736e440e3009fe1319cbc82d2cd1290c
-[02/18] leds: flash: mt6370: switch to device_for_each_child_node_scoped()
-        commit: 19d1cc765e7d477070ddda02c9a07a1ebcdf4b2d
-[03/18] leds: flash: leds-qcom-flash: switch to device_for_each_child_node_scoped()
-        commit: f64dd42a4f939fb5acc3f3568ef2118487617996
-[04/18] leds: aw200xx: switch to device_for_each_child_node_scoped()
-        commit: a361af3c1622d4b8ede54493fa88633fb12201d0
-[05/18] leds: cr0014114: switch to device_for_each_child_node_scoped()
-        commit: 65135e2ccf5ad0853c1df0ffeefc372066a62909
-[06/18] leds: el15203000: switch to device_for_each_child_node_scoped()
-        commit: 9e445e28ae0c6fe24369127cf2302cd4f3a1b42b
-[07/18] leds: gpio: switch to device_for_each_child_node_scoped()
-        commit: 42b49671602f9badb14fd2c32e6791a24d8cbf02
-[08/18] leds: lm3532: switch to device_for_each_child_node_scoped()
-        commit: 7bd4b9277b9831d115f14d26000c0ba32c83d109
-[09/18] leds: lm3697: switch to device_for_each_child_node_scoped()
-        commit: 6e2d1d83b70bd736228529fd1cb4f98e0ab77eb8
-[10/18] leds: lp50xx: switch to device_for_each_child_node_scoped()
-        commit: ba35b9a4c1b074218880c47ca09d19a3c69f904d
-[11/18] leds: max77650: switch to device_for_each_child_node_scoped()
-        commit: 4ab3ae432da1706b5e1624ecea3c670faaec39d7
-[12/18] leds: ns2: switch to device_for_each_child_node_scoped()
-        commit: 5b5d936db0d2fb9e81d240ed91d062b8c8f0d224
-[13/18] leds: pca963x: switch to device_for_each_child_node_scoped()
-        commit: dea90acb09324efe640ab69766c12d8d387ee97f
-[14/18] leds: pwm: switch to device_for_each_child_node_scoped()
-        commit: e3456071853597229012622c97b76109c0fa8754
-[15/18] leds: sun50i-a100: switch to device_for_each_child_node_scoped()
-        commit: 8cf103de9a002fb02125491c06d9cd60762d70e5
-[16/18] leds: tca6507: switch to device_for_each_child_node_scoped()
-        commit: 01728d041986a6992d0b2499e88db4569e65a535
-[17/18] leds: rgb: ktd202x: switch to device_for_each_child_node_scoped()
-        commit: 48259638fe5986afe8ed2a49e35f0641d953c311
-[18/18] leds: rgb: mt6370: switch to device_for_each_child_node_scoped()
-        commit: bf3fba727695dcd1ac3f9d17d88845223f56c14f
-
---
-Lee Jones [李琼斯]
+diff --git a/include/linux/phy/phy-sun4i-usb.h b/include/linux/phy/phy-sun4i-usb.h
+index 91eb755ee73b..f3e7b13608e4 100644
+--- a/include/linux/phy/phy-sun4i-usb.h
++++ b/include/linux/phy/phy-sun4i-usb.h
+@@ -11,7 +11,7 @@
+ /**
+  * sun4i_usb_phy_set_squelch_detect() - Enable/disable squelch detect
+  * @phy: reference to a sun4i usb phy
+- * @enabled: wether to enable or disable squelch detect
++ * @enabled: whether to enable or disable squelch detect
+  */
+ void sun4i_usb_phy_set_squelch_detect(struct phy *phy, bool enabled);
+ 
+-- 
+2.39.5
 
