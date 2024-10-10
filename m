@@ -1,60 +1,60 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E53F31E906F
-	for <linux-sunxi@lists.linux.dev>; Thu, 10 Oct 2024 21:26:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D61B1EABA8
+	for <linux-sunxi@lists.linux.dev>; Thu, 10 Oct 2024 21:26:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728595575; cv=none; b=BoJmOjt4I8ErkfygqbGPkDIFuxEjcDgACDo29DT94aIU31l6Hvhgw6e/XrnTcGuN1oknAc3jbQ7+U74mI6AkrQz+CiuUmR4QWSG8uqrQN8Ys9rJQPzFdFJRM4BEtHCHNPh2j9MQKUKru805mkzze8uKEdQDJEoRtkGgO4GDCaXM=
+	t=1728595578; cv=none; b=ptQ5E3DX87OGpoztz4pXmRBHC4YrwfT0q4XlifeFZ03Rxw3jx1Tza66zwzGw+Hig75n7aEVBYNYcxI26x0xGa3hKnAfFukhGsNOo8G/kx/NZfQHHyNNucsFfcmKH8/Kx10eZkG7VB9O8H3VrsdTGeUs1cFvDjpuXibBe30nuPzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728595575; c=relaxed/simple;
-	bh=f+TcIDFO1FofKlmr06Cec6JytdWs70QlHA84jUACDyU=;
+	s=arc-20240116; t=1728595578; c=relaxed/simple;
+	bh=TCHsuzKnwrSzC8ELBgoH5r2aJODW1HU03jHewVR1CdI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=IthPCZ92avphI/UCo12R8611bUaVXBbUVPzTxFnmjyYOZnA7Ie6IX4u5Ya4nhE0zMXoVRnGFmnDV3KdpHv2T75Vr4B9PRYVjWUHw7tQGHSO4wx028fmmJ9hzDsHogbDmolwo3TT5rHhWvkrri1XHYDe+nU4Iq9ZE/FLuL6VP2zE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kfDe9Wie; arc=none smtp.client-ip=209.85.221.52
+	 In-Reply-To:To:Cc; b=mJE4VLJkVE2shWEhxH6xu/ACaFMHJNALxkoio9a6T0nufPQWEUj631NGjyx7uAadbXoIz29g7plACEz5BvkD21iB/KqwbAzUgdr9aaYwh5MscsJh/QMX2SsRFNye4JC1Vp4mkcrtOGGsQlpJOXuZoyDK+v8S2c9E4RlH+F1O+vE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d6CjFYgW; arc=none smtp.client-ip=209.85.221.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kfDe9Wie"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-37cea34cb57so827811f8f.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 10 Oct 2024 14:26:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d6CjFYgW"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-37d375ecc5eso884411f8f.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 10 Oct 2024 14:26:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728595572; x=1729200372; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1728595575; x=1729200375; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=T6P7FJOWA2mY2iTIPWe/1vsKU4sSdy22YB05qi0Ew68=;
-        b=kfDe9WiePBwqIiHsJnx3lKzWayqkjZAsPkyNXsGhE/sCnmfy4bvqYb0lB9gq8ypdjj
-         LZ58SvvusPLiFggBnTd0qqMyp+kNqiXcHxTXK9/gQDjXwKcgRZkUsLnvtLE/9B173Lub
-         WfomrYrjy7lSQACjR2fwMmfwyx/UWPsXYQTEn0Ye2MSaI/ziTC4xeBD2ctnrAl0wM1m8
-         a7wA9N5OZonlqlJGtiCHAGReL0NxDh4kNSVZ5LR0/u9DrALYj4SOmvV75UNDattyPEe9
-         dVYoS4sNaRkGoRDigaRWultecYWl6cZB2vdYDjH//+u+zEK2D0Y1SSxF0fFU4QTjRf3u
-         ZQ/A==
+        bh=vDpMMaqPXUoFVzi9A3PDhKb1T42MjqvUb4kdLnoWycw=;
+        b=d6CjFYgWwXBYotBjOmP7mQLAaMW8yIT5fjGKDWQfap/2dd98peL6uZ1DuCdP0Cn9qM
+         9rLYMNCMOjK13jygfRaN1F6/qfg4myNhyHiXpPUGb9EKXL6ZcBhLYOojQp39UTbsFtX2
+         I0yIHO6gem4Rq8zD6rQP653WF6z7AHb+tTesqjRXyG78fGrjFY2y5RXcaCcdv79KVxBk
+         CeM0FKox5t6Mrcs3/AzY2xINdUd3HmfiGrvgf4X4anBXtOH9KVUFzyjOBA1OekZ2/+f8
+         NVctWYB/YItU7YFEg8LO1tsvh+vUwc7pr71P1tOVrIPzrkZYtIF/OqEONKQPt8CCO5LZ
+         ZbLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728595572; x=1729200372;
+        d=1e100.net; s=20230601; t=1728595575; x=1729200375;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=T6P7FJOWA2mY2iTIPWe/1vsKU4sSdy22YB05qi0Ew68=;
-        b=wyFuwLFHvAewlG6PcqRM0VDaJ5PqyOusLyXKoxb1lOLTeuzZDx7GSi9NgqTCt0cCCU
-         LYvAJHk5iRMVW+ZU9KVTjmXVUtxhSMUb7pEIwijVCMTGj7Qeq4IBh16KNe1snwdY5Hf9
-         G13d2FNL+alWnoatBxrMxgNqVQm1I2zAWsPoinfWCYxWu+f6Q0Bkye4IGHG1CZByyhYc
-         wnz7PrBbAAaYpAOmtbyk35j7D/URub8SKAw4BaVjDs3P7LC1gkYQwI0bJn3JoHJTjtir
-         Fb9BVK7dvHrGgxQ3ROybTOjJtAjH6Xo3GXN7+cS8nFI5xv1abvmM/KNHFEWFiWIRng/V
-         sZ6w==
-X-Forwarded-Encrypted: i=1; AJvYcCXwJbtFLmkOeZROJO54BIYUXt2zLjocQcdoEUA3z0sm+Mm0begMrM22wU1/FRZgvjSjxqg7XuG7wDKGBA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzOsfjdAvhmW5LYAgw6hRu+k2z1RBK9QjBAvZ/YB+vKHwSL8l4B
-	XdRboNAKXHn7STbMoTsUYCAyCHG+MEsLFNhYIXKnaPCHtHGEBdZMJF74cCUQ
-X-Google-Smtp-Source: AGHT+IH8aKF7ZsrrRJ3ZAqBCFliO5puHhZfFhiaORhFDWMLDX5I92S5u/UpYGz9iWlpxdFrHyFPBzg==
-X-Received: by 2002:a5d:4fc6:0:b0:37d:453f:4491 with SMTP id ffacd0b85a97d-37d5518f628mr265658f8f.8.1728595572326;
-        Thu, 10 Oct 2024 14:26:12 -0700 (PDT)
+        bh=vDpMMaqPXUoFVzi9A3PDhKb1T42MjqvUb4kdLnoWycw=;
+        b=grjGSiZlqpL+WN7wULodgd/7W0m5u0vuFZj4+VayI/7cJGUJiIlGAutIaT4oTwk7fx
+         /lips6qaolhkTrrRZJrI5GORXabwK5300io+dHjHbG+xDgO4qpUTfeT5MefR8mA0Uuhi
+         rR1feWiORCkrE3kL1kQhpSMnFGE2Ng1wAW+PLimUfulM+Pymsd4JxZDrj5gIygBm84KR
+         6cw3EMY4bGdEs1V7Qh9GULuajqasLyCUD+OEVM5BH3AAvuYOdqKTrfgJVbXjgZNTMvR0
+         Vc7U46PCE82vpZR/RXTZGS03E0e3blGDLxZP5D0cfBpLv65InmDmYDl7vU7BeWeG1OFM
+         INoA==
+X-Forwarded-Encrypted: i=1; AJvYcCVTFBq4LMJYLiHqZJKXx2CglAhVkR2/lQskkWGO07JXBY2fnlpuJeqNYa9EE3R07FKzHS1fBarBk6wLBA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyWHvdoxraKX2BV8brw8/oL2XCZ7ZPMF9fRYf4zHaZiDIweU753
+	LO+o1/kXAcRSUgjPMlmoY0YHqvQmKFtr7z8M9fbjYXUUWiEvdqLz
+X-Google-Smtp-Source: AGHT+IHdMahvsk2hiPcLQLFTajRterRsAVRoLlPSao00sFi2GHvdnhGLq5Smgs1qAUipDrz8egxq6w==
+X-Received: by 2002:a05:6000:1203:b0:37d:4e03:635c with SMTP id ffacd0b85a97d-37d551d512emr359593f8f.21.1728595574599;
+        Thu, 10 Oct 2024 14:26:14 -0700 (PDT)
 Received: from [127.0.1.1] (2a02-8389-41cf-e200-3d08-841a-0562-b7b5.cable.dynamic.v6.surfer.at. [2a02:8389:41cf:e200:3d08:841a:562:b7b5])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d4b6a8940sm2402083f8f.6.2024.10.10.14.26.10
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d4b6a8940sm2402083f8f.6.2024.10.10.14.26.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Oct 2024 14:26:11 -0700 (PDT)
+        Thu, 10 Oct 2024 14:26:13 -0700 (PDT)
 From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Date: Thu, 10 Oct 2024 23:25:56 +0200
-Subject: [PATCH 06/10] Input: sparcspkr - use cleanup facility for
+Date: Thu, 10 Oct 2024 23:25:57 +0200
+Subject: [PATCH 07/10] Input: 88pm860x - use cleanup facility for
  device_node
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -64,7 +64,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241010-input_automate_of_node_put-v1-6-ebc62138fbf8@gmail.com>
+Message-Id: <20241010-input_automate_of_node_put-v1-7-ebc62138fbf8@gmail.com>
 References: <20241010-input_automate_of_node_put-v1-0-ebc62138fbf8@gmail.com>
 In-Reply-To: <20241010-input_automate_of_node_put-v1-0-ebc62138fbf8@gmail.com>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
@@ -80,51 +80,84 @@ Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-sunxi@lists.linux.dev, linux-rpi-kernel@lists.infradead.org, 
  Javier Carrasco <javier.carrasco.cruz@gmail.com>
 X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1728595555; l=1254;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1728595555; l=2328;
  i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
- bh=f+TcIDFO1FofKlmr06Cec6JytdWs70QlHA84jUACDyU=;
- b=rSoTsyqTSVQaxGJxx7Zk2ybfk4klIzu0zmDb1G7zEN3+e165HJnqYXSyzN09nq9Rh5EpSBTea
- SN2ySImkHOKABewNi/o9w3aNg+p9MtGzaFTKn16I0mkRni86QdhGwvt
+ bh=TCHsuzKnwrSzC8ELBgoH5r2aJODW1HU03jHewVR1CdI=;
+ b=xHiUPq+0uEXEYbsSevTTOS03OD5A3ZbaOvxx2BJWcX2dzwkxmfC/OCrEYTRrgYVjPrjRoPxHD
+ FE5yXQzgkTbBtgRrI9dLa6stp5BoMUgaC+F6ClAuNoxJm5fgiV8x+tC
 X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
  pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
 
-Use the 'free(device_node)' macro to simplify the code by automatically
-freeing the device node, which removes the need for explicit calls to
-'of_node_put()'.
+Use the '__free(device_node)' macro to simplify the code and error
+handling. This makes the code more robust by ensuring that the device
+node is always freed.
+
+Drop the first assignment to 'pdev->dev.parent->of_node', as it was only
+a shortcut, and tie 'np' to its usage as a child node.
 
 Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 ---
- drivers/input/misc/sparcspkr.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/input/touchscreen/88pm860x-ts.c | 20 +++++++-------------
+ 1 file changed, 7 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/input/misc/sparcspkr.c b/drivers/input/misc/sparcspkr.c
-index 20020cbc0752..bb1c732c8f95 100644
---- a/drivers/input/misc/sparcspkr.c
-+++ b/drivers/input/misc/sparcspkr.c
-@@ -188,7 +188,6 @@ static int bbc_beep_probe(struct platform_device *op)
+diff --git a/drivers/input/touchscreen/88pm860x-ts.c b/drivers/input/touchscreen/88pm860x-ts.c
+index 81a3ea4b9a3d..0468ce2b216f 100644
+--- a/drivers/input/touchscreen/88pm860x-ts.c
++++ b/drivers/input/touchscreen/88pm860x-ts.c
+@@ -117,13 +117,14 @@ static int pm860x_touch_dt_init(struct platform_device *pdev,
+ 					  struct pm860x_chip *chip,
+ 					  int *res_x)
  {
- 	struct sparcspkr_state *state;
- 	struct bbc_beep_info *info;
--	struct device_node *dp;
- 	int err = -ENOMEM;
+-	struct device_node *np = pdev->dev.parent->of_node;
+ 	struct i2c_client *i2c = (chip->id == CHIP_PM8607) ? chip->client \
+ 				 : chip->companion;
+ 	int data, n, ret;
+-	if (!np)
++	if (!pdev->dev.parent->of_node)
+ 		return -ENODEV;
+-	np = of_get_child_by_name(np, "touch");
++
++	struct device_node *np __free(device_node) =
++		of_get_child_by_name(pdev->dev.parent->of_node, "touch");
+ 	if (!np) {
+ 		dev_err(&pdev->dev, "Can't find touch node\n");
+ 		return -EINVAL;
+@@ -141,13 +142,13 @@ static int pm860x_touch_dt_init(struct platform_device *pdev,
+ 	if (data) {
+ 		ret = pm860x_reg_write(i2c, PM8607_GPADC_MISC1, data);
+ 		if (ret < 0)
+-			goto err_put_node;
++			return -EINVAL;
+ 	}
+ 	/* set tsi prebias time */
+ 	if (!of_property_read_u32(np, "marvell,88pm860x-tsi-prebias", &data)) {
+ 		ret = pm860x_reg_write(i2c, PM8607_TSI_PREBIAS, data);
+ 		if (ret < 0)
+-			goto err_put_node;
++			return -EINVAL;
+ 	}
+ 	/* set prebias & prechg time of pen detect */
+ 	data = 0;
+@@ -158,18 +159,11 @@ static int pm860x_touch_dt_init(struct platform_device *pdev,
+ 	if (data) {
+ 		ret = pm860x_reg_write(i2c, PM8607_PD_PREBIAS, data);
+ 		if (ret < 0)
+-			goto err_put_node;
++			return -EINVAL;
+ 	}
+ 	of_property_read_u32(np, "marvell,88pm860x-resistor-X", res_x);
  
- 	state = kzalloc(sizeof(*state), GFP_KERNEL);
-@@ -199,14 +198,13 @@ static int bbc_beep_probe(struct platform_device *op)
- 	state->event = bbc_spkr_event;
- 	spin_lock_init(&state->lock);
- 
--	dp = of_find_node_by_path("/");
- 	err = -ENODEV;
-+	struct device_node *dp __free(device_node) = of_find_node_by_path("/");
- 	if (!dp)
- 		goto out_free;
- 
- 	info = &state->u.bbc;
- 	info->clock_freq = of_getintprop_default(dp, "clock-frequency", 0);
--	of_node_put(dp);
- 	if (!info->clock_freq)
- 		goto out_free;
- 
+-	of_node_put(np);
+-
+ 	return 0;
+-
+-err_put_node:
+-	of_node_put(np);
+-
+-	return -EINVAL;
+ }
+ #else
+ #define pm860x_touch_dt_init(x, y, z)	(-1)
 
 -- 
 2.43.0
