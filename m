@@ -1,100 +1,161 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B3591C9ED0
-	for <linux-sunxi@lists.linux.dev>; Thu, 10 Oct 2024 13:37:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1C591CCEFA
+	for <linux-sunxi@lists.linux.dev>; Thu, 10 Oct 2024 17:53:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728567457; cv=none; b=BqW/PX4UHc1EjEASDdoU+Z5vk28OxfO13uVbD1uFfpM1Z8TYpJo79gOcdr+8068Bbz+dBzHxfWxgNkerIzlU/tm4QLY3pnlC3asYtKAadTNNqV1DUaJ2TPM4e/yxffrfyDUV+t7I51WyaJCS5ei3yOzwXr0EwMMo02igE6ldO7A=
+	t=1728582829; cv=none; b=LpnfgVaoeAhiGoK3n9uFSGklhwj3Jjuk/OEhFqd6zM+IO0kKFuFQS9fXcbg1MZ8pFkrYiZIs51xRVOION7EhWTb0VnvkRl+6k+aqkfdYSwXjKaARBoH2D2rcVarhnVQ8saGoyEnEeitkSDJP75Nm3Z8UQf9WexD7tDY7Xpm0ILM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728567457; c=relaxed/simple;
-	bh=SIKjiEYlDDDOqLRf8TeBLmmvdWfnUp8Y2f7+7Cs8lGQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=s3TyJ/DgWmD8BZVgFrKO5e5CYWHZJbgxRninoAXetSl5Sx3LNGy5c+Qe0yTaPPW28NiIc+u7vqf+MoMRad6xNZoj1d87kTbafFSjjGg2pP1BJCXPebZ8lxSTzbxZDRFR5ijq2KbjRDfw9y7whfDmFHEIQknlHrT+1DZ2CHNRwjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-53995380bb3so1197685e87.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 10 Oct 2024 06:37:35 -0700 (PDT)
+	s=arc-20240116; t=1728582829; c=relaxed/simple;
+	bh=YzXifwgJSJSNIXlwxWyYUhBYj6pGIAoVtfeOgQdv62U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ILEbaxnTLfGVnuZNXlhWkIunRUzo6lSJYjwr/2OUJGiCx3bl0SeOYITBS/jePb/LovpWwBjHObanyiVpb69eY9I+rp13b7SwfveSYimkArjvrk0YZmnVpRrLh13pQ+azkh4HZXJpKXDx1Hj3pkcAHxPOZVvpeWS93r+RgMP7B/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aAXnZaJF; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aAXnZaJF"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43052b41f25so1705885e9.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 10 Oct 2024 10:53:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1728582824; x=1729187624; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=0ucUNq6DfZ6kzJNCh9EH0qZzNvjV7pwLl5byFikfNic=;
+        b=aAXnZaJFvwq0nK9zIM0ouEPa2o2APjaskc0tiqh2JKuRr10lEoM/iou3ZwVv5mAvJ2
+         ARsWlYFknQCM/vOgHJbMGGQwjIcGDEt2wR0VEvDVW+yARfcfqsbNkNYLiT9F1nEGRLoY
+         f8iA1ZrB9O6nPqj+t/pUA8j+PC09DyRYtiGn8dd4WbKLMn9VXQfbOH5VGlOZY5Ey6qpz
+         hu5skary2G5fu6AoduwXyaFL6e8NaM+T/q+4ipISufuyIKZfAqGlxcqsqKnE48LU5Xzt
+         AauHiLsZ706KzgPISh1W3N3GVp+r1ZxdfLRumiq/xgn8jwWGA/aFK5hlc+434Xvxbc2P
+         kbHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728567452; x=1729172252;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZzwzKkCp6jPszo6ZyDDEvEEJi7wd/je50oKdYYshjiU=;
-        b=g49TiUNmotK+3EM1UnR9Qd2qrb66TkzW/7ADT6tWJDXy9K9DNyTCFLgMfIvzA1G5MA
-         97l5cWJo/6O15t0qNgFxTQ7YFEwYShHOdnS4RTi3A/N0ruxCxncsSPis6dPjf9JL+r6w
-         WGFbr2bfSRHXljvYMLYyGxnozgfiN3JLlEUGCgrjlmHxR5jeSUh9OOjvgguwAfs2RXcB
-         E1Uk8JZwfbj9e89aQjZTeDVmJNguEjOmi2iMRxeWBMTPwz+k6QF5DJnLLGhjRG+ok6EY
-         r9m6RfWfjT6PCJzYojKRKR/JD8og8+hGIhD1QZE8ddd0Q6mjJ/0AHYg+hSDNWb6sm8Ip
-         nYWg==
-X-Forwarded-Encrypted: i=1; AJvYcCW8UQK6wqu7lqOqxQnfuGUVytwDGuayGvFZ/ZTYX39c6O+mIbQJTtKLdAV/p3Jo3tZWXkeOUwhPSCrHNg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxm6KLhoXmg4JQu9W6RXnOnCfRoOudHtS7MsUmkhXkbK3BxzxBn
-	IGe501gNW8Jj9rzAD1eQUBXq0zuS0QhNoTAhaWsirOCI1mkWEN9AnH5MzSO+
-X-Google-Smtp-Source: AGHT+IGQigoppa3Y/X7ew+JL9rsjQNVeuPWvAckPGHcNAGeF46SLT5ReyixrME5/mQn/i8ei56AhNA==
-X-Received: by 2002:a05:6512:2822:b0:52f:413:7e8c with SMTP id 2adb3069b0e04-539c48989f7mr3582848e87.14.1728567451510;
-        Thu, 10 Oct 2024 06:37:31 -0700 (PDT)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com. [209.85.208.169])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-539cb90547esm257614e87.265.2024.10.10.06.37.30
-        for <linux-sunxi@lists.linux.dev>
+        d=1e100.net; s=20230601; t=1728582824; x=1729187624;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0ucUNq6DfZ6kzJNCh9EH0qZzNvjV7pwLl5byFikfNic=;
+        b=EpvKa+XdIHGDLDrZ/eQxR5iTbMWh6u6RVaYnMX6n+sBPhTBHd79i8pd7ADQMrwPLP0
+         DdZx479tQ5M1sqBXhH2TG9efjLh6kFmf7S6cvMYrX4Heocbp7yQv3UiTnfWc3OoXrcIz
+         OHQ+FbImcLPj1VWmMfxToFLrG0edE+h6XNabei+IaeZUx96/AdHUKsvXDGM5hlwxFjk4
+         uieTYIdGhKKNQOneFa4Y/uSF4e5EsRznQ3tnnUNbUZX10h6zQDdXYyN/gdI3BsqerPkf
+         Z5ZVOTbzbJq7ZglbKhS8c7mTlnOLLhroAtTM6r50EcDmvrMsh0eLKl9SncVc2FlOUlXm
+         QepQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUluFEhMgxCH6qIBQhaPIXYypimBbsKUE12zK38YSuyKibSRXa+YQC65T5H62tr2QgbJHEW9A821HQ/tQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzaFt+XESFZl5yqoiPEQGwz1flXcYaLog2V8n+UFdSiwpFt8NpZ
+	xY726dnYELMdjbwSGOHfDr36k3pXkWjifrJyipEEKEhRdL4gYLyBQ9eTW3y9DY4=
+X-Google-Smtp-Source: AGHT+IEOz5fz6+YBFURACCn40ez7P5s2JRlWE8GFt6DmtuCLL3Y0WMRAtwBtrntBNBUm05KKykiu/A==
+X-Received: by 2002:a05:600c:5250:b0:42c:c0d8:bf34 with SMTP id 5b1f17b1804b1-430c3a9fb52mr30099115e9.0.1728582824024;
+        Thu, 10 Oct 2024 10:53:44 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.211.167])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-431183061a4sm22333165e9.23.2024.10.10.10.53.39
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Oct 2024 06:37:30 -0700 (PDT)
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2faccccbca7so7694521fa.2
-        for <linux-sunxi@lists.linux.dev>; Thu, 10 Oct 2024 06:37:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUnp9cM3UXYTqXe1G9WJ/bV3mEy5w52s0u7i6bJHF8ZbVM84vvyagE4tTNZe/qInIiNl2lQcCTl22kJ7Q==@lists.linux.dev
-X-Received: by 2002:a2e:f19:0:b0:2fa:c57a:3b1c with SMTP id
- 38308e7fff4ca-2fb1873eca8mr32339161fa.17.1728567450394; Thu, 10 Oct 2024
- 06:37:30 -0700 (PDT)
+        Thu, 10 Oct 2024 10:53:42 -0700 (PDT)
+Message-ID: <3403afd2-20ee-436a-9d3a-22e1c38f78ea@linaro.org>
+Date: Thu, 10 Oct 2024 19:53:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241010091355.8271-1-algonell@gmail.com>
-In-Reply-To: <20241010091355.8271-1-algonell@gmail.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Thu, 10 Oct 2024 22:37:16 +0900
-X-Gmail-Original-Message-ID: <CAGb2v64=WSCyKVyMtUv1d_WoLLnJjEx4WzC3mmF2uB+6O+0oZQ@mail.gmail.com>
-Message-ID: <CAGb2v64=WSCyKVyMtUv1d_WoLLnJjEx4WzC3mmF2uB+6O+0oZQ@mail.gmail.com>
-Subject: Re: [PATCH] phy: sun4i-usb: Fix a typo
-To: Andrew Kreimer <algonell@gmail.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	kernel-janitors@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/6] thermal: of: Use scoped device node handling to
+ simplify thermal_of_trips_init()
+To: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>,
+ Lukasz Luba <lukasz.luba@arm.com>, Amit Kucheria <amitk@kernel.org>,
+ Thara Gopinath <thara.gopinath@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, linux-pm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, Chen-Yu Tsai <wenst@chromium.org>
+References: <20241008-b4-cleanup-h-of-node-put-thermal-v3-0-825122398f71@linaro.org>
+ <20241008-b4-cleanup-h-of-node-put-thermal-v3-2-825122398f71@linaro.org>
+ <20241008123209.00005cee@Huawei.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Language: en-US
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20241008123209.00005cee@Huawei.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Oct 10, 2024 at 6:14=E2=80=AFPM Andrew Kreimer <algonell@gmail.com>=
- wrote:
->
-> Fix a typo in comments: wether -> whether.
->
-> Signed-off-by: Andrew Kreimer <algonell@gmail.com>
+On 08/10/2024 13:32, Jonathan Cameron wrote:
+>>  	tt = kzalloc(sizeof(*tt) * count, GFP_KERNEL);
+>> -	if (!tt) {
+>> -		ret = -ENOMEM;
+>> -		goto out_of_node_put;
+>> -	}
+>> +	if (!tt)
+>> +		return ERR_PTR(-ENOMEM);
+>>  
+>>  	*ntrips = count;
+>>  
+>> @@ -127,15 +123,11 @@ static struct thermal_trip *thermal_of_trips_init(struct device_node *np, int *n
+>>  			goto out_kfree;
+>>  	}
+>>  
+>> -	of_node_put(trips);
+>> -
+>>  	return tt;
+>>  
+>>  out_kfree:
+>>  	kfree(tt);
+> May be worth a follow up to do __free(kfree) on this + a steal for the return.
+> Then push the ntrips set until after the populate so it doesn't need resetting to 0.
 
-Acked-by: Chen-Yu Tsai <wens@csie.org>
+That's good idea, I'll send v4 with a revised patch (dropping your RB here).
 
-> ---
->  include/linux/phy/phy-sun4i-usb.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/include/linux/phy/phy-sun4i-usb.h b/include/linux/phy/phy-su=
-n4i-usb.h
-> index 91eb755ee73b..f3e7b13608e4 100644
-> --- a/include/linux/phy/phy-sun4i-usb.h
-> +++ b/include/linux/phy/phy-sun4i-usb.h
-> @@ -11,7 +11,7 @@
->  /**
->   * sun4i_usb_phy_set_squelch_detect() - Enable/disable squelch detect
->   * @phy: reference to a sun4i usb phy
-> - * @enabled: wether to enable or disable squelch detect
-> + * @enabled: whether to enable or disable squelch detect
->   */
->  void sun4i_usb_phy_set_squelch_detect(struct phy *phy, bool enabled);
->
-> --
-> 2.39.5
->
+Best regards,
+Krzysztof
+
