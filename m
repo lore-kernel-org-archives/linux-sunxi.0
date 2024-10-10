@@ -1,61 +1,61 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E4FF1E6DFE
-	for <linux-sunxi@lists.linux.dev>; Thu, 10 Oct 2024 21:26:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 469D71E7C30
+	for <linux-sunxi@lists.linux.dev>; Thu, 10 Oct 2024 21:26:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728595568; cv=none; b=teeWbfGRJbIpAFLLXbTQW9p4z7sUBVqheQycGvtvjpZ6xD4J6NwlXPUzsPuXumWpbVAiKINkOq09xzGES9IX7yQCTsCcOos3X4HjR39zlQwSyu/2m+e0fsBxAOQU5lPQt0r8VtQRJgOfsrA8CmrROgyrosK2GDK0P5nTPYV0alA=
+	t=1728595570; cv=none; b=XbMooOlVtppYNQtj04+WSRBBGzz/ISVCRW8t12zL23J6oZ0b97uMLW0LQ1TRIH5JGUz58gH+C/aYD4uVEtyx7y92fKoCbjnHGXbDZ0tdDx2nc9JasxlmAEoAqywmkpy7o5DJjWFP0lzgHN9kklExwCDDRBH1P4JaAjkn0kY8baQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728595568; c=relaxed/simple;
-	bh=AF25XcLrg1gJJCZ0loQqPaYtp8vI7GzZlTAbicwO06E=;
+	s=arc-20240116; t=1728595570; c=relaxed/simple;
+	bh=tDYGmTbXvdvpbRFG0IrCSIV47mvFQRYsGGj+NcIIddk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=YXwSYIWxrJ0sQNWVNSis0rP3o4Hfb5gyU+nHiJgJbJ+96SN7DKyvpFRLT2NTqRdeMYdmzX+rZgBAo9D7QtbVVGtTAxvUmX1xubfyhD48hnpiA7S/YJZ3ddVdQQBFQNbtrJXx7nEXPddF3wt1CM5lc7ukh+yvx5MJd8BT9f1mjR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RTHrHz3Y; arc=none smtp.client-ip=209.85.221.45
+	 In-Reply-To:To:Cc; b=RdSDbhK2368Cy/SLOSIbn8PVCdQuj/Z9wkHJLqrFhniWPP5m/B1PmQdY/nG3FBZZZ1ufkyCT+VbBoKrSlItyWw+ktA7EBxjcysd39PRgDGabwNDSK+n/mWkT2BlPloJgBd7b8egKwdj1CXIdSO8brLSZM2w41YZJhiINXd/u+8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GtKAuW2t; arc=none smtp.client-ip=209.85.221.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RTHrHz3Y"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-37d518f9abcso376452f8f.2
-        for <linux-sunxi@lists.linux.dev>; Thu, 10 Oct 2024 14:26:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GtKAuW2t"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-37d533b5412so240115f8f.2
+        for <linux-sunxi@lists.linux.dev>; Thu, 10 Oct 2024 14:26:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728595565; x=1729200365; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1728595568; x=1729200368; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=J/PQS/8RbHWMjns+hXbfTHhQVRn54n1C6fHMniju3VI=;
-        b=RTHrHz3Y3IrZh6KwZI4b6EMUOPqpYfvM2w4We7hVxENCC15d9aKTUhuvQ8HSPKwUuH
-         xEXodZVuL8zStIQmD9TkGPWIKzKaMETcjsE6Ipi/O0ZZ76MoUCSeHw0bPrdj6RrMGPqC
-         m3v/pcHIEgC7paZ2rb/aEh1P0Onf8eibU2FftcD8842QfTFjtnWauKmjuOke2diRP3gN
-         hI2EOwHpPrs5/r1RiAQSyVujo0yLa3xuP5ih5hRJq2vOC0Th/tV74JM3bqyq1X1x2GX0
-         g/j9ySHI4M5DjdC3nWddghFdh8rgQ/iAw9S+B0djP+ymmp6Ss1oe8qnMHvUN0auWB4xY
-         fxMQ==
+        bh=fHWRZlXxWyBjeMmMTHiCSMSAw8Pbb8irSTDpVqQUOvo=;
+        b=GtKAuW2tu5vJ6h1Fkv/aCglmUeU8BjB2Cz7H85quex7+m7jKW6sRjf+TYhR69bE5Fo
+         KyC3ngV7229i7fcgrYJpvCKvHP3/gdspGRyXmcN2xI76rv3iBDSVucxCIQTfSmcmotoq
+         zrbWloBL9Syo9gO5Q8fav21u9EFW1KSpC3S4efyaZZX0NaV+G1RcTuDWDwt2mpOSJZGJ
+         DSkQ2IgjOP/cR6G4+OmtpEb01kYKfPTBeqLZ7hRVf8aHkLy5VFvmaew/c8bN0rBQOy63
+         YvC74xwNAxl+BsJOz8GUNYunf0+ypqDLcrA9fX7szxLOAhDwumHilXe5lpLsdfXJoYhJ
+         CY8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728595565; x=1729200365;
+        d=1e100.net; s=20230601; t=1728595568; x=1729200368;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=J/PQS/8RbHWMjns+hXbfTHhQVRn54n1C6fHMniju3VI=;
-        b=DWVyahUJIdhSgTVoxt0QycsZ0sM/Wml7wEJ7QwFq9ztWIZMnc5O3iOdDri+b1q1Tvh
-         OTUbfwSYrbFeW7M8Grui4ZLYl2n0xbDod9oY6sDo2KGIMEonTtF4WGWpTvrl0oa44uv1
-         mEyALsf0aC79NINMqMvDpINHp9p6qJs5dXL3TfwWNdHa6OtWi42YXwpUEm2Z0VrUr2mT
-         NWFXGAvvA0atPdz2f9KbgvdO7kTuGXdNqkdCvIFWRF9NnfyJkvOqGyywGg0RqJ1dJb5N
-         akst8QWz9SRc9Duq+wc8h2TagFFDuEsmun6eAQl80GvzIIorb1LZCdpRMr+3zTXDdfO/
-         VJkA==
-X-Forwarded-Encrypted: i=1; AJvYcCWTLbXRNcVPSke7KXCcP4TgTVdTt6fmXnDPtUAYYHTXvX7TY3oWByNPLpT5HAo4HlO3MEgEyIMQrsuFUw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwkzfBlEYptgbtQfrENfml+iDDOekz4WleOCzw5ufELRpEe6S+2
-	wfTA3rFT7FY/IEuKjhuenOhDg3lLtlpCF3RkyiWw1phFykedKDbw
-X-Google-Smtp-Source: AGHT+IHTagaYiTqDEo8/KQexjkWrhnQ6PMf/Wmq6Gqr6clYP1OUl5dQgDZmTtwi4XEpJMk2I20xVwA==
-X-Received: by 2002:a5d:4acc:0:b0:37d:54a0:d0a1 with SMTP id ffacd0b85a97d-37d552cdd6dmr236882f8f.56.1728595565212;
-        Thu, 10 Oct 2024 14:26:05 -0700 (PDT)
+        bh=fHWRZlXxWyBjeMmMTHiCSMSAw8Pbb8irSTDpVqQUOvo=;
+        b=eualC9UPxDx05HPMgovMUz3SgZjBO4HzpSTyW//AQ/bGTfJI6HY8kjgBY1WELQDh0Q
+         VL+rarzjJ/RXU54wpcpMmjxz7WY+pJZ6P2G3ypnVBZueFWVOTJqrjbQLrkxmQcrtP2Fu
+         EiQi3TayIyWIpxcPUUv3gnYzWd/B3zmzUYfwjZmXdN27MiQhkpk13aj4VJXINBuElG88
+         gCTh8fArmfR4xR1bYSwDnT8UBilQwJtzvA5465KA+D5320qHenU4d9qRp2jfW3A8WC9J
+         nlcOFwpxEPVJOt6MPpaHFxK1YNKTZrTWhYH+Kc5EyVayHRvnaSgZ9qmZvUhbCk0kSk41
+         4+Tg==
+X-Forwarded-Encrypted: i=1; AJvYcCVaNWVGb/KUjdvR+jQ8ahr8YNjczE6jmyd2HLv03+IdJ1KSTTkhHFkKdakE6fNBfl4RoS7dl4lJGb5+3w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzwVUE14aclRhZWZTRPLif4SM5Zgd2pzLfUUEYBoZFUvKpVSL7x
+	FvIBW9jQ2bthiZxRmok4xKdw1JU2lcRVSQwdXMmpYn62WeMLbk26
+X-Google-Smtp-Source: AGHT+IH29d2ZIsfU/u9DFVW+6yCWUZ10F+EwzMZ6/EKx3GvDGWDTA3iS7grS2mWveZO8jUN402sziQ==
+X-Received: by 2002:a5d:6843:0:b0:37d:43ad:14eb with SMTP id ffacd0b85a97d-37d551b7365mr236307f8f.14.1728595567520;
+        Thu, 10 Oct 2024 14:26:07 -0700 (PDT)
 Received: from [127.0.1.1] (2a02-8389-41cf-e200-3d08-841a-0562-b7b5.cable.dynamic.v6.surfer.at. [2a02:8389:41cf:e200:3d08:841a:562:b7b5])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d4b6a8940sm2402083f8f.6.2024.10.10.14.26.02
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d4b6a8940sm2402083f8f.6.2024.10.10.14.26.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Oct 2024 14:26:04 -0700 (PDT)
+        Thu, 10 Oct 2024 14:26:06 -0700 (PDT)
 From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Date: Thu, 10 Oct 2024 23:25:53 +0200
-Subject: [PATCH 03/10] Input: sun4i-lradc-keys - switch to
- for_each_child_of_node_scoped
+Date: Thu, 10 Oct 2024 23:25:54 +0200
+Subject: [PATCH 04/10] Input: twl6040-vibra - use cleanup facility for
+ device_node
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -64,7 +64,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241010-input_automate_of_node_put-v1-3-ebc62138fbf8@gmail.com>
+Message-Id: <20241010-input_automate_of_node_put-v1-4-ebc62138fbf8@gmail.com>
 References: <20241010-input_automate_of_node_put-v1-0-ebc62138fbf8@gmail.com>
 In-Reply-To: <20241010-input_automate_of_node_put-v1-0-ebc62138fbf8@gmail.com>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
@@ -80,66 +80,61 @@ Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-sunxi@lists.linux.dev, linux-rpi-kernel@lists.infradead.org, 
  Javier Carrasco <javier.carrasco.cruz@gmail.com>
 X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1728595555; l=1723;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1728595555; l=1953;
  i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
- bh=AF25XcLrg1gJJCZ0loQqPaYtp8vI7GzZlTAbicwO06E=;
- b=wi6sf2KQfPxfVmYIPTgXn9ICUj6hhr2iRzOEK7JHXtgg5cLEOvCV7676G+F2C2arErdMBYj3d
- bSCk+w+kbPfAlODbaQuyP1b/Crwa0KT5OQkJ8a44SmYDIBq6lvZCcZI
+ bh=tDYGmTbXvdvpbRFG0IrCSIV47mvFQRYsGGj+NcIIddk=;
+ b=aQSM4gB2oKRbGTKDUnb+JrhfhsQ4SuW3g/7tQuRTKwxhS2Fu6V3AEwkunPJT91s0uiqLyuOB1
+ PpjDY5LHIRBAvqrVdAPip7Uj9SnWp7iBwmBWmqkARDaPeBAPVRV8kuS
 X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
  pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
 
-Use the scoped variant of the macro to simplify the code and error
-handling. This makes the error handling more robust by ensuring that
-the child node is always freed.
+Use the '__free(device_node)' macro to simplify the code and error
+handling. This makes the error handling more robust by ensuring that the
+device node is always freed.
 
 Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 ---
- drivers/input/keyboard/sun4i-lradc-keys.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ drivers/input/misc/twl6040-vibra.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/input/keyboard/sun4i-lradc-keys.c b/drivers/input/keyboard/sun4i-lradc-keys.c
-index f304cab0ebdb..f1e269605f05 100644
---- a/drivers/input/keyboard/sun4i-lradc-keys.c
-+++ b/drivers/input/keyboard/sun4i-lradc-keys.c
-@@ -202,7 +202,7 @@ static void sun4i_lradc_close(struct input_dev *dev)
- static int sun4i_lradc_load_dt_keymap(struct device *dev,
- 				      struct sun4i_lradc_data *lradc)
+diff --git a/drivers/input/misc/twl6040-vibra.c b/drivers/input/misc/twl6040-vibra.c
+index 78f0b63e5c20..afed9af65bf9 100644
+--- a/drivers/input/misc/twl6040-vibra.c
++++ b/drivers/input/misc/twl6040-vibra.c
+@@ -229,14 +229,13 @@ static DEFINE_SIMPLE_DEV_PM_OPS(twl6040_vibra_pm_ops,
+ static int twl6040_vibra_probe(struct platform_device *pdev)
  {
--	struct device_node *np, *pp;
-+	struct device_node *np;
- 	int i;
+ 	struct device *twl6040_core_dev = pdev->dev.parent;
+-	struct device_node *twl6040_core_node;
+ 	struct vibra_info *info;
+ 	int vddvibl_uV = 0;
+ 	int vddvibr_uV = 0;
  	int error;
  
-@@ -223,28 +223,25 @@ static int sun4i_lradc_load_dt_keymap(struct device *dev,
+-	twl6040_core_node = of_get_child_by_name(twl6040_core_dev->of_node,
+-						 "vibra");
++	struct device_node *twl6040_core_node __free(device_node) =
++		of_get_child_by_name(twl6040_core_dev->of_node, "vibra");
+ 	if (!twl6040_core_node) {
+ 		dev_err(&pdev->dev, "parent of node is missing?\n");
+ 		return -EINVAL;
+@@ -244,7 +243,6 @@ static int twl6040_vibra_probe(struct platform_device *pdev)
+ 
+ 	info = devm_kzalloc(&pdev->dev, sizeof(*info), GFP_KERNEL);
+ 	if (!info) {
+-		of_node_put(twl6040_core_node);
+ 		dev_err(&pdev->dev, "couldn't allocate memory\n");
  		return -ENOMEM;
+ 	}
+@@ -264,8 +262,6 @@ static int twl6040_vibra_probe(struct platform_device *pdev)
+ 	of_property_read_u32(twl6040_core_node, "ti,vddvibl-uV", &vddvibl_uV);
+ 	of_property_read_u32(twl6040_core_node, "ti,vddvibr-uV", &vddvibr_uV);
  
- 	i = 0;
--	for_each_child_of_node(np, pp) {
-+	for_each_child_of_node_scoped(np, pp) {
- 		struct sun4i_lradc_keymap *map = &lradc->chan0_map[i];
- 		u32 channel;
- 
- 		error = of_property_read_u32(pp, "channel", &channel);
- 		if (error || channel != 0) {
- 			dev_err(dev, "%pOFn: Inval channel prop\n", pp);
--			of_node_put(pp);
- 			return -EINVAL;
- 		}
- 
- 		error = of_property_read_u32(pp, "voltage", &map->voltage);
- 		if (error) {
- 			dev_err(dev, "%pOFn: Inval voltage prop\n", pp);
--			of_node_put(pp);
- 			return -EINVAL;
- 		}
- 
- 		error = of_property_read_u32(pp, "linux,code", &map->keycode);
- 		if (error) {
- 			dev_err(dev, "%pOFn: Inval linux,code prop\n", pp);
--			of_node_put(pp);
- 			return -EINVAL;
- 		}
- 
+-	of_node_put(twl6040_core_node);
+-
+ 	if ((!info->vibldrv_res && !info->viblmotor_res) ||
+ 	    (!info->vibrdrv_res && !info->vibrmotor_res)) {
+ 		dev_err(info->dev, "invalid vibra driver/motor resistance\n");
 
 -- 
 2.43.0
