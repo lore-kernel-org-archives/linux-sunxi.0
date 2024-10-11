@@ -1,124 +1,117 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60CEB21500B
-	for <linux-sunxi@lists.linux.dev>; Fri, 11 Oct 2024 10:28:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1C63213EC2
+	for <linux-sunxi@lists.linux.dev>; Fri, 11 Oct 2024 10:36:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728642542; cv=none; b=LhNhAV+Xe5xB4w+5hYW7sI94PG12pWw2OGs+UiYgvRgahcfd+MrdY6yP4dUvsPtv0t6XQVj8+aaudK1oB33c/kx/ueAfLgV0GK8oMgGboRZ75J62GBpHqkWq6tgueCgD1h0j10ap2DXW6anqe2BEyaaktQ3ywHru+nVnDGuc+ys=
+	t=1728643007; cv=none; b=WJdDf7LATvmw+jDgkUgW7ngzw8eaiNu7xYXzbGfvo2itKkQWcCMtHt/XYhab6MHD9TYHKVa/XjqmRfi82cHYt/Y7HDRJ0uAcGgkAo9jaxW2zuawpZqnOt8cPuokQd0wK/cburnb4YfyxYkYnMVK3QsXzmAm/oSrrLKUle84JLO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728642542; c=relaxed/simple;
-	bh=BHjvuHtxcGbYTJxuDTg/fs/1zRBNwMIIEfEqMmhl7qw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=j+QG95A6h2vrsihwFzuHcs7RdyVbtufVWisePa/EB6n3WzhTdXrg8dHxJKrLMmNIHTW9zvdai99U71KOxLDuZwMASlMRxiO8WmQYX+giW90F5/eSI+HEFMd0myCj0P38jXX30DBBWWzkJKTJd1OmqIjPYlnEUjWhxMgCNF/sxfM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lht25DiT; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lht25DiT"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-539885dd4bcso2539179e87.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 11 Oct 2024 03:28:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728642537; x=1729247337; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RYYMYkxftkNwTdyqS8CRT4NccxOq5tlDjvnPZc99yTM=;
-        b=Lht25DiT8rWmoEZhyBLYBYM8dEFGPdCmxPi30jGmehaE3PjeSmzG8B27VKsNtjXo1Q
-         kvFQkcjQTb+NhvaoFub4/1zIqsQnvD1GKtOZtGMSdQbaGV+qBZ1BxPUXExpt3LnFvV+q
-         2kaUj1iwuXqcicjy3hXzrlInkXn5Q99MBPjpOzptSvkWXSxH9YHSnixWqm7rMDXBlp/b
-         vYQYtEZfYYzEThUxAEwQUi3sCebRlPciQ4ZAPGgrKw5QwBrzMcX4etyNe9PXvw4sxPlR
-         tFyxIPHWOzFd4IOii1Jj+vtWUr7IKNF8rX3LTeQd/1MysQ9HxzzBkPoSTgSg+iITycOx
-         F/yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728642537; x=1729247337;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RYYMYkxftkNwTdyqS8CRT4NccxOq5tlDjvnPZc99yTM=;
-        b=FwQL9xnj7BgRMjzORqr8rChJo7GnNXUZicVNvyE7x9VFPOr8Uj3DLiaYEmD8VVIimy
-         41XWxY3S6G3zpae+TMo9cJpiKPnsv7oRg1Gm4d4NyUYx9aIme/Cs0EeOxSWAgLgRcHRD
-         gCNxB1xO5J4nTF5nmujcv7O3/hg37ceGHuKuZVqbRi7TndG5Z7hDA8M/FQ/ZhUuP11dK
-         98B76OOkMkhSrGCZYEXFR2EbKBKK8hbbzjBKL3utV4EDm9aRmSpjDzCRn6sGW41BVmyh
-         moZ2WedHOlCduy6ovFZQ133enpUvnFWZL8cjaBu5cDxbByi79B43PErC2V7oqzXCve/G
-         /N0A==
-X-Forwarded-Encrypted: i=1; AJvYcCUckDVJc/uASgSgekHW1bucAX/qJ2Zl3QQQRWkh3+Gwl+VXMJg00f5WW+Lh3UBNZVjeNuxYnaZy9ACtdA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzhEBORJkaJARn94aA8x80bEjyz3/XRDyFep9zHdQXvkz0Zcd1x
-	knwaVnQuwjOihQqtKCFbexyulmpjoTLnKLDpAx4wSA3FBZ27m9SkMXfdw1EDqzTN
-X-Google-Smtp-Source: AGHT+IH/0iVsIqjE53CKqC3QuGl88A222SHl1NC8BOnNKbuokjEWuS32AA0HurhU3gBV0qhEcwHfLg==
-X-Received: by 2002:ac2:51cd:0:b0:539:e333:181f with SMTP id 2adb3069b0e04-539e3331a00mr162073e87.10.1728642537233;
-        Fri, 11 Oct 2024 03:28:57 -0700 (PDT)
-Received: from localhost.localdomain ([188.162.200.45])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-539cb8f1003sm552534e87.233.2024.10.11.03.28.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Oct 2024 03:28:56 -0700 (PDT)
-From: Aleksandr Shubin <privatesub2@gmail.com>
-To: linux-kernel@vger.kernel.org
-Cc: Aleksandr Shubin <privatesub2@gmail.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Cheo Fusi <fusibrandon13@gmail.com>,
-	linux-pwm@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-riscv@lists.infradead.org
-Subject: [PATCH v10 3/3] riscv: dts: allwinner: d1: Add pwm node
-Date: Fri, 11 Oct 2024 13:27:34 +0300
-Message-Id: <20241011102751.153248-4-privatesub2@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241011102751.153248-1-privatesub2@gmail.com>
-References: <20241011102751.153248-1-privatesub2@gmail.com>
+	s=arc-20240116; t=1728643007; c=relaxed/simple;
+	bh=TU9LHxHjqn8IKiN109A3+LdONcDZtKY1Xv79JyQ6/O4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZHXArJ0vcMfccDZQp4oj7JCOJUJSPuD+VBYDQzSgpje3hpTeS+gYZ2Us0HWR/ZIb6Jm+sT2qmXeRTQSpbf+LDo6B3mWH3HIIFcZZFcEr+0vA6cEMhO8a4p7C9k7i+vwNrooEPBlf3LldQJMVE/m9VN71dGzuMWg0mexUZdkHmGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BBBCE497;
+	Fri, 11 Oct 2024 03:37:14 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9B0EC3F73F;
+	Fri, 11 Oct 2024 03:36:42 -0700 (PDT)
+Date: Fri, 11 Oct 2024 11:36:32 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Hans de Goede
+ <hdegoede@redhat.com>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Florian
+ Fainelli <florian.fainelli@broadcom.com>, Broadcom internal kernel review
+ list <bcm-kernel-feedback-list@broadcom.com>, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-rpi-kernel@lists.infradead.org
+Subject: Re: [PATCH 03/10] Input: sun4i-lradc-keys - switch to
+ for_each_child_of_node_scoped
+Message-ID: <20241011113632.2eee613c@donnerap.manchester.arm.com>
+In-Reply-To: <20241010-input_automate_of_node_put-v1-3-ebc62138fbf8@gmail.com>
+References: <20241010-input_automate_of_node_put-v1-0-ebc62138fbf8@gmail.com>
+	<20241010-input_automate_of_node_put-v1-3-ebc62138fbf8@gmail.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-D1 and T113s contain a pwm controller with 8 channels.
-This controller is supported by the sun20i-pwm driver.
+On Thu, 10 Oct 2024 23:25:53 +0200
+Javier Carrasco <javier.carrasco.cruz@gmail.com> wrote:
 
-Add a device tree node for it.
+Hi,
 
-Signed-off-by: Aleksandr Shubin <privatesub2@gmail.com>
----
- arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+> Use the scoped variant of the macro to simplify the code and error
+> handling. This makes the error handling more robust by ensuring that
+> the child node is always freed.
+> 
+> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 
-diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-index e4175adb028d..2c26cb8b2b07 100644
---- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-+++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-@@ -145,6 +145,18 @@ uart3_pb_pins: uart3-pb-pins {
- 			};
- 		};
- 
-+		pwm: pwm@2000c00 {
-+			compatible = "allwinner,sun20i-d1-pwm";
-+			reg = <0x02000c00 0x400>;
-+			clocks = <&ccu CLK_BUS_PWM>,
-+				 <&dcxo>,
-+				 <&ccu CLK_APB0>;
-+			clock-names = "bus", "hosc", "apb";
-+			resets = <&ccu RST_BUS_PWM>;
-+			status = "disabled";
-+			#pwm-cells = <0x3>;
-+		};
-+
- 		ccu: clock-controller@2001000 {
- 			compatible = "allwinner,sun20i-d1-ccu";
- 			reg = <0x2001000 0x1000>;
--- 
-2.25.1
+Looks good to me:
+
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+
+Cheers,
+Andre
+
+> ---
+>  drivers/input/keyboard/sun4i-lradc-keys.c | 7 ++-----
+>  1 file changed, 2 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/input/keyboard/sun4i-lradc-keys.c b/drivers/input/keyboard/sun4i-lradc-keys.c
+> index f304cab0ebdb..f1e269605f05 100644
+> --- a/drivers/input/keyboard/sun4i-lradc-keys.c
+> +++ b/drivers/input/keyboard/sun4i-lradc-keys.c
+> @@ -202,7 +202,7 @@ static void sun4i_lradc_close(struct input_dev *dev)
+>  static int sun4i_lradc_load_dt_keymap(struct device *dev,
+>  				      struct sun4i_lradc_data *lradc)
+>  {
+> -	struct device_node *np, *pp;
+> +	struct device_node *np;
+>  	int i;
+>  	int error;
+>  
+> @@ -223,28 +223,25 @@ static int sun4i_lradc_load_dt_keymap(struct device *dev,
+>  		return -ENOMEM;
+>  
+>  	i = 0;
+> -	for_each_child_of_node(np, pp) {
+> +	for_each_child_of_node_scoped(np, pp) {
+>  		struct sun4i_lradc_keymap *map = &lradc->chan0_map[i];
+>  		u32 channel;
+>  
+>  		error = of_property_read_u32(pp, "channel", &channel);
+>  		if (error || channel != 0) {
+>  			dev_err(dev, "%pOFn: Inval channel prop\n", pp);
+> -			of_node_put(pp);
+>  			return -EINVAL;
+>  		}
+>  
+>  		error = of_property_read_u32(pp, "voltage", &map->voltage);
+>  		if (error) {
+>  			dev_err(dev, "%pOFn: Inval voltage prop\n", pp);
+> -			of_node_put(pp);
+>  			return -EINVAL;
+>  		}
+>  
+>  		error = of_property_read_u32(pp, "linux,code", &map->keycode);
+>  		if (error) {
+>  			dev_err(dev, "%pOFn: Inval linux,code prop\n", pp);
+> -			of_node_put(pp);
+>  			return -EINVAL;
+>  		}
+>  
+> 
 
