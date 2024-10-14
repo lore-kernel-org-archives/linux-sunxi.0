@@ -1,147 +1,186 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93A813EA71
-	for <linux-sunxi@lists.linux.dev>; Sun, 13 Oct 2024 23:46:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81834156F3F
+	for <linux-sunxi@lists.linux.dev>; Mon, 14 Oct 2024 08:25:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728863193; cv=none; b=p8eGd0MB8kA3HzaMh5dQ5TIOsVnLGFdkbS8D1qaWmujNWA/zTAnCmuQIpLyMTqbSkoqTjDAslFkwm2BEis77Ib3V3bPlax887UPrGopHAeknCN5I1OyQNsGna/IXisQsbmgVjxfybV6Obr59acDUWYPTkcIZT6mzMTSTrkixwAY=
+	t=1728894304; cv=none; b=FYU9bt/59dXI15BH4YI9kMfaqRkrqYOjct0t0L5ci4s+c9+4ZQcGpTX4AdLLFIDORDdGBIFcSAlXus2J7QbEorwcyselO0vjZqe9Di2Ez7KEF+h7QoNpvQBtpC2QDNTVbwb9Yc2Lwcpc5cWDQo7gWoClmF5IRB5tHBiBMlYcvk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728863193; c=relaxed/simple;
-	bh=KW+dSceur1Go96zU4Gcrv8ujAIE4bIX78tB3quTIXIQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FvTTf8q2d6Pmk3ERqJOQDpPe43rLKQb93iiC3ReRLeCoDovUKtEEG7BAh1dm3Ft/jQUxc51mGdo2/nBDCiRt2Mu6kkGmUC5KHQ6BaQzV8yWi3O5jUNMV+pQCT0MIFnK0hTrKL4kcRoslWPNLs8/I/FM5J1MhfwWyNwM8eXXL76k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3A099DA7;
-	Sun, 13 Oct 2024 16:46:53 -0700 (PDT)
-Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B36F73F58B;
-	Sun, 13 Oct 2024 16:46:22 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Tom Rini <trini@konsulko.com>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Chris Morgan <macromorgan@hotmail.com>,
-	u-boot@lists.denx.de,
-	linux-sunxi@lists.linux.dev
-Subject: Pull request: u-boot-sunxi/master for 2025.01
-Date: Mon, 14 Oct 2024 00:45:31 +0100
-Message-ID: <20241013234531.9990-1-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.46.2
+	s=arc-20240116; t=1728894304; c=relaxed/simple;
+	bh=bSrAWudPARldXiHGKpyEAcNe5O1DAJpIzRa/IHav+Zg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BxEoiQExSLirE+llOwmvpv1HHuibX67H5Lwe3AAN2RilucbfPBYNkJG6CAxW+mGBFOBZO1bwD1+7oyOnVs7HVu77W0D3uimoJlQxE8JK8hNfJYU5/vApvMBEvFB5uXahaIS9xjVzFBoSDs4LKJH/K2NUKbMZJJUXLBNUWChGUAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=EmZSnaJW; arc=none smtp.client-ip=209.85.167.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="EmZSnaJW"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-539e1543ab8so3508861e87.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 14 Oct 2024 01:25:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1728894300; x=1729499100; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6hfW7J9erMIlvZVwH40xlH7a/MeCGU64sFdySDdF9nk=;
+        b=EmZSnaJW/sn6I5fyksj0m8IUQxnk2xOr4XOhyJtNmGUa/Nqt4WT2LCAe5OI4Du8fiG
+         eu9c6xIQlw7VxGda3MJlO+C+VFf7iUE0c3H+i1L4n8FJp7s+LzpHyOSJNyPDWJmX4UMz
+         rhamHomyeHs27CuTHUSq7tJrH4T+HJlzACr3I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728894300; x=1729499100;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6hfW7J9erMIlvZVwH40xlH7a/MeCGU64sFdySDdF9nk=;
+        b=Lg2CNQzRGqSyhUWRssdfv+E7Ybmeu0263kzvWwfUnZkehSmE4qspCakUjwMyEIOeKL
+         /HVRGjYk6Ay7oUu9fFabxr7xP4w7lPXJk0ufTC1dbQ8zr9rVjvY5OV4CpXfuXrkEIMJ4
+         CD3XotSnEN4g4zQwSH9Y1ADUSbMjLQw1sC6CaI+Pv0l2P5SivAydeM5Tu9RVw5HaYhLX
+         fWgWFfHhllUJhv6cK1pLY+f+Tgx+3ynfmnUpCou19jdGYFqHO/7a+aF8DDSU894Fd9PJ
+         xtbm5Q2nj1aeBQbdNmYjACxGLTDUs11/st7HTrcMEtVYWbopaOgki6e+kR9MKuAIUQUJ
+         yg8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVDGdtK1PphUqQAlKaWhH05EoCWB5tm+j6mOyJxn2LMBC0CcIgXof/Yq0DOSfwkqS80jKmsnVRTw6NLAw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxil9LUbR+gwesgJPseWfD53FmAhEgHox4CBXHrGXvGL+2PcDw9
+	RDysMg0FQsYR4UwAaY6RcKGk/btaHJWeOpPReGIpuQrwTzOjM3XWSQ8NqgSBJbYB8y6Io5ixFw2
+	eBN+8WK8ymUCkhtJKDXVzsKwISX6FNQ6/9hMM
+X-Google-Smtp-Source: AGHT+IEy3zplL4+qLOG9nz0L5a8N8FX81DMds6yZSQeoAH/iFm1yiRg+sf+trJRZ9wYaT+OFA6JfzdNx+UxUjfbOmPU=
+X-Received: by 2002:a05:6512:31d2:b0:539:9155:e8c1 with SMTP id
+ 2adb3069b0e04-539e54d76cbmr3219847e87.8.1728894299616; Mon, 14 Oct 2024
+ 01:24:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241010-b4-cleanup-h-of-node-put-thermal-v4-0-bfbe29ad81f4@linaro.org>
+ <20241010-b4-cleanup-h-of-node-put-thermal-v4-2-bfbe29ad81f4@linaro.org>
+In-Reply-To: <20241010-b4-cleanup-h-of-node-put-thermal-v4-2-bfbe29ad81f4@linaro.org>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Mon, 14 Oct 2024 16:24:48 +0800
+Message-ID: <CAGXv+5EJvy6KwJZWCUTNQiec03WdB9m-XeEp4yicxD8FuWVrMQ@mail.gmail.com>
+Subject: Re: [PATCH v4 2/6] thermal: of: Use scoped memory and OF handling to
+ simplify thermal_of_trips_init()
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, 
+	Amit Kucheria <amitk@kernel.org>, Thara Gopinath <thara.gopinath@gmail.com>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, linux-pm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Tom,
+On Fri, Oct 11, 2024 at 2:06=E2=80=AFAM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> Obtain the device node reference and allocate memory with
+> scoped/cleanup.h to reduce error handling and make the code a bit
+> simpler.
+>
+> The code is not equivalent in one minor aspect: outgoing parameter
+> "*ntrips" will not be zeroed on errors of memory allocation.  This
+> difference is not important, because code was already not zeroing it in
+> case of earlier errors and the only caller does not rely on ntrips being
+> 0 in case of errors.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>
+> Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Cc: Chen-Yu Tsai <wenst@chromium.org>
+>
+> Changes in v4:
+> 1. Significant change: kzalloc() also with scoped-handling so the entire
+>    error handling could be removed.
+> 2. Due to above, drop review-tags (Chen-Yu, Jonathan).
 
-please pull the first sunxi changes for this cycle:
+The additional changes are the same as what I had done, except that
+I used "return_ptr(tt)" instead of "return no_free_ptr(tt)", and I
+had reset *ntrips to 0 at the beginning.
 
-This switches all boards with the Allwinner H616/H618/H313/H700 SoCs over to
-use OF_UPSTREAM. We are doing it for this SoC family only since the DTs
-between the U-Boot and the kernel repo are exactly identical, whereas other
-families have one compatibility fix in U-Boot to allow booting older kernels.
-Other will follow if this plays out well.
+So,
 
-The biggest chunk otherwise is adding support for an Anbernic game console,
-using the H700 SoC. For that we need to enhance the DRAM support code, and
-pick two DT commits from the mainline kernel/DT rebasing repo, followed
-by the defconfig patch.
+Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
 
-On top of that two small fixes for the old Allwinner A80.
-
-Gitlab CI passed, and I booted that briefly on some boards, including an
-H616 and an H618 one (with LPDDR4).
-
-Thanks,
-Andre
-
-===========================================================
-The following changes since commit f8efc68b30e29360f7a419fe4968432179d7368b:
-
-  Merge patch series "spi-nor: Add parallel and stacked memories support" (2024-10-09 09:02:22 -0600)
-
-are available in the Git repository at:
-
-  https://source.denx.de/u-boot/custodians/u-boot-sunxi.git master
-
-for you to fetch changes up to 2f7ab49644ed38b6e3fe5eb6cd3f7e3f683fc6a7:
-
-  sunxi: Add support for Anbernic RG35XX-2024 (2024-10-10 00:43:51 +0100)
-
-----------------------------------------------------------------
-Andre Przywara (3):
-      sunxi: H616: switch to OF_UPSTREAM
-      clk: sunxi: a80: Fix reset description
-      sunxi: power: axp809: Fix DCDC4 programming
-
-Chris Morgan (4):
-      sunxi: H616: DRAM: Add alternative pin mapping
-      arm64: dts: allwinner: h616: Change RG35XX Series from r_rsb to r_i2c
-      arm64: dts: allwinner: h616: Add r_i2c pinctrl nodes
-      sunxi: Add support for Anbernic RG35XX-2024
-
-Jernej Skrabec (4):
-      sunxi: H616: dram: LPDDR4: adjust settings
-      sunxi: H616: DRAM: Adjust configuration procedure
-      sunxi: H616: DRAM: Adjust size scan procedure
-      sunxi: H616: dram: Update mbus priorities
-
- arch/arm/dts/Makefile                              |   7 -
- arch/arm/dts/sun50i-h313-tanix-tx1.dts             | 183 ----
- arch/arm/dts/sun50i-h616-bigtreetech-cb1-manta.dts |  35 -
- arch/arm/dts/sun50i-h616-bigtreetech-cb1.dtsi      | 143 ----
- arch/arm/dts/sun50i-h616-bigtreetech-pi.dts        |  63 --
- arch/arm/dts/sun50i-h616-cpu-opp.dtsi              | 115 ---
- arch/arm/dts/sun50i-h616-orangepi-zero.dtsi        | 131 ---
- arch/arm/dts/sun50i-h616-orangepi-zero2.dts        | 145 ----
- arch/arm/dts/sun50i-h616-x96-mate.dts              | 207 -----
- arch/arm/dts/sun50i-h616.dtsi                      | 930 ---------------------
- arch/arm/dts/sun50i-h618-longan-module-3h.dtsi     |  80 --
- arch/arm/dts/sun50i-h618-longanpi-3h.dts           | 144 ----
- arch/arm/dts/sun50i-h618-orangepi-zero2w.dts       | 181 ----
- arch/arm/dts/sun50i-h618-orangepi-zero3.dts        | 101 ---
- arch/arm/dts/sun50i-h618-transpeed-8k618-t.dts     | 189 -----
- arch/arm/dts/sun50i-h700-anbernic-rg35xx-2024.dts  | 327 --------
- arch/arm/dts/sun50i-h700-anbernic-rg35xx-h.dts     |  36 -
- arch/arm/dts/sun50i-h700-anbernic-rg35xx-plus.dts  |  53 --
- arch/arm/mach-sunxi/Kconfig                        |  18 +
- arch/arm/mach-sunxi/dram_sun50i_h616.c             | 137 ++-
- .../arm/mach-sunxi/dram_timings/h616_lpddr4_2133.c |   2 +-
- board/sunxi/MAINTAINERS                            |   5 +
- configs/anbernic_rg35xx_h700_defconfig             |  27 +
- configs/orangepi_zero2_defconfig                   |   2 +-
- configs/orangepi_zero2w_defconfig                  |   2 +-
- configs/orangepi_zero3_defconfig                   |   2 +-
- configs/tanix_tx1_defconfig                        |   2 +-
- configs/transpeed-8k618-t_defconfig                |   2 +-
- configs/x96_mate_defconfig                         |   2 +-
- drivers/clk/sunxi/clk_a80.c                        |   8 +-
- drivers/power/axp809.c                             |   2 +-
- dts/upstream/src/arm64/allwinner/sun50i-h616.dtsi  |   2 +
- .../allwinner/sun50i-h700-anbernic-rg35xx-2024.dts |   6 +-
- include/dt-bindings/clock/sun50i-h616-ccu.h        | 116 ---
- include/dt-bindings/reset/sun50i-h616-ccu.h        |  70 --
- 35 files changed, 159 insertions(+), 3316 deletions(-)
- delete mode 100644 arch/arm/dts/sun50i-h313-tanix-tx1.dts
- delete mode 100644 arch/arm/dts/sun50i-h616-bigtreetech-cb1-manta.dts
- delete mode 100644 arch/arm/dts/sun50i-h616-bigtreetech-cb1.dtsi
- delete mode 100644 arch/arm/dts/sun50i-h616-bigtreetech-pi.dts
- delete mode 100644 arch/arm/dts/sun50i-h616-cpu-opp.dtsi
- delete mode 100644 arch/arm/dts/sun50i-h616-orangepi-zero.dtsi
- delete mode 100644 arch/arm/dts/sun50i-h616-orangepi-zero2.dts
- delete mode 100644 arch/arm/dts/sun50i-h616-x96-mate.dts
- delete mode 100644 arch/arm/dts/sun50i-h616.dtsi
- delete mode 100644 arch/arm/dts/sun50i-h618-longan-module-3h.dtsi
- delete mode 100644 arch/arm/dts/sun50i-h618-longanpi-3h.dts
- delete mode 100644 arch/arm/dts/sun50i-h618-orangepi-zero2w.dts
- delete mode 100644 arch/arm/dts/sun50i-h618-orangepi-zero3.dts
- delete mode 100644 arch/arm/dts/sun50i-h618-transpeed-8k618-t.dts
- delete mode 100644 arch/arm/dts/sun50i-h700-anbernic-rg35xx-2024.dts
- delete mode 100644 arch/arm/dts/sun50i-h700-anbernic-rg35xx-h.dts
- delete mode 100644 arch/arm/dts/sun50i-h700-anbernic-rg35xx-plus.dts
- create mode 100644 configs/anbernic_rg35xx_h700_defconfig
- delete mode 100644 include/dt-bindings/clock/sun50i-h616-ccu.h
- delete mode 100644 include/dt-bindings/reset/sun50i-h616-ccu.h
+> Changes in v2:
+> 1. Drop left-over of_node_put in regular exit path (Chen-Yu)
+> ---
+>  drivers/thermal/thermal_of.c | 31 ++++++++-----------------------
+>  1 file changed, 8 insertions(+), 23 deletions(-)
+>
+> diff --git a/drivers/thermal/thermal_of.c b/drivers/thermal/thermal_of.c
+> index f0ffc0e335ba9406f4fd858d6c561f9d23f4b842..37db435b54b124abf25b1d75d=
+6cc4fb75f1c1e5c 100644
+> --- a/drivers/thermal/thermal_of.c
+> +++ b/drivers/thermal/thermal_of.c
+> @@ -95,11 +95,9 @@ static int thermal_of_populate_trip(struct device_node=
+ *np,
+>
+>  static struct thermal_trip *thermal_of_trips_init(struct device_node *np=
+, int *ntrips)
+>  {
+> -       struct thermal_trip *tt;
+> -       struct device_node *trips;
+>         int ret, count;
+>
+> -       trips =3D of_get_child_by_name(np, "trips");
+> +       struct device_node *trips __free(device_node) =3D of_get_child_by=
+_name(np, "trips");
+>         if (!trips) {
+>                 pr_err("Failed to find 'trips' node\n");
+>                 return ERR_PTR(-EINVAL);
+> @@ -108,36 +106,23 @@ static struct thermal_trip *thermal_of_trips_init(s=
+truct device_node *np, int *n
+>         count =3D of_get_child_count(trips);
+>         if (!count) {
+>                 pr_err("No trip point defined\n");
+> -               ret =3D -EINVAL;
+> -               goto out_of_node_put;
+> +               return ERR_PTR(-EINVAL);
+>         }
+>
+> -       tt =3D kzalloc(sizeof(*tt) * count, GFP_KERNEL);
+> -       if (!tt) {
+> -               ret =3D -ENOMEM;
+> -               goto out_of_node_put;
+> -       }
+> -
+> -       *ntrips =3D count;
+> +       struct thermal_trip *tt __free(kfree) =3D kzalloc(sizeof(*tt) * c=
+ount, GFP_KERNEL);
+> +       if (!tt)
+> +               return ERR_PTR(-ENOMEM);
+>
+>         count =3D 0;
+>         for_each_child_of_node_scoped(trips, trip) {
+>                 ret =3D thermal_of_populate_trip(trip, &tt[count++]);
+>                 if (ret)
+> -                       goto out_kfree;
+> +                       return ERR_PTR(ret);
+>         }
+>
+> -       of_node_put(trips);
+> +       *ntrips =3D count;
+>
+> -       return tt;
+> -
+> -out_kfree:
+> -       kfree(tt);
+> -       *ntrips =3D 0;
+> -out_of_node_put:
+> -       of_node_put(trips);
+> -
+> -       return ERR_PTR(ret);
+> +       return no_free_ptr(tt);
+>  }
+>
+>  static struct device_node *of_thermal_zone_find(struct device_node *sens=
+or, int id)
+>
+> --
+> 2.43.0
+>
