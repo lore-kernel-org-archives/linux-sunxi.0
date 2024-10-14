@@ -1,173 +1,148 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B574152517
-	for <linux-sunxi@lists.linux.dev>; Mon, 14 Oct 2024 08:41:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23F211D555
+	for <linux-sunxi@lists.linux.dev>; Mon, 14 Oct 2024 14:02:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728895264; cv=none; b=Ir9awz0Nbxzd2ucVu5T3FI6QkPWoQRWRwr0Cfq5cRK/CTz151orWh2POf/teKNmg+J15TfPuLnj8/jHVZgVxT7QvkCPF02wY7u+MJXadtfRLfHRFQvHYICDqnt1hCQQf5NlxKPDhbTG0a3edQKKKMBuScTsCvqjuJVc8v4eRoFc=
+	t=1728914546; cv=none; b=PRIOdiZGJTYXdWFLNWlOjDnNjq/DDeoa+LebMn5Z9peveuI0v7vt5xcbcD2/0woNLjk35XkOCIoEzVIhemb2QxlfHiW2F9rckKcXp46k8EMt0l9xK2ZuyCoTL15Rklz6GmdBe7paiKSZelFruLW3CHPbfOR1u1T8nfT0RUWQ2Cs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728895264; c=relaxed/simple;
-	bh=gMRiss8+URvBCdZN2fsxCivFSZQB4ggd40oQLzHSYG0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CP03Uv6FX87GwYD70BIJsUxeUsmrlPXOSqFjPzfi1xl5H51deTgHAdIMjrPFfRPx2zB73fP8RHBqdEjcpPbZZhKoWMceZT3cSiveexLaynHLZJ0kwtDhJPDqZ0axZgKgqQRGwLWwkzURwfuZWYD1azm2eIpRiEJHERLHfUo7TNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jkApUKlG; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1728914546; c=relaxed/simple;
+	bh=YdYcqPwCumiE4TgsNZWwHnEoZpR6e2uQCBZJ8MUQkyE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i8lVbNs6+yHNvxjFpLgGGRheuYJ5HNubQfcKfyH4oasI8+cxS8CQ9UQc87wpo44vNKHlUoGl8XBRfuLz0YKcWXNslmjV6DQuko1YKCeTyNSUkvIkwM/mRNCkQDBNlyHyDwUeDSScvRK0P8Yk5l/53c2kGyza9e/Ddn+qPb3KUB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=konsulko.com; spf=pass smtp.mailfrom=konsulko.com; dkim=pass (1024-bit key) header.d=konsulko.com header.i=@konsulko.com header.b=P/tZD5Wv; arc=none smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=konsulko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=konsulko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jkApUKlG"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a99e690a3e9so9970566b.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 14 Oct 2024 01:41:02 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=konsulko.com header.i=@konsulko.com header.b="P/tZD5Wv"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-460407b421bso34760401cf.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 14 Oct 2024 07:02:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1728895261; x=1729500061; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=LQjuCqjuaTofTHyH3yd8Ja9w1U9h0/UES4YgfGdXExE=;
-        b=jkApUKlGz0hS6bpEVnT8tMdE9AyEZZlpJ2cCFoKJ6xP74Y0vq461GGpbzVL8bFsHOW
-         rWweGNAEPWXUnUjTCMaru7fGCbrjav8cmhI9NkUegY8yLS5d/WsaqFNzyMBQHmkYDwQ7
-         99o2o1yl1kgQJmtwTABiK7nCho/415PbZHmA9BMHdZUQoIc+vzIYY3i1pz8ONo4oCMGr
-         Wy2+lqvaV597+O6FRZXeltLCZZ+3vYw0dg3i8LHXMRchmKrCwvNslpxsGLZnb0ewNR+4
-         a7UPEQUa+CKl/yBkZriXt0bnAnrVqipSOS29Xm0RbPUQwb3+O34TM0bFdm1/pDTeQwcf
-         0cxw==
+        d=konsulko.com; s=google; t=1728914544; x=1729519344; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=CRg3px5Vm4PCD3AGLY3YI9272buzsF7rb9/f8u0K7ME=;
+        b=P/tZD5WvbE1Be8UHywLLf9pLWWHA1sTjW2Qlt16No9dlwOAbLsTB/tbzTd1bhfUGa7
+         ZHcY3kF6undH/FcFTgavI2V/n+UZOIycFpLaSwL04t9kqKvMbI7mw69TShqdgrW0Auy6
+         Tr7mXPmUcTfTlbh+Oyj4z0It1X+IQKz2aZmVA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728895261; x=1729500061;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LQjuCqjuaTofTHyH3yd8Ja9w1U9h0/UES4YgfGdXExE=;
-        b=YLUeCWhgmNC7m6krcyDwsA2Kss0qrQtiknNQBxTUM6IrHyEKmBfzqrGse3W71YOql7
-         JFGoFrVy7t0I4vmzC7QBZQvjzRjaLNVs8Wdae1QsXu6bnWXPXlrs2kKiU1IeNBHlIs4S
-         nD82EDJZ8FrOJziHDsLJitk8zmga/YEt4qUEgafaOj59zXocxeggMiQ0n213xuwUvbMD
-         amt1chyAFkQNxcBhDPA0A2GJ5H13Gnr4UV2rsnhsF1SBqlgVgv/MjdlrcoKE+DAI4g+x
-         faJqGa2rxFdxzYCGYVYYgVd9WCKd57BiaRHyoZ0LrGmgGPjq9mjHV+G0As9tbQCVJ6Do
-         aHPw==
-X-Forwarded-Encrypted: i=1; AJvYcCWy19ThXeWW3Ihyh18d7S8CN1G2r0ckI9Fwaa4KV6hRvJBc5C0bVs74wrveFgrHuYKXd2lKqpiUNN42Tw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwkMOucSzGQ/347ogWfClNNdEhvoiXvlG293M2NKN85skQVhPlX
-	FbZ5fWCt3E9VMDwzmYgkgYezw83n31/QXowCUsJ/SuQI7lyQelKWGjXcYzHuESk=
-X-Google-Smtp-Source: AGHT+IHAjRAMNoLt6D9gNT2mzUONw6jajPJtcqK2z0xcVvyXlU3mFFqhadg062dcEDDHFQHgOScZlQ==
-X-Received: by 2002:a17:906:3941:b0:a99:f3a5:a310 with SMTP id a640c23a62f3a-a99f3a5a49fmr218095666b.4.1728895260734;
-        Mon, 14 Oct 2024 01:41:00 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.211.167])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9a16dfafbcsm54195766b.137.2024.10.14.01.40.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Oct 2024 01:41:00 -0700 (PDT)
-Message-ID: <b0d622cd-0d58-44e8-b168-8c69e46859a7@linaro.org>
-Date: Mon, 14 Oct 2024 10:40:57 +0200
+        d=1e100.net; s=20230601; t=1728914544; x=1729519344;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CRg3px5Vm4PCD3AGLY3YI9272buzsF7rb9/f8u0K7ME=;
+        b=HOETbIpAYEuxSqsDItUTPHLj5TsCYfZgRe6nfGkMVE/HDNHztAQzCBPiEqcsrppM4x
+         QjANCZLV4QhO/nghIG8ZudVMPWTIVPstVQSSwm8itIOqzWEZTXH4bDQrs5PukKN6Ao24
+         16SO+0uSanV8eCSKdViVl3f2crmhMqWX5ayn7K0zP3x/SsRaGLUpUNDia9JFPLOeBvtl
+         qNJ/V9xdtrBVFoKT9Tx72bYVPDWR0RwT6xNHx8CWwdFzO2u0kDZ6szm/heXzY4gpsres
+         zrQji5xg8XVD3eZfP+v+AQiFosnvAme0YM9g21ISfhsIxryNIJrY2B7VXS7GstVizRM7
+         CQ6A==
+X-Forwarded-Encrypted: i=1; AJvYcCVsnbMWQC8sxELtph7GSy1X9zsDxLJaQSs2iBIS+Ur2kceYgZRzgkwe0jGocZXglkm3pr1l6BPlIQCXAg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwvjAQxXIOyQrtf9xewK4BEBNPViPgi4Bb3PfB67iVZU/odQI3C
+	8krMpLsBehSLRD+Nvs+zRaHYA/MEo+/Z1MSxKZcen+Ns63eayuy4IRYPpZBG0fs=
+X-Google-Smtp-Source: AGHT+IHK+kOTgWX0R2Y0tnK+9I1V3NhCOCv5wJELJdzKyItVQ+PvA8TIYd/VMKaPMUg7NfRm9GfOBw==
+X-Received: by 2002:ac8:5708:0:b0:454:f384:41e7 with SMTP id d75a77b69052e-4604bb94ef0mr163044181cf.8.1728914543576;
+        Mon, 14 Oct 2024 07:02:23 -0700 (PDT)
+Received: from bill-the-cat ([187.144.65.244])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4604288204csm44827061cf.61.2024.10.14.07.02.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Oct 2024 07:02:23 -0700 (PDT)
+Date: Mon, 14 Oct 2024 08:02:19 -0600
+From: Tom Rini <trini@konsulko.com>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Chris Morgan <macromorgan@hotmail.com>, u-boot@lists.denx.de,
+	linux-sunxi@lists.linux.dev
+Subject: Re: Pull request: u-boot-sunxi/master for 2025.01
+Message-ID: <20241014140219.GG53053@bill-the-cat>
+References: <20241013234531.9990-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/6] thermal: scope/cleanup.h improvements
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>,
- Lukasz Luba <lukasz.luba@arm.com>, Amit Kucheria <amitk@kernel.org>,
- Thara Gopinath <thara.gopinath@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, Jonathan Cameron <Jonathan.Cameron@huawei.com>
-References: <20241010-b4-cleanup-h-of-node-put-thermal-v4-0-bfbe29ad81f4@linaro.org>
- <CAGXv+5FgLQMG=tA6d_gT71j5ZxWPa56rW1UmfUgKot4uCj56+g@mail.gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <CAGXv+5FgLQMG=tA6d_gT71j5ZxWPa56rW1UmfUgKot4uCj56+g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-On 14/10/2024 10:32, Chen-Yu Tsai wrote:
-> On Fri, Oct 11, 2024 at 2:06 AM Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
->>
->> Changes in v4:
->> - Patch 2: rewrite, significant change: kzalloc() also with
->>   scoped-handling so the entire error handling could be removed.
->>   Due to above, drop review-tags (Chen-Yu, Jonathan).
->> - Add Rb tags for other patches.
->> - Link to v3: https://lore.kernel.org/r/20241008-b4-cleanup-h-of-node-put-thermal-v3-0-825122398f71@linaro.org
->>
->> Changes in v3:
->> - Rebase, because there was bigger rework in thermal code.
->>   This made two patches obsolete, but brought new one:
->>   1/6: thermal: of: Simplify thermal_of_should_bind with scoped for each OF child
->> - Link to v2: https://lore.kernel.org/r/20240816-b4-cleanup-h-of-node-put-thermal-v2-0-cee9fc490478@linaro.org
->>
->> Changes in v2:
->> - Drop left-over of_node_put in regular exit path (Chen-Yu)
->> - Link to v1: https://lore.kernel.org/r/20240814-b4-cleanup-h-of-node-put-thermal-v1-0-7a1381e1627e@linaro.org
->>
->> Few code simplifications with scope/cleanup.h.
->>
->> Best regards,
->> Krzysztof
->>
->> ---
->> Krzysztof Kozlowski (6):
->>       thermal: of: Simplify thermal_of_should_bind with scoped for each OF child
-> 
-> I couldn't find this in my inbox. But since I already reviewed all the other
-> patches, and I looked at this one on lore, consider the whole series is now
-
-Sorry for that. Your wens@csie.org was cc-ed, but not the chromium. If I
-respin, I will add both on Cc.
-
-> 
-> Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="44WtwmuqlpcUvbQr"
+Content-Disposition: inline
+In-Reply-To: <20241013234531.9990-1-andre.przywara@arm.com>
+X-Clacks-Overhead: GNU Terry Pratchett
 
 
-Best regards,
-Krzysztof
+--44WtwmuqlpcUvbQr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Oct 14, 2024 at 12:45:31AM +0100, Andre Przywara wrote:
+
+> Hi Tom,
+>=20
+> please pull the first sunxi changes for this cycle:
+>=20
+> This switches all boards with the Allwinner H616/H618/H313/H700 SoCs over=
+ to
+> use OF_UPSTREAM. We are doing it for this SoC family only since the DTs
+> between the U-Boot and the kernel repo are exactly identical, whereas oth=
+er
+> families have one compatibility fix in U-Boot to allow booting older kern=
+els.
+> Other will follow if this plays out well.
+>=20
+> The biggest chunk otherwise is adding support for an Anbernic game consol=
+e,
+> using the H700 SoC. For that we need to enhance the DRAM support code, and
+> pick two DT commits from the mainline kernel/DT rebasing repo, followed
+> by the defconfig patch.
+>=20
+> On top of that two small fixes for the old Allwinner A80.
+>=20
+> Gitlab CI passed, and I booted that briefly on some boards, including an
+> H616 and an H618 one (with LPDDR4).
+>=20
+> Thanks,
+> Andre
+>=20
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> The following changes since commit f8efc68b30e29360f7a419fe4968432179d736=
+8b:
+>=20
+>   Merge patch series "spi-nor: Add parallel and stacked memories support"=
+ (2024-10-09 09:02:22 -0600)
+>=20
+> are available in the Git repository at:
+>=20
+>   https://source.denx.de/u-boot/custodians/u-boot-sunxi.git master
+>=20
+> for you to fetch changes up to 2f7ab49644ed38b6e3fe5eb6cd3f7e3f683fc6a7:
+>=20
+>   sunxi: Add support for Anbernic RG35XX-2024 (2024-10-10 00:43:51 +0100)
+>=20
+
+Applied to u-boot/master, thanks!
+
+--=20
+Tom
+
+--44WtwmuqlpcUvbQr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmcNJGsACgkQFHw5/5Y0
+tywZ0wv8DtDEROcCim1F8RhF11fDbOgU2pBqr7nLU/2iy7qGrEn0EWwSglkcdF1c
+MnrVGwAro5X9OQ5VNyUdVcXH8cf+8X/R8NiJfaaLvuU81fSYfBwbmVMLNsXPi/w+
+8lPQPwPS2teCDqKEq+zOLYJE+/38myNNt77SRzx9Hf/XZzCvNfMTKTP9XfPkICDa
+mDmsf/It68C81RpS/hwaCxXrSlKEECjt6fh5R9CO4AJmnnsprqANQxoTP0+S2sJ1
+zVfVaKwXb1YbZ0oA69zWsmOBag0kjQPHZ2yFEnbedyP5/StyCgnf3c8z5Aq0RlJk
+srGKpK0y/nfyC9C1r2co+gMbB8U0E330P0/pvCQs2xwKMQtdsP7xuskl9VXGCoQU
+ZSeJLf/1KPfH8jFVdPvfY0KU43r5AijjljrnymVRDxDB1lS9rfoDAHiDeUzo6Dov
+4HO1HXH2Bss23p5eRxLitdJvZWAl5GAVOmq1lgCYbh/cSkhEpbx83huUOnZhCTQZ
+Va0ceY12
+=hXGb
+-----END PGP SIGNATURE-----
+
+--44WtwmuqlpcUvbQr--
