@@ -1,160 +1,101 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB8E220C00A
-	for <linux-sunxi@lists.linux.dev>; Wed, 16 Oct 2024 13:58:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729087140; cv=none; b=LvTiJzrN6ZKAdwez9qkQJIh9lmIhu85kC9y8fy69L3YsJQw5YWoAf4UXAW03WE96WDxb6v9VtGV/fKh2lbEUaklaaM/bxsY0MPXVgMLXMV5qMRmWtpAWRTK5rjJzxi+9yKj7XXDIcv+sLF9BS2260/KVbiy+qHO25LWkmgMMkRg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729087140; c=relaxed/simple;
-	bh=DCwW1BXaEzYmomHtjqvPhEnDGnecHTjUZgJNEcpFnTA=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PwcAUWQ0yt9HSHsRkv61RHlpnqWW1E3MUFK2i/lGrieA844F59VCKjtT4WQt/bGLsWJ0BUdgqSCKrIXQQuM9axFuudRaVNJnY9SQsjLBuGhFzrtyCZncSYsop4UMC85y5n91Zb8er4r22CdAI//QDyNbGlIGSNXdBKWUUKWJk2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.216])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4XTCGw6RFvz6D8Y7;
-	Wed, 16 Oct 2024 21:58:16 +0800 (CST)
-Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
-	by mail.maildlp.com (Postfix) with ESMTPS id 54E9E140B67;
-	Wed, 16 Oct 2024 21:58:54 +0800 (CST)
-Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
- (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Wed, 16 Oct
- 2024 15:58:52 +0200
-Date: Wed, 16 Oct 2024 14:58:51 +0100
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-CC: "Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano
-	<daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>, Lukasz Luba
-	<lukasz.luba@arm.com>, Amit Kucheria <amitk@kernel.org>, Thara Gopinath
-	<thara.gopinath@gmail.com>, Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>, Vasily Khoruzhick
-	<anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>, Chen-Yu Tsai
-	<wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
-	<samuel@sholland.org>, <linux-pm@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-	<linux-tegra@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-sunxi@lists.linux.dev>, Chen-Yu Tsai <wenst@chromium.org>
-Subject: Re: [PATCH v4 2/6] thermal: of: Use scoped memory and OF handling
- to simplify thermal_of_trips_init()
-Message-ID: <20241016145851.00004e90@Huawei.com>
-In-Reply-To: <20241010-b4-cleanup-h-of-node-put-thermal-v4-2-bfbe29ad81f4@linaro.org>
-References: <20241010-b4-cleanup-h-of-node-put-thermal-v4-0-bfbe29ad81f4@linaro.org>
-	<20241010-b4-cleanup-h-of-node-put-thermal-v4-2-bfbe29ad81f4@linaro.org>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D0651D363D
+	for <linux-sunxi@lists.linux.dev>; Wed, 16 Oct 2024 23:13:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729120407; cv=pass; b=V6AzVyS4MEsPAP/geGQ/sERVBrOPqQ+uImL81w42VTMtw5jRrngs/9HgUEoyszGJ5/+8qKeQc4dnEcVg29LPXPk94N0XRmQDqlI6tTNEXMyc5Ko7Px5PC/XFM15CCTUkVOQTHM9mxvHuLlTkYPQwbUbpJUj4lQXAFuEFmdwrujM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729120407; c=relaxed/simple;
+	bh=QxD1wOZue8qPc1r/LIzRLxUq0oQ9AFAao0DTFJagviI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LXXoBC8/t37XepJNPgvD5HJjSL/M85N+XX9Sqf/NXwg5cdz7/zjetABHLn4OgvUNniYV0p+4lQQkjYjdaGQvHZ/HwXzUPM4eJBHQvsnduqCIC0swQDYPQRZ+8m6qq6F7blJC4OhfuLqYsvDYKHF4se5eKgZJl3LHGkZP7UlZ3WY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me; spf=pass smtp.mailfrom=icenowy.me; dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b=mb+hBcDy; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icenowy.me
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b="mb+hBcDy"
+ARC-Seal: i=1; a=rsa-sha256; t=1729120397; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=VMp4Hz33bkVA2A8PlupzI4d2ciomAMiIWpcx7UGqCtsbONemkbbCk7wCZwQEW5fM8/DxKHdD670cCBZAsiom5Ogey0nh8Jaobv+E0NHQxDvVGcbnQfxeT48qCEQITcccLTB/DFcY+6bG67bCr0WepkZBHSKYBhcjg0OpEMoXkOE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1729120397; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=CDKEdyyU+XmoY3MLHY43J+UFi/e5dgEcLdTPDNevPqw=; 
+	b=gmRGX5I/OdlXr8eGXebj3qIzxPUs2ZWAzBoeyY/wc8olyuF73FrSNaAenAOKeS7Mn88BTmwOI5heEZ8d0FVM5Qw8pmlN7BoRZIIODAzJ8EPyWDNSwd9S3jZ7nVPlSLcBicmf1bTIXSp5cGpJ400g7bxuhG69SkgEfzRrCQZSeq8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=icenowy.me;
+	spf=pass  smtp.mailfrom=uwu@icenowy.me;
+	dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1729120397;
+	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=CDKEdyyU+XmoY3MLHY43J+UFi/e5dgEcLdTPDNevPqw=;
+	b=mb+hBcDyrU/mLAXW3ptn9kZIGtzmCMyDdXEJzqeT+LHXsytk+K2IdKA/s2B64YCw
+	d35wme75uT6ktCbBcLiGYkM1um+9iAWhD/NolvBVlGGoy1/89pFj3O1NCOPycnoDvzP
+	t5O2eG1v9zAUGLQABvv/ZkZo/i7r5h+ExNOaB5BRlQeZOSD0KNmp8lBFlQGR8L28SvE
+	5Lk6RnB29WGhbfyrLq6/+7Vp5QhPpVPy6N1QMYqgkf3JvcpoSB/wmnsdPqpWI7kiizD
+	H5O9s1wH/5gG38cArvukG3Qql65ML0AeODX/Vn/6wLanpPxzH1Kw53gTL0UdY3ay578
+	PNpcFIW+Ww==
+Received: by mx.zohomail.com with SMTPS id 1729120394706502.3949692946112;
+	Wed, 16 Oct 2024 16:13:14 -0700 (PDT)
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Maxime Ripard <mripard@kernel.org>
+Cc: devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Icenowy Zheng <uwu@icenowy.me>,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: [PATCH RESEND 1/2] dt-bindings: arm: sunxi: document RerVision A33-Vstar board
+Date: Thu, 17 Oct 2024 07:13:01 +0800
+Message-ID: <20241016231302.1042278-1-uwu@icenowy.me>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
- frapeml500008.china.huawei.com (7.182.85.71)
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-On Thu, 10 Oct 2024 20:06:18 +0200
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+RerVision A33-Vstar is an evaluation board of their A33-Core1 SoM.
 
-> Obtain the device node reference and allocate memory with
-> scoped/cleanup.h to reduce error handling and make the code a bit
-> simpler.
-> 
-> The code is not equivalent in one minor aspect: outgoing parameter
-> "*ntrips" will not be zeroed on errors of memory allocation.  This
-> difference is not important, because code was already not zeroing it in
-> case of earlier errors and the only caller does not rely on ntrips being
-> 0 in case of errors.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Trivial unrelated comment inline + maybe return_ptr() is the way to go as
-Chen-Yu mentioned.
+Add its compatible (with the SoM compatible) to the sunxi board DT
+binding file.
 
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+---
+Resent with Conor's ACK.
 
-> ---
-> 
-> Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Cc: Chen-Yu Tsai <wenst@chromium.org>
-> 
-> Changes in v4:
-> 1. Significant change: kzalloc() also with scoped-handling so the entire
->    error handling could be removed.
-> 2. Due to above, drop review-tags (Chen-Yu, Jonathan).
-> 
-> Changes in v2:
-> 1. Drop left-over of_node_put in regular exit path (Chen-Yu)
-> ---
->  drivers/thermal/thermal_of.c | 31 ++++++++-----------------------
->  1 file changed, 8 insertions(+), 23 deletions(-)
-> 
-> diff --git a/drivers/thermal/thermal_of.c b/drivers/thermal/thermal_of.c
-> index f0ffc0e335ba9406f4fd858d6c561f9d23f4b842..37db435b54b124abf25b1d75d6cc4fb75f1c1e5c 100644
-> --- a/drivers/thermal/thermal_of.c
-> +++ b/drivers/thermal/thermal_of.c
-> @@ -95,11 +95,9 @@ static int thermal_of_populate_trip(struct device_node *np,
->  
->  static struct thermal_trip *thermal_of_trips_init(struct device_node *np, int *ntrips)
->  {
-> -	struct thermal_trip *tt;
-> -	struct device_node *trips;
->  	int ret, count;
->  
-> -	trips = of_get_child_by_name(np, "trips");
-> +	struct device_node *trips __free(device_node) = of_get_child_by_name(np, "trips");
->  	if (!trips) {
->  		pr_err("Failed to find 'trips' node\n");
->  		return ERR_PTR(-EINVAL);
-> @@ -108,36 +106,23 @@ static struct thermal_trip *thermal_of_trips_init(struct device_node *np, int *n
->  	count = of_get_child_count(trips);
->  	if (!count) {
->  		pr_err("No trip point defined\n");
-> -		ret = -EINVAL;
-> -		goto out_of_node_put;
-> +		return ERR_PTR(-EINVAL);
->  	}
->  
-> -	tt = kzalloc(sizeof(*tt) * count, GFP_KERNEL);
-> -	if (!tt) {
-> -		ret = -ENOMEM;
-> -		goto out_of_node_put;
-> -	}
-> -
-> -	*ntrips = count;
-> +	struct thermal_trip *tt __free(kfree) = kzalloc(sizeof(*tt) * count, GFP_KERNEL);
+ Documentation/devicetree/bindings/arm/sunxi.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Trivial and unrelated, but maybe kcalloc(count, sizeof(tt), GFP_KERNEL);
-
-> +	if (!tt)
-> +		return ERR_PTR(-ENOMEM);
->  
->  	count = 0;
->  	for_each_child_of_node_scoped(trips, trip) {
->  		ret = thermal_of_populate_trip(trip, &tt[count++]);
->  		if (ret)
-> -			goto out_kfree;
-> +			return ERR_PTR(ret);
->  	}
->  
-> -	of_node_put(trips);
-> +	*ntrips = count;
->  
-> -	return tt;
-> -
-> -out_kfree:
-> -	kfree(tt);
-> -	*ntrips = 0;
-> -out_of_node_put:
-> -	of_node_put(trips);
-> -
-> -	return ERR_PTR(ret);
-> +	return no_free_ptr(tt);
->  }
->  
->  static struct device_node *of_thermal_zone_find(struct device_node *sensor, int id)
-> 
+diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
+index 4aa15f3668e03..046536d02706f 100644
+--- a/Documentation/devicetree/bindings/arm/sunxi.yaml
++++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+@@ -846,6 +846,12 @@ properties:
+           - const: allwinner,sun50i-h64
+           - const: allwinner,sun50i-a64
+ 
++      - description: RerVision A33-Vstar (with A33-Core1 SoM)
++        items:
++          - const: rervision,a33-vstar
++          - const: rervision,a33-core1
++          - const: allwinner,sun8i-a33
++
+       - description: RerVision H3-DVK
+         items:
+           - const: rervision,h3-dvk
+-- 
+2.47.0
 
