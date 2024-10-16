@@ -1,72 +1,160 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F91F1E7640;
-	Tue, 15 Oct 2024 10:23:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB8E220C00A
+	for <linux-sunxi@lists.linux.dev>; Wed, 16 Oct 2024 13:58:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728987800; cv=none; b=WSACnn+/w1w7ccF+OROp5Usnr4iDwp01L797KBqPP0oSCXsRQY47VYfU5GcpHcrN1F3H90h2bIeLkfu34SiBr7OgmZSFsm95TpjY/OEwIPB1ge/7inxBwNyQlUzZ0MhQ2J7XT7K1YvIz+MbeDPSvB6KaqrtUwT2IFpOwrPzawcM=
+	t=1729087140; cv=none; b=LvTiJzrN6ZKAdwez9qkQJIh9lmIhu85kC9y8fy69L3YsJQw5YWoAf4UXAW03WE96WDxb6v9VtGV/fKh2lbEUaklaaM/bxsY0MPXVgMLXMV5qMRmWtpAWRTK5rjJzxi+9yKj7XXDIcv+sLF9BS2260/KVbiy+qHO25LWkmgMMkRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728987800; c=relaxed/simple;
-	bh=oRNGjrDKi2Hm53gnbXJGC6YvgFgibQ8fpuTcUT3TPMo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R3ToSpAT2ufrlkiv66669hMYHhy6PksHS87rc0vURWMCPtpSUeaDENIWp0HMhfUHHp0dPKc6klcv7l7lpJ9kKLuV1OwWK+bxtJ557hk1OQ/puxdsyvpJ4YrHeLht9ZmHO8XHlaxbAyve1zLomC5Nf5DlWTFbZGcukGKAXfhVi8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jUDrhd7i; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jUDrhd7i"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D8F5C4CED0;
-	Tue, 15 Oct 2024 10:23:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728987799;
-	bh=oRNGjrDKi2Hm53gnbXJGC6YvgFgibQ8fpuTcUT3TPMo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jUDrhd7iBnTe8hchjCw5VvonV+PgBwSvS/GHTMQ6R+uLbL7GLKLUrqBdYaOpocZg2
-	 XOBj0U2iJqzyrNtzp/xltjrfltk89lvoFBIinHdOb7/jhNAwewxxiu9GgjdQb/zVi9
-	 +jh5+pe0hHv6RCObDWSSn4jEzqoMwDOuQ2ZUl0SukCfcnYcc5gqStIfzh+1TDaox1D
-	 EhGVFCG6RWiljEMPUVVHXJAGei93AZupBXttsjrilUfB2A8XoORAYz6txpbZAgG5SB
-	 ZHFQcdb2xMIMDvxvx5KQ8RmNoH15sC0chi2GlcsvaAEtYWDjf2UGle336VjWUC1LrQ
-	 NejxIe3pfn3wQ==
-Date: Tue, 15 Oct 2024 11:23:14 +0100
-From: Lee Jones <lee@kernel.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, devicetree@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Martin Botka <martin.botka@somainline.org>,
-	Chris Morgan <macromorgan@hotmail.com>
-Subject: Re: [PATCH v2 5/5] regulator: axp20x: add support for the AXP323
-Message-ID: <20241015102314.GG8348@google.com>
-References: <20241007001408.27249-1-andre.przywara@arm.com>
- <20241007001408.27249-6-andre.przywara@arm.com>
+	s=arc-20240116; t=1729087140; c=relaxed/simple;
+	bh=DCwW1BXaEzYmomHtjqvPhEnDGnecHTjUZgJNEcpFnTA=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=PwcAUWQ0yt9HSHsRkv61RHlpnqWW1E3MUFK2i/lGrieA844F59VCKjtT4WQt/bGLsWJ0BUdgqSCKrIXQQuM9axFuudRaVNJnY9SQsjLBuGhFzrtyCZncSYsop4UMC85y5n91Zb8er4r22CdAI//QDyNbGlIGSNXdBKWUUKWJk2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.216])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4XTCGw6RFvz6D8Y7;
+	Wed, 16 Oct 2024 21:58:16 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id 54E9E140B67;
+	Wed, 16 Oct 2024 21:58:54 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Wed, 16 Oct
+ 2024 15:58:52 +0200
+Date: Wed, 16 Oct 2024 14:58:51 +0100
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+CC: "Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano
+	<daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>, Lukasz Luba
+	<lukasz.luba@arm.com>, Amit Kucheria <amitk@kernel.org>, Thara Gopinath
+	<thara.gopinath@gmail.com>, Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>, Vasily Khoruzhick
+	<anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>, Chen-Yu Tsai
+	<wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+	<samuel@sholland.org>, <linux-pm@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+	<linux-tegra@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-sunxi@lists.linux.dev>, Chen-Yu Tsai <wenst@chromium.org>
+Subject: Re: [PATCH v4 2/6] thermal: of: Use scoped memory and OF handling
+ to simplify thermal_of_trips_init()
+Message-ID: <20241016145851.00004e90@Huawei.com>
+In-Reply-To: <20241010-b4-cleanup-h-of-node-put-thermal-v4-2-bfbe29ad81f4@linaro.org>
+References: <20241010-b4-cleanup-h-of-node-put-thermal-v4-0-bfbe29ad81f4@linaro.org>
+	<20241010-b4-cleanup-h-of-node-put-thermal-v4-2-bfbe29ad81f4@linaro.org>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241007001408.27249-6-andre.przywara@arm.com>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-On Mon, 07 Oct 2024, Andre Przywara wrote:
+On Thu, 10 Oct 2024 20:06:18 +0200
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
 
-> The X-Powers AXP323 is a very close sibling of the AXP313A. The only
-> difference seems to be the ability to dual-phase the first two DC/DC
-> converters.
+> Obtain the device node reference and allocate memory with
+> scoped/cleanup.h to reduce error handling and make the code a bit
+> simpler.
 > 
-> Place the new AXP323 ID next to the existing AXP313A checks, to let
-> them share most code.
-> The only difference is the poly-phase detection code, which gets
-> extended to check the respective bit in a newly used register.
+> The code is not equivalent in one minor aspect: outgoing parameter
+> "*ntrips" will not be zeroed on errors of memory allocation.  This
+> difference is not important, because code was already not zeroing it in
+> case of earlier errors and the only caller does not rely on ntrips being
+> 0 in case of errors.
 > 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> Reviewed-by: Chen-Yu Tsai <wens@csie.org>
-> Reviewed-by: Mark Brown <broonie@kernel.org>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Trivial unrelated comment inline + maybe return_ptr() is the way to go as
+Chen-Yu mentioned.
 
-Mark, can I take this without issuing a PR?
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
--- 
-Lee Jones [李琼斯]
+> ---
+> 
+> Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Cc: Chen-Yu Tsai <wenst@chromium.org>
+> 
+> Changes in v4:
+> 1. Significant change: kzalloc() also with scoped-handling so the entire
+>    error handling could be removed.
+> 2. Due to above, drop review-tags (Chen-Yu, Jonathan).
+> 
+> Changes in v2:
+> 1. Drop left-over of_node_put in regular exit path (Chen-Yu)
+> ---
+>  drivers/thermal/thermal_of.c | 31 ++++++++-----------------------
+>  1 file changed, 8 insertions(+), 23 deletions(-)
+> 
+> diff --git a/drivers/thermal/thermal_of.c b/drivers/thermal/thermal_of.c
+> index f0ffc0e335ba9406f4fd858d6c561f9d23f4b842..37db435b54b124abf25b1d75d6cc4fb75f1c1e5c 100644
+> --- a/drivers/thermal/thermal_of.c
+> +++ b/drivers/thermal/thermal_of.c
+> @@ -95,11 +95,9 @@ static int thermal_of_populate_trip(struct device_node *np,
+>  
+>  static struct thermal_trip *thermal_of_trips_init(struct device_node *np, int *ntrips)
+>  {
+> -	struct thermal_trip *tt;
+> -	struct device_node *trips;
+>  	int ret, count;
+>  
+> -	trips = of_get_child_by_name(np, "trips");
+> +	struct device_node *trips __free(device_node) = of_get_child_by_name(np, "trips");
+>  	if (!trips) {
+>  		pr_err("Failed to find 'trips' node\n");
+>  		return ERR_PTR(-EINVAL);
+> @@ -108,36 +106,23 @@ static struct thermal_trip *thermal_of_trips_init(struct device_node *np, int *n
+>  	count = of_get_child_count(trips);
+>  	if (!count) {
+>  		pr_err("No trip point defined\n");
+> -		ret = -EINVAL;
+> -		goto out_of_node_put;
+> +		return ERR_PTR(-EINVAL);
+>  	}
+>  
+> -	tt = kzalloc(sizeof(*tt) * count, GFP_KERNEL);
+> -	if (!tt) {
+> -		ret = -ENOMEM;
+> -		goto out_of_node_put;
+> -	}
+> -
+> -	*ntrips = count;
+> +	struct thermal_trip *tt __free(kfree) = kzalloc(sizeof(*tt) * count, GFP_KERNEL);
+
+Trivial and unrelated, but maybe kcalloc(count, sizeof(tt), GFP_KERNEL);
+
+> +	if (!tt)
+> +		return ERR_PTR(-ENOMEM);
+>  
+>  	count = 0;
+>  	for_each_child_of_node_scoped(trips, trip) {
+>  		ret = thermal_of_populate_trip(trip, &tt[count++]);
+>  		if (ret)
+> -			goto out_kfree;
+> +			return ERR_PTR(ret);
+>  	}
+>  
+> -	of_node_put(trips);
+> +	*ntrips = count;
+>  
+> -	return tt;
+> -
+> -out_kfree:
+> -	kfree(tt);
+> -	*ntrips = 0;
+> -out_of_node_put:
+> -	of_node_put(trips);
+> -
+> -	return ERR_PTR(ret);
+> +	return no_free_ptr(tt);
+>  }
+>  
+>  static struct device_node *of_thermal_zone_find(struct device_node *sensor, int id)
+> 
+
