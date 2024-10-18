@@ -1,173 +1,202 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74AFE17F394
-	for <linux-sunxi@lists.linux.dev>; Fri, 18 Oct 2024 07:31:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71A4F1EF09B
+	for <linux-sunxi@lists.linux.dev>; Fri, 18 Oct 2024 09:29:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729236711; cv=none; b=t29IeQQU0LH2bOUwCdl+n+MsX19vUFjpC0nOVCLwL9VzxDNEellTjOrEyubP7cGU2/d4S0HxLpuocljfkZR1McOjjTMoZtSN89zFBJ5GoqP4vtNaDK78TIYg3GkC9+N5XUH0msy8lbXrGEJTwp/sQVu5vbU47avbjoqpU5A9ZzY=
+	t=1729243778; cv=none; b=Pwn2UdXUMR54Rg8Fd91BZYHPXMRPzp1ePHSI1RbYOVdfDxJ+SPPlhS8BfwCQ+CfBPJFugEpKm19MreOo61v7DnFNpm1ugJK/8rhZ5kCbqFt8SVj9+ZFTqZy3DTnvS4g4AaJ95cmi01KxfBqIDunrl+Ug0Dy2WjC0xL2S5BQR9zs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729236711; c=relaxed/simple;
-	bh=NH+L9Jxf2wkMM71Yi6LYSc5pR0cezzW0842zQcofwrQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sudhNhzjJ+51Fg+UX1+SAWwVwohJBeI3JF1vjEFaEk6n3an7pngIiOEceTP5gOFNW3EyhVC4p6ZW1Smf4y3mbnKALZ80kXcKon9fQhquCnwbPPfzCVU6HzzeRbq06uPf7PijljR6suzdiozVywn9OM2DKGGP9XnS217Ckb9yHJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=fltur/tE; arc=none smtp.client-ip=209.85.215.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="fltur/tE"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-7e9fd82f1a5so1210409a12.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 18 Oct 2024 00:31:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1729236708; x=1729841508; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IlPybqmG9m/ZAU4ubVutLFbdpffPKHkEonNeryEzP1o=;
-        b=fltur/tEjjD5iwLL/5e2lV1Jq3tHVglkpT6d6fMNbI5rjCDzq2mreZWk1Z8ZrwHrgG
-         c6mdjYqKnIfIGgUTTqHZXmumgKVlK6qrWa3zp6GvgJ47nW6WmMyLmG47PS9PSLQ1/TPj
-         aSOu/H6KOyU+qElD/1xQ46WpaPBeZ6tmJ+838=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729236708; x=1729841508;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IlPybqmG9m/ZAU4ubVutLFbdpffPKHkEonNeryEzP1o=;
-        b=ivmYrveQLYBEA+07QDn7c+dYg5c5cocGN9NwD2xrAVXCAdEhm0PfsFoypEtzmeX9RB
-         JWtxnGOrvPjcxlsmI+MDxx85596RDNmguhM6vSdQtM2MayjDA7BBFfPMooknfohEjNvC
-         7sn3TvXBhBb1ePp21RscZkawV2ZFHGI6/4+8kqMIHiuoTK7RfJBGV5Dv3HjF7wUqUWTK
-         h7lF8xZW94uy+WDJNpM5Xo5zpunm2QiVfXk0KrMx0JD3v8nhP9mFnnAMoSf3UD16u2qT
-         qQZ1iZtXw9ZpHn3l8iF90utcGXsEjPcyCxh1vwMK9Xa7grPwZVu+z++tGAyYfWB3iGP2
-         MRnw==
-X-Forwarded-Encrypted: i=1; AJvYcCUpKkntNlhpYG0/7TWQxf+EvWrQCZ6on/z8akopqjdb0ONGpFq3Dp8gC1CDP3MR2XzG/0ND8xwRkzY65Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx48VNqU+RPSYZ3wEaFHzjKfIgP75ljHk7K83hZQ3pMTsgceEZY
-	/7hlbdHDUKdUeCWu2EVzPJjuD2cDjCu68i8Y54KejnQQjirFeQ+1nXtWK1PO7w==
-X-Google-Smtp-Source: AGHT+IHLIrR9ytIHJoh0tpY7PloSKaVtl6gokdxvrnHnBae8s/7gjJhQ59rft77DxeV3cTP3OmeRAA==
-X-Received: by 2002:a05:6a21:70c8:b0:1d9:575:6659 with SMTP id adf61e73a8af0-1d92c58fa40mr2750256637.49.1729236708639;
-        Fri, 18 Oct 2024 00:31:48 -0700 (PDT)
-Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:5e77:354e:2385:7baa])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7eacc229a7dsm745320a12.20.2024.10.18.00.31.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Oct 2024 00:31:48 -0700 (PDT)
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: "Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>,
-	Lukasz Luba <lukasz.luba@arm.com>
-Cc: Icenowy Zheng <uwu@icenowy.me>,
-	Mark Brown <broonie@kernel.org>,
-	linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	=?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= <nfraprado@collabora.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-mediatek@lists.infradead.org,
-	Hsin-Te Yuan <yuanhsinte@chromium.org>,
-	Chen-Yu Tsai <wenst@chromium.org>
-Subject: [PATCH v4] thermal/of: support thermal zones w/o trips subnode
-Date: Fri, 18 Oct 2024 15:31:36 +0800
-Message-ID: <20241018073139.1268995-1-wenst@chromium.org>
-X-Mailer: git-send-email 2.47.0.rc1.288.g06298d1525-goog
+	s=arc-20240116; t=1729243778; c=relaxed/simple;
+	bh=uGV5pnEFswLCAvUEQtlZ+YU9roqS2PTClQ661RrBjlw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HNsoQL59oE0+vAu70S6nFX3n+vyNaB9KzlbnMjtJjGPTIwqeLQ/175mksujjSrsuxEWJYlHnVo0S3TFYJuBiXRVBwegokRGxGaXQVdBPqkoEut5fDGoAmgQCBm3KTMu8EU6ssKcmS0OVybO4FwfrbK94VEmYDraQYxEIRlf7T+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4B678FEC;
+	Fri, 18 Oct 2024 02:30:05 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 541033F58B;
+	Fri, 18 Oct 2024 02:29:33 -0700 (PDT)
+Date: Fri, 18 Oct 2024 10:29:29 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Ryan Walklin <ryan@testtoast.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu
+ Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
+ Holland <samuel@sholland.org>, linux-sound@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, linux-clk@vger.kernel.org
+Subject: Re: [PATCH 3/6] clk: sunxi-ng: h616: Add sigma-delta modulation
+ settings for audio PLL
+Message-ID: <20241018102929.0eda3fc8@donnerap.manchester.arm.com>
+In-Reply-To: <20241001142850.1c275f78@donnerap.manchester.arm.com>
+References: <20240929100750.860329-1-ryan@testtoast.com>
+	<20240929100750.860329-4-ryan@testtoast.com>
+	<20241001142850.1c275f78@donnerap.manchester.arm.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Icenowy Zheng <uwu@icenowy.me>
+On Tue, 1 Oct 2024 14:28:50 +0100
+Andre Przywara <andre.przywara@arm.com> wrote:
 
-Although the current device tree binding of thermal zones require the
-trips subnode, the binding in kernel v5.15 does not require it, and many
-device trees shipped with the kernel, for example,
-allwinner/sun50i-a64.dtsi and mediatek/mt8183-kukui.dtsi in ARM64, still
-comply to the old binding and contain no trips subnode.
+Hi Ryan,
 
-Allow the code to successfully register thermal zones w/o trips subnode
-for DT binding compatibility now.
+> On Sun, 29 Sep 2024 23:06:04 +1300
+> Ryan Walklin <ryan@testtoast.com> wrote:
+> 
+> Hi Ryan,
+> 
+> > Allwinner has previously released a H616 audio driver which also
+> > provides sigma-delta modulation for the audio PLL clocks. This approach
+> > is used in other Allwinner SoCs, including the H3 and A64.
+> > 
+> > One change from the vendor code is made to the PLL clocks, the 
+> > vendor-specified dividers of 4/2/1 for the 1/2/4x clocks respectively result 
+> > in audio playback that is too slow by 50%. Therefore the dividers are simply
+> > doubled to 8/4/2 which results in correct playback rates.  
+> 
+> The reason for that is you force .M0 to 1 (divide by 2), in the fixup
+> below (in the probe routine).
+> So for instance for the 4x clock, the formula is:
+> 	PLL_AUDIO(4X) = 24MHz*N/M0/M1/P
+> M1 is cleared (div by 1), M0 is set (div by 2), P is exposed as .m, and N
+> as .n in the ccu_nm struct. So you get that extra by-2 divider, that is
+> invisible to the CCF, hence you need to compensate for that.
+> 
+> But with tweaking the dividers only in the fixed-factor clocks below, you
+> still leave the original (_hs) clock wrong, which is a parent to other
+> clocks, if I see this correctly.
+> 
+> Can you try to add a .fixed_post_div = 2 in the ccu_nm definition, and
+> then put the real dividers in the fixed-factor clocks?
 
-Furtherly, the inconsistency between DTs and bindings should be resolved
-by either adding empty trips subnode or dropping the trips subnode
-requirement.
+So I tested this change, and it seemed to work for me. Please don't
+forget to add CCU_FEATURE_FIXED_POSTDIV - as I did initially ;-)
 
-Fixes: d0c75fa2c17f ("thermal/of: Initialize trip points separately")
-Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-[wenst@chromium.org: Reworked logic and kernel log messages]
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
----
-This patch is based on Krzysztof's cleanup patches
-  - thermal: of: Use scoped memory and OF handling to simplify thermal_of_trips_init() [1]
+> And please explain all this in comments ...
+> 
+> > Add SDM to the H616 clock control unit driver.
+> > 
+> > Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+> > ---
+> >  drivers/clk/sunxi-ng/ccu-sun50i-h616.c | 36 +++++++++++++-------------
+> >  1 file changed, 18 insertions(+), 18 deletions(-)
+> > 
+> > diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+> > index 84e406ddf9d12..be272947b0fee 100644
+> > --- a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+> > +++ b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+> > @@ -215,20 +215,23 @@ static struct ccu_nkmp pll_de_clk = {
+> >  	},
+> >  };
+> >  
+> > -/*
+> > - * TODO: Determine SDM settings for the audio PLL. The manual suggests
+> > - * PLL_FACTOR_N=16, PLL_POST_DIV_P=2, OUTPUT_DIV=2, pattern=0xe000c49b
+> > - * for 24.576 MHz, and PLL_FACTOR_N=22, PLL_POST_DIV_P=3, OUTPUT_DIV=2,
+> > - * pattern=0xe001288c for 22.5792 MHz.
+> > - * This clashes with our fixed PLL_POST_DIV_P.
+> > - */  
+> 
+> >  #define SUN50I_H616_PLL_AUDIO_REG	0x078
+> > +  
+> 
+> Can you please (re-)add a comment here explaining the sources of these
+> parameters? Because the values deviate from the ones in the manual.
+> And also please mention here that there are two more divider bits (named
+> m0 and m1 in the manual), that we cannot model in our ccu_nm struct, and
+> thus force them to fixed values in the probe routine below?
+> 
+> > +static struct ccu_sdm_setting pll_audio_sdm_table[] = {
+> > +	{ .rate = 90316800, .pattern = 0xc001288d, .m = 3, .n = 22 },
+> > +	{ .rate = 98304000, .pattern = 0xc001eb85, .m = 5, .n = 40 },
+> > +};
+> > +
+> >  static struct ccu_nm pll_audio_hs_clk = {
+> >  	.enable		= BIT(31),
+> >  	.lock		= BIT(28),
+> > -	.n		= _SUNXI_CCU_MULT_MIN(8, 8, 12),
+> > -	.m		= _SUNXI_CCU_DIV(1, 1), /* input divider */
+> > +	.n			= _SUNXI_CCU_MULT_MIN(8, 8, 12),
+> > +	.m			= _SUNXI_CCU_DIV(16, 6),  
+> 
+> Can you please keep the original indentation? You could add a "post-div"
+> comment after the .m parameter, to map to the manual.
+> 
+> And add that ".fixed_post_div = 2," here.
+> 
+> > +	.sdm		= _SUNXI_CCU_SDM(pll_audio_sdm_table,
+> > +				  BIT(24), 0x178, BIT(31)),
+> > +
+> >  	.common		= {
+> > +		.features = CCU_FEATURE_SIGMA_DELTA_MOD,  
+> 
+> Please indent like the other parameters below.
+> 
+> >  		.reg		= 0x078,
+> >  		.hw.init	= CLK_HW_INIT("pll-audio-hs", "osc24M",
+> >  					      &ccu_nm_ops,
+> > @@ -690,13 +693,13 @@ static const struct clk_hw *clk_parent_pll_audio[] = {
+> >   */
+                     ^^^^
+There is a comment up here, not shown in this diff, which doesn't apply
+anymore. Please update it.
 
-Changes since v3:
-  - Set *ntrips = 0 and return NULL from thermal_of_trips_init() if
-    no trip points are found in the device tree (Rafael)
-  - Dropped log level of "no trip points found" message to INFO
-  - Reworded new "failed to find trip points" message to "no trip points
-    found"
-  - Reworded existing "failed to find trip points" message to "failed to
-    parse trip points"
+Cheers,
+Andre
 
-I dropped Mark's reviewed-by because of the new changes.
-
-Changes since v2:
-- Stacked on top of Krzysztof's cleanup patches
-  - thermal: of: Use scoped memory and OF handling to simplify thermal_of_trips_init() [1]
-- Adjusted to account for eliminated error path
-
-[1] https://lore.kernel.org/all/20241010-b4-cleanup-h-of-node-put-thermal-v4-2-bfbe29ad81f4@linaro.org/
-
-Changes since v1:
-- set *ntrips at beginning of thermal_of_trips_init()
-- Keep goto out_of_node_put in of_get_child_count(trips) == 0 branch
-- Check return value of thermal_of_trips_init(), if it is -ENXIO, print
-  warning and clear |trips| pointer
-- Drop |mask| change, as the variable was removed
-
----
- drivers/thermal/thermal_of.c | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/thermal/thermal_of.c b/drivers/thermal/thermal_of.c
-index 93f7c6f8d06d..abafce22c91f 100644
---- a/drivers/thermal/thermal_of.c
-+++ b/drivers/thermal/thermal_of.c
-@@ -99,14 +99,16 @@ static struct thermal_trip *thermal_of_trips_init(struct device_node *np, int *n
- 
- 	struct device_node *trips __free(device_node) = of_get_child_by_name(np, "trips");
- 	if (!trips) {
--		pr_err("Failed to find 'trips' node\n");
--		return ERR_PTR(-EINVAL);
-+		pr_debug("Failed to find 'trips' node\n");
-+		*ntrips = 0;
-+		return NULL;
- 	}
- 
- 	count = of_get_child_count(trips);
- 	if (!count) {
--		pr_err("No trip point defined\n");
--		return ERR_PTR(-EINVAL);
-+		pr_debug("No trip point defined\n");
-+		*ntrips = 0;
-+		return NULL;
- 	}
- 
- 	struct thermal_trip *tt __free(kfree) = kzalloc(sizeof(*tt) * count, GFP_KERNEL);
-@@ -386,11 +388,14 @@ static struct thermal_zone_device *thermal_of_zone_register(struct device_node *
- 
- 	trips = thermal_of_trips_init(np, &ntrips);
- 	if (IS_ERR(trips)) {
--		pr_err("Failed to find trip points for %pOFn id=%d\n", sensor, id);
-+		pr_err("Failed to parse trip points for %pOFn id=%d\n", sensor, id);
- 		ret = PTR_ERR(trips);
- 		goto out_of_node_put;
- 	}
- 
-+	if (!trips)
-+		pr_info("No trip points found for %pOFn id=%d\n", sensor, id);
-+
- 	ret = thermal_of_monitor_init(np, &delay, &pdelay);
- 	if (ret) {
- 		pr_err("Failed to initialize monitoring delays from %pOFn\n", np);
--- 
-2.47.0.rc1.288.g06298d1525-goog
+> >  static CLK_FIXED_FACTOR_HWS(pll_audio_1x_clk, "pll-audio-1x",
+> >  			    clk_parent_pll_audio,
+> > -			    96, 1, CLK_SET_RATE_PARENT);
+> > +			    8, 1, CLK_SET_RATE_PARENT);  
+> 
+> As mentioned, with the fixed_post_div, you should be able to put the real
+> divider values in here.
+> 
+> >  static CLK_FIXED_FACTOR_HWS(pll_audio_2x_clk, "pll-audio-2x",
+> >  			    clk_parent_pll_audio,
+> > -			    48, 1, CLK_SET_RATE_PARENT);
+> > +			    4, 1, CLK_SET_RATE_PARENT);
+> >  static CLK_FIXED_FACTOR_HWS(pll_audio_4x_clk, "pll-audio-4x",
+> >  			    clk_parent_pll_audio,
+> > -			    24, 1, CLK_SET_RATE_PARENT);
+> > +			    2, 1, CLK_SET_RATE_PARENT);
+> >  
+> >  static const struct clk_hw *pll_periph0_parents[] = {
+> >  	&pll_periph0_clk.common.hw
+> > @@ -1135,13 +1138,10 @@ static int sun50i_h616_ccu_probe(struct platform_device *pdev)
+> >  		writel(val, reg + usb2_clk_regs[i]);
+> >  	}
+> >  
+> > -	/*
+> > -	 * Force the post-divider of pll-audio to 12 and the output divider
+> > -	 * of it to 2, so 24576000 and 22579200 rates can be set exactly.
+> > -	 */  
+> 
+> Can you please keep the comment, and adjust it accordingly? Saying that
+> the recommended BSP parameters for the PLL audio recommend M0 to be 1, and
+> M1 to be 0, and that we enforce this here?
+> 
+> Cheers,
+> Andre
+> 
+> >  	val = readl(reg + SUN50I_H616_PLL_AUDIO_REG);
+> > -	val &= ~(GENMASK(21, 16) | BIT(0));
+> > -	writel(val | (11 << 16) | BIT(0), reg + SUN50I_H616_PLL_AUDIO_REG);
+> > +	val &= ~BIT(1);
+> > +	val |= BIT(0);
+> > +	writel(val, reg + SUN50I_H616_PLL_AUDIO_REG);
+> >  
+> >  	/*
+> >  	 * First clock parent (osc32K) is unusable for CEC. But since there  
+> 
 
