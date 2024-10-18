@@ -1,129 +1,174 @@
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56C67202F6C
-	for <linux-sunxi@lists.linux.dev>; Fri, 18 Oct 2024 16:08:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45361155A2F
+	for <linux-sunxi@lists.linux.dev>; Fri, 18 Oct 2024 16:36:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729267727; cv=none; b=uKWb5+mUqhs35zYCFCW48JJEC8qecAcj06utDzNUYXyYJAVZflQ4/dmx4oepE8nukFKwbhNlZDl5J/pYEDhDqy4KJCZau6NHkafc4CVGHHTf1OeA2pMJol/BWmAuaZyg0GUZ/9UXybwLL513GgDOjkoJ+sSpJWEwh1yFGscAbeY=
+	t=1729269399; cv=none; b=mnAqhnQxFj+IpvsliE7ZVU0YW6h+EmdEKbvq9pB3KHJ5g2lVG58rn+YvTlVFNtrmQheIwMTFKsITvCH/iHrp2SVaSSz21mBFfeDAo/f2Cm5fE6NujuC2sfAwyFSX647w8/F8pc+N+lXOtUaBvKLiaaePzkwewf+lQihmcD9YjBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729267727; c=relaxed/simple;
-	bh=xraqAccI9artWrwaRZh4MU6AFyK+WqkuUop2ha/9yRE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JNGWjYyF1seYigdk0ykOkwRwQLa9rUFZGCTPaqsM+sPlJqGeydE+le4i65z57sTSJFR5nOgx6DoSNzq96Z2MxfSBQq/3TkGqpA9moEfY2tP5v0aOzsEUmkgx+Lk4Ji2Y53ZFrwU/gQ7Y/3fNeonmm19xb++XcDL6IEZmtknHbx8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ApIDwbxO; arc=none smtp.client-ip=209.85.160.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1729269399; c=relaxed/simple;
+	bh=jq7Y7/frNkQWdKn6/pE62Zi+RO0e0r/Z5zuFlEysqj8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GFwAMp7gPkcPVQ5paOW6yJu9nQThQvd5AKSrI3Xzuqvg7RSFvORm0rPMK49sajV6De/NOBKqrCLD9CQdL2WhqLp0BFIVxVhDV+eUB3XMDHpNPnSHFsvz5tDv+a5Igi4vCgUF7JscDW56S0I0ZzQ/O9+cU/FNszhIoSucWQ7k4Ek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I54s75ab; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ApIDwbxO"
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-2887326be3dso1045448fac.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 18 Oct 2024 09:08:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729267724; x=1729872524; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4ZBgOs7gndVxY2K9bPnYQhdzvUk2WIcolOLAArh+X8o=;
-        b=ApIDwbxO1kw9nN2j5nB/qRX7HDoC36d39uvE/a8/luzHoTIkPP/WLR2xQ/NTeruc3f
-         HDs4lUTtUp85VFeIVzzozFifAxlb0kP5REJeawH2QpOCw705mEA51eriSrabxZi/JG/b
-         JRWQACWtD2+581bqfMkT2KEHBhSFYNRyruKT/ia2WjDKX/2ZCpA4aziKfAt3FO0xMCR4
-         Itp1NToT9FzdBD4STEWoxc72onVRw4inU7SS245auPQEymubKlj06+venGLJpyFY03uE
-         dGeFWhF5MkalXhefVimlCIZwElK8imgVonctA4ZEagLtJ5+ksAp9yBMNz/BIBRhwSz5O
-         1YvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729267724; x=1729872524;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4ZBgOs7gndVxY2K9bPnYQhdzvUk2WIcolOLAArh+X8o=;
-        b=iBEDvcc76ZXsl/1QMxu1Hc9DS3H4euxJpdC6ttUNE0A6ruWWo+xCg57+tk+GGtyugI
-         gJDdvCxYd6BY0CEpb+Vo14tcg2DpRKSu9zTfxE6BqoBtfJ5bBZD+dC7shn/SXigJPf2i
-         rh+7iVrjuthJSNzrnWtcKxn84P0mkxuoyIG1Ok9Hh7V63se8yfBxm1eugEhhCwMetXyf
-         IrgEEVeIAX485ZxHrmBZL0XfmDra6JGD039LDL3cC8MsTgmkDa+xxJeGMy9blYs2Z/oL
-         mZLR6njPN0xLpahAC9kHNkWfW+o5xyEqX/PRMMXQRQEh2e5vuL8bQd4d+Yztqkj/QddK
-         8Mzw==
-X-Gm-Message-State: AOJu0YxmcHuwTpjp8Y+E6ZzSHP6PZfdM4OkoVVrOlmvgJ9HwnBZ9YmKk
-	v+RNgiiJ5O0cz7xoVk3bM9U3lZmkD5+jzjrCK0GlyG264SG7veqSdXDXjw==
-X-Google-Smtp-Source: AGHT+IHblnU5+A+Nk05NuN5q/WEZ0TcOm9e5Bd+X/wO/YtePlWbz/GpFamcaOw/HPBiGS0GR6as1sA==
-X-Received: by 2002:a05:6871:5823:b0:288:563b:e48d with SMTP id 586e51a60fabf-2892c24f4f8mr3037582fac.10.1729267724031;
-        Fri, 18 Oct 2024 09:08:44 -0700 (PDT)
-Received: from localhost.localdomain ([2600:1700:fb0:1bcf::54])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2892afb01ebsm507350fac.50.2024.10.18.09.08.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Oct 2024 09:08:43 -0700 (PDT)
-From: Chris Morgan <macroalpha82@gmail.com>
-To: linux-sunxi@lists.linux.dev
-Cc: devicetree@vger.kernel.org,
-	samuel@sholland.org,
-	jernej.skrabec@gmail.com,
-	wens@csie.org,
-	conor+dt@kernel.org,
-	krzk+dt@kernel.org,
-	robh@kernel.org,
-	Chris Morgan <macromorgan@hotmail.com>
-Subject: [PATCH 4/4] arm64: dts: allwinner: h700: Add USB Host for RG35XX-H
-Date: Fri, 18 Oct 2024 11:06:17 -0500
-Message-ID: <20241018160617.157083-5-macroalpha82@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241018160617.157083-1-macroalpha82@gmail.com>
-References: <20241018160617.157083-1-macroalpha82@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I54s75ab"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E040FC4CED3
+	for <linux-sunxi@lists.linux.dev>; Fri, 18 Oct 2024 16:36:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729269398;
+	bh=jq7Y7/frNkQWdKn6/pE62Zi+RO0e0r/Z5zuFlEysqj8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=I54s75ab423OKHdT4qZEmxInLP1Stn4BTpeGesyteaCQGb+0Mrh2gTD9v6Pt4ola/
+	 1jYN1BWEIkKK5Mpz3DTgh110hZhUOV8+pX3dfWMnvDIDWi9t5+7apjfj0RhsyDRfou
+	 6yHdojYXAfQEgpxrK2pJGCEfZxNjdj/OSAgAPPA4UesViFH/E/vrWW3ZDudcqn1jH/
+	 C70gufEGp4Z42suCNypxF3BSecmzI1l6KTY55ZJh/ZYzWOR2754uRAy6waivDq1dgG
+	 z6WF0yV730QReLMl4yiXY4PFjM+DkwilEFpmXxl8Ehdge1ZeXO5gAL1nmuZe08BmuA
+	 KWy6dRoIb4Pow==
+Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-5eb5f07410aso1378942eaf.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 18 Oct 2024 09:36:38 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCX0feFIA46UbsvRqjxBZIs2g+K/qBU3Ppcw6V/wJj5SUECxfNX8dG7vPGaksR4g+GEk+tpdgsOCn9Hklg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzICowSO24ida1FDas6dVsuR3tivnREJm5JKazSlKIVvl9tlhHY
+	8rrMwbWJ+OuS04TJfJYu9PkJuH/6cEe/d82i0vdPAars8zEeweL5+ahDhJzuroZNCZfHTBAfIoO
+	GNbSyc0N+2nZ5C/Xj6Se4RZ9rX3I=
+X-Google-Smtp-Source: AGHT+IF/9GJqtgMfEJw36ojuns+DX+VC12ggt1IRZE7FcP/Z+sN2K2q6OqZVUcCj0lDRDIR1nrTiGTo2/XYmlcO1fzI=
+X-Received: by 2002:a05:6870:c0ce:b0:260:e3fa:ab8d with SMTP id
+ 586e51a60fabf-2892c562e82mr2714739fac.37.1729269398081; Fri, 18 Oct 2024
+ 09:36:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241018073139.1268995-1-wenst@chromium.org>
+In-Reply-To: <20241018073139.1268995-1-wenst@chromium.org>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Fri, 18 Oct 2024 18:36:25 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0g5B_h0BudqnHKRD0GL5-xpiwp21=Hx+dH-FaRXD6yu8g@mail.gmail.com>
+Message-ID: <CAJZ5v0g5B_h0BudqnHKRD0GL5-xpiwp21=Hx+dH-FaRXD6yu8g@mail.gmail.com>
+Subject: Re: [PATCH v4] thermal/of: support thermal zones w/o trips subnode
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, 
+	Icenowy Zheng <uwu@icenowy.me>, Mark Brown <broonie@kernel.org>, linux-pm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, 
+	=?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	linux-mediatek@lists.infradead.org, Hsin-Te Yuan <yuanhsinte@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Chris Morgan <macromorgan@hotmail.com>
+On Fri, Oct 18, 2024 at 9:31=E2=80=AFAM Chen-Yu Tsai <wenst@chromium.org> w=
+rote:
+>
+> From: Icenowy Zheng <uwu@icenowy.me>
+>
+> Although the current device tree binding of thermal zones require the
+> trips subnode, the binding in kernel v5.15 does not require it, and many
+> device trees shipped with the kernel, for example,
+> allwinner/sun50i-a64.dtsi and mediatek/mt8183-kukui.dtsi in ARM64, still
+> comply to the old binding and contain no trips subnode.
+>
+> Allow the code to successfully register thermal zones w/o trips subnode
+> for DT binding compatibility now.
+>
+> Furtherly, the inconsistency between DTs and bindings should be resolved
+> by either adding empty trips subnode or dropping the trips subnode
+> requirement.
+>
+> Fixes: d0c75fa2c17f ("thermal/of: Initialize trip points separately")
+> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+> [wenst@chromium.org: Reworked logic and kernel log messages]
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 
-The RG35XX-H has a USB host port in addition to the USB OTG port used
-for charging. The host port receives its power from two distinct GPIO
-controlled regulators.
+Reviewed-by: Rafael J. Wysocki <rafael@kernel.org>
 
-Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
----
- .../sun50i-h700-anbernic-rg35xx-h.dts         | 23 +++++++++++++++++++
- 1 file changed, 23 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dts b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dts
-index ff453336eab1..e6dc29a38dd6 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dts
-@@ -71,6 +71,25 @@ gpio_mux: mux-controller {
- 			    <&pio 8 2 GPIO_ACTIVE_LOW>;
- 		#mux-control-cells = <0>;
- 	};
-+
-+	reg_vcc3v8_usb: regulator-vcc3v8-usb {
-+		compatible = "regulator-fixed";
-+		enable-active-high;
-+		gpio = <&pio 4 5 GPIO_ACTIVE_HIGH>; /* PE5 */
-+		regulator-min-microvolt = <3800000>;
-+		regulator-max-microvolt = <3800000>;
-+		regulator-name = "vcc3v8-usb";
-+	};
-+
-+	reg_vcc5v0_usb: regulator-vcc5v0-usb {
-+		compatible = "regulator-fixed";
-+		enable-active-high;
-+		gpio = <&pio 8 7 GPIO_ACTIVE_HIGH>; /* PI7 */
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+		regulator-name = "vcc5v0-usb";
-+		vin-supply = <&reg_vcc3v8_usb>;
-+	};
- };
- 
- &gpadc {
-@@ -113,3 +132,7 @@ joy_mux_pin: joy-mux-pin {
- 		function = "gpio_out";
- 	};
- };
-+
-+&usbphy {
-+	usb1_vbus-supply = <&reg_vcc5v0_usb>;
-+};
--- 
-2.43.0
-
+> ---
+> This patch is based on Krzysztof's cleanup patches
+>   - thermal: of: Use scoped memory and OF handling to simplify thermal_of=
+_trips_init() [1]
+>
+> Changes since v3:
+>   - Set *ntrips =3D 0 and return NULL from thermal_of_trips_init() if
+>     no trip points are found in the device tree (Rafael)
+>   - Dropped log level of "no trip points found" message to INFO
+>   - Reworded new "failed to find trip points" message to "no trip points
+>     found"
+>   - Reworded existing "failed to find trip points" message to "failed to
+>     parse trip points"
+>
+> I dropped Mark's reviewed-by because of the new changes.
+>
+> Changes since v2:
+> - Stacked on top of Krzysztof's cleanup patches
+>   - thermal: of: Use scoped memory and OF handling to simplify thermal_of=
+_trips_init() [1]
+> - Adjusted to account for eliminated error path
+>
+> [1] https://lore.kernel.org/all/20241010-b4-cleanup-h-of-node-put-thermal=
+-v4-2-bfbe29ad81f4@linaro.org/
+>
+> Changes since v1:
+> - set *ntrips at beginning of thermal_of_trips_init()
+> - Keep goto out_of_node_put in of_get_child_count(trips) =3D=3D 0 branch
+> - Check return value of thermal_of_trips_init(), if it is -ENXIO, print
+>   warning and clear |trips| pointer
+> - Drop |mask| change, as the variable was removed
+>
+> ---
+>  drivers/thermal/thermal_of.c | 15 ++++++++++-----
+>  1 file changed, 10 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/thermal/thermal_of.c b/drivers/thermal/thermal_of.c
+> index 93f7c6f8d06d..abafce22c91f 100644
+> --- a/drivers/thermal/thermal_of.c
+> +++ b/drivers/thermal/thermal_of.c
+> @@ -99,14 +99,16 @@ static struct thermal_trip *thermal_of_trips_init(str=
+uct device_node *np, int *n
+>
+>         struct device_node *trips __free(device_node) =3D of_get_child_by=
+_name(np, "trips");
+>         if (!trips) {
+> -               pr_err("Failed to find 'trips' node\n");
+> -               return ERR_PTR(-EINVAL);
+> +               pr_debug("Failed to find 'trips' node\n");
+> +               *ntrips =3D 0;
+> +               return NULL;
+>         }
+>
+>         count =3D of_get_child_count(trips);
+>         if (!count) {
+> -               pr_err("No trip point defined\n");
+> -               return ERR_PTR(-EINVAL);
+> +               pr_debug("No trip point defined\n");
+> +               *ntrips =3D 0;
+> +               return NULL;
+>         }
+>
+>         struct thermal_trip *tt __free(kfree) =3D kzalloc(sizeof(*tt) * c=
+ount, GFP_KERNEL);
+> @@ -386,11 +388,14 @@ static struct thermal_zone_device *thermal_of_zone_=
+register(struct device_node *
+>
+>         trips =3D thermal_of_trips_init(np, &ntrips);
+>         if (IS_ERR(trips)) {
+> -               pr_err("Failed to find trip points for %pOFn id=3D%d\n", =
+sensor, id);
+> +               pr_err("Failed to parse trip points for %pOFn id=3D%d\n",=
+ sensor, id);
+>                 ret =3D PTR_ERR(trips);
+>                 goto out_of_node_put;
+>         }
+>
+> +       if (!trips)
+> +               pr_info("No trip points found for %pOFn id=3D%d\n", senso=
+r, id);
+> +
+>         ret =3D thermal_of_monitor_init(np, &delay, &pdelay);
+>         if (ret) {
+>                 pr_err("Failed to initialize monitoring delays from %pOFn=
+\n", np);
+> --
