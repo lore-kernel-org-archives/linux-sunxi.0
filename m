@@ -1,174 +1,88 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45361155A2F
-	for <linux-sunxi@lists.linux.dev>; Fri, 18 Oct 2024 16:36:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8E9B2032A;
+	Fri, 18 Oct 2024 19:18:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729269399; cv=none; b=mnAqhnQxFj+IpvsliE7ZVU0YW6h+EmdEKbvq9pB3KHJ5g2lVG58rn+YvTlVFNtrmQheIwMTFKsITvCH/iHrp2SVaSSz21mBFfeDAo/f2Cm5fE6NujuC2sfAwyFSX647w8/F8pc+N+lXOtUaBvKLiaaePzkwewf+lQihmcD9YjBQ=
+	t=1729279120; cv=none; b=TKSz2cY4NyeNvMvhThUxEfuQVkzyokaMPBBOfVjV/I4UGFEnxLySWNxxwANps7c/co5jw/UnqwAN8Oc+jJqntHZ+uEFLP+y3uOCSXkniHftMtcDSJ3LgogAYnQ3uVdY61G6r90dggCJivZOKvZe2KUBS9DG9PfkDkEt+hDspGDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729269399; c=relaxed/simple;
-	bh=jq7Y7/frNkQWdKn6/pE62Zi+RO0e0r/Z5zuFlEysqj8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GFwAMp7gPkcPVQ5paOW6yJu9nQThQvd5AKSrI3Xzuqvg7RSFvORm0rPMK49sajV6De/NOBKqrCLD9CQdL2WhqLp0BFIVxVhDV+eUB3XMDHpNPnSHFsvz5tDv+a5Igi4vCgUF7JscDW56S0I0ZzQ/O9+cU/FNszhIoSucWQ7k4Ek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I54s75ab; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729279120; c=relaxed/simple;
+	bh=3OErwReJiS6kFOiTKWT3jmN3Z65Qxiqokmi/xP1NhKM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UqquUNbqhN8sMvLFJPxOul9qSga1/8My3AmrVXk+FMzNQj4ZgqN2lSpJFLS93HAISjbNyff+wko/WaPJ6OLdoVzpDlX4Wz0f6s4VyyuqHz4dus1cwB/eJOJQ28qEq9iVuFGz7KFMWGU0R2UtJD/WYq0G0f+b78KtObBfRgO2IAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=maKEK86e; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I54s75ab"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E040FC4CED3
-	for <linux-sunxi@lists.linux.dev>; Fri, 18 Oct 2024 16:36:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="maKEK86e"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3F1AC4CEC3;
+	Fri, 18 Oct 2024 19:18:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729269398;
-	bh=jq7Y7/frNkQWdKn6/pE62Zi+RO0e0r/Z5zuFlEysqj8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=I54s75ab423OKHdT4qZEmxInLP1Stn4BTpeGesyteaCQGb+0Mrh2gTD9v6Pt4ola/
-	 1jYN1BWEIkKK5Mpz3DTgh110hZhUOV8+pX3dfWMnvDIDWi9t5+7apjfj0RhsyDRfou
-	 6yHdojYXAfQEgpxrK2pJGCEfZxNjdj/OSAgAPPA4UesViFH/E/vrWW3ZDudcqn1jH/
-	 C70gufEGp4Z42suCNypxF3BSecmzI1l6KTY55ZJh/ZYzWOR2754uRAy6waivDq1dgG
-	 z6WF0yV730QReLMl4yiXY4PFjM+DkwilEFpmXxl8Ehdge1ZeXO5gAL1nmuZe08BmuA
-	 KWy6dRoIb4Pow==
-Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-5eb5f07410aso1378942eaf.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 18 Oct 2024 09:36:38 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCX0feFIA46UbsvRqjxBZIs2g+K/qBU3Ppcw6V/wJj5SUECxfNX8dG7vPGaksR4g+GEk+tpdgsOCn9Hklg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzICowSO24ida1FDas6dVsuR3tivnREJm5JKazSlKIVvl9tlhHY
-	8rrMwbWJ+OuS04TJfJYu9PkJuH/6cEe/d82i0vdPAars8zEeweL5+ahDhJzuroZNCZfHTBAfIoO
-	GNbSyc0N+2nZ5C/Xj6Se4RZ9rX3I=
-X-Google-Smtp-Source: AGHT+IF/9GJqtgMfEJw36ojuns+DX+VC12ggt1IRZE7FcP/Z+sN2K2q6OqZVUcCj0lDRDIR1nrTiGTo2/XYmlcO1fzI=
-X-Received: by 2002:a05:6870:c0ce:b0:260:e3fa:ab8d with SMTP id
- 586e51a60fabf-2892c562e82mr2714739fac.37.1729269398081; Fri, 18 Oct 2024
- 09:36:38 -0700 (PDT)
+	s=k20201202; t=1729279120;
+	bh=3OErwReJiS6kFOiTKWT3jmN3Z65Qxiqokmi/xP1NhKM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=maKEK86eAmJmSuOxTJuqSD/L67PFEvl03hSjzY7e15o9zARX2HVPTwce1WIErmsap
+	 xgtmQfE7QA2BcmVATPCfb/hAGHhM4STBVth//6qJzIuuAhckp2ur5yiIbm6H5myYiM
+	 GagE1Tzakhnh8gTmCX5UC1lABG192w61KUgoL+GLJ0QJrqI6iCVbpuk80QAC9AoE3i
+	 ytl5+mhZz5mDQ0CgqaGsTd2+5gcFuJEGy2HE8bkk1Rc3dqCWvCHUt0hKKTf34+4oJd
+	 oiicpjFZ4OqG+pafgP5LmSWPP2h80uBGS0fZj4HpNupvaKPLzYJE+VK4TijI29+ToU
+	 aMcArqJ5hf9TQ==
+Date: Fri, 18 Oct 2024 20:18:34 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Lee Jones <lee@kernel.org>
+Cc: Andre Przywara <andre.przywara@arm.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Liam Girdwood <lgirdwood@gmail.com>, devicetree@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Martin Botka <martin.botka@somainline.org>,
+	Chris Morgan <macromorgan@hotmail.com>
+Subject: Re: [PATCH v2 5/5] regulator: axp20x: add support for the AXP323
+Message-ID: <08b84b3d-c533-4099-8f89-bdcd7d304119@sirena.org.uk>
+References: <20241007001408.27249-1-andre.przywara@arm.com>
+ <20241007001408.27249-6-andre.przywara@arm.com>
+ <20241015102314.GG8348@google.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241018073139.1268995-1-wenst@chromium.org>
-In-Reply-To: <20241018073139.1268995-1-wenst@chromium.org>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Fri, 18 Oct 2024 18:36:25 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0g5B_h0BudqnHKRD0GL5-xpiwp21=Hx+dH-FaRXD6yu8g@mail.gmail.com>
-Message-ID: <CAJZ5v0g5B_h0BudqnHKRD0GL5-xpiwp21=Hx+dH-FaRXD6yu8g@mail.gmail.com>
-Subject: Re: [PATCH v4] thermal/of: support thermal zones w/o trips subnode
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, 
-	Icenowy Zheng <uwu@icenowy.me>, Mark Brown <broonie@kernel.org>, linux-pm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, 
-	=?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	linux-mediatek@lists.infradead.org, Hsin-Te Yuan <yuanhsinte@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="CMcoAbdN5aVm4Nnz"
+Content-Disposition: inline
+In-Reply-To: <20241015102314.GG8348@google.com>
+X-Cookie: What is the sound of one hand clapping?
+
+
+--CMcoAbdN5aVm4Nnz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 18, 2024 at 9:31=E2=80=AFAM Chen-Yu Tsai <wenst@chromium.org> w=
-rote:
->
-> From: Icenowy Zheng <uwu@icenowy.me>
->
-> Although the current device tree binding of thermal zones require the
-> trips subnode, the binding in kernel v5.15 does not require it, and many
-> device trees shipped with the kernel, for example,
-> allwinner/sun50i-a64.dtsi and mediatek/mt8183-kukui.dtsi in ARM64, still
-> comply to the old binding and contain no trips subnode.
->
-> Allow the code to successfully register thermal zones w/o trips subnode
-> for DT binding compatibility now.
->
-> Furtherly, the inconsistency between DTs and bindings should be resolved
-> by either adding empty trips subnode or dropping the trips subnode
-> requirement.
->
-> Fixes: d0c75fa2c17f ("thermal/of: Initialize trip points separately")
-> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-> [wenst@chromium.org: Reworked logic and kernel log messages]
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+On Tue, Oct 15, 2024 at 11:23:14AM +0100, Lee Jones wrote:
+> On Mon, 07 Oct 2024, Andre Przywara wrote:
+>=20
+> > The X-Powers AXP323 is a very close sibling of the AXP313A. The only
+> > difference seems to be the ability to dual-phase the first two DC/DC
+> > converters.
 
-Reviewed-by: Rafael J. Wysocki <rafael@kernel.org>
+> Mark, can I take this without issuing a PR?
 
-> ---
-> This patch is based on Krzysztof's cleanup patches
->   - thermal: of: Use scoped memory and OF handling to simplify thermal_of=
-_trips_init() [1]
->
-> Changes since v3:
->   - Set *ntrips =3D 0 and return NULL from thermal_of_trips_init() if
->     no trip points are found in the device tree (Rafael)
->   - Dropped log level of "no trip points found" message to INFO
->   - Reworded new "failed to find trip points" message to "no trip points
->     found"
->   - Reworded existing "failed to find trip points" message to "failed to
->     parse trip points"
->
-> I dropped Mark's reviewed-by because of the new changes.
->
-> Changes since v2:
-> - Stacked on top of Krzysztof's cleanup patches
->   - thermal: of: Use scoped memory and OF handling to simplify thermal_of=
-_trips_init() [1]
-> - Adjusted to account for eliminated error path
->
-> [1] https://lore.kernel.org/all/20241010-b4-cleanup-h-of-node-put-thermal=
--v4-2-bfbe29ad81f4@linaro.org/
->
-> Changes since v1:
-> - set *ntrips at beginning of thermal_of_trips_init()
-> - Keep goto out_of_node_put in of_get_child_count(trips) =3D=3D 0 branch
-> - Check return value of thermal_of_trips_init(), if it is -ENXIO, print
->   warning and clear |trips| pointer
-> - Drop |mask| change, as the variable was removed
->
-> ---
->  drivers/thermal/thermal_of.c | 15 ++++++++++-----
->  1 file changed, 10 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/thermal/thermal_of.c b/drivers/thermal/thermal_of.c
-> index 93f7c6f8d06d..abafce22c91f 100644
-> --- a/drivers/thermal/thermal_of.c
-> +++ b/drivers/thermal/thermal_of.c
-> @@ -99,14 +99,16 @@ static struct thermal_trip *thermal_of_trips_init(str=
-uct device_node *np, int *n
->
->         struct device_node *trips __free(device_node) =3D of_get_child_by=
-_name(np, "trips");
->         if (!trips) {
-> -               pr_err("Failed to find 'trips' node\n");
-> -               return ERR_PTR(-EINVAL);
-> +               pr_debug("Failed to find 'trips' node\n");
-> +               *ntrips =3D 0;
-> +               return NULL;
->         }
->
->         count =3D of_get_child_count(trips);
->         if (!count) {
-> -               pr_err("No trip point defined\n");
-> -               return ERR_PTR(-EINVAL);
-> +               pr_debug("No trip point defined\n");
-> +               *ntrips =3D 0;
-> +               return NULL;
->         }
->
->         struct thermal_trip *tt __free(kfree) =3D kzalloc(sizeof(*tt) * c=
-ount, GFP_KERNEL);
-> @@ -386,11 +388,14 @@ static struct thermal_zone_device *thermal_of_zone_=
-register(struct device_node *
->
->         trips =3D thermal_of_trips_init(np, &ntrips);
->         if (IS_ERR(trips)) {
-> -               pr_err("Failed to find trip points for %pOFn id=3D%d\n", =
-sensor, id);
-> +               pr_err("Failed to parse trip points for %pOFn id=3D%d\n",=
- sensor, id);
->                 ret =3D PTR_ERR(trips);
->                 goto out_of_node_put;
->         }
->
-> +       if (!trips)
-> +               pr_info("No trip points found for %pOFn id=3D%d\n", senso=
-r, id);
-> +
->         ret =3D thermal_of_monitor_init(np, &delay, &pdelay);
->         if (ret) {
->                 pr_err("Failed to initialize monitoring delays from %pOFn=
-\n", np);
-> --
+Yes, it should be fine I think.
+
+--CMcoAbdN5aVm4Nnz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcStIoACgkQJNaLcl1U
+h9CoDAf/e0HELFIXZZ2L7dYnvFTu+sxHCt9Q8HoyatuqPeIku3u7OWT+a0FJ/D/A
+HVIhOG8lNhRVWabtddvYbYtKc+Lvnb4kj6YL39NLxevq3vT6MDlHfMYqpIzvWOPa
++RKgT1+sdYpGkbIa6CAhFwAXx8LdNOlOxhJo1bAPVxaPHMcWmDcTAukulGX/wt6n
+LWeY4X+C/qbsZr03QLnIeQ2EOYRK30oFNR6rbRnsYBPTs1sZzTFWqKhoh7q790Tv
+YAwIm1RVfGCo7jGgLyKknGLzikoWMt0TIeNR5q7ogkd/XaseGl+feqEZaI4nt+7R
+neMtO6mNk4IPopuEFR3KoqfAs4IKlA==
+=XLts
+-----END PGP SIGNATURE-----
+
+--CMcoAbdN5aVm4Nnz--
