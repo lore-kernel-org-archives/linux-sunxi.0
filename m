@@ -1,88 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8E9B2032A;
-	Fri, 18 Oct 2024 19:18:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52A0518C345
+	for <linux-sunxi@lists.linux.dev>; Fri, 18 Oct 2024 20:34:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729279120; cv=none; b=TKSz2cY4NyeNvMvhThUxEfuQVkzyokaMPBBOfVjV/I4UGFEnxLySWNxxwANps7c/co5jw/UnqwAN8Oc+jJqntHZ+uEFLP+y3uOCSXkniHftMtcDSJ3LgogAYnQ3uVdY61G6r90dggCJivZOKvZe2KUBS9DG9PfkDkEt+hDspGDA=
+	t=1729283676; cv=none; b=fS9OKtlGPn8wqIMK0S0qE/aq5kMfoQe+pXQxMAlyIh/zG4AfRw47qqYqgLkAwxqi+QIYMFM3shOIv8DDhOpBn9c9JNp6ZI1NUyFCxmr1epJvouZ8R/avJFVoTQgk/PyVhMaId6Id6jJSs2cjiI6NgX2PL73QCWLk2uRYLk4BEZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729279120; c=relaxed/simple;
-	bh=3OErwReJiS6kFOiTKWT3jmN3Z65Qxiqokmi/xP1NhKM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UqquUNbqhN8sMvLFJPxOul9qSga1/8My3AmrVXk+FMzNQj4ZgqN2lSpJFLS93HAISjbNyff+wko/WaPJ6OLdoVzpDlX4Wz0f6s4VyyuqHz4dus1cwB/eJOJQ28qEq9iVuFGz7KFMWGU0R2UtJD/WYq0G0f+b78KtObBfRgO2IAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=maKEK86e; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729283676; c=relaxed/simple;
+	bh=NVgLRwt8YngxLk2l766d34PGqOxCoja034TmXCo3gEs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=rX7lSeKQohgdLE6UaM6IdAn/OyFivPBXLCvlm+cobTHOJYfoeMEbQiYh+bMKVSnXsvH/jOieczVrpNo1jMvnd/+aF3O+wY+0tSNq6ARxCYiQzV+qHEbFtEgmSDEI1ql0l3yDhlFTzMXYxoWkXQanQTss+cwjqqUw97/ffVOXF4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eoSBzJSo; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="maKEK86e"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3F1AC4CEC3;
-	Fri, 18 Oct 2024 19:18:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729279120;
-	bh=3OErwReJiS6kFOiTKWT3jmN3Z65Qxiqokmi/xP1NhKM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=maKEK86eAmJmSuOxTJuqSD/L67PFEvl03hSjzY7e15o9zARX2HVPTwce1WIErmsap
-	 xgtmQfE7QA2BcmVATPCfb/hAGHhM4STBVth//6qJzIuuAhckp2ur5yiIbm6H5myYiM
-	 GagE1Tzakhnh8gTmCX5UC1lABG192w61KUgoL+GLJ0QJrqI6iCVbpuk80QAC9AoE3i
-	 ytl5+mhZz5mDQ0CgqaGsTd2+5gcFuJEGy2HE8bkk1Rc3dqCWvCHUt0hKKTf34+4oJd
-	 oiicpjFZ4OqG+pafgP5LmSWPP2h80uBGS0fZj4HpNupvaKPLzYJE+VK4TijI29+ToU
-	 aMcArqJ5hf9TQ==
-Date: Fri, 18 Oct 2024 20:18:34 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Lee Jones <lee@kernel.org>
-Cc: Andre Przywara <andre.przywara@arm.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Liam Girdwood <lgirdwood@gmail.com>, devicetree@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Martin Botka <martin.botka@somainline.org>,
-	Chris Morgan <macromorgan@hotmail.com>
-Subject: Re: [PATCH v2 5/5] regulator: axp20x: add support for the AXP323
-Message-ID: <08b84b3d-c533-4099-8f89-bdcd7d304119@sirena.org.uk>
-References: <20241007001408.27249-1-andre.przywara@arm.com>
- <20241007001408.27249-6-andre.przywara@arm.com>
- <20241015102314.GG8348@google.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eoSBzJSo"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-539eb97f26aso3095527e87.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 18 Oct 2024 13:34:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1729283672; x=1729888472; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=sCcPwV47XH0yJdbksS/rJtyE3ZkZ9IgFn3oQZBYAYBs=;
+        b=eoSBzJSo6fOll/MK39U38aJ4eQmS1XaHNCrtaE8+XrtKRUBao+RD4e5KyVkrec5sJL
+         hDeYek00POnudK+J9NIuiNIp3u0Hzv+WTb8Y3XFSyi9sUxqa4t+ELYS+CR854TyJ0D3G
+         Rurq2v1di0UiCCnsBqWSmMIjWHaCv9wOB6bO4THpNrLL47YLcTiU8l3RtqFqAwJu/A1x
+         5wvbV5ABxIiBEo+hvvpIEM4F9Ev//6erWLpxTobHAGUTwOmxpL337sXY1HoPLApChCoD
+         FqXiI95KVv7qSjd7edRIhU3X2xV5utr5q9FcwgbWBN7ppF1OiGzs2xay98uSZms+yt/9
+         jApQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729283672; x=1729888472;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sCcPwV47XH0yJdbksS/rJtyE3ZkZ9IgFn3oQZBYAYBs=;
+        b=D7bddtgBqAx6Zz9n5FJ1Tw/DUMKBB0ffjf0TT/QbiTtN0JJiMbbOVupOjgevUi2PKi
+         Cb3KsvMuIT5LJXFGzcOFjpe1Sq3h/xFttpkD4DhoczwvLxZsFnukZdnXY8+/ngS11HpE
+         NcvnClSFXbCFr/tWT0Q3NmZtrPqwRAOd5ABsr2NzqpOfwYxpsFSalXowrJ5nIOSur6ii
+         wsdDtrWRSVHBQuhCt9ThfXerJBjb1w4jfUvKQLH1eMASF7OuZz/lP7WvgQqS46EfuNWm
+         IHMlxlpeWLr0tpVg/Qc46lG0HtF4vGETbWCrQ+E65zXdE8Y2Tzpnj2iP19MURckhNkwt
+         aXBQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXtbZhqP1Qsws7uNx6DDmjyXcoE+fOPLQ+VCsgKwMSw43BuHHdpib+M187GcAAnkY950nkZJLikGVAInA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzpwYoKS0tympKbh3OXZS++RCv1DsiC/t2xfdEONNxzeL31NH4S
+	lsMsAedS9alGyvxXVKFmsbFQIWR/tEL2bMh0dOcza0ayIzKQsiiBNNBq/6eMfjUzYZCHLh9vGha
+	h8v8=
+X-Google-Smtp-Source: AGHT+IELPtenzGW4LLaGWUAYzBlOsnHcuhLHJ49lUB7TfHK/mvIGRg0GSftC9WVPQgye44/HgrcATg==
+X-Received: by 2002:a05:6512:1387:b0:539:d428:fbf2 with SMTP id 2adb3069b0e04-53a152170ccmr2519278e87.13.1729283672001;
+        Fri, 18 Oct 2024 13:34:32 -0700 (PDT)
+Received: from umbar.lan ([192.130.178.90])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53a151f0e09sm314047e87.146.2024.10.18.13.34.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Oct 2024 13:34:31 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH 0/6] drm/display: hdmi: add drm_hdmi_connector_mode_valid()
+Date: Fri, 18 Oct 2024 23:34:18 +0300
+Message-Id: <20241018-hdmi-mode-valid-v1-0-6e49ae4801f7@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="CMcoAbdN5aVm4Nnz"
-Content-Disposition: inline
-In-Reply-To: <20241015102314.GG8348@google.com>
-X-Cookie: What is the sound of one hand clapping?
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAErGEmcC/x3MQQqAIBBA0avErBtQMZCuEi1EpxxIDQUJwrsnL
+ d/i/xcqFaYK6/RCocaVcxqQ8wQu2HQSsh8GJZSWQhoMPjLG7AmbvdijteS0VmYR0sGo7kIHP/9
+ x23v/AGP7nrlhAAAA
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1527;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=NVgLRwt8YngxLk2l766d34PGqOxCoja034TmXCo3gEs=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnEsZWTzWWmG5oZnAvNyyF1pWnZXCGdwJa35Rle
+ GgQVwoA06yJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZxLGVgAKCRCLPIo+Aiko
+ 1YBNB/9soM6Y9tnx5H+1z9yVAqXzFA2tjpHv/OUSQ/QJrgTGwHmMNVvs8UGD+b5nNxwZIi06/eG
+ mlCQ67VnWcoy9ujIYfTcMYLozAEAZ01tgSB9DR7HObujc/XwiC+X8gWLQdPxV4FJ9tNHy/KCzr7
+ dujoIoUyiNpD4N5o+67DuTbxTptGAwxhyYT5pP9qVNFXGom7P2bmDPQzaWzVV6tyhcKI1tVTy3b
+ liBsVRSceDQf4G/OX/tYWsOxp4ZogmNzFLtny0b0eMGaWJkGgLLn4AnwgMP/LuJTbA4wfa5X1bt
+ ZfojiYFL+0Hgx2XNPRHTvRLcpebRRnTE6IML2YkVsDihRZan
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 
+Several HDMI drivers have common code pice in the .mode_valid function
+that validates RGB / 8bpc rate using the TMDS char rate callbacks.
 
---CMcoAbdN5aVm4Nnz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Move this code piece to the common helper and remove the need to perform
+this check manually. In case of DRM_BRIDGE_OP_HDMI bridges the check can
+be dropped in favour of performing it in drm_bridge_connector.
 
-On Tue, Oct 15, 2024 at 11:23:14AM +0100, Lee Jones wrote:
-> On Mon, 07 Oct 2024, Andre Przywara wrote:
->=20
-> > The X-Powers AXP323 is a very close sibling of the AXP313A. The only
-> > difference seems to be the ability to dual-phase the first two DC/DC
-> > converters.
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+Dmitry Baryshkov (6):
+      drm/display: hdmi: add generic mode_valid helper
+      drm/sun4i: use drm_hdmi_connector_mode_valid()
+      drm/vc4: use drm_hdmi_connector_mode_valid()
+      drm/display: bridge_connector: use drm_bridge_connector_mode_valid()
+      drm/bridge: lontium-lt9611: drop TMDS char rate check in mode_valid
+      drm/bridge: dw-hdmi-qp: replace mode_valid with tmds_char_rate
 
-> Mark, can I take this without issuing a PR?
+ drivers/gpu/drm/bridge/lontium-lt9611.c        |  4 +---
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c   | 12 +++++-------
+ drivers/gpu/drm/display/drm_bridge_connector.c | 16 +++++++++++++++-
+ drivers/gpu/drm/display/drm_hdmi_helper.c      | 25 +++++++++++++++++++++++++
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c         | 12 +-----------
+ drivers/gpu/drm/vc4/vc4_hdmi.c                 |  4 +---
+ include/drm/display/drm_hdmi_helper.h          |  4 ++++
+ 7 files changed, 52 insertions(+), 25 deletions(-)
+---
+base-commit: af44b5b5776cc6ac1891393a37b1424509f07b35
+change-id: 20241018-hdmi-mode-valid-aaec4428501c
 
-Yes, it should be fine I think.
+Best regards,
+-- 
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
---CMcoAbdN5aVm4Nnz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcStIoACgkQJNaLcl1U
-h9CoDAf/e0HELFIXZZ2L7dYnvFTu+sxHCt9Q8HoyatuqPeIku3u7OWT+a0FJ/D/A
-HVIhOG8lNhRVWabtddvYbYtKc+Lvnb4kj6YL39NLxevq3vT6MDlHfMYqpIzvWOPa
-+RKgT1+sdYpGkbIa6CAhFwAXx8LdNOlOxhJo1bAPVxaPHMcWmDcTAukulGX/wt6n
-LWeY4X+C/qbsZr03QLnIeQ2EOYRK30oFNR6rbRnsYBPTs1sZzTFWqKhoh7q790Tv
-YAwIm1RVfGCo7jGgLyKknGLzikoWMt0TIeNR5q7ogkd/XaseGl+feqEZaI4nt+7R
-neMtO6mNk4IPopuEFR3KoqfAs4IKlA==
-=XLts
------END PGP SIGNATURE-----
-
---CMcoAbdN5aVm4Nnz--
