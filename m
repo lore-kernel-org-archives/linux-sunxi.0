@@ -1,146 +1,132 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 818E6212D3D
-	for <linux-sunxi@lists.linux.dev>; Fri, 18 Oct 2024 20:34:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06734199229
+	for <linux-sunxi@lists.linux.dev>; Sat, 19 Oct 2024 02:04:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729283685; cv=none; b=edq1++smUwKxDmpcRB5M1VJIRQ20VgAQKWIcy/Rm26xDGtjUL7YTDQx/vEwDpegV7daEKmLesKcS91GrivmvSrrLkdQSbylDIyeM5z5BeD5QZrgBCzwJIaxe+Tiql/VQbIKA+mBn4VYxxrAJOh9N9vC+EPVXDPh+JAavwW1nn8E=
+	t=1729303469; cv=none; b=nNIzrol+LSIl/oVKwwY7vOkAdFiczN5MyhPi0nfYfeTWCwTJjSOrSqrIMDDvv6ZGQSZ4EbQPWSm5ZUZM/HYbedCyuwvxg+VmFJ2JeF93rN3Y0duzuO8ELsXjcLWYrWYoACJD4/yrV0ylaWIH2XJk7AC+3U+wnUVK2J8O44XKChI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729283685; c=relaxed/simple;
-	bh=62YpkgWLFOCHVyXEfwzdT8WXezDQplIIX6XUhdEmdrA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=V9OkarSl6BD5NhCGRjN7lAHcbC7u+ycrflMNlv7b+bCk7mSQRKx8fMOexfTmviCfcKAdpnebk3KfMT6uaeS2sG2p4y0D6vSD16FnlvTmlndtm4GHkv2EJm04tZDanAAFoR2NOfAnSLevAGj/AqUAG/2trt4Y2fNccCmTl+w87II=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=w+Iufqwo; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="w+Iufqwo"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-539f58c68c5so4058684e87.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 18 Oct 2024 13:34:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729283681; x=1729888481; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8KNF3aZ80xlLK3q7tI6wiBMuQSM/G62kGRgo4sUnlVk=;
-        b=w+IufqwoyCECR//eIW8E6tfUQE8ltWgptp/RKcNGmHlc70fcdkYpHo10EfrkgFsPQM
-         +Kl9F+8ga3SZxcdxhrbL4VQKYovfsDgjKxkCJD9PbODRp26w+n/LTOVhibfERY/sRy+P
-         w+HDKP6VIs4mK/e4AM/Ei/wTzOGB7UP6l77rXef6XuIdfWSMinif7AZY3If+dH7c/LPj
-         mqHAoVc30TthAvjJSzggmsVxyOz6nbX3SayLpCVSE2VXec4Fniitpaa21qwXhCUMFjq/
-         R7sM9KSpeFX//nF5FfXR6kWGyhGGCxGptkz9NLSgW8SkmRazo3dOLvGjS4Q9Raw++dFi
-         wT3g==
+	s=arc-20240116; t=1729303469; c=relaxed/simple;
+	bh=/66BogwaGO1TZ9c3mvfdx1XuHHVfDnGLOwb/j9TwsWA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=HvmQyp0FlAmHqY6auDJM//QJWD89QjFiy5gh46zb3A7ia9Cg11eeS56zRGR0+HsEd2s2wT6Wh7hVmTQsTj8jWAAs5FDF1nraLEE1QHVlpVK70/6LDuShU2bqT+r+jdRMqLMcoXgW58QYxQ3fKwAmVbLsZpegFKVJCHwFVEBz9uQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2fb5be4381dso30336651fa.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 18 Oct 2024 19:04:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729283681; x=1729888481;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1729303462; x=1729908262;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8KNF3aZ80xlLK3q7tI6wiBMuQSM/G62kGRgo4sUnlVk=;
-        b=I2pkvPeOJ13l/dauXZrnxf6Cuzzrug2ewr8UjUCcoj3NEKYUcu1QCZeRQW83BGLz/F
-         YWYNNgi8e215Qeyj3ISWmXjbsmrLq4wjo5b4gJ5s06TZEcQdmxYeNQNCMLrE+1+CSxY0
-         pK6hIwiRLNKMaiutt2xROj6W2Mamkb0aLCl7TijDSdAwDKR7TGYmf1zXuP2Rh7eHWAg9
-         +qmwYd8siESiOsQ7ykCSzxblsknzQUJ0KcQHyGKe3GugZ5hzOVFk+UCAkhWu7rBTTB+I
-         M4HiO8ErXWe2wJz+tmo20szp6u6UK6qyovz3OfwduN1sWwSuu60IESek9h4v18QNw11S
-         ZybQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUdrNuiHz1cWI8FnuyqbL2x48rBulNjRTgDo1aTV1YhgCGpMtddipY+NLoFUSql3Sz+j3b3HimV3XiI+g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwuwpCMoes2hNjIBKjOdCwJ14quncRK8xQmO8B+KL1excqkFefq
-	0jYkDEfD8MoGTrY2HiyhtPwf1DIzipCSasKB+U1un+EREqbwrT1vm+kxOuET5+6toZM/0C0q9pc
-	ebmw=
-X-Google-Smtp-Source: AGHT+IGB98MZ4b+WRaD4A9VvwnCwxRN8d8/Fl30hE0Oq/p3vkPf3ZXCtCy1fbIicLKx9CCVIxFGzog==
-X-Received: by 2002:a05:6512:e98:b0:539:93b2:1380 with SMTP id 2adb3069b0e04-53a154d80a7mr3793237e87.48.1729283681263;
-        Fri, 18 Oct 2024 13:34:41 -0700 (PDT)
-Received: from umbar.lan ([192.130.178.90])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53a151f0e09sm314047e87.146.2024.10.18.13.34.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Oct 2024 13:34:40 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 18 Oct 2024 23:34:24 +0300
-Subject: [PATCH 6/6] drm/bridge: dw-hdmi-qp: replace mode_valid with
- tmds_char_rate
+        bh=/66BogwaGO1TZ9c3mvfdx1XuHHVfDnGLOwb/j9TwsWA=;
+        b=L43XslFFXTRXdKd7E7sfbgmrUWAKkPeKzOlnEE8MtDzjXizqYn9OvF6i9D4HZ0R5y3
+         2534JEwaJFvavOQtlKCiZMekiagtDD/czlV76gTEYkaPEO7FNLIHaYYLjd2SXCMM0JMO
+         wGPrffJHmobQifTA450Llzvhqt23d/BupFn7YzpEzgH/oo7vaBZ18yJ4exfKoyOQfoHO
+         HH85rJoIi0NLXxiS1R02/8/MD2Br7ZiUxTEIh0mYpBOhnOFca+/z62Ap8b6MOaU5BkNT
+         sndptGTkbXVghFvuuTQXC+eIG8xbiHrlsLDErzp8BTqwNUC2C3zGLdx7ccZKt+KgoPlk
+         TPfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWCjXsBiS8bpvYxP8EZALTYGaAK90t6cxqFkp+6U77yOusxbBcXjKxTEhvd/XjrvfnmWoMUGqlXel5q0A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyaHTIUxl5PZhKk0jLhtkqnKlcfpJO29/yowMj+FFemqIah/m3I
+	5zaZ3o5POwPW6UKIQyxVLOBTTNmTueRR4PSgdWJyco4lRXRoL+rx/MC7F9Jd
+X-Google-Smtp-Source: AGHT+IHBaabOgisL3CMR/Sz4sg7OdLS5aTRJUj2yg87n417wBvhtXXfjwrRNluv7vc/b0QoqJn/osw==
+X-Received: by 2002:a2e:4e09:0:b0:2fb:4ff6:eb0d with SMTP id 38308e7fff4ca-2fb82eb303dmr19116851fa.22.1729303462151;
+        Fri, 18 Oct 2024 19:04:22 -0700 (PDT)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com. [209.85.208.170])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2fb80a08911sm3461381fa.108.2024.10.18.19.04.20
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Oct 2024 19:04:21 -0700 (PDT)
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2fb50e84ec7so23203551fa.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 18 Oct 2024 19:04:20 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUJVhqIuhYKF9bCSWgMD9dEV4GAy/x9EvYupaEyap9i+Sa/tmj5S2BINgtH2pNW41InpaotcdSYOgH8eg==@lists.linux.dev
+X-Received: by 2002:a05:651c:2105:b0:2fb:5a7e:5072 with SMTP id
+ 38308e7fff4ca-2fb83200a6bmr25649951fa.34.1729303460314; Fri, 18 Oct 2024
+ 19:04:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241018-hdmi-mode-valid-v1-6-6e49ae4801f7@linaro.org>
-References: <20241018-hdmi-mode-valid-v1-0-6e49ae4801f7@linaro.org>
-In-Reply-To: <20241018-hdmi-mode-valid-v1-0-6e49ae4801f7@linaro.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1944;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=62YpkgWLFOCHVyXEfwzdT8WXezDQplIIX6XUhdEmdrA=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnEsZX9lakH8ExWkyFJBh3Vc/U3dgf2jd+BXIqJ
- 6Bk7kv5Vj+JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZxLGVwAKCRCLPIo+Aiko
- 1S68B/0X7Ry1mckj6d7MJuKYGTrRuZOVLxsRWDxeWeqwBQoQpAxzeojZvPJev6Oxh31fNJfDHlv
- viIPEJeCikJpCIWZRjx18K0IkZgFjHF+4lPgja+L45P7s9www21/P9l8yxpZxaeY8tfp9Feeva1
- w8zMRXKb2SIsoV5auELsD4HbL/zMAREVeDlAM+MAs/gM5SsfNbu0xS82tMU2PvLaWr23nj+XDiN
- M4NgU0NZh7rhHdbrRlo9A18C9fmxpbOkQCz/+cPA/upYzQy4eY6ZKOT9ZTAWLc6fVO78/I18bp1
- 5I4arn059C+4n+6SO3O3HL370p623RGL7qCqpFj6x7vdg7A9
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+References: <20240908214718.36316-1-andrej.skvortzov@gmail.com>
+ <20240908214718.36316-2-andrej.skvortzov@gmail.com> <CAGb2v65Laka+YaPyAecwxEhMkoodrXnDPn+UTwZUS_wsSBMzyg@mail.gmail.com>
+ <ZuazIgLz5PP_Z8Cn@skv.local>
+In-Reply-To: <ZuazIgLz5PP_Z8Cn@skv.local>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Sat, 19 Oct 2024 10:04:06 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66-saec9RcQsCTNOz_Tz4+BSFPdDd6CEA+RrGcF6kCY=A@mail.gmail.com>
+Message-ID: <CAGb2v66-saec9RcQsCTNOz_Tz4+BSFPdDd6CEA+RrGcF6kCY=A@mail.gmail.com>
+Subject: Re: [PATCH 1/2] arm64: dts: sun50i-a64-pinephone: Add AF8133J to PinePhone
+To: Andrey Skvortsov <andrej.skvortzov@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Shoji Keita <awaittrot@shjk.jp>, 
+	Icenowy Zheng <icenowy@aosc.io>, Andre Przywara <andre.przywara@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Replace .mode_valid() callback with .hdmi_tmds_char_rate_valid(). It is
-more generic and is used in other mode validation paths. The rate
-validation for .mode_valid() will be performed by the
-drm_bridge_connector code.
+On Sun, Sep 15, 2024 at 6:12=E2=80=AFPM Andrey Skvortsov
+<andrej.skvortzov@gmail.com> wrote:
+>
+> Hi Chen-Yu Tsai,
+>
+> On 24-09-09 16:08, Chen-Yu Tsai wrote:
+> > On Mon, Sep 9, 2024 at 5:48=E2=80=AFAM Andrey Skvortsov
+> > <andrej.skvortzov@gmail.com> wrote:
+> > >
+> > > From: Icenowy Zheng <icenowy@aosc.io>
+> > >
+> > > New batches of PinePhones switched the magnetometer to AF8133J from
+> > > LIS3MDL because lack of ST components.
+> > >
+> > > Both chips use the same PB1 pin, but in different modes.
+> > > LIS3MDL uses it as an gpio input to handle interrupt.
+> > > AF8133J uses it as an gpio output as a reset signal.
+> > >
+> > > It wasn't possible at runtime to enable both device tree nodes and
+> > > detect supported sensor at probe time, because both drivers try to
+> > > acquire the same gpio in different modes.
+> > >
+> > > Device tree fixup will be done in firmware without introducing new bo=
+ard
+> > > revision and new dts.
+> >
+> > FYI I've been working on an in-kernel prober [1] for such alternative
+> > components. This does not require firmware support.
+> >
+> > [1] https://lore.kernel.org/all/20240904090016.2841572-1-wenst@chromium=
+.org/
+>
+> Thank you for the information.
+>
+> I've tried to use in-kernel prober from your v7 patchset [1] on top of
+> -next and it worked without any changes to firmware.
+>
+> Since there is still on-going review of your patches it looks like
+> it's to early to submit my changes for review. But I'm ready to test
+> your new patches.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+FYI I'm open to either approach. If the firmware can do it, that is also
+fine. I don't know if it makes sense to have both disabled by default
+though? That would break existing users, but so would the in-kernel
+prober approach, which requires both components be marked as
+"fail-needs-probe", and also requires that the kernel driver be enabled.
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-index 181c5164b231..c686671e4850 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-@@ -442,16 +442,14 @@ dw_hdmi_qp_bridge_edid_read(struct drm_bridge *bridge,
- }
- 
- static enum drm_mode_status
--dw_hdmi_qp_bridge_mode_valid(struct drm_bridge *bridge,
--			     const struct drm_display_info *info,
--			     const struct drm_display_mode *mode)
-+dw_hdmi_qp_bridge_tmds_char_rate_valid(const struct drm_bridge *bridge,
-+				       const struct drm_display_mode *mode,
-+				       unsigned long long rate)
- {
- 	struct dw_hdmi_qp *hdmi = bridge->driver_private;
--	unsigned long long rate;
- 
--	rate = drm_hdmi_compute_mode_clock(mode, 8, HDMI_COLORSPACE_RGB);
- 	if (rate > HDMI14_MAX_TMDSCLK) {
--		dev_dbg(hdmi->dev, "Unsupported mode clock: %d\n", mode->clock);
-+		dev_dbg(hdmi->dev, "Unsupported TMDS char rate: %lld\n", rate);
- 		return MODE_CLOCK_HIGH;
- 	}
- 
-@@ -510,7 +508,7 @@ static const struct drm_bridge_funcs dw_hdmi_qp_bridge_funcs = {
- 	.atomic_disable = dw_hdmi_qp_bridge_atomic_disable,
- 	.detect = dw_hdmi_qp_bridge_detect,
- 	.edid_read = dw_hdmi_qp_bridge_edid_read,
--	.mode_valid = dw_hdmi_qp_bridge_mode_valid,
-+	.hdmi_tmds_char_rate_valid = dw_hdmi_qp_bridge_tmds_char_rate_valid,
- 	.hdmi_clear_infoframe = dw_hdmi_qp_bridge_clear_infoframe,
- 	.hdmi_write_infoframe = dw_hdmi_qp_bridge_write_infoframe,
- };
+In other words, I think the firmware approach is friendlier for existing
+users that have the original batches.
 
--- 
-2.39.5
 
+ChenYu
+
+
+> [1] https://lore.kernel.org/all/20240911072751.365361-1-wenst@chromium.or=
+g/
+>
+> --
+> Best regards,
+> Andrey Skvortsov
+>
