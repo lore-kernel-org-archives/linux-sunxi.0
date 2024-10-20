@@ -1,93 +1,130 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9080C11713
-	for <linux-sunxi@lists.linux.dev>; Sun, 20 Oct 2024 04:20:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 830814C7D
+	for <linux-sunxi@lists.linux.dev>; Sun, 20 Oct 2024 06:05:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729398027; cv=none; b=WAwg+whr+oLkd7GMojgKBGCrW+TCcAZXJLt9ZRzQRtDEC66fdmDrd3BhOjPry+ZlV3lf48+IS7N3MQGEryOsaYTbk8gKbBti26BRYyUyIns/VvjtE7r9VhG6TmZN/GzuHdx48Er+ALhqSW0H7QDoh7nzwr1wE6rE8IkqMmV9Gtg=
+	t=1729404315; cv=none; b=G7chdZTJ9QvbySg4zgLObd/3e45fwsGp76ocZZbtvVRQRUrGpy0iD0iXneelJBCTYlGQ7ubG5g4xNobAuMev3i8E7iQ2bYHLV6n/AU8WdvQnbmAhbR3CQcswNpkU5Y7+ZBNvoYplKAvDBrfytXXx3djt25E9cgMlZknC1XhujYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729398027; c=relaxed/simple;
-	bh=LNHACedYQbx0cjfOb2FnneuefkB12VYRlcpJPj8EcVc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H2elpwCeuWGuqpNiKkcp2xuq+nTuGxwuEM3iO7XIOl/D+LlAJxaF961J3XoHfL1aZ9yL89D0SOgZZRmloCpWBPN9HrKXatVa5nnl6O+dq3P/8PmR5NmTMoVLhRWpfQPec3tvVfKaAtGfbtWnGV2HVD2+xRrNd8Q6dLRdqokeD8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G35yOJrW; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1729404315; c=relaxed/simple;
+	bh=edoSP7vgcWmHXm/JA9hZrNjLEbY+Vr4KbOd5G7BoYNU=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=Et4CEBDGuZpDjZjWmgtBOgYIl9JpyMiLn0v4b9FylrH2JmtGEFfMBW0aXaDeoheadtUseH5HpogXOBAkTxmDXxUEo3l219e3STXjZKOB4uQ6l3oPlxg37wqhGcKl12P20jo8GP4ZVStehFOTE45caNoG57vYECBVYjPUUIAlU2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=2QlMLBjk; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=bwIL8t6n; arc=none smtp.client-ip=103.168.172.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G35yOJrW"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2e31af47681so2768859a91.2
-        for <linux-sunxi@lists.linux.dev>; Sat, 19 Oct 2024 21:20:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729398025; x=1730002825; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=rPX042dJwNsDd6EwKBGzToksDykTZ4Q22JDteLvPDCA=;
-        b=G35yOJrWbgAJXiTYZcTmpd2LT/+IpYtvlQZAYjKaX9iPKpj1EBMkKkN06fc+0C9p44
-         V7/KhLioyJcy0iLaJJ2UOia3qvI9DjSDFhd59SLjctVkYTUgo+mu9l2q7dqMirCjoqSf
-         AOajNId4UeVxaexLAjSkmyXb1OZrgEhIz3e92PgWXpXEcUdbCHAAKz/TzKtG+7JyHUHm
-         3HxHb9xJvKtZV1VFcr/OP5OAV+bGePUaiVx10rvXHixi5u3X6LsIrpJIG+temCazK1CM
-         oVt3CfTUavxcmd85w57+wHOmpLZ/1W1Y5/n9lfe+woyzx6ScG1ChIFk3jio4nFZ6440m
-         VlRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729398025; x=1730002825;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rPX042dJwNsDd6EwKBGzToksDykTZ4Q22JDteLvPDCA=;
-        b=CGZIwh3rAcO9DlAbIpY4RkWb9029GgDMc+pWcHQN1lS98qu88oSg7Q5pVknliubMlp
-         1z6owf+Ah8LkIVB+voWW6XPiYnHnMGcvJF9g/3MQOATarWACbMSWISnMA9qTbUuDgWwn
-         KofPSmhheqBqZw59A5Sk/fo+yMXTJt6SV/YdfUUWs/6NBoY8KQNRrxQLVvCJcPNwDVJt
-         6QlBDAe0nj6yd3CQ0qWwkygfEb77ItaBXiWV54oTc70aC2yakw2HyqfjeZJ0L9yO5M74
-         2x8XBag6YaLAoKpt7hw8m6OYqLgBgq/kJc+AbeLEu4hs7cW4Oq/1PuG6FjNyMjBUQxJv
-         D28A==
-X-Forwarded-Encrypted: i=1; AJvYcCXRVD04xsAYZe3WBIoPfwj+quM/Y02MFgvyOVAXGsJZD+ypxxII7rNq90oPECwWqc/moXbYS9XdTE75KQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzn8yYZQkbuia4vRoq83pYFsEmxn6YUdnV+0iAD6kGpUY8Cijm/
-	lIAbStWsvstzdUmnDRBQVp2FHY++Ld9NX0xajLBy8nWiXT14LDdcjIPewA==
-X-Google-Smtp-Source: AGHT+IHA6YFEqEtg61PXYGVgACwL+Cintoefuk4OglOjvjRf+3hwgSbRVFqdWX6TDCZbDfVBCqjZbw==
-X-Received: by 2002:a17:90b:4b03:b0:2dd:6969:2096 with SMTP id 98e67ed59e1d1-2e561a230ddmr8389123a91.38.1729398024690;
-        Sat, 19 Oct 2024 21:20:24 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:2ce:a853:5ea4:fdb6])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e5ad4ee3b0sm644120a91.42.2024.10.19.21.20.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Oct 2024 21:20:24 -0700 (PDT)
-Date: Sat, 19 Oct 2024 21:20:21 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Hans de Goede <hdegoede@redhat.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-rpi-kernel@lists.infradead.org
-Subject: Re: [PATCH 10/10] Input: ts4800-ts - use cleanup facility for
- device_node
-Message-ID: <ZxSFBbo5sO3w_9sl@google.com>
-References: <20241010-input_automate_of_node_put-v1-0-ebc62138fbf8@gmail.com>
- <20241010-input_automate_of_node_put-v1-10-ebc62138fbf8@gmail.com>
+	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="2QlMLBjk";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="bwIL8t6n"
+Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
+	by mailfout.phl.internal (Postfix) with ESMTP id 9C538138013E;
+	Sun, 20 Oct 2024 02:05:12 -0400 (EDT)
+Received: from phl-imap-07 ([10.202.2.97])
+  by phl-compute-04.internal (MEProxy); Sun, 20 Oct 2024 02:05:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm2;
+	 t=1729404312; x=1729490712; bh=hDZkJFrkEBlfJZm2OsTapntCfy+Z6v+O
+	bKUtrPGKF7c=; b=2QlMLBjkUaU9jH4nnrSNeTn0XhSNDcQyl1UwbewTIi/EW9ov
+	uItZcej3T3Eukg8GCgj+xdOcd2wUsNF/wM/6j3H82FjLA1llWE2MUZb1M9VbDQUI
+	DcPB2mtSJNxH0FsfKc1X9vwtJrj+TpKd2Al+G7MD7Ax+mqVeoC61OibbmoNHhf33
+	c6coVAByY+6+gOH7HbjCkiP5hiHh8xNsOAKnGCsZ3aPgAiBjVbHZWWVWaxezA2BO
+	naj2KAb+myto0hTFRNGrlEbbFmQ9GWQ3T/V1JPC/fvGrJJnGlN2gohLUY9RsoiWG
+	PfEWQD2q7VJYyYhG7Qgv/veAAj/HwfHSujA5dg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1729404312; x=
+	1729490712; bh=hDZkJFrkEBlfJZm2OsTapntCfy+Z6v+ObKUtrPGKF7c=; b=b
+	wIL8t6nwd8pygFMFAitBTL5Jcbg/WgHJT9P5Zjvo2vLu4ds57YfM/g3UOlGoNLqf
+	Y+KEEorxGSen/xyntI4IjvRf/W3BbzAwUJ95j/ZoisWZykqjbc/aaLgcRLA0uAgv
+	5B9GXPTBu1AgvJnihYpAdLK5wYBDBGP85fxV3kta98uerzBA+KvJdNol8V5K4dKa
+	/d8IopEMv/YfnHaXbDOYdtydgK7+siDW0TOhuaQlceoV16sYY424gHKUQtAwip0H
+	KeYrmLmgdfC9PnEiM6V2OJjwiu2BwzJOy4yl4YeRWddsFIYFlBscpDhH947kICh2
+	jU16E1WC2mbS9J2yvseeA==
+X-ME-Sender: <xms:lp0UZ0vCgCVS1Jx1Rwt6SpAroc1cEsXzMYM3G98zEeLwwyoSNt6GaQ>
+    <xme:lp0UZxc4fBX-tZcYOYLelqUphkSGJAvlH9DnBRo8Hsn4zVjML_WGxzguNDyDlIbGz
+    jKyVfxEzMAkbDBEyA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdehiedguddtiecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
+    tdenucfhrhhomhepfdfthigrnhcuhggrlhhklhhinhdfuceorhihrghnsehtvghsthhtoh
+    grshhtrdgtohhmqeenucggtffrrghtthgvrhhnpeejhfeukeejjefguddvffehveevjefh
+    tddutdfhudduvdevfeejfffgvdelfeeugfenucevlhhushhtvghrufhiiigvpedtnecurf
+    grrhgrmhepmhgrihhlfhhrohhmpehrhigrnhesthgvshhtthhorghsthdrtghomhdpnhgs
+    pghrtghpthhtohepudegpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegrnhgurh
+    gvrdhprhiihiifrghrrgesrghrmhdrtghomhdprhgtphhtthhopeifvghnshestghsihgv
+    rdhorhhgpdhrtghpthhtoheptghouggvkhhiphhpvghrsehgmhgrihhlrdgtohhmpdhrtg
+    hpthhtohepjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgrihhlrdgtohhmpdhrtghpthht
+    oheplhhgihhrugifohhougesghhmrghilhdrtghomhdprhgtphhtthhopegsrhhoohhnih
+    gvsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgv
+    lheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehlihhnuhigqd
+    hsuhhngihisehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepphgvrhgvgies
+    phgvrhgvgidrtgii
+X-ME-Proxy: <xmx:lp0UZ_zj3F4fDNCSz8sfEmtDznqvauG6ua7ow9Qv_xJBBYrHAe0KxQ>
+    <xmx:lp0UZ3PmFNKy0OWfqANg4nMdTszzl72GTJD-SYnP3Eew8Fsqpqdo8w>
+    <xmx:lp0UZ081OaLAVEKxRJYELQ-zwWFg8ZzG9OIOh9yzndJ2xdE1Wxtqlg>
+    <xmx:lp0UZ_VI-58_TY_FZpapvHLTFDQ7j_g8kDXHqjwxvT1miUbffKw2Eg>
+    <xmx:mJ0UZ-coZSVmiNShlHCGO76zGAq0gKPhb5XefdHDQXosLg_ithLfJ_aV>
+Feedback-ID: idc0145fc:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id CEE74BA006F; Sun, 20 Oct 2024 02:05:10 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241010-input_automate_of_node_put-v1-10-ebc62138fbf8@gmail.com>
+Date: Sun, 20 Oct 2024 19:04:24 +1300
+From: "Ryan Walklin" <ryan@testtoast.com>
+To: "Andre Przywara" <andre.przywara@arm.com>
+Cc: "Liam Girdwood" <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>,
+ "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
+ "Chen-Yu Tsai" <wens@csie.org>, "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+ "Samuel Holland" <samuel@sholland.org>, linux-sound@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+ "Code Kipper" <codekipper@gmail.com>
+Message-Id: <87d9e653-a7d1-4611-9e9a-724bfd1be029@app.fastmail.com>
+In-Reply-To: <20241008133204.3ea38338@donnerap.manchester.arm.com>
+References: <20240929100750.860329-1-ryan@testtoast.com>
+ <20240929100750.860329-3-ryan@testtoast.com>
+ <20241008133204.3ea38338@donnerap.manchester.arm.com>
+Subject: Re: [PATCH 2/6] ASoC: sun4i-codec: Add playback only flag to quirks
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Thu, Oct 10, 2024 at 11:26:00PM +0200, Javier Carrasco wrote:
-> Use the '__free(device_node)' macro to automatically free the device
-> node, removing the need for explicit calls to 'of_node_put()' to
-> decrement its refcount.
-> 
-> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 
-Applied, thank you.
 
--- 
-Dmitry
+On Wed, 9 Oct 2024, at 1:32 AM, Andre Przywara wrote:
+
+Hi Andre, thanks for reviewing! 
+
+> On Sun, 29 Sep 2024 23:06:03 +1300
+> Ryan Walklin <ryan@testtoast.com> wrote:
+>
+>> From: Marcus Cooper <codekipper@gmail.com>
+>> 
+>> Some devices only have the playback side of the codec implemented
+>> so add a quirk to check for this.
+>
+> That's odd, is this really the only place where we need to 
+> consider the lack of sampling functionality? I mean it just prevents the
+> fields to be populated in our internal struct, how does the rest of the
+> kernel know that there is no capture? Is that magically achieved by those
+> fields being zero now?
+
+Yes this is only used internally by the codec driver. The playback only nature of an individual codec is communicated to the DAI when the machine driver is created, for example in sun50i_h616_codec_create_card():
+
+	card->dai_link->playback_only = true;
+	card->dai_link->capture_only = false;
+
+Regards,
+
+Ryan
