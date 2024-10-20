@@ -1,180 +1,215 @@
-Received: from omta40.uswest2.a.cloudfilter.net (omta40.uswest2.a.cloudfilter.net [35.89.44.39])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7804EEC5
-	for <linux-sunxi@lists.linux.dev>; Sun, 20 Oct 2024 11:46:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.89.44.39
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6397F1925A6
+	for <linux-sunxi@lists.linux.dev>; Sun, 20 Oct 2024 11:57:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729424806; cv=none; b=sg09iVeZA17j2h53t1Zy56R/DCpI5TU99T3NQaJixM24sH+dwCHNpIgZybMKb1urv+7ChmLEGJ7EwGoobMajDSw6QHxtI7Wp9BGnTmfivYpdwAunTZPXy6aNXS3qnL84VJ5xiiQtNWT7aVZy2nyG/uzRlf59cUzwEfv8MGSefOI=
+	t=1729425473; cv=none; b=bJUsROGlM+3DYX52XA1DCQUHSUAWhKojTDgjU13xgh3E1yUXS7R73Y/NyooyHpLdXNlbnG94deMUx9qDUtE05zHrIbOq8uxr9zWTGyzSKXfPMOHOvoQ92vXsd5OleuVYBPdIfOo5LGaahut6+Lzet1SdUjjC8911tdjOQ0Z9HW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729424806; c=relaxed/simple;
-	bh=upnip+KNwQAs5nEMTYdsPkAdO8L2+BUAYtZm7wVhLGo=;
-	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=p/5Sg4eTO6k7Ptt8kJ/+vEVLbhWEIJFOGtSCj1riImM/OsuS78l3DC0VX1UVoE4SN/jSpnaP88rCSH4D0HeTjdpDFyPAE2QRdSdiLJsnOd8I/ZCqZKFRJY1l4nAJFxuUsUw6Ignimfy1XyGpPOxb70pXAT+ZCs2ygm0QL/6JKKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linumiz.com; spf=pass smtp.mailfrom=linumiz.com; dkim=pass (2048-bit key) header.d=linumiz.com header.i=@linumiz.com header.b=WYQYnjCw; arc=none smtp.client-ip=35.89.44.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linumiz.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linumiz.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linumiz.com header.i=@linumiz.com header.b="WYQYnjCw"
-Received: from eig-obgw-6005a.ext.cloudfilter.net ([10.0.30.201])
-	by cmsmtp with ESMTPS
-	id 2SPtttoBAvH7l2UORtOVlj; Sun, 20 Oct 2024 11:46:43 +0000
-Received: from md-in-79.webhostbox.net ([43.225.55.182])
-	by cmsmtp with ESMTPS
-	id 2UONtKHgzxK8v2UOPt0aR3; Sun, 20 Oct 2024 11:46:41 +0000
-X-Authority-Analysis: v=2.4 cv=T/9HTOKQ c=1 sm=1 tr=0 ts=6714eda1
- a=LfuyaZh/8e9VOkaVZk0aRw==:117 a=geAcWm3dhgwnT0Pjoka1yw==:17
- a=IkcTkHD0fZMA:10 a=DAUX931o1VcA:10 a=-pn6D5nKLtMA:10 a=vU9dKmh3AAAA:8
- a=VwQbUJbxAAAA:8 a=6Ujbnq6iAAAA:8 a=YmDlHjd7AAAA:8 a=jMfKuDRYAAAA:8
- a=M0D2_HLXQKRqHRaDSZIA:9 a=QEXdDO2ut3YA:10 a=8eZOVWP4HKkA:10
- a=rsP06fVo5MYu2ilr0aT5:22 a=-sNzveBoo8RYOSiOai2t:22 a=jsfG_yEu7aiiUYXEnMLs:22
- a=-3YgmSAAc2L1nfTqJm0e:22 a=ZCPYImcxYIQFgLOT52_G:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linumiz.com
-	; s=default; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:To:Subject:Cc:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=Lz4/Flhiw6ewyWon5kfy+3sj4U87pQQGDwuFZrLscXQ=; b=WYQYnjCwhv483UaeNE8qLymQDZ
-	SFyS/Xde4oCN7DFDEAO1Sf3H0EwiFCUqfKU8/ZcJFpadRGL3BouIiBQbzSv2oFnzdjdVkSKxTr7JK
-	/YHp8faeASFgteLudjzlLIk9V9L6HD17nAakmBgQGXv3UfYKFgy678k100LUmgCd7Du8hUAHxDS2m
-	7ASCQigTNvdzXNxcOulM0I9oA90eZ8Q9mccf8N1uedRwKMqfUsBj6icBqq3y6geYHjWavtBudpn4U
-	/IAeZFoBNzKu0Y1UYLYcSZ6d7C06yU0rVaAbzdxPy56iEGesiAVqYlZRCYgnDE/n3XR6/vHV7GyTr
-	sXrI67Yw==;
-Received: from [49.206.112.194] (port=10981 helo=[192.168.0.206])
-	by md-in-79.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <parthiban@linumiz.com>)
-	id 1t2UOM-003DWo-1N;
-	Sun, 20 Oct 2024 17:16:38 +0530
-Message-ID: <a6226742-72e9-456a-a2fa-c4d4e73ee9be@linumiz.com>
-Date: Sun, 20 Oct 2024 17:16:35 +0530
+	s=arc-20240116; t=1729425473; c=relaxed/simple;
+	bh=gbpmEsQrInjTsQllEL0d+1ipYxosLUDGzwVqo6mC+NQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=p1wQXzsDPVT/pqfC7Ncu2t/UgGfFvSeHNC/9MMAZKj8RwpGe09IwdW7x6PjA8/V99F8XPeZa/ARvTmtXiut4S6LPchK8FGRL2GUy0mymxAm51bRC6gQy4GaHwGLCgeg379IsaEPFfeE5OVlyLxNqcS9O8h7eVY96mbXTFIpe8Yg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 490A0DA7;
+	Sun, 20 Oct 2024 04:58:20 -0700 (PDT)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AD8FD3F58B;
+	Sun, 20 Oct 2024 04:57:48 -0700 (PDT)
+Date: Sun, 20 Oct 2024 12:56:54 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Ryan Walklin <ryan@testtoast.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu
+ Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
+ Holland <samuel@sholland.org>, Chris Morgan <macroalpha82@gmail.com>,
+ Philippe Simons <simons.philippe@gmail.com>, linux-sound@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, linux-clk@vger.kernel.org
+Subject: Re: [PATCH v2 1/7] clk: sunxi-ng: h616: Add sigma-delta modulation
+ settings for audio PLL
+Message-ID: <20241020125654.6bf3e86b@minigeek.lan>
+In-Reply-To: <20241020083124.174724-2-ryan@testtoast.com>
+References: <20241020083124.174724-1-ryan@testtoast.com>
+	<20241020083124.174724-2-ryan@testtoast.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: parthiban@linumiz.com, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, wens@csie.org, jernej.skrabec@gmail.com,
- samuel@sholland.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, masterr3c0rd@epochal.quest
-Subject: Re: A133 support
-To: Andre Przywara <andre.przywara@arm.com>
-References: <2dc2c052-8fde-4656-8dbf-a6980cd968ae@linumiz.com>
- <20241020122321.141727c7@minigeek.lan>
-Content-Language: en-US
-From: Parthiban <parthiban@linumiz.com>
-Organization: Linumiz
-In-Reply-To: <20241020122321.141727c7@minigeek.lan>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - md-in-79.webhostbox.net
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - linumiz.com
-X-BWhitelist: no
-X-Source-IP: 49.206.112.194
-X-Source-L: No
-X-Exim-ID: 1t2UOM-003DWo-1N
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([192.168.0.206]) [49.206.112.194]:10981
-X-Source-Auth: parthiban@linumiz.com
-X-Email-Count: 3
-X-Org: HG=dishared_whb_net_legacy;ORG=directi;
-X-Source-Cap: bGludW1jbWM7aG9zdGdhdG9yO21kLWluLTc5LndlYmhvc3Rib3gubmV0
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfPt/zEKBpdSG9iqqOPmG3yYLBDxKj+grMmL0lLKNHMO9K0ZYqE50nnY8lyin9VLWV8QSYJNyKLDgMa3W/6eRdTwcjMvK1dTGKYL8fQLKQyuAtl3lmBCD
- FCEyywjR0oPIk9L6mObO3YoXeDbDDrBiq9cBBDjIVrjN2tMa2gwx5YLQz9tJgYenm14n1EFZJjl7MP5/7DLL+7FdIVnvQXb/gd4=
 
-On 10/20/24 4:53 PM, Andre Przywara wrote:
-> On Sun, 20 Oct 2024 15:06:46 +0530
-> Parthiban <parthiban@linumiz.com> wrote:
+On Sun, 20 Oct 2024 21:30:51 +1300
+Ryan Walklin <ryan@testtoast.com> wrote:
+
+Hi,
+
+> Allwinner has previously released a H616 audio driver which also
+> provides sigma-delta modulation for the audio PLL clocks. This approach
+> is used in other Allwinner SoCs, including the H3 and A64.
 > 
-> Hi,
+> The manual-provided clock values are:
+> PLL_AUDIO(hs) = 24 MHz*N/M1
+> PLL_AUDIO(4X) = 24 MHz*N/M0/M1/P
+> PLL_AUDIO(2X) = 24 MHz*N/M0/M1/P/2
+> PLL_AUDIO(1X) = 24 MHz*N/M0/M1/P/4
 > 
->> Am currently adding support for Allwinner A133 SoC based on A100.
-> 
-> Many thanks for picking this up, but what do you mean exactly by
-> "adding support"? As you probably have seen, there is already some
+> A fixed post-divider of 2 is used to account for a fixed M0 divider of
+> 2 (taken from the vendor BSP driver).
 
-By meaning using the existing compatible and preparing devicetree for
-[1].
+The real reason seems to be that our existing macros and struct cannot
+model those extra dividers, and using M0=2 gives better results, so we
+fix that in the probe routine and account for that using the fixed
+post-div.
 
-> basic support for the A100 in the tree, and since we assume that both
-> SoCs are basically identical, there wouldn't be too much left to do,
-> would there?
-> For reference, there is some leftover patch series from the original
-> A100 upstreaming attempt, which you could rebase and rework:
-> https://lore.kernel.org/linux-arm-kernel/cover.1604988979.git.frank@allwinnertech.com/
+> Using SDM allows correction of the PLL_AUDIO_(4,2,1)X clock fixed
+> dividers to the datasheet-specified values of 1/2/4 respectively.
 
-Yeah, I did pull few things which were dangling in the series.
+As mentioned below, SDM has nothing to do with those simple dividers
+clocks, it's just there to reach the "odd" base audio frequency more
+accurately.
 
 > 
-> I haven't checked in a while, but some patches in there have either
-> been merged or are superseded by other patches, and I guess the others
-> need at least a rebase, but it's certainly something worthwhile to work
-> on.
+> Add SDM to the H616 clock control unit driver.
 > 
->> Based on the [1],
->> A100 and A133 uses same IP across. But there is no public available datasheet or
->> user manual for A100.
+> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
 > 
-> Indeed there has never been, and back then we relied on information
-> provided by those Allwinner employees sending the patches.
-> For now we assume that the A133 manual describes the A100 as well.
+> ---
+> Changelog v1..v2:
+> - Add fixed_post_div to high-speed audio clock to correct M0 value to 1 (ie divide by 2) based on manual
+> - Correct PLL_AUDIO_(4/2/1)X clocks to manual-provided values
+> - Add/correct inline comments for the above.
+> - add CCU_FEATURE_FIXED_POSTDIV to pll_audio_hs_clk.common.features
+> ---
+>  drivers/clk/sunxi-ng/ccu-sun50i-h616.c | 44 ++++++++++++++++----------
+>  1 file changed, 28 insertions(+), 16 deletions(-)
 > 
->> Should A100 kept as base and A133 dtsi needs to added on top or A133 can be duplicated
->> into a new devicetree?
-> 
-> As far as we know, the A133 is the better bin of the A100, so they
-> should be identical from the software perspective. This seems to be
-> similar to the H616/H313 situation. At some point the A100 totally
-> disappeared from Allwinner's documentation (in an almost "Orwellian
-> 1984 fashion"), and they only mention the A133 ever since.
-> 
-> So, since the A100 is already in, and was the first one, I'd say:
-> - Keep using an allwinner,sun50i-a100 prefix for any compatible string.
->   Rationale: it's the base model, and was the first one, and we have
->   compatible strings with that in, so we should keep using that for
->   consistency.
-> - There is no need for any kind of a133.dtsi, since they are probably
->   identical.
-> - If you add a board with an A133, use that name in the root compatible
->   string, but include the a100.dtsi. See the H616/H313/H618 situation,
->   for instance as in sun50i-h618-transpeed-8k618-t.dts.
+> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+> index 6c7623d4c59ea..42feaaf5a59c6 100644
+> --- a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+> @@ -215,20 +215,28 @@ static struct ccu_nkmp pll_de_clk = {
+>  	},
+>  };
+>  
+> -/*
+> - * TODO: Determine SDM settings for the audio PLL. The manual suggests
+> - * PLL_FACTOR_N=16, PLL_POST_DIV_P=2, OUTPUT_DIV=2, pattern=0xe000c49b
+> - * for 24.576 MHz, and PLL_FACTOR_N=22, PLL_POST_DIV_P=3, OUTPUT_DIV=2,
+> - * pattern=0xe001288c for 22.5792 MHz.
+> - * This clashes with our fixed PLL_POST_DIV_P.
+> +/* 
+> + * Sigma-delta modulation settings table obtained from the vendor SDK driver.
+> + * There are additional M0 and M1 divider bits not modelled here, so forced to
+> + * fixed values in the probe routine.
+>   */
+> +static struct ccu_sdm_setting pll_audio_sdm_table[] = {
+> +	{ .rate = 90316800, .pattern = 0xc001288d, .m = 3, .n = 22 },
+> +	{ .rate = 98304000, .pattern = 0xc001eb85, .m = 5, .n = 40 },
 
-Thanks for the details. That helps.
+It's a bit strange to see odd dividers here, since the manual "warns"
+against this, because it's causing a non-50% duty cycle. But apparently
+the audio codec is fine with this (given it works)? Or does this apply
+to the product of all the dividers (m * m0 * m1), so our m0=2 fixes
+that?
 
-> 
-> Hope that helps, and thanks for your efforts on improving support for
-> that chip! Please come back to the #linux-sunxi IRC channel on OFTC,
-> there is someone (MasterR3C0RD) actively working on some A133 board as
-> well, and he even has a working DRAM driver for U-Boot. So you should
-> coordinate any upstreaming efforts.
+And for the records, the numbers calculate like this (with SDM):
+rate = 24MHz * (n + pattern[16:0] / 2^17) / m / m0 / m1
+which gives 90316802 Hz and 98303997 Hz with those numbers,
+respectively.
 
-Great, am still stuck with 2018 tree from vendor, this will help.
+> +};
+> +
+>  #define SUN50I_H616_PLL_AUDIO_REG	0x078
+>  static struct ccu_nm pll_audio_hs_clk = {
+>  	.enable		= BIT(31),
+>  	.lock		= BIT(28),
+>  	.n		= _SUNXI_CCU_MULT_MIN(8, 8, 12),
+> -	.m		= _SUNXI_CCU_DIV(1, 1), /* input divider */
+> +	.m		= _SUNXI_CCU_DIV(16, 6),
+> +	.sdm		= _SUNXI_CCU_SDM(pll_audio_sdm_table,
+> +					 BIT(24), 0x178, BIT(31)),
+> +	.fixed_post_div = 2,
+>  	.common		= {
+> +		.features	= CCU_FEATURE_FIXED_POSTDIV | 
+> +				  CCU_FEATURE_SIGMA_DELTA_MOD,
+>  		.reg		= 0x078,
+>  		.hw.init	= CLK_HW_INIT("pll-audio-hs", "osc24M",
+>  					      &ccu_nm_ops,
+> @@ -701,18 +709,20 @@ static const struct clk_hw *clk_parent_pll_audio[] = {
+>  };
+>  
+>  /*
+> - * The divider of pll-audio is fixed to 24 for now, so 24576000 and 22579200
+> - * rates can be set exactly in conjunction with sigma-delta modulation.
+> + * The PLL_AUDIO_4X clock defaults to 24.5714 MHz according to the manual, with 
 
-[1]: https://szbaijie.com/index/product/product_detail.html?product_id=23&language=en
+The manual says that PLL_AUDIO_1X defaults to 24.5714 MHz (24.576,
+really?), so PLL_AUDIO_4X (the actual PLL output) should be four times
+that.
 
-Thanks,
-Parthiban N
-> 
-> Cheers
-> Andre
-> 
-> 
-> 
-> 
->>
->> [1]: https://linux-sunxi.org/Linux_mainlining_effort#Status_Matrix
->>
-> 
-> 
+> + * a final divider of 1. The 2X and 1X clocks use 2 and 4 respectively. The 1x 
+> + * clock is set to either 24576000 or 22579200 for 48Khz and 44.1Khz (and 
+> + * multiples) in conjunction with sigma-delta modulation.
+
+That last part sounds a bit vague, what about:
+" ... (and multiples). The Sigma-delta modulation bits allow providing a
+fractional-N divider in the PLL, to help reaching those specific
+frequencies with less error."
+
+But then again this probably belongs more to the PLL_AUDIO_HS clock
+comment above? Since this here is just to model the simple divider
+clocks.
+
+Anyway, the technical bits seem to add up, and that's what I came up
+with in my experiments as well. But there are better combinations of N,
+fractional N, and M to reach the target frequency with less error, and
+M is also even in those cases. This could be a later optimisation,
+though.
+
+Cheers,
+Andre
+
+
+>   */
+>  static CLK_FIXED_FACTOR_HWS(pll_audio_1x_clk, "pll-audio-1x",
+>  			    clk_parent_pll_audio,
+> -			    96, 1, CLK_SET_RATE_PARENT);
+> +			    4, 1, CLK_SET_RATE_PARENT);
+>  static CLK_FIXED_FACTOR_HWS(pll_audio_2x_clk, "pll-audio-2x",
+>  			    clk_parent_pll_audio,
+> -			    48, 1, CLK_SET_RATE_PARENT);
+> +			    2, 1, CLK_SET_RATE_PARENT);
+>  static CLK_FIXED_FACTOR_HWS(pll_audio_4x_clk, "pll-audio-4x",
+>  			    clk_parent_pll_audio,
+> -			    24, 1, CLK_SET_RATE_PARENT);
+> +			    1, 1, CLK_SET_RATE_PARENT);
+>  
+>  static const struct clk_hw *pll_periph0_parents[] = {
+>  	&pll_periph0_clk.common.hw
+> @@ -1162,12 +1172,14 @@ static int sun50i_h616_ccu_probe(struct platform_device *pdev)
+>  	}
+>  
+>  	/*
+> -	 * Force the post-divider of pll-audio to 12 and the output divider
+> -	 * of it to 2, so 24576000 and 22579200 rates can be set exactly.
+> +	 * Set the output-divider for the pll-audio clocks (M0) to 2 and the
+> +	 * input divider (M1) to 1 as recommended by the manual when using 
+> +	 * SDM. 
+>  	 */
+>  	val = readl(reg + SUN50I_H616_PLL_AUDIO_REG);
+> -	val &= ~(GENMASK(21, 16) | BIT(0));
+> -	writel(val | (11 << 16) | BIT(0), reg + SUN50I_H616_PLL_AUDIO_REG);
+> +	val &= ~BIT(1);
+> +	val |= BIT(0);
+> +	writel(val, reg + SUN50I_H616_PLL_AUDIO_REG);
+>  
+>  	/*
+>  	 * First clock parent (osc32K) is unusable for CEC. But since there
 
