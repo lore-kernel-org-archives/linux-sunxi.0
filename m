@@ -1,57 +1,57 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD682EAF1
-	for <linux-sunxi@lists.linux.dev>; Sun, 20 Oct 2024 04:09:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A94E8462
+	for <linux-sunxi@lists.linux.dev>; Sun, 20 Oct 2024 04:19:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729397382; cv=none; b=C/ciyI4kdV4EeqQcz9cuWFymMB1bT2KwTMHZ86CQnao6aET1zoEls5KH8JzuFPq0SSakIchaLLm13t4EGuIwxUV0Ujhpwf25AeHNi5x4uoCrauq85sB9oFlGNNREIAzbcYGk7G3H0zlg/B/ETT4bNo0/yxRG3KUxQfGWxWcmHRI=
+	t=1729397956; cv=none; b=kp7vOLGTasR6ocCOlmfvZo4J0a2Ige/BOuYq9pqrQeapEtu1Qb+KbKcBngYWCjtempjj6ExC/qa3tQi3TeSkJGiUejY84XcLwHxZxwRCnvbQGqBq1mh112vOv3M0xeaYlJIn+ERJJmY5uUUX7Va8vrdVo2Hr4JOLkxeKDqeecHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729397382; c=relaxed/simple;
-	bh=h+spn2EFfdiVd8hTXlKE8OlUtlr4ystVAw2guLf/6SQ=;
+	s=arc-20240116; t=1729397956; c=relaxed/simple;
+	bh=JAPjCbky3JM4Js30HaLIpXoOk/qpXtAc5ZgQZI0Nim4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Zrq9lnPEE1TVxNqORq5Gkk1YEhIz4R9QzhOSKt/gX3lYUIMygphaB5bdWgf3vnutCE73mOGFy0+e1jryHMaXX9vGUYL088eu/1wblph3Mqhp+L/cKppbozNyEoGBqpz6BiLo956CD3mbz8uWFxexkpUVVC0Q7jXVCp9DEwEpFJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A8NSdcWG; arc=none smtp.client-ip=209.85.214.179
+	 Content-Type:Content-Disposition:In-Reply-To; b=raCgOcPoiuW8NjBFQyczV8HD6GA8+cjgwh0OIDbCKFSlnptBRPOVuS7hdmsOwUCCegGSxgNdO1rXX/SQWah/nyrs7bzcWoc67Fh6xEUYAWoW3tAyboYms8njxv+u6p3Yv5/Q1J0X0b7C91cTcP3Z/nBCrF0+iuqbq4Z9/8f3OJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HTWolo5z; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A8NSdcWG"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-20cdda5cfb6so35205475ad.3
-        for <linux-sunxi@lists.linux.dev>; Sat, 19 Oct 2024 21:09:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HTWolo5z"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-20c70abba48so27694135ad.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 19 Oct 2024 21:19:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729397380; x=1730002180; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1729397953; x=1730002753; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=H1bGjd1n5rAZCn+evWllm1sc9D7H4aacdgC7A/pNYx8=;
-        b=A8NSdcWGlM1VEEA9Q3c5a4PSPae6cKbFtNhUe9EopUh1PT+guyq0r4bbb74HHBf5Pf
-         fvRESFFW7OQ6vH4r0wjBk6ZdCd0gvY9i/i1Dl8h7SLkb4FT0PhLDO8/2zwLsBsSDPGFj
-         uhzNtyw+xHznDNZIMJpwzhu8owJLH/E0mgzyx0a7pKhf06rwVbW8JoaIRTro7nBelsah
-         qkLl7lLx1pXZxKTu0y0o5Yo1dZ/AP344BPQXWi2fA3MEWCEjVGwG6AHrd0rgO+TwzPCq
-         x32fb9LrAJzZ3o/UR8W9HHAjCutQtbI4MP1Uu3g/TzBpxQc4vLnhzM2o+gchakoimOHO
-         gOJw==
+        bh=QdxAZPP8tKBd9xy8wdHQraowerxPEW9BPsKjH3hJ3d0=;
+        b=HTWolo5zQFTRstaH1luur5FOERhMiLNswutzDBZA3j1ZmM5kXqg9j/8rmgvixnqww8
+         KcBDZhdK7VLN+H9XLWUIIf0lbIl121isc/VqRayNXpTz2xSCperCJYN5bY+3MZBVl+rF
+         Kvv4PL+TP/e3RNdxq2J/3T3DXrPR43QYCNWsAzTFK+d3rHDeeut9gLQFaDuleDT/IHll
+         17yPUeoaiAVpyVuwSmC6nOCA1zeSViXPPIq01hioRZ4Hdzugk0r6HK8fW8lR8WpRt2Zx
+         6PUUHzxdkOI4gDhFqrwJKlspahbjTEqZhDbe0KzukBnEf5YhHSYSCG7X6VxM6p32TI5F
+         NV0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729397380; x=1730002180;
+        d=1e100.net; s=20230601; t=1729397953; x=1730002753;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=H1bGjd1n5rAZCn+evWllm1sc9D7H4aacdgC7A/pNYx8=;
-        b=BIQ8cxhHDZ0NgvZ/PIGJAGgfJsUz6/5SIdeoCHiOzPyGOpuoqhw40z8ZlLkW+27ckh
-         Tisvk90OcC1vflsqrgzIwkjXzDMBybfyFMhICzoBB2jxxo7mOzKWuurgyVK9yIv7qznH
-         BUY47P06iKyDX40PLDW55hunMC3lAaI2fgUuuYTuIsLF6Hk6te7u2aYZ4+ij+bN1lD+o
-         vcmAzJdxE/hITn/R9xoSbT7524/fFRMMvJArKgY4Ad8uSEGUeUprp4kBA+YWTpHeR01Z
-         lJhJTKBDyPRppuJ6KrtO+2pj+QvqenOeSNoFmMSuC5a3KaeW1JYU4pgsV2B9IMl/uNhp
-         EC4w==
-X-Forwarded-Encrypted: i=1; AJvYcCU3bEONPQH/sstl4xjGYgylNQzQnHuXFDZ1KkcDbARDFZ7B3pV+O3d40qFBSsOYj5Io06G3QWsu891X8w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwJXs43NJDYnJgl/pNPzlNXUqHHFDUzaltltQ32Skd3Bi+g1Wpv
-	HArGV2lAnfdpEX53MYDlV1R5RMCR6gp0IVqYzqVlAryDpqd+lEctom9bgA==
-X-Google-Smtp-Source: AGHT+IEc2BHyqmStnpq7KA9tIyD0eDdNvs8sr3XefsuIF66d/cAZosyCaPNYQ6F3nVDJeuBmr4bFWQ==
-X-Received: by 2002:a17:903:2447:b0:20c:db77:a4f0 with SMTP id d9443c01a7336-20e5a8e124fmr91966465ad.25.1729397379839;
-        Sat, 19 Oct 2024 21:09:39 -0700 (PDT)
+        bh=QdxAZPP8tKBd9xy8wdHQraowerxPEW9BPsKjH3hJ3d0=;
+        b=VC+iRNGyiU53ZsgI2hqOYSnlH8mmVRCZNOi2KPQ+4Htv+kEuN/Cd4/uMdSeaHuO3G8
+         KFHH9OlNpOPZ3NFp3MWcLSn9ngmLRkAaT54Hy4rgb9IM1rt/O8U7IPC7xCZpvy6RQKJe
+         R13rQmiYFn5RsrgEYu4/yCDfcA2Kxuqtiamt1OHlDr6xwfjOyPAE0MJqOjZQxogujUl2
+         4TegwGoz2qJUqXONt4XLiOddz7dbuOu2ZLHbDNkXuR1J9Y37joZSiGNLpMhIMYqcdl84
+         4S2syjqDuvs2K9eWS7Aq5v2wzVPRSbjWGNOLlOKRzyoz3qrmojonEA6uVFkeU6GBdb3v
+         BTAg==
+X-Forwarded-Encrypted: i=1; AJvYcCXwFJm2vlY7kLiQXH6lXAhm2vaU9MCIb9vpncD9M1zA0YS+bpGb8uehJPp182NKqNWCMcn5c934kZwh4Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxl1YyT99J4Q/vEQlODmnW2WbojnbtD97ir1ljy4fTXx0HXxWj+
+	DWo7nAAXvNKqynNKgIKSp76MdS42YrIyFQ12u2Voz/yYXU4cV4bK+g2gaA==
+X-Google-Smtp-Source: AGHT+IHBIvWZ0uV1GR/m50ZQ4x/Hdm7GgkdXXrNd1kKqUe+bkuGv8vNm+r2H5ifXOrMUDosuFRD+2w==
+X-Received: by 2002:a17:902:e811:b0:20e:55b0:35f2 with SMTP id d9443c01a7336-20e5a737077mr91778295ad.1.1729397953103;
+        Sat, 19 Oct 2024 21:19:13 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:2ce:a853:5ea4:fdb6])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e7f0f355csm4248175ad.265.2024.10.19.21.09.38
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7eaeab35f8dsm545377a12.31.2024.10.19.21.19.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Oct 2024 21:09:39 -0700 (PDT)
-Date: Sat, 19 Oct 2024 21:09:36 -0700
+        Sat, 19 Oct 2024 21:19:12 -0700 (PDT)
+Date: Sat, 19 Oct 2024 21:19:09 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 Cc: Matthias Brugger <matthias.bgg@gmail.com>,
@@ -65,11 +65,11 @@ Cc: Matthias Brugger <matthias.bgg@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
 	linux-rpi-kernel@lists.infradead.org
-Subject: Re: [PATCH 04/10] Input: twl6040-vibra - use cleanup facility for
+Subject: Re: [PATCH 07/10] Input: 88pm860x - use cleanup facility for
  device_node
-Message-ID: <ZxSCgBd6th1i7B4X@google.com>
+Message-ID: <ZxSEvZK-1ydmUIxI@google.com>
 References: <20241010-input_automate_of_node_put-v1-0-ebc62138fbf8@gmail.com>
- <20241010-input_automate_of_node_put-v1-4-ebc62138fbf8@gmail.com>
+ <20241010-input_automate_of_node_put-v1-7-ebc62138fbf8@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -78,12 +78,15 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241010-input_automate_of_node_put-v1-4-ebc62138fbf8@gmail.com>
+In-Reply-To: <20241010-input_automate_of_node_put-v1-7-ebc62138fbf8@gmail.com>
 
-On Thu, Oct 10, 2024 at 11:25:54PM +0200, Javier Carrasco wrote:
+On Thu, Oct 10, 2024 at 11:25:57PM +0200, Javier Carrasco wrote:
 > Use the '__free(device_node)' macro to simplify the code and error
-> handling. This makes the error handling more robust by ensuring that the
-> device node is always freed.
+> handling. This makes the code more robust by ensuring that the device
+> node is always freed.
+> 
+> Drop the first assignment to 'pdev->dev.parent->of_node', as it was only
+> a shortcut, and tie 'np' to its usage as a child node.
 > 
 > Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 
