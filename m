@@ -1,339 +1,153 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EED414D6F9
-	for <linux-sunxi@lists.linux.dev>; Sun, 20 Oct 2024 12:00:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C4561DFD1
+	for <linux-sunxi@lists.linux.dev>; Sun, 20 Oct 2024 18:27:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729425649; cv=none; b=Ls0pduK+iXIKSG83cz1nmgP5Xy6ut0o/eXM/a2ls8geborMuVZoqieh5841dREKMwCrP0LdNgPGdZEXI74k2byAcR8HWZ9MpCSrHjoyCZZr35KjR0HpN7/X+98iABOBW8lytriup+JYlD0QrzyCj2cucs0JDfwPbOrOo95B8LDY=
+	t=1729448842; cv=none; b=lWiKiS3dgjHCjOnkWXAJo5DtG1YmFZZVgFox21bcO2vlKhZwN5OnyFc5vKiC2BW2/vKrt+CZKEXcCp0ZzN2gW3eHcVF+RnnA12DCm6gXQvtIzttv/yUGBHtfG0EXyvGX4XFJlpOYv/S+i0UjxC9RRdJvdrhJh0XVyybOEGpkvoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729425649; c=relaxed/simple;
-	bh=fxH69eYbXQTteV6jC9orLCBgJAs5T33rZtPO4rzkQ5I=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GiSF4h5y+ihU8DWHqMAdYRkbf1m+79B1/7xTIx0oGO/PRT46snOZYTVMTZBT59o3zUlSBKVqrAm9DIBxM6RZdh6WxQmqb4LUCZqQdUpob48E9WhVDdPfNlaCMbkMoYkfVOYfl+QvHTQ/WTndTnesBm5QD8LgmPPlsjAT0xvvdUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 391E6DA7;
-	Sun, 20 Oct 2024 05:01:15 -0700 (PDT)
-Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9FB723F58B;
-	Sun, 20 Oct 2024 05:00:43 -0700 (PDT)
-Date: Sun, 20 Oct 2024 12:59:48 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Ryan Walklin <ryan@testtoast.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu
- Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
- Holland <samuel@sholland.org>, Chris Morgan <macroalpha82@gmail.com>,
- Philippe Simons <simons.philippe@gmail.com>, linux-sound@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- devicetree@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: Re: [PATCH v2 5/7] ASoC: sun4i-codec: support allwinner H616 codec
-Message-ID: <20241020125948.44c27e9e@minigeek.lan>
-In-Reply-To: <20241020083124.174724-6-ryan@testtoast.com>
-References: <20241020083124.174724-1-ryan@testtoast.com>
-	<20241020083124.174724-6-ryan@testtoast.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	s=arc-20240116; t=1729448842; c=relaxed/simple;
+	bh=Ww13dvSbpLS1CRSU7TPVVRBFuyPAJT0QbJBdP+1IZ8s=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Xj8RZKjPc1qQYKhpnHDqE3oqBIIevgeR3gmbH9+SPHgg8/hFr3SMVTzORD3ygghA2dAUxNBHYxhl6hxLE58jFfAsQ8RGgHhrBeufrQURvpQtp80rNNHrUK59h39h2On1sR7DN5jgfWfecpeKBKI3ItzcES7Ymt0kSlrPQDP4+pA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V7vCp85u; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V7vCp85u"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4314c452180so31701745e9.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 20 Oct 2024 11:27:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729448837; x=1730053637; darn=lists.linux.dev;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oC94XqAfObW7gsifgeU8sWbkg+sAsaXMzC798gctVto=;
+        b=V7vCp85u5ynFGnPj6F1VdPbcxvkWuStI71N+ETbG+XvuTgACYpj78WwTB8ewzQoBRT
+         kZZQqfWNa1HwzcXyZiyILpkCsrpLGbN340pmZ8hbLZagHC9XPTrs5nmfr1iE6eptffEx
+         sxYNyObC4dFAmaf7KoFOhUo8Dw0cs6zdJ0/HPnX++jOUqoP0GuiwgUqbzmK7oYAQ3lCY
+         f06TZtmiel5VwvO2STNE8Tnwh1AW6ugiLry7/8ZChDTvdx5oVdEcKxnmb7jbM09zkZT8
+         D8KzUkFKeEX3HooBPT2Z+e/4eIhprEUa3UbPalJ76w/gyn8ggSInM5iXl0pmpP3z365J
+         qCqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729448837; x=1730053637;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oC94XqAfObW7gsifgeU8sWbkg+sAsaXMzC798gctVto=;
+        b=cAV36Gimy48rIb1AAegUkGs2a89s1GPFO4sexhv/AEWZis321WnugAk519ovvHk3Bx
+         SwD1jGARxiXOL6aLX8za+kg7b6mTmbDhWezoRmVdNwSlRE+2alE/xoOnvrm9vxtSOye3
+         rxS626xKElhajC66rCtcFycI7jdO4gPYaAQJIsdjw5nyjJTuPPUd6v16klvfTq6E7j4Z
+         RhqUlemVJTnYz9kXr8x4h9n0PHk1y3/D51MFZSsGciNUErehVS/q4mFAwdsJd1vlCGXC
+         e3uqZ5SlD/kIjLsyv6RDbmGZi9uLD//mWOcJJ3fAMXl110kLacz90hOuno33mKyGQEsV
+         BHaw==
+X-Forwarded-Encrypted: i=1; AJvYcCWCvnIuWYSLRIYhE3v+kh8nWcWSAHtXfrLORRkwsM2uvBkUWLi5Xoa7ka+rjGbUEENZuvCJInI2UP+Xdw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyAzOJLbupQGAnN4koRoeRL5goMMZKzs8P1neABPBcf5QronQYr
+	xQOWiTtpp18jz3rbDdKuRsU0ZVWkvxRzquExLaTADMycfzios9b2
+X-Google-Smtp-Source: AGHT+IEM3cXnu7Szl4hCwHLN8wVFsmNZ4NIEh7q1lVGN/TNryiPhzRMZ+nRPrTxss73+eZIvE3gk5w==
+X-Received: by 2002:a05:600c:1d27:b0:431:44aa:ee2c with SMTP id 5b1f17b1804b1-4316163bb0bmr55994265e9.9.1729448837337;
+        Sun, 20 Oct 2024 11:27:17 -0700 (PDT)
+Received: from [127.0.1.1] (2a02-8389-41cf-e200-6b9f-98af-2a5c-6ed2.cable.dynamic.v6.surfer.at. [2a02:8389:41cf:e200:6b9f:98af:2a5c:6ed2])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4316f58af90sm31023845e9.21.2024.10.20.11.27.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Oct 2024 11:27:16 -0700 (PDT)
+From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Date: Sun, 20 Oct 2024 20:27:13 +0200
+Subject: [PATCH v2] Input: sparcspkr - use cleanup facility for device_node
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241020-input_automate_of_node_put-v2-1-ddec58b4b99e@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAIBLFWcC/33NSw6DIBSF4a2YOy4N0Ee0o+6jMQTxojepYABNG
+ 8PeS03HHf5n8J0NIgbCCLdqg4ArRfKuhDxUYEbtBmTUlwbJ5Vlw3jBy85KUXpKfdELlrXK+R1V
+ GJjqNjb0YLvsGCjAHtPTa8UdbeqSYfHjvX6v4rj9W8H/sKhhn2JmrFKfadra+D5Om59H4Cdqc8
+ wc8IiUWxAAAAA==
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Hans de Goede <hdegoede@redhat.com>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-rpi-kernel@lists.infradead.org, 
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>
+X-Mailer: b4 0.14-dev
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1729448835; l=1854;
+ i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
+ bh=Ww13dvSbpLS1CRSU7TPVVRBFuyPAJT0QbJBdP+1IZ8s=;
+ b=4JJ/8rNbRS5CDLSsjceGOzrXN95Je/MHjDmrnycsm3LBmxcv6W1rD4Kud8D3RuxIWD1xGrIml
+ i4ByO0r4793Bt9BGAEzqktKDKifH7g0va6oGud7Buk3Csn5Wl2gpBxs
+X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
+ pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
 
-On Sun, 20 Oct 2024 21:30:55 +1300
-Ryan Walklin <ryan@testtoast.com> wrote:
+Use the 'free(device_node)' macro to simplify the code by automatically
+freeing the device node, which removes the need for explicit calls to
+'of_node_put()'.
 
-Hi,
+Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+---
+Changes in v2:
+- rebase onto input/next, drop applied patches.
+- sparcspkr: drop goto before node declaration and return -ENOMEM.
+- Link to v1: https://lore.kernel.org/r/20241010-input_automate_of_node_put-v1-0-ebc62138fbf8@gmail.com
+---
+ drivers/input/misc/sparcspkr.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-> The H616 SoC codec is playback-only with a single line-out route, and
-> has some register differences from prior codecs.
->=20
-> Add the required compatible string, registers, quirks, DAPM widgets,
-> codec controls and routes, based on existing devices and the H616
-> datasheet.
->=20
-> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
->=20
-> ---
-> Changelog v1..2:
-> - Shorten codec name to fit within 16-char limit.
-> ---
->  sound/soc/sunxi/sun4i-codec.c | 202 ++++++++++++++++++++++++++++++++++
->  1 file changed, 202 insertions(+)
->=20
-> diff --git a/sound/soc/sunxi/sun4i-codec.c b/sound/soc/sunxi/sun4i-codec.c
-> index 312d2655c3f4e..767693819880f 100644
-> --- a/sound/soc/sunxi/sun4i-codec.c
-> +++ b/sound/soc/sunxi/sun4i-codec.c
-> @@ -226,6 +226,43 @@
->  #define SUN8I_H3_CODEC_DAC_DBG			(0x48)
->  #define SUN8I_H3_CODEC_ADC_DBG			(0x4c)
-> =20
-> +/* H616 specific registers */
-> +#define SUN50I_H616_CODEC_DAC_FIFOC		(0x10)
-> +
-> +#define SUN50I_DAC_FIFO_STA			(0x14)
-> +#define SUN50I_DAC_TXE_INT			(3)
-> +#define SUN50I_DAC_TXU_INT			(2)
-> +#define SUN50I_DAC_TXO_INT			(1)
-> +
-> +#define SUN50I_DAC_CNT				(0x24)
-> +#define SUN50I_DAC_DG_REG			(0x28)
-> +#define SUN50I_DAC_DAP_CTL			(0xf0)
-> +
-> +#define SUN50I_H616_DAC_AC_DAC_REG		(0x310)
-> +#define SUN50I_H616_DAC_LEN			(15)
-> +#define SUN50I_H616_DAC_REN			(14)
-> +#define SUN50I_H616_LINEOUTL_EN			(13)
-> +#define SUN50I_H616_LMUTE			(12)
-> +#define SUN50I_H616_LINEOUTR_EN			(11)
-> +#define SUN50I_H616_RMUTE			(10)
-> +#define SUN50I_H616_RSWITCH			(9)
-> +#define SUN50I_H616_RAMPEN			(8)
-> +#define SUN50I_H616_LINEOUTL_SEL		(6)
-> +#define SUN50I_H616_LINEOUTR_SEL		(5)
-> +#define SUN50I_H616_LINEOUT_VOL			(0)
-> +
-> +#define SUN50I_H616_DAC_AC_MIXER_REG		(0x314)
-> +#define SUN50I_H616_LMIX_LDAC			(21)
-> +#define SUN50I_H616_LMIX_RDAC			(20)
-> +#define SUN50I_H616_RMIX_RDAC			(17)
-> +#define SUN50I_H616_RMIX_LDAC			(16)
-> +#define SUN50I_H616_LMIXEN			(11)
-> +#define SUN50I_H616_RMIXEN			(10)
-> +
-> +#define SUN50I_H616_DAC_AC_RAMP_REG		(0x31c)
-> +#define SUN50I_H616_RAMP_STEP			(4)
-> +#define SUN50I_H616_RDEN			(0)
-> +
->  /* TODO H3 DAP (Digital Audio Processing) bits */
-> =20
->  struct sun4i_codec {
-> @@ -1520,6 +1557,149 @@ static struct snd_soc_card *sun8i_v3s_codec_creat=
-e_card(struct device *dev)
->  	return card;
->  };
-> =20
-> +static const struct snd_kcontrol_new sun50i_h616_codec_codec_controls[] =
-=3D {
-> +	SOC_SINGLE_TLV("DAC Playback Volume", SUN4I_CODEC_DAC_DPC,
-> +		       SUN4I_CODEC_DAC_DPC_DVOL, 0x3f, 1,
-> +		       sun6i_codec_dvol_scale),
-> +	SOC_SINGLE_TLV("Line Out Playback Volume",
-> +		       SUN50I_H616_DAC_AC_DAC_REG,
-> +		       SUN50I_H616_LINEOUT_VOL, 0x1f, 0,
-> +		       sun6i_codec_lineout_vol_scale),
-> +	SOC_DOUBLE("Line Out Playback Switch",
-> +		   SUN50I_H616_DAC_AC_DAC_REG,
-> +		   SUN50I_H616_LINEOUTL_EN,
-> +		   SUN50I_H616_LINEOUTR_EN, 1, 0),
-> +};
-> +
-> +static const struct snd_kcontrol_new sun50i_h616_codec_mixer_controls[] =
-=3D {
-> +	SOC_DAPM_DOUBLE("DAC Playback Switch",
-> +			SUN50I_H616_DAC_AC_MIXER_REG,
-> +			SUN50I_H616_LMIX_LDAC,
-> +			SUN50I_H616_RMIX_RDAC, 1, 0),
-> +	SOC_DAPM_DOUBLE("DAC Reversed Playback Switch",
-> +			SUN50I_H616_DAC_AC_MIXER_REG,
-> +			SUN50I_H616_LMIX_RDAC,
-> +			SUN50I_H616_RMIX_LDAC, 1, 0),
-> +};
-> +
-> +static SOC_ENUM_DOUBLE_DECL(sun50i_h616_codec_lineout_src_enum,
-> +			    SUN50I_H616_DAC_AC_DAC_REG,
-> +			    SUN50I_H616_LINEOUTL_SEL,
-> +			    SUN50I_H616_LINEOUTR_SEL,
-> +			    sun6i_codec_lineout_src_enum_text);
-> +
-> +static const struct snd_kcontrol_new sun50i_h616_codec_lineout_src[] =3D=
+diff --git a/drivers/input/misc/sparcspkr.c b/drivers/input/misc/sparcspkr.c
+index ff7b6291894a..66ddea9a203a 100644
+--- a/drivers/input/misc/sparcspkr.c
++++ b/drivers/input/misc/sparcspkr.c
+@@ -182,25 +182,23 @@ static int bbc_beep_probe(struct platform_device *op)
  {
-> +		SOC_DAPM_ENUM("Line Out Source Playback Route",
-> +			      sun50i_h616_codec_lineout_src_enum),
-> +};
-> +
-> +static const struct snd_soc_dapm_widget sun50i_h616_codec_codec_widgets[=
-] =3D {
-> +	/* Digital parts of the DACs */
-> +	SND_SOC_DAPM_SUPPLY("DAC Enable", SUN4I_CODEC_DAC_DPC,
-> +			    SUN4I_CODEC_DAC_DPC_EN_DA, 0,
-> +			    NULL, 0),
-> +
-> +	/* Analog parts of the DACs */
-> +	SND_SOC_DAPM_DAC("Left DAC", "Codec Playback",
-> +			 SUN50I_H616_DAC_AC_DAC_REG,
-> +			 SUN50I_H616_DAC_LEN, 0),
-> +	SND_SOC_DAPM_DAC("Right DAC", "Codec Playback",
-> +			 SUN50I_H616_DAC_AC_DAC_REG,
-> +			 SUN50I_H616_DAC_REN, 0),
-> +
-> +	/* Mixers */
-> +	SOC_MIXER_ARRAY("Left Mixer", SUN50I_H616_DAC_AC_MIXER_REG,
-> +			SUN50I_H616_LMIXEN, 0,
-> +			sun50i_h616_codec_mixer_controls),
-> +	SOC_MIXER_ARRAY("Right Mixer", SUN50I_H616_DAC_AC_MIXER_REG,
-> +			SUN50I_H616_RMIXEN, 0,
-> +			sun50i_h616_codec_mixer_controls),
-> +
-> +	/* Line Out path */
-> +	SND_SOC_DAPM_MUX("Line Out Source Playback Route",
-> +			 SND_SOC_NOPM, 0, 0, sun50i_h616_codec_lineout_src),
-> +	SND_SOC_DAPM_OUT_DRV("Line Out Ramp Controller",
-> +			     SUN50I_H616_DAC_AC_RAMP_REG,
-> +			     SUN50I_H616_RDEN, 0, NULL, 0),
-> +	SND_SOC_DAPM_OUTPUT("LINEOUT"),
-> +};
-> +
-> +static const struct snd_soc_component_driver sun50i_h616_codec_codec =3D=
- {
-> +	.controls   =3D sun50i_h616_codec_codec_controls,
-> +	.num_controls   =3D ARRAY_SIZE(sun50i_h616_codec_codec_controls),
-> +	.dapm_widgets   =3D sun50i_h616_codec_codec_widgets,
-> +	.num_dapm_widgets =3D ARRAY_SIZE(sun50i_h616_codec_codec_widgets),
-> +	.idle_bias_on   =3D 1,
-> +	.use_pmdown_time  =3D 1,
-> +	.endianness   =3D 1,
-> +};
-> +
-> +static const struct snd_kcontrol_new sun50i_h616_card_controls[] =3D {
-> +	SOC_DAPM_PIN_SWITCH("LINEOUT"),
-> +};
-> +
-> +static const struct snd_soc_dapm_widget sun50i_h616_codec_card_dapm_widg=
-ets[] =3D {
-> +	SND_SOC_DAPM_LINE("Line Out", NULL),
-> +	SND_SOC_DAPM_SPK("Speaker", sun4i_codec_spk_event),
-> +};
-> +
-> +/* Connect digital side enables to analog side widgets */
-> +static const struct snd_soc_dapm_route sun50i_h616_codec_card_routes[] =
-=3D {
-> +	/* DAC Routes */
-> +	{ "Left DAC", NULL, "DAC Enable" },
-> +	{ "Right DAC", NULL, "DAC Enable" },
-> +
-> +	/* Left Mixer Routes */
-> +	{ "Left Mixer", "DAC Playback Switch", "Left DAC" },
-> +	{ "Left Mixer", "DAC Reversed Playback Switch", "Right DAC" },
-> +
-> +	/* Right Mixer Routes */
-> +	{ "Right Mixer", "DAC Playback Switch", "Right DAC" },
-> +	{ "Right Mixer", "DAC Reversed Playback Switch", "Left DAC" },
-> +
-> +	/* Line Out Routes */
-> +	{ "Line Out Source Playback Route", "Stereo", "Left Mixer" },
-> +	{ "Line Out Source Playback Route", "Stereo", "Right Mixer" },
-> +	{ "Line Out Source Playback Route", "Mono Differential", "Left Mixer" },
-> +	{ "Line Out Source Playback Route", "Mono Differential", "Right Mixer" =
-},
-> +	{ "Line Out Ramp Controller", NULL, "Line Out Source Playback Route" },
-> +	{ "LINEOUT", NULL, "Line Out Ramp Controller" },
-> +};
-> +
-> +static struct snd_soc_card *sun50i_h616_codec_create_card(struct device =
-*dev)
-> +{
-> +	struct snd_soc_card *card;
-> +	int ret;
-> +
-> +	card =3D devm_kzalloc(dev, sizeof(*card), GFP_KERNEL);
-> +	if (!card)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	card->dai_link =3D sun4i_codec_create_link(dev, &card->num_links);
-> +	if (!card->dai_link)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	card->dai_link->playback_only =3D true;
-> +	card->dai_link->capture_only =3D false;
-> +
-> +	card->dev		=3D dev;
-> +	card->owner		=3D THIS_MODULE;
-> +	card->name		=3D "sun4i-codec";
+ 	struct sparcspkr_state *state;
+ 	struct bbc_beep_info *info;
+-	struct device_node *dp;
+-	int err = -ENOMEM;
++	int err;
+ 
+ 	state = kzalloc(sizeof(*state), GFP_KERNEL);
+ 	if (!state)
+-		goto out_err;
++		return -ENOMEM;
+ 
+ 	state->name = "Sparc BBC Speaker";
+ 	state->event = bbc_spkr_event;
+ 	spin_lock_init(&state->lock);
+ 
+-	dp = of_find_node_by_path("/");
+ 	err = -ENODEV;
++	struct device_node *dp __free(device_node) = of_find_node_by_path("/");
+ 	if (!dp)
+ 		goto out_free;
+ 
+ 	info = &state->u.bbc;
+ 	info->clock_freq = of_getintprop_default(dp, "clock-frequency", 0);
+-	of_node_put(dp);
+ 	if (!info->clock_freq)
+ 		goto out_free;
+ 
+@@ -221,7 +219,6 @@ static int bbc_beep_probe(struct platform_device *op)
+ 
+ out_free:
+ 	kfree(state);
+-out_err:
+ 	return err;
+ }
+ 
 
-card->name can be a long string, and it should be a bit more
-descriptive, so please keep the longer "H616 audio codec" string you
-had before.
-To avoid this particular error, please *additionally* set
-card->driver_name to this short string here.
+---
+base-commit: 00850d7b542aa4a8240cf977d43dc6d2158e48d7
+change-id: 20241009-input_automate_of_node_put-1bae9f5c02d9
 
-Cheers,
-Andre
-
-> +	card->controls		=3D sun50i_h616_card_controls;
-> +	card->num_controls	=3D ARRAY_SIZE(sun50i_h616_card_controls);
-> +	card->dapm_widgets	=3D sun50i_h616_codec_card_dapm_widgets;
-> +	card->num_dapm_widgets	=3D ARRAY_SIZE(sun50i_h616_codec_card_dapm_widge=
-ts);
-> +	card->dapm_routes	=3D sun50i_h616_codec_card_routes;
-> +	card->num_dapm_routes	=3D ARRAY_SIZE(sun50i_h616_codec_card_routes);
-> +	card->fully_routed	=3D true;
-> +
-> +	ret =3D snd_soc_of_parse_audio_routing(card, "allwinner,audio-routing");
-> +	if (ret)
-> +		dev_warn(dev, "failed to parse audio-routing: %d\n", ret);
-> +
-> +	return card;
-> +};
-> +
->  static const struct regmap_config sun4i_codec_regmap_config =3D {
->  	.reg_bits	=3D 32,
->  	.reg_stride	=3D 4,
-> @@ -1562,6 +1742,14 @@ static const struct regmap_config sun8i_v3s_codec_=
-regmap_config =3D {
->  	.max_register	=3D SUN8I_H3_CODEC_ADC_DBG,
->  };
-> =20
-> +static const struct regmap_config sun50i_h616_codec_regmap_config =3D {
-> +	.reg_bits	=3D 32,
-> +	.reg_stride	=3D 4,
-> +	.val_bits	=3D 32,
-> +	.max_register	=3D SUN50I_H616_DAC_AC_RAMP_REG,
-> +	.cache_type	=3D REGCACHE_NONE,
-> +};
-> +
->  struct sun4i_codec_quirks {
->  	const struct regmap_config *regmap_config;
->  	const struct snd_soc_component_driver *codec;
-> @@ -1647,6 +1835,15 @@ static const struct sun4i_codec_quirks sun8i_v3s_c=
-odec_quirks =3D {
->  	.has_reset	=3D true,
->  };
-> =20
-> +static const struct sun4i_codec_quirks sun50i_h616_codec_quirks =3D {
-> +	.regmap_config	=3D &sun50i_h616_codec_regmap_config,
-> +	.codec		=3D &sun50i_h616_codec_codec,
-> +	.create_card	=3D sun50i_h616_codec_create_card,
-> +	.reg_dac_fifoc	=3D REG_FIELD(SUN50I_H616_CODEC_DAC_FIFOC, 0, 31),
-> +	.reg_dac_txdata	=3D SUN8I_H3_CODEC_DAC_TXDATA,
-> +	.has_reset	=3D true,
-> +};
-> +
->  static const struct of_device_id sun4i_codec_of_match[] =3D {
->  	{
->  		.compatible =3D "allwinner,sun4i-a10-codec",
-> @@ -1672,6 +1869,10 @@ static const struct of_device_id sun4i_codec_of_ma=
-tch[] =3D {
->  		.compatible =3D "allwinner,sun8i-v3s-codec",
->  		.data =3D &sun8i_v3s_codec_quirks,
->  	},
-> +	{
-> +		.compatible =3D "allwinner,sun50i-h616-codec",
-> +		.data =3D &sun50i_h616_codec_quirks,
-> +	},
->  	{}
->  };
->  MODULE_DEVICE_TABLE(of, sun4i_codec_of_match);
-> @@ -1860,4 +2061,5 @@ MODULE_AUTHOR("Emilio L=C3=B3pez <emilio@elopez.com=
-.ar>");
->  MODULE_AUTHOR("Jon Smirl <jonsmirl@gmail.com>");
->  MODULE_AUTHOR("Maxime Ripard <maxime.ripard@free-electrons.com>");
->  MODULE_AUTHOR("Chen-Yu Tsai <wens@csie.org>");
-> +MODULE_AUTHOR("Ryan Walklin <ryan@testtoast.com");
->  MODULE_LICENSE("GPL");
+Best regards,
+-- 
+Javier Carrasco <javier.carrasco.cruz@gmail.com>
 
