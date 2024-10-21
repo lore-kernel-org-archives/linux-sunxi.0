@@ -1,59 +1,61 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B9AC1E0DBF
-	for <linux-sunxi@lists.linux.dev>; Mon, 21 Oct 2024 20:28:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C401A1FCF6D
+	for <linux-sunxi@lists.linux.dev>; Mon, 21 Oct 2024 20:28:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729542510; cv=none; b=hOOgOlU1RxuMeG5Htw/qVP8npUZ3a+X464uMQ4F7PH9LrGlfYvHnPSNOZyxjwtvxnfmcmXBM4oFaPrJKYvrOLf6KIzZI2FUgqM+kPc6AiUQtNZnMJG6AukdeSgL99IiOZ7Zf/kjK8YVtG6NAS+PbG9BTJ8H14L2sSupCHEWzpDI=
+	t=1729542512; cv=none; b=X/lsijacSYjM2N+Sk+0z0Oy+N8uBtRyktLT7+xgJ83MkbL+R2kI7C3R/uI686nfK97bZHtfbAaHDXp1xoFCTkqAqb9qBgovrJkyAr4ggGZtQ6WUA73URlwwnPw4XcxlgDaosFUmIhodCiyXDT1bG7UHUCm+r8GNF4iwYD98TQeU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729542510; c=relaxed/simple;
-	bh=1qMfZzt/NOP0BK2K2RoHBVzgF0yz/1K6FGAfAOL2CFA=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=CdSqLcja/1IthmJjaYh+VEbrRnM73bbkZZtCwboQfNt9zNcmbl/F67ZDxNNeWCnBmXSyqf5HmZRo7tT9UyzBPeXFxl1dficDR8fH3AOFGYysFitd0jOgsKbUuYNDjQbacwtYqxARE6iPZ0S6u+4U1ea24gy6YD/BGibUB3/lGwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fz3EEBx8; arc=none smtp.client-ip=209.85.221.52
+	s=arc-20240116; t=1729542512; c=relaxed/simple;
+	bh=M/Qr46XFwQ4/bdir1XHUmm8htVq32+gFJnABKw/M8Is=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=GTo+NkRqBl+8QTTfnXp5sKHoafiOazqCPOOCbtyqv+GugexCXm0oaPAywrXlnBYzLaWr3PFzJMBcidkkO5BZwaVkLnPvfR0aYHAXWFO0IPfPPTUnlYKzHaIGL+iarfsRIpaHhDziUQfs9M7hguIaBKAYwpMWD9pO/5EHkyEursY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SA7WLcyG; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fz3EEBx8"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-37d49ffaba6so3424691f8f.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 21 Oct 2024 13:28:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SA7WLcyG"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4315e9e9642so40599715e9.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 21 Oct 2024 13:28:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729542507; x=1730147307; darn=lists.linux.dev;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=i5o7EeCdMvEzq7yRLdAkRH1iPr5pT3dVlwDWigc6fCw=;
-        b=fz3EEBx8JtTPg3vgmn5eWKrpHK3NHjVFYeYtTr8Oi0vzNFLdGDkuEYwO5eJDqFQhda
-         4sLQukNnIlSa2CUZk6R0WVxPpsc3kTV3SCLw1rGYvBd/QC9XHiVOUTzyssZ5huzWAI/F
-         zzVGqhmlGwePc4YA3kOqB3FkYHzJMOdD3/y0HADgEzD0e83IPF/um1wobj+X4G38OTHM
-         nh/40ummFBEFwhVOaWua616PWKso8wpPc7pnZOOqJLZ/75rgC0VIi/DfhnVUck6gCA/9
-         myz/iaVfrYVT1AzmJN45+OtpnKHbnBsfT+gN6oBUshaPypNdPfVu1oJG2GKIf59UMtFL
-         2PPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729542507; x=1730147307;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20230601; t=1729542509; x=1730147309; darn=lists.linux.dev;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=i5o7EeCdMvEzq7yRLdAkRH1iPr5pT3dVlwDWigc6fCw=;
-        b=sc8mY3F9ALpSbMCVdXEtweaxI3dNnysN2CtYNyMIeM8/ngPTyjIWpqYBqXWH5gg7mC
-         bjmq4UARUG/n4dWFPJ1NnkW+KeRv8898hgWrmB4s2r+r5X582Tnkz4QwRPMJmBvZjdQO
-         SpD3zQbve7trcccD1eTCTxCkVVm58Z7KaNn66mCvmwAquP3IEOjR19y6dQAyascAiGM1
-         3w1fXczQ7OHvFHbzI7I+G1imiFlKN+g6TPOgZVmSe5iQ+flV1xyvQUOBKYZBnyTd1azm
-         2xlQR5OGEQr6o0NQCNjM8Geev6u5ZpPDW8cld3E4EjbtzoX0vKtthkupLx67lllIaBmo
-         2gpw==
-X-Forwarded-Encrypted: i=1; AJvYcCX4BiIH3saXP/fpVYmab0oSWkEa7Od3kXf8sA6c8SF7pa490qswpxqOqQ0SZPg/D40lhV/u8e6c21DQDg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw13JqXPVL3vdPkPid3fwbP4UY29lBSHEXxg2tyTwcjtdqhLg7a
-	c9TBP+EWp0A4oKnGS3b9PcLR1AFUSCywQNPlh82eTH4nu0l9yPfX
-X-Google-Smtp-Source: AGHT+IHrlU3klozvzeCVSF9Ythhy9wGpMdSW2YhVNiW7ShV97wNTQiTfKFg7ugD/+MD3/YZLWARfDg==
-X-Received: by 2002:a05:6000:dcb:b0:37d:46f4:35 with SMTP id ffacd0b85a97d-37ef0bf74b4mr689047f8f.45.1729542506871;
-        Mon, 21 Oct 2024 13:28:26 -0700 (PDT)
+        bh=Bnt+KzLj0gBtQtESfccDhJlW0AjYZvv3WXxt0v6eRC8=;
+        b=SA7WLcyGoWv6PmSADrbXrGCZO3WmShBSnkCNS7G3cPuVKsOHJALCXBmiwavMyMa5vd
+         fP//2eTQhXvHaVoyjxlYSRv8lkr+vpvwylSRIRfcRpGvbG++PXWnONKpCDiAurd4hksf
+         4P8ffYmnua7zICKKbOzEEw8Ux7wdXXtWdBfNb8MrtG4Rs66IMXv4Jq3Eqm+AXnyugWih
+         O0B6qI5eb/K6XI+uW1T01oD0cPcjx7zBA7jCcuAcYfUw4RlcToOI/kHZAwd6tXZRtx8W
+         s3VBRX21Kgzspl8IZWCrQab1bc09OlgK4rxyo8OoCL9xcCqmFS1f3rSVLViBD1462dyT
+         ShXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729542509; x=1730147309;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Bnt+KzLj0gBtQtESfccDhJlW0AjYZvv3WXxt0v6eRC8=;
+        b=UdIRaMqjgh47joduPr+EplHsbAJezsdmXmmgW0GsrnerAFE0ZrWSyGE0V9Acn8HMue
+         TIJjz77CaoQHgnSwjJvsx/TKSLSCED0UvLwpj4+1IidC8LwqEq/opZkP9MsE5RbBz/tv
+         5ahOsCK2ITs4Vncxh64rJ4+wOdNDyoG5Y1Z5Pwe8DWQDqN4SU7Hmc3MXjQDQmKpncc9W
+         hiBhUUdC/g3Rl7GMPQdti5zB99dGTxBlLe1s+MD6MJzR0gFxJihIVrnEXVCkXey1tfn8
+         h6BDj67pliP0pFq1DWV0ngEcTk4LUVc41iQd1wWEAtikprogjVPL2PTZOk/zD0mjCzFl
+         A2jA==
+X-Forwarded-Encrypted: i=1; AJvYcCUtaAxs/aHw1Yv5kgd2DovQSW6+DT+5mlg28DtAaZF6qSiOWkanoFyJR43IVxSivJkUeILLyOmuO2NA8g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzyX3xC1WRKpBS9coDLCpcDQJK6f9hOR8kT2UGh7bah3yO46erd
+	EgmeB4QCS8FyyQDWGqK91RgPrfTNSP0PYRD5480DmAe12pQaIiIP
+X-Google-Smtp-Source: AGHT+IHcUlF/WH2MPR2lAsWY2YWdvWUxpJiy03CKuMiiIgxGTQhVcc8bGyCYchZqxExzbbX7v1K48A==
+X-Received: by 2002:a5d:5287:0:b0:37d:4d6c:e0ef with SMTP id ffacd0b85a97d-37ef21ac2b1mr254788f8f.43.1729542508922;
+        Mon, 21 Oct 2024 13:28:28 -0700 (PDT)
 Received: from [127.0.1.1] (2a02-8389-41cf-e200-023d-d91a-ee8e-da73.cable.dynamic.v6.surfer.at. [2a02:8389:41cf:e200:23d:d91a:ee8e:da73])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0a5b98asm5093263f8f.61.2024.10.21.13.28.25
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0a5b98asm5093263f8f.61.2024.10.21.13.28.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Oct 2024 13:28:26 -0700 (PDT)
+        Mon, 21 Oct 2024 13:28:27 -0700 (PDT)
 From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Subject: [PATCH v3 0/2] input: automate of_node_put() calls for device_node
-Date: Mon, 21 Oct 2024 22:28:22 +0200
-Message-Id: <20241021-input_automate_of_node_put-v3-0-cc73f636e1bc@gmail.com>
+Date: Mon, 21 Oct 2024 22:28:23 +0200
+Subject: [PATCH v3 1/2] Input: sparcspkr - use device managed memory for
+ 'state'
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -62,10 +64,9 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAGa5FmcC/33NSwqDMBSF4a1Ixk1JohbTUfdRiuRxoxeqkUSlR
- dx7o3TgyOF/Bt9ZSISAEMk9W0iAGSP6PkV+yYhpVd8ARZuaCCYKzpik2A/TWKtp9J0aofau7r2
- FOo2UawXSlYYJK0kChgAOPzv+fKVuMY4+fPevmW/rn+XsjJ05ZRS0uQmeV0676tF0Ct9X4zuys
- bM4UOKcEpRTa8GUlS60lHCk1nX9AbPbcuQPAQAA
+Message-Id: <20241021-input_automate_of_node_put-v3-1-cc73f636e1bc@gmail.com>
+References: <20241021-input_automate_of_node_put-v3-0-cc73f636e1bc@gmail.com>
+In-Reply-To: <20241021-input_automate_of_node_put-v3-0-cc73f636e1bc@gmail.com>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
  Matthias Brugger <matthias.bgg@gmail.com>, 
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
@@ -79,43 +80,137 @@ Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-sunxi@lists.linux.dev, linux-rpi-kernel@lists.infradead.org, 
  Javier Carrasco <javier.carrasco.cruz@gmail.com>
 X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1729542504; l=1269;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1729542504; l=3463;
  i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
- bh=1qMfZzt/NOP0BK2K2RoHBVzgF0yz/1K6FGAfAOL2CFA=;
- b=2bwV68x9h4TkspBN1svwKfo8p5XoTWoZFgQB3pz8uj2Wwx1r5Q4ZIAmKXsmu57guPApCKi5ro
- 8cjJGS1XCxfDuiQpm4fvUGJBQfGeRsbUpsQHbxMnvD5GJ/OwC90vYRD
+ bh=M/Qr46XFwQ4/bdir1XHUmm8htVq32+gFJnABKw/M8Is=;
+ b=eLC/YTa39ljswAiRUJSjizOUy7uUis4Qgy9tB8DOpHiJSwZttYfbyRD7PSLEhYAB/prbxqkQ9
+ 6T2OZDUN2oUDuKXvYkBEaNCIezAe0U9OtpB2rKi/1gTULR3vtmiQa8B
 X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
  pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
 
-The first patch of the series provides device managed memory, which
-simplifies bbc_bee_probe() and removes the need for the goto
-instructions That also prepares the function for the second patch where
-the cleanup attribute is used for 'dp'.
+Use devm_kzalloc() in bbc_bee_probe() and grover_beep_probe() to
+automatically free 'state' when the device is removed. Drop the
+kfree(state) calls from the probe error paths and the remove functions
+accordingly.
 
+Suggested-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 ---
-Changes in v3:
-- Add patch to use device managed memory and simplify the code by
-  dropping labels in bbc_beep_probe().
-- Link to v2: https://lore.kernel.org/r/20241020-input_automate_of_node_put-v2-1-ddec58b4b99e@gmail.com
+ drivers/input/misc/sparcspkr.c | 41 ++++++++++++++---------------------------
+ 1 file changed, 14 insertions(+), 27 deletions(-)
 
-Changes in v2:
-- rebase onto input/next, drop applied patches.
-- sparcspkr: drop goto before node declaration and return -ENOMEM.
-- Link to v1: https://lore.kernel.org/r/20241010-input_automate_of_node_put-v1-0-ebc62138fbf8@gmail.com
+diff --git a/drivers/input/misc/sparcspkr.c b/drivers/input/misc/sparcspkr.c
+index ff7b6291894a..e484d79b5597 100644
+--- a/drivers/input/misc/sparcspkr.c
++++ b/drivers/input/misc/sparcspkr.c
+@@ -183,46 +183,39 @@ static int bbc_beep_probe(struct platform_device *op)
+ 	struct sparcspkr_state *state;
+ 	struct bbc_beep_info *info;
+ 	struct device_node *dp;
+-	int err = -ENOMEM;
++	int err;
+ 
+-	state = kzalloc(sizeof(*state), GFP_KERNEL);
++	state = devm_kzalloc(&op->dev, sizeof(*state), GFP_KERNEL);
+ 	if (!state)
+-		goto out_err;
++		return -ENOMEM;
+ 
+ 	state->name = "Sparc BBC Speaker";
+ 	state->event = bbc_spkr_event;
+ 	spin_lock_init(&state->lock);
+ 
+ 	dp = of_find_node_by_path("/");
+-	err = -ENODEV;
+ 	if (!dp)
+-		goto out_free;
++		return -ENODEV;
+ 
+ 	info = &state->u.bbc;
+ 	info->clock_freq = of_getintprop_default(dp, "clock-frequency", 0);
+ 	of_node_put(dp);
+ 	if (!info->clock_freq)
+-		goto out_free;
++		return -ENODEV;
+ 
+ 	info->regs = of_ioremap(&op->resource[0], 0, 6, "bbc beep");
+ 	if (!info->regs)
+-		goto out_free;
++		return -ENODEV;
+ 
+ 	platform_set_drvdata(op, state);
+ 
+ 	err = sparcspkr_probe(&op->dev);
+-	if (err)
+-		goto out_clear_drvdata;
++	if (err) {
++		of_iounmap(&op->resource[0], info->regs, 6);
++		return err;
++	}
+ 
+ 	return 0;
+-
+-out_clear_drvdata:
+-	of_iounmap(&op->resource[0], info->regs, 6);
+-
+-out_free:
+-	kfree(state);
+-out_err:
+-	return err;
+ }
+ 
+ static void bbc_remove(struct platform_device *op)
+@@ -237,8 +230,6 @@ static void bbc_remove(struct platform_device *op)
+ 	input_unregister_device(input_dev);
+ 
+ 	of_iounmap(&op->resource[0], info->regs, 6);
+-
+-	kfree(state);
+ }
+ 
+ static const struct of_device_id bbc_beep_match[] = {
+@@ -266,9 +257,9 @@ static int grover_beep_probe(struct platform_device *op)
+ 	struct grover_beep_info *info;
+ 	int err = -ENOMEM;
+ 
+-	state = kzalloc(sizeof(*state), GFP_KERNEL);
++	state = devm_kzalloc(&op->dev, sizeof(*state), GFP_KERNEL);
+ 	if (!state)
+-		goto out_err;
++		return err;
+ 
+ 	state->name = "Sparc Grover Speaker";
+ 	state->event = grover_spkr_event;
+@@ -277,7 +268,7 @@ static int grover_beep_probe(struct platform_device *op)
+ 	info = &state->u.grover;
+ 	info->freq_regs = of_ioremap(&op->resource[2], 0, 2, "grover beep freq");
+ 	if (!info->freq_regs)
+-		goto out_free;
++		return err;
+ 
+ 	info->enable_reg = of_ioremap(&op->resource[3], 0, 1, "grover beep enable");
+ 	if (!info->enable_reg)
+@@ -296,9 +287,7 @@ static int grover_beep_probe(struct platform_device *op)
+ 
+ out_unmap_freq_regs:
+ 	of_iounmap(&op->resource[2], info->freq_regs, 2);
+-out_free:
+-	kfree(state);
+-out_err:
++
+ 	return err;
+ }
+ 
+@@ -315,8 +304,6 @@ static void grover_remove(struct platform_device *op)
+ 
+ 	of_iounmap(&op->resource[3], info->enable_reg, 1);
+ 	of_iounmap(&op->resource[2], info->freq_regs, 2);
+-
+-	kfree(state);
+ }
+ 
+ static const struct of_device_id grover_beep_match[] = {
 
----
-Javier Carrasco (2):
-      Input: sparcspkr - use device managed memory for 'state'
-      Input: sparcspkr - use cleanup facility for device_node
-
- drivers/input/misc/sparcspkr.c | 45 ++++++++++++++----------------------------
- 1 file changed, 15 insertions(+), 30 deletions(-)
----
-base-commit: d0c3a7aa814c091843ccca467c02078db9da4e1e
-change-id: 20241009-input_automate_of_node_put-1bae9f5c02d9
-
-Best regards,
 -- 
-Javier Carrasco <javier.carrasco.cruz@gmail.com>
+2.43.0
 
