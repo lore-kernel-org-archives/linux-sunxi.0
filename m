@@ -1,61 +1,61 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C401A1FCF6D
-	for <linux-sunxi@lists.linux.dev>; Mon, 21 Oct 2024 20:28:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF39A1FDFA4
+	for <linux-sunxi@lists.linux.dev>; Mon, 21 Oct 2024 20:28:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729542512; cv=none; b=X/lsijacSYjM2N+Sk+0z0Oy+N8uBtRyktLT7+xgJ83MkbL+R2kI7C3R/uI686nfK97bZHtfbAaHDXp1xoFCTkqAqb9qBgovrJkyAr4ggGZtQ6WUA73URlwwnPw4XcxlgDaosFUmIhodCiyXDT1bG7UHUCm+r8GNF4iwYD98TQeU=
+	t=1729542514; cv=none; b=Df6Op8VTcdQS3KohYntYWS3alcO4f5rZ4ji0dHqsoZ0yKkxE0aGzx1rbUIQZudUpOy5uGQeAq8VW0X7sTF9ysI2Jlih/cyy2w45nmNeO4zlp/uPNo5kT9hxzK1WJSlDy2iZRlfM8YIo02jplRfMKd7F0zOZ7XApbi7OfkHlRL7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729542512; c=relaxed/simple;
-	bh=M/Qr46XFwQ4/bdir1XHUmm8htVq32+gFJnABKw/M8Is=;
+	s=arc-20240116; t=1729542514; c=relaxed/simple;
+	bh=F8YQ3HQYY2w+VhZkKOD4BkQV8/JYW/XDhWfSKzi9Psg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=GTo+NkRqBl+8QTTfnXp5sKHoafiOazqCPOOCbtyqv+GugexCXm0oaPAywrXlnBYzLaWr3PFzJMBcidkkO5BZwaVkLnPvfR0aYHAXWFO0IPfPPTUnlYKzHaIGL+iarfsRIpaHhDziUQfs9M7hguIaBKAYwpMWD9pO/5EHkyEursY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SA7WLcyG; arc=none smtp.client-ip=209.85.128.49
+	 In-Reply-To:To:Cc; b=J159L3EGMiA24qdsEsc8/Y7GELVCNTH0wDpQToe2wv4FdChsGFxunO82VYQ9itPcPH4+ABLgcQmueBNlcX7goRNvLkd3L8tQfS8IFlZ0TlAR6ctXNZln0gOJ+hH74Bxeiko7X7+wqvm3ooXTei+CqU0Ism2i93GFFyVuKXgXkdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ej/NhgPL; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SA7WLcyG"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4315e9e9642so40599715e9.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 21 Oct 2024 13:28:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ej/NhgPL"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43155afca99so34586385e9.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 21 Oct 2024 13:28:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729542509; x=1730147309; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1729542511; x=1730147311; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Bnt+KzLj0gBtQtESfccDhJlW0AjYZvv3WXxt0v6eRC8=;
-        b=SA7WLcyGoWv6PmSADrbXrGCZO3WmShBSnkCNS7G3cPuVKsOHJALCXBmiwavMyMa5vd
-         fP//2eTQhXvHaVoyjxlYSRv8lkr+vpvwylSRIRfcRpGvbG++PXWnONKpCDiAurd4hksf
-         4P8ffYmnua7zICKKbOzEEw8Ux7wdXXtWdBfNb8MrtG4Rs66IMXv4Jq3Eqm+AXnyugWih
-         O0B6qI5eb/K6XI+uW1T01oD0cPcjx7zBA7jCcuAcYfUw4RlcToOI/kHZAwd6tXZRtx8W
-         s3VBRX21Kgzspl8IZWCrQab1bc09OlgK4rxyo8OoCL9xcCqmFS1f3rSVLViBD1462dyT
-         ShXw==
+        bh=EXOGORusAheGbXjY9YsHgDJ6EQdczoB5sORBvnGhFxE=;
+        b=Ej/NhgPL410aRR74Er66PGzfGMTaDQb1vz8RWvCG7SwQ710kbIbDezyH20IGDbd07V
+         6i/IE6ZztZw7JYQMt6WrW+ESnJH8ho3Y5IMWO79IBzlOLslZ2Hzugdkt4g40DytDc5cj
+         ubh0PVXQTo1GVp6uhpY4Es5Itza8z8O35YY421mX3DRDsDS1F6z69P3TIpleW5i9q1DY
+         Y52pv6y1wdcR2kSHoXX57BCncpBrMceu8qZf5NsaL/p+BzafpQ9JhkHKCBOjWHl58tZC
+         oq9NDwIK7bCyEqatIBVWg3EI2mTSPSz+GHLhWxvbR0XZfUQhUq/txRn9ZKiL917WhqIu
+         AFww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729542509; x=1730147309;
+        d=1e100.net; s=20230601; t=1729542511; x=1730147311;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Bnt+KzLj0gBtQtESfccDhJlW0AjYZvv3WXxt0v6eRC8=;
-        b=UdIRaMqjgh47joduPr+EplHsbAJezsdmXmmgW0GsrnerAFE0ZrWSyGE0V9Acn8HMue
-         TIJjz77CaoQHgnSwjJvsx/TKSLSCED0UvLwpj4+1IidC8LwqEq/opZkP9MsE5RbBz/tv
-         5ahOsCK2ITs4Vncxh64rJ4+wOdNDyoG5Y1Z5Pwe8DWQDqN4SU7Hmc3MXjQDQmKpncc9W
-         hiBhUUdC/g3Rl7GMPQdti5zB99dGTxBlLe1s+MD6MJzR0gFxJihIVrnEXVCkXey1tfn8
-         h6BDj67pliP0pFq1DWV0ngEcTk4LUVc41iQd1wWEAtikprogjVPL2PTZOk/zD0mjCzFl
-         A2jA==
-X-Forwarded-Encrypted: i=1; AJvYcCUtaAxs/aHw1Yv5kgd2DovQSW6+DT+5mlg28DtAaZF6qSiOWkanoFyJR43IVxSivJkUeILLyOmuO2NA8g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzyX3xC1WRKpBS9coDLCpcDQJK6f9hOR8kT2UGh7bah3yO46erd
-	EgmeB4QCS8FyyQDWGqK91RgPrfTNSP0PYRD5480DmAe12pQaIiIP
-X-Google-Smtp-Source: AGHT+IHcUlF/WH2MPR2lAsWY2YWdvWUxpJiy03CKuMiiIgxGTQhVcc8bGyCYchZqxExzbbX7v1K48A==
-X-Received: by 2002:a5d:5287:0:b0:37d:4d6c:e0ef with SMTP id ffacd0b85a97d-37ef21ac2b1mr254788f8f.43.1729542508922;
-        Mon, 21 Oct 2024 13:28:28 -0700 (PDT)
+        bh=EXOGORusAheGbXjY9YsHgDJ6EQdczoB5sORBvnGhFxE=;
+        b=VPEdR0r2jo+lg3xbKNyZ2kAZpQ3HlzaS44rdamezWzRzzyqyBR2CqJBRbGqCo3IA+K
+         1KtBRO+H2QESsySPp7HxU+XlzvzH4p6oMhSyZ/tXfztNlvUqeB5CbbKDWrY8qxmtPk7h
+         YUvTjyXTK1i17KKoBrX0OzIlzhUYq47kXkJAvg0OZ4GJFZUlYaAfGbgPjlfc0XCPl2nB
+         RZJ4p4be72aDkYxph3FFdHfhWDnRVGi3HlwVnnMUsrydLgN4EKmPr9ZAcFHn15B7kXRG
+         u9EgYXLrg01Xh1LRisJwYCyIJ17KIDz1wyf/vfWJdDVO9aZ1KhntmaBQ56HI1v3POw9P
+         7dNQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXHN4WX+do9AyaVl8ZIqbpUItL+/ityJB3j4RJx2aR/m3aVee0niPBjp3emcHAHVgGlKRZaQq2e2RNWjw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwfWXWsm9T5Q5wiCMtpwM8JVC7KSrrTkjmrj/VT/ovPCRNY6SHH
+	bOwPZxK5cqkkS1T98bvSmWS2K1LE3xqVvnYl2jO1VMeY59rmhvZx
+X-Google-Smtp-Source: AGHT+IFeBUJWb0/ZbDfeWjDseKy/gwO7cFLphK1AYxGeWiXouKa5IzBBH4eytV8fsrQlZUdSg1h2BQ==
+X-Received: by 2002:adf:e00c:0:b0:37c:cc7c:761c with SMTP id ffacd0b85a97d-37ef12628famr494947f8f.3.1729542511079;
+        Mon, 21 Oct 2024 13:28:31 -0700 (PDT)
 Received: from [127.0.1.1] (2a02-8389-41cf-e200-023d-d91a-ee8e-da73.cable.dynamic.v6.surfer.at. [2a02:8389:41cf:e200:23d:d91a:ee8e:da73])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0a5b98asm5093263f8f.61.2024.10.21.13.28.27
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0a5b98asm5093263f8f.61.2024.10.21.13.28.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Oct 2024 13:28:27 -0700 (PDT)
+        Mon, 21 Oct 2024 13:28:29 -0700 (PDT)
 From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Date: Mon, 21 Oct 2024 22:28:23 +0200
-Subject: [PATCH v3 1/2] Input: sparcspkr - use device managed memory for
- 'state'
+Date: Mon, 21 Oct 2024 22:28:24 +0200
+Subject: [PATCH v3 2/2] Input: sparcspkr - use cleanup facility for
+ device_node
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -64,7 +64,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241021-input_automate_of_node_put-v3-1-cc73f636e1bc@gmail.com>
+Message-Id: <20241021-input_automate_of_node_put-v3-2-cc73f636e1bc@gmail.com>
 References: <20241021-input_automate_of_node_put-v3-0-cc73f636e1bc@gmail.com>
 In-Reply-To: <20241021-input_automate_of_node_put-v3-0-cc73f636e1bc@gmail.com>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
@@ -80,136 +80,50 @@ Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-sunxi@lists.linux.dev, linux-rpi-kernel@lists.infradead.org, 
  Javier Carrasco <javier.carrasco.cruz@gmail.com>
 X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1729542504; l=3463;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1729542504; l=1243;
  i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
- bh=M/Qr46XFwQ4/bdir1XHUmm8htVq32+gFJnABKw/M8Is=;
- b=eLC/YTa39ljswAiRUJSjizOUy7uUis4Qgy9tB8DOpHiJSwZttYfbyRD7PSLEhYAB/prbxqkQ9
- 6T2OZDUN2oUDuKXvYkBEaNCIezAe0U9OtpB2rKi/1gTULR3vtmiQa8B
+ bh=F8YQ3HQYY2w+VhZkKOD4BkQV8/JYW/XDhWfSKzi9Psg=;
+ b=M3sNpqf8PQCbKNRdH+2y4CtcxjbUY0Y4O+QhTzB0pxtLymehiwDv34D4DGZCIPoFG4+SgMjxG
+ o6LPTXFYrTVCCVm12J/rHqr8htvu+Jf/gW7E3cYP+i57YZdxSIDbWpb
 X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
  pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
 
-Use devm_kzalloc() in bbc_bee_probe() and grover_beep_probe() to
-automatically free 'state' when the device is removed. Drop the
-kfree(state) calls from the probe error paths and the remove functions
-accordingly.
+Use the 'free(device_node)' macro to simplify the code by automatically
+freeing the device node, which removes the need for explicit calls to
+'of_node_put()'.
 
-Suggested-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 ---
- drivers/input/misc/sparcspkr.c | 41 ++++++++++++++---------------------------
- 1 file changed, 14 insertions(+), 27 deletions(-)
+ drivers/input/misc/sparcspkr.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/drivers/input/misc/sparcspkr.c b/drivers/input/misc/sparcspkr.c
-index ff7b6291894a..e484d79b5597 100644
+index e484d79b5597..8d7303fc13bc 100644
 --- a/drivers/input/misc/sparcspkr.c
 +++ b/drivers/input/misc/sparcspkr.c
-@@ -183,46 +183,39 @@ static int bbc_beep_probe(struct platform_device *op)
+@@ -182,7 +182,6 @@ static int bbc_beep_probe(struct platform_device *op)
+ {
  	struct sparcspkr_state *state;
  	struct bbc_beep_info *info;
- 	struct device_node *dp;
--	int err = -ENOMEM;
-+	int err;
+-	struct device_node *dp;
+ 	int err;
  
--	state = kzalloc(sizeof(*state), GFP_KERNEL);
-+	state = devm_kzalloc(&op->dev, sizeof(*state), GFP_KERNEL);
- 	if (!state)
--		goto out_err;
-+		return -ENOMEM;
- 
- 	state->name = "Sparc BBC Speaker";
+ 	state = devm_kzalloc(&op->dev, sizeof(*state), GFP_KERNEL);
+@@ -193,13 +192,12 @@ static int bbc_beep_probe(struct platform_device *op)
  	state->event = bbc_spkr_event;
  	spin_lock_init(&state->lock);
  
- 	dp = of_find_node_by_path("/");
--	err = -ENODEV;
+-	dp = of_find_node_by_path("/");
++	struct device_node *dp __free(device_node) = of_find_node_by_path("/");
  	if (!dp)
--		goto out_free;
-+		return -ENODEV;
+ 		return -ENODEV;
  
  	info = &state->u.bbc;
  	info->clock_freq = of_getintprop_default(dp, "clock-frequency", 0);
- 	of_node_put(dp);
+-	of_node_put(dp);
  	if (!info->clock_freq)
--		goto out_free;
-+		return -ENODEV;
+ 		return -ENODEV;
  
- 	info->regs = of_ioremap(&op->resource[0], 0, 6, "bbc beep");
- 	if (!info->regs)
--		goto out_free;
-+		return -ENODEV;
- 
- 	platform_set_drvdata(op, state);
- 
- 	err = sparcspkr_probe(&op->dev);
--	if (err)
--		goto out_clear_drvdata;
-+	if (err) {
-+		of_iounmap(&op->resource[0], info->regs, 6);
-+		return err;
-+	}
- 
- 	return 0;
--
--out_clear_drvdata:
--	of_iounmap(&op->resource[0], info->regs, 6);
--
--out_free:
--	kfree(state);
--out_err:
--	return err;
- }
- 
- static void bbc_remove(struct platform_device *op)
-@@ -237,8 +230,6 @@ static void bbc_remove(struct platform_device *op)
- 	input_unregister_device(input_dev);
- 
- 	of_iounmap(&op->resource[0], info->regs, 6);
--
--	kfree(state);
- }
- 
- static const struct of_device_id bbc_beep_match[] = {
-@@ -266,9 +257,9 @@ static int grover_beep_probe(struct platform_device *op)
- 	struct grover_beep_info *info;
- 	int err = -ENOMEM;
- 
--	state = kzalloc(sizeof(*state), GFP_KERNEL);
-+	state = devm_kzalloc(&op->dev, sizeof(*state), GFP_KERNEL);
- 	if (!state)
--		goto out_err;
-+		return err;
- 
- 	state->name = "Sparc Grover Speaker";
- 	state->event = grover_spkr_event;
-@@ -277,7 +268,7 @@ static int grover_beep_probe(struct platform_device *op)
- 	info = &state->u.grover;
- 	info->freq_regs = of_ioremap(&op->resource[2], 0, 2, "grover beep freq");
- 	if (!info->freq_regs)
--		goto out_free;
-+		return err;
- 
- 	info->enable_reg = of_ioremap(&op->resource[3], 0, 1, "grover beep enable");
- 	if (!info->enable_reg)
-@@ -296,9 +287,7 @@ static int grover_beep_probe(struct platform_device *op)
- 
- out_unmap_freq_regs:
- 	of_iounmap(&op->resource[2], info->freq_regs, 2);
--out_free:
--	kfree(state);
--out_err:
-+
- 	return err;
- }
- 
-@@ -315,8 +304,6 @@ static void grover_remove(struct platform_device *op)
- 
- 	of_iounmap(&op->resource[3], info->enable_reg, 1);
- 	of_iounmap(&op->resource[2], info->freq_regs, 2);
--
--	kfree(state);
- }
- 
- static const struct of_device_id grover_beep_match[] = {
 
 -- 
 2.43.0
