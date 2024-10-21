@@ -1,148 +1,98 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78D8E193427
-	for <linux-sunxi@lists.linux.dev>; Mon, 21 Oct 2024 13:44:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EFCE1C6889;
+	Mon, 21 Oct 2024 15:47:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729518279; cv=none; b=smYTd1qmOGv/EYF5iD+JpaqHuS40Rm1FBAsEawm8KX3JqmHEeSVcL7iBTIglmZCWaABuGfNILgJ31iiZp/EanoaEZDCTenfx/CT4PpbRC7QfpFgeI54D6TibPTfoltTYhjgs+hnjRpgnH2YZJicUEzJQnrB/1TLcQTsqYSjvH4c=
+	t=1729525622; cv=none; b=FxUOL0nqZ59RzJB5SO2OemrRXUbDHrMY7vSTIGOlWiK5vCYYfsQSWNLZNo1LMgEoUdRw2ZT9VVXgb6iHURICjR2gcrr53ukgCIGUCITss8BqSHjPB77gBvyv6D6rWCEWmg7IC2XNXcM7hZ4jHY3GMN04kaBOtRxJcnnC8nAIYEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729518279; c=relaxed/simple;
-	bh=kPuLEYWwCH86IGS2zEuCcMab9gc+4AGP/aatGr3hRJA=;
+	s=arc-20240116; t=1729525622; c=relaxed/simple;
+	bh=LAekGIeCxqFBsfXtUjXPbf5aYbs1uWx/zlGBbN3G9Yo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qcv9Z6W++8qOjo2GMTKQVUtj6Pwd+CY3mjGgJ6bYpbrftfkB/VUFUQpWz1PMQqtEVcsy8iL3WN2v1dFfZZgLlQ0UrptmdnrUm/20ZIsSDb67UBVzwRYsggIhIOUgdHE1mqGBzn3TAdJ1nvNXsSl9EeAK48fb2KaPb5hzKmmhjZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BrfnZtke; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=REiFtr6JS66qS7yPQO7G9U7HDhczmLsVyXq8li8uoZQbgtEoz3qc8UFeSp9aB4mBy1g84whT5mONISC06zslScX6AJzUWe2xZioAsZrmPumY+gK4bylJ7QhJU+lpGAqiWx6SwGuqmUr6v/IExOIZMBYQR3AZ8i3naz7Vb6WWFgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mqQCmwU3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BrfnZtke"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-53a0c160b94so2616413e87.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 21 Oct 2024 06:44:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729518275; x=1730123075; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wA9D1co2BPCyRcKrOGgUmRJb42G/2xnYI/PJRf0sfiI=;
-        b=BrfnZtkevDl2jLVcg9tVrhTabfSBL78Q24mVGHfU2WDxP5hOvB+af3i/vOFHEdBLTf
-         MgJRTtYBtJOdnXUTO3W3fRDCttU/TCbQHEk178SUSDvkOd97JSOexbe9rJRJVL0tU9Tc
-         eEoQulUCegfbIHGKmxoxhb3cCvd+iPYkncWa51X07PzG5nbKH4BVG5w9np+V5AyLiJ11
-         RDkjhBsBE0+lTgrFc68epqIqIoy3c7sGn4/1iiJNfKhOcOA3V/jd3Ax2/lS+Ll6nhoab
-         Ln5/do1rnmPABz/ADe4Vmr8BysjBDEToICtkhqialcnoDG8gpyMqO1yxQOWS8Q20Y62R
-         hQJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729518275; x=1730123075;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wA9D1co2BPCyRcKrOGgUmRJb42G/2xnYI/PJRf0sfiI=;
-        b=V+OL6c0hThlzUmKSibrQNb15coqIPs0iciKCi3lu5ROhqkOUd7HteGdJpyOb2yVNJT
-         fsRbB/mFxWU59yyvMdPHc0A2b1ea8+RdpS/RrTrF1T/4VhW8zWNfpC10wsYSz7WP5UU0
-         lPhGXE9rRxIPpPveiXC3WE5HCmRlJc51qmeupghAe5n3gCPZb4V6hEBDre+TVAZsjdPa
-         wPW9T9KGmVm0qW2sXvE34gLRYIDDEOhAzZ4Z1g0Lvg7cgWoBUFCuF+qlcteX4A2Eo6Lg
-         Bg+MY0wEhwKTxihcU6636/eMcMSpFWc4vAru/jVHU0dVLCCrMU6420d1wriEC62O2/Tf
-         rdEg==
-X-Forwarded-Encrypted: i=1; AJvYcCXrvJAb8oUCYWQll1kYBCk0JvIxM5tO7iuSabhXVcX4grx7l+R8Kw/EcYy2CSb9FZoSSuibmHQ0w1nqCQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyQVagSBgMbkzRHP9VclyCcwxaMYE60rjTmBnWkROJmutJEdleo
-	zqGisbC1UMUIsoW6RXIYha6V43rGA3lp6fuafo/SPDzSEJIXJkMm21pLe/XfYjU=
-X-Google-Smtp-Source: AGHT+IFXHRDcy85ee1/d4HX6Zxgy37C2+Hq/Nm/Ll9Oqk+925jbxRjDc0fXfRkY9HnW5XrkeyVxUGw==
-X-Received: by 2002:a05:6512:2210:b0:539:8d9b:b624 with SMTP id 2adb3069b0e04-53a1547049dmr5031415e87.55.1729518275386;
-        Mon, 21 Oct 2024 06:44:35 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53a223f0067sm487737e87.81.2024.10.21.06.44.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Oct 2024 06:44:34 -0700 (PDT)
-Date: Mon, 21 Oct 2024 16:44:31 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 1/6] drm/display: hdmi: add generic mode_valid helper
-Message-ID: <2az2ja5zrd5kw4iusvl23grvrgjcvh7jcyw66kjdsh2gftvmkb@araqcfpv246x>
-References: <20241018-hdmi-mode-valid-v1-0-6e49ae4801f7@linaro.org>
- <20241018-hdmi-mode-valid-v1-1-6e49ae4801f7@linaro.org>
- <20241021-chubby-fascinating-labradoodle-144990@houat>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mqQCmwU3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D03F9C4CEC3;
+	Mon, 21 Oct 2024 15:46:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729525621;
+	bh=LAekGIeCxqFBsfXtUjXPbf5aYbs1uWx/zlGBbN3G9Yo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mqQCmwU3+/gWn1qqzEb4l76p8QXlJvgci8TveEK/G2/WXlYpi6FUsvZb3vHURlWdA
+	 wDoABcDPZPMWGR3gpxGYmvlvAHy0V86BR1VT5dmf11cvtJUaSvrIUe6gDFgUEvMdCK
+	 j0Zvk3fYUDl/cCCuskoNBe0J9U+DXgV7VaQM7K/ZsD6X4LvqEo+DFNpGUA4768iTH7
+	 hGByRsu9vKpnNg+kYDPZ58/FlI43Lds1NCoteZSuSYior3j7G7L14P9GCNXoXWSQ29
+	 XretChBeBwT1RBLW8S9e1o31Ks1TdqY4sIksOKLW6hI8s+r1pCcM/9rcES8qzuceIB
+	 yw0kdKk+onW7g==
+Date: Mon, 21 Oct 2024 16:46:56 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Ryan Walklin <ryan@testtoast.com>, Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Chris Morgan <macroalpha82@gmail.com>,
+	Philippe Simons <simons.philippe@gmail.com>,
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-clk@vger.kernel.org
+Subject: Re: [PATCH v2 5/7] ASoC: sun4i-codec: support allwinner H616 codec
+Message-ID: <182fcf58-26d9-4485-bf0e-89e4def8b5e7@sirena.org.uk>
+References: <20241020083124.174724-1-ryan@testtoast.com>
+ <20241020083124.174724-6-ryan@testtoast.com>
+ <20241020125948.44c27e9e@minigeek.lan>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Y4z+P7MYMG3OWZjq"
+Content-Disposition: inline
+In-Reply-To: <20241020125948.44c27e9e@minigeek.lan>
+X-Cookie: Most people prefer certainty to truth.
+
+
+--Y4z+P7MYMG3OWZjq
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241021-chubby-fascinating-labradoodle-144990@houat>
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 21, 2024 at 11:32:03AM +0200, Maxime Ripard wrote:
-> On Fri, Oct 18, 2024 at 11:34:19PM +0300, Dmitry Baryshkov wrote:
-> > Add drm_hdmi_connector_mode_valid(), generic helper for HDMI connectors.
-> > It can be either used directly or as a part of the .mode_valid callback.
-> > 
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> >  drivers/gpu/drm/display/drm_hdmi_helper.c | 25 +++++++++++++++++++++++++
-> >  include/drm/display/drm_hdmi_helper.h     |  4 ++++
-> >  2 files changed, 29 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/display/drm_hdmi_helper.c b/drivers/gpu/drm/display/drm_hdmi_helper.c
-> > index 74dd4d01dd9b..0ac5cb000ee2 100644
-> > --- a/drivers/gpu/drm/display/drm_hdmi_helper.c
-> > +++ b/drivers/gpu/drm/display/drm_hdmi_helper.c
-> > @@ -256,3 +256,28 @@ drm_hdmi_compute_mode_clock(const struct drm_display_mode *mode,
-> >  	return DIV_ROUND_CLOSEST_ULL(clock * bpc, 8);
-> >  }
-> >  EXPORT_SYMBOL(drm_hdmi_compute_mode_clock);
-> > +
-> > +/**
-> > + * drm_hdmi_connector_mode_valid() - Check if mode is valid for HDMI connector
-> > + * @connector: DRM connector to validate the mode
-> > + * @mode: Display mode to validate
-> > + *
-> > + * Generic .mode_valid implementation for HDMI connectors.
-> > + */
-> > +enum drm_mode_status
-> > +drm_hdmi_connector_mode_valid(const struct drm_connector *connector,
-> > +			      const struct drm_display_mode *mode)
-> > +{
-> > +	const struct drm_connector_hdmi_funcs *funcs = connector->hdmi.funcs;
-> > +	unsigned long long rate;
-> > +
-> > +	rate = drm_hdmi_compute_mode_clock(mode, 8, HDMI_COLORSPACE_RGB);
-> > +	if (!rate)
-> > +		return MODE_ERROR;
-> > +
-> > +	if (!funcs || !funcs->tmds_char_rate_valid)
-> > +		return MODE_OK;
-> > +
-> > +	return funcs->tmds_char_rate_valid(connector, mode, rate);
-> > +}
-> > +EXPORT_SYMBOL(drm_hdmi_connector_mode_valid);
-> 
-> As discussed in the discussion that sparked that change, I believe that
-> we should use hdmi_clock_valid.
+On Sun, Oct 20, 2024 at 12:59:48PM +0100, Andre Przywara wrote:
+> On Sun, 20 Oct 2024 21:30:55 +1300
+> Ryan Walklin <ryan@testtoast.com> wrote:
+>=20
+> Hi,
+>=20
+> > The H616 SoC codec is playback-only with a single line-out route, and
+> > has some register differences from prior codecs.
+> >=20
+> > Add the required compatible string, registers, quirks, DAPM widgets,
+> > codec controls and routes, based on existing devices and the H616
+> > datasheet.
 
-Ack, I will modify the code accordingly.
+Please delete unneeded context from mails when replying.  Doing this
+makes it much easier to find your reply in the message, helping ensure
+it won't be missed by people scrolling through the irrelevant quoted
+material.
 
-> 
-> AFAIU, your concern was that max_tmds_clock might get stale, but then it
-> would not only prevent mode_valid from running but also the commit
-> entirely.
+--Y4z+P7MYMG3OWZjq
+Content-Type: application/pgp-signature; name="signature.asc"
 
-It might be stale when parsing / validating the modes. But let's try
-landing it the way you had in mind and fix the drivers which misbehave
-(if any).
+-----BEGIN PGP SIGNATURE-----
 
-> 
-> We don't have any evidence from that, so I'd rather try to keep
-> consistency between the two. And we can always try to address whatever
-> issue we might have if it turned out to be a bad idea :)
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcWd28ACgkQJNaLcl1U
+h9CM/Af+OFrlR9Haa99Zf7HxdpvfXDEmc4YfB8qZBbVTA/kxkcj58a8iCZq6sy/S
+r3+j6jUo4Qj/sPIesZvXN4S6bhUyHdWeB+0IQaYFqPv29uiJK0tNGxLAqMXcMUZZ
+Wb9IqpnEdSf8LDxIwY0/+o6CYKPll+q8F3+pCpYy/8PHoknKeLsf+42CdqNTdMCt
+qbR8H1d8thnSiaserfL/sKDo835LQtNM6QA7wEXRWFo3sGcHfgK6ugAY7VgJS4Fg
+nPX2sP29QpCJezci0IFIX+Wzo7ARw9L3zrog1WtrHWYxjIl/lFnBtJTuVYO3T0kI
+hatpFUKO8OKllTibWCpQMnTzLxCz4g==
+=lwft
+-----END PGP SIGNATURE-----
 
--- 
-With best wishes
-Dmitry
+--Y4z+P7MYMG3OWZjq--
