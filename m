@@ -1,101 +1,137 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27815194A75
-	for <linux-sunxi@lists.linux.dev>; Mon, 21 Oct 2024 07:15:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B5B01E32C6;
+	Mon, 21 Oct 2024 09:32:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729494911; cv=none; b=aa0K8VdT5RJJh/+5hLwae2YRMiNLpe/Q+CBlbQQicQg+/8ZcoI15uyOBYBS9sPFk7SubFUpoND0bR6mqk4AlhYXkZwU0T14plEw+LfW3PhfP2AsXGL07X/Q5EGyItcfmbRHsMOln+fQv7NaIF/W+CmzsXX3ZpHy44EEM1danhP0=
+	t=1729503127; cv=none; b=jM6cRkuIVDKs6Dd/TU+ptXDt6JgKYZXpATn5qId50QpZR//+Jul7prm8+M8aY5sUV/0h8QG3erv3VBkKxv/UmCjPa6tn/PrH3TQ3qyVmvrt5ojaCiVD0AeZuHEQ0D1z8rS/JaqTTfGQe+8kGEskUc8g4V4Frq5oX8gFwoUZWt5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729494911; c=relaxed/simple;
-	bh=dc6pUqfdXdJQEF4Ix0lfWE493NJoqbb52K8H6be4mb0=;
+	s=arc-20240116; t=1729503127; c=relaxed/simple;
+	bh=o9GSQ+2j89yvUpyu6yj/PhTEqoO1iN3ay/vQtVCBN8w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R7qIREZpEt7V5seWNqswj6+MbayXhmEaRBb2GvWmaTY5b+cV2Bm6bIoV8+ERhzjtJ2rZOjsvTCvJ1i/jk+9poguAtqVaYputCzVSmGgxHfvWNI4Ir8u33R4x91BeMU9ggawDFicMqK7SdFjIEAYIhJ9TRDrKt5iz5xbuKayOVJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YFtWtUZx; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=axAYZX82Z3uGZPIBurRewJBHELGfLWnK4EjWugcPKP4KKNi8SPLUO98hWvTIUrUB2x0ekOrN+2qjyryZlPvOS0zYwNhmo2plmydpsx2nzBw1X09QmoFWLtBe+POMhmfc1J2PUJPCw1qz1VlDm5BsmAJA1X/ZVDQ/5phdJ7e6j1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=di5V5vWq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YFtWtUZx"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-20c9978a221so47573045ad.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 21 Oct 2024 00:15:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729494908; x=1730099708; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=smZfrGjVtvMSg3iZLlvbi89YS5i9FVGvaFb9EE1aWv8=;
-        b=YFtWtUZxVXA7rkoLIuqh12fx9JEbTnufJWOK8A4tCBlg4FQmcECMvnj1Af4NeS2Jhh
-         1rJ02BLkLBt6oQWxiACU8enVaWuaIL++gZ/HjsU0xZEpaKwoplB1UWMNWbwN2XxfCRy6
-         ybT+hLhhPG5qMoqdiqhZ0gJ3xET2tUGTQR9TzNkQ+xRO1Lt+jkHKSSc0abUTTI90r7V9
-         3x6TjOMb8+1/N4ZSyQmw/gIIzUawgq1j1va1ttAYql2TUevgh/ZhB3ocxnCXcq57o/90
-         3mAKpZKv+64qCFAJukn1xHN2kNbhi2GkNzt0n/ZVs9okGHovDgsPXtqqoZf0cQ8OYDdM
-         y2Aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729494908; x=1730099708;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=smZfrGjVtvMSg3iZLlvbi89YS5i9FVGvaFb9EE1aWv8=;
-        b=EHgJ0Ste7Ypl/KqpYuWtn4GTXoy7suaJQNVEgEefJH2GpHtQ19ABXXyXHH/NB55f24
-         c/c1L4qNHZd42f2ubigG3FNrrXR5KE0rpcs8sOyB2l62yfZ8uiDDjLzzDg0ewoBI0HWF
-         vyopLAWKgz8ouLLHShLwjxLmTWopbZ8BMBLDoiyhlN5uh9et6whm/ytCI+z5WWXrYLmu
-         zhJyX/JX5RueF6fdjdxsw9ab8uJPlJ4vu3XfO+Dy0Sq8zQ9SYVhZ4RuSq3ebqZfOw4gj
-         O0L4xXSbB2XfaRR10G2QOqRVeMYquwEYanYmLDQr0mx9aC4DvDqPenixWZoQITWI80xn
-         H/6g==
-X-Forwarded-Encrypted: i=1; AJvYcCUC805JAtNcxqCBrPSWqcV1e67yUrMq6ao758cHMI8278fMHROekblYAoy72z1hQx2ZJHcVSQuKLaVcbQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywb5cjBijBhLgPYorpPSpl+9mo3A8dWgtl27uglPolJAWbHJWlR
-	rFplVa2IgMULU/7PEQAnaaRMyJrtJZkSX06zFue6hQZ7zHrLJ4eb
-X-Google-Smtp-Source: AGHT+IHy2ChbQeyZrKCx28/8OkE6XbQjadUgTgmofH8VjxpMdlc/BulLZcrsT3LIRUIu1mJy2aFspg==
-X-Received: by 2002:a17:902:ce07:b0:20c:c9db:7c45 with SMTP id d9443c01a7336-20e5a7604famr168254115ad.20.1729494908190;
-        Mon, 21 Oct 2024 00:15:08 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:6e21:7092:f7c7:3951])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e7ef0d6besm19607365ad.104.2024.10.21.00.15.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Oct 2024 00:15:07 -0700 (PDT)
-Date: Mon, 21 Oct 2024 00:15:04 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Hans de Goede <hdegoede@redhat.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-rpi-kernel@lists.infradead.org
-Subject: Re: [PATCH v2] Input: sparcspkr - use cleanup facility for
- device_node
-Message-ID: <ZxX_eL_hs-_eKW0h@google.com>
-References: <20241020-input_automate_of_node_put-v2-1-ddec58b4b99e@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="di5V5vWq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F3ADC4CEC3;
+	Mon, 21 Oct 2024 09:32:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729503126;
+	bh=o9GSQ+2j89yvUpyu6yj/PhTEqoO1iN3ay/vQtVCBN8w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=di5V5vWqwW+KJSZ7QJGLtQSJW0Cp6BUJCqjmfGS/DJ4h5D0mydS5i5fzg7+evEXUC
+	 +ZgXk+9SmieeSU+4VBrLXuTxQdT07bMalBh28OC7N0vUha/ZD5EpFsPDxuwm4hFtsY
+	 I9/A+bbqQX7QIqjBFs7l4vKNMmlxsSWXO1CcXtl3TdoOMHq9FgqacMomDbajJPW1xc
+	 mKHf5ZpCaVs7588P7ZgikGDOII4AyTOMT6pV7JbFltZQfU5WcamZLtT6f37aSo7WwR
+	 1MAeb/ORrpd7n/q1gfqWyxpoTNQGkFK22lXZXrCWJr2mHi6wAx3R1XWKsTFI2PP+xp
+	 IYjQuAhVIdouw==
+Date: Mon, 21 Oct 2024 11:32:03 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 1/6] drm/display: hdmi: add generic mode_valid helper
+Message-ID: <20241021-chubby-fascinating-labradoodle-144990@houat>
+References: <20241018-hdmi-mode-valid-v1-0-6e49ae4801f7@linaro.org>
+ <20241018-hdmi-mode-valid-v1-1-6e49ae4801f7@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="ifj5lbqztqmt6mh7"
 Content-Disposition: inline
-In-Reply-To: <20241020-input_automate_of_node_put-v2-1-ddec58b4b99e@gmail.com>
+In-Reply-To: <20241018-hdmi-mode-valid-v1-1-6e49ae4801f7@linaro.org>
 
-Hi Javier,
 
-On Sun, Oct 20, 2024 at 08:27:13PM +0200, Javier Carrasco wrote:
-> Use the 'free(device_node)' macro to simplify the code by automatically
-> freeing the device node, which removes the need for explicit calls to
-> 'of_node_put()'.
-> 
-> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+--ifj5lbqztqmt6mh7
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 1/6] drm/display: hdmi: add generic mode_valid helper
+MIME-Version: 1.0
+
+On Fri, Oct 18, 2024 at 11:34:19PM +0300, Dmitry Baryshkov wrote:
+> Add drm_hdmi_connector_mode_valid(), generic helper for HDMI connectors.
+> It can be either used directly or as a part of the .mode_valid callback.
+>=20
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
-> Changes in v2:
-> - rebase onto input/next, drop applied patches.
-> - sparcspkr: drop goto before node declaration and return -ENOMEM.
+>  drivers/gpu/drm/display/drm_hdmi_helper.c | 25 +++++++++++++++++++++++++
+>  include/drm/display/drm_hdmi_helper.h     |  4 ++++
+>  2 files changed, 29 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/display/drm_hdmi_helper.c b/drivers/gpu/drm/=
+display/drm_hdmi_helper.c
+> index 74dd4d01dd9b..0ac5cb000ee2 100644
+> --- a/drivers/gpu/drm/display/drm_hdmi_helper.c
+> +++ b/drivers/gpu/drm/display/drm_hdmi_helper.c
+> @@ -256,3 +256,28 @@ drm_hdmi_compute_mode_clock(const struct drm_display=
+_mode *mode,
+>  	return DIV_ROUND_CLOSEST_ULL(clock * bpc, 8);
+>  }
+>  EXPORT_SYMBOL(drm_hdmi_compute_mode_clock);
+> +
+> +/**
+> + * drm_hdmi_connector_mode_valid() - Check if mode is valid for HDMI con=
+nector
+> + * @connector: DRM connector to validate the mode
+> + * @mode: Display mode to validate
+> + *
+> + * Generic .mode_valid implementation for HDMI connectors.
+> + */
+> +enum drm_mode_status
+> +drm_hdmi_connector_mode_valid(const struct drm_connector *connector,
+> +			      const struct drm_display_mode *mode)
+> +{
+> +	const struct drm_connector_hdmi_funcs *funcs =3D connector->hdmi.funcs;
+> +	unsigned long long rate;
+> +
+> +	rate =3D drm_hdmi_compute_mode_clock(mode, 8, HDMI_COLORSPACE_RGB);
+> +	if (!rate)
+> +		return MODE_ERROR;
+> +
+> +	if (!funcs || !funcs->tmds_char_rate_valid)
+> +		return MODE_OK;
+> +
+> +	return funcs->tmds_char_rate_valid(connector, mode, rate);
+> +}
+> +EXPORT_SYMBOL(drm_hdmi_connector_mode_valid);
 
-Can we switch the driver to devm so that issues with cleanup and gotos
-will have less chances of resurfacing?
+As discussed in the discussion that sparked that change, I believe that
+we should use hdmi_clock_valid.
 
-Thanks.
+AFAIU, your concern was that max_tmds_clock might get stale, but then it
+would not only prevent mode_valid from running but also the commit
+entirely.
 
--- 
-Dmitry
+We don't have any evidence from that, so I'd rather try to keep
+consistency between the two. And we can always try to address whatever
+issue we might have if it turned out to be a bad idea :)
+
+Maxime
+
+--ifj5lbqztqmt6mh7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZxYfkwAKCRAnX84Zoj2+
+dmkBAX4jObYHXj/SHbJRC5WTl3MBXQxOAgkEQpbyhFO5V+xPAbvV698NYOoHdja5
+FBhM/noBfRcjFfvP1ocpWgpWF2Z6tm439LxZtf87jWDk62fy3ha3vmEp6ZNWbC44
+1jIzo18utA==
+=2ErT
+-----END PGP SIGNATURE-----
+
+--ifj5lbqztqmt6mh7--
