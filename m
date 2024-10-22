@@ -1,130 +1,126 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF39A1FDFA4
-	for <linux-sunxi@lists.linux.dev>; Mon, 21 Oct 2024 20:28:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24A356F066
+	for <linux-sunxi@lists.linux.dev>; Tue, 22 Oct 2024 04:57:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729542514; cv=none; b=Df6Op8VTcdQS3KohYntYWS3alcO4f5rZ4ji0dHqsoZ0yKkxE0aGzx1rbUIQZudUpOy5uGQeAq8VW0X7sTF9ysI2Jlih/cyy2w45nmNeO4zlp/uPNo5kT9hxzK1WJSlDy2iZRlfM8YIo02jplRfMKd7F0zOZ7XApbi7OfkHlRL7c=
+	t=1729573053; cv=none; b=oCZCIDBu8BJ+TzUfb7AG6sDaQ4CKCz986mHf3y+pUooUPe4mqsmCvAb6pvFnURYHVsJcjqfKwWEvX9kPXBwwD3PPeHABG+ruMdlbtPD3o37eVASRGLcFIET91xz0JbY2A3fh8q5EV8oVwmL7YNz543BKx5BAi1UqCb7oKz8Q8Mg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729542514; c=relaxed/simple;
-	bh=F8YQ3HQYY2w+VhZkKOD4BkQV8/JYW/XDhWfSKzi9Psg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=J159L3EGMiA24qdsEsc8/Y7GELVCNTH0wDpQToe2wv4FdChsGFxunO82VYQ9itPcPH4+ABLgcQmueBNlcX7goRNvLkd3L8tQfS8IFlZ0TlAR6ctXNZln0gOJ+hH74Bxeiko7X7+wqvm3ooXTei+CqU0Ism2i93GFFyVuKXgXkdg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ej/NhgPL; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1729573053; c=relaxed/simple;
+	bh=5bT90VHYpTm313NrIpd4fKVtZ40irZW3FExZLtrjQQI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ixxs+Snv88VPHcG3JB641KEEy7QMajk+LaMeeZT+YHHTBsvi0+br3cZ1v9sp0ORy+QJ6ea9hMmTSEqbjfb7GysNbA+cdLg8beQvOa9LvtyW+75P/VB8D+10pY8d3o+eDUjoXrwgUrU+AuMXVhPCdSeIDrN9vJGRmLdM73xeljcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ej/NhgPL"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43155afca99so34586385e9.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 21 Oct 2024 13:28:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729542511; x=1730147311; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EXOGORusAheGbXjY9YsHgDJ6EQdczoB5sORBvnGhFxE=;
-        b=Ej/NhgPL410aRR74Er66PGzfGMTaDQb1vz8RWvCG7SwQ710kbIbDezyH20IGDbd07V
-         6i/IE6ZztZw7JYQMt6WrW+ESnJH8ho3Y5IMWO79IBzlOLslZ2Hzugdkt4g40DytDc5cj
-         ubh0PVXQTo1GVp6uhpY4Es5Itza8z8O35YY421mX3DRDsDS1F6z69P3TIpleW5i9q1DY
-         Y52pv6y1wdcR2kSHoXX57BCncpBrMceu8qZf5NsaL/p+BzafpQ9JhkHKCBOjWHl58tZC
-         oq9NDwIK7bCyEqatIBVWg3EI2mTSPSz+GHLhWxvbR0XZfUQhUq/txRn9ZKiL917WhqIu
-         AFww==
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-539e690479cso5454810e87.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 21 Oct 2024 21:57:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729542511; x=1730147311;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EXOGORusAheGbXjY9YsHgDJ6EQdczoB5sORBvnGhFxE=;
-        b=VPEdR0r2jo+lg3xbKNyZ2kAZpQ3HlzaS44rdamezWzRzzyqyBR2CqJBRbGqCo3IA+K
-         1KtBRO+H2QESsySPp7HxU+XlzvzH4p6oMhSyZ/tXfztNlvUqeB5CbbKDWrY8qxmtPk7h
-         YUvTjyXTK1i17KKoBrX0OzIlzhUYq47kXkJAvg0OZ4GJFZUlYaAfGbgPjlfc0XCPl2nB
-         RZJ4p4be72aDkYxph3FFdHfhWDnRVGi3HlwVnnMUsrydLgN4EKmPr9ZAcFHn15B7kXRG
-         u9EgYXLrg01Xh1LRisJwYCyIJ17KIDz1wyf/vfWJdDVO9aZ1KhntmaBQ56HI1v3POw9P
-         7dNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXHN4WX+do9AyaVl8ZIqbpUItL+/ityJB3j4RJx2aR/m3aVee0niPBjp3emcHAHVgGlKRZaQq2e2RNWjw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwfWXWsm9T5Q5wiCMtpwM8JVC7KSrrTkjmrj/VT/ovPCRNY6SHH
-	bOwPZxK5cqkkS1T98bvSmWS2K1LE3xqVvnYl2jO1VMeY59rmhvZx
-X-Google-Smtp-Source: AGHT+IFeBUJWb0/ZbDfeWjDseKy/gwO7cFLphK1AYxGeWiXouKa5IzBBH4eytV8fsrQlZUdSg1h2BQ==
-X-Received: by 2002:adf:e00c:0:b0:37c:cc7c:761c with SMTP id ffacd0b85a97d-37ef12628famr494947f8f.3.1729542511079;
-        Mon, 21 Oct 2024 13:28:31 -0700 (PDT)
-Received: from [127.0.1.1] (2a02-8389-41cf-e200-023d-d91a-ee8e-da73.cable.dynamic.v6.surfer.at. [2a02:8389:41cf:e200:23d:d91a:ee8e:da73])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0a5b98asm5093263f8f.61.2024.10.21.13.28.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Oct 2024 13:28:29 -0700 (PDT)
-From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Date: Mon, 21 Oct 2024 22:28:24 +0200
-Subject: [PATCH v3 2/2] Input: sparcspkr - use cleanup facility for
- device_node
+        d=1e100.net; s=20230601; t=1729573047; x=1730177847;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MtKhiSbi539gpYrHXAAkHxczz0yx9HoWEP1SfArti/I=;
+        b=gHz6qw+xcYYFoR8C+BK7ukRtCydBeZwwIbF0nFRXRkKIal1Makt/VgO7kRt5dt9hFB
+         dt3/P/u0BgonboDlcw25PmPz281qCXsZrgVVQbRfzJQtOYA+uFFtR4tfHgxsTX1QbAjk
+         oW83k5e5k8RZhmIDGdw2PTDsS1yhjg+QlYfNoPTEMkHiM5xuM9ag2qRpx2HJ84If3OSl
+         XzFysMj+ABrpySg2zqYIP7IVdND0yJ7Q0G/YrBv6PU80WMsMeA1P72pTaG7xlMdvik32
+         3Y9myRXVgp5HypTxcy8QU4K40KYYvz61Tp6U2P+jfEhQEeZcFdPvkldecZRPmVeG0AG0
+         oROw==
+X-Forwarded-Encrypted: i=1; AJvYcCW4QuVVt7Ku/8ytVXsr/7a8dOWQz2Pf/Os5pixuyakHqIB+4AzmmEsaXzSYz3UJDkVv65bL5E4Qwgvdsg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxNWAesYaxv2bTOdM5+KxaKb9E/5Vx0jpNYf4u/iD7nv+18HyL8
+	sN3vlRBDdrAHhrZEO9FUNSxgCtKjN4yHfGv8sg+HeHyjRQ0H8FsXV1QHo6xh
+X-Google-Smtp-Source: AGHT+IEkutJrbi9Net+kTCW68bQFRMhiFif1Aa9MS2vN6PGEGZn9Or5YR4AhfQqlP/dZ53oi6zy29g==
+X-Received: by 2002:a05:6512:691:b0:52c:9468:c991 with SMTP id 2adb3069b0e04-53a15459cefmr7086002e87.14.1729573047212;
+        Mon, 21 Oct 2024 21:57:27 -0700 (PDT)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com. [209.85.208.176])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53a223eff63sm652409e87.92.2024.10.21.21.57.25
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Oct 2024 21:57:26 -0700 (PDT)
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2fb3110b964so45334151fa.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 21 Oct 2024 21:57:25 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUatw0Qsls34lV/Qae3mnMZ4VaUvxELGa0w4CG1m7e7tVHEOO57icJf+QKVuNfaAXLaJjPzvARtU8VdIg==@lists.linux.dev
+X-Received: by 2002:a05:651c:551:b0:2fa:d4ef:f222 with SMTP id
+ 38308e7fff4ca-2fb8320b662mr54455541fa.38.1729573045773; Mon, 21 Oct 2024
+ 21:57:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241021-input_automate_of_node_put-v3-2-cc73f636e1bc@gmail.com>
-References: <20241021-input_automate_of_node_put-v3-0-cc73f636e1bc@gmail.com>
-In-Reply-To: <20241021-input_automate_of_node_put-v3-0-cc73f636e1bc@gmail.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Hans de Goede <hdegoede@redhat.com>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-rpi-kernel@lists.infradead.org, 
- Javier Carrasco <javier.carrasco.cruz@gmail.com>
-X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1729542504; l=1243;
- i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
- bh=F8YQ3HQYY2w+VhZkKOD4BkQV8/JYW/XDhWfSKzi9Psg=;
- b=M3sNpqf8PQCbKNRdH+2y4CtcxjbUY0Y4O+QhTzB0pxtLymehiwDv34D4DGZCIPoFG4+SgMjxG
- o6LPTXFYrTVCCVm12J/rHqr8htvu+Jf/gW7E3cYP+i57YZdxSIDbWpb
-X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
- pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
+References: <20241021-input_automate_of_node_put-v3-0-cc73f636e1bc@gmail.com> <20241021-input_automate_of_node_put-v3-2-cc73f636e1bc@gmail.com>
+In-Reply-To: <20241021-input_automate_of_node_put-v3-2-cc73f636e1bc@gmail.com>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Tue, 22 Oct 2024 12:57:13 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66b60moJjOP9Fo6NRAC=WA3fTBd-EJ0JifTsgz2Kocq0A@mail.gmail.com>
+Message-ID: <CAGb2v66b60moJjOP9Fo6NRAC=WA3fTBd-EJ0JifTsgz2Kocq0A@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] Input: sparcspkr - use cleanup facility for device_node
+To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Hans de Goede <hdegoede@redhat.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-rpi-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Use the 'free(device_node)' macro to simplify the code by automatically
-freeing the device node, which removes the need for explicit calls to
-'of_node_put()'.
+On Tue, Oct 22, 2024 at 4:28=E2=80=AFAM Javier Carrasco
+<javier.carrasco.cruz@gmail.com> wrote:
+>
+> Use the 'free(device_node)' macro to simplify the code by automatically
+> freeing the device node, which removes the need for explicit calls to
+> 'of_node_put()'.
+>
+> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 
-Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
----
- drivers/input/misc/sparcspkr.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Not sure why I received this patch, but given my recent experience
+with the cleanup stuff,
 
-diff --git a/drivers/input/misc/sparcspkr.c b/drivers/input/misc/sparcspkr.c
-index e484d79b5597..8d7303fc13bc 100644
---- a/drivers/input/misc/sparcspkr.c
-+++ b/drivers/input/misc/sparcspkr.c
-@@ -182,7 +182,6 @@ static int bbc_beep_probe(struct platform_device *op)
- {
- 	struct sparcspkr_state *state;
- 	struct bbc_beep_info *info;
--	struct device_node *dp;
- 	int err;
- 
- 	state = devm_kzalloc(&op->dev, sizeof(*state), GFP_KERNEL);
-@@ -193,13 +192,12 @@ static int bbc_beep_probe(struct platform_device *op)
- 	state->event = bbc_spkr_event;
- 	spin_lock_init(&state->lock);
- 
--	dp = of_find_node_by_path("/");
-+	struct device_node *dp __free(device_node) = of_find_node_by_path("/");
- 	if (!dp)
- 		return -ENODEV;
- 
- 	info = &state->u.bbc;
- 	info->clock_freq = of_getintprop_default(dp, "clock-frequency", 0);
--	of_node_put(dp);
- 	if (!info->clock_freq)
- 		return -ENODEV;
- 
+Reviewed-by: Chen-Yu Tsai <wens@csie.org>
 
--- 
-2.43.0
-
+> ---
+>  drivers/input/misc/sparcspkr.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/drivers/input/misc/sparcspkr.c b/drivers/input/misc/sparcspk=
+r.c
+> index e484d79b5597..8d7303fc13bc 100644
+> --- a/drivers/input/misc/sparcspkr.c
+> +++ b/drivers/input/misc/sparcspkr.c
+> @@ -182,7 +182,6 @@ static int bbc_beep_probe(struct platform_device *op)
+>  {
+>         struct sparcspkr_state *state;
+>         struct bbc_beep_info *info;
+> -       struct device_node *dp;
+>         int err;
+>
+>         state =3D devm_kzalloc(&op->dev, sizeof(*state), GFP_KERNEL);
+> @@ -193,13 +192,12 @@ static int bbc_beep_probe(struct platform_device *o=
+p)
+>         state->event =3D bbc_spkr_event;
+>         spin_lock_init(&state->lock);
+>
+> -       dp =3D of_find_node_by_path("/");
+> +       struct device_node *dp __free(device_node) =3D of_find_node_by_pa=
+th("/");
+>         if (!dp)
+>                 return -ENODEV;
+>
+>         info =3D &state->u.bbc;
+>         info->clock_freq =3D of_getintprop_default(dp, "clock-frequency",=
+ 0);
+> -       of_node_put(dp);
+>         if (!info->clock_freq)
+>                 return -ENODEV;
+>
+>
+> --
+> 2.43.0
+>
