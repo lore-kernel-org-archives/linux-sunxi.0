@@ -1,116 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from thales.epochal.quest (thales.epochal.quest [51.222.15.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC8A11F76DA;
-	Thu, 24 Oct 2024 16:52:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B69ED1DD0D9
+	for <linux-sunxi@lists.linux.dev>; Thu, 24 Oct 2024 17:09:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.222.15.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729788732; cv=none; b=uxafxieP6aQ/TkBIHNOb/JjvBTZNUWQPC3FmHVqzdmCiueVDotGAMYvR1BTXbAmwDamoPGOwbndiZ/tM1V/v0O8dydyPSlg8jpK2vxwLzKA9pFkwmYBp18T6RQGcRmz6YA6n8i+tI1KCGrb6Qw78XrqgmbjQxmaXgtAJgHuN3HU=
+	t=1729789790; cv=none; b=CrGKvW5QDl9olOG8h2Bz71STbJpmB4tfVlfLILvUlPLK5yYbLcQqZyMy35/0WcbwFtiHvKQia95yIBzyV+xu2sTQR038F8QmqyPNXO9f+UJ5+5qPzYKm8m3f7v3kZ6zJRB62KVNbsUUNywkvMNJ4OZ84Fy9Jv+Wo/GgsoFiAt90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729788732; c=relaxed/simple;
-	bh=r3tslcMdhzBd/TeShHIMCrP8oQyKFhtQOLSCSOVBUHk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T2c83hcpqrOKJ4teMouGsZAZHZrQiLR1tRHymoIhe8mRGw89jg+IFuEbRuMHDdlZdyEyc5QHWihpVQJ59KDW9u8kDxEfXaAv3rrnTGPuI79TFRXXvxH+HHrzjAXpXebT6Gl1vXvvWzFNV3CmK3zPYnrD44Z2rJMojYEDYI3lMHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QrqSXV9k; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729789790; c=relaxed/simple;
+	bh=LIXJN7WyqZbUIo6zFt/nMh6Am1vcombr30b63lmOUnw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=GHDRWe/UDHTmU8d2y5B9YKkqkuMHo7W6bPe7GwiHXt/kBowBHu2Rq/b0biza49gm/TVfsq9M7G4qokglkJ+3V5lhlRN10lEVgW6rTUTSSAq3o0TnRzz91kGKQyq7PLJa147Yi5kncFkr+eksslpLkjdyP3uDyDBvCSskOgveXD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epochal.quest; spf=pass smtp.mailfrom=epochal.quest; dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b=jpK+LRwA; arc=none smtp.client-ip=51.222.15.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epochal.quest
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=epochal.quest
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QrqSXV9k"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 352A2C4CEC7;
-	Thu, 24 Oct 2024 16:52:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729788731;
-	bh=r3tslcMdhzBd/TeShHIMCrP8oQyKFhtQOLSCSOVBUHk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QrqSXV9kUF3TqpF51VSGPHx7GUuoHwWa106yRznXQL0hWK/fa6CC6cMUWYAHASav/
-	 QxMfRcVTwt5oIBZO05VyaH0YLS9TF9Lu57YmrLN/GLMOh0xI6KQGK1v4s3nleucnTf
-	 xKpxu3R4l/xcluPYtRg8/OFi1ZGVQFuB7Puzyq0IWBHl0isJCZae7iwDIKyAoVRESx
-	 3HXiAZLMe7jAN7S71KzIhfapz4Z28x4X6Wj8oZju+pLZJpohL2KojYHbfSDtI3Rnip
-	 E7YNpC2kld+KtMQNCjUspX65R4EDUUfn4mfN0qexDQobOS3Su+5pNMWiLE4hykD1cI
-	 MpiuxpYRQ2AGw==
-Date: Thu, 24 Oct 2024 17:52:05 +0100
-From: Conor Dooley <conor@kernel.org>
-To: =?iso-8859-1?B?Q3Pza+FzLA==?= Bence <csokas.bence@prolan.hu>
-Cc: Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>,
-	dmaengine@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
+	dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b="jpK+LRwA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=epochal.quest;
+	s=default; t=1729789783;
+	bh=LIXJN7WyqZbUIo6zFt/nMh6Am1vcombr30b63lmOUnw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=jpK+LRwAyINXIUY2QUYqrQYDafODoy+OCx/WIRluz3+tup0nE0CF9Vavkfw+vt6AH
+	 dsEFQB1U0j7su8mzUmoj2G9otG40x41feD/OkfJwR1J6y7B9PPdY/zGxFaAKDCIrp2
+	 w8DCkw7P8fKCBcx512aZvLtJuPL0gT97cXESWCBOw56LuDaxMpU4dQipwgjP2tKq7o
+	 uPQTnoQUdPLdm9nfnMscbLsGl7bScPLf2Rei4En/Iu/VVGTFaZP386i1pTBZzqnTDA
+	 cilvq2WgrzIMe3Fa9tS5lEO9a49NHDtahB5aBG/1jKjXqKC5MsHb5rDH98JHBUc2/G
+	 kvA0Fc+KlyKOw==
+X-Virus-Scanned: by epochal.quest
+From: Cody Eksal <masterr3c0rd@epochal.quest>
+To: linux-pm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-phy@lists.infradead.org,
+	linux-usb@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH 03/10] dt-bindings: dmaengine: Add Allwinner suniv
- F1C100s DMA
-Message-ID: <20241024-recycler-borrowing-5d4296fd4a56@spud>
-References: <13ab5cec-25e5-4e82-b956-5c154641d7ab@prolan.hu>
- <20241024064931.1144605-4-csokas.bence@prolan.hu>
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Ripard <mripard@kernel.org>
+Cc: Cody Eksal <masterr3c0rd@epochal.quest>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Parthiban <parthiban@linumiz.com>,
+	Yangtao Li <frank@allwinnertech.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Thierry Reding <treding@nvidia.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Yangtao Li <tiny.windzz@gmail.com>,
+	Viresh Kumar <vireshk@kernel.org>,
+	Nishanth Menon <nm@ti.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>
+Subject: [PATCH 05/13] dt-bindings: usb: sunxi-musb: Add A100 compatible string
+Date: Thu, 24 Oct 2024 14:05:23 -0300
+Message-ID: <20241024170540.2721307-6-masterr3c0rd@epochal.quest>
+X-Mailer: git-send-email 2.47.0
+In-Reply-To: <20241024170540.2721307-1-masterr3c0rd@epochal.quest>
+References: <20241024170540.2721307-1-masterr3c0rd@epochal.quest>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="CqzdtQmyY58U3O5U"
-Content-Disposition: inline
-In-Reply-To: <20241024064931.1144605-4-csokas.bence@prolan.hu>
+Content-Transfer-Encoding: 8bit
 
+The A100 MUSB peripheral has 10 endpoints, and thus is compatible with
+the A33 version.
 
---CqzdtQmyY58U3O5U
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Cody Eksal <masterr3c0rd@epochal.quest>
+---
+ .../devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml        | 1 +
+ 1 file changed, 1 insertion(+)
 
-On Thu, Oct 24, 2024 at 08:49:24AM +0200, Cs=F3k=E1s, Bence wrote:
-> Add compatible string for Allwinner suniv F1C100s DMA.
+diff --git a/Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml b/Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml
+index f972ce976e86..d4993336a29b 100644
+--- a/Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml
++++ b/Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml
+@@ -24,6 +24,7 @@ properties:
+               - allwinner,sun8i-a83t-musb
+               - allwinner,sun20i-d1-musb
+               - allwinner,sun50i-h6-musb
++              - allwinner,sun50i-a100-musb
+           - const: allwinner,sun8i-a33-musb
+       - items:
+           - const: allwinner,sun50i-h616-musb
+-- 
+2.47.0
 
-> [ csokas.bence: reimplemented in YAML ]
-
-This implies you took someone else's work and modified it, so I would
-expect to see them mentioned here. However, I don't personally think a
-compatible name is copyrightable and would suggest just dropping this.
-
-<2 minutes later> I checked the rest of the series, you've got a lot of
-missing signoffs from yourself on other patches. You sent them, so you
-need to sign off even if you didn;t author them.
-
-Otherwise,
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-
-> Signed-off-by: Cs=F3k=E1s, Bence <csokas.bence@prolan.hu>
-> ---
->  .../devicetree/bindings/dma/allwinner,sun4i-a10-dma.yaml      | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/dma/allwinner,sun4i-a10-dm=
-a.yaml b/Documentation/devicetree/bindings/dma/allwinner,sun4i-a10-dma.yaml
-> index 02d5bd035409..9b5180c0a7c4 100644
-> --- a/Documentation/devicetree/bindings/dma/allwinner,sun4i-a10-dma.yaml
-> +++ b/Documentation/devicetree/bindings/dma/allwinner,sun4i-a10-dma.yaml
-> @@ -22,7 +22,9 @@ properties:
->        number.
-> =20
->    compatible:
-> -    const: allwinner,sun4i-a10-dma
-> +    enum:
-> +      - allwinner,sun4i-a10-dma
-> +      - allwinner,suniv-f1c100s-dma
-> =20
->    reg:
->      maxItems: 1
-> --=20
-> 2.34.1
->=20
->=20
-
---CqzdtQmyY58U3O5U
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZxp7NQAKCRB4tDGHoIJi
-0kVVAQDIf6oJhRhzclI1CTid5giOG/kvB2MGrzj6VU6YX5l7agD/fGR3sowa78na
-7GbS6JuJbow5pjzpsrjPdU2IMejCogo=
-=6eZ/
------END PGP SIGNATURE-----
-
---CqzdtQmyY58U3O5U--
