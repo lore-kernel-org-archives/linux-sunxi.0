@@ -1,31 +1,31 @@
 Received: from thales.epochal.quest (thales.epochal.quest [51.222.15.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87DE31FAEE8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E6D1FAEE9
 	for <linux-sunxi@lists.linux.dev>; Thu, 24 Oct 2024 17:09:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.222.15.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729789792; cv=none; b=YBK0432ns3xqbxJtSgtYfCZiq45/RCXdOBAwjXTEq5LgrVcXsPzyKXPwBnJlrD/HjvFz1FXEHB6rThPstrnHm4D3oe/omD/l30crb9nEaofHQhEtyLKV/pHoVsoMoHgdZGIBs2FpO2GOgWn27CiujMY2MFwm6rFiJ9gswo6X01Q=
+	t=1729789792; cv=none; b=ACVh3S9bq/IexF61wbrFMXKSObQz8srKflyvmr1ntXtWhwrZ0Zj7kpqMz8dKMQIq8wet7yO+JCl/xd1aDc34vJcuKzZVu+lumr9rS5OyuI0Ri61paeA8W/LwedfjFuUhCORkj5+Y05I7Ljsxhc04WEJT5e9JLynkHjWVIcRlwOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1729789792; c=relaxed/simple;
-	bh=i9M0xbrAcc2zYjmRWvSGZudanxzGOPy6UtlMgUT0VHA=;
+	bh=uyVlu0mrU5giK8mByMabW5323mqDUvUUrK92udeSLP4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=a0Rd7WL2uQ6CMKaiTbpxoE4V04nnGPfpz4VHyUL5OtoQ/V8PXLGyLsY65Ku4IjYhZbQctCtxUlXL3RK7z+jX6N5GtMvPhmZTgSpWbth9xnYDWx4mtbcY5U2kjQlf2lFOza5k+u4fLmGadXwCZsnTioo7fA+hdL+s9z9LszATiD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epochal.quest; spf=pass smtp.mailfrom=epochal.quest; dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b=SyMKLYIk; arc=none smtp.client-ip=51.222.15.28
+	 MIME-Version; b=hMftITYigKtNtORV4P7BUNzP0BOEV7vZc7fBlA6kCmP5vCJR8BDtw7YZwfSdOejuxntKmVeCodX+ZFkeyd5VGwS5DDyINaS7FJrs3jdpPWlHShUPf+MFUQOhnU4X7QxCCPXKR9efBYr0EdGo7Zaqz319TM/XYFyf1AjZSSaYdoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epochal.quest; spf=pass smtp.mailfrom=epochal.quest; dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b=TYpnzYM6; arc=none smtp.client-ip=51.222.15.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epochal.quest
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=epochal.quest
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b="SyMKLYIk"
+	dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b="TYpnzYM6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=epochal.quest;
-	s=default; t=1729789788;
-	bh=i9M0xbrAcc2zYjmRWvSGZudanxzGOPy6UtlMgUT0VHA=;
+	s=default; t=1729789786;
+	bh=uyVlu0mrU5giK8mByMabW5323mqDUvUUrK92udeSLP4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=SyMKLYIkLV4yt/rvAYObv3DEnh9SXBhd82PdHYAMcxFUOhicASPhb3gJrWrSfRWBz
-	 O/U6QxXbYc6HPKOFA5QPSfJSQImr49xa9bgMprIcyy7uPVlErv/ofO4gpqqIB36Z7v
-	 IvrodmRgzh0xOcmVgYzvukEji0Omi2XYhV8r1mwdLpJlBY5azK4akyhY747tzA41w5
-	 rnyDGdomBrHYYGdGGz3hr5RA8YBdIpfozoIV4JoqXp3Cst+dEqbQvU8qD2hBoFTkTY
-	 lpCHV7vX5FmdzYrTTH4rE3QRK/r7HB27rDlJfsKR+0U/FdostLHe3aGZuIjzoRiJw1
-	 DeQcPUq8p9NbA==
+	b=TYpnzYM6Nsgb3H2I2pZjXhQGGCagJ5EygyfXnDxW07DZFpZ5LGeG1SnU5zczXZKYJ
+	 cWcf6Y/gbU/AIxClBs3VbAgTFlSU4A1kgGqs5u+TYM6wys37/6jqlM3BN6J15h9And
+	 gd4smAwOhFF/WOoRlE55n2N5+1ZxPdsT8aubCNWSCVhQVQ01Uc1L+PfJJKPNS33FYt
+	 tUehpu6PhxJn+IvwNQ8lnJBxFPPmJ4VWQAQ4eepcX0InkXjQ/pjRttcHEoWVr5zrzQ
+	 XjwalF8LXBeF9DFbVl2bX6hlItiZXqLGcN5rKYQIx8u1NNtcqaw/csNHplRheiBlpO
+	 vtWpx5PYQmlSw==
 X-Virus-Scanned: by epochal.quest
 From: Cody Eksal <masterr3c0rd@epochal.quest>
 To: linux-pm@vger.kernel.org,
@@ -35,9 +35,9 @@ To: linux-pm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-phy@lists.infradead.org,
 	linux-usb@vger.kernel.org,
-	Yangtao Li <tiny.windzz@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>
@@ -52,17 +52,15 @@ Cc: Cody Eksal <masterr3c0rd@epochal.quest>,
 	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
 	Maxime Ripard <mripard@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Yangtao Li <tiny.windzz@gmail.com>,
 	Viresh Kumar <vireshk@kernel.org>,
 	Nishanth Menon <nm@ti.com>,
 	Stephen Boyd <sboyd@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
 	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Shuosheng Huang <huangshuosheng@allwinnertech.com>
-Subject: [PATCH 12/13] cpufreq: sun50i: add a100 cpufreq support
-Date: Thu, 24 Oct 2024 14:05:30 -0300
-Message-ID: <20241024170540.2721307-13-masterr3c0rd@epochal.quest>
+	"Rafael J. Wysocki" <rafael@kernel.org>
+Subject: [PATCH 08/13] arm64: allwinner: A100: enable EHCI, OHCI and USB PHY nodes in Perf1
+Date: Thu, 24 Oct 2024 14:05:26 -0300
+Message-ID: <20241024170540.2721307-9-masterr3c0rd@epochal.quest>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20241024170540.2721307-1-masterr3c0rd@epochal.quest>
 References: <20241024170540.2721307-1-masterr3c0rd@epochal.quest>
@@ -74,85 +72,76 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Shuosheng Huang <huangshuosheng@allwinnertech.com>
+From: Yangtao Li <frank@allwinnertech.com>
 
-Let's add cpufreq nvmem based for allwinner a100 soc. It's similar to h6,
-let us use efuse_xlate to extract the differentiated part.
+Add USB support on A100 perf1 board, which include two USB2.0 port.
 
-Signed-off-by: Shuosheng Huang <huangshuosheng@allwinnertech.com>
-[masterr3c0rd@epochal.quest: add A100 to opp_match_list]
+Signed-off-by: Yangtao Li <frank@allwinnertech.com>
 Signed-off-by: Cody Eksal <masterr3c0rd@epochal.quest>
 ---
- drivers/cpufreq/sun50i-cpufreq-nvmem.c | 28 ++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ .../allwinner/sun50i-a100-allwinner-perf1.dts | 38 +++++++++++++++++++
+ 1 file changed, 38 insertions(+)
 
-diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-index 293921acec93..3a29c026d364 100644
---- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-+++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-@@ -22,6 +22,9 @@
- #define NVMEM_MASK	0x7
- #define NVMEM_SHIFT	5
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a100-allwinner-perf1.dts b/arch/arm64/boot/dts/allwinner/sun50i-a100-allwinner-perf1.dts
+index f5c5c1464482..c6d8264b91b7 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a100-allwinner-perf1.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a100-allwinner-perf1.dts
+@@ -7,6 +7,8 @@
  
-+#define SUN50I_A100_NVMEM_MASK	0xf
-+#define SUN50I_A100_NVMEM_SHIFT	12
-+
- static struct platform_device *cpufreq_dt_pdev, *sun50i_cpufreq_pdev;
+ #include "sun50i-a100.dtsi"
  
- struct sunxi_cpufreq_data {
-@@ -45,6 +48,23 @@ static u32 sun50i_h6_efuse_xlate(u32 speedbin)
- 		return 0;
- }
- 
-+static u32 sun50i_a100_efuse_xlate(u32 speedbin)
-+{
-+	u32 efuse_value;
++#include <dt-bindings/gpio/gpio.h>
 +
-+	efuse_value = (speedbin >> SUN50I_A100_NVMEM_SHIFT) &
-+		      SUN50I_A100_NVMEM_MASK;
+ /{
+ 	model = "Allwinner A100 Perf1";
+ 	compatible = "allwinner,a100-perf1", "allwinner,sun50i-a100";
+@@ -18,6 +20,35 @@ aliases {
+ 	chosen {
+ 		stdout-path = "serial0:115200n8";
+ 	};
 +
-+	switch (efuse_value) {
-+	case 0b100:
-+		return 2;
-+	case 0b010:
-+		return 1;
-+	default:
-+		return 0;
-+	}
-+}
-+
- static int get_soc_id_revision(void)
- {
- #ifdef CONFIG_HAVE_ARM_SMCCC_DISCOVERY
-@@ -108,6 +128,10 @@ static struct sunxi_cpufreq_data sun50i_h6_cpufreq_data = {
- 	.efuse_xlate = sun50i_h6_efuse_xlate,
- };
- 
-+static struct sunxi_cpufreq_data sun50i_a100_cpufreq_data = {
-+	.efuse_xlate = sun50i_a100_efuse_xlate,
++	reg_usb1_vbus: usb1-vbus {
++		compatible = "regulator-fixed";
++		regulator-name = "usb1-vbus";
++		regulator-min-microvolt = <5000000>;
++		regulator-max-microvolt = <5000000>;
++		gpio = <&pio 7 10 GPIO_ACTIVE_HIGH>; /* PH10 */
++		enable-active-high;
++	};
 +};
 +
- static struct sunxi_cpufreq_data sun50i_h616_cpufreq_data = {
- 	.efuse_xlate = sun50i_h616_efuse_xlate,
++&ehci0 {
++	status = "okay";
++};
++
++&ehci1 {
++	status = "okay";
++};
++
++&ohci0 {
++	status = "okay";
++};
++
++&ohci1 {
++	status = "okay";
++};
++
++&usb_otg {
++	status = "okay";
  };
-@@ -116,6 +140,9 @@ static const struct of_device_id cpu_opp_match_list[] = {
- 	{ .compatible = "allwinner,sun50i-h6-operating-points",
- 	  .data = &sun50i_h6_cpufreq_data,
- 	},
-+	{ .compatible = "allwinner,sun50i-a100-operating-points",
-+	  .data = &sun50i_a100_cpufreq_data,
-+	},
- 	{ .compatible = "allwinner,sun50i-h616-operating-points",
- 	  .data = &sun50i_h616_cpufreq_data,
- 	},
-@@ -291,6 +318,7 @@ static struct platform_driver sun50i_cpufreq_driver = {
  
- static const struct of_device_id sun50i_cpufreq_match_list[] = {
- 	{ .compatible = "allwinner,sun50i-h6" },
-+	{ .compatible = "allwinner,sun50i-a100" },
- 	{ .compatible = "allwinner,sun50i-h616" },
- 	{ .compatible = "allwinner,sun50i-h618" },
- 	{ .compatible = "allwinner,sun50i-h700" },
+ &pio {
+@@ -178,3 +209,10 @@ &uart0 {
+ 	pinctrl-0 = <&uart0_pb_pins>;
+ 	status = "okay";
+ };
++
++&usbphy {
++	usb0_id_det-gpios = <&pio 7 8 GPIO_ACTIVE_HIGH>; /* PH8 */
++	usb0_vbus-supply = <&reg_drivevbus>;
++	usb1_vbus-supply = <&reg_usb1_vbus>;
++	status = "okay";
++};
 -- 
 2.47.0
 
