@@ -1,104 +1,144 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D55661A0B15;
-	Thu, 24 Oct 2024 07:15:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12022137930
+	for <linux-sunxi@lists.linux.dev>; Thu, 24 Oct 2024 08:11:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729754160; cv=none; b=uvPlL1Z/H3ZUw86sNrL5wfb3jc2a9qECaiNmI5rFRutloGj5b4CC+sXXJzUA3n+wPs/SqcdoZPGSpwwG3CkHRfE760c0+CD6qN9lF5xcSzTeezERTWsz6/7tbc3Ho/KJKYFT1uEggpj1VIw205h1S5CuNP31BEegZpxUYbzpKNY=
+	t=1729757508; cv=none; b=qRBBBw1XT0k83eg4zTLsFR0/ktIe//wAqWQHoenSaD9gFGG/WU9+bfDpRoJw4dLcnS3RfbO8qCru5Dv556tooaot+0MPhA5GG6ae2eZYipC4lBZUoTowZzV5aaK5y03vLJwR0IhLvjBa8U9UNUIWt6KmK5SgjTFp+79s1t/kkRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729754160; c=relaxed/simple;
-	bh=LtkRyFa+ptwpI3BjcDqChmf25+0CofX0xNDvVdF3tjE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q7LIWlbxn/nXZhfhP9TlWFFxGL7w3izGePEAoUbTGeQEcd0DZRqyZRa/F6LuoJ1GHuJROt6sbzkfP31Qa+ov0QyqKwkwQgCaWHJnJThFV6GD5dxvXFFkVeAS72J3Ox+XN/6USRSX8k3FvmjJzEKq3X5cq9K9HampWtM6TDM5oNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e21QQXKb; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e21QQXKb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D103CC4CECC;
-	Thu, 24 Oct 2024 07:15:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729754159;
-	bh=LtkRyFa+ptwpI3BjcDqChmf25+0CofX0xNDvVdF3tjE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=e21QQXKbd//X8OwJs3bVISaxQiWtu3fneFc3BZayNh/BwxO89zUaGZauxCeoJ5kao
-	 UbI4PvEouuSFfPGfZISFvMCLF0ryd0boaYZp0yfXDsWsg3KSaV8Qr3phweel8nE9En
-	 GYpqdARDfy3VXLRQRACLv4Rbc1f8Luk6TiG1DlgOQrpLQ4OZUZ9GMnQR/vYXWzD0fz
-	 gyRNFNfwLyHayyBlY6I5XAeFFhhXl7k3GvPmGQiyj93xhLEPKdETZL1WQvsHl8URJg
-	 9LY4wIQ3Ibz2IzUkJlf2vEsT+rJiAOukekGxobroD7ehkBs1KrothEAKQGQ3rLXKHD
-	 X02d11SX0X52w==
-Date: Thu, 24 Oct 2024 09:15:57 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Ryan Walklin <ryan@testtoast.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Chris Morgan <macroalpha82@gmail.com>, Philippe Simons <simons.philippe@gmail.com>, 
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: Re: [PATCH v3 2/7] dt-bindings: allwinner: add H616 sun4i audio
- codec binding
-Message-ID: <6sj56amrx3dtnznafzsycgq6r6do65uq3z3v3pwbcgwdktqqgo@qbrfpmx22b4s>
-References: <20241023075917.186835-1-ryan@testtoast.com>
- <20241023075917.186835-3-ryan@testtoast.com>
+	s=arc-20240116; t=1729757508; c=relaxed/simple;
+	bh=iEtDk6ICkLZjMb0ULHFCOjGx1/Kb0nchCQX0IFvx1SE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=p1tEzVBVqfYen77LG2sMFaN8xtHqnYdQCb4cbNHjfyp7EygsL26q9m02ArzejTVqUQyytvqKg75NGnmH7vrxclamttOj2Uip47WwG/Y4l40LPMQtZH2Te8kTvDODGBgd7oSZ845nVg5nGkEeOsMNhws2AL7budXdPb79w/LqTjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1t3swS-00065c-Ug; Thu, 24 Oct 2024 10:11:36 +0200
+Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1t3swR-000AFt-14;
+	Thu, 24 Oct 2024 10:11:35 +0200
+Received: from pza by lupine with local (Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1t3swR-0002GS-0q;
+	Thu, 24 Oct 2024 10:11:35 +0200
+Message-ID: <83b9d2855f9513b2431fe31c43a992eb952f9b05.camel@pengutronix.de>
+Subject: Re: [PATCH 02/10] dma-engine: sun4i: Add has_reset option to quirk
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: =?ISO-8859-1?Q?Cs=F3k=E1s=2C?= Bence <csokas.bence@prolan.hu>, 
+	dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: Mesih Kilinc <mesihkilinc@gmail.com>, Vinod Koul <vkoul@kernel.org>, 
+	Chen-Yu Tsai
+	 <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+	 <samuel@sholland.org>
+Date: Thu, 24 Oct 2024 10:11:35 +0200
+In-Reply-To: <20241024064931.1144605-3-csokas.bence@prolan.hu>
+References: <20241024064931.1144605-3-csokas.bence@prolan.hu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241023075917.186835-3-ryan@testtoast.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
-On Wed, Oct 23, 2024 at 08:56:58PM +1300, Ryan Walklin wrote:
-> The H616 has an audio codec compatible with the sun4i-a10 driver.
-> 
-> The codec is relatively cut down compared to some of the other Allwinner
-> SoCs and only has a single line-out route (relying on a separate digital
-> microphone IP block for input). HDMI and SPDIF audio are handled
-> separately by an audio hub IP block, which is not currently implemented
-> in mainline kernels. This requires some additional flexibility in the
-> DMA bindings.
-> 
-> Add compatible string and routing for the H616 audio codec, and update
-> the required DMA descriptions.
-> 
-> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
-> 
+On Do, 2024-10-24 at 08:49 +0200, Cs=C3=B3k=C3=A1s, Bence wrote:
+> From: Mesih Kilinc <mesihkilinc@gmail.com>
+>=20
+> Allwinner suniv F1C100s has a reset bit for DMA in CCU. Sun4i do not
+> has this bit but in order to support suniv we need to add it. So add
+> support for reset bit.
+>=20
+> Signed-off-by: Mesih Kilinc <mesihkilinc@gmail.com>
 > ---
-> Changelog v1..v2:
-> - Remove PLL_AUDIO_4X clock from definition (defined internally but
->   not used by driver and so not required in DTSI)
-> - Restrict TX-only DMA definition to H616
-> 
-> Changelog v2..v3:
-> 
-> - Fix missing - in H616 conditional binding reported by dt_binding_check.
-> ---
->  .../sound/allwinner,sun4i-a10-codec.yaml      | 53 ++++++++++++++++---
->  1 file changed, 47 insertions(+), 6 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-codec.yaml b/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-codec.yaml
-> index 78273647f7665..ebc9097f936ad 100644
-> --- a/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-codec.yaml
-> +++ b/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-codec.yaml
-> @@ -22,6 +22,7 @@ properties:
->        - allwinner,sun8i-a23-codec
->        - allwinner,sun8i-h3-codec
->        - allwinner,sun8i-v3s-codec
-> +      - allwinner,sun50i-h616-codec
+>  drivers/dma/sun4i-dma.c | 23 +++++++++++++++++++++++
+>  1 file changed, 23 insertions(+)
+>=20
+> diff --git a/drivers/dma/sun4i-dma.c b/drivers/dma/sun4i-dma.c
+> index 5efbed7c546f..0b99b3884971 100644
+> --- a/drivers/dma/sun4i-dma.c
+> +++ b/drivers/dma/sun4i-dma.c
+> @@ -15,6 +15,7 @@
+>  #include <linux/of_dma.h>
+>  #include <linux/of_device.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/reset.h>
+>  #include <linux/slab.h>
+>  #include <linux/spinlock.h>
+> =20
+> @@ -159,6 +160,7 @@ struct sun4i_dma_config {
+>  	u8 ddma_drq_sdram;
+> =20
+>  	u8 max_burst;
+> +	bool has_reset;
+>  };
+> =20
+>  struct sun4i_dma_pchan {
+> @@ -208,6 +210,7 @@ struct sun4i_dma_dev {
+>  	int				irq;
+>  	spinlock_t			lock;
+>  	const struct sun4i_dma_config *cfg;
+> +	struct reset_control *rst;
+>  };
+> =20
+>  static struct sun4i_dma_dev *to_sun4i_dma_dev(struct dma_device *dev)
+> @@ -1215,6 +1218,15 @@ static int sun4i_dma_probe(struct platform_device =
+*pdev)
+>  		return PTR_ERR(priv->clk);
+>  	}
+> =20
+> +	if (priv->cfg->has_reset) {
+> +		priv->rst =3D devm_reset_control_get_exclusive(&pdev->dev,
+> +							       NULL);
 
-Are you keeping preferred ordering of entries? Usually it is
-alphanumerical, but you introduce now by model number.
+Aligning to open parenthesis will make checkpatch --strict happy.
 
->  
->    reg:
->      maxItems: 1
-> @@ -40,14 +41,20 @@ properties:
->        - const: codec
+> +		if (IS_ERR(priv->rst)) {
+> +			dev_err(&pdev->dev, "Failed to get reset control\n");
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Consider using dev_err_probe() here.
 
-Best regards,
-Krzysztof
+> +			return PTR_ERR(priv->rst);
+> +		}
+> +	}
+> +
+>  	platform_set_drvdata(pdev, priv);
+>  	spin_lock_init(&priv->lock);
+> =20
+> @@ -1287,6 +1299,16 @@ static int sun4i_dma_probe(struct platform_device =
+*pdev)
+>  		return ret;
+>  	}
+> =20
+> +	/* Deassert the reset control */
+> +	if (priv->rst) {
+> +		ret =3D reset_control_deassert(priv->rst);
+> +		if (ret) {
+> +			dev_err(&pdev->dev,
+> +				"Failed to deassert the reset control\n");
+> +			goto err_clk_disable;
+> +		}
+> +	}
 
+You can just call reset_control_deassert() unconditionally, it accepts
+a NULL parameter:
+
+  https://docs.kernel.org/driver-api/reset.html#c.reset_control_deassert
+
+
+regards
+Philipp
