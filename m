@@ -1,128 +1,102 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3632522B640
-	for <linux-sunxi@lists.linux.dev>; Thu, 24 Oct 2024 19:22:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2332622B650;
+	Thu, 24 Oct 2024 20:16:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729797770; cv=none; b=Hjd9tCMXpcmrTqSF0f1SZyi+Zy//+eRVLpvLjC5FccX8J4+epXFCyUTE2hFsL5vxzl0yPN/tH1hyD0cghbEKXNoYBySP8x7EsK54ysT9AJkcrkLyK3iiS6rgx40aUxba0I8Wnx1LtDMZKWSRtNWmDFGDWvNseSq5fKSp6snnDh0=
+	t=1729801012; cv=none; b=TPgcxwXZUmZ59jO7K9xdNDyeqVXZokxBe5o5aoQ2CsHb5Uk7djpWMV3Z8myAUYWxZnY10/wNcwCxnBpmtBd8FIfOSlB6Ex2kngXRmC5jZMEaAEJAvs5cvdPUPYcaYoTc1JT7Z1LCCnZzpgYx3IMd5zQlhnKt12lsJmsm3nGFtd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729797770; c=relaxed/simple;
-	bh=jKh3x40WQHuOT3OY0nTrMeMhafdVjif4nBSUcncQMQM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=S2KQCI1IE8f0ZATsiugIkyn+yW3LTKlkv2Ip4T9pynDyVJRSra9YTmTKy7lq77Jm/MT7l27BGBnvh0AF5Su+nf5+3tQ73nnovqQu26GHsSSEFnRb/SBsDK5eMtk54lY49kdNBBAC2G+jLLNz1R+FPH//8Q6k4ErU/tTYWIt9Xns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 05BC0339;
-	Thu, 24 Oct 2024 12:23:16 -0700 (PDT)
-Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D6E593F528;
-	Thu, 24 Oct 2024 12:22:42 -0700 (PDT)
-Date: Thu, 24 Oct 2024 20:22:33 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Cody Eksal <masterr3c0rd@epochal.quest>
-Cc: linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-usb@vger.kernel.org, Vinod Koul <vkoul@kernel.org>, Kishon Vijay
- Abraham I <kishon@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Yangtao
- Li <frank@allwinnertech.com>, Florian Fainelli
- <florian.fainelli@broadcom.com>, Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>, Parthiban <parthiban@linumiz.com>, Linus
- Walleij <linus.walleij@linaro.org>, Thierry Reding <treding@nvidia.com>,
- Maxime Ripard <mripard@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Yangtao Li <tiny.windzz@gmail.com>, Viresh
- Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, Stephen Boyd
- <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, "Rafael J.
- Wysocki" <rafael@kernel.org>
-Subject: Re: [PATCH 06/13] phy: sun4i-usb: add support for A100 USB PHY
-Message-ID: <20241024202216.6cded8c4@minigeek.lan>
-In-Reply-To: <20241024170540.2721307-7-masterr3c0rd@epochal.quest>
-References: <20241024170540.2721307-1-masterr3c0rd@epochal.quest>
-	<20241024170540.2721307-7-masterr3c0rd@epochal.quest>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	s=arc-20240116; t=1729801012; c=relaxed/simple;
+	bh=M8Hou7W+/slEq6beBx1BMbstELY0N17vo5D8dtjCwaw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=CYNw+Wc2UFnzVBQPBSzFSPLQd2+E/lMt7nQ3f6tThI2k0F6DyU1hECFUGeK1g0+bH4zTnKaOFVdecVQ4AQ0RRYbPiNlyQkZbLMrsXx9X30bZp2fwfiGRtlud6zEHdSqrs5y0fCh5KzrCS9NXcXN4vwsdsBAayddnUA1OGx8nlmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uVlghJjt; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uVlghJjt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 010B0C4CEC7;
+	Thu, 24 Oct 2024 20:16:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729801011;
+	bh=M8Hou7W+/slEq6beBx1BMbstELY0N17vo5D8dtjCwaw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=uVlghJjtlBAM8RBB0TFYRfF2upDQF6o0IDI3jnzZNQn3qsSu62i4WiMSA0gSD/s0l
+	 2/up8sX6KJ6JidEdblO8bvf8drryM0sB78IeFAJz+BPvwXHTGYVav67Pzh6O53PSek
+	 l/6dbyNegQAks2AHKlKqRjZuOFZ1gVawYJCHGkwtOvbRfnzVAfdCioXOZxExqIpWp3
+	 L7bTdeOYqKrSOcZvW0nEDjRrA6l55aSdbJHzP8syxRBhLHd8ArbcAwaRniUA5iNr2s
+	 pVtS5q/mruJa6l6x4Fdsl1xWn5nlmCb0Dz+IXh7JIVoy9YUwvavlL68+N96RQsW0Ou
+	 CjOayo9B8dv5g==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Chris Morgan <macroalpha82@gmail.com>, 
+ Philippe Simons <simons.philippe@gmail.com>, 
+ Ryan Walklin <ryan@testtoast.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, 
+ linux-clk@vger.kernel.org
+In-Reply-To: <20241023075917.186835-1-ryan@testtoast.com>
+References: <20241023075917.186835-1-ryan@testtoast.com>
+Subject: Re: (subset) [PATCH v3 0/7] ASoC: add Allwinner H616 audio codec
+ support
+Message-Id: <172980100873.554299.14641282051254983661.b4-ty@kernel.org>
+Date: Thu, 24 Oct 2024 21:16:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-9b746
 
-On Thu, 24 Oct 2024 14:05:24 -0300
-Cody Eksal <masterr3c0rd@epochal.quest> wrote:
-
-Hi,
-
-> From: Yangtao Li <frank@allwinnertech.com>
+On Wed, 23 Oct 2024 20:56:56 +1300, Ryan Walklin wrote:
+> V3 of this patch adding support for the Allwinner H616 (and variant)'s audio codec. Some clarification of comments, particularly regarding the clock driver changes, and a small fix for the device tree binding (apologies I forgot to re-run dt_binding_check on V2). Review comments otherwise addressed and reviews noted.
 > 
-> Add support for a100's usb phy, which with 2 PHYs.
+> Changelog v1..v2:
+> - Reordered patches to group ASoC changes
+> - Corrected PLL_AUDIO clock dividers to match values from manual and vendor SDK.
+> - Remove PLL_AUDIO_4X clock from the device tree binding (not used in the driver).
+> - Restrict TX-only DMA changes to the H616.
+> - Change the codec name to fit into the 16 char limit.
+> - Move the codec (and spdif) blocks in the H616 DTSI to restore address-order.
+> - Add board enablement (and power/GPIO changes for RG35XX to support speaker amp).
 > 
-> Signed-off-by: Yangtao Li <frank@allwinnertech.com>
-> [masterr3c0rd@epochal.quest: modified to use quirk flags]
-> Signed-off-by: Cody Eksal <masterr3c0rd@epochal.quest>
-> ---
->  drivers/phy/allwinner/phy-sun4i-usb.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c b/drivers/phy/allwinner/phy-sun4i-usb.c
-> index b0f19e950601..a3942b2ee90b 100644
-> --- a/drivers/phy/allwinner/phy-sun4i-usb.c
-> +++ b/drivers/phy/allwinner/phy-sun4i-usb.c
-> @@ -1006,6 +1006,16 @@ static const struct sun4i_usb_phy_cfg sun50i_a64_cfg = {
->  	.phy0_dual_route = true,
->  };
->  
-> +static const struct sun4i_usb_phy_cfg sun50i_a100_cfg = {
-> +	.num_phys = 2,
-> +	.disc_thresh = 3,
+> [...]
 
-This member is never used when .siddq_in_base is true (and yes, this is
-wrong for the H616 too), ...
+Applied to
 
-> +	.phyctl_offset = REG_PHYCTL_A33,
-> +	.dedicated_clocks = true,
-> +	.hci_phy_ctl_clear = PHY_CTL_SIDDQ,
-> +	.phy0_dual_route = true,
-> +	.siddq_in_base = true,
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-... which makes this whole description identical to the D1 version.
-So at the very least we wouldn't this new a100_cfg, but instead just
-point to the existing d1_cfg.
+Thanks!
 
-> +};
-> +
->  static const struct sun4i_usb_phy_cfg sun50i_h6_cfg = {
->  	.num_phys = 4,
->  	.phyctl_offset = REG_PHYCTL_A33,
-> @@ -1040,6 +1050,7 @@ static const struct of_device_id sun4i_usb_phy_of_match[] = {
->  	{ .compatible = "allwinner,sun20i-d1-usb-phy", .data = &sun20i_d1_cfg },
->  	{ .compatible = "allwinner,sun50i-a64-usb-phy",
->  	  .data = &sun50i_a64_cfg},
-> +	{ .compatible = "allwinner,sun50i-a100-usb-phy", .data = &sun50i_a100_cfg },
+[2/7] dt-bindings: allwinner: add H616 sun4i audio codec binding
+      commit: 542e19c20506953c03eec57b1cb65355164dfb64
+[3/7] ASoC: sun4i-codec: Add support for different DAC FIFOC addresses to quirks
+      commit: 5836a9d2ca48bb7473bb10d061c03525d8f4f163
+[4/7] ASoC: sun4i-codec: Add playback only flag to quirks
+      commit: 9fde21d6c5d1f75c2651442e5aae463545136aad
+[5/7] ASoC: sun4i-codec: support allwinner H616 codec
+      commit: 9155c321a1d0220a60878f2c99bc79b5a7e34d95
 
-And this also brings up the question whether we need a new compatible
-string. As it stands now, we could also use:
-	compatible = "allwinner,sun50i-a100-usb-phy",
-		     "allwinner,sun20i-d1-usb-phy";
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-and wouldn't need any driver changes at all. Which would have the neat
-side effect to make USB work already with v5.18 kernels.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-The only downside is the somewhat weird ordering of the compatible
-strings, with the much newer chip as the fallback.
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-What do other people think here?
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-Cheers,
-Andre
-
-
->  	{ .compatible = "allwinner,sun50i-h6-usb-phy", .data = &sun50i_h6_cfg },
->  	{ .compatible = "allwinner,sun50i-h616-usb-phy", .data = &sun50i_h616_cfg },
->  	{ .compatible = "allwinner,suniv-f1c100s-usb-phy",
+Thanks,
+Mark
 
