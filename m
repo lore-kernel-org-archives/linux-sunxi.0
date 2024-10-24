@@ -1,150 +1,128 @@
-Received: from thales.epochal.quest (thales.epochal.quest [51.222.15.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D2AF1F80CC
-	for <linux-sunxi@lists.linux.dev>; Thu, 24 Oct 2024 17:19:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.222.15.28
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3632522B640
+	for <linux-sunxi@lists.linux.dev>; Thu, 24 Oct 2024 19:22:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729790358; cv=none; b=tzHysFyLQw+naU6osjuYSezkA8jZ+IKMbnicBLSVDL8xiTYEApOQ23zxSxG2PxznqV+dxmF6ofYk1P6X0X6FHEI1PHw0k84omb55+vm8ekUFvOgylgomjmapbjoOBNAd88cigNlCQtVwouCAFdF6U+0Sby2Z84ekqTjAw2yJWTw=
+	t=1729797770; cv=none; b=Hjd9tCMXpcmrTqSF0f1SZyi+Zy//+eRVLpvLjC5FccX8J4+epXFCyUTE2hFsL5vxzl0yPN/tH1hyD0cghbEKXNoYBySP8x7EsK54ysT9AJkcrkLyK3iiS6rgx40aUxba0I8Wnx1LtDMZKWSRtNWmDFGDWvNseSq5fKSp6snnDh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729790358; c=relaxed/simple;
-	bh=s7xzMFvJ4Cag5AvnrOIpgkj1EGCgsWQbCxPj4HldfhU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HUgzgpnnSEQtpLvjSd1A1SeFEKl4ErzAu9j3uOCRpI3l4HaMiVkjd5ltCdV+4jjwTq8NFVNOfcTuhFSV2hiFOESJjZUr/eiy6CY8k1Dqu0Wfe6O4P4XtHRZA7HUKxz8MpdS7z8HTNPJtpBpz1grjFlxwOkLMBPblnz7yS73Ri0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epochal.quest; spf=pass smtp.mailfrom=epochal.quest; dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b=XV3L7CAW; arc=none smtp.client-ip=51.222.15.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epochal.quest
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=epochal.quest
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b="XV3L7CAW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=epochal.quest;
-	s=default; t=1729789781;
-	bh=s7xzMFvJ4Cag5AvnrOIpgkj1EGCgsWQbCxPj4HldfhU=;
-	h=From:To:Cc:Subject:Date:From;
-	b=XV3L7CAWsqfMo1+ztn5WJZFeVtrIN2TalAaxLuOyWtU0K6CierjqNvMA7qIxXIygT
-	 /3edWKT7iFdUrQQeitM9eKoXXPz/1+YTBxLPnE6AGmGSbguryxK+m0ao7t0RhgVlwh
-	 djaT0WBOlfhLbDGAah2KRenKKJG7MWaW+MpcVAnNOYI2XKCGNV6CbxajODgBEAG4Xs
-	 g4fxBfMffN8VuFIi84Bj0lRJswbnM1rjyhSluGgSpPmzeflhMOTqDQ7CYKEAj0KpYz
-	 QInLLVqWJP39DHxkarJgZmFkAZRuO0LAtXUr5gOQyGBVstgjUdtd27JnkYOmSXCRSM
-	 vbs5ewMt05EeQ==
-X-Virus-Scanned: by epochal.quest
-From: Cody Eksal <masterr3c0rd@epochal.quest>
-To: linux-pm@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-phy@lists.infradead.org,
-	linux-usb@vger.kernel.org
-Cc: Cody Eksal <masterr3c0rd@epochal.quest>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Parthiban <parthiban@linumiz.com>,
-	Yangtao Li <frank@allwinnertech.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Thierry Reding <treding@nvidia.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Yangtao Li <tiny.windzz@gmail.com>,
-	Viresh Kumar <vireshk@kernel.org>,
-	Nishanth Menon <nm@ti.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>
-Subject: [PATCH 00/13] sunxi: A100/A133 second stage support
-Date: Thu, 24 Oct 2024 14:05:18 -0300
-Message-ID: <20241024170540.2721307-1-masterr3c0rd@epochal.quest>
-X-Mailer: git-send-email 2.47.0
+	s=arc-20240116; t=1729797770; c=relaxed/simple;
+	bh=jKh3x40WQHuOT3OY0nTrMeMhafdVjif4nBSUcncQMQM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=S2KQCI1IE8f0ZATsiugIkyn+yW3LTKlkv2Ip4T9pynDyVJRSra9YTmTKy7lq77Jm/MT7l27BGBnvh0AF5Su+nf5+3tQ73nnovqQu26GHsSSEFnRb/SBsDK5eMtk54lY49kdNBBAC2G+jLLNz1R+FPH//8Q6k4ErU/tTYWIt9Xns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 05BC0339;
+	Thu, 24 Oct 2024 12:23:16 -0700 (PDT)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D6E593F528;
+	Thu, 24 Oct 2024 12:22:42 -0700 (PDT)
+Date: Thu, 24 Oct 2024 20:22:33 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Cody Eksal <masterr3c0rd@epochal.quest>
+Cc: linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-usb@vger.kernel.org, Vinod Koul <vkoul@kernel.org>, Kishon Vijay
+ Abraham I <kishon@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Yangtao
+ Li <frank@allwinnertech.com>, Florian Fainelli
+ <florian.fainelli@broadcom.com>, Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>, Parthiban <parthiban@linumiz.com>, Linus
+ Walleij <linus.walleij@linaro.org>, Thierry Reding <treding@nvidia.com>,
+ Maxime Ripard <mripard@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Yangtao Li <tiny.windzz@gmail.com>, Viresh
+ Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, Stephen Boyd
+ <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, "Rafael J.
+ Wysocki" <rafael@kernel.org>
+Subject: Re: [PATCH 06/13] phy: sun4i-usb: add support for A100 USB PHY
+Message-ID: <20241024202216.6cded8c4@minigeek.lan>
+In-Reply-To: <20241024170540.2721307-7-masterr3c0rd@epochal.quest>
+References: <20241024170540.2721307-1-masterr3c0rd@epochal.quest>
+	<20241024170540.2721307-7-masterr3c0rd@epochal.quest>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hello! This is my first submission, so please be gentle :)
+On Thu, 24 Oct 2024 14:05:24 -0300
+Cody Eksal <masterr3c0rd@epochal.quest> wrote:
 
-Back in 2020, two Allwinner employees, Yangtao Li and Shuosheng Huang, each
-submitted a patch series for the A100 series of SoCs; [1] intended to add
-support for the watchdog, ARM PMU, DMA, USB, and (e)MMC controller, and [2]
-implemented DVFS support. Some patches from the first series landed, but
-the rest were seemingly abandoned.
+Hi,
 
-Although references to the A100 have been removed by Allwinner, it is
-believed that the A133 and A133 Plus, which are still available, are simply
-better binned variants of the A100; no other differences have been noted
-thus far, and the drivers for the A100 work on the A133 without any
-additional modifications. There has been a resurgence of interest in the
-A133; patches to allow mainline U-Boot to run on these devices are
-currently in progress.
+> From: Yangtao Li <frank@allwinnertech.com>
+> 
+> Add support for a100's usb phy, which with 2 PHYs.
+> 
+> Signed-off-by: Yangtao Li <frank@allwinnertech.com>
+> [masterr3c0rd@epochal.quest: modified to use quirk flags]
+> Signed-off-by: Cody Eksal <masterr3c0rd@epochal.quest>
+> ---
+>  drivers/phy/allwinner/phy-sun4i-usb.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c b/drivers/phy/allwinner/phy-sun4i-usb.c
+> index b0f19e950601..a3942b2ee90b 100644
+> --- a/drivers/phy/allwinner/phy-sun4i-usb.c
+> +++ b/drivers/phy/allwinner/phy-sun4i-usb.c
+> @@ -1006,6 +1006,16 @@ static const struct sun4i_usb_phy_cfg sun50i_a64_cfg = {
+>  	.phy0_dual_route = true,
+>  };
+>  
+> +static const struct sun4i_usb_phy_cfg sun50i_a100_cfg = {
+> +	.num_phys = 2,
+> +	.disc_thresh = 3,
 
-I have rebased the patches that failed to land, applying the feedback
-provided by maintainers at the time. Some DT binding patches were added, as
-there were a few cases where compatibles were used without being
-documented. Minor reworks were necessary to apply certain patches, as the
-drivers they modified have matured over time.
+This member is never used when .siddq_in_base is true (and yes, this is
+wrong for the H616 too), ...
 
-Patches 1 and 2 add PMU and watchdog nodes to the device tree. This is
-followed by patches 3-8, which implement support for the USB host and OTG
-peripherals. Patches 9 and 10 add MMC nodes, rounding out what originally
-made up the first patch series; support for these already exists from
-earlier patches. Patches 11-13 finish the job of the second original
-series and this series, implementing OPP and enabling DVFS on these SoCs.
+> +	.phyctl_offset = REG_PHYCTL_A33,
+> +	.dedicated_clocks = true,
+> +	.hci_phy_ctl_clear = PHY_CTL_SIDDQ,
+> +	.phy0_dual_route = true,
+> +	.siddq_in_base = true,
 
-This series is also available on GitHub [3].
+... which makes this whole description identical to the D1 version.
+So at the very least we wouldn't this new a100_cfg, but instead just
+point to the existing d1_cfg.
 
-A sincere thanks to Andre for encouraging me to submit these patches,
-Parthiban for testing this tree on his board, and to the linux-sunxi
-community and its resources for pointing me to these abandoned series in
-the first place [4].
+> +};
+> +
+>  static const struct sun4i_usb_phy_cfg sun50i_h6_cfg = {
+>  	.num_phys = 4,
+>  	.phyctl_offset = REG_PHYCTL_A33,
+> @@ -1040,6 +1050,7 @@ static const struct of_device_id sun4i_usb_phy_of_match[] = {
+>  	{ .compatible = "allwinner,sun20i-d1-usb-phy", .data = &sun20i_d1_cfg },
+>  	{ .compatible = "allwinner,sun50i-a64-usb-phy",
+>  	  .data = &sun50i_a64_cfg},
+> +	{ .compatible = "allwinner,sun50i-a100-usb-phy", .data = &sun50i_a100_cfg },
 
-[1] https://patchwork.kernel.org/project/linux-arm-kernel/list/?series=380887&archive=both&state=*
-[2] https://patchwork.kernel.org/project/linux-arm-kernel/list/?series=396055&archive=both&state=*
-[3] https://github.com/BrokenR3C0RD/linux-a100/compare/c2ee9f59..allwinner-a100
-[4] https://linux-sunxi.org/Linux_mainlining_effort#Work_In_Progress
+And this also brings up the question whether we need a new compatible
+string. As it stands now, we could also use:
+	compatible = "allwinner,sun50i-a100-usb-phy",
+		     "allwinner,sun20i-d1-usb-phy";
 
-Cody Eksal (4):
-  dt-bindings: phy: sun50i-a64: add a100 compatible
-  dt-bindings: usb: Add A100 compatible string
-  dt-bindings: usb: sunxi-musb: Add A100 compatible string
-  dt-bindings: opp: h6: Add A100 operating points
+and wouldn't need any driver changes at all. Which would have the neat
+side effect to make USB work already with v5.18 kernels.
 
-Shuosheng Huang (2):
-  cpufreq: sun50i: add a100 cpufreq support
-  arm64: dts: allwinner: a100: Add CPU Operating Performance Points
-    table
+The only downside is the somewhat weird ordering of the compatible
+strings, with the much newer chip as the fallback.
 
-Yangtao Li (7):
-  arm64: dts: allwinner: A100: Add PMU mode
-  arm64: dts: allwinner: a100: add watchdog node
-  phy: sun4i-usb: add support for A100 USB PHY
-  arm64: dts: allwinner: a100: add usb related nodes
-  arm64: allwinner: A100: enable EHCI, OHCI and USB PHY nodes in Perf1
-  arm64: allwinner: a100: Add MMC related nodes
-  arm64: dts: allwinner: a100: perf1: Add eMMC and MMC node
+What do other people think here?
 
- .../allwinner,sun50i-h6-operating-points.yaml |   1 +
- .../phy/allwinner,sun50i-a64-usb-phy.yaml     |   1 +
- .../usb/allwinner,sun4i-a10-musb.yaml         |   1 +
- .../devicetree/bindings/usb/generic-ehci.yaml |   1 +
- .../devicetree/bindings/usb/generic-ohci.yaml |   1 +
- .../allwinner/sun50i-a100-allwinner-perf1.dts |  59 ++++++
- .../dts/allwinner/sun50i-a100-cpu-opp.dtsi    |  90 ++++++++
- .../arm64/boot/dts/allwinner/sun50i-a100.dtsi | 193 +++++++++++++++++-
- drivers/cpufreq/sun50i-cpufreq-nvmem.c        |  28 +++
- drivers/phy/allwinner/phy-sun4i-usb.c         |  11 +
- 10 files changed, 383 insertions(+), 3 deletions(-)
- create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-a100-cpu-opp.dtsi
+Cheers,
+Andre
 
 
-base-commit: c2ee9f594da826bea183ed14f2cc029c719bf4da
--- 
-2.47.0
+>  	{ .compatible = "allwinner,sun50i-h6-usb-phy", .data = &sun50i_h6_cfg },
+>  	{ .compatible = "allwinner,sun50i-h616-usb-phy", .data = &sun50i_h616_cfg },
+>  	{ .compatible = "allwinner,suniv-f1c100s-usb-phy",
 
