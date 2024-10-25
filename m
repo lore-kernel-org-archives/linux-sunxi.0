@@ -1,102 +1,185 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2332622B650;
-	Thu, 24 Oct 2024 20:16:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 590E41D131D
+	for <linux-sunxi@lists.linux.dev>; Fri, 25 Oct 2024 09:38:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729801012; cv=none; b=TPgcxwXZUmZ59jO7K9xdNDyeqVXZokxBe5o5aoQ2CsHb5Uk7djpWMV3Z8myAUYWxZnY10/wNcwCxnBpmtBd8FIfOSlB6Ex2kngXRmC5jZMEaAEJAvs5cvdPUPYcaYoTc1JT7Z1LCCnZzpgYx3IMd5zQlhnKt12lsJmsm3nGFtd0=
+	t=1729849135; cv=none; b=og8PLZKbC7SC/zIpZOqSdA9XLFMVxvg5asuhntjBW3CHU1UMP0/Nqpg1iG1MqWbvAs3JJ5ieFGqIENB689G6ufdK1ejkunWspWDCYy8P2LGvoJRRrQL99JFiZr5XRwvfev3ACudl76+RVmIGTK1+KnC4ot/43Urcm/VNFJ63JMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729801012; c=relaxed/simple;
-	bh=M8Hou7W+/slEq6beBx1BMbstELY0N17vo5D8dtjCwaw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=CYNw+Wc2UFnzVBQPBSzFSPLQd2+E/lMt7nQ3f6tThI2k0F6DyU1hECFUGeK1g0+bH4zTnKaOFVdecVQ4AQ0RRYbPiNlyQkZbLMrsXx9X30bZp2fwfiGRtlud6zEHdSqrs5y0fCh5KzrCS9NXcXN4vwsdsBAayddnUA1OGx8nlmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uVlghJjt; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uVlghJjt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 010B0C4CEC7;
-	Thu, 24 Oct 2024 20:16:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729801011;
-	bh=M8Hou7W+/slEq6beBx1BMbstELY0N17vo5D8dtjCwaw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=uVlghJjtlBAM8RBB0TFYRfF2upDQF6o0IDI3jnzZNQn3qsSu62i4WiMSA0gSD/s0l
-	 2/up8sX6KJ6JidEdblO8bvf8drryM0sB78IeFAJz+BPvwXHTGYVav67Pzh6O53PSek
-	 l/6dbyNegQAks2AHKlKqRjZuOFZ1gVawYJCHGkwtOvbRfnzVAfdCioXOZxExqIpWp3
-	 L7bTdeOYqKrSOcZvW0nEDjRrA6l55aSdbJHzP8syxRBhLHd8ArbcAwaRniUA5iNr2s
-	 pVtS5q/mruJa6l6x4Fdsl1xWn5nlmCb0Dz+IXh7JIVoy9YUwvavlL68+N96RQsW0Ou
-	 CjOayo9B8dv5g==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Chris Morgan <macroalpha82@gmail.com>, 
- Philippe Simons <simons.philippe@gmail.com>, 
- Ryan Walklin <ryan@testtoast.com>
-Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, 
- linux-clk@vger.kernel.org
-In-Reply-To: <20241023075917.186835-1-ryan@testtoast.com>
+	s=arc-20240116; t=1729849135; c=relaxed/simple;
+	bh=+Q5754NxjzIaGCjBE8cr3K9Tgne9Hh3xvSdv5A40ttE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NPQqs4bW+avGt5I27T9rrWn9HAoHAYuc04NWwglSKt0ExA1f2bSxMXNSPP3IcbKrkP3LLUSBtNkx1ML8ZS3nNeVeKtNtGNAfT1l96LZ0vBzjSR8woAPXcPEnb0fpLlIYskEr79FqyC4OOGQoV3HCZ7c9iprFc/kMNI5lsXnf078=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2A1BF339;
+	Fri, 25 Oct 2024 02:39:20 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D4FA13F528;
+	Fri, 25 Oct 2024 02:38:47 -0700 (PDT)
+Date: Fri, 25 Oct 2024 10:38:41 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Ryan Walklin <ryan@testtoast.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu
+ Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
+ Holland <samuel@sholland.org>, Chris Morgan <macroalpha82@gmail.com>,
+ Philippe Simons <simons.philippe@gmail.com>, linux-sound@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, linux-clk@vger.kernel.org
+Subject: Re: [PATCH v3 1/7] clk: sunxi-ng: h616: Add sigma-delta modulation
+ settings for audio PLL
+Message-ID: <20241025103828.41f459b5@donnerap.manchester.arm.com>
+In-Reply-To: <20241023075917.186835-2-ryan@testtoast.com>
 References: <20241023075917.186835-1-ryan@testtoast.com>
-Subject: Re: (subset) [PATCH v3 0/7] ASoC: add Allwinner H616 audio codec
- support
-Message-Id: <172980100873.554299.14641282051254983661.b4-ty@kernel.org>
-Date: Thu, 24 Oct 2024 21:16:48 +0100
+	<20241023075917.186835-2-ryan@testtoast.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-9b746
 
-On Wed, 23 Oct 2024 20:56:56 +1300, Ryan Walklin wrote:
-> V3 of this patch adding support for the Allwinner H616 (and variant)'s audio codec. Some clarification of comments, particularly regarding the clock driver changes, and a small fix for the device tree binding (apologies I forgot to re-run dt_binding_check on V2). Review comments otherwise addressed and reviews noted.
+On Wed, 23 Oct 2024 20:56:57 +1300
+Ryan Walklin <ryan@testtoast.com> wrote:
+
+Hi Ryan,
+
+> Allwinner has previously released a H616 audio driver which also
+> provides sigma-delta modulation for the audio PLL clocks. This approach
+> is used in other Allwinner SoCs, including the H3 and A64.
 > 
+> The manual-provided clock values are:
+> PLL_AUDIO(hs) = 24 MHz*N/M1
+> PLL_AUDIO(4X) = 24 MHz*N/M0/M1/P
+> PLL_AUDIO(2X) = 24 MHz*N/M0/M1/P/2
+> PLL_AUDIO(1X) = 24 MHz*N/M0/M1/P/4
+> 
+> A fixed post-divider of 2 is used to account for a M0 divider of
+> 2, which cannot be modelled by the existing macros and ccu_nm struct.
+> 
+> Add SDM to the H616 clock control unit driver.
+
+Thanks for the changes in the comments, that looks all good to me. I am
+still scratching my head on why Allwinner promotes odd dividers, when
+they somewhat warn about them in the manual, but I trust the wisdom of the
+BSP here, and it certainly works. If any issues arise, we can always fix
+that later.
+
+> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+
+Confirmed that the registers and bits match the manual, and the SDM values
+also add up to reach those frequencies:
+
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+
+Cheers,
+Andre
+
+> 
+> ---
 > Changelog v1..v2:
-> - Reordered patches to group ASoC changes
-> - Corrected PLL_AUDIO clock dividers to match values from manual and vendor SDK.
-> - Remove PLL_AUDIO_4X clock from the device tree binding (not used in the driver).
-> - Restrict TX-only DMA changes to the H616.
-> - Change the codec name to fit into the 16 char limit.
-> - Move the codec (and spdif) blocks in the H616 DTSI to restore address-order.
-> - Add board enablement (and power/GPIO changes for RG35XX to support speaker amp).
+> - Add fixed_post_div to high-speed audio clock to correct M0 value to 1 (ie divide by 2) based on manual
+> - Correct PLL_AUDIO_(4/2/1)X clocks to manual-provided values
+> - Add/correct inline comments for the above.
+> - add CCU_FEATURE_FIXED_POSTDIV to pll_audio_hs_clk.common.features
 > 
-> [...]
-
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[2/7] dt-bindings: allwinner: add H616 sun4i audio codec binding
-      commit: 542e19c20506953c03eec57b1cb65355164dfb64
-[3/7] ASoC: sun4i-codec: Add support for different DAC FIFOC addresses to quirks
-      commit: 5836a9d2ca48bb7473bb10d061c03525d8f4f163
-[4/7] ASoC: sun4i-codec: Add playback only flag to quirks
-      commit: 9fde21d6c5d1f75c2651442e5aae463545136aad
-[5/7] ASoC: sun4i-codec: support allwinner H616 codec
-      commit: 9155c321a1d0220a60878f2c99bc79b5a7e34d95
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+> Changelog v2..v3:
+> - Update comments and commit message to more accurately reflect SDM changes and rationale
+> ---
+>  drivers/clk/sunxi-ng/ccu-sun50i-h616.c | 46 +++++++++++++++++---------
+>  1 file changed, 30 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+> index 6c7623d4c59ea..05727fa1ee46e 100644
+> --- a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+> @@ -215,20 +215,30 @@ static struct ccu_nkmp pll_de_clk = {
+>  	},
+>  };
+>  
+> -/*
+> - * TODO: Determine SDM settings for the audio PLL. The manual suggests
+> - * PLL_FACTOR_N=16, PLL_POST_DIV_P=2, OUTPUT_DIV=2, pattern=0xe000c49b
+> - * for 24.576 MHz, and PLL_FACTOR_N=22, PLL_POST_DIV_P=3, OUTPUT_DIV=2,
+> - * pattern=0xe001288c for 22.5792 MHz.
+> - * This clashes with our fixed PLL_POST_DIV_P.
+> +/* 
+> + * Sigma-delta modulation settings table obtained from the vendor SDK driver.
+> + * There are additional M0 and M1 divider bits not modelled here, so forced to
+> + * fixed values in the probe routine. Sigma-delta modulation allows providing a
+> + * fractional-N divider in the PLL, to help reaching those specific
+> + * frequencies with less error.
+>   */
+> +static struct ccu_sdm_setting pll_audio_sdm_table[] = {
+> +	{ .rate = 90316800, .pattern = 0xc001288d, .m = 3, .n = 22 },
+> +	{ .rate = 98304000, .pattern = 0xc001eb85, .m = 5, .n = 40 },
+> +};
+> +
+>  #define SUN50I_H616_PLL_AUDIO_REG	0x078
+>  static struct ccu_nm pll_audio_hs_clk = {
+>  	.enable		= BIT(31),
+>  	.lock		= BIT(28),
+>  	.n		= _SUNXI_CCU_MULT_MIN(8, 8, 12),
+> -	.m		= _SUNXI_CCU_DIV(1, 1), /* input divider */
+> +	.m		= _SUNXI_CCU_DIV(16, 6),
+> +	.sdm		= _SUNXI_CCU_SDM(pll_audio_sdm_table,
+> +					 BIT(24), 0x178, BIT(31)),
+> +	.fixed_post_div = 2,
+>  	.common		= {
+> +		.features	= CCU_FEATURE_FIXED_POSTDIV | 
+> +				  CCU_FEATURE_SIGMA_DELTA_MOD,
+>  		.reg		= 0x078,
+>  		.hw.init	= CLK_HW_INIT("pll-audio-hs", "osc24M",
+>  					      &ccu_nm_ops,
+> @@ -701,18 +711,20 @@ static const struct clk_hw *clk_parent_pll_audio[] = {
+>  };
+>  
+>  /*
+> - * The divider of pll-audio is fixed to 24 for now, so 24576000 and 22579200
+> - * rates can be set exactly in conjunction with sigma-delta modulation.
+> + * The PLL_AUDIO_4X clock defaults to 24.5714 MHz according to the manual, with 
+> + * a final divider of 1. The 2X and 1X clocks use 2 and 4 respectively. The 1x 
+> + * clock is set to either 24576000 or 22579200 for 48Khz and 44.1Khz (and 
+> + * multiples).
+>   */
+>  static CLK_FIXED_FACTOR_HWS(pll_audio_1x_clk, "pll-audio-1x",
+>  			    clk_parent_pll_audio,
+> -			    96, 1, CLK_SET_RATE_PARENT);
+> +			    4, 1, CLK_SET_RATE_PARENT);
+>  static CLK_FIXED_FACTOR_HWS(pll_audio_2x_clk, "pll-audio-2x",
+>  			    clk_parent_pll_audio,
+> -			    48, 1, CLK_SET_RATE_PARENT);
+> +			    2, 1, CLK_SET_RATE_PARENT);
+>  static CLK_FIXED_FACTOR_HWS(pll_audio_4x_clk, "pll-audio-4x",
+>  			    clk_parent_pll_audio,
+> -			    24, 1, CLK_SET_RATE_PARENT);
+> +			    1, 1, CLK_SET_RATE_PARENT);
+>  
+>  static const struct clk_hw *pll_periph0_parents[] = {
+>  	&pll_periph0_clk.common.hw
+> @@ -1162,12 +1174,14 @@ static int sun50i_h616_ccu_probe(struct platform_device *pdev)
+>  	}
+>  
+>  	/*
+> -	 * Force the post-divider of pll-audio to 12 and the output divider
+> -	 * of it to 2, so 24576000 and 22579200 rates can be set exactly.
+> +	 * Set the output-divider for the pll-audio clocks (M0) to 2 and the
+> +	 * input divider (M1) to 1 as recommended by the manual when using 
+> +	 * SDM. 
+>  	 */
+>  	val = readl(reg + SUN50I_H616_PLL_AUDIO_REG);
+> -	val &= ~(GENMASK(21, 16) | BIT(0));
+> -	writel(val | (11 << 16) | BIT(0), reg + SUN50I_H616_PLL_AUDIO_REG);
+> +	val &= ~BIT(1);
+> +	val |= BIT(0);
+> +	writel(val, reg + SUN50I_H616_PLL_AUDIO_REG);
+>  
+>  	/*
+>  	 * First clock parent (osc32K) is unusable for CEC. But since there
 
