@@ -1,104 +1,143 @@
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBDE27082E
-	for <linux-sunxi@lists.linux.dev>; Fri, 25 Oct 2024 14:43:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5722615ADA4
+	for <linux-sunxi@lists.linux.dev>; Fri, 25 Oct 2024 14:47:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729867398; cv=none; b=WpdP1CtUKQ61frO8UjfJ1MpozBAnFDIfHE9mmUykqNUgtAGZrlSXxnPEhqi3Yej2lrsGiS/3xvspAKNcQLguU+66MnU4d5As+LMV7WwGKMhTGGK5gHYAuuB1ZqDV06DHN/oivzoeQgCRKCftoKriFdC7rqTlAPX7H4Jsk95vQIk=
+	t=1729867666; cv=none; b=ZLKwpis2w2HNin9GWUOrj7yN8tAocmM3r2Xtl4zhopI1B9XIDMzExtGXTRMI53UaAjKKcrYA+zJEwUXThBZbtS9pnyWBhZ7J2Rq/xZfWHbxXAYtMdur/osrTfta+zIFOOc9RyJZ4jVMNLdFK7iihEFcXbhpRZzquh5R3r//WYuE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729867398; c=relaxed/simple;
-	bh=Ov15ZXxPnj6Uv7h2iz3N/YH6A544K+AjCPRgSiob/zc=;
+	s=arc-20240116; t=1729867666; c=relaxed/simple;
+	bh=rv0sKfSP/YRFHSgY5CLAidWvnvn2HJW92USZDnpqTOg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EOR6u9WAkDNPN6oIYcJmLQTidVGY5Od3fSYU49ZvmThhBLgXQ/pGOeaEl1SrQgEb1JA3+XfxIS924Y2sCwmL7KDwLtECOQH1MCWNHO1WH6dazzJk7GSlzMXYZpEz3ao/CQ58Tl2PLJoDGi0F389dUsnTSRKRQhk/cHpGLnigX88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.169
+	 To:Cc:Content-Type; b=dmc8rtT1/pltfXYI0EnHJMvCgwimCRECsnWoNaGKCtEB4qSBPXoPv8Kt1vEcfN4sE8xOs4DIJZSxZ2L80S6FInJkE5rMQr5G9f/+n/u6zEhobXmbpUvjlMeUMySLzDEm0VidJsPaA8BMjuZy+sGuY1l9GjmQ7mCiwBMcmdM/21U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2fb4fa17044so23384041fa.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 25 Oct 2024 07:43:16 -0700 (PDT)
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-539f1292a9bso2735025e87.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 25 Oct 2024 07:47:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729867394; x=1730472194;
+        d=1e100.net; s=20230601; t=1729867659; x=1730472459;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :reply-to:in-reply-to:references:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=AU/PzZlykHHoujrVc3gxuX+4ixyqcg60/hgRaGyT47w=;
-        b=AqvsLbVxX5ZCOONkaHU4AXHxvJ9urrpLLolRyR4EI08HdLRGUK6UB+d4lcBhuQr2rz
-         DR+XgS4/h17BwXEyj9CaQhfzgxERLQLi3ZKTV9yd7W8cQI55bZmYMy32MAMFOLcwU7ya
-         2ahr5X2//JVGyyNJKEHmHzaItgig5p66vJNLnBI7WOl2kKqrd0bLK0aG3rTMQsfZgBxa
-         1GD2DcsVLdeuPqOo9j9SazmWm2gbC0abGMsHKKqo3tuHmKYNhZcqgks9yf05rugWq4vi
-         jjRO7Jwrzj9QQHbVto3bB86/NcihfkcgLf+c757vMdQEl3RSsvBsLQf1VrdGDW/3H49V
-         7b2A==
-X-Forwarded-Encrypted: i=1; AJvYcCV7L9WQtbGlMtKxgdEAJfpV+L5yIoe56uiMs33UAMRb6dgBHlEr5dWgjJ0Hr/0letmG8hSzRfH08ohlyg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx3rXX7s8w8279CvcQkT4B1FQZaSGo5fLFtIBVbScSDk69zqZa+
-	ugcYZ98BcZZCf0rB5ev8rxqrTiEoQlO9wRAfjLWc5KA5fYT8Edg8oG0Skfoy
-X-Google-Smtp-Source: AGHT+IEISuMGniiwm6ljwNkIEp4Uc2FTRvhl8viphGnaR7+OviAoiZuozI0JuzrnaarECCRMrt7dLw==
-X-Received: by 2002:a2e:1319:0:b0:2fb:65c8:b4ae with SMTP id 38308e7fff4ca-2fc9d376e3dmr44465961fa.31.1729867393771;
-        Fri, 25 Oct 2024 07:43:13 -0700 (PDT)
+        bh=fMcatHSssIzBAMp8NeTODM9A2XszLfMDJPzpLz8VH0Y=;
+        b=ABWymGU/ns2QturbyT+mQLovoGfdDVm9f+H9xYLQiYrRCOmxA56LyD+exg7Vo+Zcz3
+         bURmJEFG9ciXQfdHwe9X7AcZNV53EigM/yEv+Tl+RHEp9K2Vsl0GW3TwCIIxyLqvu3Yi
+         Jb+B2GMr36ktfjrUTwAB2wgmjkQY+yfb/u9ZRFhvzvsmmTqGXYMBRAkBiSKfACNvsWo8
+         unZa2J8Grx2mSFyeEoU4FHnzNryLce/wG2U/2437QLnEcp6xeUV7swDCNtccjd5xTqb/
+         SEOlQ3gG0cTB3dunDjrWIobJ8ESoRxOwoX8TT//uCzhjPUm23zOJ02D0rrwJGwCv2FSv
+         0unw==
+X-Gm-Message-State: AOJu0YxByXUimzyIS1lN/psw88kCmDdYD4mmwR0VI3RN9t+x2WYDIoS0
+	ddIehG9/u50UaEGurCiJrpocHn++qvj5Ao12q8DUkRQxRcpv1+hEjfD4JwfVmo8=
+X-Google-Smtp-Source: AGHT+IGZAa/NE5qFGVLMT/dTb22ZrxvW2glmzXccsaGJsoqWv4inIyaNO5z8x1Lb8dFxrBohXwVhpQ==
+X-Received: by 2002:a05:6512:3b9c:b0:539:f1ad:b7a6 with SMTP id 2adb3069b0e04-53b23e67ceemr3536908e87.37.1729867658477;
+        Fri, 25 Oct 2024 07:47:38 -0700 (PDT)
 Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com. [209.85.208.175])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2fcb461797csm2082561fa.128.2024.10.25.07.43.13
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53b2e1dee48sm205311e87.242.2024.10.25.07.47.38
         for <linux-sunxi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 25 Oct 2024 07:43:13 -0700 (PDT)
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2fb4fa17044so23383781fa.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 25 Oct 2024 07:43:13 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXQ5/QGQhnN4oirtP1orkJRaJiSlURIQ7J8ioX4SdlHRsdqn8xIvgOr98MMX6ZhcsuArrr/VvkjeQax7g==@lists.linux.dev
-X-Received: by 2002:a2e:a991:0:b0:2fb:6057:e67e with SMTP id
- 38308e7fff4ca-2fc9d375a1amr60051471fa.32.1729867393241; Fri, 25 Oct 2024
- 07:43:13 -0700 (PDT)
+        Fri, 25 Oct 2024 07:47:38 -0700 (PDT)
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2fb57f97d75so18994781fa.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 25 Oct 2024 07:47:38 -0700 (PDT)
+X-Received: by 2002:a05:651c:50b:b0:2fa:dc24:a346 with SMTP id
+ 38308e7fff4ca-2fca82143ecmr39122861fa.21.1729867657676; Fri, 25 Oct 2024
+ 07:47:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241007222625.18883-1-andre.przywara@arm.com>
-In-Reply-To: <20241007222625.18883-1-andre.przywara@arm.com>
+References: <129f0c754d071cca1db5d207d9d4a7bd9831dff7.1726773282.git.dsimic@manjaro.org>
+ <bef0570137358c6c4a55f59e7a4977c4@manjaro.org>
+In-Reply-To: <bef0570137358c6c4a55f59e7a4977c4@manjaro.org>
 Reply-To: wens@csie.org
 From: Chen-Yu Tsai <wens@csie.org>
-Date: Fri, 25 Oct 2024 22:42:58 +0800
-X-Gmail-Original-Message-ID: <CAGb2v671y0EkMKmYJKqPp0ek3_-kv26adUjG=g5-tdPe+5f3Hw@mail.gmail.com>
-Message-ID: <CAGb2v671y0EkMKmYJKqPp0ek3_-kv26adUjG=g5-tdPe+5f3Hw@mail.gmail.com>
-Subject: Re: [PATCH] sunxi: power: axp809: Fix DCDC4 programming
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Jaehoon Chung <jh80.chung@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, 
-	Tom Rini <trini@konsulko.com>, u-boot@lists.denx.de, linux-sunxi@lists.linux.dev
+Date: Fri, 25 Oct 2024 22:47:25 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66aody60h=Bpk49pxogq93FekmO48uThPET2RKxvx=OGw@mail.gmail.com>
+Message-ID: <CAGb2v66aody60h=Bpk49pxogq93FekmO48uThPET2RKxvx=OGw@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: allwinner: pinephone: Add mount matrix to accelerometer
+To: Dragan Simic <dsimic@manjaro.org>
+Cc: linux-sunxi@lists.linux.dev, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, jernej.skrabec@gmail.com, samuel@sholland.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+	Ondrej Jirman <megi@xff.cz>, Andrey Skvortsov <andrej.skvortzov@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 8, 2024 at 6:27=E2=80=AFAM Andre Przywara <andre.przywara@arm.c=
-om> wrote:
+On Wed, Oct 23, 2024 at 5:11=E2=80=AFAM Dragan Simic <dsimic@manjaro.org> w=
+rote:
 >
-> When trying to set the DCDC4 regulator, the code was accidentally
-> setting the voltage register for DCDC5 (VCC-DRAM). The higher voltage
-> doesn't harm the DRAM chips, but upsets the Linux regulator driver: when
-> it tried to correct that, it tripped over a separate DT bug.
-> The DCDC5 DT limits are 1.425 and 1.575V, which cannot bet set with the
-> rail's resolution of 50mV. The kernel driver gave up, and made in turn
-> the system hang, as the PMIC powers essential devices.
+> Hello,
 >
-> Fix the copy&paste bug by using the correct PMIC voltage register.
+> On 2024-09-19 21:15, Dragan Simic wrote:
+> > The way InvenSense MPU-6050 accelerometer is mounted on the user-facing
+> > side
+> > of the Pine64 PinePhone mainboard, which makes it rotated 90 degrees
+> > counter-
+> > clockwise, [1] requires the accelerometer's x- and y-axis to be
+> > swapped, and
+> > the direction of the accelerometer's y-axis to be inverted.
+> >
+> > Rectify this by adding a mount-matrix to the accelerometer definition
+> > in the
+> > Pine64 PinePhone dtsi file.
+> >
+> > [1]
+> > https://files.pine64.org/doc/PinePhone/PinePhone%20mainboard%20bottom%2=
+0placement%20v1.1%2020191031.pdf
+> >
+> > Fixes: 91f480d40942 ("arm64: dts: allwinner: Add initial support for
+> > Pine64 PinePhone")
+> > Cc: stable@vger.kernel.org
+> > Helped-by: Ondrej Jirman <megi@xff.cz>
+> > Helped-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+> > Signed-off-by: Dragan Simic <dsimic@manjaro.org>
 >
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> Just a brief reminder about this patch...  Please, let me know if some
+> further work is needed for it to become accepted.
 
-Reviewed-by: Chen-Yu Tsai <wens@csie.org>
+Thanks.
 
-> ---
->  drivers/power/axp809.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/power/axp809.c b/drivers/power/axp809.c
-> index 9e38e1a7450..ec3eca1ac4b 100644
-> --- a/drivers/power/axp809.c
-> +++ b/drivers/power/axp809.c
-> @@ -93,7 +93,7 @@ int axp_set_dcdc4(unsigned int mvolt)
->                 return pmic_bus_clrbits(AXP809_OUTPUT_CTRL1,
->                                         AXP809_OUTPUT_CTRL1_DCDC4_EN);
->
-> -       ret =3D pmic_bus_write(AXP809_DCDC5_CTRL, cfg);
-> +       ret =3D pmic_bus_write(AXP809_DCDC4_CTRL, cfg);
->         if (ret)
->                 return ret;
->
-> --
-> 2.46.2
+There's no "Helped-by" tag, and checkpatch would complain. The closest
+would be either Suggested-by or Co-developed-by, but with the latter
+you would also need their Signed-off-by.
+
+I can change it to Suggested-by if that's OK with you.
+
+
+ChenYu
+
+> > ---
+> >
+> > Notes:
+> >     See also the linux-sunxi thread [2] that has led to this patch,
+> > which
+> >     provides a rather detailed analysis with additional details and
+> > pictures.
+> >     This patch effectively replaces the patch submitted in that thread.
+> >
+> >     [2]
+> > https://lore.kernel.org/linux-sunxi/20240916204521.2033218-1-andrej.skv=
+ortzov@gmail.com/T/#u
+> >
+> >  arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> > b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> > index 6eab61a12cd8..b844759f52c0 100644
+> > --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> > @@ -212,6 +212,9 @@ accelerometer@68 {
+> >               interrupts =3D <7 5 IRQ_TYPE_EDGE_RISING>; /* PH5 */
+> >               vdd-supply =3D <&reg_dldo1>;
+> >               vddio-supply =3D <&reg_dldo1>;
+> > +             mount-matrix =3D "0", "1", "0",
+> > +                            "-1", "0", "0",
+> > +                            "0", "0", "1";
+> >       };
+> >  };
 >
