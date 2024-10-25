@@ -1,245 +1,171 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C567A212166
-	for <linux-sunxi@lists.linux.dev>; Fri, 25 Oct 2024 13:20:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D45231F7552;
+	Fri, 25 Oct 2024 13:55:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729862435; cv=none; b=WMyyFYvoqYFBRvG5m5aBkyyjz7UNaGabyC47GGqf+NA1yjBaPlM9QZtVSPZqgmf9HECVPSjGWs+T1II9Ym51TkoTq9OLnWmQ9wzi3ewbrTsj40aj2hPQ3P8VW5TwmLuBkEehfdXncUSfzBcc/gRfow3RC1hilwETYmC57ANZ2r4=
+	t=1729864521; cv=none; b=jmiCkb0rfMROkMp0aXaaiv90XNjbPwQBHknJ5n19wQAFYfDwjfo2eKQMpu1CJcekxQcZXo9xgTPMGnjfuOdlAs5VPR4svl0apzECcLabvZtv+yUFcclR306eDlJ1TBvYrVUE8LyQMpp+Tfx3lli3epSm3MrW7en7se9uVJWZMaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729862435; c=relaxed/simple;
-	bh=Iv+dDQawJeTjfcaOHDOnBzb79d7/eAt8zBP/Pf9XIPs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YSd6JF4swwOS19ejtN72huVCQNAoGtvNxpDkA//0Kwuvk8k36FX908yay6wihi9mt51XPdtMPIG2zIPeQDQwBE7vhO7GqFVhpF0mWgiUvoq14Qq1Qv0+B4+ImlPyVL9B787dLjCLv4i4e+VqRA6VPvbpx44BOrKprM9lrTHLm4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jynhgEIk; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1729864521; c=relaxed/simple;
+	bh=sP9ddLOzD4XD7oJ2gtfjgcFVXKonwqzmaiwnFgWwUl0=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=SS3lBhAGQfvU/ifzMxKmQok42jCOy+6ZybIm+2gFaLbqD+NRz9SLJhTIEB5T+yb5CHHYgr8UPfI13H+rWNtdi+tljIcUEAGZ/vV8xB4z15QnKGEPg0ekGaShr7rPSduSsAiwRWtw1XihxhIZj2fg0iErvCsoM5jJfS+c24nRzwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=namopyTX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jynhgEIk"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a9a26a5d6bfso291941866b.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 25 Oct 2024 06:20:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729862431; x=1730467231; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=uulKs7R9OvjriBWT/CC8Pnu+w5NlV4zIkkgOTtPu4c0=;
-        b=jynhgEIkNKZY2tkDUTuPzpcwWEHaoMHz6BsU0RV60ex21Vi/cS75Y/tP1gPq+q5QPE
-         W+e2yM5dOfseAW8gM9beATfU3N4JhniaN1kraWBR+pNhipHm+kgLMtjIMBS8bTbajKu+
-         xczfM3swSMY9g+xLXYiUEiPCqRKdZyGejSWLm8F0akCJ5aFJp112BV2pip+Da8axC9Am
-         E8MEDOeCEDSar9k5u1B4lnfkWKpqNVXSITpobXbT9nRIxGNdpfuESZeKSyHVGlziRsey
-         tkV9mqNKBJPbL8pDmBVW6GiU1RwECTYNJEFX3kJdKWyQhDsiRduBgjgVIaLiaJnazVOY
-         KvTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729862431; x=1730467231;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uulKs7R9OvjriBWT/CC8Pnu+w5NlV4zIkkgOTtPu4c0=;
-        b=R63C8Cdyr3KDKzZzjL6LJbjrgkFhDh9X82lqtsDVdJwRlW/E29ioFzQ4yBYBWeun96
-         v6bc4aE6oG1usjtT9Y4jIheKB49Le33bcDiYP68PmIL3lJM187H/ZkAFpvJ5/iQX1rHq
-         xAKkSsjbXTgH1pL8iUitBY0qKSxAs3wPHD2KH/zcI+fH3TizteC8vpE18BW/HdpKP8LW
-         mZtz35KyGC/wh9lqInZaX3sKmWAMFk6oVzYc2p8iNAIIh5HYX9vOnQBZYVZUDg1uHa5J
-         IWNOYZXp3FcbeWtmJa1KRYfbmUzSKiNFNThHSyJwoUOkNv0nkErAIk3Eb4ce05U69Js9
-         ffxg==
-X-Forwarded-Encrypted: i=1; AJvYcCXDC393nT9tI3FGLzIq5DbNmLWHFzuLtQyRsEx34gMEydTfBvjuEU4G4UKZor+WZrbDj/pzW4axaeNluA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzFiu9G0wzuQhYUEK76osi7Mstj8lypICMx2QKkZbma7k7pZS1C
-	Prx1vpP3tsdGOHs7lpjy8XRpbKaPLytnJFYBQ8HWSQfc8DjgGYDyq8g5Uxj6pKYzcHZDgvqout/
-	Pm1D1lzzwPwOoDgF9zHYrn0uhkF8=
-X-Google-Smtp-Source: AGHT+IEb35gUbGtP4InZ6WMm5/IyT/Soo1Ihl70JzBa200ZUM9m1Q+qFTBBqDBODI/YSTqvPEhe969TFOoc5ILzCzQI=
-X-Received: by 2002:a17:907:980c:b0:a99:a9b6:2eb6 with SMTP id
- a640c23a62f3a-a9abf53587cmr924971066b.0.1729862430611; Fri, 25 Oct 2024
- 06:20:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="namopyTX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A9F1C4CECD;
+	Fri, 25 Oct 2024 13:55:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729864520;
+	bh=sP9ddLOzD4XD7oJ2gtfjgcFVXKonwqzmaiwnFgWwUl0=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=namopyTXYcR+34VhDW1DJIeNZwRgeHEHzEyji0zywrSQfrpLnmi4N0g858xJziiRR
+	 6zTQo1Ekfw2dF157XXMsOV+u1y7gZY7WSnLI7Uz01DHRdU+wK1aMxF7qSgY6K3Rn5C
+	 5v72aoRCh1oYtyP2potY5imnUGIYgPf5EPQIgbXgRgBcJ8bmRLzW8/52XekJ9R/Ye2
+	 0bDdVeawSgA84pWaZVFz9HmHwVm5u8V+sq4C529Qjq6ANnVGMiu4OYKbUT8r/cPcjw
+	 HDPCCknnrEqiTWcra0NeX7UVlQbC2bSQVsaMPleqhVXO0/ttgsKa/NR6SFue4b7zWA
+	 GOKW2dvPYviLQ==
+Date: Fri, 25 Oct 2024 08:55:19 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241023075917.186835-1-ryan@testtoast.com> <20241023075917.186835-2-ryan@testtoast.com>
-In-Reply-To: <20241023075917.186835-2-ryan@testtoast.com>
-From: Code Kipper <codekipper@gmail.com>
-Date: Fri, 25 Oct 2024 15:20:18 +0200
-Message-ID: <CAEKpxB=BQ1GvzdVCYKyr_Q1eCfcYYEz1L_RqzEVBBgNu8jDfwA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/7] clk: sunxi-ng: h616: Add sigma-delta modulation
- settings for audio PLL
-To: Ryan Walklin <ryan@testtoast.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Chris Morgan <macroalpha82@gmail.com>, Philippe Simons <simons.philippe@gmail.com>, 
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, 
-	linux-clk@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Cody Eksal <masterr3c0rd@epochal.quest>
+Cc: linux-arm-kernel@lists.infradead.org, 
+ Yangtao Li <frank@allwinnertech.com>, linux-usb@vger.kernel.org, 
+ linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Samuel Holland <samuel@sholland.org>, Parthiban <parthiban@linumiz.com>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, linux-sunxi@lists.linux.dev, 
+ Thierry Reding <treding@nvidia.com>, Viresh Kumar <vireshk@kernel.org>, 
+ devicetree@vger.kernel.org, Yangtao Li <tiny.windzz@gmail.com>, 
+ Andre Przywara <andre.przywara@arm.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org, 
+ Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ linux-pm@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Nishanth Menon <nm@ti.com>
+In-Reply-To: <20241024170540.2721307-1-masterr3c0rd@epochal.quest>
+References: <20241024170540.2721307-1-masterr3c0rd@epochal.quest>
+Message-Id: <172986441154.1907923.9460630831085493840.robh@kernel.org>
+Subject: Re: [PATCH 00/13] sunxi: A100/A133 second stage support
 
-On Wed, 23 Oct 2024 at 09:59, Ryan Walklin <ryan@testtoast.com> wrote:
->
-> Allwinner has previously released a H616 audio driver which also
-> provides sigma-delta modulation for the audio PLL clocks. This approach
-> is used in other Allwinner SoCs, including the H3 and A64.
->
-> The manual-provided clock values are:
-> PLL_AUDIO(hs) = 24 MHz*N/M1
-> PLL_AUDIO(4X) = 24 MHz*N/M0/M1/P
-> PLL_AUDIO(2X) = 24 MHz*N/M0/M1/P/2
-> PLL_AUDIO(1X) = 24 MHz*N/M0/M1/P/4
->
-> A fixed post-divider of 2 is used to account for a M0 divider of
-> 2, which cannot be modelled by the existing macros and ccu_nm struct.
->
-> Add SDM to the H616 clock control unit driver.
->
-> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
->
-> ---
-> Changelog v1..v2:
-> - Add fixed_post_div to high-speed audio clock to correct M0 value to 1 (ie divide by 2) based on manual
-> - Correct PLL_AUDIO_(4/2/1)X clocks to manual-provided values
-> - Add/correct inline comments for the above.
-> - add CCU_FEATURE_FIXED_POSTDIV to pll_audio_hs_clk.common.features
->
-> Changelog v2..v3:
-> - Update comments and commit message to more accurately reflect SDM changes and rationale
-> ---
->  drivers/clk/sunxi-ng/ccu-sun50i-h616.c | 46 +++++++++++++++++---------
->  1 file changed, 30 insertions(+), 16 deletions(-)
->
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
-> index 6c7623d4c59ea..05727fa1ee46e 100644
-> --- a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
-> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
-> @@ -215,20 +215,30 @@ static struct ccu_nkmp pll_de_clk = {
->         },
->  };
->
-> -/*
-> - * TODO: Determine SDM settings for the audio PLL. The manual suggests
-> - * PLL_FACTOR_N=16, PLL_POST_DIV_P=2, OUTPUT_DIV=2, pattern=0xe000c49b
-> - * for 24.576 MHz, and PLL_FACTOR_N=22, PLL_POST_DIV_P=3, OUTPUT_DIV=2,
-> - * pattern=0xe001288c for 22.5792 MHz.
-> - * This clashes with our fixed PLL_POST_DIV_P.
-> +/*
-> + * Sigma-delta modulation settings table obtained from the vendor SDK driver.
-> + * There are additional M0 and M1 divider bits not modelled here, so forced to
-> + * fixed values in the probe routine. Sigma-delta modulation allows providing a
-> + * fractional-N divider in the PLL, to help reaching those specific
-> + * frequencies with less error.
->   */
-> +static struct ccu_sdm_setting pll_audio_sdm_table[] = {
-> +       { .rate = 90316800, .pattern = 0xc001288d, .m = 3, .n = 22 },
-> +       { .rate = 98304000, .pattern = 0xc001eb85, .m = 5, .n = 40 },
-> +};
-> +
->  #define SUN50I_H616_PLL_AUDIO_REG      0x078
->  static struct ccu_nm pll_audio_hs_clk = {
->         .enable         = BIT(31),
->         .lock           = BIT(28),
->         .n              = _SUNXI_CCU_MULT_MIN(8, 8, 12),
-> -       .m              = _SUNXI_CCU_DIV(1, 1), /* input divider */
-> +       .m              = _SUNXI_CCU_DIV(16, 6),
-> +       .sdm            = _SUNXI_CCU_SDM(pll_audio_sdm_table,
-> +                                        BIT(24), 0x178, BIT(31)),
-> +       .fixed_post_div = 2,
->         .common         = {
-> +               .features       = CCU_FEATURE_FIXED_POSTDIV |
-> +                                 CCU_FEATURE_SIGMA_DELTA_MOD,
->                 .reg            = 0x078,
->                 .hw.init        = CLK_HW_INIT("pll-audio-hs", "osc24M",
->                                               &ccu_nm_ops,
-> @@ -701,18 +711,20 @@ static const struct clk_hw *clk_parent_pll_audio[] = {
->  };
->
->  /*
-> - * The divider of pll-audio is fixed to 24 for now, so 24576000 and 22579200
-> - * rates can be set exactly in conjunction with sigma-delta modulation.
-> + * The PLL_AUDIO_4X clock defaults to 24.5714 MHz according to the manual, with
-> + * a final divider of 1. The 2X and 1X clocks use 2 and 4 respectively. The 1x
-> + * clock is set to either 24576000 or 22579200 for 48Khz and 44.1Khz (and
-> + * multiples).
->   */
->  static CLK_FIXED_FACTOR_HWS(pll_audio_1x_clk, "pll-audio-1x",
->                             clk_parent_pll_audio,
-> -                           96, 1, CLK_SET_RATE_PARENT);
-> +                           4, 1, CLK_SET_RATE_PARENT);
->  static CLK_FIXED_FACTOR_HWS(pll_audio_2x_clk, "pll-audio-2x",
->                             clk_parent_pll_audio,
-> -                           48, 1, CLK_SET_RATE_PARENT);
-> +                           2, 1, CLK_SET_RATE_PARENT);
->  static CLK_FIXED_FACTOR_HWS(pll_audio_4x_clk, "pll-audio-4x",
->                             clk_parent_pll_audio,
-> -                           24, 1, CLK_SET_RATE_PARENT);
-> +                           1, 1, CLK_SET_RATE_PARENT);
->
->  static const struct clk_hw *pll_periph0_parents[] = {
->         &pll_periph0_clk.common.hw
-> @@ -1162,12 +1174,14 @@ static int sun50i_h616_ccu_probe(struct platform_device *pdev)
->         }
->
->         /*
-> -        * Force the post-divider of pll-audio to 12 and the output divider
-> -        * of it to 2, so 24576000 and 22579200 rates can be set exactly.
-> +        * Set the output-divider for the pll-audio clocks (M0) to 2 and the
-> +        * input divider (M1) to 1 as recommended by the manual when using
-> +        * SDM.
->          */
->         val = readl(reg + SUN50I_H616_PLL_AUDIO_REG);
-> -       val &= ~(GENMASK(21, 16) | BIT(0));
-> -       writel(val | (11 << 16) | BIT(0), reg + SUN50I_H616_PLL_AUDIO_REG);
-> +       val &= ~BIT(1);
-> +       val |= BIT(0);
-> +       writel(val, reg + SUN50I_H616_PLL_AUDIO_REG);
->
->         /*
->          * First clock parent (osc32K) is unusable for CEC. But since there
-Hi Ryan,
-I noticed some white-space issues when cherry-picking this change from
-your repo.
-scripts/checkpatch.pl
-0001-clk-sunxi-ng-h616-Add-sigma-delta-modulation-setting.patch
-ERROR: trailing whitespace
-#51: FILE: drivers/clk/sunxi-ng/ccu-sun50i-h616.c:218:
-+/* $
 
-ERROR: trailing whitespace
-#74: FILE: drivers/clk/sunxi-ng/ccu-sun50i-h616.c:240:
-+^I^I.features^I= CCU_FEATURE_FIXED_POSTDIV | $
-
-ERROR: trailing whitespace
-#85: FILE: drivers/clk/sunxi-ng/ccu-sun50i-h616.c:698:
-+ * The PLL_AUDIO_4X clock defaults to 24.5714 MHz according to the
-manual, with $
-
-ERROR: trailing whitespace
-#86: FILE: drivers/clk/sunxi-ng/ccu-sun50i-h616.c:699:
-+ * a final divider of 1. The 2X and 1X clocks use 2 and 4
-respectively. The 1x $
-
-ERROR: trailing whitespace
-#87: FILE: drivers/clk/sunxi-ng/ccu-sun50i-h616.c:700:
-+ * clock is set to either 24576000 or 22579200 for 48Khz and 44.1Khz (and $
-
-ERROR: trailing whitespace
-#112: FILE: drivers/clk/sunxi-ng/ccu-sun50i-h616.c:1152:
-+^I * input divider (M1) to 1 as recommended by the manual when using $
-
-ERROR: trailing whitespace
-#113: FILE: drivers/clk/sunxi-ng/ccu-sun50i-h616.c:1153:
-+^I * SDM. $
-
-total: 7 errors, 0 warnings, 80 lines checked
-
-NOTE: For some of the reported defects, checkpatch may be able to
-      mechanically convert to the typical style using --fix or --fix-inplace.
-
-NOTE: Whitespace errors detected.
-      You may wish to use scripts/cleanpatch or scripts/cleanfile
-
-but that didn't stop it from singing beautifully!,
-
-Tested-by: Marcus Cooper <codekipper@gmail.com>
-BR,
-CK
+On Thu, 24 Oct 2024 14:05:18 -0300, Cody Eksal wrote:
+> Hello! This is my first submission, so please be gentle :)
+> 
+> Back in 2020, two Allwinner employees, Yangtao Li and Shuosheng Huang, each
+> submitted a patch series for the A100 series of SoCs; [1] intended to add
+> support for the watchdog, ARM PMU, DMA, USB, and (e)MMC controller, and [2]
+> implemented DVFS support. Some patches from the first series landed, but
+> the rest were seemingly abandoned.
+> 
+> Although references to the A100 have been removed by Allwinner, it is
+> believed that the A133 and A133 Plus, which are still available, are simply
+> better binned variants of the A100; no other differences have been noted
+> thus far, and the drivers for the A100 work on the A133 without any
+> additional modifications. There has been a resurgence of interest in the
+> A133; patches to allow mainline U-Boot to run on these devices are
+> currently in progress.
+> 
+> I have rebased the patches that failed to land, applying the feedback
+> provided by maintainers at the time. Some DT binding patches were added, as
+> there were a few cases where compatibles were used without being
+> documented. Minor reworks were necessary to apply certain patches, as the
+> drivers they modified have matured over time.
+> 
+> Patches 1 and 2 add PMU and watchdog nodes to the device tree. This is
+> followed by patches 3-8, which implement support for the USB host and OTG
+> peripherals. Patches 9 and 10 add MMC nodes, rounding out what originally
+> made up the first patch series; support for these already exists from
+> earlier patches. Patches 11-13 finish the job of the second original
+> series and this series, implementing OPP and enabling DVFS on these SoCs.
+> 
+> This series is also available on GitHub [3].
+> 
+> A sincere thanks to Andre for encouraging me to submit these patches,
+> Parthiban for testing this tree on his board, and to the linux-sunxi
+> community and its resources for pointing me to these abandoned series in
+> the first place [4].
+> 
+> [1] https://patchwork.kernel.org/project/linux-arm-kernel/list/?series=380887&archive=both&state=*
+> [2] https://patchwork.kernel.org/project/linux-arm-kernel/list/?series=396055&archive=both&state=*
+> [3] https://github.com/BrokenR3C0RD/linux-a100/compare/c2ee9f59..allwinner-a100
+> [4] https://linux-sunxi.org/Linux_mainlining_effort#Work_In_Progress
+> 
+> Cody Eksal (4):
+>   dt-bindings: phy: sun50i-a64: add a100 compatible
+>   dt-bindings: usb: Add A100 compatible string
+>   dt-bindings: usb: sunxi-musb: Add A100 compatible string
+>   dt-bindings: opp: h6: Add A100 operating points
+> 
+> Shuosheng Huang (2):
+>   cpufreq: sun50i: add a100 cpufreq support
+>   arm64: dts: allwinner: a100: Add CPU Operating Performance Points
+>     table
+> 
+> Yangtao Li (7):
+>   arm64: dts: allwinner: A100: Add PMU mode
+>   arm64: dts: allwinner: a100: add watchdog node
+>   phy: sun4i-usb: add support for A100 USB PHY
+>   arm64: dts: allwinner: a100: add usb related nodes
+>   arm64: allwinner: A100: enable EHCI, OHCI and USB PHY nodes in Perf1
+>   arm64: allwinner: a100: Add MMC related nodes
+>   arm64: dts: allwinner: a100: perf1: Add eMMC and MMC node
+> 
+>  .../allwinner,sun50i-h6-operating-points.yaml |   1 +
+>  .../phy/allwinner,sun50i-a64-usb-phy.yaml     |   1 +
+>  .../usb/allwinner,sun4i-a10-musb.yaml         |   1 +
+>  .../devicetree/bindings/usb/generic-ehci.yaml |   1 +
+>  .../devicetree/bindings/usb/generic-ohci.yaml |   1 +
+>  .../allwinner/sun50i-a100-allwinner-perf1.dts |  59 ++++++
+>  .../dts/allwinner/sun50i-a100-cpu-opp.dtsi    |  90 ++++++++
+>  .../arm64/boot/dts/allwinner/sun50i-a100.dtsi | 193 +++++++++++++++++-
+>  drivers/cpufreq/sun50i-cpufreq-nvmem.c        |  28 +++
+>  drivers/phy/allwinner/phy-sun4i-usb.c         |  11 +
+>  10 files changed, 383 insertions(+), 3 deletions(-)
+>  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-a100-cpu-opp.dtsi
+> 
+> 
+> base-commit: c2ee9f594da826bea183ed14f2cc029c719bf4da
 > --
 > 2.47.0
->
->
+> 
+> 
+> 
+
+
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
+
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
+
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
+
+  pip3 install dtschema --upgrade
+
+
+New warnings running 'make CHECK_DTBS=y allwinner/sun50i-a100-allwinner-perf1.dtb' for 20241024170540.2721307-1-masterr3c0rd@epochal.quest:
+
+arch/arm64/boot/dts/allwinner/sun50i-a100-allwinner-perf1.dtb: cpu-opp-table: $nodename:0: 'cpu-opp-table' does not match '^opp-table(-[a-z0-9]+)?$'
+	from schema $id: http://devicetree.org/schemas/opp/allwinner,sun50i-h6-operating-points.yaml#
+arch/arm64/boot/dts/allwinner/sun50i-a100-allwinner-perf1.dtb: cpu-opp-table: 'opp@1080000000', 'opp@1200000000', 'opp@1320000000', 'opp@1464000000', 'opp@408000000', 'opp@600000000', 'opp@816000000' do not match any of the regexes: '^opp-[0-9]+$', 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/opp/allwinner,sun50i-h6-operating-points.yaml#
+
+
+
+
+
