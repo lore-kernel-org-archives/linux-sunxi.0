@@ -1,70 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 399A721A4BB;
-	Fri, 25 Oct 2024 15:23:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F6631632CD
+	for <linux-sunxi@lists.linux.dev>; Fri, 25 Oct 2024 15:25:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729869834; cv=none; b=NaFBNwM1PlS8nEAo1dPoBJMwkWEe/RyvO1yyLCDqlgtl0HsvM0QLeuJ2tIX42/WaNXghvS4WKThicskL6wZ/OkY8X613gsaVjTaTd6DxVAwu0V7seuyai0lySu1glqhtnkaTNTLsrkmX7XBXK+YcJyiortG6ta3pMdO2kw+IaDg=
+	t=1729869947; cv=none; b=cDhifeO4NphTgyWX59yo774eEET8vbDIxCt1wv6yqJGIT6AX4Aocuy9+tv0Oq+pHYntQ/sd8tQqrw7Y9EvMDmm+klvyyqE7lrZ3uZcbN61ayZ1jXOyr4WcYbexzz7A8IsV3xosMV1lDqMaf0RQzKGtbs72RyzwTS6RwGIX4HwKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729869834; c=relaxed/simple;
-	bh=dIwMHp9HLZB0G055X6LQiQ1e+P+bKkT0n16pdqucO/E=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=RcunLfdhCEDe8nD/J/ukoBzPnE/+nMomNul9b751xjIIihgkZDl88+dxkMNM9QfVDvtpUMR8sUEjJDrKZFx5OHfJWUecoI6vf+WuK4CgTtGBf9yqQc3WOn/x+KKIo+zUjmOjYlM/syemHTmHNy+P8H5dQHY4VHAejGsMiM+XY8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECAE7C4CEC3;
-	Fri, 25 Oct 2024 15:23:53 +0000 (UTC)
-Received: from wens.tw (localhost [127.0.0.1])
-	by wens.tw (Postfix) with ESMTP id C11375FC74;
-	Fri, 25 Oct 2024 23:23:51 +0800 (CST)
-From: Chen-Yu Tsai <wens@csie.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Chris Morgan <macroalpha82@gmail.com>, 
- Philippe Simons <simons.philippe@gmail.com>, 
- Ryan Walklin <ryan@testtoast.com>
-Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, 
- linux-clk@vger.kernel.org
-In-Reply-To: <20241023075917.186835-1-ryan@testtoast.com>
-References: <20241023075917.186835-1-ryan@testtoast.com>
-Subject: Re: (subset) [PATCH v3 0/7] ASoC: add Allwinner H616 audio codec
- support
-Message-Id: <172986983176.724831.16448231120068380568.b4-ty@csie.org>
-Date: Fri, 25 Oct 2024 23:23:51 +0800
+	s=arc-20240116; t=1729869947; c=relaxed/simple;
+	bh=QJ4ct5R+k4JUhIXK2DaM7a3tGaDmIy4b9aiqlPb9fXs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OdjFx/S8mNjuoWAeJHzXc5C4a1QxxY9R1c5em8Ovksq3K0OcBAezN5RFtWPcSaCezti40M7PGF074ostCvCbfXbjh/SG6SC3rCy5pHpoqS5GtVWOcffx8+dPYVYQ4Yjh+SRUiog1QptRSqpOuhXP8Rd07qpKvtLHiOVN1aKcjJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4DA69339;
+	Fri, 25 Oct 2024 08:26:13 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DA4AB3F73B;
+	Fri, 25 Oct 2024 08:25:41 -0700 (PDT)
+Date: Fri, 25 Oct 2024 16:25:39 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Chen-Yu Tsai <wens@csie.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] ARM: dts: cubieboard4: Fix DCDC5 regulator constraints
+Message-ID: <20241025162539.425660a2@donnerap.manchester.arm.com>
+In-Reply-To: <CAGb2v65oHDkNG4dp3+Zh-wmMTMvRnBNPGLiGi68WGXzSR+64=g@mail.gmail.com>
+References: <20241007222916.19013-1-andre.przywara@arm.com>
+	<CAGb2v65oHDkNG4dp3+Zh-wmMTMvRnBNPGLiGi68WGXzSR+64=g@mail.gmail.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 23 Oct 2024 20:56:56 +1300, Ryan Walklin wrote:
-> V3 of this patch adding support for the Allwinner H616 (and variant)'s audio codec. Some clarification of comments, particularly regarding the clock driver changes, and a small fix for the device tree binding (apologies I forgot to re-run dt_binding_check on V2). Review comments otherwise addressed and reviews noted.
-> 
-> Changelog v1..v2:
-> - Reordered patches to group ASoC changes
-> - Corrected PLL_AUDIO clock dividers to match values from manual and vendor SDK.
-> - Remove PLL_AUDIO_4X clock from the device tree binding (not used in the driver).
-> - Restrict TX-only DMA changes to the H616.
-> - Change the codec name to fit into the 16 char limit.
-> - Move the codec (and spdif) blocks in the H616 DTSI to restore address-order.
-> - Add board enablement (and power/GPIO changes for RG35XX to support speaker amp).
-> 
-> [...]
+On Fri, 25 Oct 2024 22:42:14 +0800
+Chen-Yu Tsai <wens@csie.org> wrote:
 
-Applied to dt-for-6.13 in git@github.com:linux-sunxi/linux-sunxi.git, thanks!
+> On Tue, Oct 8, 2024 at 6:30=E2=80=AFAM Andre Przywara <andre.przywara@arm=
+.com> wrote:
+> >
+> > The DCDC5 voltage rail in the X-Powers AXP809 PMIC has a resolution of
+> > 50mV, so the currently enforced limits of 1.475 and 1.525 volts cannot
+> > be set, when the existing regulator value is beyond this range.
+> >
+> > This will lead to the whole regulator driver to give up and fail
+> > probing, which in turn will hang the system, as essential devices depend
+> > on the PMIC.
+> > In this case a bug in U-Boot set the voltage to 1.75V (meant for DCDC4),
+> > and the AXP driver's attempt to correct this lead to this error:
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > [    4.447653] axp20x-rsb sunxi-rsb-3a3: AXP20X driver loaded
+> > [    4.450066] vcc-dram: Bringing 1750000uV into 1575000-1575000uV
+> > [    4.460272] vcc-dram: failed to apply 1575000-1575000uV constraint: =
+-EINVAL
+> > [    4.474788] axp20x-regulator axp20x-regulator.0: Failed to register =
+dcdc5
+> > [    4.482276] axp20x-regulator axp20x-regulator.0: probe with driver a=
+xp20x-regulator failed with error -22
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >
+> > Set the limits to values that can be programmed, so any correction will
+> > be successful.
+> >
+> > Signed-off-by: Andre Przywara <andre.przywara@arm.com> =20
+>=20
+> Maybe
+>=20
+> Fixes: 1e1dea72651b ("ARM: dts: sun9i: cubieboard4: Add AXP809 PMIC
+> device node and regulators")
+>=20
+> What do you think? I can add it when applying.
 
-[6/7] arm64: dts: allwinner: h616: Add audio codec node
-      commit: 3eef85034c96f61b54809e24d4b7f29a336701ae
-[7/7] arm64: dts: allwinner: h313/h616/h618/h700: Enable audio codec for all supported boards
-      commit: 86a8f1aef9702f730c824aa96ae24ffa1b401988
+Well, I thought about it, but then it's a DT patch, so the Fixes: tag
+doesn't make much sense here, IMHO. Put it there if you see fit, but for
+my part I am just waiting for the commit hash, to pull into U-Boot, and
+then it would be done, even for older kernels.
 
-Best regards,
--- 
-Chen-Yu Tsai <wens@csie.org>
+Cheers,
+Andre.
+
+> ChenYu
+>=20
+> > ---
+> >  arch/arm/boot/dts/allwinner/sun9i-a80-cubieboard4.dts | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/arch/arm/boot/dts/allwinner/sun9i-a80-cubieboard4.dts b/ar=
+ch/arm/boot/dts/allwinner/sun9i-a80-cubieboard4.dts
+> > index c8ca8cb7f5c94..52ad95a2063aa 100644
+> > --- a/arch/arm/boot/dts/allwinner/sun9i-a80-cubieboard4.dts
+> > +++ b/arch/arm/boot/dts/allwinner/sun9i-a80-cubieboard4.dts
+> > @@ -280,8 +280,8 @@ reg_dcdc4: dcdc4 {
+> >
+> >                         reg_dcdc5: dcdc5 {
+> >                                 regulator-always-on;
+> > -                               regulator-min-microvolt =3D <1425000>;
+> > -                               regulator-max-microvolt =3D <1575000>;
+> > +                               regulator-min-microvolt =3D <1450000>;
+> > +                               regulator-max-microvolt =3D <1550000>;
+> >                                 regulator-name =3D "vcc-dram";
+> >                         };
+> >
+> > --
+> > 2.46.2
+> > =20
 
