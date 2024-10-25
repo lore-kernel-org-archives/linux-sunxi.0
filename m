@@ -1,105 +1,71 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65BDB183CBE
-	for <linux-sunxi@lists.linux.dev>; Fri, 25 Oct 2024 15:26:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7103A21A4A6;
+	Fri, 25 Oct 2024 15:32:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729869968; cv=none; b=OwTAEZ4MjTg5jZxGzTJBZ85lniZh91BvR68g/qCov5RGN+Mav/gp39cGOSfNtk8rz+g24hyCt15GW+3zL25LWuFD7WTXI6WZopZ2sI6iH3uI+LeXB2sFNhBDoIkWVoWEVcZTo/exPgP3xkzRvMO5oNIUb/jlxOsBQ3VtBtKrjsw=
+	t=1729870370; cv=none; b=luhZpVqKYpTzYHxtmokgiEq1QVUoyrinv5XBOyxaqeJDejDuVArRf3S1/XStMNfD7QUiExnYxtTRNVePY/9cnku8T9eWIJsRwUwyPlHCBDE55lx3tRzHRekI2YokBqhcGe9PwC73TvjzwalgL9G5T7MAIvBJlq0rMHa5BZlZIUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729869968; c=relaxed/simple;
-	bh=6ia13AsyjmX8Lwrwd6wTi0X6BN+p3YatrNjQUOaQp8w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jft+dyavCtzN+Sef3bmjb9lZUGpzEPglv6L05CuGp89jkcm28161deGHBdYyd1CeKUeSTsZ19Oziiw5VZJGXlFAXYJvw3eyzubqw8J/K9ajCeK0TEyG5IaBCiY1VGKh6YkTsV9gSgAO5+EsAkO8RGYFnuR8ET+FB9ir1ro7HKVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XSqVuRJ3; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XSqVuRJ3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 104A8C4CEE4
-	for <linux-sunxi@lists.linux.dev>; Fri, 25 Oct 2024 15:26:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729869968;
-	bh=6ia13AsyjmX8Lwrwd6wTi0X6BN+p3YatrNjQUOaQp8w=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=XSqVuRJ3i1TlNm7Ij1PXyq1CjG9tAh1a+Y9+TQNnwpMltIjHl7NnTnaC8t3CM0IWt
-	 aBUKfToSuanvADqA+9NcAqkxJGhnSPuUkToRkeoSh9TXswcl4kD7uLhB7yB1LLjfUU
-	 8eQ2XEZ+Q54Zhmrl6KQgLEJaRMpKglMJgTtA54W4G4MAgqM/AiMaKc046tsniRzFmy
-	 NhvTciXvxZl84qrso7h8FRhAG5FK5oFvuvwyilCSTCq2Zf4qWiOZVDYxJqEUcQjrl0
-	 55o46Et7gwTEI/yG7UBflVwQ+xSSIBkoTbSMSG+IUoVBi6/sIoXIyOHkLSYd3esHAf
-	 kx9icxHCw1irw==
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2fc96f9c41fso23721411fa.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 25 Oct 2024 08:26:07 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVMPxngfJvKmY2ccCHjx7Ve+vd69rumrAq2MYdOB63zwZPwuTBlhsRX3ANtbXzKdtxxDTgBD35v6ltrHg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxbJCseltWWbxYysAoh4fbUaZAnWRytwCXFPrG0VehwBmFFQaVu
-	Za+9/WN6HuTSQzZwZsgHPbW04eoFnW5JrJzGW+A+UHIGAh1x0DP4BWyX9Bp4soo0CNvHrUjSV30
-	XLt9EoliBiygKaCLrsqksM45P48I=
-X-Google-Smtp-Source: AGHT+IEo867Ec7Lnd6oshSArzmdEOrjJayECiM82fgnDFcpIVX6vVBB/OWT/04hspcNO1LQEAhBr5g20bUF87HTE9qA=
-X-Received: by 2002:a05:651c:1549:b0:2fb:579a:fff with SMTP id
- 38308e7fff4ca-2fca8358419mr22365441fa.8.1729869966346; Fri, 25 Oct 2024
- 08:26:06 -0700 (PDT)
+	s=arc-20240116; t=1729870370; c=relaxed/simple;
+	bh=h4yHFR5CfxaWYHAiWca8egMLmsiIuHhN8G97pEqfb88=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=dFd26XyFqqtwNYYO3vReJ24UMUTzjQ3cy4HFkiQQyNyiyOtgSpSSt42Ndz1A9JWb2tHK5+2KBkgYov3M7nZ3me+TONmV9XwyA2bSCrzDxWuxMgPHqpk07tLm6MorFeAdkTa4p8IOtBk4fT3Iz15Oeh0VLonjU+iN9hDH6GN2y08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E376CC4CEC3;
+	Fri, 25 Oct 2024 15:32:49 +0000 (UTC)
+Received: from wens.tw (localhost [127.0.0.1])
+	by wens.tw (Postfix) with ESMTP id 451CB5FA0C;
+	Fri, 25 Oct 2024 23:32:47 +0800 (CST)
+From: Chen-Yu Tsai <wens@csie.org>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Andre Przywara <andre.przywara@arm.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev
+In-Reply-To: <20241007222916.19013-1-andre.przywara@arm.com>
+References: <20241007222916.19013-1-andre.przywara@arm.com>
+Subject: Re: [PATCH] ARM: dts: cubieboard4: Fix DCDC5 regulator constraints
+Message-Id: <172987036725.732494.12289812969711574519.b4-ty@csie.org>
+Date: Fri, 25 Oct 2024 23:32:47 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241006222148.16456-1-andre.przywara@arm.com>
-In-Reply-To: <20241006222148.16456-1-andre.przywara@arm.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Fri, 25 Oct 2024 23:25:52 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67VOR_v50P2ds2-JYXGwfV0onQRGoa_st5nU0De51-zaw@mail.gmail.com>
-Message-ID: <CAGb2v67VOR_v50P2ds2-JYXGwfV0onQRGoa_st5nU0De51-zaw@mail.gmail.com>
-Subject: Re: [PATCH] clk: sunxi: a80: Fix reset description
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Jagan Teki <jagan@amarulasolutions.com>, Lukasz Majewski <lukma@denx.de>, 
-	Sean Anderson <seanga2@gmail.com>, Tom Rini <trini@konsulko.com>, u-boot@lists.denx.de, 
-	linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-On Mon, Oct 7, 2024 at 6:22=E2=80=AFAM Andre Przywara <andre.przywara@arm.c=
-om> wrote:
->
-> Clock gates and reset lines share a common structure in the sunxi clock
-> driver descriptions, but use different flags to tell them apart.
->
-> The description of the Allwinner A80 MMC clock reset lines was
-> erroneously using the "GATE" macro, which made the reset driver ignore
-> that entry, complaining with:
-> sunxi_set_reset: (RST-reset:#0) unhandled
->
-> Change that to the correct "RESET" macro, to make the reset driver
-> happy.
->
-> Fixes e0c7ce7e52b7 ("sunxi: clk: A80: add MMC clock support")
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+On Mon, 07 Oct 2024 23:29:16 +0100, Andre Przywara wrote:
+> The DCDC5 voltage rail in the X-Powers AXP809 PMIC has a resolution of
+> 50mV, so the currently enforced limits of 1.475 and 1.525 volts cannot
+> be set, when the existing regulator value is beyond this range.
+> 
+> This will lead to the whole regulator driver to give up and fail
+> probing, which in turn will hang the system, as essential devices depend
+> on the PMIC.
+> In this case a bug in U-Boot set the voltage to 1.75V (meant for DCDC4),
+> and the AXP driver's attempt to correct this lead to this error:
+> ==================
+> [    4.447653] axp20x-rsb sunxi-rsb-3a3: AXP20X driver loaded
+> [    4.450066] vcc-dram: Bringing 1750000uV into 1575000-1575000uV
+> [    4.460272] vcc-dram: failed to apply 1575000-1575000uV constraint: -EINVAL
+> [    4.474788] axp20x-regulator axp20x-regulator.0: Failed to register dcdc5
+> [    4.482276] axp20x-regulator axp20x-regulator.0: probe with driver axp20x-regulator failed with error -22
+> ==================
+> 
+> [...]
 
-Reviewed-by: Chen-Yu Tsai <wens@csie.org>
+Applied to fixes-for-6.12 in git@github.com:linux-sunxi/linux-sunxi.git, thanks!
 
-> ---
->  drivers/clk/sunxi/clk_a80.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/clk/sunxi/clk_a80.c b/drivers/clk/sunxi/clk_a80.c
-> index e26d42a5e71..4e37fa39986 100644
-> --- a/drivers/clk/sunxi/clk_a80.c
-> +++ b/drivers/clk/sunxi/clk_a80.c
-> @@ -77,10 +77,10 @@ static const struct ccu_clk_gate a80_mmc_gates[] =3D =
-{
->  };
->
->  static const struct ccu_reset a80_mmc_resets[] =3D {
-> -       [0]                     =3D GATE(0x0, BIT(18)),
-> -       [1]                     =3D GATE(0x4, BIT(18)),
-> -       [2]                     =3D GATE(0x8, BIT(18)),
-> -       [3]                     =3D GATE(0xc, BIT(18)),
-> +       [0]                     =3D RESET(0x0, BIT(18)),
-> +       [1]                     =3D RESET(0x4, BIT(18)),
-> +       [2]                     =3D RESET(0x8, BIT(18)),
-> +       [3]                     =3D RESET(0xc, BIT(18)),
->  };
->
->  static const struct ccu_clk_gate a80_usb_gates[] =3D {
-> --
-> 2.46.2
->
+[1/1] ARM: dts: cubieboard4: Fix DCDC5 regulator constraints
+      commit: dd36ad71ad65968f97630808bc8d605c929b128e
+
+Best regards,
+-- 
+Chen-Yu Tsai <wens@csie.org>
+
