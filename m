@@ -1,35 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D592E21A4AA;
-	Fri, 25 Oct 2024 16:12:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9299921A4CE;
+	Fri, 25 Oct 2024 16:22:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729872728; cv=none; b=to1Qxc0sHi7x85yodDi0dEudRU8fTwB4vUnOMZ88MaOTc0s1j385AOjekFRF0qGRU/d6oMKiutKSXQX5HimOMsTjRHrDIgZqd+ML3eJ48nmb09FJ6jQC8Y08BM5uzYF7e4i/3QEb6WhIOH5dBIYu4Ktske3RpsO7502tetV8TXc=
+	t=1729873329; cv=none; b=Dq9nSWQiZ3v4n2eC+IzXTznxFq62Xjnw2NH1K9OXS2rqKCi5rb7wRzzbIis9wn6cN/GbYOLdgZChHchGhoWHeL9rO4olqGXKQz7tICVAr27PcbIBy7x9NOyBw0JQzDd8G4q/WbLI8MLfyH3RPPS4m9g0vAmctaUvttBABpL/JEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729872728; c=relaxed/simple;
-	bh=5x9aUksHXptTvLe0+WGuDdukxDof2ob3CdvqqtXeaGw=;
+	s=arc-20240116; t=1729873329; c=relaxed/simple;
+	bh=Jykwqvg3kciOamwxLVUNRX81rmtLJn3mnysEzt1kRT0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=hQLZOZCQ22IzYMaD0z594tD/5mmVEES8te8McvM2FetU2K3AUVSnM7fzah3Ll4GXozQsEX55NamCvEYC9YJD+kCB5Uyr0r8fFpaxMcoXbEHX1NRbZ30Z/AY2bdAvKmNaYC5zyCAAfPeRgNr0+rchCUpN/AV4qvc2v8dkiRLh34I=
+	 MIME-Version:Content-Type; b=CYHWlin6kwUZgAVZHI7PP4rpoEr6yjj+tkXmtJMS3J7N4+rjKWeh4+MuRz5BKNpMSbnHC3cnHRjhCF7ISguoAwM4uWdhqH+oocEI7j51SkKhoEDHcJL3jZxFvceskHj0smTI9gXhegt+DzFQvzHeA5FS9AjllUmzaAAt9ncjKY0=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68F7FC4CEC3;
-	Fri, 25 Oct 2024 16:12:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31323C4CEE3;
+	Fri, 25 Oct 2024 16:22:09 +0000 (UTC)
 Received: from wens.tw (localhost [127.0.0.1])
-	by wens.tw (Postfix) with ESMTP id C90575F870;
-	Sat, 26 Oct 2024 00:12:05 +0800 (CST)
+	by wens.tw (Postfix) with ESMTP id D33D05FCB4;
+	Sat, 26 Oct 2024 00:22:06 +0800 (CST)
 From: Chen-Yu Tsai <wens@csie.org>
-To: Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
  Samuel Holland <samuel@sholland.org>, 
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org, 
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev
-In-Reply-To: <44745f27034fa670605cd16966a39b7fe88fe5a6.1726863905.git.christophe.jaillet@wanadoo.fr>
-References: <44745f27034fa670605cd16966a39b7fe88fe5a6.1726863905.git.christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH] clk: sunxi-ng: Constify struct ccu_reset_map
-Message-Id: <172987272580.802486.16073827596015670054.b4-ty@csie.org>
-Date: Sat, 26 Oct 2024 00:12:05 +0800
+ Andre Przywara <andre.przywara@arm.com>, Maxime Ripard <mripard@kernel.org>, 
+ Icenowy Zheng <uwu@icenowy.me>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+In-Reply-To: <20240913104845.4112986-1-uwu@icenowy.me>
+References: <20240913104845.4112986-1-uwu@icenowy.me>
+Subject: Re: [PATCH 1/2] dt-bindings: arm: sunxi: document RerVision
+ A33-Vstar board
+Message-Id: <172987332686.809046.13831869939181367498.b4-ty@csie.org>
+Date: Sat, 26 Oct 2024 00:22:06 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -40,24 +42,20 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14.2
 
-On Fri, 20 Sep 2024 22:25:24 +0200, Christophe JAILLET wrote:
-> 'struct ccu_reset_map' are not modified in these drivers.
+On Fri, 13 Sep 2024 18:48:44 +0800, Icenowy Zheng wrote:
+> RerVision A33-Vstar is an evaluation board of their A33-Core1 SoM.
 > 
-> Constifying this structure moves some data to a read-only section, so
-> increase overall security.
+> Add its compatible (with the SoM compatible) to the sunxi board DT
+> binding file.
 > 
-> On a x86_64, with allmodconfig, as an example:
-> Before:
-> ======
->    text	   data	    bss	    dec	    hex	filename
->    1533	   2224	      0	   3757	    ead	drivers/clk/sunxi-ng/ccu-sun20i-d1-r.o
 > 
-> [...]
 
-Applied to clk-for-6.13 in git@github.com:linux-sunxi/linux-sunxi.git, thanks!
+Applied to dt-for-6.13 in git@github.com:linux-sunxi/linux-sunxi.git, thanks!
 
-[1/1] clk: sunxi-ng: Constify struct ccu_reset_map
-      commit: c7e09a613bbddd0eea086e475855aba3b2410148
+[1/2] dt-bindings: arm: sunxi: document RerVision A33-Vstar board
+      commit: 654332bede7526cbe9e7ba4c1edbf86a1d0be76a
+[2/2] ARM: dts: sunxi: add support for RerVision A33-Vstar board
+      commit: 3888715c76956c6ea13577965586d5b891a1f3ff
 
 Best regards,
 -- 
