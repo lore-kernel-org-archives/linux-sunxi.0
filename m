@@ -1,136 +1,65 @@
-Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B634516FF5F
-	for <linux-sunxi@lists.linux.dev>; Fri, 25 Oct 2024 16:11:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D592E21A4AA;
+	Fri, 25 Oct 2024 16:12:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729872667; cv=none; b=ccHsncrdyw24UWSPGZE5lvv25GkEQzibzN19HOlRvFPGyUtp9TB1oxmvr34FEkJGplrCtihzDnb+4TLPvblhIA4R10Gg2k6bq0eWHvlBwJO78zOlcWY9u2DD+hjuqgT+zPsJ2QOvBhLsNesE7ZnLncxKg4JJgsF+sNmFLRQGT/0=
+	t=1729872728; cv=none; b=to1Qxc0sHi7x85yodDi0dEudRU8fTwB4vUnOMZ88MaOTc0s1j385AOjekFRF0qGRU/d6oMKiutKSXQX5HimOMsTjRHrDIgZqd+ML3eJ48nmb09FJ6jQC8Y08BM5uzYF7e4i/3QEb6WhIOH5dBIYu4Ktske3RpsO7502tetV8TXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729872667; c=relaxed/simple;
-	bh=W41hJnhNQLCvtcUj0/7OFMCwUbb3LaViC2imU7/jxs8=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=T+410w99aJWG20Um62ABfqUrmGT5E2CjHwqF/5Dw6TB7y4IYez2s7eXEYN/ErL2FOWl0zG9qPSDOcYq8C+0aIhVD2W55Rw1aeCLTaPQRBGgTKwmKUF+t8YXzXoOX4YdIpQtf7R2o6rg25GmjcS6at2k5wTCNJLfRt65f0+W1n60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=NkQveD4I; arc=none smtp.client-ip=116.203.91.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="NkQveD4I"
+	s=arc-20240116; t=1729872728; c=relaxed/simple;
+	bh=5x9aUksHXptTvLe0+WGuDdukxDof2ob3CdvqqtXeaGw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=hQLZOZCQ22IzYMaD0z594tD/5mmVEES8te8McvM2FetU2K3AUVSnM7fzah3Ll4GXozQsEX55NamCvEYC9YJD+kCB5Uyr0r8fFpaxMcoXbEHX1NRbZ30Z/AY2bdAvKmNaYC5zyCAAfPeRgNr0+rchCUpN/AV4qvc2v8dkiRLh34I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68F7FC4CEC3;
+	Fri, 25 Oct 2024 16:12:08 +0000 (UTC)
+Received: from wens.tw (localhost [127.0.0.1])
+	by wens.tw (Postfix) with ESMTP id C90575F870;
+	Sat, 26 Oct 2024 00:12:05 +0800 (CST)
+From: Chen-Yu Tsai <wens@csie.org>
+To: Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org, 
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev
+In-Reply-To: <44745f27034fa670605cd16966a39b7fe88fe5a6.1726863905.git.christophe.jaillet@wanadoo.fr>
+References: <44745f27034fa670605cd16966a39b7fe88fe5a6.1726863905.git.christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH] clk: sunxi-ng: Constify struct ccu_reset_map
+Message-Id: <172987272580.802486.16073827596015670054.b4-ty@csie.org>
+Date: Sat, 26 Oct 2024 00:12:05 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
-	t=1729872662;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7Iw4mSeihGj1YsgWe8Zsotpic8lQYd8a9F0LzrpwBY4=;
-	b=NkQveD4IeJyVYkwl4GNW11zstxIvo/Pkwm9FiFHL9Bu79vy3H890U5m7g1JxmTLm1xnuh/
-	Gkkd+S9bwz+MA/6wG/u1lvxrG/88/tEat2A6sW5Uk2LPhZgAh7GHstuFbYjBFpUUaSeJfj
-	hD3+6yQwvxWA/HqQvDI+p1hj7tDc8n3XXJ5AzuNQIN6jM1TLr6GwPwcGXO4F3jmGufT62T
-	bAaYRoGAdKyE3mUaHqfFjOPmL/ie+INilHsXVre0CNwM5X+TvQQTgBIGufdKRgUZvdbhzX
-	Z6gKNlS/v39pS6OZTZ5QP0NSAwknEXY6meB+kPmgTfnSEoZNytTH+mfPWvIG1A==
-Date: Fri, 25 Oct 2024 18:11:01 +0200
-From: Dragan Simic <dsimic@manjaro.org>
-To: wens@csie.org
-Cc: linux-sunxi@lists.linux.dev, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, jernej.skrabec@gmail.com, samuel@sholland.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org, Ondrej Jirman
- <megi@xff.cz>, Andrey Skvortsov <andrej.skvortzov@gmail.com>
-Subject: Re: [PATCH] arm64: dts: allwinner: pinephone: Add mount matrix to
- accelerometer
-In-Reply-To: <CAGb2v66aody60h=Bpk49pxogq93FekmO48uThPET2RKxvx=OGw@mail.gmail.com>
-References: <129f0c754d071cca1db5d207d9d4a7bd9831dff7.1726773282.git.dsimic@manjaro.org>
- <bef0570137358c6c4a55f59e7a4977c4@manjaro.org>
- <CAGb2v66aody60h=Bpk49pxogq93FekmO48uThPET2RKxvx=OGw@mail.gmail.com>
-Message-ID: <cfc090cb87a8b926116d1a436694d17d@manjaro.org>
-X-Sender: dsimic@manjaro.org
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-Hello Chen-Yu,
-
-On 2024-10-25 16:47, Chen-Yu Tsai wrote:
-> On Wed, Oct 23, 2024 at 5:11 AM Dragan Simic <dsimic@manjaro.org> 
-> wrote:
->> On 2024-09-19 21:15, Dragan Simic wrote:
->> > The way InvenSense MPU-6050 accelerometer is mounted on the user-facing
->> > side
->> > of the Pine64 PinePhone mainboard, which makes it rotated 90 degrees
->> > counter-
->> > clockwise, [1] requires the accelerometer's x- and y-axis to be
->> > swapped, and
->> > the direction of the accelerometer's y-axis to be inverted.
->> >
->> > Rectify this by adding a mount-matrix to the accelerometer definition
->> > in the Pine64 PinePhone dtsi file.
->> >
->> > [1] https://files.pine64.org/doc/PinePhone/PinePhone%20mainboard%20bottom%20placement%20v1.1%2020191031.pdf
->> >
->> > Fixes: 91f480d40942 ("arm64: dts: allwinner: Add initial support for
->> > Pine64 PinePhone")
->> > Cc: stable@vger.kernel.org
->> > Helped-by: Ondrej Jirman <megi@xff.cz>
->> > Helped-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
->> > Signed-off-by: Dragan Simic <dsimic@manjaro.org>
->> 
->> Just a brief reminder about this patch...  Please, let me know if some
->> further work is needed for it to become accepted.
+On Fri, 20 Sep 2024 22:25:24 +0200, Christophe JAILLET wrote:
+> 'struct ccu_reset_map' are not modified in these drivers.
 > 
-> There's no "Helped-by" tag, and checkpatch would complain. The closest
-> would be either Suggested-by or Co-developed-by, but with the latter
-> you would also need their Signed-off-by.
+> Constifying this structure moves some data to a read-only section, so
+> increase overall security.
+> 
+> On a x86_64, with allmodconfig, as an example:
+> Before:
+> ======
+>    text	   data	    bss	    dec	    hex	filename
+>    1533	   2224	      0	   3757	    ead	drivers/clk/sunxi-ng/ccu-sun20i-d1-r.o
+> 
+> [...]
 
-Thanks for your response.  You're totally right about checkpatch.pl
-not supporting Helped-by tags, but including neither Suggested-by
-nor Co-developed-by would fit very well in this case, because the
-associated level of credit falls right somewhere between what's
-indicated by these two tags.
+Applied to clk-for-6.13 in git@github.com:linux-sunxi/linux-sunxi.git, thanks!
 
-> I can change it to Suggested-by if that's OK with you.
+[1/1] clk: sunxi-ng: Constify struct ccu_reset_map
+      commit: c7e09a613bbddd0eea086e475855aba3b2410148
 
-I've created and submitted a patch [*] that adds support for Helped-by
-tags to checkpatch.pl.  Let's see what kind of feedback that patch
-will receive, and then we'll be able to move forward accordingly.
+Best regards,
+-- 
+Chen-Yu Tsai <wens@csie.org>
 
-[*] 
-https://lore.kernel.org/linux-kernel/0e1ef28710e3e49222c966f07958a9879fa4e903.1729871544.git.dsimic@manjaro.org/T/#u
-
->> > ---
->> >
->> > Notes:
->> >     See also the linux-sunxi thread [2] that has led to this patch,
->> > which
->> >     provides a rather detailed analysis with additional details and
->> > pictures.
->> >     This patch effectively replaces the patch submitted in that thread.
->> >
->> >     [2]
->> > https://lore.kernel.org/linux-sunxi/20240916204521.2033218-1-andrej.skvortzov@gmail.com/T/#u
->> >
->> >  arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi | 3 +++
->> >  1 file changed, 3 insertions(+)
->> >
->> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
->> > b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
->> > index 6eab61a12cd8..b844759f52c0 100644
->> > --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
->> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
->> > @@ -212,6 +212,9 @@ accelerometer@68 {
->> >               interrupts = <7 5 IRQ_TYPE_EDGE_RISING>; /* PH5 */
->> >               vdd-supply = <&reg_dldo1>;
->> >               vddio-supply = <&reg_dldo1>;
->> > +             mount-matrix = "0", "1", "0",
->> > +                            "-1", "0", "0",
->> > +                            "0", "0", "1";
->> >       };
->> >  };
->> 
