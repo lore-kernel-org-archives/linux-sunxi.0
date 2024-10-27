@@ -1,43 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7099C558BB;
-	Sun, 27 Oct 2024 20:43:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ED2A291E;
+	Sun, 27 Oct 2024 20:47:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730061800; cv=none; b=kp71PKGVSSZgysUHdWu2VmlCF+HXD3W9ENWSkOiCXde/dla80Avq9ZHAZlek5Bh9ehplliHfsPHYnwxhIymdWcSXGUzoLiY+uOLMy48HgU3M0hWEeiUo8ilr+9zHLlMANJOtS001dMhDMb0PEaPff1CTryRovw/19+FdEpCBjTg=
+	t=1730062025; cv=none; b=fy9EVAiOJ+1PGlruq32c7AZDvJOm2uOXWYAFTmr/5XjMakcYms/3RPlXZC37ui70URScUHY2ReOce9RC3QHq9rWYOh97l6f1/br/B1bsN3xf4vrjkS5R2MN8QF7e9w3QThPdPmDXF0uX/MAutQQ9JV2If2IOADRtchAYrA9xioY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730061800; c=relaxed/simple;
-	bh=qvujWRAqdpKJn304U7F5jeDAVb+FedOCfe/qiEKOYTw=;
+	s=arc-20240116; t=1730062025; c=relaxed/simple;
+	bh=QHTw0IyCWbSMaP9tLcAz5dOu1X5LhXFaMZvD7we8AeM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IUhRFVXn34+fWxU7aZfhflwq8fzOJ4vnuGEXZwQ74okjU7vUo/t6WvXdu6v1PAdt8kEDspleLAK29JCLKPy1R8ogoC40OX2f8j3wY4xMF4R1We97La5N1BBvsKZmKBKyvTmodQqtX+a4q3ca4ekPb+LdKkkfA2YhNfuqkvqzUp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GQ7XnWoF; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GQ7XnWoF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51DB9C4CEC3;
-	Sun, 27 Oct 2024 20:43:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730061800;
-	bh=qvujWRAqdpKJn304U7F5jeDAVb+FedOCfe/qiEKOYTw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GQ7XnWoFLsKwXIdsVWpeNEua6b7zNYi8q+Ferq/6ckQ7pnWD/E0KLmXwzGWVihUwU
-	 JKlSjOC32M/g8Kwqgi5Mm+v7OoyfIadYdlLzs6d8if8xXvwjTl+bub2X0aKr9m0jSF
-	 Uj9dG0Z20+lpisHeSTLqiE/e9iCqTHc45uYkhgDBUig+oQU4lIPAHnb2FfdjEITbcw
-	 dFpm8Azg35ZUO+M0FH2MOaEfT/toHBXEWTE5cBh9UpT8MnHacQAH/RUf4L45kZL2fi
-	 HNYuS7FGibaqWP7KJcorc+NKsAd9WqMWF8ooZIO5e6Xmo1jGb2hMlmw6HMWHClV1RS
-	 ho/a9qwQmMjWQ==
-Date: Sun, 27 Oct 2024 21:43:17 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: =?utf-8?B?Q3PDs2vDoXMs?= Bence <csokas.bence@prolan.hu>
-Cc: dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Mesih Kilinc <mesihkilinc@gmail.com>, Vinod Koul <vkoul@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	 Content-Type:Content-Disposition:In-Reply-To; b=hZavxqAZT5ekYeWxCq0GoHdVa8sNfybDtUtu+rU/TxpHQMirE5oyce7xfwLAN3LVGFslDCKSXE8FdskSaGmjFweNZl0TGaOpZQRc+8cSzWLu2H0BB7q9lKhwjJdAWtiKEOv5JGNPb3vmLzCtwtUmrF5WrlYhmCsVeEXLCWPk4mY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80C81C4CEC3;
+	Sun, 27 Oct 2024 20:47:04 +0000 (UTC)
+Date: Sun, 27 Oct 2024 21:47:02 +0100
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Cody Eksal <masterr3c0rd@epochal.quest>
+Cc: linux-pm@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-phy@lists.infradead.org, linux-usb@vger.kernel.org, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
 	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>
-Subject: Re: [PATCH v3 02/10] dma-engine: sun4i: Add has_reset option to quirk
-Message-ID: <dsuadjqzybikpnuyr7q2fbq5jdzev33rqqhnehh3ns2lgfvdlb@bdmib46vlxt3>
-References: <4b614d6c-6b46-438a-b5c3-de1e69f0feb8@prolan.hu>
- <20241027180903.2035820-2-csokas.bence@prolan.hu>
+	Maxime Ripard <mripard@kernel.org>, Andre Przywara <andre.przywara@arm.com>, 
+	Parthiban <parthiban@linumiz.com>, Yangtao Li <frank@allwinnertech.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, Vinod Koul <vkoul@kernel.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Thierry Reding <treding@nvidia.com>, 
+	Yangtao Li <tiny.windzz@gmail.com>, Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>
+Subject: Re: [PATCH 05/13] dt-bindings: usb: sunxi-musb: Add A100 compatible
+ string
+Message-ID: <cdfocja5u4jh6xh2jkouzyztsjinggep45ymbdwxc4zpscy376@i5voj36oqrrf>
+References: <20241024170540.2721307-1-masterr3c0rd@epochal.quest>
+ <20241024170540.2721307-6-masterr3c0rd@epochal.quest>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -46,34 +43,29 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20241027180903.2035820-2-csokas.bence@prolan.hu>
+In-Reply-To: <20241024170540.2721307-6-masterr3c0rd@epochal.quest>
 
-On Sun, Oct 27, 2024 at 07:08:55PM +0100, Cs=C3=B3k=C3=A1s, Bence wrote:
-> From: Mesih Kilinc <mesihkilinc@gmail.com>
->=20
-> Allwinner suniv F1C100s has a reset bit for DMA in CCU. Sun4i do not
-> has this bit but in order to support suniv we need to add it. So add
-> support for reset bit.
->=20
-> Signed-off-by: Mesih Kilinc <mesihkilinc@gmail.com>
-> [ csokas.bence: Rebased and addressed comments ]
-> Signed-off-by: Cs=C3=B3k=C3=A1s, Bence <csokas.bence@prolan.hu>
+On Thu, Oct 24, 2024 at 02:05:23PM -0300, Cody Eksal wrote:
+> The A100 MUSB peripheral has 10 endpoints, and thus is compatible with
+> the A33 version.
+> 
+> Signed-off-by: Cody Eksal <masterr3c0rd@epochal.quest>
 > ---
->=20
-> Notes:
->     Changes in v2:
->     * Call reset_control_deassert() unconditionally, as it supports optio=
-nal resets
->     * Use dev_err_probe()
->     * Whitespace
->     Changes in v3:
->     * More dev_err_probe()
+>  .../devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml        | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml b/Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml
+> index f972ce976e86..d4993336a29b 100644
+> --- a/Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml
+> +++ b/Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml
+> @@ -24,6 +24,7 @@ properties:
+>                - allwinner,sun8i-a83t-musb
+>                - allwinner,sun20i-d1-musb
+>                - allwinner,sun50i-h6-musb
+> +              - allwinner,sun50i-a100-musb
 
-You did not build v2. Then you send v3... which you also did not build.
-
-Please start at least compiling your own code. Then start testing it,
-but without building it cannot obviously be even tested.
+List looked ordered, now doesn't.... are you sure you keep intented
+ordering here?
 
 Best regards,
 Krzysztof
