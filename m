@@ -1,164 +1,83 @@
-Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
+Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41F3FBE57
-	for <linux-sunxi@lists.linux.dev>; Mon, 28 Oct 2024 00:30:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54AB118A6BC
+	for <linux-sunxi@lists.linux.dev>; Mon, 28 Oct 2024 07:31:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730075457; cv=none; b=cC4YUgv2fB4oknLy6b1DNXUviAW9oEsJZ3eVpC7wbS0JNu2TC7pbadWdJBJOum8AhSnIB8BFlZaiRSbw77Jr3D8e/DdckXPewRDMVE+cNnRca2U/SrmCEAnrp45FkbSk6ce/nT14WMD8zmRGzaXduxfi4WVYkBfGDOjta1YOCJo=
+	t=1730100687; cv=none; b=Gs7B9FtprfEL9oIXn6JqOQrhruLce5sdcSoxKyvrFN8+d5QA33vMZ8+28AOcoIrKdBinb+mlGhIVFzVON3tV/cN2Z7GMKtIUSLnHP1xwhFYInCH5bWweWtpJFZp7SsqVoAoY8SzCik4vdJZE1ucxLQbdt8ilomqv2ZzO8FjKL5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730075457; c=relaxed/simple;
-	bh=M1jIB72K893ghS1ZTaDzy7E4PBwfwkoNizzeNDyFMfo=;
-	h=From:To:Cc:In-Reply-To:Subject:Date:Message-ID:Content-Type:
-	 References; b=Mqu6maZXP+BZ0MD+pPcYbjNEjmgItls6WaVarmvAK+LRP+IZGyJsiaYk2QjEjPNiNvpEsyjo2YAmNobij5Bjef8h2XdiO0DxxiJ8PXPDdj5ZVqvY3jNsAHb1kqzH8MQ0ULmPFs9whBacjZ1nZvKi9C7/TImTIoaCk296Wk5TUFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=t/gozOPD; arc=none smtp.client-ip=203.254.224.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1730100687; c=relaxed/simple;
+	bh=qrB0miUIgjXHZQLEDYFM79ucY2NOMbwpEtWBb4TOsuA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Ym6L/n/kZVe74uQVX+qOGahvxt49MS+yHIpf8eurYMV+KJtUx5kotc/xEZEYfpCYYgQfJFKugaGOxfv3Mhe/ihn3su93UkEJhzfkepBbf8iF5puCQFoxdstB4qcpikEMfGGGM9jeqLCDDxHtKjJAjt02duHOGk3FbqKhHEn0gWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=e5AtdkqF; arc=none smtp.client-ip=193.68.50.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="t/gozOPD"
-Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20241028003044epoutp02cfd1d65f2d3ccf314a9e94f8284f0176~CdnNPWZjx2492724927epoutp02x
-	for <linux-sunxi@lists.linux.dev>; Mon, 28 Oct 2024 00:30:44 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20241028003044epoutp02cfd1d65f2d3ccf314a9e94f8284f0176~CdnNPWZjx2492724927epoutp02x
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1730075444;
-	bh=D5XP+P4OKmP3dvG63jy/mJqmn9NyUaL1no8+dOceqn0=;
-	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
-	b=t/gozOPD12olywJMq//A11k3x/9QAr6tkbX/tUnDx4TtKykh9bqwQQnNjlqoyV/Uu
-	 elmsLIJQfXpgeiYeaMI+FfQdmhO2T5aR00raatrLjMcgcJcfY5yTwVA4GA90zCFG0O
-	 jglBAavjG9qD0znRcIOSGk/x+NgXOTe3AhVW2GQA=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-	epcas1p3.samsung.com (KnoxPortal) with ESMTP id
-	20241028003044epcas1p356cfcb2d1e3dd4def9f7915b24e695df~CdnM-d41f0619206192epcas1p3J;
-	Mon, 28 Oct 2024 00:30:44 +0000 (GMT)
-Received: from epsmgec1p1-new.samsung.com (unknown [182.195.36.136]) by
-	epsnrtp4.localdomain (Postfix) with ESMTP id 4XcDnb28Kvz4x9Pq; Mon, 28 Oct
-	2024 00:30:43 +0000 (GMT)
-Received: from epcas1p4.samsung.com ( [182.195.41.48]) by
-	epsmgec1p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	25.AE.19363.33BDE176; Mon, 28 Oct 2024 09:30:43 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20241028003043epcas1p1a412d029d329dac92060d51bf19a4a8c~CdnL3jzgR2959129591epcas1p1M;
-	Mon, 28 Oct 2024 00:30:43 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20241028003043epsmtrp2726f98f11981984fd804e25816389317~CdnL21p2m2861328613epsmtrp2a;
-	Mon, 28 Oct 2024 00:30:43 +0000 (GMT)
-X-AuditID: b6c32a4c-02dff70000004ba3-72-671edb334c00
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	E1.24.18937.23BDE176; Mon, 28 Oct 2024 09:30:42 +0900 (KST)
-Received: from jh80chung01 (unknown [10.113.111.84]) by epsmtip1.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20241028003042epsmtip18cc04b8d7f53dbee818fecc1b02a222a~CdnLrOsWN1786817868epsmtip1-;
-	Mon, 28 Oct 2024 00:30:42 +0000 (GMT)
-From: "Jaehoon Chung" <jh80.chung@samsung.com>
-To: <wens@csie.org>, "'Andre Przywara'" <andre.przywara@arm.com>
-Cc: "'Jagan Teki'" <jagan@amarulasolutions.com>, "'Tom Rini'"
-	<trini@konsulko.com>, <u-boot@lists.denx.de>, <linux-sunxi@lists.linux.dev>
-In-Reply-To: <CAGb2v671y0EkMKmYJKqPp0ek3_-kv26adUjG=g5-tdPe+5f3Hw@mail.gmail.com>
-Subject: RE: [PATCH] sunxi: power: axp809: Fix DCDC4 programming
-Date: Mon, 28 Oct 2024 09:30:42 +0900
-Message-ID: <104601db28d0$9f4290d0$ddc7b270$@samsung.com>
-X-Mailer: Microsoft Outlook 16.0
-Content-Language: ko
-Thread-Index: AQGqQcI8CYpISmIDDBim4CD6STd+mgIv+UgYAnP1doWy1/4noA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrFKsWRmVeSWpSXmKPExsWy7bCmga7xbbl0g29r+C1WzPvJaPFl0wQ2
-	iyn7drFZTJ20md3i7d5Odoufh84zObB5rP14n9Vjzbw1jB4bHq1m9Xh1YBW7x9k7Oxg9Xmye
-	yRjAFpVtk5GamJJapJCal5yfkpmXbqvkHRzvHG9qZmCoa2hpYa6kkJeYm2qr5OIToOuWmQN0
-	h5JCWWJOKVAoILG4WEnfzqYov7QkVSEjv7jEVim1ICWnwLRArzgxt7g0L10vL7XEytDAwMgU
-	qDAhO2PJn07mgj7+iq3HPzE1MD7h7mLk4JAQMJG48ZC1i5GLQ0hgD6PEmod/2CCcT4wSU6/e
-	RXC+7H4F5HCCdRz/+YoJIrGTUeJR+xOwhJDAS0aJU7fsQWw2AT2J/4sWMoPYIgIOEp2TprGD
-	NDALdDNKtE9eANbAKRAosXbvTLAiYaCirl9TGEFsFgFViQPPellBbF4BS4mZh34xQ2xWkPj5
-	dBlYnFlARGJ2ZxszyA8iAk4Sh2/VgsyXEHjELtF38y4LRL2LxNer56BsYYlXx7ewQ9hSEp/f
-	7WWDaGhmlFi65CArhNPDKPGv4TrUn8YS+5dOZgLZwCygKbF+lz7EYj6Jd197WCGBxyvR0SYE
-	Ua0icen1SyaY+Xef/GeFsD0kfi47zQgJrWuMEgve32WdwCg/C8kPsxA2LGBkWsUolVpQnJue
-	mmxYYKibl1oOj87k/NxNjOBEqOWzg/H7+r96hxiZOBgPMUpwMCuJ8K6OlU0X4k1JrKxKLcqP
-	LyrNSS0+xGgKDM2JzFKiyfnAVJxXEm9oYmlgYmZkbGJhaGaoJM575kpZqpBAemJJanZqakFq
-	EUwfEwenVANT/ZMz15kXuxjzvvh8rip+p7mU3UkWz8MWDXzGqS//K7P9/BLz2cgqK12xekXh
-	cvMe6S0511Pm7XnSYbxhEdvJfpOgX2mC0rIhNet/rYh+vmvCu6CZjFMVZEUzE6fuOB8oVX6p
-	+n/h+dClezU/PLpc/IfR87KA8k9W0ffamsf2Rld05u29IL5Wz136e9GsZQtVVZasfHlZf1+S
-	VfkGhs5DOyz23XKRPO3VFJNw9Nfl176Zfm3b78z8uGPHWRa7QBmmHXsfzj2s7WMbM6P4/pNV
-	Vv/e3vuWvDqoU/mhSkZC0EuNGVz7v3T8+BYW7tor8XbD1liFTrOlp01sk4N/b7jyJUV296wp
-	AjM1ay2n3i62V2Ipzkg01GIuKk4EADsOcAoNBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrOLMWRmVeSWpSXmKPExsWy7bCSnK7Rbbl0g5d9VhYr5v1ktPiyaQKb
-	xZR9u9gspk7azG7xdm8nu8XPQ+eZHNg81n68z+qxZt4aRo8Nj1azerw6sIrd4+ydHYweLzbP
-	ZAxgi+KySUnNySxLLdK3S+DKWPKnk7mgj79i6/FPTA2MT7i7GDk5JARMJI7/fMXUxcjFISSw
-	nVHi5sqXzBAJKYnPT6eydTFyANnCEocPF0PUPGeU2LP7GhtIDZuAnsT/RQvB6kUEnCSWnbzN
-	AmIzC/QzSnzaIQjRcIlRYvr2FUwgCU6BQIm1e2eCNQgLOEh0/ZrCCGKzCKhKHHjWywpi8wpY
-	Ssw89AvqCAWJn0+XsUIMFZGY3dnGDHIQyLLDt2onMArMQpJZwMi4ilE0taA4Nz03ucBQrzgx
-	t7g0L10vOT93EyM4bLWCdjAuW/9X7xAjEwfjIUYJDmYlEd7VsbLpQrwpiZVVqUX58UWlOanF
-	hxilOViUxHmVczpThATSE0tSs1NTC1KLYLJMHJxSDUxbz268cZHvbMKlt7r5D6w1WYXkTByK
-	Bd/vFu9zKdM33PxV5WX7boHiVyKpCzUNytzzcnTWKTB/cq64pczqICV90LJAMpZjqrlt/v+5
-	HBq7il8nrGm7VX9uwY34vLXOYf+2yL/UqXO81POwbH9GdsG6/eesotQSF21+2PrputQ9v/71
-	keeY5NeVqu1IYmHM3iobtOHt310Fr3wmiG+9uzpqn5DImXkbdCVkNtfPj57adsThxepF3c92
-	SeWL1quLvr6UHvPQrU6ltqDvodyH2Utqql5Ln1p14VOzvmna24KPmxNX/pmx+e6CwmXfdQ91
-	Se0VNL6k5u2zzeqrAGv57AN+hzJk6ovSwi9OnbJsFacSS3FGoqEWc1FxIgBKznU2ygIAAA==
-X-CMS-MailID: 20241028003043epcas1p1a412d029d329dac92060d51bf19a4a8c
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20241025144320epcas1p3f4f3ad62a7b7aacb4cebc7f1ce9fc14c
-References: <20241007222625.18883-1-andre.przywara@arm.com>
-	<CGME20241025144320epcas1p3f4f3ad62a7b7aacb4cebc7f1ce9fc14c@epcas1p3.samsung.com>
-	<CAGb2v671y0EkMKmYJKqPp0ek3_-kv26adUjG=g5-tdPe+5f3Hw@mail.gmail.com>
+	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="e5AtdkqF"
+Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
+	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id 05A64A0767;
+	Mon, 28 Oct 2024 08:31:15 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:from:from:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=mail; bh=Jzwxp88ilPxMqqVour7K
+	BL4/+4MkX3IVm03TfWmTjFQ=; b=e5AtdkqFLnQ+WxX26HGP43hZIJUhu/t/Zcil
+	JKaYUFaXL+MgHxNclZXtIzFUKHVmO+Fm9WBDHPHsh6CKBuuVucuMZn/xv5IRfxdo
+	8YcQfQvuPqSKGVyzrHX9QaCzXTZtlDWfixiwS/+5ZWnM6rN7XXnOnCc4RX3DaejG
+	bNN9LxzdByk2JwdVYv9qQb0B1xdln/Tm3pfTq+bKzk4caPn4HJ9dygubggkkr1iq
+	BzJYZqsOZxYthfbdrUr3vwLbVp6H+3mndmgOOArJrKjY+agNSkGR0CQJwXiWi1uM
+	y8ByvuexjiGYFHaggVe2EZZUr1iIjH6LdWyaN5j4LQJ8ej3zUHbLWBsK2pFS5+9y
+	i6fiwAZSrGX6qLv/9dpbraVA7Sbrrb7RDUtvj0qIXIeIc/TTa2RqHJXzDDeXoWEG
+	G1Edf/9SQr8HanjRy1WQifQ9CAHSCQrv1pyKtqAoYM6XvORaxe8ZKj4E8jcbTs0M
+	/rQApTpqnuUv0PeBNulT2WRCpk0Xs2d1QOAsZx8YqkOw0wgKzbh44kdlWeg3T+VE
+	0eeqlcoiWEuc9c/v06t4bZ0VB/Zg5iRQDtZtVOVAz6f5dOVMUl1P8fV7CkCtyF45
+	k/RnyI+iZJGfym8UgEgPNaHkMJS6Z9cYTTwFNtvEoDvlxHiq8j2rcLq904vQmJYD
+	NfQtGDo=
+Message-ID: <5eedfe71-7a8d-4b91-ab49-e09352e7d6f3@prolan.hu>
+Date: Mon, 28 Oct 2024 08:31:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 02/10] dma-engine: sun4i: Add has_reset option to quirk
+To: Krzysztof Kozlowski <krzk@kernel.org>
+CC: <dmaengine@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>, Mesih Kilinc
+	<mesihkilinc@gmail.com>, Vinod Koul <vkoul@kernel.org>, Chen-Yu Tsai
+	<wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+	<samuel@sholland.org>, Philipp Zabel <p.zabel@pengutronix.de>
+References: <4b614d6c-6b46-438a-b5c3-de1e69f0feb8@prolan.hu>
+ <20241027180903.2035820-2-csokas.bence@prolan.hu>
+ <dsuadjqzybikpnuyr7q2fbq5jdzev33rqqhnehh3ns2lgfvdlb@bdmib46vlxt3>
+Content-Language: en-US
+From: =?UTF-8?B?Q3PDs2vDoXMgQmVuY2U=?= <csokas.bence@prolan.hu>
+In-Reply-To: <dsuadjqzybikpnuyr7q2fbq5jdzev33rqqhnehh3ns2lgfvdlb@bdmib46vlxt3>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: ATLAS.intranet.prolan.hu (10.254.0.229) To
+ ATLAS.intranet.prolan.hu (10.254.0.229)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A2980D94855677C65
 
+Hi,
 
+On 2024. 10. 27. 21:43, Krzysztof Kozlowski wrote:
+> You did not build v2. Then you send v3... which you also did not build.
+> 
+> Please start at least compiling your own code. Then start testing it,
+> but without building it cannot obviously be even tested.
 
-> -----Original Message-----
-> From: Chen-Yu Tsai <wens@csie.org>
-> Sent: Friday, October 25, 2024 11:43 PM
-> To: Andre Przywara <andre.przywara@arm.com>
-> Cc: Jaehoon Chung <jh80.chung@samsung.com>; Jagan Teki <jagan@amarulasolutions.com>; Tom Rini
-> <trini@konsulko.com>; u-boot@lists.denx.de; linux-sunxi@lists.linux.dev
-> Subject: Re: [PATCH] sunxi: power: axp809: Fix DCDC4 programming
->
-> On Tue, Oct 8, 2024 at 6:27?AM Andre Przywara <andre.przywara@arm.com> wrote:
-> >
-> > When trying to set the DCDC4 regulator, the code was accidentally
-> > setting the voltage register for DCDC5 (VCC-DRAM). The higher voltage
-> > doesn't harm the DRAM chips, but upsets the Linux regulator driver: when
-> > it tried to correct that, it tripped over a separate DT bug.
-> > The DCDC5 DT limits are 1.425 and 1.575V, which cannot bet set with the
-> > rail's resolution of 50mV. The kernel driver gave up, and made in turn
-> > the system hang, as the PMIC powers essential devices.
-> >
-> > Fix the copy&paste bug by using the correct PMIC voltage register.
-> >
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
->
-> Reviewed-by: Chen-Yu Tsai <wens@csie.org>
+I forgot to rebase an amend! before sending v2, which I corrected in v3. 
+I *did* in fact build v3 (after the aforementioned correction) rebased 
+on top of Linux 6.5, which is what I have available for my board. And I 
+also *did* test with aplay and confirmed to have working audio. If you 
+believe there are differences between 6.5 and master that break v3 of 
+the patch, then please point those out as opposed to making accusations.
 
-Reviewed-by: Jaehoon Chung <jh80.chung@samsung.com>
-
->
-> > ---
-> >  drivers/power/axp809.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/power/axp809.c b/drivers/power/axp809.c
-> > index 9e38e1a7450..ec3eca1ac4b 100644
-> > --- a/drivers/power/axp809.c
-> > +++ b/drivers/power/axp809.c
-> > @@ -93,7 +93,7 @@ int axp_set_dcdc4(unsigned int mvolt)
-> >                 return pmic_bus_clrbits(AXP809_OUTPUT_CTRL1,
-> >                                         AXP809_OUTPUT_CTRL1_DCDC4_EN);
-> >
-> > -       ret = pmic_bus_write(AXP809_DCDC5_CTRL, cfg);
-> > +       ret = pmic_bus_write(AXP809_DCDC4_CTRL, cfg);
-> >         if (ret)
-> >                 return ret;
-> >
-> > --
-> > 2.46.2
-> >
-
+Bence
 
