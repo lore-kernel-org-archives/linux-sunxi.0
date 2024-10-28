@@ -1,185 +1,132 @@
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AC273A1DB
-	for <linux-sunxi@lists.linux.dev>; Mon, 28 Oct 2024 20:10:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EC49148300;
+	Mon, 28 Oct 2024 20:38:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730146227; cv=none; b=ToqDw3fCNl/q2LJuVC/5lVZwRfYl/oV2Cp1Jl68iM25B2HICqh3AtWDnO+xuRkvQj96sGRc4GYSSlCe/w62UeyvTbI0Gw/GG1tU62aw/RjNFgQ+udw6g8GoueRIAHsyp+9OZzEi9GzdYEHGgXoKHUIGxkBsThLwQnjxBPG0BPso=
+	t=1730147930; cv=none; b=Tc70MdybFNtnloEmIR3AeLLO0dteUGtDQHmoez16ke8OzK7jS7f+dJXzQfdRG4N4EQrlwEc1eRFSBsFuQPJGJWJm0xdNK9K/xXhqgKfHIgo13sYetxkS7wiB5JcrQv5tzG8AMQrAE+GzHyskSkIWquMLD1JB/csTZXL+PdNzjdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730146227; c=relaxed/simple;
-	bh=uIc83Yj70HCk2vgshffko5JRuPLiQcXiG/9qAs3cmzc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MYElF1iY5gCDTbBaZziuyRJmRpwBT79QXwYiLvfbErbMxQ/3gvqo09AnN6o7F8H/gfbXLpk8WfXMAjn6iCEtFThfF4oEeUoW6HYSKTHHD29rxKJVOCtA63VOi86IGfEigUYie2MLYGCCYAJ/wvMc98+sDaE/iy5+jpMzjUvmpo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i2XUJx6Q; arc=none smtp.client-ip=209.85.208.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730147930; c=relaxed/simple;
+	bh=m3PZAoWfta+ZnN37Ke0OPKpW1qTjsH1pXd/rg1xGge8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qt0yXYBIg4X0qiX0Pp5dlHtsfL/U4sgrLRjhbRuFewfk9wAYSncIQ/ZKTBhcCrRGhJ8d3L/6WgN/t1XXnUff1NgxpNnsxHexNCMGsW19GQlzyk/i+Kh9quYK4IMmjztkElbJfAtBgpXFDEQ1qFggGYgFiUjJ0F4x6d4d0414wOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oMIV7ouo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i2XUJx6Q"
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2fb599aac99so43347411fa.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 28 Oct 2024 13:10:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730146224; x=1730751024; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9OakXUHW4ekUbkk4194qmDiDkD1ec89ns71VYRu02+Y=;
-        b=i2XUJx6QAnP/OCSTZg7basd+oK63RApazIRZ2jieJxrS/R/bAxXL/67TWWbP2zEul7
-         jdnUaiMhWQZLaS1P1gO8d505eGIbkozj5Xk/UPyQVt+qntZMyG35i0RgWX5O3uGpjTgB
-         ZxwVfpQ7ocClRwbcTp2ei57npjocTrzEGqF+6qhv+QDG/SC61t7P6sjZQeyvAZd31YCz
-         vd3rDKdAnm2wFOLb8/ZeUb5MebNtgqJ1Odn/4AhDcU9IL4RPsS49OQrFYXUVHNyrBju2
-         gb3SqG33OaTxznSTyJCnJD62RHAbjPj6aulcGsk4Ud/mC3NRsMcikSFiu+341yFgxXDa
-         C8pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730146224; x=1730751024;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9OakXUHW4ekUbkk4194qmDiDkD1ec89ns71VYRu02+Y=;
-        b=F7oUR+IGO+93NjebUrphN7XZY49gaoaNY0ifLGGtBjTQggDk1zXls/+JQg9TKwGagy
-         iv70Pe+TgFfvvem+qvaMHlh5IAiX+YInBIO2oz1OmB3cF25nYDPFLaDAFeVlo8L/0ESt
-         OYshP+i2O5I1HRWuc1XKPWSCJ46z4iSdvbPYNJ8/KnwOf0akRK0Z6re+jx6cWHiWdNKR
-         yGdOJZJJtAbn0Rnlq38TvQseMaaCf8NJE8r7O8btvCSvzjoP8zglZ5VA6NmzAmOyDJFT
-         0+9pfMJiz3UdH82jmUGSTnR67i430hteE8i/mtJwEfPxvz1p8wZJ4Zh+sHfJ1Et4XO6A
-         clYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUUHAoymxImKwq7wsvmCupdnHfW3x/tfqAaACjR+E4U7igrFAsSu0oItYcyIsKjXBSIH2UzKQrh4W7A5A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzT4nzcpD+YXiwRSoEtIhSDpzirpQ0+pYqJSyVNatnaux+FiiLu
-	v5TOTJ2DGlmOeE4+s+VRjhvwGBSGyHF/s+LZZiWC3iasXE0CCb5u
-X-Google-Smtp-Source: AGHT+IEhRHymYCU+tCOEvbZ8QNMhh5sgOJMiW/Owt/4gwHI7TUaTxsRkZjuhBGPWWmqjENgxq52sag==
-X-Received: by 2002:a05:651c:1994:b0:2fb:4f0c:e40c with SMTP id 38308e7fff4ca-2fcbe0674f0mr39846821fa.34.1730146223350;
-        Mon, 28 Oct 2024 13:10:23 -0700 (PDT)
-Received: from [192.168.1.17] (229.140-242-81.adsl-dyn.isp.belgacom.be. [81.242.140.229])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cbb6349675sm3362990a12.94.2024.10.28.13.10.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Oct 2024 13:10:22 -0700 (PDT)
-Message-ID: <de178df0-9c88-421b-a02f-f5b25d18249b@gmail.com>
-Date: Mon, 28 Oct 2024 21:10:22 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oMIV7ouo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99932C4CEC3;
+	Mon, 28 Oct 2024 20:38:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730147930;
+	bh=m3PZAoWfta+ZnN37Ke0OPKpW1qTjsH1pXd/rg1xGge8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=oMIV7ouoNxO1A4ULnqqb+zD3y3ho0clS8GBIBs9qHMH/dskaNgIq+bZz1RhmTW+DE
+	 SdERiwUKLf/JmJS73kqRx3/PkieSIliCACITTT85+ZwQcUoI1m4mnZR2cD4eGCc3O5
+	 DnKK7yMH+cuPax9jnFOtaF0Loz/0flFGLZJWwepSNIQAT8Cg7Kmr4liSyVojS5UznI
+	 3JHumZdHCyFHX/xpTUN6XW06BesrhaH7FMdfjfSl3K4hMRUump6ly9ZSFMU54gRSiV
+	 HJO6jwiYGeUjG9em0maWV5mqGxa0K2xPhFnz5ulbFyTuX2kLo1eg1TnyrnoTAmZnnb
+	 wz3rU2IKfHlCA==
+Date: Mon, 28 Oct 2024 20:38:39 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Aren Moynihan <aren@peacevolution.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Lars-Peter Clausen
+ <lars@metafoo.de>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai
+ <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+ <samuel@sholland.org>, Kaustabh Chakraborty <kauschluss@disroot.org>,
+ =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <trabarni@gmail.com>, Ondrej Jirman
+ <megi@xff.cz>, Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?=
+ <u.kleine-koenig@pengutronix.de>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, Dragan
+ Simic <dsimic@manjaro.org>, phone-devel@vger.kernel.org
+Subject: Re: [PATCH v3 3/6] iio: light: stk3310: Implement vdd and leda
+ supplies
+Message-ID: <20241028203839.65debe2b@jic23-huawei>
+In-Reply-To: <ggpxs4mlkobdkvqxbzroeogqe2kxlixne7ly4njb5ynnszvvkv@3gusj5w53bbj>
+References: <20241028142000.1058149-1-aren@peacevolution.org>
+	<20241028142000.1058149-4-aren@peacevolution.org>
+	<Zx-h7QUnCKwtu8iC@smile.fi.intel.com>
+	<ggpxs4mlkobdkvqxbzroeogqe2kxlixne7ly4njb5ynnszvvkv@3gusj5w53bbj>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] clk: sunxi-ng: h616: Reparent CPU clock during
- frequency changes
-To: Andre Przywara <andre.przywara@arm.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <20241025105620.1891596-1-andre.przywara@arm.com>
-Content-Language: en-US
-From: Philippe Simons <simons.philippe@gmail.com>
-In-Reply-To: <20241025105620.1891596-1-andre.przywara@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Hi,
+On Mon, 28 Oct 2024 12:37:14 -0400
+Aren Moynihan <aren@peacevolution.org> wrote:
 
-I made various tests with this patch, and it doesn't resolve the issue 
-on H700.
+> On Mon, Oct 28, 2024 at 04:38:37PM +0200, Andy Shevchenko wrote:
+> > On Mon, Oct 28, 2024 at 10:19:57AM -0400, Aren Moynihan wrote:  
+> > > The vdd and leda supplies must be powered on for the chip to function
+> > > and can be powered off during system suspend.
+> > > 
+> > > Co-developed-by: Ondrej Jirman <megi@xff.cz>  
+> > 
+> > Missing SoB. Please, read Submitting Patches documentation for understanding
+> > what has to be done here.
+> >   
+> > > Signed-off-by: Aren Moynihan <aren@peacevolution.org>  
+> > 
+> > ...
+> >   
+> > > Notes:
+> > >     I'm not sure what the proper way to handle attribution for this patch
+> > >     is. It was origionally based on a patch by Ondrej Jirman[1], but I have
+> > >     rewritten a large portion if it. I have included a Co-developed-by tag
+> > >     to indicate this, but haven't sent him this patch, so I'm not sure what
+> > >     to do about a Signed-off-by.  
+> > 
+> > Ah, seems you already aware of this issue. So, either drop Co-developed-by
+> > (and if you wish you may give a credit in a free form inside commit message)
+> > or make sure you get his SoB tag.  
+> 
+> Alright, thanks for clarifying that.
+> 
+> > >  	mutex_init(&data->lock);  
+> > 
+> > Somewhere (in the previous patch?) you want to switch to devm_mutex_init().  
+> 
+> Good catch, it looks like that was being leaked before this refactor.
+> Yeah that sounds like the right place, I'll include it in v4.
+Not really on the leaking.  Take a look at the cleanup for devm_mutex_init().
+It's debug only and not all that useful in most cases.
 
-It doesn't hurt either, so it's up to you to keep it or not.
+However, it is good to not assume that now we have a devm_mutex_init()
+available that is easy to use.
 
+> 
+> > > +	ret = devm_regulator_bulk_get(&client->dev, ARRAY_SIZE(data->supplies),
+> > > +				      data->supplies);
+> > > +	if (ret)
+> > > +		return dev_err_probe(&client->dev, ret, "get regulators failed\n");  
+> >   
+> > > +		return dev_err_probe(&client->dev, ret,
+> > > +				     "regulator enable failed\n");  
+> >   
+> > > +	ret = devm_add_action_or_reset(&client->dev, stk3310_regulators_disable, data);
+> > > +	if (ret)
+> > > +		return dev_err_probe(&client->dev, ret,
+> > > +				     "failed to register regulator cleanup\n");  
+> > 
+> > With
+> > 
+> > 	struct devuce *dev = &client->dev;
+> > 
+> > at the top of the function makes these and more lines neater.
+> >   
+> [snip]
+> > 
+> > While changing to RCT order here, it seems you have inconsistent approach
+> > elsewhere (in your own patches!). Please, be consistent with chosen style.  
+> 
+> Sounds easy enough to fix, I'll include these in v4.
+> 
+> Thanks taking the time to review
+>  - Aren
 
-For the H700, I'm wondering if DVFS is the issue. I mean that's how I 
-trigger the crash,
-
-but the crash maybe just a side effect, I've ran tests across the 
-transition matrix, and they all seems to works... until it crash.
-
-
-Crashes are random in their occurrence and their manifestation...
-
-
-I'm clueless at what could it be.
-
-
-I've stressed the DRAM at various CPU speeds, and this seems to be 
-stable, but again we have detection issues with u-boot... so...
-
-Philippe
-
-On 25/10/2024 12:56, Andre Przywara wrote:
-> The H616 user manual recommends to re-parent the CPU clock during
-> frequency changes of the PLL, and recommends PLL_PERI0(1X), which runs
-> at 600 MHz. Also it asks to disable and then re-enable the PLL lock bit,
-> after the factor changes have been applied.
->
-> Add clock notifiers for the PLL and the CPU mux clock, using the existing
-> notifier callbacks, and tell them to use mux 4 (the PLL_PERI0(1X) source),
-> and bit 29 (the LOCK_ENABLE) bit. The existing code already follows the
-> correct algorithms.
->
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
-> Hi,
->
-> the manual states that those changes would be needed to safely change
-> the CPU_PLL frequency during DVFS operation. On my H618 boards it works
-> fine without them, but Philippe reported problems on his H700 board.
-> Posting this for reference at this point, to see if it helps people.
-> I am not sure we should change this without it fixing any real issues.
->
-> The same algorithm would apply to the A100/A133 (and the upcoming A523)
-> as well.
->
-> Cheers,
-> Andre
->
->   drivers/clk/sunxi-ng/ccu-sun50i-h616.c | 28 ++++++++++++++++++++++++--
->   1 file changed, 26 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
-> index 84e406ddf9d12..85eea196f25e3 100644
-> --- a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
-> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
-> @@ -1095,11 +1095,24 @@ static const u32 usb2_clk_regs[] = {
->   	SUN50I_H616_USB3_CLK_REG,
->   };
->   
-> +static struct ccu_mux_nb sun50i_h616_cpu_nb = {
-> +	.common		= &cpux_clk.common,
-> +	.cm		= &cpux_clk.mux,
-> +	.delay_us	= 1, /* manual doesn't really say */
-> +	.bypass_index	= 4, /* PLL_PERI0@600MHz, as recommended by manual */
-> +};
-> +
-> +static struct ccu_pll_nb sun50i_h616_pll_cpu_nb = {
-> +	.common		= &pll_cpux_clk.common,
-> +	.enable		= BIT(29),	/* LOCK_ENABLE */
-> +	.lock		= BIT(28),
-> +};
-> +
->   static int sun50i_h616_ccu_probe(struct platform_device *pdev)
->   {
->   	void __iomem *reg;
->   	u32 val;
-> -	int i;
-> +	int ret, i;
->   
->   	reg = devm_platform_ioremap_resource(pdev, 0);
->   	if (IS_ERR(reg))
-> @@ -1152,7 +1165,18 @@ static int sun50i_h616_ccu_probe(struct platform_device *pdev)
->   	val |= BIT(24);
->   	writel(val, reg + SUN50I_H616_HDMI_CEC_CLK_REG);
->   
-> -	return devm_sunxi_ccu_probe(&pdev->dev, reg, &sun50i_h616_ccu_desc);
-> +	ret = devm_sunxi_ccu_probe(&pdev->dev, reg, &sun50i_h616_ccu_desc);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Reparent CPU during CPU PLL rate changes */
-> +	ccu_mux_notifier_register(pll_cpux_clk.common.hw.clk,
-> +				  &sun50i_h616_cpu_nb);
-> +
-> +	/* Re-lock the CPU PLL after any rate changes */
-> +	ccu_pll_notifier_register(&sun50i_h616_pll_cpu_nb);
-> +
-> +	return 0;
->   }
->   
->   static const struct of_device_id sun50i_h616_ccu_ids[] = {
