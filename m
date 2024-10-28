@@ -1,90 +1,108 @@
-Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
+Received: from a.peacevolution.org (a.peacevolution.org [206.189.193.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 001794F8A0
-	for <linux-sunxi@lists.linux.dev>; Mon, 28 Oct 2024 13:12:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC8081DD527
+	for <linux-sunxi@lists.linux.dev>; Mon, 28 Oct 2024 14:21:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.193.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730121154; cv=none; b=P8c1sWASSG8XigbIERnao9hyv5NhkcXpOOABHzfarl+DPGPpqnQF3ffhboI+xEHaoYvQKtDcvZy2V2Hsk993OS5nvQ5cZPXXkB1dtWNivKHcqm0LBqfuo/Lnf88mxYl3ACk/zZFlBK7f72irUizLcMmomXa8DOKv/dTin75wk9w=
+	t=1730125312; cv=none; b=LZo0QavqlqmfGuyY0vIbydTph3TzJ1tCQZTtnYvytHVBg2GgbUIJt7V6qqu0ViTtIPpNIa/RobfFhVitDqi0aQAYKth0r2FEgRiddTUFkZKIuTVU/PxFS9CMVDHaln8mn5ihz2lsSudDyS+75JiPRbrO/qM2Zo/NKt9Qd4jim3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730121154; c=relaxed/simple;
-	bh=KgZ8HaWvNp4BAfTHvrXH0/8Skj751PewZrW2Mn65rI8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=lJMZBMBgDLA9OMqVvzhTcC/WAHCI810jGqqiqlCBEGnb7uxwG495UqcHNjF/yN/Qx5zQcO1tLhD6X/OHwgg2c8A7ExTaPI/KxD/LJmhXr2H6XyDizHQ/Q9fsrS2YI9aEamP8nV9xQYJBkPG90htX+a93nlWYLqrQwOfXPxoIJD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=UQseZHBF; arc=none smtp.client-ip=193.68.50.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
+	s=arc-20240116; t=1730125312; c=relaxed/simple;
+	bh=/YzjZ2+kWaCJYiOsHNNNL2840PxUKMK+oiKSq/YkNaw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=GVRpOzZ7xUdKOgZh6OMXQKIQ+zRSfDBLnqrO4P1ODfqmPRmQ1S1ho506NY65WiIdDA39gF85hMpQh+6SHv1XjKxk0Nr43kl4j8DlQyW4oXLgTXCwfwDB/+Evd2aTadLGpxGsWpceDZPKi/S56D86QqlnH19MuUYR6SbR7bBiBuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org; spf=pass smtp.mailfrom=peacevolution.org; dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b=lIbTPM/A; arc=none smtp.client-ip=206.189.193.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=peacevolution.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="UQseZHBF"
-Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
-	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id 998F7A09F1;
-	Mon, 28 Oct 2024 14:12:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:from:from:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=mail; bh=a/Km0duaUxN9zrPZeOy2
-	RJQXZwW6MUMmomrvB9hLoAo=; b=UQseZHBFhaIAsUXZ58dfmX3kXyOr9KsCgXPS
-	SvuPoNSgAFOOUl0/qNd3141M6WDsLsFoSJC9JjZn4ivvS5+kBpqngIkhOaMwCNQA
-	KF9fqHW8dSodcN9PKeBElOXmZ/Cc9XR6fMS5zYOp5eHGprkGKm4+JYL3TKRv1lrV
-	IwDjMqW9TiEPX0ROUTWXUUgXhaBee6TuaOxGoh/QkJaHcxRuuWJvRPFEhCrghNU3
-	Wmluxl01SWWNsb4JT/xp7OFcnmbzEhMchUJRKB4xfmoKwe86k6Zr4UvuR9fQE52x
-	o9dUohQCkaQCuvxubzo5yxWjXUvMzYgs0h8fdtf2wbXcpj2KuaXiHt9chN4011Kg
-	NyV1Rb9pbRzbTl3NPDdb3A422KwNadY7u65YL7tPNavAz6HP0cvMXeoi6OE9Tufs
-	TJbMGsiTimrxoP2HPth+1UadXhZcoCG3nBiDXgBzuhnM0c8l+5azFD68+TMHYDUo
-	vCKaiXeak4hGeMKvtkia51+se47Rj1vf6CmQSb/RSwyL/A4vVMK7IPCMDa/rXCfe
-	z3uleYY5GPW2+FT9T3fw/Akugxsk0c6hfBFdpIxDBkoLy8ej+oP+cQVpJRvZaE30
-	L72tb6TkN9X+9ZNPRyl9r+AilBTLusns99Yctynj3xNHUPEaSjZ5SMoNVVdF4C7P
-	JdnmnSo=
-Message-ID: <1811aa2a-3d19-4ce4-83c5-863aa0f4daab@prolan.hu>
-Date: Mon, 28 Oct 2024 14:12:27 +0100
+	dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b="lIbTPM/A"
+Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
+	by a.peacevolution.org (Postfix) with ESMTPA id 588034C736;
+	Mon, 28 Oct 2024 14:21:48 +0000 (UTC)
+From: Aren Moynihan <aren@peacevolution.org>
+To: Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: Aren Moynihan <aren@peacevolution.org>,
+	Kaustabh Chakraborty <kauschluss@disroot.org>,
+	=?UTF-8?q?Barnab=C3=A1s=20Cz=C3=A9m=C3=A1n?= <trabarni@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Ondrej Jirman <megi@xff.cz>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	Dragan Simic <dsimic@manjaro.org>,
+	phone-devel@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v3 1/6] dt-bindings: iio: light: stk33xx: add vdd and leda regulators
+Date: Mon, 28 Oct 2024 10:19:55 -0400
+Message-ID: <20241028142000.1058149-2-aren@peacevolution.org>
+In-Reply-To: <20241028142000.1058149-1-aren@peacevolution.org>
+References: <20241028142000.1058149-1-aren@peacevolution.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 02/10] dma-engine: sun4i: Add has_reset option to quirk
-To: <wens@kernel.org>
-CC: Krzysztof Kozlowski <krzk@kernel.org>, <dmaengine@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, Mesih Kilinc <mesihkilinc@gmail.com>, "Vinod
- Koul" <vkoul@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, "Samuel
- Holland" <samuel@sholland.org>, Philipp Zabel <p.zabel@pengutronix.de>
-References: <20241027091440.1913863-1-csokas.bence@prolan.hu>
- <20241027091440.1913863-2-csokas.bence@prolan.hu>
- <nlhsxigg3rbfvua76ekmub4p6df2asps2ihueouuk6zkbn56zl@xdj6jzzt4gfb>
- <b74dafed-197a-4644-a546-54c7a1639484@prolan.hu>
- <CAGb2v65ZXftjrG9+f1_88=EsU7rM8vnOPZCszWfWYFQ+Do9Xsg@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?B?Q3PDs2vDoXMgQmVuY2U=?= <csokas.bence@prolan.hu>
-In-Reply-To: <CAGb2v65ZXftjrG9+f1_88=EsU7rM8vnOPZCszWfWYFQ+Do9Xsg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: ATLAS.intranet.prolan.hu (10.254.0.229) To
- ATLAS.intranet.prolan.hu (10.254.0.229)
-X-EsetResult: clean, is OK
-X-EsetId: 37303A2980D94855677C6B
+Content-Transfer-Encoding: 8bit
+Authentication-Results: auth=pass smtp.auth=aren@peacevolution.org smtp.mailfrom=aren@peacevolution.org
+X-Spam-Level: ******
+X-Spamd-Bar: ++++++
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=peacevolution.org;
+	s=dkim; t=1730125309;
+	h=from:subject:date:message-id:to:cc:mime-version:content-transfer-encoding:in-reply-to:references;
+	bh=6wjZ1pTHZq/+k3MCnSbbzmSo0hoqjpDUYVU+ZZfLBNM=;
+	b=lIbTPM/AeaMflAcdwUJTLIqKg+0qzjN+F7YnXFOaviiL719lrG2kCKUyGQWu4NKN79l5qL
+	5mqVD0tWkcaaCIf3a1sRdridQwMCanS1iTHnmY5GoM4GLEIMQpq+ZcPYw6LsTkZLoS7yEw
+	yQBC8DXXeh9XO+ZV2jk9kFdDP9rki/Y=
 
+stk3310 and stk3311 are typically connected to power supplies for the
+chip (vdd) and the infrared LED (leda). Add properties so we can power
+these up / down appropriately.
 
+Signed-off-by: Aren Moynihan <aren@peacevolution.org>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
 
-On 2024. 10. 28. 8:44, Chen-Yu Tsai wrote:
-> I suggest adding a patch to switch the clk API calls to devm_clk_get_enabled()
-> which handles all the cleanup. Similarly you can switch to
-> 
->      devm_reset_control_get_exclusive_deasserted()
-> 
-> for this patch.
-> 
-> 
-> ChenYu
+Notes:
+    Changes in v2:
+     - add leda-supply
+     - add supplies to examples
 
-Huh, that's a new API! Thanks, I'll switch to that then.
+ Documentation/devicetree/bindings/iio/light/stk33xx.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Regarding the change to devm_clk_get_enabled(), I think that should be a 
-separate patch from this series, where all the pre-existing dev_err()'s 
-get changed as well. If someone wants to work on that, go ahead, but if 
-no one does then after this series is merged I might get around to that too.
-
-Bence
+diff --git a/Documentation/devicetree/bindings/iio/light/stk33xx.yaml b/Documentation/devicetree/bindings/iio/light/stk33xx.yaml
+index e4341fdced98..96ee8ec16463 100644
+--- a/Documentation/devicetree/bindings/iio/light/stk33xx.yaml
++++ b/Documentation/devicetree/bindings/iio/light/stk33xx.yaml
+@@ -34,6 +34,8 @@ properties:
+   interrupts:
+     maxItems: 1
+ 
++  vdd-supply: true
++  leda-supply: true
+   proximity-near-level: true
+ 
+ required:
+@@ -57,6 +59,8 @@ examples:
+                 proximity-near-level = <25>;
+                 interrupt-parent = <&gpio1>;
+                 interrupts = <5 IRQ_TYPE_LEVEL_LOW>;
++                vdd-supply = <&vdd_regulator>;
++                leda-supply = <&led_regulator>;
+         };
+     };
+ ...
+-- 
+2.47.0
 
