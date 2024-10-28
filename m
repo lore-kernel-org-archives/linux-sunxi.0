@@ -1,94 +1,120 @@
-Received: from thales.epochal.quest (thales.epochal.quest [51.222.15.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from a.peacevolution.org (a.peacevolution.org [206.189.193.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 609071DED67
-	for <linux-sunxi@lists.linux.dev>; Mon, 28 Oct 2024 16:35:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.222.15.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D70AC1DE8AF
+	for <linux-sunxi@lists.linux.dev>; Mon, 28 Oct 2024 16:37:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.193.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730133351; cv=none; b=LULxMDN2iCDOp9kbNA+2JyusnFZOYXRaOOvQ7o9s+BE9vhckrwMiGhGZi+266Dp2qtM4+UUAEHsRWQHjd5/pkGTMUQ9eV14cXgL+hyisswnHM3eOOBYM+iiWo7LaUdVokI3GAx3z9UkwKrigCOAAD/c4F2BZ8vVNsiPwvEZ8s2E=
+	t=1730133447; cv=none; b=llTVk+qEzsnvFHA2MQ2kTCqfUwsKrqNiY9R3hLb9CxXBRH98y0Z2nWciep4/eOxb0u2D433uTYCFxbLlTUxUwgzgCO+06wAnHLP0IXb+dZU7DLxOV+GS+CTdKQPxcd6F9en9kRqHjsDE4Zf2tBBV/JF84WOUr/FuzpOR3jSCh90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730133351; c=relaxed/simple;
-	bh=SgbZ6d/TsfOwGbc31ZKuYuZl628O9USHtGUALdy8B+A=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=ij2wFfVjDjTc18Yob7pRoOShiQcvj2CNUyZ2osx2PtarrZX8c3+nYpE5b4cer5ENRZfnUotU/CfpAEiIZbyTvk9W4pXrky8eiiA5H7QTjnh7JgyrWmIGvulyICSqAkmoLL9sHPuR6ZaUgHlJNyaYJtk9stLlu/9BRKCSYeCjT3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epochal.quest; spf=pass smtp.mailfrom=epochal.quest; dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b=ZgS7BZdH; arc=none smtp.client-ip=51.222.15.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epochal.quest
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=epochal.quest
+	s=arc-20240116; t=1730133447; c=relaxed/simple;
+	bh=ObFeJAniS5fEngLmJJFrcIB6eWoaLLkxX0G3X/tyv1I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jCsernhtIVEQ9Z/eHkXMdvU/YB8Fu/nffHbRrDTn7jXaWZgKGVjeEizQJ1ZSaVzU5Sga34gi03tyLTrioHDKIYaHJgWHp1reT9xP/7tcpoAEktK9l96xlrfxWwgIaW1X51k/ndhrjW9hkQYAyytSejLQwU1glOfRNUeTF4xvZqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org; spf=pass smtp.mailfrom=peacevolution.org; dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b=kFVcCIcJ; arc=none smtp.client-ip=206.189.193.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=peacevolution.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b="ZgS7BZdH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=epochal.quest;
-	s=default; t=1730133348;
-	bh=SgbZ6d/TsfOwGbc31ZKuYuZl628O9USHtGUALdy8B+A=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ZgS7BZdH9XB4Xl54n/5i1z3TmXuFPGbZT7e1yyh6uidffhW5fJX3UtOgD2UeUYK1h
-	 aPieFahk0TWr7mrR5UR2vvYcP5G9n0GfgeYuBZezw2UKR5niDymDl8Chm2YXq1yxqd
-	 vV4KAWsY0azGRYxHjbp5QIGL1rr6H6czLNQ6yUZmoFu5Ga1u8VcJoyhLXkD0lsoVNi
-	 T2CoAgCcSGveBqJ5QOz7kqvpbcs/+pHyUxwaXhJI4d0jDTHHpou488yykXHXa3FNB2
-	 SauQb81+iQBLuqZg93k1S5j7eQe03frPSqwIwgzzfHf1Vz5qoXIeBK2irb+YrAK9yQ
-	 VpuH4DjlbmtDw==
-X-Virus-Scanned: by epochal.quest
+	dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b="kFVcCIcJ"
+Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
+	by a.peacevolution.org (Postfix) with ESMTPA id DFFE24C7D9;
+	Mon, 28 Oct 2024 16:37:21 +0000 (UTC)
+Date: Mon, 28 Oct 2024 12:37:14 -0400
+From: Aren Moynihan <aren@peacevolution.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Kaustabh Chakraborty <kauschluss@disroot.org>, =?utf-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <trabarni@gmail.com>, 
+	Ondrej Jirman <megi@xff.cz>, 
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, Dragan Simic <dsimic@manjaro.org>, phone-devel@vger.kernel.org
+Subject: Re: [PATCH v3 3/6] iio: light: stk3310: Implement vdd and leda
+ supplies
+Message-ID: <ggpxs4mlkobdkvqxbzroeogqe2kxlixne7ly4njb5ynnszvvkv@3gusj5w53bbj>
+References: <20241028142000.1058149-1-aren@peacevolution.org>
+ <20241028142000.1058149-4-aren@peacevolution.org>
+ <Zx-h7QUnCKwtu8iC@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Mon, 28 Oct 2024 13:35:46 -0300
-From: Cody Eksal <masterr3c0rd@epochal.quest>
-To: wens@csie.org
-Cc: linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-usb@vger.kernel.org, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- Andre Przywara <andre.przywara@arm.com>, Parthiban <parthiban@linumiz.com>,
- Yangtao Li <frank@allwinnertech.com>, Florian Fainelli
- <florian.fainelli@broadcom.com>, Vinod Koul <vkoul@kernel.org>, Linus
- Walleij <linus.walleij@linaro.org>, Thierry Reding <treding@nvidia.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Maxime Ripard
- <mripard@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Yangtao Li <tiny.windzz@gmail.com>, Viresh Kumar <vireshk@kernel.org>,
- Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, Kishon Vijay
- Abraham I <kishon@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>
-Subject: Re: [PATCH 07/13] arm64: dts: allwinner: a100: add usb related nodes
-In-Reply-To: <CAGb2v64tQ_9C3mwJqt-tm-6SV=SHAk75sO5Ho7gT=p=iyRfLcw@mail.gmail.com>
-References: <20241024170540.2721307-1-masterr3c0rd@epochal.quest>
- <20241024170540.2721307-8-masterr3c0rd@epochal.quest>
- <CAGb2v64tQ_9C3mwJqt-tm-6SV=SHAk75sO5Ho7gT=p=iyRfLcw@mail.gmail.com>
-Message-ID: <542c16a63ab228a7ed1cc81fc91b961f@epochal.quest>
-X-Sender: masterr3c0rd@epochal.quest
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Zx-h7QUnCKwtu8iC@smile.fi.intel.com>
+X-Spamd-Bar: /
+Authentication-Results: auth=pass smtp.auth=aren@peacevolution.org smtp.mailfrom=aren@peacevolution.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=peacevolution.org;
+	s=dkim; t=1730133443;
+	h=from:subject:date:message-id:to:cc:mime-version:content-type:in-reply-to:references;
+	bh=gdOU4coDgP08ETzmQ6TrRirADJ9U/DUQX3kgQYM7trA=;
+	b=kFVcCIcJo6Ek5A4d6Q2vJUHdv6X6HwVgUIczq4fGAc+pf54dMUmDlrVQ6Eke3XInhVXd7E
+	PVtfa3b4ITCZ9SQQ/Y/6Os+XfjHE4beWqBE1BJrzfxNZHraO2ZgAak/YNnz/C9L2F1F+ij
+	uXKcRDiF/zD1BEXb+ZEbsKob8TH3ZTA=
 
-On 2024/10/25 10:29 pm, Chen-Yu Tsai wrote:
-> On Fri, Oct 25, 2024 at 1:09 AM Cody Eksal <masterr3c0rd@epochal.quest> 
-> wrote:
->> 
->> From: Yangtao Li <frank@allwinnertech.com>
->> 
->> Allwinner A64 have two HCI USB controllers, a OTG controller and a USB
+On Mon, Oct 28, 2024 at 04:38:37PM +0200, Andy Shevchenko wrote:
+> On Mon, Oct 28, 2024 at 10:19:57AM -0400, Aren Moynihan wrote:
+> > The vdd and leda supplies must be powered on for the chip to function
+> > and can be powered off during system suspend.
+> > 
+> > Co-developed-by: Ondrej Jirman <megi@xff.cz>
 > 
->             ^^^ Please update this.
-I wasn't sure if I was supposed to update the commit messages; a few 
-others have grammar errors as well. I'll fix those alongside this one in 
-V2.
+> Missing SoB. Please, read Submitting Patches documentation for understanding
+> what has to be done here.
+> 
+> > Signed-off-by: Aren Moynihan <aren@peacevolution.org>
+> 
+> ...
+> 
+> > Notes:
+> >     I'm not sure what the proper way to handle attribution for this patch
+> >     is. It was origionally based on a patch by Ondrej Jirman[1], but I have
+> >     rewritten a large portion if it. I have included a Co-developed-by tag
+> >     to indicate this, but haven't sent him this patch, so I'm not sure what
+> >     to do about a Signed-off-by.
+> 
+> Ah, seems you already aware of this issue. So, either drop Co-developed-by
+> (and if you wish you may give a credit in a free form inside commit message)
+> or make sure you get his SoB tag.
 
-Thanks!
-- Cody
->> PHY device, let's add nodes on dts.
->> 
->> Signed-off-by: Yangtao Li <frank@allwinnertech.com>
->> [masterr3c0rd@epochal.quest: fallback to a33-musb instead of h3-musb]
->> Signed-off-by: Cody Eksal <masterr3c0rd@epochal.quest>
->> ---
->>  .../arm64/boot/dts/allwinner/sun50i-a100.dtsi | 91 
->> +++++++++++++++++++
->>  1 file changed, 91 insertions(+)
->> 
->> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi 
->> b/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
->> index adb11b26045f..0aee1b578661 100644
->> --- a/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
->> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
+Alright, thanks for clarifying that.
+
+> >  	mutex_init(&data->lock);
+> 
+> Somewhere (in the previous patch?) you want to switch to devm_mutex_init().
+
+Good catch, it looks like that was being leaked before this refactor.
+Yeah that sounds like the right place, I'll include it in v4.
+
+> > +	ret = devm_regulator_bulk_get(&client->dev, ARRAY_SIZE(data->supplies),
+> > +				      data->supplies);
+> > +	if (ret)
+> > +		return dev_err_probe(&client->dev, ret, "get regulators failed\n");
+> 
+> > +		return dev_err_probe(&client->dev, ret,
+> > +				     "regulator enable failed\n");
+> 
+> > +	ret = devm_add_action_or_reset(&client->dev, stk3310_regulators_disable, data);
+> > +	if (ret)
+> > +		return dev_err_probe(&client->dev, ret,
+> > +				     "failed to register regulator cleanup\n");
+> 
+> With
+> 
+> 	struct devuce *dev = &client->dev;
+> 
+> at the top of the function makes these and more lines neater.
+> 
+[snip]
+> 
+> While changing to RCT order here, it seems you have inconsistent approach
+> elsewhere (in your own patches!). Please, be consistent with chosen style.
+
+Sounds easy enough to fix, I'll include these in v4.
+
+Thanks taking the time to review
+ - Aren
