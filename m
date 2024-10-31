@@ -1,93 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from thales.epochal.quest (thales.epochal.quest [51.222.15.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 752CB1A01C6;
-	Thu, 31 Oct 2024 14:27:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA605181B8D
+	for <linux-sunxi@lists.linux.dev>; Thu, 31 Oct 2024 14:35:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.222.15.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730384864; cv=none; b=i1FrLIHwigCxaxzxAS7iY+NPb9qCkff2+Yi/8zdoRnEJMddMywbUbHWPMWgd2XbDGv8bRyrNH8Eq0sSiF2z/nNffB/0Q0grRnHSQnGEfl6fZD3gvty2ccnMze/JOXZ+04pssdWFuFpqMxsTLDJawcc+8kyNtGncX60yjiz63NGw=
+	t=1730385320; cv=none; b=upY9dS34miT674d+5GrvfWo2dx3G+3KlNdYfgMV7r+0EcT75sJq1CJtiMFZCxO5XBHBLYcLmF+K3S4PWTAW8SA70v3hEn+u6X4Hk1R0GkUBeY+AkVKoQPxiJjS+wkdKuomGplkRie1FB/WsrCNEmZjdG6HCJcpiZD29OcEcZu+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730384864; c=relaxed/simple;
-	bh=0VFKeI1RdtsenUvtom72hXjYrfUswcH7nHkImzR9QY8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AxEtIpzA+PCQIM6DZfkTcZokxZE1W5h13BXqpoPCWuV3fh3OOmiOio8XcAA1ATyxJh5Hyerb0dOKrHchEN69Mn6it2u+zg7nTTCLuC0GdKiuMPsVEy8gGpzcNyTsW+6H6XfteI7AJMpnpPZ1AzUmrwA6oqzdqJnxK1Ko3W90Gmc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SMSdNMD+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730385320; c=relaxed/simple;
+	bh=6n3NaF0whd9qg4xGC826BnFf5iZrFxIuvNVTdKeKwyM=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=Pin8wL+Uqx0yj+rRGWwK0EnP29rYraJYgiO6zaUbzOn1QEeq1Y4KWjMj4IErlaWmiVORmQZ9/xs7SdLvicvjK1Zg9B9s5TXLJVFAwp454uNGekGzaVzdtOR7u3Jpk8APGB/ZBwEuzqhivl7bKN+4xxKHxtpjyfVFgaGVx1NLwdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epochal.quest; spf=pass smtp.mailfrom=epochal.quest; dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b=hwRJQmwr; arc=none smtp.client-ip=51.222.15.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epochal.quest
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=epochal.quest
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SMSdNMD+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76A4AC4CECF;
-	Thu, 31 Oct 2024 14:27:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730384862;
-	bh=0VFKeI1RdtsenUvtom72hXjYrfUswcH7nHkImzR9QY8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SMSdNMD+U58gioJZAobamXIL4QOVQC/TammrC2vS9MsmHXrB8wAQcdF5HXTuWm0Bd
-	 GsgF6jUW5jN9BdIHHrUJ2H7UbF6aFNsFf/Xxbo+ybbDumCPu55HSNJ+/v57e1lYPqw
-	 RJpp2wriW7qsdZF/N35UDTI6bekcS/aS6+VsPun3peJiyM1zEKr4rwUkw6afMLSiWD
-	 2KBSivQr3XWHUh4yUAUyxoMj9Lt4oyn9HaUB4yXZVzf2xwY2JBVh7zF8pia91sZU3G
-	 HtX6q1zvkAw///hleArznfjVKan3w0PrwyIXMpxVS5Dzstqj4n5zCV/+6UTyuS/tXY
-	 r/Um/BCGySChA==
-Date: Thu, 31 Oct 2024 14:27:37 +0000
-From: Mark Brown <broonie@kernel.org>
-To: =?iso-8859-1?B?Q3Pza+FzLA==?= Bence <csokas.bence@prolan.hu>
-Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Mesih Kilinc <mesihkilinc@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH v4 06/10] ASoC: sun4i-codec: Add DMA Max Burst field
-Message-ID: <33f8c68a-d21a-4c04-b7be-adeab520d5c5@sirena.org.uk>
-References: <20241031123538.2582675-1-csokas.bence@prolan.hu>
- <20241031123538.2582675-6-csokas.bence@prolan.hu>
+	dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b="hwRJQmwr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=epochal.quest;
+	s=default; t=1730385317;
+	bh=6n3NaF0whd9qg4xGC826BnFf5iZrFxIuvNVTdKeKwyM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=hwRJQmwrFYT6ykY/ekESOcjW3v6tFj2bE6QIxkApk2LVsQ51qNSthzZqb8dSJ+z5G
+	 H/GcYPVNWoY/Ej3t9YBiWx1xYdWb6RL8h3g+EnMpb88MPsfadobQIrk//LevFeQxl6
+	 hNOunhUXMtH5rxkINUbaIcrHxGjbEMtDQGnEZEyuYd01qaN9o9Cqx6Ti8krK3Meunw
+	 9F/H9rU1hJV/NBS1di/pFs0U/A1DD0qHYUupljp46SIEe010i+rQ4JXVEeh+TudFQ9
+	 22NmFJ45YBztNlsIUaMUnCzw52CxxEToVHsQjof6SdjVhDQteeKKOCaTpM+9Z8Wjdf
+	 Nb2hnr4GwfkRw==
+X-Virus-Scanned: by epochal.quest
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="558g04AZnavlqknE"
-Content-Disposition: inline
-In-Reply-To: <20241031123538.2582675-6-csokas.bence@prolan.hu>
-X-Cookie: Make a wish, it might come true.
+Date: Thu, 31 Oct 2024 11:35:14 -0300
+From: Cody Eksal <masterr3c0rd@epochal.quest>
+To: Andre Przywara <andre.przywara@arm.com>, Rob Herring <robh@kernel.org>
+Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I
+ <kishon@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai
+ <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+ <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Michael Turquette
+ <mturquette@baylibre.com>, Nishanth Menon <nm@ti.com>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Stephen Boyd <sboyd@kernel.org>, Viresh Kumar
+ <vireshk@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, Yangtao Li
+ <tiny.windzz@gmail.com>, Parthiban <parthiban@linumiz.com>,
+ linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 03/13] dt-bindings: phy: sun50i-a64: add a100
+ compatible
+In-Reply-To: <20241031113651.4ab4f8c7@donnerap.manchester.arm.com>
+References: <20241031070232.1793078-1-masterr3c0rd@epochal.quest>
+ <20241031070232.1793078-4-masterr3c0rd@epochal.quest>
+ <20241031113651.4ab4f8c7@donnerap.manchester.arm.com>
+Message-ID: <f33a995dc08e03af06f3f78864d77503@epochal.quest>
+X-Sender: masterr3c0rd@epochal.quest
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 2024/10/31 8:36 am, Andre Przywara wrote:
+> On Thu, 31 Oct 2024 04:02:16 -0300
+> Cody Eksal <masterr3c0rd@epochal.quest> wrote:
+> 
+>> The USB PHY found in the A100 is similar to that found in the D1. Add 
+>> a
+>> compatible for the A100.
+>> 
+>> Signed-off-by: Cody Eksal <masterr3c0rd@epochal.quest>
+> 
+> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+> 
+>> Acked-by: Rob Herring (Arm) <robh@kernel.org>
+> 
+> Careful with that: you made quite some changes compared to v1, which 
+> Rob
+> ACKed, so I wouldn't carry over his tag here.
+I had made a note of this a few days ago, but it slipped through my 
+pre-submission review. I'm terribly sorry; won't make this mistake in 
+the future.
 
---558g04AZnavlqknE
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+- Cody
 
-On Thu, Oct 31, 2024 at 01:35:32PM +0100, Cs=F3k=E1s, Bence wrote:
-> From: Mesih Kilinc <mesihkilinc@gmail.com>
->=20
-> Allwinner suniv F1C100s has similar DMA engine to sun4i but it has
-> smaller max burst size compared to sun4i. Add a quirk field to
-> differantitate between them.
-
-You've not copied me on the rest of the series so I don't know what's
-going on with dependencies.  When sending a patch series it is important
-to ensure that all the various maintainers understand what the
-relationship between the patches as the expecation is that there will be
-interdependencies.  Either copy everyone on the whole series or at least
-copy them on the cover letter and explain what's going on.  If there are
-no strong interdependencies then it's generally simplest to just send
-the patches separately to avoid any possible confusion.
-
---558g04AZnavlqknE
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcjk9gACgkQJNaLcl1U
-h9DFuwf/WrEXxsnAh3sDyS+Or2fX9sOWwQ1iCN/IUpg+CS4mWAHnkn8vSvAKQEvk
-YIztm/llMpt5Nb4AmUz0BIMECSiIRlBcsT9FhQEdFvR8JFI98AHUfpwkZ/WWihyP
-DGLqbnD3tIIU9ZO82mrVY7YS7Mz2meMjPtkhJndkMaWuyV6/65J1HTYn0cySykAZ
-wyZtt8fCVufFlcSBO7cH0I5jSxr2dQscSIhjzO9ltJOuVvNgh6eEwH1jiwiRzBXW
-uHtoSmqP4a8kutz5pOTatCs6mgBt/zud8Fa0Pf0RjHUk7IVqVYCNo4PDx/bDs9aC
-JGaKxTuvIPu1SsxpxRpGJyQAKivOgA==
-=uZWg
------END PGP SIGNATURE-----
-
---558g04AZnavlqknE--
+> Cheers,
+> Andre
+> 
+>> ---
+>> Changes in V2:
+>>  - Update binding to allow using the D1 as a compatible.
+>> 
+>>  .../bindings/phy/allwinner,sun50i-a64-usb-phy.yaml     | 10 
+>> +++++++---
+>>  1 file changed, 7 insertions(+), 3 deletions(-)
+>> 
+>> diff --git 
+>> a/Documentation/devicetree/bindings/phy/allwinner,sun50i-a64-usb-phy.yaml 
+>> b/Documentation/devicetree/bindings/phy/allwinner,sun50i-a64-usb-phy.yaml
+>> index f557feca9763..21209126ed00 100644
+>> --- 
+>> a/Documentation/devicetree/bindings/phy/allwinner,sun50i-a64-usb-phy.yaml
+>> +++ 
+>> b/Documentation/devicetree/bindings/phy/allwinner,sun50i-a64-usb-phy.yaml
+>> @@ -15,9 +15,13 @@ properties:
+>>      const: 1
+>> 
+>>    compatible:
+>> -    enum:
+>> -      - allwinner,sun20i-d1-usb-phy
+>> -      - allwinner,sun50i-a64-usb-phy
+>> +    oneOf:
+>> +      - enum:
+>> +          - allwinner,sun20i-d1-usb-phy
+>> +          - allwinner,sun50i-a64-usb-phy
+>> +      - items:
+>> +          - const: allwinner,sun50i-a100-usb-phy
+>> +          - const: allwinner,sun20i-d1-usb-phy
+>> 
+>>    reg:
+>>      items:
