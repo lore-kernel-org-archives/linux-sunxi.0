@@ -1,68 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C8F81494D9;
-	Thu, 31 Oct 2024 07:43:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9257319993C
+	for <linux-sunxi@lists.linux.dev>; Thu, 31 Oct 2024 10:46:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730360583; cv=none; b=iMYGKtAclnNKGS6kEpROPdx0WE5WVZBBU2RYlzzLHVFyaykh+JRI2mxB8ndVLCieUQ3RFasHiJaebTicKzR0RvRxbbY9Qcu0Pxfk8dUEX75ufIqpMmreP9bn1Wz2c4qbVXFWS1qenD8rZs6X3dR3G9aw6fLl+WZOYS328yRJSKU=
+	t=1730371598; cv=none; b=IADxzpuyE/7s5C285MygHvIuEMcD7w8+3Wh6CV/9GHMmJdpLJ5ps5QdLjdVLWxEZUGBjMr3FI9cdR8MBvLVNdMk7sn2ef0wqe/4EOSVgiSs6RwQF0+kJTqIaHqFS8u4nyUjSja77HbI2o42lbXNVZglVqBFPBP8A4y2cakho7K0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730360583; c=relaxed/simple;
-	bh=/fr/RCOTKkcjP8HRjhrvpenBY16uNK8okKks2lbsVx8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K+Iio72AHCqTMV0Vw3X4rdxioNM7KPCtW/00tcaw/KHD04R+rEVc2aqewgGnt5Fdi8pPAuMcKIhAPuh/JXZzgP51iKk1UQ1qoGR8P+SUaqxWyklMl6cKTVAFI+5j2CTETdLFP5zblt8BUYf8FWaIi6f0JJexhqmxyPmguWRVkQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JJiKM/1Z; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730371598; c=relaxed/simple;
+	bh=6PfFS6UMQ7cHAb8+W0ohRERtD1jmi9haCx++tPkMiPo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RmuL8YEeAcmP85yw33KkFY4KSWkUcg7yRtXJtN2zfqXanClwpAKMa2Xaus1uWi65SAhiYovEAkJcQYwmMIQrH6rIlTrquejx/sEPkFHbGN4KRACM5YMhT/bNeJuxX2XBmLpdlPK7n81FAivAtEqE797hQbpNyN9P3cupyVaiu9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZXI3izTC; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JJiKM/1Z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC1B2C4CEC3;
-	Thu, 31 Oct 2024 07:43:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730360582;
-	bh=/fr/RCOTKkcjP8HRjhrvpenBY16uNK8okKks2lbsVx8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JJiKM/1ZuU7wUrF0b140ekCe6P8inR6SEttAgNdjQ/Y2TdaGO8h+Vo+EPNMIZn0g/
-	 3JZXPapVjfGRpXMmnyQ1Y6bemsf41w2Ke3Vblxdohycx+ezw9w5Aog6RPbIAT06VMF
-	 0M/d3i1Vrf2GbqTpF3UX3zzpf2CaDpQZgguoUeI3EDfDYnmueQJYsxhotfdrr3Dh4n
-	 gekaZEdpKvZ2tHXi44OBDPcguBygCIw/PtH03OdnicdnF1TYeaJ+cgfFKzuPcICWq8
-	 L+fV0iF66Y25OnH5te0omnmQdCqKzMjpT5tiU3Y3vUP/j+fVDOZTSMT5EOS34mUycM
-	 RjvhmMbca4uTw==
-Date: Thu, 31 Oct 2024 08:42:59 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Cody Eksal <masterr3c0rd@epochal.quest>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Maxime Ripard <mripard@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
-	Michael Turquette <mturquette@baylibre.com>, Nishanth Menon <nm@ti.com>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Stephen Boyd <sboyd@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
-	Viresh Kumar <vireshk@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, 
-	Yangtao Li <tiny.windzz@gmail.com>, Parthiban <parthiban@linumiz.com>, 
-	Andre Przywara <andre.przywara@arm.com>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 05/13] dt-bindings: usb: sunxi-musb: Add A100
- compatible string
-Message-ID: <a7dbx4ujgv2taovnycdy4sn2mggrwtkwhkxoyrilcns5qxepzh@szw4nv2y6tbk>
-References: <20241031070232.1793078-1-masterr3c0rd@epochal.quest>
- <20241031070232.1793078-6-masterr3c0rd@epochal.quest>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZXI3izTC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730371596; x=1761907596;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=6PfFS6UMQ7cHAb8+W0ohRERtD1jmi9haCx++tPkMiPo=;
+  b=ZXI3izTCQowZc57qEr+3mTRHjgTvnAtg+fX/yyVFleIOlP3TnGnQ1hnf
+   gPKmKL8QRR3q2zBX1SReybCmLumdrpZlSkY4TZGpXya+S/qCMzUYJu7fq
+   7VR3aOWa+Bycah0vdTccJksFkVYL60v5bv1t4htD1kH3dG+gH5c0EjdGN
+   FxkQfXhCcbPmwjZOry57KXDhuvVpufr18w5WFJ1fa4BOlJPrbm4L61opg
+   KUrIv1N3AzAG8LIbd845od3Cd6cHYrPHMAISCUseuquCdutRu9T2sNRfS
+   +RgkFsRwj2ZeJJUFKU8kkKUi3QZdrOehV9bK0VItD/z4l7o8IgEZjera0
+   w==;
+X-CSE-ConnectionGUID: 01svBswCSMyNm/7JAkQfIQ==
+X-CSE-MsgGUID: EqL9YSsyQamGKWdVW0dURw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11241"; a="34032577"
+X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
+   d="scan'208";a="34032577"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 03:46:36 -0700
+X-CSE-ConnectionGUID: wS9ww3noQ76p2kiP9/Y0Uw==
+X-CSE-MsgGUID: d7gYKt+VTIKQBMX8fjg2Zw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
+   d="scan'208";a="113442251"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmviesa001.fm.intel.com with ESMTP; 31 Oct 2024 03:46:33 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id 281A317D; Thu, 31 Oct 2024 12:46:31 +0200 (EET)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+	linux-phy@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 1/1] phy: sun4i-usb: Remove unused of_gpio.h
+Date: Thu, 31 Oct 2024 12:46:31 +0200
+Message-ID: <20241031104631.2454581-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241031070232.1793078-6-masterr3c0rd@epochal.quest>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 31, 2024 at 04:02:18AM -0300, Cody Eksal wrote:
-> The A100 MUSB peripheral has 10 endpoints, and thus is compatible with
-> the A33 version.
-> 
-> Signed-off-by: Cody Eksal <masterr3c0rd@epochal.quest>
+of_gpio.h is deprecated and subject to remove. The drivers in question
+don't use it, simply remove the unused header.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ drivers/phy/allwinner/phy-sun4i-usb.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Best regards,
-Krzysztof
+diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c b/drivers/phy/allwinner/phy-sun4i-usb.c
+index cd159a71b23c..29b8fd4b9351 100644
+--- a/drivers/phy/allwinner/phy-sun4i-usb.c
++++ b/drivers/phy/allwinner/phy-sun4i-usb.c
+@@ -23,7 +23,6 @@
+ #include <linux/module.h>
+ #include <linux/mutex.h>
+ #include <linux/of.h>
+-#include <linux/of_gpio.h>
+ #include <linux/phy/phy.h>
+ #include <linux/phy/phy-sun4i-usb.h>
+ #include <linux/platform_device.h>
+-- 
+2.43.0.rc1.1336.g36b5255a03ac
 
