@@ -1,60 +1,60 @@
 Received: from thales.epochal.quest (thales.epochal.quest [51.222.15.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF01E14A4D1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 316BF14A635
 	for <linux-sunxi@lists.linux.dev>; Thu, 31 Oct 2024 07:03:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.222.15.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730358215; cv=none; b=YEh+44ynCdTz/sXSm37ZvA8T6SxYhuRJvoKqgpL26jxUBUgFGr4Y1Jd0h1hH4MVLra4p+WB2VoH+6EWhqTO+k4YfYM5NOMRTDBiodmkg6ZHp3ZR9+yFhaZEaMk2nfkL/urmhmVVjGQ1Q8rBlQTPiVdwyGX4S4S/ZwKr8kZLxyYQ=
+	t=1730358215; cv=none; b=uK2t/n7pe33uyM+00yA2BklR4Kjp1t19QgF0FTf9YpmkGbX7cuBtPko5MiDyu/TZbjoXhzq81+Gjf97jUXywT60i3WrCRcXiMvLqc9c7PRL6zJcMDkulS+p6h2Yyx4pMBOwSrlzr5JGJw4piQ9c+FtRwivUifoyRWwG8n7jGMik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1730358215; c=relaxed/simple;
-	bh=GAI+JxmxQAyxNiN5ndHrGW83jif5+/YkLkstTry27TU=;
+	bh=nnLK7vdS2Jw3tJYIfQcazeyvsSONfvWoJ57ZBLGoLRs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=J/wwDz4Nq8pXxuQ7+xUPY7REWx6b4qxXHwHTCKE0GWGCNxTABcMPkvNg012Gw49snv8eqIP9IzYCtuIAPVDo0x6AwuWPgVFaHPR+JsG9WCXKjt4A0iyhrb9nbgLoTIoSzC0PLtQS8gnlYyphaDISu6he/r++iyEjt+x4/39u4NA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epochal.quest; spf=pass smtp.mailfrom=epochal.quest; dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b=YtMGcXQ1; arc=none smtp.client-ip=51.222.15.28
+	 MIME-Version; b=PsslDgf5TVQWw67bz1ZcPZ4MLW7t60YgdyVgJ2K2fEBU1UVSK7EISgizyEIWYC85rwF+bYXnUoRoGk5NBswPZ3VN2fuxeHogkWAtDIHC/F8zvO7654k0gqVzDgaEZ7Vkv2hsfTApF90Ccv7QLK8KzwMceVLAJVbNMuSsAS9EnkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epochal.quest; spf=pass smtp.mailfrom=epochal.quest; dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b=f5aonTIP; arc=none smtp.client-ip=51.222.15.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epochal.quest
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=epochal.quest
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b="YtMGcXQ1"
+	dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b="f5aonTIP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=epochal.quest;
-	s=default; t=1730358209;
-	bh=GAI+JxmxQAyxNiN5ndHrGW83jif5+/YkLkstTry27TU=;
+	s=default; t=1730358206;
+	bh=nnLK7vdS2Jw3tJYIfQcazeyvsSONfvWoJ57ZBLGoLRs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=YtMGcXQ1SID1v4pgdcEhkufRJU5/wJrIL+RPeDknvJHDNbNSCg10hAmPea+B/COhW
-	 hNTRGGOCwQlISoewvbOqC5k7zQoOYNM7Xyc2PxoaKo7eDa6yNnZpoMX5iBTvUmFJHW
-	 WWws924uIjCzjCdc/8NdWnOwcMcCRtg92jjtPYpqlgBXmor3uvD1Shzs0egMApqFQi
-	 fJ/KMAM0h3Jw36XHCAOlD7HUWMuGiVD88CbsyXyC+jwwpsMRdk6e47Ls17qhL6u2zQ
-	 S/5ldj9z9iX05LrBJfrBfolRrZwRUFKC3k0ur650DmGIzHn7OdDI75k/7SR+XA/Qrr
-	 l/9NYcMCxWE6g==
+	b=f5aonTIPZ3ov2mqf1MwtR3Qr76H/P4hBfDCBhiFGIGCsImTtOkadF8sG5nshiBAgy
+	 B6UVyG9+LxOyfUTB4HB0hcoKh/DzxpMoLt6feRx0Q4hAB+34m2oAQVrbxVJprDK+VO
+	 4wRk0PDmR8S5GozMQblFlj72xT3f/642Q00Uqja+mraD8wtr5eXEzmy4qkACkRe8a4
+	 T3I30aeN5eQ2C7fagPFslHgg+kANBhOaOQ2F3AgWChoYOz8IMHV5jqWMxeYzL11+Pa
+	 tNdJ+imtc2baPScXVlYR5AJp00NHn5rKQhNz9J/RLnajsFwUqy9PPo8s6ZiPL5dKrX
+	 vuALB5l9Hw/qQ==
 X-Virus-Scanned: by epochal.quest
 From: Cody Eksal <masterr3c0rd@epochal.quest>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+To: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Yangtao Li <tiny.windzz@gmail.com>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Cc: Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Maxime Ripard <mripard@kernel.org>,
 	Michael Turquette <mturquette@baylibre.com>,
 	Nishanth Menon <nm@ti.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Rob Herring <robh@kernel.org>,
 	Stephen Boyd <sboyd@kernel.org>,
 	Vinod Koul <vkoul@kernel.org>,
 	Viresh Kumar <vireshk@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Yangtao Li <tiny.windzz@gmail.com>,
 	Parthiban <parthiban@linumiz.com>,
 	Andre Przywara <andre.przywara@arm.com>,
 	Cody Eksal <masterr3c0rd@epochal.quest>,
-	devicetree@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 13/13] arm64: dts: allwinner: a100: Add CPU Operating Performance Points table
-Date: Thu, 31 Oct 2024 04:02:26 -0300
-Message-ID: <20241031070232.1793078-14-masterr3c0rd@epochal.quest>
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v2 12/13] cpufreq: sun50i: add a100 cpufreq support
+Date: Thu, 31 Oct 2024 04:02:25 -0300
+Message-ID: <20241031070232.1793078-13-masterr3c0rd@epochal.quest>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20241031070232.1793078-1-masterr3c0rd@epochal.quest>
 References: <20241031070232.1793078-1-masterr3c0rd@epochal.quest>
@@ -68,189 +68,99 @@ Content-Transfer-Encoding: 8bit
 
 From: Shuosheng Huang <huangshuosheng@allwinnertech.com>
 
-Add an Operating Performance Points table for the CPU cores to
-enable Dynamic Voltage & Frequency Scaling on the A100.
+Let's add cpufreq nvmem based for allwinner a100 soc. It's similar to h6,
+let us use efuse_xlate to extract the differentiated part.
 
 Signed-off-by: Shuosheng Huang <huangshuosheng@allwinnertech.com>
-[masterr3c0rd@epochal.quest: fix typos in -cpu-opp, use compatible]
+[masterr3c0rd@epochal.quest: add A100 to opp_match_list]
 Signed-off-by: Cody Eksal <masterr3c0rd@epochal.quest>
 ---
 Changes in V2:
- - Rename cpu-opp-table to opp-table-cpu
- - Use single cell version of opp-microvolt-speedX
+ - Add the A100 to the cpufreq-dt-platdev blacklist.
 
- .../allwinner/sun50i-a100-allwinner-perf1.dts |  5 ++
- .../dts/allwinner/sun50i-a100-cpu-opp.dtsi    | 90 +++++++++++++++++++
- .../arm64/boot/dts/allwinner/sun50i-a100.dtsi |  8 ++
- 3 files changed, 103 insertions(+)
- create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-a100-cpu-opp.dtsi
+ drivers/cpufreq/cpufreq-dt-platdev.c   |  1 +
+ drivers/cpufreq/sun50i-cpufreq-nvmem.c | 28 ++++++++++++++++++++++++++
+ 2 files changed, 29 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a100-allwinner-perf1.dts b/arch/arm64/boot/dts/allwinner/sun50i-a100-allwinner-perf1.dts
-index d418fc272b3c..1fb629df9f1d 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a100-allwinner-perf1.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a100-allwinner-perf1.dts
-@@ -6,6 +6,7 @@
- /dts-v1/;
+diff --git a/drivers/cpufreq/cpufreq-dt-platdev.c b/drivers/cpufreq/cpufreq-dt-platdev.c
+index 18942bfe9c95..2a3e8bd317c9 100644
+--- a/drivers/cpufreq/cpufreq-dt-platdev.c
++++ b/drivers/cpufreq/cpufreq-dt-platdev.c
+@@ -103,6 +103,7 @@ static const struct of_device_id allowlist[] __initconst = {
+  * platforms using "operating-points-v2" property.
+  */
+ static const struct of_device_id blocklist[] __initconst = {
++	{ .compatible = "allwinner,sun50i-a100" },
+ 	{ .compatible = "allwinner,sun50i-h6", },
+ 	{ .compatible = "allwinner,sun50i-h616", },
+ 	{ .compatible = "allwinner,sun50i-h618", },
+diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+index 293921acec93..3a29c026d364 100644
+--- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
++++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+@@ -22,6 +22,9 @@
+ #define NVMEM_MASK	0x7
+ #define NVMEM_SHIFT	5
  
- #include "sun50i-a100.dtsi"
-+#include "sun50i-a100-cpu-opp.dtsi"
++#define SUN50I_A100_NVMEM_MASK	0xf
++#define SUN50I_A100_NVMEM_SHIFT	12
++
+ static struct platform_device *cpufreq_dt_pdev, *sun50i_cpufreq_pdev;
  
- #include <dt-bindings/gpio/gpio.h>
+ struct sunxi_cpufreq_data {
+@@ -45,6 +48,23 @@ static u32 sun50i_h6_efuse_xlate(u32 speedbin)
+ 		return 0;
+ }
  
-@@ -68,6 +69,10 @@ &usb_otg {
- 	status = "okay";
++static u32 sun50i_a100_efuse_xlate(u32 speedbin)
++{
++	u32 efuse_value;
++
++	efuse_value = (speedbin >> SUN50I_A100_NVMEM_SHIFT) &
++		      SUN50I_A100_NVMEM_MASK;
++
++	switch (efuse_value) {
++	case 0b100:
++		return 2;
++	case 0b010:
++		return 1;
++	default:
++		return 0;
++	}
++}
++
+ static int get_soc_id_revision(void)
+ {
+ #ifdef CONFIG_HAVE_ARM_SMCCC_DISCOVERY
+@@ -108,6 +128,10 @@ static struct sunxi_cpufreq_data sun50i_h6_cpufreq_data = {
+ 	.efuse_xlate = sun50i_h6_efuse_xlate,
  };
  
-+&cpu0 {
-+	cpu-supply = <&reg_dcdc2>;
++static struct sunxi_cpufreq_data sun50i_a100_cpufreq_data = {
++	.efuse_xlate = sun50i_a100_efuse_xlate,
 +};
 +
- &pio {
- 	vcc-pb-supply = <&reg_dcdc1>;
- 	vcc-pc-supply = <&reg_eldo1>;
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a100-cpu-opp.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a100-cpu-opp.dtsi
-new file mode 100644
-index 000000000000..c6a2efa037dc
---- /dev/null
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a100-cpu-opp.dtsi
-@@ -0,0 +1,90 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+// Copyright (c) 2020 Yangtao Li <frank@allwinnertech.com>
-+// Copyright (c) 2020 ShuoSheng Huang <huangshuosheng@allwinnertech.com>
-+
-+/ {
-+	cpu_opp_table: opp-table-cpu {
-+		compatible = "allwinner,sun50i-a100-operating-points";
-+		nvmem-cells = <&cpu_speed_grade>;
-+		opp-shared;
-+
-+		opp-408000000 {
-+			clock-latency-ns = <244144>; /* 8 32k periods */
-+			opp-hz = /bits/ 64 <408000000>;
-+
-+			opp-microvolt-speed0 = <900000>;
-+			opp-microvolt-speed1 = <900000>;
-+			opp-microvolt-speed2 = <900000>;
-+		};
-+
-+		opp-600000000 {
-+			clock-latency-ns = <244144>; /* 8 32k periods */
-+			opp-hz = /bits/ 64 <600000000>;
-+
-+			opp-microvolt-speed0 = <900000>;
-+			opp-microvolt-speed1 = <900000>;
-+			opp-microvolt-speed2 = <900000>;
-+		};
-+
-+		opp-816000000 {
-+			clock-latency-ns = <244144>; /* 8 32k periods */
-+			opp-hz = /bits/ 64 <816000000>;
-+
-+			opp-microvolt-speed0 = <940000>;
-+			opp-microvolt-speed1 = <900000>;
-+			opp-microvolt-speed2 = <900000>;
-+		};
-+
-+		opp-1080000000 {
-+			clock-latency-ns = <244144>; /* 8 32k periods */
-+			opp-hz = /bits/ 64 <1080000000>;
-+
-+			opp-microvolt-speed0 = <1020000>;
-+			opp-microvolt-speed1 = <980000>;
-+			opp-microvolt-speed2 = <950000>;
-+		};
-+
-+		opp-1200000000 {
-+			clock-latency-ns = <244144>; /* 8 32k periods */
-+			opp-hz = /bits/ 64 <1200000000>;
-+
-+			opp-microvolt-speed0 = <1100000>;
-+			opp-microvolt-speed1 = <1020000>;
-+			opp-microvolt-speed2 = <1000000>;
-+		};
-+
-+		opp-1320000000 {
-+			clock-latency-ns = <244144>; /* 8 32k periods */
-+			opp-hz = /bits/ 64 <1320000000>;
-+
-+			opp-microvolt-speed0 = <1160000>;
-+			opp-microvolt-speed1 = <1060000>;
-+			opp-microvolt-speed2 = <1030000>;
-+		};
-+
-+		opp-1464000000 {
-+			clock-latency-ns = <244144>; /* 8 32k periods */
-+			opp-hz = /bits/ 64 <1464000000>;
-+
-+			opp-microvolt-speed0 = <1180000>;
-+			opp-microvolt-speed1 = <1180000>;
-+			opp-microvolt-speed2 = <1130000>;
-+		};
-+	};
-+};
-+
-+&cpu0 {
-+	operating-points-v2 = <&cpu_opp_table>;
-+};
-+
-+&cpu1 {
-+	operating-points-v2 = <&cpu_opp_table>;
-+};
-+
-+&cpu2 {
-+	operating-points-v2 = <&cpu_opp_table>;
-+};
-+
-+&cpu3 {
-+	operating-points-v2 = <&cpu_opp_table>;
-+};
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
-index 29ac7716c7a5..6a76858b654a 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
-@@ -23,6 +23,7 @@ cpu0: cpu@0 {
- 			device_type = "cpu";
- 			reg = <0x0>;
- 			enable-method = "psci";
-+			clocks = <&ccu CLK_CPUX>;
- 		};
+ static struct sunxi_cpufreq_data sun50i_h616_cpufreq_data = {
+ 	.efuse_xlate = sun50i_h616_efuse_xlate,
+ };
+@@ -116,6 +140,9 @@ static const struct of_device_id cpu_opp_match_list[] = {
+ 	{ .compatible = "allwinner,sun50i-h6-operating-points",
+ 	  .data = &sun50i_h6_cpufreq_data,
+ 	},
++	{ .compatible = "allwinner,sun50i-a100-operating-points",
++	  .data = &sun50i_a100_cpufreq_data,
++	},
+ 	{ .compatible = "allwinner,sun50i-h616-operating-points",
+ 	  .data = &sun50i_h616_cpufreq_data,
+ 	},
+@@ -291,6 +318,7 @@ static struct platform_driver sun50i_cpufreq_driver = {
  
- 		cpu1: cpu@1 {
-@@ -30,6 +31,7 @@ cpu1: cpu@1 {
- 			device_type = "cpu";
- 			reg = <0x1>;
- 			enable-method = "psci";
-+			clocks = <&ccu CLK_CPUX>;
- 		};
- 
- 		cpu2: cpu@2 {
-@@ -37,6 +39,7 @@ cpu2: cpu@2 {
- 			device_type = "cpu";
- 			reg = <0x2>;
- 			enable-method = "psci";
-+			clocks = <&ccu CLK_CPUX>;
- 		};
- 
- 		cpu3: cpu@3 {
-@@ -44,6 +47,7 @@ cpu3: cpu@3 {
- 			device_type = "cpu";
- 			reg = <0x3>;
- 			enable-method = "psci";
-+			clocks = <&ccu CLK_CPUX>;
- 		};
- 	};
- 
-@@ -142,6 +146,10 @@ efuse@3006000 {
- 			ths_calibration: calib@14 {
- 				reg = <0x14 8>;
- 			};
-+
-+			cpu_speed_grade: cpu-speed-grade@1c {
-+				reg = <0x1c 0x2>;
-+			};
- 		};
- 
- 		watchdog@30090a0 {
+ static const struct of_device_id sun50i_cpufreq_match_list[] = {
+ 	{ .compatible = "allwinner,sun50i-h6" },
++	{ .compatible = "allwinner,sun50i-a100" },
+ 	{ .compatible = "allwinner,sun50i-h616" },
+ 	{ .compatible = "allwinner,sun50i-h618" },
+ 	{ .compatible = "allwinner,sun50i-h700" },
 -- 
 2.47.0
 
