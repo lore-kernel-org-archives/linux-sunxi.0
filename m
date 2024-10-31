@@ -1,31 +1,31 @@
 Received: from thales.epochal.quest (thales.epochal.quest [51.222.15.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6BEF148FF6
-	for <linux-sunxi@lists.linux.dev>; Thu, 31 Oct 2024 07:03:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9BB6149C6F
+	for <linux-sunxi@lists.linux.dev>; Thu, 31 Oct 2024 07:03:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.222.15.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730358213; cv=none; b=LyIso01bxzFN1Ja/fHF5aPQAEFXA1GvbIBQpogqwC7RPX6HjKB5UscOsgltiyYjYnpkT81/uati2NB0CPvXOI7db9kynamPPTjWFv3xCHh8L/YjV5Zsw/mthMjQWF6juFWxBSzxfPwiZSOVVhA7gYek2wVBOBSlMuIadsWqAJL4=
+	t=1730358215; cv=none; b=idcSO+KtQLMXwvI534MoqmmM4VvrgxtvqizHQ7/4gWDBxohqpTB2Dtbr2TKDH+pFjQI5UHdvDytzzkknBzNUvZuLClvv2+4mzKCfm7Zr8HN6HzCHuWDX9FvjSNJkTyhC0HPXlYcAJPfv6C5D87A2JV9XirFN8RIK493MaTyCsDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730358213; c=relaxed/simple;
-	bh=QWIMkRwFSfYR0dNnMv3AW5ldohDRRnDT3LYte1P8RX8=;
+	s=arc-20240116; t=1730358215; c=relaxed/simple;
+	bh=gWgh78qYIAfAOa8H5RFKaOcp8FXFvpf47/zA/jM4dGU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=A0S/PKUDKjQQ0sinCVrvFbuU4b1o580712muGu9MqgR8X74De9oAp9vgNQ4WrZVc32uiGrEO3IjQ16BRiQx0s0T2PWujCNriKL0nBkKfUkA8rUBnB1votqFoubvtCL4BkPQBf/k+/kVU2whNA5LMHKkg5dWgfCYUk3E5t4Qwd9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epochal.quest; spf=pass smtp.mailfrom=epochal.quest; dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b=SXFadOLv; arc=none smtp.client-ip=51.222.15.28
+	 MIME-Version; b=qzpZK930duolc28QcJZIVBwl9m2QJGxV0Cb/XFXUXgUNZceI1NK/xgvOJ1IdjzjiJ2eTze7JBVO0nGkirbfbw3ORxxzptXHmDiju563a8skHQogZMWCgjMXH/7hrtTk8rVMl7x+HY2XPgp1ACQ5sDGdlD88kjzPTLGcRAI13s5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epochal.quest; spf=pass smtp.mailfrom=epochal.quest; dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b=QM+yJxZT; arc=none smtp.client-ip=51.222.15.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epochal.quest
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=epochal.quest
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b="SXFadOLv"
+	dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b="QM+yJxZT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=epochal.quest;
-	s=default; t=1730358204;
-	bh=QWIMkRwFSfYR0dNnMv3AW5ldohDRRnDT3LYte1P8RX8=;
+	s=default; t=1730358205;
+	bh=gWgh78qYIAfAOa8H5RFKaOcp8FXFvpf47/zA/jM4dGU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=SXFadOLvX/GyAtSLeo3PViVQiCHN8pHiW359bVjDXZzTgblk1t+pxwGpmJ4q3gqb6
-	 cpyoKU+1d4nsp21NslKYTVrOXz/v1lM0NMt1sfV/qp/OP1UDfQYrZVL+r+LBfIJlqG
-	 y6yZR/SnP8iw6QcuWbmubI9sxZSwPgW3Vh94XGOifz7G3ZJfCKDEN9M9qJN1xJPeRe
-	 DV/1WBlQ585KqQznivxbsAI12bc0Vrafw8//3fv1ysvHsEYxOT/dT2ZxFUXFEm0FWi
-	 dafOJL60o4i4FuV25DhD8bu64vjs8J0XukE00Sf/xwr2J/T4jZiUvr6SzwlYCe68yU
-	 8ykoXM91RFSVg==
+	b=QM+yJxZTgU8QBuzMFjJT2Q5MgjOwsMRUAAEx9Y0ZPVmxoBEWSw1WC2z07YDGB7Zup
+	 X+fy/B07X4jSRpwUAJz31K6/lIdrYc/j6Wf5o/2r3vG88JiNI7LwzYstgnudHG1oTg
+	 yyWLso51ZQwrfa6tsZumZj3eKMAW7e/nszZ5eTlsPfjXhufW+iWHEt2r+o+Y9ljhJO
+	 dvoNpGXKL857H1sJ0w2q0ogRxjq+6Sw5TohkwJwwaFPrWVjUO4lukVzev/Vdb2QcBd
+	 Jgg7k3Qm8uU5QeYxkL53OMqPvFTy2DqD7Qdm7MMeoXTTd+eTh/QJUmbplq3Yi+/xwJ
+	 +igzx/0NjEarw==
 X-Virus-Scanned: by epochal.quest
 From: Cody Eksal <masterr3c0rd@epochal.quest>
 To: Rob Herring <robh@kernel.org>,
@@ -52,9 +52,9 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 07/13] arm64: allwinner: A100: enable EHCI, OHCI and USB PHY nodes in Perf1
-Date: Thu, 31 Oct 2024 04:02:20 -0300
-Message-ID: <20241031070232.1793078-8-masterr3c0rd@epochal.quest>
+Subject: [PATCH v2 10/13] arm64: dts: allwinner: a100: perf1: Add eMMC and MMC node
+Date: Thu, 31 Oct 2024 04:02:23 -0300
+Message-ID: <20241031070232.1793078-11-masterr3c0rd@epochal.quest>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20241031070232.1793078-1-masterr3c0rd@epochal.quest>
 References: <20241031070232.1793078-1-masterr3c0rd@epochal.quest>
@@ -68,78 +68,41 @@ Content-Transfer-Encoding: 8bit
 
 From: Yangtao Li <frank@allwinnertech.com>
 
-Add USB support on A100 perf1 board, which include two USB2.0 port.
+A100 perf1 hava MicroSD slot and on-board eMMC module, add support for them.
 
 Signed-off-by: Yangtao Li <frank@allwinnertech.com>
 Signed-off-by: Cody Eksal <masterr3c0rd@epochal.quest>
 ---
-Changes in V2:
- - Add dr_mode here, instead of in the .dtsi
-
- .../allwinner/sun50i-a100-allwinner-perf1.dts | 39 +++++++++++++++++++
- 1 file changed, 39 insertions(+)
+ .../allwinner/sun50i-a100-allwinner-perf1.dts    | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a100-allwinner-perf1.dts b/arch/arm64/boot/dts/allwinner/sun50i-a100-allwinner-perf1.dts
-index f5c5c1464482..2f8c7ee60283 100644
+index 2f8c7ee60283..d418fc272b3c 100644
 --- a/arch/arm64/boot/dts/allwinner/sun50i-a100-allwinner-perf1.dts
 +++ b/arch/arm64/boot/dts/allwinner/sun50i-a100-allwinner-perf1.dts
-@@ -7,6 +7,8 @@
- 
- #include "sun50i-a100.dtsi"
- 
-+#include <dt-bindings/gpio/gpio.h>
-+
- /{
- 	model = "Allwinner A100 Perf1";
- 	compatible = "allwinner,a100-perf1", "allwinner,sun50i-a100";
-@@ -18,6 +20,36 @@ aliases {
- 	chosen {
- 		stdout-path = "serial0:115200n8";
- 	};
-+
-+	reg_usb1_vbus: usb1-vbus {
-+		compatible = "regulator-fixed";
-+		regulator-name = "usb1-vbus";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+		gpio = <&pio 7 10 GPIO_ACTIVE_HIGH>; /* PH10 */
-+		enable-active-high;
-+	};
-+};
-+
-+&ehci0 {
-+	status = "okay";
-+};
-+
-+&ehci1 {
-+	status = "okay";
-+};
-+
-+&ohci0 {
-+	status = "okay";
-+};
-+
-+&ohci1 {
-+	status = "okay";
-+};
-+
-+&usb_otg {
-+	dr_mode = "otg";
-+	status = "okay";
- };
- 
- &pio {
-@@ -178,3 +210,10 @@ &uart0 {
- 	pinctrl-0 = <&uart0_pb_pins>;
+@@ -39,6 +39,22 @@ &ehci1 {
  	status = "okay";
  };
-+
-+&usbphy {
-+	usb0_id_det-gpios = <&pio 7 8 GPIO_ACTIVE_HIGH>; /* PH8 */
-+	usb0_vbus-supply = <&reg_drivevbus>;
-+	usb1_vbus-supply = <&reg_usb1_vbus>;
+ 
++&mmc0 {
++	vmmc-supply = <&reg_dcdc1>;
++	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>; /* PF6 */
++	bus-width = <4>;
 +	status = "okay";
 +};
++
++&mmc2 {
++	vmmc-supply = <&reg_dcdc1>;
++	vqmmc-supply = <&reg_aldo1>;
++	cap-mmc-hw-reset;
++	non-removable;
++	bus-width = <8>;
++	status = "okay";
++};
++
+ &ohci0 {
+ 	status = "okay";
+ };
 -- 
 2.47.0
 
