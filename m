@@ -1,61 +1,60 @@
 Received: from thales.epochal.quest (thales.epochal.quest [51.222.15.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAAEA14A09F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA96614A084
 	for <linux-sunxi@lists.linux.dev>; Thu, 31 Oct 2024 07:03:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.222.15.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730358215; cv=none; b=qsNbEvld+KugMvVXJ00LfQrRZmJDaZroB+ViSu1ldwck5VOG3UasylrCBXUxfKpvdvhYfrrfzNL06SDjSV6lFQ+XZRJUSTGeihdzJrbkgfdnQSZy3K+TUfIH6waEMcLd9IqRzuqvA3Ysmih1QY1nzBIVKZenu6LWGIq0vS+BiqU=
+	t=1730358215; cv=none; b=Ys5K08I0+m+Mo5ZGM+iE394SHhHNqiU4mNG7yaF0PsNNUUrq9dowDMqSWB2x/6bjAjCQikYAwFR8Qdo/k2t3JUr2Yz83MWBnoyQPBv6kfTt6A++pvYhypT6GCYKtYy4AjJPx4NdwGxEQ7TyC5vAIHyNsvwOwAff20sM4ej98ujw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1730358215; c=relaxed/simple;
-	bh=wUIk/mmpLDWeouMgYhaf2tgEePqBaUSdmwuO0VnKGzM=;
+	bh=gPKWhriD3pnIH1Uk3cfPOThE675psdPThf952AsBt2A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NvQEVJqmv3nU/TsEbY7b3zsw2cVNWC4yhPnCK+IxZBetc3+p830xkqUceeSoFjfLeWSxsZ/XJvn/ocHqW2ftuSJnP7XF3Z+5bVYZ21Z+N5aNlNHSzwK1zzRl5OEiOakjif8pjbLuJaseAyE0UJ7/85MPuw3rgd8EqtBSwwifj3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epochal.quest; spf=pass smtp.mailfrom=epochal.quest; dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b=jskWGbQg; arc=none smtp.client-ip=51.222.15.28
+	 MIME-Version; b=K+hFD0wUcqVwZQSYPqHh0HRDLeH4iwOun91sMoZYkIvtMgXPk8i15MqbdG1HNLbbBZVlafPq9qKb3bObEuLYOie0RZDJqDPJkkXdYpw3CimtvuxTGEjjW/sBmUJkTUOGj80pVa/EGURlv1axrZXSjvu8RvlmHdPx9OOvY9QNAh0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epochal.quest; spf=pass smtp.mailfrom=epochal.quest; dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b=LEtUiATi; arc=none smtp.client-ip=51.222.15.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epochal.quest
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=epochal.quest
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b="jskWGbQg"
+	dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b="LEtUiATi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=epochal.quest;
-	s=default; t=1730358206;
-	bh=wUIk/mmpLDWeouMgYhaf2tgEePqBaUSdmwuO0VnKGzM=;
+	s=default; t=1730358205;
+	bh=gPKWhriD3pnIH1Uk3cfPOThE675psdPThf952AsBt2A=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=jskWGbQg985yW0BZQQi3CQ6hHJO7+HaROsZ9qZhwlh0HMYwlM2bxzF4bNP3vOOeAj
-	 nPp/7UkifmYOJwkcAWsDz8hbJ/yFPkodWVwzlipNZymcQFY+V8p5J8HQN1ZPvpd9Kt
-	 fzgk1sBLInXwNycHN2ctK5f11Z6Uq0qrWGaEM5DB9khCN6b9pW1PMaUEt0Vpmfd2cb
-	 VKFbEu/ezqvXUNON81kfrJ30xwXHzGq/crovPoVgLSUQ/+xkzC46tvCmjeLY9SFsww
-	 TdO8cRGL4ZJGYxB19YcSHlpj4xj7iaTpwJo/8CM4n/DWCzuDzceuHmoqMm1mhs1wTN
-	 LyEwBimJgmc9Q==
+	b=LEtUiATid8r890K9Gp/niU0S+v6+BsFNh4OPspSgwA+SLTtetM/CQDrRxQCvuAn/E
+	 afPq/dWezuNge28FyOaepgHgGMmw4mZ/tjSwVhDokwiZvdZIl1ordBTKaAPyKnzlrg
+	 pXm1ftRf6ecQsMWbsQsdeCKLGFjZrSG6wEKvg7DXBrccX/Rh4cVaDDjXut0Zq8VwaL
+	 /ErJoJAqjkWRN2h37PsRIBGc128Ogk7lM5sgxc+nhZNVDMm9P1qPyJqpfTdyDJz7dB
+	 VAaNtG+MZN8N+ZU2UR/OF/FONIqPf2GU8d988wM0D1OAxzsd3/0TnLaynIzsAGtb9f
+	 8HhYnOcq1IsWQ==
 X-Virus-Scanned: by epochal.quest
 From: Cody Eksal <masterr3c0rd@epochal.quest>
-To: Yangtao Li <tiny.windzz@gmail.com>,
-	Viresh Kumar <vireshk@kernel.org>,
-	Nishanth Menon <nm@ti.com>,
+To: Michael Turquette <mturquette@baylibre.com>,
 	Stephen Boyd <sboyd@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Maxime Ripard <mripard@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Samuel Holland <samuel@sholland.org>
+Cc: Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Nishanth Menon <nm@ti.com>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Rob Herring <robh@kernel.org>,
 	Vinod Koul <vkoul@kernel.org>,
+	Viresh Kumar <vireshk@kernel.org>,
 	Viresh Kumar <viresh.kumar@linaro.org>,
+	Yangtao Li <tiny.windzz@gmail.com>,
 	Parthiban <parthiban@linumiz.com>,
 	Andre Przywara <andre.przywara@arm.com>,
 	Cody Eksal <masterr3c0rd@epochal.quest>,
-	linux-pm@vger.kernel.org,
-	devicetree@vger.kernel.org,
+	linux-clk@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 11/13] dt-bindings: opp: h6: Add A100 operating points
-Date: Thu, 31 Oct 2024 04:02:24 -0300
-Message-ID: <20241031070232.1793078-12-masterr3c0rd@epochal.quest>
+Subject: [PATCH v2 08/13] clk: sunxi-ng: a100: enable MMC clock reparenting
+Date: Thu, 31 Oct 2024 04:02:21 -0300
+Message-ID: <20241031070232.1793078-9-masterr3c0rd@epochal.quest>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20241031070232.1793078-1-masterr3c0rd@epochal.quest>
 References: <20241031070232.1793078-1-masterr3c0rd@epochal.quest>
@@ -67,32 +66,48 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The A100, similar to the H6 and H616, use an NVMEM value to determine
-speed binnings. The method used is similar to that of the H6. However,
-the information is stored at a slightly different bit offset.
-
-Add a new compatible for the A100.
+During testing, it was noted that MMC would fail to initialize, with
+"mmc: fatal err update clk timeout" being printed in the log. It was
+found that CLK_SET_RATE_NO_REPARENT was set on the MMC controllers, and
+that removing this allows MMC to initialize. Therefore, remove
+CLK_SET_RATE_NO_REPARENT from mmc0/1/2.
 
 Signed-off-by: Cody Eksal <masterr3c0rd@epochal.quest>
 ---
-Changes in V2:
- - Fix ordering of compatibles
+ drivers/clk/sunxi-ng/ccu-sun50i-a100.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
- .../bindings/opp/allwinner,sun50i-h6-operating-points.yaml       | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml b/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
-index ec5e424bb3c8..75ab552f6ecd 100644
---- a/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
-+++ b/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
-@@ -22,6 +22,7 @@ allOf:
- properties:
-   compatible:
-     enum:
-+      - allwinner,sun50i-a100-operating-points
-       - allwinner,sun50i-h6-operating-points
-       - allwinner,sun50i-h616-operating-points
+diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a100.c b/drivers/clk/sunxi-ng/ccu-sun50i-a100.c
+index bbaa82978716..a59e420b195d 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun50i-a100.c
++++ b/drivers/clk/sunxi-ng/ccu-sun50i-a100.c
+@@ -436,7 +436,7 @@ static SUNXI_CCU_MP_WITH_MUX_GATE_POSTDIV(mmc0_clk, "mmc0", mmc_parents, 0x830,
+ 					  24, 2,	/* mux */
+ 					  BIT(31),	/* gate */
+ 					  2,		/* post-div */
+-					  CLK_SET_RATE_NO_REPARENT);
++					  0);
  
+ static SUNXI_CCU_MP_WITH_MUX_GATE_POSTDIV(mmc1_clk, "mmc1", mmc_parents, 0x834,
+ 					  0, 4,		/* M */
+@@ -444,7 +444,7 @@ static SUNXI_CCU_MP_WITH_MUX_GATE_POSTDIV(mmc1_clk, "mmc1", mmc_parents, 0x834,
+ 					  24, 2,	/* mux */
+ 					  BIT(31),	/* gate */
+ 					  2,		/* post-div */
+-					  CLK_SET_RATE_NO_REPARENT);
++					  0);
+ 
+ static SUNXI_CCU_MP_WITH_MUX_GATE_POSTDIV(mmc2_clk, "mmc2", mmc_parents, 0x838,
+ 					  0, 4,		/* M */
+@@ -452,7 +452,7 @@ static SUNXI_CCU_MP_WITH_MUX_GATE_POSTDIV(mmc2_clk, "mmc2", mmc_parents, 0x838,
+ 					  24, 2,	/* mux */
+ 					  BIT(31),	/* gate */
+ 					  2,		/* post-div */
+-					  CLK_SET_RATE_NO_REPARENT);
++					  0);
+ 
+ static SUNXI_CCU_GATE(bus_mmc0_clk, "bus-mmc0", "ahb3", 0x84c, BIT(0), 0);
+ static SUNXI_CCU_GATE(bus_mmc1_clk, "bus-mmc1", "ahb3", 0x84c, BIT(1), 0);
 -- 
 2.47.0
 
