@@ -1,31 +1,31 @@
 Received: from thales.epochal.quest (thales.epochal.quest [51.222.15.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA903149E1A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF01E14A4D1
 	for <linux-sunxi@lists.linux.dev>; Thu, 31 Oct 2024 07:03:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.222.15.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730358215; cv=none; b=YFEGRlkynhYhmIU7irbKrplfFLVHf0bhsGyCDQy9kb1qM2d/b2B0tVhyf63xtZ8w6BCeCwAKdEmZSBsrSYEjxnIMtUHwNeKvLhItuO1mQeD7+lsC6TQ2RQAzL2Z62T9csZWWlbAXGs4Fqrn+75r+rZklLoTTxeufLyq/nTsnBGg=
+	t=1730358215; cv=none; b=YEh+44ynCdTz/sXSm37ZvA8T6SxYhuRJvoKqgpL26jxUBUgFGr4Y1Jd0h1hH4MVLra4p+WB2VoH+6EWhqTO+k4YfYM5NOMRTDBiodmkg6ZHp3ZR9+yFhaZEaMk2nfkL/urmhmVVjGQ1Q8rBlQTPiVdwyGX4S4S/ZwKr8kZLxyYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1730358215; c=relaxed/simple;
-	bh=uG2apc/l46v55IsDCKvsKsBsQ3G+4vM+sV5vj2eVN7Q=;
+	bh=GAI+JxmxQAyxNiN5ndHrGW83jif5+/YkLkstTry27TU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=c+IfdO663u2dwv4FZJCnebwQv9z/4c/bReLC/bZ6ph9F4Bs3CSf+b+OkJAAz0ZEBQqJvT+lbHZIZnWr1o6NJu4KrV8bAEaksDBHhT5xpYKF+v3GjILxfv3GNmavmFm6lr2E4bGdzFR1rXk4zkFb3xaaxf9/92S1QHOV/hlcPc3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epochal.quest; spf=pass smtp.mailfrom=epochal.quest; dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b=fm+gozSy; arc=none smtp.client-ip=51.222.15.28
+	 MIME-Version; b=J/wwDz4Nq8pXxuQ7+xUPY7REWx6b4qxXHwHTCKE0GWGCNxTABcMPkvNg012Gw49snv8eqIP9IzYCtuIAPVDo0x6AwuWPgVFaHPR+JsG9WCXKjt4A0iyhrb9nbgLoTIoSzC0PLtQS8gnlYyphaDISu6he/r++iyEjt+x4/39u4NA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epochal.quest; spf=pass smtp.mailfrom=epochal.quest; dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b=YtMGcXQ1; arc=none smtp.client-ip=51.222.15.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epochal.quest
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=epochal.quest
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b="fm+gozSy"
+	dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b="YtMGcXQ1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=epochal.quest;
-	s=default; t=1730358205;
-	bh=uG2apc/l46v55IsDCKvsKsBsQ3G+4vM+sV5vj2eVN7Q=;
+	s=default; t=1730358209;
+	bh=GAI+JxmxQAyxNiN5ndHrGW83jif5+/YkLkstTry27TU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fm+gozSyaRIJon1mAHV2EYtzITXTjiBBwxHmNkcZGiuhJiQiyWT4zD90JbMpUDE0d
-	 S04ooXRzJo52QdbCtL62mgyXMJJXkSE9VzTG4ZGtaOreeZWv8vV0B/ArJcOJjl9/76
-	 RTHrGnMksj+1bEtALdhPNhUEMYcRiAqdQoQi5LQXC3BTMXCAfPjajHgsABMMfVtcMP
-	 85d7BJ3e+Fx9MJpeIecwdabc6G/ejJz0UJN0xMhGgAn1xHqkMFJTQb1XyUNsg9xumy
-	 kRonWaNviblBc7rHjJzmlGidcT21mG2Tz0GdkBEqqy6WxXwbEd6S/KUzYBPj9vjGu5
-	 GOJVi+JvbMg6w==
+	b=YtMGcXQ1SID1v4pgdcEhkufRJU5/wJrIL+RPeDknvJHDNbNSCg10hAmPea+B/COhW
+	 hNTRGGOCwQlISoewvbOqC5k7zQoOYNM7Xyc2PxoaKo7eDa6yNnZpoMX5iBTvUmFJHW
+	 WWws924uIjCzjCdc/8NdWnOwcMcCRtg92jjtPYpqlgBXmor3uvD1Shzs0egMApqFQi
+	 fJ/KMAM0h3Jw36XHCAOlD7HUWMuGiVD88CbsyXyC+jwwpsMRdk6e47Ls17qhL6u2zQ
+	 S/5ldj9z9iX05LrBJfrBfolRrZwRUFKC3k0ur650DmGIzHn7OdDI75k/7SR+XA/Qrr
+	 l/9NYcMCxWE6g==
 X-Virus-Scanned: by epochal.quest
 From: Cody Eksal <masterr3c0rd@epochal.quest>
 To: Rob Herring <robh@kernel.org>,
@@ -52,9 +52,9 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 09/13] arm64: allwinner: a100: Add MMC related nodes
-Date: Thu, 31 Oct 2024 04:02:22 -0300
-Message-ID: <20241031070232.1793078-10-masterr3c0rd@epochal.quest>
+Subject: [PATCH v2 13/13] arm64: dts: allwinner: a100: Add CPU Operating Performance Points table
+Date: Thu, 31 Oct 2024 04:02:26 -0300
+Message-ID: <20241031070232.1793078-14-masterr3c0rd@epochal.quest>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20241031070232.1793078-1-masterr3c0rd@epochal.quest>
 References: <20241031070232.1793078-1-masterr3c0rd@epochal.quest>
@@ -66,106 +66,191 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Yangtao Li <frank@allwinnertech.com>
+From: Shuosheng Huang <huangshuosheng@allwinnertech.com>
 
-The A100 has 3 MMC controllers, one of them being especially targeted to
-eMMC. Let's add nodes on dts.
+Add an Operating Performance Points table for the CPU cores to
+enable Dynamic Voltage & Frequency Scaling on the A100.
 
-Signed-off-by: Yangtao Li <frank@allwinnertech.com>
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+Signed-off-by: Shuosheng Huang <huangshuosheng@allwinnertech.com>
+[masterr3c0rd@epochal.quest: fix typos in -cpu-opp, use compatible]
 Signed-off-by: Cody Eksal <masterr3c0rd@epochal.quest>
 ---
- .../arm64/boot/dts/allwinner/sun50i-a100.dtsi | 71 +++++++++++++++++++
- 1 file changed, 71 insertions(+)
+Changes in V2:
+ - Rename cpu-opp-table to opp-table-cpu
+ - Use single cell version of opp-microvolt-speedX
 
+ .../allwinner/sun50i-a100-allwinner-perf1.dts |  5 ++
+ .../dts/allwinner/sun50i-a100-cpu-opp.dtsi    | 90 +++++++++++++++++++
+ .../arm64/boot/dts/allwinner/sun50i-a100.dtsi |  8 ++
+ 3 files changed, 103 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-a100-cpu-opp.dtsi
+
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a100-allwinner-perf1.dts b/arch/arm64/boot/dts/allwinner/sun50i-a100-allwinner-perf1.dts
+index d418fc272b3c..1fb629df9f1d 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a100-allwinner-perf1.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a100-allwinner-perf1.dts
+@@ -6,6 +6,7 @@
+ /dts-v1/;
+ 
+ #include "sun50i-a100.dtsi"
++#include "sun50i-a100-cpu-opp.dtsi"
+ 
+ #include <dt-bindings/gpio/gpio.h>
+ 
+@@ -68,6 +69,10 @@ &usb_otg {
+ 	status = "okay";
+ };
+ 
++&cpu0 {
++	cpu-supply = <&reg_dcdc2>;
++};
++
+ &pio {
+ 	vcc-pb-supply = <&reg_dcdc1>;
+ 	vcc-pc-supply = <&reg_eldo1>;
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a100-cpu-opp.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a100-cpu-opp.dtsi
+new file mode 100644
+index 000000000000..c6a2efa037dc
+--- /dev/null
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a100-cpu-opp.dtsi
+@@ -0,0 +1,90 @@
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
++// Copyright (c) 2020 Yangtao Li <frank@allwinnertech.com>
++// Copyright (c) 2020 ShuoSheng Huang <huangshuosheng@allwinnertech.com>
++
++/ {
++	cpu_opp_table: opp-table-cpu {
++		compatible = "allwinner,sun50i-a100-operating-points";
++		nvmem-cells = <&cpu_speed_grade>;
++		opp-shared;
++
++		opp-408000000 {
++			clock-latency-ns = <244144>; /* 8 32k periods */
++			opp-hz = /bits/ 64 <408000000>;
++
++			opp-microvolt-speed0 = <900000>;
++			opp-microvolt-speed1 = <900000>;
++			opp-microvolt-speed2 = <900000>;
++		};
++
++		opp-600000000 {
++			clock-latency-ns = <244144>; /* 8 32k periods */
++			opp-hz = /bits/ 64 <600000000>;
++
++			opp-microvolt-speed0 = <900000>;
++			opp-microvolt-speed1 = <900000>;
++			opp-microvolt-speed2 = <900000>;
++		};
++
++		opp-816000000 {
++			clock-latency-ns = <244144>; /* 8 32k periods */
++			opp-hz = /bits/ 64 <816000000>;
++
++			opp-microvolt-speed0 = <940000>;
++			opp-microvolt-speed1 = <900000>;
++			opp-microvolt-speed2 = <900000>;
++		};
++
++		opp-1080000000 {
++			clock-latency-ns = <244144>; /* 8 32k periods */
++			opp-hz = /bits/ 64 <1080000000>;
++
++			opp-microvolt-speed0 = <1020000>;
++			opp-microvolt-speed1 = <980000>;
++			opp-microvolt-speed2 = <950000>;
++		};
++
++		opp-1200000000 {
++			clock-latency-ns = <244144>; /* 8 32k periods */
++			opp-hz = /bits/ 64 <1200000000>;
++
++			opp-microvolt-speed0 = <1100000>;
++			opp-microvolt-speed1 = <1020000>;
++			opp-microvolt-speed2 = <1000000>;
++		};
++
++		opp-1320000000 {
++			clock-latency-ns = <244144>; /* 8 32k periods */
++			opp-hz = /bits/ 64 <1320000000>;
++
++			opp-microvolt-speed0 = <1160000>;
++			opp-microvolt-speed1 = <1060000>;
++			opp-microvolt-speed2 = <1030000>;
++		};
++
++		opp-1464000000 {
++			clock-latency-ns = <244144>; /* 8 32k periods */
++			opp-hz = /bits/ 64 <1464000000>;
++
++			opp-microvolt-speed0 = <1180000>;
++			opp-microvolt-speed1 = <1180000>;
++			opp-microvolt-speed2 = <1130000>;
++		};
++	};
++};
++
++&cpu0 {
++	operating-points-v2 = <&cpu_opp_table>;
++};
++
++&cpu1 {
++	operating-points-v2 = <&cpu_opp_table>;
++};
++
++&cpu2 {
++	operating-points-v2 = <&cpu_opp_table>;
++};
++
++&cpu3 {
++	operating-points-v2 = <&cpu_opp_table>;
++};
 diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
-index f6162a107641..29ac7716c7a5 100644
+index 29ac7716c7a5..6a76858b654a 100644
 --- a/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
 +++ b/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
-@@ -169,12 +169,83 @@ pio: pinctrl@300b000 {
- 			interrupt-controller;
- 			#interrupt-cells = <3>;
- 
-+			mmc0_pins: mmc0-pins {
-+				pins = "PF0", "PF1", "PF2", "PF3",
-+				       "PF4", "PF5";
-+				function = "mmc0";
-+				drive-strength = <30>;
-+				bias-pull-up;
-+			};
-+
-+			/omit-if-no-ref/
-+			mmc1_pins: mmc1-pins {
-+				pins = "PG0", "PG1", "PG2", "PG3",
-+				       "PG4", "PG5";
-+				function = "mmc1";
-+				drive-strength = <30>;
-+				bias-pull-up;
-+			};
-+
-+			mmc2_pins: mmc2-pins {
-+				pins = "PC0", "PC1", "PC5", "PC6",
-+				       "PC8", "PC9", "PC10", "PC11",
-+				       "PC13", "PC14", "PC15", "PC16";
-+				function = "mmc2";
-+				drive-strength = <30>;
-+				bias-pull-up;
-+			};
-+
- 			uart0_pb_pins: uart0-pb-pins {
- 				pins = "PB9", "PB10";
- 				function = "uart0";
- 			};
+@@ -23,6 +23,7 @@ cpu0: cpu@0 {
+ 			device_type = "cpu";
+ 			reg = <0x0>;
+ 			enable-method = "psci";
++			clocks = <&ccu CLK_CPUX>;
  		};
  
-+		mmc0: mmc@4020000 {
-+			compatible = "allwinner,sun50i-a100-mmc";
-+			reg = <0x04020000 0x1000>;
-+			clocks = <&ccu CLK_BUS_MMC0>, <&ccu CLK_MMC0>;
-+			clock-names = "ahb", "mmc";
-+			resets = <&ccu RST_BUS_MMC0>;
-+			reset-names = "ahb";
-+			interrupts = <GIC_SPI 39 IRQ_TYPE_LEVEL_HIGH>;
-+			pinctrl-names = "default";
-+			pinctrl-0 = <&mmc0_pins>;
-+			status = "disabled";
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+		};
+ 		cpu1: cpu@1 {
+@@ -30,6 +31,7 @@ cpu1: cpu@1 {
+ 			device_type = "cpu";
+ 			reg = <0x1>;
+ 			enable-method = "psci";
++			clocks = <&ccu CLK_CPUX>;
+ 		};
+ 
+ 		cpu2: cpu@2 {
+@@ -37,6 +39,7 @@ cpu2: cpu@2 {
+ 			device_type = "cpu";
+ 			reg = <0x2>;
+ 			enable-method = "psci";
++			clocks = <&ccu CLK_CPUX>;
+ 		};
+ 
+ 		cpu3: cpu@3 {
+@@ -44,6 +47,7 @@ cpu3: cpu@3 {
+ 			device_type = "cpu";
+ 			reg = <0x3>;
+ 			enable-method = "psci";
++			clocks = <&ccu CLK_CPUX>;
+ 		};
+ 	};
+ 
+@@ -142,6 +146,10 @@ efuse@3006000 {
+ 			ths_calibration: calib@14 {
+ 				reg = <0x14 8>;
+ 			};
 +
-+		mmc1: mmc@4021000 {
-+			compatible = "allwinner,sun50i-a100-mmc";
-+			reg = <0x04021000 0x1000>;
-+			clocks = <&ccu CLK_BUS_MMC1>, <&ccu CLK_MMC1>;
-+			clock-names = "ahb", "mmc";
-+			resets = <&ccu RST_BUS_MMC1>;
-+			reset-names = "ahb";
-+			interrupts = <GIC_SPI 40 IRQ_TYPE_LEVEL_HIGH>;
-+			pinctrl-names = "default";
-+			pinctrl-0 = <&mmc1_pins>;
-+			status = "disabled";
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+		};
-+
-+		mmc2: mmc@4022000 {
-+			compatible = "allwinner,sun50i-a100-emmc";
-+			reg = <0x04022000 0x1000>;
-+			clocks = <&ccu CLK_BUS_MMC2>, <&ccu CLK_MMC2>;
-+			clock-names = "ahb", "mmc";
-+			resets = <&ccu RST_BUS_MMC2>;
-+			reset-names = "ahb";
-+			interrupts = <GIC_SPI 41 IRQ_TYPE_LEVEL_HIGH>;
-+			pinctrl-names = "default";
-+			pinctrl-0 = <&mmc2_pins>;
-+			status = "disabled";
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+		};
-+
- 		uart0: serial@5000000 {
- 			compatible = "snps,dw-apb-uart";
- 			reg = <0x05000000 0x400>;
++			cpu_speed_grade: cpu-speed-grade@1c {
++				reg = <0x1c 0x2>;
++			};
+ 		};
+ 
+ 		watchdog@30090a0 {
 -- 
 2.47.0
 
