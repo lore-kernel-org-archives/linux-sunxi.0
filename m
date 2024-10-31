@@ -1,207 +1,93 @@
-Received: from omta38.uswest2.a.cloudfilter.net (omta38.uswest2.a.cloudfilter.net [35.89.44.37])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E90B619B3C5
-	for <linux-sunxi@lists.linux.dev>; Thu, 31 Oct 2024 14:20:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.89.44.37
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 752CB1A01C6;
+	Thu, 31 Oct 2024 14:27:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730384414; cv=none; b=kkTITKHlRICRYl/c61iSfBPjTGfY/4845V5+ZkpeEtqIqeaaeIqniE/wCy7UPNyFmqHV7smY7s9OvbEGWMhw1zH57QH6DNFSrhsPYk7HCuNm8L1ReVOaBeanFQFWL17SoUNm6CAQ5soNr6vp69ceif/E7r0wqxvFvg2RxD2N9k8=
+	t=1730384864; cv=none; b=i1FrLIHwigCxaxzxAS7iY+NPb9qCkff2+Yi/8zdoRnEJMddMywbUbHWPMWgd2XbDGv8bRyrNH8Eq0sSiF2z/nNffB/0Q0grRnHSQnGEfl6fZD3gvty2ccnMze/JOXZ+04pssdWFuFpqMxsTLDJawcc+8kyNtGncX60yjiz63NGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730384414; c=relaxed/simple;
-	bh=l2hyfqAJXg9tKTsASSLgWaBLbApxQC/IUedeczyE7dA=;
-	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=Dl2QzuQFpdEs9sSVwHZIDkjlgaFqSlha/U4YZvz1JqPG5FDVRI8YkK2oCdvr7uUEbws7vxiIXOnmP6cxZ+noTdoo6yOEFszXy390maxEEwb14htH70qMF/VuxuGWMJ0PB2t7kywypdf4lCedoe8V+wUsqoGwRZXMpkfHdtVsxBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linumiz.com; spf=pass smtp.mailfrom=linumiz.com; dkim=pass (2048-bit key) header.d=linumiz.com header.i=@linumiz.com header.b=MElCisaX; arc=none smtp.client-ip=35.89.44.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linumiz.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linumiz.com
+	s=arc-20240116; t=1730384864; c=relaxed/simple;
+	bh=0VFKeI1RdtsenUvtom72hXjYrfUswcH7nHkImzR9QY8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AxEtIpzA+PCQIM6DZfkTcZokxZE1W5h13BXqpoPCWuV3fh3OOmiOio8XcAA1ATyxJh5Hyerb0dOKrHchEN69Mn6it2u+zg7nTTCLuC0GdKiuMPsVEy8gGpzcNyTsW+6H6XfteI7AJMpnpPZ1AzUmrwA6oqzdqJnxK1Ko3W90Gmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SMSdNMD+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linumiz.com header.i=@linumiz.com header.b="MElCisaX"
-Received: from eig-obgw-5005a.ext.cloudfilter.net ([10.0.29.234])
-	by cmsmtp with ESMTPS
-	id 6BaGtiC7HumtX6W1ztUCxl; Thu, 31 Oct 2024 14:20:11 +0000
-Received: from md-in-79.webhostbox.net ([43.225.55.182])
-	by cmsmtp with ESMTPS
-	id 6W1xte94vjcdm6W1ythPDw; Thu, 31 Oct 2024 14:20:11 +0000
-X-Authority-Analysis: v=2.4 cv=DrWd+3/+ c=1 sm=1 tr=0 ts=6723921b
- a=LfuyaZh/8e9VOkaVZk0aRw==:117 a=kofhyyBXuK/oEhdxNjf66Q==:17
- a=IkcTkHD0fZMA:10 a=DAUX931o1VcA:10 a=-pn6D5nKLtMA:10 a=6Ujbnq6iAAAA:8
- a=vU9dKmh3AAAA:8 a=UQ0gWoj1K6JKIvSkpFIA:9 a=QEXdDO2ut3YA:10
- a=-sNzveBoo8RYOSiOai2t:22 a=rsP06fVo5MYu2ilr0aT5:22 a=ZCPYImcxYIQFgLOT52_G:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linumiz.com
-	; s=default; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:To:Subject:Cc:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=+jxM7lRle7VcSb1cHFDpbe2ijsT2r/j9mqp7JE6/0QY=; b=MElCisaXm1Z0+gopzkxIofO/XC
-	+bkgABtUvhl7xIE1PLBpyq9jFI7iHPGc6lOLzoTPbeRP4d6rtjGAq1K0QB83bWCnZR/sInsKWQnl4
-	ip/MD9ihA/DsKWRDpRSau8c3zk5rcrL4ZIVZBDAPWdXPfkf5CLNimFRm80eEOEyoPbto/+ZDoOp5t
-	OO5nny7KBgSUcN526T+uBC716GoaxD0A+Gv0RJdwTKaEq5N800HkDG/rpNqez1wRabx+h3MX+MeAp
-	QGDtNqgxeyeKKUXiiBuh+89gz2WYaPxPACvKWio8Wx+H1AoG45aWwWzCRNN7kcakWMWSk7zFfrAuK
-	io09hJAg==;
-Received: from [122.165.245.213] (port=32784 helo=[192.168.1.5])
-	by md-in-79.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <parthiban@linumiz.com>)
-	id 1t6W1o-003EHK-1D;
-	Thu, 31 Oct 2024 19:50:00 +0530
-Message-ID: <4c2afef1-dd0d-48e8-a9bc-650edf44b399@linumiz.com>
-Date: Thu, 31 Oct 2024 19:49:55 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SMSdNMD+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76A4AC4CECF;
+	Thu, 31 Oct 2024 14:27:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730384862;
+	bh=0VFKeI1RdtsenUvtom72hXjYrfUswcH7nHkImzR9QY8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SMSdNMD+U58gioJZAobamXIL4QOVQC/TammrC2vS9MsmHXrB8wAQcdF5HXTuWm0Bd
+	 GsgF6jUW5jN9BdIHHrUJ2H7UbF6aFNsFf/Xxbo+ybbDumCPu55HSNJ+/v57e1lYPqw
+	 RJpp2wriW7qsdZF/N35UDTI6bekcS/aS6+VsPun3peJiyM1zEKr4rwUkw6afMLSiWD
+	 2KBSivQr3XWHUh4yUAUyxoMj9Lt4oyn9HaUB4yXZVzf2xwY2JBVh7zF8pia91sZU3G
+	 HtX6q1zvkAw///hleArznfjVKan3w0PrwyIXMpxVS5Dzstqj4n5zCV/+6UTyuS/tXY
+	 r/Um/BCGySChA==
+Date: Thu, 31 Oct 2024 14:27:37 +0000
+From: Mark Brown <broonie@kernel.org>
+To: =?iso-8859-1?B?Q3Pza+FzLA==?= Bence <csokas.bence@prolan.hu>
+Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Mesih Kilinc <mesihkilinc@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH v4 06/10] ASoC: sun4i-codec: Add DMA Max Burst field
+Message-ID: <33f8c68a-d21a-4c04-b7be-adeab520d5c5@sirena.org.uk>
+References: <20241031123538.2582675-1-csokas.bence@prolan.hu>
+ <20241031123538.2582675-6-csokas.bence@prolan.hu>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: parthiban@linumiz.com, Conor Dooley <conor+dt@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Maxime Ripard
- <mripard@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
- Nishanth Menon <nm@ti.com>, Rob Herring <robh@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Viresh Kumar <vireshk@kernel.org>, Andre Przywara <andre.przywara@arm.com>,
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 12/13] cpufreq: sun50i: add a100 cpufreq support
-To: Cody Eksal <masterr3c0rd@epochal.quest>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>, Yangtao Li <tiny.windzz@gmail.com>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-References: <20241031070232.1793078-1-masterr3c0rd@epochal.quest>
- <20241031070232.1793078-13-masterr3c0rd@epochal.quest>
-Content-Language: en-US
-From: Parthiban <parthiban@linumiz.com>
-Organization: Linumiz
-In-Reply-To: <20241031070232.1793078-13-masterr3c0rd@epochal.quest>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - md-in-79.webhostbox.net
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - linumiz.com
-X-BWhitelist: no
-X-Source-IP: 122.165.245.213
-X-Source-L: No
-X-Exim-ID: 1t6W1o-003EHK-1D
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([192.168.1.5]) [122.165.245.213]:32784
-X-Source-Auth: parthiban@linumiz.com
-X-Email-Count: 24
-X-Org: HG=dishared_whb_net_legacy;ORG=directi;
-X-Source-Cap: bGludW1jbWM7aG9zdGdhdG9yO21kLWluLTc5LndlYmhvc3Rib3gubmV0
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfLAkWPd7y7NEtFBsSRoYbRT0ci9ZKspOIvtNOBT5fZ7ZP0X4/zZ9Qi/y7pirsHDLV8zGlOKjG1nerIEdRZrGogC19TidSnXog7quATLY/OlhVqAULj6Q
- reW+4s6MkKa4rEkiZc1t2fw5z38T9Zh9Ga8TTcWRQLvtUpdokgx8r2aAP4cUH7kDcDIOECs3Wl+Fdx1ZW0low6koCBANWCBKYnk=
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="558g04AZnavlqknE"
+Content-Disposition: inline
+In-Reply-To: <20241031123538.2582675-6-csokas.bence@prolan.hu>
+X-Cookie: Make a wish, it might come true.
 
-On 10/31/24 12:32 PM, Cody Eksal wrote:
-> From: Shuosheng Huang <huangshuosheng@allwinnertech.com>
-> 
-> Let's add cpufreq nvmem based for allwinner a100 soc. It's similar to h6,
-> let us use efuse_xlate to extract the differentiated part.
-> 
-> Signed-off-by: Shuosheng Huang <huangshuosheng@allwinnertech.com>
-> [masterr3c0rd@epochal.quest: add A100 to opp_match_list]
-> Signed-off-by: Cody Eksal <masterr3c0rd@epochal.quest>
 
-Although I couldn't get the secondary CPU's running because of missing BL31 support,
-it works fine in CPU0.
+--558g04AZnavlqknE
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Tested-by: Parthiban Nallathambi <parthiban@linumiz.com>
+On Thu, Oct 31, 2024 at 01:35:32PM +0100, Cs=F3k=E1s, Bence wrote:
+> From: Mesih Kilinc <mesihkilinc@gmail.com>
+>=20
+> Allwinner suniv F1C100s has similar DMA engine to sun4i but it has
+> smaller max burst size compared to sun4i. Add a quirk field to
+> differantitate between them.
 
-Thanks,
-Parthiban
+You've not copied me on the rest of the series so I don't know what's
+going on with dependencies.  When sending a patch series it is important
+to ensure that all the various maintainers understand what the
+relationship between the patches as the expecation is that there will be
+interdependencies.  Either copy everyone on the whole series or at least
+copy them on the cover letter and explain what's going on.  If there are
+no strong interdependencies then it's generally simplest to just send
+the patches separately to avoid any possible confusion.
 
-> ---
-> Changes in V2:
->  - Add the A100 to the cpufreq-dt-platdev blacklist.
-> 
->  drivers/cpufreq/cpufreq-dt-platdev.c   |  1 +
->  drivers/cpufreq/sun50i-cpufreq-nvmem.c | 28 ++++++++++++++++++++++++++
->  2 files changed, 29 insertions(+)
-> 
-> diff --git a/drivers/cpufreq/cpufreq-dt-platdev.c b/drivers/cpufreq/cpufreq-dt-platdev.c
-> index 18942bfe9c95..2a3e8bd317c9 100644
-> --- a/drivers/cpufreq/cpufreq-dt-platdev.c
-> +++ b/drivers/cpufreq/cpufreq-dt-platdev.c
-> @@ -103,6 +103,7 @@ static const struct of_device_id allowlist[] __initconst = {
->   * platforms using "operating-points-v2" property.
->   */
->  static const struct of_device_id blocklist[] __initconst = {
-> +	{ .compatible = "allwinner,sun50i-a100" },
->  	{ .compatible = "allwinner,sun50i-h6", },
->  	{ .compatible = "allwinner,sun50i-h616", },
->  	{ .compatible = "allwinner,sun50i-h618", },
-> diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> index 293921acec93..3a29c026d364 100644
-> --- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> +++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> @@ -22,6 +22,9 @@
->  #define NVMEM_MASK	0x7
->  #define NVMEM_SHIFT	5
->  
-> +#define SUN50I_A100_NVMEM_MASK	0xf
-> +#define SUN50I_A100_NVMEM_SHIFT	12
-> +
->  static struct platform_device *cpufreq_dt_pdev, *sun50i_cpufreq_pdev;
->  
->  struct sunxi_cpufreq_data {
-> @@ -45,6 +48,23 @@ static u32 sun50i_h6_efuse_xlate(u32 speedbin)
->  		return 0;
->  }
->  
-> +static u32 sun50i_a100_efuse_xlate(u32 speedbin)
-> +{
-> +	u32 efuse_value;
-> +
-> +	efuse_value = (speedbin >> SUN50I_A100_NVMEM_SHIFT) &
-> +		      SUN50I_A100_NVMEM_MASK;
-> +
-> +	switch (efuse_value) {
-> +	case 0b100:
-> +		return 2;
-> +	case 0b010:
-> +		return 1;
-> +	default:
-> +		return 0;
-> +	}
-> +}
-> +
->  static int get_soc_id_revision(void)
->  {
->  #ifdef CONFIG_HAVE_ARM_SMCCC_DISCOVERY
-> @@ -108,6 +128,10 @@ static struct sunxi_cpufreq_data sun50i_h6_cpufreq_data = {
->  	.efuse_xlate = sun50i_h6_efuse_xlate,
->  };
->  
-> +static struct sunxi_cpufreq_data sun50i_a100_cpufreq_data = {
-> +	.efuse_xlate = sun50i_a100_efuse_xlate,
-> +};
-> +
->  static struct sunxi_cpufreq_data sun50i_h616_cpufreq_data = {
->  	.efuse_xlate = sun50i_h616_efuse_xlate,
->  };
-> @@ -116,6 +140,9 @@ static const struct of_device_id cpu_opp_match_list[] = {
->  	{ .compatible = "allwinner,sun50i-h6-operating-points",
->  	  .data = &sun50i_h6_cpufreq_data,
->  	},
-> +	{ .compatible = "allwinner,sun50i-a100-operating-points",
-> +	  .data = &sun50i_a100_cpufreq_data,
-> +	},
->  	{ .compatible = "allwinner,sun50i-h616-operating-points",
->  	  .data = &sun50i_h616_cpufreq_data,
->  	},
-> @@ -291,6 +318,7 @@ static struct platform_driver sun50i_cpufreq_driver = {
->  
->  static const struct of_device_id sun50i_cpufreq_match_list[] = {
->  	{ .compatible = "allwinner,sun50i-h6" },
-> +	{ .compatible = "allwinner,sun50i-a100" },
->  	{ .compatible = "allwinner,sun50i-h616" },
->  	{ .compatible = "allwinner,sun50i-h618" },
->  	{ .compatible = "allwinner,sun50i-h700" },
+--558g04AZnavlqknE
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcjk9gACgkQJNaLcl1U
+h9DFuwf/WrEXxsnAh3sDyS+Or2fX9sOWwQ1iCN/IUpg+CS4mWAHnkn8vSvAKQEvk
+YIztm/llMpt5Nb4AmUz0BIMECSiIRlBcsT9FhQEdFvR8JFI98AHUfpwkZ/WWihyP
+DGLqbnD3tIIU9ZO82mrVY7YS7Mz2meMjPtkhJndkMaWuyV6/65J1HTYn0cySykAZ
+wyZtt8fCVufFlcSBO7cH0I5jSxr2dQscSIhjzO9ltJOuVvNgh6eEwH1jiwiRzBXW
+uHtoSmqP4a8kutz5pOTatCs6mgBt/zud8Fa0Pf0RjHUk7IVqVYCNo4PDx/bDs9aC
+JGaKxTuvIPu1SsxpxRpGJyQAKivOgA==
+=uZWg
+-----END PGP SIGNATURE-----
+
+--558g04AZnavlqknE--
