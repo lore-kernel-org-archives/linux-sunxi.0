@@ -1,53 +1,52 @@
-Received: from omta040.useast.a.cloudfilter.net (omta040.useast.a.cloudfilter.net [44.202.169.39])
+Received: from omta38.uswest2.a.cloudfilter.net (omta38.uswest2.a.cloudfilter.net [35.89.44.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B85FE83CDB
-	for <linux-sunxi@lists.linux.dev>; Thu, 31 Oct 2024 14:15:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.202.169.39
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E90B619B3C5
+	for <linux-sunxi@lists.linux.dev>; Thu, 31 Oct 2024 14:20:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.89.44.37
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730384112; cv=none; b=pUY4qolHzFZr7DMevZomtF2HpqSiRteZAlaKfmB91Ay4CrHx8N54jXYUVCFUq0ZmFnFY3OjX6qUQBFV5OlArfwW/yvMlhqpvCRIseMpcb60jQgmt5SXwRPup1b8cz0/v7hopCrG/Rmak/IY/qot2T9TFnsaTX8WJ7D7QGqVOuj0=
+	t=1730384414; cv=none; b=kkTITKHlRICRYl/c61iSfBPjTGfY/4845V5+ZkpeEtqIqeaaeIqniE/wCy7UPNyFmqHV7smY7s9OvbEGWMhw1zH57QH6DNFSrhsPYk7HCuNm8L1ReVOaBeanFQFWL17SoUNm6CAQ5soNr6vp69ceif/E7r0wqxvFvg2RxD2N9k8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730384112; c=relaxed/simple;
-	bh=Kdog3okChVG+qtVt1DYFpPo7Ncm0Hjlct7/16T1KnLs=;
+	s=arc-20240116; t=1730384414; c=relaxed/simple;
+	bh=l2hyfqAJXg9tKTsASSLgWaBLbApxQC/IUedeczyE7dA=;
 	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=BO+4csgB3p4PPFapWJXjOvJLb0/irAP8AMurflEI358/OR6YyNHP/bjp2u/9sQxhNnEY6BEK5JJ+xBnk4V1WPKAShqSKDgFRfp06p42DiEUqk6GxbgAaXQ++1qMenmGUOhI/n//rB7gzuML/y2q8PNqyn62IbPRIP+5yn9vp6zQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linumiz.com; spf=pass smtp.mailfrom=linumiz.com; dkim=pass (2048-bit key) header.d=linumiz.com header.i=@linumiz.com header.b=ZFzwELqO; arc=none smtp.client-ip=44.202.169.39
+	 In-Reply-To:Content-Type; b=Dl2QzuQFpdEs9sSVwHZIDkjlgaFqSlha/U4YZvz1JqPG5FDVRI8YkK2oCdvr7uUEbws7vxiIXOnmP6cxZ+noTdoo6yOEFszXy390maxEEwb14htH70qMF/VuxuGWMJ0PB2t7kywypdf4lCedoe8V+wUsqoGwRZXMpkfHdtVsxBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linumiz.com; spf=pass smtp.mailfrom=linumiz.com; dkim=pass (2048-bit key) header.d=linumiz.com header.i=@linumiz.com header.b=MElCisaX; arc=none smtp.client-ip=35.89.44.37
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linumiz.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linumiz.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linumiz.com header.i=@linumiz.com header.b="ZFzwELqO"
-Received: from eig-obgw-6001a.ext.cloudfilter.net ([10.0.30.140])
+	dkim=pass (2048-bit key) header.d=linumiz.com header.i=@linumiz.com header.b="MElCisaX"
+Received: from eig-obgw-5005a.ext.cloudfilter.net ([10.0.29.234])
 	by cmsmtp with ESMTPS
-	id 6B7ctABW8nNFG6Vx2t1jay; Thu, 31 Oct 2024 14:15:04 +0000
+	id 6BaGtiC7HumtX6W1ztUCxl; Thu, 31 Oct 2024 14:20:11 +0000
 Received: from md-in-79.webhostbox.net ([43.225.55.182])
 	by cmsmtp with ESMTPS
-	id 6VwztytTL2Zy06Vx1tZFZ8; Thu, 31 Oct 2024 14:15:03 +0000
-X-Authority-Analysis: v=2.4 cv=Q4EZ4J2a c=1 sm=1 tr=0 ts=672390e7
+	id 6W1xte94vjcdm6W1ythPDw; Thu, 31 Oct 2024 14:20:11 +0000
+X-Authority-Analysis: v=2.4 cv=DrWd+3/+ c=1 sm=1 tr=0 ts=6723921b
  a=LfuyaZh/8e9VOkaVZk0aRw==:117 a=kofhyyBXuK/oEhdxNjf66Q==:17
  a=IkcTkHD0fZMA:10 a=DAUX931o1VcA:10 a=-pn6D5nKLtMA:10 a=6Ujbnq6iAAAA:8
- a=7CQSdrXTAAAA:8 a=vU9dKmh3AAAA:8 a=oUTu_NvtNUWWlwhRUWsA:9 a=QEXdDO2ut3YA:10
- a=-sNzveBoo8RYOSiOai2t:22 a=a-qgeE7W1pNrGK8U0ZQC:22 a=rsP06fVo5MYu2ilr0aT5:22
- a=ZCPYImcxYIQFgLOT52_G:22
+ a=vU9dKmh3AAAA:8 a=UQ0gWoj1K6JKIvSkpFIA:9 a=QEXdDO2ut3YA:10
+ a=-sNzveBoo8RYOSiOai2t:22 a=rsP06fVo5MYu2ilr0aT5:22 a=ZCPYImcxYIQFgLOT52_G:22
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linumiz.com
 	; s=default; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
 	References:To:Subject:Cc:MIME-Version:Date:Message-ID:Sender:Reply-To:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=GY6AwgdHxbopxTlrLA2vjYBTcxsL4277viuzwS9TPwk=; b=ZFzwELqOkrSNBIMVRTiDlSFHyU
-	uj5CcjhYb80VHZUVw7ln/7cP9qYhRKcYxMzRae/5d6Dmz47qP5nCVXEsYdZtSAdFgyVtwYmIRLd/z
-	Po/4rajeYeTvsjdgq1evjHmH3bwOiXAFu3GsqHKS6zwO3Uy90qgzB1rIR5hrv5W2GsrVH8o+8OAOJ
-	3baIK8SJmQAa7Fhi8mhpu2aWlNDzQm7YwS2/D8QNke3Op0VtQzkDqKyayfIflaAeVHfILbQXcXX2/
-	bT5K+wuHNoK3tKUqeK4yEWjN1XVqYT+WBlqD8Cy+AcG3kBgXa02V19AM5iFV8coPfp6h5j+viKvc1
-	cA8+nkxw==;
-Received: from [122.165.245.213] (port=51552 helo=[192.168.1.5])
+	bh=+jxM7lRle7VcSb1cHFDpbe2ijsT2r/j9mqp7JE6/0QY=; b=MElCisaXm1Z0+gopzkxIofO/XC
+	+bkgABtUvhl7xIE1PLBpyq9jFI7iHPGc6lOLzoTPbeRP4d6rtjGAq1K0QB83bWCnZR/sInsKWQnl4
+	ip/MD9ihA/DsKWRDpRSau8c3zk5rcrL4ZIVZBDAPWdXPfkf5CLNimFRm80eEOEyoPbto/+ZDoOp5t
+	OO5nny7KBgSUcN526T+uBC716GoaxD0A+Gv0RJdwTKaEq5N800HkDG/rpNqez1wRabx+h3MX+MeAp
+	QGDtNqgxeyeKKUXiiBuh+89gz2WYaPxPACvKWio8Wx+H1AoG45aWwWzCRNN7kcakWMWSk7zFfrAuK
+	io09hJAg==;
+Received: from [122.165.245.213] (port=32784 helo=[192.168.1.5])
 	by md-in-79.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96.2)
 	(envelope-from <parthiban@linumiz.com>)
-	id 1t6Vwq-0038ez-1T;
-	Thu, 31 Oct 2024 19:44:52 +0530
-Message-ID: <fd26dadb-1a55-49dd-9530-5a3e2a58e36a@linumiz.com>
-Date: Thu, 31 Oct 2024 19:44:48 +0530
+	id 1t6W1o-003EHK-1D;
+	Thu, 31 Oct 2024 19:50:00 +0530
+Message-ID: <4c2afef1-dd0d-48e8-a9bc-650edf44b399@linumiz.com>
+Date: Thu, 31 Oct 2024 19:49:55 +0530
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -55,28 +54,28 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Cc: parthiban@linumiz.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Cc: parthiban@linumiz.com, Conor Dooley <conor+dt@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Kishon Vijay Abraham I <kishon@kernel.org>,
- Maxime Ripard <mripard@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Nishanth Menon <nm@ti.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
- Vinod Koul <vkoul@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Maxime Ripard
+ <mripard@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
+ Nishanth Menon <nm@ti.com>, Rob Herring <robh@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Viresh Kumar <vireshk@kernel.org>, Andre Przywara <andre.przywara@arm.com>,
+ linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 12/13] cpufreq: sun50i: add a100 cpufreq support
+To: Cody Eksal <masterr3c0rd@epochal.quest>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
  Viresh Kumar <viresh.kumar@linaro.org>, Yangtao Li <tiny.windzz@gmail.com>,
- Andre Przywara <andre.przywara@arm.com>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 02/13] arm64: dts: allwinner: a100: add watchdog node
-To: Cody Eksal <masterr3c0rd@epochal.quest>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Samuel Holland <samuel@sholland.org>
 References: <20241031070232.1793078-1-masterr3c0rd@epochal.quest>
- <20241031070232.1793078-3-masterr3c0rd@epochal.quest>
+ <20241031070232.1793078-13-masterr3c0rd@epochal.quest>
 Content-Language: en-US
 From: Parthiban <parthiban@linumiz.com>
 Organization: Linumiz
-In-Reply-To: <20241031070232.1793078-3-masterr3c0rd@epochal.quest>
+In-Reply-To: <20241031070232.1793078-13-masterr3c0rd@epochal.quest>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
@@ -87,52 +86,122 @@ X-AntiAbuse: Sender Address Domain - linumiz.com
 X-BWhitelist: no
 X-Source-IP: 122.165.245.213
 X-Source-L: No
-X-Exim-ID: 1t6Vwq-0038ez-1T
+X-Exim-ID: 1t6W1o-003EHK-1D
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
-X-Source-Sender: ([192.168.1.5]) [122.165.245.213]:51552
+X-Source-Sender: ([192.168.1.5]) [122.165.245.213]:32784
 X-Source-Auth: parthiban@linumiz.com
-X-Email-Count: 2
+X-Email-Count: 24
 X-Org: HG=dishared_whb_net_legacy;ORG=directi;
 X-Source-Cap: bGludW1jbWM7aG9zdGdhdG9yO21kLWluLTc5LndlYmhvc3Rib3gubmV0
 X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfB3OUZQoolzsxcZhkJSlpKg8NT0apwX/OUM0IWeilD75NmoNpB9J0C5Bi5/hJz4WrCNy0zf2o77xrL8GU+4Q5diJR5FMeAFLvwwegXTM/Eg431Yxpf8u
- ty4zSIQ0fXni3gqxEIBMOltkO/TpZObi8qduHwLEfZD6Y06AWG4F4+4rT11AjzyntDe3H59836UEgCAPk3MvU4Zlfk00AjWGNxo=
+X-CMAE-Envelope: MS4xfLAkWPd7y7NEtFBsSRoYbRT0ci9ZKspOIvtNOBT5fZ7ZP0X4/zZ9Qi/y7pirsHDLV8zGlOKjG1nerIEdRZrGogC19TidSnXog7quATLY/OlhVqAULj6Q
+ reW+4s6MkKa4rEkiZc1t2fw5z38T9Zh9Ga8TTcWRQLvtUpdokgx8r2aAP4cUH7kDcDIOECs3Wl+Fdx1ZW0low6koCBANWCBKYnk=
 
 On 10/31/24 12:32 PM, Cody Eksal wrote:
-> From: Yangtao Li <frank@allwinnertech.com>
+> From: Shuosheng Huang <huangshuosheng@allwinnertech.com>
 > 
-> Declare A100's watchdog in the device-tree.
+> Let's add cpufreq nvmem based for allwinner a100 soc. It's similar to h6,
+> let us use efuse_xlate to extract the differentiated part.
 > 
-> Signed-off-by: Yangtao Li <frank@allwinnertech.com>
-> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+> Signed-off-by: Shuosheng Huang <huangshuosheng@allwinnertech.com>
+> [masterr3c0rd@epochal.quest: add A100 to opp_match_list]
 > Signed-off-by: Cody Eksal <masterr3c0rd@epochal.quest>
+
+Although I couldn't get the secondary CPU's running because of missing BL31 support,
+it works fine in CPU0.
+
 Tested-by: Parthiban Nallathambi <parthiban@linumiz.com>
 
 Thanks,
 Parthiban
+
 > ---
->  arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi | 8 ++++++++
->  1 file changed, 8 insertions(+)
+> Changes in V2:
+>  - Add the A100 to the cpufreq-dt-platdev blacklist.
 > 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
-> index 1eca7c220ede..adb11b26045f 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
-> @@ -144,6 +144,14 @@ ths_calibration: calib@14 {
->  			};
->  		};
+>  drivers/cpufreq/cpufreq-dt-platdev.c   |  1 +
+>  drivers/cpufreq/sun50i-cpufreq-nvmem.c | 28 ++++++++++++++++++++++++++
+>  2 files changed, 29 insertions(+)
+> 
+> diff --git a/drivers/cpufreq/cpufreq-dt-platdev.c b/drivers/cpufreq/cpufreq-dt-platdev.c
+> index 18942bfe9c95..2a3e8bd317c9 100644
+> --- a/drivers/cpufreq/cpufreq-dt-platdev.c
+> +++ b/drivers/cpufreq/cpufreq-dt-platdev.c
+> @@ -103,6 +103,7 @@ static const struct of_device_id allowlist[] __initconst = {
+>   * platforms using "operating-points-v2" property.
+>   */
+>  static const struct of_device_id blocklist[] __initconst = {
+> +	{ .compatible = "allwinner,sun50i-a100" },
+>  	{ .compatible = "allwinner,sun50i-h6", },
+>  	{ .compatible = "allwinner,sun50i-h616", },
+>  	{ .compatible = "allwinner,sun50i-h618", },
+> diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+> index 293921acec93..3a29c026d364 100644
+> --- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+> +++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+> @@ -22,6 +22,9 @@
+>  #define NVMEM_MASK	0x7
+>  #define NVMEM_SHIFT	5
 >  
-> +		watchdog@30090a0 {
-> +			compatible = "allwinner,sun50i-a100-wdt",
-> +				     "allwinner,sun6i-a31-wdt";
-> +			reg = <0x030090a0 0x20>;
-> +			interrupts = <GIC_SPI 53 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&dcxo24M>;
-> +		};
+> +#define SUN50I_A100_NVMEM_MASK	0xf
+> +#define SUN50I_A100_NVMEM_SHIFT	12
 > +
->  		pio: pinctrl@300b000 {
->  			compatible = "allwinner,sun50i-a100-pinctrl";
->  			reg = <0x0300b000 0x400>;
+>  static struct platform_device *cpufreq_dt_pdev, *sun50i_cpufreq_pdev;
+>  
+>  struct sunxi_cpufreq_data {
+> @@ -45,6 +48,23 @@ static u32 sun50i_h6_efuse_xlate(u32 speedbin)
+>  		return 0;
+>  }
+>  
+> +static u32 sun50i_a100_efuse_xlate(u32 speedbin)
+> +{
+> +	u32 efuse_value;
+> +
+> +	efuse_value = (speedbin >> SUN50I_A100_NVMEM_SHIFT) &
+> +		      SUN50I_A100_NVMEM_MASK;
+> +
+> +	switch (efuse_value) {
+> +	case 0b100:
+> +		return 2;
+> +	case 0b010:
+> +		return 1;
+> +	default:
+> +		return 0;
+> +	}
+> +}
+> +
+>  static int get_soc_id_revision(void)
+>  {
+>  #ifdef CONFIG_HAVE_ARM_SMCCC_DISCOVERY
+> @@ -108,6 +128,10 @@ static struct sunxi_cpufreq_data sun50i_h6_cpufreq_data = {
+>  	.efuse_xlate = sun50i_h6_efuse_xlate,
+>  };
+>  
+> +static struct sunxi_cpufreq_data sun50i_a100_cpufreq_data = {
+> +	.efuse_xlate = sun50i_a100_efuse_xlate,
+> +};
+> +
+>  static struct sunxi_cpufreq_data sun50i_h616_cpufreq_data = {
+>  	.efuse_xlate = sun50i_h616_efuse_xlate,
+>  };
+> @@ -116,6 +140,9 @@ static const struct of_device_id cpu_opp_match_list[] = {
+>  	{ .compatible = "allwinner,sun50i-h6-operating-points",
+>  	  .data = &sun50i_h6_cpufreq_data,
+>  	},
+> +	{ .compatible = "allwinner,sun50i-a100-operating-points",
+> +	  .data = &sun50i_a100_cpufreq_data,
+> +	},
+>  	{ .compatible = "allwinner,sun50i-h616-operating-points",
+>  	  .data = &sun50i_h616_cpufreq_data,
+>  	},
+> @@ -291,6 +318,7 @@ static struct platform_driver sun50i_cpufreq_driver = {
+>  
+>  static const struct of_device_id sun50i_cpufreq_match_list[] = {
+>  	{ .compatible = "allwinner,sun50i-h6" },
+> +	{ .compatible = "allwinner,sun50i-a100" },
+>  	{ .compatible = "allwinner,sun50i-h616" },
+>  	{ .compatible = "allwinner,sun50i-h618" },
+>  	{ .compatible = "allwinner,sun50i-h700" },
 
