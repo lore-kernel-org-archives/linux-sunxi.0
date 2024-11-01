@@ -1,146 +1,232 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from omta40.uswest2.a.cloudfilter.net (omta40.uswest2.a.cloudfilter.net [35.89.44.39])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6E2761FDF
-	for <linux-sunxi@lists.linux.dev>; Fri,  1 Nov 2024 00:25:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37D19148317
+	for <linux-sunxi@lists.linux.dev>; Fri,  1 Nov 2024 05:33:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.89.44.39
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730420733; cv=none; b=HIGiqvtgTJB0R7B4rn7o4/redZbJ82pcBsm8N2yhy/1vNXjZZoRvmyayivGyJ1Achz4QekKTwIlTbd48VOuv/NJ5vDrVQWeGueVnTqsRz3rpsBgBtRW3Sw9FjdjV+mT59EVh0uMkjAHsRItMOmDZf6S1VefK+X/OSApfM7PA990=
+	t=1730439202; cv=none; b=rWgsLUMdHCcFFsE+1OgRSqdHkXnhTPK96d0pjDxC4bOj1lUVVAP+kXZf+sTlRfALRWG5H1W2x6J7yzKuKe3I6exa68a/WMaHZNTpvMDvAXx3/FvIdbi2L6THh/tH0gRCllAveaCOEn25S6jxoF08WhbAd9MaX5uZ+4hSvoM4l6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730420733; c=relaxed/simple;
-	bh=rnWWDnvK/2UdwmliNMd8qjy7ZbPEcXVWLie22T2NTNE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MlQ00Wkr9p6+C8wMBqANj57VNXctXX3FFhRzgImoyXcbRPoW1VM+FbFuo01UXZqb+cOpC5Kv60ewZVmG4DSgA5JeiL2sPhMtNucPE6aPajv2TlP4AwTSDPArowvcNWOIZZozME4ruLRuxq0XOA3wykbmaDMmSSBw4hEzOYyllq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=d2ynaQ3h; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1730439202; c=relaxed/simple;
+	bh=D4TJEIOyYSwiDdug5OMtrVlk3hwp/FEe6gmeAbaC37c=;
+	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=fGo10bbJBfl7kwUgGr4XdHE5kdl46bAYvs6qyJj1Z2oXxQGejBJBfzJrFLZHpXrwlw4fuygWPGh45qgOig/6d+rUXGD9u3aX8tH2akIbipSXcfkhCOaLXSek1A9DJocEM4I0SB2PVP3rFOJ0R7AB4PT1uYeHXfiL3NCI7b+u1NA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linumiz.com; spf=pass smtp.mailfrom=linumiz.com; dkim=pass (2048-bit key) header.d=linumiz.com header.i=@linumiz.com header.b=ZZ4my0jo; arc=none smtp.client-ip=35.89.44.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linumiz.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linumiz.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="d2ynaQ3h"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-539f8490856so1600195e87.2
-        for <linux-sunxi@lists.linux.dev>; Thu, 31 Oct 2024 17:25:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730420724; x=1731025524; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Hv2lxmvcj3iHqVSo1vO+GpyATUEKN5RREgLh1lW/pKI=;
-        b=d2ynaQ3hqzmVSWiw0DR/SLoEU3aPILNinzASJe3sTbQFLA2pqTazRmb19Q3x3P2QhN
-         BcSm8CMtAEzxkVJi41uqGqjQJM2u5ZkOCCUAtRcutHjgsYK16sa4xjUxRh2Z0bjX/Vj1
-         rDF9JM2FpUUyYtneVDb8SpQXd8j+tfxq/0vnMkDfg9+lHplxWG9hfqA31sEsEnuQNgv7
-         FSRDKAW0SRfaTAVORO8277PaTmcfyeoPG1vYCGIlrhwUEdRvBQhf2upD7cYl9ex9Y6RW
-         sXMMLmBo3XH0GZ4ITI/qBTONIQ95h+9K9aHH83FPqpQjajIo/wA0ptZwh5Nph2y2pOSg
-         XtLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730420724; x=1731025524;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Hv2lxmvcj3iHqVSo1vO+GpyATUEKN5RREgLh1lW/pKI=;
-        b=ADgReNJjKY4zlAX4hQ3yAJL+LiJXJYQJgTFe1K9K0nrTUmaa8PMNYm1dHK8bp2J8OE
-         H7WjRSrQ/XtaCG1cnFuW5+FeAnGKifewvnkdBJOrW2pGlFErDVLMeyo/9UYS6tK5NuIS
-         kzYah0cN+lqV18XGIsQCojxaa1ZwEYZobmPcezxXW3ARDJrPs3ExKf/3jKbq2kVcZyiu
-         N1IyE9fVLvclnF2tbesd/+8yg3G1LT6LxUcldkBk/lhrXzFChEIVN91ThCk++mRFqvZ1
-         tlMsopBHLp0B8uWLOdlVInYAEI6nucNyaczNyQVQTW9u/BMOwmyTBZlNreBRqiYQKV6T
-         sdXA==
-X-Forwarded-Encrypted: i=1; AJvYcCWYyvLnUpAgRUfT7qcSLaHM6s4WJXSdYp5RgPb1Gvjag/wtEgQ4hRnFTB3fYGBYnhWFxTxCE4NUy5ZmAg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwUsmZcE5H9nGk2qRQ5YXGPVudUaaUK/NxoaSUPu5+yRIKNmktw
-	TGgeNnf87vhmAMhEnpydEt7UMtZ6kwK891BqkAZFy86gtdsHVH9d08Sk0IYQhuA=
-X-Google-Smtp-Source: AGHT+IEAG9yn1GIhE2YrHT9rrcbTzRT2YsspXsGtFKg4MG2x8/7FF58dsirEGqVuW26T1ugiJs7GKw==
-X-Received: by 2002:a05:6512:1106:b0:539:8b49:8939 with SMTP id 2adb3069b0e04-53c79e913efmr2851992e87.41.1730420723969;
-        Thu, 31 Oct 2024 17:25:23 -0700 (PDT)
-Received: from umbar.lan ([192.130.178.90])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53c7bcce489sm371153e87.127.2024.10.31.17.25.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Oct 2024 17:25:22 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 01 Nov 2024 02:25:09 +0200
-Subject: [PATCH v2 6/6] drm/bridge: dw-hdmi-qp: replace mode_valid with
- tmds_char_rate
+	dkim=pass (2048-bit key) header.d=linumiz.com header.i=@linumiz.com header.b="ZZ4my0jo"
+Received: from eig-obgw-6006a.ext.cloudfilter.net ([10.0.30.182])
+	by cmsmtp with ESMTPS
+	id 6XXIto0lLvH7l6kHett4sC; Fri, 01 Nov 2024 05:33:18 +0000
+Received: from md-in-79.webhostbox.net ([43.225.55.182])
+	by cmsmtp with ESMTPS
+	id 6kHbtM4YdrfWs6kHdt2uXk; Fri, 01 Nov 2024 05:33:17 +0000
+X-Authority-Analysis: v=2.4 cv=R5oFG8RX c=1 sm=1 tr=0 ts=6724681d
+ a=LfuyaZh/8e9VOkaVZk0aRw==:117 a=kofhyyBXuK/oEhdxNjf66Q==:17
+ a=IkcTkHD0fZMA:10 a=VlfZXiiP6vEA:10 a=-pn6D5nKLtMA:10 a=6Ujbnq6iAAAA:8
+ a=vU9dKmh3AAAA:8 a=uXP6E58horQQbnEz6SkA:9 a=QEXdDO2ut3YA:10
+ a=-sNzveBoo8RYOSiOai2t:22 a=rsP06fVo5MYu2ilr0aT5:22 a=ZCPYImcxYIQFgLOT52_G:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linumiz.com
+	; s=default; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:To:Subject:Cc:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=KsIO27gsMFDVvdSYn96XeM2cN2MZTMmCMSsPkFkYeNg=; b=ZZ4my0joR3FM9GiojirEbvrQMi
+	kacs17UJsIZgN7r0skFbn6kKVskk8xzdoj1k+crQIMRt8lsStrGfey27QnS35DwsBn9zNJfGRP1X5
+	P+D2d044aw5ZSYYALvJwfRZy+NyXZvHWXqFhZMsnfKqVxBDDKExElwDuyuxnqyZIcIoP7q+Ihfe39
+	+ow3nZKgE4/yk3an+6nxEG7NOsi0nrWAKNQ3R9k5b2b1SIpnu9A5EJaKylN71msYHzO5zIkkbvHHF
+	Kfyn8lFW0LRQI7r7n5AbDVONZxL+C72WTCnbGqYPSm5wOPv1nWYYYIXain+H+yT1jyiYxHuI/z0A5
+	/rRVTnew==;
+Received: from [122.165.245.213] (port=35224 helo=[192.168.1.5])
+	by md-in-79.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <parthiban@linumiz.com>)
+	id 1t6kHS-002KJ3-32;
+	Fri, 01 Nov 2024 11:03:06 +0530
+Message-ID: <d38ff4ee-27a6-48ef-8429-15f59230de46@linumiz.com>
+Date: Fri, 1 Nov 2024 11:03:02 +0530
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Cc: parthiban@linumiz.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Nishanth Menon <nm@ti.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+ Vinod Koul <vkoul@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>, Yangtao Li <tiny.windzz@gmail.com>,
+ Andre Przywara <andre.przywara@arm.com>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 06/13] arm64: dts: allwinner: a100: add usb related
+ nodes
+To: Cody Eksal <masterr3c0rd@epochal.quest>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+References: <20241031070232.1793078-1-masterr3c0rd@epochal.quest>
+ <20241031070232.1793078-7-masterr3c0rd@epochal.quest>
+Content-Language: en-US
+From: Parthiban <parthiban@linumiz.com>
+Organization: Linumiz
+In-Reply-To: <20241031070232.1793078-7-masterr3c0rd@epochal.quest>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241101-hdmi-mode-valid-v2-6-a6478fd20fa6@linaro.org>
-References: <20241101-hdmi-mode-valid-v2-0-a6478fd20fa6@linaro.org>
-In-Reply-To: <20241101-hdmi-mode-valid-v2-0-a6478fd20fa6@linaro.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2043;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=rnWWDnvK/2UdwmliNMd8qjy7ZbPEcXVWLie22T2NTNE=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnJB/iyyoKxhJ9ymVIF5jZKxhY4Q/llakDKMFQT
- BEjedUrIaeJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZyQf4gAKCRCLPIo+Aiko
- 1URAB/0Q+lN9KyT42dXskzxxSyFiafqSlV1SV+VcON3MjaaEaECIjnFoHbPKEDxvle6Xicl7vHs
- h46RF3lrs7ptPTroESb/pvPY/Jj5EK9/dqatVhqiLYq2adABTz85k64UaLF9WIvj1pF54o1lMJJ
- 0R4OFGKZEAjC02s31dNE4fIMUbhsnc8JNoP15YRKxjq6AvslRKkkh+qCN5QhotWa9AUe6/FuS3d
- S7bNUR5mrFzDH3QH2n196BQPAJqsuELq2I2VbXoJuXeBSoQHuH5Dlli1/25UfCBLmbABtstMdis
- ux9EbzgijZfuFg2ndroerRXzSm8rHmu9np1KtZBbhZYdo8ju
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - md-in-79.webhostbox.net
+X-AntiAbuse: Original Domain - lists.linux.dev
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - linumiz.com
+X-BWhitelist: no
+X-Source-IP: 122.165.245.213
+X-Source-L: No
+X-Exim-ID: 1t6kHS-002KJ3-32
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: ([192.168.1.5]) [122.165.245.213]:35224
+X-Source-Auth: parthiban@linumiz.com
+X-Email-Count: 2
+X-Org: HG=dishared_whb_net_legacy;ORG=directi;
+X-Source-Cap: bGludW1jbWM7aG9zdGdhdG9yO21kLWluLTc5LndlYmhvc3Rib3gubmV0
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfNUPISnI/HBEDeTpu4zbtvSMlbTIRM6mohUBYaICQ9CJIuERe6rbiMdebEeyxyiW9nLmmEfz51xsnxhfyfbeLtExmoIhKfPysCMCNDLHacpNtKPX/9sy
+ NCCfesD8O22ipU3k5UIDDUlX3cxpHGd02/5QasQolPCMZlzm8lw1U2SnW3qRE3SclONaILtyWeeLfmOsI5lW15PLDd2ICIEO6eQ=
 
-Replace .mode_valid() callback with .hdmi_tmds_char_rate_valid(). It is
-more generic and is used in other mode validation paths. The rate
-validation for .mode_valid() will be performed by the
-drm_bridge_connector code.
+On 10/31/24 12:32 PM, Cody Eksal wrote:
+> From: Yangtao Li <frank@allwinnertech.com>
+> 
+> The Allwinner A100 has two HCI USB controllers, a OTG controller and a
+> USB PHY. The PHY is compatible with that used by the D1, while the OTG
+> controller is compatible with the A33. Add nodes for these to the base
+> DTSI.
+> 
+> Signed-off-by: Yangtao Li <frank@allwinnertech.com>
+> [masterr3c0rd@epochal.quest: fallback to a33-musb and d1-usb-phy, edited message]
+> Signed-off-by: Cody Eksal <masterr3c0rd@epochal.quest>
+Peripheral mode works after disabling ehci0 and ohci0. Otherwise,
 
-Reviewed-by: Chen-Yu Tsai <wens@csie.org>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+Tested-by: Parthiban Nallathambi <parthiban@linumiz.com>
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-index 181c5164b23192f0b557624d73c6223032b90ec6..c686671e4850a1af75b82995185ffc3cbb22a447 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-@@ -442,16 +442,14 @@ dw_hdmi_qp_bridge_edid_read(struct drm_bridge *bridge,
- }
- 
- static enum drm_mode_status
--dw_hdmi_qp_bridge_mode_valid(struct drm_bridge *bridge,
--			     const struct drm_display_info *info,
--			     const struct drm_display_mode *mode)
-+dw_hdmi_qp_bridge_tmds_char_rate_valid(const struct drm_bridge *bridge,
-+				       const struct drm_display_mode *mode,
-+				       unsigned long long rate)
- {
- 	struct dw_hdmi_qp *hdmi = bridge->driver_private;
--	unsigned long long rate;
- 
--	rate = drm_hdmi_compute_mode_clock(mode, 8, HDMI_COLORSPACE_RGB);
- 	if (rate > HDMI14_MAX_TMDSCLK) {
--		dev_dbg(hdmi->dev, "Unsupported mode clock: %d\n", mode->clock);
-+		dev_dbg(hdmi->dev, "Unsupported TMDS char rate: %lld\n", rate);
- 		return MODE_CLOCK_HIGH;
- 	}
- 
-@@ -510,7 +508,7 @@ static const struct drm_bridge_funcs dw_hdmi_qp_bridge_funcs = {
- 	.atomic_disable = dw_hdmi_qp_bridge_atomic_disable,
- 	.detect = dw_hdmi_qp_bridge_detect,
- 	.edid_read = dw_hdmi_qp_bridge_edid_read,
--	.mode_valid = dw_hdmi_qp_bridge_mode_valid,
-+	.hdmi_tmds_char_rate_valid = dw_hdmi_qp_bridge_tmds_char_rate_valid,
- 	.hdmi_clear_infoframe = dw_hdmi_qp_bridge_clear_infoframe,
- 	.hdmi_write_infoframe = dw_hdmi_qp_bridge_write_infoframe,
- };
-
--- 
-2.39.5
+Thanks,
+Parthiban
+> ---
+> Changes in V2:
+>  - Fix sizes of reg definitions in usbphy
+>  - Move #phy-cells to the end of usbphy
+>  - Order nodes by MMIO address
+>  - Remove dr_mode
+> 
+>  .../arm64/boot/dts/allwinner/sun50i-a100.dtsi | 91 +++++++++++++++++++
+>  1 file changed, 91 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
+> index adb11b26045f..f6162a107641 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
+> @@ -302,6 +302,97 @@ ths: thermal-sensor@5070400 {
+>  			#thermal-sensor-cells = <1>;
+>  		};
+>  
+> +		usb_otg: usb@5100000 {
+> +			compatible = "allwinner,sun50i-a100-musb",
+> +				     "allwinner,sun8i-a33-musb";
+> +			reg = <0x05100000 0x0400>;
+> +			clocks = <&ccu CLK_BUS_OTG>;
+> +			resets = <&ccu RST_BUS_OTG>;
+> +			interrupts = <GIC_SPI 32 IRQ_TYPE_LEVEL_HIGH>;
+> +			interrupt-names = "mc";
+> +			phys = <&usbphy 0>;
+> +			phy-names = "usb";
+> +			extcon = <&usbphy 0>;
+> +			status = "disabled";
+> +		};
+> +
+> +		usbphy: phy@5100400 {
+> +			compatible = "allwinner,sun50i-a100-usb-phy",
+> +				     "allwinner,sun20i-d1-usb-phy";
+> +			reg = <0x05100400 0x100>,
+> +			      <0x05101800 0x100>,
+> +			      <0x05200800 0x100>;
+> +			reg-names = "phy_ctrl",
+> +				    "pmu0",
+> +				    "pmu1";
+> +			clocks = <&ccu CLK_USB_PHY0>,
+> +				 <&ccu CLK_USB_PHY1>;
+> +			clock-names = "usb0_phy",
+> +				      "usb1_phy";
+> +			resets = <&ccu RST_USB_PHY0>,
+> +				 <&ccu RST_USB_PHY1>;
+> +			reset-names = "usb0_reset",
+> +				      "usb1_reset";
+> +			status = "disabled";
+> +			#phy-cells = <1>;
+> +		};
+> +
+> +		ehci0: usb@5101000 {
+> +			compatible = "allwinner,sun50i-a100-ehci",
+> +				     "generic-ehci";
+> +			reg = <0x05101000 0x100>;
+> +			interrupts = <GIC_SPI 30 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks = <&ccu CLK_BUS_OHCI0>,
+> +				 <&ccu CLK_BUS_EHCI0>,
+> +				 <&ccu CLK_USB_OHCI0>;
+> +			resets = <&ccu RST_BUS_OHCI0>,
+> +				 <&ccu RST_BUS_EHCI0>;
+> +			phys = <&usbphy 0>;
+> +			phy-names = "usb";
+> +			status = "disabled";
+> +		};
+> +
+> +		ohci0: usb@5101400 {
+> +			compatible = "allwinner,sun50i-a100-ohci",
+> +				     "generic-ohci";
+> +			reg = <0x05101400 0x100>;
+> +			interrupts = <GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks = <&ccu CLK_BUS_OHCI0>,
+> +				 <&ccu CLK_USB_OHCI0>;
+> +			resets = <&ccu RST_BUS_OHCI0>;
+> +			phys = <&usbphy 0>;
+> +			phy-names = "usb";
+> +			status = "disabled";
+> +		};
+> +
+> +		ehci1: usb@5200000 {
+> +			compatible = "allwinner,sun50i-a100-ehci",
+> +				     "generic-ehci";
+> +			reg = <0x05200000 0x100>;
+> +			interrupts = <GIC_SPI 33 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks = <&ccu CLK_BUS_OHCI1>,
+> +				 <&ccu CLK_BUS_EHCI1>,
+> +				 <&ccu CLK_USB_OHCI1>;
+> +			resets = <&ccu RST_BUS_OHCI1>,
+> +				 <&ccu RST_BUS_EHCI1>;
+> +			phys = <&usbphy 1>;
+> +			phy-names = "usb";
+> +			status = "disabled";
+> +		};
+> +
+> +		ohci1: usb@5200400 {
+> +			compatible = "allwinner,sun50i-a100-ohci",
+> +				     "generic-ohci";
+> +			reg = <0x05200400 0x100>;
+> +			interrupts = <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks = <&ccu CLK_BUS_OHCI1>,
+> +				 <&ccu CLK_USB_OHCI1>;
+> +			resets = <&ccu RST_BUS_OHCI1>;
+> +			phys = <&usbphy 1>;
+> +			phy-names = "usb";
+> +			status = "disabled";
+> +		};
+> +
+>  		r_ccu: clock@7010000 {
+>  			compatible = "allwinner,sun50i-a100-r-ccu";
+>  			reg = <0x07010000 0x300>;
 
