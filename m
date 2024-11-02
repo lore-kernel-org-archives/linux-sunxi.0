@@ -1,141 +1,82 @@
-Received: from thales.epochal.quest (thales.epochal.quest [51.222.15.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F379C14AD3A
-	for <linux-sunxi@lists.linux.dev>; Fri,  1 Nov 2024 06:14:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.222.15.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5413315886D
+	for <linux-sunxi@lists.linux.dev>; Sat,  2 Nov 2024 08:57:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730441683; cv=none; b=bTG2Wn2QQyqWiESdEbuc9qtz36kI7neTTELzcNPEhnYXgZkU/Ys78wg4j6bPgVjC3UJDbYuIUJy0KJs3XhcraiX+li7WjuDg3Kz7LzM477cdDuiGr7hF8SJ0pjtPhq4xsxspPCwkbldrXVRe+k7wIWvnhMEFimw+JlXsSGP8J/U=
+	t=1730537874; cv=none; b=W8NpTq2yqfOjb8xMOjBesGUqTLlKCqhAANxUBCmjIvpiMe1x1hMJoM95JUpqP0PMU/orEGVNQgiaTAYBhR6uwZjuxd7vh9L9shiE9wjwuLfd3/Qm43KJPCOPGbFiXMgB3kyEysk9bfi4W4Vzaq6D45ZMiMX4lWev6+EIi1xmcxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730441683; c=relaxed/simple;
-	bh=D/kAMVeeZ1GBnRC8sst69KP3zOv7FeYAbNLbfbLkabo=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=dtJZKPyrk2VnxgXb+gplfV2OzIkphzJSahauDs4bZggm2bYD4ldxXa20iBW2qFfeSKcO75VYhMjI8jbgH8j3eFjP6Zrsh2qeFxDxOGvR4Uq2hNJs/NlS3kR3kAwX+uhXyquipd4WQ92Cdn/N3+xHhXJOEIfDqM6DuavtR6Hep2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epochal.quest; spf=pass smtp.mailfrom=epochal.quest; dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b=HNrTED0L; arc=none smtp.client-ip=51.222.15.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epochal.quest
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=epochal.quest
+	s=arc-20240116; t=1730537874; c=relaxed/simple;
+	bh=ktTzf+Lq/jTkyU7b4tfI8pRlbwVRvpmf7PEUMuveifk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=K+I8vMgW2Y2bu8upLlsQMBCemZdd8EsFEoyLKcEtLTQKbnTLjjoX+zwhNm5fOdm2g+gqCgjjb/skGCS4glj/hlLZwS6hx41oTjWuLuhM1pGiw3dfB4MVFdO8hLbkMefIEX2IapMhn6BmnVTEGECKwZ0EmjH20iUQ5Cw1Mq3eDVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=Gecmhibf; arc=none smtp.client-ip=193.68.50.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b="HNrTED0L"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=epochal.quest;
-	s=default; t=1730441679;
-	bh=D/kAMVeeZ1GBnRC8sst69KP3zOv7FeYAbNLbfbLkabo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=HNrTED0L2H9cloFtJBd+q9cfwbKmy6zBOcIMvUfokosLXqYALQbi2ufYWQucriNPy
-	 lRUGasfiv0WrWp77DVYYc6qOam68sb5H9DrRBCituuBLxwsrLBaatU26bm9xpNSr4r
-	 VKrOlrQraJCCHR2x36dujf6u6FcBA6uAl9WWX9Z2U+ovyD4qW4FkPpvV07bbqdf8kh
-	 uQfRc6E659H7m5CiJL3i8YgreDllYuf7nRjHIiKbW1i7FxRNhPp6euibTYWxn3rTb6
-	 d3awEskB1M93ZKRzD3rYikffpDwV6LHj/YwJexbfGKpY4U+Rgau2CeyjFD36Brdfzr
-	 fPDVGy/RP8PgA==
-X-Virus-Scanned: by epochal.quest
+	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="Gecmhibf"
+Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
+	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id 4A9CEA09BA;
+	Sat,  2 Nov 2024 09:57:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:from:from:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=mail; bh=oHkSNNNrwMqpzUY5rzOn
+	LOxgjwpzlT3G1/0AWJvzSww=; b=GecmhibfrMQ6yCpYosL1WkhOmP+xHjG0iK9T
+	6HiDGbqFxSQJxakL1sdfOlYdSRyBZqJdv+Pe93HUUvlqmowepDO1C4XwWCsf9kOM
+	2XJHP1ullatnEIWCLoxQbCPE55CYtzBV1FTQw8RqeW2tK7KiPdXREFqxtd8ecp0l
+	kJKkBStlW1p86Y4irCxPCrursQBsfkZN7aclHCskVrzNDY68aIvvDESexkn0N9Zz
+	Zb6NlxIo2iaQCqx0KcOIBJs3vD4LxEO7DMLZE1Z5IzyrTl1iRQlzEkQ+OlXZpTPi
+	X9+hxobi0YYd7oht8C5/F4+H6yyLWrbxk1SE2S2HyV3jVzXEMCnhZydBUrOQrjCg
+	zU6hnORa97kwcYB0P+gN9Ug2v3Bnd5xtiXW3PhpzIkb89GVaOmLLJ9zLlcCNUq0p
+	CMZfuLCWgqabPYBkSGgY9ARpeg2JaUoMUVPI5B9xJ6PGbpymlNl/cQ7v7ay8DWGN
+	3Bs/AWCUFwwo4nnvdbu4njLRzzJjaLMqVq8Xf8AA74rhZQ6GqoxRtlozDJ4uZDQc
+	/imM9iHRGNQE/swcmEa7UrzZ57Xni7PqqnfXb3NWwwzMVFOZ3fGz0hQbga/UqN8W
+	q4gcnmp2gFX0Szwejb5/JEejhgHtt3M2hmpdzNWY0W0wBQPApb+AQXwVdjFlUqqG
+	vBokBzo=
+Message-ID: <ce76f036-d8ac-4f3b-a229-ee1550c2422a@prolan.hu>
+Date: Sat, 2 Nov 2024 09:57:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Fri, 01 Nov 2024 03:14:32 -0300
-From: Cody Eksal <masterr3c0rd@epochal.quest>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Kishon Vijay Abraham I
- <kishon@kernel.org>, Maxime Ripard <mripard@kernel.org>, Michael Turquette
- <mturquette@baylibre.com>, Nishanth Menon <nm@ti.com>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Stephen Boyd <sboyd@kernel.org>, Vinod Koul
- <vkoul@kernel.org>, Viresh Kumar <vireshk@kernel.org>, Viresh Kumar
- <viresh.kumar@linaro.org>, Yangtao Li <tiny.windzz@gmail.com>, Parthiban
- <parthiban@linumiz.com>, Andre Przywara <andre.przywara@arm.com>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 06/13] arm64: dts: allwinner: a100: add usb related
- nodes
-In-Reply-To: <20241031070232.1793078-7-masterr3c0rd@epochal.quest>
-References: <20241031070232.1793078-1-masterr3c0rd@epochal.quest>
- <20241031070232.1793078-7-masterr3c0rd@epochal.quest>
-Message-ID: <c231d0fbd13e2ff6ea23dc907b46112f@epochal.quest>
-X-Sender: masterr3c0rd@epochal.quest
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 03/10] dt-bindings: dmaengine: Add Allwinner suniv
+ F1C100s DMA
+To: Rob Herring <robh@kernel.org>
+CC: Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>,
+	<dmaengine@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>, Conor Dooley <conor.dooley@microchip.com>,
+	Vinod Koul <vkoul@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec
+	<jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>
+References: <20241031123538.2582675-1-csokas.bence@prolan.hu>
+ <20241031123538.2582675-3-csokas.bence@prolan.hu>
+ <20241031181749.GA1260045-robh@kernel.org>
+Content-Language: en-US
+From: =?UTF-8?B?Q3PDs2vDoXMgQmVuY2U=?= <csokas.bence@prolan.hu>
+In-Reply-To: <20241031181749.GA1260045-robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: ATLAS.intranet.prolan.hu (10.254.0.229) To
+ ATLAS.intranet.prolan.hu (10.254.0.229)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A2980D94855667067
 
-On 2024/10/31 4:02 am, Cody Eksal wrote:
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi 
-> b/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
-> index adb11b26045f..f6162a107641 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
-> @@ -302,6 +302,97 @@ ths: thermal-sensor@5070400 {
->  			#thermal-sensor-cells = <1>;
->  		};
-> +
-> +		usb_otg: usb@5100000 {
-> +			compatible = "allwinner,sun50i-a100-musb",
-> +				     "allwinner,sun8i-a33-musb";
-> +			reg = <0x05100000 0x0400>;
-> +			clocks = <&ccu CLK_BUS_OTG>;
-> +			resets = <&ccu RST_BUS_OTG>;
-> +			interrupts = <GIC_SPI 32 IRQ_TYPE_LEVEL_HIGH>;
-> +			interrupt-names = "mc";
-> +			phys = <&usbphy 0>;
-> +			phy-names = "usb";
-> +			extcon = <&usbphy 0>;
-> +			status = "disabled";
-> +		};
-Quick note: it was determined that if ehci0 and/or ohci0 are enabled,
-peripheral mode does not function correctly. From my understanding, it 
-is
-an unrelated issue in musb that causes this; the PHY gets claimed by the
-HCI nodes before MUSB, and due to some other issue, the PHY doesn't get
-properly rerouted to MUSB. With those nodes disabled, attaching gadgets 
-to
-MUSB works correctly, and with them enabled, host mode works properly.
 
-- Cody
-> +		usbphy: phy@5100400 {
-> +			compatible = "allwinner,sun50i-a100-usb-phy",
-> +				     "allwinner,sun20i-d1-usb-phy";
-> +			reg = <0x05100400 0x100>,
-> +			      <0x05101800 0x100>,
-> +			      <0x05200800 0x100>;
-> +			reg-names = "phy_ctrl",
-> +				    "pmu0",
-> +				    "pmu1";
-> +			clocks = <&ccu CLK_USB_PHY0>,
-> +				 <&ccu CLK_USB_PHY1>;
-> +			clock-names = "usb0_phy",
-> +				      "usb1_phy";
-> +			resets = <&ccu RST_USB_PHY0>,
-> +				 <&ccu RST_USB_PHY1>;
-> +			reset-names = "usb0_reset",
-> +				      "usb1_reset";
-> +			status = "disabled";
-> +			#phy-cells = <1>;
-> +		};
-> +
-> +		ehci0: usb@5101000 {
-> +			compatible = "allwinner,sun50i-a100-ehci",
-> +				     "generic-ehci";
-> +			reg = <0x05101000 0x100>;
-> +			interrupts = <GIC_SPI 30 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&ccu CLK_BUS_OHCI0>,
-> +				 <&ccu CLK_BUS_EHCI0>,
-> +				 <&ccu CLK_USB_OHCI0>;
-> +			resets = <&ccu RST_BUS_OHCI0>,
-> +				 <&ccu RST_BUS_EHCI0>;
-> +			phys = <&usbphy 0>;
-> +			phy-names = "usb";
-> +			status = "disabled";
-> +		};
-> +
-> +		ohci0: usb@5101400 {
-> +			compatible = "allwinner,sun50i-a100-ohci",
-> +				     "generic-ohci";
-> +			reg = <0x05101400 0x100>;
-> +			interrupts = <GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&ccu CLK_BUS_OHCI0>,
-> +				 <&ccu CLK_USB_OHCI0>;
-> +			resets = <&ccu RST_BUS_OHCI0>;
-> +			phys = <&usbphy 0>;
-> +			phy-names = "usb";
-> +			status = "disabled";
-> +		};
+On 2024. 10. 31. 19:17, Rob Herring wrote:
+> On Thu, Oct 31, 2024 at 01:35:29PM +0100, Csókás, Bence wrote:
+>> Add compatible string for Allwinner suniv F1C100s DMA.
+>>
+>> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+>> Link: https://lore.kernel.org/linux-kernel/20241024-recycler-borrowing-5d4296fd4a56@spud/
+> 
+> You don't need a link to Conor's ack.
+
+I don't? I thought whenever I collect a tag I should provide the link as 
+well...
+
