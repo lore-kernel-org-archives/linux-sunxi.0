@@ -1,96 +1,61 @@
-Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C2DC1714D9
-	for <linux-sunxi@lists.linux.dev>; Sat,  2 Nov 2024 10:10:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E174913C67E;
+	Sat,  2 Nov 2024 11:23:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730542234; cv=none; b=BEqKNtpUhpC5UtcfzUb4V3gclx6Ls/tnquuigwZE6JqJmuBwCN4o74IfVCt5c+CwcZAZZbGn0jnxMGETAHFU4gnSCnyyWw5mXNRx5NFEMayiFWj8RZUNpHDBJgFO0otfKxqHxrZrfCueAyk0/gMX/8I46aK0KhfnnuP/knH98po=
+	t=1730546590; cv=none; b=YQ9Vsyt6QkV7NfFoPM8yhIV78nPWw8/0r6TOHqxqyFD1iwb7NKAYnujQJn6JRYCGDw2IuWkuzAZEmlaPuyxTfObG565vZBrc+dkROBkaGLCaF65lofPgEbLr7GkFylSoMvAgqYe+z6X+u7s2vn2hugd/tCKNzIPaSBgr3Na/LiU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730542234; c=relaxed/simple;
-	bh=msZfN1vlHTTQkwq03Xyv0w1GgK6cVJfBoFs08qoycKU=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=O0SGDu5wXwov/WanAivDTje9zI/RQ28hOCcsNhVBOHqHMIyrTWOTmSrp4dkTCsub4wf4KsHaDg0Rm7XqYqbe9btXMaDg5rwZsX/qbgkeIBxtzWfSFTpVW1KbIRwoFKBK/tjSMgSLh9MgY5BUamfiz8NzLBEQkx479KDN/uJQ9wU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=XgKiC9le; arc=none smtp.client-ip=193.68.50.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="XgKiC9le"
-Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
-	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id C8941A09BA;
-	Sat,  2 Nov 2024 11:10:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:from:from:message-id:mime-version:reply-to:subject:subject:to
-	:to; s=mail; bh=dC+s2x2zpsTUqYLdynlJ3f94YiheKXfponBNvdNMjDQ=; b=
-	XgKiC9leoIhXmEAbZVWSBFsTDdg50PyWu8AvvLrkfT79/2cypQocCu0/JVzHzxCo
-	FX9gFnIlOWM7C1GWp7tiaeNGmF3NMZUX9Na5G4NuHSzMB7LQRhxB+THIGQ3vHhrx
-	EDKACzlA/6rvuklZxCoyXHRayFy5gtKxFQvFvCecArlhB4bTrvG1uWoCGt+7v0yW
-	IN6j12Exu+LTCuYz6g1h6QzRnOot9Iq5oWJ4B/rq6Dx95iBoL8ZN0xSC+BDEUrii
-	3XAlKVkg68RsnCofGSM5czpirf4EJKe0lrOCzUDtfnltBW1VCQ0aHQYoNzyqNUCE
-	RLBlDY0vzTRfGg2fUbnHi6Ao5UDVxJG/mccJd3d2dyYNQJRLqfjVEVgPIFWA6Bk5
-	JUfdtdfKQwDlGlrSSMut4vNjU+ZCTyGiUskcPWkhssQcFr5Idm4zplXOortqkU5n
-	q4NZDHMmo9OTXMcF/5seugSlZGK2vnotl3Dp/hI/fWf3tDVYFCg6Z0zxeznl9H4c
-	IJDj3EgwjUUzA33prma/x4WpFhx978xItF7aeikUun7jcU6NqAgNjdSjKY6aJzXn
-	mMb0ahFyoYnOg42RteikoZt3TVuHlji2oB0ONDFc/TZpDk0xmHcy5aDeZL4KQ2mL
-	SsfkKTyg/82fs7KZ2ZDnTkb6rBkuyoqQiLE7g0JaULE=
-From: =?UTF-8?q?Cs=C3=B3k=C3=A1s=2C=20Bence?= <csokas.bence@prolan.hu>
-To: <dmaengine@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<devicetree@vger.kernel.org>
-CC: =?UTF-8?q?Cs=C3=B3k=C3=A1s=2C=20Bence?= <csokas.bence@prolan.hu>, "Mark
- Brown" <broonie@kernel.org>, Mesih Kilinc <mesihkilinc@gmail.com>, Vinod Koul
-	<vkoul@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
-	<jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, "Chen-Yu
- Tsai" <wens@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Philipp Zabel
-	<p.zabel@pengutronix.de>, Conor Dooley <conor.dooley@microchip.com>, "Rob
- Herring" <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, "Conor
- Dooley" <conor+dt@kernel.org>, Amit Singh Tomar <amitsinght@marvell.com>
-Subject: [PATCH v5 0/5] Add support for DMA of F1C100s
-Date: Sat, 2 Nov 2024 11:10:17 +0100
-Message-ID: <20241102101017.2636558-1-csokas.bence@prolan.hu>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1730546590; c=relaxed/simple;
+	bh=VsskwiQ44m+v98pm7bNmTV7sTyCUCp4XbNHynUs/v5A=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=cYbs69gp22f84t3/N8k5UvumdpwW3PV6WqdcPc1u+QmCJosq8MT2MekApWJ+EU1iCyMEvgsuhwfVME+IkfhgvdsVXQO2jmsnAaCzto8YXy9R5lDMb1NEm1ugQVfQFmJtezdCoet77vRlwcCakbeBAKumITW2rac965F49FeT1Ds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32E0FC4CEC3;
+	Sat,  2 Nov 2024 11:23:10 +0000 (UTC)
+Received: from wens.tw (localhost [127.0.0.1])
+	by wens.tw (Postfix) with ESMTP id 588075F9F2;
+	Sat,  2 Nov 2024 19:23:07 +0800 (CST)
+From: Chen-Yu Tsai <wens@csie.org>
+To: Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Andre Przywara <andre.przywara@arm.com>
+Cc: Maxime Ripard <mripard@kernel.org>, linux-clk@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+In-Reply-To: <20241001105016.1068558-1-andre.przywara@arm.com>
+References: <20241001105016.1068558-1-andre.przywara@arm.com>
+Subject: Re: [PATCH] clk: sunxi-ng: d1: Fix PLL_AUDIO0 preset
+Message-Id: <173054658731.55569.4149254473608981743.b4-ty@csie.org>
+Date: Sat, 02 Nov 2024 19:23:07 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ESET-AS: R=OK;S=0;OP=CALC;TIME=1730542228;VERSION=7979;MC=3166311018;ID=220060;TRN=0;CRV=0;IPC=;SP=0;SIPS=0;PI=3;F=0
-X-ESET-Antispam: OK
-X-EsetResult: clean, is OK
-X-EsetId: 37303A2980D94855667067
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-Support for Allwinner F1C100s/200s series audio was
-submitted in 2018 as an RFC series, but was not merged,
-despite having only minor errors. However, this is
-essential for having audio on these SoCs.
-This series was forward-ported/rebased to the best of
-my abilities, on top of Linus' tree as of now:
-commit c2ee9f594da8 ("KVM: selftests: Fix build on on non-x86 architectures")
+On Tue, 01 Oct 2024 11:50:16 +0100, Andre Przywara wrote:
+> To work around a limitation in our clock modelling, we try to force two
+> bits in the AUDIO0 PLL to 0, in the CCU probe routine.
+> However the ~ operator only applies to the first expression, and does
+> not cover the second bit, so we end up clearing only bit 1.
+> 
+> Group the bit-ORing with parentheses, to make it both clearer to read
+> and actually correct.
+> 
+> [...]
 
-Link: https://lore.kernel.org/all/cover.1543782328.git.mesihkilinc@gmail.com/
+Applied to clk-for-6.13 in git@github.com:linux-sunxi/linux-sunxi.git, thanks!
 
-As requested by many, this series will now be split in 2, the DMA and the
-ALSA/ASoC codec driver. This is the DMA part of the series.
+[1/1] clk: sunxi-ng: d1: Fix PLL_AUDIO0 preset
+      commit: e0f253a52ccee3cf3eb987e99756e20c68a1aac9
 
-Csókás, Bence (1):
-  dt-bindings: dmaengine: Add Allwinner suniv F1C100s DMA
-
-Mesih Kilinc (4):
-  dma-engine: sun4i: Add a quirk to support different chips
-  dma-engine: sun4i: Add has_reset option to quirk
-  dma-engine: sun4i: Add support for Allwinner suniv F1C100s
-  ARM: dts: suniv: f1c100s: Add support for DMA
-
- .../bindings/dma/allwinner,sun4i-a10-dma.yaml |   4 +-
- .../arm/boot/dts/allwinner/suniv-f1c100s.dtsi |  10 +
- drivers/dma/Kconfig                           |   4 +-
- drivers/dma/sun4i-dma.c                       | 217 +++++++++++++++---
- 4 files changed, 200 insertions(+), 35 deletions(-)
-
+Best regards,
 -- 
-2.34.1
-
+Chen-Yu Tsai <wens@csie.org>
 
