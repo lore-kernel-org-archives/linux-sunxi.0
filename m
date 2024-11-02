@@ -1,167 +1,88 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F140176FB6
-	for <linux-sunxi@lists.linux.dev>; Sat,  2 Nov 2024 11:35:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB13A15A85E;
+	Sat,  2 Nov 2024 11:46:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730547345; cv=none; b=n7poty8joaXNKlx8S3CUfnuNrLVRcwxvkLeSRPyhYmBZyb+d7uFnAIBYoDxUs/n96b8wm2Qm232A56d84Go68GweAXKkPIZhqpoCpdvEpIvFvYfHC6QQKCowNW7IlMqiU/WpYYutAI8RltudEqsTw3JkWN4vK4X37HIzIZAyiZo=
+	t=1730547997; cv=none; b=khfGTD+TKelrtP3vjAXuWhDdMUTQXfBBNtoJIuKZdQxWh0ZgPPgHxOh4NjEhK9g9HPxewC0rD6xva2ANMFELl9g8DMMZilYr5UjdsVQ5kNwrHmot9DPWpQaerynjSi/5vtsx4mcS7HB+IDngiUBn/n8SziKuZYn8Nr+M44of62A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730547345; c=relaxed/simple;
-	bh=/F1oVefCGAZN0JK03Otc0zwkAJofnTFCZ5g14PrPdhU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aQreXGftLG8kXl1QZulYJV+BN+0deU2afeYJ6aY613hOrqzRNuiW/idlXPIJvqiImxUqN4Govk5tQCIFFIMEbtDtwc6p5U7GxsVIZPppaTdbt9kqTCL/PUqFC71mio1nUl6s1AV5JbBKXgiIR6+U+BNyEA1ljUeSvnzodeKDm9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a9a0c40849cso457429166b.3
-        for <linux-sunxi@lists.linux.dev>; Sat, 02 Nov 2024 04:35:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730547340; x=1731152140;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2//9P0I4J3XvBkNzIbbNIA2dq470ULwziNwddPzImEE=;
-        b=AlBTuVOITXJ68Vio+CGmn9o/tpjUmyTpSuTU+Obl0ABWNbXLyIo8MgieQlIHC7Rnod
-         4Qr1UmdLcUrV5s1/ZXxw7WNZT5zeqAcDcNmzgKo2DV37376DkCA5KEnguBIrmFpBe/yg
-         ke7k6toXwzk6AG3vXFX/Cvam5u34qJerWcywYIf7YcBcjuyQ0WvkQqXpYeLZRwTsJ0UQ
-         WZ+jhquRKfkb5eW+6HEiLlTqwaNC3akoxrk8cNfS3TqTMgCBZIA8xRrX97MPWke/KFGj
-         3Uv3RIHzMy6QsZ4if36MMnsRB2oidObq7TQrLG2K8uOrFerbN+UoncJI0/cLgqONIQdz
-         DG8A==
-X-Forwarded-Encrypted: i=1; AJvYcCVh5Qayx4aQaATfhL2cNvQTizypxEH+uqmOcox8PXkPYHEHJJcYQoh7kgEheNeF85Zq/szFMHsgjzG/EQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyCZIW8DRFFLRQFdVxEk2s4Q96QHa1ElQjjdMlJYO69+MPeWu4c
-	2VXEeAbz/ctYzUZ4PPcY1cnQ9+xZdxC+8UyPQVPe5ZyBuoHYJA5atMcXFy/5QM8=
-X-Google-Smtp-Source: AGHT+IHhikRt8/mGWkxbOHdbqdV34KvthyjB/9PEaWrikrmgsF//vlByJcnUd8onD3gRNsWxlVmAdw==
-X-Received: by 2002:a17:907:3d9f:b0:a9a:5e3a:6423 with SMTP id a640c23a62f3a-a9e3a573902mr1279875466b.10.1730547340285;
-        Sat, 02 Nov 2024 04:35:40 -0700 (PDT)
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com. [209.85.208.51])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9e56645ecesm303615266b.178.2024.11.02.04.35.39
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 02 Nov 2024 04:35:39 -0700 (PDT)
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5c9709c9b0cso4026072a12.1
-        for <linux-sunxi@lists.linux.dev>; Sat, 02 Nov 2024 04:35:39 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVbfwLi1aNB3FQQi76SxYbDTkkahILmbBgwuM5WyT+bebUAZcThBZU0kc7C+ajs7Rm4QhFJRrOwYHVfLg==@lists.linux.dev
-X-Received: by 2002:a05:651c:1508:b0:2fb:656b:4c69 with SMTP id
- 38308e7fff4ca-2fd0df8886amr74910741fa.43.1730547000254; Sat, 02 Nov 2024
- 04:30:00 -0700 (PDT)
+	s=arc-20240116; t=1730547997; c=relaxed/simple;
+	bh=I7knZNHDliZk9Hk0Pj85mAdWlDEOEeVfj001CftATno=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=aTi1Ufu9jgInnELGc+Qu7GkcobDCVQhy6fkA+MZaC3oJk2kA4ANjVfr0V/8aVMFat5MTQk8ekQuN38SAYJRsNVqAudJZKprzeZiEJlSyM+Ki5S+dA/rEWZqrR3p3IYI5zMU+CyRMaJ02QkDgaTfvqC7u/SsoUqsPNazHvV6hxMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 286AEC4CEC3;
+	Sat,  2 Nov 2024 11:46:37 +0000 (UTC)
+Received: from wens.tw (localhost [127.0.0.1])
+	by wens.tw (Postfix) with ESMTP id 2061F5F9F2;
+	Sat,  2 Nov 2024 19:46:34 +0800 (CST)
+From: Chen-Yu Tsai <wens@csie.org>
+To: linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org, 
+ linux-pm@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+ linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+ Cody Eksal <masterr3c0rd@epochal.quest>
+Cc: Conor Dooley <conor+dt@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Maxime Ripard <mripard@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, Nishanth Menon <nm@ti.com>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Samuel Holland <samuel@sholland.org>, Stephen Boyd <sboyd@kernel.org>, 
+ Vinod Koul <vkoul@kernel.org>, Viresh Kumar <vireshk@kernel.org>, 
+ Viresh Kumar <viresh.kumar@linaro.org>, Yangtao Li <tiny.windzz@gmail.com>, 
+ Parthiban <parthiban@linumiz.com>, Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <20241031070232.1793078-1-masterr3c0rd@epochal.quest>
+References: <20241031070232.1793078-1-masterr3c0rd@epochal.quest>
+Subject: Re: (subset) [PATCH v2 00/13] sunxi: A100/A133 second stage
+ support
+Message-Id: <173054799410.64486.11694812401132710377.b4-ty@csie.org>
+Date: Sat, 02 Nov 2024 19:46:34 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241031070232.1793078-1-masterr3c0rd@epochal.quest> <20241031070232.1793078-8-masterr3c0rd@epochal.quest>
-In-Reply-To: <20241031070232.1793078-8-masterr3c0rd@epochal.quest>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Sat, 2 Nov 2024 19:29:46 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66meMUPwOUr4Qutqu7TO-UwDtCdwOhwDv8JE_JMZi=58w@mail.gmail.com>
-Message-ID: <CAGb2v66meMUPwOUr4Qutqu7TO-UwDtCdwOhwDv8JE_JMZi=58w@mail.gmail.com>
-Subject: Re: [PATCH v2 07/13] arm64: allwinner: A100: enable EHCI, OHCI and
- USB PHY nodes in Perf1
-To: Cody Eksal <masterr3c0rd@epochal.quest>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, Maxime Ripard <mripard@kernel.org>, 
-	Michael Turquette <mturquette@baylibre.com>, Nishanth Menon <nm@ti.com>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Stephen Boyd <sboyd@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
-	Viresh Kumar <vireshk@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, 
-	Yangtao Li <tiny.windzz@gmail.com>, Parthiban <parthiban@linumiz.com>, 
-	Andre Przywara <andre.przywara@arm.com>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-On Thu, Oct 31, 2024 at 3:03=E2=80=AFPM Cody Eksal <masterr3c0rd@epochal.qu=
-est> wrote:
->
-> From: Yangtao Li <frank@allwinnertech.com>
->
-> Add USB support on A100 perf1 board, which include two USB2.0 port.
->
-> Signed-off-by: Yangtao Li <frank@allwinnertech.com>
-> Signed-off-by: Cody Eksal <masterr3c0rd@epochal.quest>
-> ---
-> Changes in V2:
->  - Add dr_mode here, instead of in the .dtsi
->
->  .../allwinner/sun50i-a100-allwinner-perf1.dts | 39 +++++++++++++++++++
->  1 file changed, 39 insertions(+)
->
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a100-allwinner-perf1.dt=
-s b/arch/arm64/boot/dts/allwinner/sun50i-a100-allwinner-perf1.dts
-> index f5c5c1464482..2f8c7ee60283 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-a100-allwinner-perf1.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a100-allwinner-perf1.dts
-> @@ -7,6 +7,8 @@
->
->  #include "sun50i-a100.dtsi"
->
-> +#include <dt-bindings/gpio/gpio.h>
-> +
->  /{
->         model =3D "Allwinner A100 Perf1";
->         compatible =3D "allwinner,a100-perf1", "allwinner,sun50i-a100";
-> @@ -18,6 +20,36 @@ aliases {
->         chosen {
->                 stdout-path =3D "serial0:115200n8";
->         };
-> +
-> +       reg_usb1_vbus: usb1-vbus {
-> +               compatible =3D "regulator-fixed";
-> +               regulator-name =3D "usb1-vbus";
-> +               regulator-min-microvolt =3D <5000000>;
-> +               regulator-max-microvolt =3D <5000000>;
-> +               gpio =3D <&pio 7 10 GPIO_ACTIVE_HIGH>; /* PH10 */
-> +               enable-active-high;
-> +       };
-> +};
-> +
-> +&ehci0 {
-> +       status =3D "okay";
-> +};
-> +
-> +&ehci1 {
-> +       status =3D "okay";
-> +};
-> +
-> +&ohci0 {
-> +       status =3D "okay";
-> +};
-> +
-> +&ohci1 {
-> +       status =3D "okay";
-> +};
-> +
-> +&usb_otg {
-> +       dr_mode =3D "otg";
-> +       status =3D "okay";
+On Thu, 31 Oct 2024 04:02:13 -0300, Cody Eksal wrote:
+> This is V2 of this series [5], with some changes that were requested and
+> others that were made after testing on more devices. Thank you for all of
+> your feedback! A changelog is available below.
+> 
+> ==================
+> Back in 2020, two Allwinner employees, Yangtao Li and Shuosheng Huang, each
+> submitted a patch series for the A100 series of SoCs; [1] intended to add
+> support for the watchdog, ARM PMU, DMA, USB, and (e)MMC controller, and [2]
+> implemented DVFS support. Some patches from the first series landed, but
+> the rest were seemingly abandoned.
+> 
+> [...]
 
-Since you noted in the previous patch that OTG doesn't work if OHCI0/EHCI0
-are enabled and probed before musb, maybe we should keep them disabled
-for the time being?
+Applied to dt-for-6.13 in git@github.com:linux-sunxi/linux-sunxi.git, thanks!
 
-You could leave a TODO item above the &usb_otg node.
+[01/13] arm64: dts: allwinner: A100: Add PMU mode
+        commit: 248b20ed03545656bd1775ed115369854f58f55c
+[02/13] arm64: dts: allwinner: a100: add watchdog node
+        commit: f84a3aa7782687ca0fa54f768fc6bb825575f91a
+[03/13] dt-bindings: phy: sun50i-a64: add a100 compatible
+        commit: 4402ef303d4b90748646568cf48f52eea035057a
+[04/13] dt-bindings: usb: Add A100 compatible string
+        commit: 1e7d0e2a53e6bf4b43f78858b1fb10aa38259375
+[05/13] dt-bindings: usb: sunxi-musb: Add A100 compatible string
+        commit: e144e89de0e491ea191847b0dc15a5aeb27951eb
+[06/13] arm64: dts: allwinner: a100: add usb related nodes
+        commit: c3cc9b02f7490d93635692cf58b0a4e517a60ab2
+[09/13] arm64: allwinner: a100: Add MMC related nodes
+        commit: fcfbb8d9ec584c256c0a6e1ae3174a21b007f399
 
-ChenYu
+Best regards,
+-- 
+Chen-Yu Tsai <wens@csie.org>
 
->  };
->
->  &pio {
-> @@ -178,3 +210,10 @@ &uart0 {
->         pinctrl-0 =3D <&uart0_pb_pins>;
->         status =3D "okay";
->  };
-> +
-> +&usbphy {
-> +       usb0_id_det-gpios =3D <&pio 7 8 GPIO_ACTIVE_HIGH>; /* PH8 */
-> +       usb0_vbus-supply =3D <&reg_drivevbus>;
-> +       usb1_vbus-supply =3D <&reg_usb1_vbus>;
-> +       status =3D "okay";
-> +};
-> --
-> 2.47.0
->
