@@ -1,24 +1,24 @@
 Received: from a.peacevolution.org (a.peacevolution.org [206.189.193.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9429C14F12F
-	for <linux-sunxi@lists.linux.dev>; Sat,  2 Nov 2024 19:56:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DFD41AB51B
+	for <linux-sunxi@lists.linux.dev>; Sat,  2 Nov 2024 19:56:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.193.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730577367; cv=none; b=mwUBlmJ4i85DU3yo/FaB9aEnZFyWKHEn16MB+HF65plaOQNMS3H+YCfrud+gL6GDX6e/cZcrZwfNYF7iNY30nNfkATj9fenPqzTVLhM1IzGeDZnAaROn+0mv0fcNduKo2G/CjJPA+2eEny1mlJIKmKpukVJAMLvlklpGERqjBRQ=
+	t=1730577384; cv=none; b=BNwWivJl++fd+Fmwxj1Frtp+spCMOkSjPSjaFL/rIgvVEl4fLKUmUACiHnxu3gUhRIE+0S6OL+lJCsdDc2+U4KnJ9rkeGq2It9YqMJwYfhFXpW0v6WJ7yh5SW6bnVqnufIwp9Z/s9Dg1J3fgKjiNdiKk6OWYpSVCvjQDTkKbCqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730577367; c=relaxed/simple;
-	bh=28wySHybmNzvDTM0gtkqKltIIyZ02cQb/jqmatJ5bvY=;
+	s=arc-20240116; t=1730577384; c=relaxed/simple;
+	bh=4eVyemtYA34bmRuiZAcr9XBoupD7yQ73G+EnUW2d1zM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CFz58RYAljBmGv6VOMznky/l5FtGJ83ZKhU83JniB6+m6CaJa9j58Fg5EIWbG04Hh2qYRTvYBds3Gep2PJVNBhOyEngrcd8ByckcKX3oTmdYCF7tWe1tyUMaGArZ90VCtx5EfQnulx5u1soW7LWNbXlCDBV71b9KXKWS6ei/ZLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org; spf=pass smtp.mailfrom=peacevolution.org; dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b=ZBbr8wfw; arc=none smtp.client-ip=206.189.193.133
+	 MIME-Version; b=qUbO5JI2CukU40Pa857mExLB8oixNFBuoHGDnXLQYux7dU7AFrtko+jxmz5PZadWivKgSEGm4iuSZTeeO4BWLC1+/pze6X2+rIjuZjKVMKQvEJa7snu2dVkAmJJ8zGGcjcUdjchym9X7Z8YpjqTclyjg+RoJ60SSLif7EFDgHlc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org; spf=pass smtp.mailfrom=peacevolution.org; dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b=iKg1Bs5e; arc=none smtp.client-ip=206.189.193.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=peacevolution.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b="ZBbr8wfw"
+	dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b="iKg1Bs5e"
 Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-	by a.peacevolution.org (Postfix) with ESMTPA id 605304C847;
-	Sat,  2 Nov 2024 19:56:03 +0000 (UTC)
+	by a.peacevolution.org (Postfix) with ESMTPA id 69A2B4C84C;
+	Sat,  2 Nov 2024 19:56:21 +0000 (UTC)
 From: Aren Moynihan <aren@peacevolution.org>
 To: Jonathan Cameron <jic23@kernel.org>,
 	Lars-Peter Clausen <lars@metafoo.de>,
@@ -41,9 +41,9 @@ Cc: Aren Moynihan <aren@peacevolution.org>,
 	linux-sunxi@lists.linux.dev,
 	Dragan Simic <dsimic@manjaro.org>,
 	phone-devel@vger.kernel.org
-Subject: [PATCH v4 4/6] iio: light: stk3310: use dev_err_probe where possible
-Date: Sat,  2 Nov 2024 15:50:41 -0400
-Message-ID: <20241102195037.3013934-11-aren@peacevolution.org>
+Subject: [PATCH v4 5/6] iio: light: stk3310: log error if reading the chip id fails
+Date: Sat,  2 Nov 2024 15:50:43 -0400
+Message-ID: <20241102195037.3013934-13-aren@peacevolution.org>
 In-Reply-To: <20241102195037.3013934-3-aren@peacevolution.org>
 References: <20241102195037.3013934-3-aren@peacevolution.org>
 Precedence: bulk
@@ -54,168 +54,51 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Authentication-Results: auth=pass smtp.auth=aren@peacevolution.org smtp.mailfrom=aren@peacevolution.org
-X-Spam-Level: ***
-X-Spamd-Bar: +++
+X-Spam-Level: **
+X-Spamd-Bar: ++
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=peacevolution.org;
-	s=dkim; t=1730577364;
+	s=dkim; t=1730577382;
 	h=from:subject:date:message-id:to:cc:mime-version:content-transfer-encoding:in-reply-to:references;
-	bh=EOQ+icUlK1H5YL/QrrfHa7ZgZuPTLdaho4son5PhToI=;
-	b=ZBbr8wfwo3qQ6VZx2PM+mCKxgFgJ/XzgEIbWYqxxV53kdJtu1IBxYs/14HzjzlLCmsI4jP
-	h0+CYKNKBlldsH12AbP+Fb/Fi3RtW5SWO0+akM3HX4gLAKYE1ihUITbcPR4JxGcegEhi5O
-	WVHfe7SmFGbvI01CTC/SvMfZUL4D0qI=
+	bh=uvvNhj8Jh93zpagJdBLhHBNGJCsGSzK4C5YOxnQO53E=;
+	b=iKg1Bs5ez3k57s5TX8B2KsJGqvkshKKwCERTQrh5gkSzMVC+c1ahFcgX9DDVEtcz8uswXR
+	CQ73g9pKzfXbtlIPoTpg53k6VMYFigxLTGRewaGMfCZfXj+vXRY4NBSDCmwxoZkJtUhqZr
+	u3lpZEO0IZNZsuJa/CQw3I5UB/Jg0VY=
 
-Using dev_err_probe instead of dev_err and return makes the errors
-easier to understand by including the error name, and saves a little
-code.
+If the chip isn't powered, this call is likely to return an error.
+Without a log here the driver will silently fail to probe. Potential
+errors include ENXIO (when the chip isn't powered) and ETIMEDOUT (when
+the i2c bus isn't powered).
+
+This function is only called from stk3310_probe, and this condition
+should return an error, which fits what dev_err_probe is designed for.
 
 Signed-off-by: Aren Moynihan <aren@peacevolution.org>
 ---
 
 Notes:
     Changes in v4:
-     - Get a struct device ahead of time so it can be passed as "dev"
+     - get a struct device ahead of time so it can be passed as "dev"
        instead of "&client->dev"
     
-    No changes in v3
-    
-    Added in v2
+    Changes in v2:
+     - use dev_err_probe
 
- drivers/iio/light/stk3310.c | 61 ++++++++++++++++---------------------
- 1 file changed, 26 insertions(+), 35 deletions(-)
+ drivers/iio/light/stk3310.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/iio/light/stk3310.c b/drivers/iio/light/stk3310.c
-index f93689c61f44..c9a3f02bdd80 100644
+index c9a3f02bdd80..becd6901dfef 100644
 --- a/drivers/iio/light/stk3310.c
 +++ b/drivers/iio/light/stk3310.c
-@@ -61,12 +61,12 @@
- #define STK3310_REGFIELD(name)						    \
- 	do {								    \
- 		data->reg_##name =					    \
--			devm_regmap_field_alloc(&client->dev, regmap,	    \
-+			devm_regmap_field_alloc(dev, regmap,		    \
- 				stk3310_reg_field_##name);		    \
--		if (IS_ERR(data->reg_##name)) {				    \
--			dev_err(&client->dev, "reg field alloc failed.\n"); \
--			return PTR_ERR(data->reg_##name);		    \
--		}							    \
-+		if (IS_ERR(data->reg_##name))				    \
-+			return dev_err_probe(dev,			    \
-+				PTR_ERR(data->reg_##name),		    \
-+				"reg field alloc failed.\n");		    \
- 	} while (0)
+@@ -509,7 +509,7 @@ static int stk3310_init(struct iio_dev *indio_dev)
  
- static const struct reg_field stk3310_reg_field_state =
-@@ -517,10 +517,8 @@ static int stk3310_init(struct iio_dev *indio_dev)
- 
- 	state = STK3310_STATE_EN_ALS | STK3310_STATE_EN_PS;
- 	ret = stk3310_set_state(data, state);
--	if (ret < 0) {
--		dev_err(&client->dev, "failed to enable sensor");
+ 	ret = regmap_read(data->regmap, STK3310_REG_ID, &chipid);
+ 	if (ret < 0)
 -		return ret;
--	}
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "failed to enable sensor\n");
++		return dev_err_probe(dev, ret, "failed to read chip id\n");
  
- 	ret = devm_add_action_or_reset(&client->dev, stk3310_set_state_disable, data);
- 	if (ret)
-@@ -529,9 +527,9 @@ static int stk3310_init(struct iio_dev *indio_dev)
- 	/* Enable PS interrupts */
- 	ret = regmap_field_write(data->reg_int_ps, STK3310_PSINT_EN);
+ 	ret = stk3310_check_chip_id(chipid);
  	if (ret < 0)
--		dev_err(&client->dev, "failed to enable interrupts!\n");
-+		return dev_err_probe(dev, ret, "failed to enable interrupts!\n");
- 
--	return ret;
-+	return 0;
- }
- 
- static bool stk3310_is_volatile_reg(struct device *dev, unsigned int reg)
-@@ -560,14 +558,14 @@ static const struct regmap_config stk3310_regmap_config = {
- static int stk3310_regmap_init(struct stk3310_data *data)
- {
- 	struct regmap *regmap;
--	struct i2c_client *client;
-+	struct i2c_client *client = data->client;
-+	struct device *dev = &client->dev;
- 
--	client = data->client;
- 	regmap = devm_regmap_init_i2c(client, &stk3310_regmap_config);
--	if (IS_ERR(regmap)) {
--		dev_err(&client->dev, "regmap initialization failed.\n");
--		return PTR_ERR(regmap);
--	}
-+	if (IS_ERR(regmap))
-+		return dev_err_probe(dev, PTR_ERR(regmap),
-+				     "regmap initialization failed.\n");
-+
- 	data->regmap = regmap;
- 
- 	STK3310_REGFIELD(state);
-@@ -654,12 +652,11 @@ static int stk3310_probe(struct i2c_client *client)
- 	int ret;
- 	struct iio_dev *indio_dev;
- 	struct stk3310_data *data;
-+	struct device *dev = &client->dev;
- 
- 	indio_dev = devm_iio_device_alloc(&client->dev, sizeof(*data));
--	if (!indio_dev) {
--		dev_err(&client->dev, "iio allocation failed!\n");
--		return -ENOMEM;
--	}
-+	if (!indio_dev)
-+		return dev_err_probe(dev, -ENOMEM, "iio allocation failed!\n");
- 
- 	data = iio_priv(indio_dev);
- 	data->client = client;
-@@ -675,7 +672,7 @@ static int stk3310_probe(struct i2c_client *client)
- 	ret = devm_regulator_bulk_get(&client->dev, ARRAY_SIZE(data->supplies),
- 				      data->supplies);
- 	if (ret)
--		return dev_err_probe(&client->dev, ret, "get regulators failed\n");
-+		return dev_err_probe(dev, ret, "get regulators failed\n");
- 
- 	ret = stk3310_regmap_init(data);
- 	if (ret < 0)
-@@ -689,13 +686,11 @@ static int stk3310_probe(struct i2c_client *client)
- 
- 	ret = stk3310_regulators_enable(data);
- 	if (ret)
--		return dev_err_probe(&client->dev, ret,
--				     "regulator enable failed\n");
-+		return dev_err_probe(dev, ret, "regulator enable failed\n");
- 
- 	ret = devm_add_action_or_reset(&client->dev, stk3310_regulators_disable, data);
- 	if (ret)
--		return dev_err_probe(&client->dev, ret,
--				     "failed to register regulator cleanup\n");
-+		return dev_err_probe(dev, ret, "failed to register regulator cleanup\n");
- 
- 	ret = stk3310_init(indio_dev);
- 	if (ret < 0)
-@@ -708,18 +703,14 @@ static int stk3310_probe(struct i2c_client *client)
- 						IRQF_TRIGGER_FALLING |
- 						IRQF_ONESHOT,
- 						STK3310_EVENT, indio_dev);
--		if (ret < 0) {
--			dev_err(&client->dev, "request irq %d failed\n",
--				client->irq);
--			return ret;
--		}
-+		if (ret < 0)
-+			return dev_err_probe(dev, ret, "request irq %d failed\n",
-+					     client->irq);
- 	}
- 
- 	ret = devm_iio_device_register(&client->dev, indio_dev);
--	if (ret < 0) {
--		dev_err(&client->dev, "device_register failed\n");
--		return ret;
--	}
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "device_register failed\n");
- 
- 	return 0;
- }
 -- 
 2.47.0
 
