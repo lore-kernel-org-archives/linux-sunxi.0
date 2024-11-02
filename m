@@ -1,116 +1,94 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2366189BAD
-	for <linux-sunxi@lists.linux.dev>; Sat,  2 Nov 2024 11:51:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A81B9804
+	for <linux-sunxi@lists.linux.dev>; Sat,  2 Nov 2024 12:59:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730548269; cv=none; b=dhL8Y8z+ueVNjJU//xk6yhXxQ1crfFJvJIME1bQQeMHn0Ry2K14XHACcittprBHsErk6Vm6jwL0rpCtaQxF/XuUdI4RJ/iFMAcbpn8xscwSu99TQlQURtCVL6cRW8jcyK4C7DnqaIANnoCappPvk+WRGEZFVDRByD7aDwFbIago=
+	t=1730552395; cv=none; b=bLhGCxjqjCd8JMQmbOU0CWfDi5hvf4WHvV38p0Mj81TcK40I2dBHz9tBdm4GW2iNu9MYrgSGd0BWdAGWsr8RX+7LgckkJny63rvz69IIrrVZZD9ebDVK/vt6zsYXDSBGMnglDgGG49v6RH3miMDFqBCVXx1XKlb5vPdYfDiC+R0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730548269; c=relaxed/simple;
-	bh=MtCxFhn9qQLXFwmCIV0k0ztAlVpN8badYhBgaQ4qWME=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=s5deqeMJvEBtDRHoxKvCQxW0QoxVdihXfbFO8iCEwx62fr4eaBo6zt2V/b/UK5PiXyerwQcV/xNIQTrvEAWfYIs25+GcXbSAs8rZtF6rz/pog6HEWPJpppKf1Uuit3+VexgmJLI8OjjxR+RAhQb/AyDl/SLuhPiTxazbpBNa37E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-53a0c160b94so3109218e87.2
-        for <linux-sunxi@lists.linux.dev>; Sat, 02 Nov 2024 04:51:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730548263; x=1731153063;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HNxx58SAnxfm8WutwLtZrpYz0UwbZu8UhPuKwFhJ2Po=;
-        b=KEBraCk0gpXaunxoVunOp3WgEDUE2A1QiuYhYQBNjlTG3kOK/VzKebhaD9Xpqh4rka
-         iBr0VtjiDJeCaJzETKfXKLPtY1mZtAsTTBJwZCzIpLwvoQ1Xfwpb9oHccezRg4zpcaz6
-         cuvf/KLspu3uZ3DTfAtWGsvGMcF75lmpbEQf8QsF0dYnq/c5Y/jUVdInS4ikk/y9Uc00
-         ewb6TkcqFOU9R+uqL2NeC4WGWIihYy6Krtfg+Ppr0NDxbUk/wvpcCn3aP9JZfvF9lJ0W
-         MfZQrW4W1j+/aHZ9WacYC0SMtYlEe2/87vs7a32SLuzVTk9Q0XRLpwvFlZdVSR4senST
-         Nvvg==
-X-Forwarded-Encrypted: i=1; AJvYcCVZ5h2maP3os+gBZv4JKcuQrT9xnCrRUA2m82DYN6vGSTS4KtLYzcWvARxY9QGgXEGKpxYKVf0kqW5Erg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YybaWD4QoWktRyHiNMN1bX37KWAfnRdMU1cAKWOs/5O3Ndt2FTx
-	GI0H5/eK6npGVAOqy1qG0le308cccy6ZcNlFoA/nZ3PG99/GSbes76+qxErd1Jo=
-X-Google-Smtp-Source: AGHT+IFrJhqo89h353FDoeqZRf3gmNNo+E/u4FT5cLbBcrX1RzonuXkoAhsTdSPgoBI3C8tqHDK7LA==
-X-Received: by 2002:a05:6512:39ca:b0:536:55a8:6f78 with SMTP id 2adb3069b0e04-53d65df25e4mr2990471e87.17.1730548263074;
-        Sat, 02 Nov 2024 04:51:03 -0700 (PDT)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com. [209.85.208.169])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53c7bcce4b3sm867640e87.164.2024.11.02.04.51.02
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 02 Nov 2024 04:51:02 -0700 (PDT)
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2fb587d0436so31383641fa.2
-        for <linux-sunxi@lists.linux.dev>; Sat, 02 Nov 2024 04:51:02 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVdGzOGJBSZPwLEOyerbtoF79ybV0E7wiKlTQIhPzUcwlUTmm5TeKEybnwdBzjhXEdnZdYGPOjHyN2SUQ==@lists.linux.dev
-X-Received: by 2002:a05:651c:247:b0:2fa:ccae:d1d3 with SMTP id
- 38308e7fff4ca-2fedb7a218amr36689791fa.11.1730548262188; Sat, 02 Nov 2024
- 04:51:02 -0700 (PDT)
+	s=arc-20240116; t=1730552395; c=relaxed/simple;
+	bh=A1w/WpP4A1ews/F9trz0Z1j9d0UTUytKp/ywB+GamP0=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=P1OQoCt0Ka7swXjehCHi+v38PRNe/Oj9uQmrFhcekz2gLWznyIWeW4GtEd9k0KyrFratNojSFFOj9p4Jqpujd2GqGQPj+0KnY4pk+XuPVDZrLkAWvDDf8cEkA685ztKWaXFmQrnHXYPB90Yf6MrYqRPFRwupVqHDygZDT9FCSws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=QsUKEfVq; arc=none smtp.client-ip=193.68.50.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="QsUKEfVq"
+Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
+	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id 39055A0ABF;
+	Sat,  2 Nov 2024 13:59:49 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:from:from:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=mail; bh=vqPDYISQhDcdF9k7RpAdqWVUZzTmtGJFd83DpIDrdGI=; b=
+	QsUKEfVqitrTzYosF/xicaTzE3y+qfLnbl5xZ4ryYgdo0NNSg+dEsDpTzxmFteW3
+	xHdM5i2a0WATN0G7fcR3RtdIKaqpo8yN0k139zULhT93JKol7UvtJpHWgu3pftIk
+	fEbzzkrq4/OqVbXGCR0kMdsQXnOLYbg9K3QtX2jr3x8H39hJOKaqMR1rivlOptEE
+	S/7c0KJvGfQyEeOauruNEsZ6aWznhNdhUi4DcicYei2z9xwbSpE/UzdceBPkxXkL
+	RMb7Zz8EG5dzzFRFTA2PIdF/Ojq2YQa2T8/35qpyrZd+upBYAISpU7f5C1hfJ89T
+	adVd6KhKuO8ysWx5AbgIIai1CtybyBpoU9/yzDVBHtkXywg5ALomHB+Hufh3ExIg
+	p+EjLJgTTKb7v5AOnMWk8FWZJkx6CvaaJU/plYiqmZZ+plISIW1RsIeuB1KHY3zh
+	GFo2IujaxRtRPGli8gf0xnKJ7Yhu8e/ZIr8+L1WAEEhUz3dZI72jBrsplHaSbczy
+	ELDD5nU6ttQwT9YyHTcffCq8d6EY0UQFtoXIGrwcTWGMqaM6wkNbvZhk32d3ybXO
+	qEEx4tu9F7PJDx8zE/sq+NCi//vHBItokfOZ5nvAshVZ1gJa1L4MUTS0CP1vqgpv
+	XkIhJmpwanXb9fgpBQBypGSmEx0xfu6qpfyag9A/mZY=
+From: =?UTF-8?q?Cs=C3=B3k=C3=A1s=2C=20Bence?= <csokas.bence@prolan.hu>
+To: <linux-sound@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+CC: =?UTF-8?q?Cs=C3=B3k=C3=A1s=2C=20Bence?= <csokas.bence@prolan.hu>, "Mesih
+ Kilinc" <mesihkilinc@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, "Mark
+ Brown" <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+	<tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+	<jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Rob Herring
+	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+	<conor+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH v5 0/3] Add support for codec of F1C100s
+Date: Sat, 2 Nov 2024 13:57:09 +0100
+Message-ID: <20241102125712.2647325-1-csokas.bence@prolan.hu>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241031070232.1793078-1-masterr3c0rd@epochal.quest> <20241031070232.1793078-12-masterr3c0rd@epochal.quest>
-In-Reply-To: <20241031070232.1793078-12-masterr3c0rd@epochal.quest>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Sat, 2 Nov 2024 19:50:49 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64BtnCTCHnqpQrT=c8XRpr8UtpLK58DrWd9gv=tJjPHdA@mail.gmail.com>
-Message-ID: <CAGb2v64BtnCTCHnqpQrT=c8XRpr8UtpLK58DrWd9gv=tJjPHdA@mail.gmail.com>
-Subject: Re: [PATCH v2 11/13] dt-bindings: opp: h6: Add A100 operating points
-To: Cody Eksal <masterr3c0rd@epochal.quest>, Viresh Kumar <vireshk@kernel.org>
-Cc: Yangtao Li <tiny.windzz@gmail.com>, Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Maxime Ripard <mripard@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, Michael Turquette <mturquette@baylibre.com>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
-	Viresh Kumar <viresh.kumar@linaro.org>, Parthiban <parthiban@linumiz.com>, 
-	Andre Przywara <andre.przywara@arm.com>, linux-pm@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-ESET-AS: R=OK;S=0;OP=CALC;TIME=1730552388;VERSION=7979;MC=637395765;ID=222165;TRN=0;CRV=0;IPC=;SP=0;SIPS=0;PI=3;F=0
+X-ESET-Antispam: OK
+X-EsetResult: clean, is OK
+X-EsetId: 37303A2980D9485566706B
 
-On Thu, Oct 31, 2024 at 3:03=E2=80=AFPM Cody Eksal <masterr3c0rd@epochal.qu=
-est> wrote:
->
-> The A100, similar to the H6 and H616, use an NVMEM value to determine
-> speed binnings. The method used is similar to that of the H6. However,
-> the information is stored at a slightly different bit offset.
->
-> Add a new compatible for the A100.
->
-> Signed-off-by: Cody Eksal <masterr3c0rd@epochal.quest>
+Support for Allwinner F1C100s/200s series audio was
+submitted in 2018 as an RFC series, but was not merged,
+despite having only minor errors. However, this is
+essential for having audio on these SoCs.
+This series was forward-ported/rebased to the best of
+my abilities, on top of Linus' tree as of now:
+commit c2ee9f594da8 ("KVM: selftests: Fix build on on non-x86 architectures")
 
-Acked-by: Chen-Yu Tsai <wens@csie.org>
+Link: https://lore.kernel.org/all/cover.1543782328.git.mesihkilinc@gmail.com/
 
-I assume Viresh will take this along with the cpufreq driver patch.
+As requested by many, this series will now be split in 2, the DMA and the
+ALSA/ASoC codec driver. This is the codec part of the series.
+The first part (DMA) can be seen here. This series can be applied and
+built without the former, but for working audio you need them both,
+plus add it to Device Tree.
+Link: https://lore.kernel.org/linux-kernel/20241102093140.2625230-2-csokas.bence@prolan.hu/
 
-> ---
-> Changes in V2:
->  - Fix ordering of compatibles
->
->  .../bindings/opp/allwinner,sun50i-h6-operating-points.yaml       | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-op=
-erating-points.yaml b/Documentation/devicetree/bindings/opp/allwinner,sun50=
-i-h6-operating-points.yaml
-> index ec5e424bb3c8..75ab552f6ecd 100644
-> --- a/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating=
--points.yaml
-> +++ b/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating=
--points.yaml
-> @@ -22,6 +22,7 @@ allOf:
->  properties:
->    compatible:
->      enum:
-> +      - allwinner,sun50i-a100-operating-points
->        - allwinner,sun50i-h6-operating-points
->        - allwinner,sun50i-h616-operating-points
->
-> --
-> 2.47.0
->
+Csókás, Bence (1):
+  dt-bindings: sound: Add Allwinner suniv F1C100s Audio Codec
+
+Mesih Kilinc (2):
+  ASoC: sun4i-codec: Add DMA Max Burst field
+  ASoC: sun4i-codec: Add support for Allwinner suniv F1C100s
+
+ .../sound/allwinner,sun4i-a10-codec.yaml      |  31 ++
+ sound/soc/sunxi/sun4i-codec.c                 | 365 +++++++++++++++++-
+ 2 files changed, 394 insertions(+), 2 deletions(-)
+
+-- 
+2.34.1
+
+
