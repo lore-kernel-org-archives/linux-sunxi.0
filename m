@@ -1,111 +1,149 @@
-Received: from thales.epochal.quest (thales.epochal.quest [51.222.15.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0C2414AD20
-	for <linux-sunxi@lists.linux.dev>; Sat,  2 Nov 2024 21:44:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.222.15.28
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 220A4BE6C
+	for <linux-sunxi@lists.linux.dev>; Sun,  3 Nov 2024 02:09:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730583885; cv=none; b=SPRoTispT+Uog0KVlvjGsfLy34XfvGkjzPqjADma/FtUQLJfPCNJfsQmIG0zBrBlW73NaEfTEY7a47kOhXY4I/fZyOE+keEkFNPk29ozt0nofWAP3SSC5QMuL2gDuNhZ0qv7XDTYaQhgtzLILIOURNUAshe5rehqWpCzPjVfX10=
+	t=1730599791; cv=none; b=bGSU+haev8rYI6eRhU0JOULCdziyutxPPhZfPTrundiCKONP0czl9hqPW/WopSTAlPADM3U6Q/02t/hiLqycuEu3EsYnUCzqCHG1zaYczkUc1dqLWzBhZfvRWMUmPC9UMrsUbYNzp+dPMP4T7t5o4tQXRY1U4CByifsH57Iwz28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730583885; c=relaxed/simple;
-	bh=Lu/8kzBZcinrEdsRMpHobonycBFaKkQUKqIBgEOAOog=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=PXlGZelTe0mkyKzXYvfBRt+OLMBUaZi/jZJNj9gKq43/pCbaK1ObZyRYiMRX+i4TLbYwvjF+nC9db8yRE3EcZb8+FUnSt+nRWTgpGndkMw4ZVQ16R5QpeF2z/gDSAPkm5O2zCDR5JE4+J9pOlcJm5SwwwGZwqgSWC+bQbOHZSy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epochal.quest; spf=pass smtp.mailfrom=epochal.quest; dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b=YRNtUsgb; arc=none smtp.client-ip=51.222.15.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epochal.quest
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=epochal.quest
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b="YRNtUsgb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=epochal.quest;
-	s=default; t=1730583882;
-	bh=Lu/8kzBZcinrEdsRMpHobonycBFaKkQUKqIBgEOAOog=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=YRNtUsgbeXSuR+N83j0SDxH5tvMaogSfMyQ3WPAd0pjOdHFX8tQXrlutFALSolz2h
-	 CHmTkNr9obUuqNG5umh/Mg63FdHkf2uVBKvCMKTYp5CO9vuKJEVSuslYcDxZvdYYWx
-	 nlIg6qiGrFKDEFUkTPnm5vj8T77TP3q79P0irGaOew4T/VrY8qd5lPGxTKj92ICOnI
-	 99YnuppdjAhXOYkKmsArBCttjrHFm6qMO9YWzUYYavigE+phV0zYwPi/a+LzwzEWrN
-	 z+tbRwvQnjY8nZ3ANlo4sH2y/ZiHJe6ajESDpoe4G9YFeYghB05vXyCm2fPBslErNM
-	 kd2lc5J4rc6Ow==
-X-Virus-Scanned: by epochal.quest
+	s=arc-20240116; t=1730599791; c=relaxed/simple;
+	bh=1i+WSntf5AeLdt8tSgoioRD9HFRDhZ7A7TSO8/A7f08=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bAxGWnOZPqRFPorqynrXz09agqg9NckQbfdAUgyXhyRHEVoKd5mbcHwzazMAYz/Lc54wLp9tWt+hl4BG1UAvTp3XwCP1kyS5+Tsyx7ZtLXKbSpQj+LC6gTO8C3+PFq7sjoaCjVXAoNfhQMxRp3dYyhcMgf0svu9VHmDBik4YNj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D7C45497;
+	Sat,  2 Nov 2024 19:10:15 -0700 (PDT)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3E0EF3F528;
+	Sat,  2 Nov 2024 19:09:43 -0700 (PDT)
+Date: Sun, 3 Nov 2024 02:09:29 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Cody Eksal <masterr3c0rd@epochal.quest>
+Cc: Yangtao Li <tiny.windzz@gmail.com>, Michael Turquette
+ <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai
+ <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+ <samuel@sholland.org>, Conor Dooley <conor+dt@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Kishon Vijay Abraham I
+ <kishon@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Maxime
+ Ripard <mripard@kernel.org>, Nishanth Menon <nm@ti.com>, "Rafael J.
+ Wysocki" <rafael@kernel.org>, Rob Herring <robh@kernel.org>, Vinod Koul
+ <vkoul@kernel.org>, Viresh Kumar <vireshk@kernel.org>, Viresh Kumar
+ <viresh.kumar@linaro.org>, Parthiban <parthiban@linumiz.com>,
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 08/13] clk: sunxi-ng: a100: enable MMC clock
+ reparenting
+Message-ID: <20241103020929.2298633f@minigeek.lan>
+In-Reply-To: <885047f813d0c55eae13f26b0bfe041d@epochal.quest>
+References: <20241031070232.1793078-1-masterr3c0rd@epochal.quest>
+	<20241031070232.1793078-9-masterr3c0rd@epochal.quest>
+	<20241031120857.60bc0d94@donnerap.manchester.arm.com>
+	<885047f813d0c55eae13f26b0bfe041d@epochal.quest>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Sat, 02 Nov 2024 18:44:41 -0300
-From: Cody Eksal <masterr3c0rd@epochal.quest>
-To: Andre Przywara <andre.przywara@arm.com>, Yangtao Li
- <tiny.windzz@gmail.com>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Conor
- Dooley <conor+dt@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Maxime Ripard
- <mripard@kernel.org>, Nishanth Menon <nm@ti.com>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Rob Herring <robh@kernel.org>, Vinod Koul
- <vkoul@kernel.org>, Viresh Kumar <vireshk@kernel.org>, Viresh Kumar
- <viresh.kumar@linaro.org>, Yangtao Li <tiny.windzz@gmail.com>, Parthiban
- <parthiban@linumiz.com>, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 08/13] clk: sunxi-ng: a100: enable MMC clock
- reparenting
-In-Reply-To: <20241031120857.60bc0d94@donnerap.manchester.arm.com>
-References: <20241031070232.1793078-1-masterr3c0rd@epochal.quest>
- <20241031070232.1793078-9-masterr3c0rd@epochal.quest>
- <20241031120857.60bc0d94@donnerap.manchester.arm.com>
-Message-ID: <885047f813d0c55eae13f26b0bfe041d@epochal.quest>
-X-Sender: masterr3c0rd@epochal.quest
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 2024/10/31 9:08 am, Andre Przywara wrote:
-> Well, while this change indeed prevented that error message you mentioned,
-> but the SD card still doesn't work for me: it probes and I can mount a
-> filesystem on it, but then it hangs, for instance when running an "ls" on
-> it. It could be my setup (lacking DT or device issue or missing kernel
-> config), though, and the eMMC works for me this way, but it would be good
-> to have that sorted. 
-I'm investigating this now; it appears mmc2/eMMC is more consistent when
-CLK_NO_REPARENT is set
+On Sat, 02 Nov 2024 18:44:41 -0300
+Cody Eksal <masterr3c0rd@epochal.quest> wrote:
 
-> Also it would be good to know why CLK_SET_RATE_NO_REPARENT was put there
-> in the first place: I don't see it in any other MMC clocks in sunxi-ng, so
-> it wasn't just copied&pasted.
-Seeing that mmc2 acts better with the flag, perhaps it was copy + pasted
-from that config. Or perhaps the issues we're running into comes from
-elsewhere in the chain. At the moment, that's only speculation, though;
-I'm waiting on a device that has an SD card slot so I can perform more
-testing myself and debug these issues.
+Hi Cody,
 
-> So was there a problem that this flag was supposed to fix? Is that
-> something that only applied to older kernels (back when the MMC patches
-> were first posted), and which has now been fixed/changed elsewhere?
-Yangtao Li/Frank Lee assumably no longer works at Allwinner, as the email
-he used to submit this originally no longer exists, but I believe the same
-Yangtao is now a maintainer of the Allwinner cpufreq subsystem, and is
-CC'd on these patches. I'm sending this reply to him as well; perhaps he
-may have some additional insight.
+thanks for staying on this issue!
 
-> I feel a bit uneasy of just removing this just because it works(TM),
-> especially if it doesn't really (SD card for me, for instance).
-I agree; I was quickly preparing V2 to hopefully get this in before the
-6.13 window for the sunxi tree closed, and added this in last minute after
-verifying it worked on my current device, which lacks an SD card slot.
+> On 2024/10/31 9:08 am, Andre Przywara wrote:
+> > Well, while this change indeed prevented that error message you mentioned,
+> > but the SD card still doesn't work for me: it probes and I can mount a
+> > filesystem on it, but then it hangs, for instance when running an "ls" on
+> > it. It could be my setup (lacking DT or device issue or missing kernel
+> > config), though, and the eMMC works for me this way, but it would be good
+> > to have that sorted.   
+> I'm investigating this now; it appears mmc2/eMMC is more consistent when
+> CLK_NO_REPARENT is set
 
-This patch can be skipped for now, as it's apparent MMC0/1 require a little
-more love before we can merge it in. I'll submit new patches in the future
-once this is figured out.
+What do you mean with "more consistent", exactly?
+I still don't get why NO_REPARENT would help here in the first place:
+we have three clocks as potential parents: OSC24MHz, PLL_PERIPH0,
+PLL_PERIPH1. The first one is too slow for typical MMC rates, and
+PERIPH1 is typically disabled (it's the same rates as PERIPH0, so
+there is little need for it). So PERIPH0 is to clock to go, and I don't
+see what NO_REPARENT would change here.
 
-Thanks!
-- Cody
+So those are my observations:
+With NO_REPARENT (current mainline):
+- SD card fails to probe:
+  sunxi-mmc 4020000.mmc: fatal err update clk timeout
+- SD card is still parented to PERIPH0-2x (probably because U-Boot set
+  that up), but uses a divider of 256 for a clock rate of 4687500 Hz.
+  This probably leads to the failures.
+- eMMC works, but is parented to the 24MHz OSC, probably because U-Boot
+  did not touch it. The clock rate is 12MHz, the read speed is 10MB/s.
+With removing NO_REPARENT, so with this patch:
+- SD cards probes, I can mount a VFAT fs on it, and sometimes "ls"
+  that, but it hangs soon afterwards, for instance when trying to
+  benchmark it.
+- SD clock is set up correctly: parent is PLL_PERIPH0-2x, rate is 50
+  MHz, correct for High Speed@4bit and its 25MB/s bus speed.
+- eMMC works fine, clock parent is PLL-PERIPH0-2x, rate is 100 MHz,
+  correct for HS-200 (100 MHz * 8 bit * 2(DDR)). The read speed is
+  72MB/s, which sounds alright, and might be a limitation of the flash
+  chip.
 
-> Cheers,
-> Andre
+So NO_REPARENT is always worse for me.
+
+> > Also it would be good to know why CLK_SET_RATE_NO_REPARENT was put there
+> > in the first place: I don't see it in any other MMC clocks in sunxi-ng, so
+> > it wasn't just copied&pasted.  
+> Seeing that mmc2 acts better with the flag, perhaps it was copy + pasted
+> from that config. Or perhaps the issues we're running into comes from
+> elsewhere in the chain. At the moment, that's only speculation, though;
+> I'm waiting on a device that has an SD card slot so I can perform more
+> testing myself and debug these issues.
 > 
->> Signed-off-by: Cody Eksal <masterr3c0rd@epochal.quest>
->> ---
->>  drivers/clk/sunxi-ng/ccu-sun50i-a100.c | 6 +++---
->>  1 file changed, 3 insertions(+), 3 deletions(-)
+> > So was there a problem that this flag was supposed to fix? Is that
+> > something that only applied to older kernels (back when the MMC patches
+> > were first posted), and which has now been fixed/changed elsewhere?  
+> Yangtao Li/Frank Lee assumably no longer works at Allwinner, as the email
+> he used to submit this originally no longer exists, but I believe the same
+> Yangtao is now a maintainer of the Allwinner cpufreq subsystem, and is
+> CC'd on these patches. I'm sending this reply to him as well; perhaps he
+> may have some additional insight.
+> 
+> > I feel a bit uneasy of just removing this just because it works(TM),
+> > especially if it doesn't really (SD card for me, for instance).  
+> I agree; I was quickly preparing V2 to hopefully get this in before the
+> 6.13 window for the sunxi tree closed, and added this in last minute after
+> verifying it worked on my current device, which lacks an SD card slot.
+> 
+> This patch can be skipped for now, as it's apparent MMC0/1 require a little
+> more love before we can merge it in. I'll submit new patches in the future
+> once this is figured out.
+
+This patch would be a fix anyway (with a Fixes: tag), so we can push it
+still into 6.13, after -rc1, and it would be backported. So it's not as
+critical, timing-wise.
+
+Cheers,
+Andre
+
+> 
+> Thanks!
+> - Cody
+> 
+> > Cheers,
+> > Andre
+> >   
+> >> Signed-off-by: Cody Eksal <masterr3c0rd@epochal.quest>
+> >> ---
+> >>  drivers/clk/sunxi-ng/ccu-sun50i-a100.c | 6 +++---
+> >>  1 file changed, 3 insertions(+), 3 deletions(-)  
+> 
+
