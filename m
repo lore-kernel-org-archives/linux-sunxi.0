@@ -1,149 +1,106 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 220A4BE6C
-	for <linux-sunxi@lists.linux.dev>; Sun,  3 Nov 2024 02:09:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AA534430
+	for <linux-sunxi@lists.linux.dev>; Sun,  3 Nov 2024 02:55:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730599791; cv=none; b=bGSU+haev8rYI6eRhU0JOULCdziyutxPPhZfPTrundiCKONP0czl9hqPW/WopSTAlPADM3U6Q/02t/hiLqycuEu3EsYnUCzqCHG1zaYczkUc1dqLWzBhZfvRWMUmPC9UMrsUbYNzp+dPMP4T7t5o4tQXRY1U4CByifsH57Iwz28=
+	t=1730602514; cv=none; b=tbTht8uai3SMP5QHyvO8azmxK5xUE+14BzniDZBkA/2lczKC9aEqsL9IS0EODEb/4W/lqSDZ0LmKDfU+fMFymUvbTz96NAkajf8FCrA1f5rlZHytxQkkQnai1TJevH50k6UgS5gKsPuJtH8ces7I+mJfA73iVSPKpXb7ywRVJ30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730599791; c=relaxed/simple;
-	bh=1i+WSntf5AeLdt8tSgoioRD9HFRDhZ7A7TSO8/A7f08=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bAxGWnOZPqRFPorqynrXz09agqg9NckQbfdAUgyXhyRHEVoKd5mbcHwzazMAYz/Lc54wLp9tWt+hl4BG1UAvTp3XwCP1kyS5+Tsyx7ZtLXKbSpQj+LC6gTO8C3+PFq7sjoaCjVXAoNfhQMxRp3dYyhcMgf0svu9VHmDBik4YNj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D7C45497;
-	Sat,  2 Nov 2024 19:10:15 -0700 (PDT)
-Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3E0EF3F528;
-	Sat,  2 Nov 2024 19:09:43 -0700 (PDT)
-Date: Sun, 3 Nov 2024 02:09:29 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Cody Eksal <masterr3c0rd@epochal.quest>
-Cc: Yangtao Li <tiny.windzz@gmail.com>, Michael Turquette
- <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, Conor Dooley <conor+dt@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Kishon Vijay Abraham I
- <kishon@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Maxime
- Ripard <mripard@kernel.org>, Nishanth Menon <nm@ti.com>, "Rafael J.
- Wysocki" <rafael@kernel.org>, Rob Herring <robh@kernel.org>, Vinod Koul
- <vkoul@kernel.org>, Viresh Kumar <vireshk@kernel.org>, Viresh Kumar
- <viresh.kumar@linaro.org>, Parthiban <parthiban@linumiz.com>,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 08/13] clk: sunxi-ng: a100: enable MMC clock
- reparenting
-Message-ID: <20241103020929.2298633f@minigeek.lan>
-In-Reply-To: <885047f813d0c55eae13f26b0bfe041d@epochal.quest>
-References: <20241031070232.1793078-1-masterr3c0rd@epochal.quest>
-	<20241031070232.1793078-9-masterr3c0rd@epochal.quest>
-	<20241031120857.60bc0d94@donnerap.manchester.arm.com>
-	<885047f813d0c55eae13f26b0bfe041d@epochal.quest>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	s=arc-20240116; t=1730602514; c=relaxed/simple;
+	bh=Ts5mJgx2UPMaUYQQ1cD8EkIgBpOKjbKDuYhTB6/VNzM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gQDDdmgu8p8E7tsA5nDV+GMKHpxghve2bRP1KiYY7TJnYVY4DL/UWCW7XNAOdZIgn3R9UH8ZZmBSCUOGT+azb3TYOA0lg9TuUL1RSYLJdTBjfH0IuzFsBVHZNx6XChFYUroIs7F38A0yEMsZ5S/i/FOcg3LymXoK46V09sxDv4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2fb584a8f81so28410951fa.3
+        for <linux-sunxi@lists.linux.dev>; Sat, 02 Nov 2024 19:55:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730602509; x=1731207309;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Ts5mJgx2UPMaUYQQ1cD8EkIgBpOKjbKDuYhTB6/VNzM=;
+        b=ieuZUltIXj6XxuLllqCX3CYMOTTk7at/v9IJTa4i/IX422dmFKSkVP0RO4HKUBywjH
+         3tj3WaOUS/Obh6B5GmU3As9xhzAcj1ub6is6kDtv/+/6k794+2E/KiuSFy+GP1kT8JfM
+         mRbwvrnHj7V9YkRruOhmygoDqzav5fTy3NzhgwBztLRF6tbT2+MgPAJ6lJlcrALjiHgc
+         mnFxAG8KPwcYIVcSyIMrjPmkiufuhpNBNsPSXDi7FCgAvRZroVsRk7hMr+tIQiSy3gd7
+         5OaS/E3centoFpXvsJBDy8D8ys7x76U93huxri67QCZEyMt9+TeVDMvGiQc105TWcZiG
+         toKw==
+X-Forwarded-Encrypted: i=1; AJvYcCVseoJdN6tfIAn/cTlmRZfjgiZJ4seqFqLNgO1TO4LUDhHyeEXIvmN4GIPW6HMJ0vLS9g/Ww0XUZi8Y/A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwLTJ3NUQt2JSIIvdwXqub1nCS69GwUBtcHNp55lHGTszfJcDle
+	gF7gL9WbWjvsydIWt4TuoJ7aWwlDoZ/HTdFeW6AAg6mKvkZxDLDHuAJdkpyzlkE=
+X-Google-Smtp-Source: AGHT+IHqCWLI/vj5jZ1MWlWuWWTy2AO1HKhQL1wcJw7KaAt/Klv6KcRjmsmhK0JtfivrPVIzOXgTqw==
+X-Received: by 2002:a05:651c:210f:b0:2fb:5038:3eb4 with SMTP id 38308e7fff4ca-2fcbe078dbcmr137215411fa.29.1730602508870;
+        Sat, 02 Nov 2024 19:55:08 -0700 (PDT)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com. [209.85.208.177])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2fdef8c9546sm11216811fa.125.2024.11.02.19.55.07
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 02 Nov 2024 19:55:07 -0700 (PDT)
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2fb5be4381dso28870201fa.2
+        for <linux-sunxi@lists.linux.dev>; Sat, 02 Nov 2024 19:55:07 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXno4t+3+1Qn94tftEDwic5LyS9uZjGgfpBvgH/MDILENWKVrb11vDdhFpR6TJ7ZTV0xvdPn32EvuiBcA==@lists.linux.dev
+X-Received: by 2002:a05:651c:1507:b0:2fb:5e64:327e with SMTP id
+ 38308e7fff4ca-2fcbe079c43mr115559201fa.33.1730602507670; Sat, 02 Nov 2024
+ 19:55:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20241031070232.1793078-1-masterr3c0rd@epochal.quest>
+ <20241031070232.1793078-11-masterr3c0rd@epochal.quest> <CAGb2v66TAttAezXE7TnT5N6XFW2482ipuqkcpwjeDud6v=xD3w@mail.gmail.com>
+ <36415ea50a5aa6cec8c5fb281af73f50@epochal.quest>
+In-Reply-To: <36415ea50a5aa6cec8c5fb281af73f50@epochal.quest>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Sun, 3 Nov 2024 10:54:55 +0800
+X-Gmail-Original-Message-ID: <CAGb2v67RHjq=5DMiP8YtvOww5B8qJxCqF9ofGTXPUkmP-5herA@mail.gmail.com>
+Message-ID: <CAGb2v67RHjq=5DMiP8YtvOww5B8qJxCqF9ofGTXPUkmP-5herA@mail.gmail.com>
+Subject: Re: [PATCH v2 10/13] arm64: dts: allwinner: a100: perf1: Add eMMC and
+ MMC node
+To: Cody Eksal <masterr3c0rd@epochal.quest>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Kishon Vijay Abraham I <kishon@kernel.org>, Maxime Ripard <mripard@kernel.org>, 
+	Michael Turquette <mturquette@baylibre.com>, Nishanth Menon <nm@ti.com>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Stephen Boyd <sboyd@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
+	Viresh Kumar <vireshk@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, 
+	Yangtao Li <tiny.windzz@gmail.com>, Parthiban <parthiban@linumiz.com>, 
+	Andre Przywara <andre.przywara@arm.com>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, 02 Nov 2024 18:44:41 -0300
-Cody Eksal <masterr3c0rd@epochal.quest> wrote:
-
-Hi Cody,
-
-thanks for staying on this issue!
-
-> On 2024/10/31 9:08 am, Andre Przywara wrote:
-> > Well, while this change indeed prevented that error message you mentioned,
-> > but the SD card still doesn't work for me: it probes and I can mount a
-> > filesystem on it, but then it hangs, for instance when running an "ls" on
-> > it. It could be my setup (lacking DT or device issue or missing kernel
-> > config), though, and the eMMC works for me this way, but it would be good
-> > to have that sorted.   
-> I'm investigating this now; it appears mmc2/eMMC is more consistent when
-> CLK_NO_REPARENT is set
-
-What do you mean with "more consistent", exactly?
-I still don't get why NO_REPARENT would help here in the first place:
-we have three clocks as potential parents: OSC24MHz, PLL_PERIPH0,
-PLL_PERIPH1. The first one is too slow for typical MMC rates, and
-PERIPH1 is typically disabled (it's the same rates as PERIPH0, so
-there is little need for it). So PERIPH0 is to clock to go, and I don't
-see what NO_REPARENT would change here.
-
-So those are my observations:
-With NO_REPARENT (current mainline):
-- SD card fails to probe:
-  sunxi-mmc 4020000.mmc: fatal err update clk timeout
-- SD card is still parented to PERIPH0-2x (probably because U-Boot set
-  that up), but uses a divider of 256 for a clock rate of 4687500 Hz.
-  This probably leads to the failures.
-- eMMC works, but is parented to the 24MHz OSC, probably because U-Boot
-  did not touch it. The clock rate is 12MHz, the read speed is 10MB/s.
-With removing NO_REPARENT, so with this patch:
-- SD cards probes, I can mount a VFAT fs on it, and sometimes "ls"
-  that, but it hangs soon afterwards, for instance when trying to
-  benchmark it.
-- SD clock is set up correctly: parent is PLL_PERIPH0-2x, rate is 50
-  MHz, correct for High Speed@4bit and its 25MB/s bus speed.
-- eMMC works fine, clock parent is PLL-PERIPH0-2x, rate is 100 MHz,
-  correct for HS-200 (100 MHz * 8 bit * 2(DDR)). The read speed is
-  72MB/s, which sounds alright, and might be a limitation of the flash
-  chip.
-
-So NO_REPARENT is always worse for me.
-
-> > Also it would be good to know why CLK_SET_RATE_NO_REPARENT was put there
-> > in the first place: I don't see it in any other MMC clocks in sunxi-ng, so
-> > it wasn't just copied&pasted.  
-> Seeing that mmc2 acts better with the flag, perhaps it was copy + pasted
-> from that config. Or perhaps the issues we're running into comes from
-> elsewhere in the chain. At the moment, that's only speculation, though;
-> I'm waiting on a device that has an SD card slot so I can perform more
-> testing myself and debug these issues.
-> 
-> > So was there a problem that this flag was supposed to fix? Is that
-> > something that only applied to older kernels (back when the MMC patches
-> > were first posted), and which has now been fixed/changed elsewhere?  
-> Yangtao Li/Frank Lee assumably no longer works at Allwinner, as the email
-> he used to submit this originally no longer exists, but I believe the same
-> Yangtao is now a maintainer of the Allwinner cpufreq subsystem, and is
-> CC'd on these patches. I'm sending this reply to him as well; perhaps he
-> may have some additional insight.
-> 
-> > I feel a bit uneasy of just removing this just because it works(TM),
-> > especially if it doesn't really (SD card for me, for instance).  
-> I agree; I was quickly preparing V2 to hopefully get this in before the
-> 6.13 window for the sunxi tree closed, and added this in last minute after
-> verifying it worked on my current device, which lacks an SD card slot.
-> 
-> This patch can be skipped for now, as it's apparent MMC0/1 require a little
-> more love before we can merge it in. I'll submit new patches in the future
-> once this is figured out.
-
-This patch would be a fix anyway (with a Fixes: tag), so we can push it
-still into 6.13, after -rc1, and it would be backported. So it's not as
-critical, timing-wise.
-
-Cheers,
-Andre
-
-> 
-> Thanks!
-> - Cody
-> 
-> > Cheers,
-> > Andre
-> >   
+On Sun, Nov 3, 2024 at 5:23=E2=80=AFAM Cody Eksal <masterr3c0rd@epochal.que=
+st> wrote:
+>
+> On 2024/11/02 8:48 am, Chen-Yu Tsai wrote:
+> > On Thu, Oct 31, 2024 at 3:03=E2=80=AFPM Cody Eksal <masterr3c0rd@epocha=
+l.quest> wrote:
+> >>
+> >> From: Yangtao Li <frank@allwinnertech.com>
+> >>
+> >> A100 perf1 hava MicroSD slot and on-board eMMC module, add support for=
+ them.
+> >>
+> >> Signed-off-by: Yangtao Li <frank@allwinnertech.com>
 > >> Signed-off-by: Cody Eksal <masterr3c0rd@epochal.quest>
-> >> ---
-> >>  drivers/clk/sunxi-ng/ccu-sun50i-a100.c | 6 +++---
-> >>  1 file changed, 3 insertions(+), 3 deletions(-)  
-> 
+> >
+> > So I skipped this one since Andre had some questions about the previous
+> > mmc clock patch. And I believe this one won't work without it?
+> eMMC (mmc2) works fine after more testing, even without the clock
+> reparenting patch (in fact, it appears to work more consistently), but
+> mmc0 and mmc1 require more testing and debugging. I'll deal with
+> the remaining MMC issues in a future patch.
 
+I think it would be better if only the eMMC was enabled. Enabling something
+that is almost guaranteed to cause data corruption isn't going to be fun
+for users.
+
+ChenYu
