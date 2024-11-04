@@ -1,84 +1,97 @@
-Received: from a.peacevolution.org (a.peacevolution.org [206.189.193.133])
+Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB8E818452E
-	for <linux-sunxi@lists.linux.dev>; Sun,  3 Nov 2024 16:23:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.193.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8994518C91D
+	for <linux-sunxi@lists.linux.dev>; Mon,  4 Nov 2024 07:42:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730650994; cv=none; b=GQbpy2g1bYzAmt2NSe8VlkaES+XW5qbzQJ+BUQzEPk3cOs5l8tZwQLMChnR0Nbu+LY2xe8OWUczoA28UG1Tqcr0tg/yzoAqAgk3X/p3+me+thDxCNgbvpmAqOIAOJ6F7I+h2qbBdUAUXAHthlN+ruDeKi9SpXZ1zG/1+x7ple9M=
+	t=1730706129; cv=none; b=mT1ZkIGttojnqtkdcya5a1gI5r4c7ihFmeoAjbTy3iTlaEyYq5pv3lfPt+YI4/79ojmsegy6gFYs1cRdU8oYcCwLO/oD/Mt3Veidu20g0UwiddRfKhktlsk8OOKsds+7/d3YrEAiQ+RKdgNvuYG6FZb6ZGnqJhkLP+G1svkUyUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730650994; c=relaxed/simple;
-	bh=Th3OOXZJfsZuk7HXCZ7L6IU6s2r0I+j2t7q7eIgzWNE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mE8QVSrlXz7+VdotEZOEVfShPwv/64n7FDSSPwDJRRp9Q7BFUNmbt105N0GXxcPxbsRyEL1LJo9XhfvlJddQLDMewFDUTMoTXJVni4WJRV0MpATVwPCYAxpxlOgq2pg5JuHmBNOzswj/YgyuaA90OexPKKlchnUEQtqwOXFHNwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org; spf=pass smtp.mailfrom=peacevolution.org; dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b=WmOQ1duW; arc=none smtp.client-ip=206.189.193.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=peacevolution.org
+	s=arc-20240116; t=1730706129; c=relaxed/simple;
+	bh=qMok5bTyC6I0n09Kq6tGo/rOCJ3udHa3x/VGuqvBrUs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=qc3EZcMVTEf1znyfG9UJZQCuR4ZEpKHHutOoit65/LrzHHpCX45NSL+ji3zLXJvvXJx9wUsjeJpy8wobMLfHSgrw9jSEgsJ9QswgHflAWYgOIUAK+6KmVueRrn4TfufTOTV91oWtfDJOliv48ZGNiCCRnjsrEXTn9YTmowApKTs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=UjAozkVg; arc=none smtp.client-ip=193.68.50.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b="WmOQ1duW"
-Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-	by a.peacevolution.org (Postfix) with ESMTPA id A69264C891;
-	Sun,  3 Nov 2024 16:23:10 +0000 (UTC)
-Date: Sun, 3 Nov 2024 11:23:08 -0500
-From: Aren <aren@peacevolution.org>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Kaustabh Chakraborty <kauschluss@disroot.org>, =?utf-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <trabarni@gmail.com>, 
-	Ondrej Jirman <megi@xff.cz>, 
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, Dragan Simic <dsimic@manjaro.org>, phone-devel@vger.kernel.org
-Subject: Re: [PATCH v4 2/6] iio: light: stk3310: handle all remove logic with
- devm callbacks
-Message-ID: <iyasbuxwpgqeeuaimcpnycrze3xg6u55uusfxnvy3i3k2ejy57@lbrrc7c3r4fx>
-References: <20241102195037.3013934-3-aren@peacevolution.org>
- <20241102195037.3013934-7-aren@peacevolution.org>
- <20241103112208.233f7180@jic23-huawei>
+	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="UjAozkVg"
+Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
+	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id 9F2F4A03A7;
+	Mon,  4 Nov 2024 08:41:58 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:from:from:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=mail; bh=xv5bUFMxs4KAHpxzUJns
+	OpeLi4TFFl07AzHMQZEr5RI=; b=UjAozkVggqW7Pn76P3FQKyuO1H3QhUzKCKYG
+	MXPGw/eeO+RT3nzUhFoQww6cJYUhECAu0iFRc66fHZG2pPfoMgFHWfRR7mAkgnd6
+	tqvzdWluQ2BCtaPBInFwCA3LQ9cXcMpBFo1hv92cARW8sIYOz3OZPfWKrOOGRbR1
+	OLbxrn0RJhp7yVl5QJuBtUk/Ao7uu4hrRHFXsFONq93aMs2l2JPikLZG3/EKPQSa
+	tiSG6Oaoctb86Fnea2mE8+8+broZ1SdCvqRUBf/+cRLC/M1/QKhT3H3WacZyCU48
+	ViPwCTZKybSK/WEVoiBB2QZykK4UDM6pAIpanlaPl/5bjSDbfNrURQiYSg6xBJLG
+	ui1lCNRghhAk8JDqkxhZT7vUu+WazarSDyZcpIIXuNhkTPOKG8EVLjY/p14yukJ4
+	0zpZ5ILtEC0U4oneBRww62WoFibPhvK1Ky/hOERdtKazEBfFZ6O2FXJpwd8I8Nrs
+	TYKb0iKDMIxX8CtcmdiFfoQQNISwAg06LyBJOOqsLvlukQ6zoY3bbaN0CoXhl95H
+	dXhwlmsx14UbGUp7II0uUk9kwf6yr39SjAjR2b3dPgEWQbsnid1r+D3Y/rS3ILic
+	qb8inFrxASzV4CRmz1hldWWRMBvXcBIR8LWvWQGaAa2OSvcbKYizEv45MOUO88g8
+	uZiOEJ4=
+Message-ID: <656fab96-b326-4721-9b55-2b5e3d652703@prolan.hu>
+Date: Mon, 4 Nov 2024 08:41:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241103112208.233f7180@jic23-huawei>
-X-Spamd-Bar: /
-Authentication-Results: auth=pass smtp.auth=aren@peacevolution.org smtp.mailfrom=aren@peacevolution.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=peacevolution.org;
-	s=dkim; t=1730650991;
-	h=from:subject:date:message-id:to:cc:mime-version:content-type:in-reply-to:references;
-	bh=je3uCAcHsGiyDOgvqOvzEM2tjCfi8IWbvFmZvz9katU=;
-	b=WmOQ1duWnvM+PHINwEcVOHgkXZK4Gu49qiTEWLXeIMTTD/95JdSpVS0QcU3as8OuqLbPA0
-	4vz3fZ7Jz7e2JgJIISbRBSCnHvGJhOECg4IO3GkWuibDZjDsncPb2JZgLwL/2Mah+Uj381
-	pqrN4ROz0kl2cw9L99XRu7qgNhuCrGc=
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 2/5] dma-engine: sun4i: Add has_reset option to quirk
+To: Andre Przywara <andre.przywara@arm.com>
+CC: <dmaengine@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>, Mesih Kilinc
+	<mesihkilinc@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>, Vinod Koul
+	<vkoul@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+	<jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, "Philipp
+ Zabel" <p.zabel@pengutronix.de>
+References: <20241102093140.2625230-1-csokas.bence@prolan.hu>
+ <20241102093140.2625230-3-csokas.bence@prolan.hu>
+ <20241102174516.02d124d6@minigeek.lan>
+Content-Language: en-US
+From: =?UTF-8?B?Q3PDs2vDoXMgQmVuY2U=?= <csokas.bence@prolan.hu>
+In-Reply-To: <20241102174516.02d124d6@minigeek.lan>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: ATLAS.intranet.prolan.hu (10.254.0.229) To
+ ATLAS.intranet.prolan.hu (10.254.0.229)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A2980D94855667261
 
-On Sun, Nov 03, 2024 at 11:22:08AM +0000, Jonathan Cameron wrote:
-> Hi Aren,
+Hi!
+
+On 2024. 11. 02. 18:45, Andre Przywara wrote:
+> On Sat, 2 Nov 2024 10:31:41 +0100
+> "Csókás, Bence" <csokas.bence@prolan.hu> wrote:
 > 
-> > @@ -624,7 +640,7 @@ static int stk3310_probe(struct i2c_client *client)
-> >  	device_property_read_u32(&client->dev, "proximity-near-level",
-> >  				 &data->ps_near_level);
-> >  
-> > -	mutex_init(&data->lock);
-> > +	devm_mutex_init(&client->dev, &data->lock);
-> ret = devm_mutex_init()
-> if (ret)
-> 	return ret;
+> Hi,
 > 
-> It is very unlikely to fail but technically it can.  Andy has been fixing
-> this up across the kernel (including IIO) so let's not introduce another
-> case that doesn't check it!
+>> From: Mesih Kilinc <mesihkilinc@gmail.com>
+>>
+>>   static struct sun4i_dma_dev *to_sun4i_dma_dev(struct dma_device *dev)
+>> @@ -1215,6 +1218,13 @@ static int sun4i_dma_probe(struct platform_device *pdev)
+>>   		return PTR_ERR(priv->clk);
+>>   	}
+>>   
+>> +	if (priv->cfg->has_reset) {
+>> +		priv->rst = devm_reset_control_get_exclusive(&pdev->dev, NULL);
+> 
+> Can't we use devm_reset_control_get_optional_exclusive(), and then save
+> this whole has_reset bit?
 
-Right, I'll take this as my periodic reminder to read the docs / types
-more carefully :)
+For suniv, reset is REQUIRED. For sun4i, reset DOES NOT EXIST.
 
-> If nothing else comes up I can probably tidy that up whilst applying.
+has_reset does not mean that whether this instance has a reset control 
+or not, that is handled by checking priv->rst for NULL. has_reset means 
+whether reset is REQUIRED by this type of DMA, specified by the DT match 
+data.
 
-That would be great
+Bence
 
-Thanks
- - Aren
