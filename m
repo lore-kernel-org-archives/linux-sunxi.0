@@ -1,97 +1,113 @@
-Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8994518C91D
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 Nov 2024 07:42:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3A213214
+	for <linux-sunxi@lists.linux.dev>; Mon,  4 Nov 2024 08:32:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730706129; cv=none; b=mT1ZkIGttojnqtkdcya5a1gI5r4c7ihFmeoAjbTy3iTlaEyYq5pv3lfPt+YI4/79ojmsegy6gFYs1cRdU8oYcCwLO/oD/Mt3Veidu20g0UwiddRfKhktlsk8OOKsds+7/d3YrEAiQ+RKdgNvuYG6FZb6ZGnqJhkLP+G1svkUyUk=
+	t=1730709139; cv=none; b=sxODZdQPhZQefISMDKbwQDQaUmw/j2/p1ctVOwXKys8q3DwqQliP8FSEGLfJKcE6ySyx/WxZV6K3/w+xR0oueBUHhkWhku1mlYGAT9lDCNlw3WBsNqqfMww5lX07qX/yGcWdjOs5bY4qelSZDJ8cxcQ1Ud2eEocfEyFqbBR6O/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730706129; c=relaxed/simple;
-	bh=qMok5bTyC6I0n09Kq6tGo/rOCJ3udHa3x/VGuqvBrUs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=qc3EZcMVTEf1znyfG9UJZQCuR4ZEpKHHutOoit65/LrzHHpCX45NSL+ji3zLXJvvXJx9wUsjeJpy8wobMLfHSgrw9jSEgsJ9QswgHflAWYgOIUAK+6KmVueRrn4TfufTOTV91oWtfDJOliv48ZGNiCCRnjsrEXTn9YTmowApKTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=UjAozkVg; arc=none smtp.client-ip=193.68.50.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
+	s=arc-20240116; t=1730709139; c=relaxed/simple;
+	bh=zAp+R+E7m6ywEIK/+UhcHQD4V6TJ0Wiyk2ppk67o1KU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GEOageZ0z03HEDdBs7IGrR3sO0YyUVZmKLUH9AqyT9ZZ1OfMvQk+NC5IADeRGy9yiB8nN/8P4o3g4EyXrKBCG0GkadP9ElWCYRwrskTIcXtrpylgvn5XvI4VkEjtBan5+uSr3xrM5xwXlFZC2XBkqBRcNcGffv6t9gvR/E/48/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YJ8A/9N5; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="UjAozkVg"
-Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
-	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id 9F2F4A03A7;
-	Mon,  4 Nov 2024 08:41:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:from:from:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=mail; bh=xv5bUFMxs4KAHpxzUJns
-	OpeLi4TFFl07AzHMQZEr5RI=; b=UjAozkVggqW7Pn76P3FQKyuO1H3QhUzKCKYG
-	MXPGw/eeO+RT3nzUhFoQww6cJYUhECAu0iFRc66fHZG2pPfoMgFHWfRR7mAkgnd6
-	tqvzdWluQ2BCtaPBInFwCA3LQ9cXcMpBFo1hv92cARW8sIYOz3OZPfWKrOOGRbR1
-	OLbxrn0RJhp7yVl5QJuBtUk/Ao7uu4hrRHFXsFONq93aMs2l2JPikLZG3/EKPQSa
-	tiSG6Oaoctb86Fnea2mE8+8+broZ1SdCvqRUBf/+cRLC/M1/QKhT3H3WacZyCU48
-	ViPwCTZKybSK/WEVoiBB2QZykK4UDM6pAIpanlaPl/5bjSDbfNrURQiYSg6xBJLG
-	ui1lCNRghhAk8JDqkxhZT7vUu+WazarSDyZcpIIXuNhkTPOKG8EVLjY/p14yukJ4
-	0zpZ5ILtEC0U4oneBRww62WoFibPhvK1Ky/hOERdtKazEBfFZ6O2FXJpwd8I8Nrs
-	TYKb0iKDMIxX8CtcmdiFfoQQNISwAg06LyBJOOqsLvlukQ6zoY3bbaN0CoXhl95H
-	dXhwlmsx14UbGUp7II0uUk9kwf6yr39SjAjR2b3dPgEWQbsnid1r+D3Y/rS3ILic
-	qb8inFrxASzV4CRmz1hldWWRMBvXcBIR8LWvWQGaAa2OSvcbKYizEv45MOUO88g8
-	uZiOEJ4=
-Message-ID: <656fab96-b326-4721-9b55-2b5e3d652703@prolan.hu>
-Date: Mon, 4 Nov 2024 08:41:56 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YJ8A/9N5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730709137; x=1762245137;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zAp+R+E7m6ywEIK/+UhcHQD4V6TJ0Wiyk2ppk67o1KU=;
+  b=YJ8A/9N5eW+B3reVOYQqVfnd3yzE056XK9EF11daadb3yuPbTN+fY8hL
+   BgoB8HoHfp8ICk8wkmMQ2Bas4BYNp1s9ELF1YPXTG5WQATIIVz2+mLtpq
+   VT4Gk7xmfhlMmU5LJDYzxJElQcjh+xe2lbEnkLGj9UnRCPKfiPTYEQpcz
+   PaEmr7d12KOgHom04cwjT44OV9Lap7OqdBVUpeob5JZ6HorD7Zs+gSvlX
+   XWRWg3QsHutOSDEclEBo79U1XeWzxoZhC5zl+bcNAdoFuTY1IpdjHCQ3l
+   1xtqlbWplT7WUtJPAZFd3EfTFK9N2fCOWbqZ8532GlbTp4CiC4ULLHaX9
+   g==;
+X-CSE-ConnectionGUID: hnnKIoelQYmqtCZ25y2ZJw==
+X-CSE-MsgGUID: Btm7iAPURQaVeWNJZUqQIw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="52955083"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="52955083"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 00:32:17 -0800
+X-CSE-ConnectionGUID: ++ai5ejURxymdXTSysQxNA==
+X-CSE-MsgGUID: GoHmC6LZSP2kLjSzGTo2gg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
+   d="scan'208";a="114367291"
+Received: from smile.fi.intel.com ([10.237.72.154])
+  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 00:32:12 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1t7sVN-0000000Ayz5-0Hed;
+	Mon, 04 Nov 2024 10:32:09 +0200
+Date: Mon, 4 Nov 2024 10:32:08 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Aren Moynihan <aren@peacevolution.org>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Kaustabh Chakraborty <kauschluss@disroot.org>,
+	=?iso-8859-1?B?QmFybmFi4XMgQ3rpbeFu?= <trabarni@gmail.com>,
+	Ondrej Jirman <megi@xff.cz>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, Dragan Simic <dsimic@manjaro.org>,
+	phone-devel@vger.kernel.org
+Subject: Re: [PATCH v4 2/6] iio: light: stk3310: handle all remove logic with
+ devm callbacks
+Message-ID: <ZyiGiK6bSd_d0VQ6@smile.fi.intel.com>
+References: <20241102195037.3013934-3-aren@peacevolution.org>
+ <20241102195037.3013934-7-aren@peacevolution.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/5] dma-engine: sun4i: Add has_reset option to quirk
-To: Andre Przywara <andre.przywara@arm.com>
-CC: <dmaengine@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>, Mesih Kilinc
-	<mesihkilinc@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>, Vinod Koul
-	<vkoul@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
-	<jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, "Philipp
- Zabel" <p.zabel@pengutronix.de>
-References: <20241102093140.2625230-1-csokas.bence@prolan.hu>
- <20241102093140.2625230-3-csokas.bence@prolan.hu>
- <20241102174516.02d124d6@minigeek.lan>
-Content-Language: en-US
-From: =?UTF-8?B?Q3PDs2vDoXMgQmVuY2U=?= <csokas.bence@prolan.hu>
-In-Reply-To: <20241102174516.02d124d6@minigeek.lan>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: ATLAS.intranet.prolan.hu (10.254.0.229) To
- ATLAS.intranet.prolan.hu (10.254.0.229)
-X-EsetResult: clean, is OK
-X-EsetId: 37303A2980D94855667261
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241102195037.3013934-7-aren@peacevolution.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Hi!
+On Sat, Nov 02, 2024 at 03:50:37PM -0400, Aren Moynihan wrote:
+> Using devm callbacks helps to make the ordering of probe / remove
+> operations easier to reason about and removes some duplicate code
+> between the probe error path and driver remove.
 
-On 2024. 11. 02. 18:45, Andre Przywara wrote:
-> On Sat, 2 Nov 2024 10:31:41 +0100
-> "Csókás, Bence" <csokas.bence@prolan.hu> wrote:
-> 
-> Hi,
-> 
->> From: Mesih Kilinc <mesihkilinc@gmail.com>
->>
->>   static struct sun4i_dma_dev *to_sun4i_dma_dev(struct dma_device *dev)
->> @@ -1215,6 +1218,13 @@ static int sun4i_dma_probe(struct platform_device *pdev)
->>   		return PTR_ERR(priv->clk);
->>   	}
->>   
->> +	if (priv->cfg->has_reset) {
->> +		priv->rst = devm_reset_control_get_exclusive(&pdev->dev, NULL);
-> 
-> Can't we use devm_reset_control_get_optional_exclusive(), and then save
-> this whole has_reset bit?
+Where is SoB?
 
-For suniv, reset is REQUIRED. For sun4i, reset DOES NOT EXIST.
+...
 
-has_reset does not mean that whether this instance has a reset control 
-or not, that is handled by checking priv->rst for NULL. has_reset means 
-whether reset is REQUIRED by this type of DMA, specified by the DT match 
-data.
+> +	ret = devm_add_action_or_reset(&client->dev, stk3310_set_state_disable, data);
 
-Bence
+Why not simply 'dev' as in below call?
+
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "failed to register cleanup function\n");
+
+...
+
+> -	mutex_init(&data->lock);
+> +	devm_mutex_init(&client->dev, &data->lock);
+
+Missed error check, otherwise what's the point?
+
+
+Also can add a temporary variable for 'dev'.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
