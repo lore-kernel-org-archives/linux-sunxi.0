@@ -1,86 +1,66 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 508B81D279B
-	for <linux-sunxi@lists.linux.dev>; Tue,  5 Nov 2024 11:10:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C76F37346D;
+	Tue,  5 Nov 2024 15:39:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730805043; cv=none; b=K8APEUnFYlhAq4I6oCVhzzvBarhU9we75Yv6jg0ZrFfOMUZgvq0Y03aK4mZrUrtu7/cjOrF8M8HMF0tmFWNbhvEplmMlmVaI93EtLJbU0PWTvRvyhfwA+DjbT1vhtmKnwFxu13cAaBxfOrsktTLGbLt5L6ZJ2QqAhNRLrMxWnVo=
+	t=1730821188; cv=none; b=bx733OOVcnobojOzvFlNZGUDQJUqe9Emx0CvVXpdKu1rIlETuEDaF0VWZLF6sqywgcg0++zIlIOShGMdKIPYB4E7g2ehN8XYvf6pRTuU6aDddRES/FFliImb3n3J3ycgMo70wFSFKnWAXOvCr2NZeryUq0jbiWknc/CVQJnIzzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730805043; c=relaxed/simple;
-	bh=ImwJg+WVAMwlkrc/JFWtaHbZmvhhjV1TC5GgA3Ye4S0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Sw8VNqQafmtCxxnFeVRgpSMxep/Hx/TiECxb/3eo33V6quPw6qJI0Uvss2V4w7ymJgqow6qhlzWScJ09q/J4u37oz469kqVGiJjbtnokeVVjWN/SxEpfbklSKTMk1V7a4qTHP13i7y92QlQrBwG9gK3VI1g3r6LP7j1O18npjEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 69134339;
-	Tue,  5 Nov 2024 03:11:10 -0800 (PST)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7DCA03F6A8;
-	Tue,  5 Nov 2024 03:10:37 -0800 (PST)
-Date: Tue, 5 Nov 2024 11:10:33 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: "=?UTF-8?B?Q3PDs2vDoXMs?= Bence" <csokas.bence@prolan.hu>
-Cc: Florian Fainelli <f.fainelli@gmail.com>, Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>, Enric Balletbo i Serra
- <eballetbo@gmail.com>, Alexandre TORGUE <alexandre.torgue@st.com>,
- <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Rob
- Herring" <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- "Tony Lindgren" <tony@atomide.com>, Shawn Guo <shawnguo@kernel.org>,
- "Kunihiko Hayashi" <hayashi.kunihiko@socionext.com>
-Subject: Re: [PATCH] ARM: dts: allwinner: Remove accidental suniv duplicates
-Message-ID: <20241105111033.462acd82@donnerap.manchester.arm.com>
+	s=arc-20240116; t=1730821188; c=relaxed/simple;
+	bh=JQgpECDI3jzMgfkPGMbImjv5lpQBZcsgSTAJPUw6Myg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=hcEkuXhC/RDAskvx9GhCz1m5QA37QbamaZZnSnB6e6wdSFoc/Jm7a3hB1VI5z+1iZ/gJKbvJunMW9DdazrypksoN72Y+bOf7ifUIfmIV8QdCRoRbABomBGHKiGp+n090gV7W4fyUwbV7cYP23SDdgn4Nghw/T+QmULGAoQGVPzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E6A0C4CECF;
+	Tue,  5 Nov 2024 15:39:48 +0000 (UTC)
+Received: from wens.tw (localhost [127.0.0.1])
+	by wens.tw (Postfix) with ESMTP id 8CBC25F8BA;
+	Tue,  5 Nov 2024 23:39:45 +0800 (CST)
+From: Chen-Yu Tsai <wens@csie.org>
+To: Andre Przywara <andre.przywara@arm.com>, 
+ Florian Fainelli <f.fainelli@gmail.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Enric Balletbo i Serra <eballetbo@gmail.com>, 
+ Alexandre TORGUE <alexandre.torgue@st.com>, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Cs=C3=B3k=C3=A1s=2C_Bence?= <csokas.bence@prolan.hu>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Tony Lindgren <tony@atomide.com>, 
+ Shawn Guo <shawnguo@kernel.org>, 
+ Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
 In-Reply-To: <20241104230628.3736186-1-csokas.bence@prolan.hu>
 References: <20241104230628.3736186-1-csokas.bence@prolan.hu>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+Subject: Re: [PATCH] ARM: dts: allwinner: Remove accidental suniv
+ duplicates
+Message-Id: <173082118554.1463380.5508930595133568023.b4-ty@csie.org>
+Date: Tue, 05 Nov 2024 23:39:45 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.14.2
 
-On Tue, 5 Nov 2024 00:06:27 +0100
-"Cs=C3=B3k=C3=A1s, Bence" <csokas.bence@prolan.hu> wrote:
-
-Hi,
-
+On Tue, 05 Nov 2024 00:06:27 +0100, Csókás, Bence wrote:
 > Allwinner suniv boards' DT files were accidentally duplicated
 > in the Makefile when they were moved to the new directory
 > structure. Remove these duplicates for code cleanness.
->=20
-> Fixes: 724ba6751532 ("ARM: dts: Move .dts files to vendor sub-directories=
-")
-> Signed-off-by: Cs=C3=B3k=C3=A1s, Bence <csokas.bence@prolan.hu>
+> 
+> 
 
-Ah, good catch!
+Applied to dt-for-6.13 in git@github.com:linux-sunxi/linux-sunxi.git, thanks!
 
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+[1/1] ARM: dts: allwinner: Remove accidental suniv duplicates
+      commit: bd4215c71992d89ab84339aab56bd8574134708f
 
-Cheers,
-Andre
-
-> ---
->  arch/arm/boot/dts/allwinner/Makefile | 4 ----
->  1 file changed, 4 deletions(-)
->=20
-> diff --git a/arch/arm/boot/dts/allwinner/Makefile b/arch/arm/boot/dts/all=
-winner/Makefile
-> index cd0d044882cf..2ea5df3d9894 100644
-> --- a/arch/arm/boot/dts/allwinner/Makefile
-> +++ b/arch/arm/boot/dts/allwinner/Makefile
-> @@ -268,7 +268,3 @@ dtb-$(CONFIG_MACH_SUNIV) +=3D \
->  	suniv-f1c100s-licheepi-nano.dtb \
->  	suniv-f1c200s-lctech-pi.dtb \
->  	suniv-f1c200s-popstick-v1.1.dtb
-> -dtb-$(CONFIG_MACH_SUNIV) +=3D \
-> -	suniv-f1c100s-licheepi-nano.dtb \
-> -	suniv-f1c200s-lctech-pi.dtb \
-> -	suniv-f1c200s-popstick-v1.1.dtb
+Best regards,
+-- 
+Chen-Yu Tsai <wens@csie.org>
 
