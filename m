@@ -1,154 +1,126 @@
-Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88A6317A924
-	for <linux-sunxi@lists.linux.dev>; Wed,  6 Nov 2024 06:31:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8C07A2D
+	for <linux-sunxi@lists.linux.dev>; Wed,  6 Nov 2024 07:06:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730874707; cv=none; b=A6yrpt72kD91Y2Gmzytuh5zbTPpJPpvS0exBkF6GXw474frqHUIvbrR5nDeufupudq+R7Sj6EUwwBZSj+FXga2e4oaWADRzto4JdgRqWNcplGBrLwPeWBi3u3kNGH2ttUUp/2CgGLfzNEg4a1OpgRcexOB0HnH+ZeTjN+7VMxtg=
+	t=1730876763; cv=none; b=FOtgC/cIfxtfvD0FWl0uJfHUqwnmK5sCr2p2cAiRiJHWdjI1ue9zd8mjGysx0lNptd4l52bXCtNyM7zZQbelQYLUiX6N1QNplzKr95ISdIpustLMCK9Dmow4nQRURAn/Md20VuHPrz6hnnmv0fwlJHbsHYYy2erysv2AJdK3rag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730874707; c=relaxed/simple;
-	bh=uP83JGONHOznuvXu3f4CH5ZvbbRdfVx2cuonvBPTYuM=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=GrjqmkvZ//xzpp3MtRIAviboOzaU0cuOqlP7WL+tTFiRncwt/nAp5RFPHnztmPpFDUIX+Y+4yPw0B497b28OnWKTg8muifOmcA6jlBOnqWb7GGURa+BnmIED+7BkQNyiEsF685zuYbYHBd/wPa6AgQSeMukTzEznUkJIO0JsAfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=LpiVX1//; arc=none smtp.client-ip=116.203.91.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
+	s=arc-20240116; t=1730876763; c=relaxed/simple;
+	bh=p6C5IEPN6P+pbtCgSR46Ccoxyvy0NUXuTKfMt6Fl5DE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pkvXrqrSI6+JI58wK3nNeclzuJznOdJGFikwPU8maCHHzMXFJo2aD0swmxqNL9q/AvwG6QmumHde2SXZ8K2gRTb+vpsLsISXL3/tnLEmCHxKtJZgH7cXa/Q3hbLAkBh35PVT//8Sx1upb+0col+AKwdEqi2lyU7TVBRzYAAdZHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F6iqo2Om; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="LpiVX1//"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F6iqo2Om"
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-53a007743e7so6946763e87.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 05 Nov 2024 23:06:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730876760; x=1731481560; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=b5sOFKhhbWxoz81S1+CXD6VUF6R09kQsa2DuJ0ohEo0=;
+        b=F6iqo2OmcgLW7rpdMcHnOddMeqt3wBBaLSEBrSJ3dmqJCnNt83ZZ4SRT3HZ2OhruE3
+         kSYBpTPTYN3H6gCoDxMtbZlsADxk3xbYbmD5ZwMCtSHSId6cuPNMYdgLVjxBrH91JaAD
+         ddcflzdRqQ2oqrsAIRDCCI0+A0x3Q1bJcU7+wciKJkjPrkDqQHrXRkWA6ubvWCR31V1N
+         +ZlBu7/eB6M0ytruEqWrv4vd17I5nZHmL5naIh9cdyrdV1xAN4x/QcJ7nMBbKilVG5VI
+         srF+TcrLEWskxVw01rWEhMVTV35/if2pj4qtiO1I9KO4rXadmd5jfqwciLltoY3fDVoo
+         IZ6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730876760; x=1731481560;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=b5sOFKhhbWxoz81S1+CXD6VUF6R09kQsa2DuJ0ohEo0=;
+        b=Lm8oP4slfvqZXBM3pmuQxzXoyA8McDbFMMP7aM2FtbgHoRpPTQXSbgmsZqtWjYtE36
+         fOUNRBy2O2JEL6oJAUFBcrCrhPHp9WwmVUbAveq5pHzieioevGQRiTyerIzrapg13x/1
+         Y4MxNtNA5QD/92tZt1WAN+xgSMw2Rt2m6RqAskSo/PsSPJymgSGowjopoYZHPSbYFNv2
+         S0p6kbWEK77vQ2YiDZFiJv20BG+I7Rtl1ZrTIX2qGzu9+68PA5ey7go/vtGcL92dt+/u
+         sOz/rjGc9HH8VA2WLVTs+av7+7asyKRDu4JHNXpw2Pgr8uCynh6vaRy2eVDCl0vqx7y1
+         Uo3Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXiQ6QHLSOm9iMg3LBp5mNhfPVV/Q+kaaO8LL6wOsZoMxqbRhadueijZCb8JTvLLLDAJtsKg3mNs8EKAA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzBMs1b6gRyT8JWo0Ql5oghXodOUu1at+R8ciQnpwkDe09jllcI
+	ke9ZfWeF862e3qkRzh6n0+kLdHBISPfBMy+FXbaYemSiMh5SBxTV
+X-Google-Smtp-Source: AGHT+IHch6RbS1NM1k6CBI+Hi17vN7v1edOLx1yQHVelZgvWVj+Tc6VeH8uVB1lg6GXcZxXjYmSOiw==
+X-Received: by 2002:a05:6512:ac3:b0:536:56d8:24b4 with SMTP id 2adb3069b0e04-53c79e15746mr10404636e87.5.1730876759339;
+        Tue, 05 Nov 2024 23:05:59 -0800 (PST)
+Received: from localhost ([94.19.228.143])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53c7bdcc03asm2372232e87.207.2024.11.05.23.05.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Nov 2024 23:05:58 -0800 (PST)
+Date: Wed, 6 Nov 2024 10:05:56 +0300
+From: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+To: Chen-Yu Tsai <wens@csie.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Shoji Keita <awaittrot@shjk.jp>,
+	Icenowy Zheng <icenowy@aosc.io>,
+	Andre Przywara <andre.przywara@arm.com>
+Subject: Re: [PATCH 1/2] arm64: dts: sun50i-a64-pinephone: Add AF8133J to
+ PinePhone
+Message-ID: <ZysVVCIdJ_hpe0OS@skv.local>
+Mail-Followup-To: Andrey Skvortsov <andrej.skvortzov@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Shoji Keita <awaittrot@shjk.jp>,
+	Icenowy Zheng <icenowy@aosc.io>,
+	Andre Przywara <andre.przywara@arm.com>
+References: <20240908214718.36316-1-andrej.skvortzov@gmail.com>
+ <20240908214718.36316-2-andrej.skvortzov@gmail.com>
+ <CAGb2v65Laka+YaPyAecwxEhMkoodrXnDPn+UTwZUS_wsSBMzyg@mail.gmail.com>
+ <ZuazIgLz5PP_Z8Cn@skv.local>
+ <CAGb2v66-saec9RcQsCTNOz_Tz4+BSFPdDd6CEA+RrGcF6kCY=A@mail.gmail.com>
+ <Zyp3N9pGWhLqmtq1@skv.local>
+ <CAGb2v66DgOmfm0U_dm-+=3nEXaZWUMZiajCdkqVJ6vUPvGC8tQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
-	t=1730874703;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qxP9YcwVFKAJicqzFTfLQT+JXkODjBQKlOQxaMRpKVM=;
-	b=LpiVX1//YTrlPkWN11MudX8FgoByS4d0xmlSxUWXzk7vnHOKtecxfFdOQ/nLZXERk6rSah
-	PEpjEY8lMRy+e13zIylC0H26XRIKNyY2HwOE+HFrudIHgc21PpI/RhBgNx0cckXEorEEzp
-	+gPx1m6fjgyAP01xz4lqx6JviRMUX6LQm/xNzyRv1E9NBQkjzZuShNfJPQ2xTmS/KGQw8M
-	aLroN0McUq7y1yE1lwHhGlbR+yqAYHPUVKsIH8W/GzN8KVp0m0MPd5PbgiVP0IhqE3PZKe
-	49is7ozXfnr/DE8t94Rh7Ie8F3F8ZDSPnB82bjcyKNkTIGEjaPS2Pc9sQZ3+1A==
-Date: Wed, 06 Nov 2024 07:31:41 +0100
-From: Dragan Simic <dsimic@manjaro.org>
-To: wens@csie.org
-Cc: linux-sunxi@lists.linux.dev, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, jernej.skrabec@gmail.com, samuel@sholland.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org, Ondrej Jirman
- <megi@xff.cz>, Andrey Skvortsov <andrej.skvortzov@gmail.com>
-Subject: Re: [PATCH] arm64: dts: allwinner: pinephone: Add mount matrix to
- accelerometer
-In-Reply-To: <CAGb2v67fLPf-yKObuds3LC77gT_W_OmgSK5y2KotRC-Zn9aL7w@mail.gmail.com>
-References: <129f0c754d071cca1db5d207d9d4a7bd9831dff7.1726773282.git.dsimic@manjaro.org>
- <bef0570137358c6c4a55f59e7a4977c4@manjaro.org>
- <CAGb2v66aody60h=Bpk49pxogq93FekmO48uThPET2RKxvx=OGw@mail.gmail.com>
- <cfc090cb87a8b926116d1a436694d17d@manjaro.org>
- <CAGb2v67fLPf-yKObuds3LC77gT_W_OmgSK5y2KotRC-Zn9aL7w@mail.gmail.com>
-Message-ID: <6f2c860c442838bd9892d5861b82e73e@manjaro.org>
-X-Sender: dsimic@manjaro.org
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
+In-Reply-To: <CAGb2v66DgOmfm0U_dm-+=3nEXaZWUMZiajCdkqVJ6vUPvGC8tQ@mail.gmail.com>
 
-Hello Chen-Yu,
+Hi,
 
-On 2024-11-06 03:19, Chen-Yu Tsai wrote:
-> On Sat, Oct 26, 2024 at 12:11 AM Dragan Simic <dsimic@manjaro.org> 
-> wrote:
->> On 2024-10-25 16:47, Chen-Yu Tsai wrote:
->> > On Wed, Oct 23, 2024 at 5:11 AM Dragan Simic <dsimic@manjaro.org>
->> > wrote:
->> >> On 2024-09-19 21:15, Dragan Simic wrote:
->> >> > The way InvenSense MPU-6050 accelerometer is mounted on the user-facing
->> >> > side
->> >> > of the Pine64 PinePhone mainboard, which makes it rotated 90 degrees
->> >> > counter-
->> >> > clockwise, [1] requires the accelerometer's x- and y-axis to be
->> >> > swapped, and
->> >> > the direction of the accelerometer's y-axis to be inverted.
->> >> >
->> >> > Rectify this by adding a mount-matrix to the accelerometer definition
->> >> > in the Pine64 PinePhone dtsi file.
->> >> >
->> >> > [1] https://files.pine64.org/doc/PinePhone/PinePhone%20mainboard%20bottom%20placement%20v1.1%2020191031.pdf
->> >> >
->> >> > Fixes: 91f480d40942 ("arm64: dts: allwinner: Add initial support for
->> >> > Pine64 PinePhone")
->> >> > Cc: stable@vger.kernel.org
->> >> > Helped-by: Ondrej Jirman <megi@xff.cz>
->> >> > Helped-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
->> >> > Signed-off-by: Dragan Simic <dsimic@manjaro.org>
->> >>
->> >> Just a brief reminder about this patch...  Please, let me know if some
->> >> further work is needed for it to become accepted.
->> >
->> > There's no "Helped-by" tag, and checkpatch would complain. The closest
->> > would be either Suggested-by or Co-developed-by, but with the latter
->> > you would also need their Signed-off-by.
->> 
->> Thanks for your response.  You're totally right about checkpatch.pl
->> not supporting Helped-by tags, but including neither Suggested-by
->> nor Co-developed-by would fit very well in this case, because the
->> associated level of credit falls right somewhere between what's
->> indicated by these two tags.
->> 
->> > I can change it to Suggested-by if that's OK with you.
->> 
->> I've created and submitted a patch [*] that adds support for Helped-by
->> tags to checkpatch.pl.  Let's see what kind of feedback that patch
->> will receive, and then we'll be able to move forward accordingly.
+On 24-11-06 10:31, Chen-Yu Tsai wrote:
+> On Wed, Nov 6, 2024 at 3:51 AM Andrey Skvortsov
+> <andrej.skvortzov@gmail.com> wrote:
+
+> >
+> > >
+> > > FYI I'm open to either approach. If the firmware can do it, that is also
+> > > fine. I don't know if it makes sense to have both disabled by default
+> > > though? That would break existing users, but so would the in-kernel
+> > > prober approach, which requires both components be marked as
+> > > "fail-needs-probe", and also requires that the kernel driver be enabled.
+> > > In other words, I think the firmware approach is friendlier for existing
+> > > users that have the original batches.
+> >
+> > Current patches leave original magnetometer enabled as before. So only
+> > the new alternative magnetometer is disabled. Firmware prober will set
+> > the correct status. So you are right firmware approach is a bit nicer
+> > for existing users, nothing will change for them with any combination
+> > of kernel and firmware. Let's go with a firmware approach with current
+> > patches then, if nobody
 > 
-> There doesn't seem to be any activity. Maybe also try adding it to the
-> 
->     Documentation/process/submitting-patches.rst
-> 
-> document?
+> If?
+if no one has anything against that.
 
-Good idea, thanks!  I've created and submitted the v2 [**] of my
-other patch, so it now also adds a description of the proposed
-Helped-by tag to Documentation/process/submitting-patches.rst.
-Let's see will that spark some interest.
 
-[*] 
-https://lore.kernel.org/linux-kernel/0e1ef28710e3e49222c966f07958a9879fa4e903.1729871544.git.dsimic@manjaro.org/T/#u
-[**] 
-https://lore.kernel.org/linux-kernel/cover.1730874296.git.dsimic@manjaro.org/T/#u
+> I'll wait a day before applying this patch then.
+Sure, thanks.
 
->> >> > ---
->> >> >
->> >> > Notes:
->> >> >     See also the linux-sunxi thread [2] that has led to this patch,
->> >> > which
->> >> >     provides a rather detailed analysis with additional details and
->> >> > pictures.
->> >> >     This patch effectively replaces the patch submitted in that thread.
->> >> >
->> >> >     [2]
->> >> > https://lore.kernel.org/linux-sunxi/20240916204521.2033218-1-andrej.skvortzov@gmail.com/T/#u
->> >> >
->> >> >  arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi | 3 +++
->> >> >  1 file changed, 3 insertions(+)
->> >> >
->> >> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
->> >> > b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
->> >> > index 6eab61a12cd8..b844759f52c0 100644
->> >> > --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
->> >> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
->> >> > @@ -212,6 +212,9 @@ accelerometer@68 {
->> >> >               interrupts = <7 5 IRQ_TYPE_EDGE_RISING>; /* PH5 */
->> >> >               vdd-supply = <&reg_dldo1>;
->> >> >               vddio-supply = <&reg_dldo1>;
->> >> > +             mount-matrix = "0", "1", "0",
->> >> > +                            "-1", "0", "0",
->> >> > +                            "0", "0", "1";
->> >> >       };
->> >> >  };
->> >>
+-- 
+Best regards,
+Andrey Skvortsov
