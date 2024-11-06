@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D2EB190075
-	for <linux-sunxi@lists.linux.dev>; Wed,  6 Nov 2024 15:56:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93F7C202F6C;
+	Wed,  6 Nov 2024 16:25:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730908574; cv=none; b=qdLNN3gF59kd4VZD40vC2ffaF7qv7crsVeK1OnRMZRsS/lzsinez6a3gWSISCDLYMSvZpGVp7qzm87FpZ1iTmnS8d9I0OTQ+uCYzH1j0Isj0KiPeg1eewSOtzAcfgYMrOYnQbgFuQl4oJSkAzWr9EXO3/HAFTFJeSpT/8jbdR8w=
+	t=1730910330; cv=none; b=NDOYtOo99Ocj3MWkc+YnQx0SMs7ujFxiBXT6Iyl9uKtI0neSSPg/cyiqdJcYK+4oxlWq52+UFLcg2I1joWYdOyFa8jiOfw9ipEl7sUjL48GKhhsDIxr4UXn3vP6aY+yht5hzFBXzCdxeZ4cZLxncH2zh6UzqJPciqcVxtIiP6jI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730908574; c=relaxed/simple;
-	bh=o+O3AVjyw4V0rGoTz6Alsf+x7tFbW7A4EL9HlfoJqaA=;
+	s=arc-20240116; t=1730910330; c=relaxed/simple;
+	bh=l7lI9uf8YtLy8s8JVEpDW1Pvr02x/Yi6IFy9QOC60b0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=s/6llMD/EUoDQNgHlKVahc/6QvMgqKvpHZPO1FvkaspitdxxtX7poh+pH9dfkOmLflydC1OQgcSv2t2pa20woqixa/SMf47GPvzlk/9I20+9Z8gAKuH6czHCWtHQvhYTaLa0sHrHdvWCEciW0gEzrbcJRShBUZLSETxfUeWf1CI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z3+2ebY6; arc=none smtp.client-ip=10.30.226.201
+	 Content-Disposition; b=B2uLEJcVkyMmSmbOpZHEKI46dgL2+k1PD/YM6INEVB5VYe6eOUMO1IzT8EghE0XLVvI7qG9kFAiSQs34qg2ruAX9OrFMN5AcUydNn7juq/ZsX1qIkq/Uuu/Y7yWwRdb2E6iPicYNKzWLk3LIMBBgaMtswteX4ZQWO1m4HQzJTbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GzvwjgR7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z3+2ebY6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C11AFC4CEC6;
-	Wed,  6 Nov 2024 15:56:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GzvwjgR7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E6B0C4CEC6;
+	Wed,  6 Nov 2024 16:25:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730908574;
-	bh=o+O3AVjyw4V0rGoTz6Alsf+x7tFbW7A4EL9HlfoJqaA=;
+	s=k20201202; t=1730910330;
+	bh=l7lI9uf8YtLy8s8JVEpDW1Pvr02x/Yi6IFy9QOC60b0=;
 	h=Date:From:To:Cc:Subject:From;
-	b=Z3+2ebY6w98hFl22Dlpx0YoZDGuyU9K2I1Pc1MYfgKZpQWGvgqkw8Q4mDrRhcBszg
-	 6+S/jrIxqfL4kIaVrPNuXLpZGugxzycRK4t/K+YESAz1Ffxriy5jCeW8tMEM1eCPQ5
-	 Zy39+Q4vaSW6EMZfaiD5JUkrRdnPBIN5rHJs1N/dA42py1faG++/69LLJWukthLhJG
-	 i8gSbHueRHx0AGUxGvtnMAcuxoX4tE2SAIrLVy73Y2e/R6S5nASDMwCeEsnRCq/QIZ
-	 N8ndc4S7rmGYQSqkgTD4xYsbdE5jk1KpUr+VfdHB8skEYRbuYR8L/y7dRdS68h2YtS
-	 UN41G7KkHjo6A==
+	b=GzvwjgR7LLP3+VmH/1iSxImKaqcJy/MmB8iLj1zrbbScaXtOt58J/2lp0JDGTCSpE
+	 LqThJ0J0UmgNfDZIG0uQybjWkIkrWHieZe58KYPDpVOXHjRs0Li4F3MRxhR6/nXkkI
+	 3MJnEJ4Uuc0OXgUBu1pk8gxTZdWHMq8tNm95Bn/L4u3PbwgLvkz82u9x18IjetQvF8
+	 ABSjYsbB/01KQE29kJtaLsE/Q82tJThjpiDNJ2FdG5312FC9S896WIvKDQLVLDSAjB
+	 t3atv+jxTeh65l5Bvg+bwuUOwjZyIxqrDlrlBRzKzHnuDnUkxUPQx+Denpbz9x4siJ
+	 R3EDKt/YlFWRA==
 Received: by wens.tw (Postfix, from userid 1000)
-	id 374985F8BA; Wed,  6 Nov 2024 23:56:11 +0800 (CST)
-Date: Wed, 6 Nov 2024 23:56:11 +0800
+	id 95C0B5F836; Thu,  7 Nov 2024 00:25:27 +0800 (CST)
+Date: Thu, 7 Nov 2024 00:25:27 +0800
 From: Chen-Yu Tsai <wens@kernel.org>
-To: soc@kernel.org
+To: Stephen Boyd <sboyd@kernel.org>
 Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej@kernel.org>,
 	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: [GIT PULL] Allwinner device tree changes for 6.13 part 1
-Message-ID: <ZyuRm-gvJX_12NMA@wens.tw>
+	linux-clk@vger.kernel.org
+Subject: [GIT PULL] Allwinner clock changes for 6.13
+Message-ID: <ZyuYd50i-oPSDXZ4@wens.tw>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -43,14 +43,13 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="V50nwjhcp48BVPt5"
+	protocol="application/pgp-signature"; boundary="HysiOhwiQ3DGnZwG"
 Content-Disposition: inline
 
 
---V50nwjhcp48BVPt5
-Content-Type: text/plain; charset=utf-8
+--HysiOhwiQ3DGnZwG
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
 The following changes since commit 9852d85ec9d492ebef56dc5f229416c925758edc:
 
@@ -58,103 +57,80 @@ The following changes since commit 9852d85ec9d492ebef56dc5f229416c925758edc:
 
 are available in the Git repository at:
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunx=
-i-dt-for-6.13-1
+  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-clk-for-6.13
 
-for you to fetch changes up to fcfbb8d9ec584c256c0a6e1ae3174a21b007f399:
+for you to fetch changes up to 1054861bc258fb5798b7132453593cc3eb0639ba:
 
-  arm64: allwinner: a100: Add MMC related nodes (2024-11-02 19:32:40 +0800)
-
-A second pull request will likely be sent by the end of the week or
-early next week, once a couple stragglers are run through linux-next.
+  clk: sunxi-ng: Use of_property_present() for non-boolean properties (2024-11-05 23:40:49 +0800)
 
 ----------------------------------------------------------------
-Allwinner device tree changes for 6.13 part 1
+Allwinner clock changes for 6.13
 
-- Enabled audio codec for all H313/H616/H618/H700 boards
-- Added audio codec node for H616 SoC
-- Set disable-wp on MMC controllers with micro SD card slots
-- Added RerVision A33-Vstar board
-- Added A100 compatible string to USB and PHY bindings
-- Added MMC, USB, PMU and watchdog device nodes for Allwinner A100 SoC
+- Added sigma-delta modulation settings for audio PLL on the H616 SoC,
+  crucial for accurate audio reproduction
+- Constified |struct ccu_reset_map| throughout the sunxi-ng clk drivers
+- Fixed the audio PLL divider preset on the D1 SoC
+- Switched to of_property_present() for checking DT property presence
 
 ----------------------------------------------------------------
-Cody Eksal (3):
-      dt-bindings: phy: sun50i-a64: add a100 compatible
-      dt-bindings: usb: Add A100 compatible string
-      dt-bindings: usb: sunxi-musb: Add A100 compatible string
+Andre Przywara (1):
+      clk: sunxi-ng: d1: Fix PLL_AUDIO0 preset
 
-Icenowy Zheng (2):
-      dt-bindings: arm: sunxi: document RerVision A33-Vstar board
-      ARM: dts: sunxi: add support for RerVision A33-Vstar board
+Christophe JAILLET (1):
+      clk: sunxi-ng: Constify struct ccu_reset_map
 
-Kry=C5=A1tof =C4=8Cern=C3=BD (1):
-      arm64: dts: allwinner: Add disable-wp for boards with micro SD card
+Rob Herring (Arm) (1):
+      clk: sunxi-ng: Use of_property_present() for non-boolean properties
 
-Ryan Walklin (2):
-      arm64: dts: allwinner: h616: Add audio codec node
-      arm64: dts: allwinner: h313/h616/h618/h700: Enable audio codec for al=
-l supported boards
+Ryan Walklin (1):
+      clk: sunxi-ng: h616: Add sigma-delta modulation settings for audio PLL
 
-Yangtao Li (4):
-      arm64: dts: allwinner: A100: Add PMU mode
-      arm64: dts: allwinner: a100: add watchdog node
-      arm64: dts: allwinner: a100: add usb related nodes
-      arm64: allwinner: a100: Add MMC related nodes
+ drivers/clk/sunxi-ng/ccu-sun20i-d1-r.c   |  2 +-
+ drivers/clk/sunxi-ng/ccu-sun20i-d1.c     |  4 +--
+ drivers/clk/sunxi-ng/ccu-sun4i-a10.c     |  2 +-
+ drivers/clk/sunxi-ng/ccu-sun50i-a100-r.c |  2 +-
+ drivers/clk/sunxi-ng/ccu-sun50i-a100.c   |  2 +-
+ drivers/clk/sunxi-ng/ccu-sun50i-a64.c    |  2 +-
+ drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c   |  4 +--
+ drivers/clk/sunxi-ng/ccu-sun50i-h6.c     |  2 +-
+ drivers/clk/sunxi-ng/ccu-sun50i-h616.c   | 46 +++++++++++++++++++++-----------
+ drivers/clk/sunxi-ng/ccu-sun5i.c         |  2 +-
+ drivers/clk/sunxi-ng/ccu-sun6i-a31.c     |  2 +-
+ drivers/clk/sunxi-ng/ccu-sun6i-rtc.c     |  2 +-
+ drivers/clk/sunxi-ng/ccu-sun8i-a23.c     |  2 +-
+ drivers/clk/sunxi-ng/ccu-sun8i-a33.c     |  2 +-
+ drivers/clk/sunxi-ng/ccu-sun8i-a83t.c    |  2 +-
+ drivers/clk/sunxi-ng/ccu-sun8i-de2.c     |  8 +++---
+ drivers/clk/sunxi-ng/ccu-sun8i-h3.c      |  4 +--
+ drivers/clk/sunxi-ng/ccu-sun8i-r.c       |  6 ++---
+ drivers/clk/sunxi-ng/ccu-sun8i-r40.c     |  2 +-
+ drivers/clk/sunxi-ng/ccu-sun8i-v3s.c     |  4 +--
+ drivers/clk/sunxi-ng/ccu-sun9i-a80-de.c  |  2 +-
+ drivers/clk/sunxi-ng/ccu-sun9i-a80-usb.c |  2 +-
+ drivers/clk/sunxi-ng/ccu-sun9i-a80.c     |  2 +-
+ drivers/clk/sunxi-ng/ccu-suniv-f1c100s.c |  2 +-
+ drivers/clk/sunxi-ng/ccu_common.h        |  2 +-
+ drivers/clk/sunxi-ng/ccu_reset.h         |  2 +-
+ 26 files changed, 64 insertions(+), 50 deletions(-)
 
- Documentation/devicetree/bindings/arm/sunxi.yaml   |   6 +
- .../bindings/phy/allwinner,sun50i-a64-usb-phy.yaml |  10 +-
- .../bindings/usb/allwinner,sun4i-a10-musb.yaml     |   1 +
- .../devicetree/bindings/usb/generic-ehci.yaml      |   1 +
- .../devicetree/bindings/usb/generic-ohci.yaml      |   1 +
- arch/arm/boot/dts/allwinner/Makefile               |   1 +
- .../boot/dts/allwinner/sun8i-a33-vstar-core1.dtsi  |  96 ++++++++++
- arch/arm/boot/dts/allwinner/sun8i-a33-vstar.dts    | 205 +++++++++++++++++=
-++++
- arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi     | 185 +++++++++++++++++=
-+-
- .../boot/dts/allwinner/sun50i-h313-tanix-tx1.dts   |   5 +
- .../dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts   |   1 +
- .../boot/dts/allwinner/sun50i-h5-nanopi-neo2.dts   |   1 +
- .../boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts |   1 +
- .../boot/dts/allwinner/sun50i-h5-orangepi-pc2.dts  |   1 +
- .../dts/allwinner/sun50i-h5-orangepi-prime.dts     |   1 +
- .../dts/allwinner/sun50i-h5-orangepi-zero-plus.dts |   1 +
- .../allwinner/sun50i-h5-orangepi-zero-plus2.dts    |   1 +
- .../boot/dts/allwinner/sun50i-h6-beelink-gs1.dts   |   1 +
- .../boot/dts/allwinner/sun50i-h6-orangepi-3.dts    |   1 +
- .../boot/dts/allwinner/sun50i-h6-orangepi.dtsi     |   1 +
- .../boot/dts/allwinner/sun50i-h6-pine-h64.dts      |   1 +
- arch/arm64/boot/dts/allwinner/sun50i-h6-tanix.dtsi |   1 +
- .../dts/allwinner/sun50i-h616-orangepi-zero.dtsi   |   6 +
- .../boot/dts/allwinner/sun50i-h616-x96-mate.dts    |   6 +
- arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi     |  44 +++--
- .../boot/dts/allwinner/sun50i-h618-longanpi-3h.dts |   1 +
- .../dts/allwinner/sun50i-h618-orangepi-zero2w.dts  |   5 +
- .../allwinner/sun50i-h618-transpeed-8k618-t.dts    |   6 +
- .../allwinner/sun50i-h700-anbernic-rg35xx-2024.dts |  13 +-
- 29 files changed, 581 insertions(+), 23 deletions(-)
- create mode 100644 arch/arm/boot/dts/allwinner/sun8i-a33-vstar-core1.dtsi
- create mode 100644 arch/arm/boot/dts/allwinner/sun8i-a33-vstar.dts
-
---V50nwjhcp48BVPt5
+--HysiOhwiQ3DGnZwG
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEE2nN1m/hhnkhOWjtHOJpUIZwPJDAFAmcrkZoACgkQOJpUIZwP
-JDDPcBAAo1ztG2mpEqv60U3/VvivQib4VmMPKoQMn91NMsvM/yIjw1OhqeqeUwcJ
-LrPdSaWl1sxtIsp+6RZG8431DJzzMqXIIVX03T3kkz6Rc3mSq3BfAW7PbCDAwFZO
-yEIFDIwIp5jFn6qLpdrvK+CXitvzP0VK4j3jikLjISTJffNsv5wz7rfRb6HLF0iZ
-drSMEVa3HK2gKHDjHOlVKRQXWU1RQUcsj8clOmuoPbJZ774ywwoFSkGm3c5qQn+q
-9lTQOLDpO8Y91+qMNv0Bf03k4cJYRaLSYEFkZpOguQVAuC3n2Pvb9S8YCVis0OvD
-pRYNJK1JYNA52WAHQUkmT3vm06tJTlyea3hAsU84Omn4h42cByIRek74vw/Hnw7j
-rJXa0Vmwuso/ck1+1mDnBo9WMTszRryV4xAJFBcz/X86m7HBX62jMI4fkTISSaf6
-PevDApsjus3Z/KBTH3cbpQVcVUZft3wLjmXKjdqOmw3qzne9c2QgXVQTlM50QjH4
-It27+69a2xoG8SAKl/29TrgCRf3Y6thWfu8xL0bMin76n3uaPbMVn1fqDheK27q1
-5yA5IFESDsqLDPCFJ2Sc8WqDoan1QSp8Kjj6jSptYYsxb1cHlU9pGXB7Cj/SqCIB
-eZDWoP0JoLQOEYKAm2jCtScfABmLiAoR3wdq3Q7e/wc3BdyzQsM=
-=AEf3
+iQIzBAABCgAdFiEE2nN1m/hhnkhOWjtHOJpUIZwPJDAFAmcrmHUACgkQOJpUIZwP
+JDAjERAA6cgwmJ7lSce7cybeGxt9SNITp6x0jv2NfP2J2VkG1kUmtSBh9Go2O1PI
+ZidM1DxNvTeiWKulje08/PGI9j4sZ6OJIQiloU6Wn0Kk+e0opWrnDDwOwP3ydXCs
+wZVRSCxRbYNUzlkhKssasCbDHW2Dr+Tksmmf7wennK3rYBR9C38HE1kNBonLT2EG
+Q5AI8/KUmFUcSFOBB6JeD8XXbruw2Bvx2YzB2S6cGLwOxkaPcotgD570JzV1tEKE
+YvvGJgn7lNsYzojPguiQpExVm8YptVAanQfuYqhgrr8ozDV05wBBMYxsUq8OclHS
+B5IN0b3NgBEBhQr1cKRtBbcnJYntBTlMtOT+aWtTp965RauK6iJEauBBDwuatGDz
+5/+kY9LrbRiw7S4piTJc+ISdIYZuxfzvvzx3hA3JP6UsM+k8r0T/RlQHY8yGod8A
+iDqdPp8aeHgI+4TvpOAYg93otlUtqmScEQfUzbVH3f0L2xsJ3kutDA5O+vCsgTNB
+SNvJdJ6oRSbeb4RTrlz6XM2CPQPoAJJqgM4DhyBbV9r+muOXv68Jr06aUV/P9Gek
+h4V+P9qt7uEOdAEuuVcUcswH9T6a0dXGIFwYtFH5b5Yf0DEHZcuxxuYRxHM6D5gx
+sUNkuHGWaUdFQUlA/wudMCoVcFD/wK5CbA1zoQ3YDk9T9wy6UHQ=
+=phcN
 -----END PGP SIGNATURE-----
 
---V50nwjhcp48BVPt5--
+--HysiOhwiQ3DGnZwG--
