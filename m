@@ -1,147 +1,65 @@
-Received: from omta34.uswest2.a.cloudfilter.net (omta34.uswest2.a.cloudfilter.net [35.89.44.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58E1080603
-	for <linux-sunxi@lists.linux.dev>; Thu,  7 Nov 2024 04:19:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.89.44.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 355AE47F4A;
+	Thu,  7 Nov 2024 15:26:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730953197; cv=none; b=odanTIFK7WbSwsvk0KU36cC65V3vX7xLqezgamVPzBWo0kBAZ3IIQ0BQA5qs1aiAaLv7RsFgId2AFcff1K1kD2BNiBEeG4sEcLAI3HwoyldI89r6iobAPl35ZCKgPEjIycD+bNSrw2+oH/r45CfwrErd1JPClxT4TZYlLq1bxEk=
+	t=1730993198; cv=none; b=L5UHPyt65xTmLGkrPl43vybBjJolG8eIsMWwPU4ELC3Nnj7OZos2De/2oI72QgkhtKIbhtrL3EKBkVMIkhxy0I5tJQJTgFHcLjspRjctbAW9eEr5LBV3MMYtEjzrYF5h/pDDEr/XkkOakxjQ4iYfvnRJ0HKNimYG0cx4uE3VNHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730953197; c=relaxed/simple;
-	bh=6dnQkQqfHh1sOcickMpv1JDUan6dh4Wu1yIDrpH/GKU=;
-	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=FyZq2Kc3JLyWbA7KMBqgDU2WUsJPFT8nrdu+lkI9/HeNXJA9TNM1cFMTlMJN5BrhGovcWRKeVKr+zCBwE6yRqGeHAiZP34jxNFkCT0Fq2vgVg76FiVFPscRc2xEGg+tcm1lhRvOzole9fbNmylQ/LKMpJj3QdLzRa4BdkuY9jtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linumiz.com; spf=pass smtp.mailfrom=linumiz.com; dkim=pass (2048-bit key) header.d=linumiz.com header.i=@linumiz.com header.b=Ae+uZ+VP; arc=none smtp.client-ip=35.89.44.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linumiz.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linumiz.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linumiz.com header.i=@linumiz.com header.b="Ae+uZ+VP"
-Received: from eig-obgw-5006a.ext.cloudfilter.net ([10.0.29.179])
-	by cmsmtp with ESMTPS
-	id 8YTMte7ghVpzp8tyMto05R; Thu, 07 Nov 2024 04:18:18 +0000
-Received: from md-in-79.webhostbox.net ([43.225.55.182])
-	by cmsmtp with ESMTPS
-	id 8tyJtEXpBib8Q8tyKtjNme; Thu, 07 Nov 2024 04:18:17 +0000
-X-Authority-Analysis: v=2.4 cv=T4qKTeKQ c=1 sm=1 tr=0 ts=672c3f89
- a=LfuyaZh/8e9VOkaVZk0aRw==:117 a=kofhyyBXuK/oEhdxNjf66Q==:17
- a=IkcTkHD0fZMA:10 a=VlfZXiiP6vEA:10 a=-pn6D5nKLtMA:10 a=VwQbUJbxAAAA:8
- a=7CQSdrXTAAAA:8 a=vU9dKmh3AAAA:8 a=rQIMLdAWvKoWWgQMOJcA:9 a=QEXdDO2ut3YA:10
- a=a-qgeE7W1pNrGK8U0ZQC:22 a=rsP06fVo5MYu2ilr0aT5:22 a=ZCPYImcxYIQFgLOT52_G:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linumiz.com
-	; s=default; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:To:Subject:Cc:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=1yLSujXjZ1vWyoNhn9Q/+EnZQtwboxPDVegByiRGcUI=; b=Ae+uZ+VP8cnIBy/ygVfCll2Z2h
-	1Aqzf+23wPlMaOpCuvSlLqS9smUrQC9QISA+tkOzEKoLfUnU09AWYs3lIQRojNJOm3caBBIurcKzi
-	iMeSsWbskf4cQIru86EXaXX1A7RaBE9mQGg26z6Buwe39AB33Sdaa+f6T0HuGIr15bWRqUYRItaQE
-	la1LDTaIuFLQUzIT/mNxz+2EcJHnC9XV2H6Rak0PozS2rWtRvPPGWHDPu/JBbh9MA9E0j5E9Ky00A
-	FqzPxSOgIxlWUAgcFNliQ9lCzxXHZBMnWusNWs3At6uI4iWNCwSKN3f7FV6pv1RGXMXtz1zVQ5llb
-	pxjLd1yA==;
-Received: from [122.165.245.213] (port=38142 helo=[192.168.1.5])
-	by md-in-79.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <parthiban@linumiz.com>)
-	id 1t8tyI-0040BA-0J;
-	Thu, 07 Nov 2024 09:48:14 +0530
-Message-ID: <411e2025-6e2c-4755-bb44-d2388ed5058e@linumiz.com>
-Date: Thu, 7 Nov 2024 09:48:11 +0530
+	s=arc-20240116; t=1730993198; c=relaxed/simple;
+	bh=3D8hekrU3Z4GKpqjaWoZRBvsp56QUnfWVwFW/Y7MvW0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=oZpMUwaexTJ830wi16PNFwXt3yO5O2GNpgtJDRRflWzXovENMAMdokCSXRyjERTzGBJzf+TWpmRSRtXTv5CjSP7KZ176AOzI6VSQVYALtCfte3GU2WT3zKg6m6Ux5NY2Y44FTJY6kzQDhNH2VdkJqixBI0dp5mTmPMf95m2dwBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1410C4CECC;
+	Thu,  7 Nov 2024 15:26:37 +0000 (UTC)
+Received: from wens.tw (localhost [127.0.0.1])
+	by wens.tw (Postfix) with ESMTP id 163E25FB46;
+	Thu,  7 Nov 2024 23:26:35 +0800 (CST)
+From: Chen-Yu Tsai <wens@csie.org>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Andrey Skvortsov <andrej.skvortzov@gmail.com>
+Cc: Shoji Keita <awaittrot@shjk.jp>, Icenowy Zheng <icenowy@aosc.io>, 
+ Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <20240908214718.36316-1-andrej.skvortzov@gmail.com>
+References: <20240908214718.36316-1-andrej.skvortzov@gmail.com>
+Subject: Re: [PATCH 0/2] Fix magnetometers on PinePhone
+Message-Id: <173099319508.2335414.4545070931289341462.b4-ty@csie.org>
+Date: Thu, 07 Nov 2024 23:26:35 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: parthiban@linumiz.com, linux-mmc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- Yangtao Li <tiny.windzz@gmail.com>, Cody Eksal <masterr3c0rd@epochal.quest>,
- stable@vger.kernel.org
-Subject: Re: [PATCH] mmc: sunxi-mmc: Fix A100 compatible description
-To: Andre Przywara <andre.przywara@arm.com>,
- Ulf Hansson <ulf.hansson@linaro.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-References: <20241107014240.24669-1-andre.przywara@arm.com>
-Content-Language: en-US
-From: Parthiban <parthiban@linumiz.com>
-Organization: Linumiz
-In-Reply-To: <20241107014240.24669-1-andre.przywara@arm.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - md-in-79.webhostbox.net
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - linumiz.com
-X-BWhitelist: no
-X-Source-IP: 122.165.245.213
-X-Source-L: No
-X-Exim-ID: 1t8tyI-0040BA-0J
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([192.168.1.5]) [122.165.245.213]:38142
-X-Source-Auth: parthiban@linumiz.com
-X-Email-Count: 4
-X-Org: HG=dishared_whb_net_legacy;ORG=directi;
-X-Source-Cap: bGludW1jbWM7aG9zdGdhdG9yO21kLWluLTc5LndlYmhvc3Rib3gubmV0
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfKbWkxKUkG7e+RjRpvJT4Rp6vFHR2/g7cdmrjn8TBCfUp3MUXFL6Cubmv5JcvNpYEWMAxjlFtQIEA7GTRJ/UDEsFFOlXzUD1iGG+ZMmHbmmGD7brBg/A
- oFmkzOxMttxU+LuReTaQQQRx3lagnkeNqKuf6ZPLqM9E0FBUkUPe72BdZlPaeNG9YfcJKg/ZGVirk+lBshV5ZQQbLweCRK8Y/2w=
+X-Mailer: b4 0.14.2
 
-On 11/7/24 7:12 AM, Andre Przywara wrote:
-> It turns out that the Allwinner A100/A133 SoC only supports 8K DMA
-> blocks (13 bits wide), for both the SD/SDIO and eMMC instances.
-> And while this alone would make a trivial fix, the H616 falls back to
-> the A100 compatible string, so we have to now match the H616 compatible
-> string explicitly against the description advertising 64K DMA blocks.
+On Mon, 09 Sep 2024 00:47:16 +0300, Andrey Skvortsov wrote:
+> Introduce support for alternative magnetometer (AF8133J) used on new
+> batches of PinePhones and define mount-matrix for both magnetometers.
 > 
-> As the A100 is now compatible with the D1 description, let the A100
-> compatible string point to that block instead, and introduce an explicit
-> match against the H616 string, pointing to the old description.
-> Also remove the redundant setting of clk_delays to NULL on the way.
+> Icenowy Zheng (1):
+>   arm64: dts: sun50i-a64-pinephone: Add AF8133J to PinePhone
 > 
-> Fixes: 3536b82e5853 ("mmc: sunxi: add support for A100 mmc controller")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-Tested working with SD card in mmc0.
-
-Tested-by: Parthiban Nallathambi <parthiban@linumiz.com>
-
-Thanks,
-Parthiban
-
-> ---
->  drivers/mmc/host/sunxi-mmc.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+> Shoji Keita (1):
+>   arm64: dts: sun50i-a64-pinephone: Add mount-matrix for PinePhone
+>     magnetometers
 > 
-> diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mmc.c
-> index d3bd0ac99ec46..e0ab5fd635e6c 100644
-> --- a/drivers/mmc/host/sunxi-mmc.c
-> +++ b/drivers/mmc/host/sunxi-mmc.c
-> @@ -1191,10 +1191,9 @@ static const struct sunxi_mmc_cfg sun50i_a64_emmc_cfg = {
->  	.needs_new_timings = true,
->  };
->  
-> -static const struct sunxi_mmc_cfg sun50i_a100_cfg = {
-> +static const struct sunxi_mmc_cfg sun50i_h616_cfg = {
->  	.idma_des_size_bits = 16,
->  	.idma_des_shift = 2,
-> -	.clk_delays = NULL,
->  	.can_calibrate = true,
->  	.mask_data0 = true,
->  	.needs_new_timings = true,
-> @@ -1217,8 +1216,9 @@ static const struct of_device_id sunxi_mmc_of_match[] = {
->  	{ .compatible = "allwinner,sun20i-d1-mmc", .data = &sun20i_d1_cfg },
->  	{ .compatible = "allwinner,sun50i-a64-mmc", .data = &sun50i_a64_cfg },
->  	{ .compatible = "allwinner,sun50i-a64-emmc", .data = &sun50i_a64_emmc_cfg },
-> -	{ .compatible = "allwinner,sun50i-a100-mmc", .data = &sun50i_a100_cfg },
-> +	{ .compatible = "allwinner,sun50i-a100-mmc", .data = &sun20i_d1_cfg },
->  	{ .compatible = "allwinner,sun50i-a100-emmc", .data = &sun50i_a100_emmc_cfg },
-> +	{ .compatible = "allwinner,sun50i-h616-mmc", .data = &sun50i_h616_cfg },
->  	{ /* sentinel */ }
->  };
->  MODULE_DEVICE_TABLE(of, sunxi_mmc_of_match);
+> [...]
+
+Applied to dt-for-6.13 in git@github.com:linux-sunxi/linux-sunxi.git, thanks!
+
+[1/2] arm64: dts: sun50i-a64-pinephone: Add AF8133J to PinePhone
+      commit: 193b199a925b04e2d9bc9dde8bb63f6d55483b7d
+[2/2] arm64: dts: sun50i-a64-pinephone: Add mount-matrix for PinePhone magnetometers
+      commit: 844c35cea6b2d36608c3026c7d29a4f5350b7ad9
+
+Best regards,
+-- 
+Chen-Yu Tsai <wens@csie.org>
 
