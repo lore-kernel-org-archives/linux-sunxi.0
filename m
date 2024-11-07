@@ -1,184 +1,147 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DBFC79F6
-	for <linux-sunxi@lists.linux.dev>; Thu,  7 Nov 2024 01:46:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from omta34.uswest2.a.cloudfilter.net (omta34.uswest2.a.cloudfilter.net [35.89.44.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58E1080603
+	for <linux-sunxi@lists.linux.dev>; Thu,  7 Nov 2024 04:19:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.89.44.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730943999; cv=none; b=OlFPjwC6ZbmjHdfDYsr+EXNF6atN8jTBlp+CHUNrOfZ1N18Y24Z5MlwcH2AiUFff6iw/SUS0iId/QoSSrfOOdYN1KodE7Fw31VPFzcVTY7tGXAnE1aQMFlnqJAEUVLjv0CLhrBO60y3RI8p1d1IKBA6DlwwDOd9hZPaz1WC1KEM=
+	t=1730953197; cv=none; b=odanTIFK7WbSwsvk0KU36cC65V3vX7xLqezgamVPzBWo0kBAZ3IIQ0BQA5qs1aiAaLv7RsFgId2AFcff1K1kD2BNiBEeG4sEcLAI3HwoyldI89r6iobAPl35ZCKgPEjIycD+bNSrw2+oH/r45CfwrErd1JPClxT4TZYlLq1bxEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730943999; c=relaxed/simple;
-	bh=FPys9W0Cs1vLNX6SPasi1XihbVH3pJbnC+cqw91U8n8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nljnN6LsBuqlk2QKYRa05hlE+aM1dcjOp4iiYYmsPNEUr6kzOCLNPlLn+u+xC59fYXfFY06g/BcxfNLvptzzZIULTALMuu+8kjwP2DmZRTFrTyPa+JHF3BKH+E5GK1E+v6E6D2VIb0diNLPyjOV3kx5OO4ccAyHjOB130gTbzMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2DBB4497;
-	Wed,  6 Nov 2024 17:47:06 -0800 (PST)
-Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7F79D3F66E;
-	Wed,  6 Nov 2024 17:46:33 -0800 (PST)
-Date: Thu, 7 Nov 2024 01:46:10 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Cody Eksal <masterr3c0rd@epochal.quest>
-Cc: Yangtao Li <tiny.windzz@gmail.com>, Michael Turquette
- <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, Conor Dooley <conor+dt@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Kishon Vijay Abraham I
- <kishon@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Maxime
- Ripard <mripard@kernel.org>, Nishanth Menon <nm@ti.com>, "Rafael J.
- Wysocki" <rafael@kernel.org>, Rob Herring <robh@kernel.org>, Vinod Koul
- <vkoul@kernel.org>, Viresh Kumar <vireshk@kernel.org>, Viresh Kumar
- <viresh.kumar@linaro.org>, Parthiban <parthiban@linumiz.com>,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 08/13] clk: sunxi-ng: a100: enable MMC clock
- reparenting
-Message-ID: <20241107014610.23a1666d@minigeek.lan>
-In-Reply-To: <20241103020929.2298633f@minigeek.lan>
-References: <20241031070232.1793078-1-masterr3c0rd@epochal.quest>
-	<20241031070232.1793078-9-masterr3c0rd@epochal.quest>
-	<20241031120857.60bc0d94@donnerap.manchester.arm.com>
-	<885047f813d0c55eae13f26b0bfe041d@epochal.quest>
-	<20241103020929.2298633f@minigeek.lan>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	s=arc-20240116; t=1730953197; c=relaxed/simple;
+	bh=6dnQkQqfHh1sOcickMpv1JDUan6dh4Wu1yIDrpH/GKU=;
+	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=FyZq2Kc3JLyWbA7KMBqgDU2WUsJPFT8nrdu+lkI9/HeNXJA9TNM1cFMTlMJN5BrhGovcWRKeVKr+zCBwE6yRqGeHAiZP34jxNFkCT0Fq2vgVg76FiVFPscRc2xEGg+tcm1lhRvOzole9fbNmylQ/LKMpJj3QdLzRa4BdkuY9jtE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linumiz.com; spf=pass smtp.mailfrom=linumiz.com; dkim=pass (2048-bit key) header.d=linumiz.com header.i=@linumiz.com header.b=Ae+uZ+VP; arc=none smtp.client-ip=35.89.44.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linumiz.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linumiz.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linumiz.com header.i=@linumiz.com header.b="Ae+uZ+VP"
+Received: from eig-obgw-5006a.ext.cloudfilter.net ([10.0.29.179])
+	by cmsmtp with ESMTPS
+	id 8YTMte7ghVpzp8tyMto05R; Thu, 07 Nov 2024 04:18:18 +0000
+Received: from md-in-79.webhostbox.net ([43.225.55.182])
+	by cmsmtp with ESMTPS
+	id 8tyJtEXpBib8Q8tyKtjNme; Thu, 07 Nov 2024 04:18:17 +0000
+X-Authority-Analysis: v=2.4 cv=T4qKTeKQ c=1 sm=1 tr=0 ts=672c3f89
+ a=LfuyaZh/8e9VOkaVZk0aRw==:117 a=kofhyyBXuK/oEhdxNjf66Q==:17
+ a=IkcTkHD0fZMA:10 a=VlfZXiiP6vEA:10 a=-pn6D5nKLtMA:10 a=VwQbUJbxAAAA:8
+ a=7CQSdrXTAAAA:8 a=vU9dKmh3AAAA:8 a=rQIMLdAWvKoWWgQMOJcA:9 a=QEXdDO2ut3YA:10
+ a=a-qgeE7W1pNrGK8U0ZQC:22 a=rsP06fVo5MYu2ilr0aT5:22 a=ZCPYImcxYIQFgLOT52_G:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linumiz.com
+	; s=default; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:To:Subject:Cc:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=1yLSujXjZ1vWyoNhn9Q/+EnZQtwboxPDVegByiRGcUI=; b=Ae+uZ+VP8cnIBy/ygVfCll2Z2h
+	1Aqzf+23wPlMaOpCuvSlLqS9smUrQC9QISA+tkOzEKoLfUnU09AWYs3lIQRojNJOm3caBBIurcKzi
+	iMeSsWbskf4cQIru86EXaXX1A7RaBE9mQGg26z6Buwe39AB33Sdaa+f6T0HuGIr15bWRqUYRItaQE
+	la1LDTaIuFLQUzIT/mNxz+2EcJHnC9XV2H6Rak0PozS2rWtRvPPGWHDPu/JBbh9MA9E0j5E9Ky00A
+	FqzPxSOgIxlWUAgcFNliQ9lCzxXHZBMnWusNWs3At6uI4iWNCwSKN3f7FV6pv1RGXMXtz1zVQ5llb
+	pxjLd1yA==;
+Received: from [122.165.245.213] (port=38142 helo=[192.168.1.5])
+	by md-in-79.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <parthiban@linumiz.com>)
+	id 1t8tyI-0040BA-0J;
+	Thu, 07 Nov 2024 09:48:14 +0530
+Message-ID: <411e2025-6e2c-4755-bb44-d2388ed5058e@linumiz.com>
+Date: Thu, 7 Nov 2024 09:48:11 +0530
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Cc: parthiban@linumiz.com, linux-mmc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ Yangtao Li <tiny.windzz@gmail.com>, Cody Eksal <masterr3c0rd@epochal.quest>,
+ stable@vger.kernel.org
+Subject: Re: [PATCH] mmc: sunxi-mmc: Fix A100 compatible description
+To: Andre Przywara <andre.przywara@arm.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+References: <20241107014240.24669-1-andre.przywara@arm.com>
+Content-Language: en-US
+From: Parthiban <parthiban@linumiz.com>
+Organization: Linumiz
+In-Reply-To: <20241107014240.24669-1-andre.przywara@arm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - md-in-79.webhostbox.net
+X-AntiAbuse: Original Domain - lists.linux.dev
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - linumiz.com
+X-BWhitelist: no
+X-Source-IP: 122.165.245.213
+X-Source-L: No
+X-Exim-ID: 1t8tyI-0040BA-0J
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: ([192.168.1.5]) [122.165.245.213]:38142
+X-Source-Auth: parthiban@linumiz.com
+X-Email-Count: 4
+X-Org: HG=dishared_whb_net_legacy;ORG=directi;
+X-Source-Cap: bGludW1jbWM7aG9zdGdhdG9yO21kLWluLTc5LndlYmhvc3Rib3gubmV0
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfKbWkxKUkG7e+RjRpvJT4Rp6vFHR2/g7cdmrjn8TBCfUp3MUXFL6Cubmv5JcvNpYEWMAxjlFtQIEA7GTRJ/UDEsFFOlXzUD1iGG+ZMmHbmmGD7brBg/A
+ oFmkzOxMttxU+LuReTaQQQRx3lagnkeNqKuf6ZPLqM9E0FBUkUPe72BdZlPaeNG9YfcJKg/ZGVirk+lBshV5ZQQbLweCRK8Y/2w=
 
-On Sun, 3 Nov 2024 02:09:29 +0000
-Andre Przywara <andre.przywara@arm.com> wrote:
-
-Hi,
-
-> On Sat, 02 Nov 2024 18:44:41 -0300
-> Cody Eksal <masterr3c0rd@epochal.quest> wrote:
+On 11/7/24 7:12 AM, Andre Przywara wrote:
+> It turns out that the Allwinner A100/A133 SoC only supports 8K DMA
+> blocks (13 bits wide), for both the SD/SDIO and eMMC instances.
+> And while this alone would make a trivial fix, the H616 falls back to
+> the A100 compatible string, so we have to now match the H616 compatible
+> string explicitly against the description advertising 64K DMA blocks.
 > 
-> Hi Cody,
+> As the A100 is now compatible with the D1 description, let the A100
+> compatible string point to that block instead, and introduce an explicit
+> match against the H616 string, pointing to the old description.
+> Also remove the redundant setting of clk_delays to NULL on the way.
 > 
-> thanks for staying on this issue!
-> 
-> > On 2024/10/31 9:08 am, Andre Przywara wrote:  
-> > > Well, while this change indeed prevented that error message you mentioned,
-> > > but the SD card still doesn't work for me: it probes and I can mount a
-> > > filesystem on it, but then it hangs, for instance when running an "ls" on
-> > > it. It could be my setup (lacking DT or device issue or missing kernel
-> > > config), though, and the eMMC works for me this way, but it would be good
-> > > to have that sorted.     
-> > I'm investigating this now; it appears mmc2/eMMC is more consistent when
-> > CLK_NO_REPARENT is set  
-> 
-> What do you mean with "more consistent", exactly?
-> I still don't get why NO_REPARENT would help here in the first place:
-> we have three clocks as potential parents: OSC24MHz, PLL_PERIPH0,
-> PLL_PERIPH1. The first one is too slow for typical MMC rates, and
-> PERIPH1 is typically disabled (it's the same rates as PERIPH0, so
-> there is little need for it). So PERIPH0 is to clock to go, and I don't
-> see what NO_REPARENT would change here.
-> 
-> So those are my observations:
-> With NO_REPARENT (current mainline):
-> - SD card fails to probe:
->   sunxi-mmc 4020000.mmc: fatal err update clk timeout
-> - SD card is still parented to PERIPH0-2x (probably because U-Boot set
->   that up), but uses a divider of 256 for a clock rate of 4687500 Hz.
->   This probably leads to the failures.
-> - eMMC works, but is parented to the 24MHz OSC, probably because U-Boot
->   did not touch it. The clock rate is 12MHz, the read speed is 10MB/s.
-> With removing NO_REPARENT, so with this patch:
-> - SD cards probes, I can mount a VFAT fs on it, and sometimes "ls"
->   that, but it hangs soon afterwards, for instance when trying to
->   benchmark it.
+> Fixes: 3536b82e5853 ("mmc: sunxi: add support for A100 mmc controller")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Tested working with SD card in mmc0.
 
-It turns out that this it due to a wrong DMA block size description in
-the MMC driver: the A100/A133 only supports 8K blocks, not 64K as
-currently advertised there. Patch for that here: [1]
-With that patch I see the SD card fully working, and at the correct
-speed, so this patch here is:
+Tested-by: Parthiban Nallathambi <parthiban@linumiz.com>
 
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+Thanks,
+Parthiban
 
-Please add a Fixes tag and Cc: stable to the tags, like this:
-
-Fixes: fb038ce4db55 ("clk: sunxi-ng: add support for the Allwinner A100 CCU")
-Cc: stable@vger.kernel.org
-
-And make sure to also Cc: that address when sending that out. Or
-Chen-Yu adds the tags while committing, and we send this separately to stable?
-
-And maybe we can change the commit message to be a bit less vague, and
-just say while it's unknown why the flag was there in the first place,
-it doesn't make any sense and severely limits MMC transfer speeds.
-
-Cheers,
-Andre
-
-
-[1] https://lore.kernel.org/linux-sunxi/20241107014240.24669-1-andre.przywara@arm.com/T/#u
-
-> - SD clock is set up correctly: parent is PLL_PERIPH0-2x, rate is 50
->   MHz, correct for High Speed@4bit and its 25MB/s bus speed.
-> - eMMC works fine, clock parent is PLL-PERIPH0-2x, rate is 100 MHz,
->   correct for HS-200 (100 MHz * 8 bit * 2(DDR)). The read speed is
->   72MB/s, which sounds alright, and might be a limitation of the flash
->   chip.
+> ---
+>  drivers/mmc/host/sunxi-mmc.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> So NO_REPARENT is always worse for me.
-> 
-> > > Also it would be good to know why CLK_SET_RATE_NO_REPARENT was put there
-> > > in the first place: I don't see it in any other MMC clocks in sunxi-ng, so
-> > > it wasn't just copied&pasted.    
-> > Seeing that mmc2 acts better with the flag, perhaps it was copy + pasted
-> > from that config. Or perhaps the issues we're running into comes from
-> > elsewhere in the chain. At the moment, that's only speculation, though;
-> > I'm waiting on a device that has an SD card slot so I can perform more
-> > testing myself and debug these issues.
-> >   
-> > > So was there a problem that this flag was supposed to fix? Is that
-> > > something that only applied to older kernels (back when the MMC patches
-> > > were first posted), and which has now been fixed/changed elsewhere?    
-> > Yangtao Li/Frank Lee assumably no longer works at Allwinner, as the email
-> > he used to submit this originally no longer exists, but I believe the same
-> > Yangtao is now a maintainer of the Allwinner cpufreq subsystem, and is
-> > CC'd on these patches. I'm sending this reply to him as well; perhaps he
-> > may have some additional insight.
-> >   
-> > > I feel a bit uneasy of just removing this just because it works(TM),
-> > > especially if it doesn't really (SD card for me, for instance).    
-> > I agree; I was quickly preparing V2 to hopefully get this in before the
-> > 6.13 window for the sunxi tree closed, and added this in last minute after
-> > verifying it worked on my current device, which lacks an SD card slot.
-> > 
-> > This patch can be skipped for now, as it's apparent MMC0/1 require a little
-> > more love before we can merge it in. I'll submit new patches in the future
-> > once this is figured out.  
-> 
-> This patch would be a fix anyway (with a Fixes: tag), so we can push it
-> still into 6.13, after -rc1, and it would be backported. So it's not as
-> critical, timing-wise.
-> 
-> Cheers,
-> Andre
-> 
-> > 
-> > Thanks!
-> > - Cody
-> >   
-> > > Cheers,
-> > > Andre
-> > >     
-> > >> Signed-off-by: Cody Eksal <masterr3c0rd@epochal.quest>
-> > >> ---
-> > >>  drivers/clk/sunxi-ng/ccu-sun50i-a100.c | 6 +++---
-> > >>  1 file changed, 3 insertions(+), 3 deletions(-)    
-> >   
-> 
-> 
+> diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mmc.c
+> index d3bd0ac99ec46..e0ab5fd635e6c 100644
+> --- a/drivers/mmc/host/sunxi-mmc.c
+> +++ b/drivers/mmc/host/sunxi-mmc.c
+> @@ -1191,10 +1191,9 @@ static const struct sunxi_mmc_cfg sun50i_a64_emmc_cfg = {
+>  	.needs_new_timings = true,
+>  };
+>  
+> -static const struct sunxi_mmc_cfg sun50i_a100_cfg = {
+> +static const struct sunxi_mmc_cfg sun50i_h616_cfg = {
+>  	.idma_des_size_bits = 16,
+>  	.idma_des_shift = 2,
+> -	.clk_delays = NULL,
+>  	.can_calibrate = true,
+>  	.mask_data0 = true,
+>  	.needs_new_timings = true,
+> @@ -1217,8 +1216,9 @@ static const struct of_device_id sunxi_mmc_of_match[] = {
+>  	{ .compatible = "allwinner,sun20i-d1-mmc", .data = &sun20i_d1_cfg },
+>  	{ .compatible = "allwinner,sun50i-a64-mmc", .data = &sun50i_a64_cfg },
+>  	{ .compatible = "allwinner,sun50i-a64-emmc", .data = &sun50i_a64_emmc_cfg },
+> -	{ .compatible = "allwinner,sun50i-a100-mmc", .data = &sun50i_a100_cfg },
+> +	{ .compatible = "allwinner,sun50i-a100-mmc", .data = &sun20i_d1_cfg },
+>  	{ .compatible = "allwinner,sun50i-a100-emmc", .data = &sun50i_a100_emmc_cfg },
+> +	{ .compatible = "allwinner,sun50i-h616-mmc", .data = &sun50i_h616_cfg },
+>  	{ /* sentinel */ }
+>  };
+>  MODULE_DEVICE_TABLE(of, sunxi_mmc_of_match);
 
