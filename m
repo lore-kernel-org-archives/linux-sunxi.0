@@ -1,149 +1,146 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CEBF199248
-	for <linux-sunxi@lists.linux.dev>; Sat,  9 Nov 2024 12:35:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8335119ABAC
+	for <linux-sunxi@lists.linux.dev>; Sat,  9 Nov 2024 16:02:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731155736; cv=none; b=XpHlWt1lUTKX0/KJbv0UtXeloIKNLWsAaQct43GRiDccQvDF6QisMFNAyDRcc26VDPuI5Y4/3hqYSzk5aVpPTe7KJxiyXrVHZ4D181so0oZ/3j9/w/CEHMwLbJppgS7wPv/hDf7GEne6jyMO+yMZ38Jk5WvjlAj4mzjDpzs6pdU=
+	t=1731168172; cv=none; b=jdz/m/QPt43fKJ4IqAaf1rhDntieQR4ca3GOjjiWLlD/9nmen9p6YZf8Rj5ts64zxaXjhzXfBuvu+0KACQy5gYY1nkMUixF0/a2Z+/5xgtlRsYk5b9Rj8BLxcaPX4CRYhGO/Tk0hXl4vEOeNhw6OMmLy5966+Z8xA/33b+QpyG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731155736; c=relaxed/simple;
-	bh=NRpLumrdDZhSXCJcusWkwzHsBkwvkTsOwVSCIyGYQBU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=l24CpSl/GcKgLVdLQ0J/MTtl/eFt1UUAaWgdEUggswUDJtShQyDSEHhkF8AjBA7n8BuFaku62WG6Da6uShzD/Tr9T5XeuIu70ApSkqac6zxUps+dyibMqxRtkKXjBFZ5bZ8DUDWnoe6uX7ZuAekLtaLzweCR5isiBX+PRRDOcsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zXz/bVgQ; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zXz/bVgQ"
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-539e6c754bdso3119576e87.2
-        for <linux-sunxi@lists.linux.dev>; Sat, 09 Nov 2024 04:35:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1731155733; x=1731760533; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=L+pN3XKvVFmetq3YJbHAkykp748W6pEN5H4vcdcbZbk=;
-        b=zXz/bVgQNixKF4QgfKkQ0D2sOQo0WorQwK1VypsJmZKv3sS8eUdpOId+b55PhXIIgl
-         OBmxcVdPqsi6sKTpoIjFbAR1z4ii74ppjhjfsBsuVTlpC1Ctxy33OWCDnfrzKTcxQd41
-         gwXD4ozNdYmXNd/Cf+CXhRIyhEhZVT4lR0wi5VrebKLOJZEj2K8yAKtwV2uS/HunfHoE
-         DdIepR0jiQkdvoYiti5nLnmvddfvjZQhZ8/1NpRPKYIO4iCPpIhpIcLVVlkoL0CmiW+Q
-         CRa3eSC8wWin/wU6787v6nBWZ/rQ44S9YREWBQeyf835USLwGd5b6ov6SQdCKAcNLiqa
-         +hSg==
+	s=arc-20240116; t=1731168172; c=relaxed/simple;
+	bh=JNRz9V8zybDxy33qe+xTMatn1D6PMQo1GuPUrhcHyiI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=auz3MGPtOKJ6wyO15IiXW/dIyTWyRlKquyJoU6Xmg3kfX/d5asd5uwrjDX+Jbt7y3yKrMbXfFhRTh6t3nQ3aP/KnMPpele4m/rucVjKL/qmInqMtsW2OMjB6KR5WY0znPzO1PWZm3mDbzTbwsNca/RcLNc+fdFToXyfOi1FoAsc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-53d8c08cfc4so553599e87.3
+        for <linux-sunxi@lists.linux.dev>; Sat, 09 Nov 2024 08:02:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731155733; x=1731760533;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=L+pN3XKvVFmetq3YJbHAkykp748W6pEN5H4vcdcbZbk=;
-        b=Po8A4dDCfZ13pA64BZbHkLFGQ7eO83079hKdwOVu94WRimvI8rrlHAHkVv1mC6mHcm
-         LyO9LooQR1S35jSgq+JWv/z9z1EpZj/BHl6CO/z3sxiNYXYKvALQVxgBLG/PYBJhBl+q
-         1Jg6PYRhsU9Zw7VYHqlfRl1CBsDrfJNzQmN+tn4Z90EsJi2EMCPx0kbBsotyW7v7ovfj
-         ekc+KcH89LvSA8WuYXP6sRgvvmMB9OLqilJQl8okEmD9OK0qtADMOg4VwFEd+fArFw1Q
-         HFnodPBkbvBt/fN3vfEG4EZK/pm92uzEgACURBUcUbmJYi8b3uiBTMWegakdWWk39H7e
-         UKbA==
-X-Forwarded-Encrypted: i=1; AJvYcCUwSOf0R/vgOGSTbrxICmSZ8iiXVMACOc2hbvEFKxSUMqDm8UZlSgqzuogCeoeqCYDR8iHllFn8uQ8MzQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwqG3YbX0qgiY7NHpRVpJ5S4ej381WhVrSRYwestlrM66Nt1Wor
-	KjHbiPZC2rOw0Ey2sLrFeAKB7UI7XPu7gZBNKOg12khI/VZcvNr16MQpj4kFrlw=
-X-Google-Smtp-Source: AGHT+IHYy8a0Jl0t4eXfYO7d1FqKeWB0bC8cvUQRPjyNFzEV2jihfF3Am0WWkBzVwoqL1QUMEqIP1A==
-X-Received: by 2002:a05:6512:3f16:b0:539:d9e2:9d15 with SMTP id 2adb3069b0e04-53d8623fffcmr3082722e87.29.1731155732594;
-        Sat, 09 Nov 2024 04:35:32 -0800 (PST)
-Received: from umbar.lan ([192.130.178.90])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53d826784dbsm922899e87.15.2024.11.09.04.35.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 Nov 2024 04:35:31 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 09 Nov 2024 14:35:11 +0200
-Subject: [PATCH v3 7/7] drm/sun4i: use
- drm_atomic_helper_connector_hdmi_check()
+        d=1e100.net; s=20230601; t=1731168167; x=1731772967;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=oenLxzEzs2z/WFco/RA5EkTJEBkKi12h1iB/gMJYaSM=;
+        b=AIwk/f2yndur6H8Kc7kBjrdfDfbF5iybiYwqd7ZcsGS29SB3YzgcrOPuk2SRhaTMBf
+         uDmCGJawqKIxIP++ODJJM+Yx4UagkhaR7gltHCxdtk5wE1zkI/Rvzl1FIHTP+qwCdHPQ
+         odpdZ9l9g9H3P3irv+9CEECoAdxA4pZeHmsonQur58AsjBtFw+EgyeXkQ5Fjg2dOunzX
+         J556CjVdt44kvwLLmlY3LKydnzuSDcx9k7RRpTqpTr7HKR/jj521TkXZDBwNGozmXkCg
+         GhgwcaEjwroK6czJnEMQ8HKiSKkdptIRIO8hzYRnG7TLC33NmpPBxikMvO7cGDCy2Z2Y
+         jI4A==
+X-Forwarded-Encrypted: i=1; AJvYcCVMrkD5Q6Ek0+87Nnl5D+8sHxli9hKIcmPZyOvGJTGgLT3WAYkkVqk6zybGVqlv3wPR2CTlSxdaiK6uKg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw4cFk10SDGZX4IGeMqx23vUML3t5BoGEtebdlZ+DgXajcDzcUW
+	pRuJSR3jcAvoQIu2N3RoN5FF8gPBqK4vtRUx0IAPVw63vuvN1s4GubRDVeKE
+X-Google-Smtp-Source: AGHT+IExI3OFZjk7/ou0LZDxeyFpLSH2Erl3xIFOl4rfclR8VUL0rXWg8BMDN+p28b3IE5QYlcgKQA==
+X-Received: by 2002:a05:6512:3a88:b0:535:6aa9:9855 with SMTP id 2adb3069b0e04-53d862667aemr2791430e87.0.1731168166617;
+        Sat, 09 Nov 2024 08:02:46 -0800 (PST)
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com. [209.85.208.173])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53d826a7248sm948495e87.127.2024.11.09.08.02.43
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 09 Nov 2024 08:02:45 -0800 (PST)
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2fb4fa17044so30804281fa.3
+        for <linux-sunxi@lists.linux.dev>; Sat, 09 Nov 2024 08:02:43 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWnpHGXgXHUlj/UwjNfkCJ+NAp172jP0gzr5WR7uFFpNiCxCdRg5otPxvX6MNpkVXglc1e419gqaz7/VQ==@lists.linux.dev
+X-Received: by 2002:a2e:bea8:0:b0:2fa:d84a:bd8f with SMTP id
+ 38308e7fff4ca-2ff2028a865mr26875221fa.30.1731168162943; Sat, 09 Nov 2024
+ 08:02:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241109-hdmi-mode-valid-v3-7-5348c2368076@linaro.org>
-References: <20241109-hdmi-mode-valid-v3-0-5348c2368076@linaro.org>
-In-Reply-To: <20241109-hdmi-mode-valid-v3-0-5348c2368076@linaro.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2011;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=NRpLumrdDZhSXCJcusWkwzHsBkwvkTsOwVSCIyGYQBU=;
- b=owGbwMvMwMXYbdNlx6SpcZXxtFoSQ7p+2P/UnAP/1lS+cTe5zqq05k8zk9jJ3/kFf9hFefyer
- PvILuvWyWjMwsDIxSArpsjiU9AyNWZTctiHHVPrYQaxMoFMYeDiFICJ3H/JwTBByj1Gq3qN6AeP
- o7aBh83EfpQelbE2PxPHwSrQtOXuzpWWAdPL7V20fHnmPSgJPae4eu0jF4EvzSKi1hf6GBqMq/4
- eeLB96THGoJQfpepc7ku0Iy8Ei4RpMyhoFiceTbF5wJibpHuC37Nlnvn6xLlRhfOuScz40LdLMj
- vuZ1muq9PZ27M9+CN3C812ttdTdP+R/3jN9uAWG57HW0rPH+E1e3pukty3ZXZbUv4ylJ2/dyD3X
- MeLJPnAnaIOsusKL33yPnrZioPv9o+bP3ZYrlLsjS+/aRWZ2L1002uP9vgHx24wz2hv6qjrv/ih
- oTtM/MHPrSUulTmRUXP+1LEGMK7ck3dy07HdEs8aPB04AQ==
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+References: <20241109003739.3440904-1-masterr3c0rd@epochal.quest>
+In-Reply-To: <20241109003739.3440904-1-masterr3c0rd@epochal.quest>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Sun, 10 Nov 2024 00:02:30 +0800
+X-Gmail-Original-Message-ID: <CAGb2v663xMyiEx4BpPkuRew9t8fAgbz6EENEj--8Y57E87Lgcg@mail.gmail.com>
+Message-ID: <CAGb2v663xMyiEx4BpPkuRew9t8fAgbz6EENEj--8Y57E87Lgcg@mail.gmail.com>
+Subject: Re: [PATCH] clk: sunxi-ng: a100: enable MMC clock reparenting
+To: Cody Eksal <masterr3c0rd@epochal.quest>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Yangtao Li <frank@allwinnertech.com>, Maxime Ripard <mripard@kernel.org>, 
+	Rob Herring <robh@kernel.org>, linux-clk@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Parthiban <parthiban@linumiz.com>, 
+	Andre Przywara <andre.przywara@arm.com>, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Replace sun4i_hdmi_connector_atomic_check(), which performs just TMDS
-char rate check, with drm_atomic_helper_connector_hdmi_check(), which
-performs additional checks basing on the HDMI Connector's state.
+On Sat, Nov 9, 2024 at 8:38=E2=80=AFAM Cody Eksal <masterr3c0rd@epochal.que=
+st> wrote:
+>
+> While testing the MMC nodes proposed in [1], it was noted that mmc0/1
+> would fail to initialize, with "mmc: fatal err update clk timeout" in
+> the kernel logs. A closer look at the clock definitions showed that the M=
+MC
+> MPs had the "CLK_SET_RATE_NO_REPARENT" flag set. No reason was given for
+> adding this flag in the first place, and its original purpose is unknown,
+> but it doesn't seem to make sense and results in severe limitations to MM=
+C
+> speeds. Thus, remove this flag from the 3 MMC MPs.
+>
+> [1] https://msgid.link/20241024170540.2721307-10-masterr3c0rd@epochal.que=
+st
+>
+> Fixes: fb038ce4db55 ("clk: sunxi-ng: add support for the Allwinner A100 C=
+CU")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Cody Eksal <masterr3c0rd@epochal.quest>
+> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 
-Suggested-by: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 20 +-------------------
- 1 file changed, 1 insertion(+), 19 deletions(-)
+You should still keep the version number from the original series if
+resending or increment it if changes were made.
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-index 54b72fe220afacc208b3fd48d5160031127ea14a..b05fd77870b00aac97d003f3fb9c2b98cb73abc0 100644
---- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-@@ -187,24 +187,6 @@ sun4i_hdmi_connector_clock_valid(const struct drm_connector *connector,
- 	return MODE_NOCLOCK;
- }
- 
--static int sun4i_hdmi_connector_atomic_check(struct drm_connector *connector,
--					     struct drm_atomic_state *state)
--{
--	struct drm_connector_state *conn_state =
--		drm_atomic_get_new_connector_state(state, connector);
--	struct drm_crtc *crtc = conn_state->crtc;
--	struct drm_crtc_state *crtc_state = crtc->state;
--	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
--	enum drm_mode_status status;
--
--	status = sun4i_hdmi_connector_clock_valid(connector, mode,
--						  conn_state->hdmi.tmds_char_rate);
--	if (status != MODE_OK)
--		return -EINVAL;
--
--	return 0;
--}
--
- static int sun4i_hdmi_get_modes(struct drm_connector *connector)
- {
- 	struct sun4i_hdmi *hdmi = drm_connector_to_sun4i_hdmi(connector);
-@@ -258,7 +240,7 @@ static const struct drm_connector_hdmi_funcs sun4i_hdmi_hdmi_connector_funcs = {
- };
- 
- static const struct drm_connector_helper_funcs sun4i_hdmi_connector_helper_funcs = {
--	.atomic_check	= sun4i_hdmi_connector_atomic_check,
-+	.atomic_check	= drm_atomic_helper_connector_hdmi_check,
- 	.mode_valid	= drm_hdmi_connector_mode_valid,
- 	.get_modes	= sun4i_hdmi_get_modes,
- };
+ChenYu
 
--- 
-2.39.5
-
+> ---
+>  drivers/clk/sunxi-ng/ccu-sun50i-a100.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a100.c b/drivers/clk/sunxi-n=
+g/ccu-sun50i-a100.c
+> index bbaa82978716..a59e420b195d 100644
+> --- a/drivers/clk/sunxi-ng/ccu-sun50i-a100.c
+> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-a100.c
+> @@ -436,7 +436,7 @@ static SUNXI_CCU_MP_WITH_MUX_GATE_POSTDIV(mmc0_clk, "=
+mmc0", mmc_parents, 0x830,
+>                                           24, 2,        /* mux */
+>                                           BIT(31),      /* gate */
+>                                           2,            /* post-div */
+> -                                         CLK_SET_RATE_NO_REPARENT);
+> +                                         0);
+>
+>  static SUNXI_CCU_MP_WITH_MUX_GATE_POSTDIV(mmc1_clk, "mmc1", mmc_parents,=
+ 0x834,
+>                                           0, 4,         /* M */
+> @@ -444,7 +444,7 @@ static SUNXI_CCU_MP_WITH_MUX_GATE_POSTDIV(mmc1_clk, "=
+mmc1", mmc_parents, 0x834,
+>                                           24, 2,        /* mux */
+>                                           BIT(31),      /* gate */
+>                                           2,            /* post-div */
+> -                                         CLK_SET_RATE_NO_REPARENT);
+> +                                         0);
+>
+>  static SUNXI_CCU_MP_WITH_MUX_GATE_POSTDIV(mmc2_clk, "mmc2", mmc_parents,=
+ 0x838,
+>                                           0, 4,         /* M */
+> @@ -452,7 +452,7 @@ static SUNXI_CCU_MP_WITH_MUX_GATE_POSTDIV(mmc2_clk, "=
+mmc2", mmc_parents, 0x838,
+>                                           24, 2,        /* mux */
+>                                           BIT(31),      /* gate */
+>                                           2,            /* post-div */
+> -                                         CLK_SET_RATE_NO_REPARENT);
+> +                                         0);
+>
+>  static SUNXI_CCU_GATE(bus_mmc0_clk, "bus-mmc0", "ahb3", 0x84c, BIT(0), 0=
+);
+>  static SUNXI_CCU_GATE(bus_mmc1_clk, "bus-mmc1", "ahb3", 0x84c, BIT(1), 0=
+);
+> --
+> 2.47.0
+>
+>
