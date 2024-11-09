@@ -1,225 +1,136 @@
-Received: from out162-62-57-87.mail.qq.com (out162-62-57-87.mail.qq.com [162.62.57.87])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77AE41A0711
-	for <linux-sunxi@lists.linux.dev>; Sat,  9 Nov 2024 19:35:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.87
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 541D613E043;
+	Sat,  9 Nov 2024 20:31:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731180931; cv=none; b=KcO0bcsZUtH5dT3CDxf07fnzcYAzhiOf4dqbHx5mfAnQKhdmupwNKJaa0nTGcw0RQvTAmMpkYUEU3Dkv5PfN/0GMiawIlby8zkZ2yPlu25s/Rds/CPX1uLltK4WIScYom7iNBQTPbwlng7TXWLU2/TvPB6Q/+onEsZUjno1qMlI=
+	t=1731184268; cv=none; b=pTqlMBX4f+k3CCUA3my6e6YdLWpJq/ubZNYBe2Dg8am6tnq6b1KogWgieiToOKnYh/F3r6ZZ9gWBt1UC3CdegllXSffseQUpw/tnM7+kg25049c4yhU3ww9RwFliMTlrvVFHp1+xIIelrisGhXeKdM3DYrMV0IhpcvS7Lp1sJV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731180931; c=relaxed/simple;
-	bh=RzyOIa5uO/9Z4Esf27fE4VCb7817oqLZGv2jNjc3Il0=;
-	h=Message-ID:Content-Type:Mime-Version:Subject:From:In-Reply-To:
-	 Date:Cc:References:To; b=HLOvfSo0QVk1/fb5m20UZYUuGweCQVjSX9u1BH7ZwvAS/8b1322dsD8qNEwcLoLR2DUJZZAtzW3EpqtBmRUjNQKaMepJRkdf6ZnhUftvFtxabUBgyela8i5OJLSSqDWD5XFIpaw5bYOus9RwbfwokenDAeMrSmSHJMGRwqpRIO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name; spf=pass smtp.mailfrom=cyyself.name; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=bW+S6Maq; arc=none smtp.client-ip=162.62.57.87
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyyself.name
+	s=arc-20240116; t=1731184268; c=relaxed/simple;
+	bh=lwc+6sp3mcJ5Ad0yQLyDMLqBIcNpYLMMzahip6ZIWmI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Mi0JP+xcWak6OX3CBozMfkoV0fTOI6tQuBDxdDGYnNxXecnOUhFDFgO/7ceq/gbAQS+/z4XgBahuyFJ35HkWfagDjd4OfEf1kGSWC/DGkJFTqWCT9iomcf+5llJHL0F8rvozj8maWyCFxjiIYiaVNrD3NcjL5yblD5IAxI0t5O0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m9oYKpxD; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="bW+S6Maq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1731180910; bh=yqhfUJ3/dfhZv7c8wagZAZ6oyLkqp1Y0Z8WxK6uEpk4=;
-	h=Subject:From:In-Reply-To:Date:Cc:References:To;
-	b=bW+S6MaqZuZu1nZd80plcYkjMN/Y0z3mckqupY0YLK7V2iz7WOqB0XZqfXMWsx+g/
-	 DyCk1NI6U9R9ub9AWuSFcbxFSvV6JfUoC/lyXPSDBzsLaD4lm5Y3wBoHCUP4U5UGIN
-	 eIXrduYCWyqSUUUO+ozDWVlonHeUiuUyjWH41SlQ=
-Received: from smtpclient.apple ([2408:8207:18a1:fd20:75f7:4ab1:fc76:cbf3])
-	by newxmesmtplogicsvrszb16-1.qq.com (NewEsmtp) with SMTP
-	id 8C4B3A57; Sun, 10 Nov 2024 03:35:04 +0800
-X-QQ-mid: xmsmtpt1731180904t8up4sgn3
-Message-ID: <tencent_2EF88DF37C4B82B2DA0B8E49B85C312E2108@qq.com>
-X-QQ-XMAILINFO: OGZxhFXqN7PJ92jmdY2jgaF/Dia5ccEFwUtzYNeNRNnWUT7g8BXEToBO+g7PMZ
-	 gd8SXFgRIOMDVib1kUgxYUnnidAMn4L3tWcmVJtGzSLSg7enLsAlE4j1LNQ2hRwQYOpjCmEz1ksJ
-	 Etd8HtBLG5V/YdYB2Q2rUw9yZRkd3fFgPChUyajz2fsT7BbSA94bN3GC+PqdN5WQ0FFrpehnMFSa
-	 gBIG+jxrUw01Ap/6qxy773WIJhPUXCMgoyrBgikwntuo+g/LpEHU0pGX/47gMeHJuFXxiFYbNe6P
-	 WrkSXCH/hFjF5y3VSkE8xjDpL+5zm/C3UeDbW3CoRMgrye+3Cr4ph7bJqv7mUBBnIddUPPuvR7fF
-	 wCpwBWbwwC3znj9Ko96Dy8aExJP/SpbYoBU0yPN83hJZTWPf9c3cp6TDwfPdlYha39N4m8yNiOhC
-	 skZJthlPZqX1KxCtr86iM+pVgpt55Kq96Od7qRMm8yOY4QkY3lWUsaVlRPffnCPL12fL4szpCdWO
-	 iJXlGx+anN6VQCP3sGiJpHJDpVHT5UrwwvUnxHWJYDwwtolr64JmxkWN6MNvb1ygYUIqvkfjW3St
-	 Sa3wsb/VWvUPW7+SqkmH3FOfmfcd2QVmltWgpPYAeQssruJuWphxR0nDwJkIHnCgMuckgryXubKo
-	 En9J8jPxlTxRfquPbVbuoWs82f2E3qtigBycGfBcf9tyiSzKSFUt/0kVOTlO5vc8YjsoLGLefBsd
-	 g7BiXPkqRN6bKFAf9mrYNYNlrs5Ep4wT9/TAZV0qfiWE3sLhu1N3TmzNn2f/tydnlwIg42dfs5UB
-	 ph8RoKxexZPVEmMSynMkEQlaShp6cXL8PwkG5XSxJ+TD1X7ctYDwzRt3wJRZME03ns6wsYiIO1GR
-	 LI2vD2HZq79T/WptKJ8WpW1lexQvjbdmvOKON7Z8aCJRS0AJMajwQnRD8bwvI70I6uHGwPPDrQlp
-	 FfLKUjcpbsAD6hLnxZW2jUKGcb89bNLdWn2cUqr//AAcPVFeQvUYoMWbaIWwmhnXmUWpUSpCfQjG
-	 qp/z64gQ==
-X-QQ-XMRINFO: Mp0Kj//9VHAxr69bL5MkOOs=
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m9oYKpxD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731184264; x=1762720264;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lwc+6sp3mcJ5Ad0yQLyDMLqBIcNpYLMMzahip6ZIWmI=;
+  b=m9oYKpxDl36q0mQ2H5UPuGv9IX/5g5hizmK7EulooXW1oMFEqO5Ymc4b
+   t7FSXPY/NCMtNVvlx3jYDMhaLepsVifPbYnFgGRDQKnqy2i4jr/kC6baE
+   FIxgajU+Gui6T/dVadPEu8v6RRQA5ExvJ/F/r9e0Jl2rCovTDmWdCm/fi
+   uZVPe22RrinOjWpNBeZq6C09iQx3N+A9Sj32HDJkJqeCqkrCxo00HR6Pc
+   M92ibTbKNTvFKJJotMKiQDFnP+q2f+81qaEwJbknf9wRHu4KFBzvIXdiC
+   Mc++WGLfKzma04lWMqs0F5BCJ2s+n0uQ2umx4hTgW/Mky3VhixnhCHXY7
+   Q==;
+X-CSE-ConnectionGUID: FATNOYMZRPm+WhmQ4Ehvlg==
+X-CSE-MsgGUID: fC400d2bQrWq4696f+oskQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11251"; a="31146957"
+X-IronPort-AV: E=Sophos;i="6.12,141,1728975600"; 
+   d="scan'208";a="31146957"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2024 12:31:03 -0800
+X-CSE-ConnectionGUID: SqYXoFcpRpS+1UQ6kzFulw==
+X-CSE-MsgGUID: gbPkTUaOTr+b6WNW2HVVlg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="91027501"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 09 Nov 2024 12:30:58 -0800
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t9s6i-000sby-0c;
+	Sat, 09 Nov 2024 20:30:56 +0000
+Date: Sun, 10 Nov 2024 04:29:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	=?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v3 3/7] drm/vc4: use drm_hdmi_connector_mode_valid()
+Message-ID: <202411100456.0JcsAx2b-lkp@intel.com>
+References: <20241109-hdmi-mode-valid-v3-3-5348c2368076@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.200.121\))
-Subject: Re: [PATCH v10 05/14] riscv: vector: Use vlenb from DT for thead
-From: Yangyu Chen <cyy@cyyself.name>
-In-Reply-To: <20240911-xtheadvector-v10-5-8d3930091246@rivosinc.com>
-Date: Sun, 10 Nov 2024 03:34:54 +0800
-Cc: linux-riscv@lists.infradead.org,
- devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev,
- linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org,
- Conor Dooley <conor.dooley@microchip.com>
-Content-Transfer-Encoding: quoted-printable
-X-OQ-MSGID: <9F32D251-63F5-42DA-99FA-B02B1C8A4900@cyyself.name>
-References: <20240911-xtheadvector-v10-0-8d3930091246@rivosinc.com>
- <20240911-xtheadvector-v10-5-8d3930091246@rivosinc.com>
-To: Charlie Jenkins <charlie@rivosinc.com>,
- Conor Dooley <conor@kernel.org>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>,
- Jisheng Zhang <jszhang@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Samuel Holland <samuel.holland@sifive.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <shuah@kernel.org>,
- Guo Ren <guoren@kernel.org>,
- Evan Green <evan@rivosinc.com>,
- Andy Chiu <andy.chiu@sifive.com>,
- Jessica Clarke <jrtc27@jrtc27.com>,
- Andrew Jones <ajones@ventanamicro.com>
-X-Mailer: Apple Mail (2.3826.200.121)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241109-hdmi-mode-valid-v3-3-5348c2368076@linaro.org>
 
-Hi Charlie,
+Hi Dmitry,
 
-I have tested this patchset with ghostwrite rebased to linux commit =
-da4373fbcf ("Merge tag 'thermal-6.12-rc7' of =
-git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm") [1] on =
-my D1 Nezha board, with defconfig + CONFIG_ERRATA_THEAD_GHOSTWRITE=3Dn, =
-I got this message during boot:
+kernel test robot noticed the following build warnings:
 
-[    0.027584] Kernel panic - not syncing: __kmem_cache_create_args: =
-Failed to create slab 'riscv_vector_ctx'. Error -22
-[    0.038057] CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted =
-6.12.0-rc6-00310-gb276cf69df24-dirty #11
-[    0.047240] Hardware name: Allwinner D1 Nezha (DT)
-[    0.052007] Call Trace:
-[    0.054434] [<ffffffff80007172>] dump_backtrace+0x1c/0x24
-[    0.059806] [<ffffffff809f6834>] show_stack+0x2c/0x38
-[    0.064833] [<ffffffff80a040f0>] dump_stack_lvl+0x52/0x74
-[    0.070206] [<ffffffff80a04126>] dump_stack+0x14/0x1c
-[    0.075233] [<ffffffff809f6db6>] panic+0x10c/0x300
-[    0.080000] [<ffffffff8017b5a0>] __kmem_cache_create_args+0x24a/0x2b6
-[    0.086413] [<ffffffff80c04c68>] riscv_v_setup_ctx_cache+0x56/0x84
-[    0.092566] [<ffffffff80c04288>] arch_task_cache_init+0x10/0x1c
-[    0.098460] [<ffffffff80c07d02>] fork_init+0x68/0x1a8
-[    0.103486] [<ffffffff80c00ed2>] start_kernel+0x77e/0x822
-[    0.108870] ---[ end Kernel panic - not syncing: =
-__kmem_cache_create_args: Failed to create slab 'riscv_vector_ctx'. =
-Error -22 ]---
+[auto build test WARNING on 929beafbe7acce3267c06115e13e03ff6e50548a]
 
-[1] https://github.com/cyyself/linux/tree/xtheadvector_20241110
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/drm-display-hdmi-add-generic-mode_valid-helper/20241109-203557
+base:   929beafbe7acce3267c06115e13e03ff6e50548a
+patch link:    https://lore.kernel.org/r/20241109-hdmi-mode-valid-v3-3-5348c2368076%40linaro.org
+patch subject: [PATCH v3 3/7] drm/vc4: use drm_hdmi_connector_mode_valid()
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20241110/202411100456.0JcsAx2b-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241110/202411100456.0JcsAx2b-lkp@intel.com/reproduce)
 
-On 9/12/24 13:55, Charlie Jenkins wrote:
->  diff --git a/arch/riscv/kernel/vector.c b/arch/riscv/kernel/vector.c
-> index 682b3feee451..9775d6a9c8ee 100644
-> --- a/arch/riscv/kernel/vector.c
-> +++ b/arch/riscv/kernel/vector.c
-> @@ -33,7 +33,17 @@ int riscv_v_setup_vsize(void)
->  {
->  	unsigned long this_vsize;
->  -	/* There are 32 vector registers with vlenb length. */
-> +	/*
-> +	 * There are 32 vector registers with vlenb length.
-> +	 *
-> +	 * If the thead,vlenb property was provided by the firmware, use =
-that
-> +	 * instead of probing the CSRs.
-> +	 */
-> +	if (thead_vlenb_of) {
-> +		this_vsize =3D thead_vlenb_of * 32;
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411100456.0JcsAx2b-lkp@intel.com/
 
-Then, I patched here which replaces "this_vsize" with "riscv_v_vsize". =
-The kernel boots normally and I can see =E2=80=9Cxtheadvector" in =
-/proc/cpuinfo.
+All warnings (new ones prefixed by >>):
 
-However, when I try to run the "v_exec_initval_nolibc" test, the kernel =
-panics with these outputs:
+   drivers/gpu/drm/vc4/vc4_hdmi.c: In function 'vc4_hdmi_encoder_mode_valid':
+>> drivers/gpu/drm/vc4/vc4_hdmi.c:1762:68: warning: passing argument 2 of 'drm_hdmi_connector_mode_valid' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+    1762 |         return drm_hdmi_connector_mode_valid(&vc4_hdmi->connector, mode);
+         |                                                                    ^~~~
+   In file included from drivers/gpu/drm/vc4/vc4_hdmi.c:35:
+   include/drm/display/drm_hdmi_state_helper.h:25:56: note: expected 'struct drm_display_mode *' but argument is of type 'const struct drm_display_mode *'
+      25 |                               struct drm_display_mode *mode);
+         |                               ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
 
-[  978.788878] Oops - illegal instruction [#1]
-[  978.788897] Modules linked in:
-[  978.788908] CPU: 0 UID: 1000 PID: 461 Comm: v_exec_initval_ Not =
-tainted 6.12.0-rc6-00310-gb276cf69df24-dirty #12
-[  978.788924] Hardware name: Allwinner D1 Nezha (DT)
-[  978.788929] epc : do_trap_ecall_u+0x56/0x20a
-[  978.788956]  ra : _new_vmalloc_restore_context_a0+0xc2/0xce
-[  978.788974] epc : ffffffff80a04afe ra : ffffffff80a0e742 sp : =
-ffffffc6003fbeb0
-[  978.788983]  gp : ffffffff81717080 tp : ffffffd60723b300 t0 : =
-ffffffff81001268
-[  978.788991]  t1 : ffffffff80a04aa8 t2 : ffffffff810012a8 s0 : =
-ffffffc6003fbee0
-[  978.789000]  s1 : ffffffc6003fbee0 a0 : ffffffc6003fbee0 a1 : =
-000000000000005d
-[  978.789007]  a2 : 0000000000000000 a3 : ffffffffffffffda a4 : =
-0000000000000003
-[  978.789015]  a5 : 0000000000000000 a6 : 0000000002adb5fe a7 : =
-000000000000005d
-[  978.789022]  s2 : 00000000000108a8 s3 : 0000000000000000 s4 : =
-0000000000000008
-[  978.789030]  s5 : 0000003fb42ab780 s6 : 0000002adb5fe420 s7 : =
-0000002adb5fb9e0
-[  978.789038]  s8 : 0000002adb5fe440 s9 : 0000002adb5fe420 s10: =
-0000002adb572ad4
-[  978.789046]  s11: 0000002adb572ad0 t3 : 0000003fb43c5e3c t4 : =
-622f7273752f3d5f
-[  978.789053]  t5 : 0000002adb5fd5a1 t6 : 0000000002adb5ff
-[  978.789060] status: 8000000201800100 badaddr: 000000005e0fb057 cause: =
-0000000000000002
-[  978.789069] [<ffffffff80a04afe>] do_trap_ecall_u+0x56/0x20a
-[  978.789086] [<ffffffff80a0e742>] =
-_new_vmalloc_restore_context_a0+0xc2/0xce
-[  978.789113] Code: a073 1007 006f 1a60 7057 0c30 57fd 17fe 77d7 0c30 =
-(b057) 5e0f
-[  978.789123] ---[ end trace 0000000000000000 ]---
-[  978.789131] Kernel panic - not syncing: Fatal exception in interrupt
-[  978.937158] ---[ end Kernel panic - not syncing: Fatal exception in =
-interrupt ]---
 
-Is something wrong with my setup?
+vim +1762 drivers/gpu/drm/vc4/vc4_hdmi.c
 
-Thanks,
-Yangyu Chen
+  1749	
+  1750	static enum drm_mode_status
+  1751	vc4_hdmi_encoder_mode_valid(struct drm_encoder *encoder,
+  1752				    const struct drm_display_mode *mode)
+  1753	{
+  1754		struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
+  1755	
+  1756		if (vc4_hdmi->variant->unsupported_odd_h_timings &&
+  1757		    !(mode->flags & DRM_MODE_FLAG_DBLCLK) &&
+  1758		    ((mode->hdisplay % 2) || (mode->hsync_start % 2) ||
+  1759		     (mode->hsync_end % 2) || (mode->htotal % 2)))
+  1760			return MODE_H_ILLEGAL;
+  1761	
+> 1762		return drm_hdmi_connector_mode_valid(&vc4_hdmi->connector, mode);
+  1763	}
+  1764	
 
-> +		return 0;
-> +	}
-> +
->  	riscv_v_enable();
->  	this_vsize =3D csr_read(CSR_VLENB) * 32;
->  	riscv_v_disable();
-> diff --git a/arch/riscv/kernel/vendor_extensions/thead.c =
-b/arch/riscv/kernel/vendor_extensions/thead.c
-> index 0f27baf8d245..519dbf70710a 100644
-> --- a/arch/riscv/kernel/vendor_extensions/thead.c
-> +++ b/arch/riscv/kernel/vendor_extensions/thead.c
-> @@ -5,6 +5,7 @@
->  #include <asm/vendor_extensions/thead.h>
->    #include <linux/array_size.h>
-> +#include <linux/cpumask.h>
->  #include <linux/types.h>
->    /* All T-Head vendor extensions supported in Linux */
-> @@ -16,3 +17,13 @@ struct riscv_isa_vendor_ext_data_list =
-riscv_isa_vendor_ext_list_thead =3D {
->  	.ext_data_count =3D ARRAY_SIZE(riscv_isa_vendor_ext_thead),
->  	.ext_data =3D riscv_isa_vendor_ext_thead,
->  };
-> +
-> +void disable_xtheadvector(void)
-> +{
-> +	int cpu;
-> +
-> +	for_each_possible_cpu(cpu)
-> +		clear_bit(RISCV_ISA_VENDOR_EXT_XTHEADVECTOR, =
-riscv_isa_vendor_ext_list_thead.per_hart_isa_bitmap[cpu].isa);
-> +
-> +	clear_bit(RISCV_ISA_VENDOR_EXT_XTHEADVECTOR, =
-riscv_isa_vendor_ext_list_thead.all_harts_isa_bitmap.isa);
-> +}
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
