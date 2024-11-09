@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 541D613E043;
-	Sat,  9 Nov 2024 20:31:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C79B1A08BC;
+	Sat,  9 Nov 2024 22:45:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731184268; cv=none; b=pTqlMBX4f+k3CCUA3my6e6YdLWpJq/ubZNYBe2Dg8am6tnq6b1KogWgieiToOKnYh/F3r6ZZ9gWBt1UC3CdegllXSffseQUpw/tnM7+kg25049c4yhU3ww9RwFliMTlrvVFHp1+xIIelrisGhXeKdM3DYrMV0IhpcvS7Lp1sJV8=
+	t=1731192312; cv=none; b=fP9+aJU3Q6s7yl4ziOjnDyua4h+dccudTgW6MSYutxWuAm1JJ8/SQRVzd6nNdbwTj3EH0an884TMdZ9yU2DnSZhAZal68/yurdIBtR0dd19flqrmLMdyv4w+zYuhtYM883j9IbxXn9cj4ZsTP2eI74h3vpDLYym+C2eOAHeNnl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731184268; c=relaxed/simple;
-	bh=lwc+6sp3mcJ5Ad0yQLyDMLqBIcNpYLMMzahip6ZIWmI=;
+	s=arc-20240116; t=1731192312; c=relaxed/simple;
+	bh=7mZVdy4HvTPq5DFlYE3+ppI/UE45cLaflLdyjAdTgGM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Mi0JP+xcWak6OX3CBozMfkoV0fTOI6tQuBDxdDGYnNxXecnOUhFDFgO/7ceq/gbAQS+/z4XgBahuyFJ35HkWfagDjd4OfEf1kGSWC/DGkJFTqWCT9iomcf+5llJHL0F8rvozj8maWyCFxjiIYiaVNrD3NcjL5yblD5IAxI0t5O0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m9oYKpxD; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=fjVJWml4PbNrjOzitoLX1BVGIZMaZ0FMEvrJJs/ISiDdGjZVH6X4D6gKMNJu49R63sypWYuCHlp+NxzaPzgMSE8yE6J4NlYfaBAumi1tKA27kuC2bOFrjkynMBYoC9croD0Ip3qleJz4pguUsFjeO02tpOP7/auyJdoxy82oaq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zpz0mNHF; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m9oYKpxD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zpz0mNHF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731184264; x=1762720264;
+  t=1731192310; x=1762728310;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=lwc+6sp3mcJ5Ad0yQLyDMLqBIcNpYLMMzahip6ZIWmI=;
-  b=m9oYKpxDl36q0mQ2H5UPuGv9IX/5g5hizmK7EulooXW1oMFEqO5Ymc4b
-   t7FSXPY/NCMtNVvlx3jYDMhaLepsVifPbYnFgGRDQKnqy2i4jr/kC6baE
-   FIxgajU+Gui6T/dVadPEu8v6RRQA5ExvJ/F/r9e0Jl2rCovTDmWdCm/fi
-   uZVPe22RrinOjWpNBeZq6C09iQx3N+A9Sj32HDJkJqeCqkrCxo00HR6Pc
-   M92ibTbKNTvFKJJotMKiQDFnP+q2f+81qaEwJbknf9wRHu4KFBzvIXdiC
-   Mc++WGLfKzma04lWMqs0F5BCJ2s+n0uQ2umx4hTgW/Mky3VhixnhCHXY7
-   Q==;
-X-CSE-ConnectionGUID: FATNOYMZRPm+WhmQ4Ehvlg==
-X-CSE-MsgGUID: fC400d2bQrWq4696f+oskQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11251"; a="31146957"
-X-IronPort-AV: E=Sophos;i="6.12,141,1728975600"; 
-   d="scan'208";a="31146957"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2024 12:31:03 -0800
-X-CSE-ConnectionGUID: SqYXoFcpRpS+1UQ6kzFulw==
-X-CSE-MsgGUID: gbPkTUaOTr+b6WNW2HVVlg==
+  bh=7mZVdy4HvTPq5DFlYE3+ppI/UE45cLaflLdyjAdTgGM=;
+  b=Zpz0mNHF8swXVcuYkcW2cPMVcaT5InpTXjP9AWhHTf6poUvEKep0tq8p
+   YUz6cn/R8rkdFxVxU2UeYmMML0KCyHqTvzr//5HLHyJ7hx+86ZOEuz5ip
+   t08kALlzIhwg+ofSe6nWwVhGzEYVwGo4DBwKnhsRijWoHPO6Q/46ajetx
+   iUydREArwlt66+UAWQ7IasZfCY7LtcIppS9nAoel37NE0qGTBvYo08LTr
+   iw7g8SCAP1SQE1KmpryktON1+kOYC5h9sWo9nL8dg0rDG75762Wfj0/cv
+   BW1+Uxq2M/hOHGgMBZ12t5vI/UQYQh6zDGOqEVmS55X/r5Iflu53QDOTf
+   g==;
+X-CSE-ConnectionGUID: l1nfDQRqRcWjgGLlN6TZqw==
+X-CSE-MsgGUID: +de8HvKYSeGedNbgumW8hw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11251"; a="30446920"
+X-IronPort-AV: E=Sophos;i="6.12,142,1728975600"; 
+   d="scan'208";a="30446920"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2024 14:45:09 -0800
+X-CSE-ConnectionGUID: 9EXFqZK0SOSAAMztvcJVtg==
+X-CSE-MsgGUID: jlVcUIPeQmG/SAB0UbUEUw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="91027501"
+X-IronPort-AV: E=Sophos;i="6.12,142,1728975600"; 
+   d="scan'208";a="91267949"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 09 Nov 2024 12:30:58 -0800
+  by orviesa004.jf.intel.com with ESMTP; 09 Nov 2024 14:45:04 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t9s6i-000sby-0c;
-	Sat, 09 Nov 2024 20:30:56 +0000
-Date: Sun, 10 Nov 2024 04:29:58 +0800
+	id 1t9uCT-000sk6-2X;
+	Sat, 09 Nov 2024 22:45:01 +0000
+Date: Sun, 10 Nov 2024 06:44:27 +0800
 From: kernel test robot <lkp@intel.com>
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -65,11 +65,11 @@ To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
 	Robert Foss <rfoss@kernel.org>,
 	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
 	Jonas Karlman <jonas@kwiboo.se>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
 Subject: Re: [PATCH v3 3/7] drm/vc4: use drm_hdmi_connector_mode_valid()
-Message-ID: <202411100456.0JcsAx2b-lkp@intel.com>
+Message-ID: <202411100659.T6WKBFbI-lkp@intel.com>
 References: <20241109-hdmi-mode-valid-v3-3-5348c2368076@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -83,33 +83,61 @@ In-Reply-To: <20241109-hdmi-mode-valid-v3-3-5348c2368076@linaro.org>
 
 Hi Dmitry,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 929beafbe7acce3267c06115e13e03ff6e50548a]
+[auto build test ERROR on 929beafbe7acce3267c06115e13e03ff6e50548a]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/drm-display-hdmi-add-generic-mode_valid-helper/20241109-203557
 base:   929beafbe7acce3267c06115e13e03ff6e50548a
 patch link:    https://lore.kernel.org/r/20241109-hdmi-mode-valid-v3-3-5348c2368076%40linaro.org
 patch subject: [PATCH v3 3/7] drm/vc4: use drm_hdmi_connector_mode_valid()
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20241110/202411100456.0JcsAx2b-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241110/202411100456.0JcsAx2b-lkp@intel.com/reproduce)
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241110/202411100659.T6WKBFbI-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241110/202411100659.T6WKBFbI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411100456.0JcsAx2b-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411100659.T6WKBFbI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/vc4/vc4_hdmi.c: In function 'vc4_hdmi_encoder_mode_valid':
->> drivers/gpu/drm/vc4/vc4_hdmi.c:1762:68: warning: passing argument 2 of 'drm_hdmi_connector_mode_valid' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+   In file included from drivers/gpu/drm/vc4/vc4_hdmi.c:37:
+   In file included from include/drm/drm_atomic_helper.h:31:
+   In file included from include/drm/drm_crtc.h:32:
+   In file included from include/drm/drm_modes.h:33:
+   In file included from include/drm/drm_connector.h:32:
+   In file included from include/drm/drm_util.h:36:
+   In file included from include/linux/kgdb.h:19:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:13:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/vc4/vc4_hdmi.c:1762:61: error: passing 'const struct drm_display_mode *' to parameter of type 'struct drm_display_mode *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
     1762 |         return drm_hdmi_connector_mode_valid(&vc4_hdmi->connector, mode);
          |                                                                    ^~~~
-   In file included from drivers/gpu/drm/vc4/vc4_hdmi.c:35:
-   include/drm/display/drm_hdmi_state_helper.h:25:56: note: expected 'struct drm_display_mode *' but argument is of type 'const struct drm_display_mode *'
+   include/drm/display/drm_hdmi_state_helper.h:25:35: note: passing argument to parameter 'mode' here
       25 |                               struct drm_display_mode *mode);
-         |                               ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+         |                                                        ^
+   4 warnings and 1 error generated.
 
 
 vim +1762 drivers/gpu/drm/vc4/vc4_hdmi.c
