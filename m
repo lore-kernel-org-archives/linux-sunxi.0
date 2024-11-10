@@ -1,64 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76080145323;
-	Sun, 10 Nov 2024 12:23:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBF291547EF
+	for <linux-sunxi@lists.linux.dev>; Sun, 10 Nov 2024 12:34:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731241401; cv=none; b=Q28q+6LzpyHx9Ujh25jZGbHgGppr8yJFYGceein50wdHKX04HxnenOuiwGRfmcz1oZgid9hqOzTJC7c2/Bw0r+IUpaIj10noRiSaLO+reBaqWAsYrhzQeQXTizW+ldn/IMMkc4jDHjoJY5QjXmcsjoe++H/VwzaY/5/9uIzOsbw=
+	t=1731242043; cv=none; b=G95Celof+tFHN+woy3XiCOv9Rhvp0VjynnGrqk8M6W9zoZhYntotHgeD6T1NlZcQWRaaeIcy5BCsmQEu3o98Ydtk9Na6/NLlpfqlBlmOChfOjTVAgFtHm+u02fP68qly2JjmNEj8dDFxq1aTdwCJP+qxbeJGKT5VE4C/gg3sSnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731241401; c=relaxed/simple;
-	bh=50fN6x4fQIVLf4cBCsjBctouvwOHJqCbe6vcJ+JkiXo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=BexMABzyBXos0+ZCklSl2wVxjkakfpQjencwursowhGO4BOHgzQ8fhyfbHXAxU1TrP6Qamh5NNPCNJSo11JWtOAFlFvzx+MlcaTyHx5+VBXQKINxMjZAesqbvch2qekDYLWH29iQ9GN1D0u2bAmVWxYRTTw8hbnuBGFUBpdfi/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE66DC4CECD;
-	Sun, 10 Nov 2024 12:23:20 +0000 (UTC)
-Received: from wens.tw (localhost [127.0.0.1])
-	by wens.tw (Postfix) with ESMTP id 874015FC00;
-	Sun, 10 Nov 2024 20:23:18 +0800 (CST)
-From: Chen-Yu Tsai <wens@csie.org>
-To: Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Yangtao Li <frank@allwinnertech.com>, 
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>, 
- Cody Eksal <masterr3c0rd@epochal.quest>
-Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Parthiban <parthiban@linumiz.com>, Andre Przywara <andre.przywara@arm.com>, 
- stable@vger.kernel.org
-In-Reply-To: <20241109003739.3440904-1-masterr3c0rd@epochal.quest>
-References: <20241109003739.3440904-1-masterr3c0rd@epochal.quest>
-Subject: Re: [PATCH] clk: sunxi-ng: a100: enable MMC clock reparenting
-Message-Id: <173124139852.3585539.10704015898700065278.b4-ty@csie.org>
-Date: Sun, 10 Nov 2024 20:23:18 +0800
+	s=arc-20240116; t=1731242043; c=relaxed/simple;
+	bh=p7gkjEGHpo1D0yrjZJJj+hORANJURnXR82p1kxdPiWw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YV0opH4RFOpNlN4dPTQY4mivLOO2PvwGyqLXWGNKbgIP54FkBQrX4lUdI7NdzezHcjCJJv6dVNO82LISq0i0+7xYRI+ScnhTOKXCFY7yNGTbs6q2i1QdKKLb9Z/ez6TprjEm3ASZbBTkz/6mrovPKV0G81IkVtk5UTKHtDvE9Ic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-539e63c8678so4307607e87.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 10 Nov 2024 04:34:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731242040; x=1731846840;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ePMmnRiXJkYLNWS2ahzAE5K60sKD/KQbBf4D5d5ZRsg=;
+        b=Y/ljoJWd4Tv3KdNYq63LZqLsZMl7q/0x9f377+GmBm1A+UE7UrvIVnLOaZszbM9FbY
+         iAhkM5mb9Wm3XEA0EOkU5Ka5Qvt/Ef7UwYRuv/cBaLmyWLQPXNixW0WLSd9lg8abAQSm
+         q6KeiYZNuyzmVCJ4UUO/Pg3XHp2tMBOmmlTujFZCM1Rj4cjB1kvB1Kf3KCpOWZgE0LkP
+         Sw1IsAPqRRW270sc7nQnkGS+HvtXt//tiRIpfpQzWhaXibmIxD4VO/XQ7xtQ3vrIpkwq
+         DzEqwFeAYBgQP4KK08LHAZbuBqQZiUPKppxHEKoWA5SEA8hLj1ghTBj+OxIsSy/A8L/P
+         4oJA==
+X-Forwarded-Encrypted: i=1; AJvYcCWadiNaRKELD7lntrgEKmOOcYpCM4i+PShWKZDrJZyj9K0mhfSvu6cd+T2WKYgH0C0s14TjIK2wWFjNqA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyUowtD0gZChpdM1mL9oZrnV26H//TVMbcXOnejJCAyYi6uWXky
+	+PoVUah0ci+wOBfrMuFxlX4UgMknNm2kWI6xcP/1ocIfoKXvUk65AyitdmVX
+X-Google-Smtp-Source: AGHT+IF2RRm8t0GhqyjAToH2ZNHHUsGLuoJQoY1vpzbSUIRAassj6OcjaQELfhiUL6z4XmeCkbSytg==
+X-Received: by 2002:a05:6512:3052:b0:53b:1f7a:9bfd with SMTP id 2adb3069b0e04-53d86302f81mr4405268e87.52.1731242039172;
+        Sun, 10 Nov 2024 04:33:59 -0800 (PST)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com. [209.85.208.170])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53d826a7334sm1180545e87.120.2024.11.10.04.33.59
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 10 Nov 2024 04:33:59 -0800 (PST)
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2fb5014e2daso28713781fa.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 10 Nov 2024 04:33:59 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXTnIMyOAavc26LuOsOHal/dk8dEExw5U/oU3HJaJCtmA0LvO9Z82+L3X11lh9yODWRwZLi3fDSYu+TTQ==@lists.linux.dev
+X-Received: by 2002:a05:651c:1515:b0:2ef:243b:6dce with SMTP id
+ 38308e7fff4ca-2ff20185abfmr37481621fa.10.1731242038795; Sun, 10 Nov 2024
+ 04:33:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+References: <20241025105620.1891596-1-andre.przywara@arm.com>
+ <7b63b316-4cd7-48ee-ae32-3750d25e2307@wirenboard.com> <20241108223400.460982d6@minigeek.lan>
+ <a4fada26-7ef8-4618-9ddd-0962b7dc6efb@wirenboard.com>
+In-Reply-To: <a4fada26-7ef8-4618-9ddd-0962b7dc6efb@wirenboard.com>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Sun, 10 Nov 2024 20:33:47 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65-4VK_V4Ob__VAB0+qETuisvdUEUFVwg-7SfHy4rv6_g@mail.gmail.com>
+Message-ID: <CAGb2v65-4VK_V4Ob__VAB0+qETuisvdUEUFVwg-7SfHy4rv6_g@mail.gmail.com>
+Subject: Re: [RFC PATCH] clk: sunxi-ng: h616: Reparent CPU clock during
+ frequency changes
+To: Evgeny Boger <boger@wirenboard.com>, Andre Przywara <andre.przywara@arm.com>
+Cc: jernej.skrabec@gmail.com, linux-arm-kernel@lists.infradead.org, 
+	linux-clk@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	mturquette@baylibre.com, samuel@sholland.org, sboyd@kernel.org, 
+	simons.philippe@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 08 Nov 2024 20:37:37 -0400, Cody Eksal wrote:
-> While testing the MMC nodes proposed in [1], it was noted that mmc0/1
-> would fail to initialize, with "mmc: fatal err update clk timeout" in
-> the kernel logs. A closer look at the clock definitions showed that the MMC
-> MPs had the "CLK_SET_RATE_NO_REPARENT" flag set. No reason was given for
-> adding this flag in the first place, and its original purpose is unknown,
-> but it doesn't seem to make sense and results in severe limitations to MMC
-> speeds. Thus, remove this flag from the 3 MMC MPs.
-> 
-> [...]
+On Sat, Nov 9, 2024 at 7:15=E2=80=AFAM Evgeny Boger <boger@wirenboard.com> =
+wrote:
+>
+> On 11/9/24 01:34, Andre Przywara wrote:
+> > On Fri, 8 Nov 2024 23:14:51 +0300
+> > Evgeny Boger <boger@wirenboard.com> wrote:
+> >
+> > Hi Evgeny,
+> >
+> >> Tested-by: Evgeny Boger <boger@wirenboard.com>
+> >>
+> >> We had stability issues with some of our T507-based boards. T507 is th=
+e
+> >> same die as H616, to my knowledge.
+> >> They were fixed by essentially the same patch, which we unfortunately
+> >> didn't submitted to mainline:
+> >> https://github.com/wirenboard/linux/commit/dc06e377108c935b2d1f5ce3d54=
+ca1a1756458af
+> >>
+> >> It's worth noticing that not only the reparenting is mandated by T5 Us=
+er
+> >> Manual (section 3.3.3.1), it's also is implemented in vendor BSP in th=
+e
+> >> same way.
+> >>
+> >> We tested the patch extensively on dozens of custom T507 boards (Wiren
+> >> Board 8 PLC). In our test it significantly improved the stability,
+> >> especially at low core voltages.
+> > many thanks for this reply, I was hoping for such a kind of report!
+> > I typically don't test those things in anger, and only have a few
+> > boards, so having those reports from the real world is very helpful!
+> >
+> > Can you maybe give some hint on how you tested this? Does "at low core
+> > voltages" mean you forced transitions between the lower OPPs only, or
+> > were the chips undervolted?
+> Both, in a way. Some boards (about 1 in 20 or so) would hang after a few
+> days of operation.
+>
+> During our investigation, we found they would never hang under stress
+> testing, so we started examining cpufreq-related factors.
+>
+> Disabling lower OPPs also prevented hanging. If we artificially lowered
+> the OPP voltages (undervolting the chip), the boards would hang much
+> faster without the patch, and even the previously stable ones would
+> start to hang.
 
-Applied to clk-for-6.13 in git@github.com:linux-sunxi/linux-sunxi.git, thanks!
+I guess we can merge this one then?
 
-[1/1] clk: sunxi-ng: a100: enable MMC clock reparenting
-      commit: 3fd8177f0015c32fdb0af0feab0bcf344aa74832
 
-Best regards,
--- 
-Chen-Yu Tsai <wens@csie.org>
+ChenYu
 
+> >>   From my understanding, all Allwinner SoCs need to follow this kind o=
+f
+> >> procedure, however it's only implemented in mainline for a handful of =
+chips.
+> > Yes, I saw, I have added this to my A523 code already, and prepared a
+> > patch for the H6.
+> > Do you have boards with any other Allwinner SoCs you could test on, or
+> > even already have experience with?
+> Unfortunately, no, not really. We only use the T507 and A40i at the momen=
+t.
+> We=E2=80=99ve never had these kinds of issues with the A40i, though. By t=
+he way,
+> the A40i is among the few Allwinner chips with reparenting implemented
+> in the mainline.
+>
+> The A523/T527 is really nice; it's a pity it's limited to 4GB RAM.
+>
+> >
+> > Cheers,
+> > Andre
+>
+> --
+> Kind regards,
+> Evgeny Boger
+>
