@@ -1,175 +1,122 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83BB9140E30
-	for <linux-sunxi@lists.linux.dev>; Sun, 10 Nov 2024 11:14:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 134D31482ED
+	for <linux-sunxi@lists.linux.dev>; Sun, 10 Nov 2024 11:16:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731237298; cv=none; b=LOFUv35+LPoQn32mUAQNvQhAfCUCyU/DG7rTtJL4vp1dt1zDpcb3phEV5foQuQeJwLYJpwSarL7FvphyY3IxgRuWzqCNbJ9BhT+AE312XTxUgXxKCYyv4sQCkCSpLPKdvI2b8Sp0bMSi5BboA61CYxN6lHbJZ1M4RA3L9JyjYKo=
+	t=1731237404; cv=none; b=n6DxTjpe+gSWbxVDwBdgSB2OxBGrhuZC+m/PYQwgY85WzoK+jIKtCXBUp8LxwupPlkVJA7kF8AXKO43T1O/BcTmo0j4SXXFWm3ogeIyG+Ivh/L5y5Dca+n8Kux7bN+OwFchiUbvGkAf+hQVrAlhg+7t9m2vDANiRy55sm+m/E3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731237298; c=relaxed/simple;
-	bh=CzCi9Otcx7wBj+IOqPBCkkgOcTbk4IzILMus9tvE5KQ=;
+	s=arc-20240116; t=1731237404; c=relaxed/simple;
+	bh=OZq9vlY9kg8nMFQ9iEn/BhUcSlMehFtK5IV3YHw9HC8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kpWmUN/JwP62RYgRDHrPZuE/OnXZ5zcuLTIeBde96qYasLIwx2TxQrXYlltmvpRqEvfx8M+Qv7IlYR+GCZcR8Bv1L8adjrRAF/YUFf9KFbIcIaZxZQc4Tu18+tUujkZs9roDOYOb0DpijZWnMu00WTeD9NYrBY4KPhoUHo06H8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+	 To:Cc:Content-Type; b=a4xSEAntPQn/Ss2He0bHQ+V8IgDUtzzaNX+YY2yozVzpaXeEmCmJHTwvNBPrUKZvDr5Jj29R1oxsZYPrUu0xYZQMIRvBni9/fKWgPfMKRqX78E+sL+CEIK9NqAFEeXQZ/eAHDVpp3S7oHCjsr0j2rcYkfDrx1nBopmGiiEHnuQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cSe5S/I5; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-539e3f35268so4020184e87.3
-        for <linux-sunxi@lists.linux.dev>; Sun, 10 Nov 2024 03:14:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731237294; x=1731842094;
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cSe5S/I5"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-723f37dd76cso3709798b3a.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 10 Nov 2024 03:16:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1731237402; x=1731842202; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HGpnRGebtces+H0p57KZ/VOg+pG46erIWNYz0tqupxk=;
-        b=QCNrKLfbvhnRxAJa0o7Rjw42PjM1LGAGG9aUKfJ65+Lc3qIxSH1BusginvewJShx9T
-         +8Yohmq93E2MehJHRNbOT4QomTwnPhBSkfKQ4cMTFU0TnX+hRMivxZMyQ09agsrHI/9W
-         h1/Tcv0943zIMILxlcPz/D7GauorN+38qe6eDfJMTJ8CIsHhvcmuiSo70Y/Pqp/op6zl
-         +Inwy2KzRJX4o9KBqLgQvP3/i3XPqJ6wPuMxlnXbjtT9kd2KQuLpXhgpvPqIGXuchWuz
-         rVtOmd38yLV2WXveCBHqXVl1e8sd10zBbqbAVKE1WozbjS1XttABOX3l3GwEav5eIn/I
-         o2Nw==
-X-Forwarded-Encrypted: i=1; AJvYcCU/YblUEyx4/Sjr9uVV4pO5UTJ2jJkR79kraWssCpAEFRGrObbJaRBYxIti/g4ln4aOfCI8bvl3UBfrDA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx5w39gkqy7Q0Iu1i5luaiOOlwM8RISGqqmEUJGXp/DYAK43c5W
-	K/MNGg/BbNKHyGfPPZGWymOghNrqat7/oK1zQa86wO7k/9lsL6JAglX3HgZ4
-X-Google-Smtp-Source: AGHT+IGojsh2XdBkNjyC08EoVRq1HrsLhxUwjcLl68ZM0IE1GNhSZqR4+OhP7CM88wzeeDzOSIVaHA==
-X-Received: by 2002:a05:6512:3053:b0:53c:7474:8cc7 with SMTP id 2adb3069b0e04-53d862bbd6amr3784153e87.22.1731237293357;
-        Sun, 10 Nov 2024 03:14:53 -0800 (PST)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com. [209.85.167.45])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53d826a9d65sm1204275e87.216.2024.11.10.03.14.52
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 10 Nov 2024 03:14:52 -0800 (PST)
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-539e3f35268so4020172e87.3
-        for <linux-sunxi@lists.linux.dev>; Sun, 10 Nov 2024 03:14:52 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV/URYBO5Nuiu3L88lr7qjq6EmvfgtB0T9ClqLKUKBwbcLrf18ahN7QRu+D07LAUVDox+XSpvx6tiIhVQ==@lists.linux.dev
-X-Received: by 2002:a05:6512:238b:b0:535:6cde:5c4d with SMTP id
- 2adb3069b0e04-53d862b35a5mr3583802e87.3.1731237292733; Sun, 10 Nov 2024
- 03:14:52 -0800 (PST)
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QWLoy1wYXdVgZ3Zzo/mgTNAnxY3fZNEXmyBhaGh3Xds=;
+        b=cSe5S/I5YJvI43UHaGasKvmAfGdCWqVugapnORtMd3+XOGyjYZEFnuxV/KDEyjHA0S
+         nsEsgyy1OL94ZBtMQBmj9T7s4JUdBc5JjrubwA2pM1LzBrDo24+6g7vR0NKWhpRMT4uv
+         jo4F9XT2iIsTHTw3ISV2VB+/fnn0R+D8lTDxWonlqkca9DA88myx+xETT18UGVuTCUmA
+         UmQIR0XkRKyXSJBKlNqsJfwwZfYb2u1Ho/JdxDNo3tMMGQCMD9TYy8+sFlNYPGpCatRW
+         1pb41M+eOz9y7lD1YzolQjxbRVveJRpyKQ7o9aHR+0T/oaWIsf7KgXiDXek4qCZFTs9/
+         ne4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731237402; x=1731842202;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QWLoy1wYXdVgZ3Zzo/mgTNAnxY3fZNEXmyBhaGh3Xds=;
+        b=joDET9EYsBXcpuWxR4unNxLEz/8MC/kmf0DevCvwdD21iCPF2JqQL+JPlhZ7apr6k3
+         Cdv7jtSlhRM58p3x4QCHOoM02pZz3L7cal3XQUXHeutoiad+dCtZRAwZFS/HNX45h9AJ
+         F9AF0OFqaxZH0vqwcsBdHNYrB8Nelc2F1ryHJW8pzoXc5w/x7OiJmNr3aqGoshOPt9U4
+         oEWaZ8A3g7VlOm951uQcWYjzGf+ApbpWrV/czGOPgT8h3GV2HYm5BhH80Sycqw4mSyGI
+         v9edqAUbSs/Sj9COZNxabhSrQTP1xdEjSWV8NVGYFUYXqNEScWCbTXKBk+KVw3enOzFt
+         qoPg==
+X-Forwarded-Encrypted: i=1; AJvYcCW+CApl1kiYRYbXBMb6h/L7yKj2jcC8hQi0o2iHW15OjsKwD+xjbx/HonNRJ4dn++8tS146RiNq8BjSsg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy37dwOfKbwZE1p7ey3Cv6SS/Y+SBwp1RNLpD/WBIezVFRC0am6
+	lEP/BsiOcDcmyDAKydiNZ/gFHmz/sPs07VfSLkBRlkWkU08GDbYcYyn1n7i+fudgREuEB7H7oMy
+	cdB9TqAzgSaOUKYOWdmvtlqU3oA==
+X-Google-Smtp-Source: AGHT+IGasTpM/6LzeFT5yJG2TU6X3TKSkJ385a+2Pbzh0IgAuKC/AoNByQH4zEUJkFnY3DZ/d/AESg6jv7LXg1ObLTE=
+X-Received: by 2002:a17:90b:4a91:b0:2e2:a3aa:6509 with SMTP id
+ 98e67ed59e1d1-2e9b1697bf5mr11996579a91.14.1731237402258; Sun, 10 Nov 2024
+ 03:16:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241107014240.24669-1-andre.przywara@arm.com>
- <CAGb2v64HUp4Xwgc3fw1fMVTBQFV2kHSVbs7=XBufzJpQ9hkuzg@mail.gmail.com> <20241110102157.2703463e@minigeek.lan>
-In-Reply-To: <20241110102157.2703463e@minigeek.lan>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Sun, 10 Nov 2024 19:14:41 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65J=1xpNJtC0tba6yQKpE3ZYiHDppdWcoXN5EnaHdnGPw@mail.gmail.com>
-Message-ID: <CAGb2v65J=1xpNJtC0tba6yQKpE3ZYiHDppdWcoXN5EnaHdnGPw@mail.gmail.com>
-Subject: Re: [PATCH] mmc: sunxi-mmc: Fix A100 compatible description
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, linux-mmc@vger.kernel.org, 
+References: <20241011102751.153248-1-privatesub2@gmail.com>
+ <20241011102751.153248-2-privatesub2@gmail.com> <4ioz6f6efs2uhf5mitb4xhebqeryyz5ukple4fkn54wpqep3c4@4ktefld35c3s>
+In-Reply-To: <4ioz6f6efs2uhf5mitb4xhebqeryyz5ukple4fkn54wpqep3c4@4ktefld35c3s>
+From: =?UTF-8?B?0JDQu9C10LrRgdCw0L3QtNGAINCo0YPQsdC40L0=?= <privatesub2@gmail.com>
+Date: Sun, 10 Nov 2024 14:16:31 +0300
+Message-ID: <CAF4idNmDMQpFppUvCBbC1=SNMQBrTOqmFO60SMvKvaHvNJy=Bg@mail.gmail.com>
+Subject: Re: [PATCH v10 1/3] dt-bindings: pwm: Add binding for Allwinner
+ D1/T113-S3/R329 PWM controller
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Conor Dooley <conor.dooley@microchip.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Cheo Fusi <fusibrandon13@gmail.com>, 
+	linux-pwm@vger.kernel.org, devicetree@vger.kernel.org, 
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	Yangtao Li <tiny.windzz@gmail.com>, Cody Eksal <masterr3c0rd@epochal.quest>, 
-	Parthiban <parthiban@linumiz.com>, stable@vger.kernel.org
+	linux-riscv@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Nov 10, 2024 at 6:22=E2=80=AFPM Andre Przywara <andre.przywara@arm.=
-com> wrote:
->
-> On Sun, 10 Nov 2024 17:04:08 +0800
-> Chen-Yu Tsai <wens@csie.org> wrote:
->
-> Hi,
->
-> > On Thu, Nov 7, 2024 at 9:43=E2=80=AFAM Andre Przywara <andre.przywara@a=
-rm.com> wrote:
-> > >
-> > > It turns out that the Allwinner A100/A133 SoC only supports 8K DMA
-> > > blocks (13 bits wide), for both the SD/SDIO and eMMC instances.
-> > > And while this alone would make a trivial fix, the H616 falls back to
-> > > the A100 compatible string, so we have to now match the H616 compatib=
-le
-> > > string explicitly against the description advertising 64K DMA blocks.
-> >
-> > Would be nice to know how this was discovered, and how the correct size
-> > was determined. As far as I could find, the A133 user manual says its
-> > 64K.
->
-> Mmh, my copy (Revision 1.1, Jul.14, 2020) only mentions bits[12:0] in
-> the DES1 DMA descriptor details, unconditional of SMHC0/1/2. And yes,
+Hello Uwe,
 
-I see. I was looking at SMHC_BLKSIZ, which had 16 bits.
+I appreciate your suggestion to use a more standardized
+property name like "pwm-number" instead of vendor-specific names.
 
-> this is in contradiction to the prose section in "5.3.1. Overview",
-> which mentions a "Block size of 1 to 65535 bytes".
-> Also that matches the observation: eMMC was working fine (as it was
-> already limited to 8K), and the SD card was *somewhat* working: I could
-> mount a FAT filesystem, and even list the (rather short) root
-> directory, but any further action (reading file, benchmarking) would
-> hang. Which would make sense given that the first actions probably
-> don't ask for a block larger than 8K.
+Since the name "pwm-number" is present in two drivers,
+we could consider using this name here as an option.
+Or perhaps we should choose a new common name "npwms"
+as you suggested?
 
-Thanks for explaining it.
+Please let me know what you think about this.
 
-Reviewed-by: Chen-Yu Tsai <wens@csie.org>
+Best regards,
+Aleksandr.
 
-> Cheers,
-> Andre
+=D0=B2=D1=82, 29 =D0=BE=D0=BA=D1=82. 2024=E2=80=AF=D0=B3. =D0=B2 11:56, Uwe=
+ Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com>:
 >
+> Hello,
 >
+> On Fri, Oct 11, 2024 at 01:27:32PM +0300, Aleksandr Shubin wrote:
+> > +  allwinner,pwm-channels:
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > +    description: The number of PWM channels configured for this instan=
+ce
+> > +    enum: [6, 9]
 >
-> >
-> > ChenYu
-> >
-> > > As the A100 is now compatible with the D1 description, let the A100
-> > > compatible string point to that block instead, and introduce an expli=
-cit
-> > > match against the H616 string, pointing to the old description.
-> > > Also remove the redundant setting of clk_delays to NULL on the way.
-> > >
-> > > Fixes: 3536b82e5853 ("mmc: sunxi: add support for A100 mmc controller=
-")
-> > > Cc: stable@vger.kernel.org
-> > > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > > ---
-> > >  drivers/mmc/host/sunxi-mmc.c | 6 +++---
-> > >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mm=
-c.c
-> > > index d3bd0ac99ec46..e0ab5fd635e6c 100644
-> > > --- a/drivers/mmc/host/sunxi-mmc.c
-> > > +++ b/drivers/mmc/host/sunxi-mmc.c
-> > > @@ -1191,10 +1191,9 @@ static const struct sunxi_mmc_cfg sun50i_a64_e=
-mmc_cfg =3D {
-> > >         .needs_new_timings =3D true,
-> > >  };
-> > >
-> > > -static const struct sunxi_mmc_cfg sun50i_a100_cfg =3D {
-> > > +static const struct sunxi_mmc_cfg sun50i_h616_cfg =3D {
-> > >         .idma_des_size_bits =3D 16,
-> > >         .idma_des_shift =3D 2,
-> > > -       .clk_delays =3D NULL,
-> > >         .can_calibrate =3D true,
-> > >         .mask_data0 =3D true,
-> > >         .needs_new_timings =3D true,
-> > > @@ -1217,8 +1216,9 @@ static const struct of_device_id sunxi_mmc_of_m=
-atch[] =3D {
-> > >         { .compatible =3D "allwinner,sun20i-d1-mmc", .data =3D &sun20=
-i_d1_cfg },
-> > >         { .compatible =3D "allwinner,sun50i-a64-mmc", .data =3D &sun5=
-0i_a64_cfg },
-> > >         { .compatible =3D "allwinner,sun50i-a64-emmc", .data =3D &sun=
-50i_a64_emmc_cfg },
-> > > -       { .compatible =3D "allwinner,sun50i-a100-mmc", .data =3D &sun=
-50i_a100_cfg },
-> > > +       { .compatible =3D "allwinner,sun50i-a100-mmc", .data =3D &sun=
-20i_d1_cfg },
-> > >         { .compatible =3D "allwinner,sun50i-a100-emmc", .data =3D &su=
-n50i_a100_emmc_cfg },
-> > > +       { .compatible =3D "allwinner,sun50i-h616-mmc", .data =3D &sun=
-50i_h616_cfg },
-> > >         { /* sentinel */ }
-> > >  };
-> > >  MODULE_DEVICE_TABLE(of, sunxi_mmc_of_match);
-> > > --
-> > > 2.46.2
-> > >
-> >
+> I wonder if the number of channels is a property common enough that we
+> can use "num-pwm-channels" here instead of a vendor specific property.
+> Or would you suggest a different name? gpio-controller nodes have
+> "ngpios", so maybe "npwms"?
 >
+> A quick grep suggests we already have:
+>
+>         fsl,pwm-number in mxs-pwm.yaml
+>         st,pwm-num-chan in pwm-st.txt
+>         snps,pwm-number in snps,dw-apb-timers-pwm2.yaml
+>
+> As a follow up this could then be used by pwmchip_alloc() to determine
+> the number of channels if the passed npwm value is 0.
+>
+> Best regards
+> Uwe
