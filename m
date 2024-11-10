@@ -1,121 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from violet.fr.zoreil.com (violet.fr.zoreil.com [92.243.8.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E03B20B22
-	for <linux-sunxi@lists.linux.dev>; Sun, 10 Nov 2024 14:07:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E52717C91
+	for <linux-sunxi@lists.linux.dev>; Sun, 10 Nov 2024 16:45:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.243.8.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731247675; cv=none; b=cNXAfTo4/+1ndaTIw6LpaNjd49z2P4ZmlRK11+NTTyKTtUxBp3a99XlTd/AKACjlJhB5I1x0fBe4AS2JA1NY7gUQo4CO+nDwSWxfWIS5rHZ9/gdmr1qCSyLYBUit+irZDirZ6MBvEpkeYRJ7gy/HXCmD4svSAGblyU+Os5HIUso=
+	t=1731257118; cv=none; b=Vxo6LFl8q33aRcZp8rmEoSJGuotGlP2+KAYXfdrHGU8d3rSqJ5wKDRUMfdPz5ud8npa+o6grpnfj6q1WxfLIaih1+873JmLSJ54GQBLLjx/6hvuh0cfYs8Sj8RQ9o+cel5haIbubx68p9HfwINqTYvLrsx/GfypKMyBeDx32kQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731247675; c=relaxed/simple;
-	bh=gdPhLJ8j4Uzlo5GhXPaBgpdIH/HGDs5q15PpmoTKRSk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NwX2hMev0xW0uUiNRoWDbmM+ChcHrvGBJKFz/GVwzDRzVrg9yqNeYYvtmpuxaSLBcxdAvfjikRCwiZnJ13OxoFg0KKlGBSVsuqJWQOdIpEUzDZVWU4KK+ps9d/7+rivsT6sMBx8Ct0iV8JbXolJDjAmIWHMCA7hrwtBIno0WTPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XdKhFAdZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731257118; c=relaxed/simple;
+	bh=2K5caTP3z34WOhy1GQkAjTSSj/hs1LyjIWxZCrtUmSk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z2HyB2ig9S0Ro6cSFsGe70aYhTzmlX5hHtg8lw4HJd4ZzeiD6NHetPCJi+2ToWPKFCIAiXOEao7PSnWjPoTQ7a+QHEKo2wiKJuIv8dd5caUd9OEmVI1Q8sX+NDhy/Z+XPTVt39EbeG1yP5kfRbsqu7F/sAUB8hLlllEcC5yL+wA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fr.zoreil.com; spf=pass smtp.mailfrom=fr.zoreil.com; dkim=pass (1024-bit key) header.d=fr.zoreil.com header.i=@fr.zoreil.com header.b=FFkxxDRa; arc=none smtp.client-ip=92.243.8.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fr.zoreil.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fr.zoreil.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XdKhFAdZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE957C4CECD;
-	Sun, 10 Nov 2024 14:07:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731247674;
-	bh=gdPhLJ8j4Uzlo5GhXPaBgpdIH/HGDs5q15PpmoTKRSk=;
-	h=Date:From:To:Cc:Subject:From;
-	b=XdKhFAdZUT2Z8hgcW0iCDppxHfGuv/N92KWc991rgLnxUk2dqHrJOJG7WMhzmWDc9
-	 gN8seHc4lUQWxP6Zq+HTmuL4hEvPW0gpJoW2ytb4ru5mdQezZLfGwD0y+pmDY29Nc3
-	 90XD4E0LJ2Cx5948xELOMEl3Qmlxfsf/NIbdbYD+Mebm+1ZCMYUyeoHRiMqIV8niiy
-	 jg9App8qbpyOgFo9E+FGCYQqejA6Nt8YOHl2mArDFrXUpP4iIS7RBH5BA7taT/tXTb
-	 i4sodyMMw8IHxfpRtzgwPiz2jUFhSkYRcyLLFpDMM6CSsP9tyd90TjdpfziPlSaU1I
-	 rVz9eMMe+CKfA==
-Received: by wens.tw (Postfix, from userid 1000)
-	id 6C8AB5FC00; Sun, 10 Nov 2024 22:07:52 +0800 (CST)
-Date: Sun, 10 Nov 2024 22:07:52 +0800
-From: Chen-Yu Tsai <wens@kernel.org>
-To: soc@kernel.org
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: [GIT PULL] Allwinner device tree changes for 6.13 part 2
-Message-ID: <ZzC-OF57MT_yCeWH@wens.tw>
+	dkim=pass (1024-bit key) header.d=fr.zoreil.com header.i=@fr.zoreil.com header.b="FFkxxDRa"
+Received: from violet.fr.zoreil.com ([127.0.0.1])
+	by violet.fr.zoreil.com (8.17.1/8.17.1) with ESMTP id 4AAGbouY3930604;
+	Sun, 10 Nov 2024 17:37:50 +0100
+DKIM-Filter: OpenDKIM Filter v2.11.0 violet.fr.zoreil.com 4AAGbouY3930604
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fr.zoreil.com;
+	s=v20220413; t=1731256670;
+	bh=5+y2QMykRjhaG+PDz43DPVOX9kNsX0ZYGqEKpJPmxSA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FFkxxDRaq1CSSsHRAAocoXu+u98Fyc5BN4GR4nHWXkWF9G4P4eEIgMKVy9d4t4ZBx
+	 67hd1nY0BOtuujJ85otrSRji5KektIdUuvhwvsToPqe4Q8utQnGKfPgxcaEBz42GxQ
+	 aqLq3/kra2W7ijiY9fEnrh/5yk7KY5bQZ8QjDUt0=
+Received: (from romieu@localhost)
+	by violet.fr.zoreil.com (8.17.1/8.17.1/Submit) id 4AAGblIR3930603;
+	Sun, 10 Nov 2024 17:37:47 +0100
+Date: Sun, 10 Nov 2024 17:37:47 +0100
+From: Francois Romieu <romieu@fr.zoreil.com>
+To: Rosen Penev <rosenp@gmail.com>
+Cc: netdev@vger.kernel.org, Marc Kleine-Budde <mkl@pengutronix.de>,
+        Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+        Andrew Lunn <andrew+netdev@lunn.ch>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Florian Fainelli <florian.fainelli@broadcom.com>,
+        Vladimir Oltean <olteanv@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Pantelis Antoniou <pantelis.antoniou@gmail.com>,
+        Marcin Wojtas <marcin.s.wojtas@gmail.com>,
+        Byungho An <bh74.an@samsung.com>,
+        Kevin Brace <kevinbrace@bracecomputerlab.com>,
+        Michal Simek <michal.simek@amd.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>, Zhao Qiang <qiang.zhao@nxp.com>,
+        "open list:CAN NETWORK DRIVERS" <linux-can@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>,
+        "open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
+        "open list:FREESCALE SOC FS_ENET DRIVER" <linuxppc-dev@lists.ozlabs.org>
+Subject: Re: [PATCH net-next] net: use pdev instead of OF funcs
+Message-ID: <20241110163747.GA3930570@electric-eye.fr.zoreil.com>
+References: <20241109233821.8619-1-rosenp@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="nGAeohEqVKDFKVoE"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241109233821.8619-1-rosenp@gmail.com>
+X-Organisation: Land of Sunshine Inc.
 
+Rosen Penev <rosenp@gmail.com> :
+> np here is ofdev->dev.of_node. Better to use the proper functions as
+> there's no use of children or anything else.
+> 
+> Signed-off-by: Rosen Penev <rosenp@gmail.com>
+> ---
+[...]
+> diff --git a/drivers/net/ethernet/via/via-rhine.c b/drivers/net/ethernet/via/via-rhine.c
+> index 894911f3d560..f079242c33e2 100644
+> --- a/drivers/net/ethernet/via/via-rhine.c
+> +++ b/drivers/net/ethernet/via/via-rhine.c
+> @@ -1127,7 +1127,7 @@ static int rhine_init_one_platform(struct platform_device *pdev)
+>  	if (IS_ERR(ioaddr))
+>  		return PTR_ERR(ioaddr);
+>  
+> -	irq = irq_of_parse_and_map(pdev->dev.of_node, 0);
+> +	irq = platform_get_irq(pdev, 0);
+>  	if (!irq)
+>  		return -EINVAL;
+>  
+> diff --git a/drivers/net/ethernet/via/via-velocity.c b/drivers/net/ethernet/via/via-velocity.c
+> index dd4a07c97eee..4aac9599c14d 100644
+> --- a/drivers/net/ethernet/via/via-velocity.c
+> +++ b/drivers/net/ethernet/via/via-velocity.c
+> @@ -2950,7 +2950,7 @@ static int velocity_platform_probe(struct platform_device *pdev)
+>  	if (!info)
+>  		return -EINVAL;
+>  
+> -	irq = irq_of_parse_and_map(pdev->dev.of_node, 0);
+> +	irq = platform_get_irq(pdev, 0);
+>  	if (!irq)
+>  		return -EINVAL;
+>  
 
---nGAeohEqVKDFKVoE
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The change makes sense. However neither the description nor the commit message
+really match here.
 
-The following changes since commit fcfbb8d9ec584c256c0a6e1ae3174a21b007f399:
-
-  arm64: allwinner: a100: Add MMC related nodes (2024-11-02 19:32:40 +0800)
-
-are available in the Git repository at:
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunx=
-i-dt-for-6.13-2
-
-for you to fetch changes up to af1ad5675a2b5feebb49df0e0ac7dab1aeabfaa8:
-
-  arm64: dts: allwinner: a100: perf1: Add eMMC and MMC node (2024-11-10 17:=
-23:57 +0800)
-
-----------------------------------------------------------------
-Allwinner Device Tree changes for 6.13 part 2
-
-- Remove accidental suniv duplicates in Makefile
-- Add second source magnetometer for Pine Phone
-- Add orientation (mount matrix) for Pine Phone's accelerometer and
-  magnetometer
-- Enable eMMC and MMC on A100 Perf1
-
-----------------------------------------------------------------
-Cs=F3k=E1s, Bence (1):
-      ARM: dts: allwinner: Remove accidental suniv duplicates
-
-Dragan Simic (1):
-      arm64: dts: allwinner: pinephone: Add mount matrix to accelerometer
-
-Icenowy Zheng (1):
-      arm64: dts: sun50i-a64-pinephone: Add AF8133J to PinePhone
-
-Shoji Keita (1):
-      arm64: dts: sun50i-a64-pinephone: Add mount-matrix for PinePhone magn=
-etometers
-
-Yangtao Li (1):
-      arm64: dts: allwinner: a100: perf1: Add eMMC and MMC node
-
- arch/arm/boot/dts/allwinner/Makefile                |  4 ----
- .../dts/allwinner/sun50i-a100-allwinner-perf1.dts   | 18 ++++++++++++++++++
- .../boot/dts/allwinner/sun50i-a64-pinephone.dtsi    | 21 +++++++++++++++++=
-++++
- 3 files changed, 39 insertions(+), 4 deletions(-)
-
---nGAeohEqVKDFKVoE
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE2nN1m/hhnkhOWjtHOJpUIZwPJDAFAmcwvjYACgkQOJpUIZwP
-JDDi1BAAvWCPCPCoOiaXBftkYbmH1m42odG48rUHxVc0lhXnMaWgDfHhCgc0dQ9m
-slfAIQV4iQu94dQDr71X1qMCrFh0uJX71frCPB4fqZs0LpxhrYJqkaYJ1IKbx5Td
-OX3UHDL8TzKjF3SfARorgPShvyVr4JoE3UgykiQBE63mMzJZO/ZpGQGJuy4/ns7o
-GIw5xn2k1QeLy7sjfFF5Vvj1WnQp8erCAm2SiDQWelQ7n0ZNcbQArHQO+NkFoeYz
-KCFiiXi9nNTd4bel9yenYAOz9m6jfQbfLQFrA5NP1gJWgS9zeBX3a6nPf6hcA7fp
-Cli1IH7HC7foTA4Jn1Gn578ZEMtRSC+5N6uG5jf6SAUNMdQSRhLRrQ4yuHVFEnBG
-R3U42jFY9uvGjJfgGzZ+YZKN0inHovXc9uj0lrvcI6Nh8keD1iYl7dWzkA8Bceq7
-U+K6tkYim3DWIuN+7xwbGsL2c6dVWM1Sx7phtybjrbzVqwYROtyp+7e4NqbyZxjm
-5fo72/oXAaX8afAPaYxzl0jsnZH1Kc2/cpS9fpY4EljsSM4OS73CTS1Pm2GH9l+s
-J6jO306jx0r4IM2TspC91dCeIv6WU/wJjvcMPr5NSmeB5xt2sVeLs5J0s663z/Cb
-ooXcAh7RJ9pJC7ktmYj/O1BvTKWdxzMBVJv9H0jxMAPVUzejvnI=
-=zFs5
------END PGP SIGNATURE-----
-
---nGAeohEqVKDFKVoE--
+-- 
+Ueimor
