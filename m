@@ -1,63 +1,42 @@
-Received: from violet.fr.zoreil.com (violet.fr.zoreil.com [92.243.8.30])
+Received: from a.peacevolution.org (a.peacevolution.org [206.189.193.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E52717C91
-	for <linux-sunxi@lists.linux.dev>; Sun, 10 Nov 2024 16:45:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.243.8.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE28A200A0
+	for <linux-sunxi@lists.linux.dev>; Sun, 10 Nov 2024 18:38:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.193.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731257118; cv=none; b=Vxo6LFl8q33aRcZp8rmEoSJGuotGlP2+KAYXfdrHGU8d3rSqJ5wKDRUMfdPz5ud8npa+o6grpnfj6q1WxfLIaih1+873JmLSJ54GQBLLjx/6hvuh0cfYs8Sj8RQ9o+cel5haIbubx68p9HfwINqTYvLrsx/GfypKMyBeDx32kQI=
+	t=1731263932; cv=none; b=c0tJ15maFD8i8dYZo9d9xhm9ea/1El8+A2re2Mo6ilb1eafNY4DO3XUj4qdAbwHL0jDPck4ebUDOoHkscyxjKvUjczXhzFYESairxFgWfOBUUclY3BskR6AKxJA9oz0d5DngALNopmpyoG3btq1qTF8bGKYghIuoOC6+5WuMKJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731257118; c=relaxed/simple;
-	bh=2K5caTP3z34WOhy1GQkAjTSSj/hs1LyjIWxZCrtUmSk=;
+	s=arc-20240116; t=1731263932; c=relaxed/simple;
+	bh=PsBg7Ce1DYJDfWfovTedXuQXSEUBe+bUODMBThwdmPU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z2HyB2ig9S0Ro6cSFsGe70aYhTzmlX5hHtg8lw4HJd4ZzeiD6NHetPCJi+2ToWPKFCIAiXOEao7PSnWjPoTQ7a+QHEKo2wiKJuIv8dd5caUd9OEmVI1Q8sX+NDhy/Z+XPTVt39EbeG1yP5kfRbsqu7F/sAUB8hLlllEcC5yL+wA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fr.zoreil.com; spf=pass smtp.mailfrom=fr.zoreil.com; dkim=pass (1024-bit key) header.d=fr.zoreil.com header.i=@fr.zoreil.com header.b=FFkxxDRa; arc=none smtp.client-ip=92.243.8.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fr.zoreil.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fr.zoreil.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=VaKkJ17zVXCQhJPIVcEtkKbk8dl9QWagLtM5CBZIT58rd8bbnHSdg2q5r+4mZLxgfKqF6YizBAHwlCvahb/vR5P1T7Ym3LcrlyGNoPNMmz8bmD72i6fRDW6qhZ+62yD2jgtlH9AeVtZNof2pz5ikkM5SykYyeUeKPUdxEKOraCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org; spf=pass smtp.mailfrom=peacevolution.org; dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b=YaCXOLZ6; arc=none smtp.client-ip=206.189.193.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=peacevolution.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fr.zoreil.com header.i=@fr.zoreil.com header.b="FFkxxDRa"
-Received: from violet.fr.zoreil.com ([127.0.0.1])
-	by violet.fr.zoreil.com (8.17.1/8.17.1) with ESMTP id 4AAGbouY3930604;
-	Sun, 10 Nov 2024 17:37:50 +0100
-DKIM-Filter: OpenDKIM Filter v2.11.0 violet.fr.zoreil.com 4AAGbouY3930604
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fr.zoreil.com;
-	s=v20220413; t=1731256670;
-	bh=5+y2QMykRjhaG+PDz43DPVOX9kNsX0ZYGqEKpJPmxSA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FFkxxDRaq1CSSsHRAAocoXu+u98Fyc5BN4GR4nHWXkWF9G4P4eEIgMKVy9d4t4ZBx
-	 67hd1nY0BOtuujJ85otrSRji5KektIdUuvhwvsToPqe4Q8utQnGKfPgxcaEBz42GxQ
-	 aqLq3/kra2W7ijiY9fEnrh/5yk7KY5bQZ8QjDUt0=
-Received: (from romieu@localhost)
-	by violet.fr.zoreil.com (8.17.1/8.17.1/Submit) id 4AAGblIR3930603;
-	Sun, 10 Nov 2024 17:37:47 +0100
-Date: Sun, 10 Nov 2024 17:37:47 +0100
-From: Francois Romieu <romieu@fr.zoreil.com>
-To: Rosen Penev <rosenp@gmail.com>
-Cc: netdev@vger.kernel.org, Marc Kleine-Budde <mkl@pengutronix.de>,
-        Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-        Andrew Lunn <andrew+netdev@lunn.ch>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Florian Fainelli <florian.fainelli@broadcom.com>,
-        Vladimir Oltean <olteanv@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Pantelis Antoniou <pantelis.antoniou@gmail.com>,
-        Marcin Wojtas <marcin.s.wojtas@gmail.com>,
-        Byungho An <bh74.an@samsung.com>,
-        Kevin Brace <kevinbrace@bracecomputerlab.com>,
-        Michal Simek <michal.simek@amd.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>, Zhao Qiang <qiang.zhao@nxp.com>,
-        "open list:CAN NETWORK DRIVERS" <linux-can@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>,
-        "open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
-        "open list:FREESCALE SOC FS_ENET DRIVER" <linuxppc-dev@lists.ozlabs.org>
-Subject: Re: [PATCH net-next] net: use pdev instead of OF funcs
-Message-ID: <20241110163747.GA3930570@electric-eye.fr.zoreil.com>
-References: <20241109233821.8619-1-rosenp@gmail.com>
+	dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b="YaCXOLZ6"
+Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
+	by a.peacevolution.org (Postfix) with ESMTPA id 7ED404C930;
+	Sun, 10 Nov 2024 18:38:42 +0000 (UTC)
+Date: Sun, 10 Nov 2024 13:38:39 -0500
+From: Aren <aren@peacevolution.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Kaustabh Chakraborty <kauschluss@disroot.org>, =?utf-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <trabarni@gmail.com>, 
+	Ondrej Jirman <megi@xff.cz>, 
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, Dragan Simic <dsimic@manjaro.org>, phone-devel@vger.kernel.org
+Subject: Re: [PATCH v4 2/6] iio: light: stk3310: handle all remove logic with
+ devm callbacks
+Message-ID: <mlvzaskgxqjfu6yiib2u7m3pczsifsluc4mqnzy6w3xzxblvm6@xrxvvruzftn2>
+References: <20241102195037.3013934-3-aren@peacevolution.org>
+ <20241102195037.3013934-7-aren@peacevolution.org>
+ <ZyiGiK6bSd_d0VQ6@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -66,45 +45,51 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241109233821.8619-1-rosenp@gmail.com>
-X-Organisation: Land of Sunshine Inc.
+In-Reply-To: <ZyiGiK6bSd_d0VQ6@smile.fi.intel.com>
+X-Spamd-Bar: /
+Authentication-Results: auth=pass smtp.auth=aren@peacevolution.org smtp.mailfrom=aren@peacevolution.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=peacevolution.org;
+	s=dkim; t=1731263923;
+	h=from:subject:date:message-id:to:cc:mime-version:content-type:in-reply-to:references;
+	bh=Qy4vL7Aa/N0uJPCViG8PBJ+nuYrVrBC0UAvzWwrOHL0=;
+	b=YaCXOLZ6I9KETZJhjAINjNnyvKBf5znCzqyzCvW4Gt6yAj5JjKSUvVMbRxsmAL17MFKNpI
+	W+YoXyfVwq8Jnn5gFd/1msRzP8Ge43ZWspuzVa/ObWb/dmOzhX8EyBxwxa6YRKbM/cepxI
+	mLCuNzWmXaiUdXgUFFEzx6RHq990McU=
 
-Rosen Penev <rosenp@gmail.com> :
-> np here is ofdev->dev.of_node. Better to use the proper functions as
-> there's no use of children or anything else.
+On Mon, Nov 04, 2024 at 10:32:08AM +0200, Andy Shevchenko wrote:
+> On Sat, Nov 02, 2024 at 03:50:37PM -0400, Aren Moynihan wrote:
+> > Using devm callbacks helps to make the ordering of probe / remove
+> > operations easier to reason about and removes some duplicate code
+> > between the probe error path and driver remove.
 > 
-> Signed-off-by: Rosen Penev <rosenp@gmail.com>
-> ---
-[...]
-> diff --git a/drivers/net/ethernet/via/via-rhine.c b/drivers/net/ethernet/via/via-rhine.c
-> index 894911f3d560..f079242c33e2 100644
-> --- a/drivers/net/ethernet/via/via-rhine.c
-> +++ b/drivers/net/ethernet/via/via-rhine.c
-> @@ -1127,7 +1127,7 @@ static int rhine_init_one_platform(struct platform_device *pdev)
->  	if (IS_ERR(ioaddr))
->  		return PTR_ERR(ioaddr);
->  
-> -	irq = irq_of_parse_and_map(pdev->dev.of_node, 0);
-> +	irq = platform_get_irq(pdev, 0);
->  	if (!irq)
->  		return -EINVAL;
->  
-> diff --git a/drivers/net/ethernet/via/via-velocity.c b/drivers/net/ethernet/via/via-velocity.c
-> index dd4a07c97eee..4aac9599c14d 100644
-> --- a/drivers/net/ethernet/via/via-velocity.c
-> +++ b/drivers/net/ethernet/via/via-velocity.c
-> @@ -2950,7 +2950,7 @@ static int velocity_platform_probe(struct platform_device *pdev)
->  	if (!info)
->  		return -EINVAL;
->  
-> -	irq = irq_of_parse_and_map(pdev->dev.of_node, 0);
-> +	irq = platform_get_irq(pdev, 0);
->  	if (!irq)
->  		return -EINVAL;
->  
+> Where is SoB?
 
-The change makes sense. However neither the description nor the commit message
-really match here.
+Oops that got lost in a rebase
 
--- 
-Ueimor
+> ...
+> 
+> > +	ret = devm_add_action_or_reset(&client->dev, stk3310_set_state_disable, data);
+> 
+> Why not simply 'dev' as in below call?
+
+I was trying to avoid refactoring the entire function to replace
+&client->dev with dev, I'll add a patch for that to the next revision.
+
+> > +	if (ret)
+> > +		return dev_err_probe(dev, ret, "failed to register cleanup function\n");
+> 
+> ...
+> 
+> > -	mutex_init(&data->lock);
+> > +	devm_mutex_init(&client->dev, &data->lock);
+> 
+> Missed error check, otherwise what's the point?
+> 
+> 
+> Also can add a temporary variable for 'dev'.
+
+Yup, fixing... I need to read the docs / function type more carefully
+sometimes.
+
+Thanks
+ - Aren
