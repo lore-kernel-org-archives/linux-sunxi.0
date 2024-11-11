@@ -1,83 +1,76 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6E571A262A
-	for <linux-sunxi@lists.linux.dev>; Mon, 11 Nov 2024 16:25:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9667C39ACC
+	for <linux-sunxi@lists.linux.dev>; Mon, 11 Nov 2024 16:56:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731342333; cv=none; b=SZSPuIIaFaGtxxr+6zyWTvB9yiH1WBUvwbR7g7g01tPMMdd5LrfAdXw3eWm5vh0GYATMNqqc5bGHuWnComeRp9GgVN1RavcySV0OzBg5DE4QuldZtzOojBYOBU3walQoxuRHJKVXQhcWtkj27/VM9lCOcsACXDD8E42pXO3k+dM=
+	t=1731344166; cv=none; b=flYN3ZxoXbAItqH0HFLMuwRqBGuhZ+yw03mV9EJX/UIs4JOErEJRgXI+XPnwLKQBIk6LgEcV76LBq8GdaJ/YQgxDRuBVQ2ZZwtU/0Dej6TtVNOabJcwjLK4WL8jk52yVTZN687YrU+HePzOvp7hT9hi2dWTmM/LY09HVOoCN9bk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731342333; c=relaxed/simple;
-	bh=76RzPW8RcT4orB/VklxF++mK4pyLoo50KIMbw8KSEYI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=t0VHm9LV7riF9Bkx69HwwwffWCLZpW6roprvkoeiTemq0vqB0pjdUBTejSkEMF121GJN8npt+NOgxnDFBaFOvqCrMgsos2omAXFKkrOo5V71Kd2BluTtiwPWFK29pZJurNPtHM3e/YimI1RKopd2PsSUQ+5awfbDSrmWGAejYB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lJBUqgH4; arc=none smtp.client-ip=209.85.167.45
+	s=arc-20240116; t=1731344166; c=relaxed/simple;
+	bh=K92yUvKG6bNkexeKvclLDYbTcFbU3nDHCbBcWLUUUAs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lr8tTds38liQ16xcTeXmkvOxyxn/pwE92q6Ga1tUd44KTqx2ZZLeAhmB/M03VU4c/IfrPcHtCm/frP5ruQ2w5cv5UeMjOw9vQVUEsuvIdmUQP6rcOT81iV4lRklW3c0HzL9bmM+D4dZrZTZclsF5QPLAP4aZ+KTcnBMJAqmmF4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RB7TzS09; arc=none smtp.client-ip=209.85.167.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lJBUqgH4"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-539f1292a9bso5760998e87.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 11 Nov 2024 08:25:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RB7TzS09"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-539f0f9ee49so5270475e87.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 11 Nov 2024 08:56:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731342330; x=1731947130; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sdaW5kfpiaTfiF12KAXhCU6CQhCro9H+J/CsRfMkYO8=;
-        b=lJBUqgH4eMKBUi2qFDExRswVSk66ZWgW5UhAM/1Prc5VE7OayLKmv7BsbHThwOkcDc
-         tJxZ2/WNVzRW2M0dQp5AOv6Kv8tgG5CmlRwAzF52LOEg+csmkNyEPUH08EHnHt3S0w/r
-         eUEnhL2923iYOg2pNkgs0P+kjHBDO4bP2H4IwTKo+5YK842dF+2prkamBcwf7kQYvbF1
-         xAqYsfOod7ovpfmqfjG2ZhqywXk/08sAmPxdHNWjYra1BrRSIH+P34F/xL9G+cvGpP1F
-         THwWD4dlkZuam7Q3lj8MXd9BON21KNAd9M9B7WZEKVGfKSWzfA2+zpI5i0phB4P3mcyj
-         H9ig==
+        d=gmail.com; s=20230601; t=1731344163; x=1731948963; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Exk6mmiqQi1A5uEjYEtmgEMregcS5xH2lmr7GxpUfF0=;
+        b=RB7TzS098CO7TZYsWShb99XB3XpvtEzSYSNauXo0xxOAmx5HH5CnNzGUHO3fSSnt3Y
+         DmNBLgBx4WFO/m/2G3HOjxe3th1IAi7JBHekM05V2tjpBDLxmEUqidCeh9xSSVIZtohj
+         NTFLQgg+01bTLR6yfN4F3bM4gcW0nrKOx7fnLGpr9vW4Tx3D9X3kbnppC6LijZRACdUI
+         dcVuzevHp8WxqMIzFvnEhawgygp2O1bfahicXwzsmDKPhxiQ3uKhowB2DyjVq1dnV787
+         A+5GTaooj38Jc4Wv/LoCZZrZIGDbZCvq73k6WnZVtek4jf6ttKgnwRYixD4fF1/J2Ysb
+         Arlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731342330; x=1731947130;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sdaW5kfpiaTfiF12KAXhCU6CQhCro9H+J/CsRfMkYO8=;
-        b=fofJ0MYvFPSFyRF5nKXMW9ai9CDvlvU+YUGm2k5GtU+Z6F0eW6D3oXBg81RYxTRIvo
-         +9aSMehdFdbqUNA9E+3zBKBXpPZjw1VuuoenqTT0YmTuM/u9UyF3X7N/V7eiI/Pvy42n
-         gD2oOijx9INCxqlwXpPT6lBepZOBbIFCiO6SVbOAv+sLgKgQTKRn/GqiWHfIsvAyzjPs
-         R/tKsciXQsIv5MQeJ8enGVQ2p7KCXPatVChM+x1CAWMhnVWhaTd9X5gh1kP3KGipRkOV
-         KVOWASUU1BYiR5LId059pGx7B35+qLadS2ahs45/nNVQAJAiykq3DFYDvhruPRb6ebN/
-         qF3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUs7vJX685TX3zuHERM4QKp7BZSzLKvpk1CicHL0z11GFVTcPOK+t5dmNsE35osvy9xXjxpXmKUc3kTWw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxbpNFMYMcxlaOMzYulGEsvyUriX7yxv0v8OQKlt8pvdT0hvtql
-	5dKEjE4mNNHkSji1tjGnzl1jQ9aUJWLFj20xRJnw0J9zpc8YpC/nlzwqGJ6N
-X-Google-Smtp-Source: AGHT+IHjidSenCJkr5FUNWAm4Y6bXamQ3Ryqvj8VKRbPZjsYvS4BKCPVBWtxFuWLxC9OMU3f7f++sQ==
-X-Received: by 2002:a05:6512:224b:b0:539:f554:78ac with SMTP id 2adb3069b0e04-53d862b4524mr5911112e87.9.1731342329683;
-        Mon, 11 Nov 2024 08:25:29 -0800 (PST)
+        d=1e100.net; s=20230601; t=1731344163; x=1731948963;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Exk6mmiqQi1A5uEjYEtmgEMregcS5xH2lmr7GxpUfF0=;
+        b=rwb0YTqxGhbtzV5lcQZSIDdglLqI4YcODFJbMd5oi22nHErB3Txsk4YZ8AG7MiXIMl
+         aAnBwDL73yOS867SoJHWaxdVkM8SUp3YfDL6A7xpaUTn8FBpP+RPBL2MajTc/bsTTa3C
+         7XyB18BKgCd5586RmwzDHXZzY7WVkQUOvFNlK2QMC0kZwhmP70L2pQN9J1LksTMRN86I
+         WzFMBjOTSZjmWtjXHGuLFGSfNnSWdArAZtttMQsWd1AazpqdSBDSzmDZhVSexhoVJQzb
+         a1D4anYsGFOujgI4/0ltB7gFVWgsIob5J5ICBdsfHMBhuDr77aP+3yqJPKvORPyWFtyV
+         g53g==
+X-Forwarded-Encrypted: i=1; AJvYcCU+jO3XKhHoDCWGYJyIdGW3dP9M3ur7YJN8LRQu/1xiV8UtqN1QLdX8Sgk95u9Vynxw5vZ67nci9WLm2Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyriVtcUi0kKmlsheJ2JMUoSeEKaDI1WIHH14aIiRbbn4gWM6i1
+	8cg1ca4mPQXs8y3L8n+c9KB1W1+EVGxCtWDeJtMylTLB9K/z3dIZ
+X-Google-Smtp-Source: AGHT+IFfvqMK9GbFqDOZdFvb8j2DCucKOk0qdQPlVNUo+VQIMAi19mPFqP3vzp3bFje3LVb4xZypOg==
+X-Received: by 2002:a05:6512:2389:b0:539:ebb6:7b36 with SMTP id 2adb3069b0e04-53d862c587dmr6133828e87.25.1731344162409;
+        Mon, 11 Nov 2024 08:56:02 -0800 (PST)
 Received: from localhost.localdomain (c90-142-33-119.bredband.tele2.se. [90.142.33.119])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53d826786acsm1622926e87.30.2024.11.11.08.25.28
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53d826a7387sm1624737e87.140.2024.11.11.08.56.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2024 08:25:29 -0800 (PST)
+        Mon, 11 Nov 2024 08:56:01 -0800 (PST)
 From: codekipper@gmail.com
 To: linux-kernel@vger.kernel.org,
 	linux-arm-kernel@vger.kernel.org,
 	linux-sunxi@googlegroups.com,
 	linux-sunxi@lists.linux.dev,
-	devicetree@vger.kernel.org
-Cc: conor+dt@kernel.org,
-	krzk+dt@kernel.org,
-	robh@kernel.org,
+	linux-sound@vger.kernel.org,
+	lander@jagmn.com
+Cc: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
 	jernej.skrabec@gmail.com,
 	samuel@sholland.org,
 	andre.przywara@arm.com,
 	wens@csie.org,
-	macromorgan@hotmail.com,
-	jszhang@kernel.org,
-	uwu@icenowy.me,
-	ryan@testtoast.com,
-	dsimic@manjaro.org,
-	mripard@kernel.org,
+	u.kleine-koenig@baylibre.com,
 	Marcus Cooper <codekipper@gmail.com>
-Subject: [PATCH 2/2] arm64: dts: allwinner: Add initial support for the X96Q-Pro STB
-Date: Mon, 11 Nov 2024 17:25:06 +0100
-Message-ID: <20241111162524.46812-3-codekipper@gmail.com>
+Subject: [PATCH 0/3] ASoC: sun4i-spdif: Add 24bit support
+Date: Mon, 11 Nov 2024 17:55:28 +0100
+Message-ID: <20241111165600.57219-1-codekipper@gmail.com>
 X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20241111162524.46812-1-codekipper@gmail.com>
-References: <20241111162524.46812-1-codekipper@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -88,216 +81,26 @@ Content-Transfer-Encoding: 8bit
 
 From: Marcus Cooper <codekipper@gmail.com>
 
-The X96Q-Pro is an STB based on the Allwinner H313 SoC with a SD
-slot, 2 USB-2 ports, a 10/100M ethernet port using the SoC's
-integrated PHY, Wifi via an sdio wifi chip, HDMI, an IR receiver,
-a blue LED display, an audio video connector and an digital S/PDIF
-connector.
+Hi All,
+I've tested this patch series on the Allwinner H3, A64, H6 and H313 SoCs
+up to 192KHz.
+24bit support is working on my H313 board but 16bit plays a bit slow and
+I suspect that there is an issue with the clock setups. This is even
+present without this patch stack. I would look to address this asap,
+but for now can you please review what's here. 
+BR,
+CK
 
-Add the devicetree file describing the currently supported features,
-namely IR, LEDs, SD card, PMIC, audio codec, SPDIF and USB.
+George Lander (1):
+  ASoC: sun4i-spdif: Add clock multiplier settings
 
-Signed-off-by: Marcus Cooper <codekipper@gmail.com>
----
- arch/arm64/boot/dts/allwinner/Makefile        |   1 +
- .../dts/allwinner/sun50i-h313-x96q-pro.dts    | 176 ++++++++++++++++++
- 2 files changed, 177 insertions(+)
- create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h313-x96q-pro.dts
+Marcus Cooper (2):
+  ASoC: sun4i-spdif: Always set the valid data to be the MSB
+  ASoC: sun4i-spdif: Add working 24bit audio support
 
-diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
-index 00bed412ee31c..e0bcea1840c1f 100644
---- a/arch/arm64/boot/dts/allwinner/Makefile
-+++ b/arch/arm64/boot/dts/allwinner/Makefile
-@@ -18,6 +18,7 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-sopine-baseboard.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-teres-i.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h64-remix-mini-pc.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a100-allwinner-perf1.dtb
-+dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h313-x96q-pro.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-bananapi-m2-plus.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-bananapi-m2-plus-v1.2.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-emlid-neutis-n5-devboard.dtb
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h313-x96q-pro.dts b/arch/arm64/boot/dts/allwinner/sun50i-h313-x96q-pro.dts
-new file mode 100644
-index 0000000000000..4427545ea143c
---- /dev/null
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h313-x96q-pro.dts
-@@ -0,0 +1,176 @@
-+// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-+/*
-+ */
-+
-+/dts-v1/;
-+
-+#include "sun50i-h616.dtsi"
-+
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+/ {
-+	model = "X96Q Pro";
-+	compatible = "amediatech,x96q-pro", "allwinner,sun50i-h616";
-+
-+	aliases {
-+		serial0 = &uart0;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial0:115200n8";
-+	};
-+
-+	reg_vcc5v: vcc5v {
-+		/* board wide 5V supply directly from the DC input */
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc-5v";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+		regulator-always-on;
-+	};
-+
-+	sound-spdif {
-+		compatible = "simple-audio-card";
-+		simple-audio-card,name = "sun50i-h616-spdif";
-+
-+		simple-audio-card,cpu {
-+			sound-dai = <&spdif>;
-+		};
-+
-+		simple-audio-card,codec {
-+			sound-dai = <&spdif_out>;
-+		};
-+	};
-+
-+	spdif_out: spdif-out {
-+		#sound-dai-cells = <0>;
-+		compatible = "linux,spdif-dit";
-+	};
-+};
-+
-+&codec {
-+	allwinner,audio-routing = "Line Out", "LINEOUT";
-+	status = "okay";
-+};
-+
-+&ehci0 {
-+	status = "okay";
-+};
-+
-+&ehci3 {
-+	status = "okay";
-+};
-+
-+&ir {
-+	status = "okay";
-+};
-+
-+&mmc0 {
-+	vmmc-supply = <&reg_dldo1>;
-+	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;	/* PF6 */
-+	bus-width = <4>;
-+	status = "okay";
-+};
-+
-+&mmc2 {
-+	vmmc-supply = <&reg_dldo1>;
-+	vqmmc-supply = <&reg_aldo1>;
-+	bus-width = <8>;
-+	non-removable;
-+	cap-mmc-hw-reset;
-+	mmc-ddr-1_8v;
-+	mmc-hs200-1_8v;
-+	status = "okay";
-+};
-+
-+&ohci0 {
-+	status = "okay";
-+};
-+
-+&ohci3 {
-+	status = "okay";
-+};
-+
-+&pio {
-+	vcc-pc-supply = <&reg_dldo1>;
-+	vcc-pf-supply = <&reg_dldo1>;
-+	vcc-pg-supply = <&reg_aldo1>;
-+	vcc-ph-supply = <&reg_dldo1>;
-+	vcc-pi-supply = <&reg_dldo1>;
-+};
-+
-+&r_i2c {
-+	status = "okay";
-+
-+	axp313: pmic@36 {
-+		compatible = "x-powers,axp313a";
-+		reg = <0x36>;
-+		#interrupt-cells = <1>;
-+		interrupt-controller;
-+		interrupt-parent = <&pio>;
-+		interrupts = <2 9 IRQ_TYPE_LEVEL_LOW>;	/* PC9 */
-+
-+		vin1-supply = <&reg_vcc5v>;
-+		vin2-supply = <&reg_vcc5v>;
-+		vin3-supply = <&reg_vcc5v>;
-+
-+		regulators {
-+			/* Supplies VCC-PLL, so needs to be always on. */
-+			reg_aldo1: aldo1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <1800000>;
-+				regulator-max-microvolt = <1800000>;
-+				regulator-name = "vcc1v8";
-+			};
-+
-+			/* Supplies VCC-IO, so needs to be always on. */
-+			reg_dldo1: dldo1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <3300000>;
-+				regulator-max-microvolt = <3300000>;
-+				regulator-name = "vcc3v3";
-+			};
-+
-+			reg_dcdc1: dcdc1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <810000>;
-+				regulator-max-microvolt = <990000>;
-+				regulator-name = "vdd-gpu-sys";
-+			};
-+
-+			reg_dcdc2: dcdc2 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <810000>;
-+				regulator-max-microvolt = <1100000>;
-+				regulator-name = "vdd-cpu";
-+			};
-+
-+			reg_dcdc3: dcdc3 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <1100000>;
-+				regulator-max-microvolt = <1100000>;
-+				regulator-name = "vdd-dram";
-+			};
-+		};
-+	};
-+};
-+
-+&spdif {
-+	status = "okay";
-+};
-+
-+&uart0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart0_ph_pins>;
-+	status = "okay";
-+};
-+
-+&usbotg {
-+	dr_mode = "host";	/* USB A type receptable */
-+	status = "okay";
-+};
-+
-+&usbphy {
-+	status = "okay";
-+};
+ sound/soc/sunxi/sun4i-spdif.c | 24 ++++++++++++++++++------
+ 1 file changed, 18 insertions(+), 6 deletions(-)
+
 -- 
 2.47.0
 
