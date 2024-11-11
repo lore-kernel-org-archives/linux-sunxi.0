@@ -1,171 +1,194 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE6E919D8BC
-	for <linux-sunxi@lists.linux.dev>; Mon, 11 Nov 2024 11:22:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B3EF1A0B13;
+	Mon, 11 Nov 2024 15:32:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731324169; cv=none; b=jIemV0KUfQhdlQKldDr4r091V2TngIC1pEz+lNUR7Vz2ISIIx4j67Hx6cndCEJ1cgNDxQCEpJmphSt/om75kNoJ43F+LzpkntzsSuSwPfiBEZbs09U4rwgX40qaOjjgzSuSHZL/BhRxNq149yNVaJyQNjW5OQjumH9qyIeuMWWI=
+	t=1731339175; cv=none; b=EuuXSisuUuF4ajV5EGRBRDepiqi7K9IfZ9e3IHgjyn7D25dEf/KyUHdNzx1Fz5XRr+VKnJufw65OYoch9TOwNlue2wkNVfWcXOsXFEgmYiFJtx+vWf7X+EWRO+QY7w4s2voWXfyRT4kcblao0HZjmzA3A9Btv39/MP1gaBSodcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731324169; c=relaxed/simple;
-	bh=FK4ixumk7uIFu4HoD9RKoP3Fky2rGGbSMcVJmfmJaxE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=BoyvZYfS6T7pk5dnc0QSdVWo8wpyuQjbyE4ykQAfLe548z8PpIcEckcvM7unfRO7EsPIVK8/S3iei4SOSCI5CMcgPGrj7rK0OGrIouUkWdkCE65muRcoydQgAjzmjQ5OT/CYwQsso7zgQL5v7U6QVAbPvKNiQAxfLFVqlKYjCbU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=ID6S9FWS; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1731339175; c=relaxed/simple;
+	bh=r8avJOgeVnHmCQ1tIPDEAoD6KMM+18rldtBBgroTd4s=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=qnVehbc6vwfMX40AdhRCVYYYxP36M0eTqS1lU/rE+Fah1zikVZRnKEukhWjxAXlrCIR/z9wotjC2x2SZs2U7GIrSUkwsvkrE91QjJKmhZj9reISthXat/4uyyCxytAUyEhOdzSsnD0A0aL7nPFFfQJLsTc9qT4smd8C0eRJxiXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dq4ZRtgX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="ID6S9FWS"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-382026ba43eso370301f8f.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 11 Nov 2024 03:22:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1731324163; x=1731928963; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=r15fp6TOLoxxUhTToaZ5PCMMfFRPaQfw/v7oNpDzym4=;
-        b=ID6S9FWSueiOTkeCd9rdyJsptrZxS0LmumiGZz+kmf0z4OcbPf9KjGP5KQEJRDBq84
-         LzFIbGrhWdlLF6YZimNb9Vl0poYByQfR7LQKcsTPpAldxCgrDXM5RF0BwS85nGi84Ty9
-         GIcs4Ist6wPdrtw8RUlli32vlshcJvLn3yEHVPuq1B37p19P1xVMvfQl5VZy/RAva13h
-         g6Bj/aN8GyfhCJE93/qscz8egJZIl9AHx1Yvl8toJP2TUqcGjeZZncFgKgGy5jO8OqYp
-         gXFpI03ylqZ9ODKzk927RP7e9BTAiaaJ1xgkBTC5RNpWhOOvqkqoI51nvRa1TOXAAkdc
-         tQKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731324163; x=1731928963;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=r15fp6TOLoxxUhTToaZ5PCMMfFRPaQfw/v7oNpDzym4=;
-        b=LiXIQ8ohB4BfgNCv77i8FlKoBAq/mcBdPIOWPGAXYfcJ1QP+F8NES+8BGBJLGiVo36
-         FzSwrMdGFIzoBe3bUTLX+Rp9Cg2kVew3nnhM/ReZCHW8oAap8uoPtDZl05GmkpnjJDFD
-         JBoxLH6+rJsXNJTei7Z9/AdhB1C1IO3bUojpLPq/LZ/s0tYVwUrBmeUDZqLJZB5Q2JpL
-         ySaUHEWPTT/x6Kkor+eB4qzR0PXzBAECsRGWlqbucPZKU0PN1tXUFXKbX+E5nk/wTr8g
-         XIc2zKrE4ox1TtcZbp1QvDBkv24REOccVDdxFlcB5M4UyHPz5+UOuF+wWkqcPm+PD3+l
-         TRqg==
-X-Forwarded-Encrypted: i=1; AJvYcCWFhkb4FyadI9b7wxDdMoYCSGFfVUfwzwz02NaQV6x4iwh2ZmsaSIndBhhQqu8cmYdvijEhtmK9D2+kPw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YznIHA4g81l2vkg/N0jrGz5KezMwJmxl67hiTIZ7T8yNYx5dDTX
-	l+RN77RgkzR8FwvVpBn66Snrg4R0nBCfrqhl2KNgNeMG1L+LBDYtylR1ke7jg6s=
-X-Google-Smtp-Source: AGHT+IGflZEXP/JVJEfxJwMnj4NDWxpO4U33EWb9Gjbu/Uy04kSnSbAmH7N8NQ7ot39D/FsHYvNz2Q==
-X-Received: by 2002:a05:6000:1543:b0:374:baeb:2ec with SMTP id ffacd0b85a97d-381f182e8damr10825440f8f.19.1731324163396;
-        Mon, 11 Nov 2024 03:22:43 -0800 (PST)
-Received: from localhost (p509159f1.dip0.t-ipconnect.de. [80.145.89.241])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381ed970e18sm12550504f8f.10.2024.11.11.03.22.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2024 03:22:43 -0800 (PST)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: MyungJoo Ham <myungjoo.ham@samsung.com>,
-	Kyungmin Park <kyungmin.park@samsung.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: linux-pm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH] PM / devfreq: sun8i-a33-mbus: Simplify by using more devm functions
-Date: Mon, 11 Nov 2024 12:22:36 +0100
-Message-ID: <20241111112237.336310-2-u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.45.2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dq4ZRtgX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B86B5C4CED6;
+	Mon, 11 Nov 2024 15:32:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731339175;
+	bh=r8avJOgeVnHmCQ1tIPDEAoD6KMM+18rldtBBgroTd4s=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=Dq4ZRtgXjHZZ63uC5JzTAgqwfrl+cT85RYM80IhD1SuvaTaZaAeWymI4w9P6DAtyb
+	 TK1RZx6nYV1FxYpZ2aCtjgxxUCP/FbEZXXYrDW+kY48Ze7jqHHx9MnFr6+Vo9D/DYT
+	 xC8VqlmWRzcf330Zg8HtIFjZHdSJEa8lDToAg/uItkY36sJhJmX+HMKE8twd/OQCpP
+	 HqFCFnUYebC4+kGGiTc6mdU0mSguLM5NBK1yRokiZLRHEDxX+g4zLO+PUnJnObDVND
+	 1XeHxRM2JIENzbyjH6qgry5qx3hmAOZntzliUZw957ALIbxfB776IHt7LZEiIiSJps
+	 yk14S8C0s4gCw==
+Date: Mon, 11 Nov 2024 09:32:53 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3290; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=FK4ixumk7uIFu4HoD9RKoP3Fky2rGGbSMcVJmfmJaxE=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBnMej9tGYutcJk0Z66Gb2L70DkS0eDqx3OEWRcV HW1ZB/UODuJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZzHo/QAKCRCPgPtYfRL+ Tli1B/43Y9j/Yb34j2TVEDZ32am9t3NigQmtFIu52ikB0nMkeZGexX1amtgjCdHOhrmUOqy6dO7 yICIA3vjmKXSlgKyHuXraCV4bQ78s4RxlWvwOmxg69l827la7WkkThrNLv7gQ25P2XJdZbIoJke rRNrk7iV4kSZKkj+rmRS7bBh+R+1T+Plf6Cp8OFcZPmkcTfyEytVexghYJT9g0Sgt7RKKO7NMIs Y55HxP/TJfYWR/+qek0gwIMzubeFkkiOjqTh8+kmT+gadN7nmFRIwf7JcddYwxebyXi88fl6e17 Q7gz0pLMcUY70QLr+yppkWNuwj++V7kdY/T9qVB4HVGyIzpY
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-phy@lists.infradead.org, 
+ linux-mmc@vger.kernel.org, Gregory CLEMENT <gregory.clement@bootlin.com>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Wim Van Sebroeck <wim@linux-watchdog.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, devicetree@vger.kernel.org, 
+ linux-rtc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-i2c@vger.kernel.org, Andi Shyti <andi.shyti@kernel.org>, 
+ Vinod Koul <vkoul@kernel.org>, linux-watchdog@vger.kernel.org, 
+ Thomas Gleixner <tglx@linutronix.de>, Chen-Yu Tsai <wens@csie.org>, 
+ Samuel Holland <samuel@sholland.org>, Ulf Hansson <ulf.hansson@linaro.org>, 
+ linux-usb@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Guenter Roeck <linux@roeck-us.net>, Conor Dooley <conor+dt@kernel.org>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>
+In-Reply-To: <20241111013033.22793-1-andre.przywara@arm.com>
+References: <20241111013033.22793-1-andre.przywara@arm.com>
+Message-Id: <173133346581.1281779.16221268010355943435.robh@kernel.org>
+Subject: Re: [PATCH 00/14] arm64: dts: allwinner: Add basic Allwinner A523
+ support
 
-Use devm allocators for enabling the bus clock and
-clk_rate_exclusive_get(). This simplifies error handling and the remove
-callback.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
----
- drivers/devfreq/sun8i-a33-mbus.c | 38 ++++++++------------------------
- 1 file changed, 9 insertions(+), 29 deletions(-)
+On Mon, 11 Nov 2024 01:30:19 +0000, Andre Przywara wrote:
+> Hi,
+> 
+> this series adds basic DT support for the Allwinner A523 SoC, plus the
+> Avaota-A1 router board using the T527 package variant of that SoC.[1]
+> Functionality-wise it relies on the pinctrl[2] and clock[3] support
+> series, though there is no direct code dependency series to this series
+> (apart from the respective binding patches in the two series').
+> 
+> Most of the patches add DT binding documentation for the most basic
+> peripherals, the vast majority of them actually being already supported,
+> courtesy of identical IP being used. This includes MMC and USB 2.0, so
+> with the above mentioned clock and pinctrl support this gives an already
+> somewhat usable mainline support for this new SoC family.
+> The watchdog is not completely compatible, but is an easy addition, so
+> this bit is included in here as well.
+> 
+> The A523 features 8 Arm Cortex-A55 cores, organised in two clusters,
+> clocked separately, with different OPP limits, in some kind of
+> little/LITTLE configuration. The GPU is a Arm Mali G57 MC01, and the chip
+> also features a single PCIe 2.1 lane, sharing a PHY with some USB 3.1
+> controller - which means only one of the two can be used.
+> The rest of the SoC is the usual soup of multimedia SoC IP, with eDP
+> support and two Gigabit Ethernet MACs among the highlights.
+> 
+> The main feature is patch 11/14, which adds the SoC .dtsi. This for now
+> is limited to the parts that are supported and could be tested. At the
+> moment there is no PSCI firmware, even the TF-A port from the BSP does
+> not seem to work for me. That's why the secondary cores have been omitted
+> for now, among other instances of some IP that I couldn't test yet.
+> I plan to add them in one of the next revisions.
+> 
+> The last patch adds basic support for the Avaota-A1 router board,
+> designed by YuzukiHD, with some boards now built by Pine64.
+> 
+> The mainline firmware side in general is somewhat lacking still: I have
+> basic U-Boot support working (including MMC and USB), although still
+> without DRAM support. This is for now covered by some binary blob found
+> in the (otherwise Open Source) Syterkit firmware, which also provides
+> the BSP versions of TF-A and the required (RISC-V) management core
+> firmware. Fortunately we have indications that DRAM support is not that
+> tricky, as the IP blocks are very similar to already supported, and dev
+> boards are on their way to the right people.
+> 
+> Meanwhile I would like people to have a look at those DT bits here. Please
+> compare them to the available user manual, and test them if you have access
+> to hardware.
+> 
+> Based on v6.12-rc1.
+> I pushed a branch with all the three series combined here:
+> https://github.com/apritzel/linux/commits/a523-v1/
+> 
+> Cheers,
+> Andre
+> 
+> [1] https://linux-sunxi.org/A523#Family_of_sun55iw3
+> [2] https://lore.kernel.org/linux-sunxi/20241111005750.13071-1-andre.przywara@arm.com/T/#t
+> [3] https://lore.kernel.org/linux-sunxi/20241111004722.10130-1-andre.przywara@arm.com/T/#t
+> 
+> Andre Przywara (14):
+>   dt-bindings: mmc: sunxi: Simplify compatible string listing
+>   dt-bindings: mmc: sunxi: add compatible strings for Allwinner A523
+>   dt-bindings: watchdog: sunxi: add Allwinner A523 compatible string
+>   watchdog: sunxi_wdt: Add support for Allwinner A523
+>   dt-bindings: i2c: mv64xxx: Add Allwinner A523 compatible string
+>   dt-bindings: irq: sun7i-nmi: document the Allwinner A523 NMI
+>     controller
+>   dt-bindings: phy: document Allwinner A523 USB-2.0 PHY
+>   dt-bindings: usb: sunxi-musb: add Allwinner A523 compatible string
+>   dt-bindings: usb: add A523 compatible string for EHCI and OCHI
+>   dt-bindings: rtc: sun6i: Add Allwinner A523 support
+>   arm64: dts: allwinner: Add Allwinner A523 .dtsi file
+>   dt-bindings: vendor-prefixes: Add YuzukiHD name
+>   dt-bindings: arm: sunxi: Add Avaota A1 board
+>   arm64: dts: allwinner: a523: add Avaota-A1 router support
+> 
+>  .../devicetree/bindings/arm/sunxi.yaml        |   5 +
+>  .../bindings/i2c/marvell,mv64xxx-i2c.yaml     |   1 +
+>  .../allwinner,sun7i-a20-sc-nmi.yaml           |   1 +
+>  .../bindings/mmc/allwinner,sun4i-a10-mmc.yaml |  40 +-
+>  .../phy/allwinner,sun50i-a64-usb-phy.yaml     |  10 +-
+>  .../bindings/rtc/allwinner,sun6i-a31-rtc.yaml |   4 +-
+>  .../usb/allwinner,sun4i-a10-musb.yaml         |   1 +
+>  .../devicetree/bindings/usb/generic-ehci.yaml |   1 +
+>  .../devicetree/bindings/usb/generic-ohci.yaml |   1 +
+>  .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+>  .../watchdog/allwinner,sun4i-a10-wdt.yaml     |   2 +
+>  arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+>  .../arm64/boot/dts/allwinner/sun55i-a523.dtsi | 386 ++++++++++++++++++
+>  .../dts/allwinner/sun55i-t527-avaota-a1.dts   | 311 ++++++++++++++
+>  drivers/watchdog/sunxi_wdt.c                  |  11 +
+>  15 files changed, 751 insertions(+), 26 deletions(-)
+>  create mode 100644 arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
+>  create mode 100644 arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
+> 
+> --
+> 2.46.2
+> 
+> 
+> 
 
-diff --git a/drivers/devfreq/sun8i-a33-mbus.c b/drivers/devfreq/sun8i-a33-mbus.c
-index bcf654f4ff96..5b630c6e602e 100644
---- a/drivers/devfreq/sun8i-a33-mbus.c
-+++ b/drivers/devfreq/sun8i-a33-mbus.c
-@@ -360,7 +360,7 @@ static int sun8i_a33_mbus_probe(struct platform_device *pdev)
- 	if (IS_ERR(priv->reg_mbus))
- 		return PTR_ERR(priv->reg_mbus);
- 
--	priv->clk_bus = devm_clk_get(dev, "bus");
-+	priv->clk_bus = devm_clk_get_enabled(dev, "bus");
- 	if (IS_ERR(priv->clk_bus))
- 		return dev_err_probe(dev, PTR_ERR(priv->clk_bus),
- 				     "failed to get bus clock\n");
-@@ -375,24 +375,15 @@ static int sun8i_a33_mbus_probe(struct platform_device *pdev)
- 		return dev_err_probe(dev, PTR_ERR(priv->clk_mbus),
- 				     "failed to get mbus clock\n");
- 
--	ret = clk_prepare_enable(priv->clk_bus);
--	if (ret)
--		return dev_err_probe(dev, ret,
--				     "failed to enable bus clock\n");
--
- 	/* Lock the DRAM clock rate to keep priv->nominal_bw in sync. */
--	ret = clk_rate_exclusive_get(priv->clk_dram);
--	if (ret) {
--		err = "failed to lock dram clock rate\n";
--		goto err_disable_bus;
--	}
-+	ret = devm_clk_rate_exclusive_get(dev, priv->clk_dram);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "failed to lock dram clock rate\n");
- 
- 	/* Lock the MBUS clock rate to keep MBUS_TMR_PERIOD in sync. */
--	ret = clk_rate_exclusive_get(priv->clk_mbus);
--	if (ret) {
--		err = "failed to lock mbus clock rate\n";
--		goto err_unlock_dram;
--	}
-+	ret = devm_clk_rate_exclusive_get(priv->clk_mbus);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "failed to lock mbus clock rate\n");
- 
- 	priv->gov_data.upthreshold	= 10;
- 	priv->gov_data.downdifferential	=  5;
-@@ -405,10 +396,8 @@ static int sun8i_a33_mbus_probe(struct platform_device *pdev)
- 	priv->profile.max_state		= max_state;
- 
- 	ret = devm_pm_opp_set_clkname(dev, "dram");
--	if (ret) {
--		err = "failed to add OPP table\n";
--		goto err_unlock_mbus;
--	}
-+	if (ret)
-+		return dev_err_probe(dev, ret, "failed to add OPP table\n");
- 
- 	base_freq = clk_get_rate(clk_get_parent(priv->clk_dram));
- 	for (i = 0; i < max_state; ++i) {
-@@ -448,12 +437,6 @@ static int sun8i_a33_mbus_probe(struct platform_device *pdev)
- 
- err_remove_opps:
- 	dev_pm_opp_remove_all_dynamic(dev);
--err_unlock_mbus:
--	clk_rate_exclusive_put(priv->clk_mbus);
--err_unlock_dram:
--	clk_rate_exclusive_put(priv->clk_dram);
--err_disable_bus:
--	clk_disable_unprepare(priv->clk_bus);
- 
- 	return dev_err_probe(dev, ret, err);
- }
-@@ -472,9 +455,6 @@ static void sun8i_a33_mbus_remove(struct platform_device *pdev)
- 		dev_warn(dev, "failed to restore DRAM frequency: %d\n", ret);
- 
- 	dev_pm_opp_remove_all_dynamic(dev);
--	clk_rate_exclusive_put(priv->clk_mbus);
--	clk_rate_exclusive_put(priv->clk_dram);
--	clk_disable_unprepare(priv->clk_bus);
- }
- 
- static const struct sun8i_a33_mbus_variant sun50i_a64_mbus = {
 
-base-commit: 6d59cab07b8d74d0f0422b750038123334f6ecc2
--- 
-2.45.2
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
+
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
+
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
+
+  pip3 install dtschema --upgrade
+
+
+New warnings running 'make CHECK_DTBS=y allwinner/sun55i-t527-avaota-a1.dtb' for 20241111013033.22793-1-andre.przywara@arm.com:
+
+In file included from arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts:6:
+arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:6:10: fatal error: dt-bindings/clock/sun55i-a523-ccu.h: No such file or directory
+    6 | #include <dt-bindings/clock/sun55i-a523-ccu.h>
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make[3]: *** [scripts/Makefile.dtbs:129: arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dtb] Error 1
+make[2]: *** [scripts/Makefile.build:478: arch/arm64/boot/dts/allwinner] Error 2
+make[2]: Target 'arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dtb' not remade because of errors.
+make[1]: *** [/home/rob/proj/linux-dt-testing/Makefile:1399: allwinner/sun55i-t527-avaota-a1.dtb] Error 2
+make: *** [Makefile:224: __sub-make] Error 2
+make: Target 'allwinner/sun55i-t527-avaota-a1.dtb' not remade because of errors.
+
+
+
+
 
