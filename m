@@ -1,167 +1,171 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529FB224D6
-	for <linux-sunxi@lists.linux.dev>; Mon, 11 Nov 2024 09:45:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE6E919D8BC
+	for <linux-sunxi@lists.linux.dev>; Mon, 11 Nov 2024 11:22:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731318301; cv=none; b=hNb5hkUUhagovsQsdae/3AZ0PLsdWgK7WwBCiKnb4UXDtQyaci7IvOWsWCPD1Zb6ZNqn+p3M78yZPFEB2LkVjzW6ljguW+WXOM20EClaww66KjjtBLQ/2OOqn8yXeFK48DiJjryFIL2pLdOJrEhfM7n0sKXInSUrf+C8erX/JNY=
+	t=1731324169; cv=none; b=jIemV0KUfQhdlQKldDr4r091V2TngIC1pEz+lNUR7Vz2ISIIx4j67Hx6cndCEJ1cgNDxQCEpJmphSt/om75kNoJ43F+LzpkntzsSuSwPfiBEZbs09U4rwgX40qaOjjgzSuSHZL/BhRxNq149yNVaJyQNjW5OQjumH9qyIeuMWWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731318301; c=relaxed/simple;
-	bh=fZNzFehdsn1KYuBdyXoOclvk0TirGAtQUi7fLN6E00Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H031fQn9YOQMrzj/2NuAllyqaX9O3QviEyEd60Z6kyM5IAn8dEsWS7suGsCEJWEN6cOEUZftXf7pSSho6OIOViMVEL/xu6qF5q8TxPJ5JQsH1S4bsoJIt1rflqqeiqTogFZ+vTpxSaIh0iSWo3JoaX7OO2WUV4sEYq+CBqeKt/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
-X-CSE-ConnectionGUID: /gIcoRv3Tu6JerJlnv7BqA==
-X-CSE-MsgGUID: AoHdn9x5S1WjebTit4aQHQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30972327"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="30972327"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2024 01:45:00 -0800
-X-CSE-ConnectionGUID: /eX76d9LRjOk6/8VeX37PA==
-X-CSE-MsgGUID: UvJCofyfTlmID8eXgH3kkA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,144,1728975600"; 
-   d="scan'208";a="91926457"
-Received: from smile.fi.intel.com ([10.237.72.154])
-  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2024 01:44:55 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andy.shevchenko@gmail.com>)
-	id 1tAQya-0000000DXxa-0N1Q;
-	Mon, 11 Nov 2024 11:44:52 +0200
-Date: Mon, 11 Nov 2024 11:44:51 +0200
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-To: Aren <aren@peacevolution.org>
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	s=arc-20240116; t=1731324169; c=relaxed/simple;
+	bh=FK4ixumk7uIFu4HoD9RKoP3Fky2rGGbSMcVJmfmJaxE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=BoyvZYfS6T7pk5dnc0QSdVWo8wpyuQjbyE4ykQAfLe548z8PpIcEckcvM7unfRO7EsPIVK8/S3iei4SOSCI5CMcgPGrj7rK0OGrIouUkWdkCE65muRcoydQgAjzmjQ5OT/CYwQsso7zgQL5v7U6QVAbPvKNiQAxfLFVqlKYjCbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=ID6S9FWS; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="ID6S9FWS"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-382026ba43eso370301f8f.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 11 Nov 2024 03:22:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1731324163; x=1731928963; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=r15fp6TOLoxxUhTToaZ5PCMMfFRPaQfw/v7oNpDzym4=;
+        b=ID6S9FWSueiOTkeCd9rdyJsptrZxS0LmumiGZz+kmf0z4OcbPf9KjGP5KQEJRDBq84
+         LzFIbGrhWdlLF6YZimNb9Vl0poYByQfR7LQKcsTPpAldxCgrDXM5RF0BwS85nGi84Ty9
+         GIcs4Ist6wPdrtw8RUlli32vlshcJvLn3yEHVPuq1B37p19P1xVMvfQl5VZy/RAva13h
+         g6Bj/aN8GyfhCJE93/qscz8egJZIl9AHx1Yvl8toJP2TUqcGjeZZncFgKgGy5jO8OqYp
+         gXFpI03ylqZ9ODKzk927RP7e9BTAiaaJ1xgkBTC5RNpWhOOvqkqoI51nvRa1TOXAAkdc
+         tQKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731324163; x=1731928963;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=r15fp6TOLoxxUhTToaZ5PCMMfFRPaQfw/v7oNpDzym4=;
+        b=LiXIQ8ohB4BfgNCv77i8FlKoBAq/mcBdPIOWPGAXYfcJ1QP+F8NES+8BGBJLGiVo36
+         FzSwrMdGFIzoBe3bUTLX+Rp9Cg2kVew3nnhM/ReZCHW8oAap8uoPtDZl05GmkpnjJDFD
+         JBoxLH6+rJsXNJTei7Z9/AdhB1C1IO3bUojpLPq/LZ/s0tYVwUrBmeUDZqLJZB5Q2JpL
+         ySaUHEWPTT/x6Kkor+eB4qzR0PXzBAECsRGWlqbucPZKU0PN1tXUFXKbX+E5nk/wTr8g
+         XIc2zKrE4ox1TtcZbp1QvDBkv24REOccVDdxFlcB5M4UyHPz5+UOuF+wWkqcPm+PD3+l
+         TRqg==
+X-Forwarded-Encrypted: i=1; AJvYcCWFhkb4FyadI9b7wxDdMoYCSGFfVUfwzwz02NaQV6x4iwh2ZmsaSIndBhhQqu8cmYdvijEhtmK9D2+kPw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YznIHA4g81l2vkg/N0jrGz5KezMwJmxl67hiTIZ7T8yNYx5dDTX
+	l+RN77RgkzR8FwvVpBn66Snrg4R0nBCfrqhl2KNgNeMG1L+LBDYtylR1ke7jg6s=
+X-Google-Smtp-Source: AGHT+IGflZEXP/JVJEfxJwMnj4NDWxpO4U33EWb9Gjbu/Uy04kSnSbAmH7N8NQ7ot39D/FsHYvNz2Q==
+X-Received: by 2002:a05:6000:1543:b0:374:baeb:2ec with SMTP id ffacd0b85a97d-381f182e8damr10825440f8f.19.1731324163396;
+        Mon, 11 Nov 2024 03:22:43 -0800 (PST)
+Received: from localhost (p509159f1.dip0.t-ipconnect.de. [80.145.89.241])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381ed970e18sm12550504f8f.10.2024.11.11.03.22.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Nov 2024 03:22:43 -0800 (PST)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: MyungJoo Ham <myungjoo.ham@samsung.com>,
+	Kyungmin Park <kyungmin.park@samsung.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Kaustabh Chakraborty <kauschluss@disroot.org>,
-	=?iso-8859-1?B?QmFybmFi4XMgQ3rpbeFu?= <trabarni@gmail.com>,
-	Ondrej Jirman <megi@xff.cz>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, Dragan Simic <dsimic@manjaro.org>,
-	phone-devel@vger.kernel.org
-Subject: Re: [PATCH v4 4/6] iio: light: stk3310: use dev_err_probe where
- possible
-Message-ID: <ZzHSE9Nrf4YySJrq@smile.fi.intel.com>
-References: <20241102195037.3013934-3-aren@peacevolution.org>
- <20241102195037.3013934-11-aren@peacevolution.org>
- <ZyiIcDaANjxwtCz-@smile.fi.intel.com>
- <m7x526sv5krgt4t2whn5ykyktoz5u7ihsxv3qa5yue3ucbk6lb@37spwsmlcylm>
- <ZzEPACoblmcQD9yu@surfacebook.localdomain>
- <xubjmxig4luag27ifnmqmv3x3bvzhwczwvw34kw6tssaa2d24t@ysnqh5e3g7sz>
+	Samuel Holland <samuel@sholland.org>
+Cc: linux-pm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH] PM / devfreq: sun8i-a33-mbus: Simplify by using more devm functions
+Date: Mon, 11 Nov 2024 12:22:36 +0100
+Message-ID: <20241111112237.336310-2-u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <xubjmxig4luag27ifnmqmv3x3bvzhwczwvw34kw6tssaa2d24t@ysnqh5e3g7sz>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3290; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=FK4ixumk7uIFu4HoD9RKoP3Fky2rGGbSMcVJmfmJaxE=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBnMej9tGYutcJk0Z66Gb2L70DkS0eDqx3OEWRcV HW1ZB/UODuJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZzHo/QAKCRCPgPtYfRL+ Tli1B/43Y9j/Yb34j2TVEDZ32am9t3NigQmtFIu52ikB0nMkeZGexX1amtgjCdHOhrmUOqy6dO7 yICIA3vjmKXSlgKyHuXraCV4bQ78s4RxlWvwOmxg69l827la7WkkThrNLv7gQ25P2XJdZbIoJke rRNrk7iV4kSZKkj+rmRS7bBh+R+1T+Plf6Cp8OFcZPmkcTfyEytVexghYJT9g0Sgt7RKKO7NMIs Y55HxP/TJfYWR/+qek0gwIMzubeFkkiOjqTh8+kmT+gadN7nmFRIwf7JcddYwxebyXi88fl6e17 Q7gz0pLMcUY70QLr+yppkWNuwj++V7kdY/T9qVB4HVGyIzpY
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
 
-On Sun, Nov 10, 2024 at 04:34:30PM -0500, Aren wrote:
-> On Sun, Nov 10, 2024 at 09:52:32PM +0200, Andy Shevchenko wrote:
-> > Sun, Nov 10, 2024 at 02:14:24PM -0500, Aren kirjoitti:
-> > > On Mon, Nov 04, 2024 at 10:40:16AM +0200, Andy Shevchenko wrote:
-> > > > On Sat, Nov 02, 2024 at 03:50:41PM -0400, Aren Moynihan wrote:
+Use devm allocators for enabling the bus clock and
+clk_rate_exclusive_get(). This simplifies error handling and the remove
+callback.
 
-...
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+---
+ drivers/devfreq/sun8i-a33-mbus.c | 38 ++++++++------------------------
+ 1 file changed, 9 insertions(+), 29 deletions(-)
 
-> > > > >  #define STK3310_REGFIELD(name)						    \
-> > > > >  	do {								    \
-> > > > >  		data->reg_##name =					    \
-> > > > > -			devm_regmap_field_alloc(&client->dev, regmap,	    \
-> > > > > +			devm_regmap_field_alloc(dev, regmap,		    \
-> > > > >  				stk3310_reg_field_##name);		    \
-> > > > > -		if (IS_ERR(data->reg_##name)) {				    \
-> > > > > -			dev_err(&client->dev, "reg field alloc failed.\n"); \
-> > > > > -			return PTR_ERR(data->reg_##name);		    \
-> > > > > -		}							    \
-> > > > > +		if (IS_ERR(data->reg_##name))				    \
-> > > > 
-> > > > > +			return dev_err_probe(dev,			    \
-> > > > > +				PTR_ERR(data->reg_##name),		    \
-> > > > 
-> > > > AFAICS these two can be put on one.
-> > > 
-> > > This doesn't leave room for whitespace between the end of line and "\",
-> > 
-> > Is it a problem?
-> 
-> It feels a bit camped and not as readable to me:
-> 
-> #define STK3310_REGFIELD(name)						    \
-> 	do {								    \
-> 		data->reg_##name =					    \
-> 			devm_regmap_field_alloc(dev, regmap,		    \
-> 				stk3310_reg_field_##name);		    \
-> 		if (IS_ERR(data->reg_##name))				    \
-> 			return dev_err_probe(dev, PTR_ERR(data->reg_##name),\
-> 					     "reg field alloc failed.\n");  \
-> 	} while (0)
+diff --git a/drivers/devfreq/sun8i-a33-mbus.c b/drivers/devfreq/sun8i-a33-mbus.c
+index bcf654f4ff96..5b630c6e602e 100644
+--- a/drivers/devfreq/sun8i-a33-mbus.c
++++ b/drivers/devfreq/sun8i-a33-mbus.c
+@@ -360,7 +360,7 @@ static int sun8i_a33_mbus_probe(struct platform_device *pdev)
+ 	if (IS_ERR(priv->reg_mbus))
+ 		return PTR_ERR(priv->reg_mbus);
+ 
+-	priv->clk_bus = devm_clk_get(dev, "bus");
++	priv->clk_bus = devm_clk_get_enabled(dev, "bus");
+ 	if (IS_ERR(priv->clk_bus))
+ 		return dev_err_probe(dev, PTR_ERR(priv->clk_bus),
+ 				     "failed to get bus clock\n");
+@@ -375,24 +375,15 @@ static int sun8i_a33_mbus_probe(struct platform_device *pdev)
+ 		return dev_err_probe(dev, PTR_ERR(priv->clk_mbus),
+ 				     "failed to get mbus clock\n");
+ 
+-	ret = clk_prepare_enable(priv->clk_bus);
+-	if (ret)
+-		return dev_err_probe(dev, ret,
+-				     "failed to enable bus clock\n");
+-
+ 	/* Lock the DRAM clock rate to keep priv->nominal_bw in sync. */
+-	ret = clk_rate_exclusive_get(priv->clk_dram);
+-	if (ret) {
+-		err = "failed to lock dram clock rate\n";
+-		goto err_disable_bus;
+-	}
++	ret = devm_clk_rate_exclusive_get(dev, priv->clk_dram);
++	if (ret)
++		return dev_err_probe(dev, ret, "failed to lock dram clock rate\n");
+ 
+ 	/* Lock the MBUS clock rate to keep MBUS_TMR_PERIOD in sync. */
+-	ret = clk_rate_exclusive_get(priv->clk_mbus);
+-	if (ret) {
+-		err = "failed to lock mbus clock rate\n";
+-		goto err_unlock_dram;
+-	}
++	ret = devm_clk_rate_exclusive_get(priv->clk_mbus);
++	if (ret)
++		return dev_err_probe(dev, ret, "failed to lock mbus clock rate\n");
+ 
+ 	priv->gov_data.upthreshold	= 10;
+ 	priv->gov_data.downdifferential	=  5;
+@@ -405,10 +396,8 @@ static int sun8i_a33_mbus_probe(struct platform_device *pdev)
+ 	priv->profile.max_state		= max_state;
+ 
+ 	ret = devm_pm_opp_set_clkname(dev, "dram");
+-	if (ret) {
+-		err = "failed to add OPP table\n";
+-		goto err_unlock_mbus;
+-	}
++	if (ret)
++		return dev_err_probe(dev, ret, "failed to add OPP table\n");
+ 
+ 	base_freq = clk_get_rate(clk_get_parent(priv->clk_dram));
+ 	for (i = 0; i < max_state; ++i) {
+@@ -448,12 +437,6 @@ static int sun8i_a33_mbus_probe(struct platform_device *pdev)
+ 
+ err_remove_opps:
+ 	dev_pm_opp_remove_all_dynamic(dev);
+-err_unlock_mbus:
+-	clk_rate_exclusive_put(priv->clk_mbus);
+-err_unlock_dram:
+-	clk_rate_exclusive_put(priv->clk_dram);
+-err_disable_bus:
+-	clk_disable_unprepare(priv->clk_bus);
+ 
+ 	return dev_err_probe(dev, ret, err);
+ }
+@@ -472,9 +455,6 @@ static void sun8i_a33_mbus_remove(struct platform_device *pdev)
+ 		dev_warn(dev, "failed to restore DRAM frequency: %d\n", ret);
+ 
+ 	dev_pm_opp_remove_all_dynamic(dev);
+-	clk_rate_exclusive_put(priv->clk_mbus);
+-	clk_rate_exclusive_put(priv->clk_dram);
+-	clk_disable_unprepare(priv->clk_bus);
+ }
+ 
+ static const struct sun8i_a33_mbus_variant sun50i_a64_mbus = {
 
-Rather this way (besides the fact of having spaces instead of TABs for
-the last formatting, in such case you even can simply add yet another
-column with spaces):
-
-#define STK3310_REGFIELD(name)								\
-	do {										\
-		data->reg_##name =							\
-			devm_regmap_field_alloc(dev, regmap, stk3310_reg_field_##name);	\
-		if (IS_ERR(data->reg_##name))						\
-			return dev_err_probe(dev, PTR_ERR(data->reg_##name),		\
-					     "reg field alloc failed.\n");		\
-	} while (0)
-
-> Removing a level of indentation makes it much better
-
-You can do it differently
-
-#define STK3310_REGFIELD(name)							\
-do {										\
-	data->reg_##name =							\
-		devm_regmap_field_alloc(dev, regmap, stk3310_reg_field_##name);	\
-	if (IS_ERR(data->reg_##name))						\
-		return dev_err_probe(dev, PTR_ERR(data->reg_##name),		\
-				     "reg field alloc failed.\n");		\
-} while (0)
-
-> #define STK3310_REGFIELD(name) ({						\
-> 	data->reg_##name = devm_regmap_field_alloc(dev, regmap,			\
-> 						   stk3310_reg_field_##name);   \
-> 	if (IS_ERR(data->reg_##name))						\
-> 		return dev_err_probe(dev, PTR_ERR(data->reg_##name),		\
-> 				     "reg field alloc failed\n");		\
-> })
-
-I am against unneeded use of GNU extensions.
-
-> > > replacing "do { } while (0)" with "({ })" and deindenting could make
-> > > enough room to clean this up the formatting of this macro though.
-> > 
-> > do {} while (0) is C standard, ({}) is not.
-> 
-> ({ }) is used throughout the kernel, and is documented as such[1]. I
-> don't see a reason to avoid it, if it helps readability.
-
-I don't see how it makes things better here, and not everybody is familiar with
-the concept even if it's used in the kernel here and there. Also if a tool is
-being used in one case it doesn't mean it's suitable for another.
-
-> 1: the "GNU Extensions" section of Documentation/kernel-hacking/hacking.rst
-
+base-commit: 6d59cab07b8d74d0f0422b750038123334f6ecc2
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.45.2
 
