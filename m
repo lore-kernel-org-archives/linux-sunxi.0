@@ -1,135 +1,289 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5506E1A3BD7
-	for <linux-sunxi@lists.linux.dev>; Mon, 11 Nov 2024 16:56:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DEF61A08DF
+	for <linux-sunxi@lists.linux.dev>; Mon, 11 Nov 2024 17:27:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731344170; cv=none; b=r/HYgtUyXV6WbwdS6cD932H8kGp1c3qL8PUKJPVS5BDlS4etg+SZdUdpx0G9c2HAhs4wbmCUwrC9QFoMGibbIO5aE59SxADF7Wn/BzfKU3QVM5+jQjwrnNLrMlBzGJSeMZkkAur6yCAGcXr8L08dccdGlm9G41NPSXjmBEYSt6Y=
+	t=1731346063; cv=none; b=SLyyzIbSq2pt/jG7t+biYqI9TO7VEDXmdUPAgzRE1p8CrslLm1NqybJp4jJEsZUtd8Cy3NRkiBLnvjeYzsdqfsWyU+NMIdjwShpJsDSYQLoDcJq2WRDHzSQWDGs3sP0C9Fo3uDe7ezZ73nYnLvFfHbCh82fbp+aPfOob3imk614=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731344170; c=relaxed/simple;
-	bh=3kLzdXkGZ0goZ7AL14qJZ24tx/PDfvKjSoul4AfIyWc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gIJ8jH14WlNYFA2265EO6TNIoKuy3RrZuI2phH+26n3zvPFwvY8VSfwJDyIHsrHP0X3H8LuWbVA7z0YsrbUdtTc8EhWNIoVZDtFRVg6VJsNFifDcGb673eSVbn7iEjehnIu9y0b/dNC97wYt/7wUd4tWvuinOBcrXUQQnub64KY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GbUPpqrt; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GbUPpqrt"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-53a007743e7so5628791e87.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 11 Nov 2024 08:56:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731344166; x=1731948966; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BGIyKdlKD2rjdr8nGTfStLxE86UsO3KrqZkzx50EpGg=;
-        b=GbUPpqrt2DEowxUS+T9Z1jmAHnyvFI2fjmEgkFSVuRDqF8E2DNJUHBoFAUWhi91XDs
-         dCw3QbGNExVIIkrQqMWai9o3M2rng9e1P8D8CQgI50MySf+7SedzE/RWyP4RmJynZqXE
-         VoJpXg4hB32r5pozi/toEQ3T/Fdyf8xMAgtyXcaR4rnab0eBkdVHPpUk2547gM5ieGLZ
-         44QevL6IqFCYOAqe5njyn/UayulUeIy//Q0JJY2iOsrdFop9rts06Fw1J3aGnfObpMJ3
-         Bn0FYAualDqyjbnMwMGIhe60kuk1NF1TPJwpp6w2vtEaRuFzuPti2nQGMbW8Gexxfut1
-         T/Rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731344166; x=1731948966;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BGIyKdlKD2rjdr8nGTfStLxE86UsO3KrqZkzx50EpGg=;
-        b=xBBi4v/hfqEW/MuKcCwA/KrhDjmof/mEe+7CW4xpYpuizOle4pFWoc/uTDQV8x9VCf
-         4GO+cAPCkzV8Fc5WG33oiC8R40odoR4Xdtin4VBc9UiPNY9hT3lAffld12mllFXxdrjO
-         VQHHoL6+4cqrkft1tnOF6/doKPMYdg8aFmsXu8fXNvt2w76Cuun2kfNexH661xWWkrQz
-         hk/RrABJqbM2G32gLiaEloWEcBL3bU0fYSfpx5Z1KCtK+mFuxPTt/KPDUREkuvdzuD0J
-         gAfQheYkwIscN1b9Chs+n32r/RxL9oHR2keg9CPsyBTW4qY58pH/8TSR/1RAPs6Cy7ea
-         IwwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVP5NoumVkhV/rgK8kDLgLuyySCiw/+q2pj6HJJcTxE235gaKqzehB7GLjy1T+UmGCCh2tXMDayjWXHAA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx45w/NtnOWIf86SFK1Y8arpIbrJu4YHJyaCVS7c1MObzGZ0ZfO
-	/vOXlrX36ye4bsLTRWMZj3lzLSTamH3i9qQ0YqIbj6DVMw7FhpYLH+IkR5Bp
-X-Google-Smtp-Source: AGHT+IFnmYnGoXcuYt3AhU6Y+aYhmeuhcBjoUc/SyewEzKh1ml1lrjiD9FwIjoozeWWRRSk/eMeAlQ==
-X-Received: by 2002:a05:6512:6d1:b0:539:e873:6d7 with SMTP id 2adb3069b0e04-53d86228c57mr5864656e87.1.1731344166311;
-        Mon, 11 Nov 2024 08:56:06 -0800 (PST)
-Received: from localhost.localdomain (c90-142-33-119.bredband.tele2.se. [90.142.33.119])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53d826a7387sm1624737e87.140.2024.11.11.08.56.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2024 08:56:05 -0800 (PST)
-From: codekipper@gmail.com
-To: linux-kernel@vger.kernel.org,
-	linux-arm-kernel@vger.kernel.org,
-	linux-sunxi@googlegroups.com,
-	linux-sunxi@lists.linux.dev,
-	linux-sound@vger.kernel.org,
-	lander@jagmn.com
-Cc: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	andre.przywara@arm.com,
-	wens@csie.org,
-	u.kleine-koenig@baylibre.com,
-	Marcus Cooper <codekipper@gmail.com>
-Subject: [PATCH 3/3] ASoC: sun4i-spdif: Add working 24bit audio support
-Date: Mon, 11 Nov 2024 17:55:31 +0100
-Message-ID: <20241111165600.57219-4-codekipper@gmail.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20241111165600.57219-1-codekipper@gmail.com>
-References: <20241111165600.57219-1-codekipper@gmail.com>
+	s=arc-20240116; t=1731346063; c=relaxed/simple;
+	bh=EzHubOyd3Bja2pThB9rZDCjbW+OpU9ecuX+hTitWH94=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Z5R+CsJz5H73pJVf5pnlCEZwrCWHl8L0bo8a7GoLQRwGrU3Aqjxii2cUMxI638AOr/97JcU1EDWsHvWqoogKhLT+8+fHdDsMS1rfUN7Oucqj/s6Y+zPMs5q4aiH6cZWCrzjP8O3/RBHrYSH+cQTuDP5UziBrCG5vtqjQlcpZXg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9C1131480;
+	Mon, 11 Nov 2024 09:28:08 -0800 (PST)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6658D3F59E;
+	Mon, 11 Nov 2024 09:27:35 -0800 (PST)
+Date: Mon, 11 Nov 2024 17:27:31 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: codekipper@gmail.com
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@vger.kernel.org,
+ linux-sunxi@googlegroups.com, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, conor+dt@kernel.org, krzk+dt@kernel.org,
+ robh@kernel.org, jernej.skrabec@gmail.com, samuel@sholland.org,
+ wens@csie.org, macromorgan@hotmail.com, jszhang@kernel.org, uwu@icenowy.me,
+ ryan@testtoast.com, dsimic@manjaro.org, mripard@kernel.org
+Subject: Re: [PATCH 2/2] arm64: dts: allwinner: Add initial support for the
+ X96Q-Pro STB
+Message-ID: <20241111172731.54154a3e@donnerap.manchester.arm.com>
+In-Reply-To: <20241111162524.46812-3-codekipper@gmail.com>
+References: <20241111162524.46812-1-codekipper@gmail.com>
+	<20241111162524.46812-3-codekipper@gmail.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Marcus Cooper <codekipper@gmail.com>
+On Mon, 11 Nov 2024 17:25:06 +0100
+codekipper@gmail.com wrote:
 
-24 bit audio file can be detected by the alsa driver as S32_LE.
-Add this format to what is supported and change the DMA address
-width.
+Hi Marcus,
 
-Signed-off-by: Marcus Cooper <codekipper@gmail.com>
----
- sound/soc/sunxi/sun4i-spdif.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+many thanks for sending this!
 
-diff --git a/sound/soc/sunxi/sun4i-spdif.c b/sound/soc/sunxi/sun4i-spdif.c
-index 5a9407aaa1a19..41caf1795d09b 100644
---- a/sound/soc/sunxi/sun4i-spdif.c
-+++ b/sound/soc/sunxi/sun4i-spdif.c
-@@ -287,14 +287,17 @@ static int sun4i_spdif_hw_params(struct snd_pcm_substream *substream,
- 		return -EINVAL;
- 	}
- 
-+	host->dma_params_tx.addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
- 	switch (params_format(params)) {
- 	case SNDRV_PCM_FORMAT_S16_LE:
- 		fmt |= SUN4I_SPDIF_TXCFG_FMT16BIT;
-+		host->dma_params_tx.addr_width = DMA_SLAVE_BUSWIDTH_2_BYTES;
- 		break;
- 	case SNDRV_PCM_FORMAT_S20_3LE:
- 		fmt |= SUN4I_SPDIF_TXCFG_FMT20BIT;
- 		break;
- 	case SNDRV_PCM_FORMAT_S24_LE:
-+	case SNDRV_PCM_FORMAT_S32_LE:
- 		fmt |= SUN4I_SPDIF_TXCFG_FMT24BIT;
- 		break;
- 	default:
-@@ -526,9 +529,10 @@ static const struct regmap_config sun4i_spdif_regmap_config = {
- 
- #define SUN4I_RATES	SNDRV_PCM_RATE_8000_192000
- 
--#define SUN4I_FORMATS	(SNDRV_PCM_FORMAT_S16_LE | \
--				SNDRV_PCM_FORMAT_S20_3LE | \
--				SNDRV_PCM_FORMAT_S24_LE)
-+#define SUN4I_FORMATS	(SNDRV_PCM_FMTBIT_S16_LE | \
-+				SNDRV_PCM_FMTBIT_S20_3LE | \
-+				SNDRV_PCM_FMTBIT_S24_LE | \
-+				SNDRV_PCM_FMTBIT_S32_LE)
- 
- static struct snd_soc_dai_driver sun4i_spdif_dai = {
- 	.playback = {
--- 
-2.47.0
+> From: Marcus Cooper <codekipper@gmail.com>
+> 
+> The X96Q-Pro is an STB based on the Allwinner H313 SoC with a SD
+> slot, 2 USB-2 ports, a 10/100M ethernet port using the SoC's
+> integrated PHY, Wifi via an sdio wifi chip, HDMI, an IR receiver,
+> a blue LED display, an audio video connector and an digital S/PDIF
+> connector.
+> 
+> Add the devicetree file describing the currently supported features,
+> namely IR, LEDs, SD card, PMIC, audio codec, SPDIF and USB.
 
+This looks good on a first glance, but seems to miss the DVFS bits? So you
+would need to #include "sun50i-h616-cpu-opp.dtsi" and specify the cpu0
+power supply rail, otherwise you will be stuck at 1GHz.
+
+Or is there any issue preventing you doing this?
+
+Two more things below:
+
+> Signed-off-by: Marcus Cooper <codekipper@gmail.com>
+> ---
+>  arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+>  .../dts/allwinner/sun50i-h313-x96q-pro.dts    | 176 ++++++++++++++++++
+>  2 files changed, 177 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h313-x96q-pro.dts
+> 
+> diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
+> index 00bed412ee31c..e0bcea1840c1f 100644
+> --- a/arch/arm64/boot/dts/allwinner/Makefile
+> +++ b/arch/arm64/boot/dts/allwinner/Makefile
+> @@ -18,6 +18,7 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-sopine-baseboard.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-teres-i.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h64-remix-mini-pc.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a100-allwinner-perf1.dtb
+> +dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h313-x96q-pro.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-bananapi-m2-plus.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-bananapi-m2-plus-v1.2.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-emlid-neutis-n5-devboard.dtb
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h313-x96q-pro.dts b/arch/arm64/boot/dts/allwinner/sun50i-h313-x96q-pro.dts
+> new file mode 100644
+> index 0000000000000..4427545ea143c
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h313-x96q-pro.dts
+> @@ -0,0 +1,176 @@
+> +// SPDX-License-Identifier: (GPL-2.0+ or MIT)
+> +/*
+> + */
+
+Is this missing some copyright notice here?
+
+> +
+> +/dts-v1/;
+> +
+> +#include "sun50i-h616.dtsi"
+> +
+> +#include <dt-bindings/gpio/gpio.h>
+> +#include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +/ {
+> +	model = "X96Q Pro";
+> +	compatible = "amediatech,x96q-pro", "allwinner,sun50i-h616";
+> +
+> +	aliases {
+> +		serial0 = &uart0;
+> +	};
+> +
+> +	chosen {
+> +		stdout-path = "serial0:115200n8";
+> +	};
+> +
+> +	reg_vcc5v: vcc5v {
+> +		/* board wide 5V supply directly from the DC input */
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "vcc-5v";
+> +		regulator-min-microvolt = <5000000>;
+> +		regulator-max-microvolt = <5000000>;
+> +		regulator-always-on;
+> +	};
+> +
+> +	sound-spdif {
+> +		compatible = "simple-audio-card";
+> +		simple-audio-card,name = "sun50i-h616-spdif";
+> +
+> +		simple-audio-card,cpu {
+> +			sound-dai = <&spdif>;
+> +		};
+> +
+> +		simple-audio-card,codec {
+> +			sound-dai = <&spdif_out>;
+> +		};
+> +	};
+> +
+> +	spdif_out: spdif-out {
+> +		#sound-dai-cells = <0>;
+> +		compatible = "linux,spdif-dit";
+> +	};
+> +};
+> +
+> +&codec {
+> +	allwinner,audio-routing = "Line Out", "LINEOUT";
+> +	status = "okay";
+> +};
+> +
+> +&ehci0 {
+> +	status = "okay";
+> +};
+> +
+> +&ehci3 {
+> +	status = "okay";
+> +};
+> +
+> +&ir {
+> +	status = "okay";
+> +};
+> +
+> +&mmc0 {
+> +	vmmc-supply = <&reg_dldo1>;
+> +	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;	/* PF6 */
+> +	bus-width = <4>;
+> +	status = "okay";
+> +};
+
+Would it make sense to add the mmc1 node here, even if there is no driver
+in Linux atm for the WiFi chip? Thanks to SDIO we wouldn't need a
+compatible string, I think. This would also then allow us to describe the
+connected GPIOs.
+
+And does the box have Bluetooth?
+
+Cheers,
+Andre
+
+> +
+> +&mmc2 {
+> +	vmmc-supply = <&reg_dldo1>;
+> +	vqmmc-supply = <&reg_aldo1>;
+> +	bus-width = <8>;
+> +	non-removable;
+> +	cap-mmc-hw-reset;
+> +	mmc-ddr-1_8v;
+> +	mmc-hs200-1_8v;
+> +	status = "okay";
+> +};
+> +
+> +&ohci0 {
+> +	status = "okay";
+> +};
+> +
+> +&ohci3 {
+> +	status = "okay";
+> +};
+> +
+> +&pio {
+> +	vcc-pc-supply = <&reg_dldo1>;
+> +	vcc-pf-supply = <&reg_dldo1>;
+> +	vcc-pg-supply = <&reg_aldo1>;
+> +	vcc-ph-supply = <&reg_dldo1>;
+> +	vcc-pi-supply = <&reg_dldo1>;
+> +};
+> +
+> +&r_i2c {
+> +	status = "okay";
+> +
+> +	axp313: pmic@36 {
+> +		compatible = "x-powers,axp313a";
+> +		reg = <0x36>;
+> +		#interrupt-cells = <1>;
+> +		interrupt-controller;
+> +		interrupt-parent = <&pio>;
+> +		interrupts = <2 9 IRQ_TYPE_LEVEL_LOW>;	/* PC9 */
+> +
+> +		vin1-supply = <&reg_vcc5v>;
+> +		vin2-supply = <&reg_vcc5v>;
+> +		vin3-supply = <&reg_vcc5v>;
+> +
+> +		regulators {
+> +			/* Supplies VCC-PLL, so needs to be always on. */
+> +			reg_aldo1: aldo1 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt = <1800000>;
+> +				regulator-max-microvolt = <1800000>;
+> +				regulator-name = "vcc1v8";
+> +			};
+> +
+> +			/* Supplies VCC-IO, so needs to be always on. */
+> +			reg_dldo1: dldo1 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt = <3300000>;
+> +				regulator-max-microvolt = <3300000>;
+> +				regulator-name = "vcc3v3";
+> +			};
+> +
+> +			reg_dcdc1: dcdc1 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt = <810000>;
+> +				regulator-max-microvolt = <990000>;
+> +				regulator-name = "vdd-gpu-sys";
+> +			};
+> +
+> +			reg_dcdc2: dcdc2 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt = <810000>;
+> +				regulator-max-microvolt = <1100000>;
+> +				regulator-name = "vdd-cpu";
+> +			};
+> +
+> +			reg_dcdc3: dcdc3 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt = <1100000>;
+> +				regulator-max-microvolt = <1100000>;
+> +				regulator-name = "vdd-dram";
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&spdif {
+> +	status = "okay";
+> +};
+> +
+> +&uart0 {
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&uart0_ph_pins>;
+> +	status = "okay";
+> +};
+> +
+> +&usbotg {
+> +	dr_mode = "host";	/* USB A type receptable */
+> +	status = "okay";
+> +};
+> +
+> +&usbphy {
+> +	status = "okay";
+> +};
+
+d
