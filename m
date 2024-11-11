@@ -1,118 +1,101 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12C4414F9FF
-	for <linux-sunxi@lists.linux.dev>; Mon, 11 Nov 2024 05:55:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E13978289
+	for <linux-sunxi@lists.linux.dev>; Mon, 11 Nov 2024 09:38:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731304509; cv=none; b=BLRGxYuSM0vTE/swgSjVyMfCle+2K1bk34BAliayteGkL8c/UWyogd3L9cb2rU+55o86ZLxQUmnFjqpqF0+2YmebI6Wb3K0ODI0qULbOS6mkLsJG8uNA1ONGnTSVxU9/Ob3Wnf51uzYyKsi/zCBLVpH2SsgBpFpMbsj88yVmACI=
+	t=1731317905; cv=none; b=iuJQdDSZeHlhOMGON38xDnj+kve2ZSIjVNt7QLp0d4IDHaeqA8xezmjq65tSZDdO5OlWKrSRRd1v2ok7ZdEdS0yVZh5jTqshFuRwl0IgaBPoffRPc7eSs+L5u193ZbDtlhF+3ntNnU0mn7hudelVYCnLDctjsUUDjxwBcd5VmAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731304509; c=relaxed/simple;
-	bh=1wbt4id5qTsT4HTO1+224rcxhAAHXiof/62rdh090/c=;
+	s=arc-20240116; t=1731317905; c=relaxed/simple;
+	bh=xeAyYEonYfltQhc7TK13Y/TErfyKMLlkw7rNEBEmLZM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vC2PBNoAqrSSwjgXGAQ6p3cL8jUELbRrVYkqKVpuG0R6K/BVmXLXPo8NRmimv+YFvv/ggGfTJro1ap4PrWIKH9r4on27Mfd0zUEEjhifxdyM+n8mldftMWJJTfUzjOy78vC/kepNTB6QvF9d4slOMCtZfztXuEoM/4XuilwlfoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ItVbu2E9; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ItVbu2E9"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-72097a5ca74so3506242b3a.3
-        for <linux-sunxi@lists.linux.dev>; Sun, 10 Nov 2024 21:55:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1731304507; x=1731909307; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=nAWcQ5veHhNVgjM+Swr4gUazUOqqofF4VZks+AvSvMY=;
-        b=ItVbu2E9Ybtfr1imVpu6fdQvUD9boU4FD9mTcXKp6DTLHca0Xhhlg1AzMxJfIXoHVA
-         yVjHT9j4IKrFPn54/8AEaT33p12CIxcgwLYcHou4uyR/loDivpK3fCDCcFPGIaxAv1Qs
-         Avs4AoMs3t7rciIQldvxJh61635jNiuhN89k7rWllTlrC4Q8fmtJub1rsFW7ed6gq6bm
-         2cE8NAKUDWjeLQkuy3n1C7WQHjLVKUUkOgMdpb+BJ7EoabOkOxRPDsWPg4+pkB/Mi2nx
-         oGCFfd2+F3g+Qpjy0B9zs8wmrr+7oOfwLTMbw4+GoHfmRm+3cUPTN/35DE4DJrMtpJXB
-         DqnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731304507; x=1731909307;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nAWcQ5veHhNVgjM+Swr4gUazUOqqofF4VZks+AvSvMY=;
-        b=ahibiKfXdlk5/y7tynMu5VGKmlmP9NDdMn/B+JCzd4KuCTjroTjr98dkE080rHKPJR
-         iLldV/bQL1bAJLHMf46fgrEeBLMXveYqtsAn9TbdbSwLEPZWvOktTkGy4yvCPX+qQIeW
-         ZytJy8PuivsfoQNW8xtZl5N3SX6MMwXAegyfvTvLU7dTRP65u5mn2JWf4dVE0bfX2lsf
-         sj19Us48DSuwEfYEzI64YDp0CC8RhR1ctYXmHQCWVs9JEsVMStUO9qAgiANa4P/tFOmn
-         jjR6bsMcEs9S2ReDN0g7ndxkYNu2AHBm+Q44HFQwHhrqDIAygQ5wEhVRSIg2/ADE45mh
-         cTHw==
-X-Forwarded-Encrypted: i=1; AJvYcCUIFh6c1lzTfef75PynhhDqct12oX/mQQLwSxJf/9jHDkrpYMBArp+NHajBKSPYttRqvdWY3SjLd0HPhw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzQqAb3zZXXCddUv936ZduKpzS1savfAsjdFVO65UUbWXo5hvMe
-	fyFY/NZIzBVfufuptsQK5dkEu+Cq+wGB4pySDOazWaacZGXXOLTEBEsZH7D/rpE=
-X-Google-Smtp-Source: AGHT+IHtqVtA35vMC4e1EnNTvwTwqSJFlJzhlZOFgx3RSPLljVG5nE5Fqy9JY0g2bqUZOQmsSp1QUQ==
-X-Received: by 2002:a05:6a00:198a:b0:71e:415:c4c6 with SMTP id d2e1a72fcca58-724133d215amr13597006b3a.26.1731304507363;
-        Sun, 10 Nov 2024 21:55:07 -0800 (PST)
-Received: from localhost ([122.172.86.146])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724079a3d5bsm8443325b3a.106.2024.11.10.21.55.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Nov 2024 21:55:06 -0800 (PST)
-Date: Mon, 11 Nov 2024 11:25:04 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Chen-Yu Tsai <wens@csie.org>
-Cc: Cody Eksal <masterr3c0rd@epochal.quest>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Yangtao Li <tiny.windzz@gmail.com>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=CMUoR/BOcz9HkmXezVcfh/XEMNPsy54Q6giEjP749Fqy4/wrAWUYqNjrhqvTY62jhhSQUcNQhlBF3b1CmDyb+1oKan/LFJ36W1x6MpZr8+BkIMDYvFE/8doX3JvO8eVHyARWT1Pa+X2kXWlnRkElExCwn8jYYAnjUdgsTQx01ms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
+X-CSE-ConnectionGUID: aJsKogAVSnuM3cdq/QOLfg==
+X-CSE-MsgGUID: thCJsD1ySpGa+lEMhwUSSw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31283515"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="31283515"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2024 01:38:23 -0800
+X-CSE-ConnectionGUID: vKgxvLnxSW2eLqkX5QZQww==
+X-CSE-MsgGUID: e+5VjbTJS5GlYdx0irgteA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,144,1728975600"; 
+   d="scan'208";a="87640065"
+Received: from smile.fi.intel.com ([10.237.72.154])
+  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2024 01:38:20 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andy.shevchenko@gmail.com>)
+	id 1tAQsB-0000000DXr3-2uiO;
+	Mon, 11 Nov 2024 11:38:15 +0200
+Date: Mon, 11 Nov 2024 11:38:15 +0200
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+To: Aren <aren@peacevolution.org>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Nishanth Menon <nm@ti.com>, Rob Herring <robh@kernel.org>,
-	Stephen Boyd <sboyd@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-	Viresh Kumar <vireshk@kernel.org>,
-	Parthiban <parthiban@linumiz.com>,
-	Andre Przywara <andre.przywara@arm.com>, linux-pm@vger.kernel.org,
+	Kaustabh Chakraborty <kauschluss@disroot.org>,
+	=?iso-8859-1?B?QmFybmFi4XMgQ3rpbeFu?= <trabarni@gmail.com>,
+	Ondrej Jirman <megi@xff.cz>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 12/13] cpufreq: sun50i: add a100 cpufreq support
-Message-ID: <20241111055504.2f3szrd5ahudvtqm@vireshk-i7>
-References: <20241031070232.1793078-1-masterr3c0rd@epochal.quest>
- <20241031070232.1793078-13-masterr3c0rd@epochal.quest>
- <20241111041311.hleaz5fgipsyxigm@vireshk-i7>
- <CAGb2v646NHFAni=P+iC8OZsWMpg0PJc=kYbuWaY=C0-W-q6qAw@mail.gmail.com>
+	linux-sunxi@lists.linux.dev, Dragan Simic <dsimic@manjaro.org>,
+	phone-devel@vger.kernel.org
+Subject: Re: [PATCH v4 2/6] iio: light: stk3310: handle all remove logic with
+ devm callbacks
+Message-ID: <ZzHQh8CV4c2HC4NY@smile.fi.intel.com>
+References: <20241102195037.3013934-3-aren@peacevolution.org>
+ <20241102195037.3013934-7-aren@peacevolution.org>
+ <ZyiGiK6bSd_d0VQ6@smile.fi.intel.com>
+ <mlvzaskgxqjfu6yiib2u7m3pczsifsluc4mqnzy6w3xzxblvm6@xrxvvruzftn2>
+ <ZzEOqC9dAHCRX5a9@surfacebook.localdomain>
+ <qqk4rbx6wxr7vofepk63yvuimavafbiy2srkqx2zvl2kxttlrk@axpphmdxffis>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGb2v646NHFAni=P+iC8OZsWMpg0PJc=kYbuWaY=C0-W-q6qAw@mail.gmail.com>
+In-Reply-To: <qqk4rbx6wxr7vofepk63yvuimavafbiy2srkqx2zvl2kxttlrk@axpphmdxffis>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On 11-11-24, 13:30, Chen-Yu Tsai wrote:
-> On Mon, Nov 11, 2024 at 12:13 PM Viresh Kumar <viresh.kumar@linaro.org> wrote:
-> >
-> > On 31-10-24, 04:02, Cody Eksal wrote:
-> > > From: Shuosheng Huang <huangshuosheng@allwinnertech.com>
-> > >
-> > > Let's add cpufreq nvmem based for allwinner a100 soc. It's similar to h6,
-> > > let us use efuse_xlate to extract the differentiated part.
-> > >
-> > > Signed-off-by: Shuosheng Huang <huangshuosheng@allwinnertech.com>
-> > > [masterr3c0rd@epochal.quest: add A100 to opp_match_list]
-> > > Signed-off-by: Cody Eksal <masterr3c0rd@epochal.quest>
-> > > ---
-> > > Changes in V2:
-> > >  - Add the A100 to the cpufreq-dt-platdev blacklist.
-> >
-> > Can this be applied to the cpufreq tree separately ?
-> 
-> Yes.
-> 
-> Acked-by: Chen-Yu Tsai <wens@csie.org>
+On Sun, Nov 10, 2024 at 05:37:56PM -0500, Aren wrote:
+> On Sun, Nov 10, 2024 at 09:51:04PM +0200, Andy Shevchenko wrote:
+> > Sun, Nov 10, 2024 at 01:38:39PM -0500, Aren kirjoitti:
+> > > On Mon, Nov 04, 2024 at 10:32:08AM +0200, Andy Shevchenko wrote:
+> > > > On Sat, Nov 02, 2024 at 03:50:37PM -0400, Aren Moynihan wrote:
 
-Applied. Thanks.
+...
+
+> > > > > +	ret = devm_add_action_or_reset(&client->dev, stk3310_set_state_disable, data);
+> > > > 
+> > > > Why not simply 'dev' as in below call?
+> > > 
+> > > I was trying to avoid refactoring the entire function to replace
+> > > &client->dev with dev, I'll add a patch for that to the next revision.
+> > 
+> > I'm not talking about refactoring, I'm talking only about the lines that you
+> > have touched / added.
+> 
+> Ah right, this one makes sense, my comment should have been on the next
+> patch in this series which is a little more complex. For that patch it
+> seemed inconsistent to use dev only in new code and mix it with calls
+> using &client->dev.
+
+It's fine, you can add a new cleanup patch later on.
 
 -- 
-viresh
+With Best Regards,
+Andy Shevchenko
+
+
