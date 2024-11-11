@@ -1,42 +1,53 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D466414831E
-	for <linux-sunxi@lists.linux.dev>; Mon, 11 Nov 2024 00:58:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA44A482EF
+	for <linux-sunxi@lists.linux.dev>; Mon, 11 Nov 2024 01:30:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731286694; cv=none; b=mFnshnHmwvczyiMjW25JxxK8oGzXYi+P8U389m0nGWPWKlBMfPQPiE6qrshuR/YZAR4/qYiBVkmHTOR1XH0RwneS1mME6TviZoommayvSnUs11QfvLMCWIvIEuO7LBfsYNjASy2XQMv611JLh8gzXIyNMO77mpMpXHSDRgdwkd4=
+	t=1731288649; cv=none; b=P6fG5uZEMfEm1W1ou2aq0A6tgwJ7795hkLgwHN14CPDR5QOJGBxFESZOosg6n7jYGldS3cOxx4YqPu5NvBkwzkaz6ynWGkj96X/eD0mWfGzMtJtnsVE/wGU7xnh0kmMA6EZH8UirGd9vCGlsJAQO5NjUcqsLR05Inax3ylDU+jM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731286694; c=relaxed/simple;
-	bh=zOQK/qxhm2/XvBVcerogONH/FQX1BUF8X2uJVIxyYYA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RzK3zguJQBI4l6ynwx2C2u7pCJtCntDvivw8JdK9/jJgeTflYcEQpyT/u5Z+ghbmI32EZsVKYwrqaR8BU6uuU2Cd6cBCX12UhRwVIusQsPhLLUrCW0NsF5qeZYCM9uNYZ3cs26vaDx5L7iW8Uo4NMYiP0/S/nehKUnVOcTbw+hM=
+	s=arc-20240116; t=1731288649; c=relaxed/simple;
+	bh=Yitza08W5XYTvZe1J/EwMesDT4epJexlDkl8ospyV9I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ny2vi9/GSxqqXwIdU3Udj8zMPMe5P9uNH02KfEzYVzuvwtmf+aYM0Hh+T8xS0Jo+p3xUfnvTbWe0OrcTadTrOKXjp7WoKVT9zcRBLh8R8mFNrn97pAgqZsABtimomWG5CR2w6tUdQwuhzwrlgkdmiNVWvlCkKHqUWYH7bZgfyDw=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 63D2613D5;
-	Sun, 10 Nov 2024 16:58:42 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0E61113D5;
+	Sun, 10 Nov 2024 17:31:16 -0800 (PST)
 Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D004C3F66E;
-	Sun, 10 Nov 2024 16:58:10 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DFB6E3F66E;
+	Sun, 10 Nov 2024 17:30:42 -0800 (PST)
 From: Andre Przywara <andre.przywara@arm.com>
-To: Linus Walleij <linus.walleij@linaro.org>,
-	Rob Herring <robh@kernel.org>,
+To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>
-Cc: linux-gpio@vger.kernel.org,
-	devicetree@vger.kernel.org,
+Cc: devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 7/7] pinctrl: sunxi: Add support for the secondary A523 GPIO ports
-Date: Mon, 11 Nov 2024 00:57:50 +0000
-Message-ID: <20241111005750.13071-8-andre.przywara@arm.com>
+	linux-kernel@vger.kernel.org,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	linux-mmc@vger.kernel.org,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	linux-watchdog@vger.kernel.org,
+	Gregory CLEMENT <gregory.clement@bootlin.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	linux-i2c@vger.kernel.org,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	linux-phy@lists.infradead.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	linux-rtc@vger.kernel.org
+Subject: [PATCH 00/14] arm64: dts: allwinner: Add basic Allwinner A523 support
+Date: Mon, 11 Nov 2024 01:30:19 +0000
+Message-ID: <20241111013033.22793-1-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.46.2
-In-Reply-To: <20241111005750.13071-1-andre.przywara@arm.com>
-References: <20241111005750.13071-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,106 +56,100 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-As most other Allwinner SoCs before, the A523 chip contains a second
-GPIO controller, managing banks PL and PM.
-Use the newly introduced DT based pinctrl driver to describe just the
-generic pinctrl properties, so advertise the number of pins per bank
-and the interrupt capabilities. The actual function/mux assignment is
-taken from the devicetree.
+Hi,
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- drivers/pinctrl/sunxi/Kconfig                 |  5 ++
- drivers/pinctrl/sunxi/Makefile                |  1 +
- drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c | 54 +++++++++++++++++++
- 3 files changed, 60 insertions(+)
- create mode 100644 drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c
+this series adds basic DT support for the Allwinner A523 SoC, plus the
+Avaota-A1 router board using the T527 package variant of that SoC.[1]
+Functionality-wise it relies on the pinctrl[2] and clock[3] support
+series, though there is no direct code dependency series to this series
+(apart from the respective binding patches in the two series').
 
-diff --git a/drivers/pinctrl/sunxi/Kconfig b/drivers/pinctrl/sunxi/Kconfig
-index 0cbe466683650..dc62eba96348e 100644
---- a/drivers/pinctrl/sunxi/Kconfig
-+++ b/drivers/pinctrl/sunxi/Kconfig
-@@ -136,4 +136,9 @@ config PINCTRL_SUN55I_A523
- 	default ARM64 && ARCH_SUNXI
- 	select PINCTRL_SUNXI
- 
-+config PINCTRL_SUN55I_A523_R
-+	bool "Support for the Allwinner A523 R-PIO"
-+	default ARM64 && ARCH_SUNXI
-+	select PINCTRL_SUNXI
-+
- endif
-diff --git a/drivers/pinctrl/sunxi/Makefile b/drivers/pinctrl/sunxi/Makefile
-index 4e55508ff7f76..951b3f1e4b4f1 100644
---- a/drivers/pinctrl/sunxi/Makefile
-+++ b/drivers/pinctrl/sunxi/Makefile
-@@ -28,5 +28,6 @@ obj-$(CONFIG_PINCTRL_SUN50I_H6_R)	+= pinctrl-sun50i-h6-r.o
- obj-$(CONFIG_PINCTRL_SUN50I_H616)	+= pinctrl-sun50i-h616.o
- obj-$(CONFIG_PINCTRL_SUN50I_H616_R)	+= pinctrl-sun50i-h616-r.o
- obj-$(CONFIG_PINCTRL_SUN55I_A523)	+= pinctrl-sun55i-a523.o
-+obj-$(CONFIG_PINCTRL_SUN55I_A523_R)	+= pinctrl-sun55i-a523-r.o
- obj-$(CONFIG_PINCTRL_SUN9I_A80)		+= pinctrl-sun9i-a80.o
- obj-$(CONFIG_PINCTRL_SUN9I_A80_R)	+= pinctrl-sun9i-a80-r.o
-diff --git a/drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c b/drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c
-new file mode 100644
-index 0000000000000..69cd2b4ebd7d7
---- /dev/null
-+++ b/drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c
-@@ -0,0 +1,54 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Allwinner A523 SoC r-pinctrl driver.
-+ *
-+ * Copyright (C) 2024 Arm Ltd.
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/of.h>
-+#include <linux/of_device.h>
-+#include <linux/pinctrl/pinctrl.h>
-+
-+#include "pinctrl-sunxi.h"
-+
-+static const u8 a523_r_nr_bank_pins[SUNXI_PINCTRL_MAX_BANKS] =
-+/*	  PL  PM */
-+	{ 14,  6 };
-+
-+static const unsigned int a523_r_irq_bank_map[] = { 0, 1 };
-+
-+static const u8 a523_r_irq_bank_muxes[SUNXI_PINCTRL_MAX_BANKS] =
-+/*	  PL  PM */
-+	{ 14, 14 };
-+
-+static struct sunxi_pinctrl_desc a523_r_pinctrl_data = {
-+	.irq_banks = ARRAY_SIZE(a523_r_irq_bank_map),
-+	.irq_bank_map = a523_r_irq_bank_map,
-+	.irq_read_needs_mux = true,
-+	.io_bias_cfg_variant = BIAS_VOLTAGE_PIO_POW_MODE_SEL,
-+	.pin_base = PL_BASE,
-+};
-+
-+static int a523_r_pinctrl_probe(struct platform_device *pdev)
-+{
-+	return sunxi_pinctrl_dt_table_init(pdev, a523_r_nr_bank_pins,
-+					   a523_r_irq_bank_muxes,
-+					   &a523_r_pinctrl_data,
-+					   SUNXI_PINCTRL_NEW_REG_LAYOUT);
-+}
-+
-+static const struct of_device_id a523_r_pinctrl_match[] = {
-+	{ .compatible = "allwinner,sun55i-a523-r-pinctrl", },
-+	{}
-+};
-+
-+static struct platform_driver a523_r_pinctrl_driver = {
-+	.probe	= a523_r_pinctrl_probe,
-+	.driver	= {
-+		.name		= "sun55i-a523-r-pinctrl",
-+		.of_match_table	= a523_r_pinctrl_match,
-+	},
-+};
-+builtin_platform_driver(a523_r_pinctrl_driver);
+Most of the patches add DT binding documentation for the most basic
+peripherals, the vast majority of them actually being already supported,
+courtesy of identical IP being used. This includes MMC and USB 2.0, so
+with the above mentioned clock and pinctrl support this gives an already
+somewhat usable mainline support for this new SoC family.
+The watchdog is not completely compatible, but is an easy addition, so
+this bit is included in here as well.
+
+The A523 features 8 Arm Cortex-A55 cores, organised in two clusters,
+clocked separately, with different OPP limits, in some kind of
+little/LITTLE configuration. The GPU is a Arm Mali G57 MC01, and the chip
+also features a single PCIe 2.1 lane, sharing a PHY with some USB 3.1
+controller - which means only one of the two can be used.
+The rest of the SoC is the usual soup of multimedia SoC IP, with eDP
+support and two Gigabit Ethernet MACs among the highlights.
+
+The main feature is patch 11/14, which adds the SoC .dtsi. This for now
+is limited to the parts that are supported and could be tested. At the
+moment there is no PSCI firmware, even the TF-A port from the BSP does
+not seem to work for me. That's why the secondary cores have been omitted
+for now, among other instances of some IP that I couldn't test yet.
+I plan to add them in one of the next revisions.
+
+The last patch adds basic support for the Avaota-A1 router board,
+designed by YuzukiHD, with some boards now built by Pine64.
+
+The mainline firmware side in general is somewhat lacking still: I have
+basic U-Boot support working (including MMC and USB), although still
+without DRAM support. This is for now covered by some binary blob found
+in the (otherwise Open Source) Syterkit firmware, which also provides
+the BSP versions of TF-A and the required (RISC-V) management core
+firmware. Fortunately we have indications that DRAM support is not that
+tricky, as the IP blocks are very similar to already supported, and dev
+boards are on their way to the right people.
+
+Meanwhile I would like people to have a look at those DT bits here. Please
+compare them to the available user manual, and test them if you have access
+to hardware.
+
+Based on v6.12-rc1.
+I pushed a branch with all the three series combined here:
+https://github.com/apritzel/linux/commits/a523-v1/
+
+Cheers,
+Andre
+
+[1] https://linux-sunxi.org/A523#Family_of_sun55iw3
+[2] https://lore.kernel.org/linux-sunxi/20241111005750.13071-1-andre.przywara@arm.com/T/#t
+[3] https://lore.kernel.org/linux-sunxi/20241111004722.10130-1-andre.przywara@arm.com/T/#t
+
+Andre Przywara (14):
+  dt-bindings: mmc: sunxi: Simplify compatible string listing
+  dt-bindings: mmc: sunxi: add compatible strings for Allwinner A523
+  dt-bindings: watchdog: sunxi: add Allwinner A523 compatible string
+  watchdog: sunxi_wdt: Add support for Allwinner A523
+  dt-bindings: i2c: mv64xxx: Add Allwinner A523 compatible string
+  dt-bindings: irq: sun7i-nmi: document the Allwinner A523 NMI
+    controller
+  dt-bindings: phy: document Allwinner A523 USB-2.0 PHY
+  dt-bindings: usb: sunxi-musb: add Allwinner A523 compatible string
+  dt-bindings: usb: add A523 compatible string for EHCI and OCHI
+  dt-bindings: rtc: sun6i: Add Allwinner A523 support
+  arm64: dts: allwinner: Add Allwinner A523 .dtsi file
+  dt-bindings: vendor-prefixes: Add YuzukiHD name
+  dt-bindings: arm: sunxi: Add Avaota A1 board
+  arm64: dts: allwinner: a523: add Avaota-A1 router support
+
+ .../devicetree/bindings/arm/sunxi.yaml        |   5 +
+ .../bindings/i2c/marvell,mv64xxx-i2c.yaml     |   1 +
+ .../allwinner,sun7i-a20-sc-nmi.yaml           |   1 +
+ .../bindings/mmc/allwinner,sun4i-a10-mmc.yaml |  40 +-
+ .../phy/allwinner,sun50i-a64-usb-phy.yaml     |  10 +-
+ .../bindings/rtc/allwinner,sun6i-a31-rtc.yaml |   4 +-
+ .../usb/allwinner,sun4i-a10-musb.yaml         |   1 +
+ .../devicetree/bindings/usb/generic-ehci.yaml |   1 +
+ .../devicetree/bindings/usb/generic-ohci.yaml |   1 +
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ .../watchdog/allwinner,sun4i-a10-wdt.yaml     |   2 +
+ arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+ .../arm64/boot/dts/allwinner/sun55i-a523.dtsi | 386 ++++++++++++++++++
+ .../dts/allwinner/sun55i-t527-avaota-a1.dts   | 311 ++++++++++++++
+ drivers/watchdog/sunxi_wdt.c                  |  11 +
+ 15 files changed, 751 insertions(+), 26 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
+
 -- 
 2.46.2
 
