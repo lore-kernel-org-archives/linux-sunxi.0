@@ -1,225 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAB4A39ACC
-	for <linux-sunxi@lists.linux.dev>; Mon, 11 Nov 2024 16:21:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E35791A08DC
+	for <linux-sunxi@lists.linux.dev>; Mon, 11 Nov 2024 16:25:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731342063; cv=none; b=TePZdrPBA7jEhvRXPOSG2WNtmLTnotDVjwXnoAKuLqjM+cBBrNJTXfxNVMUBpw0bmr2hvogkl5WyCxWEfkAQBlr7Nvlen+dCqs7py+e/TKS5pebbVXmMO2KKg9/pV8NyCyKHSkIP54gYq7PYEpBz5BxlqwRRcGuCBzuzy7T0XJI=
+	t=1731342330; cv=none; b=QyErnjDMeZlXQjHlQ1j4iTbXD4cCaqJ0GKVGiAWcd0E+5naiJLLI66UNwYxDhu4yEchiYjHOj4J+JiOKZRoe535yEkaMIc3nG+cTDZ5dz3tS892RbADSEPk0+5e5V7wY2zHbXWxMz+/FcGnUFVrMbpgYdCOlDIggyCd3alh7xFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731342063; c=relaxed/simple;
-	bh=GfqOZHoPyLMOe3TrvjRQ3VBO9c4vBbSeNCUI7N4diTo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VIIX70yrxO0cjxXP6lXbzyB+l08fF1aMqArwmkd2TPsXpHCcJO4wlJZsKmfMEJ+c2xvOqZUwBEZOJMgl9qEgIFnuM2jTvBOkbqjxykcYEfHzg0i7mb8htvm9RXMrUS++w+oXgDcnb6y8qI5Cpwhr6dDHrQP3AAIqpp1L2LPqZ6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hPH7cBOp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731342330; c=relaxed/simple;
+	bh=CbXbbC4z+ofdaBIwJk70SKQ1fdSjyYqQJZfqnVZbHW4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=coV3hvFb79tdRwmgr7TrJVp3HJC1Yl64o+fhMZ4Psb9mGlHPhnsNw6V04++p2TdGf/UwtGZSRLXPnVmP3dsxEM43HwCVvq733iwYQ93KOHU4O2XXLtowYZlU1I9GUhk36rOXlb8cJW5oZiRrUkUES/IALsA20YbFLgUpbCtAMIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mvSQqzGv; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hPH7cBOp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70557C4CED7
-	for <linux-sunxi@lists.linux.dev>; Mon, 11 Nov 2024 16:21:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731342062;
-	bh=GfqOZHoPyLMOe3TrvjRQ3VBO9c4vBbSeNCUI7N4diTo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=hPH7cBOpV/0WSzgdkLacMc9djqKB799vXFOejt+DVzx4KyX0VGM8WDsX5Vz9xBG2I
-	 nqKki6CBmvBY7hxgqyW5ByFY0/CxRg9Usyhd+730U4gUtbdCalPKuJX/DyIdiGA37f
-	 plWo84v7RYNXS5ihGc7+zqQfai5laAsCzxngyZnU4lkFadbCyLnOTeRAOKBzrVm3FM
-	 taVFt5DEMApruTmKPSaH+G3dIUOT1qdk+jeUBv5WD9jdxBsgVVo7ZaA4uHjJ8EaJF0
-	 GyKlMuTYJ/sFPIe3wCIyuB/xSXjPobMjKiJ4V2UONynvsoHTvnaceNDZta7KRYS4nM
-	 OPcJRHFMMasGw==
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6ea0b25695dso37969847b3.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 11 Nov 2024 08:21:02 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVSxNUGi9oYeZc6GQHzo28sk4QiNe4QhMEnt83s+JQcOV5yiLRg2Sa02raLn8ijnBiQ0AudW9IXcxK6uA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzw73Z/mhkUav64z3sb3Ps7H85r8KKdwrb3z0izL6ifrirEGssy
-	bM6T9kVG43DUKzeJWYjKwZqtC6lGBA1hAsn40314r9YmgbpNVHPmHfJcBVyVedBdiScPNd1efCo
-	FflZh3LicUBKMZ+bP52M3VVUZJQ==
-X-Google-Smtp-Source: AGHT+IFkAuK1RKHBxdF4ybGePBRZX8TGIGcGLxePtSshvEbTc34Fms21ng8jvbLerdOHzgIff9cxTqOeul3GUAOFeRE=
-X-Received: by 2002:a05:690c:7441:b0:6e2:aceb:fb34 with SMTP id
- 00721157ae682-6eaddd72ec1mr118266547b3.1.1731342061623; Mon, 11 Nov 2024
- 08:21:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mvSQqzGv"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-53a007743e7so5595339e87.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 11 Nov 2024 08:25:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1731342327; x=1731947127; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=u7uGQSXY7j8g596c+PHmEhLMGV2dxdcfbU5o0lzJ1EA=;
+        b=mvSQqzGvJpomkx4JcaY2i59EqrrONtbaKKGtGhY2J0X6f+fKBj9o49jfYrKcYSdQDf
+         NgLfz64iPyfauP6AK/93h5l36ii41n+DrTuLRH0rwOXBxrcIBZAC2M3PFVGtac4rvO3M
+         PgmmLwnxEOmaXrvPCBlSYXuu3wcax8j3q4XdbnaNtY7kb42qZecLMucbLavp3pDg3RP1
+         V/KMt3cACBoTojQKFB6czRGRpY+KTo1HRI3fJZznjmXYH1l9D5pWMFhTyaAmp7lN/9rp
+         YTI6pRvFz6+SsPzBoivzl+SFI/5m9+zu5qllXF4wbsJwbji8Dz4LISg10l3C0/viIyGj
+         qbVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731342327; x=1731947127;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=u7uGQSXY7j8g596c+PHmEhLMGV2dxdcfbU5o0lzJ1EA=;
+        b=ceeLJlfNm/dq5ujwPJN04TTuJUV1K+iURIoQ6aEO9QASAL7NvL2PKvumIqwzNK1XfC
+         EOy3JD7Pu3DPEOHSD1v47ExLLP/vnFw4d+7YS9jQ14ba9B+9jN7uhLL9IUMH8o6We3J5
+         byy5li+C3IgqTE/xfhvsekiQ0QDy/+Lw8qMvhNaaNVQP8lSBMmD/p8Ik8Ftzn/Qx1U9M
+         KYrU6cswKFCX1NSfrUxkmRsG6I4ikeh8cxFIU/cBX6QQe2eiuWEhsfyFCRH+KqyYprq3
+         Zg/UpfzUoUuziB7OPO1MF5nuF5hESHF/MASE68SZ3aRBebsGmyqwf7lKogm/j5UB0PQ8
+         AwQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUYwIAkbtTCfIPrajstX5zlTUcgxk6TaStqTOesFjWe2jkQI1GcFSwoaV0dMeYtYprVCrjQPYCOLDDsRg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyjLhimN3O6N7jgka2+RhpzvttH6CqO3heC2bTXeeGDOzG+Xgv3
+	3k7KmQQoH1I6hU4fa5xY2EzPOLJA0M84CwSwDc8EaS4yvXDsj7Ry
+X-Google-Smtp-Source: AGHT+IEwJZXunlyKUejm4iWMJ0VGAjHoH3Rb8MSXFF/rOZ2Yc5x8WVvvL3bT+8Zu01TGRZ1b6kh3yw==
+X-Received: by 2002:a05:6512:159e:b0:533:4689:973c with SMTP id 2adb3069b0e04-53d862324c4mr5685506e87.23.1731342326593;
+        Mon, 11 Nov 2024 08:25:26 -0800 (PST)
+Received: from localhost.localdomain (c90-142-33-119.bredband.tele2.se. [90.142.33.119])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53d826786acsm1622926e87.30.2024.11.11.08.25.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Nov 2024 08:25:25 -0800 (PST)
+From: codekipper@gmail.com
+To: linux-kernel@vger.kernel.org,
+	linux-arm-kernel@vger.kernel.org,
+	linux-sunxi@googlegroups.com,
+	linux-sunxi@lists.linux.dev,
+	devicetree@vger.kernel.org
+Cc: conor+dt@kernel.org,
+	krzk+dt@kernel.org,
+	robh@kernel.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	andre.przywara@arm.com,
+	wens@csie.org,
+	macromorgan@hotmail.com,
+	jszhang@kernel.org,
+	uwu@icenowy.me,
+	ryan@testtoast.com,
+	dsimic@manjaro.org,
+	mripard@kernel.org,
+	Marcus Cooper <codekipper@gmail.com>
+Subject: [PATCH 0/2] arm64: dts: allwinner: Add X96Q Pro support
+Date: Mon, 11 Nov 2024 17:25:04 +0100
+Message-ID: <20241111162524.46812-1-codekipper@gmail.com>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241109233821.8619-1-rosenp@gmail.com>
-In-Reply-To: <20241109233821.8619-1-rosenp@gmail.com>
-From: Rob Herring <robh@kernel.org>
-Date: Mon, 11 Nov 2024 10:20:50 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJeYS12OCVeMHze01631NOtj=uaLcEZRiWKPRZLQpSkUA@mail.gmail.com>
-Message-ID: <CAL_JsqJeYS12OCVeMHze01631NOtj=uaLcEZRiWKPRZLQpSkUA@mail.gmail.com>
-Subject: Re: [PATCH net-next] net: use pdev instead of OF funcs
-To: Rosen Penev <rosenp@gmail.com>
-Cc: netdev@vger.kernel.org, Marc Kleine-Budde <mkl@pengutronix.de>, 
-	Vincent Mailhol <mailhol.vincent@wanadoo.fr>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, Vladimir Oltean <olteanv@gmail.com>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Pantelis Antoniou <pantelis.antoniou@gmail.com>, 
-	Marcin Wojtas <marcin.s.wojtas@gmail.com>, Byungho An <bh74.an@samsung.com>, 
-	Kevin Brace <kevinbrace@bracecomputerlab.com>, Francois Romieu <romieu@fr.zoreil.com>, 
-	Michal Simek <michal.simek@amd.com>, Heiner Kallweit <hkallweit1@gmail.com>, 
-	Russell King <linux@armlinux.org.uk>, Zhao Qiang <qiang.zhao@nxp.com>, 
-	"open list:CAN NETWORK DRIVERS" <linux-can@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, 
-	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>, 
-	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>, 
-	"open list:FREESCALE SOC FS_ENET DRIVER" <linuxppc-dev@lists.ozlabs.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sat, Nov 9, 2024 at 5:40=E2=80=AFPM Rosen Penev <rosenp@gmail.com> wrote=
-:
->
-> np here is ofdev->dev.of_node. Better to use the proper functions as
-> there's no use of children or anything else.
+From: Marcus Cooper <codekipper@gmail.com>
 
-Your commit message needs some work.
+Hi All,
+The X96Q-Pro is an STB based on the Allwinner H313 SoC with a SD
+slot, 2 USB-2 ports, a 10/100M ethernet port using the SoC's
+integrated PHY, Wifi via an sdio wifi chip, HDMI, an IR receiver,
+a blue LED display, an audio video connector and an digital S/PDIF
+connector.
+Further information can be found on the sunxi wiki
+https://linux-sunxi.org/X96QPro and the vendors site
+https://x96mini.com/products/android-10-x96q-pro-smart-tv-box
 
-> Signed-off-by: Rosen Penev <rosenp@gmail.com>
-> ---
->  drivers/net/can/grcan.c                       |  2 +-
->  drivers/net/can/mscan/mpc5xxx_can.c           |  2 +-
->  drivers/net/dsa/bcm_sf2.c                     |  4 ++--
->  drivers/net/ethernet/allwinner/sun4i-emac.c   |  2 +-
->  drivers/net/ethernet/freescale/fec_mpc52xx.c  | 23 ++++++++++---------
->  .../net/ethernet/freescale/fec_mpc52xx_phy.c  | 12 ++++++----
->  .../net/ethernet/freescale/fs_enet/mac-fcc.c  |  2 +-
->  .../net/ethernet/freescale/fs_enet/mac-fec.c  |  2 +-
->  .../net/ethernet/freescale/fs_enet/mac-scc.c  |  2 +-
->  .../net/ethernet/freescale/fs_enet/mii-fec.c  | 12 ++++++----
->  drivers/net/ethernet/freescale/ucc_geth.c     | 12 +++++-----
->  drivers/net/ethernet/marvell/mvneta.c         |  2 +-
->  drivers/net/ethernet/moxa/moxart_ether.c      |  4 ++--
->  .../ethernet/samsung/sxgbe/sxgbe_platform.c   |  8 +++----
->  drivers/net/ethernet/via/via-rhine.c          |  2 +-
->  drivers/net/ethernet/via/via-velocity.c       |  2 +-
->  drivers/net/ethernet/xilinx/ll_temac_mdio.c   |  6 ++---
->  drivers/net/mdio/mdio-mux-mmioreg.c           | 16 +++++++------
->  drivers/net/wan/fsl_ucc_hdlc.c                | 10 ++++----
->  19 files changed, 66 insertions(+), 59 deletions(-)
->
-> diff --git a/drivers/net/can/grcan.c b/drivers/net/can/grcan.c
-> index cdf0ec9fa7f3..0a2cc0ba219f 100644
-> --- a/drivers/net/can/grcan.c
-> +++ b/drivers/net/can/grcan.c
-> @@ -1673,7 +1673,7 @@ static int grcan_probe(struct platform_device *ofde=
-v)
->                 goto exit_error;
->         }
->
-> -       irq =3D irq_of_parse_and_map(np, GRCAN_IRQIX_IRQ);
-> +       irq =3D platform_get_irq(ofdev, GRCAN_IRQIX_IRQ);
->         if (!irq) {
->                 dev_err(&ofdev->dev, "no irq found\n");
->                 err =3D -ENODEV;
-> diff --git a/drivers/net/can/mscan/mpc5xxx_can.c b/drivers/net/can/mscan/=
-mpc5xxx_can.c
-> index 0080c39ee182..252ad40bdb97 100644
-> --- a/drivers/net/can/mscan/mpc5xxx_can.c
-> +++ b/drivers/net/can/mscan/mpc5xxx_can.c
-> @@ -300,7 +300,7 @@ static int mpc5xxx_can_probe(struct platform_device *=
-ofdev)
->         if (!base)
->                 return dev_err_probe(&ofdev->dev, err, "couldn't ioremap\=
-n");
->
-> -       irq =3D irq_of_parse_and_map(np, 0);
-> +       irq =3D platform_get_irq(ofdev, 0);
->         if (!irq) {
->                 dev_err(&ofdev->dev, "no irq found\n");
->                 err =3D -ENODEV;
-> diff --git a/drivers/net/dsa/bcm_sf2.c b/drivers/net/dsa/bcm_sf2.c
-> index 43bde1f583ff..9229582efd05 100644
-> --- a/drivers/net/dsa/bcm_sf2.c
-> +++ b/drivers/net/dsa/bcm_sf2.c
-> @@ -1443,8 +1443,8 @@ static int bcm_sf2_sw_probe(struct platform_device =
-*pdev)
->                 of_node_put(ports);
->         }
->
-> -       priv->irq0 =3D irq_of_parse_and_map(dn, 0);
-> -       priv->irq1 =3D irq_of_parse_and_map(dn, 1);
-> +       priv->irq0 =3D platform_get_irq(pdev, 0);
-> +       priv->irq1 =3D platform_get_irq(pdev, 1);
->
->         base =3D &priv->core;
->         for (i =3D 0; i < BCM_SF2_REGS_NUM; i++) {
-> diff --git a/drivers/net/ethernet/allwinner/sun4i-emac.c b/drivers/net/et=
-hernet/allwinner/sun4i-emac.c
-> index 2f516b950f4e..18df8d1d93fd 100644
-> --- a/drivers/net/ethernet/allwinner/sun4i-emac.c
-> +++ b/drivers/net/ethernet/allwinner/sun4i-emac.c
-> @@ -995,7 +995,7 @@ static int emac_probe(struct platform_device *pdev)
->
->         /* fill in parameters for net-dev structure */
->         ndev->base_addr =3D (unsigned long)db->membase;
-> -       ndev->irq =3D irq_of_parse_and_map(np, 0);
-> +       ndev->irq =3D platform_get_irq(pdev, 0);
->         if (ndev->irq =3D=3D -ENXIO) {
->                 netdev_err(ndev, "No irq resource\n");
->                 ret =3D ndev->irq;
-> diff --git a/drivers/net/ethernet/freescale/fec_mpc52xx.c b/drivers/net/e=
-thernet/freescale/fec_mpc52xx.c
-> index 2bfaf14f65c8..553d33a98c99 100644
-> --- a/drivers/net/ethernet/freescale/fec_mpc52xx.c
-> +++ b/drivers/net/ethernet/freescale/fec_mpc52xx.c
-> @@ -811,7 +811,7 @@ static int mpc52xx_fec_probe(struct platform_device *=
-op)
->         int rv;
->         struct net_device *ndev;
->         struct mpc52xx_fec_priv *priv =3D NULL;
-> -       struct resource mem;
-> +       struct resource *mem;
->         const u32 *prop;
->         int prop_size;
->         struct device_node *np =3D op->dev.of_node;
-> @@ -828,20 +828,21 @@ static int mpc52xx_fec_probe(struct platform_device=
- *op)
->         priv->ndev =3D ndev;
->
->         /* Reserve FEC control zone */
-> -       rv =3D of_address_to_resource(np, 0, &mem);
-> -       if (rv) {
-> +       mem =3D platform_get_resource(op, 0, IORESOURCE_MEM);
-> +       if (!mem) {
->                 pr_err("Error while parsing device node resource\n");
-> +               rv =3D -ENODEV;
->                 goto err_netdev;
->         }
-> -       if (resource_size(&mem) < sizeof(struct mpc52xx_fec)) {
-> +       if (resource_size(mem) < sizeof(struct mpc52xx_fec)) {
->                 pr_err("invalid resource size (%lx < %x), check mpc52xx_d=
-evices.c\n",
-> -                      (unsigned long)resource_size(&mem),
-> +                      (unsigned long)resource_size(mem),
->                        sizeof(struct mpc52xx_fec));
->                 rv =3D -EINVAL;
->                 goto err_netdev;
->         }
->
-> -       if (!request_mem_region(mem.start, sizeof(struct mpc52xx_fec),
-> +       if (!request_mem_region(mem->start, sizeof(struct mpc52xx_fec),
->                                 DRIVER_NAME)) {
->                 rv =3D -EBUSY;
->                 goto err_netdev;
-> @@ -851,13 +852,13 @@ static int mpc52xx_fec_probe(struct platform_device=
- *op)
->         ndev->netdev_ops        =3D &mpc52xx_fec_netdev_ops;
->         ndev->ethtool_ops       =3D &mpc52xx_fec_ethtool_ops;
->         ndev->watchdog_timeo    =3D FEC_WATCHDOG_TIMEOUT;
-> -       ndev->base_addr         =3D mem.start;
-> +       ndev->base_addr         =3D mem->start;
->         SET_NETDEV_DEV(ndev, &op->dev);
->
->         spin_lock_init(&priv->lock);
->
->         /* ioremap the zones */
-> -       priv->fec =3D ioremap(mem.start, sizeof(struct mpc52xx_fec));
-> +       priv->fec =3D ioremap(mem->start, sizeof(struct mpc52xx_fec));
+Thanks in advance for the reviews,
+CK
 
-Generally, devm_platform_ioremap_resource(),
-devm_platform_get_and_ioremap_resource(), etc. are preferred. So if
-we're going to rework things, rework them to use those.
+Marcus Cooper (2):
+  dt-bindings: arm: sunxi: Add the X96Q Pro board name
+  arm64: dts: allwinner: Add initial support for the X96Q-Pro STB
 
-Rob
+ .../devicetree/bindings/arm/sunxi.yaml        |   5 +
+ arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+ .../dts/allwinner/sun50i-h313-x96q-pro.dts    | 176 ++++++++++++++++++
+ 3 files changed, 182 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h313-x96q-pro.dts
+
+-- 
+2.47.0
+
