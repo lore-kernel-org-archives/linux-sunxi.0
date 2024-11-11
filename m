@@ -1,84 +1,131 @@
-Received: from a.peacevolution.org (a.peacevolution.org [206.189.193.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24B20DDD9
-	for <linux-sunxi@lists.linux.dev>; Sun, 10 Nov 2024 22:38:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.193.133
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6AE49AD23
+	for <linux-sunxi@lists.linux.dev>; Mon, 11 Nov 2024 00:47:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731278282; cv=none; b=bL1gN/8B8JCSi5P29oprUDchS8YvxAGXD1DbXhsGgTAeOdWXItcDQ06rPUj1rmMk1PCasKobXaAmAvPL1tyj71/BpgHW9ml8JGWzqzRun8f6Gku9A+LjPasJys3LBc+/7M+cS3TJoj7A0IP/EoORKlxrYbcu8IlHW4Z0ekeKGL0=
+	t=1731286056; cv=none; b=Mfg+53IqC4wZ1PWZtrNSxRuI/q/LM0UQIanMMNeOCN79QVWgAPKw2MVjMAfLBfJ7CyqJOrLGS6m0rFeExkUPQipfjyah1x9tIRW6J5GAJWV9S9dOT6TAV52zdGxoRFAr+RO078xmsjmTb3E4tLxjOd+A8NxVSzVIMNRLXgpupvY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731278282; c=relaxed/simple;
-	bh=9hkl6dXSpQpYY3J+vmbhVG+9S37EpWR2G7m6e5A7ATQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YLe1EPwpxkiYJO4iVS+WXjX8zTWW67kmZervCMd6HdHlXGrAwUcp5fUNAOHfSgWpXRLb/4VVfIzySq8yYpSJVICccaAlC9PrdpaQmFDUykcvOluV3q045omy3ZKIIvGb1dYvkflhn/MNsaBX5OtuK/DaddEOqBaNT0K6WMy/FAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org; spf=pass smtp.mailfrom=peacevolution.org; dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b=JCoGsG4K; arc=none smtp.client-ip=206.189.193.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=peacevolution.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b="JCoGsG4K"
-Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-	by a.peacevolution.org (Postfix) with ESMTPA id 9861E4C954;
-	Sun, 10 Nov 2024 22:37:58 +0000 (UTC)
-Date: Sun, 10 Nov 2024 17:37:56 -0500
-From: Aren <aren@peacevolution.org>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Kaustabh Chakraborty <kauschluss@disroot.org>, =?utf-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <trabarni@gmail.com>, 
-	Ondrej Jirman <megi@xff.cz>, 
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, Dragan Simic <dsimic@manjaro.org>, phone-devel@vger.kernel.org
-Subject: Re: [PATCH v4 2/6] iio: light: stk3310: handle all remove logic with
- devm callbacks
-Message-ID: <qqk4rbx6wxr7vofepk63yvuimavafbiy2srkqx2zvl2kxttlrk@axpphmdxffis>
-References: <20241102195037.3013934-3-aren@peacevolution.org>
- <20241102195037.3013934-7-aren@peacevolution.org>
- <ZyiGiK6bSd_d0VQ6@smile.fi.intel.com>
- <mlvzaskgxqjfu6yiib2u7m3pczsifsluc4mqnzy6w3xzxblvm6@xrxvvruzftn2>
- <ZzEOqC9dAHCRX5a9@surfacebook.localdomain>
+	s=arc-20240116; t=1731286056; c=relaxed/simple;
+	bh=5XhGvI9Io2LeYdUemVz3vOHCk6n3vd4kGN9IU8oB3b0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JQskPAB966+ub139jxRePfGHfaKQAyZuPPPLa3iVys7AKMYfct4DEpU/JB3v/KxM9lUuySXHpf0DDTGqsHHgHe19h8mXbAZSPVuAxLJ6VsgDKtlQeNP5gKTsHXi4StRaNYaz7oleJ9OkGpwZVr8IZdcI9sITRk5NhyMVw+YfNCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 66DB113D5;
+	Sun, 10 Nov 2024 16:48:02 -0800 (PST)
+Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 796333F66E;
+	Sun, 10 Nov 2024 16:47:30 -0800 (PST)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>,
+	Icenowy Zheng <uwu@icenowy.me>,
+	linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/7] clk: sunxi-ng: add A523 clock support
+Date: Mon, 11 Nov 2024 00:47:15 +0000
+Message-ID: <20241111004722.10130-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.46.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZzEOqC9dAHCRX5a9@surfacebook.localdomain>
-X-Spamd-Bar: /
-Authentication-Results: auth=pass smtp.auth=aren@peacevolution.org smtp.mailfrom=aren@peacevolution.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=peacevolution.org;
-	s=dkim; t=1731278280;
-	h=from:subject:date:message-id:to:cc:mime-version:content-type:in-reply-to:references;
-	bh=mxdzehp9E1yxMOm96JOXj/7tzWysSA5vOI9pS4TNxug=;
-	b=JCoGsG4KLKcpc4jAcywobkNkrZK3tdmgMdqJpCz10h79Xv0fvSFkWe2uMcpRrIr5S59UOn
-	urWG6uJB44+OePGrN6eLIyXkcUYf0Rn4MFnQgtS54HNmEivIPX/8PQdkOXzs6ZsbAS6b7n
-	RMuK70nMMwGFCx88FZJ9flsKH8Cvf88=
+Content-Transfer-Encoding: 8bit
 
-On Sun, Nov 10, 2024 at 09:51:04PM +0200, Andy Shevchenko wrote:
-> Sun, Nov 10, 2024 at 01:38:39PM -0500, Aren kirjoitti:
-> > On Mon, Nov 04, 2024 at 10:32:08AM +0200, Andy Shevchenko wrote:
-> > > On Sat, Nov 02, 2024 at 03:50:37PM -0400, Aren Moynihan wrote:
-> 
-> ...
-> 
-> > > > +	ret = devm_add_action_or_reset(&client->dev, stk3310_set_state_disable, data);
-> > > 
-> > > Why not simply 'dev' as in below call?
-> > 
-> > I was trying to avoid refactoring the entire function to replace
-> > &client->dev with dev, I'll add a patch for that to the next revision.
-> 
-> I'm not talking about refactoring, I'm talking only about the lines that you
-> have touched / added.
+Hi,
 
-Ah right, this one makes sense, my comment should have been on the next
-patch in this series which is a little more complex. For that patch it
-seemed inconsistent to use dev only in new code and mix it with calls
-using &client->dev.
+this series introduces basic clock support for the Allwinner A523 family
+of SoCs (comprising A523, A527, T527). [1]
+The SoC contains *four* CCU components, aside from the usual main clock
+device and the PRCM clock (in the always-on-domain), there is an MCU
+clock and a DSP clock. This series just adds support for the first two,
+the other two don't seem to be required for the basic functionality.
 
- - Aren
+The clock tree of each SoC has always been individual, even though the
+main clock *types* mostly remain the same. This time we see two slight
+variations: There is an MP clock without the P (shift) part, and there
+is one with two dividers instead of one divider and one shift field.
+The first three patches add support for these new clock types.
+
+The remaining four patches then add the DT bindings documentation and
+describe all the clocks and their relationship in gory detail.
+I split the binding patches up, since they contain the header files
+naming the clocks, let me know if they should be in one patch instead.
+
+Interestingly the Allwinner BSP has switched to using the existing sunxi
+CCU framework for modelling the clocks (they had their own way before), so
+we could theoretically use their code. However when I started working on
+this about a year ago, their files had a GPL-3.0-only license header,
+which, according to my research, makes them incompatible for mainline
+inclusion. I thus started from "scratch" (adjusting the D1 driver, really).
+Meanwhile they seem to have changed the license, and a quick comparison
+turned up some differences, some of which seem to be bugs on their, some
+on my side, probably. I hope having such a "reference" helps the mainline
+code quality, as people can help the review by comparing code.
+
+Also we only have a user manual for the A523, but its siblings introduce
+more clocks (HDMI, NPU, etc.). I tried to close the gaps by looking at
+some BSP code, and also by probing registers on actual hardware, to see
+which clocks implement which bits.
+
+Given the level of detail required in CCU drivers, I am certain there are
+many bugs in there, also many things that can be improved. But after
+starring and editing this for weeks, I feel like it's time for the
+community to have a look, so please help with the review, and also test.
+
+Based on v6.12-rc1.
+
+Cheers,
+Andre
+
+[1] https://linux-sunxi.org/A523#Family_of_sun55iw3
+
+Andre Przywara (7):
+  clk: sunxi-ng: mp: Add SUNXI_CCU_P_DATA_WITH_MUX_GATE wrapper
+  clk: sunxi-ng: mp: introduce dual-divider clock
+  clk: sunxi-ng: mp: provide wrapper for setting feature flags
+  dt-bindings: clk: sunxi-ng: add compatible for the A523 CCU
+  dt-bindings: clk: sunxi-ng: add compatible for the A523 PRCM-CCU
+  clk: sunxi-ng: Add support for the A523/T527 CCU
+  clk: sunxi-ng: add support for the A523/T527 PRCM CCU
+
+ .../clock/allwinner,sun4i-a10-ccu.yaml        |   76 +-
+ drivers/clk/sunxi-ng/Kconfig                  |   10 +
+ drivers/clk/sunxi-ng/Makefile                 |    4 +
+ drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c      |  245 +++
+ drivers/clk/sunxi-ng/ccu-sun55i-a523-r.h      |   14 +
+ drivers/clk/sunxi-ng/ccu-sun55i-a523.c        | 1628 +++++++++++++++++
+ drivers/clk/sunxi-ng/ccu-sun55i-a523.h        |   14 +
+ drivers/clk/sunxi-ng/ccu_common.h             |    1 +
+ drivers/clk/sunxi-ng/ccu_mp.c                 |   51 +-
+ drivers/clk/sunxi-ng/ccu_mp.h                 |   39 +-
+ include/dt-bindings/clock/sun55i-a523-ccu.h   |  187 ++
+ include/dt-bindings/clock/sun55i-a523-r-ccu.h |   36 +
+ include/dt-bindings/reset/sun55i-a523-ccu.h   |   87 +
+ include/dt-bindings/reset/sun55i-a523-r-ccu.h |   25 +
+ 14 files changed, 2377 insertions(+), 40 deletions(-)
+ create mode 100644 drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c
+ create mode 100644 drivers/clk/sunxi-ng/ccu-sun55i-a523-r.h
+ create mode 100644 drivers/clk/sunxi-ng/ccu-sun55i-a523.c
+ create mode 100644 drivers/clk/sunxi-ng/ccu-sun55i-a523.h
+ create mode 100644 include/dt-bindings/clock/sun55i-a523-ccu.h
+ create mode 100644 include/dt-bindings/clock/sun55i-a523-r-ccu.h
+ create mode 100644 include/dt-bindings/reset/sun55i-a523-ccu.h
+ create mode 100644 include/dt-bindings/reset/sun55i-a523-r-ccu.h
+
+-- 
+2.46.2
+
