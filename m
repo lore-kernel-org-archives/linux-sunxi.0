@@ -1,49 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B791B145346;
-	Mon, 11 Nov 2024 20:32:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 090408468;
+	Mon, 11 Nov 2024 20:34:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731357153; cv=none; b=ojTbwPsOslkiVRlXUTm1U2C2FdOYNBeVHwJr6vQoPZCrrG2l8enYukV+dZsxwDw4jdXv/tMgLkuJty4oPwPQESSos6rwIui0h/CN55EHVgeouEOxNn2Q6DysTx1tuq2feK8SRVR0zWXjneIo4ijyw4FGxxgZu1EnpUNlmSmLMa0=
+	t=1731357250; cv=none; b=WLl34ZWQt5xff14HNoOmKFasuIeA93UE/ng0tMbmRxL5Yb/JtRGOD+Zdw0SyQ4IYV5z2Bp2/sFFnHgCevE7HtN3pbkApFp2RvMKu7T7x33o9YOnKv5x7wuxqaCMjBLvgJc7lPkzReKKILfdDiv8LDt+9XGW3FJdVdwatqOYpYm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731357153; c=relaxed/simple;
-	bh=RxN94/y+kmftv7NO4vo60abV9Ef2UWHVP7L48tWQuf8=;
+	s=arc-20240116; t=1731357250; c=relaxed/simple;
+	bh=yNH9MUi4qYgXiGu/EuVAhoPFWjEADM5lRSlyLucnBBU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IlWcg8u7gV4QEcQNncD0B7OcHmjzyhFunkxVFQ1p18EBh4zkhreEoYGXOeg8jTgo+XL1SuVfd/WVxb6TnmEVfCwELB08wtATZa6db/AlIab8rbTA59hYkbXUb08fxVFh7rbHdmEVFbBoNN1z3beKNd2jgIXk7BRfpHwR7BunmLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qORy36Cg; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=WI6lY5VLf/PVRbsLttxRWUbadw1mJMssqs0/h0kJfJ04VHFZhYHIB2qXICzLcv4FPkHLsBnvIsn9NiLgm8MWlMv0ieArHcr521DW1EL5HH1b4VVxob+EXU1cG2qyE3z5DHzNDyDuhbYaog2dptyohaEpTyFjmvUP3tDyKQDA+4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CgHTjlKk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qORy36Cg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 912F6C4CECF;
-	Mon, 11 Nov 2024 20:32:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CgHTjlKk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 270A5C4CECF;
+	Mon, 11 Nov 2024 20:34:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731357153;
-	bh=RxN94/y+kmftv7NO4vo60abV9Ef2UWHVP7L48tWQuf8=;
+	s=k20201202; t=1731357249;
+	bh=yNH9MUi4qYgXiGu/EuVAhoPFWjEADM5lRSlyLucnBBU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qORy36CgE47eGQqNg0II9Y4fFV6Jn+SbrWSJA9fYJSF5gzyLcEuuGd0Sm9UTNXIpc
-	 V0OZP7BUC6gVtgwb+K9uXxddw6Hm4pVrcKfTZskZvTtaL3FLKE93Br9mR7/aTAb6+L
-	 Ch8ANNjM+7tWJFUwuujd2h8emczi+lXZTeSHQVokv2jTpSunhQ5ZdE156D/QDW4Rzb
-	 hKtMKbN8wb4RBQQAlMQxDdsEJwk8Ll65VFH6IKTTFL3p0+s3/vXmfqaVsUMWT/8A2V
-	 2YPwZiLmhTuZ6mWguPBeM7tSEnNqUt4aNp4ZCNwC1V+6Vqmu8EBFuJDsrpggaYuxiZ
-	 seJoNFbNBPRLQ==
-Date: Mon, 11 Nov 2024 20:32:28 +0000
+	b=CgHTjlKkpDILfn6UqnjXHrvQrZG9RGKG+PLoaoe+90n2yszscZLzFgFmYzVzIRCAx
+	 hqgDGpr98WHnW0Id6TFC7P5UV6lxofchF/Fi4/vRe/GJKESFAJDY5DsxR+hmgvCoSz
+	 i4+dX8wXHpN/QZPlGQKMpL//1N5waBK/hAIr4wV+IC30y1jLEd5NDVIE+HO5MszH3I
+	 CnGE4+AfsdxyXiEMFIpLRWParG7x6nQeFZCHfnb7Lr5FwSHGyqfcuexgB9mzlzff+S
+	 chL3IZg2Bai4X5RUBYF/qCPvIM0zO6AFk1fm04JLjEtPKRGCxur06awrwSSKryWf8c
+	 6LH6eMO6jHyUg==
+Date: Mon, 11 Nov 2024 20:34:04 +0000
 From: Conor Dooley <conor@kernel.org>
 To: Andre Przywara <andre.przywara@arm.com>
-Cc: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Icenowy Zheng <uwu@icenowy.me>, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/7] dt-bindings: clk: sunxi-ng: add compatible for the
- A523 PRCM-CCU
-Message-ID: <20241111-translate-paddling-388fb16627de@spud>
-References: <20241111004722.10130-1-andre.przywara@arm.com>
- <20241111004722.10130-6-andre.przywara@arm.com>
+	Ulf Hansson <ulf.hansson@linaro.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org
+Subject: Re: [PATCH 01/14] dt-bindings: mmc: sunxi: Simplify compatible
+ string listing
+Message-ID: <20241111-backyard-trilogy-689351a7b7c8@spud>
+References: <20241111013033.22793-1-andre.przywara@arm.com>
+ <20241111013033.22793-2-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -51,39 +48,38 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="z+LL5xLnfq6nr1NV"
+	protocol="application/pgp-signature"; boundary="bi9CJ9Ktd17cmVcT"
 Content-Disposition: inline
-In-Reply-To: <20241111004722.10130-6-andre.przywara@arm.com>
+In-Reply-To: <20241111013033.22793-2-andre.przywara@arm.com>
 
 
---z+LL5xLnfq6nr1NV
+--bi9CJ9Ktd17cmVcT
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 11, 2024 at 12:47:20AM +0000, Andre Przywara wrote:
-> The Allwinner A523/T527 SoCs have four CCUs, this adds the binding for
-> the PRCM R_CCU.
+On Mon, Nov 11, 2024 at 01:30:20AM +0000, Andre Przywara wrote:
+> New Allwinner SoCs only occasionally update their MMC IP, leading to many
+> pairs of compatible strings, though there are sometimes a number of them
+> being compatible with one particular SoC.
 >=20
-> Add the new compatible string, along with the required input clock
-> lists. There is now an extra input clock (PLL_AUDIO), so add this to the
-> list of allowed clocks and required it for the A523 PRCM CCU.
-> Also add the DT binding headers, listing all the clocks with their ID
-> numbers.
+> Collate the compatible string listing in the binding, to group those
+> being compatible together. This makes the list more readable, and allows
+> for easier addition of new SoC's MMC devices.
 >=20
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
 Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
---z+LL5xLnfq6nr1NV
+--bi9CJ9Ktd17cmVcT
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZzJp3AAKCRB4tDGHoIJi
-0tg8AP9KvOEQLq3CCUEfpgzQTNT5IvSk90gPk1RIl15PW87w3AD+LIrvmqN6utyI
-8aDgAHpRLD2CmAMPHNCw9wxBqHOGCQ0=
-=Rauh
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZzJqPAAKCRB4tDGHoIJi
+0iHXAP9EcNoCqzLUGX5OQORzuun1EQHRd1pLIuOGCnT6MOyAEQD/Vg47EKqZS8A6
+ACsoCxmUuDqebYVmgDM0dEE7bBKowgM=
+=xb+W
 -----END PGP SIGNATURE-----
 
---z+LL5xLnfq6nr1NV--
+--bi9CJ9Ktd17cmVcT--
