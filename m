@@ -1,23 +1,23 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F5F637160
-	for <linux-sunxi@lists.linux.dev>; Mon, 11 Nov 2024 01:30:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 313B71547E0
+	for <linux-sunxi@lists.linux.dev>; Mon, 11 Nov 2024 01:31:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731288659; cv=none; b=GpWJ4LUOwBlXKY+NjJvc5ws2kFlbNCNsTFiBe+KyZmWglxnfDpQpoI69GGrUG3DX+FNKo0rlOraL0y16NezsI6KFw7xUnwFFrZkA2QyjKamXXAzQ0KmSk1wfRDS3kzfyK8hfjJpXR5rSZBHLvy7UN5j6zexl9uCmDLu8VX+iXUQ=
+	t=1731288661; cv=none; b=OAqJO/Qfe851UvSX68Of1man8f4BzGzJV2vn2qRPlyHdz0Wh0GXSsnRhHcP+7UOuv9JCMVVghgLhKeRi26xKfp2Zxtx4Zm4C4Vvjfuo4SrAUE7hZPqRFvBlYVETOMS7ysluPteu27Z2x1xJuLW5X7G8JO+NwePUT7d8u8YQI8cw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731288659; c=relaxed/simple;
-	bh=VydmXJDG2+hEYWUuMRDZP6M8Lct5HvaCBkObpRuKjIQ=;
+	s=arc-20240116; t=1731288661; c=relaxed/simple;
+	bh=CgadDdYWs3CAM+2bELfGUg5Jr452m2Ji1Iw8/54B7vY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=h6JkRuE6Rf7gzST1HaqsFUfDQ6LbO8FmiSgY5/1Vpngq/Or5SeywBJ/bYN2NfvWXzynEJRntLpwQKzdIOGcELr/GMVcnUtOGLFv4DzcWF5ed9sVOJPocpr5VL2q6FrBiHKl4QQpnCJKvSdRaPkNzWEfGFuUOBWkjH8+9sDb2BQ0=
+	 MIME-Version; b=nM0YSh5deGarwh9cS+rH5nD5WjCsslbIlQpViugh3SbINF3jHDf6Afu2FSU5Z0dfMCXrFz/4JNXFi5r/7O1uLmFb1P6czkGg08jxMs1VNEnCbrS74Xj8TGW7AQPrFvaUwpUBHcQWnJOUEDAcLiESRhdA+bqiTAFv1mf30erPEjc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B531F1CE2;
-	Sun, 10 Nov 2024 17:31:27 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BA89D13D5;
+	Sun, 10 Nov 2024 17:31:29 -0800 (PST)
 Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 46C4F3F66E;
-	Sun, 10 Nov 2024 17:30:56 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 152FE3F66E;
+	Sun, 10 Nov 2024 17:30:57 -0800 (PST)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -25,14 +25,16 @@ To: Rob Herring <robh@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Thomas Gleixner <tglx@linutronix.de>
+	Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>
 Cc: devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 06/14] dt-bindings: irq: sun7i-nmi: document the Allwinner A523 NMI controller
-Date: Mon, 11 Nov 2024 01:30:25 +0000
-Message-ID: <20241111013033.22793-7-andre.przywara@arm.com>
+	linux-kernel@vger.kernel.org,
+	linux-phy@lists.infradead.org
+Subject: [PATCH 07/14] dt-bindings: phy: document Allwinner A523 USB-2.0 PHY
+Date: Mon, 11 Nov 2024 01:30:26 +0000
+Message-ID: <20241111013033.22793-8-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.46.2
 In-Reply-To: <20241111013033.22793-1-andre.przywara@arm.com>
 References: <20241111013033.22793-1-andre.przywara@arm.com>
@@ -44,28 +46,38 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Allwinner A523 SoC contains an NMI controller compatible to one used
-in the recent Allwinner SoCs.
+The Allwinner A523 SoC contains a USB-2.0 PHY fully compatible to the
+one used in the D1/T113s SoCs. This PHY controls the two USB-2.0 ports,
+there is a separate and quite different PHY for the USB-3.0 port.
 
-Add the A523 specific name to the list of allowed compatible strings.
+Add the new compatible string, with a fallback to the D1 version.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- .../interrupt-controller/allwinner,sun7i-a20-sc-nmi.yaml         | 1 +
- 1 file changed, 1 insertion(+)
+ .../bindings/phy/allwinner,sun50i-a64-usb-phy.yaml     | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/interrupt-controller/allwinner,sun7i-a20-sc-nmi.yaml b/Documentation/devicetree/bindings/interrupt-controller/allwinner,sun7i-a20-sc-nmi.yaml
-index f49b43f45f3d9..d4a86694a032f 100644
---- a/Documentation/devicetree/bindings/interrupt-controller/allwinner,sun7i-a20-sc-nmi.yaml
-+++ b/Documentation/devicetree/bindings/interrupt-controller/allwinner,sun7i-a20-sc-nmi.yaml
-@@ -31,6 +31,7 @@ properties:
-               - allwinner,sun8i-v3s-nmi
-               - allwinner,sun50i-a100-nmi
-               - allwinner,sun50i-h616-nmi
-+              - allwinner,sun55i-a523-nmi
-           - const: allwinner,sun9i-a80-nmi
+diff --git a/Documentation/devicetree/bindings/phy/allwinner,sun50i-a64-usb-phy.yaml b/Documentation/devicetree/bindings/phy/allwinner,sun50i-a64-usb-phy.yaml
+index f557feca97630..b070a5aeab11d 100644
+--- a/Documentation/devicetree/bindings/phy/allwinner,sun50i-a64-usb-phy.yaml
++++ b/Documentation/devicetree/bindings/phy/allwinner,sun50i-a64-usb-phy.yaml
+@@ -15,9 +15,13 @@ properties:
+     const: 1
+ 
+   compatible:
+-    enum:
+-      - allwinner,sun20i-d1-usb-phy
+-      - allwinner,sun50i-a64-usb-phy
++    oneOf:
++      - enum:
++          - allwinner,sun20i-d1-usb-phy
++          - allwinner,sun50i-a64-usb-phy
++      - items:
++          - const: allwinner,sun55i-a523-usb-phy
++          - const: allwinner,sun20i-d1-usb-phy
  
    reg:
+     items:
 -- 
 2.46.2
 
