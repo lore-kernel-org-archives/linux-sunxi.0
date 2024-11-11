@@ -1,45 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26D5619E98C;
-	Mon, 11 Nov 2024 20:04:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B88711AA78A;
+	Mon, 11 Nov 2024 20:31:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731355463; cv=none; b=NFStaGmQRT91L5cvIY88WV2AwTqiI45qRwizhJkCk6c/md1iGlWQOSw+SUGRai7DHRrCZ/a8uCs4ZbdiXin0YwtF8hG7/f2OATS0sMU58eYnPNSNuTBrTWlZkLn7khw+sZVplpBbsWHGX8F3v/ywVHIWnUki9ZPX/6hZV/McP/A=
+	t=1731357096; cv=none; b=Iw+XWtXkHINYEWpTQxiTk7gHmLS9zu/5n5Ng3lIocNqlX+4EQKHUfFfa8tGCuefsfkI0RY5dEpEebU6iqI4Tscrl6lSxXqDKXFYH9cfFAsC2fyv2Sl3hSs/BKf1jUA2Enp5OymrwCUpqbdnUW63W75T2u6bS35XmrIhFdaFjoPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731355463; c=relaxed/simple;
-	bh=v6+m/s+QeGeixlzJPxZyipchH0n2hYfrSg8Jh/JRQuA=;
+	s=arc-20240116; t=1731357096; c=relaxed/simple;
+	bh=x9aXapsZuaqPnOXzfdDhI/RnimcdxYeMxnTT1TJaOFQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qiTaRvFOb50gLBGGeFIJjYr2/ke4xwaNVkM4eKGX82adzYJgxwnm0AtSMC1RGVImrGTXwd6iMW/OEcAMjg/vazqFFZwFAx7/ubmbfhNoRXg5k/oQv9aXm6yC8hnDlCBrcz/H4qsuj/TSSFQloblrBxdmAEJg3TaZTJtGlq53i0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rn9etF7X; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=INANpV/fI/SbsX7Ls0oqACRgA0SB8samFO9u7ZboZuLio+OroB6k8bPfuynvmdxJvLXZ7b3YHijmlO0E3CYqsLZwJGIRo/q4j1ElwLJW1zWPw1EiABpUx/Kqy8DxEgrQhmKIWBU7ru6NjYlQGAs9szRbj5CYgJtODAfj7Y4mDqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tMWfXXUN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rn9etF7X"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 611F2C4CECF;
-	Mon, 11 Nov 2024 20:04:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tMWfXXUN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD95FC4CECF;
+	Mon, 11 Nov 2024 20:31:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731355462;
-	bh=v6+m/s+QeGeixlzJPxZyipchH0n2hYfrSg8Jh/JRQuA=;
+	s=k20201202; t=1731357096;
+	bh=x9aXapsZuaqPnOXzfdDhI/RnimcdxYeMxnTT1TJaOFQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rn9etF7XIiu3wEh1IeIpq2fQ84uKYd6LujL4Yl3r1Mvrkr0ACzne0+PnR8uY0mW4x
-	 gV5jYbu8p6gHwUDlpGtrXA54rJAXPGu/NI2yEPm/f4vHH35Cnb+NetBxN0zN0rGjsd
-	 xYWV8hUeBUeKNWG5Jdjah3WLQeGw9B4bl/xQXpFs5/krwFDsRboaBe2uzjD4PGR+te
-	 V4eaCcCPxcjTZu2n8wnmmJF9d/b8cHho+YxSMpF5rTEtarIDXrjZYGYwuryuhkBpxV
-	 sYwoRkPoG6gSshMbW+MiyB85n23zRVr0AdDQQZIGMK8L/B9ojKdBXqUZR1a1yyXN7U
-	 Lh2QG8AkSF/WA==
-Date: Mon, 11 Nov 2024 20:04:17 +0000
+	b=tMWfXXUNORLhTI3cTOwE0A1ETqw8UqTMRqqc7Wc0Bkt653CuvRspCpYP7fc0Y36y6
+	 U8WaealJUt2xHAtYBFe7eZDTV2jeYuHZvELjZas9GEzTFAMZhY9ZpEU3HteYQzDCsg
+	 hYkUkXN0ydmkAUTk1BViQWHmDzMi0rPfRobRsB3dHgb7YKio9ls4wiN0KhCYPcdwPc
+	 gFbE+AQGN/10ogmpEeLNejEXBa7K/y8IBOngyxuU+EeHnU+Xpd9ab7w+ZHA5lPMj/f
+	 FbuMeh0dsk0ekGZ+MaZwgfb3g4QYNHQaOSW+3UWVMRt/nPXwsWmMdWphKd8IscJCLU
+	 khb2nGadcHbcQ==
+Date: Mon, 11 Nov 2024 20:31:31 +0000
 From: Conor Dooley <conor@kernel.org>
-To: codekipper@gmail.com
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@vger.kernel.org,
-	linux-sunxi@googlegroups.com, linux-sunxi@lists.linux.dev,
-	devicetree@vger.kernel.org, conor+dt@kernel.org, krzk+dt@kernel.org,
-	robh@kernel.org, jernej.skrabec@gmail.com, samuel@sholland.org,
-	andre.przywara@arm.com, wens@csie.org, macromorgan@hotmail.com,
-	jszhang@kernel.org, uwu@icenowy.me, ryan@testtoast.com,
-	dsimic@manjaro.org, mripard@kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: arm: sunxi: Add the X96Q Pro board name
-Message-ID: <20241111-drank-spindle-68237e9c75e8@spud>
-References: <20241111162524.46812-1-codekipper@gmail.com>
- <20241111162524.46812-2-codekipper@gmail.com>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Icenowy Zheng <uwu@icenowy.me>, linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/7] dt-bindings: clk: sunxi-ng: add compatible for the
+ A523 CCU
+Message-ID: <20241111-deepness-escapable-0a3bac2b3505@spud>
+References: <20241111004722.10130-1-andre.przywara@arm.com>
+ <20241111004722.10130-5-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -47,40 +51,38 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="9nO1kpF93hm9EhKP"
+	protocol="application/pgp-signature"; boundary="Asf0m3qumdcixdxJ"
 Content-Disposition: inline
-In-Reply-To: <20241111162524.46812-2-codekipper@gmail.com>
+In-Reply-To: <20241111004722.10130-5-andre.przywara@arm.com>
 
 
---9nO1kpF93hm9EhKP
+--Asf0m3qumdcixdxJ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 11, 2024 at 05:25:05PM +0100, codekipper@gmail.com wrote:
-> From: Marcus Cooper <codekipper@gmail.com>
+On Mon, Nov 11, 2024 at 12:47:19AM +0000, Andre Przywara wrote:
+> The Allwinner A523/T527 SoCs have four CCUs, this adds the binding for
+> the main CCU.
 >=20
-> The X96Q-Pro TV box is a Chinese Android TV box, using the
-> Allwinner H313 SoC. It is sold under the X96mini brand which
-> is a subsidiary of the Shenzhen Amedia Technology Co., Ltd
+> Add the new compatible string, along with the required input clock
+> lists.
+> Also add the DT binding headers, listing all the clocks with their ID
+> numbers.
 >=20
-> Add the board/SoC compatible string pair to the list of known
-> boards. Since the H313 does not look different from a software
-> point of view, we keep the H616 compatible string.
->=20
-> Signed-off-by: Marcus Cooper <codekipper@gmail.com>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
 Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
---9nO1kpF93hm9EhKP
+--Asf0m3qumdcixdxJ
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZzJjQAAKCRB4tDGHoIJi
-0oUXAQCl7ID5xf3x6WIKRRZfLVcTsY+tUmyigc08YwS0XGBgLQD/dPW8qr1Ihyiz
-l7fyKWTEdjXiLo0zjGnWNihx8PrEmQM=
-=n1Ep
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZzJpowAKCRB4tDGHoIJi
+0tv9AP4nwUN0sO11WBtf8cOH5uXB5Pv2Hk5WrGcCfONvtDz1IgD9EYWzRej9LYZ/
+B8R9KRR9KHpIv6Sm0pXaJ7C7pqYOSAA=
+=4MSE
 -----END PGP SIGNATURE-----
 
---9nO1kpF93hm9EhKP--
+--Asf0m3qumdcixdxJ--
