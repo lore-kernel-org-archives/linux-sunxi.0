@@ -1,128 +1,493 @@
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F4E3218D7D
-	for <linux-sunxi@lists.linux.dev>; Tue, 12 Nov 2024 18:44:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F53C219E58
+	for <linux-sunxi@lists.linux.dev>; Tue, 12 Nov 2024 21:14:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731437061; cv=none; b=AzxRX8lxPRAcju00VVJbnnTbIYbJZ2+nrKt9o8xo3UnWO69ofRM0PUt1I6+PigEjWnPn1kchPJITOYjEWg3Bwh6WwEB1XiIa5AeKS5v/YZC/02SXUFxLiOIurcGSiqxsA9MUaVsyAaisbJnsYkvx4f5pUY8jgy174CoU+J78u5Y=
+	t=1731446089; cv=none; b=U6i4oQJIyJVD4H4KU75wugznsVaIUO2bhoscZXSDs8BRu+ZaATI2O7vYnXQLsEh7DTyx6T01Q9jzMUxdZlULoDCfJlV4MyNc2jiT2TLP+MDYNEp9iRmhIJw3IK6bxWFxbZ3TU978ZJsx++VObDqFkzegRgWaIC+TAZfq+BXI33k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731437061; c=relaxed/simple;
-	bh=uHjhDIOGd3wI/ode4gAXftJ4tsv8f905E8g2pYGetwE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CfXkd3nBYdTpWHc1wObutZgRzvHBt+74qVmKhUrAWsqhckq6O0ybNGq0MWnn7Fr/LYl7/NlPzsMT0I3oFiz9KF1zyDshyrU4UokNTR9HUsU+0gKzLczLaWRpKUT29BNrJLdgWxKJV+wjvUIeFTGK1qKcD0OdU4yBdK7LhLSnAOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZSZqxOFv; arc=none smtp.client-ip=209.85.128.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1731446089; c=relaxed/simple;
+	bh=DwkN5QGhiCfgLCgTn/x4V1ER8g75a2tIyK+OAq0M76c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EX6JeXG1AJXu+AIgSuUZoF5Ofmf1KkpnMEVIEDhD9Yn99TMFcVc+4IU1k6PBaxkCJgeraoWr/wEO/GrVR3a4pcqmJUjeRFvhMhV7namQgQULTQIXqqKG6oLjc+4ibY2iSLAhXoc6a4bcBfR2jLwemecthNRmD1eSeNCNWWQE5Ms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DpAot4zj; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZSZqxOFv"
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-6ecaa45af7bso9409097b3.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 12 Nov 2024 10:44:20 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DpAot4zj"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-723f37dd76cso6413270b3a.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 12 Nov 2024 13:14:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1731437059; x=1732041859; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=YQwoM/nTuzFKhK1k/SOzLnbDeI0RWCoU9qRRxql+gQs=;
-        b=ZSZqxOFvqWxCwUwiwvkKAScrbG7jRj1iK6WZHli6Z31iPuSM/2vRlqS5CA4Qx3SpI5
-         KWGVON830VXK9EhesfM3AvSgBktihq7Mky5j+BJAT6G/Yh9tfmbnqNC1NaXtaPnk+g6F
-         kMl6e3W8x6U28yf4bGDAm+iiTxR1EFojvNBVnEQivTHMuOE6ePDePiYlaAoTTRlSeuXF
-         9UZilm0fPqnvVTPY+exwO06oDERcL0v18g24LzPMjbX8R6Uf95VOBc/1KPSOTIGRe86I
-         s+ur16X3b/yU5Fv1KIT2Ii1Ig4am790MhzmrtVPa1k1CchR5n18Tb0/6IGb+F3I/9YGU
-         7X/w==
+        d=gmail.com; s=20230601; t=1731446086; x=1732050886; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/E9JaS6GNPOhFzH/hTsYBjh3LFrXVv5Wnd8IVRw0MwA=;
+        b=DpAot4zj7zPmkIK4z6sOkyeyNO5LVcg6oDvUAASpkv/jd/PGP5X0pBaLJUQMquuzpP
+         0KaPATncyETm3iHY8opEeNFVZGMux9RDmYGU+DHDakGz+4jH9CZ75Tp0Z4n4N7YjsG9y
+         IOdntDRen5mixmpRa7ZSKY92+vLOUt9Is4/ZNPYXhPyFLy32wE+VSy2STHi+9YnJw5zB
+         FCjDrNs8tWWbC9ylH93eWha0EbwXauPirLSK0F5QmUJnze/mLPw9IehX6bJ4fI/JfK/h
+         A39L35+GAOKuA/bHZcv51kyIrh2m+cS8VoeMZ39BtQ0ubYRjm4ySp2Q9qYGmBpsuMKQI
+         o8yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731437059; x=1732041859;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1731446086; x=1732050886;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=YQwoM/nTuzFKhK1k/SOzLnbDeI0RWCoU9qRRxql+gQs=;
-        b=SKEdZ9uw2M3IBA4UI3peE9Q+sFMA+Z0u6fAMTujAQDHKHNeC9p8Ukszs3hLbGDqoiI
-         Qa39luMOw1FVcxUxZCqTjdTYcC7Lvs1qPY6lwjpJE1w1m09AlNX6AE24p8OGCImsA0iU
-         cgZF3cDVreUfzX5pcvIA1lwUsH0zocao+bo5f1c+X7IKCVLe11uptTqJfyiYQTSdj5SW
-         lyy4HBK4V/rkmBlDqGL2eZQFCn329ZA5d8U2Xc+sixrMNQ526w3r2dGo/w+h94DDqynu
-         yrGAbDzUhjwoSF8GDO+Eb6+0Zwdop5H1c1MkmX0Z4V4oaYlF03yAhFk8SG7a5QmnsXXc
-         0RsQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUl+MfqfISkYGqSWcyC7JE5LNeIXzsXhZZX1PFtCV1Nginr7OpBapl/xXZhpi/Mzdw9Tpul5oPsWtYv6Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxl9g5aV9AIj/66RvVw4KQbESGPRY8FkOcIfhiSPerrYoff3WqM
-	kydnvgmIHNsWG7DDGpowByo9P9BOJ4s80jaHBNPo+lvkQEI6bFYoyMQHEV2cqiH9BkcS8dJgtiI
-	MwlKAQ0ZO+3lYhcuCmvhbGBD1uZhncf6Vfw6FRQ==
-X-Google-Smtp-Source: AGHT+IGaU1lE2PJipy6pOIUqOpY0yqY/1qPuB70C2Kl5meeHsB3avJig4SV+FxxLDBmZG/DPvhBkYkquOGMWKK2QHIU=
-X-Received: by 2002:a05:690c:6888:b0:6db:ddea:eab4 with SMTP id
- 00721157ae682-6ecb359db6cmr177507b3.37.1731437059301; Tue, 12 Nov 2024
- 10:44:19 -0800 (PST)
+        bh=/E9JaS6GNPOhFzH/hTsYBjh3LFrXVv5Wnd8IVRw0MwA=;
+        b=eOrvPtVHQ177NuEIYN7aao1CXRunB3mYLEOohv5doysNMAfBYgWzp8a8Fm0xhKwHGE
+         HXaUdASoX8KWwjb6pAXsle3IAuRyAakVIvkNquchUAjmJE7q+gRYmf1LU3sTUza0Z8au
+         DS3yNu03UQpmrNTDmtMsbrfZMlZTn3UJZcN2xb7/0BK2IPf5WVJAWvgub2F0FWYH1icz
+         wE1PeXDDzvEH0TanTk4Ep8colSOSWZ7F3HTOsok9lDxfs0DB+G6s1WGJang4rsL/oHS4
+         Mu9gvqmCkDMPI9umfOidlEVpVbwyof6umNvFZ1jl6o/o4FPakBs9OqlS1HnNsxRdNAYS
+         +AbA==
+X-Forwarded-Encrypted: i=1; AJvYcCXuPy1IOvE+OG5edO+IiDIN/Al4vKmhJFucjaPN79G9zynFvSAk56knhleg/XDGzYtStBFm+LRs/fb6zA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyye42+9Df0/sBvNkU10Ks+akKEAVRrf1gPeaFLMX+isph4woBz
+	HR425KIL+N4qNTWHuavevenzPU8x/Kci7+Ws8tAa30gYyDSJe5ZL
+X-Google-Smtp-Source: AGHT+IEYLl+iSufvvHMXoUuiJUyTbTMzcH9dmY86uH3TzWouUTAb7GMiGaFKlPZZaY+yfk420KCG5g==
+X-Received: by 2002:a05:6a00:4605:b0:71e:75c0:2552 with SMTP id d2e1a72fcca58-7245782938bmr753499b3a.0.1731446086149;
+        Tue, 12 Nov 2024 13:14:46 -0800 (PST)
+Received: from ryzen.lan ([2601:644:8200:dab8::a86])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724079a4126sm12062338b3a.102.2024.11.12.13.14.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Nov 2024 13:14:45 -0800 (PST)
+From: Rosen Penev <rosenp@gmail.com>
+To: netdev@vger.kernel.org
+Cc: Marc Kleine-Budde <mkl@pengutronix.de>,
+	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Pantelis Antoniou <pantelis.antoniou@gmail.com>,
+	Marcin Wojtas <marcin.s.wojtas@gmail.com>,
+	Byungho An <bh74.an@samsung.com>,
+	Kevin Brace <kevinbrace@bracecomputerlab.com>,
+	Francois Romieu <romieu@fr.zoreil.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Zhao Qiang <qiang.zhao@nxp.com>,
+	linux-can@vger.kernel.org (open list:CAN NETWORK DRIVERS),
+	linux-kernel@vger.kernel.org (open list),
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi SoC support),
+	linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support),
+	linuxppc-dev@lists.ozlabs.org (open list:FREESCALE SOC FS_ENET DRIVER)
+Subject: [PATCHv3 net-next] net: modernize IRQ resource acquisition
+Date: Tue, 12 Nov 2024 13:14:42 -0800
+Message-ID: <20241112211442.7205-1-rosenp@gmail.com>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241107014240.24669-1-andre.przywara@arm.com>
-In-Reply-To: <20241107014240.24669-1-andre.przywara@arm.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Tue, 12 Nov 2024 19:43:43 +0100
-Message-ID: <CAPDyKFoTyMy9wv+6nfr=-TK_da_t5rojrpTgyiGm7=sK-RK+Bw@mail.gmail.com>
-Subject: Re: [PATCH] mmc: sunxi-mmc: Fix A100 compatible description
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, linux-mmc@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	Yangtao Li <tiny.windzz@gmail.com>, Cody Eksal <masterr3c0rd@epochal.quest>, 
-	Parthiban <parthiban@linumiz.com>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, 7 Nov 2024 at 02:43, Andre Przywara <andre.przywara@arm.com> wrote:
->
-> It turns out that the Allwinner A100/A133 SoC only supports 8K DMA
-> blocks (13 bits wide), for both the SD/SDIO and eMMC instances.
-> And while this alone would make a trivial fix, the H616 falls back to
-> the A100 compatible string, so we have to now match the H616 compatible
-> string explicitly against the description advertising 64K DMA blocks.
->
-> As the A100 is now compatible with the D1 description, let the A100
-> compatible string point to that block instead, and introduce an explicit
-> match against the H616 string, pointing to the old description.
-> Also remove the redundant setting of clk_delays to NULL on the way.
->
-> Fixes: 3536b82e5853 ("mmc: sunxi: add support for A100 mmc controller")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+In probe, np == pdev->dev.of_node. It's easier to pass pdev directly.
 
-Applied for fixes, thanks!
+Replace irq_of_parse_and_map() by platform_get_irq() to do so. Requires
+removing the error message as well as fixing the return type.
 
-Kind regards
-Uffe
+Replace of_address_to_resource() with platform_get_resource() for the
+same reason.
 
+Signed-off-by: Rosen Penev <rosenp@gmail.com>
+(for CAN)
+Reviewed-by: Marc Kleine-Budde <mkl@pengutronix.de>
+---
+ v3: fix coccinelle bad return and error message checks. Also reword
+ commit title and message
+ v2: fixed compilation errors. Also removed non devm transformations.
+ drivers/net/can/grcan.c                       |  5 ++--
+ drivers/net/can/mscan/mpc5xxx_can.c           |  5 ++--
+ drivers/net/dsa/bcm_sf2.c                     |  4 ++--
+ drivers/net/ethernet/allwinner/sun4i-emac.c   |  5 ++--
+ drivers/net/ethernet/freescale/fec_mpc52xx.c  |  4 ++--
+ .../net/ethernet/freescale/fs_enet/mac-fcc.c  |  4 ++--
+ .../net/ethernet/freescale/fs_enet/mac-fec.c  |  4 ++--
+ .../net/ethernet/freescale/fs_enet/mac-scc.c  |  4 ++--
+ drivers/net/ethernet/freescale/ucc_geth.c     | 12 +++++-----
+ drivers/net/ethernet/marvell/mvneta.c         |  4 ++--
+ drivers/net/ethernet/moxa/moxart_ether.c      |  6 ++---
+ .../ethernet/samsung/sxgbe/sxgbe_platform.c   | 24 +++++++------------
+ drivers/net/ethernet/via/via-rhine.c          |  4 ++--
+ drivers/net/ethernet/via/via-velocity.c       |  4 ++--
+ drivers/net/ethernet/xilinx/ll_temac_mdio.c   |  6 ++---
+ drivers/net/mdio/mdio-mux-mmioreg.c           | 16 +++++++------
+ drivers/net/wan/fsl_ucc_hdlc.c                | 10 ++++----
+ 17 files changed, 55 insertions(+), 66 deletions(-)
 
-> ---
->  drivers/mmc/host/sunxi-mmc.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mmc.c
-> index d3bd0ac99ec46..e0ab5fd635e6c 100644
-> --- a/drivers/mmc/host/sunxi-mmc.c
-> +++ b/drivers/mmc/host/sunxi-mmc.c
-> @@ -1191,10 +1191,9 @@ static const struct sunxi_mmc_cfg sun50i_a64_emmc_cfg = {
->         .needs_new_timings = true,
->  };
->
-> -static const struct sunxi_mmc_cfg sun50i_a100_cfg = {
-> +static const struct sunxi_mmc_cfg sun50i_h616_cfg = {
->         .idma_des_size_bits = 16,
->         .idma_des_shift = 2,
-> -       .clk_delays = NULL,
->         .can_calibrate = true,
->         .mask_data0 = true,
->         .needs_new_timings = true,
-> @@ -1217,8 +1216,9 @@ static const struct of_device_id sunxi_mmc_of_match[] = {
->         { .compatible = "allwinner,sun20i-d1-mmc", .data = &sun20i_d1_cfg },
->         { .compatible = "allwinner,sun50i-a64-mmc", .data = &sun50i_a64_cfg },
->         { .compatible = "allwinner,sun50i-a64-emmc", .data = &sun50i_a64_emmc_cfg },
-> -       { .compatible = "allwinner,sun50i-a100-mmc", .data = &sun50i_a100_cfg },
-> +       { .compatible = "allwinner,sun50i-a100-mmc", .data = &sun20i_d1_cfg },
->         { .compatible = "allwinner,sun50i-a100-emmc", .data = &sun50i_a100_emmc_cfg },
-> +       { .compatible = "allwinner,sun50i-h616-mmc", .data = &sun50i_h616_cfg },
->         { /* sentinel */ }
->  };
->  MODULE_DEVICE_TABLE(of, sunxi_mmc_of_match);
-> --
-> 2.46.2
->
+diff --git a/drivers/net/can/grcan.c b/drivers/net/can/grcan.c
+index cdf0ec9fa7f3..48e93c3445e7 100644
+--- a/drivers/net/can/grcan.c
++++ b/drivers/net/can/grcan.c
+@@ -1673,9 +1673,8 @@ static int grcan_probe(struct platform_device *ofdev)
+ 		goto exit_error;
+ 	}
+ 
+-	irq = irq_of_parse_and_map(np, GRCAN_IRQIX_IRQ);
+-	if (!irq) {
+-		dev_err(&ofdev->dev, "no irq found\n");
++	irq = platform_get_irq(ofdev, GRCAN_IRQIX_IRQ);
++	if (irq < 0) {
+ 		err = -ENODEV;
+ 		goto exit_error;
+ 	}
+diff --git a/drivers/net/can/mscan/mpc5xxx_can.c b/drivers/net/can/mscan/mpc5xxx_can.c
+index 0080c39ee182..c916c9ab912a 100644
+--- a/drivers/net/can/mscan/mpc5xxx_can.c
++++ b/drivers/net/can/mscan/mpc5xxx_can.c
+@@ -300,9 +300,8 @@ static int mpc5xxx_can_probe(struct platform_device *ofdev)
+ 	if (!base)
+ 		return dev_err_probe(&ofdev->dev, err, "couldn't ioremap\n");
+ 
+-	irq = irq_of_parse_and_map(np, 0);
+-	if (!irq) {
+-		dev_err(&ofdev->dev, "no irq found\n");
++	irq = platform_get_irq(ofdev, 0);
++	if (irq < 0) {
+ 		err = -ENODEV;
+ 		goto exit_unmap_mem;
+ 	}
+diff --git a/drivers/net/dsa/bcm_sf2.c b/drivers/net/dsa/bcm_sf2.c
+index 43bde1f583ff..9229582efd05 100644
+--- a/drivers/net/dsa/bcm_sf2.c
++++ b/drivers/net/dsa/bcm_sf2.c
+@@ -1443,8 +1443,8 @@ static int bcm_sf2_sw_probe(struct platform_device *pdev)
+ 		of_node_put(ports);
+ 	}
+ 
+-	priv->irq0 = irq_of_parse_and_map(dn, 0);
+-	priv->irq1 = irq_of_parse_and_map(dn, 1);
++	priv->irq0 = platform_get_irq(pdev, 0);
++	priv->irq1 = platform_get_irq(pdev, 1);
+ 
+ 	base = &priv->core;
+ 	for (i = 0; i < BCM_SF2_REGS_NUM; i++) {
+diff --git a/drivers/net/ethernet/allwinner/sun4i-emac.c b/drivers/net/ethernet/allwinner/sun4i-emac.c
+index 2f516b950f4e..353ebec76c92 100644
+--- a/drivers/net/ethernet/allwinner/sun4i-emac.c
++++ b/drivers/net/ethernet/allwinner/sun4i-emac.c
+@@ -995,9 +995,8 @@ static int emac_probe(struct platform_device *pdev)
+ 
+ 	/* fill in parameters for net-dev structure */
+ 	ndev->base_addr = (unsigned long)db->membase;
+-	ndev->irq = irq_of_parse_and_map(np, 0);
+-	if (ndev->irq == -ENXIO) {
+-		netdev_err(ndev, "No irq resource\n");
++	ndev->irq = platform_get_irq(pdev, 0);
++	if (ndev->irq < 0) {
+ 		ret = ndev->irq;
+ 		goto out_iounmap;
+ 	}
+diff --git a/drivers/net/ethernet/freescale/fec_mpc52xx.c b/drivers/net/ethernet/freescale/fec_mpc52xx.c
+index 5d7769b38ae4..b0849a448c6d 100644
+--- a/drivers/net/ethernet/freescale/fec_mpc52xx.c
++++ b/drivers/net/ethernet/freescale/fec_mpc52xx.c
+@@ -859,9 +859,9 @@ static int mpc52xx_fec_probe(struct platform_device *op)
+ 
+ 	/* Get the IRQ we need one by one */
+ 		/* Control */
+-	ndev->irq = irq_of_parse_and_map(np, 0);
++	ndev->irq = platform_get_irq(op, 0);
+ 
+-		/* RX */
++	/* RX */
+ 	priv->r_irq = bcom_get_task_irq(priv->rx_dmatsk);
+ 
+ 		/* TX */
+diff --git a/drivers/net/ethernet/freescale/fs_enet/mac-fcc.c b/drivers/net/ethernet/freescale/fs_enet/mac-fcc.c
+index be63293511d9..9006137e3a55 100644
+--- a/drivers/net/ethernet/freescale/fs_enet/mac-fcc.c
++++ b/drivers/net/ethernet/freescale/fs_enet/mac-fcc.c
+@@ -83,8 +83,8 @@ static int do_pd_setup(struct fs_enet_private *fep)
+ 	struct fs_platform_info *fpi = fep->fpi;
+ 	int ret = -EINVAL;
+ 
+-	fep->interrupt = irq_of_parse_and_map(ofdev->dev.of_node, 0);
+-	if (!fep->interrupt)
++	fep->interrupt = platform_get_irq(ofdev, 0);
++	if (fep->interrupt < 0)
+ 		goto out;
+ 
+ 	fep->fcc.fccp = of_iomap(ofdev->dev.of_node, 0);
+diff --git a/drivers/net/ethernet/freescale/fs_enet/mac-fec.c b/drivers/net/ethernet/freescale/fs_enet/mac-fec.c
+index f2ecd20027cf..f8ae38e37feb 100644
+--- a/drivers/net/ethernet/freescale/fs_enet/mac-fec.c
++++ b/drivers/net/ethernet/freescale/fs_enet/mac-fec.c
+@@ -88,8 +88,8 @@ static int do_pd_setup(struct fs_enet_private *fep)
+ {
+ 	struct platform_device *ofdev = to_platform_device(fep->dev);
+ 
+-	fep->interrupt = irq_of_parse_and_map(ofdev->dev.of_node, 0);
+-	if (!fep->interrupt)
++	fep->interrupt = platform_get_irq(ofdev, 0);
++	if (fep->interrupt < 0)
+ 		return -EINVAL;
+ 
+ 	fep->fec.fecp = of_iomap(ofdev->dev.of_node, 0);
+diff --git a/drivers/net/ethernet/freescale/fs_enet/mac-scc.c b/drivers/net/ethernet/freescale/fs_enet/mac-scc.c
+index 6c97191649de..2e817bc5c512 100644
+--- a/drivers/net/ethernet/freescale/fs_enet/mac-scc.c
++++ b/drivers/net/ethernet/freescale/fs_enet/mac-scc.c
+@@ -87,8 +87,8 @@ static int do_pd_setup(struct fs_enet_private *fep)
+ {
+ 	struct platform_device *ofdev = to_platform_device(fep->dev);
+ 
+-	fep->interrupt = irq_of_parse_and_map(ofdev->dev.of_node, 0);
+-	if (!fep->interrupt)
++	fep->interrupt = platform_get_irq(ofdev, 0);
++	if (fep->interrupt < 0)
+ 		return -EINVAL;
+ 
+ 	fep->scc.sccp = of_iomap(ofdev->dev.of_node, 0);
+diff --git a/drivers/net/ethernet/freescale/ucc_geth.c b/drivers/net/ethernet/freescale/ucc_geth.c
+index 6663c1768089..dbc00f759212 100644
+--- a/drivers/net/ethernet/freescale/ucc_geth.c
++++ b/drivers/net/ethernet/freescale/ucc_geth.c
+@@ -3560,7 +3560,7 @@ static int ucc_geth_probe(struct platform_device* ofdev)
+ 	struct net_device *dev = NULL;
+ 	struct ucc_geth_private *ugeth = NULL;
+ 	struct ucc_geth_info *ug_info;
+-	struct resource res;
++	struct resource *res;
+ 	int err, ucc_num, max_speed = 0;
+ 	const unsigned int *prop;
+ 	phy_interface_t phy_interface;
+@@ -3605,12 +3605,12 @@ static int ucc_geth_probe(struct platform_device* ofdev)
+ 	if (err)
+ 		return err;
+ 
+-	err = of_address_to_resource(np, 0, &res);
+-	if (err)
+-		return err;
++	res = platform_get_resource(ofdev, 0, IORESOURCE_MEM);
++	if (!res)
++		return -ENODEV;
+ 
+-	ug_info->uf_info.regs = res.start;
+-	ug_info->uf_info.irq = irq_of_parse_and_map(np, 0);
++	ug_info->uf_info.regs = res->start;
++	ug_info->uf_info.irq = platform_get_irq(ofdev, 0);
+ 
+ 	ug_info->phy_node = of_parse_phandle(np, "phy-handle", 0);
+ 	if (!ug_info->phy_node && of_phy_is_fixed_link(np)) {
+diff --git a/drivers/net/ethernet/marvell/mvneta.c b/drivers/net/ethernet/marvell/mvneta.c
+index 7bb781fb93b5..8ef9c73735c2 100644
+--- a/drivers/net/ethernet/marvell/mvneta.c
++++ b/drivers/net/ethernet/marvell/mvneta.c
+@@ -5511,8 +5511,8 @@ static int mvneta_probe(struct platform_device *pdev)
+ 		pp->neta_ac5 = true;
+ 	}
+ 
+-	dev->irq = irq_of_parse_and_map(dn, 0);
+-	if (dev->irq == 0)
++	dev->irq = platform_get_irq(pdev, 0);
++	if (dev->irq < 0)
+ 		return -EINVAL;
+ 
+ 	pp->clk = devm_clk_get(&pdev->dev, "core");
+diff --git a/drivers/net/ethernet/moxa/moxart_ether.c b/drivers/net/ethernet/moxa/moxart_ether.c
+index 8bd60168624a..7fca8a05f755 100644
+--- a/drivers/net/ethernet/moxa/moxart_ether.c
++++ b/drivers/net/ethernet/moxa/moxart_ether.c
+@@ -454,7 +454,6 @@ static const struct net_device_ops moxart_netdev_ops = {
+ static int moxart_mac_probe(struct platform_device *pdev)
+ {
+ 	struct device *p_dev = &pdev->dev;
+-	struct device_node *node = p_dev->of_node;
+ 	struct net_device *ndev;
+ 	struct moxart_mac_priv_t *priv;
+ 	struct resource *res;
+@@ -465,9 +464,8 @@ static int moxart_mac_probe(struct platform_device *pdev)
+ 	if (!ndev)
+ 		return -ENOMEM;
+ 
+-	irq = irq_of_parse_and_map(node, 0);
+-	if (irq <= 0) {
+-		netdev_err(ndev, "irq_of_parse_and_map failed\n");
++	irq = platform_get_irq(pdev, 0);
++	if (irq < 0) {
+ 		ret = -EINVAL;
+ 		goto irq_map_fail;
+ 	}
+diff --git a/drivers/net/ethernet/samsung/sxgbe/sxgbe_platform.c b/drivers/net/ethernet/samsung/sxgbe/sxgbe_platform.c
+index 2eccc7617507..54faa01f4e31 100644
+--- a/drivers/net/ethernet/samsung/sxgbe/sxgbe_platform.c
++++ b/drivers/net/ethernet/samsung/sxgbe/sxgbe_platform.c
+@@ -111,37 +111,29 @@ static int sxgbe_platform_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	/* Get the SXGBE common INT information */
+-	priv->irq  = irq_of_parse_and_map(node, 0);
+-	if (priv->irq <= 0) {
+-		dev_err(dev, "sxgbe common irq parsing failed\n");
++	priv->irq = platform_get_irq(pdev, 0);
++	if (priv->irq < 0)
+ 		goto err_drv_remove;
+-	}
+ 
+ 	/* Get MAC address if available (DT) */
+ 	of_get_ethdev_address(node, priv->dev);
+ 
+ 	/* Get the TX/RX IRQ numbers */
+ 	for (i = 0, chan = 1; i < SXGBE_TX_QUEUES; i++) {
+-		priv->txq[i]->irq_no = irq_of_parse_and_map(node, chan++);
+-		if (priv->txq[i]->irq_no <= 0) {
+-			dev_err(dev, "sxgbe tx irq parsing failed\n");
++		priv->txq[i]->irq_no = platform_get_irq(pdev, chan++);
++		if (priv->txq[i]->irq_no < 0)
+ 			goto err_tx_irq_unmap;
+-		}
+ 	}
+ 
+ 	for (i = 0; i < SXGBE_RX_QUEUES; i++) {
+-		priv->rxq[i]->irq_no = irq_of_parse_and_map(node, chan++);
+-		if (priv->rxq[i]->irq_no <= 0) {
+-			dev_err(dev, "sxgbe rx irq parsing failed\n");
++		priv->rxq[i]->irq_no = platform_get_irq(pdev, chan++);
++		if (priv->rxq[i]->irq_no < 0)
+ 			goto err_rx_irq_unmap;
+-		}
+ 	}
+ 
+-	priv->lpi_irq = irq_of_parse_and_map(node, chan);
+-	if (priv->lpi_irq <= 0) {
+-		dev_err(dev, "sxgbe lpi irq parsing failed\n");
++	priv->lpi_irq = platform_get_irq(pdev, chan);
++	if (priv->lpi_irq < 0)
+ 		goto err_rx_irq_unmap;
+-	}
+ 
+ 	platform_set_drvdata(pdev, priv->dev);
+ 
+diff --git a/drivers/net/ethernet/via/via-rhine.c b/drivers/net/ethernet/via/via-rhine.c
+index 894911f3d560..95e5437b16b4 100644
+--- a/drivers/net/ethernet/via/via-rhine.c
++++ b/drivers/net/ethernet/via/via-rhine.c
+@@ -1127,8 +1127,8 @@ static int rhine_init_one_platform(struct platform_device *pdev)
+ 	if (IS_ERR(ioaddr))
+ 		return PTR_ERR(ioaddr);
+ 
+-	irq = irq_of_parse_and_map(pdev->dev.of_node, 0);
+-	if (!irq)
++	irq = platform_get_irq(pdev, 0);
++	if (irq < 0)
+ 		return -EINVAL;
+ 
+ 	return rhine_init_one_common(&pdev->dev, *quirks,
+diff --git a/drivers/net/ethernet/via/via-velocity.c b/drivers/net/ethernet/via/via-velocity.c
+index 72271a51d0e7..16cf7db41c54 100644
+--- a/drivers/net/ethernet/via/via-velocity.c
++++ b/drivers/net/ethernet/via/via-velocity.c
+@@ -2950,8 +2950,8 @@ static int velocity_platform_probe(struct platform_device *pdev)
+ 	if (!info)
+ 		return -EINVAL;
+ 
+-	irq = irq_of_parse_and_map(pdev->dev.of_node, 0);
+-	if (!irq)
++	irq = platform_get_irq(pdev, 0);
++	if (irq < 0)
+ 		return -EINVAL;
+ 
+ 	return velocity_probe(&pdev->dev, irq, info, BUS_PLATFORM);
+diff --git a/drivers/net/ethernet/xilinx/ll_temac_mdio.c b/drivers/net/ethernet/xilinx/ll_temac_mdio.c
+index 07a9fb49eda1..4bc5d47ecb7e 100644
+--- a/drivers/net/ethernet/xilinx/ll_temac_mdio.c
++++ b/drivers/net/ethernet/xilinx/ll_temac_mdio.c
+@@ -69,7 +69,7 @@ int temac_mdio_setup(struct temac_local *lp, struct platform_device *pdev)
+ 	u32 bus_hz;
+ 	int clk_div;
+ 	int rc;
+-	struct resource res;
++	struct resource *res;
+ 
+ 	/* Get MDIO bus frequency (if specified) */
+ 	bus_hz = 0;
+@@ -98,9 +98,9 @@ int temac_mdio_setup(struct temac_local *lp, struct platform_device *pdev)
+ 		return -ENOMEM;
+ 
+ 	if (np) {
+-		of_address_to_resource(np, 0, &res);
++		res = platform_get_resource(pdev, 0, IORESOURCE_MEM);
+ 		snprintf(bus->id, MII_BUS_ID_SIZE, "%.8llx",
+-			 (unsigned long long)res.start);
++			 (unsigned long long)res->start);
+ 	} else if (pdata) {
+ 		snprintf(bus->id, MII_BUS_ID_SIZE, "%.8llx",
+ 			 pdata->mdio_bus_id);
+diff --git a/drivers/net/mdio/mdio-mux-mmioreg.c b/drivers/net/mdio/mdio-mux-mmioreg.c
+index 9c4b1efd0d53..b5a65a1ab406 100644
+--- a/drivers/net/mdio/mdio-mux-mmioreg.c
++++ b/drivers/net/mdio/mdio-mux-mmioreg.c
+@@ -98,7 +98,7 @@ static int mdio_mux_mmioreg_probe(struct platform_device *pdev)
+ {
+ 	struct device_node *np = pdev->dev.of_node;
+ 	struct mdio_mux_mmioreg_state *s;
+-	struct resource res;
++	struct resource *res;
+ 	const __be32 *iprop;
+ 	int len, ret;
+ 
+@@ -108,13 +108,15 @@ static int mdio_mux_mmioreg_probe(struct platform_device *pdev)
+ 	if (!s)
+ 		return -ENOMEM;
+ 
+-	ret = of_address_to_resource(np, 0, &res);
+-	if (ret)
+-		return dev_err_probe(&pdev->dev, ret,
+-				     "could not obtain memory map for node %pOF\n", np);
+-	s->phys = res.start;
++	res = platform_get_resource(pdev, 0, IORESOURCE_MEM);
++	if (!res) {
++		dev_err(&pdev->dev,
++			"could not obtain memory map for node %pOF\n", np);
++		return -ENODEV;
++	}
++	s->phys = res->start;
+ 
+-	s->iosize = resource_size(&res);
++	s->iosize = resource_size(res);
+ 	if (s->iosize != sizeof(uint8_t) &&
+ 	    s->iosize != sizeof(uint16_t) &&
+ 	    s->iosize != sizeof(uint32_t))
+diff --git a/drivers/net/wan/fsl_ucc_hdlc.c b/drivers/net/wan/fsl_ucc_hdlc.c
+index f999798a5612..414a9d22da5e 100644
+--- a/drivers/net/wan/fsl_ucc_hdlc.c
++++ b/drivers/net/wan/fsl_ucc_hdlc.c
+@@ -1118,7 +1118,7 @@ static int ucc_hdlc_probe(struct platform_device *pdev)
+ 	struct ucc_hdlc_private *uhdlc_priv = NULL;
+ 	struct ucc_tdm_info *ut_info;
+ 	struct ucc_tdm *utdm = NULL;
+-	struct resource res;
++	struct resource *res;
+ 	struct net_device *dev;
+ 	hdlc_device *hdlc;
+ 	int ucc_num;
+@@ -1170,12 +1170,12 @@ static int ucc_hdlc_probe(struct platform_device *pdev)
+ 		return -EINVAL;
+ 	}
+ 
+-	ret = of_address_to_resource(np, 0, &res);
+-	if (ret)
++	res = platform_get_resource(pdev, 0, IORESOURCE_MEM);
++	if (!res)
+ 		return -EINVAL;
+ 
+-	ut_info->uf_info.regs = res.start;
+-	ut_info->uf_info.irq = irq_of_parse_and_map(np, 0);
++	ut_info->uf_info.regs = res->start;
++	ut_info->uf_info.irq = platform_get_irq(pdev, 0);
+ 
+ 	uhdlc_priv = kzalloc(sizeof(*uhdlc_priv), GFP_KERNEL);
+ 	if (!uhdlc_priv)
+-- 
+2.47.0
+
