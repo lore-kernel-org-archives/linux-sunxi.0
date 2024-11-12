@@ -1,119 +1,166 @@
-Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DAEB1CD1E3
-	for <linux-sunxi@lists.linux.dev>; Tue, 12 Nov 2024 11:58:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 801FA1CD1FB
+	for <linux-sunxi@lists.linux.dev>; Tue, 12 Nov 2024 12:32:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731412686; cv=none; b=KTuwMaM7K9Xbd5Ztp0CmXTHHjU80K3wKe9aC8cDV9Bx1I0tmlWdciG2eqayjRS+2hCck+80YQD6ijpF00w0lDFpXFqkA7/IrY42PCNvQdMOFOtGIHlBAgVgdq2fcoYH8DRoe0cyBRI3T8dcCT1L8awyOJHtpT6deBTu2pHXRqpY=
+	t=1731414757; cv=none; b=Rn0HYx5U3s7Gl3Qal9OKiiZR7BCbVJGyjSWRM/a0M8GIGb2Q3Rbaq6n3liRA8Jh1G2MhbMjGdhuU9aZYwD4q2jVDNQUXlBsr+nlnAdEJXcQMjrNs/iUO4dqLw7e8QavkVNe0rfsiDksdwHZozpCINEpHr04GfyQTFlzg3KgZ9+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731412686; c=relaxed/simple;
-	bh=gamiLNTrf25mtswS6LdlmTYjTT5i/nU926ZrJK9h7Yk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R0/xnqjDqpuu18ULLMW0kVzLTkqVRektw2vFbzxkVIiVsP0ODEL+gjKbfvi0ODNDSuYc4OYYrP1TgVYAPXgn/fngxGZhI6oxB5pnDkleKCpRCQH6SkVpVrcN7KT1nlfg6Y/nv3vB5eVjXvODhxJXGJlzZ5p7mqdTz0gqg/RjMRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org; spf=pass smtp.mailfrom=jookia.org; dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b=a2/tyhe7; arc=none smtp.client-ip=91.218.175.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jookia.org
+	s=arc-20240116; t=1731414757; c=relaxed/simple;
+	bh=tBgqVT0kf3DnBE6rWOx3JIn1Zygy5++OjNbPdIAJLF8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UdO98UzGh407rfDAsUqhC6LhwVc3jDYWzRfezzB3NopXC624PRnSMndyMDq8cfvRrBrDGNE725PnL8jicffi/dS2ZoCCnjYpQOfCaa+OKPKQOJaW9zx7oLrgaljo3bzoagduMt+D0GgAIzWHXZmDlLdgyN0Zyg9olwfryd8fBpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HBDEDc+b; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b="a2/tyhe7"
-Date: Tue, 12 Nov 2024 22:57:36 +1100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
-	t=1731412678;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZLPANBLamjGfC5r6egRWAEDIhWpqsCbbZn+Iq+TVaHs=;
-	b=a2/tyhe7fNibfAbbCny3Aikp3SsQnw6XH7Ov42dzBegj2EiTgNMN3Xtj9HxXtxU8+uGVBm
-	nI9QJwwmQq3bac1SiNPQ53yBhbBEyJpPAlZrm8CZ4rAOzxF6iZ1FJVCbk2xF0Y9mw3Q3N8
-	0PWbOjQIDg3RwbSIyV7Ve+qisx+cnXeNfaZRvcKs1sKx2WLVjquVBuWwRjFd96OsiKw4a5
-	zJGLpuo/iZ/i7LfAsFL1Zmb+8W2cMl1QovdUVyShoYPgpXyfcsMFIFqpfd0XdqkFtzY2kO
-	0SEGYCrQNR+RkH+svIeIYbE1elx45wTijw4bX2EApjeDRad+MCIup1tiKLtEPQ==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: John Watts <contact@jookia.org>
-To: Parthiban <parthiban@linumiz.com>
-Cc: Andre Przywara <andre.przywara@arm.com>,
-	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Samuel Holland <samuel@sholland.org>,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/sun4i: Workaround TCON TOP conflict between DE0 and
- DE1
-Message-ID: <ZzNCsFiAiACFrQhE@titan>
-References: <20241108-tcon_fix-v1-1-616218cc0d5f@jookia.org>
- <20241108115357.691b77b0@donnerap.manchester.arm.com>
- <Zy4SKCBwce3q0yj5@titan>
- <b26b9d86-4ff9-4543-85ce-176dccfbfa05@linumiz.com>
- <Zy4c9BFcrz2JVU6k@titan>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HBDEDc+b"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5c9362c26d8so4424117a12.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 12 Nov 2024 04:32:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1731414754; x=1732019554; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GUb3nok/AqP7r33O+yPL3KeymIM3B7Unh2DohKMeZnI=;
+        b=HBDEDc+bfso6FeZdR1d/Nim8RGhgXh4p0jtW4Os810ChArJXewHpwWJKgTYzvlsc65
+         RXrgsAl1iAms+nE79WkRCWjHq2hERqyAi8VpI4IWDuJPaeNZWUg1UTmJmiA+YgN+P4Ch
+         BJYVMs5vx6ns0MBY0GxfkOOH6SPe/DW8fdZGQX1bge1Ps9flUKnSv+9aayNh/qR2eGgZ
+         VcZuVLl3reogJpC9YncCZBsOmdMYEgGscJ5wHKqPQR5CBsM+xAseFvu9IcK01Q8Rf9i7
+         76ALPyG3Uje1lWnb4JNOkdobFWZkn06VMF0N32L2HUMOouQpsoCGRmqxR9Qsei2l7AtI
+         JEBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731414754; x=1732019554;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GUb3nok/AqP7r33O+yPL3KeymIM3B7Unh2DohKMeZnI=;
+        b=O319kewyequdlm/cIxc/QrSYuP/0m8VQKxsOUYjqaBvWmD4tOo4B0iUxlYkR8nb3QV
+         T5wIRiY/Q2MAG7RcH1BXrhUOpyDBPxjKsODqm3e3RSTaAYuOl4gmayAX8U1AoTL52qRF
+         GcmK1Z8z61XIUFdC5bjknj233zR+66uDeneDLHioep3n7e9yWnQqS8YLsXS1dygWa+ZR
+         m9KNuxT5hfVf41/kN6SSv/cWxG89B43mkJtakZqFTwCVE46CNF9cSeyCvqTHapjjgVqI
+         R+dNYYY1hv7S7ZvrsI1Kenvm3O+h9hBwV3ARHgGsKO1OL4tnlm9sZeh3Av02WzZUPOja
+         OgHA==
+X-Forwarded-Encrypted: i=1; AJvYcCVcSD6k1Y5XtgWRmEREL8opbUdpNyvKujAgzAYrGLGWqeIluV9skEGrefpEomUfL32yGG8ecz15/UY4yg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy9ZCZ3VTb4oapK+dMaLFwH9FnrWmSeuc0/AoA1f2V4/zRySn+h
+	bwg636FMIfeOLm56mrg2UMCcg/iINN9xNqhc6EDDGo7v+wqUa/FgLYjOp76/qrW0hmHVKIjXkfm
+	d+m7w5I456um56qn+sxFE0Xg4g04=
+X-Google-Smtp-Source: AGHT+IHsekqXC8V0d+CZha3eqodR3E96t9ckKwPOB07f+j+M/7b8jWQS1qzjFRSvfRjwlg4Rl2gJoAnqrU5IZqFd6j0=
+X-Received: by 2002:a17:907:9492:b0:a9a:1575:23e3 with SMTP id
+ a640c23a62f3a-a9eefeecbf6mr1635915466b.19.1731414753506; Tue, 12 Nov 2024
+ 04:32:33 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Zy4c9BFcrz2JVU6k@titan>
-X-Migadu-Flow: FLOW_OUT
+References: <20241102195037.3013934-3-aren@peacevolution.org>
+ <20241102195037.3013934-11-aren@peacevolution.org> <ZyiIcDaANjxwtCz-@smile.fi.intel.com>
+ <m7x526sv5krgt4t2whn5ykyktoz5u7ihsxv3qa5yue3ucbk6lb@37spwsmlcylm>
+ <ZzEPACoblmcQD9yu@surfacebook.localdomain> <xubjmxig4luag27ifnmqmv3x3bvzhwczwvw34kw6tssaa2d24t@ysnqh5e3g7sz>
+ <ZzHSE9Nrf4YySJrq@smile.fi.intel.com> <4ibd5tgpt3uzbmouqdiiv5pvfxebo5qsmgn3xh6rlb73qevatv@cajznxqnlca3>
+In-Reply-To: <4ibd5tgpt3uzbmouqdiiv5pvfxebo5qsmgn3xh6rlb73qevatv@cajznxqnlca3>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Tue, 12 Nov 2024 14:31:57 +0200
+Message-ID: <CAHp75Vfm_7Gq5a-v1+=WCq2w0Am0VF+z_NPenHbuvV-Mj+MX4A@mail.gmail.com>
+Subject: Re: [PATCH v4 4/6] iio: light: stk3310: use dev_err_probe where possible
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Aren <aren@peacevolution.org>, Jonathan Cameron <jic23@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Kaustabh Chakraborty <kauschluss@disroot.org>, =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <trabarni@gmail.com>, 
+	Ondrej Jirman <megi@xff.cz>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, Dragan Simic <dsimic@manjaro.org>, 
+	phone-devel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hey everyone,
+On Tue, Nov 12, 2024 at 12:15=E2=80=AFPM Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@baylibre.com> wrote:
+> On Mon, Nov 11, 2024 at 11:44:51AM +0200, Andy Shevchenko wrote:
+> > On Sun, Nov 10, 2024 at 04:34:30PM -0500, Aren wrote:
+> > > On Sun, Nov 10, 2024 at 09:52:32PM +0200, Andy Shevchenko wrote:
+> > > > Sun, Nov 10, 2024 at 02:14:24PM -0500, Aren kirjoitti:
+> >
+> > You can do it differently
+> >
+> > #define STK3310_REGFIELD(name)                                         =
+               \
+> > do {                                                                   =
+       \
+> >       data->reg_##name =3D                                             =
+         \
+> >               devm_regmap_field_alloc(dev, regmap, stk3310_reg_field_##=
+name); \
+> >       if (IS_ERR(data->reg_##name))                                    =
+       \
+> >               return dev_err_probe(dev, PTR_ERR(data->reg_##name),     =
+       \
+> >                                    "reg field alloc failed.\n");       =
+       \
+> > } while (0)
+> >
+> > > #define STK3310_REGFIELD(name) ({                                    =
+       \
+> > >     data->reg_##name =3D devm_regmap_field_alloc(dev, regmap,        =
+         \
+> > >                                                stk3310_reg_field_##na=
+me);   \
+> > >     if (IS_ERR(data->reg_##name))                                    =
+       \
+> > >             return dev_err_probe(dev, PTR_ERR(data->reg_##name),     =
+       \
+> > >                                  "reg field alloc failed\n");        =
+       \
+> > > })
+> >
+> > I am against unneeded use of GNU extensions.
+> >
+> > > > > replacing "do { } while (0)" with "({ })" and deindenting could m=
+ake
+> > > > > enough room to clean this up the formatting of this macro though.
+> > > >
+> > > > do {} while (0) is C standard, ({}) is not.
+> > >
+> > > ({ }) is used throughout the kernel, and is documented as such[1]. I
+> > > don't see a reason to avoid it, if it helps readability.
+> >
+> > I don't see how it makes things better here, and not everybody is famil=
+iar with
+> > the concept even if it's used in the kernel here and there. Also if a t=
+ool is
+> > being used in one case it doesn't mean it's suitable for another.
+>
+> Just to throw in my subjective view here: I don't expect anyone with
+> some base level knowledge of C will have doubts about the semantics of
+> ({ ... }) and compared to that I find do { ... } while (0) less optimal,
+> because it's more verbose and when spotting the "do {" part, the
+> semantic only gets clear when you also see the "while (0)".
 
-I'm not sure exactly where to add this but I discussed some of this with
-Parthiban on #linux-sunxi a few days ago, so I want to write it down
-before I work on the next version of the patch.
+Seems we have to agree on a disagreement.
 
-I had assumed for some reason in my mind that DE0 and DE1 here referred
-to mixers, but they actually refer to chips that have multiple DEs. It
-looks like at least with the A133 it has two DEs instead of two mixers.
+> Having said
+> that I also dislike the "do" starting on column 0, IMHO the RHS of the
+> #define should be intended.
 
-This can be found by looking at the Allwinner BSP: SUN50IW10 requires
-CONFIG_INDEPENDENT_DE and has a device tree with an extra reg and clock:
+This argument I kinda accept.
 
-<0x0 0x06800000 0x0 0x3fffff>,/*de1*/
-<&clk_dpss_top1>
+> So if you ask me, this is not an unneeded use of an extension. The
+> extension is used to improve readabilty and I blame the C standard to
+> not support this syntax.
 
-However the tcon-top code seems to conflate mixers and DE in the
-mainline code and the Allwinner code. So ... It seems like 'DE0' and
-'DE1' really do mean mixers in this case. It's probably best to note
-that down.
+Here I agree with you.
 
-I thought a bit more about how to solve this properly- setting two
-mixers to the same output is something people probably won't do in
-practice, so the only way you could really arrive at this bugged state
-is by setting it as the default state. This patch may be the correct
-solution after all.
+> While I'm in critics mode: I consider hiding a return in a macro bad
+> style.
 
-John Watts
+So, summarizing the discussion we have a split, hence Jonathan is our
+arbiter here to judge.
 
-On Sat, Nov 09, 2024 at 01:15:16AM +1100, John Watts wrote:
-> On Fri, Nov 08, 2024 at 07:36:16PM +0530, Parthiban wrote:
-> > To add, 0x20 will be DE0 <--> LCD0 and DE1 <--> TV0. Below note (copied from
-> > R40) states the priority of the DE selection, which fails to work? Not sure,
-> > may be disabling CORE1_SCLK_GATE and CORE1_HCLK_GATE in de2-clk helps.
-> > 
-> > With A133 following the same as T113 with single mixer without TV, still
-> > sets 0x20 in vendor kernel.
-> > 
-> > copied from R40:
-> > Note: The priority of DE0 is higher than DE1.
-> > If TCON_LCD0 selects DE0 and DE1 as source at the same time, then
-> > DE0 will be used for the source of TCON_LCD0.
-> 
-> Hi there,
-> 
-> Yes that was a pretty bad typo, I meant to say DE1 to TV0
-> The prioritization seems broken in the T113 at least, it's racy from
-> what I see in testing. I should note this in the patch too.
-> 
-> I looked at the datasheets and kernel code briefly: I can't seem to
-> figure out what SCLK/HCLK gating does and I don't think the kernel
-> touches these registers which are gated by default.
-> 
-> > Thanks,
-> > Parthiban
-> 
-> John Watts
+--=20
+With Best Regards,
+Andy Shevchenko
