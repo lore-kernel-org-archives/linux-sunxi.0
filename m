@@ -1,141 +1,130 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from a.peacevolution.org (a.peacevolution.org [206.189.193.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 590D021A4AD
-	for <linux-sunxi@lists.linux.dev>; Tue, 12 Nov 2024 21:42:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D88C421B427
+	for <linux-sunxi@lists.linux.dev>; Tue, 12 Nov 2024 23:11:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.193.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731447730; cv=none; b=JEfsj6QTfiHddZnFKGwqmeGRlLDQafXY5ioCZBmLdv1KoN4DQA7luReRdvfplo53ZwoL7EODGbdLV9/TWW1KHnKLsc5XuzWNjvWG6vXiSSfcxkVgK/LcaT2eEc34FKv2teFW47eYNXVCBWFlpfD677JGEwJ/dLJmaKSmtHx8hUc=
+	t=1731453109; cv=none; b=Yo824P4nSJX26NdVywh7MJQv1DK+pYSTJ2cagofLJt5TP7hGmoRDDOsB2GqUDlORB98hd6T6wGdj0EoB8aUCVnm7bS452/bu3hkT6iwRkPdD495TBKIUlNU1jAYlySAVO69BN2xtYtgaFhtibqMYVmfExH9flcu+hXoftv+BXsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731447730; c=relaxed/simple;
-	bh=gJchVZ0aipmPi6N3tyZJvlVK6yAXfrk0qcAZdAjQQAA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jU3mIJ1bz7u0iKV9VKnrk/Obk3PU7Tx/Bdhg9car4yj8xbQCndk+BKwNpKIoIkDGXcPrV3b19A6uM/s6hRYExflTlE6mPD+RjReZDblXbLKptfz60UcYwjrmR2fiUotZneiJXgWHPm5uM22DxNnxX3zIeXs21RKevPp20L3lmXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=F8a4n5fK; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	s=arc-20240116; t=1731453109; c=relaxed/simple;
+	bh=NmO64Sjewa/+GsTTNydYxbpRHAP/H0Q6gTgckdfbwNk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B8t2LILVja1mLC0VJ2zoEKE4vJ6s/yNDI88fxW9JRd2WszGaHxgMDPsPh454Y1XySFqmHJOE3jmTAxm7Q9pQ02HL+TJO4lDMoNPv9cjBOuV2WmP61gE8iLGR+pxHBJUg6iuh/U7zCFPFTHieUF3jx1P1liMKEh4xRUGUI96nNJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org; spf=pass smtp.mailfrom=peacevolution.org; dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b=QSjWisTh; arc=none smtp.client-ip=206.189.193.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=peacevolution.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="F8a4n5fK"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2e9ecba5db0so644814a91.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 12 Nov 2024 13:42:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1731447728; x=1732052528; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=1JyuzlEmjIKs0OEzFDs2Ei5r4rj+a+WGwyUfTtd/WDY=;
-        b=F8a4n5fKm4D80l6Rf+ehLgBJWUjcWvcKQ0QQ0Lyfh5wuvFTGUsCFwHcZH541l0A0LW
-         DBpzd7hEIr+CEAhLX6LLhxKFovX6jThkWRQb3tnp9oNPrwjxcv8jwo/xZN0qvzagj9Q3
-         pbRrPnzsPfH06Jk9F2nxz+mbJfgYQ/OY55dMc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731447728; x=1732052528;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1JyuzlEmjIKs0OEzFDs2Ei5r4rj+a+WGwyUfTtd/WDY=;
-        b=ai98bjzMtmvFMcUBYVU08AmPDUGfwLDoJ4EdGth+L1zQpyEZgDNCHD2W8baMuGZV9w
-         kyA1TMi0yPNStZtRejdVhWluSmWHiNwibi5yiTnxgWJseA0ZW5JkMYoi42/Ayxj2bLYc
-         PkJ7gEFuMbtpBv2D8l5hfIBmkeq9tK7hgBd5pXOlCt55NX/7CVz43RIdD74qImRDAKBQ
-         2otCMipEPO7SxTBSXu6CeX1Kxdjor6OzKC+9uEappEyg459117dH3jBTLOjjIDcKytLO
-         4ibPGRJq6wjhMsmwbTBkMXUEAWESEY/V7+7CPZdvxCZExOtKc4I56SvNGL/Y45vbrI8Y
-         b9Pw==
-X-Forwarded-Encrypted: i=1; AJvYcCVNt1Yd8zEjBau4oaitZzIlQ5W9T9bqPmoIeXsGJMJF3IwBCGFOjVW/S9iq6t39ZiV8p7TIh/qgzDTfQw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz6i+J6r89y1PNDjzbkSNYRGiCCplacmFKF84kvMc5oeTfV6p1U
-	QkmUSvc3D74FaRY4OGkV2vTQMhC5P4yOOXFhE63CG3S8Nv/NwWdiu448CnN86A==
-X-Google-Smtp-Source: AGHT+IFDh6oyLu1szZNtbuwF2rTREJskobicbVjVT9besKSihoc9sQcmwBwA22LNfYSTp8e423c8ow==
-X-Received: by 2002:a17:90a:e7cb:b0:2e2:a8dd:9bb5 with SMTP id 98e67ed59e1d1-2e9b170d9f4mr23022270a91.12.1731447727580;
-        Tue, 12 Nov 2024 13:42:07 -0800 (PST)
-Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e9f3f4fe0bsm9897a91.53.2024.11.12.13.42.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Nov 2024 13:42:06 -0800 (PST)
-Message-ID: <4b50e109-da52-4616-8f68-75174ffac8a5@broadcom.com>
-Date: Tue, 12 Nov 2024 13:42:02 -0800
+	dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b="QSjWisTh"
+Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
+	by a.peacevolution.org (Postfix) with ESMTPA id D08794C739;
+	Tue, 12 Nov 2024 23:11:39 +0000 (UTC)
+Date: Tue, 12 Nov 2024 18:11:37 -0500
+From: Aren <aren@peacevolution.org>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, 
+	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Kaustabh Chakraborty <kauschluss@disroot.org>, =?utf-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <trabarni@gmail.com>, 
+	Ondrej Jirman <megi@xff.cz>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, Dragan Simic <dsimic@manjaro.org>, phone-devel@vger.kernel.org
+Subject: Re: [PATCH v4 4/6] iio: light: stk3310: use dev_err_probe where
+ possible
+Message-ID: <6jwurbs27slfpsredvpxfgwjkurkqvfmzccaxnfgtuh4aks3c6@ciapprv3wsex>
+References: <20241102195037.3013934-3-aren@peacevolution.org>
+ <20241102195037.3013934-11-aren@peacevolution.org>
+ <ZyiIcDaANjxwtCz-@smile.fi.intel.com>
+ <m7x526sv5krgt4t2whn5ykyktoz5u7ihsxv3qa5yue3ucbk6lb@37spwsmlcylm>
+ <ZzEPACoblmcQD9yu@surfacebook.localdomain>
+ <xubjmxig4luag27ifnmqmv3x3bvzhwczwvw34kw6tssaa2d24t@ysnqh5e3g7sz>
+ <ZzHSE9Nrf4YySJrq@smile.fi.intel.com>
+ <4ibd5tgpt3uzbmouqdiiv5pvfxebo5qsmgn3xh6rlb73qevatv@cajznxqnlca3>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv3 net-next] net: modernize IRQ resource acquisition
-To: Rosen Penev <rosenp@gmail.com>, netdev@vger.kernel.org
-Cc: Marc Kleine-Budde <mkl@pengutronix.de>,
- Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Vladimir Oltean <olteanv@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Pantelis Antoniou <pantelis.antoniou@gmail.com>,
- Marcin Wojtas <marcin.s.wojtas@gmail.com>, Byungho An <bh74.an@samsung.com>,
- Kevin Brace <kevinbrace@bracecomputerlab.com>,
- Francois Romieu <romieu@fr.zoreil.com>, Michal Simek <michal.simek@amd.com>,
- Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, Zhao Qiang <qiang.zhao@nxp.com>,
- "open list:CAN NETWORK DRIVERS" <linux-can@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "moderated list:ARM/Allwinner sunXi SoC support"
- <linux-arm-kernel@lists.infradead.org>,
- "open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
- "open list:FREESCALE SOC FS_ENET DRIVER" <linuxppc-dev@lists.ozlabs.org>
-References: <20241112211442.7205-1-rosenp@gmail.com>
-Content-Language: en-US
-From: Florian Fainelli <florian.fainelli@broadcom.com>
-Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
- xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
- M0Txqn1tOWoIc4QUl6Ggqf5KP6FoRkCrgMMTnUAINsINYXK+3OLe7HjP10h2jDRX4Ajs4Ghs
- JrZOBru6rH0YrgAhr6O5gG7NE1jhly+EsOa2MpwOiXO4DE/YKZGuVe6Bh87WqmILs9KvnNrQ
- PcycQnYKTVpqE95d4M824M5cuRB6D1GrYovCsjA9uxo22kPdOoQRAu5gBBn3AdtALFyQj9DQ
- KQuc39/i/Kt6XLZ/RsBc6qLs+p+JnEuPJngTSfWvzGjpx0nkwCMi4yBb+xk7Hki4kEslABEB
- AAHNMEZsb3JpYW4gRmFpbmVsbGkgPGZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tPsLB
- IQQQAQgAywUCZWl41AUJI+Jo+hcKAAG/SMv+fS3xUQWa0NryPuoRGjsA3SAUAAAAAAAWAAFr
- ZXktdXNhZ2UtbWFza0BwZ3AuY29tjDAUgAAAAAAgAAdwcmVmZXJyZWQtZW1haWwtZW5jb2Rp
- bmdAcGdwLmNvbXBncG1pbWUICwkIBwMCAQoFF4AAAAAZGGxkYXA6Ly9rZXlzLmJyb2FkY29t
- Lm5ldAUbAwAAAAMWAgEFHgEAAAAEFQgJChYhBNXZKpfnkVze1+R8aIExtcQpvGagAAoJEIEx
- tcQpvGagWPEH/2l0DNr9QkTwJUxOoP9wgHfmVhqc0ZlDsBFv91I3BbhGKI5UATbipKNqG13Z
- TsBrJHcrnCqnTRS+8n9/myOF0ng2A4YT0EJnayzHugXm+hrkO5O9UEPJ8a+0553VqyoFhHqA
- zjxj8fUu1px5cbb4R9G4UAySqyeLLeqnYLCKb4+GklGSBGsLMYvLmIDNYlkhMdnnzsSUAS61
- WJYW6jjnzMwuKJ0ZHv7xZvSHyhIsFRiYiEs44kiYjbUUMcXor/uLEuTIazGrE3MahuGdjpT2
- IOjoMiTsbMc0yfhHp6G/2E769oDXMVxCCbMVpA+LUtVIQEA+8Zr6mX0Yk4nDS7OiBlvOwE0E
- U8AbwQEIAKxr71oqe+0+MYCc7WafWEcpQHFUwvYLcdBoOnmJPxDwDRpvU5LhqSPvk/yJdh9k
- 4xUDQu3rm1qIW2I9Puk5n/Jz/lZsqGw8T13DKyu8eMcvaA/irm9lX9El27DPHy/0qsxmxVmU
- pu9y9S+BmaMb2CM9IuyxMWEl9ruWFS2jAWh/R8CrdnL6+zLk60R7XGzmSJqF09vYNlJ6Bdbs
- MWDXkYWWP5Ub1ZJGNJQ4qT7g8IN0qXxzLQsmz6tbgLMEHYBGx80bBF8AkdThd6SLhreCN7Uh
- IR/5NXGqotAZao2xlDpJLuOMQtoH9WVNuuxQQZHVd8if+yp6yRJ5DAmIUt5CCPcAEQEAAcLB
- gQQYAQIBKwUCU8AbwgUbDAAAAMBdIAQZAQgABgUCU8AbwQAKCRCTYAaomC8PVQ0VCACWk3n+
- obFABEp5Rg6Qvspi9kWXcwCcfZV41OIYWhXMoc57ssjCand5noZi8bKg0bxw4qsg+9cNgZ3P
- N/DFWcNKcAT3Z2/4fTnJqdJS//YcEhlr8uGs+ZWFcqAPbteFCM4dGDRruo69IrHfyyQGx16s
- CcFlrN8vD066RKevFepb/ml7eYEdN5SRALyEdQMKeCSf3mectdoECEqdF/MWpfWIYQ1hEfdm
- C2Kztm+h3Nkt9ZQLqc3wsPJZmbD9T0c9Rphfypgw/SfTf2/CHoYVkKqwUIzI59itl5Lze+R5
- wDByhWHx2Ud2R7SudmT9XK1e0x7W7a5z11Q6vrzuED5nQvkhAAoJEIExtcQpvGagugcIAJd5
- EYe6KM6Y6RvI6TvHp+QgbU5dxvjqSiSvam0Ms3QrLidCtantcGT2Wz/2PlbZqkoJxMQc40rb
- fXa4xQSvJYj0GWpadrDJUvUu3LEsunDCxdWrmbmwGRKqZraV2oG7YEddmDqOe0Xm/NxeSobc
- MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
- 7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
- 95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
-In-Reply-To: <20241112211442.7205-1-rosenp@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4ibd5tgpt3uzbmouqdiiv5pvfxebo5qsmgn3xh6rlb73qevatv@cajznxqnlca3>
+X-Spamd-Bar: /
+Authentication-Results: auth=pass smtp.auth=aren@peacevolution.org smtp.mailfrom=aren@peacevolution.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=peacevolution.org;
+	s=dkim; t=1731453101;
+	h=from:subject:date:message-id:to:cc:mime-version:content-type:content-transfer-encoding:in-reply-to:references;
+	bh=/XvnojsbDU2iklE9xJFwgVgRWENV+XinNVMN6pOt4es=;
+	b=QSjWisTh28m3ad1tuS8ksPEWHblcKQJX1GVqDMfbdGFRlCO9UKjCCII5U0UztBmrE6NUW1
+	ajTb4KKLxsSIaHAKj3gbmwqW91BnTF6mZ0TQDRXEPGHJTR0fJFipdfoO1DNQLMvoEaffwy
+	Uz5hZTjJ+fCuSFtKzzlpepmg9SJyEi0=
 
-On 11/12/24 13:14, Rosen Penev wrote:
-> In probe, np == pdev->dev.of_node. It's easier to pass pdev directly.
+On Tue, Nov 12, 2024 at 11:15:54AM +0100, Uwe Kleine-König wrote:
+> Hello Andy, hello Aren,
 > 
-> Replace irq_of_parse_and_map() by platform_get_irq() to do so. Requires
-> removing the error message as well as fixing the return type.
+> On Mon, Nov 11, 2024 at 11:44:51AM +0200, Andy Shevchenko wrote:
+> > On Sun, Nov 10, 2024 at 04:34:30PM -0500, Aren wrote:
+> > > On Sun, Nov 10, 2024 at 09:52:32PM +0200, Andy Shevchenko wrote:
+> > > > Sun, Nov 10, 2024 at 02:14:24PM -0500, Aren kirjoitti:
+> > 
+> > You can do it differently
+> > 
+> > #define STK3310_REGFIELD(name)							\
+> > do {										\
+> > 	data->reg_##name =							\
+> > 		devm_regmap_field_alloc(dev, regmap, stk3310_reg_field_##name);	\
+> > 	if (IS_ERR(data->reg_##name))						\
+> > 		return dev_err_probe(dev, PTR_ERR(data->reg_##name),		\
+> > 				     "reg field alloc failed.\n");		\
+> > } while (0)
+> > 
+> > > #define STK3310_REGFIELD(name) ({						\
+> > > 	data->reg_##name = devm_regmap_field_alloc(dev, regmap,			\
+> > > 						   stk3310_reg_field_##name);   \
+> > > 	if (IS_ERR(data->reg_##name))						\
+> > > 		return dev_err_probe(dev, PTR_ERR(data->reg_##name),		\
+> > > 				     "reg field alloc failed\n");		\
+> > > })
+> > 
+> > I am against unneeded use of GNU extensions.
+> > 
+> > > > > replacing "do { } while (0)" with "({ })" and deindenting could make
+> > > > > enough room to clean this up the formatting of this macro though.
+> > > > 
+> > > > do {} while (0) is C standard, ({}) is not.
+> > > 
+> > > ({ }) is used throughout the kernel, and is documented as such[1]. I
+> > > don't see a reason to avoid it, if it helps readability.
+> > 
+> > I don't see how it makes things better here, and not everybody is familiar with
+> > the concept even if it's used in the kernel here and there. Also if a tool is
+> > being used in one case it doesn't mean it's suitable for another.
 > 
-> Replace of_address_to_resource() with platform_get_resource() for the
-> same reason.
+> Just to throw in my subjective view here: I don't expect anyone with
+> some base level knowledge of C will have doubts about the semantics of
+> ({ ... }) and compared to that I find do { ... } while (0) less optimal,
+> because it's more verbose and when spotting the "do {" part, the
+> semantic only gets clear when you also see the "while (0)". Having said
+> that I also dislike the "do" starting on column 0, IMHO the RHS of the
+> #define should be intended.
+
+Thank you, this sums up my opinion on this better than I could have (and
+some bits I hadn't considered).
+
+> So if you ask me, this is not an unneeded use of an extension. The
+> extension is used to improve readabilty and I blame the C standard to
+> not support this syntax.
 > 
-> Signed-off-by: Rosen Penev <rosenp@gmail.com>
-> (for CAN)
-> Reviewed-by: Marc Kleine-Budde <mkl@pengutronix.de>
+> While I'm in critics mode: I consider hiding a return in a macro bad
+> style.
 
-For bcm_sf2.c:
+Yeah... probably worse than any of the formatting options here. I guess
+the proper way would be to use devm_regmap_field_bulk_alloc, but that's
+well outside the scope of this series. Perhaps it would make sense to
+move the macro definition to just before the function it's used in so
+it's at least a little easier to spot?
 
-Tested-by: Florian Fainelli <florian.fainelli@broadcom.com>
-
--- 
-Florian
+ - Aren
