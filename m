@@ -1,342 +1,119 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A72AB1CD1F3
-	for <linux-sunxi@lists.linux.dev>; Tue, 12 Nov 2024 11:33:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DAEB1CD1E3
+	for <linux-sunxi@lists.linux.dev>; Tue, 12 Nov 2024 11:58:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731411187; cv=none; b=aVNAsfI+B+i6x2Elx4ZI3EKr1/orp/4+qjkmGLe/5wq9Y2KvoPaflKA42n1OwYVUiZiChxWQ/46E/NQamr6OT7YKd3TI8obM/5oINQXKLxfzupkdnIrN2hoL+xdoz75+VsBMbUJBMc1XMp9p1rBcEzD9gl1Vs0CJsUFZhX3syqQ=
+	t=1731412686; cv=none; b=KTuwMaM7K9Xbd5Ztp0CmXTHHjU80K3wKe9aC8cDV9Bx1I0tmlWdciG2eqayjRS+2hCck+80YQD6ijpF00w0lDFpXFqkA7/IrY42PCNvQdMOFOtGIHlBAgVgdq2fcoYH8DRoe0cyBRI3T8dcCT1L8awyOJHtpT6deBTu2pHXRqpY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731411187; c=relaxed/simple;
-	bh=5+a4R5TcmgohHbER7Saz2ZWCz3pEIuxwitm4bfLiqM8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HG9r41ZmtZ4T0X0+aJv48rSdHwZ4e5qzVa6Ty2RK5EN3BvYabNW1pnqfSLhwee53Kkm0WHnS5HGWgwFrQEoNYWSxaGstW+/pTAMuAst4NwLT9znQo676MO1davobuAsgwtDI0VAKPxbtTFIrj92zCGS3Dv9gRl67iNWKvt4v0Lc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8D60C25E4;
-	Tue, 12 Nov 2024 03:33:27 -0800 (PST)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 017123F762;
-	Tue, 12 Nov 2024 03:32:54 -0800 (PST)
-Date: Tue, 12 Nov 2024 11:32:51 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Code Kipper <codekipper@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-sunxi@googlegroups.com,
- linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- conor+dt@kernel.org, krzk+dt@kernel.org, robh@kernel.org,
- jernej.skrabec@gmail.com, samuel@sholland.org, wens@csie.org,
- macromorgan@hotmail.com, jszhang@kernel.org, uwu@icenowy.me,
- ryan@testtoast.com, dsimic@manjaro.org, mripard@kernel.org,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH 2/2] arm64: dts: allwinner: Add initial support for the
- X96Q-Pro STB
-Message-ID: <20241112113251.305295db@donnerap.manchester.arm.com>
-In-Reply-To: <CAEKpxB=EE8WC6EETxJz-Qp42TchDSRTp1T+KiGMfQ4Kv9dvG1g@mail.gmail.com>
-References: <20241111162524.46812-1-codekipper@gmail.com>
-	<20241111162524.46812-3-codekipper@gmail.com>
-	<20241111172731.54154a3e@donnerap.manchester.arm.com>
-	<CAEKpxB=EE8WC6EETxJz-Qp42TchDSRTp1T+KiGMfQ4Kv9dvG1g@mail.gmail.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1731412686; c=relaxed/simple;
+	bh=gamiLNTrf25mtswS6LdlmTYjTT5i/nU926ZrJK9h7Yk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R0/xnqjDqpuu18ULLMW0kVzLTkqVRektw2vFbzxkVIiVsP0ODEL+gjKbfvi0ODNDSuYc4OYYrP1TgVYAPXgn/fngxGZhI6oxB5pnDkleKCpRCQH6SkVpVrcN7KT1nlfg6Y/nv3vB5eVjXvODhxJXGJlzZ5p7mqdTz0gqg/RjMRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org; spf=pass smtp.mailfrom=jookia.org; dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b=a2/tyhe7; arc=none smtp.client-ip=91.218.175.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jookia.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b="a2/tyhe7"
+Date: Tue, 12 Nov 2024 22:57:36 +1100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
+	t=1731412678;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZLPANBLamjGfC5r6egRWAEDIhWpqsCbbZn+Iq+TVaHs=;
+	b=a2/tyhe7fNibfAbbCny3Aikp3SsQnw6XH7Ov42dzBegj2EiTgNMN3Xtj9HxXtxU8+uGVBm
+	nI9QJwwmQq3bac1SiNPQ53yBhbBEyJpPAlZrm8CZ4rAOzxF6iZ1FJVCbk2xF0Y9mw3Q3N8
+	0PWbOjQIDg3RwbSIyV7Ve+qisx+cnXeNfaZRvcKs1sKx2WLVjquVBuWwRjFd96OsiKw4a5
+	zJGLpuo/iZ/i7LfAsFL1Zmb+8W2cMl1QovdUVyShoYPgpXyfcsMFIFqpfd0XdqkFtzY2kO
+	0SEGYCrQNR+RkH+svIeIYbE1elx45wTijw4bX2EApjeDRad+MCIup1tiKLtEPQ==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: John Watts <contact@jookia.org>
+To: Parthiban <parthiban@linumiz.com>
+Cc: Andre Przywara <andre.przywara@arm.com>,
+	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Samuel Holland <samuel@sholland.org>,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/sun4i: Workaround TCON TOP conflict between DE0 and
+ DE1
+Message-ID: <ZzNCsFiAiACFrQhE@titan>
+References: <20241108-tcon_fix-v1-1-616218cc0d5f@jookia.org>
+ <20241108115357.691b77b0@donnerap.manchester.arm.com>
+ <Zy4SKCBwce3q0yj5@titan>
+ <b26b9d86-4ff9-4543-85ce-176dccfbfa05@linumiz.com>
+ <Zy4c9BFcrz2JVU6k@titan>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Zy4c9BFcrz2JVU6k@titan>
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, 12 Nov 2024 11:42:17 +0100
-Code Kipper <codekipper@gmail.com> wrote:
+Hey everyone,
 
-Hi,
+I'm not sure exactly where to add this but I discussed some of this with
+Parthiban on #linux-sunxi a few days ago, so I want to write it down
+before I work on the next version of the patch.
 
-> On Mon, 11 Nov 2024 at 18:27, Andre Przywara <andre.przywara@arm.com> wrote:
-> >
-> > On Mon, 11 Nov 2024 17:25:06 +0100
-> > codekipper@gmail.com wrote:
-> >
-> > Hi Marcus,
-> >
-> > many thanks for sending this!
-> >  
-> > > From: Marcus Cooper <codekipper@gmail.com>
-> > >
-> > > The X96Q-Pro is an STB based on the Allwinner H313 SoC with a SD
-> > > slot, 2 USB-2 ports, a 10/100M ethernet port using the SoC's
-> > > integrated PHY, Wifi via an sdio wifi chip, HDMI, an IR receiver,
-> > > a blue LED display, an audio video connector and an digital S/PDIF
-> > > connector.
-> > >
-> > > Add the devicetree file describing the currently supported features,
-> > > namely IR, LEDs, SD card, PMIC, audio codec, SPDIF and USB.  
-> >
-> > This looks good on a first glance, but seems to miss the DVFS bits? So you
-> > would need to #include "sun50i-h616-cpu-opp.dtsi" and specify the cpu0
-> > power supply rail, otherwise you will be stuck at 1GHz.  
-> Hi Andre,
-> thanks for the speedy review. I'll add the cpu0 rail but I can't get
-> the device to clock more than 1GHz. Isn't that the case with the H313
-> chipset?,
-> your Tanix TX1 device doesn't reference the opp.dtsi,
-> although I do see from the wiki that it's clocked at 1.3GHz
+I had assumed for some reason in my mind that DE0 and DE1 here referred
+to mixers, but they actually refer to chips that have multiple DEs. It
+looks like at least with the A133 it has two DEs instead of two mixers.
 
-It's "do as I say, not do as I do" :-D
-Just kidding, actually many thanks for the heads up: you are right, it's
-missing there! I think it was just the case of both being merged at the
-same time, and the -cpu-opp.dtsi not being in the branch where I based the
-.dts on. Will test and fix it!
+This can be found by looking at the Allwinner BSP: SUN50IW10 requires
+CONFIG_INDEPENDENT_DE and has a device tree with an extra reg and clock:
 
-Regarding the OPPs: If you look at the table in
-sun50i_h616_efuse_xlate()[1], and then compare this to those SID numbers collected
-in our wiki[2], you will see that the "bins" are actually the packages:
-All H616s we have seen use 0x5000 (that's the low 16 bits of the first SID
-register value), the H618s uses 0x2000, and presumably all H313s use
-0x5c00, and so on. I think BSP code confirms that.
-So the H313 uses a separate set of OPPs already (set 4), which is indeed
-the worst of them all: is requires higher voltages, and only provides up
-to 1.3GHz. So I *think* we should be covered. But please test this and
-report back if you have any issues.
+<0x0 0x06800000 0x0 0x3fffff>,/*de1*/
+<&clk_dpss_top1>
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/cpufreq/sun50i-cpufreq-nvmem.c#n67
-[2] https://linux-sunxi.org/SID_Register_Guide#Currently_known_SID.27s
+However the tcon-top code seems to conflate mixers and DE in the
+mainline code and the Allwinner code. So ... It seems like 'DE0' and
+'DE1' really do mean mixers in this case. It's probably best to note
+that down.
 
-> > Or is there any issue preventing you doing this?
-> >
-> > Two more things below:
-> >  
-> > > Signed-off-by: Marcus Cooper <codekipper@gmail.com>
-> > > ---
-> > >  arch/arm64/boot/dts/allwinner/Makefile        |   1 +
-> > >  .../dts/allwinner/sun50i-h313-x96q-pro.dts    | 176 ++++++++++++++++++
-> > >  2 files changed, 177 insertions(+)
-> > >  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h313-x96q-pro.dts
-> > >
-> > > diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
-> > > index 00bed412ee31c..e0bcea1840c1f 100644
-> > > --- a/arch/arm64/boot/dts/allwinner/Makefile
-> > > +++ b/arch/arm64/boot/dts/allwinner/Makefile
-> > > @@ -18,6 +18,7 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-sopine-baseboard.dtb
-> > >  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-teres-i.dtb
-> > >  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h64-remix-mini-pc.dtb
-> > >  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a100-allwinner-perf1.dtb
-> > > +dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h313-x96q-pro.dtb
-> > >  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-bananapi-m2-plus.dtb
-> > >  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-bananapi-m2-plus-v1.2.dtb
-> > >  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-emlid-neutis-n5-devboard.dtb
-> > > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h313-x96q-pro.dts b/arch/arm64/boot/dts/allwinner/sun50i-h313-x96q-pro.dts
-> > > new file mode 100644
-> > > index 0000000000000..4427545ea143c
-> > > --- /dev/null
-> > > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h313-x96q-pro.dts
-> > > @@ -0,0 +1,176 @@
-> > > +// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-> > > +/*
-> > > + */  
-> >
-> > Is this missing some copyright notice here?  
-> Ack
-> >  
-> > > +
-> > > +/dts-v1/;
-> > > +
-> > > +#include "sun50i-h616.dtsi"
-> > > +
-> > > +#include <dt-bindings/gpio/gpio.h>
-> > > +#include <dt-bindings/interrupt-controller/arm-gic.h>
-> > > +
-> > > +/ {
-> > > +     model = "X96Q Pro";
-> > > +     compatible = "amediatech,x96q-pro", "allwinner,sun50i-h616";
-> > > +
-> > > +     aliases {
-> > > +             serial0 = &uart0;
-> > > +     };
-> > > +
-> > > +     chosen {
-> > > +             stdout-path = "serial0:115200n8";
-> > > +     };
-> > > +
-> > > +     reg_vcc5v: vcc5v {
-> > > +             /* board wide 5V supply directly from the DC input */
-> > > +             compatible = "regulator-fixed";
-> > > +             regulator-name = "vcc-5v";
-> > > +             regulator-min-microvolt = <5000000>;
-> > > +             regulator-max-microvolt = <5000000>;
-> > > +             regulator-always-on;
-> > > +     };
-> > > +
-> > > +     sound-spdif {
-> > > +             compatible = "simple-audio-card";
-> > > +             simple-audio-card,name = "sun50i-h616-spdif";
-> > > +
-> > > +             simple-audio-card,cpu {
-> > > +                     sound-dai = <&spdif>;
-> > > +             };
-> > > +
-> > > +             simple-audio-card,codec {
-> > > +                     sound-dai = <&spdif_out>;
-> > > +             };
-> > > +     };
-> > > +
-> > > +     spdif_out: spdif-out {
-> > > +             #sound-dai-cells = <0>;
-> > > +             compatible = "linux,spdif-dit";
-> > > +     };
-> > > +};
-> > > +
-> > > +&codec {
-> > > +     allwinner,audio-routing = "Line Out", "LINEOUT";
-> > > +     status = "okay";
-> > > +};
-> > > +
-> > > +&ehci0 {
-> > > +     status = "okay";
-> > > +};
-> > > +
-> > > +&ehci3 {
-> > > +     status = "okay";
-> > > +};
-> > > +
-> > > +&ir {
-> > > +     status = "okay";
-> > > +};
-> > > +
-> > > +&mmc0 {
-> > > +     vmmc-supply = <&reg_dldo1>;
-> > > +     cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;  /* PF6 */
-> > > +     bus-width = <4>;
-> > > +     status = "okay";
-> > > +};  
-> >
-> > Would it make sense to add the mmc1 node here, even if there is no driver
-> > in Linux atm for the WiFi chip? Thanks to SDIO we wouldn't need a
-> > compatible string, I think. This would also then allow us to describe the
-> > connected GPIOs.  
-> Ack
-> >
-> > And does the box have Bluetooth?  
-> No it doesn't just the XR819 for wifi.
+I thought a bit more about how to solve this properly- setting two
+mixers to the same output is something people probably won't do in
+practice, so the only way you could really arrive at this bugged state
+is by setting it as the default state. This patch may be the correct
+solution after all.
 
-Ah, right, bummer, same with the TX1, which is a bit annoying, because
-having BT would make this a bit more useful.
+John Watts
 
-> I'll spin a V2 after a few days,
-
-Thanks!
-
-Cheers,
-Andre
-
-> BR,
-> CK
-> >
-> > Cheers,
-> > Andre
-> >  
-> > > +
-> > > +&mmc2 {
-> > > +     vmmc-supply = <&reg_dldo1>;
-> > > +     vqmmc-supply = <&reg_aldo1>;
-> > > +     bus-width = <8>;
-> > > +     non-removable;
-> > > +     cap-mmc-hw-reset;
-> > > +     mmc-ddr-1_8v;
-> > > +     mmc-hs200-1_8v;
-> > > +     status = "okay";
-> > > +};
-> > > +
-> > > +&ohci0 {
-> > > +     status = "okay";
-> > > +};
-> > > +
-> > > +&ohci3 {
-> > > +     status = "okay";
-> > > +};
-> > > +
-> > > +&pio {
-> > > +     vcc-pc-supply = <&reg_dldo1>;
-> > > +     vcc-pf-supply = <&reg_dldo1>;
-> > > +     vcc-pg-supply = <&reg_aldo1>;
-> > > +     vcc-ph-supply = <&reg_dldo1>;
-> > > +     vcc-pi-supply = <&reg_dldo1>;
-> > > +};
-> > > +
-> > > +&r_i2c {
-> > > +     status = "okay";
-> > > +
-> > > +     axp313: pmic@36 {
-> > > +             compatible = "x-powers,axp313a";
-> > > +             reg = <0x36>;
-> > > +             #interrupt-cells = <1>;
-> > > +             interrupt-controller;
-> > > +             interrupt-parent = <&pio>;
-> > > +             interrupts = <2 9 IRQ_TYPE_LEVEL_LOW>;  /* PC9 */
-> > > +
-> > > +             vin1-supply = <&reg_vcc5v>;
-> > > +             vin2-supply = <&reg_vcc5v>;
-> > > +             vin3-supply = <&reg_vcc5v>;
-> > > +
-> > > +             regulators {
-> > > +                     /* Supplies VCC-PLL, so needs to be always on. */
-> > > +                     reg_aldo1: aldo1 {
-> > > +                             regulator-always-on;
-> > > +                             regulator-min-microvolt = <1800000>;
-> > > +                             regulator-max-microvolt = <1800000>;
-> > > +                             regulator-name = "vcc1v8";
-> > > +                     };
-> > > +
-> > > +                     /* Supplies VCC-IO, so needs to be always on. */
-> > > +                     reg_dldo1: dldo1 {
-> > > +                             regulator-always-on;
-> > > +                             regulator-min-microvolt = <3300000>;
-> > > +                             regulator-max-microvolt = <3300000>;
-> > > +                             regulator-name = "vcc3v3";
-> > > +                     };
-> > > +
-> > > +                     reg_dcdc1: dcdc1 {
-> > > +                             regulator-always-on;
-> > > +                             regulator-min-microvolt = <810000>;
-> > > +                             regulator-max-microvolt = <990000>;
-> > > +                             regulator-name = "vdd-gpu-sys";
-> > > +                     };
-> > > +
-> > > +                     reg_dcdc2: dcdc2 {
-> > > +                             regulator-always-on;
-> > > +                             regulator-min-microvolt = <810000>;
-> > > +                             regulator-max-microvolt = <1100000>;
-> > > +                             regulator-name = "vdd-cpu";
-> > > +                     };
-> > > +
-> > > +                     reg_dcdc3: dcdc3 {
-> > > +                             regulator-always-on;
-> > > +                             regulator-min-microvolt = <1100000>;
-> > > +                             regulator-max-microvolt = <1100000>;
-> > > +                             regulator-name = "vdd-dram";
-> > > +                     };
-> > > +             };
-> > > +     };
-> > > +};
-> > > +
-> > > +&spdif {
-> > > +     status = "okay";
-> > > +};
-> > > +
-> > > +&uart0 {
-> > > +     pinctrl-names = "default";
-> > > +     pinctrl-0 = <&uart0_ph_pins>;
-> > > +     status = "okay";
-> > > +};
-> > > +
-> > > +&usbotg {
-> > > +     dr_mode = "host";       /* USB A type receptable */
-> > > +     status = "okay";
-> > > +};
-> > > +
-> > > +&usbphy {
-> > > +     status = "okay";
-> > > +};  
-> >
-> > d  
-
+On Sat, Nov 09, 2024 at 01:15:16AM +1100, John Watts wrote:
+> On Fri, Nov 08, 2024 at 07:36:16PM +0530, Parthiban wrote:
+> > To add, 0x20 will be DE0 <--> LCD0 and DE1 <--> TV0. Below note (copied from
+> > R40) states the priority of the DE selection, which fails to work? Not sure,
+> > may be disabling CORE1_SCLK_GATE and CORE1_HCLK_GATE in de2-clk helps.
+> > 
+> > With A133 following the same as T113 with single mixer without TV, still
+> > sets 0x20 in vendor kernel.
+> > 
+> > copied from R40:
+> > Note: The priority of DE0 is higher than DE1.
+> > If TCON_LCD0 selects DE0 and DE1 as source at the same time, then
+> > DE0 will be used for the source of TCON_LCD0.
+> 
+> Hi there,
+> 
+> Yes that was a pretty bad typo, I meant to say DE1 to TV0
+> The prioritization seems broken in the T113 at least, it's racy from
+> what I see in testing. I should note this in the patch too.
+> 
+> I looked at the datasheets and kernel code briefly: I can't seem to
+> figure out what SCLK/HCLK gating does and I don't think the kernel
+> touches these registers which are gated by default.
+> 
+> > Thanks,
+> > Parthiban
+> 
+> John Watts
