@@ -1,120 +1,124 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11667173347
-	for <linux-sunxi@lists.linux.dev>; Wed, 13 Nov 2024 07:15:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 828A217837A
+	for <linux-sunxi@lists.linux.dev>; Wed, 13 Nov 2024 08:20:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731482120; cv=none; b=ZIO7Qm2gQn7JoQgAvf9QuZGaRazE0Fzdq6WROJQ3FCpR4pUCWXrNUruO3Gw4u4UsLrpt3b/9mYsvd4r0acAme9QMYElp7VBhZnFFVX6r8jJsOhJ3aDkHMEn8jCqHQ4Igoqvfoe52970eDTUQuqT3+GiArRpJEP2xASWj/DczP2g=
+	t=1731486036; cv=none; b=HQTDQxKrFxSyKwIWM0N0NOAp8sRdI6p8hSpcy91PLAMx6/xI3JU36d62Z+XXjLUVwOqodpKHZcTIY5JkRSRlXVqXqWPcwQ3vy1Pqlt/P7E716rrC4ciuyRZMxoEtZpHZwBQtqteP4O62Ou9a/c6GbcRdHHFxk7ms1wbHUVHq9Tk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731482120; c=relaxed/simple;
-	bh=SBaq0tNsdJyjxFyTdktXxwIt5E9hSiPSZMXHIrQlJVU=;
+	s=arc-20240116; t=1731486036; c=relaxed/simple;
+	bh=k3Zf8UxcDVj2q+es+GMPzaqxrfN2MXe2/zNTjjlUD+4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e1Yxy+KNdI6DKgLlHrAFqMtgzo7U6+3UnSDyk2an5BghuH1mbV8cuJKeZyby9rNN0Z6xufDiR36DSvweORLVFH18TNm1vTAYHSdi5sEVAH0XvHRZ7Vnidr08NK3qExncIcUaC7QOiCunfEoGRTM0Gsdjdxy+Dil3Sc736ITopU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1tB7aT-0007QT-1e; Wed, 13 Nov 2024 08:14:49 +0100
-Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1tB7aN-000XUv-0p;
-	Wed, 13 Nov 2024 08:14:43 +0100
-Received: from pengutronix.de (pd9e59fec.dip0.t-ipconnect.de [217.229.159.236])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: mkl-all@blackshift.org)
-	by smtp.blackshift.org (Postfix) with ESMTPSA id C3AE03721A3;
-	Wed, 13 Nov 2024 07:14:42 +0000 (UTC)
-Date: Wed, 13 Nov 2024 08:14:41 +0100
-From: Marc Kleine-Budde <mkl@pengutronix.de>
-To: Rosen Penev <rosenp@gmail.com>
-Cc: netdev@vger.kernel.org, Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Vladimir Oltean <olteanv@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Pantelis Antoniou <pantelis.antoniou@gmail.com>, Marcin Wojtas <marcin.s.wojtas@gmail.com>, 
-	Byungho An <bh74.an@samsung.com>, Kevin Brace <kevinbrace@bracecomputerlab.com>, 
-	Francois Romieu <romieu@fr.zoreil.com>, Michal Simek <michal.simek@amd.com>, 
-	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	Zhao Qiang <qiang.zhao@nxp.com>, "open list:CAN NETWORK DRIVERS" <linux-can@vger.kernel.org>, 
-	open list <linux-kernel@vger.kernel.org>, 
-	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>, 
-	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>, 
-	"open list:FREESCALE SOC FS_ENET DRIVER" <linuxppc-dev@lists.ozlabs.org>
-Subject: Re: [PATCHv3 net-next] net: modernize IRQ resource acquisition
-Message-ID: <20241113-nonchalant-spaniel-of-contentment-83978a-mkl@pengutronix.de>
-References: <20241112211442.7205-1-rosenp@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=hYYJolM2ITWMQc8kBKgNYYrLhnB30QsNFrH31VKiDsbb/1/wG/NO65E1KwWagq1t+Dyk+XajE49qLsfUMR6ZfB/ngCiyyST4IGePULSIydzq4tZUDBWe2hONROhEAzHLFfPtz0+pS1e1O0zt8pVbxAAyVAwXpN1jSy5w2DEcDYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org; spf=pass smtp.mailfrom=jookia.org; dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b=idA6PtSu; arc=none smtp.client-ip=91.218.175.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jookia.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b="idA6PtSu"
+Date: Wed, 13 Nov 2024 19:15:59 +1100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
+	t=1731486030;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5UNEWkaaWi2aH87Bu/nkPPrIJzqMJy0nOzkhi0xcK50=;
+	b=idA6PtSuL7Dp9RxF1Bk6TI7/3VnRiu3fNXfySYDOyaDq5JaEfZYHUTmS6PF5ZJcxqYfT3p
+	HB2st5Z5LNBKsVWpxNGXK0rXZNRXCVEfrcxv+AVAg/q9Rcq06JNxViVMSQ4FROMPp0H87U
+	Wdu0zLoI7zkmv1c0HAIzT5taFlZXz7RCAn+Sm3xYMHJ5JxwDHnzoQXfpZUgE8YZTt8YXSZ
+	hIofh7rDKlVtAEPuvfpBRtSX0O/uEYjA94VVNLGETrumTo7wqRc13ePRp9cx+m0IfclD8y
+	Kuvy4F2jB0Nnye0lU1ojPCjWw0sqN95IckT5MPrmfgv82F5Pfeu5jXRyVa+JvQ==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: John Watts <contact@jookia.org>
+To: Parthiban <parthiban@linumiz.com>
+Cc: Andre Przywara <andre.przywara@arm.com>,
+	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Samuel Holland <samuel@sholland.org>,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/sun4i: Workaround TCON TOP conflict between DE0 and
+ DE1
+Message-ID: <ZzRgP7-hHWE8JH8K@titan>
+References: <20241108-tcon_fix-v1-1-616218cc0d5f@jookia.org>
+ <20241108115357.691b77b0@donnerap.manchester.arm.com>
+ <Zy4SKCBwce3q0yj5@titan>
+ <b26b9d86-4ff9-4543-85ce-176dccfbfa05@linumiz.com>
+ <Zy4c9BFcrz2JVU6k@titan>
+ <ZzNCsFiAiACFrQhE@titan>
+ <f0d5b314-cfcc-4856-8d6e-09e437c075ec@linumiz.com>
+ <ZzPluoI7xSTwhNcm@titan>
+ <2ef6afa0-2756-493b-83a4-62e73a8e2af9@linumiz.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="yqpx5eyx2zhvpvlt"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241112211442.7205-1-rosenp@gmail.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+In-Reply-To: <2ef6afa0-2756-493b-83a4-62e73a8e2af9@linumiz.com>
+X-Migadu-Flow: FLOW_OUT
 
+Hi,
 
---yqpx5eyx2zhvpvlt
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCHv3 net-next] net: modernize IRQ resource acquisition
-MIME-Version: 1.0
+On Wed, Nov 13, 2024 at 11:40:14AM +0530, Parthiban wrote:
+> No, Mixers in upstream refers to RT-Mixers inside the DE. It's only the
+> quirk for R40/D1 setting the DE ports using mixer numbering.
 
-On 12.11.2024 13:14:42, Rosen Penev wrote:
-> In probe, np =3D=3D pdev->dev.of_node. It's easier to pass pdev directly.
->=20
-> Replace irq_of_parse_and_map() by platform_get_irq() to do so. Requires
-> removing the error message as well as fixing the return type.
->=20
-> Replace of_address_to_resource() with platform_get_resource() for the
-> same reason.
->=20
-> Signed-off-by: Rosen Penev <rosenp@gmail.com>
-> (for CAN)
-> Reviewed-by: Marc Kleine-Budde <mkl@pengutronix.de>
+After an hour or two of spelunking the code base, I'm still not sure about this.
 
-Please write this as:
+Confusables:
 
-Reviewed-by: Marc Kleine-Budde <mkl@pengutronix.de> # for CAN
+- sun8i_tcon_top_de_config uses 'mixer' instead of DE
+- The datasheet for TCON TOP mentions DEs
+- The DT documentation for TCON TOP only mentions mixers
+- Only mixers are passed to the TCON TOP DT
+- Allwinner's tcon_de_attach works on systems without two DEs
+- Allwinner's tcon_de_attach special cases systems with two DEs
+- Allwinner's tcon_de_attach implies theres two TCON TOPs for two DEs
 
-regards,
-Marc
+However sun8i_r40_tcon_tv_set_mux seems to clear this up:
 
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde          |
-Embedded Linux                   | https://www.pengutronix.de |
-Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
+- The register value is found using the remote endpoint reg
+- tcon_top_mixer0_out specifies 0 and 2 for lcd0 and tv0
+- tcon_top_mixer1_out also specifies 0 and 2 for lcd0 and tv0
+- The 'mixer' is engine->id
+- engine->id is found using sun4i_tcon_find_engine
+- It gets the id from the endpoint number
+- mixer0 has id 0
+- mixer0 has id 1
+- there's one engine struct per mixer and display-backend
 
---yqpx5eyx2zhvpvlt
-Content-Type: application/pgp-signature; name="signature.asc"
+It really seems like the code means mixers here.
 
------BEGIN PGP SIGNATURE-----
+> > Hmm. Are you sure? Looking at the Allwinner drivers it has the method
+> > de_top_set_de2tcon_mux in
+> > drivers/video/fbdev/sunxi/disp2/disp/de/lowlevel_v33x/de330/de_top.c
+> > which I think means it's for DE3? But I don't see it called anywhere?
+> 
+> Missing in the upstream. 
 
-iQEzBAABCgAdFiEEUEC6huC2BN0pvD5fKDiiPnotvG8FAmc0Ud0ACgkQKDiiPnot
-vG9ixwf+MRErFbP8EBNYW4KiknVHSCJqliQuxtMgRc5LE54Iz/W8AKqAbKIjgzTv
-XVCnuSSPn5hWw85VK1YrC2romqZQMmkjFDeaDAf27emw1tYQC5DkAg7DfdasiaFw
-ZUNWdDjmY3lm3YwXCupckUARjWB9VEXNsLca8eti0+gmBWR16gwNbd7lBeXHm+Qf
-mDzxiz9SQG5P/1V6GYCnHUgqw4yC6yxgNim60jfDfbD7t52x/C1EQylcG0Wzx3Uz
-H1irShtJQNqXv0j63qMX0K3NQOkUKy0/yfNUS5gqHefjAT5YnEqUHKReldiPq0JB
-IvRUsw91n6EDC2kPZwOR1gOkgMzKZA==
-=7118
------END PGP SIGNATURE-----
+So if Allwinner and mainline don't use it, what does?
 
---yqpx5eyx2zhvpvlt--
+> So far there is no real user for DE1 in upstream. DE_PORT_SELECT_REG value for
+> DE1 can be negate of DE0, so that they won't conflict or cause timing issues.
+
+If my thoughts are correct, this would break use of mixer0 and mixer1 at the
+same time.
+
+> Also DE_PORT_SELECT_REG mentions only about TV and LCD muxing, but missing HDMI,
+> DSI and so.
+> 
+> Otherwise, if I get DE1 working in A133, I will try to add quirk to set DE0 and
+> DE1 port mapping in that case to respective connector.
+> 
+> Thanks,
+> Parthiban
+
+Thanks,
+John Watts.
