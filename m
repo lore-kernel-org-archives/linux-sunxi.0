@@ -1,181 +1,148 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3273A230999
-	for <linux-sunxi@lists.linux.dev>; Wed, 13 Nov 2024 08:50:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F9E71F8EE2
+	for <linux-sunxi@lists.linux.dev>; Wed, 13 Nov 2024 09:48:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731487838; cv=none; b=cQMix+tPxpR8sYpGVKCVow89jgskDreUEDdP0Kqt6PmDOeKTWUl6qu4WQ8kj67uB0XGS41PYa2khl5LLnm6z3tpmoOp5jMRyztpjgGyRHWmkcqNcJ6EdzeyQVpF2xTsr8kxgKTNkbwOd41pR4HSEbw9i6g+dZONuBlHnQZi2EMA=
+	t=1731491319; cv=none; b=E3N2ohWhX2iT8Y44OEb8AF9IBmYkDJFnnlrEwnOJgGUG/DLt5nIBtgEbqwF+1T82AZ4096dcjHdpfm7K7bJzHMWRGkJiMCbbeaw9q/+/IaM4WHXcWBSb42qWOsYeANXDktap+HQF+xkTjXYzzILMnAdUxLCLuJuPEQVKhObdpUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731487838; c=relaxed/simple;
-	bh=kVFxWJzrPuWll8DgFXFbv7lBgh/gNNMdDt7g127NaRs=;
+	s=arc-20240116; t=1731491319; c=relaxed/simple;
+	bh=ks90hqffQrT0BE2v4o9sOT2myXod5HsJJ8zUteV+gKw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AYWovc6nRYvEM5qc3ggMinWxOQmVAhg+SKpcY9L99x9bIzwAfY6AH0egK4iNZaPeanZ40zo2uT3tml/feMO4WNjxGiKBxX2v3w45UlOX/acaAQDG24wdATThHFxQ5GsMA64ni8OvfCV92/TjExOv0WOpHMTj37dV307ForvUbVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+	 To:Cc:Content-Type; b=K1xlrCZdPbyJU8tAWWlIb/ZhZZF2Lrf4MT+c5MRGczffU2H0nolIG3t9nEW1pYN2OWmVqcruwXKaR6m1lEOsEdI+yL7vn+j0nbD7DE7nryJeY6CXdl/e8gtAXa2DZFitbOeANieJk8pUchC3+q486W/lict05J0lGjVWAy/QytA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=STK598uA; arc=none smtp.client-ip=209.85.219.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-539e8607c2aso7347260e87.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 13 Nov 2024 00:50:35 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731487833; x=1732092633;
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="STK598uA"
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-6cbd57cc35bso4714216d6.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 13 Nov 2024 01:48:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1731491317; x=1732096117; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QI8MidwZZ5apE6IYuuUbrPqi3d8lcdFWg29g280gmXo=;
-        b=KHN/nScBFtELllJ8nSHd5Z4WGqRwVNML2A2lo5m2ogEyw/94A7J1sy5eM7hZrtjlyA
-         HZiaFOaOLZ0r2HPWXDmAOwvXiiBoqzKF9TKiw4TQpDZjtbHPEQAHnJL56fvQTioOMQkW
-         Zsrqxw3Noh5bMLFIIbsYOuA7/hYLqBmFeBOo0D2kLi6yp8Ay6WOe6sQdU9h0sjpAPuWr
-         aWFG6Wo1dwhOH8gGwMny8QovQ7kZXUyGTmzW9XNaTj0NsntyMDx+PsoMdf0IqpToWwNI
-         hCk7Wyey+dF1BRiKBEWGM7YzdKKg/ydfEV67jeQyeExlQZoCpSiDbvI3pTTIY3Tk+RdU
-         Cnsw==
-X-Forwarded-Encrypted: i=1; AJvYcCVqQTsIFSqRKIZnRPTr7ctQXGK1KInyP9XUjpmfBtnJVYEtUB/969C8rKqj3oQt7In7GLiNeYfzAC/KRg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxrOkWpvZ5AK2TUCbvZTCi19FK4ecphUCb7k/BpBvRPL4He/pbY
-	OkFXYmgsC2B4RboYLff4Mi4cUCS7va7Ba275R2UUCIxs0ZhdzE2duMcg5ETA
-X-Google-Smtp-Source: AGHT+IGPvyoq5FAVPgL140f5HZYBtUrUyu0fMe9uS+Z/PsUnhOqP6rgxABAL6kSaQV5XX3RyT9Y8Xg==
-X-Received: by 2002:a05:6512:130b:b0:539:fed8:321 with SMTP id 2adb3069b0e04-53d862eb665mr9282664e87.51.1731487832753;
-        Wed, 13 Nov 2024 00:50:32 -0800 (PST)
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com. [209.85.208.173])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53d826a72e7sm2117392e87.150.2024.11.13.00.50.31
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Nov 2024 00:50:31 -0800 (PST)
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2fb518014b9so55609241fa.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 13 Nov 2024 00:50:31 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVMl4Rj4KCLBO2CrvsBUBSM2cL2qLswGg7WLXtfc2wy47RW6uAgDjLL4yNaAHJfbtL8kht2qhry1RHfWQ==@lists.linux.dev
-X-Received: by 2002:a2e:a551:0:b0:2fb:4b40:1e18 with SMTP id
- 38308e7fff4ca-2ff2016fc88mr87156771fa.13.1731487831435; Wed, 13 Nov 2024
- 00:50:31 -0800 (PST)
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XaSnfzm/t5DivDcI8TYnD0ZfKr8uwA2J8rw6CZWmB2k=;
+        b=STK598uAA3M6zkDa+Ga6C2a1oRslk24bPUTTiaiYzVE8BXcvP/wWPPdeWOub1RQ9yr
+         LPWknyvdQRXdf2GIWTEPIzxMdhBSOBFGLFOB9D+93w3INZHq+u2374kFyhy5QOVIfrKv
+         MQpbI+RMwCkk08Z79ORX0W/jTH4vku3JWIItodHvATeSgnTK6YdL0+w01cTZiXpVTMIe
+         sQbVOzbA+jMHBtGU8zat1FxjSfla2F8EUyx7/dmcaBriEqz7fWLcg8LM1SPgMw9qVxVP
+         yIgRap6hifEJhgUzrS1PqkkIVIZH8LATTyWQ1+OQsIHQrN/Kh+WSEyjleegJUmWrwcje
+         +f+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731491317; x=1732096117;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XaSnfzm/t5DivDcI8TYnD0ZfKr8uwA2J8rw6CZWmB2k=;
+        b=V9hK/P4Q2qOS24QiL5fiyS+ysg8v/zgakC+yqGbqFtxO5Eq5zcBKqtnfXUAnvSjN/K
+         AmuSDc+wDDnkeVcjTXEdD9iLlX1bwWpl+Nh+U3spm06X1x8zPwtZolfvfLnuo5OGKuxG
+         QhaL3mKNUHPt2aDrCQaphBJ4/jXKz53DJmuPUIJy6T87n18/k+TjLuF8FqQQF1Rv5aWh
+         kQjs+QLb27XyO7QEyzHKIlY2KdT5av+CxpaJ29XyiUjbtGFGgWORfmqwYuHK1Bm7/+d0
+         ae9gIa8a9Gc8gaiJcN50QkYZUWP61NXmVu6OFfQVCKNku1l6RAc+Df9SVOBXOuKnNqFA
+         BXxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWQsmW6GCDbr0qF8T0vsLJi+6H8DYAM8jvXJl3nziler3mcFmWaP9U2QjuDUsX6jgtX4x+PZRQkpvBtBg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzjRvNsRCMqTh+0THkPKWgd9ttN97xRmO7u1imyKxk2Rj7Ix10z
+	AZ2wRCxFzH7h2bis2yJt8T0dH5ctE+/ZCW51c97OjM47k4zPMvwmXYTo7BPFBbTCmolX44xq7bd
+	Pm7Ikeg3YEKgLHlRgH/Gy356uoC0=
+X-Google-Smtp-Source: AGHT+IHcLy8AEacbQGHGgfaEwyTub+t1gLTfFsAT9DwCgvxu+gX32+4tA6aRof7gwejihIaPx+ov6qt1kZkNWsKHlks=
+X-Received: by 2002:ad4:5d49:0:b0:6d3:5be3:e711 with SMTP id
+ 6a1803df08f44-6d39d57c179mr302997596d6.9.1731491316900; Wed, 13 Nov 2024
+ 01:48:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241111005750.13071-1-andre.przywara@arm.com> <20241111005750.13071-6-andre.przywara@arm.com>
-In-Reply-To: <20241111005750.13071-6-andre.przywara@arm.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Wed, 13 Nov 2024 16:50:19 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64x_QE8w_4h10waG33xNpkd9QLt_B=xSPMMe0M=6bqsJw@mail.gmail.com>
-Message-ID: <CAGb2v64x_QE8w_4h10waG33xNpkd9QLt_B=xSPMMe0M=6bqsJw@mail.gmail.com>
-Subject: Re: [PATCH 5/7] dt-bindings: pinctrl: add compatible for Allwinner A523/T527
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
+References: <20241112211442.7205-1-rosenp@gmail.com>
+In-Reply-To: <20241112211442.7205-1-rosenp@gmail.com>
+From: Julian Calaby <julian.calaby@gmail.com>
+Date: Wed, 13 Nov 2024 20:48:24 +1100
+Message-ID: <CAGRGNgXhtPy_G9O0n7dEhcAX3sWN=08tF9tgFpLs8V---uELYg@mail.gmail.com>
+Subject: Re: [PATCHv3 net-next] net: modernize IRQ resource acquisition
+To: Rosen Penev <rosenp@gmail.com>
+Cc: netdev@vger.kernel.org, Marc Kleine-Budde <mkl@pengutronix.de>, 
+	Vincent Mailhol <mailhol.vincent@wanadoo.fr>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, Vladimir Oltean <olteanv@gmail.com>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Pantelis Antoniou <pantelis.antoniou@gmail.com>, 
+	Marcin Wojtas <marcin.s.wojtas@gmail.com>, Byungho An <bh74.an@samsung.com>, 
+	Kevin Brace <kevinbrace@bracecomputerlab.com>, Francois Romieu <romieu@fr.zoreil.com>, 
+	Michal Simek <michal.simek@amd.com>, Heiner Kallweit <hkallweit1@gmail.com>, 
+	Russell King <linux@armlinux.org.uk>, Zhao Qiang <qiang.zhao@nxp.com>, 
+	"open list:CAN NETWORK DRIVERS" <linux-can@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, 
+	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>, 
+	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>, 
+	"open list:FREESCALE SOC FS_ENET DRIVER" <linuxppc-dev@lists.ozlabs.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 11, 2024 at 8:58=E2=80=AFAM Andre Przywara <andre.przywara@arm.=
-com> wrote:
->
-> The A523 contains a pin controller similar to previous SoCs, although
-> using 10 GPIO banks (PortB-PortK), all of them being IRQ capable.
-> This introduces a new style of binding, where the pinmux values for each
-> pin group is stored in the new "allwinner,pinmux" property in the DT
-> node, instead of requiring every driver to store a mapping between the
-> function names and the required pinmux.
->
-> Add the new name to the list of compatible strings, and required it to
-> have 10 interrupts described. Also add the new pinmux property.
->
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  .../pinctrl/allwinner,sun4i-a10-pinctrl.yaml  | 23 +++++++++++++++++--
->  1 file changed, 21 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a1=
-0-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-=
-a10-pinctrl.yaml
-> index 4502405703145..6fc18e92e1e94 100644
-> --- a/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pinct=
-rl.yaml
-> +++ b/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pinct=
-rl.yaml
-> @@ -56,6 +56,8 @@ properties:
->        - allwinner,sun50i-h6-r-pinctrl
->        - allwinner,sun50i-h616-pinctrl
->        - allwinner,sun50i-h616-r-pinctrl
-> +      - allwinner,sun55i-a523-pinctrl
-> +      - allwinner,sun55i-a523-r-pinctrl
->        - allwinner,suniv-f1c100s-pinctrl
->        - nextthing,gr8-pinctrl
->
-> @@ -64,7 +66,7 @@ properties:
->
->    interrupts:
->      minItems: 1
-> -    maxItems: 8
-> +    maxItems: 10
->      description:
->        One interrupt per external interrupt bank supported on the
->        controller, sorted by bank number ascending order.
-> @@ -119,13 +121,17 @@ patternProperties:
->          $ref: /schemas/types.yaml#/definitions/uint32
->          enum: [10, 20, 30, 40]
->
-> +      allwinner,pinmux:
-> +        $ref: /schemas/types.yaml#/definitions/uint32-array
-> +        description: pinmux selector for each pin
-> +
+Hi Rosen,
 
-Why not just the standard "pinmux" property, as given in
-Documentation/devicetree/bindings/pinctrl/pinmux-node.yaml
+On Wed, Nov 13, 2024 at 8:14=E2=80=AFAM Rosen Penev <rosenp@gmail.com> wrot=
+e:
+>
+> In probe, np =3D=3D pdev->dev.of_node. It's easier to pass pdev directly.
+>
+> Replace irq_of_parse_and_map() by platform_get_irq() to do so. Requires
+> removing the error message as well as fixing the return type.
+>
+> Replace of_address_to_resource() with platform_get_resource() for the
+> same reason.
 
->      required:
->        - pins
->        - function
+Sorry for the drive-by review, but I have to question the utility of
+this conversion.
 
-This section should be made to apply only to the existing
-compatibles? Maybe we could just split the files and have
-a clean slate for sun55i?
+> diff --git a/drivers/net/can/grcan.c b/drivers/net/can/grcan.c
+> index cdf0ec9fa7f3..48e93c3445e7 100644
+> --- a/drivers/net/can/grcan.c
+> +++ b/drivers/net/can/grcan.c
+> @@ -1673,9 +1673,8 @@ static int grcan_probe(struct platform_device *ofde=
+v)
+>                 goto exit_error;
+>         }
+>
+> -       irq =3D irq_of_parse_and_map(np, GRCAN_IRQIX_IRQ);
+> -       if (!irq) {
+> -               dev_err(&ofdev->dev, "no irq found\n");
+> +       irq =3D platform_get_irq(ofdev, GRCAN_IRQIX_IRQ);
+> +       if (irq < 0) {
 
-ChenYu
+In this change and a lot of the others, you're not removing the "np"
+variable, so you're basically replacing one wrapper with another.
 
->      additionalProperties: false
+>                 err =3D -ENODEV;
+>                 goto exit_error;
+>         }
+> diff --git a/drivers/net/ethernet/freescale/fs_enet/mac-fcc.c b/drivers/n=
+et/ethernet/freescale/fs_enet/mac-fcc.c
+> index be63293511d9..9006137e3a55 100644
+> --- a/drivers/net/ethernet/freescale/fs_enet/mac-fcc.c
+> +++ b/drivers/net/ethernet/freescale/fs_enet/mac-fcc.c
+> @@ -83,8 +83,8 @@ static int do_pd_setup(struct fs_enet_private *fep)
+>         struct fs_platform_info *fpi =3D fep->fpi;
+>         int ret =3D -EINVAL;
 >
-> -  "^vcc-p[a-ilm]-supply$":
-> +  "^vcc-p[a-klm]-supply$":
->      description:
->        Power supplies for pin banks.
->
-> @@ -156,6 +162,17 @@ allOf:
->          - interrupts
->          - interrupt-controller
->
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          enum:
-> +            - allwinner,sun55i-a523-pinctrl
-> +
-> +    then:
-> +      properties:
-> +        interrupts:
-> +          minItems: 10
-> +
->    - if:
->        properties:
->          compatible:
-> @@ -166,6 +183,7 @@ allOf:
->        properties:
->          interrupts:
->            minItems: 8
-> +          maxItems: 8
->
->    - if:
->        properties:
-> @@ -244,6 +262,7 @@ allOf:
->              - allwinner,sun8i-v3s-pinctrl
->              - allwinner,sun9i-a80-r-pinctrl
->              - allwinner,sun50i-h6-r-pinctrl
-> +            - allwinner,sun55i-a523-r-pinctrl
->
->      then:
->        properties:
-> --
-> 2.46.2
->
+> -       fep->interrupt =3D irq_of_parse_and_map(ofdev->dev.of_node, 0);
+> -       if (!fep->interrupt)
+> +       fep->interrupt =3D platform_get_irq(ofdev, 0);
+> +       if (fep->interrupt < 0)
+
+This one and others like it are fine: it's much cleaner to use the
+"platform_irq()" function instead of reaching deep into the structure
+to grab the "of_node" property.
+
+That said, in this case and probably a few others this is a driver for
+an OF device so I'm still not sure this actually makes sense.
+
+Thanks,
+
+--=20
+Julian Calaby
+
+Email: julian.calaby@gmail.com
+Profile: http://www.google.com/profiles/julian.calaby/
