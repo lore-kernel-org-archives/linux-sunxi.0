@@ -1,136 +1,78 @@
-Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFCEE230997
-	for <linux-sunxi@lists.linux.dev>; Tue, 12 Nov 2024 23:35:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61ED1382;
+	Wed, 13 Nov 2024 01:23:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731454527; cv=none; b=K51cCP6RoHe3lTcN5b/HEfPiTag2qOi7zXSVy7kUqj8EQt3YlAQy7NeAcd9WZXSBGbp7jRpIsUsBwEnvkCT5MYoYpY0Q2WdUMq8U6pvu6gNe+lDa/AqDJrRVYJH/bN8xsfFYDVaWhjkvHOIqRHWdvJ0xVdOhGs3sJKZ0Z7r//OU=
+	t=1731460985; cv=none; b=EkaugF3CJUXh97hldDxjKNvd0zhNH/2Iu+B6Hpq61pAsQWzQgx4pWz1qsBAwt+2ZBP2rZGztFy/UJ3oAh4kgB/dlmy7Ngdq9NmgQHzFAVBCJrg+EUKoUuLSG1TOzlrPiHuOOy8Pt/ExydQmtfpSkJ2ibA5DzNJZ1OYS6TSeh1Ro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731454527; c=relaxed/simple;
-	bh=5QYxYmoaC0h97bCzFt7dyutECUXaQwbJKnIzfwNwwLk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XDjyEiykGb7AWAeMYd7NKos0mTaH9+C0/k3C7Cc+V1VtYJ2Y7Ce5DAD83eQdOfU8niWMnfZ8xXTed2Qn7LnISYZG33Jkc/xpGNcebR2AujvS7xRbG5r7MFksch6ww2TfKQjlG5YKVQ2g2HphZoIBoyR9jylNmK5CoELefFTau6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org; spf=pass smtp.mailfrom=jookia.org; dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b=ylgF4mzc; arc=none smtp.client-ip=91.218.175.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jookia.org
+	s=arc-20240116; t=1731460985; c=relaxed/simple;
+	bh=KzYtezsHHZd5EyINMqqHGG51cXOLpemJwiEUUpvOkA4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jR1+MKoKB/OF9oY+HOxc90/mccJI2DBFgn/j5vfZCvT4drTgw8YdUMofnv5+z2cA+DbQAl+m2H8xmw64RgGy6L7ePmE685VeFAEzE3XWeqQXhkx/pB4rX5HcI3VLrfoakjUheSGNil4b5hBncUvZvMrO21mBwbKznXGwvosZa04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OEkPE6u2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b="ylgF4mzc"
-Date: Wed, 13 Nov 2024 10:33:14 +1100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
-	t=1731454521;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gMbHqD+H0zd72SUEwYPmsE9R4wTLK4oFNYpLilDoG38=;
-	b=ylgF4mzcsM/CWq/YKvClifTLZH7vCdLAWKIqWnIPHm1D13CdUREyoniFOn+mElVbgLLUyR
-	Xz8KqJTTLDqDbgFRzFKuEpaY8K7sgvva0GGzq2I7veWNTf7CsjeyAJzCfwffGZiKK7L2g/
-	+xH6RouQQVtZGcTwIJ08yjwnxzDkECI66BD28PLVZFY5QaF5DbO5Tyv7CIgxLhZOSifrJs
-	CG3bnLO17WXI3WFwurYU9klwutqfWvMCsmna79NYtHZWSrl7exUSIwfl8cy8H1NZPhf3QS
-	SIPSaGNgiza2lEJdNE7UH+rS3FOjXovzHJEGLDL+JnixRk3MFJuyMQBw8SZ01A==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: John Watts <contact@jookia.org>
-To: Parthiban <parthiban@linumiz.com>
-Cc: Andre Przywara <andre.przywara@arm.com>,
-	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Samuel Holland <samuel@sholland.org>,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/sun4i: Workaround TCON TOP conflict between DE0 and
- DE1
-Message-ID: <ZzPluoI7xSTwhNcm@titan>
-References: <20241108-tcon_fix-v1-1-616218cc0d5f@jookia.org>
- <20241108115357.691b77b0@donnerap.manchester.arm.com>
- <Zy4SKCBwce3q0yj5@titan>
- <b26b9d86-4ff9-4543-85ce-176dccfbfa05@linumiz.com>
- <Zy4c9BFcrz2JVU6k@titan>
- <ZzNCsFiAiACFrQhE@titan>
- <f0d5b314-cfcc-4856-8d6e-09e437c075ec@linumiz.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OEkPE6u2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7378C4CED4;
+	Wed, 13 Nov 2024 01:23:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731460985;
+	bh=KzYtezsHHZd5EyINMqqHGG51cXOLpemJwiEUUpvOkA4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=OEkPE6u2U1WuKnADIOhylmi3CfE92O+1fH0PMk2OcC97uHIF+rD8uPt98OdIcOFX9
+	 mBHnkR5vQiCHCFBZWV4FS+jfrBZtscCc5p17M9osJzRLrVx8uMnlviKNu52llsksUI
+	 nfbdlsdAAR5V8jJOI4kK4pxjs+qrOaioOp+7aR58hBHoabKdA1qGfXOgO0zMLHqxFR
+	 aJSkCG41lRt2Of0Iavy3zRQiuErE3Q23RHcNwXXI7fWGrChlM1ZuKGJBFhtbxsuJQv
+	 zfQVeL5tRPZVRYJ03Vn34rjURJ6jgx/w9/GNCbhOYjCi2u9NZ3I6577l4olYOkP7L9
+	 mM9NSMb5hQveQ==
+Date: Tue, 12 Nov 2024 17:23:02 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Rosen Penev <rosenp@gmail.com>
+Cc: netdev@vger.kernel.org, Marc Kleine-Budde <mkl@pengutronix.de>, Vincent
+ Mailhol <mailhol.vincent@wanadoo.fr>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Florian Fainelli
+ <florian.fainelli@broadcom.com>, Vladimir Oltean <olteanv@gmail.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Pantelis Antoniou
+ <pantelis.antoniou@gmail.com>, Marcin Wojtas <marcin.s.wojtas@gmail.com>,
+ Byungho An <bh74.an@samsung.com>, Kevin Brace
+ <kevinbrace@bracecomputerlab.com>, Francois Romieu <romieu@fr.zoreil.com>,
+ Michal Simek <michal.simek@amd.com>, Heiner Kallweit
+ <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, Zhao Qiang
+ <qiang.zhao@nxp.com>, linux-can@vger.kernel.org (open list:CAN NETWORK
+ DRIVERS), linux-kernel@vger.kernel.org (open list),
+ linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi
+ SoC support), linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi
+ SoC support), linuxppc-dev@lists.ozlabs.org (open list:FREESCALE SOC
+ FS_ENET DRIVER)
+Subject: Re: [PATCHv3 net-next] net: modernize IRQ resource acquisition
+Message-ID: <20241112172302.582285d3@kernel.org>
+In-Reply-To: <20241112211442.7205-1-rosenp@gmail.com>
+References: <20241112211442.7205-1-rosenp@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f0d5b314-cfcc-4856-8d6e-09e437c075ec@linumiz.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi there,
+On Tue, 12 Nov 2024 13:14:42 -0800 Rosen Penev wrote:
+>  drivers/net/ethernet/moxa/moxart_ether.c      |  6 ++---
+>  .../ethernet/samsung/sxgbe/sxgbe_platform.c   | 24 +++++++------------
 
-On Tue, Nov 12, 2024 at 10:43:44PM +0530, Parthiban wrote:
-> #define TCON_TOP_PORT_DE0_MSK                   GENMASK(1, 0)
-> #define TCON_TOP_PORT_DE1_MSK                   GENMASK(5, 4)
-> 
-> references towards DE0 and DE1 is for DE itself, not the mixers in the
-> current implementation.
+coccicheck says:
 
-So the datasheet says it's for DE0/DE1 but the Allwinner driver and mainline
-driver assume it's for mixers. There's a conflation between mixer and DE in
-this case, especially because everywhere mixer1 is used on the A133 it is
-switched to DE1. I'm also unaware of the R40 having two DEs which kind of
-confirms this might be a typo. If anyone has actually tested the second output
-of this it would help find out if it actually means DE1 or mixer1.
+drivers/net/ethernet/samsung/sxgbe/sxgbe_platform.c:130:6-26: WARNING: Unsigned expression compared with zero: priv -> rxq [ i ] -> irq_no < 0
+drivers/net/ethernet/samsung/sxgbe/sxgbe_platform.c:124:6-26: WARNING: Unsigned expression compared with zero: priv -> txq [ i ] -> irq_no < 0
+drivers/net/ethernet/moxa/moxart_ether.c:468:5-8: WARNING: Unsigned expression compared with zero: irq < 0
 
-> Handling for mixer0 <-> lcd1 and mixer1 <-> lcd0 also needs to set
-> DE2TCON_MUX in de clock, which is missing now.
+Is this really worth the review effort? :|
 
-Hmm. Are you sure? Looking at the Allwinner drivers it has the method
-de_top_set_de2tcon_mux in
-drivers/video/fbdev/sunxi/disp2/disp/de/lowlevel_v33x/de330/de_top.c
-which I think means it's for DE3? But I don't see it called anywhere?
-
-This might be worth discussing in the DE3 patchset.
-
-> sun8i_tcon_top_set_hdmi_src for R40 already sets these values via quirks.
-> i.e controlling the port muxing. Also D1 quirks is same as R40. So the
-> original changes to make the DE1 point to TVx can also done in this quirk
-> without hardcoded value?
-
-In this case I'm using an LCD which isn't HDMI, so I'm not too sure how much
-this would help. Having it as a quirk also seems a bit overkill if this is a
-general preventative fix, especially since Allwinner doesn't seem to test their
-functionality. Relying on it seems like a mistake in this case.
-
-My other thought is that when sun8i_tcon_top_de_config is called it could do
-something. But I'm not sure what that something would actually be, given it may
-be called twice in an (I assume) unknown order.
-
-Say, if mixer1 is set as TV0 and and mixer0 is set as TV1 we would try to set mixer1
-first, see that mixer0 is already set to TV0 then ... error? Even though the
-final configuration doesn't have any conflicts.
-
-I was thinking something like this for my next patch:
-
-	/*
-	 * Make sure that by default DE0 and DE1 are set to different outputs,
-	 * otherwise we get a strange tinting or unusable display on the T113.
-	*/
-	reg = readl(regs + TCON_TOP_PORT_SEL_REG);
-	reg &= ~TCON_TOP_PORT_DE0_MSK;
-	reg |= FIELD_PREP(TCON_TOP_PORT_DE0_MSK, 0);
-	reg &= ~TCON_TOP_PORT_DE1_MSK;
-	reg |= FIELD_PREP(TCON_TOP_PORT_DE1_MSK, 1);
-	writel(reg, regs + TCON_TOP_PORT_SEL_REG);
-
-Perhaps this could be hidden behind a quirk? I would have to check to see which
-chips have this behaviour, I'm not sure if it's a bug specific to the T113 or
-D1/T113 or R40 too.
-
-Also noting at the top of the file that DE0 and DE1 mean mixer0 and mixer1
-might be good to reduce confusion.
-
-What do you think? :)
-
-> Thanks,
-> Parthiban
-
-Thanks for your input!
-
-John Watts
+Please do not send any more conversions unless the old API is clearly
+deprecated. 
+-- 
+pw-bot: cr
