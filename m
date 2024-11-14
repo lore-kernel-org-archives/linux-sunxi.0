@@ -1,248 +1,291 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0409B1EABC2
-	for <linux-sunxi@lists.linux.dev>; Thu, 14 Nov 2024 07:23:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEF843FBB3;
+	Thu, 14 Nov 2024 15:09:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731569011; cv=none; b=ZUEQL9fzuC138ZuGvdmbC9mpXlh/1PgcncL4CAkTTBihMUxg5zCY0BF6oLtbYfAt+U7HDa5GznC6BXNAVi7Up9CtX93gqPl4RWCmGtJ+EVFP3+mzNHqzgc1KGCzBLrqeHfuVZ/hMLkGTraQgh1IWvDvrMPofpnYXaq+8AEWNJc0=
+	t=1731596999; cv=none; b=uLFcDcK2LQlCUwjZsYH0JSUy858VU7X0/Z+b/qA3P/m27+vuol0TU8jXHEdtUwtDxRK/3CTdxshVK1JZyYeLM1tOWxuZhoW8aIEtmfdRezhEzocXus3ygpJF+MVyYCgGmjON0C4Y/4FafGiWcQbYsE4uSRVyLs4L+0wJN+eh08c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731569011; c=relaxed/simple;
-	bh=FznkquujoVc4AGXvNQNSehVr0GYW7+fmlomCQC7lcDQ=;
+	s=arc-20240116; t=1731596999; c=relaxed/simple;
+	bh=ME6KIamWeSOI33s1Q/u3yOgoY7BAZ8vEfrd9GVx6Ubg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qKnvR55bMzqbW72SbYPTmCL3UnTEfBRtWnoa/0Tls7NyxQ2oQuWDXvJAX/vnF9zmBOabRS/A6ZZp4sBz1MaefCl1lZ7HXFo/fF9F72tbyBJRqfcwffSaanJSlnwhDsex+CHY9v0jnSJcpBi66i+O1GlVx7kU2ATZRXTfN5kJJwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=vXCeaHSf; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=DoxfrhwLAR+rEk3pAmrQE/o8C/YNnHLTbFA9zUwsb1GeqHC9aD2y/pJ9jL67uG6Kd7XuAd5TlG8v1SNGKJHu1iWNXIscHADfQpdh/iF5DCqawn5DcRm/eo/DtVFj869aSrgRecoH4MD2YMWn5INSrzO5spMS9QenB93AqLv/U7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a/1wb1nl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="vXCeaHSf"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-20cbca51687so2594525ad.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 13 Nov 2024 23:23:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1731569008; x=1732173808; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jcVdx/PDcosiuJvg6s7470mt1Sbg0MJ8nbwkpgIFfDI=;
-        b=vXCeaHSfGc05aVWq2YJLc2fCrrRtoWiu03Cn98QxTQ0J/7L4QADDoeUzT+LlLMdQ/i
-         /y3Yo/CdbHwR7k3NXIxxqB/3w5QxB3tWUnN2DtS10WylW+npwDDmp7J2vf/BlLB/rg/N
-         bpSAauxcUw2Yu2NrQY7uigj+6aiX229UhvAgSOU4MoGUEENgX89MPQBjQJgZtZFhTlj2
-         RjVht752iITJvWdBc3/89ZEYqhmOSNopcXKIYrsRNWmP+vgvPPGTeZlrHYkegts7rZ6r
-         NcxMYP4gEuhtkoci+BHQIqRjA5otXKjQ33vsaLbcobj7aQLSlJ7biUpfBReBqUrW0DPb
-         uGoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731569008; x=1732173808;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jcVdx/PDcosiuJvg6s7470mt1Sbg0MJ8nbwkpgIFfDI=;
-        b=fIi2cUIcUU9e17os+n7J0+wYtDQ2QFvnzCY8B63XjH8xalJlmXi/Et4ToPbczdmuB4
-         s1IEW8RQSTVEzF8WQxapuSzUkbPSF6RQCMQ8B4lxlqMyqVxMVThpfXzgub7ptOApKvaC
-         OwRvtnV47TKn1naAM6C/CdF+5asmoGOb/qnDIi+qnqV8j6rb2/pfXIROy5oQPkkUs4q7
-         nY0vIy/Llnd3+schtbpa27kuL9WPB/efIulruskwEhoiP2G1IetMmiRBxFWW3ELbnY93
-         BmS4zIG8vcN4obbE9Vy58fe+txGEPa/PT4OxNU/ucQhxxHEMZIDjB4dFnrNWVUsC/D2d
-         HZbA==
-X-Forwarded-Encrypted: i=1; AJvYcCWNSMbO4jzzkr4F0i27LX3FeaQogcCmqlLRPWsppYfringJoyqzVrEsyxfWMjiBhPKeyLv6SCSnGLIJTw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwSflSKcrnbfuIuJ0kv+6XOXAEPHQS40k3Cg27EoEKL5yx33MzN
-	MCpQSssjW3F9XlvEhMHO09Dh9uCup05g8B2gG/VquX70XvgAOgucHmmmWuhvoUA=
-X-Google-Smtp-Source: AGHT+IEqIiAMaMvRr6traVqlETDXrksYLlEnbTBwgNuybxklLmBA23F6Bg0v7Zkwsdh3ki0S14Ja2g==
-X-Received: by 2002:a17:902:d4d2:b0:20b:5aff:dd50 with SMTP id d9443c01a7336-211c4ffd29emr15882815ad.31.1731569008105;
-        Wed, 13 Nov 2024 23:23:28 -0800 (PST)
-Received: from ghost ([2601:647:6700:64d0:4ece:7c14:cc18:73af])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-211c7c290b1sm4623065ad.10.2024.11.13.23.23.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Nov 2024 23:23:27 -0800 (PST)
-Date: Wed, 13 Nov 2024 23:23:24 -0800
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: Yangyu Chen <cyy@cyyself.name>
-Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Guo Ren <guoren@kernel.org>, Evan Green <evan@rivosinc.com>,
-	Jessica Clarke <jrtc27@jrtc27.com>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	Andy Chiu <andybnac@gmail.com>, linux-riscv@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v11 10/14] riscv: hwprobe: Add thead vendor extension
- probing
-Message-ID: <ZzWlbCiRuDKzilms@ghost>
-References: <20241113-xtheadvector-v11-0-236c22791ef9@rivosinc.com>
- <20241113-xtheadvector-v11-10-236c22791ef9@rivosinc.com>
- <tencent_5B500856E30E1FB920B6B68D6315EE70CC06@qq.com>
- <ZzVoQi6D0U30p9sg@ghost>
- <tencent_6A95637042401AD5F8BE05C7B4F11CAD7009@qq.com>
- <ZzWAlJm1ShgsZr4m@ghost>
- <tencent_9BB243901B8FF9FC0457B51D1CFF714B6209@qq.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a/1wb1nl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED545C4CECD;
+	Thu, 14 Nov 2024 15:09:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731596999;
+	bh=ME6KIamWeSOI33s1Q/u3yOgoY7BAZ8vEfrd9GVx6Ubg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=a/1wb1nl/9lY6YzF0fepneAZtcvQkXu1q9cYzFfDJuEv9M5ZTJKPpmtJ8rafRzLd7
+	 2LvC7DvtvK795F/6KJaBT+W27vIVT0An9ovJ1EQG7+bBGX0k69bztkTHjcCzE3Y6nr
+	 p4zvmVapvs9WEFlLhUWvQatNbcNLzIZ+0H4QmcSZx9GnfSqAMFXEdmlGGUslPCsP36
+	 q5/vDqggPq0B5qV4Di3o2gZ4AE9mKqycyaM84ffvSJCHqOkPRJBtJmmp+Jl1DuuYj3
+	 ok6HU+ZqdHatdsxIs6nwPPGEfp0W0n8/8KI+P8eEY/XZu3feCXyy1RnjkZIXPRI4J+
+	 hPPwIhVQTH0cQ==
+Date: Thu, 14 Nov 2024 16:09:56 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v3 1/7] drm/display: hdmi: add generic mode_valid helper
+Message-ID: <20241114-certain-ginger-quail-cd8b5d@houat>
+References: <20241109-hdmi-mode-valid-v3-0-5348c2368076@linaro.org>
+ <20241109-hdmi-mode-valid-v3-1-5348c2368076@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="ctnbsojadrep3a62"
 Content-Disposition: inline
-In-Reply-To: <tencent_9BB243901B8FF9FC0457B51D1CFF714B6209@qq.com>
+In-Reply-To: <20241109-hdmi-mode-valid-v3-1-5348c2368076@linaro.org>
 
-On Thu, Nov 14, 2024 at 02:54:17PM +0800, Yangyu Chen wrote:
-> 
-> 
-> On 11/14/24 12:46, Charlie Jenkins wrote:
-> > On Thu, Nov 14, 2024 at 11:26:47AM +0800, Yangyu Chen wrote:
-> > > 
-> > > 
-> > > On 11/14/24 11:02, Charlie Jenkins wrote:
-> > > > On Thu, Nov 14, 2024 at 10:44:37AM +0800, Yangyu Chen wrote:
-> > > > > 
-> > > > > 
-> > > > > On 11/14/24 10:21, Charlie Jenkins wrote:
-> > > > > > Add a new hwprobe key "RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0" which
-> > > > > > allows userspace to probe for the new RISCV_ISA_VENDOR_EXT_XTHEADVECTOR
-> > > > > > vendor extension.
-> > > > > > 
-> > > > > 
-> > > > > Hi Charlie,
-> > > > > 
-> > > > > How about changing the name of the key from
-> > > > > "RISCV_ISA_VENDOR_EXT_XTHEADVECTOR" to "RISCV_HWPROBE_KEY_VENDOR_EXT_0" and
-> > > > > use marchid to identify what the vendor is, each vendor will have its own
-> > > > > bit definition in this value. So we can avoid adding so many hwprobe keys
-> > > > > for each vendor in the future.
-> > > > > 
-> > > > > I proposed a commit here: https://github.com/cyyself/linux/commit/36390645d85d1ac75dd71172f167719df4297f59
-> > > > 
-> > > > I actually originally had this in one of my first versions of this
-> > > > series but was convinced by Conor to change it. The problem with it was
-> > > > that tying vendor extensions to mvendorid means that it is enforced by
-> > > > the kernel that vendors cannot share vendor extensions. It is possible
-> > > > for vendor A to purchase IP that contains a vendor extension from vendor
-> > > > B. This vendor extension should work on platforms created by vendor A
-> > > > and vendor B. However, vendor A and vendor B have different mvendorids,
-> > > > so the kernel can't support this if it is tied to mvendorid.  It could
-> > > > be solved by duplicating every extension that vendors have, but then
-> > > > userspace software would have to keep in mind the mvendorid they are
-> > > > running on and check the different extensions for the different vendors
-> > > > even though the implementation of the extension is the same.
-> > > > 
-> > > > The original conversation where Conor and I agreed that it was better to
-> > > > have vendor extensions not rely on mvendorid:
-> > > > 
-> > > > https://lore.kernel.org/linux-riscv/20240416-husband-flavored-96c1dad58b6e@wendy/
-> > > > 
-> > > 
-> > > Thanks for your explanation. I will strongly agree with Conor's opinion if
-> > > the feature bitmask does not exist in RISC-V C-ABI.
-> > > 
-> > > However, as the feature mask defined in RISC-V C-ABI[1] uses the design
-> > > depending on marchid currently, should we reconsider this key for its use
-> > > case? The current target_clones and taget_version implemented in GCC[2] and
-> > > LLVM[3] also use the bitmask defined in C-ABI. I think if we use this key
-> > > depending on marchid, to make a key shared with all vendors will make this
-> > > cleaner.
-> > 
-> > Changing this will break linux userspace API. It is a non-workable
-> > solution for the kernel to associate extensions with marchid/mvendorid
-> > for the reasons provided. I fail to see why this ABI would require the
-> > kernel to behave in this manner. The ABI provides the marchid to be used
-> > by function multi-versioning and applications are free to use the
-> > marchid to change which function they want to compile. However, if they
-> > want to know if an extension is supported, then they need to use
-> > hwprobe. If they want to check if xtheadvector is supported, then they> call hwprobe with the xtheadvector key. This is true no matter what the
-> > mvendorid of the system is.
-> 
-> A userspace software can use either c-api defined feature masks or directly
-> use hwprobe syscall. If they use c-api defined feature masks as GCC or LLVM
-> did for compiler generated IFUNC resolver, the bitmask is guarded by
-> mvendorid. So my point at that time was that if the C-API defined way became
-> mainstream, why should we keep this key only for T-Head to increase the
-> maintenance overhead?
 
-Yes that makes sense. I was thinking that the Andes PMU extension had a
-hwprobe key, but I realized that it does not. This patch has been on the
-lists for so long I lost track! I was trying to design this to be
-forward-thinking, I believe that it makes more sense this way, but I am
-interested in the opinion of the c-api maintainers.
+--ctnbsojadrep3a62
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 1/7] drm/display: hdmi: add generic mode_valid helper
+MIME-Version: 1.0
 
-> 
-> This has been discussed here before in RISC-V C-API: https://github.com/riscv-non-isa/riscv-c-api-doc/pull/74#issuecomment-2128844747
-> 
-> But now (from the last email), you convinced me. So, I would like to make
-> the c-api change: https://github.com/riscv-non-isa/riscv-c-api-doc/issues/96
-> 
+Hi,
 
-Thank you for opening that!
+On Sat, Nov 09, 2024 at 02:35:05PM +0200, Dmitry Baryshkov wrote:
+> Add drm_hdmi_connector_mode_valid(), generic helper for HDMI connectors.
+> It can be either used directly or as a part of the .mode_valid callback.
+>=20
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  drivers/gpu/drm/display/drm_hdmi_state_helper.c    |  21 +++
+>  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 181 +++++++++++++++=
++++++-
+>  include/drm/display/drm_hdmi_state_helper.h        |   4 +
+>  3 files changed, 204 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gp=
+u/drm/display/drm_hdmi_state_helper.c
+> index feb7a3a759811aed70c679be8704072093e2a79b..80bf2829ba89b5f84fed4fa9e=
+b1d6302e10a4f9e 100644
+> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> @@ -521,6 +521,27 @@ int drm_atomic_helper_connector_hdmi_check(struct dr=
+m_connector *connector,
+>  }
+>  EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_check);
+> =20
+> +/**
+> + * drm_hdmi_connector_mode_valid() - Check if mode is valid for HDMI con=
+nector
+> + * @connector: DRM connector to validate the mode
+> + * @mode: Display mode to validate
+> + *
+> + * Generic .mode_valid implementation for HDMI connectors.
+> + */
+> +enum drm_mode_status
+> +drm_hdmi_connector_mode_valid(struct drm_connector *connector,
+> +			      struct drm_display_mode *mode)
+> +{
+> +	unsigned long long clock;
+> +
+> +	clock =3D drm_hdmi_compute_mode_clock(mode, 8, HDMI_COLORSPACE_RGB);
+> +	if (!clock)
+> +		return MODE_ERROR;
+> +
+> +	return hdmi_clock_valid(connector, mode, clock);
+> +}
+> +EXPORT_SYMBOL(drm_hdmi_connector_mode_valid);
+> +
+>  static int clear_device_infoframe(struct drm_connector *connector,
+>  				  enum hdmi_infoframe_type type)
+>  {
+> diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers=
+/gpu/drm/tests/drm_hdmi_state_helper_test.c
+> index 294773342e710dc56772f839c2db9c2e487bbc1e..67c3e882592b00d803d8cba5d=
+183aa90339a16b4 100644
+> --- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+> +++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+> @@ -43,10 +43,14 @@ struct drm_atomic_helper_connector_hdmi_priv {
+>  static struct drm_display_mode *find_preferred_mode(struct drm_connector=
+ *connector)
+>  {
+>  	struct drm_device *drm =3D connector->dev;
+> -	struct drm_display_mode *mode, *preferred;
+> +	struct drm_display_mode *mode, *preferred =3D NULL;
+> =20
+>  	mutex_lock(&drm->mode_config.mutex);
+> -	preferred =3D list_first_entry(&connector->modes, struct drm_display_mo=
+de, head);
+> +
+> +	/* Handle the case when all modes were rejected by mode_valid() */
+> +	if (!list_empty(&connector->modes))
+> +		preferred =3D list_first_entry(&connector->modes, struct drm_display_m=
+ode, head);
+> +
 
-> > This does not add any complexity, "clean"
-> > code can equally be written following this scheme or following a scheme
-> > that relies on mvendorid. Ditching the reliance on mvendorid in the
-> > kernel allows the kernel to be as generic as possible, and allow
-> > whatever ABIs or hardware that exist to have a resiliant way of
-> > communicating with the kernel.
-> > 
-> 
-> OK. I'm just concerned about when these vendors will add the hwprobe key for
-> their own extension, which may introduce a potential merge conflict in the
-> kernel tree. It can also be a disaster if the hardware vendor ships their
-> kernel with these under-review patches for their products with hwprobe key
-> conflict with mainline kernel.
-> 
-> But we can avoid this now by adding each key for each vendor to avoid
-> potential conflict in the future. This can be a separate patch for future
-> work, so there is nothing to change here.
+Sorry if it wasn't clear in my previous review, but I would have
+expected a separate patch for that change.
 
-Yes that is unfortunately the downside of hwprobe that it is a
-centralized source of these keys, and that can be exacerbated by this
-scheme were vendor keys are not completely isolated from each other.
-That would be very unfortunate if a vendor ships a kernel and binaries
-that has different keys than the mainline kernel. Hopefully vendors
-don't do that, but it should be manageable for vendors to submit their own
-keys.
+>  	list_for_each_entry(mode, &connector->modes, head)
+>  		if (mode->type & DRM_MODE_TYPE_PREFERRED)
+>  			preferred =3D mode;
+> @@ -125,6 +129,18 @@ static const struct drm_connector_hdmi_funcs reject_=
+connector_hdmi_funcs =3D {
+>  	.tmds_char_rate_valid	=3D reject_connector_tmds_char_rate_valid,
+>  };
+> =20
+> +static enum drm_mode_status
+> +reject_100MHz_connector_tmds_char_rate_valid(const struct drm_connector =
+*connector,
+> +					     const struct drm_display_mode *mode,
+> +					     unsigned long long tmds_rate)
+> +{
+> +	return (tmds_rate > 100ULL * 1000 * 1000) ? MODE_BAD : MODE_OK;
+> +}
+> +
+> +static const struct drm_connector_hdmi_funcs reject_100_MHz_connector_hd=
+mi_funcs =3D {
+> +	.tmds_char_rate_valid	=3D reject_100MHz_connector_tmds_char_rate_valid,
+> +};
+> +
+>  static int dummy_connector_get_modes(struct drm_connector *connector)
+>  {
+>  	struct drm_atomic_helper_connector_hdmi_priv *priv =3D
+> @@ -147,6 +163,33 @@ static int dummy_connector_get_modes(struct drm_conn=
+ector *connector)
+>  static const struct drm_connector_helper_funcs dummy_connector_helper_fu=
+ncs =3D {
+>  	.atomic_check	=3D drm_atomic_helper_connector_hdmi_check,
+>  	.get_modes	=3D dummy_connector_get_modes,
+> +	.mode_valid	=3D drm_hdmi_connector_mode_valid,
+> +};
+> +
+> +static int dummy_connector_get_modes_100MHz_max_clock(struct drm_connect=
+or *connector)
+> +{
+> +	struct drm_atomic_helper_connector_hdmi_priv *priv =3D
+> +		connector_to_priv(connector);
+> +	const struct drm_edid *edid;
+> +	unsigned int num_modes;
+> +
+> +	edid =3D drm_edid_alloc(priv->current_edid, priv->current_edid_len);
+> +	if (!edid)
+> +		return -EINVAL;
+> +
+> +	drm_edid_connector_update(connector, edid);
+> +	connector->display_info.max_tmds_clock =3D 100 * 1000;
+> +	num_modes =3D drm_edid_connector_add_modes(connector);
+> +
+> +	drm_edid_free(edid);
+> +
+> +	return num_modes;
+> +}
 
-Thank you for bringing this up, it is an important issue! A main goal of
-this series was to get vendor extensions in a state that would be able
-to grow into a future when there are lots of vendors.
+I'd rather create a new fake edid than mess with those fields directly.
 
-> 
-> Thanks,
-> Yangyu Chen
-> 
-> > - CHarlie
-> > 
-> > > 
-> > > [1] https://github.com/riscv-non-isa/riscv-c-api-doc/blob/main/src/c-api.adoc#function-multi-version
-> > > [2] https://github.com/gcc-mirror/gcc/blob/8564d0948c72df0a66d7eb47e15c6ab43e9b25ce/gcc/config/riscv/riscv.cc#L13016
-> > > [3] https://github.com/llvm/llvm-project/blob/f407dff50cdcbcfee9dd92397d3792627c3ac708/clang/lib/CodeGen/CGBuiltin.cpp#L14627
-> > > 
-> > > > > 
-> > > > > > This new key will allow userspace code to probe for which thead vendor
-> > > > > > extensions are supported. This API is modeled to be consistent with
-> > > > > > RISCV_HWPROBE_KEY_IMA_EXT_0. The bitmask returned will have each bit
-> > > > > > corresponding to a supported thead vendor extension of the cpumask set.
-> > > > > > Just like RISCV_HWPROBE_KEY_IMA_EXT_0, this allows a userspace program
-> > > > > > to determine all of the supported thead vendor extensions in one call.
-> > > > > > 
-> > > > > > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> > > > > > Reviewed-by: Evan Green <evan@rivosinc.com>
-> > > > > > ---
-> > > > > >     arch/riscv/include/asm/hwprobe.h                   |  3 +-
-> > > > > >     .../include/asm/vendor_extensions/thead_hwprobe.h  | 19 +++++++++++
-> > > > > >     .../include/asm/vendor_extensions/vendor_hwprobe.h | 37 ++++++++++++++++++++++
-> > > > > >     arch/riscv/include/uapi/asm/hwprobe.h              |  3 +-
-> > > > > >     arch/riscv/include/uapi/asm/vendor/thead.h         |  3 ++
-> > > > > >     arch/riscv/kernel/sys_hwprobe.c                    |  5 +++
-> > > > > >     arch/riscv/kernel/vendor_extensions/Makefile       |  1 +
-> > > > > >     .../riscv/kernel/vendor_extensions/thead_hwprobe.c | 19 +++++++++++
-> > > > > >     8 files changed, 88 insertions(+), 2 deletions(-)
-> > > > > > 
-> > > > > 
-> > > 
-> > > 
-> 
-> 
+> +static const struct drm_connector_helper_funcs dummy_connector_helper_fu=
+ncs_max_tmds_clock =3D {
+> +	.atomic_check	=3D drm_atomic_helper_connector_hdmi_check,
+> +	.get_modes	=3D dummy_connector_get_modes_100MHz_max_clock,
+> +	.mode_valid	=3D drm_hdmi_connector_mode_valid,
+>  };
+> =20
+>  static void dummy_hdmi_connector_reset(struct drm_connector *connector)
+> @@ -1734,9 +1777,143 @@ static struct kunit_suite drm_atomic_helper_conne=
+ctor_hdmi_reset_test_suite =3D {
+>  	.test_cases	=3D drm_atomic_helper_connector_hdmi_reset_tests,
+>  };
+> =20
+> +static void drm_test_check_mode_valid(struct kunit *test)
+> +{
+> +	struct drm_atomic_helper_connector_hdmi_priv *priv;
+> +	struct drm_connector *conn;
+> +	struct drm_display_mode *preferred;
+> +
+> +	priv =3D drm_atomic_helper_connector_hdmi_init(test,
+> +						     BIT(HDMI_COLORSPACE_RGB),
+> +						     8);
+> +	KUNIT_ASSERT_NOT_NULL(test, priv);
+> +
+> +	conn =3D &priv->connector;
+> +	preferred =3D find_preferred_mode(conn);
+> +	KUNIT_ASSERT_NOT_NULL(test, preferred);
+> +
+> +	KUNIT_EXPECT_EQ(test, preferred->hdisplay, 1920);
+> +	KUNIT_EXPECT_EQ(test, preferred->vdisplay, 1080);
+> +	KUNIT_EXPECT_EQ(test, preferred->clock, 148500);
+> +}
+
+We need a comment on what that test tests, and expects.
+
+> +/*
+> + * Verify that tmds_char_rate_valid() can reject all modes.
+> + */
+> +static void drm_test_check_mode_valid_reject(struct kunit *test)
+> +{
+> +	struct drm_atomic_helper_connector_hdmi_priv *priv;
+> +	struct drm_connector *conn;
+> +	struct drm_display_mode *preferred;
+> +	struct drm_device *drm;
+> +	int ret;
+> +
+> +	priv =3D drm_atomic_helper_connector_hdmi_init(test,
+> +						     BIT(HDMI_COLORSPACE_RGB),
+> +						     8);
+> +	KUNIT_ASSERT_NOT_NULL(test, priv);
+> +
+> +	conn =3D &priv->connector;
+> +
+> +	/* You shouldn't be doing that at home. */
+> +	conn->hdmi.funcs =3D &reject_connector_hdmi_funcs;
+
+Just make drm_atomic_helper_connector_hdmi_init take an extra pointer.
+(Also, that's a super bad name, drm_kunit_helper_connector_hdmi_init or
+something would probably be better)
+
+> +	priv->current_edid =3D test_edid_hdmi_1080p_rgb_max_200mhz;
+> +	priv->current_edid_len =3D ARRAY_SIZE(test_edid_hdmi_1080p_rgb_max_200m=
+hz);
+> +
+> +	drm =3D &priv->drm;
+> +
+> +	mutex_lock(&drm->mode_config.mutex);
+> +	ret =3D conn->funcs->fill_modes(conn, 4096, 4096);
+> +	mutex_unlock(&drm->mode_config.mutex);
+> +	KUNIT_ASSERT_EQ(test, ret, 0);
+> +
+> +	preferred =3D find_preferred_mode(conn);
+> +	KUNIT_ASSERT_NULL(test, preferred);
+> +}
+
+Ditto, I can't really say what this test is doing. That's true for all the =
+tests.
+
+Maxime
+
+--ctnbsojadrep3a62
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZzYSvwAKCRAnX84Zoj2+
+dohLAYDBGNPxjefoQZarszL7SmQHh+gcbQ1qmjnw9mdINgc/xrWo0jnG44/KRH4H
+jqxD/8oBgJL52VZMA1oI681jUMpkVkt6sXSZ/75bABFjvBkGWR7xbqe4Dd04shtl
+08eYbNmcrw==
+=VFIw
+-----END PGP SIGNATURE-----
+
+--ctnbsojadrep3a62--
