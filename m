@@ -1,291 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEF843FBB3;
-	Thu, 14 Nov 2024 15:09:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94DF91B218E
+	for <linux-sunxi@lists.linux.dev>; Fri, 15 Nov 2024 13:10:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731596999; cv=none; b=uLFcDcK2LQlCUwjZsYH0JSUy858VU7X0/Z+b/qA3P/m27+vuol0TU8jXHEdtUwtDxRK/3CTdxshVK1JZyYeLM1tOWxuZhoW8aIEtmfdRezhEzocXus3ygpJF+MVyYCgGmjON0C4Y/4FafGiWcQbYsE4uSRVyLs4L+0wJN+eh08c=
+	t=1731676227; cv=none; b=rD0/JwrGtzrCrd7HZSJaDNwSPbjn2/VmcWa+4yqs1BVYzXMRlJz09zk93cJuCs2MgcYwIJjPJpQfld26ta2MX4gBy/1H9gkM6s4frlaqjkzPfPOv6Mcx1fB32/WxgxwB1+B9Qj6F1vv9/wtkCS6w8OPKIUatY0yz7kuAbbBYYb4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731596999; c=relaxed/simple;
-	bh=ME6KIamWeSOI33s1Q/u3yOgoY7BAZ8vEfrd9GVx6Ubg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DoxfrhwLAR+rEk3pAmrQE/o8C/YNnHLTbFA9zUwsb1GeqHC9aD2y/pJ9jL67uG6Kd7XuAd5TlG8v1SNGKJHu1iWNXIscHADfQpdh/iF5DCqawn5DcRm/eo/DtVFj869aSrgRecoH4MD2YMWn5INSrzO5spMS9QenB93AqLv/U7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a/1wb1nl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731676227; c=relaxed/simple;
+	bh=343ybbpmX5iksSzKM9ypRjU5swcB42IuW585AnKWbe0=;
+	h=Message-ID:Date:MIME-Version:Subject:CC:References:To:From:
+	 In-Reply-To:Content-Type; b=IhDZgasjTKGiBUloskkL61ngPu2FBYWoSHsK4yMhfYp4eFjooMEWamUu08kGoA8Umz1rzWzoLZScI4czdUvvyDL/fXbTRD/Fy9vNGvJO+fJ/w2NFHbR6T7hWrsIh9XD+NdWKf2+F8eZr0C74AyoSv6l6gBtcTLrFUYaKd8x+ris=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=j4+bHq7J; arc=none smtp.client-ip=193.68.50.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a/1wb1nl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED545C4CECD;
-	Thu, 14 Nov 2024 15:09:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731596999;
-	bh=ME6KIamWeSOI33s1Q/u3yOgoY7BAZ8vEfrd9GVx6Ubg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=a/1wb1nl/9lY6YzF0fepneAZtcvQkXu1q9cYzFfDJuEv9M5ZTJKPpmtJ8rafRzLd7
-	 2LvC7DvtvK795F/6KJaBT+W27vIVT0An9ovJ1EQG7+bBGX0k69bztkTHjcCzE3Y6nr
-	 p4zvmVapvs9WEFlLhUWvQatNbcNLzIZ+0H4QmcSZx9GnfSqAMFXEdmlGGUslPCsP36
-	 q5/vDqggPq0B5qV4Di3o2gZ4AE9mKqycyaM84ffvSJCHqOkPRJBtJmmp+Jl1DuuYj3
-	 ok6HU+ZqdHatdsxIs6nwPPGEfp0W0n8/8KI+P8eEY/XZu3feCXyy1RnjkZIXPRI4J+
-	 hPPwIhVQTH0cQ==
-Date: Thu, 14 Nov 2024 16:09:56 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v3 1/7] drm/display: hdmi: add generic mode_valid helper
-Message-ID: <20241114-certain-ginger-quail-cd8b5d@houat>
-References: <20241109-hdmi-mode-valid-v3-0-5348c2368076@linaro.org>
- <20241109-hdmi-mode-valid-v3-1-5348c2368076@linaro.org>
+	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="j4+bHq7J"
+Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
+	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id 17A1FA0796;
+	Fri, 15 Nov 2024 14:10:16 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:from:from:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=mail; bh=gL17cNe8aUMuYGVpdJHN
+	MdCT/ltALl3FTv9dzom/v2g=; b=j4+bHq7Jo+dhNWLyZXAaJT5+Ai6ztopDA46K
+	mkzikFbuuvIc6qdTZrRQbXuVCk1FvlKJc3MdFcBNm1upXpxy38ILmDztpH3XAhJV
+	OdhBXl4zlnJANOedHrj2Zg6KsagE9WnyTACOZ+h0tsJWB0IRHLzZljG5fooOsTRW
+	09mZOvvtiHxzWBoiHUbS+0YLHQSRNbBlE+dBSkXH9fTqXk9KeGP2eZioVGZZ71VL
+	EMqYLSycdJGtS5/KvrE0Z8XUHKj1E4dsg8YBYSLGLPGSnUso8CdjseM2FqTmQ0U2
+	zw0r6+7U3hgDnKvVXCFZzMee3E/KknkgoVPI9+4f36twRV/rS6mTf8Vyi8hePYkW
+	AfZWOeQOpQ94I/lNgPUvArwxYecB8oZgxlNM/HS3khczmjeid1H32Ey+8KExdtRL
+	8m1Bj/NS95HaPBNHHS0spB7pAH297hrqhQPoFYI62K6eEQKHRY30sfN2AX72PK4K
+	Z9xJ7A02LODEwkl6K3eQ4sgdKBY1ihsgDkWUKkyE6/qNmjuBDCJgPFSh9C0L+fFP
+	AvdN+vSU8H5t9bGp14aHPhw6GoaZtprZDZn3Z06IFOtPkr2NIyrg0F46BPHUHNc4
+	u9AMe2XzOGxi9t3i3FREaD/x/ZQqtifxivIHt5Y8NTgdN5D/z1JIyWsxerkVrTL8
+	Q/3Ish8=
+Message-ID: <f1d3f71d-2e36-4ff2-9487-8494e7241c31@prolan.hu>
+Date: Fri, 15 Nov 2024 14:10:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="ctnbsojadrep3a62"
-Content-Disposition: inline
-In-Reply-To: <20241109-hdmi-mode-valid-v3-1-5348c2368076@linaro.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 0/5] Add support for DMA of F1C100s
+CC: Mark Brown <broonie@kernel.org>, Mesih Kilinc <mesihkilinc@gmail.com>,
+	Vinod Koul <vkoul@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+	<jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, "Chen-Yu
+ Tsai" <wens@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Philipp Zabel
+	<p.zabel@pengutronix.de>, Conor Dooley <conor.dooley@microchip.com>, "Rob
+ Herring" <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, "Conor
+ Dooley" <conor+dt@kernel.org>, Amit Singh Tomar <amitsinght@marvell.com>
+References: <20241102093140.2625230-1-csokas.bence@prolan.hu>
+Content-Language: en-US
+To: <dmaengine@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-sunxi@lists.linux.dev>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>
+From: =?UTF-8?B?Q3PDs2vDoXMgQmVuY2U=?= <csokas.bence@prolan.hu>
+In-Reply-To: <20241102093140.2625230-1-csokas.bence@prolan.hu>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: ATLAS.intranet.prolan.hu (10.254.0.229) To
+ ATLAS.intranet.prolan.hu (10.254.0.229)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A2980D94855617C6B
 
+Can this be merged? The merge window is coming up, and there's still the 
+other half of the series waiting on this.
+Bence
 
---ctnbsojadrep3a62
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 1/7] drm/display: hdmi: add generic mode_valid helper
-MIME-Version: 1.0
+On 2024. 11. 02. 10:31, Csókás, Bence wrote:
+> Support for Allwinner F1C100s/200s series audio was
+> submitted in 2018 as an RFC series, but was not merged,
+> despite having only minor errors. However, this is
+> essential for having audio on these SoCs.
+> This series was forward-ported/rebased to the best of
+> my abilities, on top of Linus' tree as of now:
+> commit c2ee9f594da8 ("KVM: selftests: Fix build on on non-x86 architectures")
+> 
+> Link: https://lore.kernel.org/all/cover.1543782328.git.mesihkilinc@gmail.com/
+> 
+> As requested by many, this series will now be split in 2, the DMA and the
+> ALSA/ASoC codec driver. This is the DMA part of the series.
+> 
+> Csókás, Bence (1):
+>    dt-bindings: dmaengine: Add Allwinner suniv F1C100s DMA
+> 
+> Mesih Kilinc (4):
+>    dma-engine: sun4i: Add a quirk to support different chips
+>    dma-engine: sun4i: Add has_reset option to quirk
+>    dma-engine: sun4i: Add support for Allwinner suniv F1C100s
+>    ARM: dts: suniv: f1c100s: Add support for DMA
+> 
+>   .../bindings/dma/allwinner,sun4i-a10-dma.yaml |   4 +-
+>   .../arm/boot/dts/allwinner/suniv-f1c100s.dtsi |  10 +
+>   drivers/dma/Kconfig                           |   4 +-
+>   drivers/dma/sun4i-dma.c                       | 217 +++++++++++++++---
+>   4 files changed, 200 insertions(+), 35 deletions(-)
+> 
 
-Hi,
-
-On Sat, Nov 09, 2024 at 02:35:05PM +0200, Dmitry Baryshkov wrote:
-> Add drm_hdmi_connector_mode_valid(), generic helper for HDMI connectors.
-> It can be either used directly or as a part of the .mode_valid callback.
->=20
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  drivers/gpu/drm/display/drm_hdmi_state_helper.c    |  21 +++
->  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 181 +++++++++++++++=
-+++++-
->  include/drm/display/drm_hdmi_state_helper.h        |   4 +
->  3 files changed, 204 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gp=
-u/drm/display/drm_hdmi_state_helper.c
-> index feb7a3a759811aed70c679be8704072093e2a79b..80bf2829ba89b5f84fed4fa9e=
-b1d6302e10a4f9e 100644
-> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> @@ -521,6 +521,27 @@ int drm_atomic_helper_connector_hdmi_check(struct dr=
-m_connector *connector,
->  }
->  EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_check);
-> =20
-> +/**
-> + * drm_hdmi_connector_mode_valid() - Check if mode is valid for HDMI con=
-nector
-> + * @connector: DRM connector to validate the mode
-> + * @mode: Display mode to validate
-> + *
-> + * Generic .mode_valid implementation for HDMI connectors.
-> + */
-> +enum drm_mode_status
-> +drm_hdmi_connector_mode_valid(struct drm_connector *connector,
-> +			      struct drm_display_mode *mode)
-> +{
-> +	unsigned long long clock;
-> +
-> +	clock =3D drm_hdmi_compute_mode_clock(mode, 8, HDMI_COLORSPACE_RGB);
-> +	if (!clock)
-> +		return MODE_ERROR;
-> +
-> +	return hdmi_clock_valid(connector, mode, clock);
-> +}
-> +EXPORT_SYMBOL(drm_hdmi_connector_mode_valid);
-> +
->  static int clear_device_infoframe(struct drm_connector *connector,
->  				  enum hdmi_infoframe_type type)
->  {
-> diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers=
-/gpu/drm/tests/drm_hdmi_state_helper_test.c
-> index 294773342e710dc56772f839c2db9c2e487bbc1e..67c3e882592b00d803d8cba5d=
-183aa90339a16b4 100644
-> --- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-> +++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-> @@ -43,10 +43,14 @@ struct drm_atomic_helper_connector_hdmi_priv {
->  static struct drm_display_mode *find_preferred_mode(struct drm_connector=
- *connector)
->  {
->  	struct drm_device *drm =3D connector->dev;
-> -	struct drm_display_mode *mode, *preferred;
-> +	struct drm_display_mode *mode, *preferred =3D NULL;
-> =20
->  	mutex_lock(&drm->mode_config.mutex);
-> -	preferred =3D list_first_entry(&connector->modes, struct drm_display_mo=
-de, head);
-> +
-> +	/* Handle the case when all modes were rejected by mode_valid() */
-> +	if (!list_empty(&connector->modes))
-> +		preferred =3D list_first_entry(&connector->modes, struct drm_display_m=
-ode, head);
-> +
-
-Sorry if it wasn't clear in my previous review, but I would have
-expected a separate patch for that change.
-
->  	list_for_each_entry(mode, &connector->modes, head)
->  		if (mode->type & DRM_MODE_TYPE_PREFERRED)
->  			preferred =3D mode;
-> @@ -125,6 +129,18 @@ static const struct drm_connector_hdmi_funcs reject_=
-connector_hdmi_funcs =3D {
->  	.tmds_char_rate_valid	=3D reject_connector_tmds_char_rate_valid,
->  };
-> =20
-> +static enum drm_mode_status
-> +reject_100MHz_connector_tmds_char_rate_valid(const struct drm_connector =
-*connector,
-> +					     const struct drm_display_mode *mode,
-> +					     unsigned long long tmds_rate)
-> +{
-> +	return (tmds_rate > 100ULL * 1000 * 1000) ? MODE_BAD : MODE_OK;
-> +}
-> +
-> +static const struct drm_connector_hdmi_funcs reject_100_MHz_connector_hd=
-mi_funcs =3D {
-> +	.tmds_char_rate_valid	=3D reject_100MHz_connector_tmds_char_rate_valid,
-> +};
-> +
->  static int dummy_connector_get_modes(struct drm_connector *connector)
->  {
->  	struct drm_atomic_helper_connector_hdmi_priv *priv =3D
-> @@ -147,6 +163,33 @@ static int dummy_connector_get_modes(struct drm_conn=
-ector *connector)
->  static const struct drm_connector_helper_funcs dummy_connector_helper_fu=
-ncs =3D {
->  	.atomic_check	=3D drm_atomic_helper_connector_hdmi_check,
->  	.get_modes	=3D dummy_connector_get_modes,
-> +	.mode_valid	=3D drm_hdmi_connector_mode_valid,
-> +};
-> +
-> +static int dummy_connector_get_modes_100MHz_max_clock(struct drm_connect=
-or *connector)
-> +{
-> +	struct drm_atomic_helper_connector_hdmi_priv *priv =3D
-> +		connector_to_priv(connector);
-> +	const struct drm_edid *edid;
-> +	unsigned int num_modes;
-> +
-> +	edid =3D drm_edid_alloc(priv->current_edid, priv->current_edid_len);
-> +	if (!edid)
-> +		return -EINVAL;
-> +
-> +	drm_edid_connector_update(connector, edid);
-> +	connector->display_info.max_tmds_clock =3D 100 * 1000;
-> +	num_modes =3D drm_edid_connector_add_modes(connector);
-> +
-> +	drm_edid_free(edid);
-> +
-> +	return num_modes;
-> +}
-
-I'd rather create a new fake edid than mess with those fields directly.
-
-> +static const struct drm_connector_helper_funcs dummy_connector_helper_fu=
-ncs_max_tmds_clock =3D {
-> +	.atomic_check	=3D drm_atomic_helper_connector_hdmi_check,
-> +	.get_modes	=3D dummy_connector_get_modes_100MHz_max_clock,
-> +	.mode_valid	=3D drm_hdmi_connector_mode_valid,
->  };
-> =20
->  static void dummy_hdmi_connector_reset(struct drm_connector *connector)
-> @@ -1734,9 +1777,143 @@ static struct kunit_suite drm_atomic_helper_conne=
-ctor_hdmi_reset_test_suite =3D {
->  	.test_cases	=3D drm_atomic_helper_connector_hdmi_reset_tests,
->  };
-> =20
-> +static void drm_test_check_mode_valid(struct kunit *test)
-> +{
-> +	struct drm_atomic_helper_connector_hdmi_priv *priv;
-> +	struct drm_connector *conn;
-> +	struct drm_display_mode *preferred;
-> +
-> +	priv =3D drm_atomic_helper_connector_hdmi_init(test,
-> +						     BIT(HDMI_COLORSPACE_RGB),
-> +						     8);
-> +	KUNIT_ASSERT_NOT_NULL(test, priv);
-> +
-> +	conn =3D &priv->connector;
-> +	preferred =3D find_preferred_mode(conn);
-> +	KUNIT_ASSERT_NOT_NULL(test, preferred);
-> +
-> +	KUNIT_EXPECT_EQ(test, preferred->hdisplay, 1920);
-> +	KUNIT_EXPECT_EQ(test, preferred->vdisplay, 1080);
-> +	KUNIT_EXPECT_EQ(test, preferred->clock, 148500);
-> +}
-
-We need a comment on what that test tests, and expects.
-
-> +/*
-> + * Verify that tmds_char_rate_valid() can reject all modes.
-> + */
-> +static void drm_test_check_mode_valid_reject(struct kunit *test)
-> +{
-> +	struct drm_atomic_helper_connector_hdmi_priv *priv;
-> +	struct drm_connector *conn;
-> +	struct drm_display_mode *preferred;
-> +	struct drm_device *drm;
-> +	int ret;
-> +
-> +	priv =3D drm_atomic_helper_connector_hdmi_init(test,
-> +						     BIT(HDMI_COLORSPACE_RGB),
-> +						     8);
-> +	KUNIT_ASSERT_NOT_NULL(test, priv);
-> +
-> +	conn =3D &priv->connector;
-> +
-> +	/* You shouldn't be doing that at home. */
-> +	conn->hdmi.funcs =3D &reject_connector_hdmi_funcs;
-
-Just make drm_atomic_helper_connector_hdmi_init take an extra pointer.
-(Also, that's a super bad name, drm_kunit_helper_connector_hdmi_init or
-something would probably be better)
-
-> +	priv->current_edid =3D test_edid_hdmi_1080p_rgb_max_200mhz;
-> +	priv->current_edid_len =3D ARRAY_SIZE(test_edid_hdmi_1080p_rgb_max_200m=
-hz);
-> +
-> +	drm =3D &priv->drm;
-> +
-> +	mutex_lock(&drm->mode_config.mutex);
-> +	ret =3D conn->funcs->fill_modes(conn, 4096, 4096);
-> +	mutex_unlock(&drm->mode_config.mutex);
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-> +
-> +	preferred =3D find_preferred_mode(conn);
-> +	KUNIT_ASSERT_NULL(test, preferred);
-> +}
-
-Ditto, I can't really say what this test is doing. That's true for all the =
-tests.
-
-Maxime
-
---ctnbsojadrep3a62
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZzYSvwAKCRAnX84Zoj2+
-dohLAYDBGNPxjefoQZarszL7SmQHh+gcbQ1qmjnw9mdINgc/xrWo0jnG44/KRH4H
-jqxD/8oBgJL52VZMA1oI681jUMpkVkt6sXSZ/75bABFjvBkGWR7xbqe4Dd04shtl
-08eYbNmcrw==
-=VFIw
------END PGP SIGNATURE-----
-
---ctnbsojadrep3a62--
