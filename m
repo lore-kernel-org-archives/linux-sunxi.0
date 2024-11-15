@@ -1,100 +1,102 @@
-Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A96E01BBBEE
-	for <linux-sunxi@lists.linux.dev>; Fri, 15 Nov 2024 13:10:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DC231D0DDF;
+	Fri, 15 Nov 2024 15:07:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731676228; cv=none; b=mCadGocRH0lRm41bSK1GzlmFUs/4SBuf5ghlNPWoBV1V0SUCTo+ag7EjG4UA4Xr9vMas0bmW74xoa9f+Cc+YnDA9amm2WKFkDgrGWl6zgQ2FSXbKzknPN9CNBDbgKU8c/07OnH2H01cT0fya45wkG9MpYSvMz4QUGHQ7pBASyVA=
+	t=1731683224; cv=none; b=kOrHRlZwZ//ilVLl4KwuoyXt5lOSlB18OdauxFdrQv3DyLnGZHy0/DaDz4G4asJXQAu+ypmKUE+pBfRkGIqAmyxm6zLvw+JMd4c3CfJThUEYivGCMVVcw9YizwqkP9LQMuGWAmuW4Utvg0eEqpsGn9Qs7vbA/MBhPm+aOm306Wg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731676228; c=relaxed/simple;
-	bh=YWWv8XRqDyTMxPK9th3Gjlbl6D4b52dcqf1sIGOyhjQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=UuDutTeDRu+pmrFz/G4L0Rr6fa9dYEgjXT+s1+/GWhE3klNWh2CTjPe7x8Kr1OTHG5ZWWGuNi2XJdOqGKmNX20jWwTYquIBvG/J5diyUYvSZJZyJ8aRK6BfJPFr8xgu3GVfcMqVE27Ftcbg3VZO9bGDKN4momHU9eTWx8YNBvEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=D3Hh6YsX; arc=none smtp.client-ip=193.68.50.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
+	s=arc-20240116; t=1731683224; c=relaxed/simple;
+	bh=488LeDMT03GJrMxbHp32JdOvGZEH1XPQ5yO1aJUMtrM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nMzcEjcReWbInUhf957M2QUPVaWmTKT7sp5yuuB+4/RHt7iFtshTYwV1f6SQO9VDiTcgn2Z1MI93un/fImgz4m1TyoyH06yZNfyD0unjoYMJYsTbfMqmk2kkFND5cozoW9s8fyZ78Tm69HeXhl4BhAIDa1ojIlRBlpwi11BmnAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Co6tX4Ce; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="D3Hh6YsX"
-Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
-	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id 8E891A03F3;
-	Fri, 15 Nov 2024 14:10:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:from:from:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=mail; bh=NLb7/7MPArmAXwhvn/nb
-	ETdJKG+sBfotx0epRnf772U=; b=D3Hh6YsXVmldwd00F0xnlFbvCldf8nptR4ML
-	VFfjs7I1othA8hMb7lgf16ZHQ8tNiocGolWZVWWaeNwIw1CDPp8gEWlx0T+c6gqE
-	Z4Uh3wVA7GdXs39/VfUQ2pAot3ytdBL0rIKxIl4G0VPMZqUSeXXgHb/zNeav7rIL
-	PNse3NGlSwhDS4ttXJSU0qGoo6niaaV1AWgmA3ZO2MI3FfCfxGv56Ut38J/BRH7r
-	Vey14L90aLkODZ2SaUjrzkxs9/OC4nTre0yoEYHiIpfvQmD0GB++vTeaqmChWdns
-	kvjpuO/ippfyAV6yq24Ct5qToOSkkgte8YCh7JF+UbW7RX4hFHzUa2FHgfoKtePf
-	97UdNkHZEMMjvDpTrHfAsr4EQDEK8klGtF7CYrrVCp0ypyacKI3vXMN3Ep+rjKC1
-	jFK+MOw2t952uD58CkcbtNT6MchfiQgq+ZeiA2sOdSWZSJ4gugnq5WCmRYAfHH9W
-	xkHv/XttlUZVMYI0duL5cE93D3T2C/5d9ryJD6zWVbffEw53zGPvmEEZfxEy8Aea
-	p0SlGg+8+gfPd4bojZw+xS0GxwWeaPQrnNhlVvs7SLoFQg/0by3DrVNbS5Ye3lf0
-	C7LCEIYxogg4ZuYKgLFBVVrTaM+xC4FWpG+KQg6jwDZlAIt4Uh8ovnJSLTLKLwvs
-	GBhSjH0=
-Message-ID: <594b2929-f7ab-4d30-a97c-1b1b31258d25@prolan.hu>
-Date: Fri, 15 Nov 2024 14:10:18 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Co6tX4Ce"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88E5AC4CED2;
+	Fri, 15 Nov 2024 15:07:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731683224;
+	bh=488LeDMT03GJrMxbHp32JdOvGZEH1XPQ5yO1aJUMtrM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Co6tX4Ce0VaVN457Y6xZQmCTc8t+xi/xAm+t+3InloQINTJh2BpB/nwZgf3oai06a
+	 f02yy9DrXsJVjdJs+lDhPqAQGlqA0DvdCa3UquyRZBmNYIAy3SXtjG6oNpabz+RAY3
+	 V/IRL6sP4LBMG6pop7ujpqTnoIX23FYhsceHWpFMYQ/R1oztbtFc9NtPLsBluf/a8r
+	 MlBgjtKTbNUKIynZLJKvBlKF6yxoBnD53h4SdcxrBcOwAkDm/RNzudoosoqcKiM1Zn
+	 rH8XL/yQL3ORJGnUTOfNgYMjyjlcttz1dD6JWaw3MtO9NuwFvF24656s3dLKtjw/ah
+	 Z4Z1EsPp+B1VA==
+Date: Fri, 15 Nov 2024 15:07:01 +0000
+From: Mark Brown <broonie@kernel.org>
+To: =?iso-8859-1?B?Q3Pza+Fz?= Bence <csokas.bence@prolan.hu>
+Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Mesih Kilinc <mesihkilinc@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH v5 0/3] Add support for codec of F1C100s
+Message-ID: <ZzdjlbelMywpXOAI@finisterre.sirena.org.uk>
+References: <20241102125712.2647325-1-csokas.bence@prolan.hu>
+ <594b2929-f7ab-4d30-a97c-1b1b31258d25@prolan.hu>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/3] Add support for codec of F1C100s
-To: <linux-sound@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-CC: Mesih Kilinc <mesihkilinc@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, "Takashi
- Iwai" <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
-	<jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Rob Herring
-	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
-	<conor+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>
-References: <20241102125712.2647325-1-csokas.bence@prolan.hu>
-Content-Language: en-US
-From: =?UTF-8?B?Q3PDs2vDoXMgQmVuY2U=?= <csokas.bence@prolan.hu>
-In-Reply-To: <20241102125712.2647325-1-csokas.bence@prolan.hu>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: ATLAS.intranet.prolan.hu (10.254.0.229) To
- ATLAS.intranet.prolan.hu (10.254.0.229)
-X-EsetResult: clean, is OK
-X-EsetId: 37303A2980D94855617C6B
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Ep0istO153xYfToL"
+Content-Disposition: inline
+In-Reply-To: <594b2929-f7ab-4d30-a97c-1b1b31258d25@prolan.hu>
+X-Cookie: Editing is a rewording activity.
 
-So, if there's no further remarks, can this be merged? The next window 
-is coming up, and there's the DT addition still waiting in the pipe.
-Bence
 
-On 2024. 11. 02. 13:57, Csókás, Bence wrote:
-> Support for Allwinner F1C100s/200s series audio was
-> submitted in 2018 as an RFC series, but was not merged,
-> despite having only minor errors. However, this is
-> essential for having audio on these SoCs.
-> This series was forward-ported/rebased to the best of
-> my abilities, on top of Linus' tree as of now:
-> commit c2ee9f594da8 ("KVM: selftests: Fix build on on non-x86 architectures")
-> 
-> Link: https://lore.kernel.org/all/cover.1543782328.git.mesihkilinc@gmail.com/
-> 
-> As requested by many, this series will now be split in 2, the DMA and the
-> ALSA/ASoC codec driver. This is the codec part of the series.
-> The first part (DMA) can be seen here. This series can be applied and
-> built without the former, but for working audio you need them both,
-> plus add it to Device Tree.
-> Link: https://lore.kernel.org/linux-kernel/20241102093140.2625230-2-csokas.bence@prolan.hu/
-> 
-> Csókás, Bence (1):
->    dt-bindings: sound: Add Allwinner suniv F1C100s Audio Codec
-> 
-> Mesih Kilinc (2):
->    ASoC: sun4i-codec: Add DMA Max Burst field
->    ASoC: sun4i-codec: Add support for Allwinner suniv F1C100s
-> 
->   .../sound/allwinner,sun4i-a10-codec.yaml      |  31 ++
->   sound/soc/sunxi/sun4i-codec.c                 | 365 +++++++++++++++++-
->   2 files changed, 394 insertions(+), 2 deletions(-)
-> 
+--Ep0istO153xYfToL
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Nov 15, 2024 at 02:10:18PM +0100, Cs=F3k=E1s Bence wrote:
+> So, if there's no further remarks, can this be merged? The next window is
+> coming up, and there's the DT addition still waiting in the pipe.
+
+Please don't send content free pings and please allow a reasonable time
+for review.  People get busy, go on holiday, attend conferences and so=20
+on so unless there is some reason for urgency (like critical bug fixes)
+please allow at least a couple of weeks for review.  If there have been
+review comments then people may be waiting for those to be addressed.
+
+Sending content free pings adds to the mail volume (if they are seen at
+all) which is often the problem and since they can't be reviewed
+directly if something has gone wrong you'll have to resend the patches
+anyway, so sending again is generally a better approach though there are
+some other maintainers who like them - if in doubt look at how patches
+for the subsystem are normally handled.
+
+Please don't top post, reply in line with needed context.  This allows
+readers to readily follow the flow of conversation and understand what
+you are talking about and also helps ensure that everything in the
+discussion is being addressed.
+
+--Ep0istO153xYfToL
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmc3Y5QACgkQJNaLcl1U
+h9CPLgf/ZgHaaghsRbFT07zKYB2H+48YxD21K6sLJgxlXtbMMZxTghpDMVHRI19W
+mt1JU3JUgIXEIyrAT9ya5WZlvPygJWxblECU0+Qqg/MXR19qGco9nQ/roMTS1xIE
+GbkbECeHM1V21BdDIQt0Od3a0fwUBgrqV8IsJfpsV2FI51+1IeMmZ8RAeBCnoE2G
+EjudHbRo4hmY7+J/deS3+eZxCK9eKYsmasrrfFXejlr0JqHEan1uPyLF8oqRdf5e
+ZjEi97j4fAuladvktKKzAADVuVMa0+exvloFO1HUABgUgY7T9xkWAOzy5q/rOScJ
+4gDyakjE2bFbI9NDZE65L6Q5FdGctQ==
+=r8ND
+-----END PGP SIGNATURE-----
+
+--Ep0istO153xYfToL--
