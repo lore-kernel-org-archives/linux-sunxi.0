@@ -1,127 +1,195 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C215F1917FD
-	for <linux-sunxi@lists.linux.dev>; Sat, 16 Nov 2024 18:03:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E2E81D8A0B;
+	Sun, 17 Nov 2024 20:54:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731780200; cv=none; b=It3y0/y6qPV0RrsIfcPSxMRxRyk7l5QWIG/OBDtQP2MYaSXKdzHWq5RoE8K00DU8CTENoaI0Y0KltgndBqwnful2s8luT7+hsG4R+iXtZCPdFUr8snBnzjR52cJRHJXZhPENKBRBdX00ipxWPAWQnw7bDXWeilNv0fy9XmASnCk=
+	t=1731876886; cv=none; b=t4lmYoX6ZLkOtSjLDubmKWp/EvqoGdvk5GBpfp7TCdrVAzotZW3GmUk45YxaHuf4VoPlE+atiOC9DFFSkJpcuOUSpC4xBeC1kKRfn2J52N94GGfJzzvRxt4wfesQQoWkmruEjo+pB9d0A3FNlos0F+tR+166ARMUFBVRsSd58Ps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731780200; c=relaxed/simple;
-	bh=0jjERzUdBGaOyD8hozmGujUsFYfwS4ojvocwRF0u2o4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oGtXIj+ob325VYnM8/YIxdvEZc89czMNn2pOA90lnCtNmxhAWHSAPjF3UWYxM90JjfW444SDauuJPlCOu/33e4sDykpzujgN3QY+CifzMSe1ZMHD2+nlemCr2gDmGdkM3NeXbU5kvIxfxBqoMDQmsC3zCOxrKyyDG9kgY407m9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=AJJCkp2r; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
+	s=arc-20240116; t=1731876886; c=relaxed/simple;
+	bh=w9SUo0onmIEsCbHLk8aWeLWWcw+C7sEI352gJsh+oTo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uAHkXXuUgrgHZMegLcncXyYT05HB61j8b6lThkdSI4aVj28ZZXb0phb6wXWLwIo+bImHNTUMM4Bn0Ux8IkH+ydOpgVIuMDbpJPnVOqrXWJj9c/R6jdB4SNtFPGM/bSI41okC8zhCI0YRexY5BzIuNTkDo+VPjqcG8Edfn9Scdqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=XZe5vUJI; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="AJJCkp2r"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a9a0ef5179dso544128466b.1
-        for <linux-sunxi@lists.linux.dev>; Sat, 16 Nov 2024 10:03:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1731780197; x=1732384997; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZZp2LLELhHXaHE6P8yqyIkdBBd7fnVylmpcd4GsYhTg=;
-        b=AJJCkp2rj9HzBz6XQMFjUUp6qRueVPZHSa1BVf5CD2fgm0v8h0m3QjOkwiFqVt3yPU
-         GULzzED0EZ2IFPD+zF61AhNpS1bRsqM64H5+0ISyDDiWnQtAMp+aM3PICekSEXNjEQuW
-         yS3HJgKtRlWe/Dl76U6hZ4vbHCAXINrBIkwmE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731780197; x=1732384997;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZZp2LLELhHXaHE6P8yqyIkdBBd7fnVylmpcd4GsYhTg=;
-        b=gkpzEytkPLzHvmMo1Gg238AGtKJwd6xSpxIQ8whES9BQdCoZKD7wF6ZQoINszpiR/B
-         z5ypJT2ZfZ9HwlTZfJz1K56XFjK8a+kpK0TQE3flwmnyY3XwePIDafbASHXWhUlFi7vF
-         8hHAf+8jR0Vvtu3BZSslJVovXPpKcFhecr++r/Vd5iv4oEZ2OoQOuM5tsioEzr12E9Vm
-         TJYWgfYneXuVlb6SUMoj7FknTXovWcv6sSIeJGzxUU79jqm8Pezs1y9j2jJytpU6sNri
-         HpRgcszV46aRUM4izUAZ203mTOecPqLqLfVN9vJ5y34yVOAqVPw8dvXfeM2uYo32wfrJ
-         e4dQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW9DmikFOsNU+uuu8W3vNNa0hhJekW9poRDjTpXKsN3xIXuSe1/jZNweOIZdN6xat6tH+NRs47NL8Kfew==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxloHOIEedLV6OFTHEK1m3yIlyUCOxP7r3DLu4LIvpqyi+ddie+
-	kYPtmks+pVvHGxxpbmxgAnhmFruzspTxZZBvwKKAqF2jkpjNcW8EkKTqLOEoths=
-X-Google-Smtp-Source: AGHT+IHco/HhB19U8GRhXEYmlvtasr6hZ6h72SXfmIX9BAE4Ibve8haYdY+6mq7whoM3rHFNs0pSVA==
-X-Received: by 2002:a17:907:d24:b0:a9a:bbcd:e63 with SMTP id a640c23a62f3a-aa483421c58mr612801466b.14.1731780196892;
-        Sat, 16 Nov 2024 10:03:16 -0800 (PST)
-Received: from dario-ThinkPad-T14s-Gen-2i.homenet.telecomitalia.it (host-82-54-94-193.retail.telecomitalia.it. [82.54.94.193])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa20dc6d364sm329549066b.0.2024.11.16.10.03.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Nov 2024 10:03:16 -0800 (PST)
-From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-To: linux-kernel@vger.kernel.org
-Cc: linux-amarula@amarulasolutions.com,
-	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Chen-Yu Tsai <wens@csie.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Gerhard Bertelsmann <info@gerhard-bertelsmann.de>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XZe5vUJI"
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 701F57FE;
+	Sun, 17 Nov 2024 21:54:19 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1731876859;
+	bh=w9SUo0onmIEsCbHLk8aWeLWWcw+C7sEI352gJsh+oTo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XZe5vUJIolLfMAXIsVhz7GffiGmYnhewBuHdpxEvyTaXOd4N0DgZ4tZSXv4c2lG6W
+	 P1rY+Y4mit0F7L7b6m1SfRmXQEUS7GNzudoX7LQ8FZPzyXf8+sXDu7C268CgkZxL7P
+	 /8QQwAwE2VSY81CTqI8e/nIrkb9w4cBk5Zd/KEKQ=
+Date: Sun, 17 Nov 2024 22:54:26 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Maxime Ripard <mripard@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+	Danilo Krummrich <dakr@redhat.com>,
+	Harry Wentland <harry.wentland@amd.com>,
+	Leo Li <sunpeng.li@amd.com>,
+	Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	Xinhui Pan <Xinhui.Pan@amd.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Raphael Gallais-Pou <rgallaispou@gmail.com>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Peter Senna Tschudin <peter.senna@gmail.com>,
+	Ian Ray <ian.ray@ge.com>,
+	Martyn Welch <martyn.welch@collabora.co.uk>,
+	Inki Dae <inki.dae@samsung.com>,
+	Seung-Woo Kim <sw0312.kim@samsung.com>,
+	Kyungmin Park <kyungmin.park@samsung.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>,
+	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Rob Clark <robdclark@gmail.com>,
+	Abhinav Kumar <quic_abhinavk@quicinc.com>,
+	Sean Paul <sean@poorly.run>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+	Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>,
 	Samuel Holland <samuel@sholland.org>,
-	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+	Gurchetan Singh <gurchetansingh@chromium.org>,
+	Chia-I Wu <olvaffe@gmail.com>, Zack Rusin <zack.rusin@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	nouveau@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-can@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	netdev@vger.kernel.org
-Subject: [PATCH 5/7] can: sun4i_can: fix {rx,tx}_errors statistics
-Date: Sat, 16 Nov 2024 19:02:34 +0100
-Message-ID: <20241116180301.3935879-6-dario.binacchi@amarulasolutions.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241116180301.3935879-1-dario.binacchi@amarulasolutions.com>
-References: <20241116180301.3935879-1-dario.binacchi@amarulasolutions.com>
+	linux-samsung-soc@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+	virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
+	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 1/5] drm/encoder_slave: make mode_valid accept const
+ struct drm_display_mode
+Message-ID: <20241117205426.GE12409@pendragon.ideasonboard.com>
+References: <20241115-drm-connector-mode-valid-const-v1-0-b1b523156f71@linaro.org>
+ <20241115-drm-connector-mode-valid-const-v1-1-b1b523156f71@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241115-drm-connector-mode-valid-const-v1-1-b1b523156f71@linaro.org>
 
-The sun4i_can_err() function only incremented the receive error counter
-and never the transmit error counter, even if the STA_ERR_DIR flag
-reported that an error had occurred during transmission. The patch
-increments the receive/transmit error counter based on the value of the
-STA_ERR_DIR flag.
+Hi Dmitry,
 
-Fixes: 0738eff14d81 ("can: Allwinner A10/A20 CAN Controller support - Kernel module")
-Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
----
+Thank you for the patch.
 
- drivers/net/can/sun4i_can.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+On Fri, Nov 15, 2024 at 11:09:26PM +0200, Dmitry Baryshkov wrote:
+> The mode_valid() callbacks of drm_encoder, drm_crtc and drm_bridge
+> accept const struct drm_display_mode argument. Change the mode_valid
+> callback of drm_encoder_slave to also accept const argument.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-diff --git a/drivers/net/can/sun4i_can.c b/drivers/net/can/sun4i_can.c
-index 360158c295d3..40939141749d 100644
---- a/drivers/net/can/sun4i_can.c
-+++ b/drivers/net/can/sun4i_can.c
-@@ -579,7 +579,6 @@ static int sun4i_can_err(struct net_device *dev, u8 isrc, u8 status)
- 		/* bus error interrupt */
- 		netdev_dbg(dev, "bus error interrupt\n");
- 		priv->can.can_stats.bus_error++;
--		stats->rx_errors++;
- 
- 		if (likely(skb)) {
- 			ecc = readl(priv->base + SUN4I_REG_STA_ADDR);
-@@ -602,8 +601,12 @@ static int sun4i_can_err(struct net_device *dev, u8 isrc, u8 status)
- 				break;
- 			}
- 			/* error occurred during transmission? */
--			if ((ecc & SUN4I_STA_ERR_DIR) == 0)
-+			if ((ecc & SUN4I_STA_ERR_DIR) == 0) {
- 				cf->data[2] |= CAN_ERR_PROT_TX;
-+				stats->tx_errors++;
-+			} else {
-+				stats->rx_errors++;
-+			}
- 		}
- 	}
- 	if (isrc & SUN4I_INT_ERR_PASSIVE) {
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+On a side note, there's only two I2C slave encoder drivers left... I
+wonder if we could so something about them. The ch7006 and sil164
+drivers seem to be used by nouveau only, could they be moved to
+drivers/gpu/drm/nouveau/ ? We would move the whole drm_encoder_slave
+implementation there too, and leave it to die (or get taken out of limbo
+and fixed) with dispnv04.
+
+> ---
+>  drivers/gpu/drm/i2c/ch7006_drv.c          | 2 +-
+>  drivers/gpu/drm/i2c/sil164_drv.c          | 2 +-
+>  drivers/gpu/drm/nouveau/dispnv04/tvnv17.c | 2 +-
+>  include/drm/drm_encoder_slave.h           | 2 +-
+>  4 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i2c/ch7006_drv.c b/drivers/gpu/drm/i2c/ch7006_drv.c
+> index 131512a5f3bd996ad1e2eb869ffa09837daba0c7..a57f0a41c1a9e2006142fe0bad2914b0c344c82a 100644
+> --- a/drivers/gpu/drm/i2c/ch7006_drv.c
+> +++ b/drivers/gpu/drm/i2c/ch7006_drv.c
+> @@ -104,7 +104,7 @@ static bool ch7006_encoder_mode_fixup(struct drm_encoder *encoder,
+>  }
+>  
+>  static int ch7006_encoder_mode_valid(struct drm_encoder *encoder,
+> -				     struct drm_display_mode *mode)
+> +				     const struct drm_display_mode *mode)
+>  {
+>  	if (ch7006_lookup_mode(encoder, mode))
+>  		return MODE_OK;
+> diff --git a/drivers/gpu/drm/i2c/sil164_drv.c b/drivers/gpu/drm/i2c/sil164_drv.c
+> index ff23422727fce290a188e495d343e32bc2c373ec..708e119072fcb50c31b5596b75dc341429b93697 100644
+> --- a/drivers/gpu/drm/i2c/sil164_drv.c
+> +++ b/drivers/gpu/drm/i2c/sil164_drv.c
+> @@ -255,7 +255,7 @@ sil164_encoder_restore(struct drm_encoder *encoder)
+>  
+>  static int
+>  sil164_encoder_mode_valid(struct drm_encoder *encoder,
+> -			  struct drm_display_mode *mode)
+> +			  const struct drm_display_mode *mode)
+>  {
+>  	struct sil164_priv *priv = to_sil164_priv(encoder);
+>  
+> diff --git a/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c b/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
+> index 3ecb101d23e949b753b873d24eec01ad6fe7f5d6..35ad4e10d27323c87704a3ff35b7dc26462c82bd 100644
+> --- a/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
+> +++ b/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
+> @@ -308,7 +308,7 @@ static int nv17_tv_get_modes(struct drm_encoder *encoder,
+>  }
+>  
+>  static int nv17_tv_mode_valid(struct drm_encoder *encoder,
+> -			      struct drm_display_mode *mode)
+> +			      const struct drm_display_mode *mode)
+>  {
+>  	struct nv17_tv_norm_params *tv_norm = get_tv_norm(encoder);
+>  
+> diff --git a/include/drm/drm_encoder_slave.h b/include/drm/drm_encoder_slave.h
+> index 49172166a164474f43e4afb2eeeb3cde8ae7c61a..b526643833dcf78bae29f9fbbe27de3f730b55d8 100644
+> --- a/include/drm/drm_encoder_slave.h
+> +++ b/include/drm/drm_encoder_slave.h
+> @@ -85,7 +85,7 @@ struct drm_encoder_slave_funcs {
+>  	 * @mode_valid: Analogous to &drm_encoder_helper_funcs @mode_valid.
+>  	 */
+>  	int (*mode_valid)(struct drm_encoder *encoder,
+> -			  struct drm_display_mode *mode);
+> +			  const struct drm_display_mode *mode);
+>  	/**
+>  	 * @mode_set: Analogous to &drm_encoder_helper_funcs @mode_set
+>  	 * callback. Wrapped by drm_i2c_encoder_mode_set().
+> 
+
 -- 
-2.43.0
+Regards,
 
+Laurent Pinchart
