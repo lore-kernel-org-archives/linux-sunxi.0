@@ -1,101 +1,145 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8B471AA1E5
-	for <linux-sunxi@lists.linux.dev>; Mon, 18 Nov 2024 15:36:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84FE01DED69;
+	Mon, 18 Nov 2024 19:25:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731944209; cv=none; b=MLkVz3B2Ms0sYLZ5s+WmnYaCp98PwE1MNW7d1F00nbKZcMyhv6aChGJ/VdRz4kp2eV8zZWnFxhwfdTL0eaABZBnLVL8h0JOTBi6Ik7wQE43pxf9BVIfbKdCPh+8otBiWhQ1cU4g5T0nMpkjBMeGJPdlNymd6ViMN1+OD0pO1ejc=
+	t=1731957961; cv=none; b=cbL3yxTVDUgKins/9EBmCdtH2yeAiyuP7qtTN+9eQ2/KTKt6j6W77rU46eFhts9V5C5FkIauUIk215li7B4BRthLbcjm9tT+NYHstKL5Govg2QvZTmAxNlh+ElSk0WzmhL2Kdynqa+AxQfEsmi2ZVM9qbZV2gBz5zqsQbrsXtBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731944209; c=relaxed/simple;
-	bh=Z1F/WWyh2Br9EzCFAJEMyj5kDOKy73YHKCPpES500bI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lIC0673t70US1qbmpBAaIP4D6jscvWDY5f1V2ojoWCC409lQeP4D3UF2xxk/g3Qw549SngGqas948O0smLGcAzIaByXJ3y74V2AOi8HaB3BkOCecx3xF+Ke5SHcZGWRz/XwzpXQGzHNgLrfNX91Hl4aLav2ixzuxaG+djhVREws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z5Z0fNkR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731957961; c=relaxed/simple;
+	bh=IvvPfEQx8+njDlP7eg+rVy3Zr9WN9X65JlqiJMcGRGU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=i8yVNIaDoC8sQxtB1RpqO1a+X7lJ0+OXZue99KmK5XuPEtuZfPGiFSCse1lBcgMp9XhwX68CwGHgHBu3vhaQsxYoQ6YbYziiCmuYDC2BJN0yetqoDQkK7FYoLG39mNrrgEqAQz5cpzWUJetNHBqRGLGFILcBM9E3WxWHAeAGj3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S9+E7XcQ; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z5Z0fNkR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E60BC4CED1
-	for <linux-sunxi@lists.linux.dev>; Mon, 18 Nov 2024 15:36:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731944209;
-	bh=Z1F/WWyh2Br9EzCFAJEMyj5kDOKy73YHKCPpES500bI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Z5Z0fNkRnjTm0IZXW2zvx37V1hMc1SiJyYJMC00zEObYgv1mbaRxWImHuHcBnm8R6
-	 JmUzT8F+nnCVD0SEOxnnY8LOsvQblPKgQZZI/hWgRc8KUX/z0L2WsNOJ7R0nikOnnW
-	 8bRJh83qn5mrr0APrsALEgS9Daz7o4YyEeLZqWZk7Jsv4HClspSf4cJ4a+lH5MhH+1
-	 qWbuIQ+RtMk305B8I9Oolu9+KS7r44GtXNSCOfIPaPD0KVoV7kr5jwvI1EcwV4RS5v
-	 W9yODhpt/CWQhjFsh0frkI5fbJMO8gbRocCxprparKAk7CpGzjMqQ0dv0csIPrRqQX
-	 f3iGOJuzDkVHA==
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e3824e1adcdso1596116276.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 18 Nov 2024 07:36:49 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUju/eYqqJAvlf/sC1830a14LlGSbb4j4uN1YGXh0Bs9AlpRTxwRls1MX5DH9LIa8Okz/moGOiWgSV2HQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzz/DOL5dBuTxSQ+wVwWeO01e7/TN/gErhOg4LjYcOQ5Tb5p7UQ
-	j+Vjl8KQZCquR+VSBkmiY2nVpSuTWz/MAs2nO25vCJzyncBELYIXoKO0ruMkwv6s6zPfNIA/7jo
-	g5DKXbZsmsPUFLGtIgpSn5Av9Zg==
-X-Google-Smtp-Source: AGHT+IEEIGFak9qKklcZsvCILXL3wsmYpRQVXReSreMGbi2y4CLvncVZuNk4Ue6AECvkVYWTyDD0MnYKDyXhx+DEKJg=
-X-Received: by 2002:a05:6902:1701:b0:e38:8579:7e44 with SMTP id
- 3f1490d57ef6-e3885797fb6mr6028789276.50.1731944208623; Mon, 18 Nov 2024
- 07:36:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S9+E7XcQ"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4315eeb2601so34253155e9.2;
+        Mon, 18 Nov 2024 11:25:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1731957958; x=1732562758; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9pD0Ic6pq3x9QjpEUEJLIp8QMqGQFkQZMFW6bkNDgUM=;
+        b=S9+E7XcQKRxz3ChAeMgW8wyOf+0LHgTc75hkXDNks5OxtHkfgAxXj9t0iHfWqCZJFu
+         pWQyNTvuROoDrCyXozRYvQzKZMOOl6eQJGzHawm11efQgtThny7TxHGXpLcbQ4/kdUda
+         Q8fw8fdVasyHeFvE5730Z0lxvxukk+GUQN0iXLMHOlG7vPhCVLGg8zpSz2AzhULitW7j
+         e13WwkBqNsRy7tmBnCLVR6XZK5Kpjm9zTwFK7ybUQNCMH9cMkOVRvXq8b2PdYK4lkDqT
+         JvynMwBNpa87lKqne/rbxwgaHWjF2MoxPZNmZYTxeRUwQZ480CtqK0KFsVq9Cy/TXuio
+         Bmfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731957958; x=1732562758;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9pD0Ic6pq3x9QjpEUEJLIp8QMqGQFkQZMFW6bkNDgUM=;
+        b=HgTMxj2M8pGnpQwyKHzYAtTBpH+Pbcnk+0IrCqzBs+qq74W9kgd1rFoIyLMqBw3Itf
+         UueI6iylXYJfv5V+xKWFE5oDujXMi66kz77hymX/UlJsqwGiU7Y1l41TUBJ15J/hpF3E
+         4zSumEhEL0u7fUZwZ63ZuDz4XTQWJx5bQA0GGiw73j+TalCG6DN57s8shlUhVUgK9PED
+         PDLIa7OyxuSHtiKN45gFvrMiHf4syGrsBEUtBSoTF1h61GXqiNLSDQ6D1ErLDLDYQRnf
+         5LtA0EBS6PJfx0YlcWGAOQ1KUQVdvV3zxp3084Xo9SFjd8s1cP75k9Rh7XoqAVBd+K+Z
+         uKyg==
+X-Forwarded-Encrypted: i=1; AJvYcCUJSUYLZAj/1htsxyPip36mKh7eYDzqfqTG2Z774INV8zS0P5ilSlGKfRyEvfv5p0ptuVg=@lists.linux.dev, AJvYcCVcBm5tE4cHc4WAPCqvOWxwFvBCGZbuOL5+CIVr/GNzAAp1eWKdjjcaiXTTLU0FGYpZzqR8OrBc56+5YCUIm1I=@lists.linux.dev, AJvYcCXyimsk6Ee9XFW/M98xA/ur7pB12bFfQLxYoCK/zNWe+EM4Yvihg/l8yaIl17s75FScfv7w/UZILTS6jg4=@lists.linux.dev
+X-Gm-Message-State: AOJu0YyMgEftdROscZH5OK087tqybQyLoIVQfqYSfukOsNVrOLlP5IJ5
+	++ASSruwMizNhpwcbirwQUgVc2Ct6hF4/xiJnnHT3mN+0VgjKBoY
+X-Google-Smtp-Source: AGHT+IH+lcOQ8Rj8oM11CtrUWBNXK6zZA1wltL3ZBTXjDjqXIpvoTVhgtssacVRTup7RXCuDYGl00g==
+X-Received: by 2002:a05:600c:1d97:b0:426:59fe:ac27 with SMTP id 5b1f17b1804b1-432df78f3demr130180715e9.26.1731957957571;
+        Mon, 18 Nov 2024 11:25:57 -0800 (PST)
+Received: from ?IPV6:2001:861:3385:e20:6384:4cf:52c5:3194? ([2001:861:3385:e20:6384:4cf:52c5:3194])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432da298c81sm172023915e9.39.2024.11.18.11.25.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 Nov 2024 11:25:57 -0800 (PST)
+Message-ID: <8a4f69dd-b393-4e84-be3c-58f8b33bd59d@gmail.com>
+Date: Mon, 18 Nov 2024 20:25:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241031070232.1793078-1-masterr3c0rd@epochal.quest>
- <20241031070232.1793078-13-masterr3c0rd@epochal.quest> <20241111041311.hleaz5fgipsyxigm@vireshk-i7>
- <CAGb2v646NHFAni=P+iC8OZsWMpg0PJc=kYbuWaY=C0-W-q6qAw@mail.gmail.com> <20241111055504.2f3szrd5ahudvtqm@vireshk-i7>
-In-Reply-To: <20241111055504.2f3szrd5ahudvtqm@vireshk-i7>
-From: Rob Herring <robh@kernel.org>
-Date: Mon, 18 Nov 2024 09:36:37 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJJ5A+nYKg1aU5zqGZsmtNJxpS3Gw04pSH-3xOkQ9Vzew@mail.gmail.com>
-Message-ID: <CAL_JsqJJ5A+nYKg1aU5zqGZsmtNJxpS3Gw04pSH-3xOkQ9Vzew@mail.gmail.com>
-Subject: Re: [PATCH v2 12/13] cpufreq: sun50i: add a100 cpufreq support
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Cody Eksal <masterr3c0rd@epochal.quest>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Yangtao Li <tiny.windzz@gmail.com>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Maxime Ripard <mripard@kernel.org>, Michael Turquette <mturquette@baylibre.com>, Nishanth Menon <nm@ti.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Vinod Koul <vkoul@kernel.org>, Viresh Kumar <vireshk@kernel.org>, 
-	Parthiban <parthiban@linumiz.com>, Andre Przywara <andre.przywara@arm.com>, linux-pm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/5] drm/sti: hda: pass const struct drm_display_mode* to
+ hda_get_mode_idx()
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@redhat.com>, Harry Wentland <harry.wentland@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, Alain Volmat <alain.volmat@foss.st.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Peter Senna Tschudin <peter.senna@gmail.com>, Ian Ray <ian.ray@ge.com>,
+ Martyn Welch <martyn.welch@collabora.co.uk>, Inki Dae
+ <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar
+ <alim.akhtar@samsung.com>, Stefan Agner <stefan@agner.ch>,
+ Alison Wang <alison.wang@nxp.com>,
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
+ Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Zack Rusin <zack.rusin@broadcom.com>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ nouveau@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, virtualization@lists.linux.dev,
+ spice-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org
+References: <20241115-drm-connector-mode-valid-const-v1-0-b1b523156f71@linaro.org>
+ <20241115-drm-connector-mode-valid-const-v1-3-b1b523156f71@linaro.org>
+Content-Language: en-US, fr
+From: =?UTF-8?Q?Rapha=C3=ABl_Gallais-Pou?= <rgallaispou@gmail.com>
+In-Reply-To: <20241115-drm-connector-mode-valid-const-v1-3-b1b523156f71@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sun, Nov 10, 2024 at 11:55=E2=80=AFPM Viresh Kumar <viresh.kumar@linaro.=
-org> wrote:
->
-> On 11-11-24, 13:30, Chen-Yu Tsai wrote:
-> > On Mon, Nov 11, 2024 at 12:13=E2=80=AFPM Viresh Kumar <viresh.kumar@lin=
-aro.org> wrote:
-> > >
-> > > On 31-10-24, 04:02, Cody Eksal wrote:
-> > > > From: Shuosheng Huang <huangshuosheng@allwinnertech.com>
-> > > >
-> > > > Let's add cpufreq nvmem based for allwinner a100 soc. It's similar =
-to h6,
-> > > > let us use efuse_xlate to extract the differentiated part.
-> > > >
-> > > > Signed-off-by: Shuosheng Huang <huangshuosheng@allwinnertech.com>
-> > > > [masterr3c0rd@epochal.quest: add A100 to opp_match_list]
-> > > > Signed-off-by: Cody Eksal <masterr3c0rd@epochal.quest>
-> > > > ---
-> > > > Changes in V2:
-> > > >  - Add the A100 to the cpufreq-dt-platdev blacklist.
-> > >
-> > > Can this be applied to the cpufreq tree separately ?
-> >
-> > Yes.
-> >
-> > Acked-by: Chen-Yu Tsai <wens@csie.org>
->
-> Applied. Thanks.
 
-You missed the binding patch, so
-"allwinner,sun50i-a100-operating-points" is undocumented. Can you pick
-that up please.
 
-Rob
+> Make hda_get_mode_idx() accept const struct drm_display_mode pointer
+> instead of just raw struct drm_display_mode.  This is a preparation to
+> converting the mode_valid() callback of drm_connector to accept const
+> struct drm_display_mode argument.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+
+Hi Dmitry,
+
+Thank you for the patch.
+
+Acked-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
+
+
+Regards,
+Raphaël
