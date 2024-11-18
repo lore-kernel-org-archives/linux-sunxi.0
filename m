@@ -1,214 +1,150 @@
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F891D9598
-	for <linux-sunxi@lists.linux.dev>; Sun, 17 Nov 2024 23:56:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F92E1494BF
+	for <linux-sunxi@lists.linux.dev>; Mon, 18 Nov 2024 07:29:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731887768; cv=none; b=Lr8T7xgGGXpHC+qNT6iWRD4HcCyi9+c/OtS1I7d14Dmub2O1rq6qPyQ3mKdwDjCa3XiN63g21NmEXu0xQmVgSAmdAavQFszSG9k4EjZeYwC3XjRPWet4/oKxm9eQvtkv8LGSe/vYSreslD/ZFkpCy2FrI/ZBRr/2vul878JVuxg=
+	t=1731914988; cv=none; b=sCOMAFZ7Pa9T6WtVGiGafU1uBsrE4PXhMxxFnO9cNAO2WPAyfJDvuuzOjcRcWdMaZvn14iX6R/lMUmHzsMw+Pm7R2o2DT2SBbOismjCDEKyB0XWEMfTE7fpZjyZq9lK5dZlbJmMC6R7ZEj1Igy5HvfGphVF0LeXFd5WfOv5B83Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731887768; c=relaxed/simple;
-	bh=AXUAAMMCChSJE4bliw2VT6tfy0PiveEycxgtD0KOvw4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pDP1NVX/F2GzBzgmjfVslqQpEG4wm2xDbeOn33cyrzcefjQiYlCXBCY45mzg+d8pqqVxVebilL/daIdseJQj1d69g/pk+lCxWnCp9kog315pw8cURV9Jzrs2ZXdj9Xb+8AJ+zjHVLmuOMe86WZnfEZmYJM+nqlEJmpmKv9qfEug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=h3VsTXZR; arc=none smtp.client-ip=209.85.128.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1731914988; c=relaxed/simple;
+	bh=H9LQQX3+errApdP89llWL2h0g9xMJY3eOit1C3k3VPc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JGzeL/RlkGFrNDgZ2tnaKNRPvZTT49gFEy+8eWAjCAVPQtO29nib9fHrI/7FMxCPmMVrg7E8EOJqsOxBFm2KCMoL9+b/p4Yop6voApG8FTzUieSNukOsPiCj6rzKrfKs+gNrAcC/+YOrdJSTsmyg1iZcYBxo7TK+JFIMY3HTFOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=f3oZ9P4T; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="h3VsTXZR"
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-6e5cec98cceso17505537b3.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 17 Nov 2024 15:56:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1731887765; x=1732492565; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ec/Hk8LFdU6/qTj98SnoNsMivsG+0SE1lo+pLnCS5cs=;
-        b=h3VsTXZRMG1cMcel0QLaXw09VLo5oiAPPMAVuwbr1nY6zbQswUm30385OqW1B7rQub
-         9+2voYVZLIx79NLdzwJWc0ZqTi5HhPtXLmhwCN1YuiggpjIj3GTfC6lNntAYpe8Dw6MJ
-         zDUjcl0ZcUPFf+LunU55ajjbwYivihqYbWCExFcuJ0Rz4cHkHcWw+VUasHZBH8xNkmIf
-         rdhyd5WAYBKwiq2huMKM30VlxgxLurCj/PIdyoAg8fe9qTkzEuQEjd6v1shyv5BLlS+6
-         Jg4qlaSITvDg9bYBiza3R64QF4CzsKoox+GN8iaK0BOtD3xfjoGLQ3Y2i0vl7EErY/7Q
-         hq8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731887765; x=1732492565;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ec/Hk8LFdU6/qTj98SnoNsMivsG+0SE1lo+pLnCS5cs=;
-        b=RkxJFimnoZt1Ws1tTCYWkIGqud075uX4RE/dlbQvdDBScyvBF8vGITMoocNXr5KIfT
-         /yNWI67b7/fyoDoJYJQ/bGDOJDujYh00UzlR3FH2qeLzCxWnQBAlkK1YVCDRbt+CUK3t
-         hxH4zFI4PWd4+ZZfQ0OJxZRIOJNwhZbg+0KOpOvV7wu7yC8qfGRY8UOI1bm5VScFfw78
-         n/idLDFrW5EHy9ryL7sIQZVF4UO+sx6CurgTpCJONKbIbNMsqwEc5YF3qsB8msh3exVI
-         A1KU+BoOaaMCMXBvYao00yqDtXXzz/jevtpi2RqEyEkpwytGbh+VSNR6790jXohGm6zo
-         e04w==
-X-Forwarded-Encrypted: i=1; AJvYcCXX9LlxtR+WFLkVZGiG+4u9biALEvlyE1bMZWNw2pllP40a3V0p6/qga7TtFHnIMT+hEsxEZbCNvSPovg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxBlvXL+ssGX7jXlB20tatYigSdvuJWknH5Mq8hDKHQm6BHdoNg
-	rFDHzQcbgIIGShj8OLDJCpaDqRHj/5BS3Ei3mgMaOCVMagzPZ9fMkCK3N+/Nn6lXzuJSpYlXjdd
-	OOIqywlWO8sM7vMRIyGrCgOwUm3uLYrAYHmyu4g==
-X-Google-Smtp-Source: AGHT+IGdPgjTWzOdmSZKhRLhwp47xWv9WolMRYt8LQitXBXOFxH5M2pSFFLUJPVswZmbkhncp4AJ66Q6lhrBlLmxMBA=
-X-Received: by 2002:a05:690c:6384:b0:6ee:3f5e:1c18 with SMTP id
- 00721157ae682-6ee55a2abddmr96890087b3.4.1731887764985; Sun, 17 Nov 2024
- 15:56:04 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="f3oZ9P4T"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=hpvNWCyCojrkvY
+	du6o2rWrPDcX4yyavTS3Qt2myCoUo=; b=f3oZ9P4TdOlRmdKNkheJwEcz4/4MKC
+	E+us1Y0Z5G/c0MS+Bz6Y92iZAVSu6gh8I2EHNZnsE4vvnM1IEBU4jw0BJ7jBK/23
+	ZOZQ4RJ2AcAdG3Fo/aXZB9caknqWoqjSSmuy/JraNtaDb8tIiDJKRDaiRhkY0XkA
+	7uTdsdNMuXZYeAsP3CdBbf4AhdYfGmUY5qgfm3fYIZ2/IzEDR4qK0/w+urqiJ5wP
+	VkQidxTC4V72CV9fMrJrQhUtcLb2vyrTsDKAGJ7/HUe7z6Sm4E5RVmqvrVAL3k93
+	lE86wQvmOS98Rttic76V8vKZ0HEY2F4KmUzwsfyyatEqffHmbpqiBuog==
+Received: (qmail 112200 invoked from network); 18 Nov 2024 08:29:34 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 Nov 2024 08:29:34 +0100
+X-UD-Smtp-Session: l3s3148p1@ykLZ4ConvNUujntT
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-kernel@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Armin Wolf <W_Armin@gmx.de>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Chandrashekar Devegowda <chandrashekar.devegowda@intel.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	coresight@lists.linaro.org,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Len Brown <len.brown@intel.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-input@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-media@vger.kernel.org,
+	linux-mmc@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	linux-rtc@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-usb@vger.kernel.org,
+	Loic Poulain <loic.poulain@linaro.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	netdev@vger.kernel.org,
+	Paolo Abeni <pabeni@redhat.com>,
+	Pavel Machek <pavel@ucw.cz>,
+	platform-driver-x86@vger.kernel.org,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Sean Young <sean@mess.org>,
+	Sergey Ryazanov <ryazanov.s.a@gmail.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	x86@kernel.org
+Subject: [PATCH 00/15] treewide: don't include 'pm_wakeup.h' directly
+Date: Mon, 18 Nov 2024 08:28:59 +0100
+Message-Id: <20241118072917.3853-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241115-drm-connector-mode-valid-const-v1-0-b1b523156f71@linaro.org>
- <20241115-drm-connector-mode-valid-const-v1-1-b1b523156f71@linaro.org>
- <20241117205426.GE12409@pendragon.ideasonboard.com> <CAA8EJpr=4AQVRKbtR2MaCQfguGW0a=3ay-ttew-mFR4f086Uyg@mail.gmail.com>
- <20241117233250.GK12409@pendragon.ideasonboard.com>
-In-Reply-To: <20241117233250.GK12409@pendragon.ideasonboard.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 18 Nov 2024 01:55:54 +0200
-Message-ID: <CAA8EJpq6Gkp4W=rGbpY6ASPgoDt=64HTFDk4_OZsTmbSUxhhGw@mail.gmail.com>
-Subject: Re: [PATCH 1/5] drm/encoder_slave: make mode_valid accept const
- struct drm_display_mode
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>, 
-	Danilo Krummrich <dakr@redhat.com>, Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
-	Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Alex Deucher <alexander.deucher@amd.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Xinhui Pan <Xinhui.Pan@amd.com>, Alain Volmat <alain.volmat@foss.st.com>, 
-	Raphael Gallais-Pou <rgallaispou@gmail.com>, Liviu Dudau <liviu.dudau@arm.com>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Peter Senna Tschudin <peter.senna@gmail.com>, 
-	Ian Ray <ian.ray@ge.com>, Martyn Welch <martyn.welch@collabora.co.uk>, 
-	Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
-	Kyungmin Park <kyungmin.park@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, Stefan Agner <stefan@agner.ch>, 
-	Alison Wang <alison.wang@nxp.com>, Patrik Jakobsson <patrik.r.jakobsson@gmail.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Rob Clark <robdclark@gmail.com>, 
-	Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
-	Marijn Suijten <marijn.suijten@somainline.org>, Dave Airlie <airlied@redhat.com>, 
-	Gerd Hoffmann <kraxel@redhat.com>, Sandy Huang <hjc@rock-chips.com>, 
-	=?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
-	Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Samuel Holland <samuel@sholland.org>, Thierry Reding <thierry.reding@gmail.com>, 
-	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Gurchetan Singh <gurchetansingh@chromium.org>, 
-	Chia-I Wu <olvaffe@gmail.com>, Zack Rusin <zack.rusin@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, intel-gfx@lists.freedesktop.org, 
-	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org, 
-	amd-gfx@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
-	virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org, 
-	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, 18 Nov 2024 at 01:33, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> On Mon, Nov 18, 2024 at 01:22:12AM +0200, Dmitry Baryshkov wrote:
-> > On Sun, 17 Nov 2024 at 22:54, Laurent Pinchart wrote:
-> > > On Fri, Nov 15, 2024 at 11:09:26PM +0200, Dmitry Baryshkov wrote:
-> > > > The mode_valid() callbacks of drm_encoder, drm_crtc and drm_bridge
-> > > > accept const struct drm_display_mode argument. Change the mode_valid
-> > > > callback of drm_encoder_slave to also accept const argument.
-> > > >
-> > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > >
-> > > Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > >
-> > > On a side note, there's only two I2C slave encoder drivers left... I
-> > > wonder if we could so something about them. The ch7006 and sil164
-> > > drivers seem to be used by nouveau only, could they be moved to
-> > > drivers/gpu/drm/nouveau/ ? We would move the whole drm_encoder_slave
-> > > implementation there too, and leave it to die (or get taken out of limbo
-> > > and fixed) with dispnv04.
-> >
-> > Or it might be better to switch to drm_bridge. Currently we also have
-> > sil164 (sub)drivers in ast and i915 drivers. I don't know if there is
-> > any common code to share or not. If there is some, it might be nice to
-> > use common framework.
->
-> That would require porting nouveau and i915 to drm_bridge. As much as
-> I'd love to see that happening, I won't hold my breath.
+While working on the wakeup functionality of a RTC driver, I noticed
+that we have a few occasions where 'pm_wakeup.h' gets included directly
+despite the comment that it shouldn't be done. It doesn't build-break
+because these files also include 'device.h' either directly or via some
+indirection, mostly 'platform_device.h'. Still, respect the requirement
+that 'pm_wakeup.h' shall only be included in 'device.h' and not
+directly.
 
-Me neither. Probably moving those two and drm_encoder_slave to nouveau
-is really the best course for now.
+Based on 6.12-rc7. Build-bot is happy and there are no dependencies. I
+suggest that each patch goes in via the relevant subsystem tree.
 
->
-> > > > ---
-> > > >  drivers/gpu/drm/i2c/ch7006_drv.c          | 2 +-
-> > > >  drivers/gpu/drm/i2c/sil164_drv.c          | 2 +-
-> > > >  drivers/gpu/drm/nouveau/dispnv04/tvnv17.c | 2 +-
-> > > >  include/drm/drm_encoder_slave.h           | 2 +-
-> > > >  4 files changed, 4 insertions(+), 4 deletions(-)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/i2c/ch7006_drv.c b/drivers/gpu/drm/i2c/ch7006_drv.c
-> > > > index 131512a5f3bd996ad1e2eb869ffa09837daba0c7..a57f0a41c1a9e2006142fe0bad2914b0c344c82a 100644
-> > > > --- a/drivers/gpu/drm/i2c/ch7006_drv.c
-> > > > +++ b/drivers/gpu/drm/i2c/ch7006_drv.c
-> > > > @@ -104,7 +104,7 @@ static bool ch7006_encoder_mode_fixup(struct drm_encoder *encoder,
-> > > >  }
-> > > >
-> > > >  static int ch7006_encoder_mode_valid(struct drm_encoder *encoder,
-> > > > -                                  struct drm_display_mode *mode)
-> > > > +                                  const struct drm_display_mode *mode)
-> > > >  {
-> > > >       if (ch7006_lookup_mode(encoder, mode))
-> > > >               return MODE_OK;
-> > > > diff --git a/drivers/gpu/drm/i2c/sil164_drv.c b/drivers/gpu/drm/i2c/sil164_drv.c
-> > > > index ff23422727fce290a188e495d343e32bc2c373ec..708e119072fcb50c31b5596b75dc341429b93697 100644
-> > > > --- a/drivers/gpu/drm/i2c/sil164_drv.c
-> > > > +++ b/drivers/gpu/drm/i2c/sil164_drv.c
-> > > > @@ -255,7 +255,7 @@ sil164_encoder_restore(struct drm_encoder *encoder)
-> > > >
-> > > >  static int
-> > > >  sil164_encoder_mode_valid(struct drm_encoder *encoder,
-> > > > -                       struct drm_display_mode *mode)
-> > > > +                       const struct drm_display_mode *mode)
-> > > >  {
-> > > >       struct sil164_priv *priv = to_sil164_priv(encoder);
-> > > >
-> > > > diff --git a/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c b/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
-> > > > index 3ecb101d23e949b753b873d24eec01ad6fe7f5d6..35ad4e10d27323c87704a3ff35b7dc26462c82bd 100644
-> > > > --- a/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
-> > > > +++ b/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
-> > > > @@ -308,7 +308,7 @@ static int nv17_tv_get_modes(struct drm_encoder *encoder,
-> > > >  }
-> > > >
-> > > >  static int nv17_tv_mode_valid(struct drm_encoder *encoder,
-> > > > -                           struct drm_display_mode *mode)
-> > > > +                           const struct drm_display_mode *mode)
-> > > >  {
-> > > >       struct nv17_tv_norm_params *tv_norm = get_tv_norm(encoder);
-> > > >
-> > > > diff --git a/include/drm/drm_encoder_slave.h b/include/drm/drm_encoder_slave.h
-> > > > index 49172166a164474f43e4afb2eeeb3cde8ae7c61a..b526643833dcf78bae29f9fbbe27de3f730b55d8 100644
-> > > > --- a/include/drm/drm_encoder_slave.h
-> > > > +++ b/include/drm/drm_encoder_slave.h
-> > > > @@ -85,7 +85,7 @@ struct drm_encoder_slave_funcs {
-> > > >        * @mode_valid: Analogous to &drm_encoder_helper_funcs @mode_valid.
-> > > >        */
-> > > >       int (*mode_valid)(struct drm_encoder *encoder,
-> > > > -                       struct drm_display_mode *mode);
-> > > > +                       const struct drm_display_mode *mode);
-> > > >       /**
-> > > >        * @mode_set: Analogous to &drm_encoder_helper_funcs @mode_set
-> > > >        * callback. Wrapped by drm_i2c_encoder_mode_set().
-> > > >
->
-> --
-> Regards,
->
-> Laurent Pinchart
+Thanks and happy hacking,
+
+   Wolfram
 
 
+Wolfram Sang (15):
+  x86/platform/olpc-xo1-sci: don't include 'pm_wakeup.h' directly
+  drivers core: don't include 'pm_wakeup.h' directly
+  HID: google: don't include 'pm_wakeup.h' directly
+  coresight: etm4x: don't include 'pm_wakeup.h' directly
+  Input: spear-keyboard - don't include 'pm_wakeup.h' directly
+  Input: sun4i-lradc-keys - don't include 'pm_wakeup.h' directly
+  media: mceusb: don't include 'pm_wakeup.h' directly
+  mmc: core: don't include 'pm_wakeup.h' directly
+  net: phy: broadcom: don't include 'pm_wakeup.h' directly
+  net: wwan: t7xx: don't include 'pm_wakeup.h' directly
+  PCI: don't include 'pm_wakeup.h' directly
+  platform/x86: quickstart: don't include 'pm_wakeup.h' directly
+  rtc: brcmstb-waketimer: don't include 'pm_wakeup.h' directly
+  usb: typec: tcpci_mt6370: don't include 'pm_wakeup.h' directly
+  PM / Sleep: don't include 'pm_wakeup.h' directly
+
+ arch/x86/platform/olpc/olpc-xo1-sci.c              | 1 -
+ drivers/base/power/sysfs.c                         | 1 -
+ drivers/hid/hid-google-hammer.c                    | 1 -
+ drivers/hwtracing/coresight/coresight-etm4x-core.c | 1 -
+ drivers/input/keyboard/spear-keyboard.c            | 1 -
+ drivers/input/keyboard/sun4i-lradc-keys.c          | 1 -
+ drivers/media/rc/mceusb.c                          | 1 -
+ drivers/mmc/core/core.c                            | 1 -
+ drivers/mmc/core/host.c                            | 1 -
+ drivers/net/phy/broadcom.c                         | 2 +-
+ drivers/net/wwan/t7xx/t7xx_pci.c                   | 1 -
+ drivers/pci/pci.c                                  | 1 -
+ drivers/platform/x86/quickstart.c                  | 1 -
+ drivers/rtc/rtc-brcmstb-waketimer.c                | 1 -
+ drivers/usb/typec/tcpm/tcpci_mt6370.c              | 1 -
+ kernel/power/autosleep.c                           | 1 -
+ 16 files changed, 1 insertion(+), 16 deletions(-)
 
 -- 
-With best wishes
-Dmitry
+2.39.2
+
