@@ -1,127 +1,181 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from omta40.uswest2.a.cloudfilter.net (omta40.uswest2.a.cloudfilter.net [35.89.44.39])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D11C1CC170;
-	Tue, 19 Nov 2024 13:06:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4468A1CC881
+	for <linux-sunxi@lists.linux.dev>; Tue, 19 Nov 2024 13:46:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.89.44.39
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732021566; cv=none; b=OTP+w7PrzefFKi+5VvFzEd5EBtPcGVNlhTynEVk4us8LCZ3TqlYaAUAF0c7R8jBbDi0ODddwXoYVJ6wqVQ+a/W8twuAyYLQVowqepibsN8jQZ8VXF63djg1GW9T9tJeS1lFcp+SqxrGsc6ZICzVjZJgzp/G2YEZY19ACjwsUtmA=
+	t=1732023968; cv=none; b=JC75YBeA7C/5DVLMA+5tZVm+kK1PT/KYAt28NGSXXuAKNLepfk6uLpPl/qZ4aQwyBHLUdwwrtwe54dihctRhnjyedsxvLYhmPytBOJG6+ZB2wUf89WtFBwrLm3Z0VMM9ZmKRaABxJdpxl2hC3I8Y4kn4FcKPKZ8uQargppD0h10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732021566; c=relaxed/simple;
-	bh=uSwSTdd7HCm/YcK1V1kqqpFIOnCFAFfr1gYiTS1xaBk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nZtlb3rEruiu+60SWYXSmbFiolh5La629YTUnxMZj48ZNUJ0diYohQ8pAnbXPbF+pKuubYmpM/H+b3F3ewAM++JjTg+BHwpDwFvWR56UDHzSEb2TNoCaWBAh9SROCJXEbq1UwEMZYB0xmq3NbxB86dNHQgX98X/jEGMZDc2imUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-539e63c8678so3484164e87.0;
-        Tue, 19 Nov 2024 05:06:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732021561; x=1732626361;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=r5SnbOSPJM2xbQk5uUW2SdrCV3aSiK5t/lke9tIy5ZM=;
-        b=hbZSjwSfa2LuDiQSnlNU8aFhK2kHvzLUCTYJTEQiImo4sdliPhvZ3+RPhAQFtK3EhM
-         vaKtKeD/5/d3MmZAiaOKFWe4jTi6U+PlQowc8oRWJWu8QNx4YILq/5GRY0Q7fb4Kn9VH
-         uB6GynMJ3r3/OtIyn43a5CgZ80QbsqvlilgULs9n20BXDcDOl/MqpSNkf8q0y/QNPiTu
-         mE1r45GFxJc5U8z/EB1V6xGwItqCg2Aj8gARPBzb6mrin+jyISnOrX/kGwkZLYvwHC7o
-         nE5VxbYBBEPImsahw36foBr64LrUFZq5790gUo94eeNgDzuckT8HSMEGL1/SNZ1OwYG+
-         jmZw==
-X-Forwarded-Encrypted: i=1; AJvYcCUEwL+0OqXDlSpNSodLMq0NXsiF/YjHeieQ7WWm5hSu7nlhyJbS68XFxtYHeu79h/KwKK1H5tw+OiGHRT0=@lists.linux.dev, AJvYcCWYjDJtrwguroqDUjhAXFRq1KKKcA4cWHfYnCvYcfaQ+66XRHfpvCiNUjzK0GymqV1m6FA=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwiwKybR6f40yXrevSEbT3lFjJW/cWNAcItywUG85uia4bIq3Oo
-	MbyH6hxGb5kVs4i2YWJg/y3XjijeKM9gTIL9ZyCJqyqJH2xAvdOpLBrqsveQ
-X-Google-Smtp-Source: AGHT+IEzSSF5O7an5iWIJe5ACmbEhJ5QhUP1IoqtIqRh3Ro1IBc66ggvQI74zIJcUjcpY29I4lU0UQ==
-X-Received: by 2002:a05:6512:1319:b0:539:e436:f1cd with SMTP id 2adb3069b0e04-53dab29c827mr6686209e87.16.1732021560950;
-        Tue, 19 Nov 2024 05:06:00 -0800 (PST)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com. [209.85.208.174])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53dbd46828asm287420e87.129.2024.11.19.05.05.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Nov 2024 05:06:00 -0800 (PST)
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2fb3110b964so25253031fa.1;
-        Tue, 19 Nov 2024 05:05:54 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVRPxfSelxkCYYc/YcAXm2YlKpCY8KfZlqnBiZnROnf+JMlsqaDJroF4k94xFL26HEu6DFtqDVxRotT7Yk=@lists.linux.dev, AJvYcCWAJJyLRb9IiY74gjiDHOTrYtFBgsHQZjdaMQbzmdMQC2QgVnErrly+WJMPfLEEz2n4MbM=@lists.linux.dev
-X-Received: by 2002:a05:651c:1582:b0:2f7:4cf1:d6b1 with SMTP id
- 38308e7fff4ca-2ff606226a5mr76184521fa.1.1732021553921; Tue, 19 Nov 2024
- 05:05:53 -0800 (PST)
+	s=arc-20240116; t=1732023968; c=relaxed/simple;
+	bh=/gS/B7G2CRJG+6o22nnO+cT7Z4PcqGdc8NqrzZ8tNoA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jQxwomSR/zT4rkG5gTUMPCa6gBqgDmASk/fX/gRzytkfB5HRyuWHoSD3AB1CXH97Rbh7mNEBu5lXIQO3Z2Yo7/n2WuS/drquTNHG3RjK131jT5Nj8AaPXaMcDJP/lyf01OzO7LnHJC/g9hYvePD5RgyXUZ95CN9d72Giaw4uHkc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linumiz.com; spf=pass smtp.mailfrom=linumiz.com; dkim=pass (2048-bit key) header.d=linumiz.com header.i=@linumiz.com header.b=BXoN120v; arc=none smtp.client-ip=35.89.44.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linumiz.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linumiz.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linumiz.com header.i=@linumiz.com header.b="BXoN120v"
+Received: from eig-obgw-6009a.ext.cloudfilter.net ([10.0.30.184])
+	by cmsmtp with ESMTPS
+	id DNIkt2klLvH7lDOYKt4HP3; Tue, 19 Nov 2024 13:46:00 +0000
+Received: from md-in-79.webhostbox.net ([43.225.55.182])
+	by cmsmtp with ESMTPS
+	id DOYHtBjALaZVDDOYJt9HyJ; Tue, 19 Nov 2024 13:46:00 +0000
+X-Authority-Analysis: v=2.4 cv=J9qs7hnS c=1 sm=1 tr=0 ts=673c9698
+ a=LfuyaZh/8e9VOkaVZk0aRw==:117 a=kofhyyBXuK/oEhdxNjf66Q==:17
+ a=IkcTkHD0fZMA:10 a=VlfZXiiP6vEA:10 a=-pn6D5nKLtMA:10 a=7CQSdrXTAAAA:8
+ a=GWX1jMILmsxrC0RoNDMA:9 a=QEXdDO2ut3YA:10 a=a-qgeE7W1pNrGK8U0ZQC:22
+ a=ZCPYImcxYIQFgLOT52_G:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linumiz.com
+	; s=default; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=i0dOS4jN5ICgemXKNVZOn4+iwWHoz0NoRCd7tpSQfxg=; b=BXoN120vLXVty5euOX0iIf98xk
+	gFWjlbyJRktvstAnFeFokjGm0U8VrUPZW7s6qkB3xf5FulB/Vq+yTd4+qNbcztMXtugX/+5GrdalG
+	W0/gNutrUcjmtftg+wcr+wMFddx2JHlbnCGXkIDHeCKW6zg1tVK4KviC9aWlE2l5cBe5DsWXvR662
+	SwCKFOrraF9ECX+6PWwA9n+I2kVK8Pi/APTN6OUIb/5pC2CSDSReTCrnUTWe6z/mxKijewycClqbi
+	VjiSN3H3V9FEKrBW3K9yYZ+jLPtdd4aHfQnfANVChCvcEx3QYG55F8+aboI28FuyUL2Wkei0GFxDC
+	YoaVVhsw==;
+Received: from [122.165.245.213] (port=51434 helo=[192.168.1.5])
+	by md-in-79.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <parthiban@linumiz.com>)
+	id 1tDOY9-002THc-27;
+	Tue, 19 Nov 2024 19:15:49 +0530
+Message-ID: <470460f9-e032-4dec-b7e3-5306c166c66d@linumiz.com>
+Date: Tue, 19 Nov 2024 19:15:42 +0530
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <6f0297ba884c670d604232c2861347940082c8e6.1732004078.git.u.kleine-koenig@baylibre.com>
-In-Reply-To: <6f0297ba884c670d604232c2861347940082c8e6.1732004078.git.u.kleine-koenig@baylibre.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Tue, 19 Nov 2024 22:05:42 +0900
-X-Gmail-Original-Message-ID: <CAGb2v66f6WEYYVm+UQzmz_V87Vqt4BSUkoW5S_qqr_arczc6ug@mail.gmail.com>
-Message-ID: <CAGb2v66f6WEYYVm+UQzmz_V87Vqt4BSUkoW5S_qqr_arczc6ug@mail.gmail.com>
-Subject: Re: [PATCH] mailbox: Switch back to struct platform_driver::remove()
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: Jassi Brar <jassisinghbrar@gmail.com>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Michal Simek <michal.simek@amd.com>, linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/5] iommu: sun50i: allocate page tables from below 4
+ GiB
+To: Andre Przywara <andre.przywara@arm.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ piotr.oniszczuk@gmail.com
+Cc: Chris Morgan <macromorgan@hotmail.com>, Ryan Walklin
+ <ryan@testtoast.com>, Philippe Simons <simons.philippe@gmail.com>,
+ iommu@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ parthiban@linumiz.com
+References: <20240616224056.29159-1-andre.przywara@arm.com>
+ <20240616224056.29159-3-andre.przywara@arm.com>
+Content-Language: en-US
+From: Parthiban <parthiban@linumiz.com>
+Organization: Linumiz
+In-Reply-To: <20240616224056.29159-3-andre.przywara@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - md-in-79.webhostbox.net
+X-AntiAbuse: Original Domain - lists.linux.dev
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - linumiz.com
+X-BWhitelist: no
+X-Source-IP: 122.165.245.213
+X-Source-L: No
+X-Exim-ID: 1tDOY9-002THc-27
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: ([192.168.1.5]) [122.165.245.213]:51434
+X-Source-Auth: parthiban@linumiz.com
+X-Email-Count: 5
+X-Org: HG=dishared_whb_net_legacy;ORG=directi;
+X-Source-Cap: bGludW1jbWM7aG9zdGdhdG9yO21kLWluLTc5LndlYmhvc3Rib3gubmV0
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfDP4P5EBPtiPibYPsaKfJw67vBh45B79jVLPQBBobE0ai1fX3211LC50K4BULf3ZTyO40lGX8+VL19aDcnk7aTvUZhK2uXECvsWlrTJ3D+mHoOHFxBZH
+ zGqyd2trT1bibm97PkTELE0B3DFEWFXgcv7fDStEpeine0A6e1dyJ4p03+TNtfxHZ8sNY6qviB3ypbh87l6agF0IlEzxtm9A7xc=
 
-On Tue, Nov 19, 2024 at 5:17=E2=80=AFPM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@baylibre.com> wrote:
->
-> After commit 0edb555a65d1 ("platform: Make platform_driver::remove()
-> return void") .remove() is (again) the right callback to implement for
-> platform drivers.
->
-> Convert all platform drivers below drivers/mailbox to use .remove(),
-> with the eventual goal to drop struct platform_driver::remove_new(). As
-> .remove() and .remove_new() have the same prototypes, conversion is done
-> by just changing the structure member name in the driver initializer.
->
-> Make a few indentions consistent while touching these struct
-> initializers.
->
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com>
+On 6/17/24 4:10 AM, Andre Przywara wrote:
+> The Allwinner IOMMU is a strict 32-bit device, with its input addresses,
+> the page table root pointer as well as both level's page tables and also
+> the target addresses all required to be below 4GB.
+> The Allwinner H6 SoC only supports 32-bit worth of physical addresses
+> anyway, so this isn't a problem so far, but the H616 and later SoCs extend
+> the PA space beyond 32 bit to accommodate more DRAM.
+> To make sure we stay within the 32-bit PA range required by the IOMMU,
+> force the memory for the page tables to come from below 4GB. by using
+> allocations with the DMA32 flag.
+> Also reject any attempt to map target addresses beyond 4GB, and print a
+> warning to give users a hint while this fails.
+> 
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 > ---
-> Hello,
->
-> I did a single patch for all of drivers/mailbox. While I usually prefer
-> to do one logical change per patch, this seems to be overengineering
-> here as the individual changes are really trivial and shouldn't be much
-> in the way for stable backports. But I'll happily split the patch if you
-> prefer it split.
->
-> This is based on today's next, if conflicts arise when you apply it at
-> some later time and don't want to resolve them, feel free to just drop
-> the changes to the conflicting files. I'll notice and followup at a
-> later time then. Or ask me for a fixed resend.
->
-> Best regards
-> Uwe
->
->  drivers/mailbox/bcm-flexrm-mailbox.c    | 2 +-
->  drivers/mailbox/bcm-pdc-mailbox.c       | 2 +-
->  drivers/mailbox/imx-mailbox.c           | 2 +-
->  drivers/mailbox/mailbox-test.c          | 4 ++--
->  drivers/mailbox/mtk-cmdq-mailbox.c      | 2 +-
->  drivers/mailbox/qcom-apcs-ipc-mailbox.c | 2 +-
->  drivers/mailbox/qcom-ipcc.c             | 2 +-
->  drivers/mailbox/stm32-ipcc.c            | 2 +-
+>  drivers/iommu/sun50i-iommu.c | 13 +++++++++++--
+>  1 file changed, 11 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/iommu/sun50i-iommu.c b/drivers/iommu/sun50i-iommu.c
+> index dd3f07384624c..20a07f829085d 100644
+> --- a/drivers/iommu/sun50i-iommu.c
+> +++ b/drivers/iommu/sun50i-iommu.c
+> @@ -602,6 +602,14 @@ static int sun50i_iommu_map(struct iommu_domain *domain, unsigned long iova,
+>  	u32 *page_table, *pte_addr;
+>  	int ret = 0;
+>  
+> +	/* the IOMMU can only handle 32-bit addresses, both input and output */
+> +	if ((uint64_t)paddr >> 32) {
+> +		ret = -EINVAL;
+> +		dev_warn_once(iommu->dev,
+> +			      "attempt to map address beyond 4GB\n");
 
+A133 uses the same IOMMU block and works fine when claimed by the display engine under 1GB
+RAM. When used with 4GB,
 
->  drivers/mailbox/sun6i-msgbox.c          | 4 ++--
+root@helper-board-a133:~# head /proc/meminfo 
+MemTotal:        4021212 kB
 
-Acked-by: Chen-Yu Tsai <wens@csie.org>
+root@helper-board-a133:~# dmesg | grep -i -e drm -e iommu
+[    0.465613] iommu: Default domain type: Translated
+[    0.470892] iommu: DMA domain TLB invalidation policy: strict mode
+[    0.914097] sun8i-mixer 6100000.mixer: Adding to iommu group 0
+[    1.092400] sun4i-drm display-engine: Adding to iommu group 0
+[    1.100044] sun4i-drm display-engine: bound 6100000.mixer (ops 0xffff800080b05dc0)
+[    1.108399] sun4i-drm display-engine: bound 6510000.tcon-top (ops 0xffff800080b0a628)
+[    1.116694] sun4i-drm display-engine: bound 6511000.lcd-controller (ops 0xffff800080b04220)
+[    1.126415] [drm] Initialized sun4i-drm 1.0.0 for display-engine on minor 0
+[    1.135110] sun50i-iommu 30f0000.iommu: attempt to map address beyond 4GB
+[    1.142559] sun4i-drm display-engine: [drm] *ERROR* fbdev-dma: Failed to setup generic emulation (ret=-12)
+[    1.154210] sun4i-drm display-engine: [drm] *ERROR* fbdev-dma: Failed to setup generic emulation (ret=-12)
 
->  drivers/mailbox/tegra-hsp.c             | 2 +-
->  drivers/mailbox/zynqmp-ipi-mailbox.c    | 2 +-
->  11 files changed, 13 insertions(+), 13 deletions(-)
->
+allocation fails. Limiting the memory mem=2G to the kernel works.
+
+Thanks,
+Parthiban
+
+> +		goto out;
+> +	}
+> +
+>  	page_table = sun50i_dte_get_page_table(sun50i_domain, iova, gfp);
+>  	if (IS_ERR(page_table)) {
+>  		ret = PTR_ERR(page_table);
+> @@ -682,7 +690,8 @@ sun50i_iommu_domain_alloc_paging(struct device *dev)
+>  	if (!sun50i_domain)
+>  		return NULL;
+>  
+> -	sun50i_domain->dt = iommu_alloc_pages(GFP_KERNEL, get_order(DT_SIZE));
+> +	sun50i_domain->dt = iommu_alloc_pages(GFP_KERNEL | GFP_DMA32,
+> +					      get_order(DT_SIZE));
+>  	if (!sun50i_domain->dt)
+>  		goto err_free_domain;
+>  
+> @@ -997,7 +1006,7 @@ static int sun50i_iommu_probe(struct platform_device *pdev)
+>  
+>  	iommu->pt_pool = kmem_cache_create(dev_name(&pdev->dev),
+>  					   PT_SIZE, PT_SIZE,
+> -					   SLAB_HWCACHE_ALIGN,
+> +					   SLAB_HWCACHE_ALIGN | SLAB_CACHE_DMA32,
+>  					   NULL);
+>  	if (!iommu->pt_pool)
+>  		return -ENOMEM;
+
