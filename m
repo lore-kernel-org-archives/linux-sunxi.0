@@ -1,160 +1,112 @@
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33B161CCB25
-	for <linux-sunxi@lists.linux.dev>; Tue, 19 Nov 2024 14:29:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0E6C1CBE9C;
+	Tue, 19 Nov 2024 14:43:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732026592; cv=none; b=c2+NhbSqq/Izj8cw+2aJMpC5a/SglJ4kfDHx1WRx75fFn5BpRqwvBoCG5/dStFk5oryTDmnu8j1W3sPpfpFIk/YiS6Jf7mfnzurcP1upUWUgF/qnounyjVpqCKTc1pAGiF5bjA2zdpyaO1DR560+BFOg1PzFqX0qmy11Ya5UDZ4=
+	t=1732027413; cv=none; b=ioNJVKpDqV8nkRLftfwtWyN338Rzv75wwHeNDzxNRbRljYrerEJFPZF2xjHq4Sc2nU3fON0ZHVx/x15x6MG5Hk3WvBTG0oIV3C9JIcQC8wu/GQCl3uRy4pmkN1dM3mt+CHgkMr2qV3PmUFMQhd6/6t8RKWADdi7eIMmbgHTb0Ds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732026592; c=relaxed/simple;
-	bh=Xc33Op179Wdt4ld76d8fpmfb6NVFfpXurSoopZYeMQQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bD0aL9HIXdnRhtsoM1NER+mK6SMn4jX0VneeObVHb4d4EhgWak1q7XJFVTMnYnn4fCwowlW2qPmyVo7CkSZ4BO8c3gfDY2JxWJrebz7+bqbCn4kxNVo/d9Fsez7CLu+V7r9lPs+Qfijufm5904DEnf6UpOd6IJqU9oxl8oarEcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 58CBE1F00050
-	for <linux-sunxi@lists.linux.dev>; Tue, 19 Nov 2024 14:20:00 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id A9C3CA4700A; Tue, 19 Nov 2024 14:08:11 +0000 (UTC)
-X-Spam-Level: *
-Received: from localhost.localdomain (unknown [192.168.1.64])
-	by laika.paulk.fr (Postfix) with ESMTP id 78E00A47001;
-	Tue, 19 Nov 2024 14:08:06 +0000 (UTC)
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Maxime Ripard <mripard@kernel.org>,
+	s=arc-20240116; t=1732027413; c=relaxed/simple;
+	bh=ZxvLKM0bNhMgDY9bHlRSPhBjrdjq5IG2dfXvn+jrPY0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P0tELwMyVyDp0uGHRYwIepTclcjM65QDAuqLCnr4/cnXnrN+U8HHi0pIwdkliUPhk1oso7CHQwOmMQF9db/N1j88oqbQwXERF8LDfOCxdptY+3WvFQi6eWTthQI7GW6VziB2f8xJz4hRRsTc3ook0x7cllRXiMvIcxpRp2IZ+/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hGky+BBR; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hGky+BBR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C26DC4CECF;
+	Tue, 19 Nov 2024 14:43:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732027412;
+	bh=ZxvLKM0bNhMgDY9bHlRSPhBjrdjq5IG2dfXvn+jrPY0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hGky+BBRYQduW1jWNZzx5eiIKtSEdCIWdXGSH/PbDT90uDhpfoiqtxOUgbcUT5jgX
+	 4dvnen2vCoNHtBKgnLqw3dqdFSLF35E0skC+FmiqHhzTuGY4EU8kd7SSros5NuXaLV
+	 8ThyTDf7PdNG6jejM8QFVfo4JcDkwvOkCS6vIcQ4FTfW1PYlUkzrsUOpPqV7C8ALzV
+	 6sUWqYD3HFRERD3L6Dn5uPO2baIMU9uOZmiwtiyKaP5hgx2Zhr+hH9+/0jjaEfTExi
+	 ZY8HFIrn6GT2shUdWd5cujrUi8GiVb7wVWXWLh7Fy4AmiZQ9mI3yJvmntxhLXZm4aK
+	 IQrfAugTXs0fA==
+Date: Tue, 19 Nov 2024 15:43:29 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Paul Kocialkowski <paulk@sys-base.io>
+Cc: linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Linus Walleij <linus.walleij@linaro.org>, 
 	Paul Kocialkowski <contact@paulk.fr>
-Subject: [PATCH] pinctrl: sunxi: Use minimal debouncing period as default
-Date: Tue, 19 Nov 2024 15:08:05 +0100
-Message-ID: <20241119140805.3345412-1-paulk@sys-base.io>
-X-Mailer: git-send-email 2.47.0
+Subject: Re: [PATCH] pinctrl: sunxi: Use minimal debouncing period as default
+Message-ID: <20241119-prudent-jasmine-lizard-195cef@houat>
+References: <20241119140805.3345412-1-paulk@sys-base.io>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="bbh5op4rp7zacygy"
+Content-Disposition: inline
+In-Reply-To: <20241119140805.3345412-1-paulk@sys-base.io>
 
-From: Paul Kocialkowski <contact@paulk.fr>
 
-The sunxi external interrupts (available from GPIO pins) come with a
-built-in debouncing mechanism that cannot be disabled. It can be
-configured to use either the low-frequency oscillator (32 KHz) or the
-high-frequency oscillator (24 MHz), with a pre-scaler.
+--bbh5op4rp7zacygy
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] pinctrl: sunxi: Use minimal debouncing period as default
+MIME-Version: 1.0
 
-The pinctrl code supports an input-debounce device-tree property to set
-a specific debouncing period and choose which clock source is most
-relevant. However the property is specified in microseconds, which is
-longer than the minimal period achievable from the high-frequency
-oscillator without a pre-scaler.
+On Tue, Nov 19, 2024 at 03:08:05PM +0100, Paul Kocialkowski wrote:
+> From: Paul Kocialkowski <contact@paulk.fr>
+>=20
+> The sunxi external interrupts (available from GPIO pins) come with a
+> built-in debouncing mechanism that cannot be disabled. It can be
+> configured to use either the low-frequency oscillator (32 KHz) or the
+> high-frequency oscillator (24 MHz), with a pre-scaler.
+>=20
+> The pinctrl code supports an input-debounce device-tree property to set
+> a specific debouncing period and choose which clock source is most
+> relevant. However the property is specified in microseconds, which is
+> longer than the minimal period achievable from the high-frequency
+> oscillator without a pre-scaler.
 
-When the property is missing, the reset configuration is kept, which
-selects the low-frequency oscillator without pre-scaling. This severely
-limits the possible interrupt periods that can be detected.
+That can be fixed by introducing a new property with a ns resolution.
 
-Instead of keeping this default, use the minimal debouncing period from
-the high-frequency oscillator without a pre-scaler to allow the largest
-possible range of interrupt periods.
+> When the property is missing, the reset configuration is kept, which
+> selects the low-frequency oscillator without pre-scaling. This severely
+> limits the possible interrupt periods that can be detected.
+>=20
+> Instead of keeping this default, use the minimal debouncing period from
+> the high-frequency oscillator without a pre-scaler to allow the largest
+> possible range of interrupt periods.
+>=20
+> This issue was encountered with a peripheral that generates active-low
+> interrupts for 1 us. No interrupt was detected with the default setup,
+> while it is now correctly detected with this change.
 
-This issue was encountered with a peripheral that generates active-low
-interrupts for 1 us. No interrupt was detected with the default setup,
-while it is now correctly detected with this change.
+I don't think it's wise. If the debouncing is kept as is, the worst case
+scenario is the one you had: a device doesn't work, you change it,
+everything works.
 
-Signed-off-by: Paul Kocialkowski <contact@paulk.fr>
----
- drivers/pinctrl/sunxi/pinctrl-sunxi.c | 49 ++++++++++++++++-----------
- 1 file changed, 29 insertions(+), 20 deletions(-)
+If we set it up as fast as it can however, then our risk becomes
+thousands of spurious interrupts, which is much more detrimental to the
+system.
 
-diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-index 73bcf806af0e..06c650d97645 100644
---- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-+++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-@@ -1416,6 +1416,7 @@ static int sunxi_pinctrl_setup_debounce(struct sunxi_pinctrl *pctl,
- 	unsigned int hosc_diff, losc_diff;
- 	unsigned int hosc_div, losc_div;
- 	struct clk *hosc, *losc;
-+	bool debounce_minimal = false;
- 	u8 div, src;
- 	int i, ret;
- 
-@@ -1423,9 +1424,9 @@ static int sunxi_pinctrl_setup_debounce(struct sunxi_pinctrl *pctl,
- 	if (of_clk_get_parent_count(node) != 3)
- 		return 0;
- 
--	/* If we don't have any setup, bail out */
-+	/* If we don't have any setup, use minimal debouncing. */
- 	if (!of_property_present(node, "input-debounce"))
--		return 0;
-+		debounce_minimal = true;
- 
- 	losc = devm_clk_get(pctl->dev, "losc");
- 	if (IS_ERR(losc))
-@@ -1439,29 +1440,37 @@ static int sunxi_pinctrl_setup_debounce(struct sunxi_pinctrl *pctl,
- 		unsigned long debounce_freq;
- 		u32 debounce;
- 
--		ret = of_property_read_u32_index(node, "input-debounce",
--						 i, &debounce);
--		if (ret)
--			return ret;
-+		if (!debounce_minimal) {
-+			ret = of_property_read_u32_index(node, "input-debounce",
-+							 i, &debounce);
-+			if (ret)
-+				return ret;
- 
--		if (!debounce)
--			continue;
-+			if (!debounce)
-+				continue;
- 
--		debounce_freq = DIV_ROUND_CLOSEST(USEC_PER_SEC, debounce);
--		losc_div = sunxi_pinctrl_get_debounce_div(losc,
--							  debounce_freq,
--							  &losc_diff);
-+			debounce_freq = DIV_ROUND_CLOSEST(USEC_PER_SEC,
-+							  debounce);
- 
--		hosc_div = sunxi_pinctrl_get_debounce_div(hosc,
--							  debounce_freq,
--							  &hosc_diff);
-+			losc_div = sunxi_pinctrl_get_debounce_div(losc,
-+								  debounce_freq,
-+								  &losc_diff);
- 
--		if (hosc_diff < losc_diff) {
--			div = hosc_div;
--			src = 1;
-+			hosc_div = sunxi_pinctrl_get_debounce_div(hosc,
-+								  debounce_freq,
-+								  &hosc_diff);
-+
-+			if (hosc_diff < losc_diff) {
-+				div = hosc_div;
-+				src = 1;
-+			} else {
-+				div = losc_div;
-+				src = 0;
-+			}
- 		} else {
--			div = losc_div;
--			src = 0;
-+			/* Achieve minimal debouncing using undivided hosc. */
-+			div = 0;
-+			src = 1;
- 		}
- 
- 		writel(src | div << 4,
--- 
-2.47.0
+And that's without accounting the fact that devices might have relied on
+that default for years
 
+Maxime
+
+--bbh5op4rp7zacygy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZzykEQAKCRAnX84Zoj2+
+diw8AXwPEvKvZSexckPVmceqVmzVwPo9YwJrS+DitvJ95ldcD40YdZHdCu5AjBao
+e+XhY+ABgOgEGGr/j6zPLo8Y5ot34kniaBX5Xx/Ej3W3uHV0gQDVY5V/mn8BbSIb
+t4BJ6wtFAg==
+=iQOi
+-----END PGP SIGNATURE-----
+
+--bbh5op4rp7zacygy--
