@@ -1,87 +1,111 @@
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7110C156237
-	for <linux-sunxi@lists.linux.dev>; Wed, 20 Nov 2024 05:36:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B09D015098B;
+	Wed, 20 Nov 2024 08:01:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732080977; cv=none; b=ezT13grkjoUknmTeXA0KdaYdTOQTm9q+XaK4NyC6yaGP7mYKfO5CQeNAj+rlatRH1bw/ba3JvGIw1ZGG6bVWy5jAmwwvE6fFAOdgLTwVrP6r0D0s/YjGP+h7EzargiLGOuSJkKeDvjvIDgnE+/+nZTeMYZz6Yg83gkDuhaIFUIk=
+	t=1732089717; cv=none; b=oSCVeEcGNTCcRWhEvYGzPpSVfzMZNW/G6KljA/3eoYqN6hQ7xYrH8Mjhf4Qi2WRuPLLgAfGHL2nc+GTh5ntyUJWR8LRUfKrj0ZC3GvIbwqE/2Q3sdnYK5HiHcu2Y0XykMw/1SkoBJtxHZ3kzIL7iQMahAptSGKKd99Vmkm2EZ34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732080977; c=relaxed/simple;
-	bh=3mq5+iqMIwmAGAbAOZ3WJy+zC/nZcG1A/YxkXZxMR4g=;
+	s=arc-20240116; t=1732089717; c=relaxed/simple;
+	bh=YcmvsqJy4lqAiAYIlhOSKHvpYFak6R4CiBmUT+zJfh4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ASuemP90oF5MLctoaOvOXpofvMyxaw7doCicVP/ZNzJ+hO0kYhQ5Cv6Q820o2lHvWFIu5F31HhN5tSrxumXGhdV9yOj8V34rYz0mKtDvcE7Mdfxg012vb2LsAR2GKPXVuqlBDbfNvxcDuRxHH6wdeRPh4xvYDjtX96Aenjxzw/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kw6Fp4G5; arc=none smtp.client-ip=209.85.210.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=qr0b8Zwhy9zXV70fda5T5/YNkIQQtIs0Dux6wpn3zTCxFYor9BWoH9wQzgolSnj69tpsrRycC0oN/P2Q04wpvNRNPkkAiP2umPe3l0uDHhs1E7a5XwmPxgyKg/X1FesQO5J+4MWXcDTWZBeGUBc4bbTu4sbTcUmgyKyLBYapOqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nUlDZMBc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kw6Fp4G5"
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-7180e07185bso748968a34.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 19 Nov 2024 21:36:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732080974; x=1732685774; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xRwcqVhrMWWtuyE+OLPL5NHoUdOo/BxzRoMgxzXnrkA=;
-        b=kw6Fp4G5LnUoNEPlJCuv52opoQTh5HR6O1k+nNf6QAlpNTEkc/x9ZvVx8YAt8685uU
-         kTmVk7Z0yA8k7JE2iif5rJxboYX69KyfFBOi9xxYdDzTOJJeM8dmCz8r3y/CBcQ/9Ty5
-         +TPK5A/Yu5fY/fYxv1FTvY0XcXPBhXea+AjyA2M9KF7psWFSw91yb/VdJe6Kw4Xp5pbh
-         g7l7GYkv++2PJFP7eWnevs7khKOjvJdWf86aisjodB0TsOcnERZuJwCPWB+WpBlvrh9w
-         VmcMAClDpcv4SvG+c5W94i4KQrQR4n+iyb1zKn1Z5WwDoLebj2/vF69nj/4lbdg2tOHV
-         62Sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732080974; x=1732685774;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xRwcqVhrMWWtuyE+OLPL5NHoUdOo/BxzRoMgxzXnrkA=;
-        b=d3zI1fil2JNeyw5r7qgiwY/EFenEX4yA5SuuhshegLcLyGCpE0qKiPgjHiYnbhRXMp
-         LBU7zs4OvXKfPWxyPRgqH+xTODxZRuJRQuzJCAc+4cqO30+2o/jfwR8/fQA2+/m9dQXh
-         olzLl7IqtYLP9v+/TFzTt9QPDsGIqE6l7mEYcOG5eG3Ub1vdpX/up2tzH8aO0hs8nDp3
-         jR81Nw2nf4omd/Nca8aeR7CiAi9XvR620WhesXPxvnQYWeFaU8PnawkUGy8jKXNpIxmP
-         4qb01XNpmV4er5TuQwq3TCOpMvD6uhBWtYFyM7B5C1paTpOl77nYfu0h6ACycmS1doe+
-         EFfQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXfAxBP0KnDv/4EBL/oBo86bnfLRNINqbGzZ6mqebsQsuDJT3KC7IVaGmR/hAFUogNjc5i2LyO0WXGaog==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyuWw7TqAShedoC50MHcYXWW3+tWlT3OYoowUt+O0QgGx4DddjQ
-	YjRqVgjbA39Z4fS2Qs8C8rf+gVEcdqMg6pyHbxK8x7aXHAhz+Nuh
-X-Google-Smtp-Source: AGHT+IEINX116vl4gIhEO+YETzlb+ZEQU0ZOmoguc1OJHWnXur7CYB6qLK517Onlg3HZrRiY5MLnfw==
-X-Received: by 2002:a9d:7b54:0:b0:70f:7123:1f34 with SMTP id 46e09a7af769-71ab3216af2mr1408427a34.30.1732080974485;
-        Tue, 19 Nov 2024 21:36:14 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:4fd4:a79d:4d7b:917f])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7f8c1c3224asm8639311a12.29.2024.11.19.21.36.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Nov 2024 21:36:14 -0800 (PST)
-Date: Tue, 19 Nov 2024 21:36:11 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-kernel@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, linux-input@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 06/15] Input: sun4i-lradc-keys - don't include
- 'pm_wakeup.h' directly
-Message-ID: <Zz11SwzIYTgkgbty@google.com>
-References: <20241118072917.3853-1-wsa+renesas@sang-engineering.com>
- <20241118072917.3853-7-wsa+renesas@sang-engineering.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nUlDZMBc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BABDCC4CECD;
+	Wed, 20 Nov 2024 08:01:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732089716;
+	bh=YcmvsqJy4lqAiAYIlhOSKHvpYFak6R4CiBmUT+zJfh4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nUlDZMBcMQ365PhtQG0i0AUFWBmkOsJIKw8Uqs0oK7PH3p0eBy/81StVUr5WJaDbs
+	 Y7ur7u6VtUqnv9iUqObzZXoiW49lFKQodsWxdtiKF8UTe+szrxb1M88oh5kC41EIAn
+	 UqmcbOOkug1xsSj7Cnw5njX7nHmMMHWxZTicgia6nVDbN0J7JDRNTmN9QPIR/G5p9C
+	 BzZofxvUimfRxYxU1PFhvJ3WziavFwRlrNJNC+fjkGwo+FhPzNGP6LmZ+9nfyoXQOG
+	 MPEPGjp4BvvvApFtQ7ZCiOzBEwG3XiHBqmyGL1znGFgh55+4V479S0OG7bbemTytRf
+	 EcgJyiuJ6fH6A==
+Date: Wed, 20 Nov 2024 09:01:53 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Paul Kocialkowski <paulk@sys-base.io>
+Cc: linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Linus Walleij <linus.walleij@linaro.org>, 
+	Paul Kocialkowski <contact@paulk.fr>
+Subject: Re: [PATCH] pinctrl: sunxi: Use minimal debouncing period as default
+Message-ID: <20241120-wild-stimulating-prawn-ffefb7@houat>
+References: <20241119140805.3345412-1-paulk@sys-base.io>
+ <20241119-prudent-jasmine-lizard-195cef@houat>
+ <ZzyoIABRArkGoZBn@collins>
+ <20241119-vivacious-optimistic-squirrel-a2f3c5@houat>
+ <ZzzdT0wr0u1ApVgV@collins>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="khkrvqq44ignfwqp"
 Content-Disposition: inline
-In-Reply-To: <20241118072917.3853-7-wsa+renesas@sang-engineering.com>
+In-Reply-To: <ZzzdT0wr0u1ApVgV@collins>
 
-On Mon, Nov 18, 2024 at 08:29:05AM +0100, Wolfram Sang wrote:
-> The header clearly states that it does not want to be included directly,
-> only via 'device.h'. 'platform_device.h' works equally well. Remove the
-> direct inclusion.
-> 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Applied, thank you.
+--khkrvqq44ignfwqp
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] pinctrl: sunxi: Use minimal debouncing period as default
+MIME-Version: 1.0
 
--- 
-Dmitry
+On Tue, Nov 19, 2024 at 07:47:43PM +0100, Paul Kocialkowski wrote:
+> > > In any case I don't think it makes sense for the platform code to imp=
+ose
+> > > what a reasonable period for interrupts is (especially with such a la=
+rge
+> > > period as default).
+> >=20
+> > So you don't think it makes sense for the platform code to impose a
+> > reasonable period, so you want to impose a (more, obviously) reasonable
+> > period?
+>=20
+> Yes absolutely. Anything that brings us closer to "you get what is really
+> happening with the hardware". The sunxi controller doesn't allow disabling
+> debouncing entirely, so the next best thing is to have it with the smalle=
+st
+> period.
+
+That's an opinion, not a fact.
+
+> > If anything, the status quo doesn't impose anything, it just rolls with
+> > the hardware default. Yours would impose one though.
+>=20
+> The result is that it puts a strong limitation and breaks many use cases =
+by
+> default. I don't think we have to accept whatever register default was ch=
+osen
+> by hardware engineers as the most sensible default choice and pretend tha=
+t this
+> is not a policy decision.
+
+You're making it much worse than it is. It doesn't "break many use
+cases" it broke one, by default, with a supported way to unbreak it, in
+12 years.
+
+Maxime
+
+--khkrvqq44ignfwqp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZz2XcAAKCRAnX84Zoj2+
+dmOZAYCCwKdo2KomekdZdkk+Kd79+7gZmQ8SrPSQzSWbl2+IJ85851VQZ0/OISxV
+k9BcONYBfif3yXkFohd7QveN2ljpb7hJ4Zqr7VjiC6i0H3Q4mGH+uU2q6nA0YHAg
+QUpfeaJlSQ==
+=G1Sx
+-----END PGP SIGNATURE-----
+
+--khkrvqq44ignfwqp--
