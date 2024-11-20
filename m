@@ -1,242 +1,87 @@
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9861240BE0
-	for <linux-sunxi@lists.linux.dev>; Tue, 19 Nov 2024 18:47:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7110C156237
+	for <linux-sunxi@lists.linux.dev>; Wed, 20 Nov 2024 05:36:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732042077; cv=none; b=TPllprHZDSoYzUnUq8qzBCnSFyPsrzA2fm+xgWPCfWwkwiTnrCaCA2dwVborIV1DKtwNT5HCE3Kgj3V7r/4YTVf0/DHbq5W0NLSuprpqQmXMxCr18OtO23/Vbt3om/yTb1Q8ZM9uY1O+O6uZvvI6CWgtzXHHgcXKpyFIfjXBKrg=
+	t=1732080977; cv=none; b=ezT13grkjoUknmTeXA0KdaYdTOQTm9q+XaK4NyC6yaGP7mYKfO5CQeNAj+rlatRH1bw/ba3JvGIw1ZGG6bVWy5jAmwwvE6fFAOdgLTwVrP6r0D0s/YjGP+h7EzargiLGOuSJkKeDvjvIDgnE+/+nZTeMYZz6Yg83gkDuhaIFUIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732042077; c=relaxed/simple;
-	bh=Irw4O2YBfJDRbHbUOD1Yfhf1NVRCcQ0AAlRSnc+onJU=;
+	s=arc-20240116; t=1732080977; c=relaxed/simple;
+	bh=3mq5+iqMIwmAGAbAOZ3WJy+zC/nZcG1A/YxkXZxMR4g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CVZcscDZeHUJOlz78l/mMnXhb/Mj8OojE50KONZlcWPtFHY6+wYkBOKFv2Xef4h1CvwOgcjusxsAlKWK3d8dB0x/nDHVol9EoQhpUD2twG7eHy5sTA6oZ0B1lqkAxYpMdO8N5HFl1S/VGgsNMPVF0cDlpc4j+4ZXhIBdx3fR2tY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 2973D1F00050
-	for <linux-sunxi@lists.linux.dev>; Tue, 19 Nov 2024 18:47:49 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 0D8DBA4710E; Tue, 19 Nov 2024 18:47:47 +0000 (UTC)
-X-Spam-Level: 
-Received: from collins (unknown [192.168.1.1])
-	by laika.paulk.fr (Postfix) with ESMTPSA id 6B805A47105;
-	Tue, 19 Nov 2024 18:47:46 +0000 (UTC)
-Date: Tue, 19 Nov 2024 19:47:43 +0100
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=ASuemP90oF5MLctoaOvOXpofvMyxaw7doCicVP/ZNzJ+hO0kYhQ5Cv6Q820o2lHvWFIu5F31HhN5tSrxumXGhdV9yOj8V34rYz0mKtDvcE7Mdfxg012vb2LsAR2GKPXVuqlBDbfNvxcDuRxHH6wdeRPh4xvYDjtX96Aenjxzw/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kw6Fp4G5; arc=none smtp.client-ip=209.85.210.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kw6Fp4G5"
+Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-7180e07185bso748968a34.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 19 Nov 2024 21:36:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732080974; x=1732685774; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=xRwcqVhrMWWtuyE+OLPL5NHoUdOo/BxzRoMgxzXnrkA=;
+        b=kw6Fp4G5LnUoNEPlJCuv52opoQTh5HR6O1k+nNf6QAlpNTEkc/x9ZvVx8YAt8685uU
+         kTmVk7Z0yA8k7JE2iif5rJxboYX69KyfFBOi9xxYdDzTOJJeM8dmCz8r3y/CBcQ/9Ty5
+         +TPK5A/Yu5fY/fYxv1FTvY0XcXPBhXea+AjyA2M9KF7psWFSw91yb/VdJe6Kw4Xp5pbh
+         g7l7GYkv++2PJFP7eWnevs7khKOjvJdWf86aisjodB0TsOcnERZuJwCPWB+WpBlvrh9w
+         VmcMAClDpcv4SvG+c5W94i4KQrQR4n+iyb1zKn1Z5WwDoLebj2/vF69nj/4lbdg2tOHV
+         62Sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732080974; x=1732685774;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xRwcqVhrMWWtuyE+OLPL5NHoUdOo/BxzRoMgxzXnrkA=;
+        b=d3zI1fil2JNeyw5r7qgiwY/EFenEX4yA5SuuhshegLcLyGCpE0qKiPgjHiYnbhRXMp
+         LBU7zs4OvXKfPWxyPRgqH+xTODxZRuJRQuzJCAc+4cqO30+2o/jfwR8/fQA2+/m9dQXh
+         olzLl7IqtYLP9v+/TFzTt9QPDsGIqE6l7mEYcOG5eG3Ub1vdpX/up2tzH8aO0hs8nDp3
+         jR81Nw2nf4omd/Nca8aeR7CiAi9XvR620WhesXPxvnQYWeFaU8PnawkUGy8jKXNpIxmP
+         4qb01XNpmV4er5TuQwq3TCOpMvD6uhBWtYFyM7B5C1paTpOl77nYfu0h6ACycmS1doe+
+         EFfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXfAxBP0KnDv/4EBL/oBo86bnfLRNINqbGzZ6mqebsQsuDJT3KC7IVaGmR/hAFUogNjc5i2LyO0WXGaog==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyuWw7TqAShedoC50MHcYXWW3+tWlT3OYoowUt+O0QgGx4DddjQ
+	YjRqVgjbA39Z4fS2Qs8C8rf+gVEcdqMg6pyHbxK8x7aXHAhz+Nuh
+X-Google-Smtp-Source: AGHT+IEINX116vl4gIhEO+YETzlb+ZEQU0ZOmoguc1OJHWnXur7CYB6qLK517Onlg3HZrRiY5MLnfw==
+X-Received: by 2002:a9d:7b54:0:b0:70f:7123:1f34 with SMTP id 46e09a7af769-71ab3216af2mr1408427a34.30.1732080974485;
+        Tue, 19 Nov 2024 21:36:14 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:4fd4:a79d:4d7b:917f])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7f8c1c3224asm8639311a12.29.2024.11.19.21.36.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Nov 2024 21:36:14 -0800 (PST)
+Date: Tue, 19 Nov 2024 21:36:11 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-kernel@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Paul Kocialkowski <contact@paulk.fr>
-Subject: Re: [PATCH] pinctrl: sunxi: Use minimal debouncing period as default
-Message-ID: <ZzzdT0wr0u1ApVgV@collins>
-References: <20241119140805.3345412-1-paulk@sys-base.io>
- <20241119-prudent-jasmine-lizard-195cef@houat>
- <ZzyoIABRArkGoZBn@collins>
- <20241119-vivacious-optimistic-squirrel-a2f3c5@houat>
+	Samuel Holland <samuel@sholland.org>, linux-input@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 06/15] Input: sun4i-lradc-keys - don't include
+ 'pm_wakeup.h' directly
+Message-ID: <Zz11SwzIYTgkgbty@google.com>
+References: <20241118072917.3853-1-wsa+renesas@sang-engineering.com>
+ <20241118072917.3853-7-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="pOsvlEEZGM4sREmv"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241119-vivacious-optimistic-squirrel-a2f3c5@houat>
+In-Reply-To: <20241118072917.3853-7-wsa+renesas@sang-engineering.com>
 
+On Mon, Nov 18, 2024 at 08:29:05AM +0100, Wolfram Sang wrote:
+> The header clearly states that it does not want to be included directly,
+> only via 'device.h'. 'platform_device.h' works equally well. Remove the
+> direct inclusion.
+> 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
---pOsvlEEZGM4sREmv
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied, thank you.
 
-Le Tue 19 Nov 24, 16:43, Maxime Ripard a =C3=A9crit :
-> On Tue, Nov 19, 2024 at 04:00:48PM +0100, Paul Kocialkowski wrote:
-> > Hi Maxime,
-> >=20
-> > Le Tue 19 Nov 24, 15:43, Maxime Ripard a =C3=A9crit :
-> > > On Tue, Nov 19, 2024 at 03:08:05PM +0100, Paul Kocialkowski wrote:
-> > > > From: Paul Kocialkowski <contact@paulk.fr>
-> > > >=20
-> > > > The sunxi external interrupts (available from GPIO pins) come with a
-> > > > built-in debouncing mechanism that cannot be disabled. It can be
-> > > > configured to use either the low-frequency oscillator (32 KHz) or t=
-he
-> > > > high-frequency oscillator (24 MHz), with a pre-scaler.
-> > > >=20
-> > > > The pinctrl code supports an input-debounce device-tree property to=
- set
-> > > > a specific debouncing period and choose which clock source is most
-> > > > relevant. However the property is specified in microseconds, which =
-is
-> > > > longer than the minimal period achievable from the high-frequency
-> > > > oscillator without a pre-scaler.
-> > >=20
-> > > That can be fixed by introducing a new property with a ns resolution.
-> >=20
-> > Sure but my point here is rather about what should be default behavior.
-> >=20
-> > The issue I had will remain unsolved by default even with a new propert=
-y,
-> > since people will still need to patch their device-tree to apply it.
-> >=20
-> > > > When the property is missing, the reset configuration is kept, which
-> > > > selects the low-frequency oscillator without pre-scaling. This seve=
-rely
-> > > > limits the possible interrupt periods that can be detected.
-> > > >=20
-> > > > Instead of keeping this default, use the minimal debouncing period =
-=66rom
-> > > > the high-frequency oscillator without a pre-scaler to allow the lar=
-gest
-> > > > possible range of interrupt periods.
-> > > >=20
-> > > > This issue was encountered with a peripheral that generates active-=
-low
-> > > > interrupts for 1 us. No interrupt was detected with the default set=
-up,
-> > > > while it is now correctly detected with this change.
-> > >=20
-> > > I don't think it's wise. If the debouncing is kept as is, the worst c=
-ase
-> > > scenario is the one you had: a device doesn't work, you change it,
-> > > everything works.
-> >=20
-> > I think this worst-case scenario is very bad and not what people will
-> > expect. In addition it is difficult to debug the issue without specific
-> > knowledge about the SoC.
-> >
-> > My use-case here was hooking up a sparkfun sensor board by the way,
-> > not some very advanced corner-case.
->=20
-> Are you really arguing that a single sparkfun sensor not working is a
-> worse outcome than the system not booting?
-
-No, what I'm saying is that this is a very common and basic use-case that
-most users will expect to work out-of-the-box.
-
-Also the possibility of interrupt storms happening is nothing new (and it c=
-an
-still happen with any non-external interrupt). It would typically result fr=
-om a
-hardware-related issue and there's no reason why it would happen on
-correctly-designed boards. If anything, it would allow spotting these isues
-more easily.
-
-I think it comes down to whether we expect an interrupt controller to "just
-report interrupts" or whether it's reasonable that it applies extra policy
-to cover for unlikely (yet very problematic) situations. I think it's good
-that it supports that, but also that it should not enforce such a
-restrictive policy by default.
-
-> > > If we set it up as fast as it can however, then our risk becomes
-> > > thousands of spurious interrupts, which is much more detrimental to t=
-he
-> > > system.
-> >=20
-> > Keep in mind that this only concerns external GPIO-based interrupts,
-> > which have to be explicitely hooked to a device. If a device or circuit
-> > does generate such spurious interrupts, I think it makes sense that it
-> > would be reflected by default.
->=20
-> I mean... debouncing is here for a reason. Any hardware button will
-> generate plenty of interrupts when you press it precisely because it
-> bounces.
-
-Well this is why we have both electronics to filter out these frequencies
-and code in related drivers to implement such debouncing.
-
-I am not arguing that debouncing is not important, I am saying that it
-should not be that agressive on every interrupt line by default.
-
-> > Also the notion of spurious interrupt is pretty vague. Having lots of
-> > interrupts happening may be the desired behavior in many cases.
->=20
-> Which cases?
-
-Any kind of data sampling happening at high-speeds really.
-And this situation also concerns interrupts that are short even if not very
-frequent. That's a very large scope of use cases.
-
-> > In any case I don't think it makes sense for the platform code to impose
-> > what a reasonable period for interrupts is (especially with such a large
-> > period as default).
->=20
-> So you don't think it makes sense for the platform code to impose a
-> reasonable period, so you want to impose a (more, obviously) reasonable
-> period?
-
-Yes absolutely. Anything that brings us closer to "you get what is really
-happening with the hardware". The sunxi controller doesn't allow disabling
-debouncing entirely, so the next best thing is to have it with the smallest
-period.
-
-> If anything, the status quo doesn't impose anything, it just rolls with
-> the hardware default. Yours would impose one though.
-
-The result is that it puts a strong limitation and breaks many use cases by
-default. I don't think we have to accept whatever register default was chos=
-en
-by hardware engineers as the most sensible default choice and pretend that =
-this
-is not a policy decision.
-
-> > Some drivers also have mechanisms to detect spurious interrupts based
-> > on their specific use case.
-> >=20
-> > > And that's without accounting the fact that devices might have relied=
- on
-> > > that default for years
-> >=20
-> > They definitely shouldn't have. This feels much closer to a bug, and re=
-lying
-> > on a bug not being fixed is not a reasonable expectation.
->=20
-> No, it's not a bug, really. It might be inconvenient to you, and that's
-> fine, but it's definitely not a bug.
-
-I agree it's not a bug, just a poor default choice that is neither document=
-ed
-nor explicitely announced. For all we know U-Boot could configure that to
-something completely different and that would break the assumption too.
-
-Cheers,
-
-Paul
-
---=20
-Paul Kocialkowski,
-
-Independent contractor - sys-base - https://www.sys-base.io/
-Free software developer - https://www.paulk.fr/
-
-Specialist in multimedia, graphics and embedded hardware support with Linux.
-
---pOsvlEEZGM4sREmv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmc83U8ACgkQhP3B6o/u
-lQy7bA//RV0AZdk6FyU8kSMY1+c4UIngeMhQ+vi5hu25q4aPypeHcV8ul/joLX4B
-UTuzBphN8goisYZfUBBdO7sn6IyGbNY4DjgYqWZ3VcHzo4gLCTpbwZch7vAoZqvI
-HrUR20a/QGh11BnN+9ZCuFUFBJ1m3X6XbKrR1/Zgm26/qpRN4tgRFYoB5T3jVGDk
-TGSXaKqrx2VqdntzPt3WyPXbosWGDkp5z1dhUgH6HCUPpybNSNt0blPmpcKOpgmi
-WP3k3rgTrXbR8p0EaenwRmnDcTQECx5Y6lHQc5/pCc72THWOUCmStNkKCB5SnqQy
-43jadYzR4v9YNpfE3s+u5iGk8xbtWNu6HxSF345Ibj1zjV8p1Gsh98a0Ha13WMvf
-ReHxfj+MaCL52nBDkFCgQ6BQaJIplnKkkgfddJwnejTgLaouAKPoBkxNjwRcBVUG
-k4QhVpo/SHlnSlSz7snR6EgGTc5U1QEHpb1MpM5JUVh2nVvSRY4Amr/LfEIOoevL
-Q8gmhbnR0qZvFVVyZsLn5BH++QWccU8TiQnQf4n+uPytK0Df+bsBgFae2vdyUipl
-ZbH6W6gHAm3SBiQ2k7MrIMkildK8Ej3klmuCxp9xCrzJLIhPEpbAIRfgUnFeiad7
-zZZjo3DTpfZqc/p+So4jhkSVTZtSJ0IQtaIUGWC/ujbwOmYDerc=
-=sruz
------END PGP SIGNATURE-----
-
---pOsvlEEZGM4sREmv--
+-- 
+Dmitry
