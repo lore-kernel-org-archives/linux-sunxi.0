@@ -1,152 +1,191 @@
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DC7317836B
-	for <linux-sunxi@lists.linux.dev>; Wed, 20 Nov 2024 10:05:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FEDA19C561
+	for <linux-sunxi@lists.linux.dev>; Wed, 20 Nov 2024 10:12:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732097162; cv=none; b=laSFfuTl01rgHQ+Qh9aGsSSP4Q/qP5IW+nGnj8AfSweM3OiVHsDs9JaqOHz8D/oPIbgGY0sqhnhS/uBbTAYSq/UpgAQFveqMoPIMulGUOI4PZ+pElxiapIDVauiGBjm8gFb/YSmxZYviqOcKmcJ4TNehbLm3D6bkue4tGQKzXRk=
+	t=1732097568; cv=none; b=o594eK5UF0FIy9i2PgwetZnD7203n+4es59iWCDBDwPQw8jaltSX4jvVICxSq6yjncmsAFhEyKms+Juxj4ByD6J+MLK4udSueD0pg9d7nAeg+pzU1ecJQtEF/kBH8gANFrRHx5SNSZ0SKaM9kRhlrA1EuOe82Vec3yqNGHibwCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732097162; c=relaxed/simple;
-	bh=dd428CXBDTjHrrnAJZKziNKjueoKbD3ItkypPONoNGk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ULlAxI9X0xNSCcgeEmtz09y/It0/b1fkO3u5GTS/Gj1wF7kLJdzJDsNmvZg3wJ/wY9O6Uo2wHFl5ku3DoedyFJYfKnlI1QarICl7/TE5A2DtF5A6otAQ0YrON5jyIwfd1nRsl47OWGfHOfUjv7VRh3xbg5nNuwQpKCk5jevJUa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 294511F00050
-	for <linux-sunxi@lists.linux.dev>; Wed, 20 Nov 2024 10:05:52 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 8B9C3A472B5; Wed, 20 Nov 2024 10:05:50 +0000 (UTC)
-X-Spam-Level: 
-Received: from collins (unknown [192.168.1.1])
-	by laika.paulk.fr (Postfix) with ESMTPSA id 18C00A472AD;
-	Wed, 20 Nov 2024 10:05:49 +0000 (UTC)
-Date: Wed, 20 Nov 2024 11:05:42 +0100
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Paul Kocialkowski <contact@paulk.fr>
-Subject: Re: [PATCH] pinctrl: sunxi: Use minimal debouncing period as default
-Message-ID: <Zz20dquzl5_2_3TQ@collins>
-References: <20241119140805.3345412-1-paulk@sys-base.io>
- <20241119-prudent-jasmine-lizard-195cef@houat>
- <ZzyoIABRArkGoZBn@collins>
- <20241119-vivacious-optimistic-squirrel-a2f3c5@houat>
- <ZzzdT0wr0u1ApVgV@collins>
- <20241120-wild-stimulating-prawn-ffefb7@houat>
+	s=arc-20240116; t=1732097568; c=relaxed/simple;
+	bh=JLbYvDGabMojfBULJgHCYLpP1TlbXhIpPGTYwRzRmnM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fPxIxYYoUl2bcPFv6OPABR5sy3HlsfzRBJvNvi8hVLp2GWGVKKYqnmkrQFrfcGlQFsLqnaOfGJCE1xHkqsLd+Eg431Rhk/9sWGCgeivYkbA2X7TSInOkDXMnE4W5SP4PkqUCGNoU/l1jq6Rrypb6gYpsN5vS3fi2I81wG2VQ4x8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B517612FC;
+	Wed, 20 Nov 2024 02:13:14 -0800 (PST)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D9EA83F5A1;
+	Wed, 20 Nov 2024 02:12:42 -0800 (PST)
+Date: Wed, 20 Nov 2024 10:12:28 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Chen-Yu Tsai <wens@csie.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
+ Holland <samuel@sholland.org>, linux-gpio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 5/7] dt-bindings: pinctrl: add compatible for Allwinner
+ A523/T527
+Message-ID: <20241120101228.26bbf100@donnerap.manchester.arm.com>
+In-Reply-To: <CAGb2v64x_QE8w_4h10waG33xNpkd9QLt_B=xSPMMe0M=6bqsJw@mail.gmail.com>
+References: <20241111005750.13071-1-andre.przywara@arm.com>
+	<20241111005750.13071-6-andre.przywara@arm.com>
+	<CAGb2v64x_QE8w_4h10waG33xNpkd9QLt_B=xSPMMe0M=6bqsJw@mail.gmail.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="6ghTuBK8ae4AVwyp"
-Content-Disposition: inline
-In-Reply-To: <20241120-wild-stimulating-prawn-ffefb7@houat>
-
-
---6ghTuBK8ae4AVwyp
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Le Wed 20 Nov 24, 09:01, Maxime Ripard a =C3=A9crit :
-> On Tue, Nov 19, 2024 at 07:47:43PM +0100, Paul Kocialkowski wrote:
-> > > > In any case I don't think it makes sense for the platform code to i=
-mpose
-> > > > what a reasonable period for interrupts is (especially with such a =
-large
-> > > > period as default).
-> > >=20
-> > > So you don't think it makes sense for the platform code to impose a
-> > > reasonable period, so you want to impose a (more, obviously) reasonab=
-le
-> > > period?
-> >=20
-> > Yes absolutely. Anything that brings us closer to "you get what is real=
-ly
-> > happening with the hardware". The sunxi controller doesn't allow disabl=
-ing
-> > debouncing entirely, so the next best thing is to have it with the smal=
-lest
-> > period.
+On Wed, 13 Nov 2024 16:50:19 +0800
+Chen-Yu Tsai <wens@csie.org> wrote:
+
+Hi Chen-Yu,
+
+sorry for the late reply, I was away for a week.
+
+> On Mon, Nov 11, 2024 at 8:58=E2=80=AFAM Andre Przywara <andre.przywara@ar=
+m.com> wrote:
+> >
+> > The A523 contains a pin controller similar to previous SoCs, although
+> > using 10 GPIO banks (PortB-PortK), all of them being IRQ capable.
+> > This introduces a new style of binding, where the pinmux values for each
+> > pin group is stored in the new "allwinner,pinmux" property in the DT
+> > node, instead of requiring every driver to store a mapping between the
+> > function names and the required pinmux.
+> >
+> > Add the new name to the list of compatible strings, and required it to
+> > have 10 interrupts described. Also add the new pinmux property.
+> >
+> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > ---
+> >  .../pinctrl/allwinner,sun4i-a10-pinctrl.yaml  | 23 +++++++++++++++++--
+> >  1 file changed, 21 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-=
+a10-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/allwinner,sun4=
+i-a10-pinctrl.yaml
+> > index 4502405703145..6fc18e92e1e94 100644
+> > --- a/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pin=
+ctrl.yaml
+> > +++ b/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pin=
+ctrl.yaml
+> > @@ -56,6 +56,8 @@ properties:
+> >        - allwinner,sun50i-h6-r-pinctrl
+> >        - allwinner,sun50i-h616-pinctrl
+> >        - allwinner,sun50i-h616-r-pinctrl
+> > +      - allwinner,sun55i-a523-pinctrl
+> > +      - allwinner,sun55i-a523-r-pinctrl
+> >        - allwinner,suniv-f1c100s-pinctrl
+> >        - nextthing,gr8-pinctrl
+> >
+> > @@ -64,7 +66,7 @@ properties:
+> >
+> >    interrupts:
+> >      minItems: 1
+> > -    maxItems: 8
+> > +    maxItems: 10
+> >      description:
+> >        One interrupt per external interrupt bank supported on the
+> >        controller, sorted by bank number ascending order.
+> > @@ -119,13 +121,17 @@ patternProperties:
+> >          $ref: /schemas/types.yaml#/definitions/uint32
+> >          enum: [10, 20, 30, 40]
+> >
+> > +      allwinner,pinmux:
+> > +        $ref: /schemas/types.yaml#/definitions/uint32-array
+> > +        description: pinmux selector for each pin
+> > + =20
 >=20
-> That's an opinion, not a fact.
+> Why not just the standard "pinmux" property, as given in
+> Documentation/devicetree/bindings/pinctrl/pinmux-node.yaml
 
-Yes and I'm trying to explain why I believe this is the most sensible opini=
-on
-here. I'm not saying everyone *has to* agree with me.
+I had it like this in my last post two years ago, but learned from
+LinusW [1] that the generic pinmux property has a slightly different
+meaning, and abusing it for just the pinmux index values would not match
+the generic definition.
+We *could* use the generic definition, but then this would include what's
+in the "pins" property, like I sketched out in the cover letter, as an
+alternative to this approach:
+	pinmux =3D <SUNXI_PIN(PB, 9, 2)>, <SUNXI_PIN(PB, 10, 2)>;
+Where the SUNXI_PIN macro would combine the pin number and the pinmux into
+one 32-bit cell. See the Apple GPIO DT nodes for an example.
+This looks indeed nicer, but requires quite some rewrite of the existing
+pinctrl driver, AFAICS.
 
-> > > If anything, the status quo doesn't impose anything, it just rolls wi=
-th
-> > > the hardware default. Yours would impose one though.
-> >=20
-> > The result is that it puts a strong limitation and breaks many use case=
-s by
-> > default. I don't think we have to accept whatever register default was =
-chosen
-> > by hardware engineers as the most sensible default choice and pretend t=
-hat this
-> > is not a policy decision.
+[1] Previous reply from LinusW:
+https://lore.kernel.org/linux-sunxi/CACRpkdbMc-Q6wjgsiddu6-tWC1dt2uFk+4Lyer=
+MdgFk2KRGK4w@mail.gmail.com/
+
 >=20
-> You're making it much worse than it is. It doesn't "break many use
-> cases" it broke one, by default, with a supported way to unbreak it, in
-> 12 years.
+> >      required:
+> >        - pins
+> >        - function =20
+>=20
+> This section should be made to apply only to the existing
+> compatibles? Maybe we could just split the files and have
+> a clean slate for sun55i?
 
-I think this is exaggerated. Like I mentioned previously there are *many*
-situations that are not covered by the default. The fact that I'm the first
-person to bring it up in 12 years doesn't change that.
+Yeah, I couldn't find a good example how to make it *required* for one
+compatible and *not allowed* for all the others. But creating a whole new
+file is actually a good idea, as this also avoids adding another case to
+the already quite indented if-else cascade.
 
-Sofar the downside you brought up boils down to: badly-designed hardware may
-have relied on this mechanism to avoid interrupt storms that could prevent
-the system from booting.
+Cheers,
+Andre
 
-If that happens people can always increase the debouncing time with the
-property as they need.
+> ChenYu
+>=20
+> >      additionalProperties: false
+> >
+> > -  "^vcc-p[a-ilm]-supply$":
+> > +  "^vcc-p[a-klm]-supply$":
+> >      description:
+> >        Power supplies for pin banks.
+> >
+> > @@ -156,6 +162,17 @@ allOf:
+> >          - interrupts
+> >          - interrupt-controller
+> >
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          enum:
+> > +            - allwinner,sun55i-a523-pinctrl
+> > +
+> > +    then:
+> > +      properties:
+> > +        interrupts:
+> > +          minItems: 10
+> > +
+> >    - if:
+> >        properties:
+> >          compatible:
+> > @@ -166,6 +183,7 @@ allOf:
+> >        properties:
+> >          interrupts:
+> >            minItems: 8
+> > +          maxItems: 8
+> >
+> >    - if:
+> >        properties:
+> > @@ -244,6 +262,7 @@ allOf:
+> >              - allwinner,sun8i-v3s-pinctrl
+> >              - allwinner,sun9i-a80-r-pinctrl
+> >              - allwinner,sun50i-h6-r-pinctrl
+> > +            - allwinner,sun55i-a523-r-pinctrl
+> >
+> >      then:
+> >        properties:
+> > --
+> > 2.46.2
+> > =20
 
-My point here is that the property should be used to accommodate for
-broken hardware and that the default should work for most use cases,
-including things as simple as an off-the-shelf sensor board.
-
-That's all.
-
-Paul
-
---=20
-Paul Kocialkowski,
-
-Independent contractor - sys-base - https://www.sys-base.io/
-Free software developer - https://www.paulk.fr/
-
-Specialist in multimedia, graphics and embedded hardware support with Linux.
-
---6ghTuBK8ae4AVwyp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmc9tHYACgkQhP3B6o/u
-lQwTwQ//b5/fEXs5MceVNZECSEGGRsRCPeXKBJxJTKSzzU0G/5fYb7pOYwBALMUU
-hNwu6/naY9STcTWXw7JcnwiLucbB+cUfdMM2E+9wIZjGX1SqDVi2AETX+tfDXSqz
-/zenXv9tc0lNJdaF+eTp+zW4tNANIQIqtcUe8jn5EojzjBJNNBBulY5PeCqQxSpM
-c+UZZDC2NGfy3wKkXw2uIbxBref4/qINz/QCkREUX9pX9nVJAPVl2an0lDgeHGu0
-8VvQCMyVyaqjWcqhD8FvNoVCmP2r48Mg9suyyLiNyl94icWXCsLnqDgT380VeMuW
-or/3YRfFNmyxc0UmKybEjiVyDv4EZNPnbgoTLzuNHeYs3k+jAQVxjH8SzEuKf/+Z
-WO1ujWuv9nF/w7Q+sUiChNu+fqsVF7V+Zk0SyHsznUczy6OdND4dsIA8k+lv6Nhj
-sOHl83QakOsLyFbQaSYfagfqVchkhChrLmYwpR++Je3zGBKJvP+1piLSq8LiBDQT
-f6t6KScCJAqw7JN8dFbKuo51EUX5iW5niBe7Dwx5+CjumXQUFZHjRxqEiVUzGJ1e
-d/iOHVO0eFV/HWrWOORE2GnhOcx2UPyudpfPQJoMoa+b2o0v4znCv3icaDwN0NaD
-Kkr365Oez56+9DGeZiy5jTGd5PUEZCJrGaJdPjPMZ4JJL4/y/dg=
-=PmWt
------END PGP SIGNATURE-----
-
---6ghTuBK8ae4AVwyp--
