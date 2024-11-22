@@ -1,75 +1,77 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DEA41BC06C
-	for <linux-sunxi@lists.linux.dev>; Fri, 22 Nov 2024 22:16:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F18F1DFE00
+	for <linux-sunxi@lists.linux.dev>; Fri, 22 Nov 2024 22:17:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732313822; cv=none; b=WK8uOpDqIFt4A3pW19plGfE4clSUDzkTQvuU0SR+XfobOMRCkH52zrL7155KmxWYNeGQCSkXTykSvKZ0JWlQ9AOuJworbCivP7Z7kPwlMKcUEimo3f6P2BKZlVpBOHO0XpVCObbyzVfE7nS4U5O1qbnMzH8ZbesgYPT7qOohjns=
+	t=1732313831; cv=none; b=sLDqHyUVV8hfQwszfK7+CoLKuXFhQMAX1K7q75hv/uAeQdVXEGfP8ifiVO7ZJlxctkFa3AQ25k07lrwF0QbPbF6/RJI8B6U+xlrwiyIABDDdK9R1YDHyJ7LmM29DnqAcpnzL8fFoaN838RuhbqQ81tXHfikEUHzMUBZsGg8A1ws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732313822; c=relaxed/simple;
-	bh=bJ5akgXBwoiUhGjbtM87dqu6r2AImjKv44f50PKcNNM=;
+	s=arc-20240116; t=1732313831; c=relaxed/simple;
+	bh=suvkAfBGBjUXa2245JmSbUdEzRQCqXoVi3fUmt5kocQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=POwws5wMzNhbYzeGHo/qrYmTGCe5VLFbQVmUJ0Bab5vB38rQOtitXo646h1minvKTgm8o4cLr2KS1JOSntQX2GtNx5RURzJslFo2nsLdHIiXAwxVzrneYqzfgLDUWNDpCdlTBP8Z9NrtQqqDvODq+ymQytpvUpOUr0zAuupI6sU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=NX5AdpJa; arc=none smtp.client-ip=209.85.218.54
+	 MIME-Version; b=iB41oMMlj7gAoTUAEU5dXVm8MHdyLtBfC6oWMKVG3EqrcbHRrRCXdBnGOA3obOhBt8Ya1jK0cUG60cHWo3kTUSSsJkMBwIF/Cf7PacmodDE07FsHrGpEFkm5Cde7AG1axs5kU2MvXgvZQT3KTJbnHENftaKtTOV7Zz69KoZ3dVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=GuTmgPFQ; arc=none smtp.client-ip=209.85.218.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="NX5AdpJa"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a9f1d76dab1so419673266b.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 22 Nov 2024 14:16:59 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="GuTmgPFQ"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-aa5325af6a0so14355466b.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 22 Nov 2024 14:17:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1732313818; x=1732918618; darn=lists.linux.dev;
+        d=amarulasolutions.com; s=google; t=1732313826; x=1732918626; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=da17qF15VPZTU2YSYHqLzMcyFK3KqWPtGcD0XFwPoOY=;
-        b=NX5AdpJaOa1NGjPoKTFY7WZDyQR75YI8/KYrpP4W60n23aTLKxjjHoXKRRZ96AMg9P
-         LjBzzoFDgT3kFrw5CqFJQ8hdSxzDCVAWYPoS5sJPxXEXkROCKdyTpShqbCV8GXHGVptB
-         QAXicDoWa5CTfMEJE4w/59z0Ds3PIQRn1uzaw=
+        bh=koSu2Qr3uUTmv0FA1/R7W/a8VprfWgcqXI/05k6MgFU=;
+        b=GuTmgPFQRpld+PI0eua2P4zAEk9JL2sISuE+sYOctairL1KUWJKboArZwtKixNiwc3
+         ctz9Rc7Az5y0sldzgYQAdlLc0hV6gN2IRrEVfGy28HwBzFa6125b/QtdOmae9NwIJH/+
+         gf0i/UfJroQ3hsoEh1dPZ00aJkgQOkSpQm1MQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732313818; x=1732918618;
+        d=1e100.net; s=20230601; t=1732313826; x=1732918626;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=da17qF15VPZTU2YSYHqLzMcyFK3KqWPtGcD0XFwPoOY=;
-        b=K/qBe+y1vlB0viwS/e0TLNPPyLrOjOO5dsl0+jDcjReAE3/9ishetRBI8ka7X/CNm2
-         og5zcCNZFQqOIY18bu9ufvPOfJjvAGlJermGr5D8munirzm/z/9QxGiJDp2ad0QTUj8k
-         MC9iQIHr1zg/vaf5mx43d+ujTD0byyaIAVZG1u5pXcDxFpl/f1YwpeARwg7mXl/U0zDI
-         qcK8jz/ned+GmFo2zxFarlIbF4wKWlwQyXZL2jwPxLVfGdFYsrQtwjAqZb8NhFlK2hQh
-         CoqLYCeDu+ybXoduWx1yrcs8qBrx5N2DbosOCFyY8Z6X5hnPc5cCpA2dBHO+KRy/uLE6
-         +4XQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVLM6BSiMtRU7O9KWhQ0KGOTq017CFLxeS6TxZffIH1g0ZTiNdQ29gm6NXGfWFUSOxtJjsCkoT8mkImNg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx70SEGqKsAv+TnD1UZVk6lnMT+tKrfBjAkJariSDPNKzDCaP9h
-	wZ5MBo4Bcj0FxEPWUpbpaZOM3OqkidhCbf66WqsQJSaOCmKdx2knZtsesONk7Xo=
-X-Gm-Gg: ASbGnctV5fXEu7Ywyqrs6Ln7p9ukI/3JZ8R16fVWTl/aR/oFiFBHNE3TU/UscFNxMGf
-	wZc4vv2SP0aaLBYtz9GC/qRASKq01TNIlEK0JIg+bIcOzKibXvxRGzm9rGz+vM5gJK+URZC2IBI
-	UccDc/vlj8e04kQWEA7oFEiHIFD5KyzAIec3t5w0n2vm3qHfiEebTVXr5ZJRV1emZKvyiR4/X+T
-	2NJqobOdNK52cWYxrxjnN8shlW9YPXjCfovl3d9uMxbuE8Syj42Slf2bYNuB0Awj28moubKryYW
-	ZRPsrOwfzHSGyq6knozgbfXYH+vNlc5ndt9yb066UvNE0+wEB62cIXthLsQHV8Tu3B+WiNVZfVM
-	6+HNFqVNPkSuVeOZW
-X-Google-Smtp-Source: AGHT+IFqavb84q465UWZ6gGwXgO+FxfrEo4gdscEtW86lZSTJTKpRR6rT4g7qMsIZYvAutdo4gpnMQ==
-X-Received: by 2002:a17:906:4c9:b0:aa5:cec:2785 with SMTP id a640c23a62f3a-aa50cec28b3mr343858766b.25.1732313817919;
-        Fri, 22 Nov 2024 14:16:57 -0800 (PST)
+        bh=koSu2Qr3uUTmv0FA1/R7W/a8VprfWgcqXI/05k6MgFU=;
+        b=WaL4yG+Nc8hHHOfRPtVHHCFPInXN7R2zcZ8PD3IfJP3p2nZvhCSZ3iqmHajAoDvOJV
+         xwyKtUtndO7j06moy5p0AdpKOBtBAqNqLSqhd1aDxXC5JVUOyj9+Y/0lCWTN5mmnN6Tg
+         naCbPVxMhnALETJ4pijcaLtaD4E1P8SpwPyuN+YEjG/XqW0E6cp0n8TlD7fGr0Sftdpw
+         O+HXpL29sZY6qLI5jbRvJTEEKE4d41uZmsCNRogaEHVfNu9vgwhk4CsqzfssPHq8O2or
+         /DAM2Q5aKDAg7D/MRB2x37hEWiug9LvWoH5jJEBcRsOvaRlpZUBqKO+EnonPwRJubURY
+         STfw==
+X-Forwarded-Encrypted: i=1; AJvYcCXSzaaQZe75AyRrrqVlsKJG1/XMyEYR1VsHStvJYxN48Tz6td6qhLbXUNR4GtmLPSgSU5KNLrMt7r5XLQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyPl/euW2aXjDHQIUEZkW6zowGZx5+ps/SmzMw1XYrXMu11c0P7
+	0O6VhuPt0Hj6DEl9WBHLQj1ZivTWw2YrimbHGaxyO0WtWEnke1gvyKzlOIbZeFc=
+X-Gm-Gg: ASbGnctsNNMzipjAGIU1CYM/rk4zX2A8f/ccjQfvO6o/brKfpzT10j4kKCJrRPCDOQx
+	6LgItYtFAZ6kuoC4H8vPUrcYw5PHQT3St/Icge6sC7t6cfd6grZ5rkZUse0dhumXmX7JViXXagN
+	mOMgXiC5Hp9I4ZAadfeXPXoRfBDBEm7iHNAVuER1g/UXgADH13rY9D3GWz3zLIj+rNLIEnPCZuf
+	JSZn8vQ1hDeYIiAx9sQMEm4zkXdyQ6sv1540g+MdPUEfxJc6Cwf9yvfB4edHhabK6lyKo+Pnvyq
+	eY7i6Pe0M+0npHzzHtZMoFXDEw3NeX/9Y50z3CuU/awERnlHRmeN0F7540g3DscJVax/9VnIMhI
+	M4DpOooWDegbYY165
+X-Google-Smtp-Source: AGHT+IGzFnZJs4h2n/iV/ioahj7WXElDTwCpUUULB2OBEylU5ouM6Ybr9FJMu/M15S4g4KqefHT26Q==
+X-Received: by 2002:a17:906:31da:b0:aa5:30c0:384b with SMTP id a640c23a62f3a-aa530c03aecmr47395466b.24.1732313826492;
+        Fri, 22 Nov 2024 14:17:06 -0800 (PST)
 Received: from dario-ThinkPad-T14s-Gen-2i.homenet.telecomitalia.it (host-82-54-94-193.retail.telecomitalia.it. [82.54.94.193])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa50b52fcebsm148226466b.127.2024.11.22.14.16.56
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa50b52fcebsm148226466b.127.2024.11.22.14.17.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Nov 2024 14:16:57 -0800 (PST)
+        Fri, 22 Nov 2024 14:17:06 -0800 (PST)
 From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 To: linux-kernel@vger.kernel.org
 Cc: linux-amarula@amarulasolutions.com,
 	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
 	Chen-Yu Tsai <wens@csie.org>,
+	Gerhard Bertelsmann <info@gerhard-bertelsmann.de>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Marc Kleine-Budde <mkl@pengutronix.de>,
+	Maxime Ripard <mripard@kernel.org>,
 	Samuel Holland <samuel@sholland.org>,
 	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-can@vger.kernel.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH v2 03/12] can: sun4i_can: continue to use likely() to check skb
-Date: Fri, 22 Nov 2024 23:15:44 +0100
-Message-ID: <20241122221650.633981-4-dario.binacchi@amarulasolutions.com>
+Subject: [PATCH v2 10/12] can: sun4i_can: fix {rx,tx}_errors statistics
+Date: Fri, 22 Nov 2024 23:15:51 +0100
+Message-ID: <20241122221650.633981-11-dario.binacchi@amarulasolutions.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241122221650.633981-1-dario.binacchi@amarulasolutions.com>
 References: <20241122221650.633981-1-dario.binacchi@amarulasolutions.com>
@@ -81,33 +83,53 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Throughout the sun4i_can_err() function, the likely() macro is used to
-check the skb buffer, except in one instance. This patch makes the code
-consistent by using the macro in that case as well.
+The sun4i_can_err() function only incremented the receive error counter
+and never the transmit error counter, even if the STA_ERR_DIR flag
+reported that an error had occurred during transmission. Increment the
+receive/transmit error counter based on the value of the STA_ERR_DIR
+flag.
 
+Fixes: 0738eff14d81 ("can: Allwinner A10/A20 CAN Controller support - Kernel module")
 Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 
 ---
 
 Changes in v2:
-- Added in v2
+- Update statistics even if skb allocation fails
 
- drivers/net/can/sun4i_can.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/net/can/sun4i_can.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/net/can/sun4i_can.c b/drivers/net/can/sun4i_can.c
-index 17f94cca93fb..840b972498c1 100644
+index 840b972498c1..5285bb0b7c69 100644
 --- a/drivers/net/can/sun4i_can.c
 +++ b/drivers/net/can/sun4i_can.c
-@@ -570,7 +570,7 @@ static int sun4i_can_err(struct net_device *dev, u8 isrc, u8 status)
- 		else
- 			state = CAN_STATE_ERROR_ACTIVE;
+@@ -579,7 +579,6 @@ static int sun4i_can_err(struct net_device *dev, u8 isrc, u8 status)
+ 		/* bus error interrupt */
+ 		netdev_dbg(dev, "bus error interrupt\n");
+ 		priv->can.can_stats.bus_error++;
+-		stats->rx_errors++;
+ 
+ 		if (likely(skb)) {
+ 			ecc = readl(priv->base + SUN4I_REG_STA_ADDR);
+@@ -601,9 +600,15 @@ static int sun4i_can_err(struct net_device *dev, u8 isrc, u8 status)
+ 					       >> 16;
+ 				break;
+ 			}
+-			/* error occurred during transmission? */
+-			if ((ecc & SUN4I_STA_ERR_DIR) == 0)
++		}
++
++		/* error occurred during transmission? */
++		if ((ecc & SUN4I_STA_ERR_DIR) == 0) {
++			if (likely(skb))
+ 				cf->data[2] |= CAN_ERR_PROT_TX;
++			stats->tx_errors++;
++		} else {
++			stats->rx_errors++;
+ 		}
  	}
--	if (skb && state != CAN_STATE_BUS_OFF) {
-+	if (likely(skb) && state != CAN_STATE_BUS_OFF) {
- 		cf->can_id |= CAN_ERR_CNT;
- 		cf->data[6] = txerr;
- 		cf->data[7] = rxerr;
+ 	if (isrc & SUN4I_INT_ERR_PASSIVE) {
 -- 
 2.43.0
 
