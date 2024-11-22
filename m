@@ -1,191 +1,166 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FEDA19C561
-	for <linux-sunxi@lists.linux.dev>; Wed, 20 Nov 2024 10:12:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66E5518BBA0
+	for <linux-sunxi@lists.linux.dev>; Fri, 22 Nov 2024 09:13:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732097568; cv=none; b=o594eK5UF0FIy9i2PgwetZnD7203n+4es59iWCDBDwPQw8jaltSX4jvVICxSq6yjncmsAFhEyKms+Juxj4ByD6J+MLK4udSueD0pg9d7nAeg+pzU1ecJQtEF/kBH8gANFrRHx5SNSZ0SKaM9kRhlrA1EuOe82Vec3yqNGHibwCk=
+	t=1732266793; cv=none; b=HsQAOkiaGSynzYwHhx2Sf9kRkjhnDea/8U5hA86mzJvubiVjYuevOwxh0EK5O7tXLodg03/dzzLo/ZzmtQy5X+wL55X3XwKsW2jb2N0Owf/0BfQIuZosugA29najhJUv2RJ4TdKPuzIf97m9bJhgbTyPeLIuUlQ24k44eN4Ai8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732097568; c=relaxed/simple;
-	bh=JLbYvDGabMojfBULJgHCYLpP1TlbXhIpPGTYwRzRmnM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fPxIxYYoUl2bcPFv6OPABR5sy3HlsfzRBJvNvi8hVLp2GWGVKKYqnmkrQFrfcGlQFsLqnaOfGJCE1xHkqsLd+Eg431Rhk/9sWGCgeivYkbA2X7TSInOkDXMnE4W5SP4PkqUCGNoU/l1jq6Rrypb6gYpsN5vS3fi2I81wG2VQ4x8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B517612FC;
-	Wed, 20 Nov 2024 02:13:14 -0800 (PST)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D9EA83F5A1;
-	Wed, 20 Nov 2024 02:12:42 -0800 (PST)
-Date: Wed, 20 Nov 2024 10:12:28 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Chen-Yu Tsai <wens@csie.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
- Holland <samuel@sholland.org>, linux-gpio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/7] dt-bindings: pinctrl: add compatible for Allwinner
- A523/T527
-Message-ID: <20241120101228.26bbf100@donnerap.manchester.arm.com>
-In-Reply-To: <CAGb2v64x_QE8w_4h10waG33xNpkd9QLt_B=xSPMMe0M=6bqsJw@mail.gmail.com>
-References: <20241111005750.13071-1-andre.przywara@arm.com>
-	<20241111005750.13071-6-andre.przywara@arm.com>
-	<CAGb2v64x_QE8w_4h10waG33xNpkd9QLt_B=xSPMMe0M=6bqsJw@mail.gmail.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1732266793; c=relaxed/simple;
+	bh=dAGoBfBZPrQ28ollGsFDqICLzpx3eGynrKY+liYfcfc=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Ds8E6GNof8tnMBcvDr2VToVPM9Iq1l5Mx7oM70IUc2wmXt21HVLUOczJdf17iOrYfG9FkelVjvEtl3Hk36/6tGlf+4+Tr/N44DgDcJTGBDvavJ8mnpOXQ2/xo12fXiLjy52M7e2YpVBGx/iZFIj+eRNGytNZKTCBZJzmtLTkHdw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jW7xNwUZ; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jW7xNwUZ"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-539f6e1f756so2050622e87.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 22 Nov 2024 01:13:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1732266789; x=1732871589; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yPJBOfYSV90IcFVSxfOZG/ZLElTJvS62cOj1dS8TNSc=;
+        b=jW7xNwUZoKrpnu5uxcVz0G7j844lsKJecsLCwUZJjqh8WjkwwsGR3V3qw3vgngdbUZ
+         uVPaIiVIymenC+Uh8uIEICeVLNyRcoQyW7pQMwWaTa69mkk9RrBBsccpx7Ki7mY80XwH
+         SZgJNmIYQA54JiaiZ2XL9P3dwdCw9JMqDmg+soo91eKCSYdUvkvNJEM20QFTDgyXaGIe
+         fsMhr9fbbKSsJZIpHhg6j6+TOYKB8n9mHx30lHkoK7K/qKufBn9dBEmwHZRu79BTl3JP
+         8eNmWlzsVWRiKVZj5dm2Vt5kri6Cid6ztyftCPckVcbgy9M24s7wI8jj+/sViARB9Ktd
+         29WA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732266789; x=1732871589;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yPJBOfYSV90IcFVSxfOZG/ZLElTJvS62cOj1dS8TNSc=;
+        b=ktEEXusfAaHJleWTXwstdJPqHY41WB+Dq8c5YZ+eFlQZqhml7jivfsX5c2viBoiFsZ
+         amwiGfCEfoSXWdoz7A8wefWSEFwJDLeSAqWbPn+q1xvWXTikUhIcbhyS8/LYtxFkUNmb
+         TeE4T8XhDs8wio0IOQurfKyvwAerdtX5suWCklhHQTYxHzYVG4DRBxkbZwJNkDysItSh
+         n1hz6cUaA4kdovqDhAxbuNayJfaI6Py7u64qNVJC1xmJi33oYye2f2yoSIUTRY4AXl0D
+         /NUhgLNAOXHagvVaZVtJE9PH11qmcIfY95hw7Nm7Y9UyussHD16ofJloAby1E1P9vWxe
+         +j6w==
+X-Forwarded-Encrypted: i=1; AJvYcCUssM+ZwnXtvFnnjQ5KosucdYCjjq4gu4EhOtt3fo7yqfIKmUwtw4Srzg1ADzZ17htbbUekKHHju9rVuQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyzudt8L7DTlYf+bMhItZt9S7TsBExA/p1sRkzsqs2H3cfn4kAA
+	b90oVxonROu9XqSauDBY3svpMCGS14L8bK3WQtuuDnJfoXTEKvYx9oG9oBW9uxU=
+X-Gm-Gg: ASbGncvGR9dnLY3cQgzZ8szVFnJPWYPoD2FNUxOULLBrrJtq+Cg7vx1S8h6GEFMGtj8
+	fyo/0/+b/PYet+rc9BJpuSBU+GAgWCQ/H00lJn3q6ouKTiRInawO9gC95++FtbG8A3HmG3Z8lMw
+	H796AJR+ET0ogN+S0BWG3kTp65yjuV7fJFZRmnYbt395VuvdfbT8x1s400cwNQkgJgLnT97YnR1
+	jNxHYbgpH4TXELBIrwDRT1TJaWM5L4dQl/+HZ2ak0s36nCLNGPNaiwUdQ==
+X-Google-Smtp-Source: AGHT+IGEb5tRInMFtVE9GZficnUTiVO1xCATodroM7GK3ZevvdEIuIB/MI+jMs/pCyFMTD+eeIO8JQ==
+X-Received: by 2002:a05:6512:10ca:b0:53d:a9b9:fdc0 with SMTP id 2adb3069b0e04-53dd389d8a1mr1112818e87.31.1732266789361;
+        Fri, 22 Nov 2024 01:13:09 -0800 (PST)
+Received: from umbar.lan ([192.130.178.90])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53dd2451386sm299530e87.77.2024.11.22.01.13.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Nov 2024 01:13:08 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH v4 00/10] drm/display: hdmi: add
+ drm_hdmi_connector_mode_valid()
+Date: Fri, 22 Nov 2024 11:12:56 +0200
+Message-Id: <20241122-hdmi-mode-valid-v4-0-2fee4a83ab79@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABhLQGcC/3XNTQrCMBCG4auUrI3kr2l05T3ERUim7UDbSCJBK
+ b27aTcqxeX7wTwzkwQRIZFzNZMIGROGqYQ6VMT1duqAoi9NBBOKM25o70ekY/BAsx3QU2vBKSV
+ Mzbgj5eoeocXnJl5vpXtMjxBf24PM1/W/lTllVIM6WVCG8ba5DDjZGI4hdmTFsvgARdgDogBWq
+ 8a0XrDW6h0gv4HTHpAFqKUyTkhtWPMLLMvyBlx47n8xAQAA
+X-Change-ID: 20241018-hdmi-mode-valid-aaec4428501c
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3023;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=dAGoBfBZPrQ28ollGsFDqICLzpx3eGynrKY+liYfcfc=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnQEsh97cY2ewxrd1QdOkVWNxJCVibvExTdRJp9
+ 9bHLnJ6vOeJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ0BLIQAKCRCLPIo+Aiko
+ 1aIBB/9UOalIiiDyCESbhN5VK1zX78Q2v5Cu6GR9StRIoyHvHhPD2SZblaTT0rK2OUduQIaCzil
+ e43PDFRCRm4oTpATivZAvHM+yi203AUBJiwIOMAe3JA+lhIvMk3+ifawcrw9Cl72SEbVds3dBNt
+ BIFRNdKbfHdX7wqjMVc2sNYXaGiXlxNEvRrur+Q56Z5uoO+XYx/CdGPi1clyXilpj3fMjPiIs5o
+ dtyVnROt60CnOjUDof0ueLHTqnMk2Ydx3ZhtWbgLtC5avyxhU0xLPgjLAqQDjkW3BXf65sD++Ux
+ wdtO/dYUJ6BFYYLwt4PattfJC/Uz53ohOyAbm08X1xxiSoWn
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 
-On Wed, 13 Nov 2024 16:50:19 +0800
-Chen-Yu Tsai <wens@csie.org> wrote:
+Several HDMI drivers have common code pice in the .mode_valid function
+that validates RGB / 8bpc rate using the TMDS char rate callbacks.
 
-Hi Chen-Yu,
+Move this code piece to the common helper and remove the need to perform
+this check manually. In case of DRM_BRIDGE_OP_HDMI bridges, they can
+skip the check in favour of performing it in drm_bridge_connector.
 
-sorry for the late reply, I was away for a week.
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+Changes in v4:
+- Fixed build warning in VC4 driver by adding .mode_valid to
+  vc4_hdmi_connector_helper_funcs (LKP)
+- Reworked HDMI test helpers (Maxime)
+- Expanded test descriptions and comments (Maxime)
+- Added new EDID to test info.max_tmds_clock filtering (Maxime)
+- Link to v3: https://lore.kernel.org/r/20241109-hdmi-mode-valid-v3-0-5348c2368076@linaro.org
 
-> On Mon, Nov 11, 2024 at 8:58=E2=80=AFAM Andre Przywara <andre.przywara@ar=
-m.com> wrote:
-> >
-> > The A523 contains a pin controller similar to previous SoCs, although
-> > using 10 GPIO banks (PortB-PortK), all of them being IRQ capable.
-> > This introduces a new style of binding, where the pinmux values for each
-> > pin group is stored in the new "allwinner,pinmux" property in the DT
-> > node, instead of requiring every driver to store a mapping between the
-> > function names and the required pinmux.
-> >
-> > Add the new name to the list of compatible strings, and required it to
-> > have 10 interrupts described. Also add the new pinmux property.
-> >
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > ---
-> >  .../pinctrl/allwinner,sun4i-a10-pinctrl.yaml  | 23 +++++++++++++++++--
-> >  1 file changed, 21 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-=
-a10-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/allwinner,sun4=
-i-a10-pinctrl.yaml
-> > index 4502405703145..6fc18e92e1e94 100644
-> > --- a/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pin=
-ctrl.yaml
-> > +++ b/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pin=
-ctrl.yaml
-> > @@ -56,6 +56,8 @@ properties:
-> >        - allwinner,sun50i-h6-r-pinctrl
-> >        - allwinner,sun50i-h616-pinctrl
-> >        - allwinner,sun50i-h616-r-pinctrl
-> > +      - allwinner,sun55i-a523-pinctrl
-> > +      - allwinner,sun55i-a523-r-pinctrl
-> >        - allwinner,suniv-f1c100s-pinctrl
-> >        - nextthing,gr8-pinctrl
-> >
-> > @@ -64,7 +66,7 @@ properties:
-> >
-> >    interrupts:
-> >      minItems: 1
-> > -    maxItems: 8
-> > +    maxItems: 10
-> >      description:
-> >        One interrupt per external interrupt bank supported on the
-> >        controller, sorted by bank number ascending order.
-> > @@ -119,13 +121,17 @@ patternProperties:
-> >          $ref: /schemas/types.yaml#/definitions/uint32
-> >          enum: [10, 20, 30, 40]
-> >
-> > +      allwinner,pinmux:
-> > +        $ref: /schemas/types.yaml#/definitions/uint32-array
-> > +        description: pinmux selector for each pin
-> > + =20
->=20
-> Why not just the standard "pinmux" property, as given in
-> Documentation/devicetree/bindings/pinctrl/pinmux-node.yaml
+Changes in v3:
+- Moved drm_hdmi_connector_mode_valid() to drm_hdmi_state_helper.c
+  (Maxime)
+- Added commnt next to the preferred = list_first_entry() assignment
+  (Maxime)
+- Added comments to new tests, describing what is being tested (Maxime)
+- Replaced sun4i_hdmi_connector_atomic_check() with
+  drm_atomic_helper_connector_hdmi_check() (Maxime)
+- Link to v2: https://lore.kernel.org/r/20241101-hdmi-mode-valid-v2-0-a6478fd20fa6@linaro.org
 
-I had it like this in my last post two years ago, but learned from
-LinusW [1] that the generic pinmux property has a slightly different
-meaning, and abusing it for just the pinmux index values would not match
-the generic definition.
-We *could* use the generic definition, but then this would include what's
-in the "pins" property, like I sketched out in the cover letter, as an
-alternative to this approach:
-	pinmux =3D <SUNXI_PIN(PB, 9, 2)>, <SUNXI_PIN(PB, 10, 2)>;
-Where the SUNXI_PIN macro would combine the pin number and the pinmux into
-one 32-bit cell. See the Apple GPIO DT nodes for an example.
-This looks indeed nicer, but requires quite some rewrite of the existing
-pinctrl driver, AFAICS.
+Changes in v2:
+- Switched drm_hdmi_connector_mode_valid() to use common helper
+  (ex-hdmi_clock_valid()) (Maxime)
+- Added simple unit tests for drm_hdmi_connector_mode_valid().
+- Link to v1: https://lore.kernel.org/r/20241018-hdmi-mode-valid-v1-0-6e49ae4801f7@linaro.org
 
-[1] Previous reply from LinusW:
-https://lore.kernel.org/linux-sunxi/CACRpkdbMc-Q6wjgsiddu6-tWC1dt2uFk+4Lyer=
-MdgFk2KRGK4w@mail.gmail.com/
+---
+Dmitry Baryshkov (10):
+      drm/tests: hdmi: handle empty modes in find_preferred_mode()
+      drm/tests: hdmi: rename connector creation function
+      drm/tests: hdmi: return meaningful value from set_connector_edid()
+      drm/display: hdmi: add generic mode_valid helper
+      drm/sun4i: use drm_hdmi_connector_mode_valid()
+      drm/vc4: use drm_hdmi_connector_mode_valid()
+      drm/display: bridge_connector: use drm_bridge_connector_mode_valid()
+      drm/bridge: lontium-lt9611: drop TMDS char rate check in mode_valid
+      drm/bridge: dw-hdmi-qp: replace mode_valid with tmds_char_rate
+      drm/sun4i: use drm_atomic_helper_connector_hdmi_check()
 
->=20
-> >      required:
-> >        - pins
-> >        - function =20
->=20
-> This section should be made to apply only to the existing
-> compatibles? Maybe we could just split the files and have
-> a clean slate for sun55i?
+ drivers/gpu/drm/bridge/lontium-lt9611.c            |   4 +-
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c       |  12 +-
+ drivers/gpu/drm/display/drm_bridge_connector.c     |  16 +-
+ drivers/gpu/drm/display/drm_hdmi_state_helper.c    |  21 ++
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c             |  32 +--
+ drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 269 +++++++++++++++++----
+ drivers/gpu/drm/tests/drm_kunit_edid.h             | 102 ++++++++
+ drivers/gpu/drm/vc4/vc4_hdmi.c                     |   5 +-
+ include/drm/display/drm_hdmi_state_helper.h        |   4 +
+ 9 files changed, 371 insertions(+), 94 deletions(-)
+---
+base-commit: d80b5c5b9be6b2e1cdeaaeaa8259523b63cae292
+change-id: 20241018-hdmi-mode-valid-aaec4428501c
 
-Yeah, I couldn't find a good example how to make it *required* for one
-compatible and *not allowed* for all the others. But creating a whole new
-file is actually a good idea, as this also avoids adding another case to
-the already quite indented if-else cascade.
-
-Cheers,
-Andre
-
-> ChenYu
->=20
-> >      additionalProperties: false
-> >
-> > -  "^vcc-p[a-ilm]-supply$":
-> > +  "^vcc-p[a-klm]-supply$":
-> >      description:
-> >        Power supplies for pin banks.
-> >
-> > @@ -156,6 +162,17 @@ allOf:
-> >          - interrupts
-> >          - interrupt-controller
-> >
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          enum:
-> > +            - allwinner,sun55i-a523-pinctrl
-> > +
-> > +    then:
-> > +      properties:
-> > +        interrupts:
-> > +          minItems: 10
-> > +
-> >    - if:
-> >        properties:
-> >          compatible:
-> > @@ -166,6 +183,7 @@ allOf:
-> >        properties:
-> >          interrupts:
-> >            minItems: 8
-> > +          maxItems: 8
-> >
-> >    - if:
-> >        properties:
-> > @@ -244,6 +262,7 @@ allOf:
-> >              - allwinner,sun8i-v3s-pinctrl
-> >              - allwinner,sun9i-a80-r-pinctrl
-> >              - allwinner,sun50i-h6-r-pinctrl
-> > +            - allwinner,sun55i-a523-r-pinctrl
-> >
-> >      then:
-> >        properties:
-> > --
-> > 2.46.2
-> > =20
+Best regards,
+-- 
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
