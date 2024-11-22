@@ -1,94 +1,125 @@
-Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87F4B1DF74F
-	for <linux-sunxi@lists.linux.dev>; Fri, 22 Nov 2024 16:17:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00F831DE8B0
+	for <linux-sunxi@lists.linux.dev>; Fri, 22 Nov 2024 20:43:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732292230; cv=none; b=dooV5Rza6gFd7sOMKMHexnYTFkNFp4QFEoGRY0RAnh+D9pvM3Ky2yvdLRb6c3nVixCVa1wHLHtbRQRuQrkk6faFrN0MkuLxyx/wdsOYMCnfZp1avKXoAAeqHYGlkd8+vTeth6M/McIb2euO7hDU2o9/0otxdmSpoXVfahK+r8M4=
+	t=1732308222; cv=none; b=KwtsMwmsbXUsuYU0xq55XSRO+2bYzepTrGqQ7IXthjTZwZzbUyKiEViEiqMZrhQO4RP53RPFouaFHaklUwWLn57AmnxK5uPqp5YlLtKpmGqmeEyHhhqxjeePbEUmwJPjUg82lrtDZGLCMEDHZrAQ/z2MO9hnu1Ze3HkILvuRbX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732292230; c=relaxed/simple;
-	bh=ir6r4uve2AbZDqjyE5oHzV6jdFhDtSE6EcSXfu8OCAw=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UQlRHMDzdklo4lrpjSNN7y+chV9n3Ozi1NA8jauW79VcRwuDNeR3Bke+3ZUmMucoUIcziAZA2a4dMHsJhtm+gzLrJJgQJBOBUoQyup3EIIJE071f8trVAmwOTKsL8DEfsPfscm214f3dcb5Jg4cZDpKhNHnhLCGp7l2upi7Wchs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=PAL9MxsD; arc=none smtp.client-ip=193.68.50.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
+	s=arc-20240116; t=1732308222; c=relaxed/simple;
+	bh=9ur4fx8g1n2aQGv6Iks60+fVeXS+jljxmXCqMX/FUJ4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=C2thAF4N2GEv52kb46uIQ5ez8td8VprhigQ9hikfyp72qfDNJtOjZvAQU4KbOzy156NNJI3z9vBjV0bnmxPLYqakwtFaeC0AGeNfUipHmexOxCke7+ZtXDg4CsFFx0vk4OuvXsDJnnmWDT11+xOC98Kd09bhQzvRpxXql2sil+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WmJv6Kho; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="PAL9MxsD"
-Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
-	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id E7047A048D;
-	Fri, 22 Nov 2024 17:17:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:from:from:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=mail; bh=IJZcZJ9UkGG88e0G4cRY
-	DgpG4uPgV6cApvRZoFsAFwQ=; b=PAL9MxsD2fUN13MxW3PTlRXDEuEgueRpIMkA
-	YdQ6l31eY/AHQQUaXxyX3aPkj8y9tQPjblAl4m1e8X/6ErvyNUiJqlsuPCPyFR9q
-	kza0etZ8VJGfZwkXIMR9ybxmr9oNmtAc4B5YjDWONFf/Kx3kwHO03B0sJ471Gd55
-	flztN1VxxJvHqrX1I+v03hMUIMWCgTVpl/RfY5CfwnAh4nCO1dVmGYQQEQuZyKz+
-	4mMAVMvgfsTDwTn6BHccPmYbrI0LfeEYNQMDkLrxCeG/leLsvjUGBDGlaUD+rv4/
-	NX8wkyJBB1RtzKxNwCh605HaCTIZPvColES0ZN6/taCjksvOpeXiESsNkNmREiOT
-	059Zrenfnbf3SHVRASpmKXYRwREBZLDNBUQ37txQMrFba2AVnQqpNIk6AMgtsXfv
-	CnweBToegWAlJlJbjKYIb0ZMSA20PnE1GlNZ+lHVGhVtfWPmoKGeXm16aOnZArMH
-	Tk1sqlY7WGvLLh9hCIGcIQYoSYLS69SGfa19i608Ypm15TLF0MLXuQ1aj9SdScUl
-	EE4iSneFJwGC6DjdnD0aWiINViXNxHQWCkLXuhdDH3n77MjwEgTIFy1mwBSApOhx
-	LCUfTzH6ILbAoJFeH6LiakW50ZztcHssJI5rr1o6FYs4KMruiDfF5nNwruKCk1kd
-	Ryot9YU=
-From: =?UTF-8?q?Cs=C3=B3k=C3=A1s=2C=20Bence?= <csokas.bence@prolan.hu>
-To: Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>,
-	<dmaengine@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>
-CC: =?UTF-8?q?Cs=C3=B3k=C3=A1s=2C=20Bence?= <csokas.bence@prolan.hu>, "Conor
- Dooley" <conor.dooley@microchip.com>, Vinod Koul <vkoul@kernel.org>, "Rob
- Herring" <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, "Conor
- Dooley" <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Subject: [PATCH v6 3/5] dt-bindings: dmaengine: Add Allwinner suniv F1C100s DMA
-Date: Fri, 22 Nov 2024 17:11:30 +0100
-Message-ID: <20241122161128.2619172-4-csokas.bence@prolan.hu>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241122161128.2619172-1-csokas.bence@prolan.hu>
-References: <20241122161128.2619172-1-csokas.bence@prolan.hu>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WmJv6Kho"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E1D3C4AF0C
+	for <linux-sunxi@lists.linux.dev>; Fri, 22 Nov 2024 20:43:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732308220;
+	bh=9ur4fx8g1n2aQGv6Iks60+fVeXS+jljxmXCqMX/FUJ4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=WmJv6KhouoPjpYLnMmpuN8uVIn3pLQ0Vd7k2AQGH9abPMLZZhMmh9G6MWgp1q8m4I
+	 Pr/Vc3akz8klX7oxufe/3NkQDg5Xqh7480yRTyKme5dz5LHpLPSreF2O7o0qcfwUdQ
+	 pYpCWaGGkzeSZV6r3tdVuAQnq83X5DIBGBUrORRoVb+1zpbjA5SQHi4WbWgZjAuvqE
+	 hS+XC/Ouj4fPKANKiMnRvsh942pLYXZ6agsarnLBIMOtl9595DP4WIDVp3LB8yBFRq
+	 wlHudLoPFIOdYGvsdqu6nw/2VbtDWeGEJvzoOhab7RmDCoYYFouD97rsHObLFnfNiS
+	 ypKOd1a3pR0MA==
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-2968322f5feso1504209fac.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 22 Nov 2024 12:43:40 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWzvGmzyzGxm0PEE++aZ2mDbZRf7J+nDZYv1PuoaXHFPg4RQAvVnQniidVCCHEARbo8wbivlV/UwimwLQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxOQuHdEp/OunqTnqAHMY3gxP6RqVTA0jFSS8zEDBiH64d067Jr
+	Wtfu6oRizpPjbwuesxweROJ/tBSfneUvRcexeNQbmviR3P7M0Y8gbHVVY+VqsF0K/WnZqkvbBIy
+	wXsvSI3cdTVYmm7bpamZW1afzPns=
+X-Google-Smtp-Source: AGHT+IEutDuraKb6w9V+8CLjNMD2UYE+lNm29XfGmOiaTuVzMfm8AxFlD6kXcNxHi/+pw8cR8P3Zi9iHFF2EXbeKgV0=
+X-Received: by 2002:a05:6871:69c1:b0:287:d8df:7c22 with SMTP id
+ 586e51a60fabf-29720c59d21mr4407291fac.23.1732308219677; Fri, 22 Nov 2024
+ 12:43:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <20241010-b4-cleanup-h-of-node-put-thermal-v4-0-bfbe29ad81f4@linaro.org>
+In-Reply-To: <20241010-b4-cleanup-h-of-node-put-thermal-v4-0-bfbe29ad81f4@linaro.org>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Fri, 22 Nov 2024 21:43:28 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0jjjA6enruipTU9kTnuA6x5p_XUQyXc-4Cr4bo_b4VHtQ@mail.gmail.com>
+Message-ID: <CAJZ5v0jjjA6enruipTU9kTnuA6x5p_XUQyXc-4Cr4bo_b4VHtQ@mail.gmail.com>
+Subject: Re: [PATCH v4 0/6] thermal: scope/cleanup.h improvements
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+	Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, 
+	Amit Kucheria <amitk@kernel.org>, Thara Gopinath <thara.gopinath@gmail.com>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, linux-pm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+	Chen-Yu Tsai <wenst@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ESET-AS: R=OK;S=0;OP=CALC;TIME=1732292222;VERSION=7980;MC=1574022941;ID=75610;TRN=0;CRV=0;IPC=;SP=0;SIPS=0;PI=3;F=0
-X-ESET-Antispam: OK
-X-EsetResult: clean, is OK
-X-EsetId: 37303A29ACD94855607263
+Content-Transfer-Encoding: quoted-printable
 
-Add compatible string for Allwinner suniv F1C100s DMA.
+Hi Daniel,
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-[ csokas.bence: Reimplemented Mesih Kilinc's binding in YAML ]
-Signed-off-by: Csókás, Bence <csokas.bence@prolan.hu>
----
- .../devicetree/bindings/dma/allwinner,sun4i-a10-dma.yaml      | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+On Thu, Oct 10, 2024 at 8:06=E2=80=AFPM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> Changes in v4:
+> - Patch 2: rewrite, significant change: kzalloc() also with
+>   scoped-handling so the entire error handling could be removed.
+>   Due to above, drop review-tags (Chen-Yu, Jonathan).
+> - Add Rb tags for other patches.
+> - Link to v3: https://lore.kernel.org/r/20241008-b4-cleanup-h-of-node-put=
+-thermal-v3-0-825122398f71@linaro.org
+>
+> Changes in v3:
+> - Rebase, because there was bigger rework in thermal code.
+>   This made two patches obsolete, but brought new one:
+>   1/6: thermal: of: Simplify thermal_of_should_bind with scoped for each =
+OF child
+> - Link to v2: https://lore.kernel.org/r/20240816-b4-cleanup-h-of-node-put=
+-thermal-v2-0-cee9fc490478@linaro.org
+>
+> Changes in v2:
+> - Drop left-over of_node_put in regular exit path (Chen-Yu)
+> - Link to v1: https://lore.kernel.org/r/20240814-b4-cleanup-h-of-node-put=
+-thermal-v1-0-7a1381e1627e@linaro.org
+>
+> Few code simplifications with scope/cleanup.h.
+>
+> Best regards,
+> Krzysztof
+>
+> ---
+> Krzysztof Kozlowski (6):
+>       thermal: of: Simplify thermal_of_should_bind with scoped for each O=
+F child
+>       thermal: of: Use scoped memory and OF handling to simplify thermal_=
+of_trips_init()
+>       thermal: of: Use scoped device node handling to simplify of_thermal=
+_zone_find()
+>       thermal: qcom-spmi-adc-tm5: Simplify with scoped for each OF child =
+loop
+>       thermal: tegra: Simplify with scoped for each OF child loop
+>       thermal: sun8i: Use scoped device node handling to simplify error p=
+aths
+>
+>  drivers/thermal/qcom/qcom-spmi-adc-tm5.c |  7 ++---
+>  drivers/thermal/sun8i_thermal.c          | 11 +++----
+>  drivers/thermal/tegra/soctherm.c         |  5 ++-
+>  drivers/thermal/thermal_of.c             | 54 ++++++++++----------------=
+------
+>  4 files changed, 25 insertions(+), 52 deletions(-)
+> ---
 
-diff --git a/Documentation/devicetree/bindings/dma/allwinner,sun4i-a10-dma.yaml b/Documentation/devicetree/bindings/dma/allwinner,sun4i-a10-dma.yaml
-index 02d5bd035409..9b5180c0a7c4 100644
---- a/Documentation/devicetree/bindings/dma/allwinner,sun4i-a10-dma.yaml
-+++ b/Documentation/devicetree/bindings/dma/allwinner,sun4i-a10-dma.yaml
-@@ -22,7 +22,9 @@ properties:
-       number.
- 
-   compatible:
--    const: allwinner,sun4i-a10-dma
-+    enum:
-+      - allwinner,sun4i-a10-dma
-+      - allwinner,suniv-f1c100s-dma
- 
-   reg:
-     maxItems: 1
--- 
-2.34.1
+This seems to have fallen through cracks.
 
+Since all of the other 6.13 thermal changes have been integrated now,
+I'm going to apply it and push next week unless you have concerns (in
+which case please let me know).
 
+Thanks!
