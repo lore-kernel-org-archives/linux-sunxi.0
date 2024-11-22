@@ -1,125 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00F831DE8B0
-	for <linux-sunxi@lists.linux.dev>; Fri, 22 Nov 2024 20:43:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29B8715D5CA
+	for <linux-sunxi@lists.linux.dev>; Fri, 22 Nov 2024 22:16:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732308222; cv=none; b=KwtsMwmsbXUsuYU0xq55XSRO+2bYzepTrGqQ7IXthjTZwZzbUyKiEViEiqMZrhQO4RP53RPFouaFHaklUwWLn57AmnxK5uPqp5YlLtKpmGqmeEyHhhqxjeePbEUmwJPjUg82lrtDZGLCMEDHZrAQ/z2MO9hnu1Ze3HkILvuRbX8=
+	t=1732313818; cv=none; b=kq98SSWmT0K7GCoIAepj/WQ5U56HR8vgmdF0a3TODvv6+DQSvlsVjwpj+HwpmMg9MonPwVkCxbVrDqKFDwXLTr7Sv8Lq7EqPAzfEQjcjJeycR5n75uy8z9ATkjf5rpyhIJW3/5OMUddm+oAFN5PMfO35cCQMTEQdaqLjxz5/S50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732308222; c=relaxed/simple;
-	bh=9ur4fx8g1n2aQGv6Iks60+fVeXS+jljxmXCqMX/FUJ4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=C2thAF4N2GEv52kb46uIQ5ez8td8VprhigQ9hikfyp72qfDNJtOjZvAQU4KbOzy156NNJI3z9vBjV0bnmxPLYqakwtFaeC0AGeNfUipHmexOxCke7+ZtXDg4CsFFx0vk4OuvXsDJnnmWDT11+xOC98Kd09bhQzvRpxXql2sil+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WmJv6Kho; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732313818; c=relaxed/simple;
+	bh=qotsxHOlhgnrVQByYtlhooxKse2Dv5ppiV/7dnSBU64=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=erH9rHHOccWVWh+50WE35Gmxn+2AjY0jKOb3ZB+ZfAzFZM2BhLTxgaZ0pCbbVLtVjj2Pjj4Fj5TddLUmSEYuu47tAIiH+HsZvwEPqj1v0PeHLy1sRdGwaBJs+Yo6aHj5hrp4UDGJujqK4IQUdP8KabqiDMO8jmtIYdhbWF4Z83Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=Y2xgROg5; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WmJv6Kho"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E1D3C4AF0C
-	for <linux-sunxi@lists.linux.dev>; Fri, 22 Nov 2024 20:43:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732308220;
-	bh=9ur4fx8g1n2aQGv6Iks60+fVeXS+jljxmXCqMX/FUJ4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=WmJv6KhouoPjpYLnMmpuN8uVIn3pLQ0Vd7k2AQGH9abPMLZZhMmh9G6MWgp1q8m4I
-	 Pr/Vc3akz8klX7oxufe/3NkQDg5Xqh7480yRTyKme5dz5LHpLPSreF2O7o0qcfwUdQ
-	 pYpCWaGGkzeSZV6r3tdVuAQnq83X5DIBGBUrORRoVb+1zpbjA5SQHi4WbWgZjAuvqE
-	 hS+XC/Ouj4fPKANKiMnRvsh942pLYXZ6agsarnLBIMOtl9595DP4WIDVp3LB8yBFRq
-	 wlHudLoPFIOdYGvsdqu6nw/2VbtDWeGEJvzoOhab7RmDCoYYFouD97rsHObLFnfNiS
-	 ypKOd1a3pR0MA==
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-2968322f5feso1504209fac.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 22 Nov 2024 12:43:40 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWzvGmzyzGxm0PEE++aZ2mDbZRf7J+nDZYv1PuoaXHFPg4RQAvVnQniidVCCHEARbo8wbivlV/UwimwLQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxOQuHdEp/OunqTnqAHMY3gxP6RqVTA0jFSS8zEDBiH64d067Jr
-	Wtfu6oRizpPjbwuesxweROJ/tBSfneUvRcexeNQbmviR3P7M0Y8gbHVVY+VqsF0K/WnZqkvbBIy
-	wXsvSI3cdTVYmm7bpamZW1afzPns=
-X-Google-Smtp-Source: AGHT+IEutDuraKb6w9V+8CLjNMD2UYE+lNm29XfGmOiaTuVzMfm8AxFlD6kXcNxHi/+pw8cR8P3Zi9iHFF2EXbeKgV0=
-X-Received: by 2002:a05:6871:69c1:b0:287:d8df:7c22 with SMTP id
- 586e51a60fabf-29720c59d21mr4407291fac.23.1732308219677; Fri, 22 Nov 2024
- 12:43:39 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="Y2xgROg5"
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2fb57f97d75so29412511fa.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 22 Nov 2024 14:16:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google; t=1732313814; x=1732918614; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KotHSsdWfu+c1NcMh6OyQCxQ2KHZlyrz53b2aXYhfLc=;
+        b=Y2xgROg5jaAOWzEqjt7lCWQ+t0HwB7m4w6Hgfex1YcZ0fiu3TYh6AijAIJ0aHKEWps
+         TU62qVCZmosW61dX6xlMsB+ozHB/Mh4UNfY02qBq7XbrXL0IgHSXyFr/450c2Lj7kUWz
+         pSJmn9aGCfQay0gPdeSnJ/8Jws0WlKjjHhk6o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732313814; x=1732918614;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KotHSsdWfu+c1NcMh6OyQCxQ2KHZlyrz53b2aXYhfLc=;
+        b=cOe83FPSVhqA2eJmf/SrKy0t3tzo3Vf6EQ4J2iBCq2/1AYw4zjIA6zIwkMZJgNcFcJ
+         zANgBYsebwChSFhfXEqb7ck+R8ajyhm9XhWbeILkS9o+ROXesgPKnt5O6uTt8V8p04tR
+         InjnOHLNV2BXWUr5FNccBmy+td/X0ttGQPg8jyBGkHXFWwYSlwCJI5LZnji3s8Ri88iP
+         gLh1c+iq/dWidhXXVGeey1EvgQ+xWQXxqPyGKt0MYCB8tUk3467lKbkDgHDvJqzT2jwk
+         ttAsIaQ/va/+O4VWCBDm+u8ARCW4u4QdjSB9pGfl5/KtWDchZc1+TgyH+wlVzmL+S2gC
+         6lsw==
+X-Forwarded-Encrypted: i=1; AJvYcCXh69F/lMAjm4X+fzGz4+wviy0j3xKu9YwDeB5UMHlM/YdZEtNBUTI6l9TOp++FTZA/icOsuqmp0T8zRA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzNQlg9cpPXKY8DEqUUgssH4tRJx1KkcL4rFnZ3/LUj5FzvOOMi
+	JrfcFi5cBoJMrCvvNAxNRvnCA7s/eq1IIe76jKiYJE91/0JmQdJjdtuv7dLBxow=
+X-Gm-Gg: ASbGnct+EsdOgvho9lDJv9IUDg7WhtTr3k+BX+6O7zbtBOxb2uLI9E0hf4v6p+oNl6B
+	JHcCcRYIelhh4dBSZzY99CMMrQ7+n7mTJ7zW+gLC8OIOEhBMrg1PEpvgt+itJLMeW9h928Virlg
+	v2idvB+ErV2HvWvtoMMXIPopnsJ+/Q909vYWMGuR7+vWaQZ6Ibe/XboopKKm452akTPW0ji18W8
+	axFa/XOsPzagH+D3K2DZu6d5/rc9TMCAWhj8Ge5hYKgebjkScij8/NMYpcrXFilS4vYD5ovp5lM
+	RKBN82Ypc1kfh19FS/G0bJjbtj3rtb7/FTkiwJB7D/FDVX9BeiU5xjOzKaxPs2b4OeFU773eWPx
+	DMhlTKP/xxc6tchNi
+X-Google-Smtp-Source: AGHT+IEgYJNLEjwioZmh1uhCLI6hNlRYOYRL36bIZjSJEVburbMq8ZOQlpm6AI55EqEPC9fLmZ418w==
+X-Received: by 2002:a05:651c:150e:b0:2ff:9269:ac1a with SMTP id 38308e7fff4ca-2ffa6d214bdmr30427781fa.0.1732313814248;
+        Fri, 22 Nov 2024 14:16:54 -0800 (PST)
+Received: from dario-ThinkPad-T14s-Gen-2i.homenet.telecomitalia.it (host-82-54-94-193.retail.telecomitalia.it. [82.54.94.193])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa50b52fcebsm148226466b.127.2024.11.22.14.16.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Nov 2024 14:16:53 -0800 (PST)
+From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+To: linux-kernel@vger.kernel.org
+Cc: linux-amarula@amarulasolutions.com,
+	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+	Akshay Bhat <akshay.bhat@timesys.com>,
+	Chandrasekar Ramakrishnan <rcsekar@samsung.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Dong Aisheng <b29396@freescale.com>,
+	Fengguang Wu <fengguang.wu@intel.com>,
+	Gerhard Bertelsmann <info@gerhard-bertelsmann.de>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	"Ji-Ze Hong (Peter Hong)" <peter_hong@fintek.com.tw>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Marc Kleine-Budde <mkl@pengutronix.de>,
+	Marek Vasut <marex@denx.de>,
+	Maxime Ripard <mripard@kernel.org>,
+	Oliver Hartkopp <oliver.hartkopp@volkswagen.de>,
+	Samuel Holland <samuel@sholland.org>,
+	Sebastian Haas <haas@ems-wuensche.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+	Varka Bhadram <varkabhadram@gmail.com>,
+	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+	Wolfgang Grandegger <wg@grandegger.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-can@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v2 00/12] Fix {rx,tx}_errors CAN statistics
+Date: Fri, 22 Nov 2024 23:15:41 +0100
+Message-ID: <20241122221650.633981-1-dario.binacchi@amarulasolutions.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241010-b4-cleanup-h-of-node-put-thermal-v4-0-bfbe29ad81f4@linaro.org>
-In-Reply-To: <20241010-b4-cleanup-h-of-node-put-thermal-v4-0-bfbe29ad81f4@linaro.org>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Fri, 22 Nov 2024 21:43:28 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0jjjA6enruipTU9kTnuA6x5p_XUQyXc-4Cr4bo_b4VHtQ@mail.gmail.com>
-Message-ID: <CAJZ5v0jjjA6enruipTU9kTnuA6x5p_XUQyXc-4Cr4bo_b4VHtQ@mail.gmail.com>
-Subject: Re: [PATCH v4 0/6] thermal: scope/cleanup.h improvements
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
-	Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc: Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, 
-	Amit Kucheria <amitk@kernel.org>, Thara Gopinath <thara.gopinath@gmail.com>, 
-	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, linux-pm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-	Chen-Yu Tsai <wenst@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Daniel,
+This series extends the patch 4d6d26537940 ("can: c_can: fix {rx,tx}_errors statistics"),
+already merged into the mainline, to other CAN devices that similarly do
+not correctly increment the error counters for reception/transmission.
 
-On Thu, Oct 10, 2024 at 8:06=E2=80=AFPM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> Changes in v4:
-> - Patch 2: rewrite, significant change: kzalloc() also with
->   scoped-handling so the entire error handling could be removed.
->   Due to above, drop review-tags (Chen-Yu, Jonathan).
-> - Add Rb tags for other patches.
-> - Link to v3: https://lore.kernel.org/r/20241008-b4-cleanup-h-of-node-put=
--thermal-v3-0-825122398f71@linaro.org
->
-> Changes in v3:
-> - Rebase, because there was bigger rework in thermal code.
->   This made two patches obsolete, but brought new one:
->   1/6: thermal: of: Simplify thermal_of_should_bind with scoped for each =
-OF child
-> - Link to v2: https://lore.kernel.org/r/20240816-b4-cleanup-h-of-node-put=
--thermal-v2-0-cee9fc490478@linaro.org
->
-> Changes in v2:
-> - Drop left-over of_node_put in regular exit path (Chen-Yu)
-> - Link to v1: https://lore.kernel.org/r/20240814-b4-cleanup-h-of-node-put=
--thermal-v1-0-7a1381e1627e@linaro.org
->
-> Few code simplifications with scope/cleanup.h.
->
-> Best regards,
-> Krzysztof
->
-> ---
-> Krzysztof Kozlowski (6):
->       thermal: of: Simplify thermal_of_should_bind with scoped for each O=
-F child
->       thermal: of: Use scoped memory and OF handling to simplify thermal_=
-of_trips_init()
->       thermal: of: Use scoped device node handling to simplify of_thermal=
-_zone_find()
->       thermal: qcom-spmi-adc-tm5: Simplify with scoped for each OF child =
-loop
->       thermal: tegra: Simplify with scoped for each OF child loop
->       thermal: sun8i: Use scoped device node handling to simplify error p=
-aths
->
->  drivers/thermal/qcom/qcom-spmi-adc-tm5.c |  7 ++---
->  drivers/thermal/sun8i_thermal.c          | 11 +++----
->  drivers/thermal/tegra/soctherm.c         |  5 ++-
->  drivers/thermal/thermal_of.c             | 54 ++++++++++----------------=
-------
->  4 files changed, 25 insertions(+), 52 deletions(-)
-> ---
+Changes in v2:
+- Fix patches 7 through 12 to ensure that statistics are updated even
+  if the allocation of skb fails.
+- Add five new patches (i. e. 1-5), created during the further analysis
+  of the code while correcting patches from the v1 series (i. e. 7-12).
 
-This seems to have fallen through cracks.
+Dario Binacchi (12):
+  can: c_can: update statistics if skb allocation fails
+  can: sun4i_can: call can_change_state() even if cf is NULL
+  can: sun4i_can: continue to use likely() to check skb
+  can: hi311x: fix txerr and rxerr reporting
+  can: hi311x: update state error statistics if skb allocation fails
+  can: m_can: fix {rx,tx}_errors statistics
+  can: ifi_canfd: fix {rx,tx}_errors statistics
+  can: hi311x: fix {rx,tx}_errors statistics
+  can: sja1000: fix {rx,tx}_errors statistics
+  can: sun4i_can: fix {rx,tx}_errors statistics
+  can: ems_usb: fix {rx,tx}_errors statistics
+  can: f81604: fix {rx,tx}_errors statistics
 
-Since all of the other 6.13 thermal changes have been integrated now,
-I'm going to apply it and push next week unless you have concerns (in
-which case please let me know).
+ drivers/net/can/c_can/c_can_main.c    | 26 +++++++----
+ drivers/net/can/ifi_canfd/ifi_canfd.c | 58 ++++++++++++++++-------
+ drivers/net/can/m_can/m_can.c         | 33 +++++++++----
+ drivers/net/can/sja1000/sja1000.c     | 67 ++++++++++++++++-----------
+ drivers/net/can/spi/hi311x.c          | 55 +++++++++++++---------
+ drivers/net/can/sun4i_can.c           | 21 +++++----
+ drivers/net/can/usb/ems_usb.c         | 58 +++++++++++++----------
+ drivers/net/can/usb/f81604.c          | 10 ++--
+ 8 files changed, 205 insertions(+), 123 deletions(-)
 
-Thanks!
+-- 
+2.43.0
+
