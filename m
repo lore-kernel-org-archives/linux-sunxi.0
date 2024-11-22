@@ -1,153 +1,96 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 424F61DFE14
-	for <linux-sunxi@lists.linux.dev>; Fri, 22 Nov 2024 09:13:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D557A2B9A2
+	for <linux-sunxi@lists.linux.dev>; Fri, 22 Nov 2024 16:14:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732266818; cv=none; b=iRBcnKca/Ie5kDvQmkJ+byIwO7C3VMAAQCGatWaHi43/QxrnzDMV7ruK9xOo02KvUjyiCqfTXe0xbIgWlzOI0Pdf9QmvOwVROj9d+Sn2rShWJO5eu5pqlu3/87HGr23LjXsAU4TDzXhrGpkjhXVrhdK9tT/cFLKlYzwF26ekoAA=
+	t=1732292045; cv=none; b=M8NgjFou1dnAqxictGd5znffjCKZm9/jJ18GnMaCdMT7YpmVIqr4ZnYCgcYUxMxX+FZil4ZddHHQLrOq/vEZoDimQgYEnRNkjJiHo7TI46Dpn521zneIseooXuz6MdsBw874tUMaVqF9c8ovtmYRh4nonffJcxESP95wFXaKrNg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732266818; c=relaxed/simple;
-	bh=NRpLumrdDZhSXCJcusWkwzHsBkwvkTsOwVSCIyGYQBU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=TlaJ/IwWFO1O4K0tVlYuyp/QCvLVbLpaVHVn465XYGZKh+j3QD9MToxSDIOZlPzUdW/Z6hs3kRLoc5JY/uWd11etl4ibep54TNX5qQmPmRl/aWl+Vm+zcQH6xU3tLuoFpV+MTCIhcZautn+9MtmaPJW+L+Gjt0air4RJHmYFFWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=f2/VyLte; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1732292045; c=relaxed/simple;
+	bh=0EA4UV4RNGE7xqGqlrrJvHIA53WJ1uWQg6/4nAZb2Vc=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DKF118CwC6fgD00SmbsAjz42CWGqC2VRgf/RWiliph72/1YheSwyJQ0QUM3wpcvZcZSwwpv00EbSqOIDSZkf2xPJQ9968TTzN4KlPX/awO2n5SLJUq02wmT1/EMMXJ6QnBXNIjd75Aso56ZxTcUrlmSHwhpYDyYZaI7B84qcjXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=V1hwB9KD; arc=none smtp.client-ip=193.68.50.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="f2/VyLte"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-53dd59a2bc1so365770e87.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 22 Nov 2024 01:13:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1732266814; x=1732871614; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=L+pN3XKvVFmetq3YJbHAkykp748W6pEN5H4vcdcbZbk=;
-        b=f2/VyLteH3Ax/feGGQqTJyywSwxpJFXbIuAX3odpXHpM/LAIu4LrP/n4OperpVMyh4
-         ONTS4UXbEO0k7jzv2Ypqh9dbXECNiTtAqsbAWZZi4RlTM6WmIPrgfxTNC3wmAZxyKNnf
-         DkWbbAIidJ+DOoEB3eZWcIE04tW2YGkQc26rdaAdihMh/DNjOXvDL3rAIDp9iUrNtnom
-         SYqB2LqzFQe4PPUa1RT2RaUChW5R5i7DVbnGdxmRRwRkMOqnYKdF4jFCE+duh7UiX5nl
-         Fs18P4xhlLgfu6vjdpf994xPWegPHeoJi4GnVGjiSUbRs1E6Vu8SiAWeeHLwAP+p4LA6
-         js9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732266814; x=1732871614;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=L+pN3XKvVFmetq3YJbHAkykp748W6pEN5H4vcdcbZbk=;
-        b=gQ0zA/4o55l7gRmuKh1450qzys2Sprwji3bpKkkSppqXEParXNoxYJGQpiTen4t7h5
-         ozQh8SicMxDT3fu/QGAWHIjmxwpv1BSRDkrKHvupT5N1S8RJlEVw2VPSvMk34mP0hoPE
-         LgCwNQ3Wj2Gfsbl4TtswqzHv/vQq1bFIpb5bUs/0fDmxBrTPIpZOFRA05nhiXO5oF8Mu
-         iD0gRTKHo9QeJaSz8x0rzjRRF4GYqvgGeTEArSovtgxOBzz9PLaE33E94wvHAPgtQ91m
-         +fccAS3j/NcWgbVpohwyNGC9WuI96IjN0vx5SIFSHAb97IIV5hUvqtq7C+avrIW3XLIO
-         AEYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXnVaiHjktB4Pv1yUWxMZnlfiG5F1GRaRlOsjyCMZw3IVCXAXL8+MFox/Su1ZcNn17wYvb2BsADg6bKJQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YySKc6uIclxCl39u3RrQxkQMwbnSbGZiwaYV/q0xbP9fBy9JXuJ
-	p8X74R8zjUdtRvxdxbeiJ7H7Bhqu9PLdCSW3tbtqR6GuqUYXftTngUi2JYK3mWE=
-X-Gm-Gg: ASbGnctKuhnP+rDXppTtVaTC4HhglkB42/NVwO8hG3FfwLh28gkD6yobp4S2ZV7orgg
-	gYTPm55GCW2rZGJxCtQOW71iY5zQs8X+MvGS3csIbDBd2aav52QefOMXQFQoAl7XDO7mxxtW2iN
-	JZFabiaYuRUpggdFbypmmZ5FIx8UZpc7PmtvaWQ4ShzZQI0LS/4WvzXBKk/zcMSasFZ9cJvijh+
-	kvPyjJCDaKyxCtFpTURSRrXWMsAiaxydmIEjp07Xgcbs6/xm8LbnhEzrQ==
-X-Google-Smtp-Source: AGHT+IFuPDVVeiIBHBx+sqGVLigoH/J3FctzJhynNILKoVJRUYGgovyLxnstEYxyEorm8Lhl1P2kvQ==
-X-Received: by 2002:a05:6512:230b:b0:539:f6c4:c29d with SMTP id 2adb3069b0e04-53dd39b4d2bmr879301e87.54.1732266814401;
-        Fri, 22 Nov 2024 01:13:34 -0800 (PST)
-Received: from umbar.lan ([192.130.178.90])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53dd2451386sm299530e87.77.2024.11.22.01.13.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Nov 2024 01:13:33 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 22 Nov 2024 11:13:06 +0200
-Subject: [PATCH v4 10/10] drm/sun4i: use
- drm_atomic_helper_connector_hdmi_check()
+	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="V1hwB9KD"
+Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
+	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id 580BBA048D;
+	Fri, 22 Nov 2024 17:13:59 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:from:from:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=mail; bh=3nQSFIndLHlk5B599D4K9i6Wy/lcEPJpfLWck+sxXK8=; b=
+	V1hwB9KDoD7MK/AAh0RD4IKKiCgdZt9qaWNHb7qqVCixDSXpQ7NdY39maGKNEfM9
+	VtJQ/Fem7fmGXY7yOI63l71zTmIMnIW8zKfPjDBhDffnOIREOy3qImsBrkvGO1tT
+	YQtR0in3J5WUY/FQ2JfCq0Tl0H/hxb5ShX2J2/YmkyPhUBQ8H90X5qqSajs6bCmD
+	IcfiNNDVH5UiM6yfhxPmG4gwRI3UN/ABfjo+N+kYAAYkK9awxJeAJ3tlLoXDg5gN
+	tPIQ6RAbvvVBLlOM9SXA/+xbLi8tHwvlKtIkXAM33Rcp7pVBj8KfnMN+jK77aVoH
+	cAM3CXVH3aAWpLx0bGwxqjhpUNOkuFGUJWL+c6DWmDwGbyevV0WFsK4WpH5KlMvX
+	s7ZO8YChllnUILGnI/RPLG0wvDjU5ihsiXbp8FEKS5IMrx6wm9zJ4z/MI8DX2NvM
+	dbjz7fIP9seh/PyPk+6XvRLo5iMEtsEaa4xB7pkWabrpyoRMOsLHuXPimgn0G74K
+	VcDrNUly9Cd51BoTWgWrwZGDspFQ45oBYjwO4soVSrpjUeIhZiPWHTIDj0z0Jb1O
+	6sROahwf/HfQtuU43jyTygaeWRGqQyuIjD2tfFy/sFq9YYV74fLF1IYDttTAg4F+
+	Zui8qgO3hGGIALdSNn6o/2gRCMA7rLDYXqxYxRcZc1w=
+From: =?UTF-8?q?Cs=C3=B3k=C3=A1s=2C=20Bence?= <csokas.bence@prolan.hu>
+To: <dmaengine@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<devicetree@vger.kernel.org>
+CC: =?UTF-8?q?Cs=C3=B3k=C3=A1s=2C=20Bence?= <csokas.bence@prolan.hu>, "Mark
+ Brown" <broonie@kernel.org>, Mesih Kilinc <mesihkilinc@gmail.com>, Vinod Koul
+	<vkoul@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+	<jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, "Chen-Yu
+ Tsai" <wens@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Philipp Zabel
+	<p.zabel@pengutronix.de>, Conor Dooley <conor.dooley@microchip.com>, "Rob
+ Herring" <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, "Conor
+ Dooley" <conor+dt@kernel.org>, Amit Singh Tomar <amitsinght@marvell.com>
+Subject: [PATCH v5 0/5] Add support for DMA of F1C100s
+Date: Fri, 22 Nov 2024 17:11:23 +0100
+Message-ID: <20241122161128.2619172-1-csokas.bence@prolan.hu>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241122-hdmi-mode-valid-v4-10-2fee4a83ab79@linaro.org>
-References: <20241122-hdmi-mode-valid-v4-0-2fee4a83ab79@linaro.org>
-In-Reply-To: <20241122-hdmi-mode-valid-v4-0-2fee4a83ab79@linaro.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2011;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=NRpLumrdDZhSXCJcusWkwzHsBkwvkTsOwVSCIyGYQBU=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnQEsiTDOV2BoHyoyOts+0adMkGX+r4MYsJsnPa
- Far8OQb/72JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ0BLIgAKCRCLPIo+Aiko
- 1UrVB/4mHUMcziWq1wY32ABnFkVrTROOJMHkHk+6+aK4dszHbnC762R/MtVLV2lOqnA6MnxSNW0
- EVuY2bQWv4PVDAZe+RPKyAm1fyLq9OizOUvRo1l12zL/O2139m41O4x3tI0r6uFqif8Pn4rZMCk
- t2ZMyaLmzPC6ufRtblUgk+VXVLehNTanDBHYRGga0siqsAnC662tRVl9Nf7/u1NOCILS6qYcKel
- P1sPNcHJSvULZIp9OJpXG/FZB4M7PHg/tR5MlTQzjrj0PWaj0798D+vDyF6eDysiUqnzifGcaGx
- giuaughGqZtani8SvGv0/wuVrNdnUepnAPAPfoATeqV2sc3E
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ESET-AS: R=OK;S=0;OP=CALC;TIME=1732292038;VERSION=7980;MC=955160253;ID=83447;TRN=0;CRV=0;IPC=;SP=0;SIPS=0;PI=3;F=0
+X-ESET-Antispam: OK
+X-EsetResult: clean, is OK
+X-EsetId: 37303A2980D94855607263
 
-Replace sun4i_hdmi_connector_atomic_check(), which performs just TMDS
-char rate check, with drm_atomic_helper_connector_hdmi_check(), which
-performs additional checks basing on the HDMI Connector's state.
+Support for Allwinner F1C100s/200s series audio was
+submitted in 2018 as an RFC series, but was not merged,
+despite having only minor errors. However, this is
+essential for having audio on these SoCs.
+This series was forward-ported/rebased to the best of
+my abilities, on top of Linus' tree as of now:
+commit 28eb75e178d3 ("Merge tag 'drm-next-2024-11-21' of https://gitlab.freedesktop.org/drm/kernel")
 
-Suggested-by: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 20 +-------------------
- 1 file changed, 1 insertion(+), 19 deletions(-)
+Link: https://lore.kernel.org/all/cover.1543782328.git.mesihkilinc@gmail.com/
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-index 54b72fe220afacc208b3fd48d5160031127ea14a..b05fd77870b00aac97d003f3fb9c2b98cb73abc0 100644
---- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-@@ -187,24 +187,6 @@ sun4i_hdmi_connector_clock_valid(const struct drm_connector *connector,
- 	return MODE_NOCLOCK;
- }
- 
--static int sun4i_hdmi_connector_atomic_check(struct drm_connector *connector,
--					     struct drm_atomic_state *state)
--{
--	struct drm_connector_state *conn_state =
--		drm_atomic_get_new_connector_state(state, connector);
--	struct drm_crtc *crtc = conn_state->crtc;
--	struct drm_crtc_state *crtc_state = crtc->state;
--	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
--	enum drm_mode_status status;
--
--	status = sun4i_hdmi_connector_clock_valid(connector, mode,
--						  conn_state->hdmi.tmds_char_rate);
--	if (status != MODE_OK)
--		return -EINVAL;
--
--	return 0;
--}
--
- static int sun4i_hdmi_get_modes(struct drm_connector *connector)
- {
- 	struct sun4i_hdmi *hdmi = drm_connector_to_sun4i_hdmi(connector);
-@@ -258,7 +240,7 @@ static const struct drm_connector_hdmi_funcs sun4i_hdmi_hdmi_connector_funcs = {
- };
- 
- static const struct drm_connector_helper_funcs sun4i_hdmi_connector_helper_funcs = {
--	.atomic_check	= sun4i_hdmi_connector_atomic_check,
-+	.atomic_check	= drm_atomic_helper_connector_hdmi_check,
- 	.mode_valid	= drm_hdmi_connector_mode_valid,
- 	.get_modes	= sun4i_hdmi_get_modes,
- };
+As requested by many, this series will now be split in 2, the DMA and the
+ALSA/ASoC codec driver. This is the DMA part of the series.
+
+Csókás, Bence (1):
+  dt-bindings: dmaengine: Add Allwinner suniv F1C100s DMA
+
+Mesih Kilinc (4):
+  dma-engine: sun4i: Add a quirk to support different chips
+  dma-engine: sun4i: Add has_reset option to quirk
+  dma-engine: sun4i: Add support for Allwinner suniv F1C100s
+  ARM: dts: suniv: f1c100s: Add support for DMA
+
+ .../bindings/dma/allwinner,sun4i-a10-dma.yaml |   4 +-
+ .../arm/boot/dts/allwinner/suniv-f1c100s.dtsi |  10 +
+ drivers/dma/Kconfig                           |   4 +-
+ drivers/dma/sun4i-dma.c                       | 208 +++++++++++++++---
+ 4 files changed, 191 insertions(+), 35 deletions(-)
 
 -- 
-2.39.5
+2.34.1
+
 
