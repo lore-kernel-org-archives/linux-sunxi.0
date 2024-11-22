@@ -1,89 +1,80 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29B8715D5CA
-	for <linux-sunxi@lists.linux.dev>; Fri, 22 Nov 2024 22:16:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 530D618A6AA
+	for <linux-sunxi@lists.linux.dev>; Fri, 22 Nov 2024 22:16:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732313818; cv=none; b=kq98SSWmT0K7GCoIAepj/WQ5U56HR8vgmdF0a3TODvv6+DQSvlsVjwpj+HwpmMg9MonPwVkCxbVrDqKFDwXLTr7Sv8Lq7EqPAzfEQjcjJeycR5n75uy8z9ATkjf5rpyhIJW3/5OMUddm+oAFN5PMfO35cCQMTEQdaqLjxz5/S50=
+	t=1732313820; cv=none; b=GMczYPKIgd+7Sm8h7H/ADsSUCGjmHVkpkbNE/YirwZHAS9zoA2iRbDEQoClOgbeIM3+rhAbjeT6E86HplmAt1gmqGE323K9GXV86cTzMu9WtpvjPY57nrj21WmvduuOQZ61i3QD6P5AfX1KWxiGLKObhEGQXpaoZQd5VTdYPl1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732313818; c=relaxed/simple;
-	bh=qotsxHOlhgnrVQByYtlhooxKse2Dv5ppiV/7dnSBU64=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=erH9rHHOccWVWh+50WE35Gmxn+2AjY0jKOb3ZB+ZfAzFZM2BhLTxgaZ0pCbbVLtVjj2Pjj4Fj5TddLUmSEYuu47tAIiH+HsZvwEPqj1v0PeHLy1sRdGwaBJs+Yo6aHj5hrp4UDGJujqK4IQUdP8KabqiDMO8jmtIYdhbWF4Z83Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=Y2xgROg5; arc=none smtp.client-ip=209.85.208.176
+	s=arc-20240116; t=1732313820; c=relaxed/simple;
+	bh=cfN/Sqofe2yynbRgQXfBL6ERxMwzjmzkAWAp/j8LOdI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=J1D8iLssP1MWJBX/uqWXRppTQomC7UcX3MUkkaZr9yCmxefHtABv4/oJyhW1t/AjkyVpiIvAIZXPAfTOqPMvRRUaSWveDUf8XYYR07/N7QxTDmtXXaC/oK8dnBR14i/pE9ijSjFYQDU1vTrXY9LDxQRtMVS3GHRp527s6KxmZQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=BdMur4zh; arc=none smtp.client-ip=209.85.218.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="Y2xgROg5"
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2fb57f97d75so29412511fa.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 22 Nov 2024 14:16:55 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="BdMur4zh"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-aa52edbcb63so51199966b.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 22 Nov 2024 14:16:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1732313814; x=1732918614; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KotHSsdWfu+c1NcMh6OyQCxQ2KHZlyrz53b2aXYhfLc=;
-        b=Y2xgROg5jaAOWzEqjt7lCWQ+t0HwB7m4w6Hgfex1YcZ0fiu3TYh6AijAIJ0aHKEWps
-         TU62qVCZmosW61dX6xlMsB+ozHB/Mh4UNfY02qBq7XbrXL0IgHSXyFr/450c2Lj7kUWz
-         pSJmn9aGCfQay0gPdeSnJ/8Jws0WlKjjHhk6o=
+        d=amarulasolutions.com; s=google; t=1732313817; x=1732918617; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6HrdX116se3rn9QRZsQ51ceQKyywuhiVyeVP2xiWD4c=;
+        b=BdMur4zh5lFVOUBVe1qOvSmaqoHNzt66gQyqb3kvUmhS3aN4fuiPvxOj+x0w6QqIBV
+         BgwWU2TlieTxcZztBMxm9cXh1uSYm0uMW6mamHkcBF6Kou19YRZu++pbUCfAASVyzapK
+         Qk95xm/mft7FDpq3VNZzE24pkyE3fY0Oxg18g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732313814; x=1732918614;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KotHSsdWfu+c1NcMh6OyQCxQ2KHZlyrz53b2aXYhfLc=;
-        b=cOe83FPSVhqA2eJmf/SrKy0t3tzo3Vf6EQ4J2iBCq2/1AYw4zjIA6zIwkMZJgNcFcJ
-         zANgBYsebwChSFhfXEqb7ck+R8ajyhm9XhWbeILkS9o+ROXesgPKnt5O6uTt8V8p04tR
-         InjnOHLNV2BXWUr5FNccBmy+td/X0ttGQPg8jyBGkHXFWwYSlwCJI5LZnji3s8Ri88iP
-         gLh1c+iq/dWidhXXVGeey1EvgQ+xWQXxqPyGKt0MYCB8tUk3467lKbkDgHDvJqzT2jwk
-         ttAsIaQ/va/+O4VWCBDm+u8ARCW4u4QdjSB9pGfl5/KtWDchZc1+TgyH+wlVzmL+S2gC
-         6lsw==
-X-Forwarded-Encrypted: i=1; AJvYcCXh69F/lMAjm4X+fzGz4+wviy0j3xKu9YwDeB5UMHlM/YdZEtNBUTI6l9TOp++FTZA/icOsuqmp0T8zRA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzNQlg9cpPXKY8DEqUUgssH4tRJx1KkcL4rFnZ3/LUj5FzvOOMi
-	JrfcFi5cBoJMrCvvNAxNRvnCA7s/eq1IIe76jKiYJE91/0JmQdJjdtuv7dLBxow=
-X-Gm-Gg: ASbGnct+EsdOgvho9lDJv9IUDg7WhtTr3k+BX+6O7zbtBOxb2uLI9E0hf4v6p+oNl6B
-	JHcCcRYIelhh4dBSZzY99CMMrQ7+n7mTJ7zW+gLC8OIOEhBMrg1PEpvgt+itJLMeW9h928Virlg
-	v2idvB+ErV2HvWvtoMMXIPopnsJ+/Q909vYWMGuR7+vWaQZ6Ibe/XboopKKm452akTPW0ji18W8
-	axFa/XOsPzagH+D3K2DZu6d5/rc9TMCAWhj8Ge5hYKgebjkScij8/NMYpcrXFilS4vYD5ovp5lM
-	RKBN82Ypc1kfh19FS/G0bJjbtj3rtb7/FTkiwJB7D/FDVX9BeiU5xjOzKaxPs2b4OeFU773eWPx
-	DMhlTKP/xxc6tchNi
-X-Google-Smtp-Source: AGHT+IEgYJNLEjwioZmh1uhCLI6hNlRYOYRL36bIZjSJEVburbMq8ZOQlpm6AI55EqEPC9fLmZ418w==
-X-Received: by 2002:a05:651c:150e:b0:2ff:9269:ac1a with SMTP id 38308e7fff4ca-2ffa6d214bdmr30427781fa.0.1732313814248;
-        Fri, 22 Nov 2024 14:16:54 -0800 (PST)
+        d=1e100.net; s=20230601; t=1732313817; x=1732918617;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6HrdX116se3rn9QRZsQ51ceQKyywuhiVyeVP2xiWD4c=;
+        b=ABZVh6n9rKKTeHjU5maQlKxAQJmvLvIcFkbmWkQb+mlKXyOZnL4zCN9ZmITjWrHvDJ
+         1n3th1edJ6wA8kOpK5KvRc0wBzbTl9zo6Dbl4IlINwBTxZsOqNsAOuQwUPPsdylG0RU1
+         wbOEHbYnHnmFcKsn6CBgQqpT8gRqRPQ3r0oiujPpsSy80Lo/BFdvrAd9RYqUSLel7Nv6
+         JZpTMmIFjNLr7NruC46euI+HBrSzW+KtpApafoiUxl53by+qeWxKRPNgQzCzcr2M1Bpv
+         m+0ImonWc5uRPl+dWcnZ3s5rzqfCDWQkbx3AYg/9xN1FqvzdJA9E+lzxafC+mixivYYa
+         9Vpw==
+X-Forwarded-Encrypted: i=1; AJvYcCWAOVki4RkDCW7083UeAu/xLr0B+L6A4d1hGA5XgoCJQBDJHiLgEqZDY5xgqznyVZd3s2uGJJ/QK30GUg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyeT6Gz7EV77pB7SGRf5LaoT6/tp0W3pzKrUQ1Eh+HBkXb/Um0x
+	VEebLzsPBMYlaCU8or6ShyXOA4Pabp3EGf8Oj/dUfQxrclK5mK1s0lah1jBQL30=
+X-Gm-Gg: ASbGncucq6p9bmWzanP+h0BpEHg7LJWFcan1MgbKeqv1zzjy/D3og73LB4SFZ1NzAb3
+	ZXwmKO+6hKWZ0gzoCx5mnODXd42D2ca+4N/BhCS6nQuNGF+yQS1jC37iNIpOpyyuQlPHacldLMK
+	y8LnEmSunFWWSmydvLPbksPB2Sp3+tQmA5Auj+957PAphEqAHLfN2888Ucg8g4Ku7i+HoQ5MOel
+	xBE4JQgLh+Zhw89/5KqmKyVT6lHlpqDfpa9M+Bpz1PV1JD77OMoMys/hl+yr00vKyBrdaPK5DgD
+	Y4uCKjs0KcBz3V92wn8fR7p18EqrV1W8S6GPurnOz5is3nf/9GAo/dUti0jZ+XCULLyLb2Sm6eO
+	Qlwkes8eWhDAtehDs
+X-Google-Smtp-Source: AGHT+IHRSafR/Hd70o+h3rYpO/7VHYMjBwxEdj1MERjp9IAi6352iOe+u8OcuPheRZbM1LDn8364LQ==
+X-Received: by 2002:a17:906:31c1:b0:aa5:24df:ca8 with SMTP id a640c23a62f3a-aa524df1311mr297959966b.18.1732313816670;
+        Fri, 22 Nov 2024 14:16:56 -0800 (PST)
 Received: from dario-ThinkPad-T14s-Gen-2i.homenet.telecomitalia.it (host-82-54-94-193.retail.telecomitalia.it. [82.54.94.193])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa50b52fcebsm148226466b.127.2024.11.22.14.16.52
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa50b52fcebsm148226466b.127.2024.11.22.14.16.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Nov 2024 14:16:53 -0800 (PST)
+        Fri, 22 Nov 2024 14:16:56 -0800 (PST)
 From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 To: linux-kernel@vger.kernel.org
 Cc: linux-amarula@amarulasolutions.com,
 	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-	Akshay Bhat <akshay.bhat@timesys.com>,
-	Chandrasekar Ramakrishnan <rcsekar@samsung.com>,
 	Chen-Yu Tsai <wens@csie.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Dong Aisheng <b29396@freescale.com>,
-	Fengguang Wu <fengguang.wu@intel.com>,
 	Gerhard Bertelsmann <info@gerhard-bertelsmann.de>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	"Ji-Ze Hong (Peter Hong)" <peter_hong@fintek.com.tw>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
 	Marc Kleine-Budde <mkl@pengutronix.de>,
-	Marek Vasut <marex@denx.de>,
 	Maxime Ripard <mripard@kernel.org>,
-	Oliver Hartkopp <oliver.hartkopp@volkswagen.de>,
 	Samuel Holland <samuel@sholland.org>,
-	Sebastian Haas <haas@ems-wuensche.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
-	Varka Bhadram <varkabhadram@gmail.com>,
 	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-	Wolfgang Grandegger <wg@grandegger.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-can@vger.kernel.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH v2 00/12] Fix {rx,tx}_errors CAN statistics
-Date: Fri, 22 Nov 2024 23:15:41 +0100
-Message-ID: <20241122221650.633981-1-dario.binacchi@amarulasolutions.com>
+Subject: [PATCH v2 02/12] can: sun4i_can: call can_change_state() even if cf is NULL
+Date: Fri, 22 Nov 2024 23:15:43 +0100
+Message-ID: <20241122221650.633981-3-dario.binacchi@amarulasolutions.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241122221650.633981-1-dario.binacchi@amarulasolutions.com>
+References: <20241122221650.633981-1-dario.binacchi@amarulasolutions.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -92,40 +83,41 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series extends the patch 4d6d26537940 ("can: c_can: fix {rx,tx}_errors statistics"),
-already merged into the mainline, to other CAN devices that similarly do
-not correctly increment the error counters for reception/transmission.
+The function can_change_state() can also be called if the allocation
+of the skb fails, as it handles the cf parameter when it is null.
+Additionally, this ensures that the statistics related to state error
+counters (i. e. warning, passive, and bus-off) are updated.
+
+Fixes: 0738eff14d81 ("can: Allwinner A10/A20 CAN Controller support - Kernel module")
+Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+
+---
 
 Changes in v2:
-- Fix patches 7 through 12 to ensure that statistics are updated even
-  if the allocation of skb fails.
-- Add five new patches (i. e. 1-5), created during the further analysis
-  of the code while correcting patches from the v1 series (i. e. 7-12).
+- Added in v2
 
-Dario Binacchi (12):
-  can: c_can: update statistics if skb allocation fails
-  can: sun4i_can: call can_change_state() even if cf is NULL
-  can: sun4i_can: continue to use likely() to check skb
-  can: hi311x: fix txerr and rxerr reporting
-  can: hi311x: update state error statistics if skb allocation fails
-  can: m_can: fix {rx,tx}_errors statistics
-  can: ifi_canfd: fix {rx,tx}_errors statistics
-  can: hi311x: fix {rx,tx}_errors statistics
-  can: sja1000: fix {rx,tx}_errors statistics
-  can: sun4i_can: fix {rx,tx}_errors statistics
-  can: ems_usb: fix {rx,tx}_errors statistics
-  can: f81604: fix {rx,tx}_errors statistics
+ drivers/net/can/sun4i_can.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
- drivers/net/can/c_can/c_can_main.c    | 26 +++++++----
- drivers/net/can/ifi_canfd/ifi_canfd.c | 58 ++++++++++++++++-------
- drivers/net/can/m_can/m_can.c         | 33 +++++++++----
- drivers/net/can/sja1000/sja1000.c     | 67 ++++++++++++++++-----------
- drivers/net/can/spi/hi311x.c          | 55 +++++++++++++---------
- drivers/net/can/sun4i_can.c           | 21 +++++----
- drivers/net/can/usb/ems_usb.c         | 58 +++++++++++++----------
- drivers/net/can/usb/f81604.c          | 10 ++--
- 8 files changed, 205 insertions(+), 123 deletions(-)
-
+diff --git a/drivers/net/can/sun4i_can.c b/drivers/net/can/sun4i_can.c
+index 360158c295d3..17f94cca93fb 100644
+--- a/drivers/net/can/sun4i_can.c
++++ b/drivers/net/can/sun4i_can.c
+@@ -629,10 +629,10 @@ static int sun4i_can_err(struct net_device *dev, u8 isrc, u8 status)
+ 		tx_state = txerr >= rxerr ? state : 0;
+ 		rx_state = txerr <= rxerr ? state : 0;
+ 
+-		if (likely(skb))
+-			can_change_state(dev, cf, tx_state, rx_state);
+-		else
+-			priv->can.state = state;
++		/* The skb allocation might fail, but can_change_state()
++		 * handles cf == NULL.
++		 */
++		can_change_state(dev, cf, tx_state, rx_state);
+ 		if (state == CAN_STATE_BUS_OFF)
+ 			can_bus_off(dev);
+ 	}
 -- 
 2.43.0
 
