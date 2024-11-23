@@ -1,83 +1,110 @@
-Received: from fgw22-7.mail.saunalahti.fi (fgw22-7.mail.saunalahti.fi [62.142.5.83])
+Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE16D34545
-	for <linux-sunxi@lists.linux.dev>; Sat, 23 Nov 2024 19:47:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.142.5.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F3CB13D531
+	for <linux-sunxi@lists.linux.dev>; Sat, 23 Nov 2024 22:09:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732391263; cv=none; b=fUUIqou5qGA3ddcYwSrgtOLavTtzASnFdfFoqlbtHfNKG0U77zcf2yD/Znjh54k5x14mAfZff6I5YsMNAMDLl5um2U0NgAxrpwSa9DbQM7J9KLpgdknP/TK2kUTmOUEVgwjKSWdU+c1qN4D/IpF8BJGZkGqGnlWrE/wVK+o1p4w=
+	t=1732399766; cv=none; b=qAm4Lhe3NT7GjADFAo06dTHX1s05zbfuvohL7DlSsybHDjS2mTA0jIDlNx+vweTH+DQ54YcSoHOIx1gPIp1CDYR0yFljdyP7xHVF+W6BDU0+kIhNaVIiblqzcU13QfTILZRdH8y4IizZwi9PU01i/7PtnDhtDpa4lcaREInJx6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732391263; c=relaxed/simple;
-	bh=m2qLnqDWjiQs3VDlXncJpshue+oltGe7BCDFQj8lFzc=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pXjqGgw1nQi35GyLgt7dDYDS3/RRpsQxyFsAi5SAuu+fSe3Y2OjwOHgNp2KdsVIrRku7+43H4na7WGVS8b4K41ZgX3qM+zWXCbB9soQYMI3iE9H6inrG430Em0xumV+bqoEHJ1sLDXSywYcGbaWIvEgpcZAfQGIk4W8inDe21nc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=62.142.5.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
-Received: from localhost (88-113-25-143.elisa-laajakaista.fi [88.113.25.143])
-	by fgw23.mail.saunalahti.fi (Halon) with ESMTP
-	id cada6636-a9d3-11ef-a0f6-005056bdfda7;
-	Sat, 23 Nov 2024 21:47:38 +0200 (EET)
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sat, 23 Nov 2024 21:47:37 +0200
-To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Gene Chen <gene_chen@richtek.com>,
-	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 11/18] leds: max77650: switch to
- device_for_each_child_node_scoped()
-Message-ID: <Z0IxWdV8ZWhJ5Pp4@surfacebook.localdomain>
-References: <20240927-leds_device_for_each_child_node_scoped-v1-0-95c0614b38c8@gmail.com>
- <20240927-leds_device_for_each_child_node_scoped-v1-11-95c0614b38c8@gmail.com>
+	s=arc-20240116; t=1732399766; c=relaxed/simple;
+	bh=ly8oeaIOAg6lQzNJz3++JQOR8O7rdaXLBJTqDo2MTiA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=LOGJcsBn60lZHXDZ0TWaA7XgtZ0ISNQZxkb+TdEbhpzxHcuMswo13yW7DGjSlqKsi3P/kpy1tv+yRW2valpJmIirdOO3oNyih5ZS2ghjC31OaQuW7/T5TobA5xuODoBtYygnvK7KANKpTUhGQHY+G53CX/GgJKyJ0BTtbCZ0EfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=mrheDw3f; arc=none smtp.client-ip=193.68.50.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="mrheDw3f"
+Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
+	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id 23AC3A037C;
+	Sat, 23 Nov 2024 23:09:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:from:from:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=mail; bh=ggcfDzy4T2wd6OE/Z3K6
+	o9nCDGY9SIX9C7Zth5qGkkw=; b=mrheDw3f9/c1M7uWYdSdjXZfspL54nuwPSA9
+	kwVUd78i8gy+792IM4dEZ/atzbyV3kg2iMPD5d00RenG5xkdYl8h6xGJq+Wo8m7O
+	tT4T34BCbLSC76luZhkGS6feezabh2pVoBdZawsTApjGI7FuWbf6ldS1garKQD7N
+	IDEfkrsDNg9UnaM/jjMOoc4Aph7eU93iBLB1nptj+oRrDTDAQZv/j3nGLFrt3zuB
+	74jY6EVfjBmm5NSUCgJbgxF9nGjjLKGRnhVlLVjNBOo5tYYz/3BVVkkDnnuo+fJK
+	3Cl6dXDOi+LOea+NXBaEBi4bx6pse5vDC1LUfjFvOuIFSn1xh07ul/hBvKmoeAmC
+	bfBjuQXB+OZYVT5RrCdIqrlGqC6hFo2IflskErKu2y8Cf/zSutPki9Cz5W84x8Yd
+	thpGg1uzT0Rwi+rLA0PyIcDNLOXXLljPowOxLa4ugzyfdgfmtgSKhEYlWRRJlH/J
+	8lra0RngSM8VIu1KwSs2U3tROUV+NzLiffS97CHf9k7NC5gQKgBsITbfrHU0NfnY
+	geAgpFHg67fBDpvHhOeN8AfCruIBapj8MJRrs5xtitJDYmDyv14QkG3J08YHgtwH
+	XHPkS3BYsUo1snyytbl3NHTpI1J04nZZIrJmdJVg2RiH84QU16rmZsqw2yeBAFnO
+	D4Sk4Vw=
+Message-ID: <f5f4be27-4d8c-4832-998f-8477030a21cb@prolan.hu>
+Date: Sat, 23 Nov 2024 23:09:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240927-leds_device_for_each_child_node_scoped-v1-11-95c0614b38c8@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/5] dt-bindings: sound: Add Allwinner suniv F1C100s
+ Audio Codec
+To: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>,
+	<linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, "Mark
+ Brown" <broonie@kernel.org>, Rob Herring <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, "Jernej
+ Skrabec" <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>
+References: <20241123123900.2656837-1-csokas.bence@prolan.hu>
+ <20241123123900.2656837-3-csokas.bence@prolan.hu>
+ <juzxtwlr5ayvjrrqem2hr3nbyem6oajwrvveio5brlzazdafov@r2aehknf4shv>
+Content-Language: en-US
+From: =?UTF-8?B?Q3PDs2vDoXMgQmVuY2U=?= <csokas.bence@prolan.hu>
+In-Reply-To: <juzxtwlr5ayvjrrqem2hr3nbyem6oajwrvveio5brlzazdafov@r2aehknf4shv>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: ATLAS.intranet.prolan.hu (10.254.0.229) To
+ ATLAS.intranet.prolan.hu (10.254.0.229)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A2980D94855607D61
 
-Fri, Sep 27, 2024 at 01:21:02AM +0200, Javier Carrasco kirjoitti:
-> Switch to device_for_each_child_node_scoped() to simplify the code by
-> removing the need for calls to fwnode_handle_put() in the error paths.
+Hi,
+
+On 2024. 11. 23. 17:22, Krzysztof Kozlowski wrote:
+> On Sat, Nov 23, 2024 at 01:39:00PM +0100, Csókás, Bence wrote:
+>> Add compatible string for Allwinner suniv F1C100s audio codec.
+>>
+>> [ csokas.bence: Reimplement Mesih Kilinc's binding in YAML ]
+>> Signed-off-by: Csókás, Bence <csokas.bence@prolan.hu>
+>> ---
+>>   .../sound/allwinner,sun4i-a10-codec.yaml      | 31 +++++++++++++++++++
+>>   1 file changed, 31 insertions(+)
+>>
 > 
-> This also prevents possible memory leaks if new error paths are added
-> without the required call to fwnode_handle_put().
+> Missing changelog - what happened here? If no changes, why ignoring
+> received tag?
+
+Sorry, I just forgot to collect it, that's all.
+
+> <form letter>
+> This is a friendly reminder during the review process.
 > 
-> After switching to the scoped variant, there is no longer need for a
-> jump to 'err_node_out', as an immediate return is possible.
+> It looks like you received a tag and forgot to add it.
+> 
+> If you do not know the process, here is a short explanation: Please add
+> Acked-by/Reviewed-by/Tested-by tags when posting new versions, under
+> or above your Signed-off-by tag. Tag is "received", when provided
+> in a message replied to you on the mailing list. Tools like b4 can help
+> here. However, there's no need to repost patches *only* to add the tags.
+> The upstream maintainer will do that for tags received on the version
+> they apply.
+> 
+> https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
+> 
+> If a tag was not added on purpose, please state why and what changed.
+> </form letter>
+> 
+> Best regards,
+> Krzysztof
 
-...
-
->  		rv = fwnode_property_read_u32(child, "reg", &reg);
-> -		if (rv || reg >= MAX77650_LED_NUM_LEDS) {
-> -			rv = -EINVAL;
-> -			goto err_node_put;
-> -		}
-> +		if (rv || reg >= MAX77650_LED_NUM_LEDS)
-> +			return -EINVAL;
-
-Again (yes, I know that is original issue, but with your series applied
-it may be nicely resolved), shadowing error code. Should be
-
-		if (rv)
-			return rv;
-		if (reg >= MAX77650_LED_NUM_LEDS)
-			return -EINVAL;
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+Bence
 
