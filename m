@@ -1,135 +1,98 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F18F1DFE00
-	for <linux-sunxi@lists.linux.dev>; Fri, 22 Nov 2024 22:17:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43561433B5
+	for <linux-sunxi@lists.linux.dev>; Sat, 23 Nov 2024 12:42:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732313831; cv=none; b=sLDqHyUVV8hfQwszfK7+CoLKuXFhQMAX1K7q75hv/uAeQdVXEGfP8ifiVO7ZJlxctkFa3AQ25k07lrwF0QbPbF6/RJI8B6U+xlrwiyIABDDdK9R1YDHyJ7LmM29DnqAcpnzL8fFoaN838RuhbqQ81tXHfikEUHzMUBZsGg8A1ws=
+	t=1732365736; cv=none; b=cGQCipYm8T/SIwXtp7w6tMg/nRP7Sx0aXMR9RpX+wyN8fmTFAKNGLMNPmOWxYRePl7gDgBQ6V1zwLMRFTtnl/csIW0iY6EIAfqsJORcnc/PjCtU0/fZyN4XT8PgO8ipNPzZHeglaChsy62oAv/87cS/Eie5O2OgavhRzSvsj3EQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732313831; c=relaxed/simple;
-	bh=suvkAfBGBjUXa2245JmSbUdEzRQCqXoVi3fUmt5kocQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iB41oMMlj7gAoTUAEU5dXVm8MHdyLtBfC6oWMKVG3EqrcbHRrRCXdBnGOA3obOhBt8Ya1jK0cUG60cHWo3kTUSSsJkMBwIF/Cf7PacmodDE07FsHrGpEFkm5Cde7AG1axs5kU2MvXgvZQT3KTJbnHENftaKtTOV7Zz69KoZ3dVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=GuTmgPFQ; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
+	s=arc-20240116; t=1732365736; c=relaxed/simple;
+	bh=XLt+eL6gvGf0WeHymcab1DvojRf4zp0Tlj9cL0/wZIo=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=RAXuMV2iGtPsLApiylg2Q79URT6alRzicU9yp2XhNExfN6adhHR+EPqUYiopGgsYTjWZPN4MrIDDDmfMlJSh9zO7Xvr1sv33Qk3d5PRgy+QMkOc8NmsOS3F7d+sArTyDt8VHSTCgWrsqaqcApdf026bs5/sfn7/kKqsZCSJTVnM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=m7vYdD4C; arc=none smtp.client-ip=193.68.50.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="GuTmgPFQ"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-aa5325af6a0so14355466b.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 22 Nov 2024 14:17:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1732313826; x=1732918626; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=koSu2Qr3uUTmv0FA1/R7W/a8VprfWgcqXI/05k6MgFU=;
-        b=GuTmgPFQRpld+PI0eua2P4zAEk9JL2sISuE+sYOctairL1KUWJKboArZwtKixNiwc3
-         ctz9Rc7Az5y0sldzgYQAdlLc0hV6gN2IRrEVfGy28HwBzFa6125b/QtdOmae9NwIJH/+
-         gf0i/UfJroQ3hsoEh1dPZ00aJkgQOkSpQm1MQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732313826; x=1732918626;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=koSu2Qr3uUTmv0FA1/R7W/a8VprfWgcqXI/05k6MgFU=;
-        b=WaL4yG+Nc8hHHOfRPtVHHCFPInXN7R2zcZ8PD3IfJP3p2nZvhCSZ3iqmHajAoDvOJV
-         xwyKtUtndO7j06moy5p0AdpKOBtBAqNqLSqhd1aDxXC5JVUOyj9+Y/0lCWTN5mmnN6Tg
-         naCbPVxMhnALETJ4pijcaLtaD4E1P8SpwPyuN+YEjG/XqW0E6cp0n8TlD7fGr0Sftdpw
-         O+HXpL29sZY6qLI5jbRvJTEEKE4d41uZmsCNRogaEHVfNu9vgwhk4CsqzfssPHq8O2or
-         /DAM2Q5aKDAg7D/MRB2x37hEWiug9LvWoH5jJEBcRsOvaRlpZUBqKO+EnonPwRJubURY
-         STfw==
-X-Forwarded-Encrypted: i=1; AJvYcCXSzaaQZe75AyRrrqVlsKJG1/XMyEYR1VsHStvJYxN48Tz6td6qhLbXUNR4GtmLPSgSU5KNLrMt7r5XLQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyPl/euW2aXjDHQIUEZkW6zowGZx5+ps/SmzMw1XYrXMu11c0P7
-	0O6VhuPt0Hj6DEl9WBHLQj1ZivTWw2YrimbHGaxyO0WtWEnke1gvyKzlOIbZeFc=
-X-Gm-Gg: ASbGnctsNNMzipjAGIU1CYM/rk4zX2A8f/ccjQfvO6o/brKfpzT10j4kKCJrRPCDOQx
-	6LgItYtFAZ6kuoC4H8vPUrcYw5PHQT3St/Icge6sC7t6cfd6grZ5rkZUse0dhumXmX7JViXXagN
-	mOMgXiC5Hp9I4ZAadfeXPXoRfBDBEm7iHNAVuER1g/UXgADH13rY9D3GWz3zLIj+rNLIEnPCZuf
-	JSZn8vQ1hDeYIiAx9sQMEm4zkXdyQ6sv1540g+MdPUEfxJc6Cwf9yvfB4edHhabK6lyKo+Pnvyq
-	eY7i6Pe0M+0npHzzHtZMoFXDEw3NeX/9Y50z3CuU/awERnlHRmeN0F7540g3DscJVax/9VnIMhI
-	M4DpOooWDegbYY165
-X-Google-Smtp-Source: AGHT+IGzFnZJs4h2n/iV/ioahj7WXElDTwCpUUULB2OBEylU5ouM6Ybr9FJMu/M15S4g4KqefHT26Q==
-X-Received: by 2002:a17:906:31da:b0:aa5:30c0:384b with SMTP id a640c23a62f3a-aa530c03aecmr47395466b.24.1732313826492;
-        Fri, 22 Nov 2024 14:17:06 -0800 (PST)
-Received: from dario-ThinkPad-T14s-Gen-2i.homenet.telecomitalia.it (host-82-54-94-193.retail.telecomitalia.it. [82.54.94.193])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa50b52fcebsm148226466b.127.2024.11.22.14.17.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Nov 2024 14:17:06 -0800 (PST)
-From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-To: linux-kernel@vger.kernel.org
-Cc: linux-amarula@amarulasolutions.com,
-	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Gerhard Bertelsmann <info@gerhard-bertelsmann.de>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	Maxime Ripard <mripard@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-can@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH v2 10/12] can: sun4i_can: fix {rx,tx}_errors statistics
-Date: Fri, 22 Nov 2024 23:15:51 +0100
-Message-ID: <20241122221650.633981-11-dario.binacchi@amarulasolutions.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241122221650.633981-1-dario.binacchi@amarulasolutions.com>
-References: <20241122221650.633981-1-dario.binacchi@amarulasolutions.com>
+	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="m7vYdD4C"
+Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
+	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id 33191A0302;
+	Sat, 23 Nov 2024 13:42:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:from:from:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=mail; bh=YbLZjplGEQIjdXszpZTw4vmkavVtRiLv7/HeUvS1y6Y=; b=
+	m7vYdD4CUbhmbR53UkvxOK/TK4UYu/0dzaiSpkTHsbSOn/w+C9+PB3bK+Rx4OugB
+	vzKmBP8GsuGe3a/fwmnPnqU5CDbEJwrLZiy4jGZKUgu3KRnJMZa8Uk5+m9j2rIMZ
+	CRHq4s20Sp2T/zJhH322B1h87P4DQDLPLea3beVq7nSmB8+sr0zQC7BuSIvh3GqQ
+	LKfwa+Wr1jCj27c8gXcIpf2n3BpgFpyDFEAMvsfwSXFm9VzJLSnXBTzQc1r3MNAo
+	YTIVenfri5KnvRymrIWYSqU9IdQrNnpRUt8frMbWl8UCFNhg9ef3lksrnNbWTYex
+	+yiQAj3gauhR4uwUjfjwqgh0jMDZttHf7FDs0AVqQVY5qv7G1LWfgw3Lb+I+UVIx
+	IVvXAtx2qJgJ5QXWmaC+1F4u/X4kudFQawlTXmalQLgAuPG/LONAQGX3N6Ef6J3V
+	A8vaUXfca5DngT07aNY1YA6vvY4WBdwek8oxfBinHpg3kueP0BOK+oOZDvRiz2Xu
+	AImB+RaN0GrDud+sM8S5RvAAGaZQZmRWcK8xrZ1FqCa/fZcH0cFrsZSvdjOe9Q+e
+	iEzTia0PF0KS1wcvTFQGESQuY1fuWT7n9QtHK8sqsFakSlH3MaD7kMY6VDm+phN6
+	F95SmWDXFSbc13pvAD89hQLqi3HBsU+csH+H2uNphcI=
+From: =?UTF-8?q?Cs=C3=B3k=C3=A1s=2C=20Bence?= <csokas.bence@prolan.hu>
+To: <linux-sound@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+CC: =?UTF-8?q?Cs=C3=B3k=C3=A1s=2C=20Bence?= <csokas.bence@prolan.hu>, "Mesih
+ Kilinc" <mesihkilinc@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, "Mark
+ Brown" <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+	<tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+	<jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Rob Herring
+	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+	<conor+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH v6 0/3] Add support for codec of F1C100s
+Date: Sat, 23 Nov 2024 13:38:55 +0100
+Message-ID: <20241123123900.2656837-1-csokas.bence@prolan.hu>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-ESET-AS: R=OK;S=0;OP=CALC;TIME=1732365724;VERSION=7980;MC=2816337656;ID=80950;TRN=0;CRV=0;IPC=;SP=0;SIPS=0;PI=3;F=0
+X-ESET-Antispam: OK
+X-EsetResult: clean, is OK
+X-EsetId: 37303A29ACD9485560726B
 
-The sun4i_can_err() function only incremented the receive error counter
-and never the transmit error counter, even if the STA_ERR_DIR flag
-reported that an error had occurred during transmission. Increment the
-receive/transmit error counter based on the value of the STA_ERR_DIR
-flag.
+Support for Allwinner F1C100s/200s series audio was
+submitted in 2018 as an RFC series, but was not merged,
+despite having only minor errors. However, this is
+essential for having audio on these SoCs.
+This series was forward-ported/rebased to the best of
+my abilities, on top of Linus' tree as of now:
+commit 28eb75e178d3 ("Merge tag 'drm-next-2024-11-21' of https://gitlab.freedesktop.org/drm/kernel")
 
-Fixes: 0738eff14d81 ("can: Allwinner A10/A20 CAN Controller support - Kernel module")
-Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+Link: https://lore.kernel.org/all/cover.1543782328.git.mesihkilinc@gmail.com/
 
----
+As requested by many, this series will now be split in 2, the DMA and the
+ALSA/ASoC codec driver. This is the codec part of the series.
+The first part (DMA) is at the link below. The first 3 patches of this
+series can be applied and built without the former series, but for working
+audio you need them both, plus the last 2 Device Tree patches in this series.
+Link: https://lore.kernel.org/linux-kernel/20241122161128.2619172-1-csokas.bence@prolan.hu/
 
-Changes in v2:
-- Update statistics even if skb allocation fails
+Csókás, Bence (1):
+  dt-bindings: sound: Add Allwinner suniv F1C100s Audio Codec
 
- drivers/net/can/sun4i_can.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+Mesih Kilinc (4):
+  ASoC: sun4i-codec: Add DMA Max Burst field
+  ASoC: sun4i-codec: Add support for Allwinner suniv F1C100s
+  ARM: dts: suniv: f1c100s: Add support for Audio Codec
+  ARM: dts: suniv: f1c100s: Activate Audio Codec for Lichee Pi Nano
 
-diff --git a/drivers/net/can/sun4i_can.c b/drivers/net/can/sun4i_can.c
-index 840b972498c1..5285bb0b7c69 100644
---- a/drivers/net/can/sun4i_can.c
-+++ b/drivers/net/can/sun4i_can.c
-@@ -579,7 +579,6 @@ static int sun4i_can_err(struct net_device *dev, u8 isrc, u8 status)
- 		/* bus error interrupt */
- 		netdev_dbg(dev, "bus error interrupt\n");
- 		priv->can.can_stats.bus_error++;
--		stats->rx_errors++;
- 
- 		if (likely(skb)) {
- 			ecc = readl(priv->base + SUN4I_REG_STA_ADDR);
-@@ -601,9 +600,15 @@ static int sun4i_can_err(struct net_device *dev, u8 isrc, u8 status)
- 					       >> 16;
- 				break;
- 			}
--			/* error occurred during transmission? */
--			if ((ecc & SUN4I_STA_ERR_DIR) == 0)
-+		}
-+
-+		/* error occurred during transmission? */
-+		if ((ecc & SUN4I_STA_ERR_DIR) == 0) {
-+			if (likely(skb))
- 				cf->data[2] |= CAN_ERR_PROT_TX;
-+			stats->tx_errors++;
-+		} else {
-+			stats->rx_errors++;
- 		}
- 	}
- 	if (isrc & SUN4I_INT_ERR_PASSIVE) {
+ .../sound/allwinner,sun4i-a10-codec.yaml      |  31 ++
+ .../allwinner/suniv-f1c100s-licheepi-nano.dts |   8 +
+ .../arm/boot/dts/allwinner/suniv-f1c100s.dtsi |  14 +
+ sound/soc/sunxi/sun4i-codec.c                 | 367 +++++++++++++++++-
+ 4 files changed, 418 insertions(+), 2 deletions(-)
+
 -- 
-2.43.0
+2.34.1
+
 
