@@ -1,155 +1,88 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FFD2566A;
-	Sat, 23 Nov 2024 14:40:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C763917C2;
+	Sat, 23 Nov 2024 16:22:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732372821; cv=none; b=YHy0/QY0YMS3NSsz+9xxWMxz+dzRCL6CqD/geTnFrs73R0bYOo6KJeMCtjz+WpbMiF3vETlJX7znFMs44ZOlDdKY8gjPo1nVtAg3dS0rXVWQMVdVh43wcqUyl2ZX/rikDx0bs+HyGTcP1Dq88BBr8ylqrGxlqfelqV/OsxP9qUk=
+	t=1732378930; cv=none; b=Sxh/mA1gxequI1gplVGtmvalDZgGlSHNY4ByzEoWY8Y/Dpj4AikYr2HWHsRSL4kL5jLdlM9O1Ttrnv6fXT7GXpHVSzarkSfNx4pq4vACr9/X+0pZm6r8DZgsC+Ak10pr+LohG/IQ7Xl5sjdJ3s+S7GtrRBqIY5OM5j8aotU7BCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732372821; c=relaxed/simple;
-	bh=pzNGUf+6z/1XgHhq8qeQF67X0+VudCkDC0u/GMsWE/M=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UXPyKX1u6k2JvQaOgQBzza22hWbm6TMJjz5D/0BGYtbwrUW0cmEsx62EK5+lBB2Ocq2C8shCSWNFf7EBbRH1t9G1JmLvRzaQoNoplgTh6LcWron5N2cKb0Oq+rR0bLr0LT7dAtLip2QE/hePBWrt8nvz9P/1FYnLs/YwTrvZRqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NatNFwUu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732378930; c=relaxed/simple;
+	bh=rqrZ3vjyZhrxtWn4EFzMu1EVgsI53q7sNaMFgE9p/0M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=inz7Fk4UXbasBs1KOFhizYDseuhWUA/3nRRAaxh5PAM4Pr3CkEIqIAcar/5EzhYCZ62IPpV2mbZoAnYsH4sbOyaMjmsXTap7EA58F1vHq/WApy63a3YEGgUOCj4WE2207HaHB/2cZLQZIxh+ngFnw9BOGTOa7Tp4PoL2lPonwuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M5hiMYu6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NatNFwUu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35FB6C4CECD;
-	Sat, 23 Nov 2024 14:40:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M5hiMYu6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B7ADC4CECD;
+	Sat, 23 Nov 2024 16:22:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732372821;
-	bh=pzNGUf+6z/1XgHhq8qeQF67X0+VudCkDC0u/GMsWE/M=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=NatNFwUuhkd8QXIVCUMLkkgfZGT0pXlHMRq7Z1IgGtHoNA3YbFJuwWNJ27WDlIdlL
-	 jrmXxEnatm1TjpnPl47ryyMpQcJwpYFqL9oDz/i2HNkYLKNgLohHdFIjNp4PL36hme
-	 BVj8Kpl4FXh9hCqgO75Df3RIf6lmbYPgTsvrjD43B5UFOaTKKr29/x/qhi+jH9MATQ
-	 gpox1EzJx7Nt+LkQki80jOrxZ70ZDkg4wuHwakOPFbqjNgm/sD27xkvxj8J2i4ftdR
-	 pD5wYd7Qf+ek6k3bdYglrb8P1iMSuhkecL8H12m767ULYpVh+dcHovQjPpJlYwOWmY
-	 Xie2/AQD89Kjg==
-Date: Sat, 23 Nov 2024 14:40:10 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Aren <aren@peacevolution.org>
-Cc: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@baylibre.com>,
- Andy Shevchenko <andy.shevchenko@gmail.com>, Lars-Peter Clausen
- <lars@metafoo.de>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, Kaustabh Chakraborty <kauschluss@disroot.org>,
- =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <trabarni@gmail.com>, Ondrej Jirman
- <megi@xff.cz>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, Dragan Simic <dsimic@manjaro.org>,
- phone-devel@vger.kernel.org
-Subject: Re: [PATCH v4 4/6] iio: light: stk3310: use dev_err_probe where
- possible
-Message-ID: <20241123144010.38871d3c@jic23-huawei>
-In-Reply-To: <6jwurbs27slfpsredvpxfgwjkurkqvfmzccaxnfgtuh4aks3c6@ciapprv3wsex>
-References: <20241102195037.3013934-3-aren@peacevolution.org>
-	<20241102195037.3013934-11-aren@peacevolution.org>
-	<ZyiIcDaANjxwtCz-@smile.fi.intel.com>
-	<m7x526sv5krgt4t2whn5ykyktoz5u7ihsxv3qa5yue3ucbk6lb@37spwsmlcylm>
-	<ZzEPACoblmcQD9yu@surfacebook.localdomain>
-	<xubjmxig4luag27ifnmqmv3x3bvzhwczwvw34kw6tssaa2d24t@ysnqh5e3g7sz>
-	<ZzHSE9Nrf4YySJrq@smile.fi.intel.com>
-	<4ibd5tgpt3uzbmouqdiiv5pvfxebo5qsmgn3xh6rlb73qevatv@cajznxqnlca3>
-	<6jwurbs27slfpsredvpxfgwjkurkqvfmzccaxnfgtuh4aks3c6@ciapprv3wsex>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+	s=k20201202; t=1732378930;
+	bh=rqrZ3vjyZhrxtWn4EFzMu1EVgsI53q7sNaMFgE9p/0M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=M5hiMYu6E+Hf3BM+fN1iB3dHoPal/EV/V5lel/OfMXeL3mndSaoGXxkoiQmRNpVd0
+	 ThMRz38hrfgwelJ9y74Pe8STfKB3mMj4RsLXrcFf4BoL+fvnbeCw0LPxKrpLFtoBLU
+	 wx/1SLV39pofXw77R6KmJDqZacOCtI7SNv8L0+KrDVpuVJ0u3v9Qf1mzTdSf7OTRnN
+	 2xVMJMDozrK+WlAg0AKb8lopUSocby4LzGnd3DfzXyCbLVr48CB09Y4YWL+h1c0OWI
+	 uDf/jz/+qkWblxhPCiDG57hFpjJU6vK6oMxlXBQw+ep03CVOkL2c5fl+bmqCHbuZiI
+	 CptND575uG3FQ==
+Date: Sat, 23 Nov 2024 17:22:07 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: =?utf-8?B?Q3PDs2vDoXMs?= Bence <csokas.bence@prolan.hu>
+Cc: Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>, 
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH v6 2/5] dt-bindings: sound: Add Allwinner suniv F1C100s
+ Audio Codec
+Message-ID: <juzxtwlr5ayvjrrqem2hr3nbyem6oajwrvveio5brlzazdafov@r2aehknf4shv>
+References: <20241123123900.2656837-1-csokas.bence@prolan.hu>
+ <20241123123900.2656837-3-csokas.bence@prolan.hu>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20241123123900.2656837-3-csokas.bence@prolan.hu>
 
-On Tue, 12 Nov 2024 18:11:37 -0500
-Aren <aren@peacevolution.org> wrote:
-
-> On Tue, Nov 12, 2024 at 11:15:54AM +0100, Uwe Kleine-K=C3=B6nig wrote:
-> > Hello Andy, hello Aren,
-> >=20
-> > On Mon, Nov 11, 2024 at 11:44:51AM +0200, Andy Shevchenko wrote: =20
-> > > On Sun, Nov 10, 2024 at 04:34:30PM -0500, Aren wrote: =20
-> > > > On Sun, Nov 10, 2024 at 09:52:32PM +0200, Andy Shevchenko wrote: =20
-> > > > > Sun, Nov 10, 2024 at 02:14:24PM -0500, Aren kirjoitti: =20
-> > >=20
-> > > You can do it differently
-> > >=20
-> > > #define STK3310_REGFIELD(name)							\
-> > > do {										\
-> > > 	data->reg_##name =3D							\
-> > > 		devm_regmap_field_alloc(dev, regmap, stk3310_reg_field_##name);	\
-> > > 	if (IS_ERR(data->reg_##name))						\
-> > > 		return dev_err_probe(dev, PTR_ERR(data->reg_##name),		\
-> > > 				     "reg field alloc failed.\n");		\
-> > > } while (0)
-> > >  =20
-> > > > #define STK3310_REGFIELD(name) ({						\
-> > > > 	data->reg_##name =3D devm_regmap_field_alloc(dev, regmap,			\
-> > > > 						   stk3310_reg_field_##name);   \
-> > > > 	if (IS_ERR(data->reg_##name))						\
-> > > > 		return dev_err_probe(dev, PTR_ERR(data->reg_##name),		\
-> > > > 				     "reg field alloc failed\n");		\
-> > > > }) =20
-> > >=20
-> > > I am against unneeded use of GNU extensions.
-> > >  =20
-> > > > > > replacing "do { } while (0)" with "({ })" and deindenting could=
- make
-> > > > > > enough room to clean this up the formatting of this macro thoug=
-h. =20
-> > > > >=20
-> > > > > do {} while (0) is C standard, ({}) is not. =20
-> > > >=20
-> > > > ({ }) is used throughout the kernel, and is documented as such[1]. I
-> > > > don't see a reason to avoid it, if it helps readability. =20
-> > >=20
-> > > I don't see how it makes things better here, and not everybody is fam=
-iliar with
-> > > the concept even if it's used in the kernel here and there. Also if a=
- tool is
-> > > being used in one case it doesn't mean it's suitable for another. =20
-> >=20
-> > Just to throw in my subjective view here: I don't expect anyone with
-> > some base level knowledge of C will have doubts about the semantics of
-> > ({ ... }) and compared to that I find do { ... } while (0) less optimal,
-> > because it's more verbose and when spotting the "do {" part, the
-> > semantic only gets clear when you also see the "while (0)". Having said
-> > that I also dislike the "do" starting on column 0, IMHO the RHS of the
-> > #define should be intended. =20
+On Sat, Nov 23, 2024 at 01:39:00PM +0100, Cs=C3=B3k=C3=A1s, Bence wrote:
+> Add compatible string for Allwinner suniv F1C100s audio codec.
 >=20
-> Thank you, this sums up my opinion on this better than I could have (and
-> some bits I hadn't considered).
->=20
-> > So if you ask me, this is not an unneeded use of an extension. The
-> > extension is used to improve readabilty and I blame the C standard to
-> > not support this syntax.
-> >=20
-> > While I'm in critics mode: I consider hiding a return in a macro bad
-> > style. =20
->=20
-> Yeah... probably worse than any of the formatting options here. I guess
-> the proper way would be to use devm_regmap_field_bulk_alloc, but that's
-> well outside the scope of this series. Perhaps it would make sense to
-> move the macro definition to just before the function it's used in so
-> it's at least a little easier to spot?
+> [ csokas.bence: Reimplement Mesih Kilinc's binding in YAML ]
+> Signed-off-by: Cs=C3=B3k=C3=A1s, Bence <csokas.bence@prolan.hu>
+> ---
+>  .../sound/allwinner,sun4i-a10-codec.yaml      | 31 +++++++++++++++++++
+>  1 file changed, 31 insertions(+)
+>
 
-It's only used 8 times.  I'd just get rid of the macro - which now
-has even less advantage as the change here reduces the length of the
-macro.
+Missing changelog - what happened here? If no changes, why ignoring
+received tag?
 
-Normally I'd argue it should be a precursor patch, but here I think it is
-fine to just do it in this patch to avoid a lot of churn.
+<form letter>
+This is a friendly reminder during the review process.
 
-No macro, no disagreement on formatting ;)
+It looks like you received a tag and forgot to add it.
 
-I'm not really sure why I let this macro in to begin with. I normally
-push back on this sort of thing. Must have been a low caffeine day :(
+If you do not know the process, here is a short explanation: Please add
+Acked-by/Reviewed-by/Tested-by tags when posting new versions, under
+or above your Signed-off-by tag. Tag is "received", when provided
+in a message replied to you on the mailing list. Tools like b4 can help
+here. However, there's no need to repost patches *only* to add the tags.
+The upstream maintainer will do that for tags received on the version
+they apply.
 
-Jonathan
+https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/subm=
+itting-patches.rst#L577
 
+If a tag was not added on purpose, please state why and what changed.
+</form letter>
 
->=20
->  - Aren
+Best regards,
+Krzysztof
 
