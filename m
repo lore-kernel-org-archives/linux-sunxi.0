@@ -1,99 +1,155 @@
-Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52926187332
-	for <linux-sunxi@lists.linux.dev>; Sat, 23 Nov 2024 12:43:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FFD2566A;
+	Sat, 23 Nov 2024 14:40:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732365799; cv=none; b=uOGLwCq/sfypSd7MMAavmQclLs0xfOCEYtPsx3W/ymqFBZjR8FXY4Gjhlcrjmnej3WncFk0AzgPijWCjWMdnN0neO3lbzEbTJasubyCwaEzG5VLsEiMXWI70A4DJqk5FzzfJTK7y61neqfBluZPtP6g9BdV6si/i2IK3roscAqg=
+	t=1732372821; cv=none; b=YHy0/QY0YMS3NSsz+9xxWMxz+dzRCL6CqD/geTnFrs73R0bYOo6KJeMCtjz+WpbMiF3vETlJX7znFMs44ZOlDdKY8gjPo1nVtAg3dS0rXVWQMVdVh43wcqUyl2ZX/rikDx0bs+HyGTcP1Dq88BBr8ylqrGxlqfelqV/OsxP9qUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732365799; c=relaxed/simple;
-	bh=o8uExKqB5qYo54a2nVBhqm5tJs6jO0jYNm2MbZM9eVQ=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Oin6amKh9xEb/ZiR83OSAokoHVRqgGVSslfzUxsM3KX9Ur+AsLrgTov6epNXO6PqgUF6jyzq77mAcjZdld9wzXiWb3yS3KAXEPC3YISgsoVnOYmCCu6zdq3TpGh95hulRqioJtDOjcw6esHHqlpJ5a/PCJWjM9MIXDJeWPmhI4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=dROvrBaH; arc=none smtp.client-ip=193.68.50.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
+	s=arc-20240116; t=1732372821; c=relaxed/simple;
+	bh=pzNGUf+6z/1XgHhq8qeQF67X0+VudCkDC0u/GMsWE/M=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UXPyKX1u6k2JvQaOgQBzza22hWbm6TMJjz5D/0BGYtbwrUW0cmEsx62EK5+lBB2Ocq2C8shCSWNFf7EBbRH1t9G1JmLvRzaQoNoplgTh6LcWron5N2cKb0Oq+rR0bLr0LT7dAtLip2QE/hePBWrt8nvz9P/1FYnLs/YwTrvZRqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NatNFwUu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="dROvrBaH"
-Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
-	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id AF4C7A0365;
-	Sat, 23 Nov 2024 13:43:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:from:from:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=mail; bh=ZZCQu8PNGzbUydOutitt
-	bytVy0ecwKj8suiZ8x5X5G4=; b=dROvrBaHTGGG4MgsvrJAMJu1R4x5bs43t4uK
-	JzMegSkUE8dpqLmVV6m4qFjRxBEOyU2qMdGA92gHytO0Ts/Pfq/el7jzTRXW3n8v
-	7E6S+XJ8In98RN4FW8mcA1nojHNZqeqh9BtqTvzWe0oONkNL/Aomtf8HUBiuLnrz
-	+9GVEodm/s3IKRsPPdvIq/tYPv8bH+FMQWhBizcligiBOEoHWYg2vHvz8/esxSkv
-	LK0MKNci95AZsg/s82hf9kVbFj1KYbMwy7Ded7RrOnC/BriUo+3M3RLEHXJNO5kq
-	lwS3y4lCPJ3R+2nN2C0qg45qMtyyPUD6X/NSX7Dxz5heIFa+cERtSWP4eCRPw1Xx
-	AecrxG/b6Hg3volmGKpWDQImKJ1szml3gdyttkjibf66nnDlVbhnYJ9C6YzRJjaj
-	rv0rG++imr1V3dHbEmm/w5lIkQXQ8PUFyR5fqmczhCHsM8XG7DySqHQ6zcfduOvB
-	j4I7V1v6rnftGQ/nukkkcLJkWAibEpAqX9ViNb5lvR7onceoskoEvRAIglQP7ziz
-	B1VooIFWE57OU1PFs93oHyRG5iEntuZPb1ZLTdk4EOm7KfH1JJ+JEFhHtR87/WVr
-	altyh++C3uL1Zi+EyaAEdejbqF2J6bZMdrZf0brfZBFjIeKWhcqhzIgUR1WsR2tZ
-	0xw8e0g=
-From: =?UTF-8?q?Cs=C3=B3k=C3=A1s=2C=20Bence?= <csokas.bence@prolan.hu>
-To: <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-CC: Mesih Kilinc <mesihkilinc@gmail.com>,
-	=?UTF-8?q?Cs=C3=B3k=C3=A1s=2C=20Bence?= <csokas.bence@prolan.hu>, Rob Herring
-	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
-	<conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
-	<jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>
-Subject: [PATCH v6 5/5] ARM: dts: suniv: f1c100s: Activate Audio Codec for Lichee Pi Nano
-Date: Sat, 23 Nov 2024 13:39:05 +0100
-Message-ID: <20241123123900.2656837-6-csokas.bence@prolan.hu>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241123123900.2656837-1-csokas.bence@prolan.hu>
-References: <20241123123900.2656837-1-csokas.bence@prolan.hu>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NatNFwUu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35FB6C4CECD;
+	Sat, 23 Nov 2024 14:40:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732372821;
+	bh=pzNGUf+6z/1XgHhq8qeQF67X0+VudCkDC0u/GMsWE/M=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=NatNFwUuhkd8QXIVCUMLkkgfZGT0pXlHMRq7Z1IgGtHoNA3YbFJuwWNJ27WDlIdlL
+	 jrmXxEnatm1TjpnPl47ryyMpQcJwpYFqL9oDz/i2HNkYLKNgLohHdFIjNp4PL36hme
+	 BVj8Kpl4FXh9hCqgO75Df3RIf6lmbYPgTsvrjD43B5UFOaTKKr29/x/qhi+jH9MATQ
+	 gpox1EzJx7Nt+LkQki80jOrxZ70ZDkg4wuHwakOPFbqjNgm/sD27xkvxj8J2i4ftdR
+	 pD5wYd7Qf+ek6k3bdYglrb8P1iMSuhkecL8H12m767ULYpVh+dcHovQjPpJlYwOWmY
+	 Xie2/AQD89Kjg==
+Date: Sat, 23 Nov 2024 14:40:10 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Aren <aren@peacevolution.org>
+Cc: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@baylibre.com>,
+ Andy Shevchenko <andy.shevchenko@gmail.com>, Lars-Peter Clausen
+ <lars@metafoo.de>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai
+ <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+ <samuel@sholland.org>, Kaustabh Chakraborty <kauschluss@disroot.org>,
+ =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <trabarni@gmail.com>, Ondrej Jirman
+ <megi@xff.cz>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, Dragan Simic <dsimic@manjaro.org>,
+ phone-devel@vger.kernel.org
+Subject: Re: [PATCH v4 4/6] iio: light: stk3310: use dev_err_probe where
+ possible
+Message-ID: <20241123144010.38871d3c@jic23-huawei>
+In-Reply-To: <6jwurbs27slfpsredvpxfgwjkurkqvfmzccaxnfgtuh4aks3c6@ciapprv3wsex>
+References: <20241102195037.3013934-3-aren@peacevolution.org>
+	<20241102195037.3013934-11-aren@peacevolution.org>
+	<ZyiIcDaANjxwtCz-@smile.fi.intel.com>
+	<m7x526sv5krgt4t2whn5ykyktoz5u7ihsxv3qa5yue3ucbk6lb@37spwsmlcylm>
+	<ZzEPACoblmcQD9yu@surfacebook.localdomain>
+	<xubjmxig4luag27ifnmqmv3x3bvzhwczwvw34kw6tssaa2d24t@ysnqh5e3g7sz>
+	<ZzHSE9Nrf4YySJrq@smile.fi.intel.com>
+	<4ibd5tgpt3uzbmouqdiiv5pvfxebo5qsmgn3xh6rlb73qevatv@cajznxqnlca3>
+	<6jwurbs27slfpsredvpxfgwjkurkqvfmzccaxnfgtuh4aks3c6@ciapprv3wsex>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ESET-AS: R=OK;S=0;OP=CALC;TIME=1732365796;VERSION=7980;MC=2302033481;ID=80957;TRN=0;CRV=0;IPC=;SP=0;SIPS=0;PI=3;F=0
-X-ESET-Antispam: OK
-X-EsetResult: clean, is OK
-X-EsetId: 37303A29ACD9485560726B
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-From: Mesih Kilinc <mesihkilinc@gmail.com>
+On Tue, 12 Nov 2024 18:11:37 -0500
+Aren <aren@peacevolution.org> wrote:
 
-Allwinner suniv F1C100s now has basic audio codec support. Activate it
-for Lichee Pi Nano board.
+> On Tue, Nov 12, 2024 at 11:15:54AM +0100, Uwe Kleine-K=C3=B6nig wrote:
+> > Hello Andy, hello Aren,
+> >=20
+> > On Mon, Nov 11, 2024 at 11:44:51AM +0200, Andy Shevchenko wrote: =20
+> > > On Sun, Nov 10, 2024 at 04:34:30PM -0500, Aren wrote: =20
+> > > > On Sun, Nov 10, 2024 at 09:52:32PM +0200, Andy Shevchenko wrote: =20
+> > > > > Sun, Nov 10, 2024 at 02:14:24PM -0500, Aren kirjoitti: =20
+> > >=20
+> > > You can do it differently
+> > >=20
+> > > #define STK3310_REGFIELD(name)							\
+> > > do {										\
+> > > 	data->reg_##name =3D							\
+> > > 		devm_regmap_field_alloc(dev, regmap, stk3310_reg_field_##name);	\
+> > > 	if (IS_ERR(data->reg_##name))						\
+> > > 		return dev_err_probe(dev, PTR_ERR(data->reg_##name),		\
+> > > 				     "reg field alloc failed.\n");		\
+> > > } while (0)
+> > >  =20
+> > > > #define STK3310_REGFIELD(name) ({						\
+> > > > 	data->reg_##name =3D devm_regmap_field_alloc(dev, regmap,			\
+> > > > 						   stk3310_reg_field_##name);   \
+> > > > 	if (IS_ERR(data->reg_##name))						\
+> > > > 		return dev_err_probe(dev, PTR_ERR(data->reg_##name),		\
+> > > > 				     "reg field alloc failed\n");		\
+> > > > }) =20
+> > >=20
+> > > I am against unneeded use of GNU extensions.
+> > >  =20
+> > > > > > replacing "do { } while (0)" with "({ })" and deindenting could=
+ make
+> > > > > > enough room to clean this up the formatting of this macro thoug=
+h. =20
+> > > > >=20
+> > > > > do {} while (0) is C standard, ({}) is not. =20
+> > > >=20
+> > > > ({ }) is used throughout the kernel, and is documented as such[1]. I
+> > > > don't see a reason to avoid it, if it helps readability. =20
+> > >=20
+> > > I don't see how it makes things better here, and not everybody is fam=
+iliar with
+> > > the concept even if it's used in the kernel here and there. Also if a=
+ tool is
+> > > being used in one case it doesn't mean it's suitable for another. =20
+> >=20
+> > Just to throw in my subjective view here: I don't expect anyone with
+> > some base level knowledge of C will have doubts about the semantics of
+> > ({ ... }) and compared to that I find do { ... } while (0) less optimal,
+> > because it's more verbose and when spotting the "do {" part, the
+> > semantic only gets clear when you also see the "while (0)". Having said
+> > that I also dislike the "do" starting on column 0, IMHO the RHS of the
+> > #define should be intended. =20
+>=20
+> Thank you, this sums up my opinion on this better than I could have (and
+> some bits I hadn't considered).
+>=20
+> > So if you ask me, this is not an unneeded use of an extension. The
+> > extension is used to improve readabilty and I blame the C standard to
+> > not support this syntax.
+> >=20
+> > While I'm in critics mode: I consider hiding a return in a macro bad
+> > style. =20
+>=20
+> Yeah... probably worse than any of the formatting options here. I guess
+> the proper way would be to use devm_regmap_field_bulk_alloc, but that's
+> well outside the scope of this series. Perhaps it would make sense to
+> move the macro definition to just before the function it's used in so
+> it's at least a little easier to spot?
 
-Signed-off-by: Mesih Kilinc <mesihkilinc@gmail.com>
-[ csokas.bence: Moved and fixed conflict ]
-Signed-off-by: Csókás, Bence <csokas.bence@prolan.hu>
----
- .../boot/dts/allwinner/suniv-f1c100s-licheepi-nano.dts    | 8 ++++++++
- 1 file changed, 8 insertions(+)
+It's only used 8 times.  I'd just get rid of the macro - which now
+has even less advantage as the change here reduces the length of the
+macro.
 
-diff --git a/arch/arm/boot/dts/allwinner/suniv-f1c100s-licheepi-nano.dts b/arch/arm/boot/dts/allwinner/suniv-f1c100s-licheepi-nano.dts
-index 43896723a994..472ded0aafcf 100644
---- a/arch/arm/boot/dts/allwinner/suniv-f1c100s-licheepi-nano.dts
-+++ b/arch/arm/boot/dts/allwinner/suniv-f1c100s-licheepi-nano.dts
-@@ -62,6 +62,14 @@ &uart0 {
- 	status = "okay";
- };
- 
-+&codec {
-+	allwinner,audio-routing =
-+		"Headphone", "HP",
-+		"Headphone", "HPCOM",
-+		"MIC", "Mic";
-+	status = "okay";
-+};
-+
- &usb_otg {
- 	dr_mode = "otg";
- 	status = "okay";
--- 
-2.34.1
+Normally I'd argue it should be a precursor patch, but here I think it is
+fine to just do it in this patch to avoid a lot of churn.
 
+No macro, no disagreement on formatting ;)
+
+I'm not really sure why I let this macro in to begin with. I normally
+push back on this sort of thing. Must have been a low caffeine day :(
+
+Jonathan
+
+
+>=20
+>  - Aren
 
