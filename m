@@ -1,123 +1,64 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35C8B190055;
-	Mon, 25 Nov 2024 09:15:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95D1776026;
+	Mon, 25 Nov 2024 09:15:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732526104; cv=none; b=D/U6tc4+w0F6qzB7bfeQZibnzU/Z62ssd7NKuCqISygd1Zt2W54L0ObzB3Uw0NThEfnMLCcN0HEt1cuLXPrUJrdFXLPixD3jvC0P5MCm7RIk1kTHUeAqlSw15QGirINO1d4etASvOGz5+B1ZYZjV3M6hk2g5OSCGBu81FbJ3IxA=
+	t=1732526141; cv=none; b=uyLdhApl3QiR+JgFUZpR8J4kCDeoOWM224MsUCMN9Nvwcc6j0DhLt+wBfil/KXffhxXyBByuOGP2aXngBTclVyDUCyIUzThTW1bY6kxVxevdYb52oT2EEwtqMzA+m8vlM2DYKDMfWVloHq71a8Ww7nhpT5c2eQlKg4JzxMrHj8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732526104; c=relaxed/simple;
-	bh=l2aVA8vVFVYNGR2zFgk1p6wGxiDGbMc6CYQeb4SKoOE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r4ftM5GrIfmk+eMS8La3KL62Bo30Lpk4PnByiBKDFJhEbSOfANieUZWzL4jot0k7y8EaMz5belEAuLWfpJrBLCwq3mV++gA6LAmNaQyWy42/RoRMSbpjQIUVr65Q5pHftdBfgxVYXjincaZ+roK6fqGZi6vv32Vs5gE989gk/EQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kl37uair; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732526141; c=relaxed/simple;
+	bh=IRcmX+kFalTpcSK8+zzcKFRuZILPS7wKDDgoGabM+io=;
+	h=Message-ID:Date:From:To:Subject:In-Reply-To:References:Cc; b=cX2d1OsY2si89izgLV3HEls9WxqXByn+2w/9dkF4d9u1/CRMiw9DJgzWOq973P9alvfsTppT1iN5X6kdfdgg8OrJFciAsIcj48MOADA78IflpwO4jYLgzDKom5s4+O2DVB8sJEvOdJdZyosHBMwC1FJYVA4Ay9RGuj4XSmcvAUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QpPx+Qo2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kl37uair"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60842C4CECE;
-	Mon, 25 Nov 2024 09:15:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QpPx+Qo2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF05CC4CED3;
+	Mon, 25 Nov 2024 09:15:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732526103;
-	bh=l2aVA8vVFVYNGR2zFgk1p6wGxiDGbMc6CYQeb4SKoOE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kl37uairFXYBbHHwAuIoo7e8D64bTeeB6knTN8A1trLOMdBpUtYBgYFtyfcdoVWsn
-	 KZ3VBmmeHHFlSRdaS2cVFOBPoo2/imYXJUOutXGATw0ws2U8ELBoQJgkjc7noQJBSr
-	 MwayUudDPpus4rsLnL3QCLiDH5rTHBYzGAtc8kN+v4xTZsFo4wmHqWOZNqaY+LgszC
-	 O7ab83H6ZObm260B+cZoTijEaiRu7TLvj2kxCjdxzxLRE/2yKJEI5uHtjZ+sEQoDiJ
-	 Xg/wyXNbnPhVsDnVY9aCeH6mYbSXx+URF+LSJuDTtG2duiwQ3+OumqtQzKDwbf/bXE
-	 bnMYx/pnt2mHw==
-Date: Mon, 25 Nov 2024 10:15:00 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v4 02/10] drm/tests: hdmi: rename connector creation
- function
-Message-ID: <20241125-keen-clever-quokka-c637b2@houat>
-References: <20241122-hdmi-mode-valid-v4-0-2fee4a83ab79@linaro.org>
- <20241122-hdmi-mode-valid-v4-2-2fee4a83ab79@linaro.org>
+	s=k20201202; t=1732526141;
+	bh=IRcmX+kFalTpcSK8+zzcKFRuZILPS7wKDDgoGabM+io=;
+	h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
+	b=QpPx+Qo202rIesU6hZWyg4cz5JxOXDshswbouHI57nf7BX4EHA3I0vZbXhmJvP7sW
+	 iKdvFvojGpDjfq4E3akvfGt0iYJUtIJKHrtNcuBCVLBP+bRWeCJ0zRCdr3VApwC+Cv
+	 KMHXl/5iNeU9Ptt1GRX1qy4ubTBEJMZ/zr10SnHNx3wfb2jd+xkCcYZBxeu0lB25UO
+	 seArg2dYg5S1tyDQD8/bjOgGJcmBP4IkTsOlT/+eQ0pvXRXfZA+NQ7EtTMiht48wy6
+	 9NwGpOsyd6as6csAH2QitozGdCZUJoTIipGrxZTpRE2nP+n5SHw5IQ3pBG7ViY9UFI
+	 bhGDoCkkUoJvA==
+Message-ID: <0f588822988dafd9a8acd3ca86731be6@kernel.org>
+Date: Mon, 25 Nov 2024 09:15:38 +0000
+From: "Maxime Ripard" <mripard@kernel.org>
+To: "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v4 10/10] drm/sun4i: use
+ drm_atomic_helper_connector_hdmi_check()
+In-Reply-To: <20241122-hdmi-mode-valid-v4-10-2fee4a83ab79@linaro.org>
+References: <20241122-hdmi-mode-valid-v4-10-2fee4a83ab79@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, "Andrzej
+ Hajda" <andrzej.hajda@intel.com>, "Chen-Yu Tsai" <wens@csie.org>, "Dave
+ Stevenson" <dave.stevenson@raspberrypi.com>, "David Airlie" <airlied@gmail.com>, "Jernej
+ Skrabec" <jernej.skrabec@gmail.com>, "Jonas Karlman" <jonas@kwiboo.se>, "Laurent
+ Pinchart" <Laurent.pinchart@ideasonboard.com>, "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime
+ Ripard" <mripard@kernel.org>, =?utf-8?b?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, "Neil
+ Armstrong" <neil.armstrong@linaro.org>, "Raspberry Pi Kernel Maintenance" <kernel-list@raspberrypi.com>, "Robert
+ Foss" <rfoss@kernel.org>, "Samuel Holland" <samuel@sholland.org>, "Simona
+ Vetter" <simona@ffwll.ch>, "Thomas Zimmermann" <tzimmermann@suse.de>
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="5nvxg2sjvsyk3e7c"
-Content-Disposition: inline
-In-Reply-To: <20241122-hdmi-mode-valid-v4-2-2fee4a83ab79@linaro.org>
 
-
---5nvxg2sjvsyk3e7c
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v4 02/10] drm/tests: hdmi: rename connector creation
- function
-MIME-Version: 1.0
-
-On Fri, Nov 22, 2024 at 11:12:58AM +0200, Dmitry Baryshkov wrote:
-> As pointed out by Maxime, the drm_atomic_helper_connector_hdmi_init()
-> isn't a good name for a function inside KUnit tests. Rename it to
-> drm_kunit_helper_connector_hdmi_init().
->=20
+On Fri, 22 Nov 2024 11:13:06 +0200, Dmitry Baryshkov wrote:
+> Replace sun4i_hdmi_connector_atomic_check(), which performs just TMDS
+> char rate check, with drm_atomic_helper_connector_hdmi_check(), which
+> performs additional checks basing on the HDMI Connector's state.
+> 
 > Suggested-by: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 58 +++++++++++-----=
-------
->  1 file changed, 29 insertions(+), 29 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers=
-/gpu/drm/tests/drm_hdmi_state_helper_test.c
-> index 1e77689af6549f162eb3026c7bd2bbd59516ed98..d81254d46975e8af0d7822499=
-28217a1ebb7646e 100644
-> --- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-> +++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-> @@ -164,7 +164,7 @@ static const struct drm_connector_funcs dummy_connect=
-or_funcs =3D {
-> =20
->  static
->  struct drm_atomic_helper_connector_hdmi_priv *
-> -drm_atomic_helper_connector_hdmi_init(struct kunit *test,
-> +drm_kunit_helper_connector_hdmi_init(struct kunit *test,
->  				      unsigned int formats,
->  				      unsigned int max_bpc)
->  {
-> @@ -247,7 +247,7 @@ static void drm_test_check_broadcast_rgb_crtc_mode_ch=
-anged(struct kunit *test)
->  	struct drm_crtc *crtc;
->  	int ret;
-> =20
-> -	priv =3D drm_atomic_helper_connector_hdmi_init(test,
-> +	priv =3D drm_kunit_helper_connector_hdmi_init(test,
->  						     BIT(HDMI_COLORSPACE_RGB),
->  						     8);
-
-The alignment is off now. With that fixed,
+> 
+> [ ... ]
 
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
 
+Thanks!
 Maxime
-
---5nvxg2sjvsyk3e7c
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ0RAFAAKCRAnX84Zoj2+
-dh+SAX9rgI2nb5O0z3ETsjtoX/QZlU3rBnbmhHEwAbJFUPMrzNJL44xVeCcncyF/
-bnAChXcBf2C8MyZ3uQBADGQ2JpJlzrcAmW9SOPR3crnLIPFzw9SpjxX08GXSq9Fb
-g9OOkGL/cw==
-=MCsN
------END PGP SIGNATURE-----
-
---5nvxg2sjvsyk3e7c--
