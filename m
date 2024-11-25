@@ -1,144 +1,80 @@
-Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 462421ADFFE;
-	Mon, 25 Nov 2024 13:50:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.40.30.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 181F5184520;
+	Mon, 25 Nov 2024 14:20:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732542617; cv=none; b=fra6rWiOjMFpjA42TUdoNcRTweG2rXarEO4EtY4oyyZeGJrei10eKmGzprkvJpx3W0Fe8hK8vKuOKgTLI4NpAjaEkYKZBULnE95LCfDm/rgktgczeAuwzhTfc3uMAznQnsW7i7dAqBwc0PkAfMDIah1xe5i0Wne+tG3QuKJwKa8=
+	t=1732544460; cv=none; b=dPt5Ou0w6U1Cwul3nklo1KIJ1SCskg9miDbjNboNg+L0dNWUnY0UL5oNL/eP+p85fuR9kZZwLYztX6SCBGj18MLhKViLKL5AU8Kn8JQAS4pg3mziAUtkIo2blfskH9G08zLU9jUob0+Nh5/S27n+5MztNQZAG0pxrRyd8ebkVXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732542617; c=relaxed/simple;
-	bh=RtZtc46Kxk/ag5U9DM1hIo4Y04IgoGkkVdZQqBMo5Kc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=CIQQte6aLPidJTAgVl4qIzBqbyinXnSKJq67oFq0F4z7CH9fDDxZKUgc8kBwgGZY1ZVOlvTX+5irlckKPsmjLYgwYfGh7jZq7QYj+11f37XmI9qDzMH6bjE3RqQIxlwctBhmwMa3hLNY6i0tjQWCO/H4Qk53XlAtoKccOU1r3fg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=geanix.com; spf=pass smtp.mailfrom=geanix.com; dkim=pass (2048-bit key) header.d=geanix.com header.i=@geanix.com header.b=KAQdbuXs; arc=none smtp.client-ip=188.40.30.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=geanix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=geanix.com
+	s=arc-20240116; t=1732544460; c=relaxed/simple;
+	bh=BJFiZKZUiXJdE7BCJYHoYsMcMtEgwgFeoIpU0YaHwZg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jVPwWIg3i01bZWSzLcJoj3CAWcg1wi8hFKYNNvtIMk5DsWeV5jg5RSBefHv17JLVuPeouFF+9pj7mFS9fhwHZ0Q529h+0oElnaurRDRMajqa70gTgYl/osv1lGRDNf86Le9n4fqIl/tnSj3IigoEKtk4zv3K+SfEAe/qnXOu3PA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lXonjeSb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=geanix.com header.i=@geanix.com header.b="KAQdbuXs"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com;
-	s=default2211; h=Cc:To:In-Reply-To:References:Message-Id:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=GbS/T/h9zSMqC3sdnyIAxaPCqFU4fMlM51TlmewgPUo=; b=KAQdbuXsj5xCJKm50TjrtGNp+V
-	i209reSTd1vjASfKxdLD8fBDDFo9rw7cbgKuOh/DDBW6EMo0qPOscLeGyn1M+GXrejoZvGn5K9SOS
-	j2a8UIvr5WaMs8p4V0eGw2tpSsrW+idP/6onXmnuUfos7yNXIZjM6ANr1FSITg076CIVZF8x3LRO1
-	qP5jrh1DAi5vzDgFB+sCaoAKQnSbFb6M7nATGPlb63OEveVmQrYumytEoV18oGd5qGM4VaS0q0zCv
-	EPgQXwJ0++mejMsU7xuInz2xTdUqq0DeCx2jUYXW5W88KX07VHVOJTCDDqxaEtecaTeocN3dxO43g
-	DOLW70ow==;
-Received: from sslproxy08.your-server.de ([78.47.166.52])
-	by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <sean@geanix.com>)
-	id 1tFZTB-000CcZ-3G; Mon, 25 Nov 2024 14:49:41 +0100
-Received: from [185.17.218.86] (helo=zen.localdomain)
-	by sslproxy08.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <sean@geanix.com>)
-	id 1tFZTA-000A3a-0S;
-	Mon, 25 Nov 2024 14:49:40 +0100
-From: Sean Nyekjaer <sean@geanix.com>
-Date: Mon, 25 Nov 2024 14:49:26 +0100
-Subject: [PATCH v2 1/3] drm/modes: introduce drm_mode_validate_mode()
- helper function
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lXonjeSb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81285C4CECE;
+	Mon, 25 Nov 2024 14:20:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732544459;
+	bh=BJFiZKZUiXJdE7BCJYHoYsMcMtEgwgFeoIpU0YaHwZg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lXonjeSbIogq7Uq/RghIOWPdWN8cjsFRN2ihUVNV8/bk/P143kThC1A9GVr6KeWcf
+	 KqZChTETZ1o0zy6DffOnTQPmN7qtnfOeeOgwghrp83BgP8XUYAgkyo1sf7CyISsMVm
+	 zito8LvVZfMXFPol4R6tqGwviWexBKIdmzShqSKTCexDZGP0944/MdvJ7BUbsxlsq0
+	 EtufmCYr5lgilXi3ITkGqHiYz7oleh70Y2+woevEEP+wogwSNgbZfFE7h7HFtmLBu1
+	 k00RiqAphCsVBBJ2jsZ/R1c4w7vPLZLsWOwqf0YIY5BCqJPsoWjJ+6k/z6ttt04JSr
+	 tH6a6lJZH5wfg==
+Date: Mon, 25 Nov 2024 08:20:57 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: =?iso-8859-1?B?Q3Pza+FzLA==?= Bence <csokas.bence@prolan.hu>
+Cc: linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Maxime Ripard <mripard@kernel.org>, Mark Brown <broonie@kernel.org>,
+	linux-sunxi@lists.linux.dev,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH v6 2/5] dt-bindings: sound: Add Allwinner suniv F1C100s
+ Audio Codec
+Message-ID: <173254426800.1714666.14026732187475007449.robh@kernel.org>
+References: <20241123123900.2656837-1-csokas.bence@prolan.hu>
+ <20241123123900.2656837-3-csokas.bence@prolan.hu>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241125-dsi-relax-v2-1-9113419f4a40@geanix.com>
-References: <20241125-dsi-relax-v2-0-9113419f4a40@geanix.com>
-In-Reply-To: <20241125-dsi-relax-v2-0-9113419f4a40@geanix.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Yannick Fertre <yannick.fertre@foss.st.com>, 
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
- Philippe Cornu <philippe.cornu@foss.st.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-stm32@st-md-mailman.stormreply.com, Sean Nyekjaer <sean@geanix.com>
-X-Mailer: b4 0.14.2
-X-Authenticated-Sender: sean@geanix.com
-X-Virus-Scanned: Clear (ClamAV 0.103.10/27468/Mon Nov 25 10:36:56 2024)
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241123123900.2656837-3-csokas.bence@prolan.hu>
 
-Check if the required pixel clock is in within .5% range of the
-desired pixel clock.
-This will match the requirement for HDMI where a .5% tolerance is allowed.
 
-Signed-off-by: Sean Nyekjaer <sean@geanix.com>
----
- drivers/gpu/drm/drm_modes.c | 34 ++++++++++++++++++++++++++++++++++
- include/drm/drm_modes.h     |  2 ++
- 2 files changed, 36 insertions(+)
+On Sat, 23 Nov 2024 13:39:00 +0100, Csókás, Bence wrote:
+> Add compatible string for Allwinner suniv F1C100s audio codec.
+> 
+> [ csokas.bence: Reimplement Mesih Kilinc's binding in YAML ]
+> Signed-off-by: Csókás, Bence <csokas.bence@prolan.hu>
+> ---
+>  .../sound/allwinner,sun4i-a10-codec.yaml      | 31 +++++++++++++++++++
+>  1 file changed, 31 insertions(+)
+> 
 
-diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-index 6ba167a3346134072d100af0adbbe9b49e970769..4068b904759bf80502efde6e4d977b297f5d5359 100644
---- a/drivers/gpu/drm/drm_modes.c
-+++ b/drivers/gpu/drm/drm_modes.c
-@@ -1623,6 +1623,40 @@ bool drm_mode_equal_no_clocks_no_stereo(const struct drm_display_mode *mode1,
- }
- EXPORT_SYMBOL(drm_mode_equal_no_clocks_no_stereo);
- 
-+/**
-+ * drm_mode_validate_mode
-+ * @mode: mode to check
-+ * @rounded_rate: output pixel clock
-+ *
-+ * VESA DMT defines a tolerance of 0.5% on the pixel clock, while the
-+ * CVT spec reuses that tolerance in its examples, so it looks to be a
-+ * good default tolerance for the EDID-based modes. Define it to 5 per
-+ * mille to avoid floating point operations.
-+ *
-+ * Returns:
-+ * The mode status
-+ */
-+enum drm_mode_status drm_mode_validate_mode(const struct drm_display_mode *mode,
-+					    unsigned long long rounded_rate)
-+{
-+	enum drm_mode_status status;
-+	unsigned long long rate = mode->clock * 1000;
-+	unsigned long long lowest, highest;
-+
-+	lowest = rate * (1000 - 5);
-+	do_div(lowest, 1000);
-+	if (rounded_rate < lowest)
-+		return MODE_CLOCK_LOW;
-+
-+	highest = rate * (1000 + 5);
-+	do_div(highest, 1000);
-+	if (rounded_rate > highest)
-+		return MODE_CLOCK_HIGH;
-+
-+	return MODE_OK;
-+}
-+EXPORT_SYMBOL(drm_mode_validate_mode);
-+
- static enum drm_mode_status
- drm_mode_validate_basic(const struct drm_display_mode *mode)
- {
-diff --git a/include/drm/drm_modes.h b/include/drm/drm_modes.h
-index b9bb92e4b0295a5cbe0eb0da13e77449ff04f51d..4b638992f3e50d2aba5088644744457d72dbe10a 100644
---- a/include/drm/drm_modes.h
-+++ b/include/drm/drm_modes.h
-@@ -549,6 +549,8 @@ bool drm_mode_equal_no_clocks(const struct drm_display_mode *mode1,
- 			      const struct drm_display_mode *mode2);
- bool drm_mode_equal_no_clocks_no_stereo(const struct drm_display_mode *mode1,
- 					const struct drm_display_mode *mode2);
-+enum drm_mode_status drm_mode_validate_mode(const struct drm_display_mode *mode,
-+					    unsigned long long rounded_rate);
- 
- /* for use by the crtc helper probe functions */
- enum drm_mode_status drm_mode_validate_driver(struct drm_device *dev,
 
--- 
-2.46.2
+Please add Acked-by/Reviewed-by tags when posting new versions. However,
+there's no need to repost patches *only* to add the tags. The upstream
+maintainer will do that for acks received on the version they apply.
+
+If a tag was not added on purpose, please state why and what changed.
+
+Missing tags:
+
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+
+
 
