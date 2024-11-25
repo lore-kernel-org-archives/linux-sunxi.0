@@ -1,147 +1,59 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A5B22500D2;
-	Mon, 25 Nov 2024 16:00:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F78B2500D2;
+	Mon, 25 Nov 2024 16:01:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732550459; cv=none; b=rMJFy84gZKQUeCzgetzGHa2ht3t6Tqq33jZur8Q1N9koxRapWcN9B12b8pYoWXvtsRcq5o/onEqoNhRGmKpfQgQQDabiidtFqKlrtcCJrov29ts0tKrpAcCXzsduLPT4FOj46777qQgW7/eKv/fiaTA8OsRaRJguGf2hIy2zN04=
+	t=1732550483; cv=none; b=dnHZNzkV7hvZVFq7vhO3odsHwIf/LtLEgOBCFsx89OxHTcSisJSKM/ucR+ZMEHsloB7uU3gcytsc/vpiZ3yKsR4e4hzn+AOvEUZG3SWASIW/4M84TkzSYb730gVG6MOvkkSMjxIyOw8kKYSJIxokyUHysKA9eTcthB02vtbNzJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732550459; c=relaxed/simple;
-	bh=e8G0lW8ogmFnCkbf2xG8A2bDIU0/6g5brVU3VCxn4pI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OKJsZev7ztroQaQrDs/zfvw5wSj/0VDLceY8viVzt5NAyKi8OErXsIsSW+EUNvVRImdI1nk+a21aeZK/D1EhqfvYsrQ4OMLU3+rBfhb8PInR9mzMItk87yIPtoWiOucPyT1/PBn6/RbbijNPlsscyMJL8MV04Z/AsDR94fwYhLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BTXAXBwj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732550483; c=relaxed/simple;
+	bh=nOc3Xy7mhkWTw8qDkGMCJ3rROD2LNWSCNirVNpiwODg=;
+	h=Message-ID:Date:From:To:Subject:In-Reply-To:References:Cc; b=PHQnNhQo2hhCv+fl420Uk7y/NlEINbGO+3qHCGSMKYu9YkCrWoiebyo/+I5cEJ9EGhQao4foPfV1tXLeRCO9BEmCdocQ3VdifBPN38xXVvsZ7Di8MCDV2hkVLlYqoqTkNx2WbzaLIfoiP7J4znlDLdhGF7MP+lz2mxsQxKV/OvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=frwUvWjA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BTXAXBwj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE3F0C4CECE;
-	Mon, 25 Nov 2024 16:00:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="frwUvWjA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73C71C4CECE;
+	Mon, 25 Nov 2024 16:01:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732550459;
-	bh=e8G0lW8ogmFnCkbf2xG8A2bDIU0/6g5brVU3VCxn4pI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BTXAXBwjhY/HJi/6PiReBk/XD60n4+dRiLQDWeRuAyfeiuKnNmqheHpR0ZSmbzgZ7
-	 YxKNbpxOYg9NSgQF7keI83FZKEzB2vI5gJ1TQKHU3TI7Yjh7otMEEFLAOGf7KjBFv3
-	 /TB4P+rbIPEoDj/F/E9FH2/SFgWnIolBMdF6kCyl5S7eKQ3499lALGhJAqIbp3K+PX
-	 7idtOc4jU0njV8sdmH+10anm/HP18wjyhafgbp1Pg5IfoaIeFfDDN7fYhdUbuRuRV7
-	 gmQXVBNZwc7DHgPtrBVs2esgTF4A+4zaaJZ+2gRgKTHlbXQCc59U/8MXdJNmxuGvVT
-	 PXfMDBruc0IXQ==
-Date: Mon, 25 Nov 2024 17:00:56 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Sean Nyekjaer <sean@geanix.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Yannick Fertre <yannick.fertre@foss.st.com>, Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
-	Philippe Cornu <philippe.cornu@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH v2 1/3] drm/modes: introduce drm_mode_validate_mode()
- helper function
-Message-ID: <20241125-gleaming-anteater-of-perfection-42bd2b@houat>
-References: <20241125-dsi-relax-v2-0-9113419f4a40@geanix.com>
- <20241125-dsi-relax-v2-1-9113419f4a40@geanix.com>
+	s=k20201202; t=1732550482;
+	bh=nOc3Xy7mhkWTw8qDkGMCJ3rROD2LNWSCNirVNpiwODg=;
+	h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
+	b=frwUvWjAT86MGYDE31mxgujfkohr2ef3K4nhK2HbJuEEMJjrBbhwlO8jDeCeKBr+h
+	 C2hzW+jG/wlwKgJ2s7UIhxhWAWykVR4hNVemAuy2gBl1kXoUbjDTsPwpzomUIhZdLC
+	 eh2vMbpMyNeUbxSJWLX/tGjNTuSwFMyAT10TpsrRV/sYMSuNeqZ2e2iHcDGjYvkOgs
+	 K3rfy1A6NPtU0CO//OjJ59wRRitpAxEHDAcdAeMLwnlxQzUPfAZrqOkonRz41u0zU6
+	 oXVv78t0UQsZZMydobXwafUq03sY/4SG7BxHadCaevt9YMMDVpoLB2CKCu15OAsz04
+	 dcOi1kLNnMMJw==
+Message-ID: <08f3944d0330d17984641bb2cb94fb88@kernel.org>
+Date: Mon, 25 Nov 2024 16:01:20 +0000
+From: "Maxime Ripard" <mripard@kernel.org>
+To: "Sean Nyekjaer" <sean@geanix.com>
+Subject: Re: [PATCH v2 2/3] drm/sun4i: use drm_mode_validate_mode() helper
+ function
+In-Reply-To: <20241125-dsi-relax-v2-2-9113419f4a40@geanix.com>
+References: <20241125-dsi-relax-v2-2-9113419f4a40@geanix.com>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, "Alexandre
+ Torgue" <alexandre.torgue@foss.st.com>, "Chen-Yu Tsai" <wens@csie.org>, "David
+ Airlie" <airlied@gmail.com>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Coquelin" <mcoquelin.stm32@gmail.com>, "Maxime
+ Ripard" <mripard@kernel.org>, "Philippe Cornu" <philippe.cornu@foss.st.com>, "Raphael
+ Gallais-Pou" <raphael.gallais-pou@foss.st.com>, "Samuel Holland" <samuel@sholland.org>, "Simona
+ Vetter" <simona@ffwll.ch>, "Thomas Zimmermann" <tzimmermann@suse.de>, "Yannick
+ Fertre" <yannick.fertre@foss.st.com>
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="7iaeslrnyclrukm7"
-Content-Disposition: inline
-In-Reply-To: <20241125-dsi-relax-v2-1-9113419f4a40@geanix.com>
 
-
---7iaeslrnyclrukm7
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 1/3] drm/modes: introduce drm_mode_validate_mode()
- helper function
-MIME-Version: 1.0
-
-Hi Sean,
-
-On Mon, Nov 25, 2024 at 02:49:26PM +0100, Sean Nyekjaer wrote:
-> Check if the required pixel clock is in within .5% range of the
-> desired pixel clock.
-> This will match the requirement for HDMI where a .5% tolerance is allowed.
->=20
+On Mon, 25 Nov 2024 14:49:27 +0100, Sean Nyekjaer wrote:
+> Use new helper function for HDMI mode validation
+> 
 > Signed-off-by: Sean Nyekjaer <sean@geanix.com>
-> ---
->  drivers/gpu/drm/drm_modes.c | 34 ++++++++++++++++++++++++++++++++++
->  include/drm/drm_modes.h     |  2 ++
->  2 files changed, 36 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-> index 6ba167a3346134072d100af0adbbe9b49e970769..4068b904759bf80502efde6e4=
-d977b297f5d5359 100644
-> --- a/drivers/gpu/drm/drm_modes.c
-> +++ b/drivers/gpu/drm/drm_modes.c
-> @@ -1623,6 +1623,40 @@ bool drm_mode_equal_no_clocks_no_stereo(const stru=
-ct drm_display_mode *mode1,
->  }
->  EXPORT_SYMBOL(drm_mode_equal_no_clocks_no_stereo);
-> =20
-> +/**
-> + * drm_mode_validate_mode
-> + * @mode: mode to check
-> + * @rounded_rate: output pixel clock
-> + *
-> + * VESA DMT defines a tolerance of 0.5% on the pixel clock, while the
-> + * CVT spec reuses that tolerance in its examples, so it looks to be a
-> + * good default tolerance for the EDID-based modes. Define it to 5 per
-> + * mille to avoid floating point operations.
-> + *
-> + * Returns:
-> + * The mode status
-> + */
-> +enum drm_mode_status drm_mode_validate_mode(const struct drm_display_mod=
-e *mode,
-> +					    unsigned long long rounded_rate)
-> +{
-> +	enum drm_mode_status status;
-> +	unsigned long long rate =3D mode->clock * 1000;
-> +	unsigned long long lowest, highest;
-> +
-> +	lowest =3D rate * (1000 - 5);
-> +	do_div(lowest, 1000);
-> +	if (rounded_rate < lowest)
-> +		return MODE_CLOCK_LOW;
-> +
-> +	highest =3D rate * (1000 + 5);
-> +	do_div(highest, 1000);
-> +	if (rounded_rate > highest)
-> +		return MODE_CLOCK_HIGH;
-> +
-> +	return MODE_OK;
-> +}
-> +EXPORT_SYMBOL(drm_mode_validate_mode);
 
-Thanks a lot for doing that!
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
 
-I wonder about the naming though (and prototype). I doesn't really
-validates a mode, but rather makes sure that a given rate is a good
-approximation of a pixel clock. So maybe something like
-drm_mode_check_pixel_clock?
-
-We probably need some kunit tests here too.
-
+Thanks!
 Maxime
-
---7iaeslrnyclrukm7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ0SfMwAKCRAnX84Zoj2+
-dp/LAX9KInEW+AE031WPvNsZu9uS0+xLFqEfIThuSCuXbnCM2H3Nz9ARAE+st+tg
-1gd7pvABgIRkWDpLPaiGD3xvUJX3GM3Ebv50pWcCZHCWEhySv4P6zkew6y8w3RWs
-hqB4Vy/oAA==
-=kJ1A
------END PGP SIGNATURE-----
-
---7iaeslrnyclrukm7--
