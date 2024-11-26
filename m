@@ -1,103 +1,160 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B7C718FDBA
-	for <linux-sunxi@lists.linux.dev>; Tue, 26 Nov 2024 10:16:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D207E9;
+	Tue, 26 Nov 2024 11:34:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.40.30.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732616205; cv=none; b=Yh5D+tWFslxkWfFyrFoBGnxJhVgeWB/vWP1nRN7gWyS/i7r9L8+tJckxl5bX1xhaPzK6BTpUkS64A/rg2lX/iS7RUhP+7SWpTbhGGkENQqhYQgnOMal/Mo7j1lV3pXGdHs0umosEfkBkZf7h+01G4eWjoEZmTj+LYBLHbTU3Zqw=
+	t=1732620879; cv=none; b=hlKbERq7Bdp2QCOzekVY/+6RQ7HSzQ8pRXlwtovUsBa+CDqg0wbaOuird5KMm86LLtjstONAZ4Qj5bTLPEa7Lw1i0i8Naaqj0nAV58vVOvsUfAEaZ/CNky8GWWx93B5io5h+B7iXHb/vUIOMCN/1hYsyDjgTGqwCCyxSalQfJ74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732616205; c=relaxed/simple;
-	bh=G6ISiKyYNdfCX1O1jSv9YCVzyH3xaVsB7/c5w8mAdLM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=cx7U1yAbITHCWER88THA9cN4uXdSYx+wonBcFjdCm24f63HgUkTGxjAKbhv20oun0ctRWLT6qb7DvuV2m4kRSIqf0GjrMftPCOmB2MoQPtddw1UdM6KufqSl3K72ffzg2m75fLnVbeVLr0BIxl8wRJ91J0spQuZYYTnqTR6Ax8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RFYztgLF; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1732620879; c=relaxed/simple;
+	bh=4OvW6g/NEl66yAFlswTcYgZc7o5V4hnWLTsy9+wtjLM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IO16PsSnfMGw7cYu2cJE64UL1Yk/vDuwQ4mEM3LE3OIGo6bFgrHCyuBKI6MSa9dagi+zh9XskAKGIrZjL1LF4VTDGBu67vsfMhdqgNi0uCkThqj33Dx4Q5MLHhGgNdTMyzUYzb/WyKi80/X7bW3H66fXZ+p5A4p/jD2p48rHIfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=geanix.com; spf=pass smtp.mailfrom=geanix.com; dkim=pass (2048-bit key) header.d=geanix.com header.i=@geanix.com header.b=IYjLxIra; arc=none smtp.client-ip=188.40.30.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=geanix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=geanix.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RFYztgLF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732616204; x=1764152204;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=G6ISiKyYNdfCX1O1jSv9YCVzyH3xaVsB7/c5w8mAdLM=;
-  b=RFYztgLFhI4+YJq8oWBZ1xwPO7eA4IQOhYGknjzz7lsh54yZJHDnj3ED
-   mL/FxOmc40H1QpWBqmK+dWLYq7Agwmy1JjLpDjX/8Nc5ZAYiterHiwuJ6
-   pBUrgIbTAjfqkSD6B9eqEkLiIQNfQdJuv1dqVIYsmkPuAlFXZuHwowh8y
-   POyV5ZUVTTa5XgLFA3qOAs3XOx75oucDE9+OBDLSeFLGIzd/U90YzurDS
-   EkCfkkX38LEFdXXgBvTutI7NsjcN/1MrXfREjoRJCOsOVnrucjlwPbTmN
-   rLtL9RR/dCYNvbukZkatfXsAja9+37Fad+n+JlLoiKj+q/gXkK0r+hb51
-   Q==;
-X-CSE-ConnectionGUID: TUCCn0+pQymbE9sPI8XTVw==
-X-CSE-MsgGUID: qtO5577bRhG5h31mAYmpLA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11267"; a="36428238"
-X-IronPort-AV: E=Sophos;i="6.12,185,1728975600"; 
-   d="scan'208";a="36428238"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2024 02:16:43 -0800
-X-CSE-ConnectionGUID: UPr7mqOHTa+cmtoDfqjH7w==
-X-CSE-MsgGUID: 1LK8FOPvQtWU825GVRcwKg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,185,1728975600"; 
-   d="scan'208";a="91511370"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.246.49])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2024 02:16:37 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>, Sean Nyekjaer <sean@geanix.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Yannick
- Fertre <yannick.fertre@foss.st.com>, Raphael Gallais-Pou
- <raphael.gallais-pou@foss.st.com>, Philippe Cornu
- <philippe.cornu@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-stm32@st-md-mailman.stormreply.com
+	dkim=pass (2048-bit key) header.d=geanix.com header.i=@geanix.com header.b="IYjLxIra"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com;
+	s=default2211; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID; bh=i8aAJG0E0LQ869T/BkdOg6biqlcLfLrnW6kcsgQo+rg=; b=IYjLxI
+	racD1Hfp9/3fmYI4DPBBK6GoSfOG/NV0Du+imWjwCZo/uWJeVZsT7IcGW7b3jGFb/tbXS0HNlVFm9
+	qU7rBvtHbAlmsY/IT/F9UD96NN2oBlZGGhYT1LV50/nodVxCC1dj3NMVSktE/aNLrCd36HQMOdut3
+	uuspr8X6v5lhdg4GmudtZ/S98ai3ZP+VFGPkGLXHl3+wsyGcK+hY9SAnb/Quv+6pdrJlFJUlB4bw6
+	kn2+wX78fU12sVnobvWwFeNbonB5rT7zWueM2LU9QYI87AF8Aay5Am97RMoUYipNZFJ5gFgMk6rOK
+	fWEWYQteYuK5+v1v3I+fQ3YXDbiA==;
+Received: from sslproxy07.your-server.de ([78.47.199.104])
+	by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <sean@geanix.com>)
+	id 1tFtps-00082H-Nc; Tue, 26 Nov 2024 12:34:28 +0100
+Received: from [185.17.218.86] (helo=Seans-MacBook-Pro.local)
+	by sslproxy07.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <sean@geanix.com>)
+	id 1tFtpr-0000HD-2M;
+	Tue, 26 Nov 2024 12:34:27 +0100
+Date: Tue, 26 Nov 2024 12:34:26 +0100
+From: Sean Nyekjaer <sean@geanix.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Yannick Fertre <yannick.fertre@foss.st.com>, Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
+	Philippe Cornu <philippe.cornu@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-stm32@st-md-mailman.stormreply.com
 Subject: Re: [PATCH v2 1/3] drm/modes: introduce drm_mode_validate_mode()
  helper function
-In-Reply-To: <20241125-gleaming-anteater-of-perfection-42bd2b@houat>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Message-ID: <zmrcuqiyz5gojhusysy7cytluedslqmfgzuslutqeg65iv7ju6@bggk7qbm6eas>
 References: <20241125-dsi-relax-v2-0-9113419f4a40@geanix.com>
  <20241125-dsi-relax-v2-1-9113419f4a40@geanix.com>
  <20241125-gleaming-anteater-of-perfection-42bd2b@houat>
-Date: Tue, 26 Nov 2024 12:16:34 +0200
-Message-ID: <874j3uxptp.fsf@intel.com>
+ <bfuj6w6hsbfpdw24th6dl3ugvj45op6jb45gx5ab5pulud7hiz@o2zbn45z3lt4>
+ <20241126-refreshing-slick-pig-baebab@houat>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241126-refreshing-slick-pig-baebab@houat>
+X-Authenticated-Sender: sean@geanix.com
+X-Virus-Scanned: Clear (ClamAV 0.103.10/27469/Tue Nov 26 10:58:20 2024)
 
-On Mon, 25 Nov 2024, Maxime Ripard <mripard@kernel.org> wrote:
-> I wonder about the naming though (and prototype). I doesn't really
-> validates a mode, but rather makes sure that a given rate is a good
-> approximation of a pixel clock. So maybe something like
-> drm_mode_check_pixel_clock?
+Hi,
 
-Quoting myself from a few weeks back:
+On Tue, Nov 26, 2024 at 09:38:55AM +0100, Maxime Ripard wrote:
+> Hi,
+> 
+> On Tue, Nov 26, 2024 at 08:36:00AM +0100, Sean Nyekjaer wrote:
+> > On Mon, Nov 25, 2024 at 05:00:56PM +0100, Maxime Ripard wrote:
+> > > On Mon, Nov 25, 2024 at 02:49:26PM +0100, Sean Nyekjaer wrote:
+> > > > Check if the required pixel clock is in within .5% range of the
+> > > > desired pixel clock.
+> > > > This will match the requirement for HDMI where a .5% tolerance is allowed.
+> > > > 
+> > > > Signed-off-by: Sean Nyekjaer <sean@geanix.com>
+> > > > ---
+> > > >  drivers/gpu/drm/drm_modes.c | 34 ++++++++++++++++++++++++++++++++++
+> > > >  include/drm/drm_modes.h     |  2 ++
+> > > >  2 files changed, 36 insertions(+)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
+> > > > index 6ba167a3346134072d100af0adbbe9b49e970769..4068b904759bf80502efde6e4d977b297f5d5359 100644
+> > > > --- a/drivers/gpu/drm/drm_modes.c
+> > > > +++ b/drivers/gpu/drm/drm_modes.c
+> > > > @@ -1623,6 +1623,40 @@ bool drm_mode_equal_no_clocks_no_stereo(const struct drm_display_mode *mode1,
+> > > >  }
+> > > >  EXPORT_SYMBOL(drm_mode_equal_no_clocks_no_stereo);
+> > > >  
+> > > > +/**
+> > > > + * drm_mode_validate_mode
+> > > > + * @mode: mode to check
+> > > > + * @rounded_rate: output pixel clock
+> > > > + *
+> > > > + * VESA DMT defines a tolerance of 0.5% on the pixel clock, while the
+> > > > + * CVT spec reuses that tolerance in its examples, so it looks to be a
+> > > > + * good default tolerance for the EDID-based modes. Define it to 5 per
+> > > > + * mille to avoid floating point operations.
+> > > > + *
+> > > > + * Returns:
+> > > > + * The mode status
+> > > > + */
+> > > > +enum drm_mode_status drm_mode_validate_mode(const struct drm_display_mode *mode,
+> > > > +					    unsigned long long rounded_rate)
+> > > > +{
+> > > > +	enum drm_mode_status status;
+> > > > +	unsigned long long rate = mode->clock * 1000;
+> > > > +	unsigned long long lowest, highest;
+> > > > +
+> > > > +	lowest = rate * (1000 - 5);
+> > > > +	do_div(lowest, 1000);
+> > > > +	if (rounded_rate < lowest)
+> > > > +		return MODE_CLOCK_LOW;
+> > > > +
+> > > > +	highest = rate * (1000 + 5);
+> > > > +	do_div(highest, 1000);
+> > > > +	if (rounded_rate > highest)
+> > > > +		return MODE_CLOCK_HIGH;
+> > > > +
+> > > > +	return MODE_OK;
+> > > > +}
+> > > > +EXPORT_SYMBOL(drm_mode_validate_mode);
+> > > 
+> > > Thanks a lot for doing that!
+> > > 
+> > > I wonder about the naming though (and prototype). I doesn't really
+> > > validates a mode, but rather makes sure that a given rate is a good
+> > > approximation of a pixel clock. So maybe something like
+> > > drm_mode_check_pixel_clock?
+> > 
+> > Naming is hard :) I will use drm_mode_check_pixel_clock() for V2.
+> > 
+> > Would it make sense to have the pixel clock requirement as a input
+> > parameter? For HDMI it is 0.5%
+> 
+> This code was only used for panels so far. It reuses the same tolerance
+> than HDMI because we couldn't come up with anything better, but it
+> should totally apply to other things.
+> 
+> > and in my case the LVDS panel 10%.
+> 
+> 10% is a lot, and I'm not sure we'll want that. The framerate being
+> anywhere between 54 and 66 fps will trip a lot of applications too.
+> 
+> Why do you need such a big tolerance?
 
-"""
-Random programming thought of the day: "check" is generally a terrible
-word in a function name.
+I don't need it, it was just from the datasheet for the LVDS panel :)
 
-Checking stuff is great, but what do you expect to happen if the check
-passes/fails? Do you expect the function to return on fail, or throw an
-exception? Or just log about it? If you return a value, what should the
-return value mean? It's hard to know without looking it up.
+> 
+> Maxime
 
-Prefer predicates instead, is_stuff_okay() is better than
-check_stuff(). Or assert_stuff() if you don't return on failures.
-"""
-
-
-BR,
-Jani.
-
-
--- 
-Jani Nikula, Intel
+/Sean
