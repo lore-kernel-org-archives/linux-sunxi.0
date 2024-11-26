@@ -1,114 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAFC916F8F5
-	for <linux-sunxi@lists.linux.dev>; Tue, 26 Nov 2024 12:24:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 469598BEA;
+	Tue, 26 Nov 2024 13:31:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.40.30.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732623863; cv=none; b=dzyw9ataLvLFx4el7iygIzCWEafyZVhmw26E0NXW6Qh2JgSkl2knymzfgIe2+VN/d8h3W+Rq3j/6AFDTv+0tEPpvefw3bE9yXuUrVFxRJCp6L/XLY04zA5ZEb+6NV2ovIaR6UtfD0FSctDAb/ibA8WbLT5zncJCMi3Ru6nCkQsc=
+	t=1732627865; cv=none; b=QyI2qy3GcASgfFOAyFSVu1rrNBAiu2TlFlGsuzfF95oCY/u7RJREKSwVq7q0CQ59SyhSyCFDwI21b/5zhj56lDg/IQdmYqDenoIhEzvoEJ4+GE8XiAphQ/DcgBCL14fbPwwlUVXZO64d/Wo+9QsRi5Y+sd2g6dInGaCbEf//5u0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732623863; c=relaxed/simple;
-	bh=ZTHfXgFGRlIILfuHL+qBGlAm9C8PxmMo8Z9AFzfvBdw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=dSy9hKSE+fXvsxtB/3bI8rHtFQhhNusuB9HF7WDFUMZIhB7hSQymFfNZ6IkiAOzg/Tg69Abgw2dI5mu/Ay8zYUXAOQA5kNMXwgkiVWg8Dic4+2ouIEstG90+Zzs+ctrHwKq98+fG5J5KFPFuOgPSRaYOUcDwKjW3gpCfTdefUY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mnh/O4oi; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1732627865; c=relaxed/simple;
+	bh=CccEfDRGiSlzDQMOUSR0Q1xEFwiDs6uwvHLGjX8YuWs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Yfsa0HqEg7Wza55eBYeCzYxTH8La1pHA+27vNMuCYcAmfyzY7Dx3+TwD1J4rx1LDxGuzD/trQ0FFPbwGr058m5oXns85AdvPz0ZdeEI6zKEV5ia3BMfQhajmpW2Jro8CnWy+GjhL3ZdEWTN2VR56PW7b23ZqDOaojF/EvkhJCno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=geanix.com; spf=pass smtp.mailfrom=geanix.com; dkim=pass (2048-bit key) header.d=geanix.com header.i=@geanix.com header.b=jH9q2gfp; arc=none smtp.client-ip=188.40.30.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=geanix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=geanix.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mnh/O4oi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732623862; x=1764159862;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=ZTHfXgFGRlIILfuHL+qBGlAm9C8PxmMo8Z9AFzfvBdw=;
-  b=mnh/O4oiXq+T4TKhBnSOYeEt1fuyU4SjKO6VaT2zQjI37a+wSYDXtDye
-   /p72QAMT1n02mVzIpBkJCFS9OV1FBgncKWDXXGCi8cr9AIptqXEPR7BoM
-   znummhB9lagQByjOrZLvZq9m4eSxfabtCXiD+qTWA6zx5vXKMMGOujb0q
-   TaqAoBwi1jMeahV1da2cWU+xMgM+vnjIlEuMwjBkmfC0V+EhmhceCehR4
-   x5QNFz0NeXjT9s/b9xn/Cal4hxShTOdooglCr5xN6MzW2YvWyua4CsEpm
-   3BHof8Hjm22m/Z9nDGxyKq2JyCVie5E2nzrgCnuufXcSUm2qbTIhQurbF
-   g==;
-X-CSE-ConnectionGUID: lckDTat3SgGmsLsjq+q3aw==
-X-CSE-MsgGUID: qXQMMkLITw+RtMRG7T4dPQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11268"; a="55278913"
-X-IronPort-AV: E=Sophos;i="6.12,185,1728975600"; 
-   d="scan'208";a="55278913"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2024 04:24:22 -0800
-X-CSE-ConnectionGUID: p7mmBzIqQaSRBB7X5+uHcw==
-X-CSE-MsgGUID: wzxtY/mSSE24Fp3vXFkb0A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="96661073"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.246.49])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2024 04:24:15 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=geanix.com header.i=@geanix.com header.b="jH9q2gfp"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com;
+	s=default2211; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID; bh=BAOgYh5j+SwhH6if2YDkf+cLk18YFHVIqBQI2gqekAg=; b=jH9q2g
+	fpav4/Xv0+OPZFBUl80Ui6EaVsSTNnRONJnzH8v2l98vyBaMIz8KF8gGtlXxGatJEWN/Aqt65O4PF
+	kDVlk4qu6t2uggymvlx6V9TM1JQ62SDkaN8dcWEVd2c/tDzC1GKShrpCRzE52rj4W1lUvL/XlTNqz
+	7t+dlP4I/2lv+CweUmGrhdNxYn+yWNBrKnMxWjEncChobYMmYh9TeWZ2u/86geXxbrP57peTGDZih
+	V1R3V5SqHRwvcZ25izIkFIfmCrNrGKe++E0PhMtJdNHPG927Qt/TRbs5axJ5xCiycV2fE+nq1I+N2
+	J2lN9BwRaCost6IjzKjr0pHUQ9Sw==;
+Received: from sslproxy02.your-server.de ([78.47.166.47])
+	by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <sean@geanix.com>)
+	id 1tFveZ-0007CU-RO; Tue, 26 Nov 2024 14:30:55 +0100
+Received: from [185.17.218.86] (helo=Seans-MacBook-Pro.local)
+	by sslproxy02.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <sean@geanix.com>)
+	id 1tFveY-0003aF-26;
+	Tue, 26 Nov 2024 14:30:54 +0100
+Date: Tue, 26 Nov 2024 14:30:53 +0100
+From: Sean Nyekjaer <sean@geanix.com>
 To: Maxime Ripard <mripard@kernel.org>
-Cc: Sean Nyekjaer <sean@geanix.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Yannick
- Fertre <yannick.fertre@foss.st.com>, Raphael Gallais-Pou
- <raphael.gallais-pou@foss.st.com>, Philippe Cornu
- <philippe.cornu@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-stm32@st-md-mailman.stormreply.com
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Yannick Fertre <yannick.fertre@foss.st.com>, Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
+	Philippe Cornu <philippe.cornu@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-stm32@st-md-mailman.stormreply.com
 Subject: Re: [PATCH v2 1/3] drm/modes: introduce drm_mode_validate_mode()
  helper function
-In-Reply-To: <20241126-spry-wildebeest-of-cubism-da0a9e@houat>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Message-ID: <tzcjzgp7xalhhezcv5hfa7cjscxg44phqcw2ap54lesly4gk6o@6dtco2d3jahj>
 References: <20241125-dsi-relax-v2-0-9113419f4a40@geanix.com>
  <20241125-dsi-relax-v2-1-9113419f4a40@geanix.com>
  <20241125-gleaming-anteater-of-perfection-42bd2b@houat>
- <874j3uxptp.fsf@intel.com>
- <20241126-spry-wildebeest-of-cubism-da0a9e@houat>
-Date: Tue, 26 Nov 2024 14:24:12 +0200
-Message-ID: <871pyyxjwz.fsf@intel.com>
+ <bfuj6w6hsbfpdw24th6dl3ugvj45op6jb45gx5ab5pulud7hiz@o2zbn45z3lt4>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <bfuj6w6hsbfpdw24th6dl3ugvj45op6jb45gx5ab5pulud7hiz@o2zbn45z3lt4>
+X-Authenticated-Sender: sean@geanix.com
+X-Virus-Scanned: Clear (ClamAV 0.103.10/27469/Tue Nov 26 10:58:20 2024)
 
-On Tue, 26 Nov 2024, Maxime Ripard <mripard@kernel.org> wrote:
-> On Tue, Nov 26, 2024 at 12:16:34PM +0200, Jani Nikula wrote:
->> On Mon, 25 Nov 2024, Maxime Ripard <mripard@kernel.org> wrote:
->> > I wonder about the naming though (and prototype). I doesn't really
->> > validates a mode, but rather makes sure that a given rate is a good
->> > approximation of a pixel clock. So maybe something like
->> > drm_mode_check_pixel_clock?
->> 
->> Quoting myself from a few weeks back:
->> 
->> """
->> Random programming thought of the day: "check" is generally a terrible
->> word in a function name.
->> 
->> Checking stuff is great, but what do you expect to happen if the check
->> passes/fails? Do you expect the function to return on fail, or throw an
->> exception? Or just log about it? If you return a value, what should the
->> return value mean? It's hard to know without looking it up.
->> 
->> Prefer predicates instead, is_stuff_okay() is better than
->> check_stuff(). Or assert_stuff() if you don't return on failures.
->> """
->
-> Both is_stuff_okay() or assert_stuff() return a boolean in my mind. If
-> you want to return a mode status enum, I don't think they are better
-> names.
+Hi Maxime,
 
-Most functions returning enum drm_mode_status are called
-something_something_mode_valid(). Not check something.
+On Tue, Nov 26, 2024 at 08:36:01AM +0100, Sean Nyekjaer wrote:
+> Hi Maxime,
+> 
 
-BR,
-Jani.
+[...]
 
+> > 
+> > We probably need some kunit tests here too.
+> 
+> Good idea, will be my first :)
+> 
 
--- 
-Jani Nikula, Intel
+Would something like this work?
+
+diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+index 294773342e71..26e4ff02df85 100644
+--- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
++++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+@@ -1364,6 +1364,7 @@ static void drm_test_check_output_bpc_format_display_rgb_only(struct kunit *test
+ 	struct drm_connector_state *conn_state;
+ 	struct drm_display_info *info;
+ 	struct drm_display_mode *preferred;
++	enum drm_mode_status mode_status;
+ 	unsigned long long rate;
+ 	struct drm_connector *conn;
+ 	struct drm_device *drm;
+@@ -1408,6 +1409,9 @@ static void drm_test_check_output_bpc_format_display_rgb_only(struct kunit *test
+ 	rate = drm_hdmi_compute_mode_clock(preferred, 12, HDMI_COLORSPACE_YUV422);
+ 	KUNIT_ASSERT_LT(test, rate, info->max_tmds_clock * 1000);
+ 
++	mode_status = drm_mode_check_pixel_clock(preferred, rate);
++	KUNIT_ASSERT_EQ(test, mode_status, MODE_OK);
++
+ 	drm = &priv->drm;
+ 	crtc = priv->crtc;
+ 	ret = light_up_connector(test, drm, crtc, conn, preferred, ctx);
+
+/Sean
