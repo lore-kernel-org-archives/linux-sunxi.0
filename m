@@ -1,175 +1,166 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 171AF84D0E;
-	Tue, 26 Nov 2024 09:30:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC8FA1B87EF
+	for <linux-sunxi@lists.linux.dev>; Tue, 26 Nov 2024 09:33:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732613411; cv=none; b=cIQh61RUhJFAqh+oln3tMo7To2WctSaQfjzkygMOyzoDF2UimomM1MPQvTWU+8VstaBixG7aAFcGRhmEODzHwTrChHN6LwSp09wPdCQmmEnr+L+ZWo4UFzXc1OJ6Fy05mr6SmH4ifJiGmI0amuVP6718CxvtZ3aRn37KGb/ZYy0=
+	t=1732613584; cv=none; b=r2PpXgB7WZ2q3RFRhLnkwXqrsG+LavR15nmyUuOEPWQVlI9XtlAO8yvHJcC68qQg4+o9KA4c0r/yUGlBHqj4mB+beFw3h67ffErEOgXvXzOCnFZVGPoVxgXOADpYGyerzyzoKiHa/PL+neBQ9/4oFYaeZrJeh7JmUPIuX+wBMoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732613411; c=relaxed/simple;
-	bh=9Ay6+imSrXagOd8Xd0hPE8chBJ5GelgKMPvVGoiR2e8=;
+	s=arc-20240116; t=1732613584; c=relaxed/simple;
+	bh=TBrtZgyKnnU1P9E7tLN8IwvrhdqvwuujbduCkf/8HyA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r5Nvp3vXG31B0kQXZZRLB7oyfk2d0L8vyhQfftYZ+R2XAGKyQJzGweSFenE8gbq4R4AFi80IXFf4pmla5Bdh8qIqXpslfNgFq7mvV4ebNgQJr2KcHs9ZDmweTPJwnS5CaCzBDrP3PBXG7Jyj+osQ0dOQ6sDSzbiMwBxegUrCD28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WQdq2LZE; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WQdq2LZE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D0A3C4CECF;
-	Tue, 26 Nov 2024 09:30:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732613410;
-	bh=9Ay6+imSrXagOd8Xd0hPE8chBJ5GelgKMPvVGoiR2e8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WQdq2LZE9YTWOxAyv7FnmGEL6ltFHnouW2WMUelybvVewvAWZm15QH/lf4XnmpQIj
-	 rlQos5T4MqJKm0b4DQ+XG/dwzrlSHYISKPwh1eT8EYKMDTbHpep6jNgk2xbMKdFDiJ
-	 hn4GR7SeIgMtyW1i5NZi60c+PAJdj3CDW3nvknu4LQcgmMSBr9kw1YUcB0r0hL6u0b
-	 AfWWeTAU1kj3t137X4AI3F7clejrXfnU7TD+LNP9Sb/TNVQXlciE6FtXt9h8HzQmly
-	 XJFQtHV2onhmWl+5d/rCLPRImcGfpHpSC1OHCVSX9Yh2hwq7dtq9rUmpxlO9EKusN2
-	 dq3Ud11z9oHyg==
-Date: Tue, 26 Nov 2024 10:30:07 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-Cc: Sean Nyekjaer <sean@geanix.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu <philippe.cornu@foss.st.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH v2 1/3] drm/modes: introduce drm_mode_validate_mode()
- helper function
-Message-ID: <20241126-silver-skylark-of-expertise-bba576@houat>
-References: <20241125-dsi-relax-v2-0-9113419f4a40@geanix.com>
- <20241125-dsi-relax-v2-1-9113419f4a40@geanix.com>
- <20241125-gleaming-anteater-of-perfection-42bd2b@houat>
- <bfuj6w6hsbfpdw24th6dl3ugvj45op6jb45gx5ab5pulud7hiz@o2zbn45z3lt4>
- <725aafb8-abfa-40c0-967a-62122206f736@foss.st.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=jHzy3SkXcIDxY56vnkCjgnyzhXcsUcLZZMnM4lxAgVKOkzKP4oRvQpMiUWTTwtV0bCykaI3R+ua/emwmfLVJ29Fyl6PtoJ/heZuuOd5mVxLR7Plf//svoDfVVJk3BP11/nFTzQV+AUJO/UXck7LfDspZpvyEY/T8z+ManIxXCN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1tFrwF-0007eA-Bj; Tue, 26 Nov 2024 10:32:55 +0100
+Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1tFrwD-000E1G-2n;
+	Tue, 26 Nov 2024 10:32:54 +0100
+Received: from pengutronix.de (pd9e59fec.dip0.t-ipconnect.de [217.229.159.236])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	(Authenticated sender: mkl-all@blackshift.org)
+	by smtp.blackshift.org (Postfix) with ESMTPSA id 4E53737D824;
+	Tue, 26 Nov 2024 09:32:54 +0000 (UTC)
+Date: Tue, 26 Nov 2024 10:32:54 +0100
+From: Marc Kleine-Budde <mkl@pengutronix.de>
+To: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+Cc: linux-kernel@vger.kernel.org, linux-amarula@amarulasolutions.com, 
+	Chen-Yu Tsai <wens@csie.org>, Gerhard Bertelsmann <info@gerhard-bertelsmann.de>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Maxime Ripard <mripard@kernel.org>, 
+	Samuel Holland <samuel@sholland.org>, Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
+	linux-arm-kernel@lists.infradead.org, linux-can@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 10/12] can: sun4i_can: fix {rx,tx}_errors statistics
+Message-ID: <20241126-illegal-prehistoric-mongoose-1a61ad-mkl@pengutronix.de>
+References: <20241122221650.633981-1-dario.binacchi@amarulasolutions.com>
+ <20241122221650.633981-11-dario.binacchi@amarulasolutions.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="ivjgiyez6uyhrxcb"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ua6dubftl2fle6kp"
 Content-Disposition: inline
-In-Reply-To: <725aafb8-abfa-40c0-967a-62122206f736@foss.st.com>
+In-Reply-To: <20241122221650.633981-11-dario.binacchi@amarulasolutions.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
 
---ivjgiyez6uyhrxcb
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+--ua6dubftl2fle6kp
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 1/3] drm/modes: introduce drm_mode_validate_mode()
- helper function
+Subject: Re: [PATCH v2 10/12] can: sun4i_can: fix {rx,tx}_errors statistics
 MIME-Version: 1.0
 
-On Tue, Nov 26, 2024 at 09:47:17AM +0100, Raphael Gallais-Pou wrote:
+On 22.11.2024 23:15:51, Dario Binacchi wrote:
+> The sun4i_can_err() function only incremented the receive error counter
+> and never the transmit error counter, even if the STA_ERR_DIR flag
+> reported that an error had occurred during transmission. Increment the
+> receive/transmit error counter based on the value of the STA_ERR_DIR
+> flag.
 >=20
-> On 11/26/24 08:36, Sean Nyekjaer wrote:
-> > Hi Maxime,
-> >
-> > On Mon, Nov 25, 2024 at 05:00:56PM +0100, Maxime Ripard wrote:
-> >> Hi Sean,
-> >>
-> >> On Mon, Nov 25, 2024 at 02:49:26PM +0100, Sean Nyekjaer wrote:
-> >>> Check if the required pixel clock is in within .5% range of the
-> >>> desired pixel clock.
-> >>> This will match the requirement for HDMI where a .5% tolerance is all=
-owed.
-> >>>
-> >>> Signed-off-by: Sean Nyekjaer <sean@geanix.com>
-> >>> ---
-> >>>  drivers/gpu/drm/drm_modes.c | 34 ++++++++++++++++++++++++++++++++++
-> >>>  include/drm/drm_modes.h     |  2 ++
-> >>>  2 files changed, 36 insertions(+)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-> >>> index 6ba167a3346134072d100af0adbbe9b49e970769..4068b904759bf80502efd=
-e6e4d977b297f5d5359 100644
-> >>> --- a/drivers/gpu/drm/drm_modes.c
-> >>> +++ b/drivers/gpu/drm/drm_modes.c
-> >>> @@ -1623,6 +1623,40 @@ bool drm_mode_equal_no_clocks_no_stereo(const =
-struct drm_display_mode *mode1,
-> >>>  }
-> >>>  EXPORT_SYMBOL(drm_mode_equal_no_clocks_no_stereo);
-> >>> =20
-> >>> +/**
-> >>> + * drm_mode_validate_mode
-> >>> + * @mode: mode to check
-> >>> + * @rounded_rate: output pixel clock
-> >>> + *
-> >>> + * VESA DMT defines a tolerance of 0.5% on the pixel clock, while the
-> >>> + * CVT spec reuses that tolerance in its examples, so it looks to be=
- a
-> >>> + * good default tolerance for the EDID-based modes. Define it to 5 p=
-er
-> >>> + * mille to avoid floating point operations.
-> >>> + *
-> >>> + * Returns:
-> >>> + * The mode status
-> >>> + */
-> >>> +enum drm_mode_status drm_mode_validate_mode(const struct drm_display=
-_mode *mode,
-> >>> +					    unsigned long long rounded_rate)
-> >>> +{
-> >>> +	enum drm_mode_status status;
-> >>> +	unsigned long long rate =3D mode->clock * 1000;
-> >>> +	unsigned long long lowest, highest;
-> >>> +
-> >>> +	lowest =3D rate * (1000 - 5);
-> >>> +	do_div(lowest, 1000);
-> >>> +	if (rounded_rate < lowest)
-> >>> +		return MODE_CLOCK_LOW;
-> >>> +
-> >>> +	highest =3D rate * (1000 + 5);
-> >>> +	do_div(highest, 1000);
-> >>> +	if (rounded_rate > highest)
-> >>> +		return MODE_CLOCK_HIGH;
-> >>> +
-> >>> +	return MODE_OK;
-> >>> +}
-> >>> +EXPORT_SYMBOL(drm_mode_validate_mode);
-> Hi Sean, Maxime,
-> >> Thanks a lot for doing that!
-> >>
-> >> I wonder about the naming though (and prototype). I doesn't really
-> >> validates a mode, but rather makes sure that a given rate is a good
-> >> approximation of a pixel clock. So maybe something like
-> >> drm_mode_check_pixel_clock?
-> > Naming is hard :) I will use drm_mode_check_pixel_clock() for V2.
-> >
-> > Would it make sense to have the pixel clock requirement as a input
-> > parameter? For HDMI it is 0.5% and in my case the LVDS panel 10%.
-> >
-> > enum drm_mode_status drm_mode_validate_mode(const struct drm_display_mo=
-de *mode,
-> > 					    unsigned long long rounded_rate, unsigned tolerance)
-> > ?
->=20
->=20
-> IMO adding the tolerance as input parameter is a good idea.=A0 This
-> would useful other than for HDMI pixel clock validation (and LVDS in
-> your case).
+> Fixes: 0738eff14d81 ("can: Allwinner A10/A20 CAN Controller support - Ker=
+nel module")
+> Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 
-It depends on the intent. If it's justified, why not. If it's to
-workaround another issue, absolutely not. And so, generally speaking, I
-don't think it's a good idea.
+Fails to build from source:
 
-Maxime
+| drivers/net/can/sun4i_can.c:583:7: error: variable 'ecc' is used uninitia=
+lized whenever 'if' condition is false [-Werror,-Wsometimes-uninitialized]
+|   583 |                 if (likely(skb)) {
+|       |                     ^~~~~~~~~~~
+| include/linux/compiler.h:76:20: note: expanded from macro 'likely'
+|    76 | # define likely(x)      __builtin_expect(!!(x), 1)
+|       |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+| drivers/net/can/sun4i_can.c:606:8: note: uninitialized use occurs here
+|   606 |                 if ((ecc & SUN4I_STA_ERR_DIR) =3D=3D 0) {
+|       |                      ^~~
+| drivers/net/can/sun4i_can.c:583:3: note: remove the 'if' if its condition=
+ is always true
+|   583 |                 if (likely(skb)) {
+|       |                 ^~~~~~~~~~~~~~~~
+| drivers/net/can/sun4i_can.c:534:9: note: initialize the variable 'ecc' to=
+ silence this warning
+|   534 |         u32 ecc, alc;
+|       |                ^
+|       |                 =3D 0
+| 1 error generated.
 
---ivjgiyez6uyhrxcb
+Fixes by moving the "ecc =3D readl();":
+
+--- a/drivers/net/can/sun4i_can.c
++++ b/drivers/net/can/sun4i_can.c
+@@ -579,11 +579,9 @@ static int sun4i_can_err(struct net_device *dev, u8 is=
+rc, u8 status)
+                 /* bus error interrupt */
+                 netdev_dbg(dev, "bus error interrupt\n");
+                 priv->can.can_stats.bus_error++;
+-                stats->rx_errors++;
++                ecc =3D readl(priv->base + SUN4I_REG_STA_ADDR);
+=20
+                 if (likely(skb)) {
+-                        ecc =3D readl(priv->base + SUN4I_REG_STA_ADDR);
+-
+                         cf->can_id |=3D CAN_ERR_PROT | CAN_ERR_BUSERROR;
+=20
+                         switch (ecc & SUN4I_STA_MASK_ERR) {
+@@ -601,9 +599,15 @@ static int sun4i_can_err(struct net_device *dev, u8 is=
+rc, u8 status)
+                                                >> 16;
+                                 break;
+                         }
+-                        /* error occurred during transmission? */
+-                        if ((ecc & SUN4I_STA_ERR_DIR) =3D=3D 0)
++                }
++
++                /* error occurred during transmission? */
++                if ((ecc & SUN4I_STA_ERR_DIR) =3D=3D 0) {
++                        if (likely(skb))
+                                 cf->data[2] |=3D CAN_ERR_PROT_TX;
++                        stats->tx_errors++;
++                } else {
++                        stats->rx_errors++;
+                 }
+         }
+         if (isrc & SUN4I_INT_ERR_PASSIVE) {
+
+
+Marc
+
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde          |
+Embedded Linux                   | https://www.pengutronix.de |
+Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
+
+--ua6dubftl2fle6kp
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ0WVGgAKCRAnX84Zoj2+
-dt6vAYD/ha6rSzfdB8Hdtt8QyIin6959mZS2o1Kfzj2g79x6jBpKlT0JtMgi//O3
-OUV40OgBfROD6tZDvz9F+STrxg9e7rBW0RrVft6ey02AdwVIWtaNpvVoJEMn/cnG
-vhycHMk+wA==
-=7JWg
+iQEzBAABCgAdFiEEUEC6huC2BN0pvD5fKDiiPnotvG8FAmdFlcMACgkQKDiiPnot
+vG86uggAk5nDid8uwxMZDtzRp+kfJaz/cngmez1n0624cpt7FCh1bKx4sitruzsm
+BChsdETbPalV4234FJa9f7EzXe1OLeKUBCM99TweVhlBicNH4ZIISjaDmsQlPktu
+me63etuNtH+JQFAJlPPaPx3vbodfsQ51MSftLL/ag70lroEpuusPaIBW+L/yODl1
+fbL+G7Qc3oaKL6s0wl+ldjDnEFuA+i+jGZDaCWqSKsNsnBFiZa9Z32IiyC16AA+C
+V4hqyhDju4ButdrRDmrrwBlBlw0nddXD8DqZwLvHCf3EYdZ03J096EgEu7WyoA0V
+BfMSxcAOzP1Vma5mZ7noy0TEXV/OTw==
+=m367
 -----END PGP SIGNATURE-----
 
---ivjgiyez6uyhrxcb--
+--ua6dubftl2fle6kp--
