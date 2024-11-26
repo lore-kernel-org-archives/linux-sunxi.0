@@ -1,127 +1,87 @@
-Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEA6283A17;
-	Tue, 26 Nov 2024 12:11:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.40.30.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 731A51CEE88;
+	Tue, 26 Nov 2024 12:18:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732623109; cv=none; b=aKYIXqyhKF1vIRP0znQLYe/YrumDKjtZKCUUJpT3SkZnFa5q+K8dhW3zb5s8fsNVsAIq45GZdwnZDPKvy9gpaYFXTEt+VPfRZyjvRP235rv/jru0iKmiAIU4mH8bg7SXlmZLxhsKeCE87hFEQQ3FWciGajiH2DCoZ0OCYj5QsOY=
+	t=1732623508; cv=none; b=hLk2iQJvplot7O5oCaJOZAplT02ofAy8uG8DffauAxDGoUNVe3mkP4UeQNg61eZcRFARmvjg471iDmePrAGH8wPakOrA1fBeiPk98tVAWTgxOw99IrHYPzQjQFjwf+Jrg5u10RI8Po6EYhwio77KI4qeiHKf12Le46W+mIkxsgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732623109; c=relaxed/simple;
-	bh=EkMEDba5F2WpAGREpK3BQwlwJJIBaPqQoiXs7RmhjBE=;
+	s=arc-20240116; t=1732623508; c=relaxed/simple;
+	bh=E6+ESngCCGWCONAl/VNCJxoWIFWe7ya9c2lwaJJxp8A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sM+tnQxbMF0PUl/IC0rYty6M6hKDN+qzto9XY0f1dyInaj3Mb0Dj6DuTBk0n8GUEp3N8jstqJGlPv5117/AcIHW+iuwc5d6G5ckdMJbb+Y+ZSeprS28D3/pFWXXCap6JjxxnQl7hmvXr6Cbf7JPSeTdSCwcXwzWBodgoXdT0yZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=geanix.com; spf=pass smtp.mailfrom=geanix.com; dkim=pass (2048-bit key) header.d=geanix.com header.i=@geanix.com header.b=DhRRFcUN; arc=none smtp.client-ip=188.40.30.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=geanix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=geanix.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=FmWS5sZRcW0yau2z0yEy9umIp0lrng6i7wMWtW6+ScS0B/HXvtNhgwb85V6MFdLtgU4NIHSpyIZaey2hI8bWfywlGmRFwPmvtf8rDC5XOEdt4PCHqKwfUZDBxWN68PQKKQd53peY04W9LoNJM1x5YmBIUt4sweUOn904pwNt7vU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i6cIRI+B; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=geanix.com header.i=@geanix.com header.b="DhRRFcUN"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com;
-	s=default2211; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID; bh=fPHzRXhcBL/qtJnpL3/OZFvPlNjRqASdJESrY85bw0I=; b=DhRRFc
-	UN0xzU37DjRn1oU1/gBRd8wRXM6sWuUQ0DOLtuxsBOJutpFh4jEMe1pGznBXLYshoP1OFLPXaAxfK
-	tOe7gRdfCFMJexnjnWTA5OH9WvOvcn/Mos8jRMj+F5L4WzmO2Ri0s8tNsxmsNWLhHAtBKVbBBJ4vT
-	TpS+kja1I3YwoflDtW9oX1PpJJRUyd8nnuoEApLCiFAp8c2bovd8TWdFTmTV2z/mTmBPLGIx03izF
-	1qh+GrZRK5ticDbiOxOM+wmwjZL/LuRgYVZQN8vbEyEbNW5qaaOlGUWuH/ORlQ0IvgQVjikK/zK/w
-	mDUNpa3wpkajpiu2lfMnOLvOljhA==;
-Received: from sslproxy06.your-server.de ([78.46.172.3])
-	by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <sean@geanix.com>)
-	id 1tFuPu-000FS1-0K; Tue, 26 Nov 2024 13:11:42 +0100
-Received: from [185.17.218.86] (helo=Seans-MacBook-Pro.local)
-	by sslproxy06.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <sean@geanix.com>)
-	id 1tFuPs-000LCg-30;
-	Tue, 26 Nov 2024 13:11:40 +0100
-Date: Tue, 26 Nov 2024 13:11:40 +0100
-From: Sean Nyekjaer <sean@geanix.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Yannick Fertre <yannick.fertre@foss.st.com>, Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
-	Philippe Cornu <philippe.cornu@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH v2 1/3] drm/modes: introduce drm_mode_validate_mode()
- helper function
-Message-ID: <ycvevzp46wv4hr6ktexxjkpifav3wi4glat4a5jagghclcpagb@3jpiyehl2fn7>
-References: <20241125-dsi-relax-v2-0-9113419f4a40@geanix.com>
- <20241125-dsi-relax-v2-1-9113419f4a40@geanix.com>
- <20241125-gleaming-anteater-of-perfection-42bd2b@houat>
- <bfuj6w6hsbfpdw24th6dl3ugvj45op6jb45gx5ab5pulud7hiz@o2zbn45z3lt4>
- <20241126-refreshing-slick-pig-baebab@houat>
- <zmrcuqiyz5gojhusysy7cytluedslqmfgzuslutqeg65iv7ju6@bggk7qbm6eas>
- <20241126-observant-coyote-of-glee-3b94dd@houat>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i6cIRI+B"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 766B1C4CECF;
+	Tue, 26 Nov 2024 12:18:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732623505;
+	bh=E6+ESngCCGWCONAl/VNCJxoWIFWe7ya9c2lwaJJxp8A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=i6cIRI+BsrSkzWhedXjh2mFUQkZcKA7/hrur+g+on/yQaTqhEggPBms2PUyy08zxK
+	 H1NIr8ZGuZmNMYC6cnUvARILOAtPd7auWWQk1Zcos9M/IqKRmKv9sVZ+BaC13ANcsZ
+	 C3Z3oRdg6DKjZHhie57JtcIlffZ7IKs0BG+K7OvlLfB1loubF0Jpo6ECng5XXVo4iV
+	 4zNGlhxRhEl+B2jjvtTxLL3/Bgbv3qyYKE0SOhf57wHEe1qLHJTZBlfpzQ4S6AdJIx
+	 Ecyl7oVijucnuGEogACVWETCEUyYcLSki4ZDDd/fcs7sWKA01b9ba38xxEQZivE+FF
+	 7Pd1mjxRS5jpQ==
+Date: Tue, 26 Nov 2024 12:18:20 +0000
+From: Mark Brown <broonie@kernel.org>
+To: =?iso-8859-1?B?Q3Pza+FzLA==?= Bence <csokas.bence@prolan.hu>
+Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Mesih Kilinc <mesihkilinc@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH v6 3/5] ASoC: sun4i-codec: Add support for Allwinner
+ suniv F1C100s
+Message-ID: <d0ecce33-25e2-4711-8311-7788c77b7d2d@sirena.org.uk>
+References: <20241123123900.2656837-1-csokas.bence@prolan.hu>
+ <20241123123900.2656837-4-csokas.bence@prolan.hu>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="jW1jmUiXAYnnAPXC"
 Content-Disposition: inline
-In-Reply-To: <20241126-observant-coyote-of-glee-3b94dd@houat>
-X-Authenticated-Sender: sean@geanix.com
-X-Virus-Scanned: Clear (ClamAV 0.103.10/27469/Tue Nov 26 10:58:20 2024)
+In-Reply-To: <20241123123900.2656837-4-csokas.bence@prolan.hu>
+X-Cookie: Have a taco.
 
-On Tue, Nov 26, 2024 at 01:09:10PM +0100, Maxime Ripard wrote:
-> On Tue, Nov 26, 2024 at 12:34:26PM +0100, Sean Nyekjaer wrote:
-> > Hi,
-> > 
-> > On Tue, Nov 26, 2024 at 09:38:55AM +0100, Maxime Ripard wrote:
-> > > Hi,
-> > > 
-> > > On Tue, Nov 26, 2024 at 08:36:00AM +0100, Sean Nyekjaer wrote:
-> > > > On Mon, Nov 25, 2024 at 05:00:56PM +0100, Maxime Ripard wrote:
-> > > > > On Mon, Nov 25, 2024 at 02:49:26PM +0100, Sean Nyekjaer wrote:
 
-[...]
+--jW1jmUiXAYnnAPXC
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > > > > 
-> > > > > Thanks a lot for doing that!
-> > > > > 
-> > > > > I wonder about the naming though (and prototype). I doesn't really
-> > > > > validates a mode, but rather makes sure that a given rate is a good
-> > > > > approximation of a pixel clock. So maybe something like
-> > > > > drm_mode_check_pixel_clock?
-> > > > 
-> > > > Naming is hard :) I will use drm_mode_check_pixel_clock() for V2.
-> > > > 
-> > > > Would it make sense to have the pixel clock requirement as a input
-> > > > parameter? For HDMI it is 0.5%
-> > > 
-> > > This code was only used for panels so far. It reuses the same tolerance
-> > > than HDMI because we couldn't come up with anything better, but it
-> > > should totally apply to other things.
-> > > 
-> > > > and in my case the LVDS panel 10%.
-> > > 
-> > > 10% is a lot, and I'm not sure we'll want that. The framerate being
-> > > anywhere between 54 and 66 fps will trip a lot of applications too.
-> > > 
-> > > Why do you need such a big tolerance?
-> > 
-> > I don't need it, it was just from the datasheet for the LVDS panel :)
-> 
-> So you mean the panel accepts a pixel clock within +/- 10%?
+On Sat, Nov 23, 2024 at 01:39:02PM +0100, Cs=F3k=E1s, Bence wrote:
 
-Yes :)
+> Signed-off-by: Cs=F3k=E1s, Bence <csokas.bence@prolan.hu>
 
-> 
-> That makes sense, but then we should also adjust the mode timings to
-> match so we still keep 60fps. There's much more to *that* than the
-> helpers you try to create though, so let's keep it aside for now.
+When you write your signoffs like this with the , but no "" (like in
+your From:) it confuses software and causes everything after the , to
+get deleted.  Probably just including the quotes is the best option to
+match the email header.
 
-Ok
+--jW1jmUiXAYnnAPXC
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> 
-> Maxime
+-----BEGIN PGP SIGNATURE-----
 
-/Sean
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmdFvIsACgkQJNaLcl1U
+h9BFcwf+Pao3veWU7hgKuh2HXg/Tp8C3fBdnErq8VNlcf6LqbMaDYP4mO1gLXkbd
+iDNeeZWWJ2gsuUPR9NlTuwdw81I7voAZo+YqHQW3MtpPGBTu8/ErMCtwjqSSzzEf
+dT8uslNOWI50ckudS9e8rpXIqfH2fJyOTO0FRLv5A4M1/TWCfdpOoxtwANZ/CBhs
+ULa4QnnmEHTrNNd3t8+4RblG82YqE554iSJKQHB9+CNklf7I+DZUbSkt4arIUvOs
+nDXNCw3SrS9SDY+e3HuQsqkVjwsFDxFJez2Z03EcNvq6HaowwH/sZt7So62feVfO
+jv72jcflDLRnbOfObnV48Qg6Xn0+QQ==
+=/q8J
+-----END PGP SIGNATURE-----
+
+--jW1jmUiXAYnnAPXC--
