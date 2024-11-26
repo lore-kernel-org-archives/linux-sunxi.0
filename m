@@ -1,114 +1,103 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6AD819066E
-	for <linux-sunxi@lists.linux.dev>; Tue, 26 Nov 2024 10:14:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B7C718FDBA
+	for <linux-sunxi@lists.linux.dev>; Tue, 26 Nov 2024 10:16:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732616088; cv=none; b=uBxHL32ULuc6m7zajxz1OVlQhQRe59tlayAjnbp7VUF2sfqEwYrsQxSlW7/DHN5hFPJBQBN2aJlNfZbd2SJAiH8OIptxG5ASOEeg/GJNuSuQ8N7Db53e7uoG8lWF+uKTZGvm1SKxWJtYgAkEHPBc7wzIk7OVtYk0AHhuY86Pio0=
+	t=1732616205; cv=none; b=Yh5D+tWFslxkWfFyrFoBGnxJhVgeWB/vWP1nRN7gWyS/i7r9L8+tJckxl5bX1xhaPzK6BTpUkS64A/rg2lX/iS7RUhP+7SWpTbhGGkENQqhYQgnOMal/Mo7j1lV3pXGdHs0umosEfkBkZf7h+01G4eWjoEZmTj+LYBLHbTU3Zqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732616088; c=relaxed/simple;
-	bh=Nno67BeYNovrN9wiEnxv2HcLJ/Vh7Odgeauech87qOY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pMhrxfMUoyTR77LvRZLwi+8vyiG5XXTF2clhxO3EzKQFzwtiujXXavRSzZXoWoeCFnccj3QwNVMWBOF8G4FADLBoUWRP3I73CmbwkeY6oeInBn/kRQXZYU03sanswjj1OAbGv0GORYDz/6/5mGqoIe7VRxq845ErdwpX0SqH6O0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1tFsaY-0002Se-Eo; Tue, 26 Nov 2024 11:14:34 +0100
-Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1tFsaU-000EQd-2H;
-	Tue, 26 Nov 2024 11:14:31 +0100
-Received: from pengutronix.de (pd9e59fec.dip0.t-ipconnect.de [217.229.159.236])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: mkl-all@blackshift.org)
-	by smtp.blackshift.org (Postfix) with ESMTPSA id F373837D89F;
-	Tue, 26 Nov 2024 10:14:30 +0000 (UTC)
-Date: Tue, 26 Nov 2024 11:14:30 +0100
-From: Marc Kleine-Budde <mkl@pengutronix.de>
-To: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-Cc: linux-kernel@vger.kernel.org, linux-amarula@amarulasolutions.com, 
-	Akshay Bhat <akshay.bhat@timesys.com>, Chandrasekar Ramakrishnan <rcsekar@samsung.com>, 
-	Chen-Yu Tsai <wens@csie.org>, "David S. Miller" <davem@davemloft.net>, 
-	Dong Aisheng <b29396@freescale.com>, Fengguang Wu <fengguang.wu@intel.com>, 
-	Gerhard Bertelsmann <info@gerhard-bertelsmann.de>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	"Ji-Ze Hong (Peter Hong)" <peter_hong@fintek.com.tw>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
-	Marek Vasut <marex@denx.de>, Maxime Ripard <mripard@kernel.org>, 
-	Oliver Hartkopp <oliver.hartkopp@volkswagen.de>, Samuel Holland <samuel@sholland.org>, 
-	Sebastian Haas <haas@ems-wuensche.com>, Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
-	Varka Bhadram <varkabhadram@gmail.com>, Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
-	Wolfgang Grandegger <wg@grandegger.com>, linux-arm-kernel@lists.infradead.org, linux-can@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 00/12] Fix {rx,tx}_errors CAN statistics
-Message-ID: <20241126-smooth-convivial-elephant-afdf93-mkl@pengutronix.de>
-References: <20241122221650.633981-1-dario.binacchi@amarulasolutions.com>
+	s=arc-20240116; t=1732616205; c=relaxed/simple;
+	bh=G6ISiKyYNdfCX1O1jSv9YCVzyH3xaVsB7/c5w8mAdLM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=cx7U1yAbITHCWER88THA9cN4uXdSYx+wonBcFjdCm24f63HgUkTGxjAKbhv20oun0ctRWLT6qb7DvuV2m4kRSIqf0GjrMftPCOmB2MoQPtddw1UdM6KufqSl3K72ffzg2m75fLnVbeVLr0BIxl8wRJ91J0spQuZYYTnqTR6Ax8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RFYztgLF; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RFYztgLF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1732616204; x=1764152204;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=G6ISiKyYNdfCX1O1jSv9YCVzyH3xaVsB7/c5w8mAdLM=;
+  b=RFYztgLFhI4+YJq8oWBZ1xwPO7eA4IQOhYGknjzz7lsh54yZJHDnj3ED
+   mL/FxOmc40H1QpWBqmK+dWLYq7Agwmy1JjLpDjX/8Nc5ZAYiterHiwuJ6
+   pBUrgIbTAjfqkSD6B9eqEkLiIQNfQdJuv1dqVIYsmkPuAlFXZuHwowh8y
+   POyV5ZUVTTa5XgLFA3qOAs3XOx75oucDE9+OBDLSeFLGIzd/U90YzurDS
+   EkCfkkX38LEFdXXgBvTutI7NsjcN/1MrXfREjoRJCOsOVnrucjlwPbTmN
+   rLtL9RR/dCYNvbukZkatfXsAja9+37Fad+n+JlLoiKj+q/gXkK0r+hb51
+   Q==;
+X-CSE-ConnectionGUID: TUCCn0+pQymbE9sPI8XTVw==
+X-CSE-MsgGUID: qtO5577bRhG5h31mAYmpLA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11267"; a="36428238"
+X-IronPort-AV: E=Sophos;i="6.12,185,1728975600"; 
+   d="scan'208";a="36428238"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2024 02:16:43 -0800
+X-CSE-ConnectionGUID: UPr7mqOHTa+cmtoDfqjH7w==
+X-CSE-MsgGUID: 1LK8FOPvQtWU825GVRcwKg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,185,1728975600"; 
+   d="scan'208";a="91511370"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.246.49])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2024 02:16:37 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>, Sean Nyekjaer <sean@geanix.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Yannick
+ Fertre <yannick.fertre@foss.st.com>, Raphael Gallais-Pou
+ <raphael.gallais-pou@foss.st.com>, Philippe Cornu
+ <philippe.cornu@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-stm32@st-md-mailman.stormreply.com
+Subject: Re: [PATCH v2 1/3] drm/modes: introduce drm_mode_validate_mode()
+ helper function
+In-Reply-To: <20241125-gleaming-anteater-of-perfection-42bd2b@houat>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20241125-dsi-relax-v2-0-9113419f4a40@geanix.com>
+ <20241125-dsi-relax-v2-1-9113419f4a40@geanix.com>
+ <20241125-gleaming-anteater-of-perfection-42bd2b@houat>
+Date: Tue, 26 Nov 2024 12:16:34 +0200
+Message-ID: <874j3uxptp.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="da6pwqywlractjoy"
-Content-Disposition: inline
-In-Reply-To: <20241122221650.633981-1-dario.binacchi@amarulasolutions.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+Content-Type: text/plain
+
+On Mon, 25 Nov 2024, Maxime Ripard <mripard@kernel.org> wrote:
+> I wonder about the naming though (and prototype). I doesn't really
+> validates a mode, but rather makes sure that a given rate is a good
+> approximation of a pixel clock. So maybe something like
+> drm_mode_check_pixel_clock?
+
+Quoting myself from a few weeks back:
+
+"""
+Random programming thought of the day: "check" is generally a terrible
+word in a function name.
+
+Checking stuff is great, but what do you expect to happen if the check
+passes/fails? Do you expect the function to return on fail, or throw an
+exception? Or just log about it? If you return a value, what should the
+return value mean? It's hard to know without looking it up.
+
+Prefer predicates instead, is_stuff_okay() is better than
+check_stuff(). Or assert_stuff() if you don't return on failures.
+"""
 
 
---da6pwqywlractjoy
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 00/12] Fix {rx,tx}_errors CAN statistics
-MIME-Version: 1.0
+BR,
+Jani.
 
-On 22.11.2024 23:15:41, Dario Binacchi wrote:
-> This series extends the patch 4d6d26537940 ("can: c_can: fix {rx,tx}_erro=
-rs statistics"),
-> already merged into the mainline, to other CAN devices that similarly do
-> not correctly increment the error counters for reception/transmission.
->=20
-> Changes in v2:
-> - Fix patches 7 through 12 to ensure that statistics are updated even
->   if the allocation of skb fails.
-> - Add five new patches (i. e. 1-5), created during the further analysis
->   of the code while correcting patches from the v1 series (i. e. 7-12).
 
-Applied with some changes to linux-can, omitted patch 3, it will to into
-linux-can-next.
-
-Marc
-
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde          |
-Embedded Linux                   | https://www.pengutronix.de |
-Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
-
---da6pwqywlractjoy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEUEC6huC2BN0pvD5fKDiiPnotvG8FAmdFn30ACgkQKDiiPnot
-vG8pLQf/UFjvNxQqVJYbsWq3rJ4rmpk7ymlvoleDl/fOsThzD0wAe+OmS+jhUXp6
-TKnIgvkkOGjanvES0XAZ9fzT2Tq9ZHhoqgkQ6hpEO1ucHNIYmmHoxzn28uwMwIC1
-J2+mv+RpeuHmdxm6AHSpMuealRAJwvACkVt6T0NSo2Y+4IRr+Q4bstz9apTveLmQ
-0qo84F9Jx9FOHx+cIMFo5HapZunJ0+5XNB2aE8hBI9/fzVLmaUi2jEgnFzntm4w0
-LsSoBk29gCF91y92aN7yKxusYMsj1Yk6sfm/eo9Gedj2XyKBRmDbeVId9QKJl/T/
-iF9zp/mPHcphVj5Hd2THnX97ukngPQ==
-=U/LH
------END PGP SIGNATURE-----
-
---da6pwqywlractjoy--
+-- 
+Jani Nikula, Intel
