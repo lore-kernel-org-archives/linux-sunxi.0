@@ -1,168 +1,179 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89CAE18E37B;
-	Tue, 26 Nov 2024 08:38:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BDB71A00F4
+	for <linux-sunxi@lists.linux.dev>; Tue, 26 Nov 2024 08:52:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732610338; cv=none; b=O2zYVU/TGvEg+oQHipMIfBQVAYT1qT7o6y6ozCL2O3yAB26R1WokkkybQttsJASxLPiE7enq5nk8V/W+hzGlxGK1Vkd23PawqmcLNmKFt9IFudf6CVaB/xaFXXTr/MIOLMJWD0EVNuSDksWpJ6lKnhBAAGIRH4KG1PgJ0+K6rL4=
+	t=1732611137; cv=none; b=r84EqpEf6OZs1x7Lw34aXKIRTNls2Q428ar2Q3qh+vC5MCeY7hWudugaGNbOug+tEV1ii/e0Q3tzU88xW50tdbaE0w/oHDowo7rFSDBiN1184/BKpmdUJTFO92kD4CjqM/p3UuS6T3Ez5pU7ronKHuR1nL66iQEes2LQajyn2SY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732610338; c=relaxed/simple;
-	bh=np3gVh2vdVMzwJbdelK/6cS6+cbSugtEMQAtU2/XSG0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YmoxvPIQBD5oLO3sidcqFmSKF64elChmcydoclSgZKB8rqWVSsQG+1C9WS3ncNxM0uXUkT3UL45ZT2NT9/6xgkJ/AqIw+jaumDTG4gr/f5zz+iSFwhQOeNEptdIMOZ3zRrfwM+Zs3EV/U/rYO7p5vjoE6pa/E8nsEPYmIn7J7Sw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nSGeqoOn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732611137; c=relaxed/simple;
+	bh=W5+hd9ZP+R8yAZC04TJTdErn6a+DyR6igiMSeCrnYh4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=f8S2pHSk+K0dl7bgvSJefgkCNe/LV8bk508xYNWxSRzEfeMP2ANzm07F/8mB7eBkqZ3pNM2qAan8z36oSjFsrac4//ZXP6OzH8LYp5D692MAQCbKGU73eM/2kzbeJ+006DtklXrqmGH5gbHI+RMG5sYFOg7fATWPM7VscKdAvcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=8Els/mG8; arc=none smtp.client-ip=185.132.182.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nSGeqoOn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1860C4CED2;
-	Tue, 26 Nov 2024 08:38:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732610338;
-	bh=np3gVh2vdVMzwJbdelK/6cS6+cbSugtEMQAtU2/XSG0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nSGeqoOn1S3dD4mvA4bOozPQKUShhg1mWWMrX9sdkefP4KreZ5C12Lvw13dCIlF8o
-	 dBax9EngjiuB2f3zEbgw3yXwgrIPUef8ZT1q0Un11iqeJx3tcTJtqEURMF15ZZNqUP
-	 CWmTLCHLhGw5sJVGMd4MjASQsdDnT6i1Kj3qRj0ehClBz0uRhDRmZZbriJjx9ul450
-	 YVp5bDU5Y2piARlIPhRDCulRvmgGCPLExHoKIUfWzkoK4lVFRBNsJTf9OmHlKCTUVz
-	 XTM+V5WBnj0mx8jrGJkSazCeedawve01dDdUTxnkdM2zemIF222ICHxzmoeNZ85EjD
-	 cUg84GF5JgSKg==
-Date: Tue, 26 Nov 2024 09:38:55 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Sean Nyekjaer <sean@geanix.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Yannick Fertre <yannick.fertre@foss.st.com>, Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
-	Philippe Cornu <philippe.cornu@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH v2 1/3] drm/modes: introduce drm_mode_validate_mode()
- helper function
-Message-ID: <20241126-refreshing-slick-pig-baebab@houat>
-References: <20241125-dsi-relax-v2-0-9113419f4a40@geanix.com>
- <20241125-dsi-relax-v2-1-9113419f4a40@geanix.com>
- <20241125-gleaming-anteater-of-perfection-42bd2b@houat>
- <bfuj6w6hsbfpdw24th6dl3ugvj45op6jb45gx5ab5pulud7hiz@o2zbn45z3lt4>
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="8Els/mG8"
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AQ0l64w000476;
+	Tue, 26 Nov 2024 09:51:25 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=selector1; bh=
+	8jxIHGeNhIdRyq1hTjMruj+uZWn6hIrTILsLNytxbPs=; b=8Els/mG8lomYzWTA
+	SH/GmSoMEy8/ORL68+wQ8SuoxcDHsKn1HY1YWW0pJrw/wTmlYhPdNFAylL+JCxZC
+	cPDGnBtAjc4bPIdZSO53tmt4ifuSMZvzbgr/PjN96mlKOPQQO9owzHALyvO2jHBC
+	yPUnnRmZE7wi9FmqxwPasCjyTDp6sMpO1jXWPzgjlx/OElCaLBGjCAqL45Bh3dKM
+	mZCyBOcNr7Ea3CQNRSirzFdh8K14zEpy8wOKNwE9fUJUaP/PkT2lRSBKjDxomNVP
+	D9yF3Oy6GkOSje7ITKMQNDgo8FSMyN/fScqkkyeS7hHMKBtyfRhab2Jn+FkXCd/P
+	5y7Imw==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 4335bkv4tp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 26 Nov 2024 09:51:25 +0100 (CET)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 21B2440057;
+	Tue, 26 Nov 2024 09:49:44 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 33D08269E1E;
+	Tue, 26 Nov 2024 09:47:19 +0100 (CET)
+Received: from [10.129.178.23] (10.129.178.23) by SHFDAG1NODE2.st.com
+ (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Tue, 26 Nov
+ 2024 09:47:18 +0100
+Message-ID: <725aafb8-abfa-40c0-967a-62122206f736@foss.st.com>
+Date: Tue, 26 Nov 2024 09:47:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="lhbvkcbp3c3gosel"
-Content-Disposition: inline
-In-Reply-To: <bfuj6w6hsbfpdw24th6dl3ugvj45op6jb45gx5ab5pulud7hiz@o2zbn45z3lt4>
-
-
---lhbvkcbp3c3gosel
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2 1/3] drm/modes: introduce drm_mode_validate_mode()
  helper function
-MIME-Version: 1.0
+To: Sean Nyekjaer <sean@geanix.com>, Maxime Ripard <mripard@kernel.org>
+CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann
+	<tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter
+	<simona@ffwll.ch>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec
+	<jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Yannick
+ Fertre <yannick.fertre@foss.st.com>,
+        Philippe Cornu
+	<philippe.cornu@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
+        <linux-stm32@st-md-mailman.stormreply.com>
+References: <20241125-dsi-relax-v2-0-9113419f4a40@geanix.com>
+ <20241125-dsi-relax-v2-1-9113419f4a40@geanix.com>
+ <20241125-gleaming-anteater-of-perfection-42bd2b@houat>
+ <bfuj6w6hsbfpdw24th6dl3ugvj45op6jb45gx5ab5pulud7hiz@o2zbn45z3lt4>
+Content-Language: en-US
+From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+In-Reply-To: <bfuj6w6hsbfpdw24th6dl3ugvj45op6jb45gx5ab5pulud7hiz@o2zbn45z3lt4>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE2.st.com
+ (10.75.129.70)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 
-Hi,
 
-On Tue, Nov 26, 2024 at 08:36:00AM +0100, Sean Nyekjaer wrote:
+On 11/26/24 08:36, Sean Nyekjaer wrote:
+> Hi Maxime,
+>
 > On Mon, Nov 25, 2024 at 05:00:56PM +0100, Maxime Ripard wrote:
-> > On Mon, Nov 25, 2024 at 02:49:26PM +0100, Sean Nyekjaer wrote:
-> > > Check if the required pixel clock is in within .5% range of the
-> > > desired pixel clock.
-> > > This will match the requirement for HDMI where a .5% tolerance is all=
-owed.
-> > >=20
-> > > Signed-off-by: Sean Nyekjaer <sean@geanix.com>
-> > > ---
-> > >  drivers/gpu/drm/drm_modes.c | 34 ++++++++++++++++++++++++++++++++++
-> > >  include/drm/drm_modes.h     |  2 ++
-> > >  2 files changed, 36 insertions(+)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-> > > index 6ba167a3346134072d100af0adbbe9b49e970769..4068b904759bf80502efd=
-e6e4d977b297f5d5359 100644
-> > > --- a/drivers/gpu/drm/drm_modes.c
-> > > +++ b/drivers/gpu/drm/drm_modes.c
-> > > @@ -1623,6 +1623,40 @@ bool drm_mode_equal_no_clocks_no_stereo(const =
-struct drm_display_mode *mode1,
-> > >  }
-> > >  EXPORT_SYMBOL(drm_mode_equal_no_clocks_no_stereo);
-> > > =20
-> > > +/**
-> > > + * drm_mode_validate_mode
-> > > + * @mode: mode to check
-> > > + * @rounded_rate: output pixel clock
-> > > + *
-> > > + * VESA DMT defines a tolerance of 0.5% on the pixel clock, while the
-> > > + * CVT spec reuses that tolerance in its examples, so it looks to be=
- a
-> > > + * good default tolerance for the EDID-based modes. Define it to 5 p=
-er
-> > > + * mille to avoid floating point operations.
-> > > + *
-> > > + * Returns:
-> > > + * The mode status
-> > > + */
-> > > +enum drm_mode_status drm_mode_validate_mode(const struct drm_display=
-_mode *mode,
-> > > +					    unsigned long long rounded_rate)
-> > > +{
-> > > +	enum drm_mode_status status;
-> > > +	unsigned long long rate =3D mode->clock * 1000;
-> > > +	unsigned long long lowest, highest;
-> > > +
-> > > +	lowest =3D rate * (1000 - 5);
-> > > +	do_div(lowest, 1000);
-> > > +	if (rounded_rate < lowest)
-> > > +		return MODE_CLOCK_LOW;
-> > > +
-> > > +	highest =3D rate * (1000 + 5);
-> > > +	do_div(highest, 1000);
-> > > +	if (rounded_rate > highest)
-> > > +		return MODE_CLOCK_HIGH;
-> > > +
-> > > +	return MODE_OK;
-> > > +}
-> > > +EXPORT_SYMBOL(drm_mode_validate_mode);
-> >=20
-> > Thanks a lot for doing that!
-> >=20
-> > I wonder about the naming though (and prototype). I doesn't really
-> > validates a mode, but rather makes sure that a given rate is a good
-> > approximation of a pixel clock. So maybe something like
-> > drm_mode_check_pixel_clock?
->=20
+>> Hi Sean,
+>>
+>> On Mon, Nov 25, 2024 at 02:49:26PM +0100, Sean Nyekjaer wrote:
+>>> Check if the required pixel clock is in within .5% range of the
+>>> desired pixel clock.
+>>> This will match the requirement for HDMI where a .5% tolerance is allowed.
+>>>
+>>> Signed-off-by: Sean Nyekjaer <sean@geanix.com>
+>>> ---
+>>>  drivers/gpu/drm/drm_modes.c | 34 ++++++++++++++++++++++++++++++++++
+>>>  include/drm/drm_modes.h     |  2 ++
+>>>  2 files changed, 36 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
+>>> index 6ba167a3346134072d100af0adbbe9b49e970769..4068b904759bf80502efde6e4d977b297f5d5359 100644
+>>> --- a/drivers/gpu/drm/drm_modes.c
+>>> +++ b/drivers/gpu/drm/drm_modes.c
+>>> @@ -1623,6 +1623,40 @@ bool drm_mode_equal_no_clocks_no_stereo(const struct drm_display_mode *mode1,
+>>>  }
+>>>  EXPORT_SYMBOL(drm_mode_equal_no_clocks_no_stereo);
+>>>  
+>>> +/**
+>>> + * drm_mode_validate_mode
+>>> + * @mode: mode to check
+>>> + * @rounded_rate: output pixel clock
+>>> + *
+>>> + * VESA DMT defines a tolerance of 0.5% on the pixel clock, while the
+>>> + * CVT spec reuses that tolerance in its examples, so it looks to be a
+>>> + * good default tolerance for the EDID-based modes. Define it to 5 per
+>>> + * mille to avoid floating point operations.
+>>> + *
+>>> + * Returns:
+>>> + * The mode status
+>>> + */
+>>> +enum drm_mode_status drm_mode_validate_mode(const struct drm_display_mode *mode,
+>>> +					    unsigned long long rounded_rate)
+>>> +{
+>>> +	enum drm_mode_status status;
+>>> +	unsigned long long rate = mode->clock * 1000;
+>>> +	unsigned long long lowest, highest;
+>>> +
+>>> +	lowest = rate * (1000 - 5);
+>>> +	do_div(lowest, 1000);
+>>> +	if (rounded_rate < lowest)
+>>> +		return MODE_CLOCK_LOW;
+>>> +
+>>> +	highest = rate * (1000 + 5);
+>>> +	do_div(highest, 1000);
+>>> +	if (rounded_rate > highest)
+>>> +		return MODE_CLOCK_HIGH;
+>>> +
+>>> +	return MODE_OK;
+>>> +}
+>>> +EXPORT_SYMBOL(drm_mode_validate_mode);
+Hi Sean, Maxime,
+>> Thanks a lot for doing that!
+>>
+>> I wonder about the naming though (and prototype). I doesn't really
+>> validates a mode, but rather makes sure that a given rate is a good
+>> approximation of a pixel clock. So maybe something like
+>> drm_mode_check_pixel_clock?
 > Naming is hard :) I will use drm_mode_check_pixel_clock() for V2.
->=20
+>
 > Would it make sense to have the pixel clock requirement as a input
-> parameter? For HDMI it is 0.5%
+> parameter? For HDMI it is 0.5% and in my case the LVDS panel 10%.
+>
+> enum drm_mode_status drm_mode_validate_mode(const struct drm_display_mode *mode,
+> 					    unsigned long long rounded_rate, unsigned tolerance)
+> ?
 
-This code was only used for panels so far. It reuses the same tolerance
-than HDMI because we couldn't come up with anything better, but it
-should totally apply to other things.
 
-> and in my case the LVDS panel 10%.
+IMO adding the tolerance as input parameter is a good idea.  This would useful
+other than for HDMI pixel clock validation (and LVDS in your case).
 
-10% is a lot, and I'm not sure we'll want that. The framerate being
-anywhere between 54 and 66 fps will trip a lot of applications too.
+Best regards,
+Raphaël
 
-Why do you need such a big tolerance?
-
-Maxime
-
---lhbvkcbp3c3gosel
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ0WJGgAKCRAnX84Zoj2+
-dgyFAYDpVbD0+B1OXcBahhvUgiMgYgY8W64szTv09wv/4HohtzWS1pIp3K2R38QQ
-wOL5h3QBf0hLFnVFqmeGdio6nM2Us2phuUAbokXf6Z7YXiUN8CVJPQw1vBRsPHG9
-zYgs3yNCQA==
-=bqF0
------END PGP SIGNATURE-----
-
---lhbvkcbp3c3gosel--
+>
+> And maybe a drm_mode_validate_mode_hdmi() with the default tolerance of
+> .5%?
+>> We probably need some kunit tests here too.
+> Good idea, will be my first :)
+>
+> /Sean
