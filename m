@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F36251BD9DF;
-	Tue, 26 Nov 2024 12:09:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB209193408;
+	Tue, 26 Nov 2024 12:10:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732622954; cv=none; b=RK6p5bowEfSEtpgJeALjCvqthcZ5T35lYAUuVGLFPZFZXc8v6/BChKwQS/d32I0M/tCZQCLICp2WyTkgz8mTPXtEvLbuIFGu7lLRtnFzKcDeDX0n1R9h6eHJpfHpEXo12Jm7TtbfoYKnhFbPv8ZUfSfJC4Ga7MGbqFWYsKN3baQ=
+	t=1732623003; cv=none; b=idHt1QhpqtiV317+fMpQwA2zYGNuUDSHqHVvYUtg3Dfu4qS08A0RlyVEKeclgkc/Wf5HsJt/n4yHEzXMhnnuY8FeK544SfyD5nw3jUp3ZF4sxk+TsuW2I3gfVZUbWf9dsd20lHdaNi+F+uHRnZVs0uHjAcppa5F7fqhrjRR+Df4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732622954; c=relaxed/simple;
-	bh=IVaFBfK34WQcQgwisIpVv9lgOwfqn9UOyfA72WAKaeo=;
+	s=arc-20240116; t=1732623003; c=relaxed/simple;
+	bh=X1ZW6fAmw9BsbKNLM84F8Yh9PGsgTv9DvBZGDJRKcPQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iqWrROIfQtHYClFFVoPqU1nVBVW3LdnqPQUhZIATs6eoJLy8fAP3VsHEfMYPqGVaY6ubXDJR/1Xm+rpMH52W52u4Hqt/X2AmTBpxs1hdU1zNrZY/j0qEQCZyl6mIwXmpsoXNQxsrglyGLlipFKm1JY6AC1vNE4hQypVXe8htGEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HnYWEvQ/; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=QG0DhnRKi6aaOl/hRoGfLH28AOi4NlKCm/B0Gi/Nn1aNekA4CijsA/MkXKGjg1yfFVNMxAHlhI+mB5s8MyUnr4yhvbpNF2c21qswfHy4PZGIo6JT7pjgtTo6j6e7lCQQzuYEZcFDfpOrwrOtSunikd/MYqNlIc+0/cQHw8TFJhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZJYxmWMr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HnYWEvQ/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BCB1C4CECF;
-	Tue, 26 Nov 2024 12:09:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZJYxmWMr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4227AC4CECF;
+	Tue, 26 Nov 2024 12:10:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732622953;
-	bh=IVaFBfK34WQcQgwisIpVv9lgOwfqn9UOyfA72WAKaeo=;
+	s=k20201202; t=1732623002;
+	bh=X1ZW6fAmw9BsbKNLM84F8Yh9PGsgTv9DvBZGDJRKcPQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HnYWEvQ/zxS4VZ3hf1sfYqZ+X1xXtSp89d5itOmnHz9g7lZNXLZwqk1LfHkCSBJty
-	 Ws75UYikRO+C2mvCa9fNbOLT/HMNnLGyQzIFgY+4mLcjifHclxhFaLKjskt1jINajs
-	 zytQRdsmjTLrgNaUKmja2yDF4Y2VCaHCYjMcPWXTYKxFIiPzW9RSonub3z6dI0nqF1
-	 GfJe8zpsu8ptK5Kgf6aVWpu689PTz3yx5f/d9vC6S/2ymFN+d6hJEyfqk9/FvHAF6D
-	 J/uz1w0PWLTjbrQnN80zNwy8eDZdCcIb2rtJQ01c/b/zzUTqcIC6QTIlR2msQK7vN1
-	 KL/Re40ursfoA==
-Date: Tue, 26 Nov 2024 13:09:10 +0100
+	b=ZJYxmWMrgHFfFMx4SZZpmRSPoxZkpZdW9Fzl0DNJVl9iZcJ9LACkFNimQ/Zl9Ggy3
+	 SYCmCDCBy3wYS/4BAHyvqBSpdevfR2A8+Cl0poDBsaqFAiVPtYI4ZQNn2Ms/nXmQS5
+	 B/UrH8sh1oOZZQLERhS2NMh5SThIcY98v8FukZxyJm5VP1r2O666m32kVPiCbDWwMI
+	 NeeMi+iCzohnE5XpteEv/7Om1Ca0sbx5DmiPYy2VCMROZDM0dKBJnbXfWeQXAyW6i1
+	 GaqOFZ7w3KO5d/7R8FWJR/goyXglI4rOOwcqF6zVI3DKQH1O1UjUQx+UM9YEv1s9DQ
+	 YGDLHXsFjAikA==
+Date: Tue, 26 Nov 2024 13:09:59 +0100
 From: Maxime Ripard <mripard@kernel.org>
-To: Sean Nyekjaer <sean@geanix.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>, 
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Sean Nyekjaer <sean@geanix.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>, 
 	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
 	Yannick Fertre <yannick.fertre@foss.st.com>, Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
 	Philippe Cornu <philippe.cornu@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
@@ -40,13 +40,11 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	linux-stm32@st-md-mailman.stormreply.com
 Subject: Re: [PATCH v2 1/3] drm/modes: introduce drm_mode_validate_mode()
  helper function
-Message-ID: <20241126-observant-coyote-of-glee-3b94dd@houat>
+Message-ID: <20241126-spry-wildebeest-of-cubism-da0a9e@houat>
 References: <20241125-dsi-relax-v2-0-9113419f4a40@geanix.com>
  <20241125-dsi-relax-v2-1-9113419f4a40@geanix.com>
  <20241125-gleaming-anteater-of-perfection-42bd2b@houat>
- <bfuj6w6hsbfpdw24th6dl3ugvj45op6jb45gx5ab5pulud7hiz@o2zbn45z3lt4>
- <20241126-refreshing-slick-pig-baebab@houat>
- <zmrcuqiyz5gojhusysy7cytluedslqmfgzuslutqeg65iv7ju6@bggk7qbm6eas>
+ <874j3uxptp.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -54,12 +52,12 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="bl5qc3dhl5qjushr"
+	protocol="application/pgp-signature"; boundary="qwww7zw5ccyu53nk"
 Content-Disposition: inline
-In-Reply-To: <zmrcuqiyz5gojhusysy7cytluedslqmfgzuslutqeg65iv7ju6@bggk7qbm6eas>
+In-Reply-To: <874j3uxptp.fsf@intel.com>
 
 
---bl5qc3dhl5qjushr
+--qwww7zw5ccyu53nk
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
@@ -67,119 +65,44 @@ Subject: Re: [PATCH v2 1/3] drm/modes: introduce drm_mode_validate_mode()
  helper function
 MIME-Version: 1.0
 
-On Tue, Nov 26, 2024 at 12:34:26PM +0100, Sean Nyekjaer wrote:
-> Hi,
+On Tue, Nov 26, 2024 at 12:16:34PM +0200, Jani Nikula wrote:
+> On Mon, 25 Nov 2024, Maxime Ripard <mripard@kernel.org> wrote:
+> > I wonder about the naming though (and prototype). I doesn't really
+> > validates a mode, but rather makes sure that a given rate is a good
+> > approximation of a pixel clock. So maybe something like
+> > drm_mode_check_pixel_clock?
 >=20
-> On Tue, Nov 26, 2024 at 09:38:55AM +0100, Maxime Ripard wrote:
-> > Hi,
-> >=20
-> > On Tue, Nov 26, 2024 at 08:36:00AM +0100, Sean Nyekjaer wrote:
-> > > On Mon, Nov 25, 2024 at 05:00:56PM +0100, Maxime Ripard wrote:
-> > > > On Mon, Nov 25, 2024 at 02:49:26PM +0100, Sean Nyekjaer wrote:
-> > > > > Check if the required pixel clock is in within .5% range of the
-> > > > > desired pixel clock.
-> > > > > This will match the requirement for HDMI where a .5% tolerance is=
- allowed.
-> > > > >=20
-> > > > > Signed-off-by: Sean Nyekjaer <sean@geanix.com>
-> > > > > ---
-> > > > >  drivers/gpu/drm/drm_modes.c | 34 +++++++++++++++++++++++++++++++=
-+++
-> > > > >  include/drm/drm_modes.h     |  2 ++
-> > > > >  2 files changed, 36 insertions(+)
-> > > > >=20
-> > > > > diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_mo=
-des.c
-> > > > > index 6ba167a3346134072d100af0adbbe9b49e970769..4068b904759bf8050=
-2efde6e4d977b297f5d5359 100644
-> > > > > --- a/drivers/gpu/drm/drm_modes.c
-> > > > > +++ b/drivers/gpu/drm/drm_modes.c
-> > > > > @@ -1623,6 +1623,40 @@ bool drm_mode_equal_no_clocks_no_stereo(co=
-nst struct drm_display_mode *mode1,
-> > > > >  }
-> > > > >  EXPORT_SYMBOL(drm_mode_equal_no_clocks_no_stereo);
-> > > > > =20
-> > > > > +/**
-> > > > > + * drm_mode_validate_mode
-> > > > > + * @mode: mode to check
-> > > > > + * @rounded_rate: output pixel clock
-> > > > > + *
-> > > > > + * VESA DMT defines a tolerance of 0.5% on the pixel clock, whil=
-e the
-> > > > > + * CVT spec reuses that tolerance in its examples, so it looks t=
-o be a
-> > > > > + * good default tolerance for the EDID-based modes. Define it to=
- 5 per
-> > > > > + * mille to avoid floating point operations.
-> > > > > + *
-> > > > > + * Returns:
-> > > > > + * The mode status
-> > > > > + */
-> > > > > +enum drm_mode_status drm_mode_validate_mode(const struct drm_dis=
-play_mode *mode,
-> > > > > +					    unsigned long long rounded_rate)
-> > > > > +{
-> > > > > +	enum drm_mode_status status;
-> > > > > +	unsigned long long rate =3D mode->clock * 1000;
-> > > > > +	unsigned long long lowest, highest;
-> > > > > +
-> > > > > +	lowest =3D rate * (1000 - 5);
-> > > > > +	do_div(lowest, 1000);
-> > > > > +	if (rounded_rate < lowest)
-> > > > > +		return MODE_CLOCK_LOW;
-> > > > > +
-> > > > > +	highest =3D rate * (1000 + 5);
-> > > > > +	do_div(highest, 1000);
-> > > > > +	if (rounded_rate > highest)
-> > > > > +		return MODE_CLOCK_HIGH;
-> > > > > +
-> > > > > +	return MODE_OK;
-> > > > > +}
-> > > > > +EXPORT_SYMBOL(drm_mode_validate_mode);
-> > > >=20
-> > > > Thanks a lot for doing that!
-> > > >=20
-> > > > I wonder about the naming though (and prototype). I doesn't really
-> > > > validates a mode, but rather makes sure that a given rate is a good
-> > > > approximation of a pixel clock. So maybe something like
-> > > > drm_mode_check_pixel_clock?
-> > >=20
-> > > Naming is hard :) I will use drm_mode_check_pixel_clock() for V2.
-> > >=20
-> > > Would it make sense to have the pixel clock requirement as a input
-> > > parameter? For HDMI it is 0.5%
-> >=20
-> > This code was only used for panels so far. It reuses the same tolerance
-> > than HDMI because we couldn't come up with anything better, but it
-> > should totally apply to other things.
-> >=20
-> > > and in my case the LVDS panel 10%.
-> >=20
-> > 10% is a lot, and I'm not sure we'll want that. The framerate being
-> > anywhere between 54 and 66 fps will trip a lot of applications too.
-> >=20
-> > Why do you need such a big tolerance?
+> Quoting myself from a few weeks back:
 >=20
-> I don't need it, it was just from the datasheet for the LVDS panel :)
+> """
+> Random programming thought of the day: "check" is generally a terrible
+> word in a function name.
+>=20
+> Checking stuff is great, but what do you expect to happen if the check
+> passes/fails? Do you expect the function to return on fail, or throw an
+> exception? Or just log about it? If you return a value, what should the
+> return value mean? It's hard to know without looking it up.
+>=20
+> Prefer predicates instead, is_stuff_okay() is better than
+> check_stuff(). Or assert_stuff() if you don't return on failures.
+> """
 
-So you mean the panel accepts a pixel clock within +/- 10%?
-
-That makes sense, but then we should also adjust the mode timings to
-match so we still keep 60fps. There's much more to *that* than the
-helpers you try to create though, so let's keep it aside for now.
+Both is_stuff_okay() or assert_stuff() return a boolean in my mind. If
+you want to return a mode status enum, I don't think they are better
+names.
 
 Maxime
 
---bl5qc3dhl5qjushr
+--qwww7zw5ccyu53nk
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ0W6YgAKCRAnX84Zoj2+
-dpXoAYDLeWf70DH69fTHnomK56MfWzFnjFgfHOL2JNGDwN+jsyWwtUS3WtdF0/y2
-pknqMxEBf1IBZxjfPUpqweJ/9xN8AsRg6qI+Acufa59QvrHl6wNmv7SdrD5RsgUt
-B1PT5dMtYQ==
-=sTTD
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ0W6lwAKCRAnX84Zoj2+
+dpfkAX9rQ95STenTbFaPTqzNs0f3hXHKnVKDzQwlwme3v/FEzAw3GEWZWO1BNFdE
+ChoLbYwBf06ASgUEBRxVk52nFUsJogUobfhi2/VS/xGu8+SOUnSsG50ueId2dS+n
+zeEpgo7ogA==
+=OHka
 -----END PGP SIGNATURE-----
 
---bl5qc3dhl5qjushr--
+--qwww7zw5ccyu53nk--
