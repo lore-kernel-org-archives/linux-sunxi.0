@@ -1,103 +1,175 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6BA7E9
-	for <linux-sunxi@lists.linux.dev>; Tue, 26 Nov 2024 09:18:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 171AF84D0E;
+	Tue, 26 Nov 2024 09:30:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732612707; cv=none; b=LEzMMMIWcAmAFhpPpsyt948rNTIpyhL6S7OgAeFGR+BnFFvUedAcjr8HKG6N8h8dOi+7DTOmJf/0JUeNaptYqFKghhOP3TX6WFDBguEVadhROjEf12W41lb+d94TkhSGu1Cj7eM02v26jC74qcA/hzOPiF7X37pZ3EXBePEvkF8=
+	t=1732613411; cv=none; b=cIQh61RUhJFAqh+oln3tMo7To2WctSaQfjzkygMOyzoDF2UimomM1MPQvTWU+8VstaBixG7aAFcGRhmEODzHwTrChHN6LwSp09wPdCQmmEnr+L+ZWo4UFzXc1OJ6Fy05mr6SmH4ifJiGmI0amuVP6718CxvtZ3aRn37KGb/ZYy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732612707; c=relaxed/simple;
-	bh=8wJo0FQyMs7z3lb/ouq80c/a0Jaepww/M3knbCWU/CI=;
+	s=arc-20240116; t=1732613411; c=relaxed/simple;
+	bh=9Ay6+imSrXagOd8Xd0hPE8chBJ5GelgKMPvVGoiR2e8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fnt7pMx8xPqB+cK9BHlpaJ9SMbCuCXF6cy21TieKd78Lqsfh/V8JIIMz+bMs5HCatJSwHjczYjajPMLVGE40KffXZIuFiQTQ1c68ES20bmDalHN2/Oo3m9nRHrXM1s/UCO4i2dUqGLCMAk75WeALgd01MFcgxxKEVnKinYjg7dY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1tFri5-0005E2-I5; Tue, 26 Nov 2024 10:18:17 +0100
-Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1tFri3-000Dyd-2H;
-	Tue, 26 Nov 2024 10:18:16 +0100
-Received: from pengutronix.de (pd9e59fec.dip0.t-ipconnect.de [217.229.159.236])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: mkl-all@blackshift.org)
-	by smtp.blackshift.org (Postfix) with ESMTPSA id 1ADB937D7BA;
-	Tue, 26 Nov 2024 09:18:16 +0000 (UTC)
-Date: Tue, 26 Nov 2024 10:18:15 +0100
-From: Marc Kleine-Budde <mkl@pengutronix.de>
-To: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-Cc: linux-kernel@vger.kernel.org, linux-amarula@amarulasolutions.com, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
-	linux-arm-kernel@lists.infradead.org, linux-can@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 03/12] can: sun4i_can: continue to use likely() to
- check skb
-Message-ID: <20241126-wooden-cyber-polecat-d96127-mkl@pengutronix.de>
-References: <20241122221650.633981-1-dario.binacchi@amarulasolutions.com>
- <20241122221650.633981-4-dario.binacchi@amarulasolutions.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=r5Nvp3vXG31B0kQXZZRLB7oyfk2d0L8vyhQfftYZ+R2XAGKyQJzGweSFenE8gbq4R4AFi80IXFf4pmla5Bdh8qIqXpslfNgFq7mvV4ebNgQJr2KcHs9ZDmweTPJwnS5CaCzBDrP3PBXG7Jyj+osQ0dOQ6sDSzbiMwBxegUrCD28=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WQdq2LZE; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WQdq2LZE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D0A3C4CECF;
+	Tue, 26 Nov 2024 09:30:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732613410;
+	bh=9Ay6+imSrXagOd8Xd0hPE8chBJ5GelgKMPvVGoiR2e8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WQdq2LZE9YTWOxAyv7FnmGEL6ltFHnouW2WMUelybvVewvAWZm15QH/lf4XnmpQIj
+	 rlQos5T4MqJKm0b4DQ+XG/dwzrlSHYISKPwh1eT8EYKMDTbHpep6jNgk2xbMKdFDiJ
+	 hn4GR7SeIgMtyW1i5NZi60c+PAJdj3CDW3nvknu4LQcgmMSBr9kw1YUcB0r0hL6u0b
+	 AfWWeTAU1kj3t137X4AI3F7clejrXfnU7TD+LNP9Sb/TNVQXlciE6FtXt9h8HzQmly
+	 XJFQtHV2onhmWl+5d/rCLPRImcGfpHpSC1OHCVSX9Yh2hwq7dtq9rUmpxlO9EKusN2
+	 dq3Ud11z9oHyg==
+Date: Tue, 26 Nov 2024 10:30:07 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+Cc: Sean Nyekjaer <sean@geanix.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu <philippe.cornu@foss.st.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-stm32@st-md-mailman.stormreply.com
+Subject: Re: [PATCH v2 1/3] drm/modes: introduce drm_mode_validate_mode()
+ helper function
+Message-ID: <20241126-silver-skylark-of-expertise-bba576@houat>
+References: <20241125-dsi-relax-v2-0-9113419f4a40@geanix.com>
+ <20241125-dsi-relax-v2-1-9113419f4a40@geanix.com>
+ <20241125-gleaming-anteater-of-perfection-42bd2b@houat>
+ <bfuj6w6hsbfpdw24th6dl3ugvj45op6jb45gx5ab5pulud7hiz@o2zbn45z3lt4>
+ <725aafb8-abfa-40c0-967a-62122206f736@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fklivl3r3m4v2cbu"
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="ivjgiyez6uyhrxcb"
 Content-Disposition: inline
-In-Reply-To: <20241122221650.633981-4-dario.binacchi@amarulasolutions.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+In-Reply-To: <725aafb8-abfa-40c0-967a-62122206f736@foss.st.com>
 
 
---fklivl3r3m4v2cbu
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
+--ivjgiyez6uyhrxcb
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 03/12] can: sun4i_can: continue to use likely() to
- check skb
+Subject: Re: [PATCH v2 1/3] drm/modes: introduce drm_mode_validate_mode()
+ helper function
 MIME-Version: 1.0
 
-On 22.11.2024 23:15:44, Dario Binacchi wrote:
-> Throughout the sun4i_can_err() function, the likely() macro is used to
-> check the skb buffer, except in one instance. This patch makes the code
-> consistent by using the macro in that case as well.
+On Tue, Nov 26, 2024 at 09:47:17AM +0100, Raphael Gallais-Pou wrote:
 >=20
-> Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+> On 11/26/24 08:36, Sean Nyekjaer wrote:
+> > Hi Maxime,
+> >
+> > On Mon, Nov 25, 2024 at 05:00:56PM +0100, Maxime Ripard wrote:
+> >> Hi Sean,
+> >>
+> >> On Mon, Nov 25, 2024 at 02:49:26PM +0100, Sean Nyekjaer wrote:
+> >>> Check if the required pixel clock is in within .5% range of the
+> >>> desired pixel clock.
+> >>> This will match the requirement for HDMI where a .5% tolerance is all=
+owed.
+> >>>
+> >>> Signed-off-by: Sean Nyekjaer <sean@geanix.com>
+> >>> ---
+> >>>  drivers/gpu/drm/drm_modes.c | 34 ++++++++++++++++++++++++++++++++++
+> >>>  include/drm/drm_modes.h     |  2 ++
+> >>>  2 files changed, 36 insertions(+)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
+> >>> index 6ba167a3346134072d100af0adbbe9b49e970769..4068b904759bf80502efd=
+e6e4d977b297f5d5359 100644
+> >>> --- a/drivers/gpu/drm/drm_modes.c
+> >>> +++ b/drivers/gpu/drm/drm_modes.c
+> >>> @@ -1623,6 +1623,40 @@ bool drm_mode_equal_no_clocks_no_stereo(const =
+struct drm_display_mode *mode1,
+> >>>  }
+> >>>  EXPORT_SYMBOL(drm_mode_equal_no_clocks_no_stereo);
+> >>> =20
+> >>> +/**
+> >>> + * drm_mode_validate_mode
+> >>> + * @mode: mode to check
+> >>> + * @rounded_rate: output pixel clock
+> >>> + *
+> >>> + * VESA DMT defines a tolerance of 0.5% on the pixel clock, while the
+> >>> + * CVT spec reuses that tolerance in its examples, so it looks to be=
+ a
+> >>> + * good default tolerance for the EDID-based modes. Define it to 5 p=
+er
+> >>> + * mille to avoid floating point operations.
+> >>> + *
+> >>> + * Returns:
+> >>> + * The mode status
+> >>> + */
+> >>> +enum drm_mode_status drm_mode_validate_mode(const struct drm_display=
+_mode *mode,
+> >>> +					    unsigned long long rounded_rate)
+> >>> +{
+> >>> +	enum drm_mode_status status;
+> >>> +	unsigned long long rate =3D mode->clock * 1000;
+> >>> +	unsigned long long lowest, highest;
+> >>> +
+> >>> +	lowest =3D rate * (1000 - 5);
+> >>> +	do_div(lowest, 1000);
+> >>> +	if (rounded_rate < lowest)
+> >>> +		return MODE_CLOCK_LOW;
+> >>> +
+> >>> +	highest =3D rate * (1000 + 5);
+> >>> +	do_div(highest, 1000);
+> >>> +	if (rounded_rate > highest)
+> >>> +		return MODE_CLOCK_HIGH;
+> >>> +
+> >>> +	return MODE_OK;
+> >>> +}
+> >>> +EXPORT_SYMBOL(drm_mode_validate_mode);
+> Hi Sean, Maxime,
+> >> Thanks a lot for doing that!
+> >>
+> >> I wonder about the naming though (and prototype). I doesn't really
+> >> validates a mode, but rather makes sure that a given rate is a good
+> >> approximation of a pixel clock. So maybe something like
+> >> drm_mode_check_pixel_clock?
+> > Naming is hard :) I will use drm_mode_check_pixel_clock() for V2.
+> >
+> > Would it make sense to have the pixel clock requirement as a input
+> > parameter? For HDMI it is 0.5% and in my case the LVDS panel 10%.
+> >
+> > enum drm_mode_status drm_mode_validate_mode(const struct drm_display_mo=
+de *mode,
+> > 					    unsigned long long rounded_rate, unsigned tolerance)
+> > ?
+>=20
+>=20
+> IMO adding the tolerance as input parameter is a good idea.=A0 This
+> would useful other than for HDMI pixel clock validation (and LVDS in
+> your case).
 
-I'll apply this one on can-next.
+It depends on the intent. If it's justified, why not. If it's to
+workaround another issue, absolutely not. And so, generally speaking, I
+don't think it's a good idea.
 
-Marc
+Maxime
 
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde          |
-Embedded Linux                   | https://www.pengutronix.de |
-Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
-
---fklivl3r3m4v2cbu
+--ivjgiyez6uyhrxcb
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEUEC6huC2BN0pvD5fKDiiPnotvG8FAmdFklUACgkQKDiiPnot
-vG9V2Qf9HACb0LFZ2n5t9mhZxL1lJKrvPrG0+M1I2I+az5Kf1ctouzr1D2tj3UCX
-1jRQnCniUZWRqagu1R3mc6ih6FQwftuCstvdh/J2+wurmgvs6erlza4FytN/vN91
-GzhOEXksFZIJCIKrP0Oj4EOIZZKmc2I8wP3+TV+6V/x+Cb1/yo86+ktgY08/p7CG
-PDxBOBnlCF1lwKu1rAIp5TaEkKAWko7SVo2wDrpdAe5H7YI7KOXJvVfkeZvEN3j7
-U9i2pdrP9SyWt4Iz6nn2fYbVn2Bez6a2XVd9Vg19eMVzpyhrq6zcxjNo5oleXutW
-eve3U2Mo0bP+O0aTxxuAM1H9XDV6dQ==
-=b9xE
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ0WVGgAKCRAnX84Zoj2+
+dt6vAYD/ha6rSzfdB8Hdtt8QyIin6959mZS2o1Kfzj2g79x6jBpKlT0JtMgi//O3
+OUV40OgBfROD6tZDvz9F+STrxg9e7rBW0RrVft6ey02AdwVIWtaNpvVoJEMn/cnG
+vhycHMk+wA==
+=7JWg
 -----END PGP SIGNATURE-----
 
---fklivl3r3m4v2cbu--
+--ivjgiyez6uyhrxcb--
