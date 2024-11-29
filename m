@@ -1,112 +1,178 @@
-Received: from omta36.uswest2.a.cloudfilter.net (omta36.uswest2.a.cloudfilter.net [35.89.44.35])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8857F45C14
-	for <linux-sunxi@lists.linux.dev>; Fri, 29 Nov 2024 04:14:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.89.44.35
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48C15155342
+	for <linux-sunxi@lists.linux.dev>; Fri, 29 Nov 2024 05:13:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732853659; cv=none; b=frQn4Ogo9LQjd7omg2C7BIQ5DoQWz84QA+KkmHfOFEjVavtH3Hx3upbtwHqi0vSDDRtPx1o6g2sYtgMKpFROAg1TyPYiC3jlAGiM0sx6Lttx0XGi5J/KSLFsPc7Gdka/TfY+bjNtd92vTaWAAY0gljzkhZWFotO/IxagErEIpoI=
+	t=1732857210; cv=none; b=aX+pIptbqw/Ct/ru/hr7e55G7VmFrrWiO1Isq/QXRfb8I/R6hewE3Ea7k+p4hOjegq4ZIJfrBYMz0GHqTGBxkgPD7BcxrDE6lzgjRM28cXuAwBCpw6Dlmt+G8SU+gYjPKzXfqUE7F3D1mq7fh94muKE+v/Ry9g8xfJ3O/HIjvaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732853659; c=relaxed/simple;
-	bh=7Q5uoccyOFHjDwzni9s1pvqhXs3JznPJtn8MoISASRU=;
-	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=XPKdXi+iCiSG98grSs5cUHc/yAaV06F2XV7/p5KusSuTcGRz5GGkPm/VshIW3YHmrY+/B0cEU/PEHjtlOHJn8HnFcdXr6U4Vbv0OGNVCBhoshoK1GGMs4DordaAm9z+ZB6ZKLmjDqFUmBxkvHeey2+kATI0uoQSFPBOMmaaWM+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linumiz.com; spf=pass smtp.mailfrom=linumiz.com; dkim=pass (2048-bit key) header.d=linumiz.com header.i=@linumiz.com header.b=f3ErCGcG; arc=none smtp.client-ip=35.89.44.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linumiz.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linumiz.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linumiz.com header.i=@linumiz.com header.b="f3ErCGcG"
-Received: from eig-obgw-6010a.ext.cloudfilter.net ([10.0.30.248])
-	by cmsmtp with ESMTPS
-	id Gm4yt10vtqvuoGsOQttcWu; Fri, 29 Nov 2024 04:14:10 +0000
-Received: from md-in-79.webhostbox.net ([43.225.55.182])
-	by cmsmtp with ESMTPS
-	id GsONt92BO5BVrGsOOtErN6; Fri, 29 Nov 2024 04:14:09 +0000
-X-Authority-Analysis: v=2.4 cv=Qv9Y30yd c=1 sm=1 tr=0 ts=67493f91
- a=LfuyaZh/8e9VOkaVZk0aRw==:117 a=kofhyyBXuK/oEhdxNjf66Q==:17
- a=IkcTkHD0fZMA:10 a=VlfZXiiP6vEA:10 a=-pn6D5nKLtMA:10
- a=a9eFdPKkdgbxhWDV1dEA:9 a=QEXdDO2ut3YA:10 a=ZCPYImcxYIQFgLOT52_G:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linumiz.com
-	; s=default; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:To:Subject:Cc:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=7Q5uoccyOFHjDwzni9s1pvqhXs3JznPJtn8MoISASRU=; b=f3ErCGcGBfb1iyOQo+fcBv1t7e
-	6gIj1pftIjig6fL7tveuQjbhA03eV/QcD+R5rWTQe8Kn9b8yRm0dBILPJMeIAtcfUfaokPCf8bEQi
-	VnM7TkIpwvFLSw3xj9BQhyi6Gh69ZUuRR9boclxSbWyPKx5IifgE+g3dfVaP856rdqNtazS6Wz5YF
-	JpmSzV9RSZH3SLtqW7qKwH+Fxg2hykOB0b/Lml5yUanGNm9nRgIDBLwLO7zu4QpPtTIwTZsg6evED
-	zsR5Vc7+gG5Tkk1K8TlzyM6VmhDxfJBgYFDuuJLK0ncSsuEditRyf0gLS4IJzvUb11IMcRspqyPew
-	2Zwa/xSA==;
-Received: from [122.165.245.213] (port=53154 helo=[192.168.1.5])
-	by md-in-79.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <parthiban@linumiz.com>)
-	id 1tGsOG-002aNG-2V;
-	Fri, 29 Nov 2024 09:44:00 +0530
-Message-ID: <fa7dbac4-592e-44f9-b468-834779fdbbc2@linumiz.com>
-Date: Fri, 29 Nov 2024 09:43:55 +0530
+	s=arc-20240116; t=1732857210; c=relaxed/simple;
+	bh=+12xevKnTNauiZYg0olJVZ1Thq3/ybq5525r9lkxdSc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aN5o3OhcOLG5cUavhlmcGZMOmh8j5Fv3I7ei80IdilPwoYV/zsQYK4UI0eTk4dURmQFSJMIlLj6lVCquR4ntxQ49swAJNmtNcvsJ6kvcoqfrCCgwbHi2V3WDBwFXHuKKf5Ob0C+gdGHSg4wpRCLPXOg95PvmBKfbmykgLxm3m2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2ffc1f72a5bso14999101fa.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 28 Nov 2024 21:13:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732857203; x=1733462003;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UJvwqiaal1EaQSpBB0Sl+EHlw0k4hE//iJpExas7lYg=;
+        b=nQsUyXociSFUYfx0dXbWkZdoO5GAmq1q6Y3vKLzgRg21QKCLykEPRSRbOsXJSUZF5s
+         XVnckFRfUXbotYZU5uM1i36pXDbNw4Gzddn+8mdL21h6zVauSf4x7Mo5fLwFjncSudXH
+         HtpM44TpbcFWhI3w1zKBqX9GCdvjTvaa2P7AlMBfvIvr4HqXBpGPZf7BK2szuw+QS/07
+         xGpa3hnnp0zfnQV6tk78CxfY3WanqblzGN1YSa1HsdSJC5SrxJ+gQnCnokDJQevN0KLQ
+         wPF4hM3jtEASAe9SeTAvOp/Ju1IrcMdWUXczUlW5JPm+vSS72g9tGdi63afawTmWhN3S
+         834w==
+X-Forwarded-Encrypted: i=1; AJvYcCVbhmU8LQrnSI4vWYZjYi7l2R9e+iVG3nowoSgBCcjyp/GlIJnnUNEkNYLKRJF40I05cZC6Jj/MnQDxXg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw1bnUJ0tZtvIe3akWw8h9q9dz04lMvkxqVRKw4+j5qeTEUY3WK
+	oiFk5sU4VYYJ287ikmvU68wD2kLERONkUQLmObVc0fpknmSG2NNTRVuooXLJ
+X-Gm-Gg: ASbGncu55OUJZ1RR144EqeTOdcmILoq6E2bjqPZca39bwXq13A0l2BElaL5rdZd296R
+	YLADEON30ta5LJ0YoMFC/C6AstQh2XaGi63FSh71g3fLnImLA2qY/YcC4eS6OblaI0NifVZxpWx
+	6bRp/QNiVHnB4f9nGVPRDXLNLCWnP9iqKQ05BLclPFLc9NssFHgLVL8Mb185+WcSnNWjt2Dtqyh
+	6/pKJ8hrITP6iPcfhvyVREM6AMZMOsG2/ynjV8B9SlIdeLZV5KMqAMt6czDfD4qgrpsIBz9qY5I
+	x7TED2w=
+X-Google-Smtp-Source: AGHT+IF6ysyD1aGhRoHTAcs/e0w4QJ83rCXgPWq/NXIvpjR8q6+u/Tx+vg5aDWJfsNjTxC3f2+zBxQ==
+X-Received: by 2002:a2e:9a11:0:b0:2fa:d086:bca0 with SMTP id 38308e7fff4ca-2ffde203ebemr15247931fa.10.1732857202917;
+        Thu, 28 Nov 2024 21:13:22 -0800 (PST)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com. [209.85.208.182])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2ffdfc745f2sm3422691fa.90.2024.11.28.21.13.21
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 Nov 2024 21:13:22 -0800 (PST)
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2ffc1f72a5bso14998521fa.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 28 Nov 2024 21:13:21 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUwHCVdC8l/8DtiqkT4TnEFbhSHsCRoD3VEJgSuzWJtVNkGK/27tTd/HeIkv5Fjoha65NF+Xnpbd9z8Dw==@lists.linux.dev
+X-Received: by 2002:a2e:9687:0:b0:2ff:e54a:cd08 with SMTP id
+ 38308e7fff4ca-2ffe54acea4mr7224861fa.3.1732857201437; Thu, 28 Nov 2024
+ 21:13:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: parthiban@linumiz.com, Andre Przywara <andre.przywara@arm.com>,
- Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Samuel Holland <samuel@sholland.org>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/sun4i: Workaround TCON TOP conflict between DE0 and
- DE1
-To: John Watts <contact@jookia.org>
-References: <20241108-tcon_fix-v1-1-616218cc0d5f@jookia.org>
- <20241108115357.691b77b0@donnerap.manchester.arm.com>
- <Zy4SKCBwce3q0yj5@titan> <b26b9d86-4ff9-4543-85ce-176dccfbfa05@linumiz.com>
- <Zy4c9BFcrz2JVU6k@titan> <ZzNCsFiAiACFrQhE@titan>
- <f0d5b314-cfcc-4856-8d6e-09e437c075ec@linumiz.com> <ZzPluoI7xSTwhNcm@titan>
- <2ef6afa0-2756-493b-83a4-62e73a8e2af9@linumiz.com> <ZzRgP7-hHWE8JH8K@titan>
-Content-Language: en-US
-From: Parthiban <parthiban@linumiz.com>
-Organization: Linumiz
-In-Reply-To: <ZzRgP7-hHWE8JH8K@titan>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - md-in-79.webhostbox.net
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - linumiz.com
-X-BWhitelist: no
-X-Source-IP: 122.165.245.213
-X-Source-L: No
-X-Exim-ID: 1tGsOG-002aNG-2V
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([192.168.1.5]) [122.165.245.213]:53154
-X-Source-Auth: parthiban@linumiz.com
-X-Email-Count: 2
-X-Org: HG=dishared_whb_net_legacy;ORG=directi;
-X-Source-Cap: bGludW1jbWM7aG9zdGdhdG9yO21kLWluLTc5LndlYmhvc3Rib3gubmV0
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfCKPCXiUdlOSOO8X4/JIWkmvRQrkxnEVKrjA1CzbIfmdG4w4lUljTz0ZBJCGG77rXG1Z9ruiST2UgYHE5xXvO4bv0TQQMIkzgxuddVPWB7MUp5Hf56iK
- lXf82KpZf5qUJP0i14P0KfVhJsOacs+0bpp/FJrWsxO4SE560lqkCZTZlx6Qt7nXBViqCWTuWm+tI0kfK5RxsxTDbO+v2SZr0ds=
+References: <20241128154556.2743839-1-simons.philippe@gmail.com>
+In-Reply-To: <20241128154556.2743839-1-simons.philippe@gmail.com>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Fri, 29 Nov 2024 13:13:08 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64b-m8XoXWXyPFLZKpfTJd2beE_QjUUbf17o4y_rfTmJg@mail.gmail.com>
+Message-ID: <CAGb2v64b-m8XoXWXyPFLZKpfTJd2beE_QjUUbf17o4y_rfTmJg@mail.gmail.com>
+Subject: Re: [PATCH] Update H700 opp values
+To: Philippe Simons <simons.philippe@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, 
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, 
+	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>, 
+	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>, open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 11/13/24 1:45 PM, John Watts wrote:
-> It really seems like the code means mixers here.
-True, I was wrong about my statement. But with A133, the case of independent DE
-is unique, which I couldn't test yet.
+On Thu, Nov 28, 2024 at 11:46=E2=80=AFPM Philippe Simons
+<simons.philippe@gmail.com> wrote:
+>
+> My H700 (RG35XX-H, RG40XX-V and RG CubeXX) devices are very unstable,
+> especially with some OPPs.
+> Crashes were fairly easy to reproduce with any dynamic cpufreq governor
+> and some load on CPU, usually in matter of minutes.
+> Crashes manifested randomly as simply hanging or various kernel oops
+>
+> Manufacturer (Anbernic) is using more conservative mircrovolt values,
+> so let's use these.
+> While using performance gov seems stables at 1.5Ghz, it still crashes
+> using a dynamic gov (even with Andre reparenting patch), so let's drop
+> it for now, like manufacturer does.
+>
+> Signed-off-by: Philippe Simons <simons.philippe@gmail.com
+> ---
+>  .../dts/allwinner/sun50i-h616-cpu-opp.dtsi    | 19 +++++++++----------
+>  1 file changed, 9 insertions(+), 10 deletions(-)
+>
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-cpu-opp.dtsi b/arc=
+h/arm64/boot/dts/allwinner/sun50i-h616-cpu-opp.dtsi
+> index dd10aaf47..ac13fe169 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616-cpu-opp.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-cpu-opp.dtsi
+> @@ -50,24 +50,21 @@ opp-1008000000 {
+>                         opp-microvolt-speed2 =3D <950000>;
+>                         opp-microvolt-speed3 =3D <950000>;
+>                         opp-microvolt-speed4 =3D <1020000>;
+> -                       opp-microvolt-speed5 =3D <900000>;
+> +                       opp-microvolt-speed5 =3D <950000>;
 
-> If my thoughts are correct, this would break use of mixer0 and mixer1 at the
-> same time.
-Agreed. But back to the original discussion about setting 0x20 to the port
-register, it work fine in my end without that changes for A133 display pipeline
-with LVDS. Not sure if the reason is independent DE.
+It seems that you are encountering the issues on this particular binning.
+Could you mention that in the commit message?
 
-Thanks,
-Parthiban
+It's not very obvious that H700 =3D=3D a particular speed bin of H616.
+
+ChenYu
+
+>                         clock-latency-ns =3D <244144>; /* 8 32k periods *=
+/
+>                         opp-supported-hw =3D <0x3f>;
+>                 };
+>
+>                 opp-1032000000 {
+>                         opp-hz =3D /bits/ 64 <1032000000>;
+> -                       opp-microvolt =3D <900000>;
+> +                       opp-microvolt =3D <950000>;
+>                         clock-latency-ns =3D <244144>; /* 8 32k periods *=
+/
+>                         opp-supported-hw =3D <0x20>;
+>                 };
+>
+>                 opp-1104000000 {
+>                         opp-hz =3D /bits/ 64 <1104000000>;
+> -                       opp-microvolt-speed0 =3D <1000000>;
+> -                       opp-microvolt-speed2 =3D <1000000>;
+> -                       opp-microvolt-speed3 =3D <1000000>;
+> -                       opp-microvolt-speed5 =3D <950000>;
+> +                       opp-microvolt =3D <1000000>;
+>                         clock-latency-ns =3D <244144>; /* 8 32k periods *=
+/
+>                         opp-supported-hw =3D <0x2d>;
+>                 };
+> @@ -79,7 +76,7 @@ opp-1200000000 {
+>                         opp-microvolt-speed2 =3D <1050000>;
+>                         opp-microvolt-speed3 =3D <1050000>;
+>                         opp-microvolt-speed4 =3D <1100000>;
+> -                       opp-microvolt-speed5 =3D <1020000>;
+> +                       opp-microvolt-speed5 =3D <1050000>;
+>                         clock-latency-ns =3D <244144>; /* 8 32k periods *=
+/
+>                         opp-supported-hw =3D <0x3f>;
+>                 };
+> @@ -93,7 +90,10 @@ opp-1320000000 {
+>
+>                 opp-1416000000 {
+>                         opp-hz =3D /bits/ 64 <1416000000>;
+> -                       opp-microvolt =3D <1100000>;
+> +                       opp-microvolt-speed0 =3D <1100000>;
+> +                       opp-microvolt-speed2 =3D <1100000>;
+> +                       opp-microvolt-speed3 =3D <1100000>;
+> +                       opp-microvolt-speed5 =3D <1160000>;
+>                         clock-latency-ns =3D <244144>; /* 8 32k periods *=
+/
+>                         opp-supported-hw =3D <0x2d>;
+>                 };
+> @@ -102,9 +102,8 @@ opp-1512000000 {
+>                         opp-hz =3D /bits/ 64 <1512000000>;
+>                         opp-microvolt-speed1 =3D <1100000>;
+>                         opp-microvolt-speed3 =3D <1100000>;
+> -                       opp-microvolt-speed5 =3D <1160000>;
+>                         clock-latency-ns =3D <244144>; /* 8 32k periods *=
+/
+> -                       opp-supported-hw =3D <0x2a>;
+> +                       opp-supported-hw =3D <0x0a>;
+>                 };
+>         };
+>  };
+> --
+> 2.46.1
+>
