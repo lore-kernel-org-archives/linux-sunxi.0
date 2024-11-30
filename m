@@ -1,65 +1,65 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94E9C154BFF
-	for <linux-sunxi@lists.linux.dev>; Sat, 30 Nov 2024 01:52:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E60A8155CB0
+	for <linux-sunxi@lists.linux.dev>; Sat, 30 Nov 2024 01:53:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732931581; cv=none; b=e2I1WyU+tli5xdETM5JQttpObyrfMW40a3lEZeyrvJduS2Vxc5o0vlmMENXu5R9anL2wLtf/vrU0LDfJ67kccYbhyFwew5s+HOJcLPfvy3pjOYUdiQQh6tfOGW4cyCHV+gfXKZWV3c/h9TO/Qnh85jIBuI364M6sJzcQTby1/H0=
+	t=1732931583; cv=none; b=OjSzjUlyj24R7V6qhNIglp9u/zim2BqB31oqLyrHK+0tzQIDDGQlUOMNIrqwKoI4KhwioO/fJm83dGYH4Q1PKpENDoVVd1o3jpvfMWJyuqP3FObXqr7OeyyJbFGo6vBbdUQQgc35cjBIhSK0bQDh3EZ05PnYeGR0YoBjroCdFGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732931581; c=relaxed/simple;
-	bh=UjNMLqX51SwfyB+kbUbjnJt95fAbmRoKvLYOPQ8ek9c=;
+	s=arc-20240116; t=1732931583; c=relaxed/simple;
+	bh=tt33sNy4EHSANTDHQAExXai1314OqzFqkWnpPj2YPOw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=lX7eSRcKuHfejcMGKAVxxX3d/xV0uzOiJNxmHQB/NvEzLqnLyt0IsSdwB8hOTepsLdf2q3+O21YE+FiKT9TyAMcAFPDhonsHXW3SS/1lNbYZh1RwHjUHtFJCieVRy1+So6v1EC0Ml4i19AY4ZkrI5FEHPrfe/Ni+R9idGf+zvwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bhXSNMki; arc=none smtp.client-ip=209.85.167.43
+	 In-Reply-To:To:Cc; b=QsVo8++E38NYNJAyjKkJ5ZoLMBCslyPrA+GFy8wCmv8lXXVvLxvAF6wJQBHz1/xAM3thypGVwZK7yXBbv3ItQA4x9FCJwBqAhcxJPZXRjS1pX+WwhmawlzGTSt4Ut9hB19u0j/jUxC5W7cNtqsSULm2XHuYfUrM7v5KAmQYasFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=N5tFbkio; arc=none smtp.client-ip=209.85.167.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bhXSNMki"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-53dde4f0f23so2520522e87.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 29 Nov 2024 17:52:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="N5tFbkio"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-53de8ecafeeso2740904e87.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 29 Nov 2024 17:53:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1732931578; x=1733536378; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1732931580; x=1733536380; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=n9wxCYXwjuFpbEm8J6hnlc7LqgHEUz/bPD6SI90IVR0=;
-        b=bhXSNMkio9ySW/2cvJKuBbHXUcePMxL+TpzGTkzI09zz5PBcEKy8+/A91OeAUKgJqJ
-         nTyQsEH3K9BOWaOCD9gIp+uLxBuU0nR6LAQsiGIiJ0b9pFpoSzspvTvIsXXVPrELLrAn
-         wXiKyb5dxOzOcxrzU3Y687VTl2CSpgm054TiWS4FTI/bqW8uLEOXSrGcgcZ+E0AtcDz7
-         luOTKJw5Dky2j5X5ClwtGVYZ+60vPNWaaDHCpxmyPcz0UBBzwjTcT3bTh1H7FBe+dYWe
-         QwdXkm1L+47+3OEPYYD8ggZHX2R9juqgzcC0AMgN8Uq+dMaQL5CMztICD06ex0AaRI4Q
-         lSmg==
+        bh=z1lXYCxrn128DpMjUx/X3ynnQZTeAwK/ttm0jSS1k6c=;
+        b=N5tFbkio+vWoEe0WfF4qE3/d8P8Ufzl0En9vfh1VTdoYyQGvMW+NChuLAQxc55IisT
+         3r7h1sgq8u9ZqlkDgS54Thie7G8dHZnFMVf72SbJpYETsmaJksWpr5psYduyaynXN7dv
+         OARWEi2U2IZ5B8Rgwfj0zDAHYQ3NoA9vTCvykkhf7a8iscY7f5vmrndNL7z4Tl12DEju
+         OJfqQvDu7bKF2gem5FQxmBsvvZR7bHfChA7sUY9QBGBC63mtmI7DSwIEOujehKmmfwnj
+         AiWTQiHRZsOKIAgCEev1KdumPZeYiDHHTv6eM5FC2SZUxIxfbkbX4wVUmF+uzbO885A7
+         1cIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732931578; x=1733536378;
+        d=1e100.net; s=20230601; t=1732931580; x=1733536380;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=n9wxCYXwjuFpbEm8J6hnlc7LqgHEUz/bPD6SI90IVR0=;
-        b=sOy778CK766gEeKKdnzyVUz899W9QAh28Vz8+zG0dXMeCmOjXLGUitomzpRFYCYDJg
-         nsQv9Dz5JBRBdUBCFQis2arx3LEnW5Hw/shODhyWnz8TE137FGGt/cymATmpMrP9eQgw
-         G2LRQOQUWz0r/lJPjyYHli19NTj2XxrYo+UBV3JVTSsjnXqVAhT6q5NgqrGSGmLolqZJ
-         w81RpFkL0DOTFjtdf2CiM43j025Ub75siynAgzsTLWLcg2TWgeyIAo2PAUu5Z8QpPZGg
-         LoDMJvxjGHjvZP1zsdYZ8o4WRtof+Rd0UeHpQTtoprFNdEbV00nlr3e0iWiL25ZWgQPt
-         e2UQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUx0jenvQ+Oa00q8zcfuNq0KiAVG2/Uf6Md+jLonhxrlCKlWqErEWa5EapgAApEYI8r8TwYZWtlefaMbA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyZEvTcTbwlbuV1F5trL5so6qhtnHQQ+ou2Ne1Ln9gb/V90uEfH
-	4glrj6k3KL6XCf0RLb367aTg726ndkeE5/grfPo3cTgSPYWIujBnf0wLKiHVEIQ=
-X-Gm-Gg: ASbGncvFKJvjPqJFmvym8OzQIbGI5TOeclJJCb3MbBfp05Bvc09SVbVNkJOcZXk17To
-	xeqXg3SmGrdaXYdWxUQSqzrlvEn1sfA0r30djf7uuTv+fq1uC2tNU4D1+KjdJzbdRHsNlge+v6f
-	xNu9ph2/GgKhki0zrCYUOLYUfEvxTVeMcxDe8cAiqsCqYA9yc5pBlQnVAy+j8AHCzkLcOq0kF0P
-	/dZnRwDxybLIKL7Y+bMnqufYQoSmLs8ahZ6sJZ0fIwct0gmYjPtm9aePw==
-X-Google-Smtp-Source: AGHT+IEPMkwzovF1BGtYWQPhSNDkhj65yoNCvxf3xV+YxR9n/u9tv7nbpK4B1sxwKYxaX0pKkPUYkw==
-X-Received: by 2002:a05:6512:3c81:b0:53d:ea1d:50fc with SMTP id 2adb3069b0e04-53df0111f03mr8755501e87.48.1732931577781;
-        Fri, 29 Nov 2024 17:52:57 -0800 (PST)
+        bh=z1lXYCxrn128DpMjUx/X3ynnQZTeAwK/ttm0jSS1k6c=;
+        b=AU0s1xzTTmmjVJqrlVMueId1WLmG54sCa7wEbqFy1TyuqGjLXFs/rs34foleTxsdzx
+         oU4cBR9ateqdHK0KPFTxnxPpvGz3s08x6+/DSsMOZVaGZ/guvQcQEIKj3+XMsmOkv1y+
+         3+Qchij59xFXszLS7QF8Gf4W/ucfrNwdmJxmGv/ja0a1ErnmRh4bBN5zZ/OtSQApPm27
+         zttFL5YJv+VgzadUuLhWSG8g8oB6HObxfBWFqkyTJV/qwS4BkOrB6YYupyMpnbXAWLDl
+         64FwZvyWEOHwh8d1bYE4Y/1sHURRrVUYhOxKJ4xG4VEbW04R6c6O9/RyWy18ErhBHCiN
+         PAQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVd/2bPKUDfhgSy8HyKzYUzLo8bxgYUNDF0rSqhhE+GBn4nnM9/sGlSHszt09Zrsvm+P5Ruq4S9sdrTUA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwZ3IRH6hz14K61LSDVqE2nyP7+/HuHZXV4iG/X1N2tfzbKZZdk
+	Xva6rpIqVvC/+czAUq9Hb05K1/Vxx8Qtdlc+ZbluGSc9ah9abDc6sD8ffxt/mWA=
+X-Gm-Gg: ASbGncvnkN+lliEF57d6r6HWDwOsEbXRf/51CbDzY0fjldLEkqJ0KAUnwtq6Z/MszEL
+	WyEd0N99XS3ZmCkZF9jD9BXJo4oII8406M7nj+ZPZSVSA9SHysl0jlncXGbFpisnNzbRloHNwmH
+	IdU32BB74qxuRG/WS6cyS9OE5eZvDdlh4UJWRDXJ7lIgDs++P32OBFprSBbyeiTd1M4t+MZI5/Z
+	JDJ+OpRfD2v9D/0JWWZghbk8YCEFsayKxXuUDJgNuDqr0fOoMXEO3IShg==
+X-Google-Smtp-Source: AGHT+IF1zZCeJZP0c56HDhB3dZvzfBBbMK+T1fbyelhZdZGvyXwekGQxsUf0KFWRtcl6qeCukozDbg==
+X-Received: by 2002:a05:6512:3ba2:b0:53d:ab21:4e17 with SMTP id 2adb3069b0e04-53df010e3dcmr8347283e87.55.1732931580177;
+        Fri, 29 Nov 2024 17:53:00 -0800 (PST)
 Received: from umbar.lan ([192.130.178.90])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53df6443172sm636408e87.84.2024.11.29.17.52.55
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53df6443172sm636408e87.84.2024.11.29.17.52.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Nov 2024 17:52:56 -0800 (PST)
+        Fri, 29 Nov 2024 17:52:58 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 30 Nov 2024 03:52:34 +0200
-Subject: [PATCH v5 09/10] drm/bridge: dw-hdmi-qp: replace mode_valid with
- tmds_char_rate
+Date: Sat, 30 Nov 2024 03:52:35 +0200
+Subject: [PATCH v5 10/10] drm/sun4i: use
+ drm_atomic_helper_connector_hdmi_check()
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -68,7 +68,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241130-hdmi-mode-valid-v5-9-742644ec3b1f@linaro.org>
+Message-Id: <20241130-hdmi-mode-valid-v5-10-742644ec3b1f@linaro.org>
 References: <20241130-hdmi-mode-valid-v5-0-742644ec3b1f@linaro.org>
 In-Reply-To: <20241130-hdmi-mode-valid-v5-0-742644ec3b1f@linaro.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -86,64 +86,67 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2092;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2060;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=UjNMLqX51SwfyB+kbUbjnJt95fAbmRoKvLYOPQ8ek9c=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnSm/hP4NTjv4z5OlKc/siHNPmPX53A9tMpMizW
- QagCkkZEseJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ0pv4QAKCRCLPIo+Aiko
- 1YEYCACSjhD/Ij07xD1HSZ7Kb4z+Son1xvlSmJAJ4SpssXNb9iPUFIVI8goXplbGswSwyMT7gN/
- TJA4uoW5pm1VZfjXG6tfbVQkLp1egYiDvrum1DeygQ92wEt56uRPyVIx4IdIfPtB4T4NeaaxRHz
- LQnkHZDgA5FLhdyenT4uGiwtnYN42jAeIQOKN9kR+a3UWYD+yYdlR7SqZ/7LE57ljVXynJbKs6g
- U1MS/hQbvYoXlzbGG88vk9XYuwEsCee0SN0HMVpBvPgf+iAWlBzry2fAO18n4a3PcxUb5yoO8pZ
- BJV4wpwjoTw7LieiIOIG62SIWjAAknBD03dVAhxa/2O9Jx3N
+ bh=tt33sNy4EHSANTDHQAExXai1314OqzFqkWnpPj2YPOw=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnSm/hEd3SJUPYNRrY3fgh17VdYvds7f7Q168Zy
+ EaL3JawgciJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ0pv4QAKCRCLPIo+Aiko
+ 1X26CACq+Vplt9h/bOf8vjWm6vdUiW7JOHiBTGnHe70WgxSHu/ZuvlCePWg1uh99nqgs2ima6WF
+ a9lLDOxqI+EJiL4HXVW/9rMgRI9+kPpvRo4ZpFhSzWDzSDLhXw69MnpuoryWhAMHZUyDDqAaP6O
+ eiqfS2m9WWGLc9eup/Hiiuc2DkZeZRIUpCxUytQsfiM08yjPmolqxG1B6UJFaoNBNQnoAiB6NKV
+ 6yENKHrcdPICm1HbAhl90zh1cQYxOeCxuPr/++Vj6Lb/96pS3lioxQ+HZxLy35xyxCP5nSvsOIB
+ IF09MJu53IVZkYd6054wQHgHWjrTHeEygEM+tXSOP4m5zQ6Z
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 
-Replace .mode_valid() callback with .hdmi_tmds_char_rate_valid(). It is
-more generic and is used in other mode validation paths. The rate
-validation for .mode_valid() will be performed by the
-drm_bridge_connector code.
+Replace sun4i_hdmi_connector_atomic_check(), which performs just TMDS
+char rate check, with drm_atomic_helper_connector_hdmi_check(), which
+performs additional checks basing on the HDMI Connector's state.
 
-Reviewed-by: Chen-Yu Tsai <wens@csie.org>
+Suggested-by: Maxime Ripard <mripard@kernel.org>
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 20 +-------------------
+ 1 file changed, 1 insertion(+), 19 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-index 181c5164b23192f0b557624d73c6223032b90ec6..c686671e4850a1af75b82995185ffc3cbb22a447 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-@@ -442,16 +442,14 @@ dw_hdmi_qp_bridge_edid_read(struct drm_bridge *bridge,
+diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+index 54b72fe220afacc208b3fd48d5160031127ea14a..b05fd77870b00aac97d003f3fb9c2b98cb73abc0 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
++++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+@@ -187,24 +187,6 @@ sun4i_hdmi_connector_clock_valid(const struct drm_connector *connector,
+ 	return MODE_NOCLOCK;
  }
  
- static enum drm_mode_status
--dw_hdmi_qp_bridge_mode_valid(struct drm_bridge *bridge,
--			     const struct drm_display_info *info,
--			     const struct drm_display_mode *mode)
-+dw_hdmi_qp_bridge_tmds_char_rate_valid(const struct drm_bridge *bridge,
-+				       const struct drm_display_mode *mode,
-+				       unsigned long long rate)
+-static int sun4i_hdmi_connector_atomic_check(struct drm_connector *connector,
+-					     struct drm_atomic_state *state)
+-{
+-	struct drm_connector_state *conn_state =
+-		drm_atomic_get_new_connector_state(state, connector);
+-	struct drm_crtc *crtc = conn_state->crtc;
+-	struct drm_crtc_state *crtc_state = crtc->state;
+-	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
+-	enum drm_mode_status status;
+-
+-	status = sun4i_hdmi_connector_clock_valid(connector, mode,
+-						  conn_state->hdmi.tmds_char_rate);
+-	if (status != MODE_OK)
+-		return -EINVAL;
+-
+-	return 0;
+-}
+-
+ static int sun4i_hdmi_get_modes(struct drm_connector *connector)
  {
- 	struct dw_hdmi_qp *hdmi = bridge->driver_private;
--	unsigned long long rate;
+ 	struct sun4i_hdmi *hdmi = drm_connector_to_sun4i_hdmi(connector);
+@@ -258,7 +240,7 @@ static const struct drm_connector_hdmi_funcs sun4i_hdmi_hdmi_connector_funcs = {
+ };
  
--	rate = drm_hdmi_compute_mode_clock(mode, 8, HDMI_COLORSPACE_RGB);
- 	if (rate > HDMI14_MAX_TMDSCLK) {
--		dev_dbg(hdmi->dev, "Unsupported mode clock: %d\n", mode->clock);
-+		dev_dbg(hdmi->dev, "Unsupported TMDS char rate: %lld\n", rate);
- 		return MODE_CLOCK_HIGH;
- 	}
- 
-@@ -510,7 +508,7 @@ static const struct drm_bridge_funcs dw_hdmi_qp_bridge_funcs = {
- 	.atomic_disable = dw_hdmi_qp_bridge_atomic_disable,
- 	.detect = dw_hdmi_qp_bridge_detect,
- 	.edid_read = dw_hdmi_qp_bridge_edid_read,
--	.mode_valid = dw_hdmi_qp_bridge_mode_valid,
-+	.hdmi_tmds_char_rate_valid = dw_hdmi_qp_bridge_tmds_char_rate_valid,
- 	.hdmi_clear_infoframe = dw_hdmi_qp_bridge_clear_infoframe,
- 	.hdmi_write_infoframe = dw_hdmi_qp_bridge_write_infoframe,
+ static const struct drm_connector_helper_funcs sun4i_hdmi_connector_helper_funcs = {
+-	.atomic_check	= sun4i_hdmi_connector_atomic_check,
++	.atomic_check	= drm_atomic_helper_connector_hdmi_check,
+ 	.mode_valid	= drm_hdmi_connector_mode_valid,
+ 	.get_modes	= sun4i_hdmi_get_modes,
  };
 
 -- 
