@@ -1,122 +1,172 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8A1C145A17;
-	Fri, 29 Nov 2024 15:37:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9390339ACC
+	for <linux-sunxi@lists.linux.dev>; Sat, 30 Nov 2024 01:52:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732894664; cv=none; b=O//bb0Huf9uesWZezlTvsO3fAYOwNCJKCpJzTtX1gvqPhMHST1qvrxCgphNALffRkMKcttWcnJNiYf3xCVsH5DYb3GvLya4mYHGZDI2SnHGViLu9xteFbhFrbtURaPRxUZ+XH/ODTdZxfiGqEKLyDMvJKqMCmPwhmmeRY6jOdR8=
+	t=1732931559; cv=none; b=i/njPFR//8VOBr1TbuktiSpAnRxIh2bVjlcsJe2fTHPJiAVFxn/QQabyJt63da6dqRu0MZRCDRK9M5RsdAPd+i4sethndmH1cczvNpptK2HVDw5LXwUgciTiV+AggDR/xySz4XdidWHoFGMMpnhPpONnAllCD3D6DY4f0vUDQ3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732894664; c=relaxed/simple;
-	bh=B8ZduSCXx+T9t862mFfTVamD3ZvIyVqH4xZpWXNHI8s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PNIPIbQVCw4IL8AQ+Xw9jX+qi2taTR5mWuh2daZZzjTvkUY4AOhymQ/XMWblimCXhDIQCaSZ1OcVLvdhCyggtZ1Sze8iYsCHlPBH7e6WNrQGeXD8Y19YKhasSkKmsepFrlHWbbIVqLaZITOvaHxWIk5EI69+KbSciFIuneW4/T0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q5DSdd69; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732931559; c=relaxed/simple;
+	bh=3VcAga3hvcMUfVcAzQwDqmHLVIM+9BjN897sk6QijEc=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=WiXpvfXkuDgji21bgujtMDA7N+5G35jbsRtX+7hltGNcs4XFTRG85tlstTb+Q24sIBBxZMVjKRe313mA5y0A3tkNtAf8YUdb3j+r8uTAV0FKtuW5sPkJQd/HTwM2SQeqwlVtR/SWfI8XXvrvNf/5S6rnFX1FlUN35OAczOcVo/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PgDtMOxt; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q5DSdd69"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D866C4CECF;
-	Fri, 29 Nov 2024 15:37:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732894663;
-	bh=B8ZduSCXx+T9t862mFfTVamD3ZvIyVqH4xZpWXNHI8s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Q5DSdd69wrziYSI7Y481XqxoGe44LO/arqKa2tz4/uZFMGslQMfwZC1ZLUPGewepR
-	 emsKb9hU+gqOKFa7psWcnFDLQVKphFIyFeKdAY1ybWodFsP4U0GB7i2v7r4H7Sm/hn
-	 hxv1gNulM2xM523moMfb5WFLHD5NppVHUiSjGUdwPPgI9+6xcRhr/vleHLxOhGXbF6
-	 P35JKxGiDY0elKcnuplnPDyikTsOgnAtNls3+myOBdRYrcFXC8/A/g5NSO21gHJDBL
-	 gFXSGPOwQ80eRItrGdyeE++p/V1Y1cJ6j8kRzFzxgqK/teDjw4rXLM3J4E2hi7abtR
-	 /fbSizfWvVL5Q==
-Date: Fri, 29 Nov 2024 16:37:41 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Paul Kocialkowski <paulk@sys-base.io>
-Cc: linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Linus Walleij <linus.walleij@linaro.org>, 
-	Paul Kocialkowski <contact@paulk.fr>
-Subject: Re: [PATCH] pinctrl: sunxi: Use minimal debouncing period as default
-Message-ID: <20241129-amazing-whale-of-proficiency-ee6fd2@houat>
-References: <20241119140805.3345412-1-paulk@sys-base.io>
- <20241119-prudent-jasmine-lizard-195cef@houat>
- <ZzyoIABRArkGoZBn@collins>
- <20241119-vivacious-optimistic-squirrel-a2f3c5@houat>
- <ZzzdT0wr0u1ApVgV@collins>
- <20241120-wild-stimulating-prawn-ffefb7@houat>
- <Zz20dquzl5_2_3TQ@collins>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PgDtMOxt"
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-53df1d1b6e8so2456202e87.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 29 Nov 2024 17:52:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1732931556; x=1733536356; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0idVwC/Y8BowBuwoiQH15R6OW71zBvrSnYfglmGNHWM=;
+        b=PgDtMOxt3nyH4Iqo70f6gOYKvGEC5+/nHi38hl/vY82UlzomWLTwXaFoOzER8ufbij
+         4ru715dZItoMcmVWKaWyBOrFwSG4hvecBMU4lHCvz+JC06qz6+z7B67NChScjFsLUNJT
+         6JeN95yFtdocqwiGr6xWubZX+BXTFlnsg3gvhH+nuc/Jyo2jvzN4szPwWfT44OlTOPCt
+         X0fzYF0exiTxPCwA2q7Jhv1GCTLP8PtoolRYeDEtOIxo5UdW9QfBvg0k2QPt1GhlYxKA
+         ZzL9yIr6fY7SDko6/L/ehKYKXklPVbJiO+2+A3G9cyyVePLcvVjjJEgaE+6PdQxPjsMY
+         mfTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732931556; x=1733536356;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0idVwC/Y8BowBuwoiQH15R6OW71zBvrSnYfglmGNHWM=;
+        b=SSuJAMSxJZDlbDapxxU4yR7vcKKSjkU5iMD8Ra4F1ttFg14mi2KcU4jbTSQgtRqnqg
+         UMvNBS/7k6LwIENQF9VaH7wZ7NhzCm6UuoEajruHoo3Vmx6F/g0MQAbF3i7RP3RkrfF2
+         /q2W56PxH0/UF7EpuMmqc5wfraQt1gKvuip4JEwA5FAj2AQVHnlVyUGkauxX61427q3W
+         L0BfMfwfH9/v/sRuC4WDlJ5dsmHYQLO7KccK3JTJiAhue0P0t723mI42/3EIQAUReIrE
+         7im2Rseoq2SjGFpCCRHMqF3vOlGK/M9IRn+t7CHIxoBH+bDXPVBqeOOK7ULqypyjygWG
+         niDw==
+X-Forwarded-Encrypted: i=1; AJvYcCWZZ1LTfosoj+g/M5eQ1YViLRwE2kNqlhSEM/jIGQJF34MtPnUZaLz7oaQJAA45KzYY0OORkKFxijSW4w==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx9w6lTjRrzifcyoDDovSskiJ9d6qKpKHHMqQovIqP6lNWM11UB
+	boTkkf0mm8x/5QlzLSE3OyQjqhE8oQKqi4h0rRNpKnEwiMWgtodDNoR0AYI1ukg=
+X-Gm-Gg: ASbGnct/DVbGzVwWhBwf3qpQ1M3XG3h4kAaPezJpkl4Tg4jXmt5Yj4ct6FAJ9vxr5Ra
+	eSil/Y26LQ3bDZ8kyNvYHz0K2b07dYaA4f2sxZ4GjCMxzV6rfSNXIkH7V4oD3Cj86ahAcMYMr0V
+	EukW/Bk+Z0oUDzX7k+ugmsIgmkPWwwfO+GULMDGs87G7xuPLgofEkSLfScez+p71iIwaf4lIvAE
+	NMRdgXFt+baRom1Xm1ptf+2WZm86vXmVhQGV1K+ZgBsp7FTnigZABx3dQ==
+X-Google-Smtp-Source: AGHT+IEOzhXxDvsEIpRrEowV0sChYjq+QMeob7GWZCSiPE7ZrboRJzT4FPXckQ+mbro5wEegC/OfhQ==
+X-Received: by 2002:a05:6512:3983:b0:53d:ed98:4a02 with SMTP id 2adb3069b0e04-53df0104907mr5269165e87.43.1732931555747;
+        Fri, 29 Nov 2024 17:52:35 -0800 (PST)
+Received: from umbar.lan ([192.130.178.90])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53df6443172sm636408e87.84.2024.11.29.17.52.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Nov 2024 17:52:34 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH v5 00/10] drm/display: hdmi: add
+ drm_hdmi_connector_mode_valid()
+Date: Sat, 30 Nov 2024 03:52:25 +0200
+Message-Id: <20241130-hdmi-mode-valid-v5-0-742644ec3b1f@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="4fudffiqskytk6s2"
-Content-Disposition: inline
-In-Reply-To: <Zz20dquzl5_2_3TQ@collins>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANlvSmcC/3XNwWrDMAzG8VcpPs/FlpXE6anvMXbQYrkRtHFxh
+ tkoefe5vazF7Pj/QD/d1MpZeFWH3U1lLrJKWmp0bzs1zbScWEuorcAAWmO9nsNF9CUF1oXOEjQ
+ RT4jgO2MnVa+umaN8P8T3j9qzrF8p/zweFHtf/7eK1Ub3jCMxemPjcDzLQjntUz6pO1bgD6hCC
+ 0AFqMfBxwAmUt8A7hkYW8BVoHPoJ3C9N0ML4BMA0AJYAYjMSN7R5zC+ANu2/QImxQRYcgEAAA=
+ =
+X-Change-ID: 20241018-hdmi-mode-valid-aaec4428501c
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3211;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=3VcAga3hvcMUfVcAzQwDqmHLVIM+9BjN897sk6QijEc=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnSm/fvjfE0CWcAXr9KSR9cTNBZ3DlIiCtoE4lG
+ DpPQzmfhVaJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ0pv3wAKCRCLPIo+Aiko
+ 1RzUB/wKuFVuYYbaERg38SyUJLRDaSgm+9ilE3D1p5SZHbKeahca1eECRZpBzpaniztBSnOap7S
+ MSK0Yi378KQfEPC9z94rCyPKien7YuxYQ5+z2YYUWpX9wt4Pa1pXVZw3T/2XBgzaLNEUln7VNba
+ 1i9PjTN+TqokVzguj2GlwmOZxc5nMYOR+VwTgwFPXq7Dwa76BvNgVBCIoU90ILFZLCHUbNhorYG
+ f1v+uf60UGNOyqr2e/hTRVdZc8hXIVIvyYRpIMHshnVlN2grD9j3as8+mvJBxqPnhFyNOsmW9TH
+ Cl4Af68b7Tlg7FUAswAYyfTd4Q7yG97X9zjgYQ7nzcl9Vj37
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 
+Several HDMI drivers have common code pice in the .mode_valid function
+that validates RGB / 8bpc rate using the TMDS char rate callbacks.
 
---4fudffiqskytk6s2
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] pinctrl: sunxi: Use minimal debouncing period as default
-MIME-Version: 1.0
+Move this code piece to the common helper and remove the need to perform
+this check manually. In case of DRM_BRIDGE_OP_HDMI bridges, they can
+skip the check in favour of performing it in drm_bridge_connector.
 
-On Wed, Nov 20, 2024 at 11:05:42AM +0100, Paul Kocialkowski wrote:
-> Le Wed 20 Nov 24, 09:01, Maxime Ripard a =E9crit :
-> > > > If anything, the status quo doesn't impose anything, it just rolls =
-with
-> > > > the hardware default. Yours would impose one though.
-> > >=20
-> > > The result is that it puts a strong limitation and breaks many use ca=
-ses by
-> > > default. I don't think we have to accept whatever register default wa=
-s chosen
-> > > by hardware engineers as the most sensible default choice and pretend=
- that this
-> > > is not a policy decision.
-> >=20
-> > You're making it much worse than it is. It doesn't "break many use
-> > cases" it broke one, by default, with a supported way to unbreak it, in
-> > 12 years.
->=20
-> I think this is exaggerated. Like I mentioned previously there are *many*
-> situations that are not covered by the default.
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+Changes in v5:
+- Fixed alignment after renaming the connector creation funciton
+  (Maxime)
+- Link to v4: https://lore.kernel.org/r/20241122-hdmi-mode-valid-v4-0-2fee4a83ab79@linaro.org
 
-Note that this statement would be true for any default. The current, the
-one you suggest, or any other really. The fact that we have a way to
-override it is an acknowledgement that it's not a one size fits all
-situation.
+Changes in v4:
+- Fixed build warning in VC4 driver by adding .mode_valid to
+  vc4_hdmi_connector_helper_funcs (LKP)
+- Reworked HDMI test helpers (Maxime)
+- Expanded test descriptions and comments (Maxime)
+- Added new EDID to test info.max_tmds_clock filtering (Maxime)
+- Link to v3: https://lore.kernel.org/r/20241109-hdmi-mode-valid-v3-0-5348c2368076@linaro.org
 
-> The fact that I'm the first person to bring it up in 12 years doesn't
-> change that.
+Changes in v3:
+- Moved drm_hdmi_connector_mode_valid() to drm_hdmi_state_helper.c
+  (Maxime)
+- Added commnt next to the preferred = list_first_entry() assignment
+  (Maxime)
+- Added comments to new tests, describing what is being tested (Maxime)
+- Replaced sun4i_hdmi_connector_atomic_check() with
+  drm_atomic_helper_connector_hdmi_check() (Maxime)
+- Link to v2: https://lore.kernel.org/r/20241101-hdmi-mode-valid-v2-0-a6478fd20fa6@linaro.org
 
-Sure. It does however hint that it seems like it's a sane enough
-default.
+Changes in v2:
+- Switched drm_hdmi_connector_mode_valid() to use common helper
+  (ex-hdmi_clock_valid()) (Maxime)
+- Added simple unit tests for drm_hdmi_connector_mode_valid().
+- Link to v1: https://lore.kernel.org/r/20241018-hdmi-mode-valid-v1-0-6e49ae4801f7@linaro.org
 
-> Sofar the downside you brought up boils down to: badly-designed
-> hardware may have relied on this mechanism to avoid interrupt storms
-> that could prevent the system from booting.
+---
+Dmitry Baryshkov (10):
+      drm/tests: hdmi: handle empty modes in find_preferred_mode()
+      drm/tests: hdmi: rename connector creation function
+      drm/tests: hdmi: return meaningful value from set_connector_edid()
+      drm/display: hdmi: add generic mode_valid helper
+      drm/sun4i: use drm_hdmi_connector_mode_valid()
+      drm/vc4: use drm_hdmi_connector_mode_valid()
+      drm/display: bridge_connector: use drm_bridge_connector_mode_valid()
+      drm/bridge: lontium-lt9611: drop TMDS char rate check in mode_valid
+      drm/bridge: dw-hdmi-qp: replace mode_valid with tmds_char_rate
+      drm/sun4i: use drm_atomic_helper_connector_hdmi_check()
 
-It's not about good or bad design. Buttons bounce, HPD signals bounce,
-it's just the world we live in.
+ drivers/gpu/drm/bridge/lontium-lt9611.c            |   4 +-
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c       |  12 +-
+ drivers/gpu/drm/display/drm_bridge_connector.c     |  16 +-
+ drivers/gpu/drm/display/drm_hdmi_state_helper.c    |  21 ++
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c             |  32 +-
+ drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 409 +++++++++++++++------
+ drivers/gpu/drm/tests/drm_kunit_edid.h             | 102 +++++
+ drivers/gpu/drm/vc4/vc4_hdmi.c                     |   5 +-
+ include/drm/display/drm_hdmi_state_helper.h        |   4 +
+ 9 files changed, 441 insertions(+), 164 deletions(-)
+---
+base-commit: 44cff6c5b0b17a78bc0b30372bcd816cf6dd282a
+change-id: 20241018-hdmi-mode-valid-aaec4428501c
 
-But let me rephrase if my main objection wasn't clear enough: you want
-to introduce an ABI breaking change. With the possibility of breaking
-devices that have worked fine so far. That's not ok.
+Best regards,
+-- 
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Maxime
-
---4fudffiqskytk6s2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ0nfxAAKCRAnX84Zoj2+
-dk7LAYDGqN4+FFKYNkVeh8uBncZUXNq1+3hQGCVKth0yfd3qHhn9VImj9CLuhxpe
-0uuZEIkBf18IaV+JYJMvpW2AWpLOCDfVa5A+SLz6MGRXBt8mhAfrxGWV/K10P8XN
-7auTbJcbqA==
-=P+2t
------END PGP SIGNATURE-----
-
---4fudffiqskytk6s2--
