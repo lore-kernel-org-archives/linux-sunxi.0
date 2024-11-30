@@ -1,154 +1,200 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E60A8155CB0
-	for <linux-sunxi@lists.linux.dev>; Sat, 30 Nov 2024 01:53:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A09528EA
+	for <linux-sunxi@lists.linux.dev>; Sat, 30 Nov 2024 10:42:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732931583; cv=none; b=OjSzjUlyj24R7V6qhNIglp9u/zim2BqB31oqLyrHK+0tzQIDDGQlUOMNIrqwKoI4KhwioO/fJm83dGYH4Q1PKpENDoVVd1o3jpvfMWJyuqP3FObXqr7OeyyJbFGo6vBbdUQQgc35cjBIhSK0bQDh3EZ05PnYeGR0YoBjroCdFGA=
+	t=1732963326; cv=none; b=sz/XCyXDAl3hJ27TFadE1FxB5eQpgDPZ6KR6wacUqqAKgqVulml6EsIgT9FIkdPfR7hu1bK6fxtnzp+T87UTTmzRVklXzLuyO4oChD2FRpae3eawUhwl8btn8z2KGgo6uq4xYSG96LvX4YOjWwlOPPDRrW6WEsgtNtu5oDo0tMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732931583; c=relaxed/simple;
-	bh=tt33sNy4EHSANTDHQAExXai1314OqzFqkWnpPj2YPOw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=QsVo8++E38NYNJAyjKkJ5ZoLMBCslyPrA+GFy8wCmv8lXXVvLxvAF6wJQBHz1/xAM3thypGVwZK7yXBbv3ItQA4x9FCJwBqAhcxJPZXRjS1pX+WwhmawlzGTSt4Ut9hB19u0j/jUxC5W7cNtqsSULm2XHuYfUrM7v5KAmQYasFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=N5tFbkio; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="N5tFbkio"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-53de8ecafeeso2740904e87.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 29 Nov 2024 17:53:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1732931580; x=1733536380; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=z1lXYCxrn128DpMjUx/X3ynnQZTeAwK/ttm0jSS1k6c=;
-        b=N5tFbkio+vWoEe0WfF4qE3/d8P8Ufzl0En9vfh1VTdoYyQGvMW+NChuLAQxc55IisT
-         3r7h1sgq8u9ZqlkDgS54Thie7G8dHZnFMVf72SbJpYETsmaJksWpr5psYduyaynXN7dv
-         OARWEi2U2IZ5B8Rgwfj0zDAHYQ3NoA9vTCvykkhf7a8iscY7f5vmrndNL7z4Tl12DEju
-         OJfqQvDu7bKF2gem5FQxmBsvvZR7bHfChA7sUY9QBGBC63mtmI7DSwIEOujehKmmfwnj
-         AiWTQiHRZsOKIAgCEev1KdumPZeYiDHHTv6eM5FC2SZUxIxfbkbX4wVUmF+uzbO885A7
-         1cIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732931580; x=1733536380;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=z1lXYCxrn128DpMjUx/X3ynnQZTeAwK/ttm0jSS1k6c=;
-        b=AU0s1xzTTmmjVJqrlVMueId1WLmG54sCa7wEbqFy1TyuqGjLXFs/rs34foleTxsdzx
-         oU4cBR9ateqdHK0KPFTxnxPpvGz3s08x6+/DSsMOZVaGZ/guvQcQEIKj3+XMsmOkv1y+
-         3+Qchij59xFXszLS7QF8Gf4W/ucfrNwdmJxmGv/ja0a1ErnmRh4bBN5zZ/OtSQApPm27
-         zttFL5YJv+VgzadUuLhWSG8g8oB6HObxfBWFqkyTJV/qwS4BkOrB6YYupyMpnbXAWLDl
-         64FwZvyWEOHwh8d1bYE4Y/1sHURRrVUYhOxKJ4xG4VEbW04R6c6O9/RyWy18ErhBHCiN
-         PAQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVd/2bPKUDfhgSy8HyKzYUzLo8bxgYUNDF0rSqhhE+GBn4nnM9/sGlSHszt09Zrsvm+P5Ruq4S9sdrTUA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwZ3IRH6hz14K61LSDVqE2nyP7+/HuHZXV4iG/X1N2tfzbKZZdk
-	Xva6rpIqVvC/+czAUq9Hb05K1/Vxx8Qtdlc+ZbluGSc9ah9abDc6sD8ffxt/mWA=
-X-Gm-Gg: ASbGncvnkN+lliEF57d6r6HWDwOsEbXRf/51CbDzY0fjldLEkqJ0KAUnwtq6Z/MszEL
-	WyEd0N99XS3ZmCkZF9jD9BXJo4oII8406M7nj+ZPZSVSA9SHysl0jlncXGbFpisnNzbRloHNwmH
-	IdU32BB74qxuRG/WS6cyS9OE5eZvDdlh4UJWRDXJ7lIgDs++P32OBFprSBbyeiTd1M4t+MZI5/Z
-	JDJ+OpRfD2v9D/0JWWZghbk8YCEFsayKxXuUDJgNuDqr0fOoMXEO3IShg==
-X-Google-Smtp-Source: AGHT+IF1zZCeJZP0c56HDhB3dZvzfBBbMK+T1fbyelhZdZGvyXwekGQxsUf0KFWRtcl6qeCukozDbg==
-X-Received: by 2002:a05:6512:3ba2:b0:53d:ab21:4e17 with SMTP id 2adb3069b0e04-53df010e3dcmr8347283e87.55.1732931580177;
-        Fri, 29 Nov 2024 17:53:00 -0800 (PST)
-Received: from umbar.lan ([192.130.178.90])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53df6443172sm636408e87.84.2024.11.29.17.52.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Nov 2024 17:52:58 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 30 Nov 2024 03:52:35 +0200
-Subject: [PATCH v5 10/10] drm/sun4i: use
- drm_atomic_helper_connector_hdmi_check()
+	s=arc-20240116; t=1732963326; c=relaxed/simple;
+	bh=JSBJ1/bWK3QTp/vHaELpNZ0W7lJSYrSIVr3oxkKdc+M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Rsm4P95Bi9oZqKsXMyVUivu/fSmLnZM18DQHiC/epMA8SHf1FT0eNXPbSP1e+YIw1ee4fAP/k8+dWJSseLHhux41zOMVbt0cqKmsF3BPjGWZWrGFHtVHPXtLJiUNn8spDT1qlkJrkH/4x5xNcWO7Up4d/ACk/ohDElgmW2AmfRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+	by leonov.paulk.fr (Postfix) with ESMTPS id B248D1F00050
+	for <linux-sunxi@lists.linux.dev>; Sat, 30 Nov 2024 10:34:13 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+	id 7968CA48CA5; Sat, 30 Nov 2024 10:34:12 +0000 (UTC)
+X-Spam-Level: 
+Received: from collins (unknown [192.168.1.1])
+	by laika.paulk.fr (Postfix) with ESMTPSA id 71B76A48C9A;
+	Sat, 30 Nov 2024 10:34:10 +0000 (UTC)
+Date: Sat, 30 Nov 2024 11:34:08 +0100
+From: Paul Kocialkowski <paulk@sys-base.io>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Paul Kocialkowski <contact@paulk.fr>
+Subject: Re: [PATCH] pinctrl: sunxi: Use minimal debouncing period as default
+Message-ID: <Z0rqILFESdje9qUn@collins>
+References: <20241119140805.3345412-1-paulk@sys-base.io>
+ <20241119-prudent-jasmine-lizard-195cef@houat>
+ <ZzyoIABRArkGoZBn@collins>
+ <20241119-vivacious-optimistic-squirrel-a2f3c5@houat>
+ <ZzzdT0wr0u1ApVgV@collins>
+ <20241120-wild-stimulating-prawn-ffefb7@houat>
+ <Zz20dquzl5_2_3TQ@collins>
+ <20241129-amazing-whale-of-proficiency-ee6fd2@houat>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241130-hdmi-mode-valid-v5-10-742644ec3b1f@linaro.org>
-References: <20241130-hdmi-mode-valid-v5-0-742644ec3b1f@linaro.org>
-In-Reply-To: <20241130-hdmi-mode-valid-v5-0-742644ec3b1f@linaro.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2060;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=tt33sNy4EHSANTDHQAExXai1314OqzFqkWnpPj2YPOw=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnSm/hEd3SJUPYNRrY3fgh17VdYvds7f7Q168Zy
- EaL3JawgciJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ0pv4QAKCRCLPIo+Aiko
- 1X26CACq+Vplt9h/bOf8vjWm6vdUiW7JOHiBTGnHe70WgxSHu/ZuvlCePWg1uh99nqgs2ima6WF
- a9lLDOxqI+EJiL4HXVW/9rMgRI9+kPpvRo4ZpFhSzWDzSDLhXw69MnpuoryWhAMHZUyDDqAaP6O
- eiqfS2m9WWGLc9eup/Hiiuc2DkZeZRIUpCxUytQsfiM08yjPmolqxG1B6UJFaoNBNQnoAiB6NKV
- 6yENKHrcdPICm1HbAhl90zh1cQYxOeCxuPr/++Vj6Lb/96pS3lioxQ+HZxLy35xyxCP5nSvsOIB
- IF09MJu53IVZkYd6054wQHgHWjrTHeEygEM+tXSOP4m5zQ6Z
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="RnBcvG6sakiQSko5"
+Content-Disposition: inline
+In-Reply-To: <20241129-amazing-whale-of-proficiency-ee6fd2@houat>
 
-Replace sun4i_hdmi_connector_atomic_check(), which performs just TMDS
-char rate check, with drm_atomic_helper_connector_hdmi_check(), which
-performs additional checks basing on the HDMI Connector's state.
 
-Suggested-by: Maxime Ripard <mripard@kernel.org>
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 20 +-------------------
- 1 file changed, 1 insertion(+), 19 deletions(-)
+--RnBcvG6sakiQSko5
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-index 54b72fe220afacc208b3fd48d5160031127ea14a..b05fd77870b00aac97d003f3fb9c2b98cb73abc0 100644
---- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-@@ -187,24 +187,6 @@ sun4i_hdmi_connector_clock_valid(const struct drm_connector *connector,
- 	return MODE_NOCLOCK;
- }
- 
--static int sun4i_hdmi_connector_atomic_check(struct drm_connector *connector,
--					     struct drm_atomic_state *state)
--{
--	struct drm_connector_state *conn_state =
--		drm_atomic_get_new_connector_state(state, connector);
--	struct drm_crtc *crtc = conn_state->crtc;
--	struct drm_crtc_state *crtc_state = crtc->state;
--	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
--	enum drm_mode_status status;
--
--	status = sun4i_hdmi_connector_clock_valid(connector, mode,
--						  conn_state->hdmi.tmds_char_rate);
--	if (status != MODE_OK)
--		return -EINVAL;
--
--	return 0;
--}
--
- static int sun4i_hdmi_get_modes(struct drm_connector *connector)
- {
- 	struct sun4i_hdmi *hdmi = drm_connector_to_sun4i_hdmi(connector);
-@@ -258,7 +240,7 @@ static const struct drm_connector_hdmi_funcs sun4i_hdmi_hdmi_connector_funcs = {
- };
- 
- static const struct drm_connector_helper_funcs sun4i_hdmi_connector_helper_funcs = {
--	.atomic_check	= sun4i_hdmi_connector_atomic_check,
-+	.atomic_check	= drm_atomic_helper_connector_hdmi_check,
- 	.mode_valid	= drm_hdmi_connector_mode_valid,
- 	.get_modes	= sun4i_hdmi_get_modes,
- };
+Hi Maxime,
 
--- 
-2.39.5
+Le Fri 29 Nov 24, 16:37, Maxime Ripard a =C3=A9crit :
+> On Wed, Nov 20, 2024 at 11:05:42AM +0100, Paul Kocialkowski wrote:
+> > Le Wed 20 Nov 24, 09:01, Maxime Ripard a =C3=A9crit :
+> > > > > If anything, the status quo doesn't impose anything, it just roll=
+s with
+> > > > > the hardware default. Yours would impose one though.
+> > > >=20
+> > > > The result is that it puts a strong limitation and breaks many use =
+cases by
+> > > > default. I don't think we have to accept whatever register default =
+was chosen
+> > > > by hardware engineers as the most sensible default choice and prete=
+nd that this
+> > > > is not a policy decision.
+> > >=20
+> > > You're making it much worse than it is. It doesn't "break many use
+> > > cases" it broke one, by default, with a supported way to unbreak it, =
+in
+> > > 12 years.
+> >=20
+> > I think this is exaggerated. Like I mentioned previously there are *man=
+y*
+> > situations that are not covered by the default.
+>=20
+> Note that this statement would be true for any default. The current, the
+> one you suggest, or any other really. The fact that we have a way to
+> override it is an acknowledgement that it's not a one size fits all
+> situation.
 
+Again the debate is about which option has the best advantages over
+disadvantages. I'm not saying the default I suggest has no issues, but
+rather that the benefits very clearly outweight the issues. Hence the many
+situations that would be supported with the shortest debouncing period (both
+short and frequent interrupts) versus the few broken-hardware use-cases
+(related to interrupt storms) support with the largest period.
+
+> > The fact that I'm the first person to bring it up in 12 years doesn't
+> > change that.
+>=20
+> Sure. It does however hint that it seems like it's a sane enough
+> default.
+
+Or maybe people didn't realize this mechanism existed, failed to understand
+why their device didn't work with Allwinner platforms and just moved on to
+use something else. Indeed it's all very subjective interpretation.
+
+> > Sofar the downside you brought up boils down to: badly-designed
+> > hardware may have relied on this mechanism to avoid interrupt storms
+> > that could prevent the system from booting.
+>=20
+> It's not about good or bad design. Buttons bounce, HPD signals bounce,
+> it's just the world we live in.
+
+Well I'm an electrical engineer and the first thing we were told about
+buttons and connectors is to include hardware debouncing. The second thing
+is that it can be done in software (which again is done in a number of driv=
+ers)
+by just disabling the interrupt for a while if it happens too often.
+
+So I'm quite affirmative that taking none of these into account is constitu=
+tive
+of a broken hardware design. No electrical engineer is told that they shoul=
+dn't
+care about this because the SoC will filter interrupts for them.
+
+Of course it's fine to use this mechanism when it exists, but it's not a
+reasonable expectation to just assume it will always be there. This is why
+I think it's not a legitimate reason to make it a default.
+
+> But let me rephrase if my main objection wasn't clear enough: you want
+> to introduce an ABI breaking change. With the possibility of breaking
+> devices that have worked fine so far. That's not ok.
+
+I believe it is highly questionable that this constitutes ABI breakage.
+To me there was no defined behavior in the first place, since the debouncing
+configuration is inherited either from the reset value or the boot stage.
+There is also no formal indication of what the default is, anywhere.
+
+Changing the default configuration of hardware is commonplace. One might
+for example introduce a reset to a driver to get a clean state because it
+happened that some boot software would mess it up and it went unnoticed for
+a while. Would you also call that ABI breakage?
+
+I think there's a number of situations where it's much more sensible to cha=
+nge
+a default state to avoid very visible and practical issues. And it does hap=
+pen.
+
+Also my understanding of the "ABI breakage" rule in the kernel is that no
+userspace program should stop working when it was implemented to (correctly)
+follow some kernel-related ABI. It doesn't mean that we cannot change any
+default state, or that everything the kernel does should remain exactly the
+same ad vitam.
+
+Sometimes it just makes a lot more sense to have these fine adjustments.
+
+And honestly I would be extremely surprised that this specific change resul=
+ted
+in any actual system breakage, as we can be hopeful that electrical enginee=
+rs
+did their jobs correctly.
+
+Cheers,
+
+Paul
+
+--=20
+Paul Kocialkowski,
+
+Independent contractor - sys-base - https://www.sys-base.io/
+Free software developer - https://www.paulk.fr/
+
+Expert in multimedia, graphics and embedded hardware support with Linux.
+
+--RnBcvG6sakiQSko5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmdK6iAACgkQhP3B6o/u
+lQwY+A/+Mx6lAA29BKNESENc/7aLP1mUgozB0ZAEC61WoFp3E5lgJlLXRZ6BskT6
+rMLusd9qkkVUgfpa7traa32fZDrt6QL34VEbgV19bAQIhNkr+XScVSyhTrEd0kQG
+tqf1ODSXBXfZCnqXKHaKuKnuFygsdmsHynTRUyflzKqYykio+gR2ntduhbQvmWSy
+8CASUfSXxO/n5VkzOM28S67qjqHV/9JunCB6r80RkX/4hzkknaitTqy9qG4Hz5Qw
+B+oiWIBmxaxsAfOd8Lf6YVf+VmC7lrh2IcL6/KNP+MiV8J9htXhstEHLnPEVYRU3
+pFG8aZrOhB1NCIOUCZ9yl/kpcwbbGLqF6+pctXKYswvu3GttuGACYTAZHu+a+qqE
+pF+gV9hG3P1rGENDpPQ//Iah5voiOvTJ2BsPuCcJPhYXX0SpisytclKAKzDDm/Hq
+fZKkgJ9wixVsLvWmmVTMXq64OSd+R6wW4q5qVmjtn2DnXOMDyEj95lkF7vciK5Zl
+sy4U960Rd/tuQkKUowsVQQifBYEuw4vMi5lFEGfp0Uy82dSYGMh6p1VCPsSCGakL
+Cf6zb6Qb2r/863yairjGeunDwBVwF+HtuVo1P+kqpY42p2YIM1JECgrBzIkoesVv
+T5XafEnKFegBGGQ8QRaSLsanf1ALjbrrQwEpeyJOAXPghByRrXA=
+=Uc2g
+-----END PGP SIGNATURE-----
+
+--RnBcvG6sakiQSko5--
