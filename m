@@ -1,73 +1,46 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 902E71D86C4
-	for <linux-sunxi@lists.linux.dev>; Mon,  2 Dec 2024 12:20:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6A4DB667;
+	Mon,  2 Dec 2024 13:14:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733142033; cv=none; b=sxd2g2D8HvjbSP2j9mq8E/nxy0qQ2QQAMiEmUiSrJkBc5tnu09ms4jOOGwR0GSDsD16URD+p9MbhMH62PyQxjmt1KCL1PwvZO0sUi9EXjKg1qPEh9C1zIWDZfUV6p3IYO0rq2zXTHrg53+KJefy6WgPeH4QGNm3plBlTEOM+ICk=
+	t=1733145260; cv=none; b=GxttSCxqi3U9wXmGDZhi870F1jpQoNEtojeNY2rCklb3YyYw0SXsBRNLFpGsC8rDppRcGLesSYljtTcoR/F64DptmUWtBjH4oy6V+IKJrYlletAa9ZSEBrpl98rhD8OqxaPL9A09lLJ0EozSw7W3wl5tHX2HlFlH5+jlcOURe/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733142033; c=relaxed/simple;
-	bh=u378XDx4WG4IL/2dCVgpOQRG8DFhsOKnAQ0gTpFbO7I=;
+	s=arc-20240116; t=1733145260; c=relaxed/simple;
+	bh=Oq8cdROWwi46qvRnOg4xje8ETX94g0KCIdfHBgScQPk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lkaM5mTZPXiyg7+oGyLC8uKPfiRp/2orYtxG9WgK5G6GPECGsoBa1IGQxPIvTD4vkkUuWGfydrMC2yzCTzInwJTymdj2giWYGqPrtvjBb9wyi9KJLcfwi0n1sELdHBDZpHqS0M7AZZVEjm9mQl08O1RTlqx24J+KIUdXQGpqUCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=FIwAkOBs; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=KRVTPdWR3SqqeWMrUYgilnEK4me3F8LcaOK7TdQW6KtsQ9KM6O47ijmJVgR0t5FDU+L2AY7AnJlP5RHs4uYWmOs/REAU9T6UNq0c70zwvf4CxhnbEWkd1TR/tTP+YI8vqkTXU92y9XUCTTvcCgh4BZ5ilw/74RAPqyyZgG4J3yI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=soDbz1pV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="FIwAkOBs"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-385d6e36de7so3658378f8f.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 02 Dec 2024 04:20:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1733142029; x=1733746829; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=u378XDx4WG4IL/2dCVgpOQRG8DFhsOKnAQ0gTpFbO7I=;
-        b=FIwAkOBs3FGXsKeSBWTn4qwJ7Yd7HZtG3byCYPHDWUZTvTZiny4r1GMOgHnZWvMDAD
-         eW99L/t/8zEfSA0Ut0TwxbL6tf07jvcdML5nnfPe0cIHGqd1B8JoNLNHO2m+oDqKm8aO
-         gdeBHeF5eu3w38p/3z+frAxF/Wcodi5XflqtNjoHP/t+pyipiT+7x+6xnSyvcNEyj8KP
-         UBBa32LRdOJAuPyrmdTdXkmLLTj844q+brbaz7SZK1ZFPqgsl6hlLRFHJrS2U5u3ReCa
-         JjAr9TeFNC4kjOXrARaQH/fOlhcPsgqouPjurgcYdOeNf6iUyR2Rm/0R+P+vr0SN+4EU
-         Va1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733142029; x=1733746829;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=u378XDx4WG4IL/2dCVgpOQRG8DFhsOKnAQ0gTpFbO7I=;
-        b=dE3TX66GMTiII0gTprlj7JzzNZWfkhUf1+eXVS2La5pVXru+T5pzpQ0YC1XRsp5q8O
-         fx/5tLdD9LxIbOINQFI/kmm9A79+/j42a21Y9kS1tDFTWwXGs0LQTcNmuS7OKO4YsJ2g
-         6h1Y78Ymug/o8SqeB1qoLx+pPdtQv7dyq0drFwUxuhYGaU2Tyg8Q2Q5bJxvdEFr+yB7s
-         f3SlAJ8k6/ky/qFP7NOrk1XklxjjzKRwV1rjvdTbuU2DOrLTyvk9mvhw9qpnjNOteQ1b
-         gK7VrpWnQDwsIZLTDB4Bjff5vlKsf8CCDs4NP6B6M9ViHdpITldnyj/z3Bar9vML2CPm
-         JzjQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWpz+4rUPWHMaFp+8zD9qiE2jj+LqEkbCdk/gMKmHet4GNkkruH0mzFDPv01dBB9UkZ6cOBZH7VqMoaeg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwAqYl/HfqO4suvd316BW+pbu3FQK/IGP0Jfn3mqvFX2u/HN+td
-	Rwi0fc77qGNIr72bet1PmkW4mmhePhN+PNiWu/MyM3k/CSVpUHzv7wjSgFumwrw=
-X-Gm-Gg: ASbGncuMKqmux7EgYdXPC0YxrE1PPj1iLoqmgUxC4fk0rYoomIcxbMKVo5tnmX+qMWk
-	HO83+PL2iFboYL41U+s3M41Zbb4Ve38nojoEVSIuM6R4MuBHWSurMdsITU+u+Hptsz84CP1rSBt
-	7ZWbTquZmSHPu0zmY5IpBm81h90ZQVDQBBNYLuVt39U2nc5lVOM0xt2qTCdo2i5W9Kx+IhdoOSn
-	QIoLohGuq/JslXETxC4ReDqgfxFalc9ZR0Epc35nNOJIpXdxPYVj7e2akvIvve0l2+oiPmmaBrt
-	zwHu
-X-Google-Smtp-Source: AGHT+IGf+OvmTZwKTtzXYs9qne71qztg+HmqmaDV8f4rBxZC85P7ds5jnT+F6OPKkt5tMs8EWORR8A==
-X-Received: by 2002:a5d:64cc:0:b0:385:ebaf:3824 with SMTP id ffacd0b85a97d-385ebaf3c1bmr6637399f8f.27.1733142028900;
-        Mon, 02 Dec 2024 04:20:28 -0800 (PST)
-Received: from localhost (p5dc6838f.dip0.t-ipconnect.de. [93.198.131.143])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-385ccd368easm12329689f8f.25.2024.12.02.04.20.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Dec 2024 04:20:28 -0800 (PST)
-Date: Mon, 2 Dec 2024 13:20:27 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: MyungJoo Ham <myungjoo.ham@samsung.com>, 
-	Kyungmin Park <kyungmin.park@samsung.com>, Chanwoo Choi <cw00.choi@samsung.com>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="soDbz1pV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3474C4CED1;
+	Mon,  2 Dec 2024 13:14:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733145260;
+	bh=Oq8cdROWwi46qvRnOg4xje8ETX94g0KCIdfHBgScQPk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=soDbz1pVpVht2Z9g1o6O8zg6zSGO5IAg6n/IWUaiT0bIGTzkkK3NCL0HGsMyXuLE+
+	 oljc1vaDyR0ixerFQVrLSzFuNdSCXT84CuI1K8zAmGwOrBEKwDRleMCk5z+DrQGt9+
+	 bPo4DYuMYLxWiSP8FqaBcSX3zKzIY4V+O8Mm61My7suTj3HsLKztJ4fr+LB2PmE0Zm
+	 6eqkjDBFtaL0WcFQwRcFEoOzNlD9XI8i6/c75DEpSDzzpN+nD8+Zb8nw3WViLsF0mO
+	 rJoZaZgi32eLEpa64ndkCtuVulvOmmxa7DV9g6d91WBTEocssnNJOzF9vepeft9uVt
+	 lX+K1SNe+GxqQ==
+Date: Mon, 2 Dec 2024 13:14:15 +0000
+From: Mark Brown <broonie@kernel.org>
+To: =?iso-8859-1?B?Q3Pza+FzLA==?= Bence <csokas.bence@prolan.hu>
+Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Mesih Kilinc <mesihkilinc@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>
-Cc: linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] PM / devfreq: sun8i-a33-mbus: Simplify by using more
- devm functions
-Message-ID: <7taeakaeqyfu4x5h3r6z6lkdorxav4ox2sgjikw7zqkmnfmffs@2n2lpk4uqe4l>
-References: <20241111112237.336310-2-u.kleine-koenig@baylibre.com>
+Subject: Re: [PATCH v5 1/3] ASoC: sun4i-codec: Add DMA Max Burst field
+Message-ID: <fe02df7f-16ae-4128-9af8-7de7f76734bc@sirena.org.uk>
+References: <20241102125712.2647325-1-csokas.bence@prolan.hu>
+ <20241102125712.2647325-2-csokas.bence@prolan.hu>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -75,46 +48,39 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="npsbh5lctdjw63a2"
+	protocol="application/pgp-signature"; boundary="E1U5ubuOCjUxwE98"
 Content-Disposition: inline
-In-Reply-To: <20241111112237.336310-2-u.kleine-koenig@baylibre.com>
+In-Reply-To: <20241102125712.2647325-2-csokas.bence@prolan.hu>
+X-Cookie: So much food
 
 
---npsbh5lctdjw63a2
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+--E1U5ubuOCjUxwE98
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] PM / devfreq: sun8i-a33-mbus: Simplify by using more
- devm functions
-MIME-Version: 1.0
 
-Hello,
-
-On Mon, Nov 11, 2024 at 12:22:36PM +0100, Uwe Kleine-K=F6nig wrote:
-> Use devm allocators for enabling the bus clock and
-> clk_rate_exclusive_get(). This simplifies error handling and the remove
-> callback.
+On Sat, Nov 02, 2024 at 01:57:10PM +0100, Cs=F3k=E1s, Bence wrote:
+> From: Mesih Kilinc <mesihkilinc@gmail.com>
 >=20
-> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@baylibre.com>
+> Allwinner suniv F1C100s has similar DMA engine to sun4i but it has
+> smaller max burst size compared to sun4i. Add a quirk field to
+> differantitate between them.
 
-Is this patch still on someones radar for review (or application even)?
+This doesn't apply against current code, please check and resend.
 
-Best regards
-Uwe
-
---npsbh5lctdjw63a2
+--E1U5ubuOCjUxwE98
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmdNpggACgkQj4D7WH0S
-/k67GAf+P1XZfxK/FMwYqAbTJVZUiZwlfGN74ndrhxFPbHPThdAPRaVOh0IRAYua
-nNRvgUgKYgvOKLADNuGv/G8+SbN6Znh9b+kW0BXye3Xb93OIMPJgSzoURb3DyXp9
-LsFA4cuWBBUg6dUv6WT67/7HV08jK46kQ0xaUIsadtoZpqCTlSsZulNGmI1FUFd6
-wsrbhwPKyO3c4s9lLNmKpfskNaEJcbiwf15UxBwtylwYS9ZujFbRyc0781JIWef5
-NCNISsYYWdjX81tLApo3S7HWo7qLQLjMZnkhY8wuAE+TfYKB8usuz/d8gHJWrX+s
-l3pwP9dao9owYBPAIPPnfTgv6L3Diw==
-=0LW+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmdNsqYACgkQJNaLcl1U
+h9Cragf7BHf9JlYlAH05EzWdN3AkXOHmdKfOoeDAALsWLpvI9myoKM9zORQsPvYO
+R8amQktnMEplFBGcXUAchI2Qf+5Dms8biBBKcO7WcALqPZI5G+foEeeVmWqmrKll
+I+UlBOazkSFpHfJzNg9dsC48lhOr4BroFXwI7xr0aMoZOOhZ+OiUOFhZv0F5E5/5
+xiUIhofuAK4HoiGkOmkBU9pN9xDD9K3wHoLYnyNAxH+zuZYb28EC9zZo0jQfdIb7
+ZtM9N8M/cdIut3eWlm7WTWXWvuI9G+Ce3nvRkKiRXgv/SNMlMeILt1E5kzBOEKFO
+q2i7hYDBbqWCbSAnrX/bSb1+9yNLNA==
+=DBp8
 -----END PGP SIGNATURE-----
 
---npsbh5lctdjw63a2--
+--E1U5ubuOCjUxwE98--
