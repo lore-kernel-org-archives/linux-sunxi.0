@@ -1,87 +1,95 @@
-Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2897A200105
-	for <linux-sunxi@lists.linux.dev>; Mon,  2 Dec 2024 13:19:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F81F1FECA1;
+	Mon,  2 Dec 2024 13:24:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733145595; cv=none; b=T1p606yJ0nCv5HsUstU0fwmIkSTO29OKhJ5Tdix8V8NikBJ2wnjjTzLBGtOFNBLeNLRV2ZnvZwSCeDJaMGMBFBWbN6xKDwkIczyKiH4ywh1uHHVzlU2SDwMk2O9tXdbpk58u/DnW380Em9sMBh2Z5QbYs6FLlf3kwiC1xadjccg=
+	t=1733145842; cv=none; b=PP++oAX0hPaWo1hR7y/aJGn4orxP4QZ7JgQC17ffAvJItp9ywYpJGK1a7rrP1utW8n8p40jPru7YDKzl/FWMQQYe3lSgG9njgo2Ha2AfB5OP2ltFBUIsftFzXj7CsZDK+EZMeTzOSBA7lHQ2FrZQnpvFejz/oEatap2BQdX0AeY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733145595; c=relaxed/simple;
-	bh=yaUqx6K9fkaOFNDKEIBtmlrrCsL+aOkTGK7JAx/vMb0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=qdd8/3qjbLMcMh92sK0tdPlubtZlxVYffX0mMJVweOsbw9iIG5TlU+OlABLLuQtFNU/dTNE/pTAl731BIfiaghnZ1CvMS+BEKf1RDrIZLbUfsmk0ZarG3cLp/jjyXioy24Uxt1/x7nTofbEFeRSf8ITpc9MrzV/GvK68kokLkMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=oSPJ1Urp; arc=none smtp.client-ip=193.68.50.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
+	s=arc-20240116; t=1733145842; c=relaxed/simple;
+	bh=qu1R/kK1qfP1c9hhleo/yXfnQOWc2/8uzcTJyQ0tTSI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cR9rgyRPNtHBaFhc6OlrjytsvYVq/J8IqSNfYIqq6KwfCuW4OHkksIj9qY8eKKHojpPYEZTyWcLA/zf67A3jZ6CS7fyNCGMmU/9pVTNEvQZ8yg3Lnl7KybGvM1tLkT+pk5AEBsrnnQYPftSuVlqS1ZtYuTHDDZf2vBt2AmfivzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=calzYjdH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="oSPJ1Urp"
-Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
-	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id 5A3A6A0365;
-	Mon,  2 Dec 2024 14:19:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:from:from:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=mail; bh=svV0/3uF6IUmbGm1JvpE
-	CltQfqjOP2APO0thyVFbZY0=; b=oSPJ1UrpsayIy6NSbibVCUlxIIjVPArEJBZD
-	z6GW2GAfv2RQo9g5ES9C/qn/fPNwK3k9Eo2s1rHC/OJQk+UQVfcdl6d8WXQQYIor
-	hw3WL15PHFSpUcE7/K1XeqPfRGsxNVZt21QV+1FE2lepxsDnt3Q0dHceytEZT1pP
-	cnsGFl9Oc8jhP6Px5PN5eGfl/hjFwj5ZJsCr3Nfc3OePpNGGkxXS7NtrzrRpCO1M
-	X3+AeHtABs7FVqbxeG51TKo3BR/i9SYP8KpB7EOL2LNkc4ACV81O7d/dOOforyDP
-	TCnlG3JVwCCMdhcfBUNouuYlFu6mrCOQVr1MCKQuO6Qqwcxo3S+jNuErVWLrHSBz
-	JKwQz+iUcWIFGZRYaZf2qhUoxrQX5hDE56TWHfFi6wm0y8SRUnOaiVWOTtyB6bf9
-	FfLK5R3jYyZR6nV+U/GP5jzVQlYSa5kwKtRSHLU2KMNm3lU9QVYR85uak8DsA3j4
-	WTRMuZ6wOOpyYIGzTYgu0LM59zT4nzapHNBhkV8u+idzs13NHgBvaU+xaSKs8s1P
-	NJ7QVuBDdm+HhGF1COCwjvQLJoj7P5e98MbG6Z/usiWP4RltdBo54Zh7inY4oqWA
-	vTrDeSB5iH7JKit/HHWSUcGpSOMryzv4og8l3TnHVUJZQa2AJvjnppNELIDJ5e9p
-	kPbxNaA=
-Message-ID: <47344634-9681-43a0-995a-f7dc025d1d09@prolan.hu>
-Date: Mon, 2 Dec 2024 14:19:51 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="calzYjdH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39B96C4CED1;
+	Mon,  2 Dec 2024 13:23:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733145841;
+	bh=qu1R/kK1qfP1c9hhleo/yXfnQOWc2/8uzcTJyQ0tTSI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=calzYjdHtzyKjS6MKp04EUDD1P6auKh3QqnwpOwOQRMmMm2+lbdpsnBugzXskk9Pf
+	 c+tbr1T6AHkJsUbGx/F8rSNXXNdSPn6QZIJOZSPwNiDoI6YuYyvUGEbaZ4GQYOFwJk
+	 lFx7mBecy+YtXN+t5939kVaRjFsJ2jZuEzEFXWoGSzAjWDjt38IpQ3fbgp1OdmHoAr
+	 ZQUMYqN1pWyeOAJUJ/O9Xv0nlfduSG3IXJg3NjsZkilKJZwa/0ObRSJF1mf8LWrJlX
+	 KXwcjqSoOqbK9iMICfGR4dRk17jyCsiY5fRTRIfBWbraY71ZVkyxbhp8JTaKY+vc67
+	 sYJrK2+wWeH+g==
+Date: Mon, 2 Dec 2024 13:23:56 +0000
+From: Mark Brown <broonie@kernel.org>
+To: =?iso-8859-1?B?Q3Pza+Fz?= Bence <csokas.bence@prolan.hu>
+Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Mesih Kilinc <mesihkilinc@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH v5 1/3] ASoC: sun4i-codec: Add DMA Max Burst field
+Message-ID: <a59c5425-4401-480f-bf26-a7d607071f75@sirena.org.uk>
+References: <20241102125712.2647325-1-csokas.bence@prolan.hu>
+ <20241102125712.2647325-2-csokas.bence@prolan.hu>
+ <fe02df7f-16ae-4128-9af8-7de7f76734bc@sirena.org.uk>
+ <47344634-9681-43a0-995a-f7dc025d1d09@prolan.hu>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/3] ASoC: sun4i-codec: Add DMA Max Burst field
-To: Mark Brown <broonie@kernel.org>
-CC: <linux-sound@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>, Mesih Kilinc
-	<mesihkilinc@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela
-	<perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai
-	<wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
-	<samuel@sholland.org>
-References: <20241102125712.2647325-1-csokas.bence@prolan.hu>
- <20241102125712.2647325-2-csokas.bence@prolan.hu>
- <fe02df7f-16ae-4128-9af8-7de7f76734bc@sirena.org.uk>
-Content-Language: en-US
-From: =?UTF-8?B?Q3PDs2vDoXMgQmVuY2U=?= <csokas.bence@prolan.hu>
-In-Reply-To: <fe02df7f-16ae-4128-9af8-7de7f76734bc@sirena.org.uk>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: ATLAS.intranet.prolan.hu (10.254.0.229) To
- ATLAS.intranet.prolan.hu (10.254.0.229)
-X-EsetResult: clean, is OK
-X-EsetId: 37303A2980D94855637261
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="TUCIIvv8937S6Tht"
+Content-Disposition: inline
+In-Reply-To: <47344634-9681-43a0-995a-f7dc025d1d09@prolan.hu>
+X-Cookie: (null cookie
 
-Hi,
 
-On 2024. 12. 02. 14:14, Mark Brown wrote:
-> On Sat, Nov 02, 2024 at 01:57:10PM +0100, Csókás, Bence wrote:
->> From: Mesih Kilinc <mesihkilinc@gmail.com>
->>
->> Allwinner suniv F1C100s has similar DMA engine to sun4i but it has
->> smaller max burst size compared to sun4i. Add a quirk field to
->> differantitate between them.
-> 
-> This doesn't apply against current code, please check and resend.
+--TUCIIvv8937S6Tht
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Try v6: 
-https://lore.kernel.org/linux-kernel/20241123123900.2656837-1-csokas.bence@prolan.hu/
+On Mon, Dec 02, 2024 at 02:19:51PM +0100, Cs=F3k=E1s Bence wrote:
 
-If that doesn't apply either, then I'll look into it, but it seems we 
-already missed the MW for 6.13... :(
+> Try v6: https://lore.kernel.org/linux-kernel/20241123123900.2656837-1-cso=
+kas.bence@prolan.hu/
 
-Bence
+> If that doesn't apply either, then I'll look into it, but it seems we
+> already missed the MW for 6.13... :(
 
+That was sent the day before the merge window opened...
+
+Please submit patches using subject lines reflecting the style for the
+subsystem, this makes it easier for people to identify relevant patches.
+Look at what existing commits in the area you're changing are doing and
+make sure your subject lines visually resemble what they're doing.
+There's no need to resubmit to fix this alone.
+
+--TUCIIvv8937S6Tht
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmdNtOsACgkQJNaLcl1U
+h9BxDgf/QXzdQ7mVZv9iRdQN5uXStSZy2H6trQtrAXTzaKsW7xWcEkqwPJ4EnnUk
+wT+JiD6BWilmxjLtmCsaLWiZw3X7OxTaJjtGA0ySTfaIgpzRuRB5WWZr9xKipDXW
+9F/Gs8yMot5PpUMVW1Ho6S3Ic9jktf3N95FstgEJo5GyyFM/UiFzxvunbk/zGjJY
+wT0C9PkeCYTcG7bEoe20NY4whJu3MN1solOeO1F9xW8gwCYFdPBqfavB+cIdTjCf
+alflkk1+6YqqnLbfzN0tHhEqNioVzlFg2qMGOXLC7cUg39DRh6A7FuC+0XxUqQUZ
+hKItXmC9FyLoMhnP9wCZ3FvZ9qGn2A==
+=DN0z
+-----END PGP SIGNATURE-----
+
+--TUCIIvv8937S6Tht--
