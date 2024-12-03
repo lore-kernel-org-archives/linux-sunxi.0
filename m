@@ -1,185 +1,97 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47EA02040BC
-	for <linux-sunxi@lists.linux.dev>; Tue,  3 Dec 2024 15:36:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D8F01F891C;
+	Tue,  3 Dec 2024 17:50:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733240216; cv=none; b=ZplCPxb/i7DcHpBrqh0PxtGruaU+jka4s74c0GNCpYYSXiVeMi47RpSzWvy4DMHD8+X1RyNzFemlOhBN8lKUtmvezxxW8oUtS/h+gEWqmHqW83CKXpjY2fkqegRT5JzIcLBI49uGQeaG0R6uwz18LWb6vWlqr/bDxaaiV8yOsKg=
+	t=1733248258; cv=none; b=PsF7pjqAhNSbkJlcqEEWwKTasbrHje5aTWBruD1zL6F0omV2rowsWQNG2+rgO+8Oi3yS29ptDy9soZ/HaEq5Y/gNWJM/wV9y9urZP/JXxFTcp+Oj/eaYwZMtSz5hXxAof7uu9qDfUL9IFMZ5CrS6tT7seRZyGvJBSLlC/2Amvhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733240216; c=relaxed/simple;
-	bh=8cI36BzhHV8HgXQu/TVym++uvxOl9i6AEwSINrhZjEY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=O6vruKJHm7aHen+Hn39wUsv1sTCbWuM09KL6agJNhSd8N+dpgt/XXhiQEabi6UHgF23dTCcxYxy1bNmyV1cgiPhE1hIYrcocg4Y39hNF6Es4T7sUON+7MfqpX1I4Fzgly4FLiPTwAe4JBc7I3ixJudBL1g9WdEXzMH0eB6oU2yE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-53df80eeeedso5876597e87.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 03 Dec 2024 07:36:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733240209; x=1733845009;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Dh6O5hcOma4p8AZfLng5WyXnPkEX/xU+8B4IUyvO9lw=;
-        b=e0H3VlUj8LGFxiUnhd2QddjjMjW1K3M/Wyfu4yw0KeBImQ7oi3vtiY5Hkhwyg7WXUV
-         qWimaOA+AY2Wh6HN1zD5NN93myIC1fazBkwvAa23mZq/Z5qo+amNPWHZVYrDwEsd6IbD
-         fGF4LdehhOm9V7uhBqefjRf1P00OpIQqe7qegVJlt4DM8lvOLq/zKWBJqABHoBUkHZMN
-         qyRKUCAF8+FmuO2V4NImbmAesV4xoHW2aPokPBBzLh+rfuIrn0vHfMwq1F7X/iiy9T20
-         sIitS01ZEeyR/jrdW9lRsTGJKjNC0C2SidOFv5zCRWUtNA008gxrB5Q3QmydGiMO44aQ
-         75XA==
-X-Forwarded-Encrypted: i=1; AJvYcCUT5+t2+EQXO8VusAHttfJv07SvJG/lYhYY2TVftlXexE5R7u6o2IugQJiE+6g4K4Rx1EvuXKltl1k5FA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyHiNN47HfBcB7z9qs1D7XCNwCvzesn2l/a3xil8FkUuFvaWpq6
-	o9iTpIt8ZNzUP4Mrel7vyd+lufkDuNbvaHpsuWq5MKTiRgJCk31cPSeofr9i
-X-Gm-Gg: ASbGnct4WgK+idiOtbpTYZ25sw9e67HYXfQ8EG+b+bS6YoiIWe2kKZU2FWi8fuZ5tQz
-	Fj2mwfn3LRJlf5NRzgbqy7esdRa+1cSjN98IsI1Yttk1+iKavUo35GhqdaCZJzPSGIR0tikOLLW
-	rfjlVWom/6kJx1CX/Cw7GJ1j4DoDxb7InjxusUxgQtLVlSXpVdK/6F/uypTiGqTPmpqW1ki9fS6
-	dLsn87Bj3D5051jOSme1iRl6mAJha1P+EpqWyPRQRTSzIKQEiVLQIMIBpXEjHM6Kz5b/lNBkzqy
-	vEOFccA=
-X-Google-Smtp-Source: AGHT+IGtseJJ3OvKqZ1Yj/2Fs5l7I32H3v7ui4O//EuQFJcO//vcP+sBdEfNdQP/PSexUE+899wztA==
-X-Received: by 2002:a05:6512:281c:b0:53d:de12:ef25 with SMTP id 2adb3069b0e04-53e129fff06mr1267085e87.19.1733240209030;
-        Tue, 03 Dec 2024 07:36:49 -0800 (PST)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com. [209.85.208.172])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53df6431013sm1902994e87.39.2024.12.03.07.36.48
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Dec 2024 07:36:48 -0800 (PST)
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2ffe2700e91so48972691fa.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 03 Dec 2024 07:36:48 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXf9KhFIBYG2J0w+8pOdvMcXCaVHQNCKhL90Wez39CCDp286BlHg0v1Ea+ODrHsQXcTTyizXExdhdd1dw==@lists.linux.dev
-X-Received: by 2002:a2e:bc83:0:b0:2fb:955e:5c17 with SMTP id
- 38308e7fff4ca-30009cc52cfmr17349571fa.40.1733240208287; Tue, 03 Dec 2024
- 07:36:48 -0800 (PST)
+	s=arc-20240116; t=1733248258; c=relaxed/simple;
+	bh=OSrO/elSn5qIF+zISWp/GORkYyBZhWFrJkT400xtaug=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=HQgYJyZqfFyR6MkcrfAKh4yio6gtuwMaLiod0E7KfYCg83+ceLQ7e8Xiu8MoWVA9iLhFemv8v6XkQgtL76O5/t+AihDNDcolo+Og4ssT2p8QZzESbfrvoP9+UBAPKORZb4PWEXvK8XD01d139sPBmPt6sn6XccFi0ew3U9BzO7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qQj1QnVa; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qQj1QnVa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2826AC4CECF;
+	Tue,  3 Dec 2024 17:50:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733248257;
+	bh=OSrO/elSn5qIF+zISWp/GORkYyBZhWFrJkT400xtaug=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=qQj1QnVapS8uBGnl89xNEjYNhkPYsYeAz7sgRrEIqcUwbU2NWG8gcPe6OVlzWb8V9
+	 cY3jARPjtO/dFw9hnJpa8XHGtPQaJAzBTj7ecfwaCE2f+Pw/EH8jd6o9K8z/p2Xq1h
+	 XEPWwWPfodOOZLq4i2wGlJSsAw030tB+0yC398aO76SskILKk2oRv/ZPfl6rHPE4KT
+	 dMfRmqrUEU61RL2jbb8yp8n4FNq09qpoDb+7ujD/I7S6QeurnIBfNBXlsXHR1LSeeW
+	 uDJTmlzsZW68yujhGWIS30PWg/DBaUEdqjr/az7SmHheZiV1pn4Kk2Vn2oYkRNOSmd
+	 iMrOoHevVofLA==
+From: Mark Brown <broonie@kernel.org>
+To: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Cs=C3=B3k=C3=A1s=2C_Bence?= <csokas.bence@prolan.hu>
+Cc: Mesih Kilinc <mesihkilinc@gmail.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>
+In-Reply-To: <20241102125712.2647325-1-csokas.bence@prolan.hu>
+References: <20241102125712.2647325-1-csokas.bence@prolan.hu>
+Subject: Re: [PATCH v5 0/3] Add support for codec of F1C100s
+Message-Id: <173324825387.459040.17438717506518048504.b4-ty@kernel.org>
+Date: Tue, 03 Dec 2024 17:50:53 +0000
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241111112237.336310-2-u.kleine-koenig@baylibre.com>
-In-Reply-To: <20241111112237.336310-2-u.kleine-koenig@baylibre.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Tue, 3 Dec 2024 23:36:35 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65i=Ttij+pnK9nhdPzsk9kTdP0ZXS1MGboAud+QudbEDA@mail.gmail.com>
-Message-ID: <CAGb2v65i=Ttij+pnK9nhdPzsk9kTdP0ZXS1MGboAud+QudbEDA@mail.gmail.com>
-Subject: Re: [PATCH] PM / devfreq: sun8i-a33-mbus: Simplify by using more devm functions
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: MyungJoo Ham <myungjoo.ham@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
-	Chanwoo Choi <cw00.choi@samsung.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, linux-pm@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.15-dev-9b746
 
-On Mon, Nov 11, 2024 at 7:22=E2=80=AFPM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@baylibre.com> wrote:
->
-> Use devm allocators for enabling the bus clock and
-> clk_rate_exclusive_get(). This simplifies error handling and the remove
-> callback.
->
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com>
+On Sat, 02 Nov 2024 13:57:09 +0100, Csókás, Bence wrote:
+> Support for Allwinner F1C100s/200s series audio was
+> submitted in 2018 as an RFC series, but was not merged,
+> despite having only minor errors. However, this is
+> essential for having audio on these SoCs.
+> This series was forward-ported/rebased to the best of
+> my abilities, on top of Linus' tree as of now:
+> commit c2ee9f594da8 ("KVM: selftests: Fix build on on non-x86 architectures")
+> 
+> [...]
 
-Reviewed-by: Chen-Yu Tsai <wens@csie.org>
+Applied to
 
-> ---
->  drivers/devfreq/sun8i-a33-mbus.c | 38 ++++++++------------------------
->  1 file changed, 9 insertions(+), 29 deletions(-)
->
-> diff --git a/drivers/devfreq/sun8i-a33-mbus.c b/drivers/devfreq/sun8i-a33=
--mbus.c
-> index bcf654f4ff96..5b630c6e602e 100644
-> --- a/drivers/devfreq/sun8i-a33-mbus.c
-> +++ b/drivers/devfreq/sun8i-a33-mbus.c
-> @@ -360,7 +360,7 @@ static int sun8i_a33_mbus_probe(struct platform_devic=
-e *pdev)
->         if (IS_ERR(priv->reg_mbus))
->                 return PTR_ERR(priv->reg_mbus);
->
-> -       priv->clk_bus =3D devm_clk_get(dev, "bus");
-> +       priv->clk_bus =3D devm_clk_get_enabled(dev, "bus");
->         if (IS_ERR(priv->clk_bus))
->                 return dev_err_probe(dev, PTR_ERR(priv->clk_bus),
->                                      "failed to get bus clock\n");
-> @@ -375,24 +375,15 @@ static int sun8i_a33_mbus_probe(struct platform_dev=
-ice *pdev)
->                 return dev_err_probe(dev, PTR_ERR(priv->clk_mbus),
->                                      "failed to get mbus clock\n");
->
-> -       ret =3D clk_prepare_enable(priv->clk_bus);
-> -       if (ret)
-> -               return dev_err_probe(dev, ret,
-> -                                    "failed to enable bus clock\n");
-> -
->         /* Lock the DRAM clock rate to keep priv->nominal_bw in sync. */
-> -       ret =3D clk_rate_exclusive_get(priv->clk_dram);
-> -       if (ret) {
-> -               err =3D "failed to lock dram clock rate\n";
-> -               goto err_disable_bus;
-> -       }
-> +       ret =3D devm_clk_rate_exclusive_get(dev, priv->clk_dram);
-> +       if (ret)
-> +               return dev_err_probe(dev, ret, "failed to lock dram clock=
- rate\n");
->
->         /* Lock the MBUS clock rate to keep MBUS_TMR_PERIOD in sync. */
-> -       ret =3D clk_rate_exclusive_get(priv->clk_mbus);
-> -       if (ret) {
-> -               err =3D "failed to lock mbus clock rate\n";
-> -               goto err_unlock_dram;
-> -       }
-> +       ret =3D devm_clk_rate_exclusive_get(priv->clk_mbus);
-> +       if (ret)
-> +               return dev_err_probe(dev, ret, "failed to lock mbus clock=
- rate\n");
->
->         priv->gov_data.upthreshold      =3D 10;
->         priv->gov_data.downdifferential =3D  5;
-> @@ -405,10 +396,8 @@ static int sun8i_a33_mbus_probe(struct platform_devi=
-ce *pdev)
->         priv->profile.max_state         =3D max_state;
->
->         ret =3D devm_pm_opp_set_clkname(dev, "dram");
-> -       if (ret) {
-> -               err =3D "failed to add OPP table\n";
-> -               goto err_unlock_mbus;
-> -       }
-> +       if (ret)
-> +               return dev_err_probe(dev, ret, "failed to add OPP table\n=
-");
->
->         base_freq =3D clk_get_rate(clk_get_parent(priv->clk_dram));
->         for (i =3D 0; i < max_state; ++i) {
-> @@ -448,12 +437,6 @@ static int sun8i_a33_mbus_probe(struct platform_devi=
-ce *pdev)
->
->  err_remove_opps:
->         dev_pm_opp_remove_all_dynamic(dev);
-> -err_unlock_mbus:
-> -       clk_rate_exclusive_put(priv->clk_mbus);
-> -err_unlock_dram:
-> -       clk_rate_exclusive_put(priv->clk_dram);
-> -err_disable_bus:
-> -       clk_disable_unprepare(priv->clk_bus);
->
->         return dev_err_probe(dev, ret, err);
->  }
-> @@ -472,9 +455,6 @@ static void sun8i_a33_mbus_remove(struct platform_dev=
-ice *pdev)
->                 dev_warn(dev, "failed to restore DRAM frequency: %d\n", r=
-et);
->
->         dev_pm_opp_remove_all_dynamic(dev);
-> -       clk_rate_exclusive_put(priv->clk_mbus);
-> -       clk_rate_exclusive_put(priv->clk_dram);
-> -       clk_disable_unprepare(priv->clk_bus);
->  }
->
->  static const struct sun8i_a33_mbus_variant sun50i_a64_mbus =3D {
->
-> base-commit: 6d59cab07b8d74d0f0422b750038123334f6ecc2
-> --
-> 2.45.2
->
->
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/3] ASoC: sun4i-codec: Add DMA Max Burst field
+      commit: cabd4ac290a6ceb87c8dbfb5a3251750e24529e7
+[2/3] dt-bindings: sound: Add Allwinner suniv F1C100s Audio Codec
+      (no commit info)
+[3/3] ASoC: sun4i-codec: Add support for Allwinner suniv F1C100s
+      commit: 2198deb823a6ebe110b737614421a4687d3327f4
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
