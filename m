@@ -1,200 +1,149 @@
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E801E32BE
-	for <linux-sunxi@lists.linux.dev>; Tue,  3 Dec 2024 10:58:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0B701F9EAB
+	for <linux-sunxi@lists.linux.dev>; Tue,  3 Dec 2024 15:34:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733223543; cv=none; b=B3zKoEi6v1eg3FP3Zq1VGbdMX64d+7A0QzUFcOzeaI7pSIFy71YzsiTLipaEUrlfbhcx2jcJGk5TIWYkIUXzri2bftG+VRHjGMl/ZZUuM8u9GarfDQ1xbw9ec3rilREDKzRTjvRBeKt2Ygyck8+Y9NkCojcsEsnJ2F2rLqFo6vs=
+	t=1733240085; cv=none; b=m9HuTKZS94Wd3bLqXCpb0SxEetmq1fvm5piIKoDuDRDscO3cr2O0DNXp5zTPqdkr48LHwW/oV/e2DSscb/A5URQJrnowioWftOGTQmpn6kMMTyq4dUXDkbRAejDIQRVCZ97x3+IroJmHB1TFe/eDJLzFkBk7B+8K1YUlODBswL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733223543; c=relaxed/simple;
-	bh=TrK7uZHP64ILuJuDvtktXX5sjSsNufOK42wokACcQmw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d8+O+/jQ1roQvO/eT4NPqkJ+HtYKvzFyQuBLHQ76BQg5aB0AuCRD27Ahsyg0MxB7+OOg3qaNgxacYGV6iDOwNLz3v0IAcROlHRG3rpiok4f3F+1d+On/OFTcTEsEyC+clC2lIvUW7rylbVI7oCGIl1CXySYlZdzJpt6EnOKIb9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 34C291F00050
-	for <linux-sunxi@lists.linux.dev>; Tue,  3 Dec 2024 10:58:43 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 304FAA67026; Tue,  3 Dec 2024 10:58:41 +0000 (UTC)
-X-Spam-Level: 
-Received: from collins (unknown [192.168.1.1])
-	by laika.paulk.fr (Postfix) with ESMTPSA id 7392EA6701F;
-	Tue,  3 Dec 2024 10:58:39 +0000 (UTC)
-Date: Tue, 3 Dec 2024 11:58:37 +0100
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Paul Kocialkowski <contact@paulk.fr>
-Subject: Re: [PATCH] pinctrl: sunxi: Use minimal debouncing period as default
-Message-ID: <Z07kXSstqc2eJ_Y9@collins>
-References: <20241119140805.3345412-1-paulk@sys-base.io>
- <20241119-prudent-jasmine-lizard-195cef@houat>
- <ZzyoIABRArkGoZBn@collins>
- <20241119-vivacious-optimistic-squirrel-a2f3c5@houat>
- <ZzzdT0wr0u1ApVgV@collins>
- <20241120-wild-stimulating-prawn-ffefb7@houat>
- <Zz20dquzl5_2_3TQ@collins>
- <20241129-amazing-whale-of-proficiency-ee6fd2@houat>
- <Z0rqILFESdje9qUn@collins>
- <20241202-magnetic-curious-bear-1cc48e@houat>
+	s=arc-20240116; t=1733240085; c=relaxed/simple;
+	bh=/t81Kipm80KSB2ytCFacecH45iV4Rgpz9NMkvjdx3oo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=q+lU9OW1pktp8rWsOwUWCgoGjoJRSdzNheOYNVkam/6RLF5vprjvOPeub4JBbl1rjrokQUaaDNG6YsDfFNs7sQ+SoLgIgoprQ6tDCnwB8hB0k8jI2q6NlgSHXSOA7xp25OzQQAeh4L5YVTmJOwaX80d6NhiH6tFMH6qmobvek6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2ffd6882dcbso44611361fa.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 03 Dec 2024 07:34:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733240078; x=1733844878;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=N9ct1kVI68mHIDVHyGKkb/UxzcQ9qI2NSHiJbGWgjuE=;
+        b=QMupq9h+nQX0MA0TkWY1OIf6yepNybmtvHlQuNvKNdFezh4MPyXM4L37AnCW8soVQ9
+         eMDHabeXc3PkBTzfsApzMoGmJxy7KevQswA63KfMK5M6dLVIOE8kouYnArTAqrX602DF
+         n2BRLqtmYR6ZSStfLYnBNZR8kfKGgBf64AjQjNVCRn+OUyDsnklTi4i2t7ujuFbw5J1w
+         Eiqt0tKohjv37pReWCMRNSEfEOAB/8Gm9p4XqO8M44zfyzbDmJb3UkUwoDEm1+Unf6H/
+         mOrMKYfu7cGa3rY8e0W0DFmyoF/+2PWy4TSb96BL5qJaadJqj1VyUwol3N7aqj6+7+37
+         tAHw==
+X-Forwarded-Encrypted: i=1; AJvYcCXPwt1WjMgCSO13UXcxisAadaTKpMP8ERaZUV8sa+YPlbWHP/ac6eVnjFDEUZ+pouebDiJVshMutgPeZQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxjLHulnYkKbYwXoOtH+6CGkCbl8yvWgisbzsLeijzaejYJM2qZ
+	p6tqLPYVPORamVp/OXQF5ojmxkTE3GfsItKrNZSCC8Gw6e4XkGPTD4otS0Nu
+X-Gm-Gg: ASbGnctPfV6K68bQ0TtRh31nOoIbi3LK3m6m65/nFwu42giAXNqsu03J3b8GFeu1WfV
+	D4JTurYrJV6veJdKqqi+S3JuY2hUqcNb4ABJ1dHZe7ytoph1PyAZ6d/+wKhLxLllIhXsYCLg70a
+	pVjxcPh2REszo9L6xDUZ+eq8j7SFgsOsBfeVXFdh3nFLN3LHnulTgrv2wQLfMgvWpmFjsTLZ+Ti
+	rh11WfGyUVALc18GmmbY1EKHBmZpM6qzJgDyFRkcYFHGagTrh0ezhLcZKO4TYN+f0RyurmEtEpY
+	G36PobU=
+X-Google-Smtp-Source: AGHT+IHtUaoGohXov48EQr3eCyxZUSjkLtG+GuAOq/Et1MoGkzv3sHNJpri3WasUUtxkswetNauhzA==
+X-Received: by 2002:a2e:b8c6:0:b0:2fb:54d7:71b5 with SMTP id 38308e7fff4ca-30014e244a3mr2726611fa.22.1733240077848;
+        Tue, 03 Dec 2024 07:34:37 -0800 (PST)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com. [209.85.208.176])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30015436e37sm232241fa.93.2024.12.03.07.34.36
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Dec 2024 07:34:37 -0800 (PST)
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2ffd6882dcbso44610551fa.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 03 Dec 2024 07:34:36 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV21ihbMxTGnmY798n65kvM5oDE06cFVD26TIgSZsae+sJ3p7Gv+Ew5IW8slcqpuHmVZ9j3ozE181sEPQ==@lists.linux.dev
+X-Received: by 2002:a2e:be1c:0:b0:2ff:cb09:ccae with SMTP id
+ 38308e7fff4ca-30014e22085mr2966011fa.17.1733240076014; Tue, 03 Dec 2024
+ 07:34:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="Ztuv53CEuwU4pnus"
-Content-Disposition: inline
-In-Reply-To: <20241202-magnetic-curious-bear-1cc48e@houat>
-
-
---Ztuv53CEuwU4pnus
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <20241202-a100-syscon-v1-0-86c6524f24d7@epochal.quest> <20241202-a100-syscon-v1-2-86c6524f24d7@epochal.quest>
+In-Reply-To: <20241202-a100-syscon-v1-2-86c6524f24d7@epochal.quest>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Tue, 3 Dec 2024 23:34:23 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66RAyKrpn7EJMoPUzM6W6J-3ch0xwQnY7uBm6dXgFJ5bg@mail.gmail.com>
+Message-ID: <CAGb2v66RAyKrpn7EJMoPUzM6W6J-3ch0xwQnY7uBm6dXgFJ5bg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] arm64: dts: allwinner: a100: Add syscon nodes
+To: Cody Eksal <masterr3c0rd@epochal.quest>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Parthiban Nallathambi <parthiban@linumiz.com>, 
+	Andre Przywara <andre.przywara@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Mon, Dec 2, 2024 at 12:43=E2=80=AFPM Cody Eksal <masterr3c0rd@epochal.qu=
+est> wrote:
+>
+> The Allwinner A100 has a system configuration block, denoted as SYS_CFG
+> in the user manual's memory map. It is undocumented in the manual, but
+> a glance at the vendor tree shows this block is similar to its
+> predecessors in the A64 and H6. The A100 also has 3 SRAM blocks: A1, A2,
+> and C. Add all of these to the SoC's device tree.
+>
+> Signed-off-by: Cody Eksal <masterr3c0rd@epochal.quest>
+> ---
+>  arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi | 31 ++++++++++++++++++++=
+++++++
+>  1 file changed, 31 insertions(+)
+>
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi b/arch/arm64/=
+boot/dts/allwinner/sun50i-a100.dtsi
+> index 29ac7716c7a5284ccf8af675db9c7d016785f0ff..31540a7ca1f01c6c2e69e3290=
+54aca16ffd112c4 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
+> @@ -101,6 +101,37 @@ soc {
+>                 #size-cells =3D <1>;
+>                 ranges =3D <0 0 0 0x3fffffff>;
+>
+> +               syscon: syscon@3000000 {
+> +                       compatible =3D "allwinner,sun50i-a100-system-cont=
+rol",
+> +                                    "allwinner,sun50i-a64-system-control=
+";
+> +                       reg =3D <0x03000000 0x1000>;
+> +                       #address-cells =3D <1>;
+> +                       #size-cells =3D <1>;
+> +                       ranges;
+> +
+> +                       sram_a1: sram@20000 {
+> +                               compatible =3D "mmio-sram";
+> +                               reg =3D <0x00020000 0x4000>;
+> +                               #address-cells =3D <1>;
+> +                               #size-cells =3D <1>;
+> +                               ranges =3D <0 0x00020000 0x4000>;
+> +                       };
 
-Le Mon 02 Dec 24, 12:03, Maxime Ripard a =C3=A9crit :
-> On Sat, Nov 30, 2024 at 11:34:08AM +0100, Paul Kocialkowski wrote:
-> > Well I'm an electrical engineer and the first thing we were told about
-> > buttons and connectors is to include hardware debouncing. The second th=
-ing
-> > is that it can be done in software (which again is done in a number of =
-drivers)
-> > by just disabling the interrupt for a while if it happens too often.
-> >=20
-> > So I'm quite affirmative that taking none of these into account is cons=
-titutive
-> > of a broken hardware design. No electrical engineer is told that they s=
-houldn't
-> > care about this because the SoC will filter interrupts for them.
->=20
-> The SoC provides the hardware debouncing. There's no reason not to use
-> it, or to choose something redundant. Some might, but it's also
-> perfectly valid to just rely on the SoC there.
->=20
-> > Of course it's fine to use this mechanism when it exists, but it's not a
-> > reasonable expectation to just assume it will always be there. This is =
-why
-> > I think it's not a legitimate reason to make it a default.
->=20
-> Nobody ever designed a board without considering the SoC features but
-> rather by adhering to a dogma. The SoC features, components chosen and
-> their price, etc. all play a role.
+Each child node should have an empty line preceding it, as mentioned
+in the dts coding style doc:
 
-Okay that's fair enough. I guess what I had in mind was that it would be
-unusual and unlikely. I don't think it disqualifies the fact that it would
-be sensible to enable this behavior with the property and not the other way
-round though.
+    Documentation/devicetree/bindings/dts-coding-style.rst
 
-> > > But let me rephrase if my main objection wasn't clear enough: you want
-> > > to introduce an ABI breaking change. With the possibility of breaking
-> > > devices that have worked fine so far. That's not ok.
-> >=20
-> > I believe it is highly questionable that this constitutes ABI breakage.
-> > To me there was no defined behavior in the first place, since the debou=
-ncing
-> > configuration is inherited either from the reset value or the boot stag=
-e.
-> > There is also no formal indication of what the default is, anywhere.
->=20
-> Depending on the interpretation, it either means that you change the
-> default, or add a default, to a device-tree property. That constitutes
-> an ABI breakage on its own right. And then we can introduce regressions
-> for boards, which is another breakage.
+ChenYu
 
-It feels very questionable that adding a default over undefined behavior
-constitutes an ABI breakage.
-
-> > Changing the default configuration of hardware is commonplace. One might
-> > for example introduce a reset to a driver to get a clean state because =
-it
-> > happened that some boot software would mess it up and it went unnoticed=
- for
-> > a while. Would you also call that ABI breakage?
->=20
-> No, because it doesn't require a change in the default state Linux
-> expects when it boots, or changing anything in the device tree. It's a
-> self-contained change, and thus there's no interface to break.
-
-It could definitely result in changes in behavior though. One could imagine
-the case of a sensor that was configured with 4x gain by the boot software,
-which wasn't reset by the driver. Now when the driver is updated to include=
- a
-reset the sensor will fall back to 1x gain, with a direct result on the val=
-ues
-that are read with default configuration.
-
-This would however be perfectly fine since it wasn't specified anywhere tha=
-t the
-sensor should report values with 4x gain in its default state. It's a behav=
-ior
-change that has direct effect, but doesn't break any ABI at all.
-
-> > I think there's a number of situations where it's much more sensible to=
- change
-> > a default state to avoid very visible and practical issues. And it does=
- happen.
-> >=20
-> > Also my understanding of the "ABI breakage" rule in the kernel is that =
-no
-> > userspace program should stop working when it was implemented to (corre=
-ctly)
-> > follow some kernel-related ABI. It doesn't mean that we cannot change a=
-ny
-> > default state
->=20
-> If applications rely on that default one way or another, it's absolutely
-> what it means. The only criteria is whether this will create a
-> regression for any application.
-
-For any application *that uses the ABI correctly*. Any example of defaults =
-that
-are inherited from the boot phase clearly shows that it is not a reasonable
-expectation to rely on them and doing so is not correct use of the ABI.
-It is rather very clearly relying on undefined behavior.
-
-Cheers,
-
-Paul
-
---=20
-Paul Kocialkowski,
-
-Independent contractor - sys-base - https://www.sys-base.io/
-Free software developer - https://www.paulk.fr/
-
-Expert in multimedia, graphics and embedded hardware support with Linux.
-
---Ztuv53CEuwU4pnus
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmdO5F0ACgkQhP3B6o/u
-lQyUwg/+Nml2dRtQHolbNr+qDMaG5j23m3wnyJzAs7oAVbOiozJpGTW9obXHhBnI
-NODHxTaaXmzBce+aNqQUwGWX1W5kl9LQ1od/mOQ81k2tSwOj+DpB7sus+NXGCUCs
-xszVBDQMLM2ejXsyQauTdjFUsnfq6Q91Qo0aLoWpKJI5y7vdds2Vri6eJCm2I2bW
-An0ztEcJpMAPs2Bf2ubzBriStkFhPQ31qb4A5XdNKLjkwwJAAaNZ7EfvlcYDWKS0
-D/2DAtIwDkmYt5wdxObQc+qP+eyv/mxdvHsybOGX2bWkjA28LiHlO+7eP65ruLbB
-/9DRLMXH1fn4AqeodQGKRHVXml3EtI1kwLiRQ70IA8Ma7oFFc6KMuqwT9iS3s8sU
-RK9Z85u8jUeF+8CA6o9rmJdhkjmj5wzz0ScdUMQf0lU5Agib8O1RoWdtcBIfAUjh
-qNv+kbQtst87YRiy6jGX6orQjdpL8jNHzL87zNffxPXc/zZ6UTABERdExMpQira5
-QtNV41U0bdT9dMfoIFoCeREGVUSziS2aXE6UZlxQIfl0I60FEBbu3uOILzpe0fLa
-ErnVXnTTzmGXCK0v6alU/KxSJ96CSd8/86cLbVfuBBeUAyDztfWmsk1dTeaa2ulv
-YN9witZEvaqwqV2t7LLtDYvUMtRXq6IWUI8KJMzu6y0ElGh1+Sc=
-=bvwb
------END PGP SIGNATURE-----
-
---Ztuv53CEuwU4pnus--
+> +                       sram_c: sram@24000 {
+> +                               compatible =3D "mmio-sram";
+> +                               reg =3D <0x024000 0x21000>;
+> +                               #address-cells =3D <1>;
+> +                               #size-cells =3D <1>;
+> +                               ranges =3D <0 0x024000 0x21000>;
+> +                       };
+> +                       sram_a2: sram@100000 {
+> +                               compatible =3D "mmio-sram";
+> +                               reg =3D <0x0100000 0x14000>;
+> +                               #address-cells =3D <1>;
+> +                               #size-cells =3D <1>;
+> +                               ranges =3D <0 0x0100000 0x14000>;
+> +                       };
+> +               };
+> +
+>                 ccu: clock@3001000 {
+>                         compatible =3D "allwinner,sun50i-a100-ccu";
+>                         reg =3D <0x03001000 0x1000>;
+>
+> --
+> 2.47.1
+>
