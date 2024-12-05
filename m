@@ -1,120 +1,133 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 388AB3CF58
-	for <linux-sunxi@lists.linux.dev>; Thu,  5 Dec 2024 03:29:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B96CBE4A
+	for <linux-sunxi@lists.linux.dev>; Thu,  5 Dec 2024 04:16:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733369380; cv=none; b=EXbUZOZpC2/IDeeNAvK/RgbSlGsrm+eiYjGZKCsAPGYsHrZJL4elSNmcQn7Z0RzxelNTI1jfkJMzO9oPQUZEmAuyl/eNZrj7/8fUMp3sbEWCHWlxykHlhPvwRSEyMtr2rV09IKI8/s5scmdn1tJN/2RLEJhm/Bv925VG3WlhU14=
+	t=1733372179; cv=none; b=SM+SG5euQEL+DaMYh39XxudYNVjbCnet238qtGINnLwhfJtZ4uXS2RAP14biv9FCfnLmvoaWE3Uv11JmQz3dTMbYT2et7OM054LtZsTROIH4fHJjtxzrGAFipJ9YYCJENRNSRgsMFhiV/e2IYiPLmLmX2ohMFeQEdeepsjbxkCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733369380; c=relaxed/simple;
-	bh=d9QqhJy6LFx98gqli7amTeV8pMlMivhrXQSOVdmRHCc=;
+	s=arc-20240116; t=1733372179; c=relaxed/simple;
+	bh=KSxHh4MX6DMW5Fj4irqntnsdy4M8bKuHYO0r/f9HTP8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fiQ4WJhzP44GWQG5wHxg1XkYeDK/G1dqFDCPt8livcyRxVoVdoWlshcpJSuNzmzyLUKHCLODHxJNvw3VCkaQPt7mR0uNfM+oJ+6P/T8CSSXGWf2X3PT0kG2BBICj9vQpxfKdQ4pwp5aV5jHj7ho4wdbfhq7ToDCzTDYqY64A+PU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.177
+	 To:Cc:Content-Type; b=pk5Z6J5VfG4WnLbbU/HSMapHM3MgQZRmAB2VyYzvWYp+a1mt/tuJ8obxQQXE/tbJNOkbJYizCCOxuuyr5ERWdUZg222PqOY9I48VGbXdsLo4ux3xxBYTrf5WX2XissMB0+X8bbUovaT+YryO+mgfmtEwLC3OP75X7d0QZSgOOyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-3000b64fbe9so3564991fa.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 04 Dec 2024 19:29:37 -0800 (PST)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-53df119675dso647168e87.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 04 Dec 2024 20:16:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733369373; x=1733974173;
+        d=1e100.net; s=20230601; t=1733372175; x=1733976975;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :reply-to:in-reply-to:references:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=1k1WfYR2gjydU449wpk5rhPTUc08x8Av6VdOn6ZQfI8=;
-        b=JVeyhAGU2X84qqljVEhnvNVjGi0i7NL1zDumVHNs/1VugIpsO6Owk09mkK2XLMJchc
-         PqO+0wmZ14zPItUGJZai0LzoMOJKJ1Q0immc9n5eV1qdUq6Yb2iVMbztHijnMkg0rENO
-         ulc+qWqe0z2FLmSuJ77ds5qr9nW0WpkV1n+tgo2rvtAhizB0fVTiG54Ikr179hUzw0Sw
-         3U9vVGt9D/5YtE72uBRSBPCRWQ2gmt7Tum+s2dcRETxsf78mRtt9DU+axyG9PWlNSspY
-         v6Qn4IFUsATNwKuOONgJrOG3b9xG301tScLzwFoDgoOo7VefSU4IJ53HMtAORii40+Rs
-         LAtQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXRof63brFnPydZMbnmFqxkwodVNoqtApLxttZpWFbG4B2C0163ld9YtkqE1NTUpBrYMKie2L4Bj9IjJg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw9lzyOtjBXye10lTGyacxgS8h+p90Ki1ZAeKNar6GaFgc7T0fn
-	mddbpAM34JV4UeuFdJLN/uoECrJ85DZGDahU/LBjPDECFFnHIiPP33QxDTFW
-X-Gm-Gg: ASbGnct13+RX5SSpNgAmS65K4C7LRUoh/ubeyqx8b6uR5ycRUf7tDqEg0cKlopjMjQB
-	lW2suHhlsn/X04+z0z4Sxyxp4t8HvPNFeyHC0cyASVnblf0CHE+cck05agfO+cpYQETo3qJb7+/
-	0nRK8AVqeiMpVqEGU8QNaghWwCa3RbiPvZ9ccNHA38SMtSywmXHU3p1G/XXU8l3VR4GNYBnACMi
-	JtVS02zoYvklAAcmw+o5RYd3ExTd3s6p/aP0qJHWmGzIvx8tBcZMlr83TSPjUMek3dMw4KOGc9J
-	54xZf0A=
-X-Google-Smtp-Source: AGHT+IHuf2s+Kg8UX1ssdzGdFcGhvflQFUSjyUhPKzTxztaNLhn7rKRHboNUMQxqNw1KqXQOyuVTAA==
-X-Received: by 2002:a2e:a584:0:b0:300:193f:dba with SMTP id 38308e7fff4ca-300193f1d0fmr25073751fa.14.1733369373391;
-        Wed, 04 Dec 2024 19:29:33 -0800 (PST)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com. [209.85.208.182])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30020d85306sm764951fa.13.2024.12.04.19.29.32
+        bh=piW9kHZgsyQb9cy9HU5rDPdSyIGIWO93TJJ1y0kDyvc=;
+        b=O5W9rPmYzv3Hq0VAPeMJXUrrRG181ysG/lXDkf1XgktNVQo0aBRoaXchuE+3LtTww7
+         2h34fhYfzQkvDakcyLjVX88yFRdRKVxSvYCoF91DZSUR4B/Cv9UqUeETuUUN8o82oDaJ
+         B0ycAAYlVeReReTIiVIUFFZH9oqNOpP6Dskh2u3kpoIAZrWbvrnN9S22P9IU5x7rvLMT
+         Sd6+Y0e4aiu3Jv+89oCLcs0AvsANKWEwlrXS1kR3RWuVms1G9NiMWi1D9iuOG9Wg5m7z
+         Fc5A2lZCZQOOlH1tlf1OM08fZawgt4oR84yQbQPqR2eB40CJxnBkf0sbtFnkzCX1RYZk
+         kxGA==
+X-Forwarded-Encrypted: i=1; AJvYcCXuxnGQI47cZCcMYCOpZIWkVAIFJ9ukggLS/FpkfOr7cibirRtZnef0aSz5uDMkbyAW1z4d+RD6K7Wdcw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyQ78vN0YDQHLi/XE+KPRFnAKEeJQeAnYZOLW6tQ9jWFFIcsIZL
+	tyyHcrC2nr+Qh3GTRAhWPNLTEDZ8FOKsJheTrN2xBVvinlWQA0X6SuHE7Do8
+X-Gm-Gg: ASbGnctXcxmvcvtBFZKJg8Lpoolaw4+Q9VcflVX2T94jLL04BwG7bMJIZ8fgBfbS+Zp
+	CzWJ/WvBTq1gJ0QWt4Fq9Bc8ahNZ7vI7ZZyPvmC7RQjKdXdbVKuiX705Gh/69bZ0aVIElywO2k0
+	2CE4CbcT69UGd2nZYfK9P2lGSpaWxscur9jbEMoQURgz7j+ed4dtsDr2jSt3YDc8LxST8srOqdG
+	okxWSaACKkGusRqEocy2fbYiXySA+oEHsy04QyeaQVzSzr44F3Biy8QAwtVOF8nEYHw/8Gu2WYs
+	iWeQQYQ=
+X-Google-Smtp-Source: AGHT+IG5iyjU86V6BbU4EKrPm60DHPe3yRXOb5nbna00ZJ7Ayo9h8OTcpMRFcEVBAR8qRYDfZuwi6A==
+X-Received: by 2002:a2e:bcc8:0:b0:300:25f6:9b43 with SMTP id 38308e7fff4ca-30025f69ccdmr200761fa.20.1733372174514;
+        Wed, 04 Dec 2024 20:16:14 -0800 (PST)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com. [209.85.208.180])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30020e56f44sm883321fa.104.2024.12.04.20.16.14
         for <linux-sunxi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Dec 2024 19:29:32 -0800 (PST)
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-3000b64fbe9so3564681fa.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 04 Dec 2024 19:29:32 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVEDleaqtVUID/kBla+b2J97T0XeP7jBMrb0/MNrrHTAXzGOgXB4aaU5xHek2HksM3Xpag7Zk8KONQykA==@lists.linux.dev
-X-Received: by 2002:a2e:a907:0:b0:300:8ff:d93f with SMTP id
- 38308e7fff4ca-30009c50cb0mr52396671fa.22.1733369372603; Wed, 04 Dec 2024
- 19:29:32 -0800 (PST)
+        Wed, 04 Dec 2024 20:16:14 -0800 (PST)
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2ffc86948dcso4036351fa.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 04 Dec 2024 20:16:14 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUmpS1Gs8nbJfYSSd2cpACorVUZAMUp0xYezPX7Nu240CtqQEcqAo2iAwhwcZ2WTRLJDI5dQQzG31FwWA==@lists.linux.dev
+X-Received: by 2002:a05:651c:1501:b0:300:1889:6340 with SMTP id
+ 38308e7fff4ca-30018896590mr21262461fa.13.1733372174094; Wed, 04 Dec 2024
+ 20:16:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241205000137.187450-1-csokas.bence@prolan.hu>
-In-Reply-To: <20241205000137.187450-1-csokas.bence@prolan.hu>
+References: <20241203203824.23306-1-simons.philippe@gmail.com>
+In-Reply-To: <20241203203824.23306-1-simons.philippe@gmail.com>
 Reply-To: wens@csie.org
 From: Chen-Yu Tsai <wens@csie.org>
-Date: Thu, 5 Dec 2024 11:29:20 +0800
-X-Gmail-Original-Message-ID: <CAGb2v674BnpmyP6zC85zbCuKVN-gb3MQA=CiQoe7-eV8qqyM+Q@mail.gmail.com>
-Message-ID: <CAGb2v674BnpmyP6zC85zbCuKVN-gb3MQA=CiQoe7-eV8qqyM+Q@mail.gmail.com>
-Subject: Re: [PATCH 0/3] Add F1C100s audio support
-To: =?UTF-8?B?Q3PDs2vDoXMsIEJlbmNl?= <csokas.bence@prolan.hu>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Mesih Kilinc <mesihkilinc@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>
+Date: Thu, 5 Dec 2024 12:16:00 +0800
+X-Gmail-Original-Message-ID: <CAGb2v67Uv3SVQSqox85qt_05aVvX0oCynNRoaN9BA1Nha3eo8w@mail.gmail.com>
+Message-ID: <CAGb2v67Uv3SVQSqox85qt_05aVvX0oCynNRoaN9BA1Nha3eo8w@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: allwinner: h616: rg35xx add missing regulator-ramp-delay
+To: Philippe Simons <simons.philippe@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, 
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, 
+	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>, 
+	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>, open list <linux-kernel@vger.kernel.org>, 
+	Mark Brown <broonie@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 5, 2024 at 8:03=E2=80=AFAM Cs=C3=B3k=C3=A1s, Bence <csokas.benc=
-e@prolan.hu> wrote:
+On Wed, Dec 4, 2024 at 4:38=E2=80=AFAM Philippe Simons
+<simons.philippe@gmail.com> wrote:
 >
-> Support for Allwinner F1C100s/200s series audio was
-> merged in the for-next branches of the DMA and ALSA
-> trees, the last step is to add the codec to DT.
-> This series was forward-ported/rebased to the best of
-> my abilities, on top of Linus' tree as of now:
-> commit feffde684ac2 ("Merge tag 'for-6.13-rc1-tag' of git://git.kernel.or=
-g/pub/scm/linux/kernel/git/kdave/linux")
+> AXP datasheet says that ramp delay is 15.625 us/step,
+> which is 10mV in our case.
 
-There's no real need to resend just the DTS bits, though I appreciate
-the effort of making it easier to pick. There should be no difference
-due to rebasing, since we didn't have many F1C100s changes.
+(CC-ing Mark for knowledge on regulators)
 
-The DTS bits can only be merged after driver bits have been accepted,
-otherwise we would get DT validation errors in -next. After the
-notifications yesterday, I started to pick the patches, but it got
-late so I hadn't pushed them out yet. Just want you to know that they
-haven't been forgotten. :)
+If this is the property of the PMIC, it probably belongs in the driver,
+in "regulator_desc.ramp_delay".
 
-BTW, if you merge different patch series and resending, please keep
-the highest version number, like you would when resending a single
-patch series, and also provide reference links to the originals.
-That way we know where it came from and which version it was from.
-There have been cases where the latest version was rejected and
-an older version was resent.
+The "regulator-ramp-delay" in the DT can be used to override this
+if the board has excessive ramp delay due to other design reasons.
 
 
-Thanks
 ChenYu
 
-> Mesih Kilinc (3):
->   ARM: dts: suniv: f1c100s: Add support for DMA
->   ARM: dts: suniv: f1c100s: Add support for Audio Codec
->   ARM: dts: suniv: f1c100s: Activate Audio Codec for Lichee Pi Nano
+> add missing regulator-ramp-delay to dcdc regulators accordingly
 >
->  .../allwinner/suniv-f1c100s-licheepi-nano.dts |  8 +++++++
->  .../arm/boot/dts/allwinner/suniv-f1c100s.dtsi | 24 +++++++++++++++++++
->  2 files changed, 32 insertions(+)
+> Signed-off-by: Philippe Simons <simons.philippe@gmail.com>
+> ---
+>  .../boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts    | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-20=
+24.dts b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
+> index 80ccab7b5..b6e76a804 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
+> @@ -238,6 +238,7 @@ reg_dcdc1: dcdc1 {
+>                                 regulator-always-on;
+>                                 regulator-min-microvolt =3D <900000>;
+>                                 regulator-max-microvolt =3D <1160000>;
+> +                               regulator-ramp-delay =3D <640>;
+>                                 regulator-name =3D "vdd-cpu";
+>                         };
+>
+> @@ -245,6 +246,7 @@ reg_dcdc2: dcdc2 {
+>                                 regulator-always-on;
+>                                 regulator-min-microvolt =3D <940000>;
+>                                 regulator-max-microvolt =3D <940000>;
+> +                               regulator-ramp-delay =3D <640>;
+>                                 regulator-name =3D "vdd-gpu-sys";
+>                         };
+>
+> @@ -252,6 +254,7 @@ reg_dcdc3: dcdc3 {
+>                                 regulator-always-on;
+>                                 regulator-min-microvolt =3D <1100000>;
+>                                 regulator-max-microvolt =3D <1100000>;
+> +                               regulator-ramp-delay =3D <640>;
+>                                 regulator-name =3D "vdd-dram";
+>                         };
 >
 > --
-> 2.34.1
->
+> 2.47.1
 >
