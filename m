@@ -1,134 +1,110 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay2.uni-heidelberg.de (relay2.uni-heidelberg.de [129.206.119.212])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A48472EB1F
-	for <linux-sunxi@lists.linux.dev>; Thu,  5 Dec 2024 19:10:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91C321C548A
+	for <linux-sunxi@lists.linux.dev>; Fri,  6 Dec 2024 20:21:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=129.206.119.212
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733425840; cv=none; b=M7Ct20hJCkabg3yTh4Ik5tiaxE6VlDmt/SW42YwvEw9lEc9wQv/+Rj+CAlwekUsAgZzGzQR+Z+fbiqCOTpFf4ujZiAEZOCIAc8P8j6GrjZrBlnUKX7sgHUP+dIH/Eoq4OqpFeoFhYfUBt8m7TVFmKfBaWmaPXPeVQmVRPgD8pms=
+	t=1733516481; cv=none; b=QdED6SlWaW54aOCpose/Vq0jabTl7IVgH+IbUd4L8vb6oc1H3aZyDa6zifJ1a/HJOqsxNLc0dHFvi8K8wvmz4hgs2AAuVOqzhv9Mdwpf8JAkLjI1/B8lqjFRVdh+BLFxpd4OU2v0DEHlj/OpRWlOR8GIhSyiwRnOC38lFUW/MVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733425840; c=relaxed/simple;
-	bh=0JOKcMjrSG6aj6AIJO2JxGS5M9AVOqmJUhLj4Yqo7Pg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DvgCrI6wkJolA6vdrDULBqXUw26Qe69tttJYxBfAkU0In/VhjIEtY+ZoLOyKsUyTQuCUF97ZVd+kvhdGLZqTQgMRXvrp3JGbF1Q7QBqB0SGYwN91n0igWvemINFMfxPkyxQJe900OAvS82we1RFba+uheXtzA1J0CKEo2oBKLtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XvLcA6Gh; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1733516481; c=relaxed/simple;
+	bh=obweLbPmdaRNnm9sBPFdYU+Tkq05AKGhDIpdDJNmTx0=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=n5XVvCIBc+hutDdQ0kbRjL/pmV+wEJG3et1PH+KOFOq4q5NvZYZlM7bi8kR82aTXQTnaKdYXqmPIliN+mvlHyUMX60QwFMsHJ7hU2A+9AKgizl77Kkyr3vsFSnbZsEGcnrZjSZCOoKedKJ4KxkJPUXBdJ8UP/+SUc4z2ukJEBBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uni-heidelberg.de; spf=none smtp.mailfrom=lemon.iwr.uni-heidelberg.de; dkim=pass (2048-bit key) header.d=uni-heidelberg.de header.i=@uni-heidelberg.de header.b=Y9E+CfxA; arc=none smtp.client-ip=129.206.119.212
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uni-heidelberg.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=lemon.iwr.uni-heidelberg.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XvLcA6Gh"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-53e0844ee50so1409734e87.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 05 Dec 2024 11:10:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733425837; x=1734030637; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OQVG1tQuHt3SHcx2mPIxH4KYBUQ1F6QooRs+6KQiv2g=;
-        b=XvLcA6GhVUbmcJUH2zhu+NnkgrF2jNFBNQNQXXSWsC8I7mQ15KfAr7ZXbAWdfY7A/z
-         5WHk1+QEnj7Y4RN4ehPxw2vC8ymOd9F200kycFgOXG3oC0g0pDQYLUs1PamCgnytCLWS
-         nG5nGbDZRqHBrmkUoCTUt2lBqc7XHcjNFhWUqwI1ma1Hid7dT9v6p8rtmYY2mLhF+nzi
-         K/zJyK4cOG9cpzYmDWil8gOb0P5rgFt5KkUHCbde2U+myBPJsH9D27mOu6s1ytA+0IzH
-         lOWCohOzH9l/BUDh62HJAt7EdugQ3eD8qAimswP+xnA44tEk+V+DrVrDVsfwTnuj+UDd
-         7vKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733425837; x=1734030637;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OQVG1tQuHt3SHcx2mPIxH4KYBUQ1F6QooRs+6KQiv2g=;
-        b=LTkhLgm+MPmXh3Q+88xk4T2GMpg8djlzmHCL0PhwSOzo/aYYJwf10z+5xERyUB5wqx
-         xn9rb+yxwQXHCFO4cGtVyNCbn13b76iy52vshcJC9yGYBcCwBOiIBmgh7fp+wAFnJGBf
-         jJrQzahsCSOXWfBjbO+nGady/NgmqRvwci9C90xkRUo/ZBrfYokSH3ZCmnV/oX8y64Ft
-         q5vtnq8AqtkC1vplCv2jEp2ge9kS/FOLKpJodVzakk1Lj3LskH/euqobthZL/S8jEkjf
-         3jegyE3ZbjqP+Xm5iF5ckWoRxDNaAyjOS7UB56dguCw7IHV+0KI3RFbIzHjhg+81bqzU
-         ioyA==
-X-Forwarded-Encrypted: i=1; AJvYcCXAwPJDvzQi+IgRUgaMDq0NVOjzhG1AuBtLBWw1qKQG4DwGj7H3f4DPrgehNO1lq68TulpCaab5y26PyA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzGbixEZtS20uXsQ049xwubYUoGq/J/NYO0VoiL0QLQb3TGmnpo
-	LLheSbvlAqhd43HqZgSDbnXNeS+3H/ft4uBobuv/Q37Mp4blJt3kNIONIHBIY38=
-X-Gm-Gg: ASbGncvdNbDagVKrrEQ9628xzOuXjLOhejVdq1L26IiKKDsVf0ufscheZO2bQnjbL/g
-	izg/m1smCoNW4tL6s8sgtIqFn+Fo+vTep/5JnghPtN1d6okwiQfq0XAPTKpFnYZIa4Rjfi4F5X2
-	8EOqwnYvaX0E5+lJVTjGcfKKS3chyIP4VifuJHwluX4vniYci0bKfnZvIkGF1c9tN/4ApEqOxfP
-	XKHM0SwzS+DRCPcqnzoNOSO91X0Yz1PQSFB5qu6nY1NO4gG0AIvRoQVA4mIwt271R5BXIsGNEiX
-	CPmIjAS/vkj8wvYSXA==
-X-Google-Smtp-Source: AGHT+IHUNLqaLQBuYan1ZGoMqkshI2yl9UY4KpKLMA9S8dD5jZebO/X3lWSvz99JLzTn4lGzisOwhw==
-X-Received: by 2002:a05:6512:3c99:b0:53d:ab21:4e17 with SMTP id 2adb3069b0e04-53e2c2f0135mr21836e87.55.1733425836767;
-        Thu, 05 Dec 2024 11:10:36 -0800 (PST)
-Received: from eriador.lan (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53e2294738fsm314252e87.52.2024.12.05.11.10.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Dec 2024 11:10:35 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v5 00/10] drm/display: hdmi: add drm_hdmi_connector_mode_valid()
-Date: Thu,  5 Dec 2024 21:10:31 +0200
-Message-ID: <173342582161.2533869.11795486713615996638.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241130-hdmi-mode-valid-v5-0-742644ec3b1f@linaro.org>
-References: <20241130-hdmi-mode-valid-v5-0-742644ec3b1f@linaro.org>
+	dkim=pass (2048-bit key) header.d=uni-heidelberg.de header.i=@uni-heidelberg.de header.b="Y9E+CfxA"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=uni-heidelberg.de; i=@uni-heidelberg.de; q=dns/txt;
+  s=s1; t=1733516478; x=1765052478;
+  h=date:from:to:subject:message-id:mime-version;
+  bh=obweLbPmdaRNnm9sBPFdYU+Tkq05AKGhDIpdDJNmTx0=;
+  b=Y9E+CfxAcGDkVlVW3dCdHn9h6iPsc5RzaPnYrRavLz8vpID+zQaHrufm
+   kA8re3ARNN7CP7eo3zn5OrArMGdSFOiZ8hr/Qe+BlTdOCl7aBq3dwYctc
+   tBMujFkB5E+Qs5C1pQ8zVmmgwJ5JIuGqseaDN+WDuve2bTt5mP/Uoqg05
+   wi+0TDu6AHwp75tds/sArKaWn3KlLWRtpboKSgSxcH8LseJNZFg2O2pnd
+   AFZmRav9SITqq7izuK4THpYk5EOuplZIrOD7JHIwyLY3fe0EWUwzqAuzd
+   SNbLH+85gYyjDmOQ8KBm1ymrltxtUWLHy9MhT5VDadCIL8SLDd3VZrmiM
+   A==;
+X-CSE-ConnectionGUID: 8Uvaaj9YQderm1jRwBtoHQ==
+X-CSE-MsgGUID: CejYt4G9T9+tz3lmYZ5eeg==
+X-IPAS-Result: =?us-ascii?q?A2DPAwCyW1Nn/1BqzoFagQmBU4IcgQoBgX6EVbAJgg0BA?=
+ =?us-ascii?q?QEBAQEBAQEJRAQBAYUHimooNQgOAQIEAQEBAQMCAwEBAQEBAQEBDgEBBgEBA?=
+ =?us-ascii?q?QEBBwWBIYYIhwSBCwImAhZJEoVmswOBMoEB3kqBVoEaLohOAYVqATuCDYR+g?=
+ =?us-ascii?q?RQBg2iEJTswgw46gi8Eh04liQCdHYFNeDIBVRMXCwcFgXYDQoE4gU2BNoFRQ?=
+ =?us-ascii?q?4JOSoNKgUJGPYJKaUs3Ag0CNmmBOyRZgk2FGYRphFqGJYIXHUADC209NxQbo?=
+ =?us-ascii?q?n9GhxDHBAelYQQWM5dRkn8BlhuCYCKpCIFpAYISMz6DNlIZD45ZdgECwQ93P?=
+ =?us-ascii?q?AIHCwEBAwmVOQEB?=
+IronPort-Data: A9a23:i8BeXq1EPovxeR409fbD5dJxkn2cJEfYwER7XKvMYLTBsI5bp2QAz
+ mBNX2jTPq7bZTfzLtB2Pou/pBsC6JbXnYI3Sgdr3Hw8FHgiRejtXInGdBeuY0t+DSFhoGZPt
+ Zh2hgzodZhsJpPkjk7wdOCn9z8kjv3gqoPUUIbsIjp2SRJvVBAvgBdin/9RqoNziLBVOSvV0
+ T/Ji5OZYQXNNwJcaDpOt/vZ8E0355wehRtB1rAATaET1LPhvyRNZH4vDfnZB2f1RIBSAtm7S
+ 47rpF1u1jqEl/uFIorNfofTKiXmcJaLVeS9oiI+t5yZv/R3jndaPpDXlBYrQRw/Zz2hx7idw
+ TjW3HC6YV9B0qbkwIzxX/TEes1zFfUuxVPJHZSwmZyu0UTPcSrd+vljFkRvP7cH0PpwIVgbo
+ JT0KBhVBvyCr+a7xbW9DOhznII+KsiuPI4etnxkxzzDArAqTPgvQY2Tv44ehm9uwJkWQ7COP
+ 6L1ahI2BPjESx1LM0oaEro6keKvgD/+bCcetVSU4Ko64mTeyAZ8yrerPNe9ltmiH54NzhnD/
+ TiWl4j/KjoXNu2DlRXUziPvmv2UmSbKat8fGbLto5aGh3XJnzdCVUZIPbehmtG9i0ijS5dWM
+ UlR+Sc0q6U23EiqVcXmGRy+rmSNshMVV5xXCeJSwAWMzLfEph2EAHgFZjpAc8A98ss3QyE6k
+ FOEgbvU6SdHtLCQTnTb96iO6y60OG0VIG4OaCsOQBEKpdXuyG0usv7RZoZeDqe8jIzEID392
+ TXTrhIhrakUrfdegs1X4mv7qz6ro5HISCs86QPWQn+p42tFiGiNOtbABb/zsKooEWqJcmRtq
+ kTojOCywYgz4XCxeM+lGbtl8FSVCxGtamW0vLKXN8N9nwlBAlb6FW2QiRknTKuTDu4KeCXyf
+ GjYsh5L6ZlYMROCNPAsON7rUJh7kPC6SrwJs8w4iPITOPCdkyfaoElTibK4gggBbWB1yvhkY
+ 8fznTiEXSpKV8yLMwZat89HiOR6m3tgrY8ibY39zgqqy6GfeHeYVf8FPVqCY+Qz4bmLyDg5A
+ P4BX/ZnCnx3DoXDX8Ug2ddCfABRcihkVcieRg4+XrfrHzeK0VoJU5f5qY7NsaQ890iJvo8kJ
+ k2AZ3I=
+IronPort-HdrOrdr: A9a23:cQNmwaHB1QcC9vD6pLqEIceALOsnbusQ8zAXPhZKOH9om62j5r
+ iTdZEgvyMc5wxwZJhNo6HnBEDiex3hHPxOkO0s1N6ZNWGMhILCFvAE0WKN+UyYJ8Q8zIJgPG
+ VbHpSWxOeeMXFKyeH9/Qm2E9wp3dmA97rAv5a9815dCSZtdqFu7w1wFwacFVczbw9bApA0UL
+ qa6cwvnUvERZ3fVKWGOkU=
+X-Talos-CUID: =?us-ascii?q?9a23=3A86LVn2oG0SdU/2cOxogRFc7mUZAYbHTUzibhGkO?=
+ =?us-ascii?q?1E2MwSoeKY0OX2Joxxg=3D=3D?=
+X-Talos-MUID: 9a23:UFBdvAoCvnorfNN9aEgezxpvNvZ0v4v/NBFOjYddv8y1B3F9NjjI2Q==
+X-IronPort-Anti-Spam-Filtered: true
+Received: from lemon.iwr.uni-heidelberg.de ([129.206.106.80])
+  by relay2.uni-heidelberg.de with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 06 Dec 2024 21:20:07 +0100
+Received: from hlauer by lemon.iwr.uni-heidelberg.de with local (Exim 4.92)
+	(envelope-from <hlauer@lemon.iwr.uni-heidelberg.de>)
+	id 1tJeo1-0006Sy-NN; Fri, 06 Dec 2024 21:20:05 +0100
+Date: Fri, 6 Dec 2024 21:20:05 +0100
+From: Hermann.Lauer@uni-heidelberg.de
+To: linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: [PATCH] ARM: sun8i: r40/a40i: rm unneeded PH23 setup which resets
+ Banana Pi M2 Ultra V1.1
+Message-ID: <20241206202005.GA24845@lemon.iwr.uni-heidelberg.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Sat, 30 Nov 2024 03:52:25 +0200, Dmitry Baryshkov wrote:
-> Several HDMI drivers have common code pice in the .mode_valid function
-> that validates RGB / 8bpc rate using the TMDS char rate callbacks.
-> 
-> Move this code piece to the common helper and remove the need to perform
-> this check manually. In case of DRM_BRIDGE_OP_HDMI bridges, they can
-> skip the check in favour of performing it in drm_bridge_connector.
-> 
-> [...]
+Banana Pi M2 Ultra V1.1 board resets immediately when the usb core tries
+to setup PH23 GPIO. It turned out that the V1.0 board USB-A ports are
+always power supplied and according to the board scheme PH23 is simply
+not connected.
 
-Applied to drm-misc-next, thanks!
+So remove the PH23 setup: Doesn't harm V1.0 (with R40) and let V1.1
+(with A40i) start
 
-[01/10] drm/tests: hdmi: handle empty modes in find_preferred_mode()
-        commit: d3314efd6ebf335a3682b1d6b1b81cdab3d8254a
-[02/10] drm/tests: hdmi: rename connector creation function
-        commit: 67d31cd02c8dfb3d006dba62a854e6758cf7a0e4
-[03/10] drm/tests: hdmi: return meaningful value from set_connector_edid()
-        commit: a8403be6eea91e4f5d8ad5dbc463dd08339eaece
-[04/10] drm/display: hdmi: add generic mode_valid helper
-        commit: 47368ab437fdd1b5118644659a97a6e5dab45248
-[05/10] drm/sun4i: use drm_hdmi_connector_mode_valid()
-        commit: ae048fc4f96d716a2ef326bd6e894694057c078c
-[06/10] drm/vc4: use drm_hdmi_connector_mode_valid()
-        commit: d4581ae8695863b21f9b739dddce8159f3068ca3
-[07/10] drm/display: bridge_connector: use drm_bridge_connector_mode_valid()
-        commit: 54d7b7f9d637a53ba19d117eb9b01619bb1704ed
-[08/10] drm/bridge: lontium-lt9611: drop TMDS char rate check in mode_valid
-        commit: efda6551aa866b80dcb5a94158d805c560fc4f1c
-[09/10] drm/bridge: dw-hdmi-qp: replace mode_valid with tmds_char_rate
-        commit: 2d7202c6f38d14260a3998a2aa249a53415a24f5
-[10/10] drm/sun4i: use drm_atomic_helper_connector_hdmi_check()
-        commit: 84e541b1e58e04d808e1bb13ef566ffbe87aa89b
+Signed-off-by: Hermann Lauer <Hermann.Lauer@uni-heidelberg.de>
+---
 
-Best regards,
--- 
-With best wishes
-Dmitry
+# HG changeset patch
+# Parent  236ffa4558b03bbc654515fae80a7a2387f06cd4
 
+diff --git a/arch/arm/boot/dts/allwinner/sun8i-r40-bananapi-m2-ultra.dts b/arch/arm/boot/dts/allwinner/sun8i-r40-bananapi-m2-ultra.dts
+--- a/arch/arm/boot/dts/allwinner/sun8i-r40-bananapi-m2-ultra.dts
++++ b/arch/arm/boot/dts/allwinner/sun8i-r40-bananapi-m2-ultra.dts
+@@ -347,7 +347,5 @@
+ };
+ 
+ &usbphy {
+-	usb1_vbus-supply = <&reg_vcc5v0>;
+-	usb2_vbus-supply = <&reg_vcc5v0>;
+ 	status = "okay";
+ };
