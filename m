@@ -1,151 +1,68 @@
-Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A36E147C91
-	for <linux-sunxi@lists.linux.dev>; Sun,  8 Dec 2024 12:43:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584C818A6A7;
+	Sun,  8 Dec 2024 17:03:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733661812; cv=none; b=B1AQ1UU3Vq59pQF47Grwvd/Rpxq2LfaaF3ER/K8I0mA19z0cuLUEccHIbhyZqLASTpQ+t4L8hJ7gKngAwP6iCloeDcpsE4v8bn1VHkx+PrOs4o34s74EsKmZBxdnf7PJf7RV0iDxJJLGEa25h+Oa84WfmXcNp49Otg2kKi0gQwc=
+	t=1733677423; cv=none; b=jIIRWtHjfQE4Ydpdf8dilh0p3FryuJ5zt+jofsX+no726WQTi6wVCa8BYfHaOTlC9OEYWLJq0bwc9USorqAFYfc9+zCTMeHOjG0cezEB7d0XM/GvdjSTZFOk8+eHoeIIY0Z9Sk5DXIpQEoIAlLhY06UmiT3G4KHJyEXeaEZ45w8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733661812; c=relaxed/simple;
-	bh=lk5PCBXILsORnwats/dVp90MjS9CyLpDw6Nievrao44=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DGgDGbu4lkSuCW74G+genL1gY3Il+qu9WOZjQy/6lBHUY5U3reV8GmM9ZWIKiDSG7U8I9NFx22GdtnNWg+rwRSuvR2nw4qdHtHXhsNwG1PSK93YqHXfB9x7QNnM/GS9NW1PlqjYh+1LOfM+I1nOZdCVWwFXX+0y7cHyYfFpA6jo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=XmV1O4Sf; arc=none smtp.client-ip=193.68.50.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
+	s=arc-20240116; t=1733677423; c=relaxed/simple;
+	bh=OzDARD49R+n5VdNnBGtctFOhHbckqO7CziSzfIPOS0M=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=iGBpnzFKf4NqtX83jNxbyRDsTzedN6ZrKQuvkvUiH0ztFLaVj/zovnNRoBpLxRdzQtqaKnD8Sv8c10Rpx3teSqwSJRjFYL8LVxBP22q8eIepuLV7rdqn/VnI2Yc34BWrFKqlXI9r/5dv6Ak8jLI+DPYQ3pOFSzkfjIOIUS3UOTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=spyhw8Or; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="XmV1O4Sf"
-Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
-	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id 5AD85A00A5;
-	Sun,  8 Dec 2024 13:43:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:from:from:message-id:mime-version:reply-to:subject:subject:to
-	:to; s=mail; bh=i05HWD7K+WuvMLkFj25EzNitUBPDdxgibXgH/rNxbxU=; b=
-	XmV1O4SfUox3W6oPoc03JCuTPlBy0yzLF23OUJdXuPH9o3z/QNBGqtjmI36AC0kY
-	xTCLxa8WfR7D05I9/EJ1m+6Ai68po3vVgEGYANgP8qy9cIzbOqdTydgppaV8k18v
-	bXx5BX3bFv3t2l/hmU0YSqQR8DpiQPdxDJlyej6OSkclJbA18/Rt5UOO3zydl6+J
-	vKAfQ/rSs0i/o+SdwjJIOqvXZL/wI8M+X2H5Ii2RQktXv4Ou7cgPF2EKrj0ZnXgT
-	bcOGh4+KdsFCGflUFLvY/gjePNqJ5z2oe7X1FDydhHRMh1RaAqaCwgbh2jG535V1
-	JRKFZtp7r//iHDHEMHyfVG1n2TMBV1D6mNBPSRS179abhP+wLh3YgSXxAMbdz6bQ
-	zcVsVT9Iba7/4i6LxMoQ9Q5COi1nC6Qe+a0apx4qDDCnc9Mb3G6aVMFHg4okkGq/
-	8iY7vLsific30uT3ne3OHz2t9jjeNmN+j2rMo079gNQPIOJU4Zn3RKQWilQqQlff
-	ztjIMWoRPDLUMBo9PX3cLfxxCKLhS27VdOL0fNizsbjUIO1MqLke4hLhF5DOGQFc
-	KHDY9F0hADNFUrINLuUPCPYkJI4brW6+vOFaWiUfNQfBoCu9kbWxTiDm4JyLVXUf
-	V29+PaA8o8SpsdbF/eCKtJloy1FPGit2ODts7PuLk30=
-From: =?UTF-8?q?Bence=20Cs=C3=B3k=C3=A1s?= <csokas.bence@prolan.hu>
-To: <dmaengine@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-CC: =?UTF-8?q?Bence=20Cs=C3=B3k=C3=A1s?= <csokas.bence@prolan.hu>, "Chen-Yu
- Tsai" <wens@kernel.org>, Vinod Koul <vkoul@kernel.org>, Chen-Yu Tsai
-	<wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
-	<samuel@sholland.org>
-Subject: [PATCH] dma-engine: sun4i: Use devm functions in probe()
-Date: Sun, 8 Dec 2024 13:36:19 +0100
-Message-ID: <20241208123619.1007413-1-csokas.bence@prolan.hu>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="spyhw8Or"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7E68C4CEDD;
+	Sun,  8 Dec 2024 17:03:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733677421;
+	bh=OzDARD49R+n5VdNnBGtctFOhHbckqO7CziSzfIPOS0M=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=spyhw8Or7dDJtUGMI4hnzo/Cwi7FcY87M/3qsTGI0YPZzRmcGqps8JdoHSqycKF2n
+	 f/94VbKItY+duEpzZYT7XPnL+IMuw7GDVMDuZUpK62qQe+2+xsgPOvgUXS04U1399m
+	 pOlnX8BMz19MIvkAbBKk2z8DubpaD3nyQT6lnDuJcn/+RyMLoB5M0+4+ZZTPKrreoZ
+	 y46FhLv40PSbTmV8tKG5SKbBrRGUv4a/RSuIk0NVW96JADf7g2wDwagSzaqdk9GM3G
+	 7uEaMDMzoZxXZGbQvQR/Eux1eK9CW+DXoc2AN1GDBInaF6/wuQQMga/jxcRo5LtzEb
+	 wmZFSr2EY/6lw==
+From: Vinod Koul <vkoul@kernel.org>
+To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
+ linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+In-Reply-To: <20241031104631.2454581-1-andriy.shevchenko@linux.intel.com>
+References: <20241031104631.2454581-1-andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v1 1/1] phy: sun4i-usb: Remove unused of_gpio.h
+Message-Id: <173367741843.1042266.6194820698713604064.b4-ty@kernel.org>
+Date: Sun, 08 Dec 2024 22:33:38 +0530
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ESET-AS: R=OK;S=0;OP=CALC;TIME=1733661800;VERSION=7982;MC=3252012965;ID=300616;TRN=0;CRV=0;IPC=;SP=0;SIPS=0;PI=3;F=0
-X-ESET-Antispam: OK
-X-EsetResult: clean, is OK
-X-EsetId: 37303A2980D9485562766B
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-Clean up error handling by using devm functions
-and dev_err_probe(). This should make it easier
-to add new code, as we can eliminate the "goto
-ladder" in probe().
 
-Suggested-by: Chen-Yu Tsai <wens@kernel.org>
-Signed-off-by: Bence Csókás <csokas.bence@prolan.hu>
----
- drivers/dma/sun4i-dma.c | 31 ++++++-------------------------
- 1 file changed, 6 insertions(+), 25 deletions(-)
+On Thu, 31 Oct 2024 12:46:31 +0200, Andy Shevchenko wrote:
+> of_gpio.h is deprecated and subject to remove. The drivers in question
+> don't use it, simply remove the unused header.
+> 
+> 
 
-diff --git a/drivers/dma/sun4i-dma.c b/drivers/dma/sun4i-dma.c
-index 24796aaaddfa..b10639720efd 100644
---- a/drivers/dma/sun4i-dma.c
-+++ b/drivers/dma/sun4i-dma.c
-@@ -1249,10 +1249,9 @@ static int sun4i_dma_probe(struct platform_device *pdev)
- 	if (priv->irq < 0)
- 		return priv->irq;
- 
--	priv->clk = devm_clk_get(&pdev->dev, NULL);
-+	priv->clk = devm_clk_get_enabled(&pdev->dev, NULL);
- 	if (IS_ERR(priv->clk)) {
--		dev_err(&pdev->dev, "No clock specified\n");
--		return PTR_ERR(priv->clk);
-+		return dev_err_probe(&pdev->dev, PTR_ERR(priv->clk), "Couldn't start the clock");
- 	}
- 
- 	if (priv->cfg->has_reset) {
-@@ -1328,12 +1327,6 @@ static int sun4i_dma_probe(struct platform_device *pdev)
- 		vchan_init(&vchan->vc, &priv->slave);
- 	}
- 
--	ret = clk_prepare_enable(priv->clk);
--	if (ret) {
--		dev_err(&pdev->dev, "Couldn't enable the clock\n");
--		return ret;
--	}
--
- 	/*
- 	 * Make sure the IRQs are all disabled and accounted for. The bootloader
- 	 * likes to leave these dirty
-@@ -1344,32 +1337,23 @@ static int sun4i_dma_probe(struct platform_device *pdev)
- 	ret = devm_request_irq(&pdev->dev, priv->irq, sun4i_dma_interrupt,
- 			       0, dev_name(&pdev->dev), priv);
- 	if (ret) {
--		dev_err(&pdev->dev, "Cannot request IRQ\n");
--		goto err_clk_disable;
-+		return dev_err_probe(&pdev->dev, ret, "Cannot request IRQ");
- 	}
- 
--	ret = dma_async_device_register(&priv->slave);
-+	ret = dmaenginem_async_device_register(&priv->slave);
- 	if (ret) {
--		dev_warn(&pdev->dev, "Failed to register DMA engine device\n");
--		goto err_clk_disable;
-+		return dev_err_probe(&pdev->dev, ret, "Failed to register DMA engine device");
- 	}
- 
- 	ret = of_dma_controller_register(pdev->dev.of_node, sun4i_dma_of_xlate,
- 					 priv);
- 	if (ret) {
--		dev_err(&pdev->dev, "of_dma_controller_register failed\n");
--		goto err_dma_unregister;
-+		return dev_err_probe(&pdev->dev, ret, "Failed to register translation function");
- 	}
- 
- 	dev_dbg(&pdev->dev, "Successfully probed SUN4I_DMA\n");
- 
- 	return 0;
--
--err_dma_unregister:
--	dma_async_device_unregister(&priv->slave);
--err_clk_disable:
--	clk_disable_unprepare(priv->clk);
--	return ret;
- }
- 
- static void sun4i_dma_remove(struct platform_device *pdev)
-@@ -1380,9 +1364,6 @@ static void sun4i_dma_remove(struct platform_device *pdev)
- 	disable_irq(priv->irq);
- 
- 	of_dma_controller_free(pdev->dev.of_node);
--	dma_async_device_unregister(&priv->slave);
--
--	clk_disable_unprepare(priv->clk);
- }
- 
- static struct sun4i_dma_config sun4i_a10_dma_cfg = {
+Applied, thanks!
+
+[1/1] phy: sun4i-usb: Remove unused of_gpio.h
+      commit: b6096751a652a7e7526d4b3d59971a40c3287ef7
+
+Best regards,
 -- 
-2.34.1
+~Vinod
 
 
