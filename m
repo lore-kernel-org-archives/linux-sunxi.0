@@ -1,97 +1,98 @@
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B482221D88;
-	Mon,  9 Dec 2024 12:48:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5DFD1ACEC2
+	for <linux-sunxi@lists.linux.dev>; Mon,  9 Dec 2024 17:56:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733748512; cv=none; b=ak/wZC8MNkCVyCLLEf4zOdTc+Osm9Vrb0e4tf1pVF9tJxpoeZz1KkzTdHlo5NwoqrdlVUgXwyQw5EHCxuYy1aVcSp1kw53OKIfNONyfjPNhbSu4HMbQTsFqi7wCh4/Yy4ssUT9cAjXmtp8wAz9awdUBsLVoFJO5PHK/sccRb/18=
+	t=1733767012; cv=none; b=fZdcyLFyDv9MpTgpjci4tWaqhq5clFX8W5A4PKZOmg7zU13X8/b7ajj8RaEB2qP75xnhBBwwGmnw84zMOWUhXBZ+Uol5GIKDETPcoZOShTW1ricE4NH++hko493xLobpUxJyGnQa61+SWMshX/qkvXu6wy/d2Ok0pOt2VFauV3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733748512; c=relaxed/simple;
-	bh=doGwGYhbXQvljz7pEyV8cg3NcfTkJse5GZPQ0eBEQ4w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=coshXOhlHz4uF+/pjJ9ZAzE0uGezVrTFdmmSzhYn7LsOAtMoT72DvRbiSXJcs55QSnxlO6XAoe9wMLCm1wQPaVlAC6p/sQ2utTKs+TmeXmbOa/I4Qdut0how6nyZQnyHNlrjmo0rDojnYZBz2rWC/aGJ405HVCo+bV6/Y6Su5ac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=B2ScI27/; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="B2ScI27/"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=YALQ/5d5xwJu+LceFpjWJMU1LIe6WE2pCNsHkacRTcI=; b=B2ScI27/o23d0xltBjPie1Ue+t
-	5XtAHemGGtwCU4r6Kw0aUPIQD/3gXCT7f1etTJxip3qhzWcqwfw4JXmXyLata74X+iJwHGqLwKa35
-	Nsd1CRZa4iw5OSl1D/JJ2ykK/4Lhc6MWwuc3LANeJWXxROWIri8EAGM0W5W6wQBQ3EvnsHzYSD1mt
-	0joyVgYhvrm/vdVBRbOVXBRMMOhfFEqjbGpFySbSEGgtfYppDM1xZwd4TSHOu8y61wQNkR15i7U5m
-	H7+bIm3oEyj2kB3K5ikDYec5gCiDvo1hNBIHz4HbHxHJ2D2OX0emZVllTYnSxCB05IAnB9+Rf6M4W
-	k43Bx9+g==;
-Received: from i53875bc4.versanet.de ([83.135.91.196] helo=diego.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1tKdBK-00088z-7p; Mon, 09 Dec 2024 13:48:10 +0100
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Ming Qian <ming.qian@nxp.com>, Zhou Peng <eagle.zhou@nxp.com>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Tiffany Lin <tiffany.lin@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Yunfei Dong <yunfei.dong@mediatek.com>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Philipp Zabel <p.zabel@pengutronix.de>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Viktor Prutyanov <viktor.prutyanov@phystech.edu>,
- Shijie Qin <shijie.qin@nxp.com>, Michael Tretter <m.tretter@pengutronix.de>,
- Emil Velikov <emil.velikov@collabora.com>,
- Del Regno <angelogioacchino.delregno@somainline.org>,
- Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
- imx@lists.linux.dev, linux-rockchip@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject:
- Re: [RESEND PATCH] media: dt-bindings: trivial white-space and example
- cleanup
-Date: Mon, 09 Dec 2024 13:48:08 +0100
-Message-ID: <9635159.2WqB4rESCP@diego>
-In-Reply-To: <20241209113405.74226-1-krzysztof.kozlowski@linaro.org>
-References: <20241209113405.74226-1-krzysztof.kozlowski@linaro.org>
+	s=arc-20240116; t=1733767012; c=relaxed/simple;
+	bh=W9FPQOutx8gVYOk7R1nb+m7MpLo7h3sgEOsxlikF1NA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fgoY9Yki1PI+CIzFeSjHyOXb6J1bRLEiQdf5sYIXrOeR3zrYozDJnS9H+LStNurTZ5F87fn/FBlZwt2FkfPyPKAlQJAOE75n7VSa9jSP8gwN0MHLnei2rz1ZuHMOrOwsTdzKj8Ad3uA5xhUOouG3QJ0pJUsBEGonKZNz7CJmrBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DF9531650;
+	Mon,  9 Dec 2024 09:57:17 -0800 (PST)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 899D53F720;
+	Mon,  9 Dec 2024 09:56:47 -0800 (PST)
+Date: Mon, 9 Dec 2024 17:56:37 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: "=?UTF-8?B?Q3PDs2vDoXMs?= Bence" <csokas.bence@prolan.hu>
+Cc: <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>, Mesih Kilinc
+ <mesihkilinc@gmail.com>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai
+ <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+ <samuel@sholland.org>
+Subject: Re: [PATCH 1/3] ARM: dts: suniv: f1c100s: Add support for DMA
+Message-ID: <20241209175637.283312fa@donnerap.manchester.arm.com>
+In-Reply-To: <20241205000137.187450-2-csokas.bence@prolan.hu>
+References: <20241205000137.187450-1-csokas.bence@prolan.hu>
+	<20241205000137.187450-2-csokas.bence@prolan.hu>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Am Montag, 9. Dezember 2024, 12:34:05 CET schrieb Krzysztof Kozlowski:
-> Minor cleanups without funcitonal impact:
->  - There should not be an empty blank line after SPDX tag,
->  - Convention is to indent DTS examples in coding style with 2- or
->    4-space indentation (4 is preferred),
->  - Drop unused labels in DTS examples.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On Thu, 5 Dec 2024 01:01:36 +0100
+"Cs=C3=B3k=C3=A1s, Bence" <csokas.bence@prolan.hu> wrote:
 
-Reviewed-by: Heiko Stuebner <heiko@sntech.de>
+> From: Mesih Kilinc <mesihkilinc@gmail.com>
+>=20
+> Allwinner suniv F1C100s now has DMA support. Enable it under device
+> tree.
+>=20
+> Signed-off-by: Mesih Kilinc <mesihkilinc@gmail.com>
+> [ csokas.bence: Rebased on current master ]
+> Signed-off-by: Cs=C3=B3k=C3=A1s, Bence <csokas.bence@prolan.hu>
 
-(even looked at the whole patch and not only the Rockchip parts :-) )
+Compared against the manual:
 
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+
+Cheers,
+Andre
+
+> ---
+>  arch/arm/boot/dts/allwinner/suniv-f1c100s.dtsi | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+>=20
+> diff --git a/arch/arm/boot/dts/allwinner/suniv-f1c100s.dtsi b/arch/arm/bo=
+ot/dts/allwinner/suniv-f1c100s.dtsi
+> index 3c61d59ab5f8..290efe026ceb 100644
+> --- a/arch/arm/boot/dts/allwinner/suniv-f1c100s.dtsi
+> +++ b/arch/arm/boot/dts/allwinner/suniv-f1c100s.dtsi
+> @@ -6,6 +6,7 @@
+> =20
+>  #include <dt-bindings/clock/suniv-ccu-f1c100s.h>
+>  #include <dt-bindings/reset/suniv-ccu-f1c100s.h>
+> +#include <dt-bindings/dma/sun4i-a10.h>
+> =20
+>  / {
+>  	#address-cells =3D <1>;
+> @@ -159,6 +160,15 @@ usbphy: phy@1c13400 {
+>  			status =3D "disabled";
+>  		};
+> =20
+> +		dma: dma-controller@1c02000 {
+> +			compatible =3D "allwinner,suniv-f1c100s-dma";
+> +			reg =3D <0x01c02000 0x1000>;
+> +			interrupts =3D <18>;
+> +			clocks =3D <&ccu CLK_BUS_DMA>;
+> +			resets =3D <&ccu RST_BUS_DMA>;
+> +			#dma-cells =3D <2>;
+> +		};
+> +
+>  		ccu: clock@1c20000 {
+>  			compatible =3D "allwinner,suniv-f1c100s-ccu";
+>  			reg =3D <0x01c20000 0x400>;
 
