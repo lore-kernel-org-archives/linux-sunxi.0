@@ -1,77 +1,42 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAB3121B8F5
-	for <linux-sunxi@lists.linux.dev>; Mon,  9 Dec 2024 11:42:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B482221D88;
+	Mon,  9 Dec 2024 12:48:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733744562; cv=none; b=dcH+lEnU6ePr8sbF8xkjqmy/rizrun/RpAq/Qxxo9NOdCWZ+XXYCs5oARimGzhuCPYIZMgnvTC3WrTIu+1IwC3R5NGtIrsammrmSEXFtZuJDVMc6yei6fm/YKYLGyerKydraqS5viMvSZo5LMPi51sLjwV04+YuUPpn/KL7rUxs=
+	t=1733748512; cv=none; b=ak/wZC8MNkCVyCLLEf4zOdTc+Osm9Vrb0e4tf1pVF9tJxpoeZz1KkzTdHlo5NwoqrdlVUgXwyQw5EHCxuYy1aVcSp1kw53OKIfNONyfjPNhbSu4HMbQTsFqi7wCh4/Yy4ssUT9cAjXmtp8wAz9awdUBsLVoFJO5PHK/sccRb/18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733744562; c=relaxed/simple;
-	bh=IK6FGWxcat9ec7DwdOXaucjjIx7nIWIyPdA4xF3OYr8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=S4YKy1y0XDDEIcZORfv+bYc8vr27Zf+Qtkv+CI5lZ0J425FXWdqMarmGLd2VANPM6fp/b4DpT5Z7bYYqMVOj708ofuTWNnnBAd9RoDGtnxQZzEYRN2WK0Y5idgNEX9rIg1S65t/sx95rFYCHCxN45YgcHudrTZPE5CZl4iZl+0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NsHP7VEC; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1733748512; c=relaxed/simple;
+	bh=doGwGYhbXQvljz7pEyV8cg3NcfTkJse5GZPQ0eBEQ4w=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=coshXOhlHz4uF+/pjJ9ZAzE0uGezVrTFdmmSzhYn7LsOAtMoT72DvRbiSXJcs55QSnxlO6XAoe9wMLCm1wQPaVlAC6p/sQ2utTKs+TmeXmbOa/I4Qdut0how6nyZQnyHNlrjmo0rDojnYZBz2rWC/aGJ405HVCo+bV6/Y6Su5ac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=B2ScI27/; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NsHP7VEC"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-434f30ba149so7556375e9.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 09 Dec 2024 03:42:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733744559; x=1734349359; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=W10XgeMj5m+No6tcPataZmZSnoW6PK2I9Ff3cBJBg7k=;
-        b=NsHP7VECED4XmIvoadA9CKFNn4axzBmYcxcVt7fegZqa9XGUGQFIcAhHVhV7m7gArV
-         ngasTEc342AlVVC2pY8H0OzSf5TWON2O89wDA2HbU3Vn7RiigMwb7F3X3EKlr1quXpFD
-         B777t24+8uIRAADwx0bLqbSMEpA2MkFzL4j3ZNzRP+pdO4DH7EZxJxm/InsggZHdGIeX
-         YV/En5exXutcpMwM1LjvKn10Q0fqjgQf80/R1yDWp37slwNA5NUXucmp1U8k2bmgLw2t
-         mMesjEgzY2iYbSgM1Is0p6CBZ7ba+MmMw9jF9G8pkFb1dEeqTnfPdclAj8Rmg7/lUsPV
-         AVGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733744559; x=1734349359;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=W10XgeMj5m+No6tcPataZmZSnoW6PK2I9Ff3cBJBg7k=;
-        b=sVFPgSdGnXbw8676Wp8yyvYP1nHqUA2X6Hjl0PYoX2OWB4Luq2ll5K3Ms7XUEpgeqm
-         K0wULS1mXclrD0H3OLZniFqo4VevWpqFVa5rDf2cqO9wSvGFTIVQ8aqXy+63oH6tSmuw
-         RR4+DyABGuKKQBxIzcGNwV42Q5Y9JXY5evPf8nySE/Cjwe28X2ImofDe1RtsVhSvC1CM
-         A4RA3U6SqkZw7+lckBsjyu6zqZ7/NO5HMN8qosrZ1ElM6ALV/TGgog2L+lEeLRC/myhl
-         sxJ6K7bx0B1kqUQxAiB1U0dQ9KHYHvDxw7dd/y0znNkHR8ShY6OxP9RllIXzWk2xUyzw
-         sVcg==
-X-Forwarded-Encrypted: i=1; AJvYcCU+csC8DpLxCjVr2CLD1uwLc9gXCfSlODGbm0OH9VZV5m/DXBUsfFgtP3zbVQOvZf31JTakjiImamK8HA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywknaze24MFrn0P6AZNFrq+fSom2qjJnq4u46mwxXyUZwR2Bpxi
-	qscd3OKzfHaI1G23NkAtTqRThpnhvXpqfUaDJnHnDmFZqX6Rrp4jLlCClG/9ndY=
-X-Gm-Gg: ASbGncvQd9Y3x4XNGe4LBpgc5H4rBlkgBs1Nt+aEpWDCOOZdp4XMGOBP6ggHTYgB/hu
-	G6f0MWKHr0rpKuDNtLLj1fiP1oO4LjsmXssc5YlAMUfqwagpViXPxGQP7WVq7CIcf01yjSsMOYQ
-	dUvIIF21ID+OdzcKdjo4jzLmwn0VNuDaUpSdRIkI8gg4r48r32EmWPGxa2u29vNvbZpWzXPuU1H
-	b8kjb29z+waFDCrAx89N2cmaYB/NXy7yYJR4yTnHfnjp/PQpCW5JVPgdOe/754=
-X-Google-Smtp-Source: AGHT+IEbIQYg8EnIUDUPigKjpDEo3nHZn5oUqp1eGUTq6LEGGzSr1WjwD8bOZqQ7VZz3k53CLChrPw==
-X-Received: by 2002:a05:600c:1da7:b0:434:f871:1b97 with SMTP id 5b1f17b1804b1-434fffca42dmr648225e9.33.1733744559181;
-        Mon, 09 Dec 2024 03:42:39 -0800 (PST)
-Received: from [192.168.0.40] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434f2b08972sm60014355e9.27.2024.12.09.03.42.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Dec 2024 03:42:38 -0800 (PST)
-Message-ID: <c8f42175-3501-4d65-92ba-5878fe5ea5f4@linaro.org>
-Date: Mon, 9 Dec 2024 11:42:35 +0000
-Precedence: bulk
-X-Mailing-List: linux-sunxi@lists.linux.dev
-List-Id: <linux-sunxi.lists.linux.dev>
-List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
-List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND PATCH] media: dt-bindings: trivial white-space and
- example cleanup
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
+	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="B2ScI27/"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=YALQ/5d5xwJu+LceFpjWJMU1LIe6WE2pCNsHkacRTcI=; b=B2ScI27/o23d0xltBjPie1Ue+t
+	5XtAHemGGtwCU4r6Kw0aUPIQD/3gXCT7f1etTJxip3qhzWcqwfw4JXmXyLata74X+iJwHGqLwKa35
+	Nsd1CRZa4iw5OSl1D/JJ2ykK/4Lhc6MWwuc3LANeJWXxROWIri8EAGM0W5W6wQBQ3EvnsHzYSD1mt
+	0joyVgYhvrm/vdVBRbOVXBRMMOhfFEqjbGpFySbSEGgtfYppDM1xZwd4TSHOu8y61wQNkR15i7U5m
+	H7+bIm3oEyj2kB3K5ikDYec5gCiDvo1hNBIHz4HbHxHJ2D2OX0emZVllTYnSxCB05IAnB9+Rf6M4W
+	k43Bx9+g==;
+Received: from i53875bc4.versanet.de ([83.135.91.196] helo=diego.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1tKdBK-00088z-7p; Mon, 09 Dec 2024 13:48:10 +0100
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Samuel Holland <samuel@sholland.org>,
  Neil Armstrong <neil.armstrong@linaro.org>,
  Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
@@ -84,7 +49,8 @@ To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  Yunfei Dong <yunfei.dong@mediatek.com>,
  Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
  Philipp Zabel <p.zabel@pengutronix.de>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>, Heiko Stuebner <heiko@sntech.de>,
+ Todor Tomov <todor.too@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
  Matthias Brugger <matthias.bgg@gmail.com>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  Viktor Prutyanov <viktor.prutyanov@phystech.edu>,
@@ -96,62 +62,36 @@ To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
  linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
  imx@lists.linux.dev, linux-rockchip@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org
-References: <20241209113405.74226-1-krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+ linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject:
+ Re: [RESEND PATCH] media: dt-bindings: trivial white-space and example
+ cleanup
+Date: Mon, 09 Dec 2024 13:48:08 +0100
+Message-ID: <9635159.2WqB4rESCP@diego>
 In-Reply-To: <20241209113405.74226-1-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20241209113405.74226-1-krzysztof.kozlowski@linaro.org>
+Precedence: bulk
+X-Mailing-List: linux-sunxi@lists.linux.dev
+List-Id: <linux-sunxi.lists.linux.dev>
+List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
+List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 09/12/2024 11:34, Krzysztof Kozlowski wrote:
-> diff --git a/Documentation/devicetree/bindings/media/qcom,msm8916-camss.yaml b/Documentation/devicetree/bindings/media/qcom,msm8916-camss.yaml
-> index 9cc0a968a401..3469a43f00d4 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,msm8916-camss.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,msm8916-camss.yaml
-> @@ -1,5 +1,4 @@
->   # SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> -
->   %YAML 1.2
->   ---
->   $id:http://devicetree.org/schemas/media/qcom,msm8916-camss.yaml#
-> diff --git a/Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml b/Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml
-> index 5cb0e337ea6e..644646de338a 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml
-> @@ -1,5 +1,4 @@
->   # SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> -
->   %YAML 1.2
->   ---
->   $id:http://devicetree.org/schemas/media/qcom,msm8996-camss.yaml#
-> diff --git a/Documentation/devicetree/bindings/media/qcom,sdm660-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sdm660-camss.yaml
-> index 584106e275f6..68d8670557f5 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,sdm660-camss.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,sdm660-camss.yaml
-> @@ -1,5 +1,4 @@
->   # SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> -
->   %YAML 1.2
->   ---
->   $id:http://devicetree.org/schemas/media/qcom,sdm660-camss.yaml#
-> diff --git a/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml
-> index d32daaef1b50..289494f561e5 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml
-> @@ -1,5 +1,4 @@
->   # SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> -
->   %YAML 1.2
->   ---
->   $id:http://devicetree.org/schemas/media/qcom,sdm845-camss.yaml#
-> diff --git a/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml
-> index 06db2c1e6079..a372d991e652 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml
-> @@ -1,5 +1,4 @@
->   # SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> -
->   %YAML 1.2
+Am Montag, 9. Dezember 2024, 12:34:05 CET schrieb Krzysztof Kozlowski:
+> Minor cleanups without funcitonal impact:
+>  - There should not be an empty blank line after SPDX tag,
+>  - Convention is to indent DTS examples in coding style with 2- or
+>    4-space indentation (4 is preferred),
+>  - Drop unused labels in DTS examples.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Reviewed-by: Heiko Stuebner <heiko@sntech.de>
+
+(even looked at the whole patch and not only the Rockchip parts :-) )
+
+
