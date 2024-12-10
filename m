@@ -1,83 +1,94 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD10113B58A
-	for <linux-sunxi@lists.linux.dev>; Mon,  9 Dec 2024 18:04:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B94E519DF4B;
+	Tue, 10 Dec 2024 13:36:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733767495; cv=none; b=TkkliudCD2zNczEHc2F7OX5OLqpDhnxoGo8+3MmOHTfVx1ARFgF+1ksQMk+2VzmME7EfKMF33gXODBLj7rX9XPR0sDrmLvHmxZvyqbAx4GKPCgs2/tP/jvEexoiWCQnJbEHOqFdHR8JL/SCxrv9OD8XUWbdVeyft4takPE72Ty8=
+	t=1733837763; cv=none; b=Gd4Jhr9idVe0MWGDjTcPILFgXoht7bJ0McWnJaUvOT5jh5VaJk6e5qULqSHmpzeu8PxGU6DAvvDbeldzK61JCxktuzJl02nSWwSM7wWDWbaqhCqXyjxK8DY7iefIGKMXuoyUkWl2b9R1YA4Be39qC6Fu7PmEwL9muSvCiJB6jSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733767495; c=relaxed/simple;
-	bh=XHJVjy4G8KWnKFDzFwAU7io+1PqalpIVOjawoVejFoA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rHLEhY+t8Nc0LzUBIflfnoJmGVC51FiermZOaq0bi6mnaGWybUbSkUv6xahiHif5LmeOHHR0CHWaxskU0Ebc8lLXp16lImFqMtZrT3jl4faj7g0nm5AfhYB7/FU+JdH6v5Ac+iQqXLabDD6njP6fRFGJYsYg1cCFhdVxHjDUUDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 313CD1650;
-	Mon,  9 Dec 2024 10:05:21 -0800 (PST)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 77A913F720;
-	Mon,  9 Dec 2024 10:04:50 -0800 (PST)
-Date: Mon, 9 Dec 2024 18:04:47 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: codekipper@gmail.com
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@vger.kernel.org,
- linux-sunxi@googlegroups.com, linux-sunxi@lists.linux.dev,
- devicetree@vger.kernel.org, conor+dt@kernel.org, krzk+dt@kernel.org,
- robh@kernel.org, jernej.skrabec@gmail.com, samuel@sholland.org,
- wens@csie.org, macromorgan@hotmail.com, jszhang@kernel.org, uwu@icenowy.me,
- ryan@testtoast.com, dsimic@manjaro.org, mripard@kernel.org
-Subject: Re: [PATCH 0/2] arm64: dts: allwinner: Add X96Q Pro support
-Message-ID: <20241209180447.7ddcc231@donnerap.manchester.arm.com>
-In-Reply-To: <20241111162524.46812-1-codekipper@gmail.com>
-References: <20241111162524.46812-1-codekipper@gmail.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1733837763; c=relaxed/simple;
+	bh=s2tWExV+CNbckvtXA8OAEn8h1cvGzaeoygyrproyKQA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=jN1x5m5u0tFc6GSaiM7GEuaJ2tOTNRChmzGc4zIK4p2nTociLqqNZd5GlXr+EEM3aZu8RJmtbBMJ5BlbwVm9aAIyd+pRuS0hctMncceMZNIM4+Ji446pmD4pEhLNKdF4avO3ynfcGy2iNruTjV/mTp4OKADXgKwc251bzPgiX40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N0j65nno; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N0j65nno"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9A8DC4CED6;
+	Tue, 10 Dec 2024 13:36:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733837763;
+	bh=s2tWExV+CNbckvtXA8OAEn8h1cvGzaeoygyrproyKQA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=N0j65nnoW5difpZWYNUr+Cs8NT76udNun7Mq+hRCK7fBs3RaOnrmGvKj9jsuJawip
+	 6VdcTLjsJS2bPYHl6LMtRxjRC0D5fc17SglMOrggFOp8rYnnQQDlLv3QXrbzC0+ua6
+	 G8D4d04M2HTmXcmvcDm295mN3PCrxGXNnLg8hBHRqSuEgEf4OriR72gQIX+GYPA/+b
+	 Gs/7EmvB2kEXskSCunigRkIRYfZ9JEE78BEUlqgrK5OBoRGWLC9OWhcDQb288zZo2+
+	 QMpcib7tHY3jVLMG7aMAHBBj3L5GpDxq9Kdga2Ij5JU7iF9dFFOmmYdaTnzZExrKmj
+	 tWmeG3wRW+T2A==
+From: Mark Brown <broonie@kernel.org>
+To: linux-kernel@vger.kernel.org, linux-arm-kernel@vger.kernel.org, 
+ linux-sunxi@googlegroups.com, linux-sunxi@lists.linux.dev, 
+ linux-sound@vger.kernel.org, lander@jagmn.com, codekipper@gmail.com
+Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ jernej.skrabec@gmail.com, samuel@sholland.org, andre.przywara@arm.com, 
+ wens@csie.org, u.kleine-koenig@baylibre.com
+In-Reply-To: <20241111165600.57219-1-codekipper@gmail.com>
+References: <20241111165600.57219-1-codekipper@gmail.com>
+Subject: Re: [PATCH 0/3] ASoC: sun4i-spdif: Add 24bit support
+Message-Id: <173383776048.46965.5173929465030260982.b4-ty@kernel.org>
+Date: Tue, 10 Dec 2024 13:36:00 +0000
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-9b746
 
-On Mon, 11 Nov 2024 17:25:04 +0100
-codekipper@gmail.com wrote:
-
-Hi Marcus,
-
-> From: Marcus Cooper <codekipper@gmail.com>
-> 
-> Hi All,
-> The X96Q-Pro is an STB based on the Allwinner H313 SoC with a SD
-> slot, 2 USB-2 ports, a 10/100M ethernet port using the SoC's
-> integrated PHY, Wifi via an sdio wifi chip, HDMI, an IR receiver,
-> a blue LED display, an audio video connector and an digital S/PDIF
-> connector.
-> Further information can be found on the sunxi wiki
-> https://linux-sunxi.org/X96QPro and the vendors site
-> https://x96mini.com/products/android-10-x96q-pro-smart-tv-box
-
-You hinted at sending a v2 some day, will you get the chance to do this
-still this month? Then the DT would have a good chance of getting merged
-into v6.14, I think.
-
-Cheers,
-Andre
-
-
-> Thanks in advance for the reviews,
+On Mon, 11 Nov 2024 17:55:28 +0100, codekipper@gmail.com wrote:
+> I've tested this patch series on the Allwinner H3, A64, H6 and H313 SoCs
+> up to 192KHz.
+> 24bit support is working on my H313 board but 16bit plays a bit slow and
+> I suspect that there is an issue with the clock setups. This is even
+> present without this patch stack. I would look to address this asap,
+> but for now can you please review what's here.
+> BR,
 > CK
 > 
-> Marcus Cooper (2):
->   dt-bindings: arm: sunxi: Add the X96Q Pro board name
->   arm64: dts: allwinner: Add initial support for the X96Q-Pro STB
-> 
->  .../devicetree/bindings/arm/sunxi.yaml        |   5 +
->  arch/arm64/boot/dts/allwinner/Makefile        |   1 +
->  .../dts/allwinner/sun50i-h313-x96q-pro.dts    | 176 ++++++++++++++++++
->  3 files changed, 182 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h313-x96q-pro.dts
-> 
+> [...]
+
+Applied to
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/3] ASoC: sun4i-spdif: Add clock multiplier settings
+      commit: 0a2319308de88b9e819c0b43d0fccd857123eb31
+[2/3] ASoC: sun4i-spdif: Always set the valid data to be the MSB
+      commit: 80ac12ffb3a9e19a2f11eb1975ed31c9a39183c8
+[3/3] ASoC: sun4i-spdif: Add working 24bit audio support
+      commit: 6e750d3ec7410c8d3aa6a006d37142eb837b3c03
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
