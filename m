@@ -1,94 +1,458 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B94E519DF4B;
-	Tue, 10 Dec 2024 13:36:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733837763; cv=none; b=Gd4Jhr9idVe0MWGDjTcPILFgXoht7bJ0McWnJaUvOT5jh5VaJk6e5qULqSHmpzeu8PxGU6DAvvDbeldzK61JCxktuzJl02nSWwSM7wWDWbaqhCqXyjxK8DY7iefIGKMXuoyUkWl2b9R1YA4Be39qC6Fu7PmEwL9muSvCiJB6jSI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733837763; c=relaxed/simple;
-	bh=s2tWExV+CNbckvtXA8OAEn8h1cvGzaeoygyrproyKQA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=jN1x5m5u0tFc6GSaiM7GEuaJ2tOTNRChmzGc4zIK4p2nTociLqqNZd5GlXr+EEM3aZu8RJmtbBMJ5BlbwVm9aAIyd+pRuS0hctMncceMZNIM4+Ji446pmD4pEhLNKdF4avO3ynfcGy2iNruTjV/mTp4OKADXgKwc251bzPgiX40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N0j65nno; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D96DCF9E6
+	for <linux-sunxi@lists.linux.dev>; Wed, 11 Dec 2024 03:18:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733887096; cv=pass; b=bc+fknR0bVjFZEndUGfIKIP6b9LQUN4UVh+x2t0eeQHiTZnvEwndIllOFniiUsR22Kj0AHubWlb5/w//tOtG22vn7Xf63bNytpCHXH73iYur2ltVNRc6xJtvAQzd4/9RcSwgreF+HokPs0q6or/yOsCaPJlo588zWWP3pjSDRhI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733887096; c=relaxed/simple;
+	bh=X1sRglvxer7e+SfQKYmwa3KVuBCRXv+GyjicpHGSBWs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DojwDvhdC37c5CShxrL4p9YGe4AUUD5URsRKYOujMoweXP0qiIoUwvCJUy+ccKPCx9q5TpU+Rf6Q0nWhEroCLwnWh92PT2njbDOdIqcpZBuBLI1Q426QZfnXALkcKwHI3fPVXySIsAFT4JbZwokSzbLXkBp6e6tbT6/IvkkPCbg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me; spf=pass smtp.mailfrom=icenowy.me; dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b=qfXElyVH; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icenowy.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N0j65nno"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9A8DC4CED6;
-	Tue, 10 Dec 2024 13:36:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733837763;
-	bh=s2tWExV+CNbckvtXA8OAEn8h1cvGzaeoygyrproyKQA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=N0j65nnoW5difpZWYNUr+Cs8NT76udNun7Mq+hRCK7fBs3RaOnrmGvKj9jsuJawip
-	 6VdcTLjsJS2bPYHl6LMtRxjRC0D5fc17SglMOrggFOp8rYnnQQDlLv3QXrbzC0+ua6
-	 G8D4d04M2HTmXcmvcDm295mN3PCrxGXNnLg8hBHRqSuEgEf4OriR72gQIX+GYPA/+b
-	 Gs/7EmvB2kEXskSCunigRkIRYfZ9JEE78BEUlqgrK5OBoRGWLC9OWhcDQb288zZo2+
-	 QMpcib7tHY3jVLMG7aMAHBBj3L5GpDxq9Kdga2Ij5JU7iF9dFFOmmYdaTnzZExrKmj
-	 tWmeG3wRW+T2A==
-From: Mark Brown <broonie@kernel.org>
-To: linux-kernel@vger.kernel.org, linux-arm-kernel@vger.kernel.org, 
- linux-sunxi@googlegroups.com, linux-sunxi@lists.linux.dev, 
- linux-sound@vger.kernel.org, lander@jagmn.com, codekipper@gmail.com
-Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- jernej.skrabec@gmail.com, samuel@sholland.org, andre.przywara@arm.com, 
- wens@csie.org, u.kleine-koenig@baylibre.com
-In-Reply-To: <20241111165600.57219-1-codekipper@gmail.com>
-References: <20241111165600.57219-1-codekipper@gmail.com>
-Subject: Re: [PATCH 0/3] ASoC: sun4i-spdif: Add 24bit support
-Message-Id: <173383776048.46965.5173929465030260982.b4-ty@kernel.org>
-Date: Tue, 10 Dec 2024 13:36:00 +0000
+	dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b="qfXElyVH"
+ARC-Seal: i=1; a=rsa-sha256; t=1733887088; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=eaniR9nEYJO9Ci4oLFyBGC+CsCpm+sOQBlYzaN+KbIHi+qMDTDtXnQlDMhWpWgeTRR3joeIm2VLftsnj+qPdAe/3QlRiWxZp8hwuM88WlvKKj5/DZw/8kCCD6588Ym2AnQYOKzZGZMbR0MuTsXRPDrEvWJA3DgjJCpX2pubm0qg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1733887088; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=TePoxus+/Kpu2D473MjP7vM/VESflTSFA+hIII/geNI=; 
+	b=k1lTguwR9L1Q7bgTlCGwlWNEnuRf7LLO7UR9GKLC4DzpwdU2+YSbeQGfBED2tbedh5etraHguX93+eE33CYhbZMZqImdzNrafKZGmdexx3s+rJCvPknhR7MEDDnTaqjn1m3C0qNysQF81chvs/tCvoBg6Iy92AsCmN9Po74jkMw=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=icenowy.me;
+	spf=pass  smtp.mailfrom=uwu@icenowy.me;
+	dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1733887087;
+	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=TePoxus+/Kpu2D473MjP7vM/VESflTSFA+hIII/geNI=;
+	b=qfXElyVHYewsavFeOzql1EhLrmVPgHv5UgnxI156y21ceeYzmHo3O5GieV5tK5jD
+	aOhcENpIMIrMwUZfri3Ij23+lXM/57B5Mcn5ko9xIKSv8aI2ResSHN20gNAjTKvJeD1
+	GAc2oLoDPrUgESknZxTj30N3uJPr8if3v//Mwg03jozbWWAFIujWjbB13t1HpYPKyUq
+	e4snzZCmSnEAtc9z3KYOTOT5HeQxwIBWuvqmr99TW4Uw0//NF7hbRn1rIs38fQ3n5PA
+	TsAZI5BcKLi1oYIYZIAN/LzkxIZGQ0uolhN4GcWa5lizad8du3K5MgYy6Td3/bX/GW2
+	6YBlWlg+9Q==
+Received: by mx.zohomail.com with SMTPS id 1733887085723855.2639203126568;
+	Tue, 10 Dec 2024 19:18:05 -0800 (PST)
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Hans de Goede <hdegoede@redhat.com>,
+	Jagan Teki <jagan@amarulasolutions.com>,
+	Andre Przywara <andre.przywara@arm.com>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+	u-boot@lists.denx.de,
+	linux-sunxi@lists.linux.dev,
+	Icenowy Zheng <uwu@icenowy.me>
+Subject: [U-BOOT PATCH] sunxi: add support for Rervision A33-Vstar board
+Date: Wed, 11 Dec 2024 11:17:52 +0800
+Message-ID: <20241211031752.355509-1-uwu@icenowy.me>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-9b746
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-On Mon, 11 Nov 2024 17:55:28 +0100, codekipper@gmail.com wrote:
-> I've tested this patch series on the Allwinner H3, A64, H6 and H313 SoCs
-> up to 192KHz.
-> 24bit support is working on my H313 board but 16bit plays a bit slow and
-> I suspect that there is an issue with the clock setups. This is even
-> present without this patch stack. I would look to address this asap,
-> but for now can you please review what's here.
-> BR,
-> CK
-> 
-> [...]
+Rervision A33-Vstar is an evaluation board for their A33-Core1 A33-based
+SoM.
 
-Applied to
+Add support for it.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Fastboot support is enabled for flashing the eMMC included within the
+SoM, and R8152 Ethernet is enabled for the evaluation board's onboard
+USB-to-Ethernet.
 
-Thanks!
+The device tree files are from Linux v6.13-rc1, with PMIC interrupt
+patched to match the r_intc node in U-Boot.
 
-[1/3] ASoC: sun4i-spdif: Add clock multiplier settings
-      commit: 0a2319308de88b9e819c0b43d0fccd857123eb31
-[2/3] ASoC: sun4i-spdif: Always set the valid data to be the MSB
-      commit: 80ac12ffb3a9e19a2f11eb1975ed31c9a39183c8
-[3/3] ASoC: sun4i-spdif: Add working 24bit audio support
-      commit: 6e750d3ec7410c8d3aa6a006d37142eb837b3c03
+Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+---
+ arch/arm/dts/Makefile                   |   1 +
+ arch/arm/dts/sun8i-a33-vstar-core1.dtsi |  96 +++++++++++
+ arch/arm/dts/sun8i-a33-vstar.dts        | 205 ++++++++++++++++++++++++
+ board/sunxi/MAINTAINERS                 |   5 +
+ configs/A33-Vstar_defconfig             |  23 +++
+ 5 files changed, 330 insertions(+)
+ create mode 100644 arch/arm/dts/sun8i-a33-vstar-core1.dtsi
+ create mode 100644 arch/arm/dts/sun8i-a33-vstar.dts
+ create mode 100644 configs/A33-Vstar_defconfig
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
+index 6ad59aeed5f..55dde416d71 100644
+--- a/arch/arm/dts/Makefile
++++ b/arch/arm/dts/Makefile
+@@ -654,6 +654,7 @@ dtb-$(CONFIG_MACH_SUN8I_A33) += \
+ 	sun8i-a33-olinuxino.dtb \
+ 	sun8i-a33-q8-tablet.dtb \
+ 	sun8i-a33-sinlinx-sina33.dtb \
++	sun8i-a33-vstar.dtb \
+ 	sun8i-r16-bananapi-m2m.dtb \
+ 	sun8i-r16-nintendo-nes-classic.dtb \
+ 	sun8i-r16-nintendo-super-nes-classic.dtb \
+diff --git a/arch/arm/dts/sun8i-a33-vstar-core1.dtsi b/arch/arm/dts/sun8i-a33-vstar-core1.dtsi
+new file mode 100644
+index 00000000000..5b7057015cc
+--- /dev/null
++++ b/arch/arm/dts/sun8i-a33-vstar-core1.dtsi
+@@ -0,0 +1,96 @@
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
++/*
++ * Copyright (C) 2024 Icenowy Zheng <uwu@icenowy.me>
++ */
++
++#include "sun8i-a33.dtsi"
++
++&mmc2 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&mmc2_8bit_pins>;
++	vmmc-supply = <&reg_dcdc1>;
++	bus-width = <8>;
++	non-removable;
++	cap-mmc-hw-reset;
++	status = "okay";
++};
++
++&mmc2_8bit_pins {
++	/* Increase drive strength for DDR modes */
++	drive-strength = <40>;
++};
++
++&r_rsb {
++	status = "okay";
++
++	axp22x: pmic@3a3 {
++		compatible = "x-powers,axp223";
++		reg = <0x3a3>;
++		interrupt-parent = <&r_intc>;
++		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
++		eldoin-supply = <&reg_dcdc1>;
++		x-powers,drive-vbus-en;
++	};
++};
++
++#include "axp223.dtsi"
++
++&reg_aldo1 {
++	regulator-always-on;
++	regulator-min-microvolt = <3300000>;
++	regulator-max-microvolt = <3300000>;
++	regulator-name = "vcc-io";
++};
++
++&reg_aldo2 {
++	regulator-always-on;
++	regulator-min-microvolt = <2350000>;
++	regulator-max-microvolt = <2650000>;
++	regulator-name = "vdd-dll";
++};
++
++&reg_aldo3 {
++	regulator-always-on;
++	regulator-min-microvolt = <3300000>;
++	regulator-max-microvolt = <3300000>;
++	regulator-name = "vcc-avcc";
++};
++
++&reg_dc5ldo {
++	regulator-always-on;
++	regulator-min-microvolt = <900000>;
++	regulator-max-microvolt = <1400000>;
++	regulator-name = "vdd-cpus";
++};
++
++&reg_dcdc1 {
++	regulator-always-on;
++	regulator-min-microvolt = <3300000>;
++	regulator-max-microvolt = <3300000>;
++	regulator-name = "vcc-3v3";
++};
++
++&reg_dcdc2 {
++	regulator-always-on;
++	regulator-min-microvolt = <900000>;
++	regulator-max-microvolt = <1400000>;
++	regulator-name = "vdd-sys";
++};
++
++&reg_dcdc3 {
++	regulator-always-on;
++	regulator-min-microvolt = <900000>;
++	regulator-max-microvolt = <1400000>;
++	regulator-name = "vdd-cpu";
++};
++
++&reg_dcdc5 {
++	regulator-always-on;
++	regulator-min-microvolt = <1500000>;
++	regulator-max-microvolt = <1500000>;
++	regulator-name = "vcc-dram";
++};
++
++&reg_rtc_ldo {
++	regulator-name = "vcc-rtc";
++};
+diff --git a/arch/arm/dts/sun8i-a33-vstar.dts b/arch/arm/dts/sun8i-a33-vstar.dts
+new file mode 100644
+index 00000000000..9f5c29b3df4
+--- /dev/null
++++ b/arch/arm/dts/sun8i-a33-vstar.dts
+@@ -0,0 +1,205 @@
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
++/*
++ * Copyright (C) 2024 Icenowy Zheng <uwu@icenowy.me>
++ */
++
++/dts-v1/;
++#include "sun8i-a33-vstar-core1.dtsi"
++
++#include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/input/input.h>
++
++/ {
++	model = "Rervision A33-Vstar";
++	compatible = "rervision,a33-vstar",
++		     "rervision,a33-core1",
++		     "allwinner,sun8i-a33";
++
++	aliases {
++		serial0 = &uart0;
++		ethernet0 = &r8152;
++	};
++
++	chosen {
++		stdout-path = "serial0:115200n8";
++	};
++
++	reg_usb1_vbus: regulator-usb1-vbus {
++		compatible = "regulator-fixed";
++		regulator-name = "usb1-vbus";
++		regulator-min-microvolt = <5000000>;
++		regulator-max-microvolt = <5000000>;
++		regulator-boot-on;
++		enable-active-high;
++		gpio = <&pio 1 2 GPIO_ACTIVE_HIGH>; /* PB2 */
++	};
++
++	wifi_pwrseq: pwrseq {
++		compatible = "mmc-pwrseq-simple";
++		reset-gpios = <&r_pio 0 6 GPIO_ACTIVE_LOW>; /* PL6 */
++		clocks = <&rtc CLK_OSC32K_FANOUT>;
++		clock-names = "ext_clock";
++	};
++};
++
++&ac_power_supply {
++	status = "okay";
++};
++
++&codec {
++	status = "okay";
++};
++
++&dai {
++	status = "okay";
++};
++
++&ehci0 {
++	#address-cells = <1>;
++	#size-cells = <0>;
++	status = "okay";
++
++	hub@1 {
++		/* Onboard GL850G hub which needs no extra power sequence */
++		compatible = "usb5e3,608";
++		reg = <1>;
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		r8152: ethernet@4 {
++			/*
++			 * Onboard Realtek RTL8152 USB Ethernet,
++			 * with no MAC address programmed
++			 */
++			compatible = "usbbda,8152";
++			reg = <4>;
++		};
++	};
++};
++
++&lradc {
++	vref-supply = <&reg_aldo3>;
++	status = "okay";
++
++	button-191 {
++		label = "V+";
++		linux,code = <KEY_VOLUMEUP>;
++		channel = <0>;
++		voltage = <191011>;
++	};
++
++	button-391 {
++		label = "V-";
++		linux,code = <KEY_VOLUMEDOWN>;
++		channel = <0>;
++		voltage = <391304>;
++	};
++
++	button-600 {
++		label = "BACK";
++		linux,code = <KEY_BACK>;
++		channel = <0>;
++		voltage = <600000>;
++	};
++};
++
++&mmc0 {
++	vmmc-supply = <&reg_dcdc1>;
++	bus-width = <4>;
++	cd-gpios = <&pio 1 4 GPIO_ACTIVE_LOW>; /* PB4 */
++	status = "okay";
++};
++
++&mmc1 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&mmc1_pg_pins>;
++	vmmc-supply = <&reg_dldo1>;
++	mmc-pwrseq = <&wifi_pwrseq>;
++	bus-width = <4>;
++	non-removable;
++	status = "okay";
++
++	brcmf: wifi@1 {
++		reg = <1>;
++		compatible = "brcm,bcm4329-fmac";
++		interrupt-parent = <&r_pio>;
++		interrupts = <0 7 IRQ_TYPE_LEVEL_LOW>; /* PL7 */
++		interrupt-names = "host-wake";
++	};
++};
++
++/*
++ * Our WiFi chip needs both DLDO1 and DLDO2 to be powered at the same
++ * time, with the two being in sync. Since this is not really
++ * supported right now, just use the two as always on, and we will fix
++ * it later.
++ */
++&reg_dldo1 {
++	regulator-always-on;
++	regulator-min-microvolt = <3300000>;
++	regulator-max-microvolt = <3300000>;
++	regulator-name = "vcc-wifi0";
++};
++
++&reg_dldo2 {
++	regulator-always-on;
++	regulator-min-microvolt = <3300000>;
++	regulator-max-microvolt = <3300000>;
++	regulator-name = "vcc-wifi1";
++};
++
++&reg_drivevbus {
++	regulator-name = "usb0-vbus";
++	status = "okay";
++};
++
++&sound {
++	/* TODO: on-board microphone */
++
++	simple-audio-card,widgets = "Headphone", "Headphone Jack";
++	simple-audio-card,routing =
++		"Left DAC", "DACL",
++		"Right DAC", "DACR",
++		"Headphone Jack", "HP";
++	status = "okay";
++};
++
++&uart0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&uart0_pb_pins>;
++	status = "okay";
++};
++
++&uart1 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&uart1_pg_pins>, <&uart1_cts_rts_pg_pins>;
++	uart-has-rtscts;
++	status = "okay";
++
++	bluetooth {
++		compatible = "brcm,bcm43438-bt";
++		clocks = <&rtc CLK_OSC32K_FANOUT>;
++		clock-names = "lpo";
++		vbat-supply = <&reg_dldo1>;
++		device-wakeup-gpios = <&r_pio 0 10 GPIO_ACTIVE_HIGH>; /* PL10 */
++		host-wakeup-gpios = <&r_pio 0 9 GPIO_ACTIVE_HIGH>; /* PL9 */
++		shutdown-gpios = <&r_pio 0 8 GPIO_ACTIVE_HIGH>; /* PL8 */
++	};
++};
++
++&usb_otg {
++	dr_mode = "otg";
++	status = "okay";
++};
++
++&usb_power_supply {
++	status = "okay";
++};
++
++&usbphy {
++	usb0_id_det-gpios = <&pio 7 8 GPIO_ACTIVE_HIGH>; /* PH8 */
++	usb0_vbus_power-supply = <&usb_power_supply>;
++	usb0_vbus-supply = <&reg_drivevbus>;
++	usb1_vbus-supply = <&reg_usb1_vbus>;
++	status = "okay";
++};
+diff --git a/board/sunxi/MAINTAINERS b/board/sunxi/MAINTAINERS
+index 84799879e85..5592d366600 100644
+--- a/board/sunxi/MAINTAINERS
++++ b/board/sunxi/MAINTAINERS
+@@ -526,6 +526,11 @@ M:	Quentin Schulz <quentin.schulz@free-electrons.com>
+ S:	Maintained
+ F:	configs/parrot_r16_defconfig
+ 
++RERVISION A33-VSTAR BOARD
++M:	Icenowy Zheng <uwu@icenowy.me>
++S:	Maintained
++F:	configs/A33-Vstar_defconfig
++
+ SINLINX SINA31s BOARD
+ M:	Chen-Yu Tsai <wens@csie.org>
+ S:	Maintained
+diff --git a/configs/A33-Vstar_defconfig b/configs/A33-Vstar_defconfig
+new file mode 100644
+index 00000000000..0053c243444
+--- /dev/null
++++ b/configs/A33-Vstar_defconfig
+@@ -0,0 +1,23 @@
++CONFIG_ARM=y
++CONFIG_ARCH_SUNXI=y
++CONFIG_DEFAULT_DEVICE_TREE="sun8i-a33-vstar"
++CONFIG_SPL=y
++CONFIG_MACH_SUN8I_A33=y
++CONFIG_DRAM_CLK=552
++CONFIG_DRAM_ZQ=15291
++CONFIG_DRAM_ODT_EN=y
++CONFIG_MMC_SUNXI_SLOT_EXTRA=2
++CONFIG_USB0_ID_DET="PH8"
++CONFIG_USB1_VBUS_PIN="PB2"
++# CONFIG_VIDEO_SUNXI is not set
++# CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
++CONFIG_CMD_DFU=y
++CONFIG_DFU_RAM=y
++CONFIG_FASTBOOT_CMD_OEM_FORMAT=y
++CONFIG_AXP_DCDC1_VOLT=3300
++CONFIG_USB_EHCI_HCD=y
++CONFIG_USB_MUSB_GADGET=y
++CONFIG_USB_HOST_ETHER=y
++CONFIG_USB_ETHER_RTL8152=y
++CONFIG_USB_FUNCTION_MASS_STORAGE=y
++# CONFIG_USB_ETHER is not set
+-- 
+2.47.1
 
