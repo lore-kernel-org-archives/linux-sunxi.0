@@ -1,39 +1,34 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A99BA23FD26
-	for <linux-sunxi@lists.linux.dev>; Wed, 11 Dec 2024 13:08:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 848AC23FD39
+	for <linux-sunxi@lists.linux.dev>; Wed, 11 Dec 2024 13:14:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733922542; cv=none; b=ZGwyZfR5Dg1SIXjlOUSaJHFrd2YO3GMtLhEYLkN+7RRE2XosngTIFj+ycalk8TOWZvJpY+S4qwuj3eIWIxNDgNhPFJASTmYZ4LI8IPddzN4aUwF8HYTnb9XsrR2QArLXLqyWDd+DeKa/HA8SXIVoPiM6hKgjQnkSuEwmC62LJP4=
+	t=1733922863; cv=none; b=OkuQIua7JX8fh013qNa4DurhVSmm9okQ+uyeJK4X/UDvxFqm593VlLz7zHY+xWgkMFyvk3Fa28WSyXPbBEyNb7Jv86WlQtMv3ElIlHMxBxTaNbSuszGsVokbGmJFrejqqS2kYbcZCmYRVkcIjisjn7NikIf1f1Yx4v9IuCWcORI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733922542; c=relaxed/simple;
-	bh=i6aUOe2OBsx6iZoR6pTdacZbmJ8yZNSQb2sDoYsA4gg=;
+	s=arc-20240116; t=1733922863; c=relaxed/simple;
+	bh=85Q3wwWOuYOCs5rigV7GPSgeuawH0sSzfDavQYdVRDk=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mC7E2qPBJ1aMYD8NuZSsG0uZTOqbJtLQdZxUZ6i9I7dUGkGWshhGjHoUlAzfe0lWdPMYdR47Vof5vGhC7qI0OjJs9okjjQHCDYco6olk+fvrRKdyOj1ap6ZrlcHe4pApu8YxInWplmSvUZxuU/Z7ovkUQ4ooh39tN67UyiDmllM=
+	 MIME-Version:Content-Type; b=AHH3Ot6ohKUHt+ebf+JkOwxWms0xCJyDBxmqtjRCRs9OHwmbBqlk3C7hUPXGvPAo72bwniC8MHNzJ8w2EICA13YGbShzoMFTdNm5fheIoKYcMs9IDBUGj5GC34Mwt9Mh89Af3aJr6URMzKKb3gbx21PZ1itbkU7penhRLIgPyfw=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1A2E31063;
-	Wed, 11 Dec 2024 05:09:26 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C798E1063;
+	Wed, 11 Dec 2024 05:14:47 -0800 (PST)
 Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 07ECA3F720;
-	Wed, 11 Dec 2024 05:08:55 -0800 (PST)
-Date: Wed, 11 Dec 2024 13:08:53 +0000
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8D1A83F720;
+	Wed, 11 Dec 2024 05:14:18 -0800 (PST)
+Date: Wed, 11 Dec 2024 13:14:15 +0000
 From: Andre Przywara <andre.przywara@arm.com>
 To: Icenowy Zheng <uwu@icenowy.me>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] ARM: dts: sunxi: add support for RerVision
- A33-Vstar board
-Message-ID: <20241211130853.25b82d7b@donnerap.manchester.arm.com>
-In-Reply-To: <7310cb53109197e61a24659b259f5148b3962328.camel@icenowy.me>
-References: <20240913104845.4112986-1-uwu@icenowy.me>
-	<20240913104845.4112986-2-uwu@icenowy.me>
-	<7310cb53109197e61a24659b259f5148b3962328.camel@icenowy.me>
+Cc: Hans de Goede <hdegoede@redhat.com>, Jagan Teki
+ <jagan@amarulasolutions.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ u-boot@lists.denx.de, linux-sunxi@lists.linux.dev
+Subject: Re: [U-BOOT PATCH] sunxi: add support for Rervision A33-Vstar board
+Message-ID: <20241211131415.2611b46c@donnerap.manchester.arm.com>
+In-Reply-To: <f9b90a6f1bc5d81de2a3968f1bb92ed8f158731b.camel@icenowy.me>
+References: <20241211031752.355509-1-uwu@icenowy.me>
+	<f9b90a6f1bc5d81de2a3968f1bb92ed8f158731b.camel@icenowy.me>
 Organization: ARM
 X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
@@ -45,61 +40,51 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 17 Sep 2024 17:54:38 +0800
+On Wed, 11 Dec 2024 15:21:48 +0800
 Icenowy Zheng <uwu@icenowy.me> wrote:
 
-Hi,
+Hi Icenowy,
 
-I do understand it's too late now, but just saw some oddities about the
-regulator voltages when looking at the U-Boot version of this patch:
+thanks for sending the patch!
 
-> =E5=9C=A8 2024-09-13=E6=98=9F=E6=9C=9F=E4=BA=94=E7=9A=84 18:48 +0800=EF=
+> =E5=9C=A8 2024-12-11=E6=98=9F=E6=9C=9F=E4=B8=89=E7=9A=84 11:17 +0800=EF=
 =BC=8CIcenowy Zheng=E5=86=99=E9=81=93=EF=BC=9A
-> > RerVision A33-Vstar board is a board based on their A33-Core1 SoM
-> > (A33
-> > SoC + 512MiB DRAM + 4GiB eMMC + AXP223 PMIC), with multiple
-> > peripherals:
+> > Rervision A33-Vstar is an evaluation board for their A33-Core1 A33-
+> > based
+> > SoM.
 > >=20
-> > - MicroSD card slot
-> > - 4.0mm/1.7mm DC jack connected to ACIN of AXP223 (and a XH2.54 2-pin
-> > =C2=A0 connector for alternative 5V DC IN)
-> > - OTG-capable microUSB port
-> > - Reserved pads for soldering Li-ion battery and/or 3V RTC battery
-> > - 3 LRADC-attached keys and 2 fixed function power/reset keys
-> > - AP6212 Wi-Fi/BT combo module
-> > - On-board GL850G hub attached to the USB host port of A33, and a
-> > =C2=A0 RTL8152 USB Ethernet chip at the downstream of the hub
-> > - Onboard microphone (not supported yet) and headphone jack
-> > - 3 UART ports as PH2.0 3-pin connectors (UART2 one is currently used
-> > as
-> > =C2=A0 debug output and others are ignored yet)
+> > Add support for it.
+> >=20
+> > Fastboot support is enabled for flashing the eMMC included within the
+> > SoM, and R8152 Ethernet is enabled for the evaluation board's onboard
+> > USB-to-Ethernet.
+> >=20
+> > The device tree files are from Linux v6.13-rc1, with PMIC interrupt
+> > patched to match the r_intc node in U-Boot.
 > >=20
 > > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-> > --- =20
->=20
-> Add a dependency to this patch at [1], which allows GL850G to have
-> downstream device nodes in DT.
->=20
-> [1]
-> https://lore.kernel.org/lkml/20240917094008.283529-1-uwu@icenowy.me/
->=20
-> > =C2=A0arch/arm/boot/dts/allwinner/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
-> > =C2=A0.../dts/allwinner/sun8i-a33-vstar-core1.dtsi=C2=A0 |=C2=A0 96 +++=
-+++++
-> > =C2=A0.../boot/dts/allwinner/sun8i-a33-vstar.dts=C2=A0=C2=A0=C2=A0 | 205
-> > ++++++++++++++++++
-> > =C2=A03 files changed, 302 insertions(+)
-> > =C2=A0create mode 100644 arch/arm/boot/dts/allwinner/sun8i-a33-vstar-
-> > core1.dtsi
-> > =C2=A0create mode 100644 arch/arm/boot/dts/allwinner/sun8i-a33-vstar.dts
+> > ---
+> > =C2=A0arch/arm/dts/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=
+=C2=A0 1 +
+> > =C2=A0arch/arm/dts/sun8i-a33-vstar-core1.dtsi |=C2=A0 96 +++++++++++
+> > =C2=A0arch/arm/dts/sun8i-a33-vstar.dts=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 | 205
+> > ++++++++++++++++++++++++
+> > =C2=A0board/sunxi/MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 5 +
+> > =C2=A0configs/A33-Vstar_defconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 23 +++
+> > =C2=A05 files changed, 330 insertions(+)
+> > =C2=A0create mode 100644 arch/arm/dts/sun8i-a33-vstar-core1.dtsi
+> > =C2=A0create mode 100644 arch/arm/dts/sun8i-a33-vstar.dts
+> > =C2=A0create mode 100644 configs/A33-Vstar_defconfig
 > >=20
-> > diff --git a/arch/arm/boot/dts/allwinner/Makefile
-> > b/arch/arm/boot/dts/allwinner/Makefile
-> > index cd0d044882cf8..d548f4a2621a1 100644
-> > --- a/arch/arm/boot/dts/allwinner/Makefile
-> > +++ b/arch/arm/boot/dts/allwinner/Makefile
-> > @@ -215,6 +215,7 @@ dtb-$(CONFIG_MACH_SUN8I) +=3D \
+> > diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
+> > index 6ad59aeed5f..55dde416d71 100644
+> > --- a/arch/arm/dts/Makefile
+> > +++ b/arch/arm/dts/Makefile
+> > @@ -654,6 +654,7 @@ dtb-$(CONFIG_MACH_SUN8I_A33) +=3D \
 > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0sun8i-a33-olinuxino.dtb=
  \
 > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0sun8i-a33-q8-tablet.dtb=
@@ -107,18 +92,18 @@ regulator voltages when looking at the U-Boot version of this patch:
 > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0sun8i-a33-sinlinx-sina3=
 3.dtb \
 > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0sun8i-a33-vstar.dtb \
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0sun8i-a83t-allwinner-h8=
-homlet-v2.dtb \
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0sun8i-a83t-bananapi-m3.=
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0sun8i-r16-bananapi-m2m.=
 dtb \
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0sun8i-a83t-cubietruck-p=
-lus.dtb \
-> > diff --git a/arch/arm/boot/dts/allwinner/sun8i-a33-vstar-core1.dtsi
-> > b/arch/arm/boot/dts/allwinner/sun8i-a33-vstar-core1.dtsi
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0sun8i-r16-nintendo-nes-=
+classic.dtb \
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0sun8i-r16-nintendo-supe=
+r-nes-classic.dtb \
+> > diff --git a/arch/arm/dts/sun8i-a33-vstar-core1.dtsi
+> > b/arch/arm/dts/sun8i-a33-vstar-core1.dtsi
 > > new file mode 100644
-> > index 0000000000000..ba794b842ec4e
+> > index 00000000000..5b7057015cc
 > > --- /dev/null
-> > +++ b/arch/arm/boot/dts/allwinner/sun8i-a33-vstar-core1.dtsi
+> > +++ b/arch/arm/dts/sun8i-a33-vstar-core1.dtsi
 > > @@ -0,0 +1,96 @@
 > > +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 > > +/*
@@ -132,7 +117,25 @@ lus.dtb \
 > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0pinctrl-0 =3D <&mmc2_8bit_pi=
 ns>;
 > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0vmmc-supply =3D <&reg_dcdc1>;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0bus-width =3D <8>;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0bus-width =3D <8>; =20
+>=20
+> 8-bit eMMC operation seems to be unstable in U-Boot (but okay in
+> Linux).
+>=20
+> Should I change the bus-width to 4 here in this copy of DT? (The kernel
+> side DT file is still 8)
+
+No, that would be just wrong, and a dirty hack at best, and we don't want
+any further differences between U-Boot and kernel.
+What speed modes do U-Boot and the kernel choose? Because I guess
+that's the real difference. Would be interesting to see if U-Boot is not
+honouring one of the properties (drive-strength?), or if there should be a
+max-frequency or something? Another difference is that U-Boot is not using
+DMA, but PIO-ing the FIFO. This is a big and yet unsolved problem on H616,
+but I haven't heard of issues with older SoCs yet.
+
+One whitespace issue below ...
+
 > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0non-removable;
 > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0cap-mmc-hw-reset;
 > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0status =3D "okay";
@@ -155,7 +158,7 @@ or DDR modes */
 > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
 =A0=C2=A0=C2=A0=C2=A0interrupt-parent =3D <&r_intc>;
 > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0interrupts =3D <GIC_SPI 32 IRQ_TYPE_LEVEL_LOW>;
+=A0=C2=A0=C2=A0=C2=A0interrupts =3D <0 IRQ_TYPE_LEVEL_LOW>;
 > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
 =A0=C2=A0=C2=A0=C2=A0eldoin-supply =3D <&reg_dcdc1>;
 > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
@@ -180,11 +183,6 @@ or DDR modes */
 <2350000>;
 > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0regulator-max-microvolt =3D =
 <2650000>;
-
-So what is the value? I guess no one is adjusting this, ever? So it stays
-at the 2.5V that U-Boot programs? I think we should fix this to this
-voltage, then. What's the value that the BSP uses, is that different?
-
 > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0regulator-name =3D "vdd-dll";
 > > +};
 > > +
@@ -204,11 +202,6 @@ voltage, then. What's the value that the BSP uses, is that different?
 <900000>;
 > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0regulator-max-microvolt =3D =
 <1400000>;
-
-Same here, why a range? I don't see U-Boot setting this, so does it stay
-at some reset value, or does the kernel adjust it when the AXP driver
-comes up? If any case, we should have exactly one voltage in here.
-
 > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0regulator-name =3D "vdd-cpus=
 ";
 > > +};
@@ -228,16 +221,6 @@ comes up? If any case, we should have exactly one voltage in here.
 <900000>;
 > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0regulator-max-microvolt =3D =
 <1400000>;
-
-Sames as above, looks like to be 1.1V here?
-
-There reason I am pointing this out is this relies on U-Boot setting some
-hardcoded values, which I want to get rid off, as U-Boot should read the
-voltages from the DT as well.
-
-Cheers,
-Andre
-
 > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0regulator-name =3D "vdd-sys";
 > > +};
 > > +
@@ -263,12 +246,12 @@ Andre
 > > +&reg_rtc_ldo {
 > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0regulator-name =3D "vcc-rtc";
 > > +};
-> > diff --git a/arch/arm/boot/dts/allwinner/sun8i-a33-vstar.dts
-> > b/arch/arm/boot/dts/allwinner/sun8i-a33-vstar.dts
+> > diff --git a/arch/arm/dts/sun8i-a33-vstar.dts b/arch/arm/dts/sun8i-
+> > a33-vstar.dts
 > > new file mode 100644
-> > index 0000000000000..9f5c29b3df46d
+> > index 00000000000..9f5c29b3df4
 > > --- /dev/null
-> > +++ b/arch/arm/boot/dts/allwinner/sun8i-a33-vstar.dts
+> > +++ b/arch/arm/dts/sun8i-a33-vstar.dts
 > > @@ -0,0 +1,205 @@
 > > +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 > > +/*
@@ -561,6 +544,57 @@ rivevbus>;
 > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0usb1_vbus-supply =3D <&reg_u=
 sb1_vbus>;
 > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0status =3D "okay";
-> > +}; =20
->=20
+> > +};
+> > diff --git a/board/sunxi/MAINTAINERS b/board/sunxi/MAINTAINERS
+> > index 84799879e85..5592d366600 100644
+> > --- a/board/sunxi/MAINTAINERS
+> > +++ b/board/sunxi/MAINTAINERS
+> > @@ -526,6 +526,11 @@ M:=C2=A0Quentin Schulz
+> > <quentin.schulz@free-electrons.com>
+> > =C2=A0S:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Maintained
+> > =C2=A0F:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0configs/parrot_r16_defconfig
+> > =C2=A0
+> > +RERVISION A33-VSTAR BOARD
+> > +M:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Icenowy Zheng <uwu@icenowy.me>
+> > +S:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Maintained
+> > +F:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0configs/A33-Vstar_defconfig
+> > +
+> > =C2=A0SINLINX SINA31s BOARD
+> > =C2=A0M:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Chen-Yu Tsai <wens@csie.org>
+> > =C2=A0S:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Maintained
+> > diff --git a/configs/A33-Vstar_defconfig b/configs/A33-
+> > Vstar_defconfig
+> > new file mode 100644
+> > index 00000000000..0053c243444
+> > --- /dev/null
+> > +++ b/configs/A33-Vstar_defconfig
+> > @@ -0,0 +1,23 @@
+> > +CONFIG_ARM=3Dy
+> > +CONFIG_ARCH_SUNXI=3Dy
+> > +CONFIG_DEFAULT_DEVICE_TREE=3D"sun8i-a33-vstar"
+> > +CONFIG_SPL=3Dy
+> > +CONFIG_MACH_SUN8I_A33=3Dy
+> > +CONFIG_DRAM_CLK=3D552
+> > +CONFIG_DRAM_ZQ=3D15291
+> > +CONFIG_DRAM_ODT_EN=3Dy
+> > +CONFIG_MMC_SUNXI_SLOT_EXTRA=3D2
+> > +CONFIG_USB0_ID_DET=3D"PH8"
+> > +CONFIG_USB1_VBUS_PIN=3D"PB2"
+> > +# CONFIG_VIDEO_SUNXI is not set
+> > +# CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+> > +CONFIG_CMD_DFU=3Dy
+> > +CONFIG_DFU_RAM=3Dy
+> > +CONFIG_FASTBOOT_CMD_OEM_FORMAT=3Dy
+> > +CONFIG_AXP_DCDC1_VOLT=3D3300
+> > +CONFIG_USB_EHCI_HCD=3Dy
+> > +CONFIG_USB_MUSB_GADGET=3Dy
+> > +CONFIG_USB_HOST_ETHER=3Dy
+> > +CONFIG_USB_ETHER_RTL8152=3Dy
+> > +CONFIG_USB_FUNCTION_MASS_STORAGE=3Dy
+> > +# CONFIG_USB_ETHER is not set =20
 
+
+There seem to be two extra spaces at the end here.
+
+Cheers,
+Andre
