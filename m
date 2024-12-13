@@ -1,182 +1,133 @@
-Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
+Received: from relay3.uni-heidelberg.de (relay3.uni-heidelberg.de [129.206.100.213])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F364A1DB956
-	for <linux-sunxi@lists.linux.dev>; Wed, 11 Dec 2024 22:22:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E24119047A
+	for <linux-sunxi@lists.linux.dev>; Fri, 13 Dec 2024 19:55:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=129.206.100.213
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733955737; cv=none; b=E+73pMx7AGMfsT9i2tJW0YA4WHZfOSaymlKiQ/fsvvd5K8fZTdoNSVvm5TrAI+9tgmUb6qjPrxq2hZanTNmO90uTzGkXSmfVcvpPQFn9+KLdZfgeYKSvvJl1XKvVrpF5a6NKcR74EjF0EJqe4Q8mdoTzsbueFwX4TF9Zm0QU4/c=
+	t=1734119748; cv=none; b=cOB1hI2D0c5fp9dXvOEGW5Gjb7vPNpbqfkge3mK3MMMDmdXG5/QBv26iLrm/u2vopIQ8hWIm9mOQ6OoI+30QpfWdh/HaVt048IWKGs4ZPguOVRrxDP50m6quOhHagbPkizWGFAF588f7izHb1K57aocmqQXSsaSEmgHXUXy8Nc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733955737; c=relaxed/simple;
-	bh=GWtWUSQZPiNLXSEnknV2wpkOsZJTI15wEinuB1XcrCk=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DBjgNWjpf9y/5hp0DM9gAnAei1I3oVTPOQpsarRgfOcmfceg8AgUJmulNkRC0T0uaHuk0VceS/EnI9bwxNO0g6ISh9oudD74UbaJf7QXp/zs+GG8OXrJGvGSQdoHIGTVNg1jtNwfz1bDwOnl5psmJdX3SX8lY+WN30eY0StyRiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=K5XQ3o/f; arc=none smtp.client-ip=193.68.50.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
+	s=arc-20240116; t=1734119748; c=relaxed/simple;
+	bh=zFml9V48tq1Bs/Zu8HpapxYWnav6z7nwM0EEjEzGWV0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Olo/VBun3xzMu7peSSMqsqj3AR1dOmA/WGO1fSrgm4tLHc3a4ll1c2oFQCSKrqeJUCIkspbLRTuv3beWiyLFn0/SYXNAfSDqY5IyCNZkzJRCKTYcyoXpNj+IZVtma2e9U6PRiuNCe8bhyhKb4ZFaclMq7DzZCMWISlbKKClRvTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uni-heidelberg.de; spf=none smtp.mailfrom=lemon.iwr.uni-heidelberg.de; dkim=pass (2048-bit key) header.d=uni-heidelberg.de header.i=@uni-heidelberg.de header.b=FD3E/TEI; arc=none smtp.client-ip=129.206.100.213
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uni-heidelberg.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=lemon.iwr.uni-heidelberg.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="K5XQ3o/f"
-Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
-	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id 240E3A03B8;
-	Wed, 11 Dec 2024 23:22:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:from:from:message-id:mime-version:reply-to:subject:subject:to
-	:to; s=mail; bh=nz4TyTapXzMqxCqKapCIOkriVuwdNpBfQogyQAqNO5U=; b=
-	K5XQ3o/flOfsIMGkB0/xwZWBo0yU57mh6R0LLA5a9Kps0ubENp2mRsdi0DKUl2Hv
-	w75bGzwlvDSMj4dlKoQUKXmkujGO6ehbsVPsdnfzxh9q1xgftI3dShXSH0H+CZWt
-	6Ext/LxKqOkxFhRHE2ZEIveAojinCCKqzuxzq5MmDrlNWR10cOJ3N/XAi0CVS+KS
-	Gi+1JaLD37SzTDJC4jl8YHiB34hohS8g5sWsEi7CWHcs7wwVahBDu8ChVkcv00xm
-	n06I/jVIUJ8Pd2douQcv0P/h0oVpGIgDB6A+rK2+y5hE7QxbgaS5/MuYSfdvnVpm
-	gJleH+K30yGqKJ8oSYA1lhzmUYHCxw8A8wqMvLK3+9uLnajr3dYFndyQtUheJmXO
-	Ztnl4pbF5HnxkC5A9dSsbZq9ReaBqoHHq8Q47W90heGN/9hU1dctTIHxZtNMz8CH
-	JoElni/DlBxEbj2i1saW3UomxRjYePDrH7IDzH0WA5f5+wCX/BUiJAebht5juJia
-	29nfIBUPU45KUvcBYuzjK7c+ensyzAdxPef+q9DZE9pxqwUOU9MK1vQ8vNucUOl4
-	DYb2ayR7KDgPYyQZjtbPasiEI9PaCRglUuz7uPEo18/k3pJ9wgfe6wywAvP49no5
-	1eSVKByaUcCBu7+p0inCp16dOhfP5g6I4adBbLBjXas=
-From: =?UTF-8?q?Bence=20Cs=C3=B3k=C3=A1s?= <csokas.bence@prolan.hu>
-To: <linux-sound@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-CC: =?UTF-8?q?Bence=20Cs=C3=B3k=C3=A1s?= <csokas.bence@prolan.hu>, "Liam
- Girdwood" <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, "Jaroslav
- Kysela" <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai
-	<wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
-	<samuel@sholland.org>, Philipp Zabel <p.zabel@pengutronix.de>
-Subject: [PATCH] ASoC: sun4i-codec: Use new devm clk and reset APIs
-Date: Wed, 11 Dec 2024 23:22:05 +0100
-Message-ID: <20241211222205.1915027-1-csokas.bence@prolan.hu>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=uni-heidelberg.de header.i=@uni-heidelberg.de header.b="FD3E/TEI"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=uni-heidelberg.de; i=@uni-heidelberg.de; q=dns/txt;
+  s=s1; t=1734119745; x=1765655745;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=zFml9V48tq1Bs/Zu8HpapxYWnav6z7nwM0EEjEzGWV0=;
+  b=FD3E/TEIgozCbpiRNQpKRQA5l47MY9f7F6fmb0hBxG73l+NoaGV9ntAY
+   gtaWHe2p0Fr8fg2qywzC2tplB2cacqL3oT9+WY+ZgxvHEawrbKJz33iTy
+   WMJ/EDmQqomrajLwoIzEd6JivCJToCm71/N6fyNVCGxXp+drjqWQu5kEp
+   5XVf5tAbPBNNKaImVLBPoVELHgfKiv+cW2bW3399mMkf9xPkIiDvaruad
+   vbMF6QjHuJPg9GCLYVzYQW4rFjrDpGtPEwzR9rLuT0XavvXFUNAsXrdm1
+   bysQtEr8oXlnb4igTdc4BNU3266dVSevJkaugOmGxbv1eleL//RC6U+Gh
+   w==;
+X-CSE-ConnectionGUID: +ub3uNglS8mJbHVh7XVuPA==
+X-CSE-MsgGUID: OFt8zcDWTwaDCed5i4LwPQ==
+X-IPAS-Result: =?us-ascii?q?A2AWAwDYj1xn/1BqzoFagQmBU4IcgwmEVbAJFIF5AQEBA?=
+ =?us-ascii?q?QEBAQEBCUQEAQGFB4puKDQJDgECBAEBAQEDAgMBAQEBAQEBAQ4BAQYBAQEBA?=
+ =?us-ascii?q?QcFgSGGCIcEVjIDAiYCFjoOARKFZrFigTKBAd5KgVaBGi6ITgGFazuCDYR+g?=
+ =?us-ascii?q?RQBg2iEJQU2gz46gi8EiRydO4FNeDIBVRMXCwcFgTo6AyIMNjECgR6BAhQGF?=
+ =?us-ascii?q?QSBC0Y9gklpSToCDQI2aYE7JFiCTYUZhGWEVYJLVYJ9ghl8gSEdQAMLbT03B?=
+ =?us-ascii?q?g4bnSVGhxijZKMjB6ViBBYzl1GTAJYbgmAiqQiBZ4IVMz6DNlIZD49PAQLFB?=
+ =?us-ascii?q?nc8AgcLAQEDCZFtAQE?=
+IronPort-Data: A9a23:1HeE5q3I+T8eX8BU3/bD5Y12kn2cJEfYwER7XKvMYLTBsI5bpzEPz
+ 2sYCmCOO/zcZmqnKd4iYYzi8khUuZ7VyNNgHlNv3Hw8FHgiRejtXInGdBeuY0t+DSFhoGZPt
+ Zh2hgzodZhsJpPkjk7wdOCn9z8kjv3gqoPUUIbsIjp2SRJvVBAvgBdin/9RqoNziLBVOSvV0
+ T/Ji5OZYQXNNwJcaDpOt/vZ8Ug35pwehRtB1rAATaET1LPhvyRNZH4vDfnZB2f1RIBSAtm7S
+ 47rpF1u1jqEl/uFIorNfofTKiXmcJaLVeS9oiI+t5yZv/R3jndaPpDXlBYrQRw/Zz2hx7idw
+ TjW3HC6YV9B0qbkwIzxX/TEes1zFfUuxVPJHZSwmY+OxRbbVXTo+KVrLksWA41HythqOUgbo
+ JT0KBhVBvyCr+a7xbW9DOhznII+KsiuPI4etnxkxzzDArAqTPgvQY2Tv44ehm9uwJkWQ7COP
+ 6L1ahI2BPjESx1LM0oaEro6keKvgD/+bCcetVSU4Ko64mTeyAZ8yrerPNe9ltmiH58LxBnB/
+ jyYl4j/KjY0KIyNwha6zm2lqsTCkX76BKYNLITto5aGh3XJnzdCVUZIPbehmtGjjUS+c9FSM
+ UoZ/mwpt6da3E+xXNq+UwGQo3OeuBMYHd1KHIUS4waLzbCX7xqxBWUeSDNFLts8u6ceWjEsz
+ XeChNLkQzt1v9W9S3+H8LqW6yixIyEfIGQqaioNTA9D6N7myKkohxfSQ9JLC66yitn8Hz22x
+ CqFxAA6hrMOnYsCzaD+/l3dhT+ojpzIVRIuoATRUHis4g5waMiifYPAwVza6+tQaZ2ESEmAl
+ HwFgNSFquQPC4yd0iCAXo0lELy35v2ILCfRjHZxEJQ7sTeg4XiuecZX+j4WDENoNNsUPDzke
+ knevStP65JJenind6l6Z8S2EctC8ET7PdDoU/fSKNtReN5scg7C/CxvaUOU1W33nw4gnMnTJ
+ Kt3b+7vEHxBFIJoyAHmQsUX8YErmRAA2Fv6EMWTIwuc7ZKSY3ucSLEgOVSIb/wk4K7snOkz2
+ 4sOXydt40gEONASchXqHZgvwUciAVVTOHwbg8hac+mFZAt5Aic8Df6Uwb4gd4FhlalPmaHE8
+ xlRu3O0KnKl3RUryi3TNBiPjY8Dur4l9RoG0dQEZwrA5pTaSd/HAWd2X8JfkUMb3OJi1+Voa
+ PIOZt+NBP9CIhyepG9BNcOt9t05JU/w7e5rA8ZDSGVuF3KHb1GSkuIIgiOynMXzJnPs7JBk8
+ 9VMKCuHG8VfL+idMComQKj2lALs5iZ1dBNaQk3JPNRJY0Tw+YV2Yyz8j/M6J8sBMxqr+9dp/
+ 1j+PPrZzMGTy7IIHC7h3PDV9NvzQrciRiK33QDztN6LCMUTxUL7qacobQpCVWm1uL/ckEl6W
+ dho8g==
+IronPort-HdrOrdr: A9a23:rY+Rk61FrAls5XRAVLpPOQqjBJAkLtp133Aq2lEZdPUzSL38qy
+ nOpoV56faQsl0ssR4b6LK90cW7L080sKQFhbX5Xo3PYOCFggSVxehZhOOO/9SjIVyYygc378
+ ddmsZFaeHYMXg/q9rm6w+lFNsazMCA673Av5an8593JzsaDZ2IAj0JczpymSBNLjV7OQ==
+X-Talos-CUID: 9a23:arNhm2Fey9i/vTZ2qmIk6URPB+YqdkaNyVXaA3G4VlZXVYW8HAo=
+X-Talos-MUID: =?us-ascii?q?9a23=3AjMg1/Q+zjebslZCPOxUPhzOQf+BG//S8A2wyrYo?=
+ =?us-ascii?q?Pl+KJOXFxZxOCtA3iFw=3D=3D?=
+X-IronPort-Anti-Spam-Filtered: true
+Received: from lemon.iwr.uni-heidelberg.de ([129.206.106.80])
+  by relay3.uni-heidelberg.de with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 13 Dec 2024 20:54:34 +0100
+Received: from hlauer by lemon.iwr.uni-heidelberg.de with local (Exim 4.92)
+	(envelope-from <hlauer@lemon.iwr.uni-heidelberg.de>)
+	id 1tMBk9-0000QN-SP; Fri, 13 Dec 2024 20:54:33 +0100
+Date: Fri, 13 Dec 2024 20:54:33 +0100
+From: Hermann.Lauer@uni-heidelberg.de
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] ARM: dts: sun8i-r40: remove unused GPIO regulator
+Message-ID: <20241213195433.GA1568@lemon.iwr.uni-heidelberg.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ESET-AS: R=OK;S=0;OP=CALC;TIME=1733955729;VERSION=7982;MC=3794370839;ID=394182;TRN=0;CRV=0;IPC=;SP=0;SIPS=0;PI=3;F=0
-X-ESET-Antispam: OK
-X-EsetResult: clean, is OK
-X-EsetId: 37303A2980D9485562726B
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-Clean up error handling by using the new devm_
-clock and reset functions. This should make it
-easier to add new code, as we can eliminate the
-"goto ladder" in probe().
+Subject: [PATCH v2] ARM: dts: sun8i-r40: remove unused GPIO regulator
 
-Signed-off-by: Bence Csókás <csokas.bence@prolan.hu>
+Banana Pi M2 Ultra V1.1 board resets immediately when the usb core tries
+to setup PH23 GPIO. It turned out that the V1.0 board USB-A ports are
+always power supplied and according to the board scheme PH23 is simply
+not connected.
+
+So remove the PH23 setup: Doesn't harm V1.0 (with R40) and let V1.1
+(with A40i) start.
+
+Signed-off-by: Hermann Lauer <Hermann.Lauer@uni-heidelberg.de>
 ---
- sound/soc/sunxi/sun4i-codec.c | 41 ++++++-----------------------------
- 1 file changed, 7 insertions(+), 34 deletions(-)
+V2: shorten subject, rm dangerous PH23 regulator completely
 
-diff --git a/sound/soc/sunxi/sun4i-codec.c b/sound/soc/sunxi/sun4i-codec.c
-index 3d6156fefe75..b0ca293979d7 100644
---- a/sound/soc/sunxi/sun4i-codec.c
-+++ b/sound/soc/sunxi/sun4i-codec.c
-@@ -2273,7 +2273,7 @@ static int sun4i_codec_probe(struct platform_device *pdev)
- 	}
+diff --git a/arch/arm/boot/dts/allwinner/sun8i-r40-bananapi-m2-ultra.dts b/arch/arm/boot/dts/allwinner/sun8i-r40-bananapi-m2-ultra.dts
+--- a/arch/arm/boot/dts/allwinner/sun8i-r40-bananapi-m2-ultra.dts
++++ b/arch/arm/boot/dts/allwinner/sun8i-r40-bananapi-m2-ultra.dts
+@@ -91,15 +91,6 @@
+ 		};
+ 	};
  
- 	/* Get the clocks from the DT */
--	scodec->clk_apb = devm_clk_get(&pdev->dev, "apb");
-+	scodec->clk_apb = devm_clk_get_enabled(&pdev->dev, "apb");
- 	if (IS_ERR(scodec->clk_apb)) {
- 		dev_err(&pdev->dev, "Failed to get the APB clock\n");
- 		return PTR_ERR(scodec->clk_apb);
-@@ -2286,8 +2286,7 @@ static int sun4i_codec_probe(struct platform_device *pdev)
- 	}
- 
- 	if (quirks->has_reset) {
--		scodec->rst = devm_reset_control_get_exclusive(&pdev->dev,
--							       NULL);
-+		scodec->rst = devm_reset_control_get_exclusive_deasserted(&pdev->dev, NULL);
- 		if (IS_ERR(scodec->rst)) {
- 			dev_err(&pdev->dev, "Failed to get reset control\n");
- 			return PTR_ERR(scodec->rst);
-@@ -2323,22 +2322,6 @@ static int sun4i_codec_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	/* Enable the bus clock */
--	if (clk_prepare_enable(scodec->clk_apb)) {
--		dev_err(&pdev->dev, "Failed to enable the APB clock\n");
--		return -EINVAL;
--	}
+-	reg_vcc5v0: vcc5v0 {
+-		compatible = "regulator-fixed";
+-		regulator-name = "vcc5v0";
+-		regulator-min-microvolt = <5000000>;
+-		regulator-max-microvolt = <5000000>;
+-		gpio = <&pio 7 23 GPIO_ACTIVE_HIGH>; /* PH23 */
+-		enable-active-high;
+-	};
 -
--	/* Deassert the reset control */
--	if (scodec->rst) {
--		ret = reset_control_deassert(scodec->rst);
--		if (ret) {
--			dev_err(&pdev->dev,
--				"Failed to deassert the reset control\n");
--			goto err_clk_disable;
--		}
--	}
--
- 	/* DMA configuration for TX FIFO */
- 	scodec->playback_dma_data.addr = res->start + quirks->reg_dac_txdata;
- 	scodec->playback_dma_data.maxburst = quirks->dma_max_burst;
-@@ -2356,7 +2339,7 @@ static int sun4i_codec_probe(struct platform_device *pdev)
- 				     &sun4i_codec_dai, 1);
- 	if (ret) {
- 		dev_err(&pdev->dev, "Failed to register our codec\n");
--		goto err_assert_reset;
-+		return ret;
- 	}
+ 	wifi_pwrseq: pwrseq {
+ 		compatible = "mmc-pwrseq-simple";
+ 		reset-gpios = <&pio 6 10 GPIO_ACTIVE_LOW>; /* PG10 WIFI_EN */
+@@ -347,7 +338,5 @@
+ };
  
- 	ret = devm_snd_soc_register_component(&pdev->dev,
-@@ -2364,20 +2347,20 @@ static int sun4i_codec_probe(struct platform_device *pdev)
- 					      &dummy_cpu_dai, 1);
- 	if (ret) {
- 		dev_err(&pdev->dev, "Failed to register our DAI\n");
--		goto err_assert_reset;
-+		return ret;
- 	}
- 
- 	ret = devm_snd_dmaengine_pcm_register(&pdev->dev, NULL, 0);
- 	if (ret) {
- 		dev_err(&pdev->dev, "Failed to register against DMAEngine\n");
--		goto err_assert_reset;
-+		return ret;
- 	}
- 
- 	card = quirks->create_card(&pdev->dev);
- 	if (IS_ERR(card)) {
- 		ret = PTR_ERR(card);
- 		dev_err(&pdev->dev, "Failed to create our card\n");
--		goto err_assert_reset;
-+		return ret;
- 	}
- 
- 	snd_soc_card_set_drvdata(card, scodec);
-@@ -2385,17 +2368,10 @@ static int sun4i_codec_probe(struct platform_device *pdev)
- 	ret = snd_soc_register_card(card);
- 	if (ret) {
- 		dev_err_probe(&pdev->dev, ret, "Failed to register our card\n");
--		goto err_assert_reset;
-+		return ret;
- 	}
- 
- 	return 0;
--
--err_assert_reset:
--	if (scodec->rst)
--		reset_control_assert(scodec->rst);
--err_clk_disable:
--	clk_disable_unprepare(scodec->clk_apb);
--	return ret;
- }
- 
- static void sun4i_codec_remove(struct platform_device *pdev)
-@@ -2404,9 +2380,6 @@ static void sun4i_codec_remove(struct platform_device *pdev)
- 	struct sun4i_codec *scodec = snd_soc_card_get_drvdata(card);
- 
- 	snd_soc_unregister_card(card);
--	if (scodec->rst)
--		reset_control_assert(scodec->rst);
--	clk_disable_unprepare(scodec->clk_apb);
- }
- 
- static struct platform_driver sun4i_codec_driver = {
--- 
-2.34.1
-
-
+ &usbphy {
+-	usb1_vbus-supply = <&reg_vcc5v0>;
+-	usb2_vbus-supply = <&reg_vcc5v0>;
+ 	status = "okay";
+ };
