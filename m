@@ -1,65 +1,65 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EBF1192D8B
-	for <linux-sunxi@lists.linux.dev>; Sat, 14 Dec 2024 13:37:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 701071940B1
+	for <linux-sunxi@lists.linux.dev>; Sat, 14 Dec 2024 13:37:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734183438; cv=none; b=M4ilIrWEf6vox1zkBSQ3qyL1h5KYTzP4kEEfVzpSO+eSwzM82KPayFKzNljpHX9gNfMp2pC/kOYVd8bgzN7cXTxpSNsGFPr8GesGo9l6ovg+RFifzsD3+09LY1RBCn5nVuX4gjOcdYMy+jRmanaiesFKeGe0FHwJtBVUuSfV20c=
+	t=1734183440; cv=none; b=SmFLDh056KmmPZiNc6I7V8ynliSA0GocK2kwubFmo2ZHUAR15r9G9+qeURCdJzqRDnqAiVu6Iiqk9Johi+c4jN6o7twhqCdLVgpq0iTVYrLnf9+oUfZ2DJ2CfH2mMom4idE2usYUXuZd5W+6B9V7XcPx6tZK8OdpzppV0Pv6DEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734183438; c=relaxed/simple;
-	bh=BA8YlLlkI8E3eOA2TnmDuTVb8Ici90Dw1AiMpOT58zA=;
+	s=arc-20240116; t=1734183440; c=relaxed/simple;
+	bh=ZBQ31V6liiRq6vidYEbRih6I4hmj1n9WetjDV7X3pNY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=HQ5ny/laWH+t5OCjuxwRhvyWJrGEFhmWszo4Eaok8gQSvSVj5CQuQtjiiH4pGom7azbGWWjtUrlyW6AOTbXhz+hLsnMgrOS+KMNOQZCFRrJryvL/pQZTaamdGo1wTmmM4oIE0r09i0YgQnQM0ZeeGU5FkIfuXHbPLlmVRXvxwgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aHK/488R; arc=none smtp.client-ip=209.85.167.51
+	 In-Reply-To:To:Cc; b=KZQELmp0EhhZwKYb2/vDIrzNrnjKFyKN5zW9U1Qzt6+0+20BONDGAXT3xemuKqUZU1SQ5kS0pfA28uED4OevvyPbk3JQIGUixZ/nppgySD7AemZ7+Tg1hgz/QS9FAYBG4SSN0lgRvJwjUqN+LndRssJPEbvBiFLxZv4hBB7vQiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=u5gJ8Ghu; arc=none smtp.client-ip=209.85.167.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aHK/488R"
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-53f22fd6887so2862206e87.2
-        for <linux-sunxi@lists.linux.dev>; Sat, 14 Dec 2024 05:37:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="u5gJ8Ghu"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-54020b0dcd2so4127866e87.1
+        for <linux-sunxi@lists.linux.dev>; Sat, 14 Dec 2024 05:37:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1734183434; x=1734788234; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1734183437; x=1734788237; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=noTSGg19tqU9DdkDojtudCfDYwJCYSgCTwqn4/VzC74=;
-        b=aHK/488RM2JMauvDMpHqogjTsnv1c1zWc0zIq0prTZzEqW8HeUXOLOHlstNK2zXXnm
-         0ol4ea4S4RPyHm0yw5iy9yIbmyXxeRAbLKTumXqi24pLqb585AxDlyj2H8t7pwtyDa5j
-         SxwcDEXpnPZpzyA20W+Ba3I5Y7uALw+JHRQrxg32F0XxP7HLISM+d93aRjkIBP5ciQHX
-         20RhYp5JLEBuPHExDWRR5RfDkTKEowfA1JZG2QG3XwEQ/7bTAIVvdKJir9D6jHRkgwto
-         7/U+iZKc5AW7Aa+0nidCbhbcqErPMZuuIBL4GYGTpC+HutWLnfeTPX74USJeR6PT3q42
-         mVsw==
+        bh=wdwpibg0RRPk6EpwAQK84EDSpk8VUe5onS1+M5umUds=;
+        b=u5gJ8GhulisU3lTUAXUelT/CynDmg3l4tqCq/NJdOQZ8te646uxNgMwga/l+KrOfM0
+         ME+6ELOFe39uzWSPMeB8HJQnqYeomdqh5tDdjrmgmY7XRcj3oUwFimkb153iXbwL90es
+         SFvz2McSfaabpWwIH4TPaAzOTh4hqulPdYnT5U+zkkM6DtAyTLUY5D9xiNWiROyVAnON
+         tF1nm/fWa/Mo0wEVmf+HwIU8U1GP9nrUbLDSVqSI0dm+UQLVVUjBXpjDCJdsfsUOBuXz
+         +EZ16b36Ren6wVRi194LqyeKccThSv3vgniQF42xQjKcpMSYVYt0BKbbfu3lOIplVTan
+         qsIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734183434; x=1734788234;
+        d=1e100.net; s=20230601; t=1734183437; x=1734788237;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=noTSGg19tqU9DdkDojtudCfDYwJCYSgCTwqn4/VzC74=;
-        b=FfaY5uLrrwt0VioiiiFCKX/1M2xYi/73yuLY4H1a9gYapLqZz3vP29i/KfLTlWsSl4
-         3B/9EQn7kQKT3vIwcAaBYKH2lM0iJG7uzDdLYpXIj+g/m9Jx47GiKeH/tV3txEFF/JWw
-         YOhMQSPG6+P+6yDJ8vBLWYejzWA0s/Sd54Mr61UbkZBJjAMM0scyv9MDW8K6TfATbauF
-         gI3GHSLVuagfJzcYAq1o/wCQOxmEr3kosHegdU6mvDYnp19qW+X/3eQ+ul4WffU+h78r
-         iH9W4vVF82hyTzniBd+8opk0MitKb01gOQBQdRXjpdh52dzOfhf9nOnXGls2om79zME4
-         2hew==
-X-Forwarded-Encrypted: i=1; AJvYcCW00HybJBYT91oprRj79sYJHLxjKxuaEhuvhCPYlJLPjS4ZddAt1IDPkHROGzPWmGSoC+2feTuQ0GhakQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxJxoHY1IzZWNd1sPOZqxgF1Su1OGiw0HkPDVpxpiba1bSv29pL
-	VDRFQiC1DkX0o/Y1oeMpyjlzUawFXmXS32QSvZv8x07ScZV3/YL4LW02UGTI1AY=
-X-Gm-Gg: ASbGncvWktO7Yf7MyYCmGcedqNxnUaUd1r1hH7GvAoyiLWzy/UFwVUxyF2aYEJEyLWB
-	1JWkLg7y2avLyo5cMYoritCs0/sxrygR0cax9VDRIwnOtFIldjm70tZOzEHiASrYOQz3U8fWlGV
-	pBGvxUgsPoiveoKZlurYMMQpJ57+yF+0Udjku/2KpwBL1j4WkwQr5wPPFQfP0zyhBo8Yes3Z+or
-	xg/RCRZfGQvLN+grt1Vu+5l27HoZIV3deytF/M9tkrXSR/0PzMt3mY54xmLebJU
-X-Google-Smtp-Source: AGHT+IEi0xR7zoRxTqPxl0iLty4zwbr4Ao3SIaMjLOMpCbEphybEZM9KZwFp8q8/rnfiMhGmkXfFYg==
-X-Received: by 2002:a05:6512:12d1:b0:53e:362e:ed3 with SMTP id 2adb3069b0e04-5408cd008f8mr1439574e87.1.1734183434499;
-        Sat, 14 Dec 2024 05:37:14 -0800 (PST)
+        bh=wdwpibg0RRPk6EpwAQK84EDSpk8VUe5onS1+M5umUds=;
+        b=b3t+jkML3Y1LzSxxDdsZ/qk3yRuklO6RmJg7sGPEXjRBg5nRQwh84eI/lzyfCiWn0p
+         hZRZE+C7NC7YhhqQompGoWL8hX4RQ2NGPIqADMNxlRrBPaMUpbI0OUrtYpimpdLVHLAP
+         PVAJuwCwc7t2GueQD7cZzHXZvnJ3UBQ2+dMiIrPomyN5018/k4n7o/TmC3IsatoQ/y4u
+         VFKJyicclnIw9lW90dccyKcIp7mc1n17pvviNJzQ26QuvbcibQB2RkxXvtnQ0yxcWnQM
+         8AqaGNBWC+PBDOQHyzcCWK/uYUzWBeXrAOrjF+Bk4aOgFgJ0Ir3sowld/+5OGegyMiI2
+         cwsA==
+X-Forwarded-Encrypted: i=1; AJvYcCXQKvAH7wPIzIn+if725dzJbrQ7gy6IMzA228Yb84P4A85OcSn985DS6VVsY8WRa0BDG1PJa0Zja3j7Aw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyy/jRKsdZWTXxaClaTWnWKC8ytfxSi5Q1dk/CGu3hBF5qdfVBO
+	vyKr+vqj4PzQajUQiZvv710gSbTvmZ8fRrfjebta6gMDyN0jWoFkcgTWPXVvts8=
+X-Gm-Gg: ASbGncugshRpEhpOl/cvqabTu68xYTwBwfhKgeWx4d7Sc+zR0B75XWzbbBiUrqt2W+j
+	HLwVj9KpwV07eeUbrVfOlgtN0Po69K7Fe/WjUsZ0yN2YPffHchKoZHAcQZCcxPj/GhSSzWp6ZBE
+	y4XUroc7ArcGpOKFLhHG0KugFiVQpJtqeOzGZASa9EqGziz7FRlbv3X1a8Mtyh1ItzPQg6v2cbK
+	KWctj6cg7WVP9Wb+rH0KSL1TdvyHYHdAKDRV8Pjt3PMuyKSd63Gnb6C9v+bX9Su
+X-Google-Smtp-Source: AGHT+IFDFHsf0YSq3F9U24ZzRaZqLHjwAZuUnskSeXvaHoyC4Tfjr1H/Oi+lGDIZJQoDaEfr8W2dtQ==
+X-Received: by 2002:a05:6512:1591:b0:540:20c5:f847 with SMTP id 2adb3069b0e04-5408ad76276mr1606863e87.22.1734183436550;
+        Sat, 14 Dec 2024 05:37:16 -0800 (PST)
 Received: from umbar.lan ([192.130.178.90])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54120baa474sm220131e87.90.2024.12.14.05.37.11
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54120baa474sm220131e87.90.2024.12.14.05.37.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Dec 2024 05:37:13 -0800 (PST)
+        Sat, 14 Dec 2024 05:37:16 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 14 Dec 2024 15:37:05 +0200
-Subject: [PATCH v2 1/5] drm/encoder_slave: make mode_valid accept const
- struct drm_display_mode
+Date: Sat, 14 Dec 2024 15:37:06 +0200
+Subject: [PATCH v2 2/5] drm/amdgpu: don't change mode in
+ amdgpu_dm_connector_mode_valid()
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -68,7 +68,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241214-drm-connector-mode-valid-const-v2-1-4f9498a4c822@linaro.org>
+Message-Id: <20241214-drm-connector-mode-valid-const-v2-2-4f9498a4c822@linaro.org>
 References: <20241214-drm-connector-mode-valid-const-v2-0-4f9498a4c822@linaro.org>
 In-Reply-To: <20241214-drm-connector-mode-valid-const-v2-0-4f9498a4c822@linaro.org>
 To: Jani Nikula <jani.nikula@linux.intel.com>, 
@@ -127,84 +127,61 @@ Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
  Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2993;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1822;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=BA8YlLlkI8E3eOA2TnmDuTVb8Ici90Dw1AiMpOT58zA=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnXYoDwzezrZ7RAm6EtxUMTtxskFsgC2A3+5mf5
- PDqwy2TYryJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ12KAwAKCRCLPIo+Aiko
- 1ehtB/4/gv0Y1mrqzFU9+qOJXPi6qnxv3Xebl1NN4vXW6xGWPscYkS7un6aXBPzphwSiybT5Era
- LbRNX+KCaHxxZqHH1wD1S0U/hTBThZIWnM42zFf0kC4OIX6smT3zfpoHAFsHl5BO4LxW7zCkhce
- NKxrDnOXXRjcU5FTGiE1s4jztJxDiSHwdzI4l+Ly8uoKKijhwSSQ6f0gNCw/m/EIMyuu8solCjv
- LmvAJJS2wJUUe6lcm6eObgRuQYPXBAp+PBAkdiNosFiK6BZ/3CvdBkYcm4uwgYxJd/RfeLePmcd
- dT2X/n21cOejt0WUUOG99WJQGqO/wTvviqkz0NfQmIJA5D88
+ bh=ZBQ31V6liiRq6vidYEbRih6I4hmj1n9WetjDV7X3pNY=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnXYoEN8DdEbQT15+majQu+ePNp1xNEKgZhouhG
+ e8cSSkRWPuJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ12KBAAKCRCLPIo+Aiko
+ 1bo9CACKI34mpGW7I5SEIWTnqccfI1E5Dtim4SK/n6/h7bhcZ4fIdi1jPZNDeFfoInJlcQC8kND
+ J2yGE2Waz+dJVLeD9HrrAIss+FWiq5KGvzYWgYBmjLuJJCE3PKkqoV+6+sFD44LUIBLxdTRdh6F
+ 1T4gKfvqmlDPQFnUhlG3DwphgtSkVOEHHExB8YC0ysIBaeNXz7rClOEu0mGlIZuDjJS/sjgrall
+ atWiYOaDofYW+7dTZ9u0SDpxMVllsbKKomyCy6kf/BSVOIp9veKIrgbybIWQXyNIZgk95KFTa4/
+ BfCF2//Diwl9V4b6EJ2CMV1tWTpGoVbvzyIZV/xfq0Bc89tB
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 
-The mode_valid() callbacks of drm_encoder, drm_crtc and drm_bridge
-accept const struct drm_display_mode argument. Change the mode_valid
-callback of drm_encoder_slave to also accept const argument.
+Make amdgpu_dm_connector_mode_valid() duplicate the mode during the
+test rather than modifying the passed mode. This is a preparation to
+converting the mode_valid() callback of drm_connector to take a const
+struct drm_display_mode argument.
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/i2c/ch7006_drv.c          | 2 +-
- drivers/gpu/drm/i2c/sil164_drv.c          | 2 +-
- drivers/gpu/drm/nouveau/dispnv04/tvnv17.c | 2 +-
- include/drm/drm_encoder_slave.h           | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i2c/ch7006_drv.c b/drivers/gpu/drm/i2c/ch7006_drv.c
-index 131512a5f3bd996ad1e2eb869ffa09837daba0c7..a57f0a41c1a9e2006142fe0bad2914b0c344c82a 100644
---- a/drivers/gpu/drm/i2c/ch7006_drv.c
-+++ b/drivers/gpu/drm/i2c/ch7006_drv.c
-@@ -104,7 +104,7 @@ static bool ch7006_encoder_mode_fixup(struct drm_encoder *encoder,
- }
- 
- static int ch7006_encoder_mode_valid(struct drm_encoder *encoder,
--				     struct drm_display_mode *mode)
-+				     const struct drm_display_mode *mode)
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 5a503104e38d1514103914a4d012969105877e52..0d9d2e1c4b4fd48baa19f16fb832a9ce5ed09108 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -7420,6 +7420,7 @@ enum drm_mode_status amdgpu_dm_connector_mode_valid(struct drm_connector *connec
  {
- 	if (ch7006_lookup_mode(encoder, mode))
- 		return MODE_OK;
-diff --git a/drivers/gpu/drm/i2c/sil164_drv.c b/drivers/gpu/drm/i2c/sil164_drv.c
-index ff23422727fce290a188e495d343e32bc2c373ec..708e119072fcb50c31b5596b75dc341429b93697 100644
---- a/drivers/gpu/drm/i2c/sil164_drv.c
-+++ b/drivers/gpu/drm/i2c/sil164_drv.c
-@@ -255,7 +255,7 @@ sil164_encoder_restore(struct drm_encoder *encoder)
+ 	int result = MODE_ERROR;
+ 	struct dc_sink *dc_sink;
++	struct drm_display_mode *test_mode;
+ 	/* TODO: Unhardcode stream count */
+ 	struct dc_stream_state *stream;
+ 	struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
+@@ -7444,11 +7445,16 @@ enum drm_mode_status amdgpu_dm_connector_mode_valid(struct drm_connector *connec
+ 		goto fail;
+ 	}
  
- static int
- sil164_encoder_mode_valid(struct drm_encoder *encoder,
--			  struct drm_display_mode *mode)
-+			  const struct drm_display_mode *mode)
- {
- 	struct sil164_priv *priv = to_sil164_priv(encoder);
+-	drm_mode_set_crtcinfo(mode, 0);
++	test_mode = drm_mode_duplicate(connector->dev, mode);
++	if (!test_mode)
++		goto fail;
++
++	drm_mode_set_crtcinfo(test_mode, 0);
  
-diff --git a/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c b/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
-index 3ecb101d23e949b753b873d24eec01ad6fe7f5d6..35ad4e10d27323c87704a3ff35b7dc26462c82bd 100644
---- a/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
-+++ b/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
-@@ -308,7 +308,7 @@ static int nv17_tv_get_modes(struct drm_encoder *encoder,
- }
- 
- static int nv17_tv_mode_valid(struct drm_encoder *encoder,
--			      struct drm_display_mode *mode)
-+			      const struct drm_display_mode *mode)
- {
- 	struct nv17_tv_norm_params *tv_norm = get_tv_norm(encoder);
- 
-diff --git a/include/drm/drm_encoder_slave.h b/include/drm/drm_encoder_slave.h
-index 49172166a164474f43e4afb2eeeb3cde8ae7c61a..b526643833dcf78bae29f9fbbe27de3f730b55d8 100644
---- a/include/drm/drm_encoder_slave.h
-+++ b/include/drm/drm_encoder_slave.h
-@@ -85,7 +85,7 @@ struct drm_encoder_slave_funcs {
- 	 * @mode_valid: Analogous to &drm_encoder_helper_funcs @mode_valid.
- 	 */
- 	int (*mode_valid)(struct drm_encoder *encoder,
--			  struct drm_display_mode *mode);
-+			  const struct drm_display_mode *mode);
- 	/**
- 	 * @mode_set: Analogous to &drm_encoder_helper_funcs @mode_set
- 	 * callback. Wrapped by drm_i2c_encoder_mode_set().
+-	stream = create_validate_stream_for_sink(aconnector, mode,
++	stream = create_validate_stream_for_sink(aconnector, test_mode,
+ 						 to_dm_connector_state(connector->state),
+ 						 NULL);
++	drm_mode_destroy(connector->dev, test_mode);
+ 	if (stream) {
+ 		dc_stream_release(stream);
+ 		result = MODE_OK;
 
 -- 
 2.39.5
