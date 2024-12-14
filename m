@@ -1,191 +1,162 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 383311401B
-	for <linux-sunxi@lists.linux.dev>; Sat, 14 Dec 2024 02:20:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E1B780BEC
+	for <linux-sunxi@lists.linux.dev>; Sat, 14 Dec 2024 06:30:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734142836; cv=none; b=Oiw1gMhR7/NEjMrp5LvYsJQFTPeXKkTJZO0eM7GzPQ9euGbSdl0noDVdV9y9yraJn3FOLcGg0Oww4mR/jVFhqSkmap1U87L5BqCmb+70slnWv+6ReDsV2fTK4iGWE6AOV3pyjdOrTKiQ5gNwgoOoF0wx4kVZNODpDyjYGI1cL1I=
+	t=1734157821; cv=none; b=MfPUShN/ylw96klXyi7NseCnbl+FZcKXjmK5D5pjZsIe9R0vCt0kDxIxf9W3CbV/VY/PWAEbo0sSqOUB7+5XlkUe4+L0zAeXuvaU0wkJLCeWZRnxC9gKFF1Xsirvn+LvXQfAm/20nt4OPwziTzg9OG0SdW5JWf3Y7Sxkd3Rda88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734142836; c=relaxed/simple;
-	bh=K30RKE/IbtabwIxb+iYkfF8fT/neE+lRBKGsXDW9dcg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TQHsE7CZYlPuVHr7ioyVH1gKntSz3FgeNXubvEA9HTYQANym+v5XrhPNXPiGxmTNC9qLVunLSYLICTVLSKL2Tgs8qGlsEmKPkeOFY61BJkZosiuwLAjmtoAHkcwgQeCWNwn4AF3/Oo48AcQq8Jy1mt0fLpxj4sVmja8s4O5CId0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6362A11FB;
-	Fri, 13 Dec 2024 18:21:00 -0800 (PST)
-Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A38263F58B;
-	Fri, 13 Dec 2024 18:20:31 -0800 (PST)
-Date: Sat, 14 Dec 2024 02:19:50 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Leon Anavi <leon.anavi@konsulko.com>, linux-sunxi
- <linux-sunxi@lists.linux.dev>
-Cc: u-boot@lists.denx.de, lhristov@gmail.com
-Subject: Re: [PATCH 1/3] sunxi: board: simplify early PMIC setup conditions
-Message-ID: <20241214021950.5013865a@minigeek.lan>
-In-Reply-To: <e77f6b37-7d50-4f3d-9bed-6d3e39effb4c@konsulko.com>
-References: <CALtQ3O2jF6sEvofpZ+FtJgmgTKZvNRuohnwEtPz4ES0WqtxU5g@mail.gmail.com>
-	<20241211215327.26dc369a@minigeek.lan>
-	<e77f6b37-7d50-4f3d-9bed-6d3e39effb4c@konsulko.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	s=arc-20240116; t=1734157821; c=relaxed/simple;
+	bh=ADdPyPpCiXUVsD/OBnMYzHixrDkS5BuxYN+fUPpmaQQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=f65XQAdv9oSGkxGyG473Z0ZyU5FdQFiXfNF21Xrenkv11/0jQQtf4qgH2lEZhfOPGxlQNJmNbrolFsNqKB77gSehMLlrNbaMOiDCTXgFAPeE2/S/o6rult8IDou8sk7kqPbgGvoo7QotBo21Bk6ZhBzR1XjikGtPTtx4uXXVGxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fOrAF0U7; arc=none smtp.client-ip=209.85.161.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fOrAF0U7"
+Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-5f2c34ae517so1010977eaf.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 13 Dec 2024 22:30:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1734157817; x=1734762617; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wrI8qCQN85qm0XYiJc+jVTuy93Oh6KAdPLxuWkpi6aM=;
+        b=fOrAF0U7ul9OGDAOfRSp7g2Wc3qpYBkkSkfwetTx7PkxGl5z3T7Z27cuUrQ5CQkTZP
+         m12HYef2x8Vt6ZlvRt3w+2bvCs5ddL6zBN+LfWKi3orJo3QuNkFnCo7VpIfn/qWssnLl
+         jLMS/xIgVVtakWZM0jtV+nVZuwADDvDpaCo0VyHQqfn6UyqvnpIqVmWXRe1aHCCGa5zj
+         xZU8ukpZMaBjx3XdGURUWxY9GZTzH1ySFpBHv9o2zwX4+K1+E1ZxBxjpww1pzpgPP8pl
+         oEyoHMMAoTnQT6tcMy4si9vdZficJsOMyc4Gz0nDBbTv6Pt4iZgKysAigvQ/Ww1jQOxb
+         ChRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734157817; x=1734762617;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wrI8qCQN85qm0XYiJc+jVTuy93Oh6KAdPLxuWkpi6aM=;
+        b=lvjzPbkUnsYONrIzY7Wch589vdNiAfrC/AC1XdRctSPzEBPs7/Qsi53n+YORhvaD3J
+         aki47IkjOENYn6Ry+R6ewjykEgI0AloG2LOoIl87Sv9Y9ZhtJw3VRhYxOm+LYbBqY3GA
+         m5JYcNCi7f8C03cN/yeUj+fEXedb4Zj+gv1DX0WLAwyPw1aTV/UP/4VBri5yDxQj4IWO
+         x3+JjzCprg6ykr2jtCLiquwji5siOaavmj134/swDy36vVESEgZc1a1YkkXoz7K/Zrhd
+         610YdMXkJivcl0PWhvQQl3ueoyndDcju1OsMx420jz4PQNvHJFChUA2UWNLfnQRk7dae
+         GCWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUotEiX9rxSADevQRBMdC5fEHixFsgGBKBcU98vn0V/RNbCdOtLO7a8rrSVRu1E8TlUyB1Fwl6lFcnHzQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyIT7T5ONEgnT7ugKbSVC8zc2ppUPKJHwRnYglZI0r/1+uzzTVk
+	ciiQFtzQgcK2jtgGrptsEvLNadzLfiXjiPxwqsmOyH/ipMWvQBJPRaKcUv425yu6fPLRNy8yCDr
+	FycmhYaRzJFWS8JZu8CXvFmX8PFQ=
+X-Gm-Gg: ASbGncsso6Ok7OJ4ypEQ4DVgh1IN1ukT39u40mlMKfYHSt+yu7N7bx2KrjD5PLUylBX
+	fiJLXnlY+9hsdOj4G36SGJ69N2UheJ2MEhOphDkEg4gMeybn01Onc2NN2HtRhPsK1sQnzepAh
+X-Google-Smtp-Source: AGHT+IEPJNPA+UMoRL6Nd8OnH+KQK573OcmBMtIxEoDNfscNNNsJvvjIErYdh1Oh7XBBo4k+5gmKzsFAb+yk48Ks7y8=
+X-Received: by 2002:a05:6870:828a:b0:29e:255e:9540 with SMTP id
+ 586e51a60fabf-2a3aca46b43mr2859925fac.35.1734157817408; Fri, 13 Dec 2024
+ 22:30:17 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20230505052110.67514-1-me@crly.cz> <20230505052110.67514-2-me@crly.cz>
+In-Reply-To: <20230505052110.67514-2-me@crly.cz>
+From: Vasily Khoruzhick <anarsoul@gmail.com>
+Date: Fri, 13 Dec 2024 22:29:51 -0800
+Message-ID: <CA+E=qVcSV7H4=-fT2FUdNd5sneCO0GsA-qKrvQxy8PF89knckw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/4] clk: sunxi-ng: a64: force select PLL_MIPI in TCON0 mux
+To: Roman Beranek <me@crly.cz>
+Cc: Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Frank Oltmanns <frank@oltmanns.dev>, 
+	Icenowy Zheng <icenowy@aosc.io>, Ondrej Jirman <megi@xff.cz>, devicetree@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-clk@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, 12 Dec 2024 11:19:06 +0200
-Leon Anavi <leon.anavi@konsulko.com> wrote:
+On Thu, May 4, 2023 at 10:34=E2=80=AFPM Roman Beranek <me@crly.cz> wrote:
+>
+> TCON0's source clock can be fed from either PLL_MIPI, or PLL_VIDEO0(2X),
+> however MIPI DSI output only seems to work when PLL_MIPI is selected and
+> thus the choice must be hardcoded in.
+>
+> Currently, this driver can't propagate rate change from N-K-M clocks
+> (such as PLL_MIPI) upwards. This prevents PLL_VIDEO0 from participating
+> in setting of the TCON0 data clock rate, limiting the precision with
+> which a target pixel clock can be matched.
+>
+> For outputs with fixed TCON0 divider, that is DSI and LVDS, the dotclock
+> can deviate up to 8% off target.
 
-Hi Leon,
+Hi Roman,
 
-> On 11.12.24 =D0=B3. 23:53 =D1=87., Andre Przywara wrote:
-> > On Mon, 9 Dec 2024 23:08:19 +0200
-> > Leon Anavi<leon.anavi@konsulko.com> wrote:
-> >
-> > Hi Leon,
-> >
-> > thanks for the report!
-> > =20
-> >> Commit ffb0294 from 12 November 2023 that simplifies early PMIC setup
-> >> conditions causes issues on Cubieboard 4 and Merrii A80 Optimus with
-> >> Allwinner A80 SoC (sun9i). The commit was introduced with U-Boot 2024.=
-01
-> >> (rc3) and remains as of today. Because of it both of these boards hang=
- at:
-> >>
-> >> Starting kernel ... =20
-> > That's odd, how do you boot the kernel, exactly?
-> > I just tried mainline U-Boot (via FEL), with: =20
-> > =3D> setenv bootargs "console=3DttyS0,115200n8 earlycon"
-> > =3D> bootz $kernel_addr_r $ramdisk_addr_r:300000 $fdtcontroladdr =20
-> >
-> > and it booted fine to the prompt, on a Cubieboard 4 (CC-A80 v1.2).
-> > Kernel was some 6.11-rc6 I just had lying around.
-> >
-> > I also compared the code before and after that patch, the only
-> > difference is the order at which DCDC5 gets programmed: before it's
-> > after DCDC4, with the patch it's right after DCDC1.
-> > The rest looked the same.
-> > Booting ffb0294~1 and ffb0294~0 also worked for me, without issues.
-> > So can you please describe how you test that, exactly? =20
-> I built core-image-base using the Yocto Project and OpenEmbedded as well =
-Starting kernel ...
-> as the meta-sunxi BSP layer. The U-Boot version depends on the Yocto=20
-> release. For Scarthgap it is with U-Boot 2024.01 and for the ongoing=20
-> development in the master branches the U-Boot version is 2024.10. The=20
-> Linux kernel version is 6.6.28. I experienced the same issue with both=20
-> U-Boot versions on Merrii A80 Optimus and Lazar (his email is CC)=20
-> confirmed the same results on Cubieboard 4. The boot sequence for the=20
-> boards in meta-sunxi is through boot.scr generated from the following=20
-> boot.cmd:
-> https://github.com/linux-sunxi/meta-sunxi/blob/master/recipes-bsp/u-boot/=
-files/arm/boot.cmd
->=20
-> In a nutshell, the issue can be reproduced with the following scenario=20
-> in U-Boot:
->=20
-> setenv bootargs console=3DttyS0,115200 console=3Dtty1 root=3D/dev/mmcblk0=
-p2=20
-> rootwait panic=3D10
+I'm a bit late, but this patch breaks the LCD on Pine64 Pinebook. When
+TCON0 parent is pll-mipi, the panel is blank and I get vblank timeouts.
 
-So I tried with an SD card now, and I think I see what you mean now.
-I was a bit confused first why it would hang for you after "Starting
-kernel ...", but I guess it actually doesn't: can you add "earlycon" to your
-command line and confirm that the kernel boots, but hangs while waiting
-for the secondary cores?
-I am still scratching my head how this commit would affect this
-behaviour, but this change here seems to fix it for me:
+With this patch reverted it works if I force pll-video-2x as a parent for T=
+CON0.
 
-diff --git a/board/sunxi/board.c b/board/sunxi/board.c
-index 29a329f41a2..d7c46eec615 100644
---- a/board/sunxi/board.c
-+++ b/board/sunxi/board.c
-@@ -582,7 +582,6 @@ void sunxi_board_init(void)
-=20
- #ifdef CONFIG_AXP_DCDC1_VOLT
- 	power_failed |=3D axp_set_dcdc1(CONFIG_AXP_DCDC1_VOLT);
--	power_failed |=3D axp_set_dcdc5(CONFIG_AXP_DCDC5_VOLT);
- #endif
- #ifdef CONFIG_AXP_DCDC2_VOLT
- 	power_failed |=3D axp_set_dcdc2(CONFIG_AXP_DCDC2_VOLT);
-@@ -591,6 +590,9 @@ void sunxi_board_init(void)
- #ifdef CONFIG_AXP_DCDC4_VOLT
- 	power_failed |=3D axp_set_dcdc4(CONFIG_AXP_DCDC4_VOLT);
- #endif
-+#ifdef CONFIG_AXP_DCDC5_VOLT
-+	power_failed |=3D axp_set_dcdc5(CONFIG_AXP_DCDC5_VOLT);
-+#endif
-=20
- #ifdef CONFIG_AXP_ALDO1_VOLT
- 	power_failed |=3D axp_set_aldo1(CONFIG_AXP_ALDO1_VOLT);
+So for me RGB output doesn't seem to work with PLL_MIPI, but works
+only with PLL_VIDEO0_2X. Any ideas on how to fix it?
 
-Can you confirm this?
-This fix looks easily mainline-able, as it just restores the old
-initialisation order, but I still would like to know why the other
-order hangs. Will try to do some experiments.
-
-Cheers,
-Andre
+Regards,
+Vasily
 
 
-> load mmc 0:1 ${fdt_addr_r} ${fdtfile}
-> load mmc 0:1 ${kernel_addr_r} zImage
-> bootz ${kernel_addr_r} - ${fdt_addr_r}
->=20
-> Merrii A80 Optimus board boots fine if I revert commit ffb0294.
-> However, if commit ffb0294 is present in U-Boot the board hangs. Here
-> is the log: U-Boot 2024.10-dirty (Oct 07 2024 - 14:54:35 +0000)
-> Allwinner Technology CPU: Allwinner A80 (SUN9I) Model: Merrii A80
-> Optimus Board DRAM: 2 GiB Core: 62 devices, 18 uclasses, devicetree:
-> separate WDT: Not starting watchdog@6000ca0 WDT: Not starting
-> watchdog@8001000 MMC: sunxi_set_reset: (RST#0) unhandled
-> sunxi_set_reset: (RST#2) unhandled sunxi_set_reset: (RST#1) unhandled
-> mmc@1c0f000: 0, mmc@1c10000: 2, mmc@1c11000: 1 Loading Environment
-> from FAT... Unable to read "uboot.env" from mmc0:1... In:
-> serial@7000000 Out: serial@7000000 Err: serial@7000000 Net: No
-> ethernet found. Hit any key to stop autoboot: 0 =3D> setenv bootargs
-> console=3DttyS0,115200 console=3Dtty1 root=3D/dev/mmcblk0p2 rootwait
-> panic=3D10 =3D> load mmc 0:1 ${fdt_addr_r} ${fdtfile} 24443 bytes read in
-> 3 ms (7.8 MiB/s) =3D> load mmc 0:1 ${kernel_addr_r} zImage 5397992
-> bytes read in 236 ms (21.8 MiB/s) =3D> bootz ${kernel_addr_r} -
-> ${fdt_addr_r} Kernel image @ 0x22000000 [ 0x000000 - 0x525de8 ] ##
-> Flattened Device Tree blob at 23000000 Booting using the fdt blob at
-> 0x23000000 Working FDT set to 23000000 Loading Device Tree to
-> 29ff7000, end 29ffff7a ... OK Working FDT set to 29ff7000 Starting
-> kernel ... Please note that U-Boot is marked with suffix "-dirty"
-> because of the patches applied by u-boot_%.bbappend from Yocto/OE
-> layer meta-sunxi but these patches are for other boards and don't
-> touch the file board/sunxi/board.c. Am I missing something as a
-> configuration that can make the board boot the same way without
-> hanging when commit ffb0294 is present?Best regards, Leon
->=20
-> >
-> > Please also note we fixed d75fa8c80dcfa in U-Boot (DCDC4/5 typo),
-> > and dd36ad71ad6 in the kernel (DCDC5 constraints in the DT).
-> >
-> > Cheers,
-> > Andre
-> > =20
-> >> Older U-Boot versions without this commit work fine. As a temporary
-> >> solution I reverted commit ffb0294 and this way the boards boot
-> >> successfully. I tested this work around on Merrii A80 Optimus with
-> >> several U-Boot versions, including with U-Boot 2024.10. =20
-> > =20
-> >> Lazar, a friend who owns Cubieboard 4, also tested and confirmed
-> >> his board boots with U-Boot 2024.10 if this commit has been
-> >> reverted.
-> >>
-> >> How to fix this? Is there a known configuration that can be added
-> >> to Merrii_A80_Optimus_defconfig and Cubieboard4_defconfig to avoid
-> >> hanging with the existing source code from commit ffb0294 ?
-> >>
-> >> Best regards,
-> >> Leon =20
 
+> Signed-off-by: Roman Beranek <me@crly.cz>
+> ---
+>  drivers/clk/sunxi-ng/ccu-sun50i-a64.c | 14 +++++++++++++-
+>  1 file changed, 13 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c b/drivers/clk/sunxi-ng=
+/ccu-sun50i-a64.c
+> index 41519185600a..eb36f8f77d55 100644
+> --- a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+> @@ -528,11 +528,18 @@ static SUNXI_CCU_M_WITH_MUX_GATE(de_clk, "de", de_p=
+arents,
+>                                  0x104, 0, 4, 24, 3, BIT(31),
+>                                  CLK_SET_RATE_PARENT);
+>
+> +/*
+> + * DSI output seems to work only when PLL_MIPI selected. Set it and prev=
+ent
+> + * the mux from reparenting.
+> + */
+> +#define SUN50I_A64_TCON0_CLK_REG       0x118
+> +
+>  static const char * const tcon0_parents[] =3D { "pll-mipi", "pll-video0-=
+2x" };
+>  static const u8 tcon0_table[] =3D { 0, 2, };
+>  static SUNXI_CCU_MUX_TABLE_WITH_GATE(tcon0_clk, "tcon0", tcon0_parents,
+>                                      tcon0_table, 0x118, 24, 3, BIT(31),
+> -                                    CLK_SET_RATE_PARENT);
+> +                                    CLK_SET_RATE_PARENT |
+> +                                    CLK_SET_RATE_NO_REPARENT);
+>
+>  static const char * const tcon1_parents[] =3D { "pll-video0", "pll-video=
+1" };
+>  static const u8 tcon1_table[] =3D { 0, 2, };
+> @@ -953,6 +960,11 @@ static int sun50i_a64_ccu_probe(struct platform_devi=
+ce *pdev)
+>
+>         writel(0x515, reg + SUN50I_A64_PLL_MIPI_REG);
+>
+> +       /* Set PLL MIPI as parent for TCON0 */
+> +       val =3D readl(reg + SUN50I_A64_TCON0_CLK_REG);
+> +       val &=3D ~GENMASK(26, 24);
+> +       writel(val | (0 << 24), reg + SUN50I_A64_TCON0_CLK_REG);
+> +
+>         ret =3D devm_sunxi_ccu_probe(&pdev->dev, reg, &sun50i_a64_ccu_des=
+c);
+>         if (ret)
+>                 return ret;
+> --
+> 2.32.0 (Apple Git-132)
+>
+>
