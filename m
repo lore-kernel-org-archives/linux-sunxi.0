@@ -1,176 +1,255 @@
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5977E78C91
-	for <linux-sunxi@lists.linux.dev>; Sat, 14 Dec 2024 07:32:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CBFB1922E0
+	for <linux-sunxi@lists.linux.dev>; Sat, 14 Dec 2024 13:37:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734161526; cv=none; b=Obb153iteI+sJfS5a6JzVIgH2G1M2nX4+aw7eDDRWTWZYybDOob8kcw2LONR3MjaNxqvbnceS3M1DBYHnfghMB5Y6kdmG6aSljN7G2acPU7Q5eyjGwzq3c45dbPkZ8ECX3m4hyHC6K2omqGZ5xhXkU/PkKY3D8K8/cecgRhNWkQ=
+	t=1734183435; cv=none; b=rbURo44nyD+7/HAgIVioWeR/hX9U2EXUulra9XLm7Znz9Vkaj6zoR6uD1p3ckKGklvTHzvKV79smj9Z+fVREFyHqIRz25iMHacz3i0pRo8RZJTQ6YIyiI0LDYyKWr2sUD8vR7fvm2tyVjBE5TQHZXL6YQ26YZpp9Y4VvKN+q9Lo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734161526; c=relaxed/simple;
-	bh=Lg6wNxdsLLY5Lp8a+X6uEKzwizIMd2JY0ZlX0WhbW8E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Tb2qk3GfHJRREAPSD6EY9tLTJCgdg3EzImNXKEuRpBO4DFhqYWDvMxI8mLpyOnNFXAtifCdH3F+GSOQSAgRtuAV6DSDvW+TJYf7nR6X2xQDwmFBptZwqO005uy7FQ0Kxh0Egx4euWeIPf605jMbjch4Od0Y0FNpO54shqGh3sMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jvaouWyl; arc=none smtp.client-ip=209.85.161.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1734183435; c=relaxed/simple;
+	bh=CFKCP8gmNVOgeqNjr+3QJjtmtNC/tAX/00xUMnJ/tTs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=YT8UkLBXtS8tFwT6Zhv1E3bU7vARjfu7b8tqfh7+KI/vuym+w51iSG8L5WibYhS/zLz4BXC3MnNPil72sZf3pWcaXpxJsbo3x/C72l0v/gYcKWtrDIrDHNT5T7kYhR1OpQ+N08kpAhpJ77ZR5mt7Zb2UfZR7c/jxmUB38Hrf6uQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qMQmTi53; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jvaouWyl"
-Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-5f2c34ae517so1023613eaf.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 13 Dec 2024 23:32:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qMQmTi53"
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-53f22fd6832so2780678e87.1
+        for <linux-sunxi@lists.linux.dev>; Sat, 14 Dec 2024 05:37:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734161524; x=1734766324; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wooyMz6V69rOWgXVqv8x+ga9QCy693idFla4iIf30yA=;
-        b=jvaouWylSRj44SqixuLIXlqfGx+jnFDYHlXg81ZRPe170ytmNtWCGeOzMqSNX0bTeh
-         ZgnG49aC2xj3pCj3ZBYnd0jjemHWTe/wcOeGIGcjYztJhWYBVstu0FccnGQwsN4/SUcL
-         Lp2Mfk3In8uy5fRM/BTJp+rBcLfLG9HlvPbH5mSxwCWN6iHaxxW8jKuSSGSaCdckxMF2
-         zqRKLWQLDTstLVPoowTYqrAyO2Jh9oeyEvRJng+oLVpXbKn9QUe0vtqb3JSDjw5KcIIs
-         AzjdNDguhbvs5SRGQej3mY2lHpvylmBQV9BTzHf/CIIScIpsAk/iBjhKfVZT/Luaf36J
-         5DHw==
+        d=linaro.org; s=google; t=1734183432; x=1734788232; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=D5Yifu5AHqHdXbQoT1ZLOpnCiREtj9Cd9aALDn2mK+0=;
+        b=qMQmTi53jL5gnb5blyP7/caNTXNCTTKctqtzUqagbWn9S+TcBKScsodl8/HMeK2GaO
+         PUXHUtNJBnKmMwpIBCc1HVcxAPSa1vfaHxhtKNjgXL9W9y/r+RqqX51njvG8MdAzTBa7
+         iVtTwWLnLcwUzGpGbuHX2S8bVl/hA6M4SzkqFYDJUjB8Ad9TJHOzzT04rJMIULQ5PVqS
+         HJ3uDOwcKV1DB5btzZQfXPhNVh8fXBVI0ppsIv8wOYCydYJE9aCwGy0qoE5073rc5AEx
+         2wybEKyNeSqnqRs4mgmtJUA69XSQyM6X0tAb5GB+Sp5wdSrVbEsXUI6fDbOLPcbeWvZE
+         N6lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734161524; x=1734766324;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wooyMz6V69rOWgXVqv8x+ga9QCy693idFla4iIf30yA=;
-        b=aEzJjrlc7bwxxxQGtnf0ZZGSOFDaTMoHKMYKYNpnOtbndokpMy3SlHbcACE1pHPHUn
-         td1z9sKVUNv2/xEA1QJEjPaSxcJh8AefMymkny0xO6UD38EWHhChZvWI+KUbRLUjXwPc
-         GPp23FEBZGCcvCqLJRr53C6xlk7tfTYjpKNr6ArmlqXWcc1XemiM3gx0Jwt2iusjC8l1
-         3tvFLndFRRhEXkzNVugBO5VAwbor9SwuEyq9PNuZBSq5um4GwmMpI962UyihkrjMD+Da
-         jXiGRt2HSx10jbvtEmD5SfHeCp4SE9qIhpw4t47oZBWBrAejYhBtOFGN0f8pUWxbyza3
-         3PBg==
-X-Forwarded-Encrypted: i=1; AJvYcCWppXcRhofcuh7vWcir4li1NifADBff866Oaw/r3ozMftpCNZoziHNQaM7jKddp3zkS1UCafBkgbG412Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyabHcUoh/UR6iuFPl6DwSks1TT4f5APBD0rJZwAEDfc7QbcpBx
-	7ZqbAlDGyv/hUD/o7GKv9Jwd4U5AcPUZsRx5aoD8Li4CvEMZOjUsvS+2hJkssrmvQ4V4XybDheD
-	hYwercHSr7OokK9lPdrKiJ8ykYOc=
-X-Gm-Gg: ASbGncuYGme0xwUrT+ddex+H6fYt2qGgAP8vricbjLQWYYNuEko5tR1GY8FlQHPMs4T
-	tv9TVOkmBbrrOl1sTa5d07LYrkL4tgemADFySqZUfnAevr38Vs10yJEGh4SBsNCba2kzifDF1
-X-Google-Smtp-Source: AGHT+IGmFywcjc7izrlDXgnkzLIqMiL0MnGMAOEArWH0D15iqh0keA0TjPRq8hM4SyuuwLNun7DH3X+llzzdV2xoAhI=
-X-Received: by 2002:a05:6870:7011:b0:29e:3d0b:834 with SMTP id
- 586e51a60fabf-2a3ac614135mr3251697fac.5.1734161524360; Fri, 13 Dec 2024
- 23:32:04 -0800 (PST)
+        d=1e100.net; s=20230601; t=1734183432; x=1734788232;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=D5Yifu5AHqHdXbQoT1ZLOpnCiREtj9Cd9aALDn2mK+0=;
+        b=OTNuUckceXs3TzuJJTtLbpIA3OxH84d3/FlBFXDbolamgVEvUn/hWAu2n+7m4gRXjY
+         LAC18PJUK1z4wz9J9lM0E7uXVYqtKxJ0XxSVeeXPTIPgD+gv7RFGGrjZHuAEar1VW6ud
+         xEs5/RIdJXM/OxSk4g752MSn1lwhd8gsdWdf4aX16E4hXn+bdb/iiD2zrDCwBgWy3fRj
+         XYLqC3ABAEXr9V2CzsWtCFvfsSBp8gYLjE9ryoI1yZLE4n+CoKFhxZ83cIxI/ekA++ZT
+         V/FKlzkhFXgDLwHUrkMloCa4E+KRE84AQHyjBP6JUOTd6N2wdmRKnYVUr9GZYx6NiUQv
+         AfzA==
+X-Forwarded-Encrypted: i=1; AJvYcCUScFtP443LG02FsRdNC0ApWu8WsYyAXo1CXD2QYi7YiZAZrF7jTk+k8KZdTgyiXZfy6DznDk8OpCVEDw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxNkTdIZcm3U1x5vmGbR+Pdtg2EN6FEDJ/b4xc5W3NuSGhUbzhK
+	ZHWLwcW4QBw7tVCXr43Kj+ewNsqUHan7gmiuKKmS4EenzH92j9ODq3vTgvZOsTM=
+X-Gm-Gg: ASbGncvapNvtbUCxsroJYTK+5R61f76HBLtsylIhWir6XslREDIjoB9GkVei590Xdoz
+	ipdgwfNGJ72O7D+pvybJVyFpjWzBSiF2/I3sSyfsh/aT70LNsK6ChZIU24jg2dzM3T+oOa/3+DI
+	f5CY5VznhfZx7+ADzcVLPep0ooS6PbrrVqzQeMLPngXWMdHzlfk33vfBINWeJUjhEWzeNdxHIok
+	53wdr3coMMGKqmfVrJgtEM9CFsU6qL6KIL4MVztHg9EGPKsR8+WmCqeCoLQOOev
+X-Google-Smtp-Source: AGHT+IEmz28NMTXAP81JXsAlUmRjxWGG4URFEoZPW2057H7lgb26FPjGbNMLBZ5J86SvfmTU0Z3DXQ==
+X-Received: by 2002:a05:6512:ba3:b0:540:3567:2ede with SMTP id 2adb3069b0e04-5408ad822dcmr1895173e87.12.1734183431555;
+        Sat, 14 Dec 2024 05:37:11 -0800 (PST)
+Received: from umbar.lan ([192.130.178.90])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54120baa474sm220131e87.90.2024.12.14.05.37.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Dec 2024 05:37:10 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 0/5] drm/connector: make mode_valid() callback accept
+ const mode pointer
+Date: Sat, 14 Dec 2024 15:37:04 +0200
+Message-Id: <20241214-drm-connector-mode-valid-const-v2-0-4f9498a4c822@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230505052110.67514-1-me@crly.cz> <20230505052110.67514-2-me@crly.cz>
- <CA+E=qVcSV7H4=-fT2FUdNd5sneCO0GsA-qKrvQxy8PF89knckw@mail.gmail.com>
-In-Reply-To: <CA+E=qVcSV7H4=-fT2FUdNd5sneCO0GsA-qKrvQxy8PF89knckw@mail.gmail.com>
-From: Vasily Khoruzhick <anarsoul@gmail.com>
-Date: Fri, 13 Dec 2024 23:31:38 -0800
-Message-ID: <CA+E=qVeroOt_L-r--K7uYrS+039x-BtgciVqoez5CmOtmYyqVg@mail.gmail.com>
-Subject: Re: [PATCH v4 1/4] clk: sunxi-ng: a64: force select PLL_MIPI in TCON0 mux
-To: Roman Beranek <me@crly.cz>
-Cc: Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Frank Oltmanns <frank@oltmanns.dev>, 
-	Icenowy Zheng <icenowy@aosc.io>, Ondrej Jirman <megi@xff.cz>, devicetree@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-clk@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAACKXWcC/42NTQqDMBBGr1Jm3SlOrApd9R7FRX5GHdCkJBJax
+ Ls3eoIu34PvfRskjsIJHpcNImdJEnwBdb2AnbQfGcUVBlWpOxE16OKCNnjPdg0Rl+AYs57FHTK
+ tqLl2puKhtaaDEnlHHuRzHrz6wpOksvuef5kO+3c6E1ZoyDSqpqYdOnrO4nUMtxBH6Pd9/wHZe
+ zDbzQAAAA==
+X-Change-ID: 20241115-drm-connector-mode-valid-const-ae3db0ef6cb7
+To: Jani Nikula <jani.nikula@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>, 
+ Danilo Krummrich <dakr@redhat.com>, Harry Wentland <harry.wentland@amd.com>, 
+ Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, 
+ Alex Deucher <alexander.deucher@amd.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Xinhui Pan <Xinhui.Pan@amd.com>, Alain Volmat <alain.volmat@foss.st.com>, 
+ Raphael Gallais-Pou <rgallaispou@gmail.com>, 
+ Liviu Dudau <liviu.dudau@arm.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Peter Senna Tschudin <peter.senna@gmail.com>, Ian Ray <ian.ray@ge.com>, 
+ Martyn Welch <martyn.welch@collabora.co.uk>, 
+ Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
+ Kyungmin Park <kyungmin.park@samsung.com>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, Stefan Agner <stefan@agner.ch>, 
+ Alison Wang <alison.wang@nxp.com>, 
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
+ Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Mikko Perttunen <mperttunen@nvidia.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Gurchetan Singh <gurchetansingh@chromium.org>, 
+ Chia-I Wu <olvaffe@gmail.com>, Zack Rusin <zack.rusin@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ nouveau@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+ imx@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+ freedreno@lists.freedesktop.org, virtualization@lists.linux.dev, 
+ spice-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ Jani Nikula <jani.nikula@intel.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6418;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=CFKCP8gmNVOgeqNjr+3QJjtmtNC/tAX/00xUMnJ/tTs=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnXYoDmM2S87MrW8vu+JbVhyOODFafbOCaZxOjt
+ xp9pGfUjhmJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ12KAwAKCRCLPIo+Aiko
+ 1eEwB/4jmBS/ZZEzFjxaESTGxzhJNhkCvznhOV0ymm9HyVmb5cREFRRAYjI5LoTWx7bG2RoJpPx
+ UvuWQ54Hy/EBhfpWcduIr/JhudedQ7jBPBIKLI9pTuxk9R5EX73GEkl63Fke70Rl4RJk106amoZ
+ L5UKcCV/8bd4eJp0zytj96tqIz4Ck6AKNLE/phVZ9qgSiEy8WyBf4S97qdT56EH3M7y0HwvvZUR
+ hYu0+I8MmFd53hj3SU9abEOy2j4vRwWzuePJ9fgEjSd8QoY+ntVzjh+bjurDQ8D7x0pTI/WJqrS
+ 6pXMPMXEdtL00Ib+8dAXox6yumWc5m53LQxFithWGBOqgCaL
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 
-On Fri, Dec 13, 2024 at 10:29=E2=80=AFPM Vasily Khoruzhick <anarsoul@gmail.=
-com> wrote:
->
-> On Thu, May 4, 2023 at 10:34=E2=80=AFPM Roman Beranek <me@crly.cz> wrote:
-> >
-> > TCON0's source clock can be fed from either PLL_MIPI, or PLL_VIDEO0(2X)=
-,
-> > however MIPI DSI output only seems to work when PLL_MIPI is selected an=
-d
-> > thus the choice must be hardcoded in.
-> >
-> > Currently, this driver can't propagate rate change from N-K-M clocks
-> > (such as PLL_MIPI) upwards. This prevents PLL_VIDEO0 from participating
-> > in setting of the TCON0 data clock rate, limiting the precision with
-> > which a target pixel clock can be matched.
-> >
-> > For outputs with fixed TCON0 divider, that is DSI and LVDS, the dotcloc=
-k
-> > can deviate up to 8% off target.
->
-> Hi Roman,
->
-> I'm a bit late, but this patch breaks the LCD on Pine64 Pinebook. When
-> TCON0 parent is pll-mipi, the panel is blank and I get vblank timeouts.
->
-> With this patch reverted it works if I force pll-video-2x as a parent for=
- TCON0.
+While working on the generic mode_valid() implementation for the HDMI
+Connector framework I noticed that unlike other DRM objects
+drm_connector accepts non-const pointer to struct drm_display_mode,
+while obviously mode_valid() isn't expected to modify the argument.
 
-And changing TCON0 parent in runtime by poking CCU registers also
-fixes the issue (even though pll-video-2x is *much* slower than
-pll-mipi), i.e. if I do "devmem2 0x01c20118 w 0x82000000" the picture
-appears on the screen.
+Mass-change the DRM framework code to pass const argument to that
+callback.
 
-> So for me RGB output doesn't seem to work with PLL_MIPI, but works
-> only with PLL_VIDEO0_2X. Any ideas on how to fix it?
->
-> Regards,
-> Vasily
->
->
->
-> > Signed-off-by: Roman Beranek <me@crly.cz>
-> > ---
-> >  drivers/clk/sunxi-ng/ccu-sun50i-a64.c | 14 +++++++++++++-
-> >  1 file changed, 13 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c b/drivers/clk/sunxi-=
-ng/ccu-sun50i-a64.c
-> > index 41519185600a..eb36f8f77d55 100644
-> > --- a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
-> > +++ b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
-> > @@ -528,11 +528,18 @@ static SUNXI_CCU_M_WITH_MUX_GATE(de_clk, "de", de=
-_parents,
-> >                                  0x104, 0, 4, 24, 3, BIT(31),
-> >                                  CLK_SET_RATE_PARENT);
-> >
-> > +/*
-> > + * DSI output seems to work only when PLL_MIPI selected. Set it and pr=
-event
-> > + * the mux from reparenting.
-> > + */
-> > +#define SUN50I_A64_TCON0_CLK_REG       0x118
-> > +
-> >  static const char * const tcon0_parents[] =3D { "pll-mipi", "pll-video=
-0-2x" };
-> >  static const u8 tcon0_table[] =3D { 0, 2, };
-> >  static SUNXI_CCU_MUX_TABLE_WITH_GATE(tcon0_clk, "tcon0", tcon0_parents=
-,
-> >                                      tcon0_table, 0x118, 24, 3, BIT(31)=
-,
-> > -                                    CLK_SET_RATE_PARENT);
-> > +                                    CLK_SET_RATE_PARENT |
-> > +                                    CLK_SET_RATE_NO_REPARENT);
-> >
-> >  static const char * const tcon1_parents[] =3D { "pll-video0", "pll-vid=
-eo1" };
-> >  static const u8 tcon1_table[] =3D { 0, 2, };
-> > @@ -953,6 +960,11 @@ static int sun50i_a64_ccu_probe(struct platform_de=
-vice *pdev)
-> >
-> >         writel(0x515, reg + SUN50I_A64_PLL_MIPI_REG);
-> >
-> > +       /* Set PLL MIPI as parent for TCON0 */
-> > +       val =3D readl(reg + SUN50I_A64_TCON0_CLK_REG);
-> > +       val &=3D ~GENMASK(26, 24);
-> > +       writel(val | (0 << 24), reg + SUN50I_A64_TCON0_CLK_REG);
-> > +
-> >         ret =3D devm_sunxi_ccu_probe(&pdev->dev, reg, &sun50i_a64_ccu_d=
-esc);
-> >         if (ret)
-> >                 return ret;
-> > --
-> > 2.32.0 (Apple Git-132)
-> >
-> >
+The series has been compile-tested with defconfig for x86-64, arm and
+arm64.
+
+Note: yes, I understand that this change might be hard to review and
+merge. The only viable option that I foresee is to add new callback,
+having the const argument and migrate drivers into using it one by one.
+
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+Changes in v2:
+- Rebased on top of linux-next
+- Replaced 'accept const argument' with 'take a const arugment'
+  (Laurent)
+- Link to v1: https://lore.kernel.org/r/20241115-drm-connector-mode-valid-const-v1-0-b1b523156f71@linaro.org
+
+---
+Dmitry Baryshkov (5):
+      drm/encoder_slave: make mode_valid accept const struct drm_display_mode
+      drm/amdgpu: don't change mode in amdgpu_dm_connector_mode_valid()
+      drm/sti: hda: pass const struct drm_display_mode* to hda_get_mode_idx()
+      drm/connector: make mode_valid_ctx take a const struct drm_display_mode
+      drm/connector: make mode_valid take a const struct drm_display_mode
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c           |  8 ++++----
+ drivers/gpu/drm/amd/amdgpu/atombios_dp.c                 |  2 +-
+ drivers/gpu/drm/amd/amdgpu/atombios_dp.h                 |  2 +-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c        | 12 +++++++++---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h        |  2 +-
+ drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c |  2 +-
+ drivers/gpu/drm/arm/malidp_mw.c                          |  2 +-
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c             |  2 +-
+ drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c      |  2 +-
+ drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c |  7 -------
+ drivers/gpu/drm/display/drm_bridge_connector.c           |  2 +-
+ drivers/gpu/drm/display/drm_hdmi_state_helper.c          |  2 +-
+ drivers/gpu/drm/drm_crtc_helper_internal.h               |  2 +-
+ drivers/gpu/drm/drm_probe_helper.c                       |  2 +-
+ drivers/gpu/drm/exynos/exynos_hdmi.c                     |  2 +-
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c                |  2 +-
+ drivers/gpu/drm/gma500/cdv_intel_crt.c                   |  2 +-
+ drivers/gpu/drm/gma500/cdv_intel_dp.c                    |  2 +-
+ drivers/gpu/drm/gma500/cdv_intel_hdmi.c                  |  2 +-
+ drivers/gpu/drm/gma500/cdv_intel_lvds.c                  |  2 +-
+ drivers/gpu/drm/gma500/oaktrail_hdmi.c                   |  2 +-
+ drivers/gpu/drm/gma500/psb_intel_drv.h                   |  2 +-
+ drivers/gpu/drm/gma500/psb_intel_lvds.c                  |  2 +-
+ drivers/gpu/drm/gma500/psb_intel_sdvo.c                  |  2 +-
+ drivers/gpu/drm/i2c/ch7006_drv.c                         |  2 +-
+ drivers/gpu/drm/i2c/sil164_drv.c                         |  2 +-
+ drivers/gpu/drm/i915/display/dvo_ch7017.c                |  2 +-
+ drivers/gpu/drm/i915/display/dvo_ch7xxx.c                |  2 +-
+ drivers/gpu/drm/i915/display/dvo_ivch.c                  |  2 +-
+ drivers/gpu/drm/i915/display/dvo_ns2501.c                |  2 +-
+ drivers/gpu/drm/i915/display/dvo_sil164.c                |  2 +-
+ drivers/gpu/drm/i915/display/dvo_tfp410.c                |  2 +-
+ drivers/gpu/drm/i915/display/icl_dsi.c                   |  2 +-
+ drivers/gpu/drm/i915/display/intel_crt.c                 |  2 +-
+ drivers/gpu/drm/i915/display/intel_dp.c                  |  2 +-
+ drivers/gpu/drm/i915/display/intel_dp_mst.c              |  2 +-
+ drivers/gpu/drm/i915/display/intel_dsi.c                 |  2 +-
+ drivers/gpu/drm/i915/display/intel_dsi.h                 |  2 +-
+ drivers/gpu/drm/i915/display/intel_dvo.c                 |  2 +-
+ drivers/gpu/drm/i915/display/intel_dvo_dev.h             |  2 +-
+ drivers/gpu/drm/i915/display/intel_hdmi.c                |  2 +-
+ drivers/gpu/drm/i915/display/intel_lvds.c                |  2 +-
+ drivers/gpu/drm/i915/display/intel_sdvo.c                |  2 +-
+ drivers/gpu/drm/i915/display/intel_tv.c                  |  2 +-
+ drivers/gpu/drm/i915/display/vlv_dsi.c                   |  2 +-
+ drivers/gpu/drm/imx/ipuv3/imx-tve.c                      |  2 +-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c      |  2 +-
+ drivers/gpu/drm/nouveau/dispnv04/tvnv17.c                |  2 +-
+ drivers/gpu/drm/nouveau/dispnv50/disp.c                  |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_connector.c              |  2 +-
+ drivers/gpu/drm/qxl/qxl_display.c                        |  2 +-
+ drivers/gpu/drm/radeon/atombios_dp.c                     |  2 +-
+ drivers/gpu/drm/radeon/radeon_connectors.c               | 10 +++++-----
+ drivers/gpu/drm/radeon/radeon_mode.h                     |  2 +-
+ drivers/gpu/drm/rockchip/cdn-dp-core.c                   |  2 +-
+ drivers/gpu/drm/rockchip/inno_hdmi.c                     |  4 ++--
+ drivers/gpu/drm/rockchip/rk3066_hdmi.c                   |  2 +-
+ drivers/gpu/drm/sti/sti_dvo.c                            |  2 +-
+ drivers/gpu/drm/sti/sti_hda.c                            | 12 ++++++------
+ drivers/gpu/drm/sti/sti_hdmi.c                           |  2 +-
+ drivers/gpu/drm/tegra/dsi.c                              |  2 +-
+ drivers/gpu/drm/tegra/hdmi.c                             |  2 +-
+ drivers/gpu/drm/tegra/sor.c                              |  2 +-
+ drivers/gpu/drm/vc4/vc4_txp.c                            |  2 +-
+ drivers/gpu/drm/virtio/virtgpu_display.c                 |  2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c                      |  2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.h                      |  2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c                     |  2 +-
+ include/drm/display/drm_hdmi_state_helper.h              |  2 +-
+ include/drm/drm_encoder_slave.h                          |  2 +-
+ include/drm/drm_modeset_helper_vtables.h                 |  4 ++--
+ 71 files changed, 92 insertions(+), 93 deletions(-)
+---
+base-commit: 4176cf5c5651c33769de83bb61b0287f4ec7719f
+change-id: 20241115-drm-connector-mode-valid-const-ae3db0ef6cb7
+
+Best regards,
+-- 
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
