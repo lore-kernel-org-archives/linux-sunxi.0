@@ -1,162 +1,172 @@
-Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E1B780BEC
-	for <linux-sunxi@lists.linux.dev>; Sat, 14 Dec 2024 06:30:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734157821; cv=none; b=MfPUShN/ylw96klXyi7NseCnbl+FZcKXjmK5D5pjZsIe9R0vCt0kDxIxf9W3CbV/VY/PWAEbo0sSqOUB7+5XlkUe4+L0zAeXuvaU0wkJLCeWZRnxC9gKFF1Xsirvn+LvXQfAm/20nt4OPwziTzg9OG0SdW5JWf3Y7Sxkd3Rda88=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734157821; c=relaxed/simple;
-	bh=ADdPyPpCiXUVsD/OBnMYzHixrDkS5BuxYN+fUPpmaQQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=f65XQAdv9oSGkxGyG473Z0ZyU5FdQFiXfNF21Xrenkv11/0jQQtf4qgH2lEZhfOPGxlQNJmNbrolFsNqKB77gSehMLlrNbaMOiDCTXgFAPeE2/S/o6rult8IDou8sk7kqPbgGvoo7QotBo21Bk6ZhBzR1XjikGtPTtx4uXXVGxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fOrAF0U7; arc=none smtp.client-ip=209.85.161.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A026CBE65
+	for <linux-sunxi@lists.linux.dev>; Sat, 14 Dec 2024 07:13:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1734160427; cv=pass; b=MM3EbeU8PWta1MNBPKXqmwA/YQsI8njHYmpSQYiiZxTTLWq/69jWee3zoWZ6PDyMJP9bVpd1AsXRrAxl97zup/ELCrgdGTUko2E3H5kNxxAxhbfXx36BvME7ePq7bBfIlTxQ54S5VR9ImTb28TufjQ3r48C5jn2cgTMaWeA8KDE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1734160427; c=relaxed/simple;
+	bh=vzNbXrzH5ENTMyecgc2wOrRCM3UCXYh0FFnOADAZtiM=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=L2eF6LtyAXv6jNe5XyWXrZFtQR8hq/RL+tDiXjyk1PZsA7eL0VtIjVJAQBcwbd4cZ1Q/pwr71hmoiyPAh9ut9T3W7dvDQyTS90UOLYr1MDUrHdcGAoPmN8Hv6u+7vz92jUmszlWUxZPpnjKbVOWda+/5ELHCXGlqlCDcCJUIN30=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me; spf=pass smtp.mailfrom=icenowy.me; dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b=S7jNGMSJ; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icenowy.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fOrAF0U7"
-Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-5f2c34ae517so1010977eaf.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 13 Dec 2024 22:30:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734157817; x=1734762617; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wrI8qCQN85qm0XYiJc+jVTuy93Oh6KAdPLxuWkpi6aM=;
-        b=fOrAF0U7ul9OGDAOfRSp7g2Wc3qpYBkkSkfwetTx7PkxGl5z3T7Z27cuUrQ5CQkTZP
-         m12HYef2x8Vt6ZlvRt3w+2bvCs5ddL6zBN+LfWKi3orJo3QuNkFnCo7VpIfn/qWssnLl
-         jLMS/xIgVVtakWZM0jtV+nVZuwADDvDpaCo0VyHQqfn6UyqvnpIqVmWXRe1aHCCGa5zj
-         xZU8ukpZMaBjx3XdGURUWxY9GZTzH1ySFpBHv9o2zwX4+K1+E1ZxBxjpww1pzpgPP8pl
-         oEyoHMMAoTnQT6tcMy4si9vdZficJsOMyc4Gz0nDBbTv6Pt4iZgKysAigvQ/Ww1jQOxb
-         ChRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734157817; x=1734762617;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wrI8qCQN85qm0XYiJc+jVTuy93Oh6KAdPLxuWkpi6aM=;
-        b=lvjzPbkUnsYONrIzY7Wch589vdNiAfrC/AC1XdRctSPzEBPs7/Qsi53n+YORhvaD3J
-         aki47IkjOENYn6Ry+R6ewjykEgI0AloG2LOoIl87Sv9Y9ZhtJw3VRhYxOm+LYbBqY3GA
-         m5JYcNCi7f8C03cN/yeUj+fEXedb4Zj+gv1DX0WLAwyPw1aTV/UP/4VBri5yDxQj4IWO
-         x3+JjzCprg6ykr2jtCLiquwji5siOaavmj134/swDy36vVESEgZc1a1YkkXoz7K/Zrhd
-         610YdMXkJivcl0PWhvQQl3ueoyndDcju1OsMx420jz4PQNvHJFChUA2UWNLfnQRk7dae
-         GCWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUotEiX9rxSADevQRBMdC5fEHixFsgGBKBcU98vn0V/RNbCdOtLO7a8rrSVRu1E8TlUyB1Fwl6lFcnHzQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyIT7T5ONEgnT7ugKbSVC8zc2ppUPKJHwRnYglZI0r/1+uzzTVk
-	ciiQFtzQgcK2jtgGrptsEvLNadzLfiXjiPxwqsmOyH/ipMWvQBJPRaKcUv425yu6fPLRNy8yCDr
-	FycmhYaRzJFWS8JZu8CXvFmX8PFQ=
-X-Gm-Gg: ASbGncsso6Ok7OJ4ypEQ4DVgh1IN1ukT39u40mlMKfYHSt+yu7N7bx2KrjD5PLUylBX
-	fiJLXnlY+9hsdOj4G36SGJ69N2UheJ2MEhOphDkEg4gMeybn01Onc2NN2HtRhPsK1sQnzepAh
-X-Google-Smtp-Source: AGHT+IEPJNPA+UMoRL6Nd8OnH+KQK573OcmBMtIxEoDNfscNNNsJvvjIErYdh1Oh7XBBo4k+5gmKzsFAb+yk48Ks7y8=
-X-Received: by 2002:a05:6870:828a:b0:29e:255e:9540 with SMTP id
- 586e51a60fabf-2a3aca46b43mr2859925fac.35.1734157817408; Fri, 13 Dec 2024
- 22:30:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b="S7jNGMSJ"
+ARC-Seal: i=1; a=rsa-sha256; t=1734160415; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=GOu1rG+202vFzvdYqhjdzM3Cbe/zwQt2oiakhcFLydI4NhoNq8NHQWb/hVhIPxT5lmpK0IF93DZzg9aBMiKJ+vE1WCCQeb+qCn84HOR73sFAjIO0QAlqz3mhsXGWudTVyf1HT/R5RAxNYZRogHNWBLim3YA6YeYkhJwC+lvsYfo=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1734160415; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=vzNbXrzH5ENTMyecgc2wOrRCM3UCXYh0FFnOADAZtiM=; 
+	b=OFe521JuQvKuFmsH9pqR5n98FfqZQiXeEIBjQTTWDe84dYrh/2wypgqx1GeEOqU03D/Ip8PJPWXzzjSBKvoDmrZqnG6+JVRSwJuQmoOtW6HFDM1guRt7L/Mz6sN3LtToeKQaDjCTsNamhZY6deGTO221xf4D4LHtGqoOR2Ga8FA=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=icenowy.me;
+	spf=pass  smtp.mailfrom=uwu@icenowy.me;
+	dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1734160415;
+	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+	bh=vzNbXrzH5ENTMyecgc2wOrRCM3UCXYh0FFnOADAZtiM=;
+	b=S7jNGMSJJOIGppb9JYpHVOxQriN8cTDc5ov0UI2eq39dSP6Ujr3Gwa85dIXd088a
+	ynC5U4YZXUGSeJB8IW41x346k0p0HqIiohJzLaYFwn71WeD3B9VE9/Vo09w17Nmozed
+	JBro5v6PIGuYuwO2W7lto0WNn+9/LaHbb6vFgYNJd4OZ2/F5SvEy3beJEX3vgC4J3BJ
+	1gVuMrlojYzu0gqRDjTnoDekMdY0++WHzBv5xr4io8ZLa6Lx9VPxB02zyOjxsetbZGa
+	pVWjly5chiEkND5FspCgMWtvC2HbjkoEwNYZiWjw7XcGb5UvvdNvYVVyaeyj/kGx4Vq
+	Vx/1t7s6eQ==
+Received: by mx.zohomail.com with SMTPS id 1734160413407334.39316723417164;
+	Fri, 13 Dec 2024 23:13:33 -0800 (PST)
+Message-ID: <e61c927a4dfe909f4ede4a07dffd9dcd762875be.camel@icenowy.me>
+Subject: Re: [PATCH v2] ARM: dts: sun8i-r40: remove unused GPIO regulator
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Andre Przywara <andre.przywara@arm.com>, Hermann.Lauer@uni-heidelberg.de
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+  Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>,  Samuel Holland <samuel@sholland.org>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Date: Sat, 14 Dec 2024 15:13:23 +0800
+In-Reply-To: <20241214011612.4fd9e4bf@minigeek.lan>
+References: <20241213195433.GA1568@lemon.iwr.uni-heidelberg.de>
+	 <20241214011612.4fd9e4bf@minigeek.lan>
+Organization: Anthon Open-Source Community
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230505052110.67514-1-me@crly.cz> <20230505052110.67514-2-me@crly.cz>
-In-Reply-To: <20230505052110.67514-2-me@crly.cz>
-From: Vasily Khoruzhick <anarsoul@gmail.com>
-Date: Fri, 13 Dec 2024 22:29:51 -0800
-Message-ID: <CA+E=qVcSV7H4=-fT2FUdNd5sneCO0GsA-qKrvQxy8PF89knckw@mail.gmail.com>
-Subject: Re: [PATCH v4 1/4] clk: sunxi-ng: a64: force select PLL_MIPI in TCON0 mux
-To: Roman Beranek <me@crly.cz>
-Cc: Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Frank Oltmanns <frank@oltmanns.dev>, 
-	Icenowy Zheng <icenowy@aosc.io>, Ondrej Jirman <megi@xff.cz>, devicetree@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-clk@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-ZohoMailClient: External
 
-On Thu, May 4, 2023 at 10:34=E2=80=AFPM Roman Beranek <me@crly.cz> wrote:
->
-> TCON0's source clock can be fed from either PLL_MIPI, or PLL_VIDEO0(2X),
-> however MIPI DSI output only seems to work when PLL_MIPI is selected and
-> thus the choice must be hardcoded in.
->
-> Currently, this driver can't propagate rate change from N-K-M clocks
-> (such as PLL_MIPI) upwards. This prevents PLL_VIDEO0 from participating
-> in setting of the TCON0 data clock rate, limiting the precision with
-> which a target pixel clock can be matched.
->
-> For outputs with fixed TCON0 divider, that is DSI and LVDS, the dotclock
-> can deviate up to 8% off target.
+=E5=9C=A8 2024-12-14=E6=98=9F=E6=9C=9F=E5=85=AD=E7=9A=84 01:16 +0000=EF=BC=
+=8CAndre Przywara=E5=86=99=E9=81=93=EF=BC=9A
+> On Fri, 13 Dec 2024 20:54:33 +0100
+> Hermann.Lauer@uni-heidelberg.de=C2=A0wrote:
+>=20
+> Hi,
+>=20
+> CC:ing Icenowy, who added the regulator originally, with commit
+> 0ca12c1ee43c ("ARM: sun8i: r40: add 5V regulator for Banana Pi M2
+> Ultra").
+>=20
+> Icenowy: can you clarify what "newer" version this was referring to
+> in
+> that commit message? That commit in itself doesn't seem to do
+> anything,
+> as the regulator isn't referenced, and it's not always-on. It's only
+> later when the USB nodes were added that it got used?
+> So was PH23 really necessary? As Hermann reports, setting PH23 on a
+> v1.1
+> makes it reboot.
 
-Hi Roman,
+I am not sure, the schematics I have here (which says V1.0) have PH23
+as NC... Well, the M2 Berry schematics have PH23 as 5V EN, maybe I
+messed up M2U and M2B when developing?
 
-I'm a bit late, but this patch breaks the LCD on Pine64 Pinebook. When
-TCON0 parent is pll-mipi, the panel is blank and I get vblank timeouts.
+Sorry but I think the data retention situation of my memory looks bad
+here, maybe it needs a shorter refresh interval ;-)
 
-With this patch reverted it works if I force pll-video-2x as a parent for T=
-CON0.
+>=20
+> > Subject: [PATCH v2] ARM: dts: sun8i-r40: remove unused GPIO
+> > regulator
+>=20
+> Hermann, this looks like an extra subject line here?
+>=20
+> > Banana Pi M2 Ultra V1.1 board resets immediately when the usb core
+> > tries
+> > to setup PH23 GPIO. It turned out that the V1.0 board USB-A ports
+> > are
+> > always power supplied and according to the board scheme PH23 is
+> > simply
+> > not connected.
+> >=20
+> > So remove the PH23 setup: Doesn't harm V1.0 (with R40) and let V1.1
+> > (with A40i) start.
+> >=20
+> > Signed-off-by: Hermann Lauer <Hermann.Lauer@uni-heidelberg.de>
+>=20
+> The patch itself looks good to me, but it would be good to clarify
+> the
+> situation with the "older newer" version.
+>=20
+> Just in case:
+> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+>=20
+> Cheers,
+> Andre
+> =C2=A0
+> > ---
+> > V2: shorten subject, rm dangerous PH23 regulator completely
+> >=20
+> > diff --git a/arch/arm/boot/dts/allwinner/sun8i-r40-bananapi-m2-
+> > ultra.dts b/arch/arm/boot/dts/allwinner/sun8i-r40-bananapi-m2-
+> > ultra.dts
+> > --- a/arch/arm/boot/dts/allwinner/sun8i-r40-bananapi-m2-ultra.dts
+> > +++ b/arch/arm/boot/dts/allwinner/sun8i-r40-bananapi-m2-ultra.dts
+> > @@ -91,15 +91,6 @@
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0};
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0};
+> > =C2=A0
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0reg_vcc5v0: vcc5v0 {
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0compatible =3D "regulator-fixed";
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0regulator-name =3D "vcc5v0";
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0regulator-min-microvolt =3D <5000000>;
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0regulator-max-microvolt =3D <5000000>;
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0gpio =3D <&pio 7 23 GPIO_ACTIVE_HIGH>; /* PH23 */
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0enable-active-high;
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0};
+> > -
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0wifi_pwrseq: pwrseq {
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0compatible =3D "mmc-pwrseq-simple";
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0reset-gpios =3D <&pio 6 10 GPIO_ACTIVE_LOW>; /* =
+PG10
+> > WIFI_EN */
+> > @@ -347,7 +338,5 @@
+> > =C2=A0};
+> > =C2=A0
+> > =C2=A0&usbphy {
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0usb1_vbus-supply =3D <&reg_v=
+cc5v0>;
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0usb2_vbus-supply =3D <&reg_v=
+cc5v0>;
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0status =3D "okay";
+> > =C2=A0};
+> >=20
+>=20
+>=20
 
-So for me RGB output doesn't seem to work with PLL_MIPI, but works
-only with PLL_VIDEO0_2X. Any ideas on how to fix it?
-
-Regards,
-Vasily
-
-
-
-> Signed-off-by: Roman Beranek <me@crly.cz>
-> ---
->  drivers/clk/sunxi-ng/ccu-sun50i-a64.c | 14 +++++++++++++-
->  1 file changed, 13 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c b/drivers/clk/sunxi-ng=
-/ccu-sun50i-a64.c
-> index 41519185600a..eb36f8f77d55 100644
-> --- a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
-> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
-> @@ -528,11 +528,18 @@ static SUNXI_CCU_M_WITH_MUX_GATE(de_clk, "de", de_p=
-arents,
->                                  0x104, 0, 4, 24, 3, BIT(31),
->                                  CLK_SET_RATE_PARENT);
->
-> +/*
-> + * DSI output seems to work only when PLL_MIPI selected. Set it and prev=
-ent
-> + * the mux from reparenting.
-> + */
-> +#define SUN50I_A64_TCON0_CLK_REG       0x118
-> +
->  static const char * const tcon0_parents[] =3D { "pll-mipi", "pll-video0-=
-2x" };
->  static const u8 tcon0_table[] =3D { 0, 2, };
->  static SUNXI_CCU_MUX_TABLE_WITH_GATE(tcon0_clk, "tcon0", tcon0_parents,
->                                      tcon0_table, 0x118, 24, 3, BIT(31),
-> -                                    CLK_SET_RATE_PARENT);
-> +                                    CLK_SET_RATE_PARENT |
-> +                                    CLK_SET_RATE_NO_REPARENT);
->
->  static const char * const tcon1_parents[] =3D { "pll-video0", "pll-video=
-1" };
->  static const u8 tcon1_table[] =3D { 0, 2, };
-> @@ -953,6 +960,11 @@ static int sun50i_a64_ccu_probe(struct platform_devi=
-ce *pdev)
->
->         writel(0x515, reg + SUN50I_A64_PLL_MIPI_REG);
->
-> +       /* Set PLL MIPI as parent for TCON0 */
-> +       val =3D readl(reg + SUN50I_A64_TCON0_CLK_REG);
-> +       val &=3D ~GENMASK(26, 24);
-> +       writel(val | (0 << 24), reg + SUN50I_A64_TCON0_CLK_REG);
-> +
->         ret =3D devm_sunxi_ccu_probe(&pdev->dev, reg, &sun50i_a64_ccu_des=
-c);
->         if (ret)
->                 return ret;
-> --
-> 2.32.0 (Apple Git-132)
->
->
