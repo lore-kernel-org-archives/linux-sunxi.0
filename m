@@ -1,61 +1,61 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2BF917BBF
-	for <linux-sunxi@lists.linux.dev>; Sun, 15 Dec 2024 05:36:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C30FE20322
+	for <linux-sunxi@lists.linux.dev>; Sun, 15 Dec 2024 05:37:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734241020; cv=none; b=k6iwkg3KVST5YtbGGwSoVY54nfpJkKSKAb4BGT/sVblwrjmGN9e7n+m0drRILthA0SbrIHi+xE6y8MzxL7xjNWRKrsmbL31mf6Y5szxSs7ntnVXaf50Zn7lvdJ+wtrW4f3pCGbFV0FwgZkmqu3UgLzj3yU60yipBRhVTDO+ceQs=
+	t=1734241022; cv=none; b=jOtPGSD8UzQm7uweLvsMAx49icOrMDfmti4ZNhtqZbLcPW4yKeYolXdPue70B0b7iwd7g/rTK4+okNfNkKwlEyzV4Cw4FuCRDHQo1GsnvCNdQgr6Ql5ZCbZ4lDLhcREVTd+8wHn9dyBAPz8yJ+sGsF5Kn9s4mO3sN4hx0rRev3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734241020; c=relaxed/simple;
-	bh=vD0k3JGDE0A91abw/IgokKvF+uGeM+sDMvZDAxLCVjk=;
+	s=arc-20240116; t=1734241022; c=relaxed/simple;
+	bh=hjq60g0f5rs7IOK+bpQIZlGtwoS5wPwAF2qfnusr93Q=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NH4pGcCI07z8b0kEmVx/zm4uiAm+lPNdKoQ0KWqSQ1aOwqDcjMKB/3I97V+TBn1U0x1CC4WW9unop3UNtS1LAl4YjK238cFmbJXCImNNVU8zffBs4HI2FNHCc7ZJF36htyxcMVBcbVUoCwzGCeMk03OUGnwfTyaQjlXfH8pa6ek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AX5BVdLD; arc=none smtp.client-ip=209.85.216.43
+	 MIME-Version; b=PFQYAPBOgJyqUCJ4epGjCNocpAkt+7vCpBDaUflB8KB77005jQ4lQ0Qf85jWeCvVxNbdnmh8I6n7x149vOhmxcFcurv725N6rDJUJG7pI2FJT0HKzU+UU6M2OItQMCkAEvmfVDapf6CuEANouY2gjF9fwZBbf0cIw+lqFKMsyA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M3iBLFsM; arc=none smtp.client-ip=209.85.216.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AX5BVdLD"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-2ee76929a98so2215520a91.1
-        for <linux-sunxi@lists.linux.dev>; Sat, 14 Dec 2024 21:36:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M3iBLFsM"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2f13acbe29bso2443348a91.1
+        for <linux-sunxi@lists.linux.dev>; Sat, 14 Dec 2024 21:37:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734241018; x=1734845818; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1734241020; x=1734845820; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zWB9xUbuC9ZZF7GN4R9hjYXfuiqehEyAMCDY4g5eDqY=;
-        b=AX5BVdLDW14aYcDbWl5iTrnx5jX5MnxwjwE+6/EsoUP0+3IuTPxe88A4Vg1DKRUbrK
-         4Mo61fkvSvecsrpt7wVyfeh/X7UQyN7jO6G5VL1lm4RbSxyRhScfoHScuO6nqi2Nu7wl
-         b94JfpAcJMMXKfX4SOetNGzaf3JxamR5J3vK0n3goPYDV4MRv/bclxLnujBXNJYnsIVB
-         lwt3srUJDEXJNMgin8dgueoWnAQShlBTt198YkMTEgnFYvLrunZA88ZXZCkPpLNYpIzP
-         sLjWddrKcjAIH+mQmWu3y7fA51CuVB38k1AuayHwkeGSq7B3R9yJkWC4ih3ZZoCprlNk
-         F4bg==
+        bh=OhrQlN2vwbW+HH5J9QciNO8jVjYFc2SW7Nua2x90G3A=;
+        b=M3iBLFsMOwxBpXt570iXTp6bMtyZyZJD7mtovrGxs2qfSnAyqvRN2ZscG7MqJDAfds
+         1VOq5GFhhRCHAWHA2MVWzbwShCb8Z3xjM6nlmOge0yuEV9DZHOaJ+60WSFUDlbJpHb1u
+         /uO9XLSjqFvOox8jG+9klhUs/ror074qkVM8AUd0gXA/ZxVytbPZbs83glD89P84JYpJ
+         mMnybm10H2QYcz3jTqDPburrlNrGSBDiVN2FbZ81G1UvMgThmpJJ1YvUqYSuWv61yiH1
+         K/7iw5uh6pkH+TDXu6cQCJ263aLYBhKGN2DrC5cb4nnDoIb0wtBx5xGgmqHzn2h0ynBi
+         SHDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734241018; x=1734845818;
+        d=1e100.net; s=20230601; t=1734241020; x=1734845820;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zWB9xUbuC9ZZF7GN4R9hjYXfuiqehEyAMCDY4g5eDqY=;
-        b=mx72b5VDd31LnTfednROlwUSOV3U4DK5iXJmzs3dc10pF/bppiSZWzTN4OleT2qkYZ
-         E3ZVMYRLCLOzZ/pCY4X1QDNvub9j1dw6GOIA7N9wv4U8Y132kmj9nclm5UtpUMBQHgkP
-         erVu9nxFR4M0dPsjNhbMKlvQSAyr4jp/OEjb2mRZS/fLInAw7DVmyoEKcI6fn8fowVqX
-         ohV6HkV4wysRl7XvqzsaA6aa/iUJApAbdfhcJ9a0ChvGBMtgv5W3m15CJiSt5kYtAoj5
-         KX1fVa6/1aN2zCSXw1yWVcM7mdxl7/9eq+n3+KbKFG6sr1Oi5B0o24TIYACpTscgzAdW
-         XGtg==
-X-Forwarded-Encrypted: i=1; AJvYcCWLp0Gl8VAfekhIl7MIwlnYLlw+c/jj6cbV4+gDy+/mf/xGSd5KKCBON1CKPM/BPqVh6go0dFwqnn4L9g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzGNCNPUpKVlb6bE+lx876UW3Cu0LXAI18GT/LHZLDVzsRxg86i
-	/lQryj5L9ZrI+RNaUO9NRbQAuhyjqLvoQUYvqiuYTan1jXxpn0qc
-X-Gm-Gg: ASbGnctovh5tKYRG/MDMQH8e4jMLtrHNwfmpJ858BqsORjvbxcjBSKjuL/b4s7i83cE
-	Gwp9eoh9gskeb4shmVL5dutxy+tVQSrWaaWExI9LU9O63M5wpYC5cFTSJJ+Kne2k674gsQsCgom
-	KrKRSOXE8EbeqVLL46guZ9u/45SNSdDZqyV+ldYpntiiKAX377WazMmGhOozCRvIgTs7YEVQEZT
-	AEUNCeKfkCoLpQ7Jl52000fXaxGvjuB4xO4rVc6z22YikcwqQ==
-X-Google-Smtp-Source: AGHT+IF2jjiTuuQytVaWgmoT11AJ2AJQUADdSWheU2GdN/FSM7l8KDl+72eN5xP8lMEWk1y6CvNoFg==
-X-Received: by 2002:a17:90b:3e82:b0:2ee:edae:775 with SMTP id 98e67ed59e1d1-2f29153c0c4mr11837653a91.3.1734241018179;
-        Sat, 14 Dec 2024 21:36:58 -0800 (PST)
+        bh=OhrQlN2vwbW+HH5J9QciNO8jVjYFc2SW7Nua2x90G3A=;
+        b=pb/8Oy8mN49XvAbqFsgITEcWVJ6wSU5b+Zf6wqTPlvFX7/Yj/g10NMJZSppox5uEoC
+         icG13CEraF4A1DFIv7Fdmz+3xnBHfOebxiMZXVmzupo6wJvWXBNVsmMwZZxoVejBg/lE
+         tKM/+3UWlCwcFlnbfmBKyxgX+IXkFlIEBxCygJhi9ZA5MRyCEk13Hg1uffzR7iWkGTqa
+         buM46JlYequWSObP1dn4CYvhO+758mKiCDAZi4Dl5grIPr3jZqGZ5dUMTQwDp/IWmVSb
+         nO/wUis7lghAJ2sJficHS4XHd3s6De7qfGmNTXUN5OrV51V6MJjxN1IX23dm0/q1AZuz
+         VJcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWcpdKeKb+pqGY0jFjXefo6NPGfpr0y/B5JhPHSqTVr0inYx+X9SJ+HK6gtOV277qY8WdOQPvX3mi9XfQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxROCIpJkWJggoxJb1GGUMhmanYRyDnko12Lg+FwxHhM8ka+6kL
+	1taOn1xUBTFicd3+rb2pHfvsO+fJioL5SeMHkZ0UbnLXJOuCMqlQ
+X-Gm-Gg: ASbGncv+U3yHRh2oX6DIBdwo19aR5+G9vO9ul9DrSn/yIAq/hAG4B1EaQA+nVPqgAL/
+	zlaz5hZped7aAaPnl8PtP8I/UXAGopgnoe+Cr+bZUfx8mYSPAv2ky0AlnkSKfiWhGyTwLKH2Su3
+	wZ8ly62MoHwY48eoqyRxo1jarMcyhGLQF8+sQNPF+jsUfm4zBxLWsAGjR9Q6FtR56q+Ek5H0XJb
+	SZv51v5VlJJUwCwCJUIT1ooWCEUw9bLtk1ilHa6HAEss8gIMg==
+X-Google-Smtp-Source: AGHT+IErUG9RW0X9xHdH5/Ssxiqt3RncarH98/x9Df651+JEpUXRrMwQ+2RKrQ87NQ7RiDs3G7ovLg==
+X-Received: by 2002:a17:90b:4cc2:b0:2ee:5c9b:35c0 with SMTP id 98e67ed59e1d1-2f29166acd5mr12192019a91.9.1734241020112;
+        Sat, 14 Dec 2024 21:37:00 -0800 (PST)
 Received: from anarsoul-xps15.lan ([2604:3d08:7780:1ca9::398])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f142fa1cf8sm5729803a91.38.2024.12.14.21.36.57
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f142fa1cf8sm5729803a91.38.2024.12.14.21.36.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Dec 2024 21:36:57 -0800 (PST)
+        Sat, 14 Dec 2024 21:36:59 -0800 (PST)
 From: Vasily Khoruzhick <anarsoul@gmail.com>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -73,9 +73,9 @@ To: Rob Herring <robh@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	linux-clk@vger.kernel.org
 Cc: Vasily Khoruzhick <anarsoul@gmail.com>
-Subject: [PATCH 1/3] dt-bindings: clock: sunxi: Export PLL_VIDEO_2X and PLL_MIPI
-Date: Sat, 14 Dec 2024 21:34:57 -0800
-Message-ID: <20241215053639.738890-2-anarsoul@gmail.com>
+Subject: [PATCH 2/3] arm64: dts: allwinner: a64: explicitly assign clock parent for TCON0
+Date: Sat, 14 Dec 2024 21:34:58 -0800
+Message-ID: <20241215053639.738890-3-anarsoul@gmail.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20241215053639.738890-1-anarsoul@gmail.com>
 References: <20241215053639.738890-1-anarsoul@gmail.com>
@@ -87,49 +87,62 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-These will be used to explicitly select TCON0 clock parent in dts
+TCON0 seems to need a different clock parent depending on output type.
+For RGB it has to be PLL-VIDEO0-2X, while for DSI it has to be PLL-MIPI
+
+Video output doesn't work if incorrect clock is assigned.
+
+On my Pinebook I manually configured PLL-VIDEO0-2X and PLL-MIPI to the same
+rate, and while video output works fine with PLL-VIDEO0-2X, it doesn't
+work at all (as in no picture) with PLL-MIPI.
 
 Fixes: ca1170b69968 ("clk: sunxi-ng: a64: force select PLL_MIPI in TCON0 mux")
 Signed-off-by: Vasily Khoruzhick <anarsoul@gmail.com>
 ---
- drivers/clk/sunxi-ng/ccu-sun50i-a64.h      | 2 --
- include/dt-bindings/clock/sun50i-a64-ccu.h | 2 ++
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts | 2 ++
+ arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts  | 2 ++
+ arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi         | 2 ++
+ 3 files changed, 6 insertions(+)
 
-diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a64.h b/drivers/clk/sunxi-ng/ccu-sun50i-a64.h
-index a8c11c0b4e06..dfba88a5ad0f 100644
---- a/drivers/clk/sunxi-ng/ccu-sun50i-a64.h
-+++ b/drivers/clk/sunxi-ng/ccu-sun50i-a64.h
-@@ -21,7 +21,6 @@
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts
+index 379c2c8466f5..86d44349e095 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts
+@@ -390,6 +390,8 @@ &sound {
+ &tcon0 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&lcd_rgb666_pins>;
++	assigned-clocks = <&ccu CLK_TCON0>;
++	assigned-clock-parents = <&ccu CLK_PLL_VIDEO0_2X>;
  
- /* PLL_VIDEO0 exported for HDMI PHY */
+ 	status = "okay";
+ };
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts
+index b407e1dd08a7..ec055510af8b 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts
+@@ -369,6 +369,8 @@ &sound {
+ &tcon0 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&lcd_rgb666_pins>;
++	assigned-clocks = <&ccu CLK_TCON0>;
++	assigned-clock-parents = <&ccu CLK_PLL_VIDEO0_2X>;
  
--#define CLK_PLL_VIDEO0_2X		8
- #define CLK_PLL_VE			9
- #define CLK_PLL_DDR0			10
+ 	status = "okay";
+ };
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+index a5c3920e0f04..0fecf0abb204 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+@@ -445,6 +445,8 @@ tcon0: lcd-controller@1c0c000 {
+ 			clock-names = "ahb", "tcon-ch0";
+ 			clock-output-names = "tcon-data-clock";
+ 			#clock-cells = <0>;
++			assigned-clocks = <&ccu CLK_TCON0>;
++			assigned-clock-parents = <&ccu CLK_PLL_MIPI>;
+ 			resets = <&ccu RST_BUS_TCON0>, <&ccu RST_BUS_LVDS>;
+ 			reset-names = "lcd", "lvds";
  
-@@ -32,7 +31,6 @@
- #define CLK_PLL_PERIPH1_2X		14
- #define CLK_PLL_VIDEO1			15
- #define CLK_PLL_GPU			16
--#define CLK_PLL_MIPI			17
- #define CLK_PLL_HSIC			18
- #define CLK_PLL_DE			19
- #define CLK_PLL_DDR1			20
-diff --git a/include/dt-bindings/clock/sun50i-a64-ccu.h b/include/dt-bindings/clock/sun50i-a64-ccu.h
-index 175892189e9d..4f220ea7a23c 100644
---- a/include/dt-bindings/clock/sun50i-a64-ccu.h
-+++ b/include/dt-bindings/clock/sun50i-a64-ccu.h
-@@ -44,7 +44,9 @@
- #define _DT_BINDINGS_CLK_SUN50I_A64_H_
- 
- #define CLK_PLL_VIDEO0		7
-+#define CLK_PLL_VIDEO0_2X	8
- #define CLK_PLL_PERIPH0		11
-+#define CLK_PLL_MIPI		17
- 
- #define CLK_CPUX		21
- #define CLK_BUS_MIPI_DSI	28
 -- 
 2.47.1
 
