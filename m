@@ -1,61 +1,61 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C30FE20322
-	for <linux-sunxi@lists.linux.dev>; Sun, 15 Dec 2024 05:37:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3CCF29408
+	for <linux-sunxi@lists.linux.dev>; Sun, 15 Dec 2024 05:37:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734241022; cv=none; b=jOtPGSD8UzQm7uweLvsMAx49icOrMDfmti4ZNhtqZbLcPW4yKeYolXdPue70B0b7iwd7g/rTK4+okNfNkKwlEyzV4Cw4FuCRDHQo1GsnvCNdQgr6Ql5ZCbZ4lDLhcREVTd+8wHn9dyBAPz8yJ+sGsF5Kn9s4mO3sN4hx0rRev3A=
+	t=1734241023; cv=none; b=XMyibt1RUJVWkPNPHX4i4obXtHew5AlMGBvsTlY8kW3HmGEqWx+02U/QReZEPc6b8ZeJ8kcImsBw3VoSApG7FnvKOAFdmuyGw70w/JSBA6bIXKygBx9fGR2aona7ReNcMgU7+lgTGR9rCVwRylAj0EKJLRIkZjQDTbRpmVj7ZhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734241022; c=relaxed/simple;
-	bh=hjq60g0f5rs7IOK+bpQIZlGtwoS5wPwAF2qfnusr93Q=;
+	s=arc-20240116; t=1734241023; c=relaxed/simple;
+	bh=t+t+IBz4oAfTZnxqTy01/YU6HNzERwZQNk5FgFkvhKg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PFQYAPBOgJyqUCJ4epGjCNocpAkt+7vCpBDaUflB8KB77005jQ4lQ0Qf85jWeCvVxNbdnmh8I6n7x149vOhmxcFcurv725N6rDJUJG7pI2FJT0HKzU+UU6M2OItQMCkAEvmfVDapf6CuEANouY2gjF9fwZBbf0cIw+lqFKMsyA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M3iBLFsM; arc=none smtp.client-ip=209.85.216.42
+	 MIME-Version; b=s6QyppJjKivJdlYcoczf7zhIGUtY1Iv4cghJ1ag688zP+xoAgfuXLdq59feGYuMAafaW+6VkfBynsu32RMsy0rpFvaDERZnHPP4G+XTcQoISqZ9Oa3SFj+HdWOoaTuhYEqwApizC9N2coZTMXkxw1GH6BnYrlxXdcKWjkSQF25I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aDl5OwTq; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M3iBLFsM"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2f13acbe29bso2443348a91.1
-        for <linux-sunxi@lists.linux.dev>; Sat, 14 Dec 2024 21:37:00 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aDl5OwTq"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-21654fdd5daso24930945ad.1
+        for <linux-sunxi@lists.linux.dev>; Sat, 14 Dec 2024 21:37:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734241020; x=1734845820; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1734241021; x=1734845821; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OhrQlN2vwbW+HH5J9QciNO8jVjYFc2SW7Nua2x90G3A=;
-        b=M3iBLFsMOwxBpXt570iXTp6bMtyZyZJD7mtovrGxs2qfSnAyqvRN2ZscG7MqJDAfds
-         1VOq5GFhhRCHAWHA2MVWzbwShCb8Z3xjM6nlmOge0yuEV9DZHOaJ+60WSFUDlbJpHb1u
-         /uO9XLSjqFvOox8jG+9klhUs/ror074qkVM8AUd0gXA/ZxVytbPZbs83glD89P84JYpJ
-         mMnybm10H2QYcz3jTqDPburrlNrGSBDiVN2FbZ81G1UvMgThmpJJ1YvUqYSuWv61yiH1
-         K/7iw5uh6pkH+TDXu6cQCJ263aLYBhKGN2DrC5cb4nnDoIb0wtBx5xGgmqHzn2h0ynBi
-         SHDw==
+        bh=SKFdza2xHFDC8vmuSIt7kUvA8GVJhpwFBfkUic7sJXg=;
+        b=aDl5OwTqdjwJdWti0mouGM9TvyVS+bV5Lrlbi3ooUHKsxJWsQjlAuoKXGoDIR57mvr
+         dm5lvCPltKgHhd40gnEwkDWW7kwLm0v3v51DQNql64omePClihMgd7644z+CwsiKGiQn
+         sGNW3nyWysNTg6ZFCUzt5WOFBRAlPmlYIiljXRZPlYjtfBKbK3nNZwYs5k6YcioER9S6
+         OGrEzvpegOgrQEOcf6Cf+66DC+La/uzNWomXE6EBAC5+gpwTDJGlos6TP4TPa+H0/awx
+         9N5If0aRzsdnRDjq83gnJX6/HWOfAAn7fQvMnHUJUfKgJLrGIYSxqGNkOV3yrmQkD+at
+         1b1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734241020; x=1734845820;
+        d=1e100.net; s=20230601; t=1734241021; x=1734845821;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=OhrQlN2vwbW+HH5J9QciNO8jVjYFc2SW7Nua2x90G3A=;
-        b=pb/8Oy8mN49XvAbqFsgITEcWVJ6wSU5b+Zf6wqTPlvFX7/Yj/g10NMJZSppox5uEoC
-         icG13CEraF4A1DFIv7Fdmz+3xnBHfOebxiMZXVmzupo6wJvWXBNVsmMwZZxoVejBg/lE
-         tKM/+3UWlCwcFlnbfmBKyxgX+IXkFlIEBxCygJhi9ZA5MRyCEk13Hg1uffzR7iWkGTqa
-         buM46JlYequWSObP1dn4CYvhO+758mKiCDAZi4Dl5grIPr3jZqGZ5dUMTQwDp/IWmVSb
-         nO/wUis7lghAJ2sJficHS4XHd3s6De7qfGmNTXUN5OrV51V6MJjxN1IX23dm0/q1AZuz
-         VJcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWcpdKeKb+pqGY0jFjXefo6NPGfpr0y/B5JhPHSqTVr0inYx+X9SJ+HK6gtOV277qY8WdOQPvX3mi9XfQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxROCIpJkWJggoxJb1GGUMhmanYRyDnko12Lg+FwxHhM8ka+6kL
-	1taOn1xUBTFicd3+rb2pHfvsO+fJioL5SeMHkZ0UbnLXJOuCMqlQ
-X-Gm-Gg: ASbGncv+U3yHRh2oX6DIBdwo19aR5+G9vO9ul9DrSn/yIAq/hAG4B1EaQA+nVPqgAL/
-	zlaz5hZped7aAaPnl8PtP8I/UXAGopgnoe+Cr+bZUfx8mYSPAv2ky0AlnkSKfiWhGyTwLKH2Su3
-	wZ8ly62MoHwY48eoqyRxo1jarMcyhGLQF8+sQNPF+jsUfm4zBxLWsAGjR9Q6FtR56q+Ek5H0XJb
-	SZv51v5VlJJUwCwCJUIT1ooWCEUw9bLtk1ilHa6HAEss8gIMg==
-X-Google-Smtp-Source: AGHT+IErUG9RW0X9xHdH5/Ssxiqt3RncarH98/x9Df651+JEpUXRrMwQ+2RKrQ87NQ7RiDs3G7ovLg==
-X-Received: by 2002:a17:90b:4cc2:b0:2ee:5c9b:35c0 with SMTP id 98e67ed59e1d1-2f29166acd5mr12192019a91.9.1734241020112;
-        Sat, 14 Dec 2024 21:37:00 -0800 (PST)
+        bh=SKFdza2xHFDC8vmuSIt7kUvA8GVJhpwFBfkUic7sJXg=;
+        b=jsBvWODxvvg/PbcozUKUJviB7NaRmpNOxbcqJ/M5Hsu8w/k3wHgf8E++T4PEBV7cwe
+         JykwzE7LW07538ClS/czmR8G8Ab8FfZJxEve3ExDcgzyBpYUkkdIG0uBZgWEAZC4kYXd
+         ArMkx27EbptB46zdfXldNrC55xovzo1tVPjDVu8I1Wcnf7wCglyms7+ZUv8FVlGohuQg
+         TetLjJpp7+nJ6hJxuzb/Vf/6dTmUB0o5xut/ahRq09nNJ7b6ZxQGiEnttY3noZ46Y5bU
+         h1g4ODZbifgSWT2Ie4d4UCPx01d5YSmyWYbIALa56ry52nMGlPGCXk+JU4WxLj7jlDzu
+         eesw==
+X-Forwarded-Encrypted: i=1; AJvYcCXQ/HQ+QmK8BdZOvtnx7F1Hp+uHtBlBecpUj8Kc9GjZWDg71259Upk1X/P1Tc2Aq4/QYPxzHBSMSBpa5Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwSV3kOLl9/M0S6GxUPybXoqlM1iWbP8x0NIHqs4U73qpV75hqi
+	vRQ2eTa2vVIuEKDoc5oW9D8ZyGtWI9VIKw4OTyqvfW2lMzB4uZlLHhF+Xz1p
+X-Gm-Gg: ASbGnctafNx0uJVueQRamrU9J3hI5O3wCvzcPovN5S2aTXWt62+ZnQN0Ma9d1Oc7xlp
+	xAsY4TOhALmKliJ58sH/b3OmlreCAL1yyMCPGM+o+zlKod0XnoO5pUSbgV6dQMyKbIdwCVTA7eS
+	loE0g1zf8kTvN5EgOoflRnXaRf/BSyTnTUpgJw91+jWnthrc7VDRS0wv0ts2v7/2B+OEo0Vjnk0
+	7G5Gm+EozjjNWR5j4RdLf9jYKkcaV1fzArb856mjph8lyOdYQ==
+X-Google-Smtp-Source: AGHT+IEEzrDO6PorFmWAnRKn8AWTVLTL53SlxdJAzLW6ec4NvsVjzDB2vdV68Sh9tldHOdGI/Sk3FA==
+X-Received: by 2002:a17:903:c10:b0:215:7b7b:5cc9 with SMTP id d9443c01a7336-218929f0ea8mr107798965ad.22.1734241021173;
+        Sat, 14 Dec 2024 21:37:01 -0800 (PST)
 Received: from anarsoul-xps15.lan ([2604:3d08:7780:1ca9::398])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f142fa1cf8sm5729803a91.38.2024.12.14.21.36.58
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f142fa1cf8sm5729803a91.38.2024.12.14.21.37.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Dec 2024 21:36:59 -0800 (PST)
+        Sat, 14 Dec 2024 21:37:00 -0800 (PST)
 From: Vasily Khoruzhick <anarsoul@gmail.com>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -73,9 +73,9 @@ To: Rob Herring <robh@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	linux-clk@vger.kernel.org
 Cc: Vasily Khoruzhick <anarsoul@gmail.com>
-Subject: [PATCH 2/3] arm64: dts: allwinner: a64: explicitly assign clock parent for TCON0
-Date: Sat, 14 Dec 2024 21:34:58 -0800
-Message-ID: <20241215053639.738890-3-anarsoul@gmail.com>
+Subject: [PATCH 3/3] clk: sunxi-ng: a64: stop force-selecting PLL-MIPI as TCON0 parent
+Date: Sat, 14 Dec 2024 21:34:59 -0800
+Message-ID: <20241215053639.738890-4-anarsoul@gmail.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20241215053639.738890-1-anarsoul@gmail.com>
 References: <20241215053639.738890-1-anarsoul@gmail.com>
@@ -87,62 +87,46 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-TCON0 seems to need a different clock parent depending on output type.
-For RGB it has to be PLL-VIDEO0-2X, while for DSI it has to be PLL-MIPI
+Force selecting PLL-MIPI as TCON0 parent breaks video output on Pinebook
+that uses RGB to eDP bridge.
 
-Video output doesn't work if incorrect clock is assigned.
-
-On my Pinebook I manually configured PLL-VIDEO0-2X and PLL-MIPI to the same
-rate, and while video output works fine with PLL-VIDEO0-2X, it doesn't
-work at all (as in no picture) with PLL-MIPI.
+TCON0 clock parent will be selected in the device tree instead.
 
 Fixes: ca1170b69968 ("clk: sunxi-ng: a64: force select PLL_MIPI in TCON0 mux")
 Signed-off-by: Vasily Khoruzhick <anarsoul@gmail.com>
 ---
- arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts | 2 ++
- arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts  | 2 ++
- arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi         | 2 ++
- 3 files changed, 6 insertions(+)
+ drivers/clk/sunxi-ng/ccu-sun50i-a64.c | 11 -----------
+ 1 file changed, 11 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts
-index 379c2c8466f5..86d44349e095 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts
-@@ -390,6 +390,8 @@ &sound {
- &tcon0 {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&lcd_rgb666_pins>;
-+	assigned-clocks = <&ccu CLK_TCON0>;
-+	assigned-clock-parents = <&ccu CLK_PLL_VIDEO0_2X>;
+diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+index 3a7d61c81667..cc8de0bfbc67 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
++++ b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+@@ -534,12 +534,6 @@ static SUNXI_CCU_M_WITH_MUX_GATE(de_clk, "de", de_parents,
+ 				 0x104, 0, 4, 24, 3, BIT(31),
+ 				 CLK_SET_RATE_PARENT);
  
- 	status = "okay";
- };
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts
-index b407e1dd08a7..ec055510af8b 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts
-@@ -369,6 +369,8 @@ &sound {
- &tcon0 {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&lcd_rgb666_pins>;
-+	assigned-clocks = <&ccu CLK_TCON0>;
-+	assigned-clock-parents = <&ccu CLK_PLL_VIDEO0_2X>;
+-/*
+- * DSI output seems to work only when PLL_MIPI selected. Set it and prevent
+- * the mux from reparenting.
+- */
+-#define SUN50I_A64_TCON0_CLK_REG	0x118
+-
+ static const char * const tcon0_parents[] = { "pll-mipi", "pll-video0-2x" };
+ static const u8 tcon0_table[] = { 0, 2, };
+ static SUNXI_CCU_MUX_TABLE_WITH_GATE_CLOSEST(tcon0_clk, "tcon0", tcon0_parents,
+@@ -959,11 +953,6 @@ static int sun50i_a64_ccu_probe(struct platform_device *pdev)
  
- 	status = "okay";
- };
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-index a5c3920e0f04..0fecf0abb204 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-@@ -445,6 +445,8 @@ tcon0: lcd-controller@1c0c000 {
- 			clock-names = "ahb", "tcon-ch0";
- 			clock-output-names = "tcon-data-clock";
- 			#clock-cells = <0>;
-+			assigned-clocks = <&ccu CLK_TCON0>;
-+			assigned-clock-parents = <&ccu CLK_PLL_MIPI>;
- 			resets = <&ccu RST_BUS_TCON0>, <&ccu RST_BUS_LVDS>;
- 			reset-names = "lcd", "lvds";
+ 	writel(0x515, reg + SUN50I_A64_PLL_MIPI_REG);
  
+-	/* Set PLL MIPI as parent for TCON0 */
+-	val = readl(reg + SUN50I_A64_TCON0_CLK_REG);
+-	val &= ~GENMASK(26, 24);
+-	writel(val | (0 << 24), reg + SUN50I_A64_TCON0_CLK_REG);
+-
+ 	ret = devm_sunxi_ccu_probe(&pdev->dev, reg, &sun50i_a64_ccu_desc);
+ 	if (ret)
+ 		return ret;
 -- 
 2.47.1
 
