@@ -1,102 +1,68 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6D8F13BAE4
-	for <linux-sunxi@lists.linux.dev>; Sun, 15 Dec 2024 13:40:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A56B617B502
+	for <linux-sunxi@lists.linux.dev>; Sun, 15 Dec 2024 21:26:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734270045; cv=none; b=Apid7VjjLf5UugQQwZNNQuqnJ6P/AQk+CUWZpdvSi9Z2YjZypEvfLpe96P8GJNuHpJx8tIiOVLZ8/NAZSsTkGnFz/cZyA6Fgj8srgJccb8wAoBb0IaqYCFv9lNhxFk5NrcQ2BbxnUWEIWKi/kFT/H5SEMiVD77jsxZ/57CCBO6o=
+	t=1734297988; cv=none; b=Op4xjNtuVFO/tTCA2WQYhHLNqXh9kysn4tpwAd3/1LENqlvERsSBq5PE2Zo0QvHRuFz9DzO8eMUL9uDFARwK5gru74P/UNEDK23uSnAmcll68MnZv4QYlrr9VRmseZAIzr976veUVO/iveqZC34Oz26DMP7nYWX7xttukLLLaao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734270045; c=relaxed/simple;
-	bh=Clhigu/Q4gCmERhzrswzfgXprFlUs+6+4e/00LAi3G0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FILPUuQcT5Po7mz5Wc5lgX2C5WMTk3acWJYKfJjIoc2ss39ZVLn6P2HVrt3cNunNg5acOsKVP8M2SkjeBOv8MIAc7IqJotvxF2QMpiJ6NzxmL/qn409t9rr5nhmun/HkNaZLAfndSiLGenAs7Cum22sNW+/Gx1drPWNkfF6G1Pg=
+	s=arc-20240116; t=1734297988; c=relaxed/simple;
+	bh=ycQXUsWGD8UNsfE/tjbBy9XnS8Vhb5OJSquEAyMFQnY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bfllIxN6lW6Vw+ABX0DM82mtKjODVBzMeACRfRtTyGFm/2uTMxUqm6jsa9I8wgkm9yTqIixiX7H8mVBzdpXhc3H7Gio5laFo4j17dSxVSJdPaJppF7wcaq+Jh6B12aSfaceJYEy0owJYz/XnXwMZZYqxt9+KDUhWp9p7jzuh8EY=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8414611FB;
-	Sun, 15 Dec 2024 05:41:05 -0800 (PST)
-Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 730863F720;
-	Sun, 15 Dec 2024 05:40:35 -0800 (PST)
-Date: Sun, 15 Dec 2024 13:39:50 +0000
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DAB0E1424;
+	Sun, 15 Dec 2024 13:26:52 -0800 (PST)
+Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 763DF3F720;
+	Sun, 15 Dec 2024 13:26:23 -0800 (PST)
 From: Andre Przywara <andre.przywara@arm.com>
-To: Vasily Khoruzhick <anarsoul@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Maxime Ripard <mripard@kernel.org>, Roman Beranek
- <me@crly.cz>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: Re: [PATCH 0/3] arm64: allwinner: a64: fix video output on Pinebook
-Message-ID: <20241215133950.27e5877a@minigeek.lan>
-In-Reply-To: <20241215053639.738890-1-anarsoul@gmail.com>
-References: <20241215053639.738890-1-anarsoul@gmail.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH] arm64: dts: allwinner: h313: enable DVFS for Tanix TX1
+Date: Sun, 15 Dec 2024 21:25:33 +0000
+Message-ID: <20241215212533.12707-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.46.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Sat, 14 Dec 2024 21:34:56 -0800
-Vasily Khoruzhick <anarsoul@gmail.com> wrote:
+The merging of the Tanix TX1 .dts file overlapped with the introduction
+of the CPU OPP .dtsi file, so the TX1 wasn't covered by the patch
+enabling DVFS for all boards.
 
-Hi Vasily,
+Add the missing include of that OPP .dtsi file, to allow the box to run
+at up to 1.3GHz, and enable power saving by using lower OPPs.
 
-thanks for tracking this issue down and sending the fixes!
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+---
+ arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.dts | 1 +
+ 1 file changed, 1 insertion(+)
 
-> Since commit ca1170b69968 ("clk: sunxi-ng: a64: force select PLL_MIPI in TCON0 mux"),
-> TCON0 clock parent is always set to PLL_MIPI, but unfortunately it breaks
-> video output on Pinebook.
-> 
-> I did an experiment: I manually configured PLL_MIPI and PLL_VIDEO0_2X
-> to the same clock rate and flipped the switch with devmem. Experiment clearly
-> showed that whenever PLL_MIPI is selected as TCON0 clock parent, the video
-> output stops working.
-
-That is good info, together with what Roman reported in that patch
-mentioned above it seems to confirm that the parent clock selection
-also determines the output path of TCON0.
-Since there does not seem to be another register or switch setting
-the path (ignoring the pinmux), I think a DT solution is appropriate
-here, and assigned-clock-parents is the right way to go.
-
-So the patch series looks good to me in general, but we thought that of
-Roman's series as well, so I would really like to see a Tested-by: from
-a Pinephone user and ideally a confirmation from Roman that this still
-works for him.
-
-Also I second Dragan's comments about copying the rationale into at
-least the commit messages (if not in comments). Having explanations
-in the cover letter is good, but having it in the git repo is much
-better - as the cover letter will only be in the email archives.
-
-Cheers,
-Andre
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.dts b/arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.dts
+index bb2cde59bd03..622f4290057a 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.dts
+@@ -6,6 +6,7 @@
+ /dts-v1/;
  
-> 
-> To fix the issue, I partially reverted mentioned commit and added explicit
-> TCON0 clock parent assignment to device tree. By default, it will be
-> PLL_MIPI, and the only users with RGB output - Pinebook and Teres-I will
-> override it in their dts.
-> 
-> Vasily Khoruzhick (3):
->   dt-bindings: clock: sunxi: Export PLL_VIDEO_2X and PLL_MIPI
->   arm64: dts: allwinner: a64: explicitly assign clock parent for TCON0
->   clk: sunxi-ng: a64: stop force-selecting PLL-MIPI as TCON0 parent
-> 
->  arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts |  2 ++
->  arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts  |  2 ++
->  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi         |  2 ++
->  drivers/clk/sunxi-ng/ccu-sun50i-a64.c                 | 11 -----------
->  drivers/clk/sunxi-ng/ccu-sun50i-a64.h                 |  2 --
->  include/dt-bindings/clock/sun50i-a64-ccu.h            |  2 ++
->  6 files changed, 8 insertions(+), 13 deletions(-)
-> 
+ #include "sun50i-h616.dtsi"
++#include "sun50i-h616-cpu-opp.dtsi"
+ 
+ #include <dt-bindings/gpio/gpio.h>
+ #include <dt-bindings/interrupt-controller/arm-gic.h>
+-- 
+2.25.1
 
