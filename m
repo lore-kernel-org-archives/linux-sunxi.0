@@ -1,73 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF4B31D45F2;
-	Tue, 17 Dec 2024 07:33:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 533921E1A17;
+	Tue, 17 Dec 2024 10:37:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734420825; cv=none; b=nvH1Teu0J6QgHCB4u9n28h01gEF3I/WNnLZlUh0TPQOEgujYVn6xGoV4Se8N7eBGHpHfxW1ZIaa4e6Q8X1sSPu/tNOViIPA5CKFVj49VQbB93ONVwLcE5Y80MMm38gsz9N7gtcfm6bZWvH1xgUrngZvyGU3pHakdxfirZ/+n0yg=
+	t=1734431825; cv=none; b=E98UtSjRIN/fD23aijLKNvifeeL78vBcvInkv2A00cQjW1I89hB6u2/sVapw4ZWu44guBKLaKBh13ic75cmOeAPKj59XO45M1hdo2OMAqEYj0V10cOOXtaIZ/ZMG0qZRlZXwl7W9U7eGBUrCTSYyPrwKyXgH/P31CWcdikHSW8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734420825; c=relaxed/simple;
-	bh=M1pOmN/fmrnkiHXjXK1Xx0Kcg/VyvJPOlUCfuO+9V5o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y8Vq6W/R1pHbCvLLu39+GrRPAXLXKWlHGBOz4oLTrs+77KcA33YezL5DGxQsRu4PuXSuC1iFsFVBA+P6N1MLnvcxI6iTg9QuezFFELrQioR1xvsJbNU9aapTToPRFIbOaqvLuNVYunomIVFSLZ/l6lHUVvhdkcbNtqpc1GTLlXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cJXTn39j; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1734431825; c=relaxed/simple;
+	bh=O8dKluOujhFZHtu4NC9kbCIEXTbQRJR5JMVk02v4L/I=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l7Puj91OT7We2+468DvAIQQRP7dBrQcTmUTBmF7BULN/ni1Wv+uQJV3h9bW6usXCaiDTSLq49RlcVsgsmws3p+Ndo7j1gfMHTOViNK5il6R1x7Ed7Zv+Ddqyls5IA+W4jUOV9ezec9iDpYDZJGoZsGX31mxp0/L0BTe/EkETi5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=JHyqdCnA; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cJXTn39j"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A174C4CED3;
-	Tue, 17 Dec 2024 07:33:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734420824;
-	bh=M1pOmN/fmrnkiHXjXK1Xx0Kcg/VyvJPOlUCfuO+9V5o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cJXTn39jURAGQhGGv+xp7kNADMVxFerXYrXU8b7qLyIsuiywVaOrILfic8uMEnAGW
-	 vmJjbQHH5yOlMT9jjx964286SF0GY2D77UZGu+bbFxMkN57mFvby2saIGNgLwLTppj
-	 APayiuq4DVJrzr9Y5GFJM+sCHbWSPX4y5w4+yD3ypK6jnUCoSCCkrLhHmDzAhgink/
-	 yg6DrxmS/R9K5Jhfu3INIeuI4fHWUEghNO9SwZvwbU3HjozLT6qoO1kOReCu7UfG3J
-	 AZDfy+yUei/TU0MnRtGANQp2TOzoz8A6BT6woKokEtchkmFiSxkC7sBA2aMuTxNxuq
-	 OH9aaBVq6el+w==
-Date: Tue, 17 Dec 2024 08:33:40 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Vasily Khoruzhick <anarsoul@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Maxime Ripard <mripard@kernel.org>, Roman Beranek <me@crly.cz>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-clk@vger.kernel.org
-Subject: Re: [PATCH 1/3] dt-bindings: clock: sunxi: Export PLL_VIDEO_2X and
- PLL_MIPI
-Message-ID: <qbtp4jvkx3r5azufe4k3vtapqpfs54dyjiu4cy5v5wkkzumrzx@vy3xzkfplbue>
-References: <20241215053639.738890-1-anarsoul@gmail.com>
- <20241215053639.738890-2-anarsoul@gmail.com>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="JHyqdCnA"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BH4pZxb025779;
+	Tue, 17 Dec 2024 04:36:26 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=DncSMB8awaOalGRsmX
+	KLNqehj2Q8AYTF94wrCAJZets=; b=JHyqdCnAmk49Rks7tVDdl3Y0WoutMvr9mB
+	x3iG4Gih0mGgeaQ7b7y6YZuqiBWOeWqniSGkkhacOVcylwjh8Ais2tnzOBK/LMn4
+	L0mw7++y/sEhaKUgqkptQ2STbN8qQslOWHFUNPyAGAbUW95HpYe45bEj6R2MacLE
+	dr3Wr5bd/vBehFbMarGrAwhRCuKkSl17WHMrxdePJ6CkIqY7VVHogsI1yu/xu+jW
+	Wa2jZzHOPe9mMk1J+kcKIRKz7s9P5ZOc7MRlf0NKePCETF34apari5BqsJ3qElvv
+	wKRhesX/OXcQJ4j4tQh4kn7cFQdc5GKOyJmpynrAUNV3yzmMWYUg==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 43h8a237vd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 17 Dec 2024 04:36:26 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.13; Tue, 17 Dec
+ 2024 10:36:23 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.13 via Frontend Transport; Tue, 17 Dec 2024 10:36:23 +0000
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id B0265820248;
+	Tue, 17 Dec 2024 10:36:23 +0000 (UTC)
+Date: Tue, 17 Dec 2024 10:36:22 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+CC: <linux-rtc@vger.kernel.org>,
+        Alexandre Belloni
+	<alexandre.belloni@bootlin.com>,
+        Yiting Deng <yiting.deng@amlogic.com>,
+        Xianwei Zhao <xianwei.zhao@amlogic.com>, Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth
+	<sebastian.hesselbarth@gmail.com>,
+        Nicolas Ferre
+	<nicolas.ferre@microchip.com>,
+        Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+        Benson Leung <bleung@chromium.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Paul Cercueil
+	<paul@crapouillou.net>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Piotr Wojtaszczyk
+	<piotr.wojtaszczyk@timesys.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Neil Armstrong
+	<neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        "Jerome
+ Brunet" <jbrunet@baylibre.com>,
+        Martin Blumenstingl
+	<martin.blumenstingl@googlemail.com>,
+        Eddie Huang <eddie.huang@mediatek.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Matthias Brugger
+	<matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang
+	<zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec
+	<jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        "Vincent
+ Shih" <vincent.sunplus@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Michal Simek <michal.simek@amd.com>,
+        <linux-amlogic@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <chrome-platform@lists.linux.dev>, <linux-mips@vger.kernel.org>,
+        <linux-mediatek@lists.infradead.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>,
+        <linux-samsung-soc@vger.kernel.org>, <linux-sunxi@lists.linux.dev>,
+        <linux-tegra@vger.kernel.org>, <patches@opensource.cirrus.com>
+Subject: Re: [PATCH] rtc: use boolean values with device_init_wakeup()
+Message-ID: <Z2FUJhC1Iq5mmkEg@opensource.cirrus.com>
+References: <20241217071331.3607-2-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20241215053639.738890-2-anarsoul@gmail.com>
+In-Reply-To: <20241217071331.3607-2-wsa+renesas@sang-engineering.com>
+X-Proofpoint-ORIG-GUID: ZFiaGqpxjixZfdP0EJY2r8mb04vfd9VM
+X-Proofpoint-GUID: ZFiaGqpxjixZfdP0EJY2r8mb04vfd9VM
+X-Proofpoint-Spam-Reason: safe
 
-On Sat, Dec 14, 2024 at 09:34:57PM -0800, Vasily Khoruzhick wrote:
-> These will be used to explicitly select TCON0 clock parent in dts
+On Tue, Dec 17, 2024 at 08:13:26AM +0100, Wolfram Sang wrote:
+> device_init_wakeup() second argument is a bool type. Use proper boolean
+> values when calling it to match the type and to produce unambiguous code
+> which is easier to understand.
 > 
-> Fixes: ca1170b69968 ("clk: sunxi-ng: a64: force select PLL_MIPI in TCON0 mux")
-> Signed-off-by: Vasily Khoruzhick <anarsoul@gmail.com>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 > ---
->  drivers/clk/sunxi-ng/ccu-sun50i-a64.h      | 2 --
->  include/dt-bindings/clock/sun50i-a64-ccu.h | 2 +
 
-You cannot combine these changes.
+For the old Wolfson parts:
 
-Please run scripts/checkpatch.pl and fix reported warnings. Then please
-run 'scripts/checkpatch.pl --strict' and (probably) fix more warnings.
-Some warnings can be ignored, especially from --strict run, but the code
-here looks like it needs a fix. Feel free to get in touch if the warning
-is not clear.
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-Best regards,
-Krzysztof
-
+Thanks,
+Charles
