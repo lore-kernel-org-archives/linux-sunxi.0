@@ -1,115 +1,98 @@
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
+Received: from thales.epochal.quest (thales.epochal.quest [51.222.15.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B29614B075
-	for <linux-sunxi@lists.linux.dev>; Wed, 18 Dec 2024 06:36:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD881F2C4E
+	for <linux-sunxi@lists.linux.dev>; Wed, 18 Dec 2024 13:10:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.222.15.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734503782; cv=none; b=ZovfDoIthL9J9XmeuDivqMJscFzyWLnNuwJzWQyzM8vdO0RXx2nLNmTuGtWl5NNtId0jOJkXJTUeYzDyljB0sk1TqqD0ChVp8D+hNoIlRkzeIzvb+BW5WYHz3SP7ZzAXObcNGpI4ToBeu7XTWddEjfkxHS/dNPzN6Sbwf+xdZwI=
+	t=1734527407; cv=none; b=AH7/lxZSUu19kYNtEBvzGUTdvAolqNUQkxoGX/tQLpYE96ATYoSqakzq/EFiht59gHu3hTu9R13fXEkq+tOjGKb+VSI4wxhRMXvNO1wgLL0UWqOw9f429sdLilp/fmSzVwT/vmDtsF/brJIRpuprmBkZPwMjlHoHBUrp93T2zYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734503782; c=relaxed/simple;
-	bh=vwWXD8zvh9hmnZ6QxYEzB+FDN7i50BUIb92pyDHG0lo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WMV1yPYpLOpfvhhFVYuySp5HCOY9OIniDP5GMQPlEIlyhyAOcnPo7ZM7E8qzsvImSjTaeR51RRPB+2l+9JNrjfv6t+NN0MURj5iTKxVtQKpWVpwJhzpihuu8P++bVzdzhecbV6mYupvlMyPBQ+ZMhGjq7onSIjDUkaulcB0TbB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=las2b0Eh; arc=none smtp.client-ip=209.85.161.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1734527407; c=relaxed/simple;
+	bh=Dq2nimBQQbcd6OFaZe7M6MOLGruvNOdRO+cLFAPPBVQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=o+tOuhn6YOMUzUO6QUSoaz+i/wLt9bLlHOQEoW+sBBC+elSOMJOvFakeVJhk4TedKRv3BdKe/58QSoQd3xuu/c3iJd4tQPrH0HUo4xZzdpSp3gGZCD9Es+9EB+GlUsirfw8FJUzP3yHAa3dhoUpTN5+bIrHsjh5QxQ0Na4E+vnQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epochal.quest; spf=pass smtp.mailfrom=epochal.quest; dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b=UvH2ytPN; arc=none smtp.client-ip=51.222.15.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epochal.quest
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=epochal.quest
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="las2b0Eh"
-Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-5f3328fca29so2034131eaf.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 17 Dec 2024 22:36:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734503779; x=1735108579; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tg+exyt2bEd/acPRMVaty3D/uVegz4OUg+5qQVFiOTE=;
-        b=las2b0EhxTITX1hokptHw5r3dJgZYzCbiKVlwLT+VgZnt5ZgEyHpBxOX8C8oePq6Il
-         vqbH+CvzFWhyqhQGs7pa5JP0x7e432OH9lTTHpkKbThoz8hOmukQLc5lEtkkF6wrfSD2
-         4l83WNQxeVqhyY3rbvxzinxr766yq9VqXJ9Z1TWteeEy+k0Mh2HY/M5JgX9siH5PNSzB
-         1NcUY7/+9Zi/dfiwOiJetd5sR7sevf2gSruRlzkWwUBnqj426e13XlSAz9vldv/LQYOx
-         CnnYspb2eJOiUv4xzeV22hksj5Nc7BJiCkVNT0pcSJEhzs6SAqeAEfaTss0HvdWgarj7
-         Rq4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734503779; x=1735108579;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tg+exyt2bEd/acPRMVaty3D/uVegz4OUg+5qQVFiOTE=;
-        b=BbcZod1e1DHy3opHcWO9pa4Nl4UOrTz695e0a2fYxg1Ziy0Bn1iU5nRb570Iyovli+
-         /p6VC84DFVYKKqMCI7TmbVTTPS6hkAcmLX13rh/IbzzToNWwNG555SptnCB8z9tkqZVG
-         uR4lhodQgSzMIEa8z2PurBoIp6VGo+q65Wc8aeR/z6W3PmoT8sbAG1phtfoXodBY+IV0
-         BMi2LSkdn3orV9Z6GI5qsCLFw+BNgsa7UrglfXlDCOVckWZ32oRlOhEJIM6PUUg3iL80
-         TKN+bd9HL5Q10j0Ox90D1H+ZrLGSQJzc1cbjsFUBTGxwQktNR6LN1F7hSMCXcPwF8lMs
-         GZfw==
-X-Forwarded-Encrypted: i=1; AJvYcCUj516PSqmpseN+SRQXXOe81359Pik5C3GaCE+oPilVa5qj9DSL9YC71CaFew4eOlHDjNVZXizp7Kdpzw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwIpases3tTgC5+qsc/y8SfM2qHDIe2zJPi4Dfl/iFHvNZcUtiN
-	x2bRu6ysU0HbutkFIb+xFfX9LU+WBS4q3SlYa2cLu6c8vsWGExRDCaAoUOZVxGzeB02QrO46FQA
-	I3b7nPnhE2dvM8VwU957wQIKRdVQ=
-X-Gm-Gg: ASbGnctIo/OQnuaH2jKHbhxZyEJubIRnSwp0Gb29daUdnpxTawZr9vTOhuC6PB+b2XJ
-	X/wYDo/6GbzQHSjMZtMD+644FdAwRvwI27/8upteIqJo/MqIwCb/Kvbs3ZTiI8MYeoYUPBSRE
-X-Google-Smtp-Source: AGHT+IGDZx1A4lzjevZaetM3q0p0F9NGqZ4KJyg/ET7Jin7l5ozux8ML2xLClyaZEmXGWB3tap3fvdMwxeQKOyK0U2E=
-X-Received: by 2002:a05:6870:340c:b0:29e:2345:c656 with SMTP id
- 586e51a60fabf-2a7b3435b4cmr635905fac.43.1734503778886; Tue, 17 Dec 2024
- 22:36:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b="UvH2ytPN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=epochal.quest;
+	s=default; t=1734526898;
+	bh=Dq2nimBQQbcd6OFaZe7M6MOLGruvNOdRO+cLFAPPBVQ=;
+	h=From:Subject:Date:To:Cc:From;
+	b=UvH2ytPN0rorxwdHbREfFhMaAr0RhtHGWVcSkObMWxTFjCTn+37KJMcXBiGo4Ws43
+	 yDUnexAOcAaw5dOqU5Oj/N3OlQLesh1a1mquvWHaPvFk5Yqzm99R3pMBvhuj0b+AiP
+	 e+T4tvgV/GvzIwBNIJmh5TSqzHBPIn/GLUkU70ugEa3M4XGM2JKRxgZ1f7P3wl3+gm
+	 h+Yag7hVamWtG2h63l8wuGwgGg0CjQ+9JG8xD8lPP/83msd7Ynib8QMOht2S+1z0g3
+	 iS2ALv00TKj0l877H1HeCF/AbxdySwrBzSeBAyCAPzji9TF3JPMnfZtxO52Rm5yQnb
+	 QSUOluozy6GvA==
+X-Virus-Scanned: by epochal.quest
+From: Cody Eksal <masterr3c0rd@epochal.quest>
+Subject: [PATCH v2 0/2] sunxi: Add A100 syscon nodes
+Date: Wed, 18 Dec 2024 09:01:17 -0400
+Message-Id: <20241218-a100-syscon-v2-0-dae60b9ce192@epochal.quest>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241215053639.738890-1-anarsoul@gmail.com> <20241215053639.738890-2-anarsoul@gmail.com>
- <qbtp4jvkx3r5azufe4k3vtapqpfs54dyjiu4cy5v5wkkzumrzx@vy3xzkfplbue>
- <CA+E=qVeQ8uHBCeFtw6_2cY3252-YXc6eWrf5_YdeVgbp5LJo5g@mail.gmail.com> <20241217211505.7f9c9e4e@minigeek.lan>
-In-Reply-To: <20241217211505.7f9c9e4e@minigeek.lan>
-From: Vasily Khoruzhick <anarsoul@gmail.com>
-Date: Tue, 17 Dec 2024 22:35:53 -0800
-Message-ID: <CA+E=qVcU9V+8LZ0Xnh+oDROVf8H99t_kiku7iSdXTHP43d9E_A@mail.gmail.com>
-Subject: Re: [PATCH 1/3] dt-bindings: clock: sunxi: Export PLL_VIDEO_2X and PLL_MIPI
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Maxime Ripard <mripard@kernel.org>, Roman Beranek <me@crly.cz>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJ3HYmcC/1WNwQrCMBBEf6Xs2UiyxlQ8+R/SQ0y3NiBJzdZgK
+ fl3Yz15GXgD82YFpuSJ4dyskCh79jFUwF0DbrThTsL3lQElaqXQCKukFLywi0G0B2VuZA2SRqi
+ LKdHg35vt2lUePc8xLZs8q2/789T482QlpDgZZ46oB9R9e6Ep1vvH/vkinqErpXwA+ST5BqoAA
+ AA=
+X-Change-ID: 20241126-a100-syscon-7316bea62e42
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Parthiban Nallathambi <parthiban@linumiz.com>, 
+ Andre Przywara <andre.przywara@arm.com>, 
+ Cody Eksal <masterr3c0rd@epochal.quest>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.2
 
-On Tue, Dec 17, 2024 at 1:15=E2=80=AFPM Andre Przywara <andre.przywara@arm.=
-com> wrote:
->
-> On Tue, 17 Dec 2024 10:00:45 -0800
-> Vasily Khoruzhick <anarsoul@gmail.com> wrote:
->
-> Hi,
->
-> > On Mon, Dec 16, 2024 at 11:33=E2=80=AFPM Krzysztof Kozlowski <krzk@kern=
-el.org> wrote:
-> > >
-> > > On Sat, Dec 14, 2024 at 09:34:57PM -0800, Vasily Khoruzhick wrote:
-> > > > These will be used to explicitly select TCON0 clock parent in dts
-> > > >
-> > > > Fixes: ca1170b69968 ("clk: sunxi-ng: a64: force select PLL_MIPI in =
-TCON0 mux")
-> > > > Signed-off-by: Vasily Khoruzhick <anarsoul@gmail.com>
-> > > > ---
-> > > >  drivers/clk/sunxi-ng/ccu-sun50i-a64.h      | 2 --
-> > > >  include/dt-bindings/clock/sun50i-a64-ccu.h | 2 +
-> >
-> > Hi Krzysztof,
-> >
-> > > You cannot combine these changes.
-> >
-> > The patch basically moves defines out from ccu-sun50i-a64.h to
-> > sun50i-a64-ccu.h. How do I split the change without introducing
-> > compilation failure?
->
-> You can just have the binding part first, adding the (same) definition
-> to the binding headers. As long as the #define's are not conflicting,
-> this is fine.
-> Then remove the now redundant definitions in the kernel headers, with a
-> subsequent patch.
+Hello! Here is a V2 of
+https://msgid.link/20241202-a100-syscon-v1-0-86c6524f24d7@epochal.quest.
+Only changes here are fixing missing newlines between child nodes and
+rebasing on 6.13-rc3.
 
-Thanks for the suggestion! I'll address it in v2.
+***
+
+Here are some very small patches to add syscon nodes to the A100's
+device tree. These had not been added yet, as they hadn't been needed up
+to this point. However, Parthiban and I have been working on patch
+series in parallel that require either the syscon or the SRAM nodes it
+is responsible for; specifically my patches add support for the A100's
+ethernet controller, while Parthiban has been working hard on bringing
+up the Display Engine.
+
+Thanks as always!
+- Cody
+
+Signed-off-by: Cody Eksal <masterr3c0rd@epochal.quest>
+---
+Changes in v2:
+- Add missing empty newlines between syscon child nodes
+- Rebase on v6.13-rc3
+- Link to v1: https://lore.kernel.org/r/20241202-a100-syscon-v1-0-86c6524f24d7@epochal.quest
+
+---
+Cody Eksal (2):
+      dt-bindings: sram: sunxi-sram: Add A100 compatible
+      arm64: dts: allwinner: a100: Add syscon nodes
+
+ .../sram/allwinner,sun4i-a10-system-control.yaml   |  4 ++-
+ arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi     | 33 ++++++++++++++++++++++
+ 2 files changed, 36 insertions(+), 1 deletion(-)
+---
+base-commit: 78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8
+change-id: 20241126-a100-syscon-7316bea62e42
+
+Best regards,
+-- 
+Cody Eksal <masterr3c0rd@epochal.quest>
+
