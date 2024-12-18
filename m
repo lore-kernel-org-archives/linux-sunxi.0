@@ -1,140 +1,115 @@
-Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 591A91DFED
-	for <linux-sunxi@lists.linux.dev>; Wed, 18 Dec 2024 05:19:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B29614B075
+	for <linux-sunxi@lists.linux.dev>; Wed, 18 Dec 2024 06:36:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734499162; cv=none; b=ZyMsR89VrLuNo4RMz1pWiBQTpA+/67WYfBFLLhb6SYEw9sLzyr/m7rdUhdGMfuu9UR7Xu+9tVxEWDj13AYdgmE0+zptsW7nnESfL/dkKl0Swl9cV95DgKc4CNCaJGqYqwhkxAAgKk6O29kBSdVQn4doMbTAqfYW5H2OYspr9sA0=
+	t=1734503782; cv=none; b=ZovfDoIthL9J9XmeuDivqMJscFzyWLnNuwJzWQyzM8vdO0RXx2nLNmTuGtWl5NNtId0jOJkXJTUeYzDyljB0sk1TqqD0ChVp8D+hNoIlRkzeIzvb+BW5WYHz3SP7ZzAXObcNGpI4ToBeu7XTWddEjfkxHS/dNPzN6Sbwf+xdZwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734499162; c=relaxed/simple;
-	bh=YaduQ6e8+9CoGIBaQv2NAm8/6H/QtPEzXpSAiy2Btqg=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=QDT5hTNxlvMeke7WCeH72pcrVcGcNONC1yA20XttLv2LQ21D5cFYlyDr7ROcBpHnWGECxwCJM5/BEsLCJkhTDHsIkULzAvm52RHtKBwIKr4mSCOe1+JQP0lT4zhVIQ0kXF89SXjycGPQIAE5rhoXSArESg0kLnmphtnUyy44DOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=La82PDwt; arc=none smtp.client-ip=116.203.91.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
+	s=arc-20240116; t=1734503782; c=relaxed/simple;
+	bh=vwWXD8zvh9hmnZ6QxYEzB+FDN7i50BUIb92pyDHG0lo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WMV1yPYpLOpfvhhFVYuySp5HCOY9OIniDP5GMQPlEIlyhyAOcnPo7ZM7E8qzsvImSjTaeR51RRPB+2l+9JNrjfv6t+NN0MURj5iTKxVtQKpWVpwJhzpihuu8P++bVzdzhecbV6mYupvlMyPBQ+ZMhGjq7onSIjDUkaulcB0TbB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=las2b0Eh; arc=none smtp.client-ip=209.85.161.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="La82PDwt"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="las2b0Eh"
+Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-5f3328fca29so2034131eaf.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 17 Dec 2024 22:36:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1734503779; x=1735108579; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tg+exyt2bEd/acPRMVaty3D/uVegz4OUg+5qQVFiOTE=;
+        b=las2b0EhxTITX1hokptHw5r3dJgZYzCbiKVlwLT+VgZnt5ZgEyHpBxOX8C8oePq6Il
+         vqbH+CvzFWhyqhQGs7pa5JP0x7e432OH9lTTHpkKbThoz8hOmukQLc5lEtkkF6wrfSD2
+         4l83WNQxeVqhyY3rbvxzinxr766yq9VqXJ9Z1TWteeEy+k0Mh2HY/M5JgX9siH5PNSzB
+         1NcUY7/+9Zi/dfiwOiJetd5sR7sevf2gSruRlzkWwUBnqj426e13XlSAz9vldv/LQYOx
+         CnnYspb2eJOiUv4xzeV22hksj5Nc7BJiCkVNT0pcSJEhzs6SAqeAEfaTss0HvdWgarj7
+         Rq4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734503779; x=1735108579;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tg+exyt2bEd/acPRMVaty3D/uVegz4OUg+5qQVFiOTE=;
+        b=BbcZod1e1DHy3opHcWO9pa4Nl4UOrTz695e0a2fYxg1Ziy0Bn1iU5nRb570Iyovli+
+         /p6VC84DFVYKKqMCI7TmbVTTPS6hkAcmLX13rh/IbzzToNWwNG555SptnCB8z9tkqZVG
+         uR4lhodQgSzMIEa8z2PurBoIp6VGo+q65Wc8aeR/z6W3PmoT8sbAG1phtfoXodBY+IV0
+         BMi2LSkdn3orV9Z6GI5qsCLFw+BNgsa7UrglfXlDCOVckWZ32oRlOhEJIM6PUUg3iL80
+         TKN+bd9HL5Q10j0Ox90D1H+ZrLGSQJzc1cbjsFUBTGxwQktNR6LN1F7hSMCXcPwF8lMs
+         GZfw==
+X-Forwarded-Encrypted: i=1; AJvYcCUj516PSqmpseN+SRQXXOe81359Pik5C3GaCE+oPilVa5qj9DSL9YC71CaFew4eOlHDjNVZXizp7Kdpzw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwIpases3tTgC5+qsc/y8SfM2qHDIe2zJPi4Dfl/iFHvNZcUtiN
+	x2bRu6ysU0HbutkFIb+xFfX9LU+WBS4q3SlYa2cLu6c8vsWGExRDCaAoUOZVxGzeB02QrO46FQA
+	I3b7nPnhE2dvM8VwU957wQIKRdVQ=
+X-Gm-Gg: ASbGnctIo/OQnuaH2jKHbhxZyEJubIRnSwp0Gb29daUdnpxTawZr9vTOhuC6PB+b2XJ
+	X/wYDo/6GbzQHSjMZtMD+644FdAwRvwI27/8upteIqJo/MqIwCb/Kvbs3ZTiI8MYeoYUPBSRE
+X-Google-Smtp-Source: AGHT+IGDZx1A4lzjevZaetM3q0p0F9NGqZ4KJyg/ET7Jin7l5ozux8ML2xLClyaZEmXGWB3tap3fvdMwxeQKOyK0U2E=
+X-Received: by 2002:a05:6870:340c:b0:29e:2345:c656 with SMTP id
+ 586e51a60fabf-2a7b3435b4cmr635905fac.43.1734503778886; Tue, 17 Dec 2024
+ 22:36:18 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
-	t=1734499158;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6r3EXwOyrqA1TPBa3Q4vxINguWxtsGq75OcL5iEtwr4=;
-	b=La82PDwtrWr/Hzv125gXlcuqYlFr0IBd33yM+wIzOWQXEcaBQZOeOagv2xXF/52wBPFFTs
-	ebzWKHIWI8l9j/LbdtA2TInnL0qDcFS7pRUxfgOU9Lbse92fezNajbH6qUg07pJDre3Cyq
-	OPdarmzm59fRDK2A1RoNcRjKF74RrFOy4DsHdvJrLYkPk5SKDG6rzm6EggvCTS5XUH4/KE
-	NbBxBs1YfOmBfwp8M3GVXK0EheLAomM3SlyYDDBRs2JL4Y0aXggOFPex2g+nACuvn//isi
-	F2p0jsntNOP+zDIIzQkklu4+Fi/PO33XEeBdAOx36Gz3ZuR+spjyusXqpBIR5A==
-Date: Wed, 18 Dec 2024 06:19:17 +0100
-From: Dragan Simic <dsimic@manjaro.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Vasily Khoruzhick <anarsoul@gmail.com>, Krzysztof Kozlowski
- <krzk@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, Michael Turquette <mturquette@baylibre.com>, Stephen
- Boyd <sboyd@kernel.org>, Maxime Ripard <mripard@kernel.org>, Roman Beranek
- <me@crly.cz>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: Re: [PATCH 1/3] dt-bindings: clock: sunxi: Export PLL_VIDEO_2X and
- PLL_MIPI
-In-Reply-To: <20241218013836.421cc616@minigeek.lan>
-References: <20241215053639.738890-1-anarsoul@gmail.com>
- <20241215053639.738890-2-anarsoul@gmail.com>
+References: <20241215053639.738890-1-anarsoul@gmail.com> <20241215053639.738890-2-anarsoul@gmail.com>
  <qbtp4jvkx3r5azufe4k3vtapqpfs54dyjiu4cy5v5wkkzumrzx@vy3xzkfplbue>
- <CA+E=qVeQ8uHBCeFtw6_2cY3252-YXc6eWrf5_YdeVgbp5LJo5g@mail.gmail.com>
- <20241217211505.7f9c9e4e@minigeek.lan>
- <d0bf0d9cd2df65dc2e17eb203d56eb13@manjaro.org>
- <20241218013836.421cc616@minigeek.lan>
-Message-ID: <96ce1cce894a8bd5aa302d5f5183f64c@manjaro.org>
-X-Sender: dsimic@manjaro.org
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
+ <CA+E=qVeQ8uHBCeFtw6_2cY3252-YXc6eWrf5_YdeVgbp5LJo5g@mail.gmail.com> <20241217211505.7f9c9e4e@minigeek.lan>
+In-Reply-To: <20241217211505.7f9c9e4e@minigeek.lan>
+From: Vasily Khoruzhick <anarsoul@gmail.com>
+Date: Tue, 17 Dec 2024 22:35:53 -0800
+Message-ID: <CA+E=qVcU9V+8LZ0Xnh+oDROVf8H99t_kiku7iSdXTHP43d9E_A@mail.gmail.com>
+Subject: Re: [PATCH 1/3] dt-bindings: clock: sunxi: Export PLL_VIDEO_2X and PLL_MIPI
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Maxime Ripard <mripard@kernel.org>, Roman Beranek <me@crly.cz>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello Andre,
+On Tue, Dec 17, 2024 at 1:15=E2=80=AFPM Andre Przywara <andre.przywara@arm.=
+com> wrote:
+>
+> On Tue, 17 Dec 2024 10:00:45 -0800
+> Vasily Khoruzhick <anarsoul@gmail.com> wrote:
+>
+> Hi,
+>
+> > On Mon, Dec 16, 2024 at 11:33=E2=80=AFPM Krzysztof Kozlowski <krzk@kern=
+el.org> wrote:
+> > >
+> > > On Sat, Dec 14, 2024 at 09:34:57PM -0800, Vasily Khoruzhick wrote:
+> > > > These will be used to explicitly select TCON0 clock parent in dts
+> > > >
+> > > > Fixes: ca1170b69968 ("clk: sunxi-ng: a64: force select PLL_MIPI in =
+TCON0 mux")
+> > > > Signed-off-by: Vasily Khoruzhick <anarsoul@gmail.com>
+> > > > ---
+> > > >  drivers/clk/sunxi-ng/ccu-sun50i-a64.h      | 2 --
+> > > >  include/dt-bindings/clock/sun50i-a64-ccu.h | 2 +
+> >
+> > Hi Krzysztof,
+> >
+> > > You cannot combine these changes.
+> >
+> > The patch basically moves defines out from ccu-sun50i-a64.h to
+> > sun50i-a64-ccu.h. How do I split the change without introducing
+> > compilation failure?
+>
+> You can just have the binding part first, adding the (same) definition
+> to the binding headers. As long as the #define's are not conflicting,
+> this is fine.
+> Then remove the now redundant definitions in the kernel headers, with a
+> subsequent patch.
 
-On 2024-12-18 02:38, Andre Przywara wrote:
-> On Tue, 17 Dec 2024 23:02:43 +0100
-> Dragan Simic <dsimic@manjaro.org> wrote:
->> On 2024-12-17 22:15, Andre Przywara wrote:
->> > On Tue, 17 Dec 2024 10:00:45 -0800
->> > Vasily Khoruzhick <anarsoul@gmail.com> wrote:
->> >> On Mon, Dec 16, 2024 at 11:33 PM Krzysztof Kozlowski <krzk@kernel.org>
->> >> wrote:
->> >> >
->> >> > On Sat, Dec 14, 2024 at 09:34:57PM -0800, Vasily Khoruzhick wrote:
->> >> > > These will be used to explicitly select TCON0 clock parent in dts
->> >> > >
->> >> > > Fixes: ca1170b69968 ("clk: sunxi-ng: a64: force select PLL_MIPI in TCON0 mux")
->> >> > > Signed-off-by: Vasily Khoruzhick <anarsoul@gmail.com>
->> >> > > ---
->> >> > >  drivers/clk/sunxi-ng/ccu-sun50i-a64.h      | 2 --
->> >> > >  include/dt-bindings/clock/sun50i-a64-ccu.h | 2 +
->> >>
->> >> > You cannot combine these changes.
->> >>
->> >> The patch basically moves defines out from ccu-sun50i-a64.h to
->> >> sun50i-a64-ccu.h. How do I split the change without introducing
->> >> compilation failure?
->> >
->> > You can just have the binding part first, adding the (same) definition
->> > to the binding headers. As long as the #define's are not conflicting,
->> > this is fine.
->> > Then remove the now redundant definitions in the kernel headers, with a
->> > subsequent patch.
->> 
->> Yes, that would be a way to make it formally correct, but also much
->> less readable and understandable later, as part of the source code
->> repository.  FWIW, I find this to be an example of the form being
->> more important than the actual function.
-> 
-> Not sure I understand your last sentence, exactly,
-
-Ah, sorry, I also saw the need to expand that sentence a bit, but only
-after I had already sent my message. :/
-
-> but what Krzysztof pointed out is that one part (the header change in
-> include/dt-bindings) is a DT binding patch, so part of a spec, if you
-> like, the other is Linux *code*. There is the DT rebasing repo, which
-> cherry-picks DT patches, so they form a separate history there, and
-> Linux code has no place in there. U-Boot for instance pull this
-> repo now on a regular basis. So keeping those things strictly separate
-> is really important here.
-
-Thanks a lot for your detailed explanation and for reminding me about
-the DT rebasing repository. [*]  I forgot about it for a moment, despite
-being active in U-Boot development when the repository was introduced,
-so yes, you're right that we're now in need to keep the bindings and the
-kernel code separate in patches.
-
-However, I can't stop myself from noticing that the way Krzysztof 
-replied
-left a lot to be desired when it comes to friendliness in general.  Such
-an approach is probably what contributed to me forgetting about the DT
-rebasing repository for a moment.
-
-[*] 
-https://git.kernel.org/pub/scm/linux/kernel/git/devicetree/devicetree-rebasing.git/
-
->> >> > Please run scripts/checkpatch.pl and fix reported warnings. Then please
->> >> > run 'scripts/checkpatch.pl --strict' and (probably) fix more warnings.
->> >> > Some warnings can be ignored, especially from --strict run, but the code
->> >> > here looks like it needs a fix. Feel free to get in touch if the warning
->> >> > is not clear.
->> >>
->> >> Yeah, it is not clear what do you want me to do, assuming the previous
->> >> similar change to sun50i-a64-ccu.h did essentially the same, see
->> >> 71b597ef5d46a326fb0d5cbfc1c6ff1d73cdc7f9
+Thanks for the suggestion! I'll address it in v2.
