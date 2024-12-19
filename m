@@ -1,114 +1,78 @@
-Received: from thales.epochal.quest (thales.epochal.quest [51.222.15.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mxout017.mail.hostpoint.ch (mxout017.mail.hostpoint.ch [217.26.49.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CED61F63EF
-	for <linux-sunxi@lists.linux.dev>; Wed, 18 Dec 2024 13:10:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.222.15.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F084A22332C;
+	Thu, 19 Dec 2024 10:58:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.26.49.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734527408; cv=none; b=nK8dqBEidtgpYVpO2Ufdtr1u2ZvEpALFtMXpIvnKgXxCkbneFJl5dNT+wAk1Vd5/Iv6EcKXLqmjUzLwxLPS5013fvcHJrAHOVPH57sB+lDoi2u/SI80KMlSpe7fjk9JZGJsyyRbOwoaSUG44G8nPIwPeSWUqCPE7OIbV/OKnqTE=
+	t=1734605908; cv=none; b=RidFSY2INK9gHU/HTiv+69TClbYglqZSbNHwaVYssW9imWQPP3qnvzDCu6xmMKzyJcTGRjLagjy3WdGWJZh7LMgEwhu64lsps1RMnmkcF60SYpQxXQkhxSguZbvJQMiAcv+RyS5TDEvzAMCr1EnRA6rPIrjPFP6LsDUebdKf2i4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734527408; c=relaxed/simple;
-	bh=UtiFUB7JYOEIMLI78fhF4G8WqBGTAB6l9kQoj2W7g7Q=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Iu5nolgNCEFe09k1iJvSBZCNenuM1NwfINWTG5ADsvk0e8IQ6xqP13uZ/k3EBHFVxvSLiSL+qqMJiJsE2jrnoXh4ZxR9EY8+CE3QGzAcP5xo1Xdrd6JuCLPcjAxfclpiA3Ra2jN1zZNg48u4kyMecZM7TBoTvDxZnRUhuADUy98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epochal.quest; spf=pass smtp.mailfrom=epochal.quest; dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b=jXmM0P56; arc=none smtp.client-ip=51.222.15.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epochal.quest
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=epochal.quest
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b="jXmM0P56"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=epochal.quest;
-	s=default; t=1734526898;
-	bh=UtiFUB7JYOEIMLI78fhF4G8WqBGTAB6l9kQoj2W7g7Q=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=jXmM0P56xEPCszSNWAG2srnBbfoN63A04qcy47Fnb+SYM/xM1N3rXfL8eSptj4Itz
-	 Ruff8oOAfZ/fiDHmUXwEwaydSR6HYm29SJe86oCxB/oumb10a/SB5anIhIMSGaVVOl
-	 NUodk1QWl26XZnlsdBjwQUhwEdbQ9cvTaHl2x3eypRcerwqKHb1PsHNdTbLMvu+ptP
-	 qhSAduiC7yhdc59AQsiSUM4Y6T7WcLEdzVbHRQ+7VopDqy48XCVuPQToowosTT1aV5
-	 ttas0gRSzxcYAJ6FzsoqM7MRKWYyLMVzbhDMB/xtxMEHZKsekhK6Q6/pLz7MyM5VJE
-	 Tafulc5+iwhig==
-X-Virus-Scanned: by epochal.quest
-From: Cody Eksal <masterr3c0rd@epochal.quest>
-Date: Wed, 18 Dec 2024 09:01:19 -0400
-Subject: [PATCH v2 2/2] arm64: dts: allwinner: a100: Add syscon nodes
+	s=arc-20240116; t=1734605908; c=relaxed/simple;
+	bh=q7FGjl0Km+Fe0xwPC2d4F/rlzqPQO4tvLrheUJdCuo8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jT307UAbjP1Oplhwv9FdapD5IQ7/kcqckkObc/RHLaS/1TuS6bWkOVfzrHOW5AwU1jEDAPhtEG5CJtiboVOuKby5pV91UhHkOz4mKCl/U5n5qSLy19PAO5Kfs2vgJpFK2+N4RAPi5iQynHvZLsUlpBJKqMmZvn8NwTgQ0UIdHCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=stefan-gloor.ch; spf=pass smtp.mailfrom=stefan-gloor.ch; arc=none smtp.client-ip=217.26.49.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=stefan-gloor.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stefan-gloor.ch
+Received: from [10.0.2.44] (helo=asmtp014.mail.hostpoint.ch)
+	by mxout017.mail.hostpoint.ch with esmtps  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.97.1 (FreeBSD))
+	(envelope-from <code@stefan-gloor.ch>)
+	id 1tOEEP-00000000A6k-3zaV;
+	Thu, 19 Dec 2024 11:58:14 +0100
+Received: from [178.197.223.140] (helo=localhost.localdomain)
+	by asmtp014.mail.hostpoint.ch with esmtpa (Exim 4.97.1 (FreeBSD))
+	(envelope-from <code@stefan-gloor.ch>)
+	id 1tOEEP-00000000Ezf-2xQw;
+	Thu, 19 Dec 2024 11:58:13 +0100
+X-Authenticated-Sender-Id: code@stefan-gloor.ch
+From: Stefan Gloor <code@stefan-gloor.ch>
+To: robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org
+Cc: devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Stefan Gloor <code@stefan-gloor.ch>
+Subject: [PATCH] ARM: dts: sunxi: Add MMC alias for consistent enumeration
+Date: Thu, 19 Dec 2024 11:56:23 +0100
+Message-ID: <20241219105622.13691-2-code@stefan-gloor.ch>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241218-a100-syscon-v2-2-dae60b9ce192@epochal.quest>
-References: <20241218-a100-syscon-v2-0-dae60b9ce192@epochal.quest>
-In-Reply-To: <20241218-a100-syscon-v2-0-dae60b9ce192@epochal.quest>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Parthiban Nallathambi <parthiban@linumiz.com>, 
- Andre Przywara <andre.przywara@arm.com>, 
- Cody Eksal <masterr3c0rd@epochal.quest>
-X-Mailer: b4 0.14.2
+Content-Transfer-Encoding: 8bit
+X-Vs-State: 0
 
-The Allwinner A100 has a system configuration block, denoted as SYS_CFG
-in the user manual's memory map. It is undocumented in the manual, but
-a glance at the vendor tree shows this block is similar to its
-predecessors in the A64 and H6. The A100 also has 3 SRAM blocks: A1, A2,
-and C. Add all of these to the SoC's device tree.
+Add explicit alias for MMC devices, so that (e)MMC and micro SD cards
+are enumerated consistently. This should fix spurious boot failures when
+specifying a hard-coded root partition, e.g., mmcblk0p2.
 
-Reviewed-by: Parthiban Nallathambi <parthiban@linumiz.com>
-Signed-off-by: Cody Eksal <masterr3c0rd@epochal.quest>
+Link: https://github.com/linux-sunxi/meta-sunxi/pull/431
+Signed-off-by: Stefan Gloor <code@stefan-gloor.ch>
 ---
- arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi | 33 ++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+ arch/arm/boot/dts/allwinner/sun7i-a20-olinuxino-micro.dts | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
-index 29ac7716c7a5284ccf8af675db9c7d016785f0ff..a24adba201af29a3a117222c67da5d269629fa47 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
-@@ -101,6 +101,39 @@ soc {
- 		#size-cells = <1>;
- 		ranges = <0 0 0 0x3fffffff>;
+diff --git a/arch/arm/boot/dts/allwinner/sun7i-a20-olinuxino-micro.dts b/arch/arm/boot/dts/allwinner/sun7i-a20-olinuxino-micro.dts
+index a1b89b2a2999..9cd1eb690134 100644
+--- a/arch/arm/boot/dts/allwinner/sun7i-a20-olinuxino-micro.dts
++++ b/arch/arm/boot/dts/allwinner/sun7i-a20-olinuxino-micro.dts
+@@ -60,6 +60,8 @@ aliases {
+ 		serial2 = &uart7;
+ 		spi0 = &spi1;
+ 		spi1 = &spi2;
++		mmc0 = &mmc0;
++		mmc1 = &mmc3;
+ 	};
  
-+		syscon: syscon@3000000 {
-+			compatible = "allwinner,sun50i-a100-system-control",
-+				     "allwinner,sun50i-a64-system-control";
-+			reg = <0x03000000 0x1000>;
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+			ranges;
-+
-+			sram_a1: sram@20000 {
-+				compatible = "mmio-sram";
-+				reg = <0x00020000 0x4000>;
-+				#address-cells = <1>;
-+				#size-cells = <1>;
-+				ranges = <0 0x00020000 0x4000>;
-+			};
-+
-+			sram_c: sram@24000 {
-+				compatible = "mmio-sram";
-+				reg = <0x024000 0x21000>;
-+				#address-cells = <1>;
-+				#size-cells = <1>;
-+				ranges = <0 0x024000 0x21000>;
-+			};
-+
-+			sram_a2: sram@100000 {
-+				compatible = "mmio-sram";
-+				reg = <0x0100000 0x14000>;
-+				#address-cells = <1>;
-+				#size-cells = <1>;
-+				ranges = <0 0x0100000 0x14000>;
-+			};
-+		};
-+
- 		ccu: clock@3001000 {
- 			compatible = "allwinner,sun50i-a100-ccu";
- 			reg = <0x03001000 0x1000>;
-
+ 	chosen {
 -- 
-2.47.1
+2.45.2
 
