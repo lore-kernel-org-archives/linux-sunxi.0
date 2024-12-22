@@ -1,237 +1,130 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEE1781732
-	for <linux-sunxi@lists.linux.dev>; Sun, 22 Dec 2024 17:15:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BBDE7DA8C
+	for <linux-sunxi@lists.linux.dev>; Sun, 22 Dec 2024 17:18:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734887736; cv=none; b=KKajdhvQMpj6dtpAXPI4pOP6KNRp3v8C7BGq+WiNrj2H+UzcU7D+QS/r2DFODEP6FnhlkuyXGtA07ecFlbWurlitNQIygrczV0HLXHXaqOuOC4ZTjb+AHMoZ8i+fLxQjIRv5aHu6MdCwNJ42pRS8wLWHMlvOerN+Zr/EJKUhni0=
+	t=1734887922; cv=none; b=tnb3p+/BJI9+wRZ0qc3M7GYxfDyequD1JezwrkbhXQITHk4VU7D23cAttuqD5DwTuOfDLtmAw7Cig59cHUk+VU35dvFyt6F/tZjVz83tJ97AeO5eSCPprH3qWU6oMJESOhWxIBwGSM1tYXevb4PsHcRw34CyY1hdlJJfAslFCJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734887736; c=relaxed/simple;
-	bh=g8nYvPqAO0FjEEchQsjQQF7QHU7XUp4wkO+nydDKEWU=;
+	s=arc-20240116; t=1734887922; c=relaxed/simple;
+	bh=QU43gHRimxwME7EdXJm0fUV670zAnP3j+xjD5MezmQg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QDcbM07qsLLJoUXGKBereyLHAWGHxgBxrPLrnuTgk6kdCujjGkBQBbsob+ORHYBmu7n85Is8wFVSXHyuDKRfe77TTWGg4xfpWUs4ut6ixy6Mhw3lw8UzWdkxIXzmU6jAdgmo/UfRKiqEPFRa4I78ToWyJL6AdKGJtYVtp10XYHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.177
+	 To:Cc:Content-Type; b=mRFenEjRVZMaZjLiiRI3/tk9EGV5452EbFolBhDc/bzlOSPY4qvT+rdTOfqA35AAZjAaBg1OXQ8ER1gUt5nDwwCCiVoKj41mxcMowyiFym0ugx6d+gQtMX3/EkaIYGXojj96jkBO0BMhcwkIibuRd2WjE45pMUqJmuSt4SSYaqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.166.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2ffd6b7d77aso44620341fa.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 22 Dec 2024 09:15:33 -0800 (PST)
+Received: by mail-io1-f50.google.com with SMTP id ca18e2360f4ac-844d7f81dd1so144786139f.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 22 Dec 2024 09:18:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734887728; x=1735492528;
+        d=1e100.net; s=20230601; t=1734887915; x=1735492715;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :reply-to:in-reply-to:references:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=dlz2LOWxC4ZL1ezJ/U8+YOy1mneK8Pcrb6gV8siPKTc=;
-        b=ut34qYduuKOqFOtCRS4CXkg26LwPRNPTo6xjgGEvl9CbLu3m7B68mmmOZ+EmMzBAE4
-         UVBCVFrEprIAJbVDdFkVMbIvwbdL6iJKdqftxBwP/RICsI9Ye0xsM3m+lSnXhOwQ/51Y
-         oAvkOdtcGzEUqSPA54fkNRe5Ub3s56WA3Pn3JeZ207xGggPzmZIeI/5pc7IvUgd2Bdcq
-         0IaLO1pew/mB59KfJ762YfYKbrEoOOzIe4bTRfKke/MbBAqexU6M3hZwB8Zqf25SdQCn
-         PqlgZe4ANN2Htef9jbdxmZl1rPMJUj1k9iBYFuXuGgxMsaeDkoU8yIcqPFZUJ2qxrUkQ
-         FZPw==
-X-Forwarded-Encrypted: i=1; AJvYcCWDv5C/AioH0DutIOf4dgidEW79MmGZTJafMS72EX511So30VPSKdVdjZJhIJGINJyZcCZ/sVuR43zKNQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzvkcuy18SwhizZMoOzTjirRE8gsNa7ruL7rluuCiSeVVrGjI4s
-	OQ3gl+YTRy22w+mdyK4voIdlwh9RjkgqgGiywdkddgr8WFOOXMDx3FX0Fo8f
-X-Gm-Gg: ASbGncvZGxi+lI8wPz7S6y0hWv4H+qUz5HKJmYMnFqmfkN8YI9+puLvgxIVteKUcSFH
-	DaPKqMzV+nA7stKGl54S2zThMMZ0zZXmRmYSJCiDxAiowYfDPPKpozHNNmLI9aIScLZS0nccT4i
-	vlEz5RXwRTp3ksWnsuhCvxqZ2bsl0GrY/6uW0B6b+kWEQoayhpUgSsDQvAIa+MxgaJKIVe5nE5R
-	s75jLNdts8eT6JlOPjqAKCKvKdLSMZRon5rymh1s3HRqCN1c/o9vi4E3SvU3xjAYoW8dzf7UD3v
-	CsuRyvor6A==
-X-Google-Smtp-Source: AGHT+IF+y8ETfy2vbXTaNIi7U+SughyGvl1ocotHiFX+Gw7ULVwANYFsrjNb9dz91oNEuamJB8cELQ==
-X-Received: by 2002:a2e:b888:0:b0:300:17a3:7ae7 with SMTP id 38308e7fff4ca-30468621aa1mr37031131fa.36.1734887728291;
-        Sun, 22 Dec 2024 09:15:28 -0800 (PST)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com. [209.85.167.49])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3045ad99c99sm11228571fa.27.2024.12.22.09.15.26
+        bh=lhKfBgVLzd53/xf8WYhlbf471gUVHM73ZZMecnUo5fI=;
+        b=wQLa86gxd4Y+7r7ZFaMhm+0Eb7BliepR/kd9HcNo9ud+lRBu8ZnvJJy/P3gk3YmKdr
+         udSICWU6gjPDDFpLT8gH2mIojrRiRUZr7PNKnPCueBeC8Lj+G0wHKRd+XJ86RgSPthBf
+         Ar+riJDZ333MWXJHUZBTvlSWyy508i+ygkgtU0Qo40Ai8L20nk2XRCk7wg509WV/ZyIx
+         9soeHYYFbuA9tN6QBb6i7ULNh+h77o769k4Gx2usTALnhPFqRVTYH+pvXaYc5T+nFMsZ
+         JasnIVdV/IVDRaCVmNjAgUrKQmBlI94av0gNQTxvsjyBhjap5nGRU/Np8LyVAPoRafXq
+         y0dw==
+X-Forwarded-Encrypted: i=1; AJvYcCUZpsZCRTz6pSKRgP3cn2mLI+GmcZgsxxfCnFsmVJeDZyV0LPeccNIov4e5EUQ5E9DS+r62lueqZZdKcw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyBw7LOoie8txuo8NKNQvMqdc/Qxbs+gnDe9ntk7rz/uMJNWlDa
+	MfK+Op8Cudc8DNG5OOYS+iKsOLpb61sRtOgZdTKYY+Fy20OktSyC7nH2N8vjvrg=
+X-Gm-Gg: ASbGnctmlu/qQhxYIvJoYLF4Z/KkezniiA8K1b4oQ6H9a3+lcXohwS3w6tSgf0UGae5
+	/lh2mkLYKQOQZo0D0tthA9S3pa7Yj58ar1WwykOxbj5rPxyaSgjR4665mCTFa3JjTZtd1xHTmNw
+	qfVy0bs5MlP1tYn1n+FzTy56fNUL0qtl/X/U919jx7C2XSSWixKeaI74ecUszeJbAGPAtamJ1Bz
+	d7ZTwSiBLwVvoSgQGJefPJNEQXMMwWBGSSfIpEYMtHbB5kPkwPxilveth6vtKPR0+Z1BhpmArFS
+	YzlXpmibYXVlvQ==
+X-Google-Smtp-Source: AGHT+IGMOnsbrBsY9YEuuLvz8JsE5NbEcUmQLBAUiTqSnWjyqf+KXjp/4AoMXnCiczzoypdOAfMCtw==
+X-Received: by 2002:a05:6e02:3b84:b0:3a7:bcbf:ba99 with SMTP id e9e14a558f8ab-3c2d2272e92mr101711725ab.6.1734887915353;
+        Sun, 22 Dec 2024 09:18:35 -0800 (PST)
+Received: from mail-il1-f180.google.com (mail-il1-f180.google.com. [209.85.166.180])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3c0dfb3264asm20387895ab.41.2024.12.22.09.18.34
         for <linux-sunxi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 Dec 2024 09:15:27 -0800 (PST)
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-53df19bf6a9so5212207e87.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 22 Dec 2024 09:15:26 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCX8b8G9uv4RJL7iv9YabkAAat82VP6R3Q8NdJQxExj3NjKKDvO9LFuN42OCEM2wCMmvFwVo+ZEUBLjXUw==@lists.linux.dev
-X-Received: by 2002:a05:6512:31d3:b0:540:1e5e:3876 with SMTP id
- 2adb3069b0e04-5422957ace2mr3418251e87.52.1734887726415; Sun, 22 Dec 2024
- 09:15:26 -0800 (PST)
+        Sun, 22 Dec 2024 09:18:34 -0800 (PST)
+Received: by mail-il1-f180.google.com with SMTP id e9e14a558f8ab-3a7deec316aso12347645ab.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 22 Dec 2024 09:18:34 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVEDZVDNkWrk1vFg0Wvl2PTb6vLSsaSEBmTM2zpvi9o4YkAgzoaB6DTtOJz1m2ib5p7Vzk38KXM+gvtKQ==@lists.linux.dev
+X-Received: by 2002:a92:c56e:0:b0:3a7:1dcb:d44b with SMTP id
+ e9e14a558f8ab-3c2d2975b28mr69446075ab.11.1734887914006; Sun, 22 Dec 2024
+ 09:18:34 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241221094122.27325-1-ryan@testtoast.com> <20241221094122.27325-3-ryan@testtoast.com>
-In-Reply-To: <20241221094122.27325-3-ryan@testtoast.com>
+References: <20241213195433.GA1568@lemon.iwr.uni-heidelberg.de>
+ <20241214011612.4fd9e4bf@minigeek.lan> <e61c927a4dfe909f4ede4a07dffd9dcd762875be.camel@icenowy.me>
+ <20241220172134.GA9899@lemon.iwr.uni-heidelberg.de>
+In-Reply-To: <20241220172134.GA9899@lemon.iwr.uni-heidelberg.de>
 Reply-To: wens@csie.org
 From: Chen-Yu Tsai <wens@csie.org>
-Date: Mon, 23 Dec 2024 01:15:13 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64qf0jNv72uHUK+aSj0Xt-bf+DW0NCnsZmLf-6xHZF_ew@mail.gmail.com>
-Message-ID: <CAGb2v64qf0jNv72uHUK+aSj0Xt-bf+DW0NCnsZmLf-6xHZF_ew@mail.gmail.com>
-Subject: Re: [PATCH 2/3] ASoC: sun4i-codec: support hp-det-gpios property
-To: Ryan Walklin <ryan@testtoast.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+Date: Mon, 23 Dec 2024 01:18:18 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64ovacuS+G+k3zBvQR+rW2_TSYh4p5frj7fLxz81K9Kmg@mail.gmail.com>
+Message-ID: <CAGb2v64ovacuS+G+k3zBvQR+rW2_TSYh4p5frj7fLxz81K9Kmg@mail.gmail.com>
+Subject: Re: Re: [PATCH v2] ARM: dts: sun8i-r40: remove unused GPIO regulator
+To: Hermann Lauer <Hermann.Lauer@iwr.uni-heidelberg.de>
+Cc: Icenowy Zheng <uwu@icenowy.me>, Andre Przywara <andre.przywara@arm.com>, 
+	Hermann.Lauer@uni-heidelberg.de, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
 	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, 
-	Chris Morgan <macromorgan@hotmail.com>
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Dec 21, 2024 at 5:41=E2=80=AFPM Ryan Walklin <ryan@testtoast.com> w=
-rote:
+On Sat, Dec 21, 2024 at 1:21=E2=80=AFAM Hermann Lauer
+<Hermann.Lauer@iwr.uni-heidelberg.de> wrote:
 >
-> From: Chris Morgan <macromorgan@hotmail.com>
+> Hi,
 >
-> Add support for GPIO headphone detection with the hp-det-gpios
-> property. In order for this to properly disable the path upon
-> removal of headphones, the output must be labelled Headphone which
-> is a common sink in the driver. Note this patch also adds the output
-> of Headphone for the H616 codec.
+> On Sat, Dec 14, 2024 at 03:13:23PM +0800, Icenowy Zheng wrote:
+> > > CC:ing Icenowy, who added the regulator originally, with commit
+> > > 0ca12c1ee43c ("ARM: sun8i: r40: add 5V regulator for Banana Pi M2
+> > > Ultra").
+> ...
+> > > Icenowy: can you clarify what "newer" version this was referring to
+> > > in
+> > > that commit message? That commit in itself doesn't seem to do
+> > > anything,
+> > > as the regulator isn't referenced, and it's not always-on. It's only
+> > > later when the USB nodes were added that it got used?
+> > > So was PH23 really necessary? As Hermann reports, setting PH23 on a
+> > > v1.1
+> > > makes it reboot.
 >
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
-> ---
->  sound/soc/sunxi/sun4i-codec.c | 59 +++++++++++++++++++++++++++++++++--
->  1 file changed, 57 insertions(+), 2 deletions(-)
+> diagnosed that futher now: PH23 is indeed powering the USB-Ports. Whats
+> happens ist that I powered the board through the micro USB port which tur=
+ned
+> out to be limited to 900mA in axp221s. So the setting of reg 0x30 is
+> the real culprit: Setting the two lowest bits in this register allows
+> unlimited power over micro usb.
 >
-> diff --git a/sound/soc/sunxi/sun4i-codec.c b/sound/soc/sunxi/sun4i-codec.=
-c
-> index 933a0913237c8..5f718dd3fcf0a 100644
-> --- a/sound/soc/sunxi/sun4i-codec.c
-> +++ b/sound/soc/sunxi/sun4i-codec.c
-> @@ -21,6 +21,7 @@
->  #include <linux/gpio/consumer.h>
+> In U-Boot:
+>  i2c dev 0
+>  i2c mw 34 30 63
 >
->  #include <sound/core.h>
-> +#include <sound/jack.h>
->  #include <sound/pcm.h>
->  #include <sound/pcm_params.h>
->  #include <sound/soc.h>
-> @@ -272,6 +273,7 @@ struct sun4i_codec {
->         struct clk      *clk_module;
->         struct reset_control *rst;
->         struct gpio_desc *gpio_pa;
-> +       struct gpio_desc *gpio_hp;
+> Or power the board through the barrel connector.
 >
->         /* ADC_FIFOC register is at different offset on different SoCs */
->         struct regmap_field *reg_adc_fifoc;
-> @@ -1302,6 +1304,49 @@ static struct snd_soc_dai_driver dummy_cpu_dai =3D=
- {
->         .ops =3D &dummy_dai_ops,
->  };
+> In all cases the kernel turns on USB-A power and boots.
 >
-> +static struct snd_soc_jack sun4i_headphone_jack;
-> +
-> +static struct snd_soc_jack_pin sun4i_headphone_jack_pins[] =3D {
-> +       { .pin =3D "Headphone", .mask =3D SND_JACK_HEADPHONE},
-> +};
-> +
-> +static struct snd_soc_jack_gpio sun4i_headphone_jack_gpio =3D {
-> +       .name =3D "hp-det",
-> +       .report =3D SND_JACK_HEADPHONE,
-> +       .debounce_time =3D 150,
-> +};
-> +
-> +static int sun4i_codec_machine_init(struct snd_soc_pcm_runtime *rtd)
-> +{
-> +       struct snd_soc_card *card =3D rtd->card;
-> +       struct sun4i_codec *scodec =3D snd_soc_card_get_drvdata(card);
-> +       int ret;
-> +
-> +       if (scodec->gpio_hp) {
-> +               ret =3D snd_soc_card_jack_new_pins(card, "Headphone Jack"=
-,
-> +                                                SND_JACK_HEADPHONE,
-> +                                                &sun4i_headphone_jack,
-> +                                                sun4i_headphone_jack_pin=
-s,
-> +                                                ARRAY_SIZE(sun4i_headpho=
-ne_jack_pins));
-> +               if (ret) {
-> +                       dev_err(rtd->dev,
-> +                               "Headphone jack creation failed: %d\n", r=
-et);
-> +                       return ret;
-> +               }
-> +
-> +               sun4i_headphone_jack_gpio.desc =3D scodec->gpio_hp;
-> +               ret =3D snd_soc_jack_add_gpios(&sun4i_headphone_jack, 1,
-> +                                            &sun4i_headphone_jack_gpio);
-> +
-> +               if (ret) {
-> +                       dev_err(rtd->dev, "Headphone GPIO not added: %d\n=
-", ret);
-> +                       return ret;
-> +               }
-> +       }
-> +
-> +       return 0;
-> +}
-> +
->  static struct snd_soc_dai_link *sun4i_codec_create_link(struct device *d=
-ev,
->                                                         int *num_links)
->  {
-> @@ -1327,6 +1372,7 @@ static struct snd_soc_dai_link *sun4i_codec_create_=
-link(struct device *dev,
->         link->codecs->name      =3D dev_name(dev);
->         link->platforms->name   =3D dev_name(dev);
->         link->dai_fmt           =3D SND_SOC_DAIFMT_I2S;
-> +       link->init              =3D sun4i_codec_machine_init;
+> > I am not sure, the schematics I have here (which says V1.0) have PH23
+> > as NC... Well, the M2 Berry schematics have PH23 as 5V EN, maybe I
+> > messed up M2U and M2B when developing?
 >
->         *num_links =3D 1;
->
-> @@ -1635,10 +1681,11 @@ static const struct snd_soc_component_driver sun5=
-0i_h616_codec_codec =3D {
->  };
->
->  static const struct snd_kcontrol_new sun50i_h616_card_controls[] =3D {
-> -       SOC_DAPM_PIN_SWITCH("LINEOUT"),
-> +       SOC_DAPM_PIN_SWITCH("Speaker"),
+> While V1.0 didn't need the PH23 setup due to nc, V1.1 needs it. Maybe V1.=
+1
+> was already on the horizon...
 
-Why?
+It seems this patch isn't needed then?
 
->  };
->
->  static const struct snd_soc_dapm_widget sun50i_h616_codec_card_dapm_widg=
-ets[] =3D {
-> +       SND_SOC_DAPM_HP("Headphone", NULL),
->         SND_SOC_DAPM_LINE("Line Out", NULL),
->         SND_SOC_DAPM_SPK("Speaker", sun4i_codec_spk_event),
->  };
-> @@ -1684,7 +1731,7 @@ static struct snd_soc_card *sun50i_h616_codec_creat=
-e_card(struct device *dev)
->
->         card->dev               =3D dev;
->         card->owner             =3D THIS_MODULE;
-> -       card->name              =3D "H616 Audio Codec";
-> +       card->name              =3D "h616-audio-codec";
 
-Why?
+ChenYu
 
->         card->driver_name       =3D "sun4i-codec";
->         card->controls          =3D sun50i_h616_card_controls;
->         card->num_controls      =3D ARRAY_SIZE(sun50i_h616_card_controls)=
-;
-> @@ -1940,6 +1987,14 @@ static int sun4i_codec_probe(struct platform_devic=
-e *pdev)
->                 return ret;
->         }
+> Thanks for the insights and your support, guys.
 >
-> +       scodec->gpio_hp =3D devm_gpiod_get_optional(&pdev->dev, "allwinne=
-r,hp-det",
-> +                                                 GPIOD_IN);
-
-Just put it on the same line. Lines can go up to 100 characters.
-
-> +       if (IS_ERR(scodec->gpio_hp)) {
-> +               ret =3D PTR_ERR(scodec->gpio_hp);
-> +               dev_err_probe(&pdev->dev, ret, "Failed to get hp-det gpio=
-\n");
-> +               return ret;
-> +       }
-> +
->         /* reg_field setup */
->         scodec->reg_adc_fifoc =3D devm_regmap_field_alloc(&pdev->dev,
->                                                         scodec->regmap,
-> --
-> 2.47.1
->
->
+> With seasons greetings
+>   Hermann
