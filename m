@@ -1,130 +1,140 @@
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BBDE7DA8C
-	for <linux-sunxi@lists.linux.dev>; Sun, 22 Dec 2024 17:18:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE15A7DA8C
+	for <linux-sunxi@lists.linux.dev>; Sun, 22 Dec 2024 17:19:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734887922; cv=none; b=tnb3p+/BJI9+wRZ0qc3M7GYxfDyequD1JezwrkbhXQITHk4VU7D23cAttuqD5DwTuOfDLtmAw7Cig59cHUk+VU35dvFyt6F/tZjVz83tJ97AeO5eSCPprH3qWU6oMJESOhWxIBwGSM1tYXevb4PsHcRw34CyY1hdlJJfAslFCJM=
+	t=1734887970; cv=none; b=RrwwIZSHbFDyYXx2GX8Js5LVoFk2gfGSqikO355p2Sbk2/YEbDu59nVT3lcfiG6g5I/4BaEyQZrrOUkUOKoPxzhYYaOFqBWYlcB9la6AqZcB2zDobMkM3C8VKCVad4L34mmpvU0U5AuvcABn1cfN2Nf647/KkeWVX2PJ9E1BDDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734887922; c=relaxed/simple;
-	bh=QU43gHRimxwME7EdXJm0fUV670zAnP3j+xjD5MezmQg=;
+	s=arc-20240116; t=1734887970; c=relaxed/simple;
+	bh=3PhJiSu5/A8Ap0S++9+7kwOBqZp2RZr+0i4T2inRKwI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mRFenEjRVZMaZjLiiRI3/tk9EGV5452EbFolBhDc/bzlOSPY4qvT+rdTOfqA35AAZjAaBg1OXQ8ER1gUt5nDwwCCiVoKj41mxcMowyiFym0ugx6d+gQtMX3/EkaIYGXojj96jkBO0BMhcwkIibuRd2WjE45pMUqJmuSt4SSYaqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.166.50
+	 To:Cc:Content-Type; b=rcpX95bRO77A6D7x7vC4Or6n80CfceoRkS9ipCYyAQjScGH9i2+m0nOLZ1CQfkMkt0ZibCEPc8SSln3oj8tBuK7QuzDbNrJlcU8h9vermAaylWwRUxtov/nTqfKrTyEJTZGRc+YxJu7q8smTWKfrOz0Vkmc0L2+rPl5n+gKvXv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.166.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-io1-f50.google.com with SMTP id ca18e2360f4ac-844d7f81dd1so144786139f.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 22 Dec 2024 09:18:40 -0800 (PST)
+Received: by mail-il1-f175.google.com with SMTP id e9e14a558f8ab-3a8c7b02d68so28970315ab.3
+        for <linux-sunxi@lists.linux.dev>; Sun, 22 Dec 2024 09:19:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734887915; x=1735492715;
+        d=1e100.net; s=20230601; t=1734887964; x=1735492764;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :reply-to:in-reply-to:references:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=lhKfBgVLzd53/xf8WYhlbf471gUVHM73ZZMecnUo5fI=;
-        b=wQLa86gxd4Y+7r7ZFaMhm+0Eb7BliepR/kd9HcNo9ud+lRBu8ZnvJJy/P3gk3YmKdr
-         udSICWU6gjPDDFpLT8gH2mIojrRiRUZr7PNKnPCueBeC8Lj+G0wHKRd+XJ86RgSPthBf
-         Ar+riJDZ333MWXJHUZBTvlSWyy508i+ygkgtU0Qo40Ai8L20nk2XRCk7wg509WV/ZyIx
-         9soeHYYFbuA9tN6QBb6i7ULNh+h77o769k4Gx2usTALnhPFqRVTYH+pvXaYc5T+nFMsZ
-         JasnIVdV/IVDRaCVmNjAgUrKQmBlI94av0gNQTxvsjyBhjap5nGRU/Np8LyVAPoRafXq
-         y0dw==
-X-Forwarded-Encrypted: i=1; AJvYcCUZpsZCRTz6pSKRgP3cn2mLI+GmcZgsxxfCnFsmVJeDZyV0LPeccNIov4e5EUQ5E9DS+r62lueqZZdKcw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyBw7LOoie8txuo8NKNQvMqdc/Qxbs+gnDe9ntk7rz/uMJNWlDa
-	MfK+Op8Cudc8DNG5OOYS+iKsOLpb61sRtOgZdTKYY+Fy20OktSyC7nH2N8vjvrg=
-X-Gm-Gg: ASbGnctmlu/qQhxYIvJoYLF4Z/KkezniiA8K1b4oQ6H9a3+lcXohwS3w6tSgf0UGae5
-	/lh2mkLYKQOQZo0D0tthA9S3pa7Yj58ar1WwykOxbj5rPxyaSgjR4665mCTFa3JjTZtd1xHTmNw
-	qfVy0bs5MlP1tYn1n+FzTy56fNUL0qtl/X/U919jx7C2XSSWixKeaI74ecUszeJbAGPAtamJ1Bz
-	d7ZTwSiBLwVvoSgQGJefPJNEQXMMwWBGSSfIpEYMtHbB5kPkwPxilveth6vtKPR0+Z1BhpmArFS
-	YzlXpmibYXVlvQ==
-X-Google-Smtp-Source: AGHT+IGMOnsbrBsY9YEuuLvz8JsE5NbEcUmQLBAUiTqSnWjyqf+KXjp/4AoMXnCiczzoypdOAfMCtw==
-X-Received: by 2002:a05:6e02:3b84:b0:3a7:bcbf:ba99 with SMTP id e9e14a558f8ab-3c2d2272e92mr101711725ab.6.1734887915353;
-        Sun, 22 Dec 2024 09:18:35 -0800 (PST)
-Received: from mail-il1-f180.google.com (mail-il1-f180.google.com. [209.85.166.180])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3c0dfb3264asm20387895ab.41.2024.12.22.09.18.34
+        bh=Jn4oJG4kk9AZGnKXQKwGIPd246ZQVSmkzpo6s8kUSt8=;
+        b=ClNw3qoXQmM1nGe9QY/z0aJErYFA0PoDCwQ1MfRGdXGSiQfGSZxO3IgKVUXVEHQP2v
+         l6Dip1yWrYiFtzAAInSngf72/GpO4/lbvjU/VtKWTcufvDdITbQvqadW1jqp64igkH5T
+         T9cx/ldu9uHnSOm47Xb2GjqddkYEjyAUzgec6o8mxparth95sOU/VP6oauDPtCPl7vlT
+         nLCag/DNpds/YYqmY0teyUafFtinUljKGDKNdDQA1c/FW+/GMnU6foNTwD1X+ibil4Sf
+         QKa6SEjpuBxqmRnDaDkE0dSmcwxSewUI1mWIyQ45vV4b04B9cQdWEDS3MhrGN3UmuC/k
+         Hw/g==
+X-Forwarded-Encrypted: i=1; AJvYcCXcISsoSJWOrf6qrIdIZzyNAueqIg50tVhvE7FimJv/Yw3OAbjlhHWnxanMoQTE3/dG9BWzTT9aKwyPqA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzbXV1ao48v+ZF90lTgMhI6c99jYBI2GXEcC9usqzjMTOnPsfp1
+	SYZHXGDNLCHl8wZ6IKm88UMG8XFG1JvNGe8e6OzFs5OvAkYUKT0aX6D+gO3ELEI=
+X-Gm-Gg: ASbGnctTZEzmEQBI0fiFtg8grZsSFPSHLV5QvouMU5FbGskWCZpq8M8obGe3OOVpQQf
+	geLQlYjHGrms9Xoshz0zXrLtOo2azCtttMoobuHhf65aQozYXYMtEDciXIFRz16GBQRN50oRfbJ
+	YocyrLbP0wgWSk67kSlMVuNUIekdHVjjp8VgjlqSAvasIlqdOjTuUCf8luPZ5oyyLENqJrQU9Yf
+	v3HMqzD031GqzdJfg6s2YA911uYyFDnkJ6yggBPD7gC75KwG4IdG/S5N/kfQQ5Lr3/Uva1DkJjA
+	9oKKeq/TDg==
+X-Google-Smtp-Source: AGHT+IHuYjAwXsp4ihXmzgmL+kqSs7GiPtLvmw/Az0DOeD0h5WRIFsS00Nqf0KN/8XOFbBtRTIEcRQ==
+X-Received: by 2002:a05:6e02:1b0e:b0:3a7:c60b:ad90 with SMTP id e9e14a558f8ab-3c2d1e7df4cmr116547505ab.3.1734887963742;
+        Sun, 22 Dec 2024 09:19:23 -0800 (PST)
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com. [209.85.166.51])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3c0deccf34fsm19978015ab.30.2024.12.22.09.19.22
         for <linux-sunxi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 Dec 2024 09:18:34 -0800 (PST)
-Received: by mail-il1-f180.google.com with SMTP id e9e14a558f8ab-3a7deec316aso12347645ab.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 22 Dec 2024 09:18:34 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVEDZVDNkWrk1vFg0Wvl2PTb6vLSsaSEBmTM2zpvi9o4YkAgzoaB6DTtOJz1m2ib5p7Vzk38KXM+gvtKQ==@lists.linux.dev
-X-Received: by 2002:a92:c56e:0:b0:3a7:1dcb:d44b with SMTP id
- e9e14a558f8ab-3c2d2975b28mr69446075ab.11.1734887914006; Sun, 22 Dec 2024
- 09:18:34 -0800 (PST)
+        Sun, 22 Dec 2024 09:19:22 -0800 (PST)
+Received: by mail-io1-f51.google.com with SMTP id ca18e2360f4ac-844e9b7e50dso328768639f.3
+        for <linux-sunxi@lists.linux.dev>; Sun, 22 Dec 2024 09:19:22 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU68T7LKj/F55NxgOphVFEd513JYTBrJpySnXCuJrGl0t6MjeTmjhopDE64SkaNel2kvbHHCv0TWQanfQ==@lists.linux.dev
+X-Received: by 2002:a05:6602:2dc6:b0:844:dfcd:8de3 with SMTP id
+ ca18e2360f4ac-8499e4f2fd1mr899114039f.1.1734887962153; Sun, 22 Dec 2024
+ 09:19:22 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241213195433.GA1568@lemon.iwr.uni-heidelberg.de>
- <20241214011612.4fd9e4bf@minigeek.lan> <e61c927a4dfe909f4ede4a07dffd9dcd762875be.camel@icenowy.me>
- <20241220172134.GA9899@lemon.iwr.uni-heidelberg.de>
-In-Reply-To: <20241220172134.GA9899@lemon.iwr.uni-heidelberg.de>
+References: <20241220120038.3137248-1-pbrobinson@gmail.com> <20241220120038.3137248-2-pbrobinson@gmail.com>
+In-Reply-To: <20241220120038.3137248-2-pbrobinson@gmail.com>
 Reply-To: wens@csie.org
 From: Chen-Yu Tsai <wens@csie.org>
-Date: Mon, 23 Dec 2024 01:18:18 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64ovacuS+G+k3zBvQR+rW2_TSYh4p5frj7fLxz81K9Kmg@mail.gmail.com>
-Message-ID: <CAGb2v64ovacuS+G+k3zBvQR+rW2_TSYh4p5frj7fLxz81K9Kmg@mail.gmail.com>
-Subject: Re: Re: [PATCH v2] ARM: dts: sun8i-r40: remove unused GPIO regulator
-To: Hermann Lauer <Hermann.Lauer@iwr.uni-heidelberg.de>
-Cc: Icenowy Zheng <uwu@icenowy.me>, Andre Przywara <andre.przywara@arm.com>, 
-	Hermann.Lauer@uni-heidelberg.de, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Date: Mon, 23 Dec 2024 01:19:08 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66enf0ybbyW3tW_YRdJB0=aOsXidm_bNHh=wdmm+HPBuw@mail.gmail.com>
+Message-ID: <CAGb2v66enf0ybbyW3tW_YRdJB0=aOsXidm_bNHh=wdmm+HPBuw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] arm64: dts: allwinner: a64: Add WiFi/BT header on Pine64
+To: Peter Robinson <pbrobinson@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Dec 21, 2024 at 1:21=E2=80=AFAM Hermann Lauer
-<Hermann.Lauer@iwr.uni-heidelberg.de> wrote:
+On Fri, Dec 20, 2024 at 8:00=E2=80=AFPM Peter Robinson <pbrobinson@gmail.co=
+m> wrote:
 >
-> Hi,
+> This adds all the pin mappings on the WiFi/BT header on
+> the original Pine64. They're disabled by default as the
+> modules don't ship by default. This includes, where they
+> haven't been already, UART1 for BT and mmc1 for WiFi.
 >
-> On Sat, Dec 14, 2024 at 03:13:23PM +0800, Icenowy Zheng wrote:
-> > > CC:ing Icenowy, who added the regulator originally, with commit
-> > > 0ca12c1ee43c ("ARM: sun8i: r40: add 5V regulator for Banana Pi M2
-> > > Ultra").
-> ...
-> > > Icenowy: can you clarify what "newer" version this was referring to
-> > > in
-> > > that commit message? That commit in itself doesn't seem to do
-> > > anything,
-> > > as the regulator isn't referenced, and it's not always-on. It's only
-> > > later when the USB nodes were added that it got used?
-> > > So was PH23 really necessary? As Hermann reports, setting PH23 on a
-> > > v1.1
-> > > makes it reboot.
+> Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
+> ---
+>  .../boot/dts/allwinner/sun50i-a64-pine64.dts    | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
 >
-> diagnosed that futher now: PH23 is indeed powering the USB-Ports. Whats
-> happens ist that I powered the board through the micro USB port which tur=
-ned
-> out to be limited to 900mA in axp221s. So the setting of reg 0x30 is
-> the real culprit: Setting the two lowest bits in this register allows
-> unlimited power over micro usb.
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pine64.dts b/arch/a=
+rm64/boot/dts/allwinner/sun50i-a64-pine64.dts
+> index 09e71fd60785..f04f0f1badc4 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pine64.dts
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pine64.dts
+> @@ -35,6 +35,11 @@ hdmi_con_in: endpoint {
+>                         };
+>                 };
+>         };
+> +
+> +       wifi_pwrseq: pwrseq {
+> +               compatible =3D "mmc-pwrseq-simple";
+> +               reset-gpios =3D <&r_pio 0 2 GPIO_ACTIVE_LOW>; /* PL2 */
+> +       };
+>  };
 >
-> In U-Boot:
->  i2c dev 0
->  i2c mw 34 30 63
+>  &codec {
+> @@ -124,6 +129,17 @@ &mmc0 {
+>         status =3D "okay";
+>  };
 >
-> Or power the board through the barrel connector.
->
-> In all cases the kernel turns on USB-A power and boots.
->
-> > I am not sure, the schematics I have here (which says V1.0) have PH23
-> > as NC... Well, the M2 Berry schematics have PH23 as 5V EN, maybe I
-> > messed up M2U and M2B when developing?
->
-> While V1.0 didn't need the PH23 setup due to nc, V1.1 needs it. Maybe V1.=
-1
-> was already on the horizon...
+> +/* On Wifi/BT connector */
+> +&mmc1 {
+> +       pinctrl-names =3D "default";
+> +       pinctrl-0 =3D <&mmc1_pins>;
+> +       vmmc-supply =3D <&reg_dldo4>;
+> +       vqmmc-supply =3D <&reg_eldo1>;
+> +       mmc-pwrseq =3D <&wifi_pwrseq>;
+> +       bus-width =3D <4>;
+> +       non-removable;
 
-It seems this patch isn't needed then?
-
+Please also add an explicit 'status =3D "disabled"', like what is done
+for the uart below.
 
 ChenYu
 
-> Thanks for the insights and your support, guys.
+> +};
+> +
+>  &ohci0 {
+>         status =3D "okay";
+>  };
+> @@ -286,6 +302,7 @@ &uart0 {
+>  &uart1 {
+>         pinctrl-names =3D "default";
+>         pinctrl-0 =3D <&uart1_pins>, <&uart1_rts_cts_pins>;
+> +       uart-has-rtscts;
+>         status =3D "disabled";
+>  };
 >
-> With seasons greetings
->   Hermann
+> --
+> 2.47.1
+>
+>
