@@ -1,147 +1,164 @@
-Received: from mail-il1-f174.google.com (mail-il1-f174.google.com [209.85.166.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A2BDC8C7
-	for <linux-sunxi@lists.linux.dev>; Sun, 22 Dec 2024 17:20:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97BCC188596
+	for <linux-sunxi@lists.linux.dev>; Sun, 22 Dec 2024 21:20:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734888013; cv=none; b=u05pj6/0OwCUU6AzCJFJU4m9AoOmTlD+dJbCVe6gdNx6BxhRCxnBZKsNFKUPyqQfq1E0wUjPkvi0ayGYB+I5uNpisXO3eoRmVbwD+4NGD0/9pAkhBs80KD2MDKP+u0hHJTSIIaT4wP2DxIL4h9V29HadSRuc97NvSZCGhZWHLxA=
+	t=1734902435; cv=none; b=l1tg8uoW12T+6A9KRtx641khrb+crkHOwUNfY0fjeZc+XZ+iJIk1RW/mN8SY2MCK3IY9ANmE92tIDLQL6fv1x0sgZbJL6lXmiW7bDlVum6CTiukvlNxy+xL+YHyK9urvuPZX8EQsRifJlTAcRqRXZJBBoQIy45OOVLbVI/sfglI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734888013; c=relaxed/simple;
-	bh=R08a595WG14Nf08Yy+YZ2kWZj1o355YbNgR6KJeIdWU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rPLIoj1zBDEI2jrK33RZwxJvyw1Q2kznv2hcBJoUwpK0BeqoDNg6sjHs6DlgUmx2ur+f3cCQeYFtB5xxJi4itwYcGHjBNORQqk8tnjxB769iJki7zarv0kYbD7+V1sDduWdB1/jDVXQPf5NR+ZKZYaWyehvdnlyHr3tLBfB4knU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.166.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-il1-f174.google.com with SMTP id e9e14a558f8ab-3a9caa3726fso12010575ab.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 22 Dec 2024 09:20:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734888007; x=1735492807;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qFhKn5TumItblZr+eQzLDEEKMdJqIvr95GEz6QTXuVk=;
-        b=GiItBwi1UHkMG6XohTjZqiu893+b7RuhGlP3siu4j6knq0G0a6T4TdNPcRzbk4ZGIT
-         Qjn90B4FOQL7+FSnQ2QZT1STfF59GVqCddjSu/xOsmQbZtG0cZPsQEFnw/cwOElKzGgx
-         ugg+hRZXV8ciEQX+n0aj42Pwa8McZVzOLZSfqv3KPojs4bQHj5n2aEpuGfsdOFUFt7No
-         5MFEXTufQ6z54KXn1hJldoEImLKmyuH3leRmKoc/sRkxGb/nZXrDFF4wmKFlUluavPu/
-         IbNgScnBYoQuy0y5bkOOikWEiQfCWdt0oOLe3s3dklTrCJJCQ+sO1eA6sgzmi+UlZpuF
-         D8RA==
-X-Forwarded-Encrypted: i=1; AJvYcCWhwiyMAliqTdxxRoqaOtlnKX2Cngcf+9TifATp0JL/Gt2c8fDtWhXtRn/w11afqvyiFcH9cy/PesTb5A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzNX3iLM7qzP0fhSWtmxsEZi2uhELwAqedDshuXF3+ZqjDMs2S/
-	xA1uopNr2d5ofEMg9IqEC2ns8igPz7IdVP6AzPtNK1CZ8fO3bl5Fgxjx0yHaz2g=
-X-Gm-Gg: ASbGncvoFzwV17rg/Q/s+LnRIzYMPU8JcN0WSecDVUnqQZgy1bBlUuDMi/4s2rQdqVY
-	+i/83+3yWdkFLzKlCXKpUqDJCVgJVSxWCLLP1GQRGh7ra5vs3LDaCQd029+QEZf8jU1C2liKoz9
-	D6+c+rASBBVae6R/S6EDW54swWXvlMaedIUFydEo1gYH57UVY0Cs3kL6qBNUjv20pucuePpbNH0
-	kCrfeD9EvmArS9fMVk8/ceCPHBPR4t7MDkQ81u4LQU7Fr/n4XmubWeErW2nEeaJ46YAJYCD7oWT
-	g9zhNjBrTw==
-X-Google-Smtp-Source: AGHT+IGf+PwbGtUUR7fLY1bXXVec6QTWr5W6PvVnKlFDQlv8GDHzXzdihSgFy3H0gnjc3ERSSCuB5w==
-X-Received: by 2002:a05:6e02:3f8f:b0:3a7:c81e:825f with SMTP id e9e14a558f8ab-3c3018ab111mr87995195ab.9.1734888007252;
-        Sun, 22 Dec 2024 09:20:07 -0800 (PST)
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com. [209.85.166.48])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3c0e47d719bsm19895095ab.79.2024.12.22.09.20.05
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 Dec 2024 09:20:05 -0800 (PST)
-Received: by mail-io1-f48.google.com with SMTP id ca18e2360f4ac-844e7bc6d84so131920339f.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 22 Dec 2024 09:20:05 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUgwaVpB1BC9JlKLBoRpxkMl8QzhlKd/jitupH+f038156WDFCn2Ba3tseTBeRrhiQVVTQIwiEtVYuxcw==@lists.linux.dev
-X-Received: by 2002:a6b:7f0b:0:b0:841:9225:1f56 with SMTP id
- ca18e2360f4ac-849887107d6mr1158827839f.3.1734888005725; Sun, 22 Dec 2024
- 09:20:05 -0800 (PST)
+	s=arc-20240116; t=1734902435; c=relaxed/simple;
+	bh=FiGv+5ysP4gIc+P0kSyoPBiyHVZ772181dW034ip27I=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=ibS9OLwUEtQCMhyb2hYiXZ3Mwu8PQYYBHYnB2tJTWad+hEaOY/+uf/52ePUoVL9poHD1EKAnZBIkxtBUaqZxlfhLkbZVNv9Q/hMrdHeZgTdhdWqB9Odf3XLIYzxvoNiqduUIs1r1srJanH+2Oy66uit3MTgs1gJftDByKOZVEl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=NEfqJ7zS; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Z34rux4H; arc=none smtp.client-ip=103.168.172.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="NEfqJ7zS";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Z34rux4H"
+Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
+	by mailfout.phl.internal (Postfix) with ESMTP id 984E013801B6;
+	Sun, 22 Dec 2024 16:20:32 -0500 (EST)
+Received: from phl-imap-07 ([10.202.2.97])
+  by phl-compute-04.internal (MEProxy); Sun, 22 Dec 2024 16:20:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm2;
+	 t=1734902432; x=1734988832; bh=ONFj4qGyvB5Vc06y2mU0omsDA8ywA9Lq
+	YdH+Ls8UtDc=; b=NEfqJ7zSpS/vln3CGIJ/0kJAP41tUliKx4fCh0YaJd9J0h6E
+	kIjeRdkAX9ozv+C44ol9xUvQqICqLbIAKDjccqpRc6zajfjIHUtzFSyErTq3biSd
+	BGzcWaoVrrlgTn0FkRPnLoPTu8md1KoogGclhDrxs9Vi/TqKSH6fdhfjC2hubiZK
+	p71A2F46K7dV0JUH+tGAlpbHaSD6hjpUmctTSelgFMAghzAfrnVnHXHxkTrZSKwa
+	q6lAJDols5jN7FqoClUFMqDRxqu2LXl2nvZDFSizvSgqd3y9KIlYQitNlLq4pFxn
+	Uw6kyH9h1d9/5yiAJamX7BgSGn6qCh1cAvGwpw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1734902432; x=
+	1734988832; bh=ONFj4qGyvB5Vc06y2mU0omsDA8ywA9LqYdH+Ls8UtDc=; b=Z
+	34rux4HRMFYIw32tR8VoPZUHpvvHAglQm0iNa+HtqoEIXLv7c0PHbqJUQqt7+/u9
+	ys1w7iV97GPVr2MeSFBm7OyX5augZQyvTqB+PwMglBdxRDztHPGfO54iAqW2EgAT
+	4sH+YOc+gW4vuPsKT4pORoFltd/k/Yp6hoLd+uveX/a/dReFQpAt7XqMOXFZOrpa
+	U2Vu9GZl4Vitgunkw/vx3z07EbRtcflYnchymUwIPSBEKfaSWj0W9vIlswzIBnfD
+	3seFVlvfuyPt+ectXZGul85Cd4+IKL/WL2c4iiLNeqIav2kYigAF/EJeWStlh+OY
+	Rxl1R3zcT9EUH470ilYLg==
+X-ME-Sender: <xms:n4JoZzWjFCJ-UcjF7U-Wa5OQjl6l3pSgawqD47_zWbLPcZRjpRChJA>
+    <xme:n4JoZ7k3PcBuFp9s6QgajWnPUKdduJ33iiC9UBvuh78aQSsooRUTv4aW-m4KWiblS
+    KIjbl4puSzEHew33A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddruddtkedgudegiecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthhqredtredt
+    jeenucfhrhhomhepfdfthigrnhcuhggrlhhklhhinhdfuceorhihrghnsehtvghsthhtoh
+    grshhtrdgtohhmqeenucggtffrrghtthgvrhhnpeethfffjefggfeuheekjefguefhhfef
+    leduvdehgfetueegfeffiefhtdejheeuudenucffohhmrghinhepghhithhhuhgsrdgtoh
+    hmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprhih
+    rghnsehtvghsthhtohgrshhtrdgtohhmpdhnsggprhgtphhtthhopeduvddpmhhouggvpe
+    hsmhhtphhouhhtpdhrtghpthhtohepfigvnhhssegtshhivgdrohhrghdprhgtphhtthho
+    pehjvghrnhgvjhdrshhkrhgrsggvtgesghhmrghilhdrtghomhdprhgtphhtthhopehlgh
+    hirhgufihoohgusehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrtghrohhmohhrghgr
+    nheshhhothhmrghilhdrtghomhdprhgtphhtthhopegsrhhoohhnihgvsehkvghrnhgvlh
+    drohhrghdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtshdr
+    ihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehlihhnuhigqdhsuhhngihisehlih
+    hsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepphgvrhgvgiesphgvrhgvgidrtgii
+    pdhrtghpthhtohepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:n4JoZ_ZHDZ4llpd1wTBJ_mBsQDuxUmyp8G6NR2PfrZDmTsxR0nZ_vA>
+    <xmx:n4JoZ-UT-il-LNasM-S-CLxuOok7hZGZINXFp6e9jhCtiwYSozEy3w>
+    <xmx:n4JoZ9n6ubaNIzxv_yvMWsI9SpePzo7i8i95lioDViyn-oGg0hXWPw>
+    <xmx:n4JoZ7dggdNQby1s5jNXsQTec3a33b7gZlXgWiMLQOXcR3ORC-ANTg>
+    <xmx:oIJoZzcPHWhc4dfF6ysQ2d6rFCFzvPohVdB7AFBSgWRa5qPcvh95N0yY>
+Feedback-ID: idc0145fc:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 7BD18BA006F; Sun, 22 Dec 2024 16:20:31 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241220120038.3137248-1-pbrobinson@gmail.com> <20241220120038.3137248-3-pbrobinson@gmail.com>
-In-Reply-To: <20241220120038.3137248-3-pbrobinson@gmail.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Mon, 23 Dec 2024 01:19:50 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67re8kjHzmPQ1z6Jrvz4x5TBK+hD=DOxtGNTOFOJKAhvg@mail.gmail.com>
-Message-ID: <CAGb2v67re8kjHzmPQ1z6Jrvz4x5TBK+hD=DOxtGNTOFOJKAhvg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] arm64: dts: allwinner: a64: Add WiFi/BT header on SoPine
-To: Peter Robinson <pbrobinson@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Date: Mon, 23 Dec 2024 10:20:11 +1300
+From: "Ryan Walklin" <ryan@testtoast.com>
+To: "Chen-Yu Tsai" <wens@csie.org>
+Cc: "Liam Girdwood" <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>,
+ "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+ "Samuel Holland" <samuel@sholland.org>, linux-sound@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, "Chris Morgan" <macromorgan@hotmail.com>
+Message-Id: <982a7d32-ab58-434e-a125-4f7143928caf@app.fastmail.com>
+In-Reply-To: 
+ <CAGb2v64qf0jNv72uHUK+aSj0Xt-bf+DW0NCnsZmLf-6xHZF_ew@mail.gmail.com>
+References: <20241221094122.27325-1-ryan@testtoast.com>
+ <20241221094122.27325-3-ryan@testtoast.com>
+ <CAGb2v64qf0jNv72uHUK+aSj0Xt-bf+DW0NCnsZmLf-6xHZF_ew@mail.gmail.com>
+Subject: Re: [PATCH 2/3] ASoC: sun4i-codec: support hp-det-gpios property
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 20, 2024 at 8:00=E2=80=AFPM Peter Robinson <pbrobinson@gmail.co=
-m> wrote:
->
-> This adds all the pin mappings on the WiFi/BT header on
-> the SoPine baseboard/A64-LTS. They're disabled by default
-> as the modules don't ship by default. This includes, where
-> they haven't been already, UART1 for BT and mmc1 for WiFi.
->
-> Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
-> ---
->  .../allwinner/sun50i-a64-sopine-baseboard.dts | 24 +++++++++++++++++++
->  1 file changed, 24 insertions(+)
->
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dt=
-s b/arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dts
-> index be2347c8f267..752d2aae8465 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dts
-> @@ -42,6 +42,11 @@ reg_vcc1v8: vcc1v8 {
->                 regulator-min-microvolt =3D <1800000>;
->                 regulator-max-microvolt =3D <1800000>;
->         };
-> +
-> +       wifi_pwrseq: pwrseq {
-> +               compatible =3D "mmc-pwrseq-simple";
-> +               reset-gpios =3D <&r_pio 0 2 GPIO_ACTIVE_LOW>; /* PL2 */
-> +       };
->  };
->
->  &ac_power_supply {
-> @@ -103,6 +108,17 @@ ext_rgmii_phy: ethernet-phy@1 {
->         };
->  };
->
-> +/* On Wifi/BT connector */
-> +&mmc1 {
-> +       pinctrl-names =3D "default";
-> +       pinctrl-0 =3D <&mmc1_pins>;
-> +       vmmc-supply =3D <&reg_dldo4>;
-> +       vqmmc-supply =3D <&reg_eldo1>;
-> +       mmc-pwrseq =3D <&wifi_pwrseq>;
-> +       bus-width =3D <4>;
-> +       non-removable;
+Hi Chen-Yu,
 
-Same here, please explicitly set 'status =3D "disabled"' like what
-you are doing with uart1 below.
+Thanks for the review!
 
-ChenYu
+On Mon, 23 Dec 2024, at 6:15 AM, Chen-Yu Tsai wrote:
+> On Sat, Dec 21, 2024 at 5:41=E2=80=AFPM Ryan Walklin <ryan@testtoast.c=
+om> wrote:
 
-> +};
-> +
->  &mmc2 {
->         pinctrl-names =3D "default";
->         pinctrl-0 =3D <&mmc2_pins>;
-> @@ -175,6 +191,14 @@ &uart0 {
->         status =3D "okay";
->  };
+>> @@ -1635,10 +1681,11 @@ static const struct snd_soc_component_driver =
+sun50i_h616_codec_codec =3D {
+>>  };
+>>
+>>  static const struct snd_kcontrol_new sun50i_h616_card_controls[] =3D=
+ {
+>> -       SOC_DAPM_PIN_SWITCH("LINEOUT"),
+>> +       SOC_DAPM_PIN_SWITCH("Speaker"),
 >
-> +/* On Wifi/BT connector, with RTS/CTS */
-> +&uart1 {
-> +       pinctrl-names =3D "default";
-> +       pinctrl-0 =3D <&uart1_pins>, <&uart1_rts_cts_pins>;
-> +       uart-has-rtscts;
-> +       status =3D "disabled";
-> +};
-> +
->  /* On Pi-2 connector */
->  &uart2 {
->         pinctrl-names =3D "default";
-> --
-> 2.47.1
+> Why?
+
+The speaker amp is controlled by a GPIO, this needs a specific card cont=
+rol to toggle on and off, discrete from the line-out volume. Muting the =
+output entirely is not what is required, hence the separate control. I a=
+lso understand (although it is IMO not well documented on the user-space=
+ side) that "Speaker" has a specific meaning to the user-space routing. =
+Can add this to the merge message.
+
+>> @@ -1684,7 +1731,7 @@ static struct snd_soc_card *sun50i_h616_codec_c=
+reate_card(struct device *dev)
+>>
+>>         card->dev               =3D dev;
+>>         card->owner             =3D THIS_MODULE;
+>> -       card->name              =3D "H616 Audio Codec";
+>> +       card->name              =3D "h616-audio-codec";
 >
+> Why?
+
+As mentioned in the cover letter, ALSA UCM in user space uses the card n=
+ame to detect and apply the relevant configuration, by loading /usr/shar=
+e/alsa/ucm2/conf.d/<driver_name>/<card_name>.conf. Spaces are therefore =
+removed in the card name to make this easier to manage. Happy to add thi=
+s to the commit message too, and this could be changed to card->long_nam=
+e if it is desired to maintain a human-readable card->name.
+
+See https://github.com/alsa-project/alsa-ucm-conf/pull/491/files for the=
+ UCM patch.
+
+>> @@ -1940,6 +1987,14 @@ static int sun4i_codec_probe(struct platform_d=
+evice *pdev)
+>>                 return ret;
+>>         }
+>>
+>> +       scodec->gpio_hp =3D devm_gpiod_get_optional(&pdev->dev, "allw=
+inner,hp-det",
+>> +                                                 GPIOD_IN);
 >
+> Just put it on the same line. Lines can go up to 100 characters.
+
+Thanks, will do.
+
+Regards,
+
+Ryan
