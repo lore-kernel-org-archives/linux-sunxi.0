@@ -1,109 +1,120 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9AB71B6CFB
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 Dec 2024 15:18:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C23FD1FB3;
+	Fri, 27 Dec 2024 17:42:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735312709; cv=none; b=opNn2xaykcqkwcjEgVD8um5FGA+Nv4yn5FRA7Zf045gCkr6BFfgj0txqwT9G6clV6Mm6HS9KOdjiTIyjDO0MjCi/0QcxFzADrAdsHytke4TMXOqh3mCnGA5LX4U1YaUsmmfROGYZQQPmcrdOtUZatks2BGHTMxkKNsQczX6nL+M=
+	t=1735321342; cv=none; b=L801y9ufbTGKyalWW3C40SpLiJ4vAA2JlaqF0mB5GvZRR8D5JX6PANKQFwHGAJ6WmFX9p1IiDpcJNINkyAfHjFNfVLWOm3yqSktvveCjHtaXVgohDjC1qTi+ObxHs+poV5ydX5dtEC5ylu7fFrTKsKU7bBHtXmakSS98lbgie4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735312709; c=relaxed/simple;
-	bh=5mHgPD47KHRO3TRouHZwXsGVGtTqUwYDN+U+WO6IdEk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rH8MiG0xIY0QbF+bTTiU5WDptK/vjbwXQibvPYpRLm80NQjiI1fIskaGJPEwQ1Ti+EN6mr677Q1+fQUyUoQfSeBws3mzPQuwQ9raB2BUtKIfLkzzuJUA7Aq2IB7Y7D1h26k9fTPWsZ6FK0PgbAyDSxNh7vzXssTBrYSHBnKu+6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-3023c51146cso75354431fa.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 27 Dec 2024 07:18:26 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735312703; x=1735917503;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=L0eDlOw9p3DnVtbNe3F5E+YgQxPXK7eYD6omdeJR05k=;
-        b=Qux0fOiEWS3vAttcHTjGovYOJNyMvPS3oqy3dx5EHSL1HfAXaDjDa0XJGNGPz8bwYQ
-         9tUT8IPRGbLjh8mq7LhlWjdgy6w7f8FcOf3ZR9YGsk/QwF7YcHMaXahoTZxrSn041bqd
-         z1C42ClA/hg2w6lSyYznmI85wxcVk3aE1fIJoMgjZ3+GRLB1SSI2xcM63aY+DINIhqrB
-         rKkFto58GGl4CS3pZmQ5PjMTa1tw7Eh0Y8OAD9I5HltLzLnx8zL7cUZutX2jZfq4fFza
-         0Upq6FV9Y3Uzl9pZ6CM0UM+RpB8b46CGMdm99JWj7V9LdKy7Xsnkc/7YqMkdz2PcZ3oX
-         pAQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUMKJIY3juIcU+BofChCUgG901FCclN0k5jXkZQ31oHMluH6Zdx5nPBECRxZPXfevP9b78KY359ewIVDg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw1Olska9va8I9Trc4FyfjTz9Igt44bOqPFEiWHhKD7y8I940ur
-	I0CtyPmPdpmIJ2YNRBBPzS611POxJ65MLvtwEj/FG5gqXZauc4juKDCJVqRe
-X-Gm-Gg: ASbGncvHmWktUgh+hDp4ILDDnmT4MUZJOKVY0CUsS1kmRaLlEAxd6og+yOgX1rc8tUJ
-	IKUmhZ9rXkxtINjvenr2hCmsowZghydIQWSYpzvpYiq7pwFqxxKfsLPAfQli3vAxI4DCLvQ6AYG
-	NKNyTE+1uTFqLUFvhhqXSwoIkBIInHZ9I5HrMS2BZQm8kltZaq/55eYgkc3wwRqjN4wckxEoaNi
-	gnBx53XHM670S6ej7Pf1UDHtAJ0NizkhnB7ACQ4dGcxzcC3Um0em0vMO/dteXqJ+cDd3IXzSZ0H
-	AXJVNPhbnHY5EQ==
-X-Google-Smtp-Source: AGHT+IEmdtOZrm4uVxR93GaO/oFYTjhYDd/RMFRs8/qO3dipCfdHBB+DWcUPG3Pb475FQNggr0nX5w==
-X-Received: by 2002:a05:651c:b24:b0:302:49f7:1d72 with SMTP id 38308e7fff4ca-30469b34be9mr92228441fa.9.1735312701412;
-        Fri, 27 Dec 2024 07:18:21 -0800 (PST)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com. [209.85.208.170])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3045ad99d1esm25504201fa.38.2024.12.27.07.18.20
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Dec 2024 07:18:20 -0800 (PST)
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-3023c51146cso75353821fa.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 27 Dec 2024 07:18:20 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUF5EZCqKZtw83T6uyqIhF4hFLHWoJMnzl6Jazn3qLhRze0H8YRkKdnweJXtoIaabg6q9wHBvaJymyTnQ==@lists.linux.dev
-X-Received: by 2002:a2e:a591:0:b0:302:1fce:393d with SMTP id
- 38308e7fff4ca-3045833692cmr107500831fa.2.1735312700069; Fri, 27 Dec 2024
- 07:18:20 -0800 (PST)
+	s=arc-20240116; t=1735321342; c=relaxed/simple;
+	bh=0bFdHqCzn5f2CvXlfqGybIGbQK8L/GTLyJ6yIAZPZGs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CqTuIyWLQTrY12Cyk2+00snUpUurTqylBk5/tkx2sd01epGTZxCLgnaXS69PnriL28TmqfizkkhSWIpPQiFTd8N+Yr3olLIbd5j58krnCOlDxEVH5Hv7ZDlPXZsyIq75ekj9F8BsBSu6mb9fVyUU3zrPtb3cUfxLG1LldFkr25k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uerjnRn9; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uerjnRn9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52404C4CED0;
+	Fri, 27 Dec 2024 17:42:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1735321342;
+	bh=0bFdHqCzn5f2CvXlfqGybIGbQK8L/GTLyJ6yIAZPZGs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uerjnRn9qAtLEzUGvZUSOs4DGdLkb3mptAl+BnZV7M2SiEq/UIHP/l0jB2/M0W039
+	 cJliRm9pTDW4UIfHiEjFo6x8zVtR9urPmcZNvivkXRGKgTaBmSVnVtlQZyurpnuZH7
+	 ENOWgO44kAx4z4xp0qAJtcVsJNdBm7N90JE935SHx/bA/ZVe2hKaF3LcOMU7Hh1MYg
+	 Ro8u/DqH21EFFVPzpb1bZmIkCLZ0fYL8S/r9GY7DpWgmluLOItuC9q2xLHgwIS4kkJ
+	 jJhuQMuzsppKHclV2BRo23cKrw+fR8CbGdTG3n90j3sMPl80w7iYFi70InS2zL3imK
+	 WJKmnYJPtwe3g==
+Date: Fri, 27 Dec 2024 17:42:14 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Parthiban Nallathambi <parthiban@linumiz.com>
+Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>, iommu@lists.linux.dev,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-phy@lists.infradead.org
+Subject: Re: [PATCH RESEND 01/22] dt-bindings: iommu: sun50i: remove resets
+ from required property
+Message-ID: <20241227-backward-sandfish-3734dadba8a4@spud>
+References: <20241227-a133-display-support-v1-0-abad35b3579c@linumiz.com>
+ <20241227-a133-display-support-v1-1-abad35b3579c@linumiz.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241109003739.3440904-1-masterr3c0rd@epochal.quest>
- <173124139852.3585539.10704015898700065278.b4-ty@csie.org> <9415ca9c-f303-4507-8cd6-cb08ee09e988@linumiz.com>
-In-Reply-To: <9415ca9c-f303-4507-8cd6-cb08ee09e988@linumiz.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Fri, 27 Dec 2024 23:18:06 +0800
-X-Gmail-Original-Message-ID: <CAGb2v650sctP83mdoYtcws2zVzJzfBqq=AvAXYH-WaOoPBDx2Q@mail.gmail.com>
-Message-ID: <CAGb2v650sctP83mdoYtcws2zVzJzfBqq=AvAXYH-WaOoPBDx2Q@mail.gmail.com>
-Subject: Re: [PATCH] clk: sunxi-ng: a100: enable MMC clock reparenting
-To: Parthiban <parthiban@linumiz.com>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Yangtao Li <frank@allwinnertech.com>, Maxime Ripard <mripard@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Cody Eksal <masterr3c0rd@epochal.quest>, linux-clk@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Andre Przywara <andre.przywara@arm.com>, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="jmNM+Wy3mOmacT9A"
+Content-Disposition: inline
+In-Reply-To: <20241227-a133-display-support-v1-1-abad35b3579c@linumiz.com>
+
+
+--jmNM+Wy3mOmacT9A
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 27, 2024 at 4:45=E2=80=AFPM Parthiban <parthiban@linumiz.com> w=
-rote:
->
-> On 11/10/24 5:53 PM, Chen-Yu Tsai wrote:
-> > On Fri, 08 Nov 2024 20:37:37 -0400, Cody Eksal wrote:
-> >> While testing the MMC nodes proposed in [1], it was noted that mmc0/1
-> >> would fail to initialize, with "mmc: fatal err update clk timeout" in
-> >> the kernel logs. A closer look at the clock definitions showed that th=
-e MMC
-> >> MPs had the "CLK_SET_RATE_NO_REPARENT" flag set. No reason was given f=
-or
-> >> adding this flag in the first place, and its original purpose is unkno=
-wn,
-> >> but it doesn't seem to make sense and results in severe limitations to=
- MMC
-> >> speeds. Thus, remove this flag from the 3 MMC MPs.
-> >>
-> >> [...]
-> >
-> > Applied to clk-for-6.13 in git@github.com:linux-sunxi/linux-sunxi.git, =
-thanks!
-> >
-> > [1/1] clk: sunxi-ng: a100: enable MMC clock reparenting
-> >       commit: 3fd8177f0015c32fdb0af0feab0bcf344aa74832
-> This commit is missing in 6.13-rc4. Will it be merged in the next rcX?
+On Fri, Dec 27, 2024 at 06:30:50PM +0530, Parthiban Nallathambi wrote:
+> iommu in a133/a100 does not have reset control. remove it
+> from required property to make it optional.
 
-It looks like I tagged the wrong commit when I sent the pull request.
+Merge this with patch 2, making the reset required for the existing
+devices and not permitted (false) for your new devices please.
 
-I'll try to send a PR for it as a fix.
+>=20
+> Signed-off-by: Parthiban Nallathambi <parthiban@linumiz.com>
+> ---
+>  Documentation/devicetree/bindings/iommu/allwinner,sun50i-h6-iommu.yaml |=
+ 1 -
+>  1 file changed, 1 deletion(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/iommu/allwinner,sun50i-h6-=
+iommu.yaml b/Documentation/devicetree/bindings/iommu/allwinner,sun50i-h6-io=
+mmu.yaml
+> index a8409db4a3e3..03176f68485b 100644
+> --- a/Documentation/devicetree/bindings/iommu/allwinner,sun50i-h6-iommu.y=
+aml
+> +++ b/Documentation/devicetree/bindings/iommu/allwinner,sun50i-h6-iommu.y=
+aml
+> @@ -42,7 +42,6 @@ required:
+>    - reg
+>    - interrupts
+>    - clocks
+> -  - resets
+> =20
+>  additionalProperties: false
+> =20
+>=20
+> --=20
+> 2.39.5
+>=20
 
-ChenYu
+--jmNM+Wy3mOmacT9A
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ27m9gAKCRB4tDGHoIJi
+0gDTAQCkD8Xhuyviy0vhXeZ4H+KJGL4kLQQgH/BbJQrWmtEiKgEA0tU2Y5TQpef1
+SQ6NyzqbRTQrGqT89fyibG21/6vErQs=
+=VGkJ
+-----END PGP SIGNATURE-----
+
+--jmNM+Wy3mOmacT9A--
