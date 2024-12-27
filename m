@@ -1,130 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01B8C1FB3;
-	Fri, 27 Dec 2024 17:44:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3210111CA9
+	for <linux-sunxi@lists.linux.dev>; Fri, 27 Dec 2024 22:34:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735321442; cv=none; b=Hy/Ngf+abrzbnndhgo92fagxqRdSk8J+GrrU7PIwnwhmWObHUvo0IYSzoFz7h1M8ULqQZgGK3CdWzqeaXcgrfaYcWj6qWZhdQnJsQvNQsI2Lw5cNlKuoIv4kc8y1z96QsP4ex6OP3bc1pb581X2jgInxrOGcH277LMHbXjk8wY0=
+	t=1735338878; cv=none; b=l2ikjcoYAc62QmNYuhqYqay0LLx5YL6KTrjGBGFjQGNm4oMKahu2WJ6CoPVlBkUp+kTUpPFWBYsYkEWVBM4SEYQ4BMwXHuT4JYxSkGzHIBIWDu8EdKmz4JSIx/trryt3lH9HWG1HQhTfELOv23oAVPUjDZNZHsToR9PT1YHmkoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735321442; c=relaxed/simple;
-	bh=rVom9/ZZasClWq+RMKE/v1dwwP+Hq6n5W8W09rP7IWk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PU7W71Heos2NZ05pHge4OSsRQNayo9AamzvMHcVQ93xhwIY15uXzS/g5JDE44n1JwN/II1tdN++E9iCc3KfuIi6YZ+czbhvVlgbM5EeavIj3zUGsxMdtXb+Lbe/v/a4KJIq4LR9fxx63VxXdc5svrFCmjAr59UIy7wcMqJgT3DQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d/lIsLKI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1735338878; c=relaxed/simple;
+	bh=hBUmPxTFvEugmhonLC7AHGxs+gMigWic/1AXVEtSdoc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VlRCAELdSF+WtWBY1Fa9ZuaozjxZa9LBY1Lc9bDGzPtaWLh2XQUMhLAhrUmwzf8ZJAtlPrsNoKADmPP2yhxk5z+kSvQDeSqT0D+rzx0we/e9w3KvQWiGM5mcsNYQMDLI60LsVsz+hatrAQ5x7MMFJThQjE4hkiuLKukq0yLXFgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QSIMni9X; arc=none smtp.client-ip=209.85.160.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d/lIsLKI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D0A1C4CED0;
-	Fri, 27 Dec 2024 17:43:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1735321441;
-	bh=rVom9/ZZasClWq+RMKE/v1dwwP+Hq6n5W8W09rP7IWk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=d/lIsLKIkBgXKQ34U15BY9lLur9y54xTZbPqCUrcmmK2ht5tdH6XqQTBo2iLHC8IT
-	 bUk77LLzfY/XK+BTYPxUmSv5IV+d7yhtyEWHZzthhrcE3Lzx08Sn/D+rQOaQFgfPkW
-	 IjCrvyFqLKyEDWzHv6y8jY4XcXEroGzvmNf7RSsK01wrFBESprsDn/GIcLt4RlEQEY
-	 UcT9GOtN6QD3rN/PaaiouEAqbPdDRkZaJbyPnaL/4/y6mDB2BpUrsrEnWz9946MTv/
-	 87rxQqBFe+U+WLGNikhg91j7MahXyIEO0XrFvFDYH7xGIEM5DZNLq0SRRg0dci09NS
-	 4z+1VI1TDGtNg==
-Date: Fri, 27 Dec 2024 17:43:54 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Parthiban Nallathambi <parthiban@linumiz.com>
-Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>, iommu@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
-	linux-gpio@vger.kernel.org, linux-phy@lists.infradead.org
-Subject: Re: [PATCH RESEND 03/22] dt-bindings: clock: sun8i de2 clock: Add
- PLL com clock
-Message-ID: <20241227-swept-seduce-d21e6537ddfc@spud>
-References: <20241227-a133-display-support-v1-0-abad35b3579c@linumiz.com>
- <20241227-a133-display-support-v1-3-abad35b3579c@linumiz.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QSIMni9X"
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-2a3a40c69e3so4055056fac.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 27 Dec 2024 14:34:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1735338876; x=1735943676; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hBUmPxTFvEugmhonLC7AHGxs+gMigWic/1AXVEtSdoc=;
+        b=QSIMni9XtM0M3CqAGtvd5WoNRvteWPkzHceIDtq7R6K2WYi8SN5UyJXiVefe0LOcT1
+         HbHFOz6r2KXyZHgqnoVtV878oj5TMiI37kqwjTOMqkN57rgMoo++mfIQEGmaYx7PIUpB
+         MMR4iKpgpRmHVpWORpC1gGYxtUcVn7Cs7DXuDXMLdqflC31m3r2c/jug1hixpLi7j7aa
+         usEIWPLRBDfl+PgEgCcB6dhFVFyGm/WjIH0KHqdplp7n8C0GbJFszfd6rithy6P0sMKI
+         VW2d55yBO52P45WQ3W+/9nxdVT4f87cTRqh2kd1xJ6Iu4AHSMn7E7dufzqwMn3L5XZB0
+         exlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1735338876; x=1735943676;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hBUmPxTFvEugmhonLC7AHGxs+gMigWic/1AXVEtSdoc=;
+        b=hGY5Bnax/EMhF/4cI2jZIVoNvluFkvnWtEaY3EUt6GGTqtuVOAOTDQQKlqYuDNr4eE
+         qYowKA9a690pVgSTOYzlDn4Zfax7xacos+S2ngPxenyjjPf7k8iwOSm1V0hKMwQCt3fg
+         IhwmEvMcv30zkZyOnjl+PKUMBnnNr/dPfkWw+CreS0IKDjhGsY7wsuhe+LQItcPclDsp
+         mP0y6p+cE28t3KjOZjY9SDBrdsLNnvQU5YNz0d3T/zSPNWn2rSDpssLKZnar46ZoR7VO
+         /VaZthUghS/Nmq9Db2OVcM9A6OmqHiDYMvf8/cjiVsl8iaw7y5kpGmj1JUHhoHZnC4fZ
+         NRHg==
+X-Forwarded-Encrypted: i=1; AJvYcCX7IuxPZQO50Hi22d3u1xOmWv8dmnFuXLLdTAn9hCCE1M9DjG4AKeV63N/SIGEltTMO6Y1CGTCMCmePPQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzIYLjyI2pUtR2GVIWzG/WkhHB18r6TN3CaUHHeG98ljO947wM8
+	yIE4j95fK6qsrtF+S4qUcKrELkKST31bzoP8bKuIOMyxbUTmxTd3IpSaI+YPsLktnIjWvIWnTES
+	Bu2MbMv/y4gZrHEhsfeNNwcHYWbM=
+X-Gm-Gg: ASbGncsS45zARBxtPg9BSfSL5IBvoTfvR5+D2S90t5Cl+lxRCSrkTVwaw1izUtX/wlA
+	OW68eukUAKxzRhu4N9/BBjP8LqDyzYR6sx0lr7gIhWNKciFCpLT7+
+X-Google-Smtp-Source: AGHT+IGPwfw6kuUjAFDA6kF5F4HgRlWZuZwnMK/ENL1OPJ/20iwoJASam3MfJb+yHQ9p3ejmQn1fvhV9hJcadZlYtgI=
+X-Received: by 2002:a05:6870:2f05:b0:296:e88f:8f56 with SMTP id
+ 586e51a60fabf-2a7fb4b7968mr17783303fac.26.1735338876144; Fri, 27 Dec 2024
+ 14:34:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="0jjBOv89hldoMdhb"
-Content-Disposition: inline
-In-Reply-To: <20241227-a133-display-support-v1-3-abad35b3579c@linumiz.com>
-
-
---0jjBOv89hldoMdhb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20241007001408.27249-1-andre.przywara@arm.com>
+ <20241007001408.27249-4-andre.przywara@arm.com> <675489c1.050a0220.8d73f.6e90@mx.google.com>
+In-Reply-To: <675489c1.050a0220.8d73f.6e90@mx.google.com>
+From: Vasily Khoruzhick <anarsoul@gmail.com>
+Date: Fri, 27 Dec 2024 14:34:10 -0800
+Message-ID: <CA+E=qVf8_9gn0y=mcdKXvj2PFoHT2eF+JN=CmtTNdRGaSnpgKg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/5] mfd: axp20x: Allow multiple regulators
+To: Chris Morgan <macroalpha82@gmail.com>
+Cc: Andre Przywara <andre.przywara@arm.com>, Lee Jones <lee@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Chen-Yu Tsai <wens@csie.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Martin Botka <martin.botka@somainline.org>, 
+	Chris Morgan <macromorgan@hotmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 27, 2024 at 06:30:52PM +0530, Parthiban Nallathambi wrote:
-> Some platforms like A100/A133 also uses pll-com clock as additional
-> clock source for the display clock. This is not documents both in
-> user manual and DE 2.0 specification. These changes are mainly from
-> vendor BSP.
->=20
-> Signed-off-by: Parthiban Nallathambi <parthiban@linumiz.com>
+On Sat, Dec 7, 2024 at 9:45=E2=80=AFAM Chris Morgan <macroalpha82@gmail.com=
+> wrote:
 
-Ditto here, the new clocks are only in the new IP you're adding so this
-patch needs to get merged. When you merge them, make 2 clocks all that's
-allowed for the existing devices and 3 clocks for your new one only
-please.
+> Using git bisect, I found that this patch breaks the CONFIG_AXP20X_ADC
+> option which is used by some of the battery and charger drivers for the
+> axp20x PMIC series. My current assumption is that the
+> devm_iio_channel_get() call made by these drivers worked correctly
+> previously when the PLATFORM_DEVID_NONE, but now it's not working
+> anymore. I'm still testing possible solutions for that problem.
 
-> ---
->  .../devicetree/bindings/clock/allwinner,sun8i-a83t-de2-clk.yaml         =
-| 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/clock/allwinner,sun8i-a83t=
--de2-clk.yaml b/Documentation/devicetree/bindings/clock/allwinner,sun8i-a83=
-t-de2-clk.yaml
-> index 70369bd633e4..3e00905b66ca 100644
-> --- a/Documentation/devicetree/bindings/clock/allwinner,sun8i-a83t-de2-cl=
-k.yaml
-> +++ b/Documentation/devicetree/bindings/clock/allwinner,sun8i-a83t-de2-cl=
-k.yaml
-> @@ -39,11 +39,13 @@ properties:
->      items:
->        - description: Bus Clock
->        - description: Module Clock
-> +      - description: PLL common clock
-> =20
->    clock-names:
->      items:
->        - const: bus
->        - const: mod
-> +      - const: pll-com
-> =20
->    resets:
->      maxItems: 1
->=20
-> --=20
-> 2.39.5
->=20
+I confirm that this patch breaks the battery driver on Pinebook (and
+likely Pinephone). Reverting it fixes the issue for me.
 
---0jjBOv89hldoMdhb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ27nWgAKCRB4tDGHoIJi
-0laCAQC3f8JN+f/M1J2eeAFVurWF99YyrOoc11b9kgfjtf1thQEAtw4OLJJ4yje4
-qC320wF5zcGFYDEFFJjXa4TfgosTGww=
-=cfWT
------END PGP SIGNATURE-----
-
---0jjBOv89hldoMdhb--
+> Thank you,
+> Chris
+>
