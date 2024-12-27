@@ -1,54 +1,54 @@
-Received: from omta036.useast.a.cloudfilter.net (omta036.useast.a.cloudfilter.net [44.202.169.35])
+Received: from omta40.uswest2.a.cloudfilter.net (omta40.uswest2.a.cloudfilter.net [35.89.44.39])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EC1B1F4714
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 Dec 2024 13:01:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.202.169.35
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 199C21F37C6
+	for <linux-sunxi@lists.linux.dev>; Fri, 27 Dec 2024 13:02:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.89.44.39
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735304521; cv=none; b=bzGrKgxY5+/6GDByfoAu+b4jML7SKjUnhuP6v14Zd/dbImLso04QL4Bsmk8BWPJuwB/J/NMlhxzLfjT4DlEu+kzGZIOe5tm7Pm6VFVplHjx+E1Yuplzn8mNEC7Vqgxp2RjTmVBswYXPquUlc19zBTFQbNPPoVWNmEER3oWsawrc=
+	t=1735304526; cv=none; b=USfziyhzzW9n+ykHNgBY127GXgugoOLelHE9ckJNmGDTQOpkg7jPQpefNUFoiOpruiDI7tO3EV9wjzx7IV/chdd5sYyqx5AJ252HaINWLMPDchX8hGUQJCBL5eX+dznFy00mPYwBueKd4GtF/Qz5mqa+dIDzHL3AAXTnpSqcxVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735304521; c=relaxed/simple;
-	bh=jfPsPwWKRhhV21IwFSRmL+uw8EZXVaV/9179PemDy/M=;
+	s=arc-20240116; t=1735304526; c=relaxed/simple;
+	bh=jEGKbLhjRFmr2GAicFc1z+s3hUCh595jXAXzn9My3y0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=U8XCVdiL9hWi+caXgR2fObselkYDQK2pMaDBG9b69ULhWMnptUjtce+SWF5GmLXVz6/QxLqchBRZ8AgYNXg9bp/mXxOPZmU8Ymo5R+zb+pxDU69Gw6qZfz4/XMFvvzKt66J94HAxjJZvp2X/4HXLAj4FLonf4TtXRefJLOHYBo4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linumiz.com; spf=pass smtp.mailfrom=linumiz.com; dkim=pass (2048-bit key) header.d=linumiz.com header.i=@linumiz.com header.b=a51Ou5lt; arc=none smtp.client-ip=44.202.169.35
+	 In-Reply-To:To:Cc; b=B/OZ2iX2Zto8mknWHU7NP/xpq5r1qE0XHycaXw59OGI7XJdcNgOdRSvW0FUbMeqLo4VcK8jzAVg+2WvOw325zd6Iw4bFuWxUUgcr36srtjc6uHBU7MLV2RKdSJbpPZq1llqpkbYwBJKlTRVN9zjT6WqWNToDwz9GnQiUDsWL744=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linumiz.com; spf=pass smtp.mailfrom=linumiz.com; dkim=pass (2048-bit key) header.d=linumiz.com header.i=@linumiz.com header.b=Yzi1ziXf; arc=none smtp.client-ip=35.89.44.39
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linumiz.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linumiz.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linumiz.com header.i=@linumiz.com header.b="a51Ou5lt"
-Received: from eig-obgw-6008a.ext.cloudfilter.net ([10.0.30.227])
+	dkim=pass (2048-bit key) header.d=linumiz.com header.i=@linumiz.com header.b="Yzi1ziXf"
+Received: from eig-obgw-5006a.ext.cloudfilter.net ([10.0.29.179])
 	by cmsmtp with ESMTPS
-	id Qlb2tUSJqxoE1R9yYtlHH0; Fri, 27 Dec 2024 13:01:59 +0000
+	id R46ltExeYvH7lR9yetJj58; Fri, 27 Dec 2024 13:02:04 +0000
 Received: from md-in-79.webhostbox.net ([43.225.55.182])
 	by cmsmtp with ESMTPS
-	id R9yWtzT7AZTzLR9yXtOcJx; Fri, 27 Dec 2024 13:01:58 +0000
-X-Authority-Analysis: v=2.4 cv=L+wbQfT8 c=1 sm=1 tr=0 ts=676ea546
+	id R9ybtQBJs7mBqR9ydtwtOE; Fri, 27 Dec 2024 13:02:04 +0000
+X-Authority-Analysis: v=2.4 cv=Fewxxo+6 c=1 sm=1 tr=0 ts=676ea54c
  a=LfuyaZh/8e9VOkaVZk0aRw==:117 a=kofhyyBXuK/oEhdxNjf66Q==:17
- a=IkcTkHD0fZMA:10 a=RZcAm9yDv7YA:10 a=-pn6D5nKLtMA:10 a=YmDlHjd7AAAA:8
- a=vU9dKmh3AAAA:8 a=L4MHaItcyTsGJ2lxC4sA:9 a=QEXdDO2ut3YA:10
- a=jsfG_yEu7aiiUYXEnMLs:22 a=rsP06fVo5MYu2ilr0aT5:22 a=ZCPYImcxYIQFgLOT52_G:22
+ a=IkcTkHD0fZMA:10 a=RZcAm9yDv7YA:10 a=-pn6D5nKLtMA:10 a=vU9dKmh3AAAA:8
+ a=wzO6rqTgGfghY9OkdcwA:9 a=QEXdDO2ut3YA:10 a=rsP06fVo5MYu2ilr0aT5:22
+ a=ZCPYImcxYIQFgLOT52_G:22
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linumiz.com
 	; s=default; h=Cc:To:In-Reply-To:References:Message-Id:
 	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=VrQzcpsEZrRxzYneklGMKbZSVevXccoK1hLw4KZeU8Y=; b=a51Ou5ltEyha3iBDcWn5xra+V2
-	vQqFzERbZ0rt9kFCqc8w9FX0QEAQtgrqs5g1gddGdvGTCcSLHCYT7ITmAlacFjuMXMdfHHYHK9CEP
-	drLxhQ6lB8Cxl8t04881yaMHOeYKO6QvZdyyEOAw06RY9wfa1xWybD58toGKC2qOVIhqkVSP3yfi8
-	zxtb5loyiAZXpRv4SNL2HfSrb2QMJsNoADJuZRYTXCBJH2klz7k3zKkFv0Eja0rt7eCFTqmdC7O0W
-	zsKsxyD1CSkeP2UKzED8LmD8An4/zhqrOcMvudDcGI6veQjrZs5s5WNeZOBblI5gMr/Nen+ARAcBk
-	RpdZ8QBA==;
+	bh=tQ0brnuopVNUKDJwJH0/VSRDFgILtmVRCbF+TM2fmxQ=; b=Yzi1ziXfJy8NL8AebiULmP7Ils
+	K/4BYc0CWzvLLrM9lheBvesS+BPX6v96fudiSI12J94Tt4kTdMitRwBFJKdp7huOOndtYMzTO85P7
+	3Rl7IX3hilPz1ycdx2AT4a4+yB1mGNaS8Kr/Z/Se7LTKA6JNIxMrbIkzDETpBz6Sir/fQNgcNfWMZ
+	uO2wGayElu4Ox0VbeIU0zNr5JrjDqESMKPEKqdjPH3YmCOSzHPRF2DSqL++DjkXDW67mHnPT92CxU
+	UJT5Bb+v9rwyt8UzVCCg9KQPhIJHtTWqLR+gb1xDQwPdbRJvwsKc3DJYjsoRsGnTAem1Aw1zUpblA
+	os5S+V8A==;
 Received: from [122.165.245.213] (port=58270 helo=[127.0.1.1])
 	by md-in-79.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96.2)
 	(envelope-from <parthiban@linumiz.com>)
-	id 1tR9yS-002EaQ-1d;
-	Fri, 27 Dec 2024 18:31:52 +0530
+	id 1tR9yX-002EaQ-24;
+	Fri, 27 Dec 2024 18:31:57 +0530
 From: Parthiban Nallathambi <parthiban@linumiz.com>
-Date: Fri, 27 Dec 2024 18:30:56 +0530
-Subject: [PATCH RESEND 07/22] dt-bindings: vendor-prefixes: Shenzhen Baijie
- Technology
+Date: Fri, 27 Dec 2024 18:30:57 +0530
+Subject: [PATCH RESEND 08/22] dt-bindings: arm: sunxi: document Szbaijie
+ A133 helper board
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -57,7 +57,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241227-a133-display-support-v1-7-abad35b3579c@linumiz.com>
+Message-Id: <20241227-a133-display-support-v1-8-abad35b3579c@linumiz.com>
 References: <20241227-a133-display-support-v1-0-abad35b3579c@linumiz.com>
 In-Reply-To: <20241227-a133-display-support-v1-0-abad35b3579c@linumiz.com>
 To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
@@ -80,11 +80,11 @@ Cc: iommu@lists.linux.dev, devicetree@vger.kernel.org,
  linux-phy@lists.infradead.org, 
  Parthiban Nallathambi <parthiban@linumiz.com>
 X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1735304469; l=835;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1735304469; l=1029;
  i=parthiban@linumiz.com; s=20241125; h=from:subject:message-id;
- bh=jfPsPwWKRhhV21IwFSRmL+uw8EZXVaV/9179PemDy/M=;
- b=lni39rwU25tnv69AAsJH7qvLK1kIIdxSq3e/GX7rwvDNC4wilfdY+0MugpYhJrowi/F9+Z+cz
- 48qgQQ/WM3lBnpd731RdJZrm8k03+QmqRSLDdt6rDXXjsYlKkYZ0T7K
+ bh=jEGKbLhjRFmr2GAicFc1z+s3hUCh595jXAXzn9My3y0=;
+ b=qYvrnOVWt4oHHLK8nYnervSC9ncB1eBiBn0gsifoaS6OCJ3yH0CyQnoxhFjNqN1chhmeIFcKP
+ 15WL92YNfCGDGsIqnj2CjgFF4NvJeP5HsxzVvk4W5wtbGjcA+ivZxRW
 X-Developer-Key: i=parthiban@linumiz.com; a=ed25519;
  pk=PrcMZ/nwnHbeXNFUFUS833wF3DAX4hziDHEbBp1eNb8=
 X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
@@ -95,39 +95,45 @@ X-AntiAbuse: Sender Address Domain - linumiz.com
 X-BWhitelist: no
 X-Source-IP: 122.165.245.213
 X-Source-L: No
-X-Exim-ID: 1tR9yS-002EaQ-1d
+X-Exim-ID: 1tR9yX-002EaQ-24
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
 X-Source-Sender: ([127.0.1.1]) [122.165.245.213]:58270
 X-Source-Auth: parthiban@linumiz.com
-X-Email-Count: 231
+X-Email-Count: 260
 X-Org: HG=dishared_whb_net_legacy;ORG=directi;
 X-Source-Cap: bGludW1jbWM7aG9zdGdhdG9yO21kLWluLTc5LndlYmhvc3Rib3gubmV0
 X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfBGJNynObflNTbDdCxfD6EZVF10TyGdCJ/BOflq1+mFSXrg9McwuSfAC/HG61gIPagO7ckNqkyKITMIbaQ19roD3AAr5bzRBTbE497fZj1TOfJhQ7uUO
- SDudISMwUi2pFgnVT3A8xQ2FlUDz+Ob1vGBHfAojVSejHLERKfb/skczd5GaQ+fm+0rD9+ggyZEw1RAIFcHP+lfei1nEz5feDk8=
+X-CMAE-Envelope: MS4xfFf/qUfybwxD0JQWfv5BWfLxbTBRgLceomNgqs1ibJJN9vmfzN7yeq8v8w03gSNPBWzR/ClYjqDU9InckpWYbgt+aJx65vE2TntYG9vvlyJTAetivHSL
+ Q4gfOHfnlzW8p4p97oaSXdcFXvkUv+V0RAVsRW4lH6DC5PvmXnIEhWfRXjGF8vvWG2gbPK5W2nFYl5rDXOno7wq4Syccn6IZHy8=
 
-Add entry for Shenzhen Baijie Technology (https://szbaijie.com)
+Szbaijie Baijie Technology A133 helper board is an evaluation
+board of their A133-Core SoM. Add its compatible (with the
+SoM compatible) to the sunxi board DT binding file.
 
 Signed-off-by: Parthiban Nallathambi <parthiban@linumiz.com>
 ---
- Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/devicetree/bindings/arm/sunxi.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index da01616802c7..81cbc8b6b195 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -1466,6 +1466,8 @@ patternProperties:
-   "^synopsys,.*":
-     description: Synopsys, Inc. (deprecated, use snps)
-     deprecated: true
-+  "^szbaijie,.*":
-+    description: Shenzhen Baijie Technology Co., Ltd.
-   "^tbs,.*":
-     description: TBS Technologies
-   "^tbs-biometrics,.*":
+diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
+index 046536d02706..eb19f8b1fe68 100644
+--- a/Documentation/devicetree/bindings/arm/sunxi.yaml
++++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+@@ -891,6 +891,12 @@ properties:
+           - const: allwinner,sl631
+           - const: allwinner,sun8i-v3
+ 
++      - description: Szbaijie A133 Helper board
++        items:
++          - const: szbaijie,helper-a133
++          - const: szbaijie,helper-a133-core
++          - const: allwinner,sun50i-a133
++
+       - description: Tanix TX1
+         items:
+           - const: oranth,tanix-tx1
 
 -- 
 2.39.5
