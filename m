@@ -1,54 +1,53 @@
-Received: from omta40.uswest2.a.cloudfilter.net (omta40.uswest2.a.cloudfilter.net [35.89.44.39])
+Received: from omta040.useast.a.cloudfilter.net (omta040.useast.a.cloudfilter.net [44.202.169.39])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26DA91F37A8
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 Dec 2024 11:09:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.89.44.39
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 515DF1F3D31
+	for <linux-sunxi@lists.linux.dev>; Fri, 27 Dec 2024 11:09:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.202.169.39
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735297741; cv=none; b=UctIOBcxDhVJQNICpxBq4uKTbEPOgt2Fisdb1mda7QDHA0dGiosU1lY8f8O3KuHaxNf0xCVM9XE77INO2aX1jpWFLvrsMB17PKRHE7NQf7cttyXgguQjI2qDjApZ0GA1Qi37GeLYA0+4W8E4+C1CJ0cZnbifDq21wwBkz1cwW5g=
+	t=1735297751; cv=none; b=M5oJMLiaXhn0IM0v/zED0HNHck4FnKj+NyR7+lhxqFocFmeIp/1nhGoDiiwe243kZCDccdxuvKMFUDcGXDln90eBoy7qGYhuLskC9OZbxUCiPSNwR8N2my/uTtxpyX1EggSur9WHwmfjvvx3suYEPzef1khk2AO+SZjeTT3h5W0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735297741; c=relaxed/simple;
-	bh=jfPsPwWKRhhV21IwFSRmL+uw8EZXVaV/9179PemDy/M=;
+	s=arc-20240116; t=1735297751; c=relaxed/simple;
+	bh=P54KA5XqlT/VEM0AcqfRzSVceip5YpdV+G0SVeiVvo8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=e2mU6PRx4OgbLuFOXIsrMfr44+u8/JF6Doge3nK5hnOckv6fL+1lzM/FJ33GKA3uDE9DuZ2vvGhIC1IiMuaN6Y+3R1YFYunZdXQKYVJbv6VL2hh2O61JFpsRnP3D7BpYvdKU8qKvXiyQsFdcld++/zp9OcHHHU4cEqTg0J9/Qvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linumiz.com; spf=pass smtp.mailfrom=linumiz.com; dkim=pass (2048-bit key) header.d=linumiz.com header.i=@linumiz.com header.b=MmADfID+; arc=none smtp.client-ip=35.89.44.39
+	 In-Reply-To:To:Cc; b=Xd4MhiFRI1qM8GB9Fd/tAXUWwNKBPvWRV9ky47MbGRDQ1p+cSWSMqLpDwKOckesgWy5Jp/+LyZqInIOCAqcS34clMaXYhR4s+DQ5b2ZlvenD7Kgni11IyixmVvm38oH0cYKbvqq8RImLvih4byUiLwMROuBUwzYVh6UraD2Sfe8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linumiz.com; spf=pass smtp.mailfrom=linumiz.com; dkim=pass (2048-bit key) header.d=linumiz.com header.i=@linumiz.com header.b=J4Qefxrt; arc=none smtp.client-ip=44.202.169.39
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linumiz.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linumiz.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linumiz.com header.i=@linumiz.com header.b="MmADfID+"
-Received: from eig-obgw-5002a.ext.cloudfilter.net ([10.0.29.215])
+	dkim=pass (2048-bit key) header.d=linumiz.com header.i=@linumiz.com header.b="J4Qefxrt"
+Received: from eig-obgw-5009a.ext.cloudfilter.net ([10.0.29.176])
 	by cmsmtp with ESMTPS
-	id QosXtCjryvH7lR8DDtJASq; Fri, 27 Dec 2024 11:09:00 +0000
+	id Qzs9taeh3nNFGR8DOtXDLP; Fri, 27 Dec 2024 11:09:10 +0000
 Received: from md-in-79.webhostbox.net ([43.225.55.182])
 	by cmsmtp with ESMTPS
-	id R8DBtIy6ZcEKuR8DCt3tNJ; Fri, 27 Dec 2024 11:08:59 +0000
-X-Authority-Analysis: v=2.4 cv=Z7YnH2RA c=1 sm=1 tr=0 ts=676e8acb
+	id R8DLt6ju7lDL5R8DNtSaT6; Fri, 27 Dec 2024 11:09:09 +0000
+X-Authority-Analysis: v=2.4 cv=LLtgQoW9 c=1 sm=1 tr=0 ts=676e8ad5
  a=LfuyaZh/8e9VOkaVZk0aRw==:117 a=kofhyyBXuK/oEhdxNjf66Q==:17
- a=IkcTkHD0fZMA:10 a=RZcAm9yDv7YA:10 a=-pn6D5nKLtMA:10 a=YmDlHjd7AAAA:8
- a=vU9dKmh3AAAA:8 a=L4MHaItcyTsGJ2lxC4sA:9 a=QEXdDO2ut3YA:10
- a=jsfG_yEu7aiiUYXEnMLs:22 a=rsP06fVo5MYu2ilr0aT5:22 a=ZCPYImcxYIQFgLOT52_G:22
+ a=IkcTkHD0fZMA:10 a=RZcAm9yDv7YA:10 a=-pn6D5nKLtMA:10 a=vU9dKmh3AAAA:8
+ a=85KA4Hw53eMu32bbZw4A:9 a=QEXdDO2ut3YA:10 a=rsP06fVo5MYu2ilr0aT5:22
+ a=ZCPYImcxYIQFgLOT52_G:22
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linumiz.com
 	; s=default; h=Cc:To:In-Reply-To:References:Message-Id:
 	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=VrQzcpsEZrRxzYneklGMKbZSVevXccoK1hLw4KZeU8Y=; b=MmADfID++vJZInjAxO+ke3ncQv
-	k6lDqXSc4xRJRQohMx7+LLBZKxvH1xCViQfbOqiPtcZEsw6Xc2KDYaIIzyHbR7By5EjVCFAC5UA1I
-	GpyA2pMYVBexWEIKqbqEVyiEl2F6JQh528r3RGK8C2FoewaEE8/LLPoh/E/l6/OlYAwRlQWKXHq4y
-	DgvNtopjCF4ciuHzdjwNUN8lLJJ3MOedR5+iGqItg7ho6Yud07Ym5sIckOxvdIiI/9DiATpbVFIHF
-	EWpx8Xw1xRpsZMFzOsMBCbgB1MubFm6SeBYmKggJ31teQEqgTZLmlUAuChhch3yFYtloavFK2U2N3
-	/9ykVKRQ==;
+	bh=qiSM89V4SzYcC8gEAu73STXv5s6bgJIn4sStUDfq04o=; b=J4QefxrtzVqjYeIamTNA/XK3a8
+	EUQY4FXxWmcMXS9Cka9KSJoGT4aUl+9J+XwYKutXSUtvF4JtaHnWgK4sOFV4QuswteKuVETasb9z5
+	UMxJOG3kJukEkv+2Fx698ko9rITyYtsUhhiOfM0ITIpTZti6zuXd4Eh78LAwuuUNK3Xh+27AacZhI
+	KutWJUmlV4AUJJjiAbiK2UEWICCZ4ivc6EmHHG7clPUznOEpW/FzMiE2EDnUYCB3Lq0jrE92NZNjE
+	2qDuws5uhLSEX2xov5w84rx7veKtx7s3VdDVtJ9t6VsjOcP5e3t0HRXcCd5tIy1SiilAInHOreWzD
+	NCgg6dFg==;
 Received: from [122.165.245.213] (port=50828 helo=[127.0.1.1])
 	by md-in-79.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96.2)
 	(envelope-from <parthiban@linumiz.com>)
-	id 1tR8D5-000bEK-2z;
-	Fri, 27 Dec 2024 16:38:51 +0530
+	id 1tR8DG-000bEK-36;
+	Fri, 27 Dec 2024 16:39:03 +0530
 From: Parthiban Nallathambi <parthiban@linumiz.com>
-Date: Fri, 27 Dec 2024 16:37:54 +0530
-Subject: [PATCH 07/22] dt-bindings: vendor-prefixes: Shenzhen Baijie
- Technology
+Date: Fri, 27 Dec 2024 16:37:56 +0530
+Subject: [PATCH 09/22] iommu: sun50i: make reset control optional
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -57,7 +56,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241227-a133-display-support-v1-7-13b52f71fb14@linumiz.com>
+Message-Id: <20241227-a133-display-support-v1-9-13b52f71fb14@linumiz.com>
 References: <20241227-a133-display-support-v1-0-13b52f71fb14@linumiz.com>
 In-Reply-To: <20241227-a133-display-support-v1-0-13b52f71fb14@linumiz.com>
 To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
@@ -80,11 +79,11 @@ Cc: iommu@lists.linux.dev, devicetree@vger.kernel.org,
  linux-phy@lists.infradead.org, 
  Parthiban Nallathambi <parthiban@linumiz.com>
 X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1735297689; l=835;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1735297689; l=819;
  i=parthiban@linumiz.com; s=20241125; h=from:subject:message-id;
- bh=jfPsPwWKRhhV21IwFSRmL+uw8EZXVaV/9179PemDy/M=;
- b=CJOVx2TC4fLDcjQ6xgq4N4Mi1niTuzwwERJ6yiEMANOEwpSEoLqBhfJmD+PDB56mjpO3si6jf
- jx7xLttFSJpD3tHngJF3gIva/96uOpoEpuitCdS8Sqx1ZgpvNpSt7UF
+ bh=P54KA5XqlT/VEM0AcqfRzSVceip5YpdV+G0SVeiVvo8=;
+ b=UAKOPo44BMV/nlZiP8v+e76CckorjVoG/W2zTYtocflHcdNVAdWd4W7oXYpdS7HcjLvh5atkb
+ dkhixZP96ODA+J/PFzAhOqt0//04YhdWMSHngs7SyBFEGYTRfOPBf+I
 X-Developer-Key: i=parthiban@linumiz.com; a=ed25519;
  pk=PrcMZ/nwnHbeXNFUFUS833wF3DAX4hziDHEbBp1eNb8=
 X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
@@ -95,39 +94,40 @@ X-AntiAbuse: Sender Address Domain - linumiz.com
 X-BWhitelist: no
 X-Source-IP: 122.165.245.213
 X-Source-L: No
-X-Exim-ID: 1tR8D5-000bEK-2z
+X-Exim-ID: 1tR8DG-000bEK-36
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
 X-Source-Sender: ([127.0.1.1]) [122.165.245.213]:50828
 X-Source-Auth: parthiban@linumiz.com
-X-Email-Count: 227
+X-Email-Count: 285
 X-Org: HG=dishared_whb_net_legacy;ORG=directi;
 X-Source-Cap: bGludW1jbWM7aG9zdGdhdG9yO21kLWluLTc5LndlYmhvc3Rib3gubmV0
 X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfMHFfrH6G+qejUJkooFLLdZ1UvoZW/9JyI/Q8TOIbqcnsp7CA7I5zQyODvbwfCl8OFS5emL7iFUx7KKZEhPAEzIQINaQXydtdFFoStuuC5UtKiqe5+Mg
- tQa+mKvBj3QEt4pQsQ5Fm+h+pn47f8SR5IxjySSIKF2//mVzI8W1wVoIqhZQAnhGyeUCmvfQnE/jlAMGBHd5YOam+tUn/nivgKw=
+X-CMAE-Envelope: MS4xfI6ZOGi7BsHmAredn5OGUu6xNQ5FGVXHwTqTIoHDXOs2Q46o3VzZtTj/pLeR+vxbecbGMt0cb8Yk4zciq3fpbPJ1mK4Qj8yCFhg5FV+A9vYOAkggJB55
+ C3krC2GDleTDQu/BsZbewfclj/JynrjNClN/uiLYcf+8KhyXFaglu5LRXs6C5pkdfnljWKHBFc9KNs5x9jAddvIz557WhvAgbSs=
 
-Add entry for Shenzhen Baijie Technology (https://szbaijie.com)
+A133/A100 SoC doesn't have reset control from the CCU. Get reset
+control line optionally.
 
 Signed-off-by: Parthiban Nallathambi <parthiban@linumiz.com>
 ---
- Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/iommu/sun50i-iommu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index da01616802c7..81cbc8b6b195 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -1466,6 +1466,8 @@ patternProperties:
-   "^synopsys,.*":
-     description: Synopsys, Inc. (deprecated, use snps)
-     deprecated: true
-+  "^szbaijie,.*":
-+    description: Shenzhen Baijie Technology Co., Ltd.
-   "^tbs,.*":
-     description: TBS Technologies
-   "^tbs-biometrics,.*":
+diff --git a/drivers/iommu/sun50i-iommu.c b/drivers/iommu/sun50i-iommu.c
+index 8d8f11854676..2ba804d682dc 100644
+--- a/drivers/iommu/sun50i-iommu.c
++++ b/drivers/iommu/sun50i-iommu.c
+@@ -1030,7 +1030,7 @@ static int sun50i_iommu_probe(struct platform_device *pdev)
+ 		goto err_free_cache;
+ 	}
+ 
+-	iommu->reset = devm_reset_control_get(&pdev->dev, NULL);
++	iommu->reset = devm_reset_control_get_optional(&pdev->dev, NULL);
+ 	if (IS_ERR(iommu->reset)) {
+ 		dev_err(&pdev->dev, "Couldn't get our reset line.\n");
+ 		ret = PTR_ERR(iommu->reset);
 
 -- 
 2.39.5
