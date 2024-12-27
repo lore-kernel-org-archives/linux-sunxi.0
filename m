@@ -1,31 +1,31 @@
-Received: from omta38.uswest2.a.cloudfilter.net (omta38.uswest2.a.cloudfilter.net [35.89.44.37])
+Received: from omta036.useast.a.cloudfilter.net (omta036.useast.a.cloudfilter.net [44.202.169.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 385331F37A2
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 Dec 2024 11:09:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.89.44.37
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19F8B1F37A8
+	for <linux-sunxi@lists.linux.dev>; Fri, 27 Dec 2024 11:10:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.202.169.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735297784; cv=none; b=qv7tmv0OJTXRj+G1GeqN7UzUpaDiW13Re6J5Wm93cf2dQB3HaPJxcw3cMFDMnbs6BIM3dmHmcexqxNdQ+wlyGm6JL6tnhhBdSIZJs7B7jR9z6kqldw9eD7JnncKWmZr0zHDkVilr13YwLapRh4oQqjJh6XXNyIaGpuhH88VU+Lc=
+	t=1735297811; cv=none; b=j1z3YOkKla9uO79c35YPINf1dAnRKo9FEgpjIzQZXuxwGkS81208VHsQOZdtrblAWU7HBkSR+deUNj6y522uohRhdWov0gMXTVh597ueFIGv2PQn8D8rsx4TXecUtvqqAHNn4gfg9Wo6cOxetiLXxt31dnrM4jKNgNXqInOvpOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735297784; c=relaxed/simple;
-	bh=qvS7+D/RTyyMg86CwtqbsAA+5EMqHdzQTTB53paC81Y=;
+	s=arc-20240116; t=1735297811; c=relaxed/simple;
+	bh=sPElRYsF0jt44ZqeUcZ4OkMgH7YItvc9UU2klf48oOk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Z9W7D9HQKyjKzjbXwEp/I6GRfhONRv8i69H0PNOqqp1MpQ2EARgtwaGy+7ggPYC9aypseB45n50oT+twgmvk4X24weK5MNZVuaEwSX27/pJPMhjHbuIz3fBcdTlB+NTJSDe70RZbia6C5hzmEbsSRz8YOuK9NMtUhwVnpM9A6CU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linumiz.com; spf=pass smtp.mailfrom=linumiz.com; dkim=pass (2048-bit key) header.d=linumiz.com header.i=@linumiz.com header.b=PytkC0E6; arc=none smtp.client-ip=35.89.44.37
+	 In-Reply-To:To:Cc; b=M0RaXdXA2Bbn8PpoWD2dotK5QMpavyyBsqzvfF+WdoH4oOt4OX7+L4JzbKy///kGbsifSX/ukByfGQZfAof90WPTs3u4LipyOTqRVhuySJ090wlRfOvMrmKTV1vEitza+T621sA5VCrhecyCrtaevs+S5wGNhC/jqNJASGXa07w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linumiz.com; spf=pass smtp.mailfrom=linumiz.com; dkim=pass (2048-bit key) header.d=linumiz.com header.i=@linumiz.com header.b=OTLfmGq2; arc=none smtp.client-ip=44.202.169.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linumiz.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linumiz.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linumiz.com header.i=@linumiz.com header.b="PytkC0E6"
-Received: from eig-obgw-6009a.ext.cloudfilter.net ([10.0.30.184])
+	dkim=pass (2048-bit key) header.d=linumiz.com header.i=@linumiz.com header.b="OTLfmGq2"
+Received: from eig-obgw-5006a.ext.cloudfilter.net ([10.0.29.179])
 	by cmsmtp with ESMTPS
-	id QyUytHCnnumtXR8DvtzkPo; Fri, 27 Dec 2024 11:09:43 +0000
+	id R46ktX9BixoE1R8Cutkijk; Fri, 27 Dec 2024 11:08:40 +0000
 Received: from md-in-79.webhostbox.net ([43.225.55.182])
 	by cmsmtp with ESMTPS
-	id R8DstjD7Rbs9MR8DttedLL; Fri, 27 Dec 2024 11:09:42 +0000
-X-Authority-Analysis: v=2.4 cv=FY0xxo+6 c=1 sm=1 tr=0 ts=676e8af6
+	id R8CrtP66k7mBqR8CttvxAG; Fri, 27 Dec 2024 11:08:40 +0000
+X-Authority-Analysis: v=2.4 cv=Fewxxo+6 c=1 sm=1 tr=0 ts=676e8ab8
  a=LfuyaZh/8e9VOkaVZk0aRw==:117 a=kofhyyBXuK/oEhdxNjf66Q==:17
  a=IkcTkHD0fZMA:10 a=RZcAm9yDv7YA:10 a=-pn6D5nKLtMA:10 a=vU9dKmh3AAAA:8
- a=iM3t8g1HjrKnZeAfta4A:9 a=QEXdDO2ut3YA:10 a=rsP06fVo5MYu2ilr0aT5:22
+ a=fsIbZEiDhnbgyVT8DcoA:9 a=QEXdDO2ut3YA:10 a=rsP06fVo5MYu2ilr0aT5:22
  a=ZCPYImcxYIQFgLOT52_G:22
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linumiz.com
 	; s=default; h=Cc:To:In-Reply-To:References:Message-Id:
@@ -33,21 +33,22 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linumiz.com
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=pGwPFK3xv/ptVPYpkqFPS9qGRy0Y0xu/iUwb0C9nXWg=; b=PytkC0E6+h8OO95GAaBDa6ToD/
-	X6RQBgyIH8yLV5owVMFw3iqDdsFtQ7HAhgXvnn++80/oOj9h12a7UwDVencs83+1ur5aknYnBbHfo
-	IlFfdbs9vOr14mDdckmSR3ntnnAZ39LJPqK9lC9zqTQ61W7VwgBb2fhR4dR/yqC4cBYD6L/VpumJT
-	bNXGByvvB0699BiYZg3Pq5nTJvZRms0xAAKqpyaFTYsQiwMDZS6p93PnIOLAOY9v21vNFe3extze8
-	/a7mKuI+Y37MesfcysEOGPf2nUBXtjkITvlJqeP9HiOAjVoEXo2OmIrM9S6dUT+v1OzkqfB4blkEA
-	K48J1JSA==;
+	bh=OzWNauLbiAQJEp1e2/czwTEEh3hDEGYbQXYIOeAFLNM=; b=OTLfmGq2RQMMnqWoWjrMSSMtLp
+	GQOf4i+JPvIookaSjiJMFScKVJ4xkrnEESNBdVbXEnz62Lva04q+UV107Uo6j6SkF+6oo/S2aK4ZR
+	MKASbtnLwpHL+o8HeTwXb+dCMo/+UTuNSaaIYBzKa0/4wFMqjbA5kzpJ4L/CXJN70S3QcXxK9yQ1D
+	gRpqsFQbpL0RF43ZAf7c8j+CBLkwkt7WLoVRy0a83zshXnNtWV9xlJDjL6hmVOGiSPEB33TrFsXy1
+	ph3xCqNzGpV2sdZKKtP+6kvuIgZR3C7YlMaULMRrrrRycZppr71WxHIXxOUi51UNAmA7w3gHspS1G
+	kQ9qO5Qg==;
 Received: from [122.165.245.213] (port=50828 helo=[127.0.1.1])
 	by md-in-79.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96.2)
 	(envelope-from <parthiban@linumiz.com>)
-	id 1tR8Do-000bEK-38;
-	Fri, 27 Dec 2024 16:39:37 +0530
+	id 1tR8Cm-000bEK-0U;
+	Fri, 27 Dec 2024 16:38:32 +0530
 From: Parthiban Nallathambi <parthiban@linumiz.com>
-Date: Fri, 27 Dec 2024 16:38:03 +0530
-Subject: [PATCH 16/22] clk: sunxi-ng: sun8i-de2: Add support for a100/a133
+Date: Fri, 27 Dec 2024 16:37:50 +0530
+Subject: [PATCH 03/22] dt-bindings: clock: sun8i de2 clock: Add PLL com
+ clock
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -56,7 +57,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241227-a133-display-support-v1-16-13b52f71fb14@linumiz.com>
+Message-Id: <20241227-a133-display-support-v1-3-13b52f71fb14@linumiz.com>
 References: <20241227-a133-display-support-v1-0-13b52f71fb14@linumiz.com>
 In-Reply-To: <20241227-a133-display-support-v1-0-13b52f71fb14@linumiz.com>
 To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
@@ -79,11 +80,11 @@ Cc: iommu@lists.linux.dev, devicetree@vger.kernel.org,
  linux-phy@lists.infradead.org, 
  Parthiban Nallathambi <parthiban@linumiz.com>
 X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1735297689; l=1043;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1735297689; l=1074;
  i=parthiban@linumiz.com; s=20241125; h=from:subject:message-id;
- bh=qvS7+D/RTyyMg86CwtqbsAA+5EMqHdzQTTB53paC81Y=;
- b=XNyGVAs9WW8vlM4qOOilUjJeSmld8IS3muoSSmNHF7R0BNHYwWiLQzsMYl1WyxP5KH08pxwbs
- XX/zJxP3xkCCWn9sKa9YqO1pD/IsNIo4ZzA57+3OXY2mrliF2tLuPq7
+ bh=sPElRYsF0jt44ZqeUcZ4OkMgH7YItvc9UU2klf48oOk=;
+ b=iYwmFT51XZcESh83cOKPv4w9+BXh77BqnSiRPMhS9ZBl1RhFKJt+zEKNXnIWnFH+wCrH5P8nX
+ rlRXcA+xSHkB8X5+pmuVByKYzx16HMBmTyYrMCNdsigCWoicrncViqd
 X-Developer-Key: i=parthiban@linumiz.com; a=ed25519;
  pk=PrcMZ/nwnHbeXNFUFUS833wF3DAX4hziDHEbBp1eNb8=
 X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
@@ -94,47 +95,47 @@ X-AntiAbuse: Sender Address Domain - linumiz.com
 X-BWhitelist: no
 X-Source-IP: 122.165.245.213
 X-Source-L: No
-X-Exim-ID: 1tR8Do-000bEK-38
+X-Exim-ID: 1tR8Cm-000bEK-0U
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
 X-Source-Sender: ([127.0.1.1]) [122.165.245.213]:50828
 X-Source-Auth: parthiban@linumiz.com
-X-Email-Count: 488
+X-Email-Count: 111
 X-Org: HG=dishared_whb_net_legacy;ORG=directi;
 X-Source-Cap: bGludW1jbWM7aG9zdGdhdG9yO21kLWluLTc5LndlYmhvc3Rib3gubmV0
 X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfPc7CDnd/qsR/EfLnO/3ttcY3d8Fa9I2f2N12/eUcAelugBj59jMBp7uRvJbHmWcKPIA2lh8MzRJmkgyFOQGve9DHvY4tzepgIOn45AbjC2adfGASdyB
- 6zJyTwFJpYCVkmhFXotZ/Vy35xjIvgVwCKxXbZpjGRUovTiy7GGmuJ8ZCT9dXH6M+pLieYQjqvTkx+kBoew8Nkl3jCZGPG/ObMg=
+X-CMAE-Envelope: MS4xfCZeuHBlJ6xre6WyK88p4565b5APyChkXSxgEsixRU69lBawq/IB7dQSvR1GMHPUB3fZqePEySJXgPJnSVoFsG557D7YzDi4RRP2Gd27DPFEBYiChKBn
+ R70eDQ/EVMFJnG6FnjGYCB791fN9MbG8nR07OWcwtv47kV48N6kbVVn+QNhde3O2a/oiiXE8AyX/rOcvFv0NjhpMOSP7mNcBWdU=
 
-Display clock uses 1 mixer without rotation support is same
-as v3s. There is also a hidden independent display engine
-with independent tcon_top available in A100/A133 bin (based
-on vendor BSP).
-
-Add new compatible for A100/A133 to accommodate the future changes
-for the independent DE.
+Some platforms like A100/A133 also uses pll-com clock as additional
+clock source for the display clock. This is not documents both in
+user manual and DE 2.0 specification. These changes are mainly from
+vendor BSP.
 
 Signed-off-by: Parthiban Nallathambi <parthiban@linumiz.com>
 ---
- drivers/clk/sunxi-ng/ccu-sun8i-de2.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ .../devicetree/bindings/clock/allwinner,sun8i-a83t-de2-clk.yaml         | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-de2.c b/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
-index 3e28c32050e0..067820ab704d 100644
---- a/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
-@@ -342,6 +342,10 @@ static const struct of_device_id sunxi_de2_clk_ids[] = {
- 		.compatible = "allwinner,sun50i-a64-de2-clk",
- 		.data = &sun50i_a64_de2_clk_desc,
- 	},
-+	{
-+		.compatible = "allwinner,sun50i-a100-de2-clk",
-+		.data = &sun8i_v3s_de2_clk_desc,
-+	},
- 	{
- 		.compatible = "allwinner,sun50i-h5-de2-clk",
- 		.data = &sun50i_h5_de2_clk_desc,
+diff --git a/Documentation/devicetree/bindings/clock/allwinner,sun8i-a83t-de2-clk.yaml b/Documentation/devicetree/bindings/clock/allwinner,sun8i-a83t-de2-clk.yaml
+index 70369bd633e4..3e00905b66ca 100644
+--- a/Documentation/devicetree/bindings/clock/allwinner,sun8i-a83t-de2-clk.yaml
++++ b/Documentation/devicetree/bindings/clock/allwinner,sun8i-a83t-de2-clk.yaml
+@@ -39,11 +39,13 @@ properties:
+     items:
+       - description: Bus Clock
+       - description: Module Clock
++      - description: PLL common clock
+ 
+   clock-names:
+     items:
+       - const: bus
+       - const: mod
++      - const: pll-com
+ 
+   resets:
+     maxItems: 1
 
 -- 
 2.39.5
