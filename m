@@ -1,133 +1,118 @@
-Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
+Received: from omta36.uswest2.a.cloudfilter.net (omta36.uswest2.a.cloudfilter.net [35.89.44.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE9717BB16
-	for <linux-sunxi@lists.linux.dev>; Sun, 22 Dec 2024 21:23:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3035B13B792
+	for <linux-sunxi@lists.linux.dev>; Fri, 27 Dec 2024 08:45:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.89.44.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734902629; cv=none; b=D5gLO4/76WaW51G1bUgiOe4coZpP/eaOIHD45HkukZ+oLjGzYHi7dOKNsbqY8nHVtHlP4q3YAEVcRQT1wptGK9BDTapNMy8I7A1EADAilbnLtbjWYOCu0CmEbJPsNtC3eRgWTmJdNuKujrzVqm4ZYSI0jDK+6vWw6rdAn29FPD4=
+	t=1735289127; cv=none; b=rYC2yMHU0cETdVnmSEVvmMzsdPtdjpZI+ns+p3q3HMW2AqS1yLsLYELgRsIJJRkhXczDstW0oA0IlYNRb0K02JlEZHCSTcnOMY89Bqq7Vt57KqhZoxFSBXQZAvDHEpdrBDKb/Gp/r57qLKDhXmNXP4eozalhz7+IjNsSPu+5cfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734902629; c=relaxed/simple;
-	bh=7AcPV7/0ZMfbByZlBOXinUBbEdNe1xNeD6bz2Wkmsho=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=hwcdsK2oWc1t4dUvxIxMFGxhugmN2tvvEqJteMUjZUfDSCWVEqlxgXWpNjleelSkZQy6sfAJHybFK06S3HnqDpp+gOy364F/z7lRdNb8wYW8srhvQD2bKYeTSZZ59dLeleQwX+GGaQjrLcioTFNVurPrzy9Zbw+CZtuoILH5dMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=QhFatHfz; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=sIXvwhNc; arc=none smtp.client-ip=103.168.172.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
+	s=arc-20240116; t=1735289127; c=relaxed/simple;
+	bh=CLaRTwNrBEuvYmMR2ZHeWDlLDsqiojHM+Zpk2bGtvqI=;
+	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=pFqdKxa+U5aTHzbCZ81H/no43eXWnkw1b+qb0otMDFkwJUGd4zUWEb6Eg8KzuC52reLkv2yaptNTaL2UyQuwghjSuAatOONjHkiV5Y6+pT9NrzUbs0ceoQ8BO9qBb2gelottknA1w/BzNcB9XmYi2K0WA8hNCW0ACAL6hbZmuxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linumiz.com; spf=pass smtp.mailfrom=linumiz.com; dkim=pass (2048-bit key) header.d=linumiz.com header.i=@linumiz.com header.b=NDNJRDDn; arc=none smtp.client-ip=35.89.44.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linumiz.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linumiz.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="QhFatHfz";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="sIXvwhNc"
-Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 69CD21140138;
-	Sun, 22 Dec 2024 16:23:47 -0500 (EST)
-Received: from phl-imap-07 ([10.202.2.97])
-  by phl-compute-04.internal (MEProxy); Sun, 22 Dec 2024 16:23:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm2;
-	 t=1734902627; x=1734989027; bh=360wG8yLe4tWjbNpiUFYMyVJ9AzyCTGt
-	U8xrSTR8xcY=; b=QhFatHfznEgV3fSaqD6hA0gkLh96yk91mWff20gxvUiXPLsn
-	x9ycXWKNKbhwn+qcYPIuGcREHaqhtY25dzxaHQWWAyLb+O7meZtRPTh8df/J52CF
-	2gjgFJPqME5h2vcRlbUI/Z9lk+4xtjDEZhfccEIZoOI4UIA4fVFkVHKgVlhqSySp
-	RrwtNRmd4am2/zla2I7KwsHJ/tQV0F2Itcwdqvrm18P2dkZcPx1DzWfJXc2r/b28
-	b5vBCdYtJLaXVvxiAiNanzBlF+LKBv9nnN4o3ElRX5E7BHJQs2lrZXsUVvUt7ACW
-	lks77DrYD0cE6dykzTsVZXRi0aLYJL897aH7cA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1734902627; x=
-	1734989027; bh=360wG8yLe4tWjbNpiUFYMyVJ9AzyCTGtU8xrSTR8xcY=; b=s
-	IXvwhNcgICYheYdYbSAyBmnTZTpHnttkVgaMfR1KDyaF5zztGR9w24B8TpmWbL6g
-	CNiPIlG5lduA7+NpOZ+CanruWSrVagi5KGPJrOlXQnb/oi6J4GQh46kIQIyrJPLY
-	bkNUBYpSaZTI0tJapG5RCkcI0PrK7wYGXQvkFZjroY+TV+tfzMNJ9ddci1cYptD1
-	9N0wzggEYN3T4xBn74pwyjoSCVHP2SltWl/WdfK8VTPOi4gHL95qnDdq1Aca/m/t
-	GOcdr8O0rJRDP8kvMGGVaDds/02g07naTUKxMbW7Rstnm1jJ1O4EdeFB5Cn2YhAA
-	fTE8ITmqGN5WwfZJm/1Iw==
-X-ME-Sender: <xms:YoNoZ3b7BPxOcomS74ZvhUL-xSi_t-0VLcq3CmVY__AQR5XSA-vEpA>
-    <xme:YoNoZ2YxyTTQzmG5m3NwAcQmo-yW2g7m7Y2tCS5Ve8p_oJxcw2kL807bp409ACum3
-    dP_WXEIy4yaKCwV3A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddruddtkedgudegjecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
-    tdenucfhrhhomhepfdfthigrnhcuhggrlhhklhhinhdfuceorhihrghnsehtvghsthhtoh
-    grshhtrdgtohhmqeenucggtffrrghtthgvrhhnpeejhfeukeejjefguddvffehveevjefh
-    tddutdfhudduvdevfeejfffgvdelfeeugfenucevlhhushhtvghrufhiiigvpedtnecurf
-    grrhgrmhepmhgrihhlfhhrohhmpehrhigrnhesthgvshhtthhorghsthdrtghomhdpnhgs
-    pghrtghpthhtohepudefpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopeifvghnsh
-    estghsihgvrdhorhhgpdhrtghpthhtohepjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgr
-    ihhlrdgtohhmpdhrtghpthhtoheplhhgihhrugifohhougesghhmrghilhdrtghomhdprh
-    gtphhtthhopehmrggtrhhorghlphhhrgekvdesghhmrghilhdrtghomhdprhgtphhtthho
-    pehmrggtrhhomhhorhhgrghnsehhohhtmhgrihhlrdgtohhmpdhrtghpthhtohepsghroh
-    honhhivgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrghrmhdqkhgv
-    rhhnvghlsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtoheplhhinh
-    hugidqshhunhigiheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehpvghr
-    vgigsehpvghrvgigrdgtii
-X-ME-Proxy: <xmx:YoNoZ58EdDFXg4bdLiJU-GuGUGcv4J0sXDqj9DC1lqL6MR7VQIEebg>
-    <xmx:YoNoZ9o9BLRdYNDHKOMPKGx-TO4kP-igDVtXOEBMGnGaA8QUEOrKAQ>
-    <xmx:YoNoZyr2m8L6N8JSUVB0LkCOPaEPiTxr2wAbparg7TxLYSOtB6ZTHw>
-    <xmx:YoNoZzQoMNeCouX9hYVoEwHTmjgGnHyJ8cB9Zf-yh-3QBWr-TgZW9A>
-    <xmx:Y4NoZ4imCsQYY7E9Oza0H3wcr4XbmCHibE2_MsY5VGC6nd9wLcAr4Oa3>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id C6449BA006F; Sun, 22 Dec 2024 16:23:46 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=linumiz.com header.i=@linumiz.com header.b="NDNJRDDn"
+Received: from eig-obgw-5008a.ext.cloudfilter.net ([10.0.29.246])
+	by cmsmtp with ESMTPS
+	id R46ftd7xoqvuoR5y8txChS; Fri, 27 Dec 2024 08:45:17 +0000
+Received: from md-in-79.webhostbox.net ([43.225.55.182])
+	by cmsmtp with ESMTPS
+	id R5y5tvWekN0LRR5y6toZ6v; Fri, 27 Dec 2024 08:45:15 +0000
+X-Authority-Analysis: v=2.4 cv=erfZzJpX c=1 sm=1 tr=0 ts=676e691b
+ a=LfuyaZh/8e9VOkaVZk0aRw==:117 a=kofhyyBXuK/oEhdxNjf66Q==:17
+ a=IkcTkHD0fZMA:10 a=RZcAm9yDv7YA:10 a=-pn6D5nKLtMA:10 a=NEAV23lmAAAA:8
+ a=oIXfh7CG2JD6673A1wUA:9 a=QEXdDO2ut3YA:10 a=ZCPYImcxYIQFgLOT52_G:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linumiz.com
+	; s=default; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:To:Subject:Cc:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=CbHybnIOXmlSwaXNoaXYOUqH0/mYuZ8kkjuKjW87omQ=; b=NDNJRDDnw/y2q/XpMHCG2FL1sK
+	oITjouXaGaiFTHEqjQ1JABwZmQ0zzYnzoflffHMbU1Pjkj15KTHaR7OyQNyL4t7Ldkku8gntKicsO
+	nFBwg3skiPmnF+9QeKVeYfiIZjA+tjRroZ/t8+gAlEqXfTdHol7mNAYzGekP6uIRKCy7HdIfVFqgg
+	nnm+VYrMucoVSeE+0O388Pz3oumqegJkOKSsrN/SP8rkh7MgdPwt86JlP2uH5MgmOvAAYhmVWmWEZ
+	0y7OPy/Uj+4Z58HzetcOlpOv9tfweAhraj0p/KWJkKCX5dSIAHFhLZYOLEn0CGAUaoJdk1pbK5LvK
+	zh0wxk8Q==;
+Received: from [122.165.245.213] (port=48506 helo=[192.168.1.5])
+	by md-in-79.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <parthiban@linumiz.com>)
+	id 1tR5xx-003AmV-0N;
+	Fri, 27 Dec 2024 14:15:05 +0530
+Message-ID: <9415ca9c-f303-4507-8cd6-cb08ee09e988@linumiz.com>
+Date: Fri, 27 Dec 2024 14:14:59 +0530
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Mon, 23 Dec 2024 10:23:25 +1300
-From: "Ryan Walklin" <ryan@testtoast.com>
-To: "Chris Morgan" <macroalpha82@gmail.com>
-Cc: "Liam Girdwood" <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>,
- "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
- "Chen-Yu Tsai" <wens@csie.org>, "Jernej Skrabec" <jernej.skrabec@gmail.com>,
- "Samuel Holland" <samuel@sholland.org>, linux-sound@vger.kernel.org,
+User-Agent: Mozilla Thunderbird
+Cc: parthiban@linumiz.com, linux-clk@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- devicetree@vger.kernel.org, "Chris Morgan" <macromorgan@hotmail.com>
-Message-Id: <c64563ac-ef6e-4d87-a634-9a5edde86a53@app.fastmail.com>
-In-Reply-To: <6768438d.4a0a0220.399c57.89b6@mx.google.com>
-References: <20241221094122.27325-1-ryan@testtoast.com>
- <20241221094122.27325-2-ryan@testtoast.com>
- <6768438d.4a0a0220.399c57.89b6@mx.google.com>
-Subject: Re: [PATCH 1/3] ASoC: dt-bindings: sun4i-a10-codec: add hp-det-gpios
-Content-Type: text/plain
+ linux-kernel@vger.kernel.org, Andre Przywara <andre.przywara@arm.com>,
+ stable@vger.kernel.org
+Subject: Re: [PATCH] clk: sunxi-ng: a100: enable MMC clock reparenting
+To: Chen-Yu Tsai <wens@csie.org>, Michael Turquette
+ <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Yangtao Li <frank@allwinnertech.com>,
+ Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
+ Cody Eksal <masterr3c0rd@epochal.quest>
+References: <20241109003739.3440904-1-masterr3c0rd@epochal.quest>
+ <173124139852.3585539.10704015898700065278.b4-ty@csie.org>
+Content-Language: en-US
+From: Parthiban <parthiban@linumiz.com>
+Organization: Linumiz
+In-Reply-To: <173124139852.3585539.10704015898700065278.b4-ty@csie.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - md-in-79.webhostbox.net
+X-AntiAbuse: Original Domain - lists.linux.dev
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - linumiz.com
+X-BWhitelist: no
+X-Source-IP: 122.165.245.213
+X-Source-L: No
+X-Exim-ID: 1tR5xx-003AmV-0N
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: ([192.168.1.5]) [122.165.245.213]:48506
+X-Source-Auth: parthiban@linumiz.com
+X-Email-Count: 4
+X-Org: HG=dishared_whb_net_legacy;ORG=directi;
+X-Source-Cap: bGludW1jbWM7aG9zdGdhdG9yO21kLWluLTc5LndlYmhvc3Rib3gubmV0
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfHfbP5G4sTV4KtvXsi6CZWYzg2Gp8VMuNQm7jQ9neymMAaGFhEvAngKYQMxXfWg3nO9ZFsYK2eMAQ/a9P4bI+b00aOxkg8eXs4mG/R8WWkZbZUou7+wQ
+ GXcjWNwpocoPFv2V5m5DOkfjOi7TGn8/jsGypqlF8h2si02Bwa0o6yhAUeLDOjwWbNW1Y3Izm5F5lkZuPNzP54CqPvjEowHMI5o=
 
-On Mon, 23 Dec 2024, at 5:51 AM, Chris Morgan wrote:
-> On Sat, Dec 21, 2024 at 10:26:32PM +1300, Ryan Walklin wrote:
->>  
->> +  allwinner,hp-det-gpios:
->> +    maxItems: 1
->> +    description: GPIO for headphone/line-out detection
->> +
->
-> If possible, I wonder if we can keep this without the vendor prefix?
-> It looks like for now Nvidia and some Rockchip codecs have the vendor
-> prefix, but audio-graph bindings and Freescale codec bindings have this
-> as a non-specific property (and it looks like simple-audio-card does it
-> either as "hp-det-gpios" or "simple-audio-card,hp-det-gpios" depending
-> upon the circumstances).
+On 11/10/24 5:53 PM, Chen-Yu Tsai wrote:
+> On Fri, 08 Nov 2024 20:37:37 -0400, Cody Eksal wrote:
+>> While testing the MMC nodes proposed in [1], it was noted that mmc0/1
+>> would fail to initialize, with "mmc: fatal err update clk timeout" in
+>> the kernel logs. A closer look at the clock definitions showed that the MMC
+>> MPs had the "CLK_SET_RATE_NO_REPARENT" flag set. No reason was given for
+>> adding this flag in the first place, and its original purpose is unknown,
+>> but it doesn't seem to make sense and results in severe limitations to MMC
+>> speeds. Thus, remove this flag from the 3 MMC MPs.
+>>
+>> [...]
+> 
+> Applied to clk-for-6.13 in git@github.com:linux-sunxi/linux-sunxi.git, thanks!
+> 
+> [1/1] clk: sunxi-ng: a100: enable MMC clock reparenting
+>       commit: 3fd8177f0015c32fdb0af0feab0bcf344aa74832
+This commit is missing in 6.13-rc4. Will it be merged in the next rcX?
 
-I'm relaxed about either approach, it does work with the vendor prefix but agree just "hp-det-gpios" is probably appropriate given the intent is the same across vendors and devices.
+Thanks,
+Parthiban
+> 
+> Best regards,
 
-> Also, the behavior of this is very specific to just the Headphone sink,
-> so we should drop the line-out text from the description. If someone
-> sets the routing as `"Headphone", "LINEOUT"` the state of the GPIO will
-> affect the audio path, but `"Line Out", "LINEOUT"` will not be impacted
-> by the state of the GPIO.
-
-Agreed for this device, but this is a more generic description for the H616 generally, so I'm not sure we should remove the "Line Out" given that it may make sense for other H616 boards (Orange Pi etc) where someone may be using a 3.5mm jack as a line-level output rather than via an amp to headphones.
-
->
-> Thank you,
-> Chris
->
-Regards,
-
-Ryan
