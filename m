@@ -1,139 +1,114 @@
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77545F9D6
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 Dec 2024 23:59:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.49
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADCD01C32;
+	Mon, 30 Dec 2024 14:07:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735343953; cv=none; b=ftuoOKNWCAZroStg0KonbeEwOXH9OEFEt2e1x7KO/cFUeTDiwLTVldCUubtkW9fjNVishYa3OZZnfgerqw0Sxw2890XEULVwLeU3UAGIQ+4RLFfabmKxcQWADNgL0qRf9Sn2jrY3U0gbvvMB1bHi0iqDWouczMGWfZLhb/cr+uo=
+	t=1735567666; cv=none; b=u55XHWIIhATfLdyf4PdRGX/YRQbrhLAQmdWTghuCITCY/s19ONDEIgJYv+eP3NZlhplqP7vfh5j1nxIy/lkIDLHnUbpvOe+cplBPfna+hsrjMu8h1zRunfDb6dnci/78txvGl0H6TrWCH/Y5K2nKr08eH01vtUXwdBjNuc97Y3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735343953; c=relaxed/simple;
-	bh=PcVbruQKCVpThCQhS9OVVZeAiUKW8DeB80FK/GmUYvY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pph6kG2htBZh5RjG9NwFpqMFmMZF19DPXCU7t0OU+MdabpIvt7qFs09ZuUfjKdZbVjKlNnPc3Z1wv/OtZMYbx9XXmRRutDx/MKdLzSm/M45bD50FBMSnaqVdvKn6pzhzSVWXH2/HCeMOEKikPlO/woi8Vb4CdBQP17+6qeUCsPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aBz0tPGp; arc=none smtp.client-ip=209.85.160.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aBz0tPGp"
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-29fad34bb62so3841986fac.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 27 Dec 2024 15:59:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1735343950; x=1735948750; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=v9GD6E8fp/FwvixoMNl/hFkENwUOIXNrn02wG9UqtG4=;
-        b=aBz0tPGpx1HslGSuU8om7GpLYnyiCQewg9C7hjr6gO5ZmznCTZiYTXDztPHi6VtjhN
-         Ybnba3//Ab2K3LcvOWDB9wq3RYZG7dq+Y9xGmY17r7+F3MlByhVnCgaeTbJ5AQyouWEA
-         /Hn+QOVTroIpK+CfuJ5x0/igp22ZHQ8QKdtbyRqQ4Qiu14Oz01jliIGUo25u7A4K3y3I
-         O9/f73tL6eqJh83rmuNa6EmHXBjIgvZuLtGMWvYqxv3xuAykdOaQ1feKtCaYn1H9fhoo
-         8gQToW9ijpmKPfuYYbxhJh5ZK51hbZAH7zZkXYWVj/ucYdxS94KHHs7b3OmNSZGfmtag
-         gMeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735343950; x=1735948750;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=v9GD6E8fp/FwvixoMNl/hFkENwUOIXNrn02wG9UqtG4=;
-        b=qNpWw4UrVftVhLRO9K3hGEZ28fqKHHtfac1E3qfEvPb++nXlc5n1PoBaxaalf/Nv4a
-         riWdfgQjnoGrgmdGLaMV9iFCDzVMvu82bX6+dmJTl2zekzwF5izlNaRgmcpwljNvCnLc
-         ndvpk3rOR38+q0HOS8llwdoDsNudo2NoEbKOXdgAPmAPhnAto65J0bVwHJyYd+1j2vwM
-         1YJ7d8lKgUJqsTG2ux7Km3EqP7SG5IBDSjSbHgM1K3GZ6ZuSfSyXhGpDt5Ak1+ZfI2C6
-         SwMYki503zDvkVmHAU5o9rdSWhBwJNIToA+xyPBwD/2chNEp1KGmbju9B0rH7InqxP3H
-         HQ3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUgtwKTqQdoHdxCl9XwVAQLMUJmhwQNhKDSu8ApfSrI93HdAOawu4rvKMmc9Ar2EfCDBQrcNbsHBIsExQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxAeZr6ILDxb23EX7scJdOIPV1vje8rUQtKrWvJcCnOX1Id+vWS
-	MsFWTGoi1rm3da3BZSHfAFvRnjeVpqTC+C0MrVL22eKYDajMaPl2HQfolJq6pWS2BZRP7ZqLec3
-	N7gPgYCoA8C/AHBlEGbsB1xklBr4=
-X-Gm-Gg: ASbGncs4f1suC+8Qn8liNGVonhVxhwDjo9X7miTp0Peb0+aRON9QM2/fShmdBcXkKXI
-	b4vtnTweuhbiqltKdcb6VB0/ZC4IehwbfMoJoUGxjl7dZjw56UNPy
-X-Google-Smtp-Source: AGHT+IHF+9y91xAzk0WeclG07YYaJBdE2gf7HVbMMZ/WpHgN7HlLp8WAPxiUjkeqzJKcsxPtIyGDxr+7m2I+WGbBIeI=
-X-Received: by 2002:a05:6871:d114:b0:27c:a414:b907 with SMTP id
- 586e51a60fabf-2a7fb4d0065mr13413322fac.33.1735343950458; Fri, 27 Dec 2024
- 15:59:10 -0800 (PST)
+	s=arc-20240116; t=1735567666; c=relaxed/simple;
+	bh=kMKlPcKexh2PSWhdStPuQrjXgzk3tm2csuLK44HKfiw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=o2yjVEXa3/PjxcglZra/Z1quvjL687JnFyMkhy6qy/IDq8wBKMzBabfhQ4a48l1UrDQARzkqAfHEEgYCM8RFF28d6WJgQwy6pEkCAtlS8S9c8YuGh9I9v8y7D246KjmXUrhtHIMeVRJ7xdvzgJqf81mA6Ke/U6XoBGVCyBcYpFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EDE42143D;
+	Mon, 30 Dec 2024 06:08:11 -0800 (PST)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D758B3F59E;
+	Mon, 30 Dec 2024 06:07:38 -0800 (PST)
+Date: Mon, 30 Dec 2024 14:07:28 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Parthiban Nallathambi <parthiban@linumiz.com>
+Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Robin
+ Murphy <robin.murphy@arm.com>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu
+ Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
+ Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Michael Turquette <mturquette@baylibre.com>, Stephen
+ Boyd <sboyd@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Linus
+ Walleij <linus.walleij@linaro.org>, Vinod Koul <vkoul@kernel.org>, Kishon
+ Vijay Abraham I <kishon@kernel.org>, iommu@lists.linux.dev,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-phy@lists.infradead.org
+Subject: Re: [PATCH RESEND 04/22] dt-bindings: clock: sun8i de2 clock: Add
+ a100/a133 compatible
+Message-ID: <20241230140728.78629cd3@donnerap.manchester.arm.com>
+In-Reply-To: <20241227-a133-display-support-v1-4-abad35b3579c@linumiz.com>
+References: <20241227-a133-display-support-v1-0-abad35b3579c@linumiz.com>
+	<20241227-a133-display-support-v1-4-abad35b3579c@linumiz.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240302140042.1990256-1-megi@xff.cz>
-In-Reply-To: <20240302140042.1990256-1-megi@xff.cz>
-From: Vasily Khoruzhick <anarsoul@gmail.com>
-Date: Fri, 27 Dec 2024 15:58:44 -0800
-Message-ID: <CA+E=qVdq7AHYj1scKbyGmarSZ7u=vLMsQ63nDTDQBu2UaL=Xag@mail.gmail.com>
-Subject: Re: [PATCH v3 0/4] Add support for jack detection to codec present in
- A64 SoC
-To: =?UTF-8?Q?Ond=C5=99ej_Jirman?= <megi@xff.cz>
-Cc: linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Arnaud Ferraris <arnaud.ferraris@collabora.com>, 
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sat, Mar 2, 2024 at 6:02=E2=80=AFAM Ond=C5=99ej Jirman <megi@xff.cz> wro=
-te:
->
-> From: Ondrej Jirman <megi@xff.cz>
->
-> This series adds support for jack detection to this codec. I used
-> and tested this on Pinephone. It works quite nicely. I tested it
-> against Android headset mic button resistor specification.
->
-> The patches are a rewritten and debugged version of the original
-> ones from Arnaud Ferraris and Samuel Holland, improved to better
-> handle headset button presses and with more robust plug-in/out
-> event debouncing, and to use set_jack API instead of sniffing
-> the sound card widget names, to detect the type of jack connector.
->
-> Please take a look. :)
->
-> v3:
-> - removed all device-tree related code
->   (it's not necessary for core functionality, it only helps make the jack=
- detect
->   functionality of the codec be usable from simple-sound-card driver, and=
- I'll
->   send it spearately, because it will apparently need several more rounds
->   of review)
+On Fri, 27 Dec 2024 18:30:53 +0530
+Parthiban Nallathambi <parthiban@linumiz.com> wrote:
 
-Hey Ondrej,
+Hi,
 
-Has it ever materialized? As far as I can tell, this code has been
-sitting dead due to missing dt-related code.
+> A100/A133 uses one mixer without rotation support, which is same
+> as sun8i v3s. Add it with fallback to v3s compatible.
+> 
+> Signed-off-by: Parthiban Nallathambi <parthiban@linumiz.com>
+> ---
+>  .../devicetree/bindings/clock/allwinner,sun8i-a83t-de2-clk.yaml       | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/clock/allwinner,sun8i-a83t-de2-clk.yaml b/Documentation/devicetree/bindings/clock/allwinner,sun8i-a83t-de2-clk.yaml
+> index 3e00905b66ca..ed038967929b 100644
+> --- a/Documentation/devicetree/bindings/clock/allwinner,sun8i-a83t-de2-clk.yaml
+> +++ b/Documentation/devicetree/bindings/clock/allwinner,sun8i-a83t-de2-clk.yaml
+> @@ -23,6 +23,7 @@ properties:
+>        - const: allwinner,sun8i-h3-de2-clk
+>        - const: allwinner,sun8i-v3s-de2-clk
+>        - const: allwinner,sun50i-a64-de2-clk
+> +      - const: allwinner,sun50i-a100-de2-clk
+>        - const: allwinner,sun50i-h5-de2-clk
+>        - const: allwinner,sun50i-h6-de3-clk
+>        - items:
+> @@ -31,6 +32,9 @@ properties:
+>        - items:
+>            - const: allwinner,sun20i-d1-de2-clk
+>            - const: allwinner,sun50i-h5-de2-clk
+> +      - items:
+> +          - const: allwinner,sun50i-a100-de2-clk
+> +          - const: allwinner,sun8i-v3s-de2-clk
 
-Regards,
-Vasily
+Wait, does this add the same compatible string twice, once as a
+standalone, once with a fallback? This doesn't look right.
 
-> v2:
-> - use set_jack/get_jack_type
-> - get rid of some custom poking inside card internals to figure
->   out what kind of jack port we should setup the codec for
-> - read jack-type from OF as suggested here:
->   https://elixir.bootlin.com/linux/latest/source/sound/soc/soc-component.=
-c#L288
-> - add DT bindings
->
-> Thank you very much,
->         Ond=C5=99ej Jirman
->
-> Arnaud Ferraris (2):
->   ASoC: sun50i-codec-analog: Enable jack detection on startup
->   ASoC: sun8i-codec: Implement jack and accessory detection
->
-> Samuel Holland (2):
->   ASoC: sun50i-codec-analog: Move suspend/resume to set_bias_level
->   ASoC: sun8i-codec: Enable bus clock at STANDBY and higher bias
->
->  sound/soc/sunxi/sun50i-codec-analog.c |  73 +++++-
->  sound/soc/sunxi/sun8i-codec.c         | 346 +++++++++++++++++++++++++-
->  2 files changed, 399 insertions(+), 20 deletions(-)
->
-> --
-> 2.44.0
->
->
+If you positively know already about an incompatibility, just provide the
+single string. If you suspect there *might* be something, use the fallback
+version for now, and we can revisit that later.
+
+Also please note that the semantics of the fallback is:
+"Any driver supporting only the V3s can also support the A100 version of
+the clock, as the new device is either fully compatible or a subset of the
+old one."
+
+So what would it be then here? The driver patch [16/22] suggests it's
+compatible, but that might just cover the part that the Linux driver
+implements? If it is compatible, you wouldn't need any change to the
+driver code at all, the DT core code takes care of matching the driver
+using the fallback.
+
+Cheers,
+Andre
+
+>  
+>    reg:
+>      maxItems: 1
+> 
+
