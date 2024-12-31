@@ -1,94 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A80975789D;
-	Tue, 31 Dec 2024 13:37:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C13EE155C97
+	for <linux-sunxi@lists.linux.dev>; Tue, 31 Dec 2024 16:51:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735652255; cv=none; b=q5iooCn6LbqWqmx3PrlocbdwZozWYirkvQMgv6w1ctmhNLtOoORm/wZtKmHFaDe1qFNmbo8mKPAVLTD/ETrrURJDQePxENwCOuUbt4D5ejvHwYOF3tvUFe3QFQi/KTJS1b7yGz1fcZhMEW7GlKo1zstTUiV2KalMOAZz/pOoPU8=
+	t=1735663881; cv=none; b=AXHi+r16GR7lJ1rNC/r7CHwDy6YdM/+/NSoY4rPQjdqw4eczitLDyUAENwx3XARRBJ6GhbTxS0C0HtT+jebXVu7J869G5aaMpNGdzD7OkJ4d6Hqd8/JGU0CfEJx5cwTnDZ4DW/MFwVSuAlXdevB9i3AOuQm8yE1Q8h/QU8ucJtY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735652255; c=relaxed/simple;
-	bh=VlKLhUN+zDmr0U5+deIXHrgXfztAdQTHo3T3VjafnL0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KpniNZEMXfEXzLAcEiBSVYQBDs9oSrbQdRlhhviogxi0pMzwhTQ6OyoAcilBULIoFq9p2Zj1uKX7V2TBf2tXgzktPKl1Jg7bRGuwV9pGLX/RK+LFjRmspp+nWwOY1GGYJU2mF4HkUt20tQtZEMtN/r+xiCsDaHjFTw2R0ShHvzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vQnkiJbc; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vQnkiJbc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE259C4CED2;
-	Tue, 31 Dec 2024 13:37:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1735652255;
-	bh=VlKLhUN+zDmr0U5+deIXHrgXfztAdQTHo3T3VjafnL0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vQnkiJbcSg0EI64smS1a4LcCoIU/L0WXtYnGipGgmpWIH2l991MQlg4Yctfk7RYnS
-	 lqG/0sdMv4Kp4uD5s1BwRxmPKSN08NtUzPItbu71bVaCUohaW5ok+3KTF/m3U08bV4
-	 vzrBjkJqbM3yt6fa0fmzZ1MPBzGz7KjBsTPKqT6RgYwDntZknUCREmaDlq4ySlji3s
-	 LhX5mq7G5P9KMdQxJl9sNtHGMv7/qbAxnEv8Uw0bMp1WoOPLxEtnMFIMfSdH5Qs79E
-	 eJ5ZMpN6bT4fKG+TLvWJgGdY36Up+ixdzqVqV8wtV9fsaTia10Vqp/lZJpH2bp6ojD
-	 0W5EY0hh9XY5Q==
-Date: Tue, 31 Dec 2024 07:37:32 -0600
-From: Rob Herring <robh@kernel.org>
-To: Chris Morgan <macroalpha82@gmail.com>
-Cc: Ryan Walklin <ryan@testtoast.com>, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	devicetree@vger.kernel.org, Chris Morgan <macromorgan@hotmail.com>
-Subject: Re: [PATCH 1/3] ASoC: dt-bindings: sun4i-a10-codec: add hp-det-gpios
-Message-ID: <20241231133732.GA76940-robh@kernel.org>
-References: <20241221094122.27325-1-ryan@testtoast.com>
- <20241221094122.27325-2-ryan@testtoast.com>
- <6768438d.4a0a0220.399c57.89b6@mx.google.com>
+	s=arc-20240116; t=1735663881; c=relaxed/simple;
+	bh=gQILtRV6Cv06NRYCVuOvVD++zVJo+wWhuhD9jGcUXhw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=atafDTla9yJkRO+zmuIp8iWO50tBXA0dhWtZVuVMKs97zAwJqfOFEu2e3xMK+7J3UBE6P2DaBKJROJ1bicUK9XKRz5c/oSgf1rbKMlZflzRLpIoaM9tOqUSdrfrOgOssibFIFJfVuSvqeiTKzY7JYnoP+Kp8A3GT9vA73eqvV+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 93FB11476;
+	Tue, 31 Dec 2024 08:51:39 -0800 (PST)
+Received: from donnerap.arm.com (donnerap.manchester.arm.com [10.32.100.21])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EE4233F6A8;
+	Tue, 31 Dec 2024 08:51:09 -0800 (PST)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Lee Jones <lee@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>
+Cc: linux-sunxi@lists.linux.dev,
+	Chris Morgan <macroalpha82@gmail.com>,
+	Vasily Khoruzhick <anarsoul@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Revert "mfd: axp20x: Allow multiple regulators"
+Date: Tue, 31 Dec 2024 16:51:03 +0000
+Message-Id: <20241231165103.800752-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6768438d.4a0a0220.399c57.89b6@mx.google.com>
+Content-Transfer-Encoding: 8bit
 
-On Sun, Dec 22, 2024 at 10:51:24AM -0600, Chris Morgan wrote:
-> On Sat, Dec 21, 2024 at 10:26:32PM +1300, Ryan Walklin wrote:
-> > From: Chris Morgan <macromorgan@hotmail.com>
-> > 
-> > Devices integrating Allwinner SoCs may use line-out or headphone jacks
-> > with jack detection circuits attached to a GPIO. Support defining these
-> > in DTs.
-> > 
-> > A number of Anbernic devices featuring the H700 SoC use this mechanism
-> > to switch between a headphone jack and an internal speaker, so add these
-> > to the allowed routing items.
-> > 
-> > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> > Signed-off-by: Ryan Walklin <ryan@testtoast.com>
-> > ---
-> >  .../bindings/sound/allwinner,sun4i-a10-codec.yaml           | 6 ++++++
-> >  1 file changed, 6 insertions(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-codec.yaml b/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-codec.yaml
-> > index ebc9097f936ad..b4b711e80b65a 100644
-> > --- a/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-codec.yaml
-> > +++ b/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-codec.yaml
-> > @@ -98,6 +98,10 @@ properties:
-> >      maxItems: 1
-> >      description: GPIO to enable the external amplifier
-> >  
-> > +  allwinner,hp-det-gpios:
-> > +    maxItems: 1
-> > +    description: GPIO for headphone/line-out detection
-> > +
-> 
-> If possible, I wonder if we can keep this without the vendor prefix?
-> It looks like for now Nvidia and some Rockchip codecs have the vendor
-> prefix, but audio-graph bindings and Freescale codec bindings have this
-> as a non-specific property (and it looks like simple-audio-card does it
-> either as "hp-det-gpios" or "simple-audio-card,hp-det-gpios" depending
-> upon the circumstances).
+As Chris and Vasily reported, the attempt to support multiple AXP PMICs
+in one system [1] breaks some of the battery and charging functionality
+on devices with AXP PMICs. The reason is that the drivers now fail to get
+the correct IIO channel for the ADC component, as the current code seems
+to rely on the zero-based enumeration of the regulator devices.
+A fix is possible, but not trivial, as it requires some rework in the AXP
+MFD driver, which cannot be fully reviewed or tested in time for the
+6.13 release.
 
-Yes, drop the vendor prefix.
+So revert this patch for now, to avoid regressions on battery powered
+devices. This patch was really only necessary for devices with two
+PMICs, support for which is not mainline yet anyway, so we don't lose
+any functionality.
 
-Rob
+This reverts commit e37ec32188701efa01455b9be42a392adab06ce4.
+
+[1] https://lore.kernel.org/linux-sunxi/20241007001408.27249-4-andre.przywara@arm.com/
+
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+---
+ drivers/mfd/axp20x.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/mfd/axp20x.c b/drivers/mfd/axp20x.c
+index 251465a656d09..5b8e88341a305 100644
+--- a/drivers/mfd/axp20x.c
++++ b/drivers/mfd/axp20x.c
+@@ -1445,7 +1445,7 @@ int axp20x_device_probe(struct axp20x_dev *axp20x)
+ 		}
+ 	}
+ 
+-	ret = mfd_add_devices(axp20x->dev, PLATFORM_DEVID_AUTO, axp20x->cells,
++	ret = mfd_add_devices(axp20x->dev, -1, axp20x->cells,
+ 			      axp20x->nr_cells, NULL, 0, NULL);
+ 
+ 	if (ret) {
+-- 
+2.25.1
+
