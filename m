@@ -1,156 +1,111 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E63C3B1A4
-	for <linux-sunxi@lists.linux.dev>; Wed,  1 Jan 2025 08:56:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6061149C64
+	for <linux-sunxi@lists.linux.dev>; Wed,  1 Jan 2025 08:58:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735721780; cv=none; b=CXk0+sBCC7vNfxauZHTC4g8ZrTeWEUpqzG3wxEblkDVR+OPMZJRiZ6o5OzxZs2jSU4sHkKQU2ENY3XO6bKBuoUrBjLSV/cBhCqmMVORNTJbVOENZuEF+lK/2DAMs16klSNa5cJpeII6pSAYZd2IlLfp2pDmqjrkhfmaDM3ZJAyE=
+	t=1735721926; cv=none; b=uMmbCVqkKrIt18hWkuNJqlilcUGW7tg3It3NUOf855666N/ygB9qITL3d2jFuDG4ukUhdIDXxYJ322HgJyj5hIOP3Oy0hSJ3I4tnJYyuohaLXvL44+W4uVuibNhqHRBiQGGADxVlksuTiBnghnPCYNJ9B4/iJLtklR32/aPdHXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735721780; c=relaxed/simple;
-	bh=5r6/onrG9flAAFCz83ykg7NfsaUS5Z94YtICC1qwEps=;
+	s=arc-20240116; t=1735721926; c=relaxed/simple;
+	bh=dB3jhpzgRuWSQJQmfNuBsTOKheK4ecmNIZCeSfdLBzI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nMCKlf6VIdW7SqcFkPCIfHZKXZ1REmnwYBmqAzg01ouX5aJHE8JlNSt+Ylxz9gTRVjAenf7/mhYQtJW4oQhoJFQsZ7VzxqrIeU+GBk1NIeIy62HMjmx0HHnFlmP2AQuOW92hStT8nBzVJAZbOwzmiMDEHiXeuEJPHhyKq7yYT7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.50
+	 To:Cc:Content-Type; b=jgvUAbFL3kHbEnRm2asChZ1ZOOrEBcum6iUdr2BlSaPDN1iZpKs5touPTw7tRRq9lwW6pfbsWiMau57O/KghWFzeB+nrn3gXBT7afOg4tqvL40a8kO8LOqTxytRzWwJHZdoUxAeOzKdJL1nMCfRkr3O1rkePgXQyB+nA9bWOCc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-53e28cf55cdso9187241e87.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 01 Jan 2025 00:56:17 -0800 (PST)
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-3035046d4bfso98176361fa.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 01 Jan 2025 00:58:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735721774; x=1736326574;
+        d=1e100.net; s=20230601; t=1735721921; x=1736326721;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :reply-to:in-reply-to:references:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=jIrh5/xF9foHE2ZtaHkAInkCtUR6yzl9To1EWrJQ0MA=;
-        b=V6lywdJfjbV0pqwqXglStJumpWctwtYOaO1SPLaAv86SBhhUHmvPf0pIKsGe36TIet
-         qT1upBjgYh6cffOSJpOg9uTh/+zmdmiSaIe8fr/NbAKrR+GjAdeL46n8zqiozijeN0yw
-         YhxkNqpCocemydEfJvMiIel3mmPUNnJzfM4JFPj8kmIpCK0tOZeLyqud3Y6c+/cVudtw
-         nQg8Fc6c9mw3pIWA9Q++571hlGG3W0DL21oiiXkXcqsZcF1RJxgQNZHxV90AvCOELVmU
-         HYjT7BS8O+XOnGWp5Y3Ix/SxXrUiqoJ7rU+8KZnGOLrFV0nqNbStOPzIIVFjpZYZgEUk
-         exJg==
-X-Forwarded-Encrypted: i=1; AJvYcCW8K2OlfzHKZ6cDXWMZu/hcl50jDbat5Z2EMTAZQscYWQvm6SwY91wjRQR2nCUHs+Yuf7B9TmCo1BE+mg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwGhJ+QAKnKIat6bati3vPrbelvJa/rJazO6hVN3ZwT+C0vdC9D
-	N3xaLqbRlLS8H1mFzt+OBNGofo/7UHVuZaEhHmMZF1mqvufu8quA+O1bqisX
-X-Gm-Gg: ASbGnctbnYhB+tQF9f/HmbD1CPoRWvH3BwiRchBLdxs4KZGOaNRdVw/hWT3ELK+26Pj
-	+jr2lr5ET8Au49gAHUTTWhtLgZBr3ldPY1j38kVltGI8tZtTwd0k0feGFJTvPFhXYLNJNt2CeG1
-	tC9P1yubV7vYIr/6+uvotelMmM3vjKVmaJkJW4OoCkdlNUNMceAb1Wg+AyILX0re1yDW5PS4ZpZ
-	grfD3wBbNCVzE4zCzKm9Z6if9UY88qNQ3polYRhdUXkf5XPvcGEWNvaSUTHxO+cDz0/Y4Wdt3oy
-	kc4pTlBdQ5PVFw==
-X-Google-Smtp-Source: AGHT+IGF8uNJyOiuN/wnAcSfyYMlDJYfSULt39NXWHMpLFV6/F6IC+YewJ2MwTHQW8TJWAg20VThcw==
-X-Received: by 2002:a05:6512:3b0b:b0:542:2930:4376 with SMTP id 2adb3069b0e04-54229533e06mr12589637e87.20.1735721773812;
-        Wed, 01 Jan 2025 00:56:13 -0800 (PST)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com. [209.85.208.169])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-542238217f9sm3540412e87.211.2025.01.01.00.56.13
+        bh=03r1MUnoANbps6OakqIBWa8kGI5iV3U0tsXfTI9VdjQ=;
+        b=LGtLpwF1TKsTpbwXmkR6NcfSjW/hO2KHWahdJKpo8TKyz6nlnLeiEIiNYPDYTjTBcS
+         ROpwbqemiO2A1NSsXxVBePN+VSDyCc1jSR49RAjPZCu/Cgi4+8yRqdjuM9CNuNr0hvd8
+         m8XWct3oLHDNXvYtmcOlwtlWd/mgU3x2yOV2CdUypB1WRPB4R9piuanezFtrAu/Yu75A
+         jEKIPGlM+hB+A/KZ3Mvj2Z1RY9zoXp9i9Php8GL3IVKlmS3qTAyYpj7lpUU5Zn5QZ1JN
+         JnUS3pho2iewrFpIdZlJrF2A93vQ+sxlwt+6uSMf7s8TSgfSJ4mJeOorZX/QozLs1bAJ
+         0icQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWSGhZ/9ueTWHZKzs/hdCRdRC8dnc9Mt7oispjB7Hp58muAOqQikP/Xqt/xz/P3K20Z7+UnEfypEdxZLQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyx/MZXEwTGcxw5Lc4HkyGFtscf4g61gRj3HRyaDNBEpFskOACS
+	zBRXRaariLMgwObiHVkhrNIQp3jBHBKLaKboxf33/E9IbkZuazdeUSwB9svb
+X-Gm-Gg: ASbGncsCHI6m/9tjY6Uuu4Z4seSZJ51Vs805CVYan/AFGXHJbPsIkypHE1LL0ErVf6E
+	hHAAeNl3b2TfqpYb5Utm9/FlAWHiLdSopqiKxLbdipn1rCb661WD51S9GO+9KgvLHsb20cKd05o
+	vjwXgYO2YucaRzx8Ep8gAriXdTFpg2WSrs/69jgexMmRwu/RNM94NAvc0VqvqaMLLeqw3ZX0pcQ
+	Hn3SPjUed9hrzd83pSDvstMckZlMfuHXVYVuj8G+Zdu8gyqNiaNuLH104c/1Ub7wUjeoweYLHNr
+	U3LBqS/druU/cg==
+X-Google-Smtp-Source: AGHT+IF1BdzvGyf8A15DWh2bUg7CXla1m6Nejz7JNq5hZLcAc8XFcyQ1w9oJprFsBd66L6eCwlOE6Q==
+X-Received: by 2002:a05:651c:602:b0:2ff:d075:2408 with SMTP id 38308e7fff4ca-30468608a47mr103645121fa.40.1735721920830;
+        Wed, 01 Jan 2025 00:58:40 -0800 (PST)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com. [209.85.208.175])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3045ad6cfe8sm39377751fa.6.2025.01.01.00.58.40
         for <linux-sunxi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Jan 2025 00:56:13 -0800 (PST)
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-30227ccf803so124475011fa.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 01 Jan 2025 00:56:13 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUvawaexj23E8qvCQeeOfQTcGuMaXQcgtOrIaNMGGFVCu4gFXXwulr4COgny1ifSPav7KaQB794aYK7kQ==@lists.linux.dev
-X-Received: by 2002:a2e:a54a:0:b0:300:34b2:f8a3 with SMTP id
- 38308e7fff4ca-304685482c3mr137981211fa.13.1735721773198; Wed, 01 Jan 2025
- 00:56:13 -0800 (PST)
+        Wed, 01 Jan 2025 00:58:40 -0800 (PST)
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-30229d5b22fso126408121fa.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 01 Jan 2025 00:58:40 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWe3BvDGp9Yf130vLjKptHWnUViS4Eq/GTj/ZL912nIr54O+fxP+Ww5XmYwdSLnwqE5/lILXwc9Xav24g==@lists.linux.dev
+X-Received: by 2002:a2e:a58c:0:b0:300:1aa5:4967 with SMTP id
+ 38308e7fff4ca-304685c1985mr174943451fa.25.1735721920308; Wed, 01 Jan 2025
+ 00:58:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241221094122.27325-1-ryan@testtoast.com> <20241221094122.27325-3-ryan@testtoast.com>
- <CAGb2v64qf0jNv72uHUK+aSj0Xt-bf+DW0NCnsZmLf-6xHZF_ew@mail.gmail.com> <982a7d32-ab58-434e-a125-4f7143928caf@app.fastmail.com>
-In-Reply-To: <982a7d32-ab58-434e-a125-4f7143928caf@app.fastmail.com>
+References: <20241219105622.13691-2-code@stefan-gloor.ch>
+In-Reply-To: <20241219105622.13691-2-code@stefan-gloor.ch>
 Reply-To: wens@csie.org
 From: Chen-Yu Tsai <wens@csie.org>
-Date: Wed, 1 Jan 2025 16:56:00 +0800
-X-Gmail-Original-Message-ID: <CAGb2v661eZPh8+ScJNUTXwm_y_RtrL7yo7EE4i_zg-=LrBhBhg@mail.gmail.com>
-Message-ID: <CAGb2v661eZPh8+ScJNUTXwm_y_RtrL7yo7EE4i_zg-=LrBhBhg@mail.gmail.com>
-Subject: Re: [PATCH 2/3] ASoC: sun4i-codec: support hp-det-gpios property
-To: Ryan Walklin <ryan@testtoast.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, 
-	Chris Morgan <macromorgan@hotmail.com>
+Date: Wed, 1 Jan 2025 16:58:28 +0800
+X-Gmail-Original-Message-ID: <CAGb2v67dBhL3-AhLeHg3xOgbNZ3qu0aj9+kA+MoOMRYfr_Z_zQ@mail.gmail.com>
+Message-ID: <CAGb2v67dBhL3-AhLeHg3xOgbNZ3qu0aj9+kA+MoOMRYfr_Z_zQ@mail.gmail.com>
+Subject: Re: [PATCH] ARM: dts: sunxi: Add MMC alias for consistent enumeration
+To: Stefan Gloor <code@stefan-gloor.ch>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	jernej.skrabec@gmail.com, samuel@sholland.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Dec 23, 2024 at 5:20=E2=80=AFAM Ryan Walklin <ryan@testtoast.com> w=
-rote:
+On Thu, Dec 19, 2024 at 6:58=E2=80=AFPM Stefan Gloor <code@stefan-gloor.ch>=
+ wrote:
 >
-> Hi Chen-Yu,
->
-> Thanks for the review!
->
-> On Mon, 23 Dec 2024, at 6:15 AM, Chen-Yu Tsai wrote:
-> > On Sat, Dec 21, 2024 at 5:41=E2=80=AFPM Ryan Walklin <ryan@testtoast.co=
-m> wrote:
->
-> >> @@ -1635,10 +1681,11 @@ static const struct snd_soc_component_driver s=
-un50i_h616_codec_codec =3D {
-> >>  };
-> >>
-> >>  static const struct snd_kcontrol_new sun50i_h616_card_controls[] =3D =
-{
-> >> -       SOC_DAPM_PIN_SWITCH("LINEOUT"),
-> >> +       SOC_DAPM_PIN_SWITCH("Speaker"),
-> >
-> > Why?
->
-> The speaker amp is controlled by a GPIO, this needs a specific card contr=
-ol to toggle on and off, discrete from the line-out volume. Muting the outp=
-ut entirely is not what is required, hence the separate control. I also und=
-erstand (although it is IMO not well documented on the user-space side) tha=
-t "Speaker" has a specific meaning to the user-space routing. Can add this =
-to the merge message.
+> Add explicit alias for MMC devices, so that (e)MMC and micro SD cards
+> are enumerated consistently. This should fix spurious boot failures when
+> specifying a hard-coded root partition, e.g., mmcblk0p2.
 
-It should be documented, and probably a separate patch. This patch is
-for the headphone. Also, "Speaker" is a DAPM widget name and that widget
-is what toggles the GPIO. So it's actually the kernel side routing.
-
-And also, you can't remove the "LINEOUT" pin because it is referenced from
-existing device trees.
-
-
-> >> @@ -1684,7 +1731,7 @@ static struct snd_soc_card *sun50i_h616_codec_cr=
-eate_card(struct device *dev)
-> >>
-> >>         card->dev               =3D dev;
-> >>         card->owner             =3D THIS_MODULE;
-> >> -       card->name              =3D "H616 Audio Codec";
-> >> +       card->name              =3D "h616-audio-codec";
-> >
-> > Why?
->
-> As mentioned in the cover letter, ALSA UCM in user space uses the card na=
-me to detect and apply the relevant configuration, by loading /usr/share/al=
-sa/ucm2/conf.d/<driver_name>/<card_name>.conf. Spaces are therefore removed=
- in the card name to make this easier to manage. Happy to add this to the c=
-ommit message too, and this could be changed to card->long_name if it is de=
-sired to maintain a human-readable card->name.
-
-This should also be a separate patch. And yes please add `long_name` to
-keep the human friendly name.
+IIRC we have chosen against adding explicit MMC aliases for the sunxi
+platforms. Please try using UUID=3D or PARTUUID=3D for root partition
+references.
 
 ChenYu
 
-> See https://github.com/alsa-project/alsa-ucm-conf/pull/491/files for the =
-UCM patch.
+> Link: https://github.com/linux-sunxi/meta-sunxi/pull/431
+> Signed-off-by: Stefan Gloor <code@stefan-gloor.ch>
+> ---
+>  arch/arm/boot/dts/allwinner/sun7i-a20-olinuxino-micro.dts | 2 ++
+>  1 file changed, 2 insertions(+)
 >
-> >> @@ -1940,6 +1987,14 @@ static int sun4i_codec_probe(struct platform_de=
-vice *pdev)
-> >>                 return ret;
-> >>         }
-> >>
-> >> +       scodec->gpio_hp =3D devm_gpiod_get_optional(&pdev->dev, "allwi=
-nner,hp-det",
-> >> +                                                 GPIOD_IN);
-> >
-> > Just put it on the same line. Lines can go up to 100 characters.
+> diff --git a/arch/arm/boot/dts/allwinner/sun7i-a20-olinuxino-micro.dts b/=
+arch/arm/boot/dts/allwinner/sun7i-a20-olinuxino-micro.dts
+> index a1b89b2a2999..9cd1eb690134 100644
+> --- a/arch/arm/boot/dts/allwinner/sun7i-a20-olinuxino-micro.dts
+> +++ b/arch/arm/boot/dts/allwinner/sun7i-a20-olinuxino-micro.dts
+> @@ -60,6 +60,8 @@ aliases {
+>                 serial2 =3D &uart7;
+>                 spi0 =3D &spi1;
+>                 spi1 =3D &spi2;
+> +               mmc0 =3D &mmc0;
+> +               mmc1 =3D &mmc3;
+>         };
 >
-> Thanks, will do.
+>         chosen {
+> --
+> 2.45.2
 >
-> Regards,
->
-> Ryan
 >
