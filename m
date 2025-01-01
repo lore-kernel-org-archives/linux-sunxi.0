@@ -1,111 +1,101 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6061149C64
-	for <linux-sunxi@lists.linux.dev>; Wed,  1 Jan 2025 08:58:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A406438385
+	for <linux-sunxi@lists.linux.dev>; Wed,  1 Jan 2025 23:29:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735721926; cv=none; b=uMmbCVqkKrIt18hWkuNJqlilcUGW7tg3It3NUOf855666N/ygB9qITL3d2jFuDG4ukUhdIDXxYJ322HgJyj5hIOP3Oy0hSJ3I4tnJYyuohaLXvL44+W4uVuibNhqHRBiQGGADxVlksuTiBnghnPCYNJ9B4/iJLtklR32/aPdHXE=
+	t=1735774197; cv=none; b=Xij61a3N+u6Pt0qw0fup0Z0SewLSJ/XVMu5HNjA6+8lxcu6Cahyd+n/SqOy3FK+n8FjfnLJdLgEyMII7ZmdSuOGKzF1DybECSvVJaG8OvoBnF+GSUVmEKCxKbFp6mO+YdQ3X+HCDbzdyHCdYs+0vBCpnMRGKwrBAVVGK7xjfF7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735721926; c=relaxed/simple;
-	bh=dB3jhpzgRuWSQJQmfNuBsTOKheK4ecmNIZCeSfdLBzI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jgvUAbFL3kHbEnRm2asChZ1ZOOrEBcum6iUdr2BlSaPDN1iZpKs5touPTw7tRRq9lwW6pfbsWiMau57O/KghWFzeB+nrn3gXBT7afOg4tqvL40a8kO8LOqTxytRzWwJHZdoUxAeOzKdJL1nMCfRkr3O1rkePgXQyB+nA9bWOCc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-3035046d4bfso98176361fa.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 01 Jan 2025 00:58:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735721921; x=1736326721;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=03r1MUnoANbps6OakqIBWa8kGI5iV3U0tsXfTI9VdjQ=;
-        b=LGtLpwF1TKsTpbwXmkR6NcfSjW/hO2KHWahdJKpo8TKyz6nlnLeiEIiNYPDYTjTBcS
-         ROpwbqemiO2A1NSsXxVBePN+VSDyCc1jSR49RAjPZCu/Cgi4+8yRqdjuM9CNuNr0hvd8
-         m8XWct3oLHDNXvYtmcOlwtlWd/mgU3x2yOV2CdUypB1WRPB4R9piuanezFtrAu/Yu75A
-         jEKIPGlM+hB+A/KZ3Mvj2Z1RY9zoXp9i9Php8GL3IVKlmS3qTAyYpj7lpUU5Zn5QZ1JN
-         JnUS3pho2iewrFpIdZlJrF2A93vQ+sxlwt+6uSMf7s8TSgfSJ4mJeOorZX/QozLs1bAJ
-         0icQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWSGhZ/9ueTWHZKzs/hdCRdRC8dnc9Mt7oispjB7Hp58muAOqQikP/Xqt/xz/P3K20Z7+UnEfypEdxZLQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyx/MZXEwTGcxw5Lc4HkyGFtscf4g61gRj3HRyaDNBEpFskOACS
-	zBRXRaariLMgwObiHVkhrNIQp3jBHBKLaKboxf33/E9IbkZuazdeUSwB9svb
-X-Gm-Gg: ASbGncsCHI6m/9tjY6Uuu4Z4seSZJ51Vs805CVYan/AFGXHJbPsIkypHE1LL0ErVf6E
-	hHAAeNl3b2TfqpYb5Utm9/FlAWHiLdSopqiKxLbdipn1rCb661WD51S9GO+9KgvLHsb20cKd05o
-	vjwXgYO2YucaRzx8Ep8gAriXdTFpg2WSrs/69jgexMmRwu/RNM94NAvc0VqvqaMLLeqw3ZX0pcQ
-	Hn3SPjUed9hrzd83pSDvstMckZlMfuHXVYVuj8G+Zdu8gyqNiaNuLH104c/1Ub7wUjeoweYLHNr
-	U3LBqS/druU/cg==
-X-Google-Smtp-Source: AGHT+IF1BdzvGyf8A15DWh2bUg7CXla1m6Nejz7JNq5hZLcAc8XFcyQ1w9oJprFsBd66L6eCwlOE6Q==
-X-Received: by 2002:a05:651c:602:b0:2ff:d075:2408 with SMTP id 38308e7fff4ca-30468608a47mr103645121fa.40.1735721920830;
-        Wed, 01 Jan 2025 00:58:40 -0800 (PST)
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com. [209.85.208.175])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3045ad6cfe8sm39377751fa.6.2025.01.01.00.58.40
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Jan 2025 00:58:40 -0800 (PST)
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-30229d5b22fso126408121fa.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 01 Jan 2025 00:58:40 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWe3BvDGp9Yf130vLjKptHWnUViS4Eq/GTj/ZL912nIr54O+fxP+Ww5XmYwdSLnwqE5/lILXwc9Xav24g==@lists.linux.dev
-X-Received: by 2002:a2e:a58c:0:b0:300:1aa5:4967 with SMTP id
- 38308e7fff4ca-304685c1985mr174943451fa.25.1735721920308; Wed, 01 Jan 2025
- 00:58:40 -0800 (PST)
+	s=arc-20240116; t=1735774197; c=relaxed/simple;
+	bh=DDHmBmkowkUOh8FcF//3ru+uUyuhtWiUORTAGPFWmzw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=S0a172cYoXXySiwuLa79+QpNDPcqt8OxK9tJ3Lo6A3VdIWYbnGowvY/TL41hmVCGW9S+jtqXcB6iIuDUKoeENpreNo1ElVKGloSEgIKJt5Cr6TMJCksIhTh0fYoQdQzJSj4F3zGz4CZtwdmpJCLyPbk2ziDltJMyYiW7eF47VM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6435B11FB;
+	Wed,  1 Jan 2025 15:30:16 -0800 (PST)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BF6643F6A8;
+	Wed,  1 Jan 2025 15:29:46 -0800 (PST)
+Date: Wed, 1 Jan 2025 23:28:36 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Chen-Yu Tsai <wens@csie.org>
+Cc: Stefan Gloor <code@stefan-gloor.ch>, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, jernej.skrabec@gmail.com,
+ samuel@sholland.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ARM: dts: sunxi: Add MMC alias for consistent
+ enumeration
+Message-ID: <20250101232836.76c7fd0e@minigeek.lan>
+In-Reply-To: <CAGb2v67dBhL3-AhLeHg3xOgbNZ3qu0aj9+kA+MoOMRYfr_Z_zQ@mail.gmail.com>
+References: <20241219105622.13691-2-code@stefan-gloor.ch>
+	<CAGb2v67dBhL3-AhLeHg3xOgbNZ3qu0aj9+kA+MoOMRYfr_Z_zQ@mail.gmail.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241219105622.13691-2-code@stefan-gloor.ch>
-In-Reply-To: <20241219105622.13691-2-code@stefan-gloor.ch>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Wed, 1 Jan 2025 16:58:28 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67dBhL3-AhLeHg3xOgbNZ3qu0aj9+kA+MoOMRYfr_Z_zQ@mail.gmail.com>
-Message-ID: <CAGb2v67dBhL3-AhLeHg3xOgbNZ3qu0aj9+kA+MoOMRYfr_Z_zQ@mail.gmail.com>
-Subject: Re: [PATCH] ARM: dts: sunxi: Add MMC alias for consistent enumeration
-To: Stefan Gloor <code@stefan-gloor.ch>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	jernej.skrabec@gmail.com, samuel@sholland.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 19, 2024 at 6:58=E2=80=AFPM Stefan Gloor <code@stefan-gloor.ch>=
- wrote:
->
-> Add explicit alias for MMC devices, so that (e)MMC and micro SD cards
-> are enumerated consistently. This should fix spurious boot failures when
-> specifying a hard-coded root partition, e.g., mmcblk0p2.
+On Wed, 1 Jan 2025 16:58:28 +0800
+Chen-Yu Tsai <wens@csie.org> wrote:
 
-IIRC we have chosen against adding explicit MMC aliases for the sunxi
-platforms. Please try using UUID=3D or PARTUUID=3D for root partition
-references.
+Hi,
 
-ChenYu
+> On Thu, Dec 19, 2024 at 6:58=E2=80=AFPM Stefan Gloor <code@stefan-gloor.c=
+h> wrote:
+> >
+> > Add explicit alias for MMC devices, so that (e)MMC and micro SD cards
+> > are enumerated consistently. This should fix spurious boot failures when
+> > specifying a hard-coded root partition, e.g., mmcblk0p2. =20
+>=20
+> IIRC we have chosen against adding explicit MMC aliases for the sunxi
+> platforms. Please try using UUID=3D or PARTUUID=3D for root partition
+> references.
 
-> Link: https://github.com/linux-sunxi/meta-sunxi/pull/431
-> Signed-off-by: Stefan Gloor <code@stefan-gloor.ch>
-> ---
->  arch/arm/boot/dts/allwinner/sun7i-a20-olinuxino-micro.dts | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/arch/arm/boot/dts/allwinner/sun7i-a20-olinuxino-micro.dts b/=
-arch/arm/boot/dts/allwinner/sun7i-a20-olinuxino-micro.dts
-> index a1b89b2a2999..9cd1eb690134 100644
-> --- a/arch/arm/boot/dts/allwinner/sun7i-a20-olinuxino-micro.dts
-> +++ b/arch/arm/boot/dts/allwinner/sun7i-a20-olinuxino-micro.dts
-> @@ -60,6 +60,8 @@ aliases {
->                 serial2 =3D &uart7;
->                 spi0 =3D &spi1;
->                 spi1 =3D &spi2;
-> +               mmc0 =3D &mmc0;
-> +               mmc1 =3D &mmc3;
->         };
->
->         chosen {
-> --
-> 2.45.2
->
->
+Yes, and LABEL=3D would be another way.
+
+Alternatively you could use U-Boot's DT when booting the board. U-Boot
+will add those aliases during build time (because it needs them for its
+own purposes), and by using $fdtcontroladdr (instead of $fdt_addr_r,
+on the bootz command line) you get this for free, and even save yourself
+from loading some DT.
+We sync the DTs regularly from the kernel to U-Boot now, and at the
+moment they are identical between the kernel and U-Boot, so you don't
+lose anything.
+
+Cheers,
+Andre
+
+> > Link: https://github.com/linux-sunxi/meta-sunxi/pull/431
+> > Signed-off-by: Stefan Gloor <code@stefan-gloor.ch>
+> > ---
+> >  arch/arm/boot/dts/allwinner/sun7i-a20-olinuxino-micro.dts | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >
+> > diff --git a/arch/arm/boot/dts/allwinner/sun7i-a20-olinuxino-micro.dts =
+b/arch/arm/boot/dts/allwinner/sun7i-a20-olinuxino-micro.dts
+> > index a1b89b2a2999..9cd1eb690134 100644
+> > --- a/arch/arm/boot/dts/allwinner/sun7i-a20-olinuxino-micro.dts
+> > +++ b/arch/arm/boot/dts/allwinner/sun7i-a20-olinuxino-micro.dts
+> > @@ -60,6 +60,8 @@ aliases {
+> >                 serial2 =3D &uart7;
+> >                 spi0 =3D &spi1;
+> >                 spi1 =3D &spi2;
+> > +               mmc0 =3D &mmc0;
+> > +               mmc1 =3D &mmc3;
+> >         };
+> >
+> >         chosen {
+> > --
+> > 2.45.2
+> >
+> > =20
+>=20
+
