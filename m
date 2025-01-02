@@ -1,33 +1,33 @@
 Received: from mail.netcube.li (mail.netcube.li [173.249.15.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A5A43FE4
-	for <linux-sunxi@lists.linux.dev>; Thu,  2 Jan 2025 12:22:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B8011ADFEB
+	for <linux-sunxi@lists.linux.dev>; Thu,  2 Jan 2025 12:58:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.249.15.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735820530; cv=none; b=YwwM4FLqVsctZUu5gLhY+y24SLu2qhHknallM4mPuf76YQ9/hWgDRxe04HuDFh9Qr4Pvv8N/Yzr5QavflmIWlgfhih3a2Y7m7rT5Wkfec6clkdMklEnsefUItRwdYMc21kiB3tD+DPFJPC2jrYrvivId8ieBW+RatWZOZ1tw7JU=
+	t=1735822712; cv=none; b=INwPcfgENF+IBoVc67h2wYIzKhAy39S6XD7Be0S4lSYmnAo0es36jwE479jbvIZb32ZlCcc+E5q/L9QwNw2Me+bfqFO7Jq/4+MJbxBfAijfJNdSrDDEHbnKgYqRglDkrty+UpS/0n4Jufg0XFaROSFiXHA1EGjfe079sXTgc63k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735820530; c=relaxed/simple;
+	s=arc-20240116; t=1735822712; c=relaxed/simple;
 	bh=TILwckSOerEQJ0+eI8xocoG0bxnEaznQ1eXuu9YLUSc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=EOWPemGf0lHfOc8njHZ5z+Y21swkMChpWkmfilptIZ0IHsCLus91QqqNKg/thleg0qkIQvyt3sOJkm+MT3HChmb43H68hsxTTO3NjW7+XLgo83+mo0a4/VnzUyUOfQncPPTbaJj9ZQyp5B0iFiNrhSTlmDgDQ6S7MWvhnuwfh0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li; spf=pass smtp.mailfrom=netcube.li; dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b=zZweKLaQ; arc=none smtp.client-ip=173.249.15.149
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jtp048o4PgZTeDmGlU2fHrXqO1PqB/QUxjMnmw520wUgc5E9OnQOUJ9XqjLanW/c+5WvGGdwBD1hPcKsJp4GtZm9PoqNOzOGvuSt/Kle5ZtEASn40kxbMOhEgQVHXZ16vprMifnTxL0Xby95sXVXWjw4aKsRixAFQJi4Cb7eBsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li; spf=pass smtp.mailfrom=netcube.li; dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b=EDc/I+vW; arc=none smtp.client-ip=173.249.15.149
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netcube.li
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b="zZweKLaQ"
+	dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b="EDc/I+vW"
 dkim-signature: v=1; a=rsa-sha256; d=netcube.li; s=s1;
 	c=relaxed/relaxed; q=dns/txt; h=From:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Transfer-Encoding;
 	bh=kfJQvfjZFOOsfkL5FKs8Hdb7H1fEIgG5YxhfXpCKFUU=;
-	b=zZweKLaQIWn2+nlXv/aro4E/3r6WwsJgB2ingHE6K+5Tm5+fuqQGwn53yRfkctA3mZlLOmNupYfe0eU1orrOqm27JEHR92uWW5dn7+J1RI53SLG5irFV9Ro2H9NFXv/+WP748Clo35HqcMBQUdB9288d5AAfk0L3vDLrCOEllP4=
+	b=EDc/I+vWIpOjgz2atOuCOq64gjwJIWqW5fAfNG5k6BubdqjB1xP4CzxwAFzeJBSmHkt7G+Bu2iPBpALEKUuctnjFUu67/BQMlNemsJrwz0RiU+utLb5ZL/JVdBujs6tkjPH8GSt63UvtsLOseCgycPqIeEUahompt/grTflVZnk=
 Received: from 854af3ed5e24.lan.sk100508.local (cm70-231.liwest.at [212.241.70.231])
 	by mail.netcube.li with ESMTPA
-	; Thu, 2 Jan 2025 13:22:06 +0100
+	; Thu, 2 Jan 2025 12:57:45 +0100
 From: Lukas Schmid <lukas.schmid@netcube.li>
 To: linux-sunxi@lists.linux.dev
 Cc: Lukas Schmid <lukas.schmid@netcube.li>
 Subject: [PATCH 1/1] ARM: dts: sunxi: add support for NetCube Systems Kumquat
-Date: Thu,  2 Jan 2025 12:18:59 +0000
-Message-Id: <20250102121859.3547-1-lukas.schmid@netcube.li>
+Date: Thu,  2 Jan 2025 11:54:20 +0000
+Message-Id: <20250102115420.3517-1-lukas.schmid@netcube.li>
 X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
