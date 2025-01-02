@@ -1,101 +1,361 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A406438385
-	for <linux-sunxi@lists.linux.dev>; Wed,  1 Jan 2025 23:29:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail.netcube.li (mail.netcube.li [173.249.15.149])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A5A43FE4
+	for <linux-sunxi@lists.linux.dev>; Thu,  2 Jan 2025 12:22:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.249.15.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735774197; cv=none; b=Xij61a3N+u6Pt0qw0fup0Z0SewLSJ/XVMu5HNjA6+8lxcu6Cahyd+n/SqOy3FK+n8FjfnLJdLgEyMII7ZmdSuOGKzF1DybECSvVJaG8OvoBnF+GSUVmEKCxKbFp6mO+YdQ3X+HCDbzdyHCdYs+0vBCpnMRGKwrBAVVGK7xjfF7g=
+	t=1735820530; cv=none; b=YwwM4FLqVsctZUu5gLhY+y24SLu2qhHknallM4mPuf76YQ9/hWgDRxe04HuDFh9Qr4Pvv8N/Yzr5QavflmIWlgfhih3a2Y7m7rT5Wkfec6clkdMklEnsefUItRwdYMc21kiB3tD+DPFJPC2jrYrvivId8ieBW+RatWZOZ1tw7JU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735774197; c=relaxed/simple;
-	bh=DDHmBmkowkUOh8FcF//3ru+uUyuhtWiUORTAGPFWmzw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=S0a172cYoXXySiwuLa79+QpNDPcqt8OxK9tJ3Lo6A3VdIWYbnGowvY/TL41hmVCGW9S+jtqXcB6iIuDUKoeENpreNo1ElVKGloSEgIKJt5Cr6TMJCksIhTh0fYoQdQzJSj4F3zGz4CZtwdmpJCLyPbk2ziDltJMyYiW7eF47VM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6435B11FB;
-	Wed,  1 Jan 2025 15:30:16 -0800 (PST)
-Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BF6643F6A8;
-	Wed,  1 Jan 2025 15:29:46 -0800 (PST)
-Date: Wed, 1 Jan 2025 23:28:36 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Chen-Yu Tsai <wens@csie.org>
-Cc: Stefan Gloor <code@stefan-gloor.ch>, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, jernej.skrabec@gmail.com,
- samuel@sholland.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ARM: dts: sunxi: Add MMC alias for consistent
- enumeration
-Message-ID: <20250101232836.76c7fd0e@minigeek.lan>
-In-Reply-To: <CAGb2v67dBhL3-AhLeHg3xOgbNZ3qu0aj9+kA+MoOMRYfr_Z_zQ@mail.gmail.com>
-References: <20241219105622.13691-2-code@stefan-gloor.ch>
-	<CAGb2v67dBhL3-AhLeHg3xOgbNZ3qu0aj9+kA+MoOMRYfr_Z_zQ@mail.gmail.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	s=arc-20240116; t=1735820530; c=relaxed/simple;
+	bh=TILwckSOerEQJ0+eI8xocoG0bxnEaznQ1eXuu9YLUSc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=EOWPemGf0lHfOc8njHZ5z+Y21swkMChpWkmfilptIZ0IHsCLus91QqqNKg/thleg0qkIQvyt3sOJkm+MT3HChmb43H68hsxTTO3NjW7+XLgo83+mo0a4/VnzUyUOfQncPPTbaJj9ZQyp5B0iFiNrhSTlmDgDQ6S7MWvhnuwfh0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li; spf=pass smtp.mailfrom=netcube.li; dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b=zZweKLaQ; arc=none smtp.client-ip=173.249.15.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netcube.li
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b="zZweKLaQ"
+dkim-signature: v=1; a=rsa-sha256; d=netcube.li; s=s1;
+	c=relaxed/relaxed; q=dns/txt; h=From:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Transfer-Encoding;
+	bh=kfJQvfjZFOOsfkL5FKs8Hdb7H1fEIgG5YxhfXpCKFUU=;
+	b=zZweKLaQIWn2+nlXv/aro4E/3r6WwsJgB2ingHE6K+5Tm5+fuqQGwn53yRfkctA3mZlLOmNupYfe0eU1orrOqm27JEHR92uWW5dn7+J1RI53SLG5irFV9Ro2H9NFXv/+WP748Clo35HqcMBQUdB9288d5AAfk0L3vDLrCOEllP4=
+Received: from 854af3ed5e24.lan.sk100508.local (cm70-231.liwest.at [212.241.70.231])
+	by mail.netcube.li with ESMTPA
+	; Thu, 2 Jan 2025 13:22:06 +0100
+From: Lukas Schmid <lukas.schmid@netcube.li>
+To: linux-sunxi@lists.linux.dev
+Cc: Lukas Schmid <lukas.schmid@netcube.li>
+Subject: [PATCH 1/1] ARM: dts: sunxi: add support for NetCube Systems Kumquat
+Date: Thu,  2 Jan 2025 12:18:59 +0000
+Message-Id: <20250102121859.3547-1-lukas.schmid@netcube.li>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, 1 Jan 2025 16:58:28 +0800
-Chen-Yu Tsai <wens@csie.org> wrote:
+NetCube Systems Kumquat is a board based on the Allwinner V3s SoC,
+including:
 
-Hi,
+- 64MB DDR2 included in SoC
+- 10/100 Mbps Ethernet
+- USB-C DRD
+- Audio Codec
+- Isolated CAN-FD
+- ESP32 over SDIO
+- 8MB SPI-NOR Flash for bootloader
+- I2C EEPROM for MAC addresses
+- SDIO Connector for eMMC or SD-Card
+- 8x 12/24V IOs, 4x normally open relays
+- DS3232 RTC
+- QWIIC connectors for external I2C devices
 
-> On Thu, Dec 19, 2024 at 6:58=E2=80=AFPM Stefan Gloor <code@stefan-gloor.c=
-h> wrote:
-> >
-> > Add explicit alias for MMC devices, so that (e)MMC and micro SD cards
-> > are enumerated consistently. This should fix spurious boot failures when
-> > specifying a hard-coded root partition, e.g., mmcblk0p2. =20
->=20
-> IIRC we have chosen against adding explicit MMC aliases for the sunxi
-> platforms. Please try using UUID=3D or PARTUUID=3D for root partition
-> references.
+Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
+---
+ arch/arm/boot/dts/allwinner/Makefile          |   2 +
+ .../allwinner/sun8i-v3s-netcube-kumquat.dts   | 269 ++++++++++++++++++
+ 2 files changed, 271 insertions(+)
+ create mode 100644 arch/arm/boot/dts/allwinner/sun8i-v3s-netcube-kumquat.dts
 
-Yes, and LABEL=3D would be another way.
+diff --git a/arch/arm/boot/dts/allwinner/Makefile b/arch/arm/boot/dts/allwinner/Makefile
+index 48666f73e638..d799ad153b37 100644
+--- a/arch/arm/boot/dts/allwinner/Makefile
++++ b/arch/arm/boot/dts/allwinner/Makefile
+@@ -199,6 +199,7 @@ DTC_FLAGS_sun8i-h3-nanopi-r1 := -@
+ DTC_FLAGS_sun8i-h3-orangepi-pc := -@
+ DTC_FLAGS_sun8i-h3-bananapi-m2-plus-v1.2 := -@
+ DTC_FLAGS_sun8i-h3-orangepi-pc-plus := -@
++DTC_FLAGS_sun8i-v3s-netcube-kumquat := -@
+ dtb-$(CONFIG_MACH_SUN8I) += \
+ 	sun8i-a23-evb.dtb \
+ 	sun8i-a23-gt90h-v4.dtb \
+@@ -261,6 +262,7 @@ dtb-$(CONFIG_MACH_SUN8I) += \
+ 	sun8i-v3s-anbernic-rg-nano.dtb \
+ 	sun8i-v3s-licheepi-zero.dtb \
+ 	sun8i-v3s-licheepi-zero-dock.dtb \
++	sun8i-v3s-netcube-kumquat.dtb \
+ 	sun8i-v40-bananapi-m2-berry.dtb
+ dtb-$(CONFIG_MACH_SUN9I) += \
+ 	sun9i-a80-optimus.dtb \
+diff --git a/arch/arm/boot/dts/allwinner/sun8i-v3s-netcube-kumquat.dts b/arch/arm/boot/dts/allwinner/sun8i-v3s-netcube-kumquat.dts
+new file mode 100644
+index 000000000000..1793a9b7f796
+--- /dev/null
++++ b/arch/arm/boot/dts/allwinner/sun8i-v3s-netcube-kumquat.dts
+@@ -0,0 +1,269 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) 2025 Lukas Schmid <lukas.schmid@netcube.li>
++ */
++
++/dts-v1/;
++#include "sun8i-v3s.dtsi"
++
++#include <dt-bindings/input/input.h>
++#include <dt-bindings/leds/common.h>
++#include <dt-bindings/gpio/gpio.h>
++
++/{
++	model = "NetCube Systems Kumquat";
++	compatible = "netcube,kumquat", "allwinner,sun8i-v3s";
++
++	aliases {
++		serial0 = &uart0;
++		ethernet0 = &emac;
++		rtc0 = &ds3232;
++	};
++
++	chosen {
++		stdout-path = "serial0:115200n8";
++	};
++
++	cpus {
++		cpu0: cpu@0 {
++			clock-frequency = <1200000000>;
++		};
++	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		heartbeat_led {
++			gpios = <&pio 4 4 GPIO_ACTIVE_HIGH>; /* PE4 */
++			linux,default-trigger = "heartbeat";
++			function = LED_FUNCTION_HEARTBEAT;
++			color = <LED_COLOR_ID_GREEN>;
++		};
++
++		mmc0_act_led {
++			gpios = <&pio 5 6 GPIO_ACTIVE_HIGH>; /* PF6 */
++			linux,default-trigger = "mmc0";
++			function = LED_FUNCTION_DISK;
++			color = <LED_COLOR_ID_GREEN>;
++		};
++	};
++
++	gpio-keys {
++		compatible = "gpio-keys";
++		autorepeat;
++
++		key-user {
++			label = "GPIO Key User";
++			linux,code = <KEY_PROG1>;
++			gpios = <&pio 1 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PB2 */
++		};
++	};
++
++	reg_vcc5v0: vcc5v0 {
++		compatible = "regulator-fixed";
++		regulator-name = "vcc5v0";
++		regulator-min-microvolt = <5000000>;
++		regulator-max-microvolt = <5000000>;
++	};
++
++	reg_vcc3v3: vcc3v3 {
++		compatible = "regulator-fixed";
++		regulator-name = "vcc3v3";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++		vin-supply = <&reg_vcc5v0>;
++	};
++
++	reg_vcc3v0: vcc3v0 {
++		compatible = "regulator-fixed";
++		regulator-name = "vcc3v0";
++		regulator-min-microvolt = <3000000>;
++		regulator-max-microvolt = <3000000>;
++		vin-supply = <&reg_vcc3v3>;
++	};
++
++	can0_osc: can0_osc {
++		compatible = "fixed-clock";
++		#clock-cells = <0>;
++		clock-frequency  = <40000000>;
++	};
++};
++
++&mmc0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&mmc0_pins>;
++	vmmc-supply = <&reg_vcc3v3>;
++	bus-width = <4>;
++	broken-cd;
++	status = "okay";
++};
++
++&mmc1 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&mmc1_pins>;
++	vmmc-supply = <&reg_vcc3v3>;
++	bus-width = <4>;
++	broken-cd;
++	status = "okay";
++};
++
++&usb_otg {
++	extcon = <&tusb320 0>;
++	dr_mode = "otg";
++	status = "okay";
++};
++
++&usbphy {
++	usb0_id_det-gpios = <&pio 1 4 GPIO_ACTIVE_HIGH>; /* PB4 */
++	status = "okay";
++};
++
++&ehci {
++	/delete-property/ phys;
++	/delete-property/ phy-names;
++	status = "okay";
++};
++
++&ohci {
++	/delete-property/ phys;
++	/delete-property/ phy-names;
++	status = "okay";
++};
++
++&lradc {
++	vref-supply = <&reg_vcc3v0>;
++	status = "disabled";
++};
++
++&codec {
++	allwinner,audio-routing =
++		"Headphone", "HP",
++		"Headphone", "HPCOM",
++		"MIC1", "Mic",
++		"Mic", "HBIAS";
++	status = "okay";
++};
++
++&uart0 {
++	pinctrl-0 = <&uart0_pb_pins>;
++	pinctrl-names = "default";
++	status = "okay";
++};
++
++&uart1 {
++	pinctrl-0 = <&uart1_pins>;
++	pinctrl-names = "default";
++	status = "okay";
++};
++
++&i2c0 {
++	pinctrl-0 = <&i2c0_pins>;
++	pinctrl-names = "default";
++	status = "okay";
++
++	eeprom0: eeprom@50 {
++		compatible = "atmel,24c02";		/* actually it's a 24AA02E48 */
++		pagesize = <16>;
++		read-only;
++		reg = <0x50>;
++		vcc-supply = <&reg_vcc3v3>;
++
++		#address-cells = <1>;
++		#size-cells = <1>;
++
++		eth0_macaddress: eth0_macaddress@FA {
++			reg = <0xFA 0x06>;
++		};
++	};
++
++	tusb320: tusb320@60 {
++		compatible = "ti,tusb320";
++		reg = <0x60>;
++		interrupt-parent = <&pio>;
++		interrupts = <1 5 IRQ_TYPE_EDGE_FALLING>;
++	};
++
++	ds3232: rtc@68 {
++		compatible = "dallas,ds3232";
++		reg = <0x68>;
++	};
++};
++
++&emac {
++	allwinner,leds-active-low;
++	nvmem-cells = <&eth0_macaddress>;		/* custom nvmem reference */
++	nvmem-cell-names = "mac-address";		/* see ethernet-controller.yaml */
++	status = "okay";
++};
++
++&spi0 {
++	#address-cells = <1>;
++	#size-cells = <0>;
++	pinctrl-names = "default";
++	pinctrl-0 = <&spi0_pins>;
++	cs-gpios = <0>, <&pio 1 0 GPIO_ACTIVE_LOW>; /* PB0 */
++	status = "okay";
++
++	flash@0 {
++		#address-cells = <1>;
++		#size-cells = <1>;
++		reg = <0>;
++		compatible = "jedec,spi-nor";
++		label = "firmware";
++		spi-max-frequency = <40000000>;
++	};
++
++	can@1 {
++        compatible = "microchip,mcp2518fd";
++        reg = <1>;
++		clocks = <&can0_osc>;
++		pinctrl-names = "default";
++		pinctrl-0 = <&can0_pins>;
++		spi-max-frequency = <20000000>;
++		interrupt-parent = <&pio>;
++		interrupts = <1 1 IRQ_TYPE_LEVEL_LOW>;
++		vdd-supply = <&reg_vcc3v3>;
++		xceiver-supply = <&reg_vcc3v3>;
++	};
++};
++
++&rtc {
++	status = "disabled";
++};
++
++&pio {
++	vcc-pb-supply = <&reg_vcc3v3>;
++	vcc-pc-supply = <&reg_vcc3v3>;
++	vcc-pe-supply = <&reg_vcc3v3>;
++	vcc-pf-supply = <&reg_vcc3v3>;
++	vcc-pg-supply = <&reg_vcc3v3>;
++
++	gpio-reserved-ranges = <0 32>, <42 22>, <68 28>, <96 32>, <153 7>, <167 25>, <198 26>;
++	gpio-line-names = "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", //PA
++						"CAN_nCS", "CAN_nINT", "USER_SW", "PB3", "USB_ID", "USBC_nINT", "I2C0_SCL", "I2C0_SDA", "UART0_TX", "UART0_RX", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", //PB
++						"SPI_MISO", "SPI_SCK", "FLASH_nCS", "SPI_MOSI", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", //PC
++						"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", //PD
++						"Q12", "Q11", "Q10", "Q9", "LED_SYS0", "I1", "Q1", "Q2", "I2", "I3", "Q3", "Q4", "I4", "I5", "Q5", "Q6", "I6", "I7", "Q7", "Q8", "I8", "UART1_TXD", "UART1_RXD", "ESP_nRST", "ESP_nBOOT", "", "", "", "", "", "", "", //PE
++						"SD_D1", "SD_D0", "SD_CLK", "SD_CMD", "SD_D3", "SD_D2", "LED_SYS1", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", //PF
++						"ESP_CLK", "ESP_CMD", "ESP_D0", "ESP_D1", "ESP_D2", "ESP_D3", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""; //PG
++
++	uart0_pins: uart0-pins {
++		pins = "PB8", "PB9";
++		function = "uart0";
++	};
++
++	uart1_pins: uart1-pins {
++		pins = "PE21", "PE22";
++		function = "uart1";
++	};
++
++	spi0_pins: spi0-pins {
++		pins = "PC0", "PC1", "PC2", "PC3";
++		function = "spi0";
++	};
++
++	can0_pins: can0-pins {
++		pins = "PB1";
++		function = "gpio_in";
++	};
++};
+-- 
+2.47.1
 
-Alternatively you could use U-Boot's DT when booting the board. U-Boot
-will add those aliases during build time (because it needs them for its
-own purposes), and by using $fdtcontroladdr (instead of $fdt_addr_r,
-on the bootz command line) you get this for free, and even save yourself
-from loading some DT.
-We sync the DTs regularly from the kernel to U-Boot now, and at the
-moment they are identical between the kernel and U-Boot, so you don't
-lose anything.
-
-Cheers,
-Andre
-
-> > Link: https://github.com/linux-sunxi/meta-sunxi/pull/431
-> > Signed-off-by: Stefan Gloor <code@stefan-gloor.ch>
-> > ---
-> >  arch/arm/boot/dts/allwinner/sun7i-a20-olinuxino-micro.dts | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/arch/arm/boot/dts/allwinner/sun7i-a20-olinuxino-micro.dts =
-b/arch/arm/boot/dts/allwinner/sun7i-a20-olinuxino-micro.dts
-> > index a1b89b2a2999..9cd1eb690134 100644
-> > --- a/arch/arm/boot/dts/allwinner/sun7i-a20-olinuxino-micro.dts
-> > +++ b/arch/arm/boot/dts/allwinner/sun7i-a20-olinuxino-micro.dts
-> > @@ -60,6 +60,8 @@ aliases {
-> >                 serial2 =3D &uart7;
-> >                 spi0 =3D &spi1;
-> >                 spi1 =3D &spi2;
-> > +               mmc0 =3D &mmc0;
-> > +               mmc1 =3D &mmc3;
-> >         };
-> >
-> >         chosen {
-> > --
-> > 2.45.2
-> >
-> > =20
->=20
 
