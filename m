@@ -1,28 +1,28 @@
 Received: from mail.netcube.li (mail.netcube.li [173.249.15.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7A811BD9E9
-	for <linux-sunxi@lists.linux.dev>; Fri,  3 Jan 2025 20:49:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F2E31BF7FC
+	for <linux-sunxi@lists.linux.dev>; Fri,  3 Jan 2025 20:49:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.249.15.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735937377; cv=none; b=ioMbFVlPg60RU6IIpc+fox/dkmVv1xC9tE5LtaYLZc2Cb0f2mjTE2jH3pVfaFj3r9gl2xiPW4i3xSyxoYLs1Fakg/FdGFIGiVGL3fzidsT9p3N25awZZQ3Bj5vMEOHjR3tkXq01JEkvyq+qi7ZVD5e6AYp60DTYzeGMZgc8Y9CE=
+	t=1735937385; cv=none; b=ky/55yF6t2UgN7zmMThviX6LmgeSb2Jr4W3qIOhGcXbUV6emiZPykqo2BjveyIQwCQLFcatcc+PBsrObQyU9qBa8ZV7Q/Xh+isGJSLmHfTLx20dojKJ2ddb8ZQ57Mszn6z/daR0+BdZkzixCskBODWV2VNFpXxMGF6Cs8qgL6p8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735937377; c=relaxed/simple;
-	bh=pCDfGGl/wMEMa7GJ2QIh1ZBn5fTk0bKZgZK0XbWBysE=;
+	s=arc-20240116; t=1735937385; c=relaxed/simple;
+	bh=ljbsvbPoHRqbc3TRpW2CsS66WkpHPHtjrTyzbbqkFrg=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=C+Eo133QdQUtgJXi5qg2x4Yx2Cc+gU7PEt7T9ysttfyHdfbnjlPXXtaqJ/wcQg3pvxkPlASaIxLNf0yjAJ8jNUj0oLoFHt5lNgqUuSjPIAfQq6iQcshTukA4KaI5NKiywAC48FI8kG0uQO7Om3wjI+ufq1GCmIE4UL9INnN20Tc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li; spf=pass smtp.mailfrom=netcube.li; dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b=IcG3kR8R; arc=none smtp.client-ip=173.249.15.149
+	 MIME-Version; b=OwJq0UF4YZgmuLGQ24ZTM00i72XHyjLQb7VgW2a7CSzm1QvBPGmIqqfPmhHFXpUzursGWpHH+llGnjLw6bPY6gy0yybZUEQot7CCCEdZVfTMG5ewXaZlgs5NoutnBZxxt/g6K15Za5uj18/didblkjLjjA928QykiDegHzcVFPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li; spf=pass smtp.mailfrom=netcube.li; dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b=CXT/fWHX; arc=none smtp.client-ip=173.249.15.149
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netcube.li
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b="IcG3kR8R"
+	dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b="CXT/fWHX"
 dkim-signature: v=1; a=rsa-sha256; d=netcube.li; s=s1;
 	c=relaxed/relaxed; q=dns/txt; h=From:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Transfer-Encoding:In-Reply-To:References;
-	bh=S1DG0UFFDzcg646sVxWcaNWOXL8rzbqGt6rW1oTHrfM=;
-	b=IcG3kR8RNDCAnRv44zli0i5wifEVFY3eN6JEBstnAsfyqBa0C6W9ysMZxoUzD4bHV04jZ3PdGSB+9zpn0w7/hnea2iwbWUBCZ8l7twk7eoH0bAWgrnFYraXV17L1yFX6bIgQ4uc21SLY59o3Q5+oaWdUBMACAvRRvWtD0efCw0k=
+	bh=Pce2DdCTncrOdzX7qPApVYKMrquNOHsZcFa01GvWLtc=;
+	b=CXT/fWHX1iFmomf4uvxMoDoueEw+QFWlyShNaENdxUfc2Di2ylmRfBNGnn1cUBlbR6uxk03Sbhtm+P0HtWwvT3vel+KfwzKkZD6XOu7RJ2AWXVixQxGhEw97QzW1PQaPmaA3gCMyI0PDh5jW20fAFyd8bbySO1tlwayqfHes+Xo=
 Received: from 854af3ed5e24.lan.sk100508.local (cm70-231.liwest.at [212.241.70.231])
 	by mail.netcube.li with ESMTPA
-	; Fri, 3 Jan 2025 21:49:32 +0100
+	; Fri, 3 Jan 2025 21:49:36 +0100
 From: Lukas Schmid <lukas.schmid@netcube.li>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -33,15 +33,14 @@ To: Rob Herring <robh@kernel.org>,
 	Linus Walleij <linus.walleij@linaro.org>,
 	Maxime Ripard <mripard@kernel.org>
 Cc: Lukas Schmid <lukas.schmid@netcube.li>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
 	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	linux-gpio@vger.kernel.org
-Subject: [PATCH v3 2/4] dt-bindings: arm: sunxi: Add NetCube Systems Kumquat board
-Date: Fri,  3 Jan 2025 20:45:18 +0000
-Message-Id: <20250103204523.3779-3-lukas.schmid@netcube.li>
+Subject: [PATCH v3 3/4] dt-bindings: pinctrl: sunxi: Add gpio-reserved-ranges property
+Date: Fri,  3 Jan 2025 20:45:19 +0000
+Message-Id: <20250103204523.3779-4-lukas.schmid@netcube.li>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250103204523.3779-1-lukas.schmid@netcube.li>
 References: <20250103204523.3779-1-lukas.schmid@netcube.li>
@@ -54,29 +53,26 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
-
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
 ---
- Documentation/devicetree/bindings/arm/sunxi.yaml | 5 +++++
+ .../bindings/pinctrl/allwinner,sun4i-a10-pinctrl.yaml        | 5 +++++
  1 file changed, 5 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
-index 046536d02706..f536cdd2c1a6 100644
---- a/Documentation/devicetree/bindings/arm/sunxi.yaml
-+++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
-@@ -589,6 +589,11 @@ properties:
-           - const: emlid,neutis-n5h3
-           - const: allwinner,sun8i-h3
+diff --git a/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pinctrl.yaml
+index 450240570314..24b90a5538d6 100644
+--- a/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pinctrl.yaml
++++ b/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pinctrl.yaml
+@@ -83,6 +83,11 @@ properties:
  
-+      - description: NetCube Systems Kumquat
-+        items:
-+          - const: netcube,kumquat
-+          - const: allwinner,sun8i-v3s
+   gpio-controller: true
+   interrupt-controller: true
 +
-       - description: NextThing Co. CHIP
-         items:
-           - const: nextthing,chip
++  gpio-reserved-ranges:
++    minItems: 1
++    maxItems: 90
++
+   gpio-line-names: true
+ 
+   input-debounce:
 -- 
 2.47.1
 
