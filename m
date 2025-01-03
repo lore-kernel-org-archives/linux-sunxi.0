@@ -1,24 +1,24 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83AED1B6D18
-	for <linux-sunxi@lists.linux.dev>; Fri,  3 Jan 2025 23:55:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FADA1B6D18
+	for <linux-sunxi@lists.linux.dev>; Fri,  3 Jan 2025 23:56:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735948538; cv=none; b=Vh+4a3iSfTtwBIKD1kyOkNKzNuywyt7YmzZpbhBC6PVFo6guCxfYqVFZIZna+D+ICMpt+eDMqoTOZWX545m5FVN+rUTP3kH+nJRYH3BWilLFsVK9QcxHv/amjzXYVd2d3SuBNvcpX3EPOc64g+riDgq5ZmedCvf2EsmkCx5T+2w=
+	t=1735948582; cv=none; b=iynfniAIqCzP3gl5SYsxyasjSUvhFfKfUF8r6UeMTg5+oYDCHC1eEBoNBd1kLew5KQGv6lYSBPPKacbuzzCkskNEaSXGA2daScJyALhEwlRMS4zWXHxFEtixIL1aSaBfics/853IXEaOehY1YPjopGjFOPZIzTj4gwKREcCWlRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735948538; c=relaxed/simple;
-	bh=fpMdfP4gvoziexWPvq6lxs7Xah7kqgrHXjYGEl7hArE=;
+	s=arc-20240116; t=1735948582; c=relaxed/simple;
+	bh=IG3Yy5SWhH+xltKsmW6o6NPqWQytUerwDJb9WhU5Vfw=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PyEE4z6k5ntnbDfM8EaSVILRh6ulS59cdwJAeA11dau0xqtaBSrdFIONJSBO4Wz+3qTJRVBVrjCGsDSw/DwQ1bda3u2hjF9+fPhwv8N8AJCxd4jIWzyX2+T4cvwPEHAFEO7VuV84AX9uh/DccWd/ftkuiMdAJcnpqBDtSjZZ9jE=
+	 MIME-Version:Content-Type; b=qeJlmrAM6441mWC4gxt44C0DLYCny/C0Tf+4jYBtf6szSCscdMZfVSFauwnY95KJXLFkFj8k7D25AMlSftTQoYFGwhYNqy9Dcdm8gIMoWBOBuikPdIDK5dfj6tin8rX9c+ks+DogkSTwkYTEZuKqxlGU2Rd6h8xhDplr4AK4v3I=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C66C81480;
-	Fri,  3 Jan 2025 15:56:02 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A419A1480;
+	Fri,  3 Jan 2025 15:56:48 -0800 (PST)
 Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ADEB73F59E;
-	Fri,  3 Jan 2025 15:55:32 -0800 (PST)
-Date: Fri, 3 Jan 2025 23:54:29 +0000
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 809163F59E;
+	Fri,  3 Jan 2025 15:56:18 -0800 (PST)
+Date: Fri, 3 Jan 2025 23:55:15 +0000
 From: Andre Przywara <andre.przywara@arm.com>
 To: Lukas Schmid <lukas.schmid@netcube.li>
 Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -29,12 +29,12 @@ Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
  linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v3 1/4] dt-bindings: vendor-prefixes: Add NetCube
- Systems Austria name
-Message-ID: <20250103235429.672f09fe@minigeek.lan>
-In-Reply-To: <20250103204523.3779-2-lukas.schmid@netcube.li>
+Subject: Re: [PATCH v3 2/4] dt-bindings: arm: sunxi: Add NetCube Systems
+ Kumquat board
+Message-ID: <20250103235515.6b2540fb@minigeek.lan>
+In-Reply-To: <20250103204523.3779-3-lukas.schmid@netcube.li>
 References: <20250103204523.3779-1-lukas.schmid@netcube.li>
-	<20250103204523.3779-2-lukas.schmid@netcube.li>
+	<20250103204523.3779-3-lukas.schmid@netcube.li>
 Organization: Arm Ltd.
 X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
@@ -46,40 +46,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Fri,  3 Jan 2025 20:45:17 +0000
+On Fri,  3 Jan 2025 20:45:18 +0000
 Lukas Schmid <lukas.schmid@netcube.li> wrote:
 
 > Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
 
-double Signed-off-by:
+Same double Signed-off-by: here as is patch 1/4.
 
-Also can please add a single line briefly saying what the company does
-or produce, maybe add an URL?
-In general some text in the body of the commit message is always
-appreciated, even if it repeats the subject line (check the other
-commits to that file).
+Also would be nice to have some prose here, maybe mention that it's for
+industrial(?) embedded applications (as opposed to some hobbyist SBC).
 
 Cheers,
 Andre
+
 
 > 
 > Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
 > ---
->  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
->  1 file changed, 2 insertions(+)
+>  Documentation/devicetree/bindings/arm/sunxi.yaml | 5 +++++
+>  1 file changed, 5 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> index da01616802c7..a30ed9547098 100644
-> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> @@ -1027,6 +1027,8 @@ patternProperties:
->      description: Neofidelity Inc.
->    "^neonode,.*":
->      description: Neonode Inc.
-> +  "^netcube,.*":
-> +    description: NetCube Systems Austria
->    "^netgear,.*":
->      description: NETGEAR
->    "^netlogic,.*":
+> diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
+> index 046536d02706..f536cdd2c1a6 100644
+> --- a/Documentation/devicetree/bindings/arm/sunxi.yaml
+> +++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+> @@ -589,6 +589,11 @@ properties:
+>            - const: emlid,neutis-n5h3
+>            - const: allwinner,sun8i-h3
+>  
+> +      - description: NetCube Systems Kumquat
+> +        items:
+> +          - const: netcube,kumquat
+> +          - const: allwinner,sun8i-v3s
+> +
+>        - description: NextThing Co. CHIP
+>          items:
+>            - const: nextthing,chip
 
