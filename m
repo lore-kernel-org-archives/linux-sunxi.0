@@ -1,87 +1,104 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 767091494C3
-	for <linux-sunxi@lists.linux.dev>; Mon,  6 Jan 2025 15:48:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 977B913E02D
+	for <linux-sunxi@lists.linux.dev>; Mon,  6 Jan 2025 16:08:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736178533; cv=none; b=gi8fIgjkdJmZLjjRPS/Hn/Jp84B5sjidkcORX1D8byHJeI4N9zub0GRPd17Jz/cSOhjKkhJvISXz/HuWswIkLX0ooGUh4nOtdJKe68tIjZL11CRJrtjgWW+Cq08IHY2e6TFTLtfW8ZF5yq/CWNutnmdvtxcH5W9BM8UGHywpB8Y=
+	t=1736179695; cv=none; b=vGYR0wNCxSfd0Jo099xcSGFqS5xucbhSgYUBgD7CG++US6lK01wBOJxBK6qE2rLDJrkHJhoaDCBs2Et/r77d8nBUGezctaaIst50xu2Itu58yUfU4yWUsC+Zi0mjc38NnFnrkZdWYjm6QzbFcGmuR2j6T2JnwJXrB9Lo7Ila8GU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736178533; c=relaxed/simple;
-	bh=I5EeJ+Kq41D/Bv0Ajrh0n4I+EJ9ou23hfrzgzaRrU9A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MZLlZ2vDOoC6aoErvx8rNM6+DTd1G2YcXfRLFaY1yt5PWrYLpHMPzhb5l3bWqfHsYphp3tLLm0zFNphWcY9LTBKY/jHWwTWiTYfOB6ApW7Nsz4RVGLM8q5WlWn9lCpHyWZr91RFgKFu+RQ9FpR0RcSeOXSSc2O/wPpEZSAQQFXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-53e389d8dc7so15307240e87.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 06 Jan 2025 07:48:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736178528; x=1736783328;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=I5EeJ+Kq41D/Bv0Ajrh0n4I+EJ9ou23hfrzgzaRrU9A=;
-        b=vO+cxe/uPbPBrtgUbTKZ4ZwFN9GLPZqooNItIjjZ9cpocvIJiT4JK/ruf+ovtG3tsN
-         K1DDlRZ+FYgTy1gdhmtiZkG5QEr/00VZK443x/1WUauKRIXgwDnO2PXnd/ZD1yhGLIAU
-         qJ5bXTOojVz/YBuORZ77eOPtmNvYOXAVM0Ok6VrafTIrutDSOcwAPLOH6l5rrN2L/ots
-         wXbk479+5q9VTc7M5IMXFP2MniWKyparV25MeDgI+NtZSuPNUBkQ+ZO8EGsdoOcQDcc6
-         N/S1HLYOSR2KPNfzsZ1EZEq02kCP2Kve7cN5Ko8F0PVRoXk2JdRse7yJiQZzLLj259Ru
-         N22Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVkKHUhORPsx1tnb9qW/tLiqLx50VLblxx1dKNomZn5U/Fgq+ZkiC+OsI5H7YMzqGXKZVzerypmISsDaQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwGjN+MP0Ai8Y0a3vkKdKJzzRkFv1xPqbzDZeGmeazIqzRKUczE
-	DVISr/IIJDUmtpxFzsZnGvwLxrrEZw4Osj09LSrCWwmMhQ3yEo9XsZ8ryGVm
-X-Gm-Gg: ASbGncsjQsbJL8KCxeRSOYIq77eZ+sIAhF6QEfoAxCmd0u4lmq6iVvpK7ap60iv16is
-	Tcsjj43v2Ljr+Wl+DwbY6767SxImmKpzc+Uzg/eauyFTzNNnwMoVqS8Far81tqhLpeoezXsRk4j
-	h7Ap9i6s9tK39iUFE4R36n1Qtt/YsVqCBtnTISk7SafvhZK4JDwhYzYgR5WSyh21d0FnNlsKfqN
-	26mClJF7K9qFlW8xauTZNhsLurzfLG2DICth18jNy/0Txxw4+w6CF81FIOcvj1ofRfClhGYx+yE
-	S9XTUcuVwxIXqQ==
-X-Google-Smtp-Source: AGHT+IFgllpMHK2Mbm6BQMnFVJJ697JZ3mpkg4sF3gQMw0xoQtvshKIkHH0VoV1LFtHivU2mV0fdqg==
-X-Received: by 2002:a05:6512:3049:b0:541:316c:99cd with SMTP id 2adb3069b0e04-5422953fe1dmr15239966e87.27.1736178528119;
-        Mon, 06 Jan 2025 07:48:48 -0800 (PST)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com. [209.85.208.169])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-542248cc8e3sm5033786e87.103.2025.01.06.07.48.45
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Jan 2025 07:48:47 -0800 (PST)
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-30227c56b11so166689551fa.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 06 Jan 2025 07:48:45 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWygPvX1WdAYmHNMBgZ5cpyVGuBnPVUXGc/iZ+EpF20cRY9P2eSm9DMStVCzkMTGpTxsfCdQ+Cu1RWvUg==@lists.linux.dev
-X-Received: by 2002:a05:651c:2129:b0:302:4115:b69 with SMTP id
- 38308e7fff4ca-3046851f488mr190424841fa.8.1736178525182; Mon, 06 Jan 2025
- 07:48:45 -0800 (PST)
+	s=arc-20240116; t=1736179695; c=relaxed/simple;
+	bh=t7wyUdadEoYLGmcBhlYZBQxE/bFc8L6HId4ivUrzHOQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=iB8H8qqyl602VAXf+jgCEcAlKfKv8WQrVMppDhmeux2dY2v+Q79IgRH7ADwqGRpALKKileGg0x8CatbbFBon65GRIPJe7dt+6FvFVuvE6bpzrJ8gWzVKwNSuQT9HWF5Ik3EV58HU+yLrJT8tFPWdjggXrvgz9lv3LPyJujBH5J8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=BNGNVisG; arc=none smtp.client-ip=185.132.182.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="BNGNVisG"
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 506FTvZH025120;
+	Mon, 6 Jan 2025 17:07:38 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=selector1; bh=
+	t7wyUdadEoYLGmcBhlYZBQxE/bFc8L6HId4ivUrzHOQ=; b=BNGNVisGo6IoTdnN
+	3iDdo2Pi+3vbkNYy3xLrSlFyVYwfymaJnw4unEXO2RAIgeb9qBL/cY165wIWXIFV
+	zvBDNRwet3qONWViE4srR6Ky8rS9gs7QwkIQI+P1YkKCh8DAQJfuaelaYl0Nu5/Q
+	uM64UZCu4tARtIQUjaP+XsTAYWx/FvZ3AC89m6qfWZcSHNr1gWWP+8Y1kPLaO0i7
+	J4gu5ZfIB7ADWPqtGWM6KzpgkqDtUm3vpVOQL1vRqyct2g+yAkm9JHP2TELHeADq
+	XDcIqHxLYko2IbkysackZ378Q7t5u17HXgEFnv0knuRCRkrmQtyLoOnV3XnS0nSD
+	8Gt63A==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 440cbrsdam-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 06 Jan 2025 17:07:38 +0100 (CET)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id B03014004D;
+	Mon,  6 Jan 2025 17:06:01 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 78714276BB8;
+	Mon,  6 Jan 2025 17:04:58 +0100 (CET)
+Received: from [10.252.22.94] (10.252.22.94) by SHFDAG1NODE2.st.com
+ (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Mon, 6 Jan
+ 2025 17:04:57 +0100
+Message-ID: <0335a999-9ff1-4527-a21f-d04392c520b6@foss.st.com>
+Date: Mon, 6 Jan 2025 17:04:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241211222205.1915027-1-csokas.bence@prolan.hu>
-In-Reply-To: <20241211222205.1915027-1-csokas.bence@prolan.hu>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Mon, 6 Jan 2025 23:48:33 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66MgxCV+rNVC4NaXUFtxMk_=g+CyStLjpb=5e8Q0HNJLw@mail.gmail.com>
-Message-ID: <CAGb2v66MgxCV+rNVC4NaXUFtxMk_=g+CyStLjpb=5e8Q0HNJLw@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: sun4i-codec: Use new devm clk and reset APIs
-To: =?UTF-8?B?QmVuY2UgQ3PDs2vDoXM=?= <csokas.bence@prolan.hu>
-Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] drm/stm: dsi: use drm_mode_validate_mode() helper
+ function
+To: Sean Nyekjaer <sean@geanix.com>,
+        Maarten Lankhorst
+	<maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec
+	<jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Yannick
+ Fertre <yannick.fertre@foss.st.com>,
+        Philippe Cornu
+	<philippe.cornu@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>
+CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
+        <linux-stm32@st-md-mailman.stormreply.com>
+References: <20241125-dsi-relax-v2-0-9113419f4a40@geanix.com>
+ <20241125-dsi-relax-v2-3-9113419f4a40@geanix.com>
+Content-Language: en-US
+From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+In-Reply-To: <20241125-dsi-relax-v2-3-9113419f4a40@geanix.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE2.st.com
+ (10.75.129.70)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 
-On Thu, Dec 12, 2024 at 6:22=E2=80=AFAM Bence Cs=C3=B3k=C3=A1s <csokas.benc=
-e@prolan.hu> wrote:
->
-> Clean up error handling by using the new devm_
-> clock and reset functions. This should make it
-> easier to add new code, as we can eliminate the
-> "goto ladder" in probe().
->
-> Signed-off-by: Bence Cs=C3=B3k=C3=A1s <csokas.bence@prolan.hu>
 
-Reviewed-by: Chen-Yu Tsai <wens@csie.org>
+On 11/25/24 14:49, Sean Nyekjaer wrote:
+> When using the DSI interface via DSI2LVDS bridge, it seems a bit harsh to
+> reguire the requested and the actual px clock to be within 50Hz. A typical
+> LVDS display requires the px clock to be within +-10%. In case for HDMI .5%
+> tolerance is required. Signed-off-by: Sean Nyekjaer <sean@geanix.com>---
+
+
+Hi Sean,
+
+Acked-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+
+Thanks,
+Raphaël
+
+
