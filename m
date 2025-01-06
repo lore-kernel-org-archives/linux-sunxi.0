@@ -1,91 +1,73 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 491C31607AA;
-	Mon,  6 Jan 2025 15:44:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C3671DA631;
+	Mon,  6 Jan 2025 15:46:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736178296; cv=none; b=Wwuttli9TFTt+VrLp/Tm03vj0yqktqJsEZ97xC21HuHuWlzHa5SgnW0d5uNktww9VU9OkQih9weobr/XZyx1GqGDWCaE01br0rHwHckS2zFTsO2o8/g6OgU2c9hXgiU76SusaWDCOWRn2ETEzIbWH6FuIDyz0W8OYuFDj/rD4aY=
+	t=1736178378; cv=none; b=Ti7AjUGD2we1GEgx26VNmm0ja4s/Q5Y2+c48yn5OnoqnVoq+tH9rXHu+DZeLOIMsuFK6/ykav/jIXb9h/YWW+KihKz6dPWTyrW8dBf/uc9POp930jwZwtoCFnUHBOPgI/Ey0jwWEgLfmCkhXZbbmMhHD1hdcbTxjq72xX/a52eI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736178296; c=relaxed/simple;
-	bh=AT6oQtVPwN+ST2vWBMd7vRvvwob7zkorTG0PQgHeZoA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gN0QxBPpidJFNN2ajds0g5V4i95cmRWMXNgxIWAQzQ4yvoeh1G0JvZc5+DivhXh8WNe4G6kSJH7nkbpck0GU3lPNoeqjcGWHt0qxSnfXAxz54bqhD/t8uFmzObMpirCAQBDdLS3v9/703mHMu07KPWEb/L+jJ97L62p2i07cPno=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FrzkGED6; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FrzkGED6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72631C4CEDF;
-	Mon,  6 Jan 2025 15:44:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736178296;
-	bh=AT6oQtVPwN+ST2vWBMd7vRvvwob7zkorTG0PQgHeZoA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FrzkGED6cMx6zGdUp2+YltU52tpSUVO2Nozbgtxm+Fx9MFJD78Nnp8rxmR8JPxSAt
-	 eIAmyD80/O21MZ40jamWzM8+/ItBimmi9ON/Jr3av0/6ycXBI9gAsVkx3N00XtlyVy
-	 dXckjw+xH9xs2Z+E3F/KcToU9y0yVWgK+aSRcNxrpA/G7e7lIji9teaS+85o+OlRO/
-	 Yya/A9BW6HqXqRrw1znzl03vyNaoDHSGW6E1TjDclWDBgtYie+iszzEPjmjazCw89J
-	 XdtBaWQ7ifZMNxLA6of9JWjQScsc/GjqeB4egY/rGoGjHkRnU/AQdRpulWXafS72BI
-	 GHkuQxeEFT6sg==
-Date: Mon, 6 Jan 2025 15:44:51 +0000
-From: Lee Jones <lee@kernel.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, linux-sunxi@lists.linux.dev,
-	Chris Morgan <macroalpha82@gmail.com>,
-	Vasily Khoruzhick <anarsoul@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Revert "mfd: axp20x: Allow multiple regulators"
-Message-ID: <20250106154451.GB6763@google.com>
-References: <20241231165103.800752-1-andre.przywara@arm.com>
+	s=arc-20240116; t=1736178378; c=relaxed/simple;
+	bh=TiylIWGYX8F6qOxnmLngPqSgf2VkNgOfXPXnFnKBok0=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=BCy9HwxkxnQxj+mAapwtUHxnX0EvF+u2MumElrpWMizGkHo7hZKZnIaEO62gBL4llVUdJzpsAv+shFuh1F7xt3qGZgcyEb2VACBLzjlslsQmNHqIaadBB3gwF9HinjrG8fwqarp+79kNbkznEVbItv9U7TfLsZajTFcWtKWPsRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CB13C4CED6;
+	Mon,  6 Jan 2025 15:46:18 +0000 (UTC)
+Received: from wens.tw (localhost [127.0.0.1])
+	by wens.tw (Postfix) with ESMTP id 5D88C5F814;
+	Mon,  6 Jan 2025 23:46:14 +0800 (CST)
+From: Chen-Yu Tsai <wens@csie.org>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Maxime Ripard <mripard@kernel.org>, 
+ Roman Beranek <me@crly.cz>, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, 
+ Vasily Khoruzhick <anarsoul@gmail.com>
+In-Reply-To: <20250104074035.1611136-1-anarsoul@gmail.com>
+References: <20250104074035.1611136-1-anarsoul@gmail.com>
+Subject: Re: [PATCH v2 0/4] arm64: allwinner: a64: fix video output on
+ Pinebook
+Message-Id: <173617837421.3282465.589306007023383641.b4-ty@csie.org>
+Date: Mon, 06 Jan 2025 23:46:14 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241231165103.800752-1-andre.przywara@arm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-On Tue, 31 Dec 2024, Andre Przywara wrote:
+On Fri, 03 Jan 2025 23:36:56 -0800, Vasily Khoruzhick wrote:
+> Since commit ca1170b69968 ("clk: sunxi-ng: a64: force select PLL_MIPI
+> in TCON0 mux"), TCON0 clock parent is always set to PLL_MIPI, but
+> unfortunately it breaks video output on Pinebook.
+> 
+> I did an experiment: I manually configured PLL_MIPI and PLL_VIDEO0_2X
+> to the same clock rate and flipped the switch with devmem. Experiment
+> clearly showed that whenever PLL_MIPI is selected as TCON0 clock
+> parent, the video output stops working.
+> 
+> [...]
 
-> As Chris and Vasily reported, the attempt to support multiple AXP PMICs
-> in one system [1] breaks some of the battery and charging functionality
-> on devices with AXP PMICs. The reason is that the drivers now fail to get
-> the correct IIO channel for the ADC component, as the current code seems
-> to rely on the zero-based enumeration of the regulator devices.
-> A fix is possible, but not trivial, as it requires some rework in the AXP
-> MFD driver, which cannot be fully reviewed or tested in time for the
-> 6.13 release.
-> 
-> So revert this patch for now, to avoid regressions on battery powered
-> devices. This patch was really only necessary for devices with two
-> PMICs, support for which is not mainline yet anyway, so we don't lose
-> any functionality.
-> 
-> This reverts commit e37ec32188701efa01455b9be42a392adab06ce4.
-> 
-> [1] https://lore.kernel.org/linux-sunxi/20241007001408.27249-4-andre.przywara@arm.com/
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  drivers/mfd/axp20x.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/mfd/axp20x.c b/drivers/mfd/axp20x.c
-> index 251465a656d09..5b8e88341a305 100644
-> --- a/drivers/mfd/axp20x.c
-> +++ b/drivers/mfd/axp20x.c
-> @@ -1445,7 +1445,7 @@ int axp20x_device_probe(struct axp20x_dev *axp20x)
->  		}
->  	}
->  
-> -	ret = mfd_add_devices(axp20x->dev, PLATFORM_DEVID_AUTO, axp20x->cells,
-> +	ret = mfd_add_devices(axp20x->dev, -1, axp20x->cells,
->  			      axp20x->nr_cells, NULL, 0, NULL);
+Applied to sunxi/for-next in sunxi/linux.git, thanks!
 
-Please submit a new patch and use PLATFORM_DEVID_NONE instead.
+[1/4] dt-bindings: clock: sunxi: Export PLL_VIDEO_2X and PLL_MIPI
+      https://git.kernel.org/sunxi/linux/c/9897831de614
+[2/4] clk: sunxi-ng: a64: drop redundant CLK_PLL_VIDEO0_2X and CLK_PLL_MIPI
+      https://git.kernel.org/sunxi/linux/c/0f368cb7ef10
+[3/4] arm64: dts: allwinner: a64: explicitly assign clock parent for TCON0
+      https://git.kernel.org/sunxi/linux/c/8715c91a8365
+[4/4] clk: sunxi-ng: a64: stop force-selecting PLL-MIPI as TCON0 parent
+      https://git.kernel.org/sunxi/linux/c/383ca7bee8a9
 
+Best regards,
 -- 
-Lee Jones [李琼斯]
+Chen-Yu Tsai <wens@csie.org>
+
