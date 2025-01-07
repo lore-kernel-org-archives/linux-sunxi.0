@@ -1,28 +1,27 @@
 Received: from mail.netcube.li (mail.netcube.li [173.249.15.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9DB81F63D3
-	for <linux-sunxi@lists.linux.dev>; Tue,  7 Jan 2025 19:22:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E71A61F428E
+	for <linux-sunxi@lists.linux.dev>; Tue,  7 Jan 2025 19:22:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.249.15.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736277777; cv=none; b=gcglMUmvBDvTlu1A/E+rOos2z1HGtivM8tG6qkamrQhsaCwkifLOujtu/swegiV38B5Y3yTfRAjZFoUWUdg/oXy21TjcLNN8QVGIbckJcX3rdqI6+OmtHvRTik2CNq6Cv+5fTL5KK1HU6VSMHPomdwbhW6yzBaYSh1kdyq2bqn4=
+	t=1736277781; cv=none; b=khUBk+xNcZU3Uo1KhNjsaB5IFNjU2EG5ka5jG9655rn1tDQEqnCYJmlfVcoVBUVbzfzWGRIXpadb37xOH8NWVdlOo9mmJl2VVMlGbIOOObJ9MFT/zoZLg6KZsiGravFlV8ibQTkEi46CCEWeLfwvtvw0CNcK5MtW6CR6SBsRfsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736277777; c=relaxed/simple;
-	bh=eWI2w4kZIKItWJFqtABsMZBReAEf/IfcxbXkswKKkBE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=PdI+7yAvA+QgPjfYmQ0P2PBcB+23r36D7aJY2qwkUs8R0u4HAOeV9UEMhnl7JwxWY1VNSKXs8xDVvdwf9yrNW/Ealt5vv6fU/R3KbEYqrgT8cJePaG2cm9JilR4P8pbdHD1zpb1Vc0W4Jlv4Xs4KFL3NAXPiH26Oq52/skePAvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li; spf=pass smtp.mailfrom=netcube.li; dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b=GSGSnNIB; arc=none smtp.client-ip=173.249.15.149
+	s=arc-20240116; t=1736277781; c=relaxed/simple;
+	bh=GQrNIs4lEXa5uxcuLuEiidbhziGDgSMzqtuOC6RmbJ8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GVdkpl8MJZ7TTV7Gbqw5blaADHkD/zcVHJ+So1WMnyARjGR5dv3/8q4NGYTAtnu1Oyp56orcvH9GELeDwxzssA1fFCD+2hBXK/WIHBK5P9p7D+TWHuqbA/1lOGvYIE9dsiI2pXpD5zDTrWTPJLRTfFwcpCQPZsz1RCf2E4OiSRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li; spf=pass smtp.mailfrom=netcube.li; dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b=o0WjyORe; arc=none smtp.client-ip=173.249.15.149
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netcube.li
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b="GSGSnNIB"
+	dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b="o0WjyORe"
 dkim-signature: v=1; a=rsa-sha256; d=netcube.li; s=s1;
-	c=relaxed/relaxed; q=dns/txt; h=From:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Transfer-Encoding:In-Reply-To:References;
-	bh=g+7UfoPF3qmmcXZAVXeXLOUoflzmC+w8EwZzm4k7Dco=;
-	b=GSGSnNIBtCGwMqx9vRCuvnOY+SuMK4j0TTAzFaRGir2hI29tOuwKSnHNce1RVJeNQhGCuHwfFBYpAUk2B3NxM/QM1elj+JjGygzzf/OjHMVm3anIlXjwTKofK/2Kny1u00IW1y60ZGmeV5jfK3tPog3py/LvnFw4HJuFg4OXbVw=
+	c=relaxed/relaxed; q=dns/txt; h=From:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Transfer-Encoding;
+	bh=ZOjzwL4gnlE+sZAmf17LjcUdaPDgmh9qOPz72urkf+Q=;
+	b=o0WjyOReDNlIYxkNxmyEXHhXR86QFICWdKqUXzxBUl4Dyfv4V6p3BANQjmGXxW3fCO98ZXAtJ3PV1MRRlm19w1hI+sJzal6HNATjVjBiWog4bXxfE5rYk3ifvh6at4JSCq5ex8VmO5ehpmSKxs2rN3pRnRlZOUqJppPeR+kkMF4=
 Received: from 854af3ed5e24.lan.sk100508.local (cm70-231.liwest.at [212.241.70.231])
 	by mail.netcube.li with ESMTPA
-	; Tue, 7 Jan 2025 20:22:15 +0100
+	; Tue, 7 Jan 2025 20:22:11 +0100
 From: Lukas Schmid <lukas.schmid@netcube.li>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -36,12 +35,10 @@ Cc: Lukas Schmid <lukas.schmid@netcube.li>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v6 2/4] dt-bindings: arm: sunxi: Add NetCube Systems Kumquat board
-Date: Tue,  7 Jan 2025 19:18:40 +0000
-Message-Id: <20250107191844.4151-3-lukas.schmid@netcube.li>
+Subject: [PATCH v6 0/4] Add support for NetCube Systems Kumquat
+Date: Tue,  7 Jan 2025 19:18:38 +0000
+Message-Id: <20250107191844.4151-1-lukas.schmid@netcube.li>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250107191844.4151-1-lukas.schmid@netcube.li>
-References: <20250107191844.4151-1-lukas.schmid@netcube.li>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -50,31 +47,58 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The NetCube Systems Kumquat is an Embedded Controller based
-on the Allwinner V3s SoC. It is intended for Smart Home or
-Industrial automation without the need for a traditional PLC
+This series adds dt-bindings and dt's for the NetCube Systems Kumquat
+board.
+
+Changes in v2:
+  Fix the devicetrees according to the 
+    "dt-schema" and "make dtbs_check W=1"
+  Fix the License of the devicetree as requested
+  Create a cover letter for the patch series
+
+Changes in v3:
+  Disable rtc inside the SoC again, as the rtc does not work on the
+    board
+  Add the gpio-reserved-ranges property to the pinctrl bindings
+  Reorder the nodes in the devicetree to match the order of the nodes 
+    in the sun8i-v3s.dtsi file
+
+Changes in v4:
+  Moved the dtsi change into a sperate patch
+  Update commit messages to include better descriptions
+  Add descriptions to the uarts and mmc nodes in the dts file
+  Add missing newline at the end of the dts file
+  Removed the gpio-reserved-ranges property from the dts and
+    from the pinctrl bindings
+  Remove the rtc status property from the dts file
+
+Changes in v5:
+  Remove the unused lradc node and it's regualtor, as they
+    are not used on the board
+  Add another alias for the SoC's rtc as 'rtc1'
+
+Changes in v6:
+  Add reason why DS3232+ is preferred over internal rtc
+  Remove redundant pinctrls from mmc0, mmc1 and i2c0
+  Reordered eeprom0 and spi0/flash@0 properties
+  Reordered nodes by their node name alias
 
 Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
 ---
- Documentation/devicetree/bindings/arm/sunxi.yaml | 5 +++++
- 1 file changed, 5 insertions(+)
+Lukas Schmid (4):
+  dt-bindings: vendor-prefixes: Add NetCube Systems Austria name
+  dt-bindings: arm: sunxi: Add NetCube Systems Kumquat board
+  ARM: dts: sunxi: add uart1_pe pinctrl for sun8i-v3s
+  ARM: dts: sunxi: add support for NetCube Systems Kumquat
 
-diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
-index 046536d02706..f536cdd2c1a6 100644
---- a/Documentation/devicetree/bindings/arm/sunxi.yaml
-+++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
-@@ -589,6 +589,11 @@ properties:
-           - const: emlid,neutis-n5h3
-           - const: allwinner,sun8i-h3
- 
-+      - description: NetCube Systems Kumquat
-+        items:
-+          - const: netcube,kumquat
-+          - const: allwinner,sun8i-v3s
-+
-       - description: NextThing Co. CHIP
-         items:
-           - const: nextthing,chip
+ .../devicetree/bindings/arm/sunxi.yaml        |   5 +
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ arch/arm/boot/dts/allwinner/Makefile          |   2 +
+ .../allwinner/sun8i-v3s-netcube-kumquat.dts   | 268 ++++++++++++++++++
+ arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi    |   6 +
+ 5 files changed, 283 insertions(+)
+ create mode 100644 arch/arm/boot/dts/allwinner/sun8i-v3s-netcube-kumquat.dts
+
 -- 
 2.47.1
 
