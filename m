@@ -1,421 +1,226 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 519EE1DFE0F
-	for <linux-sunxi@lists.linux.dev>; Tue,  7 Jan 2025 12:02:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E1DF1DFE1D
+	for <linux-sunxi@lists.linux.dev>; Tue,  7 Jan 2025 12:04:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736251357; cv=none; b=jZExOwAEWzWqGC5sQ1vsW6rc0m968Qh6TTG9wvqJdiXVaAmaQYrlaLnM54KkZ9m6L+GcfgAQGvdIgimBk0SlFTsQKiTLTIzOXCorjsxZ5K6C+J9xMHkCO8lPcvD5P4cplSJsv7SCPTfR8TXs3Q905SIKKu97Of9zWc+XGj49nSo=
+	t=1736251453; cv=none; b=lm340//piDoGpvoeOrW8jACxWHGysAVDRjK/Oah+yxXiQ9nSIemna7xeYbnD064PgnOuGq44/LI+z3QLvoytZEhG+y/nzy/gPe3bTUcnwklRUZWabRFoR4NalIYfR9VEX0XCIpA+YjBJAVLY1b65cN1hn0Z6GbMpI/5jWhcXk1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736251357; c=relaxed/simple;
-	bh=dWtmv2k3lfF882wUS1JGTbSEt7rTz0aFneP2uBkCZq4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qKgk6OpRUEdgaGE82vIwMAye55CooOIf3A2DP+/MeOKRaKcgwiDMD3AANZ8FCgTF55pA2QYQzazSzrh/GDCPdyaMIf4U7YPSb4K/h8YCUXxZgB8Y4n7semLhhUBOLjxKZtW7ZLnnLatXYgUTjfMcO7Aoi6gCQvkTwNNna+N5us4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EE211143D;
-	Tue,  7 Jan 2025 04:03:01 -0800 (PST)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D0C0C3F673;
-	Tue,  7 Jan 2025 04:02:31 -0800 (PST)
-Date: Tue, 7 Jan 2025 12:02:28 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Lukas Schmid <lukas.schmid@netcube.li>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 4/4] ARM: dts: sunxi: add support for NetCube Systems
- Kumquat
-Message-ID: <20250107120228.503e0918@donnerap.manchester.arm.com>
-In-Reply-To: <20250106190703.4015-5-lukas.schmid@netcube.li>
-References: <20250106190703.4015-1-lukas.schmid@netcube.li>
-	<20250106190703.4015-5-lukas.schmid@netcube.li>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1736251453; c=relaxed/simple;
+	bh=+s84Mxs/ltywI/AN6NGNeB5Lu6hsMHgJe9TMhknhmjY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pxnuQGhZynE0Ap4SRdx1CV96g6SZX01DdAS/3m5b3JefH6a0LsmcgBZ4dwyDEcOAjBj/ZsbcyT5zhX62xuvUCXkNFKfH9ziRcNbKpt6c0MtyFEUcgDlq1zDxovJ4Nj2OBZzFlAz1tmLsjBbaQlw9Hy2H99l9ZHNzP0jTaOnQaco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+	by leonov.paulk.fr (Postfix) with ESMTPS id 95A0D1F0004F
+	for <linux-sunxi@lists.linux.dev>; Tue,  7 Jan 2025 11:54:01 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+	id 31C79AA1107; Tue,  7 Jan 2025 11:54:00 +0000 (UTC)
+X-Spam-Level: 
+Received: from collins (unknown [192.168.1.1])
+	by laika.paulk.fr (Postfix) with ESMTPSA id 6670CAA10EA;
+	Tue,  7 Jan 2025 11:53:58 +0000 (UTC)
+Date: Tue, 7 Jan 2025 12:53:56 +0100
+From: Paul Kocialkowski <paulk@sys-base.io>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: Maxime Ripard <mripard@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Paul Kocialkowski <contact@paulk.fr>
+Subject: Re: [PATCH] pinctrl: sunxi: Use minimal debouncing period as default
+Message-ID: <Z30V1KzhqY2drhmm@collins>
+References: <20241119140805.3345412-1-paulk@sys-base.io>
+ <20241119-prudent-jasmine-lizard-195cef@houat>
+ <ZzyoIABRArkGoZBn@collins>
+ <CACRpkdbqufNVq4Ai6GQpgK2OY0rxLnp1wLQNmRoCv44T0xmFkQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="xRZh+3L9eSSC0byD"
+Content-Disposition: inline
+In-Reply-To: <CACRpkdbqufNVq4Ai6GQpgK2OY0rxLnp1wLQNmRoCv44T0xmFkQ@mail.gmail.com>
 
-On Mon,  6 Jan 2025 19:07:02 +0000
-Lukas Schmid <lukas.schmid@netcube.li> wrote:
 
-Hi,
+--xRZh+3L9eSSC0byD
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> NetCube Systems Kumquat is a board based on the Allwinner V3s SoC,
-> including:
-> 
-> - 64MB DDR2 included in SoC
-> - 10/100 Mbps Ethernet
-> - USB-C DRD
-> - Audio Codec
-> - Isolated CAN-FD
-> - ESP32 over SDIO
-> - 8MB SPI-NOR Flash for bootloader
-> - I2C EEPROM for MAC addresses
-> - SDIO Connector for eMMC or SD-Card
-> - 8x 12/24V IOs, 4x normally open relays
-> - DS3232 RTC
-> - QWIIC connectors for external I2C devices
-> 
-> Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
-> ---
->  arch/arm/boot/dts/allwinner/Makefile          |   2 +
->  .../allwinner/sun8i-v3s-netcube-kumquat.dts   | 274 ++++++++++++++++++
->  2 files changed, 276 insertions(+)
->  create mode 100644 arch/arm/boot/dts/allwinner/sun8i-v3s-netcube-kumquat.dts
-> 
-> diff --git a/arch/arm/boot/dts/allwinner/Makefile b/arch/arm/boot/dts/allwinner/Makefile
-> index 48666f73e638..d799ad153b37 100644
-> --- a/arch/arm/boot/dts/allwinner/Makefile
-> +++ b/arch/arm/boot/dts/allwinner/Makefile
-> @@ -199,6 +199,7 @@ DTC_FLAGS_sun8i-h3-nanopi-r1 := -@
->  DTC_FLAGS_sun8i-h3-orangepi-pc := -@
->  DTC_FLAGS_sun8i-h3-bananapi-m2-plus-v1.2 := -@
->  DTC_FLAGS_sun8i-h3-orangepi-pc-plus := -@
-> +DTC_FLAGS_sun8i-v3s-netcube-kumquat := -@
->  dtb-$(CONFIG_MACH_SUN8I) += \
->  	sun8i-a23-evb.dtb \
->  	sun8i-a23-gt90h-v4.dtb \
-> @@ -261,6 +262,7 @@ dtb-$(CONFIG_MACH_SUN8I) += \
->  	sun8i-v3s-anbernic-rg-nano.dtb \
->  	sun8i-v3s-licheepi-zero.dtb \
->  	sun8i-v3s-licheepi-zero-dock.dtb \
-> +	sun8i-v3s-netcube-kumquat.dtb \
->  	sun8i-v40-bananapi-m2-berry.dtb
->  dtb-$(CONFIG_MACH_SUN9I) += \
->  	sun9i-a80-optimus.dtb \
-> diff --git a/arch/arm/boot/dts/allwinner/sun8i-v3s-netcube-kumquat.dts b/arch/arm/boot/dts/allwinner/sun8i-v3s-netcube-kumquat.dts
-> new file mode 100644
-> index 000000000000..b778bfa8e830
-> --- /dev/null
-> +++ b/arch/arm/boot/dts/allwinner/sun8i-v3s-netcube-kumquat.dts
-> @@ -0,0 +1,274 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> +/*
-> + * Copyright (C) 2025 Lukas Schmid <lukas.schmid@netcube.li>
-> + */
-> +
-> +/dts-v1/;
-> +#include "sun8i-v3s.dtsi"
-> +
-> +#include <dt-bindings/input/input.h>
-> +#include <dt-bindings/leds/common.h>
-> +#include <dt-bindings/gpio/gpio.h>
-> +
-> +/{
-> +	model = "NetCube Systems Kumquat";
-> +	compatible = "netcube,kumquat", "allwinner,sun8i-v3s";
-> +
-> +	aliases {
-> +		serial0 = &uart0;
-> +		ethernet0 = &emac;
-> +		rtc0 = &ds3232;
-> +		rtc1 = &rtc;
+Hi Linus,
 
-Please add a brief comment as to why you de-prioritise the internal RTC,
-something like "not battery backed" or so.
+Le Tue 17 Dec 24, 14:39, Linus Walleij a =C3=A9crit :
+> Some discussion here, and some emotions involved.
+>=20
+> I can't seem to follow the technical matter because of all the
+> social matters :/
 
-> +	};
-> +
-> +	chosen {
-> +		stdout-path = "serial0:115200n8";
-> +	};
-> +
-> +	/* 40 MHz Crystal Oscillator on PCB */
-> +	clk_can0: clock-can0 {
-> +		compatible = "fixed-clock";
-> +		#clock-cells = <0>;
-> +		clock-frequency  = <40000000>;
-> +	};
-> +
-> +	gpio-keys {
-> +		compatible = "gpio-keys";
-> +		autorepeat;
-> +
-> +		key-user {
-> +			label = "GPIO Key User";
-> +			linux,code = <KEY_PROG1>;
-> +			gpios = <&pio 1 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PB2 */
-> +		};
-> +	};
-> +
-> +	leds {
-> +		compatible = "gpio-leds";
-> +
-> +		led-heartbeat {
-> +			gpios = <&pio 4 4 GPIO_ACTIVE_HIGH>; /* PE4 */
-> +			linux,default-trigger = "heartbeat";
-> +			color = <LED_COLOR_ID_GREEN>;
-> +			function = LED_FUNCTION_HEARTBEAT;
-> +		};
-> +
-> +		led-mmc0-act {
-> +			gpios = <&pio 5 6 GPIO_ACTIVE_HIGH>; /* PF6 */
-> +			linux,default-trigger = "mmc0";
-> +			color = <LED_COLOR_ID_GREEN>;
-> +			function = LED_FUNCTION_DISK;
-> +		};
-> +	};
-> +
-> +	/* EA3036C Switching 3 Channel Regulator - Channel 2 */
-> +	reg_vcc3v3: regulator-3v3 {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vcc3v3";
-> +		regulator-min-microvolt = <3300000>;
-> +		regulator-max-microvolt = <3300000>;
-> +		vin-supply = <&reg_vcc5v0>;
-> +	};
-> +
-> +	/* K7805-1000R3 Switching Regulator supplied from main 12/24V terminal block */
-> +	reg_vcc5v0: regulator-5v0 {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vcc5v0";
-> +		regulator-min-microvolt = <5000000>;
-> +		regulator-max-microvolt = <5000000>;
-> +	};
-> +};
-> +
-> +/* Exposed as the Flash/SD Header on the board */
-> +&mmc0 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&mmc0_pins>;
+Thanks for looking into this. It's a bit of a heated discussion but nothing
+personal, really. The context is that Maxime and I often disagree on what
+constitutes ABI breakage or not. To be fair he has already proven me wrong
+in the past and I'm still learning.
 
-The pinctrl properties are already in the .dtsi file, because there is only
-one set of pins connected to this MMC controller. So please remove those
-two lines here, as they are redundant.
+The debate here is about what the default behavior should be.
 
-> +	vmmc-supply = <&reg_vcc3v3>;
-> +	bus-width = <4>;
-> +	broken-cd;
-> +	status = "okay";
-> +};
-> +
-> +/* Connected to the on-board ESP32 */
-> +&mmc1 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&mmc1_pins>;
+> On Tue, Nov 19, 2024 at 4:00=E2=80=AFPM Paul Kocialkowski <paulk@sys-base=
+=2Eio> wrote:
+> > My use-case here was hooking up a sparkfun sensor board by the way,
+> > not some very advanced corner-case.
+>=20
+> Are you adding this as a DT overlay or by modifying an existing device
+> tree?
 
-Same here, only one set of pins, so they are in the .dtsi already.
+The answer would be an overlay. There's no device that I know of that has t=
+his
+sensor built-in.
 
-> +	vmmc-supply = <&reg_vcc3v3>;
-> +	bus-width = <4>;
-> +	broken-cd;
-> +	status = "okay";
-> +};
-> +
-> +&usb_otg {
+> Does this sensor have an established device tree binding?
 
-Please keep the nodes ordered by their node name alias, as this is what
-the other .dts files do (ignoring some single node outliers).
-The DTS coding style indeed says:
-=================
-3. When extending nodes in the board DTS via &label, the entries shall be
-   ordered either alpha-numerically or by keeping the order from DTSI, ...
-=================
-but it continues:
-=================
-   ... where the choice depends on the subarchitecture.
-=================
+It is underway. You can find it at:
+https://patchwork.kernel.org/project/linux-iio/patch/20241130174212.3298371=
+-1-paulk@sys-base.io/
 
-So in this case sunxi decided to order .dts label references by the label
-name, because that's the only thing visible in this file.
+Nothing really stands out and the short interrupt time is mentionned there.
 
-> +	extcon = <&tusb320 0>;
-> +	dr_mode = "otg";
-> +	status = "okay";
-> +};
-> +
-> +&usbphy {
-> +	usb0_id_det-gpios = <&pio 1 4 GPIO_ACTIVE_HIGH>; /* PB4 */
-> +	status = "okay";
-> +};
-> +
-> +&ehci {
-> +	status = "okay";
-> +};
-> +
-> +&ohci {
-> +	status = "okay";
-> +};
-> +
-> +&pio {
-> +	vcc-pb-supply = <&reg_vcc3v3>;
-> +	vcc-pc-supply = <&reg_vcc3v3>;
-> +	vcc-pe-supply = <&reg_vcc3v3>;
-> +	vcc-pf-supply = <&reg_vcc3v3>;
-> +	vcc-pg-supply = <&reg_vcc3v3>;
-> +
-> +	gpio-line-names = "", "", "", "", // PA
-> +			  "", "", "", "",
-> +			  "", "", "", "",
-> +			  "", "", "", "",
-> +			  "", "", "", "",
-> +			  "", "", "", "",
-> +			  "", "", "", "",
-> +			  "", "", "", "",
-> +			  "CAN_nCS", "CAN_nINT", "USER_SW", "PB3", // PB
-> +			  "USB_ID", "USBC_nINT", "I2C0_SCL", "I2C0_SDA",
-> +			  "UART0_TX", "UART0_RX", "", "",
-> +			  "", "", "", "",
-> +			  "", "", "", "",
-> +			  "", "", "", "",
-> +			  "", "", "", "",
-> +			  "", "", "", "",
-> +			  "SPI_MISO", "SPI_SCK", "FLASH_nCS", "SPI_MOSI", // PC
-> +			  "", "", "", "",
-> +			  "", "", "", "",
-> +			  "", "", "", "",
-> +			  "", "", "", "",
-> +			  "", "", "", "",
-> +			  "", "", "", "",
-> +			  "", "", "", "",
-> +			  "", "", "", "", // PD
-> +			  "", "", "", "",
-> +			  "", "", "", "",
-> +			  "", "", "", "",
-> +			  "", "", "", "",
-> +			  "", "", "", "",
-> +			  "", "", "", "",
-> +			  "", "", "", "",
-> +			  "Q12", "Q11", "Q10", "Q9", // PE
-> +			  "LED_SYS0", "I1", "Q1", "Q2",
-> +			  "I2", "I3", "Q3", "Q4",
-> +			  "I4", "I5", "Q5", "Q6",
-> +			  "I6", "I7", "Q7", "Q8",
-> +			  "I8", "UART1_TXD", "UART1_RXD", "ESP_nRST",
-> +			  "ESP_nBOOT", "", "", "",
-> +			  "", "", "", "",
-> +			  "SD_D1", "SD_D0", "SD_CLK", "SD_CMD", // PF
-> +			  "SD_D3", "SD_D2", "LED_SYS1", "",
-> +			  "", "", "", "",
-> +			  "", "", "", "",
-> +			  "", "", "", "",
-> +			  "", "", "", "",
-> +			  "", "", "", "",
-> +			  "", "", "", "",
-> +			  "ESP_CLK", "ESP_CMD", "ESP_D0", "ESP_D1", // PG
-> +			  "ESP_D2", "ESP_D3", "", "",
-> +			  "", "", "", "",
-> +			  "", "", "", "",
-> +			  "", "", "", "",
-> +			  "", "", "", "",
-> +			  "", "", "", "",
-> +			  "", "", "", "";
-> +};
-> +
-> +&codec {
-> +	allwinner,audio-routing =
-> +		"Headphone", "HP",
-> +		"Headphone", "HPCOM",
-> +		"MIC1", "Mic",
-> +		"Mic", "HBIAS";
-> +	status = "okay";
-> +};
-> +
-> +/* Exposed as a USB-C connector with USB-Serial converter */
-> +&uart0 {
-> +	pinctrl-0 = <&uart0_pb_pins>;
-> +	pinctrl-names = "default";
-> +	status = "okay";
-> +};
-> +
-> +/* Connected to the Bootloader/Console of the ESP32 */
-> +&uart1 {
-> +	pinctrl-0 = <&uart1_pe_pins>;
-> +	pinctrl-names = "default";
-> +	status = "okay";
-> +};
-> +
-> +&i2c0 {
-> +	pinctrl-0 = <&i2c0_pins>;
-> +	pinctrl-names = "default";
+> Are you using that sparkfun sensor by a kernel driver or from userspace
+> using the GPIO character device?
 
-Those two properties are redundant, since the .dtsi already defines them.
+With a dedicated IIO driver currently under review.
 
-> +	status = "okay";
-> +
-> +	ds3232: rtc@68 {
-> +		compatible = "dallas,ds3232";
-> +		reg = <0x68>;
-> +	};
-> +
-> +	eeprom0: eeprom@50 {
-> +		compatible = "atmel,24c02";		/* actually it's a 24AA02E48 */
-> +		pagesize = <16>;
-> +		read-only;
-> +		reg = <0x50>;
+> I noticed that the sunxi GPIO driver is implementing the
+> .set_config() callback calling gpiochip_generic_config,
+> which makes it call down to the pin control driver to set up
+> the pin config.
+>=20
+> which would in turn make it eligible to use
+> the gpiod_set_debounce() callback to push down the debounce
+> period.
+>=20
+> But pinctrl-sunxi.c's sunxi_pconf_set() does *NOT* implement
+> support for setting up the debounce, because it is (as I understand
+> it) not part of the pin config hardware, but part of the interrupt
+> generator hardware, correct?
 
-Please move "reg" up, to appear after "compatible", to comply with the DTS
-coding style. It makes it easier to read the DT and see the most important
-infos first.
+Yes I believe this is correct. Debouncing is said (according to scarce
+documentation) to be tied to the interrupt part, not GPIO in general.
 
-> +		vcc-supply = <&reg_vcc3v3>;
-> +
-> +		#address-cells = <1>;
-> +		#size-cells = <1>;
-> +
-> +		eth0_macaddress: macaddress@fa {
-> +			reg = <0xfa 0x06>;
-> +		};
-> +	};
-> +
-> +	tusb320: typec@60 {
-> +		compatible = "ti,tusb320";
-> +		reg = <0x60>;
-> +		interrupt-parent = <&pio>;
-> +		interrupts = <1 5 IRQ_TYPE_EDGE_FALLING>;
-> +	};
-> +};
-> +
-> +&emac {
-> +	allwinner,leds-active-low;
-> +	nvmem-cells = <&eth0_macaddress>;		/* custom nvmem reference */
-> +	nvmem-cell-names = "mac-address";		/* see ethernet-controller.yaml */
+> In that case I think we the gpiochip .set_config() callback should
+> be modified something like this (pseudo code):
+>=20
+> sunxi_pinctrl_gpio_set_config()
+> {
+>     if (irq_is_in_use && param_is_debounce) {
+>         modify_irq_debounce_according_to_param()
+>         return 0;
+>     }
+>     gpiochip_generic_config()
+> }
+>=20
+> pctl->chip->set_config =3D sunxi_pinctrl_gpio_set_config()
 
-I don't think you need those comments.
+I didn't even know the gpio API supported this, thanks!
+Then it would make sense for the driver to specify this.
 
-> +	status = "okay";
-> +};
-> +
-> +&spi0 {
-> +	#address-cells = <1>;
-> +	#size-cells = <0>;
-> +	cs-gpios = <0>, <&pio 1 0 GPIO_ACTIVE_LOW>; /* PB0 */
-> +	status = "okay";
-> +
-> +	flash@0 {
-> +		#address-cells = <1>;
-> +		#size-cells = <1>;
-> +		compatible = "jedec,spi-nor";
-> +		reg = <0>;
+> Maybe the debounce can also be set even if the line is not used
+> for IRQ? I'm not sure.
 
-The DTS coding style says that compatible and reg should come first, then
-common properties. So please move #address-cells and #size-cells down here.
+My guess would be that it can't.
+
+> In either case the latter would give the GPIO driver a handle
+> on the debounce, which is good because the irqchip
+> generally does not.
+>=20
+> There is a way it is possible to use the interrupt with desired debounce
+> setting by first getting the GPIO descriptor and modify the debounce
+> setting and then getting the interrupt from the GPIO descriptor:
+
+However I see the debounce time is specified in microseconds, which is long=
+er
+that the minimum achievable and probably too close to the limit for the sen=
+sor
+board, that generates the interrupt for 1 us only.
+
+Is it specified that a value of 0 to gpiod_set_debounce would select the
+lowest debouncing time?
+
+> struct gpio_desc *g;
+> int irq;
+>=20
+> g =3D gpiod_get(dev, "dataready", GPIOD_IN);
+> gpiod_set_debounce(g, 1);
+> irq =3D gpiod_to_irq(g);
+> ...request irq...
+>=20
+> Here I assume the line out from the sensor is named "dataready"
+> the actual component likely has a name like that for the line.
+>=20
+> This requires changes in the device tree as well, so that a GPIO
+> line is assigned to the sensor instead of "just" an interrupt:
+>=20
+> sensor {
+>   dataready-gpios =3D <&gpio 14>;
+>   ...
+> };
+>=20
+> instead of:
+>=20
+> sensor {
+>   interrupt-parent =3D <&gpio>;
+>   interrupts =3D <14 IRQ_TYPE_EDGE_RISING>;
+> };
+>=20
+> Unfortunately this is one of the areas where DT bindings are
+> a bit ambiguous. Some just assign the GPIO line as an interrupt
+> as both APIs are available, sometimes a proper GPIO line is
+> preferred for the above reasons.
+
+I can see how that would be confusing indeed. And the same change would be
+required for pretty much any driver that could have the same problem.
+I'm not sure this is desirable.
+
+Would there be a way to do the opposite and grab the gpio handle from the
+irq line, as to leave the dt binding unchanged?
 
 Cheers,
-Andre
 
-> +		label = "firmware";
-> +		spi-max-frequency = <40000000>;
-> +	};
-> +
-> +	can@1 {
-> +		compatible = "microchip,mcp2518fd";
-> +		reg = <1>;
-> +		clocks = <&clk_can0>;
-> +		interrupt-parent = <&pio>;
-> +		interrupts = <1 1 IRQ_TYPE_LEVEL_LOW>;  /* PB1 */
-> +		spi-max-frequency = <20000000>;
-> +		vdd-supply = <&reg_vcc3v3>;
-> +		xceiver-supply = <&reg_vcc3v3>;
-> +	};
-> +};
+Paul
 
+--=20
+Paul Kocialkowski,
+
+Independent contractor - sys-base - https://www.sys-base.io/
+Free software developer - https://www.paulk.fr/
+
+Expert in multimedia, graphics and embedded hardware support with Linux.
+
+--xRZh+3L9eSSC0byD
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmd9FdQACgkQhP3B6o/u
+lQwcQg/+Ndmwb8VrccY6tawNQpK5eGLmJmz1NgNtHOo4qcVATn/0LmykSL/URVDT
+fuGWhuw3kUW63a4GM10bENrBK4aNGYQXr9wSAvAael9BKN8C2M0WFrA+ReJF/MsC
+YQ+99dsrxro0ll+pvznyF3LnknuZvETSsf71VAd0/58Lurf5rm4bPHWfCGnOrbA2
+hkhD+amOJ3oQFOePPfbPeaXYXY5HtWXWAXXIeDxiEuDTi0WROqhkNiDJBStxxvfP
+libWE/sZ/kApI4UFaDMB/4o5/F6keLBSnfmWaxZjWvjNVPXhiR85RNNV7miScjed
+ag8qRoJs2EZDXqzOdmkgaC6CfD8KWmNtEf8G4ApZLHlICiT9Xgto3VQxCTKQzGLG
+g9lv8l5T1E3GG9+dTS6b0vLX+u9a9f+YUZJKXShbSbV02Svpka5NhUf16lhZgDVk
+VRyWB6xHYU487ax1Xqvyz4gyjFcaBBylJd0HNMKiTg8ONJKG67zRkEZjSkTsY18+
+E3VsqcfhaWeQZ7Q1RUqDHf/n0M5iiG3l7Pyuf42CIlHKRiKL6LA4hc/iSToJMgda
+RTTr0p43M98uGlmJr5inA/1jgisGFATiKMAo9ScW59CwwS9lSE1QpLXphNzkRQvb
+AwydKynKkgc16BB6YOhTsTcH/3/HWb6380JF+rXfeC0r0W1UiXM=
+=/RiD
+-----END PGP SIGNATURE-----
+
+--xRZh+3L9eSSC0byD--
