@@ -1,90 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 532E72594B2;
-	Tue,  7 Jan 2025 06:27:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3557B4C9D
+	for <linux-sunxi@lists.linux.dev>; Tue,  7 Jan 2025 10:43:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736231235; cv=none; b=NDU1evg/IUd4Wj4j2PTTXIMnXt6BwvCIkcIuCbZtFrLnNNVsNL09UAt/3OrF1TT3N67rRxPB1Dqmxfa9FS6mDevaxRMzqTAfher5tM8U2Ks+VleGFJwtXVdAjdSbuKPj999Zo1+wxBKGNwz1DezhqInxg6YvaqL5idzZCIZPNC0=
+	t=1736246612; cv=none; b=OrTCkPVRaVHZ7ExyI9hHipuuGGXIMVnKhUZLbaKjyj7h9eqiS3F1OwLJrDJnTGY06sj8NFGxLIOblwP9wfWUqbnzpTFgEezYDTAEXp/A4O1F2OZ9ji1U6qI2R+AH0vB+Ed/yxmlHRTasrhSk1yV0WPcndwHdsSAXVm6aZWe1HMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736231235; c=relaxed/simple;
-	bh=UVQgtjQxvgRicW5E5yKP/ya2Ld4413TGyATLXPsQGas=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RX5FCYuKQvCzXnvRIW6G5agxAS3Qzfd1pXt9lxObvL3yAeF7MGwmKell9fKlKzQAjMVQ/qoHFUeYGnq+1R5bh6ajVC32tCyx0BOQFCx9DvY7rOiBbVvEU4BMaJiRUXuWBkT9LRvW+SIqGXSXwbOxAoEUA1DrYgVfgqpQrJ5F3t0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lHuoo+CM; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lHuoo+CM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13C94C4CED6;
-	Tue,  7 Jan 2025 06:27:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736231233;
-	bh=UVQgtjQxvgRicW5E5yKP/ya2Ld4413TGyATLXPsQGas=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lHuoo+CMNc33N5APJY1RsuszW++HdcenKZBmVb9V84LEyXVoi32Q7sxzUbfIrBhzh
-	 6TDzxly+5AaM1nC/8LWgsOvRKWDOw89ru2CAAUD20zeKl+L1+bVXJQl+BgHYOroYBM
-	 vbHm0RZgQzbBerzFmHsr9IHkafuKnb+txjdGJYkD4giiCSgqcdMY2Zw4Ci22JQRVM3
-	 PqrGgWxnPYOOSHV4pYZJtHxDfx8MPsTWpnsAIX0k/wnl7TND6UryACPbLmNLhDAw4H
-	 2J6uts79haPNDQEJENOH5AcO8HmZW/lg6WS6Sw1oW1ygAmdaDX0MzNHToak33JB7g1
-	 +KOA5Yv8k0Kgg==
-Date: Tue, 7 Jan 2025 07:27:10 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
+	s=arc-20240116; t=1736246612; c=relaxed/simple;
+	bh=woFjHUJHrUSh1o/JoUcqPJHyy/iOnpRiHswrKFqLbVo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NojOFUJ64DGNtmItveNY8el1t4TidKYfNjlIDIiiudjzHsYU0V/xp2mPI6jcqMYp79AseUWe8ojV2BljFRcNNr1UPMS1Zv++KzcINlp0ZftyxnNAXJGlwA4WgG8GptBXf5uGGPiBuh88Kma8EiEBKCBG/mUIboeJ2sP8mfGS8Ko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 90A2C143D;
+	Tue,  7 Jan 2025 02:43:55 -0800 (PST)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 715F43F673;
+	Tue,  7 Jan 2025 02:43:25 -0800 (PST)
+Date: Tue, 7 Jan 2025 10:43:20 +0000
+From: Andre Przywara <andre.przywara@arm.com>
 To: Lukas Schmid <lukas.schmid@netcube.li>
-Cc: Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 1/4] dt-bindings: vendor-prefixes: Add NetCube Systems
- Austria name
-Message-ID: <lkbvp57zvhd6dzti3pikoshywyvcpo3br7mry6sduimduebtla@ui3dge5j6cak>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 3/4] ARM: dts: sunxi: add uart1_pe pinctrl for
+ sun8i-v3s
+Message-ID: <20250107104320.4e74a87c@donnerap.manchester.arm.com>
+In-Reply-To: <20250106190703.4015-4-lukas.schmid@netcube.li>
 References: <20250106190703.4015-1-lukas.schmid@netcube.li>
- <20250106190703.4015-2-lukas.schmid@netcube.li>
+	<20250106190703.4015-4-lukas.schmid@netcube.li>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250106190703.4015-2-lukas.schmid@netcube.li>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jan 06, 2025 at 07:06:59PM +0000, Lukas Schmid wrote:
-> NetCube Systems Austria builds Embedded Systems for use in IoT, IIoT,
-> or Smart Home scenarios.
-> 
-> Website is still WIP, but the Links on it are active:
-> https://netcubesystems.at/
+On Mon,  6 Jan 2025 19:07:01 +0000
+Lukas Schmid <lukas.schmid@netcube.li> wrote:
+
+> Added the uart1_pe_pins pinctrl for use by the NetCube
+> Systems Kumquat board
 > 
 > Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
+
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+
+Cheers,
+Andre
+
 > ---
->  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
->  1 file changed, 2 insertions(+)
->
-
-Last time:
-
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
----
-
-<form letter>
-This is an automated instruction, just in case, because many review tags
-are being ignored. If you know the process, you can skip it (please do
-not feel offended by me posting it here - no bad intentions intended).
-If you do not know the process, here is a short explanation:
-
-Please add Acked-by/Reviewed-by/Tested-by tags when posting new
-versions of patchset, under or above your Signed-off-by tag, unless
-patch changed significantly (e.g. new properties added to the DT
-bindings). Tag is "received", when provided in a message replied to you
-on the mailing list. Tools like b4 can help here. However, there's no
-need to repost patches *only* to add the tags. The upstream maintainer
-will do that for tags received on the version they apply.
-
-https://elixir.bootlin.com/linux/v6.12-rc3/source/Documentation/process/submitting-patches.rst#L577
-</form letter>
-
-Best regards,
-Krzysztof
+>  arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi b/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
+> index 9e13c2aa8911..f909b1d4dbca 100644
+> --- a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
+> +++ b/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
+> @@ -416,6 +416,12 @@ uart0_pb_pins: uart0-pb-pins {
+>  				function = "uart0";
+>  			};
+>  
+> +			/omit-if-no-ref/
+> +			uart1_pe_pins: uart1-pe-pins {
+> +				pins = "PE21", "PE22";
+> +				function = "uart1";
+> +			};
+> +
+>  			uart2_pins: uart2-pins {
+>  				pins = "PB0", "PB1";
+>  				function = "uart2";
 
