@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A40622594B2;
-	Tue,  7 Jan 2025 06:26:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 532E72594B2;
+	Tue,  7 Jan 2025 06:27:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736231174; cv=none; b=ujuYmIA3TzdsrvesodLJDacp3CgAKKhS6mIg0a716xJSc+RVoeG3K6o6ZwWFm/kVtn/547y4uSGxzS1Tl/M593EOssHk8bU3q5Jo5Fwh+EJTVLJejcQzBtK0kdIdcixvAHt7Bffuk2QgV9Rv+7HAr2XChpEnE1VDgs676NegkW8=
+	t=1736231235; cv=none; b=NDU1evg/IUd4Wj4j2PTTXIMnXt6BwvCIkcIuCbZtFrLnNNVsNL09UAt/3OrF1TT3N67rRxPB1Dqmxfa9FS6mDevaxRMzqTAfher5tM8U2Ks+VleGFJwtXVdAjdSbuKPj999Zo1+wxBKGNwz1DezhqInxg6YvaqL5idzZCIZPNC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736231174; c=relaxed/simple;
-	bh=i1VYhMl5MR4s1nJQqUvz1Lwf+9pDCILuHffqhNs/9YM=;
+	s=arc-20240116; t=1736231235; c=relaxed/simple;
+	bh=UVQgtjQxvgRicW5E5yKP/ya2Ld4413TGyATLXPsQGas=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DIW6FC48vSMFXXxs4GsvRyFD7W2puK/NJTllNZxOGan49AgRVMbgOsSUcVmmUxKCR4K3q0xLhwtN2RpJUMJDCQ7QRHn2rIPyO2WbD7wZ/Y6ymPvfR2peupcvOancWCCETBjZO8MzV/eMAVp70Q5Es2tk32eNGK56/NXe+EhIidw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YF75aOHW; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=RX5FCYuKQvCzXnvRIW6G5agxAS3Qzfd1pXt9lxObvL3yAeF7MGwmKell9fKlKzQAjMVQ/qoHFUeYGnq+1R5bh6ajVC32tCyx0BOQFCx9DvY7rOiBbVvEU4BMaJiRUXuWBkT9LRvW+SIqGXSXwbOxAoEUA1DrYgVfgqpQrJ5F3t0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lHuoo+CM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YF75aOHW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D9C1C4CED6;
-	Tue,  7 Jan 2025 06:26:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lHuoo+CM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13C94C4CED6;
+	Tue,  7 Jan 2025 06:27:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736231174;
-	bh=i1VYhMl5MR4s1nJQqUvz1Lwf+9pDCILuHffqhNs/9YM=;
+	s=k20201202; t=1736231233;
+	bh=UVQgtjQxvgRicW5E5yKP/ya2Ld4413TGyATLXPsQGas=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YF75aOHWwKIvawG1oQFKksOJJjwP3615KtVZuJP4bvxjd60J9h1Y3KdW5oajbltS5
-	 XZcPg2cN5GheV2gGP8tD4efk4phkh11Sna+N/gltVcuOOjFiDrQaTsRs+sr7uzxX1m
-	 N+02XMXxI60yxYytZOvmxBQtDxmeu6NDSRFI6MwXxyJD3yPPFCa5wavgfIx6hHJtrS
-	 9vsOAYAtoooa/1yqkGnJeUmgb/iU88iPoirWps82ZpwoWO2nu5CtypEMP0R9MMIQ8a
-	 B0GSV1hU6jJbzKLd2FIAROC4PljZCzVsX1CTKG8jnkSWHBMnP1nSCiylSCtLghplRm
-	 pV5wXJCSp5APQ==
-Date: Tue, 7 Jan 2025 07:26:10 +0100
+	b=lHuoo+CMNc33N5APJY1RsuszW++HdcenKZBmVb9V84LEyXVoi32Q7sxzUbfIrBhzh
+	 6TDzxly+5AaM1nC/8LWgsOvRKWDOw89ru2CAAUD20zeKl+L1+bVXJQl+BgHYOroYBM
+	 vbHm0RZgQzbBerzFmHsr9IHkafuKnb+txjdGJYkD4giiCSgqcdMY2Zw4Ci22JQRVM3
+	 PqrGgWxnPYOOSHV4pYZJtHxDfx8MPsTWpnsAIX0k/wnl7TND6UryACPbLmNLhDAw4H
+	 2J6uts79haPNDQEJENOH5AcO8HmZW/lg6WS6Sw1oW1ygAmdaDX0MzNHToak33JB7g1
+	 +KOA5Yv8k0Kgg==
+Date: Tue, 7 Jan 2025 07:27:10 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Lukas Schmid <lukas.schmid@netcube.li>
 Cc: Rob Herring <robh@kernel.org>, 
@@ -36,7 +36,7 @@ Cc: Rob Herring <robh@kernel.org>,
 	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v5 1/4] dt-bindings: vendor-prefixes: Add NetCube Systems
  Austria name
-Message-ID: <32sgaptkdm53tevvht2olhhn75kyhwnfjbpn2547ttgonvru5y@c2nhzz7swlk7>
+Message-ID: <lkbvp57zvhd6dzti3pikoshywyvcpo3br7mry6sduimduebtla@ui3dge5j6cak>
 References: <20250106190703.4015-1-lukas.schmid@netcube.li>
  <20250106190703.4015-2-lukas.schmid@netcube.li>
 Precedence: bulk
@@ -58,14 +58,32 @@ On Mon, Jan 06, 2025 at 07:06:59PM +0000, Lukas Schmid wrote:
 > 
 > Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
 > ---
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+>
 
-`git commit --amend` (preceeded with `git add` if you changed the patch)
-or `git rebase -i HEAD~3`. That's how you work on your patchset to
-change it, regardless if you use manual process or `b4`.
+Last time:
 
-I really have not clue what is happening with this patch - it is like
-random changes appearing. Now my tag is missing, so probably the rest of
-patchset also has previous issues.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+---
+
+<form letter>
+This is an automated instruction, just in case, because many review tags
+are being ignored. If you know the process, you can skip it (please do
+not feel offended by me posting it here - no bad intentions intended).
+If you do not know the process, here is a short explanation:
+
+Please add Acked-by/Reviewed-by/Tested-by tags when posting new
+versions of patchset, under or above your Signed-off-by tag, unless
+patch changed significantly (e.g. new properties added to the DT
+bindings). Tag is "received", when provided in a message replied to you
+on the mailing list. Tools like b4 can help here. However, there's no
+need to repost patches *only* to add the tags. The upstream maintainer
+will do that for tags received on the version they apply.
+
+https://elixir.bootlin.com/linux/v6.12-rc3/source/Documentation/process/submitting-patches.rst#L577
+</form letter>
 
 Best regards,
 Krzysztof
