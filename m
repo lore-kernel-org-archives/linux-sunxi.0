@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B50719C54A
-	for <linux-sunxi@lists.linux.dev>; Wed,  8 Jan 2025 16:03:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98C092594BC;
+	Wed,  8 Jan 2025 16:04:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736352220; cv=none; b=RsEdyLVkoNWbEae6RAdpI2DZS43p7IkXGgS8M3TnB/ZDoof2Enc1sqgFvqP97vmxpvA0e1ooV19rv0z7lDnQ6EjsKSqjGAMLk6CsKgKzmaV1W/i00qtYjTbnNdvPMNwNbcYzzuXeXaHS5CSRlpxqw84sZ6UPC22LNPT4GlCDJnk=
+	t=1736352282; cv=none; b=eGZ2meOTXVYTocgrbwhN/hGAilhlrUVWO1s2Y7SMub9omf1i+U0nVQspDRx46tHAfVbl6h2UxEVlo6KX46NgbhcNAmB6H4yHuP6Mfiyt4zWKnpB0R5/5N5xAcJgjNceiIPX22hT/iF+RXd3mJcgdRsUV21dbO4XE8yja9m+vWR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736352220; c=relaxed/simple;
-	bh=1tJnGOLAipaBuviy3zQGAqJhc5YWyT3t1d2UXy5vXFo=;
+	s=arc-20240116; t=1736352282; c=relaxed/simple;
+	bh=I+0g50j78Ag+SYS2y30iiwXAE4swuHjkhUv13Oy/21A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qpnu55U9YqVqfqhuYuBXOCh3JuPrPXwN4kmQQlbPs1VjlcX3s0RCGw0taTGqvH6Ji9X7bvXwm1DjA5VFSjBY77JTMnV1jthWJKz2XW1+hW3/44CJ1hlZ8LfANz9Ubmw1SAknnJHu86OI9DVk0OkUgMufJ6GkYBRIlHl0tRh3VGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EejpkU6g; arc=none smtp.client-ip=10.30.226.201
+	 Content-Disposition; b=K6vVG6cpegpFs/avM/heNsKwiEXCE8icx7zILA/aIjh5+mnVIY/5W+KNG3eBdhHJkNhcpJgK4pffaMO9Sg4NPi3nGzVQ6EXu1bDgT8fubktGZWTxD7OZQGwUyRZemw/rHG2Pk2PKEZlk41WDBHf+J69D3yQ2Sj+ynElIXK1v7Pw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JN7PU5re; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EejpkU6g"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 758A8C4CEDD;
-	Wed,  8 Jan 2025 16:03:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JN7PU5re"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A496C4CED3;
+	Wed,  8 Jan 2025 16:04:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736352219;
-	bh=1tJnGOLAipaBuviy3zQGAqJhc5YWyT3t1d2UXy5vXFo=;
+	s=k20201202; t=1736352282;
+	bh=I+0g50j78Ag+SYS2y30iiwXAE4swuHjkhUv13Oy/21A=;
 	h=Date:From:To:Cc:Subject:From;
-	b=EejpkU6g1xnTdaaT/jkSvQncqm/R/s57/mFJIwswiw9USbYU1zWcwdKqH+NhRN1f3
-	 QvuZvFCXbG8VXBv32qgcZkz7wWg5KzL3LHEHn0AjI5AvyJblzmm/tldEBN5KrQhre/
-	 wkRvFEeiUEhJAwkItKOSEvTzERD8OUxtGnImznrmjaGzgrZCHQ9n/v/CanNwxTXPOF
-	 54XC4z+cthPcPxQbEyZIltEvEY3p96OzYkMWPaxmhZOHRWHM8lsknKtrKZVI0k7GNz
-	 Cwy+HXlC5JecwlO252061axBzDvj4i3n7tWj6L39dGelJNPymdNkvDq+Wg+GAm1u1I
-	 LlnruKdjzNviw==
+	b=JN7PU5reuikWYQEyvXekRHpGL8okOLJPJlcxUTp5Kz1KDEWqmHL7Lt/s4F/PF6Z/7
+	 b653wI8LEFTPhFQsaY6f0m6WDXtBtnu44txdFFSuU2f0b+Z5LIGDrDjkq+De5rWBzC
+	 UOZXdxfuiNz5Le7mzO+PZAsVWQELse0H2y10M0PaFkVtUVe6FAD+GOO2MKT1q5HtGc
+	 F859TebuRL1zQzSEvGbolkcK9xj1sWNZn9XOvWTTlH77USNuxmyH/T86g/xyuVvE9O
+	 oquU4pjuUPJrn+MbvBLiyTA92HvLm+9m1eivIBlNN3nt6F+CSQWNYdMjJrt+wMVkaz
+	 /lKSFQYtRtcsQ==
 Received: by wens.tw (Postfix, from userid 1000)
-	id 7CC435FA10; Thu,  9 Jan 2025 00:03:36 +0800 (CST)
-Date: Thu, 9 Jan 2025 00:03:36 +0800
+	id C18B15FF91; Thu,  9 Jan 2025 00:04:39 +0800 (CST)
+Date: Thu, 9 Jan 2025 00:04:39 +0800
 From: Chen-Yu Tsai <wens@kernel.org>
-To: soc@kernel.org
+To: Stephen Boyd <sboyd@kernel.org>
 Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej@kernel.org>,
 	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: [GIT PULL] Allwinner device tree changes for 6.14
-Message-ID: <Z36h2FwUxro8rouO@wens.tw>
+	linux-clk@vger.kernel.org
+Subject: [GIT PULL] Allwinner clock fixes for 6.13
+Message-ID: <Z36iFxlCUHhLcdP-@wens.tw>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -43,11 +43,11 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="XIu6UgM/IfLWEBFY"
+	protocol="application/pgp-signature"; boundary="EnEgtDh9vN0/ffdh"
 Content-Disposition: inline
 
 
---XIu6UgM/IfLWEBFY
+--EnEgtDh9vN0/ffdh
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -57,77 +57,44 @@ The following changes since commit 40384c840ea1944d7c5a392e8975ed088ecf0b37:
 
 are available in the Git repository at:
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-dt-for-6.14
+  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-clk-fixes-for-6.13
 
-for you to fetch changes up to 8715c91a836502929c637c76a26335ede8818acf:
+for you to fetch changes up to 16414720045de30945b8d14b7907e0cbf81a4b49:
 
-  arm64: dts: allwinner: a64: explicitly assign clock parent for TCON0 (2025-01-04 20:16:51 +0800)
-
-----------------------------------------------------------------
-Allwinner Device Tree changes for 6.14
-
-- Add support for DMA engine and audio codec on F1C100s
-  and enable audio codec on Lichee Pi Nano
-- Add syscon and SRAM nodes for A100
-- Enable CPU DVFS for Tanix TX1
-- Explicitly configure TCON0 pixel clock parent according to display
-  output used
-
-This includes one commit shared with the clock tree
-
-    dt-bindings: clock: sunxi: Export PLL_VIDEO_2X and PLL_MIPI
-
-which adds the macros for the TCON0 pixel clock parents.
+  clk: sunxi-ng: a100: enable MMC clock reparenting (2024-12-27 22:43:29 +0800)
 
 ----------------------------------------------------------------
-Andre Przywara (1):
-      arm64: dts: allwinner: h313: enable DVFS for Tanix TX1
+Allwinner Clk fixes for 6.13
 
-Chen-Yu Tsai (1):
-      Merge branch 'sunxi/shared-clk-ids-for-6.14' into sunxi/dt-for-6.14
+Only one patch, accidentally left out of the 6.13 pull request.
+The patch enables automatic clk reparenting for MMC clocks on A100,
+thereby fixing MMC support.
 
-Cody Eksal (2):
-      dt-bindings: sram: sunxi-sram: Add A100 compatible
-      arm64: dts: allwinner: a100: Add syscon nodes
+----------------------------------------------------------------
+Cody Eksal (1):
+      clk: sunxi-ng: a100: enable MMC clock reparenting
 
-Mesih Kilinc (3):
-      ARM: dts: suniv: f1c100s: Add support for DMA
-      ARM: dts: suniv: f1c100s: Add support for Audio Codec
-      ARM: dts: suniv: f1c100s: Activate Audio Codec for Lichee Pi Nano
+ drivers/clk/sunxi-ng/ccu-sun50i-a100.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Vasily Khoruzhick (2):
-      dt-bindings: clock: sunxi: Export PLL_VIDEO_2X and PLL_MIPI
-      arm64: dts: allwinner: a64: explicitly assign clock parent for TCON0
-
- .../sram/allwinner,sun4i-a10-system-control.yaml   |  4 ++-
- .../dts/allwinner/suniv-f1c100s-licheepi-nano.dts  |  8 ++++++
- arch/arm/boot/dts/allwinner/suniv-f1c100s.dtsi     | 24 ++++++++++++++++
- arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi     | 33 ++++++++++++++++++++++
- .../boot/dts/allwinner/sun50i-a64-pinebook.dts     |  2 ++
- .../boot/dts/allwinner/sun50i-a64-teres-i.dts      |  2 ++
- arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi      |  2 ++
- .../boot/dts/allwinner/sun50i-h313-tanix-tx1.dts   |  1 +
- include/dt-bindings/clock/sun50i-a64-ccu.h         |  2 ++
- 9 files changed, 77 insertions(+), 1 deletion(-)
-
---XIu6UgM/IfLWEBFY
+--EnEgtDh9vN0/ffdh
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEE2nN1m/hhnkhOWjtHOJpUIZwPJDAFAmd+odYACgkQOJpUIZwP
-JDCI/g/+KEVO+Q/n4UT4J+UPEIgUeBGT+Q3TWTKpgxBg5hJcK8ka9JuM2spYR70r
-Ha8jaItEm81Y81aA8kiW3i3XTFt6ROusehuMFDvsSuEh0lqsfg9fFYGisTJVKoDz
-5UvzMnf0dIu0Cvgk0p5I7u7/H9neUYyXxkQPzYmM8DmBEI1fvvA4l/wAIABxub1q
-yT/V4Xk8BboGTDfEBxZv1dQgHX42rFkj4p/ezj5KmjFjMpx+3Bzcjabpjnm1zSa7
-33fiahfUlRl+Yg2KJxBkSfxtP5E0FsnBsdr3/fZ/O3SFBdpTJ/vU4ykOveuWgCfQ
-lyhSbmCD2ohAqljLHVqDBt+gol3feBPjV984OzdOxotCp0giaaHUUl/1GejMhdVG
-3yefr0gots3PRJ1qsbveo5Mlo1m6hcC36AwKKsDcsGDjLK1PC3xHQd7dAWpGiQnK
-UYg34kXffXh5xNPJ8oBFIQkvqMP4pHeFJSavMKRlY3t9BIuKLu3/SZCHGhFTo6Dk
-F5YoZsrBANlZ6s1qh+LiKxEeFg03J/QJ2DvPkXCcjJejFXwcpOIA13A3qxzNhNGU
-D4qG7MBplj8YvxZY+FGGs/MslT/PhZiBQzO/JVmtXUr4hbo3fVDPXC4MMoCBHgbw
-IzapdUDWSES1sWSLy2purZKeH/6fv7cbJA1M+iPv+KVWq90uf6k=
-=Dp5j
+iQIzBAABCgAdFiEE2nN1m/hhnkhOWjtHOJpUIZwPJDAFAmd+ohcACgkQOJpUIZwP
+JDDCAhAA6c0TjkaXWo3woS16j0OiYSCMsOnP9P6swFBVEpLYynxG+gLhEs7K3vuA
+juEVWQ9nYPKjVZa9f/WRK5QlIaVE3lasHEzmj2Q2wtX91K7ayQt2O+hBmZgcks+J
+e8XE9KwUx//1dq/UQ22oUmSuzA196u1vgY22c3CE5u/VWnzIz4wfNUyklvZDLLhf
+G3opE6PtBahPlbaKXvoYtCltUFRAwSD3KX9J1BS4E9C9O6X0RUq+noRWg3hdJ3XF
+JFfd49N5dYG9SvOmjDplgl3TRQReaED85sM7LZ62RMJVqzLQ3CdI3hbhlrQSeL/o
+eE26NZ0Ob3QSriix80IpPiS60cdyj2jgVupABNHv+OvqWrPGPvznBOx8u50aVIJu
+IM2DmfAFjd9TjNnaXP/T9S1SfR+SSjt5P2375yPFXKdHuP2Mukpx6m0fcUeqGMCs
+d13qyL0x0CX31ZYF1Fy2eUBmQzBdL+qcNzn19UkW4a9qbGjV84PXoJZKiIsoC/hy
+2OiXMXKmj9qHzkZrd3s28tBRezuJNJNO6Xnu7lRwF52amiaLbEHnn9glhab9vPt2
+iW+ukF3b9uS2qzfZ3BrEfvCOJ4nkLwQwO02XTo3HxBgFKpGDALwwW2Xf2E6HlY+5
+6dDvxTakGx4sTCEOorUnSbF3BtrvuLylvVCDR180Iw9gpr7Y5as=
+=K2pe
 -----END PGP SIGNATURE-----
 
---XIu6UgM/IfLWEBFY--
+--EnEgtDh9vN0/ffdh--
