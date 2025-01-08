@@ -1,93 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADF541F757F;
-	Tue,  7 Jan 2025 23:49:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16CB81DFFD
+	for <linux-sunxi@lists.linux.dev>; Wed,  8 Jan 2025 02:25:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736293751; cv=none; b=tQcrH6HoY/eKr49jTK/u3f7JYE6wTl0YeIl6GI2+w4//h3WSKOS/MsrOyTp8XTbUY/ac28ktUMJ1qk8C6938Kb84/rfddw4KpY6oX9jj+iYxMurA24bkYIi+1/ftoVe073aTr8ESZI2wHsJt69xMyOSYWucsdbtE8UDuaidqrg0=
+	t=1736303108; cv=none; b=gsWuFwlvurA3eyXPyMnDoHpy9y+7Of7WcT6eCnrmroCoYY6K4OfeLhqDYosOtHDV0YK2lW3JBEWDFr74SIRW84Ef7ziSzajYvWhFU6qPZONM7H80AgoNkTfuBX7QO6p1WDGFUXq9hQv0/55B6A2h5lGmpTKLrMjPmkjSh7KsBWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736293751; c=relaxed/simple;
-	bh=LczHp8RpVOiFlyTZ3Oz4yPH8gsV6c5/fOmHG8eOWGdM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oILKBWeFdGw5xQfUbr7FQwOu4WfPFjd58+YZpaVsnh8Ji2hmmxgCvskorfUAJC8uo/DbFRT20eD7rOpIE4U8BRs3Uw+JINDH3vCDmp7Mgu46EMtmIuY1QjODObGEDLCfnB8aTZzrSeQOMRKJg7R0u0Gpkz2ik+HDqh25aLAM3MA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lfmIc5ec; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736303108; c=relaxed/simple;
+	bh=mTST5LhFE7Ct4A/sGXE2C7XwvC6rb7/IgSvpf8cQe8o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=d7WYw8aA8KSUinjwKi/Bjw3lehFKqTS5jXvFe0xMCBb3MTZpdKTuTGWPQ4PuOxx+lpY5UCUuhZQ0XSgJYs7dzqAr10PVJTiDtj5oVriPHlX4WJ3EyUh8/PTOfasY0XtSaqcA1ZAEgRyw67YvfhqMxaqWhZHhB/o/79XE9R9RKck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BvZdlke6; arc=none smtp.client-ip=209.85.160.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lfmIc5ec"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5E30C4CED6;
-	Tue,  7 Jan 2025 23:49:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736293751;
-	bh=LczHp8RpVOiFlyTZ3Oz4yPH8gsV6c5/fOmHG8eOWGdM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lfmIc5ecaMNktVJj7MSY6txtAGqBKAnuAgx4KWAx0bY7yG4pw/jBTbh3+WlDJGDwU
-	 Rn4ti9DEZJdxN4BH7NZ0i5ZBIKcFCqnzGWoap7WKQsHSZejh15sgyUwguK/buJXceT
-	 AndABK5ttVmmOWhA89+13CoGeyaH3fDI5va2lZ161RdJsuZeTEsR7qGlN8KLJHKSHP
-	 qbO/4jW2toMHqtNGA+ySf/X9u2JGnFrrTUWhBknrzlr5VbCwPbsLFdPwVBjDJMfASM
-	 aeZRANukpHHHYot/5/wTL3n0FNqmh1P1h9Rd38YBjANOZ/Nx9nPrFbE3oBG0coVIS5
-	 Klq8SJ4JUw9nA==
-Date: Tue, 7 Jan 2025 23:49:06 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Bence =?iso-8859-1?B?Q3Pza+Fz?= <csokas.bence@prolan.hu>
-Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Subject: Re: [PATCH] ASoC: sun4i-codec: Use new devm clk and reset APIs
-Message-ID: <ddbbc928-f199-44df-918f-9a87b489718c@sirena.org.uk>
-References: <20241211222205.1915027-1-csokas.bence@prolan.hu>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BvZdlke6"
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-2a7ccb2c618so8772485fac.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 07 Jan 2025 18:25:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736303106; x=1736907906; darn=lists.linux.dev;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=M+znau2/SxzOfAm5TaFDXUlYIMNrBzWX4AMaXWidTqo=;
+        b=BvZdlke6U1A6kVYy14DG31yvBURJ44RmpmiEVCeKh812VtmgN0IDB0dXK267H1w//C
+         0DxPVSsxoOo38qSD55OJvDHIQY6GWPI5Qrb+Kv5elmJU9hP/qxOVZKptkLju2LDcrWP9
+         kHVR0BGz/IeHes9V+JOayMd+5vswfHL42kiUyR7N9eqFNji1Gtj99sjmeU3JijBIpmHz
+         5F2QqQzqsXmQQTuvOxxu9iSk8Kx8hr2WGTVsKXICSpvteH8S0F+Zb+STuId/ww6XLElV
+         rMd6pamyFRmZz0ODnBH2Sr6rw4PR0GUu37tPxbVQd54ug+lj1U4x/wrhLivLpqcqc1vV
+         NplQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736303106; x=1736907906;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=M+znau2/SxzOfAm5TaFDXUlYIMNrBzWX4AMaXWidTqo=;
+        b=gx5HHY3A/3sHM2yjK4EcjVljCyxcUZJIwFlZlgF0u8T6Psvjif6DqzRsJwLZkKdDlR
+         GCnqLh53EeiD3nCN9HrvCtlBl8uG72n/XwRVirDRgSDX7VYV5kEsNDrldJgOAAZuJhhJ
+         xiUsO5DaCNXGWbMUBy4zYsmZhjMQfYyOYk8tL7+FsB+Oj9EYLCGGfCAJQteajP7wZxtN
+         iHB+CaI7iTVCpCKRN0XUnafgQhdaECDJ+VlOE6PcagnaGkmBfEwfsa6V04aYXxz7VZ5q
+         MLsHStZKO3C+Ehod4KvrBHg08auez1c2bFxQv9TR0Ps8cdHO1CXMGXjU5rPc/EASZ+xT
+         ruaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWwhbLWkJwma536GDzLBy845NdQKzgWNVskTqjQHIfvs1VXuBkMvG6W1UpDlQ7m/ymcAr7/sfmtGDez4g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwF5viplkQ8Q/vbyPqv3A6tsCCKTQ1kz5pr6NZ3y+xikDcZRe0w
+	BE3tLi3z1q2SiMHJwUkvfNNzIG4CP8IY0vYgmC/UTR9k3i2BI4XLF3StFPijIguCF0uEpszdn+x
+	EFnvbrBE9I2Vd3i2Pfmol6y7BsYE=
+X-Gm-Gg: ASbGncvIE8njSoMKdxbqsCUr8agyh5QS+99VwRYbXiKdSiQVWaNjqu2OJKH7aEnabAW
+	qroTkWXaFddI3kFIglaCi3pJvOgK+d0TZhB8/tOG9F/vt1oE6f1diZNXSX4j0RQeStMawuAA=
+X-Google-Smtp-Source: AGHT+IGimp31Q2+GIXmJCiU77kiAeGfSZMa6DDCh5lmqyMkyk3np84Arcp+XHpNIL2EKTQUC4MdlEo+8QKTb3zmsQGo=
+X-Received: by 2002:a05:6870:2f18:b0:296:9c08:51a3 with SMTP id
+ 586e51a60fabf-2aa06998fd6mr540344fac.39.1736303106023; Tue, 07 Jan 2025
+ 18:25:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="dbL+kc+XH+pXK2/U"
-Content-Disposition: inline
-In-Reply-To: <20241211222205.1915027-1-csokas.bence@prolan.hu>
-X-Cookie: PIZZA!!
-
-
---dbL+kc+XH+pXK2/U
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <20240302140042.1990256-1-megi@xff.cz> <CA+E=qVdq7AHYj1scKbyGmarSZ7u=vLMsQ63nDTDQBu2UaL=Xag@mail.gmail.com>
+ <dfb3lsuqf4yowkovwwi6iiroslb4r357u7ddevntdk72ivxcjz@3spuwm24ubwr>
+In-Reply-To: <dfb3lsuqf4yowkovwwi6iiroslb4r357u7ddevntdk72ivxcjz@3spuwm24ubwr>
+From: Vasily Khoruzhick <anarsoul@gmail.com>
+Date: Tue, 7 Jan 2025 18:24:40 -0800
+X-Gm-Features: AbW1kvarpSVOWiQEcu5eIaDkv8lEzWepv1weHLELLVGIQHmXGts_5WHJYUNkVAM
+Message-ID: <CA+E=qVeDw=p+1qSmifXTscOUVSSXnrYFVNY2+-_DcUNXe51eAA@mail.gmail.com>
+Subject: Re: [PATCH v3 0/4] Add support for jack detection to codec present in
+ A64 SoC
+To: =?UTF-8?Q?Ond=C5=99ej_Jirman?= <megi@xff.cz>, 
+	Vasily Khoruzhick <anarsoul@gmail.com>, linux-kernel@vger.kernel.org, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Arnaud Ferraris <arnaud.ferraris@collabora.com>, linux-sound@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 11, 2024 at 11:22:05PM +0100, Bence Cs=C3=B3k=C3=A1s wrote:
-> Clean up error handling by using the new devm_
-> clock and reset functions. This should make it
-> easier to add new code, as we can eliminate the
-> "goto ladder" in probe().
+On Tue, Jan 7, 2025 at 11:23=E2=80=AFAM Ond=C5=99ej Jirman <megi@xff.cz> wr=
+ote:
 
-This breaks an allmodconfig build:
+> > Has it ever materialized? As far as I can tell, this code has been
+> > sitting dead due to missing dt-related code.
+>
+> The code is used with some non-mainline patches. There was a bit of
+> a problem with simple-sound-card not being flexible enough for complete
+> functionality of audio jack on Pinephone, so I had to extend it a bit:
 
-/build/stage/linux/sound/soc/sunxi/sun4i-codec.c: In function =E2=80=98sun4=
-i_codec_remove=E2=80=99:
-/build/stage/linux/sound/soc/sunxi/sun4i-codec.c:2380:29: error: unused var=
-iable =E2=80=98scodec=E2=80=99 [-Werror=3Dunused-variable]
- 2380 |         struct sun4i_codec *scodec =3D snd_soc_card_get_drvdata(car=
-d);
-      |                             ^~~~~~
+So maybe it's time to respin the discussion? :)
 
+> https://codeberg.org/megi/linux/commit/afbe7688083cd1e3ab98c37e0fe0c28d53=
+0829e1
+> https://codeberg.org/megi/linux/commit/95552b66a269c2da434edd3880f9819c0b=
+d5602f
 
---dbL+kc+XH+pXK2/U
-Content-Type: application/pgp-signature; name="signature.asc"
+I think the only fishy-looking part is using device name instead of
+device node here, i.e. something like this would look cleaner in my
+opinion:
 
------BEGIN PGP SIGNATURE-----
+simple-audio-card,jack-pins =3D
+<&codec>, "Headphone Jack",
+<&codec>, "Headset Microphone";
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmd9vXEACgkQJNaLcl1U
-h9A+Ewf9GH4JvV4Z1eko/2GDCGSQg7y9scEjSf913yOI+6KzSRt/ofI/NvOhR8QP
-tBCqaxKJiFO1D6ceQstMjMBJ09kPgb08ObVGmMI1atakf/2bcPrIKPSblZ5BGYKt
-nO50q018u+/KN/hJ8NbeyOLZyEsfN4YejJRgTd6JQJEJoTdSAjCQcFK+C2//QsX7
-x9W7WecdOzxIRuN7g60uxH79ccb1Evtszgf9hB9QD+ApbAHU5Bh0fTVEaFbIYMRq
-l2T6KIRNUKXjQdKAurJmz3n04OZM5GNxlmYLiKIxb6YhUT3m9Kse7ASM4zANtACV
-ScrTP6HW3nfvnPLwHlz96PLTFlA7Rg==
-=41hA
------END PGP SIGNATURE-----
+However, I'd like to hear the opinion of ASoC maintainers. Mark, Liam,
+what would be the best approach here?
 
---dbL+kc+XH+pXK2/U--
+> https://codeberg.org/megi/linux/commit/c15070c220e7425dd0d0445ae0eacdb4a4=
+872ad7
+>
+> Here's a bunch of patches that I use currently for complete audio
+> jack detection functionality:
+>
+>   https://codeberg.org/megi/linux/commits/branch/audio-6.13
+>
+> But no, complete upstream support did not materialize, yet.
+>
+> I'm not sure about the direction. Whether to push more features to DT or
+> just write a sound card driver for Pinephone, that would be able to handl=
+e all
+> this without extending simple-sound-card or DT changes to codec driver.
+
+It's not really Pinephone-specific, all A64 (and probably other
+Allwinner-based) devices can benefit from generic code, so I think
+extending simple-card driver is appropriate.
+
+Regards,
+Vasily
