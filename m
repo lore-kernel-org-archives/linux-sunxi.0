@@ -1,110 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDF8015B99E;
-	Wed,  8 Jan 2025 16:05:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC1991FF1CB
+	for <linux-sunxi@lists.linux.dev>; Wed,  8 Jan 2025 16:44:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736352310; cv=none; b=A5HJiX1BsS/hadbfb+h9LHU6P91Bb+6dY4sxAD3ubWMSQq+MoHdE/fh6PIWp+dof+XGqCsJRqzqY+/Azo4FHbh6N4AlGLPcC5xQ7mRi73V5KM9SjsZKsZbOH7bw2BRP19qe3DQBW2wsZ0oNHvO/BM+aJw7CIhxLCFb+t312chxI=
+	t=1736354650; cv=none; b=nNvYao4PfugMsWT0OSp7Ct1ioHZLai1CrxbZ7UWSGAgob398/PWahFMIJiRsGFNZBYTGdSXAyNPNLtfXyMx/aj44LLZmmrR8bMLGB0PLqCRBuIEj4O0dZSoqB/EnsIvbTQ8dVbFNcAax2JYzctwJ/D8t9jP27WFTIQ27RLFfcIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736352310; c=relaxed/simple;
-	bh=gHgoMezWWEQnrS9eHnt0DTE9GO2iJI9dp44zUW0rKWI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Z9v4StRUhwIBCmUH0R6GJV6D1sa6UsrdKszGOrGxdpKc1r1s9sZ4MWg2tQwYQ++zPCZOqnDNE1ABmz7+rOcg1YgE425iwUXHxspweCtudJ+TWnxFuaBhv+RMUFKAZUxwI8pvCKMGeff6mMAVOp9La6Dv0UmhLUC66Peb1LFBjYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SxtoBnsh; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SxtoBnsh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 445E8C4CED3;
-	Wed,  8 Jan 2025 16:05:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736352310;
-	bh=gHgoMezWWEQnrS9eHnt0DTE9GO2iJI9dp44zUW0rKWI=;
-	h=Date:From:To:Cc:Subject:From;
-	b=SxtoBnshP5qY9/Lxs4i6q/ymwEDYJVDhdI/Q+Jn9RSW/YLBE4VUnsR+GgQ8MXNguj
-	 2222VIaOG0veomBzrWtQIqTaZ0SIGqCW/i0rspksVvxVVzuWHVC9Q6GqfaJRIoJpWv
-	 onFhrA4/1u6Ip6iUC2nFNH2Y8ksELTAhFDmJD5Ps7+UosDRBAcCEP72Pc+6acklR/y
-	 B4TUhmi0ZklZSrpUq7dxB+cSfZGLtpSrMJ1Jg2IpMRGcS99Hb0Cf3tq3nQcYCX0NEm
-	 BK8CFiziFunvUc15Xj8J2uywpRymoAVePA7+6t+7SJJUJTevrHKO4n1qU6lZcYeTlo
-	 XwqGJGQUAAECw==
-Received: by wens.tw (Postfix, from userid 1000)
-	id D2B025FF91; Thu,  9 Jan 2025 00:05:07 +0800 (CST)
-Date: Thu, 9 Jan 2025 00:05:07 +0800
-From: Chen-Yu Tsai <wens@kernel.org>
-To: Stephen Boyd <sboyd@kernel.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev,
-	linux-clk@vger.kernel.org
-Subject: [GIT PULL] Allwinner clock changes for 6.14
-Message-ID: <Z36iMwdeyq6DdKOw@wens.tw>
+	s=arc-20240116; t=1736354650; c=relaxed/simple;
+	bh=xHy/5lzq2/xkdX7uQZHL90Ap3bZIuqwrobQifirHEiM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pfzjQBRBCym+Vyo2uUYP4/rdwaAHntsBSYjwOH1q8sia26Y+7ldzqn6ygE6JbXxrXs9ywp92fGF6MdyecU9VWURgrMLiiWC431L+3T08+nxIAEIeISJciVd/WG8JXDei7KqLAcgSFEp7nBgt8qL6XDt3R/KoCvINCgGzEp0bNOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 73AAF13D5;
+	Wed,  8 Jan 2025 08:44:34 -0800 (PST)
+Received: from donnerap.arm.com (donnerap.manchester.arm.com [10.32.100.21])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 61DB63F66E;
+	Wed,  8 Jan 2025 08:44:04 -0800 (PST)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Lee Jones <lee@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>
+Cc: linux-sunxi@lists.linux.dev,
+	Chris Morgan <macroalpha82@gmail.com>,
+	Vasily Khoruzhick <anarsoul@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Andrey Skvortsov <andrej.skvortzov@gmail.com>,
+	linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] Revert "mfd: axp20x: Allow multiple regulators"
+Date: Wed,  8 Jan 2025 16:43:59 +0000
+Message-Id: <20250108164359.2609078-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="2KlAD6IUWZSkYetC"
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
+As Chris and Vasily reported, the attempt to support multiple AXP PMICs
+in one system [1] breaks some of the battery and charging functionality
+on devices with AXP PMICs. The reason is that the drivers now fail to get
+the correct IIO channel for the ADC component, as the current code seems
+to rely on the zero-based enumeration of the regulator devices.
+A fix is possible, but not trivial, as it requires some rework in the AXP
+MFD driver, which cannot be fully reviewed or tested in time for the
+6.13 release.
 
---2KlAD6IUWZSkYetC
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+So revert this patch for now, to avoid regressions on battery powered
+devices. This patch was really only necessary for devices with two
+PMICs, support for which is not mainline yet anyway, so we don't lose
+any functionality.
 
-The following changes since commit 40384c840ea1944d7c5a392e8975ed088ecf0b37:
+This reverts commit e37ec32188701efa01455b9be42a392adab06ce4.
 
-  Linux 6.13-rc1 (2024-12-01 14:28:56 -0800)
+[1] https://lore.kernel.org/linux-sunxi/20241007001408.27249-4-andre.przywara@arm.com/
 
-are available in the Git repository at:
+Reported-by: Chris Morgan <macroalpha82@gmail.com>
+Closes: https://lore.kernel.org/linux-sunxi/675489c1.050a0220.8d73f.6e90@mx.google.com/
+Reported-by: Vasily Khoruzhick <anarsoul@gmail.com>
+Closes: https://lore.kernel.org/linux-sunxi/CA+E=qVf8_9gn0y=mcdKXvj2PFoHT2eF+JN=CmtTNdRGaSnpgKg@mail.gmail.com/
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+---
+Hi,
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-clk-for-6.14
+just replacing the old -1 with the respective macro name, as Lee asked
+for. Also adding tags to acknowledge the reporters.
+Lee, feel free to change the subject line if you think the "Revert" in
+there is not justified anymore.
 
-for you to fetch changes up to 383ca7bee8a93be9ff5a072936981c2710d2856b:
+Cheers,
+Andre
 
-  clk: sunxi-ng: a64: stop force-selecting PLL-MIPI as TCON0 parent (2025-01-04 20:17:11 +0800)
+Changes v1 .. v2:
+- use proper name for the formely used -1 value
+- add Reported-by: tags
 
-----------------------------------------------------------------
-Allwinner clk changes for 6.14
+ drivers/mfd/axp20x.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Instead of forcing a particular clock parent for TCON0 on the A64,
-the decision is left to the device tree. Which clock parent gets
-assigned depends on which display output is used. If the wrong
-parent is assigned, the display doesn't work.
+diff --git a/drivers/mfd/axp20x.c b/drivers/mfd/axp20x.c
+index 251465a656d09..bce85a58944ac 100644
+--- a/drivers/mfd/axp20x.c
++++ b/drivers/mfd/axp20x.c
+@@ -1445,7 +1445,7 @@ int axp20x_device_probe(struct axp20x_dev *axp20x)
+ 		}
+ 	}
+ 
+-	ret = mfd_add_devices(axp20x->dev, PLATFORM_DEVID_AUTO, axp20x->cells,
++	ret = mfd_add_devices(axp20x->dev, PLATFORM_DEVID_NONE, axp20x->cells,
+ 			      axp20x->nr_cells, NULL, 0, NULL);
+ 
+ 	if (ret) {
+-- 
+2.25.1
 
-Patches include adding the clock parents to the DT binding (which
-is shared with the DT tree), removing the now redundant macros from
-the clock driver, and stop forcing a particular clock parent in the
-driver.
-
-----------------------------------------------------------------
-Vasily Khoruzhick (3):
-      dt-bindings: clock: sunxi: Export PLL_VIDEO_2X and PLL_MIPI
-      clk: sunxi-ng: a64: drop redundant CLK_PLL_VIDEO0_2X and CLK_PLL_MIPI
-      clk: sunxi-ng: a64: stop force-selecting PLL-MIPI as TCON0 parent
-
- drivers/clk/sunxi-ng/ccu-sun50i-a64.c      | 13 ++++---------
- drivers/clk/sunxi-ng/ccu-sun50i-a64.h      |  2 --
- include/dt-bindings/clock/sun50i-a64-ccu.h |  2 ++
- 3 files changed, 6 insertions(+), 11 deletions(-)
-
---2KlAD6IUWZSkYetC
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE2nN1m/hhnkhOWjtHOJpUIZwPJDAFAmd+ojMACgkQOJpUIZwP
-JDA0CBAA0JJ4mfgvB4C46a4GNtvGlk2DmLRORcwQPiowBD9FglI6RfjkwqRnlvcV
-T5TFA5fm6h9Q7iUtMCO2oTm+xVYp4BxIFoJav/21BQxQAY/B+2vRqN0KUEUxOQy+
-q18zG903aM+vcTJtmNcdXSga4sbmFcCkc/w09fA61apYW+U6iJfhznyQ4jz//yoe
-t0L1Z0Yz9VlzRpahDkz3lNjXjQLQuX1x9soYzfBjHN7lkkTFZP6IafjaTh2FygFi
-6i3BH39JX4mzKJk6NXp08/H7EKtFK9dKE4yljBUjStBr2W+P+rW3e5zVkS50sjNJ
-2Liqe3PViNlFWidH1B6GBHEyK0i/dK0HSamxriafTzYFYbKrISgrVUOkYVoYPQSG
-JeTGD04fmTsrluIrPLpy7oKtqBpQbUMNtMgJuTqCz1uTs+1Vn6jkG9uQd+QsppwN
-BaKiP4mvZNO3P0fOOMDkk+ulx1zq2r4c2POxhF0G0b3/OYn69668WSRzoy94yqwK
-Iiqui7amnbSnFvYtSl4gFX670kcw9x2ibe/BhoZlL04YYxROH8m+Qh5sBZyMSmtV
-zdkg70gr7LZXdv3xRbJSNK3UeYuR+d5XySRTbxoIlJeue0/QTGJ+2e9wAYIc2w7h
-TKebCyfRnIpebxf5xAfcVXS38Jrcq8CLopYk/VMCSykhWrnB9RQ=
-=VzYI
------END PGP SIGNATURE-----
-
---2KlAD6IUWZSkYetC--
