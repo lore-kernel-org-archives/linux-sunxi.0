@@ -1,143 +1,65 @@
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77FE17081A
-	for <linux-sunxi@lists.linux.dev>; Wed,  8 Jan 2025 16:53:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B3F202C56;
+	Wed,  8 Jan 2025 19:56:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736355187; cv=none; b=agpUDcLhF0J1vW8p5fKMF9ekHQLLUwQepfkiY50Wrxb57x373i7hyD3fGat0UvF0rGCNnwKzir/kLf5cju1uSyvOX9nIQWJzWUCK/u2ZbUV0HsFg8/6tiryYCvhOeMIBvApTlTS+rbhL6JkOCsVPrgkTpIauCukeCi0hveBsptk=
+	t=1736366217; cv=none; b=C2TuYclmaEAKlml+b4MDGpYlKI7D4ypdxIHJ2T63SL91/8DUzuMLhblf7I8LsJFbmCMb2GU+BvnxBz36TPJEBME+Bi2w/9+czgXtQAIFooASUt4TsfPvJkLfi0bNJKjJZdf2a1jvSvvfA1NRLTGywVyVAWWOWQj3K7r6I8oQj1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736355187; c=relaxed/simple;
-	bh=xrHb5M/ZA4Z98nlMieaSv4x7qELzO4tPhnQnYmeSNVk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Uny9rcvvWymok4jjjRk8aA1BCOZ1Uv+EnlaQOLMLMV/gJlwJCblmn+J4q/ysAS5p2x04QKhiiVXMks3v8gtxs8pqGPpZdz2QJ3naWh6X3ckfqd1cJlgclsvU/P9ARoqbaB9+cRKBQdxajTGppR031OuwvH/Y0TcVvAeu1/TdfGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-305d843d925so33631711fa.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 08 Jan 2025 08:53:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736355182; x=1736959982;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jx0eMDBUFN8OZ3Iife5XjSsJKU6lJXng+Kzs65bz5do=;
-        b=sZdgyqYOgibRm38sfqA+FQq7iWgoIS7Sf+zQKxWnVBI5Kx1u16jZiJCOhl541QMZPG
-         rtpCyjyQw6PLd4ap5lKaY9EnUX53nA5kkllJlM5cUwWizfmETjoo9iaru2tiOPhmrBAU
-         7gg1Nn9fv3NJS5u8TCpU0hdFULNj6VCGk096pmjs2b+FqgfA2519SOOyNdmnWpWdqosH
-         wP0o209/19OCaAYQJFDkkwBBDabUHX1ltVBXXdptcaSfBNStqN4TGYk2vkBMx4mHdLE2
-         ddt11qBI7BiCMw1xkWXrqHGjuhTTEnXUwFNdGqId6+lJr6TNkC4IJ8AKFUTnNKvab07M
-         gTSw==
-X-Forwarded-Encrypted: i=1; AJvYcCXd8qMtE3QjuJKq85if28ErU4hrgBYS3clAulmefFgFBJkEfllYVruox5AjC5DUfq2CbYNkrVbnuVxSnA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyslRzZg0Z50V76O18sc4qXb5GjeJA85kd2K9RNH86qWjwtfoix
-	+JFwKhP0MjzF30A7B27Ui8RvSw34Jr1xZWQ+uGUjpvX6KovuAeEWIGj6t9kI
-X-Gm-Gg: ASbGncu2QG8OH1aBnQVBMPGVhh0QFvO+XcBuzKLrZvnn5qCuqWbM69GdqgMftOLuoWv
-	m+XlAK2kFvuxqDn9r6kfAIps8z5Nnc9Nu/tiSokUcAKSJZOjgC6AHccwTES7uJ4KFAiutfqxL5o
-	UmUH9ixweiEEljwaPhPZ66ZvhcwS88z++/v+INo6sZxg7BsvaWn6R6/hYVjnJRG+sZOqgwV2uem
-	9dkbA/Q/geTgTpVIBiFGbD6JI0HoSLpiAwWGt/+L9+jBK2zhwCqQrteDGDD87d1EBqcj2pmaoxa
-	kkLVSWedxmarRA==
-X-Google-Smtp-Source: AGHT+IH5SKfuRRMxVk4KXO0AP7735JMUypM+eJC7RgrLpkZ/NogrQBRjMgox27k+3YRDoq6vDto/Uw==
-X-Received: by 2002:a05:6512:110e:b0:542:6d01:f55c with SMTP id 2adb3069b0e04-542845af81emr1003571e87.3.1736355181537;
-        Wed, 08 Jan 2025 08:53:01 -0800 (PST)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com. [209.85.208.179])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-542238213c5sm5485112e87.171.2025.01.08.08.53.00
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Jan 2025 08:53:01 -0800 (PST)
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-3043e84c687so145741581fa.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 08 Jan 2025 08:53:00 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVh9iwyLJGf42aMyutKky6W30MBsmag4JXhX57Bj4vkQbtgfoH5MMgaPUgs0pQxoG06ZKb7gvKmaB4UfA==@lists.linux.dev
-X-Received: by 2002:a05:651c:602:b0:300:3307:389d with SMTP id
- 38308e7fff4ca-305f458e846mr7855991fa.19.1736355180052; Wed, 08 Jan 2025
- 08:53:00 -0800 (PST)
+	s=arc-20240116; t=1736366217; c=relaxed/simple;
+	bh=uJCC/53VkKDfC7zFbX7bDmqLBquYvg9lKYFHaH9GXJA=;
+	h=Message-ID:Content-Type:MIME-Version:In-Reply-To:References:
+	 Subject:From:Cc:To:Date; b=rLdt0JEBSmnHYuQCccLOJj6CuM7CN3HY/56XwvwizPGjPyzDSe0+e7YALcn7CzHEnJTWM2IKn3nYT1QPADXPK63An+SDOKB0DLbTjyX+stgvBEJeP87KqHOHoQlqWZU/guujb+8L7NPG6SNwLYa0Y05hu1yGoDAWWN5RM0ITpmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h+0FFoDk; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h+0FFoDk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2304C4CED3;
+	Wed,  8 Jan 2025 19:56:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736366217;
+	bh=uJCC/53VkKDfC7zFbX7bDmqLBquYvg9lKYFHaH9GXJA=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=h+0FFoDkJB138erJQSZkrN1rteLqjloxqlidJxT4s5wYgAvMoXV7q9F0RsF6f/vOR
+	 HFY2uWUOMpmbeQQ2x7vpNynHwpfUQRH1M8aFG1Ky6gjKbvZpNS4Nm9c6cLEKgT8E0u
+	 AOPrFXQuw0A6kslnU0RzqNLfyexk4Vl9L14waTNqZs+5f2PHOxuHcM9iqOiZbSvrqy
+	 CwnZn5rVle7NTeJzXslU+ILeV4gf6MF3et9EvYQ3IwnyWkXIIm2Yxhr67GjwZ0Ugg/
+	 FrmxvXkA6eyg7V4Bq4sg3z3QMEBEsnQWnl2ysStXuDQpURcAioT85ZdYRHrabyU0R6
+	 cPQjRw+9Vtl/A==
+Message-ID: <83f4ec535945006dfef25afe39085879.sboyd@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250108164359.2609078-1-andre.przywara@arm.com>
-In-Reply-To: <20250108164359.2609078-1-andre.przywara@arm.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Thu, 9 Jan 2025 00:52:47 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66jTH+aiCHQyic0hYUWQ3wiZFa3a6f9U1NickAfZPizYA@mail.gmail.com>
-X-Gm-Features: AbW1kvYf6FaWmHcSx5PlJ4_54WBtFGt_VFk4l8WJnSU8vd7BgjPLUbQr4KhZAEw
-Message-ID: <CAGb2v66jTH+aiCHQyic0hYUWQ3wiZFa3a6f9U1NickAfZPizYA@mail.gmail.com>
-Subject: Re: [PATCH v2] Revert "mfd: axp20x: Allow multiple regulators"
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Lee Jones <lee@kernel.org>, linux-sunxi@lists.linux.dev, 
-	Chris Morgan <macroalpha82@gmail.com>, Vasily Khoruzhick <anarsoul@gmail.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Andrey Skvortsov <andrej.skvortzov@gmail.com>, linux-pm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <Z36iFxlCUHhLcdP-@wens.tw>
+References: <Z36iFxlCUHhLcdP-@wens.tw>
+Subject: Re: [GIT PULL] Allwinner clock fixes for 6.13
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev, linux-clk@vger.kernel.org
+To: Chen-Yu Tsai <wens@kernel.org>
+Date: Wed, 08 Jan 2025 11:56:54 -0800
+User-Agent: alot/0.12.dev1+gaa8c22fdeedb
 
-On Thu, Jan 9, 2025 at 12:44=E2=80=AFAM Andre Przywara <andre.przywara@arm.=
-com> wrote:
->
-> As Chris and Vasily reported, the attempt to support multiple AXP PMICs
-> in one system [1] breaks some of the battery and charging functionality
-> on devices with AXP PMICs. The reason is that the drivers now fail to get
-> the correct IIO channel for the ADC component, as the current code seems
-> to rely on the zero-based enumeration of the regulator devices.
-> A fix is possible, but not trivial, as it requires some rework in the AXP
-> MFD driver, which cannot be fully reviewed or tested in time for the
-> 6.13 release.
->
-> So revert this patch for now, to avoid regressions on battery powered
-> devices. This patch was really only necessary for devices with two
-> PMICs, support for which is not mainline yet anyway, so we don't lose
-> any functionality.
->
-> This reverts commit e37ec32188701efa01455b9be42a392adab06ce4.
->
-> [1] https://lore.kernel.org/linux-sunxi/20241007001408.27249-4-andre.przy=
-wara@arm.com/
->
-> Reported-by: Chris Morgan <macroalpha82@gmail.com>
-> Closes: https://lore.kernel.org/linux-sunxi/675489c1.050a0220.8d73f.6e90@=
-mx.google.com/
-> Reported-by: Vasily Khoruzhick <anarsoul@gmail.com>
-> Closes: https://lore.kernel.org/linux-sunxi/CA+E=3DqVf8_9gn0y=3DmcdKXvj2P=
-FoHT2eF+JN=3DCmtTNdRGaSnpgKg@mail.gmail.com/
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Quoting Chen-Yu Tsai (2025-01-08 08:04:39)
+> The following changes since commit 40384c840ea1944d7c5a392e8975ed088ecf0b=
+37:
+>=20
+>   Linux 6.13-rc1 (2024-12-01 14:28:56 -0800)
+>=20
+> are available in the Git repository at:
+>=20
+>   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/su=
+nxi-clk-fixes-for-6.13
+>=20
+> for you to fetch changes up to 16414720045de30945b8d14b7907e0cbf81a4b49:
+>=20
+>   clk: sunxi-ng: a100: enable MMC clock reparenting (2024-12-27 22:43:29 =
++0800)
+>=20
+> ----------------------------------------------------------------
 
-Acked-by: Chen-Yu Tsai <wens@csie.org>
-
-> ---
-> Hi,
->
-> just replacing the old -1 with the respective macro name, as Lee asked
-> for. Also adding tags to acknowledge the reporters.
-> Lee, feel free to change the subject line if you think the "Revert" in
-> there is not justified anymore.
->
-> Cheers,
-> Andre
->
-> Changes v1 .. v2:
-> - use proper name for the formely used -1 value
-> - add Reported-by: tags
->
->  drivers/mfd/axp20x.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/mfd/axp20x.c b/drivers/mfd/axp20x.c
-> index 251465a656d09..bce85a58944ac 100644
-> --- a/drivers/mfd/axp20x.c
-> +++ b/drivers/mfd/axp20x.c
-> @@ -1445,7 +1445,7 @@ int axp20x_device_probe(struct axp20x_dev *axp20x)
->                 }
->         }
->
-> -       ret =3D mfd_add_devices(axp20x->dev, PLATFORM_DEVID_AUTO, axp20x-=
->cells,
-> +       ret =3D mfd_add_devices(axp20x->dev, PLATFORM_DEVID_NONE, axp20x-=
->cells,
->                               axp20x->nr_cells, NULL, 0, NULL);
->
->         if (ret) {
-> --
-> 2.25.1
->
+Thanks. Pulled into clk-fixes
