@@ -1,106 +1,101 @@
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DB3819ABDE;
-	Thu,  9 Jan 2025 20:03:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 735A02054E3;
+	Thu,  9 Jan 2025 22:53:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736452992; cv=none; b=Ii8TvOidvF+53uMA6ag7H0JA7hvkHuEKTr2DTf2kSJJ8VFq2dvnJohKeN/PtCAqv5zEy2eZi1/FLG6jKYxO33E/ddVEdg52MrtTHx2MXdRE41n79k4ChmwmRfJxaJvKy+/6wk0GArcfzut9Np7uKnccGrk+4JEH960cXDzlxqjw=
+	t=1736463194; cv=none; b=Q3nbHMhRILwFt8qTV1n7FuTpfFCPG8KvODyCeTgPwhqk68JRx0g0NBRnn4fvOfXDTdWXULfcM6B2wCPGfmY0URbr8ONlc/dCPt8K/JZ6lhwg0FmWzzHRhhmt1RA+zt20r+5IEgcX+nrUax+36ei5A3Heayzt8YsgxjEajjAzMKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736452992; c=relaxed/simple;
-	bh=CEraVU4ce4vgP8jPE97cGax/9P4aNGpnQ4WcUIe/0vQ=;
+	s=arc-20240116; t=1736463194; c=relaxed/simple;
+	bh=ygPBiRPZBdHE0lhMQk0UMilxxye1rAgfC0lt552dW+A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SZb6L7g1yM+WQZCc7InPbmUE5T1jTw0XAvFx6r1i0PwasPudg8y13cR6UT0aVXJr0+c7WH8tebyrpDyAPRygFFnqsyFur4t462nIgjChPaZ7QgWaVAWg6WxFYuykWDZ+z3YOhK0krg+dMVLAamYZgcIe+8ODODwIfoP/vBoPm/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=aqnMgi8d; arc=none smtp.client-ip=217.70.183.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=I2nDoL58GOJ2kgPohFW/aPdtZL0EOmgfTQe+LzW0cOZv+Dnlg+GYVVtbPXwu3vYL4wanOBVIFV79FzcEOab3RPes8Xi6wIf2Ag2H1KLMKhLwKAIR7bsczVKYcTnTxBbobKbjW3C7NcsqYAN7OIoEkogx3/sgMcMA/weLOYmq/A4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CsYDOCEr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="aqnMgi8d"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 81E65FF802;
-	Thu,  9 Jan 2025 20:03:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1736452988;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ufquL8MTaCaDartUz08Jv9Co5w4deNYxwsOj/E8fcww=;
-	b=aqnMgi8dmXNmdqbb82gZLgfSEWXhFqHsrY4xDCQkXxC1eVbQ/WCgrOzndGV9myrqe/hElG
-	jef5H3/ls9gbinUu25fBKeiz2GZiCFulJ+4WhYBhfC45VCcq4EfPtR0KIHfjbcek+Q1VfV
-	9wBuydXTJ3vjy+3TBFcHwgj4253G33JMK1TEdzYz0Ww2Ja4TgQmwoyNJWYJWfnKuos+WPd
-	cU46FTlgkwEX3NlsLIdW4FYBG1lIgDNygresvTuecEYNDGFWiC7SET7ShqD2glnBctwGq+
-	pVYOLHmLiyMp2+38SZucpgCpNOe0nHGnaKhJZh2gFh8WYrNUDI6LJ28dYOimqg==
-Date: Thu, 9 Jan 2025 21:03:04 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: linux-rtc@vger.kernel.org,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Yiting Deng <yiting.deng@amlogic.com>,
-	Xianwei Zhao <xianwei.zhao@amlogic.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Gregory Clement <gregory.clement@bootlin.com>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Eddie Huang <eddie.huang@mediatek.com>,
-	Sean Wang <sean.wang@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CsYDOCEr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4C15C4CED2;
+	Thu,  9 Jan 2025 22:53:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736463194;
+	bh=ygPBiRPZBdHE0lhMQk0UMilxxye1rAgfC0lt552dW+A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CsYDOCEru3+AEdwiKyVkWO1mOJHA55tzrKUnUNyTndawph6pOFrhOW2l5pojnvJNg
+	 XORMOFZhafzHRheJC4Iv5aiLfQ1VqP7MH4Pqu9XdMOpqsE4WY98zwSIMgV4mneTs4v
+	 MSH1YspqDd9RCndarix0IjsiR7dityj4eKCyBBD+T6WcvBFrqeyyEK21WNNwg+2OY3
+	 /uZxAB7095zODtu0FbcRODsUwetcSBxBU5PkfCNtgydf+hjYcotb4iZsTCuTmqvl91
+	 mF8CF65TskxLdd9bruSw13e/03ANgi57eGbjP06pOzhD91/3VFwUjLrJXUYA5XPxxE
+	 GHhEzoYh6bnYQ==
+Date: Thu, 9 Jan 2025 16:53:12 -0600
+From: Rob Herring <robh@kernel.org>
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Cody Eksal <masterr3c0rd@epochal.quest>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Yangtao Li <tiny.windzz@gmail.com>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Vincent Shih <vincent.sunplus@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Michal Simek <michal.simek@amd.com>,
-	linux-amlogic@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	chrome-platform@lists.linux.dev, linux-mips@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org, patches@opensource.cirrus.com
-Subject: Re: [PATCH] rtc: use boolean values with device_init_wakeup()
-Message-ID: <173644377117.1019413.12980385173648327961.b4-ty@bootlin.com>
-References: <20241217071331.3607-2-wsa+renesas@sang-engineering.com>
+	Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,
+	Vinod Koul <vkoul@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
+	Parthiban <parthiban@linumiz.com>,
+	Andre Przywara <andre.przywara@arm.com>, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 12/13] cpufreq: sun50i: add a100 cpufreq support
+Message-ID: <20250109225312.GA434678-robh@kernel.org>
+References: <20241031070232.1793078-1-masterr3c0rd@epochal.quest>
+ <20241031070232.1793078-13-masterr3c0rd@epochal.quest>
+ <20241111041311.hleaz5fgipsyxigm@vireshk-i7>
+ <CAGb2v646NHFAni=P+iC8OZsWMpg0PJc=kYbuWaY=C0-W-q6qAw@mail.gmail.com>
+ <20241111055504.2f3szrd5ahudvtqm@vireshk-i7>
+ <CAL_JsqJJ5A+nYKg1aU5zqGZsmtNJxpS3Gw04pSH-3xOkQ9Vzew@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241217071331.3607-2-wsa+renesas@sang-engineering.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAL_JsqJJ5A+nYKg1aU5zqGZsmtNJxpS3Gw04pSH-3xOkQ9Vzew@mail.gmail.com>
 
-On Tue, 17 Dec 2024 08:13:26 +0100, Wolfram Sang wrote:
-> device_init_wakeup() second argument is a bool type. Use proper boolean
-> values when calling it to match the type and to produce unambiguous code
-> which is easier to understand.
+On Mon, Nov 18, 2024 at 09:36:37AM -0600, Rob Herring wrote:
+> On Sun, Nov 10, 2024 at 11:55 PM Viresh Kumar <viresh.kumar@linaro.org> wrote:
+> >
+> > On 11-11-24, 13:30, Chen-Yu Tsai wrote:
+> > > On Mon, Nov 11, 2024 at 12:13 PM Viresh Kumar <viresh.kumar@linaro.org> wrote:
+> > > >
+> > > > On 31-10-24, 04:02, Cody Eksal wrote:
+> > > > > From: Shuosheng Huang <huangshuosheng@allwinnertech.com>
+> > > > >
+> > > > > Let's add cpufreq nvmem based for allwinner a100 soc. It's similar to h6,
+> > > > > let us use efuse_xlate to extract the differentiated part.
+> > > > >
+> > > > > Signed-off-by: Shuosheng Huang <huangshuosheng@allwinnertech.com>
+> > > > > [masterr3c0rd@epochal.quest: add A100 to opp_match_list]
+> > > > > Signed-off-by: Cody Eksal <masterr3c0rd@epochal.quest>
+> > > > > ---
+> > > > > Changes in V2:
+> > > > >  - Add the A100 to the cpufreq-dt-platdev blacklist.
+> > > >
+> > > > Can this be applied to the cpufreq tree separately ?
+> > >
+> > > Yes.
+> > >
+> > > Acked-by: Chen-Yu Tsai <wens@csie.org>
+> >
+> > Applied. Thanks.
 > 
-> 
+> You missed the binding patch, so
+> "allwinner,sun50i-a100-operating-points" is undocumented. Can you pick
+> that up please.
 
-Applied, thanks!
+Still not applied, so I applied it.
 
-[1/1] rtc: use boolean values with device_init_wakeup()
-      https://git.kernel.org/abelloni/c/8c28c4993f11
-
-Best regards,
-
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Rob
