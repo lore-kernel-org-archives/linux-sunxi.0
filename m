@@ -1,65 +1,71 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FBB4198A06;
-	Wed,  8 Jan 2025 20:01:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6516A12EBEA;
+	Thu,  9 Jan 2025 11:38:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736366489; cv=none; b=RXLX8zdz1txFWvxZzys2q4DAiG1BnuO/5Xp7ie2GMa+qTd8wjXCfzFikW0i1YGvNK4gRhSlC9oysKrPptNQWqTA/4o8dfJ9uQChnWTmO66xP2Xt5NxMHvLwyI+dJupD3K84gSqQhP3dHe3z5cdEv8s1rywge+JRYrnUFyMFeH84=
+	t=1736422731; cv=none; b=d99sEI3Ge69kT516T3Rn++nDbF9t6r/wGa/rjirdeCTZPQJVAzyyVJdbRG9IqdqQb46Q+gTbOiLGOLclX3koOnT5wES6QcRAeWAoBVkC0zLNAV5IKdMApMXWBmMnQadmB+M+1ZP3xBuqLNu7cvSt1PjEwJd3I28awMENAVpB3X8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736366489; c=relaxed/simple;
-	bh=6ywCQppCWtOwtFwfArEz2OP+esU3BIUhDuQ7BW9UrcI=;
-	h=Message-ID:Content-Type:MIME-Version:In-Reply-To:References:
-	 Subject:From:Cc:To:Date; b=Etz63TnikduLNlHqzdYZvuCXd5tyu8RDF99veTQLoELDpfMtOCR9bfV8ZPf9zgnFKLB0/ss19HzLSCFug40P9Jr1gr4vnBaqGmWn0RP8wsXdmfqVNBxBSWLKiT+QLwqjSivAHtYasuvb0/GrZ6ZU0MGhdegjX6QoSqe7qhm0okM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NDUIU8u0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736422731; c=relaxed/simple;
+	bh=zgMHsOc6QOK1ad1fReClnAUKTbMQiY82oCo9qlKQvcY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=GkShBIPeHSABnkQfD871qNw+msV6myo+jKQrRUSEKKRzrPf72e282IRfp6L0jqANcXnQ0KOBE9/h81XfBDIJBJhI9nXU/sUp4kwfM7jZ9CDKGvPnOz28mTm4FkQ0zO6o6dfP9w96U3krWmxzXyPQFvt7Mbro1kdhhPiimtT6Hw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vDLPsUqv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NDUIU8u0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 792C1C4CED3;
-	Wed,  8 Jan 2025 20:01:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vDLPsUqv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 222D5C4CEE2;
+	Thu,  9 Jan 2025 11:38:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736366486;
-	bh=6ywCQppCWtOwtFwfArEz2OP+esU3BIUhDuQ7BW9UrcI=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=NDUIU8u05SwENZ9i3amyDYGz0jHrYf6HFIm4izpxm8feSfXtbQmIcPmPlUqznHQJL
-	 PLoG6iIZ2gOoUhnNjjZydZO5kaxRQ+jx0UZEepMiGTO6iJXmxF6idD+nQtvnunIL9A
-	 +UvhA9pwkIAvK6UOb3grRHOgXSG3WvZhjLVzLP0zLQrJUvSVbFuGBRbVI6nJ6UFgLN
-	 VW6KIC5qOekVfLDjhiyvWOuxj+0jMCFZN3ultcIMy4A8Q2O0Zn+UO2DqWRtqnu0LAB
-	 WbRBMZdVSxVlAxcKGzNHIzRjCdKugBJq/uPZ4wfo5pg1h3GUAV0fqwaGXITOWOCvUp
-	 OGNz7MM2+kwiQ==
-Message-ID: <762c4c506463f368a0c5d64650d4fac7.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1736422731;
+	bh=zgMHsOc6QOK1ad1fReClnAUKTbMQiY82oCo9qlKQvcY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=vDLPsUqvdItIFevZ6ywY6qN1aTgNp61+EE5SyRAssptWz3/DM6/MItnpCrN9VPQwd
+	 NoVPkRfGWobB3MlKtrme0mhKm5KzhL/E+psNe6rCbb6POAxpK2LN1XP7zuh6a8JXTe
+	 ce2Pt463WiTBddkLN5F1liBVDwNANcpWkDrXSfRgA8VMW/C9I59Cy5wiLkGRoa2fPX
+	 BLvtiW7s72ebafPI0rUNcYPo7OMVv3boXQSPs+mWIOIrb7dcayHGAkx5o1yzBy0ZiE
+	 Uq+cmgFQEYMkpDLIx9XZ+xn9Dot05j83nc03nrFncvX8+/DvzZ3uGgL3i1LfyUdDIQ
+	 NEqCH0bzeGAEQ==
+From: Lee Jones <lee@kernel.org>
+To: Lee Jones <lee@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Andre Przywara <andre.przywara@arm.com>
+Cc: linux-sunxi@lists.linux.dev, Chris Morgan <macroalpha82@gmail.com>, 
+ Vasily Khoruzhick <anarsoul@gmail.com>, Jonathan Cameron <jic23@kernel.org>, 
+ Andrey Skvortsov <andrej.skvortzov@gmail.com>, linux-pm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20250108164359.2609078-1-andre.przywara@arm.com>
+References: <20250108164359.2609078-1-andre.przywara@arm.com>
+Subject: Re: (subset) [PATCH v2] Revert "mfd: axp20x: Allow multiple
+ regulators"
+Message-Id: <173642272888.2620575.17634288216154119464.b4-ty@kernel.org>
+Date: Thu, 09 Jan 2025 11:38:48 +0000
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <Z36iMwdeyq6DdKOw@wens.tw>
-References: <Z36iMwdeyq6DdKOw@wens.tw>
-Subject: Re: [GIT PULL] Allwinner clock changes for 6.14
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev, linux-clk@vger.kernel.org
-To: Chen-Yu Tsai <wens@kernel.org>
-Date: Wed, 08 Jan 2025 12:01:23 -0800
-User-Agent: alot/0.12.dev1+gaa8c22fdeedb
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.13.0
 
-Quoting Chen-Yu Tsai (2025-01-08 08:05:07)
-> The following changes since commit 40384c840ea1944d7c5a392e8975ed088ecf0b=
-37:
->=20
->   Linux 6.13-rc1 (2024-12-01 14:28:56 -0800)
->=20
-> are available in the Git repository at:
->=20
->   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/su=
-nxi-clk-for-6.14
->=20
-> for you to fetch changes up to 383ca7bee8a93be9ff5a072936981c2710d2856b:
->=20
->   clk: sunxi-ng: a64: stop force-selecting PLL-MIPI as TCON0 parent (2025=
--01-04 20:17:11 +0800)
->=20
-> ----------------------------------------------------------------
+On Wed, 08 Jan 2025 16:43:59 +0000, Andre Przywara wrote:
+> As Chris and Vasily reported, the attempt to support multiple AXP PMICs
+> in one system [1] breaks some of the battery and charging functionality
+> on devices with AXP PMICs. The reason is that the drivers now fail to get
+> the correct IIO channel for the ADC component, as the current code seems
+> to rely on the zero-based enumeration of the regulator devices.
+> A fix is possible, but not trivial, as it requires some rework in the AXP
+> MFD driver, which cannot be fully reviewed or tested in time for the
+> 6.13 release.
+> 
+> [...]
 
-Thanks. Pulled into clk-next
+Applied, thanks!
+
+[1/1] Revert "mfd: axp20x: Allow multiple regulators"
+      commit: b246bd32a34c1b0d80670e60e4e4102be6366191
+
+--
+Lee Jones [李琼斯]
+
