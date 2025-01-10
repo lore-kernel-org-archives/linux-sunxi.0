@@ -1,62 +1,62 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E4FC212B1F
-	for <linux-sunxi@lists.linux.dev>; Fri, 10 Jan 2025 12:39:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01D8E212D9D
+	for <linux-sunxi@lists.linux.dev>; Fri, 10 Jan 2025 12:39:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736512797; cv=none; b=Op1E7jAYbnqlCUWq5+C70T1TVuczJC/vcsYJ5+QdeaVLl5/mr25UNO45DdkbVfpX1ei9Gtd7OBWMWuQGvJNmXSjwfATijg1guHrMk4wBKrgS93iema2r+I5T/1rE77VexDS/pHDf9SEpbcM+32VrUnVCLu7qSbthqDVriUd2OFE=
+	t=1736512798; cv=none; b=hmnP9u/p4OuptZ18rACCtsMhDUOu4Z+0ujWFvI+EMQB5nj7ehRTxkInLxn9nOTpQW2Rxv1KBX7lSGtuQOVbcDzm0Vl+PDo60akvPWV0YUx7TXEjhqClcLD4qGkgHN9qlE9TUlaywZeTSj/REwhgxDesp0dXVFxwfkk4pFstPxQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736512797; c=relaxed/simple;
-	bh=crbDy9TcYlFgxkktOCBvsCJ28c9NCNTFHJyn/05eIYs=;
+	s=arc-20240116; t=1736512798; c=relaxed/simple;
+	bh=fAychnlTty8Tf17BfrbRyxuypyLsiDl4IrtmkrnXB2g=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=qL7UdQgbW1YC+E008CMXOyyXWzGtGb0U66helnZzEfLVl0fsS24eR+NHVZiwSL+0trw2pa702vPDjCcvKNNh6sDLF3veZqITu0cxNvY3iahOhO3AiuGysWeWcEk5rFJg+kWAsQXYbKQ9WSniw0WDwWxRHYIbGaRUR/SOpICgFyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QHgVQsNj; arc=none smtp.client-ip=209.85.128.47
+	 MIME-Version; b=Byjqe7JvcDLMOLRT68CV2tqgtv4xDi8G8Q8nJrzS7/rbgVNVGKw5m1TSHgOuTem4p7tz8xf/uVYlBDsmiy69RDe+/iW5RKYzQmj5RsOBmCXmMxd2TbMb0Bo1dGEeL/sAEryO0q3JDd93TuW3eoPEIluCLSZmvDDYGPg17TiTGL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dB31b3k7; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QHgVQsNj"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4361b6f9faeso12934065e9.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 10 Jan 2025 04:39:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dB31b3k7"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-436202dd7f6so23520685e9.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 10 Jan 2025 04:39:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736512793; x=1737117593; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1736512795; x=1737117595; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=iZ8T9tfgTsZH3qi3WJce9KzBqzpoMJY1MEAfLWSlohI=;
-        b=QHgVQsNjVLRwHCCKnLlovSOhlacZPmILEK/EJhnSgWB9dHZqL8PLidBWFzxJOnzx8j
-         Ouetru0DaDACTZXAYvICHcopG1nIGIGLo/gnWIZQ00FaIDNjLJqkqFG2/3W/BaIzkknr
-         5ar2dzBlxm0AAcZWvlXomJKwVxsSkzFi7/UG9ShwJs9zXdYGiWC8GpH8Ujv7PXsIA6Qk
-         x3CAEJwAoU250Hhgg4a/bUDwWl9s8p3j5lrXANZiNwN4SJLcFSesJ4vpOkNZ4+pc3Guk
-         /hjxeAkGeGJFv+kHAxeGFQhXEwydKo5H+BQfCreVTpyEHFOrWvEr1mL/yRiTxUL7atA2
-         BP4A==
+        bh=igx3vsbHYU2SbSLzctYG8vb+8rPR+0Pom3GeePVXdeo=;
+        b=dB31b3k7DqqQNf+MO87FpHsTLSaEO4P02R08FMGa4ilbH7nn9esfDjQx4k4PXKFnXo
+         e5I4BpRGnImrvWfwJVf+4JOEsu50vDrLQCSMuAHvopnHLKAXPlBSi8lOpXTt1uSM/xwF
+         mvhDPTKy35QHfjSP47UUxh8PKcKhMHhZQlXjJ3O7j+J3yaa1NDHMQzWlFKrE7pCbs/w5
+         C36zTS1PDxrBkBAhyp1rigWRwP/NxLsp0NsMFJCFbgrzmnUBORy5WEZTXysflLqLxZ04
+         ZcWDlum6aHoT3krfmQwtxFve2gX0xwJiXwUz3ziVhk/NWhplTqezSJV0oCBOjxeT5tI6
+         FVhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736512793; x=1737117593;
+        d=1e100.net; s=20230601; t=1736512795; x=1737117595;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=iZ8T9tfgTsZH3qi3WJce9KzBqzpoMJY1MEAfLWSlohI=;
-        b=l3zuj4KHGIrn4ZrHB+Qwj6thdxXisgvvuGlokkQWZee0Con588fhk21n6oeMXMwUN8
-         bjgBJYltsJh+j+4Jce6+ho+aQ76FWuvWiM3c8zmgncjodgBWrr+uFHgi05dH6p3I7E7j
-         KnsTY97Joqwjap5KdP2Mkf6uWadiMb8/7svTaZ46WA9bKbJyvGs0G0+mj31GNRixmc1R
-         i4M2QLE9FVGZp0GSV5OcSMMVqrwizyU5XibDr8HeAauNAWsWabxD4zyXmRtK4Rgox/+k
-         ahxn71nmmes+wjXGnJhzNqutVqo/cNV4cnLvGXh80fWCGdwf/J+3tDIolLQIvTpYZmtc
-         Rrgw==
-X-Forwarded-Encrypted: i=1; AJvYcCU16Zp/j1uTidANnuJCiG/AQhotisxd7IQJDwi7XkNoxcxRYKnt5amPMgw/k2jBUIXRHqMF40gI1SxMkg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy5USHlPDkhpV2Y48qeZjnjInp/aT6srpHqRjlN5qsjj10jsa7n
-	GPF0JVnImbAXJy6xf/eP73FQARL4Qr6VMoeSw+ryZ7iGkSJTZ2To
-X-Gm-Gg: ASbGncvPOun4v3HNwJPV9regKw3/OOBtn0PIhy8zXZeRI9Pz1zV7Q+DJHNun+6F8WMM
-	SorDUfiBUwKCFHrQe7/B9d64oDQiXjZouUhk+nsZ8oWrI0v/FJYB0uJ5gFBu7I7DKOcf1m/1p4g
-	xHp9tiAa6XW8w6QKsci/OeKgdt9QaWLR2m+8gbEzvPG5t0sjXL6cT5+LtzBTNnVN/iC5IplRk7R
-	J5iXvINeqLmqUCt5jTCkQZglGplu7Vebyd8X/ijOD9HJn6H0/DdV8srcf5UvJ3rUfud4HYfDH12
-	RJT6ANEtG+o=
-X-Google-Smtp-Source: AGHT+IFy0YLTGe8F+nl8LnieqDiyiyRbcR5k0ayFI05mSwXqdMMGbUO+5rrLK2qTd/ypLoKxWRGH+Q==
-X-Received: by 2002:a05:600c:5028:b0:434:fa73:a906 with SMTP id 5b1f17b1804b1-436e9d6fe9emr53361615e9.4.1736512792992;
-        Fri, 10 Jan 2025 04:39:52 -0800 (PST)
+        bh=igx3vsbHYU2SbSLzctYG8vb+8rPR+0Pom3GeePVXdeo=;
+        b=Ixz2MBiJ02x7YmPsG57xbhrDA4UDO1G4UgfXhE4TJfsZFbOjZ3UdSJBsbY6cxOJ9p0
+         10VBKi6rzVEBCpgSEHbVWaH3oMcTltsle5pmbjqMDCxHvoiy/GzzrRedf9U3nRHLlsyU
+         7cLe5wuMfALwZ2K3ePwj8a00I6iIGG0OkqBq/KHi61U6NvPd7BrO6eVPw6ToAv8JnEVT
+         3uIk7WZ/iv9RcFEF7I23VZFrJDPDNwGDM5UYcsgkRDTdGu/ZH1YzsCo/lAFyviU8fUfw
+         mbxEWOUvZjYjWl/JPnAkciDOpU0wrq/BETnF4ZMhVMHK39w1tyFNgx4SeL5cScHil8Pk
+         HLqw==
+X-Forwarded-Encrypted: i=1; AJvYcCXo8iCRgRHtsu90Fkdv41EQAlZfGaS++3/95KYUmNU8nWBrOvyKFihL3Pf2GFpWRaD9lBmRARgr5M+tqg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyzKAYrGTy5LX1mMtRA2NZuqiW08wuhh57+1cJ8ETeVEc5LXkUO
+	pCbQSU+MkOv8aluAo/S5WL+zP3Cay/pwuusWcKefa1fY7Ie3mDAZ
+X-Gm-Gg: ASbGncuCe9eYap1V2ME0oVO5ce9nLjXDaVLiLYxWCVQ5rGzBcSIf2JmnO3i2I1VgXOl
+	f788Z9MSEdHmcpTBDClQ9TlSbfiVckOAUHN9dKblsnM5ViQOrOpQJxSLlFL53yS1x+xoLbl3KSq
+	03pT4CkfLCqQpbVEAzFiHVXyDhaioWBKWP1c0trR6gRCqc9E2CobtI5JRr0++2tgFMmyG+l7/Cl
+	CZw1udyNoNxCQS31Tb0ipuEKgXzLWLs4Scpm8FlEE93UZEFqCtkUeczbcRPuTupl3DwlGBdmQZJ
+	BNsx7ZjTWUA=
+X-Google-Smtp-Source: AGHT+IHJBa9+air9IL9blTAVkIeyT+Uy608NuMWnh0WegSAUF/lpfSwiNlAx3KeEO2hjhXHZuc5uCw==
+X-Received: by 2002:a05:600c:1c8f:b0:434:f586:753c with SMTP id 5b1f17b1804b1-436e2686096mr99189355e9.7.1736512795073;
+        Fri, 10 Jan 2025 04:39:55 -0800 (PST)
 Received: from localhost.localdomain (185.174.17.62.zt.hu. [185.174.17.62])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e2da6401sm86738715e9.2.2025.01.10.04.39.50
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e2da6401sm86738715e9.2.2025.01.10.04.39.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jan 2025 04:39:52 -0800 (PST)
+        Fri, 10 Jan 2025 04:39:54 -0800 (PST)
 From: Andras Szemzo <szemzo.andras@gmail.com>
 To: Michael Turquette <mturquette@baylibre.com>,
 	Stephen Boyd <sboyd@kernel.org>,
@@ -86,9 +86,9 @@ Cc: Vinod Koul <vkoul@kernel.org>,
 	linux-gpio@vger.kernel.org,
 	linux-pm@vger.kernel.org,
 	linux-riscv@lists.infradead.org
-Subject: [PATCH 10/12] dt-bindings: phy: allwinner: add v853 usb phy
-Date: Fri, 10 Jan 2025 13:39:21 +0100
-Message-Id: <20250110123923.270626-11-szemzo.andras@gmail.com>
+Subject: [PATCH 11/12] phy: allwinner: add v853 usb phy compatible
+Date: Fri, 10 Jan 2025 13:39:22 +0100
+Message-Id: <20250110123923.270626-12-szemzo.andras@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250110123923.270626-1-szemzo.andras@gmail.com>
 References: <20250110123923.270626-1-szemzo.andras@gmail.com>
@@ -100,109 +100,42 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Document Allwinner v853 USB phy.
+V853 has a dual role USB phy, similar to other Allwinner devices, but with
+only one phy. Add a compatible for it.
 
 Signed-off-by: Andras Szemzo <szemzo.andras@gmail.com>
 ---
- .../phy/allwinner,sun8i-v853-usb-phy.yaml     | 89 +++++++++++++++++++
- 1 file changed, 89 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/phy/allwinner,sun8i-v853-usb-phy.yaml
+ drivers/phy/allwinner/phy-sun4i-usb.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/phy/allwinner,sun8i-v853-usb-phy.yaml b/Documentation/devicetree/bindings/phy/allwinner,sun8i-v853-usb-phy.yaml
-new file mode 100644
-index 000000000000..773c3f476db8
---- /dev/null
-+++ b/Documentation/devicetree/bindings/phy/allwinner,sun8i-v853-usb-phy.yaml
-@@ -0,0 +1,89 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/phy/allwinner,sun8i-v853-usb-phy.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c b/drivers/phy/allwinner/phy-sun4i-usb.c
+index cd159a71b23c..e126a0dcc19b 100644
+--- a/drivers/phy/allwinner/phy-sun4i-usb.c
++++ b/drivers/phy/allwinner/phy-sun4i-usb.c
+@@ -1006,6 +1006,15 @@ static const struct sun4i_usb_phy_cfg sun50i_a64_cfg = {
+ 	.phy0_dual_route = true,
+ };
+ 
++static const struct sun4i_usb_phy_cfg sun8i_v853_cfg = {
++	.num_phys = 1,
++	.phyctl_offset = REG_PHYCTL_A33,
++	.dedicated_clocks = true,
++	.hci_phy_ctl_clear = PHY_CTL_SIDDQ,
++	.phy0_dual_route = true,
++	.siddq_in_base = true,
++};
 +
-+title: Allwinner V853 USB PHY
-+
-+maintainers:
-+  - Chen-Yu Tsai <wens@csie.org>
-+  - Maxime Ripard <mripard@kernel.org>
-+
-+properties:
-+  "#phy-cells":
-+    const: 1
-+
-+  compatible:
-+    const:
-+	- allwinner,sun8i-v853-usb-phy
-+
-+  reg:
-+    items:
-+      - description: PHY Control registers
-+      - description: PHY PMU0 registers
-+
-+  reg-names:
-+    items:
-+      - const: phy_ctrl
-+      - const: pmu0
-+
-+  clocks:
-+    maxItems: 1
-+    description: USB OHCI PHY bus clock
-+
-+  clock-names:
-+    const: usb0_phy
-+
-+  resets:
-+    maxItems: 1
-+    description: USB OHCI reset
-+
-+  reset-names:
-+    const: usb0_reset
-+
-+  usb0_id_det-gpios:
-+    maxItems: 1
-+    description: GPIO to the USB OTG ID pin
-+
-+  usb0_vbus_det-gpios:
-+    maxItems: 1
-+    description: GPIO to the USB OTG VBUS detect pin
-+
-+  usb0_vbus_power-supply:
-+    description: Power supply to detect the USB OTG VBUS
-+
-+  usb0_vbus-supply:
-+    description: Regulator controlling USB OTG VBUS
-+
-+required:
-+  - "#phy-cells"
-+  - compatible
-+  - clocks
-+  - clock-names
-+  - reg
-+  - reg-names
-+  - resets
-+  - reset-names
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/clock/sun8i-v853-ccu.h>
-+    #include <dt-bindings/reset/sun8i-v853-ccu.h>
-+
-+    usbphy: phy@4100400 {
-+        #phy-cells = <1>;
-+        compatible = "allwinner,sun8i-v853-usb-phy";
-+        reg = <0x4100400 0x100>,
-+              <0x4101800 0x100>;
-+        reg-names = "phy_ctrl",
-+                    "pmu0";
-+        clocks = <&ccu CLK_USB_OHCI>;
-+        clock-names = "usb0_phy";
-+        resets = <&ccu RST_USB_PHY>;
-+        reset-names = "usb0_reset";
-+        usb0_id_det-gpios = <&pio 5 6 GPIO_ACTIVE_HIGH>;
-+    };
+ static const struct sun4i_usb_phy_cfg sun50i_h6_cfg = {
+ 	.num_phys = 4,
+ 	.phyctl_offset = REG_PHYCTL_A33,
+@@ -1042,6 +1051,7 @@ static const struct of_device_id sun4i_usb_phy_of_match[] = {
+ 	  .data = &sun50i_a64_cfg},
+ 	{ .compatible = "allwinner,sun50i-h6-usb-phy", .data = &sun50i_h6_cfg },
+ 	{ .compatible = "allwinner,sun50i-h616-usb-phy", .data = &sun50i_h616_cfg },
++	{ .compatible = "allwinner,sun8i-v853-usb-phy", .data = &sun8i_v853_cfg },
+ 	{ .compatible = "allwinner,suniv-f1c100s-usb-phy",
+ 	  .data = &suniv_f1c100s_cfg },
+ 	{ },
 -- 
 2.39.5
 
