@@ -1,101 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 735A02054E3;
-	Thu,  9 Jan 2025 22:53:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B4277D3F4
+	for <linux-sunxi@lists.linux.dev>; Fri, 10 Jan 2025 00:37:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736463194; cv=none; b=Q3nbHMhRILwFt8qTV1n7FuTpfFCPG8KvODyCeTgPwhqk68JRx0g0NBRnn4fvOfXDTdWXULfcM6B2wCPGfmY0URbr8ONlc/dCPt8K/JZ6lhwg0FmWzzHRhhmt1RA+zt20r+5IEgcX+nrUax+36ei5A3Heayzt8YsgxjEajjAzMKw=
+	t=1736469430; cv=none; b=EFm3XJHS9+5s9Bt/+H9/W7zFFuYkrX6nWP3ZGrMX2CL6SY/1RrPwOptatmxhVr6sVOKoa66qw56MMSvrslWUGeDaUCQDmVO3NARv7prDb/3KGxE09g9kw+xGyBZAtJQTQmPTBEA+Ola8PIXWWcEUWwdgK03/yCwzvDa5p6tDsC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736463194; c=relaxed/simple;
-	bh=ygPBiRPZBdHE0lhMQk0UMilxxye1rAgfC0lt552dW+A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I2nDoL58GOJ2kgPohFW/aPdtZL0EOmgfTQe+LzW0cOZv+Dnlg+GYVVtbPXwu3vYL4wanOBVIFV79FzcEOab3RPes8Xi6wIf2Ag2H1KLMKhLwKAIR7bsczVKYcTnTxBbobKbjW3C7NcsqYAN7OIoEkogx3/sgMcMA/weLOYmq/A4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CsYDOCEr; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CsYDOCEr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4C15C4CED2;
-	Thu,  9 Jan 2025 22:53:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736463194;
-	bh=ygPBiRPZBdHE0lhMQk0UMilxxye1rAgfC0lt552dW+A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CsYDOCEru3+AEdwiKyVkWO1mOJHA55tzrKUnUNyTndawph6pOFrhOW2l5pojnvJNg
-	 XORMOFZhafzHRheJC4Iv5aiLfQ1VqP7MH4Pqu9XdMOpqsE4WY98zwSIMgV4mneTs4v
-	 MSH1YspqDd9RCndarix0IjsiR7dityj4eKCyBBD+T6WcvBFrqeyyEK21WNNwg+2OY3
-	 /uZxAB7095zODtu0FbcRODsUwetcSBxBU5PkfCNtgydf+hjYcotb4iZsTCuTmqvl91
-	 mF8CF65TskxLdd9bruSw13e/03ANgi57eGbjP06pOzhD91/3VFwUjLrJXUYA5XPxxE
-	 GHhEzoYh6bnYQ==
-Date: Thu, 9 Jan 2025 16:53:12 -0600
-From: Rob Herring <robh@kernel.org>
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Cody Eksal <masterr3c0rd@epochal.quest>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Yangtao Li <tiny.windzz@gmail.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,
-	Vinod Koul <vkoul@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
-	Parthiban <parthiban@linumiz.com>,
-	Andre Przywara <andre.przywara@arm.com>, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 12/13] cpufreq: sun50i: add a100 cpufreq support
-Message-ID: <20250109225312.GA434678-robh@kernel.org>
-References: <20241031070232.1793078-1-masterr3c0rd@epochal.quest>
- <20241031070232.1793078-13-masterr3c0rd@epochal.quest>
- <20241111041311.hleaz5fgipsyxigm@vireshk-i7>
- <CAGb2v646NHFAni=P+iC8OZsWMpg0PJc=kYbuWaY=C0-W-q6qAw@mail.gmail.com>
- <20241111055504.2f3szrd5ahudvtqm@vireshk-i7>
- <CAL_JsqJJ5A+nYKg1aU5zqGZsmtNJxpS3Gw04pSH-3xOkQ9Vzew@mail.gmail.com>
+	s=arc-20240116; t=1736469430; c=relaxed/simple;
+	bh=Md6TmjjC6dkjDk2AJBGaCDKqoixFrLvAqHYi4gdG1Lg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=dBItk2yTJieICgXtybfPW+Zc2DpzfI5GHafkzpAf8JzLeSLTE6/IaH40x6dUqPHjVUk9ZGyyacPmq9hY2Tg0hgTDcyhcLffhLYhZ7guav5oNQARKtK3daF+VVtawclJ7PanytS9mmSRidUoR4QcBBm4ROW3GJS6jjBfe+PN9iuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 97EB41480;
+	Thu,  9 Jan 2025 16:37:34 -0800 (PST)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2F74A3F673;
+	Thu,  9 Jan 2025 16:37:05 -0800 (PST)
+Date: Fri, 10 Jan 2025 00:35:52 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Philippe Simons <simons.philippe@gmail.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+ <samuel@sholland.org>, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] irqchip/sunxi-nmi: add missing flag
+Message-ID: <20250110003552.0ff180c6@minigeek.lan>
+In-Reply-To: <20250109153936.1908044-1-simons.philippe@gmail.com>
+References: <20250109153936.1908044-1-simons.philippe@gmail.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAL_JsqJJ5A+nYKg1aU5zqGZsmtNJxpS3Gw04pSH-3xOkQ9Vzew@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 18, 2024 at 09:36:37AM -0600, Rob Herring wrote:
-> On Sun, Nov 10, 2024 at 11:55 PM Viresh Kumar <viresh.kumar@linaro.org> wrote:
-> >
-> > On 11-11-24, 13:30, Chen-Yu Tsai wrote:
-> > > On Mon, Nov 11, 2024 at 12:13 PM Viresh Kumar <viresh.kumar@linaro.org> wrote:
-> > > >
-> > > > On 31-10-24, 04:02, Cody Eksal wrote:
-> > > > > From: Shuosheng Huang <huangshuosheng@allwinnertech.com>
-> > > > >
-> > > > > Let's add cpufreq nvmem based for allwinner a100 soc. It's similar to h6,
-> > > > > let us use efuse_xlate to extract the differentiated part.
-> > > > >
-> > > > > Signed-off-by: Shuosheng Huang <huangshuosheng@allwinnertech.com>
-> > > > > [masterr3c0rd@epochal.quest: add A100 to opp_match_list]
-> > > > > Signed-off-by: Cody Eksal <masterr3c0rd@epochal.quest>
-> > > > > ---
-> > > > > Changes in V2:
-> > > > >  - Add the A100 to the cpufreq-dt-platdev blacklist.
-> > > >
-> > > > Can this be applied to the cpufreq tree separately ?
-> > >
-> > > Yes.
-> > >
-> > > Acked-by: Chen-Yu Tsai <wens@csie.org>
-> >
-> > Applied. Thanks.
+On Thu,  9 Jan 2025 16:39:35 +0100
+Philippe Simons <simons.philippe@gmail.com> wrote:
+
+Hi Philippe,
+
+thanks for sending that patch (and not just keeping it in your repo)!
+
+> AXP717 has a PEK to wake up the device from sleep
+> AXP717 is on the NMI irq pin
+> add IRQCHIP_SKIP_SET_WAKE flag is required to enable wakeup from the suspend
+
+That commit message might leave some people a bit puzzled, what about:
+(with my embarrassingly little understanding of irqchip):
+=================
+Some boards with Allwinner SoCs connect the PMIC's IRQ pin to the SoC's
+NMI pin instead of a normal GPIO. Since the power key is connected
+to the PMIC, and people expect to wake up a suspended system via
+this key, the NMI IRQ controller must stay alive when the
+system goes into suspend.
+
+Add the flag to prevent the sunxi NMI controller from going to sleep,
+so that the power key can wake up those systems.
+=================
+
+Needs also your Signed-off-by:!
+
+> ---
+>  drivers/irqchip/irq-sunxi-nmi.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> You missed the binding patch, so
-> "allwinner,sun50i-a100-operating-points" is undocumented. Can you pick
-> that up please.
+> diff --git a/drivers/irqchip/irq-sunxi-nmi.c b/drivers/irqchip/irq-sunxi-nmi.c
+> index bb92fd85e..3e87ca724 100644
+> --- a/drivers/irqchip/irq-sunxi-nmi.c
+> +++ b/drivers/irqchip/irq-sunxi-nmi.c
+> @@ -186,7 +186,8 @@ static int __init sunxi_sc_nmi_irq_init(struct device_node *node,
+>  	gc->chip_types[0].chip.irq_unmask	= irq_gc_mask_set_bit;
+>  	gc->chip_types[0].chip.irq_eoi		= irq_gc_ack_set_bit;
+>  	gc->chip_types[0].chip.irq_set_type	= sunxi_sc_nmi_set_type;
+> -	gc->chip_types[0].chip.flags		= IRQCHIP_EOI_THREADED | IRQCHIP_EOI_IF_HANDLED;
+> +	gc->chip_types[0].chip.flags		= IRQCHIP_EOI_THREADED | IRQCHIP_EOI_IF_HANDLED
+> +		| IRQCHIP_SKIP_SET_WAKE;
 
-Still not applied, so I applied it.
+I think it's customary to put the operators last on the line, to make
+it more obvious that this statement continues on the next line. I'd
+recommend to put each flag on a line of its own here, and align them
+vertically:
+	flags	= IRQCHIP_... |
+		  IRQCHIP_... |
+		  IRQCHIP_...;
 
-Rob
+Cheers,
+Andre
+
+>  	gc->chip_types[0].regs.ack		= reg_offs->pend;
+>  	gc->chip_types[0].regs.mask		= reg_offs->enable;
+>  	gc->chip_types[0].regs.type		= reg_offs->ctrl;
+
