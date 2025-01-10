@@ -1,60 +1,62 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79E9420E00D
-	for <linux-sunxi@lists.linux.dev>; Fri, 10 Jan 2025 12:39:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2E6720E022
+	for <linux-sunxi@lists.linux.dev>; Fri, 10 Jan 2025 12:39:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736512770; cv=none; b=FNJBEFf+PR1ajW8CT/quqRy0MXbJ3szyDPKwKcfBoQ4FwV5zbY8cWOEDkA5URlCqpQDTHHIwgW5+q4DynYveN9ipMC/CY+QELkT4076F5O+ym/7nTJmdM8NYjfSLAMoO61Ju+vF/utO5iWr8D4YtcThBreCSojvLgtcm8xRcQeU=
+	t=1736512772; cv=none; b=pRjce+SAIRP5+OZPHH54DxT8ap/2afZnU8z+kUc1aMZXLTXgaB9IjsWuK9sLTukActbxzfK0hubd1priWoxjpqF+4XiaLL7A1UR2UWpYsdzlqXjKVHAw4FNG4PGDJfnJDB/wv6piPGBdXdl0VNUcGkGoqTVuERC2rVXWQM+3Wco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736512770; c=relaxed/simple;
-	bh=Rp3Dm03CLa293ovDrDZC/OSIYfcJkqVKGR6gZnyTzmI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=T+GqZmCLbb+vhMNbRIUEZ/bVLXq0/Y885YUNUWYhuJ+GHdVZ8JQDBqdpdwCvxuKCwSJhjO9elPITNOmTtXi5g3/ZBZJV67zdj1vjbHQdHviq5DuDF9sMLooeizL+L/zHUUVTiXCc3VZAh/FZv9hfeXrt+nw7rMyVzf1HcrfyjPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=USbaWvgi; arc=none smtp.client-ip=209.85.128.50
+	s=arc-20240116; t=1736512772; c=relaxed/simple;
+	bh=ge8fyti9gCsQiwQCMXMgKI3uciNb8E67pHGTQZtgV1c=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=JP+We2KlMUQhlJDdoem1hEIfcrARs95005blPWDUKv7hrgHBfP6T25TcNRSVDCB2Ls9aMUW1/IM5XKi6KkaBwtFGBTHktXW6m5vu7KOTKjgE1wjBcVZovr1KdCi+aGmGC3wNhMr4tz6Y/44w5GtQuPbpvajxdJFn0MgBWWghNSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OXgWoTp9; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="USbaWvgi"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-436a03197b2so14587825e9.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 10 Jan 2025 04:39:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OXgWoTp9"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4361b0ec57aso20229465e9.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 10 Jan 2025 04:39:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736512767; x=1737117567; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0t5gqA/il+TUYTrY1HbHt1o/f4WC9ZnBS3h4GUuHE8k=;
-        b=USbaWvgiJd72jY3e6mKGpk550NSSU6OvkPAYWL7nlKBvJ7FFGfCkqyqXzCRAwcbpwU
-         yPCZI4wkZUdM3+ds32iri/nJDlmhLVprDi5DHcnOpIoKUmJe/rodGppIEnGomRF5tlfI
-         mbbsGHKBrkht/wAsJ5r1m6csjSuhjshhhudM6RfIaY09v4IW6MQrFjEfKsmaBXLG3Tt1
-         fX3BXtvlcsky2KN++vA2v2yndZA/u4vR+OPYO4MYFxTvTyI6qhjUZms6XxYxu1GhCDIZ
-         RHOp/JtL9pkETSx7mckWg6jRAmAId/8Setf6O/GnorGQA/w5KEjjR7NdUWubD6pTA20o
-         17Rw==
+        d=gmail.com; s=20230601; t=1736512769; x=1737117569; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yUSKtDxpYUB0G5u44s+MtVvA5eK94sL+CVnm4h5Hbb0=;
+        b=OXgWoTp9a/v/aCE/laIxjyESXlZExPjEmy2hEjhUtYSk8ooDGhpjBLzMuDnn65x9Or
+         BG3ujsru/6mzIEJ46zPtq5oaYBsb7UayKypXeC1QgSTBhPgbWHJS16MTlkC+wtWzW7OB
+         r07+NmCiyTdPnsA3hI8oHlAx0JwUTJgF8eBPNU4ZgO4gtXOSRB2oEJoLXg6nUvNRj31P
+         MFvd7y0qBjwqKKtcEf1RaV1dLWW366sg3MMkm5Fwc4VNiKmwS/NpB3cW4+IMUwjSi5Dk
+         dYF72MZh1HlpDABcUsGsu2Mjtlog0xFACi/hgtVp0KXYmS2wOG60Y974qs1u7NwNYqd9
+         L9vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736512767; x=1737117567;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0t5gqA/il+TUYTrY1HbHt1o/f4WC9ZnBS3h4GUuHE8k=;
-        b=TL7CDnUIRifXcqEMmL0NsU4uHUgGK7ylOTHx8u8qYuQ0M7Zwl14F1k4wriMhsyLCdM
-         MMkW1TVkhXxG8EuQuKBvwe0CONIYaByqSW03A49vf8QRQ3D55a8Kd13uPEnV0tEIgppu
-         DpNsVGaT3+0loCiibM6bVm6XvtnkQFWk0Y2y6jItwqOs1i3uspswRUAsMfiafNp+6CwS
-         Ac7JRNZoLrocGiTib922cHhxcqXakT7aYzimLjbofu9UIdXnhixXEPLYAA2WPrMDN8B0
-         Ehi1kmYjcpKErGr551dyLxNwwCFHEfPW9vGXu22duogIQikkKcAT7kCUlKtxEOXmaEvS
-         xBsA==
-X-Forwarded-Encrypted: i=1; AJvYcCXBBxS504oxcaUJMjS17GMxDU913OSOpcDZugRhnMoULBplQVjThm8iI2Kqns4ZZcDCrj1hd7uMdru7PQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzRyiISSsjr4hPP+hSoIq3HVCFiTMHGIJv8NgPY9QJSLVSHlHFc
-	Su8iL2sOhAaS02gedAlY5o6UcGzsCGdetfjJkZEK/GClS285e7FI
-X-Gm-Gg: ASbGncv2bclcob2cFg0LMvEVx9f9zU5Qj9Q3BSqH2JpdJi7je1qI0vKfG90dqAj6ZE4
-	SIxpMh8axFHvswg76Stgum6wM8bkkcRJTMK//HEfxlsFKYy/805EegDkAocC21QroJrxriXNmfx
-	2Fa92mfNKZT/3ZRXy5LiudShxIIWnMNNShSwkKeSDyr2MfwJS6XjyrTM8vh/pUjRp1/VwbI8YMS
-	K8TncOelT/mesv8boDsz2tnovzN9IEdJrXFdefqcIg/LD7sn5awOsvleQfklXuIUCXzcFObQcsY
-	9GuoUiEfLLs=
-X-Google-Smtp-Source: AGHT+IE3BssODNjrNm89nwx4iOmLIapmHF85ffbErJN1wa3ZAlxSgiFL2xaIYFb7ZiAz0+f0TALyYg==
-X-Received: by 2002:a05:600c:1c1a:b0:434:f2f4:4c07 with SMTP id 5b1f17b1804b1-436e26bd126mr104407005e9.15.1736512766511;
-        Fri, 10 Jan 2025 04:39:26 -0800 (PST)
+        d=1e100.net; s=20230601; t=1736512769; x=1737117569;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yUSKtDxpYUB0G5u44s+MtVvA5eK94sL+CVnm4h5Hbb0=;
+        b=cpOPV4brZJfowJs52CPKBUI2VTzEnwHbj7QExxeSrtOFyIp1GIUHB/O8EKEhiSZVvH
+         v5Kt+hue6uBeYsuTCgw15J9Y3vvjdwW+jackkkFOG1f+YW7knzAg4E/0gUmOBDImzsjt
+         VO/kP1EV6NUGxGnn1WZ4XR0VMLRYcDaT5YJoYUtgHYAnvVPVBUA9g0xz35pZGYeUeEXc
+         eazwEzs/h1jRYbkF3PuxHptZBgjiEMFvJEcQNhLPFcvMRUwQH6AIms0v5osQbcyizUg1
+         CBTfmYC41B6ihACgHaOOJlLBIiJ/O07eJ5QYhE5rGBbsf0cpCLzxpzizz14qchpt8P+D
+         pyfg==
+X-Forwarded-Encrypted: i=1; AJvYcCWROarZUkpwpEMwwFBoUm/ngv3xWrn33TU2K0WQir9LGL/KC4OtzARh8lv9ZAylq+tuHu9vc19hKljzEw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyUWwdaG+73sncwwYXNAy4qsAXGzOWQtsna9cjPViGZHLGs7TDj
+	xWE3hZLvw+9IVC+vAYWMWrkflv0q+sB7tOhXE+CiorQ4fcyScx5X
+X-Gm-Gg: ASbGncsBSkDRv6f6JK6dnd5SBZzAR4kx9RRUOa/ouY7urxTDs+8SFtowBDJ8ZtTTV2v
+	DoINEer9rAz6ewVSCXLiHsalAY86ayFw6F/3faHkSSLqG1pPqv0D1spylgrXcKoLyF0qBKE7yba
+	i0LyXpiho7GrPDD1HUPX7ig/4khZFiIpDXnb+GOczOnlgnMbN04Jq7dq2CY509rHrQTZM/7Xcl6
+	uffNkv4cguqRNAc74jeJl53gkAe30v4jkMWieP2WhogB9W9Z3oUC3kg+AhDsrJ2HAGyBaQnavBH
+	21War6FvGCU=
+X-Google-Smtp-Source: AGHT+IFTgEN5UJlFq7sBCmdgeoA7UGiB+lm0UDSMol2G3trBcljxqzM+QxvHHhfLr6Xw5bNGFHDEog==
+X-Received: by 2002:a05:600c:3b86:b0:435:32e:8270 with SMTP id 5b1f17b1804b1-436e26c7ebamr106896935e9.14.1736512769053;
+        Fri, 10 Jan 2025 04:39:29 -0800 (PST)
 Received: from localhost.localdomain (185.174.17.62.zt.hu. [185.174.17.62])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e2da6401sm86738715e9.2.2025.01.10.04.39.24
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e2da6401sm86738715e9.2.2025.01.10.04.39.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jan 2025 04:39:25 -0800 (PST)
+        Fri, 10 Jan 2025 04:39:28 -0800 (PST)
 From: Andras Szemzo <szemzo.andras@gmail.com>
 To: Michael Turquette <mturquette@baylibre.com>,
 	Stephen Boyd <sboyd@kernel.org>,
@@ -84,10 +86,12 @@ Cc: Vinod Koul <vkoul@kernel.org>,
 	linux-gpio@vger.kernel.org,
 	linux-pm@vger.kernel.org,
 	linux-riscv@lists.infradead.org
-Subject: [PATCH 00/12] Support for Allwinner V853 SoC
-Date: Fri, 10 Jan 2025 13:39:11 +0100
-Message-Id: <20250110123923.270626-1-szemzo.andras@gmail.com>
+Subject: [PATCH 01/12] clk: sunxi-ng: allow key feature in ccu reset
+Date: Fri, 10 Jan 2025 13:39:12 +0100
+Message-Id: <20250110123923.270626-2-szemzo.andras@gmail.com>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250110123923.270626-1-szemzo.andras@gmail.com>
+References: <20250110123923.270626-1-szemzo.andras@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -96,235 +100,97 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-V85x is a device from Allwinner with video encoding targeted for the field of
-IP Camera. It integrates the single CA7 core, and a T-Head E907 RISC-V mcu.
-The SoC has the usual Allwinner peripherals and a Vivante NPU.
-V853 is a BGA package without DRAM, V851s/V851s3 has the same die with
-co-packaged 64MB/128MB DRAM (in a QFN88 package).
+Some newer SoCs, like V853 has reset registers, what can be write only
+with fixed key value. Move this value from ccu_mux and reuse
+in the reset code.
 
-This patchset tries to add basical support for the V853 device family.
-For review the ccu driver, I added a clk_summary debug output, maybe it'll help. [1]
+Signed-off-by: Andras Szemzo <szemzo.andras@gmail.com>
+---
+ drivers/clk/sunxi-ng/ccu_common.h | 2 ++
+ drivers/clk/sunxi-ng/ccu_mux.c    | 4 +---
+ drivers/clk/sunxi-ng/ccu_reset.c  | 7 +++++++
+ drivers/clk/sunxi-ng/ccu_reset.h  | 1 +
+ 4 files changed, 11 insertions(+), 3 deletions(-)
 
-PS:
-As this is my first patchset, sorry for the rookie mistakes...
-
-Andras Szemzo (12):
-  clk: sunxi-ng: allow key feature in ccu reset
-  dt-bindings: pinctrl: sunxi: add compatible for V853
-  pinctrl: sunxi: add driver for Allwinner V853.
-  dt-bindings: clock: sunxi-ng: add compatibles for V853
-  clk: sunxi-ng: add CCU drivers for V853
-  dt-bindings: clk: sunxi-ng: add V853 CCU clock/reset
-  devicetree: bindings: power: add v853 ppu
-  pmdomain: sunxi: add V853 ppu support
-  dt-bindings: power: add V853 ppu bindings
-  dt-bindings: phy: allwinner: add v853 usb phy
-  phy: allwinner: add v853 usb phy compatible
-  ARM: dts: sun8i: add DTSI file for V853
-
- .../clock/allwinner,sun4i-a10-ccu.yaml        |    2 +
- .../phy/allwinner,sun8i-v853-usb-phy.yaml     |   89 ++
- .../pinctrl/allwinner,sun4i-a10-pinctrl.yaml  |   13 +
- .../power/allwinner,sun20i-d1-ppu.yaml        |    1 +
- arch/arm/boot/dts/allwinner/sun8i-v853.dtsi   |  673 ++++++++++
- drivers/clk/sunxi-ng/Kconfig                  |   10 +
- drivers/clk/sunxi-ng/Makefile                 |    4 +
- drivers/clk/sunxi-ng/ccu-sun8i-v853-r.c       |   95 ++
- drivers/clk/sunxi-ng/ccu-sun8i-v853-r.h       |   15 +
- drivers/clk/sunxi-ng/ccu-sun8i-v853.c         | 1145 +++++++++++++++++
- drivers/clk/sunxi-ng/ccu-sun8i-v853.h         |   14 +
- drivers/clk/sunxi-ng/ccu_common.h             |    2 +
- drivers/clk/sunxi-ng/ccu_mux.c                |    4 +-
- drivers/clk/sunxi-ng/ccu_reset.c              |    7 +
- drivers/clk/sunxi-ng/ccu_reset.h              |    1 +
- drivers/phy/allwinner/phy-sun4i-usb.c         |   10 +
- drivers/pinctrl/sunxi/Kconfig                 |    5 +
- drivers/pinctrl/sunxi/Makefile                |    1 +
- drivers/pinctrl/sunxi/pinctrl-sun8i-v853.c    |  980 ++++++++++++++
- drivers/pinctrl/sunxi/pinctrl-sunxi.h         |    1 +
- drivers/pmdomain/sunxi/sun20i-ppu.c           |   15 +
- include/dt-bindings/clock/sun8i-v853-ccu.h    |  132 ++
- include/dt-bindings/clock/sun8i-v853-r-ccu.h  |   16 +
- .../power/allwinner,sun8i-v853-ppu.h          |   10 +
- include/dt-bindings/reset/sun8i-v853-ccu.h    |   62 +
- include/dt-bindings/reset/sun8i-v853-r-ccu.h  |   14 +
- 26 files changed, 3318 insertions(+), 3 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/phy/allwinner,sun8i-v853-usb-phy.yaml
- create mode 100644 arch/arm/boot/dts/allwinner/sun8i-v853.dtsi
- create mode 100644 drivers/clk/sunxi-ng/ccu-sun8i-v853-r.c
- create mode 100644 drivers/clk/sunxi-ng/ccu-sun8i-v853-r.h
- create mode 100644 drivers/clk/sunxi-ng/ccu-sun8i-v853.c
- create mode 100644 drivers/clk/sunxi-ng/ccu-sun8i-v853.h
- create mode 100644 drivers/pinctrl/sunxi/pinctrl-sun8i-v853.c
- create mode 100644 include/dt-bindings/clock/sun8i-v853-ccu.h
- create mode 100644 include/dt-bindings/clock/sun8i-v853-r-ccu.h
- create mode 100644 include/dt-bindings/power/allwinner,sun8i-v853-ppu.h
- create mode 100644 include/dt-bindings/reset/sun8i-v853-ccu.h
- create mode 100644 include/dt-bindings/reset/sun8i-v853-r-ccu.h
-
-[1]:
-                                 enable  prepare  protect                                duty  hardware                            connection
-   clock                          count    count    count        rate   accuracy phase  cycle    enable   consumer                         id
----------------------------------------------------------------------------------------------------------------------------------------------
- iosc                                1       1        0        16000000    300000000  0     50000      Y   deviceless                      no_connection_id         
-    iosc-32k                         1       1        0        31250       300000000  0     50000      Y      deviceless                      no_connection_id         
-       osc32k                        1       1        0        31250       300000000  0     50000      Y         deviceless                      no_connection_id         
-          fanout2                    0       0        0        31250       300000000  0     50000      N            deviceless                      no_connection_id         
-          fanout1                    0       0        0        31250       300000000  0     50000      N            deviceless                      no_connection_id         
-          fanout0                    0       0        0        31250       300000000  0     50000      N            deviceless                      no_connection_id         
-          rtc-32k                    1       1        0        31250       300000000  0     50000      Y            deviceless                      no_connection_id         
-          osc32k-fanout              0       0        0        31250       300000000  0     50000      N            deviceless                      no_connection_id         
- osc24M                              9       9        0        24000000    0          0     50000      Y   timer@2050000                   no_connection_id         
-                                                                                                           deviceless                      no_connection_id         
-    fanout-12M                       0       0        0        12000000    0          0     50000      N      deviceless                      no_connection_id         
-    fanout-24M                       0       0        0        24000000    0          0     50000      N      deviceless                      no_connection_id         
-    riscv-cpu                        0       0        0        24000000    0          0     50000      Y      deviceless                      no_connection_id         
-       riscv-axi                     0       0        0        12000000    0          0     50000      Y         deviceless                      no_connection_id         
-    csi-mclk2                        0       0        0        24000000    0          0     50000      N      deviceless                      no_connection_id         
-    csi-mclk1                        0       0        0        24000000    0          0     50000      N      deviceless                      no_connection_id         
-    csi-mclk0                        0       0        0        24000000    0          0     50000      N      deviceless                      no_connection_id         
-    mipi-dsi                         0       0        0        24000000    0          0     50000      N      deviceless                      no_connection_id         
-    spif                             0       0        0        24000000    0          0     50000      N      deviceless                      no_connection_id         
-    spi3                             0       0        0        24000000    0          0     50000      N      deviceless                      no_connection_id         
-    spi2                             0       0        0        24000000    0          0     50000      N      deviceless                      no_connection_id         
-    spi1                             0       0        0        24000000    0          0     50000      N      deviceless                      no_connection_id         
-    mmc2                             0       0        0        24000000    0          0     50000      N      deviceless                      no_connection_id         
-    avs                              0       0        0        24000000    0          0     50000      N      deviceless                      no_connection_id         
-    apb1                             1       1        0        24000000    0          0     50000      Y      deviceless                      no_connection_id         
-       bus-i2c4                      0       0        0        24000000    0          0     50000      N         deviceless                      no_connection_id         
-       bus-i2c3                      0       0        0        24000000    0          0     50000      N         deviceless                      no_connection_id         
-       bus-i2c2                      0       0        0        24000000    0          0     50000      N         2502800.i2c                     no_connection_id         
-                                                                                                                 deviceless                      no_connection_id         
-       bus-i2c1                      0       0        0        24000000    0          0     50000      N         deviceless                      no_connection_id         
-       bus-i2c0                      0       0        0        24000000    0          0     50000      N         deviceless                      no_connection_id         
-       bus-uart3                     0       0        0        24000000    0          0     50000      N         deviceless                      no_connection_id         
-       bus-uart2                     1       1        0        24000000    0          0     50000      Y         2500800.serial                  no_connection_id         
-                                                                                                                 deviceless                      no_connection_id         
-       bus-uart1                     0       0        0        24000000    0          0     50000      N         deviceless                      no_connection_id         
-       bus-uart0                     0       0        0        24000000    0          0     50000      N         deviceless                      no_connection_id         
-    pll-npu-4x                       1       1        0        1392000000  0          0     50000      Y      deviceless                      no_connection_id         
-       npu                           1       1        0        348000000   0          0     50000      Y         3050000.npu                     core                     
-                                                                                                                 deviceless                      no_connection_id         
-    pll-audio-div5                   0       0        0        614400000   0          0     50000      N      deviceless                      no_connection_id         
-       pll-audio-1x                  0       0        0        614400000   0          0     50000      Y         deviceless                      no_connection_id         
-          audio-codec-adc            0       0        0        614400000   0          0     50000      N            deviceless                      no_connection_id         
-          audio-codec-dac            0       0        0        614400000   0          0     50000      N            deviceless                      no_connection_id         
-          dmic                       0       0        0        614400000   0          0     50000      N            deviceless                      no_connection_id         
-          i2s1                       0       0        0        614400000   0          0     50000      N            deviceless                      no_connection_id         
-          i2s0                       0       0        0        614400000   0          0     50000      N            deviceless                      no_connection_id         
-    pll-csi-4x                       0       0        0        1188000000  0          0     50000      N      deviceless                      no_connection_id         
-    pll-video-4x                     0       0        0        1188000000  0          0     50000      N      deviceless                      no_connection_id         
-       tcon-lcd                      0       0        0        1188000000  0          0     50000      N         deviceless                      no_connection_id         
-       pll-video-1x                  0       0        0        297000000   0          0     50000      Y         deviceless                      no_connection_id         
-          fanout-27M                 0       0        0        297000000   0          0     50000      N            deviceless                      no_connection_id         
-       pll-video-2x                  0       0        0        594000000   0          0     50000      Y         deviceless                      no_connection_id         
-    pll-periph-4x                    1       1        0        2400000000  0          0     50000      Y      deviceless                      no_connection_id         
-       pll-periph-480M               0       0        0        480000000   0          0     50000      Y         deviceless                      no_connection_id         
-          pll-periph-160M            0       0        0        160000000   0          0     50000      Y            deviceless                      no_connection_id         
-             fanout-16M              0       0        0        16000000    0          0     50000      N               deviceless                      no_connection_id         
-       pll-periph-800M               0       0        0        800000000   0          0     50000      Y         deviceless                      no_connection_id         
-       pll-periph-2x                 1       1        0        1200000000  0          0     50000      Y         deviceless                      no_connection_id         
-          pll-periph-400M            0       0        0        400000000   0          0     50000      Y            deviceless                      no_connection_id         
-             mmc0                    0       0        0        50000000    0          0     50000      N               4020000.mmc                     mmc                      
-                                                                                                                       deviceless                      no_connection_id         
-             mmc1                    0       0        0        50000000    0          0     50000      N               4021000.mmc                     mmc                      
-                                                                                                                       deviceless                      no_connection_id         
-             ce                      0       0        0        400000000   0          0     50000      N               deviceless                      no_connection_id         
-             pll-periph-200M         0       0        0        200000000   0          0     50000      Y               deviceless                      no_connection_id         
-          pll-periph-600M            2       2        0        600000000   0          0     50000      Y            deviceless                      no_connection_id         
-             apb0                    2       2        0        100000000   0          0     50000      Y               2000000.pinctrl                 apb                      
-                                                                                                                       deviceless                      no_connection_id         
-                fanout-pclk          0       0        0        100000000   0          0     50000      N                  deviceless                      no_connection_id         
-                bus-audio-codec      0       0        0        100000000   0          0     50000      N                  deviceless                      no_connection_id         
-                bus-gpadc            1       1        0        100000000   0          0     50000      Y                  2009000.adc                     no_connection_id         
-                                                                                                                          deviceless                      no_connection_id         
-                bus-pwm              0       0        0        100000000   0          0     50000      N                  deviceless                      no_connection_id         
-             ahb                     8       8        0        200000000   0          0     50000      Y               deviceless                      no_connection_id         
-                riscv-cfg            0       0        0        200000000   0          0     50000      N                  deviceless                      no_connection_id         
-                bus-wiegand          0       0        0        200000000   0          0     50000      N                  deviceless                      no_connection_id         
-                bus-csi              0       0        0        200000000   0          0     50000      N                  deviceless                      no_connection_id         
-                bus-tcon-lcd         0       0        0        200000000   0          0     50000      N                  deviceless                      no_connection_id         
-                bus-mipi-dsi         0       0        0        200000000   0          0     50000      N                  deviceless                      no_connection_id         
-                bus-dpss-top         0       0        0        200000000   0          0     50000      N                  deviceless                      no_connection_id         
-                bus-otg              1       1        0        200000000   0          0     50000      Y                  4100000.usb                     no_connection_id         
-                                                                                                                          deviceless                      no_connection_id         
-                bus-ehci             1       1        0        200000000   0          0     50000      Y                  usb@4101000                     no_connection_id         
-                                                                                                                          deviceless                      no_connection_id         
-                bus-ohci             2       2        0        200000000   0          0     50000      Y                  usb@4101400                     no_connection_id         
-                                                                                                                          usb@4101000                     no_connection_id         
-                                                                                                                          deviceless                      no_connection_id         
-                bus-dmic             0       0        0        200000000   0          0     50000      N                  deviceless                      no_connection_id         
-                bus-i2s1             0       0        0        200000000   0          0     50000      N                  deviceless                      no_connection_id         
-                bus-i2s0             0       0        0        200000000   0          0     50000      N                  deviceless                      no_connection_id         
-                bus-ths              0       0        0        200000000   0          0     50000      N                  deviceless                      no_connection_id         
-                bus-emac             0       0        0        200000000   0          0     50000      N                  deviceless                      no_connection_id         
-                bus-spif             0       0        0        200000000   0          0     50000      N                  deviceless                      no_connection_id         
-                bus-spi3             0       0        0        200000000   0          0     50000      N                  deviceless                      no_connection_id         
-                bus-spi2             0       0        0        200000000   0          0     50000      N                  deviceless                      no_connection_id         
-                bus-spi1             0       0        0        200000000   0          0     50000      N                  deviceless                      no_connection_id         
-                bus-spi0             0       0        0        200000000   0          0     50000      N                  4025000.spi                     ahb                      
-                                                                                                                          deviceless                      no_connection_id         
-                bus-mmc2             0       0        0        200000000   0          0     50000      N                  deviceless                      no_connection_id         
-                bus-mmc1             0       0        0        200000000   0          0     50000      N                  4021000.mmc                     ahb                      
-                                                                                                                          deviceless                      no_connection_id         
-                bus-mmc0             0       0        0        200000000   0          0     50000      N                  4020000.mmc                     ahb                      
-                                                                                                                          deviceless                      no_connection_id         
-                bus-dram             1       1        0        200000000   0          0     50000      Y                  deviceless                      no_connection_id         
-                bus-iommu            0       0        0        200000000   0          0     50000      N                  deviceless                      no_connection_id         
-                bus-dbg              0       0        0        200000000   0          0     50000      N                  deviceless                      no_connection_id         
-                bus-hstimer          1       1        0        200000000   0          0     50000      Y                  3008000.hstimer                 no_connection_id         
-                                                                                                                          deviceless                      no_connection_id         
-                bus-spinlock         1       1        0        200000000   0          0     50000      Y                  3005000.hwlock                  ahb                      
-                                                                                                                          deviceless                      no_connection_id         
-                bus-msgbox1          0       0        0        200000000   0          0     50000      N                  deviceless                      no_connection_id         
-                bus-msgbox0          0       0        0        200000000   0          0     50000      N                  deviceless                      no_connection_id         
-                bus-dma              1       1        0        200000000   0          0     50000      Y                  3002000.dma-controller          no_connection_id         
-                                                                                                                          deviceless                      no_connection_id         
-                bus-npu              1       1        0        200000000   0          0     50000      Y                  3050000.npu                     bus                      
-                                                                                                                          deviceless                      no_connection_id         
-                bus-ve               0       0        0        200000000   0          0     50000      N                  deviceless                      no_connection_id         
-                bus-ce               0       0        0        200000000   0          0     50000      N                  deviceless                      no_connection_id         
-                bus-g2d              0       0        0        200000000   0          0     50000      N                  deviceless                      no_connection_id         
-                bus-de               0       0        0        200000000   0          0     50000      N                  deviceless                      no_connection_id         
-             pll-periph-300M         0       0        0        300000000   0          0     50000      Y               deviceless                      no_connection_id         
-                csi-top              0       0        0        300000000   0          0     50000      N                  deviceless                      no_connection_id         
-                spi0                 0       0        0        75000000    0          0     50000      N                  4025000.spi                     mod                      
-                                                                                                                          deviceless                      no_connection_id         
-                ve                   0       0        0        300000000   0          0     50000      N                  deviceless                      no_connection_id         
-                g2d                  0       0        0        300000000   0          0     50000      N                  deviceless                      no_connection_id         
-                de                   0       0        0        300000000   0          0     50000      N                  deviceless                      no_connection_id         
-                pll-periph-150M      0       0        0        150000000   0          0     50000      Y                  deviceless                      no_connection_id         
-                   fanout-25M        0       0        0        25000000    0          0     50000      N                     deviceless                      no_connection_id         
-                   emac-25M          0       0        0        25000000    0          0     50000      N                     deviceless                      no_connection_id         
-    pll-ddr                          1       1        0        1056000000  0          0     50000      Y      deviceless                      no_connection_id         
-       dram                          2       2        0        1056000000  0          0     50000      Y         deviceless                      no_connection_id         
-          mbus                       1       1        0        264000000   0          0     50000      Y            deviceless                      no_connection_id         
-             mbus-g2d                0       0        0        264000000   0          0     50000      N               deviceless                      no_connection_id         
-             mbus-isp                0       0        0        264000000   0          0     50000      N               deviceless                      no_connection_id         
-             mbus-csi                0       0        0        264000000   0          0     50000      N               deviceless                      no_connection_id         
-             mbus-ce                 0       0        0        264000000   0          0     50000      N               deviceless                      no_connection_id         
-             mbus-ve                 0       0        0        264000000   0          0     50000      N               deviceless                      no_connection_id         
-             mbus-dma                1       1        0        264000000   0          0     50000      Y               3002000.dma-controller          mbus                     
-                                                                                                                       deviceless                      no_connection_id         
-    pll-cpu                          1       1        0        912000000   0          0     50000      Y      deviceless                      no_connection_id         
-       cpu                           1       1        0        912000000   0          0     50000      Y         deviceless                      no_connection_id         
-          cpu-apb                    0       0        0        228000000   0          0     50000      Y            deviceless                      no_connection_id         
-          cpu-axi                    0       0        0        456000000   0          0     50000      Y            deviceless                      no_connection_id         
-    osc12M                           1       1        0        12000000    0          0     50000      Y      deviceless                      no_connection_id         
-       usb                           3       3        0        12000000    0          0     50000      Y         usb@4101400                     no_connection_id         
-                                                                                                                 usb@4101000                     no_connection_id         
-                                                                                                                 4100400.phy                     usb0_phy                 
-                                                                                                                 deviceless                      no_connection_id         
-    osc24M-32k                       0       0        0        32000       0          0     50000      N      deviceless                      no_connection_id         
-    r-cpucfg                         0       0        0        24000000    0          0     50000      N      deviceless                      no_connection_id         
-    r-rtc                            1       1        0        24000000    0          0     50000      Y      7090000.rtc                     bus                      
-                                                                                                              deviceless                      no_connection_id         
-    r-ppu                            1       1        0        24000000    0          0     50000      Y      7001000.power-controller        no_connection_id         
-                                                                                                              deviceless                      no_connection_id         
-    r-twd                            0       0        0        24000000    0          0     50000      N      deviceless                      no_connection_id         
- pll-audio-div2                      0       0        0        0           0          0     50000      Y   deviceless                      no_connection_id         
-    pll-audio-4x                     0       0        0        0           0          0     50000      Y      deviceless                      no_connection_id         
-
+diff --git a/drivers/clk/sunxi-ng/ccu_common.h b/drivers/clk/sunxi-ng/ccu_common.h
+index dd330426a6e5..36132cb8b920 100644
+--- a/drivers/clk/sunxi-ng/ccu_common.h
++++ b/drivers/clk/sunxi-ng/ccu_common.h
+@@ -23,6 +23,8 @@
+ /* MMC timing mode switch bit */
+ #define CCU_MMC_NEW_TIMING_MODE		BIT(30)
+ 
++#define CCU_KEY_VALUE			0x16aa0000
++
+ struct device_node;
+ 
+ struct ccu_common {
+diff --git a/drivers/clk/sunxi-ng/ccu_mux.c b/drivers/clk/sunxi-ng/ccu_mux.c
+index d7ffbdeee9e0..127269ab20ea 100644
+--- a/drivers/clk/sunxi-ng/ccu_mux.c
++++ b/drivers/clk/sunxi-ng/ccu_mux.c
+@@ -12,8 +12,6 @@
+ #include "ccu_gate.h"
+ #include "ccu_mux.h"
+ 
+-#define CCU_MUX_KEY_VALUE		0x16aa0000
+-
+ static u16 ccu_mux_get_prediv(struct ccu_common *common,
+ 			      struct ccu_mux_internal *cm,
+ 			      int parent_index)
+@@ -196,7 +194,7 @@ int ccu_mux_helper_set_parent(struct ccu_common *common,
+ 
+ 	/* The key field always reads as zero. */
+ 	if (common->features & CCU_FEATURE_KEY_FIELD)
+-		reg |= CCU_MUX_KEY_VALUE;
++		reg |= CCU_KEY_VALUE;
+ 
+ 	reg &= ~GENMASK(cm->width + cm->shift - 1, cm->shift);
+ 	writel(reg | (index << cm->shift), common->base + common->reg);
+diff --git a/drivers/clk/sunxi-ng/ccu_reset.c b/drivers/clk/sunxi-ng/ccu_reset.c
+index 55bc7c7cda0f..a9aee35c6617 100644
+--- a/drivers/clk/sunxi-ng/ccu_reset.c
++++ b/drivers/clk/sunxi-ng/ccu_reset.c
+@@ -9,6 +9,7 @@
+ #include <linux/reset-controller.h>
+ 
+ #include "ccu_reset.h"
++#include "ccu_common.h"
+ 
+ static int ccu_reset_assert(struct reset_controller_dev *rcdev,
+ 			    unsigned long id)
+@@ -21,6 +22,9 @@ static int ccu_reset_assert(struct reset_controller_dev *rcdev,
+ 	spin_lock_irqsave(ccu->lock, flags);
+ 
+ 	reg = readl(ccu->base + map->reg);
++	if (map->features & CCU_FEATURE_KEY_FIELD)
++		reg |= CCU_KEY_VALUE;
++
+ 	writel(reg & ~map->bit, ccu->base + map->reg);
+ 
+ 	spin_unlock_irqrestore(ccu->lock, flags);
+@@ -39,6 +43,9 @@ static int ccu_reset_deassert(struct reset_controller_dev *rcdev,
+ 	spin_lock_irqsave(ccu->lock, flags);
+ 
+ 	reg = readl(ccu->base + map->reg);
++	if (map->features & CCU_FEATURE_KEY_FIELD)
++		reg |= CCU_KEY_VALUE;
++
+ 	writel(reg | map->bit, ccu->base + map->reg);
+ 
+ 	spin_unlock_irqrestore(ccu->lock, flags);
+diff --git a/drivers/clk/sunxi-ng/ccu_reset.h b/drivers/clk/sunxi-ng/ccu_reset.h
+index 941276a8ec2e..3fd5d427c26c 100644
+--- a/drivers/clk/sunxi-ng/ccu_reset.h
++++ b/drivers/clk/sunxi-ng/ccu_reset.h
+@@ -12,6 +12,7 @@
+ struct ccu_reset_map {
+ 	u16	reg;
+ 	u32	bit;
++	u32	features;
+ };
+ 
+ 
 -- 
 2.39.5
 
