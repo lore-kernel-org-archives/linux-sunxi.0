@@ -1,62 +1,62 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 613BE211A06
-	for <linux-sunxi@lists.linux.dev>; Fri, 10 Jan 2025 12:39:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 162CC212B14
+	for <linux-sunxi@lists.linux.dev>; Fri, 10 Jan 2025 12:39:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736512791; cv=none; b=bA2NaQlo9qmog7O033V9juC0YrlmtkvZZoNNh9KKV8SJnEUPoGA2h1TdwxmDMmWSrraBEsrht2ZIoXbjLuvjSIxmaQdTT3P5B//7xp6n7Z6Rbrwwcde4OpQSgbYPxcUlKgJ/ya8esYuOhgEhfZj5z7TR67+bzcY9+I6PVheaMtU=
+	t=1736512793; cv=none; b=WStADXTw71xw9kWo+zBWrdkBgYmLPEfpDyd+9o5NIBzFXMXRUHN4FgvirEgHhTQQqvYVee4i8CEmcvgrT05sw1eSwHrwRhXqJPGImNMztzZnkFUgF6ilkY57hH9wnmB+PMobflAsmxtHEdPkbVaQdWn3R3eJV1U6EBkukWkm0qI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736512791; c=relaxed/simple;
-	bh=sNeUaSsNfk2mWBS/Z6Pa2pSYUp7Gc/6G9bD5NGx0EYg=;
+	s=arc-20240116; t=1736512793; c=relaxed/simple;
+	bh=zBLG4CxX0BDGx07H299sHpVzVkNxFvrgxwNPxbva9g0=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=HSKm1WD3UNVcrB5T8dXZhLA0gjxl4iugt8jRLEB1Exftwm0r6oFFTcBCADFOO+tuoimDpU1xUY3CclEX7RxoZFuZIKwZGYq8yGNEHF1KuiMbU23CkINGnp31FFs+A0IMJ9xtlu/M4WyZER0BwcEXUM6a653cgrsLMciZTPbUYSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g5A+Qzrr; arc=none smtp.client-ip=209.85.128.44
+	 MIME-Version; b=HLu8DPmMqSH4j8VIzAWFJHulZCXnlSpl0ARN2JqH7lpAU4WFkJ+GZkjgdnMndkKXiTqJd4b0NoTXXFhJ0IpkvZoMz+99nlVGDg/Sc4DAMADKvUv1STRstVET2gDczILAx2gvrlIrcUc+Pl8iGwQ8DliFjDdqqSAynIUJXpgia0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bPxS3L58; arc=none smtp.client-ip=209.85.221.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g5A+Qzrr"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4361f796586so21209035e9.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 10 Jan 2025 04:39:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bPxS3L58"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3862f32a33eso929163f8f.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 10 Jan 2025 04:39:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736512788; x=1737117588; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1736512790; x=1737117590; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZEOAzVx6WPB9stA5mr4n7x/fL+LclH0gvOV71KsByXY=;
-        b=g5A+QzrrKZyn8smSYelHS/uY3XbkcnkgUyBmusRO/10z6t85MRH0jWs95DfTXyLCWT
-         6nqNMu/asv1cK4R0IHY2RI47BWQ+lYuGSwkC/PQptlD+6v4YEKyUv+brluTtaOb4rsTf
-         gwYF98cuJfpBrhhgkNuLmbwsXVQvR4Mx4/gkMgGo5qwf4qRFpp0YT5sFu7Q/BVJp8Rm+
-         K04o5771KtBfx/VAfH5HVTHtgMFliCxke9rv1kl9ZeYtZ2w1K4OOK6cV+6Sv5ug9Vkkq
-         mhMDM992LT8p2B5J80dU8kWknzR2x/PAH2WUwQefZgCa+dASDDLHp/9rT3ITlTD+++or
-         PaJw==
+        bh=eNhXrg+N/HiSI29fpVyr4UPfccHi3IoiUSacUgvn9w4=;
+        b=bPxS3L58R2C67R62mdRVsi0UmXcLO6D/8uAFeXsqCLIDHmRAp6AgwMY0OEAh+BdxIq
+         o+k78gCYxjMyhhi3ptXkhlNrWSNWhMAmZmluFNVyamVEYgw9IHMhDIzfvMqxbF+IVY7P
+         WIquLVd1ECtDYCK2oQFL7QPfFuFS6eGQWwAKqAJwwyhcL3cS13md8cJSPxoGjWrke5ST
+         NpqhrOVJ0QpwrDCM/qUaP/qhkDm29QsGByapYkni8hrCw/IwgGtihObhXQdFBf2J1jXv
+         vuHH0J+LVoHemFxTxMs9QuA1u0ixQ0W/aAQboei5zwoLJnnzHoF9bcY7YnN/iAtE2y07
+         uAhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736512788; x=1737117588;
+        d=1e100.net; s=20230601; t=1736512790; x=1737117590;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZEOAzVx6WPB9stA5mr4n7x/fL+LclH0gvOV71KsByXY=;
-        b=bb+FBD4bYbvoGcKgaiuwojRel3yvVvVpMJEDKPNcrPLGdCfdwsVLJ9hf0PnSGm5Ia/
-         mBe7Igew0Z6E0lml75ktnb3iwWvauaGZs/YBC7gD+LrHFB/+84itc8WAnnmnyWgpUlBY
-         vS70cjAA7nOeyFdXyJs+E3JnYZt3H8Dxg2wq7LAX60v7Nm0vEhywMS6jVFauzuQxCin6
-         +pABBRsKqqXc8icCidHJa555pP6E98SKbh1GNM9wEWYkrLA830tB4PucZg/F5jsGDIfN
-         ARkAb74pKXzEFEmngkdCQLAtH+bjfumfvUra96uWqoWpX//+DhaepqbUigSCnbYzEr9n
-         QYOg==
-X-Forwarded-Encrypted: i=1; AJvYcCVJKntWN6oAFgdvS2kUc4xTSt+qa5xs6nM0drpIInaf1pPd9ib5bmMGCdRN0w7BVClbGz55+UVC9QF7pw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyLHxQx4tE7f9VoHyFZNql1/vcYPTj95FXR2NZQivZuOmyn0Din
-	sUgVhN6GEjBQIn0OeMGc7Wnzz/BEdIvB7SOXzA8E3NuuTgrF86uV
-X-Gm-Gg: ASbGncu007MTWjYPwKaOrRjVU3b+mu5pvNsY+6ACS6Ilm0EbcpAL5nad5iKtB+pliMU
-	ZMMbO4oTudL70knXXDwHgswoAZxH2tE0uf5zpQpf03LZl6tI98bI4P0gBPzc7utaDsg0MlhXUcJ
-	u8px+zgLpa1JGnUkNOTfroclLLSAIgtkPvqPa5E/BoXn6YWIaQQizg50uJSNJl94oKeIy7zmfce
-	Xxax+WC3hXFiTD+dcuBL0NiUoEazg0IMMEdBITF9Gt+50T1O52t57XHdVx7/+QWd2khGsO9isia
-	+YmaH/k0oxc=
-X-Google-Smtp-Source: AGHT+IGYtDeMlu8hfZifmTM4bzi5kVdCz0Uy02NYRi086ThdTGE7sBQII/cjdXeOIBug2nPd3a+1Pw==
-X-Received: by 2002:a05:600c:1c9a:b0:428:d31:ef25 with SMTP id 5b1f17b1804b1-436e26975f1mr107396075e9.12.1736512787861;
-        Fri, 10 Jan 2025 04:39:47 -0800 (PST)
+        bh=eNhXrg+N/HiSI29fpVyr4UPfccHi3IoiUSacUgvn9w4=;
+        b=M5ko5VblAfWGJWn8lCUnhFafw5HLaorMdlNvSKtaW8NODO92vkXnbD8qK8Js1HU7et
+         1F3SEYaS8RvN+jpDNGbAEi+f7AkxzD8rFttr0xEKPDkAMaZ/X/jOfJYCh6A1rbdCJLJm
+         cLja8+LW/w70Q3eYCM3BuJKNvVSmqzyUky1Bhu30b9/5HhM6OoMJpad4JBsQ6ZF3RVnC
+         yyPQ2PmkKczD0yuUy/BdZ1Ken2mpsSydRzijVZ5Kr2JZNe3LE0gL8CuV4VofUfEGa++D
+         NhlLshMkrnPKi7BrtX6CD9WbXe77pFhGK/i2tAgHF8aLUwsHIwWPP4RaHJNjPy0O0CQr
+         fdzA==
+X-Forwarded-Encrypted: i=1; AJvYcCVORGbmsRS8aMIY/MIS8lHswuM7U7ELG/mPXDq4W9R9PZyVmW2hnCq59ifauxHShcc1y2XUxVMmxQg8tA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw9n3xq/OF1ZDdwvkw799jmdHrbK+a1n97ur7O/EaJctuaTmya5
+	vcQ+ttTdYPXS0n7BLw5A/C5c5JjB9DpwF+t7Lx3p1JKv1iTS7JHC
+X-Gm-Gg: ASbGncuaPPm8r3P71///kl1oYg+GuZ5odA6yHEMR9o2SxfX1AOjJryBUsPnKDyW6V60
+	Us6sSzMp+xk+XydrjM8TdVAGtQssncrnEXr1MHz/IfXQBBJa8PHPmMVjClhVwsFJg5vQWLH4z8i
+	jHdc4PoUXMzmygnZZWZ/VWPEWnr8L1SnbBj9P45kGZneYOdorBQm6IijWFAit0D76JCq5aNU6bD
+	ubJbhccHPK7qDY1HeUPl1qWl0A0HwflL65jxt8BYE2+MiPldyBK87b7VRAR8ibj/+CEG2DLLH3I
+	9wJ32x6RZkk=
+X-Google-Smtp-Source: AGHT+IHpIt3+i8brazuVYahCjibjXFreCv5USXJ4UmTVffG85lEn4Al2QbLsK9oWzZTtDuNp60eq/g==
+X-Received: by 2002:a05:6000:1566:b0:385:f1f2:13f1 with SMTP id ffacd0b85a97d-38a87303e62mr9114655f8f.22.1736512790498;
+        Fri, 10 Jan 2025 04:39:50 -0800 (PST)
 Received: from localhost.localdomain (185.174.17.62.zt.hu. [185.174.17.62])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e2da6401sm86738715e9.2.2025.01.10.04.39.45
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e2da6401sm86738715e9.2.2025.01.10.04.39.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jan 2025 04:39:47 -0800 (PST)
+        Fri, 10 Jan 2025 04:39:49 -0800 (PST)
 From: Andras Szemzo <szemzo.andras@gmail.com>
 To: Michael Turquette <mturquette@baylibre.com>,
 	Stephen Boyd <sboyd@kernel.org>,
@@ -86,9 +86,9 @@ Cc: Vinod Koul <vkoul@kernel.org>,
 	linux-gpio@vger.kernel.org,
 	linux-pm@vger.kernel.org,
 	linux-riscv@lists.infradead.org
-Subject: [PATCH 08/12] pmdomain: sunxi: add V853 ppu support
-Date: Fri, 10 Jan 2025 13:39:19 +0100
-Message-Id: <20250110123923.270626-9-szemzo.andras@gmail.com>
+Subject: [PATCH 09/12] dt-bindings: power: add V853 ppu bindings
+Date: Fri, 10 Jan 2025 13:39:20 +0100
+Message-Id: <20250110123923.270626-10-szemzo.andras@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250110123923.270626-1-szemzo.andras@gmail.com>
 References: <20250110123923.270626-1-szemzo.andras@gmail.com>
@@ -100,44 +100,30 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-V853 has a similar ppu like Allwinner D1, add compatible and the available pd names.
+The device-tree needs ppu indexes, add it.
 
 Signed-off-by: Andras Szemzo <szemzo.andras@gmail.com>
 ---
- drivers/pmdomain/sunxi/sun20i-ppu.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ include/dt-bindings/power/allwinner,sun8i-v853-ppu.h | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+ create mode 100644 include/dt-bindings/power/allwinner,sun8i-v853-ppu.h
 
-diff --git a/drivers/pmdomain/sunxi/sun20i-ppu.c b/drivers/pmdomain/sunxi/sun20i-ppu.c
-index 8700f9dd5f75..9f002748d224 100644
---- a/drivers/pmdomain/sunxi/sun20i-ppu.c
-+++ b/drivers/pmdomain/sunxi/sun20i-ppu.c
-@@ -182,11 +182,26 @@ static const struct sun20i_ppu_desc sun20i_d1_ppu_desc = {
- 	.num_domains	= ARRAY_SIZE(sun20i_d1_ppu_pd_names),
- };
- 
-+static const char *const sun8i_v853_ppu_pd_names[] = {
-+	"RISCV",
-+	"NPU",
-+	"VE",
-+};
+diff --git a/include/dt-bindings/power/allwinner,sun8i-v853-ppu.h b/include/dt-bindings/power/allwinner,sun8i-v853-ppu.h
+new file mode 100644
+index 000000000000..b1c18a490613
+--- /dev/null
++++ b/include/dt-bindings/power/allwinner,sun8i-v853-ppu.h
+@@ -0,0 +1,10 @@
++/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) */
 +
-+static const struct sun20i_ppu_desc sun8i_v853_ppu_desc = {
-+	.names		= sun8i_v853_ppu_pd_names,
-+	.num_domains	= ARRAY_SIZE(sun8i_v853_ppu_pd_names),
-+};
++#ifndef _DT_BINDINGS_POWER_SUN8I_V853_PPU_H_
++#define _DT_BINDINGS_POWER_SUN8I_V853_PPU_H_
 +
- static const struct of_device_id sun20i_ppu_of_match[] = {
- 	{
- 		.compatible	= "allwinner,sun20i-d1-ppu",
- 		.data		= &sun20i_d1_ppu_desc,
- 	},
-+	{
-+		.compatible	= "allwinner,sun8i-v853-ppu",
-+		.data		= &sun8i_v853_ppu_desc,
-+	},
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, sun20i_ppu_of_match);
++#define PD_RISCV		0
++#define PD_NPU			1
++#define PD_VE			2
++
++#endif
 -- 
 2.39.5
 
