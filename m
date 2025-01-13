@@ -1,97 +1,139 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 566DD23ED73
-	for <linux-sunxi@lists.linux.dev>; Mon, 13 Jan 2025 14:30:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 765EA20F090
+	for <linux-sunxi@lists.linux.dev>; Mon, 13 Jan 2025 14:45:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736778639; cv=none; b=sJ6Y6Wb6hk1V6anOnRZ+72twcGjFRlkJJb6hgvx8xpyJA8nSv/d3zaloe+zoKghKsC4Kt9Ph1nfndmgMcgMadFP7M6y7RB0uBRRDmSMgSWoG4XYF70EvHD96bdno5ZFl9Lw0sX1cqUQI1ZrdfHdivtfOnVkXvwALAdYaliMwxAA=
+	t=1736779511; cv=none; b=N/9wbyZUOJ3Usu9QqH3TrzSbspznzrJNEjZ1En3R2Em4BvhDzJ+lnFrzKx6ChnAY76iQHGqpZgaNrRPdy5Z5WERthisk11r+8hqdLeQM6k91+pKk3Ja1LKHWG4diOhBZPNyFV+qeVsoYHSqOlUT+ks4dYf7yR6w9W0lmiI/F8Lg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736778639; c=relaxed/simple;
-	bh=yQiQxuwGR8sipxLnE2QpNqD0m337joQm8Mgec26elhM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=M2cQ++gA2do7CsNerW3kC+TY0WCli7mk1+HnL5i1yyDs2Q/31wyD7Mw8YWyWI2I8nzZ+3MxW6o3Kb/OTQRXqtMGn5NaV/VfztbjEQqHrFJordgcOKmZYX5yidUNIBYpS/x/Fgs9xncLsXPm7ebA+GxTx3RznYa2vrbGcmDrV8BM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=maL/x2As; arc=none smtp.client-ip=209.85.208.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="maL/x2As"
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-3003c0c43c0so41293501fa.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 13 Jan 2025 06:30:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736778635; x=1737383435; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yQiQxuwGR8sipxLnE2QpNqD0m337joQm8Mgec26elhM=;
-        b=maL/x2AsNteZ4U7y+bpLMqoF1/MtAtb9YZ7k86BLmKntMif8bV1tpg3R/mGy0UNfIF
-         TB7xZatpW7u5AWGd2pVcKVQVIEyv6/LHcUI4yP1OtpXxhyd1ADwTjSG0a8yowLPD75Tj
-         6UlGRiCiY0xuZ4ZKwlki7RRmJt2p+HbE4i5Urpasxyx2vqJJeHcupGlc7NsIBhFZ3OOX
-         p8PmZJ/OveRHcZAgnZc7UL/0kL4PFuAjwpdm3IFtClrFzJbQmH/p+VuUy8LzNd0Zj70b
-         uipOGL/VH1WGRMqCVLiAGEJl4kwGARQSurIFpAs2qSOybwmkFcxVkRfdthP94HOap6iT
-         8m6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736778635; x=1737383435;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yQiQxuwGR8sipxLnE2QpNqD0m337joQm8Mgec26elhM=;
-        b=tI6hJZCjHrRvFzwwQo+bITMLFkAtxsF1zmeK/WASAYk2zHfwq9JwEQ01mQlj/2oayZ
-         KLinTT91Kajo5OhV480QuF0CIoR+k4PrEyR2x2f51tqbVVq1ZIY85615Vvp1lJsG2vCN
-         GdmfeQjuNjP1fkWPhuL0dONOJPKZ+IK22DicdC+GhZhyY1nAot+DxY0ZaZcaed4NphML
-         iUdgcMGNdXHCq8PfCG9o8dHtQO8WwxOQ8KPuvFqol2iHs+YteUZdKFSgDKR6rsQWufJA
-         lMM3pBeT/epRdcb19zxDHmBoOam9H1eQhq/yWbvIHi6zvHwY503nSSo9HOSuXV7tSk5o
-         EAIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXJrEM2z6uDWCKBcGG2ngkmWHSvCAgGuOOTxCy0O2ziOIwo+xSIoXlPE7sGvEieS8sdzOLYG0KoXL+yfA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyFHsOQ5MItJx/DCjpESc32TEaCiBxPo+/hZVHLx8tn+gNcL+qx
-	wug9u4nseoD7mT7eJi0S31fqVaS/OfpzHDzgw920V+0qc9G6uBJeIa9aoj0Nz3Cun/Stmp8QApg
-	uN2XETQQkzmGLRiubX0OVrlsYDeOZijYNv5YWsQ==
-X-Gm-Gg: ASbGncuVe8VJXXqsdXIH3J7dVg+oXGYfwAvWv32tUXZgnetFoyo6C+YxYhpANDQbqh4
-	vjmUM/LzDUOyzpmRMJ5DI/P2feDd8lxtAAerq
-X-Google-Smtp-Source: AGHT+IGhfOPi0kkaR3fzIiz3zYVKzNITf7WqJXfvCEhBW44RAY34fqtT6fXLyl378DmtnGYFFnV3yeRTPKvHK9wdrxk=
-X-Received: by 2002:a05:651c:221f:b0:302:1c90:58e8 with SMTP id
- 38308e7fff4ca-3060ce3d06emr30538601fa.33.1736778635404; Mon, 13 Jan 2025
- 06:30:35 -0800 (PST)
+	s=arc-20240116; t=1736779511; c=relaxed/simple;
+	bh=NPURKECord7GiGw5OfWax+xcknRDKDK5z+fFgBgZ234=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hjGNeSHGWL1MgdAF5idit07Re4vaEh8TBoQhObhu4Ig0jburoxK/HnVe5QhujsTEUsaptTPrPAeABcwTMnw9bKAKzBdNyFabEM4iTmgiHp/U4ZzYv0ddGHbvl69F+iMmTEyO8C+hU/uxIhjq+dYdRMAsJ7VDhnIdu9uUSrENww4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A78E812FC;
+	Mon, 13 Jan 2025 06:45:30 -0800 (PST)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7FABA3F66E;
+	Mon, 13 Jan 2025 06:45:00 -0800 (PST)
+Date: Mon, 13 Jan 2025 14:44:57 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Chen-Yu Tsai <wens@csie.org>
+Cc: Evgeny Boger <boger@wirenboard.com>, <jernej.skrabec@gmail.com>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-clk@vger.kernel.org>,
+ <linux-sunxi@lists.linux.dev>, <mturquette@baylibre.com>,
+ <samuel@sholland.org>, <sboyd@kernel.org>, <simons.philippe@gmail.com>
+Subject: Re: [RFC PATCH] clk: sunxi-ng: h616: Reparent CPU clock during
+ frequency changes
+Message-ID: <20250113144457.5b884799@donnerap.manchester.arm.com>
+In-Reply-To: <CAGb2v65-4VK_V4Ob__VAB0+qETuisvdUEUFVwg-7SfHy4rv6_g@mail.gmail.com>
+References: <20241025105620.1891596-1-andre.przywara@arm.com>
+	<7b63b316-4cd7-48ee-ae32-3750d25e2307@wirenboard.com>
+	<20241108223400.460982d6@minigeek.lan>
+	<a4fada26-7ef8-4618-9ddd-0962b7dc6efb@wirenboard.com>
+	<CAGb2v65-4VK_V4Ob__VAB0+qETuisvdUEUFVwg-7SfHy4rv6_g@mail.gmail.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241227-a133-display-support-v1-0-13b52f71fb14@linumiz.com> <20241227-a133-display-support-v1-10-13b52f71fb14@linumiz.com>
-In-Reply-To: <20241227-a133-display-support-v1-10-13b52f71fb14@linumiz.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 13 Jan 2025 15:30:24 +0100
-X-Gm-Features: AbW1kvZgkONvTczIqxIzrr227mixg_kY6H8hXCa96ZE9JLa4yEIXQA2LwUItM1s
-Message-ID: <CACRpkdY29s6Cz3zvtksLO8sESwxhkVdmGUipVAqiEtix3E1=Vw@mail.gmail.com>
-Subject: Re: [PATCH 10/22] pinctrl: sunxi: add missed lvds pins for a100/a133
-To: Parthiban Nallathambi <parthiban@linumiz.com>
-Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
-	Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Maxime Ripard <mripard@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Vinod Koul <vkoul@kernel.org>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, iommu@lists.linux.dev, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-phy@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 27, 2024 at 12:09=E2=80=AFPM Parthiban Nallathambi
-<parthiban@linumiz.com> wrote:
+On Sun, 10 Nov 2024 20:33:47 +0800
+Chen-Yu Tsai <wens@csie.org> wrote:
 
-> lvds, lcd, dsi all shares the same GPIO D bank and lvds0
-> data 3 lines and lvds1 pins are missed, add them.
->
-> Signed-off-by: Parthiban Nallathambi <parthiban@linumiz.com>
+Hi,
 
-Nobody seems to have any objections about this patch and it seems
-technically correct so I just applied it to the pin control tree.
+> On Sat, Nov 9, 2024 at 7:15=E2=80=AFAM Evgeny Boger <boger@wirenboard.com=
+> wrote:
+> >
+> > On 11/9/24 01:34, Andre Przywara wrote: =20
+> > > On Fri, 8 Nov 2024 23:14:51 +0300
+> > > Evgeny Boger <boger@wirenboard.com> wrote:
+> > >
+> > > Hi Evgeny,
+> > > =20
+> > >> Tested-by: Evgeny Boger <boger@wirenboard.com>
+> > >>
+> > >> We had stability issues with some of our T507-based boards. T507 is =
+the
+> > >> same die as H616, to my knowledge.
+> > >> They were fixed by essentially the same patch, which we unfortunately
+> > >> didn't submitted to mainline:
+> > >> https://github.com/wirenboard/linux/commit/dc06e377108c935b2d1f5ce3d=
+54ca1a1756458af
+> > >>
+> > >> It's worth noticing that not only the reparenting is mandated by T5 =
+User
+> > >> Manual (section 3.3.3.1), it's also is implemented in vendor BSP in =
+the
+> > >> same way.
+> > >>
+> > >> We tested the patch extensively on dozens of custom T507 boards (Wir=
+en
+> > >> Board 8 PLC). In our test it significantly improved the stability,
+> > >> especially at low core voltages. =20
+> > > many thanks for this reply, I was hoping for such a kind of report!
+> > > I typically don't test those things in anger, and only have a few
+> > > boards, so having those reports from the real world is very helpful!
+> > >
+> > > Can you maybe give some hint on how you tested this? Does "at low core
+> > > voltages" mean you forced transitions between the lower OPPs only, or
+> > > were the chips undervolted? =20
+> > Both, in a way. Some boards (about 1 in 20 or so) would hang after a few
+> > days of operation.
+> >
+> > During our investigation, we found they would never hang under stress
+> > testing, so we started examining cpufreq-related factors.
+> >
+> > Disabling lower OPPs also prevented hanging. If we artificially lowered
+> > the OPP voltages (undervolting the chip), the boards would hang much
+> > faster without the patch, and even the previously stable ones would
+> > start to hang. =20
+>=20
+> I guess we can merge this one then?
 
-Yours,
-Linus Walleij
+Sorry, didn't realise this was a question.
+
+So yes, please, from my side this looks like the right to do, and Evgeny's
+report supports the need for this.
+
+So please queue this somewhere.
+
+Cheers,
+Andre
+>=20
+> ChenYu
+>=20
+> > >>   From my understanding, all Allwinner SoCs need to follow this kind=
+ of
+> > >> procedure, however it's only implemented in mainline for a handful o=
+f chips. =20
+> > > Yes, I saw, I have added this to my A523 code already, and prepared a
+> > > patch for the H6.
+> > > Do you have boards with any other Allwinner SoCs you could test on, or
+> > > even already have experience with? =20
+> > Unfortunately, no, not really. We only use the T507 and A40i at the mom=
+ent.
+> > We=E2=80=99ve never had these kinds of issues with the A40i, though. By=
+ the way,
+> > the A40i is among the few Allwinner chips with reparenting implemented
+> > in the mainline.
+> >
+> > The A523/T527 is really nice; it's a pity it's limited to 4GB RAM.
+> > =20
+> > >
+> > > Cheers,
+> > > Andre =20
+> >
+> > --
+> > Kind regards,
+> > Evgeny Boger
+> > =20
+
