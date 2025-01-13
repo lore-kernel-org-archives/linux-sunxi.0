@@ -1,151 +1,152 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81CFA6F06A
-	for <linux-sunxi@lists.linux.dev>; Mon, 13 Jan 2025 07:02:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67A75233126
+	for <linux-sunxi@lists.linux.dev>; Mon, 13 Jan 2025 08:06:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736751747; cv=none; b=c3vp0UlBbrVgufOjuqIZcWNUwxxZd1SfCcER/zFu9rc62k7JVimKorTy6ofEIZYGeKD0HovCKgk1DTHkC902hIuegFkvO7zAig4y4mGB1dSy4eBdygIoK66j5JGsd64abAVvDOEJRA6Ge3oqaBhl3hLMUVQgQ9LzYwKELEWwX88=
+	t=1736755606; cv=none; b=ruVNAu6xI/4LSDDF3K8YeW/j++eypdWmhlSdXc8Dsy84fUxvOwSQszGE/FSftFLvpEDkVhghsLelKdkeozqYEOwlFtKuLTiZcEiR53q2QfeVdS/wuvGI7LfYXHCtFq0/UzPLLVv0IVJJFHFvk5HMSNd4VXyUUmKteULkcZAGhQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736751747; c=relaxed/simple;
-	bh=1e2l0XBBDnEwZNKCub8vHrKY4QTagSun6GLAncKYEM4=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=HXynyM1g+lyBh7FA5PRJZ9FDFi+5KevDkIj7oWs+LAIAzKzwx8ywEuTQ6UQwDZnMwkTFsVrRk8xKUtKFWRKLBisCbfocdCAhutUMX5hFeglS1rJeR+XDTpcWx7brTvg1C7l/+pThv20Vnl2MU1ROdrsU2DTqxpEI0h05I5GzBcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QUJwU3yy; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1736755606; c=relaxed/simple;
+	bh=6THSFx/AFsr9lz4GIRAGYuA0iwZKBXlb/hbJB4FiF2M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QY3h81E0dJsgI5Su/43zwadbj06JHz6rZTTkB+6VdbvtcQ+aO8TWi/IHqtxPSqqLi/3rcYAcPChzj4TcXSU84Qrio/VWc9Z58L+I15FQNFotZBdMDBOhBOaOGdtOfiTeuNgDvFKXhIVOfEp/f5HzikNbbdgp5YFC/zkI6o4q98k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QUJwU3yy"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-aaeef97ff02so644714766b.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 12 Jan 2025 23:02:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736751744; x=1737356544; darn=lists.linux.dev;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mp3/qUQXLESraR4kRpn8DKp75/AqUs49Ij3IlmcsjIg=;
-        b=QUJwU3yyLPQF9zv7jW8qjruIo2StRPecBydEun5iu4uwY0MGw6z8yxqA9VtfsRCCig
-         uw64tcSKa9AAZDMxiFPBJYCkB6J0FjSDrxwcOJJdL16Kq1VVz2OpuP3pyew3IZPQ+KMI
-         bzUSkEwt7mjCAo8FbOWV1wVrk8NYWMvyptottJBTlw09VwNf4J40TpqXKOJ0CE/tHL/a
-         SGqRhhNrnRkq5gfIHg8cinc1F/cRY+cBkvwcu2MJY/lTEFnY1AyuVSmxh9ChpKanxogj
-         X2lqxOtgF0t0KMDlpWgwcK1k4ueeqmnz6VUFmX2tRwTZbAChKAAa92Aq/+YT6mAI9La5
-         CGoA==
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-54026562221so4039527e87.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 13 Jan 2025 00:06:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736751744; x=1737356544;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mp3/qUQXLESraR4kRpn8DKp75/AqUs49Ij3IlmcsjIg=;
-        b=XRlCrEO5ggHCBziSFiY2Sd7YvzP/vUQqGL97MuUU9fuIpwcMe2xMydG9FCNwR4hl/6
-         ZyXFH5OAWboI/f5ciZLR7CqWITYQXVvXF0jNMUkrv1kvJ/9jB1dhF6ovWKYyCYKzRF8f
-         OxvqwbTJ6xayeMmuHNrHcbLoZdqx+FYHxsiXTlPUs4gXw9adnQHBTae4PH3V6XN6yT+h
-         DQbH5T4H9Sb+Wcr2dO7GP5ZXY2CN8XMiMFOccaotQNA2/rPizHeAxJ33GnM3Rxxo2isf
-         6cm5awTqVXJsXDIss5ZCRm+tMUReAaovPIz9sa3Y3EZdjiTujabzxQm7iMCZZIj5O4AX
-         uKVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV46Apmsp4/oMcduBW56VRxXhC0dIdXvjpOZg2C/dNgtSN/9EfxeKY5fQSpSmEyuBYBMIgbOnudrJFc/g==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yybq2JdXEBrJM4RunJnyPH/nXDl4xwwCgXsxQ19XVNT5cncLqXf
-	H4hxaJblxGWE2lGFek1dKqQFpZ3SF2sdNxOFlXcMg2d2F8sy4/BA
-X-Gm-Gg: ASbGncvHr26gCqAoBCCe0e85VnBeuAfT5BGbq3BMheejCE3LK44vTY9q68ZxB2Y9/B7
-	WWyNvBn1HYEPf985B5hvAh5wc7Kpe8xDgzV7Uf36bP75VzhreZ12NAN/Vur5pSsbFpw1CNiGtfH
-	mVR/PsuvpdftAe/9c0DPngE7CkKphVp/l17iCl4lBNISSecrBYY9wlEhhAEtiO1r48DsOTkl1PJ
-	C/VyEGOENUwqGKAbCz7heIOmx9ix/DgKTYxv6xCXJ0xEA1Dz+FijJxhZodQjDg960cLuU6MfLg8
-	GQQ8bvanScEUqH+dYUWsBXtQ
-X-Google-Smtp-Source: AGHT+IEdbQkU8UjVmzUUdbYKBPe34Hd3H6alrK+lAeP3uFioAdztQzne4JSDv6lfgqNHpEvaeL0MQQ==
-X-Received: by 2002:a17:907:94c2:b0:aa6:824c:4ae5 with SMTP id a640c23a62f3a-ab2abc9f6e0mr1698225066b.56.1736751743583;
-        Sun, 12 Jan 2025 23:02:23 -0800 (PST)
-Received: from smtpclient.apple (185.174.17.62.zt.hu. [185.174.17.62])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab2c9060bccsm455865966b.22.2025.01.12.23.02.22
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 12 Jan 2025 23:02:23 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
+        d=1e100.net; s=20230601; t=1736755601; x=1737360401;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=x9SvbOZC1nnq5Y5FqEi1BPs9LivsVwnmqcjEJAXSzCg=;
+        b=CjsWPzaM/GHn9BZofiLvh4fTpg3NnGrueb9Oe0i7Pmh4oI5nCccwUgeLbOX5U0g9gu
+         QvrHCWEPhcrEVDX+KCaIqaNWKYWxnz0vHgBQt1q+swsw+OtJvBLED7MZtXPr0Hzi84d8
+         tRcpdQGkBhH/JHZNKRxFpKLBWVK/dbwkYgIYy79W6jn2Wn08uLMa64mkiTYNG2thGcqv
+         CIp8GxJ88t7jRv02ML67xl2FDRCNpSUAGWP4sYWT9y0w7rQQEO1S946tYyLD6DL6v46l
+         0YMVGPKx+E7dFGZ019f8peS51MNTQoBHQhm13ZIAiU6gcrRWjamY00d5dhktN42m9+1m
+         WlJg==
+X-Forwarded-Encrypted: i=1; AJvYcCVVziLad3iL9OPS8p0mdKN0kuaJVIlEGwznY7lpfk6K2gZ2g/6tFzSsxJUuuA9Y079guEI8uIXPx24P+w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzwQzKoEvX5O0ZzPCfYf+TkLpRVngjfsOwJ2lX+nA1zBlfwYiqL
+	kJJTOQhwJas7dDCF9C+EQRisb4c51UyzRXLccQkBj864xPnXc0oQ2suo3uSJ
+X-Gm-Gg: ASbGnctM4+Tz2grsVANyFkfPZpukwNVYB0qhOneDnOsmMmmL57FBcZliY0EhHc91Tbi
+	r4YQfEWcfk9q0Hv3tz5G1hqDkVRQxedKoOAgY9EKlJoImLqgMhG8agJkeag1vr3J+EE42o6693o
+	HEvrE1hyzIBDh7OycMDSaUTZQKqslFoFSLQEqIYa88qKXWHmn28miNDSFgKdG58tBMvrH6eZy/7
+	/b7l6HQ3iT7SIiULdbtz97l/u8J8JmcFqdphvBVTNagieVmVarlxIWkvhHK8ybFaZpNEWytW/M3
+	ApPRnrkPBg==
+X-Google-Smtp-Source: AGHT+IEE4vGkdyZVi9tqySnnks/96auAMkW0rU0DLUPseZvF/BfUkzX/rZfYzO4ilL6e70JMYKkNkQ==
+X-Received: by 2002:a05:6512:104b:b0:542:8d45:cb3e with SMTP id 2adb3069b0e04-5428d45cce2mr4974217e87.18.1736755600960;
+        Mon, 13 Jan 2025 00:06:40 -0800 (PST)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com. [209.85.167.47])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5428be54741sm1288795e87.84.2025.01.13.00.06.40
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Jan 2025 00:06:40 -0800 (PST)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-53ff1f7caaeso3944309e87.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 13 Jan 2025 00:06:40 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXJme8doR4E5vDZa9sGPAYZ8RxyfsTsUnzq1dP/WMJIeqC1img7Pa3KS33Za8p6oATypn9DxSp/LDkGNA==@lists.linux.dev
+X-Received: by 2002:a05:6512:1149:b0:540:2201:57d1 with SMTP id
+ 2adb3069b0e04-542845c01b8mr6646548e87.49.1736755599852; Mon, 13 Jan 2025
+ 00:06:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3776.700.51\))
-Subject: Re: [PATCH 06/12] dt-bindings: clk: sunxi-ng: add V853 CCU
- clock/reset
-From: =?utf-8?B?QW5kcsOhcyBTemVtesWR?= <szemzo.andras@gmail.com>
-In-Reply-To: <tttj7va4hzpqugah4rhm2u5kganuix5iy7373h62b3rgfwvdbt@53vexrsfmskk>
-Date: Mon, 13 Jan 2025 08:02:11 +0100
-Cc: Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Maxime Ripard <mripard@kernel.org>,
- Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Ulf Hansson <ulf.hansson@linaro.org>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>,
- =?utf-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org,
- linux-gpio@vger.kernel.org,
- linux-pm@vger.kernel.org,
- linux-riscv@lists.infradead.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <E7DD6AE5-833C-41AC-8B7F-2772BEB065EF@gmail.com>
+MIME-Version: 1.0
 References: <20250110123923.270626-1-szemzo.andras@gmail.com>
- <20250110123923.270626-7-szemzo.andras@gmail.com>
- <tttj7va4hzpqugah4rhm2u5kganuix5iy7373h62b3rgfwvdbt@53vexrsfmskk>
+ <20250110123923.270626-7-szemzo.andras@gmail.com> <de280eed-bcc8-4802-9734-5e95ad1f6611@kernel.org>
+In-Reply-To: <de280eed-bcc8-4802-9734-5e95ad1f6611@kernel.org>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Mon, 13 Jan 2025 16:06:26 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65arvBMg+reReVqK-Y6dL+CSrSx4618msiRKcNf=Vk1=A@mail.gmail.com>
+X-Gm-Features: AbW1kva6YUV9q8y_q0KQe84KsHadIWhU7SR1t_0-KhCfFvLqL38ru64zHHHYBmg
+Message-ID: <CAGb2v65arvBMg+reReVqK-Y6dL+CSrSx4618msiRKcNf=Vk1=A@mail.gmail.com>
+Subject: Re: [PATCH 06/12] dt-bindings: clk: sunxi-ng: add V853 CCU clock/reset
 To: Krzysztof Kozlowski <krzk@kernel.org>
-X-Mailer: Apple Mail (2.3776.700.51)
+Cc: Andras Szemzo <szemzo.andras@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Maxime Ripard <mripard@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
+	Kishon Vijay Abraham I <kishon@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, linux-clk@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-phy@lists.infradead.org, linux-gpio@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-riscv@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for your comments for the whole series!
-Not everything is clear for me yet, but I=E2=80=99ll clarify with sunxi =
-community, and
-fix it based on your suggestions.
+On Fri, Jan 10, 2025 at 9:56=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.or=
+g> wrote:
+>
+> On 10/01/2025 13:39, Andras Szemzo wrote:
+> > As the device tree needs the clock/reset indices, add them to DT bindin=
+g
+> > headers.
+> >
+> > Signed-off-by: Andras Szemzo <szemzo.andras@gmail.com>
+>
+> That's never a separate commit from the binding.
+>
+>
+> ...
+>
+> > --- /dev/null
+> > +++ b/include/dt-bindings/clock/sun8i-v853-r-ccu.h
+> > @@ -0,0 +1,16 @@
+> > +/* SPDX-License-Identifier: (GPL-2.0+ OR MIT) */
+> > +/* Copyright(c) 2020 - 2023 Allwinner Technology Co.,Ltd. All rights r=
+eserved.
+> > + *
+> > + * Copyright (C) 2023 rengaomin@allwinnertech.com
+> > + */
+> > +#ifndef _DT_BINDINGS_CLK_SUN8I_V85X_R_CCU_H_
+> > +#define _DT_BINDINGS_CLK_SUN8I_V85X_R_CCU_H_
+> > +
+> > +#define CLK_R_TWD            0
+> > +#define CLK_R_PPU            1
+> > +#define CLK_R_RTC            2
+> > +#define CLK_R_CPUCFG         3
+> > +
+> > +#define CLK_R_MAX_NO         (CLK_R_CPUCFG + 1)
+>
+> Nope, drop. Not a binding.
+>
+> > +
+> > +#endif
+> > diff --git a/include/dt-bindings/reset/sun8i-v853-ccu.h b/include/dt-bi=
+ndings/reset/sun8i-v853-ccu.h
+> > new file mode 100644
+> > index 000000000000..89d94fcbdb55
+> > --- /dev/null
+> > +++ b/include/dt-bindings/reset/sun8i-v853-ccu.h
+> > @@ -0,0 +1,62 @@
+> > +/* SPDX-License-Identifier: (GPL-2.0+ OR MIT) */
+>
+> Odd license. Did you copy the file with such license from the downstream?
 
-> On 11 Jan 2025, at 11:34, Krzysztof Kozlowski <krzk@kernel.org> wrote:
->=20
-> On Fri, Jan 10, 2025 at 01:39:17PM +0100, Andras Szemzo wrote:
->> As the device tree needs the clock/reset indices, add them to DT =
-binding
->> headers.
->>=20
->> Signed-off-by: Andras Szemzo <szemzo.andras@gmail.com>
->> ---
->> include/dt-bindings/clock/sun8i-v853-ccu.h   | 132 =
-+++++++++++++++++++
->=20
-> Please use full compatible as filename.
->=20
->> include/dt-bindings/clock/sun8i-v853-r-ccu.h |  16 +++
->> include/dt-bindings/reset/sun8i-v853-ccu.h   |  62 +++++++++
->> include/dt-bindings/reset/sun8i-v853-r-ccu.h |  14 ++
->> 4 files changed, 224 insertions(+)
->> create mode 100644 include/dt-bindings/clock/sun8i-v853-ccu.h
->> create mode 100644 include/dt-bindings/clock/sun8i-v853-r-ccu.h
->> create mode 100644 include/dt-bindings/reset/sun8i-v853-ccu.h
->> create mode 100644 include/dt-bindings/reset/sun8i-v853-r-ccu.h
->>=20
->> diff --git a/include/dt-bindings/clock/sun8i-v853-ccu.h =
-b/include/dt-bindings/clock/sun8i-v853-ccu.h
->> new file mode 100644
->> index 000000000000..a405b982f914
->> --- /dev/null
->> +++ b/include/dt-bindings/clock/sun8i-v853-ccu.h
->> @@ -0,0 +1,132 @@
->> +/* SPDX-License-Identifier: (GPL-2.0+ OR MIT) */
->=20
-> BTW, also checkpatch warns about this...
->=20
+AFAIK all the existing sunxi clock / reset binding header files are
+dual licensed. OOTH all the YAML files are GPL 2.0 only.
+
+IIRC we started out GPL 2.0 only, but then figured that the header files
+couldn't be shared with non-GPL projects, so we changed those to dual
+license.
+
+Hope that explains the current situation. Relicensing the whole lot
+to just MIT or BSD is probably doable.
+
+
+ChenYu
+
+>
 > Best regards,
 > Krzysztof
->=20
-
+>
