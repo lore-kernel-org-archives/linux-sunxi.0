@@ -1,261 +1,102 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9030B20F095
-	for <linux-sunxi@lists.linux.dev>; Tue, 14 Jan 2025 11:21:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4C9C13CA8A
+	for <linux-sunxi@lists.linux.dev>; Tue, 14 Jan 2025 14:14:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736853718; cv=none; b=hqDEG8HIo2DXh23naJ+r07TF2ugTl7ShIdjDMZWxs9v6WmAM7OuUBs9OAu7QhR6ZNEPqcFumo7VfreyoFXYUtD6qBW9q5JpHUwO6h+uqYIv63yci242IW6b0nTFeJRsvsDjYCCFJnVX1wHMIS11ICMWzAQuhj0HMatj4uWT02Ek=
+	t=1736864069; cv=none; b=u5eL2C8YKCCOerw9wWaIPcOhF9zfvjd78IyQAtR4vLrBRxoSy89jr7/XAQNng8cJkh869adfAbaj+6wa74SWWrFeqe4nphw3XVoKUdTyB5bX98phki1da2qq1BlrSHsD1kpudcAcWhFgWY4e9xgA4etNZU8zv/dAfpNw8oscyug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736853718; c=relaxed/simple;
-	bh=QaLrvM7SFNLtlilHraRkSy3EanVychYDHqY+bkjn3B8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CQ9D/mXkUqZ0nGC9NsVwYuMZtRj6gupTC1RPHs5RjsWmHESeXmJjxk4LpRs/6tXNZQt2jYhA/+5YdauNOXZyKthZ1hjTXObQMoWjy53vsv1BNllKQ1Tb5wCLiUK+ewu5+wFQpkfTiIQ9To7Js61XSb5QrIOsXwBiF15EOZoBNXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6082E11FB;
-	Tue, 14 Jan 2025 03:22:24 -0800 (PST)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DE7B83F66E;
-	Tue, 14 Jan 2025 03:21:53 -0800 (PST)
-Date: Tue, 14 Jan 2025 11:21:49 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Chen-Yu Tsai <wens@csie.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
- Holland <samuel@sholland.org>, <linux-gpio@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 5/7] dt-bindings: pinctrl: add compatible for Allwinner
- A523/T527
-Message-ID: <20250114112149.5448baae@donnerap.manchester.arm.com>
-In-Reply-To: <CAGb2v663LeDtk1ZGOAztQ+Sx5OtbSx+xkLgypZYRjXkAr6_GRA@mail.gmail.com>
-References: <20241111005750.13071-1-andre.przywara@arm.com>
-	<20241111005750.13071-6-andre.przywara@arm.com>
-	<CAGb2v64x_QE8w_4h10waG33xNpkd9QLt_B=xSPMMe0M=6bqsJw@mail.gmail.com>
-	<20241120101228.26bbf100@donnerap.manchester.arm.com>
-	<CAGb2v663LeDtk1ZGOAztQ+Sx5OtbSx+xkLgypZYRjXkAr6_GRA@mail.gmail.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1736864069; c=relaxed/simple;
+	bh=kb+N7KX0rT6TQGPdAoyZC4q4c2muk934hfkb7Zz1PYk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aTWOJKTSJ8mhyvDTyzayqjSd8qqBK1N1/qKwMdhSS5xQWixxYEbObMwal1Vmo7OmhT0BzXUV7tEpObtBV0P6WSEIloTj+BO08DIFwYXtwV7Q8soCr/DBvXVa6TIILzVA8/8QFp0UG1LSub03mljwNN8yzTj/1k1UbNxE/SL7Y34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XOsWHebb; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XOsWHebb"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-54026562221so5735848e87.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 14 Jan 2025 06:14:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1736864066; x=1737468866; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kb+N7KX0rT6TQGPdAoyZC4q4c2muk934hfkb7Zz1PYk=;
+        b=XOsWHebb2HTpdRx0GzI/jefBQhw/4b5cxKN/zu9rOMt6QTJCwomKCRQcURCtpBaRbx
+         eJFY3JIsA57Yte8T6Ui5+iwze2MvgXNSdBFbGKPkCoCde2cl2M9EwPr+wexC6UMrblMv
+         XE7J96F4toeENOTAK4bVaoVW8ecwr77vPuLefP7F49R8DyNJ4YGbJEcyx/c7x6m0aTuA
+         XFbzgJGUsdAz/Iy3y+SN5GBuUe5ed41wbN6FDvD+OZiL6YqdXYemUlSrLXqthAs2xbPn
+         arxokprdPf3F7DwncOwpVNMDjTDTQa/T9g//OX6e5jxYaEX8Nl8MJMC1bq3LxNQKr+gF
+         Dv0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736864066; x=1737468866;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kb+N7KX0rT6TQGPdAoyZC4q4c2muk934hfkb7Zz1PYk=;
+        b=mwMvw7kwt6dMhYPeRGNQg6LNVsVhx+3InfmU6qCGz/Zdzw4+TAccths/4Wz8h2Wlsk
+         RVkYDHTxFm7Bv4+G/xaYsD3IGqu339eJ45HoSrCmZHr2XjGAAD0WLNBZt4TgpnT6mkEM
+         tzQWxW4Jj+4VxG15AceW/ygFqKlcj+B2L/S2vA/0BqdxlPJQpAaYwNZYq/LDcapD4PD/
+         nzfwYdgR2qTyIhuWgXPi2oEw7fw25mTiGcKfD8DokQeTEtKLQMVmm4cNlQQsuVnE7gGb
+         9up2U4dueyy7u1GQ8fFGt1aDKwXFKv9JbSWIO1xZrk5IAqd+URgd7S9or4k6Ss4+UkBl
+         ZTjQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXR/fWVWi8ScuFkHOrkvdKPlYJ2tA23ASLJjE0OquNllZ9JwP+LsUhMwSsVBQAQhn35q/DE5Gfn0zitFQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz9dAeGkvewcgs2T4ehqPU9S1DjkPwOt7HcfRZBo6Su9vwAhWFz
+	e0gLqnGjtpTMEWfBpmilxLPq15mkSly5ooR/CqnlxvNkAzYBFQPnVsZ2Shn1gsm1eAH/rM21nrh
+	Ea2OCZJXoqR0BQ8KdBkb3PgM7v13/aXMjdYwTHA==
+X-Gm-Gg: ASbGncvHXEfSyx4HATdWf6+oAsQDtQA8eVdDRAfxs21LinyfZcRYr2TVGZ+7tVZxrmv
+	ozoRuTpRN4dxC71pz/+deRDDw1ms0BNWJGOet
+X-Google-Smtp-Source: AGHT+IGQT/qQTanY0VeTmw14H4V1Aaz+aOnG3UKuUwYfMTsXxCW542oDFqS8vWTFAvYHrASeV6/2sAbC1dUoPYmd1+8=
+X-Received: by 2002:a05:6512:104b:b0:542:8d45:cb3e with SMTP id
+ 2adb3069b0e04-5428d45cce2mr7226522e87.18.1736864066034; Tue, 14 Jan 2025
+ 06:14:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20250110123923.270626-1-szemzo.andras@gmail.com> <20250110123923.270626-4-szemzo.andras@gmail.com>
+In-Reply-To: <20250110123923.270626-4-szemzo.andras@gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 14 Jan 2025 15:14:14 +0100
+X-Gm-Features: AbW1kvZbpuLPblFhcOWb0pAf-vXkkjGwXrNgVmso7Oy8q5LSTsj10tRLuD4ySG4
+Message-ID: <CACRpkdaz7ABO2QQwv1NFaPm1dOF_maO-bxWQdPNoYAmUXDKCDw@mail.gmail.com>
+Subject: Re: [PATCH 03/12] pinctrl: sunxi: add driver for Allwinner V853.
+To: Andras Szemzo <szemzo.andras@gmail.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Maxime Ripard <mripard@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
+	Kishon Vijay Abraham I <kishon@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, linux-clk@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-phy@lists.infradead.org, linux-gpio@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-riscv@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 14 Jan 2025 15:01:31 +0800
-Chen-Yu Tsai <wens@csie.org> wrote:
+On Fri, Jan 10, 2025 at 1:39=E2=80=AFPM Andras Szemzo <szemzo.andras@gmail.=
+com> wrote:
 
-Hi Chen-Yu,
+> The V853 family has multiple package variants, from BGA to QFN88.
+> The latter has co-packaged DRAM and fewer pins, and less features (pin mu=
+xes).
+> All family members can be supported by a single driver, as the available =
+pins
+> with allowed muxes is the same across the devices.
+>
+> Signed-off-by: Andras Szemzo <szemzo.andras@gmail.com>
 
-before I get to your specific question below: what do you think in
-general of the idea of getting rid of that table based approach we use so
-far? Is that something worthwhile? I definitely think yes, but wanted to
-hear the maintainers' opinion about this. Happy to present some arguments
-if need be.
+Looks good to me, waiting for a review of the bindings before applying,
+but I see no problem with the patch as it's just using the core sunxi
+infrastructure and any minor issues can be fixed in-tree.
 
-...
-
-> On Wed, Nov 20, 2024 at 6:12=E2=80=AFPM Andre Przywara <andre.przywara@ar=
-m.com> wrote:
-> >
-> > On Wed, 13 Nov 2024 16:50:19 +0800
-> > Chen-Yu Tsai <wens@csie.org> wrote:
-> >
-> > Hi Chen-Yu,
-> >
-> > sorry for the late reply, I was away for a week.
-> > =20
-> > > On Mon, Nov 11, 2024 at 8:58=E2=80=AFAM Andre Przywara <andre.przywar=
-a@arm.com> wrote: =20
-> > > >
-> > > > The A523 contains a pin controller similar to previous SoCs, althou=
-gh
-> > > > using 10 GPIO banks (PortB-PortK), all of them being IRQ capable.
-> > > > This introduces a new style of binding, where the pinmux values for=
- each
-> > > > pin group is stored in the new "allwinner,pinmux" property in the DT
-> > > > node, instead of requiring every driver to store a mapping between =
-the
-> > > > function names and the required pinmux.
-> > > >
-> > > > Add the new name to the list of compatible strings, and required it=
- to
-> > > > have 10 interrupts described. Also add the new pinmux property.
-> > > >
-> > > > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > > > ---
-> > > >  .../pinctrl/allwinner,sun4i-a10-pinctrl.yaml  | 23 +++++++++++++++=
-++--
-> > > >  1 file changed, 21 insertions(+), 2 deletions(-)
-> > > >
-> > > > diff --git a/Documentation/devicetree/bindings/pinctrl/allwinner,su=
-n4i-a10-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/allwinner,=
-sun4i-a10-pinctrl.yaml
-> > > > index 4502405703145..6fc18e92e1e94 100644
-> > > > --- a/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10=
--pinctrl.yaml
-> > > > +++ b/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10=
--pinctrl.yaml
-> > > > @@ -56,6 +56,8 @@ properties:
-> > > >        - allwinner,sun50i-h6-r-pinctrl
-> > > >        - allwinner,sun50i-h616-pinctrl
-> > > >        - allwinner,sun50i-h616-r-pinctrl
-> > > > +      - allwinner,sun55i-a523-pinctrl
-> > > > +      - allwinner,sun55i-a523-r-pinctrl
-> > > >        - allwinner,suniv-f1c100s-pinctrl
-> > > >        - nextthing,gr8-pinctrl
-> > > >
-> > > > @@ -64,7 +66,7 @@ properties:
-> > > >
-> > > >    interrupts:
-> > > >      minItems: 1
-> > > > -    maxItems: 8
-> > > > +    maxItems: 10
-> > > >      description:
-> > > >        One interrupt per external interrupt bank supported on the
-> > > >        controller, sorted by bank number ascending order.
-> > > > @@ -119,13 +121,17 @@ patternProperties:
-> > > >          $ref: /schemas/types.yaml#/definitions/uint32
-> > > >          enum: [10, 20, 30, 40]
-> > > >
-> > > > +      allwinner,pinmux:
-> > > > +        $ref: /schemas/types.yaml#/definitions/uint32-array
-> > > > +        description: pinmux selector for each pin
-> > > > + =20
-> > >
-> > > Why not just the standard "pinmux" property, as given in
-> > > Documentation/devicetree/bindings/pinctrl/pinmux-node.yaml =20
-> >
-> > I had it like this in my last post two years ago, but learned from
-> > LinusW [1] that the generic pinmux property has a slightly different
-> > meaning, and abusing it for just the pinmux index values would not match
-> > the generic definition.
-> > We *could* use the generic definition, but then this would include what=
-'s
-> > in the "pins" property, like I sketched out in the cover letter, as an
-> > alternative to this approach:
-> >         pinmux =3D <SUNXI_PIN(PB, 9, 2)>, <SUNXI_PIN(PB, 10, 2)>;
-> > Where the SUNXI_PIN macro would combine the pin number and the pinmux i=
-nto
-> > one 32-bit cell. See the Apple GPIO DT nodes for an example.
-> > This looks indeed nicer, but requires quite some rewrite of the existing
-> > pinctrl driver, AFAICS. =20
->=20
-> Sorry for taking so long to get back to this.
->=20
-> Could we maybe add a generic replacement of the existing "function"
-> property, which takes a string? Like "function-id" or "function-selector"
-> that takes u32 (or u8). Then it could be one or the other. Not sure
-> if the binding maintainers would accept this or not.
-
-Do you mean specifically a *generic* property, as opposed to something
-prefixed with a vendor string, and coded up in just the sunxi driver?
-
-Because otherwise "allwinner,pinmux" is that numeric equivalent to
-"function". I kept "function", as a string, because the GPIO framework
-still needs a string at places, for instance for sysfs. We could create
-those strings, based on the node name, by sprintf'ing something, but I
-figured we might as well keep "function".
-In my U-Boot patches [1] I actually ignore the new pinmux property, and
-still use the function name, as it was easier to integrate into the
-existing code. U-Boot uses a very limited subset of our current table,
-so each new SoC doesn't add much to the code.
-
-[1] https://github.com/apritzel/u-boot/commit/ab4f7ed0879022357646
-
-Code-wise I think we would still need our own driver code, so whether we
-use "function-id" or "allwinner,pinmux" in there doesn't make much of a
-difference, I think.=20
-
-> I understand that we probably don't want the mux value combined with
-> the pin number.
-
-You mean like the Apple GPIO does? I wonder why not, actually? I find this
-actually quite clever and compact. Again the "pins" property atm is quite
-string-heavy, so the code has to translate this back into a bank and pin
-number, then lookup the function string in our table to get the pinmux
-value. We could fit all of this information easily into this new
-generic "pinmux" property, and the code just needs to mask and shift that
-number. Each pin occupies a cell, I don't think we can get much better
-than that?
-
-Cheers,
-Andre
-
-> ChenYu
->=20
-> > [1] Previous reply from LinusW:
-> > https://lore.kernel.org/linux-sunxi/CACRpkdbMc-Q6wjgsiddu6-tWC1dt2uFk+4=
-LyerMdgFk2KRGK4w@mail.gmail.com/
-> > =20
-> > > =20
-> > > >      required:
-> > > >        - pins
-> > > >        - function =20
-> > >
-> > > This section should be made to apply only to the existing
-> > > compatibles? Maybe we could just split the files and have
-> > > a clean slate for sun55i? =20
-> >
-> > Yeah, I couldn't find a good example how to make it *required* for one
-> > compatible and *not allowed* for all the others. But creating a whole n=
-ew
-> > file is actually a good idea, as this also avoids adding another case to
-> > the already quite indented if-else cascade.
-> >
-> > Cheers,
-> > Andre
-> > =20
-> > > ChenYu
-> > > =20
-> > > >      additionalProperties: false
-> > > >
-> > > > -  "^vcc-p[a-ilm]-supply$":
-> > > > +  "^vcc-p[a-klm]-supply$":
-> > > >      description:
-> > > >        Power supplies for pin banks.
-> > > >
-> > > > @@ -156,6 +162,17 @@ allOf:
-> > > >          - interrupts
-> > > >          - interrupt-controller
-> > > >
-> > > > +  - if:
-> > > > +      properties:
-> > > > +        compatible:
-> > > > +          enum:
-> > > > +            - allwinner,sun55i-a523-pinctrl
-> > > > +
-> > > > +    then:
-> > > > +      properties:
-> > > > +        interrupts:
-> > > > +          minItems: 10
-> > > > +
-> > > >    - if:
-> > > >        properties:
-> > > >          compatible:
-> > > > @@ -166,6 +183,7 @@ allOf:
-> > > >        properties:
-> > > >          interrupts:
-> > > >            minItems: 8
-> > > > +          maxItems: 8
-> > > >
-> > > >    - if:
-> > > >        properties:
-> > > > @@ -244,6 +262,7 @@ allOf:
-> > > >              - allwinner,sun8i-v3s-pinctrl
-> > > >              - allwinner,sun9i-a80-r-pinctrl
-> > > >              - allwinner,sun50i-h6-r-pinctrl
-> > > > +            - allwinner,sun55i-a523-r-pinctrl
-> > > >
-> > > >      then:
-> > > >        properties:
-> > > > --
-> > > > 2.46.2
-> > > > =20
-> > =20
-
+Yours,
+Linus Walleij
