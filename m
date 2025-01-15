@@ -1,106 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90419234CEA;
-	Wed, 15 Jan 2025 07:51:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D47C5246A11
+	for <linux-sunxi@lists.linux.dev>; Wed, 15 Jan 2025 09:09:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736927514; cv=none; b=FhWsXpaQtEgmnSe7INiHv7jAhi7oqr5xgMdh0q4haRqILBCcIonYEb0+GIDvhSaD5OjsBWcgF4OnmpGaNSEHq8rW6XjVGSTwPg4b0AL+SG9RASVU6rwyPQdp3UUAsxnsEjvjUTIZkvBEkiK6Ap6eplvedS8z1gWqc1IGi5VKoK8=
+	t=1736932157; cv=none; b=SDciiV0AaMUkHFlI4zHdGLnCyjCuYsTpUBG9A3gcnyjOE/e5NA/FP2h1mS8zFLNoEn2guPyQ6CccSGPNzIbt+jC2HcqaL3Pjn1deTFCRpi2f2gyIhXnOS46468h8dxgQpf504W6jz2CYuAZOmKTTB+rBDBBXSRoIc92lvOs4+UE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736927514; c=relaxed/simple;
-	bh=S+Nj9hWyHRIvjq4/IofNhfaffIn9jAcgTDLhxg1rvvY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uvfv3MvOH+gPhzWGM/Qeexx0DdrrzK19AcsThyetIuKXSgSoY/oWbfZhHyb7d3aebPEb9wGb5CZuWH7ywhGewNXDqIDTeKHgJ1Ls4+qu7ZxNyr7HRrnRnKbVZARF0f2E6Tuv5c12lPBa57AixP4oV1Q+9BJRg2hdLAz9zO0v3ok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uvx066fL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736932157; c=relaxed/simple;
+	bh=jzVF8QKbSKlwNeLM5JaEErE+5Hfuig0I3TmeMB+qegc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=cZ4mnvrKBjHrjKpzwJfN7Q4jAuzZHHgZ2LfpmfJokjsL3EAbFrm9/ZQ64+h9E1oHzdaSqfa6yyVrJhF+4waSbuBjP1NNfAw8vooNvxnw12Dhc6ZVSpXJq3RBWVX/OFSNuvnIdTl7AsC7ENOqYSHFXLMtCCKLNgwYjz01nJiGNKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=YwUsiqL+; arc=none smtp.client-ip=193.68.50.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uvx066fL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6238DC4CEE1;
-	Wed, 15 Jan 2025 07:51:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736927514;
-	bh=S+Nj9hWyHRIvjq4/IofNhfaffIn9jAcgTDLhxg1rvvY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Uvx066fLqOkq2FDBqACzgccc8KScMXLxd3zQL2qcA9RJrLq4iZ/CHhD78v5CxM1Yk
-	 Djx0jQGp96X5lQlvUP/UMAnHU6y8YWZWhkQ0jiP83h6FUNw8+AGjQi08OFNboPk2Hs
-	 0AO8kCkJFJuAOQC0W49As/pvzkQ89cPY+6YkcOt6MHq9EegqjowGZfWmoGY1v4uHLY
-	 AmaiUoDl8d4P1UklxcvjU9PA2McMP6jve23VVlvkHcY3PJ9YU7EkpQXB3qUuPF9B2e
-	 ocVh3yQEiLF2ZYFdFtwfkeyqbU2AmmaF7GBaUKjISO7EjPfLW/kIUsqxgw2Hii+OH4
-	 s+dpNfCHXZOhQ==
-Date: Wed, 15 Jan 2025 07:51:50 +0000
-From: Vinod Koul <vkoul@kernel.org>
-To: Andras Szemzo <szemzo.andras@gmail.com>
-Cc: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Maxime Ripard <mripard@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-gpio@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH 10/12] dt-bindings: phy: allwinner: add v853 usb phy
-Message-ID: <Z4dpFqffMJ31ml2y@vaman>
-References: <20250110123923.270626-1-szemzo.andras@gmail.com>
- <20250110123923.270626-11-szemzo.andras@gmail.com>
+	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="YwUsiqL+"
+Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
+	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id 4F1A8A0A27;
+	Wed, 15 Jan 2025 10:09:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:from:from:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=mail; bh=ssZI86T0A6XNN8hCXgMu
+	MZMsnzteKeFLGvw1TpMOAQU=; b=YwUsiqL+mnfGUW9j8eGYD/GWnYrYU4Lh23/R
+	Gk2lpKqoAoqRGyrHg00ogMYZOT6rBU2nNA0yllC476j3q3fUoYLJVNemN00UpP4s
+	RNSd3MN5utnVTVpVHhRiW7g18Rxvg6cg5Mbi0igsJ8aqMJi2LKMdPOWddsY+ja2X
+	HdVuwqmRkFUNTRYG+1vhShK2qKRzlVSPpPbLn1PZT3aeK6GviuuaHTod48xGpBct
+	xITp7DWK5gH6WgPA0466Hq4INt9RjJ3g9jWgF2DO4HcsvCXLUtYqm6VEJSF6skO4
+	QKwbsuC4d9czkpAnsIVGSJP89jgtxCsPE33/NZJaQbojtYFP5lBO/LYuskWxvMgF
+	L+IEVCzwQZ8fR5S7OdoyPZNYIudOpxHv82EgdF5wm/maN/qVoKiD6Jtr/4cSHgyp
+	A0d/IluO1KZddaESPZPCepvmVGSG8fa7b68lneLzG4o93UIraCbzM6rDLsfYHMtg
+	lpWj8ZVDnG6zZDLoLifMkms32GIpx/DhARP/Z8rZ3YYdqa0ClqgGgmZVhYHHRiLK
+	Xglikd9s9lg4opobT3B+ruWbtNC7nBY7dr1DfKu4PDOZqXWX80G3xcgPLCmXTtq1
+	pl4P9NrgOy1MtsywyJ4vVaQqbvy1t76OTxyKF32tbGpRU0vliKNBQ5DbgD/jZTwO
+	3/JuGtg=
+Message-ID: <81cbb273-a4b4-424c-9d25-f53ebc8ea82a@prolan.hu>
+Date: Wed, 15 Jan 2025 10:09:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250110123923.270626-11-szemzo.andras@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 12/12] ARM: dts: sun8i: add DTSI file for V853
+To: Krzysztof Kozlowski <krzk@kernel.org>, Andras Szemzo
+	<szemzo.andras@gmail.com>, Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, "Chen-Yu
+ Tsai" <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, "Samuel
+ Holland" <samuel@sholland.org>, Linus Walleij <linus.walleij@linaro.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>, Maxime Ripard <mripard@kernel.org>
+CC: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>, Paul Walmsley
+	<paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
+	<aou@eecs.berkeley.edu>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
+	<u.kleine-koenig@baylibre.com>, Florian Fainelli
+	<florian.fainelli@broadcom.com>, <linux-clk@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<linux-phy@lists.infradead.org>, <linux-gpio@vger.kernel.org>,
+	<linux-pm@vger.kernel.org>, <linux-riscv@lists.infradead.org>
+References: <20250110123923.270626-1-szemzo.andras@gmail.com>
+ <20250110123923.270626-13-szemzo.andras@gmail.com>
+ <ff57cf8d-626e-4d35-a18f-1a89b4d9fa3e@kernel.org>
+Content-Language: en-US
+From: =?UTF-8?B?Q3PDs2vDoXMgQmVuY2U=?= <csokas.bence@prolan.hu>
+In-Reply-To: <ff57cf8d-626e-4d35-a18f-1a89b4d9fa3e@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: ATLAS.intranet.prolan.hu (10.254.0.229) To
+ ATLAS.intranet.prolan.hu (10.254.0.229)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A2980D94852647063
 
-On 10-01-25, 13:39, Andras Szemzo wrote:
-> Document Allwinner v853 USB phy.
+Hi,
+
+On 2025. 01. 10. 14:58, Krzysztof Kozlowski wrote:
+> On 10/01/2025 13:39, Andras Szemzo wrote:
+>> +// Copyright (C) 2024 Andras Szemzo <szemzo.andras@gmail.com>
+>> +
+>> +#include <dt-bindings/clock/sun6i-rtc.h>
+>> +#include <dt-bindings/clock/sun8i-v853-r-ccu.h>
+>> +#include <dt-bindings/reset/sun8i-v853-r-ccu.h>
+>> +#include <dt-bindings/clock/sun8i-v853-ccu.h>
+>> +#include <dt-bindings/reset/sun8i-v853-ccu.h>
+>> +#include <dt-bindings/interrupt-controller/arm-gic.h>
+>> +#include <dt-bindings/power/allwinner,sun8i-v853-ppu.h>
+>> +
+>> +/ {
+>> +	#address-cells = <1>;
+>> +	#size-cells = <1>;
+>> +
+>> +	osc24M: osc24M-clk {
 > 
-> Signed-off-by: Andras Szemzo <szemzo.andras@gmail.com>
-> ---
->  .../phy/allwinner,sun8i-v853-usb-phy.yaml     | 89 +++++++++++++++++++
->  1 file changed, 89 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/phy/allwinner,sun8i-v853-usb-phy.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/phy/allwinner,sun8i-v853-usb-phy.yaml b/Documentation/devicetree/bindings/phy/allwinner,sun8i-v853-usb-phy.yaml
-> new file mode 100644
-> index 000000000000..773c3f476db8
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/phy/allwinner,sun8i-v853-usb-phy.yaml
-> @@ -0,0 +1,89 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/phy/allwinner,sun8i-v853-usb-phy.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Allwinner V853 USB PHY
-> +
-> +maintainers:
-> +  - Chen-Yu Tsai <wens@csie.org>
-> +  - Maxime Ripard <mripard@kernel.org>
-> +
-> +properties:
-> +  "#phy-cells":
-> +    const: 1
-> +
-> +  compatible:
-> +    const:
-> +	- allwinner,sun8i-v853-usb-phy
+> Only lowercase node names.
 
-Does this really need a new binding document, if so why... Cant this be
-added to one of the existing docs which driver uses?
+I don't agree. It is customary to write oscillator names with casing in 
+line with the SI prefixes of their frequency, i.e. lowercase k, 
+uppercase M/G/etc. (even though a millihertz oscillator rarely makes 
+sense, it is best to stay consistent).
 
--- 
-~Vinod
+Bence
+
