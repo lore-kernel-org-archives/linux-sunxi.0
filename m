@@ -1,60 +1,59 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B3E91FECC6;
-	Tue, 14 Jan 2025 19:52:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90419234CEA;
+	Wed, 15 Jan 2025 07:51:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736884376; cv=none; b=nIA2QefL8za22E46Y6LWQq9Mjq/DQP6sbuTwTXcA3hbvYyEm2So/iKq3AWtZck4tP0TOdNJq6VWjvMsp92CBLTwlmQ21OJGHi5UOczSw759CzclCQIad8FrHmkwh1fyY0Sy1bgyxqRU62l2JfSPigKi/OJ490fjtF2PIBsYx0Rc=
+	t=1736927514; cv=none; b=FhWsXpaQtEgmnSe7INiHv7jAhi7oqr5xgMdh0q4haRqILBCcIonYEb0+GIDvhSaD5OjsBWcgF4OnmpGaNSEHq8rW6XjVGSTwPg4b0AL+SG9RASVU6rwyPQdp3UUAsxnsEjvjUTIZkvBEkiK6Ap6eplvedS8z1gWqc1IGi5VKoK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736884376; c=relaxed/simple;
-	bh=tFzCEIztKEZ3kBKK0bFyC/nzjd+01xcbW/7eoFlG6DY=;
+	s=arc-20240116; t=1736927514; c=relaxed/simple;
+	bh=S+Nj9hWyHRIvjq4/IofNhfaffIn9jAcgTDLhxg1rvvY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LjjHUdj7XihZDuRXGWsUByoZ8Mi/sTEsM/iwuZzC+GvG7zy/o7oOzW2zgrduCCH9ismNrU1/awqVG/G0lotWXMY4DBIBPjDABIE2L3vNXw51xssMARoyd4vmWaqw1wHUbChHSd0MBngKUXlvfxabE//MvDbGgZYnGEw8UsjE1To=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AkcU8Cfp; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=uvfv3MvOH+gPhzWGM/Qeexx0DdrrzK19AcsThyetIuKXSgSoY/oWbfZhHyb7d3aebPEb9wGb5CZuWH7ywhGewNXDqIDTeKHgJ1Ls4+qu7ZxNyr7HRrnRnKbVZARF0f2E6Tuv5c12lPBa57AixP4oV1Q+9BJRg2hdLAz9zO0v3ok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uvx066fL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AkcU8Cfp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64D23C4CEDD;
-	Tue, 14 Jan 2025 19:52:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uvx066fL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6238DC4CEE1;
+	Wed, 15 Jan 2025 07:51:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736884375;
-	bh=tFzCEIztKEZ3kBKK0bFyC/nzjd+01xcbW/7eoFlG6DY=;
+	s=k20201202; t=1736927514;
+	bh=S+Nj9hWyHRIvjq4/IofNhfaffIn9jAcgTDLhxg1rvvY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AkcU8CfpStzYxO1CHv2BL2eUQ9p0pg4vOUNoINSSBu9JtBLB8yu6XNT9Yndv2NYbX
-	 HkfswsOjGivQ3792WWlUN9ARVj21u91EVGmVaWk33zl6CJEUOqlblpKKfLotxmAFn0
-	 lD9TDtp8H39JrkR2RU/IJoXwzCshjPCxb0WFazxL3ogASL88nKodW4/n44mHgbOagk
-	 wlFcwm72u8Y02A9zJONQoBA3J8HJC6Nf47Rj/6uRRcUnGXqNU+CXB0I34gdbijS4fN
-	 Z5FtFaLfxG6yyPaZYueo4KWAzWC2WVMZV6dILP5avypfnpCK9M/bGlOyCNaGr/SMbN
-	 vOlo2ZPIp7z8Q==
-Date: Tue, 14 Jan 2025 13:52:54 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
+	b=Uvx066fLqOkq2FDBqACzgccc8KScMXLxd3zQL2qcA9RJrLq4iZ/CHhD78v5CxM1Yk
+	 Djx0jQGp96X5lQlvUP/UMAnHU6y8YWZWhkQ0jiP83h6FUNw8+AGjQi08OFNboPk2Hs
+	 0AO8kCkJFJuAOQC0W49As/pvzkQ89cPY+6YkcOt6MHq9EegqjowGZfWmoGY1v4uHLY
+	 AmaiUoDl8d4P1UklxcvjU9PA2McMP6jve23VVlvkHcY3PJ9YU7EkpQXB3qUuPF9B2e
+	 ocVh3yQEiLF2ZYFdFtwfkeyqbU2AmmaF7GBaUKjISO7EjPfLW/kIUsqxgw2Hii+OH4
+	 s+dpNfCHXZOhQ==
+Date: Wed, 15 Jan 2025 07:51:50 +0000
+From: Vinod Koul <vkoul@kernel.org>
 To: Andras Szemzo <szemzo.andras@gmail.com>
-Cc: Stephen Boyd <sboyd@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	linux-sunxi@lists.linux.dev,
+Cc: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Conor Dooley <conor+dt@kernel.org>, linux-gpio@vger.kernel.org,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
 	Maxime Ripard <mripard@kernel.org>,
 	Kishon Vijay Abraham I <kishon@kernel.org>,
 	Ulf Hansson <ulf.hansson@linaro.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	linux-phy@lists.infradead.org, Albert Ou <aou@eecs.berkeley.edu>,
-	linux-pm@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
-	linux-clk@vger.kernel.org, Philipp Zabel <p.zabel@pengutronix.de>,
-	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
-	linux-kernel@vger.kernel.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+	linux-gpio@vger.kernel.org, linux-pm@vger.kernel.org,
 	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH 02/12] dt-bindings: pinctrl: sunxi: add compatible for
- V853
-Message-ID: <173688437416.1619259.7363940656037127304.robh@kernel.org>
+Subject: Re: [PATCH 10/12] dt-bindings: phy: allwinner: add v853 usb phy
+Message-ID: <Z4dpFqffMJ31ml2y@vaman>
 References: <20250110123923.270626-1-szemzo.andras@gmail.com>
- <20250110123923.270626-3-szemzo.andras@gmail.com>
+ <20250110123923.270626-11-szemzo.andras@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -63,17 +62,45 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250110123923.270626-3-szemzo.andras@gmail.com>
+In-Reply-To: <20250110123923.270626-11-szemzo.andras@gmail.com>
 
-
-On Fri, 10 Jan 2025 13:39:13 +0100, Andras Szemzo wrote:
-> Add compatible strings for V853 family pinctrl.
+On 10-01-25, 13:39, Andras Szemzo wrote:
+> Document Allwinner v853 USB phy.
 > 
 > Signed-off-by: Andras Szemzo <szemzo.andras@gmail.com>
 > ---
->  .../pinctrl/allwinner,sun4i-a10-pinctrl.yaml        | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
+>  .../phy/allwinner,sun8i-v853-usb-phy.yaml     | 89 +++++++++++++++++++
+>  1 file changed, 89 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/phy/allwinner,sun8i-v853-usb-phy.yaml
 > 
+> diff --git a/Documentation/devicetree/bindings/phy/allwinner,sun8i-v853-usb-phy.yaml b/Documentation/devicetree/bindings/phy/allwinner,sun8i-v853-usb-phy.yaml
+> new file mode 100644
+> index 000000000000..773c3f476db8
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/phy/allwinner,sun8i-v853-usb-phy.yaml
+> @@ -0,0 +1,89 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/phy/allwinner,sun8i-v853-usb-phy.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Allwinner V853 USB PHY
+> +
+> +maintainers:
+> +  - Chen-Yu Tsai <wens@csie.org>
+> +  - Maxime Ripard <mripard@kernel.org>
+> +
+> +properties:
+> +  "#phy-cells":
+> +    const: 1
+> +
+> +  compatible:
+> +    const:
+> +	- allwinner,sun8i-v853-usb-phy
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Does this really need a new binding document, if so why... Cant this be
+added to one of the existing docs which driver uses?
 
+-- 
+~Vinod
