@@ -1,262 +1,281 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BEEC4CB5B
-	for <linux-sunxi@lists.linux.dev>; Fri, 17 Jan 2025 01:47:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 586A51F78F4
+	for <linux-sunxi@lists.linux.dev>; Fri, 17 Jan 2025 07:25:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737078442; cv=none; b=qJlw+MNbeThWfsJjtKPEP/IPkwgRk3t1q4rCuaX8D1oSB5+n2p+Z5TPMwFEyoxwwslosxHc+Uum07+6jVfmOiZ7lblfMOLpnzikt50c7YN60VDKUn96tZ2JSCfE6HcOsxjPADJ6khXSi4uaSgr9BvZkVWCuo1u8QPszV/9NrdTE=
+	t=1737098721; cv=none; b=GbEVFqnP1tf8pGFgLzPjVWTElmyB7mrQ98bGMz+nXWZWZurs5PmbDCrp54elkzznGmAg8R4ctQMgaMqF8Y8w5PWRDaoyCFJig1s/FQZ2Xbf4tooiyo4ckWfvzwzGpScTmLQ9a5bHx4tcsRQACppZy5DOiUl2hoV+4xBu4/o9M2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737078442; c=relaxed/simple;
-	bh=M/Ay3EkprHk/HTkTgM4Q/NXUDjbKot29W4hmzb58aVQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=k7xtKu/GkE9RQtiyOlBz88n7y8qpF6Fhsj89us017V8MAlICw4NlzopcBOwfmfD1ZB6T85qRHffek4yDfLMFh/JO1Pv9RTioYttNwH2dJJ5U76jk49N6zWi8e/S5nT3D37CZo+5IhVvsTuTXCnQ0uT7XtoMotM95tg6CEudBHPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 28614175A;
-	Thu, 16 Jan 2025 17:47:47 -0800 (PST)
-Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5672B3F673;
-	Thu, 16 Jan 2025 17:47:17 -0800 (PST)
-From: Andre Przywara <andre.przywara@arm.com>
-To: u-boot@lists.denx.de,
-	Lukasz Majewski <lukma@denx.de>,
-	Sean Anderson <seanga2@gmail.com>,
-	Jaehoon Chung <jh80.chung@samsung.com>
-Cc: Tom Rini <trini@konsulko.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Cody Eksal <masterr3c0rd@epochal.quest>,
-	Simon Glass <sjg@chromium.org>,
-	linux-sunxi@lists.linux.dev,
-	Parthiban <parthiban@linumiz.com>
-Subject: [PATCH 8/8] sunxi: add support for the Allwinner A100/A133 SoC
-Date: Fri, 17 Jan 2025 01:45:37 +0000
-Message-ID: <20250117014537.22513-9-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.46.2
-In-Reply-To: <20250117014537.22513-1-andre.przywara@arm.com>
-References: <20250117014537.22513-1-andre.przywara@arm.com>
+	s=arc-20240116; t=1737098721; c=relaxed/simple;
+	bh=cGTuzvyXhhbVdzsVpQHI3NbFsG2cU0VrK5fyS3VgK5Q=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=gTGNMJKDBRvG9x/3HZMPw+dmRNiUc4D575XqctZaBrWB1qDc4vRuOiUYfhtr36sg9kLEBk2ico1ketdKKzm8MT4I9ilXxTIDTyBy7AAh0KLvXM+27fCdiOQU6QS5hhKmwoN091C2O/FqBAfQ5Q7dllDL7/PmoihbRqIoAC4KVCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fGSBHh3z; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fGSBHh3z"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-aa6c0dbce1fso264223866b.2
+        for <linux-sunxi@lists.linux.dev>; Thu, 16 Jan 2025 23:25:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1737098717; x=1737703517; darn=lists.linux.dev;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=acBUeSMeLcUwdvAPh7XnIMxupIQjS7s3gcf5z1wzyRw=;
+        b=fGSBHh3zUd0wJG5c9DQsAR+hR+8GSOe7Pgo+khAhS2wD8l8zTgODeM3IatE+9yfRxR
+         +wSJ48GgUeW4oKK6ZMV4VAqsAKAsDUh0/ZlKlAgC5gT18R0Kf3lyYTNSuJX04u1XWTL2
+         gNk+A4twDaaeJzvOdjYMBcBx5BdBcGGt6HmOeJbchh5j99/VZz2fgffR0hKwWdE73VGK
+         j54ZMxk1AWD6e3V98JxUQiURKSd7v3tJzJKEF9LGXU1899F4aTVEFj47lvsxU68pKRQl
+         HqkdVlQ5eY3j0qqDdNt/gOOG+JUab+16DpgQCB9VHEg3QoqWacqBhZfihTuuK8keLYC5
+         Kr0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737098717; x=1737703517;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=acBUeSMeLcUwdvAPh7XnIMxupIQjS7s3gcf5z1wzyRw=;
+        b=qwjYqvoibuFofbSUkm3VmNF19b+TgQk+MtvuKQNPgB7tcdAhSnyo4tBttEU0x/Z2Ib
+         XbVne6dOMj2QUbH3VQxSy9k8H9mf9eG8hOmtOOzSgFbCAO0M2P160kCx5OUvMw4VY2HQ
+         paU1Qn9JJEaAPfPQOpQZxGcyYi/ElF9H/znEqIbGabknnoW1ZlEz5NB9BfQ0IbmIao8B
+         +9j3bDcJ6HoH6O7Q7GRrjKCdGA1nN7KT4P/V1Qso5psfp1hEfeDEAdLKVQLzcRUeMt7G
+         ZFP1Z44HI/LR7LbnYs9fynPPqTaw6StWw54OFdakVwZQpzgIUghOUGvP536j8UDRwOQ2
+         jXyA==
+X-Forwarded-Encrypted: i=1; AJvYcCW9H6nlbmDxssX5nw6JMBaGAl7xq0eRpblQWBmowPydnpsO140SFTwb8yBwQWHKeyR/Noh8m1J5iBIFJA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxC/A3iwYj6oHBlretYyEX4P/2t8IuwfAUT0kFoi7sTc5H2BEqH
+	vY0CE94rKVPcQfn4kRzqi5U4rNt8hKDZUtM5lQArEB+6AmcBkMeQ
+X-Gm-Gg: ASbGnctHfYKg5hUnQ539u66/BrXj9DchNpn9ZrTk8Laot4xZoLn4kaFTbDoWVyIHaLW
+	MXO2HrGJVNfnK+DfWA443I67sJ71PvT7ymaZtu/JslE37rDNu4BBxrTer0YLRT4G8gshsFfyqHJ
+	11DRfJhY3NI/g/yT5S7J0H7yYTsLVitgtsckv/+fec4pDcRyDmnvOnXEZWda9B8e+Kb7S+PMnm3
+	zJ3RVkOVYSdYVrAY6Ga/9PjSWP5ThcVIKcqisj5fd+z/PNcV/SN4RMa/fdk2Dur1la/SDFblyoo
+	RqJs7RHMjlsY+VcsQ0o=
+X-Google-Smtp-Source: AGHT+IGePGJHVWxw4XwLV4zxZAGfulFMMCFa6UxYk4nNAptBEBklprrxVwXwqCG4Gi/JEQo6iRnv6g==
+X-Received: by 2002:a05:6402:2745:b0:5d0:bf5e:eb8 with SMTP id 4fb4d7f45d1cf-5db7db07846mr3557485a12.23.1737098717190;
+        Thu, 16 Jan 2025 23:25:17 -0800 (PST)
+Received: from smtpclient.apple (185.174.17.62.zt.hu. [185.174.17.62])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab384ce1a49sm124381366b.46.2025.01.16.23.25.15
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 16 Jan 2025 23:25:16 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3776.700.51\))
+Subject: Re: [PATCH 03/12] pinctrl: sunxi: add driver for Allwinner V853.
+From: =?utf-8?B?QW5kcsOhcyBTemVtesWR?= <szemzo.andras@gmail.com>
+In-Reply-To: <CACRpkdYVTedEon0X-izvaDTGF6yRhD2s=Z6NEM=zBf4vD-T0Pg@mail.gmail.com>
+Date: Fri, 17 Jan 2025 08:25:04 +0100
+Cc: Andre Przywara <andre.przywara@arm.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Maxime Ripard <mripard@kernel.org>,
+ Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>,
+ =?utf-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ linux-clk@vger.kernel.org,
+ devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org,
+ linux-gpio@vger.kernel.org,
+ linux-pm@vger.kernel.org,
+ linux-riscv@lists.infradead.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <686A634E-147F-4D73-A909-29FC0C20472C@gmail.com>
+References: <20250110123923.270626-1-szemzo.andras@gmail.com>
+ <20250110123923.270626-4-szemzo.andras@gmail.com>
+ <20250114141954.2785879a@donnerap.manchester.arm.com>
+ <CACRpkda0nx3SQtdjmXdCEbVJSWM10TM=p-6JbDjbiYcOSF5PxQ@mail.gmail.com>
+ <20250115152635.1b89e7f4@donnerap.manchester.arm.com>
+ <CACRpkdYVTedEon0X-izvaDTGF6yRhD2s=Z6NEM=zBf4vD-T0Pg@mail.gmail.com>
+To: Linus Walleij <linus.walleij@linaro.org>
+X-Mailer: Apple Mail (2.3776.700.51)
 
-The Allwinner A100 SoC has been around for a while, mostly on cheap
-tablets, but didn't generate much interest in the community so far.
-There were some efforts by two Allwinner employees in 2020, which led
-to basic upstream Linux support for that SoC, although this momentum
-dried up pretty quickly, leaving a lot of peripherals unsupported.
+I=E2=80=99ve actually already converted the pinctrl driver to the new dt =
+based pinmux, as Andre
+suggested. It=E2=80=99s simple, get rid of those huge pinmux tables, and =
+easy to understand to
+add the mux settings to the dtsi.
 
-The A100 was silently replaced with the seemingly identical Allwinner
-A133, which is reportedly a better bin of the A100. So far we assume
-that both are compatible from a software perspective. There are some
-more devices with the A133 out there now, so people are working on
-filling the gaps, and adding U-Boot (and TF-A) support.
 
-Based on the just added pinctrl, clock and DRAM support, this adds the
-missing bits, mostly addresses and values for the SPL.
-
-The A133 seems to be an predecessor to the H6, so we can share a lot of
-code with that (and the H616 code), and just need to adjust some details.
-
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- arch/arm/cpu/armv8/fel_utils.S                    |  2 +-
- arch/arm/include/asm/arch-sunxi/clock_sun50i_h6.h |  7 +++++++
- arch/arm/mach-sunxi/Kconfig                       | 11 +++++++++--
- arch/arm/mach-sunxi/board.c                       |  4 ++++
- arch/arm/mach-sunxi/clock_sun50i_h6.c             |  3 ++-
- arch/arm/mach-sunxi/cpu_info.c                    |  2 ++
- board/sunxi/board.c                               |  8 ++++++--
- common/spl/Kconfig                                |  6 +++---
- 8 files changed, 34 insertions(+), 9 deletions(-)
-
-diff --git a/arch/arm/cpu/armv8/fel_utils.S b/arch/arm/cpu/armv8/fel_utils.S
-index 939869b9ffa..c9f3990226e 100644
---- a/arch/arm/cpu/armv8/fel_utils.S
-+++ b/arch/arm/cpu/armv8/fel_utils.S
-@@ -41,7 +41,7 @@ ENTRY(return_to_fel)
- 	str	w2, [x1]
- 
- 	ldr	w0, =0xfa50392f		// CPU hotplug magic
--#ifdef CONFIG_MACH_SUN50I_H616
-+#if defined(CONFIG_MACH_SUN50I_H616) || defined(CONFIG_MACH_SUN50I_A133)
- 	ldr	w2, =(SUNXI_R_CPUCFG_BASE + 0x1c0)
- 	str	w0, [x2], #0x4
- #elif CONFIG_MACH_SUN50I_H6
-diff --git a/arch/arm/include/asm/arch-sunxi/clock_sun50i_h6.h b/arch/arm/include/asm/arch-sunxi/clock_sun50i_h6.h
-index 76dd33c9477..6c1d36836dd 100644
---- a/arch/arm/include/asm/arch-sunxi/clock_sun50i_h6.h
-+++ b/arch/arm/include/asm/arch-sunxi/clock_sun50i_h6.h
-@@ -285,6 +285,13 @@ struct sunxi_ccm_reg {
- #define CCM_PLL6_DEFAULT		0xe8216300
- #define CCM_PSI_AHB1_AHB2_DEFAULT	0x03000002
- #define CCM_APB1_DEFAULT		0x03000102
-+
-+#elif CONFIG_MACH_SUN50I_A133				/* A133 */
-+
-+#define CCM_PLL6_DEFAULT		0xb8003100
-+#define CCM_PSI_AHB1_AHB2_DEFAULT	0x03000002
-+#define CCM_AHB3_DEFAULT		0x03000002
-+#define CCM_APB1_DEFAULT		0x03000102
- #endif
- 
- /* apb2 bit field */
-diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
-index ccf0c9a403e..b203244eb95 100644
---- a/arch/arm/mach-sunxi/Kconfig
-+++ b/arch/arm/mach-sunxi/Kconfig
-@@ -300,6 +300,7 @@ config SUNXI_SRAM_ADDRESS
- config SUNXI_RVBAR_ADDRESS
- 	hex
- 	depends on ARM64
-+	default 0x08100040 if MACH_SUN50I_A133
- 	default 0x09010040 if SUN50I_GEN_H6
- 	default 0x017000a0
- 	---help---
-@@ -326,8 +327,8 @@ config SUNXI_RVBAR_ALTERNATIVE
- config SUNXI_BL31_BASE
- 	hex
- 	default 0x00044000 if MACH_SUN50I || MACH_SUN50I_H5
--	default 0x00104000 if MACH_SUN50I_H6
- 	default 0x40000000 if MACH_SUN50I_H616
-+	default 0x00104000 if SUN50I_GEN_H6
- 	default 0x0
- 	help
- 	  Address where BL31 (TF-A) is loaded, or zero if BL31 is not used.
-@@ -409,7 +410,7 @@ config MACH_SUNXI_H3_H5
- # TODO: try out A80's 8GiB DRAM space
- config SUNXI_DRAM_MAX_SIZE
- 	hex
--	default 0x100000000 if MACH_SUN50I_H616
-+	default 0x100000000 if MACH_SUN50I_H616 || MACH_SUN50I_A133
- 	default 0xC0000000 if MACH_SUN50I || MACH_SUN50I_H5 || MACH_SUN50I_H6
- 	default 0x80000000
- 
-@@ -606,6 +607,10 @@ config MACH_SUN50I_H616
- 
- config MACH_SUN50I_A133
- 	bool "sun50i (Allwinner A133)"
-+	select ARM64
-+	select DRAM_SUN50I_A133
-+	select SUN50I_GEN_H6
-+	imply OF_UPSTREAM
- 
- endchoice
- 
-@@ -894,6 +899,7 @@ config SYS_CLK_FREQ
- 	default 888000000 if MACH_SUN50I_H6
- 	default 1008000000 if MACH_SUN50I_H616
- 	default 1008000000 if MACH_SUN8I_R528
-+	default 1008000000 if MACH_SUN50I_A133
- 
- config SYS_CONFIG_NAME
- 	default "suniv" if MACH_SUNIV
-@@ -907,6 +913,7 @@ config SYS_CONFIG_NAME
- 	default "sun50i" if MACH_SUN50I
- 	default "sun50i" if MACH_SUN50I_H6
- 	default "sun50i" if MACH_SUN50I_H616
-+	default "sun50i" if MACH_SUN50I_A133
- 
- config SYS_BOARD
- 	default "sunxi"
-diff --git a/arch/arm/mach-sunxi/board.c b/arch/arm/mach-sunxi/board.c
-index 701899ee4b2..264dd6a7460 100644
---- a/arch/arm/mach-sunxi/board.c
-+++ b/arch/arm/mach-sunxi/board.c
-@@ -134,6 +134,10 @@ static int gpio_init(void)
- 	sunxi_gpio_set_cfgpin(SUNXI_GPH(0), SUN50I_H616_GPH_UART0);
- 	sunxi_gpio_set_cfgpin(SUNXI_GPH(1), SUN50I_H616_GPH_UART0);
- 	sunxi_gpio_set_pull(SUNXI_GPH(1), SUNXI_GPIO_PULL_UP);
-+#elif CONFIG_CONS_INDEX == 1 && defined(CONFIG_MACH_SUN50I_A133)
-+	sunxi_gpio_set_cfgpin(SUNXI_GPB(9), SUN50I_H616_GPH_UART0);
-+	sunxi_gpio_set_cfgpin(SUNXI_GPB(10), SUN50I_H616_GPH_UART0);
-+	sunxi_gpio_set_pull(SUNXI_GPB(10), SUNXI_GPIO_PULL_UP);
- #elif CONFIG_CONS_INDEX == 1 && defined(CONFIG_MACH_SUN8I_A83T)
- 	sunxi_gpio_set_cfgpin(SUNXI_GPB(9), SUN8I_A83T_GPB_UART0);
- 	sunxi_gpio_set_cfgpin(SUNXI_GPB(10), SUN8I_A83T_GPB_UART0);
-diff --git a/arch/arm/mach-sunxi/clock_sun50i_h6.c b/arch/arm/mach-sunxi/clock_sun50i_h6.c
-index b424a7893ea..9797dca1e1d 100644
---- a/arch/arm/mach-sunxi/clock_sun50i_h6.c
-+++ b/arch/arm/mach-sunxi/clock_sun50i_h6.c
-@@ -90,7 +90,8 @@ void clock_set_pll1(unsigned int clk)
- 	/* clk = 24*n/p, p is ignored if clock is >288MHz */
- 	val = CCM_PLL1_CTRL_EN | CCM_PLL1_LOCK_EN | CCM_PLL1_CLOCK_TIME_2;
- 	val |= CCM_PLL1_CTRL_N(clk / 24000000);
--	if (IS_ENABLED(CONFIG_MACH_SUN50I_H616))
-+	if (IS_ENABLED(CONFIG_MACH_SUN50I_H616) ||
-+	    IS_ENABLED(CONFIG_MACH_SUN50I_A133))
- 	       val |= CCM_PLL1_OUT_EN;
- 	if (IS_ENABLED(CONFIG_SUNXI_GEN_NCAT2))
- 	       val |= CCM_PLL1_OUT_EN | CCM_PLL1_LDO_EN;
-diff --git a/arch/arm/mach-sunxi/cpu_info.c b/arch/arm/mach-sunxi/cpu_info.c
-index 310dca06e57..3f4735d4717 100644
---- a/arch/arm/mach-sunxi/cpu_info.c
-+++ b/arch/arm/mach-sunxi/cpu_info.c
-@@ -104,6 +104,8 @@ int print_cpuinfo(void)
- 	puts("CPU:   Allwinner H6 (SUN50I)\n");
- #elif defined CONFIG_MACH_SUN50I_H616
- 	puts("CPU:   Allwinner H616 (SUN50I)\n");
-+#elif defined CONFIG_MACH_SUN50I_A133
-+	puts("CPU:   Allwinner A133 (SUN50I)\n");
- #else
- #warning Please update cpu_info.c with correct CPU information
- 	puts("CPU:   SUNXI Family\n");
-diff --git a/board/sunxi/board.c b/board/sunxi/board.c
-index a4a84d652d8..7ed1f96a4fb 100644
---- a/board/sunxi/board.c
-+++ b/board/sunxi/board.c
-@@ -113,10 +113,14 @@ void i2c_init_board(void)
- 	clock_twi_onoff(5, 1);
- 	sunxi_gpio_set_cfgpin(SUNXI_GPL(8), SUN50I_GPL_R_TWI);
- 	sunxi_gpio_set_cfgpin(SUNXI_GPL(9), SUN50I_GPL_R_TWI);
--#elif CONFIG_MACH_SUN50I_H616
-+#elif defined(CONFIG_MACH_SUN50I_H616)
- 	clock_twi_onoff(5, 1);
- 	sunxi_gpio_set_cfgpin(SUNXI_GPL(0), SUN50I_H616_GPL_R_TWI);
- 	sunxi_gpio_set_cfgpin(SUNXI_GPL(1), SUN50I_H616_GPL_R_TWI);
-+#elif CONFIG_MACH_SUN50I_A133
-+	clock_twi_onoff(5, 1);
-+	sunxi_gpio_set_cfgpin(SUNXI_GPL(0), SUN50I_GPL_R_TWI);
-+	sunxi_gpio_set_cfgpin(SUNXI_GPL(1), SUN50I_GPL_R_TWI);
- #else
- 	clock_twi_onoff(5, 1);
- 	sunxi_gpio_set_cfgpin(SUNXI_GPL(0), SUN8I_H3_GPL_R_TWI);
-@@ -434,7 +438,7 @@ static void mmc_pinmux_setup(int sdc)
- 			sunxi_gpio_set_pull(pin, SUNXI_GPIO_PULL_UP);
- 			sunxi_gpio_set_drv(pin, 2);
- 		}
--#elif defined(CONFIG_MACH_SUN50I_H616)
-+#elif defined(CONFIG_MACH_SUN50I_H616) || defined(CONFIG_MACH_SUN50I_A133)
- 		/* SDC2: PC0-PC1, PC5-PC6, PC8-PC11, PC13-PC16 */
- 		for (pin = SUNXI_GPC(0); pin <= SUNXI_GPC(16); pin++) {
- 			if (pin > SUNXI_GPC(1) && pin < SUNXI_GPC(5))
-diff --git a/common/spl/Kconfig b/common/spl/Kconfig
-index 4e56d9909c8..ce075a58193 100644
---- a/common/spl/Kconfig
-+++ b/common/spl/Kconfig
-@@ -81,8 +81,8 @@ config SPL_MAX_SIZE
- 	default 0xec00 if OMAP34XX
- 	default 0x10000 if ARCH_MX6 && !MX6_OCRAM_256KB
- 	default 0x7fa0 if SUNXI_SRAM_ADDRESS = 0x10000
--	default 0x7fa0 if SUNXI_SRAM_ADDRESS = 0x20000 && !MACH_SUN50I_H616
--	default 0xbfa0 if MACH_SUN50I_H616
-+	default 0xbfa0 if MACH_SUN50I_H616 || MACH_SUN50I_A133
-+	default 0x7fa0 if SUNXI_SRAM_ADDRESS = 0x20000
- 	default 0x7000 if RCAR_GEN3
- 	default 0x5fa0 if SUNXI_SRAM_ADDRESS = 0x0
- 	default 0x10000 if ASPEED_AST2600
-@@ -397,7 +397,7 @@ config SPL_STACK
- 	default 0x91ffb8 if ARCH_MX6 && !MX6_OCRAM_256KB
- 	default 0x118000 if MACH_SUN50I_H6
- 	default 0x52a00 if MACH_SUN50I_H616
--	default 0x40000 if MACH_SUN8I_R528
-+	default 0x40000 if MACH_SUN8I_R528 || MACH_SUN50I_A133
- 	default 0x54000 if MACH_SUN50I || MACH_SUN50I_H5
- 	default 0x18000 if MACH_SUN9I
- 	default 0x8000 if ARCH_SUNXI
--- 
-2.46.2
+> On 16 Jan 2025, at 10:34, Linus Walleij <linus.walleij@linaro.org> =
+wrote:
+>=20
+> Hi Andre,
+>=20
+> some nice talk here, actually the following is just opinions, I will
+> be likely happy with whatever approach is taken eventually.
+>=20
+> On Wed, Jan 15, 2025 at 4:26=E2=80=AFPM Andre Przywara =
+<andre.przywara@arm.com> wrote:
+>=20
+>>> pio: pinctrl@1c20800 {
+>>>                        compatible =3D "allwinner,sun8i-r40-pinctrl";
+>>> (...)
+>>>                        i2c0_pins: i2c0-pins {
+>>>                                pins =3D "PB0", "PB1";
+>>>                                function =3D "i2c0";
+>>>                        };
+>>>=20
+>>> abstract, strings, nice. The driver handles the particulars.
+>>=20
+>> What bugs me about this it that this has quite some seemingly =
+redundant
+>> information (Who would have thought that the i2c0 pins use function
+>> "i2c0"?), but misses out on the actual 4 bits(!) of information.
+>=20
+> the pins in this example are called PB0 and PB1 though. The =
+designation
+> on the package. And often pins actually named "i2c0_1" "i2c0_2" are
+> for that primary function, but muxable to a few other functions,
+> at least GPIO in most cases. So it's just some name for the pin
+> really.
+>=20
+>>> That is like so because we are designing for users which are
+>>> let's say customization engineers. If these engineers jump from
+>>> project to project matching function strings to group strings will
+>>> be a common way to set up pins, and easy to understand and
+>>> grasp, and it makes the DTS very readable.
+>>=20
+>> That's an interesting view, and I see the point of it being easy to =
+read,
+>> but this is partly because it doesn't convey too much actual =
+information,
+>> does it, as it requires another lookup or two.
+>> And the pinctrl group nodes are actually in the .dtsi file, which are
+>> typically written once during the initial SoC enablement, and new =
+board
+>> .dts files normally just reference the existing pingroup nodes. So =
+anyone
+>> dealing with just a new board is not bothered by this.
+>=20
+> You have a point, and when working with a system the application
+> engineer often finds bugs in the pin control driver, and has to go
+> and fix the actual driver and then all the information hiding and
+> simplification is moot.
+>=20
+> This can become an expensive lesson for the current attempts
+> to push pin control into firmware where the configuration is
+> mostly "dead simple" (and just using strings) - the bugs will be
+> in the firmware instead, and impossible or really hard to fix.
+>=20
+>> Also in my experience most people have no problems in understanding =
+the
+>> concept of pinmuxing and that there is a selector number, also where =
+to
+>> find this.
+>=20
+> Yeah the ambition with the strings was to avoid forcing application
+> engineers to know all about that. If they do, they are then
+> developing the driver, not just using it.
+>=20
+>>> Mediatek and STM32 made a compromise by using pinmux
+>>> and adding some macros to define them so it looks more
+>>> pleasant:
+>>>=20
+>>>      i2c0_pins_a: i2c0-default {
+>>>                pins-i2c0 {
+>>>                        pinmux =3D <MT7623_PIN_75_SDA0_FUNC_SDA0>,
+>>>                                 <MT7623_PIN_76_SCL0_FUNC_SCL0>;
+>>=20
+>> Well, I don't really get why they don't use the (MTK_PIN_NO(75) | 1)
+>> definition directly, seems to be more telling to me?
+>=20
+> That's what STM32 does as well and it's usable.
+>=20
+> But of course it drives a truck through the initial ambition that pins
+> on all systems be configured the same way, with strings. So now
+> there are some families of drivers all "necessarily different" which
+> is not so nice for people jumping between different SoCs, but
+> very compelling for people focusing on just one SoC.
+>=20
+> Well, unless this way of doing things becomes so prevalent that
+> it's the new black.
+>=20
+>> So the plan for sunxi would be: <SUNXI_PINMUX(PORTC, 23, MUX_1)>, ...
+>> And this would not be really "opaque", since it has a fixed known =
+mapping:
+>>        (port << 16) | (pin << 8) | (mux << 0))
+>> I find this both technically elegant, because it combines all the
+>> information into just one compact cell, but also readable by =
+outsiders,
+>> thanks to the macro.
+>=20
+> And a new standard, to add to the other standards, so that
+> is my problem as maintainer. It makes sense on its own, and it
+> complicates the bigger picture.
+>=20
+>> My main arguments against the current (string-based) approach:
+>> - They require the mapping table to be in every DT user, so not only =
+the
+>>  Linux kernel, but also U-Boot, FreeBSD, you name it...
+>=20
+> That's true.
+>=20
+> This comes from the DT ambition to describe hardware and config,
+> but not *define* hardware, i.e. to stop device tree to turn into
+> Verilog or SystemC, which is what will happen if we take the
+> 1:1 reflection of hardware to device tree too far.
+>=20
+> I don't think anyone really knows where to cut the line.
+>=20
+>> - The tables are getting quite large, and they pollute the single =
+image
+>>  Linux kernel, with tons of very specific information for a number of =
+very
+>>  pitiful Allwinner SoCs. At the moment the tally is at 145KB of =
+code+data
+>>  for the existing arm64 SoCs, with the newer SoCs ever growing (H616 =
+alone
+>>  is 27KB, A523 would be quite larger even, I guess 40K). The new A523
+>>  specific pinctrl support adds 872 Bytes.
+>=20
+> This is a generic problem though, look at GPU drivers.
+>=20
+> The community (especially Android) seem set on fixing this by using
+> modules.
+>=20
+>> - Most of the mappings are untested at pinctrl driver commit time, =
+since we
+>>  don't have the device drivers ready yet - by a margin. The new =
+approach
+>>  would add the pinmux values when we need them and can test them.
+>=20
+> I like this argument the best.
+>=20
+> However this also reads "upfront firmware to handle pin control is a
+> dead end" yet there are people dedicatedly working on exactly that.
+> (Not that its' the Allwinner developers' problem...)
+>=20
+>> - The comments in the table give away that something is not quite =
+right:
+>>                  SUNXI_FUNCTION(0x2, "i2c0")),         /* SDA */
+>>  This is just a comment, so has no relevance for the code, but it's =
+not
+>>  meant for humans either. Yet we try to make this correct and =
+maintain
+>>  it. Odd.
+>=20
+> So i2c0 is SDA and i2c1 is SCL or something?
+> It seems common, but yeah it can be confusing.
+>=20
+> Yours,
+> Linus Walleij
 
