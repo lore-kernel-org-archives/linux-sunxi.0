@@ -1,256 +1,105 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B4711993B7
-	for <linux-sunxi@lists.linux.dev>; Fri, 17 Jan 2025 15:43:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2F22139D0A
+	for <linux-sunxi@lists.linux.dev>; Sat, 18 Jan 2025 07:16:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737128607; cv=none; b=PTKkRRDA+IRaXPaFrROtMSXsM72VyGP/cn0Y2Bc2XbtC6u9cdo6aG2Fe3AkXRtxnSnwb/kopc27gS9pRZ+2v30LdteeqU/N77lc6QK6ZT4LDYYMwYdGIQN5FucbVda4ts9/EmyLq/0zPGFJ6Msd9rwIQgDPigaDsCd45/WsWHgU=
+	t=1737184588; cv=none; b=Gf8P/cUQH3axAd8Nf2ClczhS91svu41XLIJAIlfHacx9N82J22hdW58SaHOBa+nIMuLtDeuszsrwBo8g6bm3wcwUGwYBGhKiDUFgMU6mVt5i4SJYtqJJJZpkSJlQWU7osqdVH5mlfSuTJ2L3CTi/Bn1Y5kXj26fW7u0S5eX40iE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737128607; c=relaxed/simple;
-	bh=diVDJTYn1VVxEIzS+6ZugT9gK4hpBvjWk2xOKJug5a8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gkyunZksdKLR12ie9qluagS0ksJ/7yLnnJ/ZxdHneg2mk+FrARrtC+H6ZZVphsUci67nRFo6s/X9jctQCjLBL1We1U26O2evAvIyVi1U8FoQodkr2QAZy+4ULGM6zGLBbqdG/FezfXTNAsXiKX0v5eOFnHwo89g0fQIEo5zrX/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+	s=arc-20240116; t=1737184588; c=relaxed/simple;
+	bh=tvmsiMcnF2/uG8bi1GujCIOYQ4DypSOlsDW3rRw14hc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Nq1PeiO0uanzXj0unfoLfS1VN9+R5ZjpP85Yl5w4Kn1bfukdC0dEWMw1hXNLGZWRDm5Txhvn1PNFo52+beZsmG9pTl3FQE+ZOHLLuTgtUAkHfyiPe0zq7jeTl1+WCCzr3w+N7uwJLwT6WLFgu3IKDoSElJxW1MA6mSDJXH7hVfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cBsrXaEX; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-53f757134cdso2272341e87.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 17 Jan 2025 07:43:25 -0800 (PST)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cBsrXaEX"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5d4e2aa7ea9so5255802a12.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 17 Jan 2025 23:16:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1737184585; x=1737789385; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tvmsiMcnF2/uG8bi1GujCIOYQ4DypSOlsDW3rRw14hc=;
+        b=cBsrXaEX4JAC/83tLmU9z1FEbzZjA2JVt+U/GHCO+EbbmztPrGnfpT7ZgRnySueFL8
+         vozr288sa0Jw2pizize/CQXikd+dCRD21EFvfInD6XrGVtBo+u1sUFVDgvARpYpC9kXr
+         jKEXJN5MpmtGLIFCC57bQNcdHjtHjX8JM97A9x9uRrecHxS//VMnhi4pLDvXeP8AGPuO
+         uZk4mOs3sWxWGRQO6TjptPwsZI0wti5+LKX5F4hPC9uEDXqt5FkyftDRFRk2VXlKD9HS
+         lmCIF/Dzb0UirzvS2XcHS2sz/xL00qt97wx312McpmhIzS1R0XlQCrCgM8yeMT5G7RyJ
+         cHmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737128600; x=1737733400;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=H2N+AWy70jywn4CRmdsXKEKKnKrL7LoujnGhrXs380U=;
-        b=o3vuVdQce1zdYjeE2t3QFJ7yEALrwBe60PBgS0adbIaXD59rYe6ymiPDpexV3DQmSz
-         R3Qdp0168iH5nNlHINLpWl65vcRhy2RvD/R8MPbDPEixPuinuSES1rzwykMbW1Cr/jaO
-         Ok8kQrbW8lgcmx/mjihJc/LcngvzUF9OIzyDt5dNu/MlnlwIxGZzDU7yadEQgWgWAiT0
-         CsJctJr+fG595nvZGgaNDGsnVVcWz2P6sx6cC6bJYcXuXGoCAwzG7o404hdyE83fRMq8
-         A8/Md0EPf230C4U0YwUVdm8Sd3xiLA+Em8gaRzDXKG1qQq6b7/PgOHgpy10Fyq/R7PYT
-         hDFg==
-X-Forwarded-Encrypted: i=1; AJvYcCVXa+lLcv7h2sLwHcxHK4GUjQEm0zRsJiVDdAo7+Ab8juAioURkXeHaTCSOywvftlsDMRpi2opwNxVJSA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw824zEBm0BE6IrnK0hn8dxTmRblEmN6hAdf2aBKyYd67a7Q1g8
-	AOl23FdhErB//jPkZ9O7dHdDePjcFkt01ARJ0uErldPk83zUB9alB6WK25Q0
-X-Gm-Gg: ASbGncuUdbivy0dviCMDFLMjHDP6PfyOGqo3m50VUE1ohcBt2oq7kl/vVcz/oOK/LHL
-	XBxClBDskZ2zVJHu3gLGsS290ltZZHPOdaHwUiZQWIClNQlw/kOmWYf+jqe+y4xHmcukDeVAwf8
-	ITnBW9AgajElCmtw4GmN4ZqpOPNMMFm5jmH1Q5wSVnbzMNOXKQyecFQmv8/J+un9kCRR3bFmAw/
-	A6Y4MXqwysPycHHaneQTxI5JT6eCF4yk7i9sItl1ruJnOu7/AlSYdmtX5tFwdalEceDYSdJWmUW
-	cnBmYhAVQzJB0A==
-X-Google-Smtp-Source: AGHT+IEzvkXtkIuQau+zJXQ7falZ38pg0RSzWA240I5XwodnDB4SdFTwJXnzu2yA3kuCf3HTLfESpg==
-X-Received: by 2002:ac2:4e0e:0:b0:542:297f:4f68 with SMTP id 2adb3069b0e04-5439c1b85fdmr1126819e87.0.1737128600057;
-        Fri, 17 Jan 2025 07:43:20 -0800 (PST)
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com. [209.85.208.175])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5439af0e7a8sm400125e87.63.2025.01.17.07.43.17
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 Jan 2025 07:43:19 -0800 (PST)
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-305d840926fso17887501fa.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 17 Jan 2025 07:43:17 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVsbwuMA78mTVF2N39IKmQVGvM7XWOd0Abi1EAiHP/7EY5eXauv+VBv8zyXj3REMuHMcGfHN/H3qXgrwg==@lists.linux.dev
-X-Received: by 2002:a05:651c:2c7:b0:2fb:58b1:3731 with SMTP id
- 38308e7fff4ca-3072ca60bd0mr8406481fa.6.1737128597473; Fri, 17 Jan 2025
- 07:43:17 -0800 (PST)
+        d=1e100.net; s=20230601; t=1737184585; x=1737789385;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tvmsiMcnF2/uG8bi1GujCIOYQ4DypSOlsDW3rRw14hc=;
+        b=hZ3obwAq9Fsb90e43fDzfHK/ZEu7lYwpbzTIdnUtcCt+6V3zNDRo0IJy8VK7MChIha
+         pmWX0ufabj+gFPcyagxwroXbFaR4CDlRFPDgSqsH9elE87/9V/SW+x2mRDUoCDdx7Bv5
+         OktOD0I7PbQNa8iEj3gc4PIiSvXROsuAjWbXYi9hcVY2iqi57TGtp55lRHg/JjnGtM2/
+         79DtOKQKKJIuFI6/95IT55quusgqGx5IjL4opKJT+Z25YMLnIluFulA1+8fujqg+N+1e
+         ELRvjvTeMi1Lp04L4Iqerl9zU0vkHZUhAb3nwf5FgiwkC6a218Mlwa/Xhl3YCddT7WbI
+         qPEg==
+X-Forwarded-Encrypted: i=1; AJvYcCXicT1sGmOzB30XWdw/3h6DtUqsYJ5DRxVmM+M1eZ2W+eNJnQhyUmz8BAo4+KByaNdrlRtAn4IpUR7PXQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwYYM5aDiCrNudS+vcE93j9dU3H3dGXt74YfZaaiaE3jH+q7KTB
+	UO9v7aeX3f/QjFr++9KtbORQUGCDGgxRfhtMWRx6xP+E2fOdIB6QqC6tHg==
+X-Gm-Gg: ASbGncsRMff8bOkHi+T7/zWNWvGWL3HOc11rClXzEc3jw2aej6m2V6lA+254NWBVJ8I
+	QVJggrbIhPBCUlhUVYOFALdqioINIXvBLxqbjASYd6jcWZVTqqODuYtvErpVMJuZd7STNc8eYaS
+	47Q7R/D6gGM8EowcZsN22vtR9aq6xWKVbAjef2V5+6/iPLmA4yRF2sCn5xw1Zp1ZOHhT4UTNJ+K
+	xKqui23UzQOwX6wsWCGhSTYBobC0gLYjuHChHto9hgaOcpen7pQC+7X9RcF6nVc+XDz4PzGQ4Ne
+	B/sOpRjGeg0nuE4=
+X-Google-Smtp-Source: AGHT+IGLfOUnmOlf0dfv2EPZsI66QYNfhjl0KwhCdKMeegq4EfqhcelIy5iL++pD0InGzuI7g5FXdQ==
+X-Received: by 2002:a17:907:1c19:b0:aab:dee6:a3a2 with SMTP id a640c23a62f3a-ab38b4c6500mr434180366b.47.1737184584743;
+        Fri, 17 Jan 2025 23:16:24 -0800 (PST)
+Received: from jernej-laptop.localnet ([188.159.248.16])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab384ce0f58sm288083666b.48.2025.01.17.23.16.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jan 2025 23:16:24 -0800 (PST)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: u-boot@lists.denx.de, Lukasz Majewski <lukma@denx.de>,
+ Sean Anderson <seanga2@gmail.com>, Jaehoon Chung <jh80.chung@samsung.com>,
+ Andre Przywara <andre.przywara@arm.com>
+Cc: Tom Rini <trini@konsulko.com>, Cody Eksal <masterr3c0rd@epochal.quest>,
+ Simon Glass <sjg@chromium.org>, linux-sunxi@lists.linux.dev,
+ Parthiban <parthiban@linumiz.com>
+Subject:
+ Re: [PATCH 1/8] sunxi: clock: improve grouping of default clock register
+ values
+Date: Sat, 18 Jan 2025 08:16:22 +0100
+Message-ID: <12589905.O9o76ZdvQC@jernej-laptop>
+In-Reply-To: <20250117014537.22513-2-andre.przywara@arm.com>
+References:
+ <20250117014537.22513-1-andre.przywara@arm.com>
+ <20250117014537.22513-2-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250110123923.270626-1-szemzo.andras@gmail.com>
- <20250110123923.270626-4-szemzo.andras@gmail.com> <20250114141954.2785879a@donnerap.manchester.arm.com>
- <CACRpkda0nx3SQtdjmXdCEbVJSWM10TM=p-6JbDjbiYcOSF5PxQ@mail.gmail.com>
- <20250115152635.1b89e7f4@donnerap.manchester.arm.com> <CACRpkdYVTedEon0X-izvaDTGF6yRhD2s=Z6NEM=zBf4vD-T0Pg@mail.gmail.com>
-In-Reply-To: <CACRpkdYVTedEon0X-izvaDTGF6yRhD2s=Z6NEM=zBf4vD-T0Pg@mail.gmail.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Fri, 17 Jan 2025 23:43:05 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64sNfytUPbyBFjiZCU+jLkXOH1r9iH=Z_E0PjwVxkMCWg@mail.gmail.com>
-X-Gm-Features: AbW1kvbzoziWjm4-jxBgu7nAEK51uWx6aYENBjR409HEBu5PP3az-MNoew5mtV4
-Message-ID: <CAGb2v64sNfytUPbyBFjiZCU+jLkXOH1r9iH=Z_E0PjwVxkMCWg@mail.gmail.com>
-Subject: Re: [PATCH 03/12] pinctrl: sunxi: add driver for Allwinner V853.
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Andre Przywara <andre.przywara@arm.com>, Andras Szemzo <szemzo.andras@gmail.com>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Maxime Ripard <mripard@kernel.org>, 
-	Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
-	Ulf Hansson <ulf.hansson@linaro.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, linux-clk@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-phy@lists.infradead.org, linux-gpio@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-riscv@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On Thu, Jan 16, 2025 at 5:34=E2=80=AFPM Linus Walleij <linus.walleij@linaro=
-.org> wrote:
->
-> Hi Andre,
->
-> some nice talk here, actually the following is just opinions, I will
-> be likely happy with whatever approach is taken eventually.
->
-> On Wed, Jan 15, 2025 at 4:26=E2=80=AFPM Andre Przywara <andre.przywara@ar=
-m.com> wrote:
->
-> > > pio: pinctrl@1c20800 {
-> > >                         compatible =3D "allwinner,sun8i-r40-pinctrl";
-> > > (...)
-> > >                         i2c0_pins: i2c0-pins {
-> > >                                 pins =3D "PB0", "PB1";
-> > >                                 function =3D "i2c0";
-> > >                         };
-> > >
-> > > abstract, strings, nice. The driver handles the particulars.
-> >
-> > What bugs me about this it that this has quite some seemingly redundant
-> > information (Who would have thought that the i2c0 pins use function
-> > "i2c0"?), but misses out on the actual 4 bits(!) of information.
->
-> the pins in this example are called PB0 and PB1 though. The designation
-> on the package. And often pins actually named "i2c0_1" "i2c0_2" are
-> for that primary function, but muxable to a few other functions,
-> at least GPIO in most cases. So it's just some name for the pin
-> really.
+Dne petek, 17. januar 2025 ob 02:45:30 Srednjeevropski standardni =C4=8Das =
+je Andre Przywara napisal(a):
+> With each new SoC added to the clock_sun50i_h6.h header file, we add a
+> list of default values for the bus clock registers. This list gets a bit
+> hard to read, as the spacing between the lines looks confusing.
+>=20
+> Tighten the lines by removing empty lines, to make it more obvious which
+> values belong together. Also remove those comments that were more or
+> less duplicating the next code line, and didn't add any information.
+>=20
+> This makes it easier to find existing values and to add support for new
+> SoCs.
+>=20
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-No. Allwinner actually names their pins like this, kind of like Rockchip
-which provides standardized names such as "GPIO0_B2", but unlike MediaTek
-which just names the pins after their designated primary function such as
-"EINT22" or "TDM_BCLK". The ball names are a separate thing.
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Even though the pin names seem a bit random, there's actually a grouping
-logic underneath:
+Best regards,
+Jernej
 
-- PC pins are always for the bootable internal storage (NAND, SPI-NOR, eMMC=
-)
-- PF pins are always the external SD card / debug UART / JTAG
 
-> > > That is like so because we are designing for users which are
-> > > let's say customization engineers. If these engineers jump from
-> > > project to project matching function strings to group strings will
-> > > be a common way to set up pins, and easy to understand and
-> > > grasp, and it makes the DTS very readable.
-> >
-> > That's an interesting view, and I see the point of it being easy to rea=
-d,
-> > but this is partly because it doesn't convey too much actual informatio=
-n,
-> > does it, as it requires another lookup or two.
-> > And the pinctrl group nodes are actually in the .dtsi file, which are
-> > typically written once during the initial SoC enablement, and new board
-> > .dts files normally just reference the existing pingroup nodes. So anyo=
-ne
-> > dealing with just a new board is not bothered by this.
->
-> You have a point, and when working with a system the application
-> engineer often finds bugs in the pin control driver, and has to go
-> and fix the actual driver and then all the information hiding and
-> simplification is moot.
->
-> This can become an expensive lesson for the current attempts
-> to push pin control into firmware where the configuration is
-> mostly "dead simple" (and just using strings) - the bugs will be
-> in the firmware instead, and impossible or really hard to fix.
->
-> > Also in my experience most people have no problems in understanding the
-> > concept of pinmuxing and that there is a selector number, also where to
-> > find this.
->
-> Yeah the ambition with the strings was to avoid forcing application
-> engineers to know all about that. If they do, they are then
-> developing the driver, not just using it.
->
-> > > Mediatek and STM32 made a compromise by using pinmux
-> > > and adding some macros to define them so it looks more
-> > > pleasant:
-> > >
-> > >       i2c0_pins_a: i2c0-default {
-> > >                 pins-i2c0 {
-> > >                         pinmux =3D <MT7623_PIN_75_SDA0_FUNC_SDA0>,
-> > >                                  <MT7623_PIN_76_SCL0_FUNC_SCL0>;
-> >
-> > Well, I don't really get why they don't use the (MTK_PIN_NO(75) | 1)
-> > definition directly, seems to be more telling to me?
->
-> That's what STM32 does as well and it's usable.
->
-> But of course it drives a truck through the initial ambition that pins
-> on all systems be configured the same way, with strings. So now
-> there are some families of drivers all "necessarily different" which
-> is not so nice for people jumping between different SoCs, but
-> very compelling for people focusing on just one SoC.
->
-> Well, unless this way of doing things becomes so prevalent that
-> it's the new black.
->
-> > So the plan for sunxi would be: <SUNXI_PINMUX(PORTC, 23, MUX_1)>, ...
-> > And this would not be really "opaque", since it has a fixed known mappi=
-ng:
-> >         (port << 16) | (pin << 8) | (mux << 0))
-> > I find this both technically elegant, because it combines all the
-> > information into just one compact cell, but also readable by outsiders,
-> > thanks to the macro.
->
-> And a new standard, to add to the other standards, so that
-> is my problem as maintainer. It makes sense on its own, and it
-> complicates the bigger picture.
->
-> > My main arguments against the current (string-based) approach:
-> > - They require the mapping table to be in every DT user, so not only th=
-e
-> >   Linux kernel, but also U-Boot, FreeBSD, you name it...
->
-> That's true.
->
-> This comes from the DT ambition to describe hardware and config,
-> but not *define* hardware, i.e. to stop device tree to turn into
-> Verilog or SystemC, which is what will happen if we take the
-> 1:1 reflection of hardware to device tree too far.
->
-> I don't think anyone really knows where to cut the line.
->
-> > - The tables are getting quite large, and they pollute the single image
-> >   Linux kernel, with tons of very specific information for a number of =
-very
-> >   pitiful Allwinner SoCs. At the moment the tally is at 145KB of code+d=
-ata
-> >   for the existing arm64 SoCs, with the newer SoCs ever growing (H616 a=
-lone
-> >   is 27KB, A523 would be quite larger even, I guess 40K). The new A523
-> >   specific pinctrl support adds 872 Bytes.
->
-> This is a generic problem though, look at GPU drivers.
->
-> The community (especially Android) seem set on fixing this by using
-> modules.
->
-> > - Most of the mappings are untested at pinctrl driver commit time, sinc=
-e we
-> >   don't have the device drivers ready yet - by a margin. The new approa=
-ch
-> >   would add the pinmux values when we need them and can test them.
->
-> I like this argument the best.
->
-> However this also reads "upfront firmware to handle pin control is a
-> dead end" yet there are people dedicatedly working on exactly that.
-> (Not that its' the Allwinner developers' problem...)
->
-> > - The comments in the table give away that something is not quite right=
-:
-> >                   SUNXI_FUNCTION(0x2, "i2c0")),         /* SDA */
-> >   This is just a comment, so has no relevance for the code, but it's no=
-t
-> >   meant for humans either. Yet we try to make this correct and maintain
-> >   it. Odd.
->
-> So i2c0 is SDA and i2c1 is SCL or something?
-> It seems common, but yeah it can be confusing.
-
-No. i2c0 is the actual peripheral that gets muxed in. The SDA / SCL
-comments are simply denoting which signal from the peripheral this
-pin & mux value carry.
