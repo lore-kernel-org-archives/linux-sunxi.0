@@ -1,62 +1,62 @@
 Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2457346D
-	for <linux-sunxi@lists.linux.dev>; Sat, 18 Jan 2025 07:25:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D7C113C809
+	for <linux-sunxi@lists.linux.dev>; Sat, 18 Jan 2025 07:29:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737185122; cv=none; b=h41myEim03TZYg2NIZqUk4gQFbaCwYFIWImoyyvZLaJmLVBEuIHEL5YaVHAd8HyXSNOg98nqd+mG3jrMOjGzcqaL2bRvj/Hx2O0G/CYrQE7His08GBgPrzxLASTxWa9r79wtxDMtruUH7LSR9+/rH+6XmQ8mnB2O6t+YtT7wjJQ=
+	t=1737185385; cv=none; b=KXB1BJM7hRyZQ99iFo8gIQ/PjwAyRSFFiOY+dWEhdyElrrM7S3jjqm28rohHKcDQSvs9yEwailIAcF96+Y0RoXxqFMIGl2aVQJSZvRA4f+IpazN3AMNz22zp7sYsurGFgolhXBw/RFsXNkwHfnMZr1XEFqytBHSX1s9HeWOs4X0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737185122; c=relaxed/simple;
-	bh=Q6NM5SoYKjTNB7MotZdjeLUY0Rg5KV7cRGj7gqNG/rA=;
+	s=arc-20240116; t=1737185385; c=relaxed/simple;
+	bh=c2AmFxt4+aN7bqCGwSgc6MOH4S2fqgDX+AG+SrwurYI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Qspmt1qkknqd/SNsNPlG0yDU2Sp7/tSyfpNcQc10TGl8EPj6FtYVWtIeNtx4hBtXzYp6mkuLVCcUjFCuTR3EjdARHTm4Cs0gmq8YgMR8+NnQL8WQIV56g3hnY/uL7MZWLaFqKQIQ8hgludznLji/Mqu8Wl3SPdhKzLBc1kf0PSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JdtyktoS; arc=none smtp.client-ip=209.85.218.49
+	 MIME-Version:Content-Type; b=ZjYnd1/DGVjzYmlqYU3aS4XEm85oaDuPBaFpJovu62ppg0BtVO9UneRkfo8yWpgHwxMMiQbV3NwR8K+u4keZmGhTX7aHCFmDjalFk7pxuHVvVSGs7+clxS70tuXIh73rsAnSvxA+k0bBPIVXJQD3UQPgtG3aXdVe7YDkBmJGnbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j/nFhWb0; arc=none smtp.client-ip=209.85.218.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JdtyktoS"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-aaeecbb7309so533204366b.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 17 Jan 2025 23:25:20 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j/nFhWb0"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-aaf60d85238so470118366b.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 17 Jan 2025 23:29:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737185119; x=1737789919; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1737185382; x=1737790182; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Q6NM5SoYKjTNB7MotZdjeLUY0Rg5KV7cRGj7gqNG/rA=;
-        b=JdtyktoSBDB/YAawmDrxmVlHjaeGQNay9qyZMpIKI33fRRYZsdBtvBRBzKUTTeUWXe
-         5wZh72BM2+8SkGKeHTBdzd++QndDpkDwOZYRRSage5HIAXszUFu7pocgKbreps6i+Iqg
-         JpJ+TO6SvuNWevxxWXJcIKBeyvWdYTn4XztD6ZEAiY5LPZL0mfTco8MOPqJSD77ejJZY
-         XqQIbHBOe29QwJNXOsQ5MbSNquLAvx/aamzsJ6o3NKIcYLXeRDt0ZM3H6O3nAzzDXHSg
-         Ywj67hU5OFDWyTC4qQiIX+NU0obLGNkTCt8mcsbN1lAC/O6Ubinzh+NWxnc67N3WAVsg
-         mmlw==
+        bh=c2AmFxt4+aN7bqCGwSgc6MOH4S2fqgDX+AG+SrwurYI=;
+        b=j/nFhWb0vm+nW3Y9GRIQufeULVJ76x66w1b/EZS4vhKWur60cR4CCCI83uCT3lyw4F
+         cL8n7a3aI59pT+LkSYPvJblbVf5k0AvrSWD0aTPDJMtuDcj0vZB4YscRAdjHt3VZ19II
+         r5WJ9vdGrCAGDJErkXFG3h24HTUvV4FHLKZr7lBUr39vC+dYNVrPSWnkgP6ePh6dJUpg
+         LAqWo+YvYbuS81DTtE1rsbnMKLygpSKpWa9+fpTfo+gU4abu13gTbZrkb5i+MZbe1kB0
+         lO1ij6aJJifJAKY7lhLPWiAXp3LEDZki+s+fDiSbnhNCRC1yBXSAl7G5rq0mT4yR4+WJ
+         dj2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737185119; x=1737789919;
+        d=1e100.net; s=20230601; t=1737185382; x=1737790182;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Q6NM5SoYKjTNB7MotZdjeLUY0Rg5KV7cRGj7gqNG/rA=;
-        b=EcYByI0LRlcI+Diqam7nVujAer3aP1SFB/is7T6FZBAWbcy46oLmDMBLbGXyELCPRM
-         +vVJmEohPBNyN0vLczUeRFvvMz8WxrzbXX9VA45ZThT+t4BpKxKiPjtz0NhXCgOjXiUw
-         QPDl0u0goBIfKIIZ7Nq5wNYx/Fp5CQpArV9Zv7atu1qbvoOwochkSUiTFEZINaOMtSBk
-         aIgG543hvvKlAuFJzaRTfIaJtIEElhMzDlm0MVfe+eoEf3Mxw9W0S+Km0qyEBd6XtmMf
-         cbyVUMJtMm7t+fGkgQr6TaABeFIN72mf3B79Z54qb2cVOMp4hORYruGiqG+/LhlxnAKF
-         cgIw==
-X-Forwarded-Encrypted: i=1; AJvYcCUQ4fbGf1Lodj5rYR+v1jv/uYUDegcGflzAKbt1NkAbM97U0G41Kvz6uHQyJvLSECKDDilGD9Uob5ZFVQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwO5dOB6L12mj/d/StVabBv8NywnBprVzCpWbj4zy6JmCpmCcj+
-	0ADHJBqYjoRcvQLT81xNa9PyYTdXiVzsDN2oZGQRq3viE7EnuQDw4J9ZTA==
-X-Gm-Gg: ASbGncvjuT2y0I85RqvJpSqZICgaNaVOfEnTpsjISR5tMAh8SSGQ3gV6LBzgUkcUQjv
-	vTBIfu1oxxxQ2SEmvXIT0GtmWb5fztryJoCuw5/ZjpU8oH53UEPikw/LV3781G0wIMAsUhql123
-	6nSyfXfSzrM6V3DpZYVggl/BDjYeZ7O4qsJ+i5X7Z+BR2DnfQbUy+ai3wuQCdPdoLFTPf9gfR6Q
-	rDIU8KMtoAidtEf3y7DvkqmkxGy+zANAvDBXd7hUCkHBJHDNXfUPH2R4sTKDvsNFE/LQRzSP1pT
-	PWKIFrweO25BbVE=
-X-Google-Smtp-Source: AGHT+IGWa/8JOrQHxX/rMghlDOH7g+OOw5DujSYHR6LzG8RJbAwSGcXxZVDvheVQPXHNH493kDeWHg==
-X-Received: by 2002:a17:907:3f8f:b0:ab3:3184:6890 with SMTP id a640c23a62f3a-ab38b2eb297mr537331466b.33.1737185118715;
-        Fri, 17 Jan 2025 23:25:18 -0800 (PST)
+        bh=c2AmFxt4+aN7bqCGwSgc6MOH4S2fqgDX+AG+SrwurYI=;
+        b=oCGLf/n5eGfv8nePMeSK0axmTO/jDifTGTE8/2TYzsi2svyQyjjuWaQNJfmPQ9bca3
+         E2cVp/GuRqEYLeEnZruytIYneOmxa55teHfikJ+wPzXxkDEcyv431faGFWpH11GtHXlT
+         4wOnkbFxmI7AbR/AO74vgxgbameVjicD+nt9GTGbsw/VmbKOPaqUK7A6ZIxGZ+LCTpHJ
+         ccSK/fdxuFJaaPN/1D7DRm+j/eE2Ht2YU3NAr/8FZaCrpUnGDnlNybAawWdZy6WjP4FQ
+         ILmSqY4FpTlmdFLT8FX6sA2kLoPGFT93VDdKiA08rhTWxlNkg8vkYDRfZD2ZadowY4Kk
+         A/8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVV0BmliyjaaRyA9FMvxwYGYz45aUruo0dj4WKpj5iEcviphm7kkXIg6Um8fBQoaABeYZX9T6ITzY/yow==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzZxmlJTHay65SdnMc74OhEpGcu2Mr3PTmLCZih+31LdO15Y1um
+	cX1iGAoxfQLj0M5ntun08ep7bA3M7vikBsEc585idK1/EjvffzLX
+X-Gm-Gg: ASbGnctZym5+XcAkDaqm0ibNW803MQlZc054jgo3HBKkdu3GSqpOjM4i7ozCD247Wgw
+	wktUHqdQ6BbskBNW0p533X/FcCi0QvFyHCcPz7sH2x/DzrdSmQLr+mxld2S33u6dnnqXe2g9VCx
+	MP1fzK3YSjrt8eQUb/mv+Q6LBxwAxP3zKFKbcRAQXcuJAZjRe5PzMmT3Tm3dy+pS8DXIf/4TkGH
+	Iz0ejrNipPRof20h1c+/QozeMjM/rUcLLe3SBdv14vv+tLfLeNcxy+XyaJRl2jO7WoHW+Gz1kHM
+	oj34PFAcbOjV4RY=
+X-Google-Smtp-Source: AGHT+IHR7qTc96Z2y9tFOwncSihKZnT4bJk0zyDZbwWCUnNXwUqqYIL4r3LTH0yl+gNfwdEW7rerWw==
+X-Received: by 2002:a17:907:9408:b0:aab:daf9:972 with SMTP id a640c23a62f3a-ab38b29cf07mr489715566b.28.1737185382455;
+        Fri, 17 Jan 2025 23:29:42 -0800 (PST)
 Received: from jernej-laptop.localnet ([188.159.248.16])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab384fc35ffsm287878166b.160.2025.01.17.23.25.17
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab384d2e519sm290242066b.83.2025.01.17.23.29.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jan 2025 23:25:17 -0800 (PST)
+        Fri, 17 Jan 2025 23:29:41 -0800 (PST)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: u-boot@lists.denx.de, Lukasz Majewski <lukma@denx.de>,
  Sean Anderson <seanga2@gmail.com>, Jaehoon Chung <jh80.chung@samsung.com>,
@@ -64,14 +64,13 @@ To: u-boot@lists.denx.de, Lukasz Majewski <lukma@denx.de>,
 Cc: Tom Rini <trini@konsulko.com>, Cody Eksal <masterr3c0rd@epochal.quest>,
  Simon Glass <sjg@chromium.org>, linux-sunxi@lists.linux.dev,
  Parthiban <parthiban@linumiz.com>
-Subject:
- Re: [PATCH 5/8] pinctrl: sunxi: add Allwinner A100/A133 pinctrl description
-Date: Sat, 18 Jan 2025 08:25:16 +0100
-Message-ID: <3329551.aeNJFYEL58@jernej-laptop>
-In-Reply-To: <20250117014537.22513-6-andre.przywara@arm.com>
+Subject: Re: [PATCH 6/8] power: pmic: sunxi: add SPL support for the AXP803
+Date: Sat, 18 Jan 2025 08:29:40 +0100
+Message-ID: <8475686.T7Z3S40VBb@jernej-laptop>
+In-Reply-To: <20250117014537.22513-7-andre.przywara@arm.com>
 References:
  <20250117014537.22513-1-andre.przywara@arm.com>
- <20250117014537.22513-6-andre.przywara@arm.com>
+ <20250117014537.22513-7-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -81,15 +80,16 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne petek, 17. januar 2025 ob 02:45:34 Srednjeevropski standardni =C4=8Das =
+Dne petek, 17. januar 2025 ob 02:45:35 Srednjeevropski standardni =C4=8Das =
 je Andre Przywara napisal(a):
-> The Allwinner A100 SoC has been around for a while, and has now seemingly
-> been replaced with its close sibling A133.
+> The AXP803 has been around for about a decade now, but so far we didn't
+> need SPL support, since the DRAM rail was wired up correctly at reset.
 >=20
-> Add the required mapping between the pinmux group strings and their
-> respective mux value, as far as used by U-Boot proper. Linux has some
-> basic (clock and pinctrl) support for a while, so we can build on the
-> names already used there.
+> Now some boards using the A133 SoC use the (compatible) AXP707 with DDR4
+> memory, which requires the SPL to set the required 1.1V voltage manually.
+>=20
+> Add the descriptions for the DC/DC regulators of the AXP803, and enable
+> that when CONFIG_AXP803_POWER is enabled.
 >=20
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
