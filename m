@@ -1,80 +1,78 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AB5B13B2A9
-	for <linux-sunxi@lists.linux.dev>; Sat, 18 Jan 2025 11:47:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CAFA26AD9
+	for <linux-sunxi@lists.linux.dev>; Sat, 18 Jan 2025 13:17:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737200832; cv=none; b=V01kDfjqok7zry+lvOf7sqeuynDoeejRyvp/zCPylL5pTlr3F2077KiPGTjQ0SQZ9HRDoNUcFEqQJf/84xFjYGsoSQhnyCKo8ittRNAZ++BbkZTIWwUlwHYDqqf4fMzj4WboXGTS423t1C2CvPChT+ir1iDmTC1rpM+iPH4YEdg=
+	t=1737206265; cv=none; b=RhhDgeORW0dYlYCmUTvhrGc56X2th46UfuyucN/XYUev/b/Lh5r32IrrmOApebQW5fa3x2lmJqQfGIX9/cR8khkl0dkNPqgYo5zZHbd8EO52fiEUoIjaIdSsIPOZ3TA/BxEf/aNi6K72yyu34hyhUYTpIXkCNLi9ETEVA/2H7mI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737200832; c=relaxed/simple;
-	bh=tQS9mwd/H1zn81rX8U4yBTj/dA+Zv8W0IY5ZRLr3fps=;
+	s=arc-20240116; t=1737206265; c=relaxed/simple;
+	bh=hiOnSt4CDEnLfEOKd8TSh41PVsAYlATlP6ZPgyV9lH0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SOAa6u2vg3x6a2hwNdjwFI7SKVmJnnACBQXxSV6293hRKDFhqLAIW5U3QYTsy/GcNZ35aPkJ+PORjnpZK28R32D8fmuNachdkenREpdFBSm73fr6wpBhnEhsQ/2+FlSG1CS7Qmwk3gMoAuE3wO4x+7GuhkTsTQDTzHGpMQtpm9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GIFvHvtf; arc=none smtp.client-ip=209.85.208.54
+	 MIME-Version:Content-Type; b=Q3msB8tfvVjiQfNsd9kFlHLsnEbtqFs/Eui2NY1QrYIOZA/4pNRQPKsBeltf6Y2p+F6s6jneOssYaMyVNLGtD7ZcR+BkDpTn/aCwkXSp8DS82Cw7KhzvsNy7cHg/Q70BoSrDzIie6NK9cn1kazMroHW57oGXEXT5K9Z+gBHpauI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SfVI4ot4; arc=none smtp.client-ip=209.85.208.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GIFvHvtf"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5d3bbb0f09dso5027231a12.2
-        for <linux-sunxi@lists.linux.dev>; Sat, 18 Jan 2025 03:47:09 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SfVI4ot4"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5d3dce16a3dso2685643a12.1
+        for <linux-sunxi@lists.linux.dev>; Sat, 18 Jan 2025 05:17:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737200828; x=1737805628; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1737206262; x=1737811062; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dEETbdnKlsxmZe5oB6rAoR/Y3VNUS2QT7unKpMA9HfA=;
-        b=GIFvHvtfWt9GMubCgqlMeJUeDBR4DcNm9pD6l+heuTsu5Zups8SvNHblhocLUw3bNd
-         1Uf9fwy1XI6veNGg132BSyY+WS/J2uAbwMiw2phYtU+GgaA0Mx3C4ZPS+B31S/F32glc
-         a23RHBqQk7mWNnFGZhT8kPsjnTCSdiYGeXHaYMbzxIZDaua8iOAvG+KPIaE55RzD9uJT
-         3ORklqSa0u2l0ojaQURvzy2lhYWEbfFPji0n4WY+OURTlE3KrHVD/Ij0yBLNNkgHx15r
-         6TChlh57fx7ni3UZugRZLbrxlIPyoMrJ0sZiLolTYztV095pnkTUG2BJoInMVbwNI0bz
-         Im7w==
+        bh=hiOnSt4CDEnLfEOKd8TSh41PVsAYlATlP6ZPgyV9lH0=;
+        b=SfVI4ot4CsX+VmzFsmif4YU2ZjvLXVDFWISTyVm4NBzALSj0Twsg5urdusvkuZn/5T
+         n8/p1i4JC2grQ/191CctdvCrJfgeMCHnNLn4PeCWSWtUE7m5B13aVHFCr2BIOZ2lr2tj
+         gTAFsmeoMjzx3pcPAfqq2DSMBnn4Nb1PS+T+PNLIBpeyCIG6pv31nECr7AyuzhwrGI2y
+         uZrnBSyAiOwDKTPjP+oHWsuDKJMSsjwCjmDXZIDQEWSf8Z+79TAqdX/fUYda6UjsS8Ka
+         jBcoAYdQ4dqqFT7erpQx6AcWDNGzDTkBMwHsrsVRnEK0pd2lw7RMKE5ROoxsk2s513S9
+         yY5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737200828; x=1737805628;
+        d=1e100.net; s=20230601; t=1737206262; x=1737811062;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=dEETbdnKlsxmZe5oB6rAoR/Y3VNUS2QT7unKpMA9HfA=;
-        b=AqOo7eVRYKzA9nxAHNIgQGifaOTgYArjlLpm2eA4+90QMQy9LueKDmaosx4D8cHdDO
-         jb+tpBeGGkm+itwvxMz6HH/YAysLIaJlcyygIVqd6MTCxlmucGZVR9PoFepfOUB3VuSD
-         xaAXgH9+TvLbqzK7lhqU5pYXbi0p+z0Xbzvdkuo93ePNd8q/6wpPfcu6fEJZgmxHqrDo
-         qXhNRom7wpXDyBkJ4POOWeMtSOHsGZnYpL4PNx4gJxkYt38Z12GSWwsUcZ60+1/+uMpi
-         W5tPozp6BV7zrKdc6wgoMgMEBfGqHaQFNj0ZzqYRsJuvbS2uZB4RsntBSBhQtdjxawHD
-         YNZA==
-X-Forwarded-Encrypted: i=1; AJvYcCU05A+Dy0Ybp6nNbMoIJ5REjqtlF3G4qWEOCIyNi7yV5+3MPhdZ+AtqB5mgKb/9E5jgQkH3ldfgrlVKAQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzKK0vZ3lIYbToNZjuLMzG9Oksmfs+Ale2xhwafQKRiKbGl6mmp
-	EQCCGgZ2Y/s+SjyprE8AQ2b7G/YLe507FBSqcHlTWS00sUr+B44X
-X-Gm-Gg: ASbGncu1LZZi8StByTEk3hFgnjbItQ1mUzgM7bf5MWXnhef3XBY/ztv7TicGGS+wZEi
-	UOFxMOKTL/1BUQor4sprEV2cn7jc9cHq2jGvyeHgX+rgnS5pfI8axcrsxDwDXLoLTmvCSvwmvkt
-	4x9s67q3igYs17z3b0q2OyQ5NnlwZLnb/Pkpw9lZmQWIMNLYv1L4H1BLEFXPZGEfteR4zh0tmFM
-	sBDOJDUvU0heLzZfRYR4gZa1cVQCoCysmrXsz8hzBU3vQNCQNoxYzw6cuxvebsSlBje2+PXbA5y
-	QXgR/oZ31pEjjJg=
-X-Google-Smtp-Source: AGHT+IE/jKdo/VLXGSTwqZLRban4tKHtpH41BP/bx4E15bq4lS0FrHpTEehBdX2Yz4BsnqkbLRGFRA==
-X-Received: by 2002:a17:907:7faa:b0:ab3:30c5:f6d3 with SMTP id a640c23a62f3a-ab38b0b7f5amr554823466b.9.1737200827845;
-        Sat, 18 Jan 2025 03:47:07 -0800 (PST)
+        bh=hiOnSt4CDEnLfEOKd8TSh41PVsAYlATlP6ZPgyV9lH0=;
+        b=MKj2weZ5UxZpDvbdxiNE7znBKuSrm3eueilm5JgnkCQgA2VnWtGSHN1C71VXsjLHUi
+         jJIwtA1Qgsf/BTzYGQcKU7Vj0lZPBfOxgtixp9E463S6F2+HuJFJb26y5MA3LpFgyiRM
+         mcIPc8HqmUk6K3xIPORbYmv02rsf/QVFma9mak1g3ZXX2DliJngHui+5/adklLV4kdcr
+         9AmMpKyZ3AN4hqAwZWPHElDYJK/IQxl4DWGcIbtGDeTvlrxWIJ/lBRauSGkEXhykJoKg
+         PP2BotI8vdrIutkMcONRjZy+THEkDoZ0V+TLv38M5jYQfQcYb74VEmYkYNMA6bdJYrhV
+         AY6A==
+X-Forwarded-Encrypted: i=1; AJvYcCUIOQRri17YyC9B+JudTTo4Qo8xehGkvYQ99pJY1AikLjXd/NgNM0dZoEXDbv3V/vUW6E5smCtRjozH0Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyTZn05NWtEMY8oj5hsUzE24R1DmJLON2f6HgTm6zBOaehKjEpA
+	/8jRR2UzDnvqLamgEd+uaEmYARZywPYYZdDvnvuk4sRQyA7OZ/rb
+X-Gm-Gg: ASbGnctskRpIWR2b67qBf2TQvDvoeQlyVGzYQRSXqTfJwlustXhqaotNYl1DjHA45qM
+	6GPO1ZwWIl9hHGKtlIr+7oslbroohyYTgijPs5lbHoyJ5KDahMvYKoSxUeeH6x+2vJkU87J8xjm
+	74nDSqYu1rZCCTE/VurAfG26/IoIY6M4J/WOidtaEWgBqjKF0WQDiIQkSxV9gbO38nSjdIVeEcR
+	KSH+2X7J8AaLG5huc2tAh3KS6J5C+1pmKLLWJ+aWh7WeochQV0HqescVfuPg/QaY3Ot8jMTWd6a
+	foYKeTPzJ51qpw5B94lUFefGeA==
+X-Google-Smtp-Source: AGHT+IFFti1/tZj8e1vP90qTGFiWr/GV7Ik5rVsNImRR/WGzUU5tZlbjRu4Ye6eJGZXqi2al2PUGGg==
+X-Received: by 2002:a05:6402:27c9:b0:5d9:3118:d0b8 with SMTP id 4fb4d7f45d1cf-5db7dc6b573mr5022930a12.8.1737206261687;
+        Sat, 18 Jan 2025 05:17:41 -0800 (PST)
 Received: from jernej-laptop.localnet ([188.159.248.16])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab384ce17f7sm323829966b.40.2025.01.18.03.47.06
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5db73683d28sm3167269a12.40.2025.01.18.05.17.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Jan 2025 03:47:07 -0800 (PST)
+        Sat, 18 Jan 2025 05:17:41 -0800 (PST)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- Guenter Roeck <linux@roeck-us.net>, Andre Przywara <andre.przywara@arm.com>
+ Samuel Holland <samuel@sholland.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Andre Przywara <andre.przywara@arm.com>
 Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-watchdog@vger.kernel.org
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject:
- Re: [PATCH 03/14] dt-bindings: watchdog: sunxi: add Allwinner A523 compatible
- string
-Date: Sat, 18 Jan 2025 12:47:06 +0100
-Message-ID: <5534097.Sb9uPGUboI@jernej-laptop>
-In-Reply-To: <20241111013033.22793-4-andre.przywara@arm.com>
+ Re: [PATCH 06/14] dt-bindings: irq: sun7i-nmi: document the Allwinner A523
+ NMI controller
+Date: Sat, 18 Jan 2025 14:17:39 +0100
+Message-ID: <2763297.mvXUDI8C0e@jernej-laptop>
+In-Reply-To: <20241111013033.22793-7-andre.przywara@arm.com>
 References:
  <20241111013033.22793-1-andre.przywara@arm.com>
- <20241111013033.22793-4-andre.przywara@arm.com>
+ <20241111013033.22793-7-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -84,53 +82,19 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne ponedeljek, 11. november 2024 ob 02:30:22 Srednjeevropski standardni =
+Dne ponedeljek, 11. november 2024 ob 02:30:25 Srednjeevropski standardni =
 =C4=8Das je Andre Przywara napisal(a):
-> The Allwinner A523 SoC features a watchdog similar to the one used in
-> previous SoCs, but moves some registers around (by just one word), making
-> it incompatible to existing IPs.
+> The Allwinner A523 SoC contains an NMI controller compatible to one used
+> in the recent Allwinner SoCs.
 >=20
-> Add the new name to the list of compatible string, and also to the list
-> of IP requiring two clock inputs.
+> Add the A523 specific name to the list of allowed compatible strings.
 >=20
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-
 
 Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
-
-> ---
->  .../devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml   | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a=
-10-wdt.yaml b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a1=
-0-wdt.yaml
-> index 64c8f73938099..b35ac03d51727 100644
-> --- a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.=
-yaml
-> +++ b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.=
-yaml
-> @@ -32,6 +32,7 @@ properties:
->        - items:
->            - const: allwinner,sun20i-d1-wdt-reset
->            - const: allwinner,sun20i-d1-wdt
-> +      - const: allwinner,sun55i-a523-wdt
-> =20
->    reg:
->      maxItems: 1
-> @@ -60,6 +61,7 @@ if:
->            - allwinner,sun20i-d1-wdt-reset
->            - allwinner,sun50i-r329-wdt
->            - allwinner,sun50i-r329-wdt-reset
-> +          - allwinner,sun55i-a523-wdt
-> =20
->  then:
->    properties:
->=20
-
 
 
 
