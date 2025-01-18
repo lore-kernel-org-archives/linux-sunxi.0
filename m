@@ -1,82 +1,77 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 413F7166F3D;
-	Sat, 18 Jan 2025 09:51:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D1B81632D7
+	for <linux-sunxi@lists.linux.dev>; Sat, 18 Jan 2025 10:07:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737193886; cv=none; b=FT8x8IXaHSH7vmXlVqtI7v7oknVB2bSt0zIFzv6WoYUiAQ4sC45+9+0bulDac6j68or9NDQalSZSEQZ8bjyamJFxM4lbq1nusEQqYVwUzU3wKEq908eIuZMT+djeEjvRRqLUQs7Mhadupjh6icss7mZOnyVX4Sccud+QUAMIVYw=
+	t=1737194862; cv=none; b=VZqalI9bvqtEgCfu6Jm6/iAJ4cTNUFc1+0MjAd8Lc6RdXAgT+PunKM8Hfx/UC+Pz3euhcSuw5o6dwX7DdW49UcWDuboYUegJ+5PMMKmhAlyfuNT5NQWmaKpYbecuMCt7KmEA5qVCQWYE1hj/TLkVuKUOeVACLrdQsPD35Q3gUM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737193886; c=relaxed/simple;
-	bh=P5POeLB1HYM4r7q+jyyRBr+bveo3NgD/uLDfzg3k38Q=;
+	s=arc-20240116; t=1737194862; c=relaxed/simple;
+	bh=9GQ98Yf/YUpW8nUBxuk3MEoc2KzBZ8x8YGwRaJGiAnI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=V5o3tbEeE3bHeNroNPiCUZnB8GpaVKNiQYjAPJOZQTjMtlUqi0mYpkPNE2548A8pAIh4KdyUMNinOwf1/ETm45dAh7pSlRGPUSLrCOmSo8hPnFuXRuscKRWeRx13yW9RLLeEBtyC5bHgmyFbMPJfJW/mmheagdCvR0dYR5VdFu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N7yg3TqK; arc=none smtp.client-ip=209.85.218.53
+	 MIME-Version:Content-Type; b=jEz0rkkjq4XUwnbQ12GrbCmFfKPlYYZy/KpQzdvjDwymoTzlhT1TC8i7U9wGsuVzWusoifivbmxm5lDjtr8LQz4Kvu9ZFoQrs4xcS/GFbUtsC55eGAPEJqR8XtugNhgj9I5Kht7gbGzAONZfGk120T/mMvg/WJVl9KNa+C4q8vc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QMjYXGX2; arc=none smtp.client-ip=209.85.218.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N7yg3TqK"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a9e44654ae3so434635166b.1;
-        Sat, 18 Jan 2025 01:51:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QMjYXGX2"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-aa68b513abcso541245566b.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 18 Jan 2025 02:07:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737193883; x=1737798683; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1737194859; x=1737799659; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=db8wy+NAvFX7oWbNNZfkOxUsDhaAAm9ZkDqWuFl4MaM=;
-        b=N7yg3TqKupxVp3suIc8APqA1L0f6MT9oOqsT43M5UgevXmbnMWsSY929H0grYg+2BJ
-         m1sB/gL70IOFuyMiy12aAhCUGazIf8/YG+r8da2wiy3jR/xViJEB/VlM3fvyjhwdUd0D
-         ioIwWwoVoJe9Od67EZpWGFlynNgpLzYDvINOFcfjV00mPsKfKNuAjVN9/EhXBkpBLo1x
-         U48EhQELKI3tVL0LXbSIQJli7kCBJClNn/jUEoqzTU69s/s/7mNQnYiX2ZR6g008tK0C
-         q457xA6oglzmmPzYux+R0pOZGI4V3Ki7B9kWs5jX+gLVXrKabwUNLS6TV+cjFvpW0XMK
-         zTDw==
+        bh=9GQ98Yf/YUpW8nUBxuk3MEoc2KzBZ8x8YGwRaJGiAnI=;
+        b=QMjYXGX2XPwj146RFxcXGhxSh7cYPn5iplztZAasi33c4iV4uY2h5GhiEjjNGfbj35
+         JBK6vxiwJTwYWs1hYZ8aIzJj/VBOoFD+T968v65gF2XRuIMNFAmqKKrjLqS8vyvbU+fc
+         txafW8p3D+fTHtkTdWHM0cADPcunQ0EwN+lSX69bJ3RGnaUoj5UYqYdlqlPpUFX4HCaY
+         SAiF20zA9EUkuBwk8GHLy/qNn4ixojtcRJLuD8m99C4Em+XWGnCLjrG+wHcGdvJLxaph
+         +B+jgdq54w8IygyLUbkIwqF2fTV6xfo+6SyplE1nrmvPPtjxDRh7A/sZBypK6mVKWEw3
+         eQzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737193883; x=1737798683;
+        d=1e100.net; s=20230601; t=1737194859; x=1737799659;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=db8wy+NAvFX7oWbNNZfkOxUsDhaAAm9ZkDqWuFl4MaM=;
-        b=busks1aOlBU0T/Yg5B/7VEzSMlyLGh9KMWWNC/9nTD1+gCFNHEc692EdTz1ahJlo+d
-         yn+zlNaTm1AUqwHYSS+pjNy0j/peseu4+8vnPNgzhpFmiHeQiwLZc+3bAIua1yS3TFzT
-         mLj7ZBQSJ7NPf+p2A2PJa4m/noYilhdi/BF9p80NXQOIb3BWZMl3steipLQ7l78PDd71
-         2SSWIpG96RiQChZQPK63i+gPy09emZMH2mLkBa0Ks4SrF/FMExn0/rAPxfLdW7XzukSM
-         xmuDL3zm7htmJEYNPru7JAOTKp4/FdfzUBWME9q4yrpUMfSf1VWMyFIxa3unRhDUQmGs
-         TSBg==
-X-Forwarded-Encrypted: i=1; AJvYcCVWALh/yuzVone9r7Dbz4eGN6c07Mf7hLrplom81vQZ3y02sy0LEzeJpib3nPp5SGcmQZ/h4JlTjjGOAWk=@lists.linux.dev, AJvYcCXoL2kUDkSdqKPiJPLFJckIHiqO1o38RC7ADIH3geA9fhCw6Evnr/uCZ+TMggaQENep+eo=@lists.linux.dev
-X-Gm-Message-State: AOJu0YywTJM7+wgL2AYneQ2RgACerPmCedk+JU+Xah+9Q9PoZXm6kmux
-	k1Zc8JABdVwoHt/nOWfOZ81aaGrhWoWXe4cs8cGtfJZmIgcbILax
-X-Gm-Gg: ASbGncsLgGp9Vb/HXya67bl1TTP/UTANg2Qg9xZ2Zpyy7x5AFXbId45hMVCuYqA/Ksy
-	CYZD6x94RNa0QRoAr3TbnnIPzITq7xqZk4nEJ6Ylol+ImogDuPE/6xJoqYMPeaxzP8UMuB2jh27
-	IiSxmQwUm1kRzDQQvJc4Fr9GDspqDQazmTwkTpOTCNUHBmuKBv5g2JcFfAKd51tFnsgvTAbmq+g
-	kdBxbhXyw74g/8NZyfCP6HrEmShOXo44LebkDLJ+LGk8knu0/cXnGgyqRHA9oLQ7OU0YZWm5d2S
-	iP4KliRh7YZKS8HdHp5GPraCqg==
-X-Google-Smtp-Source: AGHT+IGSL4U5Xl+C2sAjU6wiHAWjkKHC+CgAd09MaHyOr2GDuAn9GsU+UuWVUF99+lnXmPsQs58C8g==
-X-Received: by 2002:a17:907:930b:b0:aa6:a9fe:46e5 with SMTP id a640c23a62f3a-ab38b3dae38mr578880566b.53.1737193883243;
-        Sat, 18 Jan 2025 01:51:23 -0800 (PST)
+        bh=9GQ98Yf/YUpW8nUBxuk3MEoc2KzBZ8x8YGwRaJGiAnI=;
+        b=l1QUH7dkX+x/PcKVnq7Fp41S91uD1vyJ0oPoyqLvifqFTl2XfmPqkyU19MhhIIBLh3
+         E+AL9rcSuhMTkssqT7s54S/Gxf6arGdsyjIoSMOYWQtiCOaBAj6GPRarVkvabMJRxB1k
+         IBoAdt1NFp+Ad3TKs3/Kha93vKAA59ed2jXvrWZV48Xhf2HZux5J39e1blNPVJY4hd56
+         vhKiQZRZjRUygTebPLt5noPRBgRzk/Z583B6MV1FIJqxq4Dyl4++GYdBOHzu8P4uJm23
+         oOILPNyXtwBUGT5IbjgLkuzRDq41vYP21V9T+WptJ4c7IRvu386qfnMJk3Q0kmZY/IEd
+         u0HQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXlYQ7bSDE8S/kNFc1RcIoTltqfG8TJZEDel1/7tTrbzXln6WM0XpURlU7Hbtv6TwRGpfcI9argqUPiLA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyshEJ8/Ha/WjX7mm/ZRriSgWS8iKgVaT3Tw86s5PDaWsYK81fP
+	oPdcn1GystXv44RqCimoxIt3tlTZcLMRMIDakJkJgfgfHciy7XW7
+X-Gm-Gg: ASbGncsHxjF1odeSIsrTPbeeYI53NPQ/ssrVc0qpCGxjMmutH227I1biUxGTU+yNvIg
+	6ueKcRE+TJ4dX3Oyr8uNwTc4VXMaFcWWcBKWXTvLtZwOTd60vdEL2lxPau258xtW0xn7ii0kL6S
+	GML4tOWrxaY1+/c7RnHQ12XO4njXBDrflnVmRRde+95JgNOoNbKdMVGwvkBN/nmMu5G3K+8Cp8V
+	fejLUJ0YxFLbffX2rUBUuYGDLJfj4C4RZF8vtqK9HBrmF6v1PC4XQZ6SJCo2dqDkPZ0aNlb5uY/
+	LkUab3HjTFEl0VY=
+X-Google-Smtp-Source: AGHT+IFsvrKMrEz8QcePe/YIiTwNkbTjp5GTltW896PPvrsYo1Lns2fM/cz6NBZTJCkAVR68cgnrdA==
+X-Received: by 2002:a17:906:3a87:b0:ab3:a190:6cb2 with SMTP id a640c23a62f3a-ab3a1906e5cmr213892566b.25.1737194858490;
+        Sat, 18 Jan 2025 02:07:38 -0800 (PST)
 Received: from jernej-laptop.localnet ([188.159.248.16])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab384f86244sm307104766b.152.2025.01.18.01.51.22
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab384d2d3dcsm308908466b.81.2025.01.18.02.07.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Jan 2025 01:51:22 -0800 (PST)
+        Sat, 18 Jan 2025 02:07:37 -0800 (PST)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Vinod Koul <vkoul@kernel.org>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Daniel Mack <daniel@zonque.org>,
- Haojian Zhuang <haojian.zhuang@gmail.com>,
- Robert Jarzmik <robert.jarzmik@free.fr>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>,
- Peter Ujfalusi <peter.ujfalusi@gmail.com>,
- Michal Simek <michal.simek@amd.com>, dmaengine@vger.kernel.org,
- linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+To: Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ Andre Przywara <andre.przywara@arm.com>
+Cc: linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v2 1/2] dmaengine: Use str_enable_disable-like helpers
-Date: Sat, 18 Jan 2025 10:51:21 +0100
-Message-ID: <3794610.MHq7AAxBmi@jernej-laptop>
-In-Reply-To: <20250114191021.854080-1-krzysztof.kozlowski@linaro.org>
-References: <20250114191021.854080-1-krzysztof.kozlowski@linaro.org>
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/7] pinctrl: sunxi: refactor pinctrl variants into flags
+Date: Sat, 18 Jan 2025 11:07:36 +0100
+Message-ID: <1881692.atdPhlSkOF@jernej-laptop>
+In-Reply-To: <20241111005750.13071-2-andre.przywara@arm.com>
+References:
+ <20241111005750.13071-1-andre.przywara@arm.com>
+ <20241111005750.13071-2-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -86,39 +81,37 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne torek, 14. januar 2025 ob 20:10:20 Srednjeevropski standardni =C4=8Das =
-je Krzysztof Kozlowski napisal(a):
-> Replace ternary (condition ? "enable" : "disable") syntax with helpers
-> from string_choices.h because:
-> 1. Simple function call with one argument is easier to read.  Ternary
->    operator has three arguments and with wrapping might lead to quite
->    long code.
-> 2. Is slightly shorter thus also easier to read.
-> 3. It brings uniformity in the text - same string.
-> 4. Allows deduping by the linker, which results in a smaller binary
->    file.
+Dne ponedeljek, 11. november 2024 ob 01:57:44 Srednjeevropski standardni =
+=C4=8Das je Andre Przywara napisal(a):
+> For some Allwinner SoCs we have one pinctrl driver caring for multiple
+> very similar chips, and are tagging certain pins with a variant bitmask.
+> The Allwinner D1 introduced a slightly extended register layout, and we
+> were abusing this variant mask to convey this bit of information into
+> the common code part.
+> Now there will be more pinctrl device properties to consider (has PortF
+> voltage switch, for instance), so shoehorning this into the variant
+> bitmask will not fly anymore.
 >=20
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Refactor the "variant" field into a more generic "flags" field. It turns
+> out that we don't need the variant bits to be unique across all SoCs,
+> but only among those SoCs that share one driver (table), of which there
+> are at most three variants at the moment. So the actual variant field can
+> be limited to say 8 bits, and the other bits in the flag register can be
+> re-purposed to hold other information, like this extended register
+> layout.
+> As a side effect we can move the variant definition into the per-SoC
+> pinctrl driver file, which makes it more obvious that this is just a
+> private definition, only relevant for this particular table.
+> This also changes the artificial sun20i-d1 "variant" into the actual
+> flag bit that we are after.
 >=20
-> ---
->=20
-> Changes in v2:
-> 1. Also drivers/dma/dw-edma/dw-edma-core.c and drivers/dma/sun6i-dma.c
-> ---
->  drivers/dma/dw-edma/dw-edma-core.c | 6 ++++--
->  drivers/dma/imx-dma.c              | 3 ++-
->  drivers/dma/pxa_dma.c              | 4 ++--
->  drivers/dma/sun6i-dma.c            | 3 ++-
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-=46or sun6i-dma:
+That looks pretty neat cleanup.
+
 Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
-
->  drivers/dma/ti/edma.c              | 3 ++-
->  drivers/dma/xilinx/xilinx_dma.c    | 3 ++-
->  6 files changed, 14 insertions(+), 8 deletions(-)
-
 
 
