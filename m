@@ -1,565 +1,507 @@
-Received: from thales.epochal.quest (thales.epochal.quest [51.222.15.28])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C57B5EEA9
-	for <linux-sunxi@lists.linux.dev>; Sat, 18 Jan 2025 15:26:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.222.15.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D78581991CB
+	for <linux-sunxi@lists.linux.dev>; Sat, 18 Jan 2025 16:28:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737213970; cv=none; b=az8SexQH4NqXKG1FOv1fFP5l9xRNm2q1W+spU2Tp7Apmb0iCq7AC1Z/WNuSgPInyGEJsfr4NCKDg7UZfrj7bsImA9X738W8evRCyoWj6FSXk5xGtKe734HeM3zrr11Q4eCWRmqFYclKcCVsx28HDKapHMe3yAujZvr8OxPbtLuQ=
+	t=1737217700; cv=none; b=krTazRW+hSfHLp3me7pkGm3uaKo+OJcI1SHW2X/2nb0aAviQZbkkKrxMSdmpp9hCjtZizrz+2ajRtlrbYeaKuQaojnj2zfoaHgtyKsl6zCgwEr2/w0Y3ALlZ5Xp9rNDHfUDn4f5x3d9SEOEaMs1O+ePUD7cx/tkQjm+GG2vXPXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737213970; c=relaxed/simple;
-	bh=YVywVokcRioh6zjHBEntKk3yKq6bSPETAl1lc8197co=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=pbUpIyABN3N7HrFzgtakq0Mj/UBhxBOygDlm675z+Rhh2bC84pd0np9aHihSaM0XSEj+2ABYOTXGvKgHPchkKJ5msYHcecYQO/Ev7X6foLz0oTJ0kgkIRthNCbxx5yfatj0sUvArssFDJJ4ODI9eao9dAvpYLllgXpPqrxHZX4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epochal.quest; spf=pass smtp.mailfrom=epochal.quest; dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b=FPQqQ5L3; arc=none smtp.client-ip=51.222.15.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epochal.quest
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=epochal.quest
+	s=arc-20240116; t=1737217700; c=relaxed/simple;
+	bh=WmcNgHTjbftv10a5/348uDI+9wMWuTwBHgkTpMhg6mU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=s+/rBSipL+XnZTHO8imkFjXRshOXOTgi6xS5WUnCKdj16JF24fFvGx/eojqueLrUdxYcxe97+v+CFW16nY5a7UnA5bB0ORq7MJWkJStCCwkmI/b6xt3eK40qH+lucQIr5gd+uL94qwf6bRRO0nEraal6qz4tYvjeHc6U63tE5DA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d3ATD7oX; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b="FPQqQ5L3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=epochal.quest;
-	s=default; t=1737213622;
-	bh=YVywVokcRioh6zjHBEntKk3yKq6bSPETAl1lc8197co=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=FPQqQ5L3ZkNSg1TnkyUvveic5Mg+awcl1xcHJ7DmbMFZmzt09QstG1j0TYmNQcSCy
-	 XZ4lkTD6zkKVA6lGJyvNlrulYH36yeXhpYc5olAOE8xCCb3eKNom+3+64zmcHzQ2GJ
-	 OyPfPUxb7M2R+jbxytRHIs9Y0WIxiazAGG7g6Ygrraesy5A8NrXXY45IPN4NPnqVQY
-	 5ldP/PZ9O5StHput01WnECV3ynknbUegUvdnYcHBTETOUwdazGpHPcxA9cRyMCT2v9
-	 mRU+yh+Zx6EWGGNse4+xQO7Fd3GPUqO/YeqdCO/BWPnqzJG9iXWfOtBiplx0hjJF94
-	 EJ95XSoXWG50Q==
-X-Virus-Scanned: by epochal.quest
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d3ATD7oX"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5d96944401dso5515526a12.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 18 Jan 2025 08:28:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1737217697; x=1737822497; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3qK9VGUQLsSV1fviCq5ZDn3IDi9DKDriUQm8bYqt+y0=;
+        b=d3ATD7oXUy9AmpqamzpLlrs0XYiTFu7NIOzY5SBaPO4TbJurvDx/YRUKPddPtr9ePi
+         uKGt5GaXbnzgSjafhf4wf/fRmhC7oc1spp7CTT2SmYspVJleAYzIMlJ9P1LtXDV5jGn8
+         ApRFM52nCMiq9Nzf9AkrIfHPMZC/j205pDIqOSOUbCaEdr9Urv2Gj9ybn6gzN5mUMNOs
+         /u3MxU7oKQztqcLLpbInNAXWqEn2+QkK64ILKmoBLd5B8fr1A5Ia3I4z+G3DhEd8ZuM2
+         tOCM7hp8xvf4SFEvr+OyjC7F4XnnG6m4uprypmaJhcryPJSPgNmdC1ITwxNk8MYrtsg9
+         dcyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737217697; x=1737822497;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3qK9VGUQLsSV1fviCq5ZDn3IDi9DKDriUQm8bYqt+y0=;
+        b=kcFTYHUAmoS/o78z2XpQcFSouMxhigGss0kco4Cn8z/Zjnm1moBQgHl3dNr1AQZU9w
+         ltymOEDTkSpN4CuiKHu+UAqAu2+VW+Aeuke9IoRKgwHbgy4pvOzZMDHkcArk0ThgOiO2
+         1hFzoDHzA1p50PfnQBVRQMzhYuVLUreADhg84oTnTspW7a+ztyGQLaqTxodGPzL4zLNz
+         z7MaqixDr0u6eiMEFy94tgI0mw6dK2oiwE00HSgGuM57T+SOHk1Zx+X9tvl8A6uA5COa
+         hxddzlZe51VoVF3UM2xsyD57uEHQfptZdOIXc6mDWnkIfgXRc3hDln13joJfJMMXaxb4
+         Ay8g==
+X-Forwarded-Encrypted: i=1; AJvYcCWXADduXWyyEYvJncEU2CGQN/JufGW9/TyjbkgB4WLEGdqnTJH67qmmGb1psUifmPn77rZV7ygR5NSJGg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx+tT9YDu0ysDTwnRNzyQuclelJeDwmNJhx3qaYdaacu6FpSYeR
+	cgqXD1Vc/DL+DbzjNZCTfdTzOFQB6E9GEi6jztf7/T6bP3k7zvFcaHDPmENx
+X-Gm-Gg: ASbGncv+U4PwILrPeq7ncSVKPh/1ketEArWXfiT2p+8uLbKLtws+2uSBIOxPEvTa4YL
+	Zktk0mXamVbyy8JtSIwTop9uKOdoKw+BwqzSd2OMrbnBcQRLc8EC2Mx3qUbQQyeBQL7YlTtJxbs
+	cqY9nW0f3EjTjuRwPqyPbz67Ya0Ydv3aHiXXcnMWMk6NfPP000CqgVldIc0nmIPwNIqjALwtHLJ
+	PGFkXjVYzBY0opq4UszchOQ2fOb08HjBurR948Hf0rnJEOuCFeU6vIs4+TQh6ltmuEa6ZxOpv9X
+	6Y/vFTMsZ1zbf0E=
+X-Google-Smtp-Source: AGHT+IGyjMDuSipg8uqnrp3QQWrF+JEzC7jqNIST1L3PukQeJHqMCiwtLjv7aFSuOtfiLnAgFCiaLA==
+X-Received: by 2002:a17:907:6d17:b0:aab:d8e4:2062 with SMTP id a640c23a62f3a-ab38b3df931mr583281866b.56.1737217696832;
+        Sat, 18 Jan 2025 08:28:16 -0800 (PST)
+Received: from jernej-laptop.localnet ([188.159.248.16])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab384f86f7bsm363583766b.149.2025.01.18.08.28.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 18 Jan 2025 08:28:16 -0800 (PST)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject:
+ Re: [PATCH 11/14] arm64: dts: allwinner: Add Allwinner A523 .dtsi file
+Date: Sat, 18 Jan 2025 17:28:14 +0100
+Message-ID: <2763298.mvXUDI8C0e@jernej-laptop>
+In-Reply-To: <20241111013033.22793-12-andre.przywara@arm.com>
+References:
+ <20241111013033.22793-1-andre.przywara@arm.com>
+ <20241111013033.22793-12-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Sat, 18 Jan 2025 11:20:19 -0400
-From: Cody Eksal <masterr3c0rd@epochal.quest>
-To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: u-boot@lists.denx.de, Lukasz Majewski <lukma@denx.de>, Sean Anderson
- <seanga2@gmail.com>, Jaehoon Chung <jh80.chung@samsung.com>, Andre Przywara
- <andre.przywara@arm.com>, Tom Rini <trini@konsulko.com>, Simon Glass
- <sjg@chromium.org>, linux-sunxi@lists.linux.dev, Parthiban
- <parthiban@linumiz.com>
-Subject: Re: [PATCH 7/8] sunxi: A133: add DRAM init code [WIP!]
-In-Reply-To: <23798710.6Emhk5qWAg@jernej-laptop>
-References: <20250117014537.22513-1-andre.przywara@arm.com>
- <20250117014537.22513-8-andre.przywara@arm.com>
- <23798710.6Emhk5qWAg@jernej-laptop>
-Message-ID: <d361206f2e25a155e67238770a140ac2@epochal.quest>
-X-Sender: masterr3c0rd@epochal.quest
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On 2025/01/18 4:17 am, Jernej Škrabec wrote:
-> Dne petek, 17. januar 2025 ob 02:45:36 Srednjeevropski standardni čas 
-> je Andre Przywara napisal(a):
->> From: Cody Eksal <masterr3c0rd@epochal.quest>
->> 
->> This adds preliminary support for the DRAM controller in the Allwinner
->> A100/A133 SoCs.
->> This is work in progress, and has rough edges, but works on at least
->> three different boards. It contains support for DDR4 and LPDDR4.
-> 
-> Since this is clearly WIP and SoF missing, just some comments below.
-Hi Jernej; thank you for your feedback! Some replies and
-clarifications below.
+Dne ponedeljek, 11. november 2024 ob 02:30:30 Srednjeevropski standardni =
+=C4=8Das je Andre Przywara napisal(a):
+> The Allwinner A523, and its siblings A527 and T527, which share the same
+> die, are a new family of SoCs introduced in 2023. They features eight
+> Arm Cortex-A55 cores, and, among the other usual peripherals, a PCIe and
+> USB 3.0 controller.
+>=20
+> Add the basic SoC devicetree .dtsi for the chip, describing the
+> fundamental peripherals: the cores, GIC, timer, RTC, CCU and pinctrl.
+> Also some other peripherals are fully compatible with previous IP, so
+> add the USB and MMC nodes as well.
+> The other peripherals will be added in the future, once we understand
+> their compatibility and DT requirements.
+>=20
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  .../arm64/boot/dts/allwinner/sun55i-a523.dtsi | 386 ++++++++++++++++++
+>  1 file changed, 386 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
+>=20
+> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi b/arch/arm64/=
+boot/dts/allwinner/sun55i-a523.dtsi
+> new file mode 100644
+> index 0000000000000..96072cea10da4
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
+> @@ -0,0 +1,386 @@
+> +// SPDX-License-Identifier: (GPL-2.0-only OR MIT)
+> +// Copyright (C) 2023-2024 Arm Ltd.
+> +
+> +#include <dt-bindings/interrupt-controller/arm-gic.h>
+> +#include <dt-bindings/clock/sun6i-rtc.h>
+> +#include <dt-bindings/clock/sun55i-a523-ccu.h>
+> +#include <dt-bindings/clock/sun55i-a523-r-ccu.h>
+> +#include <dt-bindings/reset/sun55i-a523-ccu.h>
+> +#include <dt-bindings/reset/sun55i-a523-r-ccu.h>
+> +
+> +/ {
+> +	interrupt-parent =3D <&gic>;
+> +	#address-cells =3D <2>;
+> +	#size-cells =3D <2>;
+> +
+> +	cpus {
+> +		#address-cells =3D <1>;
+> +		#size-cells =3D <0>;
+> +
+> +		cpu0: cpu@0 {
+> +			compatible =3D "arm,cortex-a55";
+> +			device_type =3D "cpu";
+> +			reg =3D <0x000>;
+> +		};
+> +	};
+> +
+> +	ext_osc32k: ext-osc32k-clk {
+> +		#clock-cells =3D <0>;
+> +		compatible =3D "fixed-clock";
+> +		clock-frequency =3D <32768>;
+> +		clock-output-names =3D "ext_osc32k";
+> +	};
 
->> ---
-*snip*
->> +/* TODO: Remove unused fields */
->> +struct dram_para {
->> +	uint32_t clk;
->> +	enum sunxi_dram_type type;
->> +	uint32_t dx_odt;
->> +	uint32_t dx_dri;
->> +	uint32_t ca_dri;
->> +	uint32_t para0;
->> +	uint32_t para1;
->> +	uint32_t para2;
->> +	uint32_t mr0;
->> +	uint32_t mr1;
->> +	uint32_t mr2;
->> +	uint32_t mr3;
->> +	uint32_t mr4;
->> +	uint32_t mr5;
->> +	uint32_t mr6;
->> +	uint32_t mr11;
->> +	uint32_t mr12;
->> +	uint32_t mr13;
->> +	uint32_t mr14;
->> +	uint32_t mr16;
->> +	uint32_t mr17;
->> +	uint32_t mr22;
->> +	uint32_t tpr1;
->> +	uint32_t tpr2;
->> +	uint32_t tpr3;
->> +	uint32_t tpr6;
->> +	uint32_t tpr10;
->> +	uint32_t tpr11;
->> +	uint32_t tpr12;
->> +	uint32_t tpr13;
->> +	uint32_t tpr14;
-> 
-> para0 - para2 are not needed once auto size, width, rank and (in case 
-> of
-> DDR4) bank groups is implemented.
-This is partially true; para1/para2/tpr13 do store DRAM organization
-parameters, but para0 also stores a value that's written during
-`phy_dx_delay_compensation`; it's most similar to `odt_en` on the H616.
-I have further revisions of this code that implement DRAM detection and 
-fix
-some issues with DRAM detection, and those do away with 
-para1/para2/tpr13.
+osc32k should be part of the board DT. It's not mandatory, and some boards,
+at least with older generations of SoCs, don't have it.
 
-> Mode registers, or MR for short, don't need to be parameterized. They 
-> are
-> constant for specific type of DRAM, except ones that are clock 
-> dependent.
-> Those are overriden in code anyway.
-Not all are overridden in the case of DDR4; quite a few are provided by 
-the
-DRAM config. It's very possible these are similar across different 
-devices,
-but considering the relatively small number of DDR4 sunxi devices in
-general, this seemed hard to say for sure.
+Best regards,
+Jernej
 
-> TPR13 is not needed. It holds bits which tell if detection of size, 
-> rank
-> and width is needed and similar things. Those are (or should be) done 
-> anyway.
-> 
->> +};
->> +
->> +void mctl_set_timing_params(const struct dram_para *para);
->> +
->> +struct dram_config {
->> +	u8 cols;		/* Column bits */
->> +	u8 rows;		/* Row bits */
->> +	u8 ranks;		/* Rank bits (different from H616!) */
->> +	u8 banks;		/* Bank bits */
->> +	u8 bankgrps;		/* Bank group bits */
->> +	u8 bus_full_width;	/* 1 = x32, 0 = x16 */
->> +};
->> +
->> +#endif /* _SUNXI_DRAM_SUN50I_A133_H */
->> diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
->> index 78fd74f3f28..ccf0c9a403e 100644
->> --- a/arch/arm/mach-sunxi/Kconfig
->> +++ b/arch/arm/mach-sunxi/Kconfig
->> @@ -51,7 +51,13 @@ config DRAM_SUN50I_H616
->>  	  Select this dram controller driver for some sun50i platforms,
->>  	  like H616.
->> 
->> -if DRAM_SUN50I_H616
->> +config DRAM_SUN50I_A133
->> +	bool
->> +	help
->> +	  Select this dram controller driver for some sun50i platforms,
->> +	  like A133.
->> +
->> +if DRAM_SUN50I_H616 || DRAM_SUN50I_A133
->>  config DRAM_SUNXI_DX_ODT
->>  	hex "DRAM DX ODT parameter"
->>  	help
->> @@ -73,18 +79,144 @@ config DRAM_SUNXI_ODT_EN
->>  	help
->>  	  ODT EN value from vendor DRAM settings.
->> 
->> +config DRAM_SUNXI_PARA0
->> +	hex "DRAM PARA0 parameter"
->> +	depends on DRAM_SUN50I_A133
->> +	help
->> +	  PARA0 value from vendor DRAM settings.
->> +
->> +config DRAM_SUNXI_PARA1
->> +	hex "DRAM PARA1 parameter"
->> +	help
->> +	  PARA1 value from vendor DRAM settings.
->> +
->> +config DRAM_SUNXI_PARA2
->> +	hex "DRAM PARA2 parameter"
->> +	help
->> +	  PARA2 value from vendor DRAM settings.
->> +
->> +config DRAM_SUNXI_MR0
->> +	hex "DRAM MR0 parameter"
->> +	depends on DRAM_SUN50I_A133
->> +	default 0x0
->> +	help
->> +	  MR0 value from vendor DRAM settings.
->> +
->> +config DRAM_SUNXI_MR1
->> +	hex "DRAM MR1 parameter"
->> +	depends on DRAM_SUN50I_A133
->> +	default 0x0
->> +	help
->> +	  MR1 value from vendor DRAM settings.
->> +
->> +config DRAM_SUNXI_MR2
->> +	hex "DRAM MR2 parameter"
->> +	depends on DRAM_SUN50I_A133
->> +	default 0x0
->> +	help
->> +	  MR2 value from vendor DRAM settings.
->> +
->> +config DRAM_SUNXI_MR3
->> +	hex "DRAM MR3 parameter"
->> +	depends on DRAM_SUN50I_A133
->> +	default 0x0
->> +	help
->> +	  MR3 value from vendor DRAM settings.
->> +
->> +config DRAM_SUNXI_MR4
->> +	hex "DRAM MR4 parameter"
->> +	depends on DRAM_SUN50I_A133
->> +	default 0x0
->> +	help
->> +	  MR4 value from vendor DRAM settings.
->> +
->> +config DRAM_SUNXI_MR5
->> +	hex "DRAM MR5 parameter"
->> +	depends on DRAM_SUN50I_A133
->> +	default 0x0
->> +	help
->> +	  MR5 value from vendor DRAM settings.
->> +
->> +config DRAM_SUNXI_MR6
->> +	hex "DRAM MR6 parameter"
->> +	depends on DRAM_SUN50I_A133
->> +	default 0x0
->> +	help
->> +	  MR6 value from vendor DRAM settings.
->> +
->> +config DRAM_SUNXI_MR11
->> +	hex "DRAM MR11 parameter"
->> +	depends on DRAM_SUN50I_A133
->> +	default 0x0
->> +	help
->> +	  MR11 value from vendor DRAM settings.
->> +
->> +config DRAM_SUNXI_MR12
->> +	hex "DRAM MR12 parameter"
->> +	depends on DRAM_SUN50I_A133
->> +	default 0x0
->> +	help
->> +	  MR12 value from vendor DRAM settings.
->> +
->> +config DRAM_SUNXI_MR13
->> +	hex "DRAM MR13 parameter"
->> +	depends on DRAM_SUN50I_A133
->> +	default 0x0
->> +	help
->> +	  MR13 value from vendor DRAM settings.
->> +
->> +config DRAM_SUNXI_MR14
->> +	hex "DRAM MR14 parameter"
->> +	depends on DRAM_SUN50I_A133
->> +	default 0x0
->> +	help
->> +	  MR14 value from vendor DRAM settings.
->> +
->> +config DRAM_SUNXI_MR16
->> +	hex "DRAM MR16 parameter"
->> +	depends on DRAM_SUN50I_A133
->> +	default 0x0
->> +	help
->> +	  MR16 value from vendor DRAM settings.
->> +
->> +config DRAM_SUNXI_MR17
->> +	hex "DRAM MR17 parameter"
->> +	depends on DRAM_SUN50I_A133
->> +	default 0x0
->> +	help
->> +	  MR17 value from vendor DRAM settings.
->> +
->> +config DRAM_SUNXI_MR22
->> +	hex "DRAM MR22 parameter"
->> +	depends on !DRAM_SUN50I_A133
-> 
-> I guess exclamation point is a mistake here, but this config shouldn't
-> be needed (see above.)
-Good catch.
->> +	default 0x0
->> +	help
->> +	  MR22 value from vendor DRAM settings.
->> +
->>  config DRAM_SUNXI_TPR0
->>  	hex "DRAM TPR0 parameter"
->>  	default 0x0
->>  	help
->>  	  TPR0 value from vendor DRAM settings.
->> 
->> +config DRAM_SUNXI_TPR1
->> +	hex "DRAM TPR1 parameter"
->> +	default 0x0
->> +	help
->> +	  TPR1 value from vendor DRAM settings.
->> +
->>  config DRAM_SUNXI_TPR2
->>  	hex "DRAM TPR2 parameter"
->>  	default 0x0
->>  	help
->>  	  TPR2 value from vendor DRAM settings.
->> 
->> +config DRAM_SUNXI_TPR3
->> +	hex "DRAM TPR3 parameter"
->> +	default 0x0
->> +	help
->> +	  TPR3 value from vendor DRAM settings.
->> +
->>  config DRAM_SUNXI_TPR6
->>  	hex "DRAM TPR6 parameter"
->>  	default 0x3300c080
->> @@ -109,6 +241,20 @@ config DRAM_SUNXI_TPR12
->>  	help
->>  	  TPR12 value from vendor DRAM settings.
->> 
->> +config DRAM_SUNXI_TPR13
->> +	hex "DRAM TPR13 parameter"
->> +	depends on DRAM_SUN50I_A133
->> +	default 0x0
->> +	help
->> +	  TPR13 value from vendor DRAM settings.
->> +
->> +config DRAM_SUNXI_TPR14
->> +	hex "DRAM TPR14 parameter"
->> +	depends on DRAM_SUN50I_A133
->> +	default 0x0
->> +	help
->> +	  TPR14 value from vendor DRAM settings.
->> +
-> 
-> Most of new configs are not needed, as discussed above.
-> 
->>  choice
->>  	prompt "DRAM PHY pin mapping selection"
->>  	default DRAM_SUNXI_PHY_ADDR_MAP_0
->> @@ -116,7 +262,8 @@ choice
->>  config DRAM_SUNXI_PHY_ADDR_MAP_0
->>  	bool "DRAM PHY address map 0"
->>  	help
->> -	  This pin mapping selection should be used by the H313, H616, H618.
->> +	  This pin mapping selection should be used by the H313, H616, H618,
->> +	  and A133, R818 SoCs.
->> 
->>  config DRAM_SUNXI_PHY_ADDR_MAP_1
->>  	bool "DRAM PHY address map 1"
->> @@ -497,7 +644,7 @@ config ARM_BOOT_HOOK_RMR
->>  	This allows both the SPL and the U-Boot proper to be entered in
->>  	either mode and switch to AArch64 if needed.
->> 
->> -if SUNXI_DRAM_DW || DRAM_SUN50I_H6 || DRAM_SUN50I_H616
->> +if SUNXI_DRAM_DW || DRAM_SUN50I_H6 || DRAM_SUN50I_H616 || 
->> DRAM_SUN50I_A133
->>  config SUNXI_DRAM_DDR3
->>  	bool
->> 
->> @@ -510,6 +657,9 @@ config SUNXI_DRAM_LPDDR3
->>  config SUNXI_DRAM_LPDDR4
->>  	bool
->> 
->> +config SUNXI_DRAM_DDR4
->> +	bool
->> +
->>  choice
->>  	prompt "DRAM Type and Timing"
->>  	default SUNXI_DRAM_DDR3_1333 if !MACH_SUN8I_V3S
->> @@ -518,6 +668,7 @@ choice
->>  config SUNXI_DRAM_DDR3_1333
->>  	bool "DDR3 1333"
->>  	select SUNXI_DRAM_DDR3
->> +	depends on !DRAM_SUN50I_A133
->>  	---help---
->>  	This option is the original only supported memory type, which suits
->>  	many H3/H5/A64 boards available now.
->> @@ -525,6 +676,7 @@ config SUNXI_DRAM_DDR3_1333
->>  config SUNXI_DRAM_LPDDR3_STOCK
->>  	bool "LPDDR3 with Allwinner stock configuration"
->>  	select SUNXI_DRAM_LPDDR3
->> +	depends on !DRAM_SUN50I_A133
->>  	---help---
->>  	This option is the LPDDR3 timing used by the stock boot0 by
->>  	Allwinner.
->> @@ -548,7 +700,7 @@ config SUNXI_DRAM_H6_DDR3_1333
->>  config SUNXI_DRAM_H616_LPDDR3
->>  	bool "LPDDR3 DRAM chips on the H616 DRAM controller"
->>  	select SUNXI_DRAM_LPDDR3
->> -	depends on DRAM_SUN50I_H616
->> +	depends on DRAM_SUN50I_H616 || DRAM_SUN50I_A133
->>  	help
->>  	  This option is the LPDDR3 timing used by the stock boot0 by
->>  	  Allwinner.
->> @@ -556,7 +708,7 @@ config SUNXI_DRAM_H616_LPDDR3
->>  config SUNXI_DRAM_H616_LPDDR4
->>  	bool "LPDDR4 DRAM chips on the H616 DRAM controller"
->>  	select SUNXI_DRAM_LPDDR4
->> -	depends on DRAM_SUN50I_H616
->> +	depends on DRAM_SUN50I_H616 || DRAM_SUN50I_A133
->>  	help
->>  	  This option is the LPDDR4 timing used by the stock boot0 by
->>  	  Allwinner.
->> @@ -564,11 +716,27 @@ config SUNXI_DRAM_H616_LPDDR4
->>  config SUNXI_DRAM_H616_DDR3_1333
->>  	bool "DDR3-1333 boot0 timings on the H616 DRAM controller"
->>  	select SUNXI_DRAM_DDR3
->> -	depends on DRAM_SUN50I_H616
->> +	depends on DRAM_SUN50I_H616 || DRAM_SUN50I_A133
->>  	help
->>  	  This option is the DDR3 timing used by the boot0 on H616 TV boxes
->>  	  which use a DDR3-1333 timing.
->> 
->> +config SUNXI_DRAM_A133_DDR4
->> +	bool "DDR4 boot0 timings on the A133 DRAM controller"
->> +	select SUNXI_DRAM_DDR4
->> +	depends on DRAM_SUN50I_A133
->> +	help
->> +	  This option is the DDR4 timing used by the boot0 on A133 devices
->> +	  which use a DDR4 timing.
->> +
->> +config SUNXI_DRAM_A133_LPDDR4
->> +	bool "LPDDR4 boot0 timings on the A133 DRAM controller"
->> +	select SUNXI_DRAM_LPDDR4
->> +	depends on DRAM_SUN50I_A133
->> +	help
->> +	  This option is the LPDDR4 timing used by the boot0 on A133 devices
->> +	  which use an LPDDR4 timing.
->> +
->>  config SUNXI_DRAM_DDR2_V3S
->>  	bool "DDR2 found in V3s chip"
->>  	select SUNXI_DRAM_DDR2
->> @@ -596,7 +764,7 @@ config DRAM_CLK
->>  		       MACH_SUN8I_V3S
->>  	default 672 if MACH_SUN50I
->>  	default 744 if MACH_SUN50I_H6
->> -	default 720 if MACH_SUN50I_H616
->> +	default 720 if MACH_SUN50I_H616 || MACH_SUN50I_A133
->>  	---help---
->>  	Set the dram clock speed, valid range 240 - 480 (prior to sun9i),
->>  	must be a multiple of 24. For the sun9i (A80), the tested values
->> @@ -613,7 +781,7 @@ endif
->> 
->>  config DRAM_ZQ
->>  	int "sunxi dram zq value"
->> -	depends on !MACH_SUN50I_H616
->> +	depends on !MACH_SUN50I_H616 && !MACH_SUN50I_A133
->>  	default 123 if MACH_SUN4I || MACH_SUN5I || MACH_SUN6I || \
->>  		       MACH_SUN8I_A23 || MACH_SUN8I_A33 || MACH_SUN8I_A83T
->>  	default 127 if MACH_SUN7I
->> diff --git a/arch/arm/mach-sunxi/Makefile 
->> b/arch/arm/mach-sunxi/Makefile
->> index eb6a49119a1..9b38f1d8663 100644
->> --- a/arch/arm/mach-sunxi/Makefile
->> +++ b/arch/arm/mach-sunxi/Makefile
->> @@ -45,4 +45,6 @@ obj-$(CONFIG_DRAM_SUN50I_H6)	+= dram_sun50i_h6.o
->>  obj-$(CONFIG_DRAM_SUN50I_H6)	+= dram_timings/
->>  obj-$(CONFIG_DRAM_SUN50I_H616)	+= dram_sun50i_h616.o
->>  obj-$(CONFIG_DRAM_SUN50I_H616)	+= dram_timings/
->> +obj-$(CONFIG_DRAM_SUN50I_A133)	+= dram_sun50i_a133.o
->> +obj-$(CONFIG_DRAM_SUN50I_A133)	+= dram_timings/
->>  endif
->> diff --git a/arch/arm/mach-sunxi/dram_sun50i_a133.c 
->> b/arch/arm/mach-sunxi/dram_sun50i_a133.c
->> new file mode 100644
->> index 00000000000..1221244cbb6
->> --- /dev/null
->> +++ b/arch/arm/mach-sunxi/dram_sun50i_a133.c
->> @@ -0,0 +1,1217 @@
->> +// SPDX-License-Identifier: GPL-2.0+
->> +/*
->> + * sun50i A133 platform dram controller driver
->> + *
->> + * Controller and PHY appear to be quite similar to that of the H616;
->> + * however certain offsets, timings, and other details are different 
->> enough that
->> + * the original code does not work as expected. Some device flags and 
->> calibrations
->> + * are not yet implemented, and configuration aside from DDR4 have 
->> not been tested.
->> + *
->> + * (C) Copyright 2024 MasterR3C0RD <masterr3c0rd@epochal.quest>
->> + *
->> + * Uses code from H616 driver, which is
->> + * (C) Copyright 2020 Jernej Skrabec <jernej.skrabec@siol.net>
->> + *
->> + */
->> +
->> +#define DEBUG
-> 
-> This should go away in final version.
-Will not be present in final versions.
->> +
->> +#include <asm/arch/clock.h>
->> +#include <asm/arch/cpu.h>
->> +#include <asm/arch/dram.h>
->> +#include <asm/arch/prcm.h>
->> +#include <asm/io.h>
->> +#include <init.h>
->> +#include <linux/bitops.h>
->> +#include <linux/delay.h>
->> +#include <log.h>
->> +
-*snip*
->> +/* Heavily inspired from H616 driver. UNUSED */
->> +/* static */ void auto_detect_ranks(const struct dram_para *para,
->> +				    struct dram_config *config)
->> +{
->> +	int i;
->> +	bool found_config;
->> +
->> +	config->cols = 9;
->> +	config->rows = 14;
->> +	config->ranks = 0;
->> +	config->banks = 0;
->> +	config->bankgrps = 0;
->> +
->> +	/* Test ranks */
->> +	found_config = false;
->> +	for (i = 1; i >= 0; i--) {
->> +		config->ranks = i;
->> +		config->bus_full_width = true;
->> +		debug("Testing ranks = %d, 32-bit bus\n", i);
->> +		if (mctl_core_init(para, config)) {
->> +			found_config = true;
->> +			break;
->> +		}
->> +
->> +		config->bus_full_width = false;
->> +		debug("Testing ranks = %d, 16-bit bus\n", i);
->> +		if (mctl_core_init(para, config)) {
->> +			found_config = true;
->> +			break;
->> +		}
->> +	}
->> +
->> +	debug("Found ranks = %d\n", config->ranks);
->> +}
->> +
->> +/* UNUSED? */
-> 
-> Needless to say, instead of relying on hardcoded values, it's better to 
-> use
-> autodetection in order to cover multiple version of same board with 
-> different
-> DRAM sizes.
-I have some working auto scan code that I hope to submit in the future; 
-these
-were unused when this patch was pulled into Andre's patch series due to 
-it
-not functioning as expected.
+> +
+> +	osc24M: osc24M-clk {
+> +		#clock-cells =3D <0>;
+> +		compatible =3D "fixed-clock";
+> +		clock-frequency =3D <24000000>;
+> +		clock-output-names =3D "osc24M";
+> +	};
+> +
+> +	pmu {
+> +		compatible =3D "arm,cortex-a55-pmu";
+> +		interrupts =3D <GIC_PPI 7 IRQ_TYPE_LEVEL_HIGH>;
+> +	};
+> +
+> +	timer {
+> +		compatible =3D "arm,armv8-timer";
+> +		arm,no-tick-in-suspend;
+> +		interrupts =3D <GIC_PPI 13 IRQ_TYPE_LEVEL_HIGH>,
+> +			     <GIC_PPI 14 IRQ_TYPE_LEVEL_HIGH>,
+> +			     <GIC_PPI 11 IRQ_TYPE_LEVEL_HIGH>,
+> +			     <GIC_PPI 10 IRQ_TYPE_LEVEL_HIGH>;
+> +	};
+> +
+> +	soc {
+> +		compatible =3D "simple-bus";
+> +		#address-cells =3D <1>;
+> +		#size-cells =3D <1>;
+> +		ranges =3D <0x0 0x0 0x0 0x40000000>;
+> +
+> +		pio: pinctrl@2000000 {
+> +			compatible =3D "allwinner,sun55i-a523-pinctrl";
+> +			reg =3D <0x2000000 0x800>;
+> +			interrupts =3D <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>,
+> +				     <GIC_SPI 71 IRQ_TYPE_LEVEL_HIGH>,
+> +				     <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>,
+> +				     <GIC_SPI 75 IRQ_TYPE_LEVEL_HIGH>,
+> +				     <GIC_SPI 77 IRQ_TYPE_LEVEL_HIGH>,
+> +				     <GIC_SPI 79 IRQ_TYPE_LEVEL_HIGH>,
+> +				     <GIC_SPI 81 IRQ_TYPE_LEVEL_HIGH>,
+> +				     <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>,
+> +				     <GIC_SPI 85 IRQ_TYPE_LEVEL_HIGH>,
+> +				     <GIC_SPI 140 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks =3D <&ccu CLK_APB1>, <&osc24M>, <&rtc CLK_OSC32K>;
+> +			clock-names =3D "apb", "hosc", "losc";
+> +			gpio-controller;
+> +			#gpio-cells =3D <3>;
+> +			interrupt-controller;
+> +			#interrupt-cells =3D <3>;
+> +
+> +			mmc0_pins: mmc0-pins {
+> +				pins =3D "PF0" ,"PF1", "PF2", "PF3", "PF4", "PF5";
+> +				allwinner,pinmux =3D <2>;
+> +				function =3D "mmc0";
+> +				drive-strength =3D <30>;
+> +				bias-pull-up;
+> +			};
+> +
+> +			/omit-if-no-ref/
+> +			mmc1_pins: mmc1-pins {
+> +				pins =3D "PG0" ,"PG1", "PG2", "PG3", "PG4", "PG5";
+> +				allwinner,pinmux =3D <2>;
+> +				function =3D "mmc1";
+> +				drive-strength =3D <30>;
+> +				bias-pull-up;
+> +			};
+> +
+> +			mmc2_pins: mmc2-pins {
+> +				pins =3D "PC1" ,"PC5", "PC6", "PC8", "PC9",
+> +				       "PC10", "PC11", "PC13", "PC14", "PC15",
+> +				       "PC16";
+> +				allwinner,pinmux =3D <3>;
+> +				function =3D "mmc2";
+> +				drive-strength =3D <30>;
+> +				bias-pull-up;
+> +			};
+> +
+> +			uart0_pb_pins: uart0-pb-pins {
+> +				pins =3D "PB9", "PB10";
+> +				allwinner,pinmux =3D <2>;
+> +				function =3D "uart0";
+> +			};
+> +		};
+> +
+> +		ccu: clock@2001000 {
+> +			compatible =3D "allwinner,sun55i-a523-ccu";
+> +			reg =3D <0x02001000 0x1000>;
+> +			clocks =3D <&osc24M>, <&rtc CLK_OSC32K>, <&rtc CLK_IOSC>;
+> +			clock-names =3D "hosc", "losc", "iosc";
+> +			#clock-cells =3D <1>;
+> +			#reset-cells =3D <1>;
+> +		};
+> +
+> +		mmc0: mmc@4020000 {
+> +			compatible =3D "allwinner,sun55i-a523-mmc",
+> +				     "allwinner,sun20i-d1-mmc";
+> +			reg =3D <0x04020000 0x1000>;
+> +			clocks =3D <&ccu CLK_BUS_MMC0>, <&ccu CLK_MMC0>;
+> +			clock-names =3D "ahb", "mmc";
+> +			resets =3D <&ccu RST_BUS_MMC0>;
+> +			reset-names =3D "ahb";
+> +			interrupts =3D <GIC_SPI 40 IRQ_TYPE_LEVEL_HIGH>;
+> +			pinctrl-names =3D "default";
+> +			pinctrl-0 =3D <&mmc0_pins>;
+> +			status =3D "disabled";
+> +
+> +			max-frequency =3D <150000000>;
+> +			cap-sd-highspeed;
+> +			cap-mmc-highspeed;
+> +			cap-sdio-irq;
+> +			#address-cells =3D <1>;
+> +			#size-cells =3D <0>;
+> +		};
+> +
+> +		mmc2: mmc@4022000 {
+> +			compatible =3D "allwinner,sun55i-a523-mmc",
+> +				     "allwinner,sun20i-d1-mmc";
+> +			reg =3D <0x04022000 0x1000>;
+> +			clocks =3D <&ccu CLK_BUS_MMC2>, <&ccu CLK_MMC2>;
+> +			clock-names =3D "ahb", "mmc";
+> +			resets =3D <&ccu RST_BUS_MMC2>;
+> +			reset-names =3D "ahb";
+> +			interrupts =3D <GIC_SPI 42 IRQ_TYPE_LEVEL_HIGH>;
+> +			pinctrl-names =3D "default";
+> +			pinctrl-0 =3D <&mmc2_pins>;
+> +			status =3D "disabled";
+> +
+> +			max-frequency =3D <150000000>;
+> +			cap-sd-highspeed;
+> +			cap-mmc-highspeed;
+> +			cap-sdio-irq;
+> +			#address-cells =3D <1>;
+> +			#size-cells =3D <0>;
+> +		};
+> +
+> +		wdt: watchdog@2050000 {
+> +			compatible =3D "allwinner,sun55i-a523-wdt";
+> +			reg =3D <0x2050000 0x20>;
+> +			interrupts =3D <GIC_SPI 63 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks =3D <&osc24M>, <&rtc CLK_OSC32K>;
+> +			clock-names =3D "hosc", "losc";
+> +			status =3D "okay";
+> +		};
+> +
+> +		uart0: serial@2500000 {
+> +			compatible =3D "snps,dw-apb-uart";
+> +			reg =3D <0x02500000 0x400>;
+> +			interrupts =3D <GIC_SPI 2 IRQ_TYPE_LEVEL_HIGH>;
+> +			reg-shift =3D <2>;
+> +			reg-io-width =3D <4>;
+> +			clocks =3D <&ccu CLK_BUS_UART0>;
+> +			resets =3D <&ccu RST_BUS_UART0>;
+> +			status =3D "disabled";
+> +		};
+> +
+> +		i2c0: i2c@2502000 {
+> +			compatible =3D "allwinner,sun55i-a523-i2c",
+> +				     "allwinner,sun8i-v536-i2c",
+> +				     "allwinner,sun6i-a31-i2c";
+> +			reg =3D <0x2502000 0x400>;
+> +			interrupts =3D <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks =3D <&ccu CLK_BUS_I2C0>;
+> +			resets =3D <&ccu RST_BUS_I2C0>;
+> +			status =3D "disabled";
+> +			#address-cells =3D <1>;
+> +			#size-cells =3D <0>;
+> +		};
+> +
+> +		gic: interrupt-controller@3400000 {
+> +			compatible =3D "arm,gic-v3";
+> +			#address-cells =3D <1>;
+> +			#interrupt-cells =3D <3>;
+> +			#size-cells =3D <1>;
+> +			ranges;
+> +			interrupt-controller;
+> +			reg =3D <0x3400000 0x10000>,
+> +			      <0x3460000 0x100000>;
+> +			interrupts =3D <GIC_PPI 9 IRQ_TYPE_LEVEL_HIGH>;
+> +			dma-noncoherent;
+> +
+> +			its: msi-controller@3440000 {
+> +				compatible =3D "arm,gic-v3-its";
+> +				reg =3D <0x3440000 0x20000>;
+> +				msi-controller;
+> +				#msi-cells =3D <1>;
+> +				dma-noncoherent;
+> +			};
+> +		};
+> +
+> +		usb_otg: usb@4100000 {
+> +			compatible =3D "allwinner,sun55i-a523-musb",
+> +				     "allwinner,sun8i-a33-musb";
+> +			reg =3D <0x4100000 0x400>;
+> +			interrupts =3D <GIC_SPI 29 IRQ_TYPE_LEVEL_HIGH>;
+> +			interrupt-names =3D "mc";
+> +			clocks =3D <&ccu CLK_BUS_OTG>;
+> +			resets =3D <&ccu RST_BUS_OTG>;
+> +			extcon =3D <&usbphy 0>;
+> +			phys =3D <&usbphy 0>;
+> +			phy-names =3D "usb";
+> +			status =3D "disabled";
+> +		};
+> +
+> +		usbphy: phy@4100400 {
+> +			compatible =3D "allwinner,sun55i-a523-usb-phy",
+> +				     "allwinner,sun20i-d1-usb-phy";
+> +			reg =3D <0x4100400 0x100>,
+> +			      <0x4101800 0x100>,
+> +			      <0x4200800 0x100>;
+> +			reg-names =3D "phy_ctrl",
+> +				    "pmu0",
+> +				    "pmu1";
+> +			clocks =3D <&osc24M>,
+> +				 <&osc24M>;
+> +			clock-names =3D "usb0_phy",
+> +				      "usb1_phy";
+> +			resets =3D <&ccu RST_USB_PHY0>,
+> +				 <&ccu RST_USB_PHY1>;
+> +			reset-names =3D "usb0_reset",
+> +				      "usb1_reset";
+> +			status =3D "disabled";
+> +			#phy-cells =3D <1>;
+> +		};
+> +
+> +		ehci0: usb@4101000 {
+> +			compatible =3D "allwinner,sun55i-a523-ehci",
+> +				     "generic-ehci";
+> +			reg =3D <0x4101000 0x100>;
+> +			interrupts =3D <GIC_SPI 30 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks =3D <&ccu CLK_BUS_OHCI0>,
+> +				 <&ccu CLK_BUS_EHCI0>,
+> +				 <&ccu CLK_USB_OHCI0>;
+> +			resets =3D <&ccu RST_BUS_OHCI0>,
+> +				 <&ccu RST_BUS_EHCI0>;
+> +			phys =3D <&usbphy 0>;
+> +			phy-names =3D "usb";
+> +			status =3D "disabled";
+> +		};
+> +
+> +		ohci0: usb@4101400 {
+> +			compatible =3D "allwinner,sun55i-a523-ohci",
+> +				     "generic-ohci";
+> +			reg =3D <0x4101400 0x100>;
+> +			interrupts =3D <GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks =3D <&ccu CLK_BUS_OHCI0>,
+> +				 <&ccu CLK_USB_OHCI0>;
+> +			resets =3D <&ccu RST_BUS_OHCI0>;
+> +			phys =3D <&usbphy 0>;
+> +			phy-names =3D "usb";
+> +			status =3D "disabled";
+> +		};
+> +
+> +		ehci1: usb@4200000 {
+> +			compatible =3D "allwinner,sun55i-a523-ehci",
+> +				     "generic-ehci";
+> +			reg =3D <0x4200000 0x100>;
+> +			interrupts =3D <GIC_SPI 32 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks =3D <&ccu CLK_BUS_OHCI1>,
+> +				 <&ccu CLK_BUS_EHCI1>,
+> +				 <&ccu CLK_USB_OHCI1>;
+> +			resets =3D <&ccu RST_BUS_OHCI1>,
+> +				 <&ccu RST_BUS_EHCI1>;
+> +			phys =3D <&usbphy 1>;
+> +			phy-names =3D "usb";
+> +			status =3D "disabled";
+> +		};
+> +
+> +		ohci1: usb@4200400 {
+> +			compatible =3D "allwinner,sun55i-a523-ohci",
+> +				     "generic-ohci";
+> +			reg =3D <0x4200400 0x100>;
+> +			interrupts =3D <GIC_SPI 33 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks =3D <&ccu CLK_BUS_OHCI1>,
+> +				 <&ccu CLK_USB_OHCI1>;
+> +			resets =3D <&ccu RST_BUS_OHCI1>;
+> +			phys =3D <&usbphy 1>;
+> +			phy-names =3D "usb";
+> +			status =3D "disabled";
+> +		};
+> +
+> +		r_ccu: clock-controller@7010000 {
+> +			compatible =3D "allwinner,sun55i-a523-r-ccu";
+> +			reg =3D <0x7010000 0x250>;
+> +			clocks =3D <&osc24M>,
+> +				 <&rtc CLK_OSC32K>,
+> +				 <&rtc CLK_IOSC>,
+> +				 <&ccu CLK_PLL_PERIPH0_200M>,
+> +				 <&ccu CLK_PLL_AUDIO0_4X>;
+> +			clock-names =3D "hosc",
+> +				      "losc",
+> +				      "iosc",
+> +				      "pll-periph",
+> +				      "pll-audio";
+> +			#clock-cells =3D <1>;
+> +			#reset-cells =3D <1>;
+> +		};
+> +
+> +		nmi_intc: interrupt-controller@7010320 {
+> +			compatible =3D "allwinner,sun55i-a523-nmi",
+> +				     "allwinner,sun9i-a80-nmi";
+> +			reg =3D <0x07010320 0xc>;
+> +			interrupt-controller;
+> +			#interrupt-cells =3D <2>;
+> +			interrupts =3D <GIC_SPI 148 IRQ_TYPE_LEVEL_HIGH>;
+> +		};
+> +
+> +		r_pio: pinctrl@7022000 {
+> +			compatible =3D "allwinner,sun55i-a523-r-pinctrl";
+> +			reg =3D <0x7022000 0x800>;
+> +			interrupts =3D <GIC_SPI 159 IRQ_TYPE_LEVEL_HIGH>,
+> +				     <GIC_SPI 161 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks =3D <&r_ccu CLK_R_APB0>,
+> +				 <&osc24M>,
+> +				 <&rtc CLK_OSC32K>;
+> +			clock-names =3D "apb", "hosc", "losc";
+> +			gpio-controller;
+> +			#gpio-cells =3D <3>;
+> +			interrupt-controller;
+> +			#interrupt-cells =3D <3>;
+> +
+> +			r_i2c_pins: r-i2c-pins {
+> +				pins =3D "PL0" ,"PL1";
+> +				allwinner,pinmux =3D <2>;
+> +				function =3D "r_i2c0";
+> +			};
+> +		};
+> +
+> +		r_i2c0: i2c@7081400 {
+> +			compatible =3D "allwinner,sun55i-a523-i2c",
+> +				     "allwinner,sun8i-v536-i2c",
+> +				     "allwinner,sun6i-a31-i2c";
+> +			reg =3D <0x07081400 0x400>;
+> +			interrupts =3D <GIC_SPI 164 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks =3D <&r_ccu CLK_BUS_R_I2C0>;
+> +			resets =3D <&r_ccu RST_BUS_R_I2C0>;
+> +			pinctrl-names =3D "default";
+> +			pinctrl-0 =3D <&r_i2c_pins>;
+> +			status =3D "disabled";
+> +
+> +			#address-cells =3D <1>;
+> +			#size-cells =3D <0>;
+> +		};
+> +
+> +		rtc: rtc@7090000 {
+> +			compatible =3D "allwinner,sun55i-a523-rtc",
+> +				     "allwinner,sun50i-r329-rtc";
+> +			reg =3D <0x7090000 0x400>;
+> +			interrupts =3D <GIC_SPI 157 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks =3D <&r_ccu CLK_BUS_R_RTC>,
+> +				 <&osc24M>,
+> +				 <&r_ccu CLK_R_AHB>;
+> +			clock-names =3D "bus", "hosc", "ahb";
+> +			#clock-cells =3D <1>;
+> +		};
+> +	};
+> +};
+>=20
 
-A newer, rewritten driver is available at [1], though I still need to 
-find some
-time to clean it up and properly submit it as I had to make some silly 
-patches
-to fix edge cases on systems with the full 4GiB of RAM.
 
-Thanks for your comments!
-- Cody
 
-[1] 
-https://github.com/BrokenR3C0RD/u-boot/blob/allwinner-a133/arch/arm/mach-sunxi/dram_sun50i_a133.c
-> Best regards,
-> Jernej
-> 
+
