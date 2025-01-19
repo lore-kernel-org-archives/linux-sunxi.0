@@ -1,63 +1,32 @@
-Received: from smtp.smtpout.orange.fr (smtp-65.smtpout.orange.fr [80.12.242.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB055140E3C
-	for <linux-sunxi@lists.linux.dev>; Sat, 18 Jan 2025 21:11:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.65
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C77B83F9D2
+	for <linux-sunxi@lists.linux.dev>; Sun, 19 Jan 2025 16:43:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737234714; cv=none; b=Hprlyqom7AFqqBc6Ffk+0PAAAU1ui2iNyfpZ2G88gXBwzA9CDlqTTbFnOgkw6ezj14DrQ2yI8v/yt4NkKwojxvqYiWl7Y1TYHeK+tQnv1aJx8xmcH9np2h8SI/6WjWGYpeI2HgRuutq8XLM1h4EIiAMEl/jnbD9UUADv6brdq+k=
+	t=1737305018; cv=none; b=fOAi3h0BGFR5/QbUzaoLZnto4cvPWeHfVJ5CvuQ4K07LxGibpNnBrRwuWYxJSwexOA9ckG9MwQ5EMYybuhUO5DSSDk7/6t65++lgPfO3eYrhSHt56J9CnmvGpuatnFR9A0IQnMXEUoLtffdrjcAcRblfzRu44Fz7k5JKcSLftfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737234714; c=relaxed/simple;
-	bh=Kw/ivMQ+jFMNqe8BnRFbuarJ2BBJyE4wK0VUSKgGCB0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Z/LAC8QIbOYFLLTzfz6srHUVCXcuUpdbW4Ab2mCb9zm2YJBH9VV6jmGdA7zvx2TpuY0PLXNptKxAzs9JwBwfy9PSpvUp8BeVneYd8q1nXZrjO7NY3EvVlnRBe6F53Xey7rX8eI2B8ImEf2+r3mqnxdAi7ukBnevZEdyFduTx1p0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=uOFfkpFk; arc=none smtp.client-ip=80.12.242.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="uOFfkpFk"
-Received: from fedora.home ([90.11.132.44])
-	by smtp.orange.fr with ESMTPA
-	id ZG5KtqKB8C4UXZG5Ot28t8; Sat, 18 Jan 2025 22:10:34 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1737234634;
-	bh=AXmfmYFLgFLyYWM2a/Vc8EsNfX0u6O7RsuTm2Dc3z1k=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=uOFfkpFkxwNPtsJGkcqoB2K4XzoTM1t3j0oh6MM3Fibqkav3TI5rEHoEFJCv/x6vS
-	 RDTL00Cn8MDpokr1QGyIm8Js6tPKvrXhy2s9Lx5VznHEibWDvpAkyc2I6myxkth0tt
-	 EHWU4QY9fXV+5c9jhWyNy04fVsONk5yDy/XeKfOnpjGXhFkcxfDIrmZ25IZ9xMxmLQ
-	 loDdvQtvmgV6Rs36+AdYRTJQd1DeRKUWNKYQ9Gp3OPx+4dAfOvo2CcaS8ArENc6/td
-	 QAvKDbKZpbnSD2TtLuK7pKOCgW+IO2SIPeLygblto/wZSbXHE+3vAzSmd9Uxv0s832
-	 zqKmfowMx+6HA==
-X-ME-Helo: fedora.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sat, 18 Jan 2025 22:10:34 +0100
-X-ME-IP: 90.11.132.44
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Bin Liu <b-liu@ti.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Daire McNamara <daire.mcnamara@microchip.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	linux-doc@vger.kernel.org,
-	linux-mips@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
+	s=arc-20240116; t=1737305018; c=relaxed/simple;
+	bh=fGB8bb8RGNx/f35RpCxKVUGxlyVE57nrRhLm2korkLQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZIrQyr0YCK63bkLrWiH0joHVbuDJFPRTJlzxZ86YQPzEtofOALp3rQ3fEt0lF8se00chxI9Qmc4+pbEnczzg9cmSH+RcSL5NDVzyBvEhdZwC8oZjpIcdxqSIPvKjiqB9WbxjPLSpk4X6TRMZ7PYKWKtog/WalbjaS6JRGAtbKX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CFB32339;
+	Sun, 19 Jan 2025 08:44:01 -0800 (PST)
+Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 790843F66E;
+	Sun, 19 Jan 2025 08:43:32 -0800 (PST)
+From: Andre Przywara <andre.przywara@arm.com>
+To: u-boot@lists.denx.de
+Cc: Sumit Garg <sumit.garg@linaro.org>,
 	linux-sunxi@lists.linux.dev,
-	linux-mediatek@lists.infradead.org
-Subject: [PATCH] usb: musb: Constify struct musb_fifo_cfg
-Date: Sat, 18 Jan 2025 22:10:17 +0100
-Message-ID: <26e6f3e25dc8e785d0034dd7e59918e455563e60.1737234596.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.48.1
+	Tom Rini <trini@konsulko.com>,
+	Simon Glass <sjg@chromium.org>
+Subject: [PATCH 0/3] sunxi: switch three SoC families to OF_UPSTREAM
+Date: Sun, 19 Jan 2025 16:41:53 +0000
+Message-ID: <20250119164157.23648-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.46.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -66,198 +35,177 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-'struct musb_fifo_cfg' are not modified in these drivers.
+This series converts boards with the Allwinner F1C100s/F1C200s, A10, A10s
+and A13s SoCs over to OF_UPSTREAM. The .dts and .dtsi files were
+identical between the kernel and U-Boot repository, so this is a
+no-brainer.
+However there are four boards (tablets, I guess) that do not have a .dts
+file in the kernel repository. For now I kept them using the "old
+style", so they continue working. This requires to keep a copy of the
+SoC .dtsi file, I would be grateful for any advice as how to handle this
+situation best. Ideally we would submit the DTs to the kernel, but I
+don't know how feasible this is, given their age, the missing device
+availability and their basic DT nature.
 
-Constifying these structures moves some data to a read-only section, so
-increase overall security.
+I compiled all boards with and without this series applied: the
+resulting u-boot.dtb files were always identical.
 
-On a x86_64, with allmodconfig, as an example:
-Before:
-======
-   text	   data	    bss	    dec	    hex	filename
-  64381	   5537	    202	  70120	  111e8	drivers/usb/musb/musb_core.o
+Please have a look!
 
-After:
-=====
-   text	   data	    bss	    dec	    hex	filename
-  64957	   4929	    202	  70088	  111c8	drivers/usb/musb/musb_core.o
+Cheers,
+Andre
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
-Compile tested-only.
----
- .../driver-api/usb/writing_musb_glue_layer.rst     |  2 +-
- drivers/usb/musb/jz4740.c                          |  4 ++--
- drivers/usb/musb/mediatek.c                        |  2 +-
- drivers/usb/musb/mpfs.c                            |  2 +-
- drivers/usb/musb/musb_core.c                       | 14 +++++++-------
- drivers/usb/musb/sunxi.c                           |  4 ++--
- include/linux/usb/musb.h                           |  2 +-
- 7 files changed, 15 insertions(+), 15 deletions(-)
+Andre Przywara (3):
+  suniv: switch Allwinner F1Cx00 boards to OF_UPSTREAM
+  sunxi: switch Allwinner A10 boards to OF_UPSTREAM
+  sunxi: switch Allwinner A10s/A13 boards to OF_UPSTREAM
 
-diff --git a/Documentation/driver-api/usb/writing_musb_glue_layer.rst b/Documentation/driver-api/usb/writing_musb_glue_layer.rst
-index e755c8551bba..0bb96ecdf527 100644
---- a/Documentation/driver-api/usb/writing_musb_glue_layer.rst
-+++ b/Documentation/driver-api/usb/writing_musb_glue_layer.rst
-@@ -613,7 +613,7 @@ endpoints configuration from the hardware, so we use line 12 instruction
- to bypass reading the configuration from silicon, and rely on a
- hard-coded table that describes the endpoints configuration instead::
- 
--    static struct musb_fifo_cfg jz4740_musb_fifo_cfg[] = {
-+    static const struct musb_fifo_cfg jz4740_musb_fifo_cfg[] = {
- 	{ .hw_ep_num = 1, .style = FIFO_TX, .maxpacket = 512, },
- 	{ .hw_ep_num = 1, .style = FIFO_RX, .maxpacket = 512, },
- 	{ .hw_ep_num = 2, .style = FIFO_TX, .maxpacket = 64, },
-diff --git a/drivers/usb/musb/jz4740.c b/drivers/usb/musb/jz4740.c
-index acdeb1117cd3..df56c972986f 100644
---- a/drivers/usb/musb/jz4740.c
-+++ b/drivers/usb/musb/jz4740.c
-@@ -59,7 +59,7 @@ static irqreturn_t jz4740_musb_interrupt(int irq, void *__hci)
- 	return IRQ_NONE;
- }
- 
--static struct musb_fifo_cfg jz4740_musb_fifo_cfg[] = {
-+static const struct musb_fifo_cfg jz4740_musb_fifo_cfg[] = {
- 	{ .hw_ep_num = 1, .style = FIFO_TX, .maxpacket = 512, },
- 	{ .hw_ep_num = 1, .style = FIFO_RX, .maxpacket = 512, },
- 	{ .hw_ep_num = 2, .style = FIFO_TX, .maxpacket = 64, },
-@@ -205,7 +205,7 @@ static const struct musb_hdrc_platform_data jz4740_musb_pdata = {
- 	.platform_ops	= &jz4740_musb_ops,
- };
- 
--static struct musb_fifo_cfg jz4770_musb_fifo_cfg[] = {
-+static const struct musb_fifo_cfg jz4770_musb_fifo_cfg[] = {
- 	{ .hw_ep_num = 1, .style = FIFO_TX, .maxpacket = 512, },
- 	{ .hw_ep_num = 1, .style = FIFO_RX, .maxpacket = 512, },
- 	{ .hw_ep_num = 2, .style = FIFO_TX, .maxpacket = 512, },
-diff --git a/drivers/usb/musb/mediatek.c b/drivers/usb/musb/mediatek.c
-index aa988d74b58d..c6cbe718b1da 100644
---- a/drivers/usb/musb/mediatek.c
-+++ b/drivers/usb/musb/mediatek.c
-@@ -365,7 +365,7 @@ static const struct musb_platform_ops mtk_musb_ops = {
- #define MTK_MUSB_MAX_EP_NUM	8
- #define MTK_MUSB_RAM_BITS	11
- 
--static struct musb_fifo_cfg mtk_musb_mode_cfg[] = {
-+static const struct musb_fifo_cfg mtk_musb_mode_cfg[] = {
- 	{ .hw_ep_num = 1, .style = FIFO_TX, .maxpacket = 512, },
- 	{ .hw_ep_num = 1, .style = FIFO_RX, .maxpacket = 512, },
- 	{ .hw_ep_num = 2, .style = FIFO_TX, .maxpacket = 512, },
-diff --git a/drivers/usb/musb/mpfs.c b/drivers/usb/musb/mpfs.c
-index 7edc8429b274..71e4271cba75 100644
---- a/drivers/usb/musb/mpfs.c
-+++ b/drivers/usb/musb/mpfs.c
-@@ -29,7 +29,7 @@ struct mpfs_glue {
- 	struct clk *clk;
- };
- 
--static struct musb_fifo_cfg mpfs_musb_mode_cfg[] = {
-+static const struct musb_fifo_cfg mpfs_musb_mode_cfg[] = {
- 	{ .hw_ep_num = 1, .style = FIFO_TX, .maxpacket = 512, },
- 	{ .hw_ep_num = 1, .style = FIFO_RX, .maxpacket = 512, },
- 	{ .hw_ep_num = 2, .style = FIFO_TX, .maxpacket = 512, },
-diff --git a/drivers/usb/musb/musb_core.c b/drivers/usb/musb/musb_core.c
-index 03b1154a6014..3f11bddfa18b 100644
---- a/drivers/usb/musb/musb_core.c
-+++ b/drivers/usb/musb/musb_core.c
-@@ -1270,7 +1270,7 @@ MODULE_PARM_DESC(fifo_mode, "initial endpoint configuration");
-  */
- 
- /* mode 0 - fits in 2KB */
--static struct musb_fifo_cfg mode_0_cfg[] = {
-+static const struct musb_fifo_cfg mode_0_cfg[] = {
- { .hw_ep_num = 1, .style = FIFO_TX,   .maxpacket = 512, },
- { .hw_ep_num = 1, .style = FIFO_RX,   .maxpacket = 512, },
- { .hw_ep_num = 2, .style = FIFO_RXTX, .maxpacket = 512, },
-@@ -1279,7 +1279,7 @@ static struct musb_fifo_cfg mode_0_cfg[] = {
- };
- 
- /* mode 1 - fits in 4KB */
--static struct musb_fifo_cfg mode_1_cfg[] = {
-+static const struct musb_fifo_cfg mode_1_cfg[] = {
- { .hw_ep_num = 1, .style = FIFO_TX,   .maxpacket = 512, .mode = BUF_DOUBLE, },
- { .hw_ep_num = 1, .style = FIFO_RX,   .maxpacket = 512, .mode = BUF_DOUBLE, },
- { .hw_ep_num = 2, .style = FIFO_RXTX, .maxpacket = 512, .mode = BUF_DOUBLE, },
-@@ -1288,7 +1288,7 @@ static struct musb_fifo_cfg mode_1_cfg[] = {
- };
- 
- /* mode 2 - fits in 4KB */
--static struct musb_fifo_cfg mode_2_cfg[] = {
-+static const struct musb_fifo_cfg mode_2_cfg[] = {
- { .hw_ep_num = 1, .style = FIFO_TX,   .maxpacket = 512, },
- { .hw_ep_num = 1, .style = FIFO_RX,   .maxpacket = 512, },
- { .hw_ep_num = 2, .style = FIFO_TX,   .maxpacket = 512, },
-@@ -1298,7 +1298,7 @@ static struct musb_fifo_cfg mode_2_cfg[] = {
- };
- 
- /* mode 3 - fits in 4KB */
--static struct musb_fifo_cfg mode_3_cfg[] = {
-+static const struct musb_fifo_cfg mode_3_cfg[] = {
- { .hw_ep_num = 1, .style = FIFO_TX,   .maxpacket = 512, .mode = BUF_DOUBLE, },
- { .hw_ep_num = 1, .style = FIFO_RX,   .maxpacket = 512, .mode = BUF_DOUBLE, },
- { .hw_ep_num = 2, .style = FIFO_TX,   .maxpacket = 512, },
-@@ -1308,7 +1308,7 @@ static struct musb_fifo_cfg mode_3_cfg[] = {
- };
- 
- /* mode 4 - fits in 16KB */
--static struct musb_fifo_cfg mode_4_cfg[] = {
-+static const struct musb_fifo_cfg mode_4_cfg[] = {
- { .hw_ep_num =  1, .style = FIFO_TX,   .maxpacket = 512, },
- { .hw_ep_num =  1, .style = FIFO_RX,   .maxpacket = 512, },
- { .hw_ep_num =  2, .style = FIFO_TX,   .maxpacket = 512, },
-@@ -1339,7 +1339,7 @@ static struct musb_fifo_cfg mode_4_cfg[] = {
- };
- 
- /* mode 5 - fits in 8KB */
--static struct musb_fifo_cfg mode_5_cfg[] = {
-+static const struct musb_fifo_cfg mode_5_cfg[] = {
- { .hw_ep_num =  1, .style = FIFO_TX,   .maxpacket = 512, },
- { .hw_ep_num =  1, .style = FIFO_RX,   .maxpacket = 512, },
- { .hw_ep_num =  2, .style = FIFO_TX,   .maxpacket = 512, },
-@@ -1446,7 +1446,7 @@ fifo_setup(struct musb *musb, struct musb_hw_ep  *hw_ep,
- 	return offset + (maxpacket << ((c_size & MUSB_FIFOSZ_DPB) ? 1 : 0));
- }
- 
--static struct musb_fifo_cfg ep0_cfg = {
-+static const struct musb_fifo_cfg ep0_cfg = {
- 	.style = FIFO_RXTX, .maxpacket = 64,
- };
- 
-diff --git a/drivers/usb/musb/sunxi.c b/drivers/usb/musb/sunxi.c
-index eac1cde86be3..a6bd3e968cc7 100644
---- a/drivers/usb/musb/sunxi.c
-+++ b/drivers/usb/musb/sunxi.c
-@@ -629,7 +629,7 @@ static const struct musb_platform_ops sunxi_musb_ops = {
- #define SUNXI_MUSB_RAM_BITS	11
- 
- /* Allwinner OTG supports up to 5 endpoints */
--static struct musb_fifo_cfg sunxi_musb_mode_cfg_5eps[] = {
-+static const struct musb_fifo_cfg sunxi_musb_mode_cfg_5eps[] = {
- 	MUSB_EP_FIFO_SINGLE(1, FIFO_TX, 512),
- 	MUSB_EP_FIFO_SINGLE(1, FIFO_RX, 512),
- 	MUSB_EP_FIFO_SINGLE(2, FIFO_TX, 512),
-@@ -643,7 +643,7 @@ static struct musb_fifo_cfg sunxi_musb_mode_cfg_5eps[] = {
- };
- 
- /* H3/V3s OTG supports only 4 endpoints */
--static struct musb_fifo_cfg sunxi_musb_mode_cfg_4eps[] = {
-+static const struct musb_fifo_cfg sunxi_musb_mode_cfg_4eps[] = {
- 	MUSB_EP_FIFO_SINGLE(1, FIFO_TX, 512),
- 	MUSB_EP_FIFO_SINGLE(1, FIFO_RX, 512),
- 	MUSB_EP_FIFO_SINGLE(2, FIFO_TX, 512),
-diff --git a/include/linux/usb/musb.h b/include/linux/usb/musb.h
-index 3963e55e88a3..fbdef950f06c 100644
---- a/include/linux/usb/musb.h
-+++ b/include/linux/usb/musb.h
-@@ -61,7 +61,7 @@ struct musb_hdrc_eps_bits {
- };
- 
- struct musb_hdrc_config {
--	struct musb_fifo_cfg	*fifo_cfg;	/* board fifo configuration */
-+	const struct musb_fifo_cfg	*fifo_cfg;	/* board fifo configuration */
- 	unsigned		fifo_cfg_size;	/* size of the fifo configuration */
- 
- 	/* MUSB configuration-specific details */
+ arch/arm/dts/Makefile                         |  48 +--
+ arch/arm/dts/sun4i-a10-a1000.dts              | 255 -------------
+ arch/arm/dts/sun4i-a10-ba10-tvbox.dts         | 151 --------
+ arch/arm/dts/sun4i-a10-chuwi-v7-cw0825.dts    | 159 --------
+ arch/arm/dts/sun4i-a10-cubieboard.dts         | 255 -------------
+ arch/arm/dts/sun4i-a10-dserve-dsrv9703c.dts   | 218 -----------
+ arch/arm/dts/sun4i-a10-gemei-g9.dts           | 192 ----------
+ arch/arm/dts/sun4i-a10-hackberry.dts          | 140 -------
+ arch/arm/dts/sun4i-a10-hyundai-a7hd.dts       | 115 ------
+ arch/arm/dts/sun4i-a10-inet1.dts              | 229 -----------
+ arch/arm/dts/sun4i-a10-inet97fv2.dts          | 203 ----------
+ arch/arm/dts/sun4i-a10-inet9f-rev03.dts       | 357 ------------------
+ .../dts/sun4i-a10-itead-iteaduino-plus.dts    | 126 -------
+ arch/arm/dts/sun4i-a10-jesurun-q5.dts         | 181 ---------
+ arch/arm/dts/sun4i-a10-marsboard.dts          | 182 ---------
+ arch/arm/dts/sun4i-a10-mini-xplus.dts         | 144 -------
+ arch/arm/dts/sun4i-a10-mk802.dts              | 144 -------
+ arch/arm/dts/sun4i-a10-mk802ii.dts            | 111 ------
+ arch/arm/dts/sun4i-a10-olinuxino-lime.dts     | 225 -----------
+ arch/arm/dts/sun4i-a10-pcduino.dts            | 200 ----------
+ arch/arm/dts/sun4i-a10-pcduino2.dts           |  67 ----
+ arch/arm/dts/sun4i-a10-pov-protab2-ips9.dts   | 206 ----------
+ arch/arm/dts/sun4i-a10-topwise-a721.dts       | 242 ------------
+ arch/arm/dts/sun5i-a10s-auxtek-t003.dts       | 137 -------
+ arch/arm/dts/sun5i-a10s-auxtek-t004.dts       | 149 --------
+ arch/arm/dts/sun5i-a10s-mk802.dts             | 127 -------
+ arch/arm/dts/sun5i-a10s-olinuxino-micro.dts   | 272 -------------
+ arch/arm/dts/sun5i-a10s-r7-tv-dongle.dts      | 118 ------
+ arch/arm/dts/sun5i-a10s-wobo-i5.dts           | 195 ----------
+ arch/arm/dts/sun5i-a10s.dtsi                  | 173 ---------
+ arch/arm/dts/sun5i-a13-difrnce-dit4350.dts    |  50 ---
+ .../dts/sun5i-a13-empire-electronix-d709.dts  | 190 ----------
+ .../dts/sun5i-a13-empire-electronix-m712.dts  |  51 ---
+ arch/arm/dts/sun5i-a13-hsg-h702.dts           | 182 ---------
+ arch/arm/dts/sun5i-a13-inet-98v-rev2.dts      |  50 ---
+ arch/arm/dts/sun5i-a13-licheepi-one.dts       | 214 -----------
+ arch/arm/dts/sun5i-a13-olinuxino-micro.dts    | 141 -------
+ arch/arm/dts/sun5i-a13-olinuxino.dts          | 247 ------------
+ .../dts/sun5i-a13-pocketbook-touch-lux-3.dts  | 258 -------------
+ arch/arm/dts/sun5i-a13-q8-tablet.dts          |  80 ----
+ arch/arm/dts/sun5i-a13-utoo-p66.dts           | 116 ------
+ arch/arm/dts/sun5i-a13.dtsi                   | 118 ------
+ arch/arm/dts/sun5i-gr8-chip-pro.dts           | 238 ------------
+ arch/arm/dts/sun5i-gr8-evb.dts                | 333 ----------------
+ arch/arm/dts/sun5i-gr8.dtsi                   | 126 -------
+ arch/arm/dts/sun5i-r8-chip.dts                | 282 --------------
+ arch/arm/dts/sun5i-r8.dtsi                    |  47 ---
+ .../dts/sun5i-reference-design-tablet.dtsi    | 194 ----------
+ arch/arm/dts/suniv-f1c100s-licheepi-nano.dts  |  73 ----
+ arch/arm/dts/suniv-f1c100s.dtsi               | 330 ----------------
+ arch/arm/dts/suniv-f1c200s-lctech-pi.dts      |  76 ----
+ arch/arm/dts/suniv-f1c200s-popstick-v1.1.dts  |  81 ----
+ arch/arm/mach-sunxi/Kconfig                   |   3 +
+ configs/A10-OLinuXino-Lime_defconfig          |   2 +-
+ configs/A10s-OLinuXino-M_defconfig            |   2 +-
+ configs/A13-OLinuXinoM_defconfig              |   2 +-
+ configs/A13-OLinuXino_defconfig               |   2 +-
+ configs/Ampe_A76_defconfig                    |   1 +
+ configs/Auxtek-T003_defconfig                 |   2 +-
+ configs/Auxtek-T004_defconfig                 |   2 +-
+ configs/CHIP_defconfig                        |   2 +-
+ configs/CHIP_pro_defconfig                    |   2 +-
+ configs/Chuwi_V7_CW0825_defconfig             |   2 +-
+ configs/Cubieboard_defconfig                  |   2 +-
+ configs/Empire_electronix_d709_defconfig      |   2 +-
+ configs/Empire_electronix_m712_defconfig      |   2 +-
+ configs/Hyundai_A7HD_defconfig                |   2 +-
+ configs/Linksprite_pcDuino_defconfig          |   2 +-
+ configs/Marsboard_A10_defconfig               |   2 +-
+ configs/Mele_A1000_defconfig                  |   2 +-
+ configs/Mini-X_defconfig                      |   2 +-
+ configs/UTOO_P66_defconfig                    |   2 +-
+ configs/Wobo_i5_defconfig                     |   2 +-
+ configs/ba10_tv_box_defconfig                 |   2 +-
+ configs/difrnce_dit4350_defconfig             |   2 +-
+ configs/dserve_dsrv9703c_defconfig            |   2 +-
+ configs/iNet_3F_defconfig                     |   1 +
+ configs/iNet_3W_defconfig                     |   1 +
+ configs/iNet_86VS_defconfig                   |   1 +
+ configs/inet1_defconfig                       |   2 +-
+ configs/inet97fv2_defconfig                   |   2 +-
+ configs/inet98v_rev2_defconfig                |   2 +-
+ configs/inet9f_rev03_defconfig                |   2 +-
+ configs/jesurun_q5_defconfig                  |   2 +-
+ configs/lctech_pi_f1c200s_defconfig           |   2 +-
+ configs/licheepi_nano_defconfig               |   2 +-
+ configs/mk802_a10s_defconfig                  |   2 +-
+ configs/mk802_defconfig                       |   2 +-
+ configs/mk802ii_defconfig                     |   2 +-
+ configs/pov_protab2_ips9_defconfig            |   2 +-
+ configs/q8_a13_tablet_defconfig               |   2 +-
+ configs/r7-tv-dongle_defconfig                |   2 +-
+ configs/sunxi_Gemei_G9_defconfig              |   2 +-
+ 93 files changed, 45 insertions(+), 8832 deletions(-)
+ delete mode 100644 arch/arm/dts/sun4i-a10-a1000.dts
+ delete mode 100644 arch/arm/dts/sun4i-a10-ba10-tvbox.dts
+ delete mode 100644 arch/arm/dts/sun4i-a10-chuwi-v7-cw0825.dts
+ delete mode 100644 arch/arm/dts/sun4i-a10-cubieboard.dts
+ delete mode 100644 arch/arm/dts/sun4i-a10-dserve-dsrv9703c.dts
+ delete mode 100644 arch/arm/dts/sun4i-a10-gemei-g9.dts
+ delete mode 100644 arch/arm/dts/sun4i-a10-hackberry.dts
+ delete mode 100644 arch/arm/dts/sun4i-a10-hyundai-a7hd.dts
+ delete mode 100644 arch/arm/dts/sun4i-a10-inet1.dts
+ delete mode 100644 arch/arm/dts/sun4i-a10-inet97fv2.dts
+ delete mode 100644 arch/arm/dts/sun4i-a10-inet9f-rev03.dts
+ delete mode 100644 arch/arm/dts/sun4i-a10-itead-iteaduino-plus.dts
+ delete mode 100644 arch/arm/dts/sun4i-a10-jesurun-q5.dts
+ delete mode 100644 arch/arm/dts/sun4i-a10-marsboard.dts
+ delete mode 100644 arch/arm/dts/sun4i-a10-mini-xplus.dts
+ delete mode 100644 arch/arm/dts/sun4i-a10-mk802.dts
+ delete mode 100644 arch/arm/dts/sun4i-a10-mk802ii.dts
+ delete mode 100644 arch/arm/dts/sun4i-a10-olinuxino-lime.dts
+ delete mode 100644 arch/arm/dts/sun4i-a10-pcduino.dts
+ delete mode 100644 arch/arm/dts/sun4i-a10-pcduino2.dts
+ delete mode 100644 arch/arm/dts/sun4i-a10-pov-protab2-ips9.dts
+ delete mode 100644 arch/arm/dts/sun4i-a10-topwise-a721.dts
+ delete mode 100644 arch/arm/dts/sun5i-a10s-auxtek-t003.dts
+ delete mode 100644 arch/arm/dts/sun5i-a10s-auxtek-t004.dts
+ delete mode 100644 arch/arm/dts/sun5i-a10s-mk802.dts
+ delete mode 100644 arch/arm/dts/sun5i-a10s-olinuxino-micro.dts
+ delete mode 100644 arch/arm/dts/sun5i-a10s-r7-tv-dongle.dts
+ delete mode 100644 arch/arm/dts/sun5i-a10s-wobo-i5.dts
+ delete mode 100644 arch/arm/dts/sun5i-a10s.dtsi
+ delete mode 100644 arch/arm/dts/sun5i-a13-difrnce-dit4350.dts
+ delete mode 100644 arch/arm/dts/sun5i-a13-empire-electronix-d709.dts
+ delete mode 100644 arch/arm/dts/sun5i-a13-empire-electronix-m712.dts
+ delete mode 100644 arch/arm/dts/sun5i-a13-hsg-h702.dts
+ delete mode 100644 arch/arm/dts/sun5i-a13-inet-98v-rev2.dts
+ delete mode 100644 arch/arm/dts/sun5i-a13-licheepi-one.dts
+ delete mode 100644 arch/arm/dts/sun5i-a13-olinuxino-micro.dts
+ delete mode 100644 arch/arm/dts/sun5i-a13-olinuxino.dts
+ delete mode 100644 arch/arm/dts/sun5i-a13-pocketbook-touch-lux-3.dts
+ delete mode 100644 arch/arm/dts/sun5i-a13-q8-tablet.dts
+ delete mode 100644 arch/arm/dts/sun5i-a13-utoo-p66.dts
+ delete mode 100644 arch/arm/dts/sun5i-a13.dtsi
+ delete mode 100644 arch/arm/dts/sun5i-gr8-chip-pro.dts
+ delete mode 100644 arch/arm/dts/sun5i-gr8-evb.dts
+ delete mode 100644 arch/arm/dts/sun5i-gr8.dtsi
+ delete mode 100644 arch/arm/dts/sun5i-r8-chip.dts
+ delete mode 100644 arch/arm/dts/sun5i-r8.dtsi
+ delete mode 100644 arch/arm/dts/sun5i-reference-design-tablet.dtsi
+ delete mode 100644 arch/arm/dts/suniv-f1c100s-licheepi-nano.dts
+ delete mode 100644 arch/arm/dts/suniv-f1c100s.dtsi
+ delete mode 100644 arch/arm/dts/suniv-f1c200s-lctech-pi.dts
+ delete mode 100644 arch/arm/dts/suniv-f1c200s-popstick-v1.1.dts
+
 -- 
-2.48.1
+2.46.2
 
