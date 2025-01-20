@@ -1,301 +1,96 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 070571DA3D
-	for <linux-sunxi@lists.linux.dev>; Sun, 19 Jan 2025 23:53:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-gw02.astralinux.ru (mail-gw02.astralinux.ru [195.16.41.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B37D9149DF0
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jan 2025 08:57:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.16.41.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737330837; cv=none; b=USNlg6R2VOJjnHUQh9f6VWLBnH50WOGyLL2GaJPwqAenOSBrcWp/unC1HDRuedrExMC1M3TCRGsMNVe9MDVlt+W2rLyH/KiiHCNAFtt99HN3JRHJUuyqaqJ2G2/oJcrfm0bTUJ3fj+qMimTzALP1jWqEP33sJWLLRjcUyjuZd38=
+	t=1737363456; cv=none; b=VmqisqSxjTqi1E/tB/obbCL+1e9j9s0yLXEIMT2N4WMm/XVhT9VpFHbhSXnBYesJ0g/WG8Shu6JzJ40OOf/6hcH0sudSFbysCRhVVZ6uPs4QQCscMFoj6UoBz5LBuLzy+OnMqMK0yREDLJmvHsvVg2yJrOc5/ivbJpUQHlJdk6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737330837; c=relaxed/simple;
-	bh=qxw43upS1qD+VQDw/H0Q8J6i0hOSy/7KIIji0BU6ZmQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=I1wNF5JD/j8DjImx76biFoTI1UFvowmw8IDRWqkipzu1Mg+XgvZi0j2K4+lPYmPTn8wcFBNCFzuAnTBTCPCPHXTFl4eSmgmzBnmRA3e60X/ua45T94ewODRClD8LOf54DJu4XrRzB8eJtRXWsmKDIEvQYHI5eL73uMYh5FDy6uI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 50ABE1063;
-	Sun, 19 Jan 2025 15:54:22 -0800 (PST)
-Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 861AA3F66E;
-	Sun, 19 Jan 2025 15:53:52 -0800 (PST)
-Date: Sun, 19 Jan 2025 23:52:26 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-Cc: u-boot@lists.denx.de, Lukasz Majewski <lukma@denx.de>, Sean Anderson
- <seanga2@gmail.com>, Jaehoon Chung <jh80.chung@samsung.com>, Tom Rini
- <trini@konsulko.com>, Cody Eksal <masterr3c0rd@epochal.quest>, Simon Glass
- <sjg@chromium.org>, linux-sunxi@lists.linux.dev, Parthiban
- <parthiban@linumiz.com>
-Subject: Re: [PATCH 8/8] sunxi: add support for the Allwinner A100/A133 SoC
-Message-ID: <20250119235226.78ae3e34@minigeek.lan>
-In-Reply-To: <1989237.PYKUYFuaPT@jernej-laptop>
-References: <20250117014537.22513-1-andre.przywara@arm.com>
-	<20250117014537.22513-9-andre.przywara@arm.com>
-	<1989237.PYKUYFuaPT@jernej-laptop>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	s=arc-20240116; t=1737363456; c=relaxed/simple;
+	bh=/5TDraNMWkYvSVw/5SoXQxyrY1tSPIng2nbH4EdoZAo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QFbphiUNEwuITDZP2nZIF96BdfWadpaorIrskRcZK6bomPbrlmeb0gB9hiS6R1k0cLhX/bF+pj5rGy1xWjNTlBT2bQc3YjjYoyRhRHdfOOvFAzoZ3sHtC0AF4aKx9loBCGoQyEFENVS74Ww7Rd1WhsRmsLOghXmmzuty2+a9ZX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=astralinux.ru; spf=pass smtp.mailfrom=astralinux.ru; arc=none smtp.client-ip=195.16.41.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=astralinux.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=astralinux.ru
+Received: from gca-msk-a-srv-ksmg02.astralinux.ru (localhost [127.0.0.1])
+	by mail-gw02.astralinux.ru (Postfix) with ESMTP id 705AC1F418;
+	Mon, 20 Jan 2025 11:47:35 +0300 (MSK)
+Received: from new-mail.astralinux.ru (gca-yc-ruca-srv-mail05.astralinux.ru [10.177.185.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail-gw02.astralinux.ru (Postfix) with ESMTPS;
+	Mon, 20 Jan 2025 11:47:31 +0300 (MSK)
+Received: from localhost.localdomain (unknown [10.177.20.106])
+	by new-mail.astralinux.ru (Postfix) with ESMTPA id 4Yc3qz6SgYz1c0sD;
+	Mon, 20 Jan 2025 11:47:27 +0300 (MSK)
+From: Anastasia Belova <abelova@astralinux.ru>
+To: =?UTF-8?q?Emilio=20L=C3=B3pez?= <emilio@elopez.com.ar>
+Cc: Anastasia Belova <abelova@astralinux.ru>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	lvc-project@linuxtesting.org
+Subject: [PATCH] clk: sunxi: add explicit casting to prevent overflow
+Date: Mon, 20 Jan 2025 11:47:16 +0300
+Message-ID: <20250120084719.63116-1-abelova@astralinux.ru>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-KSMG-AntiPhishing: NotDetected
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Envelope-From: abelova@astralinux.ru
+X-KSMG-AntiSpam-Info: LuaCore: 49 0.3.49 28b3b64a43732373258a371bd1554adb2caa23cb, {Tracking_arrow_text}, {Tracking_from_domain_doesnt_match_to}, d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;new-mail.astralinux.ru:7.1.1;astralinux.ru:7.1.1, FromAlignment: s
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiSpam-Lua-Profiles: 190443 [Jan 20 2025]
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Version: 6.1.1.7
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.0.7854, bases: 2025/01/20 05:14:00 #27075937
+X-KSMG-AntiVirus-Status: NotDetected, skipped
+X-KSMG-LinksScanning: NotDetected
+X-KSMG-Message-Action: skipped
+X-KSMG-Rule-ID: 1
 
-On Sat, 18 Jan 2025 08:35:55 +0100
-Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
+If n = 255, the result of multiplication of n and 24000000
+may not fit int type. Add explicit casting to prevent overflow.
 
-> Dne petek, 17. januar 2025 ob 02:45:37 Srednjeevropski standardni =C4=8Da=
-s je Andre Przywara napisal(a):
-> > The Allwinner A100 SoC has been around for a while, mostly on cheap
-> > tablets, but didn't generate much interest in the community so far.
-> > There were some efforts by two Allwinner employees in 2020, which led
-> > to basic upstream Linux support for that SoC, although this momentum
-> > dried up pretty quickly, leaving a lot of peripherals unsupported.
-> >=20
-> > The A100 was silently replaced with the seemingly identical Allwinner
-> > A133, which is reportedly a better bin of the A100. So far we assume
-> > that both are compatible from a software perspective. There are some
-> > more devices with the A133 out there now, so people are working on
-> > filling the gaps, and adding U-Boot (and TF-A) support.
-> >=20
-> > Based on the just added pinctrl, clock and DRAM support, this adds the
-> > missing bits, mostly addresses and values for the SPL.
-> >=20
-> > The A133 seems to be an predecessor to the H6, so we can share a lot of
-> > code with that (and the H616 code), and just need to adjust some detail=
-s.
-> >=20
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com> =20
->=20
-> Pretty standard stuff, just one remark below.
->=20
-> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
->=20
-> > ---
-> >  arch/arm/cpu/armv8/fel_utils.S                    |  2 +-
-> >  arch/arm/include/asm/arch-sunxi/clock_sun50i_h6.h |  7 +++++++
-> >  arch/arm/mach-sunxi/Kconfig                       | 11 +++++++++--
-> >  arch/arm/mach-sunxi/board.c                       |  4 ++++
-> >  arch/arm/mach-sunxi/clock_sun50i_h6.c             |  3 ++-
-> >  arch/arm/mach-sunxi/cpu_info.c                    |  2 ++
-> >  board/sunxi/board.c                               |  8 ++++++--
-> >  common/spl/Kconfig                                |  6 +++---
-> >  8 files changed, 34 insertions(+), 9 deletions(-)
-> >=20
-> > diff --git a/arch/arm/cpu/armv8/fel_utils.S b/arch/arm/cpu/armv8/fel_ut=
-ils.S
-> > index 939869b9ffa..c9f3990226e 100644
-> > --- a/arch/arm/cpu/armv8/fel_utils.S
-> > +++ b/arch/arm/cpu/armv8/fel_utils.S
-> > @@ -41,7 +41,7 @@ ENTRY(return_to_fel)
-> >  	str	w2, [x1]
-> > =20
-> >  	ldr	w0, =3D0xfa50392f		// CPU hotplug magic
-> > -#ifdef CONFIG_MACH_SUN50I_H616
-> > +#if defined(CONFIG_MACH_SUN50I_H616) || defined(CONFIG_MACH_SUN50I_A13=
-3)
-> >  	ldr	w2, =3D(SUNXI_R_CPUCFG_BASE + 0x1c0)
-> >  	str	w0, [x2], #0x4
-> >  #elif CONFIG_MACH_SUN50I_H6
-> > diff --git a/arch/arm/include/asm/arch-sunxi/clock_sun50i_h6.h b/arch/a=
-rm/include/asm/arch-sunxi/clock_sun50i_h6.h
-> > index 76dd33c9477..6c1d36836dd 100644
-> > --- a/arch/arm/include/asm/arch-sunxi/clock_sun50i_h6.h
-> > +++ b/arch/arm/include/asm/arch-sunxi/clock_sun50i_h6.h
-> > @@ -285,6 +285,13 @@ struct sunxi_ccm_reg {
-> >  #define CCM_PLL6_DEFAULT		0xe8216300
-> >  #define CCM_PSI_AHB1_AHB2_DEFAULT	0x03000002
-> >  #define CCM_APB1_DEFAULT		0x03000102
-> > +
-> > +#elif CONFIG_MACH_SUN50I_A133				/* A133 */
-> > +
-> > +#define CCM_PLL6_DEFAULT		0xb8003100
-> > +#define CCM_PSI_AHB1_AHB2_DEFAULT	0x03000002
-> > +#define CCM_AHB3_DEFAULT		0x03000002
-> > +#define CCM_APB1_DEFAULT		0x03000102
-> >  #endif
-> > =20
-> >  /* apb2 bit field */
-> > diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
-> > index ccf0c9a403e..b203244eb95 100644
-> > --- a/arch/arm/mach-sunxi/Kconfig
-> > +++ b/arch/arm/mach-sunxi/Kconfig
-> > @@ -300,6 +300,7 @@ config SUNXI_SRAM_ADDRESS
-> >  config SUNXI_RVBAR_ADDRESS
-> >  	hex
-> >  	depends on ARM64
-> > +	default 0x08100040 if MACH_SUN50I_A133
-> >  	default 0x09010040 if SUN50I_GEN_H6
-> >  	default 0x017000a0
-> >  	---help---
-> > @@ -326,8 +327,8 @@ config SUNXI_RVBAR_ALTERNATIVE
-> >  config SUNXI_BL31_BASE
-> >  	hex
-> >  	default 0x00044000 if MACH_SUN50I || MACH_SUN50I_H5
-> > -	default 0x00104000 if MACH_SUN50I_H6
-> >  	default 0x40000000 if MACH_SUN50I_H616
-> > +	default 0x00104000 if SUN50I_GEN_H6
-> >  	default 0x0
-> >  	help
-> >  	  Address where BL31 (TF-A) is loaded, or zero if BL31 is not used.
-> > @@ -409,7 +410,7 @@ config MACH_SUNXI_H3_H5
-> >  # TODO: try out A80's 8GiB DRAM space
-> >  config SUNXI_DRAM_MAX_SIZE
-> >  	hex
-> > -	default 0x100000000 if MACH_SUN50I_H616
-> > +	default 0x100000000 if MACH_SUN50I_H616 || MACH_SUN50I_A133
-> >  	default 0xC0000000 if MACH_SUN50I || MACH_SUN50I_H5 || MACH_SUN50I_H6
-> >  	default 0x80000000
-> > =20
-> > @@ -606,6 +607,10 @@ config MACH_SUN50I_H616
-> > =20
-> >  config MACH_SUN50I_A133
-> >  	bool "sun50i (Allwinner A133)"
-> > +	select ARM64
-> > +	select DRAM_SUN50I_A133
-> > +	select SUN50I_GEN_H6
-> > +	imply OF_UPSTREAM
-> > =20
-> >  endchoice
-> > =20
-> > @@ -894,6 +899,7 @@ config SYS_CLK_FREQ
-> >  	default 888000000 if MACH_SUN50I_H6
-> >  	default 1008000000 if MACH_SUN50I_H616
-> >  	default 1008000000 if MACH_SUN8I_R528
-> > +	default 1008000000 if MACH_SUN50I_A133 =20
->=20
-> Since 1008000000 looks like being default for most supported SoCs, why not
-> make it default in last line? Upcomming A523 will have it too and it would
-> allow to make diff smaller.
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-Yeah, that's a good idea, indeed 1008 MHz is the most common case.
+Fixes: 6424e0aeebc4 ("clk: sunxi: rewrite sun9i_a80_get_pll4_factors()")
+Signed-off-by: Anastasia Belova <abelova@astralinux.ru>
+---
+ drivers/clk/sunxi/clk-sun9i-core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-In my A523 tree I actually went for 792 MHz for the A523, since that's
-the highest frequency supported at the default 900mV. But that's another
-discussion, and we can probably program DCDC1 to something higher.
-
-Cheers,
-Andre
-
-
-> Best regards,
-> Jernej
->=20
-> > =20
-> >  config SYS_CONFIG_NAME
-> >  	default "suniv" if MACH_SUNIV
-> > @@ -907,6 +913,7 @@ config SYS_CONFIG_NAME
-> >  	default "sun50i" if MACH_SUN50I
-> >  	default "sun50i" if MACH_SUN50I_H6
-> >  	default "sun50i" if MACH_SUN50I_H616
-> > +	default "sun50i" if MACH_SUN50I_A133
-> > =20
-> >  config SYS_BOARD
-> >  	default "sunxi"
-> > diff --git a/arch/arm/mach-sunxi/board.c b/arch/arm/mach-sunxi/board.c
-> > index 701899ee4b2..264dd6a7460 100644
-> > --- a/arch/arm/mach-sunxi/board.c
-> > +++ b/arch/arm/mach-sunxi/board.c
-> > @@ -134,6 +134,10 @@ static int gpio_init(void)
-> >  	sunxi_gpio_set_cfgpin(SUNXI_GPH(0), SUN50I_H616_GPH_UART0);
-> >  	sunxi_gpio_set_cfgpin(SUNXI_GPH(1), SUN50I_H616_GPH_UART0);
-> >  	sunxi_gpio_set_pull(SUNXI_GPH(1), SUNXI_GPIO_PULL_UP);
-> > +#elif CONFIG_CONS_INDEX =3D=3D 1 && defined(CONFIG_MACH_SUN50I_A133)
-> > +	sunxi_gpio_set_cfgpin(SUNXI_GPB(9), SUN50I_H616_GPH_UART0);
-> > +	sunxi_gpio_set_cfgpin(SUNXI_GPB(10), SUN50I_H616_GPH_UART0);
-> > +	sunxi_gpio_set_pull(SUNXI_GPB(10), SUNXI_GPIO_PULL_UP);
-> >  #elif CONFIG_CONS_INDEX =3D=3D 1 && defined(CONFIG_MACH_SUN8I_A83T)
-> >  	sunxi_gpio_set_cfgpin(SUNXI_GPB(9), SUN8I_A83T_GPB_UART0);
-> >  	sunxi_gpio_set_cfgpin(SUNXI_GPB(10), SUN8I_A83T_GPB_UART0);
-> > diff --git a/arch/arm/mach-sunxi/clock_sun50i_h6.c b/arch/arm/mach-sunx=
-i/clock_sun50i_h6.c
-> > index b424a7893ea..9797dca1e1d 100644
-> > --- a/arch/arm/mach-sunxi/clock_sun50i_h6.c
-> > +++ b/arch/arm/mach-sunxi/clock_sun50i_h6.c
-> > @@ -90,7 +90,8 @@ void clock_set_pll1(unsigned int clk)
-> >  	/* clk =3D 24*n/p, p is ignored if clock is >288MHz */
-> >  	val =3D CCM_PLL1_CTRL_EN | CCM_PLL1_LOCK_EN | CCM_PLL1_CLOCK_TIME_2;
-> >  	val |=3D CCM_PLL1_CTRL_N(clk / 24000000);
-> > -	if (IS_ENABLED(CONFIG_MACH_SUN50I_H616))
-> > +	if (IS_ENABLED(CONFIG_MACH_SUN50I_H616) ||
-> > +	    IS_ENABLED(CONFIG_MACH_SUN50I_A133))
-> >  	       val |=3D CCM_PLL1_OUT_EN;
-> >  	if (IS_ENABLED(CONFIG_SUNXI_GEN_NCAT2))
-> >  	       val |=3D CCM_PLL1_OUT_EN | CCM_PLL1_LDO_EN;
-> > diff --git a/arch/arm/mach-sunxi/cpu_info.c b/arch/arm/mach-sunxi/cpu_i=
-nfo.c
-> > index 310dca06e57..3f4735d4717 100644
-> > --- a/arch/arm/mach-sunxi/cpu_info.c
-> > +++ b/arch/arm/mach-sunxi/cpu_info.c
-> > @@ -104,6 +104,8 @@ int print_cpuinfo(void)
-> >  	puts("CPU:   Allwinner H6 (SUN50I)\n");
-> >  #elif defined CONFIG_MACH_SUN50I_H616
-> >  	puts("CPU:   Allwinner H616 (SUN50I)\n");
-> > +#elif defined CONFIG_MACH_SUN50I_A133
-> > +	puts("CPU:   Allwinner A133 (SUN50I)\n");
-> >  #else
-> >  #warning Please update cpu_info.c with correct CPU information
-> >  	puts("CPU:   SUNXI Family\n");
-> > diff --git a/board/sunxi/board.c b/board/sunxi/board.c
-> > index a4a84d652d8..7ed1f96a4fb 100644
-> > --- a/board/sunxi/board.c
-> > +++ b/board/sunxi/board.c
-> > @@ -113,10 +113,14 @@ void i2c_init_board(void)
-> >  	clock_twi_onoff(5, 1);
-> >  	sunxi_gpio_set_cfgpin(SUNXI_GPL(8), SUN50I_GPL_R_TWI);
-> >  	sunxi_gpio_set_cfgpin(SUNXI_GPL(9), SUN50I_GPL_R_TWI);
-> > -#elif CONFIG_MACH_SUN50I_H616
-> > +#elif defined(CONFIG_MACH_SUN50I_H616)
-> >  	clock_twi_onoff(5, 1);
-> >  	sunxi_gpio_set_cfgpin(SUNXI_GPL(0), SUN50I_H616_GPL_R_TWI);
-> >  	sunxi_gpio_set_cfgpin(SUNXI_GPL(1), SUN50I_H616_GPL_R_TWI);
-> > +#elif CONFIG_MACH_SUN50I_A133
-> > +	clock_twi_onoff(5, 1);
-> > +	sunxi_gpio_set_cfgpin(SUNXI_GPL(0), SUN50I_GPL_R_TWI);
-> > +	sunxi_gpio_set_cfgpin(SUNXI_GPL(1), SUN50I_GPL_R_TWI);
-> >  #else
-> >  	clock_twi_onoff(5, 1);
-> >  	sunxi_gpio_set_cfgpin(SUNXI_GPL(0), SUN8I_H3_GPL_R_TWI);
-> > @@ -434,7 +438,7 @@ static void mmc_pinmux_setup(int sdc)
-> >  			sunxi_gpio_set_pull(pin, SUNXI_GPIO_PULL_UP);
-> >  			sunxi_gpio_set_drv(pin, 2);
-> >  		}
-> > -#elif defined(CONFIG_MACH_SUN50I_H616)
-> > +#elif defined(CONFIG_MACH_SUN50I_H616) || defined(CONFIG_MACH_SUN50I_A=
-133)
-> >  		/* SDC2: PC0-PC1, PC5-PC6, PC8-PC11, PC13-PC16 */
-> >  		for (pin =3D SUNXI_GPC(0); pin <=3D SUNXI_GPC(16); pin++) {
-> >  			if (pin > SUNXI_GPC(1) && pin < SUNXI_GPC(5))
-> > diff --git a/common/spl/Kconfig b/common/spl/Kconfig
-> > index 4e56d9909c8..ce075a58193 100644
-> > --- a/common/spl/Kconfig
-> > +++ b/common/spl/Kconfig
-> > @@ -81,8 +81,8 @@ config SPL_MAX_SIZE
-> >  	default 0xec00 if OMAP34XX
-> >  	default 0x10000 if ARCH_MX6 && !MX6_OCRAM_256KB
-> >  	default 0x7fa0 if SUNXI_SRAM_ADDRESS =3D 0x10000
-> > -	default 0x7fa0 if SUNXI_SRAM_ADDRESS =3D 0x20000 && !MACH_SUN50I_H616
-> > -	default 0xbfa0 if MACH_SUN50I_H616
-> > +	default 0xbfa0 if MACH_SUN50I_H616 || MACH_SUN50I_A133
-> > +	default 0x7fa0 if SUNXI_SRAM_ADDRESS =3D 0x20000
-> >  	default 0x7000 if RCAR_GEN3
-> >  	default 0x5fa0 if SUNXI_SRAM_ADDRESS =3D 0x0
-> >  	default 0x10000 if ASPEED_AST2600
-> > @@ -397,7 +397,7 @@ config SPL_STACK
-> >  	default 0x91ffb8 if ARCH_MX6 && !MX6_OCRAM_256KB
-> >  	default 0x118000 if MACH_SUN50I_H6
-> >  	default 0x52a00 if MACH_SUN50I_H616
-> > -	default 0x40000 if MACH_SUN8I_R528
-> > +	default 0x40000 if MACH_SUN8I_R528 || MACH_SUN50I_A133
-> >  	default 0x54000 if MACH_SUN50I || MACH_SUN50I_H5
-> >  	default 0x18000 if MACH_SUN9I
-> >  	default 0x8000 if ARCH_SUNXI
-> >  =20
->=20
->=20
->=20
->=20
->=20
+diff --git a/drivers/clk/sunxi/clk-sun9i-core.c b/drivers/clk/sunxi/clk-sun9i-core.c
+index d93c7a53c6c0..70fbd7390d96 100644
+--- a/drivers/clk/sunxi/clk-sun9i-core.c
++++ b/drivers/clk/sunxi/clk-sun9i-core.c
+@@ -50,7 +50,7 @@ static void sun9i_a80_get_pll4_factors(struct factors_request *req)
+ 	else if (n < 12)
+ 		n = 12;
+ 
+-	req->rate = ((24000000 * n) >> p) / (m + 1);
++	req->rate = ((24000000ULL * n) >> p) / (m + 1);
+ 	req->n = n;
+ 	req->m = m;
+ 	req->p = p;
+-- 
+2.43.0
 
