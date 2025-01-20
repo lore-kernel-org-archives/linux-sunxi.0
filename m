@@ -1,74 +1,76 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B0A7BE65
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jan 2025 16:30:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81CD4372
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jan 2025 16:42:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737390617; cv=none; b=qOUHn2MNuMfsNufOaATEO0y2qpvMX0E2cDD9wxYmlwChrv3Qplh+SW4naHgwYz0X2CLDM5/LW0wu1r6u2x7XuyqtIMXuXq193SvrMh0sKBeuyqY1m7IbEOUBNnm8dwuxV55P98+iqBJtYsmMLWWEqjFAOj8nb5I81VEXZ5pcj8Y=
+	t=1737391327; cv=none; b=MDxTGEQu/YWr8LXLSdEjTB1kIsMOdD6XbGofFfQR0CIbI0J+IQb3JmNe2OjCUGqC3THzp8oIgmSWZFbNoy76uqHS2V2IKT5hq5L/L9lulQBINiBT2L0HfcNS6VJlk5vA4h90f8Ln1YaAQAJK3hVplQAyjav9Xw9pXL00/Bc9I2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737390617; c=relaxed/simple;
-	bh=xvrY3vSpaamhWq0x7fqFckHOOrmCliKL357lD1ZE9Hs=;
+	s=arc-20240116; t=1737391327; c=relaxed/simple;
+	bh=WPv7C77rzQOWHpPISfer8dJh7UTBkOIbHFDTHSBy6Hw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pL8VRo1+3N3j/jh3SjyPsKOyslc6REgGd8DEjTmF/AVi4G1UYMc8bDhHtAytbQv9Nq1CDnho48Z2i7x19/5xtqaCwygmi9Y1oREsA1GpQNj8vOeTDTlZLMtDEBHJFuVIBMCbj2aApuMzstSoKtw1P3C3aGW8RVEgqph+0dDg09k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VX1+WktK; arc=none smtp.client-ip=209.85.128.52
+	 MIME-Version:Content-Type; b=rffamYtNxcZuxpRIo0fYOj7jnGKEPvFnvRwIvg2qvxN7kcR5uPzxDXJQoQ61xNTLmhgBxjT21O3gkKZL+xHO5XFPd+b+NuVK7uAc+LbQNIrPPKhT7ji7droXGDJBPWgqjWixTovajl2kQDLjQGasongct4PTO7rKIF1Cbk3gdgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fTMjmtGI; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VX1+WktK"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4361f796586so51519015e9.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 20 Jan 2025 08:30:15 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fTMjmtGI"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4361e89b6daso32498685e9.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 20 Jan 2025 08:42:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737390614; x=1737995414; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1737391324; x=1737996124; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7byeOWj8mqd5liuAk8fmYt6myD3Cdui8rxJFtzetURM=;
-        b=VX1+WktKLZ7WS4m6R8a0QIU9VVVrBpdC8vXc3sYSCe1O+Jymm1De5L+7QXdcK5Ytho
-         zm/+aZpGRry3paeKg2CEQUTql+wYA84kx1wHY+OpYOm8z6y7fb3TmRcsFZRQx+Qon5Gw
-         iKjPLzHjaprLUmRSgypyX6FMr2rZ16FZdcFqWyVG/B53bsoebT6YVKCR/r1qk2BXlL1I
-         6vKwpqAXC85+6YYnIwrXf8naMut/A1eaht3/yrM25c4F6pSoz6oBwPjnpNUs68bamZ+P
-         0WoHiELH1/HAJGzrICLddmKmoFPm9OpyMAcUbvGWeY0vsGJAQoDKOxqfpx/9jEHZlxP0
-         FlKQ==
+        bh=eVPp2o15ya5nLXWtzz/e9q/lKwTJqeEhK0+mxLZJB4c=;
+        b=fTMjmtGIVdDfbG/vuh7JjztGyJ4q6srxd5Cqu/jfwCyH0pEmOmQgTck/5Ysm4cT+ro
+         7t7nW70DsijqZMdBiqzOLgQwZvSczfxhqRPg5FSyKr0lcifx9/gjufLXo842r8ouOg8M
+         IYCPDo2ocnkCXcqLhmDSTJ5vvHDK2XszCy2e9vFdruG0+LwvTB+AGsmfYt1pUlb+tIOM
+         Ze5FMZKWdKsVh3zLs9fUsKWqHiBrI6++h+fJAnC3jOJdk7dZaYhLmQO6RKmKS07bCXto
+         R6kQQw31f7T6my/2gvFu4WUCZuoViS6Cioi4PY71Q/xp1DTm4o6yFZ1l1UyltRK8LqED
+         EQyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737390614; x=1737995414;
+        d=1e100.net; s=20230601; t=1737391324; x=1737996124;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7byeOWj8mqd5liuAk8fmYt6myD3Cdui8rxJFtzetURM=;
-        b=vkngd8uPH8NhQ1xXJgVBLvTHKsEL8BRFp7e2KLYSZe7cE0o+eOH+kkrTGs18m6p+Ro
-         /gVjj3UYIQT/obCKHoLDeEKUjPG/G32JUPdb2iqjJcUeI0kdyjXVND2E/5b92EihgfKu
-         POy5/79rx4cj993XkRdj0n7woRRRC5ITIlo3jX1Ovd5Jw9bRKCK22G6h6rZgTTE9xAvs
-         PfWtEKtZU69PON3h8XG4hrBhoY3xovR4qTYPGf5oLdVBZNKqvWZNmg2rx+1Y6L1QkoYv
-         Dj7c/NnsA97tApdUjl06I7mohObmfefwQQ5LfONRmEGW9wQkiWhjf1ft0nHkBq90b4P5
-         E+fg==
-X-Forwarded-Encrypted: i=1; AJvYcCXEdi7YZTlP5rE4uEjOcryReq/e6oEEFYYRLGVp1+3G630W64A93m37bp3fLwe7s4IMXfXc4My3ZUisAQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyf6xhZq265/s1VrlaKWqRno5+8UK+bBOJCQtIxP3hl4+ujAwYu
-	/bLvhlRgRvI8pQRIeetFlLVHYzekOryTl+QnvBqeuoxxyscd9Ykf
-X-Gm-Gg: ASbGncuMcWrYMv1G8rVh339ZRwTifciwJStwq4UHbMoyJdatT0haGD25zpx/GbTwAHq
-	J8TSatN/dT4w0JeGrRgEN563kjqt+GUGBU/LVdQB9NWLDSxgw1DTFn+sL4qnbGs1jpyrKqNY1IS
-	aOLayfbWep6K0r2PzDUYrxrr6exvSAO2vPJTPJxposeH0E09wDDEVR7tB5IbUB5e8sVQWJ+WhC6
-	rPk6AOslcIH1oywDX8VY9A9UIO0862E9x4bntaB03XHeOI49TMjYaaKA/knQC3Ij9nywJ2hGD4v
-	mhFWyxvR5E7jJ9T2sggCphg+yY/Sdprox+8bdVk+TM0V3w==
-X-Google-Smtp-Source: AGHT+IGYlwOfQTBmDV9p0BTI1YjPdzsF6tv3D14qBA8AJNB484oglkq19CNbBVhbNQMaMaUHsie6dQ==
-X-Received: by 2002:a05:600c:3548:b0:434:a1d3:a321 with SMTP id 5b1f17b1804b1-438913c6150mr127787055e9.3.1737390613990;
-        Mon, 20 Jan 2025 08:30:13 -0800 (PST)
+        bh=eVPp2o15ya5nLXWtzz/e9q/lKwTJqeEhK0+mxLZJB4c=;
+        b=w9JQFCtouuBmUWe8l6RyZy12uVy37QjFMqwRByAtpccVOIhaZlvPFRvXXaDEpPHWRk
+         ohvuEf2dxlrbs5CHXnajBqUzmBaehjBVW4S2uFBfFnW3Lz+HihWG5ue5+tM51vV4qUov
+         yP1bFMudkbAaCzUIoQxzN9shPvNLxyKphZ/dXTJK0dp8Na8U0uvYFPpzHjqf1WpA0NUy
+         iWdO9iEsQxXCY2nGhRSeJhN9GvJT4400MoqzS4MqJKAwe8S4FAmT5F84ISUjdbTw615q
+         NXHRayGNPfLc8JYLtLpV7bO2lIg1N4styxNkT8n9RwB8YqiGaPIoh51AI4O6wBmz7HjA
+         ojkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVrrfmsO3IU/q4pm7URXS3xECEIUSP56SG4QyhBwqX8XnVbhWoOe7cI+DcLOaL/reFQs7tAayakDVOCLQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwklKXvjBXHJn4/JQmytTPjIprD3sEngJuARIV4G+Uq1CkmITBq
+	PniRcieukPQ3s2xamvRZpnD4yx9vF5n7yXQ1ZKDYJ2CyGNVnocX2sx1UGg==
+X-Gm-Gg: ASbGncs/wgZHA3pXdeJORbjwdLewAWS1X85uqRR+s+ffM5EjBcLdBcInxwbyx1MZCJi
+	YuzcJbH9e7eMZEqZsJTsyslsSEMbPImMj1lve/bD8I/tjPm2b1btZuwXquRmAzh0BOHP2F6Jaqj
+	6UYJnG5Afj2CzW4qO4Q0eswynAd3ODBjf9JmNEgt+pQUcgqD2i3tyDf04hoEpnDSexYExua6rlv
+	GqkKCDDCW2nytcy3DQ+KXYjMnCHYmqPJWGrPIm1SFAhj9uSVajfH9H/fHz8qjxJPnNlw9LXZvio
+	BMa0J6EySooywcLIw/cNGr59EeOzbQP/8uOAPCWUndbPeA==
+X-Google-Smtp-Source: AGHT+IFHP7otWNbgEg2It8KWJWZdnxatAWrDP5T4lXoq8OUr9c2R8TiIBVFTqLbF8tjClAYFN3XleQ==
+X-Received: by 2002:a05:600c:4e89:b0:434:f739:7ce3 with SMTP id 5b1f17b1804b1-438913cb518mr126509645e9.8.1737391323563;
+        Mon, 20 Jan 2025 08:42:03 -0800 (PST)
 Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4389046bab0sm143119205e9.38.2025.01.20.08.30.12
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43890412f7csm144213735e9.9.2025.01.20.08.42.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jan 2025 08:30:13 -0800 (PST)
+        Mon, 20 Jan 2025 08:42:03 -0800 (PST)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Andre Przywara <andre.przywara@arm.com>
-Cc: u-boot@lists.denx.de, Sumit Garg <sumit.garg@linaro.org>,
- linux-sunxi@lists.linux.dev, Tom Rini <trini@konsulko.com>,
- Simon Glass <sjg@chromium.org>
-Subject: Re: [PATCH 1/3] suniv: switch Allwinner F1Cx00 boards to OF_UPSTREAM
-Date: Mon, 20 Jan 2025 17:30:12 +0100
-Message-ID: <2763817.mvXUDI8C0e@jernej-laptop>
-In-Reply-To: <20250119234219.1773070e@minigeek.lan>
+Cc: u-boot@lists.denx.de, Lukasz Majewski <lukma@denx.de>,
+ Sean Anderson <seanga2@gmail.com>, Jaehoon Chung <jh80.chung@samsung.com>,
+ Tom Rini <trini@konsulko.com>, Cody Eksal <masterr3c0rd@epochal.quest>,
+ Simon Glass <sjg@chromium.org>, linux-sunxi@lists.linux.dev,
+ Parthiban <parthiban@linumiz.com>
+Subject: Re: [PATCH 2/8] sunxi: pmic_bus: support alternative I2C address
+Date: Mon, 20 Jan 2025 17:42:02 +0100
+Message-ID: <4622391.LvFx2qVVIh@jernej-laptop>
+In-Reply-To: <20250119222530.1fd97018@minigeek.lan>
 References:
- <20250119164157.23648-1-andre.przywara@arm.com>
- <5850974.DvuYhMxLoT@jernej-laptop> <20250119234219.1773070e@minigeek.lan>
+ <20250117014537.22513-1-andre.przywara@arm.com>
+ <2352334.ElGaqSPkdT@jernej-laptop> <20250119222530.1fd97018@minigeek.lan>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -78,155 +80,79 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne ponedeljek, 20. januar 2025 ob 00:42:19 Srednjeevropski standardni =C4=
-=8Das je Andre Przywara napisal(a):
-> On Sun, 19 Jan 2025 20:45:43 +0100
+Dne nedelja, 19. januar 2025 ob 23:25:30 Srednjeevropski standardni =C4=8Da=
+s je Andre Przywara napisal(a):
+> On Sat, 18 Jan 2025 08:21:31 +0100
 > Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
 >=20
 > Hi Jernej,
 >=20
-> > Dne nedelja, 19. januar 2025 ob 17:41:54 Srednjeevropski standardni =C4=
+> many thanks for the review and your opinion.
+>=20
+> > Dne petek, 17. januar 2025 ob 02:45:31 Srednjeevropski standardni =C4=
 =8Das je Andre Przywara napisal(a):
-> > > In contrast to some other Allwinner SoCs, there is no difference betw=
-een
-> > > the DTs for the Allwinner F1C100/F1C200 SoCs (sunvi) between the U-Bo=
-ot
-> > > and the Linux kernel repository.
+> > > Some of the X-Power AXP PMICs can be ordered with an alternative I2C
+> > > address, for instance an AXP717 could be shipped with address 0x34 or
+> > > with address 0x35.
+> > > The datasheets for the AXP717 and AXP803 list two possible addresses,
+> > > and they are always consecutive. For DM (DT) based drivers this is no
+> > > problem, but the Allwinner SPL code relies on a hardcoded address.
 > > >=20
-> > > Remove the old copies of the F1Cx00 related .dts and .dtsi files, and
-> > > switch the whole suniv SoC over to use OF_UPSTREAM.
+> > > Add a Kconfig variable that will add "1" to the existing address if it
+> > > is set.
+> > > This enables to use the AXP717 as used on boards with the new Allwinn=
+er
+> > > A523 chip.
 > > >=20
-> > > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > > ---
-> > >  arch/arm/dts/Makefile                        |   2 -
-> > >  arch/arm/dts/suniv-f1c100s-licheepi-nano.dts |  73 ----
-> > >  arch/arm/dts/suniv-f1c100s.dtsi              | 330 -----------------=
-=2D-
-> > >  arch/arm/dts/suniv-f1c200s-lctech-pi.dts     |  76 -----
-> > >  arch/arm/dts/suniv-f1c200s-popstick-v1.1.dts |  81 -----
-> > >  arch/arm/mach-sunxi/Kconfig                  |   1 +
-> > >  configs/lctech_pi_f1c200s_defconfig          |   2 +-
-> > >  configs/licheepi_nano_defconfig              |   2 +-
-> > >  8 files changed, 3 insertions(+), 564 deletions(-)
-> > >  delete mode 100644 arch/arm/dts/suniv-f1c100s-licheepi-nano.dts
-> > >  delete mode 100644 arch/arm/dts/suniv-f1c100s.dtsi
-> > >  delete mode 100644 arch/arm/dts/suniv-f1c200s-lctech-pi.dts
-> > >  delete mode 100644 arch/arm/dts/suniv-f1c200s-popstick-v1.1.dts
-> > >=20
-> > > diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
-> > > index aef0425c967..5627daa94db 100644
-> > > --- a/arch/arm/dts/Makefile
-> > > +++ b/arch/arm/dts/Makefile
-> > > @@ -530,8 +530,6 @@ dtb-$(CONFIG_STM32H7) +=3D stm32h743i-disco.dtb \
-> > >  	stm32h743i-eval.dtb \
-> > >  	stm32h750i-art-pi.dtb
-> > > =20
-> > > -dtb-$(CONFIG_MACH_SUNIV) +=3D \
-> > > -	suniv-f1c100s-licheepi-nano.dtb
-> > >  dtb-$(CONFIG_MACH_SUN4I) +=3D \
-> > >  	sun4i-a10-a1000.dtb \
-> > >  	sun4i-a10-ba10-tvbox.dtb \
->=20
->=20
-> > > diff --git a/arch/arm/dts/suniv-f1c100s-licheepi-nano.dts b/arch/arm/=
-dts/suniv-f1c100s-licheepi-nano.dts
-> > > deleted file mode 100644
-> > > index 43896723a99..00000000000
-> > > --- a/arch/arm/dts/suniv-f1c100s-licheepi-nano.dts
-> > > +++ /dev/null
->=20
->  ....
->=20
-> > > diff --git a/arch/arm/dts/suniv-f1c100s.dtsi b/arch/arm/dts/suniv-f1c=
-100s.dtsi
-> > > deleted file mode 100644
-> > > index 3c61d59ab5f..00000000000
-> > > --- a/arch/arm/dts/suniv-f1c100s.dtsi
-> > > +++ /dev/null
->=20
-> ...
->=20
-> > > diff --git a/arch/arm/dts/suniv-f1c200s-lctech-pi.dts b/arch/arm/dts/=
-suniv-f1c200s-lctech-pi.dts
-> > > deleted file mode 100644
-> > > index 2d2a3f026df..00000000000
-> > > --- a/arch/arm/dts/suniv-f1c200s-lctech-pi.dts
-> > > +++ /dev/null
->=20
-> ...
->=20
-> > > diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
-> > > index 8065161e61e..866b55833c0 100644
-> > > --- a/arch/arm/mach-sunxi/Kconfig
-> > > +++ b/arch/arm/mach-sunxi/Kconfig
-> > > @@ -279,6 +279,7 @@ config MACH_SUNIV
-> > >  	select SUPPORT_SPL
-> > >  	select SKIP_LOWLEVEL_INIT_ONLY
-> > >  	select SPL_SKIP_LOWLEVEL_INIT_ONLY
-> > > +	imply OF_UPSTREAM
-> > > =20
-> > >  config MACH_SUN4I
-> > >  	bool "sun4i (Allwinner A10)"
-> > > diff --git a/configs/lctech_pi_f1c200s_defconfig b/configs/lctech_pi_=
-f1c200s_defconfig
-> > > index e1e8d3aaaa3..1588b3b4955 100644
-> > > --- a/configs/lctech_pi_f1c200s_defconfig
-> > > +++ b/configs/lctech_pi_f1c200s_defconfig
-> > > @@ -1,6 +1,6 @@
-> > >  CONFIG_ARM=3Dy
-> > >  CONFIG_ARCH_SUNXI=3Dy
-> > > -CONFIG_DEFAULT_DEVICE_TREE=3D"suniv-f1c200s-lctech-pi"
-> > > +CONFIG_DEFAULT_DEVICE_TREE=3D"allwinner/suniv-f1c200s-lctech-pi" =20
+> > > Signed-off-by: Andre Przywara <andre.przywara@arm.com> =20
 > >=20
-> > What's with this board? I don't see it being removed from Makefile. If =
-it
-> > is not there, then this board has been broken all along?
+> > This works until some board vendor start mixing one or another address
+> > PMIC. Note that BSP boot0 does address autodetection, so it's not entir=
+ely
+> > out of the question. Anyway, let's hope we don't see anything like that.
 >=20
-> No, all defconfigs build fine, that's tested with CI on every PR merged.
->=20
-> As it turns out, the build system builds the DTs as listed in the
-> CONFIG_DEFAULT_DEVICE_TREE variable, but also in CONFIG_OF_LIST
-> automatically, so those lists in the Makefile are actually somewhat
-> redundant. I am not entirely sure if there are corner case when they
-> are needed, though, but even removing the whole Makefile stanza for
-> A64, for instance, builds those boards fine.
->=20
-> So the LCTech Pi build is fine, both with and without this patch.
+> I looked at the datasheets for all supported PMICs, and they either
+> state one or two supported addresses, in the latter case both
+> consecutive. Autodetection sounds nice, but also unnecessary: we surely
+> know what address it is for a certain board? And with those A523 boards
+> having two PMICs, autodetection might become sketchy, as we don't know
+> for sure which PMIC we got?
 
-Thanks for explanation. This is then:
+Speaking for T527 BSP boot0 - they check version register to make sure that
+correct PMIC is installed.
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+>=20
+> But that got me thinking: what about putting the I2C address in Kconfig
+> directly, with defaults depending on the PMIC type?
+>=20
+> config AXP_I2C_ADDR
+> 	hex "AXP PMIC I2C address"
+> 	depends on ARCH_SUNXI && !SUNXI_NO_PMIC
+> 	default 0x36 if AXP305_POWER
+> 	....
+>=20
+> That's should work seamlessly for all supported PMICs, and we just need
+> one line for the Avaota, same as with this patch here.
+>=20
+> What do you think?
+
+Yeah, looks more universal and avoids code changes in pmic_bus.c when
+adding support for new AXP PMIC, which is very nice indeed.
 
 Best regards,
 Jernej
 
 >=20
-> Thanks,
+> Cheers,
 > Andre
 >=20
+>=20
+>=20
+> >=20
+> > Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 > >=20
 > > Best regards,
 > > Jernej
-> >=20
-> > >  CONFIG_SPL=3Dy
-> > >  CONFIG_MACH_SUNIV=3Dy
-> > >  CONFIG_DRAM_CLK=3D156
-> > > diff --git a/configs/licheepi_nano_defconfig b/configs/licheepi_nano_=
-defconfig
-> > > index d59affb0d9c..051b1901f20 100644
-> > > --- a/configs/licheepi_nano_defconfig
-> > > +++ b/configs/licheepi_nano_defconfig
-> > > @@ -1,6 +1,6 @@
-> > >  CONFIG_ARM=3Dy
-> > >  CONFIG_ARCH_SUNXI=3Dy
-> > > -CONFIG_DEFAULT_DEVICE_TREE=3D"suniv-f1c100s-licheepi-nano"
-> > > +CONFIG_DEFAULT_DEVICE_TREE=3D"allwinner/suniv-f1c100s-licheepi-nano"
-> > >  CONFIG_SPL=3Dy
-> > >  CONFIG_MACH_SUNIV=3Dy
-> > >  CONFIG_DRAM_CLK=3D156
-> > >  =20
-> >=20
-> >=20
 > >=20
 > >=20
 > >=20
