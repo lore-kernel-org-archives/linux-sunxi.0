@@ -1,81 +1,74 @@
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08ABC1EE7D5
-	for <linux-sunxi@lists.linux.dev>; Tue, 21 Jan 2025 10:44:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01A2A1F12FC
+	for <linux-sunxi@lists.linux.dev>; Tue, 21 Jan 2025 11:21:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737456281; cv=none; b=eOjfQQtXbLnYsLkQ0PY+8IrfWK3R2Bs4njcyHKOxZ5hJhYr0dvQ9U0I08HD9/CFS3JN4hjVMs/bUHHAisv7DAkzYGCCAjKYCmotHNoSKuwN5TFT3KWMKhehuPUIapK5P+TicAuVVL/pXsZI5f/a2dq5CrXVkUAeqf3kMvt0l94k=
+	t=1737458504; cv=none; b=BM72abHaVMsib1REWD5U7WFhK7d9EV3qPDzj9KSej+kFBLysQmXGJ76HfQePEu8YPm2t/apbgFdu4IWAAsjiuZOY5IxPwxE54Fg+UIQRigp7YCYLnddPynbOrU964sQ+9aWefhV8QKn+zqENl/Jxl/Wvj3Lkn9gVMPrc9s0qrH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737456281; c=relaxed/simple;
-	bh=iwqLBI6x6ziAFcEg9T4VUa24HE5Sj5tajYDP14hy/pY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uvHgWr6aCdQLRQjmUk3ARYLpgcbSC96JhulBPg2p4opO6y0Mx5z1dMBEv5WqN0mh1aPcO5sXg2cGtpqdOshvq+VXPl+eZMhB+xjyJ7TNb8dVnMuGMZHj3jX8HnwyVf3xLAnQ+Pt3JvGKAT5hlrNAVgqxHg1MX6MeRiPwkKBr/fQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aCkvU2Aj; arc=none smtp.client-ip=209.85.219.173
+	s=arc-20240116; t=1737458504; c=relaxed/simple;
+	bh=7rBsUDnZ310zkZmpLtMl2wqib1Sf/yRmyr8uhrOxaLM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WePuX3jbiuARiwvk62jmKXBnDzH1khVdSE0PcWLvHijCXmNqgOrCE+MfK39uhIZN7WQZJzWWyGBWn1gOAEu189hZHtqITAwuIQzs4whUBPHiiovpuBlq6AyNurH2kVxl18IqlUFL9ujbVebxyGKQ1ssMHXDJcFlfjFsF+ope1Gg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bLpNetgk; arc=none smtp.client-ip=209.85.167.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aCkvU2Aj"
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-e4419a47887so7837052276.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 21 Jan 2025 02:44:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bLpNetgk"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5401ab97206so5381970e87.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 21 Jan 2025 03:21:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1737456279; x=1738061079; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fM4RiAz8x0xBzhbf4AlSqIUYbrQ3SaJ7YEvWtIB73WA=;
-        b=aCkvU2AjdHGN1HENwcBPGwQDDWZhuhg64PEP2+g39jBaTRx5DZg6AZLAHIz5xm7uij
-         XiD60pjHs+6ZBXMwV4228VnuC6EL32gvMOctmFDb6AoZLafvpyYdCnMgJyOU7bkUiNxS
-         3z/iULpLh3PtkUtaVk1bqEGJDNgqxfhBxNriVV1vB2feGjMY16nL3Rc0QYML8w8jwOby
-         HXwE60LdXjH4se54xQCoHtOBjadSS0wE0HmquMhYfOs52bpoqelQfnlC1y8C7oeRWxtr
-         T3KHCI9JUXxoAn+36iAp5zCCANoad5lwMmqoKtTecAHr46k5QVGUM1D7Z0X6fwLdK7du
-         d3Pg==
+        d=linaro.org; s=google; t=1737458500; x=1738063300; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Ccl7pK+fGoMwVya6mvoYHjlRDfdrE2si7QnLrLuVzrA=;
+        b=bLpNetgkWCr6QaXZxCZfriXMThDQ0Lxr/8JIzE7bM9nGGCIxgzjYlxysygjXxKXpty
+         JgkSDm66p7F5tWVfp2Q2lEMiTnaGPUKnx7NN04FxlDMexlvD1po2k7WLU0p0t5jtAiKb
+         20wHVbj/DiqDDcgZaILcUVl+1z9vGepW182H+c6Ld4ALIfLq3Ak6inet4MJMKQABp5SA
+         K0mVeYo9tZ57l0sM0m+QIXGiNdyofUrlTM9rlpY2cRdDQFmJOXDhCkDv4gtbomcJ70Ko
+         lujtZHH2bxYHuTFz7RlWn3Vh3mfQFdB2HK4Ds7cTbYRGuUXjT15nT+xXK4ZiuWr7xQEn
+         PJow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737456279; x=1738061079;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fM4RiAz8x0xBzhbf4AlSqIUYbrQ3SaJ7YEvWtIB73WA=;
-        b=cLqtv2RJkSlIWIFJ1bVsEnjqPnZiHxUNQYjVT2ZjAD+IktfN12a1cvYjDoNdvpfRNU
-         8LXbSw+VqBAIFoDPaGFkhVHgCYM7lcupJIRUYrVvLAoDEphkoM6qispr9CaqirRwD2ex
-         g7UFRuaMrOJW5/feDzFbqTUWDlSikCS+R7FGwp+YKyR51hNAwk0g6c0zC/YMkhbhrk+I
-         lJHr9dvQ4KP8FhFit7VjqEUlkNqqNbyKBd1a0ULU9wMqUlI54FRLsktsmiuhqLxQn3Ti
-         AoDaRQ8I7VQVXd/qDMUpFgW9N/RoXf8EMXI0rQ2g1DPFKINnr7obQN898tlzuMitniwu
-         Dp3A==
-X-Forwarded-Encrypted: i=1; AJvYcCWYz//b+rA5n7SoaL4xvA+BZL1uv+tzJkpao5vCusNMdGZjPB0V440gzE2CJrmNzoBI/304Sffq1qP4Dg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwHJHX6Ie4PFBlJXl5FQLPJxiGC36qTCrk1Z4Jo18iEo/SE/PBD
-	H05+Rn3+SGcMRYLV0AOXlY9eRjPVENZYRpbUcgwQgku+ksOXUcsaxbWa7gVUjC555Wk4aU5N7gI
-	+7GvmlwqYtUtHr2aIUI5NSb/5/jTfwf8zgQBAFg==
-X-Gm-Gg: ASbGncuo2AOfD7fnyM3M7V2pHPvKEU04xVr1/S3Tep5FGvkwCC8ASXfKX1E+iCZNjKv
-	6u2KgQxvxBfWP364RrsB+JWrQ3yY4MsS+yTGl5Nok6g3+QNVoSbfOawgYaXdqNYf5CQ==
-X-Google-Smtp-Source: AGHT+IHO0V0jurSGd/L1Ymx0QNx/m/A6wTdCul+m+iz6FYx+lOCJoAuF4E4jOdjfH48/SXNUBM+6kJMlTjWcDWiw9yM=
-X-Received: by 2002:a05:690c:3701:b0:6f6:d4bf:d01a with SMTP id
- 00721157ae682-6f6eb940fb8mr129606697b3.34.1737456278815; Tue, 21 Jan 2025
- 02:44:38 -0800 (PST)
-Precedence: bulk
-X-Mailing-List: linux-sunxi@lists.linux.dev
-List-Id: <linux-sunxi.lists.linux.dev>
-List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
-List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20241214-drm-connector-mode-valid-const-v2-0-4f9498a4c822@linaro.org>
- <173624946815.1500596.321177900833598022.b4-ty@linaro.org> <CAMuHMdVwcaY2Fgpf7GYhBrE5B+AEg=v0BH4OjMXgnp=wqjxmKg@mail.gmail.com>
-In-Reply-To: <CAMuHMdVwcaY2Fgpf7GYhBrE5B+AEg=v0BH4OjMXgnp=wqjxmKg@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1737458500; x=1738063300;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ccl7pK+fGoMwVya6mvoYHjlRDfdrE2si7QnLrLuVzrA=;
+        b=pXNF14fAweEeTGozWTf+2SUL4thbDGHkanh6kymr5I4v3LMd/IDQqfgXJSo7REV+vW
+         Qt6Uhxe+PtMba1wHpyW0OXIO79ViM83JoQhl8ozddu0sloGarfiB7kswzBQneqwiIkbe
+         Jws+Wbuh5s5wgaNbti7J31nYh5JoyG25xauwWT4vqrP+/EdIy8uuJKJrIxHUltgSiqe3
+         /Rr8K60b2glXM57BoccXibqmfbKyKHG0KtYyNR4D5lBoKfHR5A1y9HRjAufS9YpZ/ujZ
+         qX/FovU7HQL3w4upnC1Wb7fFS0PTEIfVEN888233IqkYsI1c/mVIyagw/fmdwvvOTjBW
+         SSKw==
+X-Forwarded-Encrypted: i=1; AJvYcCX1UiTq7oowlyMzdb6FmoYzkgS0YO43iznVA/ryoFIwSP49858Rnu/CrtdJx8UegLjIKI3+9yGalrP7wQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw/ofFDXoZh3qGU4UAGWX9FwSNY/uctdC9Bt2iaYsIttGl6riFs
+	1vIPI95uZnEnlCAZ0EW/lXzECQP02+RXeGYSdu0WO7aGtuBuqT3v0AVtGhy/yYs=
+X-Gm-Gg: ASbGnctRRTLA0x3+GpBt4gkJGhlRDI2mt806hHrwHG5m6qd0GZ5ZifvnhTWCc7T8eSn
+	l0Mh96UGZq2nlmJf6t+mWkviWERSHBB4e6l4HrP83ofeStgdgHscQ50kptREquIYwxMRtJgnQ0Q
+	b4nlkTzCUfyTVuFfLA/zZVEHYEMLRgrGN59oZosiS8uKflTFY5BdGdo1mNzTbp/bcUd+XOjHd3a
+	B2cU5NvtgGnmNxgBZFwYMkVyYb5vm6nl6xlgukJjc6HnVFuZ5m0N1TBPTjPd5uHLEKy2u4RSGvz
+	k0pm4TdQLrOCJoYNMPuJuANlKXQ6n11XGItwPO+DbgzdrQxHCw==
+X-Google-Smtp-Source: AGHT+IFYzzED8Wa2HZSUyJkmbJmRc7n+A/fvnsoklQLIV99y/1uEpOedpIlkjVzotwOAh8lDtCA/PA==
+X-Received: by 2002:a05:651c:b2a:b0:300:7f87:a65 with SMTP id 38308e7fff4ca-3072cb1f9b0mr65240811fa.35.1737458499868;
+        Tue, 21 Jan 2025 03:21:39 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3072a51825fsm20633711fa.111.2025.01.21.03.21.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Jan 2025 03:21:38 -0800 (PST)
+Date: Tue, 21 Jan 2025 13:21:35 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 21 Jan 2025 12:44:27 +0200
-X-Gm-Features: AbW1kvabZ-in97OiEwfu0vjcyzelZUBMNUaWG-jd-XhigpbETlYrZDr4y_chW2I
-Message-ID: <CAA8EJpos0HQpr9P4XRkto0Jy+Anf1xEH2xhEU8wtCyUQd+XwMg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] drm/connector: make mode_valid() callback accept
- const mode pointer
 To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>, 
-	Danilo Krummrich <dakr@redhat.com>, Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
-	Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Alex Deucher <alexander.deucher@amd.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+	Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>, 
+	Danilo Krummrich <dakr@redhat.com>, Harry Wentland <harry.wentland@amd.com>, 
+	Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, 
+	Alex Deucher <alexander.deucher@amd.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
 	Xinhui Pan <Xinhui.Pan@amd.com>, Alain Volmat <alain.volmat@foss.st.com>, 
 	Raphael Gallais-Pou <rgallaispou@gmail.com>, Liviu Dudau <liviu.dudau@arm.com>, 
 	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -91,81 +84,120 @@ Cc: Jani Nikula <jani.nikula@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.
 	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
 	Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
 	Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
-	Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, Sandy Huang <hjc@rock-chips.com>, 
-	=?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+	Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
+	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
 	Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>, 
 	Samuel Holland <samuel@sholland.org>, Thierry Reding <thierry.reding@gmail.com>, 
 	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
 	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Gurchetan Singh <gurchetansingh@chromium.org>, 
 	Chia-I Wu <olvaffe@gmail.com>, Zack Rusin <zack.rusin@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, intel-gfx@lists.freedesktop.org, 
-	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org, 
 	amd-gfx@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
-	virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org, 
-	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, 
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	Jani Nikula <jani.nikula@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	linux-samsung-soc@vger.kernel.org, imx@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	freedreno@lists.freedesktop.org, virtualization@lists.linux.dev, 
+	spice-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	Jani Nikula <jani.nikula@intel.com>, Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: [PATCH v2 0/5] drm/connector: make mode_valid() callback accept
+ const mode pointer
+Message-ID: <ak4cz6v6rjguh4jgacyu2mcfh5igtb7qwhvbvdcnfjc5hraloi@d7dwxc7v5gbo>
+References: <20241214-drm-connector-mode-valid-const-v2-0-4f9498a4c822@linaro.org>
+ <173624946815.1500596.321177900833598022.b4-ty@linaro.org>
+ <CAMuHMdVwcaY2Fgpf7GYhBrE5B+AEg=v0BH4OjMXgnp=wqjxmKg@mail.gmail.com>
+ <CAA8EJpos0HQpr9P4XRkto0Jy+Anf1xEH2xhEU8wtCyUQd+XwMg@mail.gmail.com>
+ <CAMuHMdW-9F9aypY_XeU3y=dn3AAxjFrZO+H+=hbMF7nGrTLAQQ@mail.gmail.com>
+Precedence: bulk
+X-Mailing-List: linux-sunxi@lists.linux.dev
+List-Id: <linux-sunxi.lists.linux.dev>
+List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
+List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdW-9F9aypY_XeU3y=dn3AAxjFrZO+H+=hbMF7nGrTLAQQ@mail.gmail.com>
 
-On Tue, 21 Jan 2025 at 11:13, Geert Uytterhoeven <geert@linux-m68k.org> wro=
-te:
->
+On Tue, Jan 21, 2025 at 12:10:25PM +0100, Geert Uytterhoeven wrote:
 > Hi Dmitry,
->
-> On Tue, Jan 7, 2025 at 12:31=E2=80=AFPM Dmitry Baryshkov
+> 
+> CC sfr
+> 
+> On Tue, Jan 21, 2025 at 11:44 AM Dmitry Baryshkov
 > <dmitry.baryshkov@linaro.org> wrote:
-> > On Sat, 14 Dec 2024 15:37:04 +0200, Dmitry Baryshkov wrote:
-> > > While working on the generic mode_valid() implementation for the HDMI
-> > > Connector framework I noticed that unlike other DRM objects
-> > > drm_connector accepts non-const pointer to struct drm_display_mode,
-> > > while obviously mode_valid() isn't expected to modify the argument.
+> > On Tue, 21 Jan 2025 at 11:13, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > On Tue, Jan 7, 2025 at 12:31 PM Dmitry Baryshkov
+> > > <dmitry.baryshkov@linaro.org> wrote:
+> > > > On Sat, 14 Dec 2024 15:37:04 +0200, Dmitry Baryshkov wrote:
+> > > > > While working on the generic mode_valid() implementation for the HDMI
+> > > > > Connector framework I noticed that unlike other DRM objects
+> > > > > drm_connector accepts non-const pointer to struct drm_display_mode,
+> > > > > while obviously mode_valid() isn't expected to modify the argument.
+> > > > >
+> > > > > Mass-change the DRM framework code to pass const argument to that
+> > > > > callback.
+> > > > >
+> > > > > [...]
+> > > >
+> > > > Applied to drm-misc-next, thanks!
+> > > >
+> > > > [1/5] drm/encoder_slave: make mode_valid accept const struct drm_display_mode
+> > > >       commit: 7a5cd45fab0a2671aa4ea6d8fb80cea268387176
+> > > > [2/5] drm/amdgpu: don't change mode in amdgpu_dm_connector_mode_valid()
+> > > >       commit: b255ce4388e09f14311e7912d0ccd45a14a08d66
+> > > > [3/5] drm/sti: hda: pass const struct drm_display_mode* to hda_get_mode_idx()
+> > > >       commit: 5f011b442006ccb29044263df10843de80fc0b14
+> > > > [4/5] drm/connector: make mode_valid_ctx take a const struct drm_display_mode
+> > > >       commit: 66df9debcb29d14802912ed79a9cf9ba721b51a4
+> > > > [5/5] drm/connector: make mode_valid take a const struct drm_display_mode
+> > > >       commit: 26d6fd81916e62d2b0568d9756e5f9c33f0f9b7a
 > > >
-> > > Mass-change the DRM framework code to pass const argument to that
-> > > callback.
+> > > I cannot find these in drm-misc or drm-next, but they are in drm-tip?
+> >
+> > These are in drm-misc/drm-misc-next, the commit IDs are a part of the
+> > Git history.
+> >
+> > > The last one due to commit 2bdc721917cf141f ("Merge remote-tracking
+> > > branch 'drm-misc/drm-misc-next' into drm-tip").
 > > >
-> > > [...]
+> > > What am I missing?
+> > > Thanks!
 > >
-> > Applied to drm-misc-next, thanks!
-> >
-> > [1/5] drm/encoder_slave: make mode_valid accept const struct drm_displa=
-y_mode
-> >       commit: 7a5cd45fab0a2671aa4ea6d8fb80cea268387176
-> > [2/5] drm/amdgpu: don't change mode in amdgpu_dm_connector_mode_valid()
-> >       commit: b255ce4388e09f14311e7912d0ccd45a14a08d66
-> > [3/5] drm/sti: hda: pass const struct drm_display_mode* to hda_get_mode=
-_idx()
-> >       commit: 5f011b442006ccb29044263df10843de80fc0b14
-> > [4/5] drm/connector: make mode_valid_ctx take a const struct drm_displa=
-y_mode
-> >       commit: 66df9debcb29d14802912ed79a9cf9ba721b51a4
-> > [5/5] drm/connector: make mode_valid take a const struct drm_display_mo=
-de
-> >       commit: 26d6fd81916e62d2b0568d9756e5f9c33f0f9b7a
->
-> I cannot find these in drm-misc or drm-next, but they are in drm-tip?
+> > It might be some kind of misinteraction between drm-misc-next vs
+> > drm-misc-next-fixes vs merge window. Let me recheck dim rebuild-tip.
+> 
+> I indeed see the commit in
+> https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/include/drm/drm_modeset_helper_vtables.h?ref_type=heads
+> 
+> [diving deeper]
+> 
+> So I missed the change from the for-linux-next to the drm-misc-next
+> branch.  Hence I fetched only the former, and was using a stale
+> version of the latter.
+> 
+> Apparently Stephen is also using the old branches for linux-next:
+> 
+>     drm-misc-fixes git
+> https://gitlab.freedesktop.org/drm/misc/kernel.git#for-linux-next-fixes
+>     drm-misc git
+> https://gitlab.freedesktop.org/drm/misc/kernel.git#for-linux-next
+> 
+> I believe the latter should be drm-misc-next.
+> Should the former be drm-misc-fixes or drm-misc-next-fixes? Or both?
 
-These are in drm-misc/drm-misc-next, the commit IDs are a part of the
-Git history.
+No. Both branches are correct. This is how the drm-misc tree managed
+development process: during the merge window (and several preceeding
+weeks) the drm-misc-next branch is open for the commits. However those
+commits are not targeted the forthcoming -rc1. Thus the for-linux-next
+branch is diverted to point to drm-misc-next-fixes. This is all being by
+the dim tool.
 
-> The last one due to commit 2bdc721917cf141f ("Merge remote-tracking
-> branch 'drm-misc/drm-misc-next' into drm-tip").
->
-> What am I missing?
-> Thanks!
+Respective mode_valid changes were applied too late in the cycle, so
+they are not going to land into 6.14-rc1 (and are not a part of the
+for-linux-next branch). Once 6.14-rc1 is released and we start working
+towards 6.15, for-linux-next will again point to drm-misc-next.
 
-It might be some kind of misinteraction between drm-misc-next vs
-drm-misc-next-fixes vs merge window. Let me recheck dim rebuild-tip.
-
->
-> P.S. Sima: noticed while resolving a merge conflict using drm-tip. Thx!
-
-
---=20
+-- 
 With best wishes
 Dmitry
