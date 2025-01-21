@@ -1,146 +1,166 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD9963208
-	for <linux-sunxi@lists.linux.dev>; Tue, 21 Jan 2025 00:06:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7A5084A2B;
+	Tue, 21 Jan 2025 09:06:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737418000; cv=none; b=lXvLGEbIJuhwEInV/JUssmPFWX4H7z05dCGumSxJUpWO4pNZTq0OoWcoIzt5HhuBFX1xr8iIE5iTmt5wwEy4BBK3Slu8nrjJtM07SAaMXOHJ4jrJ6liufP3kFhApwArowwGbeZg3kfp7QJi75FPBqJPVVbz7RqnY6reZDK7PiYk=
+	t=1737450363; cv=none; b=QI4vFoJKSFapTMXbj/HIwDTPQJqgQfanZUy3D3S9SwmQYv1V9AK3f7IjY5wZbr75vmNanf55y+1zb+5YFFWBnCNmTWWEVNVDLOkG/RqsJupY0IRaiNhYReMqjN/h0vSCKQt4xvvlouAhrH7G6tYUeexYmV4Y70kISF0eKzyaSC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737418000; c=relaxed/simple;
-	bh=RzO7zczEyQEEYyhPx0I4k4Yc3klsN6rKL2D0fb+HxaE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hEXZeRBTSTXURQQrzoZTudAfhf6MPLHjCyZkdcdpcFKpVWScM1z2u+K2bb2dEFe5131nYOdT/ctaj5oXDJrP+GIbG5NCOS0+FZyArGFUgekYT3ViKaK/kIskhlZ7UyL7E+okfYanAJvaihyh/qcFLyCYG5aeBwye/FMHc+73z6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 36449106F;
-	Mon, 20 Jan 2025 16:07:05 -0800 (PST)
-Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6AA2B3F5A1;
-	Mon, 20 Jan 2025 16:06:35 -0800 (PST)
-Date: Tue, 21 Jan 2025 00:05:08 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Simon Glass <sjg@chromium.org>
-Cc: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>,
- u-boot@lists.denx.de, Lukasz Majewski <lukma@denx.de>, Sean Anderson
- <seanga2@gmail.com>, Jaehoon Chung <jh80.chung@samsung.com>, Tom Rini
- <trini@konsulko.com>, Cody Eksal <masterr3c0rd@epochal.quest>,
- linux-sunxi@lists.linux.dev, Parthiban <parthiban@linumiz.com>
-Subject: Re: [PATCH 2/8] sunxi: pmic_bus: support alternative I2C address
-Message-ID: <20250121000508.22db819a@minigeek.lan>
-In-Reply-To: <CAFLszTjDq4E05Q_esYA2tAGOYdhgbRp3B38gAsF0hX44Nf-34A@mail.gmail.com>
-References: <20250117014537.22513-1-andre.przywara@arm.com>
-	<2352334.ElGaqSPkdT@jernej-laptop>
-	<20250119222530.1fd97018@minigeek.lan>
-	<4622391.LvFx2qVVIh@jernej-laptop>
-	<CAFLszTjDq4E05Q_esYA2tAGOYdhgbRp3B38gAsF0hX44Nf-34A@mail.gmail.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	s=arc-20240116; t=1737450363; c=relaxed/simple;
+	bh=379PWCV/7+kIrmP1pA3alid5iJDIvrSFYacRmagLkUc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Pb/ZizZK8N2Z855eaH7nIR/JcbZNvIsDXuxXuO2uiLGgzrxpbFbOaW6lTPjm23IcLKyKhfFJKI5mze+plW+PqPVnU7jO+lycm4y/7IxdMXyi/gy3HSjkteXRYjbd9fkknuzN+CChxjR2DcRtp6Km3rl7Lt/dPZAqB1tc7593bBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-5174db4e34eso3728499e0c.0;
+        Tue, 21 Jan 2025 01:06:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737450358; x=1738055158;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=h0F66BpcncnDZq8+yac2PqIUMY5KsLdGVzSelKc0x5s=;
+        b=Er8/myQPK5LAiCleYF1WXqeeeO8v8xh+oPFY44tcZzNUjasWL2QmiKg6mFzgWiOfo/
+         Qa7sRJvgCZ4AIXWLQ/O+huvHeyfuIzU5Ev+nN1hf7BjnLYXIeu0QIf0IhOyrQNUyEkGd
+         lZI4cYNtTnJRLFb7jsqAp+c7rw7I91esMdst5nwsdRuAF6iG7x44FjVHP84oOb7P9YPh
+         NH/Ogn7WoawjQuJ5cWptieO93cKpmbjtk/ZCuq+qiVx8zwp8BWGzYAzBmmM9RYz1lh94
+         DRPhe8eQYe/4SpSQXexEG4YhiBSLONt36tNp1B7ECAdYOOnm7RzbedIiTjnKNXpqdPxV
+         TYog==
+X-Forwarded-Encrypted: i=1; AJvYcCU4NcnCQ6q/dJptafIEts5Q9bGk+/n3aIZiKLFh8ml4oz9evgr1q8rWlvSnWdowYnzoRPZPDsiV3p/1zBuUZIs=@lists.linux.dev, AJvYcCVQJsQHkHxbM67KoFSKNDiKYqoB89A/SUvSrwpIU6cwdpyEL7xEvOpI6q1giuTkCbpHHBQ=@lists.linux.dev, AJvYcCWcwZ4No6qif28NEwgQwAkYyM60u2XXaW1N1pY2O++utfZFyPLcowfBum2ZaqBtfC2mlJfxdZi+dMwm7Jw=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzpx+ZR8HUhDvcrAyT1KtAJUT/QYwyDkyzpbiHXe6IuUHEUVKZG
+	PCOkp41XLLnB25756Ci+tyW5dBPKhiMSYQ9sm+dOFsb0eKVVj/gYPQEODHBL
+X-Gm-Gg: ASbGncscOu/1HokEyvL3kysuUOAUYH+AZemRl97vvc3TQi1lo76HOo/yHpW24yYN1sm
+	M4HcSVUp9RfBV02P6adFJjB1LJjobaMl4CcNOpMT5E6LHGO+IjcmPIj+OCzRV5wACNo9uOST5e8
+	QymTkoApzq0TZC+ko514jRVkiEp5y15Qi1RVbhfHiwuDojCMtBKmdXQdkjljU8KTdzfJfZx2qQ8
+	wPqEJBi24sbczH29qwV7TlTaAo8yyrBfK25gnhgMotCQdCJ+sEFiUEWhrfkk0JrL3G1O/t+nNov
+	znoiIyU+JSLupOVLE2Dde1zoVOqwOgCQPiDb
+X-Google-Smtp-Source: AGHT+IFfnzb4EAnx7CL0V9eoVMvrJbnBHxXC87haB6esuuzHQ68A/+dyGpSrIgilZ+sAB7xcu/Rn5g==
+X-Received: by 2002:a05:6122:4885:b0:516:1e32:f8c7 with SMTP id 71dfb90a1353d-51cd9453af7mr22136678e0c.0.1737450358425;
+        Tue, 21 Jan 2025 01:05:58 -0800 (PST)
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com. [209.85.221.175])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-51cf56ef34dsm1715847e0c.39.2025.01.21.01.05.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Jan 2025 01:05:58 -0800 (PST)
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-518799f2828so2848421e0c.0;
+        Tue, 21 Jan 2025 01:05:57 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUO3bARZQJvyl4oxcTOtGYQ3DKSmjQtKBzhO0wqWPN2r1LOKs+vgYdP8Pqv8nFY0Dwbkyo=@lists.linux.dev, AJvYcCUkJgzVp/q2ZFzsqYF3Gz8XOENQgH9V3Eud78TI5alqYCGuQlDCrQb5p+2DLGb8+AVVaH7mug1LsIiN97w=@lists.linux.dev, AJvYcCVkZvuYap4rikUu/DG91jH033i/FUDPHlKzs1kyac7cPizNRM6cItxwi1dUTPpflRwyBcDQWwsobxn6thtaLbo=@lists.linux.dev
+X-Received: by 2002:a05:6122:1783:b0:517:e7b7:d04b with SMTP id
+ 71dfb90a1353d-51cd983d39emr19246646e0c.5.1737450357663; Tue, 21 Jan 2025
+ 01:05:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20241214-drm-connector-mode-valid-const-v2-0-4f9498a4c822@linaro.org>
+ <173624946815.1500596.321177900833598022.b4-ty@linaro.org>
+In-Reply-To: <173624946815.1500596.321177900833598022.b4-ty@linaro.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 21 Jan 2025 10:05:45 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVwcaY2Fgpf7GYhBrE5B+AEg=v0BH4OjMXgnp=wqjxmKg@mail.gmail.com>
+X-Gm-Features: AbW1kvaysGolt62WeN4DkS2DNKlSt5oN-0lBeK1j4PwxsWLIrFBPjsQ9bnC7ZcA
+Message-ID: <CAMuHMdVwcaY2Fgpf7GYhBrE5B+AEg=v0BH4OjMXgnp=wqjxmKg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] drm/connector: make mode_valid() callback accept
+ const mode pointer
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>, 
+	Danilo Krummrich <dakr@redhat.com>, Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+	Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Alex Deucher <alexander.deucher@amd.com>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Xinhui Pan <Xinhui.Pan@amd.com>, Alain Volmat <alain.volmat@foss.st.com>, 
+	Raphael Gallais-Pou <rgallaispou@gmail.com>, Liviu Dudau <liviu.dudau@arm.com>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Peter Senna Tschudin <peter.senna@gmail.com>, Ian Ray <ian.ray@ge.com>, 
+	Martyn Welch <martyn.welch@collabora.co.uk>, Inki Dae <inki.dae@samsung.com>, 
+	Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, 
+	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+	Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+	Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, Sandy Huang <hjc@rock-chips.com>, 
+	=?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+	Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Samuel Holland <samuel@sholland.org>, Thierry Reding <thierry.reding@gmail.com>, 
+	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Gurchetan Singh <gurchetansingh@chromium.org>, 
+	Chia-I Wu <olvaffe@gmail.com>, Zack Rusin <zack.rusin@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, intel-gfx@lists.freedesktop.org, 
+	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org, 
+	amd-gfx@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+	virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org, 
+	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	Jani Nikula <jani.nikula@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 20 Jan 2025 12:21:28 -0700
-Simon Glass <sjg@chromium.org> wrote:
+Hi Dmitry,
 
-Hi Simon,
-
-> On Mon, 20 Jan 2025 at 09:42, Jernej =C5=A0krabec <jernej.skrabec@gmail.c=
-om> wrote:
+On Tue, Jan 7, 2025 at 12:31=E2=80=AFPM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+> On Sat, 14 Dec 2024 15:37:04 +0200, Dmitry Baryshkov wrote:
+> > While working on the generic mode_valid() implementation for the HDMI
+> > Connector framework I noticed that unlike other DRM objects
+> > drm_connector accepts non-const pointer to struct drm_display_mode,
+> > while obviously mode_valid() isn't expected to modify the argument.
 > >
-> > Dne nedelja, 19. januar 2025 ob 23:25:30 Srednjeevropski standardni =C4=
-=8Das je Andre Przywara napisal(a): =20
-> > > On Sat, 18 Jan 2025 08:21:31 +0100
-> > > Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
-> > >
-> > > Hi Jernej,
-> > >
-> > > many thanks for the review and your opinion.
-> > > =20
-> > > > Dne petek, 17. januar 2025 ob 02:45:31 Srednjeevropski standardni =
-=C4=8Das je Andre Przywara napisal(a): =20
-> > > > > Some of the X-Power AXP PMICs can be ordered with an alternative =
-I2C
-> > > > > address, for instance an AXP717 could be shipped with address 0x3=
-4 or
-> > > > > with address 0x35.
-> > > > > The datasheets for the AXP717 and AXP803 list two possible addres=
-ses,
-> > > > > and they are always consecutive. For DM (DT) based drivers this i=
-s no
-> > > > > problem, but the Allwinner SPL code relies on a hardcoded address.
-> > > > >
-> > > > > Add a Kconfig variable that will add "1" to the existing address =
-if it
-> > > > > is set.
-> > > > > This enables to use the AXP717 as used on boards with the new All=
-winner
-> > > > > A523 chip.
-> > > > >
-> > > > > Signed-off-by: Andre Przywara <andre.przywara@arm.com> =20
-> > > >
-> > > > This works until some board vendor start mixing one or another addr=
-ess
-> > > > PMIC. Note that BSP boot0 does address autodetection, so it's not e=
-ntirely
-> > > > out of the question. Anyway, let's hope we don't see anything like =
-that. =20
-> > >
-> > > I looked at the datasheets for all supported PMICs, and they either
-> > > state one or two supported addresses, in the latter case both
-> > > consecutive. Autodetection sounds nice, but also unnecessary: we sure=
-ly
-> > > know what address it is for a certain board? And with those A523 boar=
-ds
-> > > having two PMICs, autodetection might become sketchy, as we don't know
-> > > for sure which PMIC we got? =20
+> > Mass-change the DRM framework code to pass const argument to that
+> > callback.
 > >
-> > Speaking for T527 BSP boot0 - they check version register to make sure =
-that
-> > correct PMIC is installed.
-> > =20
-> > >
-> > > But that got me thinking: what about putting the I2C address in Kconf=
-ig
-> > > directly, with defaults depending on the PMIC type?
-> > >
-> > > config AXP_I2C_ADDR
-> > >       hex "AXP PMIC I2C address"
-> > >       depends on ARCH_SUNXI && !SUNXI_NO_PMIC
-> > >       default 0x36 if AXP305_POWER
-> > >       ....
-> > >
-> > > That's should work seamlessly for all supported PMICs, and we just ne=
-ed
-> > > one line for the Avaota, same as with this patch here.
-> > >
-> > > What do you think? =20
-> >
-> > Yeah, looks more universal and avoids code changes in pmic_bus.c when
-> > adding support for new AXP PMIC, which is very nice indeed. =20
->=20
-> Shouldn't this be in the devicetree?
+> > [...]
+>
+> Applied to drm-misc-next, thanks!
+>
+> [1/5] drm/encoder_slave: make mode_valid accept const struct drm_display_=
+mode
+>       commit: 7a5cd45fab0a2671aa4ea6d8fb80cea268387176
+> [2/5] drm/amdgpu: don't change mode in amdgpu_dm_connector_mode_valid()
+>       commit: b255ce4388e09f14311e7912d0ccd45a14a08d66
+> [3/5] drm/sti: hda: pass const struct drm_display_mode* to hda_get_mode_i=
+dx()
+>       commit: 5f011b442006ccb29044263df10843de80fc0b14
+> [4/5] drm/connector: make mode_valid_ctx take a const struct drm_display_=
+mode
+>       commit: 66df9debcb29d14802912ed79a9cf9ba721b51a4
+> [5/5] drm/connector: make mode_valid take a const struct drm_display_mode
+>       commit: 26d6fd81916e62d2b0568d9756e5f9c33f0f9b7a
 
-It is, and the DM based I2C driver used in U-Boot proper does this
-properly, and works fine. But this here is for the SPL, where we don't
-have DT support. We need just minimal support to adjust the regulator
-for the DRAMs. So far there is one fixed address used by each PMIC, so
-this is simply hardcoded, based on which PMIC is selected. The patch I
-am now proposing (snippet above) just moves that hardcoding into
-Kconfig.
+I cannot find these in drm-misc or drm-next, but they are in drm-tip?
+The last one due to commit 2bdc721917cf141f ("Merge remote-tracking
+branch 'drm-misc/drm-misc-next' into drm-tip").
 
-Cheers,
-Andre
+What am I missing?
+Thanks!
 
+P.S. Sima: noticed while resolving a merge conflict using drm-tip. Thx!
 
+Gr{oetje,eeting}s,
 
-> [..]
-> Regards,
-> Simon
->=20
+                        Geert
 
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
