@@ -1,127 +1,116 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53F191CAA78
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 Jan 2025 22:58:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0F3E1C3C1A
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 Jan 2025 23:23:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737586691; cv=none; b=Rs7s4rRugOWEBKVMGjOdn4N9kW5GH9IJ8FQaF83mNzXcHBEFE9GETcVsuoVj/CsxbVzFIRGMh8QoZzUyYnbFoxuXxtDS5wXv384t3WH+5uLiYE2n4mymDD5i2IHXRoRBfyIoYAAzXrUyVVJ+v9881CpOfdbJrwlc/TrRH1OwUJU=
+	t=1737588229; cv=none; b=rRsYSbLEAjBq7I+wqDU+I3drYWohcWlo7p/UyQPDADUKBVHdn2LEb1gTzw7koQ35yOX8OHuKdU4i9tN84+FjTXAXIBetgLTfnkVTpGWdtcHR6Q0N4SxkrMxWQHIyWL0kUS+b6iNEnslsdZFa4AQKJ4a8r4NLZXEESI71S5sqjvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737586691; c=relaxed/simple;
-	bh=XnI1poJQc8O5qaUJnfVt25oXI1SQjL+/Lx12G7Eytt8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kzeUYhtn38S0/3NlIcV1diA0Ly1rUtaaha+tMs2IvRPeNfVRyg9DBwHqxMN9YRE4QZzTksT8g4CLXh8CljmQTHyWMav6cleYqyDelpnNEQSzl/DpVeiwL/8IXOALSQO7trFd4N6n/77OAaUfq7WmqKp7L5oiSTJuT7SZOfaQ7So=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GsDXo1mX; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1737588229; c=relaxed/simple;
+	bh=PQ9ID+y+HYqvdGcyA/HuZ8MXuYAda/StiIy444/tIYw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=iLCcpPKoEFXoYaOOpsNJDePmx05TLqCcu21P/BRQzEhQEg9T9505XV8PCtMZwJx990ExYfYGrwdn8WIGeh4g2rusho1TLGjf6egi2uB9UxIwHLEKwOqjc0KWqrQpBSmU3JlnNnsNBB7nFRX63WRzbB+2cmYRZl85GyCa0d9ruZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Um2U5XD6; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GsDXo1mX"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-43624b2d453so2797965e9.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 22 Jan 2025 14:58:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737586687; x=1738191487; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jqVF0cBTijRuq0m7GTGEM8FFP9eJBtgNqw9jRV9T5lo=;
-        b=GsDXo1mXvfcGGpT2fcRmR87QL9cw6e4hf9q0lcHNqJxGbZ6abam779XgS2paExbrcf
-         VvVgJNStM9DEsAEACSPaKyD8eCfpnAgAb3DrBlE5J7uuxMe077I97j22cFa9HEo5NyEK
-         9MS8uHsRpHiDwYn3eNFXR7A69ayW1ji1xgQ3hu7ZzU6huBa0e+6wyj9HvmOuAPyGBgbv
-         j32dj0C++xlFBc3wL/PvjWkJ5TCA6Hz+R9fsOl6xjZ9opSYOuRNKZt2bv7RnBQaSS82a
-         jXrTOckhiNxZsOXvoKooFk745ym77Yv0Kgz8ascezWjm8C6CzmFDjlNi9WHiuB8niV6C
-         9gTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737586687; x=1738191487;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jqVF0cBTijRuq0m7GTGEM8FFP9eJBtgNqw9jRV9T5lo=;
-        b=C6CzWcdfE1q6bivIpUZq9KKDuy4POB69zNZBiNLtelVAXj+vPp+Z3FXmhZIHijkSqG
-         yr35OOpd1Zf5op3i7XySAyLCIM272kdhs2GsCzn6+WIB6NncQJZz7hbIdvnXOJUP4wDM
-         XQhNq1HaLRe7Wd7xkUTXMg66dwVBen//KgsKhTKQdad+vI2AW3qIOfBGbWaXs48BLAi9
-         nBvos178TCCian6L/2Bc8skclFl3w8PE+G0ppoh/3iluXqIfb/jtr4yDGqgX4YCcSbGb
-         vml/6HfuwWJ0YxaAOxmWHwUrCuYn7wdEpSQcjq+vkI6IPc/9BnzRJvHFiJwC84sVueJ3
-         qaQw==
-X-Forwarded-Encrypted: i=1; AJvYcCXIQhOOpz4EYLaANz0X+RzqOLH1ADZpw0EKMeBOR0dZKm6Pkdd5VX/hZkZfykaMf9ShAZlCsiQFzBN/tQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwVtt9+yLvEmgMFbcbAqVBCh774cSg8G4hSN2mUDUNQ2s1/n0Df
-	22q8oyEtV53sxaZVcZJr8xCHPQZY5xvMli+3SqmNqaeIiqYY5CZe
-X-Gm-Gg: ASbGncuaDORYGTCmSFBNjsq3sgF+xhfCiPjzxS4o2VYvKgStZngQ2UzUKagqRoy7OqY
-	zJhMhaL7Moz2lsXOd1tTTRdZ4oWeEnO/L/fp98Fo59GtocN7jOdDxKe3iYy5GvyxGf13iJgWWw1
-	n9PRVMcW2/HcQ6Kq5vS/0/enfEOmEnBOUnejmsA6pOqqo3eto9pLxf4r2RDvYpZ5V05laLgvMMS
-	gew3TqWNdn7nstAv/cj0ZV3QlkdHuygd0JHe2DuBFYof8mC77O1zNaYjBm+4zZ6GjcLX9Wrtobc
-	+huZreHMDPlRSMy/VsLPgSsuqXz65oIr
-X-Google-Smtp-Source: AGHT+IEQnQhWcYcYLwtPUsp3QOoc70eLrq7vJCaIVuPYRH/ywGliFi/4zTlOAPB9XOacsMLy93f4rg==
-X-Received: by 2002:a05:6000:1f88:b0:385:fd31:ca23 with SMTP id ffacd0b85a97d-38bf57a7797mr24374385f8f.40.1737586687462;
-        Wed, 22 Jan 2025 14:58:07 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438b31df412sm40115765e9.36.2025.01.22.14.58.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jan 2025 14:58:06 -0800 (PST)
-Date: Wed, 22 Jan 2025 22:58:05 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Anastasia Belova <abelova@astralinux.ru>
-Cc: Emilio =?UTF-8?B?TMOzcGV6?= <emilio@elopez.com.ar>, Michael Turquette
- <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, Hans de Goede <hdegoede@redhat.com>, Maxime Ripard
- <mripard@kernel.org>, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
-Subject: Re: [PATCH] clk: sunxi: add explicit casting to prevent overflow
-Message-ID: <20250122225805.2ba6a062@pumpkin>
-In-Reply-To: <20250120084719.63116-1-abelova@astralinux.ru>
-References: <20250120084719.63116-1-abelova@astralinux.ru>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Um2U5XD6"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50MGpaE4004030;
+	Wed, 22 Jan 2025 23:23:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	PQ9ID+y+HYqvdGcyA/HuZ8MXuYAda/StiIy444/tIYw=; b=Um2U5XD6HENLY6Va
+	PQ/7Zee4uMIm2K5uJ68ivcvwIAnr6h5XRGJgLLX0Eaq1Gf8IukTMAwtOBZm6toFO
+	v1a2UA/4CC7w5k5tylnhPm9o7HhtkmI9wIXDz/9mGZUCYFXqlaKNlN3nz/pWNaIm
+	uBBy8YvJmR0FycamItBe9an9EGQdYSfVrywjY+260lxhYhS6JAqE8ohBtQ6SkiQU
+	ZbnK91SybUy2Lns4g9E6JexZtlTUoVY4ucMlWg48hvnzo0HrLDafyWh+BBBbR5x3
+	8TRJDH7js2jdCzQd1oZlCG6/iaAeKSkrcIECGY98iVQ0AOZn41z/KqDpdd/d45aA
+	Bgts9g==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44b4jm0s1t-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 22 Jan 2025 23:23:33 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50MNNWJQ007045
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 22 Jan 2025 23:23:32 GMT
+Received: from [10.81.24.74] (10.49.16.6) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 22 Jan
+ 2025 15:23:32 -0800
+Message-ID: <36af1162-cd43-4045-bb43-b8bbf44f9788@quicinc.com>
+Date: Wed, 22 Jan 2025 15:23:29 -0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 05/12] clk: sunxi-ng: add CCU drivers for V853
+To: Andras Szemzo <szemzo.andras@gmail.com>,
+        Michael Turquette
+	<mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec
+	<jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Linus
+ Walleij <linus.walleij@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Maxime Ripard <mripard@kernel.org>
+CC: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Paul Walmsley
+	<paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou
+	<aou@eecs.berkeley.edu>,
+        =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
+	<u.kleine-koenig@baylibre.com>,
+        Florian Fainelli
+	<florian.fainelli@broadcom.com>,
+        <linux-clk@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
+        <linux-kernel@vger.kernel.org>, <linux-phy@lists.infradead.org>,
+        <linux-gpio@vger.kernel.org>, <linux-pm@vger.kernel.org>,
+        <linux-riscv@lists.infradead.org>
+References: <20250110123923.270626-1-szemzo.andras@gmail.com>
+ <20250110123923.270626-6-szemzo.andras@gmail.com>
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+Content-Language: en-US
+In-Reply-To: <20250110123923.270626-6-szemzo.andras@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: 0rtJg0pCT2kcaINT24J2xEvyArlsT86f
+X-Proofpoint-GUID: 0rtJg0pCT2kcaINT24J2xEvyArlsT86f
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-22_10,2025-01-22_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 impostorscore=0
+ spamscore=0 mlxlogscore=922 priorityscore=1501 phishscore=0 mlxscore=0
+ suspectscore=0 lowpriorityscore=0 adultscore=0 bulkscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
+ definitions=main-2501220170
 
-On Mon, 20 Jan 2025 11:47:16 +0300
-Anastasia Belova <abelova@astralinux.ru> wrote:
+On 1/10/25 04:39, Andras Szemzo wrote:> +module_platform_driver(sun8i_v853_r_ccu_driver);
+> +
+> +MODULE_IMPORT_NS("SUNXI_CCU");
+> +MODULE_LICENSE("GPL");
 
-> If n = 255, the result of multiplication of n and 24000000
-> may not fit int type. Add explicit casting to prevent overflow.
-> 
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
-
-You need to read and understand the code before writing any patches.
-The '>> p' and '/ (m + 1)' are both just conditional 'divide by 2'.
-So can be done before the multiply.
-Since req->rate is 'signed long' and the value is a frequency it is
-only just possible that it exceeds 31 bits (and will be wrong on 32bit
-builds - but sun-9 might be 64bit only?)
-
-In any case it would be sensible to force an unsigned divide.
-So perhaps:
-	unsigned int n = DIV_ROUND_UP(req->rate, 6000000ul);
-	...
-	req->rate = ((24000000ul >> p) / (m + 1)) * n;
-
-David
-
-> 
-> Fixes: 6424e0aeebc4 ("clk: sunxi: rewrite sun9i_a80_get_pll4_factors()")
-> Signed-off-by: Anastasia Belova <abelova@astralinux.ru>
-> ---
->  drivers/clk/sunxi/clk-sun9i-core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/clk/sunxi/clk-sun9i-core.c b/drivers/clk/sunxi/clk-sun9i-core.c
-> index d93c7a53c6c0..70fbd7390d96 100644
-> --- a/drivers/clk/sunxi/clk-sun9i-core.c
-> +++ b/drivers/clk/sunxi/clk-sun9i-core.c
-> @@ -50,7 +50,7 @@ static void sun9i_a80_get_pll4_factors(struct factors_request *req)
->  	else if (n < 12)
->  		n = 12;
->  
-> -	req->rate = ((24000000 * n) >> p) / (m + 1);
-> +	req->rate = ((24000000ULL * n) >> p) / (m + 1);
->  	req->n = n;
->  	req->m = m;
->  	req->p = p;
+Since commit 1fffe7a34c89 ("script: modpost: emit a warning when the
+description is missing"), a module without a MODULE_DESCRIPTION() will
+result in a warning with make W=1. Please add a MODULE_DESCRIPTION()
+to avoid this warning in all of your new modules.
 
