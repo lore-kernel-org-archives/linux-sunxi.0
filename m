@@ -1,124 +1,176 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46BF315AF6
-	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jan 2025 08:58:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5460E13C9D9
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jan 2025 14:37:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737622712; cv=none; b=KLUxr1BqHEqDmGEP1COJgUPmLue6ORM4sJd8NsQcYWOY81ahB3spnO564HxfjBH/aTNOMIPNrjPYW3xAZYKCWNPt8p/bnOhAQCbiibCPEDfho1BfA0JdmBVg4bMYN8qNoOq5R3v0h6uFBRupwZbi3gAhLFCPujXkCbs24Ht5/oE=
+	t=1737643081; cv=none; b=KsNiGstkDS4SvEf2x6811lnfS/DRjS9EqiR5XNboOqbD/IJPOtUJu9N3cGsKi+aqgbenSggNBD3vrr23I40N9IyGKYmPUPfXzB1pAe76E1tTuFLkMpGFLWZgeJXPZQ390rIez8Ok/Ffd69xyc5vMftt8RPlcJVrDkDyZUCQ+Cy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737622712; c=relaxed/simple;
-	bh=HkyeRQ66zp1oc6NXegGG+5zPV8GgPQJyFzgH5zMyigE=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=q7D9bM2jwpCv1Zw7HLbrJp1IptI1z8hQj/wceh5Kn894BrG2bRws/r3eTWWlB7NHgaX2SJLDswA/DLLd4zKy/Yt+tNK0+jW0QQGaG3Cyt32GXqFuRiR3fSxYdYilVnmtO7t35i/F+/I/SUqPK1Vnoevpo5vpvve1I2FEZBFSy8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WiOq3KBu; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1737643081; c=relaxed/simple;
+	bh=v4hf03EM6VfdMy5VTtB5nbJsptmv+uC2RJldvcUWlzU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VdIIG8ROuqFuR89FT/mpE4D+CtwBNUwCGKtgBMDwQqMM0Mz4mpJr7EGyxA+tEaIRVLWymGeYkAbCrCNTlXFCDX/7DLaOK3u9JzsYMMsHJcmVHZkKPSRo+3TZfThIqnyQ38P95ghbWMzpok0G1CrfofRsF7XnLPLPqgMd1LRpC/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=CWVnZ+1s; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WiOq3KBu"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-38a8b35e168so438968f8f.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 23 Jan 2025 00:58:30 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="CWVnZ+1s"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ab2e308a99bso197353366b.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 23 Jan 2025 06:37:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737622709; x=1738227509; darn=lists.linux.dev;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+        d=chromium.org; s=google; t=1737643077; x=1738247877; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HkyeRQ66zp1oc6NXegGG+5zPV8GgPQJyFzgH5zMyigE=;
-        b=WiOq3KBu389olrI97I7eFMNrqkqay8Up2OKu8k3wJj9rT/PFEQ+3MbyeA4DW50Rd9g
-         ZscvzoPyeHeLmr0JOop4tJO940ONiDxhKeqWDHJg32AGYiVVf4LZJObgx99ffpN3/axO
-         0QXAX4yYqnzp5yfuavxDPKe3KcNTlTKLeKg98CpgnbrIZfFuQs1ZFz1oaEcuwGHjVmHD
-         1IYuJFHLC9F135a6+XEcwi4wlzf3bSfWVEwzCPncGoEexQUs8rP8oJoA+f62FL+sAP1P
-         mk2gNO6ChU4rGFTtuCI9YbrxzhaQU69CI10sUqhDMmCyRxI1Il/48Zj0cOZpzDQ0eUvt
-         ZrPQ==
+        bh=vNJxby0fdzs+xbLUe+PsRRCOK2l4gyEDJNOl100PK4s=;
+        b=CWVnZ+1sObv1yPFJbhEJOHGXIAlhrcVBP/RZqCIBdESIzb+1WgMyJN0GdUTYZ7wcz1
+         IinhsxUHOJ4eozAPbcL+Vw8wOkSazmtuXHLxCdE1jz/u68VQHWPsNwf1qvJ9u+y5aFJp
+         Ggq9tB/UiKEBb7Uj0bzVBTuuXtIr5CiEphILU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737622709; x=1738227509;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1737643077; x=1738247877;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=HkyeRQ66zp1oc6NXegGG+5zPV8GgPQJyFzgH5zMyigE=;
-        b=rrSYwM2AlCBnO0/agY6s5QyNAx4rBuL6uiPsEmCf0/7suf3ilqaFaZBGVb92ZEPzeQ
-         7jvDMQjvRBznMe/B3+aEz7+0VbxaSxQb0hUPLRaCWxOj5GEmtLwcsXlpgkbC6WjSojRW
-         D1/vK5wpCrztndy0BdmV78qPBgo++2fkvOLtDndfnbbv9/4o6u1dE/BytHwj/A/XRN1I
-         QN7tMwEzuv9SpPa5jyYcEimGx8pxDYMQ8FyYI+2pU6vxKvJA9B8JCTqA+AI7PenP3gu3
-         vXWOLJOvgSxncNaA1ZY8WacOlOL62bozBsX8pzAnjHIgYlJ9SpeMa8Wou1kSObe15ska
-         l6Lg==
-X-Forwarded-Encrypted: i=1; AJvYcCXZftHFvm3kpJIz5aWTVaCKfnt9xNY+7ScuNZ/IRBFJIaLmBjE36lD62ADwWwZUsT6V23PSiD16rDP5ww==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzqywKHQel2wt2txfs9mrBWrPCLmgoJiycnfd0Clud0bqFib8E+
-	fis8tChZN9beFb92/PUG499M1oJiyqrNGg5D83u0h08DTs0925Rh
-X-Gm-Gg: ASbGncvWo7nVT8y8ieJqnJD7zYSs2/iRVrROvj1jLxplgxZzHIOrMowcBpBfvDMGZ1s
-	W2vzs+sddJ0N5wsRrT+bRoXgDbi3xnT/KC1PPmQBQq3Zuf+AHyG7J8kS3+RfM9cNgdUYwR876TP
-	pAjHBdxhn9TDWctLELQyvV8JxFgEwgmod1AozEeV0xUsbmJRtixFocZfE1/ARa3Kw1p77Mov5cE
-	KxS7JYVP5ncXNux42jPLxbssX4NI2U9asSjGaX/E9+2zu4yVcn+1LvkY8g60AumyyQ2QUEfrTE+
-	9D9fDeG8Tm9ADtlbrJumOz5vwSP5hQVMsDIl65Q9KMo=
-X-Google-Smtp-Source: AGHT+IHc1t5fGPvcthsivd2P9fI8/r4mtQiSRE3tXH+2jfQUvFcq70i0y1FajJPpW7lEuohcXqidQg==
-X-Received: by 2002:adf:f8c5:0:b0:388:c61d:4415 with SMTP id ffacd0b85a97d-38c22275647mr1806903f8f.18.1737622709399;
-        Thu, 23 Jan 2025 00:58:29 -0800 (PST)
-Received: from smtpclient.apple (185.174.17.62.zt.hu. [185.174.17.62])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38bf322236csm18793946f8f.39.2025.01.23.00.58.27
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 23 Jan 2025 00:58:29 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
+        bh=vNJxby0fdzs+xbLUe+PsRRCOK2l4gyEDJNOl100PK4s=;
+        b=DX73T4HNcaJ9tbwnWhFZu/+6MN9v9yJOc73CyfBzMfdFkFZlVTz97QpzFUTxlt4Yyj
+         kl6xJZY9o7aWq1M0pIxxytnKrAY6kADvUwRPd59PaR/Mo4qiA6KJTvgR2/C06dXde8IP
+         GIFN0HD/fEHNc8FI5J59drOe31joddlG6lPHIepraY+4lPHGc2wGgSswWgzWYOYCQKDY
+         D1GUTt5ReUd8PiCSdYfSWQgXpsE+OZoI4HzYkAsdxsdF317x8i95N2F+S8MtNgjzsqhc
+         uznzsu5JkRmiWwtNx8VS5q+Kp387q0lt8l6dZxe5/+4W0lLVL8wRLcsiNKgGUuHdShWR
+         /XUw==
+X-Forwarded-Encrypted: i=1; AJvYcCUBd05Mf8GST6zX2W6tmEJCwwlvKgvwcsKMexpeM6dSVVEdq1JGKKvpqYudid0L/NJvVREaJf/RKij8zg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxwYwsZ1rhSovC9PwVbv6I9sC96eKkOML6Neqz+LIop+gGllaUj
+	P6g6a3QpmQ2d9WaMMvW29YpguoWMW5eCNxBFUQloQChk/j7oBWo+YgL4jn9Up4E45uw4qHt67D3
+	/4KpQnI15IvgVkKOzKNzyXEkXkzIqxpMhHov5
+X-Gm-Gg: ASbGncurZ7wEzhPYTux+/0IRJYrA7NJ1PEAYdFivBJvdglNOtInJLYZm19myugSmJIU
+	L3+d0NXhNIc4mYyxMy6Q043+Gjh8bAnbGynrZ3PNQ3Us4w4BDshKtDikUySOhKog=
+X-Google-Smtp-Source: AGHT+IFdk1f9qOov+yfq1lcd1/rMNC9Ck0JFjhXOdIsS6isQZYf+dUpplD+hsv3DKDoj9KgWVnq9SdxxVZKq3crJtUI=
+X-Received: by 2002:a17:907:7f1f:b0:aab:a02c:764e with SMTP id
+ a640c23a62f3a-ab6629c61c4mr311370866b.14.1737643077007; Thu, 23 Jan 2025
+ 06:37:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3776.700.51\))
-Subject: Re: [PATCH 05/12] clk: sunxi-ng: add CCU drivers for V853
-From: =?utf-8?B?QW5kcsOhcyBTemVtesWR?= <szemzo.andras@gmail.com>
-In-Reply-To: <36af1162-cd43-4045-bb43-b8bbf44f9788@quicinc.com>
-Date: Thu, 23 Jan 2025 09:58:17 +0100
-Cc: Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Maxime Ripard <mripard@kernel.org>,
- Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Ulf Hansson <ulf.hansson@linaro.org>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>,
- =?utf-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org,
- linux-gpio@vger.kernel.org,
- linux-pm@vger.kernel.org,
- linux-riscv@lists.infradead.org
+MIME-Version: 1.0
+References: <20250117014537.22513-1-andre.przywara@arm.com>
+ <2352334.ElGaqSPkdT@jernej-laptop> <20250119222530.1fd97018@minigeek.lan>
+ <4622391.LvFx2qVVIh@jernej-laptop> <CAFLszTjDq4E05Q_esYA2tAGOYdhgbRp3B38gAsF0hX44Nf-34A@mail.gmail.com>
+ <20250121000508.22db819a@minigeek.lan>
+In-Reply-To: <20250121000508.22db819a@minigeek.lan>
+From: Simon Glass <sjg@chromium.org>
+Date: Thu, 23 Jan 2025 07:37:37 -0700
+X-Gm-Features: AbW1kvbsJlKKxvNpkzDdpPJMO_K3dpWam2d03x2L94NeiNAqJvL3guVXg4jgBo0
+Message-ID: <CAFLszTg95xH08bVt_LnVO=Gu+dEQh1+vNAszxQv5a6Rdt3u8WA@mail.gmail.com>
+Subject: Re: [PATCH 2/8] sunxi: pmic_bus: support alternative I2C address
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>, 
+	u-boot@lists.denx.de, Lukasz Majewski <lukma@denx.de>, Sean Anderson <seanga2@gmail.com>, 
+	Jaehoon Chung <jh80.chung@samsung.com>, Tom Rini <trini@konsulko.com>, 
+	Cody Eksal <masterr3c0rd@epochal.quest>, linux-sunxi@lists.linux.dev, 
+	Parthiban <parthiban@linumiz.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <266DB665-67E8-40FA-8BE6-E7F82955BAEB@gmail.com>
-References: <20250110123923.270626-1-szemzo.andras@gmail.com>
- <20250110123923.270626-6-szemzo.andras@gmail.com>
- <36af1162-cd43-4045-bb43-b8bbf44f9788@quicinc.com>
-To: Jeff Johnson <quic_jjohnson@quicinc.com>
-X-Mailer: Apple Mail (2.3776.700.51)
 
+Hi Andre,
 
-> On 23 Jan 2025, at 00:23, Jeff Johnson <quic_jjohnson@quicinc.com> =
-wrote:
->=20
-> On 1/10/25 04:39, Andras Szemzo wrote:> =
-+module_platform_driver(sun8i_v853_r_ccu_driver);
->> +
->> +MODULE_IMPORT_NS("SUNXI_CCU");
->> +MODULE_LICENSE("GPL");
->=20
-> Since commit 1fffe7a34c89 ("script: modpost: emit a warning when the
-> description is missing"), a module without a MODULE_DESCRIPTION() will
-> result in a warning with make W=3D1. Please add a MODULE_DESCRIPTION()
-> to avoid this warning in all of your new modules.
->=20
+On Mon, 20 Jan 2025 at 17:06, Andre Przywara <andre.przywara@arm.com> wrote=
+:
+>
+> On Mon, 20 Jan 2025 12:21:28 -0700
+> Simon Glass <sjg@chromium.org> wrote:
+>
+> Hi Simon,
+>
+> > On Mon, 20 Jan 2025 at 09:42, Jernej =C5=A0krabec <jernej.skrabec@gmail=
+.com> wrote:
+> > >
+> > > Dne nedelja, 19. januar 2025 ob 23:25:30 Srednjeevropski standardni =
+=C4=8Das je Andre Przywara napisal(a):
+> > > > On Sat, 18 Jan 2025 08:21:31 +0100
+> > > > Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
+> > > >
+> > > > Hi Jernej,
+> > > >
+> > > > many thanks for the review and your opinion.
+> > > >
+> > > > > Dne petek, 17. januar 2025 ob 02:45:31 Srednjeevropski standardni=
+ =C4=8Das je Andre Przywara napisal(a):
+> > > > > > Some of the X-Power AXP PMICs can be ordered with an alternativ=
+e I2C
+> > > > > > address, for instance an AXP717 could be shipped with address 0=
+x34 or
+> > > > > > with address 0x35.
+> > > > > > The datasheets for the AXP717 and AXP803 list two possible addr=
+esses,
+> > > > > > and they are always consecutive. For DM (DT) based drivers this=
+ is no
+> > > > > > problem, but the Allwinner SPL code relies on a hardcoded addre=
+ss.
+> > > > > >
+> > > > > > Add a Kconfig variable that will add "1" to the existing addres=
+s if it
+> > > > > > is set.
+> > > > > > This enables to use the AXP717 as used on boards with the new A=
+llwinner
+> > > > > > A523 chip.
+> > > > > >
+> > > > > > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > > > >
+> > > > > This works until some board vendor start mixing one or another ad=
+dress
+> > > > > PMIC. Note that BSP boot0 does address autodetection, so it's not=
+ entirely
+> > > > > out of the question. Anyway, let's hope we don't see anything lik=
+e that.
+> > > >
+> > > > I looked at the datasheets for all supported PMICs, and they either
+> > > > state one or two supported addresses, in the latter case both
+> > > > consecutive. Autodetection sounds nice, but also unnecessary: we su=
+rely
+> > > > know what address it is for a certain board? And with those A523 bo=
+ards
+> > > > having two PMICs, autodetection might become sketchy, as we don't k=
+now
+> > > > for sure which PMIC we got?
+> > >
+> > > Speaking for T527 BSP boot0 - they check version register to make sur=
+e that
+> > > correct PMIC is installed.
+> > >
+> > > >
+> > > > But that got me thinking: what about putting the I2C address in Kco=
+nfig
+> > > > directly, with defaults depending on the PMIC type?
+> > > >
+> > > > config AXP_I2C_ADDR
+> > > >       hex "AXP PMIC I2C address"
+> > > >       depends on ARCH_SUNXI && !SUNXI_NO_PMIC
+> > > >       default 0x36 if AXP305_POWER
+> > > >       ....
+> > > >
+> > > > That's should work seamlessly for all supported PMICs, and we just =
+need
+> > > > one line for the Avaota, same as with this patch here.
+> > > >
+> > > > What do you think?
+> > >
+> > > Yeah, looks more universal and avoids code changes in pmic_bus.c when
+> > > adding support for new AXP PMIC, which is very nice indeed.
+> >
+> > Shouldn't this be in the devicetree?
+>
+> It is, and the DM based I2C driver used in U-Boot proper does this
+> properly, and works fine. But this here is for the SPL, where we don't
+> have DT support. We need just minimal support to adjust the regulator
+> for the DRAMs. So far there is one fixed address used by each PMIC, so
+> this is simply hardcoded, based on which PMIC is selected. The patch I
+> am now proposing (snippet above) just moves that hardcoding into
+> Kconfig.
 
-Thanks for pointing it out, I=E2=80=99ll add it.=
+I suppose you could use of-platdata?
+
+Regards,
+SImon
