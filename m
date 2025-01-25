@@ -1,55 +1,55 @@
 Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DD371CCEE0
-	for <linux-sunxi@lists.linux.dev>; Sat, 25 Jan 2025 07:05:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ADE9206F06
+	for <linux-sunxi@lists.linux.dev>; Sat, 25 Jan 2025 07:05:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737788739; cv=none; b=lo08TGrpGsKJYfNCcbArWPhpVxQwMRNuTVJ80lOyBAZ3yJDDVv4PswgD7ALQsXCFyKGVEciFXwH57i15KM3PyzHARLim82K6BCtXMIJmWMEx0D/0ZQyg9DugRS+K8YRUU2SnLqf+Lb0JFAQOBOLvpNiCTW7sjFVlhIWg4HYQENc=
+	t=1737788743; cv=none; b=A/9W9ao1/+1te2u0job/wQz6ehuf/cnxQuFNdVOZKNHsy6rcLC3XtJVYdsP0/DOZNYa9nR6qXhxHh/4o476FguOEz/Qs9Gxrd6NK5p1jtE9fUUvICJbTeVuMjZKCy7+mQI4SIZ5s6MC4Y0A2+BuAc8LU84kpP7T47m3aDt8TEQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737788739; c=relaxed/simple;
-	bh=MIcaOBrKQRO9oR04bL4TozP49mMiwN/hPd2/zT/Yehg=;
+	s=arc-20240116; t=1737788743; c=relaxed/simple;
+	bh=MAIv2p5psUoqy9S+PXVUqW6L0zZf5xVdUiH01Qxp168=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=A9I7qLekhnIX+FrnDhD4Ca26zvWgMYmu850nLkd3XF1OGC+UlvyapmQ9S1M58T2FxXCk1QfHV5Aw5kTba7wj0uVl0PMk2ElVaMcjfqRwWO2AckCWqRZbbU0nlCQp7lvGJQmqm3NdHMXNesqh3ew+1Y2BkNrKWN9pOe7W949Zcqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=HpkQMzUW; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=kjwOkX5T; arc=none smtp.client-ip=202.12.124.159
+	 MIME-Version; b=UvmF88EkihYnL4a1bw0/m7IcKrAPp/RTtIQDRvJgKDXQNTXPRnHa53Sp9Qx9djQ6sDpRrQ/LBznhrWLMllxrGPDXdrPrBeP2rMKiyW9RIX4al/quLXQwEGfwxrH/J9ueJxPJwoRuLsNUUghkrUUVn8N5OE5vwLYk4F6DGifP4qs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=rRdX4bN/; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=h3IwaLEn; arc=none smtp.client-ip=202.12.124.159
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="HpkQMzUW";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="kjwOkX5T"
-Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 0B4B125400D9;
-	Sat, 25 Jan 2025 02:05:36 -0500 (EST)
+	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="rRdX4bN/";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="h3IwaLEn"
+Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id F214A2540109;
+	Sat, 25 Jan 2025 02:05:40 -0500 (EST)
 Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-12.internal (MEProxy); Sat, 25 Jan 2025 02:05:36 -0500
+  by phl-compute-11.internal (MEProxy); Sat, 25 Jan 2025 02:05:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
 	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
 	:from:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm3; t=1737788735; x=
-	1737875135; bh=1IoEO+9R8j8Un9cYoSvY/uysWqLsZR32aOL15xQ72n4=; b=H
-	pkQMzUWRU0IbTI5uVW6Du8Ief0tRebl8KNXKyjp036hksrhAWQfgvuyDQShJEsqo
-	LZEaeJNvx9XewjVe1/kqsIZGC+X0tK8ATuCoeTQjC4p3UvwF4418t23exld/A+Mk
-	tiQO+/h9Qq2lZh91LlYV8q3hkiKYHtyAYEN3wFb5V7pN2n/8HHHA55HD+1M7p7Fm
-	TNHJ3m04eNFiJRkMnRv2WFoFMWEZkzDUpOGIxZqbG/lnqOEYAL8lQRcrde2Af6g9
-	O5tkIdO6lbJ56KGrB5IY0RcBa+eoTVzUo8USsxKymhP4BfNG0R5f2LcWVG+FFNdL
-	Q6MhDsiwHITV+I36c3hyQ==
+	:reply-to:subject:subject:to:to; s=fm3; t=1737788740; x=
+	1737875140; bh=hLsGe+Pf+NJk0N+fJlpAq1eWp/8FyDIG5iZXZV2pPus=; b=r
+	RdX4bN/DWi7OAgkNY45u0kt/vTzPnSMRElz3f/snNFzroo23T7QpXoDswna8W7v4
+	g1BIrX5ZqV0ylVMRQwoIJJ6PYzOYkG1y3cQ7bZZQ1ZW0qN9ZK6IKFMkDk+iEOpEd
+	xOmPryn9S6PMH5YibDzvhUzT4H15AkwKqSE25+K2U3Ws7ZvkdSKypKWB3vYXknbb
+	4UP6FFhjiRGgBmJKEm+vA5CZ3A8FWuwY+2skIlZzZmb+/AdObxTXSz5WvO/ce59d
+	aSFf816T4sfQ0CgIkDCQl5lqgO0RMKQD71+f0lzmI6etbrTaNbFANOzuSmDeKvKS
+	R/Gc0TiCvLnvipZIzT4ag==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm3; t=1737788735; x=1737875135; bh=1
-	IoEO+9R8j8Un9cYoSvY/uysWqLsZR32aOL15xQ72n4=; b=kjwOkX5T+Xdcv5BN6
-	fahiMD6uSdJJdV1G80LTI6uUtbfGeQHGGtopJNXlDgO2bY/HpPYhu7Zsi+2Tt9B0
-	tzUutA5k0ixMV/G4qvHFqAEOM4co+vAcM1j3OF0woZtrJV5E15ZuRabmznklVBLE
-	Sc6za2JkEFTvfzs/nzjHbXCpprMpWjl5CitKvR/N3GswwcslG36gDuWZmWqMrfNV
-	hDndn/2WcqxyFpXa/3mmRLAZ6XOXnOFbg+pCIXVV+yXfi0MAB0DsW1RIueN+dkI9
-	IVSMcqi9zxMk1vQXIsvlBQp1qB1WOR4vGLyTigy3/AUHZvACdsUHyGl8hqTwL2Cr
-	imDTQ==
-X-ME-Sender: <xms:P42UZ7-oNdreVZwqyAlM6DprcfidEtcGIJ0F184dUzKNgYKE1usP-A>
-    <xme:P42UZ3uPfpgH9NsJeX49eGLBaeqUcSA3WBxjksYmxHAB6UNmwRuJBNDo1Y4wrlK86
-    klQb9ajL0PgQrs4rQ>
-X-ME-Received: <xmr:P42UZ5Dxj4lIdWklokx-U2FbvRqKrcFQByyALzdWWqZ7JL_ng5dVVZBrBMge-g_zyQqKulUngu7dN7_2jSGkvPDRdTksFbUU4XBbqWWmXZx6>
+	:x-me-sender:x-sasl-enc; s=fm3; t=1737788740; x=1737875140; bh=h
+	LsGe+Pf+NJk0N+fJlpAq1eWp/8FyDIG5iZXZV2pPus=; b=h3IwaLEnIuyuv7C5Q
+	U3LCLKrd5eRYdJDxjwL7wtS9FUfouzyCvXkyViD0cVPc2Jm0dAQYXGU5p5IsY7iO
+	+4LGtKlug7F51wjVbluzxt2ONqeitZh21vOnEUmpHAIiAWpbGlHroDnhddQMwgwY
+	1NYpyFAYSlLX76XrDjoH3sxt3qXysKIeUnkTzSMGGj1l2Iq53lwLjSKBWaNnPUkn
+	W/xi8vPcxJbCmBR5Y+OqoTMgi01gPzI9NtlfD/e+/OHVe+6eIQj1MACU8m/4hbt4
+	V0QytVuLoE2ARvqEBhUE2P8YLZw2lnXR8nJ++fMaPfk3lckSyqJRnMYoUkF1dT+J
+	5TdOA==
+X-ME-Sender: <xms:RI2UZ3ink3SxpTGbKRgZn3I8uXCwe6-qsdjWdYO9zrqqLLs9IxjhuQ>
+    <xme:RI2UZ0A66gXNsWrxQAEoeWXGpIlgzN8xRt2K7-RrwEh34nCdzhW9kKyjDLfwlF_IV
+    RMF8CENhboIUi3HpQ>
+X-ME-Received: <xmr:RI2UZ3GlcB8A73MZKbJOBj-Ho0hsymOFyUyu6LOYAqihcOQqOY0DRl2LQWqyh_GwNhBkBiNapkKS2q2tfb6yI0eFr2nbE9qhcVhWprH9uZcA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrudejgedgieejhecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
     uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
@@ -66,14 +66,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrudejgedgieejhecutefuodetgg
     htohepshgrmhhuvghlsehshhholhhlrghnugdrohhrghdprhgtphhtthhopehlihhnuhig
     qdhsohhunhgusehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugi
     dqrghrmhdqkhgvrhhnvghlsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhg
-X-ME-Proxy: <xmx:P42UZ3em9Lrca0xam9CONWr66ZtQ7n6cr_vqQ3B82-ZL16MMC1ISlg>
-    <xmx:P42UZwOPsUtLS7x44vRkd6hKZYfrTyQG6QQrfAQNnWncUdvxmfpkOQ>
-    <xmx:P42UZ5kywbLABuLpUro3I_efx2qgZARlaZcyQQHZtQDF6ozt_sk5_w>
-    <xmx:P42UZ6uSYXWdT3_n_xYEG9NjAMq8LJYi260_bgkoybmKJ97UPkGKig>
-    <xmx:P42UZyv-yd2c1rpmOkGgNU5qrc8YTAqhNPsb40PXXYMpjFE5DpLsUnlX>
+X-ME-Proxy: <xmx:RI2UZ0RjqV6hzsmNaUbYfNyZSEcA4BGEqT9ORvSXmofipAt48jGSoA>
+    <xmx:RI2UZ0wgQjRQbhrhDqZKdfxHNvVTvUSHJ-Cfy9ZxDR5MTo6XRG1xyA>
+    <xmx:RI2UZ66kItiYwcK9VZ2Ts7wvSMwQwKAaBAHXc-1ERTyOdOIlUfS1xw>
+    <xmx:RI2UZ5wDuk3HqMBJh27vMQ7M0TsKT8rL2poewwuFc66qX0zEHoQ8AQ>
+    <xmx:RI2UZwj8mtDOL91oNaSbiei53pZW2qrs0JFyHTIYbpZFF2cvW8oqFVy3>
 Feedback-ID: idc0145fc:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 25 Jan 2025 02:05:31 -0500 (EST)
+ 25 Jan 2025 02:05:36 -0500 (EST)
 From: Ryan Walklin <ryan@testtoast.com>
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
@@ -88,9 +88,9 @@ Cc: linux-sound@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	Chris Morgan <macromorgan@hotmail.com>,
 	Ryan Walklin <ryan@testtoast.com>
-Subject: [PATCH v2 3/5] ASoC: sun4i-codec: support hp-det-gpios property
-Date: Sat, 25 Jan 2025 20:00:13 +1300
-Message-ID: <20250125070458.13822-4-ryan@testtoast.com>
+Subject: [PATCH v2 4/5] arm64: dts: allwinner: h700: Add hp-det-gpios for Anbernic RG35XX
+Date: Sat, 25 Jan 2025 20:00:14 +1300
+Message-ID: <20250125070458.13822-5-ryan@testtoast.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250125070458.13822-1-ryan@testtoast.com>
 References: <20250125070458.13822-1-ryan@testtoast.com>
@@ -104,118 +104,37 @@ Content-Transfer-Encoding: 8bit
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-Add support for GPIO headphone detection with the hp-det-gpios
-property. In order for this to properly disable the path upon
-removal of headphones, the output must be labelled Headphone which
-is a common sink in the driver.
-
-Describe a headphone jack and detection GPIO in the driver, check for
-a corresponding device tree node, and enable jack detection in a new
-machine init function if described.
+Add support for headphone insertion detection via GPIO for the
+RG35XX series, and add the corresponding routing to the codec node.
 
 Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 Signed-off-by: Ryan Walklin <ryan@testtoast.com>
 
 --
 Changelog v1..v2:
-- Whitespace fixes.
-- Remove vendor prefix from device tree string.
+- Remove vendor prefix from GPIO description.
+- Whitespace fix
 ---
- sound/soc/sunxi/sun4i-codec.c | 53 +++++++++++++++++++++++++++++++++++
- 1 file changed, 53 insertions(+)
+ .../boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts  | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/sunxi/sun4i-codec.c b/sound/soc/sunxi/sun4i-codec.c
-index f24bbefeb3923..3701f56c72756 100644
---- a/sound/soc/sunxi/sun4i-codec.c
-+++ b/sound/soc/sunxi/sun4i-codec.c
-@@ -22,6 +22,7 @@
- #include <linux/gpio/consumer.h>
- 
- #include <sound/core.h>
-+#include <sound/jack.h>
- #include <sound/pcm.h>
- #include <sound/pcm_params.h>
- #include <sound/soc.h>
-@@ -331,6 +332,7 @@ struct sun4i_codec {
- 	struct clk	*clk_module;
- 	struct reset_control *rst;
- 	struct gpio_desc *gpio_pa;
-+	struct gpio_desc *gpio_hp;
- 
- 	/* ADC_FIFOC register is at different offset on different SoCs */
- 	struct regmap_field *reg_adc_fifoc;
-@@ -1583,6 +1585,49 @@ static struct snd_soc_dai_driver dummy_cpu_dai = {
- 	.ops = &dummy_dai_ops,
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
+index 34c2bb4cc0474..0e3537505d293 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
+@@ -232,8 +232,11 @@ panel_in_rgb: endpoint {
  };
  
-+static struct snd_soc_jack sun4i_headphone_jack;
-+
-+static struct snd_soc_jack_pin sun4i_headphone_jack_pins[] = {
-+	{ .pin = "Headphone", .mask = SND_JACK_HEADPHONE },
-+};
-+
-+static struct snd_soc_jack_gpio sun4i_headphone_jack_gpio = {
-+	.name = "hp-det",
-+	.report = SND_JACK_HEADPHONE,
-+	.debounce_time = 150,
-+};
-+
-+static int sun4i_codec_machine_init(struct snd_soc_pcm_runtime *rtd)
-+{
-+	struct snd_soc_card *card = rtd->card;
-+	struct sun4i_codec *scodec = snd_soc_card_get_drvdata(card);
-+	int ret;
-+
-+	if (scodec->gpio_hp) {
-+		ret = snd_soc_card_jack_new_pins(card, "Headphone Jack",
-+						 SND_JACK_HEADPHONE,
-+						 &sun4i_headphone_jack,
-+						 sun4i_headphone_jack_pins,
-+						 ARRAY_SIZE(sun4i_headphone_jack_pins));
-+		if (ret) {
-+			dev_err(rtd->dev,
-+				"Headphone jack creation failed: %d\n", ret);
-+			return ret;
-+		}
-+
-+		sun4i_headphone_jack_gpio.desc = scodec->gpio_hp;
-+		ret = snd_soc_jack_add_gpios(&sun4i_headphone_jack, 1,
-+					     &sun4i_headphone_jack_gpio);
-+
-+		if (ret) {
-+			dev_err(rtd->dev, "Headphone GPIO not added: %d\n", ret);
-+			return ret;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
- static struct snd_soc_dai_link *sun4i_codec_create_link(struct device *dev,
- 							int *num_links)
- {
-@@ -1608,6 +1653,7 @@ static struct snd_soc_dai_link *sun4i_codec_create_link(struct device *dev,
- 	link->codecs->name	= dev_name(dev);
- 	link->platforms->name	= dev_name(dev);
- 	link->dai_fmt		= SND_SOC_DAIFMT_I2S;
-+	link->init		= sun4i_codec_machine_init;
+ &codec {
+-	allwinner,audio-routing = "Line Out", "LINEOUT";
++	/* Both speakers and headphone jack connected to 74HC4052D analog mux */
++	allwinner,audio-routing = "Speaker", "LINEOUT",
++				  "Headphone", "LINEOUT";
+ 	allwinner,pa-gpios = <&pio 8 5 GPIO_ACTIVE_HIGH>; // PI5
++	hp-det-gpios = <&pio 8 3 GPIO_ACTIVE_HIGH>; // PI3
+ 	status = "okay";
+ };
  
- 	*num_links = 1;
- 
-@@ -2302,6 +2348,13 @@ static int sun4i_codec_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
-+	scodec->gpio_hp = devm_gpiod_get_optional(&pdev->dev, "hp-det", GPIOD_IN);
-+	if (IS_ERR(scodec->gpio_hp)) {
-+		ret = PTR_ERR(scodec->gpio_hp);
-+		dev_err_probe(&pdev->dev, ret, "Failed to get hp-det gpio\n");
-+		return ret;
-+	}
-+
- 	/* reg_field setup */
- 	scodec->reg_adc_fifoc = devm_regmap_field_alloc(&pdev->dev,
- 							scodec->regmap,
 -- 
 2.48.1
 
