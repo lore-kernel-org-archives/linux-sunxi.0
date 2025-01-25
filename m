@@ -1,79 +1,80 @@
-Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
+Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ADE9206F06
-	for <linux-sunxi@lists.linux.dev>; Sat, 25 Jan 2025 07:05:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB503207A0A
+	for <linux-sunxi@lists.linux.dev>; Sat, 25 Jan 2025 07:05:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737788743; cv=none; b=A/9W9ao1/+1te2u0job/wQz6ehuf/cnxQuFNdVOZKNHsy6rcLC3XtJVYdsP0/DOZNYa9nR6qXhxHh/4o476FguOEz/Qs9Gxrd6NK5p1jtE9fUUvICJbTeVuMjZKCy7+mQI4SIZ5s6MC4Y0A2+BuAc8LU84kpP7T47m3aDt8TEQ8=
+	t=1737788749; cv=none; b=MuyPfalt92v4L0hc0c44TX1QpKgAyiXsz8Vrwoo931KO9uxpnOAqo/dXosMyMcWHII6TNaAJLLPTlmcGtqkSzPQLocLx7yUFKj96okmi/qFacbgRDyZURKRkcdvOR5ec79weCrSBeT5skrVzwKj4BAy7fnv3CQWDJFMJgGGmJvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737788743; c=relaxed/simple;
-	bh=MAIv2p5psUoqy9S+PXVUqW6L0zZf5xVdUiH01Qxp168=;
+	s=arc-20240116; t=1737788749; c=relaxed/simple;
+	bh=F56E7pnbOx9pn+P/kD6f9ZV2mWgW9zPD0jHyG4L1JMg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UvmF88EkihYnL4a1bw0/m7IcKrAPp/RTtIQDRvJgKDXQNTXPRnHa53Sp9Qx9djQ6sDpRrQ/LBznhrWLMllxrGPDXdrPrBeP2rMKiyW9RIX4al/quLXQwEGfwxrH/J9ueJxPJwoRuLsNUUghkrUUVn8N5OE5vwLYk4F6DGifP4qs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=rRdX4bN/; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=h3IwaLEn; arc=none smtp.client-ip=202.12.124.159
+	 MIME-Version; b=COQfgDu1FNl5OVNkofk5gdeBV8U/jt5gXnvf/he2bb00G0FrlCe8kfVq8c2k+KeFLQugcHsvZP1lHz0OLoh+pfChcIQlXrE/H+mhdn/Mb2f6+QVtW0ZizV5ZyCy1C7Jx6lcgEl4ANTHeybg+58eR/h1cxRvTyh8BIFlyOf+tKqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=p4Q7DEp2; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=p0hWQ6m1; arc=none smtp.client-ip=202.12.124.151
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="rRdX4bN/";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="h3IwaLEn"
-Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id F214A2540109;
-	Sat, 25 Jan 2025 02:05:40 -0500 (EST)
+	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="p4Q7DEp2";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="p0hWQ6m1"
+Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
+	by mailfout.stl.internal (Postfix) with ESMTP id 9E6D81140114;
+	Sat, 25 Jan 2025 02:05:45 -0500 (EST)
 Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-11.internal (MEProxy); Sat, 25 Jan 2025 02:05:41 -0500
+  by phl-compute-01.internal (MEProxy); Sat, 25 Jan 2025 02:05:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
 	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
 	:from:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm3; t=1737788740; x=
-	1737875140; bh=hLsGe+Pf+NJk0N+fJlpAq1eWp/8FyDIG5iZXZV2pPus=; b=r
-	RdX4bN/DWi7OAgkNY45u0kt/vTzPnSMRElz3f/snNFzroo23T7QpXoDswna8W7v4
-	g1BIrX5ZqV0ylVMRQwoIJJ6PYzOYkG1y3cQ7bZZQ1ZW0qN9ZK6IKFMkDk+iEOpEd
-	xOmPryn9S6PMH5YibDzvhUzT4H15AkwKqSE25+K2U3Ws7ZvkdSKypKWB3vYXknbb
-	4UP6FFhjiRGgBmJKEm+vA5CZ3A8FWuwY+2skIlZzZmb+/AdObxTXSz5WvO/ce59d
-	aSFf816T4sfQ0CgIkDCQl5lqgO0RMKQD71+f0lzmI6etbrTaNbFANOzuSmDeKvKS
-	R/Gc0TiCvLnvipZIzT4ag==
+	:reply-to:subject:subject:to:to; s=fm3; t=1737788745; x=
+	1737875145; bh=v+QB5oAaTd71HtR/hfa4+42MYQULAvj4CXOLQvU0AhE=; b=p
+	4Q7DEp2m0ci9sGnZcssfEytvThRtk7s/9Wndjl2zS2IfDZUwAmresYORUn3jUdyl
+	+g3ZmI8JsFtUaOBdBxbJjw4YOdGHw7aNZLGf4hB5jvfHgKzM6Fix9s17esxQfzHZ
+	9p7Wa+8+ITkqSXe9Bfo0uubMM0lAqhN+vWNZxqBeSZdRYTqH9BjRP2wlzc9gvxJ1
+	tavVFSS7FciLiLZRXW3zQjlr1XEpu+QZN7F9hHR5CMoOzrQivdxaVcZejJsU7R2P
+	zg1Qr8TmasbpYR2N73sUJ131uJaI/hxZAfGro0cLR5ohicdtP2pasRfjwKt4TXxX
+	dRlX26hb002t3de+u53Hw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm3; t=1737788740; x=1737875140; bh=h
-	LsGe+Pf+NJk0N+fJlpAq1eWp/8FyDIG5iZXZV2pPus=; b=h3IwaLEnIuyuv7C5Q
-	U3LCLKrd5eRYdJDxjwL7wtS9FUfouzyCvXkyViD0cVPc2Jm0dAQYXGU5p5IsY7iO
-	+4LGtKlug7F51wjVbluzxt2ONqeitZh21vOnEUmpHAIiAWpbGlHroDnhddQMwgwY
-	1NYpyFAYSlLX76XrDjoH3sxt3qXysKIeUnkTzSMGGj1l2Iq53lwLjSKBWaNnPUkn
-	W/xi8vPcxJbCmBR5Y+OqoTMgi01gPzI9NtlfD/e+/OHVe+6eIQj1MACU8m/4hbt4
-	V0QytVuLoE2ARvqEBhUE2P8YLZw2lnXR8nJ++fMaPfk3lckSyqJRnMYoUkF1dT+J
-	5TdOA==
-X-ME-Sender: <xms:RI2UZ3ink3SxpTGbKRgZn3I8uXCwe6-qsdjWdYO9zrqqLLs9IxjhuQ>
-    <xme:RI2UZ0A66gXNsWrxQAEoeWXGpIlgzN8xRt2K7-RrwEh34nCdzhW9kKyjDLfwlF_IV
-    RMF8CENhboIUi3HpQ>
-X-ME-Received: <xmr:RI2UZ3GlcB8A73MZKbJOBj-Ho0hsymOFyUyu6LOYAqihcOQqOY0DRl2LQWqyh_GwNhBkBiNapkKS2q2tfb6yI0eFr2nbE9qhcVhWprH9uZcA>
+	:x-me-sender:x-sasl-enc; s=fm3; t=1737788745; x=1737875145; bh=v
+	+QB5oAaTd71HtR/hfa4+42MYQULAvj4CXOLQvU0AhE=; b=p0hWQ6m1elopHi6Z1
+	yxmwExmG0ou4W+seSd96PE4IgmnyBPOrVa9oW4OIMd+85Sd+34FNWWDfGfIXNRaj
+	4q9OwFF4CslTo6YJ2obc5K6QYWVcKJ7C4GtoxIK/ycMLS1rmXEF21Y033tjZTF0C
+	WCydRH6+Zp4lPJNDNzzEel2ME+zoObBT8FDiYt5+UWGKdLi7zVPZOSA0qP5KEyHo
+	bAtCqCwf5cVMZkDhifcnoElSw5c6kSPvhK9qE+pXp3VWJHjTdv47FAs+sVGUCt4F
+	HsOQbywq1yIC7vz+mPWoJ+3K6J9K/3G1gc4DRqG15tC8nbGUtsVSufOZhzqo9tyj
+	oREjg==
+X-ME-Sender: <xms:SY2UZxJ3egeqmoUl77CSrbhQOtZP5Qx_rEk5tymsOvRLYno5Es7NzQ>
+    <xme:SY2UZ9L6rN6jVpXuy8t1enbf65mc9av4SMVXi2aSiEGVdsVvSRATiTJX3jbAsXl6D
+    yzyLJzW_5TtnuqSIw>
+X-ME-Received: <xmr:SY2UZ5vP94UO900pRjVelGLrb_SoByT9lR9aoWwM0kdJdHOCN6v53yhM95JKX0xDVo7_HGQVXjtjAdArteMgNem15asZW5En2uzGKLckG4zd>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrudejgedgieejhecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
     uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
     hnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffojghfggfgsedtkeertdertddt
     necuhfhrohhmpefthigrnhcuhggrlhhklhhinhcuoehrhigrnhesthgvshhtthhorghsth
-    drtghomheqnecuggftrfgrthhtvghrnhepffehieffgedtgfffjeetveegfeekleeileek
-    veeuteffteetudffveegieeiheetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
-    hmpehmrghilhhfrhhomheprhihrghnsehtvghsthhtohgrshhtrdgtohhmpdhnsggprhgt
-    phhtthhopedufedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheplhhgihhrugifoh
-    hougesghhmrghilhdrtghomhdprhgtphhtthhopegsrhhoohhnihgvsehkvghrnhgvlhdr
-    ohhrghdprhgtphhtthhopehpvghrvgigsehpvghrvgigrdgtiidprhgtphhtthhopehtih
-    ifrghisehsuhhsvgdrtghomhdprhgtphhtthhopeifvghnshestghsihgvrdhorhhgpdhr
-    tghpthhtohepjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgrihhlrdgtohhmpdhrtghpth
-    htohepshgrmhhuvghlsehshhholhhlrghnugdrohhrghdprhgtphhtthhopehlihhnuhig
-    qdhsohhunhgusehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugi
-    dqrghrmhdqkhgvrhhnvghlsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhg
-X-ME-Proxy: <xmx:RI2UZ0RjqV6hzsmNaUbYfNyZSEcA4BGEqT9ORvSXmofipAt48jGSoA>
-    <xmx:RI2UZ0wgQjRQbhrhDqZKdfxHNvVTvUSHJ-Cfy9ZxDR5MTo6XRG1xyA>
-    <xmx:RI2UZ66kItiYwcK9VZ2Ts7wvSMwQwKAaBAHXc-1ERTyOdOIlUfS1xw>
-    <xmx:RI2UZ5wDuk3HqMBJh27vMQ7M0TsKT8rL2poewwuFc66qX0zEHoQ8AQ>
-    <xmx:RI2UZwj8mtDOL91oNaSbiei53pZW2qrs0JFyHTIYbpZFF2cvW8oqFVy3>
+    drtghomheqnecuggftrfgrthhtvghrnhepjeevhedtjeeuvdeiteelgeehjeegieeuveev
+    ffetffdvudevfefhudejiedvgfdunecuffhomhgrihhnpehgihhthhhusgdrtghomhenuc
+    evlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehrhigrnhes
+    thgvshhtthhorghsthdrtghomhdpnhgspghrtghpthhtohepudefpdhmohguvgepshhmth
+    hpohhuthdprhgtphhtthhopehlghhirhgufihoohgusehgmhgrihhlrdgtohhmpdhrtghp
+    thhtohepsghrohhonhhivgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgvrhgvgi
+    esphgvrhgvgidrtgiipdhrtghpthhtohepthhifigrihesshhushgvrdgtohhmpdhrtghp
+    thhtohepfigvnhhssegtshhivgdrohhrghdprhgtphhtthhopehjvghrnhgvjhdrshhkrh
+    grsggvtgesghhmrghilhdrtghomhdprhgtphhtthhopehsrghmuhgvlhesshhhohhllhgr
+    nhgurdhorhhgpdhrtghpthhtoheplhhinhhugidqshhouhhnugesvhhgvghrrdhkvghrnh
+    gvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishht
+    shdrihhnfhhrrgguvggrugdrohhrgh
+X-ME-Proxy: <xmx:SY2UZyYT0MBDM0IdaIEFSMhaFN-xspwDrgtUnoLsPYYKbjm_7XfYlg>
+    <xmx:SY2UZ4YPGOGR_2adnDzQ8M0SBtODfbA3-jRg9bIAwy1vllQITE2mCg>
+    <xmx:SY2UZ2Ccn3ndP1zN9yXEMzTR17dTe1H-3h4TYpN9bdbvux_KZI-Egg>
+    <xmx:SY2UZ2ZmkQoyYIxUzLkgb-pUL1E58PffOV8YdYwEy1NfXa_Aa_Mp1A>
+    <xmx:SY2UZ4qM7LIe01HJGOkdyHc2dEoAUGvhED07RkkwiZ0fPobjsusYifde>
 Feedback-ID: idc0145fc:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 25 Jan 2025 02:05:36 -0500 (EST)
+ 25 Jan 2025 02:05:41 -0500 (EST)
 From: Ryan Walklin <ryan@testtoast.com>
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
@@ -88,9 +89,9 @@ Cc: linux-sound@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	Chris Morgan <macromorgan@hotmail.com>,
 	Ryan Walklin <ryan@testtoast.com>
-Subject: [PATCH v2 4/5] arm64: dts: allwinner: h700: Add hp-det-gpios for Anbernic RG35XX
-Date: Sat, 25 Jan 2025 20:00:14 +1300
-Message-ID: <20250125070458.13822-5-ryan@testtoast.com>
+Subject: [PATCH v2 5/5] ASoC: sun4i-codec: change h616 card name
+Date: Sat, 25 Jan 2025 20:00:15 +1300
+Message-ID: <20250125070458.13822-6-ryan@testtoast.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250125070458.13822-1-ryan@testtoast.com>
 References: <20250125070458.13822-1-ryan@testtoast.com>
@@ -102,39 +103,40 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Chris Morgan <macromorgan@hotmail.com>
+Adding jack detection requires sound servers to act on the emitted
+events, which are described by ALSA Use Case Manager configurations in
+userspace. These configurations include the card name in the file path,
+so alter the card name for the H616 to remove spaces, making UCM
+referencing easier. Add a long_name to maintain consistency with the
+other drivers.
 
-Add support for headphone insertion detection via GPIO for the
-RG35XX series, and add the corresponding routing to the codec node.
+The corresponding ALSA UCM patch is here:
+https://github.com/alsa-project/alsa-ucm-conf/pull/491
 
-Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 Signed-off-by: Ryan Walklin <ryan@testtoast.com>
 
 --
 Changelog v1..v2:
-- Remove vendor prefix from GPIO description.
-- Whitespace fix
+- Separate patch for card->long_name
+- Note UCM patch link
 ---
- .../boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts  | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ sound/soc/sunxi/sun4i-codec.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
-index 34c2bb4cc0474..0e3537505d293 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
-@@ -232,8 +232,11 @@ panel_in_rgb: endpoint {
- };
+diff --git a/sound/soc/sunxi/sun4i-codec.c b/sound/soc/sunxi/sun4i-codec.c
+index 3701f56c72756..68e2d82228a0b 100644
+--- a/sound/soc/sunxi/sun4i-codec.c
++++ b/sound/soc/sunxi/sun4i-codec.c
+@@ -2012,7 +2012,8 @@ static struct snd_soc_card *sun50i_h616_codec_create_card(struct device *dev)
  
- &codec {
--	allwinner,audio-routing = "Line Out", "LINEOUT";
-+	/* Both speakers and headphone jack connected to 74HC4052D analog mux */
-+	allwinner,audio-routing = "Speaker", "LINEOUT",
-+				  "Headphone", "LINEOUT";
- 	allwinner,pa-gpios = <&pio 8 5 GPIO_ACTIVE_HIGH>; // PI5
-+	hp-det-gpios = <&pio 8 3 GPIO_ACTIVE_HIGH>; // PI3
- 	status = "okay";
- };
- 
+ 	card->dev		= dev;
+ 	card->owner		= THIS_MODULE;
+-	card->name		= "H616 Audio Codec";
++	card->name		= "h616-audio-codec";
++	card->long_name		= "H616 Audio Codec";
+ 	card->driver_name	= "sun4i-codec";
+ 	card->controls		= sun50i_h616_card_controls;
+ 	card->num_controls	= ARRAY_SIZE(sun50i_h616_card_controls);
 -- 
 2.48.1
 
