@@ -1,206 +1,150 @@
-Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11012031.outbound.protection.outlook.com [52.101.66.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 619081459F6;
-	Mon, 27 Jan 2025 15:14:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.31
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737990844; cv=fail; b=bfFqwMk9Q/x3FrjaJfeUu7X1xJVMTWaOIvgcorK4YSDHzZhd66QSdb2IcXcg3b8zUfExHnZKcBv9RoaxSKFD+92A2suN1Dwh4dsQ+p4WH119T+jbTab5j1id32LRg5tVLThGD13hCmcoi8IcIruRL/H3ESkozkiqwT3ZQma+xzM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737990844; c=relaxed/simple;
-	bh=zwGW6dcrFS/KlCNBA7jGELsbUTiZJbtdfIA6+O5CIy4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=eraEKj95h6iewoGbKRxoH+beY75w3Us+apwuNhwdCFPBenoGzGumAIz9ZEEW0+b1DShVnkDMq0jGjNopfTaHeWUOsa9NhUHadqFmWvXHjpyu+IZndSZnJGC71W4OA+pyhMcRRWLwdPQBQLxlteG6TbvGQHbru7hThG+ujqyhFbU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=UgVl/dtE; arc=fail smtp.client-ip=52.101.66.31
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="UgVl/dtE"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=otXS7c5CToQq5FCn1vInV6S1VTFHd18fne14+Ndi7apemmN3BnZkeCfYtSzdWB3PQDuysXsRMHyeyQfi/GJSnOs2k5N2y27JnvT8gNROT2TSu1/phhAiwHPj01kxY+Rt36cABBEmpB1m06TkCpuFTSWnyUtchtZRiz2C2RdWHoKHyg05vL23G3/+elqz1GFM15n2zA9nAcMTgIDLItr2WQ0JiET4xVwbEzQXlhOkKFpzEVb452b5aqOAskqei+6AqrOoWHbWgkM0YTxr8za04ZS39w5y0/rkJI0LL12dNSiAY6cSBuou3Iobf6XGay06nb7mVNlSBMM0vLWqihc3Xg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sxTW+xwMEAjoJCn+AqoDP2wdj9gNCIQw9qxueOCKko4=;
- b=ByBbgipp94ZlY8SojmO/hFSRtN06+8dRIaPPUyYfG94ibO8Dx8C2P72o3dPvrqqZtncmhcYu/9z39opNbD02Hdw204+NKsb3RluyG4W/KHVlq+tBBFqvdjX0L17I8+wPuC8LUvJ8mkRQ+mNiHMT1tRvQBmTycpGpGvYoWQ3asWTyokqYUM8VYusgRjI0I3eJQUjAc75YauYbMgq+0jKWc7v9RBWjLn5umn3Eq29hbHJ2Go6maxWMq229utnfnNZNkoc+FJB3NDfUsaMDUUJIgsz8zoqV4IW9OnJiOlyje4/Wh/NZQKoJpFkSdCy53H0MtVREqAof44K572IcOfFBxQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sxTW+xwMEAjoJCn+AqoDP2wdj9gNCIQw9qxueOCKko4=;
- b=UgVl/dtEKaDwxQdNiTYGnM1KGNI/dypYMoRUigzSuj/ZAElXEr3w2n0HpqlUxmBjurLKoqG5+24cRCy9MpmLDwsnd3+z57PTjqrh3nH9sFYcrw31atP92vRPoTdRNcsnhCR1MtaaEX0wjSKVibPuaS34RKf70EDjdQqh3j7pNvRNpnaei5XX486ZlZ+8aE3GJqpL4q0nHnwOIUDrwT+SZDhW26BoeQyXuwCjkxIVi5eqGiW2/goXyeAma9BnyUOak8bO6NEa1mkBWlDnfUB1uE6bpFamvfWQLqsRapiWPjezzr/fhQKKdL/2dOP1175Cn1jxNh7CJdYfVFQg9/Qaxw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
- by PA1PR04MB10964.eurprd04.prod.outlook.com (2603:10a6:102:490::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8377.22; Mon, 27 Jan
- 2025 15:14:00 +0000
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06%5]) with mapi id 15.20.8377.021; Mon, 27 Jan 2025
- 15:13:59 +0000
-Date: Mon, 27 Jan 2025 10:13:48 -0500
-From: Frank Li <Frank.li@nxp.com>
-To: Raphael Gallais-Pou <rgallaispou@gmail.com>
-Cc: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Patrice Chotard <patrice.chotard@foss.st.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Viresh Kumar <vireshk@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH RFC 05/14] ahci: imx: Switch from CONFIG_PM_SLEEP guards
- to pm_sleep_ptr()
-Message-ID: <Z5eirJJp/cZzzGPd@lizhi-Precision-Tower-5810>
-References: <20250127-pm_ata-v1-0-f8f50c821a2a@gmail.com>
- <20250127-pm_ata-v1-5-f8f50c821a2a@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250127-pm_ata-v1-5-f8f50c821a2a@gmail.com>
-X-ClientProxiedBy: SJ0PR03CA0135.namprd03.prod.outlook.com
- (2603:10b6:a03:33c::20) To PAXPR04MB9642.eurprd04.prod.outlook.com
- (2603:10a6:102:240::14)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF6E614A62A;
+	Mon, 27 Jan 2025 16:30:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1737995421; cv=none; b=RXhQhi8HjwoK+W0j97oogzDVsoX4VyaJC8tbnec8YtK3jWyoiTJjiRRTRv8wOiQqsdce507SNWke2Pq7xyVk1yzYqAa8gGiT/3wuX4EYVAemQt8mQr9GIjG683xfWpOAmhyAHjaXoo34pZ/0879fihxJApM4J5EbbuRqK/IQLvw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1737995421; c=relaxed/simple;
+	bh=ZNKSmArHq89j7IClvTYDareVhIHdk3mFzoaiZMHUsD8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CVmZydBNPIsSdOyBr7+q/rsebiT7TUBNsu2+ohy0xVpVL3B0jvHfdZLBLirKrVvtvotyKz6JmJdXL3lceopt+MrDB7bWxFNMN7OP0kme3u+mOBr+CVWHS/n55QAmJoXb//ziyasyeumlJ8CEHWidMYo9yigiyjoGT/wwZ7zRR6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-4aff04f17c7so3614229137.0;
+        Mon, 27 Jan 2025 08:30:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737995417; x=1738600217;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WlQ0Imi4TI1g2HJ/WhDlE3//wGfnD+n5Npq7eYW5xxc=;
+        b=ktBImqQNAiq6+gw6Dq7qWgEd0ZZkilIS6PEG/rnw7+3/V+WsMCNFYzCy5x49JW9lIF
+         WVhRe7VFNnUJqFPHP5tGoMgIW/fzTiLRitANxjvrR8P+LL+jIpA1CXZ9Vxq0kX1Ch77x
+         /VFCrIo7ggqT4BBTbtSKZFyHIzKiGn4eBf52x4VIH8fnP3UL1Dl2DkFzWdu6aG/hgeWD
+         wQ9TnxbXosL8Ays0UjVq0wvrmh0hrqHNib764l6/Tu2qe0NEK2Em7fVjgxm6gofxSAuB
+         aplHtvyo3mCd6o1KudMMEcZ56s1ys6nZZzI6Uz9ex+vbyFM7QFGvc61baP86DHwn34aw
+         JGVw==
+X-Forwarded-Encrypted: i=1; AJvYcCVcmct8CLgQkydkrhS5eJhlwBuxxd7QPR8kHxPR7Ry5yeKxpMMc40M+QJeuFwQql7Tjq+wX/ys4kaeYpo4=@lists.linux.dev, AJvYcCXgrYGuzEGd4CcCdX5Y9Oh+d/MCLXzKrbV8IeZ+9Umx7+pGLwn+CbY7194stIHL6OVbXGU=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxw/wuCU8p0RCdvT/S3/jIqwdUwGMKUmO+ermaQ1ZInGWXlxgaq
+	mgcsCy27j+w6PCj3rgsGiInCr6fh89Ep3+LyUniZjyGWAqBCOtfsCwpZn4Q0x1E=
+X-Gm-Gg: ASbGncuaNOucWtaWhnUXkFxOUTPWjJwTqMi/XvgNGxN2GkE2Mwe3cnE56Vbc2Hm0Wzv
+	t4juS2bmb9zaOvOF4ktoi4qCFtYofxVBALbrks3LpHiwpUJWHcy/bHhvopOp0ZctBnmddl7frab
+	HazTstSVU7jnkI376j3+kGlolE2iDjOwL3m/FwyQ5Kqds7sUzxnkXZ9WcnZNR8+Xc5hTQqncHZZ
+	i0pbBWuxuMtgG7PavmCZKmHhx0c3Kkpbo97LfrmWb3aX7biNhKQrSBlwXucvZCAdeGsidXmtMVz
+	qbTbuEkQCvdXAYu9z5AgXHDNt8pAEjIUikYAmG5RlIY=
+X-Google-Smtp-Source: AGHT+IHQqh8ZpgnGqmw8Y0Gfs0rWOvi3lgJJXcPB3FwANWYf6VdAlOHRWeu8C9qpI5icX+qplbaHlQ==
+X-Received: by 2002:a67:e2ca:0:b0:4af:57df:8697 with SMTP id ada2fe7eead31-4b709d0b4f6mr11310062137.10.1737995416851;
+        Mon, 27 Jan 2025 08:30:16 -0800 (PST)
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com. [209.85.222.48])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-864a9c98e0esm1972574241.34.2025.01.27.08.30.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Jan 2025 08:30:16 -0800 (PST)
+Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-860f0e91121so3089181241.0;
+        Mon, 27 Jan 2025 08:30:16 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVecpaNoZSpjFc+UK85czIYowJhcVVS+CQvWM0KJL1qTExICobPbF3pqanRYGGFLthS/Kw=@lists.linux.dev, AJvYcCWyq2EkCajlTC2e51BY6muFSDBZZLrPT47Ee6VQTZ2LbhzGklC0NbAoXMwxSfaomNI6nEe2/8MPjMeekPw=@lists.linux.dev
+X-Received: by 2002:a05:6122:2028:b0:515:20e6:7861 with SMTP id
+ 71dfb90a1353d-51e4fb68a06mr12748400e0c.2.1737995415897; Mon, 27 Jan 2025
+ 08:30:15 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|PA1PR04MB10964:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9fa18fbe-5223-4af1-ff96-08dd3ee539cc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|7416014|7053199007|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?/DqJdBz99OoILT4dXHNjAWbVQxl4bJ0CnpSwBzdaseAvTZs+MMbJ3YTl2Sus?=
- =?us-ascii?Q?F7zo/gMhZSPzFUv6VEnwwADcuOANKaxqVnT4ZfVnDlD9GG/i/SvaTA8m96RF?=
- =?us-ascii?Q?IynqrXcKxJpEZZswEWuEJP3E+1wdK7ITiyE9KKFu04WXbv4o8Oq6exZpqxbL?=
- =?us-ascii?Q?kh5vXvl6WGgZ0wCaVBsCSFhFszHzQzGrW01tEfngOzxKs976L11dGhHXWhE6?=
- =?us-ascii?Q?4ScqhSAwXmSAqnNncjlByNiIruTrWvS+2YvHmzGUhqik61p9AZhRzk2VOZFu?=
- =?us-ascii?Q?sA6XOuWvziaCnKlQUaqS1eFzOsBe5agOKwac/QIp2tp7Hdf3ZoIMqeXqZEHz?=
- =?us-ascii?Q?HJtTSLdzhoGK4klv8TbaeGvHGKJwbiZjI0QxSMqwnQog3QZtbujX+G8yFn7U?=
- =?us-ascii?Q?4XdoUQkJ4BNE4022UvrECKgvEBX4iSocizCE5h/LGr3j8GxjFai+/2lolXKK?=
- =?us-ascii?Q?N9ueHFbXcpSjLHSXFlmSfF/nY/IfNTqvwlmLRehrEI6wzELe16lDpKWmm6M0?=
- =?us-ascii?Q?hPil55MsquoLOfykYWxpMu3WWFgTvvBr+0CD4hARJ4gYc1bekCTMOGe4Jwgc?=
- =?us-ascii?Q?Bs4QLtBeHBF1w1DcRPZWZGlbqLtEcZaELxDOQP9BOphfys1N807bpbzEB/Qt?=
- =?us-ascii?Q?8uy6d7ZCcndJkRJP/whiQGMLR21Rn7ucGejOBOn8Oetr5N+9P8viTHMxgtyw?=
- =?us-ascii?Q?Bui173dO1f1ahSu3tx0JAXyl8FvGeT9FEpIVhoREZuSdd1sCpws2uzBOXN5b?=
- =?us-ascii?Q?qk7iMyPiTgRsSercUQxP6Bp4xr3bf5FfrfVQwW/ddu/gzKqsKKNlulTWY+HK?=
- =?us-ascii?Q?yDL4B6I9U7mv0Rz2ap4AWGBtIpOfufZoQBvvD/Vj+HQ5ieSbRD9HSV2mGto4?=
- =?us-ascii?Q?CNlowDrDosTFbsyLmQ+jg3Lo8WpHd/md6weu5sg1zIxs6azp5QYP+pZJgJo7?=
- =?us-ascii?Q?TYkNLRoI5fWpZvUe6i+G4y4z+TWVIRX4KGpYBNYkOKdusq4VLzCCoxIc6+g+?=
- =?us-ascii?Q?0LyiYl9me62Jj7yLO1z/QTV4nEC0GQZ0evzvIHElbgdfVjODDvW43yDGzghf?=
- =?us-ascii?Q?5k0uCv8KV7ig42cg5kFnO8+lLs6lYZ+WQdpsxssHjTA1cRgSyI+ZnmkBkCAy?=
- =?us-ascii?Q?EM3zUsvFXYws0pBj8Bl2vdEnSKEKg2/ApiKdc9r/qZmlP1Yty+vV0CRLefAu?=
- =?us-ascii?Q?WSR1pZxLzZ1ERx+lx9dyxF+qKnPu95+bbQdJ6+LbDok0kUFnkoar7zATceN6?=
- =?us-ascii?Q?sZfS112INmUj2tLf1py5lFYG1cm+UDdifchjrkjgdDdwUpfHio6lmyWHQMEv?=
- =?us-ascii?Q?ztzJjP1jhX/5GYkUZcfrtV9t+u6+uQ4Q3H+kBKTbBL0KYA3CLdvJ9ow/Iinm?=
- =?us-ascii?Q?6x1HwUrA50i1FqWvEJgDKPkdTrtp3HJk7oGovyB5JGfuBEdoXP2QFI17qN8j?=
- =?us-ascii?Q?hp8IJFNi7wZr/pcRLptFb8bqTFSejFw6?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(7416014)(7053199007)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?xr7Seitt3qfrLNIoiC2VquU994WyfMw3dLF5nzVavNyWjYkRv2/29IzS7/+x?=
- =?us-ascii?Q?NeJyZcaALmJ5mZKjGFBl71pYCj40hxrpA/enQTDkKL/CJAUmSkdaFpt+SJXz?=
- =?us-ascii?Q?veS3g4hKZouD6zA4oScQppnq0N/wLlKNrOG/OO6JYvIkaK72Z1wYrY1gROxT?=
- =?us-ascii?Q?1OaCphvK3XvsDe3h/Ll0O7B+cLEYvwdrkpo2juaEDL3ISL44C1Ia6ndnQWv8?=
- =?us-ascii?Q?egMgLDYyaCS6NZTMLuC34sk/WFzyYAomflHvH+SrLl9UtZ7+ovsTHZMf3zf2?=
- =?us-ascii?Q?9a/q5Dn7+1ovy0OEqRY+Hgg0/UzE0FgMyIGtPb8/2ANy8BMfQVml2rLeuMI0?=
- =?us-ascii?Q?0q3HoNKmhHY5I9VnYtHovq80ETxPu/DXQWkkp7RYypNVpnMpKyxBRGK0W+qe?=
- =?us-ascii?Q?S/p4KAviBppe8calHXfLP0o/7pJFxcIMGFzwdaTVTZwFrz2ND6t6B48LjnaU?=
- =?us-ascii?Q?stjgSAJIubnphPLU++9Gjl/4ctUW26drkc1ILsF/3bzewwQlHJDH09WU4cvd?=
- =?us-ascii?Q?J4t5soAOvjOHlCiK3Xh+uxKJ810MMiU9+RfAz2sdGP6xwxv/V26GsG3jiPzJ?=
- =?us-ascii?Q?IQ6RMb8MLtSua5WyrnLbzGZPlkW2dSHv0ZZzpiu47eacKXjzj9rAcJ+CJMfU?=
- =?us-ascii?Q?uPIP2eKZC1q/VP4TwzpU2l8xXzxmg3MVf3PnzRBw4XaGQ0Fs+cVqnA8XzcrK?=
- =?us-ascii?Q?ckc6z8E6z2Lz3mran4j5CK6ZoCc1uI6olTn/v0de8vrF6zGLLPT7QRmLp1Z1?=
- =?us-ascii?Q?HkCp4FsuQgM9ndPGjv+wI4JVAoySJaesNKT9WmlX3Q75tH6i8osL7Xn4sBKj?=
- =?us-ascii?Q?BZaUQfENzG8JjjK2jfL0Fi4eWLIIGEyq+nQBWg2j5zz5ugWzztrbW9vKSdVX?=
- =?us-ascii?Q?Gz3mPfb0Jzjy95OAr7fXQJDdurc3ty5Y1BUr9Vy5R9EKbcJNmL79Ub/52D8R?=
- =?us-ascii?Q?+a0b7WpdliBUGj6mMj/rUKJRx3PE4m0pUn64/pLaYP6MoOPNdhs4TZWWtnkd?=
- =?us-ascii?Q?3jwIVElm+/AjFjdDMIvD1x5n238hDxTnRv3VynUslL3Qpir+d8qVqsLeV1WJ?=
- =?us-ascii?Q?dXh5WXbVJuFhACeYnS9JlUk8+ONa1vjayvdv4bZwkvm6NBwVLAJmQ41ith2X?=
- =?us-ascii?Q?Fv+2r8Ey+7MkyNsHp0T/jN+gD0qMx7k0FRvPhNsofH8eQMKmZCjqI5cUY8nv?=
- =?us-ascii?Q?PnWWlV3cfzKhcb8qSrviBKRzhE0eQH16Vq+86ikMvD720sDaq1aGSxXmVDAM?=
- =?us-ascii?Q?TgmmgqMwFVh5D8+RnWGumHo4PYDPsSTVUhtILqcU5riWe3szmH1TkLioo+lB?=
- =?us-ascii?Q?rqQywCT3LGrideJW6/KaV3G5qXyxas1h9uzgVbuRPXvt/lI4JR4NlYdvLfUP?=
- =?us-ascii?Q?ohI2aazGV7rU91QQM7DOmWoUBFQh+m41qBzUyz4QYBzwSAWjROsGYFVUB5Qp?=
- =?us-ascii?Q?mrQLjVOL/x9EtjOuH/AOkXz80is4L19KhXySfzhL+sOFDie/f6MF0vhpBr91?=
- =?us-ascii?Q?mvtWSA09YU144CunFe4XaQrIaQK6nbSgMWoQIHKnK82ko01Td5EWZlROYiB0?=
- =?us-ascii?Q?AUW/yiroT0Sf08dLqbZEUNGGTgynETf8F0GiuPiG?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9fa18fbe-5223-4af1-ff96-08dd3ee539cc
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2025 15:13:59.7753
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jvZDDAtQwKe4v9Vmx3bP+kpSlMaeWbS5dXEcEQ+jRSjrBVSpZZtgVsnwbJE+98hQBXNJfntTjX1gJ9taI4nt0g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR04MB10964
+References: <20250127-pm_ata-v1-0-f8f50c821a2a@gmail.com>
+In-Reply-To: <20250127-pm_ata-v1-0-f8f50c821a2a@gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 27 Jan 2025 17:30:04 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV7GwMNm5tYvWugehstM07W9JkLdKrE9hwPhxcEab8ajA@mail.gmail.com>
+X-Gm-Features: AWEUYZmGy-5V1Zbo64bUIwl2HUW8rq3_GydwTJUAoMljjyEePEDEnt0EQDD7GTM
+Message-ID: <CAMuHMdV7GwMNm5tYvWugehstM07W9JkLdKrE9hwPhxcEab8ajA@mail.gmail.com>
+Subject: Re: [RFC PATCH 00/14] AHCI power management cleanup
+To: Raphael Gallais-Pou <rgallaispou@gmail.com>
+Cc: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Hans de Goede <hdegoede@redhat.com>, Patrice Chotard <patrice.chotard@foss.st.com>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Viresh Kumar <vireshk@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, linux-ide@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 27, 2025 at 01:46:00PM +0100, Raphael Gallais-Pou wrote:
-> Letting the compiler remove these functions when the kernel is built
-> without CONFIG_PM_SLEEP support is simpler and less error prone than the
-> use of #ifdef based kernel configuration guards.
->
-> Signed-off-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
+Hi Raphael,
 
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
+On Mon, 27 Jan 2025 at 13:46, Raphael Gallais-Pou <rgallaispou@gmail.com> w=
+rote:
+> Several AHCI drivers expose suspend/resume functions in a way that can
+> be simplified.  Using pre-processor operation can lead to errors, while
+> relying on automatic kernel configuration is safer.  It also shrinks the
+> kernel size when CONFIG_PM_SLEEP is not used[1].
 
-> ---
->  drivers/ata/ahci_imx.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/ata/ahci_imx.c b/drivers/ata/ahci_imx.c
-> index f01f08048f97aa230877e413ba6e416d79779c1b..ec75a16c630a79ce10ea98b16c44c9a3908f869f 100644
-> --- a/drivers/ata/ahci_imx.c
-> +++ b/drivers/ata/ahci_imx.c
-> @@ -993,7 +993,6 @@ static void ahci_imx_host_stop(struct ata_host *host)
->  	clk_disable_unprepare(imxpriv->sata_clk);
->  }
->
-> -#ifdef CONFIG_PM_SLEEP
->  static int imx_ahci_suspend(struct device *dev)
->  {
->  	struct ata_host *host = dev_get_drvdata(dev);
-> @@ -1021,9 +1020,8 @@ static int imx_ahci_resume(struct device *dev)
->
->  	return ahci_platform_resume_host(dev);
->  }
-> -#endif
->
-> -static SIMPLE_DEV_PM_OPS(ahci_imx_pm_ops, imx_ahci_suspend, imx_ahci_resume);
-> +static DEFINE_SIMPLE_DEV_PM_OPS(ahci_imx_pm_ops, imx_ahci_suspend, imx_ahci_resume);
->
->  static struct platform_driver imx_ahci_driver = {
->  	.probe = imx_ahci_probe,
-> @@ -1031,7 +1029,7 @@ static struct platform_driver imx_ahci_driver = {
->  	.driver = {
->  		.name = DRV_NAME,
->  		.of_match_table = imx_ahci_of_match,
-> -		.pm = &ahci_imx_pm_ops,
-> +		.pm = pm_sleep_ptr(&ahci_imx_pm_ops),
->  	},
->  };
->  module_platform_driver(imx_ahci_driver);
->
-> --
-> 2.48.0
->
+m68k/allyesconfig:
+
+drivers/ata/sata_highbank.c: In function =E2=80=98ahci_highbank_suspend=E2=
+=80=99:
+drivers/ata/sata_highbank.c:590:9: error: implicit declaration of
+function =E2=80=98ata_host_suspend=E2=80=99; did you mean =E2=80=98ata_sas_=
+port_suspend=E2=80=99?
+[-Werror=3Dimplicit-function-declaration]
+drivers/ata/sata_highbank.c: In function =E2=80=98ahci_highbank_resume=E2=
+=80=99:
+drivers/ata/sata_highbank.c:607:9: error: implicit declaration of
+function =E2=80=98ata_host_resume=E2=80=99; did you mean =E2=80=98ahci_port=
+_resume=E2=80=99?
+[-Werror=3Dimplicit-function-declaration]
+drivers/ata/pata_arasan_cf.c: In function =E2=80=98arasan_cf_suspend=E2=80=
+=99:
+drivers/ata/pata_arasan_cf.c:938:9: error: implicit declaration of
+function =E2=80=98ata_host_suspend=E2=80=99; did you mean =E2=80=98ata_sas_=
+port_suspend=E2=80=99?
+[-Werror=3Dimplicit-function-declaration]
+drivers/ata/pata_arasan_cf.c: In function =E2=80=98arasan_cf_resume=E2=80=
+=99:
+drivers/ata/pata_arasan_cf.c:948:9: error: implicit declaration of
+function =E2=80=98ata_host_resume=E2=80=99; did you mean =E2=80=98sata_link=
+_resume=E2=80=99?
+[-Werror=3Dimplicit-function-declaration]
+drivers/ata/sata_rcar.c: In function =E2=80=98sata_rcar_suspend=E2=80=99:
+drivers/ata/sata_rcar.c:936:9: error: implicit declaration of function
+=E2=80=98ata_host_suspend=E2=80=99; did you mean =E2=80=98sata_rcar_suspend=
+=E2=80=99?
+[-Werror=3Dimplicit-function-declaration]
+drivers/ata/sata_rcar.c: In function =E2=80=98sata_rcar_resume=E2=80=99:
+drivers/ata/sata_rcar.c:973:9: error: implicit declaration of function
+=E2=80=98ata_host_resume=E2=80=99; did you mean =E2=80=98sata_rcar_resume=
+=E2=80=99?
+[-Werror=3Dimplicit-function-declaration]
+drivers/ata/pata_imx.c: In function =E2=80=98pata_imx_suspend=E2=80=99:
+drivers/ata/pata_imx.c:209:9: error: implicit declaration of function
+=E2=80=98ata_host_suspend=E2=80=99; did you mean =E2=80=98pata_imx_suspend=
+=E2=80=99?
+[-Werror=3Dimplicit-function-declaration]
+drivers/ata/pata_imx.c: In function =E2=80=98pata_imx_resume=E2=80=99:
+drivers/ata/pata_imx.c:232:9: error: implicit declaration of function
+=E2=80=98ata_host_resume=E2=80=99; did you mean =E2=80=98pata_imx_resume=E2=
+=80=99?
+[-Werror=3Dimplicit-function-declaration]
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
