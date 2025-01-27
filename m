@@ -1,150 +1,78 @@
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF6E614A62A;
-	Mon, 27 Jan 2025 16:30:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 072761547CC;
+	Mon, 27 Jan 2025 19:12:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737995421; cv=none; b=RXhQhi8HjwoK+W0j97oogzDVsoX4VyaJC8tbnec8YtK3jWyoiTJjiRRTRv8wOiQqsdce507SNWke2Pq7xyVk1yzYqAa8gGiT/3wuX4EYVAemQt8mQr9GIjG683xfWpOAmhyAHjaXoo34pZ/0879fihxJApM4J5EbbuRqK/IQLvw=
+	t=1738005134; cv=none; b=rbwAIVzVnW5x8d6nfKZQb9WYdRyMVXErAld2mu0Gpj2DxXzUW8tODIvhDayLhDNoHU2lenS4QDFZr2i9ovwjs6DTz2REQHuA8/O34SflO4L0CxBGR86ZNhTvRHP3xkyKMIKDwyOV9XJmHNg1Tw2cvIsmmDvgW0TbHtNz4bEjZZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737995421; c=relaxed/simple;
-	bh=ZNKSmArHq89j7IClvTYDareVhIHdk3mFzoaiZMHUsD8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CVmZydBNPIsSdOyBr7+q/rsebiT7TUBNsu2+ohy0xVpVL3B0jvHfdZLBLirKrVvtvotyKz6JmJdXL3lceopt+MrDB7bWxFNMN7OP0kme3u+mOBr+CVWHS/n55QAmJoXb//ziyasyeumlJ8CEHWidMYo9yigiyjoGT/wwZ7zRR6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-4aff04f17c7so3614229137.0;
-        Mon, 27 Jan 2025 08:30:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737995417; x=1738600217;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WlQ0Imi4TI1g2HJ/WhDlE3//wGfnD+n5Npq7eYW5xxc=;
-        b=ktBImqQNAiq6+gw6Dq7qWgEd0ZZkilIS6PEG/rnw7+3/V+WsMCNFYzCy5x49JW9lIF
-         WVhRe7VFNnUJqFPHP5tGoMgIW/fzTiLRitANxjvrR8P+LL+jIpA1CXZ9Vxq0kX1Ch77x
-         /VFCrIo7ggqT4BBTbtSKZFyHIzKiGn4eBf52x4VIH8fnP3UL1Dl2DkFzWdu6aG/hgeWD
-         wQ9TnxbXosL8Ays0UjVq0wvrmh0hrqHNib764l6/Tu2qe0NEK2Em7fVjgxm6gofxSAuB
-         aplHtvyo3mCd6o1KudMMEcZ56s1ys6nZZzI6Uz9ex+vbyFM7QFGvc61baP86DHwn34aw
-         JGVw==
-X-Forwarded-Encrypted: i=1; AJvYcCVcmct8CLgQkydkrhS5eJhlwBuxxd7QPR8kHxPR7Ry5yeKxpMMc40M+QJeuFwQql7Tjq+wX/ys4kaeYpo4=@lists.linux.dev, AJvYcCXgrYGuzEGd4CcCdX5Y9Oh+d/MCLXzKrbV8IeZ+9Umx7+pGLwn+CbY7194stIHL6OVbXGU=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxw/wuCU8p0RCdvT/S3/jIqwdUwGMKUmO+ermaQ1ZInGWXlxgaq
-	mgcsCy27j+w6PCj3rgsGiInCr6fh89Ep3+LyUniZjyGWAqBCOtfsCwpZn4Q0x1E=
-X-Gm-Gg: ASbGncuaNOucWtaWhnUXkFxOUTPWjJwTqMi/XvgNGxN2GkE2Mwe3cnE56Vbc2Hm0Wzv
-	t4juS2bmb9zaOvOF4ktoi4qCFtYofxVBALbrks3LpHiwpUJWHcy/bHhvopOp0ZctBnmddl7frab
-	HazTstSVU7jnkI376j3+kGlolE2iDjOwL3m/FwyQ5Kqds7sUzxnkXZ9WcnZNR8+Xc5hTQqncHZZ
-	i0pbBWuxuMtgG7PavmCZKmHhx0c3Kkpbo97LfrmWb3aX7biNhKQrSBlwXucvZCAdeGsidXmtMVz
-	qbTbuEkQCvdXAYu9z5AgXHDNt8pAEjIUikYAmG5RlIY=
-X-Google-Smtp-Source: AGHT+IHQqh8ZpgnGqmw8Y0Gfs0rWOvi3lgJJXcPB3FwANWYf6VdAlOHRWeu8C9qpI5icX+qplbaHlQ==
-X-Received: by 2002:a67:e2ca:0:b0:4af:57df:8697 with SMTP id ada2fe7eead31-4b709d0b4f6mr11310062137.10.1737995416851;
-        Mon, 27 Jan 2025 08:30:16 -0800 (PST)
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com. [209.85.222.48])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-864a9c98e0esm1972574241.34.2025.01.27.08.30.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Jan 2025 08:30:16 -0800 (PST)
-Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-860f0e91121so3089181241.0;
-        Mon, 27 Jan 2025 08:30:16 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVecpaNoZSpjFc+UK85czIYowJhcVVS+CQvWM0KJL1qTExICobPbF3pqanRYGGFLthS/Kw=@lists.linux.dev, AJvYcCWyq2EkCajlTC2e51BY6muFSDBZZLrPT47Ee6VQTZ2LbhzGklC0NbAoXMwxSfaomNI6nEe2/8MPjMeekPw=@lists.linux.dev
-X-Received: by 2002:a05:6122:2028:b0:515:20e6:7861 with SMTP id
- 71dfb90a1353d-51e4fb68a06mr12748400e0c.2.1737995415897; Mon, 27 Jan 2025
- 08:30:15 -0800 (PST)
+	s=arc-20240116; t=1738005134; c=relaxed/simple;
+	bh=L3SiiGUGYpJKCcs/BuywXLrfjhQqmnA6GR2a0coefGU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DmxCWuZKBqaP38jxm9uKJu2cYr6TIcSyX6QJn6qs6u9tfcS/ZJzQvFD+SPdQkZ503bTgG2oZMlsyr1yk708oQbaJ/jO+49zYaxiktor+0weMTW/JbOkH4+//4yfGpyWcCESDTk1nDrHLhUTV2ZZ003JVwnSZOD369KTjgLjpjLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K/1SH4e+; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K/1SH4e+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60676C4CED2;
+	Mon, 27 Jan 2025 19:12:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738005133;
+	bh=L3SiiGUGYpJKCcs/BuywXLrfjhQqmnA6GR2a0coefGU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=K/1SH4e+uUajB5fV42YkeaGwBFaQIWWo+k7S4BsCvVXheIjbXhcMzWyW8PKYlQ8mY
+	 9dwb4QdAhwM4LPOtoAsOSN7dXv4uelW5JVVKD0cg/X4tBI9mxNDRAIjf2mzqiOa9UX
+	 xU0QAakO1IegktmVFgZkKyPryGNNA1EN+IDVufUgQGLqC5fuupdLbqjvG3MK2FLFkH
+	 5QhKHgLQZBQnN/eKBUd1XPT7lzMVyUa/9oL/MNImb5HI1tg+lAInXp6kFNXWTZz+/U
+	 vg9h2F5i6/SohxBr8UH68LMB8UGwwmE0ixcOe9UxmSuHzt62kyjyUCd1ZWNcDYcAW4
+	 Z2FfCd0JspOUQ==
+Date: Mon, 27 Jan 2025 13:12:12 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Ryan Walklin <ryan@testtoast.com>
+Cc: Mark Brown <broonie@kernel.org>, linux-arm-kernel@lists.infradead.org,
+	Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	linux-sunxi@lists.linux.dev, Liam Girdwood <lgirdwood@gmail.com>,
+	devicetree@vger.kernel.org, Samuel Holland <samuel@sholland.org>,
+	Chris Morgan <macromorgan@hotmail.com>,
+	Chen-Yu Tsai <wens@csie.org>, Takashi Iwai <tiwai@suse.com>
+Subject: Re: [PATCH v2 1/5] ASoC: dt-bindings: sun4i-a10-codec: add
+ hp-det-gpios
+Message-ID: <173800513205.698322.900237271228809143.robh@kernel.org>
+References: <20250125070458.13822-1-ryan@testtoast.com>
+ <20250125070458.13822-2-ryan@testtoast.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250127-pm_ata-v1-0-f8f50c821a2a@gmail.com>
-In-Reply-To: <20250127-pm_ata-v1-0-f8f50c821a2a@gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 27 Jan 2025 17:30:04 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdV7GwMNm5tYvWugehstM07W9JkLdKrE9hwPhxcEab8ajA@mail.gmail.com>
-X-Gm-Features: AWEUYZmGy-5V1Zbo64bUIwl2HUW8rq3_GydwTJUAoMljjyEePEDEnt0EQDD7GTM
-Message-ID: <CAMuHMdV7GwMNm5tYvWugehstM07W9JkLdKrE9hwPhxcEab8ajA@mail.gmail.com>
-Subject: Re: [RFC PATCH 00/14] AHCI power management cleanup
-To: Raphael Gallais-Pou <rgallaispou@gmail.com>
-Cc: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Hans de Goede <hdegoede@redhat.com>, Patrice Chotard <patrice.chotard@foss.st.com>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Viresh Kumar <vireshk@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, linux-ide@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250125070458.13822-2-ryan@testtoast.com>
 
-Hi Raphael,
 
-On Mon, 27 Jan 2025 at 13:46, Raphael Gallais-Pou <rgallaispou@gmail.com> w=
-rote:
-> Several AHCI drivers expose suspend/resume functions in a way that can
-> be simplified.  Using pre-processor operation can lead to errors, while
-> relying on automatic kernel configuration is safer.  It also shrinks the
-> kernel size when CONFIG_PM_SLEEP is not used[1].
+On Sat, 25 Jan 2025 20:00:11 +1300, Ryan Walklin wrote:
+> From: Chris Morgan <macromorgan@hotmail.com>
+> 
+> Devices integrating Allwinner SoCs may use line-out or headphone jacks
+> with jack detection circuits attached to a GPIO. For example, a number
+> of Anbernic devices featuring the H700 SoC use this mechanism to switch
+> between a headphone jack and an internal speaker.
+> 
+> Add extra routing endpoints to support this.
+> 
+> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+> 
+> --
+> Changelog v1..v2:
+> - Remove vendor prefix from hp-det-gpios
+> - Amend commit message
+> ---
+>  .../bindings/sound/allwinner,sun4i-a10-codec.yaml           | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
 
-m68k/allyesconfig:
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
-drivers/ata/sata_highbank.c: In function =E2=80=98ahci_highbank_suspend=E2=
-=80=99:
-drivers/ata/sata_highbank.c:590:9: error: implicit declaration of
-function =E2=80=98ata_host_suspend=E2=80=99; did you mean =E2=80=98ata_sas_=
-port_suspend=E2=80=99?
-[-Werror=3Dimplicit-function-declaration]
-drivers/ata/sata_highbank.c: In function =E2=80=98ahci_highbank_resume=E2=
-=80=99:
-drivers/ata/sata_highbank.c:607:9: error: implicit declaration of
-function =E2=80=98ata_host_resume=E2=80=99; did you mean =E2=80=98ahci_port=
-_resume=E2=80=99?
-[-Werror=3Dimplicit-function-declaration]
-drivers/ata/pata_arasan_cf.c: In function =E2=80=98arasan_cf_suspend=E2=80=
-=99:
-drivers/ata/pata_arasan_cf.c:938:9: error: implicit declaration of
-function =E2=80=98ata_host_suspend=E2=80=99; did you mean =E2=80=98ata_sas_=
-port_suspend=E2=80=99?
-[-Werror=3Dimplicit-function-declaration]
-drivers/ata/pata_arasan_cf.c: In function =E2=80=98arasan_cf_resume=E2=80=
-=99:
-drivers/ata/pata_arasan_cf.c:948:9: error: implicit declaration of
-function =E2=80=98ata_host_resume=E2=80=99; did you mean =E2=80=98sata_link=
-_resume=E2=80=99?
-[-Werror=3Dimplicit-function-declaration]
-drivers/ata/sata_rcar.c: In function =E2=80=98sata_rcar_suspend=E2=80=99:
-drivers/ata/sata_rcar.c:936:9: error: implicit declaration of function
-=E2=80=98ata_host_suspend=E2=80=99; did you mean =E2=80=98sata_rcar_suspend=
-=E2=80=99?
-[-Werror=3Dimplicit-function-declaration]
-drivers/ata/sata_rcar.c: In function =E2=80=98sata_rcar_resume=E2=80=99:
-drivers/ata/sata_rcar.c:973:9: error: implicit declaration of function
-=E2=80=98ata_host_resume=E2=80=99; did you mean =E2=80=98sata_rcar_resume=
-=E2=80=99?
-[-Werror=3Dimplicit-function-declaration]
-drivers/ata/pata_imx.c: In function =E2=80=98pata_imx_suspend=E2=80=99:
-drivers/ata/pata_imx.c:209:9: error: implicit declaration of function
-=E2=80=98ata_host_suspend=E2=80=99; did you mean =E2=80=98pata_imx_suspend=
-=E2=80=99?
-[-Werror=3Dimplicit-function-declaration]
-drivers/ata/pata_imx.c: In function =E2=80=98pata_imx_resume=E2=80=99:
-drivers/ata/pata_imx.c:232:9: error: implicit declaration of function
-=E2=80=98ata_host_resume=E2=80=99; did you mean =E2=80=98pata_imx_resume=E2=
-=80=99?
-[-Werror=3Dimplicit-function-declaration]
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
