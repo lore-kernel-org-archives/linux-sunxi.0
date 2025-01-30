@@ -1,148 +1,109 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 318111854;
-	Thu, 30 Jan 2025 02:30:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9279C1E573F;
+	Thu, 30 Jan 2025 14:10:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738204248; cv=none; b=FaLvZth9sRCmzj1hqzrYzhYIOWgZnnKBLkHcdSe/9IToXuIQ2H4NtEE94d8OAq/6OnF5tvT5ryVYamOHN9Ny7kMV2vM1Ni85JyxCGxb31EE1SLSndXgIYgX+TO0JTPCVPX3WyyaJpr9VZHRG2LwDRl+4/fwWXrpzOTYVK5yK2d0=
+	t=1738246212; cv=none; b=R0fYEl2fUQ7QM6jtoNZiy6klnI5FvE28TDl0kHxzqJz3lP6KUbEdVF2yxGsNFVUisPcX0SOeCD0SiS5yS6BvAKiQq/wP4zsgLdB+lkBeAWYQSXw7lCG5eKyxNXfc0RHOzWtm/w4xPthMoCV8DTvf6PvsXBNQ5XOOJ1rlNs2tgng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738204248; c=relaxed/simple;
-	bh=e4jbTg/JY2I7eJPj0aXC/9HSq2Ljb5HCCsZGm12Jwr0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OHMkmg6wp4hyiZLWA7Nstryu/ODyUC7W84Zw5EHZUEQvqzRL9Pkosod4i2b/dALtJLFW8QM/bF5Fqz5qPJCClI/JqnLwmt39cvcXFds61P8Z6kMg7OtM7CoVlcIihpITE8mY0OOplubIC+pu5oMmmGiJsf2/d26be+REL5nAkxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y2nGbi0T; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738246212; c=relaxed/simple;
+	bh=kXMtPvKQuZHL9xcm4hq3kkVSDGMX5Os3i3OJFM8PSIo=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=uGfJyE28+Az1QJTRVbgpmt53kKGeCbPNZpS5m/oB7OtNb112ul0oiSzADb3eCC8Hkvd9vjKKHkXhCoBAUBK49B5SXhswHwiZ8f7FD2g7AokR44FNxgqglmdkBgr/4UyJlfIDGI82SEcNdbh0h8STIoUZNS/u5MtoAijLglB80MA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FC/e0Ajn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y2nGbi0T"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B50C2C4CED1;
-	Thu, 30 Jan 2025 02:30:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FC/e0Ajn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C027C4CED2;
+	Thu, 30 Jan 2025 14:10:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738204247;
-	bh=e4jbTg/JY2I7eJPj0aXC/9HSq2Ljb5HCCsZGm12Jwr0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Y2nGbi0T6W0Oi8KOuLylVn2xAg2yXpQ2n5IISfJfVxbHKfSqWlxGXS5zVm7Do/Gio
-	 7bp8aPT5RgM3Wo4MacJLJlpnGqbmB6ttpLNLme1jLj2+I20HUBQECEvrVz6Pd36Yu3
-	 L9yEuGCVz/cJPl3Fr/tvqGhi2vq9UIH7kgzlEodzDg06ftpHLiVS3qbBkS2D6mZI1/
-	 OUAdyzBIDYiI6eKfFnpbmuI2UKzoPdbzDqDmvvdqOa6Sfub4EVNYBdlVElNLKqtVgw
-	 cYRSYqP15TSYZsp6oSQQvYJgRCOMV9ByiCElgbFd4927X3VAag+HRpkxQ+4Mz2i0D9
-	 esvKqqdHF/IlA==
-Message-ID: <5d8d4fa6-66ef-48c1-b13a-607a70e476f4@kernel.org>
-Date: Thu, 30 Jan 2025 11:30:43 +0900
+	s=k20201202; t=1738246212;
+	bh=kXMtPvKQuZHL9xcm4hq3kkVSDGMX5Os3i3OJFM8PSIo=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=FC/e0Ajnb6yigUYE+68RWjMmE2hdLowFH7ZjlxuOc49+h3pHnNVQIv92HciGk/veu
+	 l1jqLQaZr2jUbt8dQGfDtinIahleHwrW28sIiDWSodyN11u5+4iFEsHoLTP3r4pbWk
+	 Db3LcSsWuclPXhWwqvS+dlaEHsD8NPXMYUYitlRZJtnFFFh7Er53eerdaLXx9jRc3R
+	 HNgtRa+x/qFi+HCxmQHcJn/jH1KwsWku+nTy3G41+eSbMYj5ydbcK51rCieBsL7Uzs
+	 EphNuo4965I9C7qr/gTH7RETVZsRASw04DpP6gu2lNstqCuy5XmXqCkncugX4n91pY
+	 j0A3fEdKN4KZA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 7136E380AA66;
+	Thu, 30 Jan 2025 14:10:39 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 14/14] ahci: sata_rcar: Switch from CONFIG_PM_SLEEP
- guards to pm_sleep_ptr()
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Raphael Gallais-Pou <rgallaispou@gmail.com>
-Cc: Niklas Cassel <cassel@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Hans de Goede <hdegoede@redhat.com>,
- Patrice Chotard <patrice.chotard@foss.st.com>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Viresh Kumar <vireshk@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>, linux-ide@vger.kernel.org,
- linux-kernel@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-renesas-soc@vger.kernel.org
-References: <20250127-pm_ata-v1-0-f8f50c821a2a@gmail.com>
- <20250127-pm_ata-v1-14-f8f50c821a2a@gmail.com>
- <CAMuHMdWdXNB=ijpWHWY5HgwJw8yw4jk9Bnmez-8MLzGRCQrXdg@mail.gmail.com>
-From: Damien Le Moal <dlemoal@kernel.org>
-Content-Language: en-US
-Organization: Western Digital Research
-In-Reply-To: <CAMuHMdWdXNB=ijpWHWY5HgwJw8yw4jk9Bnmez-8MLzGRCQrXdg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v11 00/14] riscv: Add support for xtheadvector
+From: patchwork-bot+linux-riscv@kernel.org
+Message-Id: 
+ <173824623824.971083.4395426797923401446.git-patchwork-notify@kernel.org>
+Date: Thu, 30 Jan 2025 14:10:38 +0000
+References: <20241113-xtheadvector-v11-0-236c22791ef9@rivosinc.com>
+In-Reply-To: <20241113-xtheadvector-v11-0-236c22791ef9@rivosinc.com>
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: linux-riscv@lists.infradead.org, conor@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, paul.walmsley@sifive.com, palmer@dabbelt.com,
+ aou@eecs.berkeley.edu, jszhang@kernel.org, wens@csie.org,
+ jernej.skrabec@gmail.com, samuel@sholland.org, samuel.holland@sifive.com,
+ corbet@lwn.net, shuah@kernel.org, guoren@kernel.org, evan@rivosinc.com,
+ jrtc27@jrtc27.com, ajones@ventanamicro.com, cyy@cyyself.name,
+ andybnac@gmail.com, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, conor.dooley@microchip.com, heiko@sntech.de
 
-On 1/27/25 22:45, Geert Uytterhoeven wrote:
-> Hi Raphael,
-> 
-> On Mon, 27 Jan 2025 at 13:46, Raphael Gallais-Pou <rgallaispou@gmail.com> wrote:
->> Letting the compiler remove these functions when the kernel is built
->> without CONFIG_PM_SLEEP support is simpler and less error prone than the
->> use of #ifdef based kernel configuration guards.
->>
->> Signed-off-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
-> 
-> Thanks for your patch!
-> 
-> The subsystem prefix is "ata", not "ahci" (not all ATA-drivers are
-> AHCI-drivers).
+Hello:
 
-Yep. The convention is:
+This series was applied to riscv/linux.git (for-next)
+by Palmer Dabbelt <palmer@rivosinc.com>:
 
-ata: driver_name: xxx
+On Wed, 13 Nov 2024 18:21:06 -0800 you wrote:
+> xtheadvector is a custom extension that is based upon riscv vector
+> version 0.7.1 [1]. All of the vector routines have been modified to
+> support this alternative vector version based upon whether xtheadvector
+> was determined to be supported at boot.
+> 
+> vlenb is not supported on the existing xtheadvector hardware, so a
+> devicetree property thead,vlenb is added to provide the vlenb to Linux.
+> 
+> [...]
 
-So it would be:
+Here is the summary with links:
+  - [v11,01/14] dt-bindings: riscv: Add xtheadvector ISA extension description
+    https://git.kernel.org/riscv/c/e576b7cb8183
+  - [v11,02/14] dt-bindings: cpus: add a thead vlen register length property
+    https://git.kernel.org/riscv/c/bf6279b38a4b
+  - [v11,03/14] riscv: dts: allwinner: Add xtheadvector to the D1/D1s devicetree
+    https://git.kernel.org/riscv/c/ce1daeeba600
+  - [v11,04/14] riscv: Add thead and xtheadvector as a vendor extension
+    https://git.kernel.org/riscv/c/cddd63869f92
+  - [v11,05/14] riscv: vector: Use vlenb from DT for thead
+    https://git.kernel.org/riscv/c/377be47f90e4
+  - [v11,06/14] RISC-V: define the elements of the VCSR vector CSR
+    https://git.kernel.org/riscv/c/66f197785d51
+  - [v11,07/14] riscv: csr: Add CSR encodings for CSR_VXRM/CSR_VXSAT
+    https://git.kernel.org/riscv/c/b9a931442451
+  - [v11,08/14] riscv: Add xtheadvector instruction definitions
+    https://git.kernel.org/riscv/c/01e3313e34d0
+  - [v11,09/14] riscv: vector: Support xtheadvector save/restore
+    https://git.kernel.org/riscv/c/d863910eabaf
+  - [v11,10/14] riscv: hwprobe: Add thead vendor extension probing
+    https://git.kernel.org/riscv/c/a5ea53da65c5
+  - [v11,11/14] riscv: hwprobe: Document thead vendor extensions and xtheadvector extension
+    https://git.kernel.org/riscv/c/7fa00fd6ff53
+  - [v11,12/14] selftests: riscv: Fix vector tests
+    https://git.kernel.org/riscv/c/57d7713af93e
+  - [v11,13/14] selftests: riscv: Support xtheadvector in vector tests
+    https://git.kernel.org/riscv/c/c384c5d4a2ae
+  - [v11,14/14] riscv: Add ghostwrite vulnerability
+    https://git.kernel.org/riscv/c/4bf97069239b
 
-ata: sata_rcar: Switch from CONFIG_PM_SLEEP guards to pm_sleep_ptr()
-
-for this patch. And the same comment applies to all your other patches in the
-series.
-
-> 
->> --- a/drivers/ata/sata_rcar.c
->> +++ b/drivers/ata/sata_rcar.c
->> @@ -927,7 +927,6 @@ static void sata_rcar_remove(struct platform_device *pdev)
->>         pm_runtime_disable(&pdev->dev);
->>  }
->>
->> -#ifdef CONFIG_PM_SLEEP
->>  static int sata_rcar_suspend(struct device *dev)
->>  {
->>         struct ata_host *host = dev_get_drvdata(dev);
->> @@ -1005,7 +1004,6 @@ static const struct dev_pm_ops sata_rcar_pm_ops = {
->>         .poweroff       = sata_rcar_suspend,
->>         .restore        = sata_rcar_restore,
->>  };
->> -#endif
-> 
-> If CONFIG_PM_SLEEP is disabled (e.g. m68k allyesconfig):
-> 
->     drivers/ata/sata_rcar.c: In function ‘sata_rcar_suspend’:
->     drivers/ata/sata_rcar.c:936:9: error: implicit declaration of
-> function ‘ata_host_suspend’; did you mean ‘sata_rcar_suspend’?
-> [-Werror=implicit-function-declaration]
->       936 |         ata_host_suspend(host, PMSG_SUSPEND);
->           |         ^~~~~~~~~~~~~~~~
->           |         sata_rcar_suspend
->     drivers/ata/sata_rcar.c: In function ‘sata_rcar_resume’:
->     drivers/ata/sata_rcar.c:973:9: error: implicit declaration of
-> function ‘ata_host_resume’; did you mean ‘sata_rcar_resume’?
-> [-Werror=implicit-function-declaration]
->       973 |         ata_host_resume(host);
->           |         ^~~~~~~~~~~~~~~
->           |         sata_rcar_resume
-> 
->>
->>  static struct platform_driver sata_rcar_driver = {
->>         .probe          = sata_rcar_probe,
->> @@ -1013,9 +1011,7 @@ static struct platform_driver sata_rcar_driver = {
->>         .driver = {
->>                 .name           = DRV_NAME,
->>                 .of_match_table = sata_rcar_match,
->> -#ifdef CONFIG_PM_SLEEP
->> -               .pm             = &sata_rcar_pm_ops,
->> -#endif
->> +               .pm             = pm_sleep_ptr(&sata_rcar_pm_ops),
->>         },
->>  };
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-
-
+You are awesome, thank you!
 -- 
-Damien Le Moal
-Western Digital Research
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
