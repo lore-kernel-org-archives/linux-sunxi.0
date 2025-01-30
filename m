@@ -1,107 +1,148 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86AAD1E0E11;
-	Wed, 29 Jan 2025 18:43:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 318111854;
+	Thu, 30 Jan 2025 02:30:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738176215; cv=none; b=H8A2Mwr86Yr3aF9QNBr0cx8kIEpRbg9zaCEdav5kyv8FbJoetKyvlrnzpR2Lx8reAltUQbhg8g4MgTyFdDexEgiMsTeM4Q9s2/1fDUdH3PIRf2aN8fErUlN+FB7xX5RIzkYlQv/B/VwJS/UaEFQy8b0ik2Sd6WwjfNOSbARkLjk=
+	t=1738204248; cv=none; b=FaLvZth9sRCmzj1hqzrYzhYIOWgZnnKBLkHcdSe/9IToXuIQ2H4NtEE94d8OAq/6OnF5tvT5ryVYamOHN9Ny7kMV2vM1Ni85JyxCGxb31EE1SLSndXgIYgX+TO0JTPCVPX3WyyaJpr9VZHRG2LwDRl+4/fwWXrpzOTYVK5yK2d0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738176215; c=relaxed/simple;
-	bh=wpLtJQJSXibrZpozKG1QF6LlfcAJa9vamGSJco/f5II=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UzeQFvqEeFKZf83tfVqqGrntm0mxrFX7hxixGg4+UQDNkNswtrzhLjfIFDbhrRfJobwX7qizxOlGEwy+PNt6vTdH9Ed3+qp7908FjquPJMHAXYD5DOnHuMJhVLQpB74Fvm9qdiiubaT4BpeplRGevebe/oACxvkcSF20AeGKjHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O5BJggaG; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1738204248; c=relaxed/simple;
+	bh=e4jbTg/JY2I7eJPj0aXC/9HSq2Ljb5HCCsZGm12Jwr0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OHMkmg6wp4hyiZLWA7Nstryu/ODyUC7W84Zw5EHZUEQvqzRL9Pkosod4i2b/dALtJLFW8QM/bF5Fqz5qPJCClI/JqnLwmt39cvcXFds61P8Z6kMg7OtM7CoVlcIihpITE8mY0OOplubIC+pu5oMmmGiJsf2/d26be+REL5nAkxA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y2nGbi0T; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O5BJggaG"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43626213fffso7411985e9.1;
-        Wed, 29 Jan 2025 10:43:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738176212; x=1738781012; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wpLtJQJSXibrZpozKG1QF6LlfcAJa9vamGSJco/f5II=;
-        b=O5BJggaGv5awCF98uyhMN5bcVw2talY008HqJOM+PZ1gFviTlSuY9Df2Yx5dku8Pl3
-         xENoHD46gFvugOqexgKMVsVqMuIBnGHXvWYaji/85RG6JiuJ4z0fVELblIsnHazV5Uu6
-         hNiTciL+VNUP3Ol7om6FfSv3BXQ2FY0U6tR3ZDgiN0HqgUVnqufVLTJsKRB/zs+oPIyT
-         vG3aSKCw2tb5kaA5KJ7I813U67OXEZBikOs43fg/RrLqO+eNEKxVz2NJfc8P1p76mXiB
-         Iig96n56JcZ6XJ8dIGwDIi+93s8BOuJPgmemmSLnhjBjr3pz2sqLiYkyeET4cRvlLftV
-         cseg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738176212; x=1738781012;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wpLtJQJSXibrZpozKG1QF6LlfcAJa9vamGSJco/f5II=;
-        b=vXmfYiss6XBiEMcvFnLGO4odnubj6pU4d0syXTjEcDZ7o1URmXmycpzUEKRW2km+N3
-         Fm+/lKbf66OPODZJz+BVjcdUWMRK2UR7ujXN7znfEFlFxfzDd3KX8EXMJrpN8xpN094n
-         5v+oq8krF7x2wyhCFy3eNIN39YmVWQBrpQ5gUHFc/AMfUwxhRY7e2rL9Ezu4/YigMNAv
-         JD2B6cV3hIbw0EKyfYUEOqVR1QRuoed7r07M9Picm+ntVS5uLtY8lKdcjBH0oRwUJEUZ
-         ugmgwGiwRxRZXxPZXTnZvT1zMqxpPBiIkYKOsFCMP6UvZBUBvGrOlD4VHSJa1wUdSaTY
-         JxHQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVoeWqjf7B8iJEFetbdJWddxTQ22dAUAx+pS5I5SjxSEZODsJr/zR7/t+RRtGhojwbLJ2fRbidyyyo16YA=@lists.linux.dev, AJvYcCX+XnvFy6+/luGXG9VXGRLR6R75sPgK7Fqddi80UO66iQw3BYCZFb7XIIa+0/9q1oJtXUg=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxFMKd7nBNtk5FuM/E+iD9gxuohBt33aQClodTtglLIwbTW+4sZ
-	BuQwhvX3PHBvoCyFVnNplt/yRY4t7CSCmd1pRho9bCglgPqqCJ29jZ7nQA==
-X-Gm-Gg: ASbGncszIVYsytdSFWDtKAE8zkpuY/IO90Od4Ed0UU+kFxByOdg7QZCrf7ZRF/NorBL
-	0Fpc8ZDKR7VRMcyC1GcsOfZAS8al4l5bCmStZfFYzr0qIrPtwjmncLl7rRdSnSp78qxPS70MnvT
-	qtev5Oeo6rqYJuZi22e1F37N9ZeMjRufMLf3aH5j+IwFURxUCbCDxzSmSDfCbB8+wr0Gu99wIso
-	rpvG+VEl6Emkwx16p4u+o/ZxvcMW3MrpIT29fXGCjcqpmzi+UCPyzxLHZM3mkSAqoqwaI4sUuYu
-	yPDy5iRm8CcK3wBci2bg5Td8sHrjBAPoO+auuJbEbHS3y5t6OfIPbSeuTJ2owHEdKOE=
-X-Google-Smtp-Source: AGHT+IEPFrQXMJ4B9NwKJTHyw+XoKc8K85X25SwaFjwRXkdgX7SF83b7AlrXrbk9HgCflphZbgeZng==
-X-Received: by 2002:a05:600c:3d8c:b0:438:9280:61d5 with SMTP id 5b1f17b1804b1-438e15db9f6mr3330685e9.5.1738176211643;
-        Wed, 29 Jan 2025 10:43:31 -0800 (PST)
-Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438dcc80e61sm32258705e9.34.2025.01.29.10.43.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jan 2025 10:43:31 -0800 (PST)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Hans de Goede <hdegoede@redhat.com>,
- Patrice Chotard <patrice.chotard@foss.st.com>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>, Viresh Kumar <vireshk@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Raphael Gallais-Pou <rgallaispou@gmail.com>
-Cc: linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-renesas-soc@vger.kernel.org
-Subject:
- Re: [PATCH RFC 10/14] ahci: sunxi: Switch from CONFIG_PM_SLEEP guards to
- pm_sleep_ptr()
-Date: Wed, 29 Jan 2025 19:43:29 +0100
-Message-ID: <2765029.mvXUDI8C0e@jernej-laptop>
-In-Reply-To: <20250127-pm_ata-v1-10-f8f50c821a2a@gmail.com>
-References:
- <20250127-pm_ata-v1-0-f8f50c821a2a@gmail.com>
- <20250127-pm_ata-v1-10-f8f50c821a2a@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y2nGbi0T"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B50C2C4CED1;
+	Thu, 30 Jan 2025 02:30:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738204247;
+	bh=e4jbTg/JY2I7eJPj0aXC/9HSq2Ljb5HCCsZGm12Jwr0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Y2nGbi0T6W0Oi8KOuLylVn2xAg2yXpQ2n5IISfJfVxbHKfSqWlxGXS5zVm7Do/Gio
+	 7bp8aPT5RgM3Wo4MacJLJlpnGqbmB6ttpLNLme1jLj2+I20HUBQECEvrVz6Pd36Yu3
+	 L9yEuGCVz/cJPl3Fr/tvqGhi2vq9UIH7kgzlEodzDg06ftpHLiVS3qbBkS2D6mZI1/
+	 OUAdyzBIDYiI6eKfFnpbmuI2UKzoPdbzDqDmvvdqOa6Sfub4EVNYBdlVElNLKqtVgw
+	 cYRSYqP15TSYZsp6oSQQvYJgRCOMV9ByiCElgbFd4927X3VAag+HRpkxQ+4Mz2i0D9
+	 esvKqqdHF/IlA==
+Message-ID: <5d8d4fa6-66ef-48c1-b13a-607a70e476f4@kernel.org>
+Date: Thu, 30 Jan 2025 11:30:43 +0900
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 14/14] ahci: sata_rcar: Switch from CONFIG_PM_SLEEP
+ guards to pm_sleep_ptr()
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Raphael Gallais-Pou <rgallaispou@gmail.com>
+Cc: Niklas Cassel <cassel@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Patrice Chotard <patrice.chotard@foss.st.com>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Viresh Kumar <vireshk@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, linux-ide@vger.kernel.org,
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-renesas-soc@vger.kernel.org
+References: <20250127-pm_ata-v1-0-f8f50c821a2a@gmail.com>
+ <20250127-pm_ata-v1-14-f8f50c821a2a@gmail.com>
+ <CAMuHMdWdXNB=ijpWHWY5HgwJw8yw4jk9Bnmez-8MLzGRCQrXdg@mail.gmail.com>
+From: Damien Le Moal <dlemoal@kernel.org>
+Content-Language: en-US
+Organization: Western Digital Research
+In-Reply-To: <CAMuHMdWdXNB=ijpWHWY5HgwJw8yw4jk9Bnmez-8MLzGRCQrXdg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Dne ponedeljek, 27. januar 2025 ob 13:46:05 Srednjeevropski standardni =C4=
-=8Das je Raphael Gallais-Pou napisal(a):
-> Letting the compiler remove these functions when the kernel is built
-> without CONFIG_PM_SLEEP support is simpler and less error prone than the
-> use of #ifdef based kernel configuration guards.
->=20
-> Signed-off-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
+On 1/27/25 22:45, Geert Uytterhoeven wrote:
+> Hi Raphael,
+> 
+> On Mon, 27 Jan 2025 at 13:46, Raphael Gallais-Pou <rgallaispou@gmail.com> wrote:
+>> Letting the compiler remove these functions when the kernel is built
+>> without CONFIG_PM_SLEEP support is simpler and less error prone than the
+>> use of #ifdef based kernel configuration guards.
+>>
+>> Signed-off-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
+> 
+> Thanks for your patch!
+> 
+> The subsystem prefix is "ata", not "ahci" (not all ATA-drivers are
+> AHCI-drivers).
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Yep. The convention is:
 
-Best regards,
-Jernej
+ata: driver_name: xxx
+
+So it would be:
+
+ata: sata_rcar: Switch from CONFIG_PM_SLEEP guards to pm_sleep_ptr()
+
+for this patch. And the same comment applies to all your other patches in the
+series.
+
+> 
+>> --- a/drivers/ata/sata_rcar.c
+>> +++ b/drivers/ata/sata_rcar.c
+>> @@ -927,7 +927,6 @@ static void sata_rcar_remove(struct platform_device *pdev)
+>>         pm_runtime_disable(&pdev->dev);
+>>  }
+>>
+>> -#ifdef CONFIG_PM_SLEEP
+>>  static int sata_rcar_suspend(struct device *dev)
+>>  {
+>>         struct ata_host *host = dev_get_drvdata(dev);
+>> @@ -1005,7 +1004,6 @@ static const struct dev_pm_ops sata_rcar_pm_ops = {
+>>         .poweroff       = sata_rcar_suspend,
+>>         .restore        = sata_rcar_restore,
+>>  };
+>> -#endif
+> 
+> If CONFIG_PM_SLEEP is disabled (e.g. m68k allyesconfig):
+> 
+>     drivers/ata/sata_rcar.c: In function ‘sata_rcar_suspend’:
+>     drivers/ata/sata_rcar.c:936:9: error: implicit declaration of
+> function ‘ata_host_suspend’; did you mean ‘sata_rcar_suspend’?
+> [-Werror=implicit-function-declaration]
+>       936 |         ata_host_suspend(host, PMSG_SUSPEND);
+>           |         ^~~~~~~~~~~~~~~~
+>           |         sata_rcar_suspend
+>     drivers/ata/sata_rcar.c: In function ‘sata_rcar_resume’:
+>     drivers/ata/sata_rcar.c:973:9: error: implicit declaration of
+> function ‘ata_host_resume’; did you mean ‘sata_rcar_resume’?
+> [-Werror=implicit-function-declaration]
+>       973 |         ata_host_resume(host);
+>           |         ^~~~~~~~~~~~~~~
+>           |         sata_rcar_resume
+> 
+>>
+>>  static struct platform_driver sata_rcar_driver = {
+>>         .probe          = sata_rcar_probe,
+>> @@ -1013,9 +1011,7 @@ static struct platform_driver sata_rcar_driver = {
+>>         .driver = {
+>>                 .name           = DRV_NAME,
+>>                 .of_match_table = sata_rcar_match,
+>> -#ifdef CONFIG_PM_SLEEP
+>> -               .pm             = &sata_rcar_pm_ops,
+>> -#endif
+>> +               .pm             = pm_sleep_ptr(&sata_rcar_pm_ops),
+>>         },
+>>  };
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
 
 
+-- 
+Damien Le Moal
+Western Digital Research
