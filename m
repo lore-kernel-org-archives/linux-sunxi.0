@@ -1,35 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9279C1E573F;
-	Thu, 30 Jan 2025 14:10:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 488DF1AF0DB
+	for <linux-sunxi@lists.linux.dev>; Fri, 31 Jan 2025 23:17:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738246212; cv=none; b=R0fYEl2fUQ7QM6jtoNZiy6klnI5FvE28TDl0kHxzqJz3lP6KUbEdVF2yxGsNFVUisPcX0SOeCD0SiS5yS6BvAKiQq/wP4zsgLdB+lkBeAWYQSXw7lCG5eKyxNXfc0RHOzWtm/w4xPthMoCV8DTvf6PvsXBNQ5XOOJ1rlNs2tgng=
+	t=1738365443; cv=none; b=qYwLxnFj8sDspJ4vsgvRb7hbizE0L+L2Sb3XTyMqa2wW4nUo5lZJ26IjqTj0Srj9W1Fre+DhbrvnDu3+v3Kw55YxL+o4lBj+Y/R8rAQ9EKFbWlHMKPBMqQOdyH6tCBKNZI8UTf58wnVdlsGRlCHZu4/3UBlzFA5X6uBr1qqVHgg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738246212; c=relaxed/simple;
-	bh=kXMtPvKQuZHL9xcm4hq3kkVSDGMX5Os3i3OJFM8PSIo=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=uGfJyE28+Az1QJTRVbgpmt53kKGeCbPNZpS5m/oB7OtNb112ul0oiSzADb3eCC8Hkvd9vjKKHkXhCoBAUBK49B5SXhswHwiZ8f7FD2g7AokR44FNxgqglmdkBgr/4UyJlfIDGI82SEcNdbh0h8STIoUZNS/u5MtoAijLglB80MA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FC/e0Ajn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738365443; c=relaxed/simple;
+	bh=YapN2yvZIwdswNXYbi1VrbhQHoJ9NYwGj54en8q3GcE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aCbO1UCEhlknchWSOt3wXnbzW/+oNCXzxVeBguzPu2w0xHbL+Khic1f6Sh5s43VN19JJwrxG8WERCNE7Mh5R7nYYudRn46SuF0B00nC5iz+wJfOG9d6ENyxbEMFZHq3BmTJyYYplRLosQdg0DOVfeZAbwcCWDYfiRnuuX6bOr6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WtMxsIF6; arc=none smtp.client-ip=209.85.167.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FC/e0Ajn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C027C4CED2;
-	Thu, 30 Jan 2025 14:10:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738246212;
-	bh=kXMtPvKQuZHL9xcm4hq3kkVSDGMX5Os3i3OJFM8PSIo=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=FC/e0Ajnb6yigUYE+68RWjMmE2hdLowFH7ZjlxuOc49+h3pHnNVQIv92HciGk/veu
-	 l1jqLQaZr2jUbt8dQGfDtinIahleHwrW28sIiDWSodyN11u5+4iFEsHoLTP3r4pbWk
-	 Db3LcSsWuclPXhWwqvS+dlaEHsD8NPXMYUYitlRZJtnFFFh7Er53eerdaLXx9jRc3R
-	 HNgtRa+x/qFi+HCxmQHcJn/jH1KwsWku+nTy3G41+eSbMYj5ydbcK51rCieBsL7Uzs
-	 EphNuo4965I9C7qr/gTH7RETVZsRASw04DpP6gu2lNstqCuy5XmXqCkncugX4n91pY
-	 j0A3fEdKN4KZA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 7136E380AA66;
-	Thu, 30 Jan 2025 14:10:39 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WtMxsIF6"
+Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-3eba0f09c3aso738352b6e.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 31 Jan 2025 15:17:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738365441; x=1738970241; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yA0ZMs3D/azII+yrcqeVKwM8wsWt4qgAa1Wy8fUSpJ8=;
+        b=WtMxsIF6LZCHbNR2acVL16vmn55RG+xBdZP36H4voFe9iNs5ol5W3Rl/S5RElufO3g
+         x1K7Ni5Lzzs3pZ3DGW/6f3axl2GYp7tNo8//XbJW7yPJpaAgxhr41d1Y5o6oGJF2mHgU
+         8F9co3cPx+IChn/lq7IGZchPDuIrpKBYrIJLHbn4b+KlEJTwWsWyS/AW31SZc/dBGeC3
+         2+XHDG5Lr/eLxDl4QtkB1gNB63DVoz3RtR9wkPLikZyM9qucnDfuJlkoMDQBkS+C5Soy
+         BNtnmw3DF1MIfI8nHBzQnJwB0uolE0pDS1m1UsLV0QY9VIlVuByZi1rOmXQctEeCGOEI
+         fhCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738365441; x=1738970241;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yA0ZMs3D/azII+yrcqeVKwM8wsWt4qgAa1Wy8fUSpJ8=;
+        b=QDgBA34XmTzJG2qiKs0TBvmty6tgDJR+40qoExLyxHWU+dZpBBSBt+AJSCXbu4o+gT
+         RAaTMmj38gGENbGmg6PagxjlnBa4JZmDW/6PKhG+nzyd6r+P5fY/jI1nlQI2j7zkcMHU
+         /b9OrHLbMuJhhZQ6yniHF1ksGwGCwHb+1J6EfBEue1tKTt7KiUwV4DZ1fUOTCB313ZqD
+         Ip9Hqoyn6mXytwyjzpe5S4AOdWDcSey0Uj0By/5HGF8Cr9HXQoMflW4Hu0nGqZ+xfbLN
+         Vuff0qmXYnL2wn5FVEMD0KVpy/rrFnkb2vNG0kmAo7UZgd9wrmzml3kMTX/0+ji8gKDE
+         Ihjw==
+X-Gm-Message-State: AOJu0Yy4qppqMB8dm6iBbG4pjduZt/D4KE9ZW5VqCcU4OLxaSRG+FKez
+	/p0hJFWqfbRR5uaLP/rOuWsWJ97HLiJeLZ8yDuM7LVeelSCFhDUha/p1TA==
+X-Gm-Gg: ASbGncti8P+WnW5JgceMgcewUCQ1Nzc47nG2QHsNoqtbgDs0k2wq62S6ZyZjC2Az2GR
+	CPZFd6quk4aCnN2Qz6Pl+rlgbfBK662+GyuKbjBzM0NtQFtCYYeoAnXwWOfL6IIMClrQikzcROd
+	0oxGM++Frj37qLpJEcKYNCoX1WUIJ9AI5ThBD1IxwsnZryPP5iJP8XdMlSAMjcCwZ1YxTUoE4nj
+	aXHZy+gNP+3maq+gc3t+gRMkNRgx9qvG3MYR18tyrQhRV3Drs39VaNp0+8HCSYUIKaKmpPq7S55
+	GYXoJIVK+v8UwUEEJZh842pBnb1y1TeWoMs=
+X-Google-Smtp-Source: AGHT+IF5zsoG/jawq548wfM27QRPX4FYVr58VStU1xLHndeakk40y9CTMujkL8ITr+DZKnbHxokUnA==
+X-Received: by 2002:a05:6808:3197:b0:3e6:3867:d107 with SMTP id 5614622812f47-3f323a158e3mr10821535b6e.7.1738365440973;
+        Fri, 31 Jan 2025 15:17:20 -0800 (PST)
+Received: from localhost.localdomain ([2600:1700:fb0:1bcf:d061:e6e5:c6da:b514])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-3f33365bf31sm1099128b6e.34.2025.01.31.15.17.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 31 Jan 2025 15:17:20 -0800 (PST)
+From: Chris Morgan <macroalpha82@gmail.com>
+To: linux-sunxi@lists.linux.dev
+Cc: devicetree@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	lee@kernel.org,
+	samuel@sholland.org,
+	jernej.skrabec@gmail.com,
+	wens@csie.org,
+	conor+dt@kernel.org,
+	krzk+dt@kernel.org,
+	robh@kernel.org,
+	sre@kernel.org,
+	Chris Morgan <macromorgan@hotmail.com>
+Subject: [PATCH 0/5] Fix RG35XX Battery Charging Issues
+Date: Fri, 31 Jan 2025 17:14:50 -0600
+Message-ID: <20250131231455.153447-1-macroalpha82@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -37,73 +78,32 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v11 00/14] riscv: Add support for xtheadvector
-From: patchwork-bot+linux-riscv@kernel.org
-Message-Id: 
- <173824623824.971083.4395426797923401446.git-patchwork-notify@kernel.org>
-Date: Thu, 30 Jan 2025 14:10:38 +0000
-References: <20241113-xtheadvector-v11-0-236c22791ef9@rivosinc.com>
-In-Reply-To: <20241113-xtheadvector-v11-0-236c22791ef9@rivosinc.com>
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: linux-riscv@lists.infradead.org, conor@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, paul.walmsley@sifive.com, palmer@dabbelt.com,
- aou@eecs.berkeley.edu, jszhang@kernel.org, wens@csie.org,
- jernej.skrabec@gmail.com, samuel@sholland.org, samuel.holland@sifive.com,
- corbet@lwn.net, shuah@kernel.org, guoren@kernel.org, evan@rivosinc.com,
- jrtc27@jrtc27.com, ajones@ventanamicro.com, cyy@cyyself.name,
- andybnac@gmail.com, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, conor.dooley@microchip.com, heiko@sntech.de
 
-Hello:
+From: Chris Morgan <macromorgan@hotmail.com>
 
-This series was applied to riscv/linux.git (for-next)
-by Palmer Dabbelt <palmer@rivosinc.com>:
+The Anbernic RG35XX devices sometimes fail to charge when the register
+for the battery temperature sensor is set to the incorrect value either
+by user error or an incorrectly programmed efuse. Allow users to
+hard-code if a temperature sensor is not present (which is the case for
+all Anbernic RGxx series devices) to prevent this issue from causing
+problems. Additionally, a bug was identified with the handling of PMU
+faults while this fix was being tested.
 
-On Wed, 13 Nov 2024 18:21:06 -0800 you wrote:
-> xtheadvector is a custom extension that is based upon riscv vector
-> version 0.7.1 [1]. All of the vector routines have been modified to
-> support this alternative vector version based upon whether xtheadvector
-> was determined to be supported at boot.
-> 
-> vlenb is not supported on the existing xtheadvector hardware, so a
-> devicetree property thead,vlenb is added to provide the vlenb to Linux.
-> 
-> [...]
+Chris Morgan (5):
+  power: supply: axp20x_battery: Fix fault handling for AXP717
+  dt-bindings: power: supply: axp20x-battery: Add x-powers,no-thermistor
+  mfd: axp20x: AXP717: Add AXP717_TS_PIN_CFG to writeable regs
+  power: supply: axp20x_battery: Update temp sensor for AXP717 from
+    device tree
+  arm64: dts: allwinner: rg35xx: Add no-thermistor property for battery
 
-Here is the summary with links:
-  - [v11,01/14] dt-bindings: riscv: Add xtheadvector ISA extension description
-    https://git.kernel.org/riscv/c/e576b7cb8183
-  - [v11,02/14] dt-bindings: cpus: add a thead vlen register length property
-    https://git.kernel.org/riscv/c/bf6279b38a4b
-  - [v11,03/14] riscv: dts: allwinner: Add xtheadvector to the D1/D1s devicetree
-    https://git.kernel.org/riscv/c/ce1daeeba600
-  - [v11,04/14] riscv: Add thead and xtheadvector as a vendor extension
-    https://git.kernel.org/riscv/c/cddd63869f92
-  - [v11,05/14] riscv: vector: Use vlenb from DT for thead
-    https://git.kernel.org/riscv/c/377be47f90e4
-  - [v11,06/14] RISC-V: define the elements of the VCSR vector CSR
-    https://git.kernel.org/riscv/c/66f197785d51
-  - [v11,07/14] riscv: csr: Add CSR encodings for CSR_VXRM/CSR_VXSAT
-    https://git.kernel.org/riscv/c/b9a931442451
-  - [v11,08/14] riscv: Add xtheadvector instruction definitions
-    https://git.kernel.org/riscv/c/01e3313e34d0
-  - [v11,09/14] riscv: vector: Support xtheadvector save/restore
-    https://git.kernel.org/riscv/c/d863910eabaf
-  - [v11,10/14] riscv: hwprobe: Add thead vendor extension probing
-    https://git.kernel.org/riscv/c/a5ea53da65c5
-  - [v11,11/14] riscv: hwprobe: Document thead vendor extensions and xtheadvector extension
-    https://git.kernel.org/riscv/c/7fa00fd6ff53
-  - [v11,12/14] selftests: riscv: Fix vector tests
-    https://git.kernel.org/riscv/c/57d7713af93e
-  - [v11,13/14] selftests: riscv: Support xtheadvector in vector tests
-    https://git.kernel.org/riscv/c/c384c5d4a2ae
-  - [v11,14/14] riscv: Add ghostwrite vulnerability
-    https://git.kernel.org/riscv/c/4bf97069239b
+ .../x-powers,axp20x-battery-power-supply.yaml | 22 ++++++--
+ .../sun50i-h700-anbernic-rg35xx-2024.dts      |  1 +
+ drivers/mfd/axp20x.c                          |  2 +-
+ drivers/power/supply/axp20x_battery.c         | 50 +++++++++++++------
+ include/linux/mfd/axp20x.h                    |  1 +
+ 5 files changed, 56 insertions(+), 20 deletions(-)
 
-You are awesome, thank you!
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.43.0
 
