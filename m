@@ -1,61 +1,61 @@
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C10011AF0DC
-	for <linux-sunxi@lists.linux.dev>; Fri, 31 Jan 2025 23:17:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70DCC1B87E7
+	for <linux-sunxi@lists.linux.dev>; Fri, 31 Jan 2025 23:17:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738365444; cv=none; b=sWzNpKni7Y/vx0wurHpfyvHLwhbpXPmXcPREijpVDyFfyhZAChvYfpFF1np5ZE01IlHtDEMQYK6ja58wiFSlMtpm+faSWCf5y71fa0mUFKJBxkbUPhAV4evci1mNyQ3j3RzzA0MsatO2ARYp+DvjSvt6hauTVNNiDSCP642IxFI=
+	t=1738365445; cv=none; b=dm2bG2GhCUe/zh5sW6tfIgT44NpM/jN1jFfin1xzjstJdCcyjwMNV0uNc5oas2YaLE1kgo0LOHW/Ojf180TBEvU5Wf9xBpIRQ+JeICcoOKwdcsDOItiFOod/7MK8LifKWKSaRkK/FUF39wIGat3Ig4u+vmZIy3/+ZjKNk0fiCEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738365444; c=relaxed/simple;
-	bh=gHMiTOPVRMWnLkIZqILMO8HdLfSWIvKnxHa3x9lGjsg=;
+	s=arc-20240116; t=1738365445; c=relaxed/simple;
+	bh=IEY9ErTuFfVaSJ9cLvDWiM8qfCPKp286AcHbTTYJngI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=man9xj/GonTU2Un/yg/oQEUHl8W2/WkRgfIVlobs4ahFbHrxQtfXooz/tXZWM82qYWuuLGpJV0eC00Pyn1lEzfuPMCq2+7ZBnu9Fja7ROj4pL63FI1Jl5KwhsoAH7FO8Knz9sz4UUMG39NFo0dKuWNaxqpLdMNjxHu4A7AT3wSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mbf2ebRi; arc=none smtp.client-ip=209.85.210.41
+	 MIME-Version; b=eUNVbhpRVu+bv5VuhTGknruYgulkPuk8owRdbg7szBmR4lIY/Oo1XDFcmW1AQZcu8H6435mIm7BSZuJueBRhKj4X2cowmIIkhR3xJ8cRQ7YSNg38z50SlWXrBztE5cr9OlNd4W1d7WJRDtdV4PfQ4rX5OdUgn9F9mbDnyCUEWsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AES5u1z+; arc=none smtp.client-ip=209.85.167.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mbf2ebRi"
-Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-71ded02b779so1404716a34.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 31 Jan 2025 15:17:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AES5u1z+"
+Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-3eb9bbcc936so1517249b6e.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 31 Jan 2025 15:17:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738365441; x=1738970241; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1738365443; x=1738970243; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=afgQizDC60JMpdo9r7FEtCBrD/nRn7NdVuy+nRLagYA=;
-        b=mbf2ebRiDQqx33B31bpgrThIVjsH1knmTpCTWMnpCu1cuj5+cadw+cF/yUNBKnFPlU
-         JLBf8qXfciEs8eJnfSaAFhfNjJtqeLrbTrT++QQ1nRx3cksEkOS9P1SFjuvj+FQEa1G8
-         nw+iRR4Qc9FXHNKwwR9+iiYcUCDE9nnVz9Sh0MxuBDbJqpu++4daU/UZ7daIAlqwyEIN
-         GEbPkYTpl43XR3OG/mQRFAfu21KMrrGOAPrA11R7QdT3daGjcUbfgz1qC/fPlQqY77gs
-         gBEDo1gtuA/kwfj5nkmgk8T7/tDCQOviljU8x2LodPw8epXW9gNlxx6R3kcsyKrY7VDQ
-         TF4A==
+        bh=b6RZRMBZ4GNAqGDERJs8E4i7kY25Yy4QpxNyKVAYuxs=;
+        b=AES5u1z+FjjrkH4aI+FLjCBjEhGuYN489RPxxsroWA42w48LCCAEI7PFKR8tEp2jEk
+         4yXtO9JJswVoF/jdXwSlGDdPmBnkSPRSbjjgD5/2geW2VQFFhvC3fccP6NO4vjfQjIfP
+         ElGNUez+FWHC4UVOYQtCk0lg2GYwOCo+IlyR0tgllHHE7Vy2jcVi8JhfkjpxBb+Almcu
+         b/DxTtv0EO6RPeyabfH/ec/TSjtmyqu6wrL3ZMj1K/xBERJWNjDrxvpoFIN+epDh8rxX
+         XpORFeGWyHZT/Hvif+Qpq/bsSSd69GAOztSyJljQxqMvPXD2lnKYsIFZJTHLAl7bg63Z
+         VX0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738365441; x=1738970241;
+        d=1e100.net; s=20230601; t=1738365443; x=1738970243;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=afgQizDC60JMpdo9r7FEtCBrD/nRn7NdVuy+nRLagYA=;
-        b=A9fOtRhDI7sEkhsflSzfZrVjK9uPGZ8GUfq+yyUG8LBNTXGUtUIQu+ecloMd96IQ7Z
-         oDbTmyRgtzfgAIMR/yTWawi/y/8t0dapJb6+hx6Zn3SSTdYa68+fFMiAqilBIgwQwAS6
-         bLKEdQw2rVHR5DPxHJ2Met7JEhwRE3WoVSrAuYLp5o0Wu9W1HIyxySlzGZ05ThkEd03P
-         8EehDcNqdWfJ0Y+rpgp2/FMxKbWZojZALlguyjA+8vAGC/NIte2rI9ECRLiyDwOODu82
-         hDAHExsPOslY9+DJ8XDK2eHF809jmDBC7hIbRKNteAXcXUG1k99d9F927TOclQMvy3GT
-         Q0QQ==
-X-Gm-Message-State: AOJu0YwPSf1n1qwJ3PPl0IbTw5DPIABFe+hVRi7iArO+A1afydGybY8c
-	IXwtJqrpb+9OwfCTNTqTFvPlZh46qgauStSA7Tk5FdS1+Sb+OD59tKBong==
-X-Gm-Gg: ASbGncsOVfVwVULp1J+MxCOvz4pLwmiTzKTY/UQBJu2Sis70xoAnZVjyICwy5rS/Eb/
-	DCFApfBZCumQc7mB7Nd8vPaZ7bNaD2Ppo9/umTi04m6o216J9TegtNXnWiYvYdIEhXWHoyJo2nD
-	VaHw3hml8XswRcsxKVf/RhI7fKGLArqodD0kVuOymGxh+nDRI9XUUZU81X3bE3/Ayg0Ui2TFEAt
-	XoIwZIVqIyYcZJcPF1IgTN2Hnq7ehBaOwYxDXiLq3fCD1IhlEFEJbTw2FcFLIjKlSKlRjZ69gv4
-	vJzTr3PcTeYta3pKvsBBVKKd9Ww/fCFMPvk=
-X-Google-Smtp-Source: AGHT+IEEf97BL/zbgmnuNLvZSKUkJYvKdUkUca7v2YlKwxzUPi1kNoMYeklM9vj5h8C59YtQztWbhQ==
-X-Received: by 2002:a05:6808:2010:b0:3e6:1513:4c04 with SMTP id 5614622812f47-3f323a5cb04mr9239783b6e.20.1738365441716;
-        Fri, 31 Jan 2025 15:17:21 -0800 (PST)
+        bh=b6RZRMBZ4GNAqGDERJs8E4i7kY25Yy4QpxNyKVAYuxs=;
+        b=wd8hX0QCpBQrmX2P5nwCEK1i14W8gY/EKIJ/MyL/qmbRF9fkLJHeAGqw1xkNA+bGnA
+         1mzHf5Zx4GkomdpQif85SXSzyIt2zoM3pQS5/akZqGNeIKb6X3JeWVYWfnV6lZXTnV2K
+         wNqxjzk1TVbMxhqINaTzE9x2XOyQb/7rLj/kP3fbU2tNw4oXe+i5oqAhRx8CLf/dBPCp
+         HrAwniq0xoZSILEdHZYWre+SFY8yB9CPLmNdc/5siW86aLIXCK8wP+YNMl3Ec2g87lU8
+         85a243bz/Mjb7wJbGPeEJW6DUrYxbiR8ODKM25gSPj1gol9xgFRk+a1FwgyABDFn7s/G
+         TEjA==
+X-Gm-Message-State: AOJu0YwKVJpOCfXyLHP6eK9ci9uh35GDrQYv1o0Prpkt5LkF97JK2eP/
+	JrYcycifgoTFPOI7ZF307jUHvJfX4j8QspZQMovM7dd4VgRvK1wd7aV6UA==
+X-Gm-Gg: ASbGnctfqAV8JfwzXvdel7lQg6il6guT5o5+F4+rsuPSgLFZ3wITAqR3VpPsmRUSyJn
+	yTI5bF+QaVw/y7FTku77WgmROrR8CFkOjMAlin9smjchKXw7qo+Z720SxxcWM8xeHYbf17jAuQ7
+	lRz8KMbSip+6myQEoMhctK18m7J4AAfPYg9GQP5d9O9X0T8GG/1H8iLE6wf25pOJ/g8JJGlpVvJ
+	nSskuJOTZ12dJZJiZFAhjxv3JipGL+JkOm+L5Xhqh7/e2qGxKlBSJSeddsor82O1DiDYnyE3JwG
+	BHogI68EY3Y3cvBby4ikvbsPFwKtjhLukmQ=
+X-Google-Smtp-Source: AGHT+IFDTbTeKnf7somAR/gbcEcKZyGG5BhbzPu0AxnisSfPlBNH3bQ3i0JKMOx/PEVM6WOznG5JOQ==
+X-Received: by 2002:a05:6808:19a4:b0:3e6:580e:f12c with SMTP id 5614622812f47-3f323a3eb95mr9621238b6e.10.1738365443167;
+        Fri, 31 Jan 2025 15:17:23 -0800 (PST)
 Received: from localhost.localdomain ([2600:1700:fb0:1bcf:d061:e6e5:c6da:b514])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-3f33365bf31sm1099128b6e.34.2025.01.31.15.17.21
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-3f33365bf31sm1099128b6e.34.2025.01.31.15.17.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jan 2025 15:17:21 -0800 (PST)
+        Fri, 31 Jan 2025 15:17:22 -0800 (PST)
 From: Chris Morgan <macroalpha82@gmail.com>
 To: linux-sunxi@lists.linux.dev
 Cc: devicetree@vger.kernel.org,
@@ -69,9 +69,9 @@ Cc: devicetree@vger.kernel.org,
 	robh@kernel.org,
 	sre@kernel.org,
 	Chris Morgan <macromorgan@hotmail.com>
-Subject: [PATCH 1/5] power: supply: axp20x_battery: Fix fault handling for AXP717
-Date: Fri, 31 Jan 2025 17:14:51 -0600
-Message-ID: <20250131231455.153447-2-macroalpha82@gmail.com>
+Subject: [PATCH 3/5] mfd: axp20x: AXP717: Add AXP717_TS_PIN_CFG to writeable regs
+Date: Fri, 31 Jan 2025 17:14:53 -0600
+Message-ID: <20250131231455.153447-4-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250131231455.153447-1-macroalpha82@gmail.com>
 References: <20250131231455.153447-1-macroalpha82@gmail.com>
@@ -85,77 +85,41 @@ Content-Transfer-Encoding: 8bit
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-Correct the fault handling for the AXP717 by changing the i2c write
-from regmap_update_bits() to regmap_write_bits(). The update bits
-function does not work properly on a RW1C register where we must
-write a 1 back to an existing register to clear it.
+Add AXP717_TS_PIN_CFG (register 0x50) to the table of writeable
+registers so that the temperature sensor can be configured by the
+battery driver.
 
-Additionally, as part of this testing I confirmed the behavior of
-errors reappearing, so remove comment about assumptions.
-
-Fixes: 6625767049c2 ("power: supply: axp20x_battery: add support for AXP717")
 Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 ---
- drivers/power/supply/axp20x_battery.c | 31 +++++++++++++--------------
- 1 file changed, 15 insertions(+), 16 deletions(-)
+ drivers/mfd/axp20x.c       | 2 +-
+ include/linux/mfd/axp20x.h | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/power/supply/axp20x_battery.c b/drivers/power/supply/axp20x_battery.c
-index fa27195f074e..3c3158f31a48 100644
---- a/drivers/power/supply/axp20x_battery.c
-+++ b/drivers/power/supply/axp20x_battery.c
-@@ -466,10 +466,9 @@ static int axp717_battery_get_prop(struct power_supply *psy,
- 
- 	/*
- 	 * If a fault is detected it must also be cleared; if the
--	 * condition persists it should reappear (This is an
--	 * assumption, it's actually not documented). A restart was
--	 * not sufficient to clear the bit in testing despite the
--	 * register listed as POR.
-+	 * condition persists it should reappear. A restart was not
-+	 * sufficient to clear the bit in testing despite the register
-+	 * listed as POR.
- 	 */
- 	case POWER_SUPPLY_PROP_HEALTH:
- 		ret = regmap_read(axp20x_batt->regmap, AXP717_PMU_FAULT,
-@@ -480,26 +479,26 @@ static int axp717_battery_get_prop(struct power_supply *psy,
- 		switch (reg & AXP717_BATT_PMU_FAULT_MASK) {
- 		case AXP717_BATT_UVLO_2_5V:
- 			val->intval = POWER_SUPPLY_HEALTH_DEAD;
--			regmap_update_bits(axp20x_batt->regmap,
--					   AXP717_PMU_FAULT,
--					   AXP717_BATT_UVLO_2_5V,
--					   AXP717_BATT_UVLO_2_5V);
-+			regmap_write_bits(axp20x_batt->regmap,
-+					  AXP717_PMU_FAULT,
-+					  AXP717_BATT_UVLO_2_5V,
-+					  AXP717_BATT_UVLO_2_5V);
- 			return 0;
- 
- 		case AXP717_BATT_OVER_TEMP:
- 			val->intval = POWER_SUPPLY_HEALTH_HOT;
--			regmap_update_bits(axp20x_batt->regmap,
--					   AXP717_PMU_FAULT,
--					   AXP717_BATT_OVER_TEMP,
--					   AXP717_BATT_OVER_TEMP);
-+			regmap_write_bits(axp20x_batt->regmap,
-+					  AXP717_PMU_FAULT,
-+					  AXP717_BATT_OVER_TEMP,
-+					  AXP717_BATT_OVER_TEMP);
- 			return 0;
- 
- 		case AXP717_BATT_UNDER_TEMP:
- 			val->intval = POWER_SUPPLY_HEALTH_COLD;
--			regmap_update_bits(axp20x_batt->regmap,
--					   AXP717_PMU_FAULT,
--					   AXP717_BATT_UNDER_TEMP,
--					   AXP717_BATT_UNDER_TEMP);
-+			regmap_write_bits(axp20x_batt->regmap,
-+					  AXP717_PMU_FAULT,
-+					  AXP717_BATT_UNDER_TEMP,
-+					  AXP717_BATT_UNDER_TEMP);
- 			return 0;
- 
- 		default:
+diff --git a/drivers/mfd/axp20x.c b/drivers/mfd/axp20x.c
+index cff56deba24f..baf51dea98b0 100644
+--- a/drivers/mfd/axp20x.c
++++ b/drivers/mfd/axp20x.c
+@@ -222,7 +222,7 @@ static const struct regmap_range axp717_writeable_ranges[] = {
+ 	regmap_reg_range(AXP717_PMU_FAULT, AXP717_MODULE_EN_CONTROL_1),
+ 	regmap_reg_range(AXP717_MIN_SYS_V_CONTROL, AXP717_BOOST_CONTROL),
+ 	regmap_reg_range(AXP717_VSYS_V_POWEROFF, AXP717_VSYS_V_POWEROFF),
+-	regmap_reg_range(AXP717_IRQ0_EN, AXP717_IRQ4_EN),
++	regmap_reg_range(AXP717_IRQ0_EN, AXP717_TS_PIN_CFG),
+ 	regmap_reg_range(AXP717_IRQ0_STATE, AXP717_IRQ4_STATE),
+ 	regmap_reg_range(AXP717_ICC_CHG_SET, AXP717_CV_CHG_SET),
+ 	regmap_reg_range(AXP717_DCDC_OUTPUT_CONTROL, AXP717_CPUSLDO_CONTROL),
+diff --git a/include/linux/mfd/axp20x.h b/include/linux/mfd/axp20x.h
+index c3df0e615fbf..3c5aecf1d4b5 100644
+--- a/include/linux/mfd/axp20x.h
++++ b/include/linux/mfd/axp20x.h
+@@ -137,6 +137,7 @@ enum axp20x_variants {
+ #define AXP717_IRQ2_STATE		0x4a
+ #define AXP717_IRQ3_STATE		0x4b
+ #define AXP717_IRQ4_STATE		0x4c
++#define AXP717_TS_PIN_CFG		0x50
+ #define AXP717_ICC_CHG_SET		0x62
+ #define AXP717_ITERM_CHG_SET		0x63
+ #define AXP717_CV_CHG_SET		0x64
 -- 
 2.43.0
 
