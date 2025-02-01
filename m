@@ -1,74 +1,73 @@
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F1245C14
-	for <linux-sunxi@lists.linux.dev>; Sat,  1 Feb 2025 11:05:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7970B1448C7
+	for <linux-sunxi@lists.linux.dev>; Sat,  1 Feb 2025 11:08:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738407954; cv=none; b=HLTUHWCT3Luk/Qkyn92ItUg7ES1emhp8xc0Vx/Xeg6HOvETZcLk6U238qNMUtwxneWQvUF/OEgk1TY8a/WcUKP0Lg2lJ7ZtJAfGHpsPNIofpleAKo6TkaNtSQ9i8Q3JPNi8AhVRzYE/gJzKYOv4iXZQoPYY+LVRe8Pg6oV4xUIY=
+	t=1738408127; cv=none; b=dSP2BgU5oR8SOrzlO5h3NZDDvDDG7W9S0KLBgLjofRtbE/j07FwNBBKPfKq9JeFJfkM9JCh7FETVSdWERTFbUTyJAugzYa9RCMw1qEbovkksrTucQv3T9FmG5sWKV1jxhtX7o/5xDsgI8iyIcxoxllM/cnrJp1lEmuHVWN3P2TE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738407954; c=relaxed/simple;
-	bh=QeyoZ9JZh4ldAcSoJnAO6EQhHF4J+fpIS05dmP1aGBQ=;
+	s=arc-20240116; t=1738408127; c=relaxed/simple;
+	bh=lV2M1tUa4SWHGmKYz293Rfyic2j7Zxh3fh/VhcUO9mk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qOWhx2pnWE4TWrMNpwxscFfshT4iuH2zdHJQ/J50HOngMV8jpxjZ/VdDZmGaiXNtgeVHKmdK2gdFfZkChTkKX5ttJE0nUJHke4+Fdkexdqs5pDG+RVHWPI6ilfYxCilOELnYs9Lwax4KS3ox7ANuo9EGzlx5oosC6GLbFvgZd48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.169
+	 To:Cc:Content-Type; b=R1dVG/eBxjy1iLUJ4hkvSHNvqZhs89GTxeU9nisJ+lPRQlq/vEz3lJyw+OQ6WTRioif/j5zqOFNISWEHaAQcvT2ECO7J552cXB1UJLusq+6bIgteWHMs8St82dlCfpmwurwljCdbIXWKp6uK2MXHrSqNv7CFmZRi958BgE9fUkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-30737db1aa9so26212751fa.1
-        for <linux-sunxi@lists.linux.dev>; Sat, 01 Feb 2025 03:05:52 -0800 (PST)
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-30615661f98so30529151fa.2
+        for <linux-sunxi@lists.linux.dev>; Sat, 01 Feb 2025 03:08:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738407949; x=1739012749;
+        d=1e100.net; s=20230601; t=1738408122; x=1739012922;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :reply-to:in-reply-to:references:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=8U+1tpqHzLh27GaClK8FP8Rq3KYuov9AdiNEVI21x8w=;
-        b=vgafgmEbyIYhP/CZAjBj+hJRwveGnMvUkITU0Di5v8d0C8Y3T6tiNeUK7VS3GL+j8I
-         MkvBM36vru1EuL7vYtMwj15jf+QfBM3mAeszERuA/uTXR4AW/j39IdCdxD+DoF6EXCiX
-         iYBHJgUyo2/lZknN6PQ6MxF9biEUsuM5e7/oqwk/bLrOQmQqvdQRhIKeF1bmJq+cKx4y
-         Y5SyPeeZeyjCKdodlRik61aYQwkSvE6oe66OPQM9ILU6lQWDyDQKLqGhx3uKwN8yxf+X
-         EvwCpNWg0a/v4A7kt67OezhcC821Ye0OsqR9HTy1wAGB9Fi2cE02UGi4BaMMReKOxDkQ
-         VWiw==
-X-Gm-Message-State: AOJu0YyrgKbfxXK2nEnsB0WdsKFhS6pKo/QC+nF4UbxVjutsbKJ3ZyFI
-	bqCizNKhvMNQfFk+T6FQhJ5+c9iwF9gK8JCJNXunc8WyBThFmsNsOZSqQv2a
-X-Gm-Gg: ASbGncuyVAc9sPqHqPw9LoLlT0j3Dy3btp3HEq0lIHD5Tr+9iyBQRi6ZAwj2BUZV91Y
-	FwYVY1eHA9iH/OpMiqs38sM8e4bTOzr1izPSVF+7HNmCwm47ADV1zeoefbXwhX+ULg7Qs6+be/K
-	5uyn2oMhZ6spmmjsH/R0mEArMJqwAyCHQHxfFp/zCZcxR5fHdRr27A3R5G7XfqqsbwAqCuoBY1x
-	sPjEAhYcNl5bxMsipL3RTSCfAY+DFUZTHkMy73Pn2qhvVAOAA9SCLJ3ifRhjKO8YZP2VJEsijgS
-	qOkCEorlcoCL9PW6Cd+yI8swhwm97oTN1/sZ4JlICNb6X97O
-X-Google-Smtp-Source: AGHT+IFCWNXkEvCr9P0d7M0bLw+pCca2GTeBUqS7WchrP8f29bJ1WVTjAz17DRwdikQ14I/b/d8G/Q==
-X-Received: by 2002:a2e:2283:0:b0:304:68e5:eabf with SMTP id 38308e7fff4ca-307968c9b71mr42859391fa.23.1738407949157;
-        Sat, 01 Feb 2025 03:05:49 -0800 (PST)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com. [209.85.208.179])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-307a309fad2sm8213341fa.59.2025.02.01.03.05.48
+        bh=zJdFRpY9/VgrRdJOyKoz6hilS+1z3UkKtKPtOxUttZo=;
+        b=e2kp9xV+ZgushQ7JfRfgNX0b2rxC/p0qt03+m3PjMmJqBoWYjwTmfJackMw++Lm0Y9
+         5pFehKvB75VKYXx/V51DWhpBpkxxGDa5ehRvd6DZT2xnRWr8S0jmDmtCD05x9/yjITsU
+         Yl0OiCj5RXKrr8t/QBjc3u0APiZG+mAXFMLg86QTZVfoQeinqczj6VPVSqdQqU9DUBzj
+         WGPoPSlyb7eX5VV1d9Al7TLCE/T4G3E+0TaqRdJGoNk4q/FXn/nahJ6kC8Ln4j567U4E
+         n4JkJbkAps+/gWDKGfnup7uAY3RDAULk1sninLGlhj6hCs+X09H1UfWMbw84yIJDKiER
+         YAYg==
+X-Gm-Message-State: AOJu0Yw1X5qiRbHMOhoISMZKJ7SLs6d1TSlMQ0lJnmQWLeZ5CQXBVpmP
+	zppHSOpxrSjPPZrCBTQTmls1CxNjlFmC0tuifXruliXM3GJNyHgaDTFv410b
+X-Gm-Gg: ASbGncvravPTZpdYHLwpzZs7phfru9n/GXtPsrRTB6JWMVeAmbneUmiPFjnf/7Feqku
+	haqLLp+Usj7LnhItFT5/H9uHPqHDmok4Nv2qK4VonsE6DHh0eD99l/oyhWusNccxD/RNvzsTCN0
+	rPElVk5ks1qob+d1OzWOk/YE6zzi+D18jaQsSt8LqflrGAZz3wlaCNj+/cnujiNlnARHlfvBJAK
+	yU25dFaunLsZCPOdhTJKsL/h+T5tJIr0wS0aGGaEjKzuXm8D/5YORKATFF5i/IaimiTc0jWaZOU
+	iCrhlYe/7O6roRvqGdi0JzDRehKsGDpk2DY1MU9v8hzTLycm
+X-Google-Smtp-Source: AGHT+IHzHxgIBgJZHSwKsKL/SWePbuwhK9qgPrMYCWd0LUPAZvv5otD1+fI++QP2rn0cluUe31sCTg==
+X-Received: by 2002:a05:651c:2113:b0:302:17e7:e176 with SMTP id 38308e7fff4ca-307968b8ea6mr46427421fa.5.1738408121710;
+        Sat, 01 Feb 2025 03:08:41 -0800 (PST)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com. [209.85.208.169])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-307a309fad2sm8219431fa.59.2025.02.01.03.08.41
         for <linux-sunxi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 01 Feb 2025 03:05:48 -0800 (PST)
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-30797730cbdso27390081fa.3
-        for <linux-sunxi@lists.linux.dev>; Sat, 01 Feb 2025 03:05:48 -0800 (PST)
-X-Received: by 2002:a2e:2283:0:b0:304:68e5:eabf with SMTP id
- 38308e7fff4ca-307968c9b71mr42859311fa.23.1738407948632; Sat, 01 Feb 2025
- 03:05:48 -0800 (PST)
+        Sat, 01 Feb 2025 03:08:41 -0800 (PST)
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-30615661f98so30528921fa.2
+        for <linux-sunxi@lists.linux.dev>; Sat, 01 Feb 2025 03:08:41 -0800 (PST)
+X-Received: by 2002:a05:651c:50e:b0:305:d86a:4f01 with SMTP id
+ 38308e7fff4ca-3079696b37fmr54303631fa.31.1738408121144; Sat, 01 Feb 2025
+ 03:08:41 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250131231455.153447-1-macroalpha82@gmail.com> <20250131231455.153447-5-macroalpha82@gmail.com>
-In-Reply-To: <20250131231455.153447-5-macroalpha82@gmail.com>
+References: <20250131231455.153447-1-macroalpha82@gmail.com>
+In-Reply-To: <20250131231455.153447-1-macroalpha82@gmail.com>
 Reply-To: wens@csie.org
 From: Chen-Yu Tsai <wens@csie.org>
-Date: Sat, 1 Feb 2025 19:05:35 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64Bi__en5iw0Bv4=17MrJ2+HxbdDppoHiAxApPStjPw4Q@mail.gmail.com>
-X-Gm-Features: AWEUYZnfWFSX1_fTI8oxEiVO5dHsIJ_LtTRZxZgbPDCntorA83Cj4iF28Ip2qHM
-Message-ID: <CAGb2v64Bi__en5iw0Bv4=17MrJ2+HxbdDppoHiAxApPStjPw4Q@mail.gmail.com>
-Subject: Re: [PATCH 4/5] power: supply: axp20x_battery: Update temp sensor for
- AXP717 from device tree
-To: Chris Morgan <macroalpha82@gmail.com>
+Date: Sat, 1 Feb 2025 19:08:28 +0800
+X-Gmail-Original-Message-ID: <CAGb2v67YFBoTaDb2_M9w5zVgDrc0dQofg1B=tOrO23zjUQncEQ@mail.gmail.com>
+X-Gm-Features: AWEUYZmt5WAKw7Sa62l6O-dikObFL-05KwH7Ig2AS6totJP4XZ-9LOk_VWKpsrQ
+Message-ID: <CAGb2v67YFBoTaDb2_M9w5zVgDrc0dQofg1B=tOrO23zjUQncEQ@mail.gmail.com>
+Subject: Re: [PATCH 0/5] Fix RG35XX Battery Charging Issues
+To: Chris Morgan <macroalpha82@gmail.com>, lee@kernel.org
 Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, 
-	linux-pm@vger.kernel.org, lee@kernel.org, samuel@sholland.org, 
-	jernej.skrabec@gmail.com, conor+dt@kernel.org, krzk+dt@kernel.org, 
-	robh@kernel.org, sre@kernel.org, Chris Morgan <macromorgan@hotmail.com>
+	linux-pm@vger.kernel.org, samuel@sholland.org, jernej.skrabec@gmail.com, 
+	conor+dt@kernel.org, krzk+dt@kernel.org, robh@kernel.org, sre@kernel.org, 
+	Chris Morgan <macromorgan@hotmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -77,78 +76,43 @@ On Sat, Feb 1, 2025 at 7:17=E2=80=AFAM Chris Morgan <macroalpha82@gmail.com=
 >
 > From: Chris Morgan <macromorgan@hotmail.com>
 >
-> Allow a boolean property of "x-powers,no-thermistor" to specify devices
-> where the ts pin is not connected to anything. This works around an
-> issue found with some devices where the efuse is not programmed
-> correctly from the factory or when the register gets set erroneously.
+> The Anbernic RG35XX devices sometimes fail to charge when the register
+> for the battery temperature sensor is set to the incorrect value either
+> by user error or an incorrectly programmed efuse. Allow users to
+> hard-code if a temperature sensor is not present (which is the case for
+> all Anbernic RGxx series devices) to prevent this issue from causing
+> problems. Additionally, a bug was identified with the handling of PMU
+> faults while this fix was being tested.
 >
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> ---
->  drivers/power/supply/axp20x_battery.c | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
->
-> diff --git a/drivers/power/supply/axp20x_battery.c b/drivers/power/supply=
-/axp20x_battery.c
-> index 3c3158f31a48..345a1bbe50ad 100644
-> --- a/drivers/power/supply/axp20x_battery.c
-> +++ b/drivers/power/supply/axp20x_battery.c
-> @@ -89,6 +89,8 @@
->  #define AXP717_BAT_CC_MIN_UA           0
->  #define AXP717_BAT_CC_MAX_UA           3008000
->
-> +#define AXP717_TS_PIN_DISABLE          BIT(4)
-> +
->  struct axp20x_batt_ps;
->
->  struct axp_data {
-> @@ -117,6 +119,7 @@ struct axp20x_batt_ps {
->         /* Maximum constant charge current */
->         unsigned int max_ccc;
->         const struct axp_data   *data;
-> +       bool ts_disable;
->  };
->
->  static int axp20x_battery_get_max_voltage(struct axp20x_batt_ps *axp20x_=
-batt,
-> @@ -984,6 +987,22 @@ static void axp717_set_battery_info(struct platform_=
-device *pdev,
->         int ccc =3D info->constant_charge_current_max_ua;
->         int val;
-> +       axp_batt->ts_disable =3D (device_property_read_bool(axp_batt->dev=
-,
-> +                                                         "x-powers,no-th=
-ermistor"));
-> +
-> +       /*
-> +        * Under rare conditions an incorrectly programmed efuse for
-> +        * the temp sensor on the PMIC may trigger a fault condition.
-> +        * Allow users to hard-code if the ts pin is not used to work
-> +        * around this problem.
+> Chris Morgan (5):
+>   power: supply: axp20x_battery: Fix fault handling for AXP717
+>   dt-bindings: power: supply: axp20x-battery: Add x-powers,no-thermistor
+>   mfd: axp20x: AXP717: Add AXP717_TS_PIN_CFG to writeable regs
 
-AFAICT this function won't get run if there is no "monitored-battery"
-property under the PMIC node. So if someone were to unfortunately have
-a dev board that has a PMIC with incorrect efuse values, this won't
-save them.
+>   power: supply: axp20x_battery: Update temp sensor for AXP717 from
+>     device tree
 
-This should be exceedingly rare, so I only ask that you mention this
-in the comment so if someone does unfortunately run into it they will
-have some clue.
+Lee, FYI this power supply patch has a compile time dependency on the
+mfd patch, due to the new register offset macro.
+
+Chris, in the future, if you are aware of build time dependencies,
+please mention them in the cover letter. That would help maintainers
+sort out how to land things.
 
 
 Thanks
 ChenYu
 
-> +        */
-> +       if (axp_batt->ts_disable) {
-> +               regmap_update_bits(axp_batt->regmap,
-> +                                  AXP717_TS_PIN_CFG,
-> +                                  AXP717_TS_PIN_DISABLE,
-> +                                  AXP717_TS_PIN_DISABLE);
-> +       }
-> +
->         if (vmin > 0 && axp717_set_voltage_min_design(axp_batt, vmin))
->                 dev_err(&pdev->dev,
->                         "couldn't set voltage_min_design\n");
+
+>   arm64: dts: allwinner: rg35xx: Add no-thermistor property for battery
+>
+>  .../x-powers,axp20x-battery-power-supply.yaml | 22 ++++++--
+>  .../sun50i-h700-anbernic-rg35xx-2024.dts      |  1 +
+>  drivers/mfd/axp20x.c                          |  2 +-
+>  drivers/power/supply/axp20x_battery.c         | 50 +++++++++++++------
+>  include/linux/mfd/axp20x.h                    |  1 +
+>  5 files changed, 56 insertions(+), 20 deletions(-)
+>
 > --
 > 2.43.0
 >
