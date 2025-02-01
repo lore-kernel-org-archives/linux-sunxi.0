@@ -1,110 +1,91 @@
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A10981F3FDA
-	for <linux-sunxi@lists.linux.dev>; Fri, 31 Jan 2025 23:17:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C70421369AA
+	for <linux-sunxi@lists.linux.dev>; Sat,  1 Feb 2025 10:49:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738365447; cv=none; b=jYXUhMhVGSSGK6jxW9poz/5dt0h30SBLy7G8FJFZsm5W2MK8zQnm5fv3ALw4zmBz2pYDm9uZRIMzbUJ+MRgV5zau/4Jtbt/snO09iVyi8NYNmwiNPcK817GFbiZMGpr3D4c1ub3+IqlvxTzTUI99y3mjWIuxvgFdZqwhDtl/nJQ=
+	t=1738406984; cv=none; b=HScI59ha5b+tqzsE0Hasyq7Ertl4n+3IK7zTcX4S5rY11dfZXW3CqsP6/d97McQ36rXcTSNiuvowqggppRK6CtFywkTlfqQUeS+b/WEXDSPQ9yWetXfheeQNjddXLcGiKfJVvzT/nizc476GFjBMpg2tQb0C3qwalaFQ7AgEk8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738365447; c=relaxed/simple;
-	bh=7weosOB2tkJzFFCK1j2kvlQUUXPViwlIjKFLoG1vu/o=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=H12wUM51c7nsSwVpt6XwIdfwAqIdkholF5vXckOoJQRLA1+bdtsL6GxXz2k6TxsgqYLch8th30In0qLkuocaVZUnjLDYNlxUE8nRJKElFcKqWE/vSscQz55T2Q+Xdab4JGFtoYeOf2vq5BDIkN491MO3i4cJUB5MuO4TZ+IQx3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W/0YzTpR; arc=none smtp.client-ip=209.85.167.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1738406984; c=relaxed/simple;
+	bh=/B22Pf1Q1LEbOWQIOojFa5ozInbH7GFfKtk2tqbFAjk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TBZMbxFMbMefovcyQkG0nuvTOVjJo5K470BjtkmF7l0uWcmiwzJmd6XK9PD9EgiQht85/U89tCngQ0sX3/FX0kxbJAOnCrf0tUySPtTa0LTOlgsMQEh8OAZyqGm9PDgiW7Y4G1zYic0O+utUIDfgdwA4+JgiC870fgYf5Hvs55s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W/0YzTpR"
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-3eb880e5ac2so1448447b6e.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 31 Jan 2025 15:17:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738365444; x=1738970244; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/rSvVS0xRSmkwB2ilC6LIMN2F2AJg2DEhA8U1xiK1AM=;
-        b=W/0YzTpRMwSPtWoM8wo9cyTNf2x6QuIO1ccMOT9vwMf8JX8CygUy7lpj7iKxDElyoo
-         39laqMv/HrE9rEvIKTPjwp5hhbGTuD+HRbRDCbkuRMVmR9PC40n8ZX+Rc9ZYzPVOoNqL
-         Su4mMpbfHZpjzEGGRbldFOYluY9OatSmQ48MDHDNhpH97i6Hb3cOpbJ1hGV+2sR9Vs4c
-         KGsW3kgDZp/snR+Iar7X+mEQapQBT8xQY+wMhRngldmzOdutS2dauSSUkAL6FdsipObA
-         St2qoeSdgNGvASbFckUwQPi9IfusrvT0agJf+j8OSC9+I6zQ5C7vMQ4jaM1/gxva4klr
-         vJdA==
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5401bd6ccadso2912932e87.2
+        for <linux-sunxi@lists.linux.dev>; Sat, 01 Feb 2025 02:49:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738365444; x=1738970244;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/rSvVS0xRSmkwB2ilC6LIMN2F2AJg2DEhA8U1xiK1AM=;
-        b=YCgtWcNtSjXi/Ln4C0Kerph6ydHa68pQzKGDrg1uOf1gecbNEvAC6zdA1LGiDxnU06
-         9wmHR2nSkETHv9DlvrCJVSn7zFtEcYkZpKQwL1Fr/NRFRTKErHGT5kc6dwjfZPGs+h+f
-         7ExajCAmGFT4I+QsIQb4B0Ccu4032opLkCQqKQfRqi5ZzfRGv7jL/TYxTQYfCWNLdoML
-         hGETHSZiM0cur06nZTvyxa9WPShr6rh1hAcp/TKuqVHHP2qw1wOVVBOhbbFA4vQQ+g9b
-         jH2HmzdtnIwwcKYdcyNKYmSJ/5E2wJIwMD2rR9b1Ey4C8P2jYKap+fht+GfnNugGfWU4
-         2Yow==
-X-Gm-Message-State: AOJu0Yw/2t5n1VVHNwcp1ZTwU6b6N6hFPhiXW5g6b80vZ1K7lua1nfYT
-	WzMvmPIJnuij7U4L5osKW/EPgAGnUruESG0odBQhADtdxiR0CyKCQ5DrHw==
-X-Gm-Gg: ASbGncuJ+gXzl1tBuhN9WnlkYvm+VB6c98zfjl3eipn3MpWv8Uthb/Del4ZX5dZ6V9S
-	u7Zqnk4BqaZzDbdHUw0E+AWM713KZgiweyW4O2MLUtMzq23W8q5t2jaBySACAGE5WkvhLazW/2N
-	cZj34H4ycp1aArTRZOQn7CwKIDDWFvRRmK/1CeM6rg1qlQtFaiIbX4tq1sFsmsZJyuRT97MZ7/R
-	OgD5xXSq47f/ivUIfe43ckIcjnr0CTtHv5OSqTDzyCTpn7EvaFk8pG6vZca/QhU39tN4D6GhxMF
-	gvyRZrviXCuaJPJmzutVsdNYeeQdbCpCEXA=
-X-Google-Smtp-Source: AGHT+IH9EIO5UKi3zjTou7NgE9ZwpqTCVd5TQ3cdZ+Vw8R7Vh7mtJwLawupTinMPajo6ILkkJKilEw==
-X-Received: by 2002:a05:6808:19a4:b0:3e6:580e:f12c with SMTP id 5614622812f47-3f323a3eb95mr9621264b6e.10.1738365444654;
-        Fri, 31 Jan 2025 15:17:24 -0800 (PST)
-Received: from localhost.localdomain ([2600:1700:fb0:1bcf:d061:e6e5:c6da:b514])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-3f33365bf31sm1099128b6e.34.2025.01.31.15.17.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jan 2025 15:17:24 -0800 (PST)
-From: Chris Morgan <macroalpha82@gmail.com>
-To: linux-sunxi@lists.linux.dev
-Cc: devicetree@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	lee@kernel.org,
-	samuel@sholland.org,
-	jernej.skrabec@gmail.com,
-	wens@csie.org,
-	conor+dt@kernel.org,
-	krzk+dt@kernel.org,
-	robh@kernel.org,
-	sre@kernel.org,
-	Chris Morgan <macromorgan@hotmail.com>
-Subject: [PATCH 5/5] arm64: dts: allwinner: rg35xx: Add no-thermistor property for battery
-Date: Fri, 31 Jan 2025 17:14:55 -0600
-Message-ID: <20250131231455.153447-6-macroalpha82@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250131231455.153447-1-macroalpha82@gmail.com>
-References: <20250131231455.153447-1-macroalpha82@gmail.com>
+        d=1e100.net; s=20230601; t=1738406977; x=1739011777;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/B22Pf1Q1LEbOWQIOojFa5ozInbH7GFfKtk2tqbFAjk=;
+        b=XmyEYYeiQXt+aT5qd2VmiZX2UvnRnJSNBrKijK4aPKVQtw4TdUjOY1ahnUgITyC9IH
+         ADczZKQmb5HscXUzLGZrieqjcghC+KRow5DoIi8/mNUSbYGEoEdlzA26eMfuLXr0qBJh
+         gNU1lFbAkYIE+6A9kR/Y8ve5kF71lXipgnmYACR2jAFcsC2uAvF1wOvn/kW7hC0H4NZP
+         zojfzqi6MbrfkR/xaiMd8UqUXVCFKpmXxLa3FAEFomTaW/hNvhwY0gxJWrn6kh9Pr19R
+         kobR2BiQQwygCOq5/M6T5WB+3s0Ube1mxYvPY83g/WL4d7vfpQbDiCkDoT5+T+w/aBIA
+         MQEw==
+X-Gm-Message-State: AOJu0YyB6ZjlvioYJP9C5vj0qvj0bey/nI+YRoEncqoscnpZO/ew2BFV
+	bWIqfY8v3SHAP6s5KC6vzbtQYJ3GtUUwYYXtt4c2rlbTT/iryZoGySsKIITn
+X-Gm-Gg: ASbGnctZwgxXaO1eELqPQcKxnjR2Fl8Twi6uCg2dC19YNhcAAVJZaieGe1SSs8OLBoz
+	L/6G/2/XW8XxtUD6AIhaI+JG7w2vmkujic6ciJ3KVCecEJjuz9gUjB7H8LxxVrxFjP4l9FnE1n/
+	uWogjTCwDQPqwXdzGk4+WPu5JZJ+QLNIkasi9Zatt3ZHTxIcWFfNtncaV11aMsuvtfBAglxPPhH
+	RQjCbFzLTOIr0j76wM32nq4nmjNwCRQOb3m7Pp2UOXE8McWG5nTR3mZaer0eGq/nR4ao8TEulXC
+	sIU6HpS3mbZf3Q9qIosoeZUKHNOGANxn9yJFPNwKIqgy/O1p
+X-Google-Smtp-Source: AGHT+IE/izsJ/VsJkiiYWrRWStgm/b3CvKDxWWBO5sdiLQIx/+aSjG/sNeMJypV1xnnot7V+NbnisQ==
+X-Received: by 2002:a05:6512:3d21:b0:542:234b:9a6a with SMTP id 2adb3069b0e04-543e4c32c2bmr5015097e87.33.1738406977108;
+        Sat, 01 Feb 2025 02:49:37 -0800 (PST)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com. [209.85.208.177])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-543ebeb7dcbsm704173e87.201.2025.02.01.02.49.36
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 01 Feb 2025 02:49:36 -0800 (PST)
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-30167f4c1e3so25861831fa.3
+        for <linux-sunxi@lists.linux.dev>; Sat, 01 Feb 2025 02:49:36 -0800 (PST)
+X-Received: by 2002:a2e:bc0f:0:b0:302:4131:56c2 with SMTP id
+ 38308e7fff4ca-307968b8e2cmr53207751fa.4.1738406976433; Sat, 01 Feb 2025
+ 02:49:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250131231455.153447-1-macroalpha82@gmail.com> <20250131231455.153447-2-macroalpha82@gmail.com>
+In-Reply-To: <20250131231455.153447-2-macroalpha82@gmail.com>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Sat, 1 Feb 2025 18:49:24 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65bsWdmG4mLwuUz9RAKGFBjyj0YDXTMcZg7krRcuH0chA@mail.gmail.com>
+X-Gm-Features: AWEUYZkHj08AuejAZwQspl3ckJlNuUu0Wojot3XgvMeDb6OyjwsyKUkY_2GYQhY
+Message-ID: <CAGb2v65bsWdmG4mLwuUz9RAKGFBjyj0YDXTMcZg7krRcuH0chA@mail.gmail.com>
+Subject: Re: [PATCH 1/5] power: supply: axp20x_battery: Fix fault handling for AXP717
+To: Chris Morgan <macroalpha82@gmail.com>
+Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, 
+	linux-pm@vger.kernel.org, lee@kernel.org, samuel@sholland.org, 
+	jernej.skrabec@gmail.com, conor+dt@kernel.org, krzk+dt@kernel.org, 
+	robh@kernel.org, sre@kernel.org, Chris Morgan <macromorgan@hotmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Chris Morgan <macromorgan@hotmail.com>
+On Sat, Feb 1, 2025 at 7:17=E2=80=AFAM Chris Morgan <macroalpha82@gmail.com=
+> wrote:
+>
+> From: Chris Morgan <macromorgan@hotmail.com>
+>
+> Correct the fault handling for the AXP717 by changing the i2c write
+> from regmap_update_bits() to regmap_write_bits(). The update bits
+> function does not work properly on a RW1C register where we must
+> write a 1 back to an existing register to clear it.
+>
+> Additionally, as part of this testing I confirmed the behavior of
+> errors reappearing, so remove comment about assumptions.
+>
+> Fixes: 6625767049c2 ("power: supply: axp20x_battery: add support for AXP7=
+17")
+> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 
-Add the property of x-powers,no-thermistor for the battery of the
-Anbernic RG35XX series of H700 devices.
-
-Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
----
- .../boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts      | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
-index a231abf1684a..0c89ccc662a2 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
-@@ -237,6 +237,7 @@ axp_adc: adc {
- 		battery_power: battery-power {
- 			compatible = "x-powers,axp717-battery-power-supply";
- 			monitored-battery = <&battery>;
-+			x-powers,no-thermistor;
- 		};
- 
- 		regulators {
--- 
-2.43.0
-
+Reviewed-by: Chen-Yu Tsai <wens@csie.org>
