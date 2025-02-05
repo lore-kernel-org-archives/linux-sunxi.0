@@ -1,62 +1,62 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 427FB64D
-	for <linux-sunxi@lists.linux.dev>; Wed,  5 Feb 2025 12:52:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9B2617C79
+	for <linux-sunxi@lists.linux.dev>; Wed,  5 Feb 2025 12:52:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738759954; cv=none; b=cFXGzWBXBsgyEijw8MrEoOF0MjwsKHLGJnKA/NOj3/IkGPN10w5j4rP89jQOd3z/lNl8LEyilod/HKcMAAt+Pa2KQvdSib7DSQo/38jYczJv4N0vqc/emPg8bOefmhxWVN09vQhax8th4vpw65weUK9BlECq5lFTKI26f+I1hTU=
+	t=1738759955; cv=none; b=OUzdY/+zbsi2Wa7t9hHumEqQf/lErgO/PK1pvtf9jOItiuvxxK5jJSmZr3eAzwQAbw/0OOK7veMbhAvjhLwiQFYIu8gDJrnNX9F2ACz53RY72BqvHmiCNInxKlzFmBHd0GNUX2INrX31wewrLqn1VgrYKMFx9BpdiQW2dPyWIzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738759954; c=relaxed/simple;
-	bh=QF06GksP3emXyQKbOEhFrnPVJDpK6xAoObPMVytWgNE=;
+	s=arc-20240116; t=1738759955; c=relaxed/simple;
+	bh=J+xMojpvOnH+y4xF0FQzAkneVDyy4UQzwkTwxNQpHZY=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=rVTOjQG3f0b3HpAlL/PILjuVFA9mx6Q2i08keYhhDu+EojBtMpuImd6F1fDi7D99A9JN7eyOOsIkB0IiDG/hWJgUqMYob31aULAn2tFp4OOnemMXBhjQ+zr6VXxr4lb98FNC7LJ88X/HVEUtXA0oG7anAYdxYUCB59yt54PU+Ak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WSJ4d9S8; arc=none smtp.client-ip=209.85.218.54
+	 MIME-Version; b=ErvDfqzaY/WpQk+iJvW1AacRz8eMljJM6y/RrDKQ+vHnVEmT5sRMoW/Ym6cse9QYOUj0r7hn6TJNcj0PmmZfdzr3D3p1OL0mox2YTQF3f2g+8RB/TbwE6U+OroVGk1aMY6G3FxNnbrZQBX/Uo7zebl9bo2vHmuSPAh6cfu0HNaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lT6Lk9My; arc=none smtp.client-ip=209.85.208.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WSJ4d9S8"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-aaee2c5ee6eso1128818466b.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 05 Feb 2025 04:52:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lT6Lk9My"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5dca451f922so6548976a12.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 05 Feb 2025 04:52:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738759950; x=1739364750; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1738759952; x=1739364752; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TSQeWzSgrb+Bgv6s0GnYuvjzz6MyzXd89J++ZXTBfTQ=;
-        b=WSJ4d9S8JglwMQjWhVKKScaCzzPp/SebHbKmHxJ7nlDqEqhT1NteVeNLumRcQ209jK
-         VqQ47BkCn+13vQ2r1zDt4ygDKTRMFxsrTKeVZ5XHwQ0IXHbxxNk/lq57l1nFmXNq9xGN
-         atBgjqB+UPF/UWw88ccpdxxOexpp2xrDARddy7hAoqlpdpFlT+pVEh+VyEn30mAtDPSF
-         S2iwmrvZ7F+ZoD16Ja15mbD0U4sV45kgpn0wwZypBevfuK6DEqFMQ6V65mVvmgxEyJXn
-         G7u1v3mOIsjnMVy4BW17pcOhnLPRwxaR66Sds5Yh7BfiXnj2VZSlJc5XZcPtoUFFDppw
-         A7eA==
+        bh=ZgfFrjRxyOW1xOgdcC7mwiMGS+SjeOrC7s5Z2O3ZWyY=;
+        b=lT6Lk9MyBLhovdL8/1Kla4HXNp4nUohW481Tx6iLe1vslcuBDgDsn/lMsRjMJfFJ5o
+         s1SfpdB+P1ClMa056hHXQ8CDrbTbPhTHnBdKmuqMDHW53scg9fk2QnDZ1La/hguLIoS9
+         IBuAc/8JU8O5NlINhnFwJaG2DpivFsFh2AdQKfhgtYoaIRwKJDDoHClhPBzrDQ8PCsGT
+         BSxwubVb+4i6qDWvIKdRcH8bA2LXxv6lzScVxXWrvaPhjnLtn7nCq9ME/WMiWiRnrmhf
+         5Os6U2XZrMQsx7AFgor6vpx2it3rMRyUAzCdPim4GEhvraCGy7jeT5xfDJRreldCP63a
+         I5ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738759950; x=1739364750;
+        d=1e100.net; s=20230601; t=1738759952; x=1739364752;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TSQeWzSgrb+Bgv6s0GnYuvjzz6MyzXd89J++ZXTBfTQ=;
-        b=cHb7hOe5H+o5RyVC9HJKmWhiZ5m/awtvNqscJ77j/FD3oMXGYih/EBx/5lylC63Uar
-         34c43xyLzinF2De2V7d/CAhk5WUI+n9B28ilGazcCzMJm0UUrm+QLO2kgK3bxqovhbP0
-         hoDW7NWghNJvBeTTO9IOM495uabAycmB7YVLNcSjpFWwceD9k//x99FhoGDTk3++TPWu
-         ofRLKJIbXuXqQXOBk/yxwuLJ96mginPDZD2Gvn58Lm5ZsSAcvYJ/vypJhlvem4+2om1L
-         itToXVyhEiwizGGKANa8Fjqcyit7DkUC5/DOo8Vtw5q77RepGLexHp6PQLwPZIeDU7QG
-         90GQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV06xDK3rn5MgK/SKCci6+qMi1cVOnvlJH3O09VMbREqToqc1DtWzOFNbU5gI3T9d2HHK7Lk7O3Prd/rw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxvAOvWPUY2k8+HlSLBmk44OAb9onjvtVTcObCYWIXOJEynhKbp
-	i8YdoxbZ+YHJlLcYiRxcdE5mwGtz+MjV8MbpLIoQ+E+jLk5/3WnbvRRq6AVW
-X-Gm-Gg: ASbGncve8oGiUpZm6TAUV0gWnXIekcOtLa2AKxatiz1CAP/ll8qF7DftwSfMx3fjtha
-	0MCzb8o0RvBl6vp5yJ2ZLdglYdvicG5A2Q7pY2gAuMKZr+nI/wBr7Gaymvr0jv6NkhejOel5idW
-	qyqSpc5+YC1noYOrS+DBZIxKvTBVjC+s6tuneGZi7Z0C701IK2mA8KNHl6J8pJah2unL5av5k4z
-	jJQk6epd+GRybtOGnQcvbDgjUhMxjSMUOx7/IX/lR9dFWIg5hbNaSLegQBGfb3PTo3VXaT9DY6N
-	pziKNfbRCgewdRGTY5QYWKhf5SOFyx2knJl6TenwdpWSPg==
-X-Google-Smtp-Source: AGHT+IGecgfsMcG35UqT0e1WE5j5jytX3/spRmqUEZGqCE6i0UxnZyh0jUtBcSjoqCNwAvn31NH/Fg==
-X-Received: by 2002:a17:907:7254:b0:aab:740f:e467 with SMTP id a640c23a62f3a-ab75e214c28mr230820566b.8.1738759950159;
-        Wed, 05 Feb 2025 04:52:30 -0800 (PST)
+        bh=ZgfFrjRxyOW1xOgdcC7mwiMGS+SjeOrC7s5Z2O3ZWyY=;
+        b=UszYTwxhAk6YOtMrcXtDQCqOrMcZu9qYIqn+STQK4ulvzrHWFJPeTParBgAd0Xn53z
+         1jH+Q4zdivhTtRac0dOflhUuvVffIfIcwMiq5eax4W8LyfplnmzUCMmJRup3xZk/s8lV
+         /wQkCXfdgBNePCuBO0JfDPAa299a5oZwQnnm+A8glnDDsIMdspJS0IxgIIKbvmGUsUOr
+         ZYrF7kADQ4uvvVhoBO59NqgIMJFmfam012kbylVRKc505/9YlA/RK68rP5PjFtQu+JKf
+         42fiul3kmKL2QgYPZxw3V7EXWtFfWPCBhcaAEntX6kcyHfoemswYamHsMr/fjqt0Qklg
+         NsRQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXG4OQKZL8LWfyy61MjYfuHd3aaqWW7N0rRwaq5TERgAzMv11W18PKUjhom3RW0AOzGt1xV44kuvG5HAw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyaLPPPDo+eKSwUe2ML7YPiqJLOymssH9xmzwED7uWskh4W4eDz
+	O1Qi/Pg/r2kUou3PASCL23AL1J8Uoo0VBxTAVZT1YyQlqYd+T+gJIT6ErKZ9
+X-Gm-Gg: ASbGncvYjCRWw3uWL4F3HtZ9+LKaJIIlLwgK/+ALBoeXukpeBBumQS2+uP2eZg2VcqU
+	rPRzwpg85C6DYuuWizEeELxpYYBZDjMfsrxdL6W0hfof6EZbll54eNOxHEF3flhnD8ZRdJNVsnw
+	P7GJ8SX/z5c3/dlhyTqoLkFfqzQayWVCT8CzXdHLKJ4tBQPce5EJLbfQRGqI4jEKw8xLwog334o
+	lo9YiMs+yfYBhNXdRm0oVSc1HD7jgY+w3ySEzsf/fFp/uCleqBIT9PihndQIVJMpE1gUFQOQ9UU
+	ZVh7QxLSji96pzfiHdrryBxG7/b4IWinsaht6ANnJzNDhw==
+X-Google-Smtp-Source: AGHT+IEAbQlJM9YpeCWJhaXrMd8JjdEQmk1PIGdg1MxSU0j0zzL77t1J5QeVhoIykZ9fWSW5KttwGw==
+X-Received: by 2002:a05:6402:350c:b0:5d0:b51c:8479 with SMTP id 4fb4d7f45d1cf-5dcdb7179ccmr3428449a12.10.1738759951997;
+        Wed, 05 Feb 2025 04:52:31 -0800 (PST)
 Received: from localhost.localdomain (185.174.17.62.zt.hu. [185.174.17.62])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5dc724055e5sm11559997a12.45.2025.02.05.04.52.27
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5dc724055e5sm11559997a12.45.2025.02.05.04.52.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Feb 2025 04:52:29 -0800 (PST)
+        Wed, 05 Feb 2025 04:52:31 -0800 (PST)
 From: Andras Szemzo <szemzo.andras@gmail.com>
 To: Michael Turquette <mturquette@baylibre.com>,
 	Stephen Boyd <sboyd@kernel.org>,
@@ -86,9 +86,9 @@ Cc: Vinod Koul <vkoul@kernel.org>,
 	linux-gpio@vger.kernel.org,
 	linux-pm@vger.kernel.org,
 	linux-riscv@lists.infradead.org
-Subject: [PATCH v2 01/10] clk: sunxi-ng: allow key feature in ccu reset and gate
-Date: Wed,  5 Feb 2025 13:52:16 +0100
-Message-Id: <20250205125225.1152849-2-szemzo.andras@gmail.com>
+Subject: [PATCH v2 02/10] pinctrl: sunxi: add driver for Allwinner V853
+Date: Wed,  5 Feb 2025 13:52:17 +0100
+Message-Id: <20250205125225.1152849-3-szemzo.andras@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250205125225.1152849-1-szemzo.andras@gmail.com>
 References: <20250205125225.1152849-1-szemzo.andras@gmail.com>
@@ -100,152 +100,111 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Some newer SoCs, like V853 has reset and gate registers, what can be write only
-with fixed key value. Move this value from ccu_mux and reuse
-in the reset code, and also introduce a new macro to support writing gate
-registers with a key.
+The V853 family has multiple package variants, from BGA to QFN88.
+The latter has co-packaged DRAM and fewer pins, and less features (pin muxes).
+All family members can be supported by a single driver, as the available pins
+with allowed muxes is the same across the devices.
+
+This new pinctrl driver depends on the new sunxi device-tree based mux support
+patch series [1].
+
+[1]: https://lore.kernel.org/linux-sunxi/20241111005750.13071-1-andre.przywara@arm.com/T/
 
 Signed-off-by: Andras Szemzo <szemzo.andras@gmail.com>
 ---
- drivers/clk/sunxi-ng/ccu_common.h |  2 ++
- drivers/clk/sunxi-ng/ccu_gate.c   |  6 ++++++
- drivers/clk/sunxi-ng/ccu_gate.h   | 14 ++++++++++++++
- drivers/clk/sunxi-ng/ccu_mux.c    |  4 +---
- drivers/clk/sunxi-ng/ccu_reset.c  |  7 +++++++
- drivers/clk/sunxi-ng/ccu_reset.h  |  2 +-
- 6 files changed, 31 insertions(+), 4 deletions(-)
+ drivers/pinctrl/sunxi/Kconfig              |  5 ++
+ drivers/pinctrl/sunxi/Makefile             |  1 +
+ drivers/pinctrl/sunxi/pinctrl-sun8i-v853.c | 53 ++++++++++++++++++++++
+ 3 files changed, 59 insertions(+)
+ create mode 100644 drivers/pinctrl/sunxi/pinctrl-sun8i-v853.c
 
-diff --git a/drivers/clk/sunxi-ng/ccu_common.h b/drivers/clk/sunxi-ng/ccu_common.h
-index dd330426a6e5..36132cb8b920 100644
---- a/drivers/clk/sunxi-ng/ccu_common.h
-+++ b/drivers/clk/sunxi-ng/ccu_common.h
-@@ -23,6 +23,8 @@
- /* MMC timing mode switch bit */
- #define CCU_MMC_NEW_TIMING_MODE		BIT(30)
+diff --git a/drivers/pinctrl/sunxi/Kconfig b/drivers/pinctrl/sunxi/Kconfig
+index a78fdbbdfc0c..fac9c61039e2 100644
+--- a/drivers/pinctrl/sunxi/Kconfig
++++ b/drivers/pinctrl/sunxi/Kconfig
+@@ -81,6 +81,11 @@ config PINCTRL_SUN9I_A80_R
+ 	default MACH_SUN9I
+ 	select PINCTRL_SUNXI
  
-+#define CCU_KEY_VALUE			0x16aa0000
++config PINCTRL_SUN8I_V853
++	bool "Support for the Allwinner V853/V851S/V851SE PIO"
++	default MACH_SUN8I
++	select PINCTRL_SUNXI
 +
- struct device_node;
- 
- struct ccu_common {
-diff --git a/drivers/clk/sunxi-ng/ccu_gate.c b/drivers/clk/sunxi-ng/ccu_gate.c
-index ac52fd6bff67..a7ffaa8d3cb6 100644
---- a/drivers/clk/sunxi-ng/ccu_gate.c
-+++ b/drivers/clk/sunxi-ng/ccu_gate.c
-@@ -20,6 +20,9 @@ void ccu_gate_helper_disable(struct ccu_common *common, u32 gate)
- 	spin_lock_irqsave(common->lock, flags);
- 
- 	reg = readl(common->base + common->reg);
-+	if (common->features & CCU_FEATURE_KEY_FIELD)
-+		reg |= CCU_KEY_VALUE;
+ config PINCTRL_SUN20I_D1
+ 	bool "Support for the Allwinner D1 PIO"
+ 	default MACH_SUN8I || (RISCV && ARCH_SUNXI)
+diff --git a/drivers/pinctrl/sunxi/Makefile b/drivers/pinctrl/sunxi/Makefile
+index 2ff5a55927ad..8937b56b2ef4 100644
+--- a/drivers/pinctrl/sunxi/Makefile
++++ b/drivers/pinctrl/sunxi/Makefile
+@@ -20,6 +20,7 @@ obj-$(CONFIG_PINCTRL_SUN8I_A83T_R)	+= pinctrl-sun8i-a83t-r.o
+ obj-$(CONFIG_PINCTRL_SUN8I_H3)		+= pinctrl-sun8i-h3.o
+ obj-$(CONFIG_PINCTRL_SUN8I_H3_R)	+= pinctrl-sun8i-h3-r.o
+ obj-$(CONFIG_PINCTRL_SUN8I_V3S)		+= pinctrl-sun8i-v3s.o
++obj-$(CONFIG_PINCTRL_SUN8I_V853)	+= pinctrl-sun8i-v853.o
+ obj-$(CONFIG_PINCTRL_SUN20I_D1)		+= pinctrl-sun20i-d1.o
+ obj-$(CONFIG_PINCTRL_SUN50I_H5)		+= pinctrl-sun50i-h5.o
+ obj-$(CONFIG_PINCTRL_SUN50I_H6)		+= pinctrl-sun50i-h6.o
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sun8i-v853.c b/drivers/pinctrl/sunxi/pinctrl-sun8i-v853.c
+new file mode 100644
+index 000000000000..fb2112ee12d0
+--- /dev/null
++++ b/drivers/pinctrl/sunxi/pinctrl-sun8i-v853.c
+@@ -0,0 +1,53 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Allwinner V853 SoC pinctrl driver.
++ *
++ * Copyright (c) 2025 Andras Szemzo <szemzo.andras@gmail.com>
++ */
 +
- 	writel(reg & ~gate, common->base + common->reg);
- 
- 	spin_unlock_irqrestore(common->lock, flags);
-@@ -44,6 +47,9 @@ int ccu_gate_helper_enable(struct ccu_common *common, u32 gate)
- 	spin_lock_irqsave(common->lock, flags);
- 
- 	reg = readl(common->base + common->reg);
-+	if (common->features & CCU_FEATURE_KEY_FIELD)
-+		reg |= CCU_KEY_VALUE;
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/of.h>
++#include <linux/of_device.h>
++#include <linux/pinctrl/pinctrl.h>
 +
- 	writel(reg | gate, common->base + common->reg);
- 
- 	spin_unlock_irqrestore(common->lock, flags);
-diff --git a/drivers/clk/sunxi-ng/ccu_gate.h b/drivers/clk/sunxi-ng/ccu_gate.h
-index dc05ce06737a..37e21fcdd931 100644
---- a/drivers/clk/sunxi-ng/ccu_gate.h
-+++ b/drivers/clk/sunxi-ng/ccu_gate.h
-@@ -68,6 +68,20 @@ struct ccu_gate {
- 		}							\
- 	}
- 
-+#define SUNXI_CCU_GATE_HWS_WITH_KEY(_struct, _name, _parent, _reg,	\
-+				       _gate, _flags)			\
-+	struct ccu_gate _struct = {					\
-+		.enable	= _gate,					\
-+		.common	= {						\
-+			.reg		= _reg,				\
-+			.features	= CCU_FEATURE_KEY_FIELD,	\
-+			.hw.init	= CLK_HW_INIT_HWS(_name,	\
-+							  _parent,	\
-+							  &ccu_gate_ops, \
-+							  _flags),	\
-+		}							\
-+	}
++#include "pinctrl-sunxi.h"
 +
- #define SUNXI_CCU_GATE_HWS_WITH_PREDIV(_struct, _name, _parent, _reg,	\
- 				       _gate, _prediv, _flags)		\
- 	struct ccu_gate _struct = {					\
-diff --git a/drivers/clk/sunxi-ng/ccu_mux.c b/drivers/clk/sunxi-ng/ccu_mux.c
-index d7ffbdeee9e0..127269ab20ea 100644
---- a/drivers/clk/sunxi-ng/ccu_mux.c
-+++ b/drivers/clk/sunxi-ng/ccu_mux.c
-@@ -12,8 +12,6 @@
- #include "ccu_gate.h"
- #include "ccu_mux.h"
- 
--#define CCU_MUX_KEY_VALUE		0x16aa0000
--
- static u16 ccu_mux_get_prediv(struct ccu_common *common,
- 			      struct ccu_mux_internal *cm,
- 			      int parent_index)
-@@ -196,7 +194,7 @@ int ccu_mux_helper_set_parent(struct ccu_common *common,
- 
- 	/* The key field always reads as zero. */
- 	if (common->features & CCU_FEATURE_KEY_FIELD)
--		reg |= CCU_MUX_KEY_VALUE;
-+		reg |= CCU_KEY_VALUE;
- 
- 	reg &= ~GENMASK(cm->width + cm->shift - 1, cm->shift);
- 	writel(reg | (index << cm->shift), common->base + common->reg);
-diff --git a/drivers/clk/sunxi-ng/ccu_reset.c b/drivers/clk/sunxi-ng/ccu_reset.c
-index 55bc7c7cda0f..a9aee35c6617 100644
---- a/drivers/clk/sunxi-ng/ccu_reset.c
-+++ b/drivers/clk/sunxi-ng/ccu_reset.c
-@@ -9,6 +9,7 @@
- #include <linux/reset-controller.h>
- 
- #include "ccu_reset.h"
-+#include "ccu_common.h"
- 
- static int ccu_reset_assert(struct reset_controller_dev *rcdev,
- 			    unsigned long id)
-@@ -21,6 +22,9 @@ static int ccu_reset_assert(struct reset_controller_dev *rcdev,
- 	spin_lock_irqsave(ccu->lock, flags);
- 
- 	reg = readl(ccu->base + map->reg);
-+	if (map->features & CCU_FEATURE_KEY_FIELD)
-+		reg |= CCU_KEY_VALUE;
++static const u8 v853_nr_bank_pins[SUNXI_PINCTRL_MAX_BANKS] =
++/*	  PA  PB  PC  PD  PE  PF  PG  PH  PI  */
++	{ 22,  0, 12, 23, 18,  7,  8, 16,  5 };
 +
- 	writel(reg & ~map->bit, ccu->base + map->reg);
- 
- 	spin_unlock_irqrestore(ccu->lock, flags);
-@@ -39,6 +43,9 @@ static int ccu_reset_deassert(struct reset_controller_dev *rcdev,
- 	spin_lock_irqsave(ccu->lock, flags);
- 
- 	reg = readl(ccu->base + map->reg);
-+	if (map->features & CCU_FEATURE_KEY_FIELD)
-+		reg |= CCU_KEY_VALUE;
++static const unsigned int v853_irq_bank_map[] = { 0, 2, 3, 4, 5, 6, 7, 8 };
 +
- 	writel(reg | map->bit, ccu->base + map->reg);
- 
- 	spin_unlock_irqrestore(ccu->lock, flags);
-diff --git a/drivers/clk/sunxi-ng/ccu_reset.h b/drivers/clk/sunxi-ng/ccu_reset.h
-index 941276a8ec2e..8da721ac3a7d 100644
---- a/drivers/clk/sunxi-ng/ccu_reset.h
-+++ b/drivers/clk/sunxi-ng/ccu_reset.h
-@@ -12,9 +12,9 @@
- struct ccu_reset_map {
- 	u16	reg;
- 	u32	bit;
-+	u32	features;
- };
- 
--
- struct ccu_reset {
- 	void __iomem			*base;
- 	const struct ccu_reset_map	*reset_map;
++static const u8 v853_irq_bank_muxes[SUNXI_PINCTRL_MAX_BANKS] =
++/*	  PA  PB  PC  PD  PE  PF  PG  PH  PI */
++	{ 14,  0, 14, 14, 14, 14, 14, 14, 14 };
++
++static struct sunxi_pinctrl_desc v853_pinctrl_data = {
++	.irq_banks = ARRAY_SIZE(v853_irq_bank_map),
++	.irq_bank_map = v853_irq_bank_map,
++	.io_bias_cfg_variant = BIAS_VOLTAGE_PIO_POW_MODE_SEL,
++};
++
++static int v853_pinctrl_probe(struct platform_device *pdev)
++{
++	return sunxi_pinctrl_dt_table_init(pdev, v853_nr_bank_pins,
++					   v853_irq_bank_muxes,
++					   &v853_pinctrl_data,
++					   SUNXI_PINCTRL_NEW_REG_LAYOUT |
++					   SUNXI_PINCTRL_ELEVEN_BANKS);
++}
++
++static const struct of_device_id v853_pinctrl_match[] = {
++	{ .compatible = "allwinner,sun8i-v853-pinctrl", },
++	{}
++};
++
++static struct platform_driver v853_pinctrl_driver = {
++	.probe	= v853_pinctrl_probe,
++	.driver	= {
++		.name		= "sun8i-v853-pinctrl",
++		.of_match_table	= v853_pinctrl_match,
++	},
++};
++builtin_platform_driver(v853_pinctrl_driver);
 -- 
 2.39.5
 
