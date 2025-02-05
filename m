@@ -1,162 +1,83 @@
-Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.netcube.li (mail.netcube.li [173.249.15.149])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D74ED1FC7ED
-	for <linux-sunxi@lists.linux.dev>; Wed,  5 Feb 2025 17:45:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96A282D052
+	for <linux-sunxi@lists.linux.dev>; Wed,  5 Feb 2025 17:49:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.249.15.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738777557; cv=none; b=kgofVygSLi0cdwJ/pmS1lNmmpADivo5r+bZD4jJ4Zl9yBkw/Xll6AX3JG+KiOBI5UY9Mk08TeLEhJQ3rIef+xKR9AbxFQY34IdUYTP4EWkvjk5rcAE/jSwZGaCf1WCVwuEErzmPtDEVEaLH1LwNI9qKJT+ux5ypzds8NMwJDeQY=
+	t=1738777772; cv=none; b=uGkCeqrmFu5/9uV/vmcNFGT4JCiwbrafiBh1rAluE6RnFk40yyevKxziaPtsw7aQClBKI1mSxE+llj2g7/rOEqPm5sUeRV0hBDA8PPtGFWQDS9fblokgUTu8/oDAOU2iElFA0CUNhNapigLNl35KIbatILkUSvg0kVu76+WnwDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738777557; c=relaxed/simple;
-	bh=z96CKr6jknS+Hxu/D84R57aD24diCTrCk7EtoEtNpsU=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=a0g+c9AKMLA4x1a7/UppYsX+ck6hdnCCLf6++vDqo8zZdqeORXd9T/B3L4q8xfBcemNDg8A/H1cnFnS5dQzqt7PZ1xVUDI3BvsP1GB40sb0VFG6wUZoYHfCrBOoiF3tWNMErWXUt+/nSfLWGTMZKQJ69N+1fwDdjAlAxFrvTvME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=kIEwVyTn; arc=none smtp.client-ip=193.68.50.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
+	s=arc-20240116; t=1738777772; c=relaxed/simple;
+	bh=BzXXA/cI0W1sFyho2VjDgr9ILcR75btGyHtzelRuuB8=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=rAxWJ/i86CJc1U02tZ59FtS5rlhZJA7znW10gIUt3Lfmrnh3cHf0NHQoOWgaDUPFrCoJK4YoxSrwyd9khWZiZllQNhcxwaLJeYsWkJLNqB9MI9zFMqjD3ZKr84w3WEAyg2gq1w4NkGKtHodgpI+RxsdrGZ5q8Cm/SoUXgCwWC90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li; spf=pass smtp.mailfrom=netcube.li; dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b=O7xWhQTY; arc=none smtp.client-ip=173.249.15.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netcube.li
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="kIEwVyTn"
-Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
-	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id 2CBB9A0748;
-	Wed,  5 Feb 2025 18:36:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:from:from:message-id:mime-version:reply-to:subject:subject:to
-	:to; s=mail; bh=Rn6yddGTL+4r9BPnRCa7YNZbMZP/n2LoEprLl201Fhg=; b=
-	kIEwVyTn98fyHeB3ZPrtD11ZqobExsQeb9IkBVpo6AJPfeKxBLtFl5YPqyKDk196
-	K1ZRHGJtpBMIoJr2r3l4eRHbfVCjWkdMexBglv4viBCke4Xf7t/I47oYW8p7yo2p
-	/S4GOZvNuQWjp+KZAL9BPXrw6WiXlfaFbiT1yN+oDAtbUnHe3uSJFafrfVuDIfl3
-	F/8iHKneQUtkaWbIqN1zF9viyteAJAIuBHH1QuMcn8KF9bSvKDC2E4YVTU+6h/AB
-	K0Vwkwqk5JIa6xblQJ0eI1oreStRhF8+Mczx2qbjm3HTNl8a8g71dzSY6sZZh6zU
-	ibodccHUCc82AtIn60S2Zj/sHcMfCC76+O9ZStQmqiKzuYDSw6yGUZisJTXYow1l
-	oXvbGA5e8E7UsBD2Pt7AL3t9hnhKUO7JTeI8YFnP3UVF4l9vH+txvGLiBVwvHA5W
-	n949X020wpvNpjPuIseVRHy2hiBgsKeH7/QQIJV4NR1/9Doep76tkAxlb8kGxJB5
-	Wcepx7y4q9ATiL6ddDTFm8wUr9GdoLD+v8hI2rdRH20flJbLt5nwYGUVMVeR4qTZ
-	EwkcEV8S44DPThV0Drmr8tqP3JT4ez6CbT6kTY996uwQMPVILLDcA00vLwO2k/lL
-	ph6yWXu1yGfb4NhFRM33RzN/bATuqt2bFZ2fvWjnURc=
-From: =?UTF-8?q?Bence=20Cs=C3=B3k=C3=A1s?= <csokas.bence@prolan.hu>
-To: <dmaengine@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-CC: =?UTF-8?q?Bence=20Cs=C3=B3k=C3=A1s?= <csokas.bence@prolan.hu>, "Chen-Yu
- Tsai" <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Vinod
- Koul <vkoul@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland
-	<samuel@sholland.org>
-Subject: [PATCH v3] dma-engine: sun4i: Use devm functions in probe()
-Date: Wed, 5 Feb 2025 18:36:30 +0100
-Message-ID: <20250205173630.112020-2-csokas.bence@prolan.hu>
-X-Mailer: git-send-email 2.48.1
+	dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b="O7xWhQTY"
+dkim-signature: v=1; a=rsa-sha256; d=netcube.li; s=s1;
+	c=relaxed/relaxed; q=dns/txt; h=From:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Transfer-Encoding:In-Reply-To:References;
+	bh=UWzy9f37TLLTSuTbfCAgfOB34y28JpT9kZ7G8h4yvw8=;
+	b=O7xWhQTY+j6CDzuVj0bVlxJdGYjWrYYHy1bIpjot3z0OKBiZvA8+4A70qmAMbVmgiGWva+EQp5goWTKflZsZUgLvlfHkLZgC/VCDFQj//7euFFk5H/F5/dfCuGbSLSIs4twWsR2J8fGzUlqHHPTWavSkB5E8FTYBjj6f1vH0sOM=
+Received: from lukas-hpz440workstation.lan.sk100508.local (cm70-231.liwest.at [212.241.70.231])
+	by mail.netcube.li with ESMTPSA
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256)
+	; Wed, 5 Feb 2025 17:48:06 +0100
+From: Lukas Schmid <lukas.schmid@netcube.li>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Ripard <mripard@kernel.org>
+Cc: Lukas Schmid <lukas.schmid@netcube.li>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v9 1/4] dt-bindings: vendor-prefixes: Add NetCube Systems Austria name
+Date: Wed,  5 Feb 2025 17:47:10 +0100
+Message-Id: <20250205164716.2509650-2-lukas.schmid@netcube.li>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250205164716.2509650-1-lukas.schmid@netcube.li>
+References: <20250205164716.2509650-1-lukas.schmid@netcube.li>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-ESET-AS: R=OK;S=0;OP=CALC;TIME=1738777013;VERSION=7984;MC=1924755684;ID=266573;TRN=0;CRV=0;IPC=;SP=0;SIPS=0;PI=3;F=0
-X-ESET-Antispam: OK
-X-EsetResult: clean, is OK
-X-EsetId: 37303A2980D94852667D60
 
-Clean up error handling by using devm functions
-and dev_err_probe(). This should make it easier
-to add new code, as we can eliminate the "goto
-ladder" in probe().
+NetCube Systems Austria builds Embedded Systems for use in IoT, IIoT, or
+Smart Home scenarios.
 
-Suggested-by: Chen-Yu Tsai <wens@kernel.org>
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Signed-off-by: Bence Csókás <csokas.bence@prolan.hu>
+Website is still WIP, but the Links on it are active:
+https://netcubesystems.at/
+
+Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Notes:
-    Changes in v2:
-    * rebase on current next
-    Changes in v3:
-    * rebase on current next
-    * collect Jernej's tag
-
- drivers/dma/sun4i-dma.c | 31 ++++++-------------------------
- 1 file changed, 6 insertions(+), 25 deletions(-)
-
-diff --git a/drivers/dma/sun4i-dma.c b/drivers/dma/sun4i-dma.c
-index 24796aaaddfa..b10639720efd 100644
---- a/drivers/dma/sun4i-dma.c
-+++ b/drivers/dma/sun4i-dma.c
-@@ -1249,10 +1249,9 @@ static int sun4i_dma_probe(struct platform_device *pdev)
- 	if (priv->irq < 0)
- 		return priv->irq;
- 
--	priv->clk = devm_clk_get(&pdev->dev, NULL);
-+	priv->clk = devm_clk_get_enabled(&pdev->dev, NULL);
- 	if (IS_ERR(priv->clk)) {
--		dev_err(&pdev->dev, "No clock specified\n");
--		return PTR_ERR(priv->clk);
-+		return dev_err_probe(&pdev->dev, PTR_ERR(priv->clk), "Couldn't start the clock");
- 	}
- 
- 	if (priv->cfg->has_reset) {
-@@ -1328,12 +1327,6 @@ static int sun4i_dma_probe(struct platform_device *pdev)
- 		vchan_init(&vchan->vc, &priv->slave);
- 	}
- 
--	ret = clk_prepare_enable(priv->clk);
--	if (ret) {
--		dev_err(&pdev->dev, "Couldn't enable the clock\n");
--		return ret;
--	}
--
- 	/*
- 	 * Make sure the IRQs are all disabled and accounted for. The bootloader
- 	 * likes to leave these dirty
-@@ -1344,32 +1337,23 @@ static int sun4i_dma_probe(struct platform_device *pdev)
- 	ret = devm_request_irq(&pdev->dev, priv->irq, sun4i_dma_interrupt,
- 			       0, dev_name(&pdev->dev), priv);
- 	if (ret) {
--		dev_err(&pdev->dev, "Cannot request IRQ\n");
--		goto err_clk_disable;
-+		return dev_err_probe(&pdev->dev, ret, "Cannot request IRQ");
- 	}
- 
--	ret = dma_async_device_register(&priv->slave);
-+	ret = dmaenginem_async_device_register(&priv->slave);
- 	if (ret) {
--		dev_warn(&pdev->dev, "Failed to register DMA engine device\n");
--		goto err_clk_disable;
-+		return dev_err_probe(&pdev->dev, ret, "Failed to register DMA engine device");
- 	}
- 
- 	ret = of_dma_controller_register(pdev->dev.of_node, sun4i_dma_of_xlate,
- 					 priv);
- 	if (ret) {
--		dev_err(&pdev->dev, "of_dma_controller_register failed\n");
--		goto err_dma_unregister;
-+		return dev_err_probe(&pdev->dev, ret, "Failed to register translation function");
- 	}
- 
- 	dev_dbg(&pdev->dev, "Successfully probed SUN4I_DMA\n");
- 
- 	return 0;
--
--err_dma_unregister:
--	dma_async_device_unregister(&priv->slave);
--err_clk_disable:
--	clk_disable_unprepare(priv->clk);
--	return ret;
- }
- 
- static void sun4i_dma_remove(struct platform_device *pdev)
-@@ -1380,9 +1364,6 @@ static void sun4i_dma_remove(struct platform_device *pdev)
- 	disable_irq(priv->irq);
- 
- 	of_dma_controller_free(pdev->dev.of_node);
--	dma_async_device_unregister(&priv->slave);
--
--	clk_disable_unprepare(priv->clk);
- }
- 
- static struct sun4i_dma_config sun4i_a10_dma_cfg = {
-
-base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 5079ca6ce1d1..499ab972f9d2 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -1031,6 +1031,8 @@ patternProperties:
+     description: Neofidelity Inc.
+   "^neonode,.*":
+     description: Neonode Inc.
++  "^netcube,.*":
++    description: NetCube Systems Austria
+   "^netgear,.*":
+     description: NETGEAR
+   "^netlogic,.*":
 -- 
-2.48.1
+2.39.5
 
 
