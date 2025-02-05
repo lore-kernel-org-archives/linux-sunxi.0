@@ -1,328 +1,184 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 754C0155CBD
-	for <linux-sunxi@lists.linux.dev>; Wed,  5 Feb 2025 12:52:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 447651519B1;
+	Wed,  5 Feb 2025 15:47:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738759975; cv=none; b=n688Beh/OomOIzw9OxKqcmtrA8RGltKS2XjTgmjHMAhXegx4dFGqeIIoQ+TmEtaTdWhm4/FGem7Hq8rzBbWyrsZGd10sFHjKBeKWRNblEvEtZ8pO42vpIneaavkJ77ljMxaD4SuXDLNaN2Nb40SJG/nq1JoDlCFisONC3oQR9Ng=
+	t=1738770437; cv=none; b=X6yzGuVm+PzXy4RQ/c0w83HOtzLM1gR7tYEykCNULHBN3R+UCFBN37tNxzN6cqBGBVLrR+iwSxmxwf4bBujw7WAgq/JM1bu4mEQbwwiX6DKoNOQIQcpx9ydIuYSCMFackegWNB2ykNSYpZy4B9zdnpUeOq4tcw5ByQ++U7Z5PsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738759975; c=relaxed/simple;
-	bh=xp/XAYCJ0gW1/42TPE8bMe25omHNEVQkGeqAyKFjknE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=OMVlzopumCUNBTchhJ4xOT/YLFvZV2cpf2hrlM5pQ9KnvfcJrgKBform97958CFlvC4Ud3SFK7joueW4TRJN9M7ifzwwL8R/znJtJ2hgJmaYEI5dAPwE9qEanc8mQgcFO3j/NvLBjNL8hQ4UvwohJZi1fp2HMmDrm9KhX6Bw1mw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LjJYq7Gn; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LjJYq7Gn"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5d982de9547so13147715a12.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 05 Feb 2025 04:52:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738759968; x=1739364768; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lyEbgL/DE3XaQNmV45jqJ+6PRNx/4WLm+5/Q7HMMYbM=;
-        b=LjJYq7GnFZkHIE+nHrMZx+BlD5EkJDzoVf3Tfp+rLxLLb8rrjnxHIWcc3/Y71LSGTn
-         oAc1jusD/Iu4E63Mjq9YtjZlluWeQ/14BSyBClm2buOxNciYz2CxrObhTavLYIlHJZao
-         Dr6OBSwAKx4M/dDzX+vVlilf8FITPzgn8JG2S2EANMlkFhGO0vBRTHa0w65eCRkj26Ao
-         Mb4F86YtD31FVt6PODTF04iXiZfhFJwJ3ATbAhJ71fFsz4h+AR7bD3tvifAshQH27lYw
-         cq+tCv3QAe/bgk3Q/DWbmIVicWrlOpydzInoP9R5sFWOdIMjSbPlEjAieqO4jSCoaSxH
-         LtzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738759968; x=1739364768;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lyEbgL/DE3XaQNmV45jqJ+6PRNx/4WLm+5/Q7HMMYbM=;
-        b=IX84NwRsRpyUDpSaPYZ7sx5CaREdkzVA1KE/4coh7IgszeoB6LpnF3at+5iuLzzrsM
-         jHr2mtmdWSl4ByS8Pg0YD2Zqby+xl1/RTDqDqVhGmtQslfQFgaypOAlnglVFCAVFYgcZ
-         Cl6+5sNj28O4Fj2liGQRabXcBy0BmA4oBt3yI+l6e+o3tUMy5WK8U6Z382Hh9BlhKkmd
-         VuOQwbO+e9VgyfVMBfEG1qe8utedHVB56Z0oPYNk9t+n4ivwBpNOqg9Z6vuIDr/VF2JR
-         hP3NtQy1H8Fr+TIs87pS7jVgtGwF06L/JKgKMq2Mlfwa1GC4LKyX2RQjGnqMDAb5469P
-         Q9Ag==
-X-Forwarded-Encrypted: i=1; AJvYcCXxbVXFHZM8ijsRq3dtTn2IF/bnlWRA2nyNSOpQcrIos7BxYGuWzh/sMlZGWyDXQo6xdTXyzbUO9jinqg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx2GB6fJe1bMFSyRJPyNHBTf0Ut6rLsYf5z4+CA9wWWqNLsyDld
-	qL3j8RsT2CNyPTC6p/Ypp3HBi8vf76XiHIz7UsDfA/fAyG5b0XuJ
-X-Gm-Gg: ASbGncvfIM5KOAwYT/9p7eH33HO3riE1OcQrNwIxgV2Hhj4NgeQBH/2SN8zZB4lv9qz
-	OCkzCqIPoMb+Fp8i3M6PZbMqyhA+owda5HSZS3Yrn5tbBCKo6K4G3dEnL9Xi8uKrGexOeBR6a/B
-	AEXKV/ZILXmUFvF/fetlvgy9C88ZHapcK/jIoRWSmkZz538QpCY1CYZGj8II5Ba2yJBXTg0TmkS
-	52RSv805F5z/Rlbw8otuOkCfRXbhoxNvtbmsAHvWsVaR00elRXFdAJ2Bb7fCjbIZNVBPG8ieyE9
-	y+ZaNZUu9/OW+sGuHtt/KnYV21ptiQL/bp1jJUxVfSjq2w==
-X-Google-Smtp-Source: AGHT+IETUIvDkqTKdY7k2714QPYM3xUPceBcb2unO/nI5NYhZ4IV4FRiMa6FjOclLKPwMVNHsxzJ0A==
-X-Received: by 2002:a05:6402:358d:b0:5d0:cfad:f6c with SMTP id 4fb4d7f45d1cf-5dcdb764604mr2738652a12.21.1738759967460;
-        Wed, 05 Feb 2025 04:52:47 -0800 (PST)
-Received: from localhost.localdomain (185.174.17.62.zt.hu. [185.174.17.62])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5dc724055e5sm11559997a12.45.2025.02.05.04.52.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Feb 2025 04:52:46 -0800 (PST)
-From: Andras Szemzo <szemzo.andras@gmail.com>
-To: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Maxime Ripard <mripard@kernel.org>
-Cc: Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-phy@lists.infradead.org,
-	linux-gpio@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: [PATCH v2 10/10] ARM: dts: sun8i: add DTS file for yuzuki-lizard V851s
-Date: Wed,  5 Feb 2025 13:52:25 +0100
-Message-Id: <20250205125225.1152849-11-szemzo.andras@gmail.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250205125225.1152849-1-szemzo.andras@gmail.com>
-References: <20250205125225.1152849-1-szemzo.andras@gmail.com>
+	s=arc-20240116; t=1738770437; c=relaxed/simple;
+	bh=ejHE1a8+aYs3y71VCzE1Ju3Quet9sFhTMD+pAmsBqF0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pyyhhPF79rPzVhoPKveia3kJZY+UlaPW+z0adiONGdhXS3bjfbWtAXjAH2WtJWGvzb3U3ZbsAWwJDayDiG4yhUPCFxvPwXOWqvLLmvHJ0r8eFjOQX/IQXQYrGC0Z6my8uSCuDFdXC9mRKlCJuuLnk/Rm6adzm46Po9kvlYKTWcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1A8AF1063;
+	Wed,  5 Feb 2025 07:47:37 -0800 (PST)
+Received: from [10.57.35.21] (unknown [10.57.35.21])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 03F493F5A1;
+	Wed,  5 Feb 2025 07:47:05 -0800 (PST)
+Message-ID: <23d4c47e-a00c-4f15-ab42-303bd2aca032@arm.com>
+Date: Wed, 5 Feb 2025 15:47:03 +0000
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 18/19] iommu: Update various drivers to pass in lg2sz
+ instead of order to iommu pages
+To: Jason Gunthorpe <jgg@nvidia.com>, Alim Akhtar <alim.akhtar@samsung.com>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Albert Ou <aou@eecs.berkeley.edu>,
+ asahi@lists.linux.dev, Lu Baolu <baolu.lu@linux.intel.com>,
+ David Woodhouse <dwmw2@infradead.org>, Heiko Stuebner <heiko@sntech.de>,
+ iommu@lists.linux.dev, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-tegra@vger.kernel.org, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Hector Martin <marcan@marcan.st>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Sven Peter <sven@svenpeter.dev>, Thierry Reding <thierry.reding@gmail.com>,
+ Tomasz Jeznach <tjeznach@rivosinc.com>, Krishna Reddy <vdumpa@nvidia.com>,
+ Chen-Yu Tsai <wens@csie.org>, Will Deacon <will@kernel.org>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>, Joerg Roedel <jroedel@suse.de>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
+ David Rientjes <rientjes@google.com>, Matthew Wilcox <willy@infradead.org>
+References: <18-v1-416f64558c7c+2a5-iommu_pages_jgg@nvidia.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <18-v1-416f64558c7c+2a5-iommu_pages_jgg@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Yuzuki-lizard is an Open Hardware board based on Allwinner V851s SoC. Add a basic dts for it.
+On 2025-02-04 6:34 pm, Jason Gunthorpe wrote:
+> Convert most of the places calling get_order() as an argument to the
+> iommu-pages allocator into order_base_2() or the _sz flavour
+> instead. These places already have an exact size, there is no particular
+> reason to use order here.
+> 
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+[...]
+> @@ -826,7 +825,7 @@ void *__init iommu_alloc_4k_pages(struct amd_iommu *iommu, gfp_t gfp,
+>   				  size_t size)
+>   {
+>   	int order = get_order(size);
+> -	void *buf = iommu_alloc_pages(gfp, order);
+> +	void *buf = iommu_alloc_pages_lg2(gfp, order + PAGE_SHIFT);
 
-Signed-off-by: Andras Szemzo <szemzo.andras@gmail.com>
----
- arch/arm/boot/dts/allwinner/Makefile          |   1 +
- .../boot/dts/allwinner/sun8i-v851s-lizard.dts | 196 ++++++++++++++++++
- 2 files changed, 197 insertions(+)
- create mode 100644 arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dts
+This is a size, really - it's right there above.
 
-diff --git a/arch/arm/boot/dts/allwinner/Makefile b/arch/arm/boot/dts/allwinner/Makefile
-index 48666f73e638..af84073f6a51 100644
---- a/arch/arm/boot/dts/allwinner/Makefile
-+++ b/arch/arm/boot/dts/allwinner/Makefile
-@@ -260,6 +260,7 @@ dtb-$(CONFIG_MACH_SUN8I) += \
- 	sun8i-v3-sl631-imx179.dtb \
- 	sun8i-v3s-anbernic-rg-nano.dtb \
- 	sun8i-v3s-licheepi-zero.dtb \
-+	sun8i-v851s-lizard.dtb \
- 	sun8i-v3s-licheepi-zero-dock.dtb \
- 	sun8i-v40-bananapi-m2-berry.dtb
- dtb-$(CONFIG_MACH_SUN9I) += \
-diff --git a/arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dts b/arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dts
-new file mode 100644
-index 000000000000..180d10b1a06a
---- /dev/null
-+++ b/arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dts
-@@ -0,0 +1,196 @@
-+// SPDX-License-Identifier: (GPL-2.0-only OR MIT)
-+// Copyright (C) 2024 Andras Szemzo.andras@gmail.com>
-+
-+/dts-v1/;
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/leds/common.h>
-+#include "sun8i-v853.dtsi"
-+
-+/ {
-+	model = "Yuzuki-lizard";
-+	compatible = "yuzukihd,lizard", "allwinner,sun8i-v853", "allwinner,sun8i";
-+
-+	aliases {
-+		serial0 = &uart0;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial0:115200n8";
-+	};
-+
-+	memory {
-+	    reg = <0x40000000 0x4000000>;
-+	};
-+
-+	reg_vcc: vcc {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+	};
-+
-+	reg_vcc_1v8: vcc-1v8 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc-1v8";
-+		regulator-min-microvolt = <1800000>;
-+		regulator-max-microvolt = <1800000>;
-+	};
-+
-+	reg_usbvbus: usbvbus {
-+		compatible = "regulator-fixed";
-+		regulator-name = "usbvbus";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+		vin-supply = <&reg_vcc>;
-+	};
-+
-+	reg_vcc_3v3: vcc-3v3 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc-3v3";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+		vin-supply = <&reg_vcc>;
-+	};
-+
-+	reg_vdd_cpu: vdd-cpu {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vdd-cpu";
-+		regulator-min-microvolt = <900000>;
-+		regulator-max-microvolt = <900000>;
-+		vin-supply = <&reg_vcc>;
-+	};
-+
-+	leds {
-+		compatible = "gpio-leds";
-+
-+		status_led {
-+			linux,default-trigger = "heartbeat";
-+			label = "led:red";
-+			gpios = <&pio 5 6 GPIO_ACTIVE_HIGH>;
-+		};
-+	};
-+
-+	wifi_pwrseq: wifi-pwrseq {
-+		compatible = "mmc-pwrseq-simple";
-+		reset-gpios = <&pio 4 6 GPIO_ACTIVE_LOW>; /* PE6 */
-+	};
-+};
-+
-+&dcxo {
-+	clock-frequency = <24000000>;
-+};
-+
-+&cpu0 {
-+	cpu-supply = <&reg_vdd_cpu>;
-+};
-+
-+&pio {
-+	vcc-pa-supply = <&reg_vcc_3v3>;
-+	vcc-pc-supply = <&reg_vcc_3v3>;
-+	vcc-pd-supply = <&reg_vcc_3v3>;
-+	vcc-pe-supply = <&reg_vcc_3v3>;
-+	vcc-pf-supply = <&reg_vcc_3v3>;
-+	vcc-ph-supply = <&reg_vcc_3v3>;
-+};
-+
-+&uart0 {
-+	pinctrl-0 = <&uart0_ph9_pins>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+};
-+
-+&wdt {
-+	status = "okay";
-+};
-+
-+&spi0 {
-+	pinctrl-0 = <&spi0_pins>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+
-+	flash@0 {
-+		compatible = "spi-nand";
-+		spi-max-frequency = <75000000>;
-+		reg = <0>;
-+
-+		partitions {
-+			compatible = "fixed-partitions";
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+
-+			partition@0 {
-+				label = "awboot";
-+				reg = <0x00000000 0x00020000>;	/* 128K */
-+			};
-+
-+			partition@20000 {
-+				label = "dtb";
-+				reg = <0x00020000 0x00020000>;  /* 128k */
-+			};
-+
-+			partition@40000 {
-+				label = "kernel";
-+				reg = <0x00040000 0x00800000>;  /* 8MB */
-+			};
-+
-+			partition@840000 {
-+				label = "rootfs";
-+				reg = <0x00840000 0x077c0000>;
-+			};
-+		};
-+	};
-+};
-+
-+&i2c2 {
-+	pinctrl-0 = <&i2c2_ph11_pins>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+};
-+
-+&mmc0 {
-+	bus-width = <4>;
-+	broken-cd;
-+	disable-wp;
-+	vmmc-supply = <&reg_vcc_3v3>;
-+	vqmmc-supply = <&reg_vcc_3v3>;
-+	pinctrl-0 = <&mmc0_pins>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+};
-+
-+&mmc1 {
-+	bus-width = <4>;
-+	mmc-pwrseq = <&wifi_pwrseq>;
-+	non-removable;
-+	vmmc-supply = <&reg_vcc_3v3>;
-+	vqmmc-supply = <&reg_vcc_3v3>;
-+	pinctrl-0 = <&mmc1_pins>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+
-+	xr829: wifi@1 {
-+		reg = <1>;
-+		interrupt-parent = <&pio>;
-+		interrupts = <4 7 IRQ_TYPE_LEVEL_HIGH>; /* PE7 */
-+		interrupt-names = "host-wake";
-+	};
-+};
-+
-+&usb_otg {
-+	dr_mode = "otg";
-+	status = "okay";
-+};
-+
-+&ehci0 {
-+	status = "okay";
-+};
-+
-+&ohci0 {
-+	status = "okay";
-+};
-+
-+&usbphy {
-+	usb0_vbus-supply = <&reg_usbvbus>;
-+	usb0_id_det-gpio = <&pio 4 9 GPIO_ACTIVE_LOW>;
-+	status = "okay";
-+};
--- 
-2.39.5
+(although alloc_cwwb_sem() passing 1 looks highly suspicious - judging 
+by other cmd_sem references that probably should be PAGE_SIZE...)
+
+Furthermore even the set_memory_4k() call doesn't really want an order 
+either, PAGE_ALIGN(size) >> PAGE_SHIFT would do.
+
+>   
+>   	if (buf &&
+>   	    check_feature(FEATURE_SNP) &&
+[...]
+> @@ -1702,8 +1701,10 @@ int dmar_enable_qi(struct intel_iommu *iommu)
+>   	 * Need two pages to accommodate 256 descriptors of 256 bits each
+>   	 * if the remapping hardware supports scalable mode translation.
+>   	 */
+> -	order = ecap_smts(iommu->ecap) ? 1 : 0;
+> -	desc = iommu_alloc_pages_node(iommu->node, GFP_ATOMIC, order);
+> +	desc = iommu_alloc_pages_node_lg2(iommu->node, GFP_ATOMIC,
+> +					  ecap_smts(iommu->ecap) ?
+> +						  order_base_2(SZ_8K) :
+> +						  order_base_2(SZ_4K));
+
+These are also clearly sizes.
+
+>   	if (!desc) {
+>   		kfree(qi);
+>   		iommu->qi = NULL;
+> diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
+> index 8727d8e1e02f45..0e1dd519c3b9b3 100644
+> --- a/drivers/iommu/io-pgtable-arm.c
+> +++ b/drivers/iommu/io-pgtable-arm.c
+> @@ -263,14 +263,14 @@ static void *__arm_lpae_alloc_pages(size_t size, gfp_t gfp,
+>   				    void *cookie)
+>   {
+>   	struct device *dev = cfg->iommu_dev;
+> -	int order = get_order(size);
+>   	dma_addr_t dma;
+>   	void *pages;
+>   
+>   	if (cfg->alloc)
+>   		pages = cfg->alloc(cookie, size, gfp);
+>   	else
+> -		pages = iommu_alloc_pages_node(dev_to_node(dev), gfp, order);
+> +		pages = iommu_alloc_pages_node_lg2(dev_to_node(dev), gfp,
+> +						   order_base_2(size));
+
+Another size. Same thing in patch #17 too. I don't see any need to have 
+the log2 stuff at all, I think we just switch iommu_alloc_pages{_node}() 
+to take a size and keep things simple.
+
+Thanks,
+Robin.
+
+>   
+>   	if (!pages)
+>   		return NULL;
+> diff --git a/drivers/iommu/io-pgtable-dart.c b/drivers/iommu/io-pgtable-dart.c
+> index a4cbd8a8a2976e..3b57d14baa9c1d 100644
+> --- a/drivers/iommu/io-pgtable-dart.c
+> +++ b/drivers/iommu/io-pgtable-dart.c
+> @@ -107,13 +107,6 @@ static phys_addr_t iopte_to_paddr(dart_iopte pte,
+>   	return paddr;
+>   }
+>   
+> -static void *__dart_alloc_pages(size_t size, gfp_t gfp)
+> -{
+> -	int order = get_order(size);
+> -
+> -	return iommu_alloc_pages(gfp, order);
+> -}
+> -
+>   static int dart_init_pte(struct dart_io_pgtable *data,
+>   			     unsigned long iova, phys_addr_t paddr,
+>   			     dart_iopte prot, int num_entries,
+> @@ -255,7 +248,7 @@ static int dart_map_pages(struct io_pgtable_ops *ops, unsigned long iova,
+>   
+>   	/* no L2 table present */
+>   	if (!pte) {
+> -		cptep = __dart_alloc_pages(tblsz, gfp);
+> +		cptep = iommu_alloc_pages_sz(gfp, tblsz);
+>   		if (!cptep)
+>   			return -ENOMEM;
+>   
+> @@ -412,7 +405,8 @@ apple_dart_alloc_pgtable(struct io_pgtable_cfg *cfg, void *cookie)
+>   	cfg->apple_dart_cfg.n_ttbrs = 1 << data->tbl_bits;
+>   
+>   	for (i = 0; i < cfg->apple_dart_cfg.n_ttbrs; ++i) {
+> -		data->pgd[i] = __dart_alloc_pages(DART_GRANULE(data), GFP_KERNEL);
+> +		data->pgd[i] =
+> +			iommu_alloc_pages_sz(GFP_KERNEL, DART_GRANULE(data));
+>   		if (!data->pgd[i])
+>   			goto out_free_data;
+>   		cfg->apple_dart_cfg.ttbr[i] = virt_to_phys(data->pgd[i]);
+> diff --git a/drivers/iommu/sun50i-iommu.c b/drivers/iommu/sun50i-iommu.c
+> index 3d77aed8507373..d0e515bf5dd1f6 100644
+> --- a/drivers/iommu/sun50i-iommu.c
+> +++ b/drivers/iommu/sun50i-iommu.c
+> @@ -690,8 +690,8 @@ sun50i_iommu_domain_alloc_paging(struct device *dev)
+>   	if (!sun50i_domain)
+>   		return NULL;
+>   
+> -	sun50i_domain->dt = iommu_alloc_pages(GFP_KERNEL | GFP_DMA32,
+> -					      get_order(DT_SIZE));
+> +	sun50i_domain->dt =
+> +		iommu_alloc_pages_sz(GFP_KERNEL | GFP_DMA32, DT_SIZE);
+>   	if (!sun50i_domain->dt)
+>   		goto err_free_domain;
+>   
 
