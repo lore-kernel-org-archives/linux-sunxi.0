@@ -1,272 +1,271 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EFFF1DBB03;
-	Wed,  5 Feb 2025 19:17:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FE2F1FF7B3;
+	Wed,  5 Feb 2025 19:28:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738783029; cv=none; b=FX5OB9IDyrfQT3FoNkIh8eSBMETxpS+bXCuJaCyScTG7n4NloSpov/3weyqoHv/EsuCeqpw/sez6XLo8ayruA1T3DDvQtP+lqhSUHbaMA8c2LPRc3x22tZJX3oRflF/WzTujIVtnS0CcFndV+tDTwGAbraEaBIcFSzECUkbtlFg=
+	t=1738783737; cv=none; b=GfXmEt2iV7GWgRq4SSAFo6vjpSy4SSddFW9PndXBeyPFPsZzgW5URaDvkn15OmlQ01agytFlVN3/vKYCxeFRTpFpkpeylNUWz6zZTYWZGBagkXpdMqEv/Egy6ohA+0Tah7yvIcUuVp8zkhLiYfPaYB8zEuNFBnsDU3MuBF0RwWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738783029; c=relaxed/simple;
-	bh=RudzayPq+ls6/2gLbJyVXITOTNOFPZ85hq9AVF8CDPk=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=PGwH/BB2bZL/fInoRWsG/oGGW3pzVBLf9YjahF1b8HGQGdIXkQpf7maY3745B30zOORFEGw8/RFuqLAL1Bv1YnHgXlm9jfbcQLoYiF5Phl3Z+Uzc2OAn8eMKg2mmtJH/Ad7Cdm21OLq9ojQF6fccg8+zdOeakr/5GKjsi5bpA9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IjjsPKkN; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IjjsPKkN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E7EFC4CED1;
-	Wed,  5 Feb 2025 19:17:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738783029;
-	bh=RudzayPq+ls6/2gLbJyVXITOTNOFPZ85hq9AVF8CDPk=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=IjjsPKkNuj+m+6+KbEQVTd5oah6lDbVouJ+AINnzPPejRrf0UEdXRphc6v8FnI1iW
-	 +nZ8CXSNlCnKnRGGRVTdtknEw6UovKVQ6EsYqce5wU8HU5w6xTXytyp9MJtnkz2ePb
-	 OekZI8Bx1yAa9IzEJux67Z23K9mNzNoiYUXh02YSrCrLaXN1g7VMxf2nW7pluGnMcH
-	 yyADoxA4no0dTX/JpxTrV2m5p4JGqmi9P9H294IF3ym/EBnXysL6sdebN8vB+Myy75
-	 jPiRJdszx0agZ8ARs+zX98RHGdjOb150rI+YVtrXaoaehkVzRVhpYVNNZNCaSZfxSh
-	 uquOSOauvi96Q==
-Date: Wed, 05 Feb 2025 13:17:08 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=arc-20240116; t=1738783737; c=relaxed/simple;
+	bh=CVSmvf4JDPuVGxBFx/HwVVb29l+JTKh8ULy8blTX1DM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gZXrgSS0WKoKdH3nuPUCcuRIg6rThqguiI2Xaf9q8YjWOhQq5Unxl9IjgxGgaZG4vjOxeGbxAKNXrQEyztp7lQVQ/xTVKHeu0PILc+JSxrO98vBQdi5C8AViwa67u2b4CFrD289knoEnIAH/kVzbeo83G9rn6RyruT3I5zv5EBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A6FFB1063;
+	Wed,  5 Feb 2025 11:29:16 -0800 (PST)
+Received: from [10.57.35.21] (unknown [10.57.35.21])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B6D0C3F5A1;
+	Wed,  5 Feb 2025 11:28:38 -0800 (PST)
+Message-ID: <be153973-550c-4ea8-bf65-35b5ce28ac22@arm.com>
+Date: Wed, 5 Feb 2025 19:28:37 +0000
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-kernel@vger.kernel.org, 
- linux-sunxi@lists.linux.dev, linux-clk@vger.kernel.org, 
- linux-gpio@vger.kernel.org, Paul Walmsley <paul.walmsley@sifive.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- linux-arm-kernel@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>, 
- linux-pm@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>, 
- Samuel Holland <samuel@sholland.org>, Stephen Boyd <sboyd@kernel.org>, 
- Vinod Koul <vkoul@kernel.org>, Michael Turquette <mturquette@baylibre.com>, 
- Kishon Vijay Abraham I <kishon@kernel.org>, linux-phy@lists.infradead.org, 
- Albert Ou <aou@eecs.berkeley.edu>, Ulf Hansson <ulf.hansson@linaro.org>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
- Maxime Ripard <mripard@kernel.org>, linux-riscv@lists.infradead.org, 
- Conor Dooley <conor+dt@kernel.org>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- devicetree@vger.kernel.org
-To: Andras Szemzo <szemzo.andras@gmail.com>
-In-Reply-To: <20250205125225.1152849-1-szemzo.andras@gmail.com>
-References: <20250205125225.1152849-1-szemzo.andras@gmail.com>
-Message-Id: <173878294158.2545960.16253374239758023814.robh@kernel.org>
-Subject: Re: [PATCH v2 00/10] Support for Allwinner V853 SoC
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 02/19] iommu/tegra: Do not use struct page as the handle
+ for pts
+To: Jason Gunthorpe <jgg@nvidia.com>, Alim Akhtar <alim.akhtar@samsung.com>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Albert Ou <aou@eecs.berkeley.edu>,
+ asahi@lists.linux.dev, Lu Baolu <baolu.lu@linux.intel.com>,
+ David Woodhouse <dwmw2@infradead.org>, Heiko Stuebner <heiko@sntech.de>,
+ iommu@lists.linux.dev, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-tegra@vger.kernel.org, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Hector Martin <marcan@marcan.st>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Sven Peter <sven@svenpeter.dev>, Thierry Reding <thierry.reding@gmail.com>,
+ Tomasz Jeznach <tjeznach@rivosinc.com>, Krishna Reddy <vdumpa@nvidia.com>,
+ Chen-Yu Tsai <wens@csie.org>, Will Deacon <will@kernel.org>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>, Joerg Roedel <jroedel@suse.de>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
+ David Rientjes <rientjes@google.com>, Matthew Wilcox <willy@infradead.org>
+References: <2-v1-416f64558c7c+2a5-iommu_pages_jgg@nvidia.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <2-v1-416f64558c7c+2a5-iommu_pages_jgg@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 2025-02-04 6:34 pm, Jason Gunthorpe wrote:
+> Instead use the virtual address and dma_map_single() like as->pd
+> uses. Introduce a small struct tegra_pt instead of void * to have some
+> clarity what is using this API and add compile safety during the
+> conversion.
 
-On Wed, 05 Feb 2025 13:52:15 +0100, Andras Szemzo wrote:
-> V85x is a SoC from Allwinner with video encoding targeted for the field of
-> IP Camera. It integrates the single CA7 core, and a T-Head E907 RISC-V mcu.
-> The SoC has the usual Allwinner peripherals and a Vivante NPU.
-> V853 is a BGA package without DRAM, V851s/V851s3 has the same die with
-> co-packaged 64MB/128MB DRAM (in a QFN88 package).
+Hmm, I'm not sure it's all that clear to have a major discrepancy 
+between how different levels of pagetable are referenced - I'd say 
+either use an explicit type for both, or just rework this as a u32** 
+along the same lines as the current patch #1.
+
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>   drivers/iommu/tegra-smmu.c | 68 ++++++++++++++++++++------------------
+>   1 file changed, 36 insertions(+), 32 deletions(-)
 > 
-> This patchset tries to add basical support for the V853 device family.
-> 
-> Changelog - v2:
->  - rebased on 6.14-rc1
->  - add a needed gate with key support to sunxi clk
->  - rewrite the ccu-r driver
->  - fix license issues
->  - remove the pinctrl binding, as it has beed applied
->  - rework the pinctrl driver, use the new sunxi dt based mux support. This new pinctrl
->    driver depends on the new sunxi device-tree based mux support patch series [1].
->  - remove the new usb phy binding, as the v853's usb phy is very close to d1/a64
->  - add a board dts
->  - ccu: add module description
->  - ccu: fix PLL enable bits, and min multipliers
->  - ccu: change PLL flags to CLK_SET_RATE_GATE
->  - ccu: use SUNXI_CCU_M_HWS at peripheral PLLs
->  - ccu: convert the VIDEO and CSI PLLs from nm type to nkmp according to BSP
->  - ccu: cpu axi clk use pointer
->  - ccu: fix comments
->  - ccu: swap i2s1 and i2s0 bus clocks
->  - ccu: fix indentation
->  - ccu: fix RST_BUS_SPIF order
->  - ccu: convert RST_RISCV_CLK_GATING from reset to gate
-> 
-> [1]: https://lore.kernel.org/linux-sunxi/20241111005750.13071-1-andre.przywara@arm.com/T/
-> 
-> Andras Szemzo (10):
->   clk: sunxi-ng: allow key feature in ccu reset and gate
->   pinctrl: sunxi: add driver for Allwinner V853
->   dt-bindings: clock: sunxi-ng: add compatibles for V853
->   clk: sunxi-ng: add CCU drivers for V853
->   dt-bindings: power: add V853 ppu bindings
->   pmdomain: sunxi: add V853 ppu support
->   dt-bindings: phy: allwinner: add v853 usb phy
->   phy: allwinner: add v853 usb phy compatible
->   ARM: dts: sun8i: add DTSI file for V853
->   ARM: dts: sun8i: add DTS file for yuzuki-lizard V851s
-> 
->  .../clock/allwinner,sun4i-a10-ccu.yaml        |    3 +
->  .../phy/allwinner,sun50i-a64-usb-phy.yaml     |    2 +
->  .../power/allwinner,sun20i-d1-ppu.yaml        |    1 +
->  arch/arm/boot/dts/allwinner/Makefile          |    1 +
->  .../boot/dts/allwinner/sun8i-v851s-lizard.dts |  196 +++
->  arch/arm/boot/dts/allwinner/sun8i-v853.dtsi   |  656 ++++++++++
->  drivers/clk/sunxi-ng/Kconfig                  |   10 +
->  drivers/clk/sunxi-ng/Makefile                 |    4 +
->  drivers/clk/sunxi-ng/ccu-sun8i-v853-r.c       |  120 ++
->  drivers/clk/sunxi-ng/ccu-sun8i-v853-r.h       |   14 +
->  drivers/clk/sunxi-ng/ccu-sun8i-v853.c         | 1145 +++++++++++++++++
->  drivers/clk/sunxi-ng/ccu-sun8i-v853.h         |   14 +
->  drivers/clk/sunxi-ng/ccu_common.h             |    2 +
->  drivers/clk/sunxi-ng/ccu_gate.c               |    6 +
->  drivers/clk/sunxi-ng/ccu_gate.h               |   14 +
->  drivers/clk/sunxi-ng/ccu_mux.c                |    4 +-
->  drivers/clk/sunxi-ng/ccu_reset.c              |    7 +
->  drivers/clk/sunxi-ng/ccu_reset.h              |    2 +-
->  drivers/phy/allwinner/phy-sun4i-usb.c         |   10 +
->  drivers/pinctrl/sunxi/Kconfig                 |    5 +
->  drivers/pinctrl/sunxi/Makefile                |    1 +
->  drivers/pinctrl/sunxi/pinctrl-sun8i-v853.c    |   53 +
->  drivers/pmdomain/sunxi/sun20i-ppu.c           |   15 +
->  .../clock/allwinner,sun8i-v853-ccu.h          |  132 ++
->  .../clock/allwinner,sun8i-v853-r-ccu.h        |   16 +
->  .../power/allwinner,sun8i-v853-ppu.h          |   10 +
->  .../reset/allwinner,sun8i-v853-ccu.h          |   60 +
->  .../reset/allwinner,sun8i-v853-r-ccu.h        |   14 +
->  28 files changed, 2513 insertions(+), 4 deletions(-)
->  create mode 100644 arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dts
->  create mode 100644 arch/arm/boot/dts/allwinner/sun8i-v853.dtsi
->  create mode 100644 drivers/clk/sunxi-ng/ccu-sun8i-v853-r.c
->  create mode 100644 drivers/clk/sunxi-ng/ccu-sun8i-v853-r.h
->  create mode 100644 drivers/clk/sunxi-ng/ccu-sun8i-v853.c
->  create mode 100644 drivers/clk/sunxi-ng/ccu-sun8i-v853.h
->  create mode 100644 drivers/pinctrl/sunxi/pinctrl-sun8i-v853.c
->  create mode 100644 include/dt-bindings/clock/allwinner,sun8i-v853-ccu.h
->  create mode 100644 include/dt-bindings/clock/allwinner,sun8i-v853-r-ccu.h
->  create mode 100644 include/dt-bindings/power/allwinner,sun8i-v853-ppu.h
->  create mode 100644 include/dt-bindings/reset/allwinner,sun8i-v853-ccu.h
->  create mode 100644 include/dt-bindings/reset/allwinner,sun8i-v853-r-ccu.h
-> 
-> --
-> 2.39.5
-> 
-> 
-> 
+> diff --git a/drivers/iommu/tegra-smmu.c b/drivers/iommu/tegra-smmu.c
+> index 717bcd3b8de7dc..1e85141c80548d 100644
+> --- a/drivers/iommu/tegra-smmu.c
+> +++ b/drivers/iommu/tegra-smmu.c
+> @@ -51,13 +51,15 @@ struct tegra_smmu {
+>   	struct iommu_device iommu;	/* IOMMU Core code handle */
+>   };
+>   
+> +struct tegra_pt;
+> +
+>   struct tegra_smmu_as {
+>   	struct iommu_domain domain;
+>   	struct tegra_smmu *smmu;
+>   	unsigned int use_count;
+>   	spinlock_t lock;
+>   	u32 *count;
+> -	struct page **pts;
+> +	struct tegra_pt **pts;
+>   	u32 *pd;
+>   	dma_addr_t pd_dma;
+>   	unsigned id;
+> @@ -155,6 +157,10 @@ static inline u32 smmu_readl(struct tegra_smmu *smmu, unsigned long offset)
+>   #define SMMU_PDE_ATTR		(SMMU_PDE_READABLE | SMMU_PDE_WRITABLE | \
+>   				 SMMU_PDE_NONSECURE)
+>   
+> +struct tegra_pt {
+> +	u32 val[SMMU_NUM_PTE];
+> +};
+> +
+>   static unsigned int iova_pd_index(unsigned long iova)
+>   {
+>   	return (iova >> SMMU_PDE_SHIFT) & (SMMU_NUM_PDE - 1);
+> @@ -564,11 +570,9 @@ static void tegra_smmu_set_pde(struct tegra_smmu_as *as, unsigned long iova,
+>   	smmu_flush(smmu);
+>   }
+>   
+> -static u32 *tegra_smmu_pte_offset(struct page *pt_page, unsigned long iova)
+> +static u32 *tegra_smmu_pte_offset(struct tegra_pt *pt, unsigned long iova)
+>   {
+> -	u32 *pt = page_address(pt_page);
+> -
+> -	return pt + iova_pt_index(iova);
+> +	return &pt->val[iova_pt_index(iova)];
+>   }
+>   
+>   static u32 *tegra_smmu_pte_lookup(struct tegra_smmu_as *as, unsigned long iova,
+> @@ -576,19 +580,19 @@ static u32 *tegra_smmu_pte_lookup(struct tegra_smmu_as *as, unsigned long iova,
+>   {
+>   	unsigned int pd_index = iova_pd_index(iova);
+>   	struct tegra_smmu *smmu = as->smmu;
+> -	struct page *pt_page;
+> +	struct tegra_pt *pt;
+>   
+> -	pt_page = as->pts[pd_index];
+> -	if (!pt_page)
+> +	pt = as->pts[pd_index];
+> +	if (!pt)
+>   		return NULL;
+>   
+>   	*dmap = smmu_pde_to_dma(smmu, as->pd[pd_index]);
+>   
+> -	return tegra_smmu_pte_offset(pt_page, iova);
+> +	return tegra_smmu_pte_offset(pt, iova);
+>   }
+>   
+>   static u32 *as_get_pte(struct tegra_smmu_as *as, dma_addr_t iova,
+> -		       dma_addr_t *dmap, struct page *page)
+> +		       dma_addr_t *dmap, struct tegra_pt *pt)
+>   {
+>   	unsigned int pde = iova_pd_index(iova);
+>   	struct tegra_smmu *smmu = as->smmu;
+> @@ -596,21 +600,21 @@ static u32 *as_get_pte(struct tegra_smmu_as *as, dma_addr_t iova,
+>   	if (!as->pts[pde]) {
+>   		dma_addr_t dma;
+>   
+> -		dma = dma_map_page(smmu->dev, page, 0, SMMU_SIZE_PT,
+> -				   DMA_TO_DEVICE);
+> +		dma = dma_map_single(smmu->dev, pt, SMMU_SIZE_PD,
 
+SMMU_SIZE_PT (yeah they're numerically the same, but still...)
 
-My bot found new DTB warnings on the .dts files added or changed in this
-series.
+> +				     DMA_TO_DEVICE);
+>   		if (dma_mapping_error(smmu->dev, dma)) {
+> -			__iommu_free_pages(page, 0);
+> +			iommu_free_page(pt);
+>   			return NULL;
+>   		}
+>   
+>   		if (!smmu_dma_addr_valid(smmu, dma)) {
+>   			dma_unmap_page(smmu->dev, dma, SMMU_SIZE_PT,
+>   				       DMA_TO_DEVICE);
 
-Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-are fixed by another series. Ultimately, it is up to the platform
-maintainer whether these warnings are acceptable or not. No need to reply
-unless the platform maintainer has comments.
+All the unmaps should be converted to _single as well (and in patch #1) 
+- the APIs are not officially interchangeable.
 
-If you already ran DT checks and didn't see these error(s), then
-make sure dt-schema is up to date:
+Thanks,
+Robin.
 
-  pip3 install dtschema --upgrade
-
-
-New warnings running 'make CHECK_DTBS=y for arch/arm/boot/dts/allwinner/' for 20250205125225.1152849-1-szemzo.andras@gmail.com:
-
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: /: memory: False schema does not allow {'reg': [[1073741824, 67108864]]}
-	from schema $id: http://devicetree.org/schemas/root-node.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: /: memory: 'device_type' is a required property
-	from schema $id: http://devicetree.org/schemas/memory.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: /: failed to match any schema with compatible: ['yuzukihd,lizard', 'allwinner,sun8i-v853', 'allwinner,sun8i']
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: /: failed to match any schema with compatible: ['yuzukihd,lizard', 'allwinner,sun8i-v853', 'allwinner,sun8i']
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: /: failed to match any schema with compatible: ['yuzukihd,lizard', 'allwinner,sun8i-v853', 'allwinner,sun8i']
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: cpu@0: compatible: ['arm,cortex-a7', 'arm,armv7'] is too long
-	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: /cpus/cpu@0: failed to match any schema with compatible: ['arm,cortex-a7', 'arm,armv7']
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: pinctrl@2000000: uart0-ph9-pins: 'allwinner,pinmux' does not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/pinctrl/allwinner,sun4i-a10-pinctrl.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: pinctrl@2000000: spi0-pins: 'allwinner,pinmux' does not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/pinctrl/allwinner,sun4i-a10-pinctrl.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: pinctrl@2000000: i2c2-ph11-pins: 'allwinner,pinmux' does not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/pinctrl/allwinner,sun4i-a10-pinctrl.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: pinctrl@2000000: mmc0-pins: 'allwinner,pinmux' does not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/pinctrl/allwinner,sun4i-a10-pinctrl.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: pinctrl@2000000: mmc1-pins: 'allwinner,pinmux' does not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/pinctrl/allwinner,sun4i-a10-pinctrl.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: clock-controller@2001000: clock-names:1: 'losc' was expected
-	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun4i-a10-ccu.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: clock-controller@2001000: clock-names:2: 'iosc' was expected
-	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun4i-a10-ccu.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: serial@2500000: dma-names:0: 'tx' was expected
-	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: serial@2500000: dma-names:1: 'rx' was expected
-	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: serial@2500000: Unevaluated properties are not allowed ('dma-names' was unexpected)
-	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: serial@2500400: dma-names:0: 'tx' was expected
-	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: serial@2500400: dma-names:1: 'rx' was expected
-	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: serial@2500800: dma-names:0: 'tx' was expected
-	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: serial@2500800: dma-names:1: 'rx' was expected
-	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: serial@2500c00: dma-names:0: 'tx' was expected
-	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: serial@2500c00: dma-names:1: 'rx' was expected
-	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: syscon@3000000: sram@20000:sram-section@0:compatible: 'oneOf' conditional failed, one must be fixed:
-	['allwinner,sun8i-v3s-sram-c', 'allwinner,sun4i-a10-sram-c1'] is too long
-	'allwinner,sun4i-a10-sram-a3-a4' was expected
-	'allwinner,sun4i-a10-sram-c1' was expected
-	'allwinner,sun4i-a10-sram-d' was expected
-	'allwinner,sun50i-a64-sram-c' was expected
-	'allwinner,sun8i-v3s-sram-c' is not one of ['allwinner,sun5i-a13-sram-a3-a4', 'allwinner,sun7i-a20-sram-a3-a4']
-	'allwinner,sun8i-v3s-sram-c' is not one of ['allwinner,sun5i-a13-sram-c1', 'allwinner,sun7i-a20-sram-c1', 'allwinner,sun8i-a23-sram-c1', 'allwinner,sun8i-h3-sram-c1', 'allwinner,sun8i-r40-sram-c1', 'allwinner,sun50i-a64-sram-c1', 'allwinner,sun50i-h5-sram-c1', 'allwinner,sun50i-h6-sram-c1']
-	'allwinner,sun8i-v3s-sram-c' is not one of ['allwinner,suniv-f1c100s-sram-d', 'allwinner,sun5i-a13-sram-d', 'allwinner,sun7i-a20-sram-d']
-	'allwinner,sun50i-h6-sram-c' was expected
-	from schema $id: http://devicetree.org/schemas/sram/allwinner,sun4i-a10-system-control.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: /soc/syscon@3000000/sram@20000/sram-section@0: failed to match any schema with compatible: ['allwinner,sun8i-v3s-sram-c', 'allwinner,sun4i-a10-sram-c1']
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: hwlock@3005000: '#hwlock-cells' is a required property
-	from schema $id: http://devicetree.org/schemas/hwlock/allwinner,sun6i-a31-hwspinlock.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: hwlock@3005000: 'clock-names', 'interrupts', 'reset-names' do not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/hwlock/allwinner,sun6i-a31-hwspinlock.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: hstimer@3008000: interrupts: [[0, 55, 4], [0, 56, 4]] is too short
-	from schema $id: http://devicetree.org/schemas/timer/allwinner,sun5i-a13-hstimer.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: phy@4100400: reg: [[68158464, 256], [68163584, 256]] is too short
-	from schema $id: http://devicetree.org/schemas/phy/allwinner,sun50i-a64-usb-phy.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: phy@4100400: reg-names: ['phy_ctrl', 'pmu0'] is too short
-	from schema $id: http://devicetree.org/schemas/phy/allwinner,sun50i-a64-usb-phy.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: phy@4100400: clocks: [[1, 94]] is too short
-	from schema $id: http://devicetree.org/schemas/phy/allwinner,sun50i-a64-usb-phy.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: phy@4100400: clock-names: ['usb0_phy'] is too short
-	from schema $id: http://devicetree.org/schemas/phy/allwinner,sun50i-a64-usb-phy.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: phy@4100400: resets: [[1, 38]] is too short
-	from schema $id: http://devicetree.org/schemas/phy/allwinner,sun50i-a64-usb-phy.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: phy@4100400: reset-names: ['usb0_reset'] is too short
-	from schema $id: http://devicetree.org/schemas/phy/allwinner,sun50i-a64-usb-phy.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: phy@4100400: 'usb0_id_det-gpio' does not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/phy/allwinner,sun50i-a64-usb-phy.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: clock-controller@7010000: clocks: [[4], [5, 2], [5, 0], [1, 10], [1, 19]] is too long
-	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun4i-a10-ccu.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: clock-controller@7010000: clock-names:1: 'losc' was expected
-	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun4i-a10-ccu.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: clock-controller@7010000: clock-names:2: 'iosc' was expected
-	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun4i-a10-ccu.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: clock-controller@7010000: clock-names: ['hosc', 'iosc', 'losc', 'pll-periph', 'pll-audio'] is too long
-	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun4i-a10-ccu.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: clock-controller@7010000: clocks: [[4], [5, 2], [5, 0], [1, 10], [1, 19]] is too long
-	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun4i-a10-ccu.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: clock-controller@7010000: clock-names: ['hosc', 'iosc', 'losc', 'pll-periph', 'pll-audio'] is too long
-	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun4i-a10-ccu.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: intc-nmi@7010320: $nodename:0: 'intc-nmi@7010320' does not match '^interrupt-controller(@[0-9a-f,]+)*$'
-	from schema $id: http://devicetree.org/schemas/interrupt-controller/allwinner,sun7i-a20-sc-nmi.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: intc-nmi@7010320: Unevaluated properties are not allowed ('#address-cells' was unexpected)
-	from schema $id: http://devicetree.org/schemas/interrupt-controller/allwinner,sun7i-a20-sc-nmi.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: rtc@7090000: clocks: [[17, 4]] is too short
-	from schema $id: http://devicetree.org/schemas/rtc/allwinner,sun6i-a31-rtc.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: rtc@7090000: clock-names: ['bus'] is too short
-	from schema $id: http://devicetree.org/schemas/rtc/allwinner,sun6i-a31-rtc.yaml#
-arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: rtc@7090000: 'resets', 'wakeup-source' do not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/rtc/allwinner,sun6i-a31-rtc.yaml#
-
-
-
-
+> -			__iommu_free_pages(page, 0);
+> +			iommu_free_page(pt);
+>   			return NULL;
+>   		}
+>   
+> -		as->pts[pde] = page;
+> +		as->pts[pde] = pt;
+>   
+>   		tegra_smmu_set_pde(as, iova, SMMU_MK_PDE(dma, SMMU_PDE_ATTR |
+>   							      SMMU_PDE_NEXT));
+> @@ -633,7 +637,7 @@ static void tegra_smmu_pte_get_use(struct tegra_smmu_as *as, unsigned long iova)
+>   static void tegra_smmu_pte_put_use(struct tegra_smmu_as *as, unsigned long iova)
+>   {
+>   	unsigned int pde = iova_pd_index(iova);
+> -	struct page *page = as->pts[pde];
+> +	struct tegra_pt *pt = as->pts[pde];
+>   
+>   	/*
+>   	 * When no entries in this page table are used anymore, return the
+> @@ -646,7 +650,7 @@ static void tegra_smmu_pte_put_use(struct tegra_smmu_as *as, unsigned long iova)
+>   		tegra_smmu_set_pde(as, iova, 0);
+>   
+>   		dma_unmap_page(smmu->dev, pte_dma, SMMU_SIZE_PT, DMA_TO_DEVICE);
+> -		__iommu_free_pages(page, 0);
+> +		iommu_free_page(pt);
+>   		as->pts[pde] = NULL;
+>   	}
+>   }
+> @@ -666,16 +670,16 @@ static void tegra_smmu_set_pte(struct tegra_smmu_as *as, unsigned long iova,
+>   	smmu_flush(smmu);
+>   }
+>   
+> -static struct page *as_get_pde_page(struct tegra_smmu_as *as,
+> -				    unsigned long iova, gfp_t gfp,
+> -				    unsigned long *flags)
+> +static struct tegra_pt *as_get_pde_page(struct tegra_smmu_as *as,
+> +					unsigned long iova, gfp_t gfp,
+> +					unsigned long *flags)
+>   {
+>   	unsigned int pde = iova_pd_index(iova);
+> -	struct page *page = as->pts[pde];
+> +	struct tegra_pt *pt = as->pts[pde];
+>   
+>   	/* at first check whether allocation needs to be done at all */
+> -	if (page)
+> -		return page;
+> +	if (pt)
+> +		return pt;
+>   
+>   	/*
+>   	 * In order to prevent exhaustion of the atomic memory pool, we
+> @@ -685,7 +689,7 @@ static struct page *as_get_pde_page(struct tegra_smmu_as *as,
+>   	if (gfpflags_allow_blocking(gfp))
+>   		spin_unlock_irqrestore(&as->lock, *flags);
+>   
+> -	page = __iommu_alloc_pages(gfp | __GFP_DMA, 0);
+> +	pt = iommu_alloc_page(gfp | __GFP_DMA);
+>   
+>   	if (gfpflags_allow_blocking(gfp))
+>   		spin_lock_irqsave(&as->lock, *flags);
+> @@ -696,13 +700,13 @@ static struct page *as_get_pde_page(struct tegra_smmu_as *as,
+>   	 * if allocation succeeded and the allocation failure isn't fatal.
+>   	 */
+>   	if (as->pts[pde]) {
+> -		if (page)
+> -			__iommu_free_pages(page, 0);
+> +		if (pt)
+> +			iommu_free_page(pt);
+>   
+> -		page = as->pts[pde];
+> +		pt = as->pts[pde];
+>   	}
+>   
+> -	return page;
+> +	return pt;
+>   }
+>   
+>   static int
+> @@ -712,15 +716,15 @@ __tegra_smmu_map(struct iommu_domain *domain, unsigned long iova,
+>   {
+>   	struct tegra_smmu_as *as = to_smmu_as(domain);
+>   	dma_addr_t pte_dma;
+> -	struct page *page;
+> +	struct tegra_pt *pt;
+>   	u32 pte_attrs;
+>   	u32 *pte;
+>   
+> -	page = as_get_pde_page(as, iova, gfp, flags);
+> -	if (!page)
+> +	pt = as_get_pde_page(as, iova, gfp, flags);
+> +	if (!pt)
+>   		return -ENOMEM;
+>   
+> -	pte = as_get_pte(as, iova, &pte_dma, page);
+> +	pte = as_get_pte(as, iova, &pte_dma, pt);
+>   	if (!pte)
+>   		return -ENOMEM;
+>   
 
