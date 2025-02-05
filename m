@@ -1,188 +1,272 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2055.outbound.protection.outlook.com [40.107.93.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C1E209F3E;
-	Wed,  5 Feb 2025 18:40:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.55
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738780805; cv=fail; b=FseC3kE+Bu29cBgn05H6VfrR5Kb75c4YMzGA0LhxyCu52+cMJnxOBEzKlK/dzySkpDIxXhd15aRhuQwpZg0ercpFvZP/ArI+pekDj686AJelZ8zuVYzLz9UZogYeHMBGxadA7uy+mlwUGlaDVtHPMzLcskMrgrQlzsSHj/gm71c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738780805; c=relaxed/simple;
-	bh=iWR3bQ7MdIod0VMlYfp2ceNzJuBsaLGj4in/tWFxF0M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=u0GPZUv3lz38U3yK6Z58bvrKuE2liIbzODjtfp/I+AY+yOZGlPe4mWH1MlY26NgPaTyeis3O7lqp+t6SY3QEEUMQ+OtY0nt3LFsC2sOdfrbcnGTqpjSM95FIzEOalK78DJ2YjqQHP4T8jiF3tX2kGkCmnbT3+9W7IVTIQfE1LK4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=J21qvWLA; arc=fail smtp.client-ip=40.107.93.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EFFF1DBB03;
+	Wed,  5 Feb 2025 19:17:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738783029; cv=none; b=FX5OB9IDyrfQT3FoNkIh8eSBMETxpS+bXCuJaCyScTG7n4NloSpov/3weyqoHv/EsuCeqpw/sez6XLo8ayruA1T3DDvQtP+lqhSUHbaMA8c2LPRc3x22tZJX3oRflF/WzTujIVtnS0CcFndV+tDTwGAbraEaBIcFSzECUkbtlFg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738783029; c=relaxed/simple;
+	bh=RudzayPq+ls6/2gLbJyVXITOTNOFPZ85hq9AVF8CDPk=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=PGwH/BB2bZL/fInoRWsG/oGGW3pzVBLf9YjahF1b8HGQGdIXkQpf7maY3745B30zOORFEGw8/RFuqLAL1Bv1YnHgXlm9jfbcQLoYiF5Phl3Z+Uzc2OAn8eMKg2mmtJH/Ad7Cdm21OLq9ojQF6fccg8+zdOeakr/5GKjsi5bpA9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IjjsPKkN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="J21qvWLA"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eF4w/7R49wqUQiZAZvs2gWuMzTFtFF7C8a+9lXi56Bz3mf6jCOeWvTQOKw8tqSepM3TVBCpIoLCx0kgiRJy/UGU6LVwOSb/fsAwTcoW1YKK0tvB/Y4y9gx/LtQE9GUucrpaG06MUyo973gIWaKMtkEIu/UONBymHUWR+27GuNFNHCYm2IElmXnxapSoFrDDnPYtqDvGX9OfEWrUZxOj8oCw648nIYrBvX0HL1udRDUZbC20s1D/kZ0i7LZlHPYqCOC3Vh6F19K/xs3WW9FIKdb/tbLTYGql3Zdk0Q4QQvIp0nugjX0vjogO6uWXR4uzOEufsF+wEwb1yaihYGN4DuQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iWR3bQ7MdIod0VMlYfp2ceNzJuBsaLGj4in/tWFxF0M=;
- b=d7RA6Ue1TwHe1F/8WHL4bFCHXYMOQ2Q50tEJ5QCVZ6R1Qhm4Kf+INYQN7utRu9OlNB0g6RbwYk+oaAdQhbNnYVtfi4F+5QrU9EGO1jSvQ/tGvKPYdg98V9k/zTvTe6cjq51NmMYGYRuQr+cAGlCWmzMRmdKzQ+CFosWq6CUuEviKDKleXmDpEs9QruCtP3WuHh950X+7g8B9e0q1Te+ROdPWXbraJcjMepsQ3lCe6kQZgKFTb6iKuXA1Uj74UGZCflsNn+JXkp6cM7Bgl/EX3lPAS8jE0VQ7Roh1Sity+ATaXvhBXERJl9F4851tO05Pyhbq8gKJNet3OF6OSTe4Gw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iWR3bQ7MdIod0VMlYfp2ceNzJuBsaLGj4in/tWFxF0M=;
- b=J21qvWLAjTEnB8YF/4B/zZPqRuOOgtsp1eOzbF5yPcAo5PBhh++S2wi/Yxgk09qq3LdfvFr52bcUOVXtJlHgaP/2wuQj1BkGPm8M6dBuFVYzcsh1c/XO7mNxYFZ6/JsovHEtsPMaEALlPphlZs7ymfy+sq7WnII8zvB95qlucTU8NGmMq64YAJOeS1+yffLMReJfDcneew90WfoqR1jrzyYZ40eGVuZV9yzmW40/T+A/ms4g5XokoGEfzzcLP1+GrdYjiqXsbDnDCDloo2zPu94GHyCd+RmvGPCzlvWtAawHrQfvNEvaQPQH0yIp2xghSDRIAHrwZT1KXW/rBS0pRQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by PH7PR12MB9201.namprd12.prod.outlook.com (2603:10b6:510:2e8::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.11; Wed, 5 Feb
- 2025 18:40:01 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%6]) with mapi id 15.20.8398.025; Wed, 5 Feb 2025
- 18:40:00 +0000
-Date: Wed, 5 Feb 2025 14:39:59 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: Alim Akhtar <alim.akhtar@samsung.com>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Joerg Roedel <joro@8bytes.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Hector Martin <marcan@marcan.st>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Sven Peter <sven@svenpeter.dev>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Tomasz Jeznach <tjeznach@rivosinc.com>,
-	Krishna Reddy <vdumpa@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
-	Will Deacon <will@kernel.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
-	Joerg Roedel <jroedel@suse.de>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
-	David Rientjes <rientjes@google.com>,
-	Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH 18/19] iommu: Update various drivers to pass in lg2sz
- instead of order to iommu pages
-Message-ID: <20250205183959.GE2960738@nvidia.com>
-References: <18-v1-416f64558c7c+2a5-iommu_pages_jgg@nvidia.com>
- <23d4c47e-a00c-4f15-ab42-303bd2aca032@arm.com>
- <20250205161017.GB2960738@nvidia.com>
- <78707443-7525-42d4-a538-cb0c67cbeb55@arm.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <78707443-7525-42d4-a538-cb0c67cbeb55@arm.com>
-X-ClientProxiedBy: BN9PR03CA0706.namprd03.prod.outlook.com
- (2603:10b6:408:ef::21) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IjjsPKkN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E7EFC4CED1;
+	Wed,  5 Feb 2025 19:17:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738783029;
+	bh=RudzayPq+ls6/2gLbJyVXITOTNOFPZ85hq9AVF8CDPk=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=IjjsPKkNuj+m+6+KbEQVTd5oah6lDbVouJ+AINnzPPejRrf0UEdXRphc6v8FnI1iW
+	 +nZ8CXSNlCnKnRGGRVTdtknEw6UovKVQ6EsYqce5wU8HU5w6xTXytyp9MJtnkz2ePb
+	 OekZI8Bx1yAa9IzEJux67Z23K9mNzNoiYUXh02YSrCrLaXN1g7VMxf2nW7pluGnMcH
+	 yyADoxA4no0dTX/JpxTrV2m5p4JGqmi9P9H294IF3ym/EBnXysL6sdebN8vB+Myy75
+	 jPiRJdszx0agZ8ARs+zX98RHGdjOb150rI+YVtrXaoaehkVzRVhpYVNNZNCaSZfxSh
+	 uquOSOauvi96Q==
+Date: Wed, 05 Feb 2025 13:17:08 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|PH7PR12MB9201:EE_
-X-MS-Office365-Filtering-Correlation-Id: 18629847-806f-4015-d13b-08dd46147ef9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?Ey8FH3mh3YZ2rdJLCS4wj4nacfmJobD34NF4dW2M0FCNMtAhEWDOQ5mfSLGt?=
- =?us-ascii?Q?QVISt9gXUjwSl6FR7+yPiDEtJy7E0pSdBeLbn5W5PrrSxqEWrgEfGhUstKX4?=
- =?us-ascii?Q?bp3TecENSEhR/x5tpwW+VoLOX+1mQ0d4ml+G3trY9fFZIG8edIR0iUd0GpA5?=
- =?us-ascii?Q?ElthAcESTukazLEHo2Jlt8JVNNbRtsff5y870SJWgqr/hRlQTTYnaw73vkt8?=
- =?us-ascii?Q?6AEpy/xinZJt1WadRYnIEmonfYbQyVZim/J3PWTsCxFzp0iun5PoamhUZHhY?=
- =?us-ascii?Q?VtGu9rnRA1wIO7hBt1eC+bNW9HrnYrDhxduSUBuYHq2XGVMYbdS7VxQmRYPy?=
- =?us-ascii?Q?tZnRgJpnpg4gr8UFAVYSvv2AJvOYb0cTn/4RzM0ii2Ntvk0lqHSwStW1DbrD?=
- =?us-ascii?Q?83aY4oHOC8TbVd8gwTFf610fEJUx8M/Ejmuhb8g4jxtinRfHvrNMz1g8XTEW?=
- =?us-ascii?Q?klBLCW2kYsSOPa9297jUat7zXlOWGiSJAWDGv+yAYOhRBvyKWysMSqfcc1SX?=
- =?us-ascii?Q?2CfDXJu3OTacRL5CePY+cAg4TcYZmEe+s14vLCmPBP+aVNvoBqfzZW3XGjVT?=
- =?us-ascii?Q?pLqgXkqrmyXlK0VkndvXokzOfunNafXTc9zcRjHDBJQC3tRRndes42xMzru/?=
- =?us-ascii?Q?5mzBThqq7cx/FF7eIaMTa/uViV2JtNQFWa8p4muqTmX+e8jlozDp0H8rE8CB?=
- =?us-ascii?Q?L6+HwKbYgDs1n6KtPURHjNNWJxpvX7kgcqafDwQyO2ckcNEGak0r97wUJNtr?=
- =?us-ascii?Q?BHvdjIaPqXCs2U/YEzIPJDd62h0EtEZj9qHlCqpIr3lqDDM20cNU2RF0meV8?=
- =?us-ascii?Q?9XHy4gRy9RDVzw3stUYJvQ88Isj26u6VGbY3Dvsw2UVrTkdva+Pe4+cDqLMg?=
- =?us-ascii?Q?xR3JJX3TCjszr1lt8DhIxCnAlltKwjwlFe0JLzTOPP46yZtT0JugybfS11NB?=
- =?us-ascii?Q?MxVlVObj+t78/Mw7IyhZ5EoZt3EJnedQQNWskrgeUCHUGCCp9rCaYDXWdf7M?=
- =?us-ascii?Q?RVZ6sdfL5caiwyAOc7SxqlNAFOx3AZYnQC0k1kzQj47pFnRn6D9deTpg1LKf?=
- =?us-ascii?Q?hsZi+eocdzSJAcrl9HH50G0ZXUQMTDXZ0Tu8V4Ftr+DuRp5x9R+R6L2txOd0?=
- =?us-ascii?Q?YinyVo4znfo1ZvmLzTtoQaIfnVUlMmZ/GWFFJz20JiNS/3XWaKwslnGZp9Zc?=
- =?us-ascii?Q?eZNS3PdHVAhiMWfwQ54nD1LWKfrloS01koH9N47Ee8VTNZFGgnndz7CF2GBm?=
- =?us-ascii?Q?U2jjLWhVzKtFgrdtEBcAHx8lOZS/3loqxpSJ+WqJTdzojtNsttzg5XEY6Wzj?=
- =?us-ascii?Q?VfV5JN3p/P31EwM8PTZU2cP/I5wNr4oOeAtcA3xnhbnIi0FOShWe2vxcoTVU?=
- =?us-ascii?Q?nYgYTELDjCNLagPw1bDgWCZK3whr?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?Fv0QfMKYmfqJSq1eK6ZcvlT20S50YLT9DabTx/aNPPQ3En8sk8t8bq6ELdQ6?=
- =?us-ascii?Q?kGFVRWQ88rjtGvbHNItR1cyGi27mrVRtask2lxjiIEF1oAgdNKBnKBfmoI2B?=
- =?us-ascii?Q?QrrwBedEYZDZG66oNk+LsR8K+3XBtMZakVzQ1k/KNcT/OCHU7RfLFvfjnJvl?=
- =?us-ascii?Q?3Oxi66CyGLXuuuuBWimg4M8H6IjmmqoimCNRKYkn9iZtLamEwPjnLy/She06?=
- =?us-ascii?Q?6yYmdOwNirX24Bxz2eZ9WBSF7ol8ReSXnWL/lfeIt1OtYh+Tz2WLk97Vn/3V?=
- =?us-ascii?Q?/bXbThuO5t85C7pa7y91Bb25CX1gES+XZfqaP3xCKXAB6pLp7cUsvRZas3rt?=
- =?us-ascii?Q?AiXz/hIxINEZALGoI3RIowU5qGtZg4QQrTUqJa0T9H4P5Y7mvXLx6N2dqxE7?=
- =?us-ascii?Q?5y0PTPwg3YkvO6MLfnTOEDDI3kOHrYfwetjJOpmQO96ID7sr2edOfGrqMQRO?=
- =?us-ascii?Q?Ij73uzcTRNUzC+mtbfQj4Ap3RZxNRKVtX1GsnpRnWqiq6x8ZK7eh0YYWrgR1?=
- =?us-ascii?Q?hM2FBKV6y1VPfFgQYGekabKkhi9OHLXaCywVv42dQu8Xv9wSHb8cm6Di5IkD?=
- =?us-ascii?Q?JvZ69El9q//JyYEZGqgNHJJJBCiFrNqex8w1purfGok/A7+oZpPGEhmxPEPz?=
- =?us-ascii?Q?za1KqP8dRi6nHWuyZaxVFNVZR1efP0Q3U39+CzMUUuOfiYmEmoTFOA61LdjH?=
- =?us-ascii?Q?LC7K3Re0T0hw7s4nnQBHDsGPdOeH0t1BMtAnRB1azagY5s7LvNyiB0QiGtBm?=
- =?us-ascii?Q?fGjv6MUSYHBTgoGaluR5jWY6wwuq7SrxG3AwmezZeIrhzt+q8mUzpngQlLKE?=
- =?us-ascii?Q?HiLTVn9/jJ1QXdV+YJ0d6UBF7t7yHyTf7sOvpY3x+lxdvGc3NwTG4PiuewbZ?=
- =?us-ascii?Q?dBQRJLEtpAnFP/4hX8R+AHNpxUPhcmtoJPHAqqcZLvu5ykrZiVAQ7Kk06v4j?=
- =?us-ascii?Q?utX1SVTvC5OL3EmUPviCGq+dLn3J4g/tkB9+6hHy1YHE+iLk8+mBwTyNZX05?=
- =?us-ascii?Q?wY1fUqjGcQMTtZA4WrzzXbKb1YUsFAHN7nlmeXQtNg+yKm9eMA7bwJZEp0Vu?=
- =?us-ascii?Q?tDXe45bDNtWPnlf37omba1lIzVc+I7xrR0T6t4kLohUJOynDI2tOuhdY+/tF?=
- =?us-ascii?Q?l3IVtMmVosm7uirprKUzxP/sk6zuNqzLCFelHYqDBWrbdg92n108Oq2n/LJH?=
- =?us-ascii?Q?VPN10nn4aPuMzYpGQf83JX7OQ5iisXBm7jtnFgLChQoEzJgAwe212qpjxsXC?=
- =?us-ascii?Q?BjQ2BPM6j13KCHZhpj2czDyKZzsdswYXi/hNQ78eErEVbw0r8KrQPon+Efqw?=
- =?us-ascii?Q?mbhFrqJEDMvKZ+vlwmLIXSVdYgXgOEMeZpgrMsP5snZq+Zp5hHAxYzl8x086?=
- =?us-ascii?Q?t91W0oG8xVbm3TeIb1Hg7/3x2kbthvnud/2xEafAOXxrjuowabEskvsKev67?=
- =?us-ascii?Q?+F6hBtcjtnuT31dwc9L2r+T4tUUdSf/edlKYLHg5HaY8hb+DcAS8girMpPAl?=
- =?us-ascii?Q?8ZJG4LXZq8WGh47n0X5UeLeHwzYldwTVr9xcDAChRJxaiyxCU9wfiDQMRSlX?=
- =?us-ascii?Q?rJCQgNSVf8AtTLwDzMaCv7dFNz6NeC5o355tVae6?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 18629847-806f-4015-d13b-08dd46147ef9
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2025 18:40:00.2133
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pewDtukbRZOsvzU1AoOmQSZ7b9Doc/j58qM1lsqeiDhJowc3qHN+ib+LaH+rjHmT
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB9201
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-kernel@vger.kernel.org, 
+ linux-sunxi@lists.linux.dev, linux-clk@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, Paul Walmsley <paul.walmsley@sifive.com>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ linux-arm-kernel@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>, 
+ linux-pm@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>, 
+ Samuel Holland <samuel@sholland.org>, Stephen Boyd <sboyd@kernel.org>, 
+ Vinod Koul <vkoul@kernel.org>, Michael Turquette <mturquette@baylibre.com>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, linux-phy@lists.infradead.org, 
+ Albert Ou <aou@eecs.berkeley.edu>, Ulf Hansson <ulf.hansson@linaro.org>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
+ Maxime Ripard <mripard@kernel.org>, linux-riscv@lists.infradead.org, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ devicetree@vger.kernel.org
+To: Andras Szemzo <szemzo.andras@gmail.com>
+In-Reply-To: <20250205125225.1152849-1-szemzo.andras@gmail.com>
+References: <20250205125225.1152849-1-szemzo.andras@gmail.com>
+Message-Id: <173878294158.2545960.16253374239758023814.robh@kernel.org>
+Subject: Re: [PATCH v2 00/10] Support for Allwinner V853 SoC
 
-On Wed, Feb 05, 2025 at 06:03:54PM +0000, Robin Murphy wrote:
-> But what's the benefit of having extra stuff capable of turning a constant
-> into a different constant that doesn't represent anything we
-> actually want?
 
-The API is inherently log2 based, like alloc_pages() is. You could
-make the same argument that alloc_pages() should accept a size and do
-order internally too.
+On Wed, 05 Feb 2025 13:52:15 +0100, Andras Szemzo wrote:
+> V85x is a SoC from Allwinner with video encoding targeted for the field of
+> IP Camera. It integrates the single CA7 core, and a T-Head E907 RISC-V mcu.
+> The SoC has the usual Allwinner peripherals and a Vivante NPU.
+> V853 is a BGA package without DRAM, V851s/V851s3 has the same die with
+> co-packaged 64MB/128MB DRAM (in a QFN88 package).
+> 
+> This patchset tries to add basical support for the V853 device family.
+> 
+> Changelog - v2:
+>  - rebased on 6.14-rc1
+>  - add a needed gate with key support to sunxi clk
+>  - rewrite the ccu-r driver
+>  - fix license issues
+>  - remove the pinctrl binding, as it has beed applied
+>  - rework the pinctrl driver, use the new sunxi dt based mux support. This new pinctrl
+>    driver depends on the new sunxi device-tree based mux support patch series [1].
+>  - remove the new usb phy binding, as the v853's usb phy is very close to d1/a64
+>  - add a board dts
+>  - ccu: add module description
+>  - ccu: fix PLL enable bits, and min multipliers
+>  - ccu: change PLL flags to CLK_SET_RATE_GATE
+>  - ccu: use SUNXI_CCU_M_HWS at peripheral PLLs
+>  - ccu: convert the VIDEO and CSI PLLs from nm type to nkmp according to BSP
+>  - ccu: cpu axi clk use pointer
+>  - ccu: fix comments
+>  - ccu: swap i2s1 and i2s0 bus clocks
+>  - ccu: fix indentation
+>  - ccu: fix RST_BUS_SPIF order
+>  - ccu: convert RST_RISCV_CLK_GATING from reset to gate
+> 
+> [1]: https://lore.kernel.org/linux-sunxi/20241111005750.13071-1-andre.przywara@arm.com/T/
+> 
+> Andras Szemzo (10):
+>   clk: sunxi-ng: allow key feature in ccu reset and gate
+>   pinctrl: sunxi: add driver for Allwinner V853
+>   dt-bindings: clock: sunxi-ng: add compatibles for V853
+>   clk: sunxi-ng: add CCU drivers for V853
+>   dt-bindings: power: add V853 ppu bindings
+>   pmdomain: sunxi: add V853 ppu support
+>   dt-bindings: phy: allwinner: add v853 usb phy
+>   phy: allwinner: add v853 usb phy compatible
+>   ARM: dts: sun8i: add DTSI file for V853
+>   ARM: dts: sun8i: add DTS file for yuzuki-lizard V851s
+> 
+>  .../clock/allwinner,sun4i-a10-ccu.yaml        |    3 +
+>  .../phy/allwinner,sun50i-a64-usb-phy.yaml     |    2 +
+>  .../power/allwinner,sun20i-d1-ppu.yaml        |    1 +
+>  arch/arm/boot/dts/allwinner/Makefile          |    1 +
+>  .../boot/dts/allwinner/sun8i-v851s-lizard.dts |  196 +++
+>  arch/arm/boot/dts/allwinner/sun8i-v853.dtsi   |  656 ++++++++++
+>  drivers/clk/sunxi-ng/Kconfig                  |   10 +
+>  drivers/clk/sunxi-ng/Makefile                 |    4 +
+>  drivers/clk/sunxi-ng/ccu-sun8i-v853-r.c       |  120 ++
+>  drivers/clk/sunxi-ng/ccu-sun8i-v853-r.h       |   14 +
+>  drivers/clk/sunxi-ng/ccu-sun8i-v853.c         | 1145 +++++++++++++++++
+>  drivers/clk/sunxi-ng/ccu-sun8i-v853.h         |   14 +
+>  drivers/clk/sunxi-ng/ccu_common.h             |    2 +
+>  drivers/clk/sunxi-ng/ccu_gate.c               |    6 +
+>  drivers/clk/sunxi-ng/ccu_gate.h               |   14 +
+>  drivers/clk/sunxi-ng/ccu_mux.c                |    4 +-
+>  drivers/clk/sunxi-ng/ccu_reset.c              |    7 +
+>  drivers/clk/sunxi-ng/ccu_reset.h              |    2 +-
+>  drivers/phy/allwinner/phy-sun4i-usb.c         |   10 +
+>  drivers/pinctrl/sunxi/Kconfig                 |    5 +
+>  drivers/pinctrl/sunxi/Makefile                |    1 +
+>  drivers/pinctrl/sunxi/pinctrl-sun8i-v853.c    |   53 +
+>  drivers/pmdomain/sunxi/sun20i-ppu.c           |   15 +
+>  .../clock/allwinner,sun8i-v853-ccu.h          |  132 ++
+>  .../clock/allwinner,sun8i-v853-r-ccu.h        |   16 +
+>  .../power/allwinner,sun8i-v853-ppu.h          |   10 +
+>  .../reset/allwinner,sun8i-v853-ccu.h          |   60 +
+>  .../reset/allwinner,sun8i-v853-r-ccu.h        |   14 +
+>  28 files changed, 2513 insertions(+), 4 deletions(-)
+>  create mode 100644 arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dts
+>  create mode 100644 arch/arm/boot/dts/allwinner/sun8i-v853.dtsi
+>  create mode 100644 drivers/clk/sunxi-ng/ccu-sun8i-v853-r.c
+>  create mode 100644 drivers/clk/sunxi-ng/ccu-sun8i-v853-r.h
+>  create mode 100644 drivers/clk/sunxi-ng/ccu-sun8i-v853.c
+>  create mode 100644 drivers/clk/sunxi-ng/ccu-sun8i-v853.h
+>  create mode 100644 drivers/pinctrl/sunxi/pinctrl-sun8i-v853.c
+>  create mode 100644 include/dt-bindings/clock/allwinner,sun8i-v853-ccu.h
+>  create mode 100644 include/dt-bindings/clock/allwinner,sun8i-v853-r-ccu.h
+>  create mode 100644 include/dt-bindings/power/allwinner,sun8i-v853-ppu.h
+>  create mode 100644 include/dt-bindings/reset/allwinner,sun8i-v853-ccu.h
+>  create mode 100644 include/dt-bindings/reset/allwinner,sun8i-v853-r-ccu.h
+> 
+> --
+> 2.39.5
+> 
+> 
+> 
 
-> We still end up doing more runtime arithmetic on lg2sz within the allocation
-> function itself to turn it into the order we ultimately still need, so that
-> arithmetic could just as well be get_order(size) and have nothing to inline
 
-Okay, sure it isn't fast path or anything. It just seems weird to
-start out with a lg2 constant value in most callers, shift it to a
-size, then ilog2 it back to a lg2. There are few places that don't
-have a compile time lg2 available.
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
 
-Jason
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
+
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
+
+  pip3 install dtschema --upgrade
+
+
+New warnings running 'make CHECK_DTBS=y for arch/arm/boot/dts/allwinner/' for 20250205125225.1152849-1-szemzo.andras@gmail.com:
+
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: /: memory: False schema does not allow {'reg': [[1073741824, 67108864]]}
+	from schema $id: http://devicetree.org/schemas/root-node.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: /: memory: 'device_type' is a required property
+	from schema $id: http://devicetree.org/schemas/memory.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: /: failed to match any schema with compatible: ['yuzukihd,lizard', 'allwinner,sun8i-v853', 'allwinner,sun8i']
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: /: failed to match any schema with compatible: ['yuzukihd,lizard', 'allwinner,sun8i-v853', 'allwinner,sun8i']
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: /: failed to match any schema with compatible: ['yuzukihd,lizard', 'allwinner,sun8i-v853', 'allwinner,sun8i']
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: cpu@0: compatible: ['arm,cortex-a7', 'arm,armv7'] is too long
+	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: /cpus/cpu@0: failed to match any schema with compatible: ['arm,cortex-a7', 'arm,armv7']
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: pinctrl@2000000: uart0-ph9-pins: 'allwinner,pinmux' does not match any of the regexes: 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/pinctrl/allwinner,sun4i-a10-pinctrl.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: pinctrl@2000000: spi0-pins: 'allwinner,pinmux' does not match any of the regexes: 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/pinctrl/allwinner,sun4i-a10-pinctrl.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: pinctrl@2000000: i2c2-ph11-pins: 'allwinner,pinmux' does not match any of the regexes: 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/pinctrl/allwinner,sun4i-a10-pinctrl.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: pinctrl@2000000: mmc0-pins: 'allwinner,pinmux' does not match any of the regexes: 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/pinctrl/allwinner,sun4i-a10-pinctrl.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: pinctrl@2000000: mmc1-pins: 'allwinner,pinmux' does not match any of the regexes: 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/pinctrl/allwinner,sun4i-a10-pinctrl.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: clock-controller@2001000: clock-names:1: 'losc' was expected
+	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun4i-a10-ccu.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: clock-controller@2001000: clock-names:2: 'iosc' was expected
+	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun4i-a10-ccu.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: serial@2500000: dma-names:0: 'tx' was expected
+	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: serial@2500000: dma-names:1: 'rx' was expected
+	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: serial@2500000: Unevaluated properties are not allowed ('dma-names' was unexpected)
+	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: serial@2500400: dma-names:0: 'tx' was expected
+	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: serial@2500400: dma-names:1: 'rx' was expected
+	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: serial@2500800: dma-names:0: 'tx' was expected
+	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: serial@2500800: dma-names:1: 'rx' was expected
+	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: serial@2500c00: dma-names:0: 'tx' was expected
+	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: serial@2500c00: dma-names:1: 'rx' was expected
+	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: syscon@3000000: sram@20000:sram-section@0:compatible: 'oneOf' conditional failed, one must be fixed:
+	['allwinner,sun8i-v3s-sram-c', 'allwinner,sun4i-a10-sram-c1'] is too long
+	'allwinner,sun4i-a10-sram-a3-a4' was expected
+	'allwinner,sun4i-a10-sram-c1' was expected
+	'allwinner,sun4i-a10-sram-d' was expected
+	'allwinner,sun50i-a64-sram-c' was expected
+	'allwinner,sun8i-v3s-sram-c' is not one of ['allwinner,sun5i-a13-sram-a3-a4', 'allwinner,sun7i-a20-sram-a3-a4']
+	'allwinner,sun8i-v3s-sram-c' is not one of ['allwinner,sun5i-a13-sram-c1', 'allwinner,sun7i-a20-sram-c1', 'allwinner,sun8i-a23-sram-c1', 'allwinner,sun8i-h3-sram-c1', 'allwinner,sun8i-r40-sram-c1', 'allwinner,sun50i-a64-sram-c1', 'allwinner,sun50i-h5-sram-c1', 'allwinner,sun50i-h6-sram-c1']
+	'allwinner,sun8i-v3s-sram-c' is not one of ['allwinner,suniv-f1c100s-sram-d', 'allwinner,sun5i-a13-sram-d', 'allwinner,sun7i-a20-sram-d']
+	'allwinner,sun50i-h6-sram-c' was expected
+	from schema $id: http://devicetree.org/schemas/sram/allwinner,sun4i-a10-system-control.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: /soc/syscon@3000000/sram@20000/sram-section@0: failed to match any schema with compatible: ['allwinner,sun8i-v3s-sram-c', 'allwinner,sun4i-a10-sram-c1']
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: hwlock@3005000: '#hwlock-cells' is a required property
+	from schema $id: http://devicetree.org/schemas/hwlock/allwinner,sun6i-a31-hwspinlock.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: hwlock@3005000: 'clock-names', 'interrupts', 'reset-names' do not match any of the regexes: 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/hwlock/allwinner,sun6i-a31-hwspinlock.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: hstimer@3008000: interrupts: [[0, 55, 4], [0, 56, 4]] is too short
+	from schema $id: http://devicetree.org/schemas/timer/allwinner,sun5i-a13-hstimer.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: phy@4100400: reg: [[68158464, 256], [68163584, 256]] is too short
+	from schema $id: http://devicetree.org/schemas/phy/allwinner,sun50i-a64-usb-phy.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: phy@4100400: reg-names: ['phy_ctrl', 'pmu0'] is too short
+	from schema $id: http://devicetree.org/schemas/phy/allwinner,sun50i-a64-usb-phy.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: phy@4100400: clocks: [[1, 94]] is too short
+	from schema $id: http://devicetree.org/schemas/phy/allwinner,sun50i-a64-usb-phy.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: phy@4100400: clock-names: ['usb0_phy'] is too short
+	from schema $id: http://devicetree.org/schemas/phy/allwinner,sun50i-a64-usb-phy.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: phy@4100400: resets: [[1, 38]] is too short
+	from schema $id: http://devicetree.org/schemas/phy/allwinner,sun50i-a64-usb-phy.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: phy@4100400: reset-names: ['usb0_reset'] is too short
+	from schema $id: http://devicetree.org/schemas/phy/allwinner,sun50i-a64-usb-phy.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: phy@4100400: 'usb0_id_det-gpio' does not match any of the regexes: 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/phy/allwinner,sun50i-a64-usb-phy.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: clock-controller@7010000: clocks: [[4], [5, 2], [5, 0], [1, 10], [1, 19]] is too long
+	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun4i-a10-ccu.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: clock-controller@7010000: clock-names:1: 'losc' was expected
+	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun4i-a10-ccu.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: clock-controller@7010000: clock-names:2: 'iosc' was expected
+	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun4i-a10-ccu.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: clock-controller@7010000: clock-names: ['hosc', 'iosc', 'losc', 'pll-periph', 'pll-audio'] is too long
+	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun4i-a10-ccu.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: clock-controller@7010000: clocks: [[4], [5, 2], [5, 0], [1, 10], [1, 19]] is too long
+	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun4i-a10-ccu.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: clock-controller@7010000: clock-names: ['hosc', 'iosc', 'losc', 'pll-periph', 'pll-audio'] is too long
+	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun4i-a10-ccu.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: intc-nmi@7010320: $nodename:0: 'intc-nmi@7010320' does not match '^interrupt-controller(@[0-9a-f,]+)*$'
+	from schema $id: http://devicetree.org/schemas/interrupt-controller/allwinner,sun7i-a20-sc-nmi.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: intc-nmi@7010320: Unevaluated properties are not allowed ('#address-cells' was unexpected)
+	from schema $id: http://devicetree.org/schemas/interrupt-controller/allwinner,sun7i-a20-sc-nmi.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: rtc@7090000: clocks: [[17, 4]] is too short
+	from schema $id: http://devicetree.org/schemas/rtc/allwinner,sun6i-a31-rtc.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: rtc@7090000: clock-names: ['bus'] is too short
+	from schema $id: http://devicetree.org/schemas/rtc/allwinner,sun6i-a31-rtc.yaml#
+arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dtb: rtc@7090000: 'resets', 'wakeup-source' do not match any of the regexes: 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/rtc/allwinner,sun6i-a31-rtc.yaml#
+
+
+
+
+
