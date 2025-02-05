@@ -1,321 +1,187 @@
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2077.outbound.protection.outlook.com [40.107.212.77])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF364218587;
-	Tue,  4 Feb 2025 18:35:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.212.77
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738694126; cv=fail; b=u+CjAgMCbTRqPfDO2oX3Z02kWy2/EPjjFYLxplj9BCkn4lg01YjzbccMkRVxGd1jz8EsLCm+5MyjVAltBb8J2tMdTSz3rk2oJudg5eiryma+eqiH3fYbGVrugdlvniFGCmpdjkUdp8EwuDcruFKpJRbR814xh/aV363tPVuRmQs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738694126; c=relaxed/simple;
-	bh=mWYxazs2ohjme039FVM90kD3OIJ9qEPv3fkpEaUQiq8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=jzmgRd3vxcphW8FWz87YB07xSJxKIP7Y0Aw9f97RdVzIrxebWDMFNgdhZcuzCcZf0zIP/5JG6agS1WQNNTBgnsO0eIgXRBhU/0BC+fYq93HlDjJ8d3lw7kFIactWmdo1X8O+QuWr0c1AH1g5gK4iN/XSCS+5H4yZesNQyDq40zQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=ly8/MSfW; arc=fail smtp.client-ip=40.107.212.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D39BADF71
+	for <linux-sunxi@lists.linux.dev>; Wed,  5 Feb 2025 12:52:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738759951; cv=none; b=ei50TluVnHSubJ5OBwKi1CSOb19a4noNdJ/SdLpuOOFkyjv6fb0PmvobyJVv9QktwDrqd26rsoczJGNa9G8GeOYQUwjBI3tVhYnyuY9HXrRdCOUhdgPo/shBqnDIqOkN5J4gq9BI9NpNJDsIPpK19XasYb4+W/vf/+EbwlMeGBc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738759951; c=relaxed/simple;
+	bh=45BY3DS1djtWDIlfvJbwSMK8G513VCijeE4jgdsghbA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XcWIUxrrpbt5uzO4wc+GEWWPiJ2DHccyLc5qZowdVE9lsyu5msoYUCwEcj2S6z2UUGOCottaNMXV2I7sFUcbm32aTWTk/c/TzUWttg9/Wajnf4TY6qVCOLN0gAS2uJxcjbkd0ZjamGxV+dwfKObNjX69je1u94oJ6XpVzuJqXFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VjA4sTYH; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ly8/MSfW"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cGaCaC7iRNZ+/Vij3jeGG8J6gmoGvecIc5tGFqu5hr3+HtHu60u8NYleqSKODaImIGXahUuC3IYL/WBxaC6c7bPCD8AsSLb4X229TVJOGh3dIVVQrH+jWF8b6v3a0+U7f81GyK+02H8eaCQzFriNDyD/T6txCndmPhL0SpZPIOVC9E3NegFnOt/HA4M0T2iT4k3zAtJkrJbNblPF3njZLnpuzKrzcxKBR03XdeHSFKVfrTr5FunWdQ4ngTS0MhBz9MVjxzd7jfsFGmiQRepneKnz6kHnsa63/LzSYn+T+nz2ESRuhHCdEVrLsyKfzNt4MfVB2igZQJKLnIJVot6o0w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VBp6b+7bFmlULDMXCOdJKTaAAqGZ8bRgT+Y6g/5Bqxc=;
- b=Go0J/X5N4RxurporNrleHjQfnERl3V/1WqPhFBqa/niElJNZwWu9sHmFCgopEP6qU3tkYqwtAQ/rx8TOsVGFPWi2J5UY7x/XA2+4Pw3Rv2w8Lofyam1eIuswbvo+sbsuefNb/MX9pRy+9JVBHEaz0pon6lyK7NHQ5B9P2b6bcxFUT9N/rFRl+rzNzcSx68XLNk5lLUjWCzqacFFAlc0mBoWTvA74CMyLNg/rhOZSmpx4qiU/Wwp+3a/7VPB7arHkXP2QyXb4nG/t83wVT1oKpe8ylvPUe6o83P2X9sNQi6Fqv+oJGczLLONCmErkhoEB6mYK5KTR5IXdOVbpsp6yMg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VBp6b+7bFmlULDMXCOdJKTaAAqGZ8bRgT+Y6g/5Bqxc=;
- b=ly8/MSfW87wysfFUtMnrELNMhSzai8D1+JYYBMuh28tx1LKFSuyyxvjObJUj7NKis3coqVks0hin+BSoQ5xI2Ak0Pv4mETao655UC7I89gjxh7wRFx1p/szhNJfcwGJ/ec/VH3+dB5F+uXPWzKITMWnVWppSz2FEi6eZHWd44dvkbZ0lLP4PPosf0IDY99JrzIIEbrN7wJG8vwaZqxcSgaNQVtnYoR0L8jsuiRSZhXwpq3+UKp/t0atfHPZXX+kL/c9FgsHTuenyBXSOIo9AdowFqK7rqUWOXtOboAYEAcGwQghUc/ZGor8nMWocw+9RgMG/lDBglzJSKW/O51zq+w==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by CY5PR12MB6573.namprd12.prod.outlook.com (2603:10b6:930:43::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.24; Tue, 4 Feb
- 2025 18:35:10 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%6]) with mapi id 15.20.8398.025; Tue, 4 Feb 2025
- 18:35:09 +0000
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Alim Akhtar <alim.akhtar@samsung.com>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	asahi@lists.linux.dev,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	iommu@lists.linux.dev,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Joerg Roedel <joro@8bytes.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-riscv@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Hector Martin <marcan@marcan.st>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Sven Peter <sven@svenpeter.dev>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Tomasz Jeznach <tjeznach@rivosinc.com>,
-	Krishna Reddy <vdumpa@nvidia.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VjA4sTYH"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5dcdfa7df68so862883a12.3
+        for <linux-sunxi@lists.linux.dev>; Wed, 05 Feb 2025 04:52:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738759948; x=1739364748; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yYwdC6FkM1FkoHrBLoPreNjUtz/aJNsrJlKRqn3rXe4=;
+        b=VjA4sTYH1nPeEggHjBl83/e+zOihcYPUjuy1p8nC8BLD1MPL/FlC/RXDMTeVLKMmFV
+         /WX8ADBBFQboX+OvxooNl0XlUTU/+6b8H+MOGkRmHWp5X42nYBYvnQJ5OX7ZnLNuK4e8
+         4qsFunoi7t28FLBZ4sdGT153VQ47Ir1JBhPgNOKw9I6LHCd7CdyIEBSMkdspAet/D85f
+         3OO/mQEEekco0VKTuIFs6hEXH2THns6kRtq2wf5OPYjttdZ6L0jNVqBmh/H4FJfxFdIs
+         lzP5fVrWWBGZnzOfPklTPTlpwoe8O69Nv5+vEHJiNFHKHfcYFLJCCHwIFfzMGpDvjDV9
+         lEMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738759948; x=1739364748;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yYwdC6FkM1FkoHrBLoPreNjUtz/aJNsrJlKRqn3rXe4=;
+        b=w6jicER5s+pFBxhvWnZSjSxzWowHtg7lPHK5n7/kpEucUfbH9bK12zkZukxzaghvrb
+         gWGc9vC5QoZ25HrFVNHYuwKqJan5jHKhGzfStld3RMkTxQD1Qf0ql4TgPJ8oDIW4GAzt
+         uoBSC0brNgh7Zc84J8OiC2UU1Jk/NuDSSRHzriKH3dyNfk3dyve5rHSESjGVlfZxkisG
+         pRTFxNcFIxLmB8dETsKwwm7PIqd0954msfxS+fjUTn20apNR/bysrIVCih66+Lih7od3
+         7Exxmo71eNo8Uo9B7vseU11DPeW4t+bDNETh0aHqkR709quJpHoHpf6poUvYvCEVlU8+
+         1Eyw==
+X-Forwarded-Encrypted: i=1; AJvYcCWTBa4S4TyB/2lwRaDxfghCGVjGh2vcADq7wFdu9TFfQ7+17C7SVbKStzHZQrDNcg/WPITpPyLCVyoIUw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxlkOGjqTLgSS4VKl6pwPojQ+m66tZETddyWks/+u62Z/tHX8fx
+	Ciks/Xs+4ZfoNb72r51+8jubWk4SprBB6La4I6mHp+h6wsqON0SN
+X-Gm-Gg: ASbGncvZu2YBFEMWLDXWNZuJU7RL1MbKv7QDkD0DtJblwz6KpRMl1hUvDXLukbC/bpD
+	tRNl604aYmhyILePc92kK68JUDYmdOHs+2xCkcxsM7AThdTtEBdZEWcsZoloSYTMz4yWawKdMaO
+	07Z1uoQ4MBvbg4hcatHZKIV76P85bVp5u5yTIkd9tXHZCONfftbsJl1LnB5qnHkwE8jd+i+3QV6
+	9woNZ25yjIBZppc92oB0qRR7q7Z4wFx9kznBGA5Z8YtD4O1JFLJaQWkBA7lU7Y1pmRQKsFFpIVi
+	HRQIwCt+SY6VjTJ3zbh+Qarnw8kQSSso4jo36aqEveYThQ==
+X-Google-Smtp-Source: AGHT+IGwwnpMG9KpubRS1ckqsKV0lRhKkSXdJJkp9LazwK0ad82cff1p5Us/UKXT3VoqZffwLnJ1uw==
+X-Received: by 2002:a05:6402:388c:b0:5d9:8877:895a with SMTP id 4fb4d7f45d1cf-5dcdb732cd0mr3409724a12.17.1738759947712;
+        Wed, 05 Feb 2025 04:52:27 -0800 (PST)
+Received: from localhost.localdomain (185.174.17.62.zt.hu. [185.174.17.62])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5dc724055e5sm11559997a12.45.2025.02.05.04.52.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Feb 2025 04:52:27 -0800 (PST)
+From: Andras Szemzo <szemzo.andras@gmail.com>
+To: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
-	Will Deacon <will@kernel.org>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>,
-	Joerg Roedel <jroedel@suse.de>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	patches@lists.linux.dev,
-	David Rientjes <rientjes@google.com>,
-	Matthew Wilcox <willy@infradead.org>
-Subject: [PATCH 08/19] iommu/pages: Formalize the freelist API
-Date: Tue,  4 Feb 2025 14:34:49 -0400
-Message-ID: <8-v1-416f64558c7c+2a5-iommu_pages_jgg@nvidia.com>
-In-Reply-To: <0-v1-416f64558c7c+2a5-iommu_pages_jgg@nvidia.com>
-References:
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BL0PR1501CA0035.namprd15.prod.outlook.com
- (2603:10b6:207:17::48) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Maxime Ripard <mripard@kernel.org>
+Cc: Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-phy@lists.infradead.org,
+	linux-gpio@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: [PATCH v2 00/10] Support for Allwinner V853 SoC
+Date: Wed,  5 Feb 2025 13:52:15 +0100
+Message-Id: <20250205125225.1152849-1-szemzo.andras@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|CY5PR12MB6573:EE_
-X-MS-Office365-Filtering-Correlation-Id: b08c6277-1c86-4891-b073-08dd454aa42e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|1800799024|366016|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?WsuX1qO7lK+qXXfq/+Ean90cWDG56JVRTmAybWTk8CpFE6aeChq36ABsYYKd?=
- =?us-ascii?Q?bUvf0HJCQ48QmW216x5V+wDYSihS6C7ebVLHw1tTx+Kco8qI7h9wSEMM+VTv?=
- =?us-ascii?Q?9d80j0VdJFHjZYSz8mnNyawGSurnKjacgAieb2YkhBGIr5itVs2qqPLaUEHH?=
- =?us-ascii?Q?Xr7gaomhinsy3E+Zn7Fkv9PNnSO77HpWimrytdaeUssvNGuRA/LDrjeMM3Rp?=
- =?us-ascii?Q?5qE9tiENv7Y+jY4l5q0gicRFLR28H5deGVl/t3meQD2Z1dkN9/3Vs75tYYUZ?=
- =?us-ascii?Q?ONeNJ53E9HozwcenEfcRLx8dbDXx0hKYf9+gKWMJaZJ5ArtZ92iZCjTBjUJc?=
- =?us-ascii?Q?+ZsNW5Y6koOTVh8qWuONZb/jZg13svc3t91Bt0eDbjwq4GrEGZk8ACeMnAYc?=
- =?us-ascii?Q?Jus5XzhaGDncpKSiNf9Y6ihxxuJLDcfHDF2ct1A1EfMIPN9sJd/T45zq2SwL?=
- =?us-ascii?Q?J1h+XESQ4H59txCWeudQP/u3SJsGNM27ESZrMyFLW5ykBavN28KSJuxsDX/f?=
- =?us-ascii?Q?rKI6ZXffeCf8eZkntWpTe3ZqojOg0Ren7V+RUO2xxXMxsb8gCVjvovkpKXX4?=
- =?us-ascii?Q?GsCvrFmMLJxORSF4EdF3+oGNrrcdsMl4fwcpl8gXqW6SntuU5G+eo3nFZ2eT?=
- =?us-ascii?Q?VZflEStcpzJFiQ/Oog+4A7sPamD4BS/NMXltq3gIQn6e8p4oJRdl18kCPXWA?=
- =?us-ascii?Q?uDNdO3LuE7xAbimcgV9JNd33uN7q+5TxwNhyq0y1JE6HLJjFAvP4N4ilY5YB?=
- =?us-ascii?Q?OmLUaKeuFumjdMqOQcwpzwIBRc2t1RBPf5fMKo83weFIY6xfJeEuWtSUQ2QV?=
- =?us-ascii?Q?cf45Pm44GluyNKna7EqnzfGkU35G8sAlN1tS7pfeYa0TkYMg4cXd4H5zuWiX?=
- =?us-ascii?Q?b+yfB7f9lmMm+Q1SMzQaLo32WvRHPbsT5ZFCN5i/snz7yONVMxF7X4HoqJBj?=
- =?us-ascii?Q?qaIOGbyBzS+c3fy9j1cHhK4s+ivYfKjLEKPHXAeGRReeYiS0WWM5QJcmmOog?=
- =?us-ascii?Q?kllt0qHTBczdV4+u4Jf+xOLMKGpokG20XQlwKOKdVi1xN1ky60aktBoxQt2Q?=
- =?us-ascii?Q?OezAisPuYTBTPaTDFg0lnXxtjvuET0LziiLTLMQFxuhHrOg3/gEGGZiNduxF?=
- =?us-ascii?Q?yj/NkaiAMhipucbcS9/nuqosZGNbe4zD+Xw4P761SF5+4gJqV/8cxVm4HxUN?=
- =?us-ascii?Q?LXz+wa/+/UPRyB0J0ei1D1+dfllFh/8SOR7mLBO13qgyeDqF3ozF+AlU4hoQ?=
- =?us-ascii?Q?RZ7aF5FvolRRwu51/ULcK3V0oACuMSx7XpZbSLnxFRvrC30ZjtloNflqcuxr?=
- =?us-ascii?Q?lPvM71shTJUisesnmc0aJiIEWs2jFGi0KniOIifRo85Op6fKP8h05GMItDNM?=
- =?us-ascii?Q?+ZE5jFDYV2bs/pY8nxhqC1F9qJjWzQawgwqizag+klPkdH4pSkq3TMmN28Ll?=
- =?us-ascii?Q?4xk+SRBH0dg=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?1xV6rmXalUN8DsMrgvlPGfstN/qpsUoKCSTiROvoL69+fmiDxOf3MeYpkdFq?=
- =?us-ascii?Q?1RLAq7vB/OcX1mCf+bxCG7xMCKxpkASc7c2HZgiChAqOM1ef6a4HxjorMjUt?=
- =?us-ascii?Q?g9DDnhvaqyWsnqDk1SdCKdXHlFdt4HXN6yAe0Maw74DS1pOwm4ULWfpBTE1A?=
- =?us-ascii?Q?r9dX2DZ3ijAQrD9Aal+rQr2HdgO9b2mfUrD2nQwdwx3+v6UAGQ1mFVbxwXIW?=
- =?us-ascii?Q?uANBVLw5FqrFfNlImRHao4Vz/dSWAxhrHx7vkf2gOJ0mIv2iDZuSclEcmdq4?=
- =?us-ascii?Q?/nbi0p2EdQAIUnD5VXzQ0l44HAmu2Okfn22FGxUy3cGGY58TndFXC0D8f/XX?=
- =?us-ascii?Q?HzDllKpkT/dxHHm0vEf33laVQCZ06qX5Uh7Ogmyz1fD/W2qpzKLqvo93XKm7?=
- =?us-ascii?Q?vBm6EJPLeaxszWo7kCmieCMJ0gHrNRQvvOPTd89JqfdwyFR2m/faCz1Rxmj4?=
- =?us-ascii?Q?JxtFx7rTBSumX6zevBiUyWrYK1eEYpMnXkZRZlQBUcQTFri4HG4RKH/A66Qv?=
- =?us-ascii?Q?wROWuWavk270cAmQiU22vDCmJRZujpXGfm0hpJYcU5ERgqYEEWbxbmyjnPKd?=
- =?us-ascii?Q?uGX0MhdsYBmlmoRFX1NU8QE+NMPp9oUSUJgh7EMP0BdRlK2Y7OO72bdwgUS9?=
- =?us-ascii?Q?mYcqbq7w4bM3UISv2Z3X5V+9MiNxiyRfU1bS5pRddz0oeHz9YIps1/k4yuO0?=
- =?us-ascii?Q?+kt82//JmlXkFvtkfC8/GpGSfjojO+xbYzNWnMw3NrqXxSEkFFt4oVC3Yg3S?=
- =?us-ascii?Q?DeekqZHmaXnCgtGmg0rU+x4AvVaPG6VG7cFskLSY3NbYaWpiFilKLyokcFtG?=
- =?us-ascii?Q?DXJyPYrkpcOwlZXj44MunDD/ujUFvErLMYG3pFACvtNRTZijn6jlYxe0lRY4?=
- =?us-ascii?Q?En8oBCNle0YDleuhVfcN3meu5WEzaUA5pDAiBIWZloBLfEM6uieI+jz9hJ6P?=
- =?us-ascii?Q?7Ub5fYIwszodApdZokdL0K4qmA3sFXUeb8VVy3gvUETSwwnjJYeQUHDpbxNf?=
- =?us-ascii?Q?j3EYXUVOxLNetbBzI6/fyXJubld/DWpqN1Hznx/g7YgdYvjhZEiqYGfMTmmI?=
- =?us-ascii?Q?gn8YY2mdV+1yVL258dMzuEh3Vc49aZphYfNn5+H/ZIwQOYqNYPrBaIJirhYo?=
- =?us-ascii?Q?DzkRMjTra8C6HoO4zuC5SmBsJiDtJasZ2SttLUULBbFgxJyAHximBysPI8xl?=
- =?us-ascii?Q?Z6LZdPE0XOMEgr95Ns04NDxOOMiMHuHLhgyG3Bv7/8AZuGk9J9NbMLBMFgV5?=
- =?us-ascii?Q?m62MZdbcurkNiLo2VNyRuUmZ1HTxnBsZsw22ahGDw42Exq6HCpyK182wLXto?=
- =?us-ascii?Q?4t/VkQRpvw7/+W2DXzoiHTSGLGRcyYum675+fieDgdCFm0s+zlzgIs18uMej?=
- =?us-ascii?Q?58XsArOJdQChc9uLp2XS3V0+xC6F6smt7iI4YXxUs+gL3oGx4pnZQWG9ptQK?=
- =?us-ascii?Q?a06EmGWZhcVnDZg+mQclrliXEmq3ab3AqZXDMzGlW3Fdeq0Gb3D6hMnb3Rce?=
- =?us-ascii?Q?PsCH1HH5GeRk455ZJHpbHj/Iitse5fJ4BT0VdMW1/bbnX9Na44T9zbhDHzSd?=
- =?us-ascii?Q?x4gKKZXxBzYG84GP964=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b08c6277-1c86-4891-b073-08dd454aa42e
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2025 18:35:04.3689
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xx9RuEQXo5yQAGXxAzIXuRKed+IBXfYXWI9oNkrlIJw/eHaZ2+Dd2ukYd+LbEAd3
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6573
+Content-Transfer-Encoding: 8bit
 
-We want to get rid of struct page references outside the internal
-allocator implementation. The free list has the driver open code something
-like:
+V85x is a SoC from Allwinner with video encoding targeted for the field of
+IP Camera. It integrates the single CA7 core, and a T-Head E907 RISC-V mcu.
+The SoC has the usual Allwinner peripherals and a Vivante NPU.
+V853 is a BGA package without DRAM, V851s/V851s3 has the same die with
+co-packaged 64MB/128MB DRAM (in a QFN88 package).
 
-   list_add_tail(&virt_to_page(ptr)->lru, freelist);
+This patchset tries to add basical support for the V853 device family.
 
-Move the above into a small inline and make the freelist into a wrapper
-type 'struct iommu_pages_list' so that the compiler can help check all the
-conversion.
+Changelog - v2:
+ - rebased on 6.14-rc1
+ - add a needed gate with key support to sunxi clk
+ - rewrite the ccu-r driver
+ - fix license issues
+ - remove the pinctrl binding, as it has beed applied
+ - rework the pinctrl driver, use the new sunxi dt based mux support. This new pinctrl
+   driver depends on the new sunxi device-tree based mux support patch series [1].
+ - remove the new usb phy binding, as the v853's usb phy is very close to d1/a64
+ - add a board dts
+ - ccu: add module description
+ - ccu: fix PLL enable bits, and min multipliers
+ - ccu: change PLL flags to CLK_SET_RATE_GATE
+ - ccu: use SUNXI_CCU_M_HWS at peripheral PLLs
+ - ccu: convert the VIDEO and CSI PLLs from nm type to nkmp according to BSP
+ - ccu: cpu axi clk use pointer
+ - ccu: fix comments
+ - ccu: swap i2s1 and i2s0 bus clocks
+ - ccu: fix indentation
+ - ccu: fix RST_BUS_SPIF order
+ - ccu: convert RST_RISCV_CLK_GATING from reset to gate
 
-This struct has also proven helpful in some future ideas to convert to a
-singly linked list to get an extra pointer in the struct page, and to
-signal that the pages should be freed with RCU.
+[1]: https://lore.kernel.org/linux-sunxi/20241111005750.13071-1-andre.przywara@arm.com/T/
 
-Use a temporary _Generic so we don't need to rename the free function as
-the patches progress.
+Andras Szemzo (10):
+  clk: sunxi-ng: allow key feature in ccu reset and gate
+  pinctrl: sunxi: add driver for Allwinner V853
+  dt-bindings: clock: sunxi-ng: add compatibles for V853
+  clk: sunxi-ng: add CCU drivers for V853
+  dt-bindings: power: add V853 ppu bindings
+  pmdomain: sunxi: add V853 ppu support
+  dt-bindings: phy: allwinner: add v853 usb phy
+  phy: allwinner: add v853 usb phy compatible
+  ARM: dts: sun8i: add DTSI file for V853
+  ARM: dts: sun8i: add DTS file for yuzuki-lizard V851s
 
-Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
----
- drivers/iommu/iommu-pages.c | 23 ++++++++++++-------
- drivers/iommu/iommu-pages.h | 45 ++++++++++++++++++++++++++++++++++---
- include/linux/iommu.h       | 12 ++++++++++
- 3 files changed, 69 insertions(+), 11 deletions(-)
+ .../clock/allwinner,sun4i-a10-ccu.yaml        |    3 +
+ .../phy/allwinner,sun50i-a64-usb-phy.yaml     |    2 +
+ .../power/allwinner,sun20i-d1-ppu.yaml        |    1 +
+ arch/arm/boot/dts/allwinner/Makefile          |    1 +
+ .../boot/dts/allwinner/sun8i-v851s-lizard.dts |  196 +++
+ arch/arm/boot/dts/allwinner/sun8i-v853.dtsi   |  656 ++++++++++
+ drivers/clk/sunxi-ng/Kconfig                  |   10 +
+ drivers/clk/sunxi-ng/Makefile                 |    4 +
+ drivers/clk/sunxi-ng/ccu-sun8i-v853-r.c       |  120 ++
+ drivers/clk/sunxi-ng/ccu-sun8i-v853-r.h       |   14 +
+ drivers/clk/sunxi-ng/ccu-sun8i-v853.c         | 1145 +++++++++++++++++
+ drivers/clk/sunxi-ng/ccu-sun8i-v853.h         |   14 +
+ drivers/clk/sunxi-ng/ccu_common.h             |    2 +
+ drivers/clk/sunxi-ng/ccu_gate.c               |    6 +
+ drivers/clk/sunxi-ng/ccu_gate.h               |   14 +
+ drivers/clk/sunxi-ng/ccu_mux.c                |    4 +-
+ drivers/clk/sunxi-ng/ccu_reset.c              |    7 +
+ drivers/clk/sunxi-ng/ccu_reset.h              |    2 +-
+ drivers/phy/allwinner/phy-sun4i-usb.c         |   10 +
+ drivers/pinctrl/sunxi/Kconfig                 |    5 +
+ drivers/pinctrl/sunxi/Makefile                |    1 +
+ drivers/pinctrl/sunxi/pinctrl-sun8i-v853.c    |   53 +
+ drivers/pmdomain/sunxi/sun20i-ppu.c           |   15 +
+ .../clock/allwinner,sun8i-v853-ccu.h          |  132 ++
+ .../clock/allwinner,sun8i-v853-r-ccu.h        |   16 +
+ .../power/allwinner,sun8i-v853-ppu.h          |   10 +
+ .../reset/allwinner,sun8i-v853-ccu.h          |   60 +
+ .../reset/allwinner,sun8i-v853-r-ccu.h        |   14 +
+ 28 files changed, 2513 insertions(+), 4 deletions(-)
+ create mode 100644 arch/arm/boot/dts/allwinner/sun8i-v851s-lizard.dts
+ create mode 100644 arch/arm/boot/dts/allwinner/sun8i-v853.dtsi
+ create mode 100644 drivers/clk/sunxi-ng/ccu-sun8i-v853-r.c
+ create mode 100644 drivers/clk/sunxi-ng/ccu-sun8i-v853-r.h
+ create mode 100644 drivers/clk/sunxi-ng/ccu-sun8i-v853.c
+ create mode 100644 drivers/clk/sunxi-ng/ccu-sun8i-v853.h
+ create mode 100644 drivers/pinctrl/sunxi/pinctrl-sun8i-v853.c
+ create mode 100644 include/dt-bindings/clock/allwinner,sun8i-v853-ccu.h
+ create mode 100644 include/dt-bindings/clock/allwinner,sun8i-v853-r-ccu.h
+ create mode 100644 include/dt-bindings/power/allwinner,sun8i-v853-ppu.h
+ create mode 100644 include/dt-bindings/reset/allwinner,sun8i-v853-ccu.h
+ create mode 100644 include/dt-bindings/reset/allwinner,sun8i-v853-r-ccu.h
 
-diff --git a/drivers/iommu/iommu-pages.c b/drivers/iommu/iommu-pages.c
-index 0fece3758408ae..92a6966ad4c032 100644
---- a/drivers/iommu/iommu-pages.c
-+++ b/drivers/iommu/iommu-pages.c
-@@ -67,18 +67,25 @@ void iommu_free_page(void *virt)
- EXPORT_SYMBOL_GPL(iommu_free_page);
- 
- /**
-- * iommu_put_pages_list - free a list of pages.
-- * @head: the head of the lru list to be freed.
-+ * iommu_put_pages_list_new - free a list of pages.
-+ * @list: The list of pages to be freed
-  *
-  * Frees a list of pages allocated by iommu_alloc_pages_node().
-  */
--void iommu_put_pages_list(struct list_head *head)
-+void iommu_put_pages_list_new(struct iommu_pages_list *list)
- {
--	while (!list_empty(head)) {
--		struct page *p = list_entry(head->prev, struct page, lru);
-+	struct page *p, *tmp;
- 
--		list_del(&p->lru);
-+	list_for_each_entry_safe(p, tmp, &list->pages, lru)
- 		__iommu_free_page(p);
--	}
- }
--EXPORT_SYMBOL_GPL(iommu_put_pages_list);
-+EXPORT_SYMBOL_GPL(iommu_put_pages_list_new);
-+
-+void iommu_put_pages_list_old(struct list_head *head)
-+{
-+	struct page *p, *tmp;
-+
-+	list_for_each_entry_safe(p, tmp, head, lru)
-+		__iommu_free_page(p);
-+}
-+EXPORT_SYMBOL_GPL(iommu_put_pages_list_old);
-diff --git a/drivers/iommu/iommu-pages.h b/drivers/iommu/iommu-pages.h
-index 6045e1f90a40cb..0950f7c0cae9eb 100644
---- a/drivers/iommu/iommu-pages.h
-+++ b/drivers/iommu/iommu-pages.h
-@@ -7,12 +7,51 @@
- #ifndef __IOMMU_PAGES_H
- #define __IOMMU_PAGES_H
- 
--#include <linux/types.h>
--#include <linux/topology.h>
-+#include <linux/iommu.h>
- 
- void *iommu_alloc_pages_node(int nid, gfp_t gfp, unsigned int order);
- void iommu_free_page(void *virt);
--void iommu_put_pages_list(struct list_head *head);
-+void iommu_put_pages_list_new(struct iommu_pages_list *list);
-+void iommu_put_pages_list_old(struct list_head *head);
-+
-+#define iommu_put_pages_list(head)                                   \
-+	_Generic(head,                                               \
-+		struct iommu_pages_list *: iommu_put_pages_list_new, \
-+		struct list_head *: iommu_put_pages_list_old)(head)
-+
-+/**
-+ * iommu_pages_list_add - add the page to a iommu_pages_list
-+ * @list: List to add the page to
-+ * @virt: Address returned from iommu_alloc_pages_node()
-+ */
-+static inline void iommu_pages_list_add(struct iommu_pages_list *list,
-+					void *virt)
-+{
-+	list_add_tail(&virt_to_page(virt)->lru, &list->pages);
-+}
-+
-+/**
-+ * iommu_pages_list_splice - Put all the pages in list from into list to
-+ * @from: Source list of pages
-+ * @to: Destination list of pages
-+ *
-+ * from must be re-initialized after calling this function if it is to be
-+ * used again.
-+ */
-+static inline void iommu_pages_list_splice(struct iommu_pages_list *from,
-+					   struct iommu_pages_list *to)
-+{
-+	list_splice(&from->pages, &to->pages);
-+}
-+
-+/**
-+ * iommu_pages_list_empty - True if the list is empty
-+ * @list: List to check
-+ */
-+static inline bool iommu_pages_list_empty(struct iommu_pages_list *list)
-+{
-+	return list_empty(&list->pages);
-+}
- 
- /**
-  * iommu_alloc_pages - allocate a zeroed page of a given order
-diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index 38c65e92ecd091..e414951c0af83f 100644
---- a/include/linux/iommu.h
-+++ b/include/linux/iommu.h
-@@ -326,6 +326,18 @@ typedef unsigned int ioasid_t;
- /* Read but do not clear any dirty bits */
- #define IOMMU_DIRTY_NO_CLEAR (1 << 0)
- 
-+/*
-+ * Pages allocated through iommu_alloc_pages_node() can be placed on this list
-+ * using iommu_pages_list_add(). Note: ONLY pages from iommu_alloc_pages_node()
-+ * can be used this way!
-+ */
-+struct iommu_pages_list {
-+	struct list_head pages;
-+};
-+
-+#define IOMMU_PAGES_LIST_INIT(name) \
-+	((struct iommu_pages_list){ .pages = LIST_HEAD_INIT(name.pages) })
-+
- #ifdef CONFIG_IOMMU_API
- 
- /**
 -- 
-2.43.0
+2.39.5
 
