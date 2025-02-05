@@ -1,62 +1,62 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9B2617C79
-	for <linux-sunxi@lists.linux.dev>; Wed,  5 Feb 2025 12:52:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9D941C68F
+	for <linux-sunxi@lists.linux.dev>; Wed,  5 Feb 2025 12:52:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738759955; cv=none; b=OUzdY/+zbsi2Wa7t9hHumEqQf/lErgO/PK1pvtf9jOItiuvxxK5jJSmZr3eAzwQAbw/0OOK7veMbhAvjhLwiQFYIu8gDJrnNX9F2ACz53RY72BqvHmiCNInxKlzFmBHd0GNUX2INrX31wewrLqn1VgrYKMFx9BpdiQW2dPyWIzc=
+	t=1738759957; cv=none; b=Ticw7We2jHA7jgIFlHl9WqNyuIPXblO42IQJAvyql7TZ4HgAlCYxBBQTPgAzrC50W8ik5ZIpZy6YQ3c9nCLsOJ4fL/5fy0bdNGbGEgEleI30fyUxWbXQRUjZvRhGfz8GEyrfnWqro5YukhqZ3HqjL7WWs94yMCwLEijahG0VzG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738759955; c=relaxed/simple;
-	bh=J+xMojpvOnH+y4xF0FQzAkneVDyy4UQzwkTwxNQpHZY=;
+	s=arc-20240116; t=1738759957; c=relaxed/simple;
+	bh=6TBomxW37eD9orK7Nb3UMxflZeeYqEOZWtxALk1VVCM=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ErvDfqzaY/WpQk+iJvW1AacRz8eMljJM6y/RrDKQ+vHnVEmT5sRMoW/Ym6cse9QYOUj0r7hn6TJNcj0PmmZfdzr3D3p1OL0mox2YTQF3f2g+8RB/TbwE6U+OroVGk1aMY6G3FxNnbrZQBX/Uo7zebl9bo2vHmuSPAh6cfu0HNaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lT6Lk9My; arc=none smtp.client-ip=209.85.208.41
+	 MIME-Version; b=MsKLVkc1LOh9AqbIewnzzghe/Yz/uGwfHPK8fjnTcVLQQ2HEFT7KPlsA4l93CMLhn1e9enA65NI1Of7z02MLqLcaD1nSeQ320F/Q+VGv3BEzDZg9kK9yRZV0G7n+B//jzC2nITWff4YQh4f2qwyNYFrnFp7pP3CzeOytCckc7pM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FzMpjnZS; arc=none smtp.client-ip=209.85.208.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lT6Lk9My"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5dca451f922so6548976a12.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 05 Feb 2025 04:52:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FzMpjnZS"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5dcdb56c9d3so1281820a12.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 05 Feb 2025 04:52:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738759952; x=1739364752; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1738759954; x=1739364754; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZgfFrjRxyOW1xOgdcC7mwiMGS+SjeOrC7s5Z2O3ZWyY=;
-        b=lT6Lk9MyBLhovdL8/1Kla4HXNp4nUohW481Tx6iLe1vslcuBDgDsn/lMsRjMJfFJ5o
-         s1SfpdB+P1ClMa056hHXQ8CDrbTbPhTHnBdKmuqMDHW53scg9fk2QnDZ1La/hguLIoS9
-         IBuAc/8JU8O5NlINhnFwJaG2DpivFsFh2AdQKfhgtYoaIRwKJDDoHClhPBzrDQ8PCsGT
-         BSxwubVb+4i6qDWvIKdRcH8bA2LXxv6lzScVxXWrvaPhjnLtn7nCq9ME/WMiWiRnrmhf
-         5Os6U2XZrMQsx7AFgor6vpx2it3rMRyUAzCdPim4GEhvraCGy7jeT5xfDJRreldCP63a
-         I5ag==
+        bh=2h7BTYhKIDGSovARV/kRMaz8LzJgfzBwpICZVS1kS+4=;
+        b=FzMpjnZSia++pU5oMlYj/QoiQKKZWK7eDBvC/jon1Y4+0sZ/fBHr6+BFQQgCB9gRGh
+         zEmdFT6pCbVT1b3qRqC9Zj4wVwDEpiZVvkWL+BwZi/YmKJuP2tTdHr2nSAPCS8OpJFPo
+         h6IxwKT3mW0L3rj6qEo19x8QyEFWYuNFKQ3h/iwN62C/1I6Sc7A08i0kFOqWCuPqFjlv
+         zAGeNHK33oADDunX/zDUU8+qUFogt+EUDaen1N6cnhRJXDbbU4ZXyY8iPUshoiy2I4YL
+         LKblfw8eUBW2qu+P8LEt1cL6AEN/FyoMMT5lM2EWukBbBTZnYGgLwHTHp7SAzkEe6aca
+         ZSow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738759952; x=1739364752;
+        d=1e100.net; s=20230601; t=1738759954; x=1739364754;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZgfFrjRxyOW1xOgdcC7mwiMGS+SjeOrC7s5Z2O3ZWyY=;
-        b=UszYTwxhAk6YOtMrcXtDQCqOrMcZu9qYIqn+STQK4ulvzrHWFJPeTParBgAd0Xn53z
-         1jH+Q4zdivhTtRac0dOflhUuvVffIfIcwMiq5eax4W8LyfplnmzUCMmJRup3xZk/s8lV
-         /wQkCXfdgBNePCuBO0JfDPAa299a5oZwQnnm+A8glnDDsIMdspJS0IxgIIKbvmGUsUOr
-         ZYrF7kADQ4uvvVhoBO59NqgIMJFmfam012kbylVRKc505/9YlA/RK68rP5PjFtQu+JKf
-         42fiul3kmKL2QgYPZxw3V7EXWtFfWPCBhcaAEntX6kcyHfoemswYamHsMr/fjqt0Qklg
-         NsRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXG4OQKZL8LWfyy61MjYfuHd3aaqWW7N0rRwaq5TERgAzMv11W18PKUjhom3RW0AOzGt1xV44kuvG5HAw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyaLPPPDo+eKSwUe2ML7YPiqJLOymssH9xmzwED7uWskh4W4eDz
-	O1Qi/Pg/r2kUou3PASCL23AL1J8Uoo0VBxTAVZT1YyQlqYd+T+gJIT6ErKZ9
-X-Gm-Gg: ASbGncvYjCRWw3uWL4F3HtZ9+LKaJIIlLwgK/+ALBoeXukpeBBumQS2+uP2eZg2VcqU
-	rPRzwpg85C6DYuuWizEeELxpYYBZDjMfsrxdL6W0hfof6EZbll54eNOxHEF3flhnD8ZRdJNVsnw
-	P7GJ8SX/z5c3/dlhyTqoLkFfqzQayWVCT8CzXdHLKJ4tBQPce5EJLbfQRGqI4jEKw8xLwog334o
-	lo9YiMs+yfYBhNXdRm0oVSc1HD7jgY+w3ySEzsf/fFp/uCleqBIT9PihndQIVJMpE1gUFQOQ9UU
-	ZVh7QxLSji96pzfiHdrryBxG7/b4IWinsaht6ANnJzNDhw==
-X-Google-Smtp-Source: AGHT+IEAbQlJM9YpeCWJhaXrMd8JjdEQmk1PIGdg1MxSU0j0zzL77t1J5QeVhoIykZ9fWSW5KttwGw==
-X-Received: by 2002:a05:6402:350c:b0:5d0:b51c:8479 with SMTP id 4fb4d7f45d1cf-5dcdb7179ccmr3428449a12.10.1738759951997;
-        Wed, 05 Feb 2025 04:52:31 -0800 (PST)
+        bh=2h7BTYhKIDGSovARV/kRMaz8LzJgfzBwpICZVS1kS+4=;
+        b=dF0/B9dSYv1GFmPHlJiu5Szzn3p3+n6Ee5d5yKpdiuef1fO1jhLOg0fsV9grUrNvmT
+         qJ38OC9rdAEVvBjgvaIsontGmAm1kutk7OEQePKzzdVexqzB+w3gS0LNDMD9Pja9lz/b
+         HgYnVg5CDaKnjnQlK/ecUtdXwkFA3CDwtDY9Mzl0ZC2xTe8A+7YN0Tsa461dfenG0+dA
+         JSFaLqNAnQ56MkJc6yiJyeCMt3LyrSUCxmU1qEh3l9I9Wjhs4qKwmRcBd6+EFikN3dCA
+         /8R3kgxd5TEkdxEYYCe2mjAT0NQB13/nDbWBUKUKc5KwmPq96iEw3KQE/cXs1gj92SxQ
+         ovPg==
+X-Forwarded-Encrypted: i=1; AJvYcCXoGbVBIe11Sojf7cohS08+UWbsYCxkQcqaPMnYSAIQ4jcNPRbuFuqHvIvJPJmFEE7eg2x2iS9phFoRCA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywqi0D3tobnzyrXp6YXpWtFIyy2u0EHEr+7pVTJCb8ziQ2McTmu
+	LCe2I/6H5VuPkIKwxsNDTHTLZLyBYyd0psyO81/YMEl0+glYKz94
+X-Gm-Gg: ASbGncv4JK2DPtSZ9t0HLbvKmMC8VvFwR8i0nRZI0sboXXXJeTxPipwxmLc2ksfCr/K
+	rfRyiN/sWRX59XyZw9LzmQcIFNyW9UqVfDdf1ntT2HK1zwwvyMNP1uLis+kU3zjZTchkVKihnv7
+	+mXR4LL9tdJyoCAB3KlDbxyRz02APGQPOVt+tn4qUDu66HY0yWITMhivoJCdXYFz8ZwTezYfqcq
+	iiEdGfOwQPNLfN9ABUAtYKLdUQ7Bm2bK6O8DaOs7nQctBJVJtJ6jtsEi2iNwYMY975QSUue9bNc
+	jRgOH09hslAd6kAvGAaMXWa2jorF7S+HERCIdEVlkYDO3w==
+X-Google-Smtp-Source: AGHT+IGGu/7AADk3D0HpZFHZbd5mDOa9V/c+jpDgka/onZHtiRlSlj8RdhKfxdaOzwjowoHiNYitlg==
+X-Received: by 2002:a05:6402:34c8:b0:5d0:c697:1f02 with SMTP id 4fb4d7f45d1cf-5dcdb7295c9mr6548115a12.17.1738759953701;
+        Wed, 05 Feb 2025 04:52:33 -0800 (PST)
 Received: from localhost.localdomain (185.174.17.62.zt.hu. [185.174.17.62])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5dc724055e5sm11559997a12.45.2025.02.05.04.52.30
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5dc724055e5sm11559997a12.45.2025.02.05.04.52.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Feb 2025 04:52:31 -0800 (PST)
+        Wed, 05 Feb 2025 04:52:33 -0800 (PST)
 From: Andras Szemzo <szemzo.andras@gmail.com>
 To: Michael Turquette <mturquette@baylibre.com>,
 	Stephen Boyd <sboyd@kernel.org>,
@@ -86,9 +86,9 @@ Cc: Vinod Koul <vkoul@kernel.org>,
 	linux-gpio@vger.kernel.org,
 	linux-pm@vger.kernel.org,
 	linux-riscv@lists.infradead.org
-Subject: [PATCH v2 02/10] pinctrl: sunxi: add driver for Allwinner V853
-Date: Wed,  5 Feb 2025 13:52:17 +0100
-Message-Id: <20250205125225.1152849-3-szemzo.andras@gmail.com>
+Subject: [PATCH v2 03/10] dt-bindings: clock: sunxi-ng: add compatibles for V853
+Date: Wed,  5 Feb 2025 13:52:18 +0100
+Message-Id: <20250205125225.1152849-4-szemzo.andras@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250205125225.1152849-1-szemzo.andras@gmail.com>
 References: <20250205125225.1152849-1-szemzo.andras@gmail.com>
@@ -100,111 +100,288 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The V853 family has multiple package variants, from BGA to QFN88.
-The latter has co-packaged DRAM and fewer pins, and less features (pin muxes).
-All family members can be supported by a single driver, as the available pins
-with allowed muxes is the same across the devices.
-
-This new pinctrl driver depends on the new sunxi device-tree based mux support
-patch series [1].
-
-[1]: https://lore.kernel.org/linux-sunxi/20241111005750.13071-1-andre.przywara@arm.com/T/
+V853 has 2 CCUs, add compatible strings for it.
 
 Signed-off-by: Andras Szemzo <szemzo.andras@gmail.com>
 ---
- drivers/pinctrl/sunxi/Kconfig              |  5 ++
- drivers/pinctrl/sunxi/Makefile             |  1 +
- drivers/pinctrl/sunxi/pinctrl-sun8i-v853.c | 53 ++++++++++++++++++++++
- 3 files changed, 59 insertions(+)
- create mode 100644 drivers/pinctrl/sunxi/pinctrl-sun8i-v853.c
+ .../clock/allwinner,sun4i-a10-ccu.yaml        |   3 +
+ .../clock/allwinner,sun8i-v853-ccu.h          | 132 ++++++++++++++++++
+ .../clock/allwinner,sun8i-v853-r-ccu.h        |  16 +++
+ .../reset/allwinner,sun8i-v853-ccu.h          |  60 ++++++++
+ .../reset/allwinner,sun8i-v853-r-ccu.h        |  14 ++
+ 5 files changed, 225 insertions(+)
+ create mode 100644 include/dt-bindings/clock/allwinner,sun8i-v853-ccu.h
+ create mode 100644 include/dt-bindings/clock/allwinner,sun8i-v853-r-ccu.h
+ create mode 100644 include/dt-bindings/reset/allwinner,sun8i-v853-ccu.h
+ create mode 100644 include/dt-bindings/reset/allwinner,sun8i-v853-r-ccu.h
 
-diff --git a/drivers/pinctrl/sunxi/Kconfig b/drivers/pinctrl/sunxi/Kconfig
-index a78fdbbdfc0c..fac9c61039e2 100644
---- a/drivers/pinctrl/sunxi/Kconfig
-+++ b/drivers/pinctrl/sunxi/Kconfig
-@@ -81,6 +81,11 @@ config PINCTRL_SUN9I_A80_R
- 	default MACH_SUN9I
- 	select PINCTRL_SUNXI
- 
-+config PINCTRL_SUN8I_V853
-+	bool "Support for the Allwinner V853/V851S/V851SE PIO"
-+	default MACH_SUN8I
-+	select PINCTRL_SUNXI
-+
- config PINCTRL_SUN20I_D1
- 	bool "Support for the Allwinner D1 PIO"
- 	default MACH_SUN8I || (RISCV && ARCH_SUNXI)
-diff --git a/drivers/pinctrl/sunxi/Makefile b/drivers/pinctrl/sunxi/Makefile
-index 2ff5a55927ad..8937b56b2ef4 100644
---- a/drivers/pinctrl/sunxi/Makefile
-+++ b/drivers/pinctrl/sunxi/Makefile
-@@ -20,6 +20,7 @@ obj-$(CONFIG_PINCTRL_SUN8I_A83T_R)	+= pinctrl-sun8i-a83t-r.o
- obj-$(CONFIG_PINCTRL_SUN8I_H3)		+= pinctrl-sun8i-h3.o
- obj-$(CONFIG_PINCTRL_SUN8I_H3_R)	+= pinctrl-sun8i-h3-r.o
- obj-$(CONFIG_PINCTRL_SUN8I_V3S)		+= pinctrl-sun8i-v3s.o
-+obj-$(CONFIG_PINCTRL_SUN8I_V853)	+= pinctrl-sun8i-v853.o
- obj-$(CONFIG_PINCTRL_SUN20I_D1)		+= pinctrl-sun20i-d1.o
- obj-$(CONFIG_PINCTRL_SUN50I_H5)		+= pinctrl-sun50i-h5.o
- obj-$(CONFIG_PINCTRL_SUN50I_H6)		+= pinctrl-sun50i-h6.o
-diff --git a/drivers/pinctrl/sunxi/pinctrl-sun8i-v853.c b/drivers/pinctrl/sunxi/pinctrl-sun8i-v853.c
+diff --git a/Documentation/devicetree/bindings/clock/allwinner,sun4i-a10-ccu.yaml b/Documentation/devicetree/bindings/clock/allwinner,sun4i-a10-ccu.yaml
+index 1690b9d99c3d..9369d62284ed 100644
+--- a/Documentation/devicetree/bindings/clock/allwinner,sun4i-a10-ccu.yaml
++++ b/Documentation/devicetree/bindings/clock/allwinner,sun4i-a10-ccu.yaml
+@@ -33,6 +33,8 @@ properties:
+       - allwinner,sun8i-r40-ccu
+       - allwinner,sun8i-v3-ccu
+       - allwinner,sun8i-v3s-ccu
++      - allwinner,sun8i-v853-ccu
++      - allwinner,sun8i-v853-r-ccu
+       - allwinner,sun9i-a80-ccu
+       - allwinner,sun20i-d1-ccu
+       - allwinner,sun20i-d1-r-ccu
+@@ -103,6 +105,7 @@ else:
+       compatible:
+         enum:
+           - allwinner,sun20i-d1-ccu
++          - allwinner,sun8i-v853-ccu
+           - allwinner,sun50i-a100-ccu
+           - allwinner,sun50i-h6-ccu
+           - allwinner,sun50i-h616-ccu
+diff --git a/include/dt-bindings/clock/allwinner,sun8i-v853-ccu.h b/include/dt-bindings/clock/allwinner,sun8i-v853-ccu.h
 new file mode 100644
-index 000000000000..fb2112ee12d0
+index 000000000000..cf56c168e1cd
 --- /dev/null
-+++ b/drivers/pinctrl/sunxi/pinctrl-sun8i-v853.c
-@@ -0,0 +1,53 @@
-+// SPDX-License-Identifier: GPL-2.0
++++ b/include/dt-bindings/clock/allwinner,sun8i-v853-ccu.h
+@@ -0,0 +1,132 @@
++/* SPDX-License-Identifier: GPL-2.0 */
 +/*
-+ * Allwinner V853 SoC pinctrl driver.
-+ *
-+ * Copyright (c) 2025 Andras Szemzo <szemzo.andras@gmail.com>
++ * Copyright (C) 2024 Andras Szemzo <szemzo.andras@gmail.com.com>
 + */
 +
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/of.h>
-+#include <linux/of_device.h>
-+#include <linux/pinctrl/pinctrl.h>
++#ifndef _DT_BINDINGS_CLK_ALLWINNER_SUN8I_V85X_CCU_H_
++#define _DT_BINDINGS_CLK_ALLWINNER_SUN8I_V85X_CCU_H_
 +
-+#include "pinctrl-sunxi.h"
++#define CLK_OSC12M		0
++#define CLK_PLL_CPU		1
++#define CLK_PLL_DDR		2
++#define CLK_PLL_PERIPH_4X	3
++#define CLK_PLL_PERIPH_2X	4
++#define CLK_PLL_PERIPH_800M	5
++#define CLK_PLL_PERIPH_480M	6
++#define CLK_PLL_PERIPH_600M	7
++#define CLK_PLL_PERIPH_400M	8
++#define CLK_PLL_PERIPH_300M	9
++#define CLK_PLL_PERIPH_200M	10
++#define CLK_PLL_PERIPH_160M	11
++#define CLK_PLL_PERIPH_150M	12
++#define CLK_PLL_VIDEO_4X	13
++#define CLK_PLL_VIDEO_2X	14
++#define CLK_PLL_VIDEO_1X	15
++#define CLK_PLL_CSI_4X		16
++#define CLK_PLL_AUDIO_DIV2	17
++#define CLK_PLL_AUDIO_DIV5	18
++#define CLK_PLL_AUDIO_4X	19
++#define CLK_PLL_AUDIO_1X	20
++#define CLK_PLL_NPU_4X		21
++#define CLK_CPU			22
++#define CLK_CPU_AXI		23
++#define CLK_CPU_APB		24
++#define CLK_AHB			25
++#define CLK_APB0		26
++#define CLK_APB1		27
++#define CLK_MBUS		28
++#define CLK_DE			29
++#define CLK_BUS_DE		30
++#define CLK_G2D			31
++#define CLK_BUS_G2D		32
++#define CLK_CE			33
++#define CLK_BUS_CE		34
++#define CLK_VE			35
++#define CLK_BUS_VE		36
++#define CLK_NPU			37
++#define CLK_BUS_NPU		38
++#define CLK_BUS_DMA		39
++#define CLK_BUS_MSGBOX0		40
++#define CLK_BUS_MSGBOX1		41
++#define CLK_BUS_SPINLOCK	42
++#define CLK_BUS_HSTIMER		43
++#define CLK_AVS			44
++#define CLK_BUS_DBG		45
++#define CLK_BUS_PWM		46
++#define CLK_BUS_IOMMU		47
++#define CLK_DRAM		48
++#define CLK_MBUS_DMA		49
++#define CLK_MBUS_VE		50
++#define CLK_MBUS_CE		51
++#define CLK_MBUS_CSI		52
++#define CLK_MBUS_ISP		53
++#define CLK_MBUS_G2D		54
++#define CLK_BUS_DRAM		55
++#define CLK_MMC0		56
++#define CLK_MMC1		57
++#define CLK_MMC2		58
++#define CLK_BUS_MMC0		59
++#define CLK_BUS_MMC1		60
++#define CLK_BUS_MMC2		61
++#define CLK_BUS_UART0		62
++#define CLK_BUS_UART1		63
++#define CLK_BUS_UART2		64
++#define CLK_BUS_UART3		65
++#define CLK_BUS_I2C0		66
++#define CLK_BUS_I2C1		67
++#define CLK_BUS_I2C2		68
++#define CLK_BUS_I2C3		69
++#define CLK_BUS_I2C4		70
++#define CLK_SPI0		71
++#define CLK_SPI1		72
++#define CLK_SPI2		73
++#define CLK_SPI3		74
++#define CLK_BUS_SPI0		75
++#define CLK_BUS_SPI1		76
++#define CLK_BUS_SPI2		77
++#define CLK_BUS_SPI3		78
++#define CLK_SPIF		79
++#define CLK_BUS_SPIF		80
++#define CLK_EMAC_25M		81
++#define CLK_BUS_EMAC		82
++#define CLK_BUS_GPADC		83
++#define CLK_BUS_THS		84
++#define CLK_I2S0		85
++#define CLK_I2S1		86
++#define CLK_BUS_I2S0		87
++#define CLK_BUS_I2S1		88
++#define CLK_DMIC		89
++#define CLK_BUS_DMIC		90
++#define CLK_AUDIO_CODEC_DAC	91
++#define CLK_AUDIO_CODEC_ADC	92
++#define CLK_BUS_AUDIO_CODEC	93
++#define CLK_USB_OHCI		94
++#define CLK_BUS_OHCI		95
++#define CLK_BUS_EHCI		96
++#define CLK_BUS_OTG		97
++#define CLK_BUS_DPSS_TOP	98
++#define CLK_MIPI_DSI		99
++#define CLK_BUS_MIPI_DSI	100
++#define CLK_TCON_LCD		101
++#define CLK_BUS_TCON_LCD	102
++#define CLK_CSI_TOP		103
++#define CLK_CSI_MCLK0		104
++#define CLK_CSI_MCLK1		105
++#define CLK_CSI_MCLK2		106
++#define CLK_BUS_CSI		107
++#define CLK_BUS_WIEGAND		108
++#define CLK_RISCV		109
++#define CLK_RISCV_AXI		110
++#define CLK_RISCV_CORE_GATE	111
++#define CLK_RISCV_CFG_GATE	112
++#define CLK_FANOUT_24M		113
++#define CLK_FANOUT_12M		114
++#define CLK_FANOUT_16M		115
++#define CLK_FANOUT_25M		116
++#define CLK_FANOUT_27M		117
++#define CLK_FANOUT_PCLK		118
++#define CLK_FANOUT0		119
++#define CLK_FANOUT1		120
++#define CLK_FANOUT2		121
 +
-+static const u8 v853_nr_bank_pins[SUNXI_PINCTRL_MAX_BANKS] =
-+/*	  PA  PB  PC  PD  PE  PF  PG  PH  PI  */
-+	{ 22,  0, 12, 23, 18,  7,  8, 16,  5 };
++#endif
+diff --git a/include/dt-bindings/clock/allwinner,sun8i-v853-r-ccu.h b/include/dt-bindings/clock/allwinner,sun8i-v853-r-ccu.h
+new file mode 100644
+index 000000000000..48fe598b7bd8
+--- /dev/null
++++ b/include/dt-bindings/clock/allwinner,sun8i-v853-r-ccu.h
+@@ -0,0 +1,16 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (C) 2025 Andras Szemzo <szemzo.andras@gmail.com>
++ */
 +
-+static const unsigned int v853_irq_bank_map[] = { 0, 2, 3, 4, 5, 6, 7, 8 };
++#ifndef _DT_BINDINGS_CLK_ALLWINNER_SUN8I_V853_R_CCU_H_
++#define _DT_BINDINGS_CLK_ALLWINNER_SUN8I_V853_R_CCU_H_
 +
-+static const u8 v853_irq_bank_muxes[SUNXI_PINCTRL_MAX_BANKS] =
-+/*	  PA  PB  PC  PD  PE  PF  PG  PH  PI */
-+	{ 14,  0, 14, 14, 14, 14, 14, 14, 14 };
++#define CLK_R_AHB		0
++#define CLK_R_APB0		1
++#define CLK_BUS_R_TWD		2
++#define CLK_BUS_R_PPU		3
++#define CLK_BUS_R_RTC		4
++#define CLK_BUS_R_CPUCFG	5
 +
-+static struct sunxi_pinctrl_desc v853_pinctrl_data = {
-+	.irq_banks = ARRAY_SIZE(v853_irq_bank_map),
-+	.irq_bank_map = v853_irq_bank_map,
-+	.io_bias_cfg_variant = BIAS_VOLTAGE_PIO_POW_MODE_SEL,
-+};
++#endif
+diff --git a/include/dt-bindings/reset/allwinner,sun8i-v853-ccu.h b/include/dt-bindings/reset/allwinner,sun8i-v853-ccu.h
+new file mode 100644
+index 000000000000..e258117518aa
+--- /dev/null
++++ b/include/dt-bindings/reset/allwinner,sun8i-v853-ccu.h
+@@ -0,0 +1,60 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (C) 2024 Andras Szemzo <szemzo.andras@gmail.com>
++ */
 +
-+static int v853_pinctrl_probe(struct platform_device *pdev)
-+{
-+	return sunxi_pinctrl_dt_table_init(pdev, v853_nr_bank_pins,
-+					   v853_irq_bank_muxes,
-+					   &v853_pinctrl_data,
-+					   SUNXI_PINCTRL_NEW_REG_LAYOUT |
-+					   SUNXI_PINCTRL_ELEVEN_BANKS);
-+}
++#ifndef _DT_BINDINGS_RST_ALLWINNER_SUN8I_V85X_CCU_H_
++#define _DT_BINDINGS_RST_ALLWINNER_SUN8I_V85X_CCU_H_
 +
-+static const struct of_device_id v853_pinctrl_match[] = {
-+	{ .compatible = "allwinner,sun8i-v853-pinctrl", },
-+	{}
-+};
++#define RST_MBUS		0
++#define RST_BUS_DE		1
++#define RST_BUS_G2D		2
++#define RST_BUS_CE		3
++#define RST_BUS_VE		4
++#define RST_BUS_NPU		5
++#define RST_BUS_DMA		6
++#define RST_BUS_MSGBOX0		7
++#define RST_BUS_MSGBOX1		8
++#define RST_BUS_SPINLOCK	9
++#define RST_BUS_HSTIMER		10
++#define RST_BUS_DBG		11
++#define RST_BUS_PWM		12
++#define RST_BUS_DRAM		13
++#define RST_BUS_MMC0		14
++#define RST_BUS_MMC1		15
++#define RST_BUS_MMC2		16
++#define RST_BUS_UART0		17
++#define RST_BUS_UART1		18
++#define RST_BUS_UART2		19
++#define RST_BUS_UART3		20
++#define RST_BUS_I2C0		21
++#define RST_BUS_I2C1		22
++#define RST_BUS_I2C2		23
++#define RST_BUS_I2C3		24
++#define RST_BUS_I2C4		25
++#define RST_BUS_SPI0		26
++#define RST_BUS_SPI1		27
++#define RST_BUS_SPI2		28
++#define RST_BUS_SPI3		29
++#define RST_BUS_SPIF		30
++#define RST_BUS_EMAC		31
++#define RST_BUS_GPADC		32
++#define RST_BUS_THS		33
++#define RST_BUS_I2S0		34
++#define RST_BUS_I2S1		35
++#define RST_BUS_DMIC		36
++#define RST_BUS_AUDIO_CODEC	37
++#define RST_USB_PHY		38
++#define RST_BUS_OHCI		39
++#define RST_BUS_EHCI		40
++#define RST_BUS_OTG		41
++#define RST_BUS_DPSS_TOP	42
++#define RST_BUS_MIPI_DSI	43
++#define RST_BUS_TCON_LCD	44
++#define RST_BUS_CSI		45
++#define RST_BUS_WIEGAND		46
++#define RST_RISCV_SYS_APB	47
++#define RST_RISCV_SOFT		48
++#define RST_RISCV_CFG		49
 +
-+static struct platform_driver v853_pinctrl_driver = {
-+	.probe	= v853_pinctrl_probe,
-+	.driver	= {
-+		.name		= "sun8i-v853-pinctrl",
-+		.of_match_table	= v853_pinctrl_match,
-+	},
-+};
-+builtin_platform_driver(v853_pinctrl_driver);
++#endif
+diff --git a/include/dt-bindings/reset/allwinner,sun8i-v853-r-ccu.h b/include/dt-bindings/reset/allwinner,sun8i-v853-r-ccu.h
+new file mode 100644
+index 000000000000..57629d635115
+--- /dev/null
++++ b/include/dt-bindings/reset/allwinner,sun8i-v853-r-ccu.h
+@@ -0,0 +1,14 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (C) 2025 Andras Szemzo <szemzo.andras@gmail.com>
++ */
++
++#ifndef _DT_BINDINGS_RST_ALLWINNER_SUN8I_V853_R_CCU_H_
++#define _DT_BINDINGS_RST_ALLWINNER_SUN8I_V853_R_CCU_H_
++
++#define RST_BUS_R_TWD		0
++#define RST_BUS_R_PPU		1
++#define RST_BUS_R_RTC		2
++#define RST_BUS_R_CPUCFG	3
++
++#endif
 -- 
 2.39.5
 
