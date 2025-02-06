@@ -1,272 +1,213 @@
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2085.outbound.protection.outlook.com [40.107.212.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFB4B2253F6
-	for <linux-sunxi@lists.linux.dev>; Thu,  6 Feb 2025 10:14:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738836884; cv=none; b=rrMucSin8DLXMlAQfRhUYK87fo2DKg7eiE5IuVp4/1A0XjugmMugl4IDnGzOPgHQoNulKYcohALmK7Vl66MMCiRPLGOsdA/Y3GlikJOCT+4zK+J/y+NxMQ/142gsuQxAeRNqVM6FVI6a0psqMchVhuW0rgua1YJutLw7hgdfmgY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738836884; c=relaxed/simple;
-	bh=pROxy4pf04TXH7Mq5LQ2jLXo6EmggJFwNOEavqeCF80=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KUnpVZpqp6HTbm4DwLTvlAWsJnFwbD8xKiviJBJzZAIj+F1RpIYf6ju9x4PodPvRvQSP9RV/eq513ApI00d2bC0G7xfMpuW+P3CtuvtD22df2e7pXire/YRwf/p8MOju5oITVdLmc6DcMQ+qK3+3Zc4w9/7qX+rg6Nj1VxmYNqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-30613802a59so7852421fa.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 06 Feb 2025 02:14:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738836879; x=1739441679;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=r2/IIP3n3Vq0jAraoBBXavMXEaBuRqCM8Y1vyh7jgZo=;
-        b=g6TNkvPG1Qhc2UHkolJ6gIyEEZ1kkp2mZAo0bgjDoyoMqR40Aww/97lnCCLCZyjSOM
-         fXiZHiQj8+FB0z0QgmCb1GraKjFkhpoQ0FM2E0htBk2NI/IH77f/ygwXApSD7HtP1p6y
-         XTixw7/RIwSuBid0xsI/4/Hxog1LSpA9hP3z2/Qq48yGWUuVOZGZyWLDTvWolSfKGe7j
-         zG3lsTwLggsjsxVl7CGqG3a8AUKTGENhWtPvtzo65Kq6Se7kTaFU+OGnR6xWDOEsmDvC
-         YZYL2/CvXlhLzANyirYUsMHJ2+SV0YwCZxbe/82QwN9wSrZU2jNrSdMltBGVF7sJa+V3
-         KXFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXJuteqCF6M0oHVY0JnYYUIhyo41NNfU7EhS6PybvAk8EU5AXa16bu1EoI5zcZZXTQKmunF+GHZtTfoyQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywvb+lmliTppO88DOmuVwrt0V03E6EnXlJFH+/4cRNmKtKbKcov
-	39pvxSazh2Z53+f86qCxPv+yTtZuSqZ1hPrUhwLCRQx+0kGPsbykMbFXHeG3
-X-Gm-Gg: ASbGncsd/Ldwb87yDM93/DZ91BARyem2gwePoKY6gT1L+EX3VWKJ6AbosX6NceswQzq
-	C3z1qgPXyemV77KHD6rdRxDe2vBx4rEZHBg+nhd2UUp+EpMNTZZRaBBi5n6yS9aX9dPKEMl+Ifi
-	ljkDzTBR9aAKyrOOzE7FDkgpraDSVbc7yQyTxbgCTFr6ZRWc6k5Fo41HtG/NU5bND5uYiAhK3YJ
-	mVTbHaE3p6k105QTUmgDw6aHptWgmuB4JenuyjfRx1uWZiji4Noy3uZChKekl+pL84zJzCUrZZf
-	Fug75oQEonJuU8GysTNa6+nGotUFRobXf07PJXt6hJzG
-X-Google-Smtp-Source: AGHT+IFEDn7lFAPqep8n/FEfUJOCJ85kByYrBUMTKu0yQEN1MvHKEwieVPbihVRqnEEgPCkWwSLYdQ==
-X-Received: by 2002:a05:651c:b26:b0:300:3307:389d with SMTP id 38308e7fff4ca-307cf3145c9mr23484831fa.19.1738836879049;
-        Thu, 06 Feb 2025 02:14:39 -0800 (PST)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com. [209.85.167.46])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-307de177d17sm985171fa.13.2025.02.06.02.14.38
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Feb 2025 02:14:38 -0800 (PST)
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5439e331cceso924877e87.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 06 Feb 2025 02:14:38 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWi85s5oPACwWlu4qegs7+RyvCdAj4OJzWwG0KyOB8Uyvn5uwikqKDm2SsB9S0Z2ubN47D8LZUcle51Tw==@lists.linux.dev
-X-Received: by 2002:a2e:a912:0:b0:301:12:1ef3 with SMTP id 38308e7fff4ca-307cf2ecc76mr23979521fa.4.1738836878292;
- Thu, 06 Feb 2025 02:14:38 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E64FD18DB34;
+	Thu,  6 Feb 2025 13:17:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.212.85
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738847848; cv=fail; b=Mal9Zpn8gMEoG8ejpGXy9hGfPUj5EBjMmPpTZLc2R31YZmP+W5l+7nIQzinskXIaO30ah8N4F6q/hhsqSvg9Z1EUE0Ms+H8O5be5/nBFxAHTkRomveRLoaG2GOqgstY1JJF6OEXhiuZ7D1XdbU2eWWWix3BNH/Ga/nCWYk/fl0M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738847848; c=relaxed/simple;
+	bh=VhCLITNoxfn68E7OxSkD8ElI+X1JKcxoPv0D0mX6uRs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=tTD5d1nDHQVmDfrxNNQ2Vai9w6DCayTGCkqOoKSatuFha0LfzOo5JCk8HtynfNft6M7xPSV6Ji2KG55uQGOompc03tRRVY691Z1DFSfCSFkntdXDo0BnjcHmNosc7I9fOTtJ2b41ykreYfUC4VqMsSkIdxIza80OwERAV6DuDE4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=cdhXOGvC; arc=fail smtp.client-ip=40.107.212.85
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="cdhXOGvC"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ixnV4QBUa8pN9kOn+mHE9LCNxca+perCs/9wrFM4gyWpgkLs1hL7kXMRKeBfzLMioQ1yje7HUYBYMNCtucfSIFYu0Hr211G1qXn/G9iPr8Gncir3nQu5qfYMWdyI+kBbJ6PlXqDWRMnakX2jtUATJ5qxPXf+goETkPArh5LUJ2Vto+tvZygcW5Jf3sez6Hlcgqx00OmB4OUxnFVXQtfZN7lI1zsSrPJFaWs4EbwjsPEJ0du4dHQOqA3AeUbnkb4XCz7LzfnwyXOsrMAOGZJxIHlZdyBLCMHBjAbrbkneQYCSQJOx3CVJqPALWYLaPrGKe01R6kX1liUIxQ3OrKa5/g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bvGBtO1g0Tf10DP3Tmh3PU4BulQZrk+/hjd9Hhf3IuE=;
+ b=wn0xk/Z5CapK5PD7TZMtKOTSBpG01mpS2ZPfmPLpQCED+aSi4+S4iZS4JzH7rrJT/cktsmyAuv6vN2SIXWHhS19qc/39YNlY3hN6DPh6obd/nesWdJWZQEz2+b7sJnJJ2JLoNQwFHDPmqYSGEQEk+nlCP+pTnIbnzyBDAYFBPzx531gJY0WAhSH7tVXBzBHlTU25rLozxPG3ls+7yzquz20+fKfCuwIfj5xNp/TacBbVwloH+9w0tjFEjpdZxUlx5QH3grOJeVYU2O4bpYGfFgeTgB6+siSbfLqStpJS2OMnRabMLhSZgYlzCqf3Hs0C3M1D5HJS05KNKmnOz1brng==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bvGBtO1g0Tf10DP3Tmh3PU4BulQZrk+/hjd9Hhf3IuE=;
+ b=cdhXOGvCShpbEy4/E+rs09HnzaRUVgpkJPomhTnpaPMFJmhr03NZElo1RBduByTopsMr2bwnHQl6NIj+qMkPAbdMblUSg0OzpcbMmglNiWJiVD/o/HC9gwOqa7JeMOP0V+9q+sy2NmtcBy8IJz6bl7jlQFI9+TPPMZvatHl53/gQvxWyoL8WxDoUeEtK2tV5aD76YKN8g0+nONaHuqa/MF6EFoASsscwJLqEPV+bso2DZN9kMr3W5kEqbCH0mfSHF+5a6VCEt5ZSjSTw4sr8tlef4Utzf1gaFoOtCiNHMfwBzglp3FI2n/ZSiWV/FBTSsjBOgZnddxoqI6VNHreN7g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by MW4PR12MB7239.namprd12.prod.outlook.com (2603:10b6:303:228::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.11; Thu, 6 Feb
+ 2025 13:17:22 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%6]) with mapi id 15.20.8398.025; Thu, 6 Feb 2025
+ 13:17:22 +0000
+Date: Thu, 6 Feb 2025 09:17:21 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Tomasz Jeznach <tjeznach@rivosinc.com>
+Cc: Alim Akhtar <alim.akhtar@samsung.com>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Hector Martin <marcan@marcan.st>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Sven Peter <sven@svenpeter.dev>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Krishna Reddy <vdumpa@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
+	Will Deacon <will@kernel.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
+	Joerg Roedel <jroedel@suse.de>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
+	David Rientjes <rientjes@google.com>,
+	Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH 17/19] iommu/riscv: Update to use
+ iommu_alloc_pages_node_lg2()
+Message-ID: <20250206131721.GF2960738@nvidia.com>
+References: <0-v1-416f64558c7c+2a5-iommu_pages_jgg@nvidia.com>
+ <17-v1-416f64558c7c+2a5-iommu_pages_jgg@nvidia.com>
+ <Z6RI3ftJTrm3UxoO@tjeznach.ba.rivosinc.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z6RI3ftJTrm3UxoO@tjeznach.ba.rivosinc.com>
+X-ClientProxiedBy: BN0PR04CA0160.namprd04.prod.outlook.com
+ (2603:10b6:408:eb::15) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250206093956.46593-1-regis.dargent@gmail.com>
-In-Reply-To: <20250206093956.46593-1-regis.dargent@gmail.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Thu, 6 Feb 2025 18:14:26 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67tmzGfcFPchjzfSima-sT_u7viYd1UDGB9r6ZeJEgdyg@mail.gmail.com>
-X-Gm-Features: AWEUYZlm4gSn7cw1IB1gbPXGlwF-pdLLAGIdGOws-wlbxjHAlekI14cTphPxU20
-Message-ID: <CAGb2v67tmzGfcFPchjzfSima-sT_u7viYd1UDGB9r6ZeJEgdyg@mail.gmail.com>
-Subject: Re: [PATCH]: watchdog: Allow watchdog to remain enabled after probe
-To: Regis Dargent <regis.dargent@gmail.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Wim Van Sebroeck <wim@linux-watchdog.org>, 
-	Guenter Roeck <linux@roeck-us.net>, linux-watchdog@vger.kernel.org, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|MW4PR12MB7239:EE_
+X-MS-Office365-Filtering-Correlation-Id: 241bfcde-e9cf-488a-9919-08dd46b0976b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?tcoh6BLfTNYQrUurNmQX5dcHc8PRyHGEyjJmuHEYO9AjV98Xz4Xl4+f7Plrv?=
+ =?us-ascii?Q?N4mFgEblZ/PD5/UwbrFZX8wL9IV7QjBa58IBfSsESybpAF5tIfKyqfWQ7YGO?=
+ =?us-ascii?Q?5A3C6ryJ50nRTP9yCx/oL6JyJgRAHbVJx8Ez+TY/3SgCw3MMyPZJvi6rMcuy?=
+ =?us-ascii?Q?1elziEbGk/Hxb8sm8gKIibr8xg0jN3CgcS/7Th0XfanzsIsyMGltOEnVdVnt?=
+ =?us-ascii?Q?MTWIedDQylfhIeVuykIja8Ku3v5a6bc+0YekhWPzDXsaAiM/0BT8bb6TLNFO?=
+ =?us-ascii?Q?C4e3ww506Q8cLDQ1WIS3CgzL5EhjCpGAEEzLHSyYHSm0GAinNBZD091odrVm?=
+ =?us-ascii?Q?pZSNM1Z1t9huK9jjuns/KST3jDnzKf6S+50En1eH5xVMOBR2W0rKQaiPASPn?=
+ =?us-ascii?Q?J0T1oacst8ctH7/OEq1CQhvsp5wL5QAANGz/bwMUnsIezK5YeSb0Q5hsGSM6?=
+ =?us-ascii?Q?aEnTLa7tC33fkoY/l5bQkEP7E5ElIp/3J/zzLXlBECAbNHsAJDLJyebgw5ge?=
+ =?us-ascii?Q?EcO4TiC82t+uhuHywKR4TWQABGqqfKXs+cvXXKBRljzvqF4SZ6xXw+3htr0Q?=
+ =?us-ascii?Q?AI7QF7ShcSTjxNvT9bmSusK/4A4vIEavZ9tjXwC+5gt3xOXLWBkGQbfZZsIa?=
+ =?us-ascii?Q?YFXHY4tGl+p0arpC3QgERo78wN3Dkg8BkUM7e+WQdsavZIttS94LPSh8geyM?=
+ =?us-ascii?Q?lNWpOTMmQszRfXLYcdNY2stqZUQNzx3/bP55l0iTPwroTw52cfLkejbklAN8?=
+ =?us-ascii?Q?JEcA0zDuei+Abe8r/hp0xk45cCLjQUT0uUBL956NWAZiaQPpEPTsGvkp9P75?=
+ =?us-ascii?Q?kbq6cMORMSCfkyywL7Ff4tgAxXctoGEp2AEB25FrPAEHjTXM4pgWa6WZEneb?=
+ =?us-ascii?Q?DqxIQBU8yi66VT0zr4hnijyR7jZZnM2wuHdeQkIQvMQI8Sch2Zk/7wqYq7kq?=
+ =?us-ascii?Q?OmBY2AnJq2v27KZbQCYqQPDdFOR9wCdWT+O+dsUPfZniyfOEJZpVtD2yrLM/?=
+ =?us-ascii?Q?4Npdrr9mpAzzF2dyiqL1uHu3olAPp92qEy/cv/wFWDDs7OLcIZqD5I+RlCmA?=
+ =?us-ascii?Q?PaaXFCKbLaWZ/RyfGQuyXnVg8srb27X8ImHC3aaiM1pLcS/kbql5pu/TpeYQ?=
+ =?us-ascii?Q?OVrTxJg90WFbPbXT0b9wpXqvhhj2lMtaeZ5JX5Z4CHWo086hfnnHuxgo6kP+?=
+ =?us-ascii?Q?3FqugN7tK+r/qdpcP9KTqssmw5D9/0tmlVFwWjAAGQI20n+Qv7UAYnc8V8Uc?=
+ =?us-ascii?Q?nQwg00aicNbZ/LT14ydJEdRKBT2v+aIv2X3ss7N4WszuJb+TAucvPqDmYC+s?=
+ =?us-ascii?Q?aBSqXUk1uPOTwJhSo7E2MUQDNP+cPxKjjrLR22u0l0Gv/wIHzH/rmFTh423u?=
+ =?us-ascii?Q?cKDDNVqxRymZRZDfHhuPpfAKf3me?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?KRkj07ZxtVvtzA1Gc1po/3FHX8h8zowcRgPicr44lisU//1R9GYEMKwQtfRo?=
+ =?us-ascii?Q?c7XCSfOzhmhGPbyL/JK5C5hp2+VZIL0CDsk6oHvWtPw2K6suI/RBkB/iasBM?=
+ =?us-ascii?Q?kx2Q0lDgMNtmRcRze7/ytzDZ+3sZMX/DQVUitb4AlhtvVmj3qn7FNCpD6OCf?=
+ =?us-ascii?Q?+rX9IY7hFjiVBJcqvV+0r1M2Q0viAa0C3Av3sVPvRPlhIhgZuYA0cgp/khGz?=
+ =?us-ascii?Q?WdxTCghdpmaMIOQSJLrnQZKIShJSyii5sCDw+8DqvNaOOiZmYq4xiS5LSR/q?=
+ =?us-ascii?Q?J3F8ZqcG0HLlMh/uM92K5hF+zlT+eKxoofZ2Tkt6Svt1zz4sCAfUiq1qWQkJ?=
+ =?us-ascii?Q?83sCLVR2hsza0z/DmOY4TeBXCaFo29Ufsd1tT1j+FRaTOVUUaknXYg+7TJVY?=
+ =?us-ascii?Q?+PFMc0MaueD2xEk7K0n+T78e+gGWadSNJq+WFTen8rQ0mLv2soWDyxYjBx8k?=
+ =?us-ascii?Q?50huEt/9R2/q58qFvOZTz/ZpjrQx0eaB9GrFaHxa9cm4cdAUXXP5qTiBEdon?=
+ =?us-ascii?Q?C1v2ZqOG3vKz8gLTFy2ZPfwq6NFOGPelf6QaVrTShuo1VioxHTiyyCgVzrt2?=
+ =?us-ascii?Q?OFbLupdMFZNYz5MfFpJToGoBvvk/jpUiSFxg0WZr3sBz832VgcO3OBtzdNnb?=
+ =?us-ascii?Q?NuwGcooW58nZOtpoDh862mUI5so0+NdsYalO4Mj+NmLEwnR3rIotKXtnH4WD?=
+ =?us-ascii?Q?GlaRQ+tpEA9O4JyC+r1kJwkfPCnRuMIKorjhcai2PfvYv3VH6rtpzBb1sS/1?=
+ =?us-ascii?Q?PWyqVXjI2IH0uQ+iWuffCFONE6NG9Qbrp8K80cxn6Uqtz40tUf/fImeIwu+d?=
+ =?us-ascii?Q?Ry36rVuxoXYl1+iO6/2Lc+A5UZFsh5VkdSFITi1+iSMbdqIIGWbNCWNdP/l2?=
+ =?us-ascii?Q?mkRIuZwhyyNp+6YPNrpAv1k/wKwsxyVPwcXbWqPGM+QshWQHLaLbYXN5sC/I?=
+ =?us-ascii?Q?I6yTSamZctYDK7U3sbxokg76jL6oFE7Sq5Qgh3FLhRCRdp0xii7Yk+M9P3LM?=
+ =?us-ascii?Q?WFbmgNmd88N+dnJQ6xhAuKYfOZhXakHuzBtY+50fEQYjsA0AIxqz87deWdF0?=
+ =?us-ascii?Q?aeTZTYeepKU4qWbmrHGfZcqcEa2Y5IA03d7KIAMpQKNXaNLlCKQQlGWAf8YA?=
+ =?us-ascii?Q?y4JMvsQD+3bsw39PEH1i0s3LRgw+JXQSSwKK3o3f2CampaKcCUprEMqSHKyD?=
+ =?us-ascii?Q?9OUiUPaDhCUQud858eFj2dOE7LPAbj2CVY8yz7dFi0sj9qqNmjgEpKQcFd/5?=
+ =?us-ascii?Q?xHmAWrfzn9e5avZp1BTe61WeIGYlC9XA84y7o3El2qAREuiodeb6piNzS+N+?=
+ =?us-ascii?Q?/DzzZZcHqZphtfwdr2Ajb9wuyz6J/R8AVGzhktI+RmNpAJ85UcrY+DnEq35e?=
+ =?us-ascii?Q?A/C2jD57VRDizRlMEK/3uNJ1sIAuVfmC6ISpZR25ErV/VYEWUkf8zjGFO1y9?=
+ =?us-ascii?Q?Ef8FAf4t7607ztY8t4GHbdgalUZ/ZF71hToPd845HWRNkgNw9jrb6RbxSn8J?=
+ =?us-ascii?Q?HHhJqzwBo4aQ1ng6tT0b2iHjpK1RNEE4Yhrrv0LUWR3Z+YZO2fXUHXYXQTff?=
+ =?us-ascii?Q?IKk8bvb5IETlB8dSbD4=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 241bfcde-e9cf-488a-9919-08dd46b0976b
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2025 13:17:22.7420
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: owwSbsaBEmQ+2p1T3qr2auAT11+Z8FarXRqrFwaA8vOXs0wlzvOg7JxL+2vsCzjm
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7239
 
-On Thu, Feb 6, 2025 at 5:40=E2=80=AFPM Regis Dargent <regis.dargent@gmail.c=
-om> wrote:
+On Wed, Feb 05, 2025 at 09:30:05PM -0800, Tomasz Jeznach wrote:
+> > @@ -161,9 +163,8 @@ static int riscv_iommu_queue_alloc(struct riscv_iommu_device *iommu,
+> >  	} else {
+> >  		do {
+> >  			const size_t queue_size = entry_size << (logsz + 1);
+> > -			const int order = get_order(queue_size);
+> >  
+> > -			queue->base = riscv_iommu_get_pages(iommu, order);
+> > +			queue->base = riscv_iommu_get_pages(iommu, queue_size);
+> >  			queue->phys = __pa(queue->base);
+> 
+> All allocations must be 4k aligned, including sub-page allocs.
 
-Please format your commit subject correctly. See previous commits for
-examples.
+Oh weird, so it requires 4k alignment but the HW can refuse to support
+a 4k queue length?
 
-Please provide a commit message including justification for the change.
-The message below already makes sense, though it could be made more
-concise.
+I changed it to this:
 
-Please also include your Signed-off-by.
++                       queue->base = riscv_iommu_get_pages(
++                               iommu, max(queue_size, SZ_4K));
 
-> ---
-> The sunxi_wdt watchdog unconditionally stops the watchdog during probe (o=
-n my Allwinner H616).
->
-> What I want to achieve with this patch is to start the watchdog in the bo=
-otloader (either manually or automatically), then boot Linux.
-> The watchdog is about 16sec timeout maximum, while the full boot to userl=
-and lasts about 90sec, and I want the board to reset if, eg.
-> the rootfs cannot be mounted. So I need the watchdog to be handled by the=
- kernel during boot (which it can do pretty well).
->
-> The thing is, the current driver stops the watchdog during probe, so it d=
-oes not run during boot, and it also does not manages the "status"
-> field, so the kernel would know that it must handle the HW watchdog.
-> This avoids automatic reboot in case a problem occurs during boot (and fo=
-r example handling in the bootloader).
->
-> The driver should detect if the HW watchdog is already running during pro=
-be and set its appropriate status bit to allow the kernel to handle the wat=
-chdog pings itself.
-> The call to sunxi_wdt_start/stop allows for proper driver and device conf=
-iguration.
-> By default, the kernel will then ping the HW watchdog at apropriate frequ=
-ency, but the user can have it stop after a time with open_timeout paramete=
-r.
+> >  		} while (!queue->base && logsz-- > 0);
+> >  	}
+> > @@ -618,7 +619,7 @@ static struct riscv_iommu_dc *riscv_iommu_get_dc(struct riscv_iommu_device *iomm
+> >  				break;
+> >  			}
+> >  
+> > -			ptr = riscv_iommu_get_pages(iommu, 0);
+> > +			ptr = riscv_iommu_get_pages(iommu, PAGE_SIZE);
+> >  			if (!ptr)
+> >  				return NULL;
+> >  
+> > @@ -698,7 +699,7 @@ static int riscv_iommu_iodir_alloc(struct riscv_iommu_device *iommu)
+> >  	}
+> >  
+> >  	if (!iommu->ddt_root) {
+> > -		iommu->ddt_root = riscv_iommu_get_pages(iommu, 0);
+> > +		iommu->ddt_root = riscv_iommu_get_pages(iommu, PAGE_SIZE);
+> >  		iommu->ddt_phys = __pa(iommu->ddt_root);
+> >  	}
 
-                                                           ^ appropriate
+Should these be SZ_4K as well or PAGE_SIZE?
 
-Please wrap your messages under 80 characters per line.
-
->  drivers/watchdog/sunxi_wdt.c | 20 +++++++++++++++++++-
->  1 file changed, 19 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/watchdog/sunxi_wdt.c b/drivers/watchdog/sunxi_wdt.c
-> index b85354a99582..20fe7da445ea 100644
-> --- a/drivers/watchdog/sunxi_wdt.c
-> +++ b/drivers/watchdog/sunxi_wdt.c
-> @@ -192,6 +192,16 @@ static int sunxi_wdt_start(struct watchdog_device *w=
-dt_dev)
->         return 0;
->  }
->
-> +static int sunxi_wdt_enabled(struct sunxi_wdt_dev *wdt)
-
-Make it return bool.
-
-> +{
-> +       u32 reg;
-> +       void __iomem *wdt_base =3D wdt->wdt_base;
-> +       const struct sunxi_wdt_reg *regs =3D wdt->wdt_regs;
-> +
-> +       reg =3D readl(wdt_base + regs->wdt_mode);
-> +       return (reg & WDT_MODE_EN);
-
-          return !!(reg & WDT_MODE_EN);
-> +}
-> +
->  static const struct watchdog_info sunxi_wdt_info =3D {
->         .identity       =3D DRV_NAME,
->         .options        =3D WDIOF_SETTIMEOUT |
-> @@ -268,6 +278,11 @@ static int sunxi_wdt_probe(struct platform_device *p=
-dev)
->         sunxi_wdt->wdt_dev.max_timeout =3D WDT_MAX_TIMEOUT;
->         sunxi_wdt->wdt_dev.min_timeout =3D WDT_MIN_TIMEOUT;
->         sunxi_wdt->wdt_dev.parent =3D dev;
-> +       if (sunxi_wdt_enabled(sunxi_wdt)) {
-> +               set_bit(WDOG_HW_RUNNING, &sunxi_wdt->wdt_dev.status);
-
-Maybe also read back the current timeout? This should be done after
-watchdog_init_timeout(), so ...
-
-> +       } else {
-> +               clear_bit(WDOG_HW_RUNNING, &sunxi_wdt->wdt_dev.status);
-> +       }
-
-... you should just combine the if-else block with the one below.
-
->
->         watchdog_init_timeout(&sunxi_wdt->wdt_dev, timeout, dev);
->         watchdog_set_nowayout(&sunxi_wdt->wdt_dev, nowayout);
-> @@ -275,7 +290,10 @@ static int sunxi_wdt_probe(struct platform_device *p=
-dev)
->
->         watchdog_set_drvdata(&sunxi_wdt->wdt_dev, sunxi_wdt);
->
-> -       sunxi_wdt_stop(&sunxi_wdt->wdt_dev);
-> +       if (watchdog_hw_running(&sunxi_wdt->wdt_dev))
-> +               sunxi_wdt_start(&sunxi_wdt->wdt_dev);
-> +       else
-> +               sunxi_wdt_stop(&sunxi_wdt->wdt_dev);
-
-FWIW this is what the dw_wdt driver does as well.
-
-
-Thanks
-ChenYu
-
->         watchdog_stop_on_reboot(&sunxi_wdt->wdt_dev);
->         err =3D devm_watchdog_register_device(dev, &sunxi_wdt->wdt_dev);
-> --
-> 2.25.1
->
-
-On Thu, Feb 6, 2025 at 5:40=E2=80=AFPM Regis Dargent <regis.dargent@gmail.c=
-om> wrote:
->
-> ---
-> The sunxi_wdt watchdog unconditionally stops the watchdog during probe (o=
-n my Allwinner H616).
->
-> What I want to achieve with this patch is to start the watchdog in the bo=
-otloader (either manually or automatically), then boot Linux.
-> The watchdog is about 16sec timeout maximum, while the full boot to userl=
-and lasts about 90sec, and I want the board to reset if, eg.
-> the rootfs cannot be mounted. So I need the watchdog to be handled by the=
- kernel during boot (which it can do pretty well).
->
-> The thing is, the current driver stops the watchdog during probe, so it d=
-oes not run during boot, and it also does not manages the "status"
-> field, so the kernel would know that it must handle the HW watchdog.
-> This avoids automatic reboot in case a problem occurs during boot (and fo=
-r example handling in the bootloader).
->
-> The driver should detect if the HW watchdog is already running during pro=
-be and set its appropriate status bit to allow the kernel to handle the wat=
-chdog pings itself.
-> The call to sunxi_wdt_start/stop allows for proper driver and device conf=
-iguration.
-> By default, the kernel will then ping the HW watchdog at apropriate frequ=
-ency, but the user can have it stop after a time with open_timeout paramete=
-r.
->
->  drivers/watchdog/sunxi_wdt.c | 20 +++++++++++++++++++-
->  1 file changed, 19 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/watchdog/sunxi_wdt.c b/drivers/watchdog/sunxi_wdt.c
-> index b85354a99582..20fe7da445ea 100644
-> --- a/drivers/watchdog/sunxi_wdt.c
-> +++ b/drivers/watchdog/sunxi_wdt.c
-> @@ -192,6 +192,16 @@ static int sunxi_wdt_start(struct watchdog_device *w=
-dt_dev)
->         return 0;
->  }
->
-> +static int sunxi_wdt_enabled(struct sunxi_wdt_dev *wdt)
-> +{
-> +       u32 reg;
-> +       void __iomem *wdt_base =3D wdt->wdt_base;
-> +       const struct sunxi_wdt_reg *regs =3D wdt->wdt_regs;
-> +
-> +       reg =3D readl(wdt_base + regs->wdt_mode);
-> +       return (reg & WDT_MODE_EN);
-> +}
-> +
->  static const struct watchdog_info sunxi_wdt_info =3D {
->         .identity       =3D DRV_NAME,
->         .options        =3D WDIOF_SETTIMEOUT |
-> @@ -268,6 +278,11 @@ static int sunxi_wdt_probe(struct platform_device *p=
-dev)
->         sunxi_wdt->wdt_dev.max_timeout =3D WDT_MAX_TIMEOUT;
->         sunxi_wdt->wdt_dev.min_timeout =3D WDT_MIN_TIMEOUT;
->         sunxi_wdt->wdt_dev.parent =3D dev;
-> +       if (sunxi_wdt_enabled(sunxi_wdt)) {
-> +               set_bit(WDOG_HW_RUNNING, &sunxi_wdt->wdt_dev.status);
-> +       } else {
-> +               clear_bit(WDOG_HW_RUNNING, &sunxi_wdt->wdt_dev.status);
-> +       }
->
->         watchdog_init_timeout(&sunxi_wdt->wdt_dev, timeout, dev);
->         watchdog_set_nowayout(&sunxi_wdt->wdt_dev, nowayout);
-> @@ -275,7 +290,10 @@ static int sunxi_wdt_probe(struct platform_device *p=
-dev)
->
->         watchdog_set_drvdata(&sunxi_wdt->wdt_dev, sunxi_wdt);
->
-> -       sunxi_wdt_stop(&sunxi_wdt->wdt_dev);
-> +       if (watchdog_hw_running(&sunxi_wdt->wdt_dev))
-> +               sunxi_wdt_start(&sunxi_wdt->wdt_dev);
-> +       else
-> +               sunxi_wdt_stop(&sunxi_wdt->wdt_dev);
->
->         watchdog_stop_on_reboot(&sunxi_wdt->wdt_dev);
->         err =3D devm_watchdog_register_device(dev, &sunxi_wdt->wdt_dev);
-> --
-> 2.25.1
->
+Thanks,
+Jason
