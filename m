@@ -1,164 +1,74 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1D5818CBEC
-	for <linux-sunxi@lists.linux.dev>; Thu,  6 Feb 2025 05:53:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01FE92248B5
+	for <linux-sunxi@lists.linux.dev>; Thu,  6 Feb 2025 07:56:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738821188; cv=none; b=pewWfTEjnJmi9ZDOlltj4fpP2CaurYjwY8Xl5Q6+8iTdb+IVjmHeQLvIw4gFbgD3O9tr/8Whj9sJr56119g4ivD7QWN/lmcn1DTlxTKGUz06URcKAHMHFceZ7JYvuglD7Zdu0tAGrqZTkHhtpB8hfXnZDXQMHgmXP4FE6xwXtCU=
+	t=1738828571; cv=none; b=i+bxeUV1qbqEqAbf8JOdRdBj7vxcDro97P1s1YYaOhVB5PofO1a9QoeJwtjRdbh6KXRWWVRItLrNMAR72IIvxLKzhwCw5GkZdkY1QuJWBpRCnFTibLR8tmVgz6qD+LTk3Xj17GvymcoU4vBHCfx/j8VCUN1gf6gGRmCOJat6IKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738821188; c=relaxed/simple;
-	bh=AqBJlKICIlVN/KVB1S54nyOy92xf+Ecum9ESyS7lCGk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sxGhT7hzQQMqO3ie3zd4hkg7WE3G+IkzM8RFngq9a0Y+CHASeXPsaIAVmkpOpTP+knR/aVnGgexn2EN51ev0VJK4DTxUQwnOaZGsJvTpI3ow7ecZL5y3Sqg0oYWNPs47WeTeGjy0k54efBxGq3s2liSNfYXHn/QEiNYrqSsTqzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=ecyr2ZrF; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1738828571; c=relaxed/simple;
+	bh=AEqIZa1c20GE/uxbotqVtezGJP1SyvKYBSzc37trZCQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YoePQM484kLGQkkoI5hgXCPE4B0TfBDZ4Yv5Z1rqq/ih1uaFJN1moxn6IXnS1IstHzqxtbd+qJOPFnLqf2E+6WfJvsTJq+spOympZo6Zmir8xlmTHpv00dt7lTMTamjkJhFb3nAylqeNiT4h7mmxWU/MrCIjQjHEuWfGtPhYqLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mbUKCJAV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="ecyr2ZrF"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-21f08b44937so8127725ad.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 05 Feb 2025 21:53:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1738821186; x=1739425986; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=U5ldcxqakXbm8AP3lHPyZs0Noc32OWjVSFhOYUYpAno=;
-        b=ecyr2ZrFrCG7N/W07JtZmj0+Zq1DI4kNy5vVkEKZp01oUTBsi8b1WG6yMPRz8RSfBy
-         i8C+t0jq7x80l9BG9Jq2zKKB5tGGWwXN6EvILfxeOyqpK3rJmxmEaOUcPfCTJ9ZlDoZ4
-         8JW1aq6z1fRuLWhx8iz/+UXFlsfX1Itruvxd6AqdVThFZxMdscIRq3Z/R3WSmopOOa5K
-         265Rq3ZfNQ2V1uaDOCEa5P2Jk+0G+0aoOWom+MAXmVLDDswfSjByljykJYBatC6mQzid
-         nTjTYLsYp46qHFeC15UAL8mea5syhpO0YTS4g2GDSe6EP2DEw2eRzTg+D2f4BGacZWwV
-         wo6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738821186; x=1739425986;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=U5ldcxqakXbm8AP3lHPyZs0Noc32OWjVSFhOYUYpAno=;
-        b=ozj+E/ABV8PySGnN3z1/5ErbKjGd4tBXCw/mB3BDUXqVLea0CNYN7hO5OESfPSVih3
-         Y/eI2sCL1dYleD/norNe6CiOGMzRidg1WtJLywprjOe74THVSpAR6eDSs0FjYR443xrF
-         156JA+IHBYT4JVkq4yVOoOrhHztb9ea15RjQgGsLohlatFJBf5J3SIS4dfBGD6ZRBlzN
-         hdLsU8cStcS62lrF1edaEDcdvP7cSIuMp7MXXYXvh6mQ1WMJI9QJjkPZoOrn9n0kSQzt
-         czlLphtPIjDMRIfpckHilRtyKuzDkQE7cudqBY53yJwnZR4neIhkT4kk59wlcO8PnMb3
-         F6Rw==
-X-Forwarded-Encrypted: i=1; AJvYcCXeHC8NaPQI+Va2wtgf366vQGy12LLXWwWH5LRdeU1raf9cGQ0b1MiG2JUPECfQvEC72dga2rcWRv09+A==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz+VqqAyvB0tmR/zJDZSG4bGTS9h6a/Sq0fkOjZSsOyXE6NK758
-	w8MlSdfeKTAu8qQuOgdji/ayfudqxM7LXNWBBuYrsypkLxZsIIL9lO0tajEbNLo=
-X-Gm-Gg: ASbGncvrOC9ruqoBGJvYrmlJNNq+fnIm6Z6BH/NxR60F9Dd4rPzHVoJEKMRdwLJCWZF
-	7wpAonpo2P00wEEGu+mgZA5CpA1O+T3MicxnBmrMRi7nQBUYzhROQHBQNoJ8j7hvy2mgGAPsB0y
-	rc5+fmkHn1EALfT1Hb2xomvrzUR0bU92syceC5t3iuSTQNiA9LrhxZzLpcEhZnn367BKtesAbeQ
-	auJf9NvuTBwub+3DBaGIvqhlvKlI3W37wC3nuqO7zCGjXRGAoSNss1fQ1D6la70liqL831K8uE+
-	bhry1gQJ55Qu2V63Sd8MAZGAo1uKGrz+gQ==
-X-Google-Smtp-Source: AGHT+IGCr9xd2Dhw5KUTmjMsz2hIPxrdWNp4ze88e5FpvAsB5Znxk1UOOvf/vmpixanfPva87r8KEw==
-X-Received: by 2002:a17:902:c403:b0:21f:35fd:1b6a with SMTP id d9443c01a7336-21f35fd2116mr20176495ad.51.1738821185899;
-        Wed, 05 Feb 2025 21:53:05 -0800 (PST)
-Received: from tjeznach.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21f3687c746sm3841885ad.180.2025.02.05.21.53.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Feb 2025 21:53:05 -0800 (PST)
-Date: Wed, 5 Feb 2025 21:53:02 -0800
-From: Tomasz Jeznach <tjeznach@rivosinc.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Alim Akhtar <alim.akhtar@samsung.com>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Joerg Roedel <joro@8bytes.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Hector Martin <marcan@marcan.st>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Sven Peter <sven@svenpeter.dev>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Krishna Reddy <vdumpa@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
-	Will Deacon <will@kernel.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
-	Joerg Roedel <jroedel@suse.de>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
-	David Rientjes <rientjes@google.com>,
-	Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH 09/19] iommu/riscv: Convert to use struct iommu_pages_list
-Message-ID: <Z6ROPsbXHYlQ0TgF@tjeznach.ba.rivosinc.com>
-References: <0-v1-416f64558c7c+2a5-iommu_pages_jgg@nvidia.com>
- <9-v1-416f64558c7c+2a5-iommu_pages_jgg@nvidia.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mbUKCJAV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72CD1C4AF0B
+	for <linux-sunxi@lists.linux.dev>; Thu,  6 Feb 2025 07:56:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738828570;
+	bh=AEqIZa1c20GE/uxbotqVtezGJP1SyvKYBSzc37trZCQ=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+	b=mbUKCJAVnd0gw2qkD0wGt5Xv3Dzk2KGOVX+35Yv+F0p6hPPIlRumruFvwrTqICD/N
+	 x2t5shCnOeLv4YDriUkDZh8WcLm752b/HYA7Z29AhC7rWORWfg7ehS/+NQiBZXiWLz
+	 /0kE6M0ldvEhx+bUce072yyFZSyoeh5c2HrDhsGy9vy5ODJMXv/W8JS3YJ+0+t+Cwj
+	 ABlEUsziAfj8PCCRSSDJWExO5/2C1ml5cKCk414NCsfI3DS5eAZvstBqnGz02kVwni
+	 sHxcHM3nuIPp+Kq6WRUDPpIYf+boA+2zhKm3TiW7V69lThAELBggeNyqwPnW6YbitG
+	 gez1EFLTjk1YA==
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-30615661f98so6657801fa.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 05 Feb 2025 23:56:10 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWMWWidxVr+lZ+ujGHm2uZqoJXVIfWLsG3eOaamu241kW7JVvaFJxoHrBGmrtgKlvl0jw+TxRu2GOqGOg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzKx0LIBN3cwlbRQm8jADjepZlgCMTgQEitXluA+dl4cKbpfLl/
+	440M02xPKDQx0VCefGGYYB7as8/qkzT+iEhzRIVhXE/amE6m0IG4BXta0T32O34CFK/P7OMmM1x
+	zFtzpy7O9gIZg94A1qhrSoQVqm30=
+X-Google-Smtp-Source: AGHT+IExYizR8AjRlIGIimdkZfX+9X0NRegGw1UkCfbyc+3a2hXIE82esqSCVnis8PSKgDv1Ot7p7cslZ7ZmlCRaP5E=
+X-Received: by 2002:a2e:bc13:0:b0:2fa:cdd1:4f16 with SMTP id
+ 38308e7fff4ca-307cf314576mr19836061fa.14.1738828568791; Wed, 05 Feb 2025
+ 23:56:08 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9-v1-416f64558c7c+2a5-iommu_pages_jgg@nvidia.com>
+References: <20250205173630.112020-2-csokas.bence@prolan.hu>
+In-Reply-To: <20250205173630.112020-2-csokas.bence@prolan.hu>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Thu, 6 Feb 2025 15:55:56 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66yUuG=P5HRgVtLL7y+W49pP6DS6sstQz-qY8CwztdT2w@mail.gmail.com>
+X-Gm-Features: AWEUYZni_KKoOE4E3mzLNcrihoeiCPzzxX66FMp6It2qHidhpuTepzOXlYpsAbY
+Message-ID: <CAGb2v66yUuG=P5HRgVtLL7y+W49pP6DS6sstQz-qY8CwztdT2w@mail.gmail.com>
+Subject: Re: [PATCH v3] dma-engine: sun4i: Use devm functions in probe()
+To: =?UTF-8?B?QmVuY2UgQ3PDs2vDoXM=?= <csokas.bence@prolan.hu>
+Cc: dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Vinod Koul <vkoul@kernel.org>, 
+	Samuel Holland <samuel@sholland.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 04, 2025 at 02:34:50PM -0400, Jason Gunthorpe wrote:
-> Change the internal freelist to use struct iommu_pages_list.
-> 
-> riscv uses this page list to free page table levels that are replaced
-> with leaf ptes.
-> 
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->  drivers/iommu/riscv/iommu.c | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/iommu/riscv/iommu.c b/drivers/iommu/riscv/iommu.c
-> index 6e7df7273426da..549bd8d0615d75 100644
-> --- a/drivers/iommu/riscv/iommu.c
-> +++ b/drivers/iommu/riscv/iommu.c
-> @@ -1085,7 +1085,8 @@ static void riscv_iommu_iotlb_sync(struct iommu_domain *iommu_domain,
->  #define _io_pte_entry(pn, prot)	((_PAGE_PFN_MASK & ((pn) << _PAGE_PFN_SHIFT)) | (prot))
->  
->  static void riscv_iommu_pte_free(struct riscv_iommu_domain *domain,
-> -				 unsigned long pte, struct list_head *freelist)
-> +				 unsigned long pte,
-> +				 struct iommu_pages_list *freelist)
->  {
->  	unsigned long *ptr;
->  	int i;
-> @@ -1103,7 +1104,7 @@ static void riscv_iommu_pte_free(struct riscv_iommu_domain *domain,
->  	}
->  
->  	if (freelist)
-> -		list_add_tail(&virt_to_page(ptr)->lru, freelist);
-> +		iommu_pages_list_add(freelist, ptr);
->  	else
->  		iommu_free_page(ptr);
->  }
-> @@ -1192,7 +1193,7 @@ static int riscv_iommu_map_pages(struct iommu_domain *iommu_domain,
->  	unsigned long *ptr;
->  	unsigned long pte, old, pte_prot;
->  	int rc = 0;
-> -	LIST_HEAD(freelist);
-> +	struct iommu_pages_list freelist = IOMMU_PAGES_LIST_INIT(freelist);
->  
->  	if (!(prot & IOMMU_WRITE))
->  		pte_prot = _PAGE_BASE | _PAGE_READ;
-> @@ -1223,7 +1224,7 @@ static int riscv_iommu_map_pages(struct iommu_domain *iommu_domain,
->  
->  	*mapped = size;
->  
-> -	if (!list_empty(&freelist)) {
-> +	if (!iommu_pages_list_empty(&freelist)) {
->  		/*
->  		 * In 1.0 spec version, the smallest scope we can use to
->  		 * invalidate all levels of page table (i.e. leaf and non-leaf)
-> -- 
-> 2.43.0
-> 
+On Thu, Feb 6, 2025 at 1:37=E2=80=AFAM Bence Cs=C3=B3k=C3=A1s <csokas.bence=
+@prolan.hu> wrote:
+>
+> Clean up error handling by using devm functions
+> and dev_err_probe(). This should make it easier
+> to add new code, as we can eliminate the "goto
+> ladder" in probe().
+>
+> Suggested-by: Chen-Yu Tsai <wens@kernel.org>
+> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Signed-off-by: Bence Cs=C3=B3k=C3=A1s <csokas.bence@prolan.hu>
 
-Reviewed-by: Tomasz Jeznach <tjeznach@rivosinc.com>
-
-Thanks,
-- Tomasz
+Acked-by: Chen-Yu Tsai <wens@csie.org>
