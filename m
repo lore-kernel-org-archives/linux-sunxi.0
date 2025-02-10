@@ -1,163 +1,83 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76EDD230D36
-	for <linux-sunxi@lists.linux.dev>; Mon, 10 Feb 2025 14:05:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F097E204840;
+	Mon, 10 Feb 2025 14:35:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739196345; cv=none; b=j8yuAtpGQMFnN+qDQFwtmxuH+JvhHeBV4JbKnHQTw6Xzlhoh+HTXZpcqAFVMLDa5JVfSdovmVmXIWqSMGkGBHq22NGWabCTiuqLys3p2NfQ/nuO5nM9VQgVWbQwz+j2HpY1NTFtHIdLZW3mgSC0zRjsxYiu3Uo5owa+eJYPjbMU=
+	t=1739198128; cv=none; b=mdOrcZXYz8d70zCAU5qoYl1wnBuFqT/q/x5Qn0Lfa7eH3GIo/dj5B2LozAiRt1NJ8YYlrX+Ra19IvFGSJus3RRzcMyIkUF+EHNOCj6WvgijUeJGRveIGI9IUmBi6Xi32nnMj9bXrsZgWp1reE+d02xjQjdtlFKVgZKtHjOp/7yg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739196345; c=relaxed/simple;
-	bh=ydVz+zuGrahOcdRUAMPxvr0Xto4ogVWbtEh5mJ+m7E4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=M7+zTB9pcjOVxcQyoZrnWxm9WUUmBWa5a6BPxPwJFXbaOwzVR5P8jkmC0z9AhNGNLFiZrT/Qze6fk6pw8xsNsieW7SqhIkYk4Q0+tuAzB/CVd5qWyNA1GBtajPZmPsVWjlmGD7zZPoqG9z/zCKJbTIrmnKK0N2EyxzdH7r0x38s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 78C0D1477;
-	Mon, 10 Feb 2025 06:06:03 -0800 (PST)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 54FD13F5A1;
-	Mon, 10 Feb 2025 06:05:40 -0800 (PST)
-Date: Mon, 10 Feb 2025 14:05:36 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Philippe Simons <simons.philippe@gmail.com>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- linux-clk@vger.kernel.org (open list:COMMON CLK FRAMEWORK),
- linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi
- SoC support), linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi
- SoC support), linux-kernel@vger.kernel.org (open list)
-Subject: Re: [PATCH] clk: sunxi-ng: h616: Reparent GPU clock during
- frequency changes
-Message-ID: <20250210140536.08c33a56@donnerap.manchester.arm.com>
-In-Reply-To: <20250209183142.97671-1-simons.philippe@gmail.com>
-References: <20250209183142.97671-1-simons.philippe@gmail.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1739198128; c=relaxed/simple;
+	bh=YOnLsQVFLMH2bFUH18nK2RMlrkj9YbYtO1geEZmMl4Y=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=SawJORXzwVqxHCin322mZ4Uxu3JU+lALcibhqhJRz6JihXBrSe/eM5LhXHzs991MvkRVEp03oWgJJZ+6gnUG5B10AQdUYWyTKO1pphUR1WiOoXn3NCcuENfnlxzvbaRdrDSOPrX9iEP+yUJiEdk0/2FHLoympwcKqIvIZ1U19U0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C2Fsb1tv; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C2Fsb1tv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8A72C4CEE7;
+	Mon, 10 Feb 2025 14:35:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739198127;
+	bh=YOnLsQVFLMH2bFUH18nK2RMlrkj9YbYtO1geEZmMl4Y=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=C2Fsb1tvvXRR3kJMMeaWrn2+i2Yby3dftAZyFsBmQ79eEk/mph2/3yo61l1MrcQfL
+	 hA8JlslLwXOMqyMYlC3HKWHLl7IDfKlzsHgbmCtWDiVxBSFPUt4iKSGQgRuutGisuy
+	 GGDBhjmbk5WsGCBARlZDja+rBNlRP7bEWSseAZHa+TohVCR8cdiGAf21VJf025VZHV
+	 Qz+S6jJYotb/FeSbMBpyATEJ2o+0INTMj9h8zOEgr4C0PUi7+weAkF7Hd3OS3+4e27
+	 1wdDwKcz3I+Ly0Qg15Imii/gq0FC+RpS8sC8NfLJ/xneoVLMmByzW6woZexM8Vtr10
+	 Cu3s5F0tLGWKw==
+From: Vinod Koul <vkoul@kernel.org>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Daniel Mack <daniel@zonque.org>, 
+ Haojian Zhuang <haojian.zhuang@gmail.com>, 
+ Robert Jarzmik <robert.jarzmik@free.fr>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Peter Ujfalusi <peter.ujfalusi@gmail.com>, 
+ Michal Simek <michal.simek@amd.com>, dmaengine@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20250114191021.854080-1-krzysztof.kozlowski@linaro.org>
+References: <20250114191021.854080-1-krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v2 1/2] dmaengine: Use str_enable_disable-like helpers
+Message-Id: <173919812243.71959.2545724653806590968.b4-ty@kernel.org>
+Date: Mon, 10 Feb 2025 20:05:22 +0530
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-On Sun,  9 Feb 2025 19:31:42 +0100
-Philippe Simons <simons.philippe@gmail.com> wrote:
 
-Hi Philippe,
-
-thanks for bringing this patch together!
-
-You should mention here *why* you want this patch, the motivation seems to
-be missing, but would be crucial - and preventing a sure crash should make
-this a no-brainer.
-
-Maybe start with: The H616 manual does not state that the GPU PLL supports
-dynamic frequency configuration, so we must take extra care when changing
-the frequency. Currently any attempt to do device DVFS on the GPU lead ...
-
-Then mention that the manual describes the algorithm for changing the PLL
-frequency, which the CPU PLL notifier code already support, so we reuse
-that.
-
-> Re-parent the GPU clock during frequency changes of the PLL.
-> Also it asks to disable and then re-enable the PLL lock bit,
-> after the factor changes have been applied.
+On Tue, 14 Jan 2025 20:10:20 +0100, Krzysztof Kozlowski wrote:
+> Replace ternary (condition ? "enable" : "disable") syntax with helpers
+> from string_choices.h because:
+> 1. Simple function call with one argument is easier to read.  Ternary
+>    operator has three arguments and with wrapping might lead to quite
+>    long code.
+> 2. Is slightly shorter thus also easier to read.
+> 3. It brings uniformity in the text - same string.
+> 4. Allows deduping by the linker, which results in a smaller binary
+>    file.
 > 
-> Add clock notifiers for the PLL and the GPU mux clock, using the existing
-> notifier callbacks, and tell them to use mux 1 (the GPU_CLK1 source),
-> and bit 29 (the LOCK_ENABLE) bit. The existing code already follows the
-> correct algorithms.
-> 
-> Signed-off-by: Philippe Simons <simons.philippe@gmail.com>
-> ---
->  drivers/clk/sunxi-ng/ccu-sun50i-h616.c | 33 +++++++++++++++++++++++++-
->  1 file changed, 32 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
-> index 190816c35..e88eefa24 100644
-> --- a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
-> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
-> @@ -328,10 +328,12 @@ static SUNXI_CCU_M_WITH_MUX_GATE(gpu0_clk, "gpu0", gpu0_parents, 0x670,
->  				       24, 1,	/* mux */
->  				       BIT(31),	/* gate */
->  				       CLK_SET_RATE_PARENT);
-> +
-> +#define SUN50I_H616_GPU_CLK1_REG        0x674
->  static SUNXI_CCU_M_WITH_GATE(gpu1_clk, "gpu1", "pll-periph0-2x", 0x674,
->  					0, 2,	/* M */
->  					BIT(31),/* gate */
-> -					0);
-> +					CLK_IS_CRITICAL);
+> [...]
 
-The addition of CLK_IS_CRITICAL deserves a comment, something about that
-this clock is needed as a temporary fallback clock for the PLL frequency
-changes or so.
+Applied, thanks!
 
->  static SUNXI_CCU_GATE(bus_gpu_clk, "bus-gpu", "psi-ahb1-ahb2",
->  		      0x67c, BIT(0), 0);
-> @@ -1120,6 +1122,19 @@ static struct ccu_pll_nb sun50i_h616_pll_cpu_nb = {
->  	.lock		= BIT(28),
->  };
->  
-> +static struct ccu_mux_nb sun50i_h616_gpu_nb = {
-> +	.common		= &gpu0_clk.common,
-> +	.cm		= &gpu0_clk.mux,
-> +	.delay_us	= 1, /* manual doesn't really say */
-> +	.bypass_index	= 1, /* GPU_CLK1 */
-> +};
-> +
-> +static struct ccu_pll_nb sun50i_h616_pll_gpu_nb = {
-> +	.common		= &pll_gpu_clk.common,
-> +	.enable		= BIT(29),	/* LOCK_ENABLE */
-> +	.lock		= BIT(28),
-> +};
-> +
->  static int sun50i_h616_ccu_probe(struct platform_device *pdev)
->  {
->  	void __iomem *reg;
-> @@ -1170,6 +1185,15 @@ static int sun50i_h616_ccu_probe(struct platform_device *pdev)
->  	val |= BIT(0);
->  	writel(val, reg + SUN50I_H616_PLL_AUDIO_REG);
->  
-> +	/*
-> +	 * Set the input-divider for the gpu1 clock to 3.
-> +	 * Also enable gpu1 clock.
-> +	 */
-> +	val = readl(reg + SUN50I_H616_GPU_CLK1_REG);
-> +	val |= BIT(31);
+[1/2] dmaengine: Use str_enable_disable-like helpers
+      commit: 8e63891831f3904047d7ad8078ff52dd454b6975
+[2/2] dmaengine: pxa: Enable compile test
+      commit: 9fc2f03e85952ee52558ab844473a8284d924a56
 
-Do we need this if the clock is marked as critical now?
+Best regards,
+-- 
+~Vinod
 
-> +	val |= BIT(1);
-
-You probably want to clear the lowest 2 bits first, then set bit 1,
-otherwise you end up with either 2 or 3, depending on what bit 0 was
-before.
-
-Cheers,
-Andre
-
-> +	writel(val, reg + SUN50I_H616_GPU_CLK1_REG);
-> +
->  	/*
->  	 * First clock parent (osc32K) is unusable for CEC. But since there
->  	 * is no good way to force parent switch (both run with same frequency),
-> @@ -1190,6 +1214,13 @@ static int sun50i_h616_ccu_probe(struct platform_device *pdev)
->  	/* Re-lock the CPU PLL after any rate changes */
->  	ccu_pll_notifier_register(&sun50i_h616_pll_cpu_nb);
->  
-> +	/* Reparent GPU during GPU PLL rate changes */
-> +	ccu_mux_notifier_register(pll_gpu_clk.common.hw.clk,
-> +				  &sun50i_h616_gpu_nb);
-> +
-> +	/* Re-lock the GPU PLL after any rate changes */
-> +	ccu_pll_notifier_register(&sun50i_h616_pll_gpu_nb);
-> +
->  	return 0;
->  }
->  
 
