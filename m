@@ -1,156 +1,171 @@
-Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 705CD271829
-	for <linux-sunxi@lists.linux.dev>; Wed, 12 Feb 2025 17:31:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 426EA25A333
+	for <linux-sunxi@lists.linux.dev>; Wed, 12 Feb 2025 17:36:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739381469; cv=none; b=HadbV2PhkH5tIcoqh3be9cT0khd97JW3gENbjQC2KNPgoulbaoh9LF/NPsec/JWQEqcMSuG2hYMxquHor2zto7idcMVEi2b6ULLJxWOSS9U/RnXvfHEKK/l9/FMyGBK0O+6Sp0FLrpZkHh6v0AV6wEl5yKgH8SCUEmQC2AFsvhk=
+	t=1739381808; cv=none; b=sQOrycSCbJ5mvquSt5GqpXXQpzVIbcb+wmjZa+w3WSj1WUfMoaobCVRIHBA/xc8bqVj3bShJ3AgXNSoMubmkXLTBWFSrvUI9DIDgCf/YJ/Ddok4RSNt/XKADtmIPxdDtXVWRGShnlpfvo/VNtm9s5CW57vm5h5zDWWJIwXav3TU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739381469; c=relaxed/simple;
-	bh=cCDE0/i6i24oZI4BzPX7w4nr9GHEOVo4Q2qZZ8UMW9Q=;
-	h=Message-ID:Date:From:To:Cc:Subject:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jvji07jyW9uaTZzHYRAlRFCmfcWmb8hvZOb2p/ypJ5wbK1uNXRBI839xsFKZETDQgtBaXk9CixcqMxwAb36SOBRXSzIyK98Vt9Vb9lg+LRE6MmmGSaf+Sg/PFVPOfCIqzgbnxwxcBbBH9OGCnMNwuWMLRkXoPCCvWRXbXku19IA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cx2o8MQw; arc=none smtp.client-ip=209.85.161.50
+	s=arc-20240116; t=1739381808; c=relaxed/simple;
+	bh=F9wiijtTYA6qqPa8iyHu/cykIH+jWU/oHC3FG3o4qGY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oPI9PTWGCmWaPZU7y9OEu12wL728B41W0qCdmB6TCcjUxTk4nlPRZf9SYAVSyJFCXc52NdqqvucUzSfCn689k1s+6PxHu6WvcxWC1UX96uET/gazEsSpaovv4ZQMHlJPV30urozT1IgCEdFdsGq9Jbwkq2PqQ5ju615vEBlcfS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SeiMst1z; arc=none smtp.client-ip=209.85.218.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cx2o8MQw"
-Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-5fc7d346980so1188872eaf.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 12 Feb 2025 09:31:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SeiMst1z"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-ab7430e27b2so5313266b.3
+        for <linux-sunxi@lists.linux.dev>; Wed, 12 Feb 2025 09:36:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739381467; x=1739986267; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=Jbx6FcfP3bq2n5NRhn4rgJREW3IAUmWBAJQw6Shyrdg=;
-        b=cx2o8MQw6loLs41eyD3x3vPB/UZTRhniS5a4bAfbZBUmFy4hLryD2jATIJmf676Lgo
-         5GsFheT5+10Uinb9NFAHrOcqiK7RUavt5fTR2sRNXKHMPjiHaCUFVyss08q8u6fZYCFJ
-         GzijOZ2/a//CY7gU+PQEUCYZNC4EdZfA3Oem8w4xUA7MOW2kFMZntUUqBBMKJeLG41Zh
-         O1d4VKSvYIdFlzT44B8DoaLTXf1ux8yfWOfdkvKhwNTAgRDtKaao+HjscUjA9qPjlUD9
-         YmDJAGGGtSS0JjVA4GVhHpHn/L4vx77MEYhWuaCey74cm0Egzg/sZoi9xzk1f4ItKpc/
-         giHQ==
+        d=gmail.com; s=20230601; t=1739381804; x=1739986604; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5HOAmeZSd8XozBfBj4jNyXC9XonCoX2cwbZMmLfFjDQ=;
+        b=SeiMst1zZH/vIoWivN15+8tmQ08Mqr8M358xduChaNBIIGwCdUyyNyHgn3Xi1T+s6D
+         Wh7D1LFp8jfNYW3R5uLCDNeX/XQjqmWu6eHEnfzEYRW5sa7vHRP/ENkZIDxx0AahycVv
+         PL4Ui0tH31TgmFon3duYN5/KSuGA5zufDu/PknMCvH2aX8uivcC4U15IZaFdvB4635X6
+         RNH2wyArTVvtbyqwD+pX/0xQW7xi2EqgkDt2qN71Yc1zk5XmKTPGdz78Kb5BhggkAr0R
+         zqyaFoLKYL86qdNfevNAY8JaIqlHyGA4Jaa+OkGewtS5B/3u2M9FYKttjeGtUFlqZXsJ
+         Vlxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739381467; x=1739986267;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Jbx6FcfP3bq2n5NRhn4rgJREW3IAUmWBAJQw6Shyrdg=;
-        b=de25/MVVewQ+pfz+amIhXuZYXbiAtiUYv+8pue/8sCP3/t/q1q10KlQinaHZJo+j4c
-         gZnQnuLLqlSAMrVaFS25A2N28kCn42J++8lWiBoyeeYRM7BKZdT6tYJjNjo85aKhyiGn
-         C48E6so8883nbHKHKd6LOMbKtb0Wea2/qz7QALpMQNny6+5PLSRyESEArgqVDXcACG/G
-         Dtl5eUXrM26ZH0kqVpfLDdCtrjbms+ue5MjsTGLlFEtx15iwLGNKJ9k7emWUWTeQCkO8
-         ACH+b7J9hj8rm4sJPSlAMkFU3fpJGQayVbj9qVIWMqOIQLux/a4rE2ms7JTAzdu0vZaY
-         hFQw==
-X-Forwarded-Encrypted: i=1; AJvYcCUJlGD0mrmxW+5KicgF+tRZtrAF03TZ68Rv2oToOzIHBwqn5h7oYQSKQCChp5uXOI0IicMSEXKh+4yxmA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw3+GUqsjsvgoXJUIQlWPBx+N4QgytzLE6lFKYlLf+imSUfUqP/
-	Pg8MgIYcvI/nHx5kBX0Ep/uKPerITdOcUWHLqlZ+UE3LfbSsOKSY
-X-Gm-Gg: ASbGncvzPUxQk+szJrdrlexYLFQvi6mZYXGPGOkZAW/O+Tyac+MVw9i3rRhij0znK+b
-	0j6iQwoIIshUgyKEYlronILw8nkwB2W2veuXAfH79QAGkrjvmU8BC1JKe8vcKKjwQD5e/B+gij+
-	p14bT2GTHdlFF2igf8jKEH3rWL4xtciPU8b4qUwDyujufk5pMuFkuMh8YhfFeLztrdH3f59pJKU
-	IjP/k9Mizz6D/Nep23ill//Os1QtPT29JnMw5DGuXJZohC5O0CjelfuZ0sgIMmijrtX2vQLBY4E
-	0GlWGusLZ8Aib2xWkx7j2g==
-X-Google-Smtp-Source: AGHT+IEfXVxl7VC/O2TXG5AUw40jRF/jqb2tNJhJqtHmv0DAX3h4yayluWuzrQzPBPHKrw7ZeZKhgw==
-X-Received: by 2002:a05:6820:54b:b0:5fa:61b9:3e7e with SMTP id 006d021491bc7-5fca183ea60mr2464323eaf.3.1739381467421;
-        Wed, 12 Feb 2025 09:31:07 -0800 (PST)
-Received: from neuromancer. ([2600:1700:fb0:1bcf:511b:97aa:dc6:7ad4])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5fc8fdcbc21sm2233640eaf.37.2025.02.12.09.31.06
+        d=1e100.net; s=20230601; t=1739381804; x=1739986604;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5HOAmeZSd8XozBfBj4jNyXC9XonCoX2cwbZMmLfFjDQ=;
+        b=wfOaU6mQ53L8rL87gaHyjPpuGWQJTs5n8PaQjZvL0SHZnf8BXMGfwG59eczLDICrnn
+         9q5yeL+DURnChzc1Rac50inW/RDTjUtVWZ59TzU+/K2v9w/jYOOQVOWZokwzwxOPj1kl
+         vey1T0t5VfA9b31m/QSAW62apFpxtA8RxapT/AQHDMsJBKU4rRkEXwRAZ3appeSz6Ih0
+         16C9bciIS7LqfinO7JT//ImIeJHWKxlVLBxf5R9KyykGVsvZ9SRZW+8sOW4EMqKxg+Ow
+         07YUTIg34JvJnSbvg+xa2ETJ4QrqFslcag7HdhPguXmtVcADxHd9BZJ0GARpnk9B73Xv
+         0IVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWG8p4Ma+B7472GFFCrIqkiozCDjuYT1xcbU7NIdzQtm9SDZMarJ/2owtcRqL0zKIiSnHnpMXY4bfZ4lw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwbiwGl9kAAICrmRmTOZssYuuqdLLCefzoofc9bqgt3L1lVLp/u
+	hrRBiIriWwXn9D6pdJ8ovbE9yqb5Fci9nnmLQQKQc7rBchHJ6Nvs
+X-Gm-Gg: ASbGncsaZ86Ya6Qxmc6bynCbRdQoG66I4N9+NARLM8VlARhCOf0HmLezc2Tj6DfKkNp
+	L2jBQEv6kAXVPAUA63RzmM6d/CZetvTvwU7bK7bY+nGZhv/lKhJheqN3n0oFfzyJ45ehHPPINJo
+	Ad9jIJETdYDMSjWehcBfE7BJPYMhV/H440qVWV6NA+ExPBtddA2DrWyez+nfgEHnnr/3rQkoz9A
+	Uo/xRHXWhkjnwO/VkOp0WbU5jFLNumqKnBCS98GHjj+kvF6liLgX5a31QehCfLbjr/y4PsxBpOE
+	kZPS3taiO5Zm3Q1phTFx11TKaXi67u/qIFGamtKPDUJupP2lFeLageQ40uEXWQIAXJsYGUaGrMs
+	F/w==
+X-Google-Smtp-Source: AGHT+IHDCBgJfM+/ys0ROHnLWBIi5z2k0taelB9+5yUdQur2jxtf7oYUmNm/5oCfY1oM9+jShWu3Ig==
+X-Received: by 2002:a17:907:971f:b0:ab6:511d:8908 with SMTP id a640c23a62f3a-ab7f34a0f04mr350523966b.40.1739381804140;
+        Wed, 12 Feb 2025 09:36:44 -0800 (PST)
+Received: from localhost.localdomain (146.10-240-81.adsl-dyn.isp.belgacom.be. [81.240.10.146])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab7d18e006csm500162466b.52.2025.02.12.09.36.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Feb 2025 09:31:07 -0800 (PST)
-Message-ID: <67acdadb.050a0220.28f58d.f522@mx.google.com>
-X-Google-Original-Message-ID: <Z6za2bhKAmHvUMFR@neuromancer.>
-Date: Wed, 12 Feb 2025 11:31:05 -0600
-From: Chris Morgan <macroalpha82@gmail.com>
-To: Ryan Walklin <ryan@testtoast.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
+        Wed, 12 Feb 2025 09:36:43 -0800 (PST)
+From: Philippe Simons <simons.philippe@gmail.com>
+To: Michael Turquette <mturquette@baylibre.com>,
 	Stephen Boyd <sboyd@kernel.org>,
-	Andre Przywara <andre.przywara@arm.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: [PATCH v5 21/26] dt-bindings: allwinner: add H616 DE33 mixer
- binding
-References: <20240929091107.838023-1-ryan@testtoast.com>
- <20240929091107.838023-22-ryan@testtoast.com>
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-clk@vger.kernel.org (open list:COMMON CLK FRAMEWORK),
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi SoC support),
+	linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support),
+	linux-kernel@vger.kernel.org (open list)
+Cc: Philippe Simons <simons.philippe@gmail.com>
+Subject: [PATCH v2] clk: sunxi-ng: h616: Reparent GPU clock during frequency changes
+Date: Wed, 12 Feb 2025 18:36:39 +0100
+Message-ID: <20250212173640.396404-1-simons.philippe@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240929091107.838023-22-ryan@testtoast.com>
+Content-Transfer-Encoding: 8bit
 
-On Sun, Sep 29, 2024 at 10:04:53PM +1300, Ryan Walklin wrote:
-> The Allwinner H616 and variants have a new display engine revision
-> (DE33).
-> 
-> The mixer configuration registers are significantly different to the DE3
-> and DE2 revisions, being split into separate top and display blocks,
-> therefore a fallback for the mixer compatible is not provided.
-> 
-> Add a display engine mixer binding for the DE33.
-> 
-> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> Reviewed-by: Chen-Yu Tsai <wens@csie.org>
-> 
-> ---
-> Changelog v2..v3:
-> - Separate content into three patches for three separate subsystems
-> ---
->  .../bindings/display/allwinner,sun8i-a83t-de2-mixer.yaml         | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-de2-mixer.yaml b/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-de2-mixer.yaml
-> index b75c1ec686ad2..c37eb8ae1b8ee 100644
-> --- a/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-de2-mixer.yaml
-> +++ b/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-de2-mixer.yaml
-> @@ -24,6 +24,7 @@ properties:
->        - allwinner,sun50i-a64-de2-mixer-0
->        - allwinner,sun50i-a64-de2-mixer-1
->        - allwinner,sun50i-h6-de3-mixer-0
-> +      - allwinner,sun50i-h616-de33-mixer-0
->  
->    reg:
->      maxItems: 1
+The H616 manual does not state that the GPU PLL supports
+dynamic frequency configuration, so we must take extra care when changing
+the frequency. Currently any attempt to do device DVFS on the GPU lead
+to panfrost various ooops, and GPU hangs.
 
--    maxItems: 1
-+    minItems: 1
-+    maxItems: 3
+The manual describes the algorithm for changing the PLL
+frequency, which the CPU PLL notifier code already support, so we reuse
+that to reparent the GPU clock to GPU1 clock during frequency
+changes.
 
-> -- 
-> 2.46.1
-> 
+Signed-off-by: Philippe Simons <simons.philippe@gmail.com>
+---
+ drivers/clk/sunxi-ng/ccu-sun50i-h616.c | 38 ++++++++++++++++++++++++--
+ 1 file changed, 36 insertions(+), 2 deletions(-)
 
-Also need to add constraints to set maxItems to 3 only for the h616-de33
-
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          enum:
-+            - allwinner,sun50i-h616-de33-mixer-0
+diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+index 190816c35..884f9a6b5 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
++++ b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+@@ -328,10 +328,16 @@ static SUNXI_CCU_M_WITH_MUX_GATE(gpu0_clk, "gpu0", gpu0_parents, 0x670,
+ 				       24, 1,	/* mux */
+ 				       BIT(31),	/* gate */
+ 				       CLK_SET_RATE_PARENT);
+-static SUNXI_CCU_M_WITH_GATE(gpu1_clk, "gpu1", "pll-periph0-2x", 0x674,
 +
-+    then:
-+      properties:
-+        reg:
-+          maxItems: 3
++/*
++ * This clk is needed as a temporary fall back during GPU PLL freq changes.
++ * Set CLK_IS_CRITICAL flag to prevent from being disabled.
++ */
++ #define SUN50I_H616_GPU_CLK1_REG        0x674
++ static SUNXI_CCU_M_WITH_GATE(gpu1_clk, "gpu1", "pll-periph0-2x", 0x674,
+ 					0, 2,	/* M */
+ 					BIT(31),/* gate */
+-					0);
++					CLK_IS_CRITICAL);
+ 
+ static SUNXI_CCU_GATE(bus_gpu_clk, "bus-gpu", "psi-ahb1-ahb2",
+ 		      0x67c, BIT(0), 0);
+@@ -1120,6 +1126,19 @@ static struct ccu_pll_nb sun50i_h616_pll_cpu_nb = {
+ 	.lock		= BIT(28),
+ };
+ 
++static struct ccu_mux_nb sun50i_h616_gpu_nb = {
++	.common			= &gpu0_clk.common,
++	.cm				= &gpu0_clk.mux,
++	.delay_us		= 1, /* manual doesn't really say */
++	.bypass_index	= 1, /* GPU_CLK1@400MHz */
++};
 +
-+    else:
-+      properties:
-+        reg:
-+          maxItems: 1
++static struct ccu_pll_nb sun50i_h616_pll_gpu_nb = {
++	.common		= &pll_gpu_clk.common,
++	.enable		= BIT(29),	/* LOCK_ENABLE */
++	.lock		= BIT(28),
++};
 +
+ static int sun50i_h616_ccu_probe(struct platform_device *pdev)
+ {
+ 	void __iomem *reg;
+@@ -1170,6 +1189,14 @@ static int sun50i_h616_ccu_probe(struct platform_device *pdev)
+ 	val |= BIT(0);
+ 	writel(val, reg + SUN50I_H616_PLL_AUDIO_REG);
+ 
++	/*
++	 * Set the input-divider for the gpu1 clock to 3.
++	 */
++	val = readl(reg + SUN50I_H616_GPU_CLK1_REG);
++	val &= ~GENMASK(1, 0);
++	val |= BIT(1);
++	writel(val, reg + SUN50I_H616_GPU_CLK1_REG);
++
+ 	/*
+ 	 * First clock parent (osc32K) is unusable for CEC. But since there
+ 	 * is no good way to force parent switch (both run with same frequency),
+@@ -1190,6 +1217,13 @@ static int sun50i_h616_ccu_probe(struct platform_device *pdev)
+ 	/* Re-lock the CPU PLL after any rate changes */
+ 	ccu_pll_notifier_register(&sun50i_h616_pll_cpu_nb);
+ 
++	/* Reparent GPU during GPU PLL rate changes */
++	ccu_mux_notifier_register(pll_gpu_clk.common.hw.clk,
++				  &sun50i_h616_gpu_nb);
++
++	/* Re-lock the GPU PLL after any rate changes */
++	ccu_pll_notifier_register(&sun50i_h616_pll_gpu_nb);
++
+ 	return 0;
+ }
+ 
+-- 
+2.48.1
 
-Thank you,
-Chris
