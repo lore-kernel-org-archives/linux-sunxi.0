@@ -1,129 +1,605 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2505D211468
-	for <linux-sunxi@lists.linux.dev>; Thu, 13 Feb 2025 09:41:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739439674; cv=none; b=nIXBjRrTkkueKMfiIfVOnDDMD5Y1YSoj3bfXK3XNYuLIWSzXdkTUn+ue8LjLixAQPa8YaE8mjGRvOPi3D6zFPadF5+L6+i9yW+ezu+PMZGo0GgIo88V7wMXMw0NT1L/KcDgXlenjNcUgnTA+yBBE7zX6GOyBuiXZ2PuvFsHrFEQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739439674; c=relaxed/simple;
-	bh=BHjvuHtxcGbYTJxuDTg/fs/1zRBNwMIIEfEqMmhl7qw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=e681i0qpD3Yy3E0UgC+N+jYYXYrjnSjlklrGxCHxf2vQlnjkVzWufcUo6EDRzVO6KwjG94BzSup6pWCwhEat7hl1zWEJ8K1SrucQhZvekNMdaQRDJwTSFvjp9wKjwGIvQaG/1EdX5bROflTzYfQ0AEI0YTpF3VdYAO15Rs/dH2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nJqeHeF+; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1A6E70810;
+	Thu, 13 Feb 2025 17:13:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739466790; cv=pass; b=H/PkSDdR/TcSztBxrog9kQteOmHSeR0m9CyH/gwSvJXSqBKElWEnbkSGp8IA1IZ3g6tpoESzFxnP0878J2QXJzdUou08dgaDWIO3uz+0g4DUnWQbtr0Fa1LMajk7Ao0KvcjIxdKAlR3yWq83gexAlE+Xd7s9Ms4JC0R53FOIbt0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739466790; c=relaxed/simple;
+	bh=kVFDbjxlEv95bUwjRxRQpVfJeriseEEqwa7JIOOagfQ=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=sCMTE/3b1jmT3wNhohE7oxBXhhecExysM1okLjc8D7yOyBXJxT61bJGUqBwU3Yor+4m/din+LhR4YmWv7yEqm7Nmlh1wdRTs9CekkkEp0k/FMSVE+6WeB/1cQIkCKCVQ2R9JTA2QKrkb/zp1+3OsJQWAAyBVpQeaFZBzoI5c5yE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=jx839Jqc; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nJqeHeF+"
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5451d1d56a7so738182e87.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 13 Feb 2025 01:41:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739439671; x=1740044471; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RYYMYkxftkNwTdyqS8CRT4NccxOq5tlDjvnPZc99yTM=;
-        b=nJqeHeF+uKnBFeitbYUTV3+LOzJS7s4MUAjxU5z/zCOZFt8/6TDsF8H6rLqiudAYhB
-         VcZG/AFS+pg9c/Y8dkKChECwcUpbwtC6TaTszlFnCKb4F5NjMqoQOmyUi5lnW3cEztkE
-         l9HYo6zCwldavnIrrxLpbYzpxK9ePmWTFZDb37/8dJEKGZyGETZnAvIZl5mNwmoiL3N1
-         8GkdcGVMkISzTC7N68ihQBWr8lMx4bW/kF4+xqwR20RopMhp0JY9/2rgxh0CwdoW6Pwm
-         295kmZ3fPUs2QAgUbiIljRFKt0p5txPX+mSDSmkdDQVK+0IbgrgW2rKVHEi8NEA8Nd48
-         2Prw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739439671; x=1740044471;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RYYMYkxftkNwTdyqS8CRT4NccxOq5tlDjvnPZc99yTM=;
-        b=hc639RhPH/NNS/cUv9u2pa8/Kc54DSu7Nwg8O+XncnLyF2X1MshC8C2m5d7LxenMCz
-         YXgvY17guUKbltIuKrfpmKqv1EOrQ8e+WSrhuJRa7aaMwAXLdWXCb4oHGdgaqmd5mm2L
-         vlJYIDCFqtKib4qHlE7z3YDRZvbHQkrujEYwDSdzwMzp4VyVKMe4Ezbc85hQhIVR60WE
-         LDbZdix+UnvN+AqNz6l34lu741GfrZp8iUWqY9nFExblLroGFd6itZk9OuKYBpK617Od
-         EhLRUX6bUQQX7/2AG3TqDQHBU8x/bZcsVuIeurzfmXNZGJfjPDNi7ePCWj1mdCeAYKSx
-         25Cw==
-X-Forwarded-Encrypted: i=1; AJvYcCUFLwGALu8B7uBJOkx8ITSyFzqLAjtyarRYH2xYQNOAOFFhYOytfJbQMSZzTHrIQzBw9+OM+i7mgm4LkQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzxSLKCT/FAsEVUmAWh+ymo7G8iyKHAa/PDv3RJ1AE2kc6L7KiC
-	WXhOgDNYtNS+Wuv6szMmvcUrBEkZ0G3YMDolfHVrx0pHfnyUEbY=
-X-Gm-Gg: ASbGncvsMyIyRYVm/XaE33Em9yny91aYNhU7zosu8F7GPnfG0xNwEbI9yhxodd5pbU2
-	RhHv4KHiagxfSABzluYYhaIH4ooQmM3HmZKRwvg01Yg4+9xrzp6JLqMYujSkib/65hwY42/HVPM
-	+EeGqJo47yNu0PdlpzJErAwhyyzH3zkoj8Xbs2NSKspyq5fKihj0/dpAZHZxKCc8H80O5oDqt3d
-	nJlv0nDcJD+mjv//TjRn0sZ2/pcSU6COITNRSzNfTrIpARakOHI/XfRtBp9IkTi1A+48Fk9NJwG
-	/biKn+CqUkPN0HQ9Yegw/GKne1I3bqo=
-X-Google-Smtp-Source: AGHT+IEU1Xe2lAmPO6iNBTAj5sggwrT8IjsKe7vRboIZMPv0WTY0Zwji2mjdrlZbGMkJm2gu+P6b7Q==
-X-Received: by 2002:a05:6512:3d1b:b0:545:8f7:8596 with SMTP id 2adb3069b0e04-5451e5080e4mr706332e87.17.1739439671065;
-        Thu, 13 Feb 2025 01:41:11 -0800 (PST)
-Received: from localhost.localdomain ([178.176.176.188])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5451f10cae7sm119518e87.183.2025.02.13.01.41.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Feb 2025 01:41:10 -0800 (PST)
-From: Aleksandr Shubin <privatesub2@gmail.com>
-To: linux-kernel@vger.kernel.org
-Cc: Aleksandr Shubin <privatesub2@gmail.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Cheo Fusi <fusibrandon13@gmail.com>,
-	linux-pwm@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-riscv@lists.infradead.org
-Subject: [PATCH v11 3/3] riscv: dts: allwinner: d1: Add pwm node
-Date: Thu, 13 Feb 2025 12:40:14 +0300
-Message-Id: <20250213094018.134081-4-privatesub2@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250213094018.134081-1-privatesub2@gmail.com>
-References: <20250213094018.134081-1-privatesub2@gmail.com>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="jx839Jqc"
+ARC-Seal: i=1; a=rsa-sha256; t=1739466778; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=C2fXEUaOtIOQXZdIRxbhIpS3klsCivl1CeJ765NNazXEKY8Ma+geQ9PF4jpRGll+XhE9gsy4o5lJgOnAgYO5BU/P34Cl77rFGVVqg8H1FQBrCHuoOhaUgIbBTRh0mkT7NLlGUc2ZCXegexOurRtvbqvdiPW3q19Zbw1UrPz98h8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1739466778; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=Sc2tCoVzh/+ZGjCc6bh58Q9enhkMLIH+KNmL21GVAkY=; 
+	b=k08k0h07iA78dtblBgjBvt32ctxVyZ8LMNR+5uWKDV9RKPkU8lcLXUOnoYOZFShzJhxECixCZkTvWRgRJ2mAn+cKsysEaz6p5lJL46uLPlYjpz+AWAHqdPkvl+MrE2Vmq56+SOPQ/d/PZSUxl2geHbxawLsa2o9LEKwX1IVjm9M=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
+	dmarc=pass header.from=<sebastian.fricke@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1739466778;
+	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=Sc2tCoVzh/+ZGjCc6bh58Q9enhkMLIH+KNmL21GVAkY=;
+	b=jx839Jqciln0AuaMsVqXeejQXGlMrTaWjj7RIMh5ESkv90jda8KPPNZkC8Kq8x89
+	Wmn6TJlQaqrEGUXnttxXw7HC1hwt3379gKhrTGF1PsJt7yMR/MXNq4hYMxLhR7mX59I
+	Ojh+LLEMLbrvm0292OJq2/8I81dcSLvVOcDGPaDM=
+Received: from mail.zoho.com by mx.zohomail.com
+	with SMTP id 1739466776672559.5472934228393; Thu, 13 Feb 2025 09:12:56 -0800 (PST)
+Date: Thu, 13 Feb 2025 18:12:56 +0100
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: "Emmanuel Gil Peyrot" <linkmauve@linkmauve.fr>
+Cc: "linux-sunxi" <linux-sunxi@lists.linux.dev>,
+	"Maxime Ripard" <mripard@kernel.org>,
+	"Paul Kocialkowski" <paul.kocialkowski@bootlin.com>,
+	"Mauro Carvalho Chehab" <mchehab@kernel.org>,
+	"Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+	"Chen-Yu Tsai" <wens@csie.org>,
+	"Jernej Skrabec" <jernej.skrabec@gmail.com>,
+	"Samuel Holland" <samuel@sholland.org>,
+	"linux-kernel" <linux-kernel@vger.kernel.org>,
+	"linux-media" <linux-media@vger.kernel.org>,
+	"linux-staging" <linux-staging@lists.linux.dev>,
+	"linux-arm-kernel" <linux-arm-kernel@lists.infradead.org>
+Message-ID: <195004ca004.ef71c4611135398.5819587479420404546@collabora.com>
+In-Reply-To: <20240731164422.206503-3-linkmauve@linkmauve.fr>
+References: <20240731164422.206503-1-linkmauve@linkmauve.fr> <20240731164422.206503-3-linkmauve@linkmauve.fr>
+Subject: Re: [PATCH 2/4] media: cedrus: Add JPEG decoder
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
 
-D1 and T113s contain a pwm controller with 8 channels.
-This controller is supported by the sun20i-pwm driver.
+Hey Emmanuel,
 
-Add a device tree node for it.
+first of all sorry for taking that long to reply to your patches ...
 
-Signed-off-by: Aleksandr Shubin <privatesub2@gmail.com>
----
- arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+I notice that there has been no movement on this so I wonder how we should proceed with this patch, our CI shows at least that you have some style issues on the patches (https://gitlab.freedesktop.org/linux-media/users/sebastianfricke/-/jobs/71044070) and I would like to have a reviewer first before I can think about merging this.
 
-diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-index e4175adb028d..2c26cb8b2b07 100644
---- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-+++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-@@ -145,6 +145,18 @@ uart3_pb_pins: uart3-pb-pins {
- 			};
- 		};
- 
-+		pwm: pwm@2000c00 {
-+			compatible = "allwinner,sun20i-d1-pwm";
-+			reg = <0x02000c00 0x400>;
-+			clocks = <&ccu CLK_BUS_PWM>,
-+				 <&dcxo>,
-+				 <&ccu CLK_APB0>;
-+			clock-names = "bus", "hosc", "apb";
-+			resets = <&ccu RST_BUS_PWM>;
-+			status = "disabled";
-+			#pwm-cells = <0x3>;
-+		};
-+
- 		ccu: clock-controller@2001000 {
- 			compatible = "allwinner,sun20i-d1-ccu";
- 			reg = <0x2001000 0x1000>;
--- 
-2.25.1
+For a start can you rebase this patch series and apply the required fixes to make our CI happy and then we have to look for a reviewer as this is a new driver and I don't want to solely rely on my opinion as I am not well versed in the Cedrus driver.
+
+Regards,
+Sebastian
+
+ ---- On Wed, 31 Jul 2024 18:44:12 +0200  Emmanuel Gil Peyrot <linkmauve@linkmauve.fr> wrote --- 
+ > Basically all Cedrus variants support JPEG decoding. Add code for it.
+ > 
+ > Signed-off-by: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
+ > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+ > ---
+ >  drivers/staging/media/sunxi/cedrus/Kconfig    |   1 +
+ >  drivers/staging/media/sunxi/cedrus/Makefile   |   2 +-
+ >  drivers/staging/media/sunxi/cedrus/cedrus.h   |   5 +
+ >  .../staging/media/sunxi/cedrus/cedrus_hw.c    |   2 +
+ >  .../staging/media/sunxi/cedrus/cedrus_jpeg.c  | 352 ++++++++++++++++++
+ >  .../staging/media/sunxi/cedrus/cedrus_regs.h  |  16 +
+ >  .../staging/media/sunxi/cedrus/cedrus_video.c |   9 +
+ >  7 files changed, 386 insertions(+), 1 deletion(-)
+ >  create mode 100644 drivers/staging/media/sunxi/cedrus/cedrus_jpeg.c
+ > 
+ > diff --git a/drivers/staging/media/sunxi/cedrus/Kconfig b/drivers/staging/media/sunxi/cedrus/Kconfig
+ > index cb07a343c9c2..5683519aead0 100644
+ > --- a/drivers/staging/media/sunxi/cedrus/Kconfig
+ > +++ b/drivers/staging/media/sunxi/cedrus/Kconfig
+ > @@ -9,6 +9,7 @@ config VIDEO_SUNXI_CEDRUS
+ >      select SUNXI_SRAM
+ >      select VIDEOBUF2_DMA_CONTIG
+ >      select V4L2_MEM2MEM_DEV
+ > +    select V4L2_JPEG_HELPER
+ >      help
+ >        Support for the VPU found in Allwinner SoCs, also known as the Cedar
+ >        video engine.
+ > diff --git a/drivers/staging/media/sunxi/cedrus/Makefile b/drivers/staging/media/sunxi/cedrus/Makefile
+ > index a647b3690bf8..fa3e949e0788 100644
+ > --- a/drivers/staging/media/sunxi/cedrus/Makefile
+ > +++ b/drivers/staging/media/sunxi/cedrus/Makefile
+ > @@ -3,4 +3,4 @@ obj-$(CONFIG_VIDEO_SUNXI_CEDRUS) += sunxi-cedrus.o
+ >  
+ >  sunxi-cedrus-y = cedrus.o cedrus_video.o cedrus_hw.o cedrus_dec.o \
+ >           cedrus_mpeg2.o cedrus_h264.o cedrus_h265.o \
+ > -         cedrus_vp8.o
+ > +         cedrus_vp8.o cedrus_jpeg.o
+ > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/staging/media/sunxi/cedrus/cedrus.h
+ > index 522c184e2afc..555f8d124d47 100644
+ > --- a/drivers/staging/media/sunxi/cedrus/cedrus.h
+ > +++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
+ > @@ -34,6 +34,7 @@
+ >  #define CEDRUS_CAPABILITY_MPEG2_DEC    BIT(3)
+ >  #define CEDRUS_CAPABILITY_VP8_DEC    BIT(4)
+ >  #define CEDRUS_CAPABILITY_H265_10_DEC    BIT(5)
+ > +#define CEDRUS_CAPABILITY_JPEG_DEC    BIT(6)
+ >  
+ >  enum cedrus_irq_status {
+ >      CEDRUS_IRQ_NONE,
+ > @@ -152,6 +153,9 @@ struct cedrus_ctx {
+ >              u8        *entropy_probs_buf;
+ >              dma_addr_t    entropy_probs_buf_dma;
+ >          } vp8;
+ > +        struct {
+ > +            unsigned int    subsampling;
+ > +        } jpeg;
+ >      } codec;
+ >  };
+ >  
+ > @@ -201,6 +205,7 @@ extern struct cedrus_dec_ops cedrus_dec_ops_mpeg2;
+ >  extern struct cedrus_dec_ops cedrus_dec_ops_h264;
+ >  extern struct cedrus_dec_ops cedrus_dec_ops_h265;
+ >  extern struct cedrus_dec_ops cedrus_dec_ops_vp8;
+ > +extern struct cedrus_dec_ops cedrus_dec_ops_jpeg;
+ >  
+ >  static inline void cedrus_write(struct cedrus_dev *dev, u32 reg, u32 val)
+ >  {
+ > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+ > index 582b6cb796ea..e237f7d66f7e 100644
+ > --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+ > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+ > @@ -43,7 +43,9 @@ int cedrus_engine_enable(struct cedrus_ctx *ctx)
+ >      reg |= VE_MODE_DDR_MODE_BW_128;
+ >  
+ >      switch (ctx->src_fmt.pixelformat) {
+ > +    /* MPEG2 and JPEG both use the same decoding mode bit. */
+ >      case V4L2_PIX_FMT_MPEG2_SLICE:
+ > +    case V4L2_PIX_FMT_JPEG:
+ >          reg |= VE_MODE_DEC_MPEG;
+ >          break;
+ >  
+ > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_jpeg.c b/drivers/staging/media/sunxi/cedrus/cedrus_jpeg.c
+ > new file mode 100644
+ > index 000000000000..1e8978ebf9dd
+ > --- /dev/null
+ > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_jpeg.c
+ > @@ -0,0 +1,352 @@
+ > +// SPDX-License-Identifier: GPL-2.0
+ > +/*
+ > + * Cedrus VPU driver
+ > + *
+ > + * Copyright (C) 2022 Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
+ > + */
+ > +
+ > +#include <media/videobuf2-dma-contig.h>
+ > +#include <media/v4l2-jpeg.h>
+ > +
+ > +#include "cedrus.h"
+ > +#include "cedrus_hw.h"
+ > +#include "cedrus_regs.h"
+ > +
+ > +static enum cedrus_irq_status cedrus_jpeg_irq_status(struct cedrus_ctx *ctx)
+ > +{
+ > +    struct cedrus_dev *dev = ctx->dev;
+ > +    u32 reg;
+ > +
+ > +    reg = cedrus_read(dev, VE_DEC_MPEG_STATUS);
+ > +    reg &= VE_DEC_MPEG_STATUS_CHECK_MASK;
+ > +
+ > +    if (!reg)
+ > +        return CEDRUS_IRQ_NONE;
+ > +
+ > +    if (reg & VE_DEC_MPEG_STATUS_CHECK_ERROR)
+ > +        return CEDRUS_IRQ_ERROR;
+ > +
+ > +    return CEDRUS_IRQ_OK;
+ > +}
+ > +
+ > +static void cedrus_jpeg_irq_clear(struct cedrus_ctx *ctx)
+ > +{
+ > +    struct cedrus_dev *dev = ctx->dev;
+ > +
+ > +    cedrus_write(dev, VE_DEC_MPEG_STATUS, VE_DEC_MPEG_STATUS_CHECK_MASK);
+ > +}
+ > +
+ > +static void cedrus_jpeg_irq_disable(struct cedrus_ctx *ctx)
+ > +{
+ > +    struct cedrus_dev *dev = ctx->dev;
+ > +    u32 reg = cedrus_read(dev, VE_DEC_MPEG_CTRL);
+ > +
+ > +    reg &= ~VE_DEC_MPEG_CTRL_IRQ_MASK;
+ > +
+ > +    cedrus_write(dev, VE_DEC_MPEG_CTRL, reg);
+ > +}
+ > +
+ > +static int cedrus_write_table_header(struct cedrus_dev *dev,
+ > +                                     struct v4l2_jpeg_reference *table)
+ > +{
+ > +    u16 start_codes[16], code;
+ > +    u8 offsets[16], *ptr;
+ > +    unsigned int count;
+ > +    u32 *ptr32;
+ > +    int i;
+ > +
+ > +    ptr = table->start;
+ > +    if (!ptr)
+ > +        return -EINVAL;
+ > +
+ > +    count = 0;
+ > +    code = 0;
+ > +    for (i = 0; i < 16; i++) {
+ > +        offsets[i] = count;
+ > +        start_codes[i] = code;
+ > +        count += ptr[i];
+ > +        code += ptr[i];
+ > +        code *= 2;
+ > +    }
+ > +
+ > +    for (i = 15; i >= 0 && !ptr[i]; i--)
+ > +        start_codes[i] = 0xffff;
+ > +
+ > +    ptr32 = (u32*)start_codes;
+ > +    for (i = 0; i < 8; i++)
+ > +        cedrus_write(dev, VE_DEC_MPEG_SRAM_RW_DATA, ptr32[i]);
+ > +
+ > +    ptr32 = (u32*)offsets;
+ > +    for (i = 0; i < 4; i++)
+ > +        cedrus_write(dev, VE_DEC_MPEG_SRAM_RW_DATA, ptr32[i]);
+ > +
+ > +    for (i = 0; i < 4; i++)
+ > +        cedrus_write(dev, VE_DEC_MPEG_SRAM_RW_DATA, 0);
+ > +
+ > +    return 0;
+ > +}
+ > +
+ > +static int cedrus_jpeg_write_dh_tables(struct cedrus_dev *dev,
+ > +                                       struct v4l2_jpeg_header *hdr)
+ > +{
+ > +    struct v4l2_jpeg_reference *tables[4], *table;
+ > +    struct v4l2_jpeg_scan_component_spec *comp;
+ > +    unsigned int i, j, ret;
+ > +    size_t length;
+ > +    u32 *ptr, val;
+ > +
+ > +    cedrus_write(dev, VE_DEC_MPEG_SRAM_RW_OFFSET, 0);
+ > +
+ > +    j = 0;
+ > +    for (i = 0; i < 2; i++) {
+ > +        comp = &hdr->scan->component[i];
+ > +
+ > +        tables[j++] = &hdr->huffman_tables[comp->dc_entropy_coding_table_selector];
+ > +        tables[j++] = &hdr->huffman_tables[comp->ac_entropy_coding_table_selector + 2];
+ > +    }
+ > +
+ > +    for (i = 0; i < 4; i++) {
+ > +        ret = cedrus_write_table_header(dev, tables[i]);
+ > +        if (ret)
+ > +            return ret;
+ > +    }
+ > +
+ > +    for (i = 0; i < 192; i++)
+ > +        cedrus_write(dev, VE_DEC_MPEG_SRAM_RW_DATA, 0);
+ > +
+ > +    for (i = 0; i < 4; i++) {
+ > +        table = tables[i];
+ > +        ptr = (u32*)&table->start[16];
+ > +        length = table->length - 16;
+ > +
+ > +        for (j = 0; j < length / 4; j++)
+ > +            cedrus_write(dev, VE_DEC_MPEG_SRAM_RW_DATA, ptr[j]);
+ > +
+ > +        if (length & 3) {
+ > +            val = 0;
+ > +            for (j = 0; j < (length & 3); j++)
+ > +                val = (val << 8) | table->start[15 + length - j];
+ > +            cedrus_write(dev, VE_DEC_MPEG_SRAM_RW_DATA, val);
+ > +        }
+ > +
+ > +        for (j = 0; j < 64 - DIV_ROUND_UP(length, 4); j++)
+ > +            cedrus_write(dev, VE_DEC_MPEG_SRAM_RW_DATA, 0);
+ > +    }
+ > +
+ > +    return 0;
+ > +}
+ > +
+ > +static int cedrus_write_quantization_matrix(struct cedrus_dev *dev, u32 flags,
+ > +                                            struct v4l2_jpeg_reference *table)
+ > +{
+ > +    const u8 *matrix;
+ > +    u32 reg, val;
+ > +    int i;
+ > +
+ > +    matrix = table->start;
+ > +    if (!matrix)
+ > +        return -EINVAL;
+ > +
+ > +    for (i = 0; i < 64; i++) {
+ > +        /* determine if values are 8 or 16 bits */
+ > +        val = *matrix++;
+ > +        if (table->length > 64)
+ > +            val = (val << 8) | *matrix++;
+ > +
+ > +        reg = VE_DEC_MPEG_IQMINPUT_WEIGHT(i, val);
+ > +        reg |= flags;
+ > +
+ > +        cedrus_write(dev, VE_DEC_MPEG_IQMINPUT, reg);
+ > +    }
+ > +
+ > +    return 0;
+ > +}
+ > +
+ > +static int cedrus_jpeg_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
+ > +{
+ > +    struct cedrus_dev *dev = ctx->dev;
+ > +    dma_addr_t src_buf_addr, dst_luma_addr, dst_chroma_addr;
+ > +    struct v4l2_jpeg_scan_header scan_header;
+ > +    struct v4l2_jpeg_reference quantization_tables[4] = { };
+ > +    struct v4l2_jpeg_reference huffman_tables[4] = { };
+ > +    struct v4l2_jpeg_header header = {
+ > +        .scan = &scan_header,
+ > +        .quantization_tables = quantization_tables,
+ > +        .huffman_tables = huffman_tables,
+ > +    };
+ > +    struct vb2_buffer *src_buf = &run->src->vb2_buf;
+ > +    struct v4l2_jpeg_frame_component_spec *components;
+ > +    u32 reg, subsampling;
+ > +    unsigned long size;
+ > +    int ret, index;
+ > +    u8 hmax, vmax;
+ > +    u16 width, height;
+ > +
+ > +    size = vb2_get_plane_payload(src_buf, 0);
+ > +    ret = v4l2_jpeg_parse_header(vb2_plane_vaddr(src_buf, 0), size, &header);
+ > +    if (ret < 0) {
+ > +        v4l2_err(&dev->v4l2_dev,
+ > +                 "failed to parse JPEG header: %d\n", ret);
+ > +        return -EINVAL;
+ > +    }
+ > +
+ > +    width = header.frame.width;
+ > +    height = header.frame.height;
+ > +    if (width > 2048 || height > 2048) {
+ > +        v4l2_err(&dev->v4l2_dev,
+ > +                 "unsupported JPEG of resolution %ux%u (max 2048x2048)\n",
+ > +                 width, height);
+ > +        return -EINVAL;
+ > +    }
+ > +
+ > +    if (header.frame.precision != 8) {
+ > +        v4l2_err(&dev->v4l2_dev,
+ > +                 "unsupported JPEG with %u bits of precision (8 required)\n",
+ > +                 header.frame.precision);
+ > +        return -EINVAL;
+ > +    }
+ > +
+ > +    if (header.frame.num_components != 3) {
+ > +        v4l2_err(&dev->v4l2_dev,
+ > +                 "unsupported JPEG with %u components (3 required)\n",
+ > +                 header.frame.num_components);
+ > +        return -EINVAL;
+ > +    }
+ > +
+ > +    components = header.frame.component;
+ > +    index = components[0].horizontal_sampling_factor << 20 |
+ > +        components[0].vertical_sampling_factor << 16 |
+ > +        components[1].horizontal_sampling_factor << 12 |
+ > +        components[1].vertical_sampling_factor << 8 |
+ > +        components[2].horizontal_sampling_factor << 4 |
+ > +        components[2].vertical_sampling_factor;
+ > +
+ > +    switch (index) {
+ > +    case 0x221111:
+ > +        subsampling = VE_DEC_MPEG_TRIGGER_CHROMA_FMT_420;
+ > +        break;
+ > +    case 0x211111:
+ > +        subsampling = VE_DEC_MPEG_TRIGGER_CHROMA_FMT_422;
+ > +        break;
+ > +    case 0x111111:
+ > +        subsampling = VE_DEC_MPEG_TRIGGER_CHROMA_FMT_444;
+ > +        break;
+ > +    case 0x121111:
+ > +        subsampling = VE_DEC_MPEG_TRIGGER_CHROMA_FMT_422T;
+ > +        break;
+ > +    default:
+ > +        v4l2_err(&dev->v4l2_dev, "unsupported subsampling %d\n", index);
+ > +        return -EINVAL;
+ > +    }
+ > +
+ > +    ctx->codec.jpeg.subsampling = subsampling;
+ > +
+ > +    /* Activate MPEG engine and select JPEG subengine. */
+ > +    cedrus_engine_enable(ctx);
+ > +
+ > +    reg = VE_DEC_MPEG_TRIGGER_JPEG | subsampling;
+ > +    cedrus_write(dev, VE_DEC_MPEG_TRIGGER, reg);
+ > +
+ > +    /* Set restart interval. */
+ > +    cedrus_write(dev, VE_DEC_MPEG_JPEG_RES_INT, header.restart_interval);
+ > +
+ > +    /* Set resolution in blocks. */
+ > +    hmax = components[0].horizontal_sampling_factor;
+ > +    vmax = components[0].vertical_sampling_factor;
+ > +    for (index = 1; index < 3; index++) {
+ > +        if (hmax < components[index].horizontal_sampling_factor)
+ > +            hmax = components[index].horizontal_sampling_factor;
+ > +        if (vmax < components[index].vertical_sampling_factor)
+ > +            vmax = components[index].vertical_sampling_factor;
+ > +    }
+ > +
+ > +    reg = VE_DEC_MPEG_JPEG_SIZE_WIDTH(DIV_ROUND_UP(width, 8 * hmax));
+ > +    reg |= VE_DEC_MPEG_JPEG_SIZE_HEIGHT(DIV_ROUND_UP(height, 8 * vmax));
+ > +    cedrus_write(dev, VE_DEC_MPEG_JPEG_SIZE, reg);
+ > +
+ > +    /* Set intra quantisation matrix. */
+ > +    index = components[0].quantization_table_selector;
+ > +    ret = cedrus_write_quantization_matrix(dev,
+ > +                                           VE_DEC_MPEG_IQMINPUT_FLAG_INTRA,
+ > +                                           &quantization_tables[index]);
+ > +    if (ret)
+ > +        return ret;
+ > +
+ > +    /* Set non-intra quantisation matrix. */
+ > +    index = components[1].quantization_table_selector;
+ > +    ret = cedrus_write_quantization_matrix(dev,
+ > +                                           VE_DEC_MPEG_IQMINPUT_FLAG_NON_INTRA,
+ > +                                           &quantization_tables[index]);
+ > +    if (ret)
+ > +        return ret;
+ > +
+ > +    /* Set Diffie-Huffman tables. */
+ > +    ret = cedrus_jpeg_write_dh_tables(dev, &header);
+ > +    if (ret)
+ > +        return ret;
+ > +
+ > +    /* Destination luma and chroma buffers. */
+ > +
+ > +    dst_luma_addr = cedrus_dst_buf_addr(ctx, &run->dst->vb2_buf, 0);
+ > +    dst_chroma_addr = cedrus_dst_buf_addr(ctx, &run->dst->vb2_buf, 1);
+ > +
+ > +    /* JPEG outputs to rotation/scale down output buffers */
+ > +    cedrus_write(dev, VE_DEC_MPEG_ROT_LUMA, dst_luma_addr);
+ > +    cedrus_write(dev, VE_DEC_MPEG_ROT_CHROMA, dst_chroma_addr);
+ > +
+ > +    /* Disable rotation and scaling. */
+ > +    cedrus_write(dev, VE_DEC_MPEG_SD_ROT_DBLK_CTL, 0);
+ > +
+ > +    /* Source offset and length in bits. */
+ > +
+ > +    cedrus_write(dev, VE_DEC_MPEG_VLD_OFFSET, 8 * header.ecs_offset);
+ > +
+ > +    reg = size * 8;
+ > +    cedrus_write(dev, VE_DEC_MPEG_VLD_LEN, reg);
+ > +
+ > +    /* Source beginning and end addresses. */
+ > +
+ > +    src_buf_addr = vb2_dma_contig_plane_dma_addr(src_buf, 0);
+ > +
+ > +    reg = VE_DEC_MPEG_VLD_ADDR_BASE(src_buf_addr);
+ > +    reg |= VE_DEC_MPEG_VLD_ADDR_VALID_PIC_DATA;
+ > +    reg |= VE_DEC_MPEG_VLD_ADDR_LAST_PIC_DATA;
+ > +    reg |= VE_DEC_MPEG_VLD_ADDR_FIRST_PIC_DATA;
+ > +
+ > +    cedrus_write(dev, VE_DEC_MPEG_VLD_ADDR, reg);
+ > +
+ > +    reg = src_buf_addr + size;
+ > +    cedrus_write(dev, VE_DEC_MPEG_VLD_END_ADDR, reg);
+ > +
+ > +    /* Enable appropriate interrupts and components. */
+ > +
+ > +    reg = VE_DEC_MPEG_CTRL_IRQ_MASK;
+ > +    if (subsampling == VE_DEC_MPEG_TRIGGER_CHROMA_FMT_422 ||
+ > +        subsampling == VE_DEC_MPEG_TRIGGER_CHROMA_FMT_422T ||
+ > +        subsampling == VE_DEC_MPEG_TRIGGER_CHROMA_FMT_444)
+ > +        reg |= VE_DEC_MPEG_CTRL_JPEG_FORCE_420;
+ > +
+ > +    cedrus_write(dev, VE_DEC_MPEG_CTRL, reg);
+ > +
+ > +    return 0;
+ > +}
+ > +
+ > +static void cedrus_jpeg_trigger(struct cedrus_ctx *ctx)
+ > +{
+ > +    struct cedrus_dev *dev = ctx->dev;
+ > +    u32 reg;
+ > +
+ > +    /* Trigger JPEG engine. */
+ > +    reg = VE_DEC_MPEG_TRIGGER_HW_JPEG_VLD | VE_DEC_MPEG_TRIGGER_JPEG;
+ > +    reg |= ctx->codec.jpeg.subsampling;
+ > +
+ > +    cedrus_write(dev, VE_DEC_MPEG_TRIGGER, reg);
+ > +}
+ > +
+ > +struct cedrus_dec_ops cedrus_dec_ops_jpeg = {
+ > +    .irq_clear   = cedrus_jpeg_irq_clear,
+ > +    .irq_disable = cedrus_jpeg_irq_disable,
+ > +    .irq_status  = cedrus_jpeg_irq_status,
+ > +    .setup       = cedrus_jpeg_setup,
+ > +    .trigger     = cedrus_jpeg_trigger,
+ > +};
+ > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
+ > index 3acc05e0fb54..cb8b4bb4f44e 100644
+ > --- a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
+ > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
+ > @@ -144,6 +144,7 @@
+ >  
+ >  #define VE_DEC_MPEG_CTRL_MC_CACHE_EN        BIT(31)
+ >  #define VE_DEC_MPEG_CTRL_SW_VLD            BIT(27)
+ > +#define VE_DEC_MPEG_CTRL_JPEG_FORCE_420        BIT(18)
+ >  #define VE_DEC_MPEG_CTRL_SW_IQ_IS        BIT(17)
+ >  #define VE_DEC_MPEG_CTRL_QP_AC_DC_OUT_EN    BIT(14)
+ >  #define VE_DEC_MPEG_CTRL_ROTATE_SCALE_OUT_EN    BIT(8)
+ > @@ -165,6 +166,7 @@
+ >  #define VE_DEC_MPEG_TRIGGER_CHROMA_FMT_422    (0x02 << 27)
+ >  #define VE_DEC_MPEG_TRIGGER_CHROMA_FMT_444    (0x03 << 27)
+ >  #define VE_DEC_MPEG_TRIGGER_CHROMA_FMT_422T    (0x04 << 27)
+ > +#define VE_DEC_MPEG_TRIGGER_CHROMA_FMT_400    (0x05 << 27)
+ >  
+ >  #define VE_DEC_MPEG_TRIGGER_MPEG1        (0x01 << 24)
+ >  #define VE_DEC_MPEG_TRIGGER_MPEG2        (0x02 << 24)
+ > @@ -255,10 +257,24 @@
+ >  #define VE_DEC_MPEG_IQMINPUT_WEIGHT(i, v) \
+ >      (SHIFT_AND_MASK_BITS(i, 13, 8) | SHIFT_AND_MASK_BITS(v, 7, 0))
+ >  
+ > +#define VE_DEC_MPEG_JPEG_SIZE            (VE_ENGINE_DEC_MPEG + 0xb8)
+ > +
+ > +#define VE_DEC_MPEG_JPEG_SIZE_WIDTH(w) \
+ > +    SHIFT_AND_MASK_BITS((w) - 1, 10, 0)
+ > +#define VE_DEC_MPEG_JPEG_SIZE_HEIGHT(h) \
+ > +    SHIFT_AND_MASK_BITS((h) - 1, 26, 16)
+ > +
+ > +#define VE_DEC_MPEG_JPEG_MCU            (VE_ENGINE_DEC_MPEG + 0xbc)
+ > +#define VE_DEC_MPEG_JPEG_RES_INT        (VE_ENGINE_DEC_MPEG + 0xc0)
+ >  #define VE_DEC_MPEG_ERROR            (VE_ENGINE_DEC_MPEG + 0xc4)
+ >  #define VE_DEC_MPEG_CRTMBADDR            (VE_ENGINE_DEC_MPEG + 0xc8)
+ >  #define VE_DEC_MPEG_ROT_LUMA            (VE_ENGINE_DEC_MPEG + 0xcc)
+ >  #define VE_DEC_MPEG_ROT_CHROMA            (VE_ENGINE_DEC_MPEG + 0xd0)
+ > +#define VE_DEC_MPEG_SD_ROT_DBLK_CTL        (VE_ENGINE_DEC_MPEG + 0xd4)
+ > +#define VE_DEC_MPEG_JPEG_MCU_START        (VE_ENGINE_DEC_MPEG + 0xd8)
+ > +#define VE_DEC_MPEG_JPEG_MCU_END        (VE_ENGINE_DEC_MPEG + 0xdc)
+ > +#define VE_DEC_MPEG_SRAM_RW_OFFSET        (VE_ENGINE_DEC_MPEG + 0xe0)
+ > +#define VE_DEC_MPEG_SRAM_RW_DATA        (VE_ENGINE_DEC_MPEG + 0xe4)
+ >  
+ >  #define VE_DEC_H265_DEC_NAL_HDR            (VE_ENGINE_DEC_H265 + 0x00)
+ >  
+ > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+ > index b00feaf4072c..7205c2315bc5 100644
+ > --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+ > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+ > @@ -55,6 +55,11 @@ static struct cedrus_format cedrus_formats[] = {
+ >          .directions    = CEDRUS_DECODE_SRC,
+ >          .capabilities    = CEDRUS_CAPABILITY_VP8_DEC,
+ >      },
+ > +    {
+ > +        .pixelformat    = V4L2_PIX_FMT_JPEG,
+ > +        .directions    = CEDRUS_DECODE_SRC,
+ > +        .capabilities    = CEDRUS_CAPABILITY_JPEG_DEC,
+ > +    },
+ >      {
+ >          .pixelformat    = V4L2_PIX_FMT_NV12,
+ >          .directions    = CEDRUS_DECODE_DST,
+ > @@ -118,6 +123,7 @@ void cedrus_prepare_format(struct v4l2_pix_format *pix_fmt)
+ >      case V4L2_PIX_FMT_H264_SLICE:
+ >      case V4L2_PIX_FMT_HEVC_SLICE:
+ >      case V4L2_PIX_FMT_VP8_FRAME:
+ > +    case V4L2_PIX_FMT_JPEG:
+ >          /* Zero bytes per line for encoded source. */
+ >          bytesperline = 0;
+ >          /* Choose some minimum size since this can't be 0 */
+ > @@ -350,6 +356,9 @@ static int cedrus_s_fmt_vid_out_p(struct cedrus_ctx *ctx,
+ >      case V4L2_PIX_FMT_VP8_FRAME:
+ >          ctx->current_codec = &cedrus_dec_ops_vp8;
+ >          break;
+ > +    case V4L2_PIX_FMT_JPEG:
+ > +        ctx->current_codec = &cedrus_dec_ops_jpeg;
+ > +        break;
+ >      }
+ >  
+ >      /* Propagate format information to capture. */
+ > -- 
+ > 2.45.2
+ > 
+ > 
+ > 
 
