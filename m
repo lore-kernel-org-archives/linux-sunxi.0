@@ -1,104 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9802E1E502;
-	Fri, 14 Feb 2025 01:19:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36DB025B66C
+	for <linux-sunxi@lists.linux.dev>; Fri, 14 Feb 2025 11:23:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739495990; cv=none; b=iZ80SGXW7/XLzglsN2pntSyLt79VVYbQR/ZGccf5ENrcdg/Gx48IkeRSelZA7tAQ0npR7gZ/I9A+UliauutuJW988aIMoiYBJkHDTAgFtXmE5VpuvM51qBSrjIGW/dmA6HgmjPyLEP+/DdLCcUNwFlzp+zcxckgxx+8YyDY4ScQ=
+	t=1739532190; cv=none; b=Gz6dlz9zxKnKr3b9yqR88dxgaQpC3YMVRIPkgI1pbmlIRxtWhYFK7VWcRsCgGfhbuEW5L/oVsY+O8OA7GHA7KERtjSMzPWS9Fmwj9xpEbCadK//p0XDzCVuyVOjnZWwWWE8u/CzA7zs2T+4uNS9SxBhtoGk78jYfYRVIueJ54+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739495990; c=relaxed/simple;
-	bh=sfaPPZ9gP5kgndwhB/ECTbbp0IEu/QeHTgJVNdmuwy0=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=HrvzebVQyobWBI9CpPxD6XJA7tTQEpgXwa7j7uf5n56YVZKusq8lromVXrMztNbVGvezmYKdFKb730SMeQviLc/tnVhpIFQ7wrQBtMghW1393kYyKxMegfyQoxMGu+/jELVB3GYTIMaJNHxNFH+esjmcoAH1PleeyN1wS65Q39Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XiSQLD90; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739532190; c=relaxed/simple;
+	bh=ncfBDs1BfbjE8HEdMRv396XMxgyF7oxwkpOZ9BEV/sg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=IW/1lBm0j729e81RJu7pKhhAxLtuY1CBYL2KlcQtMTmoYMOFQ0/wul/an2gGez1TyDZAIKjFxgcc0mSmkZ4Ztk8Sek6YebyZqoUp492FwWwPhZffYsqKivykwbflAXpm6AuOIWgCzWCAsDljLL4nHvwpbwAyLegAssPcszq0bi0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aBqA757c; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XiSQLD90"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBC4EC4CED1;
-	Fri, 14 Feb 2025 01:19:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739495990;
-	bh=sfaPPZ9gP5kgndwhB/ECTbbp0IEu/QeHTgJVNdmuwy0=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=XiSQLD906pcu2WDC2EPROMCXXWeS6auijB21WC1/0APPV98P5nxNnepP2GpHUYEqM
-	 nLtVUv3yqX9KjfSqpqyPfGJcmj4/pvaUMw4yj6uO4rS7pdtXBc2Uau8q14OTtrshAa
-	 12MV0IwP/2ZdGYhbdIpHSiIIeQuv24gd2B8FKNklG97FBHf84pIvHRBhvFN6BLH6Ap
-	 fsdeaHGb7rDR1qhVMoOwHbqH7IAZ84OtOlqUKaDlC8hDCJuV/64GnZvKhrGtFyPCUO
-	 p88qN0HJ69LTcXjyAw9xvVP6lbdTLQGR5ZsHlo1N8bcuoKiuNkBrEBlZsl0x6SFD0E
-	 UxlOKeUATTtHQ==
-Date: Thu, 13 Feb 2025 19:19:48 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aBqA757c"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5ded6c31344so1877170a12.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 14 Feb 2025 03:23:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739532187; x=1740136987; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ncfBDs1BfbjE8HEdMRv396XMxgyF7oxwkpOZ9BEV/sg=;
+        b=aBqA757creZKljp5E0gjQJ7q5+NMLRlZ/FxKYN8jWfcu0MhPYn9nBQNIGdvkrzgmfo
+         UihNGlWgypukgf8bd8YCIpPBM9mqRdICS6UQ9BMHqtm6qkwbcpFuAdZDFs7bYbfu0Gz9
+         /5eJGnKWyI5Ki+b3vKcbONMBY8FF7aTWHKzu2Uaj5URi8iDRyT8Dggm5XXFckwFjkw3M
+         vBbzhIaaVokC0GBkOujgX5weyRdl23nvITUTSbysCRwT+B/6h09jcOPlrVviaU5mCrtV
+         oXKo03xKh88sIotlb7h77Xzj7E7jTcaAsooFDGQaW3s8PMY9730aQ9rTQ0ztKOv4QvEp
+         ghJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739532187; x=1740136987;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ncfBDs1BfbjE8HEdMRv396XMxgyF7oxwkpOZ9BEV/sg=;
+        b=rGThZ7mqI0VdjylbEeP34HQOMB9zFrZain9vitTxGxMXmFQK9fzfnfLKwKqsb/rExH
+         Khv7pXVj7YPgaxpxkW4xO6okZremrajydejAIGO5dxIz6UNhU2bv3jezPgnRPItJjXNc
+         m9ybdeXrbhwV2jWGM+3hip6l6lchLbUa6LXRA0QhUmiPiLAj8kC+a/QlhJwwFMdX55r+
+         wgnOzwPu3hMVAU6DJcOtrQBmccDameevX6RNnjjAt3ZCtT2rw+QvLYBNw/NildDef3D+
+         qFy2glmLLgPBG3sqfPNwwvFlNxjUcZtF0xDC7aQtHauBrF06reZuwNbSZdvLLwdY0wEE
+         8O1g==
+X-Forwarded-Encrypted: i=1; AJvYcCUEwCIDoXxDquFkkepGH6dACjtSI3FS7UlV4ZwGuSinySAvRRnTqjIP73a/hEp6Zulxm7s8fNWwdosXlg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw4ANlIZrMrlkJVhWMs1rPyOV2gQan3MvcHAreulkOw2+V9bImL
+	hDpKSDg1SGoyHltM37in10QF8/mPy06LggBir/CnHeDhtwOFXYIo
+X-Gm-Gg: ASbGncudH1mdPYNbeijJ3trukcg+I697Dl9UqsgDj4NAMBlXInAlaMyQMI9p67KWrpZ
+	h+6o6AA51fUsXl3w7VqbbjFpBQWYzhD3X6fp45P8x5NRJzJ1URNrlVQrbJhJyJvQ1PrE9lqTQdU
+	9KNCLewhc6rUcl6hOK9fbZNR+O2+C0/qrsgHsR3bvsVW0NXHPMJM/EsmYIc4tiSA5MbnU3agkZe
+	dN+p4/E5id90npoKRudYaD7Hw8eHAr1kWlQEbi7g2xVwlK4f61wH+2ux3MuSPuqqdFoNxjS3i9H
+	6w/t9VtkXPTCuwGW0UJNjo+L0FRSDmY0+AiUVpGSa0MHg03RUgio
+X-Google-Smtp-Source: AGHT+IEruA9as/oJ+0B7yZpR+Du0MWt57ncaMUqTh8cPjv7Ydql7nmgBG5oMdHqeXfUBIja3MTJxOg==
+X-Received: by 2002:a05:6402:458c:b0:5e0:2d53:b2a with SMTP id 4fb4d7f45d1cf-5e02d530e00mr597835a12.3.1739532187306;
+        Fri, 14 Feb 2025 03:23:07 -0800 (PST)
+Received: from Junction.dargent.eu (242.76.29.93.rev.sfr.net. [93.29.76.242])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aba532594a0sm329434266b.68.2025.02.14.03.23.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Feb 2025 03:23:07 -0800 (PST)
+From: Regis Dargent <regis.dargent@gmail.com>
+To: 
+Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-watchdog@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2]: watchdog: sunxi: Allow watchdog to remain enabled after probe
+Date: Fri, 14 Feb 2025 12:22:53 +0100
+Message-Id: <20250214112255.97099-1-regis.dargent@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <CAGb2v67tmzGfcFPchjzfSima-sT_u7viYd1UDGB9r6ZeJEgdyg@mail.gmail.com>
+References: <CAGb2v67tmzGfcFPchjzfSima-sT_u7viYd1UDGB9r6ZeJEgdyg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, 
- Chen-Yu Tsai <wens@csie.org>, Conor Dooley <conor+dt@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Samuel Holland <samuel@sholland.org>
-To: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <20250214003734.14944-7-andre.przywara@arm.com>
-References: <20250214003734.14944-1-andre.przywara@arm.com>
- <20250214003734.14944-7-andre.przywara@arm.com>
-Message-Id: <173949598874.895319.6861900349653451498.robh@kernel.org>
-Subject: Re: [PATCH v2 6/8] dt-bindings: pinctrl: add compatible for
- Allwinner A523/T527
+Content-Transfer-Encoding: 8bit
 
 
-On Fri, 14 Feb 2025 00:37:32 +0000, Andre Przywara wrote:
-> The A523 contains a pin controller similar to previous SoCs, although
-> using 10 GPIO banks (PortB-PortK), all of them being IRQ capable.
-> With this SoC we introduce a new style of binding, where the pinmux values
-> for each pin group are stored in the new "allwinner,pinmux" property in
-> the DT node, instead of requiring every driver to store a mapping between
-> the function names and the required pinmux.
-> 
-> Add a new binding file, since all the different variants of the old
-> binding are making the file a bit unwieldy to handle already, and the new
-> property would make the situation worse.
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  .../allwinner,sun55i-a523-pinctrl.yaml        | 177 ++++++++++++++++++
->  1 file changed, 177 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/pinctrl/allwinner,sun55i-a523-pinctrl.yaml
-> 
+I (tried) to fix commit format (still learning, please comment is something
+is missing).
 
-My bot found errors running 'make dt_binding_check' on your patch:
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/pinctrl/allwinner,sun55i-a523-pinctrl.example.dts:24:18: fatal error: dt-bindings/clock/sun55i-a523-r-ccu.h: No such file or directory
-   24 |         #include <dt-bindings/clock/sun55i-a523-r-ccu.h>
-      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-compilation terminated.
-make[2]: *** [scripts/Makefile.dtbs:131: Documentation/devicetree/bindings/pinctrl/allwinner,sun55i-a523-pinctrl.example.dtb] Error 1
-make[2]: *** Waiting for unfinished jobs....
-make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1511: dt_binding_check] Error 2
-make: *** [Makefile:251: __sub-make] Error 2
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250214003734.14944-7-andre.przywara@arm.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+I made the suggested code fixes and added a sunxi_wdt_read_timeout function;
+it was a bit more touchy, as the HW timeout could be set to less than a second
+(really?), so I had to manage max_hw_heartbeat_ms too.
 
