@@ -1,379 +1,148 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2E3C26770B
-	for <linux-sunxi@lists.linux.dev>; Fri, 14 Feb 2025 12:56:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from relay.uni-heidelberg.de (relay.uni-heidelberg.de [129.206.100.212])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A233D1862A
+	for <linux-sunxi@lists.linux.dev>; Fri, 14 Feb 2025 15:07:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=129.206.100.212
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739537797; cv=none; b=Te2LxFbxkekpVgpBHnkaruY6gtY+q6KSDethSlHex63keEO0SONEvWKRdtDsUmQ0EnNSPidY6tUFvaBFRLLrIdfvLAWJH3nTHbXiOjdaqNH1wqD8GLuDG9mBNLWfmLAqZdoe1wwFmkbL+oWmaVVF7Amx8Qy0es9buiU6gdqFWVc=
+	t=1739545625; cv=none; b=X/SpbPDobsGayy8vFft+E9wHyCoTiQuQBeKy8Rzsb4BeD0xOfda6pX/W3m9RF1ec4D8L/C0HTFrpAkOvMtkdW4ifS8y3BC3AOUEExeyY3CjSue99oqi62VnVBbTAWfaALRdYj3PAv6gBszC+qkkciRk2NqEINcrFUdwp3Fr485k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739537797; c=relaxed/simple;
-	bh=yUGsQYAOb1ETRwVoub6VRxXXEmBa1xz/uIHnAIqXdKo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=t1nqZYodX1SZ9EJThjuTzCEQoUWAG25fVInd/Zbjjz9/qdlUDBlg1AAtrp7bzQotG9FwCznxZwHDietUO1s2mmUOVc3X4pTc/XOGZz5UyGV/7G5f4GxAyeCJKkFSvkTlvipUXr1S9d8GOgCgk6XDP0fXWjAAwONTXl6sxyUIPNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A178C1596;
-	Fri, 14 Feb 2025 04:56:55 -0800 (PST)
-Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 61F9A3F58B;
-	Fri, 14 Feb 2025 04:56:33 -0800 (PST)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
+	s=arc-20240116; t=1739545625; c=relaxed/simple;
+	bh=9nkcpXZNvkPRt/uuH/9BO1mdsXmqDK8fyg9SPqOXcyE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MwNBzrQ4i1hrNgrflzIvtKs4EthRWlOMutdigCjOuU464OHeldYxFLv1ytvXCOZT36fXWReiPZTofMlPJIEbRXZr7/YtbmhF43NGoG7hYUZXaSDuFqa68vDLcmklEG/D7ZdVyhecAuE5olB2JQsDmq5o6WeAuP00HwH3iRIZKA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uni-heidelberg.de; spf=none smtp.mailfrom=lemon.iwr.uni-heidelberg.de; dkim=pass (2048-bit key) header.d=uni-heidelberg.de header.i=@uni-heidelberg.de header.b=PcYbkCDX; arc=none smtp.client-ip=129.206.100.212
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uni-heidelberg.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=lemon.iwr.uni-heidelberg.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=uni-heidelberg.de header.i=@uni-heidelberg.de header.b="PcYbkCDX"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=uni-heidelberg.de; i=@uni-heidelberg.de; q=dns/txt;
+  s=s1; t=1739545624; x=1771081624;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9nkcpXZNvkPRt/uuH/9BO1mdsXmqDK8fyg9SPqOXcyE=;
+  b=PcYbkCDXU2J9KmDOd9ZhDSK4AgHwafmLOTJoTr1aC0N4VulLakx1kXt5
+   dJrnBv52OROTVbb7wYgJKe/f7u+LC8qGG1pMypLCbBnw+ukjgq7OIoKV0
+   l8xdXwfZmYQ2OGZZVVsGQsByfxEjctJHxwca7NoB7eCNh/KmgB0glTgOV
+   B2AcVBK8c44XTyJf67jEaniaYAZUMI1zwV/HjjywmGoCOw+LrqDthHdrZ
+   g39hB7VTUxvhg2UVbBPcVzODRSkX9XwAllnRJu/+oINpfkFmrzsmnAiKy
+   EnTdl508IaqSEikEvmE2p7YL+LZpkwOAbS8cRCRfVbTf2oYiYIyVCXcby
+   g==;
+X-CSE-ConnectionGUID: qf2ZENTEQwuWng8L42772g==
+X-CSE-MsgGUID: 6y0cHPHCQeq7UrFSk0mm9w==
+X-IPAS-Result: =?us-ascii?q?A2AOAwDYWq9n/1BqzoFaHAEBAQEBAQcBARIBAQQEAQFAg?=
+ =?us-ascii?q?VODJgGGU5FwA6AhAQEBAQEBAQEBCUQEAQGFB4sMKDgTAQIEAQEBAQMCAwEBA?=
+ =?us-ascii?q?QEBAQEBDgEBBgEBAQEBBwWBIYYIhlsBBSNWEAsYAgImAgIUSIV6sAqBMoEB3?=
+ =?us-ascii?q?kuBNCOBGi6ITwGFa4JIhH6BFYMqPoQaAQo7gz46gi8EgnmBJINApSRSe3gsA?=
+ =?us-ascii?q?VUTFwsHBYEpSAOBESOBIwU0Cjc6gg1pSToCDQI1Z4E3fIIrgiCCOIRDhE2FW?=
+ =?us-ascii?q?IISgWMDAxYQgyF4HIUUZx1AAwttPTcUG6UJgUMXAi2BLgWXBrAEB55bCYcBB?=
+ =?us-ascii?q?BYzl1GTAZh9qS6BfoF+Mz6DN1EZD9t2gTMCBwsBAQMJj3YBgXwBAQ?=
+IronPort-Data: A9a23:mbMxi6lOUYCeJTlfMRljlM3o5gzHIURdPkR7XQ2eYbSJt1+Wr1Gzt
+ xJODTzVOPiNZzf3f9t/OY6yoUoB68fXyIUwQQU//ilmEFtH+JHPbTi7Bh6tYHnCcJGroGGLT
+ Sk6QoOdRCzhZiaE/n9BCpC48D8kk/vOHuGgYAL9EngZbRd+Tys8gg5Ulec8g4p56fC0GArlV
+ ena+6UzA3f7nWcvWo4ow/jb8k435q2u4G5wUmEWPJingnePzxH5M7pCfcldH1OgKqFIE+izQ
+ fr0zb3R1gs1KD90V7tJOp6iGqE7aua60Tqm0xK6aID66vR2nRHe545gXBYqhee7vB3S9zx54
+ I0lWZVd0m7FNIWU8AgWe0Ew/y2TocSq9ZefSUVTv/B/wGXffSHe7tNSIXgpILIe9bZTXTsRq
+ qYXfWVlghCr34pawZq/R+xrgIIiM9OtIYUe/3FtzD3UCfwrW5+FT6iiCd1whW1hwJoWQ7CHP
+ 5RfOWIHgBfoOnWjPn8XDJsjkf2AgnT6dDseqU2P47cx4i3TwQ193bznPcDaPNCHLSlQthzE/
+ DOboTulW3n2MvTB2GKO0kqMrdbChHzGQqwpF+W986911Qj7Kms7UkRNBAbg/5FVkHWWRN9ZM
+ GQf4Ssj668o+ySDU8bgdxyzrXiDoQ9aXtc4O+Q85BuAjLLO8ReGD3INZjdbbZots8pebSYt3
+ F+hnN7zAzFr9rqPRhq19a2GrnC+JQAWIHUEaCtCShEKi/Hop4c0lFHDUv5gHbSzg9mzHiv/q
+ xiIoTI4irdVls0R3q+29njIhjutot7CSQtdzh7eW3+o6itiZImhY4Wu5R7c9/koBIKYSESR+
+ XEeno2d4foIAJWlkC2WXP5LHben/f+JPTTQx1l1EPEJ8zWr5m7mZp1W8DBWIEZyLt1CfT7vf
+ V+VtQ5PjLdfMWWrZqJreY+8I9olwLKmFtn/UP3QKN1UbfBZcA6B4TErZkOK2W3puFYjnLt5O
+ pqBd8uoS3EABsxaICGeQ+oY1rltxz8kg37VRNX7whWr3L6UaWSaD7sIWLeTUgwnxLqK+jf41
+ epyDtSX9BNQAMmiOHaIq4FGeDjmMkMH6YDKR91/L7HYc1c9RD96UJfsLaUdl5tNs4k9qwspw
+ p1echYGoLYHrSebQThmk1g6AF4vNL4mxZ7BAQQiPEyzx18oapu14aEUevMfJOZ8pbA8lKIlF
+ KJeJK1s58ijrByaolzxirGg9+RfmOiD2GpiwgL8O2FkJc4Iq/LhpY+5LmMDCxXi/gLt7JBv/
+ ub+vu8qaYcFRhpvFt3XdPui0xuxsHkRleZ4UlHHSuS/i22ymLWH6kXZ0JcKHi37AUman2vFj
+ VbIXUZwSCuki9ZdzeQlTJus9++Be9aS1GIHd4UHxd5a7RXnw1c=
+IronPort-HdrOrdr: A9a23:BCeVo6tmX+OSuWUaDJ1ZS+iM7skCpIMji2hC6mlwRA09TyXGra
+ 2TdaUgvyMc1gx7ZJhAo6HnBEDkex/hHPFOkO0s1NuZLWvbUQiTXeJfBOnZskTd8kTFn4Yzu8
+ ddmsBFeaXN5DNB/KHHCWeDYrMdKe28gduVbKrlvgRQZDAvT5slwxZyCw6dHEEzbA5aBaAhHJ
+ 7ZwsZcvTKvdVkec8z+XxA+Lp3+juyOsKijTQ8NBhYh5gXLpTS06ITiGxzd+hsFSTtAzZor7G
+ CAuQ3k4aeIte2913bnph3uxqUTvOGk5spIBcSKhMRQAjLwijywbIAkYLGGtCBdmpDQ1L5/+u
+ Osnz4Qe+BIr1/BdGC8phXgnyP61iw11nPkwViExVP+vM3QXlsBeoF8rLMcViGcx1srvdl63q
+ 4O9XmerYBrARTJmzm4z8TUVittilG/rRMZ4KQuZkRkIMYjgYJq3MUiFQJuYeE99RvBmfca+T
+ xVfYnhDPU/SyLkU5mWhBgi/DWWZAVOIv63eDl+hiWr6UktoJlY9Tpo+CVNpAZxyHt6cegx29
+ j5
+X-Talos-CUID: 9a23:y7yfGm+pvKjk8U0wVKiVv1caQPIIVEHw9WjNHEm3WUI1EuLKE1DFrQ==
+X-Talos-MUID: =?us-ascii?q?9a23=3AYlcmgg7YdI4OIAOfdVbdWPa4xow28vylKHgtuqw?=
+ =?us-ascii?q?Lopa5LwJLOG+YiWWoF9o=3D?=
+X-IronPort-Anti-Spam-Filtered: true
+Received: from lemon.iwr.uni-heidelberg.de ([129.206.106.80])
+  by relay.uni-heidelberg.de with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 14 Feb 2025 16:05:46 +0100
+Received: from hlauer by lemon.iwr.uni-heidelberg.de with local (Exim 4.92)
+	(envelope-from <hlauer@lemon.iwr.uni-heidelberg.de>)
+	id 1tixGB-0002Z2-Iz; Fri, 14 Feb 2025 16:05:43 +0100
+Date: Fri, 14 Feb 2025 16:05:43 +0100
+From: Hermann.Lauer@uni-heidelberg.de
+To: Chen-Yu Tsai <wens@csie.org>
+Cc: Icenowy Zheng <uwu@icenowy.me>, Andre Przywara <andre.przywara@arm.com>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>,
-	linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
+	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 15/15] clk: sunxi-ng: add support for the A523/T527 PRCM CCU
-Date: Fri, 14 Feb 2025 12:53:59 +0000
-Message-ID: <20250214125359.5204-16-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.46.3
-In-Reply-To: <20250214125359.5204-1-andre.przywara@arm.com>
-References: <20250214125359.5204-1-andre.przywara@arm.com>
+Subject: Re: Re: Re: [PATCH v2] ARM: dts: sun8i-r40: remove unused GPIO
+ regulator
+Message-ID: <20250214150543.GA9779@lemon.iwr.uni-heidelberg.de>
+References: <20241213195433.GA1568@lemon.iwr.uni-heidelberg.de>
+ <20241214011612.4fd9e4bf@minigeek.lan>
+ <e61c927a4dfe909f4ede4a07dffd9dcd762875be.camel@icenowy.me>
+ <20241220172134.GA9899@lemon.iwr.uni-heidelberg.de>
+ <CAGb2v64ovacuS+G+k3zBvQR+rW2_TSYh4p5frj7fLxz81K9Kmg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAGb2v64ovacuS+G+k3zBvQR+rW2_TSYh4p5frj7fLxz81K9Kmg@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-The A523/T527 SoCs have clock/reset controls in the PRCM part, like many
-previous SoCs. For a change, the whole PRCM is documented in the A523
-manual, including the system bus tree, so we can describe all those
-clocks correctly based on that. There layout seems to be derived from
-the H6 and H616 PRCM CCUs, though there are more clocks, and many clocks
-have subtly changed.
+On Mon, Dec 23, 2024 at 01:18:18AM +0800, Chen-Yu Tsai wrote:
+> > > > CC:ing Icenowy, who added the regulator originally, with commit
+> > > > 0ca12c1ee43c ("ARM: sun8i: r40: add 5V regulator for Banana Pi M2
+> > > > Ultra").
+> > ...
+> > > > Icenowy: can you clarify what "newer" version this was referring to
+> > > > in
+> > > > that commit message? That commit in itself doesn't seem to do
+> > > > anything,
+> > > > as the regulator isn't referenced, and it's not always-on. It's only
+> > > > later when the USB nodes were added that it got used?
+> > > > So was PH23 really necessary?
+...
+> > diagnosed that futher now: PH23 is indeed powering the USB-Ports. Whats
+> > happens ist that I powered the board through the micro USB port which turned
+> > out to be limited to 900mA in axp221s. So the setting of reg 0x30 is
+> > the real culprit: Setting the two lowest bits in this register allows
+> > unlimited power over micro usb.
+...
+> > > I am not sure, the schematics I have here (which says V1.0) have PH23
+> > > as NC... Well, the M2 Berry schematics have PH23 as 5V EN, maybe I
+> > > messed up M2U and M2B when developing?
+> >
+> > While V1.0 didn't need the PH23 setup due to nc, V1.1 needs it. Maybe V1.1
+> > was already on the horizon...
+> 
+> It seems this patch isn't needed then?
 
-Describe all the mod and gate clocks, including the three bus clocks
-(R_AHB, R_APB0, and R_APB1).
+It's plain wrong: The culprit is the power issue as discussed above. Strange
+is the increase of power needed on V1.1, as V1.0 is working with the limit
+in place.
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- drivers/clk/sunxi-ng/Kconfig             |   5 +
- drivers/clk/sunxi-ng/Makefile            |   2 +
- drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c | 245 +++++++++++++++++++++++
- drivers/clk/sunxi-ng/ccu-sun55i-a523-r.h |  14 ++
- 4 files changed, 266 insertions(+)
- create mode 100644 drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c
- create mode 100644 drivers/clk/sunxi-ng/ccu-sun55i-a523-r.h
+As there are issues with the stability of the mmc driver even when disabling
+mmc2 and mmc3, maybe something yet to be found changed in the mmc wirering
+on V1.1 bords which increases power consumption compared to V1.0 with the
+actual driver.
 
-diff --git a/drivers/clk/sunxi-ng/Kconfig b/drivers/clk/sunxi-ng/Kconfig
-index 04efbda847cf9..5830a9d87bf25 100644
---- a/drivers/clk/sunxi-ng/Kconfig
-+++ b/drivers/clk/sunxi-ng/Kconfig
-@@ -57,6 +57,11 @@ config SUN55I_A523_CCU
- 	default y
- 	depends on ARM64 || COMPILE_TEST
- 
-+config SUN55I_A523_R_CCU
-+	tristate "Support for the Allwinner A523/T527 PRCM CCU"
-+	default y
-+	depends on ARM64 || COMPILE_TEST
-+
- config SUN4I_A10_CCU
- 	tristate "Support for the Allwinner A10/A20 CCU"
- 	default y
-diff --git a/drivers/clk/sunxi-ng/Makefile b/drivers/clk/sunxi-ng/Makefile
-index 01a887f7824bb..82e471036de69 100644
---- a/drivers/clk/sunxi-ng/Makefile
-+++ b/drivers/clk/sunxi-ng/Makefile
-@@ -34,6 +34,7 @@ obj-$(CONFIG_SUN50I_H6_CCU)	+= sun50i-h6-ccu.o
- obj-$(CONFIG_SUN50I_H6_R_CCU)	+= sun50i-h6-r-ccu.o
- obj-$(CONFIG_SUN50I_H616_CCU)	+= sun50i-h616-ccu.o
- obj-$(CONFIG_SUN55I_A523_CCU)	+= sun55i-a523-ccu.o
-+obj-$(CONFIG_SUN55I_A523_R_CCU)	+= sun55i-a523-r-ccu.o
- obj-$(CONFIG_SUN4I_A10_CCU)	+= sun4i-a10-ccu.o
- obj-$(CONFIG_SUN5I_CCU)		+= sun5i-ccu.o
- obj-$(CONFIG_SUN6I_A31_CCU)	+= sun6i-a31-ccu.o
-@@ -60,6 +61,7 @@ sun50i-h6-ccu-y			+= ccu-sun50i-h6.o
- sun50i-h6-r-ccu-y		+= ccu-sun50i-h6-r.o
- sun50i-h616-ccu-y		+= ccu-sun50i-h616.o
- sun55i-a523-ccu-y		+= ccu-sun55i-a523.o
-+sun55i-a523-r-ccu-y		+= ccu-sun55i-a523-r.o
- sun4i-a10-ccu-y			+= ccu-sun4i-a10.o
- sun5i-ccu-y			+= ccu-sun5i.o
- sun6i-a31-ccu-y			+= ccu-sun6i-a31.o
-diff --git a/drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c b/drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c
-new file mode 100644
-index 0000000000000..0dafc38370f22
---- /dev/null
-+++ b/drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c
-@@ -0,0 +1,245 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2024 Arm Ltd.
-+ * Based on the D1 CCU driver:
-+ *   Copyright (c) 2020 huangzhenwei@allwinnertech.com
-+ *   Copyright (C) 2021 Samuel Holland <samuel@sholland.org>
-+ */
-+
-+#include <linux/clk-provider.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+
-+#include "ccu_common.h"
-+#include "ccu_reset.h"
-+
-+#include "ccu_gate.h"
-+#include "ccu_mp.h"
-+
-+#include "ccu-sun55i-a523-r.h"
-+
-+static const struct clk_parent_data r_ahb_apb_parents[] = {
-+	{ .fw_name = "hosc" },
-+	{ .fw_name = "losc" },
-+	{ .fw_name = "iosc" },
-+	{ .fw_name = "pll-periph" },
-+	{ .fw_name = "pll-audio" },
-+};
-+static SUNXI_CCU_M_DATA_WITH_MUX(r_ahb_clk, "r-ahb",
-+				 r_ahb_apb_parents, 0x000,
-+				 0, 5,	/* M */
-+				 24, 3,	/* mux */
-+				 0);
-+
-+static SUNXI_CCU_M_DATA_WITH_MUX(r_apb0_clk, "r-apb0",
-+				 r_ahb_apb_parents, 0x00c,
-+				 0, 5,	/* M */
-+				 24, 3,	/* mux */
-+				 0);
-+
-+static SUNXI_CCU_M_DATA_WITH_MUX(r_apb1_clk, "r-apb1",
-+				 r_ahb_apb_parents, 0x010,
-+				 0, 5,	/* M */
-+				 24, 3,	/* mux */
-+				 0);
-+
-+static SUNXI_CCU_P_DATA_WITH_MUX_GATE(r_cpu_timer0, "r-timer0",
-+				      r_ahb_apb_parents, 0x100,
-+				      1, 3,	/* P */
-+				      4, 3,	/* mux */
-+				      BIT(0),
-+				      0);
-+static SUNXI_CCU_P_DATA_WITH_MUX_GATE(r_cpu_timer1, "r-timer1",
-+				      r_ahb_apb_parents, 0x104,
-+				      1, 3,	/* P */
-+				      4, 3,	/* mux */
-+				      BIT(0),
-+				      0);
-+static SUNXI_CCU_P_DATA_WITH_MUX_GATE(r_cpu_timer2, "r-timer2",
-+				      r_ahb_apb_parents, 0x108,
-+				      1, 3,	/* P */
-+				      4, 3,	/* mux */
-+				      BIT(0),
-+				      0);
-+
-+static SUNXI_CCU_GATE_HW(bus_r_timer_clk, "bus-r-timer", &r_ahb_clk.common.hw,
-+			 0x11c, BIT(0), 0);
-+static SUNXI_CCU_GATE_HW(bus_r_twd_clk,	"bus-r-twd", &r_apb0_clk.common.hw,
-+			 0x12c, BIT(0), 0);
-+
-+static const struct clk_parent_data r_pwmctrl_parents[] = {
-+	{ .fw_name = "hosc" },
-+	{ .fw_name = "losc" },
-+	{ .fw_name = "iosc" },
-+};
-+static SUNXI_CCU_MUX_DATA_WITH_GATE(r_pwmctrl_clk, "r-pwmctrl",
-+				  r_pwmctrl_parents, 0x130,
-+				  24, 1,	/* mux */
-+				  BIT(31),
-+				  0);
-+static SUNXI_CCU_GATE_HW(bus_r_pwmctrl_clk, "bus-r-pwmctrl",
-+			 &r_apb0_clk.common.hw, 0x13c, BIT(0), 0);
-+
-+/* SPI clock is /M/N (same as new MMC?) */
-+static SUNXI_CCU_GATE_HW(bus_r_spi_clk, "bus-r-spi",
-+			 &r_ahb_clk.common.hw, 0x15c, BIT(0), 0);
-+static SUNXI_CCU_GATE_HW(bus_r_spinlock_clk, "bus-r-spinlock",
-+			 &r_ahb_clk.common.hw, 0x16c, BIT(0), 0);
-+static SUNXI_CCU_GATE_HW(bus_r_msgbox_clk, "bus-r-msgbox",
-+			 &r_ahb_clk.common.hw, 0x17c, BIT(0), 0);
-+static SUNXI_CCU_GATE_HW(bus_r_uart0_clk, "bus-r-uart0",
-+			 &r_apb1_clk.common.hw, 0x18c, BIT(0), 0);
-+static SUNXI_CCU_GATE_HW(bus_r_uart1_clk, "bus-r-uart1",
-+			 &r_apb1_clk.common.hw, 0x18c, BIT(1), 0);
-+static SUNXI_CCU_GATE_HW(bus_r_i2c0_clk, "bus-r-i2c0",
-+			 &r_apb1_clk.common.hw, 0x19c, BIT(0), 0);
-+static SUNXI_CCU_GATE_HW(bus_r_i2c1_clk, "bus-r-i2c1",
-+			 &r_apb1_clk.common.hw, 0x19c, BIT(1), 0);
-+static SUNXI_CCU_GATE_HW(bus_r_i2c2_clk, "bus-r-i2c2",
-+			 &r_apb1_clk.common.hw, 0x19c, BIT(2), 0);
-+static SUNXI_CCU_GATE_HW(bus_r_ppu0_clk, "bus-r-ppu0",
-+			 &r_apb0_clk.common.hw, 0x1ac, BIT(0), 0);
-+static SUNXI_CCU_GATE_HW(bus_r_ppu1_clk, "bus-r-ppu1",
-+			 &r_apb0_clk.common.hw, 0x1ac, BIT(1), 0);
-+static SUNXI_CCU_GATE_HW(bus_r_cpu_bist_clk, "bus-r-cpu-bist",
-+			 &r_apb0_clk.common.hw, 0x1bc, BIT(0), 0);
-+
-+static const struct clk_parent_data r_ir_rx_parents[] = {
-+	{ .fw_name = "losc" },
-+	{ .fw_name = "hosc" },
-+};
-+static SUNXI_CCU_M_DATA_WITH_MUX_GATE(r_ir_rx_clk, "r-ir-rx",
-+				      r_ir_rx_parents, 0x1c0,
-+				      0, 5,	/* M */
-+				      24, 2,	/* mux */
-+				      BIT(31),	/* gate */
-+				      0);
-+static SUNXI_CCU_GATE_HW(bus_r_ir_rx_clk, "bus-r-ir-rx",
-+			 &r_apb0_clk.common.hw, 0x1cc, BIT(0), 0);
-+
-+static SUNXI_CCU_GATE_HW(bus_r_dma_clk, "bus-r-dma",
-+			 &r_apb0_clk.common.hw, 0x1dc, BIT(0), 0);
-+static SUNXI_CCU_GATE_HW(bus_r_rtc_clk, "bus-r-rtc",
-+			 &r_apb0_clk.common.hw, 0x20c, BIT(0), 0);
-+static SUNXI_CCU_GATE_HW(bus_r_cpucfg_clk, "bus-r-cpucfg",
-+			 &r_apb0_clk.common.hw, 0x22c, BIT(0), 0);
-+
-+static struct ccu_common *sun55i_a523_r_ccu_clks[] = {
-+	&r_ahb_clk.common,
-+	&r_apb0_clk.common,
-+	&r_apb1_clk.common,
-+	&r_cpu_timer0.common,
-+	&r_cpu_timer1.common,
-+	&r_cpu_timer2.common,
-+	&bus_r_timer_clk.common,
-+	&bus_r_twd_clk.common,
-+	&r_pwmctrl_clk.common,
-+	&bus_r_pwmctrl_clk.common,
-+	&bus_r_spi_clk.common,
-+	&bus_r_spinlock_clk.common,
-+	&bus_r_msgbox_clk.common,
-+	&bus_r_uart0_clk.common,
-+	&bus_r_uart1_clk.common,
-+	&bus_r_i2c0_clk.common,
-+	&bus_r_i2c1_clk.common,
-+	&bus_r_i2c2_clk.common,
-+	&bus_r_ppu0_clk.common,
-+	&bus_r_ppu1_clk.common,
-+	&bus_r_cpu_bist_clk.common,
-+	&r_ir_rx_clk.common,
-+	&bus_r_ir_rx_clk.common,
-+	&bus_r_dma_clk.common,
-+	&bus_r_rtc_clk.common,
-+	&bus_r_cpucfg_clk.common,
-+};
-+
-+static struct clk_hw_onecell_data sun55i_a523_r_hw_clks = {
-+	.num	= CLK_NUMBER,
-+	.hws	= {
-+		[CLK_R_AHB]		= &r_ahb_clk.common.hw,
-+		[CLK_R_APB0]		= &r_apb0_clk.common.hw,
-+		[CLK_R_APB1]		= &r_apb1_clk.common.hw,
-+		[CLK_R_TIMER0]		= &r_cpu_timer0.common.hw,
-+		[CLK_R_TIMER1]		= &r_cpu_timer1.common.hw,
-+		[CLK_R_TIMER2]		= &r_cpu_timer2.common.hw,
-+		[CLK_BUS_R_TIMER]	= &bus_r_timer_clk.common.hw,
-+		[CLK_BUS_R_TWD]		= &bus_r_twd_clk.common.hw,
-+		[CLK_R_PWMCTRL]		= &r_pwmctrl_clk.common.hw,
-+		[CLK_BUS_R_PWMCTRL]	= &bus_r_pwmctrl_clk.common.hw,
-+		[CLK_BUS_R_SPI]		= &bus_r_spi_clk.common.hw,
-+		[CLK_BUS_R_SPINLOCK]	= &bus_r_spinlock_clk.common.hw,
-+		[CLK_BUS_R_MSGBOX]	= &bus_r_msgbox_clk.common.hw,
-+		[CLK_BUS_R_UART0]	= &bus_r_uart0_clk.common.hw,
-+		[CLK_BUS_R_UART1]	= &bus_r_uart1_clk.common.hw,
-+		[CLK_BUS_R_I2C0]	= &bus_r_i2c0_clk.common.hw,
-+		[CLK_BUS_R_I2C1]	= &bus_r_i2c1_clk.common.hw,
-+		[CLK_BUS_R_I2C2]	= &bus_r_i2c2_clk.common.hw,
-+		[CLK_BUS_R_PPU0]	= &bus_r_ppu0_clk.common.hw,
-+		[CLK_BUS_R_PPU1]	= &bus_r_ppu1_clk.common.hw,
-+		[CLK_BUS_R_CPU_BIST]	= &bus_r_cpu_bist_clk.common.hw,
-+		[CLK_R_IR_RX]		= &r_ir_rx_clk.common.hw,
-+		[CLK_BUS_R_IR_RX]	= &bus_r_ir_rx_clk.common.hw,
-+		[CLK_BUS_R_DMA]		= &bus_r_dma_clk.common.hw,
-+		[CLK_BUS_R_RTC]		= &bus_r_rtc_clk.common.hw,
-+		[CLK_BUS_R_CPUCFG]	= &bus_r_cpucfg_clk.common.hw,
-+	},
-+};
-+
-+static struct ccu_reset_map sun55i_a523_r_ccu_resets[] = {
-+	[RST_BUS_R_TIMER]	= { 0x11c, BIT(16) },
-+	[RST_BUS_R_TWD]		= { 0x12c, BIT(16) },
-+	[RST_BUS_R_PWMCTRL]	= { 0x13c, BIT(16) },
-+	[RST_BUS_R_SPI]		= { 0x15c, BIT(16) },
-+	[RST_BUS_R_SPINLOCK]	= { 0x16c, BIT(16) },
-+	[RST_BUS_R_MSGBOX]	= { 0x17c, BIT(16) },
-+	[RST_BUS_R_UART0]	= { 0x18c, BIT(16) },
-+	[RST_BUS_R_UART1]	= { 0x18c, BIT(17) },
-+	[RST_BUS_R_I2C0]	= { 0x19c, BIT(16) },
-+	[RST_BUS_R_I2C1]	= { 0x19c, BIT(17) },
-+	[RST_BUS_R_I2C2]	= { 0x19c, BIT(18) },
-+	[RST_BUS_R_PPU1]	= { 0x1ac, BIT(17) },
-+	[RST_BUS_R_IR_RX]	= { 0x1cc, BIT(16) },
-+	[RST_BUS_R_RTC]		= { 0x20c, BIT(16) },
-+	[RST_BUS_R_CPUCFG]	= { 0x22c, BIT(16) },
-+};
-+
-+static const struct sunxi_ccu_desc sun55i_a523_r_ccu_desc = {
-+	.ccu_clks	= sun55i_a523_r_ccu_clks,
-+	.num_ccu_clks	= ARRAY_SIZE(sun55i_a523_r_ccu_clks),
-+
-+	.hw_clks	= &sun55i_a523_r_hw_clks,
-+
-+	.resets		= sun55i_a523_r_ccu_resets,
-+	.num_resets	= ARRAY_SIZE(sun55i_a523_r_ccu_resets),
-+};
-+
-+static int sun55i_a523_r_ccu_probe(struct platform_device *pdev)
-+{
-+	void __iomem *reg;
-+
-+	reg = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(reg))
-+		return PTR_ERR(reg);
-+
-+	return devm_sunxi_ccu_probe(&pdev->dev, reg, &sun55i_a523_r_ccu_desc);
-+}
-+
-+static const struct of_device_id sun55i_a523_r_ccu_ids[] = {
-+	{ .compatible = "allwinner,sun55i-a523-r-ccu" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, sun55i_a523_r_ccu_ids);
-+
-+static struct platform_driver sun55i_a523_r_ccu_driver = {
-+	.probe	= sun55i_a523_r_ccu_probe,
-+	.driver	= {
-+		.name			= "sun55i-a523-r-ccu",
-+		.suppress_bind_attrs	= true,
-+		.of_match_table		= sun55i_a523_r_ccu_ids,
-+	},
-+};
-+module_platform_driver(sun55i_a523_r_ccu_driver);
-+
-+MODULE_IMPORT_NS("SUNXI_CCU");
-+MODULE_DESCRIPTION("Support for the Allwinner A523 PRCM CCU");
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/clk/sunxi-ng/ccu-sun55i-a523-r.h b/drivers/clk/sunxi-ng/ccu-sun55i-a523-r.h
-new file mode 100644
-index 0000000000000..d50f46ac4f3fe
---- /dev/null
-+++ b/drivers/clk/sunxi-ng/ccu-sun55i-a523-r.h
-@@ -0,0 +1,14 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright 2024 Arm Ltd.
-+ */
-+
-+#ifndef _CCU_SUN55I_A523_R_H
-+#define _CCU_SUN55I_A523_R_H
-+
-+#include <dt-bindings/clock/sun55i-a523-r-ccu.h>
-+#include <dt-bindings/reset/sun55i-a523-r-ccu.h>
-+
-+#define CLK_NUMBER	(CLK_BUS_R_CPUCFG + 1)
-+
-+#endif /* _CCU_SUN55I_A523_R_H */
--- 
-2.46.3
-
+Sorry for the late reply - my time to look at this is scarse.
+Thanks (especially to Andre for his help) and greetings
+ Hermann
