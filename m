@@ -1,134 +1,183 @@
-Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D28AF4A33
-	for <linux-sunxi@lists.linux.dev>; Sat, 15 Feb 2025 03:49:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF19018C01E;
+	Sat, 15 Feb 2025 08:51:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739591344; cv=none; b=bDRgz+fl2TtufiE0CbOoQnrAxO0Rtb6tkyPhOJE62sE5FC26wp2MQ64XKlJk77/gf31BVeP0t5iQ/KF8ZoW00Nwtjg0vCWjgkaKVmgypXxGYg9r2FQR/Xmaq95aiUw6LZng9uWnVWk0n01jZtAEmVOzcCW8SPrmQM4sOS1kL3QQ=
+	t=1739609475; cv=none; b=ThNZdG7XA+juV6q++96wwdXUeTbHcQIoZI42xupJEkui6pdEUv8dcxP9jiIDfLyLAjbNJNX0+1avAQGV1Vg1i7k6NykwpomrBUHz1Yy5gzlyST2rts8M5g7lZlczYRIqjzrHMVnSf4v9AxmqDns5xgEVfdFEbaCRyxsXzuFI2MI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739591344; c=relaxed/simple;
-	bh=R1sxzCqvhdem/phYlSbYJoFA5ZHeSTwnLYouy/wFB3g=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=g/UYzB64f7f8mTqU6ec6b8WE5zEvPn482svoYB+09gnk+zEP2GtJcgMA5NLa/MdudxLfU4+PyRhy7EUFRBOW8lG/3oIPLaBCbRj7NTqh3yv/FXDKIJq12nNczttBefC1CC34g3eCnDCyuaQvtgDeHakJIuOua3IsiM95Bar4bhA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=f2mN4FYA; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=h5kGlGKe; arc=none smtp.client-ip=103.168.172.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
+	s=arc-20240116; t=1739609475; c=relaxed/simple;
+	bh=bOL7hyxwdyA5NZF7YWFX1w7MgDLf45Pn8T+oWqiAy80=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VWFkOiLzZdOeeh9V07ek5D9T+aYkN3JumAu00vDDi/jVOCCRJSCUEJrPl/WdVbPPYxSxg9nO/IH8Pr14MtFGHdbg/PwZoYrY1UxbQjfc+kfTFOZp5l+ywNyCEDq+f5wGqAEqiNDRzIc8ike4QbkzxMzDsN6tNPyFuX0v1JGAxQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j/luwkOS; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="f2mN4FYA";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="h5kGlGKe"
-Received: from phl-compute-13.internal (phl-compute-13.phl.internal [10.202.2.53])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id C4F5C11401A1;
-	Fri, 14 Feb 2025 22:49:01 -0500 (EST)
-Received: from phl-imap-07 ([10.202.2.97])
-  by phl-compute-13.internal (MEProxy); Fri, 14 Feb 2025 22:49:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
-	 t=1739591341; x=1739677741; bh=myPH6l0fPDFrYP8tIa5SQdEq5I1Vnw5X
-	3g3YUMM3Fvo=; b=f2mN4FYAsZWTmcoXQzLdOm6nhCSQVsklPCaxxA3I0gRl6Llb
-	r7XnsUtluxKlfvd0CvNdhDXW5oqw0eXUTxWXGPRwEAe8/48OmMyUZ5DaRga+/+om
-	T49CWoIlw6YUesuxbcrecerkGSFutscBq4RLnY1K+DaTvzDIhbaEHI6ax33FgLgC
-	zk486z37on20gABwb27Uludiseema+Zywyshlxfjg23XHb1u1FqUPP0o0wbSLfOE
-	PgFdntSbZxXBHsucZTX6a1r2UgZiaumeoVzSaJENkC5DisSWrs2ueAAoxpCG8CvJ
-	9O+DVifnxQo1Up2Tm7ZUi4DsqFT7BLF9FICa+g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1739591341; x=
-	1739677741; bh=myPH6l0fPDFrYP8tIa5SQdEq5I1Vnw5X3g3YUMM3Fvo=; b=h
-	5kGlGKe8nmS4hPtg4pyM/dztqaM1EI/EUXKsufWrss4oipO4lSS9bFUucVo4SNp1
-	+JXOOypne61enHqc5tB5kn88ixbz/gd5CDUao5NaeDAq8x7/E6tuc27d16u48QfS
-	J9Iu9d8r0Dl+brQaLUprh0KktWb+CYPA0S6JztTAyEdR3yRcZ1ez0ZrzBHN3qU95
-	QNhuPw65PjxSjtqcrzSwynVyKoB6pffHN8Nz8U8XLUutkCAHeKFLjQuiswM4xVPu
-	QL42I5S4zEcIODBJ8U5WQRaJkgPEV5TgHhhHgq7bDfN5W26/5to+X4KAtzajydcc
-	WBVM+Q5TSBs0pR5iPkRcQ==
-X-ME-Sender: <xms:qw6wZ3Nc5rAOzMC_OTcN0l0edsxhS-uHEt9Sa7PrG6D6mwUQAtKocA>
-    <xme:qw6wZx_LHoVEOB_G13QugvaiTAkZRDFj1YEa9aHqHFd8i9vQqGs7dbXxGCPuXrDmp
-    0CcVTkoHx1_LLGRgA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehudeglecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
-    tdenucfhrhhomhepfdfthigrnhcuhggrlhhklhhinhdfuceorhihrghnsehtvghsthhtoh
-    grshhtrdgtohhmqeenucggtffrrghtthgvrhhnpeejhfeukeejjefguddvffehveevjefh
-    tddutdfhudduvdevfeejfffgvdelfeeugfenucevlhhushhtvghrufhiiigvpedtnecurf
-    grrhgrmhepmhgrihhlfhhrohhmpehrhigrnhesthgvshhtthhorghsthdrtghomhdpnhgs
-    pghrtghpthhtohepvddupdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegrnhgurh
-    gvrdhprhiihiifrghrrgesrghrmhdrtghomhdprhgtphhtthhopehmthhurhhquhgvthht
-    vgessggrhihlihgsrhgvrdgtohhmpdhrtghpthhtohepfigvnhhssegtshhivgdrohhrgh
-    dprhgtphhtthhopegurghnihgvlhesfhhffihllhdrtghhpdhrtghpthhtoheprghirhhl
-    ihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehjvghrnhgvjhdrshhkrhgrsggvtg
-    esghhmrghilhdrtghomhdprhgtphhtthhopehmrggtrhhorghlphhhrgekvdesghhmrghi
-    lhdrtghomhdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:qw6wZ2SujnKu_6uipJMxuvzHBwznXkOUFi4IQc6DAf04ouMRp0sR3Q>
-    <xmx:qw6wZ7uEgbjmfrGBLm1FIJath51BFS5DtwamInX0oUUVWq--KZOe0Q>
-    <xmx:qw6wZ_dJDa88Ul43SQZRdrfFvtanu8cSuRQkj_uri896EP7RTUWTjw>
-    <xmx:qw6wZ30Et1uGUl--L6okTQMkGs0qI1C2w6hwzu_tR1UxvxTfY84y7A>
-    <xmx:rQ6wZ18oljfrxqA20zSQwEBuF_J-YT7KozvLnYThvbAI55hTEkpjvDsM>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 981AEBA006F; Fri, 14 Feb 2025 22:48:59 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j/luwkOS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739609473; x=1771145473;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=bOL7hyxwdyA5NZF7YWFX1w7MgDLf45Pn8T+oWqiAy80=;
+  b=j/luwkOSeWKokaacvlHoaKSz3XIbxKaT6KNpBc5knprsH0FtP37rKKL1
+   XFWJvygAVK6VUJ2te4RxpxNsNc6G1WWDld4wInPhbiKa1COPqs18F8FvX
+   LRV9suf+ry+Zr8HrGUJgckqbO9m9T7i1zVEUVnNTLC3yRedkW2SR52zs9
+   X2MQQg6hfIQKllFzNbWOAuz8wd8Cog7vzgqOLYCjn5DkNYUBZ5D0jh6UI
+   N0U/T9gOBRgqcoQQqv/5M/Sd2kh5fL8ZcW7H0cilsUsBoJBkBay9VuyJ7
+   JPu0zJjZ28oWX0pW5mLmV1eR2cGwmUy/gEY8wDlibnSEsQS8+yiV8dK9Q
+   g==;
+X-CSE-ConnectionGUID: /T8rA8YWQqyccbl4TeTSTQ==
+X-CSE-MsgGUID: WIZCxhhiQmq76y1oTS3M8g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="57764818"
+X-IronPort-AV: E=Sophos;i="6.13,288,1732608000"; 
+   d="scan'208";a="57764818"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2025 00:51:12 -0800
+X-CSE-ConnectionGUID: /r+F0jx4RVKMBSVF09lU6w==
+X-CSE-MsgGUID: r0L1deRvR9Cz9JN551mbGw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,288,1732608000"; 
+   d="scan'208";a="114287640"
+Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2025 00:51:04 -0800
+Message-ID: <84fd4500-a12c-40d6-a532-e2956ed1c35e@linux.intel.com>
+Date: Sat, 15 Feb 2025 16:48:04 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Sat, 15 Feb 2025 16:48:39 +1300
-From: "Ryan Walklin" <ryan@testtoast.com>
-To: "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>
-Cc: "Maxime Ripard" <mripard@kernel.org>, "Chen-Yu Tsai" <wens@csie.org>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Thomas Zimmermann" <tzimmermann@suse.de>,
- "David Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>,
- "Samuel Holland" <samuel@sholland.org>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>,
- "Michael Turquette" <mturquette@baylibre.com>,
- "Stephen Boyd" <sboyd@kernel.org>, "Andre Przywara" <andre.przywara@arm.com>,
- "Chris Morgan" <macroalpha82@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- devicetree@vger.kernel.org, linux-clk@vger.kernel.org
-Message-Id: <6f14b319-fbb8-413d-a88d-edebf624c7fb@app.fastmail.com>
-In-Reply-To: <4c31826f-0ffa-4ada-bcf9-199fcbe6db07@app.fastmail.com>
-References: <20240929091107.838023-1-ryan@testtoast.com>
- <20240929091107.838023-9-ryan@testtoast.com>
- <4cumvwkhmbi7fecjeq6r7elon63u3ytootqcvavjg5vfnargy3@wrjpy6pnphmb>
- <4c31826f-0ffa-4ada-bcf9-199fcbe6db07@app.fastmail.com>
-Subject: Re: [PATCH v5 08/26] drm: sun4i: de3: add YUV support to the DE3 mixer
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 07/23] iommu/pages: De-inline the substantial functions
+To: Jason Gunthorpe <jgg@nvidia.com>, Alim Akhtar <alim.akhtar@samsung.com>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Albert Ou <aou@eecs.berkeley.edu>,
+ asahi@lists.linux.dev, David Woodhouse <dwmw2@infradead.org>,
+ Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-tegra@vger.kernel.org, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Hector Martin <marcan@marcan.st>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Robin Murphy
+ <robin.murphy@arm.com>, Samuel Holland <samuel@sholland.org>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Sven Peter <sven@svenpeter.dev>, Thierry Reding <thierry.reding@gmail.com>,
+ Tomasz Jeznach <tjeznach@rivosinc.com>, Krishna Reddy <vdumpa@nvidia.com>,
+ Chen-Yu Tsai <wens@csie.org>, Will Deacon <will@kernel.org>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>, Joerg Roedel <jroedel@suse.de>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
+ David Rientjes <rientjes@google.com>, Matthew Wilcox <willy@infradead.org>
+References: <7-v2-545d29711869+a76b5-iommu_pages_jgg@nvidia.com>
+Content-Language: en-US
+From: Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <7-v2-545d29711869+a76b5-iommu_pages_jgg@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Sat, 15 Feb 2025, at 2:18 PM, Ryan Walklin wrote:
-> On Sun, 20 Oct 2024, at 3:14 AM, Dmitry Baryshkov wrote:
->> On Sun, Sep 29, 2024 at 10:04:40PM +1300, Ryan Walklin wrote:
->
->>> diff --git a/drivers/gpu/drm/sun4i/sunxi_engine.h b/drivers/gpu/drm/sun4i/sunxi_engine.h
->>> index c48cbc1aceb80..ffafc29b3a0c3 100644
->>> --- a/drivers/gpu/drm/sun4i/sunxi_engine.h
->>> +++ b/drivers/gpu/drm/sun4i/sunxi_engine.h
->
->>> @@ -151,6 +153,9 @@ struct sunxi_engine {
->>>  
->>>  	int id;
->>>  
->>> +	u32				format;
->>> +	enum drm_color_encoding		encoding;
->>
->> Should these be a part of the state instead of being a part of the
->> sunxi_engine?
->
-> Sure, would you suggest in sun8i_mixer_cfg?
+On 2/15/25 01:07, Jason Gunthorpe wrote:
+> These are called in a lot of places and are not trivial. Move them to the
+> core module.
+> 
+> Tidy some of the comments and function arguments, fold
+> __iommu_alloc_account() into its only caller, change
+> __iommu_free_account() into __iommu_free_page() to remove some
+> duplication.
+> 
+> Signed-off-by: Jason Gunthorpe<jgg@nvidia.com>
+> ---
+>   drivers/iommu/Makefile      |   1 +
+>   drivers/iommu/iommu-pages.c |  84 +++++++++++++++++++++++++++++
+>   drivers/iommu/iommu-pages.h | 103 ++----------------------------------
+>   3 files changed, 90 insertions(+), 98 deletions(-)
+>   create mode 100644 drivers/iommu/iommu-pages.c
+> 
+> diff --git a/drivers/iommu/Makefile b/drivers/iommu/Makefile
+> index 5e5a83c6c2aae2..fe91d770abe16c 100644
+> --- a/drivers/iommu/Makefile
+> +++ b/drivers/iommu/Makefile
+> @@ -1,6 +1,7 @@
+>   # SPDX-License-Identifier: GPL-2.0
+>   obj-y += amd/ intel/ arm/ iommufd/ riscv/
+>   obj-$(CONFIG_IOMMU_API) += iommu.o
+> +obj-$(CONFIG_IOMMU_SUPPORT) += iommu-pages.o
+>   obj-$(CONFIG_IOMMU_API) += iommu-traces.o
+>   obj-$(CONFIG_IOMMU_API) += iommu-sysfs.o
+>   obj-$(CONFIG_IOMMU_DEBUGFS) += iommu-debugfs.o
+> diff --git a/drivers/iommu/iommu-pages.c b/drivers/iommu/iommu-pages.c
+> new file mode 100644
+> index 00000000000000..dbf7205bb23dcc
+> --- /dev/null
+> +++ b/drivers/iommu/iommu-pages.c
+> @@ -0,0 +1,84 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2024, Google LLC.
+> + * Pasha Tatashin<pasha.tatashin@soleen.com>
+> + */
+> +#include "iommu-pages.h"
+> +#include <linux/gfp.h>
+> +#include <linux/mm.h>
+> +
+> +/**
+> + * iommu_alloc_pages_node - Allocate a zeroed page of a given order from
+> + *                          specific NUMA node
+> + * @nid: memory NUMA node id
+> + * @gfp: buddy allocator flags
+> + * @order: page order
+> + *
+> + * Returns the virtual address of the allocated page. The page must be
+> + * freed either by calling iommu_free_page() or via iommu_put_pages_list().
 
-Hmm, on second thought the mixer config is a const struct, presumably because it is defined per engine variant in sun8i_mixer.c. Is there a better place to store state like this? Otherwise the engine may not be the worst choice, as the color format and encoding apply to the entire pipeline, at least in the case of a single display?
+nit: ... by calling iommu_free_pages() ...
 
-Regards,
+and
 
-Ryan
+  s/page/pages/g in above comments?
+
+> + */
+> +void *iommu_alloc_pages_node(int nid, gfp_t gfp, unsigned int order)
+> +{
+> +	const unsigned long pgcnt = 1UL << order;
+> +	struct page *page;
+> +
+> +	page = alloc_pages_node(nid, gfp | __GFP_ZERO | __GFP_COMP, order);
+> +	if (unlikely(!page))
+> +		return NULL;
+> +
+> +	/*
+> +	 * All page allocations that should be reported to as "iommu-pagetables"
+> +	 * to userspace must use one of the functions below. This includes
+> +	 * allocations of page-tables and other per-iommu_domain configuration
+> +	 * structures.
+> +	 *
+> +	 * This is necessary for the proper accounting as IOMMU state can be
+> +	 * rather large, i.e. multiple gigabytes in size.
+> +	 */
+> +	mod_node_page_state(page_pgdat(page), NR_IOMMU_PAGES, pgcnt);
+> +	mod_lruvec_page_state(page, NR_SECONDARY_PAGETABLE, pgcnt);
+> +
+> +	return page_address(page);
+> +}
+> +EXPORT_SYMBOL_GPL(iommu_alloc_pages_node);
+> +
+> +static void __iommu_free_page(struct page *page)
+
+It's more readable if renaming it to __iommu_free_pages()?
+
+> +{
+> +	unsigned int order = folio_order(page_folio(page));
+> +	const unsigned long pgcnt = 1UL << order;
+> +
+> +	mod_node_page_state(page_pgdat(page), NR_IOMMU_PAGES, -pgcnt);
+> +	mod_lruvec_page_state(page, NR_SECONDARY_PAGETABLE, -pgcnt);
+> +	put_page(page);
+> +}
+
+Thanks,
+baolu
