@@ -1,134 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from a.peacevolution.org (a.peacevolution.org [206.189.193.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91E55194A75;
-	Sat, 15 Feb 2025 09:50:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41E1113DDAE
+	for <linux-sunxi@lists.linux.dev>; Sat, 15 Feb 2025 20:16:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.193.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739613059; cv=none; b=fD+/hnFv4GHN4mo5HWFTJbKjwAAp05ipIyNH6vV/au9datTVchul4FC0Ge95mhSf/EFS7+YDQcFfexc1Tb5Teq1DVT1rWtO8wBNJ+k9tmallXyKQrBGMU7wKMQhY9KIb3Muc4Gz8d4f2z1p/yhSXVHXJ0LyIlS1j51pTKqhNYwc=
+	t=1739650573; cv=none; b=XrTCb5DxRq6HpzdBDn7jUBeH0JcfXkAuRXmAI/puoLiajMcVX2sTsKO7gDFK19BIeJdYEFjDLN4Vq3B9q+TeXzepD6Ktc7DFVIFpPIMQoCXIv+g8KgclKsiIWbYAVfsZe05jnj8rCd9twyC+TcxzJdThmi5AgV70BE5DkCUPNQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739613059; c=relaxed/simple;
-	bh=MYtye3mXOSgmjNVwAdiLAWnVTAT6ccam/tc+AZHY5DU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rYCG7bAn1zStKKBgBQeOD1rh3HlC/afcjh0n1iQeRGklQg+IKh3QApLnPfF5w2vIoOUaqFuQBMFw3Jaco21xTkGehgv4Evd/KcCBXQLLIBZ82fj0A8DeIU0YRqPtqlMSmPC59ffAxxl4YAhWzZ7t0ftrb8cq4/PTVy8DH6kUnFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HZn57gNs; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1739650573; c=relaxed/simple;
+	bh=WlbhtRtGYmtPNGje39iaRCjxdH8d7of9P4tp6NU4COQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BofRZ2wzWozd5lRm4hUOjNvfgA0M+NUPxQXOELsnmVt9NGbuojZtBq/EbLZSdNgSO+YZc4UJ1LRXeIimSKwx9lq7C+L936Y4zIElHvAxv4GwA3mKt5Hyd4QgTsVbXg/qLAUtIx1uuNo968RN4Z9awLVtFkb0bp7hICN2lX3BJGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org; spf=pass smtp.mailfrom=peacevolution.org; dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b=UhxPIwY9; arc=none smtp.client-ip=206.189.193.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=peacevolution.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HZn57gNs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739613057; x=1771149057;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=MYtye3mXOSgmjNVwAdiLAWnVTAT6ccam/tc+AZHY5DU=;
-  b=HZn57gNsQtn06a0haQdzAuFtqZhobhpWGh6XiRpmGXK3QA4wm1CMPmq9
-   2gNgp5x5lpZRza1uIKTo6vOlrVGfgR0QsDsLZZFOCEdtuCuE65XhRkcP8
-   1DaIPYwQa/v+SYyNc/KOMu/cDTZQMSAUSn61xT+EqfylVNwnj6d5CkDCO
-   IYR2WBsvmrNcAhqZK55NeqTxE28vscLRcAO6YhBVPxpr4e0UZFjcybX34
-   ArOxQa7MUjCQj2A2WmMZmBv1PwpAxS/34oysCXHDn5ovzC7Lv1pZbkU8D
-   acq2ub7Y7cyDf5Mf5kbb4TRCSotXA1KYdVwcozvNGS5kQVvnc2nxzrDJS
-   w==;
-X-CSE-ConnectionGUID: hJUH5py1RhSWcFWyM9Co8g==
-X-CSE-MsgGUID: zD20xP6BTZiO07hkGMS7pA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="62830886"
-X-IronPort-AV: E=Sophos;i="6.13,288,1732608000"; 
-   d="scan'208";a="62830886"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2025 01:50:56 -0800
-X-CSE-ConnectionGUID: Wx9nhBKeSyWUiDCwEGa+UA==
-X-CSE-MsgGUID: tBrnDxKzSJ2qq/G5C/lSng==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,288,1732608000"; 
-   d="scan'208";a="113858921"
-Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2025 01:50:48 -0800
-Message-ID: <d66e555b-8054-4f73-8077-201b51139773@linux.intel.com>
-Date: Sat, 15 Feb 2025 17:47:51 +0800
+	dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b="UhxPIwY9"
+Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
+	by a.peacevolution.org (Postfix) with ESMTPA id 6107141A29;
+	Sat, 15 Feb 2025 20:16:02 +0000 (UTC)
+Date: Sat, 15 Feb 2025 15:16:00 -0500
+From: Aren <aren@peacevolution.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Kaustabh Chakraborty <kauschluss@disroot.org>, =?utf-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <trabarni@gmail.com>, 
+	Julien Stephan <jstephan@baylibre.com>, 
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, Ondrej Jirman <megi@xff.cz>, Dragan Simic <dsimic@manjaro.org>, 
+	phone-devel@vger.kernel.org
+Subject: Re: [PATCH v5 6/8] iio: light: stk3310: use dev_err_probe where
+ possible
+Message-ID: <54gp7mhpu5fgeeif5amajmcit4znuil2kikx43bcu6eujmq5wu@oxaq6fgmkuyr>
+References: <20250208211325.992280-2-aren@peacevolution.org>
+ <20250208211325.992280-8-aren@peacevolution.org>
+ <Z6jAEEU2dqn_FJVp@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 23/23] iommu/pages: Remove iommu_alloc_pages_node()
-To: Jason Gunthorpe <jgg@nvidia.com>, Alim Akhtar <alim.akhtar@samsung.com>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Albert Ou <aou@eecs.berkeley.edu>,
- asahi@lists.linux.dev, David Woodhouse <dwmw2@infradead.org>,
- Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, linux-arm-kernel@lists.infradead.org,
- linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org, Marek Szyprowski <m.szyprowski@samsung.com>,
- Hector Martin <marcan@marcan.st>, Palmer Dabbelt <palmer@dabbelt.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Robin Murphy
- <robin.murphy@arm.com>, Samuel Holland <samuel@sholland.org>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Sven Peter <sven@svenpeter.dev>, Thierry Reding <thierry.reding@gmail.com>,
- Tomasz Jeznach <tjeznach@rivosinc.com>, Krishna Reddy <vdumpa@nvidia.com>,
- Chen-Yu Tsai <wens@csie.org>, Will Deacon <will@kernel.org>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>, Joerg Roedel <jroedel@suse.de>,
- Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
- David Rientjes <rientjes@google.com>, Matthew Wilcox <willy@infradead.org>
-References: <23-v2-545d29711869+a76b5-iommu_pages_jgg@nvidia.com>
-Content-Language: en-US
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <23-v2-545d29711869+a76b5-iommu_pages_jgg@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z6jAEEU2dqn_FJVp@smile.fi.intel.com>
+X-Spamd-Bar: /
+Authentication-Results: auth=pass smtp.auth=aren@peacevolution.org smtp.mailfrom=aren@peacevolution.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=peacevolution.org;
+	s=dkim; t=1739650563;
+	h=from:subject:date:message-id:to:cc:mime-version:content-type:in-reply-to:references;
+	bh=9aU3GtdyvnIFsX7EEuvTP5n0LC+5wNHQ+PxclHEEIGc=;
+	b=UhxPIwY9S/cJsjrbo7Y7Jbp8fUaTByXNtTY9daK6nCgyrAVRT/LqrCjd9PIK20mNGpI+Sb
+	FyoQ4aPFr+Gu5e6hm1lrVo5zf0SOTy7mJ8vMS9HehLOI0GNQBSn015MMTSx2lbhaBwB32O
+	GE4DT4Me4PlvRlOFVApH7v3WxkKD1H8=
 
-On 2/15/25 01:07, Jason Gunthorpe wrote:
-> diff --git a/drivers/iommu/intel/iommu.h b/drivers/iommu/intel/iommu.h
-> index dd980808998da9..1036ed0d899472 100644
-> --- a/drivers/iommu/intel/iommu.h
-> +++ b/drivers/iommu/intel/iommu.h
-> @@ -493,14 +493,13 @@ struct q_inval {
->   
->   /* Page Request Queue depth */
->   #define PRQ_ORDER	4
-> -#define PRQ_RING_MASK	((0x1000 << PRQ_ORDER) - 0x20)
-> -#define PRQ_DEPTH	((0x1000 << PRQ_ORDER) >> 5)
-> +#define PRQ_SIZE	(SZ_4K << PRQ_ORDER)
-> +#define PRQ_RING_MASK	(PRQ_SIZE - 0x20)
-> +#define PRQ_DEPTH	(PRQ_SIZE >> 5)
->   
->   struct dmar_pci_notify_info;
->   
->   #ifdef CONFIG_IRQ_REMAP
-> -/* 1MB - maximum possible interrupt remapping table size */
+On Sun, Feb 09, 2025 at 04:47:44PM +0200, Andy Shevchenko wrote:
+> On Sat, Feb 08, 2025 at 04:13:24PM -0500, Aren Moynihan wrote:
+> > Using dev_err_probe instead of dev_err and return makes the errors
+> 
+> Use dev_err_probe()
+> dev_err()
+> 
+> > easier to understand by including the error name, and saves a little
+> > code.
+> 
+> I believe this patch will make more sense before switching to local 'dev'
+> variable. Then the previous one will have an additional justification as
+> the "struct device *dev = ...;" lines in some cases will be added already
+> by this patch.
 
-Can we keep this line of comment,
+That will only be added in one spot, and I skipped updating the dev_err
+calls in the previous patch that this patch rewrites, so churn shouldn't
+be an issue. That also makes it trivial to reorder them, so I guess it
+can't hurt.
 
-and move it ...
+> >  	indio_dev = devm_iio_device_alloc(dev, sizeof(*data));
+> > -	if (!indio_dev) {
+> > -		dev_err(&client->dev, "iio allocation failed!\n");
+> > -		return -ENOMEM;
+> > -	}
+> > +	if (!indio_dev)
+> > +		return dev_err_probe(dev, -ENOMEM, "iio allocation failed!\n");
+> 
+> We don't issue the messages for -ENOMEM.
+> 
+> If it's in the current code, add a new patch to drop this message and return an
+> error code directly.
+> 
+> ...
+> 
+> > +	if (ret < 0)
+> 
+> Perhaps, while at it, drop these ' < 0' parts where they are not hinting about
+> anything.
 
-> -#define INTR_REMAP_PAGE_ORDER	8
->   #define INTR_REMAP_TABLE_REG_SIZE	0xf
->   #define INTR_REMAP_TABLE_REG_SIZE_MASK  0xf
->   
-> diff --git a/drivers/iommu/intel/irq_remapping.c b/drivers/iommu/intel/irq_remapping.c
-> index d6b796f8f100cd..735e26498ee9f2 100644
-> --- a/drivers/iommu/intel/irq_remapping.c
-> +++ b/drivers/iommu/intel/irq_remapping.c
-> @@ -538,11 +538,10 @@ static int intel_setup_irq_remapping(struct intel_iommu *iommu)
->   	if (!ir_table)
->   		return -ENOMEM;
->   
-> -	ir_table_base = iommu_alloc_pages_node(iommu->node, GFP_KERNEL,
-> -					       INTR_REMAP_PAGE_ORDER);
-> +	ir_table_base =
+Sure, I can add patches for these, although continuing to rebase this
+series is getting a bit cumbersome (perhaps just because I haven't found
+a good workflow for it). Would I be better off reordering this so the
+refactoring patches come first and can be partially merged?
 
-... here?
+Regards
+ - Aren
 
-> +		iommu_alloc_pages_node_sz(iommu->node, GFP_KERNEL, SZ_1M);
->   	if (!ir_table_base) {
-> -		pr_err("IR%d: failed to allocate pages of order %d\n",
-> -		       iommu->seq_id, INTR_REMAP_PAGE_ORDER);
-> +		pr_err("IR%d: failed to allocate 1M of pages\n", iommu->seq_id);
->   		goto out_free_table;
->   	}
-
-Thanks,
-baolu
