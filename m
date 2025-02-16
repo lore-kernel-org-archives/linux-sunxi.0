@@ -1,107 +1,89 @@
-Received: from a.peacevolution.org (a.peacevolution.org [206.189.193.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41E1113DDAE
-	for <linux-sunxi@lists.linux.dev>; Sat, 15 Feb 2025 20:16:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.193.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7343C152196
+	for <linux-sunxi@lists.linux.dev>; Sun, 16 Feb 2025 08:39:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739650573; cv=none; b=XrTCb5DxRq6HpzdBDn7jUBeH0JcfXkAuRXmAI/puoLiajMcVX2sTsKO7gDFK19BIeJdYEFjDLN4Vq3B9q+TeXzepD6Ktc7DFVIFpPIMQoCXIv+g8KgclKsiIWbYAVfsZe05jnj8rCd9twyC+TcxzJdThmi5AgV70BE5DkCUPNQ4=
+	t=1739695185; cv=none; b=HDbtQEYeSa0yVUjm/2+WkPlQ4Rq73ob4KMq8qzbCTsrwFomyekmBX+wqve+c95FW9DdoOIago4m5oWI1qxjOVNZ8evpIk/zsNa6ER4Co6MUUHAUfGkGDzfUapzvuCCxbSFe/M7rZOewkLnV6I+voy4wXZfs7dAR27UhKq96L53k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739650573; c=relaxed/simple;
-	bh=WlbhtRtGYmtPNGje39iaRCjxdH8d7of9P4tp6NU4COQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BofRZ2wzWozd5lRm4hUOjNvfgA0M+NUPxQXOELsnmVt9NGbuojZtBq/EbLZSdNgSO+YZc4UJ1LRXeIimSKwx9lq7C+L936Y4zIElHvAxv4GwA3mKt5Hyd4QgTsVbXg/qLAUtIx1uuNo968RN4Z9awLVtFkb0bp7hICN2lX3BJGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org; spf=pass smtp.mailfrom=peacevolution.org; dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b=UhxPIwY9; arc=none smtp.client-ip=206.189.193.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=peacevolution.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b="UhxPIwY9"
-Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-	by a.peacevolution.org (Postfix) with ESMTPA id 6107141A29;
-	Sat, 15 Feb 2025 20:16:02 +0000 (UTC)
-Date: Sat, 15 Feb 2025 15:16:00 -0500
-From: Aren <aren@peacevolution.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Jonathan Cameron <jic23@kernel.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Kaustabh Chakraborty <kauschluss@disroot.org>, =?utf-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <trabarni@gmail.com>, 
-	Julien Stephan <jstephan@baylibre.com>, 
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, Ondrej Jirman <megi@xff.cz>, Dragan Simic <dsimic@manjaro.org>, 
-	phone-devel@vger.kernel.org
-Subject: Re: [PATCH v5 6/8] iio: light: stk3310: use dev_err_probe where
- possible
-Message-ID: <54gp7mhpu5fgeeif5amajmcit4znuil2kikx43bcu6eujmq5wu@oxaq6fgmkuyr>
-References: <20250208211325.992280-2-aren@peacevolution.org>
- <20250208211325.992280-8-aren@peacevolution.org>
- <Z6jAEEU2dqn_FJVp@smile.fi.intel.com>
+	s=arc-20240116; t=1739695185; c=relaxed/simple;
+	bh=4AdpC+R4N8zDGtraiU5Lmy5Fens0u4reg+EHPOLw5QQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=I+cwFfTOVAUO4oPdmXcY73xC2Jp3Eq44PY92ZZX4ecjeUyObgAoOsmjV11eEVEaWqehoe6kVKtOQEOn0y7zAgEq+MYEyf0cVaQeE8NR86nNcPMTnpUNSpPjALqPVGGAR0VUPqgAMq5QgRG62vvoxmo0DZkg0Wp+J3uCwwNBgv/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-30762598511so33640821fa.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 16 Feb 2025 00:39:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739695180; x=1740299980;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4AdpC+R4N8zDGtraiU5Lmy5Fens0u4reg+EHPOLw5QQ=;
+        b=jfzoChNUX22r35nx/h10ZSVU5hBx7ci7I+FFd7cqDSKpWNPZ3hxN3GTV5YRBVUZ0Q+
+         UvhWtd2mIDAAN+kkuNnUUqJiz6sreOveMPgpnfyszDlxYdMFzzCfeCx+0SBnAgRPZ0FK
+         +qSU5nHhNesswpXuvuhviYHIZ1ttQOu4jEGYLhzPbb+/WltEpr64gd3LsTxqHoTJTSBj
+         UViFpwOCOXJZcasxRFKMl+jCcglk8U1mGKEN+wFk1wZc5cqlGrOkt9TuLmY3+hcDAiV2
+         eZG1M16lMchAIjDjk2rBRxNvj7OfEpeYxbNN76tQxHaSHRhFEHYr1o1QdPJ18ELFdmwq
+         vb1g==
+X-Forwarded-Encrypted: i=1; AJvYcCXQ46Ivi128PUawZlMnoJ1fOFUY26AsGsAP9P4/UUBjudGeqKOadRhHHYrlmeEjx3vkajwHN2yORwEgZw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yysx3pp0zOoGZV7xqXf0A/kZE9HJfd6vTZi4JGWun9dGQJqiela
+	MQCcURl3BPWyIrUHouA1eOHv7Ux+uOB9XFYhrnNPb6BsPUXyGa9faGU3gzfz
+X-Gm-Gg: ASbGncvBOdQIJsEXPH181fOMZD20vy9q8vI4V7MW8roescOlYvQE5KSQHVSY3tcoTXh
+	tCeIwDqEeZHDtu6DJabtlk3ujviQxAWeV6Wk9KI37QRRIFXPDms2VDvfw/6EPoWV7hNnd+YIRs7
+	iiCvNbYqSgvfo7YsUvRl6Tea/wRH/u2AE1AJQqW6WzuQVEKZmk6hpl14ECAs8ZqXF4hruNgw2n9
+	0NI12g8N49/OZO6AVOKxGYQXn39A6myVWmFEzmL0zStPCNAx582Cjcr4/ayEnIErWeq1sGXlR7+
+	TG36St6TCXDLXsVU6WlE+UsIMkGH0Syd4ukB6ca5safy
+X-Google-Smtp-Source: AGHT+IHCurW9S/Mz9+MNvZVk3zY9S0Be/fCHK49WzBUYjwCwRfiZINDqtAxOwLvbwIUm/CJ2FM/fnw==
+X-Received: by 2002:a05:6512:ba6:b0:545:2550:7d67 with SMTP id 2adb3069b0e04-5452fe6af3emr1673950e87.36.1739695179531;
+        Sun, 16 Feb 2025 00:39:39 -0800 (PST)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com. [209.85.167.48])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30a2a668ad9sm1166691fa.10.2025.02.16.00.39.38
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 16 Feb 2025 00:39:38 -0800 (PST)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5452e6f2999so2082095e87.3
+        for <linux-sunxi@lists.linux.dev>; Sun, 16 Feb 2025 00:39:38 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUj58XvpZR1gKlNR5JZ6HjaNah7vUhBpISGJOfdZokCVjjOqe092O16EUBNvJeZQ4dlCaZz2R+iYnHLWg==@lists.linux.dev
+X-Received: by 2002:a05:6512:3b0b:b0:545:c89:2bb4 with SMTP id
+ 2adb3069b0e04-5452fe3a9a4mr1513881e87.23.1739695178124; Sun, 16 Feb 2025
+ 00:39:38 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z6jAEEU2dqn_FJVp@smile.fi.intel.com>
-X-Spamd-Bar: /
-Authentication-Results: auth=pass smtp.auth=aren@peacevolution.org smtp.mailfrom=aren@peacevolution.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=peacevolution.org;
-	s=dkim; t=1739650563;
-	h=from:subject:date:message-id:to:cc:mime-version:content-type:in-reply-to:references;
-	bh=9aU3GtdyvnIFsX7EEuvTP5n0LC+5wNHQ+PxclHEEIGc=;
-	b=UhxPIwY9S/cJsjrbo7Y7Jbp8fUaTByXNtTY9daK6nCgyrAVRT/LqrCjd9PIK20mNGpI+Sb
-	FyoQ4aPFr+Gu5e6hm1lrVo5zf0SOTy7mJ8vMS9HehLOI0GNQBSn015MMTSx2lbhaBwB32O
-	GE4DT4Me4PlvRlOFVApH7v3WxkKD1H8=
+References: <20250214125359.5204-1-andre.przywara@arm.com> <20250214125359.5204-2-andre.przywara@arm.com>
+In-Reply-To: <20250214125359.5204-2-andre.przywara@arm.com>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Sun, 16 Feb 2025 16:39:25 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66q0mymn9a0uy5zyYCOKiLV+WACkM6SHoy057u-F9vstA@mail.gmail.com>
+X-Gm-Features: AWEUYZlJN5fyyQqJMaZNefcoToyMAqIjjxYWZyhvGNhYIbG8A1i9T2wmnDZTFAc
+Message-ID: <CAGb2v66q0mymn9a0uy5zyYCOKiLV+WACkM6SHoy057u-F9vstA@mail.gmail.com>
+Subject: Re: [PATCH v2 01/15] clk: sunxi-ng: mp: Add SUNXI_CCU_P_DATA_WITH_MUX_GATE
+ wrapper
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, linux-clk@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Feb 09, 2025 at 04:47:44PM +0200, Andy Shevchenko wrote:
-> On Sat, Feb 08, 2025 at 04:13:24PM -0500, Aren Moynihan wrote:
-> > Using dev_err_probe instead of dev_err and return makes the errors
-> 
-> Use dev_err_probe()
-> dev_err()
-> 
-> > easier to understand by including the error name, and saves a little
-> > code.
-> 
-> I believe this patch will make more sense before switching to local 'dev'
-> variable. Then the previous one will have an additional justification as
-> the "struct device *dev = ...;" lines in some cases will be added already
-> by this patch.
+On Fri, Feb 14, 2025 at 8:56=E2=80=AFPM Andre Przywara <andre.przywara@arm.=
+com> wrote:
+>
+> The PRCM CCU in the A523 SoC contains some clocks that only feature a
+> P (shift) factor, but no M divider.
+> Treat this as a special case of an MP clock: by forcing the M mask to be
+> 0 bits wide, this always result in the M divider value to be 1.
+>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-That will only be added in one spot, and I skipped updating the dev_err
-calls in the previous patch that this patch rewrites, so churn shouldn't
-be an issue. That also makes it trivial to reorder them, so I guess it
-can't hurt.
-
-> >  	indio_dev = devm_iio_device_alloc(dev, sizeof(*data));
-> > -	if (!indio_dev) {
-> > -		dev_err(&client->dev, "iio allocation failed!\n");
-> > -		return -ENOMEM;
-> > -	}
-> > +	if (!indio_dev)
-> > +		return dev_err_probe(dev, -ENOMEM, "iio allocation failed!\n");
-> 
-> We don't issue the messages for -ENOMEM.
-> 
-> If it's in the current code, add a new patch to drop this message and return an
-> error code directly.
-> 
-> ...
-> 
-> > +	if (ret < 0)
-> 
-> Perhaps, while at it, drop these ' < 0' parts where they are not hinting about
-> anything.
-
-Sure, I can add patches for these, although continuing to rebase this
-series is getting a bit cumbersome (perhaps just because I haven't found
-a good workflow for it). Would I be better off reordering this so the
-refactoring patches come first and can be partially merged?
-
-Regards
- - Aren
-
+Reviewed-by: Chen-Yu Tsai <wens@csie.org>
