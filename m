@@ -1,56 +1,56 @@
 Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75E46188736
-	for <linux-sunxi@lists.linux.dev>; Sun, 16 Feb 2025 09:29:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA9C188733
+	for <linux-sunxi@lists.linux.dev>; Sun, 16 Feb 2025 09:29:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739698156; cv=none; b=fekuSi+oDGcXmwFK+HEvjUB/m9TzAI7CH+/bsf2Zp00P5TqDjzbRUq+W83KCdCPpj17wHnDjbqfS+JVubJlenI1R+MLhycdO/hpMW4bvEDmzXvgE10m5T31UjCkKEhyZPaDJpZIvhc5VcX+a2tG822aHlGDOLANJMM0+g9t3Uz8=
+	t=1739698162; cv=none; b=djQyEdFQLORHvKZ7pt7II6o8A4Vb1L9HZ78fHlYbti1cHwR1xMMzjIAFCR9Pxpx4haEE7glVwUlsld6A4yE+Z4bEGOYHIEx5KQBpbbOkRLgxhVgzJXNU7xaulaGgSkJ+zOsQjj3sDwYTp81Zy/zBMQdzUt4q1XOQSGmiAqWHy4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739698156; c=relaxed/simple;
-	bh=+ZhrQslHetzF8ZouXn67pHCp4i5ZD3l9Wx77n17lgR8=;
+	s=arc-20240116; t=1739698162; c=relaxed/simple;
+	bh=XL+U69dYyvh2rI1YOKtdl5pGD30gCdYh7QO+rVfIbfw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZP+X6plLSJTYcGIJDa3ubVqBvXFStwLgVXeqKaYfEpT2OS/5mQZkAp9aJjd9PBQQrMSTQ/lCtN79y6YQe2bGcAWi3lnyY5qHrgVcvnP8BsqNVZNuT7+5I/HuMXtel0ZZpR37Z+AEb05X6jWd2rqaeRZWNVeWqmbSyr9A8edaTRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=qg9zjZuo; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=0+yeca89; arc=none smtp.client-ip=202.12.124.157
+	 MIME-Version; b=jyCLJqcdXRB3RYGp2eLqCZjzq6PHrQC1qOgosg5bVjWX80Kf0FTfRP6VB8zdIe1v6EG14XhFgblldUWjp3y0GEQGuGkQt1ZeLEfDdrFHSbrEvz6ajbIej27lmA3pvwaS/cRE3AB4u6AQkdY0RpMD2u3oc887FAL42vLfR3tDOoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=Ipg3QvbE; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=RYpXxJlh; arc=none smtp.client-ip=202.12.124.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="qg9zjZuo";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="0+yeca89"
-Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 44B2C2540112;
-	Sun, 16 Feb 2025 04:29:13 -0500 (EST)
+	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="Ipg3QvbE";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="RYpXxJlh"
+Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 56E242540112;
+	Sun, 16 Feb 2025 04:29:18 -0500 (EST)
 Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Sun, 16 Feb 2025 04:29:13 -0500
+  by phl-compute-06.internal (MEProxy); Sun, 16 Feb 2025 04:29:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
 	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
 	:from:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm3; t=1739698153; x=
-	1739784553; bh=WyP6xZadxIiPxhHK5VEbhsiz7PBbk/d5bR4lsljXq8U=; b=q
-	g9zjZuon0q2bsWE5XgnnblRp2D2IoDuD3pUASdCKkb8xFK+pOQBWAjcMappj1CFm
-	5iL9jZcQ8rJJ82cXM4oVdx/LoRp0B8Gbjn05oH2hQP7jT9WeFlhUo2sDf+UN1VKX
-	ml2LZfdCW1SpB+RRqV7ivNSRoQLYdyLv/1DjDulTUUYTmWVbIXN+B3TMqjq3Otfx
-	pVBcVLr4lCCDz5GB0vYzPnDEYwfIYvA5xTGr9DRP4AtnSaT7H5TygD4EY5Sz5QH7
-	pfnlEdBl3fVT5NlMjqOUkLzdR2x8VK2FvlvJezzWgBmhJRNncMBP2tWUCXr1SbYV
-	0egf6j+bacUgr2snRddQw==
+	:reply-to:subject:subject:to:to; s=fm3; t=1739698158; x=
+	1739784558; bh=2EIzP0HgejNa9WUiq2oxdXd+iKdqm6aPx/jw2TlMIfA=; b=I
+	pg3QvbEv5maekN3iAiiOwaXgrFKgRl1h1s8ryRkAFWu2eeiC+Oc4MH9/MQFC3tNj
+	Jqx7xohzHq2Q+MeOOtn2tCUr4L9i3fMh5gsjIfHRzQPbU/8z6R4E3UR/pRR4BCUz
+	AX8O2G2zFeJ3LJ3nRHVrUS5FsRd+rTUEyVzoMKxf/wHg/yYb144U8lT0FwQDm7Yw
+	OkVQT3NsFQODcM7A5QS4roJ1QOHZRyS4T+ol4+vZpu7XN3o0/bxRWmXho3s3nbLB
+	8LaqRdH3wykbXnVctqN1vkZyD3DuW7UN9kiemDy9wJPeOdsxmwZGlf7/wvr3G2oc
+	RnSqUBqyWJQujcrpzCv/w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm3; t=1739698153; x=1739784553; bh=W
-	yP6xZadxIiPxhHK5VEbhsiz7PBbk/d5bR4lsljXq8U=; b=0+yeca89eOgpD0+HR
-	KHyBW51IF9OOjFuyjbIFFVaAZ3ONhIY2QOJ2eWaELkvtEaQVnV8BliMEOJwlRm8R
-	cbXI7V7O9EkwamouFysCyPFN7jx3ViLTB9667p7qXQDWuNPSUXd9Fp4epNzjl6kJ
-	ZgbBOh8nswsRdQeCOgnssv3QflOUTnagTSSESDbrOiDBO9k+y0vHOraypzXMozNt
-	kf1vDQkfp0oCw26kguziXUbJ4WyRDW2D7UqzUe/dm/L1rZU7HB7cpZvyoThqzkpO
-	SpZyjUdUEl50k1xBxSL+GvknPVifqlnoWONQc2YD/8SBmtsYU43w2wKEHvaa0WoJ
-	9cOZw==
-X-ME-Sender: <xms:6K-xZwDfxQGAV0j4GNMAvmQASEP26_8CfrbzLe4FiD0DPZLDtVOl6Q>
-    <xme:6K-xZygPkGMv5jBfdifjqCNNBMajwXOB2zJUQvcDR8yJlcA-6OrPfp9K8E4nKlMUj
-    PI4NRvPjq1bHxWCHQ>
-X-ME-Received: <xmr:6K-xZzm8NHItBgZYu6QLW0r5nkbjCY9065ESlyPDqUuq4SkUuW3I5D7yNM59bUYLiT13cV0nVWD6R4SPgSUUtfh80fH9zZvLV22lpWlWrlqo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehheduudcutefuodetggdotefrod
+	:x-me-sender:x-sasl-enc; s=fm3; t=1739698158; x=1739784558; bh=2
+	EIzP0HgejNa9WUiq2oxdXd+iKdqm6aPx/jw2TlMIfA=; b=RYpXxJlhCVl9Uj6DM
+	IUp56tQvUACh7kvMnMnDFrc4QEDOcjeALbdYZKtI7DF5lppK4yodFNJgfavASMU9
+	04FRtqYctuid+S4ytM2Rxynv1oyTLLOjZOxpPen3H35fdAJHe5Nv09NbgsdgAjLp
+	eAiPmHyeTVGqUY0i4jhxo3jJzVPK2lxRJX4Lh6WGvdqE932DuE58WH+v4G4TRMu+
+	bu+cWTlo7DYAKX6cqPAD3azSUX+oQ72aYh+u8QF7m4WEfcWnprbm/+EsxNi4ykc5
+	TfwX4TUhmQC6OZQQZSv2e5gVyCq50cGkv5xZ85El33SfAdIRKKQvWognEysvdp4v
+	3BomQ==
+X-ME-Sender: <xms:7q-xZ-_WL5QEcU2wKu4rzpF4e2o6-XgE52uJM6byJJj6quw2dwsz_g>
+    <xme:7q-xZ-tZw8HQQQN9VdyRm2WGQxnBKGxGhBI1hztZxFgLkSKqOd4FS-hVpw5xuKMyM
+    -JffcaHociemXMYGg>
+X-ME-Received: <xmr:7q-xZ0DD-qjatzFaf1gBcpYLVRoB2cde8HxPDqbHE3fCLRI_S-2aXD-TepDhsO6kXwni2MEHLrj1qzO4eaMHuELPsHRKL3kfI4FgpafmS-oi>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehhedutdcutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
     uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
     hnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffojghfggfgsedtkeertdertddt
@@ -66,14 +66,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehheduudcutefuodetgg
     hgpdhrtghpthhtoheprghnughrvgdrphhriiihfigrrhgrsegrrhhmrdgtohhmpdhrtghp
     thhtohepmhgrtghrohgrlhhphhgrkedvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepkh
     hikhhutghhrghnleeksehgmhgrihhlrdgtohhm
-X-ME-Proxy: <xmx:6a-xZ2zG_jjfc1P5M2wwqTfZUyEeH6anp27XRqnBH7037fdAeRC7Kw>
-    <xmx:6a-xZ1RIk_p9JwvNzc2nE7g0sABJCdCHd9VoQ9JopudnN_HlYkoADw>
-    <xmx:6a-xZxbgBwo_0lRe5FNpR2yzCdPJh40U0JUBXY2z29-RcMDEaZe2nw>
-    <xmx:6a-xZ-S-k3Mys1xCtV0RAQbG2amABo0RmZAmJdtd-siK5JLZyGdnEA>
-    <xmx:6a-xZxrThefBKyMtkLV-8CM_ut926Us41zO_LJUWHGo5zfIdr8dHvsNS>
+X-ME-Proxy: <xmx:7q-xZ2cOFAKwvpsqE0llPKnIExYzXSeSwB6vgB6UGjC8psvQ6JRrUA>
+    <xmx:7q-xZzNwsrzZSom4AFqg9ogT5ICOAtUPbv7_kMK6Ab5AlYp8WF0l3Q>
+    <xmx:7q-xZwk0stJZMjc4MLW7WN4iGx-Hu3I7g5toKI8neJbbwc9yRfRWVw>
+    <xmx:7q-xZ1vPiQnYCDMOQ0XNGk420U7hFhgIqiw50aE9ApyOJvlZhmiQgw>
+    <xmx:7q-xZ6mLqkOnbs0l1gq8LvFYhjt1Wfbix4R_QlhEu1IuVAfeAWePPClS>
 Feedback-ID: idc0145fc:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 16 Feb 2025 04:29:08 -0500 (EST)
+ 16 Feb 2025 04:29:13 -0500 (EST)
 From: Ryan Walklin <ryan@testtoast.com>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -89,9 +89,9 @@ Cc: Andre Przywara <andre.przywara@arm.com>,
 	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	Ryan Walklin <ryan@testtoast.com>
-Subject: [PATCH 6/8] arm64: dts: allwinner: h616: add LCD, LVDS and PWM pins
-Date: Sun, 16 Feb 2025 22:27:13 +1300
-Message-ID: <20250216092827.15444-7-ryan@testtoast.com>
+Subject: [PATCH 7/8] arm64: dts: allwinner: rg35xx: Enable LCD output
+Date: Sun, 16 Feb 2025 22:27:14 +1300
+Message-ID: <20250216092827.15444-8-ryan@testtoast.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250216092827.15444-1-ryan@testtoast.com>
 References: <20250216092827.15444-1-ryan@testtoast.com>
@@ -103,79 +103,106 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
+The RG35XX has a 640x480 RGB/SPI LCD panel, supported by the SoC display
+pipeline and an NV3052C controller. The H616 SOC's GPIO bank D contains
+the muxed display pins for RGB and LVDS output support.
 
-The Allwinner H616 (and its H618, H700 and T507 package variants with
-the same die) have 28 video output pins for RGB/SPI and LVDS display.
-These are in GPIO Bank D and are multiplexed.
+Enable the display engine and LCD timing controller, configure the
+panel, and add a fixed 3.3v GPIO-controlled regulator for the panel, and
+a VCC supply for the display pins as per the other GPIO banks.
 
-In RGB mode, pins PD0-PD23 are for 24-bit RGB pixel output, pins
-PD24-PD27 are for clock, DE, HSYNC and VSYNC, and PD28 is a PWM
-backlight control.
-
-In LVDS mode, pins PD0-PD9 are for LVDS0 and LVDS1, and can be
-configured by the H616 display engine for either one high-resolution
-(dual link) or two low resolution displays.
-
-Add device tree nodes for the LCD, LVDS0, LVDS1 and PWM pins.
-
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-[ryan@testtoast.com: add RGB, LVDS1 and PWM pin assignments]
 Signed-off-by: Ryan Walklin <ryan@testtoast.com>
 ---
- .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 32 +++++++++++++++++++
- 1 file changed, 32 insertions(+)
+ .../sun50i-h700-anbernic-rg35xx-2024.dts      | 58 +++++++++++++++++++
+ 1 file changed, 58 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-index 242bac95840f8..806ad87705abc 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-@@ -322,6 +322,32 @@ ir_rx_pin: ir-rx-pin {
- 				function = "ir_rx";
- 			};
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
+index a231abf1684ad..388487d4720e2 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
+@@ -175,6 +175,49 @@ reg_vcc5v: regulator-vcc5v { /* USB-C power input */
+ 		regulator-min-microvolt = <5000000>;
+ 		regulator-max-microvolt = <5000000>;
+ 	};
++
++	reg_lcd: regulator-gpio-lcd-vdd {
++		compatible = "regulator-fixed";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++		regulator-name = "vdd-lcd";
++		gpio = <&pio 8 15 GPIO_ACTIVE_HIGH>; // PI15
++		enable-active-high;
++	};
++
++	spi_lcd: spi {
++		compatible = "spi-gpio";
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		sck-gpios = <&pio 8 9 GPIO_ACTIVE_HIGH>; // PI9
++		mosi-gpios = <&pio 8 10 GPIO_ACTIVE_HIGH>; // PI10
++		cs-gpios = <&pio 8 8 GPIO_ACTIVE_HIGH>; // PI8
++		num-chipselects = <1>;
++
++		panel: panel@0 {
++			compatible = "anbernic,rg35xx-plus-panel";
++
++			reg = <0>;
++
++			spi-max-frequency = <3125000>;
++			spi-3wire;
++
++			reset-gpios = <&pio 8 14 GPIO_ACTIVE_LOW>; // PI14
++
++			backlight = <&backlight>;
++			power-supply = <&reg_lcd>;
++
++			pinctrl-0 = <&lcd0_rgb888_pins>;
++			pinctrl-names = "default";
++
++			port {
++				panel_in_rgb: endpoint {
++					remote-endpoint = <&tcon_lcd0_out_lcd>;
++				};
++			};
++		};
++	};
+ };
  
-+			/omit-if-no-ref/
-+			lcd0_rgb888_pins: lcd0-rgb888-pins {
-+				pins = "PD0", "PD1", "PD2", "PD3",
-+				       "PD4", "PD5", "PD6", "PD7",
-+				       "PD8", "PD9", "PD10", "PD11",
-+				       "PD12", "PD13", "PD14", "PD15",
-+				       "PD16", "PD17", "PD18", "PD19",
-+				       "PD20", "PD21", "PD22", "PD23",
-+				       "PD24", "PD25", "PD26", "PD27";
-+				function = "lcd0";
-+			};
-+
-+			/omit-if-no-ref/
-+			lvds0_pins: lvds0-pins {
-+				pins = "PD0", "PD1", "PD2", "PD3", "PD4",
-+				       "PD5", "PD6", "PD7", "PD8", "PD9";
-+				function = "lvds0";
-+			};
-+
-+			/omit-if-no-ref/
-+			lvds1_pins: lvds1-pins {
-+				pins = "PD10", "PD11", "PD12", "PD13", "PD14",
-+				       "PD15", "PD16", "PD17", "PD18", "PD19";
-+				function = "lvds1";
-+			};
-+
- 			mmc0_pins: mmc0-pins {
- 				pins = "PF0", "PF1", "PF2", "PF3",
- 				       "PF4", "PF5";
-@@ -348,6 +374,12 @@ mmc2_pins: mmc2-pins {
- 				bias-pull-up;
- 			};
+ &codec {
+@@ -187,6 +230,10 @@ &cpu0 {
+ 	cpu-supply = <&reg_dcdc1>;
+ };
  
-+			/omit-if-no-ref/
-+			pwm0_pin: pwm0-pin {
-+				pins = "PD28";
-+				function = "pwm0";
-+			};
++&de {
++	status = "okay";
++};
 +
- 			/omit-if-no-ref/
- 			spi0_pins: spi0-pins {
- 				pins = "PC0", "PC2", "PC4";
+ &ehci0 {
+ 	status = "okay";
+ };
+@@ -206,6 +253,7 @@ &ohci0 {
+ &pio {
+ 	vcc-pa-supply = <&reg_cldo3>;
+ 	vcc-pc-supply = <&reg_cldo3>;
++	vcc-pd-supply = <&reg_cldo3>;
+ 	vcc-pe-supply = <&reg_cldo3>;
+ 	vcc-pf-supply = <&reg_cldo3>;
+ 	vcc-pg-supply = <&reg_aldo4>;
+@@ -355,3 +403,13 @@ &usbotg {
+ &usbphy {
+ 	status = "okay";
+ };
++
++&tcon_lcd0 {
++	status = "okay";
++};
++
++&tcon_lcd0_out {
++	tcon_lcd0_out_lcd: endpoint@1 {
++		remote-endpoint = <&panel_in_rgb>;
++	};
++};
 -- 
 2.48.1
 
