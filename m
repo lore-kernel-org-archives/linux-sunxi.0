@@ -1,62 +1,62 @@
 Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31965188733
-	for <linux-sunxi@lists.linux.dev>; Sun, 16 Feb 2025 09:29:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53B4F188591
+	for <linux-sunxi@lists.linux.dev>; Sun, 16 Feb 2025 09:29:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739698145; cv=none; b=FKauHg0HiH1Jp/FAo5JTqoK5bjrK8Xx/5cltIB9Rxu+sUsbSyrQ2CSEudy/2D8WEDVyeceQ5rkNvPEaNHM5SxaC94jzs703ntdgPdjvhsLQS8XEvAePcW7q5nD1XqgGs15rucQwtIaFbdNRSCHn6TjJP0oGjlzIhOJj7z8GID2U=
+	t=1739698150; cv=none; b=XPKJlIta8Xp/mpeaCnGMFsqjDyAWiX9GBR/mCvc7NdQHHfeCYdVCR2/GXHwqvg3S6hEoJi3xHSudV26zPTiQRwdomQkYtuVKIUn31a+wNdZzFVzgycG3J4AvSCj/iAKEo9oWAKnQiKWUUqFU1gawQWyD+8Jn3kWPWrEKrIUrUyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739698145; c=relaxed/simple;
-	bh=87gNpxr/N5yYW9fxj2zTd4L+D8Hj5m0IlV7xG+/6FUI=;
+	s=arc-20240116; t=1739698150; c=relaxed/simple;
+	bh=HXF81p9CMb3nFIp+uEoN10boyvs2kTOB2SqJYZl2f8Y=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PglKIU15NMWuU54XjhMNTnz4bqactlfk3DvVS+KWY/8jPsEIgPoAVZpkUEoVSHEz0jRrEbmRe47NYj9Cx7rkUGaO4LniNIDv/Af5t7wjlkiiNrJ53zypnqj08aE2oHVzKLvlXNt/9/Dqp5ANC+3emAD0fAu0smcp1V3HmkVvato=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=ixrSmfzS; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=lc8nSedp; arc=none smtp.client-ip=202.12.124.157
+	 MIME-Version; b=YRRLEd1ORAXcDV36SW7po9r9AYfUxFhx0cQnnchxwrSjaJDZonAv5UFN/XUd62QD1xQr2EkhPb30cIgi3Knxz2iadRpxIBP0TDrml84Bdjc49vFD/GtNzuV+w/Yo0owBZJBvXjUwg7h23EUwdJsjGvQ5IhwceDwkrdkZkw+kwJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=kBEe2HOD; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=WFaNL9Vf; arc=none smtp.client-ip=202.12.124.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="ixrSmfzS";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="lc8nSedp"
+	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="kBEe2HOD";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="WFaNL9Vf"
 Received: from phl-compute-02.internal (phl-compute-02.phl.internal [10.202.2.42])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 0DC6C2540115;
-	Sun, 16 Feb 2025 04:29:03 -0500 (EST)
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 211FC254011F;
+	Sun, 16 Feb 2025 04:29:08 -0500 (EST)
 Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Sun, 16 Feb 2025 04:29:03 -0500
+  by phl-compute-02.internal (MEProxy); Sun, 16 Feb 2025 04:29:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
 	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
 	:from:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm3; t=1739698142; x=
-	1739784542; bh=keG78B1fxGaV4Wn4xytqDU1dgO+GJXfNsDZnC18aq5o=; b=i
-	xrSmfzSBrf7LiJeBzVjUSayPOR3n5ypqRlole0r+5Cdu/amAr4g5jUDBIgpgxB3r
-	wdmY24LIu8QFM0gpurXqFw88VF9WJejP4WQ86+lbvX1Zdx2NAuPo2Z+GR1iWjOdd
-	pRvZxhCrCjZnkWEfpDLJf1CbhmEpOJpBEiw/6fXN7h89K9poBUOLckoyi8iN7M74
-	Y9nhUGFLVu8QptrjQ6z2m2LFp6mtGqi8RyZtoI0QlhbXw7zW7x8FBoWs9bVL+7N/
-	sf6Cv0DQAufeZb03jBE2BzFay3IVEhT+Ra4Z9FJCQzCOLwtE4jbfJF4TnJhyzVEb
-	gRvSah1JI2cqFJFjntzwA==
+	:reply-to:subject:subject:to:to; s=fm3; t=1739698147; x=
+	1739784547; bh=wGi+Z2F5P8dLioomOoP3bKLav3gIQOwLl39ppbCD/4w=; b=k
+	BEe2HODIOmbxz+FeL1qA6kfUuj8kt32W2US81TfUod7cqlgp/qauAm6WCp0fj1X4
+	XNiVhoS72RK08cPAoc0xdIb0H5YUs0PJf3MaVyDO0R4fu7Dx3scmyrlsAcDLUCL9
+	gFSAqiYmBJyxX0IQOQS/c27NsIge97voq14jFJxuElVxpKp9ifDvyV71d26pP+e0
+	QBZ63+VgZpJnHhOvMzciPi+1NoKxY4gLPryfm54bfL/b4/ZP5D9p0nQd5SruFF7d
+	1cXfhydq0UVMqcxnphlekNt1RCV8nbXFwGMrIdrDT5n+cWJJsFqENaHDLgK0a03s
+	eKGYERdAO2/CO7rL1tUCg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm3; t=1739698142; x=1739784542; bh=k
-	eG78B1fxGaV4Wn4xytqDU1dgO+GJXfNsDZnC18aq5o=; b=lc8nSedpcjtKco+R2
-	TOL2uSb34qheXVdNs1bJDKf0VePciPyEfn6zbkDh1mug16sQWpmvZB5htRnAi+Wa
-	ZW7YMyxhv2Ko/uTn474MnS/qm0R5PuFxURNDYgJHGZNFJiKlQSj4E8awAht+5ShG
-	DlzuvhmJqViHvy5JBalEqsS549ln0sngy6bYFWXvaAA10AwIcrrqjOSzM2gH1mfn
-	h8uHcdmUebdLK6sUI1DssbyHNtpOeCwx9UfK5l7im7v2bVky+TUOvDqz2fuUkGpA
-	0n6PmN45+ssh1LwPDql6W/5Sl4u4QYzYIgx7vvgiQdc2or7LU62hHVVt1vw7CHQM
-	T72tw==
-X-ME-Sender: <xms:3q-xZxHc5EfVGEXLEiefi1gIsmLOqt5G1CU9Bmb1qMcjbpO8O9a7lA>
-    <xme:3q-xZ2UVyx8pkHtpFcHQ2QoozGYn29soPPDELyvjvjoHDthEA3qYVlpXP8KL1DwfO
-    sXv13DPg6N9h6mk3w>
-X-ME-Received: <xmr:3q-xZzIyLUXgtLr4h2A2tRVYhv1WExj6Z2ndniWb14YnmA92gs5bv8Pv5KzymOP9FRxQ1pdwfBZ3LmxaRl8wnIgq1iip9VVYtsgjQ2bni43m>
+	:x-me-sender:x-sasl-enc; s=fm3; t=1739698147; x=1739784547; bh=w
+	Gi+Z2F5P8dLioomOoP3bKLav3gIQOwLl39ppbCD/4w=; b=WFaNL9Vfx/rJ0yFK0
+	h8pe2RtJX+XSMtyxzndypKQMtwFwuhVZ8H2geRPLDn5GrbvmN6ha/03RmKruxJA1
+	aheGVoviLYvQeAgU6x9xJavcYCxAAGeby7qwy66DoKvh0G8YsJBfJMQxIafK5jp9
+	MwIOpBmeTwGbwSXTOKeXkv65vYzD6yBzCNls4y2d90nLLHRSupIN3Pgej1Gig/8m
+	/rFNr5CmgXMqjt5BSy1FSw/DZwYJ4JKdk6Wi44BvsOReDtwjbWNs+zWTmwbcjeON
+	sEltg9cwUFnEna7rXgTyJvTuV+ZzhYZ7zam7VuylKO8lGg39E0JcIYodYFdgVkQP
+	D/a7w==
+X-ME-Sender: <xms:46-xZwR1tE4hlsx5v10VX_GrE6uECZM57W-zeoc-0WZwioW1HvZPrQ>
+    <xme:46-xZ9yGnUM-tSDhm_OONNw8B2oBfADBFz7ftr8je-rWbmCil9ps29H7TL3mLvGK4
+    xYUctVaLwaR1a_y1A>
+X-ME-Received: <xmr:46-xZ91rbGNz6c3EoMS0oWGoPAANP_h-VTccr67F8LhaDb8LlGKTQPPxQLFk2Wi9BRj_FO1wrRQJlkUY8EHHHr9U-CWJqaPI3F2NsOUnW0vF>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehhedutdcutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
     uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
     hnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffojghfggfgsedtkeertdertddt
     necuhfhrohhmpefthigrnhcuhggrlhhklhhinhcuoehrhigrnhesthgvshhtthhorghsth
     drtghomheqnecuggftrfgrthhtvghrnhepffehieffgedtgfffjeetveegfeekleeileek
-    veeuteffteetudffveegieeiheetnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrg
+    veeuteffteetudffveegieeiheetnecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrg
     hmpehmrghilhhfrhhomheprhihrghnsehtvghsthhtohgrshhtrdgtohhmpdhnsggprhgt
     phhtthhopedugedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprhhosghhsehkvg
     hrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdp
@@ -66,14 +66,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehhedutdcutefuodetgg
     hgpdhrtghpthhtoheprghnughrvgdrphhriiihfigrrhgrsegrrhhmrdgtohhmpdhrtghp
     thhtohepmhgrtghrohgrlhhphhgrkedvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepkh
     hikhhutghhrghnleeksehgmhgrihhlrdgtohhm
-X-ME-Proxy: <xmx:3q-xZ3G3UvbfnbCvxYThinVR0GiYvH4xdwXO34m86Sy1pNh945FO2A>
-    <xmx:3q-xZ3Vld4hw6YG9lua3W4CgnZWla2HoxpXzIF2_y-Hfkl6qo05wZA>
-    <xmx:3q-xZyPtv95TgBy6kX4ZCg2UA6eApN3xXUOipNIsp_VHGjdX99_L6g>
-    <xmx:3q-xZ237pq_NKN-_8oHg9HJubbqiXy00_-JhLDBdkwn96NBuS95wcQ>
-    <xmx:3q-xZ4vvAsxYCWNae0KgxJ2izna7m_CgoHlWLi5634jusg9ILlSSuP2V>
+X-ME-Proxy: <xmx:46-xZ0DnsRiv5UXRzUIjKrI2bRskAbQBcoxzOcX6wMmOCr72VWKbsw>
+    <xmx:46-xZ5i6xkS3pFDvTsm8XHdisfo_lYSfCBa7wqJtkOeljDlVpQZGXQ>
+    <xmx:46-xZwqfSCnNJG43S4EBiZq7SSGVZlMM2ZcFejRxooBAbGMu4dr6-Q>
+    <xmx:46-xZ8hEpI5K3NrlKjO7svUrAIDzDU3Y2uZBSZellWBbUDyl_eK21g>
+    <xmx:46-xZ55O8TN_fjsyEYn5yq2VJwFjfQXFun4TBUo7WMykjLe07YOPw6oM>
 Feedback-ID: idc0145fc:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 16 Feb 2025 04:28:58 -0500 (EST)
+ 16 Feb 2025 04:29:03 -0500 (EST)
 From: Ryan Walklin <ryan@testtoast.com>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -89,9 +89,9 @@ Cc: Andre Przywara <andre.przywara@arm.com>,
 	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	Ryan Walklin <ryan@testtoast.com>
-Subject: [PATCH 4/8] drm/sun4i: tcon: Add support for R40 LCD
-Date: Sun, 16 Feb 2025 22:27:11 +1300
-Message-ID: <20250216092827.15444-5-ryan@testtoast.com>
+Subject: [PATCH 5/8] arm64: dts: allwinner: h616: Add TCON nodes to H616 DTSI
+Date: Sun, 16 Feb 2025 22:27:12 +1300
+Message-ID: <20250216092827.15444-6-ryan@testtoast.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250216092827.15444-1-ryan@testtoast.com>
 References: <20250216092827.15444-1-ryan@testtoast.com>
@@ -105,47 +105,182 @@ Content-Transfer-Encoding: 8bit
 
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-The Allwinner H616 and related SOCs have an LCD timing controller
-(TCON) which is compatible with the R40 SOC's controller and existing
-sun4i driver. The H616 does not expose this controller but the H700 and
-T507 (based on the same die) do. The controller supports LVDS and RGB
-output.
+The Allwinner H616 has a display pipeline similar to other Allwinner
+devices, specifically the A10, but using a newer display engine
+revision (DE33).
 
-Add quirks and compatible string to cover these SOCs.
+Not all output pins are exposed on all package variants, for example
+only the H700 and T507 have LCD pins exposed, but all variants support
+HDMI output. However on the die these are connected to a display engine
+via a TCON TOP and one or more timing controllers (TCONs).
+
+HDMI output support is not provided in this series (but will be in a
+subsequent patch) so for now note this within the relevant node to
+prevent a DT compiler error.
+
+Add TCON nodes for the TOP, and the LCD and TV timing controllers. The
+timing controllers are compatible with the existing R40 driver.
 
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Signed-off-by: Ryan Walklin <ryan@testtoast.com>
 ---
- drivers/gpu/drm/sun4i/sun4i_tcon.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 133 ++++++++++++++++++
+ 1 file changed, 133 insertions(+)
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-index 4cd3a07daf6e4..d364e814fde26 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-@@ -1528,6 +1528,14 @@ static const struct sun4i_tcon_quirks sun8i_a83t_tv_quirks = {
- 	.has_channel_1		= true,
- };
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+index ab8b70ce7df89..242bac95840f8 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+@@ -7,9 +7,12 @@
+ #include <dt-bindings/clock/sun50i-h616-ccu.h>
+ #include <dt-bindings/clock/sun50i-h6-r-ccu.h>
+ #include <dt-bindings/clock/sun6i-rtc.h>
++#include <dt-bindings/clock/sun8i-de2.h>
++#include <dt-bindings/clock/sun8i-tcon-top.h>
+ #include <dt-bindings/reset/sun50i-h616-ccu.h>
+ #include <dt-bindings/reset/sun50i-h6-r-ccu.h>
+ #include <dt-bindings/thermal/thermal.h>
++#include <dt-bindings/reset/sun8i-de2.h>
  
-+static const struct sun4i_tcon_quirks sun8i_r40_lcd_quirks = {
-+	.supports_lvds		= true,
-+	.has_channel_0		= true,
-+	.set_mux		= sun8i_r40_tcon_tv_set_mux,
-+	.dclk_min_div		= 1,
-+	.setup_lvds_phy		= sun6i_tcon_setup_lvds_phy,
-+};
+ / {
+ 	interrupt-parent = <&gic>;
+@@ -909,6 +912,136 @@ ohci3: usb@5311400 {
+ 			status = "disabled";
+ 		};
+ 
++		tcon_top: tcon-top@6510000 {
++			compatible = "allwinner,sun50i-h6-tcon-top";
++			reg = <0x06510000 0x1000>;
++			clocks = <&ccu CLK_BUS_TCON_TOP>,
++				 <&ccu CLK_TCON_TV0>;
++			clock-names = "bus", "tcon-tv0";
++			clock-output-names = "tcon-top-tv0";
++			#clock-cells = <0>;
++			resets = <&ccu RST_BUS_TCON_TOP>;
 +
- static const struct sun4i_tcon_quirks sun8i_r40_tv_quirks = {
- 	.has_channel_1		= true,
- 	.polarity_in_ch0	= true,
-@@ -1569,6 +1577,7 @@ const struct of_device_id sun4i_tcon_of_table[] = {
- 	{ .compatible = "allwinner,sun8i-a33-tcon", .data = &sun8i_a33_quirks },
- 	{ .compatible = "allwinner,sun8i-a83t-tcon-lcd", .data = &sun8i_a83t_lcd_quirks },
- 	{ .compatible = "allwinner,sun8i-a83t-tcon-tv", .data = &sun8i_a83t_tv_quirks },
-+	{ .compatible = "allwinner,sun8i-r40-tcon-lcd", .data = &sun8i_r40_lcd_quirks },
- 	{ .compatible = "allwinner,sun8i-r40-tcon-tv", .data = &sun8i_r40_tv_quirks },
- 	{ .compatible = "allwinner,sun8i-v3s-tcon", .data = &sun8i_v3s_quirks },
- 	{ .compatible = "allwinner,sun9i-a80-tcon-lcd", .data = &sun9i_a80_tcon_lcd_quirks },
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				tcon_top_mixer0_in: port@0 {
++					#address-cells = <1>;
++					#size-cells = <0>;
++					reg = <0>;
++
++					tcon_top_mixer0_in_mixer0: endpoint@0 {
++						reg = <0>;
++						remote-endpoint = <&mixer0_out_tcon_top_mixer0>;
++					};
++				};
++
++				tcon_top_mixer0_out: port@1 {
++					#address-cells = <1>;
++					#size-cells = <0>;
++					reg = <1>;
++
++					tcon_top_mixer0_out_tcon_lcd0: endpoint@0 {
++						reg = <0>;
++						remote-endpoint = <&tcon_lcd0_in_tcon_top_mixer0>;
++					};
++
++					tcon_top_mixer0_out_tcon_tv0: endpoint@2 {
++						reg = <2>;
++						remote-endpoint = <&tcon_tv0_in_tcon_top_mixer0>;
++					};
++				};
++
++				tcon_top_hdmi_in: port@4 {
++					#address-cells = <1>;
++					#size-cells = <0>;
++					reg = <4>;
++
++					tcon_top_hdmi_in_tcon_tv0: endpoint@0 {
++						reg = <0>;
++						remote-endpoint = <&tcon_tv0_out_tcon_top>;
++					};
++				};
++
++				tcon_top_hdmi_out: port@5 {
++					reg = <5>;
++
++					tcon_top_hdmi_out_hdmi: endpoint {
++						/* placeholder for HDMI  - remote-endpoint = <&hdmi_in_tcon_top>;*/
++					};
++				};
++			};
++		};
++		
++		tcon_lcd0: lcd-controller@6511000 {
++			compatible = "allwinner,sun8i-r40-tcon-lcd";
++			reg = <0x06511000 0x1000>;
++			interrupts = <GIC_SPI 64 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_TCON_LCD0>, <&ccu CLK_TCON_LCD0>;
++			clock-names = "ahb", "tcon-ch0";
++			clock-output-names = "tcon-data-clock";
++			#clock-cells = <0>;
++			resets = <&ccu RST_BUS_TCON_LCD0>, <&ccu RST_BUS_TCON_LCD1>;
++			reset-names = "lcd", "lvds";
++			status = "disabled";
++
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				tcon_lcd0_in: port@0 {
++					reg = <0>;
++
++					tcon_lcd0_in_tcon_top_mixer0: endpoint {
++						remote-endpoint = <&tcon_top_mixer0_out_tcon_lcd0>;
++					};
++				};
++
++				tcon_lcd0_out: port@1 {
++					reg = <1>;
++				};
++			};
++		};
++		
++		tcon_tv0: lcd-controller@6515000 {
++			compatible = "allwinner,sun50i-h6-tcon-tv",
++				     "allwinner,sun8i-r40-tcon-tv";
++			reg = <0x06515000 0x1000>;
++			interrupts = <GIC_SPI 66 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_TCON_TV0>,
++				 <&tcon_top CLK_TCON_TOP_TV0>;
++			clock-names = "ahb", "tcon-ch1";
++			#clock-cells = <0>;
++			resets = <&ccu RST_BUS_TCON_TV0>;
++			reset-names = "lcd";
++			status = "disabled";
++
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				tcon_tv0_in: port@0 {
++					reg = <0>;
++
++					tcon_tv0_in_tcon_top_mixer0: endpoint {
++						remote-endpoint = <&tcon_top_mixer0_out_tcon_tv0>;
++					};
++				};
++
++				tcon_tv0_out: port@1 {
++					#address-cells = <1>;
++					#size-cells = <0>;
++					reg = <1>;
++
++					tcon_tv0_out_tcon_top: endpoint@1 {
++						reg = <1>;
++						remote-endpoint = <&tcon_top_hdmi_in_tcon_tv0>;
++					};
++				};
++			};
++		};
++
+ 		rtc: rtc@7000000 {
+ 			compatible = "allwinner,sun50i-h616-rtc";
+ 			reg = <0x07000000 0x400>;
 -- 
 2.48.1
 
