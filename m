@@ -1,165 +1,213 @@
-Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD208152196
-	for <linux-sunxi@lists.linux.dev>; Sun, 16 Feb 2025 08:41:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 523FA14658B
+	for <linux-sunxi@lists.linux.dev>; Sun, 16 Feb 2025 08:55:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739695289; cv=none; b=YY/O96N8YqM/dP1qor3caeo6w8iWAH2wbAZc1IYKI1bB6x8s5tC9tWYIwagYCz1+gxaIhT0h8YpKuNQ4/Ju3fALAtasv/gtgOLG4N+amfiDwI70pdNAQ+Xy3i510csmRqpkc3O/27w24AllIrVD+H3b4+LurEwPS6U/8m/94lWQ=
+	t=1739696140; cv=none; b=e6eiZEXvyoM/C6lRD/VfXyTICrtcyKrYrnUUS3qHJ6bmqFN3uAmme7gc0aVhuX15HBtFkzK0jGHxEXicHiHb22oPvY1V3vhzGZIgHTdx4BClBiH7/SGCeHoOl16o+ZEYwwCoC5tTziQgvno+HzmZ673Wn6ITiEQt3rl/zNqVZGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739695289; c=relaxed/simple;
-	bh=NDauxWvP4zGEWLX2W+K6T7Oriu1jvS92cQC6yKTCz44=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=byHkKr6MJ2x2dX8aNulR+dw+Km9aUaH6TZXR0T/WUNvBRloifXw5iGmDfjF080YBf+d3JBb+10a2T6EVqdHZa5KaMSU78/2Cw0vcIDiBtRolX+ePDkPRXr7Oou7WxIqf861XFD/FhCJ8OewMsduATVmB8aFnhqVF76X+BCNMMDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.166.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-il1-f176.google.com with SMTP id e9e14a558f8ab-3d14dec3236so10100105ab.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 16 Feb 2025 00:41:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739695283; x=1740300083;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Dpo5WMvSHiZdUjnCU7ZcgyQ986Sd3fENuocGlx6aSZQ=;
-        b=MOK4+3FfpVhQrrosVPoNePnxE+jh/SNHkFbOQO2Kydt3VcxO+sSEMp9OuJKpM84P3G
-         Tn1R40+CZ/CKOSZNHiQi0XcYfjUIzKL6k67JlOi+0vF9APJFbIEXL5wa99uE0AojUT+P
-         KAJE57Lc4Wi1zqHhvva9zUcrfYfYizbSD5JZC39rASc+g1Jeq7gQNREwJgoA7+g6yJXJ
-         9TNIWiRPRoAfRW+FHfD5yVakcRE0AIu4K81tsGKor8TfYpBjWHp0o3iv9xK9j9//ZV0I
-         S7DKix9ZnQfjklQ7uInhrCCmgMZCCcgvqmwCIr5oiKRzgwV3aifshRMSMnmdN2oabUS8
-         rNhg==
-X-Forwarded-Encrypted: i=1; AJvYcCXjVDNVROu5lWjK8K4YW3seMlKLfVP8cKAO2UmjYsyRgXO/lKfkoZQRuUp3j2oWAITeblxuZmvFmv8EDw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyHNxVR3uDRa4nAVtFJheQeBVmjLWx01tAmTsR1S85HzLDFZXBD
-	PpECBUywstl/gsMkm7YrqQkZlm+cOmTsvVzSx0IZaxAWTGGYIPS2MpuVfa4lRAQ=
-X-Gm-Gg: ASbGncsLCpMs2uMJ6ww6hA7PKmdZsf4yTs+w/St9Lf0ggxKvZsqtMAehv7WbLtjS9sD
-	m+AHVB/ZuPR56BJ9RUIi3XO55ZUArf43jK5Kjuhpk58WMXBeKR9iZZSP9JpRr6SPAg8twJKzR4F
-	kkX2IqI8ULQShCUZo/Nw56WLwudfxmZXvQQpY7A53BXnP/KVg7niAgJUyXiOIrPk3/AKUDQbbBg
-	/hWivOta4n81XHPRIsOfM39GCntJMvRhsK3apDAy6klBY6CFfqffq9SBvENgMYoV1lRkKlFfAz5
-	p5ac17PGB/4cpV29BII4jabZ3e7rN/xI2JXkJeeq6sAkCdNp
-X-Google-Smtp-Source: AGHT+IEDZMHDvUcw9tnni1/9SJr01Y0ugee+o4R9SHhFYk4VNpMs/uSa8gsT/udSGSxZ+LFAf7w4fw==
-X-Received: by 2002:a05:6e02:3206:b0:3cf:ae67:4115 with SMTP id e9e14a558f8ab-3d2807bc8aamr45000935ab.8.1739695282760;
-        Sun, 16 Feb 2025 00:41:22 -0800 (PST)
-Received: from mail-il1-f176.google.com (mail-il1-f176.google.com. [209.85.166.176])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4ee8f659824sm320065173.95.2025.02.16.00.41.22
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 16 Feb 2025 00:41:22 -0800 (PST)
-Received: by mail-il1-f176.google.com with SMTP id e9e14a558f8ab-3d14dec3236so10099995ab.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 16 Feb 2025 00:41:22 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWRdB5b5MsyJhHkgI2uXZ69Icmbfwf+JqWD10IZweyVi/G7BPyj5il5fu0xb/l0O7iA8cDa2Of9CvL3PA==@lists.linux.dev
-X-Received: by 2002:a05:6e02:2610:b0:3d1:78f1:8a86 with SMTP id
- e9e14a558f8ab-3d2809471f1mr44082585ab.15.1739695282060; Sun, 16 Feb 2025
- 00:41:22 -0800 (PST)
+	s=arc-20240116; t=1739696140; c=relaxed/simple;
+	bh=kuXmodrRS+TOcuDqLY7cyWv4Nphag9PChQBxv/PvQbY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WkLyWcFpZcEZ+K0j6QyANIOHjTr3khSV4MbsFkimyTcyEfSImDTdqO/MIs5tgFAyudkYB5UeubHxLInkENn0lPCsuWlNJ5fKC4NXri2+KfG4fAkPRDuJk3PGDwllx8x5EOLk3TTxoybK+ufEvX6D4jC5WeyFjMFkOV8G2zQXcxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=pqvTlHDg; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=eE/hQFSj; arc=none smtp.client-ip=202.12.124.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="pqvTlHDg";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="eE/hQFSj"
+Received: from phl-compute-13.internal (phl-compute-13.phl.internal [10.202.2.53])
+	by mailfout.stl.internal (Postfix) with ESMTP id C739211400C9;
+	Sun, 16 Feb 2025 03:55:36 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-13.internal (MEProxy); Sun, 16 Feb 2025 03:55:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
+	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
+	:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to; s=fm3; t=1739696136; x=1739782536; bh=yc/OGNNe0t
+	7oweukj3agJIukSLwXQE6GK5Qx/JrDtk8=; b=pqvTlHDgxcvSRiOk1Vu6gKjz0G
+	uPDoT3sgzQ8fqZ66roibPrXJcHxksmye9M6X850bDr6YyaLVs+yk7hcsvmPS52lB
+	2HORsPvg9pZGYJaOuSN5B5g+ja1vu6nVqqsDLcFP4ch0v0KCilKFPv2k6GeTq7Wj
+	1cL71t/fKIddN0n2V3duQVAybF0XEPm2kw/PHZr7MgcvZ8x+bVzX9McBfBB/RUtV
+	6UAm8pAFVLCxmspDfg+zBVju5pJNcb0dXd8KMars7TMMGKoDYJ4t0eYqQstynAwO
+	0MHkBd69zCg4Bfym2f9KvixUJYrDQpEdo2IzdHHlNCC36mWreOzMbbVBilBQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1739696136; x=1739782536; bh=yc/OGNNe0t7oweukj3agJIukSLwXQE6GK5Q
+	x/JrDtk8=; b=eE/hQFSjSwcXTb1Tv+26nn1UpiYZQRLKfNsX1RQOrrrUt7OIvcl
+	ZEbZ96MoEo6pMy0l46e4WQ9dQg28coy1zd818Tk4OesnH6awLqERzrs901N7raB2
+	Wxu584u9pEEDNnOBF2DqakT2FR4fek8VIR2qKvjNkeEE0e6epqkwccq5bD0hRNIt
+	KIkLvIiNh99qjmfUIY1CRmHBAy56jLPBR6GkQ3E6Nbj82pwoKdN87XuQTJGiBTq5
+	kuO6j9QZ3SZFIyf4Gfv44AC4zSnSw7F81uC4qmXLIM4KscOdNE4NEEdJQJH7Fcc9
+	Sjt2O37FS0IP83Rt/k11/Vy8oyRIyBj/Cow==
+X-ME-Sender: <xms:B6ixZ7EfeotdF9l8TO4VnIy2jT2oHkf5ju3vgQ_csQRlVyduqb3Sww>
+    <xme:B6ixZ4WgmhhsZmgCeNXZwTMr9vSLa2DMECLkCdWr5DC2t7O4qL9JZLcnGwggcN6Jk
+    vMOkyIgxnKybFUu_g>
+X-ME-Received: <xmr:B6ixZ9IuCq4ZogM0_dy_jwXAlAPzmHzDNS6IPjD_-ra8KoAOkPUHyJt1dOH5CAEmFM48_XyBv3qYKPjNLWplzibib5zJLbaZi4DM2AfLqhmH>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehhedtfecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecu
+    hfhrohhmpefthigrnhcuhggrlhhklhhinhcuoehrhigrnhesthgvshhtthhorghsthdrtg
+    homheqnecuggftrfgrthhtvghrnhepuddvueduueegtdeuffetveevgeehhedvhfefuddu
+    veekgffgfedtheegtefhhfffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
+    hmrghilhhfrhhomheprhihrghnsehtvghsthhtohgrshhtrdgtohhmpdhnsggprhgtphht
+    thhopedvgedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepmhhrihhprghrugeskh
+    gvrhhnvghlrdhorhhgpdhrtghpthhtohepfigvnhhssegtshhivgdrohhrghdprhgtphht
+    thhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtoh
+    hmpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthho
+    pegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepuggrnhhivghlsehffh
+    iflhhlrdgthhdprhgtphhtthhopehjvghrnhgvjhdrshhkrhgrsggvtgesghhmrghilhdr
+    tghomhdprhgtphhtthhopehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgpdhrtghpth
+    htoheprhhosghhsehkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:B6ixZ5EH4sq8ub-RBV97g1YTr-zUax7ZDNaxL9bLhY8pr2DeQP9AoA>
+    <xmx:B6ixZxVD-WgU1ham-IYZHMi61Hqq8UOn_8unwYY3braeuaTGZQEDWA>
+    <xmx:B6ixZ0MKqTLGF9pa_6hdaGm8wveGOPu1Dg4-Ma3Y6DXvNMyeCgTxhg>
+    <xmx:B6ixZw0ik3MZiiQ-EABRRb-IqF72KeE2SvHkBcTtuzCrUhUFNvHgdA>
+    <xmx:CKixZ_nhGtM9uf_sAXpN3W4VjOyNhC3ICod7VkZEsSj-zmMzmocGS_NA>
+Feedback-ID: idc0145fc:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 16 Feb 2025 03:55:28 -0500 (EST)
+From: Ryan Walklin <ryan@testtoast.com>
+To: Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Cc: Andre Przywara <andre.przywara@arm.com>,
+	Chris Morgan <macroalpha82@gmail.com>,
+	Hironori KIKUCHI <kikuchan98@gmail.com>,
+	Philippe Simons <simons.philippe@gmail.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	devicetree@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	Ryan Walklin <ryan@testtoast.com>
+Subject: drm: sun4i: add Display Engine 3.3 (DE33) support
+Date: Sun, 16 Feb 2025 21:50:31 +1300
+Message-ID: <20250216085432.6373-2-ryan@testtoast.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250214125359.5204-1-andre.przywara@arm.com> <20250214125359.5204-4-andre.przywara@arm.com>
-In-Reply-To: <20250214125359.5204-4-andre.przywara@arm.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Sun, 16 Feb 2025 16:41:07 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64z4xVfDkwcgdc6Bp9k1GoN-DWH4vjSEwioMGrmE3Ywsg@mail.gmail.com>
-X-Gm-Features: AWEUYZmw3abG4Std0u6pbgvDtbaKDpoG1yzPXqXz-ASh85n4DeWqACoMoRsm03w
-Message-ID: <CAGb2v64z4xVfDkwcgdc6Bp9k1GoN-DWH4vjSEwioMGrmE3Ywsg@mail.gmail.com>
-Subject: Re: [PATCH v2 03/15] clk: sunxi-ng: mp: provide wrapper for setting
- feature flags
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, linux-clk@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Feb 14, 2025 at 8:56=E2=80=AFPM Andre Przywara <andre.przywara@arm.=
-com> wrote:
->
-> So far our sunxi clock instantiation macros set the required flags
-> depending on the clock type, but the new "dual divider MP clock"
-> requires us to pass that piece of information in by the user.
->
-> Add a new wrapper macro that allows to specify a "features" field, to
-> allow marking those dual-divider clocks accordingly.
->
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  drivers/clk/sunxi-ng/ccu_mp.h | 19 ++++++++++++++++---
->  1 file changed, 16 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/clk/sunxi-ng/ccu_mp.h b/drivers/clk/sunxi-ng/ccu_mp.=
-h
-> index e235fdfde2d36..687bd2ec798e2 100644
-> --- a/drivers/clk/sunxi-ng/ccu_mp.h
-> +++ b/drivers/clk/sunxi-ng/ccu_mp.h
-> @@ -100,11 +100,12 @@ struct ccu_mp {
->                                    _muxshift, _muxwidth,                \
->                                    0, _flags)
->
-> -#define SUNXI_CCU_MP_DATA_WITH_MUX_GATE(_struct, _name, _parents, _reg, =
-       \
-> +#define SUNXI_CCU_MP_DATA_WITH_MUX_GATE_FEAT(_struct, _name, _parents, _=
-reg, \
->                                         _mshift, _mwidth,               \
->                                         _pshift, _pwidth,               \
->                                         _muxshift, _muxwidth,           \
-> -                                       _gate, _flags)                  \
-> +                                       _gate, _flags,                  \
-> +                                       _features)                      \
->         struct ccu_mp _struct =3D {                                      =
- \
->                 .enable =3D _gate,                                       =
- \
->                 .m      =3D _SUNXI_CCU_DIV(_mshift, _mwidth),            =
- \
-> @@ -112,13 +113,25 @@ struct ccu_mp {
->                 .mux    =3D _SUNXI_CCU_MUX(_muxshift, _muxwidth),        =
- \
->                 .common =3D {                                            =
- \
->                         .reg            =3D _reg,                        =
- \
-> +                       .features       =3D _features,                   =
- \
->                         .hw.init        =3D CLK_HW_INIT_PARENTS_DATA(_nam=
-e, \
->                                                                    _paren=
-ts, \
-> -                                                                  &ccu_m=
-p_ops, \
-> +                                                                  &ccu_m=
-p_ops,\
+Subject: [PATCH v6 00/27] drm: sun4i: add Display Engine 3.3 (DE33) support
 
-Accidental change?
+Hi All,
 
-Otherwise,
+v6 of this patch adding support for the Allwinner DE33 display engine, used in the H616 family of SoCs. v6 includes some small fixes to the device tree documentation, improves naming of an enum type, moves colorspace configuration from the sunxi engine object to the mixer object, and a handful of very small style and whitespace changes. All comments/tags from previous versions addressed. No functional change from v5. 
 
-Reviewed-by: Chen-Yu Tsai <wens@csie.org>
+A v1 patch to enable LCD output for the Anbernic RGnnXX family of devices which use this SoC with an RGB LCD will be submitted shortly.
 
->                                                                    _flags=
-), \
->                 }                                                       \
->         }
->
-> +#define SUNXI_CCU_MP_DATA_WITH_MUX_GATE(_struct, _name, _parents, _reg, =
-       \
-> +                                       _mshift, _mwidth,               \
-> +                                       _pshift, _pwidth,               \
-> +                                       _muxshift, _muxwidth,           \
-> +                                       _gate, _flags)                  \
-> +       SUNXI_CCU_MP_DATA_WITH_MUX_GATE_FEAT(_struct, _name, _parents,  \
-> +                                            _reg, _mshift, _mwidth,    \
-> +                                            _pshift, _pwidth,          \
-> +                                            _muxshift, _muxwidth,      \
-> +                                            _gate, _flags, 0)
-> +
->  #define SUNXI_CCU_MP_DATA_WITH_MUX(_struct, _name, _parents, _reg,     \
->                                    _mshift, _mwidth,                    \
->                                    _pshift, _pwidth,                    \
-> --
-> 2.46.3
->
+Thanks to those who have reviewed and tested previous versions, and to Jernej for the initial patch.
+
+Original blurb below:
+
+There is existing mainline support for the DE2 and DE3 AllWinner display pipeline IP blocks, used in the A64 and H6 among others, however the H700 (as well as the H616/H618 and the T507 automotive SoC) have a newer version of the Display Engine (v3.3/DE33) which adds additional high-resolution support as well as YUV colour formats and AFBC compression support.
+
+This patch set adds DE33 support, following up from the previous RFC [1], with significant rework to break down the previous relatively complex set into more logical steps, detailed below.
+
+1. Refactor the existing DE2/DE3 code in readiness to support YUV colour formats in the DE3 engine (patches 1-4).
+2. Add YUV420 colour format support in the DE3 driver (patches 5-13).
+3. Replace the is_de3 mixer flag with an enum to support multiple DE versions (patch 14).
+4. Refactor the mixer, vi_scaler and some register code to merge common init code and more easily support multiple DE versions (patches 15-18).
+5. Add Arm Frame Buffer Compression (AFBC) compressed buffer support to the DE3 driver. This is currently only supported for VI layers (for HW-decoded video output) but is well integrated into these changes and a subsequent patchset to enable the Video Engine is planned. (patch 19).
+6. Add DT bindings for the DE33 engine. (patches 20-22).
+7. Extend the DE2/3 driver for the DE33, comprising clock, mixer, vi_scaler, fmt and csc module support (patches 23-27).
+
+Further patchsets are planned to support HDMI and the LCD timing controller present in these SoCs.
+
+Regards,
+
+Ryan
+
+--
+Changelog v5..v6:
+- Rename color format enum from format_type to sun8i_format_type
+- Move color format and encoding flags from engine to mixer and add sun8i_color_model struct.
+- Add commit updating the sun50i_fmt_setup function signature
+- Pass mixer instead of engine in several places now that mixer holds color information.
+- Update sun8i_mixer_cfg struct comment regarding change from is_de3 flag to de_type
+- convert usage of uint64_t to u64 as suggested by checkpatch.pl
+- Increase reg maxItems to 3 for bus and mixer binding documentation, and add constraint for h616-de33-mixer.
+- Add Tested-by: tags
+
+
+Jernej Skrabec (21):
+  drm: sun4i: de2/de3: Change CSC argument
+  drm: sun4i: de2/de3: Merge CSC functions into one
+  drm: sun4i: de2/de3: call csc setup also for UI layer
+  drm: sun4i: de2: Initialize layer fields earlier
+  drm: sun4i: de3: Add YUV formatter module
+  drm: sun4i: de3: add format enumeration function to engine
+  drm: sun4i: de3: add formatter flag to mixer config
+  drm: sun4i: de3: add YUV support to the DE3 mixer
+  drm: sun4i: de3: pass mixer reference to ccsc setup function
+  drm: sun4i: de3: add YUV support to the color space correction module
+  drm: sun4i: de3: add YUV support to the TCON
+  drm: sun4i: support YUV formats in VI scaler
+  drm: sun4i: de2/de3: add mixer version enum
+  drm: sun4i: de2/de3: refactor mixer initialisation
+  drm: sun4i: vi_scaler refactor vi_scaler enablement
+  drm: sun4i: de2/de3: add generic blender register reference function
+  drm: sun4i: de2/de3: use generic register reference function for layer
+    configuration
+  drm: sun4i: de3: Implement AFBC support
+  drm: sun4i: de33: mixer: add Display Engine 3.3 (DE33) support
+  drm: sun4i: de33: vi_scaler: add Display Engine 3.3 (DE33) support
+  drm: sun4i: de33: fmt: add Display Engine 3.3 (DE33) support
+
+Ryan Walklin (6):
+  drm: sun4i: de3: refactor YUV formatter module setup
+  dt-bindings: allwinner: add H616 DE33 bus binding
+  dt-bindings: allwinner: add H616 DE33 clock binding
+  dt-bindings: allwinner: add H616 DE33 mixer binding
+  clk: sunxi-ng: ccu: add Display Engine 3.3 (DE33) support
+  drm: sun4i: de33: csc: add Display Engine 3.3 (DE33) support
+
+ .../bus/allwinner,sun50i-a64-de2.yaml         |   7 +-
+ .../clock/allwinner,sun8i-a83t-de2-clk.yaml   |   1 +
+ .../allwinner,sun8i-a83t-de2-mixer.yaml       |  21 +-
+ drivers/clk/sunxi-ng/ccu-sun8i-de2.c          |  25 ++
+ drivers/gpu/drm/sun4i/Makefile                |   3 +-
+ drivers/gpu/drm/sun4i/sun4i_tcon.c            |  28 +-
+ drivers/gpu/drm/sun4i/sun50i_afbc.c           | 250 +++++++++++++
+ drivers/gpu/drm/sun4i/sun50i_afbc.h           |  87 +++++
+ drivers/gpu/drm/sun4i/sun50i_fmt.c            | 100 ++++++
+ drivers/gpu/drm/sun4i/sun50i_fmt.h            |  32 ++
+ drivers/gpu/drm/sun4i/sun8i_csc.c             | 330 +++++++++++++++---
+ drivers/gpu/drm/sun4i/sun8i_csc.h             |  20 +-
+ drivers/gpu/drm/sun4i/sun8i_mixer.c           | 226 +++++++++---
+ drivers/gpu/drm/sun4i/sun8i_mixer.h           |  53 ++-
+ drivers/gpu/drm/sun4i/sun8i_ui_layer.c        |  41 ++-
+ drivers/gpu/drm/sun4i/sun8i_ui_scaler.c       |   2 +-
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c        | 133 ++++---
+ drivers/gpu/drm/sun4i/sun8i_vi_scaler.c       | 115 +++---
+ drivers/gpu/drm/sun4i/sun8i_vi_scaler.h       |   2 +-
+ drivers/gpu/drm/sun4i/sunxi_engine.h          |  29 ++
+ 20 files changed, 1291 insertions(+), 214 deletions(-)
+ create mode 100644 drivers/gpu/drm/sun4i/sun50i_afbc.c
+ create mode 100644 drivers/gpu/drm/sun4i/sun50i_afbc.h
+ create mode 100644 drivers/gpu/drm/sun4i/sun50i_fmt.c
+ create mode 100644 drivers/gpu/drm/sun4i/sun50i_fmt.h
+
+-- 
+2.48.1
+
