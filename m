@@ -1,70 +1,71 @@
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com [209.85.166.182])
+Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9914366
-	for <linux-sunxi@lists.linux.dev>; Sun, 16 Feb 2025 08:40:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD208152196
+	for <linux-sunxi@lists.linux.dev>; Sun, 16 Feb 2025 08:41:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739695203; cv=none; b=eL06Oa6ecC/iLbr4HghEe7d8WnGbFXfcBaSC2idPrXzrI9CiAywxq6s+TGEzaP0hpGLhHNysSKTSNtb3siUTSc7JuQbJUl4P7I7e9lvcm1y5c/UcnczvPdt5p5gfIv6xeut4mnAddzHgNjtohzdXfQDwvVI3HZ50IQ6cp/MAm+U=
+	t=1739695289; cv=none; b=YY/O96N8YqM/dP1qor3caeo6w8iWAH2wbAZc1IYKI1bB6x8s5tC9tWYIwagYCz1+gxaIhT0h8YpKuNQ4/Ju3fALAtasv/gtgOLG4N+amfiDwI70pdNAQ+Xy3i510csmRqpkc3O/27w24AllIrVD+H3b4+LurEwPS6U/8m/94lWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739695203; c=relaxed/simple;
-	bh=wXpKHX0ZasccCQS/rRdK60+YV5wRpbezRfa/+sNSrQ4=;
+	s=arc-20240116; t=1739695289; c=relaxed/simple;
+	bh=NDauxWvP4zGEWLX2W+K6T7Oriu1jvS92cQC6yKTCz44=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=e9RJ9cHnW812S6YGYb8z1YWz+Vn+qLNw1CtAzsO340WIhKxVxY5JKwuLtOXHJKboOwag2Oi1JOFMouxGpUHxV+7sokL026oDbMCRzwvKSQI/9f+oLsVRUB78bDKl/yP2hy46DbtOc9U8Qqv6Xfg8kar0xG00n2xSuiRzSa+Cdds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.166.182
+	 To:Cc:Content-Type; b=byHkKr6MJ2x2dX8aNulR+dw+Km9aUaH6TZXR0T/WUNvBRloifXw5iGmDfjF080YBf+d3JBb+10a2T6EVqdHZa5KaMSU78/2Cw0vcIDiBtRolX+ePDkPRXr7Oou7WxIqf861XFD/FhCJ8OewMsduATVmB8aFnhqVF76X+BCNMMDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.166.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-il1-f182.google.com with SMTP id e9e14a558f8ab-3d1987cce10so17847125ab.3
-        for <linux-sunxi@lists.linux.dev>; Sun, 16 Feb 2025 00:40:01 -0800 (PST)
+Received: by mail-il1-f176.google.com with SMTP id e9e14a558f8ab-3d14dec3236so10100105ab.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 16 Feb 2025 00:41:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739695198; x=1740299998;
+        d=1e100.net; s=20230601; t=1739695283; x=1740300083;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :reply-to:in-reply-to:references:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=wXpKHX0ZasccCQS/rRdK60+YV5wRpbezRfa/+sNSrQ4=;
-        b=TDgnCfCveesJlkZA3RO1nwnucgLKsyWv1ndvCvqv6RIJVdmlCGBREi4k/W0Z+/u8xE
-         H3Wlo9Mjd7nf9zPJOKrd3jAACgiEwKOurKGHMjLkYc3j0E+0oONsRDCqPL/anUeH+LOj
-         FhvYBz6GrN4OswiOr1gtYpfeRVchOdQtyjoOV7QNMulWZICuYImc/Ij2PjRfhxMVVb6G
-         YPVAdpVjrzmeOVBBlAoebFEaWwa0byZ2HmGEw2LdRfC4kMMXFKPWCBbEMzkLk1RBuewA
-         8lxZpO/p6x4AJgWYal6f9648YOwOAtAcjIjnibSPy+fbVT2k5SGOsRBLxCZZcK7i4g5T
-         zm8g==
-X-Forwarded-Encrypted: i=1; AJvYcCXTv3Oueyg8s7PZueaZsJP9xFuzn6eXLqcYuabE5SDs4dKfL7Ylvo3xxaj7YTTLmllEMEZkbXQJelNVfg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzEKJk51nAJxCcoPNt03k2Dn6uSKdjHpRF6o8ULJW5n84x8ObCZ
-	mtXzvF07mk3mURW/fOgMl8j46Rx3SrqbJSYHyQ0UsbkEe8G9R6EXeOWltJ3nFVE=
-X-Gm-Gg: ASbGnctx+1xVireeO9EDgP+G5MajxbJ6PUwxqtEHYD0qjOMkqVzLSl9K9tln+cmqO0R
-	PT7Y+6Fm0Rkftp7n3PClqx7K1vb/G0UCpYljpdppzLte9UMzTiM25qiXCwvDzhusggvjwojqTl/
-	hkH8wTD2pIUCV3tOk/P3r5ZRloscqhFS4iLoXsap42DNgabNzIoAzta4B4zA22RVhRssxu6s4rD
-	U716PbPFO0Q96z4iIewhz80SKmhoRf/C12WZuOXc52DyfosXRAVhqY6qiv2VEeYcqJZ2eaU9rnd
-	ZGNCyN1Qq+aUPq09gfpeh3RN1M3PnKPsQi/rWAnG0ZO5vICd
-X-Google-Smtp-Source: AGHT+IGT3msngT9U86/vQWCrkAvcxaF7jHkdDO32lx/D57a+EzSM5bY3F+/3B1YrDU2G3sX08pLpNA==
-X-Received: by 2002:a05:6e02:1384:b0:3d0:17d2:a03e with SMTP id e9e14a558f8ab-3d2809d97dcmr45974495ab.21.1739695198126;
-        Sun, 16 Feb 2025 00:39:58 -0800 (PST)
-Received: from mail-il1-f179.google.com (mail-il1-f179.google.com. [209.85.166.179])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3d18f9c4052sm14442065ab.17.2025.02.16.00.39.57
+        bh=Dpo5WMvSHiZdUjnCU7ZcgyQ986Sd3fENuocGlx6aSZQ=;
+        b=MOK4+3FfpVhQrrosVPoNePnxE+jh/SNHkFbOQO2Kydt3VcxO+sSEMp9OuJKpM84P3G
+         Tn1R40+CZ/CKOSZNHiQi0XcYfjUIzKL6k67JlOi+0vF9APJFbIEXL5wa99uE0AojUT+P
+         KAJE57Lc4Wi1zqHhvva9zUcrfYfYizbSD5JZC39rASc+g1Jeq7gQNREwJgoA7+g6yJXJ
+         9TNIWiRPRoAfRW+FHfD5yVakcRE0AIu4K81tsGKor8TfYpBjWHp0o3iv9xK9j9//ZV0I
+         S7DKix9ZnQfjklQ7uInhrCCmgMZCCcgvqmwCIr5oiKRzgwV3aifshRMSMnmdN2oabUS8
+         rNhg==
+X-Forwarded-Encrypted: i=1; AJvYcCXjVDNVROu5lWjK8K4YW3seMlKLfVP8cKAO2UmjYsyRgXO/lKfkoZQRuUp3j2oWAITeblxuZmvFmv8EDw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyHNxVR3uDRa4nAVtFJheQeBVmjLWx01tAmTsR1S85HzLDFZXBD
+	PpECBUywstl/gsMkm7YrqQkZlm+cOmTsvVzSx0IZaxAWTGGYIPS2MpuVfa4lRAQ=
+X-Gm-Gg: ASbGncsLCpMs2uMJ6ww6hA7PKmdZsf4yTs+w/St9Lf0ggxKvZsqtMAehv7WbLtjS9sD
+	m+AHVB/ZuPR56BJ9RUIi3XO55ZUArf43jK5Kjuhpk58WMXBeKR9iZZSP9JpRr6SPAg8twJKzR4F
+	kkX2IqI8ULQShCUZo/Nw56WLwudfxmZXvQQpY7A53BXnP/KVg7niAgJUyXiOIrPk3/AKUDQbbBg
+	/hWivOta4n81XHPRIsOfM39GCntJMvRhsK3apDAy6klBY6CFfqffq9SBvENgMYoV1lRkKlFfAz5
+	p5ac17PGB/4cpV29BII4jabZ3e7rN/xI2JXkJeeq6sAkCdNp
+X-Google-Smtp-Source: AGHT+IEDZMHDvUcw9tnni1/9SJr01Y0ugee+o4R9SHhFYk4VNpMs/uSa8gsT/udSGSxZ+LFAf7w4fw==
+X-Received: by 2002:a05:6e02:3206:b0:3cf:ae67:4115 with SMTP id e9e14a558f8ab-3d2807bc8aamr45000935ab.8.1739695282760;
+        Sun, 16 Feb 2025 00:41:22 -0800 (PST)
+Received: from mail-il1-f176.google.com (mail-il1-f176.google.com. [209.85.166.176])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4ee8f659824sm320065173.95.2025.02.16.00.41.22
         for <linux-sunxi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 16 Feb 2025 00:39:57 -0800 (PST)
-Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-3ce873818a3so31682225ab.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 16 Feb 2025 00:39:57 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUhp5D0wuJRXrKy35PPTXe16GDzDd7GWmEiYpkfUiM0LdS9W1w3sTELlaawsMvh4TondSVKwpmrqahndg==@lists.linux.dev
-X-Received: by 2002:a05:6e02:3182:b0:3d1:8ab7:9569 with SMTP id
- e9e14a558f8ab-3d279685dacmr46970125ab.0.1739695197464; Sun, 16 Feb 2025
- 00:39:57 -0800 (PST)
+        Sun, 16 Feb 2025 00:41:22 -0800 (PST)
+Received: by mail-il1-f176.google.com with SMTP id e9e14a558f8ab-3d14dec3236so10099995ab.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 16 Feb 2025 00:41:22 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWRdB5b5MsyJhHkgI2uXZ69Icmbfwf+JqWD10IZweyVi/G7BPyj5il5fu0xb/l0O7iA8cDa2Of9CvL3PA==@lists.linux.dev
+X-Received: by 2002:a05:6e02:2610:b0:3d1:78f1:8a86 with SMTP id
+ e9e14a558f8ab-3d2809471f1mr44082585ab.15.1739695282060; Sun, 16 Feb 2025
+ 00:41:22 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250214125359.5204-1-andre.przywara@arm.com> <20250214125359.5204-3-andre.przywara@arm.com>
-In-Reply-To: <20250214125359.5204-3-andre.przywara@arm.com>
+References: <20250214125359.5204-1-andre.przywara@arm.com> <20250214125359.5204-4-andre.przywara@arm.com>
+In-Reply-To: <20250214125359.5204-4-andre.przywara@arm.com>
 Reply-To: wens@csie.org
 From: Chen-Yu Tsai <wens@csie.org>
-Date: Sun, 16 Feb 2025 16:39:38 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67JF-NBLG8GBnReHvczKXgiKBYHTR15HTCtspGcWTK5ag@mail.gmail.com>
-X-Gm-Features: AWEUYZnAYxHy4jgtgA_B5U0mMvfm0UP2fVTcNC4hjtdhMTuDWPQD0C_dkfISXeo
-Message-ID: <CAGb2v67JF-NBLG8GBnReHvczKXgiKBYHTR15HTCtspGcWTK5ag@mail.gmail.com>
-Subject: Re: [PATCH v2 02/15] clk: sunxi-ng: mp: introduce dual-divider clock
+Date: Sun, 16 Feb 2025 16:41:07 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64z4xVfDkwcgdc6Bp9k1GoN-DWH4vjSEwioMGrmE3Ywsg@mail.gmail.com>
+X-Gm-Features: AWEUYZmw3abG4Std0u6pbgvDtbaKDpoG1yzPXqXz-ASh85n4DeWqACoMoRsm03w
+Message-ID: <CAGb2v64z4xVfDkwcgdc6Bp9k1GoN-DWH4vjSEwioMGrmE3Ywsg@mail.gmail.com>
+Subject: Re: [PATCH v2 03/15] clk: sunxi-ng: mp: provide wrapper for setting
+ feature flags
 To: Andre Przywara <andre.przywara@arm.com>
 Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
 	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
@@ -78,17 +79,87 @@ Content-Transfer-Encoding: quoted-printable
 On Fri, Feb 14, 2025 at 8:56=E2=80=AFPM Andre Przywara <andre.przywara@arm.=
 com> wrote:
 >
-> The Allwinner A523 SoC introduces some new MP-style mod clock, where the
-> second "P" divider is an actual numerical divider value, and not the
-> numbers of bits to shift (1..32 instead of 1,2,4,8).
-> The rest of the clock is the same as the existing MP clock, so enhance th=
-e
-> existing code to accommodate for this.
+> So far our sunxi clock instantiation macros set the required flags
+> depending on the clock type, but the new "dual divider MP clock"
+> requires us to pass that piece of information in by the user.
 >
-> Introduce the new CCU feature bit CCU_FEATURE_DUAL_DIV to mark an MP
-> clock as having two dividers, and change the dividing and encoding code
-> to differentiate the two cases.
+> Add a new wrapper macro that allows to specify a "features" field, to
+> allow marking those dual-divider clocks accordingly.
 >
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  drivers/clk/sunxi-ng/ccu_mp.h | 19 ++++++++++++++++---
+>  1 file changed, 16 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/clk/sunxi-ng/ccu_mp.h b/drivers/clk/sunxi-ng/ccu_mp.=
+h
+> index e235fdfde2d36..687bd2ec798e2 100644
+> --- a/drivers/clk/sunxi-ng/ccu_mp.h
+> +++ b/drivers/clk/sunxi-ng/ccu_mp.h
+> @@ -100,11 +100,12 @@ struct ccu_mp {
+>                                    _muxshift, _muxwidth,                \
+>                                    0, _flags)
+>
+> -#define SUNXI_CCU_MP_DATA_WITH_MUX_GATE(_struct, _name, _parents, _reg, =
+       \
+> +#define SUNXI_CCU_MP_DATA_WITH_MUX_GATE_FEAT(_struct, _name, _parents, _=
+reg, \
+>                                         _mshift, _mwidth,               \
+>                                         _pshift, _pwidth,               \
+>                                         _muxshift, _muxwidth,           \
+> -                                       _gate, _flags)                  \
+> +                                       _gate, _flags,                  \
+> +                                       _features)                      \
+>         struct ccu_mp _struct =3D {                                      =
+ \
+>                 .enable =3D _gate,                                       =
+ \
+>                 .m      =3D _SUNXI_CCU_DIV(_mshift, _mwidth),            =
+ \
+> @@ -112,13 +113,25 @@ struct ccu_mp {
+>                 .mux    =3D _SUNXI_CCU_MUX(_muxshift, _muxwidth),        =
+ \
+>                 .common =3D {                                            =
+ \
+>                         .reg            =3D _reg,                        =
+ \
+> +                       .features       =3D _features,                   =
+ \
+>                         .hw.init        =3D CLK_HW_INIT_PARENTS_DATA(_nam=
+e, \
+>                                                                    _paren=
+ts, \
+> -                                                                  &ccu_m=
+p_ops, \
+> +                                                                  &ccu_m=
+p_ops,\
+
+Accidental change?
+
+Otherwise,
 
 Reviewed-by: Chen-Yu Tsai <wens@csie.org>
+
+>                                                                    _flags=
+), \
+>                 }                                                       \
+>         }
+>
+> +#define SUNXI_CCU_MP_DATA_WITH_MUX_GATE(_struct, _name, _parents, _reg, =
+       \
+> +                                       _mshift, _mwidth,               \
+> +                                       _pshift, _pwidth,               \
+> +                                       _muxshift, _muxwidth,           \
+> +                                       _gate, _flags)                  \
+> +       SUNXI_CCU_MP_DATA_WITH_MUX_GATE_FEAT(_struct, _name, _parents,  \
+> +                                            _reg, _mshift, _mwidth,    \
+> +                                            _pshift, _pwidth,          \
+> +                                            _muxshift, _muxwidth,      \
+> +                                            _gate, _flags, 0)
+> +
+>  #define SUNXI_CCU_MP_DATA_WITH_MUX(_struct, _name, _parents, _reg,     \
+>                                    _mshift, _mwidth,                    \
+>                                    _pshift, _pwidth,                    \
+> --
+> 2.46.3
+>
