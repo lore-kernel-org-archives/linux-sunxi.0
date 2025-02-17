@@ -1,70 +1,70 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09A4E2248B7
-	for <linux-sunxi@lists.linux.dev>; Mon, 17 Feb 2025 15:13:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 631E5223700
+	for <linux-sunxi@lists.linux.dev>; Mon, 17 Feb 2025 15:48:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739805192; cv=none; b=nd2GqpERlsuxwk7Y2EKSdLZzqj/gv88opA79qanAh9EHZWjqnuYXDFfF99CavCklIhnwQFkPTRjJJcvnUHdnYuF1tQqPmpghq/E854C7hWvLj926b6ayCzx9TIELlEncUAzPx9iakiVKzQEGij4wKcb/EbPQfbSd7/1Aytxs0Go=
+	t=1739807313; cv=none; b=hMgYH+klj0mF2CgBiY8l/kH8uh8/f8nGpgIbzd/BlFp3wfovuvfcQnoM4SFOSawkrJkyTv9O5MWIUauwuyZApz/HKGS5v8Z4kvYAYM6cvT9kZVlC9EbVWubF2MIzii7nW9DjzT8ROwjTZIa/2Uc2BhU8xIKANn3JKdz0xDoityA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739805192; c=relaxed/simple;
-	bh=WqBPs7TXi1TZ+t7BcT1Oc3H2Z/zeW3wGdbgAmH8XYY0=;
+	s=arc-20240116; t=1739807313; c=relaxed/simple;
+	bh=06+HsNBqZbxG8SrKyC7xwIUS/afQ5IoCNqI5xrOzpH0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WR7EjTfbeWkGeLTkdPMaOaNRzVlzCOYesTY4xHrLjxQi7Ep/iZwLFPXjXrMNVP3Ly5/TnOLP5STOa9JgCq97aUixdbXvECShhR9zCrQIwOoIkKlhxWJJD/VGYIf0rkKNqtEY+0NIzXKD7YtE1Hu8st4rXR41uCgufrXkRoOxaGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.175
+	 To:Cc:Content-Type; b=d2VTnYJ3nvyNwtGGz7S3vEu4+1NdQhtXGDhnnMMvxGaTP6pp6W1WNQUadK98JJBVlEKVU2zISLdH2m/1ciPaQSlv3bLcR3eK/tEdS7xw01xmcqRgkTlEKRl/2J5XQUVLsR/zlGm2RKOkfE1KvKcgDLYBLX1mwDM/DeBJQHhLfKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-307c13298eeso45966731fa.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 17 Feb 2025 07:13:10 -0800 (PST)
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5452c1daabeso2531673e87.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 17 Feb 2025 07:48:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739805186; x=1740409986;
+        d=1e100.net; s=20230601; t=1739807308; x=1740412108;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :reply-to:in-reply-to:references:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=WqBPs7TXi1TZ+t7BcT1Oc3H2Z/zeW3wGdbgAmH8XYY0=;
-        b=TgbvbUsnFvBJgtjjenBFdiS9KomDJqrHOUXWJCD3AMM8ecEegM9pcU/SRsFztAimT6
-         ApFLbJQoaAAv/JT+kxOJ20vVcspIDxYf7cJrlrEZGOxgJnTol3Bk/qZrtfuwU6hThPkN
-         uSji5EklCz1XIVPdYMLDFwn7fsiThdB+ILArmgZboVHmulCIF9e+MLILmlaSwHwlZj6N
-         mLp6Dn45jnyvxq0NWzFQ9tvAl19ADxxzdJ0TF5pyrcVBM+Xu69J+R8+0sIfMNGB5Uxc3
-         LZVPgTbT2lRSh3ovODX5K0GNV6prcR/NrZN/0dheJHfunt04YFJEtFPuUs2jtGU3ga5Q
-         HO+g==
-X-Forwarded-Encrypted: i=1; AJvYcCU3D0Y6yUjsIGRHuvuvw5xBK2A/ZOblPhcL/gS/AS+RT+6aWn/tV1kKdIcO41nnRBugluegyTA8BufwFg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzXb/bslD1NioeK/EOAgOaa2QL9KPmr5m5gz08/D9cg3qVJPXqA
-	YPa1n6XD7PqlBIhW4W6GiL7MeQG2bxPI2s0zZAsMe7MAd/uD0MbQzsCKJlUI
-X-Gm-Gg: ASbGncsJyyNW8tyuicQlrPhUwmM9AxRPExAgoT/dHSGwiSsuJJpvzun3QoMglyDoM+7
-	g2/thKNBQslEzsKzWdC5St8JT4KF7ezOffh8xgfPCJK6U8OXjFF8IOBuG5/LTe4hg9pfssIBhny
-	06DDKtGtQ76L466zZYsKyB8tOjedIg051W512lrbmU4nQusDLg6AdsErP3Lu0n/KtCcUMaqbE0H
-	36WheMAenm9F8lB0YDGZnr+h7BJQm50AlNujnOh0RaIc/RDoNbf04wgu80ojo6q78W/ZkXsgm8f
-	te8DlE0hDOFOlwlECZK5kOyUhm5HnO3qebHzGJJeiDhr0gXS
-X-Google-Smtp-Source: AGHT+IF1Uk8nndYc8p5SRLr/zvc0q0U6KIX6oddZgq6JKYilmMA+bMOXNPd4IeaEeg6cMEVqfi44fg==
-X-Received: by 2002:a2e:700b:0:b0:309:1ec7:707c with SMTP id 38308e7fff4ca-3091ec771fbmr34741761fa.5.1739805185910;
-        Mon, 17 Feb 2025 07:13:05 -0800 (PST)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com. [209.85.208.182])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-309306d5f48sm9097901fa.57.2025.02.17.07.13.05
+        bh=oT48PO3HfIeDjSDux1vBuhE4VoEwoL5q99u+4AwOVE8=;
+        b=A0/X6CG5uND+FGYu8fy01nQOFTf6Oy1VSqAjz6RXk0HiyCxQZhvLoMosqIvO2jVx1t
+         EjN0wTtQzV66yWo/yM2f2Icp1X60LqtEJdnofCaPRNxDHYW/AVvRx6DjQIasl3nw+Orq
+         JuRrsf6+qaD+yntYvdQ+nsRrbEdD7ra/F9AHGh5RgOqNIWEdNS6KzgG0jL7PeJveVfVK
+         xUx6SXeTIJuWKKmbrj09yKdO1RBwCyMWAf1PA2Kwk8V+rgtkRfkCtoRvTnMBaKYBKtra
+         rUC9paFPG/mqEtS7gLMwKGITOC43MSi3Mdlm9I9j1u6gNF9Zk9uWfl7jsJu1MDbK8NGh
+         4wlw==
+X-Forwarded-Encrypted: i=1; AJvYcCXPs8tdWDT4B6H/ZTnPFIWIeYT1bhI/q722hhQ6iEXhFFBVXu900tKrVvKpmgN9DU9Y6J734IcIi4Olzg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxGhbGXCn580TibJ0ZgU5OK/O3bnC2Ccz7Tz7TjR3T5sOuDDMo6
+	eVxJKzzMfWHNt19RJRgBUrjoRsMYmg9u6z+CYA3kCBwg849l6YsEsteyRhBV
+X-Gm-Gg: ASbGncu4WT9S/jcpi8WX1rxIaum5bTrS/fwiF6KBgXTboJS9O2Ki2Gnw++xYYa3GNxC
+	AXmns23NEI1KP5L3Yh7aeZ183bnpxIiLVs7n6RfctGGLnlow/bvPxkyL8MfrktwID9RF9L7AnQu
+	jwNKbujJIDWUQptZEJA4LzYnujD5K+5fkJDMZNytxQgS+deBpUiD4WHZKq8jfZ0dQlHDKrcO114
+	tWkbY5fsbHyZfYLWrZWTk8VroM4pYUcEpP1fzBjt13uXcctznzGbRIy4kAhQ2YP6Mre/J9KHZl7
+	PSTQIdGoU6tDn+cLcI9s3bphlzAmibafQw426Mb6c0KtmGUs
+X-Google-Smtp-Source: AGHT+IFsvtZBfxSGOu2cyMCyM4S21bKke0LKw4MgunZw8encA2bef/UyCDWp/xX+bw76SzBedQkp1w==
+X-Received: by 2002:a05:6512:33c9:b0:545:225d:6463 with SMTP id 2adb3069b0e04-5452fe8befdmr2369359e87.42.1739807307961;
+        Mon, 17 Feb 2025 07:48:27 -0800 (PST)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com. [209.85.208.169])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54619e64bcbsm768581e87.37.2025.02.17.07.48.26
         for <linux-sunxi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Feb 2025 07:13:05 -0800 (PST)
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-30920855d5bso31821611fa.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 17 Feb 2025 07:13:05 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXxhq/GdQH7UHzdhgUEKVnYhdry/1G+TSmBOOIs0zMhOTuiY1xyPCxySG1i506AkPUIlHgA1gsCNRKncQ==@lists.linux.dev
-X-Received: by 2002:a2e:bcc1:0:b0:308:e521:591 with SMTP id
- 38308e7fff4ca-30928b55670mr39756701fa.16.1739805185075; Mon, 17 Feb 2025
- 07:13:05 -0800 (PST)
+        Mon, 17 Feb 2025 07:48:26 -0800 (PST)
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-30a2dfcfd83so11116291fa.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 17 Feb 2025 07:48:26 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUssef2Zy+njtonViR3BaE5RmJvobW72uYDNUqH4wOS42dWfYR+WHGU+dIJz/krpai+p3f5p2J3kLEt5w==@lists.linux.dev
+X-Received: by 2002:a2e:88c9:0:b0:309:2012:cc5d with SMTP id
+ 38308e7fff4ca-30927ad64e9mr23653441fa.24.1739807306250; Mon, 17 Feb 2025
+ 07:48:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250214003734.14944-1-andre.przywara@arm.com> <20250214003734.14944-4-andre.przywara@arm.com>
-In-Reply-To: <20250214003734.14944-4-andre.przywara@arm.com>
+References: <20250214003734.14944-1-andre.przywara@arm.com> <20250214003734.14944-5-andre.przywara@arm.com>
+In-Reply-To: <20250214003734.14944-5-andre.przywara@arm.com>
 Reply-To: wens@csie.org
 From: Chen-Yu Tsai <wens@csie.org>
-Date: Mon, 17 Feb 2025 23:12:52 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65PNymVgAW5gJzoaAN9bCvbNrUPh=MOGT71wimkGnT8Hg@mail.gmail.com>
-X-Gm-Features: AWEUYZkPH3DyqUAjqlsWUrgFVAz25I3j7gx6gVj35UBevzeFHJcZOXdE_CBm2aU
-Message-ID: <CAGb2v65PNymVgAW5gJzoaAN9bCvbNrUPh=MOGT71wimkGnT8Hg@mail.gmail.com>
-Subject: Re: [PATCH v2 3/8] pinctrl: sunxi: move bank K register offset
+Date: Mon, 17 Feb 2025 23:48:13 +0800
+X-Gmail-Original-Message-ID: <CAGb2v67V7PAOC8MLVzE5SwwvpogN_WLNhQnRVD2pikGVDHtJjA@mail.gmail.com>
+X-Gm-Features: AWEUYZlCDWHC9MbTz92hd57HNQUJnNXRSXbL_QnKKWLChMmYjVCum1sff3H_yMQ
+Message-ID: <CAGb2v67V7PAOC8MLVzE5SwwvpogN_WLNhQnRVD2pikGVDHtJjA@mail.gmail.com>
+Subject: Re: [PATCH v2 4/8] pinctrl: sunxi: support moved power configuration registers
 To: Andre Przywara <andre.przywara@arm.com>
 Cc: Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
@@ -78,25 +78,102 @@ Content-Transfer-Encoding: quoted-printable
 On Fri, Feb 14, 2025 at 8:40=E2=80=AFAM Andre Przywara <andre.przywara@arm.=
 com> wrote:
 >
-> The Allwinner pincontroller register layout used to allow for at least
-> 11 banks per controller, any more banks would reside at a second
-> controller instance.
-> When the per-bank register map size was increased with the D1, it turned
-> out that the last bank (port K) of those maximum 11 banks actually would
-> not fit anymore in the 512 bytes reserved for the pincontroller registers=
-.
-> On new SoCs Allwinner thus moved the last bank beyond the existing
-> registers, at offset 0x500.
+> The Allwinner pincontroller IP features some registers to control the
+> withstand voltage of each pin group. So far those registers were always
+> located at the same offset, but the A523 SoC has moved them (probably to
+> accommodate all eleven pin banks).
 >
-> So far SoCs never used more than 9 banks per controller, but the new
-> Allwinner A523 actually uses all 11 banks. Since that SoC also uses the
-> extended layout, its PortK needs to be programmed at offset 0x500.
->
-> Factor out the bank offset calculation into a new function, and handle
-> the case for the last bank separately. Since none of the older SoCs ever
-> used PortK, we can ignore this case, and just always use offset 0x500
-> for the last bank.
+> Add a flag to note this feature, and use that to program the registers
+> either at offset 0x340 or 0x380. So far no pincontroller driver uses
+> this flag, but we need it for the upcoming A523 support.
 >
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  drivers/pinctrl/sunxi/pinctrl-sunxi.c | 15 +++++++++++----
+>  drivers/pinctrl/sunxi/pinctrl-sunxi.h |  7 +++++--
+>  2 files changed, 16 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunx=
+i/pinctrl-sunxi.c
+> index 83a031ceb29f2..a1057122272bd 100644
+> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+> @@ -736,9 +736,9 @@ static int sunxi_pinctrl_set_io_bias_cfg(struct sunxi=
+_pinctrl *pctl,
+>                 val =3D uV > 1800000 && uV <=3D 2500000 ? BIT(bank) : 0;
+>
+>                 raw_spin_lock_irqsave(&pctl->lock, flags);
+> -               reg =3D readl(pctl->membase + PIO_POW_MOD_CTL_REG);
+> +               reg =3D readl(pctl->membase + pctl->pow_mod_sel_offset);
+>                 reg &=3D ~BIT(bank);
+> -               writel(reg | val, pctl->membase + PIO_POW_MOD_CTL_REG);
+> +               writel(reg | val, pctl->membase + pctl->pow_mod_sel_offse=
+t);
+>                 raw_spin_unlock_irqrestore(&pctl->lock, flags);
+>
+>                 fallthrough;
+> @@ -746,9 +746,12 @@ static int sunxi_pinctrl_set_io_bias_cfg(struct sunx=
+i_pinctrl *pctl,
+>                 val =3D uV <=3D 1800000 ? 1 : 0;
+>
+>                 raw_spin_lock_irqsave(&pctl->lock, flags);
+> -               reg =3D readl(pctl->membase + PIO_POW_MOD_SEL_REG);
+> +               reg =3D readl(pctl->membase + pctl->pow_mod_sel_offset +
+> +                           PIO_POW_MOD_SEL_OFS);
+>                 reg &=3D ~(1 << bank);
+> -               writel(reg | val << bank, pctl->membase + PIO_POW_MOD_SEL=
+_REG);
+> +               writel(reg | val << bank,
+> +                      pctl->membase + pctl->pow_mod_sel_offset +
+> +                      PIO_POW_MOD_SEL_OFS);
+>                 raw_spin_unlock_irqrestore(&pctl->lock, flags);
+>                 return 0;
+>         default:
+> @@ -1520,6 +1523,10 @@ int sunxi_pinctrl_init_with_flags(struct platform_=
+device *pdev,
+>                 pctl->pull_regs_offset =3D PULL_REGS_OFFSET;
+>                 pctl->dlevel_field_width =3D DLEVEL_FIELD_WIDTH;
+>         }
+> +       if (flags & SUNXI_PINCTRL_ELEVEN_BANKS)
+> +               pctl->pow_mod_sel_offset =3D PIO_11B_POW_MOD_SEL_REG;
+> +       else
+> +               pctl->pow_mod_sel_offset =3D PIO_POW_MOD_SEL_REG;
+>
+>         pctl->irq_array =3D devm_kcalloc(&pdev->dev,
+>                                        IRQ_PER_BANK * pctl->desc->irq_ban=
+ks,
+> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.h b/drivers/pinctrl/sunx=
+i/pinctrl-sunxi.h
+> index 6cf721876d89d..a93385e456a57 100644
+> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.h
+> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.h
+> @@ -87,9 +87,11 @@
+>  #define SUNXI_PINCTRL_VARIANT_MASK     GENMASK(7, 0)
+>  #define SUNXI_PINCTRL_NEW_REG_LAYOUT   BIT(8)
+>  #define SUNXI_PINCTRL_PORTF_SWITCH     BIT(9)
+> +#define SUNXI_PINCTRL_ELEVEN_BANKS     BIT(10)
+>
+> -#define PIO_POW_MOD_SEL_REG    0x340
+> -#define PIO_POW_MOD_CTL_REG    0x344
+> +#define PIO_POW_MOD_SEL_REG            0x340
+> +#define PIO_11B_POW_MOD_SEL_REG                0x380
+> +#define PIO_POW_MOD_SEL_OFS            0x004
 
-Reviewed-by: Chen-Yu Tsai <wens@csie.org>
+Shouldn't this be PIO_POW_MOD_CTL_OFS instead?
+
+ChenYu
+
+>
+>  #define PIO_BANK_K_OFFSET              0x500
+>
+> @@ -173,6 +175,7 @@ struct sunxi_pinctrl {
+>         u32                             bank_mem_size;
+>         u32                             pull_regs_offset;
+>         u32                             dlevel_field_width;
+> +       u32                             pow_mod_sel_offset;
+>  };
+>
+>  #define SUNXI_PIN(_pin, ...)                                   \
+> --
+> 2.46.3
+>
