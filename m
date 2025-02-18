@@ -1,62 +1,62 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5ED21E51E0
-	for <linux-sunxi@lists.linux.dev>; Tue, 18 Feb 2025 19:07:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A14FE1684A4
+	for <linux-sunxi@lists.linux.dev>; Tue, 18 Feb 2025 19:26:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739905622; cv=none; b=AMOQ9qi0kGDlpiGpTenel7Ye1iAWwZmd18o4gk1YCOhZT4LF9HAtVJ+qDPIXWcDMUQq0mpo/gJ54X3ZWtbXrQmXyLaoAMXjdJOS+J32/194BEiLX30E/fZCX9jvXokTBYeqTRslmtCBuLxBjrgdqANc6P6wu3tlb1seooG2e/8I=
+	t=1739906796; cv=none; b=ViI9646vKtBtUM5kLnDDMQay7mvDIVKDeYZWcclf826EcQ/G9beAozEIBTpcbd+FH5x1zVTmPfpJ1z8zFgrugVwTIWmdHMVUjxrQ07Xq8XCds8SnMLAFjGVoBbkyc5GdbYV5Whx1fRIkqWua6h31vUgltnVBoFNcFgZzlhR5bqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739905622; c=relaxed/simple;
-	bh=Hs/qnoFpXT5mzrFh3FYSbmqblVEDjKUtya7k9IFqpzY=;
+	s=arc-20240116; t=1739906796; c=relaxed/simple;
+	bh=RiKcmJX/8GC/W/buBuIX0hQHB/5PQiCKDdjKHe168CA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NrsZ343/I03dmdBz/srf/ULtTmsrGZ+4yjtyWdvkDMDt+XRZccBjT3W0PaK8xwTGOFiAC2nei9CQa37oxFcQslEyGLZzvxfPooHRFvYGEwVOKvZVseHq8h7y6Hb+HTYTT2h73j3SuR/j51cnPgL2eRTz6gbAvYhdHlNIz1OA1S4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mR3oCRWU; arc=none smtp.client-ip=209.85.221.53
+	 MIME-Version:Content-Type; b=tRCoYNbD+4r36h9hUZ7iGpTHPg/mqkVdrwXo47KvEyXYiU6IaZZQM0n0Z8FsaOupb1MIqvPAw1PqZcZelJbf/06LcXt23QTc8qOntvRZmPP7mPjUATGhSF3ZhQVEWsSniAwK8CwwS+aFO4O5rEnGOvpqNrZWd+Cc9JAke059ucY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YPdPssCE; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mR3oCRWU"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-38dd9b3419cso3157972f8f.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 18 Feb 2025 11:07:00 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YPdPssCE"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43996e95114so6881575e9.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 18 Feb 2025 11:26:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739905619; x=1740510419; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1739906793; x=1740511593; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Hs/qnoFpXT5mzrFh3FYSbmqblVEDjKUtya7k9IFqpzY=;
-        b=mR3oCRWUpF/jWoW5LqqRx1aFFqk0HqRw0BBt2yMKhDU7WNv+191SzjBDKpN5/ftDuC
-         Jic/FMNI7LTCCH8jcK2lAnE9B/aijfTLIrFVyf6zCZPWZUAFQ+3LM+TSPLfBHimALQzq
-         fzWIzZVWS32pUSmABwKcOuWEwqHt/pam/9WjuJaAMAxY39pGh7JDs31DObx1a+YHNYg9
-         Fpc2HBfVPNe0sZhUh0ap0mN+fRUUExGCb3Tk5vV/1E03WnvHf8asQYwKDJeQPPXsJsBM
-         f0H46j/zGx7EEUiSc1/5xSNyZovhF9WfE7tcC87NQRYMHLkJ4aeocNlZ+MJtox6XQsiS
-         KHdw==
+        bh=a0O7shOkTYYhzpBdc0RT+E/zz0YqOfNDEdfZfpbbnbE=;
+        b=YPdPssCENkIgNjS8Tz4Yg8TlGNZrq3u/t4+26bsMVi0WavEAbEJ+8etPRVm+tH3NVw
+         1ShnPralDGjk4s15i/oUP9jw/reIBTuG4PwwJGC5/3Gzlblo4pF4Vx2mMxeauHEtRkRK
+         jovXS4MguCxHTPyT0lDxK9pqVplHss+tW6K6JAe3CJdHTGiEnUq7EuYeOt9PZL7s6Dcx
+         RVe1+hT9KX8HZufFk4G/0MMPM6yXq6se1KaDkI1ORe6DQcaU901d80wPecNkKnESCYrp
+         DaDAse6XGjqrd82bGLo4hQeXTM8BChQpToB/Ht0f0tQy8G/3Aj2sXnTZCJiIjvVKliP7
+         NoPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739905619; x=1740510419;
+        d=1e100.net; s=20230601; t=1739906793; x=1740511593;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Hs/qnoFpXT5mzrFh3FYSbmqblVEDjKUtya7k9IFqpzY=;
-        b=AENsxAyneMVMFGbgRGT3g8YKBsaC5dyNur/4hYXXHbo/XZeTf4go+zFGfoLGj8Lr7O
-         o1LabkzKQnUhXgo99GZj+jHO3nIFfr22SqpsY7cNL9FoeLsGmMaODHogHu5qSLou+sd2
-         vA7Ndi6Lu9psUwVtMWCMDC8zrNmPwSDkp8/UAg2qVLLqoYISUyhk58wrE16W2oCVE+Od
-         oVv7q0Ktm5ZJLuJCKVY/URhFeV4xn2q4f34OCb7wXXntre73YmS+Cbo2+J36lpf4vX+6
-         OIva6EUwGcV/5jkQzDU+AugkEtvRqZXEQN+ainBiWzpIU0xFDqK4PV63rvgLWNEoH5eN
-         sb9g==
-X-Forwarded-Encrypted: i=1; AJvYcCUXpCI4Cp1vFoXWsyoQ1qA1rpPuGX7gz9HbkhisyW95owMxwbuPtlDyUBvaRhjhgrE6vgBItMlWXUxLYQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzTnTajEiDqLWWzNlTpbYvgo8/WOYBD1GNSepOviMVtswoQSHlp
-	KgixgY5E3pnjulYLIVbvjmrkPXMJmyjQVCVKNBLCyfJHXgqq5UbC
-X-Gm-Gg: ASbGnctaTB0gsCYsLohxtgclVMxG4yWFp6Kvk/TpYmyc1TlD33C0P4LhIL9D5d90Z2L
-	IroTsG3d3uX0cEvKCK5kEOG3JxC+0EI6In7wUL0aoB4AhzVwuPXhPpSrDa9kkXgD65S0F2pnWBS
-	bPc7D5LUc2FcM8SRFYKJQQTrpEsQ/lR/wLWSH67fqJQ4gKGeKmJR24Vt/FcD9i4tFPLYTyssOKc
-	mz+4Px0rNzGVpHPhcFGXwvBq4bq1KagA0OzUhR2pxuX78ExZgVU/fkVyx2mRA9B3JczY60/y48I
-	R3FIfeo5EgDLwU2HCaRC6MV0naWA2eDZ46QWNrGFyE0Z8asz8NCNYI7xa97hKg1ywq4=
-X-Google-Smtp-Source: AGHT+IE4Ztj3fqoFCu3fT1sr18ZtU3QldzSJQ2PYy4jRgkP/zHxGfnGiNxC0aElqmtmZKg2tXOMIXA==
-X-Received: by 2002:a5d:6481:0:b0:38f:31fe:6d23 with SMTP id ffacd0b85a97d-38f33f2e91cmr13677516f8f.23.1739905619006;
-        Tue, 18 Feb 2025 11:06:59 -0800 (PST)
+        bh=a0O7shOkTYYhzpBdc0RT+E/zz0YqOfNDEdfZfpbbnbE=;
+        b=LDwnPNP1yrznQ18xsD5+gDNJzHgOyNRvRpaysjpVToIw/ES9ujQudh/oL94FoNsc8n
+         1Aky+JVL1KD20PGaiUDE0MSpQGrRPRKzFDTBDN0TOiXXTNbX+MSUzJgSDcPANnEd/xn4
+         H6DoUrT5Tfq51YDbVLvFajuqGH2+9ZR8zjoxTRlFOtf0a5kpCVZKdGQLW5wvNNBKofol
+         vF6zgZ6ZdlN7uU3qkBZmtS53lgbwrk1IE0qFYBxXip20YnRrB3S4421CBSbqTGlGnRzs
+         Yg8VGzTzhC8WG2DGQW4l0kesFoZ+z3wlwBoekfAXRzyUhj1qY8G22qVDAQIeVqJsss87
+         Pp4A==
+X-Forwarded-Encrypted: i=1; AJvYcCVR8PZaRnZw3fkkw8QGAOdyvu5oWX81lWXMeb5wzi8Rrbrc92iiSSjHkfGHHeQkiHlmlXKlQbnNIbQDzw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxVg4VsJ7sQENx1VZG6BIZmGGTOXMdhCTH+qekkvgMf5LqmKXkF
+	JaZeihn7cV+YhPQSqheBGSXiMzlXztpLIAo9j4BteulzjDG+rylK
+X-Gm-Gg: ASbGnctdKf1mGwnPneM3/d1k6VAB9hQXK6NOWMZeWl5lQSvQVD86LCaRmMC3DmMTi+Q
+	2+rymNOgYx4bdwRWZLHk9+NGaDkfE61HHAAeHw1pxrSSCyTDFxWtJMM+2FZNZfJX+gRByJvsL9g
+	KsJZWSV6jA3u5uYZNeysK48u5vk/fMqbKFQ4y1oI5uSFrseLANRuK6mCqbXVs7CxP1kM5hlLxd7
+	t6v/Awitv3DPuWEbCLZIT0Wj22w0qM6PuMvLiqvA4K4IAL95FdhdQrIlNMwTrOdSqXdpU+Om9iW
+	SaSjcCrwbn4vLQqTg42nsRpMJGM4mFA4PRbPEm5+bKg6IWoLknC9982YtCC6KlGWyl0=
+X-Google-Smtp-Source: AGHT+IE8P6Bf5j6JNMDNPPmdiyOQzARFL3KZEbRWk3stCaeMLQwc8p5C2vnHoL6JXmbjGbMJBisPYA==
+X-Received: by 2002:a05:600c:511a:b0:439:643a:c8c4 with SMTP id 5b1f17b1804b1-4396e7527cfmr125859015e9.22.1739906792544;
+        Tue, 18 Feb 2025 11:26:32 -0800 (PST)
 Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43991c84fa4sm36268225e9.39.2025.02.18.11.06.57
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-439922141a5sm35844685e9.2.2025.02.18.11.26.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Feb 2025 11:06:58 -0800 (PST)
+        Tue, 18 Feb 2025 11:26:32 -0800 (PST)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Michael Turquette <mturquette@baylibre.com>,
  Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
@@ -66,13 +66,13 @@ To: Michael Turquette <mturquette@baylibre.com>,
 Cc: Philipp Zabel <p.zabel@pengutronix.de>, linux-clk@vger.kernel.org,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 06/15] clk: sunxi-ng: a523: Add support for bus clocks
-Date: Tue, 18 Feb 2025 20:06:56 +0100
-Message-ID: <10610758.nUPlyArG6x@jernej-laptop>
-In-Reply-To: <20250214125359.5204-7-andre.przywara@arm.com>
+Subject: Re: [PATCH v2 07/15] clk: sunxi-ng: a523: add video mod clocks
+Date: Tue, 18 Feb 2025 20:26:31 +0100
+Message-ID: <9406479.CDJkKcVGEf@jernej-laptop>
+In-Reply-To: <20250214125359.5204-8-andre.przywara@arm.com>
 References:
  <20250214125359.5204-1-andre.przywara@arm.com>
- <20250214125359.5204-7-andre.przywara@arm.com>
+ <20250214125359.5204-8-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -82,18 +82,302 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne petek, 14. februar 2025 ob 13:53:50 Srednjeevropski standardni =C4=8Das=
+Dne petek, 14. februar 2025 ob 13:53:51 Srednjeevropski standardni =C4=8Das=
  je Andre Przywara napisal(a):
-> Add the basic bus clocks for the Allwinner A523 and T527 SoCs.
-> This covers the AHB, APB0 and APB1 clocks. Linux is not supposed to
-> change those clocks, but they are needed as parents for many other mod
-> clocks.
+> Add the clocks driving the various video subsystems of the SoC: the "DE"
+> display engine, the "DI" deinterlacer, the "G2D" 2D graphics system, the
+> Mali "GPU", the "VE" video engine, its associated IOMMU, as well as the
+> clocks for the various video output drivers (HDMI, DP, LCDs).
 >=20
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  drivers/clk/sunxi-ng/ccu-sun55i-a523.c | 219 +++++++++++++++++++++++++
+>  1 file changed, 219 insertions(+)
+>=20
+> diff --git a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c b/drivers/clk/sunxi-n=
+g/ccu-sun55i-a523.c
+> index 59f45e7c0904b..0ef1fd71a1ca5 100644
+> --- a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
+> +++ b/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
+> @@ -364,6 +364,192 @@ static SUNXI_CCU_M_DATA_WITH_MUX(apb1_clk, "apb1", =
+apb1_parents, 0x524,
+>  				 24, 3,		/* mux */
+>  				 0);
+> =20
+> +
+> +/***********************************************************************=
+***
+> + *                          mod clocks                                  =
+  *
+> + ***********************************************************************=
+***/
+> +
+> +static const struct clk_hw *de_parents[] =3D {
+> +	&pll_periph0_300M_clk.hw,
+> +	&pll_periph0_400M_clk.hw,
+> +	&pll_video3_4x_clk.common.hw,
+> +	&pll_video3_3x_clk.hw,
+> +};
+> +
+> +static SUNXI_CCU_M_HW_WITH_MUX_GATE(de_clk, "de", de_parents, 0x600,
+> +				    0, 5,	/* M */
+> +				    24, 3,	/* mux */
+> +				    BIT(31),	/* gate */
+> +				    CLK_SET_RATE_PARENT);
+> +
+> +static const struct clk_hw *di_parents[] =3D {
+> +	&pll_periph0_300M_clk.hw,
+> +	&pll_periph0_400M_clk.hw,
+> +	&pll_video0_4x_clk.common.hw,
+> +	&pll_video1_4x_clk.common.hw,
+> +};
+> +
+> +static SUNXI_CCU_M_HW_WITH_MUX_GATE(di_clk, "di", di_parents, 0x620,
+> +				    0, 5,	/* M */
+> +				    24, 3,	/* mux */
+> +				    BIT(31),	/* gate */
+> +				    CLK_SET_RATE_PARENT);
+> +
+> +static const struct clk_hw *g2d_parents[] =3D {
+> +	&pll_periph0_400M_clk.hw,
+> +	&pll_periph0_300M_clk.hw,
+> +	&pll_video0_4x_clk.common.hw,
+> +	&pll_video1_4x_clk.common.hw,
+> +};
+> +
+> +static SUNXI_CCU_M_HW_WITH_MUX_GATE(g2d_clk, "g2d", g2d_parents, 0x630,
+> +				    0, 5,	/* M */
+> +				    24, 3,	/* mux */
+> +				    BIT(31),	/* gate */
+> +				    0);
+> +
+> +static const struct clk_hw *gpu_parents[] =3D {
+> +	&pll_gpu_clk.common.hw,
+> +	&pll_periph0_800M_clk.common.hw,
+> +	&pll_periph0_600M_clk.hw,
+> +	&pll_periph0_400M_clk.hw,
+> +	&pll_periph0_300M_clk.hw,
+> +	&pll_periph0_200M_clk.hw,
+> +};
+> +
+> +static SUNXI_CCU_M_HW_WITH_MUX_GATE(gpu_clk, "gpu", gpu_parents, 0x670,
+> +				    0, 4,	/* M */
+> +				    24, 3,	/* mux */
+> +				    BIT(31),	/* gate */
+> +				    0);
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+GPU clock should have CLK_SET_RATE_FLAG.
+
+> +
+> +static const struct clk_hw *ve_parents[] =3D {
+> +	&pll_ve_clk.common.hw,
+> +	&pll_periph0_480M_clk.common.hw,
+> +	&pll_periph0_400M_clk.hw,
+> +	&pll_periph0_300M_clk.hw,
+> +};
+> +static SUNXI_CCU_M_HW_WITH_MUX_GATE(ve_clk, "ve", ve_parents, 0x690,
+> +				    0, 5,	/* M */
+> +				    24, 3,	/* mux */
+> +				    BIT(31),	/* gate */
+> +				    CLK_SET_RATE_PARENT);
+> +
+> +static const struct clk_parent_data iommu_parents[] =3D {
+> +	{ .hw =3D &pll_periph0_600M_clk.hw },
+> +	{ .hw =3D &pll_ddr0_clk.common.hw },
+> +	{ .hw =3D &pll_periph0_480M_clk.common.hw },
+> +	{ .hw =3D &pll_periph0_400M_clk.hw },
+> +	{ .hw =3D &pll_periph0_150M_clk.hw },
+> +	{ .fw_name =3D "hosc" },
+> +};
+> +
+> +static SUNXI_CCU_M_DATA_WITH_MUX_GATE(iommu_clk, "iommu", iommu_parents,=
+ 0x7b0,
+> +				      0, 5,	/* M */
+> +				      24, 3,	/* mux */
+> +				      BIT(31),	/* gate */
+> +				      CLK_SET_RATE_PARENT);
+
+This won't work. IOMMU clock has also update bit, which must be set to actu=
+ally
+apply the new value, same as DDR clock.
+
+> +
+> +static SUNXI_CCU_GATE_DATA(hdmi_24M_clk, "hdmi-24M", osc24M, 0xb04, BIT(=
+31), 0);
+> +
+> +/* TODO: add mux between 32kOSC and PERIPH0/18750 */
+
+Not sure what this TODO means.
+
+> +static SUNXI_CCU_GATE_HWS_WITH_PREDIV(hdmi_cec_32k_clk, "hdmi-cec-32k",
+> +				      pll_periph0_2x_hws,
+> +				      0xb10, BIT(30), 36621, 0);
+> +
+> +static const struct clk_parent_data hdmi_cec_parents[] =3D {
+> +	{ .fw_name =3D "losc" },
+> +	{ .hw =3D &hdmi_cec_32k_clk.common.hw },
+> +};
+> +static SUNXI_CCU_MUX_DATA_WITH_GATE(hdmi_cec_clk, "hdmi-cec", hdmi_cec_p=
+arents,
+> +				    0xb10,
+> +				    24, 1,	/* mux */
+> +				    BIT(31),	/* gate */
+> +				    0);
+> +
+> +static const struct clk_parent_data mipi_dsi_parents[] =3D {
+> +	{ .fw_name =3D "hosc" },
+> +	{ .hw =3D &pll_periph0_200M_clk.hw },
+> +	{ .hw =3D &pll_periph0_150M_clk.hw },
+> +};
+> +static SUNXI_CCU_M_DATA_WITH_MUX_GATE(mipi_dsi0_clk, "mipi-dsi0",
+> +				      mipi_dsi_parents, 0xb24,
+> +				      0, 5,	/* M */
+> +				      24, 3,	/* mux */
+> +				      BIT(31),	/* gate */
+> +				      CLK_SET_RATE_PARENT);
+> +
+> +static SUNXI_CCU_M_DATA_WITH_MUX_GATE(mipi_dsi1_clk, "mipi-dsi1",
+> +				      mipi_dsi_parents, 0xb28,
+> +				      0, 5,	/* M */
+> +				      24, 3,	/* mux */
+> +				      BIT(31),	/* gate */
+> +				      CLK_SET_RATE_PARENT);
+> +
+> +static const struct clk_hw *tcon_parents[] =3D {
+> +	&pll_video0_4x_clk.common.hw,
+> +	&pll_video1_4x_clk.common.hw,
+> +	&pll_video2_4x_clk.common.hw,
+> +	&pll_video3_4x_clk.common.hw,
+> +	&pll_periph0_2x_clk.common.hw,
+> +	&pll_video0_3x_clk.hw,
+> +	&pll_video1_3x_clk.hw,
+> +};
+> +static SUNXI_CCU_M_HW_WITH_MUX_GATE(tcon_lcd0_clk, "tcon-lcd0", tcon_par=
+ents,
+> +				    0xb60,
+> +				    0,  5,	/* M */
+> +				    24, 3,	/* mux */
+> +				    BIT(31),	/* gate */
+> +				    CLK_SET_RATE_PARENT);
+> +
+> +static SUNXI_CCU_M_HW_WITH_MUX_GATE(tcon_lcd1_clk, "tcon-lcd1", tcon_par=
+ents,
+> +				    0xb64,
+> +				    0,  5,	/* M */
+> +				    24, 3,	/* mux */
+> +				    BIT(31),	/* gate */
+> +				    CLK_SET_RATE_PARENT);
+
+Missing tcon-lcd2 - see T527 manual.
+
+> +
+> +static SUNXI_CCU_M_HW_WITH_MUX_GATE(combophy_dsi0_clk, "combophy-dsi0",
+> +				    tcon_parents, 0xb6c,
+> +				    0,  5,	/* M */
+> +				    24, 3,	/* mux */
+> +				    BIT(31),	/* gate */
+> +				    CLK_SET_RATE_PARENT);
+> +
+> +static SUNXI_CCU_M_HW_WITH_MUX_GATE(combophy_dsi1_clk, "combophy-dsi1",
+> +				    tcon_parents, 0xb70,
+> +				    0,  5,	/* M */
+> +				    24, 3,	/* mux */
+> +				    BIT(31),	/* gate */
+> +				    CLK_SET_RATE_PARENT);
+> +
+> +static SUNXI_CCU_M_HW_WITH_MUX_GATE(tcon_tv0_clk, "tcon-tv0", tcon_paren=
+ts,
+> +				    0xb80,
+> +				    0, 4,	/* M */
+> +				    24, 3,	/* mux */
+> +				    BIT(31),	/* gate */
+> +				    CLK_SET_RATE_PARENT);
+> +
+> +static SUNXI_CCU_M_HW_WITH_MUX_GATE(tcon_tv1_clk, "tcon-tv1", tcon_paren=
+ts,
+> +				    0xb84,
+> +				    0, 4,	/* M */
+> +				    24, 3,	/* mux */
+> +				    BIT(31),	/* gate */
+> +				    CLK_SET_RATE_PARENT);
+
+TCON TV0-1 parents are subset of others, according to T527 manual.
+
+> +
+> +static const struct clk_hw *edp_parents[] =3D {
+> +	&pll_video0_4x_clk.common.hw,
+> +	&pll_video1_4x_clk.common.hw,
+> +	&pll_video2_4x_clk.common.hw,
+> +	&pll_video3_4x_clk.common.hw,
+> +	&pll_periph0_2x_clk.common.hw,
+> +};
+> +static SUNXI_CCU_M_HW_WITH_MUX_GATE(edp_clk, "edp", edp_parents, 0xbb0,
+> +				    0, 4,	/* M */
+> +				    24, 3,	/* mux */
+> +				    BIT(31),	/* gate */
+> +				    0);
+> +
+
+Missing CLK_SET_RATE_PARENT flag.
 
 Best regards,
 Jernej
+
+>  /*
+>   * Contains all clocks that are controlled by a hardware register. They
+>   * have a (sunxi) .common member, which needs to be initialised by the c=
+ommon
+> @@ -394,6 +580,22 @@ static struct ccu_common *sun55i_a523_ccu_clks[] =3D=
+ {
+>  	&ahb_clk.common,
+>  	&apb0_clk.common,
+>  	&apb1_clk.common,
+> +	&de_clk.common,
+> +	&di_clk.common,
+> +	&g2d_clk.common,
+> +	&gpu_clk.common,
+> +	&ve_clk.common,
+> +	&iommu_clk.common,
+> +	&hdmi_24M_clk.common,
+> +	&hdmi_cec_32k_clk.common,
+> +	&hdmi_cec_clk.common,
+> +	&mipi_dsi0_clk.common,
+> +	&mipi_dsi1_clk.common,
+> +	&tcon_lcd0_clk.common,
+> +	&tcon_lcd1_clk.common,
+> +	&tcon_tv0_clk.common,
+> +	&tcon_tv1_clk.common,
+> +	&edp_clk.common,
+>  };
+> =20
+>  static struct clk_hw_onecell_data sun55i_a523_hw_clks =3D {
+> @@ -442,6 +644,23 @@ static struct clk_hw_onecell_data sun55i_a523_hw_clk=
+s =3D {
+>  		[CLK_AHB]		=3D &ahb_clk.common.hw,
+>  		[CLK_APB0]		=3D &apb0_clk.common.hw,
+>  		[CLK_APB1]		=3D &apb1_clk.common.hw,
+> +		[CLK_DE]		=3D &de_clk.common.hw,
+> +		[CLK_DI]		=3D &di_clk.common.hw,
+> +		[CLK_G2D]		=3D &g2d_clk.common.hw,
+> +		[CLK_GPU]		=3D &gpu_clk.common.hw,
+> +		[CLK_VE]		=3D &ve_clk.common.hw,
+> +		[CLK_HDMI_24M]		=3D &hdmi_24M_clk.common.hw,
+> +		[CLK_HDMI_CEC_32K]	=3D &hdmi_cec_32k_clk.common.hw,
+> +		[CLK_HDMI_CEC]		=3D &hdmi_cec_clk.common.hw,
+> +		[CLK_MIPI_DSI0]		=3D &mipi_dsi0_clk.common.hw,
+> +		[CLK_MIPI_DSI1]		=3D &mipi_dsi1_clk.common.hw,
+> +		[CLK_TCON_LCD0]		=3D &tcon_lcd0_clk.common.hw,
+> +		[CLK_TCON_LCD1]		=3D &tcon_lcd1_clk.common.hw,
+> +		[CLK_COMBOPHY_DSI0]	=3D &combophy_dsi0_clk.common.hw,
+> +		[CLK_COMBOPHY_DSI1]	=3D &combophy_dsi1_clk.common.hw,
+> +		[CLK_TCON_TV0]		=3D &tcon_tv0_clk.common.hw,
+> +		[CLK_TCON_TV1]		=3D &tcon_tv1_clk.common.hw,
+> +		[CLK_EDP]		=3D &edp_clk.common.hw,
+>  	},
+>  };
+> =20
+>=20
+
+
 
 
