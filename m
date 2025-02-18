@@ -1,808 +1,218 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2046.outbound.protection.outlook.com [40.107.93.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79C971BE87B
-	for <linux-sunxi@lists.linux.dev>; Tue, 18 Feb 2025 20:12:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739909560; cv=none; b=Czvka3jfShwzjZev44CrFHahiLHWTVKNW93z5innryfvqrt663xU7r5BBTz4JtvgeQj5k+r7XdgVf+lkimt4YO+1zxEyxybC1jKjnQnmYsOuU+4lfL4zQx2+EfgousONveogFYc7fTwLLlyv9jIiFmxv22Boi/qGVyBtfQVFcYI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739909560; c=relaxed/simple;
-	bh=0AoQatx4YtcUq1oXRVnTE0N2R05KRbQfRRefbtKz938=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jEk9IQI6/V0FjR8s7jS/f35PSBM+TrYfz0f7FcFZbf7k+ih+Ir8W8cp09NxYcbTSj7uBNDE45lpZSf+mEFqJ09LcLqp8dh0LoPcjSO3pIJ5m7OtmnILMF8AcjQPoTBeB7Yu9eQuBagmRmkRnMARsiHiVv8UdKiDYiIlLr61xIM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jg5AkpIy; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 115BF21B9E0;
+	Tue, 18 Feb 2025 20:19:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739909970; cv=fail; b=AKzd1wrb3HXXPrI5taCLmdFW+JHXUivNuOGiIsMOY0sQ2vbtX+pSDxn9jhAnCd90rZaS4bpnM2pUoZbHDjzRF4CahxiicKoBnaex/s8za3eqRbLBgsqlMiTacL2ZT3mjjvqzf06anAiUYf9nbmkjoBDFfPDhb0jbmHJweC/u0ck=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739909970; c=relaxed/simple;
+	bh=YD+hrS1uT/1cqtLnP4vZ5IkDfcG5T4jsqw2ayFVgOgY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=fJLL56D8xsMBOTXcTFE/EjPjpCFabD8WoMn4cLeqHaQA7xeKaBLofls4TGv/ehGYRTuCHiRFoCQnxPbAoiXnhfJ7li5DicxKjLlC0btRPfCXnrVCQ5A06zAfRAoVB5vhBC7haPT3mTJjceNR7Kuo8u7lU7kOQJCnoa3y8JWn7+U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=JMpfqjZF; arc=fail smtp.client-ip=40.107.93.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jg5AkpIy"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-439350f1a0bso951925e9.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 18 Feb 2025 12:12:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739909556; x=1740514356; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OlAtET8FJ44EqiQ/t+/uQaYWgC/gd1N7S2IVwpWqp9M=;
-        b=jg5AkpIyi2FIiX9QoPmLRXMooOR0o+1Xpg9UO6FT67a7NKsoUwt9x/9ZV+aaXz5Ppx
-         iYcHZe7TXhRe5S8Y+y2KzN4+DoUzi1QO8++cuHYj4DHqLPEmBs72fksPujEaiGiPG7VC
-         wNY+J7TtOcp4QEhThiFIMGYw8imqxETUUU3lKBP3S4giApOM2p7ucja7QYbQqWQzBkji
-         rOxzma0RTOTDoLZspgdebrgJTkJ+wbcptNggaRi9cfswXBAQX89f3lw+5hhSgPMib12u
-         in5xl7FXD041tcApRAB43prjWHAUFUWg6DQa0sh0HeBX2WaFCgj24Wf3NCkb9sq7h+Gp
-         WDzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739909556; x=1740514356;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OlAtET8FJ44EqiQ/t+/uQaYWgC/gd1N7S2IVwpWqp9M=;
-        b=cK/MUAFbCslSOaN0IbsRme6Qc8okckVJegASnmtEAoMuRbhhwaJJyBTuxhJvPw2s5y
-         u9f3s+82Lqf8Hk1xEOlJAmYsXnmM0p5Zr3W0s0dmHAhD2xEckdhY92PhTfndFEoGNjw2
-         dqyIQCeUwsilSMXuC2SYyIPv2aWbLYnHm1gKeFtuhE3O2PipPFKyU8N0QDK1U3ldqrmz
-         WUDTTzSiGxgXeLb0NZSclQRbVXQfZ+E3JpE9i9KlFXr+IE+VNLQXwKnuqAx5PiBpUvYz
-         iwV8ufRez+/InAWBjRqK12ea1tcyurUS0TVeZj3BH25ct+pfOefh7mBAXF1Y2eVk6MVM
-         HXgQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV+CRn9sJbJ4Xmriypzm2p80LA6GYdVv9gNNZ41/1BGhAPiqqUxiV6GqFpx2o3wYfUjApZjEWm3cMdvUg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwimCSeRvYeMoP+rw5PlUmXG7JLPJK59aJVXawI36Z2G3y6Pikn
-	T4U+VA5u99kxFVDnw7SFqbj8DlCn1VovaOXd1+rMR8kOVmrKfq9u
-X-Gm-Gg: ASbGncsCiuWSh1ikPYDLeWAtKbM4enBsG+AE4Xi6mrqdWJVXalKzLFOJxc5FiXm2/eI
-	ri7ikkONCKdtITwitN9Rl1ON//Va7s5mKpMuKops3dPQR0T+EKM+tjR6ncU00AEzxoo32VhfMKM
-	PdenFfNdqJth4jnBhz8Taw0ZJ9fAmtIF9w3vAnwgeQbI7Wbv/gP5gUTFIz4FEjsh2fLCSOyinSR
-	GBGMsZPelC5mshUHVGm7gJHyoTGUEme2EWWFIv9jmKT7jqse/uDn69jV6Zt1TcK9Idx+MMX8frZ
-	j6eGSqOa5FGy/Boe5Is/Oy4o0kwVGTJbOTMeZ8o+WSkcncW7y+tOmfzC/9Yb4SedmC0=
-X-Google-Smtp-Source: AGHT+IGj+jYYqfznq/NYL9hfkvAUIlTYP8oSl/S0KauaO3h2XQfa3/hLLYu4Ilo/RZ7PqysXjg2MFw==
-X-Received: by 2002:a05:600c:1547:b0:439:8878:5029 with SMTP id 5b1f17b1804b1-43999acdff3mr10526715e9.2.1739909555476;
-        Tue, 18 Feb 2025 12:12:35 -0800 (PST)
-Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-439892aaf13sm56147625e9.21.2025.02.18.12.12.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Feb 2025 12:12:34 -0800 (PST)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Andre Przywara <andre.przywara@arm.com>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 12/15] clk: sunxi-ng: a523: add bus clock gates
-Date: Tue, 18 Feb 2025 21:12:33 +0100
-Message-ID: <869956354.0ifERbkFSE@jernej-laptop>
-In-Reply-To: <20250214125359.5204-13-andre.przywara@arm.com>
-References:
- <20250214125359.5204-1-andre.przywara@arm.com>
- <20250214125359.5204-13-andre.przywara@arm.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="JMpfqjZF"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=iwEbliCd+PvYLfhqiNWkn829QDsJY8Klziaia6J6VRZFkVRnVBrG5RLNFfUiUh0QIIW9tvsSsl3if0shhbjbE+z/kjfd6L6ftDlQxpCVvSlXoPOb6e7g2K4l1BWWmY9qCOm5jzBoT+7iO3GUfoTDi1g8Qz4I+b94YssrY1hNGWupSquNkmx4ES6IZKbIFrqJgrief6DJmypUrqAlWI16Eqv0Hhqzk4QMGvklu7OxLHudYAhL+ButEbw0hQCg2r6EAIhCv7BTQ+enARGA54gtWvfqdOicsGMtIY8HWHD0Hqx0lnnNlSZ0o/xfbQ8ayeSJfGFQNXcU5MvBsWeTfgbI7w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LUByovpRk+ZPzKvUH7cwXnf3mccHjMPsOPK2e1mFlRI=;
+ b=O1+vWNUkaaNBXfA7xqPljpFMycqtXuSvF5cuYXUw7geVkT8q7Ez4iAPMfF8EWSexN2ROIfkCYLeVzxYzE5UreGBEJybeOvYliYtlPj7ZbJhw7KLD8ZCN60puIDCec6i5ETHqJA+h7tKFx07Res6MTHzlMzlP6KkeGBRsAg+wcBupAaFmLDimPxcZgJgoqy0O6gtTFOOvqqBpNxn0l0OseCm1VDa5mQWxPPuheN72RpRggMNoZLGVBh9jsGk4Gimykx1sJfDo57ZdK9fD5lFQK41G1+HjxRmooHXIKkFLBoz+ie7/487KVl9Oin6DHjExGbTwrs3aIjUe9W1qADVdUw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LUByovpRk+ZPzKvUH7cwXnf3mccHjMPsOPK2e1mFlRI=;
+ b=JMpfqjZFQsNoU3m8kHcfxgxY7zm7XGGecpPDOlqA+IlD0rRdkjlC9m9SMRWMWGqn3EXVMRx+M8UT0MqedddrChqPe/Iv7U2D9blIUPsMZGYYDAfXoTcft5FLgpQ4lwZ0A8/gq9dx5Cf0hAhtB0hpkt+nJktEReAYSEj9/REpS0s2BkYtEWzM3q8SRjgWta8h0i6ZQddiV0stiMTQTC524XZlSKlE6EcLuYN2fEpZTpWf2nhZgkCqF1yuVcH/LUJWmtmcOL8pQ317j8oX9PM8wJ3iy2pvDHusEqrlbyGLwgTK5JvRO39yG633sugL1DEfYd4Z3jRPLpSwyqOqu9kZug==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by CH3PR12MB8330.namprd12.prod.outlook.com (2603:10b6:610:12c::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.19; Tue, 18 Feb
+ 2025 20:19:26 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.8445.019; Tue, 18 Feb 2025
+ 20:19:25 +0000
+Date: Tue, 18 Feb 2025 16:19:24 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Baolu Lu <baolu.lu@linux.intel.com>
+Cc: Alim Akhtar <alim.akhtar@samsung.com>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev,
+	David Woodhouse <dwmw2@infradead.org>,
+	Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Hector Martin <marcan@marcan.st>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Sven Peter <sven@svenpeter.dev>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Tomasz Jeznach <tjeznach@rivosinc.com>,
+	Krishna Reddy <vdumpa@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
+	Will Deacon <will@kernel.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
+	Joerg Roedel <jroedel@suse.de>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
+	David Rientjes <rientjes@google.com>,
+	Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v2 07/23] iommu/pages: De-inline the substantial functions
+Message-ID: <20250218201924.GJ4183890@nvidia.com>
+References: <7-v2-545d29711869+a76b5-iommu_pages_jgg@nvidia.com>
+ <84fd4500-a12c-40d6-a532-e2956ed1c35e@linux.intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <84fd4500-a12c-40d6-a532-e2956ed1c35e@linux.intel.com>
+X-ClientProxiedBy: BN0PR04CA0092.namprd04.prod.outlook.com
+ (2603:10b6:408:ec::7) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|CH3PR12MB8330:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0a43b2d1-a06b-41ce-c277-08dd50598a24
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|7416014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?/fVDSu0Qoskr1uloYn1tJun7uVLTptq+lh155XjPVdaGbjQqAOon7HGW6xmb?=
+ =?us-ascii?Q?J0bJq4rDNdlHbMaGdXxnAlMWkRH/LApujlXEZaCTjaJTrP6DExwrgf/5/Laa?=
+ =?us-ascii?Q?pC6k6zrknpba/bf8yat2oTLdSQnL82ICnnUpOMJMj3AEqnHH6cias65Rard1?=
+ =?us-ascii?Q?k3XF5eEz/0mB8oUWWavZIH4Yl/Hq6RTOFmmWbkA8P3mUo+BlLUex7gdDrK/5?=
+ =?us-ascii?Q?Qcu0U1NwijwDYsDCzWy+gSy+OZUGbU0mT42tLXV45m9ttxVJkbb9jo47OaN2?=
+ =?us-ascii?Q?1EiddyZBQwI5HtB59FUvTDCtsSDQhEjEn9Bm00AV/deijPc5UsL4enY6Iyn0?=
+ =?us-ascii?Q?JXjFmX/I4ZUEk+hY5qhB3nnFUbaJPJ/LL1rO7c2hMDJdVOODpvdtpgjfs45x?=
+ =?us-ascii?Q?K4atFPsZqxSnMV32K0kliF+QP2FZNf6+uyKvVAa+PzO0cGZ6Wj/50u5XMErv?=
+ =?us-ascii?Q?+K8qho1YOJYPi3gOKO+R2e8l37MiDNJc8pzlvfKtv3tkYoB+msKFuJHbjMDa?=
+ =?us-ascii?Q?7Zk8qwb0KPqlfKxxjX+dGEc9ThogLyLviL4MM3zA0/oJ8MnyDO52sVRPh+F+?=
+ =?us-ascii?Q?fS5T3ajJvnFheroek/L87erICtJ/XZ0mtcql49v3aZn3tKYoKsp+ZAZEGdqc?=
+ =?us-ascii?Q?MH1eEfAjlveafYUCmIehe3ju9dOm8P9AS6Lgi3Xep6n+U5y24ucxDcKkXiUU?=
+ =?us-ascii?Q?HS+dueSWMCuewXhHKukrr6FAuV3hoMVGT0KCDH/nQ1AjeGC/XAEokIrhkaz0?=
+ =?us-ascii?Q?rRMeqZdyitrwEcz3vkum/YlElVuMyPV+g2eT1fi0elFPQX1E4taQOGSiP08b?=
+ =?us-ascii?Q?Mw1WeuElTZIIAiCjKKKXR9Q5qhZEpDbP0GQP7PBlIuZBL0Pq5rX1k+7FYo1X?=
+ =?us-ascii?Q?ioEjIciRiwOfAEKheJKq2Y1kmuC1I68Oluy+inUAMi8i1NoyoX2WGjBf6uDD?=
+ =?us-ascii?Q?BytA1aijN76CxCqnDRAdgMbrmsZvves+UDgP0gtG0k1GMH8suYDoKMe4GR/f?=
+ =?us-ascii?Q?Y7TSiJbZot/gtc65SAeLY+gMiyQRK/fBE2CTK6nrfbsjcluo3gSM6KoAirjh?=
+ =?us-ascii?Q?NnUZiSxzb8uFpn9lGQjwnzoew8Sb+WL4uwLqvIlM/OyG+geVy+Y2ThsZGH6n?=
+ =?us-ascii?Q?wOt9Xmocx7A4QCyQUaPHaAQ0O6D3Cr4KrVYWetdit42ADMUb0XfHhnfDPrHv?=
+ =?us-ascii?Q?l48RJKw8Y2dxgWd0UEZ3WFREa8EJmlZ90EIFEmj4Hbje6GJwajHuI6qyp9yk?=
+ =?us-ascii?Q?qYGsPhZpUDLNrJJI2dBj3XtnaUKs71YNFutvkHu5O/CRcF9QXvK3DzkkxZlA?=
+ =?us-ascii?Q?w0dbCf6vB0vG+Y8k1bQbFDrisjT73277xByymZvb8ozryMNRm2ExDoxOk3fS?=
+ =?us-ascii?Q?V/lkVDr7EtlhFOXGaa4VcPtMjd3B?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(7416014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?ABkYNvLoiaaDIBnbsa8PjbxD6AWZTJrZlQvUA/KOoOAWmPuGTJLhnOKlxk4n?=
+ =?us-ascii?Q?DuRxBmu+7vnXTbfy7b/fDU+F/jixxGkXl9iCaa2K74ULMjDIzCGBRYUXo51q?=
+ =?us-ascii?Q?BA+bqVL5b9mEsNS31Wg6vVsBuHiQYt3ol/UfuOPVsOGVMEImXlT0LiyMKoda?=
+ =?us-ascii?Q?9CAScS3BxB5Sk7rAaqfEi2hMyoVsz66Au9Ujw8uSr+Vn8etFi5cXOPphOw3A?=
+ =?us-ascii?Q?5KvdW8R/ZA9hkdLFhisScG8hVnZKwKz9ijhW5cXVLcEwmF3nmbpHj3akMGv4?=
+ =?us-ascii?Q?ycq0ib4Hex6W+6aEQ/D5BFfxfeHnbooBAomwMub8GPeorxBKDC54ExboDaIe?=
+ =?us-ascii?Q?/e/ataHdbkX1WbzWHfGfX3T+oGh+IUdZf+NrqAyYYwQ5JWjQ3CpYBqu1hKkU?=
+ =?us-ascii?Q?1DZfui3U66d9xkNzfxMJEc/GWmzE+fr3qUC43pPEmTI2PVmdWS58uw73zz7v?=
+ =?us-ascii?Q?ZaAiy6bGREc8G8DqDn5PFs94y8D+WWofGuw4x11Se0BKsnvL+DH6zhc+BK9W?=
+ =?us-ascii?Q?f5jcuhTmnm/MLgtTT8NAe13NEcQCicGBXehIqan17SqDlATvfELT2PSMVA1s?=
+ =?us-ascii?Q?J6aQgomiXzYP/JDx1hfNQXF8yIjsf9US5GHA5mKPgJH1V5DfpYAJjEnqqD0c?=
+ =?us-ascii?Q?cfBQ6jRkF5cvTw2SDG8Wcbc1qFDCn8ayzh81VYq+xS/Yw73o8lsopatIo07f?=
+ =?us-ascii?Q?xO+5IseBuH/G80K1E5K1SyT4YsM7jpydRz8LU+rlXOE3naKJGdaPpb40QoYr?=
+ =?us-ascii?Q?Qbw23+EIhdmnWSIvjA5l8UgtS4wYQutYmoTQglhSIqy1QXGOzBFbrMHgiYTE?=
+ =?us-ascii?Q?nrPAVA+orcQjseaC1IenHHJoznFKM/HJUQm4xk7d1LtXHeeJn0++JMqsXBtJ?=
+ =?us-ascii?Q?0BEMFd+SL/NnBrzgQySoh1CKy3AsKfpjjNdKOzz8iFUEUZD7DPm3bSoUvAi7?=
+ =?us-ascii?Q?r7yrqK6om0txEsJ1VQvOtMFThp97J5JmWLJ0fo7CmVkl+RYqrJnc8Uz7T0kD?=
+ =?us-ascii?Q?rL8u8sZOAdYMJTiUZOabIFHP9BacX9kxZXuA21nKkzTbNev5VUG56MU85vZz?=
+ =?us-ascii?Q?s6NciHHR4ZUYjjJ2LYloM3FF/WgIDVeEvppRIBKpR6xFPQn5S1739taGLEnX?=
+ =?us-ascii?Q?1GvFCojXH2jEAAG7sOwDnU8O+AeV2bwh6vaOWFs/x9T5YDm9aSrrYVUdUUW0?=
+ =?us-ascii?Q?rY0OVKwDm/SoGsp6qfj8NTg4LO31B5P3vE9vPguISFtve+bZWTNppDlMsqXE?=
+ =?us-ascii?Q?yIGsx/ukmzOl5kVrmmBbxKpcjEop4jNZ+97mpvzdctXQZfozp/577eKukA/d?=
+ =?us-ascii?Q?Wr/JAWg3Oxlcl19zvuw8evzhsiBisJleYn/HYh4PW329JBQv4DIpZB3I78/U?=
+ =?us-ascii?Q?kmw7a1407nhfj64N3KdYunJDgzMJ2Qa1yAN/RY0OFosADismcvHplVIhe3AB?=
+ =?us-ascii?Q?GvOCy48saEwD5Q3mwTtaTnrQsRV7iXLor8UcWkPY+nAh/N893xY4dtv9siy7?=
+ =?us-ascii?Q?MyRrJynijclZ+qQZjB5g54668+iczBH68Mb5evEsQUkEjT15DwHzKyjbi0Fl?=
+ =?us-ascii?Q?0EsJo+dWniJNoyT46VZ9SPTOLFVSn6Y34wMY8tkM?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0a43b2d1-a06b-41ce-c277-08dd50598a24
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2025 20:19:25.8242
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ECWm1PtQstLWDhtw4A4lklwW89vV1aVz7xIZWZYoHWx7SPS1DQ0lpO3P3UWCiWT2
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8330
 
-Dne petek, 14. februar 2025 ob 13:53:56 Srednjeevropski standardni =C4=8Das=
- je Andre Przywara napisal(a):
-> Add the various bus clock gates that control access to the devices'
-> register interface.
-> These clocks are each just one bit, typically the lower bits in some "BGR"
-> (Bus Gate / Reset) registers, for each device group: one for all UARTs,
-> one for all SPI interfaces, and so on.
->=20
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  drivers/clk/sunxi-ng/ccu-sun55i-a523.c | 295 ++++++++++++++++++++++++-
->  1 file changed, 294 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c b/drivers/clk/sunxi-n=
-g/ccu-sun55i-a523.c
-> index 6a4340f1fd041..fbed9b2b3b2f9 100644
-> --- a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
-> +++ b/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
-> @@ -350,6 +350,8 @@ static SUNXI_CCU_M_DATA_WITH_MUX(ahb_clk, "ahb", ahb_=
-apb0_parents, 0x510,
->  				 0, 5,		/* M */
->  				 24, 2,		/* mux */
->  				 0);
-> +static const struct clk_hw *ahb_hws[] =3D { &ahb_clk.common.hw };
-> +
->  static SUNXI_CCU_M_DATA_WITH_MUX(apb0_clk, "apb0", ahb_apb0_parents, 0x5=
-20,
->  				 0, 5,		/* M */
->  				 24, 2,	/* mux */
-> @@ -367,10 +369,11 @@ static SUNXI_CCU_M_DATA_WITH_MUX(apb1_clk, "apb1", =
-apb1_parents, 0x524,
->  				 0, 5,		/* M */
->  				 24, 3,		/* mux */
->  				 0);
-> +static const struct clk_hw *apb1_hws[] =3D { &apb1_clk.common.hw };
-> =20
-> =20
->  /***********************************************************************=
-***
-> - *                          mod clocks                                  =
-  *
-> + *                          mod clocks with gates                       =
-  *
->   ***********************************************************************=
-***/
-> =20
->  static const struct clk_hw *de_parents[] =3D {
-> @@ -386,6 +389,8 @@ static SUNXI_CCU_M_HW_WITH_MUX_GATE(de_clk, "de", de_=
-parents, 0x600,
->  				    BIT(31),	/* gate */
->  				    CLK_SET_RATE_PARENT);
-> =20
-> +static SUNXI_CCU_GATE_HWS(bus_de_clk, "bus-de", ahb_hws, 0x60c, BIT(0), =
-0);
-> +
->  static const struct clk_hw *di_parents[] =3D {
->  	&pll_periph0_300M_clk.hw,
->  	&pll_periph0_400M_clk.hw,
-> @@ -399,6 +404,8 @@ static SUNXI_CCU_M_HW_WITH_MUX_GATE(di_clk, "di", di_=
-parents, 0x620,
->  				    BIT(31),	/* gate */
->  				    CLK_SET_RATE_PARENT);
-> =20
-> +static SUNXI_CCU_GATE_HWS(bus_di_clk, "bus-di", ahb_hws, 0x62c, BIT(0), =
-0);
-> +
->  static const struct clk_hw *g2d_parents[] =3D {
->  	&pll_periph0_400M_clk.hw,
->  	&pll_periph0_300M_clk.hw,
-> @@ -412,6 +419,8 @@ static SUNXI_CCU_M_HW_WITH_MUX_GATE(g2d_clk, "g2d", g=
-2d_parents, 0x630,
->  				    BIT(31),	/* gate */
->  				    0);
-> =20
-> +static SUNXI_CCU_GATE_HWS(bus_g2d_clk, "bus-g2d", ahb_hws, 0x63c, BIT(0)=
-, 0);
-> +
->  static const struct clk_hw *gpu_parents[] =3D {
->  	&pll_gpu_clk.common.hw,
->  	&pll_periph0_800M_clk.common.hw,
-> @@ -427,6 +436,8 @@ static SUNXI_CCU_M_HW_WITH_MUX_GATE(gpu_clk, "gpu", g=
-pu_parents, 0x670,
->  				    BIT(31),	/* gate */
->  				    0);
-> =20
-> +static SUNXI_CCU_GATE_HWS(bus_gpu_clk, "bus-gpu", ahb_hws, 0x67c, BIT(0)=
-, 0);
-> +
->  static const struct clk_parent_data ce_parents[] =3D {
->  	{ .fw_name =3D "hosc" },
->  	{ .hw =3D &pll_periph0_480M_clk.common.hw },
-> @@ -439,6 +450,10 @@ static SUNXI_CCU_M_DATA_WITH_MUX_GATE(ce_clk, "ce", =
-ce_parents, 0x680,
->  				       BIT(31),	/* gate */
->  				       0);
-> =20
-> +static SUNXI_CCU_GATE_HWS(bus_ce_clk, "bus-ce", ahb_hws, 0x68c, BIT(0), =
-0);
-> +static SUNXI_CCU_GATE_HWS(bus_ce_sys_clk, "bus-ce-sys", ahb_hws, 0x68c,
-> +			  BIT(1), 0);
-> +
->  static const struct clk_hw *ve_parents[] =3D {
->  	&pll_ve_clk.common.hw,
->  	&pll_periph0_480M_clk.common.hw,
-> @@ -451,6 +466,16 @@ static SUNXI_CCU_M_HW_WITH_MUX_GATE(ve_clk, "ve", ve=
-_parents, 0x690,
->  				    BIT(31),	/* gate */
->  				    CLK_SET_RATE_PARENT);
-> =20
-> +static SUNXI_CCU_GATE_HWS(bus_ve_clk, "bus-ve", ahb_hws, 0x69c, BIT(0), =
-0);
-> +
-> +static SUNXI_CCU_GATE_HWS(bus_dma_clk, "bus-dma", ahb_hws, 0x70c, BIT(0)=
-, 0);
-> +
-> +static SUNXI_CCU_GATE_HWS(bus_msgbox_clk, "bus-msgbox", ahb_hws, 0x71c,
-> +			  BIT(0), 0);
-> +
-> +static SUNXI_CCU_GATE_HWS(bus_spinlock_clk, "bus-spinlock", ahb_hws, 0x7=
-2c,
-> +			  BIT(0), 0);
+On Sat, Feb 15, 2025 at 04:48:04PM +0800, Baolu Lu wrote:
 
-msgbox and spinlock probably needs to be marked as critical? Crust needs th=
-at
-for communication with TF-A.
+> > +#include <linux/gfp.h>
+> > +#include <linux/mm.h>
+> > +
+> > +/**
+> > + * iommu_alloc_pages_node - Allocate a zeroed page of a given order from
+> > + *                          specific NUMA node
+> > + * @nid: memory NUMA node id
+> > + * @gfp: buddy allocator flags
+> > + * @order: page order
+> > + *
+> > + * Returns the virtual address of the allocated page. The page must be
+> > + * freed either by calling iommu_free_page() or via iommu_put_pages_list().
+> 
+> nit: ... by calling iommu_free_pages() ...
 
-> +
->  static const struct clk_parent_data hstimer_parents[] =3D {
->  	{ .fw_name =3D "hosc" },
->  	{ .fw_name =3D "iosc" },
-> @@ -510,6 +535,15 @@ static SUNXI_CCU_MP_DATA_WITH_MUX_GATE(hstimer5_clk,=
- "hstimer5",
->  				       BIT(31),	/* gate */
->  				       CLK_SET_RATE_PARENT);
-> =20
-> +static SUNXI_CCU_GATE_HWS(bus_hstimer_clk, "bus-hstimer", ahb_hws, 0x74c,
-> +			  BIT(0), 0);
-> +
-> +static SUNXI_CCU_GATE_HWS(bus_dbg_clk, "bus-dbg", ahb_hws, 0x78c,
-> +			  BIT(0), 0);
-> +
-> +static SUNXI_CCU_GATE_HWS(bus_pwm0_clk, "bus-pwm0", apb1_hws, 0x7ac, BIT=
-(0), 0);
-> +static SUNXI_CCU_GATE_HWS(bus_pwm1_clk, "bus-pwm1", apb1_hws, 0x7ac, BIT=
-(1), 0);
-> +
->  static const struct clk_parent_data iommu_parents[] =3D {
->  	{ .hw =3D &pll_periph0_600M_clk.hw },
->  	{ .hw =3D &pll_ddr0_clk.common.hw },
-> @@ -525,6 +559,9 @@ static SUNXI_CCU_M_DATA_WITH_MUX_GATE(iommu_clk, "iom=
-mu", iommu_parents, 0x7b0,
->  				      BIT(31),	/* gate */
->  				      CLK_SET_RATE_PARENT);
-> =20
-> +static SUNXI_CCU_GATE_HWS(bus_iommu_clk, "bus-iommu", apb0_hws, 0x7bc,
-> +			  BIT(0), 0);
-> +
->  static const struct clk_hw *dram_parents[] =3D {
->  	&pll_ddr0_clk.common.hw,
->  	&pll_periph0_600M_clk.hw,
-> @@ -541,6 +578,22 @@ static SUNXI_CCU_M_HW_WITH_MUX_GATE(dram_clk, "dram"=
-, dram_parents, 0x800,
->  static CLK_FIXED_FACTOR_HW(mbus_clk, "mbus",
->  			   &dram_clk.common.hw, 4, 1, 0);
-> =20
-> +static SUNXI_CCU_GATE_HW(mbus_dma_clk, "mbus-dma", &mbus_clk.hw,
-> +			 0x804, BIT(0), 0);
-> +static SUNXI_CCU_GATE_HW(mbus_ve_clk, "mbus-ve", &mbus_clk.hw,
-> +			 0x804, BIT(1), 0);
-> +static SUNXI_CCU_GATE_HW(mbus_ce_clk, "mbus-ce", &mbus_clk.hw,
-> +			 0x804, BIT(2), 0);
-> +static SUNXI_CCU_GATE_HW(mbus_nand_clk, "mbus-nand", &mbus_clk.hw,
-> +			 0x804, BIT(5), 0);
-> +static SUNXI_CCU_GATE_HW(mbus_usb3_clk, "mbus-usb3", &mbus_clk.hw,
-> +			 0x804, BIT(6), 0);
-> +static SUNXI_CCU_GATE_HW(mbus_csi_clk, "mbus-csi", &mbus_clk.hw,
-> +			 0x804, BIT(8), 0);
+Got it
 
-Missing several MBUS gates. Check T527 manual.
+> and
+> 
+>  s/page/pages/g in above comments?
 
-> +
-> +static SUNXI_CCU_GATE_HWS(bus_dram_clk, "bus-dram", ahb_hws, 0x80c,
-> +			  BIT(0), CLK_IS_CRITICAL);
-> +
->  static const struct clk_parent_data nand_mmc_parents[] =3D {
->  	{ .fw_name =3D "hosc" },
->  	{ .hw =3D &pll_periph0_400M_clk.hw },
-> @@ -563,6 +616,9 @@ static SUNXI_CCU_M_DATA_WITH_MUX_GATE(nand1_clk, "nan=
-d1", nand_mmc_parents,
->  				    BIT(31),	/* gate */
->  				    0);
-> =20
-> +static SUNXI_CCU_GATE_HWS(bus_nand_clk, "bus-nand", ahb_hws, 0x82c,
-> +			  BIT(0), 0);
-> +
->  static SUNXI_CCU_MP_MUX_GATE_POSTDIV_FEAT(mmc0_clk, "mmc0", nand_mmc_par=
-ents,
->  					   0x830,
->  					   0, 5,	/* M */
-> @@ -598,6 +654,39 @@ static SUNXI_CCU_MP_MUX_GATE_POSTDIV_FEAT(mmc2_clk, =
-"mmc2", mmc2_parents,
->  					   2,		/* post div */
->  					   0, CCU_FEATURE_DUAL_DIV);
-> =20
-> +static SUNXI_CCU_GATE_HWS(bus_mmc0_clk, "bus-mmc0", ahb_hws, 0x84c, BIT(=
-0), 0);
-> +static SUNXI_CCU_GATE_HWS(bus_mmc1_clk, "bus-mmc1", ahb_hws, 0x84c, BIT(=
-1), 0);
-> +static SUNXI_CCU_GATE_HWS(bus_mmc2_clk, "bus-mmc2", ahb_hws, 0x84c, BIT(=
-2), 0);
-> +
-> +static SUNXI_CCU_GATE_HWS(bus_sysdap_clk, "bus-sysdap", apb1_hws, 0x88c,
-> +			  BIT(0), 0);
-> +
-> +static SUNXI_CCU_GATE_HWS(bus_uart0_clk, "bus-uart0", apb1_hws, 0x90c,
-> +			  BIT(0), 0);
-> +static SUNXI_CCU_GATE_HWS(bus_uart1_clk, "bus-uart1", apb1_hws, 0x90c,
-> +			  BIT(1), 0);
-> +static SUNXI_CCU_GATE_HWS(bus_uart2_clk, "bus-uart2", apb1_hws, 0x90c,
-> +			  BIT(2), 0);
-> +static SUNXI_CCU_GATE_HWS(bus_uart3_clk, "bus-uart3", apb1_hws, 0x90c,
-> +			  BIT(3), 0);
-> +static SUNXI_CCU_GATE_HWS(bus_uart4_clk, "bus-uart4", apb1_hws, 0x90c,
-> +			  BIT(4), 0);
-> +static SUNXI_CCU_GATE_HWS(bus_uart5_clk, "bus-uart5", apb1_hws, 0x90c,
-> +			  BIT(5), 0);
-> +static SUNXI_CCU_GATE_HWS(bus_uart6_clk, "bus-uart6", apb1_hws, 0x90c,
-> +			  BIT(6), 0);
-> +static SUNXI_CCU_GATE_HWS(bus_uart7_clk, "bus-uart7", apb1_hws, 0x90c,
-> +			  BIT(7), 0);
-> +
-> +static SUNXI_CCU_GATE_HWS(bus_i2c0_clk, "bus-i2c0", apb1_hws, 0x91c, BIT=
-(0), 0);
-> +static SUNXI_CCU_GATE_HWS(bus_i2c1_clk, "bus-i2c1", apb1_hws, 0x91c, BIT=
-(1), 0);
-> +static SUNXI_CCU_GATE_HWS(bus_i2c2_clk, "bus-i2c2", apb1_hws, 0x91c, BIT=
-(2), 0);
-> +static SUNXI_CCU_GATE_HWS(bus_i2c3_clk, "bus-i2c3", apb1_hws, 0x91c, BIT=
-(3), 0);
-> +static SUNXI_CCU_GATE_HWS(bus_i2c4_clk, "bus-i2c4", apb1_hws, 0x91c, BIT=
-(4), 0);
-> +static SUNXI_CCU_GATE_HWS(bus_i2c5_clk, "bus-i2c5", apb1_hws, 0x91c, BIT=
-(5), 0);
-> +
-> +static SUNXI_CCU_GATE_HWS(bus_can_clk, "bus-can", apb1_hws, 0x92c, BIT(0=
-), 0);
-> +
->  static const struct clk_parent_data spi_parents[] =3D {
->  	{ .fw_name =3D "hosc" },
->  	{ .hw =3D &pll_periph0_300M_clk.hw },
-> @@ -630,6 +719,11 @@ static SUNXI_CCU_MP_DATA_WITH_MUX_GATE(spifc_clk, "s=
-pifc", nand_mmc_parents,
->  				       24, 3,	/* mux */
->  				       BIT(31),	/* gate */
->  				       0);
-> +static SUNXI_CCU_GATE_HWS(bus_spi0_clk, "bus-spi0", ahb_hws, 0x96c, BIT(=
-0), 0);
-> +static SUNXI_CCU_GATE_HWS(bus_spi1_clk, "bus-spi1", ahb_hws, 0x96c, BIT(=
-1), 0);
-> +static SUNXI_CCU_GATE_HWS(bus_spi2_clk, "bus-spi2", ahb_hws, 0x96c, BIT(=
-2), 0);
-> +static SUNXI_CCU_GATE_HWS(bus_spifc_clk, "bus-spifc", ahb_hws, 0x96c,
-> +			  BIT(3), 0);
-> =20
->  static SUNXI_CCU_GATE_HWS_WITH_PREDIV(emac0_25M_clk, "emac0-25M",
->  				      pll_periph0_150M_hws,
-> @@ -637,6 +731,10 @@ static SUNXI_CCU_GATE_HWS_WITH_PREDIV(emac0_25M_clk,=
- "emac0-25M",
->  static SUNXI_CCU_GATE_HWS_WITH_PREDIV(emac1_25M_clk, "emac1-25M",
->  				      pll_periph0_150M_hws,
->  				      0x974, BIT(31) | BIT(30), 6, 0);
-> +static SUNXI_CCU_GATE_HWS(bus_emac0_clk, "bus-emac0", ahb_hws, 0x97c,
-> +			  BIT(0), 0);
-> +static SUNXI_CCU_GATE_HWS(bus_emac1_clk, "bus-emac1", ahb_hws, 0x98c,
-> +			  BIT(0), 0);
-> =20
->  static const struct clk_parent_data ir_rx_parents[] =3D {
->  	{ .fw_name =3D "losc" },
-> @@ -648,6 +746,9 @@ static SUNXI_CCU_M_DATA_WITH_MUX_GATE(ir_rx_clk, "ir-=
-rx", ir_rx_parents, 0x990,
->  				      24, 1,	/* mux */
->  				      BIT(31),	/* gate */
->  				      0);
-> +static SUNXI_CCU_GATE_HWS(bus_ir_rx_clk, "bus-ir-rx", apb0_hws, 0x99c,
-> +			  BIT(0), 0);
-> +
->  static const struct clk_parent_data ir_tx_ledc_parents[] =3D {
->  	{ .fw_name =3D "hosc" },
->  	{ .hw =3D &pll_periph1_600M_clk.hw },
-> @@ -658,6 +759,8 @@ static SUNXI_CCU_M_DATA_WITH_MUX_GATE(ir_tx_clk, "ir-=
-tx", ir_tx_ledc_parents,
->  				      24, 1,	/* mux */
->  				      BIT(31),	/* gate */
->  				      0);
-> +static SUNXI_CCU_GATE_HWS(bus_ir_tx_clk, "bus-ir-tx", apb0_hws, 0x9cc,
-> +			  BIT(0), 0);
-> =20
->  static SUNXI_CCU_M_WITH_GATE(gpadc0_clk, "gpadc0", "hosc", 0x9e0,
->  				 0, 5,		/* M */
-> @@ -667,6 +770,12 @@ static SUNXI_CCU_M_WITH_GATE(gpadc1_clk, "gpadc1", "=
-hosc", 0x9e4,
->  				 0, 5,		/* M */
->  				 BIT(31),	/* gate */
->  				 0);
-> +static SUNXI_CCU_GATE_HWS(bus_gpadc0_clk, "bus-gpadc0", ahb_hws, 0x9ec,
-> +			  BIT(0), 0);
-> +static SUNXI_CCU_GATE_HWS(bus_gpadc1_clk, "bus-gpadc1", ahb_hws, 0x9ec,
-> +			  BIT(1), 0);
-> +
-> +static SUNXI_CCU_GATE_HWS(bus_ths_clk, "bus-ths", apb0_hws, 0x9fc, BIT(0=
-), 0);
-> =20
->  /*
->   * The first parent is a 48 MHz input clock divided by 4. That 48 MHz cl=
-ock is
-> @@ -720,6 +829,18 @@ static struct ccu_mux usb_ohci1_clk =3D {
->  	},
->  };
-> =20
-> +static SUNXI_CCU_GATE_HWS(bus_ohci0_clk, "bus-ohci0", ahb_hws, 0xa8c,
-> +			  BIT(0), 0);
-> +static SUNXI_CCU_GATE_HWS(bus_ohci1_clk, "bus-ohci1", ahb_hws, 0xa8c,
-> +			  BIT(1), 0);
-> +static SUNXI_CCU_GATE_HWS(bus_ehci0_clk, "bus-ehci0", ahb_hws, 0xa8c,
-> +			  BIT(4), 0);
-> +static SUNXI_CCU_GATE_HWS(bus_ehci1_clk, "bus-ehci1", ahb_hws, 0xa8c,
-> +			  BIT(5), 0);
-> +static SUNXI_CCU_GATE_HWS(bus_otg_clk, "bus-otg", ahb_hws, 0xa8c, BIT(8)=
-, 0);
-> +
-> +static SUNXI_CCU_GATE_HWS(bus_lradc_clk, "bus-lradc", apb0_hws, 0xa9c,
-> +			  BIT(0), 0);
-> =20
->  static const struct clk_parent_data losc_hosc_parents[] =3D {
->  	{ .fw_name =3D "hosc" },
-> @@ -733,6 +854,9 @@ static SUNXI_CCU_M_DATA_WITH_MUX_GATE(pcie_aux_clk, "=
-pcie-aux",
->  				      BIT(31),	/* gate */
->  				      0);
-> =20
-> +static SUNXI_CCU_GATE_HWS(bus_dpss_top_clk, "bus-dpss-top", ahb_hws, 0xa=
-bc,
-> +			  BIT(0), 0);
-> +
->  static SUNXI_CCU_GATE_DATA(hdmi_24M_clk, "hdmi-24M", osc24M, 0xb04, BIT(=
-31), 0);
-> =20
->  /* TODO: add mux between 32kOSC and PERIPH0/18750 */
-> @@ -750,6 +874,8 @@ static SUNXI_CCU_MUX_DATA_WITH_GATE(hdmi_cec_clk, "hd=
-mi-cec", hdmi_cec_parents,
->  				    BIT(31),	/* gate */
->  				    0);
-> =20
-> +static SUNXI_CCU_GATE_HWS(bus_hdmi_clk, "bus-hdmi", ahb_hws, 0xb1c, BIT(=
-0), 0);
-> +
->  static const struct clk_parent_data mipi_dsi_parents[] =3D {
->  	{ .fw_name =3D "hosc" },
->  	{ .hw =3D &pll_periph0_200M_clk.hw },
-> @@ -769,6 +895,12 @@ static SUNXI_CCU_M_DATA_WITH_MUX_GATE(mipi_dsi1_clk,=
- "mipi-dsi1",
->  				      BIT(31),	/* gate */
->  				      CLK_SET_RATE_PARENT);
-> =20
-> +static SUNXI_CCU_GATE_HWS(bus_mipi_dsi0_clk, "bus-mipi-dsi0", ahb_hws, 0=
-xb4c,
-> +			  BIT(0), 0);
-> +
-> +static SUNXI_CCU_GATE_HWS(bus_mipi_dsi1_clk, "bus-mipi-dsi1", ahb_hws, 0=
-xb4c,
-> +			  BIT(1), 0);
-> +
->  static const struct clk_hw *tcon_parents[] =3D {
->  	&pll_video0_4x_clk.common.hw,
->  	&pll_video1_4x_clk.common.hw,
-> @@ -806,6 +938,11 @@ static SUNXI_CCU_M_HW_WITH_MUX_GATE(combophy_dsi1_cl=
-k, "combophy-dsi1",
->  				    BIT(31),	/* gate */
->  				    CLK_SET_RATE_PARENT);
-> =20
-> +static SUNXI_CCU_GATE_HWS(bus_tcon_lcd0_clk, "bus-tcon-lcd0", ahb_hws, 0=
-xb7c,
-> +			  BIT(0), 0);
-> +static SUNXI_CCU_GATE_HWS(bus_tcon_lcd1_clk, "bus-tcon-lcd1", ahb_hws, 0=
-xb7c,
-> +			  BIT(1), 0);
+There is alot of historical confusion here because it was all designed
+around alloc_pages() which allocated a list of contiguous pages that
+could be subdivided. When this moved to GFP_COMP and later to
+folio_alloc() the subdivision is no longer possible. So it is not
+"pages" at all anymore, but a single "[compound] page".
 
-Missing gate for bus-tcon-lcd2.
+So the module name is called "iommu-pages" but aside from the free
+list functions everything else acts on a single [compound] page only.
 
-> +
->  static SUNXI_CCU_M_HW_WITH_MUX_GATE(tcon_tv0_clk, "tcon-tv0", tcon_paren=
-ts,
->  				    0xb80,
->  				    0, 4,	/* M */
-> @@ -820,6 +957,11 @@ static SUNXI_CCU_M_HW_WITH_MUX_GATE(tcon_tv1_clk, "t=
-con-tv1", tcon_parents,
->  				    BIT(31),	/* gate */
->  				    CLK_SET_RATE_PARENT);
-> =20
-> +static SUNXI_CCU_GATE_HWS(bus_tcon_tv0_clk, "bus-tcon-tv0", ahb_hws, 0xb=
-9c,
-> +			  BIT(0), 0);
-> +static SUNXI_CCU_GATE_HWS(bus_tcon_tv1_clk, "bus-tcon-tv1", ahb_hws, 0xb=
-9c,
-> +			  BIT(1), 0);
-> +
->  static const struct clk_hw *edp_parents[] =3D {
->  	&pll_video0_4x_clk.common.hw,
->  	&pll_video1_4x_clk.common.hw,
-> @@ -833,6 +975,8 @@ static SUNXI_CCU_M_HW_WITH_MUX_GATE(edp_clk, "edp", e=
-dp_parents, 0xbb0,
->  				    BIT(31),	/* gate */
->  				    0);
-> =20
-> +static SUNXI_CCU_GATE_HWS(bus_edp_clk, "bus-edp", ahb_hws, 0xbbc, BIT(0)=
-, 0);
-> +
->  static SUNXI_CCU_M_DATA_WITH_MUX_GATE(ledc_clk, "ledc", ir_tx_ledc_paren=
-ts,
->  				      0xbf0,
->  				      0, 4,	/* M */
-> @@ -840,6 +984,8 @@ static SUNXI_CCU_M_DATA_WITH_MUX_GATE(ledc_clk, "ledc=
-", ir_tx_ledc_parents,
->  				      BIT(31),	/* gate */
->  				      0);
-> =20
-> +static SUNXI_CCU_GATE_HWS(bus_ledc_clk, "bus-ledc", apb0_hws, 0xbfc, BIT=
-(0), 0);
-> +
->  static const struct clk_hw *csi_top_parents[] =3D {
->  	&pll_periph0_300M_clk.hw,
->  	&pll_periph0_400M_clk.hw,
-> @@ -893,6 +1039,8 @@ static SUNXI_CCU_MP_DATA_WITH_MUX_GATE(csi_mclk3_clk=
-, "csi-mclk3",
->  				       BIT(31),	/* gate */
->  				       0);
-> =20
-> +static SUNXI_CCU_GATE_HWS(bus_csi_clk, "bus-csi", ahb_hws, 0xc1c, BIT(0)=
-, 0);
-> +
->  static const struct clk_hw *isp_parents[] =3D {
->  	&pll_periph0_300M_clk.hw,
->  	&pll_periph0_400M_clk.hw,
-> @@ -918,6 +1066,9 @@ static SUNXI_CCU_M_DATA_WITH_MUX_GATE(dsp_clk, "dsp"=
-, dsp_parents, 0xc70,
->  				      BIT(31),	/* gate */
->  				      0);
-> =20
-> +static SUNXI_CCU_GATE_HWS(bus_dsp_cfg_clk, "bus-dsp-cfg", ahb_hws, 0xc7c,
-> +			  BIT(1), 0);
+If you think about it too much it makes no sense but I didn't want to
+rename every function. I tried to keep it so that "iommu pages" was
+part of othe module name, and function designators, but the comments
+talk about a singular [compound] page
 
-I don't see 0xc7c register.
+> > +static void __iommu_free_page(struct page *page)
+> 
+> It's more readable if renaming it to __iommu_free_pages()?
 
-Best regards,
-Jernej
+Ah.. Well, it captures the module name but nothing it does acts on
+multiple things, since it is internal I used the other name
 
-> +
->  static SUNXI_CCU_GATE_DATA(fanout_24M_clk, "fanout-24M", osc24M,
->  			   0xf30, BIT(0), 0);
->  static SUNXI_CCU_GATE_DATA_WITH_PREDIV(fanout_12M_clk, "fanout-12M", osc=
-24M,
-> @@ -1011,55 +1162,128 @@ static struct ccu_common *sun55i_a523_ccu_clks[]=
- =3D {
->  	&apb0_clk.common,
->  	&apb1_clk.common,
->  	&de_clk.common,
-> +	&bus_de_clk.common,
->  	&di_clk.common,
-> +	&bus_di_clk.common,
->  	&g2d_clk.common,
-> +	&bus_g2d_clk.common,
->  	&gpu_clk.common,
-> +	&bus_gpu_clk.common,
->  	&ce_clk.common,
-> +	&bus_ce_clk.common,
-> +	&bus_ce_sys_clk.common,
->  	&ve_clk.common,
-> +	&bus_ve_clk.common,
-> +	&bus_dma_clk.common,
-> +	&bus_msgbox_clk.common,
-> +	&bus_spinlock_clk.common,
->  	&hstimer0_clk.common,
->  	&hstimer1_clk.common,
->  	&hstimer2_clk.common,
->  	&hstimer3_clk.common,
->  	&hstimer4_clk.common,
->  	&hstimer5_clk.common,
-> +	&bus_hstimer_clk.common,
-> +	&bus_dbg_clk.common,
-> +	&bus_pwm0_clk.common,
-> +	&bus_pwm1_clk.common,
->  	&iommu_clk.common,
-> +	&bus_iommu_clk.common,
->  	&dram_clk.common,
-> +	&mbus_dma_clk.common,
-> +	&mbus_ve_clk.common,
-> +	&mbus_ce_clk.common,
-> +	&mbus_nand_clk.common,
-> +	&mbus_usb3_clk.common,
-> +	&mbus_csi_clk.common,
-> +	&bus_dram_clk.common,
->  	&nand0_clk.common,
->  	&nand1_clk.common,
-> +	&bus_nand_clk.common,
->  	&mmc0_clk.common,
->  	&mmc1_clk.common,
->  	&mmc2_clk.common,
-> +	&bus_sysdap_clk.common,
-> +	&bus_mmc0_clk.common,
-> +	&bus_mmc1_clk.common,
-> +	&bus_mmc2_clk.common,
-> +	&bus_uart0_clk.common,
-> +	&bus_uart1_clk.common,
-> +	&bus_uart2_clk.common,
-> +	&bus_uart3_clk.common,
-> +	&bus_uart4_clk.common,
-> +	&bus_uart5_clk.common,
-> +	&bus_uart6_clk.common,
-> +	&bus_uart7_clk.common,
-> +	&bus_i2c0_clk.common,
-> +	&bus_i2c1_clk.common,
-> +	&bus_i2c2_clk.common,
-> +	&bus_i2c3_clk.common,
-> +	&bus_i2c4_clk.common,
-> +	&bus_i2c5_clk.common,
-> +	&bus_can_clk.common,
->  	&spi0_clk.common,
->  	&spi1_clk.common,
->  	&spi2_clk.common,
->  	&spifc_clk.common,
-> +	&bus_spi0_clk.common,
-> +	&bus_spi1_clk.common,
-> +	&bus_spi2_clk.common,
-> +	&bus_spifc_clk.common,
->  	&emac0_25M_clk.common,
->  	&emac1_25M_clk.common,
-> +	&bus_emac0_clk.common,
-> +	&bus_emac1_clk.common,
->  	&ir_rx_clk.common,
-> +	&bus_ir_rx_clk.common,
->  	&ir_tx_clk.common,
-> +	&bus_ir_tx_clk.common,
->  	&gpadc0_clk.common,
->  	&gpadc1_clk.common,
-> +	&bus_gpadc0_clk.common,
-> +	&bus_gpadc1_clk.common,
-> +	&bus_ths_clk.common,
->  	&usb_ohci0_clk.common,
->  	&usb_ohci1_clk.common,
-> +	&bus_ohci0_clk.common,
-> +	&bus_ohci1_clk.common,
-> +	&bus_ehci0_clk.common,
-> +	&bus_ehci1_clk.common,
-> +	&bus_otg_clk.common,
-> +	&bus_lradc_clk.common,
->  	&pcie_aux_clk.common,
-> +	&bus_dpss_top_clk.common,
->  	&hdmi_24M_clk.common,
->  	&hdmi_cec_32k_clk.common,
->  	&hdmi_cec_clk.common,
-> +	&bus_hdmi_clk.common,
->  	&mipi_dsi0_clk.common,
->  	&mipi_dsi1_clk.common,
-> +	&bus_mipi_dsi0_clk.common,
-> +	&bus_mipi_dsi1_clk.common,
->  	&tcon_lcd0_clk.common,
->  	&tcon_lcd1_clk.common,
-> +	&combophy_dsi0_clk.common,
-> +	&combophy_dsi1_clk.common,
-> +	&bus_tcon_lcd0_clk.common,
-> +	&bus_tcon_lcd1_clk.common,
->  	&tcon_tv0_clk.common,
->  	&tcon_tv1_clk.common,
-> +	&bus_tcon_tv0_clk.common,
-> +	&bus_tcon_tv1_clk.common,
->  	&edp_clk.common,
-> +	&bus_edp_clk.common,
->  	&ledc_clk.common,
-> +	&bus_ledc_clk.common,
->  	&csi_top_clk.common,
->  	&csi_mclk0_clk.common,
->  	&csi_mclk1_clk.common,
->  	&csi_mclk2_clk.common,
->  	&csi_mclk3_clk.common,
-> +	&bus_csi_clk.common,
->  	&isp_clk.common,
->  	&dsp_clk.common,
-> +	&bus_dsp_cfg_clk.common,
->  	&fanout_24M_clk.common,
->  	&fanout_12M_clk.common,
->  	&fanout_16M_clk.common,
-> @@ -1119,57 +1343,126 @@ static struct clk_hw_onecell_data sun55i_a523_hw=
-_clks =3D {
->  		[CLK_APB1]		=3D &apb1_clk.common.hw,
->  		[CLK_MBUS]		=3D &mbus_clk.hw,
->  		[CLK_DE]		=3D &de_clk.common.hw,
-> +		[CLK_BUS_DE]		=3D &bus_de_clk.common.hw,
->  		[CLK_DI]		=3D &di_clk.common.hw,
-> +		[CLK_BUS_DI]		=3D &bus_di_clk.common.hw,
->  		[CLK_G2D]		=3D &g2d_clk.common.hw,
-> +		[CLK_BUS_G2D]		=3D &bus_g2d_clk.common.hw,
->  		[CLK_GPU]		=3D &gpu_clk.common.hw,
-> +		[CLK_BUS_GPU]		=3D &bus_gpu_clk.common.hw,
->  		[CLK_CE]		=3D &ce_clk.common.hw,
-> +		[CLK_BUS_CE]		=3D &bus_ce_clk.common.hw,
-> +		[CLK_BUS_CE_SYS]	=3D &bus_ce_sys_clk.common.hw,
->  		[CLK_VE]		=3D &ve_clk.common.hw,
-> +		[CLK_BUS_VE]		=3D &bus_ve_clk.common.hw,
-> +		[CLK_BUS_DMA]		=3D &bus_dma_clk.common.hw,
-> +		[CLK_BUS_MSGBOX]	=3D &bus_msgbox_clk.common.hw,
-> +		[CLK_BUS_SPINLOCK]	=3D &bus_spinlock_clk.common.hw,
->  		[CLK_HSTIMER0]		=3D &hstimer0_clk.common.hw,
->  		[CLK_HSTIMER1]		=3D &hstimer1_clk.common.hw,
->  		[CLK_HSTIMER2]		=3D &hstimer2_clk.common.hw,
->  		[CLK_HSTIMER3]		=3D &hstimer3_clk.common.hw,
->  		[CLK_HSTIMER4]		=3D &hstimer4_clk.common.hw,
->  		[CLK_HSTIMER5]		=3D &hstimer5_clk.common.hw,
-> +		[CLK_BUS_HSTIMER]	=3D &bus_hstimer_clk.common.hw,
-> +		[CLK_BUS_DBG]		=3D &bus_dbg_clk.common.hw,
-> +		[CLK_BUS_PWM0]		=3D &bus_pwm0_clk.common.hw,
-> +		[CLK_BUS_PWM1]		=3D &bus_pwm1_clk.common.hw,
->  		[CLK_IOMMU]		=3D &iommu_clk.common.hw,
-> +		[CLK_BUS_IOMMU]		=3D &bus_iommu_clk.common.hw,
->  		[CLK_DRAM]		=3D &dram_clk.common.hw,
-> +		[CLK_MBUS_DMA]		=3D &mbus_dma_clk.common.hw,
-> +		[CLK_MBUS_VE]		=3D &mbus_ve_clk.common.hw,
-> +		[CLK_MBUS_CE]		=3D &mbus_ce_clk.common.hw,
-> +		[CLK_MBUS_CSI]		=3D &mbus_csi_clk.common.hw,
-> +		[CLK_BUS_DRAM]		=3D &bus_dram_clk.common.hw,
->  		[CLK_NAND0]		=3D &nand0_clk.common.hw,
->  		[CLK_NAND1]		=3D &nand1_clk.common.hw,
-> +		[CLK_BUS_NAND]		=3D &bus_nand_clk.common.hw,
->  		[CLK_MMC0]		=3D &mmc0_clk.common.hw,
->  		[CLK_MMC1]		=3D &mmc1_clk.common.hw,
->  		[CLK_MMC2]		=3D &mmc2_clk.common.hw,
-> +		[CLK_BUS_SYSDAP]	=3D &bus_sysdap_clk.common.hw,
-> +		[CLK_BUS_MMC0]		=3D &bus_mmc0_clk.common.hw,
-> +		[CLK_BUS_MMC1]		=3D &bus_mmc1_clk.common.hw,
-> +		[CLK_BUS_MMC2]		=3D &bus_mmc2_clk.common.hw,
-> +		[CLK_BUS_UART0]		=3D &bus_uart0_clk.common.hw,
-> +		[CLK_BUS_UART1]		=3D &bus_uart1_clk.common.hw,
-> +		[CLK_BUS_UART2]		=3D &bus_uart2_clk.common.hw,
-> +		[CLK_BUS_UART3]		=3D &bus_uart3_clk.common.hw,
-> +		[CLK_BUS_UART4]		=3D &bus_uart4_clk.common.hw,
-> +		[CLK_BUS_UART5]		=3D &bus_uart5_clk.common.hw,
-> +		[CLK_BUS_UART6]		=3D &bus_uart6_clk.common.hw,
-> +		[CLK_BUS_UART7]		=3D &bus_uart7_clk.common.hw,
-> +		[CLK_BUS_I2C0]		=3D &bus_i2c0_clk.common.hw,
-> +		[CLK_BUS_I2C1]		=3D &bus_i2c1_clk.common.hw,
-> +		[CLK_BUS_I2C2]		=3D &bus_i2c2_clk.common.hw,
-> +		[CLK_BUS_I2C3]		=3D &bus_i2c3_clk.common.hw,
-> +		[CLK_BUS_I2C4]		=3D &bus_i2c4_clk.common.hw,
-> +		[CLK_BUS_I2C5]		=3D &bus_i2c5_clk.common.hw,
-> +		[CLK_BUS_CAN]		=3D &bus_can_clk.common.hw,
->  		[CLK_SPI0]		=3D &spi0_clk.common.hw,
->  		[CLK_SPI1]		=3D &spi1_clk.common.hw,
->  		[CLK_SPI2]		=3D &spi2_clk.common.hw,
->  		[CLK_SPIFC]		=3D &spifc_clk.common.hw,
-> +		[CLK_BUS_SPI0]		=3D &bus_spi0_clk.common.hw,
-> +		[CLK_BUS_SPI1]		=3D &bus_spi1_clk.common.hw,
-> +		[CLK_BUS_SPI2]		=3D &bus_spi2_clk.common.hw,
-> +		[CLK_BUS_SPIFC]		=3D &bus_spifc_clk.common.hw,
->  		[CLK_EMAC0_25M]		=3D &emac0_25M_clk.common.hw,
->  		[CLK_EMAC1_25M]		=3D &emac1_25M_clk.common.hw,
-> +		[CLK_BUS_EMAC0]		=3D &bus_emac0_clk.common.hw,
-> +		[CLK_BUS_EMAC1]		=3D &bus_emac1_clk.common.hw,
->  		[CLK_IR_RX]		=3D &ir_rx_clk.common.hw,
-> +		[CLK_BUS_IR_RX]		=3D &bus_ir_rx_clk.common.hw,
->  		[CLK_IR_TX]		=3D &ir_tx_clk.common.hw,
-> +		[CLK_BUS_IR_TX]		=3D &bus_ir_tx_clk.common.hw,
->  		[CLK_GPADC0]		=3D &gpadc0_clk.common.hw,
->  		[CLK_GPADC1]		=3D &gpadc1_clk.common.hw,
-> +		[CLK_BUS_GPADC0]	=3D &bus_gpadc0_clk.common.hw,
-> +		[CLK_BUS_GPADC1]	=3D &bus_gpadc1_clk.common.hw,
-> +		[CLK_BUS_THS]		=3D &bus_ths_clk.common.hw,
->  		[CLK_USB_OHCI0]		=3D &usb_ohci0_clk.common.hw,
->  		[CLK_USB_OHCI1]		=3D &usb_ohci1_clk.common.hw,
-> +		[CLK_BUS_OHCI0]		=3D &bus_ohci0_clk.common.hw,
-> +		[CLK_BUS_OHCI1]		=3D &bus_ohci1_clk.common.hw,
-> +		[CLK_BUS_EHCI0]		=3D &bus_ehci0_clk.common.hw,
-> +		[CLK_BUS_EHCI1]		=3D &bus_ehci1_clk.common.hw,
-> +		[CLK_BUS_OTG]		=3D &bus_otg_clk.common.hw,
-> +		[CLK_BUS_LRADC]		=3D &bus_lradc_clk.common.hw,
->  		[CLK_PCIE_AUX]		=3D &pcie_aux_clk.common.hw,
-> +		[CLK_BUS_DPSS_TOP]	=3D &bus_dpss_top_clk.common.hw,
->  		[CLK_HDMI_24M]		=3D &hdmi_24M_clk.common.hw,
->  		[CLK_HDMI_CEC_32K]	=3D &hdmi_cec_32k_clk.common.hw,
->  		[CLK_HDMI_CEC]		=3D &hdmi_cec_clk.common.hw,
-> +		[CLK_BUS_HDMI]		=3D &bus_hdmi_clk.common.hw,
->  		[CLK_MIPI_DSI0]		=3D &mipi_dsi0_clk.common.hw,
->  		[CLK_MIPI_DSI1]		=3D &mipi_dsi1_clk.common.hw,
-> +		[CLK_BUS_MIPI_DSI0]	=3D &bus_mipi_dsi0_clk.common.hw,
-> +		[CLK_BUS_MIPI_DSI1]	=3D &bus_mipi_dsi1_clk.common.hw,
->  		[CLK_TCON_LCD0]		=3D &tcon_lcd0_clk.common.hw,
->  		[CLK_TCON_LCD1]		=3D &tcon_lcd1_clk.common.hw,
->  		[CLK_COMBOPHY_DSI0]	=3D &combophy_dsi0_clk.common.hw,
->  		[CLK_COMBOPHY_DSI1]	=3D &combophy_dsi1_clk.common.hw,
-> +		[CLK_BUS_TCON_LCD0]	=3D &bus_tcon_lcd0_clk.common.hw,
-> +		[CLK_BUS_TCON_LCD1]	=3D &bus_tcon_lcd1_clk.common.hw,
->  		[CLK_TCON_TV0]		=3D &tcon_tv0_clk.common.hw,
->  		[CLK_TCON_TV1]		=3D &tcon_tv1_clk.common.hw,
-> +		[CLK_BUS_TCON_TV0]	=3D &bus_tcon_tv0_clk.common.hw,
-> +		[CLK_BUS_TCON_TV1]	=3D &bus_tcon_tv1_clk.common.hw,
->  		[CLK_EDP]		=3D &edp_clk.common.hw,
-> +		[CLK_BUS_EDP]		=3D &bus_edp_clk.common.hw,
->  		[CLK_LEDC]		=3D &ledc_clk.common.hw,
-> +		[CLK_BUS_LEDC]		=3D &bus_ledc_clk.common.hw,
->  		[CLK_CSI_TOP]		=3D &csi_top_clk.common.hw,
->  		[CLK_CSI_MCLK0]		=3D &csi_mclk0_clk.common.hw,
->  		[CLK_CSI_MCLK1]		=3D &csi_mclk1_clk.common.hw,
->  		[CLK_CSI_MCLK2]		=3D &csi_mclk2_clk.common.hw,
->  		[CLK_CSI_MCLK3]		=3D &csi_mclk3_clk.common.hw,
-> +		[CLK_BUS_CSI]		=3D &bus_csi_clk.common.hw,
->  		[CLK_ISP]		=3D &isp_clk.common.hw,
->  		[CLK_DSP]		=3D &dsp_clk.common.hw,
-> +		[CLK_BUS_DSP_CFG]	=3D &bus_dsp_cfg_clk.common.hw,
->  		[CLK_FANOUT_24M]	=3D &fanout_24M_clk.common.hw,
->  		[CLK_FANOUT_12M]	=3D &fanout_12M_clk.common.hw,
->  		[CLK_FANOUT_16M]	=3D &fanout_16M_clk.common.hw,
->=20
+How about I rename it later on to:
 
+static void __iommu_free_desc(struct ioptdesc *iopt)
 
+?
 
-
+Thanks,
+Jason
