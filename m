@@ -1,151 +1,117 @@
-Received: from mail-b.studer.dev (mail-b.studer.dev [3.21.136.164])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9103053E23
-	for <linux-sunxi@lists.linux.dev>; Tue, 18 Feb 2025 02:16:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=3.21.136.164
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96E1023535E
+	for <linux-sunxi@lists.linux.dev>; Tue, 18 Feb 2025 10:25:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739845020; cv=none; b=JAexiMssgWEpbuCjgWnjmRXYseVsXHsa2MkNp9U+UVtIteGXhxA3kfKdrH6vK94MGzzKPBVUnE4jCtQsG34sxuNnkaRYGEaAaOO79+IHvx5bAr8qkjAfw1Eb8Xwgm17fojuE+dTCCVDD4+28F7LMCaqk0tGE6BysmlDB+45/5hM=
+	t=1739874306; cv=none; b=PiMWtTOhsXssP7nlJrkXxkeapSJ8poQqCtNckcS7fZxS7I3U9Hc0Fl6dbsaOH2IyM8K33I1zMeB0CKu8BgjAYYaiP9AX8McLtaLHrdVMraD9KlBDlHPtYt6oWX++ApBsYwfnmu1V+OSxSIJTD7Bkw8uJFSco9JX1ALBt9g8KuBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739845020; c=relaxed/simple;
-	bh=1JXVA2sVlnhfQcgr028+qseD4GYQ502lyjwFC65z7iA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EgND3EpqzaE6Ub0KOKrWXZQd3W6nv3BZCNXSDydKp3Y0caDQmiI9vSdGik+qXC5uyKJLjySjT2nciggP61R0zVOdQK0EmvlB6Wz0s8I1R8uPuMobsVmK9KH6cjewKCt3NHCujUQ+3+gr9VNQ0DZgDgl1HQl3Q8pOFzLW5HVOtPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=studer.dev; spf=pass smtp.mailfrom=studer.dev; dkim=pass (2048-bit key) header.d=studer.dev header.i=@studer.dev header.b=pJHRuUoi; arc=none smtp.client-ip=3.21.136.164
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=studer.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=studer.dev
+	s=arc-20240116; t=1739874306; c=relaxed/simple;
+	bh=njvEHZDf15ZmXZBHSCrP5PvIQPOoyG+V7Ou904JTdWY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=MsvbTAjhMBzSywbLgKRtdzRPto71ejoKTMD4zPaH2nyvPAu64gSR1vlqhetESkBtDUaZriZmlDVrkC0OnWq11Xl6pP9+qPoKTfhq+FAx5lH9LBqBpJuhNqetLhOfE8FRknZiGL33xCezw6Fgurc+GOkg4/I40IfpD+UEoevWr7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=HDZagU0O; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=studer.dev header.i=@studer.dev header.b="pJHRuUoi"
-Received: from mail.studer.dev (mail.studer.dev [168.62.161.121])
-	by mail-b.studer.dev (Postfix) with ESMTPSA id 0913840028;
-	Tue, 18 Feb 2025 02:08:58 +0000 (UTC)
-dkim-signature: v=1; a=rsa-sha256; d=studer.dev; s=hmail;
-	c=relaxed/relaxed; q=dns/txt; h=From:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Transfer-Encoding;
-	bh=5AA+a4IxbsmGiRmLLlpgl3OVaLWtMwq00DaT2+GNKdU=;
-	b=pJHRuUoirhakSXgBVi1wAqvRu8P4O5UhqKep0hqV2Xm+WPpeDjpMf3G2SiBDyTQhaAaDOfdFtTYMEPzp399MtvTka7gVjb6ZBsbCbBJaMrgKXEXbAGHz0hAhcftTB8Xud/hBqZeqB073X/MIdu4SF8SNzXmNiQ0do5RANUV+/rJkWqsCAuskK5ao+8lcCEQFsUQS3wWnBNUzP5CGZttjyshujt4jXO4/rfTzMVM/tuGw+Sw7BGTlPw0AH2
-	lHGT6PIWkXU98F36Tl8JlhswCK38SkV9nb58J1kGjYtkq8+iQ6II+Dc441In2meOCQfjINh3wYQSJ1yFwKP4iRZMbXmA==
-Received: from alex-framework.mynetworksettings.com (pool-68-239-44-167.bstnma.fios.verizon.net [68.239.44.167])
-	by mail.studer.dev with ESMTPSA
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256)
-	; Tue, 18 Feb 2025 02:08:55 +0000
-From: Alex Studer <alex@studer.dev>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Chen-Yu Tsai <wens@csie.org>,
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="HDZagU0O"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=iCGlt1XjQ6QDZy/H4sRD//zFdvPIbzwJDuXqfDTZWiE=; b=HDZagU0Or4bBEC1KIYcsqJYh/t
+	12u8YWrIKHC1A5oUovdwvFi/FDdvMnDe/THtbf4y8XcD/uhvsgSmx07Z5awaA/yoe9v1go+Ipe+IT
+	nibmkv8+HhR7rAOoPdjYZLPjl2NKEbaWZNYQLZOqhHuBhthsa1TLSeepcdEV25+msAg1JArMcjnFm
+	m4nQ0ZJPpH6E9ebcVHtzpwQsuTk0Ovrq1v7AadIt/WJOeskVT5ktiRN36HRfCg8AZkWl+HXd0wEud
+	4SSqtUx3Y5WuUskBrOmfMBdGmCRPDLe+JAb7QZcY0WOUCNRSaqxgkhyIkSY3hZ40tn5pHvizppt9B
+	+/cSlsLg==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:35042)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1tkKmJ-0001Uw-0C;
+	Tue, 18 Feb 2025 10:24:35 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.96)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1tkKm9-0007B7-2G;
+	Tue, 18 Feb 2025 10:24:25 +0000
+Date: Tue, 18 Feb 2025 10:24:25 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: netdev@vger.kernel.org
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>, Chen-Yu Tsai <wens@csie.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Drew Fustini <drew@pdp7.com>,
+	Emil Renner Berthing <kernel@esmil.dk>,
+	Eric Dumazet <edumazet@google.com>,
+	Fabio Estevam <festevam@gmail.com>, Fu Wei <wefu@redhat.com>,
+	Guo Ren <guoren@kernel.org>, imx@lists.linux.dev,
+	Jakub Kicinski <kuba@kernel.org>,
+	Jan Petrous <jan.petrous@oss.nxp.com>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: devicetree@vger.kernel.org,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Kevin Hilman <khilman@baylibre.com>,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
 	linux-riscv@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
 	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Alex Studer <alex@studer.dev>
-Subject: [PATCH] riscv: dts: allwinner: d1: Add CPU thermal sensor and zone
-Date: Mon, 17 Feb 2025 21:06:29 -0500
-Message-ID: <20250218020629.1476126-1-alex@studer.dev>
-X-Mailer: git-send-email 2.48.1
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Minda Chen <minda.chen@starfivetech.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+	NXP S32 Linux Team <s32@nxp.com>, Paolo Abeni <pabeni@redhat.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Samuel Holland <samuel@sholland.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>, Vinod Koul <vkoul@kernel.org>
+Subject: [PATCH net-next 0/3] net: stmmac: further cleanups
+Message-ID: <Z7Rf2daOaf778TOg@shell.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-The sun20i THS (built in CPU thermal sensor) is supported in code, but
-was never added to the device tree. So, add it to the device tree,
-along with a thermal zone for the CPU.
+Hi,
 
-Signed-off-by: Alex Studer <alex@studer.dev>
----
- arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi | 31 +++++++++++++++++++
- .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    | 16 ++++++++++
- 2 files changed, 47 insertions(+)
+This small series does further cleanups to the stmmac driver:
 
-diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
-index 6367112e6..bdde82aa8 100644
---- a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
-+++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
-@@ -3,6 +3,8 @@
- 
- #define SOC_PERIPHERAL_IRQ(nr)	(nr + 16)
- 
-+#include <dt-bindings/thermal/thermal.h>
-+
- #include "sunxi-d1s-t113.dtsi"
- 
- / {
-@@ -115,4 +117,33 @@ pmu {
- 			<0x00000000 0x0000000e 0xffffffff 0xffffffff 0x00010000>,
- 			<0x00000000 0x0000000f 0xffffffff 0xffffffff 0x00020000>;
- 	};
-+
-+	thermal-zones {
-+		cpu-thermal {
-+			polling-delay-passive = <0>;
-+			polling-delay = <0>;
-+			thermal-sensors = <&ths>;
-+
-+			cooling-maps {
-+				map0 {
-+					trip = <&cpu_alert>;
-+					cooling-device = <&cpu0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
-+				};
-+			};
-+
-+			trips {
-+				cpu_alert: cpu-alert {
-+					temperature = <85000>;
-+					hysteresis = <2000>;
-+					type = "passive";
-+				};
-+
-+				cpu-crit {
-+					temperature = <100000>;
-+					hysteresis = <0>;
-+					type = "critical";
-+				};
-+			};
-+		};
-+	};
- };
-diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-index e4175adb0..fcfcaf06c 100644
---- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-+++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-@@ -426,6 +426,10 @@ sid: efuse@3006000 {
- 			reg = <0x3006000 0x1000>;
- 			#address-cells = <1>;
- 			#size-cells = <1>;
-+
-+			ths_calibration: thermal-sensor-calibration@14 {
-+				reg = <0x14 0x8>;
-+			};
- 		};
- 
- 		crypto: crypto@3040000 {
-@@ -934,5 +938,17 @@ rtc: rtc@7090000 {
- 			clock-names = "bus", "hosc", "ahb";
- 			#clock-cells = <1>;
- 		};
-+
-+		ths: thermal-sensor@2009400 {
-+			compatible = "allwinner,sun20i-d1-ths";
-+			reg = <0x2009400 0x100>;
-+			interrupts = <SOC_PERIPHERAL_IRQ(58) IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_THS>;
-+			clock-names = "bus";
-+			resets = <&ccu RST_BUS_THS>;
-+			nvmem-cells = <&ths_calibration>;
-+			nvmem-cell-names = "calibration";
-+			#thermal-sensor-cells = <0>;
-+		};
- 	};
- };
+1. Name priv->pause to indicate that it's a timeout and clarify the
+units of the "pause" module parameter
+2. Remove useless priv->flow_ctrl member and deprecate the useless
+"flow_ctrl" module parameter
+3. Fix long-standing signed-ness issue with "speed" passed around the
+driver from the mac_link_up method.
+
+ .../ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c    |  4 +--
+ drivers/net/ethernet/stmicro/stmmac/dwmac-imx.c    |  8 ++---
+ .../net/ethernet/stmicro/stmmac/dwmac-intel-plat.c |  4 +--
+ .../net/ethernet/stmicro/stmmac/dwmac-ipq806x.c    |  8 ++---
+ .../net/ethernet/stmicro/stmmac/dwmac-loongson.c   |  3 +-
+ drivers/net/ethernet/stmicro/stmmac/dwmac-meson.c  |  2 +-
+ .../ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c    |  6 ++--
+ drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c     |  2 +-
+ drivers/net/ethernet/stmicro/stmmac/dwmac-s32.c    |  2 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-socfpga.c    |  2 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-starfive.c   |  4 +--
+ drivers/net/ethernet/stmicro/stmmac/dwmac-sti.c    |  8 ++---
+ drivers/net/ethernet/stmicro/stmmac/dwmac-sunxi.c  |  2 +-
+ drivers/net/ethernet/stmicro/stmmac/dwmac-thead.c  |  4 +--
+ .../net/ethernet/stmicro/stmmac/dwmac-visconti.c   |  2 +-
+ drivers/net/ethernet/stmicro/stmmac/stmmac.h       |  3 +-
+ drivers/net/ethernet/stmicro/stmmac/stmmac_main.c  | 37 +++++++++++-----------
+ include/linux/stmmac.h                             |  2 +-
+ 18 files changed, 50 insertions(+), 53 deletions(-)
+
 -- 
-2.48.1
-
-
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
