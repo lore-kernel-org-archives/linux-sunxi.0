@@ -1,94 +1,123 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BE8926E174;
-	Tue, 18 Feb 2025 16:04:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E25D426FDBC
+	for <linux-sunxi@lists.linux.dev>; Tue, 18 Feb 2025 17:09:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739894675; cv=none; b=Za39Lkgy6RgTLo+FWadlszCZwgoHx28pZYgKrmLFld+vz8fi6+G3ITGHh/1wIFHsCtV29Mvmn6vNxa8Ej5kFbet4djokPcm1HDDEWcQ6g03QGQH8QjwYVf2Pkg6PPQYs3csXRZWc+sfev+0uDHHK8y/XDzTOkgO9nfJVYd+nPR4=
+	t=1739898554; cv=none; b=r+eHga5TEuml4fW1VmEofznwjzibruTZZEmWe6pN408ChJmqC11slkNfjZf+OQNv/ncXNJCED3m3TTwBxzdkMdTUUw9+BLFB8XAFFli4ffVvuB2qzzAeca3eKZHcvpXqxElOhDRTg64vwEpV6Vh+Tzebp3QNoGgFqTnAarc6jvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739894675; c=relaxed/simple;
-	bh=vDmjXmjcEiohpJOfr8vdds6XsMhdSyyJ5c43h4IlMP0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Lr3D29KSdDvfatoZ0pZBrrs/UnnHbbB0xR1dGRcC6/MiuHMq3AoVsDRcyhphvqGo8hQR/zPuBgfWIT+tRzTe6Q50CFpPvKl5OQG74AostPVF9FRFlmGoQciB85Oh0SzNRODyhxRuBGZ4ogoOr9yzqBUcgZgUMOK5bhqRKKfDJrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=zjSyUlT7; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1739898554; c=relaxed/simple;
+	bh=r3Cn8T3WHhu7Zt4TdPmxIPWpu+uYE3xrjh5sU/rQN8s=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=l/FDd0RDR4B19aZQETDsTU5uNnDPBQr8gLLLB6+EYR1mpxAHIhLRgiosfbYZCx5rjA4Sa2As7P7oSG0HiqciE9YwBWbo39rcp5xKJTWnc5QP7xAA/NSEA93hO4WfeCFI2NlAwoXrji+kJoRjaFTFc5SX25XojfWmgU0IM5gQ2k4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gGVfdYcm; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="zjSyUlT7"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=Pr2brmPPVXCHRMBOKzWFmQPgELywfRyUq7vgp5EFpeA=; b=zjSyUlT7zJdF6Jy54BEOz07E0M
-	LRMkxqD9+sAq3E9Wyt4qkpd8RE+/3/UKlWua7LqOk81LLknYDUF363uzK09UNzUBeS+h8O90LBktY
-	1bngQqieC/vtshUMNR/TtvtgbpqhPGcMYkD7+tAluJOiMkwF1sd+ysdL5xKXyR4exqjs=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1tkQ5A-00FLOs-Az; Tue, 18 Feb 2025 17:04:24 +0100
-Date: Tue, 18 Feb 2025 17:04:24 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-Cc: netdev@vger.kernel.org, Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>, Chen-Yu Tsai <wens@csie.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Drew Fustini <drew@pdp7.com>,
-	Emil Renner Berthing <kernel@esmil.dk>,
-	Eric Dumazet <edumazet@google.com>,
-	Fabio Estevam <festevam@gmail.com>, Fu Wei <wefu@redhat.com>,
-	Guo Ren <guoren@kernel.org>, imx@lists.linux.dev,
-	Jakub Kicinski <kuba@kernel.org>,
-	Jan Petrous <jan.petrous@oss.nxp.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Kevin Hilman <khilman@baylibre.com>,
-	linux-amlogic@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Minda Chen <minda.chen@starfivetech.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-	NXP S32 Linux Team <s32@nxp.com>, Paolo Abeni <pabeni@redhat.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Samuel Holland <samuel@sholland.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>, Vinod Koul <vkoul@kernel.org>
-Subject: Re: [PATCH net-next 3/3] net: stmmac: "speed" passed to
- fix_mac_speed is an int
-Message-ID: <1651981c-f0ed-49b0-9424-41580eb8b150@lunn.ch>
-References: <Z7Rf2daOaf778TOg@shell.armlinux.org.uk>
- <E1tkKmN-004ObM-Ge@rmk-PC.armlinux.org.uk>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gGVfdYcm"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-439946a49e1so6940335e9.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 18 Feb 2025 09:09:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739898551; x=1740503351; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=r3Cn8T3WHhu7Zt4TdPmxIPWpu+uYE3xrjh5sU/rQN8s=;
+        b=gGVfdYcmvaPmRdhQYtBFuO4GG5INMZL8iD+dYu/xdQ3z9bgbXsafhuJmq3QkY3Dmkg
+         +Y1Ky/lk+PuA4CdCf+a3HAy4Al28lFQTR/JJghhBIK6IsdiqqsSp84rNHb5/BPiAymm6
+         XmRKlDNs1hjimzCSpz4H5K9CLAYoCesCS9OTqZXALqu1gmrllUoBSZCeawJ6n1iIQIEv
+         qibQcj2648G95IKUpF4D1XmBwTPvz/ZxzPSojApZ4jPsNnFKSt6J0TSqdkxehNTxTqlT
+         xbsXP/oFrqNvbsYrjukxkqdMB+Det7Mor8JAVQP0+xpOZ7KJrCnbsiPWu5a8L1GWfCvt
+         2pJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739898551; x=1740503351;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=r3Cn8T3WHhu7Zt4TdPmxIPWpu+uYE3xrjh5sU/rQN8s=;
+        b=dcGz8m0X1enGCd2NV6SFrl41EIiIrQk2d7UHotG3mLj3pGmlw0AZqZwUlKF+AqVGL5
+         20Tj4xtaYX6RloMQ1RLkkeJOiDpDv7ZCicbSoiwFVOZe+AlZzQw0PV7rKGQSnc7NFJgv
+         9IvY4eDggdAtpXFCwZ3IRFSEZ2eMuiW0XgffWvNwKyCXPm5m9lboBw4qbOmLfNZrxm07
+         5Hol9w1iYDTwJTd2uxn7rlBphg7LPJRTPZeYnQygRnoBfst10IvVNGRiMUPkpXQptCol
+         WEGnizyNcFhblg2vSOhJmR2NwPkcmhUrZNOlt/9GYGQ4M7/X3OgHRG6RdFx0ekdm8+VG
+         yd+g==
+X-Forwarded-Encrypted: i=1; AJvYcCUU9uCcbnZnVRtsHyYYL9WdNseQ/DI9VlvuKwRYKQXu5fmgUPlQfMPIy9mPjkY1cgZRNx9qwS0XluTqYg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxx4aWXB7MWQUhmd88hmYctml4zm5e8XLqS2hNoPXcT+EP8WAMw
+	M0iTmCOE1t+Er/r0ZuYs+pRu9dsug3Y/OxLJjqG7IABBB43srOu7
+X-Gm-Gg: ASbGnctJRJXINIG7bisXrbvb2vPC/khlGeMz+hRTCSTqcm5L/Q89ytn8tdMVYgPi5hZ
+	j3dYgbejlaKoqu98xUYudHf3EKIJRhb7CoI+L3CRs9RqglvsfQlrVdsWU4TF0DvoGA6CRkABl1U
+	AzkZfPVhk7piyFlNQTJDuq0H0QqaGfFjvtkgv0V4NqN+1cxrrgxDUifzTGXZZ3xgAUd1mVXMz4j
+	q/LsolnLssVQBeYzGWr0CHYqSx+Yr3h80U0tWMuR4QSMCCIq1pOXjS2iV18eT4IoQ0GnXrhSDi8
+	h+8KuafBfn1KVCn6yB3LfzZT3Tuc2c4bJtX1IoUvq0jsJHY+mOfU8qG/YE/zogS0F2A=
+X-Google-Smtp-Source: AGHT+IFlGMv2miQ0Z9W2VdMNMeh3ECaEZiiURYqLj/so8NoPpJnlEqidY8yQFjrhffXPtAAVjvhFEA==
+X-Received: by 2002:a05:600c:3501:b0:439:955d:7ad9 with SMTP id 5b1f17b1804b1-43999da89c7mr5439285e9.14.1739898550848;
+        Tue, 18 Feb 2025 09:09:10 -0800 (PST)
+Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4398148f4fcsm72046035e9.7.2025.02.18.09.09.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Feb 2025 09:09:10 -0800 (PST)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ Andre Przywara <andre.przywara@arm.com>
+Cc: linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 5/8] pinctrl: sunxi: allow reading mux values from DT
+Date: Tue, 18 Feb 2025 18:09:09 +0100
+Message-ID: <12609538.O9o76ZdvQC@jernej-laptop>
+In-Reply-To: <20250214003734.14944-6-andre.przywara@arm.com>
+References:
+ <20250214003734.14944-1-andre.przywara@arm.com>
+ <20250214003734.14944-6-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <E1tkKmN-004ObM-Ge@rmk-PC.armlinux.org.uk>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On Tue, Feb 18, 2025 at 10:24:39AM +0000, Russell King (Oracle) wrote:
-> priv->plat->fix_mac_speed() is called from stmmac_mac_link_up(), which
-> is passed the speed as an "int". However, fix_mac_speed() implicitly
-> casts this to an unsigned int. Some platform glue code print this value
-> using %u, others with %d. Some implicitly cast it back to an int, and
-> others to u32.
-> 
-> Good practice is to use one type and only one type to represent a value
-> being passed around a driver.
-> 
-> Switch all of these over to consistently use "int" when dealing with a
-> speed passed from stmmac_mac_link_up(), even though the speed will
-> always be positive.
-> 
-> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+Dne petek, 14. februar 2025 ob 01:37:31 Srednjeevropski standardni =C4=8Das=
+ je Andre Przywara napisal(a):
+> So far every Allwinner SoC needs a large table in the kernel code, to
+> describe the mapping between the pinctrl function names ("uart") and
+> the actual pincontroller mux value to be written into the registers.
+> This adds a lot of data into a single image kernel, and also looks
+> somewhat weird, as the DT can easily store the mux value.
+>=20
+> Add some code that allows to avoid that table: the struct that describes
+> the existing pins will be build at *runtime*, based on very basic
+> information provided by the respective SoC's pinctrl driver. This
+> consists of the number of pins per bank, plus information which bank
+> provides IRQ support, along with the mux value to use for that.
+> The code will then iterate over all children of the pincontroller DT
+> node (which describe each pin group), and populate that struct with the
+> mapping between function names and mux values. The only thing that needs
+> adding in the DT is a property with that value, per pin group.
+>=20
+> When this table is built, it will be handed over to the existing sunxi
+> pinctrl driver, which cannot tell a difference between a hardcoded
+> struct and this new one built at runtime. It will take care of
+> registering the pinctrl device with the pinctrl subsystem.
+>=20
+> All a new SoC driver would need to do is to provide two arrays, and then
+> call the sunxi_pinctrl_dt_table_init() function.
+>=20
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+I went through the code and it makes sense. I wonder if we really need to
+build whole table instead of having on demand lookups into DT. However,
+for now, this will do. So:
 
-    Andrew
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+
+Thanks!
+
+Best regards,
+Jernej
+
+
