@@ -1,459 +1,273 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35C67233D9E
-	for <linux-sunxi@lists.linux.dev>; Tue, 18 Feb 2025 10:25:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739874345; cv=none; b=UtZjiq9e+bPeDk5EZrV8V5yV5c2eA1ncdbMCVH4b0S2dP1O5hBl842AYtxGqZDnT7hNljOvEJm0eKaA808hCUtMW4lURtTOwJHZ/gFFMv5jyBhxwSeVmj+9l/NlJYSbgXuzikDNrNTv4zsdIQAOhvi3mu90S380qSP1938bLU8k=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739874345; c=relaxed/simple;
-	bh=hZ1zQoAyDNnGiLsXUhQQOPLiltEUF6atO18ktHg/cgA=;
-	h=In-Reply-To:References:From:To:Cc:Subject:MIME-Version:
-	 Content-Disposition:Content-Type:Message-Id:Date; b=FZnpXcBxBJDhTknHFzdF7sUHl6/8+6TXkL0N/8BVleEA74jB6it0eUOIs7yh/Bxssw3Te19Nm0bqtAP0AzbwqyFNOqh+ap0OXciFO9wWYZgOsSpq1hVovrO5cS+j6yaCiqUZRsd2v6+19MyIp4GF/Zcw34L9NZy0qTyKgKhS8zs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=WbsvnvoK; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AB07236A61;
+	Tue, 18 Feb 2025 11:18:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.14
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739877513; cv=fail; b=irJBxQ4+hG09Gjb3+SBL02qMvypU3DddCjEuNxjL6ybPbg+WM+jjtLReXfG7+j/W7DB/+16NPFm4+TPjo79uLSpgFi+L77m+piiZaYgMcPRqJNWWaKzIU32zP45Y1nYwQHIlF6600v8btLMUe5D1Wr36Vnx1U5zdOywOylXIqCo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739877513; c=relaxed/simple;
+	bh=Nv9j/jhlIBYKZvAExZqDu9hD20cq5wfUhm7Z97lJI8Y=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=VgXWFWMU8Jw+K85jaY1afTplA/+ybjn6/LsO1rqpnpKJicQlRXjZz+r6cJ6v/mQkJi4AxM3UUPuZwQ3Jir3Gbf8lxE0gs8VPBMvIm8USbgoHrgXvT3/cG1shGe/N3H4S4wjG9a0AoHTl5DtElpJkMRdg/qeMoneUuzrHe417mjs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GiuQZ7/S; arc=fail smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="WbsvnvoK"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Subject:Cc:To:From:References:
-	In-Reply-To:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=D5W8SpUWl08I/kYtRWlssqE7GrUWwI2gPTE2uLJ5nPk=; b=WbsvnvoKW2ySHPfBKUPq6Fw2TD
-	OnNtcpufpj8cXwil9PU9KA0FyEQ+tglIb3SLmfo6R5cdxtlLz7IT7gEacCBDL71kMc6rRwl1NS4Bb
-	i8GNss22Dvs1jbDY+7Rc5ewa4UU3IK2EfN3T0HhTe0tannjavxLARLg183ce9LFDmph3KJiAxeM0r
-	RbInEPkVWYo2ATtCaUzE9RGubGdNlWbdHX3bl70TFlHYCblQVE15dB3IvDEvXkIWV3EwTc+GOIgkC
-	+D85ijyMqjI4G5kNLCE/z1n1Uw5nfAi/f6Q642whs8bR3mI/B5SOiEgBXY+i+jYp0n+AZ4AwuwuVA
-	FXsgk+mQ==;
-Received: from e0022681537dd.dyn.armlinux.org.uk ([fd8f:7570:feb6:1:222:68ff:fe15:37dd]:50318 helo=rmk-PC.armlinux.org.uk)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <rmk@armlinux.org.uk>)
-	id 1tkKmj-0001Vk-0M;
-	Tue, 18 Feb 2025 10:25:01 +0000
-Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <rmk@rmk-PC.armlinux.org.uk>)
-	id 1tkKmN-004ObM-Ge; Tue, 18 Feb 2025 10:24:39 +0000
-In-Reply-To: <Z7Rf2daOaf778TOg@shell.armlinux.org.uk>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GiuQZ7/S"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739877512; x=1771413512;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=Nv9j/jhlIBYKZvAExZqDu9hD20cq5wfUhm7Z97lJI8Y=;
+  b=GiuQZ7/S9qJndm+Zy0SZ9uaF5ic9PZx17zjfmD3VWkuNT7JP5L1itkSN
+   e7pjdQZwcTp/7b8jVRFmCtc2hoFF+zNSZDjPRIz9UJhLBPh1ui01uoFMQ
+   rhtYYp5yX6hL38uJMZJ1NHmZj6xxsI/N9VQTAspnrQr06I1LFaTbNxDQ1
+   5ruLCXH2ZIR3mQp8K11bNXZn7iab+Cae0fo1moNoFptfNi0O389YDg9e6
+   t/VVLtK2gwGPWFf+d5p/qGsjK+C/iGMwBtDcOFA9OD/NNhsR7ksIn5nTI
+   o2t7pYNHdEwZooTcpvySLUtV6YJf/q66rV+HBG+6aplFYCBTygpVmQ1uE
+   w==;
+X-CSE-ConnectionGUID: RsuocqFGT9i9twXR+e5TUQ==
+X-CSE-MsgGUID: i/XAh8+9THymJkP+nbrd1w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="40821899"
+X-IronPort-AV: E=Sophos;i="6.13,295,1732608000"; 
+   d="scan'208";a="40821899"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2025 03:18:31 -0800
+X-CSE-ConnectionGUID: MwZmx/osScKWIFwxo46zbw==
+X-CSE-MsgGUID: 5zc0tmB8RDeSuWoSPdd4cA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,295,1732608000"; 
+   d="scan'208";a="119353870"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2025 03:18:31 -0800
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Tue, 18 Feb 2025 03:18:29 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Tue, 18 Feb 2025 03:18:29 -0800
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.168)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Tue, 18 Feb 2025 03:18:29 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Gg596YtmIVjqNHJFzBuAIA+zIzUZY3I1cpyRCbBoP2MUgPJll3itf/20A5If1PWjQd0UwoMjWP74nQ9SYPa6LuT7MbXg+tFhi13eczH4Rdl3/NkqDcWqxaDnc78LqRNO3XGMRM7P51DdCCiMwn0NYBxXLbRnpVDJiFgqZZwpLM5rhDg0AVC9s3kyqCeibpJVOIaQnGhXa+e2KAPt3TJaEPwPZM9ldlYpvHPmDlbkZOl/zKPPHprvMdbfYpmF/c3i3XXYbGmOyuzSVLW000OfSIyPeFQ0K2zBwv/GITlWdtqXBLFhwK3V8Cldk71cBdiP1DY/TyU2jOr4yfAAKBJZOw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6+2DdJxMvfzICHli/7eT4dw4uuMoakB6TaUQ43EYK7A=;
+ b=oYiSh7a58zWVkb/THnUB7Ay1PzU7DlSs83RHouHRwl0YXWh/WhkbnG9d8IEz/Yya9wgy9QUiyKjeAxr5B3CcfPIr/p+lxJtPzcoDopjfeytgLuSKkaT7yaEQjakM5TeU8hnb46J6Pbg/voVJoU0HMneuxjGoZKaxBVCABNvsIBgCJf8cHD/XBBNVTSeHcNr1NwPljSp+cNsmcPUCjhtwHGb4BC+vFfAjEoXIIBR1oRGH3iKc1LTkJVusoZ+yRnDIJPVz/a090eoAhzLlwQmXh0SHssNjI41WDy8Ql7PJ8UNMjwqnnOCn8I8SjNaR0294/LlRBZFAXVJKPlmUdHgvJw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH8PR11MB6682.namprd11.prod.outlook.com (2603:10b6:510:1c5::7)
+ by SA3PR11MB8075.namprd11.prod.outlook.com (2603:10b6:806:303::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.18; Tue, 18 Feb
+ 2025 11:17:47 +0000
+Received: from PH8PR11MB6682.namprd11.prod.outlook.com
+ ([fe80::cfa7:43ed:66:fd51]) by PH8PR11MB6682.namprd11.prod.outlook.com
+ ([fe80::cfa7:43ed:66:fd51%4]) with mapi id 15.20.8422.015; Tue, 18 Feb 2025
+ 11:17:46 +0000
+Message-ID: <ce9f7693-355a-4049-98a8-b8bd25b4d3e1@intel.com>
+Date: Tue, 18 Feb 2025 12:17:35 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 1/3] net: stmmac: clarify priv->pause and pause
+ module parameter
+To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	<netdev@vger.kernel.org>
+CC: Alexandre Torgue <alexandre.torgue@foss.st.com>, Andrew Lunn
+	<andrew+netdev@lunn.ch>, Chen-Yu Tsai <wens@csie.org>, "David S. Miller"
+	<davem@davemloft.net>, Drew Fustini <drew@pdp7.com>, Emil Renner Berthing
+	<kernel@esmil.dk>, Eric Dumazet <edumazet@google.com>, Fabio Estevam
+	<festevam@gmail.com>, Fu Wei <wefu@redhat.com>, Guo Ren <guoren@kernel.org>,
+	<imx@lists.linux.dev>, Jakub Kicinski <kuba@kernel.org>, Jan Petrous
+	<jan.petrous@oss.nxp.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, "Jerome
+ Brunet" <jbrunet@baylibre.com>, Kevin Hilman <khilman@baylibre.com>,
+	<linux-amlogic@lists.infradead.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-arm-msm@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+	<linux-stm32@st-md-mailman.stormreply.com>, <linux-sunxi@lists.linux.dev>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Maxime Coquelin
+	<mcoquelin.stm32@gmail.com>, Minda Chen <minda.chen@starfivetech.com>, "Neil
+ Armstrong" <neil.armstrong@linaro.org>, Nobuhiro Iwamatsu
+	<nobuhiro1.iwamatsu@toshiba.co.jp>, NXP S32 Linux Team <s32@nxp.com>, "Paolo
+ Abeni" <pabeni@redhat.com>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Samuel Holland <samuel@sholland.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>, Vinod Koul <vkoul@kernel.org>
 References: <Z7Rf2daOaf778TOg@shell.armlinux.org.uk>
-From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-To: netdev@vger.kernel.org
-Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Chen-Yu Tsai <wens@csie.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Drew Fustini <drew@pdp7.com>,
-	Emil Renner Berthing <kernel@esmil.dk>,
-	Eric Dumazet <edumazet@google.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Fu Wei <wefu@redhat.com>,
-	Guo Ren <guoren@kernel.org>,
-	imx@lists.linux.dev,
-	Jakub Kicinski <kuba@kernel.org>,
-	Jan Petrous <jan.petrous@oss.nxp.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Kevin Hilman <khilman@baylibre.com>,
-	linux-amlogic@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Minda Chen <minda.chen@starfivetech.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-	NXP S32 Linux Team <s32@nxp.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Samuel Holland <samuel@sholland.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Vinod Koul <vkoul@kernel.org>
-Subject: [PATCH net-next 3/3] net: stmmac: "speed" passed to fix_mac_speed is
- an int
+ <E1tkKmD-004ObA-9K@rmk-PC.armlinux.org.uk>
+Content-Language: pl
+From: Mateusz Polchlopek <mateusz.polchlopek@intel.com>
+Organization: Intel
+In-Reply-To: <E1tkKmD-004ObA-9K@rmk-PC.armlinux.org.uk>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: VI1PR0902CA0028.eurprd09.prod.outlook.com
+ (2603:10a6:802:1::17) To PH8PR11MB6682.namprd11.prod.outlook.com
+ (2603:10b6:510:1c5::7)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <E1tkKmN-004ObM-Ge@rmk-PC.armlinux.org.uk>
-Sender: Russell King <rmk@armlinux.org.uk>
-Date: Tue, 18 Feb 2025 10:24:39 +0000
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR11MB6682:EE_|SA3PR11MB8075:EE_
+X-MS-Office365-Filtering-Correlation-Id: fa304af4-58cb-46c9-6357-08dd500ddf16
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?V09GRWlkNkZzMHo5ck5MNWE3Y0VNTzgvcjg3WDlXUUZBMXJuM1EycUxIeHJx?=
+ =?utf-8?B?TU5aQlJPYms1S1BlRWhtUHRZUURkekRXcFVJWFVucVVUZGFXQlp3ZGw3bTlp?=
+ =?utf-8?B?YmU1R2xDc2RmQ3hLT3RhamdBczFDZWVyZVp6aWtta0YwNmZ6ZjRCcGlLQ3VU?=
+ =?utf-8?B?bHdHTXZOSmhuZXY3QWRXQk1Vc2Y2a1h6WnFIWWtCL2dkZHR5QnVIRzRSZTJo?=
+ =?utf-8?B?MEZCU2tpR0tzeXlVRmQzSTViVUxXRS95YmNXMTV5YWdoZytOYW5tNVpjWng4?=
+ =?utf-8?B?eWFBdG13eVA2VDhidmMvREEwcDR5QjU2V2M3bDNmcHV2YlU4WWRLRVZQM0Y0?=
+ =?utf-8?B?eGg1SDBrVGNlUGJ6WU5XNk0raVNNVS9qRHQ0T0I3ZXZwNVdIWkc4KzFyZzd1?=
+ =?utf-8?B?WU5JQlZsZEFGSFlQUHFlNjhBbWFXZlcrL3hVdzY3VW1lSUFXck82WkdDQnJl?=
+ =?utf-8?B?RzlkZTdjMGg4TndrMExpQzZKUGhkSEVKRE5RTjROZ3VkREg1UXh1UmNiUGRt?=
+ =?utf-8?B?R0Y2eUZMKzhNSVN1dHdBczBpbngvTDZTWURrdXhNdWx2NWZUbGsxSVlZcWpa?=
+ =?utf-8?B?d0MxMDZHbnlhV0xLTExvY1pUbGZzUkpFdUJmeHpVM3VXN1F5b1RZaytlZ1lz?=
+ =?utf-8?B?ZWJ5a3RiNk1RbmlmaWhQaWxXWm9wNnpaSTdDa1pzOTlkRnF6VWxoOFl1RHZB?=
+ =?utf-8?B?Ly9ub1pFbWpqMzhhYkdQcTJSZDhpYmJhWTRrWm51Z0U0UnFpVXdxZmRZNHkx?=
+ =?utf-8?B?VFpoSk5nT1ZaaXNaTXo0RjlZT3VOM3d0VExUUE9JTkxwNlZHMXE4V3d0SGpo?=
+ =?utf-8?B?UWUwTUxJNWpLWDVZZkljRXRQZlpRSElvNVRycmdLVmxvTy9iTUxlbWUyYTVm?=
+ =?utf-8?B?ZUdHU28yR3o3dXMweXVWeG1IUC9yaFVYRWc4T2dqclplTm1nVWEzWjhoUzFU?=
+ =?utf-8?B?VVg5TDhxQjRLajBTSWoraXFaYjdLRUkrUXIyOHNMUHArYW95d1lNVWM2M29z?=
+ =?utf-8?B?UE1pYmNiVHdTTGNsZTFJUUFxWktkY0pCeGNYbU40L0RLSVN1bERucHlOYmoy?=
+ =?utf-8?B?UVhpUkR3cmcyR3NRbFZLYVRKV2kzRVF1aTRTeUljN0tMeGtJUFRvZXVDbmVu?=
+ =?utf-8?B?a1k5em5Vdk1LS0Z1Z1NLWUIrV05lKzBZMVZYWGlXMGNZU3BaaEpRVEZFWjNu?=
+ =?utf-8?B?WjV5YW90aHlhSzBZL25DRVRUUGhaSFllb2VKOTgyQldmZmo0VnNjTmRrdW1B?=
+ =?utf-8?B?eWlBRGxTa29YRitvZUtUeTEzV2paSGd4cFQ0RXdlampyMVFJR3dQd1FzRlRB?=
+ =?utf-8?B?N0ZibU1FUk9VRndTeVhBWmJTNHhNVC9wZzFaSE1KQ2lOQklGMXNYUHhmWW9h?=
+ =?utf-8?B?aWw1alMrWm5qV2RhRFBiSXlqNkgrUzFVUGRDWUFKcGtvUk5KaDl3TElZNUlX?=
+ =?utf-8?B?M2lzamRRaUhrNEF0c1F2RHo4cXQ0YXVBVERZVkx3T2dIREFLQytZUC9vMjlq?=
+ =?utf-8?B?QzR4TklETDN0OHdKQ2Mwd21GdkxhcWlJbG5XUFBUTEtxc2JIeUg2Wlp1Q1l0?=
+ =?utf-8?B?bXoyay9QNUFiMlpqeFJKazU1TU5zcUY4ZkVDbTZUTnFiV1VBTng0WFFNWTFa?=
+ =?utf-8?B?TDhGd1JjS0c4SmpHcWUwZnY3aWdjWTI5UkVHSWVtSWYwVnpuSDNxSmNzaDd6?=
+ =?utf-8?B?QnFCdDZnSzZkUm1IcW9zWXYrVjFhYmtIYzZDL2l6VGswZTJyZ0pTL00vVTRL?=
+ =?utf-8?B?Q0d3cVFHMVd0U1AyZGNYbHFpd0Z3RllIZVNvK0p4d3FONGVkSzRES25rSW9R?=
+ =?utf-8?B?cTlaNE9TQkFnVlB1NERlUjQzaWloWGVIcitUeGYvZkxHQlZrUzA3MzgxTkJZ?=
+ =?utf-8?Q?AQOJkkoDHI1dO?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB6682.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VG92NHc3YmpXOERoQU9kblIrWmxvWTVMNlFBRFJXVWFSMmFheFROTVA1TVV1?=
+ =?utf-8?B?TmtabjNQZXFPZ0VtNHJzNVJLU2lGV0g4Z3Nab0dQS1VCSWx2K2xoREFpb2s5?=
+ =?utf-8?B?TEx6dWsvYWx6WjVyWE9neEhQbCt0UkdncHhUbHJoR25hQkxVb21vMHd1TWhO?=
+ =?utf-8?B?OWhJRnlqQXZNN09OdzJJV1JmZkJwa3k0MDh2QzdjbzJLY1NqQzhEOTRpYSsw?=
+ =?utf-8?B?aU5GUVRBVUZ6c1lFUEdlLzFUb0xMVnpxMTFwOGR3NHg4RmFyOFhRU1BDMXB4?=
+ =?utf-8?B?MGI4cnVobThKNDNWUDJVd05nSm1Ic3o0UzRtZllZdm9Va2RCa0JmaTNZMkxV?=
+ =?utf-8?B?MTJCeEMyYUZ5RG5SNE1lMngwV05Yci9NOUFpR3NCZ2lnUlVyTDhUUWc3L1Fx?=
+ =?utf-8?B?ZnBzNCtJNmd5WVp2d3dPNll6Rm9SSTROSjBqSms0VEY3ZmFUUFpvZEROS0k3?=
+ =?utf-8?B?NlVCNzF1dTVha3BSZHd2bEdqdGsvaFpqSStienhQWDJsTEJiZXMzT2tmUXd4?=
+ =?utf-8?B?NUkrVnp1R3VNU1Axa1VlTk9zUnZhbWFCOTIyaUhKL0I1aENnQnRvajhRZmx6?=
+ =?utf-8?B?WlNoQXFXc2E0bDBKLzY3dTlFOStSSXFNRDZ3eW9WTVdIR21oWjFReWQxVjNs?=
+ =?utf-8?B?YS80U3pMcTNvcU9hekw1MnRPaHdsb2hHWWRsVTMySU5YaHdYb0ZGL1Y2c3FE?=
+ =?utf-8?B?MDhra2w5Z0VKZXhWTjhTcVc4bk1RS1ZCSFUxQzBMcTRFWndFaXE0UCsyQ2Zl?=
+ =?utf-8?B?dGk3ck5XUU1Xc2JpSVdwV1c5YklINmw0Wm5xWkw0cnhZOGJuaml1clVTc3ZG?=
+ =?utf-8?B?U1pZcnZGcUg3Z2NaTWxBS1NBTGJVU3Rzc0xDNGJQS2pqRW44cGRFelpZbWVm?=
+ =?utf-8?B?YnBlYmxOUTBmK2ZHTGMzYktUSGlKT2w5M1pBQnF5UGFreVZ6aHJMR3NEc0Yx?=
+ =?utf-8?B?dC9LRTFaVDRQVUhWWVdWdnlrYWFRRGxXKzUwb3lXblNvM2RtKzZ1ejBhWExI?=
+ =?utf-8?B?TzZpY2VtNW00cm5ybExqTDFRN2s4RTFTM3pwSTQ3cjFDL1J6SHo3VU9pZHIx?=
+ =?utf-8?B?SmNmcE10aGROeW1PZ1ZHZ3IyZm1SVnFrdUt2RDhESkpHRnRtK2UzZDJvU3hh?=
+ =?utf-8?B?U3phb0xZWFJyZDM0MVBsc2QwWVMxRm9scHVSeEppRjdrTGtzRXRNTUlyWEhN?=
+ =?utf-8?B?ZUdYYURnYWJWVXhZN21NUFJuWndwRVREeFlNc0o0QXFFQTVFc2tjaVlLUFBr?=
+ =?utf-8?B?TlRsK3JqTlRDdEVyekpvOU9RL0l1dk1ZeHV2NlROL2N1cndLYmU3M2JPR3B2?=
+ =?utf-8?B?bWlFc2NDRzhac3U3d0VHT1ltVkV2Mlg5cDhsbEpKM2MvZ1h5NE9qbGNXVkRv?=
+ =?utf-8?B?c2lpbVlWZEdreEIvZjRxRDZ5RVZkei95aC91Q2k4Y2daTjBTZGQ0MlBuUlJ3?=
+ =?utf-8?B?NHVjTGtoOStVMEMydEVtN2tZZUw4NGp4U2RVSGFscmNBWVY3QS9hZTdWOU0r?=
+ =?utf-8?B?MzJpYXdmSmJ0NDcrUTY2SHJVUDZkN3hJSS9iRGNmaXczeHNwRnE3UXNPc2Ji?=
+ =?utf-8?B?VUtUT0ppaU0wTzRob0FkSUdSbEJXeE1mSUJZYjZWWG5hODlnNkgvQ3Nybkhq?=
+ =?utf-8?B?RVRIVjl1WnJyTTUra0pjMlFUeWEvQzcyRjRsa1NzWXdOMVpiN0xIbjZTM0pk?=
+ =?utf-8?B?S3JnSHB5b3lxb0lYOUx3YlE0TVdYZ1VyM1crbTlZTzFhZGMvYitYRHJ3NDFW?=
+ =?utf-8?B?MWFrWDFKWlhNNG1ENXBxSHY2bjZJRk9GRzFYTWV4cHlsWHdiZDJ3eGEzTnZp?=
+ =?utf-8?B?YmZUeFpwa1BtVE1yNkZncWRtWlZ5dE4zTE92U3dNWVZ2OVlkVnlJcmZ6ZUE5?=
+ =?utf-8?B?TnZCVmRhK1kxVEN6UGFpNWFKNEVjZURZVS9pejE4ZG9qNWw5UG41TFl4NDVh?=
+ =?utf-8?B?Njlxb3dMeDBnNVl0SW1pK0FvYzN1VGhrSmEycm04VXFKeHFZOG90K2M1NFEw?=
+ =?utf-8?B?V2hpeFJUTm9XMklzdTd0bGZXYkVWQ0ZTV0pjMUVUd0M3RmtDSjI3TUpJbGFk?=
+ =?utf-8?B?YWV2ZDM3MkFTTVFuVE82MlpvYWI0V0JNMmRFcGp5M3kzd0NQVlQwbStJN0Nx?=
+ =?utf-8?B?SGE1TDhtZE8vRkZHZ3FZcUl6TEcvNFpJZnpSb3U2YXdDVWNndzR3eUladytJ?=
+ =?utf-8?B?ZFE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: fa304af4-58cb-46c9-6357-08dd500ddf16
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB6682.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2025 11:17:46.6788
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gq6xwKwpvDrWuZlfYLRldVaZhn70LXzfcq71jpeJ6xLorAQ9gRuQshcRwwr8CXF8RFhk12r1R0kkH3k6ypca/tbwZ6cHHMdQMUog8CBNg3o=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR11MB8075
+X-OriginatorOrg: intel.com
 
-priv->plat->fix_mac_speed() is called from stmmac_mac_link_up(), which
-is passed the speed as an "int". However, fix_mac_speed() implicitly
-casts this to an unsigned int. Some platform glue code print this value
-using %u, others with %d. Some implicitly cast it back to an int, and
-others to u32.
 
-Good practice is to use one type and only one type to represent a value
-being passed around a driver.
 
-Switch all of these over to consistently use "int" when dealing with a
-speed passed from stmmac_mac_link_up(), even though the speed will
-always be positive.
+On 2/18/2025 11:24 AM, Russell King (Oracle) wrote:
+> priv->pause corresponds with "pause_time" in the 802.3 specification,
+> and is also called "pause_time" in the various MAC backends. For
+> consistency, use the same name in the core stmmac code.
+> 
+> Clarify the units of the "pause" module parameter which sets up this
+> struct member to indicate that it's in units of the pause_quanta
+> defined by 802.3, which is 512 bit times.
+> 
+> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> ---
+>   drivers/net/ethernet/stmicro/stmmac/stmmac.h      | 2 +-
+>   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c | 6 +++---
+>   2 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac.h b/drivers/net/ethernet/stmicro/stmmac/stmmac.h
+> index f05cae103d83..c602ace572b2 100644
+> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac.h
+> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac.h
+> @@ -283,7 +283,7 @@ struct stmmac_priv {
+>   
+>   	int speed;
+>   	unsigned int flow_ctrl;
+> -	unsigned int pause;
+> +	unsigned int pause_time;
+>   	struct mii_bus *mii;
+>   
+>   	struct phylink_config phylink_config;
+> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+> index fd8ca1524e43..c3a13bd8c9b3 100644
+> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+> @@ -94,7 +94,7 @@ MODULE_PARM_DESC(flow_ctrl, "Flow control ability [on/off]");
+>   
+>   static int pause = PAUSE_TIME;
+>   module_param(pause, int, 0644);
+> -MODULE_PARM_DESC(pause, "Flow Control Pause Time");
+> +MODULE_PARM_DESC(pause, "Flow Control Pause Time (units of 512 bit times)");
+>   
+>   #define TC_DEFAULT 64
+>   static int tc = TC_DEFAULT;
+> @@ -865,7 +865,7 @@ static void stmmac_mac_flow_ctrl(struct stmmac_priv *priv, u32 duplex)
+>   	u32 tx_cnt = priv->plat->tx_queues_to_use;
+>   
+>   	stmmac_flow_ctrl(priv, priv->hw, duplex, priv->flow_ctrl,
+> -			priv->pause, tx_cnt);
+> +			 priv->pause_time, tx_cnt);
+>   }
+>   
+>   static unsigned long stmmac_mac_get_caps(struct phylink_config *config,
+> @@ -7404,7 +7404,7 @@ int stmmac_dvr_probe(struct device *device,
+>   		return -ENOMEM;
+>   
+>   	stmmac_set_ethtool_ops(ndev);
+> -	priv->pause = pause;
+> +	priv->pause_time = pause;
+>   	priv->plat = plat_dat;
+>   	priv->ioaddr = res->addr;
+>   	priv->dev->base_addr = (unsigned long)res->addr;
 
-Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
----
- drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c | 4 ++--
- drivers/net/ethernet/stmicro/stmmac/dwmac-imx.c         | 8 ++++----
- drivers/net/ethernet/stmicro/stmmac/dwmac-intel-plat.c  | 4 ++--
- drivers/net/ethernet/stmicro/stmmac/dwmac-ipq806x.c     | 8 ++++----
- drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c    | 3 +--
- drivers/net/ethernet/stmicro/stmmac/dwmac-meson.c       | 2 +-
- drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c | 6 +++---
- drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c          | 2 +-
- drivers/net/ethernet/stmicro/stmmac/dwmac-s32.c         | 2 +-
- drivers/net/ethernet/stmicro/stmmac/dwmac-socfpga.c     | 2 +-
- drivers/net/ethernet/stmicro/stmmac/dwmac-starfive.c    | 4 ++--
- drivers/net/ethernet/stmicro/stmmac/dwmac-sti.c         | 8 ++++----
- drivers/net/ethernet/stmicro/stmmac/dwmac-sunxi.c       | 2 +-
- drivers/net/ethernet/stmicro/stmmac/dwmac-thead.c       | 4 ++--
- drivers/net/ethernet/stmicro/stmmac/dwmac-visconti.c    | 2 +-
- include/linux/stmmac.h                                  | 2 +-
- 16 files changed, 31 insertions(+), 32 deletions(-)
-
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c
-index 1fadb8ba1d2f..392574bdd4a4 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c
-@@ -141,7 +141,7 @@ static int dwc_qos_probe(struct platform_device *pdev,
- #define AUTO_CAL_STATUS 0x880c
- #define  AUTO_CAL_STATUS_ACTIVE BIT(31)
- 
--static void tegra_eqos_fix_speed(void *priv, unsigned int speed, unsigned int mode)
-+static void tegra_eqos_fix_speed(void *priv, int speed, unsigned int mode)
- {
- 	struct tegra_eqos *eqos = priv;
- 	bool needs_calibration = false;
-@@ -160,7 +160,7 @@ static void tegra_eqos_fix_speed(void *priv, unsigned int speed, unsigned int mo
- 		break;
- 
- 	default:
--		dev_err(eqos->dev, "invalid speed %u\n", speed);
-+		dev_err(eqos->dev, "invalid speed %d\n", speed);
- 		break;
- 	}
- 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-imx.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-imx.c
-index 20d3a202bb8d..610204b51e3f 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-imx.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-imx.c
-@@ -51,7 +51,7 @@ struct imx_dwmac_ops {
- 
- 	int (*fix_soc_reset)(void *priv, void __iomem *ioaddr);
- 	int (*set_intf_mode)(struct plat_stmmacenet_data *plat_dat);
--	void (*fix_mac_speed)(void *priv, unsigned int speed, unsigned int mode);
-+	void (*fix_mac_speed)(void *priv, int speed, unsigned int mode);
- };
- 
- struct imx_priv_data {
-@@ -192,7 +192,7 @@ static void imx_dwmac_exit(struct platform_device *pdev, void *priv)
- 	/* nothing to do now */
- }
- 
--static void imx_dwmac_fix_speed(void *priv, unsigned int speed, unsigned int mode)
-+static void imx_dwmac_fix_speed(void *priv, int speed, unsigned int mode)
- {
- 	struct plat_stmmacenet_data *plat_dat;
- 	struct imx_priv_data *dwmac = priv;
-@@ -208,7 +208,7 @@ static void imx_dwmac_fix_speed(void *priv, unsigned int speed, unsigned int mod
- 
- 	rate = rgmii_clock(speed);
- 	if (rate < 0) {
--		dev_err(dwmac->dev, "invalid speed %u\n", speed);
-+		dev_err(dwmac->dev, "invalid speed %d\n", speed);
- 		return;
- 	}
- 
-@@ -217,7 +217,7 @@ static void imx_dwmac_fix_speed(void *priv, unsigned int speed, unsigned int mod
- 		dev_err(dwmac->dev, "failed to set tx rate %lu\n", rate);
- }
- 
--static void imx93_dwmac_fix_speed(void *priv, unsigned int speed, unsigned int mode)
-+static void imx93_dwmac_fix_speed(void *priv, int speed, unsigned int mode)
- {
- 	struct imx_priv_data *dwmac = priv;
- 	unsigned int iface;
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-intel-plat.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-intel-plat.c
-index ddee6154d40b..0591756a2100 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-intel-plat.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-intel-plat.c
-@@ -22,13 +22,13 @@ struct intel_dwmac {
- };
- 
- struct intel_dwmac_data {
--	void (*fix_mac_speed)(void *priv, unsigned int speed, unsigned int mode);
-+	void (*fix_mac_speed)(void *priv, int speed, unsigned int mode);
- 	unsigned long ptp_ref_clk_rate;
- 	unsigned long tx_clk_rate;
- 	bool tx_clk_en;
- };
- 
--static void kmb_eth_fix_mac_speed(void *priv, unsigned int speed, unsigned int mode)
-+static void kmb_eth_fix_mac_speed(void *priv, int speed, unsigned int mode)
- {
- 	struct intel_dwmac *dwmac = priv;
- 	long rate;
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-ipq806x.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-ipq806x.c
-index 61227dcf56dc..7f4b9c1cc32b 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-ipq806x.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-ipq806x.c
-@@ -112,7 +112,7 @@ struct ipq806x_gmac {
- 	phy_interface_t phy_mode;
- };
- 
--static int get_clk_div_sgmii(struct ipq806x_gmac *gmac, unsigned int speed)
-+static int get_clk_div_sgmii(struct ipq806x_gmac *gmac, int speed)
- {
- 	struct device *dev = &gmac->pdev->dev;
- 	int div;
-@@ -138,7 +138,7 @@ static int get_clk_div_sgmii(struct ipq806x_gmac *gmac, unsigned int speed)
- 	return div;
- }
- 
--static int get_clk_div_rgmii(struct ipq806x_gmac *gmac, unsigned int speed)
-+static int get_clk_div_rgmii(struct ipq806x_gmac *gmac, int speed)
- {
- 	struct device *dev = &gmac->pdev->dev;
- 	int div;
-@@ -164,7 +164,7 @@ static int get_clk_div_rgmii(struct ipq806x_gmac *gmac, unsigned int speed)
- 	return div;
- }
- 
--static int ipq806x_gmac_set_speed(struct ipq806x_gmac *gmac, unsigned int speed)
-+static int ipq806x_gmac_set_speed(struct ipq806x_gmac *gmac, int speed)
- {
- 	uint32_t clk_bits, val;
- 	int div;
-@@ -260,7 +260,7 @@ static int ipq806x_gmac_of_parse(struct ipq806x_gmac *gmac)
- 	return PTR_ERR_OR_ZERO(gmac->qsgmii_csr);
- }
- 
--static void ipq806x_gmac_fix_mac_speed(void *priv, unsigned int speed, unsigned int mode)
-+static void ipq806x_gmac_fix_mac_speed(void *priv, int speed, unsigned int mode)
- {
- 	struct ipq806x_gmac *gmac = priv;
- 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c
-index 79acdf38c525..60a4e3330ccd 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c
-@@ -149,8 +149,7 @@ static struct stmmac_pci_info loongson_gmac_pci_info = {
- 	.setup = loongson_gmac_data,
- };
- 
--static void loongson_gnet_fix_speed(void *priv, unsigned int speed,
--				    unsigned int mode)
-+static void loongson_gnet_fix_speed(void *priv, int speed, unsigned int mode)
- {
- 	struct loongson_data *ld = (struct loongson_data *)priv;
- 	struct net_device *ndev = dev_get_drvdata(ld->dev);
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-meson.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-meson.c
-index 5469fa1b429e..b115b7873cef 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-meson.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-meson.c
-@@ -22,7 +22,7 @@ struct meson_dwmac {
- 	void __iomem	*reg;
- };
- 
--static void meson6_dwmac_fix_mac_speed(void *priv, unsigned int speed, unsigned int mode)
-+static void meson6_dwmac_fix_mac_speed(void *priv, int speed, unsigned int mode)
- {
- 	struct meson_dwmac *dwmac = priv;
- 	unsigned int val;
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
-index 2a5b38723635..192f270197c8 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
-@@ -111,7 +111,7 @@ struct qcom_ethqos {
- 	unsigned int link_clk_rate;
- 	struct clk *link_clk;
- 	struct phy *serdes_phy;
--	unsigned int speed;
-+	int speed;
- 	int serdes_speed;
- 	phy_interface_t phy_mode;
- 
-@@ -175,7 +175,7 @@ static void rgmii_dump(void *priv)
- #define RGMII_ID_MODE_10_LOW_SVS_CLK_FREQ	  (5 * 1000 * 1000UL)
- 
- static void
--ethqos_update_link_clk(struct qcom_ethqos *ethqos, unsigned int speed)
-+ethqos_update_link_clk(struct qcom_ethqos *ethqos, int speed)
- {
- 	if (!phy_interface_mode_is_rgmii(ethqos->phy_mode))
- 		return;
-@@ -699,7 +699,7 @@ static int ethqos_configure(struct qcom_ethqos *ethqos)
- 	return ethqos->configure_func(ethqos);
- }
- 
--static void ethqos_fix_mac_speed(void *priv, unsigned int speed, unsigned int mode)
-+static void ethqos_fix_mac_speed(void *priv, int speed, unsigned int mode)
- {
- 	struct qcom_ethqos *ethqos = priv;
- 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c
-index a4dc89e23a68..83d104a274c5 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c
-@@ -1920,7 +1920,7 @@ static void rk_gmac_powerdown(struct rk_priv_data *gmac)
- 	gmac_clk_enable(gmac, false);
- }
- 
--static void rk_fix_speed(void *priv, unsigned int speed, unsigned int mode)
-+static void rk_fix_speed(void *priv, int speed, unsigned int mode)
- {
- 	struct rk_priv_data *bsp_priv = priv;
- 	struct device *dev = &bsp_priv->pdev->dev;
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-s32.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-s32.c
-index 9cc0e5817416..6a498833b8ed 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-s32.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-s32.c
-@@ -100,7 +100,7 @@ static void s32_gmac_exit(struct platform_device *pdev, void *priv)
- 	clk_disable_unprepare(gmac->rx_clk);
- }
- 
--static void s32_fix_mac_speed(void *priv, unsigned int speed, unsigned int mode)
-+static void s32_fix_mac_speed(void *priv, int speed, unsigned int mode)
- {
- 	struct s32_priv_data *gmac = priv;
- 	long tx_clk_rate;
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-socfpga.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-socfpga.c
-index 16020b72dec8..6b78ae730466 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-socfpga.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-socfpga.c
-@@ -61,7 +61,7 @@ struct socfpga_dwmac {
- 	struct mdio_device *pcs_mdiodev;
- };
- 
--static void socfpga_dwmac_fix_mac_speed(void *priv, unsigned int speed, unsigned int mode)
-+static void socfpga_dwmac_fix_mac_speed(void *priv, int speed, unsigned int mode)
- {
- 	struct socfpga_dwmac *dwmac = (struct socfpga_dwmac *)priv;
- 	void __iomem *splitter_base = dwmac->splitter_base;
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-starfive.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-starfive.c
-index 0a0a363d3730..282c846dad0b 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-starfive.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-starfive.c
-@@ -31,7 +31,7 @@ struct starfive_dwmac {
- 	const struct starfive_dwmac_data *data;
- };
- 
--static void starfive_dwmac_fix_mac_speed(void *priv, unsigned int speed, unsigned int mode)
-+static void starfive_dwmac_fix_mac_speed(void *priv, int speed, unsigned int mode)
- {
- 	struct starfive_dwmac *dwmac = priv;
- 	long rate;
-@@ -39,7 +39,7 @@ static void starfive_dwmac_fix_mac_speed(void *priv, unsigned int speed, unsigne
- 
- 	rate = rgmii_clock(speed);
- 	if (rate < 0) {
--		dev_err(dwmac->dev, "invalid speed %u\n", speed);
-+		dev_err(dwmac->dev, "invalid speed %d\n", speed);
- 		return;
- 	}
- 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sti.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sti.c
-index f25461c292fe..13b9c2a51fce 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sti.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sti.c
-@@ -99,12 +99,12 @@ struct sti_dwmac {
- 	int clk_sel_reg;	/* GMAC ext clk selection register */
- 	struct regmap *regmap;
- 	bool gmac_en;
--	u32 speed;
--	void (*fix_retime_src)(void *priv, unsigned int speed, unsigned int mode);
-+	int speed;
-+	void (*fix_retime_src)(void *priv, int speed, unsigned int mode);
- };
- 
- struct sti_dwmac_of_data {
--	void (*fix_retime_src)(void *priv, unsigned int speed, unsigned int mode);
-+	void (*fix_retime_src)(void *priv, int speed, unsigned int mode);
- };
- 
- static u32 phy_intf_sels[] = {
-@@ -132,7 +132,7 @@ static u32 stih4xx_tx_retime_val[] = {
- 				 | STIH4XX_ETH_SEL_INTERNAL_NOTEXT_PHYCLK,
- };
- 
--static void stih4xx_fix_retime_src(void *priv, u32 spd, unsigned int mode)
-+static void stih4xx_fix_retime_src(void *priv, int spd, unsigned int mode)
- {
- 	struct sti_dwmac *dwmac = priv;
- 	u32 src = dwmac->tx_retime_src;
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sunxi.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sunxi.c
-index 9ae318436c4a..1b1ce2888b2e 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sunxi.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sunxi.c
-@@ -72,7 +72,7 @@ static void sun7i_gmac_exit(struct platform_device *pdev, void *priv)
- 		regulator_disable(gmac->regulator);
- }
- 
--static void sun7i_fix_speed(void *priv, unsigned int speed, unsigned int mode)
-+static void sun7i_fix_speed(void *priv, int speed, unsigned int mode)
- {
- 	struct sunxi_priv_data *gmac = priv;
- 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-thead.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-thead.c
-index dce84ed184e9..ddb1d8aba321 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-thead.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-thead.c
-@@ -104,7 +104,7 @@ static int thead_dwmac_set_txclk_dir(struct plat_stmmacenet_data *plat)
- 	return 0;
- }
- 
--static void thead_dwmac_fix_speed(void *priv, unsigned int speed, unsigned int mode)
-+static void thead_dwmac_fix_speed(void *priv, int speed, unsigned int mode)
- {
- 	struct plat_stmmacenet_data *plat;
- 	struct thead_dwmac *dwmac = priv;
-@@ -142,7 +142,7 @@ static void thead_dwmac_fix_speed(void *priv, unsigned int speed, unsigned int m
- 			div = rate * 10 / GMAC_MII_RATE;
- 			break;
- 		default:
--			dev_err(dwmac->dev, "invalid speed %u\n", speed);
-+			dev_err(dwmac->dev, "invalid speed %d\n", speed);
- 			return;
- 		}
- 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-visconti.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-visconti.c
-index eccf7f537467..33cf99797df5 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-visconti.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-visconti.c
-@@ -54,7 +54,7 @@ struct visconti_eth {
- 	spinlock_t lock; /* lock to protect register update */
- };
- 
--static void visconti_eth_fix_mac_speed(void *priv, unsigned int speed, unsigned int mode)
-+static void visconti_eth_fix_mac_speed(void *priv, int speed, unsigned int mode)
- {
- 	struct visconti_eth *dwmac = priv;
- 	struct net_device *netdev = dev_get_drvdata(dwmac->dev);
-diff --git a/include/linux/stmmac.h b/include/linux/stmmac.h
-index 24422ac4e417..6d2aa77ea963 100644
---- a/include/linux/stmmac.h
-+++ b/include/linux/stmmac.h
-@@ -231,7 +231,7 @@ struct plat_stmmacenet_data {
- 	u8 tx_sched_algorithm;
- 	struct stmmac_rxq_cfg rx_queues_cfg[MTL_MAX_RX_QUEUES];
- 	struct stmmac_txq_cfg tx_queues_cfg[MTL_MAX_TX_QUEUES];
--	void (*fix_mac_speed)(void *priv, unsigned int speed, unsigned int mode);
-+	void (*fix_mac_speed)(void *priv, int speed, unsigned int mode);
- 	int (*fix_soc_reset)(void *priv, void __iomem *ioaddr);
- 	int (*serdes_powerup)(struct net_device *ndev, void *priv);
- 	void (*serdes_powerdown)(struct net_device *ndev, void *priv);
--- 
-2.30.2
+Reviewed-by: Mateusz Polchlopek <mateusz.polchlopek@intel.com>
 
