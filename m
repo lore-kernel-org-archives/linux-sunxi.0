@@ -1,70 +1,166 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C93C82144C8;
-	Wed, 19 Feb 2025 23:11:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740006670; cv=none; b=PZyyf3fO2fgtSyBBz/szG0QN5J0nYHwXgvL4B6NM/cQ/Uy16UIkOsfnVSQzu3O5uKMaL4b1ui3IsxMwW8zVS+5abBLhEc8csaVXTFxWg2rmrcLKBjZepPiTCWRE2OgljaiBPKOvZPufQcBstTrAIq9cvc7r4KvT1IPZqIrkqwuw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740006670; c=relaxed/simple;
-	bh=EGlWTDM/xU5sb1Qa92jq7OnxARIjGZpdIKyoEfe4RK0=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B7551D7E30
+	for <linux-sunxi@lists.linux.dev>; Wed, 19 Feb 2025 23:23:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740007441; cv=pass; b=HMLDg3KbDLwPFfobKRwUDKAo9O+Uvwiosr84sfDMcQ99gp3zSjBkiEwTVD1yqfK4XwourJI6aIlEAfg1N71wnOQe6qkTlzE6i5DFBxPhymc6DFXSwdPCaPKvIZ2doTL80ziZSUPMrsUeZO+QhjDAMHM12HyjG3kFyQlJeQMl6uo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740007441; c=relaxed/simple;
+	bh=iVjPFfmMvCeylRVGLAvFsqbcK47XIUjd5EdimDo32Pg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C4Vz18Vh55UNyaMpdc/ogi2mar7TBJpvcsf8MAcYxWi14valzpBtc+dI0YXjfrsT7SEQX6bTWzulm2OEZF8YWFAS9+Q3QiX6tOIHTh/UyLf4dqSFwYMMcawnnE2COXNIC79CNIcYYFpjXqb+6Umtkkrcd9gYQx8JcrciaGMfkhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YnAmaDmz; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=M7c/+YxVJ5Lg28xLUdzH+eZqj7OrLqoMj+JDGK4+rzHhKBy4neEG3EQDJ9yrHgq1SeQ+X7wKMhCQ70jJFttiY77YRefbspic5yqxK30ifCo0dsa3R8B3NdeU7gHOLMtqkKhQlvlPGtng2eSGuHxc8PQIpyhTj72PZM9zqMIuCXQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=NZEoqjak; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YnAmaDmz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1E1FC4CED1;
-	Wed, 19 Feb 2025 23:11:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740006670;
-	bh=EGlWTDM/xU5sb1Qa92jq7OnxARIjGZpdIKyoEfe4RK0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YnAmaDmz2k2RnZD4YVcRH5gn4OiCV1pkDySn13421Z9PDrP6AphTLVsO1XMxD7h6a
-	 JAFKVKcdcSdvOgFjiX44qzB00YdYLzzuDhC0WlbxnN1lvjPE+L8g/kqkPkPegjpirR
-	 BzJlMvRt99ymBfwDpLz76HBx4xvuBcCA8fa3z7Cn6n/P2aLoFfgIJiba38/mg2PpKl
-	 l0G0ZxHZ0P3x7NFc6Y8+z9MAewXZZdCJPQyYEu7fRhWdTRRepxYZ8Yza5DIj73w1iN
-	 w8bnT018WicR3PcT99Il4r3JIIeU5I4Qijr48/bxCvfT9Ctvla1+00YzcRYKzoH3qD
-	 PB+C/l9rEB2JA==
-Date: Wed, 19 Feb 2025 17:11:08 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Ryan Walklin <ryan@testtoast.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	devicetree@vger.kernel.org, Chris Morgan <macroalpha82@gmail.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Hironori KIKUCHI <kikuchan98@gmail.com>,
-	Philippe Simons <simons.philippe@gmail.com>,
-	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	Samuel Holland <samuel@sholland.org>,
-	Andre Przywara <andre.przywara@arm.com>
-Subject: Re: [PATCH 3/8] dt-bindings: allwinner: Add TCON_TOP and TCON_LCD
- clock/reset defines
-Message-ID: <174000666818.3147824.9907877642001632634.robh@kernel.org>
-References: <20250216092827.15444-1-ryan@testtoast.com>
- <20250216092827.15444-4-ryan@testtoast.com>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="NZEoqjak"
+ARC-Seal: i=1; a=rsa-sha256; t=1740007434; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=ntIdjd5G+nT0caWqZLJfK7UdJjXZ79w5vGrXasLyzQjMoUWzXSfR3A7f+i4kewivOrYP9MgaCrHQGXPv7jJz+4YO64sBEPk1JB0qxeXYAECORzT8PgWyUEANGRurNh5kriv+O4xsRyRWsCu+WGqyY9ghtJgVHI1KHmuTDt+fDow=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1740007434; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=Mg8u9/g/tX35NdeyqR0gelmPIJgyVdAF0d+NmKLp1wA=; 
+	b=iUt8QdW9X5/5m2lYqiFrUNiMdzwfUmkP7gPwInz1z5mW8jceb9JMz6T4PFnP31q5Jg3SuL6DfwmNIhoY8byveW6quk5Xxa230IpMBzKRgMox0hUm2qsrOHnfRdlI7dxfUp11++zAl2Yy/6rNTk6lM0CoOX8AUFmomng+9nXAtV0=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
+	dmarc=pass header.from=<sebastian.reichel@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1740007434;
+	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+	bh=Mg8u9/g/tX35NdeyqR0gelmPIJgyVdAF0d+NmKLp1wA=;
+	b=NZEoqjakq83VKus/IHSuUcJs10FVwCW4uCiQJEeuwdqHn1fiTtunRyEWuGiL1hPG
+	YgSGp890rkT++LfF84lX+HPcrP/gZGvsaznJrOg78CsUFXpTnZ3yH44D+D12n4nu3OU
+	SbjNKfmtJJTNyv2DnaBwhEbWdP+nIj2gSwDW2AKw=
+Received: by mx.zohomail.com with SMTPS id 1740007431497183.98442498438135;
+	Wed, 19 Feb 2025 15:23:51 -0800 (PST)
+Received: by venus (Postfix, from userid 1000)
+	id D0C2718093B; Thu, 20 Feb 2025 00:23:46 +0100 (CET)
+Date: Thu, 20 Feb 2025 00:23:46 +0100
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Chris Morgan <macroalpha82@gmail.com>
+Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, 
+	linux-pm@vger.kernel.org, lee@kernel.org, samuel@sholland.org, jernej.skrabec@gmail.com, 
+	wens@csie.org, conor+dt@kernel.org, krzk+dt@kernel.org, robh@kernel.org, 
+	Chris Morgan <macromorgan@hotmail.com>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH V2 1/4] dt-bindings: power: supply: axp20x-battery: Add
+  x-powers,no-thermistor
+Message-ID: <hpxd73ci6xnkbis3rucc2pfladhrvlz3gjmca5cwwclcaklb7g@im7frp6tvv3e>
+References: <20250204155835.161973-1-macroalpha82@gmail.com>
+ <20250204155835.161973-2-macroalpha82@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="rlx4tsecwsn6vlez"
 Content-Disposition: inline
-In-Reply-To: <20250216092827.15444-4-ryan@testtoast.com>
+In-Reply-To: <20250204155835.161973-2-macroalpha82@gmail.com>
+X-Zoho-Virus-Status: 1
+X-Zoho-AV-Stamp: zmail-av-1.4.2/239.939.29
+X-ZohoMailClient: External
 
 
-On Sun, 16 Feb 2025 22:27:10 +1300, Ryan Walklin wrote:
-> The Allwinner H700 exposes RGB and LVDS pins as well as a HDMI
-> connector. This requires additional clocks for the TCON_TOP and clock
-> and resets for the TCON_LCD LCD controllers to be defined as per the
-> T507 datasheet (which shares the same die).
-> 
-> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+--rlx4tsecwsn6vlez
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH V2 1/4] dt-bindings: power: supply: axp20x-battery: Add
+  x-powers,no-thermistor
+MIME-Version: 1.0
+
+Hi,
+
+On Tue, Feb 04, 2025 at 09:58:31AM -0600, Chris Morgan wrote:
+> From: Chris Morgan <macromorgan@hotmail.com>
+>=20
+> Add the vendor specific boolean property of x-powers,no-thermistor.
+> This property optionally describes hardware where no thermistor is
+> present on the battery and is specific to the AXP717. In rare
+> circumstances this value can be set incorrectly in the efuse of the
+> PMIC, and if it is not hard-coded the device will fail to charge.
+>=20
+> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > ---
->  include/dt-bindings/clock/sun8i-tcon-top.h | 2 ++
->  1 file changed, 2 insertions(+)
-> 
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Acked-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 
+-- Sebastian
+
+>  .../x-powers,axp20x-battery-power-supply.yaml | 20 ++++++++++++++++---
+>  1 file changed, 17 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/power/supply/x-powers,axp2=
+0x-battery-power-supply.yaml b/Documentation/devicetree/bindings/power/supp=
+ly/x-powers,axp20x-battery-power-supply.yaml
+> index 5ccd375eb294..3504c76a01d8 100644
+> --- a/Documentation/devicetree/bindings/power/supply/x-powers,axp20x-batt=
+ery-power-supply.yaml
+> +++ b/Documentation/devicetree/bindings/power/supply/x-powers,axp20x-batt=
+ery-power-supply.yaml
+> @@ -14,9 +14,6 @@ maintainers:
+>    - Chen-Yu Tsai <wens@csie.org>
+>    - Sebastian Reichel <sre@kernel.org>
+> =20
+> -allOf:
+> -  - $ref: power-supply.yaml#
+> -
+>  properties:
+>    compatible:
+>      oneOf:
+> @@ -35,7 +32,24 @@ properties:
+>        this gauge.
+>      $ref: /schemas/types.yaml#/definitions/phandle
+> =20
+> +  x-powers,no-thermistor:
+> +    type: boolean
+> +    description: Indicates that no thermistor is connected to the TS pin
+> +
+>  required:
+>    - compatible
+> =20
+> +allOf:
+> +  - $ref: power-supply.yaml#
+> +  - if:
+> +      not:
+> +        properties:
+> +          compatible:
+> +            contains:
+> +              enum:
+> +                - x-powers,axp717-battery-power-supply
+> +    then:
+> +      properties:
+> +        x-powers,no-thermistor: false
+> +
+>  additionalProperties: false
+> --=20
+> 2.43.0
+>=20
+>=20
+
+--rlx4tsecwsn6vlez
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAme2Z/cACgkQ2O7X88g7
++pqCng//fcfJcJ4vyTD7Jp0AD5KPo9l3is4rMqbdjM0EPx92eLmmwM6rPjdGPIoL
+F/Cy2C7xSAN9YoTxBP4Ih2WAQM6F0qapCIZMqJKRb6Ecp1tm7UnXHDYQrtOSxC/0
+w1xGeBBxzLiDZ65ZEzbrtmJN3x5Z2zlTnmqJc089kwAUoqpJjcQTQWf+JJOSeeK3
+c9Vw0wRUb/GZ/saNG52O/hWgZaL0IRiyoezoX6oHq8WeqljXcXN3gpaVASUy8xsJ
+FtROi8S/aQEfrvYyMEq4YGTWulo2c1Onar7HX3/O+pT20HPP4KQGdhVallFVENrS
+genlJA6BCmTN41HGAIDOi6S4/MTAQtzhT0cQN6O6jAnliKjCSctF9aGefvCrUlyJ
+wFOBuuf61Pn1JbokSs2OP9W35XPZ2TRrnxg9OJYC+BsZkMWFEz37dlDCHMmRvnA/
+ScU9P/47ezRDeC/p9pWvwspVbCL15bQ6Ib/g1uvh2haYwPd8xuOkZavPqfM3Bql7
+MF0R7+KGhrOmNf4zruA4acnNBgndsucWOrpDRU1FInKsOArn4MDde7/TFf4txV4I
+1qWzlAld3P4CZ7WlTdQcf06UfTiUDPdExQt2M5Gi3cajexhd7gWbev3MbKEnCGxc
+AfiXDCBCnmRnFMeMjqZ0c7IFHVpbuhEX87l4Q0WL4FmPRs3FqlI=
+=DaL6
+-----END PGP SIGNATURE-----
+
+--rlx4tsecwsn6vlez--
