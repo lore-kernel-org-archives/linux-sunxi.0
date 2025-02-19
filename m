@@ -1,175 +1,203 @@
-Received: from mail-b.studer.dev (mail-b.studer.dev [3.21.136.164])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA66228628D
-	for <linux-sunxi@lists.linux.dev>; Wed, 19 Feb 2025 03:02:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=3.21.136.164
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 884251DFD91
+	for <linux-sunxi@lists.linux.dev>; Wed, 19 Feb 2025 12:30:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739934165; cv=none; b=l2pwPDdpwI4UHBMNyvh9bUnVHEIxMbAc9w0OtVnR181f987nEVF4+2Kl5zZDeX9DLO5jXScEbv5p/ctLWjVo7hh4UK7mNtC+s9HSZzyxS/1pZjL7DOjEMmL/jCy0a6KqSh6g5kO0fOYwfCsX5nqFC6kWc1MJHqXpM/qBF5iVs9c=
+	t=1739968203; cv=none; b=SCP8+6uQ7It8BPQnGfiJ7XkZFHsIAia7G9Cro1IgydBn1lBhnUKH3TbnxX90G6jIZCy2cUyDu7nixR7zhMLm+V3aUoKtQXten6i2j1jEUJ1D/Pbux9EFvM4LGMr77+dFe46oQsqK5+P9wKt+/Nbb2e6ydb+sIEg9Z7gRDrLNVDU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739934165; c=relaxed/simple;
-	bh=2F3LU4Eq0gKjABF4rvIZDq5JKefAkZzwch+Ft+j7CYg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fv154EQaVEUkajODCkWuRNImLl0sExZz6o4hqi1+WTgEu0Hr3JwPTlhTMbz8OuaTbZfB96SIHu3k7f1lvMCAx+3a6XNRiD9S4t+THBQPY/7f9ZgTQZh8i2466IkZYiwVIIgVQsPAanVghNfya5ldl+UrKiUx3LjpjY8+YgCGXbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=studer.dev; spf=pass smtp.mailfrom=studer.dev; dkim=pass (2048-bit key) header.d=studer.dev header.i=@studer.dev header.b=TBUdQCJW; arc=none smtp.client-ip=3.21.136.164
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=studer.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=studer.dev
+	s=arc-20240116; t=1739968203; c=relaxed/simple;
+	bh=SlKuG0AdBwn/S5pE8rkdaa+Z4RfGUwCknA7f5LLdKiI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=NxxCPf+M/+FjBrbN8ceuABiU9JCXsQeoAI230yjc6iBTKCnKTznhoNc4Nt3azKeLBVCrONmihOLolBTiExy+VcpezFnlzrHkg4m8r+B5BzOo9NJaHtrPbDIaV4d6d7Fy+CIPn1iEgkw3Z64xQuKvcoJyjNn2e5CgoXnZWdp8jqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FM6uYVpy; arc=none smtp.client-ip=209.85.208.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=studer.dev header.i=@studer.dev header.b="TBUdQCJW"
-Received: from mail.studer.dev (mail.studer.dev [168.62.161.121])
-	by mail-b.studer.dev (Postfix) with ESMTPSA id A4B6240047;
-	Wed, 19 Feb 2025 03:02:35 +0000 (UTC)
-dkim-signature: v=1; a=rsa-sha256; d=studer.dev; s=hmail;
-	c=relaxed/relaxed; q=dns/txt; h=From:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References;
-	bh=qd6qp1+ybi0MHi3xmDnOya6FXacrtJVptDj7+jwoBCs=;
-	b=TBUdQCJWM1Gle0QybTdOW2kMgDrTXfMtboFQ20aQBjD5bfSQ92pWUNYKTZk543HV67pnT5HyOk7RHFoJ7TY/TuN283Ir1ce2yv9ggDuX82NPctt/pcJPqDEPxwqddiOcb3jOZ3RUPFOUc1a3DVtiMlPWTNAGYEauGTyAEW1Wc4g+NrrFoIZpgBsF60kybfL8NuxTaQmGRK7herpMtN/sHiFQQ/sNcpwdyNhynrpWFyaKLamRbdFJVKpUTS
-	vuZ7QUXTeIrE2qfQ03Lqpd5iwNtB5QXas5632DTZ+nByQd07N1mcMjTnNEZy7zZrUSYXVoRiaWH8gHkRqZi7MKgspVMw==
-Received: from [192.168.1.166] (pool-68-239-44-167.bstnma.fios.verizon.net [68.239.44.167])
-	by mail.studer.dev with ESMTPSA
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128)
-	; Wed, 19 Feb 2025 03:02:33 +0000
-Message-ID: <56fe8762-5b05-4b41-b7fd-f08f35012ba9@studer.dev>
-Date: Tue, 18 Feb 2025 22:02:32 -0500
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FM6uYVpy"
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-307325f2436so56760381fa.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 19 Feb 2025 04:30:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739968199; x=1740572999; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+24dvPWABcFd9MeuF3ZS2A94KuzubvQXMwsC3UbrqGc=;
+        b=FM6uYVpyVEuRwwR3SmfcMm59/4TnvRj9ZTxtDYrQK7PJS5jGFZyJkRn7rbVZAa7VMW
+         dfRlXBISvpQHWllc5mKe1k13l7QlN+RfpzreHiFSEFgia5dpgxbqMaRFYbiHWR+Z+YTb
+         ELuooXCZcel8fbWMhb612se6M5yVZJGyRRz+k7aQL4UsDBTqPnCVrvBUh96l+plu1q1Y
+         ryXmFkn9aUXbBVZhAuoNIt5S2qEu8GTlm/SDRx9nvWt0s8CmatNVvJQ5835aTk1Nscvy
+         Nhjb3eDgJ7bXsrBdfkyIXRjMWMPiV5UiZPvc2lkvbs0E94MIad9X4SlAdoD64koaCUd0
+         7g1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739968199; x=1740572999;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+24dvPWABcFd9MeuF3ZS2A94KuzubvQXMwsC3UbrqGc=;
+        b=ZFkWIGcN/HPyNgQamL6+Js/kJLs87/A3+gbb1CBgeUMN/N/0umQB52f7DiGpzFQliI
+         AG15Xjmhkl+x1kvSSQufeCg7RWq/9OH4UxoOElkRVw4gySInAo2kpYbCabQ4pkgD0kqi
+         dhUTUXjuOEZXtngmqX74WYHZ8w143AixXpfr4UXe6YuiqCMauzIDM55TX0NXrHPhh3of
+         whJitJE8oHDnvA+oEV/jsql9HAWoLGcP92YbXOKnhI+iNWAns/APaI+U+xcnwjCCoH3W
+         SAKyf0Q7GvMRIDT2Xo+khRw3cMKbzY4n1LYSeb/5Tap1kjAqxDWpdLo9m8TjIWpQEfwP
+         7OOA==
+X-Forwarded-Encrypted: i=1; AJvYcCXAPM2Iw4I2qyHe3uzLNdvf1o91bBrUdQMTy0k1p2R9CX3JlJUZPBTsEJjXWEdZ+o5spjOF1n5GOeDs4g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwyJ2oNnycpkpL6BPNm0b+NEsy7EPGcvmbcc7eVyMfXPdAEYj6Z
+	jq3v8wujzbnAQ+LbXZk4RpYDq/Pi1Nrpyi8qyIdpvv7ceNw+oN25
+X-Gm-Gg: ASbGncspid3AsLmaKZ1/pFbujm5zcEBCYIK25fmYfLak52o4fRGKew3An3/AHGKq5kw
+	DSEb+XKn7BU+TEj69wE2+2Q77V6qZJSOFVq2k2OuFL3XmBAKAZO2+E3/zSyeKdSYj2kNAxelXVP
+	yDM0L/e3NSMjE+Kn7B2kbIp/td9l3++vYdQNz9tyEoGS4r2teXUS0LbnvqUF7Zy8Ac/A7CZKFFj
+	EibJ700D52dfiLqJvV46j0wA9kIDtF4oETnLN1SoIMAXFAOGZR2YnnP3njPyuu11Og9V1L9DXO+
+	v1RlSlH1LG4FudX3VbU+Ng==
+X-Google-Smtp-Source: AGHT+IFQyrXqy5NpHLF7+Lu4p1h9WASYPxxPIwKuoow2XXCkQtMPyIwZy0Fsi378ablFiyznjOaaqg==
+X-Received: by 2002:a2e:95ca:0:b0:308:da52:5672 with SMTP id 38308e7fff4ca-30a44dbb8eamr9477541fa.6.1739968199067;
+        Wed, 19 Feb 2025 04:29:59 -0800 (PST)
+Received: from mva-rohm ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3091029b75esm22556451fa.103.2025.02.19.04.29.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Feb 2025 04:29:56 -0800 (PST)
+Date: Wed, 19 Feb 2025 14:29:45 +0200
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+To: Matti Vaittinen <mazziesaccount@gmail.com>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
+	Nuno Sa <nuno.sa@analog.com>, David Lechner <dlechner@baylibre.com>,
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH v3 0/9] Support ROHM BD79124 ADC
+Message-ID: <cover.1739967040.git.mazziesaccount@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] riscv: dts: allwinner: d1: Add CPU thermal sensor and
- zone
-To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Paul Walmsley
- <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>
-Cc: devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20250218020629.1476126-1-alex@studer.dev>
- <4628970.LvFx2qVVIh@jernej-laptop>
-From: Alex Studer <alex@studer.dev>
-Content-Language: en-US
-In-Reply-To: <4628970.LvFx2qVVIh@jernej-laptop>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="VPbxCdjMCaKD7rlG"
+Content-Disposition: inline
 
-On 2/18/25 12:23 PM, Jernej Škrabec wrote:
-> Dne torek, 18. februar 2025 ob 03:06:29 Srednjeevropski standardni čas je Alex Studer napisal(a):
->> The sun20i THS (built in CPU thermal sensor) is supported in code, but
->> was never added to the device tree. So, add it to the device tree,
->> along with a thermal zone for the CPU.
->>
->> Signed-off-by: Alex Studer <alex@studer.dev>
->> ---
->>  arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi | 31 +++++++++++++++++++
->>  .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    | 16 ++++++++++
->>  2 files changed, 47 insertions(+)
->>
->> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
->> index 6367112e6..bdde82aa8 100644
->> --- a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
->> +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
->> @@ -3,6 +3,8 @@
->>  
->>  #define SOC_PERIPHERAL_IRQ(nr)	(nr + 16)
->>  
->> +#include <dt-bindings/thermal/thermal.h>
-> Put above line on top (before SOC_PERIPHERAL_IRQ()).
-Will fix in v2.
->> +
->>  #include "sunxi-d1s-t113.dtsi"
->>  
->>  / {
->> @@ -115,4 +117,33 @@ pmu {
->>  			<0x00000000 0x0000000e 0xffffffff 0xffffffff 0x00010000>,
->>  			<0x00000000 0x0000000f 0xffffffff 0xffffffff 0x00020000>;
->>  	};
->> +
->> +	thermal-zones {
->> +		cpu-thermal {
->> +			polling-delay-passive = <0>;
->> +			polling-delay = <0>;
->> +			thermal-sensors = <&ths>;
->> +
->> +			cooling-maps {
->> +				map0 {
->> +					trip = <&cpu_alert>;
->> +					cooling-device = <&cpu0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
->> +				};
->> +			};
->> +
->> +			trips {
->> +				cpu_alert: cpu-alert {
->> +					temperature = <85000>;
->> +					hysteresis = <2000>;
->> +					type = "passive";
->> +				};
->> +
->> +				cpu-crit {
->> +					temperature = <100000>;
->> +					hysteresis = <0>;
->> +					type = "critical";
->> +				};
-> Where do those limits come from?
-I took them from the definitions in
-arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi, which is what I generally
-based this patch on. I checked the D1s datasheet and it does specify a
-max "Ambient Operating Temperature" of 70 C and a max "Working Junction
-Temperature Range" of 110 C. So I could use those, but the dtsi files
-for the other sunxi chips don't seem to follow their respective
-datasheets, so I wasn't sure what to do here.
->> +			};
->> +		};
->> +	};
->>  };
->> diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
->> index e4175adb0..fcfcaf06c 100644
->> --- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
->> +++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
->> @@ -426,6 +426,10 @@ sid: efuse@3006000 {
->>  			reg = <0x3006000 0x1000>;
->>  			#address-cells = <1>;
->>  			#size-cells = <1>;
->> +
->> +			ths_calibration: thermal-sensor-calibration@14 {
->> +				reg = <0x14 0x8>;
->> +			};
->>  		};
->>  
->>  		crypto: crypto@3040000 {
->> @@ -934,5 +938,17 @@ rtc: rtc@7090000 {
->>  			clock-names = "bus", "hosc", "ahb";
->>  			#clock-cells = <1>;
->>  		};
->> +
->> +		ths: thermal-sensor@2009400 {
->> +			compatible = "allwinner,sun20i-d1-ths";
->> +			reg = <0x2009400 0x100>;
-> Size should be 0x400.
-Will fix in v2.
->
-> Best regards,
-> Jernej
 
-Thanks,
-Alex
+--VPbxCdjMCaKD7rlG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->
->> +			interrupts = <SOC_PERIPHERAL_IRQ(58) IRQ_TYPE_LEVEL_HIGH>;
->> +			clocks = <&ccu CLK_BUS_THS>;
->> +			clock-names = "bus";
->> +			resets = <&ccu RST_BUS_THS>;
->> +			nvmem-cells = <&ths_calibration>;
->> +			nvmem-cell-names = "calibration";
->> +			#thermal-sensor-cells = <0>;
->> +		};
->>  	};
->>  };
->>
->
->
->
+Support ROHM BD79124 ADC.
 
+This series adds also couple of helper functions for parsing the channel
+information from the device tree. There has been some discussion about
+how useful these are, and whether they should support also differential
+and single ended channel configurations. This version adds support for
+those - with the cost of added complexity and somewhat harder to use
+API. I've babbled more about that in the patch 2/9. (And, I actually
+wonder if I should've returned this to RFC?)
+
+The last couple of patches are examples of drivers which could utilize
+these added helpers:
+ - 6/9 converts rzg2l_adc to use helpers
+ - 7/9 converts sun20i-gpadc to use helpers
+ - 9/9 makes the ti-ads7924 to respect the channel specification give in
+   the device-tree using these helpers.
+
+patch 8/9 is small simplification for the ti-ads7924, and it can be
+taken independently from the rest of the series.
+
+NOTE: Patches 6...9 are untested as I lack of relevant HW. They have
+been compile tested only.
+
+The ROHM BD79124 ADC itself is quite usual stuff. 12-bit, 8-channel ADC
+with threshold monitoring.
+
+Except that:
+ - each ADC input pin can be configured as a general purpose output.
+ - manually starting an ADC conversion and reading the result would
+   require the I2C _master_ to do clock stretching(!) for the duration
+   of the conversion... Let's just say this is not well supported.
+ - IC supports 'autonomous measurement mode' and storing latest results
+   to the result registers. This mode is used by the driver due to the
+   "peculiar" I2C when doing manual reads.
+
+Furthermore, the ADC uses this continuous autonomous measuring,
+and the IC keeps producing new 'out of window' IRQs if measurements are
+out of window - the driver disables the event for 1 seconds when sending
+it to user. This prevents generating storm of events
+
+Revision history:
+v2 =3D> v3:
+ - Restrict BD79124 channel numbers as suggested by Conor and add
+   Conor's Reviewed-by tag.
+ - Support differential and single-ended inputs
+ - Convert couple of existing drivers to use the added ADC helpers
+ - Minor fixes based on reviews
+Link to v2:
+https://lore.kernel.org/all/cover.1738761899.git.mazziesaccount@gmail.com/
+
+RFC v1 =3D> v2:
+ - Drop MFD and pinmux.
+ - Automatically re-enable events after 1 second.
+ - Export fwnode parsing helpers for finding the ADC channels.
+
+---
+
+Matti Vaittinen (9):
+  dt-bindings: ROHM BD79124 ADC/GPO
+  iio: adc: add helpers for parsing ADC nodes
+  iio: adc: Support ROHM BD79124 ADC
+  MAINTAINERS: Add IIO ADC helpers
+  MAINTAINERS: Add ROHM BD79124 ADC/GPO
+  iio: adc: rzg2l_adc: Use adc-helpers
+  iio: adc: sun20i-gpadc: Use adc-helpers
+  iio: adc: ti-ads7924 Drop unnecessary function parameters
+  iio: adc: ti-ads7924: Respect device tree config
+
+ .../bindings/iio/adc/rohm,bd79124.yaml        |  114 ++
+ MAINTAINERS                                   |   12 +
+ drivers/iio/adc/Kconfig                       |   15 +
+ drivers/iio/adc/Makefile                      |    2 +
+ drivers/iio/adc/industrialio-adc.c            |  304 +++++
+ drivers/iio/adc/rohm-bd79124.c                | 1162 +++++++++++++++++
+ drivers/iio/adc/rzg2l_adc.c                   |   41 +-
+ drivers/iio/adc/sun20i-gpadc-iio.c            |   42 +-
+ drivers/iio/adc/ti-ads7924.c                  |   85 +-
+ include/linux/iio/adc-helpers.h               |   56 +
+ 10 files changed, 1742 insertions(+), 91 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/iio/adc/rohm,bd79124.=
+yaml
+ create mode 100644 drivers/iio/adc/industrialio-adc.c
+ create mode 100644 drivers/iio/adc/rohm-bd79124.c
+ create mode 100644 include/linux/iio/adc-helpers.h
+
+
+base-commit: 5bc55a333a2f7316b58edc7573e8e893f7acb532
+--=20
+2.48.1
+
+
+--VPbxCdjMCaKD7rlG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAme1zrIACgkQeFA3/03a
+ocUsDQf+MzovJEb2dg7/IVoqkcsWktNipBVWqti1q0SzAim/n4IZOlirx8H9AIrL
+fJ2XTMTWXnBwILjIocXuJFYRVnOqvycj24bKxfPxDFf1+FUdmi5fH7DfpLkhdYCS
+2eODnHijf63nwjWWd5b/IlljdDtaD5G3B60dNiZ7lFqGsS1gC/qlSCJhU9L2N4UE
+o6+uv9mTZMDGIS50sFRwLHPQmLTCeERT2BISZEvUx2tja3oRyUcn6mDj78qeiTFy
+5GNg5n2ReMybSVjkK07jlToFJtVy1A+WRU+3BVURyB0vfoaOywcPwj2px8GqUF2Q
+nheY0QtC2h8bZvny4IEeWB6TcsLDuw==
+=T+fL
+-----END PGP SIGNATURE-----
+
+--VPbxCdjMCaKD7rlG--
