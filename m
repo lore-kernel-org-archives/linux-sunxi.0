@@ -1,50 +1,35 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mail-b.studer.dev (mail-b.studer.dev [3.21.136.164])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72ED1156228;
-	Wed, 19 Feb 2025 02:59:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA66228628D
+	for <linux-sunxi@lists.linux.dev>; Wed, 19 Feb 2025 03:02:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=3.21.136.164
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739933971; cv=none; b=K+tZMECwXi6t/d8RBgf3JBMcNDQOBF+9AtoE6JwpmT7bUq4mc2e0RMOuUDC84yorIHnqOBXlJC16nGnmKiRxeT9PfXWjmb5SmEacMvuNE9VU2cGEkjvTjqkk68YES0tNbo+lXvuGw7WRMCLNHB94oI/BzfqisHtkOiYnNi8xbvo=
+	t=1739934165; cv=none; b=l2pwPDdpwI4UHBMNyvh9bUnVHEIxMbAc9w0OtVnR181f987nEVF4+2Kl5zZDeX9DLO5jXScEbv5p/ctLWjVo7hh4UK7mNtC+s9HSZzyxS/1pZjL7DOjEMmL/jCy0a6KqSh6g5kO0fOYwfCsX5nqFC6kWc1MJHqXpM/qBF5iVs9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739933971; c=relaxed/simple;
-	bh=rOMFbl3z2EdNZq26KKAZFNR9PZtZbOBVCWnC4y2z5Us=;
+	s=arc-20240116; t=1739934165; c=relaxed/simple;
+	bh=2F3LU4Eq0gKjABF4rvIZDq5JKefAkZzwch+Ft+j7CYg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tdNwk3zyvXqkoVti0+MgvO1LWuF0OmEdKofwZc3AIRIKoPLcvVVlKhBn8H7uFRQpfsXGiyoJRJ6JZNaiw1DoeNd1wOrRtKuse2kKzThMbEBAFVBuqnZUXwaOiJkrYcXVXr+L5ygpUfn4oPVo8kj7x8hpR4aDqjmgaKOaAIYIGpA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cWb89XwX; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 In-Reply-To:Content-Type; b=fv154EQaVEUkajODCkWuRNImLl0sExZz6o4hqi1+WTgEu0Hr3JwPTlhTMbz8OuaTbZfB96SIHu3k7f1lvMCAx+3a6XNRiD9S4t+THBQPY/7f9ZgTQZh8i2466IkZYiwVIIgVQsPAanVghNfya5ldl+UrKiUx3LjpjY8+YgCGXbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=studer.dev; spf=pass smtp.mailfrom=studer.dev; dkim=pass (2048-bit key) header.d=studer.dev header.i=@studer.dev header.b=TBUdQCJW; arc=none smtp.client-ip=3.21.136.164
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=studer.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=studer.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cWb89XwX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739933970; x=1771469970;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=rOMFbl3z2EdNZq26KKAZFNR9PZtZbOBVCWnC4y2z5Us=;
-  b=cWb89XwX4WiW/Us0lQSQ1A+3h65LQyfmSFc9HBhtKBfAM1m1bkICR3ud
-   Xe7PIASmjUvU2m2WXeLMYT1GQY0X4wFeWm4Pd+GKJTC/XPaAzWIja9upY
-   cBy75tzZZ2PUam3Jai92J2IrRhYxiVJaDEONAl38tqmlhIO3vQ2O0F+/Z
-   3DggkAyknIg+rFywqZLnafDGV8qwlOSId2bxpu91qcmeBscareg5oBFRZ
-   l+aujq9mdFrzVrmRPQm9tK3ZtBX4jqN0EBueQ66ieZug5rKaz9lwbhLrL
-   364+kopLosg9MlloqnbQIhYLEekNweDOlwBm3BysRr44a0rz60TO10VlX
-   g==;
-X-CSE-ConnectionGUID: NfPJi3MBQWWOBJSamckOqg==
-X-CSE-MsgGUID: bCxO3ZFhSxC0z3HvkVvANw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="40515891"
-X-IronPort-AV: E=Sophos;i="6.13,296,1732608000"; 
-   d="scan'208";a="40515891"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2025 18:59:29 -0800
-X-CSE-ConnectionGUID: TBYZGMlXQXKSyTkYi9M/6A==
-X-CSE-MsgGUID: 7HleMqibRqa4OaCc6SPD+g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,296,1732608000"; 
-   d="scan'208";a="114437430"
-Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2025 18:59:21 -0800
-Message-ID: <25d9f6de-5cc0-41ec-bdbc-0cf5f66743cf@linux.intel.com>
-Date: Wed, 19 Feb 2025 10:56:18 +0800
+	dkim=pass (2048-bit key) header.d=studer.dev header.i=@studer.dev header.b="TBUdQCJW"
+Received: from mail.studer.dev (mail.studer.dev [168.62.161.121])
+	by mail-b.studer.dev (Postfix) with ESMTPSA id A4B6240047;
+	Wed, 19 Feb 2025 03:02:35 +0000 (UTC)
+dkim-signature: v=1; a=rsa-sha256; d=studer.dev; s=hmail;
+	c=relaxed/relaxed; q=dns/txt; h=From:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References;
+	bh=qd6qp1+ybi0MHi3xmDnOya6FXacrtJVptDj7+jwoBCs=;
+	b=TBUdQCJWM1Gle0QybTdOW2kMgDrTXfMtboFQ20aQBjD5bfSQ92pWUNYKTZk543HV67pnT5HyOk7RHFoJ7TY/TuN283Ir1ce2yv9ggDuX82NPctt/pcJPqDEPxwqddiOcb3jOZ3RUPFOUc1a3DVtiMlPWTNAGYEauGTyAEW1Wc4g+NrrFoIZpgBsF60kybfL8NuxTaQmGRK7herpMtN/sHiFQQ/sNcpwdyNhynrpWFyaKLamRbdFJVKpUTS
+	vuZ7QUXTeIrE2qfQ03Lqpd5iwNtB5QXas5632DTZ+nByQd07N1mcMjTnNEZy7zZrUSYXVoRiaWH8gHkRqZi7MKgspVMw==
+Received: from [192.168.1.166] (pool-68-239-44-167.bstnma.fios.verizon.net [68.239.44.167])
+	by mail.studer.dev with ESMTPSA
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128)
+	; Wed, 19 Feb 2025 03:02:33 +0000
+Message-ID: <56fe8762-5b05-4b41-b7fd-f08f35012ba9@studer.dev>
+Date: Tue, 18 Feb 2025 22:02:32 -0500
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -52,86 +37,139 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 07/23] iommu/pages: De-inline the substantial functions
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Alim Akhtar <alim.akhtar@samsung.com>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Albert Ou <aou@eecs.berkeley.edu>,
- asahi@lists.linux.dev, David Woodhouse <dwmw2@infradead.org>,
- Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, linux-arm-kernel@lists.infradead.org,
- linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org, Marek Szyprowski <m.szyprowski@samsung.com>,
- Hector Martin <marcan@marcan.st>, Palmer Dabbelt <palmer@dabbelt.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Robin Murphy
- <robin.murphy@arm.com>, Samuel Holland <samuel@sholland.org>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Sven Peter <sven@svenpeter.dev>, Thierry Reding <thierry.reding@gmail.com>,
- Tomasz Jeznach <tjeznach@rivosinc.com>, Krishna Reddy <vdumpa@nvidia.com>,
- Chen-Yu Tsai <wens@csie.org>, Will Deacon <will@kernel.org>,
- Bagas Sanjaya <bagasdotme@gmail.com>, Joerg Roedel <jroedel@suse.de>,
- Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
- David Rientjes <rientjes@google.com>, Matthew Wilcox <willy@infradead.org>
-References: <7-v2-545d29711869+a76b5-iommu_pages_jgg@nvidia.com>
- <84fd4500-a12c-40d6-a532-e2956ed1c35e@linux.intel.com>
- <20250218201924.GJ4183890@nvidia.com>
+Subject: Re: [PATCH] riscv: dts: allwinner: d1: Add CPU thermal sensor and
+ zone
+To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>
+Cc: devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20250218020629.1476126-1-alex@studer.dev>
+ <4628970.LvFx2qVVIh@jernej-laptop>
+From: Alex Studer <alex@studer.dev>
 Content-Language: en-US
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <20250218201924.GJ4183890@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <4628970.LvFx2qVVIh@jernej-laptop>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 2/19/25 04:19, Jason Gunthorpe wrote:
-> On Sat, Feb 15, 2025 at 04:48:04PM +0800, Baolu Lu wrote:
-> 
->>> +#include <linux/gfp.h>
->>> +#include <linux/mm.h>
->>> +
->>> +/**
->>> + * iommu_alloc_pages_node - Allocate a zeroed page of a given order from
->>> + *                          specific NUMA node
->>> + * @nid: memory NUMA node id
->>> + * @gfp: buddy allocator flags
->>> + * @order: page order
->>> + *
->>> + * Returns the virtual address of the allocated page. The page must be
->>> + * freed either by calling iommu_free_page() or via iommu_put_pages_list().
->> nit: ... by calling iommu_free_pages() ...
-> Got it
-> 
->> and
+On 2/18/25 12:23 PM, Jernej Škrabec wrote:
+> Dne torek, 18. februar 2025 ob 03:06:29 Srednjeevropski standardni čas je Alex Studer napisal(a):
+>> The sun20i THS (built in CPU thermal sensor) is supported in code, but
+>> was never added to the device tree. So, add it to the device tree,
+>> along with a thermal zone for the CPU.
 >>
->>   s/page/pages/g in above comments?
-> There is alot of historical confusion here because it was all designed
-> around alloc_pages() which allocated a list of contiguous pages that
-> could be subdivided. When this moved to GFP_COMP and later to
-> folio_alloc() the subdivision is no longer possible. So it is not
-> "pages" at all anymore, but a single "[compound] page".
-> 
-> So the module name is called "iommu-pages" but aside from the free
-> list functions everything else acts on a single [compound] page only.
-> 
-> If you think about it too much it makes no sense but I didn't want to
-> rename every function. I tried to keep it so that "iommu pages" was
-> part of othe module name, and function designators, but the comments
-> talk about a singular [compound] page
-> 
->>> +static void __iommu_free_page(struct page *page)
->> It's more readable if renaming it to __iommu_free_pages()?
-> Ah.. Well, it captures the module name but nothing it does acts on
-> multiple things, since it is internal I used the other name
-> 
-> How about I rename it later on to:
-> 
-> static void __iommu_free_desc(struct ioptdesc *iopt)
-> 
-> ?
-
-No problem. It actually depends on you. Since this is only used locally,
-the iommu drivers won't use it. So, anything that helps understand what
-it does is okay. :-)
+>> Signed-off-by: Alex Studer <alex@studer.dev>
+>> ---
+>>  arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi | 31 +++++++++++++++++++
+>>  .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    | 16 ++++++++++
+>>  2 files changed, 47 insertions(+)
+>>
+>> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+>> index 6367112e6..bdde82aa8 100644
+>> --- a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+>> +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+>> @@ -3,6 +3,8 @@
+>>  
+>>  #define SOC_PERIPHERAL_IRQ(nr)	(nr + 16)
+>>  
+>> +#include <dt-bindings/thermal/thermal.h>
+> Put above line on top (before SOC_PERIPHERAL_IRQ()).
+Will fix in v2.
+>> +
+>>  #include "sunxi-d1s-t113.dtsi"
+>>  
+>>  / {
+>> @@ -115,4 +117,33 @@ pmu {
+>>  			<0x00000000 0x0000000e 0xffffffff 0xffffffff 0x00010000>,
+>>  			<0x00000000 0x0000000f 0xffffffff 0xffffffff 0x00020000>;
+>>  	};
+>> +
+>> +	thermal-zones {
+>> +		cpu-thermal {
+>> +			polling-delay-passive = <0>;
+>> +			polling-delay = <0>;
+>> +			thermal-sensors = <&ths>;
+>> +
+>> +			cooling-maps {
+>> +				map0 {
+>> +					trip = <&cpu_alert>;
+>> +					cooling-device = <&cpu0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
+>> +				};
+>> +			};
+>> +
+>> +			trips {
+>> +				cpu_alert: cpu-alert {
+>> +					temperature = <85000>;
+>> +					hysteresis = <2000>;
+>> +					type = "passive";
+>> +				};
+>> +
+>> +				cpu-crit {
+>> +					temperature = <100000>;
+>> +					hysteresis = <0>;
+>> +					type = "critical";
+>> +				};
+> Where do those limits come from?
+I took them from the definitions in
+arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi, which is what I generally
+based this patch on. I checked the D1s datasheet and it does specify a
+max "Ambient Operating Temperature" of 70 C and a max "Working Junction
+Temperature Range" of 110 C. So I could use those, but the dtsi files
+for the other sunxi chips don't seem to follow their respective
+datasheets, so I wasn't sure what to do here.
+>> +			};
+>> +		};
+>> +	};
+>>  };
+>> diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+>> index e4175adb0..fcfcaf06c 100644
+>> --- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+>> +++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+>> @@ -426,6 +426,10 @@ sid: efuse@3006000 {
+>>  			reg = <0x3006000 0x1000>;
+>>  			#address-cells = <1>;
+>>  			#size-cells = <1>;
+>> +
+>> +			ths_calibration: thermal-sensor-calibration@14 {
+>> +				reg = <0x14 0x8>;
+>> +			};
+>>  		};
+>>  
+>>  		crypto: crypto@3040000 {
+>> @@ -934,5 +938,17 @@ rtc: rtc@7090000 {
+>>  			clock-names = "bus", "hosc", "ahb";
+>>  			#clock-cells = <1>;
+>>  		};
+>> +
+>> +		ths: thermal-sensor@2009400 {
+>> +			compatible = "allwinner,sun20i-d1-ths";
+>> +			reg = <0x2009400 0x100>;
+> Size should be 0x400.
+Will fix in v2.
+>
+> Best regards,
+> Jernej
 
 Thanks,
-baolu
+Alex
+
+>
+>> +			interrupts = <SOC_PERIPHERAL_IRQ(58) IRQ_TYPE_LEVEL_HIGH>;
+>> +			clocks = <&ccu CLK_BUS_THS>;
+>> +			clock-names = "bus";
+>> +			resets = <&ccu RST_BUS_THS>;
+>> +			nvmem-cells = <&ths_calibration>;
+>> +			nvmem-cell-names = "calibration";
+>> +			#thermal-sensor-cells = <0>;
+>> +		};
+>>  	};
+>>  };
+>>
+>
+>
+>
+
