@@ -1,143 +1,175 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 349F31E9B1C
-	for <linux-sunxi@lists.linux.dev>; Thu, 20 Feb 2025 19:05:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D2FC264625
+	for <linux-sunxi@lists.linux.dev>; Thu, 20 Feb 2025 19:35:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740078344; cv=none; b=AtG1HcI1tKVEJA/tOvukwLUwEUgT09JekRRLZ3xbZDTwoHWUrGnzmoRJKvyWBx/fwxvBRu+YoLafMUfvubBTFMr4ZMl1Zu+93t32Mt2JCx6lMn4wVxiEZm+rI+J7s71UmE/TIZ7M08vM/2wb4y0Pt31V42iMQGkGrPRN7i+Zhfg=
+	t=1740080156; cv=none; b=kOac4gKLDLpkl+6VFFfQbpMi9tBlap8rLpLOZcKKEOxWjUUaeAgMbEfeMyahYLIIRwukhzEl//LpK6GHonCveT49gcsGrHuZ1Qjd1NDzSLwJDvFQqvRJFPNV/JRB5pQxM+cjfKNYW+/rP5WcZ6QNOOJ1Q1YXES1Z6jxtEJI4CKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740078344; c=relaxed/simple;
-	bh=7Q6Q5WJ5jLsdiIjqXRzNZWHgWgvJqZqVEo0Zn5BT6K4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bCBnU8JBBRDhZmJp6IGWNPemEBJ/Fh6TI2SxHnuooAbcYCoTUEbr71aYbgrjpJJquDPONSapRQRuFrt8oFMmpX0z4JM2Bq5sjaYuIPeamRc4G60wtGXYcXOn/8wbcLeAZt98qYbg0z6Z7G6Q6r7iB0UkantlPqasVo+3GAF9ZIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lkyQtFRT; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1740080156; c=relaxed/simple;
+	bh=Cn4+MbGF93ZPciRW8w9henqPO1354AGpPKF7B/F7T8c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IKcvWJDXlqtWAFDTCci1/hppawadqy/vEQOSh63uRMNgJJuQEIjHPRPpNJh99Lh6rtj4rN3SBCrUswKbgEVn04mt0E+PLIs9zVji4AhoI8ci2sqkqt/Lu/1MokRchRa/xef+ibg5lW/VqOho+H481x+zedYgZVty3IErB4B0XU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=GG+eyqn7; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lkyQtFRT"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-38f3ac22948so709272f8f.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 20 Feb 2025 11:05:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="GG+eyqn7"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2210d92292eso38628325ad.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 20 Feb 2025 11:35:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740078341; x=1740683141; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oxXRd6kScNWklP0aI84Uk3jfvKHEaeWScRLyJ37G088=;
-        b=lkyQtFRTdo4EB3nMWkp4UAT8scGesDaXd+9Or50ioGdfMXLCdMPEv0Czb7/o+S5KxB
-         tUZOteBKVViWTZKrTMHtpsqb/kwso4KVdxy/cKVD6vtDsB9/M0/PReOpjNT4jjifsipN
-         +cTFQuW6935SfHg2Vejkto57JdAPZhcTFaLlx4faK2mGJXDlaD8pYtLxwKfXPRbJ6oQ5
-         cRq+N49n4MdHttkXL16aRL2W/LFn+JKs/oDdwSukE2JLIN0oapzGUsWHZmGjskZQM2Zg
-         tRjGV+OXa5Wphemygbb3VTXYn8CQEqp7ayUwEjPBHoNtZulFPI+8PDb1bXTviQzYi0F2
-         VHwA==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1740080152; x=1740684952; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2bN/NPVn1vKfJddb+/MWowQ/DYT7KXXiFwwxB/L9OIQ=;
+        b=GG+eyqn75BtOV3Rg0EYz2+gUe8k+GwvY+uIItjWCLD4kx0IQ75FJAjQc+r+T4+ysC6
+         Odq1nxQE+lBES0Ewk11E4KhYdiDGJGgXkp3dgkSNz0OkkO2PqJmQJ1UgnAIHi9k95ACU
+         b/VbuH6kcf28WUuPRxA6vw6N/xt9PIsPvl+hxAOZhNC7wAgIXQn3WbMjXjUJJejaK2cG
+         E28VZwvw/ZLLSzR9U1Bj/2fKFaPk6RsMIjeyZWNYfxI+I2TEg9FHZ9BDljaUdRmHXxRo
+         dD6kG4L/aBB4Y9rzZCcIP4aB8bkcYAd5FQ71EXup4e9CZKlFO3wWcjWFKLWPWGc/CCve
+         kzXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740078341; x=1740683141;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oxXRd6kScNWklP0aI84Uk3jfvKHEaeWScRLyJ37G088=;
-        b=JBlBz54x/LAV45lbdPol2bMXg/T5OHszgDTgaw09joway9bGZQwizelo4flNnoEqwV
-         fq2S4zJ23zx+zf5NH+fJHcLenJOuZC+Cq5DO68frNdfFxW66ZYKRyXUNc0ZrmRyQClcQ
-         vCHgZAKnEK+Ex7RSgYM9aVOQmyYwJktAKEXPseistxz7qfFHf2aA2fgKRKCuDRd8klxb
-         5SttSTiP4jvXuDbXnD8E7S0NDQ33YbwVe7BKlI+khK6iFVselVj3/uZEdKGuQWb18SHq
-         srH3LF183JvyLcCpWzEkM/RtUymQimouw2d7P0c6ut5QRC1HMa3hxIm3nUHeSDhUljkf
-         pmrw==
-X-Forwarded-Encrypted: i=1; AJvYcCVgvSmdM6ZD4E7b85GFU057+zTPJIEWAd5MlAYtW/EOJJfl/fuC4UqzTeCfZGpCv1qQR49Qjd3o1jzJ9A==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz5H7fW5eOAG8dornjBxD8/ss0LZP6xbE0uLRdnU/eJfkpfBkNJ
-	ucpmdt5d5wCtB/TnOzrXMrv4ElLFyGlYt3PLi9I+hW3iDbH1xPRk
-X-Gm-Gg: ASbGncuuUpQjZeHsnWzEkOKRgiHRg/kgDh0mxwZOvdQzDRcHnRIfrUu1oi12z/rw97z
-	i4Bfj8A3srcA1/RwSG2oizYg2evHR1/zWoB2IqMVnPJw5qhFsHkRGWRiBy1dZpCWKhhnA7uZrT9
-	FH+9DoChlJHwkfAeOddmDaGI8T55G1gXVDlc/jshEAEOCUCuYCf/mcRyIJ+1CrLlbv/HiQSyWZV
-	yYyOZNylF7yovaBASWKuLcwZcEIEZ2mAFILytv0vQb/fswU9aym4VbJ5NEE7undT3+kZh1KQmQt
-	ksvLgfsr8LxKt6oixPnrm6AIT8OpDZkNuJXvWYvus982OXeEdVDtHEY7s0HYhzWGfIo=
-X-Google-Smtp-Source: AGHT+IHGlrHIltTgTcFWFI4O0gp4KyFom8vkd8k5Kir49mlEGZQwrYgDsE0U7DMZu3givQVd9isJuA==
-X-Received: by 2002:a05:6000:1ac6:b0:38f:6149:9235 with SMTP id ffacd0b85a97d-38f6e95f233mr316305f8f.16.1740078341247;
-        Thu, 20 Feb 2025 11:05:41 -0800 (PST)
-Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f259f8121sm21083169f8f.88.2025.02.20.11.05.40
+        d=1e100.net; s=20230601; t=1740080152; x=1740684952;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2bN/NPVn1vKfJddb+/MWowQ/DYT7KXXiFwwxB/L9OIQ=;
+        b=t2UOuVwQGZP3+b6WrgE2JHKtAE/opEd5mljpAT+QacbT45ORf5oiHN+b60hbbQnMk8
+         8ny8FZCxjEq2QMB+OJMJ+Y5/n8U6BW3EudqOJ4HhVo4Tr83wHct1w0n/6psCk90OtAoU
+         Ri3USe0bT9aMhs97dGTQt7iHpELvcOLaMoacasMhH5aBAJQ8HSEDpnOrOBt3zb5Chnk2
+         y/s8ACuPlDXZcNx36PkjDjpjvsLMSO+d05OjKwlFbB0xiKevbnz/VywVOSi3S24QzhC+
+         Gih+K6a3eM4ESZSbLfaQvXblMq2vHy8NNWSCPYK2lZ/YWTcjmD+yr9Uj5Pl7+k9weLQ7
+         ajWw==
+X-Forwarded-Encrypted: i=1; AJvYcCUEVAXyog9kf1k10J8aH4+iALGmpN0oQbd+iw6lkvPDZovjvLzbGGbsSpmVuNXdFJ5i4W5G4zS2Y8Oy5A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyziY4d28CWGvSxd7dEe45jd6kkIXH+rzsU8IsqwIuEkQB83MzT
+	yJQn4CcSbz8lto0GvTXHc+d7Bj9RBGCyZjm00rulkLHB9Pjydrwu41WZJ77Jjz8=
+X-Gm-Gg: ASbGnctD39PLpfX8o5/UD6vWBsV2ZpAscTkOs8mBQghMQePACXRMFN9rtTPvIxffdoA
+	g9uPO0jF5YOLGbwWWteWkg32nEUFSkpjsIku+xYraVLzdG8nRwje7Mb+viYAxliIgJb4OfEPXGN
+	n0TtmL6RUt8pIqmlcnGlpgzO3Fu19bp8vVKPj9TSu1iGDOoUqgMMFUDKwF3tS2M8USL3WMQBM8b
+	yEtQ/snW/68Kgm6DJxUL4hg1alQlYPhU6WrBgvbuSLm92XZ/8tnsVilisjdDNrvTw5lSEtRQJq7
+	ooXYv6UBcaBAJiXtpCoLUb8Z5QTuaABZFg==
+X-Google-Smtp-Source: AGHT+IFLUZkJqTzzZT+I/M3yqbHhvCV9FHZfFsSF+/uPg4tVfA/GlpswgR4SI57hCH58PcrddckVtQ==
+X-Received: by 2002:a17:902:db07:b0:216:73f0:ef63 with SMTP id d9443c01a7336-2219fff4377mr5157465ad.49.1740080152564;
+        Thu, 20 Feb 2025 11:35:52 -0800 (PST)
+Received: from tjeznach.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d545c9bbsm123012805ad.127.2025.02.20.11.35.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Feb 2025 11:05:40 -0800 (PST)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Ryan Walklin <ryan@testtoast.com>
-Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- Chris Morgan <macromorgan@hotmail.com>, Rob Herring <robh@kernel.org>,
- Philippe Simons <simons.philippe@gmail.com>,
- Ryan Walklin <ryan@testtoast.com>
-Subject:
- Re: [PATCH v3 2/5] ASoC: sun4i-codec: correct dapm widgets and controls for
- h616
-Date: Thu, 20 Feb 2025 20:05:39 +0100
-Message-ID: <2733255.KRxA6XjA2N@jernej-laptop>
-In-Reply-To: <20250214220247.10810-3-ryan@testtoast.com>
-References:
- <20250214220247.10810-1-ryan@testtoast.com>
- <20250214220247.10810-3-ryan@testtoast.com>
+        Thu, 20 Feb 2025 11:35:52 -0800 (PST)
+Date: Thu, 20 Feb 2025 11:35:49 -0800
+From: Tomasz Jeznach <tjeznach@rivosinc.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Alim Akhtar <alim.akhtar@samsung.com>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Hector Martin <marcan@marcan.st>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Sven Peter <sven@svenpeter.dev>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Krishna Reddy <vdumpa@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
+	Will Deacon <will@kernel.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
+	Joerg Roedel <jroedel@suse.de>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
+	David Rientjes <rientjes@google.com>,
+	Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v2 19/23] iommu/riscv: Update to use
+ iommu_alloc_pages_node_lg2()
+Message-ID: <Z7eEFagK3xugrkKH@tjeznach.ba.rivosinc.com>
+References: <0-v2-545d29711869+a76b5-iommu_pages_jgg@nvidia.com>
+ <19-v2-545d29711869+a76b5-iommu_pages_jgg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <19-v2-545d29711869+a76b5-iommu_pages_jgg@nvidia.com>
 
-Dne petek, 14. februar 2025 ob 23:02:24 Srednjeevropski standardni =C4=8Das=
- je Ryan Walklin napisal(a):
-> The previous H616 support patch added a single LINEOUT DAPM pin switch
-> to the card controls. As the codec in this SoC only has a single route,
-> this seemed reasonable at the time, however is redundant given the
-> existing DAPM codec widget definitions controlling the digital and
-> analog sides of the codec.
->=20
-> It is also insufficient to describe the scenario where separate
-> components (muxes, jack detection etc) are used to modify the audio
-> route external to the SoC. For example the Anbernic RG(##)XX series of
-> devices uses a headphone jack detection switch, GPIO-controlled speaker
-> amplifier and a passive external mux chip to route audio.
->=20
-> Remove the redundant LINEOUT card control, and add a Speaker pin switch
-> control and Headphone DAPM widget to allow control of the above
-> hardware.
->=20
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+On Fri, Feb 14, 2025 at 01:07:52PM -0400, Jason Gunthorpe wrote:
+> One part of RISCV already has a computed size, however the queue
+> allocation must be aligned to 4k. The other objects are 4k by spec.
+> 
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 > ---
->  sound/soc/sunxi/sun4i-codec.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->=20
-> diff --git a/sound/soc/sunxi/sun4i-codec.c b/sound/soc/sunxi/sun4i-codec.c
-> index 886b3fa537d26..f24bbefeb3923 100644
-> --- a/sound/soc/sunxi/sun4i-codec.c
-> +++ b/sound/soc/sunxi/sun4i-codec.c
-> @@ -1916,10 +1916,11 @@ static const struct snd_soc_component_driver sun5=
-0i_h616_codec_codec =3D {
->  };
-> =20
->  static const struct snd_kcontrol_new sun50i_h616_card_controls[] =3D {
-> -	SOC_DAPM_PIN_SWITCH("LINEOUT"),
-> +	SOC_DAPM_PIN_SWITCH("Speaker"),
+>  drivers/iommu/riscv/iommu.c | 15 ++++++++-------
+>  1 file changed, 8 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/iommu/riscv/iommu.c b/drivers/iommu/riscv/iommu.c
+> index 2750f2e6e01a2b..8835c82f118db4 100644
+> --- a/drivers/iommu/riscv/iommu.c
+> +++ b/drivers/iommu/riscv/iommu.c
+> @@ -65,13 +65,14 @@ static int riscv_iommu_devres_pages_match(struct device *dev, void *res, void *p
+>  	return devres->addr == target->addr;
+>  }
+>  
+> -static void *riscv_iommu_get_pages(struct riscv_iommu_device *iommu, int order)
+> +static void *riscv_iommu_get_pages(struct riscv_iommu_device *iommu,
+> +				   unsigned int size)
+>  {
+>  	struct riscv_iommu_devres *devres;
+>  	void *addr;
+>  
+> -	addr = iommu_alloc_pages_node(dev_to_node(iommu->dev),
+> -				      GFP_KERNEL_ACCOUNT, order);
+> +	addr = iommu_alloc_pages_node_sz(dev_to_node(iommu->dev),
+> +					 GFP_KERNEL_ACCOUNT, size);
+>  	if (unlikely(!addr))
+>  		return NULL;
+>  
+> @@ -161,9 +162,9 @@ static int riscv_iommu_queue_alloc(struct riscv_iommu_device *iommu,
+>  	} else {
+>  		do {
+>  			const size_t queue_size = entry_size << (logsz + 1);
+> -			const int order = get_order(queue_size);
+>  
+> -			queue->base = riscv_iommu_get_pages(iommu, order);
+> +			queue->base = riscv_iommu_get_pages(
+> +				iommu, max(queue_size, SZ_4K));
+>  			queue->phys = __pa(queue->base);
+>  		} while (!queue->base && logsz-- > 0);
+>  	}
+> @@ -618,7 +619,7 @@ static struct riscv_iommu_dc *riscv_iommu_get_dc(struct riscv_iommu_device *iomm
+>  				break;
+>  			}
+>  
+> -			ptr = riscv_iommu_get_pages(iommu, 0);
+> +			ptr = riscv_iommu_get_pages(iommu, SZ_4K);
+>  			if (!ptr)
+>  				return NULL;
+>  
+> @@ -698,7 +699,7 @@ static int riscv_iommu_iodir_alloc(struct riscv_iommu_device *iommu)
+>  	}
+>  
+>  	if (!iommu->ddt_root) {
+> -		iommu->ddt_root = riscv_iommu_get_pages(iommu, 0);
+> +		iommu->ddt_root = riscv_iommu_get_pages(iommu, SZ_4K);
+>  		iommu->ddt_phys = __pa(iommu->ddt_root);
+>  	}
+>  
+> -- 
+> 2.43.0
+> 
 
-Will this break sun50i-h616-x96-mate and sun50i-h616-orangepi-zero based bo=
-ards?
-If so, other solution must be found.
-
-Best regards,
-Jernej
-
->  };
-> =20
->  static const struct snd_soc_dapm_widget sun50i_h616_codec_card_dapm_widg=
-ets[] =3D {
-> +	SND_SOC_DAPM_HP("Headphone", NULL),
->  	SND_SOC_DAPM_LINE("Line Out", NULL),
->  	SND_SOC_DAPM_SPK("Speaker", sun4i_codec_spk_event),
->  };
->=20
+Reviewed-by: Tomasz Jeznach <tjeznach@rivosinc.com>
 
 
-
-
+Thanks,
+- Tomasz
