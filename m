@@ -1,107 +1,103 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 934C31DFDA5;
-	Thu, 20 Feb 2025 16:18:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55322204F94
+	for <linux-sunxi@lists.linux.dev>; Thu, 20 Feb 2025 16:42:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740068308; cv=none; b=CZIasIHr7wutXH5ivN6Za0kGg71ozj+q5Mzpii4JkyhjlXgkL5QRU9ZbOSp6rS8z0vZAfDtcOG0wdhZ+Fc4tgIJ6xd+YGkNV/FFX9bS5BJAJGeioYy2s9OgASsgxWcD7UEgQyJuniP9YNPPzltEu3RJTYcTlkP0NBV4ENfBmUPc=
+	t=1740069764; cv=none; b=Mpjr9uL8E4NEUoaeQvTS/R7qwCySKx3ju807uIIW0QLqMyYvda/77g+Y4Vq4niGgP3S4TViDSQuZ259xDzLLOefq9bw/LABcL9YLMuM7kpTjKkxV0qzYlBfAsCK2CEJVg6++GdvVLdUR4iL5XK1k0K39vhwsYW6uju4XwgWPkEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740068308; c=relaxed/simple;
-	bh=9RlNbYnLFzVjYgxQyd9KBfI9XCJfe/tCHW00K82XgB4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b1jIcgyOHaTZHMqxegMdWefN1Sb3Up534prgLAA1DDBxYV+wXowFWNdRpQjlKU4CvdoCbclJK4n3GsAJTRE/McgjbavR0JN2eHc6nwUSwRZA0RYzWfICLr6AwMnKW6iR8pRmCBIxnuJBdLpVNiEaRqcFG39MisTVBOKoL5Cd8xI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VNlekTg7; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1740069764; c=relaxed/simple;
+	bh=Spb5DN7Z957auhFhK10W01ysEwluGPWuq85ZNm+0g8Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uRaJWnwcmyNtXb6pYulYcoQASv7lOWt6gCaA1xy8QVIv3uTqbZZ6nyY8pPtH/+H3Mc4yXqDkGvMUVn3idgRd7M6wFZYdpZSzaA2c7aKabLpJJ5UeSlzskqKii4iMFeXGr73S8Z8HgCnzVJ54G5JFkN3yUlgsFPfNmaPDB2avoOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XSqmA7B0; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VNlekTg7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740068307; x=1771604307;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9RlNbYnLFzVjYgxQyd9KBfI9XCJfe/tCHW00K82XgB4=;
-  b=VNlekTg75J0qAfGXfCvz0vp9dqZZQvGYx1+ARWw+GevfDx2ZXEEsqZnY
-   EP12CT5KYU2m5qe/J5UdIeollr3MxqD8LeOG46/PH5IlfUSQv1TT5bNTR
-   oN1bDImQ7RLyF2Wt4+7LndeRXNa5rtyqrnQfWe6DeM1CqnB0co3wmKq/B
-   /rufj10FsJRtDmVRPq4jy/wkk8gWpU1aBcjP++YIz7VNKE6hAK2LTJXaR
-   wLsxEJ6u4j9zZzcyzZauVn4+Xu1botvPUdM5oxzgpK4C4w7g2pPzllIq0
-   rM2mkWK0OWKRhgpbL4pakdx4bF+W7dYCVlJ7mOj4miR39qMoy08g/L31b
-   g==;
-X-CSE-ConnectionGUID: P+VVjY+TQ3SQwOyVP/WbZA==
-X-CSE-MsgGUID: GkCvY2uaRwaPiJGR+rADvA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="63329816"
-X-IronPort-AV: E=Sophos;i="6.13,302,1732608000"; 
-   d="scan'208";a="63329816"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 08:18:26 -0800
-X-CSE-ConnectionGUID: MUBFVS80SV+FEOQ9rn5jww==
-X-CSE-MsgGUID: 0PpoekXBQF2IG16mnDk74Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,302,1732608000"; 
-   d="scan'208";a="138294951"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 20 Feb 2025 08:18:21 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tl9Fj-0004UJ-01;
-	Thu, 20 Feb 2025 16:18:19 +0000
-Date: Fri, 21 Feb 2025 00:17:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Matti Vaittinen <mazziesaccount@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
-	Nuno Sa <nuno.sa@analog.com>, David Lechner <dlechner@baylibre.com>,
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v3 7/9] iio: adc: sun20i-gpadc: Use adc-helpers
-Message-ID: <202502210037.162FN3PM-lkp@intel.com>
-References: <21b9af362b64a1d9c2a13cc46242dd6955996c46.1739967040.git.mazziesaccount@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XSqmA7B0"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-38f3ee8a119so623967f8f.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 20 Feb 2025 08:42:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740069760; x=1740674560; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Spb5DN7Z957auhFhK10W01ysEwluGPWuq85ZNm+0g8Q=;
+        b=XSqmA7B0RPvYCRTX+3NeG/QrPTGfD0Jn4//uH35JCiF5Ch9at4UHWbwngXKSnpTKX1
+         8cjiWs3Xa8GISJuwQ7b0pb67yCLNnoP6y6aiduVaMjrjhb03drWLwA5BrVpz/n8vb3dU
+         xTLhZtC+2cC6bRnMisBE50Z+GEBkOgmxSBgmele+xUABnO39jbJ4lcie+pB6EnVZq9Sk
+         /GdeqCfN2vi3WLJ4AtJE2xwYDt0aM9OCY1w4tNe/nLqoxSOvRsaUsGPKpsucamCP4Lfv
+         F4hROZcKuduylEGjErw1iirTRzYZOVivllojzEhqPQn8dB2ANE6dNXiT1CCSsQS04Wkl
+         oGyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740069760; x=1740674560;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Spb5DN7Z957auhFhK10W01ysEwluGPWuq85ZNm+0g8Q=;
+        b=Y2/tqtohIfbTOqYj9h/QU2THTDPSXZ+j8lTgZ6W8zS4K/j94gzTDF25ZW8suhCEp+Z
+         QqsA3jhQMwjsZlGlxSzF56zhtejzRu3o3Rf17JB6/uRQgg25yX7TuEYjHmgIXLKuqIeV
+         h2t7fkjr2LR52EPrC77+GQEy/1B5A1ASfX46gU8K/g0fBLOFIDpTTUweeMIstB0btDqK
+         4+xEodgKYasOKh3cuiGO5C9lOjD6AboGKv0GdHQunaxAusPQ3zkVLtxqG55A+Qr2ywRd
+         h3LNjO+X9ls3VRl7Bx3y+JEKEy81ji08vrvfrbHFlLYv89VIEeMTYYFtZEtxQNdM3VmW
+         D2Hg==
+X-Forwarded-Encrypted: i=1; AJvYcCXvIMXmXOmYS5yEZi/sW7veCMdzOKXDVhGRwuFbYLzBSq1OEOrkQG1xw1Y8KqxBs7Wq8whbafg0ta9IYw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwGygarfyPnAEPlP6Cd+m9xoWbVx4S7BKB9SHm6A0WqxbODbymV
+	VSX555A6rG2Waf59FF3MPgdUAcosYqSilMfpa082BS21XjBpqCX4
+X-Gm-Gg: ASbGncvdvscplWcOdtMJaK/yPguFuKiilqn2T1Gd5i1zq9Tf86HXal1ZcZe9mIbpPxw
+	0r01YYzbJnDSKpYKnhCAgMIPysbkSWNIzg94MOueQFawKAo5rNu5EzAVLgJkjABxNtehpzCB+5i
+	qAN05fwj0a+39tkovpFWsBEECsZchuHwopuSLMXv9PdbpaNE1xNs178FFR4XZdw3t5f4/yG3iqe
+	aAOJegt794ChReyGfEo9Tc2SXvnVUmOOoiIkZlAvVpCHSt/pOu7A8fFJJUMJuqDEWYFUtlzzYK6
+	56dqN7+y2lwuO57xQAgQNW6gmCpnB9aKfc1KTCu9ei8XAKiuihYYwaaH6gUINlTb1K0=
+X-Google-Smtp-Source: AGHT+IHKAPnHG28kS2PXP8ZMEI3ZDWU7Yq8EPs8z2/DhkZ5Cc4K6VvdHC46lFrkP+dx+zXRT0tV7pg==
+X-Received: by 2002:a05:6000:4025:b0:38f:4176:7c25 with SMTP id ffacd0b85a97d-38f41768063mr14903972f8f.2.1740069760495;
+        Thu, 20 Feb 2025 08:42:40 -0800 (PST)
+Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f259d5c29sm21139863f8f.72.2025.02.20.08.42.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Feb 2025 08:42:40 -0800 (PST)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: linux-kernel@vger.kernel.org, Aleksandr Shubin <privatesub2@gmail.com>
+Cc: Aleksandr Shubin <privatesub2@gmail.com>,
+ Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <ukleinek@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Cheo Fusi <fusibrandon13@gmail.com>,
+ linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v11 3/3] riscv: dts: allwinner: d1: Add pwm node
+Date: Thu, 20 Feb 2025 17:42:38 +0100
+Message-ID: <3688166.hdfAi7Kttb@jernej-laptop>
+In-Reply-To: <20250213094018.134081-4-privatesub2@gmail.com>
+References:
+ <20250213094018.134081-1-privatesub2@gmail.com>
+ <20250213094018.134081-4-privatesub2@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <21b9af362b64a1d9c2a13cc46242dd6955996c46.1739967040.git.mazziesaccount@gmail.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-Hi Matti,
+Dne =C4=8Detrtek, 13. februar 2025 ob 10:40:14 Srednjeevropski standardni =
+=C4=8Das je Aleksandr Shubin napisal(a):
+> D1 and T113s contain a pwm controller with 8 channels.
+> This controller is supported by the sun20i-pwm driver.
+>=20
+> Add a device tree node for it.
+>=20
+> Signed-off-by: Aleksandr Shubin <privatesub2@gmail.com>
 
-kernel test robot noticed the following build errors:
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-[auto build test ERROR on 5bc55a333a2f7316b58edc7573e8e893f7acb532]
+Best regards,
+Jernej
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Matti-Vaittinen/dt-bindings-ROHM-BD79124-ADC-GPO/20250219-203748
-base:   5bc55a333a2f7316b58edc7573e8e893f7acb532
-patch link:    https://lore.kernel.org/r/21b9af362b64a1d9c2a13cc46242dd6955996c46.1739967040.git.mazziesaccount%40gmail.com
-patch subject: [PATCH v3 7/9] iio: adc: sun20i-gpadc: Use adc-helpers
-config: i386-buildonly-randconfig-002-20250220 (https://download.01.org/0day-ci/archive/20250221/202502210037.162FN3PM-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250221/202502210037.162FN3PM-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502210037.162FN3PM-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "devm_iio_adc_device_alloc_chaninfo" [drivers/iio/adc/sun20i-gpadc-iio.ko] undefined!
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
