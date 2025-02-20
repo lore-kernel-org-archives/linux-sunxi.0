@@ -1,79 +1,81 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F9CF1E9B29
-	for <linux-sunxi@lists.linux.dev>; Thu, 20 Feb 2025 20:33:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 440062B9AA
+	for <linux-sunxi@lists.linux.dev>; Thu, 20 Feb 2025 20:38:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740083608; cv=none; b=LYdSrEB3JD3QwuH08Ki03gI8t35ZUVyf2EX67ZhZh0ZlBp2uCGNdOWxOjw8p1CZ50CuutqVsa4+n0qMKUKKN0vUcnJaUHvX5OA1oYZLW0cLjQ0Q+8v2OmewQva6KQr8KdPZn0APR8frZZgqPj4qhXe5vfLBrVuGaGRlYpjCBKSQ=
+	t=1740083930; cv=none; b=Q6380JRB2RVxrqBd6JDLXUUiRaboTL+JWv4iSkIpMhyOM8EDnQp/oqbB39dMz33B88NUPJV5XKF4o7JzWBW8SFRZ/xpk3VUVRZQxMHXscE9GkyDRtm34cnyvv5WaL2rHH+AyHTFMUHuv/xvx5OH+T4qHELD7nYXUDe3MifebbsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740083608; c=relaxed/simple;
-	bh=4lTYQPnj1G0KIZ75wuzMVgktOAM+fH5Z7qXuzrTrHRQ=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CMXe1Dma+aOXm6dHRDcv/noNcd5LJ6UhvIlTp44qgyNgLXAZ6YfqK4WwACwMW9iXZophO2NdAZMjtu9sQhK0NgWpWD2nkiOcocRo2LLe9w2zbpfPZBQvZ8E7rJzcgDzB4A/KysEoLZaGYrw/DLPL3HBuciIJK6FOIHIrcsIKQh0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PmmebIrF; arc=none smtp.client-ip=209.85.221.42
+	s=arc-20240116; t=1740083930; c=relaxed/simple;
+	bh=QwsMW6iVNU91lHWFEwdgOCeBu4Y7rQxQ6qUYUGztHYc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rk0av+woIlPstyc3XGde8rkKGtMlMZ08hHB7Ol2K22y3YvYX6OmUkuo8KhnViYiG5LNYrE+YU9rOtQFASuoF+45wxDQ/1Iyc8pDOMbzkC5ByyiIhbMwDCy0WScVuU9n9N8XsfGGD3/MSac37CY37K+DyWSYUkLk2pDbrm44CfFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wa8CqYIk; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PmmebIrF"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-38f2f783e4dso1202043f8f.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 20 Feb 2025 12:33:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wa8CqYIk"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-439a4fc2d65so11811755e9.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 20 Feb 2025 12:38:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740083605; x=1740688405; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1740083926; x=1740688726; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TUxRiLX4DyVPlrMacNkPsStsx8cpP9d0LZJXAgp6S6A=;
-        b=PmmebIrFBCBvmkOQ+LpPpg3Gzx+GxphAShGBclriQQoYWaYe3uelqH9jY2ciqxOWzs
-         j94n+Mb0DPWv8Z+q9s4uieKRRHu0QSdZvbIoSMpc6zrSeCBOsoj4zd6NhdsC1hvV4KKa
-         2bzRXW+5hY2OwuE14XrM85yP6KYcrhBZlZundRH8cQYIazZ1pyn2vxRiQc3KL8vMAnb+
-         BADRJ3ETeMEr8SuXb7dnrdg86Rc7Nfnr54y+jQPAoguqCKKApRpxEuNhPJmfdcTg8VBY
-         r701pSLMcJO2fP5onZFm/CeCgKkFRdSj0pPqgrdILKZUYHkzN8Q3CyRh4n80GBhFsIFv
-         5Sxg==
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=L/oPr+uhiMwVLonfT4r87s8BLvEv5cJUIRCGxgmU+Z4=;
+        b=Wa8CqYIkXT2NON3icjS7eMkTGscW4jpsc5yxL4cRhhYPJVIGwFnVXWyZXcXBZpW93N
+         KeoE0cfEXYPP7ckt8Ao1tiXHT/L6GwQ7JKX3YuEBJDD6/Kadn0MuzBPCIGuktlNVKBeu
+         vB0uYW6B5YcT8bzadXvQmFfZrITYLmRdMuU1X+3DKn+3Af/l9xlv/vaDn6oSlxBRzdO/
+         SL5zxFSEcp9PujUdHEK0TeWC2myuZ4BL5eBPe9DZ5oUKL8ohjwAMq8z886AsfO3Dkw1R
+         +1xEoFVLMpPqf0N1fbZswzQb3Uh7nXEOfmlAP1KAZdrvBVMqUHdsdMSgbUC3yaMDQeeo
+         mgCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740083605; x=1740688405;
+        d=1e100.net; s=20230601; t=1740083926; x=1740688726;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TUxRiLX4DyVPlrMacNkPsStsx8cpP9d0LZJXAgp6S6A=;
-        b=PSa2LB9voS5uwstj2wFZa4rLgcMJ6NkVXbzQ9zgy/RkEQxQXqWDx2sWdj59Si2keqD
-         b9wbKUVZ1jOpucFD1C+Sv7EjQ8F5GHfd84BCHTxfbUS5L19z9vrgAajKIOwJTdo1qeiJ
-         cr5BmboizAVkoiZQkt+3OLiA8uFe/C4raMgyAeOpC6DhVF98HPs4u9CmYDqj2K9lmzwN
-         VyIjjxbV1QGiH7Su7Oz8f1IR4672pZOVGwat2OM0tib4N1Z+dtenXefgdqNZLYtanh19
-         5nRnt/fagBCgWUE4DxJokZbZRhkgsYMocTblqLzmiLjctux9hkDwe6Bbs3H7M5NCsZOM
-         ehhA==
-X-Forwarded-Encrypted: i=1; AJvYcCUrcNBCEG3s1eoK6+J+6I5e274XxHerUcwGq8Ak40Z6/V3an92aPidWId8JtWtYwhg6+FfaUzu+h039eg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywez2wFf0iL83VVb/mmvIc3qUu60LcKHSrjP1U/KZiIWoHxAhhy
-	9RzJNxODEbFHk7d/D9MS7KdnxAXNj/ExPQg4xXqTol9LOmFk3nFj
-X-Gm-Gg: ASbGncucZQYYJIuw2eLasErsbU+Xqal8hwUZQBMda/M5BB6uMhQrEpe5hJ2IejsP/RC
-	KDcMznXaBjW6x0uICKx/xXlfoeYrSN89PtAsATCM2riMS+Swjoyb4S9ZIoHGnWnWso7oT+kexLA
-	cpSkoQud1si9Yxqbex67iHVOU4PvrXoAD9ACkbbMeQFAzyFbHjLeXiiUw9SddC86q0nLGTfUitb
-	O5vKdB0DFWCi7YGkSJI7X6es3OqNykEqsEUNkCcGJ5g3BBQbDPFHJXTu8jOK+ma9DnE9BRKh0RP
-	qhWGTUlAspQeb+4KLTaEbaWrPiHZxG1Ki6DG4hvUVJx6qa6abKlYX4QnQVlikZMkajE=
-X-Google-Smtp-Source: AGHT+IG3ll1f11+UZwtw+Jor04/g1jCvuU4qYpcPBlXzdyIiMI+7ByMCtbhip+csjv0HRfpmtu7BRw==
-X-Received: by 2002:a5d:456b:0:b0:38f:4e50:8b0b with SMTP id ffacd0b85a97d-38f6f0630d5mr472733f8f.31.1740083605337;
-        Thu, 20 Feb 2025 12:33:25 -0800 (PST)
+        bh=L/oPr+uhiMwVLonfT4r87s8BLvEv5cJUIRCGxgmU+Z4=;
+        b=RTZ8kGtGLG1Or4o/ch186ZshTh8URdT8LPzRO68jwp7ElGVX89rZex1m4wF8fN8o+P
+         uK5Jj3G40rKTAmf5Qp8whf1xt4twALCF3vu63ED1SThgthg0yyzy1gTjDe6+Ax7WSqOE
+         H6dZNBg7hdAvR8XaTyBezDHCiv3UReRhM/6C0A1UWVs39K45PLrQFIDIXI2TtHw5b71Q
+         HAhtBbJejrWFrnIzWMiuwVr/pudBArI0/Z24nb0CpIl5a1M3nCS4eBRvgoYKKxwMHr/K
+         uF2He6cjyyHiIfMeQjH/qJWVwRD6TKoccuohL77EjDR/mQ6dhqEw8YIpV83u7DTUuOWm
+         s5Tw==
+X-Forwarded-Encrypted: i=1; AJvYcCX1zvMaK7jOD1j3Av7igUPK+PdHWGg08v+33EoCIbsfsUrjaLI9H8KNJkPz3G5nIN2HEeJ4LAnz7/1YNw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzam5M1dtOYwIjamDfYhwJPC6CZ7hWm/1SSoDSrjGPIf2zabFE5
+	iAu4Rg3iMmsEiaPjfEFP110pDC4SYCHS5AV3Otoc/rjTNCM7PfFc7t3rwRaE/HI=
+X-Gm-Gg: ASbGncvn2eRYBBHbI0Y5PpLNcRq5ZuTQP1LqT4k7A5brNk961U43o9ZI0qLj6BEPdBa
+	oNWFZ4lSI+9PsFl+shO80XYWIDnVDTY2N8i0zXENdenWfy88Tcd8hpbG855B0hq4+2t4MqyK22y
+	bwMuCPfgpB5ihfqTLVnz+48cVen6T+G8hHYUGKyryQfW80rAR/4sRmDeZd/5dh7a9Ctu+E2sRhw
+	72eeB+DWd3oJZ3fxcx1faVg+nnkZIcXv09hGQXJlyW/EmUohg2kSe3uJcHEK/oySbBpYvxsHXU3
+	BEDZl1r++h2tkyS2BX4UdU7WeJukguOHpX6cR3toqT2SvTavqRbYf9QjHZZVaEuDidM=
+X-Google-Smtp-Source: AGHT+IH9AWEvVPP40afiEyTpAqrp+DWpZtEd4U6ccKRCJ9igZQuFw9ymkzn2FjL3McLqq0mzFVmoPw==
+X-Received: by 2002:a05:600c:524a:b0:439:86c4:a8ec with SMTP id 5b1f17b1804b1-439ae1f1147mr6622885e9.15.1740083926326;
+        Thu, 20 Feb 2025 12:38:46 -0800 (PST)
 Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f258b4158sm21289979f8f.3.2025.02.20.12.33.24
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-439a3cc9551sm31663025e9.39.2025.02.20.12.38.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Feb 2025 12:33:25 -0800 (PST)
+        Thu, 20 Feb 2025 12:38:46 -0800 (PST)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Philippe Simons <simons.philippe@gmail.com>,
- "open list:GENERIC PHY FRAMEWORK" <linux-phy@lists.infradead.org>,
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
  "moderated list:ARM/Allwinner sunXi SoC support"
  <linux-arm-kernel@lists.infradead.org>,
  "open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
  open list <linux-kernel@vger.kernel.org>,
  Philippe Simons <simons.philippe@gmail.com>
-Subject: Re: [RFC PATCH 2/3] phy: override dr_mode for phy0
-Date: Thu, 20 Feb 2025 21:33:24 +0100
-Message-ID: <2428472.yKrmzQ4Hd0@jernej-laptop>
-In-Reply-To: <20250118102207.9339-2-simons.philippe@gmail.com>
+Cc: Philippe Simons <simons.philippe@gmail.com>
+Subject: Re: [RFC PATCH 3/3] arm64: dts: allwinner: h700: Enable USB OTG
+Date: Thu, 20 Feb 2025 21:38:44 +0100
+Message-ID: <3229934.fEcJ0Lxnt5@jernej-laptop>
+In-Reply-To: <20250118102207.9339-3-simons.philippe@gmail.com>
 References:
  <20250118102207.9339-1-simons.philippe@gmail.com>
- <20250118102207.9339-2-simons.philippe@gmail.com>
+ <20250118102207.9339-3-simons.philippe@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -83,50 +85,75 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne sobota, 18. januar 2025 ob 11:22:05 Srednjeevropski standardni =C4=8Das=
+Dne sobota, 18. januar 2025 ob 11:22:06 Srednjeevropski standardni =C4=8Das=
  je Philippe Simons napisal(a):
-> PHY0 mode is fully determined by the selected mux route.
-> Ignore changes requests from controllers.
+> RG35XX have a GPIO controlled regulator for phy0 vbus, add it.
+> Enable HCI0s controllers and otg for dr_mode.
+> Add phy0 properties to descrive id_det, external vbus, and internal vbus
 >=20
 > Signed-off-by: Philippe Simons <simons.philippe@gmail.com>
 
-Some context is missing. Why is this patch needed? Which scenario causes
-issues without this patch?
+This could work without previous two patches, right?
 
-Please also provide cover letter to the series, with "big picture" explanat=
-ion.
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
 
 > ---
->  drivers/phy/allwinner/phy-sun4i-usb.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+>  .../sun50i-h700-anbernic-rg35xx-2024.dts      | 25 +++++++++++++++++--
+>  1 file changed, 23 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c b/drivers/phy/allwinne=
-r/phy-sun4i-usb.c
-> index 24fbabe7a..f163b355e 100644
-> --- a/drivers/phy/allwinner/phy-sun4i-usb.c
-> +++ b/drivers/phy/allwinner/phy-sun4i-usb.c
-> @@ -544,6 +544,18 @@ static int sun4i_usb_phy_set_mode(struct phy *_phy,
->  		return -EINVAL;
->  	}
-> =20
-> +	if (data->cfg->phy0_dual_route) {
-> +		/*
-> +		 For SoCs with dual route the PHY mode is fully determined by=20
-> +		 the selected mux route (i.e. USB controller to use).
-> +		 As both host (EHCI/OHCI) and peripheral (MUSB) controllers uses
-> +		 the same PHY, both drivers can try to set PHY mode.
-> +		 We need to ignore this requests, but not report error in case
-> +		 of valid mode values.
-> +		*/
-> +		return 0;
-> +	}
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-20=
+24.dts b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
+> index 80ccab7b5..5a6ae42de 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
+> @@ -175,6 +175,16 @@ reg_vcc5v: regulator-vcc5v { /* USB-C power input */
+>  		regulator-min-microvolt =3D <5000000>;
+>  		regulator-max-microvolt =3D <5000000>;
+>  	};
 > +
->  	if (new_mode !=3D data->dr_mode) {
->  		dev_info(&_phy->dev, "Changing dr_mode to %d\n", new_mode);
->  		data->dr_mode =3D new_mode;
+> +	reg_usb0_vbus: regulator-usb0-vbus {
+> +		compatible =3D "regulator-fixed";
+> +		enable-active-high;
+> +		gpio =3D <&pio 8 16 GPIO_ACTIVE_HIGH>; /* PI16 */
+> +		regulator-min-microvolt =3D <5000000>;
+> +		regulator-max-microvolt =3D <5000000>;
+> +		regulator-name =3D "usb0-vbus";
+> +		vin-supply =3D <&reg_boost>;
+> +	};
+>  };
+> =20
+>  &cpu0 {
+> @@ -337,12 +347,23 @@ &uart0 {
+>  	status =3D "okay";
+>  };
+> =20
+> -/* the AXP717 has USB type-C role switch functionality, not yet describe=
+d by the binding */
+> +/* the AXP717 has USB type-C role switch functionality */
+>  &usbotg {
+> -	dr_mode =3D "peripheral";   /* USB type-C receptable */
+> +	dr_mode =3D "otg";   /* USB type-C receptable */
+> +	status =3D "okay";
+> +};
+> +
+> +&ehci0 {
+> +	status =3D "okay";
+> +};
+> +
+> +&ohci0 {
+>  	status =3D "okay";
+>  };
+> =20
+>  &usbphy {
+> +	usb0_id_det-gpios =3D <&pio 8 4 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* P=
+I4 */
+> +	usb0_vbus_power-supply =3D <&usb_power>;
+> +	usb0_vbus-supply =3D <&reg_usb0_vbus>;
+>  	status =3D "okay";
+>  };
 >=20
 
 
