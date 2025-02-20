@@ -1,102 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29FDC1CA84;
-	Thu, 20 Feb 2025 16:07:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7329B1EEA37;
+	Thu, 20 Feb 2025 16:08:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740067632; cv=none; b=WDQEPjpqPzx6RGhOsJZp7v8v3DtrtUBZDKpcOOUno62mmMRanmWD6OXe7AYieL0XjxKJY8e/LlCvn0ZRES6zNm/ISoYTWxeo83eZOpqCsyTxNKadNkibPywyYTdn9TdKPljV+G7rd0o3QZlFPDp80uNf7Z2ZEJ9dHYR80Eizi6U=
+	t=1740067696; cv=none; b=mnxaxqC+YRcz6tYSGrf+KPD0m2Q/DR/qDmuhO3VGcWO6R0ijUGIq84XHwnC++SBc6ctW2zXNChLe54Xjd5Fo505N54h2Qt7fctDja3WikgOO88I7arGjEkQ8modufqOUS9oHjkcMgJz3qQiiHCv/hkXxoga4dPYDQ4ovus7NqqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740067632; c=relaxed/simple;
-	bh=l6hNtVh2SuFZL7oYVzMnlU/JqKefg9mBjESFTWFKWPU=;
+	s=arc-20240116; t=1740067696; c=relaxed/simple;
+	bh=5UKuSJfQdQ3wxkz3CXu365iXRHx0PfplKe3AL6w5Cms=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E/cpOk7i+67UsHGeP+zvwEhsJEatAVBbCLMIk9wS7srS4eGSOMfjRPHqPsKP0P+Xr/0sqb3/FUANZElvcta/o9MU8lkLcscP3F3jtpDzsMkm5LL6j6EKcCyhI3QeEW/YogDLBAcxdGK32aRLpQQGLVAnQavse/7Yid6FU0ScJUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GCEeVrFW; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=h5Ilaia9IZTabTi7gz6vCeabIsv52ePoH+OvNRbNsul2PEsXS/TcwppQoAnTIxPifB/g5aV4nlmgSDfbhSzdQ93za6yg7TglHEqaFmHPioFU7PEA3rKUg8z6hoV8VdRUyrZJCjY38NEV5bjzgf9r4raACOcjCrBi+ZkzWf6sLwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R2H11IkQ; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GCEeVrFW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3ACACC4CED1;
-	Thu, 20 Feb 2025 16:07:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740067629;
-	bh=l6hNtVh2SuFZL7oYVzMnlU/JqKefg9mBjESFTWFKWPU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GCEeVrFW8PGOEmpEwNkFCj+GIPpkCWgQdJ3MgUDaQ6AugO6SkVv0YICcIItn63i9g
-	 g/gJ1Cp9gU56wu34B/Uj2JxFThzlFe/ibsszMoB3RrYNARJNNLVTlF744Dp/E34Csc
-	 jiDfcwePCQ26D7vBoXhCLaEjgyeGYFfrzFxvzIOvHbo80kG8K2e95cvNvAgu+fYlzO
-	 afDULBE6Cytsp0uEPiBoxRcD+k4FBg2L1J/esF5WAkyFKedgblGCtq/gsBdRXm4w7g
-	 cLoogKIlH5DP+2YbbJMV22ylts8AMYlIQ/u2rB76bLYFc4ry6ALCdvTT5l96R88c5F
-	 Lrgvdr0w9+SVw==
-Date: Thu, 20 Feb 2025 16:07:04 +0000
-From: Lee Jones <lee@kernel.org>
-To: Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc: linux-sunxi@lists.linux.dev, Chris Morgan <macroalpha82@gmail.com>,
-	devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
-	samuel@sholland.org, jernej.skrabec@gmail.com, wens@csie.org,
-	conor+dt@kernel.org, krzk+dt@kernel.org, robh@kernel.org,
-	Chris Morgan <macromorgan@hotmail.com>
-Subject: Re: (subset) [PATCH V2 2/4] mfd: axp20x: AXP717: Add
- AXP717_TS_PIN_CFG to writeable regs
-Message-ID: <20250220160704.GC824852@google.com>
-References: <20250204155835.161973-1-macroalpha82@gmail.com>
- <20250204155835.161973-3-macroalpha82@gmail.com>
- <173928137017.2164349.13619464947851022064.b4-ty@kernel.org>
- <rfn57iwagexbshg5akmo54l7un5ypcl6h655ahieyl3iz2oelg@oxv2wc4jcy5d>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R2H11IkQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740067695; x=1771603695;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5UKuSJfQdQ3wxkz3CXu365iXRHx0PfplKe3AL6w5Cms=;
+  b=R2H11IkQHZ8OIDz+GePSZq7iLEXJ6p1DsjvTbbwXScEfgpK7WwBURaUM
+   zN1HlFZNsydSU4OHQU6CL4QJ++uv0/bwQGEXa25qLpqWPrtwQ/yHgNdtT
+   E1bQzkskP3I4BH0CKAJXBQhXy0Y7Ee5buEHPvjCgsm2nwO69h67MLUHD2
+   L2Gkt2mGleJZcn0xUXa5I33yIfyYDFiKTWQfwAHrXczAxwMbufYpKc5hq
+   Q7nUB7+xyc/2KtyTfsjCk/5RTECNvnxUAFDeRBfPCOfaF/zryj4HRhsR5
+   GZVFa80k3MBB+aSJp+Wzf/b/qbfOd6TinWg9hHJov/cXMk4KAGMKQ2lwc
+   Q==;
+X-CSE-ConnectionGUID: TftigUVqR8ykG0uAOS5SzA==
+X-CSE-MsgGUID: j6EpGS4mTFKBTweDYsXMnQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="41111086"
+X-IronPort-AV: E=Sophos;i="6.13,302,1732608000"; 
+   d="scan'208";a="41111086"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 08:08:10 -0800
+X-CSE-ConnectionGUID: XpRPYF38T1i0MknHmzmydw==
+X-CSE-MsgGUID: nmfcKGLnQPKtGGWmAwquGA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,302,1732608000"; 
+   d="scan'208";a="145937707"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa002.jf.intel.com with ESMTP; 20 Feb 2025 08:08:05 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tl95l-0004Tv-20;
+	Thu, 20 Feb 2025 16:08:01 +0000
+Date: Fri, 21 Feb 2025 00:07:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
+	Nuno Sa <nuno.sa@analog.com>, David Lechner <dlechner@baylibre.com>,
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v3 6/9] iio: adc: rzg2l_adc: Use adc-helpers
+Message-ID: <202502202332.jrEGhoBM-lkp@intel.com>
+References: <25c5d22f6f0cbd1355eee2e9d9103c3ee71cebdc.1739967040.git.mazziesaccount@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <rfn57iwagexbshg5akmo54l7un5ypcl6h655ahieyl3iz2oelg@oxv2wc4jcy5d>
+In-Reply-To: <25c5d22f6f0cbd1355eee2e9d9103c3ee71cebdc.1739967040.git.mazziesaccount@gmail.com>
 
-On Thu, 20 Feb 2025, Sebastian Reichel wrote:
+Hi Matti,
 
-> Hello Lee,
-> 
-> On Tue, Feb 11, 2025 at 01:42:50PM +0000, Lee Jones wrote:
-> > On Tue, 04 Feb 2025 09:58:32 -0600, Chris Morgan wrote:
-> > > Add AXP717_TS_PIN_CFG (register 0x50) to the table of writeable
-> > > registers so that the temperature sensor can be configured by the
-> > > battery driver.
-> > > 
-> > > 
-> > 
-> > Applied, thanks!
-> > 
-> > [2/4] mfd: axp20x: AXP717: Add AXP717_TS_PIN_CFG to writeable regs
-> >       commit: ab797d7faf4c28328d2e45b09991f47a9b8e08aa
-> 
-> Patch 3/4 has a dependency on this one. As you probably haven't done
-> an immutable branch for this one, please also pick up 1/4 and 3/4. I
-> just provided Acked-by to them.
+kernel test robot noticed the following build errors:
 
-Here you go: :)
+[auto build test ERROR on 5bc55a333a2f7316b58edc7573e8e893f7acb532]
 
-The following changes since commit 2014c95afecee3e76ca4a56956a936e23283f05b:
+url:    https://github.com/intel-lab-lkp/linux/commits/Matti-Vaittinen/dt-bindings-ROHM-BD79124-ADC-GPO/20250219-203748
+base:   5bc55a333a2f7316b58edc7573e8e893f7acb532
+patch link:    https://lore.kernel.org/r/25c5d22f6f0cbd1355eee2e9d9103c3ee71cebdc.1739967040.git.mazziesaccount%40gmail.com
+patch subject: [PATCH v3 6/9] iio: adc: rzg2l_adc: Use adc-helpers
+config: i386-buildonly-randconfig-005-20250220 (https://download.01.org/0day-ci/archive/20250220/202502202332.jrEGhoBM-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250220/202502202332.jrEGhoBM-lkp@intel.com/reproduce)
 
-  Linux 6.14-rc1 (2025-02-02 15:39:26 -0800)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502202332.jrEGhoBM-lkp@intel.com/
 
-are available in the Git repository at:
+All errors (new ones prefixed by >>):
 
-  ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git tags/ib-mfd-power-v6.15
-
-for you to fetch changes up to bfad07fe298bfba0c7ddab87c5b5325970203a1e:
-
-  mfd: axp20x: AXP717: Add AXP717_TS_PIN_CFG to writeable regs (2025-02-20 16:05:09 +0000)
-
-----------------------------------------------------------------
-Immutable branch between MFD and Power due for the v6.15 merge window
-
-----------------------------------------------------------------
-Chris Morgan (1):
-      mfd: axp20x: AXP717: Add AXP717_TS_PIN_CFG to writeable regs
-
- drivers/mfd/axp20x.c       | 1 +
- include/linux/mfd/axp20x.h | 1 +
- 2 files changed, 2 insertions(+)
+>> ld.lld: error: undefined symbol: devm_iio_adc_device_alloc_chaninfo
+   >>> referenced by rzg2l_adc.c:324 (drivers/iio/adc/rzg2l_adc.c:324)
+   >>>               drivers/iio/adc/rzg2l_adc.o:(rzg2l_adc_probe) in archive vmlinux.a
 
 -- 
-Lee Jones [李琼斯]
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
