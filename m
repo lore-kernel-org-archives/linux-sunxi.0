@@ -1,147 +1,179 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2111.outbound.protection.outlook.com [40.107.255.111])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 115A11FF7BB
-	for <linux-sunxi@lists.linux.dev>; Thu, 20 Feb 2025 18:12:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740075171; cv=none; b=QKfiEJT7kR1pr8A0RJNLggk7LriRJboRJFJ89eM18ggf4Qe6Px1jvKePBE765Hcka8wKNLKl1OeXuDz7cVK8GUg0NRzcDyJYkUZQrClPIdomzU2tyZ36gRaqywvcHPRTfX036Q+7G0Uuwp6V+A727gdb5BTHYQkiK2ZOnyhIWj8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740075171; c=relaxed/simple;
-	bh=RVJ0Ui+e4wiQwjjazPtlbUqFxh8TiHfnG0fw+upHVBE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=H71L3Gp/JsU5ejVW0S7YGMk+mbcGHlZ8BONaBa0mHLIa7pThVNz23eXcN5veWwnSiNYuUXnI9Bk0yECD/3go9FTOyCL7HEcuRgmIiUphfmfiHc/qejJp5329we7Xtq/g93Ryq60kI0SsrVU8uSGNBWgCcUUU74m+CE87mSRUn1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EiV3eDqi; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EiV3eDqi"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4394345e4d5so8758705e9.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 20 Feb 2025 10:12:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740075166; x=1740679966; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hf9BmegiktNtcY6HS4qZYakNRxia/v7+na1LdoL1VGI=;
-        b=EiV3eDqi3O5CxSCBNOurbsvrqpxdLu2jdN41wMr04bCsB4coNTkZ2c1peSa756WXjK
-         g/xGbgeOsTSl9h6AriYfcKYU1H/gQy1KVDJwz8Iw9WBWhuqybMLUW+/C7gtbcfaUHJ90
-         vJyKTkmY8IiTQ1aDw8VHj3dWv68t9TkK7gAGBECWs7+vfdSHu7N1bOjnFAGiuoXSNxpN
-         fMiFLZVVzj/l8+hwUbISCjG+w1beuQAPBQaEASuNBqLxEurB6ZOsob3FeiiwdjWle+t/
-         CuxftegFW7eDfAgTECqP7IEBYIuYhfWJg2sWAsjAaH4zhkkLxtQx0dXNFN7YyKqKUpQo
-         w6kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740075166; x=1740679966;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hf9BmegiktNtcY6HS4qZYakNRxia/v7+na1LdoL1VGI=;
-        b=hqhpbMrgHwSgXNM+ub99ci1qLI/wIe09PCvg3M5LA/BcKiKqCvwV9VMinWUcI4yiVN
-         mfpw4epCIoISYtEDCilQe+ze5KJsaduksWsSD9yKlC4emAfFCnIqrLmQZluhdcmRToCF
-         h37AvD+nm8iypTjZbNndM8cRioAOl3qWMmeBCsy893/9T03Vmen1n1QlN+jeW4o7BKEh
-         adSNrQAa/lgBhf2zrAjQZoErTct2YV/H/g2k75uFzfdvSuhQw/xncZUqDJjb9W/sO29N
-         HgdVvprqElmHssXoLHZvLc00cqRGXzoYJr+HtWMrfvJCIWyn2Yh2vhLHfHCG/idwhjMz
-         6ECw==
-X-Forwarded-Encrypted: i=1; AJvYcCXBcyO14G3pdHj22MGqbmtqUTSzdDxIycrDiXLlVQIgMeh3G+Rh2kLhJdaatAtHaAggxxU4mZC27P/cYQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzNEx6iuBGD4VipoF1qrMne14eCvfiMgutLeBD+KyZcETGqFMTZ
-	kpKVYRaH60FWTj3Y5UDkJ0Rb3jMPjORVEsc172GQubkU+8A2oThT
-X-Gm-Gg: ASbGncvBwfMIQakvjtD7hCEkXupukvxUQUW3izQQVjE2LyS8blpa696u+iB0WkXDN03
-	GSHleB5+IQp/FxjluzDhQ96lrpmn/q2BzL+XvbQD+WErUD3f99UQIfvJxdG6dHiNDjEGmxG3AOq
-	+S44a2qMVr1+hAZij4ymUZ2CYh5nj/I1RBBrBkwMIWWMYlW+p64/vW1uO3X9CcotqLt+2BrHXP8
-	SV1blzIWYobrxv7kt23zZgRaUKQ/ZeoANjxJSI/LquopISbhH6lC7ugwgAY30rWUj42BcadhIxE
-	hg4QADRnzCxaWQot2ymKCsRHZZCu5OsnZIPhwjheK/gD3rvjqzZY2fBk0VV4MM1QviI=
-X-Google-Smtp-Source: AGHT+IG8SxlEpGzhrbOAaMiZSLB6w/8BQXRpKpsCxpcNHWG6kyfbSzJtzHPfDd1frA7kH4B1Z2SqFw==
-X-Received: by 2002:a5d:6dd1:0:b0:38f:4f25:14a3 with SMTP id ffacd0b85a97d-38f6e979d1amr195111f8f.30.1740075166029;
-        Thu, 20 Feb 2025 10:12:46 -0800 (PST)
-Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f258f5efdsm21016778f8f.43.2025.02.20.10.12.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Feb 2025 10:12:45 -0800 (PST)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Emilio =?UTF-8?B?TMOzcGV6?= <emilio@elopez.com.ar>,
- David Laight <david.laight.linux@gmail.com>,
- Anastasia Belova <abelova@astralinux.ru>
-Cc: Anastasia Belova <abelova@astralinux.ru>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Maxime Ripard <mripard@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- lvc-project@linuxtesting.org
-Subject: Re: [PATCH] clk: sunxi: clean up rate counting
-Date: Thu, 20 Feb 2025 19:12:43 +0100
-Message-ID: <2385242.n0HT0TaD9V@jernej-laptop>
-In-Reply-To: <20250203112930.650813-1-abelova@astralinux.ru>
-References: <20250203112930.650813-1-abelova@astralinux.ru>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D32220C471
+	for <linux-sunxi@lists.linux.dev>; Thu, 20 Feb 2025 18:25:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.255.111
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740075922; cv=fail; b=K6nbhgMIXFZmFwDvAV2DhyQAvrWgKVzF3vvkwlFkKgo/6i/NwYo+Lwf9n82xzD5OQZwa6Urnl83ZCKK3EFXzdTcs8foIrWe1DY42+lpflz/jG/f94rF5NCmLQF2ArdJVHE91QZQV+PTSAVgx8k6KRUBGn8hxrIaQ6hFA4Gyp5jA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740075922; c=relaxed/simple;
+	bh=AKUP5+Qxt3ZWROWpMTqqpr7u1SUjmdYFQn+VlV63+oM=;
+	h=Message-ID:Date:Cc:Subject:To:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=mtchdzIlpyKD6TpPflgrrR5lQrFC0oyZjfFd0lBAUe+W6g7wLyVwSWK+sfZzJKcn3Bbyg4SVnpe82hdoVu609DfX6F5N967RZFCVhqWyW28+ST8fSyRWlHPbm37BC2jG2jTu5GDhEkF1BVGXdYLrAfAfaZpZcfQtXr7uX2AmLcI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linumiz.com; spf=pass smtp.mailfrom=linumiz.com; arc=fail smtp.client-ip=40.107.255.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linumiz.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linumiz.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dPixFXR+Aks0GR/qY5f1sc/hDKeRMVNVapkuHNTP9tp3FBWNWsa7jykOxqEHaI4CxFhSigRpisEm94aQ/xfafDAwRFn/kS/oSEnvMFw+r9GsGTZdhDoDAgoEoexTKxYV3YxlQZvifsJooBjJtaHIF4ohdYfgF+zBDUBHxmhoSiiUyPvu8zQJIKTu4iZCR8+JkB41Ge1niaHjkDhRRd5UcHrfkMUYj1FmZAp2lO6GbWBhj6b1sg+e/qF3EqYc82lQxpPvvJ3Bu8qqUch/qDOlfQwUXIRLatfUqRNNMRIRmZYfYQNVoDDTlEqDjd5oIuZZuIftD2fsmNAZP4QSGYbEGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EJZD7/TAKruQu19KQAVwNVg6yYRPuMPWA5kXBs8za7Q=;
+ b=IzAH/rlTVKoL7OI5JAbhvFa8AvI6ducO+/Dm1f4y83c0IW4+UbGlzY181pfaO0Ps9DGkbXqd6G8dtNxTB5KZwd5iFW0Wdkv9Eiu3hOE0ae0OfuTiUXjidirDOxSDRCbGZjnOo8s5TWSbqPRtncbwjGcehF5H+1/OkmD65aq0H4/ThrUAXinnBZtDv6Y+nPYmLAK037iKkZs8xKB6oXKL0s3XHmHi19qHX0axMSEeMTWDrouSs3KCB2yn5OAgP4OL9rPBr0Xh3wZzhV7phJz+n2IseEfxTZgIUPiCGS9DbeeT2iwm6ubl2cxu8GmpILV0PGvx+NYxbghQ6R6IQ9UWGQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=linumiz.com; dmarc=pass action=none header.from=linumiz.com;
+ dkim=pass header.d=linumiz.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=linumiz.com;
+Received: from TYZPR06MB6935.apcprd06.prod.outlook.com (2603:1096:405:3c::9)
+ by KL1PR06MB7012.apcprd06.prod.outlook.com (2603:1096:820:126::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.11; Thu, 20 Feb
+ 2025 18:25:14 +0000
+Received: from TYZPR06MB6935.apcprd06.prod.outlook.com
+ ([fe80::9e42:3253:9a2e:b565]) by TYZPR06MB6935.apcprd06.prod.outlook.com
+ ([fe80::9e42:3253:9a2e:b565%4]) with mapi id 15.20.8466.009; Thu, 20 Feb 2025
+ 18:25:14 +0000
+Message-ID: <c3990108-2963-4de4-98a3-d3aa368ed13a@linumiz.com>
+Date: Thu, 20 Feb 2025 23:55:08 +0530
+User-Agent: Mozilla Thunderbird
+Cc: parthiban@linumiz.com, Brandon Cheo Fusi <fusibrandon13@gmail.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Philipp Zabel <p.zabel@pengutronix.de>, linux-pwm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v11 2/3] pwm: Add Allwinner's D1/T113-S3/R329 SoCs PWM
+ support
+To: Aleksandr Shubin <privatesub2@gmail.com>, linux-kernel@vger.kernel.org
+References: <20250213094018.134081-1-privatesub2@gmail.com>
+ <20250213094018.134081-3-privatesub2@gmail.com>
+Content-Language: en-US
+From: Parthiban <parthiban@linumiz.com>
+Organization: Linumiz
+In-Reply-To: <20250213094018.134081-3-privatesub2@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BM1PR01CA0153.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:b00:68::23) To TYZPR06MB6935.apcprd06.prod.outlook.com
+ (2603:1096:405:3c::9)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYZPR06MB6935:EE_|KL1PR06MB7012:EE_
+X-MS-Office365-Filtering-Correlation-Id: acff987d-d5a4-4f45-2fe9-08dd51dbeaf0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?dCt3akJVcnJSNGMrdEN5SHR2TzR3QmltNFZZNDVNaFZEZlVaMUluQzkxcFhV?=
+ =?utf-8?B?bGx0bWVsM3EyYkZPeTlIcnZxUHFjZnU5UXRjQ1EyYkR0NWVjM3JnaFhYSG9L?=
+ =?utf-8?B?ZzRqVldla01TKy9NNzVESmUxV0VRdUgwb203OXR2bTB2WU5LOVNqSHpRWGM0?=
+ =?utf-8?B?ekR5bXdSQi9SdTZmZVA2SXlXUWN4US9TYXlKTW9Ya3V6ODRtTGJNdWprR21h?=
+ =?utf-8?B?bjF4V1RRYTl3YXBPeWZJRjhJOGpzSkNucE5CU1pMbGlyODBJSWZ2UWNSa3V0?=
+ =?utf-8?B?cW9SUFpueFdaNmpTdGViOUdYZHgxUTBFOUNWd0RKSXlTd3ZmdnhjNi9mSzg4?=
+ =?utf-8?B?b083ZE1VOGlEUi9HZlU3OEhmL0F5QmNtOXdDbkhHZFkwR3RsYnhHa2xjaE92?=
+ =?utf-8?B?NDVPSkNyUWtRZWpOeUNiMFcrb1FSRUZ6dXpSN2xtbXluSWVsSFI4ckJnRys1?=
+ =?utf-8?B?blE5dkxyVktDQ0hKZGJrd0hORWtOVWJBUUZPemMxRzNqMFhaT2VoQ3FuUzBS?=
+ =?utf-8?B?ajBIdlA5REZaQ0NreVgwZnZXYVZxNkhyM05Tb1M5empQeWs2NzBHNi8vdGEr?=
+ =?utf-8?B?SFJnOHc5a2xONW1mRW5jTWs2ZmJIR3M2UkJhenZBeHdzWGczamIrVnl1QkVR?=
+ =?utf-8?B?RkNyREFuTm1oS0hFT1FBbDdpSDVTWEVWaHZ6djd3V0p0OG85QVBLaVhacnVI?=
+ =?utf-8?B?SVc0TnVYYVhjN0ZHbUlLa1Z5N09zQ1dxby9CRGplTkFnUVJwWXhpTCtwTXdB?=
+ =?utf-8?B?bExnWEJaRXBGY1o3THAyd2EwMWZjN3ViM01wNXJFUE1TcHFFSXdlRGxVZHRG?=
+ =?utf-8?B?SFJVNFc5QUtKUGJvMDFmQUlnU0NNS2FVQUxPQlRyVEN4a3JMbEhYLzFHazI1?=
+ =?utf-8?B?MlNaNHVQUDMvbzY1aXVHVldYaU1MNDdnQ1NGMm5SZ0UwQ2xiQWwyeWk3aHZD?=
+ =?utf-8?B?dmpaVGI0MjlKbzMxdFVjNGpwbXFsZlFwUUlmdU96dWVYb25GL0kwcXpJaHNm?=
+ =?utf-8?B?UEUvU3o4eEVsZVR3cnV3M1ZZRXQ2MEhPcFNZRVFZMmNhbnBDbTVuMnRYNWZV?=
+ =?utf-8?B?a29meVpkb3JSV2FwMmtva082UE94dTdmeUdPOEw2MTBNMkhxZHJUOGVGKzZ1?=
+ =?utf-8?B?ZGE5RTRlZWtDUkRyTVEzeHF0blZKM0lCdVZVV0o2Qys3eFpaM2h0eUhoRngx?=
+ =?utf-8?B?SFJLdWdNYmRKNHRtTDVPQnJWNjdkaUdOU1RNWGxGNnhPb044M0N6WDFMWUJz?=
+ =?utf-8?B?TG1pZXp4SG9VQnZvbHNDUTRMaU9CL1BjbEc3MVZwaXpaZWwzS05VcndVMW0v?=
+ =?utf-8?B?OUJVMWFyNlU3MUV5bTBVWjI3Vk40a1UrWFhsN25JNm5aeTl0T2lBMkVqMC9i?=
+ =?utf-8?B?RGdPK1BlR2VlQ29vTmlPcXFSRG91SGtPQmR4ZXdQTS95cHNNVngyUWtFYjc5?=
+ =?utf-8?B?NldmbXc3YmFYM0JsKzViaHVESEl2NnNHOGNKOGxVS0tvczJvRkkxaEtoKzY0?=
+ =?utf-8?B?VkV3QmpNNGxNWVZyemVud3NlZDBzaGdOMlhOWm9Ob2xJSDVIMlZtOHBnWmNE?=
+ =?utf-8?B?c0cyTzBta1FEZWRnSUpsSnNmTHVURDVzeGN1ZElxb01PS0FPdE16aFNaaktL?=
+ =?utf-8?B?cThZb2t5ODBqRVczaG5hbHZOS3czZU1Vd05peGNQaXViMWtROTlrTWhkcWdF?=
+ =?utf-8?B?bTJwVXVhb0RzN24vNHNTZU9FTXZnSWpKVnNGQkZEZkd2djZjM05RZjJSeW81?=
+ =?utf-8?B?TzVLZTFON1YyTVRJLzNSSkZCRG12Z2VjQ1BLY09YRUV3cVhKZkR6eGRyZTlW?=
+ =?utf-8?B?ZWRBM0phazcyR2o0SGNsUVlhMXhESlhKaWFFQ25ZRkwxWW8xVERKMm9tRmRi?=
+ =?utf-8?Q?+2wMjeM7Gsvm9?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR06MB6935.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?aWpqYjQrMkVBTWc1UWlpZ29qdDdidFVoVm4yamRSRXFRWUkzMit3MTFTL1A4?=
+ =?utf-8?B?d1BLemFhZHpWM2V3elg2SHpaM2tHV0duTVA0cytzQlF1WjBpY1pBS2RHSVFl?=
+ =?utf-8?B?WWM1bkgrT0RvUDhUVDhVTnFxK3YrT0RsYWUwcGNGV1pETXNmMDQ3dnpYdVAx?=
+ =?utf-8?B?Z3AxVy83TFlxN1FoekZZSk5MejY4VkhxZ3VITlFRTTFUWlFJN2sydWE2SnI3?=
+ =?utf-8?B?M3JHUy9yZ1kvNkN5d25HK0EyYmpxL3M1a1ZRcGt3bkZ1YW90d0F4MCtDaUE4?=
+ =?utf-8?B?RURXSURkV2VNZGdPWjZTMGVoUEcxblhZNUtoOXQ2MmdOeGkxeVozSCtrdHpk?=
+ =?utf-8?B?dmd5RmJ1dVVqOWRiOXpQeXk1NVFzMm9vdDBBdy9LNG9uakRlb3VROHJpK0t0?=
+ =?utf-8?B?YU5vRk15Rm1rOEg0VDVYWmNPOVV6bElOcVppMkZhUHFHb3VJUVp0QWp3Uk00?=
+ =?utf-8?B?L1N0ZG5VMmJPUDZuRWNhZWs4MnVnRFBwMy9hVmFFK2NOT3ZvUzZhNjdqREx3?=
+ =?utf-8?B?Ym9XLytXdlVVcXdUeDZFbjkxUGN2Y2k4UmZQZlhVa1ZITURtQ0tlb2tQa0Mz?=
+ =?utf-8?B?b25peGRhYWFuUDdPV24wLzNudWJ1S1dQbWJYaEs0alRnYnJpNVhnTUhpdjgv?=
+ =?utf-8?B?dGtzekVHSmoyTFRyWkJVejRiSER0c0t4L0U2M2szSXlKRzZDcWNodHl4Ulc4?=
+ =?utf-8?B?WDlseVQ4S3BrZDJqUGFPNC9HWU9CcVBWamlLeTFOWW03QjhKUTB6RUx1Mnhz?=
+ =?utf-8?B?YllsMk1vK3pmU3pDYW5NbnZXWml5bzdyb1pkNHc5VUFWR25yTG9tZFduK211?=
+ =?utf-8?B?MEVSektqTEptUUNTc3BaQXhNNHIyVFdxNlhNclVwQ1YxUXVocFA2elZ3RDBh?=
+ =?utf-8?B?Z0ZJbEdFMVFTMFM3bzFhVHIyOWNtYklvM1RITWhYZS9ITkR6VWNabklIK0Y4?=
+ =?utf-8?B?UnJqOHpIU053ZEIxTXVySGJRekZoQUFzeEZldzdEcE82WHhVUjdwYWxhVzJu?=
+ =?utf-8?B?MElMdDI0N3hlR3FMa241Ry9pOGFHcTBLVE9IUUN5bXVIU0V6QmFsTkZrRWcw?=
+ =?utf-8?B?TXd3VzJxREUrbXgxa2hSM0ZLVVlMc2F5SU8yK1hOSm04VENLcnZQWDJZL2Fy?=
+ =?utf-8?B?L0JrbktwYndVdU5iUk9aUzVlVzByUDVvUWtSRVNmK3IwbjltVTd6SkcrcCtF?=
+ =?utf-8?B?YzdJL1RmL010ditLOFh0dG15MmxoNjNrN0FGWlAwQXhCNTZjNXZJNDVHM3hl?=
+ =?utf-8?B?SmRYa1VLdmszeE1jck9Oc2N4WHllajgrS05ORWJvMjRpd0pmbDNmUm1hSnpx?=
+ =?utf-8?B?UkRnZDhGUExJSWY4UENCMUNjRm5ZcjBHUlBoOHNMd0ZHQStsQmRLS2ZCU2sv?=
+ =?utf-8?B?bjgrTE9FazRSalA3UUFUSWd2V21qeDVmNEVGeldFa29xTUFveXo3MksyZVBx?=
+ =?utf-8?B?YUdLTWdGTTRvQ3hsdlNzdncrcy94NDhnMXMyeXl4QlB6VHZ0SjRKK3dwMEhJ?=
+ =?utf-8?B?elpWRS95WWVsblB6SHdxWkdYZ3ZiRG1OT1VLOGN4YXV4NEhVclloUXlDUldq?=
+ =?utf-8?B?MjFoem02WjhHNVcrd21penVlZkVzNTNWYmtuY2tEMTVjLzNXaEI2ckxhM2pX?=
+ =?utf-8?B?UERabHJXVVpDRlZlNlJGclVIWVprMjV6M0Jmc1U5N3k3NlM0eFlFSWIxVzdl?=
+ =?utf-8?B?MklybWcyZGJVZ1B0U2tqVmpkMWFOc0NFOHNnRWd3SDFPcnhQeVVhS0tBYmxv?=
+ =?utf-8?B?Q0t0M251S2lqdDF0RzhHNWtNMXB2emF0ZU1HVFJpRlNMQW1mT3lmZGROdTgy?=
+ =?utf-8?B?UnlwZG8wRWxqak5MVXYrNk5uNUU1akF3UVJsZzQ0eHZJSS9TM3RWemE2ZDhq?=
+ =?utf-8?B?alExbWZQRHpmb1cwdHdlcjc5OWd2dWZMRmFUUEJ1VnlPQnI1WHdLcEtUMkV2?=
+ =?utf-8?B?U1VvRVJ5TjM3Yi9ibzh6ZkxjaGxRNG5HY3JMWnFmVzIzZmlwWjlPYTFRUUxZ?=
+ =?utf-8?B?OGRmMG0rdi9IWE5CWm52VE43QURMUVk0TldqUXR4S053Tk1pbml1Mno1T28r?=
+ =?utf-8?B?V2hMRzM5cjVRdDRCaENMY29heFZrOEo3Q3lQTVlOVVVUK1Q1OVAraVpZUHUx?=
+ =?utf-8?B?WE9JWGd4UmZLMnU2eVpQUFo4N052S2ZWKzhiRjNjYVVXU3oxKzZCbk81YTNB?=
+ =?utf-8?B?Y3c9PQ==?=
+X-OriginatorOrg: linumiz.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: acff987d-d5a4-4f45-2fe9-08dd51dbeaf0
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB6935.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2025 18:25:14.0245
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 808466aa-232a-41f4-ac23-289e3a6840d4
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DjV8Ewp9BISijm3WBAK/udDqhgRO/HHsKu1Un9iMnxYsmyP0hnZru/tHd30tNleplOyswOUQhtVBn2GXtfrudA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR06MB7012
 
-Dne ponedeljek, 3. februar 2025 ob 12:29:28 Srednjeevropski standardni =C4=
-=8Das je Anastasia Belova napisal(a):
-> If n =3D 255, the result of multiplication of n and 24000000
-> may not fit int type. Swap division and shift with multiplication.
->=20
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
->=20
-> Fixes: 6424e0aeebc4 ("clk: sunxi: rewrite sun9i_a80_get_pll4_factors()")
-> Signed-off-by: Anastasia Belova <abelova@astralinux.ru>
+On 2/13/25 3:10 PM, Aleksandr Shubin wrote:
+> Allwinner's D1, T113-S3 and R329 SoCs have a quite different PWM
+> controllers with ones supported by pwm-sun4i driver.
+> 
+> This patch adds a PWM controller driver for Allwinner's D1,
+> T113-S3 and R329 SoCs. The main difference between these SoCs
+> is the number of channels defined by the DT property.
 
-While this should work, should we try to remove (old) sunxi clock drivers
-instead? Drivers we converted 8 years ago, except A20 GMAC and A80 PRCM clo=
-cks.
-Even if we convert them now, we need some transition time for them.
+Thanks for the v11. Not sure you had a chance to look at my
+comments [1] for v10? In short, this patch series fails to
+work for A133 which shares the same IP.
 
-Best regards,
-Jernej
+[1]: https://lore.kernel.org/all/2f7ee626-8416-4a05-9add-26e100b16268@linumiz.com/
 
-> ---
->  drivers/clk/sunxi/clk-sun9i-core.c | 14 +++++++++-----
->  1 file changed, 9 insertions(+), 5 deletions(-)
->=20
-> diff --git a/drivers/clk/sunxi/clk-sun9i-core.c b/drivers/clk/sunxi/clk-s=
-un9i-core.c
-> index d93c7a53c6c0..639c83ed63b8 100644
-> --- a/drivers/clk/sunxi/clk-sun9i-core.c
-> +++ b/drivers/clk/sunxi/clk-sun9i-core.c
-> @@ -25,12 +25,12 @@
-> =20
->  static void sun9i_a80_get_pll4_factors(struct factors_request *req)
->  {
-> -	int n;
-> -	int m =3D 1;
-> -	int p =3D 1;
-> +	unsigned int n;
-> +	unsigned int m =3D 1;
-> +	unsigned int p =3D 1;
-> =20
->  	/* Normalize value to a 6 MHz multiple (24 MHz / 4) */
-> -	n =3D DIV_ROUND_UP(req->rate, 6000000);
-> +	n =3D DIV_ROUND_UP(req->rate, 6000000ul);
-> =20
->  	/* If n is too large switch to steps of 12 MHz */
->  	if (n > 255) {
-> @@ -50,7 +50,11 @@ static void sun9i_a80_get_pll4_factors(struct factors_=
-request *req)
->  	else if (n < 12)
->  		n =3D 12;
-> =20
-> -	req->rate =3D ((24000000 * n) >> p) / (m + 1);
-> +	/* Division and shift should be done before multiplication to
-> +	 * avoid overflow. The result will be correct because '>> p' and
-> +	 * '/ (m + 1)' are both just conditional 'divide by 2'
-> +	 */
-> +	req->rate =3D ((24000000ul >> p) / (m + 1)) * n;
->  	req->n =3D n;
->  	req->m =3D m;
->  	req->p =3D p;
->=20
-
-
-
-
+Thanks,
+Parthiban
