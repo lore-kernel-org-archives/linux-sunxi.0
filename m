@@ -1,311 +1,97 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B135D70821
-	for <linux-sunxi@lists.linux.dev>; Fri, 21 Feb 2025 01:22:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740100975; cv=none; b=MOritz+8kmqjcUeBR5zd3r9NfwY0t7+Gyy2c+6DskvikVLvTECNP2dJf3T1F/7knbwgu3OW3tLvheoVsQJ9Pofsrur2cQaDtZlV3jrnArl+F70hoMhVZazVKeH6oWeZUFK2ZMMG2qqDisVG+xbG5a6X1ZkxsO9Bzn/DeJzGTu18=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740100975; c=relaxed/simple;
-	bh=wxntAHk21KiBJP0ukIKmCC3zcN9QcoR8KT16lZo6UXk=;
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 432FD86355
+	for <linux-sunxi@lists.linux.dev>; Fri, 21 Feb 2025 01:24:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740101053; cv=pass; b=MxHkPxIp5JMTqylMz32JNiilL/5zZh9CFu/+F6YeynytQWLb2lkSsRFQPuKJm+0Xjxa7sEJu88EDJsLkq3uiH0Wp4XHepWG3viyaVkJ5228qXTgtuvMviE/Z7H/RsxiCbZbQ1xBiHyRUD+aUVPbzylQ+UDrQVFWaC4rApyyeDx0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740101053; c=relaxed/simple;
+	bh=3Sm7DDI5Q3UUXjF6i7tR75Y3+dqUV1skgvyKaKwQc5M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Hw9kDGyKarHlZxXoVA6e43MzqqHAWHS/e2u3a7Q7Ji3jxEPRTuPWXD19FWwx5XOg3TcgiaTuJK35jqBNoF9A/QW/JgeB0KhqeTaRQmpzdeQZpSEu1Fm2TZeiY6GHPC9ywJorPM5ZcEB2VcvlGDxCBtm2a05Mm19qLn+rcbBc6cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1BFD41C01;
-	Thu, 20 Feb 2025 17:23:11 -0800 (PST)
-Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C926A3F59E;
-	Thu, 20 Feb 2025 17:22:51 -0800 (PST)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH 3/3] arm64: dts: allwinner: h616: add YuzukiHD Chameleon support
-Date: Fri, 21 Feb 2025 01:20:38 +0000
-Message-ID: <20250221012038.13706-4-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.46.3
-In-Reply-To: <20250221012038.13706-1-andre.przywara@arm.com>
-References: <20250221012038.13706-1-andre.przywara@arm.com>
+	 MIME-Version:Content-Type; b=K3dQVG1sAcs+GapdtTayt57TA/wFd8OHaCGJRqbhHJ0Q1b4Nj8/Z1RmRbp0drsMPQTAJ7mzSCrOkrg/eBPzpKrCfpK4tc7+GvZ3egS8Qz9wMR78VjY6r4CDCPcB+CPEklySXDEzkeSuUgQlRFPEthpptwE4UnlQ5Xwkg6FNCerw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=D03StydJ; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="D03StydJ"
+ARC-Seal: i=1; a=rsa-sha256; t=1740101046; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=XhvEn896bySa73zf2SMJO+WnEZWN1fHFTFN2xqzqaYHRU3Ajab5TbTF2oRi5ftx3N2dtTa1Z/SCGJgy4e7lgq/FE/ZX0R/GOi54FBwl5uIcn3vM8PCpvlsRnjPcWK3Uurs3mNAWDcz0+3icIieMxoE/lpW69in8DjdLcZAGxYfc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1740101046; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=mI/T5ROJs8elFBTHxKYFGNMmgHI1d3zveSjCBP4h+sc=; 
+	b=BCBzVjbgd844t4bj1IN9w3G7oN9d6a/czM51AXigkPQlwK3NjVNN8kuhB0mNwns8pp/le/5yVoWhfjOsBA3B7sQrKmN2Lc6jU3j1LVsYNLshem7k0kyn4Gs1mm5a9EaQfjKJgYXnISIdEz0ycDzdVhUYHTTkfktrmMsdL9dn/Ig=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
+	dmarc=pass header.from=<sebastian.reichel@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1740101046;
+	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=mI/T5ROJs8elFBTHxKYFGNMmgHI1d3zveSjCBP4h+sc=;
+	b=D03StydJsNd0cSJtFcp51/4Iqm14tQIeU+qxkoYUOmozFgeKHc5KLpbJ0IN48mnJ
+	MqbSqMgXioY8n9udo9otz/epyVhjIjBPcV6l9pha6fdcHNMWSXEgrC2v4KPXSAQ2nZU
+	SRRD+KMU5BdBZNXgcMmAeC5K9NMf5ZIPAqARtA9o=
+Received: by mx.zohomail.com with SMTPS id 1740101043632123.4475557336358;
+	Thu, 20 Feb 2025 17:24:03 -0800 (PST)
+Received: by venus (Postfix, from userid 1000)
+	id CEB621835EA; Fri, 21 Feb 2025 02:23:58 +0100 (CET)
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: linux-sunxi@lists.linux.dev,
+	Chris Morgan <macroalpha82@gmail.com>
+Cc: Sebastian Reichel <sebastian.reichel@collabora.com>,
+	devicetree@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	lee@kernel.org,
+	samuel@sholland.org,
+	jernej.skrabec@gmail.com,
+	wens@csie.org,
+	conor+dt@kernel.org,
+	krzk+dt@kernel.org,
+	robh@kernel.org,
+	sre@kernel.org,
+	Chris Morgan <macromorgan@hotmail.com>
+Subject: Re: (subset) [PATCH V2 0/4] Fix RG35XX Battery Charging Issues
+Date: Fri, 21 Feb 2025 02:23:50 +0100
+Message-ID: <174010090154.20358.12342040950217986728.b4-ty@collabora.com>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20250204155835.161973-1-macroalpha82@gmail.com>
+References: <20250204155835.161973-1-macroalpha82@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-ZohoMailClient: External
 
-The Chameleon board is an OpenHardware devboard made by YuzukiTsuru.
-The form factor resembles the Raspberry Pi Model A boards, though it
-differs significantly in its features:
 
-  - Allwinner H618 SoC (4 * Arm Cortex-A53 cores, 1MB L2 cache, 1.4 GHz)
-  - between 512MiB and 2GiB DDR3 DRAM
-  - up to 128 GiB eMMC flash
-  - AXP313a PMIC
-  - 100 Mbit/s Ethernet pins on a header
-  - XR829 WIFI+Bluetooth chip
-  - 4 * USB 2.0 USB-C ports
-  - microSD card slot
-  - 3.5mm A/V port
+On Tue, 04 Feb 2025 09:58:30 -0600, Chris Morgan wrote:
+> From: Chris Morgan <macromorgan@hotmail.com>
+>=20
+> The Anbernic RG35XX devices sometimes fail to charge when the register
+> for the battery temperature sensor is set to the incorrect value either
+> by user error or an incorrectly programmed efuse. Allow users to
+> hard-code if a temperature sensor is not present (which is the case for
+> all Anbernic RGxx series devices) to prevent this issue from causing
+> problems. Additionally, a bug was identified with the handling of PMU
+> faults while this fix was being tested.
+>=20
+> [...]
 
-Add the devicetree describing the board's peripherals and their
-connections.
+Applied, thanks!
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- arch/arm64/boot/dts/allwinner/Makefile        |   1 +
- .../sun50i-h618-yuzukihd-chameleon.dts        | 222 ++++++++++++++++++
- 2 files changed, 223 insertions(+)
- create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h618-yuzukihd-chameleon.dts
+[1/4] dt-bindings: power: supply: axp20x-battery: Add x-powers,no-thermis=
+tor
+      commit: 626006541069d4d595128f03cc3a1b70a482805c
+[3/4] power: supply: axp20x_battery: Update temp sensor for AXP717 from d=
+evice tree
+      commit: bbcfe510ecd47f2db4c8653c7dfa9dc7a55b1583
 
-diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
-index 00bed412ee31c..448698fed5f79 100644
---- a/arch/arm64/boot/dts/allwinner/Makefile
-+++ b/arch/arm64/boot/dts/allwinner/Makefile
-@@ -48,6 +48,7 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-longanpi-3h.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero2w.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero3.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-transpeed-8k618-t.dtb
-+dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-yuzukihd-chameleon.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-2024.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-h.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-plus.dtb
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-yuzukihd-chameleon.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-yuzukihd-chameleon.dts
-new file mode 100644
-index 0000000000000..c60d42130cf79
---- /dev/null
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-yuzukihd-chameleon.dts
-@@ -0,0 +1,222 @@
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
-+/*
-+ * Copyright (C) 2024 Arm Ltd.
-+ */
-+
-+/dts-v1/;
-+
-+#include "sun50i-h616.dtsi"
-+#include "sun50i-h616-cpu-opp.dtsi"
-+
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+/ {
-+	model = "Yuzuki Chameleon";
-+	compatible = "yuzukihd,chameleon", "allwinner,sun50i-h618";
-+
-+	aliases {
-+		ethernet1 = &sdio_wifi;
-+		serial0 = &uart0;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial0:115200n8";
-+	};
-+
-+	reg_vcc5v: vcc5v {
-+		/* board wide 5V supply directly from the USB-C socket */
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc-5v";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+		regulator-always-on;
-+	};
-+
-+	wifi_pwrseq: pwrseq {
-+		compatible = "mmc-pwrseq-simple";
-+		clocks = <&rtc CLK_OSC32K_FANOUT>;
-+		clock-names = "ext_clock";
-+		pinctrl-0 = <&x32clk_fanout_pin>;
-+		pinctrl-names = "default";
-+		reset-gpios = <&pio 6 11 GPIO_ACTIVE_LOW>; /* PG11 */
-+	};
-+};
-+
-+&codec {
-+	allwinner,audio-routing = "Line Out", "LINEOUT";
-+	status = "okay";
-+};
-+
-+&cpu0 {
-+	cpu-supply = <&reg_dcdc2>;
-+};
-+
-+&ehci0 {
-+	status = "okay";
-+};
-+
-+&ehci1 {
-+	status = "okay";
-+};
-+
-+&ehci2 {
-+	status = "okay";
-+};
-+
-+&ehci3 {
-+	status = "okay";
-+};
-+
-+&mmc0 {
-+	bus-width = <4>;
-+	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;	/* PF6 */
-+	disable-wp;
-+	vmmc-supply = <&reg_dldo1>;
-+	status = "okay";
-+};
-+
-+&mmc1 {
-+	bus-width = <4>;
-+	mmc-pwrseq = <&wifi_pwrseq>;
-+	non-removable;
-+	vmmc-supply = <&reg_dldo1>;
-+	vqmmc-supply = <&reg_dldo1>;
-+	status = "okay";
-+
-+	sdio_wifi: wifi@1 {
-+		reg = <1>;
-+		interrupt-parent = <&pio>;
-+		interrupts = <6 12 IRQ_TYPE_LEVEL_LOW>;  /* PG12 */
-+		interrupt-names = "host-wake";
-+	};
-+};
-+
-+&mmc2 {
-+	bus-width = <8>;
-+	cap-mmc-hw-reset;
-+	mmc-ddr-3_3v;
-+	non-removable;
-+	vmmc-supply = <&reg_dldo1>;
-+	vqmmc-supply = <&reg_dldo1>;
-+	status = "okay";
-+};
-+
-+&ohci0 {
-+	status = "okay";
-+};
-+
-+&ohci1 {
-+	status = "okay";
-+};
-+
-+&ohci2 {
-+	status = "okay";
-+};
-+
-+&ohci3 {
-+	status = "okay";
-+};
-+
-+&pio {
-+	vcc-pc-supply = <&reg_dldo1>;
-+	vcc-pf-supply = <&reg_dldo1>;	/* via VCC_IO */
-+	vcc-pg-supply = <&reg_dldo1>;
-+	vcc-ph-supply = <&reg_dldo1>;	/* via VCC_IO */
-+	vcc-pi-supply = <&reg_dldo1>;
-+};
-+
-+&r_i2c {
-+	status = "okay";
-+
-+	axp313: pmic@36 {
-+		compatible = "x-powers,axp313a";
-+		reg = <0x36>;
-+		#interrupt-cells = <1>;
-+		interrupt-controller;
-+		interrupt-parent = <&pio>;
-+		interrupts = <2 2 IRQ_TYPE_LEVEL_LOW>;	/* PC2 */
-+
-+		vin1-supply = <&reg_vcc5v>;
-+		vin2-supply = <&reg_vcc5v>;
-+		vin3-supply = <&reg_vcc5v>;
-+
-+		regulators {
-+			/* Supplies VCC-PLL, so needs to be always on. */
-+			reg_aldo1: aldo1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <1800000>;
-+				regulator-max-microvolt = <1800000>;
-+				regulator-name = "vcc1v8";
-+			};
-+
-+			/* Supplies VCC-IO, so needs to be always on. */
-+			reg_dldo1: dldo1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <3300000>;
-+				regulator-max-microvolt = <3300000>;
-+				regulator-name = "vcc3v3";
-+			};
-+
-+			reg_dcdc1: dcdc1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <810000>;
-+				regulator-max-microvolt = <990000>;
-+				regulator-name = "vdd-gpu-sys";
-+			};
-+
-+			reg_dcdc2: dcdc2 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <810000>;
-+				regulator-max-microvolt = <1100000>;
-+				regulator-name = "vdd-cpu";
-+			};
-+
-+			reg_dcdc3: dcdc3 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <1500000>;
-+				regulator-max-microvolt = <1500000>;
-+				regulator-name = "vdd-dram";
-+			};
-+		};
-+	};
-+};
-+
-+&uart0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart0_ph_pins>;
-+	status = "okay";
-+};
-+
-+/* Connected to the Bluetooth UART pins of the XR829 Wifi/BT chip. */
-+&uart1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart1_pins>, <&uart1_rts_cts_pins>;
-+	uart-has-rtscts;
-+	status = "okay";
-+};
-+
-+&usbotg {
-+	/*
-+	 * PHY0 pins are connected to a USB-C socket, but a role switch
-+	 * is not implemented: both CC pins are pulled to GND.
-+	 * The VBUS pins power the device, so a fixed peripheral mode
-+	 * is the best choice.
-+	 * The board can be powered via GPIOs, in this case port0 *can*
-+	 * act as a host (with a cable/adapter ignoring CC), as VBUS is
-+	 * then provided by the GPIOs. Any user of this setup would
-+	 * need to adjust the DT accordingly: dr_mode set to "host",
-+	 * enabling OHCI0 and EHCI0.
-+	 */
-+	dr_mode = "otg";
-+	status = "okay";
-+};
-+
-+&usbphy {
-+	usb0_id_det-gpios = <&pio 6 18 GPIO_ACTIVE_HIGH>; /* PG18 */
-+	usb0_vbus-supply = <&reg_vcc5v>;
-+	usb1_vbus-supply = <&reg_vcc5v>;
-+	usb2_vbus-supply = <&reg_vcc5v>;
-+	usb3_vbus-supply = <&reg_vcc5v>;
-+	status = "okay";
-+};
--- 
-2.46.3
-
+Best regards,
+--=20
+Sebastian Reichel <sebastian.reichel@collabora.com>
