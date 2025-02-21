@@ -1,97 +1,134 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 432FD86355
-	for <linux-sunxi@lists.linux.dev>; Fri, 21 Feb 2025 01:24:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740101053; cv=pass; b=MxHkPxIp5JMTqylMz32JNiilL/5zZh9CFu/+F6YeynytQWLb2lkSsRFQPuKJm+0Xjxa7sEJu88EDJsLkq3uiH0Wp4XHepWG3viyaVkJ5228qXTgtuvMviE/Z7H/RsxiCbZbQ1xBiHyRUD+aUVPbzylQ+UDrQVFWaC4rApyyeDx0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740101053; c=relaxed/simple;
-	bh=3Sm7DDI5Q3UUXjF6i7tR75Y3+dqUV1skgvyKaKwQc5M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=K3dQVG1sAcs+GapdtTayt57TA/wFd8OHaCGJRqbhHJ0Q1b4Nj8/Z1RmRbp0drsMPQTAJ7mzSCrOkrg/eBPzpKrCfpK4tc7+GvZ3egS8Qz9wMR78VjY6r4CDCPcB+CPEklySXDEzkeSuUgQlRFPEthpptwE4UnlQ5Xwkg6FNCerw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=D03StydJ; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="D03StydJ"
-ARC-Seal: i=1; a=rsa-sha256; t=1740101046; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=XhvEn896bySa73zf2SMJO+WnEZWN1fHFTFN2xqzqaYHRU3Ajab5TbTF2oRi5ftx3N2dtTa1Z/SCGJgy4e7lgq/FE/ZX0R/GOi54FBwl5uIcn3vM8PCpvlsRnjPcWK3Uurs3mNAWDcz0+3icIieMxoE/lpW69in8DjdLcZAGxYfc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1740101046; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=mI/T5ROJs8elFBTHxKYFGNMmgHI1d3zveSjCBP4h+sc=; 
-	b=BCBzVjbgd844t4bj1IN9w3G7oN9d6a/czM51AXigkPQlwK3NjVNN8kuhB0mNwns8pp/le/5yVoWhfjOsBA3B7sQrKmN2Lc6jU3j1LVsYNLshem7k0kyn4Gs1mm5a9EaQfjKJgYXnISIdEz0ycDzdVhUYHTTkfktrmMsdL9dn/Ig=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
-	dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1740101046;
-	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=mI/T5ROJs8elFBTHxKYFGNMmgHI1d3zveSjCBP4h+sc=;
-	b=D03StydJsNd0cSJtFcp51/4Iqm14tQIeU+qxkoYUOmozFgeKHc5KLpbJ0IN48mnJ
-	MqbSqMgXioY8n9udo9otz/epyVhjIjBPcV6l9pha6fdcHNMWSXEgrC2v4KPXSAQ2nZU
-	SRRD+KMU5BdBZNXgcMmAeC5K9NMf5ZIPAqARtA9o=
-Received: by mx.zohomail.com with SMTPS id 1740101043632123.4475557336358;
-	Thu, 20 Feb 2025 17:24:03 -0800 (PST)
-Received: by venus (Postfix, from userid 1000)
-	id CEB621835EA; Fri, 21 Feb 2025 02:23:58 +0100 (CET)
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: linux-sunxi@lists.linux.dev,
-	Chris Morgan <macroalpha82@gmail.com>
-Cc: Sebastian Reichel <sebastian.reichel@collabora.com>,
-	devicetree@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	lee@kernel.org,
-	samuel@sholland.org,
-	jernej.skrabec@gmail.com,
-	wens@csie.org,
-	conor+dt@kernel.org,
-	krzk+dt@kernel.org,
-	robh@kernel.org,
-	sre@kernel.org,
-	Chris Morgan <macromorgan@hotmail.com>
-Subject: Re: (subset) [PATCH V2 0/4] Fix RG35XX Battery Charging Issues
-Date: Fri, 21 Feb 2025 02:23:50 +0100
-Message-ID: <174010090154.20358.12342040950217986728.b4-ty@collabora.com>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250204155835.161973-1-macroalpha82@gmail.com>
-References: <20250204155835.161973-1-macroalpha82@gmail.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF2D338F9C
+	for <linux-sunxi@lists.linux.dev>; Fri, 21 Feb 2025 01:39:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740101971; cv=none; b=OhoE3G50ZLmwYg2jKPhk3BfZKN+ExvSHv1iW6ZcjUHSnOzQwrRDZZ6NFYro+8YalhX4CFUq2lrqVp1+Ul+WNOC/tFQkAer8W4jo1E+SphlO0TOlMwLTzSZ21oYFCDwPq40rAqvzdwvbcTPtMoyNlIhzvM3HU51iGwHrVaezGU2Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740101971; c=relaxed/simple;
+	bh=XidwWYprxvvp9LVHmJrQKB7BF7kwB4sqxfHp3Zc1fQM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=inlMzixqlbOxmcO38NFlumQx2iZ/sBIzw0gKD51cdRNS3/plEy4rgflhWhuFZ0jkTdOSOXxpLj7wV0LMeRXKhu3oJG6LdS8v12yTdF5lCaNXNs1vmta+CZ+w0KQUxK7hvjVga8js4j6MNdzsAFF1dFZL8wm9T62ayDGOiDUVWc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2E0241BA8;
+	Thu, 20 Feb 2025 17:39:47 -0800 (PST)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4BEF83F59E;
+	Thu, 20 Feb 2025 17:39:27 -0800 (PST)
+Date: Fri, 21 Feb 2025 01:37:21 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Anastasia Belova <abelova@astralinux.ru>
+Cc: Emilio =?UTF-8?B?TMOzcGV6?= <emilio@elopez.com.ar>, David Laight
+ <david.laight.linux@gmail.com>, Michael Turquette
+ <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai
+ <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+ <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, Hans de Goede
+ <hdegoede@redhat.com>, linux-clk@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
+Subject: Re: [PATCH] clk: sunxi: clean up rate counting
+Message-ID: <20250221013721.32468f6c@minigeek.lan>
+In-Reply-To: <20250203112930.650813-1-abelova@astralinux.ru>
+References: <20250203112930.650813-1-abelova@astralinux.ru>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+
+On Mon,  3 Feb 2025 14:29:28 +0300
+Anastasia Belova <abelova@astralinux.ru> wrote:
+
+Hi,
+
+> If n = 255, the result of multiplication of n and 24000000
+> may not fit int type. Swap division and shift with multiplication.
+> 
+> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+
+I guess this is effectively a v2 of this patch?
+https://lore.kernel.org/linux-sunxi/20250120084719.63116-1-abelova@astralinux.ru/T/#u
+
+In this case, and for the records, I'd like to repeat some comments of
+mine from this former patch, about this being mostly irrelevant:
+- PLL4 is PLL_PERIPH0, which is meant to be fixed to 960MHz. Linux
+  would not change this frequency.
+- the Allwinner A80 is both old and quite rare/obscure: the most
+  prominent board (Cubieboard4) was broken for a while and nobody
+  noticed
+- this "allwinner,sun9i-a80-pll4-clk" clock is not used by any DT
+  in the kernel, so it's effectively dead code
+
+So do we really need this change? Or asked another way: What does this
+patch fix, exactly?
+
+Some comments still, regardless:
+
+> Fixes: 6424e0aeebc4 ("clk: sunxi: rewrite sun9i_a80_get_pll4_factors()")
+> Signed-off-by: Anastasia Belova <abelova@astralinux.ru>
+> ---
+>  drivers/clk/sunxi/clk-sun9i-core.c | 14 +++++++++-----
+>  1 file changed, 9 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/clk/sunxi/clk-sun9i-core.c b/drivers/clk/sunxi/clk-sun9i-core.c
+> index d93c7a53c6c0..639c83ed63b8 100644
+> --- a/drivers/clk/sunxi/clk-sun9i-core.c
+> +++ b/drivers/clk/sunxi/clk-sun9i-core.c
+> @@ -25,12 +25,12 @@
+>  
+>  static void sun9i_a80_get_pll4_factors(struct factors_request *req)
+>  {
+> -	int n;
+> -	int m = 1;
+> -	int p = 1;
+> +	unsigned int n;
+> +	unsigned int m = 1;
+> +	unsigned int p = 1;
+>  
+>  	/* Normalize value to a 6 MHz multiple (24 MHz / 4) */
+> -	n = DIV_ROUND_UP(req->rate, 6000000);
+> +	n = DIV_ROUND_UP(req->rate, 6000000ul);
+
+What would the "unsigned long" change here? This is 32-bit code, so int
+and long are the same size. And regardless, how does changing the
+divisor type help anyway?
+
+>  
+>  	/* If n is too large switch to steps of 12 MHz */
+>  	if (n > 255) {
+> @@ -50,7 +50,11 @@ static void sun9i_a80_get_pll4_factors(struct factors_request *req)
+>  	else if (n < 12)
+>  		n = 12;
+>  
+> -	req->rate = ((24000000 * n) >> p) / (m + 1);
+> +	/* Division and shift should be done before multiplication to
+> +	 * avoid overflow. The result will be correct because '>> p' and
+> +	 * '/ (m + 1)' are both just conditional 'divide by 2'
+> +	 */
+> +	req->rate = ((24000000ul >> p) / (m + 1)) * n;
+
+This looks OKish, since indeed the divisors are just 1 or 2, so we
+don't lose any precision here. But again: what is "ul" supposed to fix?
+
+Also the comment reads slightly wrong to me: Normally division
+and shift _should_ be done *after* multiplication to avoid loss of
+precision. The comment here should state that we _can_ do it the other
+way around here, since the divisors are small and divide the dividend
+"cleanly".
+
+Cheers,
+Andre
 
 
-On Tue, 04 Feb 2025 09:58:30 -0600, Chris Morgan wrote:
-> From: Chris Morgan <macromorgan@hotmail.com>
->=20
-> The Anbernic RG35XX devices sometimes fail to charge when the register
-> for the battery temperature sensor is set to the incorrect value either
-> by user error or an incorrectly programmed efuse. Allow users to
-> hard-code if a temperature sensor is not present (which is the case for
-> all Anbernic RGxx series devices) to prevent this issue from causing
-> problems. Additionally, a bug was identified with the handling of PMU
-> faults while this fix was being tested.
->=20
-> [...]
+>  	req->n = n;
+>  	req->m = m;
+>  	req->p = p;
 
-Applied, thanks!
-
-[1/4] dt-bindings: power: supply: axp20x-battery: Add x-powers,no-thermis=
-tor
-      commit: 626006541069d4d595128f03cc3a1b70a482805c
-[3/4] power: supply: axp20x_battery: Update temp sensor for AXP717 from d=
-evice tree
-      commit: bbcfe510ecd47f2db4c8653c7dfa9dc7a55b1583
-
-Best regards,
---=20
-Sebastian Reichel <sebastian.reichel@collabora.com>
