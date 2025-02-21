@@ -1,63 +1,63 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C3F92512C3
-	for <linux-sunxi@lists.linux.dev>; Fri, 21 Feb 2025 18:11:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AA8824CEE2
+	for <linux-sunxi@lists.linux.dev>; Fri, 21 Feb 2025 18:14:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740161481; cv=none; b=a6+2jfuJBSzwPdw6zYePWRMMTS4CVpR374U+pk97F4M+e7zN81SGyRR8cGjIp3diAXynTyn2OviNSwd3U/eNgnLQZslSEr7sE8iyyx7dmmstlQnzRgOKf2EKOP8ouULmEtvlkGxEEOrOdxWyeSdI7l1G4f8Gbt4XZNwI19vBSo0=
+	t=1740161670; cv=none; b=hCmHLPDUnfjGzdYZfXwajifqgrHzXJT638JWjIl+X149y4nqVXD0nWyeOzi2jW/7srNfDIvOdRnakqL7yrmP9Ekd6wXuiNR0d9XSEmK5WTHr/rxbcwsSET49oCWXJKa2C4fP5+vRdxIs2zFgNHhikuna51E5Z+gmOitCssVkaBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740161481; c=relaxed/simple;
-	bh=ZXeJpH3wHw7BU/7D32jGOtOKsJu0r75YAYsNnjjEMw0=;
+	s=arc-20240116; t=1740161670; c=relaxed/simple;
+	bh=ECSKD5NbGIjHx0Bm2KDf0mIGC/IQOT4lmpj8nrvLpXE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pKaLl398MBp/00d6guUjbwNGx3ywAbnYHOkp7bBQ01mCmIAMIKOEmRLLPdYn3atggOOD5ocmILjr2XSSHx7GYn+p5bvttwi1tfAIONOX8NrKGWhOIx9gzY2B1dmkSVlQ4o+767L0A6o56kr8/tdrUZg/WkrQkXHTlr8FqN/LX58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TGBwsApD; arc=none smtp.client-ip=209.85.128.45
+	 MIME-Version:Content-Type; b=aHUA/mecYbz0ulJiLLkFk/QzwJGkJ2IZcfkyk9AxbW4VrtxYNVShShhiT2cYMIJppUesyOwXK/gU4DgdkUkeKsj/nQQiUQUX937ZchYAUpp90zitPvgs3M32Aipb34vnEVzE3VlMF963lhIKBgkOtDD0o18aD5+hhAMviO/VtsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=esqDQ0kF; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TGBwsApD"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4397e5d5d99so15625165e9.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 21 Feb 2025 10:11:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="esqDQ0kF"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4399d14334aso21460695e9.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 21 Feb 2025 10:14:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740161477; x=1740766277; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1740161668; x=1740766468; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZXeJpH3wHw7BU/7D32jGOtOKsJu0r75YAYsNnjjEMw0=;
-        b=TGBwsApD+IBj5XM6rz0fgRmD3I28brLzcEvmBNB6X3EEsg9lmXLx8cmKv3PiG9wBvA
-         fHWEIxv+U1G5iZixKxCfypHULt0Z5BM7iM1xvzpDs7S9VELdzxJ0Q1eYS9y8BtJAqAEx
-         9OChIT4NG7RuX/3tehrWVpChbMmktLA3FKjJ0ghOhMCtkmb3hKfRda/fbw1y4BdGFTcU
-         f9zNq35DWz1LjXLIP8xbGcWCsIXRTh08SN1HR99F/8gffszx/7Uw2GeCZAiPHA3/kezK
-         K5nq/vMS7tpm2cBERXTlu7U1K2Z33W8EyyJnbUb35vIUFzVPY6WkPvSfG53DzBc8JCu8
-         mZyQ==
+        bh=ECSKD5NbGIjHx0Bm2KDf0mIGC/IQOT4lmpj8nrvLpXE=;
+        b=esqDQ0kF9wVNuewJl9FlCXjilI2SiMNB+2V8fvAk61CIDULf6nHZKb07vDL7b2Oa/1
+         74O3ogMyXtDzfvzKIfBIKgKEruTp2B5YGd/3mg0Dh8NGTtTWy4NmVAVhW1emVf0yThSJ
+         qW4WxSBiAKKX6xEBd8KeIpTgT+EiXd2NCbmo3A91wY76yehpVyvHdHPzbfBnVx88iI97
+         sYu6+kZOI+e37cdGD51ToGTcjBoi0gVlevg4gS5DhXUccEesohB7GAkub+3nJp/DT41x
+         0wdF0x/nyQ3MkriAnWAa3csmXrk4ec7qOwZQOtzWM/FyHUtbhX90OnJKYME94tT5Vk58
+         QmSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740161477; x=1740766277;
+        d=1e100.net; s=20230601; t=1740161668; x=1740766468;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZXeJpH3wHw7BU/7D32jGOtOKsJu0r75YAYsNnjjEMw0=;
-        b=SedYSxh+a9V0RnP/RGs36H6aD+kY3aRbzj5oXMePTRecYG+rwrFmtG9qCsvbqHy/mf
-         dfz01P1nZKwIR5SFsmi8x2/mWK1L3JsjMxkQDaSzEYm7KGS1tNxw11+sB9yPwRJVmsQH
-         Qy9hm/j4zXkdrL0zc7XJrgq7SLZDNQchmwejItjjxqyVvlgn6N8GirxWq2FhAb9oZl1N
-         0t9T+J0xCiJd9O+yPQlGqjJRfjijcmBHcz/dcrOHN5S0uXARO8lilcjIGwLYKDsdTAK/
-         ZOCzxTLdd4ME6fT6l7/CoNNxlN3uxIvR6FNlbkDOweg9O0QVEeJzl4eS2Gjy4q5va0B0
-         qU2g==
-X-Forwarded-Encrypted: i=1; AJvYcCVYo/LnQqWuHuwYNsAkVc+McP84HKycdHgk5aDpAKgHDFnSCfCpAgNWhcelEUmz29mlI9XIQ7a4ttHrZw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzKFVzB4hh3dffn8ZDz8i3mnJ+CS6M/seW50Jn9ToAM/igpEcTH
-	ieHuv2gJvEspoC9GBa9xoGVNPM0ARDJA0O/U3UfZsDrqZBE1Wt20
-X-Gm-Gg: ASbGncvLSpQcBZiyvbV2TfD8TniOipvs7Pmh0Ax39XFaAxO8Dbcwl4m/UpTOUDxbozk
-	th+hHnbNMGFpRqRTg2H97w9ZaB5soDShhOfQl00c+qh/og3auPqhgjzqW8bCKljfEe3+Y1a6ob7
-	S5nIV86IZxRmD7n418ngsEeMOzYZ8A17XWBPqtbGMptsmD42GNBU0PdXNtIpJiKGfXz2La51qBk
-	kUa/XfPfEcx3rd09y02m4Ni9zxSSRKvtefuBy5ereV/3dFo74HlOpbHnZa9/jpPs91yoPv/aKQ3
-	DXc9OaSue5v4eU/F5QFXojNDTeY/UidLdMWJxPjgsus5YGDBBFjcm0QssWSgkyi733BM+zgDHFk
-	6NQ==
-X-Google-Smtp-Source: AGHT+IHF/tsnTWTEpF4H0kg8q1A+TidSDULFwV9+aTYXkyTCuSdYjLeHagAev7Ne5ELDSe/ppYbBWg==
-X-Received: by 2002:a05:600c:1ca0:b0:439:9e8b:228d with SMTP id 5b1f17b1804b1-439ae218a14mr35556225e9.19.1740161476437;
-        Fri, 21 Feb 2025 10:11:16 -0800 (PST)
+        bh=ECSKD5NbGIjHx0Bm2KDf0mIGC/IQOT4lmpj8nrvLpXE=;
+        b=R1hqeXsLrdIN31RuqlKs605CcCgE7nMgoysElDveVFw5aKSTsaQAZPYtATeYKyPTTm
+         tCBGvIQvU/rRTVqohZjQfF9VfMnIDD5lNswcAqR8BhuWcfodyymOZ2DT44PekmdwRXvC
+         5KC8f3regWCvPuooQMsOVYPAq48ARkt/I5Y78ZPBPIpTTNZRJRyaBgUa/qmffUZQ/rUK
+         R6DyC/jL+CQT1JIuv1bk5KYXX7eBeggh/47mJYhTshKZ8Czlg4O4JVTQhitOEaqh1due
+         Xs8wgNQt+OiAPS9HaZ+cXzyzv+NI80oSiiQ6fW6f6gUDfMZMTL/V7TL8OvY9ImWY7hxT
+         9ZGg==
+X-Forwarded-Encrypted: i=1; AJvYcCU2C3mD24CcTVDUBz8LwHd9k1VK1GTAapb8KjE2Qc/DjeCFFDuu3AIzmDCIuGb21EJbgLutdrqUaPcKUw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxwnwuCqUR2UpwrH9mL1DkcYGA8gLx096d9Z5/o4njYSR7p+7zS
+	jeABM6fgdnd3O/Wjk1PzXyNLhJsSeMMT5OeI1Sv4/H3RhNt7pO35
+X-Gm-Gg: ASbGncti8GTPR592nZSFwBXIewiFT7GmKein+8fCp/5TwK1D1cbELvsrOFQeOY9siIL
+	D6wzpeSiDBdibNDDG/AwylKJgWl/8KRanIaLYotO0sw0Qeu7fc0CaGHs/dw0R9h4A3ZLV3Roz5n
+	PNAEvqqp3C21ZumAanbQX79AdxPPtUkSwabDEeZeBzFBDOBxJyzLtI3lvgWkhKFnSllMgDkhDZP
+	tABdol6E54q473UiMGZ8/6e8wALnzMiIfKxnSwt5T6kEjvwbTR3vpM/6up6HkpAkTKfHhs1Espl
+	R2hyok/sxggw03/l+3dDNsJjpW2WH7X5olh02eNge6wM1dia3r8U2P0fQ+6KXOOSiPiygCV6MFj
+	6Zg==
+X-Google-Smtp-Source: AGHT+IFTozi1CVAZhzesUHKfQ2k63P/tS7KXhTKQwhP11mPloHJVn0P3vCQGwTQrLHtArYDTD3nLVQ==
+X-Received: by 2002:a05:600c:1396:b0:439:6d7c:48fd with SMTP id 5b1f17b1804b1-439ae1d877dmr40268755e9.4.1740161667381;
+        Fri, 21 Feb 2025 10:14:27 -0800 (PST)
 Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f258dcf08sm24356178f8f.36.2025.02.21.10.11.15
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-439b030be5esm24430595e9.30.2025.02.21.10.14.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Feb 2025 10:11:16 -0800 (PST)
+        Fri, 21 Feb 2025 10:14:27 -0800 (PST)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Ulf Hansson <ulf.hansson@linaro.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -70,14 +70,13 @@ Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Steven Price <steven.price@arm.com>, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-pm@vger.kernel.org
-Subject:
- Re: [PATCH 3/5] dt-bindings: gpu: mali-bifrost: Add Allwinner H616 compatible
-Date: Fri, 21 Feb 2025 19:11:14 +0100
-Message-ID: <2356358.ElGaqSPkdT@jernej-laptop>
-In-Reply-To: <20250221005802.11001-4-andre.przywara@arm.com>
+Subject: Re: [PATCH 4/5] arm64: dts: allwinner: h616: Add Mali GPU node
+Date: Fri, 21 Feb 2025 19:14:25 +0100
+Message-ID: <1911773.tdWV9SEqCh@jernej-laptop>
+In-Reply-To: <20250221005802.11001-5-andre.przywara@arm.com>
 References:
  <20250221005802.11001-1-andre.przywara@arm.com>
- <20250221005802.11001-4-andre.przywara@arm.com>
+ <20250221005802.11001-5-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -87,19 +86,22 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne petek, 21. februar 2025 ob 01:58:00 Srednjeevropski standardni =C4=8Das=
+Dne petek, 21. februar 2025 ob 01:58:01 Srednjeevropski standardni =C4=8Das=
  je Andre Przywara napisal(a):
-> The Allwinner H616 SoC has a Mali-G31 MP2 GPU, which is of the Mali
-> Bifrost family.
-> Add the SoC specific compatible string and pair it with the bifrost
-> fallback compatible.
+> The Allwinner H616 SoC contains a Mali-G31 MP2 GPU, which is of the Mali
+> Bifrost family. There is a power domain specifically for that GPU, which
+> needs to be enabled to make use of the it.
+>=20
+> Add the DT nodes for those two devices, and link them together through
+> the "power-domains" property.
+> Any board wishing to use the GPU would need to enable the GPU node and
+> specify the "mali-supply" regulator.
 >=20
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
-
 
 
