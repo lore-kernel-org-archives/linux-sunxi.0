@@ -1,161 +1,124 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 440062B9AA
-	for <linux-sunxi@lists.linux.dev>; Thu, 20 Feb 2025 20:38:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E73E225D6
+	for <linux-sunxi@lists.linux.dev>; Fri, 21 Feb 2025 01:00:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740083930; cv=none; b=Q6380JRB2RVxrqBd6JDLXUUiRaboTL+JWv4iSkIpMhyOM8EDnQp/oqbB39dMz33B88NUPJV5XKF4o7JzWBW8SFRZ/xpk3VUVRZQxMHXscE9GkyDRtm34cnyvv5WaL2rHH+AyHTFMUHuv/xvx5OH+T4qHELD7nYXUDe3MifebbsQ=
+	t=1740099617; cv=none; b=nDdFDn3/q/P8134U5BMf0ZlGGp+ZIyyU7YBOH0Xqt5JLG6B0sP00oy1wzBtMircS5CVqF60Y1aWQ9xTLuAYicjezN1E+9mfuZdADHYMcSGv4wCc3fGMqXDb7nDZqnx5DButz5ZndwhKMfRcq7uAcdIlbZG8UmBEj8yobaqyiLDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740083930; c=relaxed/simple;
-	bh=QwsMW6iVNU91lHWFEwdgOCeBu4Y7rQxQ6qUYUGztHYc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rk0av+woIlPstyc3XGde8rkKGtMlMZ08hHB7Ol2K22y3YvYX6OmUkuo8KhnViYiG5LNYrE+YU9rOtQFASuoF+45wxDQ/1Iyc8pDOMbzkC5ByyiIhbMwDCy0WScVuU9n9N8XsfGGD3/MSac37CY37K+DyWSYUkLk2pDbrm44CfFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wa8CqYIk; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wa8CqYIk"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-439a4fc2d65so11811755e9.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 20 Feb 2025 12:38:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740083926; x=1740688726; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=L/oPr+uhiMwVLonfT4r87s8BLvEv5cJUIRCGxgmU+Z4=;
-        b=Wa8CqYIkXT2NON3icjS7eMkTGscW4jpsc5yxL4cRhhYPJVIGwFnVXWyZXcXBZpW93N
-         KeoE0cfEXYPP7ckt8Ao1tiXHT/L6GwQ7JKX3YuEBJDD6/Kadn0MuzBPCIGuktlNVKBeu
-         vB0uYW6B5YcT8bzadXvQmFfZrITYLmRdMuU1X+3DKn+3Af/l9xlv/vaDn6oSlxBRzdO/
-         SL5zxFSEcp9PujUdHEK0TeWC2myuZ4BL5eBPe9DZ5oUKL8ohjwAMq8z886AsfO3Dkw1R
-         +1xEoFVLMpPqf0N1fbZswzQb3Uh7nXEOfmlAP1KAZdrvBVMqUHdsdMSgbUC3yaMDQeeo
-         mgCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740083926; x=1740688726;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=L/oPr+uhiMwVLonfT4r87s8BLvEv5cJUIRCGxgmU+Z4=;
-        b=RTZ8kGtGLG1Or4o/ch186ZshTh8URdT8LPzRO68jwp7ElGVX89rZex1m4wF8fN8o+P
-         uK5Jj3G40rKTAmf5Qp8whf1xt4twALCF3vu63ED1SThgthg0yyzy1gTjDe6+Ax7WSqOE
-         H6dZNBg7hdAvR8XaTyBezDHCiv3UReRhM/6C0A1UWVs39K45PLrQFIDIXI2TtHw5b71Q
-         HAhtBbJejrWFrnIzWMiuwVr/pudBArI0/Z24nb0CpIl5a1M3nCS4eBRvgoYKKxwMHr/K
-         uF2He6cjyyHiIfMeQjH/qJWVwRD6TKoccuohL77EjDR/mQ6dhqEw8YIpV83u7DTUuOWm
-         s5Tw==
-X-Forwarded-Encrypted: i=1; AJvYcCX1zvMaK7jOD1j3Av7igUPK+PdHWGg08v+33EoCIbsfsUrjaLI9H8KNJkPz3G5nIN2HEeJ4LAnz7/1YNw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzam5M1dtOYwIjamDfYhwJPC6CZ7hWm/1SSoDSrjGPIf2zabFE5
-	iAu4Rg3iMmsEiaPjfEFP110pDC4SYCHS5AV3Otoc/rjTNCM7PfFc7t3rwRaE/HI=
-X-Gm-Gg: ASbGncvn2eRYBBHbI0Y5PpLNcRq5ZuTQP1LqT4k7A5brNk961U43o9ZI0qLj6BEPdBa
-	oNWFZ4lSI+9PsFl+shO80XYWIDnVDTY2N8i0zXENdenWfy88Tcd8hpbG855B0hq4+2t4MqyK22y
-	bwMuCPfgpB5ihfqTLVnz+48cVen6T+G8hHYUGKyryQfW80rAR/4sRmDeZd/5dh7a9Ctu+E2sRhw
-	72eeB+DWd3oJZ3fxcx1faVg+nnkZIcXv09hGQXJlyW/EmUohg2kSe3uJcHEK/oySbBpYvxsHXU3
-	BEDZl1r++h2tkyS2BX4UdU7WeJukguOHpX6cR3toqT2SvTavqRbYf9QjHZZVaEuDidM=
-X-Google-Smtp-Source: AGHT+IH9AWEvVPP40afiEyTpAqrp+DWpZtEd4U6ccKRCJ9igZQuFw9ymkzn2FjL3McLqq0mzFVmoPw==
-X-Received: by 2002:a05:600c:524a:b0:439:86c4:a8ec with SMTP id 5b1f17b1804b1-439ae1f1147mr6622885e9.15.1740083926326;
-        Thu, 20 Feb 2025 12:38:46 -0800 (PST)
-Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-439a3cc9551sm31663025e9.39.2025.02.20.12.38.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Feb 2025 12:38:46 -0800 (PST)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- "moderated list:ARM/Allwinner sunXi SoC support"
- <linux-arm-kernel@lists.infradead.org>,
- "open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
- open list <linux-kernel@vger.kernel.org>,
- Philippe Simons <simons.philippe@gmail.com>
-Cc: Philippe Simons <simons.philippe@gmail.com>
-Subject: Re: [RFC PATCH 3/3] arm64: dts: allwinner: h700: Enable USB OTG
-Date: Thu, 20 Feb 2025 21:38:44 +0100
-Message-ID: <3229934.fEcJ0Lxnt5@jernej-laptop>
-In-Reply-To: <20250118102207.9339-3-simons.philippe@gmail.com>
-References:
- <20250118102207.9339-1-simons.philippe@gmail.com>
- <20250118102207.9339-3-simons.philippe@gmail.com>
+	s=arc-20240116; t=1740099617; c=relaxed/simple;
+	bh=tu+gpw7OD2GQyTiWhJLzR65PzZKxGrztR1wVsmwPETM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Q/SwDnTA4FkRyxCUjfr1oVkpvqbqi1KTWNpopuKC/i1+kmwVBl0b014Shn3N7w7o5xyKPsU4fm8KEcSZK9nIKL98M4Yh6cg0U7LKHFx+NFh0VleVUTVQXrf3PdlPMxNuygRxvJPrOpXaKYCpM5yBlMs+13p51OYaBxE8i8PiASk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 788BE1BA8;
+	Thu, 20 Feb 2025 17:00:31 -0800 (PST)
+Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 15BA43F59E;
+	Thu, 20 Feb 2025 17:00:10 -0800 (PST)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Ulf Hansson <ulf.hansson@linaro.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Boris Brezillon <boris.brezillon@collabora.com>,
+	Steven Price <steven.price@arm.com>,
+	dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-pm@vger.kernel.org
+Subject: [PATCH 0/5] arm64: sunxi: h616: Enable Mali GPU
+Date: Fri, 21 Feb 2025 00:57:57 +0000
+Message-ID: <20250221005802.11001-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.46.3
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Dne sobota, 18. januar 2025 ob 11:22:06 Srednjeevropski standardni =C4=8Das=
- je Philippe Simons napisal(a):
-> RG35XX have a GPIO controlled regulator for phy0 vbus, add it.
-> Enable HCI0s controllers and otg for dr_mode.
-> Add phy0 properties to descrive id_det, external vbus, and internal vbus
->=20
-> Signed-off-by: Philippe Simons <simons.philippe@gmail.com>
+The Allwinner H616/H618/H313/H700 SoCs contain a Mali G32 MP2 GPU. This
+IP is from the Bifrost family and is already supported by the panfrost
+driver, so enabling support for 3D graphics on this SoC is rather
+straight-forward.
+However Allwinner added some bits in the PRCM block, that control the
+power domain for the GPU - on top of its power *supply*.
 
-This could work without previous two patches, right?
+This series enables the Mali GPU on those SoCs, by first introducing a
+power domain driver for that SoC (patch 1/5: DT binding, patch 2/5:
+the actual driver). For the Mali GPU to work we literally need to flip a
+single bit (the BSP does this in the bootloader), and this full featured
+power domain driver is admittedly a bit over the top for that purpose.
+However it seems to be the right thing to do architecturally, and while
+at it I added the other power domains (for analogue, PLLs, and the
+management core), even though we won't use them in Linux and they would
+be always on. I have a simpler version of the driver which just covers
+this single bit controlling the GPU, please let me know if you prefer
+that.
+Please also note that this supersedes an RFC patch I sent a year ago,
+which included this power domain in the R-CCU driver:
+https://lore.kernel.org/linux-sunxi/20240225160616.15001-1-andre.przywara@arm.com/T/#u
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+The rest of the patches enable the Mali GPU on the DT side: patch 3/5
+adds the compatible string to the Mali DT binding, while patch 4/5 adds
+the purely SoC specific DT nodes, for both the power domain and the Mali
+GPU. The final patch 5/5 then enables the GPU on all existing H616-family
+boards.
 
-Best regards,
-Jernej
+There seems to be an existing problem with powering up the GPU, after it
+has been turned off by the kernel. Chances are this is a problem with the
+proper power-up (or power-down) sequence, where clock gates, reset lines
+and the power domain must be asserted in a specific order.
+A workaround used so far downstream is to keep the power domain enabled,
+by ignoring the power-off request. Observing any assumed "proper" sequence
+is a bit more tricky, since there is no Allwinner specific glue driver
+or anything, so things would need be changed in the generic panfrost
+code, where they have the potential of breaking other Mali users.
+I would be interested in hearing opinions about this.
 
-> ---
->  .../sun50i-h700-anbernic-rg35xx-2024.dts      | 25 +++++++++++++++++--
->  1 file changed, 23 insertions(+), 2 deletions(-)
->=20
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-20=
-24.dts b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
-> index 80ccab7b5..5a6ae42de 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
-> @@ -175,6 +175,16 @@ reg_vcc5v: regulator-vcc5v { /* USB-C power input */
->  		regulator-min-microvolt =3D <5000000>;
->  		regulator-max-microvolt =3D <5000000>;
->  	};
-> +
-> +	reg_usb0_vbus: regulator-usb0-vbus {
-> +		compatible =3D "regulator-fixed";
-> +		enable-active-high;
-> +		gpio =3D <&pio 8 16 GPIO_ACTIVE_HIGH>; /* PI16 */
-> +		regulator-min-microvolt =3D <5000000>;
-> +		regulator-max-microvolt =3D <5000000>;
-> +		regulator-name =3D "usb0-vbus";
-> +		vin-supply =3D <&reg_boost>;
-> +	};
->  };
-> =20
->  &cpu0 {
-> @@ -337,12 +347,23 @@ &uart0 {
->  	status =3D "okay";
->  };
-> =20
-> -/* the AXP717 has USB type-C role switch functionality, not yet describe=
-d by the binding */
-> +/* the AXP717 has USB type-C role switch functionality */
->  &usbotg {
-> -	dr_mode =3D "peripheral";   /* USB type-C receptable */
-> +	dr_mode =3D "otg";   /* USB type-C receptable */
-> +	status =3D "okay";
-> +};
-> +
-> +&ehci0 {
-> +	status =3D "okay";
-> +};
-> +
-> +&ohci0 {
->  	status =3D "okay";
->  };
-> =20
->  &usbphy {
-> +	usb0_id_det-gpios =3D <&pio 8 4 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* P=
-I4 */
-> +	usb0_vbus_power-supply =3D <&usb_power>;
-> +	usb0_vbus-supply =3D <&reg_usb0_vbus>;
->  	status =3D "okay";
->  };
->=20
+Cheers,
+Andre
 
+Andre Przywara (5):
+  dt-bindings: power: Add Allwinner H6/H616 PRCM PPU
+  pmdomain: sunxi: add H6 PRCM PPU driver
+  dt-bindings: gpu: mali-bifrost: Add Allwinner H616 compatible
+  arm64: dts: allwinner: h616: Add Mali GPU node
+  arm64: dts: allwinner: h616: enable Mali GPU for all boards
 
+ .../bindings/gpu/arm,mali-bifrost.yaml        |   1 +
+ .../power/allwinner,sun50i-h6-prcm-ppu.yaml   |  42 ++++
+ .../dts/allwinner/sun50i-h313-tanix-tx1.dts   |   5 +
+ .../sun50i-h616-bigtreetech-cb1.dtsi          |   5 +
+ .../allwinner/sun50i-h616-orangepi-zero.dtsi  |   4 +
+ .../allwinner/sun50i-h616-orangepi-zero2.dts  |   4 +
+ .../dts/allwinner/sun50i-h616-x96-mate.dts    |   5 +
+ .../arm64/boot/dts/allwinner/sun50i-h616.dtsi |  21 ++
+ .../sun50i-h618-longan-module-3h.dtsi         |   5 +
+ .../allwinner/sun50i-h618-orangepi-zero2w.dts |   5 +
+ .../allwinner/sun50i-h618-orangepi-zero3.dts  |   4 +
+ .../sun50i-h618-transpeed-8k618-t.dts         |   5 +
+ .../sun50i-h618-yuzukihd-chameleon.dts        |   5 +
+ .../sun50i-h700-anbernic-rg35xx-2024.dts      |   5 +
+ drivers/pmdomain/sunxi/Kconfig                |  10 +
+ drivers/pmdomain/sunxi/Makefile               |   1 +
+ drivers/pmdomain/sunxi/sun50i-h6-prcm-ppu.c   | 191 ++++++++++++++++++
+ 17 files changed, 318 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/power/allwinner,sun50i-h6-prcm-ppu.yaml
+ create mode 100644 drivers/pmdomain/sunxi/sun50i-h6-prcm-ppu.c
 
+-- 
+2.46.3
 
