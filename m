@@ -1,76 +1,83 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 720961D5AA7
-	for <linux-sunxi@lists.linux.dev>; Fri, 21 Feb 2025 18:17:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77DD1250BE5
+	for <linux-sunxi@lists.linux.dev>; Fri, 21 Feb 2025 18:20:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740161872; cv=none; b=HDPfRXJfqO8SHK1bkBeQHHjErHd9YSBTei10FJeDrRQkTOfXnsnptzBWAoArcJHhdLYZYhnrv8/Lmvsyk6AvXf1zgneHsjX/y5C2CcjSKLLKDOo5HLM1PlvydLRR/TFVSDxdJ7WDL7N1x3RsU4VS8umFEt5MivGvQL2xjP/zHs8=
+	t=1740162026; cv=none; b=ebhIJZWJzZRIF4gPHOeOAR6Djrf1gaLvpvZMQ0ytj1pNhQlfM4bRQLhn5IT3lFAA4f9A6Ul96MGjuhaMYXzsd/ZDrM/QhZOousgNfIO+/HPMULU2AOOw+gVt8NKgU5LHMNmU3pJ5KBjBRSBaxuycZ54OCNCo8jFVfk9N1iQo6JU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740161872; c=relaxed/simple;
-	bh=U1W17n2j1LxEWs4Y4W56XmMTe4fnObSaTHj7aF3YLUY=;
+	s=arc-20240116; t=1740162026; c=relaxed/simple;
+	bh=FlMFiPqoPoOO8nzB7qRWFAsrP98gJ9Y3C8ZL+zevz6Q=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=q3shLX8UjNHvFNlM61bJo7D9s9vswha7ZQ9WgQZPILN3yVw0cfA1p2Oaj/17GG/7evK8izB8Eu3YO2wV481kuMDpaZE8PWQoJkZnTRfmDsI6a5LXxlDU2nX6X8jgN9ZGhOdwA9cmL/4dEwgEvrbra65dP4eHKS0xVZcHAZ85vF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k8IgtqRt; arc=none smtp.client-ip=209.85.221.47
+	 MIME-Version:Content-Type; b=XPovT6ZBAfiTeqoW/imBspMY6asXwcvvE94SlhaUunodVx3rhVhQ1JLzSVrLvkpptxWYHb9DcoNVL8VDgRlS2dKxZKlzRR0bBF3EIcdexcy6oyaz5LmruOCUMWpfrfyMf7HwkhgO3xKm7KJfZqTglUj2QULg4zy/0bJNCKIM67M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B674QlhH; arc=none smtp.client-ip=209.85.221.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k8IgtqRt"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-38f378498b0so1986052f8f.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 21 Feb 2025 10:17:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B674QlhH"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-38a8b17d7a7so1316780f8f.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 21 Feb 2025 10:20:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740161869; x=1740766669; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1740162023; x=1740766823; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=U1W17n2j1LxEWs4Y4W56XmMTe4fnObSaTHj7aF3YLUY=;
-        b=k8IgtqRtv5zTlRMDFwQ/+F3EOLrZbjEOCT9LIcVJWBCmRMTlZEfhQ1HfyDli9cScv7
-         87tXYV28+i7x7/3jHDIE3pOgO0EQpkHsCXYL1aVxCjhVwKsX+8OyJ8A60On09JSSPO5F
-         FUeINJQ91dI/1twAgtzHKcI6/ep5B2cVJtcE8qt2xLCR5gETWadQFYQ2cAQgPaqMlZ/W
-         QyA/AZI6Ry82OugWvdwS0INqpKmaf9ROTPeVxkXNy86tjKo/iQnNEJ45aWeFejvpTRa9
-         6i3PKoSAadm9kmIUD8kZWaHLTTSinq3z7MYTMQf4Famxs0wG3pHCdSdAxfOlPrVDQC1x
-         GuTg==
+        bh=veHeZGAsIMfeo9MJB9NRykJz3c6tbQQyeQEGIEl/Nmc=;
+        b=B674QlhHjxLlLyLDGtbLiNsZLW5ONtY3bVxIqRw8bBzVfHo1DEvVlVJxKB0brtFY9I
+         rXwvlLQ19kTBAEQnfByzu6j/Y5UYSZN6KfsMZk2EG0YadBfLRG3AI+R8utXR0YS1dmCy
+         f9JT7IW9zWjRChz1uoFsHLqxz7Sa/L3OO8dCG68hgwl7QnQ8cVAWQtC2D1n2BxFYhW0c
+         2lHHO4Ay2CCvgTz1TTleTWN0kHmZx+pr3Q/MWcIbHGxjzaHP+8czzmH8w4akAEMb5er9
+         O/LIPvt3+GTlUwGo4iXVy5enzKwXbwBXgjAP64i6Fe8YaWp7sb1e0q2UiZxZ7XpEao5r
+         vOHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740161869; x=1740766669;
+        d=1e100.net; s=20230601; t=1740162023; x=1740766823;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=U1W17n2j1LxEWs4Y4W56XmMTe4fnObSaTHj7aF3YLUY=;
-        b=tTp+oHnMoC3I+F1MQavTj8zSRjdBVOkIOxPjetTkj890t1cfsvPuZflq7oI4P5Bsjw
-         +iN7BUTsYJwS7X2XvWuR0iFyasmD9vX2M8+THGWVTbDNL0AhncK7PEIJrg5xY58MHJhP
-         utp+g6oZgq0oYKPDR9Lihs/t0op3II1yVhGyS9RB1VUldlpTn/hrzdUsynxDoXCedqUc
-         tF7JDpUQKIPOPIMm0980vvEN/pjunewJL/Sru53gf/VhXLTFDGbc+BJvjkMs/58Mogwu
-         HWRNFNlwMlkeRU/yrIOGjGNcqoipN3Sn9gB4vs3Ykvx8+SA3P1jE8CSbHIj94YRCbblT
-         84vA==
-X-Gm-Message-State: AOJu0YxcUCpChSVonDv35uqUv/owvX25XKF5AkwyM8KSj1dLncPvuYFx
-	SG2VXlFD+PgqEJ1OEc8Q/4ltxxZHG8n/SzkMNgKCklqSZRW0DI+u7UpFMBNqKMw=
-X-Gm-Gg: ASbGncv130Mx8TCEy+t3wyCGQ/g76OiaDeQYkaS6u6dT6lhhIOjS2TBJTD7lKXuAIC0
-	BhD2Xyb7D5UokSmsm5A6FGP4d/oK6lMZq0VBs6iEA6OLhrOKPFxS1GVo+EuVO8PIN+9D6wS3GMi
-	4Elci0AzVEg56nXg+wsERXjOGcO2mSipVbk5zdNa8SWHH2F8sB2Rr7qik6ihDeKMG46jD1koKjf
-	IGd/psHSOMl3xauvNBpyu6eHj5j7nHhQOBfskFX3lzcVR81jjos63pts7BXnM04YYUZ/6r6qywU
-	61m84rPd7xVCkDisXa0G/tJhBTh2CodUbvNoVH+WWO/oEhBhqKeEgJUt1kyse7gfvCe4nZxi20S
-	Alg==
-X-Google-Smtp-Source: AGHT+IGALAtK0qhzwHjSpW0g95HnjvEvJPGyQ0Ey4mOVtgunT7qzZCNsspeeesB5+gBG16CVVLhPtQ==
-X-Received: by 2002:a5d:6c69:0:b0:38f:231a:635e with SMTP id ffacd0b85a97d-38f6eb6e4bamr4302293f8f.25.1740161868722;
-        Fri, 21 Feb 2025 10:17:48 -0800 (PST)
+        bh=veHeZGAsIMfeo9MJB9NRykJz3c6tbQQyeQEGIEl/Nmc=;
+        b=GyP9pqR5e9sB04m/V1w2yXDSq/P/3IqWWM4OUBmFqlLnNDF2+vCzaF9MRZKEabzdtw
+         3vrDZ00/DcirR1inXiqsgBXtHMVJDcUc94sVLfmKiD5TGhvScDlRVW56ZHwhv1Qp1Rqm
+         Rh5Sr+ExHbMSzOLRf8c7ZX5kBVU/cZkXqGPuK5hjiQubTEjpmuqoBQXwkAcgFQNLiLeY
+         CQjEtQ5C8t+q5zq4vTifhWoucQ1eoVfBqfmHe7UFMw79eYwpiEqegdyZuXpXgdkGknjl
+         O7Tzg9M7IIgQcBOU1X+WRNBCc8ESoBDYd1v4xDd1pRZX1WLGQTgqX1a9Gk4vuf6LBqVo
+         kbLw==
+X-Forwarded-Encrypted: i=1; AJvYcCVuALYKDyp8QN40W/vVCkA6RhsvEMlJZHExzT4LOebHaMsGpxNegKw8OTiTRWPWIXmv4bxuJ18qgdAEYg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxLXEUDDJj98z30bTnORLsrMJLNrBPhYeWG9m99LVyw6cYef/2C
+	Vm+wFko85o1XaQsyFKNmNyhl1Upy09XmEG/AkVMtVxs7sTFjXFKROQKS8YBg8GM=
+X-Gm-Gg: ASbGncuF9BaOprRqPt8MjHDoingxrTfYzQ06M0dRiCEu+K4cbgy5vHZF+v+9ZRwAGM+
+	VO0Vrd4poxkwjdokfBu7vdu9XZbdbUo0THwe1WJObnGe7Y9ZatTpTomREwY4E5A1S2t+bVPyvV1
+	hDMT9SKmjcal1v/+/wMlIanRSiBZL6MbWQvL1m9XgtPWUPvwT/3E2AOGH4c9hTr2j5BtBn8ECdb
+	QbTxmME3NiD6kiEE/Hx/nwHJOaz9DjBokFWkzQuK8tSWw9hwLbVFmHY3uXLxXSugTiCLNS0dU5z
+	DfWGZFU61iwIY6GTuIAYmGmXlpg6ioSA1IZ+klHhs6xQ+m7fcmUmcMrgoeMmxCb7+lGRXTc9EGH
+	yRw==
+X-Google-Smtp-Source: AGHT+IG5DSiVWK86jS+eT9SXqpVSAsqf+fVk2fzSBX+ycmlA1PLgE8RCGQ9E1+kLqZ2oPVb+Mg5AIg==
+X-Received: by 2002:a5d:5f83:0:b0:38f:4e6e:22 with SMTP id ffacd0b85a97d-38f6f0d1c7emr4036180f8f.48.1740162021124;
+        Fri, 21 Feb 2025 10:20:21 -0800 (PST)
 Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-439b02e425esm24683075e9.17.2025.02.21.10.17.47
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f259d65dfsm24489778f8f.64.2025.02.21.10.20.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Feb 2025 10:17:48 -0800 (PST)
+        Fri, 21 Feb 2025 10:20:20 -0800 (PST)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: linux-sunxi@lists.linux.dev, Chris Morgan <macroalpha82@gmail.com>
-Cc: devicetree@vger.kernel.org, linux-pm@vger.kernel.org, lee@kernel.org,
- samuel@sholland.org, wens@csie.org, conor+dt@kernel.org, krzk+dt@kernel.org,
- robh@kernel.org, sre@kernel.org, Chris Morgan <macromorgan@hotmail.com>
-Subject:
- Re: [PATCH V2 4/4] arm64: dts: allwinner: rg35xx: Add no-thermistor property
- for battery
-Date: Fri, 21 Feb 2025 19:17:47 +0100
-Message-ID: <3335250.aeNJFYEL58@jernej-laptop>
-In-Reply-To: <20250204155835.161973-5-macroalpha82@gmail.com>
+To: Philippe Simons <simons.philippe@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
+ "moderated list:ARM/Allwinner sunXi SoC support"
+ <linux-arm-kernel@lists.infradead.org>,
+ "open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
+ open list <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC PATCH 3/3] arm64: dts: allwinner: h700: Enable USB OTG
+Date: Fri, 21 Feb 2025 19:20:19 +0100
+Message-ID: <8490202.T7Z3S40VBb@jernej-laptop>
+In-Reply-To:
+ <CADomA4_yMUS_S-YDrQdSKmZrDMwPeakkJBix-r08UFQejTYYcw@mail.gmail.com>
 References:
- <20250204155835.161973-1-macroalpha82@gmail.com>
- <20250204155835.161973-5-macroalpha82@gmail.com>
+ <20250118102207.9339-1-simons.philippe@gmail.com>
+ <3229934.fEcJ0Lxnt5@jernej-laptop>
+ <CADomA4_yMUS_S-YDrQdSKmZrDMwPeakkJBix-r08UFQejTYYcw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -80,19 +87,107 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne torek, 4. februar 2025 ob 16:58:34 Srednjeevropski standardni =C4=8Das =
-je Chris Morgan napisal(a):
-> From: Chris Morgan <macromorgan@hotmail.com>
+Dne petek, 21. februar 2025 ob 10:54:27 Srednjeevropski standardni =C4=8Das=
+ je Philippe Simons napisal(a):
+> On Thu, Feb 20, 2025 at 9:38=E2=80=AFPM Jernej =C5=A0krabec <jernej.skrab=
+ec@gmail.com> wrote:
+> >
+> > Dne sobota, 18. januar 2025 ob 11:22:06 Srednjeevropski standardni =C4=
+=8Das je Philippe Simons napisal(a):
+> > > RG35XX have a GPIO controlled regulator for phy0 vbus, add it.
+> > > Enable HCI0s controllers and otg for dr_mode.
+> > > Add phy0 properties to descrive id_det, external vbus, and internal v=
+bus
+> > >
+> > > Signed-off-by: Philippe Simons <simons.philippe@gmail.com>
+> >
+> > This could work without previous two patches, right?
 >=20
-> Add the property of x-powers,no-thermistor for the battery of the
-> Anbernic RG35XX series of H700 devices.
->=20
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> While this correctly describes the board, it currently doesn't works
+> as expected.
+> HCIs will enable the 5v on PHY and will never disable it.
+> Resulting in a blown regulator on the board if plugged with another host.
+> I managed to get this working by removing the PHY ref from the HCI,
+> but this is wrong.
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Ok, so this patch shouldn't be merged until USB patches are in.
 
 Best regards,
 Jernej
+
+>=20
+> >
+> > Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> >
+> > Best regards,
+> > Jernej
+> >
+> > > ---
+> > >  .../sun50i-h700-anbernic-rg35xx-2024.dts      | 25 +++++++++++++++++=
+=2D-
+> > >  1 file changed, 23 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35x=
+x-2024.dts b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024=
+=2Edts
+> > > index 80ccab7b5..5a6ae42de 100644
+> > > --- a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.=
+dts
+> > > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.=
+dts
+> > > @@ -175,6 +175,16 @@ reg_vcc5v: regulator-vcc5v { /* USB-C power inpu=
+t */
+> > >               regulator-min-microvolt =3D <5000000>;
+> > >               regulator-max-microvolt =3D <5000000>;
+> > >       };
+> > > +
+> > > +     reg_usb0_vbus: regulator-usb0-vbus {
+> > > +             compatible =3D "regulator-fixed";
+> > > +             enable-active-high;
+> > > +             gpio =3D <&pio 8 16 GPIO_ACTIVE_HIGH>; /* PI16 */
+> > > +             regulator-min-microvolt =3D <5000000>;
+> > > +             regulator-max-microvolt =3D <5000000>;
+> > > +             regulator-name =3D "usb0-vbus";
+> > > +             vin-supply =3D <&reg_boost>;
+> > > +     };
+> > >  };
+> > >
+> > >  &cpu0 {
+> > > @@ -337,12 +347,23 @@ &uart0 {
+> > >       status =3D "okay";
+> > >  };
+> > >
+> > > -/* the AXP717 has USB type-C role switch functionality, not yet desc=
+ribed by the binding */
+> > > +/* the AXP717 has USB type-C role switch functionality */
+> > >  &usbotg {
+> > > -     dr_mode =3D "peripheral";   /* USB type-C receptable */
+> > > +     dr_mode =3D "otg";   /* USB type-C receptable */
+> > > +     status =3D "okay";
+> > > +};
+> > > +
+> > > +&ehci0 {
+> > > +     status =3D "okay";
+> > > +};
+> > > +
+> > > +&ohci0 {
+> > >       status =3D "okay";
+> > >  };
+> > >
+> > >  &usbphy {
+> > > +     usb0_id_det-gpios =3D <&pio 8 4 (GPIO_ACTIVE_LOW | GPIO_PULL_UP=
+)>; /* PI4 */
+> > > +     usb0_vbus_power-supply =3D <&usb_power>;
+> > > +     usb0_vbus-supply =3D <&reg_usb0_vbus>;
+> > >       status =3D "okay";
+> > >  };
+> > >
+> >
+> >
+> >
+> >
+>=20
+
 
 
 
