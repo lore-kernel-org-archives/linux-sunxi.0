@@ -1,22 +1,23 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CABA527726
-	for <linux-sunxi@lists.linux.dev>; Fri, 21 Feb 2025 01:22:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 864DB3A8CB
+	for <linux-sunxi@lists.linux.dev>; Fri, 21 Feb 2025 01:22:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740100970; cv=none; b=sYfrfdviUXYvjl1qr5R/5ue8DAyLGXDTJZImf+EF3frBhq0a8FYAN4Vlhqdt+c2yn3j4zyXqjRwjYUbnPgMBl/3LzepRsQy2lFkaS+k0Amh1/bizkbHH3HIqC7GDnRCfWPeBv2MYZFKzcmtlnpQIMWz75ZXmw05CILjpI14kCOM=
+	t=1740100971; cv=none; b=OInNeW9Z99k6DZ8yn9CV7ZGNba1CgqQYu8Bx+O8UUV46Xo0bI+wQXjfdJ7ArrqUYHtBZVRAuaHIeAAzL+0Hn2gnbqE1e+UzANX4T4FnmkvhhmfXnzC1wLideKiEspMT86aZ3HJ90zyTZauEzNAQezC5RUYXgRsnft0idiLSf0no=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740100970; c=relaxed/simple;
-	bh=l3RB8IgDTVTrQsCk2qcai1aoFKvSgUN8O8W2wCAFn94=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XmujW8xkPkqeVnSNISedBZGx4ouHU84AdD7nWxpNV3itJcEdSJLrrvhnqOWGxx+fqMxf8NDpFQ0OEu/hgU382lAuXijHNGhiDJZYDV5TMSrscilfTAeCysgaFxNi27X58JqQZdPlX500NgvaTFhWI4Rh/wQTa+geLEvhhQrZTL0=
+	s=arc-20240116; t=1740100971; c=relaxed/simple;
+	bh=U+6Jp8W8uWdW+9lFtNK/ic07v/3AhAubY0PIRb/7zRs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=jR+00Qxt6lOviUSG5077L1Gs3yyzswIgAGs8EIbodgprEIKwGHmF9khE61nMyFdQRqCIwSePiNhq7glYoJzBcafrtPHEa3UzgwCwzEl4C7OoeRaVicTd1qrGiKUKtNNq6rR9W0i7tAKl28BcYOVhFJl1Up5kGEa/BHBGUoiyDzc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 293EA1BA8;
-	Thu, 20 Feb 2025 17:23:06 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C9B4E1C01;
+	Thu, 20 Feb 2025 17:23:07 -0800 (PST)
 Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D7CBA3F59E;
-	Thu, 20 Feb 2025 17:22:46 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 78A483F59E;
+	Thu, 20 Feb 2025 17:22:48 -0800 (PST)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -27,10 +28,12 @@ To: Rob Herring <robh@kernel.org>,
 Cc: devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH 0/3] arm64: dts: sunxi: Add YuzukiHD Chameleon support
-Date: Fri, 21 Feb 2025 01:20:35 +0000
-Message-ID: <20250221012038.13706-1-andre.przywara@arm.com>
+Subject: [PATCH 1/3] dt-bindings: vendor-prefixes: Add YuzukiHD name
+Date: Fri, 21 Feb 2025 01:20:36 +0000
+Message-ID: <20250221012038.13706-2-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.46.3
+In-Reply-To: <20250221012038.13706-1-andre.przywara@arm.com>
+References: <20250221012038.13706-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -39,32 +42,28 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The "Chameleon" board is an Open Hardware board designed and developed
-by YuzukiHD, and mimics the Raspberry Pi A form factor. It sports an
-Allwinner H618 SoC, and alongside the usual devboard peripherals features
-an eMMC chip and four USB-C ports:
-https://github.com/YuzukiHD/YuzukiChameleon
+YuzukiHD provides Open Source Hardware designs, and also offers
+ready-made builds of them: https://github.com/YuzukiHD
 
-Add support for that board with the usual patch trinity: vendor prefix,
-board name binding, board .dts file.
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+---
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Please have a look!
-
-Cheers,
-Andre
-
-Andre Przywara (3):
-  dt-bindings: vendor-prefixes: Add YuzukiHD name
-  dt-bindings: arm: sunxi: Add YuzukiHD Chameleon board name
-  arm64: dts: allwinner: h616: add YuzukiHD Chameleon support
-
- .../devicetree/bindings/arm/sunxi.yaml        |   5 +
- .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
- arch/arm64/boot/dts/allwinner/Makefile        |   1 +
- .../sun50i-h618-yuzukihd-chameleon.dts        | 222 ++++++++++++++++++
- 4 files changed, 230 insertions(+)
- create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h618-yuzukihd-chameleon.dts
-
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 5079ca6ce1d1e..8c0991e002ee8 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -1737,6 +1737,8 @@ patternProperties:
+     description: Shenzhen Yashi Changhua Intelligent Technology Co., Ltd.
+   "^ysoft,.*":
+     description: Y Soft Corporation a.s.
++  "^yuzukihd,.*":
++    description: YuzukiHD Open Source Hardware
+   "^zarlink,.*":
+     description: Zarlink Semiconductor
+   "^zealz,.*":
 -- 
 2.46.3
 
