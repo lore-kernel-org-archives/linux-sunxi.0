@@ -1,83 +1,86 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77DD1250BE5
-	for <linux-sunxi@lists.linux.dev>; Fri, 21 Feb 2025 18:20:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F516215F43
+	for <linux-sunxi@lists.linux.dev>; Fri, 21 Feb 2025 18:57:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740162026; cv=none; b=ebhIJZWJzZRIF4gPHOeOAR6Djrf1gaLvpvZMQ0ytj1pNhQlfM4bRQLhn5IT3lFAA4f9A6Ul96MGjuhaMYXzsd/ZDrM/QhZOousgNfIO+/HPMULU2AOOw+gVt8NKgU5LHMNmU3pJ5KBjBRSBaxuycZ54OCNCo8jFVfk9N1iQo6JU=
+	t=1740164236; cv=none; b=jVCuM6cwiyBfYNMS+6TkM9J7mkKwDYMWytbp0QUycvziKovc4OjfjLL0uausRTX7tDZBMku3tKj1KmD3VNgJHxilEHF0Q98rOlhfZT9r7FmaQBmK4ZqmnU8jFDkZgPBljyBCesZcSACwaRMftR8mAGNvNcNyP4d+FI7YbDTUd2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740162026; c=relaxed/simple;
-	bh=FlMFiPqoPoOO8nzB7qRWFAsrP98gJ9Y3C8ZL+zevz6Q=;
+	s=arc-20240116; t=1740164236; c=relaxed/simple;
+	bh=kWmfsVvKg5wKceJECbS7L8a9jKBdmJvOaYvIFoU+wqY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XPovT6ZBAfiTeqoW/imBspMY6asXwcvvE94SlhaUunodVx3rhVhQ1JLzSVrLvkpptxWYHb9DcoNVL8VDgRlS2dKxZKlzRR0bBF3EIcdexcy6oyaz5LmruOCUMWpfrfyMf7HwkhgO3xKm7KJfZqTglUj2QULg4zy/0bJNCKIM67M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B674QlhH; arc=none smtp.client-ip=209.85.221.50
+	 MIME-Version:Content-Type; b=eZaY8ts9I5yRISzI2CmYBHGXnGmTgsZQpChTUoVxT+XwACwAoBic1dx/uyX58fEbkYtbUTpLZnnmHakbnsqacrpiTd7yJzE0iSYrmiPwwajo+g4HTBaQLDRo9fP7uMfsX7+QHJ5s+LKrxPiebmglpq3xJM7G7qrcaNtbCW+G9HA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HI/TS3OP; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B674QlhH"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-38a8b17d7a7so1316780f8f.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 21 Feb 2025 10:20:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HI/TS3OP"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-38f6475f747so1123496f8f.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 21 Feb 2025 10:57:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740162023; x=1740766823; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1740164233; x=1740769033; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=veHeZGAsIMfeo9MJB9NRykJz3c6tbQQyeQEGIEl/Nmc=;
-        b=B674QlhHjxLlLyLDGtbLiNsZLW5ONtY3bVxIqRw8bBzVfHo1DEvVlVJxKB0brtFY9I
-         rXwvlLQ19kTBAEQnfByzu6j/Y5UYSZN6KfsMZk2EG0YadBfLRG3AI+R8utXR0YS1dmCy
-         f9JT7IW9zWjRChz1uoFsHLqxz7Sa/L3OO8dCG68hgwl7QnQ8cVAWQtC2D1n2BxFYhW0c
-         2lHHO4Ay2CCvgTz1TTleTWN0kHmZx+pr3Q/MWcIbHGxjzaHP+8czzmH8w4akAEMb5er9
-         O/LIPvt3+GTlUwGo4iXVy5enzKwXbwBXgjAP64i6Fe8YaWp7sb1e0q2UiZxZ7XpEao5r
-         vOHg==
+        bh=PN3oGQQws7Six7IFqs4lj8276Rsr9itBvWsUOy5dh5s=;
+        b=HI/TS3OP4F/GbcKn+dB9cF09x5QrnlVaibnIhe9yttp+RxhO2NyiuVBCYM+ZqqY6my
+         +y0q1giDXdSATSmeVVN8bTOyO8OvummvlhfJaCCc1rEkBLhfIzsYv9Oa2OLFtJJojKc1
+         kDJEhF/iEMavEI/WpfxpRMPEw/6QOP4M4Ev/S+B4FWUv8YALVZWwCAqC2hpgGBJSSN4w
+         aymxNzMf6SRtmhoUrN/0c/FRqZnVPZsNfwDuUOiqPLAkQKcZviq6i8UtbtXJwhRb91v7
+         yGiKz290ALEXEDh5eF8fIXG7sWZWHT3rx6siqru2hKXHIVJMGHdi4ObrHq6wDSvxh1U/
+         n4fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740162023; x=1740766823;
+        d=1e100.net; s=20230601; t=1740164233; x=1740769033;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=veHeZGAsIMfeo9MJB9NRykJz3c6tbQQyeQEGIEl/Nmc=;
-        b=GyP9pqR5e9sB04m/V1w2yXDSq/P/3IqWWM4OUBmFqlLnNDF2+vCzaF9MRZKEabzdtw
-         3vrDZ00/DcirR1inXiqsgBXtHMVJDcUc94sVLfmKiD5TGhvScDlRVW56ZHwhv1Qp1Rqm
-         Rh5Sr+ExHbMSzOLRf8c7ZX5kBVU/cZkXqGPuK5hjiQubTEjpmuqoBQXwkAcgFQNLiLeY
-         CQjEtQ5C8t+q5zq4vTifhWoucQ1eoVfBqfmHe7UFMw79eYwpiEqegdyZuXpXgdkGknjl
-         O7Tzg9M7IIgQcBOU1X+WRNBCc8ESoBDYd1v4xDd1pRZX1WLGQTgqX1a9Gk4vuf6LBqVo
-         kbLw==
-X-Forwarded-Encrypted: i=1; AJvYcCVuALYKDyp8QN40W/vVCkA6RhsvEMlJZHExzT4LOebHaMsGpxNegKw8OTiTRWPWIXmv4bxuJ18qgdAEYg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxLXEUDDJj98z30bTnORLsrMJLNrBPhYeWG9m99LVyw6cYef/2C
-	Vm+wFko85o1XaQsyFKNmNyhl1Upy09XmEG/AkVMtVxs7sTFjXFKROQKS8YBg8GM=
-X-Gm-Gg: ASbGncuF9BaOprRqPt8MjHDoingxrTfYzQ06M0dRiCEu+K4cbgy5vHZF+v+9ZRwAGM+
-	VO0Vrd4poxkwjdokfBu7vdu9XZbdbUo0THwe1WJObnGe7Y9ZatTpTomREwY4E5A1S2t+bVPyvV1
-	hDMT9SKmjcal1v/+/wMlIanRSiBZL6MbWQvL1m9XgtPWUPvwT/3E2AOGH4c9hTr2j5BtBn8ECdb
-	QbTxmME3NiD6kiEE/Hx/nwHJOaz9DjBokFWkzQuK8tSWw9hwLbVFmHY3uXLxXSugTiCLNS0dU5z
-	DfWGZFU61iwIY6GTuIAYmGmXlpg6ioSA1IZ+klHhs6xQ+m7fcmUmcMrgoeMmxCb7+lGRXTc9EGH
-	yRw==
-X-Google-Smtp-Source: AGHT+IG5DSiVWK86jS+eT9SXqpVSAsqf+fVk2fzSBX+ycmlA1PLgE8RCGQ9E1+kLqZ2oPVb+Mg5AIg==
-X-Received: by 2002:a5d:5f83:0:b0:38f:4e6e:22 with SMTP id ffacd0b85a97d-38f6f0d1c7emr4036180f8f.48.1740162021124;
-        Fri, 21 Feb 2025 10:20:21 -0800 (PST)
+        bh=PN3oGQQws7Six7IFqs4lj8276Rsr9itBvWsUOy5dh5s=;
+        b=kd1ylkpQXT0cplokNLoLvR/en2i0pnKInODsxaiNp/v2GCafiQ7Y68gRSSrVpDioYP
+         I4DtiBKeMqwKyp2mA9W25D93seaChHqejjvg2fCrd9UwW9OlPxspY1vJuLC0TqB0D00W
+         Pl96pjCWYN+WdJQrxLXngkHjZDrFy1xvmyBLHzEyK5ahyirb3VKXwJ+pS9rwl3KpakUy
+         QwlP7ko6BfY/k8Qlfl4w/TZWOSAPwONCmWfeleYVnnrsJEf0FtEFmsol1wkN5StEt1dV
+         vhtPaQBEypHEDJ2triQFgC4Hg0LEiasp2Kv0TsxWh8tG1E4cg/C3+btnrwxoWF2eX2rq
+         iC3A==
+X-Forwarded-Encrypted: i=1; AJvYcCWVC+PQ8PpparU3dRK2sBSe16+5cucLI668MfBTcebLE0OhD7mQ5fqNEFnAFkxrkKzE9SQ2zQc+4LlMeQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwumpvLEegDrD/hXeMbhBVTh01ZtBunCHKrhk2e60M8N+9yGLWH
+	LHTgLJeo0y4Zg/KobxcV3TlhnYrt+ivc6vqfDR5iuuFMFRSCpYKw
+X-Gm-Gg: ASbGncvxZRPL8pI0prii8sxlv8J8vl23igLptQKFfTulS/dyjP5X7OrhGpvYBMFLUga
+	39b7bPy/btjEFb+pvKIjL4LvnSkRfTTJhcsvykBDU8AkerfAPM0smNyWx594SMPJPsOm3gm/qMD
+	H9talY4i+z31vxd94vrCdmKbu/9muXmoFxXCFXoYAAItNAlMTFXCiLrWwizW8fwYgslbjjqmfJs
+	8h0zimaU+0y/bsCG21Gb5ygFJ0ezKynnmohHEDApKxgs4xlNo4NuEhkB50Crhv4OkP9TFVP2f5u
+	vYMCIwmKtpX6sZxKCLuC7TpPApZEPggU9aydYip05zmbMO7c2+5JvQDpQvM4xHrK/mR5dKE1uWM
+	n7A==
+X-Google-Smtp-Source: AGHT+IED3JUpuFrGJtsUJIgfdM5lhUdX84mBy/uSqrlejM+ibWRA7x2nFo9HzaxyAF3shIBnXClB+g==
+X-Received: by 2002:a05:6000:1fae:b0:38d:cbc2:29f6 with SMTP id ffacd0b85a97d-38f6e947434mr3452719f8f.17.1740164232187;
+        Fri, 21 Feb 2025 10:57:12 -0800 (PST)
 Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f259d65dfsm24489778f8f.64.2025.02.21.10.20.20
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f259d5655sm24085725f8f.77.2025.02.21.10.57.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Feb 2025 10:20:20 -0800 (PST)
+        Fri, 21 Feb 2025 10:57:11 -0800 (PST)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Philippe Simons <simons.philippe@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- "moderated list:ARM/Allwinner sunXi SoC support"
- <linux-arm-kernel@lists.infradead.org>,
- "open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
- open list <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC PATCH 3/3] arm64: dts: allwinner: h700: Enable USB OTG
-Date: Fri, 21 Feb 2025 19:20:19 +0100
-Message-ID: <8490202.T7Z3S40VBb@jernej-laptop>
-In-Reply-To:
- <CADomA4_yMUS_S-YDrQdSKmZrDMwPeakkJBix-r08UFQejTYYcw@mail.gmail.com>
-References:
- <20250118102207.9339-1-simons.philippe@gmail.com>
- <3229934.fEcJ0Lxnt5@jernej-laptop>
- <CADomA4_yMUS_S-YDrQdSKmZrDMwPeakkJBix-r08UFQejTYYcw@mail.gmail.com>
+To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Samuel Holland <samuel@sholland.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
+ Ryan Walklin <ryan@testtoast.com>
+Cc: Andre Przywara <andre.przywara@arm.com>,
+ Chris Morgan <macroalpha82@gmail.com>,
+ Hironori KIKUCHI <kikuchan98@gmail.com>,
+ Philippe Simons <simons.philippe@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-clk@vger.kernel.org, Ryan Walklin <ryan@testtoast.com>
+Subject:
+ Re: [PATCH v7 00/27] drm: sun4i: add Display Engine 3.3 (DE33) support
+Date: Fri, 21 Feb 2025 19:57:09 +0100
+Message-ID: <2221204.Mh6RI2rZIc@jernej-laptop>
+In-Reply-To: <20250216183524.12095-1-ryan@testtoast.com>
+References: <20250216183524.12095-1-ryan@testtoast.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -87,105 +90,191 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne petek, 21. februar 2025 ob 10:54:27 Srednjeevropski standardni =C4=8Das=
- je Philippe Simons napisal(a):
-> On Thu, Feb 20, 2025 at 9:38=E2=80=AFPM Jernej =C5=A0krabec <jernej.skrab=
-ec@gmail.com> wrote:
-> >
-> > Dne sobota, 18. januar 2025 ob 11:22:06 Srednjeevropski standardni =C4=
-=8Das je Philippe Simons napisal(a):
-> > > RG35XX have a GPIO controlled regulator for phy0 vbus, add it.
-> > > Enable HCI0s controllers and otg for dr_mode.
-> > > Add phy0 properties to descrive id_det, external vbus, and internal v=
-bus
-> > >
-> > > Signed-off-by: Philippe Simons <simons.philippe@gmail.com>
-> >
-> > This could work without previous two patches, right?
->=20
-> While this correctly describes the board, it currently doesn't works
-> as expected.
-> HCIs will enable the 5v on PHY and will never disable it.
-> Resulting in a blown regulator on the board if plugged with another host.
-> I managed to get this working by removing the PHY ref from the HCI,
-> but this is wrong.
+Hi Ryan,
 
-Ok, so this patch shouldn't be merged until USB patches are in.
+sorry for very late review, but here we go...
+
+Dne nedelja, 16. februar 2025 ob 19:31:59 Srednjeevropski standardni =C4=8D=
+as je Ryan Walklin napisal(a):
+> Hi All,
+>=20
+> v7 of this patch adding support for the Allwinner DE33 display engine, us=
+ed in the H616 family of SoCs. Apologies for the short interval between ver=
+sions but a compile error due to a missed helper function in patch 11 snuck=
+ by me. v7 only differs from v6 in adding this back.
+>=20
+> v6 includes some small fixes to the device tree documentation, improves n=
+aming of an enum type, moves colorspace configuration from the sunxi engine=
+ object to the mixer object, and a handful of very small style and whitespa=
+ce changes. All comments/tags from previous versions addressed. No function=
+al change from v5.=20
+>=20
+> A v1 patch to enable LCD output for the Anbernic RGnnXX family of devices=
+ which use this SoC with an RGB LCD will be submitted shortly.
+>=20
+> Thanks to those who have reviewed and tested previous versions, and to Je=
+rnej for the initial patch.
+>=20
+> Original blurb below:
+>=20
+> There is existing mainline support for the DE2 and DE3 AllWinner display =
+pipeline IP blocks, used in the A64 and H6 among others, however the H700 (=
+as well as the H616/H618 and the T507 automotive SoC) have a newer version =
+of the Display Engine (v3.3/DE33) which adds additional high-resolution sup=
+port as well as YUV colour formats and AFBC compression support.
+>=20
+> This patch set adds DE33 support, following up from the previous RFC [1],=
+ with significant rework to break down the previous relatively complex set =
+into more logical steps, detailed below.
+>=20
+> 1. Refactor the existing DE2/DE3 code in readiness to support YUV colour =
+formats in the DE3 engine (patches 1-4).
+> 2. Add YUV420 colour format support in the DE3 driver (patches 5-13).
+> 3. Replace the is_de3 mixer flag with an enum to support multiple DE vers=
+ions (patch 14).
+> 4. Refactor the mixer, vi_scaler and some register code to merge common i=
+nit code and more easily support multiple DE versions (patches 15-18).
+> 5. Add Arm Frame Buffer Compression (AFBC) compressed buffer support to t=
+he DE3 driver. This is currently only supported for VI layers (for HW-decod=
+ed video output) but is well integrated into these changes and a subsequent=
+ patchset to enable the Video Engine is planned. (patch 19).
+> 6. Add DT bindings for the DE33 engine. (patches 20-22).
+> 7. Extend the DE2/3 driver for the DE33, comprising clock, mixer, vi_scal=
+er, fmt and csc module support (patches 23-27).
+
+This patchset actually introduces 3 disticnt features, which should IMO be =
+separated
+and thus making reviewing patches easier.
+
+1. native 10-bit YUV420 output (without YUV->RGB->YUV conversions) - this i=
+s used on
+    HDMI for proper 10-bit 4K@60 HDR output
+2. Display Engine 3.3 (DE33) support
+3. AFBC modifier/format support (used for more efficient GPU or VPU output =
+rendering)
+
+If I'm not mistaken, your goal is only DE33 support. There is are two reaso=
+ns why
+I've never sent these patches myself:
+
+1. scaling YUV images doesn't work
+
+Not a problem for any user who doesn't use video player with DRM plane rend=
+ering,
+which I assume is most of them. We can get around of this issue to deny sca=
+ling
+YUV buffers until the issue is sorted out.
+
+2. plane allocations are hackish
+
+DE33 for the first time introduced option to move planes between the mixers=
+=2E DRM
+has also support for this, but for time being static allocation is acceptab=
+le and tbh,
+even dynamic support need appropriate initial setting.
+As you might guessed this is done in DE33 clock driver using magic values. =
+Proper
+way would be to introduce some kind of connection between mixer/plane and c=
+lock
+driver, so initial configuration can be moved to appropriate module instead=
+ of
+being thrown into clock driver. I need to check where to put it and how to =
+properly
+connect DT nodes. Maybe syscon phandle? I'll do some research.
+
+There is one glaring issue (when you work on driver and test every aspect o=
+f it).
+DE33 introduced RCQ, which is basically DMA, which copies shadowed registers
+from memory buffer directly to hw registers. IIRC it does that at vblank ti=
+me. This
+tells you that current concept of writing register values at any time users=
+pace feels
+to do commit is wrong and we've been lucky that it works as well as it does=
+=2E So,
+in order to fix this, driver would need quite a big reorganization. Introdu=
+cing
+shadow buffers would solve most of the issues, most likely also with YUV sc=
+aling.
+Implementing RCQ would be then relatively simple and even improve timings.
+Note that even DE3 has occasional issue with YUV scaler and also read-modif=
+y-read
+access to some of its register can produce bogus value and thus corrupt ima=
+ge
+until next commit.
+
+This is not to say that these issues must be solved with this effort, I'm j=
+ust stating
+them to make people aware.
 
 Best regards,
 Jernej
 
 >=20
-> >
-> > Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> >
-> > Best regards,
-> > Jernej
-> >
-> > > ---
-> > >  .../sun50i-h700-anbernic-rg35xx-2024.dts      | 25 +++++++++++++++++=
-=2D-
-> > >  1 file changed, 23 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35x=
-x-2024.dts b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024=
-=2Edts
-> > > index 80ccab7b5..5a6ae42de 100644
-> > > --- a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.=
-dts
-> > > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.=
-dts
-> > > @@ -175,6 +175,16 @@ reg_vcc5v: regulator-vcc5v { /* USB-C power inpu=
-t */
-> > >               regulator-min-microvolt =3D <5000000>;
-> > >               regulator-max-microvolt =3D <5000000>;
-> > >       };
-> > > +
-> > > +     reg_usb0_vbus: regulator-usb0-vbus {
-> > > +             compatible =3D "regulator-fixed";
-> > > +             enable-active-high;
-> > > +             gpio =3D <&pio 8 16 GPIO_ACTIVE_HIGH>; /* PI16 */
-> > > +             regulator-min-microvolt =3D <5000000>;
-> > > +             regulator-max-microvolt =3D <5000000>;
-> > > +             regulator-name =3D "usb0-vbus";
-> > > +             vin-supply =3D <&reg_boost>;
-> > > +     };
-> > >  };
-> > >
-> > >  &cpu0 {
-> > > @@ -337,12 +347,23 @@ &uart0 {
-> > >       status =3D "okay";
-> > >  };
-> > >
-> > > -/* the AXP717 has USB type-C role switch functionality, not yet desc=
-ribed by the binding */
-> > > +/* the AXP717 has USB type-C role switch functionality */
-> > >  &usbotg {
-> > > -     dr_mode =3D "peripheral";   /* USB type-C receptable */
-> > > +     dr_mode =3D "otg";   /* USB type-C receptable */
-> > > +     status =3D "okay";
-> > > +};
-> > > +
-> > > +&ehci0 {
-> > > +     status =3D "okay";
-> > > +};
-> > > +
-> > > +&ohci0 {
-> > >       status =3D "okay";
-> > >  };
-> > >
-> > >  &usbphy {
-> > > +     usb0_id_det-gpios =3D <&pio 8 4 (GPIO_ACTIVE_LOW | GPIO_PULL_UP=
-)>; /* PI4 */
-> > > +     usb0_vbus_power-supply =3D <&usb_power>;
-> > > +     usb0_vbus-supply =3D <&reg_usb0_vbus>;
-> > >       status =3D "okay";
-> > >  };
-> > >
-> >
-> >
-> >
-> >
+> Further patchsets are planned to support HDMI and the LCD timing controll=
+er present in these SoCs.
+>=20
+> Regards,
+>=20
+> Ryan
+>=20
+> Jernej Skrabec (21):
+>   drm: sun4i: de2/de3: Change CSC argument
+>   drm: sun4i: de2/de3: Merge CSC functions into one
+>   drm: sun4i: de2/de3: call csc setup also for UI layer
+>   drm: sun4i: de2: Initialize layer fields earlier
+>   drm: sun4i: de3: Add YUV formatter module
+>   drm: sun4i: de3: add format enumeration function to engine
+>   drm: sun4i: de3: add formatter flag to mixer config
+>   drm: sun4i: de3: add YUV support to the DE3 mixer
+>   drm: sun4i: de3: pass mixer reference to ccsc setup function
+>   drm: sun4i: de3: add YUV support to the color space correction module
+>   drm: sun4i: de3: add YUV support to the TCON
+>   drm: sun4i: support YUV formats in VI scaler
+>   drm: sun4i: de2/de3: add mixer version enum
+>   drm: sun4i: de2/de3: refactor mixer initialisation
+>   drm: sun4i: vi_scaler refactor vi_scaler enablement
+>   drm: sun4i: de2/de3: add generic blender register reference function
+>   drm: sun4i: de2/de3: use generic register reference function for layer
+>     configuration
+>   drm: sun4i: de3: Implement AFBC support
+>   drm: sun4i: de33: mixer: add Display Engine 3.3 (DE33) support
+>   drm: sun4i: de33: vi_scaler: add Display Engine 3.3 (DE33) support
+>   drm: sun4i: de33: fmt: add Display Engine 3.3 (DE33) support
+>=20
+> Ryan Walklin (6):
+>   drm: sun4i: de3: refactor YUV formatter module setup
+>   dt-bindings: allwinner: add H616 DE33 bus binding
+>   dt-bindings: allwinner: add H616 DE33 clock binding
+>   dt-bindings: allwinner: add H616 DE33 mixer binding
+>   clk: sunxi-ng: ccu: add Display Engine 3.3 (DE33) support
+>   drm: sun4i: de33: csc: add Display Engine 3.3 (DE33) support
+>=20
+>  .../bus/allwinner,sun50i-a64-de2.yaml         |   7 +-
+>  .../clock/allwinner,sun8i-a83t-de2-clk.yaml   |   1 +
+>  .../allwinner,sun8i-a83t-de2-mixer.yaml       |  21 +-
+>  drivers/clk/sunxi-ng/ccu-sun8i-de2.c          |  25 ++
+>  drivers/gpu/drm/sun4i/Makefile                |   3 +-
+>  drivers/gpu/drm/sun4i/sun4i_tcon.c            |  28 +-
+>  drivers/gpu/drm/sun4i/sun50i_afbc.c           | 250 +++++++++++++
+>  drivers/gpu/drm/sun4i/sun50i_afbc.h           |  87 +++++
+>  drivers/gpu/drm/sun4i/sun50i_fmt.c            | 100 +++++
+>  drivers/gpu/drm/sun4i/sun50i_fmt.h            |  32 ++
+>  drivers/gpu/drm/sun4i/sun8i_csc.c             | 345 +++++++++++++++---
+>  drivers/gpu/drm/sun4i/sun8i_csc.h             |  20 +-
+>  drivers/gpu/drm/sun4i/sun8i_mixer.c           | 226 +++++++++---
+>  drivers/gpu/drm/sun4i/sun8i_mixer.h           |  53 ++-
+>  drivers/gpu/drm/sun4i/sun8i_ui_layer.c        |  41 ++-
+>  drivers/gpu/drm/sun4i/sun8i_ui_scaler.c       |   2 +-
+>  drivers/gpu/drm/sun4i/sun8i_vi_layer.c        | 133 +++++--
+>  drivers/gpu/drm/sun4i/sun8i_vi_scaler.c       | 115 ++++--
+>  drivers/gpu/drm/sun4i/sun8i_vi_scaler.h       |   2 +-
+>  drivers/gpu/drm/sun4i/sunxi_engine.h          |  29 ++
+>  20 files changed, 1306 insertions(+), 214 deletions(-)
+>  create mode 100644 drivers/gpu/drm/sun4i/sun50i_afbc.c
+>  create mode 100644 drivers/gpu/drm/sun4i/sun50i_afbc.h
+>  create mode 100644 drivers/gpu/drm/sun4i/sun50i_fmt.c
+>  create mode 100644 drivers/gpu/drm/sun4i/sun50i_fmt.h
+>=20
 >=20
 
 
