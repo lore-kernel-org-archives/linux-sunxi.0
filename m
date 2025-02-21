@@ -1,240 +1,366 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A306120A5E8
-	for <linux-sunxi@lists.linux.dev>; Fri, 21 Feb 2025 16:41:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F3A11DF98B
+	for <linux-sunxi@lists.linux.dev>; Fri, 21 Feb 2025 18:02:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740156075; cv=none; b=FwGKtOVZ/Nqu3PZM8nJb8lyVfujalgagTO217o5YoYz3yGFBp2GLwALNdBcQUhPPV6+ThGLIJ60Guf+kFKHiAw0oRDOEUxwWxu72KxxgimktYvlOUJsk4nMROxE5muS3IhvZWklxmm9dvBbW1dkK+0J1qXKglhYS2NM0+08Moh8=
+	t=1740160967; cv=none; b=hFRS9HuF+Pe4sEYwEdOY/7EoFFH2lf9z5907BVlFHRPXNzMS+jxQ7xvLBDo77CJ6i9RTLVBfymKq/570XFQo4/HFNVoaLqs3H+csK9GSON/W7MJ2uIrMuUoehU/4Q2kGP5P2ezDCF0RIZ8Huf0XqQaA40cFABvv6O2nu+eRTmzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740156075; c=relaxed/simple;
-	bh=WscDxsnPeboOXwOU6QK25fEzgybvqretWJ8oeCzqNCQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WMeaM3BJinPTP2x4rR8+LFOhpws5hGBfIMxPgrCo9Sgu7v0OxTvt635tp60u+z5Xrxcf8iL/zX93mqZwa0+h9Di7NW1pOse2Q/OtQTlIaL8apuAtVp2iw9gRo5h7PcjQp2RopMtS46fbwP7w5FrllafdIwjb39A2TKRIQvkVGuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ezFa7UoS; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1740160967; c=relaxed/simple;
+	bh=A/T3DktW5G8+ezfPY8r+lCkYzfMNyZ3yLbRJYboaU0Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JYxZllDJhBEwz/NTlumYiVhSHED8gjRNIyhEfXNoRq/9eTi6J3QoyY0PxHCB4+dK2SN59s+Oqdp3RL2VUJAaFDs/zgpJqUpVC9GqsyUHMBQQtrL1iOnY57W9qIrhVanbeNcCSBGsPZb4ceA3xYOOMfpnsP5fyxM4U0vns/xkKo0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IQairFWL; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ezFa7UoS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740156073; x=1771692073;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WscDxsnPeboOXwOU6QK25fEzgybvqretWJ8oeCzqNCQ=;
-  b=ezFa7UoS4ZmXU7sqSpiasnSFM26jJZGES2jzW+KI67SmUpiSkORwy/dH
-   OAISRtpnlzUtg3SFf54bMLMh2YmIFo9cvnovvaSc/GGVgnOYO8W9d+7FF
-   9EZDSYmBLebClYnOwV6ejVioe2Z9VhF2y7TzbS63uFLk5vc4mN1U79ZCk
-   cx7HO042NT9OW2weOGza1ZRLgtx9UiJWPGBmyzTN3VmMiiqq91aXxdDOw
-   bY/f09g6RnKiBSt/dUo9tVmmLGOtJ0RFBlBTUDAPuj93/LdTg4lCUQZwD
-   Tq9nOMIriETMM24bIEnMDJTQPbAUdaH2egnyyw7v7FVqHGdyXdtEWQbrk
-   A==;
-X-CSE-ConnectionGUID: gz34jqSjS1Cd99Mguncg7A==
-X-CSE-MsgGUID: VxXdVkwTRLuXeaCZyEokww==
-X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="58390961"
-X-IronPort-AV: E=Sophos;i="6.13,305,1732608000"; 
-   d="scan'208";a="58390961"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 08:41:13 -0800
-X-CSE-ConnectionGUID: UimGude1RQaPxjrN7gVF9g==
-X-CSE-MsgGUID: 7mnoeVakSyWE0PfzvQEy5A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,305,1732608000"; 
-   d="scan'208";a="120039765"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 08:41:08 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tlW5J-0000000Dh2u-1chT;
-	Fri, 21 Feb 2025 18:41:05 +0200
-Date: Fri, 21 Feb 2025 18:41:05 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Matti Vaittinen <mazziesaccount@gmail.com>
-Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
-	Nuno Sa <nuno.sa@analog.com>, David Lechner <dlechner@baylibre.com>,
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v3 2/9] iio: adc: add helpers for parsing ADC nodes
-Message-ID: <Z7isoU9hKXlgsu33@smile.fi.intel.com>
-References: <cover.1739967040.git.mazziesaccount@gmail.com>
- <6c5b678526e227488592d004c315a967b9809701.1739967040.git.mazziesaccount@gmail.com>
- <Z7ZB7RQhyI5Dohrq@smile.fi.intel.com>
- <b1c1ed68-2f4d-447c-9957-5a1bbc63ef6e@gmail.com>
- <Z7ci7tUlRQqZEZSN@smile.fi.intel.com>
- <ec76334b-bb13-4076-811d-9174170dd677@gmail.com>
- <Z7c2cBQpjoc9-Vyu@smile.fi.intel.com>
- <9018e23c-da28-41b0-b774-1598b946a2a1@gmail.com>
- <Z7dCnRzuQTaJXzmb@smile.fi.intel.com>
- <cb27d8b1-c978-4443-9ad2-96e930701976@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IQairFWL"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-38de1a5f039so2236622f8f.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 21 Feb 2025 10:02:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740160963; x=1740765763; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ky5RBBDFo7pwY6fTEoCqumUB417wE2fgV3OwJcGSh9w=;
+        b=IQairFWLZuoGqWLxyyVfSLkoaIxVCFJU5X6WBCJ/sI2Y2NTAZZ+MiZcIhCbG4MuBOZ
+         UPYE8hdJtARhsKB89wL/IHOkNuw50BBBiMekGpyYDiZJJa8cUj6vCpuBwogiE1HYxss7
+         vGKCpLfgeZEMrtDn0OSIkS6bWIJ3UjRNnXsxmpiHx4b6aDMWwBVfNlbXpu164mYgI3n2
+         YYUBsZYPUC9JUNm57fzNCbQTKr3SHSl8F5J4ovc1k1tinaqmR1/IqPhnPv2e0io7ewJ8
+         tkj7xPYdh0WMNi4Me3JmYhvdj27OapQuBDQ0K7i5Wm2rBiLWrGpJ29rgjen0iHejd32h
+         PkEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740160963; x=1740765763;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ky5RBBDFo7pwY6fTEoCqumUB417wE2fgV3OwJcGSh9w=;
+        b=FYT/1klSXECckCdP5ZzHuuGpebVjIt83dhUenWFzgPnOgWIAUX1G4Ijxrcj/6njLQg
+         nPkcWDbELUv7oCiRQcoSp/bBOBnKtS5EWKus7crUtBGNQMcb68KvZgjHHVEYVo/RxTED
+         +6K3ensgs5o6yIWIRbn5VMJ4tpEZUuWuVqv1trHdyN/Ga77g0rerky3I27K594yw80rz
+         SIrZ6GaypUmd1TgdfzJ4+Y2u5If5gHaFLsFnl1oC/bd5J82VByDaeMMMoXVYwg8xthLu
+         Z+ZOrMjNUR1RnPcyjlHkmk3P3jqJpK8WZHW98xI4YCPlfVNi/SOY2A9PS+vyQqcsOhuj
+         zduQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX0S1Evx5dwMp68BIu/ETtoBC+u2HMicQ1TixTCFwJN1V8D0H7FKxsqRxKdwMSc+CTGxY8cFAhgAJPEvg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyws7FV8i+S9/NvBJsJ1wbuks3U9yhOaGxpzExNsJLRuYJM7xTG
+	KMqHQWjzm7Pvko5g23i0wv7yJGPGRxPfwr8sI9IQLCQNuF422hwD
+X-Gm-Gg: ASbGncujW6vlWIQ5RijtR7obtPm33waOSktoWZtFIwQmO5QTuAymP8xTvldnMmdxUaw
+	oaG9w1eaFanO+iTlUZo9EYhbyegsptbV/01XUy/Sor/JWpW76AcBKR6vCgow7aWMf9sr5wA3aya
+	Gzot/b5eob2wot0/GH65ZhXK1PVKFOBpGkKRF3z0ehoDwQTg7ZnKhAHbeZSBUat/BX2/V6jmgFr
+	3+yO74T4bxe0+jPIx54LIQFD4zycrC6UtbMOD+sJJwC1skvMETZwAlzJYzFjhG3VCrNZi6OoBgO
+	OzpRFiqFUqcnWL7YiB3o0SHh0BiUQesULPOy3sYpFJQF4OsIR/2vg4VrPVmPoKIUUVS+lUgtiUR
+	jvQ==
+X-Google-Smtp-Source: AGHT+IFgNKVxtAYFJ3mL0/vT0PfLzi2dGHGPi8cw65BEVBNksyDVfkcvC+CXso0kdLCw7Bwnk4rR4w==
+X-Received: by 2002:a5d:648b:0:b0:38f:3e1c:211d with SMTP id ffacd0b85a97d-38f6e95bb57mr5545939f8f.14.1740160963035;
+        Fri, 21 Feb 2025 10:02:43 -0800 (PST)
+Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f259fdb19sm24586850f8f.95.2025.02.21.10.02.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Feb 2025 10:02:42 -0800 (PST)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+Subject:
+ Re: [PATCH 3/3] arm64: dts: allwinner: h616: add YuzukiHD Chameleon support
+Date: Fri, 21 Feb 2025 19:02:41 +0100
+Message-ID: <2768158.mvXUDI8C0e@jernej-laptop>
+In-Reply-To: <20250221012038.13706-4-andre.przywara@arm.com>
+References:
+ <20250221012038.13706-1-andre.przywara@arm.com>
+ <20250221012038.13706-4-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cb27d8b1-c978-4443-9ad2-96e930701976@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On Fri, Feb 21, 2025 at 12:10:23PM +0200, Matti Vaittinen wrote:
-> On 20/02/2025 16:56, Andy Shevchenko wrote:
-> > On Thu, Feb 20, 2025 at 04:21:37PM +0200, Matti Vaittinen wrote:
-> > > On 20/02/2025 16:04, Andy Shevchenko wrote:
-> > > > On Thu, Feb 20, 2025 at 03:40:30PM +0200, Matti Vaittinen wrote:
-> > > > > On 20/02/2025 14:41, Andy Shevchenko wrote:
-> > > > > > On Thu, Feb 20, 2025 at 09:13:00AM +0200, Matti Vaittinen wrote:
-> > > > > > > On 19/02/2025 22:41, Andy Shevchenko wrote:
-> > > > > > > > On Wed, Feb 19, 2025 at 02:30:27PM +0200, Matti Vaittinen wrote:
+Dne petek, 21. februar 2025 ob 02:20:38 Srednjeevropski standardni =C4=8Das=
+ je Andre Przywara napisal(a):
+> The Chameleon board is an OpenHardware devboard made by YuzukiTsuru.
+> The form factor resembles the Raspberry Pi Model A boards, though it
+> differs significantly in its features:
+>=20
+>   - Allwinner H618 SoC (4 * Arm Cortex-A53 cores, 1MB L2 cache, 1.4 GHz)
+>   - between 512MiB and 2GiB DDR3 DRAM
+>   - up to 128 GiB eMMC flash
+>   - AXP313a PMIC
+>   - 100 Mbit/s Ethernet pins on a header
+>   - XR829 WIFI+Bluetooth chip
+>   - 4 * USB 2.0 USB-C ports
+>   - microSD card slot
+>   - 3.5mm A/V port
+>=20
+> Add the devicetree describing the board's peripherals and their
+> connections.
+>=20
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+>  .../sun50i-h618-yuzukihd-chameleon.dts        | 222 ++++++++++++++++++
+>  2 files changed, 223 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h618-yuzukihd-ch=
+ameleon.dts
+>=20
+> diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts=
+/allwinner/Makefile
+> index 00bed412ee31c..448698fed5f79 100644
+> --- a/arch/arm64/boot/dts/allwinner/Makefile
+> +++ b/arch/arm64/boot/dts/allwinner/Makefile
+> @@ -48,6 +48,7 @@ dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h618-longanpi-3h.d=
+tb
+>  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h618-orangepi-zero2w.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h618-orangepi-zero3.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h618-transpeed-8k618-t.dtb
+> +dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h618-yuzukihd-chameleon.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h700-anbernic-rg35xx-2024.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h700-anbernic-rg35xx-h.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h700-anbernic-rg35xx-plus.dtb
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-yuzukihd-chameleon=
+=2Edts b/arch/arm64/boot/dts/allwinner/sun50i-h618-yuzukihd-chameleon.dts
+> new file mode 100644
+> index 0000000000000..c60d42130cf79
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-yuzukihd-chameleon.dts
+> @@ -0,0 +1,222 @@
+> +// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+> +/*
+> + * Copyright (C) 2024 Arm Ltd.
+> + */
+> +
+> +/dts-v1/;
+> +
+> +#include "sun50i-h616.dtsi"
+> +#include "sun50i-h616-cpu-opp.dtsi"
+> +
+> +#include <dt-bindings/gpio/gpio.h>
+> +#include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +/ {
+> +	model =3D "Yuzuki Chameleon";
+> +	compatible =3D "yuzukihd,chameleon", "allwinner,sun50i-h618";
+> +
+> +	aliases {
+> +		ethernet1 =3D &sdio_wifi;
+> +		serial0 =3D &uart0;
+> +	};
+> +
+> +	chosen {
+> +		stdout-path =3D "serial0:115200n8";
+> +	};
+> +
+> +	reg_vcc5v: vcc5v {
+> +		/* board wide 5V supply directly from the USB-C socket */
+> +		compatible =3D "regulator-fixed";
+> +		regulator-name =3D "vcc-5v";
+> +		regulator-min-microvolt =3D <5000000>;
+> +		regulator-max-microvolt =3D <5000000>;
+> +		regulator-always-on;
+> +	};
+> +
+> +	wifi_pwrseq: pwrseq {
+> +		compatible =3D "mmc-pwrseq-simple";
+> +		clocks =3D <&rtc CLK_OSC32K_FANOUT>;
+> +		clock-names =3D "ext_clock";
+> +		pinctrl-0 =3D <&x32clk_fanout_pin>;
+> +		pinctrl-names =3D "default";
+> +		reset-gpios =3D <&pio 6 11 GPIO_ACTIVE_LOW>; /* PG11 */
+> +	};
+> +};
+> +
+> +&codec {
+> +	allwinner,audio-routing =3D "Line Out", "LINEOUT";
+> +	status =3D "okay";
+> +};
+> +
+> +&cpu0 {
+> +	cpu-supply =3D <&reg_dcdc2>;
+> +};
+> +
+> +&ehci0 {
+> +	status =3D "okay";
+> +};
+> +
+> +&ehci1 {
+> +	status =3D "okay";
+> +};
+> +
+> +&ehci2 {
+> +	status =3D "okay";
+> +};
+> +
+> +&ehci3 {
+> +	status =3D "okay";
+> +};
+> +
+> +&mmc0 {
+> +	bus-width =3D <4>;
+> +	cd-gpios =3D <&pio 5 6 GPIO_ACTIVE_LOW>;	/* PF6 */
+> +	disable-wp;
+> +	vmmc-supply =3D <&reg_dldo1>;
+> +	status =3D "okay";
+> +};
+> +
+> +&mmc1 {
+> +	bus-width =3D <4>;
+> +	mmc-pwrseq =3D <&wifi_pwrseq>;
+> +	non-removable;
+> +	vmmc-supply =3D <&reg_dldo1>;
+> +	vqmmc-supply =3D <&reg_dldo1>;
+> +	status =3D "okay";
+> +
+> +	sdio_wifi: wifi@1 {
+> +		reg =3D <1>;
+> +		interrupt-parent =3D <&pio>;
+> +		interrupts =3D <6 12 IRQ_TYPE_LEVEL_LOW>;  /* PG12 */
+> +		interrupt-names =3D "host-wake";
+> +	};
+> +};
+> +
+> +&mmc2 {
+> +	bus-width =3D <8>;
+> +	cap-mmc-hw-reset;
+> +	mmc-ddr-3_3v;
+> +	non-removable;
+> +	vmmc-supply =3D <&reg_dldo1>;
+> +	vqmmc-supply =3D <&reg_dldo1>;
+> +	status =3D "okay";
+> +};
+> +
+> +&ohci0 {
+> +	status =3D "okay";
+> +};
+> +
+> +&ohci1 {
+> +	status =3D "okay";
+> +};
+> +
+> +&ohci2 {
+> +	status =3D "okay";
+> +};
+> +
+> +&ohci3 {
+> +	status =3D "okay";
+> +};
+> +
+> +&pio {
+> +	vcc-pc-supply =3D <&reg_dldo1>;
+> +	vcc-pf-supply =3D <&reg_dldo1>;	/* via VCC_IO */
+> +	vcc-pg-supply =3D <&reg_dldo1>;
+> +	vcc-ph-supply =3D <&reg_dldo1>;	/* via VCC_IO */
+> +	vcc-pi-supply =3D <&reg_dldo1>;
+> +};
+> +
+> +&r_i2c {
+> +	status =3D "okay";
+> +
+> +	axp313: pmic@36 {
+> +		compatible =3D "x-powers,axp313a";
+> +		reg =3D <0x36>;
+> +		#interrupt-cells =3D <1>;
+> +		interrupt-controller;
+> +		interrupt-parent =3D <&pio>;
+> +		interrupts =3D <2 2 IRQ_TYPE_LEVEL_LOW>;	/* PC2 */
+> +
+> +		vin1-supply =3D <&reg_vcc5v>;
+> +		vin2-supply =3D <&reg_vcc5v>;
+> +		vin3-supply =3D <&reg_vcc5v>;
+> +
+> +		regulators {
+> +			/* Supplies VCC-PLL, so needs to be always on. */
+> +			reg_aldo1: aldo1 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt =3D <1800000>;
+> +				regulator-max-microvolt =3D <1800000>;
+> +				regulator-name =3D "vcc1v8";
+> +			};
+> +
+> +			/* Supplies VCC-IO, so needs to be always on. */
+> +			reg_dldo1: dldo1 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt =3D <3300000>;
+> +				regulator-max-microvolt =3D <3300000>;
+> +				regulator-name =3D "vcc3v3";
+> +			};
+> +
+> +			reg_dcdc1: dcdc1 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt =3D <810000>;
+> +				regulator-max-microvolt =3D <990000>;
+> +				regulator-name =3D "vdd-gpu-sys";
+> +			};
+> +
+> +			reg_dcdc2: dcdc2 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt =3D <810000>;
+> +				regulator-max-microvolt =3D <1100000>;
+> +				regulator-name =3D "vdd-cpu";
+> +			};
+> +
+> +			reg_dcdc3: dcdc3 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt =3D <1500000>;
+> +				regulator-max-microvolt =3D <1500000>;
+> +				regulator-name =3D "vdd-dram";
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&uart0 {
+> +	pinctrl-names =3D "default";
+> +	pinctrl-0 =3D <&uart0_ph_pins>;
+> +	status =3D "okay";
+> +};
+> +
+> +/* Connected to the Bluetooth UART pins of the XR829 Wifi/BT chip. */
+> +&uart1 {
+> +	pinctrl-names =3D "default";
+> +	pinctrl-0 =3D <&uart1_pins>, <&uart1_rts_cts_pins>;
+> +	uart-has-rtscts;
+> +	status =3D "okay";
+> +};
+> +
+> +&usbotg {
+> +	/*
+> +	 * PHY0 pins are connected to a USB-C socket, but a role switch
+> +	 * is not implemented: both CC pins are pulled to GND.
+> +	 * The VBUS pins power the device, so a fixed peripheral mode
+> +	 * is the best choice.
+> +	 * The board can be powered via GPIOs, in this case port0 *can*
+> +	 * act as a host (with a cable/adapter ignoring CC), as VBUS is
+> +	 * then provided by the GPIOs. Any user of this setup would
+> +	 * need to adjust the DT accordingly: dr_mode set to "host",
+> +	 * enabling OHCI0 and EHCI0.
+> +	 */
+> +	dr_mode =3D "otg";
 
-...
+OTG role contradicts text above.
 
-> > > > > > > > > +EXPORT_SYMBOL_GPL(iio_adc_device_num_channels);
-> > > > > > > > 
-> > > > > > > > No namespace?
-> > > > > > > 
-> > > > > > > I was considering also this. The IIO core functions don't belong into a
-> > > > > > > namespace - so I followed the convention to keep these similar to other IIO
-> > > > > > > core stuff.
-> > > > > > 
-> > > > > > But it's historically. We have already started using namespaces
-> > > > > > in the parts of IIO, haven't we?
-> > > > > 
-> > > > > Yes. But as I wrote, I don't think adding new namespaces for every helper
-> > > > > file with a function or two exported will scale. We either need something
-> > > > > common for IIO (or IIO "subsystems" like "adc", "accel", "light", ... ), or
-> > > > > then we just keep these small helpers same as most of the IIO core.
-> > > > 
-> > > > It can be still pushed to IIO_CORE namespace. Do you see an issue with that?
-> > > 
-> > > No. I've missed the fact we have IIO_CORE O_o. Thanks for pointing it out!
-> > > 
-> > > > Or a new opaque namespace for the mentioned cases, something like IIO_HELPERS.
-> > > 
-> > > I am unsure if it really benefits to split this out of the IIO_CORE. I've a
-> > > feeling it falls into the category of making things harder for user with no
-> > > apparent reason. But yes, the IIO_CORE makes sense.
-> > 
-> > Probably I was not clear, I mean to put this under a given namespace. There is
-> > no a such, we have currently:
-> > 
-> > IIO_BACKEND
-> > IIO_DMA_BUFFER
-> > IIO_DMAENGINE_BUFFER
-> > IIO_GTS_HELPER
-> > IIO_RESCALE
-> 
-> Ah. So, the IIO core stuff is still not in a namespace. Those listed above
-> are all too specific (I believe, in general, and definitely to carry ADC
-> helpers).
-> 
-> Adding 'ADC_HELPERS' would just add yet another way too specific one. So,
-> currently there is no suitable namespace for these helpers, and I still
-> believe they fit best to where the rest of the IIO-core stuff is.
-> 
-> If we want really play the namespace game, then the existing IIO stuff
-> should be put in a IIO_CORE-namespace instead of creating more new small
-> ones. I am afraid that adding all existing IIO core to a IIO_CORE namespace
-> and converting all existing users to use the IIO_CORE is not a reasonable
-> request for a person trying to:
-> 
-> 1. Write a driver
-> 2. Add a small helper to aid others (instead of just melding it all in the
-> given new driver - which does not benefit anyone else and just leads to code
-> duplication in the long run...)
+The rest looks good.
 
-That's why more specific, but also a bit general might work, like IIO_HELPERS,
-considering that they may be used by many drivers.
+Best regards,
+Jernej
 
-While it may be not your call, somebody should do the job. Jonathan? :-)
+> +	status =3D "okay";
+> +};
+> +
+> +&usbphy {
+> +	usb0_id_det-gpios =3D <&pio 6 18 GPIO_ACTIVE_HIGH>; /* PG18 */
+> +	usb0_vbus-supply =3D <&reg_vcc5v>;
+> +	usb1_vbus-supply =3D <&reg_vcc5v>;
+> +	usb2_vbus-supply =3D <&reg_vcc5v>;
+> +	usb3_vbus-supply =3D <&reg_vcc5v>;
+> +	status =3D "okay";
+> +};
+>=20
 
-> > > > > > > (Sometimes I have a feeling that the trend today is to try make things
-> > > > > > > intentionally difficult in the name of the safety. Like, "more difficult I
-> > > > > > > make this, more experience points I gain in the name of the safety".)
-> > > > > > > 
-> > > > > > > Well, I suppose I could add a namespace for these functions - if this
-> > > > > > > approach stays - but I'd really prefer having all IIO core stuff in some
-> > > > > > > global IIO namespace and not to have dozens of fine-grained namespaces for
-> > > > > > > an IIO driver to use...
 
-...
-
-> > > > > foo &= (~bar);
-> > > > > 
-> > > > > is _much_ faster than seeing:
-> > > > 
-> > > > Strongly disagree. One need to parse an additional pair of parentheses,
-> > > > and especially when it's a big statement inside with nested ones along
-> > > > with understanding what the heck is going on that you need them in the
-> > > > first place.
-> > > > 
-> > > > On top of that, we have a common practices in the LK project and
-> > > > with our history of communication it seems you are trying to do differently
-> > > > from time to time. Sounds like a rebellion to me :-)
-> > > 
-> > > I only rebel when I (in my opinion) have a solid reason :)
-> > > 
-> > > > > foo &= ~bar;
-> > > > > 
-> > > > > and having to google the priorities.
-> > > > 
-> > > > Again, this is something a (regular) kernel developer keeps refreshed.
-> > > > Or even wider, C-language developer.
-> > > 
-> > > Ha. As I mentioned, I've been writing C on a daily bases for almost 25
-> > > years. I wonder if you intent to say I am not a kernel/C-language developer?
-> > > Bold claim.
-> > 
-> > I'm just surprised by seeing that style from a 25y experienced C developer,
-> > that's all.
-> 
-> I am not. If something, these 25 years have taught me to understand that
-> even if something is simple and obvious to me, it may not be simple and
-> obvious to someone else. Similarly, something obvious to someone else, is
-> not obvious to me. Hence, I am very careful when telling people that:
-> 
-> >>> Again, this is something a (regular) kernel developer keeps refreshed.
-> >>> Or even wider, C-language developer.
-> 
-> I may however say that "this is something _I_ keep refreshed (as a
-> kernel/C-developer)".
-
-True.
-
-> As an example,
-> 
-> >>>> foo &= (~bar);
-> 
-> This is something _I_ find very clear and exact, with zero doubt if negation
-> is applied before &=. For _me_ the parenthesis there _help_, and for _me_
-> the parenthesis cause no confusion when reading the code.
-> 
-> I won't go and tell that I'd expect any C or kernel developer to be able to
-> fluently parse "foo &= (~bar)". (Whether I think they should is another
-> matter).
-
-> Oh well, let's wait and see what Jonathan thinks of these helpers in
-> general. We can continue the parenthesis discussion when we know whether the
-> code is going to stay.
-
-Sure, but it's not only about these helpers, it's about the style in general.
-Spreading unneeded characters in the code seems to me as an attempt to put
-_your_ rules over the subsytem's ones. Whatever, let's Jonathan to judge, we
-will never agree on a keep growing list of things anyway...
-
--- 
-With Best Regards,
-Andy Shevchenko
 
 
