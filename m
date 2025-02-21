@@ -1,53 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24553253F06;
-	Fri, 21 Feb 2025 23:44:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 763E342A95;
+	Fri, 21 Feb 2025 23:44:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740181455; cv=none; b=cPKCPudgQt01iC0nEtj9K+moQottndGtLwBN5y31DAOdHiwr2Ax2NH7PapaAQ5SExmazKCX0TCilQmmq/TXb99aE7iCMxbChuKA7cDzVa8+Pyc7zVMArYRQzulCqHhh4THAQoA5tSR6NkP+EAJMgl0OgOx7Bzskvvmt33bXviZM=
+	t=1740181470; cv=none; b=lKP56KuAg99sWHVckha2wtXNhgGFs2FEiKwzgEuDSEvR1RXJN4aQgQFj7x1RM06TSOX5BwqXz6qGjEQ/Jwiby6NdscESRob+JQXuvDJTpVURbwUWm7zRykm4uQGDCFMjTtTUmYnH5kl1TA0yU9er2GpowiTql2ujPaacYuTYMBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740181455; c=relaxed/simple;
-	bh=LPuDk+6EvEIOleZ6HMXz7Q2USX7ef9j+avusUpmJAsQ=;
+	s=arc-20240116; t=1740181470; c=relaxed/simple;
+	bh=vFGP5lZIH+gffNa0hxiFJK7yHkXmM9iUr069pf8053Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OTpGLomSYcXPdJJpQeSrQjvRyOSR0LNp/JYJdIcxsZtIqDrTZtOZcuIM5z6CHBl/ufICOcqD9xQ/VNJyTm4d/uht4qbhVnO6sMedc3bH3BEDoa34j7CUuVUfEr2awnmIRxXuRVxpl4G5QhaphbwaBWNoaGikTfOi+yH3VD2Rnkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G2gZlZNJ; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=OI13lXVfRDgR1f78YA25gfAIV6pb9hIiD6x1P88p+JDPp/jKJFkQQQNEGt0pfoeQRvwbAEBPJ1Pt01fG6F6ixExNRrBxKLXQRM+qqxXwBU2q9ZXZEYlq9iKaylFzfSUOwdq1SCvBiPzlXxC9EVyX3OSmo6T0xcTzs4u1AM7S8Gg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ry6RJQ9I; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G2gZlZNJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7310CC4CED6;
-	Fri, 21 Feb 2025 23:44:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ry6RJQ9I"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27C3AC4CED6;
+	Fri, 21 Feb 2025 23:44:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740181454;
-	bh=LPuDk+6EvEIOleZ6HMXz7Q2USX7ef9j+avusUpmJAsQ=;
+	s=k20201202; t=1740181470;
+	bh=vFGP5lZIH+gffNa0hxiFJK7yHkXmM9iUr069pf8053Y=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=G2gZlZNJ4nhnlglQR2Ul7LtTjncW3SSm33huoq+mJ6vI1LF+w3HUJDumaw0NGpT/J
-	 3oi6hEO+LClIxqCIMNUIRHy3fFfvGd1/vDTSey+O4d0QCqMyNrn7GZiPN+piVN9jEa
-	 hE0t6mSe49fbNVKQFbkany8o+WWZGT/FO8dgW+fGYY0z31hk76aKztqqwl+YvjxvyH
-	 4B77FUdncY/A1ir1+kGuY6SpKVq24iRVU4H9GrjksTBqizc+BEeRvZYaSpFPp0+1Zg
-	 7oS49dcHefUDGvpfcDnjGg39MXowMS8ApT/u+FKHDmvYO0fYvOjcbZ5njkM6/qHyIi
-	 JlSmnuuT4f/DQ==
-Date: Fri, 21 Feb 2025 17:44:12 -0600
+	b=ry6RJQ9I9XF3cINl85IOOQ/E2IAp83B8PsWIpVMktzB8xj49BdNgg9pGBkhuwnjwN
+	 2vLwB1V1VhXIidjViE+nhTgubpBEMrqSHWUfK4RfB1355nPwg+g8hwfWtWUQoDdbLq
+	 WjscZQvKDjJ49EUCHlH5PNJU9ZB8ZwE4b7VZ/tgInykkClsgr0gFweLIDarFgbvWP1
+	 icUxa1ucRgYFWmygPL7U3h6fLsFQZ5HIH4Yqq/CE0JkhkEqTClwQFgPYtOAG0TjbuU
+	 UbJ/HLCYirezkATZHGAAnnSHSNyKBb4i+41LCAVts1mCud9PSu6kSUbowhjmbFfh8L
+	 p8Z5FOjnJOtrg==
+Date: Fri, 21 Feb 2025 17:44:28 -0600
 From: "Rob Herring (Arm)" <robh@kernel.org>
 To: Andre Przywara <andre.przywara@arm.com>
-Cc: linux-sunxi@lists.linux.dev,
-	Boris Brezillon <boris.brezillon@collabora.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Maxime Ripard <mripard@kernel.org>,
-	Steven Price <steven.price@arm.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Simona Vetter <simona@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-pm@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>
-Subject: Re: [PATCH 3/5] dt-bindings: gpu: mali-bifrost: Add Allwinner H616
- compatible
-Message-ID: <174018145089.395682.15107324899674215035.robh@kernel.org>
-References: <20250221005802.11001-1-andre.przywara@arm.com>
- <20250221005802.11001-4-andre.przywara@arm.com>
+Subject: Re: [PATCH 2/3] dt-bindings: arm: sunxi: Add YuzukiHD Chameleon
+ board name
+Message-ID: <174018146811.396109.10176717812055404887.robh@kernel.org>
+References: <20250221012038.13706-1-andre.przywara@arm.com>
+ <20250221012038.13706-3-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -56,20 +47,20 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250221005802.11001-4-andre.przywara@arm.com>
+In-Reply-To: <20250221012038.13706-3-andre.przywara@arm.com>
 
 
-On Fri, 21 Feb 2025 00:58:00 +0000, Andre Przywara wrote:
-> The Allwinner H616 SoC has a Mali-G31 MP2 GPU, which is of the Mali
-> Bifrost family.
-> Add the SoC specific compatible string and pair it with the bifrost
-> fallback compatible.
+On Fri, 21 Feb 2025 01:20:37 +0000, Andre Przywara wrote:
+> The Chameleon is an Open Source hardware board designed by YuzkuiHD,
+> using the Allwinner H618 SoC: https://github.com/YuzukiHD/YuzukiChameleon
+> 
+> Add its compatible name to the list of valid board name.
 > 
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 > ---
->  Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml | 1 +
->  1 file changed, 1 insertion(+)
+>  Documentation/devicetree/bindings/arm/sunxi.yaml | 5 +++++
+>  1 file changed, 5 insertions(+)
 > 
 
-Applied, thanks!
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
