@@ -1,234 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2090F1DDE9;
-	Sat, 22 Feb 2025 17:48:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F91C1DE4C1
+	for <linux-sunxi@lists.linux.dev>; Sat, 22 Feb 2025 23:26:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740246534; cv=none; b=P1GwrsSGEeYVofZCNHCBVE+L5IP072iOTNIvSUQriio0dn6VpU+Q7VcPMYlYETPqjbpsr1VrbbwwbILjqFNR0YpZ8nfEyGv+mosFtCW4ZAvD3pATVC37gZSVw6Va6DiSsAGbnczYiBjJhiDBArvcX+9WqVas8kWp0vt0NqMb8WM=
+	t=1740266816; cv=none; b=DwsEJv9Uzq0Er1NLKxlBv8vGahoTQ8MQBR6yaK4Om6D7dTrh+XBsS4gMzJETgnd/Zs11yiLsBltS38QSUKF/NDHZX+GjkR/64etSwiRkO1iv4UHA5vhIk49wJmqRtA8O/vEo5bqbN/OggjVW1Fyqv74IBxSDczdSbl8Y/2U2Zo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740246534; c=relaxed/simple;
-	bh=5ybd0CwdvZUfkyyz0Lx7Y9BJ2t0H8wklafTIwBHYZX8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=I3fO0zfIUx3VN8LiO+PO4BCr6V0fRSjnbsT5qRa7fhyPcZEHP19BF6n9vVsp6yfma1kkM2TkeM5dLN484vIrfV1ls+rFA3JeV7Uz66HXF+FjMaOH2q5ifSCfqzmWNnf2BQKzzmIR/79HfayHZCbprskDPhx4Xi3/yjzNe8Jx7F4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uufSI/Kj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740266816; c=relaxed/simple;
+	bh=mDgOKJm5asYlG0UTXQh0eQj73mpjq3Z3D6VUArTpLus=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=h1s1EGzdWpWlcdGZ/W7J3btVDNNqNSgvjP+FI7cWKAglk4aRNX1UG92W8o9kBBwf17a94KDqfZziTFdANZda3Dc25flsxTi5ycICZdBARtIdpNIhhUVjStlxBpxe1hMzBK+J3o/Aa7mlTGDXyPVtDbWLuuanO/Pzt7yxhbqsxvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=mSJuPdiL; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=4G+8CdjT; arc=none smtp.client-ip=103.168.172.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uufSI/Kj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EA5EC4CED1;
-	Sat, 22 Feb 2025 17:48:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740246533;
-	bh=5ybd0CwdvZUfkyyz0Lx7Y9BJ2t0H8wklafTIwBHYZX8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=uufSI/KjoYZSCRhv+C4yr4nbjcz3n9qgwzMQoRwTRyL8B/8ttuiTO1sMXR8737KGU
-	 E3S7Fb6nbxerOzSpnbHY/a8LjQQu9xJJ1fUo+qryOIm0ePD8x+fWfaEAtniCtqqX4V
-	 8VpMGn28m0hSkTmyGttS8fz36s8MLl0w9F4+xe6+QGVv5xHgH+eyD8D8O+hTOtSceH
-	 2arfUBXfpA4pfsR4+bXXs7ThOjPXeiUiuZK347JJIYJM9mJancayUX2wexXgg3miHh
-	 8GD6pUNITa9PUFgmzcN8mG3XMYAfPaDS6PAv2LZpB33d8z1bxYNajoOvrYl5qqCuHM
-	 RnTHIUcGGd7/w==
-Date: Sat, 22 Feb 2025 17:48:42 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Matti Vaittinen <mazziesaccount@gmail.com>, Matti Vaittinen
- <matti.vaittinen@fi.rohmeurope.com>, Lars-Peter Clausen <lars@metafoo.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Lad Prabhakar
- <prabhakar.mahadev-lad.rj@bp.renesas.com>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, Hugo Villeneuve <hvilleneuve@dimonoff.com>, Nuno Sa
- <nuno.sa@analog.com>, David Lechner <dlechner@baylibre.com>, Javier
- Carrasco <javier.carrasco.cruz@gmail.com>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v3 2/9] iio: adc: add helpers for parsing ADC nodes
-Message-ID: <20250222174842.57c091c5@jic23-huawei>
-In-Reply-To: <Z7isoU9hKXlgsu33@smile.fi.intel.com>
-References: <cover.1739967040.git.mazziesaccount@gmail.com>
-	<6c5b678526e227488592d004c315a967b9809701.1739967040.git.mazziesaccount@gmail.com>
-	<Z7ZB7RQhyI5Dohrq@smile.fi.intel.com>
-	<b1c1ed68-2f4d-447c-9957-5a1bbc63ef6e@gmail.com>
-	<Z7ci7tUlRQqZEZSN@smile.fi.intel.com>
-	<ec76334b-bb13-4076-811d-9174170dd677@gmail.com>
-	<Z7c2cBQpjoc9-Vyu@smile.fi.intel.com>
-	<9018e23c-da28-41b0-b774-1598b946a2a1@gmail.com>
-	<Z7dCnRzuQTaJXzmb@smile.fi.intel.com>
-	<cb27d8b1-c978-4443-9ad2-96e930701976@gmail.com>
-	<Z7isoU9hKXlgsu33@smile.fi.intel.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="mSJuPdiL";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="4G+8CdjT"
+Received: from phl-compute-13.internal (phl-compute-13.phl.internal [10.202.2.53])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 251401140108;
+	Sat, 22 Feb 2025 18:26:53 -0500 (EST)
+Received: from phl-imap-07 ([10.202.2.97])
+  by phl-compute-13.internal (MEProxy); Sat, 22 Feb 2025 18:26:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm1;
+	 t=1740266813; x=1740353213; bh=mDgOKJm5asYlG0UTXQh0eQj73mpjq3Z3
+	D6VUArTpLus=; b=mSJuPdiLMVqlhvPFVqPxUarc1xh36WEBNJDEF0aOhocCy4X8
+	7Zam/qV9r7iQsEtm94KwL96SJNjy5GumusBLbD7Yvh9eAJlyFGpR9dx/zRoFST7I
+	0P5F5dC3cRzKezjG3/sANWWQAbOHqcUvuhV7X0dN67Trv+g59tHTwNrBXQIthONB
+	FnzVs5jXUs62sRbRHUDbe0Nh7ahDV/hDQdMAbieSWfTa5k8HC04s2ejqp4Arf8mf
+	4CV9xd2cA8D7nw36UaqhKjZ+Q22i5UPqHRreWpnTfZA9zUz5LCB8Kq4hrju2saeO
+	JGuCb8wHOgfJxl9msq2yQ1Toz2+ZzQ7Kbc63Vw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1740266813; x=
+	1740353213; bh=mDgOKJm5asYlG0UTXQh0eQj73mpjq3Z3D6VUArTpLus=; b=4
+	G+8CdjTB47JYOAtauLKYh5Enm2dhLuCzVbd2vZXL8ZSvLmzbUesoZ4ycl9dnPU8e
+	8qFfhQ/SspMTqkXxk0r6daKBw+dh3+P+dxGGgVwPqHPjPF9e6Sjm2ohncLe3i+XG
+	rx5o2/wBVwn1ARnbA90wC4heaPjXHE93gDtF6ipyAYYJnKmIW+CB8u80iQCMdFK0
+	q9FJvERPOZdfAn3gh8cPxvXDA5xbHUbL41gN6laIQnmCXerO4GLSk8H+f+UGIQvC
+	Zp7AZUH212xoQlPjvJjAiz1oCY7bqs/l6YP77qL6qoGPsU/jXGNKyUlvnSiIWk1h
+	zLU4yLAF2TyJcQU1swtug==
+X-ME-Sender: <xms:O126Z7MhVol6pbvKJR79nM5A2zx0E6En9v9vqRkZovpelyjl17K2Fg>
+    <xme:O126Z19H7W7NY0J1PwMbpcdMHGkFitPIGRowE8Q1R5CNvpsQiCkW4lJFSR81VPW3d
+    joINqtFXPkCqYNhmA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdejgedvhecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthhqredtredt
+    jeenucfhrhhomhepfdfthigrnhcuhggrlhhklhhinhdfuceorhihrghnsehtvghsthhtoh
+    grshhtrdgtohhmqeenucggtffrrghtthgvrhhnpefftdeuveejteeluedugfffhfekhefg
+    fedvgfeujeeiteeutedvgffhiefgkefhtdenucffohhmrghinhepkhgvrhhnvghlrdhorh
+    hgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprhih
+    rghnsehtvghsthhtohgrshhtrdgtohhmpdhnsggprhgtphhtthhopedvfedpmhhouggvpe
+    hsmhhtphhouhhtpdhrtghpthhtoheprghnughrvgdrphhriiihfigrrhgrsegrrhhmrdgt
+    ohhmpdhrtghpthhtohepmhhtuhhrqhhuvghtthgvsegsrgihlhhisghrvgdrtghomhdprh
+    gtphhtthhopeifvghnshestghsihgvrdhorhhgpdhrtghpthhtohepuggrnhhivghlsehf
+    fhiflhhlrdgthhdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtg
+    hpthhtohepjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgrihhlrdgtohhmpdhrtghpthht
+    ohepkhhikhhutghhrghnleeksehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrtghroh
+    grlhhphhgrkedvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhhsrdhphhhi
+    lhhiphhpvgesghhmrghilhdrtghomh
+X-ME-Proxy: <xmx:O126Z6QVG45LFxjSqt-KjnsnFc7ZS8pVdHI_u2EnMuCfA5JVmcsg_Q>
+    <xmx:O126Z_v6DEc-jCPyxH5nayPnym5NRDneUw9zUd_wyb3oi97XOHiMfg>
+    <xmx:O126ZzcjrC9MWCreab1-EeEElnCY3YJTA1ErM9zmDcahlMw2dURd-A>
+    <xmx:O126Z70EiZ257hUzdPwT4uj5TceUkDTqSIHZf3rOlVHMKnE3yQ8iHA>
+    <xmx:PV26Z3MRteuWw0neHkoT6N7idaUjo2AJRhxt7mTNeXRQgzv8EoS3H7Ik>
+Feedback-ID: idc0145fc:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 3029BBA006F; Sat, 22 Feb 2025 18:26:51 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-
-On Fri, 21 Feb 2025 18:41:05 +0200
-Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-
-> On Fri, Feb 21, 2025 at 12:10:23PM +0200, Matti Vaittinen wrote:
-> > On 20/02/2025 16:56, Andy Shevchenko wrote:  
-> > > On Thu, Feb 20, 2025 at 04:21:37PM +0200, Matti Vaittinen wrote:  
-> > > > On 20/02/2025 16:04, Andy Shevchenko wrote:  
-> > > > > On Thu, Feb 20, 2025 at 03:40:30PM +0200, Matti Vaittinen wrote:  
-> > > > > > On 20/02/2025 14:41, Andy Shevchenko wrote:  
-> > > > > > > On Thu, Feb 20, 2025 at 09:13:00AM +0200, Matti Vaittinen wrote:  
-> > > > > > > > On 19/02/2025 22:41, Andy Shevchenko wrote:  
-> > > > > > > > > On Wed, Feb 19, 2025 at 02:30:27PM +0200, Matti Vaittinen wrote:  
-> 
-> ...
-> 
-> > > > > > > > > > +EXPORT_SYMBOL_GPL(iio_adc_device_num_channels);  
-> > > > > > > > > 
-> > > > > > > > > No namespace?  
-> > > > > > > > 
-> > > > > > > > I was considering also this. The IIO core functions don't belong into a
-> > > > > > > > namespace - so I followed the convention to keep these similar to other IIO
-> > > > > > > > core stuff.  
-> > > > > > > 
-> > > > > > > But it's historically. We have already started using namespaces
-> > > > > > > in the parts of IIO, haven't we?  
-> > > > > > 
-> > > > > > Yes. But as I wrote, I don't think adding new namespaces for every helper
-> > > > > > file with a function or two exported will scale. We either need something
-> > > > > > common for IIO (or IIO "subsystems" like "adc", "accel", "light", ... ), or
-> > > > > > then we just keep these small helpers same as most of the IIO core.  
-> > > > > 
-> > > > > It can be still pushed to IIO_CORE namespace. Do you see an issue with that?  
-> > > > 
-> > > > No. I've missed the fact we have IIO_CORE O_o. Thanks for pointing it out!
-> > > >   
-> > > > > Or a new opaque namespace for the mentioned cases, something like IIO_HELPERS.  
-> > > > 
-> > > > I am unsure if it really benefits to split this out of the IIO_CORE. I've a
-> > > > feeling it falls into the category of making things harder for user with no
-> > > > apparent reason. But yes, the IIO_CORE makes sense.  
-> > > 
-> > > Probably I was not clear, I mean to put this under a given namespace. There is
-> > > no a such, we have currently:
-> > > 
-> > > IIO_BACKEND
-> > > IIO_DMA_BUFFER
-> > > IIO_DMAENGINE_BUFFER
-> > > IIO_GTS_HELPER
-> > > IIO_RESCALE  
-> > 
-> > Ah. So, the IIO core stuff is still not in a namespace. Those listed above
-> > are all too specific (I believe, in general, and definitely to carry ADC
-> > helpers).
-
-Not yet. On todo list... Trick is working out what the correct break up is.
-
-> > 
-> > Adding 'ADC_HELPERS' would just add yet another way too specific one. So,
-> > currently there is no suitable namespace for these helpers, and I still
-> > believe they fit best to where the rest of the IIO-core stuff is.
-
-Just add an IIO namespace.  That would be the one I'd expect a typical
-driver to use.  We can move things into it later. The ones above are
-more obscure functionality.  Avoid the IIO_CORE naming as I'd expect
-that to be stuff the core alone should call and we shouldn't see in drivers.
-
-> > 
-> > If we want really play the namespace game, then the existing IIO stuff
-> > should be put in a IIO_CORE-namespace instead of creating more new small
-> > ones. I am afraid that adding all existing IIO core to a IIO_CORE namespace
-> > and converting all existing users to use the IIO_CORE is not a reasonable
-> > request for a person trying to:
-> > 
-> > 1. Write a driver
-> > 2. Add a small helper to aid others (instead of just melding it all in the
-> > given new driver - which does not benefit anyone else and just leads to code
-> > duplication in the long run...)  
-> 
-> That's why more specific, but also a bit general might work, like IIO_HELPERS,
-> considering that they may be used by many drivers.
-> 
-> While it may be not your call, somebody should do the job. Jonathan? :-)
-
-It's on the list.  Not that near the top of it, but there to do at somepoint.
-
-> 
-> > > > > > > > (Sometimes I have a feeling that the trend today is to try make things
-> > > > > > > > intentionally difficult in the name of the safety. Like, "more difficult I
-> > > > > > > > make this, more experience points I gain in the name of the safety".)
-> > > > > > > > 
-> > > > > > > > Well, I suppose I could add a namespace for these functions - if this
-> > > > > > > > approach stays - but I'd really prefer having all IIO core stuff in some
-> > > > > > > > global IIO namespace and not to have dozens of fine-grained namespaces for
-> > > > > > > > an IIO driver to use...  
-> 
-> ...
-> 
-> > > > > > foo &= (~bar);
-> > > > > > 
-> > > > > > is _much_ faster than seeing:  
-> > > > > 
-> > > > > Strongly disagree. One need to parse an additional pair of parentheses,
-> > > > > and especially when it's a big statement inside with nested ones along
-> > > > > with understanding what the heck is going on that you need them in the
-> > > > > first place.
-> > > > > 
-> > > > > On top of that, we have a common practices in the LK project and
-> > > > > with our history of communication it seems you are trying to do differently
-> > > > > from time to time. Sounds like a rebellion to me :-)  
-> > > > 
-> > > > I only rebel when I (in my opinion) have a solid reason :)
-> > > >   
-> > > > > > foo &= ~bar;
-> > > > > > 
-> > > > > > and having to google the priorities.  
-> > > > > 
-> > > > > Again, this is something a (regular) kernel developer keeps refreshed.
-> > > > > Or even wider, C-language developer.  
-> > > > 
-> > > > Ha. As I mentioned, I've been writing C on a daily bases for almost 25
-> > > > years. I wonder if you intent to say I am not a kernel/C-language developer?
-> > > > Bold claim.  
-> > > 
-> > > I'm just surprised by seeing that style from a 25y experienced C developer,
-> > > that's all.  
-> > 
-> > I am not. If something, these 25 years have taught me to understand that
-> > even if something is simple and obvious to me, it may not be simple and
-> > obvious to someone else. Similarly, something obvious to someone else, is
-> > not obvious to me. Hence, I am very careful when telling people that:
-> >   
-> > >>> Again, this is something a (regular) kernel developer keeps refreshed.
-> > >>> Or even wider, C-language developer.  
-> > 
-> > I may however say that "this is something _I_ keep refreshed (as a
-> > kernel/C-developer)".  
-> 
-> True.
-> 
-> > As an example,
-> >   
-> > >>>> foo &= (~bar);  
-> > 
-> > This is something _I_ find very clear and exact, with zero doubt if negation
-> > is applied before &=. For _me_ the parenthesis there _help_, and for _me_
-> > the parenthesis cause no confusion when reading the code.
-> > 
-> > I won't go and tell that I'd expect any C or kernel developer to be able to
-> > fluently parse "foo &= (~bar)". (Whether I think they should is another
-> > matter).  
-> 
-> > Oh well, let's wait and see what Jonathan thinks of these helpers in
-> > general. We can continue the parenthesis discussion when we know whether the
-> > code is going to stay.  
-> 
-> Sure, but it's not only about these helpers, it's about the style in general.
-> Spreading unneeded characters in the code seems to me as an attempt to put
-> _your_ rules over the subsytem's ones. Whatever, let's Jonathan to judge, we
-> will never agree on a keep growing list of things anyway...
-> 
-I need to find some time to consider it a bit more and look at other users.
-I'm not keen on this being 'general' if we only have one user in the short
-term.
-
-Jonathan
+Date: Sun, 23 Feb 2025 12:26:17 +1300
+From: "Ryan Walklin" <ryan@testtoast.com>
+To: "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+ "Maxime Ripard" <mripard@kernel.org>, "Chen-Yu Tsai" <wens@csie.org>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "David Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>,
+ "Samuel Holland" <samuel@sholland.org>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>,
+ "Michael Turquette" <mturquette@baylibre.com>,
+ "Stephen Boyd" <sboyd@kernel.org>
+Cc: "Andre Przywara" <andre.przywara@arm.com>,
+ "Chris Morgan" <macroalpha82@gmail.com>,
+ "Hironori KIKUCHI" <kikuchan98@gmail.com>,
+ "Philippe Simons" <simons.philippe@gmail.com>,
+ "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-clk@vger.kernel.org
+Message-Id: <44980f16-4b9c-4e49-92fa-af8b2677ca31@app.fastmail.com>
+In-Reply-To: <7770397.EvYhyI6sBW@jernej-laptop>
+References: <20250216183524.12095-1-ryan@testtoast.com>
+ <2221204.Mh6RI2rZIc@jernej-laptop>
+ <2a864555-d81f-4048-aa0b-c286544faa50@app.fastmail.com>
+ <7770397.EvYhyI6sBW@jernej-laptop>
+Subject: Re: [PATCH v7 00/27] drm: sun4i: add Display Engine 3.3 (DE33) support
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
 
+
+On Sat, 22 Feb 2025, at 10:28 PM, Jernej =C5=A0krabec wrote:
+> Sorry, completely forgot. YUV420 HDMI code relies on my previous work,=20
+> with which
+> Maxime wasn't happy with:
+>
+> https://lore.kernel.org/linux-sunxi/20230924192604.3262187-1-jernej.sk=
+rabec@gmail.com/
+>
+> So unless switching HDMI to bridge ops is implemented, which also=20
+> brings format,
+> YUV formatter and some other patches just add unused code, which isn't=20
+> ideal,
+> especially if we decide to rework driver before that code can be put i=
+n=20
+> acceptable
+> state for all involved.
+>
+> From quick look, patches 5-13, 26 should be dropped for now. Not sure =
+about 1-4.
+>
+> I'm fine with AFBC support going in, it's just one patch.
+
+Makes sense, ok I will prepare a pure DE33 patch with AFBC and RGB suppo=
+rt, removing the YUV code. I think the CSC changes (1-4) are good to sta=
+y as it is a change that makes sense regardless and makes the YUV work a=
+ bit easier.
+
+Thanks for the other clarifications and vendor code links, will do a bit=
+ of reading.
+
+Regards,
+
+Ryan
