@@ -1,63 +1,63 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27C912063F0
-	for <linux-sunxi@lists.linux.dev>; Sat, 22 Feb 2025 09:46:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 483382063F5
+	for <linux-sunxi@lists.linux.dev>; Sat, 22 Feb 2025 09:48:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740217584; cv=none; b=K0jqiDoUjP1AcnBrIb1PMk8j+csN6m/aoPAmdbiWIVqzScDIpof7FKEgVz/tF8NSd4EgQZe5mrBEU265NcqOFiGtiyBa8gVZlTn3mdhqdWx8o2Ve8cdh8eGY8e4DYgmoJIcLrNP608enj27PVUrV/XsR1zzkD9fctglhXattoUY=
+	t=1740217719; cv=none; b=TH8zRH1lJJA5x71E8n8IhIFk96R/jpgOkhGEAeRxd3L6B12ysqqoRzEil8JRvRSR/8L1db7Rzw3eMTsUeSfhhl2Ri1bUAHkcyTPvS07E/KicxUDRUkB15rq39C8muYy4NKy+QeN9QqyGwGvKRarquQWduCXyyOF6PD2jSc0SQRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740217584; c=relaxed/simple;
-	bh=f3l/C08zZjB4lqhJuTu7gJoa99yZ3UX081PIPlxuiSs=;
+	s=arc-20240116; t=1740217719; c=relaxed/simple;
+	bh=ztSqARlpjqYzwMSasyTQ+otEfFsPH2w9nVNI61+VeH0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Q0J40h3rHE8yQ1XLdMZwU05f1RwYdVzo0PnA+Y5pX+A//HB+nsqYt3lYBE7NZm/zUv6vIXabjdpe1n+sstzQYGDcQ94blOw4u4rjl/Hv0dOMucbnTzJcNVwXYD07XKr7YoRNaNjjcrWPY8e4C42kkOUB/ALz8/2dwAsd04sEznA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f6t4Oxzz; arc=none smtp.client-ip=209.85.128.47
+	 MIME-Version:Content-Type; b=f5aFqUd+aqDOXrZ8Hj/KMaIfTK4YyFAi85JdXHOc8fvKQRnNEaA9w31mvlfTwCNpNLjp4Mgd4s4vAA74KYK02/MddmqpyVTBRyboC2rpMOa2Urln5u41fC1G+aykVu/HHNcudDlZyuGAFaQcZ+VwBGIbIBQeeToiSe8xibYYBDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=biYfTKOR; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f6t4Oxzz"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-439a1e8ba83so27744585e9.3
-        for <linux-sunxi@lists.linux.dev>; Sat, 22 Feb 2025 01:46:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="biYfTKOR"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-439ac3216dcso14634255e9.1
+        for <linux-sunxi@lists.linux.dev>; Sat, 22 Feb 2025 01:48:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740217581; x=1740822381; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1740217715; x=1740822515; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=41DdFtdJ+j4aD8vxL14dVna+R0FXEc06U5Wqw9eVGxY=;
-        b=f6t4OxzzJYLr6+J7fX6UK/KQ67N/RuEL5a0VUfrWeZDnF2TQWPaZ96lDhCWPakPpGC
-         tXuCklzMjwCgXNt63p44yNy8hDFrYxO+DAucKKaYES0r0pftX2wjl27E/iObqJIMf6wV
-         5Uv5xsv/E8AcbyYbU197VXv/oJvk6Pb7WM7Z0vMfj56vAkqKXSBZWsEqQ5f8uW4Th6Ol
-         H5uBdQR41C4imN5csYyzoo0RzymqSA6At2hMAF4yGLWZzuY+5FOM8OlAnc/dcVSwPoFs
-         S8z2EtZAkWizZykaePIEHwgOmo1LBkbs0XuFo6a8jtwMR0mEp9DyRW6ZLCh8+XASHrDE
-         ATsg==
+        bh=odi1efTWWEwIVG7IaIikJsL9BAzjMuppltEZzw/Hk9k=;
+        b=biYfTKOR9oBYMl22Ybzvg/aLchJHSD+wbu+cdw+fNA2LwfHhnV3JlaQ2X9GNbyhklL
+         ZrwEp0AIszNSH17a8TVskyuGW2EebXN3VYwFLuyTZI4QVg/kbvPg6IWKUBSl/LcEdDIE
+         kFT2qh7If3HkECsryXBZub9Pj8zXKNY6zPvLhe926ptQOdF/wS2+aVIogyOJYKz+swmW
+         4vEPKjCUfC5rygV+4IUBd78iObKr6AE2oy37MvUsytYRRcJ34+EheOQ1M3MEmi8IcwMS
+         c6BNsP5LSvyPHZrQ+ZZRylI+XRU8+MV8aazu93+4E1u44qJ9qvrhb6Ulf8LarHXU5S0i
+         rkag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740217581; x=1740822381;
+        d=1e100.net; s=20230601; t=1740217715; x=1740822515;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=41DdFtdJ+j4aD8vxL14dVna+R0FXEc06U5Wqw9eVGxY=;
-        b=lJcDIuQa7oDLWtpJMdCBYcYDEQPqx9Z1fUv7oAYGhUZ/uOLDyaDWu2z34T3OkObKCz
-         yYZksoo//lG/nbhFo5uBbBRFKntuvzzTxh4jMXngBs792WJ/3vSIbPeU0Xz6ucUG9TYS
-         uAswVdP5f7Xs72Pp57wy+GQYG0iB57Ta9KGBi9hVOyIoI4nw4sGbQ56jqLLHmgTIYGQ+
-         bDQtp2oSqkFgcHizjPmZBY+W3UhD0WMtopPpwZOALlKkxCKd6wteQEOzY1eDbkZUajsA
-         B2KvKH3TT2sP4Wrwr/kH9+ot6S+bWrtXJPHYfYse72JtDdyYL8uo+plKmT0V5jkuRhMV
-         qNfg==
-X-Forwarded-Encrypted: i=1; AJvYcCXX1lEaD3YMuVjNiHONN/DPob5QvH2hQBtB/Le/wV8C7sg/Gvz4Ny5tGXq+msZBJyjQGjN0Ssi0JkcHMw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz7NqDejJa/lm+s0uWcBk+Z2OSXkTjL3nZaOi/O3K0fHBHhvPrf
-	9yyAr77MoYhYdxis+zDGm2Jpk+1Eg08rRzRxTSN5206aj/RGnV0X
-X-Gm-Gg: ASbGncuTQp/zI54iLmIftpBiokHBRPFeRNgqIgB5E+6bxf0KftEa1mOmJPxyOYN0kg5
-	m3u/FoluEbH07E8n3Cir0pVAxrOV3yP8R0gqgorwgEQxCiPB1ZyFDWuTL+Jw4MkKiTk1iYWMYFL
-	lZfgVsJcslfOyEaKU9i4eEWJ8C+CvyB9aoue44SRQu+Zw0xgWHnJbG+3MMAk/lDZ5Gf77vK/a99
-	rbi9WYT+uVnjmrWZZb41C8OprtCm/tpyhsvzgp1cVtnsld/0pfKuvME3cXBYdu9JtFbMkUx0T2Q
-	PWt0ZC5CK3TO4BRZHXhw57TRJR14Vu/FU4vBpDzGhzQMeEUqA1WYUCeHr0he+UU90RIGIiTiCK1
-	u4A==
-X-Google-Smtp-Source: AGHT+IH9kK+RjWwIPLtZlicr8RC/6yrn6sA09olVzUzJHXrQ6iKk6NZGgzzk5oOay6MNB/ZXKzOgpA==
-X-Received: by 2002:a5d:64c4:0:b0:38f:6697:af91 with SMTP id ffacd0b85a97d-38f70825fe0mr5475428f8f.39.1740217581325;
-        Sat, 22 Feb 2025 01:46:21 -0800 (PST)
+        bh=odi1efTWWEwIVG7IaIikJsL9BAzjMuppltEZzw/Hk9k=;
+        b=jmf17tNejBEcHs2syezLqxbx2Nm5c6qQqTOQhvAjFqG3VywziXdvL/XfA1NUOoqiVv
+         0SRSZAyHftIhWhZ20bTMme3OA3sSyvVqdsdXDxFIOyNIZLPUw5RxESSULTRfa32l2/7j
+         fIBOt/SJnefMpZ10gqIPy6D6PMDgKG4w+t62Am35vgWOqRvRfbwqF9PQ9vTgXGH0FnJ6
+         sZYQwGmS/41nS9QsnmV+CW/1tjZ4X4cVBpkR202VJrLLwGJ1YIWEFMm2oimRtYeXy3JE
+         i6Q8mS3z6E8EhpfwtHIH6SsmFSHS2CyTy92KN8/Sv4Mrt3fE7AdosO3Rpo5LyvrNwjzu
+         W3yw==
+X-Forwarded-Encrypted: i=1; AJvYcCW2lY5oopLQBB2J5ocepibmzJE9Lpz4a0nyuN7gnh7nDPn6zzMc4C4qo4Z6/uYB+fp1ekiCjhCVY0Vj/Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwuN/g8sJY2ARRRlBQh0RX94nNuyIvkfNj9DvNG2DpoMirmsFUd
+	SEV4BuzpiIjfjiujhS0G1NDeC7YtKSeg6sGvxuRltHh2UDu411f+iNiqFiyN
+X-Gm-Gg: ASbGncvaEWQlETGYMu5loWVVJ4JNi81yoJsvVjWn/bQiPqD4pAL6pLJxqCrNvdbILlC
+	qJpSyncoVBCc11asxCGdMVCMRlexZmR6LDpHqHvYejSmPOcGwfG4C6bYBB18OMnRnF2KqXnGaz7
+	U2PsNmuBKvov5k4rvXhT8B9Tvsya590ghbK7f3hf2lU4xiCxw8eZg8UkwT2KswXqXIJqKRQhDiH
+	eXy/FPtdBHE5nCK7T5sggasTZq9UOTj83dDaAet7tvOFAZsEOlAUyvQvg1Kumt/ly13zu9MKBpr
+	N316MQw3D7EAxdwZVpAjbqJ/CkRVkTe27zaq0wil3rw8rfB/UlB2c+zigAHeTrRW4/t65iW4HDy
+	mNQ==
+X-Google-Smtp-Source: AGHT+IFUTa70+9kLfcm5J6KugqNrq5ylrSHEHWyLg2k4fxiZqzwuPYhX/x3EnpJl6rQ7Cmu+/YYJkw==
+X-Received: by 2002:a05:6000:1f83:b0:38c:5bfa:a93d with SMTP id ffacd0b85a97d-38f70772c98mr5722741f8f.10.1740217715291;
+        Sat, 22 Feb 2025 01:48:35 -0800 (PST)
 Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f258f0597sm25364929f8f.42.2025.02.22.01.46.20
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f25914171sm26137034f8f.53.2025.02.22.01.48.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Feb 2025 01:46:21 -0800 (PST)
+        Sat, 22 Feb 2025 01:48:34 -0800 (PST)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
@@ -68,13 +68,14 @@ Cc: Andre Przywara <andre.przywara@arm.com>,
  Philippe Simons <simons.philippe@gmail.com>, linux-sunxi@lists.linux.dev,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  Ryan Walklin <ryan@testtoast.com>
-Subject: Re: [PATCH 7/8] arm64: dts: allwinner: rg35xx: Enable LCD output
-Date: Sat, 22 Feb 2025 10:46:19 +0100
-Message-ID: <23840170.6Emhk5qWAg@jernej-laptop>
-In-Reply-To: <20250216092827.15444-8-ryan@testtoast.com>
+Subject: Re: [PATCH 6/8] arm64: dts: allwinner: h616: add LCD,
+ LVDS and PWM pins
+Date: Sat, 22 Feb 2025 10:48:33 +0100
+Message-ID: <4407188.ejJDZkT8p0@jernej-laptop>
+In-Reply-To: <20250216092827.15444-7-ryan@testtoast.com>
 References:
  <20250216092827.15444-1-ryan@testtoast.com>
- <20250216092827.15444-8-ryan@testtoast.com>
+ <20250216092827.15444-7-ryan@testtoast.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -84,117 +85,89 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne nedelja, 16. februar 2025 ob 10:27:14 Srednjeevropski standardni =C4=8D=
+Dne nedelja, 16. februar 2025 ob 10:27:13 Srednjeevropski standardni =C4=8D=
 as je Ryan Walklin napisal(a):
-> The RG35XX has a 640x480 RGB/SPI LCD panel, supported by the SoC display
-> pipeline and an NV3052C controller. The H616 SOC's GPIO bank D contains
-> the muxed display pins for RGB and LVDS output support.
+> From: Jernej Skrabec <jernej.skrabec@gmail.com>
 >=20
-> Enable the display engine and LCD timing controller, configure the
-> panel, and add a fixed 3.3v GPIO-controlled regulator for the panel, and
-> a VCC supply for the display pins as per the other GPIO banks.
+> The Allwinner H616 (and its H618, H700 and T507 package variants with
+> the same die) have 28 video output pins for RGB/SPI and LVDS display.
+> These are in GPIO Bank D and are multiplexed.
 >=20
-> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
-> ---
->  .../sun50i-h700-anbernic-rg35xx-2024.dts      | 58 +++++++++++++++++++
->  1 file changed, 58 insertions(+)
+> In RGB mode, pins PD0-PD23 are for 24-bit RGB pixel output, pins
+> PD24-PD27 are for clock, DE, HSYNC and VSYNC, and PD28 is a PWM
+> backlight control.
 >=20
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-20=
-24.dts b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
-> index a231abf1684ad..388487d4720e2 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
-> @@ -175,6 +175,49 @@ reg_vcc5v: regulator-vcc5v { /* USB-C power input */
->  		regulator-min-microvolt =3D <5000000>;
->  		regulator-max-microvolt =3D <5000000>;
->  	};
-> +
-> +	reg_lcd: regulator-gpio-lcd-vdd {
-> +		compatible =3D "regulator-fixed";
-> +		regulator-min-microvolt =3D <3300000>;
-> +		regulator-max-microvolt =3D <3300000>;
-> +		regulator-name =3D "vdd-lcd";
-> +		gpio =3D <&pio 8 15 GPIO_ACTIVE_HIGH>; // PI15
-> +		enable-active-high;
-> +	};
-> +
-> +	spi_lcd: spi {
-> +		compatible =3D "spi-gpio";
-> +		#address-cells =3D <1>;
-> +		#size-cells =3D <0>;
-> +
-> +		sck-gpios =3D <&pio 8 9 GPIO_ACTIVE_HIGH>; // PI9
-> +		mosi-gpios =3D <&pio 8 10 GPIO_ACTIVE_HIGH>; // PI10
-> +		cs-gpios =3D <&pio 8 8 GPIO_ACTIVE_HIGH>; // PI8
-> +		num-chipselects =3D <1>;
-> +
-> +		panel: panel@0 {
-> +			compatible =3D "anbernic,rg35xx-plus-panel";
-> +
-> +			reg =3D <0>;
-> +
-> +			spi-max-frequency =3D <3125000>;
-> +			spi-3wire;
-> +
-> +			reset-gpios =3D <&pio 8 14 GPIO_ACTIVE_LOW>; // PI14
-> +
-> +			backlight =3D <&backlight>;
+> In LVDS mode, pins PD0-PD9 are for LVDS0 and LVDS1, and can be
+> configured by the H616 display engine for either one high-resolution
+> (dual link) or two low resolution displays.
+>=20
+> Add device tree nodes for the LCD, LVDS0, LVDS1 and PWM pins.
 
-There is no backlight node at this point. Reverse patches 7 and 8 or better=
- yet,
-merge them and put patch 8 message into comment to backlight node.
+Let's just drop PWM pins. PWM support is not yet implemented and it doesn't
+fall into display themed patch anyway.
 
 Best regards,
 Jernej
 
-> +			power-supply =3D <&reg_lcd>;
-> +
-> +			pinctrl-0 =3D <&lcd0_rgb888_pins>;
-> +			pinctrl-names =3D "default";
-> +
-> +			port {
-> +				panel_in_rgb: endpoint {
-> +					remote-endpoint =3D <&tcon_lcd0_out_lcd>;
-> +				};
+>=20
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> [ryan@testtoast.com: add RGB, LVDS1 and PWM pin assignments]
+> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+> ---
+>  .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 32 +++++++++++++++++++
+>  1 file changed, 32 insertions(+)
+>=20
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/=
+boot/dts/allwinner/sun50i-h616.dtsi
+> index 242bac95840f8..806ad87705abc 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+> @@ -322,6 +322,32 @@ ir_rx_pin: ir-rx-pin {
+>  				function =3D "ir_rx";
+>  			};
+> =20
+> +			/omit-if-no-ref/
+> +			lcd0_rgb888_pins: lcd0-rgb888-pins {
+> +				pins =3D "PD0", "PD1", "PD2", "PD3",
+> +				       "PD4", "PD5", "PD6", "PD7",
+> +				       "PD8", "PD9", "PD10", "PD11",
+> +				       "PD12", "PD13", "PD14", "PD15",
+> +				       "PD16", "PD17", "PD18", "PD19",
+> +				       "PD20", "PD21", "PD22", "PD23",
+> +				       "PD24", "PD25", "PD26", "PD27";
+> +				function =3D "lcd0";
 > +			};
-> +		};
-> +	};
->  };
+> +
+> +			/omit-if-no-ref/
+> +			lvds0_pins: lvds0-pins {
+> +				pins =3D "PD0", "PD1", "PD2", "PD3", "PD4",
+> +				       "PD5", "PD6", "PD7", "PD8", "PD9";
+> +				function =3D "lvds0";
+> +			};
+> +
+> +			/omit-if-no-ref/
+> +			lvds1_pins: lvds1-pins {
+> +				pins =3D "PD10", "PD11", "PD12", "PD13", "PD14",
+> +				       "PD15", "PD16", "PD17", "PD18", "PD19";
+> +				function =3D "lvds1";
+> +			};
+> +
+>  			mmc0_pins: mmc0-pins {
+>  				pins =3D "PF0", "PF1", "PF2", "PF3",
+>  				       "PF4", "PF5";
+> @@ -348,6 +374,12 @@ mmc2_pins: mmc2-pins {
+>  				bias-pull-up;
+>  			};
 > =20
->  &codec {
-> @@ -187,6 +230,10 @@ &cpu0 {
->  	cpu-supply =3D <&reg_dcdc1>;
->  };
-> =20
-> +&de {
-> +	status =3D "okay";
-> +};
+> +			/omit-if-no-ref/
+> +			pwm0_pin: pwm0-pin {
+> +				pins =3D "PD28";
+> +				function =3D "pwm0";
+> +			};
 > +
->  &ehci0 {
->  	status =3D "okay";
->  };
-> @@ -206,6 +253,7 @@ &ohci0 {
->  &pio {
->  	vcc-pa-supply =3D <&reg_cldo3>;
->  	vcc-pc-supply =3D <&reg_cldo3>;
-> +	vcc-pd-supply =3D <&reg_cldo3>;
->  	vcc-pe-supply =3D <&reg_cldo3>;
->  	vcc-pf-supply =3D <&reg_cldo3>;
->  	vcc-pg-supply =3D <&reg_aldo4>;
-> @@ -355,3 +403,13 @@ &usbotg {
->  &usbphy {
->  	status =3D "okay";
->  };
-> +
-> +&tcon_lcd0 {
-> +	status =3D "okay";
-> +};
-> +
-> +&tcon_lcd0_out {
-> +	tcon_lcd0_out_lcd: endpoint@1 {
-> +		remote-endpoint =3D <&panel_in_rgb>;
-> +	};
-> +};
+>  			/omit-if-no-ref/
+>  			spi0_pins: spi0-pins {
+>  				pins =3D "PC0", "PC2", "PC4";
 >=20
 
 
