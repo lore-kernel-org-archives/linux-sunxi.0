@@ -1,63 +1,63 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DA23207A03
-	for <linux-sunxi@lists.linux.dev>; Sat, 22 Feb 2025 09:45:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27C912063F0
+	for <linux-sunxi@lists.linux.dev>; Sat, 22 Feb 2025 09:46:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740217532; cv=none; b=fwdoK4t9q2oZyt+4uAw5SaG3Rtctu8oHT+L3cpDHH2WPVeYT3tQttjtthR7ILsx/c7NNqP4h+d/1ISvoRafFcK5LRq+Cb6LX34mLUolMIQ/Ban8KCpRIUHbmsB65Hr0dpj2b47of9HcNnO7ZM6r26PCuvUcLC5AKOcYkbfOZglI=
+	t=1740217584; cv=none; b=K0jqiDoUjP1AcnBrIb1PMk8j+csN6m/aoPAmdbiWIVqzScDIpof7FKEgVz/tF8NSd4EgQZe5mrBEU265NcqOFiGtiyBa8gVZlTn3mdhqdWx8o2Ve8cdh8eGY8e4DYgmoJIcLrNP608enj27PVUrV/XsR1zzkD9fctglhXattoUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740217532; c=relaxed/simple;
-	bh=wNKI8xge3m0Gcbkh0b6miN4JWFCahXKWFtCZ48Mzv2Y=;
+	s=arc-20240116; t=1740217584; c=relaxed/simple;
+	bh=f3l/C08zZjB4lqhJuTu7gJoa99yZ3UX081PIPlxuiSs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=b+XPL8HRCekDFjXu4ZHNFsxVbRgxZJPmp1tEn0Jo3OTM1u0LdcGMWiigFrrVDj98AacRbbbN8CKhlHDON694Ue1fofF4zQIz0DDkyo7oOXR897LxkmEz93Uhy7h+AP3XQcnozlPhzSGTg/7AtJqN9PvcGe4pjYLcxHaY6dQlGIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TMyF2N3F; arc=none smtp.client-ip=209.85.128.51
+	 MIME-Version:Content-Type; b=Q0J40h3rHE8yQ1XLdMZwU05f1RwYdVzo0PnA+Y5pX+A//HB+nsqYt3lYBE7NZm/zUv6vIXabjdpe1n+sstzQYGDcQ94blOw4u4rjl/Hv0dOMucbnTzJcNVwXYD07XKr7YoRNaNjjcrWPY8e4C42kkOUB/ALz8/2dwAsd04sEznA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f6t4Oxzz; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TMyF2N3F"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-439a331d981so25098505e9.3
-        for <linux-sunxi@lists.linux.dev>; Sat, 22 Feb 2025 01:45:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f6t4Oxzz"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-439a1e8ba83so27744585e9.3
+        for <linux-sunxi@lists.linux.dev>; Sat, 22 Feb 2025 01:46:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740217529; x=1740822329; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1740217581; x=1740822381; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LM99SZJhiYckZeRf7zBWhT51kFSY0wK17dmbVXYXC8o=;
-        b=TMyF2N3Fw3N+UiuWEpL1Oq+FSkO3rkW4ksb1AfPo0PEw9h5NICNAF39Xo9L5GSnOsK
-         qDtsAGHGsfIpCSsLOvcWgk7+SM1JBvwTLTtkbuiM2Oa8eOULZZzJGSS742kkRpNIkkj5
-         Tnb+r3ik/blI2O3yfnD6avjRUJ9xN1YzgedE61d6gs+pR6el6cFWEOk9gU6+XdpVbDbp
-         S8Z6qlitUvfn/kK4AiDyfuLUk2MOdXziYyhPaG6/kZ5xiezHL4by9CkiRT/0URayFi3P
-         4y7o5bySJGozkrpDgLoI+0kFiP1hlKcVSdZxn0/7QsQDS1iPEbAHbvNFXKVBAxhTSfAY
-         BO1A==
+        bh=41DdFtdJ+j4aD8vxL14dVna+R0FXEc06U5Wqw9eVGxY=;
+        b=f6t4OxzzJYLr6+J7fX6UK/KQ67N/RuEL5a0VUfrWeZDnF2TQWPaZ96lDhCWPakPpGC
+         tXuCklzMjwCgXNt63p44yNy8hDFrYxO+DAucKKaYES0r0pftX2wjl27E/iObqJIMf6wV
+         5Uv5xsv/E8AcbyYbU197VXv/oJvk6Pb7WM7Z0vMfj56vAkqKXSBZWsEqQ5f8uW4Th6Ol
+         H5uBdQR41C4imN5csYyzoo0RzymqSA6At2hMAF4yGLWZzuY+5FOM8OlAnc/dcVSwPoFs
+         S8z2EtZAkWizZykaePIEHwgOmo1LBkbs0XuFo6a8jtwMR0mEp9DyRW6ZLCh8+XASHrDE
+         ATsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740217529; x=1740822329;
+        d=1e100.net; s=20230601; t=1740217581; x=1740822381;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=LM99SZJhiYckZeRf7zBWhT51kFSY0wK17dmbVXYXC8o=;
-        b=GoBOg9RxydnBT8LqRsFvgzeJi/vyXrATMY+GX9lHHCT1jZRcf0ET4Jv1NOmueovcm2
-         9dRia01xTEST8+AlPTVlJWkdjrA2PNk3E+kz4bnjTYivtAYrLBij3CEDharfS8F+EQEt
-         X2RN7VugGdY5ZxVfr4D5yjaDHAkwoBiGmF52WbADhWJM6zem65Hutfh8xBOcxCMU8K15
-         YTn8hxuwUQ5+HdcDWKqhXX+PEOcYIM/m5WCj1Xj4jUAR5nRMJjFO6h+RNPmqHPL0D0C8
-         aGdvQUSpecFS54n9349bWKzEPqfjMiGJQSkNDX+ozAiCwu44Gv6i8VqwB97+VxQykKNi
-         c26g==
-X-Forwarded-Encrypted: i=1; AJvYcCW+RBgHjAluDYBVQJYLvgh7pMeM+wSMJoHShspEA5VX6OfhdnKq+HigtpAGHEQXkOJLNE6ZGmH92hfXFQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yylrx66Y4+5+nSlBIGCgkyzhA2AV3eWjSTWP2wrwG6+IoBMrN0/
-	zP58y8pdxDY3SWKmDg7ZiYwHjuPJkbzQzN7ZGD/4SxIjogX++odN
-X-Gm-Gg: ASbGncszNqvMYeAxMyhTsEZacodVCr27COOzwA1U3HWVQJBYVByfSGoTmiLOR2KdSHO
-	gLC0Tt0D9i5iZPiB8nAgOgll3SC84XNnV/8RX87psXXKrBCOMLNhpAtfV3CEKGPnoqcPBRsRBT0
-	sl5fKjC8zcPjK0S7IGxIWADew+U2PhwtrHxWbsD4uYaYkWVsQxdLF/Y8SnNgK14bdiE77XVfwGy
-	oqvJttXYLTC6vle+Q+P8x1tmeBSwjdyzWP08WwxumlYNRvPMQn0XO8IfmTM+x20hL95/X6FPw85
-	dIBbhTqysFKZ90fP7BdAX7X+u7UVetworzWVT54411Z3a2rgRV7M2hAoN5jrjMTq73PogLT7mCc
-	VIQ==
-X-Google-Smtp-Source: AGHT+IElc5lFlH37PVUP+d0Nts8TxGEBKie4yrCYq8UZcLNclnFFC/us6pnWUIep7DBJZWJMU/+Bqg==
-X-Received: by 2002:a5d:6daa:0:b0:38f:28cb:4d35 with SMTP id ffacd0b85a97d-38f6e95b175mr5481843f8f.13.1740217528506;
-        Sat, 22 Feb 2025 01:45:28 -0800 (PST)
+        bh=41DdFtdJ+j4aD8vxL14dVna+R0FXEc06U5Wqw9eVGxY=;
+        b=lJcDIuQa7oDLWtpJMdCBYcYDEQPqx9Z1fUv7oAYGhUZ/uOLDyaDWu2z34T3OkObKCz
+         yYZksoo//lG/nbhFo5uBbBRFKntuvzzTxh4jMXngBs792WJ/3vSIbPeU0Xz6ucUG9TYS
+         uAswVdP5f7Xs72Pp57wy+GQYG0iB57Ta9KGBi9hVOyIoI4nw4sGbQ56jqLLHmgTIYGQ+
+         bDQtp2oSqkFgcHizjPmZBY+W3UhD0WMtopPpwZOALlKkxCKd6wteQEOzY1eDbkZUajsA
+         B2KvKH3TT2sP4Wrwr/kH9+ot6S+bWrtXJPHYfYse72JtDdyYL8uo+plKmT0V5jkuRhMV
+         qNfg==
+X-Forwarded-Encrypted: i=1; AJvYcCXX1lEaD3YMuVjNiHONN/DPob5QvH2hQBtB/Le/wV8C7sg/Gvz4Ny5tGXq+msZBJyjQGjN0Ssi0JkcHMw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz7NqDejJa/lm+s0uWcBk+Z2OSXkTjL3nZaOi/O3K0fHBHhvPrf
+	9yyAr77MoYhYdxis+zDGm2Jpk+1Eg08rRzRxTSN5206aj/RGnV0X
+X-Gm-Gg: ASbGncuTQp/zI54iLmIftpBiokHBRPFeRNgqIgB5E+6bxf0KftEa1mOmJPxyOYN0kg5
+	m3u/FoluEbH07E8n3Cir0pVAxrOV3yP8R0gqgorwgEQxCiPB1ZyFDWuTL+Jw4MkKiTk1iYWMYFL
+	lZfgVsJcslfOyEaKU9i4eEWJ8C+CvyB9aoue44SRQu+Zw0xgWHnJbG+3MMAk/lDZ5Gf77vK/a99
+	rbi9WYT+uVnjmrWZZb41C8OprtCm/tpyhsvzgp1cVtnsld/0pfKuvME3cXBYdu9JtFbMkUx0T2Q
+	PWt0ZC5CK3TO4BRZHXhw57TRJR14Vu/FU4vBpDzGhzQMeEUqA1WYUCeHr0he+UU90RIGIiTiCK1
+	u4A==
+X-Google-Smtp-Source: AGHT+IH9kK+RjWwIPLtZlicr8RC/6yrn6sA09olVzUzJHXrQ6iKk6NZGgzzk5oOay6MNB/ZXKzOgpA==
+X-Received: by 2002:a5d:64c4:0:b0:38f:6697:af91 with SMTP id ffacd0b85a97d-38f70825fe0mr5475428f8f.39.1740217581325;
+        Sat, 22 Feb 2025 01:46:21 -0800 (PST)
 Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f259d8dd6sm26089591f8f.62.2025.02.22.01.45.27
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f258f0597sm25364929f8f.42.2025.02.22.01.46.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Feb 2025 01:45:28 -0800 (PST)
+        Sat, 22 Feb 2025 01:46:21 -0800 (PST)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
@@ -68,14 +68,13 @@ Cc: Andre Przywara <andre.przywara@arm.com>,
  Philippe Simons <simons.philippe@gmail.com>, linux-sunxi@lists.linux.dev,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  Ryan Walklin <ryan@testtoast.com>
-Subject:
- Re: [PATCH 5/8] arm64: dts: allwinner: h616: Add TCON nodes to H616 DTSI
-Date: Sat, 22 Feb 2025 10:45:27 +0100
-Message-ID: <1916004.CQOukoFCf9@jernej-laptop>
-In-Reply-To: <20250216092827.15444-6-ryan@testtoast.com>
+Subject: Re: [PATCH 7/8] arm64: dts: allwinner: rg35xx: Enable LCD output
+Date: Sat, 22 Feb 2025 10:46:19 +0100
+Message-ID: <23840170.6Emhk5qWAg@jernej-laptop>
+In-Reply-To: <20250216092827.15444-8-ryan@testtoast.com>
 References:
  <20250216092827.15444-1-ryan@testtoast.com>
- <20250216092827.15444-6-ryan@testtoast.com>
+ <20250216092827.15444-8-ryan@testtoast.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -85,206 +84,117 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne nedelja, 16. februar 2025 ob 10:27:12 Srednjeevropski standardni =C4=8D=
+Dne nedelja, 16. februar 2025 ob 10:27:14 Srednjeevropski standardni =C4=8D=
 as je Ryan Walklin napisal(a):
-> From: Jernej Skrabec <jernej.skrabec@gmail.com>
+> The RG35XX has a 640x480 RGB/SPI LCD panel, supported by the SoC display
+> pipeline and an NV3052C controller. The H616 SOC's GPIO bank D contains
+> the muxed display pins for RGB and LVDS output support.
 >=20
-> The Allwinner H616 has a display pipeline similar to other Allwinner
-> devices, specifically the A10, but using a newer display engine
-> revision (DE33).
+> Enable the display engine and LCD timing controller, configure the
+> panel, and add a fixed 3.3v GPIO-controlled regulator for the panel, and
+> a VCC supply for the display pins as per the other GPIO banks.
 >=20
-> Not all output pins are exposed on all package variants, for example
-> only the H700 and T507 have LCD pins exposed, but all variants support
-> HDMI output. However on the die these are connected to a display engine
-> via a TCON TOP and one or more timing controllers (TCONs).
->=20
-> HDMI output support is not provided in this series (but will be in a
-> subsequent patch) so for now note this within the relevant node to
-> prevent a DT compiler error.
->=20
-> Add TCON nodes for the TOP, and the LCD and TV timing controllers. The
-> timing controllers are compatible with the existing R40 driver.
->=20
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 > Signed-off-by: Ryan Walklin <ryan@testtoast.com>
 > ---
->  .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 133 ++++++++++++++++++
->  1 file changed, 133 insertions(+)
+>  .../sun50i-h700-anbernic-rg35xx-2024.dts      | 58 +++++++++++++++++++
+>  1 file changed, 58 insertions(+)
 >=20
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/=
-boot/dts/allwinner/sun50i-h616.dtsi
-> index ab8b70ce7df89..242bac95840f8 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> @@ -7,9 +7,12 @@
->  #include <dt-bindings/clock/sun50i-h616-ccu.h>
->  #include <dt-bindings/clock/sun50i-h6-r-ccu.h>
->  #include <dt-bindings/clock/sun6i-rtc.h>
-> +#include <dt-bindings/clock/sun8i-de2.h>
-> +#include <dt-bindings/clock/sun8i-tcon-top.h>
->  #include <dt-bindings/reset/sun50i-h616-ccu.h>
->  #include <dt-bindings/reset/sun50i-h6-r-ccu.h>
->  #include <dt-bindings/thermal/thermal.h>
-> +#include <dt-bindings/reset/sun8i-de2.h>
-> =20
->  / {
->  	interrupt-parent =3D <&gic>;
-> @@ -909,6 +912,136 @@ ohci3: usb@5311400 {
->  			status =3D "disabled";
->  		};
-> =20
-> +		tcon_top: tcon-top@6510000 {
-> +			compatible =3D "allwinner,sun50i-h6-tcon-top";
-> +			reg =3D <0x06510000 0x1000>;
-> +			clocks =3D <&ccu CLK_BUS_TCON_TOP>,
-> +				 <&ccu CLK_TCON_TV0>;
-> +			clock-names =3D "bus", "tcon-tv0";
-> +			clock-output-names =3D "tcon-top-tv0";
-> +			#clock-cells =3D <0>;
-> +			resets =3D <&ccu RST_BUS_TCON_TOP>;
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-20=
+24.dts b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
+> index a231abf1684ad..388487d4720e2 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
+> @@ -175,6 +175,49 @@ reg_vcc5v: regulator-vcc5v { /* USB-C power input */
+>  		regulator-min-microvolt =3D <5000000>;
+>  		regulator-max-microvolt =3D <5000000>;
+>  	};
 > +
-> +			ports {
-> +				#address-cells =3D <1>;
-> +				#size-cells =3D <0>;
+> +	reg_lcd: regulator-gpio-lcd-vdd {
+> +		compatible =3D "regulator-fixed";
+> +		regulator-min-microvolt =3D <3300000>;
+> +		regulator-max-microvolt =3D <3300000>;
+> +		regulator-name =3D "vdd-lcd";
+> +		gpio =3D <&pio 8 15 GPIO_ACTIVE_HIGH>; // PI15
+> +		enable-active-high;
+> +	};
 > +
-> +				tcon_top_mixer0_in: port@0 {
-> +					#address-cells =3D <1>;
-> +					#size-cells =3D <0>;
-> +					reg =3D <0>;
+> +	spi_lcd: spi {
+> +		compatible =3D "spi-gpio";
+> +		#address-cells =3D <1>;
+> +		#size-cells =3D <0>;
 > +
-> +					tcon_top_mixer0_in_mixer0: endpoint@0 {
-> +						reg =3D <0>;
-> +						remote-endpoint =3D <&mixer0_out_tcon_top_mixer0>;
-> +					};
-> +				};
+> +		sck-gpios =3D <&pio 8 9 GPIO_ACTIVE_HIGH>; // PI9
+> +		mosi-gpios =3D <&pio 8 10 GPIO_ACTIVE_HIGH>; // PI10
+> +		cs-gpios =3D <&pio 8 8 GPIO_ACTIVE_HIGH>; // PI8
+> +		num-chipselects =3D <1>;
 > +
-> +				tcon_top_mixer0_out: port@1 {
-> +					#address-cells =3D <1>;
-> +					#size-cells =3D <0>;
-> +					reg =3D <1>;
+> +		panel: panel@0 {
+> +			compatible =3D "anbernic,rg35xx-plus-panel";
 > +
-> +					tcon_top_mixer0_out_tcon_lcd0: endpoint@0 {
-> +						reg =3D <0>;
-> +						remote-endpoint =3D <&tcon_lcd0_in_tcon_top_mixer0>;
-> +					};
+> +			reg =3D <0>;
 > +
-> +					tcon_top_mixer0_out_tcon_tv0: endpoint@2 {
-> +						reg =3D <2>;
-> +						remote-endpoint =3D <&tcon_tv0_in_tcon_top_mixer0>;
-> +					};
-> +				};
+> +			spi-max-frequency =3D <3125000>;
+> +			spi-3wire;
 > +
-> +				tcon_top_hdmi_in: port@4 {
-> +					#address-cells =3D <1>;
-> +					#size-cells =3D <0>;
-> +					reg =3D <4>;
+> +			reset-gpios =3D <&pio 8 14 GPIO_ACTIVE_LOW>; // PI14
 > +
-> +					tcon_top_hdmi_in_tcon_tv0: endpoint@0 {
-> +						reg =3D <0>;
-> +						remote-endpoint =3D <&tcon_tv0_out_tcon_top>;
-> +					};
-> +				};
-> +
-> +				tcon_top_hdmi_out: port@5 {
-> +					reg =3D <5>;
-> +
-> +					tcon_top_hdmi_out_hdmi: endpoint {
-> +						/* placeholder for HDMI  - remote-endpoint =3D <&hdmi_in_tcon_top>=
-;*/
-> +					};
-> +				};
-> +			};
-> +		};
-> +	=09
-> +		tcon_lcd0: lcd-controller@6511000 {
-> +			compatible =3D "allwinner,sun8i-r40-tcon-lcd";
-> +			reg =3D <0x06511000 0x1000>;
-> +			interrupts =3D <GIC_SPI 64 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks =3D <&ccu CLK_BUS_TCON_LCD0>, <&ccu CLK_TCON_LCD0>;
-> +			clock-names =3D "ahb", "tcon-ch0";
-> +			clock-output-names =3D "tcon-data-clock";
-> +			#clock-cells =3D <0>;
-> +			resets =3D <&ccu RST_BUS_TCON_LCD0>, <&ccu RST_BUS_TCON_LCD1>;
-> +			reset-names =3D "lcd", "lvds";
+> +			backlight =3D <&backlight>;
 
-That's not true, is it? LVDS should be LVDS reset. Check my WIP patch:
-https://github.com/jernejsk/linux-1/commit/8b090dc866d4c4b5b0a1804da021a9f4=
-4c67d5f1
-
-It turns out that H616 clock driver missed LVDS reset, as it can be seen he=
-re:
-https://github.com/jernejsk/linux-1/commit/88bad1a59876f5d385bcd45a363784ed=
-2beec6ae#diff-b340c978bcdbe240f7b99f4d0d96ea130a8acb1a5786a8efbb24d9e7a0b14=
-e53R1084
-
-I also commented on this series:
-https://lore.kernel.org/linux-sunxi/20250213172248.158447-1-macroalpha82@gm=
-ail.com/T/#t
+There is no backlight node at this point. Reverse patches 7 and 8 or better=
+ yet,
+merge them and put patch 8 message into comment to backlight node.
 
 Best regards,
 Jernej
 
-> +			status =3D "disabled";
+> +			power-supply =3D <&reg_lcd>;
 > +
-> +			ports {
-> +				#address-cells =3D <1>;
-> +				#size-cells =3D <0>;
+> +			pinctrl-0 =3D <&lcd0_rgb888_pins>;
+> +			pinctrl-names =3D "default";
 > +
-> +				tcon_lcd0_in: port@0 {
-> +					reg =3D <0>;
-> +
-> +					tcon_lcd0_in_tcon_top_mixer0: endpoint {
-> +						remote-endpoint =3D <&tcon_top_mixer0_out_tcon_lcd0>;
-> +					};
-> +				};
-> +
-> +				tcon_lcd0_out: port@1 {
-> +					reg =3D <1>;
+> +			port {
+> +				panel_in_rgb: endpoint {
+> +					remote-endpoint =3D <&tcon_lcd0_out_lcd>;
 > +				};
 > +			};
 > +		};
-> +	=09
-> +		tcon_tv0: lcd-controller@6515000 {
-> +			compatible =3D "allwinner,sun50i-h6-tcon-tv",
-> +				     "allwinner,sun8i-r40-tcon-tv";
-> +			reg =3D <0x06515000 0x1000>;
-> +			interrupts =3D <GIC_SPI 66 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks =3D <&ccu CLK_BUS_TCON_TV0>,
-> +				 <&tcon_top CLK_TCON_TOP_TV0>;
-> +			clock-names =3D "ahb", "tcon-ch1";
-> +			#clock-cells =3D <0>;
-> +			resets =3D <&ccu RST_BUS_TCON_TV0>;
-> +			reset-names =3D "lcd";
-> +			status =3D "disabled";
+> +	};
+>  };
+> =20
+>  &codec {
+> @@ -187,6 +230,10 @@ &cpu0 {
+>  	cpu-supply =3D <&reg_dcdc1>;
+>  };
+> =20
+> +&de {
+> +	status =3D "okay";
+> +};
 > +
-> +			ports {
-> +				#address-cells =3D <1>;
-> +				#size-cells =3D <0>;
+>  &ehci0 {
+>  	status =3D "okay";
+>  };
+> @@ -206,6 +253,7 @@ &ohci0 {
+>  &pio {
+>  	vcc-pa-supply =3D <&reg_cldo3>;
+>  	vcc-pc-supply =3D <&reg_cldo3>;
+> +	vcc-pd-supply =3D <&reg_cldo3>;
+>  	vcc-pe-supply =3D <&reg_cldo3>;
+>  	vcc-pf-supply =3D <&reg_cldo3>;
+>  	vcc-pg-supply =3D <&reg_aldo4>;
+> @@ -355,3 +403,13 @@ &usbotg {
+>  &usbphy {
+>  	status =3D "okay";
+>  };
 > +
-> +				tcon_tv0_in: port@0 {
-> +					reg =3D <0>;
+> +&tcon_lcd0 {
+> +	status =3D "okay";
+> +};
 > +
-> +					tcon_tv0_in_tcon_top_mixer0: endpoint {
-> +						remote-endpoint =3D <&tcon_top_mixer0_out_tcon_tv0>;
-> +					};
-> +				};
-> +
-> +				tcon_tv0_out: port@1 {
-> +					#address-cells =3D <1>;
-> +					#size-cells =3D <0>;
-> +					reg =3D <1>;
-> +
-> +					tcon_tv0_out_tcon_top: endpoint@1 {
-> +						reg =3D <1>;
-> +						remote-endpoint =3D <&tcon_top_hdmi_in_tcon_tv0>;
-> +					};
-> +				};
-> +			};
-> +		};
-> +
->  		rtc: rtc@7000000 {
->  			compatible =3D "allwinner,sun50i-h616-rtc";
->  			reg =3D <0x07000000 0x400>;
+> +&tcon_lcd0_out {
+> +	tcon_lcd0_out_lcd: endpoint@1 {
+> +		remote-endpoint =3D <&panel_in_rgb>;
+> +	};
+> +};
 >=20
 
 
