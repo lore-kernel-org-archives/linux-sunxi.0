@@ -1,316 +1,626 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D452370813
-	for <linux-sunxi@lists.linux.dev>; Sun, 23 Feb 2025 15:53:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D835315D1;
+	Sun, 23 Feb 2025 16:13:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740325994; cv=none; b=Vwgk8XtFprpHRhzE9ivsFNsYJrpMqkQhqXZRtafYIRfUsmtryXBB8am5P0Jxn9wshHXbvyatI3cAQLnHGrEwFUUg6shBmT1v5R4VNafGm5AIYVafbaysEl3UrIX31gWjmWIQB1+xf1cyN9I9B7JT8Fckeiz8Cq7wgF9oC179DzA=
+	t=1740327238; cv=none; b=Mpcd3A7yCwvNsvysUG1P5+X9LozU57GotOMb5hVSsc3PphO+uArFNVajVcgEaHlx0YovhoyfjXLBAZI9t8WdF3P2X2MBIqgs83QG8LTc3RAXrmWsNHlV11ffGyZ8f+NrxhPc98IhdpHXTGTGiovFp87u+qTFTxC7imgTv9qM6+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740325994; c=relaxed/simple;
-	bh=+PTWttt6YLa5hYivlZV+DBU+EkZervftcg6qI7/jehM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=F8wwWUP8PPDb/aFdF22h6CJVjJh1JeEqI43ApN2Dr3JiWtIUFRfSp9Bk0QQ4U9Lf4g2sjma4m6J+I8PsdBZBQ0SMY2yrzFNdNayaH7UM+GaG8fO8vtAzIX3vOST/IvkBiPjD7xAcUK6wTrSHZ8VulWgsixcehcF+kyr6OyooRYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EnShAKW1; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1740327238; c=relaxed/simple;
+	bh=sDkNg7EsIX+yFBaP6hmeYuV+cRir/F4DdwT8FyBvT+4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=abduxdiRfsjmcQB/aWx3CInVUZGwqqb6lNTJl9CNwkfEouVUMHaF1zryzDCqQGzXBSCsL6zHNDTg+WyX9J+GCZ/mFNu/9ZzQyZFK8KxdJNS1bUtDSMyHDWu76T3e23MuA7TvItNCLd3toesB6A/wURVT2aLm6IIymzGRJ3C0O/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rtQ7qqK7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EnShAKW1"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43989226283so24256725e9.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 23 Feb 2025 07:53:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740325991; x=1740930791; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=e3e2PiIu2yG6qmD2UeYdaW6il4BUgkIs9FCPbn92s/E=;
-        b=EnShAKW1bjrSG3dNxJufVNnr74yhzUYDeFPP+8z6dCq2p6s0K6PvOF2RB4i0UNUNpo
-         ZsfxbmE4tF+ufvwl+ieZzC7eYGmumEsHIUvCiXFd46YXZAOtmxKJ+dDTbwocdbuO7akg
-         ck9Siz/xU8pz3MiFByowDrrCiG7rZujqwe1bGVZH+sNaTQICEd2ct2/JtBd8pZdIp2eA
-         pS/XHW7B3udMJZVnreFV5VdhAWbcK050hGlRwTg6XJA5FQoZxXp+WbRRDZvbTAj4OuwV
-         7rEsNrbXWBdcW9/AAEr09TO34A+N78ZgCA20y4XDERr51lqUkjcKF2J90Y76MlMovKLp
-         rRXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740325991; x=1740930791;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=e3e2PiIu2yG6qmD2UeYdaW6il4BUgkIs9FCPbn92s/E=;
-        b=U1UDdZ0f4Ymv9CAp1X7us7Xz3xGlasC3qpZtUlJJ14F9NUBfRi4FaG3Wcf3494biiS
-         12x5VvRGH437vhlYVpuO480IukNMwMBZZaf1qARkQ4DBReNbd7oiSAist9oF8pZQDocE
-         /xEuMU/t4AOjm7zg9NW1CLdkS/y5jhJTmdTVe41vCzOraMGuAu2bpHyUfN9/VBrJVCtZ
-         r42ViMGR4yv3TnNVweU1V5v01qtGLFP7+QRcS4HHhoIsMUGPbGNSuGx1/78+vOgw+weL
-         m0uE325lCYgTd9czi9zS78btW37heB5qoSZt9SrFo8p56ztbolD9CnyYWQ9Oc6z8gw6i
-         WiMA==
-X-Forwarded-Encrypted: i=1; AJvYcCVL2SxckFnmkDjQHsNfpRGUF9BfWLIf7TSsqfe5xOYeo3uTYBUWkeR2FgJ8H7svEW95qJFubLmfZ9r2dA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yytyj9bg90cJAvEoR3OQQD1pRs7SMVM5tZE1Cqd/B7xmC8r9+RT
-	ZNsSfBBFxNNHGqP+0wwzXfLwVu6gXs6Bt9T7X+SlbqJ/aqvnlZX9
-X-Gm-Gg: ASbGnctFxZ09yutK42LHxDP83NtkmfjY2dFKBHcEB1DywBjPUzVzNlnVzX3W30Pd+bP
-	eVRME0wGibUktu98HV2t8bbul4z3pQHXgjwFQH1aH8NEGvQI16KjBeYYW3RvsWbpg4pXl8sfc1z
-	822qNGVAB4JfYjFgtEppoN/JgxNmvpfjvtMXyVhzMRGWRM8+0S0Lufng1sR6tsBCJBrekmDguZr
-	TSr7BRO7pO9xwODpgDPPpT+2qIU2baCvcqjJEt7C0IasrQTLxdZ74x9NxCrz3k9cntxH9PZrDxh
-	N959SshC8KlKL8XUX/9QMoY/RQOG5aN629xgExM/9RvybHNBImXzlpZOmFAxgXjdDpqg7qnudI+
-	f0g==
-X-Google-Smtp-Source: AGHT+IHPL+jXdxEEeBLWCOIwCIuIIZzPVqsjlW/gM+1S4FJuWMcMNYeu7/iNQfK6XHsfzRzL83fmfA==
-X-Received: by 2002:a05:600c:1d29:b0:439:9377:fa17 with SMTP id 5b1f17b1804b1-439ae1f4d07mr88074615e9.18.1740325990809;
-        Sun, 23 Feb 2025 07:53:10 -0800 (PST)
-Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-439b02ce428sm82838535e9.5.2025.02.23.07.53.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Feb 2025 07:53:10 -0800 (PST)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Samuel Holland <samuel@sholland.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
- Ryan Walklin <ryan@testtoast.com>
-Cc: Andre Przywara <andre.przywara@arm.com>,
- Chris Morgan <macroalpha82@gmail.com>,
- Hironori KIKUCHI <kikuchan98@gmail.com>,
- Philippe Simons <simons.philippe@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- linux-clk@vger.kernel.org
-Subject:
- Re: [PATCH v7 00/27] drm: sun4i: add Display Engine 3.3 (DE33) support
-Date: Sun, 23 Feb 2025 16:53:08 +0100
-Message-ID: <2150124.bB369e8A3T@jernej-laptop>
-In-Reply-To: <7770397.EvYhyI6sBW@jernej-laptop>
-References:
- <20250216183524.12095-1-ryan@testtoast.com>
- <2a864555-d81f-4048-aa0b-c286544faa50@app.fastmail.com>
- <7770397.EvYhyI6sBW@jernej-laptop>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rtQ7qqK7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC9D1C4CEDD;
+	Sun, 23 Feb 2025 16:13:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740327236;
+	bh=sDkNg7EsIX+yFBaP6hmeYuV+cRir/F4DdwT8FyBvT+4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=rtQ7qqK78gSBGWcm35497glQNbZaUgh9WYNIAgzDdEzRPmBaASPmBgT0yb9hdU5Nc
+	 BYxGnnDyBdaddfZA/LcdEHFBNJWfIwXeQaUnx0xjn6MJnke1CIDzh7aUt+sTEK69C6
+	 i/JDcufAr6KNHPkQUEI4U7qU74w0uRkiwvLsQIgnew9g1yW80+6TbGIhpa70iDS84B
+	 PjmsXRoQa3DLY+iEfSiiygyX0mCoJ/KNUH2kvaa2I90khny3zWUWfOcgdKm90ImpDW
+	 obRQvNl1eMGK8MLfT7syymWfw3MujmDpEEe9B/zb6Nvw2TpRRtR60HFsUoThZpeZlz
+	 IKZufSF37SyQA==
+Date: Sun, 23 Feb 2025 16:13:38 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Matti Vaittinen <mazziesaccount@gmail.com>
+Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, Lars-Peter Clausen
+ <lars@metafoo.de>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Lad Prabhakar
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+ <samuel@sholland.org>, Hugo Villeneuve <hvilleneuve@dimonoff.com>, Nuno Sa
+ <nuno.sa@analog.com>, David Lechner <dlechner@baylibre.com>, Javier
+ Carrasco <javier.carrasco.cruz@gmail.com>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v3 2/9] iio: adc: add helpers for parsing ADC nodes
+Message-ID: <20250223161338.5c896280@jic23-huawei>
+In-Reply-To: <6c5b678526e227488592d004c315a967b9809701.1739967040.git.mazziesaccount@gmail.com>
+References: <cover.1739967040.git.mazziesaccount@gmail.com>
+	<6c5b678526e227488592d004c315a967b9809701.1739967040.git.mazziesaccount@gmail.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Maxime,
+On Wed, 19 Feb 2025 14:30:27 +0200
+Matti Vaittinen <mazziesaccount@gmail.com> wrote:
 
-I'd like to pick your brain for the issue below.
+> There are ADC ICs which may have some of the AIN pins usable for other
+> functions. These ICs may have some of the AIN pins wired so that they
+> should not be used for ADC.
+> 
+> (Preferred?) way for marking pins which can be used as ADC inputs is to
+> add corresponding channels@N nodes in the device tree as described in
+> the ADC binding yaml.
+> 
+> Add couple of helper functions which can be used to retrieve the channel
+> information from the device node.
+> 
+> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+> 
+> ---
+> Revision history:
+> v2 => v3: Mostly based on review comments by Jonathan
+>  - Support differential and single-ended channels(*)
+>  - Rename iio_adc_device_get_channels() as
+>  - Improve spelling
+>  - Drop support for cases where DT comes from parent device's node
+>  - Decrease loop indent by reverting node name check conditions
+>  - Don't set 'chan->indexed' by number of channels to keep the
+>    interface consistent no matter how many channels are connected.
+>  - Fix ID range check and related comment
+> RFC v1 => v2:
+>  - New patch
+> 
+> (*) The support for single-ended and differential channels is 100%
+> untested. I am not convinced it is actually an improvement over the
+> *_simple() helpers which only supported getting the ID from the "reg
 
-Dne sobota, 22. februar 2025 ob 10:28:51 Srednjeevropski standardni =C4=8Da=
-s je Jernej =C5=A0krabec napisal(a):
-> Dne sobota, 22. februar 2025 ob 03:48:01 Srednjeevropski standardni =C4=
-=8Das je Ryan Walklin napisal(a):
-> > On Sat, 22 Feb 2025, at 7:57 AM, Jernej =C5=A0krabec wrote:
-> > > Hi Ryan,
-> > >
-> > > sorry for very late review, but here we go...
-> >=20
-> > No problem, thanks for the review!
-> >=20
-> > > This patchset actually introduces 3 disticnt features, which should I=
-MO=20
-> > > be separated
-> > > and thus making reviewing patches easier.
-> > >
-> > > 1. native 10-bit YUV420 output (without YUV->RGB->YUV conversions) -=
-=20
-> > > this is used on
-> > >     HDMI for proper 10-bit 4K@60 HDR output
-> > > 2. Display Engine 3.3 (DE33) support
-> > > 3. AFBC modifier/format support (used for more efficient GPU or VPU=20
-> > > output rendering)
-> > >
-> > > If I'm not mistaken, your goal is only DE33 support.=20
-> >=20
-> > This is my initial goal, but I would still like good HDMI and video sup=
-port (including HW decode).=20
-> >=20
-> > It took some refactoring and resequencing of (your) existing driver wor=
-k to get to this series, and I have left out the HDMI and separated the TCO=
-N code for the same reason, that initially I am intending to just support R=
-GB operation to an LCD. I do intend however to use the HDMI code either in =
-or out of tree but think that will be a much bigger/more complex change to =
-mainline given the current HDMI code is more invasive to the generic driver.
-> >=20
-> > The YUV and AFBC changes seemed more self-contained and seemed reasonab=
-le approaches given that they were both features of the DE3 and up. I am ha=
-ppy either to split these into either 4 or 5 separate patches ie:
-> >=20
-> > 1a. refactor CSC code to prepare for YUV
-> > 1b. add YUV for DE3
-> > 2. refactor mixer enumeration and regmaps to support DE3+
-> > 3. add DE33
-> > 4. Add AFBC
-> >=20
-> > My only reluctance is that that adds more work to manage multiple patch=
-es which are logically grouped and in terms of ease of review, all these 4 =
-steps are in the current set in that order (apart from AFBC which is comple=
-tely standalone), and I don't think submitting them separately reduces comp=
-lexity. It however will reduce reviewer burden as you suggest, but this has=
- been a slow process already.
->=20
-> Sorry, completely forgot. YUV420 HDMI code relies on my previous work, wi=
-th which
-> Maxime wasn't happy with:
->=20
-> https://lore.kernel.org/linux-sunxi/20230924192604.3262187-1-jernej.skrab=
-ec@gmail.com/
->=20
-> So unless switching HDMI to bridge ops is implemented, which also brings =
-format,
-> YUV formatter and some other patches just add unused code, which isn't id=
-eal,
-> especially if we decide to rework driver before that code can be put in a=
-cceptable
-> state for all involved.
->=20
-> From quick look, patches 5-13, 26 should be dropped for now. Not sure abo=
-ut 1-4.
->=20
-> I'm fine with AFBC support going in, it's just one patch.
->=20
-> >=20
-> > I am happy to accept either process but this has been some time already=
- now with lots of stylistic feedback but not much on the correctness of the=
- approach and code, and I am keen to get this landed.
-> >=20
-> > There is are two=20
-> > > reasons why
-> > > I've never sent these patches myself:
-> > >
-> > > 1. scaling YUV images doesn't work
-> > >
-> > > Not a problem for any user who doesn't use video player with DRM plan=
-e=20
-> > > rendering,
-> > > which I assume is most of them. We can get around of this issue to de=
-ny=20
-> > > scaling
-> > > YUV buffers until the issue is sorted out.
-> >=20
-> > Good to know, I hadn't appreciated that. Mostly relevant for video as y=
-ou say and it would be good to land YUV support without scaling, then exten=
-d subsequently, possibly when we get to the video engine?
->=20
-> Correct.
->=20
-> Just be aware of one thing. Even if YUV buffer is rendered in 1:1 scale, =
-vi scaler
-> still needs to be configured. That's because U and V planes are subsample=
-d and
-> need to be scaled to Y plane size. For unknown reason, that works just fi=
-ne, but
-> if Y scale is bigger than 1, it all falls apart.
->=20
-> This should be implemented in atomic check.
->=20
-> >=20
-> > > 2. plane allocations are hackish
-> > >
-> > > DE33 for the first time introduced option to move planes between the=
-=20
-> > > mixers. DRM
-> > > has also support for this, but for time being static allocation is=20
-> > > acceptable and tbh,
-> > > even dynamic support need appropriate initial setting.
-> > > As you might guessed this is done in DE33 clock driver using magic=20
-> > > values. Proper
-> > > way would be to introduce some kind of connection between mixer/plane=
-=20
-> > > and clock
-> > > driver, so initial configuration can be moved to appropriate module=20
-> > > instead of
-> > > being thrown into clock driver. I need to check where to put it and h=
-ow=20
-> > > to properly
-> > > connect DT nodes. Maybe syscon phandle? I'll do some research.
-> >=20
-> > Thanks, I was not aware of this either.
->=20
-> Here you have some pointers how this values are actually set:
-> https://github.com/orangepi-xunlong/linux-orangepi/blob/orange-pi-5.15-su=
-n55iw3/bsp/drivers/video/sunxi/disp2/disp/de/lowlevel_v33x/de330/de_top.c#L=
-232-L260
->=20
-> I think this is the biggest issue of this code. As soon as we solve it pr=
-operly, we
-> have an ability to implement all remaining features at a later date.
->=20
+Currently it definitely feels too complex.  Partly, whilst I haven't
+tried fleshing out the alternative, it feels like you've tried to make
+it too general.  I really don't like the allowed bitmap as those
+relationships are complex.
 
-DE33 has introduced "shared" planes, which can be allocated to any mixer. T=
-hey
-have now distinct memory region and are not included in mixer regions anymo=
-re
-as it was the case with DE2 and DE3. This patchset maps whole planes region=
- to
-mixer0 which was a hack to get quick result and to push problem to a later =
-time,
-which is obviously now.
+> In theory they could be used. In practice, while I skimmed through the
+> in-tree ADC drivers which used the for_each_child_node() construct - it
+> seemed that most of those which supported differential inputs had also
+> some other per-channel properties to read. Those users would in any case
+> need to loop through the nodes to get those other properties.
+That doesn't surprise me that much. I'm still not sure there are enough
+'simple' cases (i.e. more than maybe 3) to justify this being shared.
 
-I see two solutions:
-1. All mixers map same region for planes. Not sure if this is acceptable, b=
-ut it's
-    far the easiest to implement (already done).
-2. Implement separate plane driver. Each mixer would have phandle to plane =
-node
-    and could call plane management functions there, like switch plane crtc=
-=2E This
-    to me sounds like a better solution.
+> 
+> If I am once more allowed to go back to proposing the _simple() variant
+> which only covers the case: "chan ID in 'reg' property"... Dropping
+> support for differential and single-ended channels would simplify this
+> helper a lot. It'd allow dropping the sanity check as well as the extra
+> parameters callers need to pass to tell what kind of properties they
+> expect. That'd (in my opinion) made the last patches (to actual ADC
+> drivers) in this series a much more lean and worthy ;)
 
-What do you think?
+If you do, call it _se() or something like that.
 
-Best regards,
-Jernej
+> 
+> Finally, we could add own functions for differential/single-ended/all
+> channels when the next driver which uses differential or single-ended
+> channels - and which does not need other per-channel properties - lands
+> in tree. That would still simplify the helper API usage for those
+> drivers touched at the end of this series.
 
-> >=20
-> > > There is one glaring issue (when you work on driver and test every=20
-> > > aspect of it).
-> > > DE33 introduced RCQ, which is basically DMA, which copies shadowed=20
-> > > registers
-> > > from memory buffer directly to hw registers. IIRC it does that at=20
-> > > vblank time. This
-> > > tells you that current concept of writing register values at any time=
-=20
-> > > userspace feels
-> > > to do commit is wrong and we've been lucky that it works as well as i=
-t=20
-> > > does. So,
-> > > in order to fix this, driver would need quite a big reorganization.=20
-> > > Introducing
-> > > shadow buffers would solve most of the issues, most likely also with=
-=20
-> > > YUV scaling.
-> > > Implementing RCQ would be then relatively simple and even improve=20
-> > > timings.
-> > > Note that even DE3 has occasional issue with YUV scaler and also=20
-> > > read-modify-read
-> > > access to some of its register can produce bogus value and thus corru=
-pt=20
-> > > image
-> > > until next commit.
-> >=20
-> > Thanks, again I wasn't aware. All my testing has shown remarkable stabi=
-lity and there are some downstream users out-of-tree with good feedback, bu=
-t would be happy to support an effort to improve this.
->=20
-> Let's land DE33 support first since it's long overdue and then I'm happy =
-to discuss plans for moving forward.
->=20
-> Best regards,
-> Jernej
->=20
-> >=20
-> > Regards,
-> >=20
-> > Ryan
-> >=20
->=20
->=20
->=20
->=20
->=20
+This sounds reasonable approach but I still want more than one before
+we bother.
+
+> 
+> I (still) think it might be nice to have helpers for fetching also the
+> other generic (non vendor specific) ADC properties (as listed in the
+> Documentation/devicetree/bindings/iio/adc/adc.yaml) - but as I don't
+> have use for those in BD79124 driver (at least not for now), I don't
+> imnplement them yet. Anyways, this commit creates a place for such
+> helpers.
+Definitely need usecases.
+
+So my current feeling is if you can find a second case that a
+_se() variant works for then I don't mind this being a separate module.
+If not put just what you need in your driver.
+
+Various comments inline.
+> ---
+>  drivers/iio/adc/Kconfig            |   3 +
+>  drivers/iio/adc/Makefile           |   1 +
+>  drivers/iio/adc/industrialio-adc.c | 304 +++++++++++++++++++++++++++++
+>  include/linux/iio/adc-helpers.h    |  56 ++++++
+>  4 files changed, 364 insertions(+)
+>  create mode 100644 drivers/iio/adc/industrialio-adc.c
+>  create mode 100644 include/linux/iio/adc-helpers.h
+> 
+> diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
+> index 849c90203071..37b70a65da6f 100644
+> --- a/drivers/iio/adc/Kconfig
+> +++ b/drivers/iio/adc/Kconfig
+> @@ -6,6 +6,9 @@
+>  
+>  menu "Analog to digital converters"
+>  
+> +config IIO_ADC_HELPER
+> +	tristate
+> +
+>  config AB8500_GPADC
+>  	bool "ST-Ericsson AB8500 GPADC driver"
+>  	depends on AB8500_CORE && REGULATOR_AB8500
+> diff --git a/drivers/iio/adc/Makefile b/drivers/iio/adc/Makefile
+> index ee19afba62b7..956c121a7544 100644
+> --- a/drivers/iio/adc/Makefile
+> +++ b/drivers/iio/adc/Makefile
+> @@ -57,6 +57,7 @@ obj-$(CONFIG_FSL_MX25_ADC) += fsl-imx25-gcq.o
+>  obj-$(CONFIG_GEHC_PMC_ADC) += gehc-pmc-adc.o
+>  obj-$(CONFIG_HI8435) += hi8435.o
+>  obj-$(CONFIG_HX711) += hx711.o
+> +obj-$(CONFIG_IIO_ADC_HELPER) += industrialio-adc.o
+As per other discussion. Move this to new block at the top.
+>  obj-$(CONFIG_IMX7D_ADC) += imx7d_adc.o
+>  obj-$(CONFIG_IMX8QXP_ADC) += imx8qxp-adc.o
+>  obj-$(CONFIG_IMX93_ADC) += imx93_adc.o
+> diff --git a/drivers/iio/adc/industrialio-adc.c b/drivers/iio/adc/industrialio-adc.c
+> new file mode 100644
+> index 000000000000..0281d64ae112
+> --- /dev/null
+> +++ b/drivers/iio/adc/industrialio-adc.c
+> @@ -0,0 +1,304 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Helpers for parsing common ADC information from a firmware node.
+> + *
+> + * Copyright (c) 2025 Matti Vaittinen <mazziesaccount@gmail.com>
+> + */
+> +
+> +#include <linux/device.h>
+> +#include <linux/errno.h>
+> +#include <linux/property.h>
+> +
+> +#include <linux/iio/adc-helpers.h>
+> +
+> +int iio_adc_device_num_channels(struct device *dev)
+> +{
+> +	int num_chan = 0;
+> +
+> +	device_for_each_child_node_scoped(dev, child)
+> +		if (fwnode_name_eq(child, "channel"))
+> +			num_chan++;
+> +
+> +	return num_chan;
+
+This function seems easy to generalize to count nodes of particular
+name.  So I'd promote this as a generic property.h helper and
+just use that in here.
 
 
+> +}
+> +EXPORT_SYMBOL_GPL(iio_adc_device_num_channels);
+> +
+> +static const char *iio_adc_type2prop(int type)
+> +{
+> +	switch (type) {
+> +	case IIO_ADC_CHAN_PROP_TYPE_REG:
+> +		return "reg";
+> +	case IIO_ADC_CHAN_PROP_TYPE_SINGLE_ENDED:
+> +		return "single-channel";
+> +	case IIO_ADC_CHAN_PROP_TYPE_DIFF:
+> +		return "diff-channels";
+> +	case IIO_ADC_CHAN_PROP_COMMON:
+> +		return "common-mode-channel";
+> +	default:
+> +		return "unknown";
+> +	}
+> +}
+> +
+> +/*
+> + * Sanity check. Ensure that:
+> + * - At least some type(s) are allowed
+> + * - All types found are also expected
+> + * - If plain "reg" is not allowed, either single-ended or differential
+> + *   properties are found.
 
+I'd worry this is a combination of fragile and overly separate from
+the parser.  I'd just encode this stuff down there based on accepted type
+of channels.  Two flags, differential and single ended may be enough.
+If single only then reg is expected solution but I don't see a reason to
+ignore single-channel even then as meaning is well defined.
+If differential only - then that property must be present for all channels.
+If both single and differential then need either differential or single-channel.
+
+> + */
+> +static int iio_adc_prop_type_check_sanity(struct device *dev,
+> +		const struct iio_adc_props *expected_props, int found_types)
+> +{
+> +	unsigned long allowed_types = expected_props->allowed |
+> +				      expected_props->required;
+> +
+> +	if (!allowed_types || allowed_types & (~IIO_ADC_CHAN_PROP_TYPE_ALL)) {
+> +		dev_dbg(dev, "Invalid adc allowed prop types 0x%lx\n",
+> +			allowed_types);
+> +
+> +		return -EINVAL;
+> +	}
+> +	if (found_types & (~allowed_types)) {
+> +		long unknown_types = found_types & (~allowed_types);
+> +		int type;
+> +
+> +		for_each_set_bit(type, &unknown_types,
+> +				 IIO_ADC_CHAN_NUM_PROP_TYPES - 1) {
+> +			dev_err(dev, "Unsupported channel property %s\n",
+> +				iio_adc_type2prop(type));
+> +		}
+> +
+> +		return -EINVAL;
+> +	}
+> +
+> +	/*
+> +	 * The IIO_ADC_CHAN_PROP_TYPE_REG is special. We always require it to
+> +	 * be found in the dt. (If not, we'll error out before calling this
+> +	 * function.) However, listing it in 'allowed' types means the "reg"
+> +	 * alone can be used to indicate the channel ID.
+> +	 *
+> +	 * Thus, we don't add it in the found properties either - so check for
+> +	 * found and allowed properties passes even if user hasn't explicitly
+> +	 * added the 'IIO_ADC_CHAN_PROP_TYPE_REG' to be allowed. (This is the
+> +	 * case if either differential or single-ended property is required).
+> +	 *
+> +	 * Hence, for this check we need to explicitly add the
+> +	 * IIO_ADC_CHAN_PROP_TYPE_REG to 'found' properties to make the check
+> +	 * pass when "reg" is the property which is required to have the
+> +	 * channel ID.
+> +	 *
+> +	 * We could of course always add the IIO_ADC_CHAN_PROP_TYPE_REG in
+> +	 * allowed types and found types - but then we wouldn't catch the case
+> +	 * where user says the "reg" alone is not sufficient.
+> +	 */
+> +	if ((~(found_types | IIO_ADC_CHAN_PROP_TYPE_REG)) & expected_props->required) {
+> +		long missing_types;
+> +		int type;
+> +
+> +		missing_types = (~found_types) & expected_props->required;
+> +
+> +		for_each_set_bit(type, &missing_types,
+> +				 IIO_ADC_CHAN_NUM_PROP_TYPES - 1) {
+> +			dev_err(dev, "required channel specifier '%s' not found\n",
+> +				iio_adc_type2prop(type));
+> +		}
+> +
+> +		return -EINVAL;
+> +	}
+> +
+> +	/* Check if we require something else but the "reg" property */
+> +	if (!(allowed_types & IIO_ADC_CHAN_PROP_TYPE_REG)) {
+> +		if (found_types & IIO_ADC_CHAN_PROP_TYPE_SINGLE_ENDED ||
+> +				found_types & IIO_ADC_CHAN_PROP_TYPE_DIFF)
+> +			return 0;
+> +
+> +		dev_err(dev, "channel specifier not found\n");
+> +
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * iio_adc_device_channels_by_property - get ADC channel IDs
+> + *
+> + * Scan the device node for ADC channel information. Return an array of found
+> + * IDs. Caller needs to provide the memory for the array and provide maximum
+> + * number of IDs the array can store.
+
+I'm somewhat confused by this. Feels like you can get same info from the
+iio_chan_spec array generated by the next function.
+
+> + *
+> + * @dev:		Pointer to the ADC device
+> + * @channels:		Array where the found IDs will be stored.
+> + * @max_channels:	Number of IDs that fit in the array.
+> + * @expected_props:	Bitmaps of channel property types (for checking).
+> + *
+> + * Return:		Number of found channels on succes. 0 if no channels
+> + *			was found. Negative value to indicate failure.
+> + */
+> +int iio_adc_device_channels_by_property(struct device *dev, int *channels,
+> +		int max_channels, const struct iio_adc_props *expected_props)
+> +{
+> +	int num_chan = 0, ret;
+> +
+> +	device_for_each_child_node_scoped(dev, child) {
+> +		u32 ch, diff[2], se;
+> +		struct iio_adc_props tmp;
+> +		int chtypes_found = 0;
+> +
+> +		if (!fwnode_name_eq(child, "channel"))
+> +			continue;
+> +
+> +		if (num_chan == max_channels)
+> +			return -EINVAL;
+> +
+> +		ret = fwnode_property_read_u32(child, "reg", &ch);
+> +		if (ret)
+> +			return ret;
+> +
+> +		ret = fwnode_property_read_u32_array(child, "diff-channels",
+> +						     &diff[0], 2);
+> +		if (!ret)
+> +			chtypes_found |= IIO_ADC_CHAN_PROP_TYPE_DIFF;
+> +
+> +		ret = fwnode_property_read_u32(child, "single-channel", &se);
+> +		if (!ret)
+> +			chtypes_found |= IIO_ADC_CHAN_PROP_TYPE_SINGLE_ENDED;
+> +
+> +		tmp = *expected_props;
+> +		/*
+> +		 * We don't bother reading the "common-mode-channel" here as it
+> +		 * doesn't really affect on the primary channel ID. We remove
+> +		 * it from the required properties to allow the sanity check
+> +		 * pass here  also for drivers which require it.
+> +		 */
+> +		tmp.required &= (~BIT(IIO_ADC_CHAN_PROP_COMMON));
+> +
+> +		ret = iio_adc_prop_type_check_sanity(dev, &tmp, chtypes_found);
+> +		if (ret)
+> +			return ret;
+> +
+> +		if (chtypes_found & IIO_ADC_CHAN_PROP_TYPE_DIFF)
+> +			ch = diff[0];
+> +		else if (chtypes_found & IIO_ADC_CHAN_PROP_TYPE_SINGLE_ENDED)
+> +			ch = se;
+> +
+> +		/*
+> +		 * We assume the channel IDs start from 0. If it seems this is
+> +		 * not a sane assumption, then we can relax this check or add
+> +		 * 'allowed ID range' parameter.
+> +		 *
+> +		 * Let's just start with this simple assumption.
+> +		 */
+> +		if (ch >= max_channels)
+> +			return -ERANGE;
+> +
+> +		channels[num_chan] = ch;
+> +		num_chan++;
+> +	}
+> +
+> +	return num_chan;
+> +
+> +}
+> +EXPORT_SYMBOL_GPL(iio_adc_device_channels_by_property);
+> +
+> +/**
+> + * devm_iio_adc_device_alloc_chaninfo - allocate and fill iio_chan_spec for adc
+
+ADC
+
+> + *
+> + * Scan the device node for ADC channel information. Allocate and populate the
+> + * iio_chan_spec structure corresponding to channels that are found. The memory
+> + * for iio_chan_spec structure will be freed upon device detach. Try parent
+> + * device node if given device has no fwnode associated to cover also MFD
+> + * devices.
+> + *
+> + * @dev:		Pointer to the ADC device.
+> + * @template:		Template iio_chan_spec from which the fields of all
+> + *			found and allocated channels are initialized.
+> + * @cs:			Location where pointer to allocated iio_chan_spec
+> + *			should be stored
+> + * @expected_props:	Bitmaps of channel property types (for checking).
+Input parameter so should be after template.
+
+> + *
+> + * Return:	Number of found channels on succes. Negative value to indicate
+> + *		failure.
+
+I wonder if an alloc function would be better returning the pointer and
+providing num_chans via a parameter.
+
+> + */
+> +int devm_iio_adc_device_alloc_chaninfo(struct device *dev,
+> +				const struct iio_chan_spec *template,
+> +				struct iio_chan_spec **cs,
+> +				const struct iio_adc_props *expected_props)
+
+I'm not sure this expected props thing works as often it's a case
+of complex relationships 
+
+> +{
+> +	struct iio_chan_spec *chan;
+> +	int num_chan = 0, ret;
+Initialized just after this so don't set num_chan = 0.
+
+> +
+> +	num_chan = iio_adc_device_num_channels(dev);
+> +	if (num_chan < 1)
+> +		return num_chan;
+> +
+> +	*cs = devm_kcalloc(dev, num_chan, sizeof(**cs), GFP_KERNEL);
+> +	if (!*cs)
+> +		return -ENOMEM;
+> +
+> +	chan = &(*cs)[0];
+> +
+> +	device_for_each_child_node_scoped(dev, child) {
+> +		u32 ch, diff[2], se, common;
+> +		int chtypes_found = 0;
+> +
+> +		if (!fwnode_name_eq(child, "channel"))
+> +			continue;
+> +
+> +		ret = fwnode_property_read_u32(child, "reg", &ch);
+> +		if (ret)
+> +			return ret;
+> +
+
+diff channels and single channel take precedence over reg, so check them
+first. If present no need to look for reg can also read it then throw
+it away giving simpler.
+
+		*chan = *template;
+
+		// reg should exist either way.
+		ret = fwnode_property_read_u32(child, "reg", &reg);
+		if (ret)
+			return -EINVAL; //should be a reg whatever.
+
+		ret = fwnode_property_read_u32_array(child, "diff-channels",
+						     diff, ARRAY_SIZE(diff));
+		if (ret == 0) {
+			chan->differential = 1;
+			chan->channel = diff[0];
+			chan->channel2 = diff[1];
+		} else {
+			ret = fwnode_property_read_u32(child, "single-channel", &se);
+			if (ret)
+				se = reg;
+
+			chan->channel = se;
+			//IIRC common mode channel is rare. I'd skip it. That
+			//also makes it a differential channel be it a weird one.
+		}
+					
+
+> +		ret = fwnode_property_read_u32_array(child, "diff-channels",
+> +						     &diff[0], 2);
+> +		if (!ret)
+> +			chtypes_found |= IIO_ADC_CHAN_PROP_TYPE_DIFF;
+> +
+> +		ret = fwnode_property_read_u32(child, "single-channel", &se);
+> +		if (!ret)
+> +			chtypes_found |= IIO_ADC_CHAN_PROP_TYPE_SINGLE_ENDED;
+> +
+> +		ret = fwnode_property_read_u32(child, "common-mode-channel",
+> +					       &common);
+> +		if (!ret)
+> +			chtypes_found |= BIT(IIO_ADC_CHAN_PROP_COMMON);
+> +
+> +		ret = iio_adc_prop_type_check_sanity(dev, expected_props,
+> +						     chtypes_found);
+
+If we want to verify this (I'm not yet sure) then do it as you parse the
+properties, not separately.
+
+> +		if (ret)
+> +			return ret;
+> +
+> +		*chan = *template;
+> +		chan->channel = ch;
+> +
+> +		if (chtypes_found & IIO_ADC_CHAN_PROP_TYPE_DIFF) {
+> +			chan->differential = 1;
+> +			chan->channel = diff[0];
+> +			chan->channel2 = diff[1];
+> +
+> +		} else if (chtypes_found & IIO_ADC_CHAN_PROP_TYPE_SINGLE_ENDED) {
+> +			chan->channel = se;
+> +			if (chtypes_found & BIT(IIO_ADC_CHAN_PROP_COMMON))
+> +				chan->channel2 = common;
+> +		}
+> +
+> +		/*
+> +		 * We assume the channel IDs start from 0. If it seems this is
+> +		 * not a sane assumption, then we have to add 'allowed ID ranges'
+> +		 * to the struct iio_adc_props because some of the callers may
+> +		 * rely on the IDs being in this range - and have arrays indexed
+> +		 * by the ID.
+
+Not a requirement in general.  It is more than possible to have a single channel
+provided that is number 7.
+
+> +		 */
+> +		if (chan->channel >= num_chan)
+> +			return -ERANGE;
+> +
+> +		chan++;
+> +	}
+> +
+> +	return num_chan;
+> +}
+> +EXPORT_SYMBOL_GPL(devm_iio_adc_device_alloc_chaninfo);
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_AUTHOR("Matti Vaittinen <mazziesaccount@gmail.com>");
+> +MODULE_DESCRIPTION("IIO ADC fwnode parsing helpers");
+> diff --git a/include/linux/iio/adc-helpers.h b/include/linux/iio/adc-helpers.h
+> new file mode 100644
+> index 000000000000..f7791d45dbd2
+> --- /dev/null
+> +++ b/include/linux/iio/adc-helpers.h
+> @@ -0,0 +1,56 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +
+> +/* The industrial I/O ADC helpers
+Comment syntax and make it more obvious that while this might be useful
+it isn't something we necessarily expect to be useful to every driver.
+/*
+ * Industrial I/O ADC firmware property passing helpers.
+ *
+
+> + *
+> + * Copyright (c) 2025 Matti Vaittinen <mazziesaccount@gmail.com>
+> + */
+> +
+> +#ifndef _INDUSTRIAL_IO_ADC_HELPERS_H_
+> +#define _INDUSTRIAL_IO_ADC_HELPERS_H_
+> +
+> +#include <linux/iio/iio.h>
+> +
+> +struct device;
+> +struct fwnode_handle;
+> +
+> +enum {
+> +	IIO_ADC_CHAN_PROP_REG,
+> +	IIO_ADC_CHAN_PROP_SINGLE_ENDED,
+> +	IIO_ADC_CHAN_PROP_DIFF,
+> +	IIO_ADC_CHAN_PROP_COMMON,
+> +	IIO_ADC_CHAN_NUM_PROP_TYPES
+> +};
+> +
+> +/*
+> + * Channel property types to be used with iio_adc_device_get_channels,
+> + * devm_iio_adc_device_alloc_chaninfo, ...
+> + */
+> +#define IIO_ADC_CHAN_PROP_TYPE_REG BIT(IIO_ADC_CHAN_PROP_REG)
+> +#define IIO_ADC_CHAN_PROP_TYPE_SINGLE_ENDED BIT(IIO_ADC_CHAN_PROP_SINGLE_ENDED)
+> +#define IIO_ADC_CHAN_PROP_TYPE_SINGLE_COMMON					\
+> +	(BIT(IIO_ADC_CHAN_PROP_SINGLE_ENDED) | BIT(IIO_ADC_CHAN_PROP_COMMON))
+> +#define IIO_ADC_CHAN_PROP_TYPE_DIFF BIT(IIO_ADC_CHAN_PROP_DIFF)
+> +#define IIO_ADC_CHAN_PROP_TYPE_ALL GENMASK(IIO_ADC_CHAN_NUM_PROP_TYPES - 1, 0)
+> +
+> +/**
+> + * iio_adc_chan_props - information of expected device-tree channel properties
+> + *
+> + * @required:	Bitmask of property definitions of required channel properties
+> + * @allowed:	Bitmask of property definitions of optional channel properties.
+> + *		Listing of required properties is not needed here.
+> + */
+> +struct iio_adc_props {
+> +	unsigned long required;
+> +	unsigned long allowed;
+> +};
+> +
+> +int iio_adc_device_num_channels(struct device *dev);
+> +int devm_iio_adc_device_alloc_chaninfo(struct device *dev,
+> +				const struct iio_chan_spec *template,
+> +				struct iio_chan_spec **cs,
+> +				const struct iio_adc_props *expected_props);
+> +
+> +int iio_adc_device_channels_by_property(struct device *dev, int *channels,
+> +				int max_channels,
+> +				const struct iio_adc_props *expected_props);
+> +#endif /* _INDUSTRIAL_IO_ADC_HELPERS_H_ */
 
