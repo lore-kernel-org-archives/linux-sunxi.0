@@ -1,89 +1,65 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6793EEA8;
-	Sun, 23 Feb 2025 16:30:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D662243ABC;
+	Sun, 23 Feb 2025 17:03:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740328236; cv=none; b=n3Sv7Eumzbv0dyFEbc27werQamUVeJkJiZbPO0vCUHBXuWABwPUhWlHGa+GixkdzE9CRgXDwuILzyJmXAGnjYKnbQb7oDSDFEvQE16pQiU7t/8bkheh1yyI9J/eHmizRfSu3vQJPDL5tzJl+gKaR95PLJd4zDKwl0/DZu8hwBpk=
+	t=1740330208; cv=none; b=UobB2yVOniWfU8cY3bjy/TnfL1ItvZDflXzW8lxJ5CD19i3ljpEm+AjXylwONWwGxf0aEp7vtoAxYcDYJQsirtGz+1bjWhxPiaXraxeNf3j/t57UGbGI85h2fxlKqNhHDuLN8fmUOZ7b8akX0xPgGbdo/JXZJWJdbCwfRkjU/RQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740328236; c=relaxed/simple;
-	bh=QfKdiEk49aDWt010gngXbc3vJUxTK0YB03j5djAbuSM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Nlqv7LgwCj8zMgssetHyffn7XpzQmEoqSuRy8YsiML7j9hZNtlr6yHy1sjv3WJk0JQbzAyPEJQ3CvevAhMV5fW4P7BOy8Q2a3F8gOs5cdUrl8z3SDylfwY/0v9g84hQG8l18HUjbXYbNTqykGwV4+94gDU80+Yyq+ok7J+AY/0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SW7/guI7; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SW7/guI7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D82E5C4CEDD;
-	Sun, 23 Feb 2025 16:30:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740328235;
-	bh=QfKdiEk49aDWt010gngXbc3vJUxTK0YB03j5djAbuSM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=SW7/guI7iN1/8drBB39h5FaVJkqRojBn31+ZtOaZr/aaBcQue6cIy5785HZ3oXljI
-	 LlOBYYxYWKHKcJWFJdxoV3zXYKpE0BLR8pTvle0s8Ja5wcFDTffbOAoHN6L5d7Rw+9
-	 tqADmqonQH4E9OrvZhopW7RHnGAfOAMS0eoLk11Ofps6vd0nyRaWzA1M95vScL8NMV
-	 vFgfnLj5JyEn2y+1mSDcxfSoEFbrVrAumZlqbQzYbURtpuiK/h71NvTqXe8PFG7gcg
-	 sAxp72j1ftLeBSd+AZBa+NZ6AiqjX43hcWKBlATuc5AJocQ+atufejV26yCkg1sv90
-	 LEF5z7wRlxjeA==
-Date: Sun, 23 Feb 2025 16:30:18 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Matti Vaittinen <mazziesaccount@gmail.com>
-Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, Lars-Peter Clausen
- <lars@metafoo.de>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Lad Prabhakar
- <prabhakar.mahadev-lad.rj@bp.renesas.com>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, Hugo Villeneuve <hvilleneuve@dimonoff.com>, Nuno Sa
- <nuno.sa@analog.com>, David Lechner <dlechner@baylibre.com>, Javier
- Carrasco <javier.carrasco.cruz@gmail.com>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v3 6/9] iio: adc: rzg2l_adc: Use adc-helpers
-Message-ID: <20250223163018.2c0290e8@jic23-huawei>
-In-Reply-To: <25c5d22f6f0cbd1355eee2e9d9103c3ee71cebdc.1739967040.git.mazziesaccount@gmail.com>
-References: <cover.1739967040.git.mazziesaccount@gmail.com>
-	<25c5d22f6f0cbd1355eee2e9d9103c3ee71cebdc.1739967040.git.mazziesaccount@gmail.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1740330208; c=relaxed/simple;
+	bh=PWCFCQ/T5g668OH6p7aI1iAwePp1QD64+FkFE7rzkbg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=JJc4x1S7X5pj1QVe1gMt52NAnTDjwA7JgyRyRafFDOe1Lw0QiS6X5JXYKBofGp0LTrdVaLQ5bBvv6WLFAuVMxePxhpHV83mn1Mha3zCFt122u2+t+SF0v48W1me0wEfcfkJMFSVpvVKdOQDHc67nvgQlNvuma9mY+HAOy1IIO4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 351EEC4CEDD;
+	Sun, 23 Feb 2025 17:03:28 +0000 (UTC)
+Received: from wens.tw (localhost [127.0.0.1])
+	by wens.tw (Postfix) with ESMTP id 97A795FCC4;
+	Mon, 24 Feb 2025 01:03:25 +0800 (CST)
+From: Chen-Yu Tsai <wens@csie.org>
+To: Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, linux-clk@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, Philippe Simons <simons.philippe@gmail.com>
+Cc: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <20250220113808.1122414-2-simons.philippe@gmail.com>
+References: <20250220113808.1122414-1-simons.philippe@gmail.com>
+ <20250220113808.1122414-2-simons.philippe@gmail.com>
+Subject: Re: [PATCH v3 1/1] clk: sunxi-ng: h616: Reparent GPU clock during
+ frequency changes
+Message-Id: <174033020559.3257225.10440748576870743856.b4-ty@csie.org>
+Date: Mon, 24 Feb 2025 01:03:25 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-On Wed, 19 Feb 2025 14:31:38 +0200
-Matti Vaittinen <mazziesaccount@gmail.com> wrote:
-
-> The new devm_iio_adc_device_alloc_chaninfo() -helper is intended to help
-> drivers avoid open-coding the for_each_node -loop for getting the
-> channel IDs. The helper provides standard way to detect the ADC channel
-> nodes (by the node name), and a standard way to convert the "reg",
-> "diff-channels", "single-channel" and the "common-mode-channel" to
-> channel identification numbers used in the struct iio_chan_spec.
-> Furthermore, the helper checks the ID is in range of 0 ... num-channels.
+On Thu, 20 Feb 2025 12:38:08 +0100, Philippe Simons wrote:
+> The H616 manual does not state that the GPU PLL supports
+> dynamic frequency configuration, so we must take extra care when changing
+> the frequency. Currently any attempt to do device DVFS on the GPU lead
+> to panfrost various ooops, and GPU hangs.
 > 
-> The original driver treated all found child nodes as channel nodes. The
-> new helper requires channel nodes to be named channel[@N]. This should
-> help avoid problems with devices which may contain also other but ADC
-> child nodes. Quick grep from arch/* with the rzg2l_adc's compatible
-> string didn't reveal any in-tree .dts with channel nodes named
-> othervice. Also, same grep shows all the .dts seem to have channel IDs
-> between 0..num of channels.
+> The manual describes the algorithm for changing the PLL
+> frequency, which the CPU PLL notifier code already support, so we reuse
+> that to reparent the GPU clock to GPU1 clock during frequency
+> changes.
 > 
-> Use the new helper.
-> 
-> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+> [...]
 
-I should have read on.  Definitely more convincing with these usecases.
-however drag them to start of series.  Better to add infrastructure
-so some use and then on to your new driver.
+Applied to clk-for-6.15 in git@github.com:linux-sunxi/linux-sunxi.git, thanks!
 
-Looks good to me.
+[1/1] clk: sunxi-ng: h616: Reparent GPU clock during frequency changes
+      commit: eb963d7948ce6571939c6875424b557b25f16610
 
-Jonathan
+Best regards,
+-- 
+Chen-Yu Tsai <wens@csie.org>
 
