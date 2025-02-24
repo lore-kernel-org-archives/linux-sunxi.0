@@ -1,65 +1,65 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01CE21428E7
-	for <linux-sunxi@lists.linux.dev>; Mon, 24 Feb 2025 05:40:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 265EB1C7012
+	for <linux-sunxi@lists.linux.dev>; Mon, 24 Feb 2025 06:14:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740375610; cv=none; b=TU9WVxaz5if5lf/VSwdYoSPAp0dO6qUcH/oEVQ15/EnQUKdXGgvZjkncmYvWkjKEnp8DQ+iH/9K5NadNWxreDLfsSr00gau0z174FIGzu86IIEhCgU7ZLmstsjNLZdQCKXpBmBgPVu4MAHg4RnJyMbG3FwJIpezOtysFaRVpUMM=
+	t=1740377672; cv=none; b=muYsKtQs9AHf5bhSyVAejOBWDn3T3s2cjDoiX+i/h6RYjlCe0kHN0+vAP/isK1YaF1aOlAYePuYkUp5RwqtZaQ+Tz2h124TcbqdYcQtvMj7JlTuECNeyGryHkmtxlfUMMcAQMFKRLglLjsFHioE8k7ffkuK1CDc2nCSGvMmjf+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740375610; c=relaxed/simple;
-	bh=ykTMvo5vM3ocHCW3+XjjML8AL9Bu7U93zqzCE7rZaq8=;
+	s=arc-20240116; t=1740377672; c=relaxed/simple;
+	bh=z/+pBy5i56eYqVj5wXJDut4aMv6hSqnkB+BARdoJFPk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ufkSxPKRvIQ5K5lxyQ9vjsBlx+Td40mK03pP1KmWuEDJQDloke94eCpXvzfFqjCiCIf9y1oeogCtw/QxHXM4KggbFZOrhxEVLRIffdiZSZrKh2Po45r4b279Fmf0wELulvoHa8O/x+E7GcfofpbeTl7sbwdioemfXxlEGRVJr6E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EnUdatG6; arc=none smtp.client-ip=209.85.208.175
+	 In-Reply-To:Content-Type; b=rgh1lTQR2Q94uggCziPNWMpk4sqvW5cXil/Ue1HxPAzImAuzgQFJW5FVSA5oiMRctkjsj9jJSMjImyLmYBi+ZW3DbnFE4Lcqr+3cnQEkgjD9pCemJvvq50xtCFtK2cOHp7+57tvXsRJzUMfFsW5qfT8bEcKmmmjdMAXrZ8/LU6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Uw/jg4p0; arc=none smtp.client-ip=209.85.167.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EnUdatG6"
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-30a317e4c27so35006971fa.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 23 Feb 2025 21:40:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Uw/jg4p0"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5461cb12e39so3825347e87.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 23 Feb 2025 22:14:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740375607; x=1740980407; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1740377667; x=1740982467; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=pki/JYWmmXNym2xztTz0HjhIt5MhQfFEcSVfA7kjWRY=;
-        b=EnUdatG6gK+Ae9NPGJ4qo/CD8AFyUUuUqV127ipGPVSpL+ME/txVXPpZUwqa5Yc846
-         YQ6x3tHymuCsBipvOq+RyNhhd2ne27HuFinnH0MWQDODe8SGAnHaKe0sNSBoTUNvWpWZ
-         IrAy7wE6m8AjbGqDoGtIXqLfs8j3fGXvS2zdKkMteMkJqXZk0Awbxy1K9BLIq6NQKz0x
-         AaUETDAaeXyH/WY5BYnqIw3Yxf7AEN99Pt+KzG1AK7cEBQf9dmb0aa2QPTTEGf8FUlBp
-         ky33LhBRtsVO2j4zAM/aJi0p3RiEVm810OfjiJOZyNDM/C9EqjWee2LmpItbXQMlDBaE
-         Uldg==
+        bh=D2/AhRT8DSfW/iFYbzjPys2wAflxjAkPB3hNCVPgcpU=;
+        b=Uw/jg4p00lnLG3prkGTB6H59VG+quJqhvyhdAdt3NvwkWz0ZvJQeHMGpneJzZepjhB
+         L/sZQqyaJpvioVwrgmbrH97wEfnJl1nrukJGx84osAb3wzvXrKOzbaWQhjX7eoAZhIEL
+         DJpKNg6D5TFPWdci4HmultMmtbj1G9Uz6Gd68lPjqb3dMv1UpNbCNbToBWUB7uwBA/DZ
+         Odmvb82YydQZxavE+0Sg5EGBtjUMMG9kw4xQYEzb/YfIDanV3FHDkuLmFSDSl/sp8Vts
+         4IePW7umlJynD8zS6KHMMp80YOiFRF7nCTGQK+FL7+O6q7FWGVeCa9OXNiVLK1Bq8N3J
+         PrCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740375607; x=1740980407;
+        d=1e100.net; s=20230601; t=1740377667; x=1740982467;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pki/JYWmmXNym2xztTz0HjhIt5MhQfFEcSVfA7kjWRY=;
-        b=BZpxwBXiUjyVytQ1C/8tQLCU83XR/Sf19xWYAzbZeB7vU69fezs1UpkUgsGzT7gny+
-         voH4EkhejhcZ0xvXIFpTNR/dFFx8H4oYw4uBikA37XE9xl6tmMftvs7nLw9Sbw2I/lBa
-         V82eFpF3szBZMd/eexM0ZWFN3mcLRejSM7iF5f+49QxpS+24DzSL63otiohcO6++rY3S
-         C5VYYGwaLbvTnwCiP24iHA8fPF37DL/wRKO9N4OTkxb5LYRNv7qsH0bdJ5gwfEOIhrLS
-         /03Jk+li8YCybT9sb7DDcYnxezVt7XovHonkDEeZTfcVzSYXswzfPNXVWDbTwZXLrB2k
-         +E2A==
-X-Forwarded-Encrypted: i=1; AJvYcCXnI/23lQrxmiQIrSiRYNloIeKXJ/WCQRCTUoa1IeM6c7VaIbleVbc6w4WKOsqmArJur3wcOCiL8iCKsg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz+7A8sUnbt0SQnjATVjI6g8DtOIuSvvYkUc1hGMdVER8YiPRfc
-	mlGOVJg1VJos5Q74nCoWm7bsVPYDRXNcUBTzITIxhJG5Wr/uTjpO
-X-Gm-Gg: ASbGnctVwlyRuWs7OnAr3aF4bdk41id6c7vVJP/4wAdRuXVlU534IUstllrLRf1wazV
-	OgiAT+gBBcarfAGlTLblzMnEj7KheIsTcVj9s/X86NfSWuaqswSca4I2ak6m1GsRroVeyiq/PCz
-	zqRTfKkPyg+eN2igcBl5pFLdxori6wXB1BWMgOcgsdHbAUgmFrynegcguX24r3nrgoM/e7IeZ+d
-	cYPhLFRac/cDY58vyW/lc5n45hN46k+LyVpQBfXg/ql8IqXza6ygLLN+PP5ZTl6YG6pE0UG9Dyr
-	y9HzC7xEP5A0Mpe9ph3NvD4WjvAHzvA2aknTJKmbg6r/NhyWwM5362QtnpoJ3Sa8h9Vlwvz1JHd
-	rjaUe564=
-X-Google-Smtp-Source: AGHT+IFYZsWHIGkUkgzUKAjiHsIv/QlXdd4k8rwaFgyu16UEoKiHj3ay571mZ+VYAfS3uE3xpBBTaw==
-X-Received: by 2002:a2e:8ed6:0:b0:309:2012:cc59 with SMTP id 38308e7fff4ca-30a599a6943mr41956421fa.26.1740375606698;
-        Sun, 23 Feb 2025 21:40:06 -0800 (PST)
+        bh=D2/AhRT8DSfW/iFYbzjPys2wAflxjAkPB3hNCVPgcpU=;
+        b=cYrxPd0U1lyqrsd7QxieAJuz09/jn38Ty9E/8D5R+U310x9ARG7GOahP0mqOCZZdW8
+         0/a9cZzHRzv4BOoLmgthPuQdHFH+WsMbZRVwIFYSCsoBN9t64X+LUqI+xoOSgRUVjt7t
+         71tav17aOJ/q98WRpmJDbKbtlB7QluFEamRrprp++FAPF33Hn11p6Msuy6Lub3Vc+5Ne
+         IRm2M8+kCWYDKei7YvQs08F1z2IoRzkRcJUcXwL9O+kIEjqYR6b7jxBrTxv+kVPBU16j
+         jUpsUq9a4ahgvDSKf2o9Pdm6TnjqEDXAcK/LC7IWMH/3M24TKxpnqio6YszK16MRduM4
+         +7+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCV6tqB1MbLM/K0kkqdP9aK9x3d5RWZuviVmkKcVZ2HQAnLYDaYj83Icf8XVI2evokNfIL5B8eenILbywA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YziYO03wmpZpWpmBp9Upivz0n5/os/1IADrCLlJNCiAcHzb3WdY
+	8pnUlZB/IYgGrSB67TEk1XDA/1XAgLAyYHmsxo5anQ9r9anYQp/V
+X-Gm-Gg: ASbGncuwsE3yJQ+rE6VLhBdj5KN1kIw6TVw6SNdeZH6sJ8eKteJpUcolq7Grok6gAf9
+	6ZMOzvZB2fl9fh0lDMqf620qgAxHQKHDb3LmWc7cTmalKIRO+szWsun94rvA2RI6rlT6dv6vxCf
+	joKYjLj/2zvzjYPyUtiuz4qykeOxglnDr88My8iTk+2iFmK/+jTs/NWOmgb9ZtQU2dRUwPAZWIx
+	RxY+BBlZC08oyRFgi5q2uttAPScAYwdjjWtU8e8TkJYuEQcE8DGbUdib6WCUQI1hDVRwtwtKBm8
+	WRW3cksJ18K139VxZvsHCzQ7Fz8vgh5pKeGjQn8OEI9Sl5y/EBI+hoSbfo8vJDzr0RmiEBnOd8y
+	yEvrKqEU=
+X-Google-Smtp-Source: AGHT+IE1bH5ugP5EuU0A9TbSNJydsntvckZB+spkMOEnBoSmkrWPCYe7ceeqNv2veChVyIT0h6M1mw==
+X-Received: by 2002:a05:6512:3b06:b0:545:2e85:c152 with SMTP id 2adb3069b0e04-54838f4c9d8mr5459799e87.34.1740377666817;
+        Sun, 23 Feb 2025 22:14:26 -0800 (PST)
 Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30917da0e64sm34665291fa.88.2025.02.23.21.40.02
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5452e4b08dasm2904602e87.87.2025.02.23.22.14.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 23 Feb 2025 21:40:04 -0800 (PST)
-Message-ID: <24609799-636d-4e8f-8406-f83b5db08f90@gmail.com>
-Date: Mon, 24 Feb 2025 07:40:02 +0200
+        Sun, 23 Feb 2025 22:14:26 -0800 (PST)
+Message-ID: <125ab96e-1e92-4022-95fe-324cd47ce1d9@gmail.com>
+Date: Mon, 24 Feb 2025 08:14:23 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -67,7 +67,7 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 6/9] iio: adc: rzg2l_adc: Use adc-helpers
+Subject: Re: [PATCH v3 3/9] iio: adc: Support ROHM BD79124 ADC
 To: Jonathan Cameron <jic23@kernel.org>
 Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
  Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
@@ -82,51 +82,327 @@ Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ Linus Walleij <linus.walleij@linaro.org>
 References: <cover.1739967040.git.mazziesaccount@gmail.com>
- <25c5d22f6f0cbd1355eee2e9d9103c3ee71cebdc.1739967040.git.mazziesaccount@gmail.com>
- <20250223163018.2c0290e8@jic23-huawei>
+ <67b7713724d7591f6321a8f5dfef8cd711f38d34.1739967040.git.mazziesaccount@gmail.com>
+ <20250223162807.41960b6b@jic23-huawei>
 Content-Language: en-US, en-AU, en-GB, en-BW
 From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <20250223163018.2c0290e8@jic23-huawei>
+In-Reply-To: <20250223162807.41960b6b@jic23-huawei>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 23/02/2025 18:30, Jonathan Cameron wrote:
-> On Wed, 19 Feb 2025 14:31:38 +0200
+On 23/02/2025 18:28, Jonathan Cameron wrote:
+> On Wed, 19 Feb 2025 14:30:43 +0200
 > Matti Vaittinen <mazziesaccount@gmail.com> wrote:
 > 
->> The new devm_iio_adc_device_alloc_chaninfo() -helper is intended to help
->> drivers avoid open-coding the for_each_node -loop for getting the
->> channel IDs. The helper provides standard way to detect the ADC channel
->> nodes (by the node name), and a standard way to convert the "reg",
->> "diff-channels", "single-channel" and the "common-mode-channel" to
->> channel identification numbers used in the struct iio_chan_spec.
->> Furthermore, the helper checks the ID is in range of 0 ... num-channels.
+>> The ROHM BD79124 is a 12-bit, 8-channel, SAR ADC. The ADC supports
+>> an automatic measurement mode, with an alarm interrupt for out-of-window
+>> measurements. The window is configurable for each channel.
 >>
->> The original driver treated all found child nodes as channel nodes. The
->> new helper requires channel nodes to be named channel[@N]. This should
->> help avoid problems with devices which may contain also other but ADC
->> child nodes. Quick grep from arch/* with the rzg2l_adc's compatible
->> string didn't reveal any in-tree .dts with channel nodes named
->> othervice. Also, same grep shows all the .dts seem to have channel IDs
->> between 0..num of channels.
+>> The I2C protocol for manual start of the measurement and data reading is
+>> somewhat peculiar. It requires the master to do clock stretching after
+>> sending the I2C slave-address until the slave has captured the data.
+>> Needless to say this is not well suopported by the I2C controllers.
 >>
->> Use the new helper.
+>> Thus the driver does not support the BD79124's manual measurement mode
+>> but implements the measurements using automatic measurement mode relying
+>> on the BD79124's ability of storing latest measurements into register.
+>>
+>> The driver does also support configuring the threshold events for
+>> detecting the out-of-window events.
+>>
+>> The BD79124 keeps asserting IRQ for as long as the measured voltage is
+>> out of the configured window. Thus the driver masks the received event
+>> for a fixed duration (1 second) when an event is handled. This prevents
+>> the user-space from choking on the events
+>>
+>> The ADC input pins can be also configured as general purpose outputs.
+>> Those pins which don't have corresponding ADC channel node in the
+>> device-tree will be controllable as GPO.
 >>
 >> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+>>
+> Hi Matti,
 > 
-> I should have read on.  Definitely more convincing with these usecases.
-> however drag them to start of series.  Better to add infrastructure
-> so some use and then on to your new driver.
+> Some fairly superficial review follows. I'm travelling for next few weeks
+> so not sure when I'll get time to take a more thorough look.
 
-Ok. I'll reorder the series.
+Yeah, unfortunately people are allowed to have other life beyond the 
+ROHM drivers :D
+Enjoy your journey(s) ;)
 
-I'll drop the differential channels support in v4 - and thus also the 
-expected property types parameters - which will simplify this and other 
-callers.
+...
 
-Thanks for taking a look at this!
+>> +
+>> +static int bd79124_event_ratelimit_hi(struct bd79124_data *data,
+>> +				      unsigned int channel)
+>> +{
+>> +	int reg, limit;
+>> +
+>> +	guard(mutex)(&data->mutex);
+>> +	data->alarm_suppressed[channel] |= BIT(IIO_EV_DIR_RISING);
+>> +
+>> +	reg = BD79124_GET_HIGH_LIMIT_REG(channel);
+>> +	limit = BD79124_HIGH_LIMIT_MAX;
+>> +
+>> +	return __bd79124_event_ratelimit(data, reg, limit);
+> 
+> As below.
+> 
+>> +}
+>> +
+>> +static int bd79124_event_ratelimit_lo(struct bd79124_data *data,
+>> +				      unsigned int channel)
+>> +{
+>> +	int reg, limit;
+>> +
+>> +	guard(mutex)(&data->mutex);
+>> +	data->alarm_suppressed[channel] |= BIT(IIO_EV_DIR_FALLING);
+>> +
+>> +	reg = BD79124_GET_LOW_LIMIT_REG(channel);
+>> +	limit = BD79124_LOW_LIMIT_MIN;
+>> +
+>> +	return __bd79124_event_ratelimit(data, reg, limit);
+> 
+> I'd put reg and limit inline.  Local variables don't add much as
+> their meaning is obvious anyway from what you put in them.
+
+I can do this. The main purpose of those variables was to keep the 
+function calls easier to read (on my limited monitor).
+
+>> +}
+>> +
+
+...
+
+>> +
+>> +static int bd79124_chan_init(struct bd79124_data *data, int channel)
+>> +{
+>> +	struct bd79124_reg_init inits[] = {
+>> +		{ .reg = BD79124_GET_HIGH_LIMIT_REG(channel), .val = 4095 },
+>> +		{ .reg = BD79124_GET_LOW_LIMIT_REG(channel), .val = 0 },
+>> +	};
+>> +	int i, ret;
+>> +
+>> +	for (i = 0; i < ARRAY_SIZE(inits); i++) {
+>> +		ret = regmap_write(data->map, inits[i].reg, inits[i].val);
+>> +		if (ret)
+>> +			return ret;
+>> +	}
+> 
+> This is shorter as straight line code rather than a loop. I'd unwind
+> it.  Fine to bring in a loop 'setter' like this once the benefit is
+> significant.
+
+I suppose you're right. I think loops like this born out of a habit :)
+
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static bool bd79124_is_in_array(int *arr, int num_items, int val)
+>> +{
+>> +	int i;
+>> +
+>> +	for (i = 0; i < num_items; i++)
+>> +		if (arr[i] == val)
+>> +			return true;
+>> +
+>> +	return false;
+>> +}
+>> +
+>> +static int bd79124_mux_init(struct bd79124_data *data)
+>> +{
+>> +	int adc_chans[BD79124_MAX_NUM_CHANNELS];
+>> +	int num_adc, chan, regval = 0;
+>> +
+>> +	num_adc = iio_adc_device_channels_by_property(data->dev, &adc_chans[0],
+>> +						      BD79124_MAX_NUM_CHANNELS,
+>> +						      &expected_props);
+>> +	if (num_adc < 0)
+>> +		return num_adc;
+>> +
+>> +	/*
+>> +	 * Set a mux register bit for each pin which is free to be used as
+>> +	 * a GPO.
+> For this I would search the simpler iio_chan_spec array rather than passing
+> properties again.
+
+I kind of agree. I did it like this because I thought that the 
+'iio_adc_device_channels_by_property()' might be useful for other 
+callers as well. And, if we had 'iio_adc_device_channels_by_property()' 
+- then the code in this driver file becomes simple (as seen here). After 
+I looked at the couple of other drivers I didn't easily spot any other 
+driver needing the 'iio_adc_device_channels_by_property()' - so I 
+suppose it is simpler to drop it and loop through the 'iio_chan_spec' as 
+you suggest.
+
+  Just look for gaps.  Or do it in the top level probe()
+> function and build a bitmap of which channels are ADC ones from the iio_chan_spec
+> array and pass that down here.
+> 
+>> +	 */
+>> +	for (chan = 0; chan < BD79124_MAX_NUM_CHANNELS; chan++)
+>> +		if (!bd79124_is_in_array(&adc_chans[0], num_adc, chan))
+>> +			regval |= BIT(chan);
+>> +
+>> +	return regmap_write(data->map, BD79124_REG_PINCFG, regval);
+>> +}
+>> +
+>> +static int bd79124_hw_init(struct bd79124_data *data)
+>> +{
+>> +	int ret, regval, i;
+>> +
+>> +	ret = bd79124_mux_init(data);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	for (i = 0; i < BD79124_MAX_NUM_CHANNELS; i++) {
+>> +		ret = bd79124_chan_init(data, i);
+>> +		if (ret)
+>> +			return ret;
+>> +		data->alarm_r_limit[i] = 4095;
+>> +	}
+>> +	/* Stop auto sequencer */
+>> +	ret = regmap_clear_bits(data->map, BD79124_REG_SEQUENCE_CFG,
+>> +				BD79124_MASK_SEQ_START);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	/* Enable writing the measured values to the regsters */
+>> +	ret = regmap_set_bits(data->map, BD79124_REG_GEN_CFG,
+>> +			      BD79124_MASK_STATS_EN);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	/* Set no channels to be auto-measured */
+>> +	ret = regmap_write(data->map, BD79124_REG_AUTO_CHANNELS, 0x0);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	/* Set no channels to be manually measured */
+>> +	ret = regmap_write(data->map, BD79124_REG_MANUAL_CHANNELS, 0x0);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	/* Set the measurement interval to 0.75 mS */
+>> +	regval = FIELD_PREP(BD79124_MASK_AUTO_INTERVAL, BD79124_INTERVAL_075);
+>> +	ret = regmap_update_bits(data->map, BD79124_REG_OPMODE_CFG,
+>> +			BD79124_MASK_AUTO_INTERVAL, regval);
+> 
+> Where it doesn't make any other difference, align after (
+> 
+> If you are going shorter, single tab only.
+
+Single tab only? You mean like:
+
+ret = regmap_update_bits(data->map, BD79124_REG_OPMODE_CFG,
+	BD79124_MASK_AUTO_INTERVAL, regval);
+
+Do you prefer that even if the variable holding the return value was 
+longer than 8 chars? To me it looks odd if arguments on the next line 
+begin earlier than the function on previous line:
+
+longvariable = regmap_update_bits(data->map, BD79124_REG_OPMODE_CFG,
+	BD79124_MASK_AUTO_INTERVAL, regval);
+
+(Just ensuring I understood your preference).
+
+> 
+> 
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	/* Sequencer mode to auto */
+>> +	ret = regmap_set_bits(data->map, BD79124_REG_SEQUENCE_CFG,
+>> +			      BD79124_MASK_SEQ_SEQ);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	/* Don't start the measurement */
+>> +	regval = FIELD_PREP(BD79124_MASK_CONV_MODE, BD79124_CONV_MODE_MANSEQ);
+> What is this for?
+
+Thank's for pointing it out! It is supposed to be used in call below. 
+The code works as it is just because the BD79124_CONV_MODE_MANSEQ 
+happens to be '0', but it's still better to use FIELD_PREP() for the 
+consistency. Below should change from:
+
+>> +	return regmap_update_bits(data->map, BD79124_REG_OPMODE_CFG,
+>> +			BD79124_MASK_CONV_MODE, BD79124_CONV_MODE_MANSEQ);
+>> +
+to:
+
+	return regmap_update_bits(data->map, BD79124_REG_OPMODE_CFG,
+				  BD79124_MASK_CONV_MODE, regval);
+
+Good catch, thanks! :)
+
+>> +}
+>> +
+>> +static int bd79124_probe(struct i2c_client *i2c)
+>> +{
+>> +	struct bd79124_data *data;
+>> +	struct iio_dev *iio_dev;
+>> +	const struct iio_chan_spec *template;
+>> +	struct iio_chan_spec *cs;
+>> +	struct device *dev = &i2c->dev;
+>> +	int ret;
+>> +
+>> +	iio_dev = devm_iio_device_alloc(dev, sizeof(*data));
+>> +	if (!iio_dev)
+>> +		return -ENOMEM;
+>> +
+>> +	data = iio_priv(iio_dev);
+>> +	data->dev = dev;
+>> +	data->map = devm_regmap_init_i2c(i2c, &bd79124_regmap);
+>> +	if (IS_ERR(data->map))
+>> +		return dev_err_probe(dev, PTR_ERR(data->map),
+>> +				     "Failed to initialize Regmap\n");
+>> +
+>> +	ret = devm_regulator_get_enable_read_voltage(dev, "vdd");
+>> +	if (ret < 0)
+>> +		return dev_err_probe(dev, ret, "Failed to get the Vdd\n");
+>> +
+>> +	data->vmax = ret;
+>> +
+>> +	ret = devm_regulator_get_enable(dev, "iovdd");
+>> +	if (ret < 0)
+>> +		return dev_err_probe(dev, ret, "Failed to enable I/O voltage\n");
+>> +
+>> +	ret = devm_delayed_work_autocancel(dev, &data->alm_enable_work,
+>> +					   bd79124_alm_enable_worker);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	if (i2c->irq) {
+>> +		template = &bd79124_chan_template;
+>> +	} else {
+>> +		template = &bd79124_chan_template_noirq;
+>> +		dev_dbg(dev, "No IRQ found, events disabled\n");
+>> +	}
+>> +	ret = devm_iio_adc_device_alloc_chaninfo(dev, template, &cs,
+>> +						 &expected_props);
+>> +	if (ret < 0)
+>> +		return ret;
+>> +
+>> +	iio_dev->channels = cs;
+>> +	iio_dev->num_channels = ret;
+>> +	iio_dev->info = &bd79124_info;
+>> +	iio_dev->name = "bd79124";
+>> +	iio_dev->modes = INDIO_DIRECT_MODE;
+>> +
+>> +	data->gc = bd79124gpo_chip;
+>> +	data->gc.parent = dev;
+>> +
+>> +	mutex_init(&data->mutex);
+> 
+> Whilst it doesn't bring huge advantage, now we have devm_mutex_init()
+> it seems reasonable to use it and maybe catch a use after free for the lock.
+
+Ah, indeed. It's a good to learn to 'habitually' use devm_mutex_init().
 
 Yours,
 	-- Matti
