@@ -1,64 +1,64 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98EC9267AED
-	for <linux-sunxi@lists.linux.dev>; Tue, 25 Feb 2025 10:57:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B944268FF4
+	for <linux-sunxi@lists.linux.dev>; Tue, 25 Feb 2025 13:29:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740481022; cv=none; b=Bo6xanffkvBEx3hmfv5bc9iD3sU0U8AXSjsuBMAlM/Inc+BA0VXQmC8O4YvjXCa4ueVMTQaWWENIOnVjL7OfpUiq71mFL0p+lGByo3lj/htQxOm1r+R8vYa24yX+7xmwr/dC44SH3OD+J7HCp3US4TsxQd+k+5CWkC0qfVt7kuc=
+	t=1740490162; cv=none; b=KmrveaFzRXwOAmMjqbZOWV4D3h3B3x1AS/c0AbtXRhcXfKiuplokvTQwtZ0CkNl1p3S6iNbFpKqa8aycm8Ut1pKkJiex0NEXn3NhDCjNyqDUyn5S7UOqulKwk7Meu2WtDICghN/q4YT5CSqx50uzBEo0cJyXXBEudThPiGFHDIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740481022; c=relaxed/simple;
-	bh=2YozzQHz8w8HrGbTyvr5eXnrPoFj0GWuc89p5e2auWs=;
+	s=arc-20240116; t=1740490162; c=relaxed/simple;
+	bh=rHQexzBVm+h27NJGWaGxccjhnh05Li9527fFlp5jf58=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nWWoTzG11xsTGGIfnaGFRn2aA8J/ayBgLNOWtiAHKmQz01stiVbFYyu3MD2J4mXArzc1l1TxemhLaS+N5KGyxG51xbVGukupvSisDDmT79510p3FAGqAiohTrCw4vaiWFAElhajudNX9m+0aAXuQri0201e4FH9bxg4AqJ257eA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ezpfbQ1k; arc=none smtp.client-ip=209.85.208.172
+	 In-Reply-To:Content-Type; b=XA+mvSzbl4aH4ERIQJ9y5YixNDxG5bo/c6lPlM6qP1VqJpeHvC5IDQfgDLG8m2Pl2uwXa8js4O9h7xXwi8aj+zWHYIGpb5SWvOZwkfQQz0PZXZq/S35YAyrYTd2ZuodGgdY7UtwZ/qD8ONJLe5tXFWYk1r2+YcYp7M/WijCX1u4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GB5mWHZo; arc=none smtp.client-ip=209.85.167.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ezpfbQ1k"
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-3061513d353so57350581fa.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 25 Feb 2025 02:57:00 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GB5mWHZo"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5452ca02bdbso5239575e87.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 25 Feb 2025 05:29:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740481019; x=1741085819; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1740490159; x=1741094959; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=7/fHdL9OxTBfJ/OtLlF+A8QVXV0YakMI11nkG7r9zEY=;
-        b=ezpfbQ1kb4+ckutbPrA7A53YIOGGDALaDburX2b3DvCkE0pD9TyndJR9gmK1hePYzw
-         +fsFMdUmMuknUbfZxkJe9Wk7ibEmcLZ9cJ2ILIo3Ia70dupIUcPopzes9v28gMcbbEHh
-         4Z1GlT8r5QYxK2BvVxKf5XsOs67FyOWfupLfGvWvOuRCnWIbPHFryWC07lrwnCrlFw83
-         kzb6C/qdKOuf/Wo1fdVqu9YfuKf1D8xg/reo6nM8j8oq/kuyTx92ZJFooNDyFbk/pNk7
-         tNX9okKFPYUd4CrDrAO9v5ybAp+Ijbd+VNcBaN6g/8nNM3GKyLWid3QyFCOIhimHfxLx
-         5V+Q==
+        bh=R+FbrRxOgnYTZyaA+lF8b6QjfgGK+98gNFHNL4vg+8M=;
+        b=GB5mWHZoOthQtMXTrJ9n4y68BKDJncJLkjREmNGpcRyGkx00zZye9WTPSarofCHRjC
+         p1z+7RIZBwyM9IawJDq5o0bpPuFDD59z8UxzEStisjTtPakRzP/vFFBbHyaTNzfxD3zB
+         nIwVo/pjKXsZ2h0224gmGcZd+8xlPI17SLqPMj0Nn5Vr5A1JZgYtHbbbsNncqG23p1hl
+         HP7WEMA1hMYQgy+q9Ln2kaZkGaE93UZckGOHhYHHL60eAxfFYKS+/NvGvOx5BqGnR1KB
+         cb2PSfL5HChS47BAUb/VCQ0ukcZPP3iBBlHP+KW8V9oGukwn4oHELm9ozFsnHBH+f8UG
+         BCNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740481019; x=1741085819;
+        d=1e100.net; s=20230601; t=1740490159; x=1741094959;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7/fHdL9OxTBfJ/OtLlF+A8QVXV0YakMI11nkG7r9zEY=;
-        b=LctR4iqzSjRA2b2frDkj+9jt+FkiyhZ6HAfqsuG4dVJnByPPUOcXhsu3xK8YG/F0Eb
-         qtxV3weqo6EyOM2GXdgc0UkQzf7kW0jJookapCLj8U5b+NBFYyQgRrpSjrCtZZ3mu61P
-         PQ5htrK2DpefBnXaeXIw+CooArptYp443PpVUdmOE/xrpawgH4EDMqtm3aNzoRIiS1XO
-         4foejoBf4K12XNKhyeh0xkz0HWd/0+24ko/kCTM6DdjWx9PpMhIXrdCZl/+u1TjZ51y0
-         JCnpV03lyy1tygbY87Uf3zPzGyW1R2GtcKC7jQ4nF5Z2dv/ivZ5tpTbFWFG4L95C3GsC
-         YElg==
-X-Forwarded-Encrypted: i=1; AJvYcCVqtcrYGlHv0s0MQjHwzIPVqcvNNleSeDF7+9bxb3kCN8EGj+M4uJBBUAm4QGFOgmy305dMtKfERCPVyQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxTqiMxXq6kWoh6mlu0q9sDCQjuJ2yLYQ+NyCmzXW2gNnWgAvUP
-	HC/TJI89w8WaQdNw+xdeRNpub1H6JOqlmGRv6HQAP9tO6TZMoU90
-X-Gm-Gg: ASbGncskej9uyWWnscXbsuJ0JYgd2AjNryczqPNA0qcADtkjJ9FcWoKrBjzFr3Jhy0Z
-	2CxujAwzNBaZJtpzkP9mTKUWGYhHA7rgC7hBeML3SUqjXjtN6MHJUPkKP9cTa8exFJz492+P2qt
-	2GS2Or+RJescbkCzpGxVKTlMp5updv3lTJP5AwSGtp/EN9WdZxKq0YEu21M4dvXvwtJY59wZXMA
-	ksf/qM3VzMtXXgMOuC16dL7onynNI5rBGdoRF20P6CF/P+1CZdacqQu+J1wo1i8sl2nexXWzazb
-	f0detQmBEQYfC/FTyOSonO/cfsJ69fyQdAWbY04=
-X-Google-Smtp-Source: AGHT+IH2/CKNaTosFs8GlS0XdmUzabLuIWWzOTmpp5OU7F/me7OdOFzkGeicuNnt7xucX157I9qrZQ==
-X-Received: by 2002:a05:651c:22e:b0:308:f75f:457 with SMTP id 38308e7fff4ca-30a5b18ae70mr54123081fa.12.1740481018475;
-        Tue, 25 Feb 2025 02:56:58 -0800 (PST)
+        bh=R+FbrRxOgnYTZyaA+lF8b6QjfgGK+98gNFHNL4vg+8M=;
+        b=pLLPIBnuW1HxMlTwCsjIgl5A1+fol07WF6k2WO76hAk7+Qb210belKA1IwgTTFVf/3
+         ionZyxiXAb2yqEyB5qDyGRwKFV09eyO2Ger/q9iv9qTRQF9YyPCYNdZqias6Gcg2llmH
+         w5PmrOC/8LDDiD9DgcCmHT6pwFu1N2djpEAf9Y6y14YjgDKu9b4RTr/9J3VB+hEKXRcP
+         09zxWcrwvFL9JPUm1bZ5zh+NwSaPGmElf7ZN9zJkwqBDyaCPMg1GgvRttmdSZIlcGgC8
+         8+fMAZIZ/V+Xp5EzrlPv7JXe67KJxQocg6z5PByEYGuW9Rk3Trj8u9H96HpGHq9F3wWR
+         K/yg==
+X-Forwarded-Encrypted: i=1; AJvYcCU29qlU2Fnfkc6C7hormYwMJfoApQGWyEh0a9GAG3w+k/2R0f+VFzf0wjU1uYsAa6U4cEDvmXfoshS7lg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YylDgkXt++M8zU0gqyKg5xvDB8ebaX42aY1n5fliulWUqGIAv+N
+	NLNaOM7td9KiOygO0xVWlM/YkosnyT1AuUxfaBmnrfnOsaQ6l4PW
+X-Gm-Gg: ASbGnctNbYgT1C/gvCcXr/kxAukwmtKPamO140rz9/AwJEbvWtllpQZgu5POX7roNKH
+	sr65HIjEweEVkan94S9xFmFFw/lxkUiySlddQ8DIAvA4YPkcRuYzmLc4Rqo9ZUqDWzSJwXjgSzx
+	9cnLeGpt9o1qNDZpUjUZGnBK8C1CXveQozy0ZhUU2XA3YshR8iCOycTefxFTheGwMBhKRZsejQ9
+	fZ1m3c7Kck18PDNW88IBn6HT3oS/MW8y78I5TGqXXoFilVRUd56dmK43iDbP/wlj44JkQi+2ZYq
+	md3QoPtJDEQJllaADCHzE79jbBo2iTYgS953Zrk=
+X-Google-Smtp-Source: AGHT+IGjIiZRQoCqQpRaub+un/XzTU053MAFUSi2TNm85/fj9TbmZ/3TfRa1taLP4aGsaQej3mQfPg==
+X-Received: by 2002:a05:6512:224b:b0:545:54b:6a05 with SMTP id 2adb3069b0e04-548510eebcdmr1461663e87.45.1740490158959;
+        Tue, 25 Feb 2025 05:29:18 -0800 (PST)
 Received: from [172.16.183.207] ([213.255.186.46])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30a81ae80besm1961621fa.93.2025.02.25.02.56.57
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-548514b9db3sm181711e87.88.2025.02.25.05.29.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Feb 2025 02:56:57 -0800 (PST)
-Message-ID: <1e0a9915-fe52-4569-9da0-b0761ba8fedb@gmail.com>
-Date: Tue, 25 Feb 2025 12:56:56 +0200
+        Tue, 25 Feb 2025 05:29:18 -0800 (PST)
+Message-ID: <893a3c45-537e-47ad-afbd-1e5d3b9abe2c@gmail.com>
+Date: Tue, 25 Feb 2025 15:29:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -68,9 +68,9 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v4 02/10] property: Add
  device_get_child_node_count_named()
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
  Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Daniel Scally <djrscally@gmail.com>,
@@ -98,70 +98,42 @@ Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
 References: <cover.1740421248.git.mazziesaccount@gmail.com>
  <29ec24f1498392cafbecc0e0c0e23e1ce3289565.1740421248.git.mazziesaccount@gmail.com>
  <Z72QAOA9xXbP16K-@kuha.fi.intel.com> <Z72Zp8tpnvlFGdQ_@smile.fi.intel.com>
+ <ad39b453-7e5b-49bd-a4fd-6a4988636130@gmail.com>
+ <Z72d7TzZ21WITW3f@smile.fi.intel.com>
 Content-Language: en-US, en-AU, en-GB, en-BW
 From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <Z72Zp8tpnvlFGdQ_@smile.fi.intel.com>
+In-Reply-To: <Z72d7TzZ21WITW3f@smile.fi.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 25/02/2025 12:21, Andy Shevchenko wrote:
-> On Tue, Feb 25, 2025 at 11:40:16AM +0200, Heikki Krogerus wrote:
->>> +/**
->>> + * device_get_child_node_count_named - number of child nodes with given name
->>> + *
->>> + * Scan device's child nodes and find all the nodes with a specific name and
->>> + * return the number of found nodes. Potential '@number' -ending for scanned
->>> + * names is ignored. Eg,
->>> + * device_get_child_node_count(dev, "channel");
->>> + * would match all the nodes:
->>> + * channel { }, channel@0 {}, channel@0xabba {}...
->>> + *
->>> + * @dev: Device to count the child nodes for
-> 
-> This has an inconsistent kernel doc structure in comparison to the rest in this
-> file.
+On 25/02/2025 12:39, Andy Shevchenko wrote:
+> On Tue, Feb 25, 2025 at 12:29:31PM +0200, Matti Vaittinen wrote:
+>> On 25/02/2025 12:21, Andy Shevchenko wrote:
+>>> On Tue, Feb 25, 2025 at 11:40:16AM +0200, Heikki Krogerus wrote:
 
-Hmm. I'll take a look at the differences for v5.
+...
 
->>> + * Return: the number of child nodes with a matching name for a given device.
->>> + */
->>> +unsigned int device_get_child_node_count_named(const struct device *dev,
->>> +					       const char *name)
->>> +{
->>> +	struct fwnode_handle *child;
->>> +	unsigned int count = 0;
->>> +
->>> +	device_for_each_child_node(dev, child)
->>> +		if (fwnode_name_eq(child, "channel"))
+>>>>
+>>>> I did not check how many users are you proposing for this, but if
+>>>> there's only one, then IMO this should not be a global function yet.
+>>>> It just feels to special case to me. But let's see what the others
+>>>> think.
+>>>
+>>> The problem is that if somebody hides it, we might potentially see
+>>> a duplication in the future. So I _slightly_ prefer to publish and
+>>> then drop that after a few cycles if no users appear.
 >>
->> s/"channel"/name/ ?
+>> After taking a very quick grep I spotted one other existing place where we
+>> might be able to do direct conversion to use this function.
 >>
->>> +			count++;
->>> +
->>> +	return count;
->>> +}
->>> +EXPORT_SYMBOL_GPL(device_get_child_node_count_named);
+>> drivers/net/ethernet/freescale/gianfar.c
 >>
->> I did not check how many users are you proposing for this, but if
->> there's only one, then IMO this should not be a global function yet.
->> It just feels to special case to me. But let's see what the others
->> think.
+>> That'd be 2 users.
 > 
-> The problem is that if somebody hides it, we might potentially see
-> a duplication in the future. So I _slightly_ prefer to publish and
-> then drop that after a few cycles if no users appear.
-> 
-> Also this misses the test cases.
+> I haven't checked myself, I believe your judgement,
 
-I'll also take a look at the tests, but I have a bit of an attitude 
-problem what comes to unit testing. Adding tests for the sake of having 
-tests just hinders the development. It makes improving functions less 
-appealing (as tests need to be changed as well) and adds bunch of 
-inertia & maintenance cost. Sure, on complex functions having tests 
-increases the confidence that changes work - but I don't see much value 
-here.
-
-Do we have tests for all the property.h functions?
+I took a better look and you obviously shouldn't believe :) The gianfar 
+used of_node instead of the fwnode. So, it'd be a single caller at starters.
 
 Yours,
 	-- Matti
