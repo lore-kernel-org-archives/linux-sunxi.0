@@ -1,141 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46B4526A0AC
-	for <linux-sunxi@lists.linux.dev>; Tue, 25 Feb 2025 14:00:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C94C726E620
+	for <linux-sunxi@lists.linux.dev>; Tue, 25 Feb 2025 14:36:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740492011; cv=none; b=IZNzORd772bO8LD/7x3Y3+gBD9paXLZ97tlskwp9X/UdAD41nebTVTkCWBddYGrLnd7qzc0mDYGw1O2aLlbNtQwsWMSbZhMSEy/s0XyLoGTOBt5OA45d9n61LBnM9m3dO00OWhQWy/qfYmLpMvZWeZzOht833hc4bcWd9zr+VLA=
+	t=1740494216; cv=none; b=l7ZMVvH3oxZnGh9jpIMVmQ0aMCRKYJ7vQzTPDcahyCZG/5cbccAXsO5brdalQP6EA23pwstcgnXUb3/CO4lVMz957zj/Dm1bOEywo19olobfvUT9KZ3R+jwyTKRZ6dIVFCbei4AoERfoh1R0aFkHQrfg/r/TjQ3SyI2Jfwb8nfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740492011; c=relaxed/simple;
-	bh=z0NM4k/FSSDfqS2mjYdariSVt/ETmZ+fP+JtXH7aT5c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VvukBejwI2p1lXugEKHxJOKvyRN7Qhw5+ImqK6Tww6Dulhq3y8yHiFRhazYGfsflGtrgv2wu+iRjO8IH+9FLJ3++zQ7UrdpnW6eEgMaOFwd7yp5M4vZGcUo2ZhmaoY9WXqddnhVzo7BCB97kXRKoxoJuPb2IQXx3TXsblzBZTCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BnFEFeYs; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1740494216; c=relaxed/simple;
+	bh=GIMdMLj6BbS/txxma/JVtTFZH3g2DvEeT4hV4F/TP48=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=cjhFWu2aAEQOanUuCBfz1sr8E+Sv148KJ0TcYyIs1r6ubLKK84c5A7rKDISLU4lQDnq1afvWDYiBMTXqY0/UV3Iw3BPkPGRT8nVcI1afYOb39CoYRmHGF2pN7FWmjjanKsBVuU5xrD/AxbNUE3UyEmEv3T2bioqpXYrJ/XuDSVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E5eFRb94; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BnFEFeYs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740492010; x=1772028010;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=z0NM4k/FSSDfqS2mjYdariSVt/ETmZ+fP+JtXH7aT5c=;
-  b=BnFEFeYs5WvgShhEO3zjeYqdiwPp8U1AL5wJ9Vwwyu4kGCrPqTGtP2t9
-   +n5wcvlmF9OdQKINQGmtXi/1ispDF2G6AcYelMFia1BULqpIyB9mj4VFW
-   6SpEeQIPnHj83pipWCZpF5unakpFfDFgMTGCH1VxYH/tJjHXPoS0C77w4
-   br9tsK/dUX7ivzRRxvsdAJ+GXCGsmvoLp5jh1+bNBKBdncRqGY8N6Me+v
-   1OdDEjOF661hSIlPuyywPJiDLiZ7jpnn478/UIJT7DFHL87lAPiJZm9xs
-   S3ByjzUAg7wkFqRYTd66qQcjmjj4hFgnnyDBSY7QZFfuH/BOejApO1bfF
-   g==;
-X-CSE-ConnectionGUID: ME+LLuzYSguoBePUQyqv4w==
-X-CSE-MsgGUID: 8C/gE17fQVKHadnqUU+GNA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="41500384"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="41500384"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2025 06:00:09 -0800
-X-CSE-ConnectionGUID: 5wdBO304QIGqIKmBnH0WxA==
-X-CSE-MsgGUID: o2kscnJVSLCiJ/DTQH/+dw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="120502479"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2025 06:00:02 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tmvTa-0000000F0fX-0FCE;
-	Tue, 25 Feb 2025 15:59:58 +0200
-Date: Tue, 25 Feb 2025 15:59:57 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Matti Vaittinen <mazziesaccount@gmail.com>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Daniel Scally <djrscally@gmail.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E5eFRb94"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4399ca9d338so34882735e9.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 25 Feb 2025 06:36:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740494213; x=1741099013; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZwiobQ+ov2NGgIChlOLIJyU8mL2VZ/8aCAPBJC6i4xg=;
+        b=E5eFRb94k/lAohWscfh8NWW/UKkRJsTBMyPUnk7VIFh4sY8G1FmqB4vLtItmH5M0F+
+         50HEnmm85bgR/rKCkhhtxz07ivKwErHDAgWtKTtli0v/DKWiCaeXOWnKMfd5dhKGvN0s
+         32BcLZ6u1m9Oa/lQHmdmrpUVtBkbI7nPlgYcouryQadcP5czZLZdXoI6E3WuXCvdJXAA
+         4Ar841bwvb6Bt91IXU7QozDVJ+puLp/MFAFfF6lj84iKtY++fRHK5H9obBsZYdEiay4F
+         2HiIJv41ig600ga+ILjnaIZWd13ugvYRMXncGEGcVXe+8STLB7eNDHMK8C4Q2AvGMlXK
+         HCbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740494213; x=1741099013;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZwiobQ+ov2NGgIChlOLIJyU8mL2VZ/8aCAPBJC6i4xg=;
+        b=ZU54wJLcZYehv2a70XOwswgP/Z0KZvpVoTMc2Q/5EsIDVKViskTob5+yDlEdOF9una
+         2mYTB7jfjWqmkI9z37HxJSh0mEqxjDPCnyu+U8yhXF463siQQxJD44F7WypkcHBSU7yZ
+         YiJeh4P0p0xpA5/GIWASm6nDhNan2tXD863PuSD3asWOhkdSQdJJAl1Z0N6FH0zLcsyR
+         5xPF4GpE/tWQeKVhUQFUyDT0w4NFYtOUJj5B5V0cW+aGFgNEcFACU5JlVufNgEeJ9A2F
+         3SpALmKmJnS/MbTLp2yckpJShFkp7eUiNl145Idjo9poGuy+zFPzk7Kb1fDv/BRbupYm
+         Niwg==
+X-Forwarded-Encrypted: i=1; AJvYcCUkp5Gt/Kk+CvUWHscx+2+KQ942vbZ7ISoZ1T4Eqhe7jlJKYoMZsEUTfozA9HWmL6osIGKOTqNRNHAeTQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy92Dmfoj2gT14LIp4oj7Q+dTHKUuOE+tWOSMvhHc7JdicaKWng
+	rCzVuX0s1rrEZHYOY754vvJ9Dq71Va9mHtfJGeqNkZqYNLgocARU
+X-Gm-Gg: ASbGncvvkriow8llFj2b09L430Hcqgzkf64FUxZrLYErTYEjAzroPJjjscP8loOWRDF
+	4FCU3ox8xaylzaWuxkT95uzfDyoMIZQujoVC48weQiO6ID8myM/Pe25OtZ1Xpyxa5zIpVANmz+A
+	z4ofHMPYB5zy7sYHjwmzhDrQoSWPuPgLdBTpgYFCzpo5XQje7zamQPsWkRDPWx5MqW8UrOoamSR
+	KoQfYO/eVsjcWvTKySIxMOPv3Jd9UrkNic94HPK/MftT2AJn5+vN8xVYYB5gd2pUoIFckwu/PWV
+	o7moVMPoooSa3lvaljNPPDMhg9tuPt6UczTD7koBDu9NNBJiE9C9i67oKU0LLy0=
+X-Google-Smtp-Source: AGHT+IHqYyNIhjlrYWJKlXkPU9c+6qRV/sFcYlFP3Oo19VLSLbGLfo17beLiyZrjDoc/9WsbiQBXqQ==
+X-Received: by 2002:a05:600c:35cb:b0:439:942c:c1cd with SMTP id 5b1f17b1804b1-43ab0f41698mr32827425e9.15.1740494212733;
+        Tue, 25 Feb 2025 06:36:52 -0800 (PST)
+Received: from Junction.dargent.eu (242.76.29.93.rev.sfr.net. [93.29.76.242])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-390cd8829cesm2474493f8f.49.2025.02.25.06.36.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Feb 2025 06:36:52 -0800 (PST)
+From: Regis Dargent <regis.dargent@gmail.com>
+To: 
+Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
-	Nuno Sa <nuno.sa@analog.com>, David Lechner <dlechner@baylibre.com>,
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-	Guillaume Stols <gstols@baylibre.com>,
-	Olivier Moysan <olivier.moysan@foss.st.com>,
-	Dumitru Ceclan <mitrutzceclan@gmail.com>,
-	Trevor Gamblin <tgamblin@baylibre.com>,
-	Matteo Martelli <matteomartelli3@gmail.com>,
-	Alisa-Dariana Roman <alisadariana@gmail.com>,
-	Ramona Alexandra Nechita <ramona.nechita@analog.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v4 02/10] property: Add
- device_get_child_node_count_named()
-Message-ID: <Z73M3Ua6u1FpgBEK@smile.fi.intel.com>
-References: <cover.1740421248.git.mazziesaccount@gmail.com>
- <29ec24f1498392cafbecc0e0c0e23e1ce3289565.1740421248.git.mazziesaccount@gmail.com>
- <Z72QAOA9xXbP16K-@kuha.fi.intel.com>
- <Z72Zp8tpnvlFGdQ_@smile.fi.intel.com>
- <ad39b453-7e5b-49bd-a4fd-6a4988636130@gmail.com>
- <Z72d7TzZ21WITW3f@smile.fi.intel.com>
- <893a3c45-537e-47ad-afbd-1e5d3b9abe2c@gmail.com>
+	linux-watchdog@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3] watchdog: sunxi_wdt: Allow watchdog to remain enabled after probe
+Date: Tue, 25 Feb 2025 15:36:37 +0100
+Message-Id: <20250225143638.1989755-1-regis.dargent@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <893a3c45-537e-47ad-afbd-1e5d3b9abe2c@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Feb 25, 2025 at 03:29:17PM +0200, Matti Vaittinen wrote:
-> On 25/02/2025 12:39, Andy Shevchenko wrote:
-> > On Tue, Feb 25, 2025 at 12:29:31PM +0200, Matti Vaittinen wrote:
-> > > On 25/02/2025 12:21, Andy Shevchenko wrote:
-> > > > On Tue, Feb 25, 2025 at 11:40:16AM +0200, Heikki Krogerus wrote:
+Hi,
 
-...
+V3 of the patch allowing sunxi watchdog to remain enabled after probe.
+This 3rd version is mainly about code cleanup.
 
-> > > > > 
-> > > > > I did not check how many users are you proposing for this, but if
-> > > > > there's only one, then IMO this should not be a global function yet.
-> > > > > It just feels to special case to me. But let's see what the others
-> > > > > think.
-> > > > 
-> > > > The problem is that if somebody hides it, we might potentially see
-> > > > a duplication in the future. So I _slightly_ prefer to publish and
-> > > > then drop that after a few cycles if no users appear.
-> > > 
-> > > After taking a very quick grep I spotted one other existing place where we
-> > > might be able to do direct conversion to use this function.
-> > > 
-> > > drivers/net/ethernet/freescale/gianfar.c
-> > > 
-> > > That'd be 2 users.
-> > 
-> > I haven't checked myself, I believe your judgement,
-> 
-> I took a better look and you obviously shouldn't believe :) The gianfar used
-> of_node instead of the fwnode. So, it'd be a single caller at starters.
+Best regards,
+Regis
 
-...which is the same as dev_of_node(), which means that you can use your
-function there.
-
--- 
-With Best Regards,
-Andy Shevchenko
+Jernej Škrabec:
+  I wouldn't add checks on CONFIG_WATCHDOG_HANDLE_BOOT_ENABLED here.
+  My understanding is that this config is already managed in the generic
+  watchdog part, as long as the WDOG_HW_RUNNING bit matches the actual
+  state of the HW watchdog timer.
+  I only saw one reference in a HW driver, stm32_iwdg, where they cannot
+  read the watchdog state, so they start it and set the WDOG_HW_RUNNING
+  bit so that both match.
 
 
