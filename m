@@ -1,163 +1,195 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2086.outbound.protection.outlook.com [40.107.223.86])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 182951624FA;
-	Tue, 25 Feb 2025 20:18:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.86
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740514731; cv=fail; b=FrO75X6Lz1ZmoUYmn+ohyOt2J8SbU3uFwtuOpYRQAgdp8upSn021Mvb63R/uXlP4bLPdihvDZ3BVl1tEJBEpN9MeqdNR0igj/K7ownELWvqFlCfOQC2le/Ti7q2g0kCouHwAZEZVLLqd/nmKVVtctMYEP2aYQITGO48bs3Cwbb4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740514731; c=relaxed/simple;
-	bh=QAmk4TwmtSW3rkkzTP/k2Jg1zgmCkzLkkyJ2pkVNKHo=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mTW0Kxr8MixLtt0DyL5a6BHovpF488QgksbK7/23CqxeF7xTj5F617NDzMosO5tUGhy56Ue/6Scnqdy/ECtjZlAqhIn3lOoINUbicIWxvQojc9E0zfkKxTwoa9FOD7q0gTO16W7s/ANF9h3IoRkqxlZep3rCQmaXzRr6+VZy8AM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=LtJZSq8d; arc=fail smtp.client-ip=40.107.223.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF18518DB2F
+	for <linux-sunxi@lists.linux.dev>; Tue, 25 Feb 2025 21:51:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740520299; cv=none; b=k3o4ecikhWybQsJllZISQG3F0aqgncUOnHhsSbfTGAnhnGkuH4X813oyWTqHiDrE9J0H+97F0I2Dx7/ukwdRYMeI2zsUjDEpJ3++tGbxYvCBhTMQL3bLg5jQlZrIhLvK/Rk/0Z+O31BlreH7TgXKVsoxOqnzDLy++AvYSzlXASM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740520299; c=relaxed/simple;
+	bh=zUHi0AJJJCLJAhCclTuxVVO4dK4Q4dVPyAyoh9UCuUM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pfkRilHMq2lygDsvMcY+3V0cgb3ECmnfHIjhtcvoUEWS8LDt9GSEzW0Ycm43FEPq2uUJ2H6MWpE/yY4JRCD4VYG8qjYICP2sp7lmfh3yE5jYMoxbfwzWOGKlOT5RwKKQ+fgvk1P2PNf9oZ6UJ2vMCLt6J7Zn/equXVsx0GwA/Dw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YRcFx+14; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="LtJZSq8d"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=sCvEKhQrXhNa6Uis5T9Yvy9v0IfNrL6QDj2rg0OMeP4vTSQGX3oFREvh5xKYRuXbnpkOvCWDaSA5XyU0cjxxl5EHv7fjxPzJP5p+a+LjeSOYPkMNFZD6EibGoOOQJDodURNQZSC76mZFZtnzURcy4HK0Ai9AkDBwgLGZ7B3BwDszni3OylWwoZuTYHO6PZqkE4aZk/kn9nyUbxYt+CyfBr7qnT8S5WBtNazT1kiTQ/5g/pM34iTX/uhkY1Qfn5WPk0kTgia3ECRn/VyGC4CqfdW6OArp6ad7KdJ51pUzKBZSopakRmU64DZuGSz+eFnR2WWtH6A3DTxH+muqKzzdxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=z+Wfp47wFUZwxF8rr0oKUekbERNmPTH7Ydeb1PR1NtM=;
- b=g+tGamm7+aZ0aKe+MQ86VOZXL4dlwMnXZ9TrDw/7X7RW0D688qnXmEvCvAzPWL7tkfd4hI4/jGqO6OkToLH0llkAdhrncA+guxyVNtVO9HluVTfntL3+LNFDwfE01OnplAT+XyvbpG9SKFWl6BBhs2PW+Wj7UHWkgSW4mVA4J1gJb8pKD0YyqrgWB3JYkUj+dUv/t3KQF6leuPf76u7bHRUOdVlAZqGPfC2K6cEl1NTLanaa51aJPH6aBi9YqEpQCB2ABx9WIKw5VepBKIBQl7i/22F78bWuEr9neIQ0Fq49AnJE+0RbpdAIpxvOtMs10kf9cksbB/Qhocc0YvGMKw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=dabbelt.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=z+Wfp47wFUZwxF8rr0oKUekbERNmPTH7Ydeb1PR1NtM=;
- b=LtJZSq8dzFeqn6E3sZzj+6QzQ+QLUYO6b+8Rnb8fCFJziFuGSoVrbl0nALelVn70LemrhksoFubaBlKWSVs7C7h1v682zv/MZBsxYxmA4rKqCU2x+N4wlTRNTowZMQMVkTgksIGQBErbT7aOt2FGMBKNw5Hs8H1ppxHmXJb5TDAYSvgC/KXrpx1MGofftrqfeVzRnPuEb1ub2xYV1ngrQ+LfLoVvPwZLF6K9ZzaCNWzTgwCMpD3m4nZ0pNQHTJdSLyyNb18FyoxMNS1cDUdcOccIcBJDPkBeRdY/NBRpbax7o1gCWh8cfA85xQufQxg3n43Y0mAd1TrSQdWuJUhlrQ==
-Received: from SN7PR04CA0044.namprd04.prod.outlook.com (2603:10b6:806:120::19)
- by DM4PR12MB6446.namprd12.prod.outlook.com (2603:10b6:8:be::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8489.18; Tue, 25 Feb 2025 20:18:45 +0000
-Received: from SA2PEPF000015CB.namprd03.prod.outlook.com
- (2603:10b6:806:120:cafe::39) by SN7PR04CA0044.outlook.office365.com
- (2603:10b6:806:120::19) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8466.21 via Frontend Transport; Tue,
- 25 Feb 2025 20:18:44 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- SA2PEPF000015CB.mail.protection.outlook.com (10.167.241.201) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8489.16 via Frontend Transport; Tue, 25 Feb 2025 20:18:44 +0000
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Tue, 25 Feb
- 2025 12:18:17 -0800
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail202.nvidia.com
- (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Tue, 25 Feb
- 2025 12:18:17 -0800
-Received: from Asurada-Nvidia (10.127.8.11) by mail.nvidia.com (10.129.68.10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14 via Frontend
- Transport; Tue, 25 Feb 2025 12:18:15 -0800
-Date: Tue, 25 Feb 2025 12:18:13 -0800
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-CC: Alim Akhtar <alim.akhtar@samsung.com>, Alyssa Rosenzweig
-	<alyssa@rosenzweig.io>, Albert Ou <aou@eecs.berkeley.edu>,
-	<asahi@lists.linux.dev>, Lu Baolu <baolu.lu@linux.intel.com>, David Woodhouse
-	<dwmw2@infradead.org>, Heiko Stuebner <heiko@sntech.de>,
-	<iommu@lists.linux.dev>, Jernej Skrabec <jernej.skrabec@gmail.com>, "Jonathan
- Hunter" <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>, "Krzysztof
- Kozlowski" <krzk@kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-riscv@lists.infradead.org>, <linux-rockchip@lists.infradead.org>,
-	<linux-samsung-soc@vger.kernel.org>, <linux-sunxi@lists.linux.dev>,
-	<linux-tegra@vger.kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
-	Hector Martin <marcan@marcan.st>, Palmer Dabbelt <palmer@dabbelt.com>, "Paul
- Walmsley" <paul.walmsley@sifive.com>, Robin Murphy <robin.murphy@arm.com>,
-	Samuel Holland <samuel@sholland.org>, Suravee Suthikulpanit
-	<suravee.suthikulpanit@amd.com>, Sven Peter <sven@svenpeter.dev>, "Thierry
- Reding" <thierry.reding@gmail.com>, Tomasz Jeznach <tjeznach@rivosinc.com>,
-	Krishna Reddy <vdumpa@nvidia.com>, Chen-Yu Tsai <wens@csie.org>, Will Deacon
-	<will@kernel.org>, Bagas Sanjaya <bagasdotme@gmail.com>, Joerg Roedel
-	<jroedel@suse.de>, Pasha Tatashin <pasha.tatashin@soleen.com>,
-	<patches@lists.linux.dev>, David Rientjes <rientjes@google.com>, "Matthew
- Wilcox" <willy@infradead.org>
-Subject: Re: [PATCH v3 00/23] iommu: Further abstract iommu-pages
-Message-ID: <Z74lhX646QAgj+Pf@Asurada-Nvidia>
-References: <0-v3-e797f4dc6918+93057-iommu_pages_jgg@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YRcFx+14"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-22185cddbffso4098205ad.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 25 Feb 2025 13:51:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740520296; x=1741125096; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=h7px0Ndhq9lUrgjQFROlw953RzIYIbSKavntnqGmD0o=;
+        b=YRcFx+14ynXxqRZnRxEYJf+dmmt0gzGvDXfaFm7b7xS9Ja+eTsdw+UizyHwFaCgTDq
+         mHR81ByE7z61pzKvabASq5igRS1MP4cW2HootRcY8C0Z+4E1uWNhbqtqRmZA1BRkt40p
+         qMyRoMR7Wx7B3JgLSC2Td/xOTvrkuqk4iy5+iIpa2Vcg+CDr6eGpJ1rgoll4oPSxsxjR
+         xYLy0UxNFpSgq4Xkbb2FMFh7xU+Frt8Pff+tv0L+gAQmDpY8oFnWLxENuXNEwAK7WU2i
+         vwdg9qZf0wIrsBK7HqGqDOwFIW945SyZx9a4tcO2Vix6Qj5JWpshPHH+aj5h98vg/ayN
+         anNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740520296; x=1741125096;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h7px0Ndhq9lUrgjQFROlw953RzIYIbSKavntnqGmD0o=;
+        b=e2Ti4fkXcPFy7KC3a+io8PfIhCUvnUVBul6p1c6B/2OJgpZbKzem83abR43VCL10wa
+         fis4Vza/BcASxc9MP2qChHJEwPW4S9sn0PhlhwqUVtyy6XR4k7rQNkr0ZueNeF75SRAC
+         uwtHpTWmcUPowEp5N8BY3Rb+4c7dI+2MXCbNj4uU0BjvxCOE2J18PYDW+d+FnfccGte2
+         MdRKN3hGzrSx9S58Wzh6HblVb4Ab19MS9bD1Rdd7cTOOtJueZS7wPppJB1j8+aLrsH0C
+         XrFsDaAGm4QElRlsn8ihW5pJttUiGnAEwzwHUlNopS4GFWHv5ka1i/e/JQoWg52LvlWW
+         PVeA==
+X-Forwarded-Encrypted: i=1; AJvYcCWuukvB2KXTj6O9/biMeyDcjm2rvD2KdCY13hyyE1f12jQLnHNCT3fYzMCKgy7HmzTTkFirFj2mOAUa0w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxbbA6+mVBy3v8a78am0fKt39f7dgQ/dFo9PBj0n7uV1huq5468
+	s80Q0nTjXB9MK25CLmvkiqvGii2Atir+GYZrA5KTcaQ+q6GuPZvW
+X-Gm-Gg: ASbGncusTYN2hRrCAWI5TK1chihaexqvw6y1Q3WhMUlz8/OiChoHAEKleqS/g66tvjP
+	ab7PvX+pRFfDLG2dHH/QtRtD5OQ10CKKxL41gaVFs1jw4DEFI/4J3pD7RGqpWCNmeeoJNNwk5im
+	fIpI4GUBoncG/jbcMEvIZReYzWA2ZMSm+pkZR47Jg0aYb2OyyZlsewUg4HGDQt/0p0GK4mmCCg5
+	XMRncDqkhs11rayi19Bmf6hl1yS/oETqWbHoD2x1lIHOsX+fRl9xThU558tesQh+cp6UPeVPpT1
+	e9i3+UiFBc+0mmoKI6ksVOvp/NAT8Y9+EwKuSooDQDbO6ZN8Urf2HgGb9JNjDfEdbBMxG/tKXtA
+	=
+X-Google-Smtp-Source: AGHT+IFDUxCf16vlokyauZ7By83P4bZv10+rmxrvEgQvW7LhaUGLdE7Sqg2syC9gOosegx4KhIy6Dg==
+X-Received: by 2002:a05:6a21:150b:b0:1ee:c8a4:c329 with SMTP id adf61e73a8af0-1eee2c8c34cmr36492575637.0.1740520295994;
+        Tue, 25 Feb 2025 13:51:35 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-aeda75a0bb7sm1883945a12.12.2025.02.25.13.51.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Feb 2025 13:51:34 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <2547277e-d9c0-4138-abaa-7afbff1ba3ca@roeck-us.net>
+Date: Tue, 25 Feb 2025 13:51:32 -0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <0-v3-e797f4dc6918+93057-iommu_pages_jgg@nvidia.com>
-X-NV-OnPremToCloud: AnonymousSubmission
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF000015CB:EE_|DM4PR12MB6446:EE_
-X-MS-Office365-Filtering-Correlation-Id: fa378399-1df7-4112-295a-08dd55d99aa9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|82310400026|1800799024|7416014|376014|13003099007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?j4roXWx5zY3VU4LvfxWFtOAqd6Z/Oeq1JnT/4WUreGed0G7hao8Ocy5xqHSI?=
- =?us-ascii?Q?QkN3TFcJp1tQMmQeEzmGho495EHZ+zlZGygzLS46JE4/yRjNX6ET6Yo0tjk6?=
- =?us-ascii?Q?R+BHRsnqRKCsopqwSStq05v+oUPNsn75copRIgo6kJcR7uOZDNHYiV7NRp3g?=
- =?us-ascii?Q?t+JZS5Sx7zsvEmOwZLeOyIhERBKQIlsAb5URpMI7NU6Q0GxH89RZL271YHSN?=
- =?us-ascii?Q?58h9P9ZP2bRE21jFgsunFquZb74qpGIXTQKth3eHbd9JK/6WaAsQ4/NOrB+4?=
- =?us-ascii?Q?e3+GJd808e66wS6cbbmHQbYo/tmUmHejKBo9JcoMLkykHg9XuO9Un5cnTN2X?=
- =?us-ascii?Q?E+erxPgQD3ZlijY+5dlxsIEkY+mPvlel8M0NiFAO4806VLWzzsM/dM99rFOQ?=
- =?us-ascii?Q?nQnug+flz5iIuwW0oltZvXHISRtPDTce8yKZ7yfF97Dqsp6cL1aV+77+EBLd?=
- =?us-ascii?Q?46J8+KSLzxlQ8vrs/Wlw0i1faebufALPF8soaY9Bj8PUqNsO1SLL11BLI0y9?=
- =?us-ascii?Q?G3sLEd6uDZwmLzBWXK6rOEVfyjv4mK3V98iliWfEIqZSU/VzRv5MUB2hY4l5?=
- =?us-ascii?Q?UsVUACo5FJANE87Bm/k9yDba81uy/pRMfHiDlhQRBneOnxn040AJL7aK6xeN?=
- =?us-ascii?Q?9rKVP9Y/S5z4hUo5A6m1dUxQc+AVgTNHZiZSsIW9Df2/rOCWhanfLV2Shevp?=
- =?us-ascii?Q?SX0rjrNo+uACsKYkpX5bvkGT9YTJZDSNKXYmR8GWlZt9ZuL+5X1DZMd2SzLt?=
- =?us-ascii?Q?oY88KWLzcnm6EiU/bNxqEDQzFcbroIAAHFcjiPTGh1wI82yjZJlvX8Zb2AyL?=
- =?us-ascii?Q?VU/yfkdeF4/0BZpXGDipMoZSyVq+UQr/go/XfWmSzPzHvCRF5o9HDTsNR6uj?=
- =?us-ascii?Q?ZJKJT7KX0nQzXu/50hVzPHmGDUNdAhQo4r/y9wsbQu5Rtn4LtXkuNM6YVhg9?=
- =?us-ascii?Q?M6UxJuSjoDZb+wQPei2aMKyLu6fzR8xqk0ehlhJ5Jsf7w7R+othUbhT1eB0T?=
- =?us-ascii?Q?l0X1ADY+Ibr8HjEJleNeb6mCEh7Rnr7sXuZ/Cz4CZdX5egk0G0wLAmStq2YJ?=
- =?us-ascii?Q?0douXwPLTmC2J/55eJo03qY7hujtv/nodnBsW8wyX7RZe21I4Cl5LgL1u6F6?=
- =?us-ascii?Q?lTWz9mlvhNrEK4bawE8jN4IWYydDLzg/ukqYyO4MC4G+OQsJjf9ottTq63mP?=
- =?us-ascii?Q?VYeJoBqW8k5rHlWs/5Rzj0M8MTvWmNuGLhTshj4znUV93P0jPTKtI8fEZEcI?=
- =?us-ascii?Q?SnQWaql/bYoqZYCjnZiR+TGH2dw73SZ904avonehq6OIq+7oALiFqU8dDMJt?=
- =?us-ascii?Q?ACucnoqkOk+oRCsEV4WaDwxgXKUUMzgiB2abRxXxOWXr42941LQqd0HUTbHD?=
- =?us-ascii?Q?h+jtxJzVTjZDlzyf0uv7x26jIQ75rhXi2wqh0dzuqR0dgCz3f+ndtbbGW0dR?=
- =?us-ascii?Q?Yg8cMe//qyWWfzcTGbkxBiLty9r1ZRR8j8IJqc9VIkQTnDBIQfAcsy6e29+0?=
- =?us-ascii?Q?yKyBLnkn4g2ZxP0=3D?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(1800799024)(7416014)(376014)(13003099007);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2025 20:18:44.6270
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: fa378399-1df7-4112-295a-08dd55d99aa9
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SA2PEPF000015CB.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6446
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] watchdog: sunxi_wdt: Allow watchdog to remain enabled
+ after probe
+To: Regis Dargent <regis.dargent@gmail.com>
+Cc: Wim Van Sebroeck <wim@linux-watchdog.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, linux-watchdog@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20250225143638.1989755-1-regis.dargent@gmail.com>
+ <20250225143638.1989755-2-regis.dargent@gmail.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <20250225143638.1989755-2-regis.dargent@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Feb 25, 2025 at 03:39:17PM -0400, Jason Gunthorpe wrote:
-> This is on github: https://github.com/jgunthorpe/linux/commits/iommu_pages
+On 2/25/25 06:36, Regis Dargent wrote:
+> If the watchdog is already running during probe, let it run on, read its
+> configured timeout, and set its status so that it is correctly handled by the
+> kernel.
 > 
-> v3:
->  - Fix comments
->  - Rename __iommu_free_page() to __iommu_free_desc()
->  - Retain the max IMR table size comment in vt-d
+> Signed-off-by: Regis Dargent <regis.dargent@gmail.com>
+> 
+> --
+> 
+> Changelog v1..v2:
+> - add sunxi_wdt_read_timeout function
+> - add signed-off-by tag
+> 
+> Changelog v2..v3:
+> - WDIOF_SETTIMEOUT was set twice, and other code cleanup
+> ---
+>   drivers/watchdog/sunxi_wdt.c | 45 ++++++++++++++++++++++++++++++++++--
+>   1 file changed, 43 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/watchdog/sunxi_wdt.c b/drivers/watchdog/sunxi_wdt.c
+> index b85354a99582..d509dbcb77ce 100644
+> --- a/drivers/watchdog/sunxi_wdt.c
+> +++ b/drivers/watchdog/sunxi_wdt.c
+> @@ -140,6 +140,7 @@ static int sunxi_wdt_set_timeout(struct watchdog_device *wdt_dev,
+>   		timeout++;
+>   
+>   	sunxi_wdt->wdt_dev.timeout = timeout;
+> +	sunxi_wdt->wdt_dev.max_hw_heartbeat_ms = 0;
+>   
+>   	reg = readl(wdt_base + regs->wdt_mode);
+>   	reg &= ~(WDT_TIMEOUT_MASK << regs->wdt_timeout_shift);
+> @@ -152,6 +153,32 @@ static int sunxi_wdt_set_timeout(struct watchdog_device *wdt_dev,
+>   	return 0;
+>   }
+>   
+> +static int sunxi_wdt_read_timeout(struct watchdog_device *wdt_dev)
+> +{
+> +	struct sunxi_wdt_dev *sunxi_wdt = watchdog_get_drvdata(wdt_dev);
+> +	void __iomem *wdt_base = sunxi_wdt->wdt_base;
+> +	const struct sunxi_wdt_reg *regs = sunxi_wdt->wdt_regs;
+> +	int i;
+> +	u32 reg;
+> +
+> +	reg = readl(wdt_base + regs->wdt_mode);
+> +	reg >>= regs->wdt_timeout_shift;
+> +	reg &= WDT_TIMEOUT_MASK;
+> +
+> +	/* Start at 0 which actually means 0.5s */
+> +	for (i = 0; (i < WDT_MAX_TIMEOUT) && (wdt_timeout_map[i] != reg); i++)
 
-Ran some sanity in baremetal with some DMA/ATS flow on ARM64. Also
-tested the kernel with a stage-2 setup via iommufd running a vSMMU
-enabled VM, the guest kernel doesn't have these changes though.
+Unnecessary (). On top of that, its complexity is unnecessary.
+The timeout in seconds, except for reg == 0, is wdt_timeout_map[reg],
+with values of 0x0c..0x0f undefined. Worse, the above code can access
+beyond the size of wdt_timeout_map[] if reg >= 0x0c.
 
-Tested-by: Nicolin Chen <nicolinc@nvidia.com>
+> +		;
+> +	if (i == 0) {
+> +		wdt_dev->timeout = 1;
+> +		wdt_dev->max_hw_heartbeat_ms = 500;
+
+This is an unacceptable API abuse. max_hw_heartbeat_ms, if set,
+should be 16000, not 500. You could set the timeout to 1 second instead.
+
+Guenter
+
