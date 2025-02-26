@@ -1,40 +1,36 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1B2724DFED
-	for <linux-sunxi@lists.linux.dev>; Wed, 26 Feb 2025 10:38:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D030619CD16
+	for <linux-sunxi@lists.linux.dev>; Wed, 26 Feb 2025 11:37:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740566324; cv=none; b=pmcRrCIjVCevPuv3rRcHFYd36IgfpjFkbzKwC3zQknWAwU4WnCU3EV1qsyCEwsfzS0D4lKObHLChLdm/rWsyRYPTuLD1Ffc613FZuH6cDEMJpAHZqgP6eBXAjs3c0+F7jnfcnyO86hmCpSgRPPNAjO+TdEfdZHEIC+mb2ZgHmhE=
+	t=1740569843; cv=none; b=u8/RyRI/iG9p3sMx3YghHfdgVILUUgahIkia3xisrRNm0Io4XB/0Wi+6YX16mhQ8GSDNRTw7BzLOnvCDu3MrwaH466jFWs1wIMUTmbPT13XpIXx6KcL23paQJakMjr/7iyhsCslwL9PWOCxc8/Q1RyXYGNgBgburQFAFJaANgLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740566324; c=relaxed/simple;
-	bh=dTkbp/z8Ll0lrnhbr35swQzc9aZOaXbiU3Fa3836y8E=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uPNEq+h3SqNPqAhVSFZ/Pqa7CgHlF72w4gcI5bJCpyRixq85sHdhII2mR25zgPVGe7KQ6eOCYKuy4gvwLfv6gDJWoTql002IM3DOjbjOdhMIE7nXs8unCmTQIIhWtQnGHb+8YELDx79C2EJIwR5Jlj7zxZirC/3yVdmGYaKCIBY=
+	s=arc-20240116; t=1740569843; c=relaxed/simple;
+	bh=4mKOWjwJkWjS/DjzFpBgi8fqNJTV++jbofeBK9RWiyY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=NMyK4KSVtgmJki4VO4XL9IMUbUphjvygnuCYWLwb0IogqRm9LMkhhmByVaefmMYizkjNKYAN4FCaC3nz19RH8XYCX+xq13KwM4kvd+UZr6U+4ZsIRLK02lBrRf0ycdzZcYv3KO4/MHTpzfYVmLUEY947X90HrdM/FUQDZ654stI=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 211FF2BC0;
-	Wed, 26 Feb 2025 02:38:57 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 323261516;
+	Wed, 26 Feb 2025 03:37:37 -0800 (PST)
 Received: from donnerap.arm.com (donnerap.manchester.arm.com [10.32.100.21])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 693993F6A8;
-	Wed, 26 Feb 2025 02:38:39 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9D19C3F673;
+	Wed, 26 Feb 2025 03:37:19 -0800 (PST)
 From: Andre Przywara <andre.przywara@arm.com>
-To: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: Maxime Ripard <mripard@kernel.org>,
+To: Peng Fan <peng.fan@nxp.com>,
+	Jaehoon Chung <jh80.chung@samsung.com>,
+	Tom Rini <trini@konsulko.com>
+Cc: Simon Glass <sjg@chromium.org>,
 	=?UTF-8?q?Kuba=20Szczodrzy=C5=84ski?= <kuba@szczodrzynski.pl>,
-	linux-clk@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Icenowy Zheng <icenowy@aosc.io>,
+	u-boot@lists.denx.de,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH 2/2] clk: sunxi-ng: d1: Add missing divider for MMC mod clocks
-Date: Wed, 26 Feb 2025 10:37:34 +0000
-Message-Id: <20250226103734.1252013-3-andre.przywara@arm.com>
+Subject: [PATCH 0/2] sunxi: clk/mmc: Fix T113-s3 MMC performance
+Date: Wed, 26 Feb 2025 11:37:10 +0000
+Message-Id: <20250226113712.1257061-1-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250226103734.1252013-1-andre.przywara@arm.com>
-References: <20250226103734.1252013-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -44,85 +40,31 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The D1/R528/T113 SoCs have a hidden divider of 2 in the MMC mod clocks,
-just as other recent SoCs. So far we did not describe that, which led
-to the resulting MMC clock rate to be only half of its intended value.
+Hi,
 
-Use a macro that allows to describe a fixed post-divider, to compensate
-for that divisor.
+as Kuba reported, the MMC performance of the Allwinner T113-s3 chips in
+mainline Linux is only half of what's expected. Checking that in U-Boot
+revealed that's actually only one fourth there, since on top of the same
+bug as in the kernel, we also calculate the base PLL frequency wrongly.
 
-This brings the MMC performance on those SoCs to its expected level,
-so about 23 MB/s for SD cards, instead of the 11 MB/s measured so far.
+Fix that by halving the frequency as reported by the clock function, and
+apply an extra divider of two in the MMC code - to compensate for that
+missing hidden divider (which is the same bug as in Linux).
+Seeing only one fourth of the base frequency makes the calculated
+internal divider go up by the factor of 4, so we get the MMC performance
+back its expected levels: from around 5.8 MB/s to ~23 MB/s.
 
-Fixes: 35b97bb94111 ("clk: sunxi-ng: Add support for the D1 SoC clocks")
-Reported-by: Kuba Szczodrzyński <kuba@szczodrzynski.pl>
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- drivers/clk/sunxi-ng/ccu-sun20i-d1.c | 43 ++++++++++++++++------------
- 1 file changed, 25 insertions(+), 18 deletions(-)
+Cheers,
+Andre
 
-diff --git a/drivers/clk/sunxi-ng/ccu-sun20i-d1.c b/drivers/clk/sunxi-ng/ccu-sun20i-d1.c
-index bb66c906ebbb6..d52a0ef43ea6c 100644
---- a/drivers/clk/sunxi-ng/ccu-sun20i-d1.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun20i-d1.c
-@@ -412,19 +412,24 @@ static const struct clk_parent_data mmc0_mmc1_parents[] = {
- 	{ .hw = &pll_periph0_2x_clk.common.hw },
- 	{ .hw = &pll_audio1_div2_clk.common.hw },
- };
--static SUNXI_CCU_MP_DATA_WITH_MUX_GATE(mmc0_clk, "mmc0", mmc0_mmc1_parents, 0x830,
--				       0, 4,	/* M */
--				       8, 2,	/* P */
--				       24, 3,	/* mux */
--				       BIT(31),	/* gate */
--				       0);
- 
--static SUNXI_CCU_MP_DATA_WITH_MUX_GATE(mmc1_clk, "mmc1", mmc0_mmc1_parents, 0x834,
--				       0, 4,	/* M */
--				       8, 2,	/* P */
--				       24, 3,	/* mux */
--				       BIT(31),	/* gate */
--				       0);
-+static SUNXI_CCU_MP_MUX_GATE_POSTDIV_FEAT(mmc0_clk, "mmc0", mmc0_mmc1_parents,
-+					  0x830,
-+					  0, 4,		/* M */
-+					  8, 2,		/* P */
-+					  24, 3,	/* mux */
-+					  BIT(31),	/* gate */
-+					  2,            /* post-div */
-+					  0, 0);
-+
-+static SUNXI_CCU_MP_MUX_GATE_POSTDIV_FEAT(mmc1_clk, "mmc1", mmc0_mmc1_parents,
-+					  0x834,
-+					  0, 4,		/* M */
-+					  8, 2,		/* P */
-+					  24, 3,	/* mux */
-+					  BIT(31),	/* gate */
-+					  2,            /* post-div */
-+					  0, 0);
- 
- static const struct clk_parent_data mmc2_parents[] = {
- 	{ .fw_name = "hosc" },
-@@ -433,12 +438,14 @@ static const struct clk_parent_data mmc2_parents[] = {
- 	{ .hw = &pll_periph0_800M_clk.common.hw },
- 	{ .hw = &pll_audio1_div2_clk.common.hw },
- };
--static SUNXI_CCU_MP_DATA_WITH_MUX_GATE(mmc2_clk, "mmc2", mmc2_parents, 0x838,
--				       0, 4,	/* M */
--				       8, 2,	/* P */
--				       24, 3,	/* mux */
--				       BIT(31),	/* gate */
--				       0);
-+static SUNXI_CCU_MP_MUX_GATE_POSTDIV_FEAT(mmc2_clk, "mmc2", mmc2_parents,
-+					  0x838,
-+					  0, 4,	/* M */
-+					  8, 2,	/* P */
-+					  24, 3,	/* mux */
-+					  BIT(31),	/* gate */
-+					  2,            /* post-div */
-+					  0, 0);
- 
- static SUNXI_CCU_GATE_HWS(bus_mmc0_clk, "bus-mmc0", psi_ahb_hws,
- 			  0x84c, BIT(0), 0);
+Andre Przywara (2):
+  sunxi: mmc: Fix T113-s3 MMC clock divider
+  sunxi: sun50i_h6: clock: fix PLL_PERIPH0 rate calculation
+
+ arch/arm/mach-sunxi/clock_sun50i_h6.c | 15 ++++++++++-----
+ drivers/mmc/sunxi_mmc.c               |  7 +++++++
+ 2 files changed, 17 insertions(+), 5 deletions(-)
+
 -- 
 2.25.1
 
