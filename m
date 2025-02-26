@@ -1,22 +1,23 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D030619CD16
-	for <linux-sunxi@lists.linux.dev>; Wed, 26 Feb 2025 11:37:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1FB5322A
+	for <linux-sunxi@lists.linux.dev>; Wed, 26 Feb 2025 11:37:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740569843; cv=none; b=u8/RyRI/iG9p3sMx3YghHfdgVILUUgahIkia3xisrRNm0Io4XB/0Wi+6YX16mhQ8GSDNRTw7BzLOnvCDu3MrwaH466jFWs1wIMUTmbPT13XpIXx6KcL23paQJakMjr/7iyhsCslwL9PWOCxc8/Q1RyXYGNgBgburQFAFJaANgLI=
+	t=1740569845; cv=none; b=DKlPGdkyNxHf44A8Fh3FEIQlbStwk/l0LLfivVgke4PbTCvFVYA0q3h9DLTKHs19d3tJ61pRqrlOnT6cM0z37Wke93kSw7h2AheHCMVuTwYUlZFar1CaQv+cwKIPWQAczlY8YmX4dwtKskOrDLL5h4BGuHYfanNMx2NAnJDi8+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740569843; c=relaxed/simple;
-	bh=4mKOWjwJkWjS/DjzFpBgi8fqNJTV++jbofeBK9RWiyY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=NMyK4KSVtgmJki4VO4XL9IMUbUphjvygnuCYWLwb0IogqRm9LMkhhmByVaefmMYizkjNKYAN4FCaC3nz19RH8XYCX+xq13KwM4kvd+UZr6U+4ZsIRLK02lBrRf0ycdzZcYv3KO4/MHTpzfYVmLUEY947X90HrdM/FUQDZ654stI=
+	s=arc-20240116; t=1740569845; c=relaxed/simple;
+	bh=f7y02WWaBWU+1ZiADLMvg4cEouuOr18QK7tg7o5qYxY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mcJil3fGxmycDcqMbs28lZU7aRdpaECbWTWd33/n/0PluirtgQ6NkC5njkILVKyjTE5N9QBngTCyl8tBJce1dXCCvvLmvRweoI4gmlxitgzxlqumHyRtVNl+EvKGWFwlKnmsZzhOAPMiRGF6U7e5wnIXh4TH0tD3tWsV4IOnlns=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 323261516;
-	Wed, 26 Feb 2025 03:37:37 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 141521BA8;
+	Wed, 26 Feb 2025 03:37:39 -0800 (PST)
 Received: from donnerap.arm.com (donnerap.manchester.arm.com [10.32.100.21])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9D19C3F673;
-	Wed, 26 Feb 2025 03:37:19 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 803593F673;
+	Wed, 26 Feb 2025 03:37:21 -0800 (PST)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Peng Fan <peng.fan@nxp.com>,
 	Jaehoon Chung <jh80.chung@samsung.com>,
@@ -27,10 +28,12 @@ Cc: Simon Glass <sjg@chromium.org>,
 	Icenowy Zheng <icenowy@aosc.io>,
 	u-boot@lists.denx.de,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH 0/2] sunxi: clk/mmc: Fix T113-s3 MMC performance
-Date: Wed, 26 Feb 2025 11:37:10 +0000
-Message-Id: <20250226113712.1257061-1-andre.przywara@arm.com>
+Subject: [PATCH 1/2] sunxi: mmc: Fix T113-s3 MMC clock divider
+Date: Wed, 26 Feb 2025 11:37:11 +0000
+Message-Id: <20250226113712.1257061-2-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20250226113712.1257061-1-andre.przywara@arm.com>
+References: <20250226113712.1257061-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -40,31 +43,38 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi,
+On the Allwinner D1/R528/T113-s3 SoCs the MMC clock source selected by
+mux value 1 is PLL_PERIPH0(1x), not (2x), as in the other SoCs.
+But we have still the hidden divisor of 2 in the MMC mod clock, so
+need to explicitly compensate for that on those SoCs.
 
-as Kuba reported, the MMC performance of the Allwinner T113-s3 chips in
-mainline Linux is only half of what's expected. Checking that in U-Boot
-revealed that's actually only one fourth there, since on top of the same
-bug as in the kernel, we also calculate the base PLL frequency wrongly.
+This leads to the actually programmed clock rate to be double compared
+to before, which increases the MMC performance on those SoCs.
 
-Fix that by halving the frequency as reported by the clock function, and
-apply an extra divider of two in the MMC code - to compensate for that
-missing hidden divider (which is the same bug as in Linux).
-Seeing only one fourth of the base frequency makes the calculated
-internal divider go up by the factor of 4, so we get the MMC performance
-back its expected levels: from around 5.8 MB/s to ~23 MB/s.
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Reported-by: Kuba Szczodrzyński <kuba@szczodrzynski.pl>
+---
+ drivers/mmc/sunxi_mmc.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Cheers,
-Andre
-
-Andre Przywara (2):
-  sunxi: mmc: Fix T113-s3 MMC clock divider
-  sunxi: sun50i_h6: clock: fix PLL_PERIPH0 rate calculation
-
- arch/arm/mach-sunxi/clock_sun50i_h6.c | 15 ++++++++++-----
- drivers/mmc/sunxi_mmc.c               |  7 +++++++
- 2 files changed, 17 insertions(+), 5 deletions(-)
-
+diff --git a/drivers/mmc/sunxi_mmc.c b/drivers/mmc/sunxi_mmc.c
+index 0b56d1405be..8f72d758e46 100644
+--- a/drivers/mmc/sunxi_mmc.c
++++ b/drivers/mmc/sunxi_mmc.c
+@@ -92,6 +92,13 @@ static int mmc_set_mod_clk(struct sunxi_mmc_priv *priv, unsigned int hz)
+ 		pll = CCM_MMC_CTRL_PLL6;
+ 		pll_hz = clock_get_pll6();
+ #endif
++		/*
++		 * On the D1/R528/T113 mux source 1 refers to PLL_PERIPH0(1x),
++		 * like for the older SoCs. However we still have the hidden
++		 * divider of 2x, so compensate for that here.
++		 */
++		if (IS_ENABLED(CONFIG_MACH_SUN8I_R528))
++			pll_hz /= 2;
+ 	}
+ 
+ 	div = pll_hz / hz;
 -- 
 2.25.1
 
