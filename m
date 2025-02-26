@@ -1,169 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE351221DBC
-	for <linux-sunxi@lists.linux.dev>; Wed, 26 Feb 2025 14:15:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DEBA19CC3E
+	for <linux-sunxi@lists.linux.dev>; Wed, 26 Feb 2025 15:54:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740579305; cv=none; b=mEQrK0eeA1e+OFfRCcLJ/mAW/cOzNqRvwk3Ul6XDBp55L7+9Uyzvdtzj8ov3TeXQB/hdoGLt22v3jDjuBn2NSD2QF6qtAxuKX7lAqKO+Vm5N09HJisTZ59IBvxIY1IPYQz7R3KzkDppQ5j089egZYr9hV5EtAAKZ2ME7zlPydAI=
+	t=1740585284; cv=none; b=eZ5d2Q3BiX2mdEn6s0Nac202WcPyJMNjH3VDqWg/RyAfwr4IhzkMdcS/3MAuL6Zpvesyn7bd0deHkMmJRy0HqP+/UeJ4uaHnfy1Dv++2YnHcF5kO+QzqFrVXaqHMTSat3XtwQsjJdQdRlzOctnQV6yz8YVDcC9aJe43PmvWcslc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740579305; c=relaxed/simple;
-	bh=DQfqoYcLRD2Zeo+43lklnMk6+hDgT7YZ/1xvKUYxQ1o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FZIV8kEWf2qFheLxQ3WoEv9dK6OIF9i/jNbZg4xJUff1Z2BV9sApan6dRhZ4EtidC8szceFk0VS50pWAJiIiuUWposdCpNCPU5ouohnOyzDNhvxFmdWnN3dJx899z5TwuySNO8vDInf5o5DLu1hIkSOFFzwnO2KYBWSKhffC+lE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sk5Gqcca; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1740585284; c=relaxed/simple;
+	bh=xL+xw2Aw3r+AqvgFsvVUq6XxhSK3pP8lfoSWv8yszpg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TLKpCrR29nNvDbpFWGLny1ENAbdqQaV3a2BDal/xZ3wEYg64WQKAeQ2YLiRc25qXz1WWynH7GlB2ikFIIwEP2RXvJAwvwINkyDdnZkll/RdDuwNWm+fWdomPvOZG8sbHZbozvHWzgw+B/mOtj+ZtpTm+7gJGjSaS/zY9U4Caeu0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cAB3qrSQ; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sk5Gqcca"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740579304; x=1772115304;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DQfqoYcLRD2Zeo+43lklnMk6+hDgT7YZ/1xvKUYxQ1o=;
-  b=Sk5GqccavzK/RHYX5afCizZwd/mjbV5jpNbxJixFuv058VGa+pOrwt3n
-   ZaTXob7BsyrJpkv8ynpHWzIGYK1OZ37zeiVN+bywEJ+jkRp38fVyfOM2/
-   WylGP/lFeW52p0/imaiCcIIf59qNbDUyHRyabeICvOemDcrqOMG0MGWBP
-   Zc26mxfOX1OnyKCwuMmbpWxhy8AnvpAumrSOVt1L0LOC9fPLsclIkq3pb
-   WDGDkZyktGAWEzyfNeLQj6pL6Y33qQPjFYwnfTbWWK94VPrKsaP2J2qfn
-   fI3mDwrAGTd2KUBx2o4HNity5WcKa64F6mTT/GaOJHrwGkmRX9PDwMQwR
-   Q==;
-X-CSE-ConnectionGUID: pxNCsbWTTKGiTh6laewilg==
-X-CSE-MsgGUID: ES3mg+acRryBDc1sSghReQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="52817158"
-X-IronPort-AV: E=Sophos;i="6.13,317,1732608000"; 
-   d="scan'208";a="52817158"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 06:11:23 -0800
-X-CSE-ConnectionGUID: SfzjqrcRQU6U9pWwkoyKjw==
-X-CSE-MsgGUID: DAtu5ZbIRzCICP2T7HfhTg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="121960718"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 06:11:15 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tnI7y-0000000FLJp-1jew;
-	Wed, 26 Feb 2025 16:11:10 +0200
-Date: Wed, 26 Feb 2025 16:11:10 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Matti Vaittinen <mazziesaccount@gmail.com>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Daniel Scally <djrscally@gmail.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
-	Nuno Sa <nuno.sa@analog.com>, David Lechner <dlechner@baylibre.com>,
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-	Guillaume Stols <gstols@baylibre.com>,
-	Olivier Moysan <olivier.moysan@foss.st.com>,
-	Dumitru Ceclan <mitrutzceclan@gmail.com>,
-	Trevor Gamblin <tgamblin@baylibre.com>,
-	Matteo Martelli <matteomartelli3@gmail.com>,
-	Alisa-Dariana Roman <alisadariana@gmail.com>,
-	Ramona Alexandra Nechita <ramona.nechita@analog.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v4 02/10] property: Add
- device_get_child_node_count_named()
-Message-ID: <Z78g_uiXumn4mvET@smile.fi.intel.com>
-References: <cover.1740421248.git.mazziesaccount@gmail.com>
- <29ec24f1498392cafbecc0e0c0e23e1ce3289565.1740421248.git.mazziesaccount@gmail.com>
- <Z72QAOA9xXbP16K-@kuha.fi.intel.com>
- <Z72Zp8tpnvlFGdQ_@smile.fi.intel.com>
- <ad39b453-7e5b-49bd-a4fd-6a4988636130@gmail.com>
- <Z72d7TzZ21WITW3f@smile.fi.intel.com>
- <893a3c45-537e-47ad-afbd-1e5d3b9abe2c@gmail.com>
- <Z73M3Ua6u1FpgBEK@smile.fi.intel.com>
- <720f9c69-ca1f-45cb-9f6e-c8e4703c9aad@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cAB3qrSQ"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5ded69e6134so11426425a12.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 26 Feb 2025 07:54:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740585281; x=1741190081; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xL+xw2Aw3r+AqvgFsvVUq6XxhSK3pP8lfoSWv8yszpg=;
+        b=cAB3qrSQaJlNvuFdZa4n8j9AAp1nYpg86mKg0E8OWva2datybwu2GiZy2Wu6EmVMyJ
+         /WLFGaQdL+fJ4TIUTCCJ/+EoYFjAislj8I2S+mt4PuPruqlNPJGeh2UTYL9xyVp7oYZA
+         0xmcvWQrfI7oFhbaconMi1Elrs1ujQT9yw9tcyUIrvryc/4jwJaGWIBwEDKx7qh0dRG8
+         TbRll6seAtsV8I6v6UzxY8CTdbHK5r1AMHQqIYe3LeqLZpc/EHzbaKpattGaM5t48BLt
+         7sGgceHAD+yqFktD7IgDyXTIwpq9jWN56xA2WnY8RGRiLAjLya9bA6UhJyxZEr/s/Rb2
+         K4rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740585281; x=1741190081;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xL+xw2Aw3r+AqvgFsvVUq6XxhSK3pP8lfoSWv8yszpg=;
+        b=AQ4UUI5Revl8p+N8QlNZpxd/Az7z3ATS/Mc3LNvY2VLgbrGFQsXoxXP6ODV+avnaRZ
+         SgukMXBMcD6ly7JeK1SUM50zfHLtqcQ5j04BUYcySX1m4UkJIXPUC1BIoSgHtDi4qdOp
+         cIW2uKdZnSbwhTP4/jNh5rvhXNb+5mxiqHU5yWma3G5mdJW5Cu+m1BkyCFTRYoVPn6g/
+         djS4SryQg4nK9Aq/pT+Vb4hvWUo5/XyB23CHhRl9qIxCDNHr/Gw6cFCMrNAo08k4dKUl
+         Ekg27pvn8InL/M9XxAHNsYvrIg/jPzEqQhghLS3lBJ97Sud9w62Fg40toKN+beV13x0c
+         eULA==
+X-Forwarded-Encrypted: i=1; AJvYcCX8aJr/Wb3FpzqGxavOInc19NAIFsOId8U2oy4ikqpAUnBITO5rH0XZnPY7KUY7DWg9istmzm8l9xEuOA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx2MLJ6T8KQjkBq7KAu7aT5xkFIpCUiMeRIioV3/KHGqupDVfJf
+	JbOl79dvAHuYl3w0lgKhqKSFg17PkdELueckq3t4z3Lnw3zSMhQD
+X-Gm-Gg: ASbGnctW4l4w4Ls7EjwKtjnVOpcCTVRHIATreEz5KxUWzu2lIA4QIpBLrWVmLZ0j8/g
+	2Zz5n1cLFdZQQi6tMUFlea9IT641PBVSfAF6agCcN5x3+/Yw1h/75chX5fidA3QiPAPbpKbrpb5
+	f7lu/Ru/OvlVKM1q5N0BOrmh0oc34BFpf1ciLro+WZ9MHUiHuqDZ80dNpTcy0HvCUnVw74CmOGw
+	03njoZ3p1mmW32e+0ILWOE0lHRmv5gVmDNZ3QYWymXm61upT3NwHrEledmq9nx4dZXlQKA6G57a
+	bKStw0ZQ0ufc+LJfUlTsMP4mgnEV8gOTwP6EN6JPz/6bh1j59+BeO2OdqPLW2tY5AkJfcdIs63C
+	/lQ==
+X-Google-Smtp-Source: AGHT+IHzcTLAAZYtrgS/xRMRmyIBTzvv6btGp6HKMLWs6niiUU/Cs8bJ2GYlkNJzz/HT1K+pdG5+dA==
+X-Received: by 2002:a05:6402:2b95:b0:5dc:7725:a0e0 with SMTP id 4fb4d7f45d1cf-5e4a0d830eemr4764150a12.15.1740585281184;
+        Wed, 26 Feb 2025 07:54:41 -0800 (PST)
+Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5e45b7174cesm2938378a12.34.2025.02.26.07.54.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Feb 2025 07:54:40 -0800 (PST)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Peng Fan <peng.fan@nxp.com>, Jaehoon Chung <jh80.chung@samsung.com>,
+ Tom Rini <trini@konsulko.com>, Andre Przywara <andre.przywara@arm.com>
+Cc: Simon Glass <sjg@chromium.org>,
+ Kuba =?UTF-8?B?U3pjem9kcnp5xYRza2k=?= <kuba@szczodrzynski.pl>,
+ Icenowy Zheng <icenowy@aosc.io>, u-boot@lists.denx.de,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 1/2] sunxi: mmc: Fix T113-s3 MMC clock divider
+Date: Wed, 26 Feb 2025 16:54:39 +0100
+Message-ID: <2359168.ElGaqSPkdT@jernej-laptop>
+In-Reply-To: <20250226113712.1257061-2-andre.przywara@arm.com>
+References:
+ <20250226113712.1257061-1-andre.przywara@arm.com>
+ <20250226113712.1257061-2-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <720f9c69-ca1f-45cb-9f6e-c8e4703c9aad@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On Wed, Feb 26, 2025 at 04:04:02PM +0200, Matti Vaittinen wrote:
-> On 25/02/2025 15:59, Andy Shevchenko wrote:
-> > On Tue, Feb 25, 2025 at 03:29:17PM +0200, Matti Vaittinen wrote:
-> > > On 25/02/2025 12:39, Andy Shevchenko wrote:
-> > > > On Tue, Feb 25, 2025 at 12:29:31PM +0200, Matti Vaittinen wrote:
-> > > > > On 25/02/2025 12:21, Andy Shevchenko wrote:
-> > > > > > On Tue, Feb 25, 2025 at 11:40:16AM +0200, Heikki Krogerus wrote:
+Dne sreda, 26. februar 2025 ob 12:37:11 Srednjeevropski standardni =C4=8Das=
+ je Andre Przywara napisal(a):
+> On the Allwinner D1/R528/T113-s3 SoCs the MMC clock source selected by
+> mux value 1 is PLL_PERIPH0(1x), not (2x), as in the other SoCs.
+> But we have still the hidden divisor of 2 in the MMC mod clock, so
+> need to explicitly compensate for that on those SoCs.
+>=20
+> This leads to the actually programmed clock rate to be double compared
+> to before, which increases the MMC performance on those SoCs.
+>=20
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> Reported-by: Kuba Szczodrzy=C5=84ski <kuba@szczodrzynski.pl>
 
-...
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-> > > > > > > 
-> > > > > > > I did not check how many users are you proposing for this, but if
-> > > > > > > there's only one, then IMO this should not be a global function yet.
-> > > > > > > It just feels to special case to me. But let's see what the others
-> > > > > > > think.
-> > > > > > 
-> > > > > > The problem is that if somebody hides it, we might potentially see
-> > > > > > a duplication in the future. So I _slightly_ prefer to publish and
-> > > > > > then drop that after a few cycles if no users appear.
-> > > > > 
-> > > > > After taking a very quick grep I spotted one other existing place where we
-> > > > > might be able to do direct conversion to use this function.
-> > > > > 
-> > > > > drivers/net/ethernet/freescale/gianfar.c
-> > > > > 
-> > > > > That'd be 2 users.
-> > > > 
-> > > > I haven't checked myself, I believe your judgement,
-> > > 
-> > > I took a better look and you obviously shouldn't believe :) The gianfar used
-> > > of_node instead of the fwnode. So, it'd be a single caller at starters.
-> > 
-> > ...which is the same as dev_of_node(), which means that you can use your
-> > function there.
-> 
-> I'm unsure what you mean. The proposed function
-> device_get_child_node_count_named() takes device pointer. I don't see how
-> dev_of_node() helps converting node to device?
-
-dev_of_node() takes the device pointer and dev_fwnode() takes that as well,
-it means that there is no difference which one to use OF-centric or fwnode
-API in this particular case. Just make sure that the function (and there
-is also a second loop AFAICS) takes struct device *dev instead of struct
-device_node *np as a parameter.
-
-> I think I could actually kill the whole gfar_of_group_count() function and
-> replace it with a direct call to the device_get_child_node_count_named() -
-> but I am not at all convinced that'd be worth including the property.h to a
-> file which is currently using only of_* -stuff. Well, I suppose it can be
-> asked from netdev peeps but I am not convinced they see it as a great idea.
-> 
-> If I misunderstood your meaning - please elaborate.
-
-The driver is quite old and has a lot of room to improve. Briefly looking it
-may be almost fully converted to fwnode, but it's not your call (only if you
-wish). Nevertheless, using agnostic APIs if they reduce code base is fine.
-We have drivers that do OF and fwnode mixed approach (for various reasons,
-one of which is the new API that is absent in OF realm.
-
--- 
-With Best Regards,
-Andy Shevchenko
+Best regards,
+Jernej
 
 
