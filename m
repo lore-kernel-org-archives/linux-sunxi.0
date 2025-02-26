@@ -1,93 +1,103 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8650322A
-	for <linux-sunxi@lists.linux.dev>; Wed, 26 Feb 2025 11:37:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2581F2192E1;
+	Wed, 26 Feb 2025 12:22:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740569847; cv=none; b=QEjw3fO28++VLl1S79z1KHsQkLp1JruPeKhFdCbEHHymwf18legSUKMVG2icu/OD/gsUUBeooQ1Y3Dk53w++5CoqCa8h9UDECjrRiJU8/wy63WhvK/A7iu1UwVLVRslBf7VCGeZCKMNbdIRvH4Z8gz2MzJCOumQ1MZMPy9s5LO0=
+	t=1740572543; cv=none; b=bYdvSBd1jIgQfNP9hC+X9Ux371g2cEaWn+fpKT/B8wIM/GhSYBA7f1ydq1jsJnr33tNDE8SWM8XGVJYx36GnaKBYdbJ0k2pks9X9EMEIHdfCwI9RXnjfMBh0SxkKHft+WbC2HLXlnv41FoJTsFrYpz5UZrwhuyPd9VEgy0ITqhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740569847; c=relaxed/simple;
-	bh=rThUbXKJi7PsNV6qvvIdfqQMeP2JiaAGn3O/T4UBvO4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=p010W0dq3w0JOItM+JTDyZoiPMArnBLkE98upgfTwCuZ43QF/Q1CcFL0Oij2vCRsQh6Xt+6n8CtCoIXIaa6eKKKrb7LOF+Oij9s47qrBoG1zZd9Dpg0F7Wvr96EWmWii3hjy1TiXs7FhP92WS4C4iOVbCmNpupgsuStlX/qF4w0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EB3261516;
-	Wed, 26 Feb 2025 03:37:40 -0800 (PST)
-Received: from donnerap.arm.com (donnerap.manchester.arm.com [10.32.100.21])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 63A683F673;
-	Wed, 26 Feb 2025 03:37:23 -0800 (PST)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Peng Fan <peng.fan@nxp.com>,
-	Jaehoon Chung <jh80.chung@samsung.com>,
-	Tom Rini <trini@konsulko.com>
-Cc: Simon Glass <sjg@chromium.org>,
-	=?UTF-8?q?Kuba=20Szczodrzy=C5=84ski?= <kuba@szczodrzynski.pl>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Icenowy Zheng <icenowy@aosc.io>,
-	u-boot@lists.denx.de,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH 2/2] sunxi: sun50i_h6: clock: fix PLL_PERIPH0 rate calculation
-Date: Wed, 26 Feb 2025 11:37:12 +0000
-Message-Id: <20250226113712.1257061-3-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250226113712.1257061-1-andre.przywara@arm.com>
-References: <20250226113712.1257061-1-andre.przywara@arm.com>
+	s=arc-20240116; t=1740572543; c=relaxed/simple;
+	bh=lFhxRXpv6QTFcMfVUvDqKANeqKNOPbO6YgonBgCYQJI=;
+	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=RxndwLWCCL5hu87V/4UGzq3BtNPZFj+j6eAh20/XMc2MNq4YUV+6JR6SlefukmcZ7aIuvcdG6pPJkvoLwo061Ce9yU1YXhsXbc/UPFS2hl02iwr0zLmGCkWdJxsmGu/+9AAWFm8kbfCfmoiUuiz3GVnnQYvunIEIhDAS6cQk1fM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bKxa+tzr; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bKxa+tzr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740572542; x=1772108542;
+  h=message-id:date:mime-version:cc:subject:to:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=lFhxRXpv6QTFcMfVUvDqKANeqKNOPbO6YgonBgCYQJI=;
+  b=bKxa+tzriX9SBviBJdHIMUH6iCJgBJEvxhkwM1m5hArCp2Sz5MP6G7P3
+   /hy5lb/BLJayYYMINt46SKFzoUdQlIt8ko/mrQ5FOGDn4h36gC1uH6JM+
+   eggHeaGCT0ohkZmGD5tXr4+vI/+2p7Epp9DEVBlks+pio6OI8KzFthkij
+   hf9HMNSJQBQNf/28iWlZijwCKwmGbwwWciUoChVuIaN+IDtZDrBL7HOEQ
+   YOmglOS33jEHb+R8XvCyL0FeEhHwfufZQMuB+9GM0KVKT1tDzOFufQSnm
+   oQf3V6/jwlZdbTuF7pPnpmG7KhmjHr594ORgAfp9zh/6Z0lSR1bYaZxXq
+   Q==;
+X-CSE-ConnectionGUID: +MzoPnBKQbGep6v6v3he3g==
+X-CSE-MsgGUID: N5nTX+1OQHOm85QuGJm0jQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="63877919"
+X-IronPort-AV: E=Sophos;i="6.13,317,1732608000"; 
+   d="scan'208";a="63877919"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 04:22:21 -0800
+X-CSE-ConnectionGUID: hCu3EQHDT2qlP3dV1KuKQw==
+X-CSE-MsgGUID: vpSaOO0DSI+Av8u8OcxQ2A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,317,1732608000"; 
+   d="scan'208";a="116691259"
+Received: from blu2-mobl.ccr.corp.intel.com (HELO [10.124.240.105]) ([10.124.240.105])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 04:22:13 -0800
+Message-ID: <caff123f-0910-4949-8512-acb77c6f0a8b@linux.intel.com>
+Date: Wed, 26 Feb 2025 20:22:10 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Cc: baolu.lu@linux.intel.com, Bagas Sanjaya <bagasdotme@gmail.com>,
+ Joerg Roedel <jroedel@suse.de>, Pasha Tatashin <pasha.tatashin@soleen.com>,
+ patches@lists.linux.dev, David Rientjes <rientjes@google.com>,
+ Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v3 16/23] iommu/pages: Allow sub page sizes to be passed
+ into the allocator
+To: Jason Gunthorpe <jgg@nvidia.com>, Alim Akhtar <alim.akhtar@samsung.com>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Albert Ou <aou@eecs.berkeley.edu>,
+ asahi@lists.linux.dev, David Woodhouse <dwmw2@infradead.org>,
+ Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-tegra@vger.kernel.org, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Hector Martin <marcan@marcan.st>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Robin Murphy
+ <robin.murphy@arm.com>, Samuel Holland <samuel@sholland.org>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Sven Peter <sven@svenpeter.dev>, Thierry Reding <thierry.reding@gmail.com>,
+ Tomasz Jeznach <tjeznach@rivosinc.com>, Krishna Reddy <vdumpa@nvidia.com>,
+ Chen-Yu Tsai <wens@csie.org>, Will Deacon <will@kernel.org>
+References: <16-v3-e797f4dc6918+93057-iommu_pages_jgg@nvidia.com>
+Content-Language: en-US
+From: Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <16-v3-e797f4dc6918+93057-iommu_pages_jgg@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On the Allwinner D1/R528/T113-s3 SoCs (NCAT2) the factors encoded in
-the PLL register describe the doubled clock rate, as in the other SoCs.
+On 2025/2/26 3:39, Jason Gunthorpe wrote:
+> Generally drivers have a specific idea what their HW structure size should
+> be. In a lot of cases this is related to PAGE_SIZE, but not always. ARM64,
+> for example, allows a 4K IO page table size on a 64K CPU page table
+> system.
+> 
+> Currently we don't have any good support for sub page allocations, but
+> make the API accommodate this by accepting a sub page size from the caller
+> and rounding up internally.
+> 
+> This is done by moving away from order as the size input and using size:
+>    size == 1 << (order + PAGE_SHIFT)
+> 
+> Following patches convert drivers away from using order and try to specify
+> allocation sizes independent of PAGE_SIZE.
+> 
+> Signed-off-by: Jason Gunthorpe<jgg@nvidia.com>
 
-Correct for that by always dividing the calculated rate by 2, except on
-the H6, where we need a divisor of 4 (no change here).
-
-This corrects the PERIPH0 clock rate as read by the MMC driver, and
-actually doubles the MMC performance on those NCAT2 chips.
-
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-Reported-by: Kuba Szczodrzyński <kuba@szczodrzynski.pl>
----
- arch/arm/mach-sunxi/clock_sun50i_h6.c | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
-
-diff --git a/arch/arm/mach-sunxi/clock_sun50i_h6.c b/arch/arm/mach-sunxi/clock_sun50i_h6.c
-index b424a7893ea..359513d1669 100644
---- a/arch/arm/mach-sunxi/clock_sun50i_h6.c
-+++ b/arch/arm/mach-sunxi/clock_sun50i_h6.c
-@@ -147,15 +147,20 @@ unsigned int clock_get_pll6(void)
- 	if (IS_ENABLED(CONFIG_SUNXI_GEN_NCAT2)) {
- 		div1 = ((rval & CCM_PLL6_CTRL_P0_MASK) >>
- 			CCM_PLL6_CTRL_P0_SHIFT) + 1;
--		m = 1;
- 	} else {
- 		div1 = ((rval & CCM_PLL6_CTRL_DIV1_MASK) >>
- 			CCM_PLL6_CTRL_DIV1_SHIFT) + 1;
--		if (IS_ENABLED(CONFIG_MACH_SUN50I_H6))
--			m = 4;
--		else
--			m = 2;
- 	}
- 
-+	/*
-+	 * The factors encoded in the register describe the doubled clock
-+	 * frequency, expect for the H6, where it's the quadrupled frequency.
-+	 * Compensate for that here.
-+	 */
-+	if (IS_ENABLED(CONFIG_MACH_SUN50I_H6))
-+		m = 4;
-+	else
-+		m = 2;
-+
- 	return 24000000U * n / m / div1 / div2;
- }
--- 
-2.25.1
-
+Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
