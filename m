@@ -1,64 +1,65 @@
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 913C13B19A
-	for <linux-sunxi@lists.linux.dev>; Wed, 26 Feb 2025 00:26:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D81D16DEB1
+	for <linux-sunxi@lists.linux.dev>; Wed, 26 Feb 2025 06:28:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740529608; cv=none; b=R2sRLliu1s7OmY6C7bA/egj8Vfhy45gLdtA/LqoxilEbXrxx1JmoJL0SNS7KxhgXMxmlm/kvKbWbpBkkhHk5x5nQwtBlCgili9atBag0qgfGyWcOvcnEzS5rZt/PTtu2fYw6WsO2AbvX/mnx9Dq0nnNZ99GzwS6AEEQQO+JsmKk=
+	t=1740551321; cv=none; b=EyVT4OZLKpqLadF4zsu6+WZZBKD64nK90ezw/MgHj07d0TpNmjI5iotzDh7jt8WreUtl9d7OBNSz5xZXwpMYUHnGsa2ADlECaUqQoR5/RpMDuSyhNEFFnxdyEbPADn4DPPQ9GSPQ4hnMdjJDwvSmZBWBeYKWjqiFvCBHsuCjxWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740529608; c=relaxed/simple;
-	bh=U8EoAqRFMwNN0vkZxxuJ747c1TkFoXybVwKQXTpYFNc=;
+	s=arc-20240116; t=1740551321; c=relaxed/simple;
+	bh=NE39zml/fo6kkr8UQOJnZ81sJEhYJwEMHR7KD/s6HFk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Mv/zZiPcfhLC+fnuRhwCIYI4t9LmMYexe9dSfmI7ycCsSGPH7D2RQ3jwGw051lxxs5vdborTJLN29651yO5laD8waGUWUIiFvV7vMzNaxQrzzL7cYPD81VkH9yAatKCMNtk3atafVv1+vwwEN/4vYysGckXwbPDCqh6wSJkgKYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=JnymlJIK; arc=none smtp.client-ip=209.85.167.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	 In-Reply-To:Content-Type; b=p6MJUz9CgwhdJxeD8xBj/zboVv+dLfEZrH2mBrd2UXqjWR4rTi/kfJ0Gz9zI1DReHGHNe/P0Yi42XAU+A+0qukZq6TJIjtHaFz72Fe/l+t1EUUmURN5nWO4tcpVHCQv/vKc+EPMRntzQUXdHvrRlkTptOlQyGheag9j4WLRP8nY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HqEEHUhr; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="JnymlJIK"
-Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-3f408052bdcso2194438b6e.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 25 Feb 2025 16:26:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HqEEHUhr"
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-548409cd2a8so4698736e87.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 25 Feb 2025 22:28:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1740529604; x=1741134404; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1740551318; x=1741156118; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=TtkdEm0DhE9kMHrzm4v1hwSlsrJYtgXqAtJA7aT6OdM=;
-        b=JnymlJIKfVdAagtJI+LDsG00QEQyxnykIwzJqR3txTehModSLNZcSpnySGP5h2HagC
-         LJ+95GHeETTpyU7PAGF3VWbpMuaLW9MOZtgwwJECSRSAmEr45bJQbROzseCUpo8thK9D
-         GC2aewVqAwjTzbJ5FbQ5+bGaoFsRjQYys8EOQX7IxQ9VA4VTkNwHf1FXS/Z5fqoT0RJ6
-         erqx76JSvZ8FbA4ddAWflatMK6eKn+Qkj1XXJm09dbu7PGKmmaAkA4ieaVi7MvPYvZAG
-         iDcL7hEmm9JZ7MevTmGqE87dPVJ0UxlJgO87VHnjeQbk91Z6OxP7ziyfvQjywAIYihRy
-         twjQ==
+        bh=YpCHqbGuoQ5BJqZTNRzllttmReMvT/yiMaLd2lRv7bo=;
+        b=HqEEHUhr1VSTYiga5sGWZHRx1cOJjz1EzhJrScpT/QP8NTpJp/5t6p7yHvO8RWK+hE
+         ZAcG3Lc87k6j8tFfvBTCmYAR7ws3rNWI7Dfn+TGss7lyiLW4aaN7Mb4V+g+kvlmZ8RtY
+         mmoo5Q+SkeGXBMEzJ9+9LoI9EiIAHUiNwnoWsr8HDPaBkFzUxZcO581ZU0ylyO9eDpK/
+         2KxjPTxBE5u/AFPqaGiho8xEeyPVAEhuyMymc9slYNN3wUHAQjcQWonNI49yojx3e9Gu
+         xHITlz0Uevx76VO2K+iDj0l1sjHQqgSfkZgolC3VtJ7PRfWyAklnaUwz+VJ+6xCOSzDZ
+         e7Tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740529604; x=1741134404;
+        d=1e100.net; s=20230601; t=1740551318; x=1741156118;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TtkdEm0DhE9kMHrzm4v1hwSlsrJYtgXqAtJA7aT6OdM=;
-        b=fOfllAYFCakFTqsPZ+qHwK5qUILWbSjqv+1cK4shXhHF+0ALcWOm0IhHUc+L1SDvLO
-         4Hsb0x9IbzWeF1+t3WpntDoTi2gdARG+Zn2JQIbe4nUt7KQI2tvaIGUyPWUMl5e0Efi9
-         Hdi+I2+Zz/4hD1rf0W1L9we1R9FU/pDpRaEjB3OC7Y96M+6qPxFnETRb7wxiUoko9yhK
-         H2XtuLj/j9TSIFr/4elGTEn1dBvD8VzBeTrn2oApSeU5eaLCgLksFNldxN1RosAg9Bjo
-         RhaqtZ2xtOdb8lCN9zIoh5MuFpK7/gZ5896yqXjSxtzjdOwKotLHKRfWqXKII8XdmvCk
-         F/4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUICHoJgqUGrS6aizcIhoVafxqzH52aQa7AgPbvTsSDemVR5vRB1+lOe9fD9YFJC6J6fPXFoLBF5LWERA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwN4Pv7pmJikBwK0nnyHoHunjNxef5fZFJWECsvydZ8znbio/yD
-	pMBDvC0wFyMi9MxPJWeOzBXB9cDrCZTAKCdiPKX/XtWaIA8AHQ4jLS/qbbWKwNU=
-X-Gm-Gg: ASbGncsBzYFLRyxQXckyHvA6+r4MCmh08lWeb0s9eVyNaB8TOJ7BesaX+TEgYZaKY0B
-	iStxjsfrYq6aLgj7mtUzSb8cp4pLAIQNDa1IhNUj6smoOhHW5m4Z2ihEm/gcjoXp2ZF9et3t6Kx
-	fnS5HIOSNAGhY62Ka67uVan5PtEOsrPiIDq9kHk4l7eu+tV2CFhMSZpx+0adxWIZqoyD0SXyrf5
-	RR9AT7H0dosgXNZDm6hoQqCY9Hb5ZEBQ/JtW1G86jW2WY0MjelGucqx+kvPNLX/BeTpf5oznLtr
-	CXZhSS3mn+AxpQCCaB1RXmU/1KWTRZnZKE+P+kvPB64d25pnDBFznTZBpdCsKIo=
-X-Google-Smtp-Source: AGHT+IHrEzlhOgkq+zDuK43ZJTHn/TAq6eat4Ph04G840iIXAUXagf0yq5sPkcY8nyRgOxiDTjBreA==
-X-Received: by 2002:aca:1a0e:0:b0:3f4:ad6:5190 with SMTP id 5614622812f47-3f547de878fmr763766b6e.2.1740529604637;
-        Tue, 25 Feb 2025 16:26:44 -0800 (PST)
-Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-3f541c5bce1sm510105b6e.46.2025.02.25.16.26.41
+        bh=YpCHqbGuoQ5BJqZTNRzllttmReMvT/yiMaLd2lRv7bo=;
+        b=e90XE/XJXx+i/22ht81zLYBO9JNYkMddbNvjulDGRdoi5WLZhQYZO40ew41SWODqTt
+         Pof8Av9hGODZRuKj9/stp2WQ8xWNgt92puScwYJ9PKB2B4zv0WAopxBZbNS8jZxQUBIo
+         5Uk1Fk4xW1QAoyzIQQP3T0naVki98WB0qWD35gpq/+ZX5unIrq+co6uADKhbElH+0ey1
+         o/0wDc24chHydCOB5NizzOfDm32AT91yoRRROZYZmFSjHnDOv4E1/2zFylhDXViGY9Zk
+         PS1Pu8oT9GszUi9kXf8zcSVTeu6TWhE0SUxq8iaTK2bneQQYtGIjLANLYWzmost48aGI
+         7bNw==
+X-Forwarded-Encrypted: i=1; AJvYcCXrpvcicM3R8yqdGEt2cWkqHxeA08qrKmiDCQG6ieCyIrfRyY9eMz/ZzBRebTaetXLzp1fb/pCh9enAig==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwO9A7Z7GOGQR2mMwswhm53Gu/xuIFrXj7Q76THqw4Wj7NPJDPY
+	gkNylETT5YPFGQmJJmzO1SI2dKXsIch/5+BXXPMHz+aVrAqYkwhs
+X-Gm-Gg: ASbGncuCO6tLyCqrh4KZGUs5oeZq4r0jwy2KUG7S28lqMXjNIVjsygtSeEZEGD1T6nC
+	NxlWIfvin8fkonJ2pnjpHx+wGhzDISS6vLgu6zjPb0jzmtbMinWt5NDwiJj14LfZhEQVKpRd9j2
+	KCfIwKyepvJjhXaxiuV5cpMjcPSWepG6W6VjqDII5UEO93vxjPc4lO2nIP2UqURO933QvY4Dkj9
+	Ttqv4DF47Hi49RoOTq0/tdL+l3iEwfVw0eJIgPPkYVNL9CsH0fuidHrK66taxyYevMPzBlr+v6x
+	+NBXHPB0DV3kQgZqwaoQhhrLJLxNhfeXE7Sdrre8ELF6VOCFvUdcEjQesWZtpbTSvqcj9RC8pxZ
+	5Z3S+9WI=
+X-Google-Smtp-Source: AGHT+IFZty/ud0vv7fnUaxvQy7Ed1PaMJjnJwRZzX9uN4JbCQgsINREjjhWVQBBguASQBVPYxKCBhw==
+X-Received: by 2002:a05:6512:104e:b0:545:e2e:8425 with SMTP id 2adb3069b0e04-548510ecfa1mr4349214e87.39.1740551317973;
+        Tue, 25 Feb 2025 22:28:37 -0800 (PST)
+Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-548514efaccsm356242e87.155.2025.02.25.22.28.35
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Feb 2025 16:26:43 -0800 (PST)
-Message-ID: <0de7b0ac-eca5-49ba-b1b3-f249655f3646@baylibre.com>
-Date: Tue, 25 Feb 2025 18:26:40 -0600
+        Tue, 25 Feb 2025 22:28:37 -0800 (PST)
+Message-ID: <1b308a10-9622-47f9-b489-bd969fbdfc34@gmail.com>
+Date: Wed, 26 Feb 2025 08:28:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -67,7 +68,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v4 03/10] iio: adc: add helpers for parsing ADC nodes
-To: Matti Vaittinen <mazziesaccount@gmail.com>,
+To: David Lechner <dlechner@baylibre.com>,
  Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
 Cc: Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen
  <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
@@ -97,49 +98,94 @@ Cc: Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen
  linux-sunxi@lists.linux.dev
 References: <cover.1740421248.git.mazziesaccount@gmail.com>
  <23f5ee3e3bf7179930d66c720d5c4c33cdbe8366.1740421248.git.mazziesaccount@gmail.com>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <23f5ee3e3bf7179930d66c720d5c4c33cdbe8366.1740421248.git.mazziesaccount@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+ <0de7b0ac-eca5-49ba-b1b3-f249655f3646@baylibre.com>
+Content-Language: en-US, en-AU, en-GB, en-BW
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+In-Reply-To: <0de7b0ac-eca5-49ba-b1b3-f249655f3646@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 2/24/25 12:33 PM, Matti Vaittinen wrote:
-> There are ADC ICs which may have some of the AIN pins usable for other
-> functions. These ICs may have some of the AIN pins wired so that they
-> should not be used for ADC.
-> 
-> (Preferred?) way for marking pins which can be used as ADC inputs is to
-> add corresponding channels@N nodes in the device tree as described in
-> the ADC binding yaml.
+Hi David,
 
-I think "preferred?" is the key question here. Currently, it is assumed
-that basically all IIO bindings have channels implicitly even if the
-binding doesn't call them out. It just means that there is nothing
-special about the channel that needs to be documented, but the channel
-is still there.
+Thanks for taking a look at this :)
 
-Similarly, on several drivers we added recently that make use of adc.yaml
-(adi,ad7380, adi,ad4695) we wrote the bindings with the intention that
-if a channel was wired in the default configuration, then you would just
-omit the channel node for that input pin. Therefore, this helper couldn't
-be used by these drivers since we always have a fixed number of channels
-used in the driver regardless of if there are explicit channel nodes in
-the devicetree or not.
+On 26/02/2025 02:26, David Lechner wrote:
+> On 2/24/25 12:33 PM, Matti Vaittinen wrote:
+>> There are ADC ICs which may have some of the AIN pins usable for other
+>> functions. These ICs may have some of the AIN pins wired so that they
+>> should not be used for ADC.
+>>
+>> (Preferred?) way for marking pins which can be used as ADC inputs is to
+>> add corresponding channels@N nodes in the device tree as described in
+>> the ADC binding yaml.
+> 
+> I think "preferred?" is the key question here. Currently, it is assumed
+> that basically all IIO bindings have channels implicitly even if the
+> binding doesn't call them out. It just means that there is nothing
+> special about the channel that needs to be documented, but the channel
+> is still there.
 
-In my experience, the only time we don't populate all available channels
-on an ADC, even if not used, is in cases like differential chips where
-any two inputs can be mixed and matched to form a channel. Some of these,
-like adi,ad7173-8 would have 100s or 1000s of channels if we tried to
-include all possible channels. In those cases, we make an exception and
-use a dynamic number of channels based on the devicetree. But for chips
-that have less than 20 total possible channels or so we've always
-provided all possible channels to userspace. It makes writing userspace
-software for a specific chip easier if we can always assume that chip
-has the same number of channels.
+I think this works well with the ADCs which have no other purpose for 
+the pins but the ADC. The BD79124 (and some others) do allow muxing the 
+ADC input pins for other purposes. There the DT bindings with nothing 
+but the "reg" are relevant, and channels can't be trusted to just be 
+there without those..
 
-> 
-> Add couple of helper functions which can be used to retrieve the channel
-> information from the device node.
-> 
-> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
-> 
+> Similarly, on several drivers we added recently that make use of adc.yaml
+> (adi,ad7380, adi,ad4695) we wrote the bindings with the intention that
+> if a channel was wired in the default configuration, then you would just
+> omit the channel node for that input pin. Therefore, this helper couldn't
+> be used by these drivers since we always have a fixed number of channels
+> used in the driver regardless of if there are explicit channel nodes in
+> the devicetree or not.
+
+I think this works with the ICs where channels, indeed, always are 
+there. But this is not the case with _all_ ICs. And in order to keep the 
+consistency I'd actually required that if channels are listed in the DT, 
+then _all_ the channels must be listed. Else it becomes less 
+straightforward for people to understand how many channels there are 
+based on the device tree. I believe this was also proposed by Jonathan 
+during the v1 review:
+
+ > > Hmm. That'd mean the ADC channels _must_ be defined in DT in order 
+to be
+ > > usable(?) Well, if this is the usual way, then it should be well known
+ > > by users. Thanks.
+ >
+ > Yes. We basically have two types of binding wrt to channels.
+ > 1) Always there - no explicit binding, but also no way to describe
+ >    anything specific about the channels.
+ > 2) Subnode per channel with stuff from adc.yaml and anything device
+ >    specific.  Only channels that that have a node are enabled.
+ >
+ > There are a few drivers that for historical reasons support both
+ > options with 'no channels' meaning 'all channels'.
+
+https://lore.kernel.org/all/20250201162631.2eab9a9a@jic23-huawei/
+
+> In my experience, the only time we don't populate all available channels
+> on an ADC, even if not used, is in cases like differential chips where
+> any two inputs can be mixed and matched to form a channel. Some of these,
+> like adi,ad7173-8 would have 100s or 1000s of channels if we tried to
+> include all possible channels. In those cases, we make an exception and
+> use a dynamic number of channels based on the devicetree. But for chips
+> that have less than 20 total possible channels or so we've always
+> provided all possible channels to userspace. It makes writing userspace
+> software for a specific chip easier if we can always assume that chip
+> has the same number of channels.
+
+In any exception to this rule of describing all channels in DT should 
+just avoid using these helpers and do things as they're done now. No one 
+is forced to use them. But I am not really sure why would you not 
+describe all the channels in the device-tree for ICs with less than 20 
+channels? I'd assume that if the channels are unconditionally usable in 
+the hardware, then they should be in DT as well(?)
+
+>> Add couple of helper functions which can be used to retrieve the channel
+>> information from the device node.
+>>
+>> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+>>
+
+Yours,
+	-- Matti
