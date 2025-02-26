@@ -1,96 +1,171 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C96151991;
-	Tue, 25 Feb 2025 23:18:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6F7AA41
+	for <linux-sunxi@lists.linux.dev>; Wed, 26 Feb 2025 00:09:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740525503; cv=none; b=jExhr6WsNNldrka1wrdREMKnH71hXEFiJY3eHhjBbg4RPaSlPCpWorSi9ErRB8rDLsp2BlTwQPpToX9u9YFQqH5/BA223gLElj6cgFrlPZEIcnkIIDAC4f8qLV+Xz6g9IexxPuSJdfxBGMxZ/Qdx6g1byM/1eRq9V13BPWVOhq0=
+	t=1740528550; cv=none; b=P6yk0QlvHquzCSn7nZD6ZCUBNL2xTLVohQoCd10D4OILt9ZYxxIv+DspaQfiQP1op6+P276Lca1IDT43P1eOo61WL39VXF1Jl54vzmvsJiTrx9UasOSK36kc/+rw+LUsv1ysO4DSoYD1wowLJCF06zFSl3AWuDvF/IbIMN17NCE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740525503; c=relaxed/simple;
-	bh=76Jhh4fUvVx9+AeTNo/sVtcgC9p+Mf69ylluqkqvljo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pwOk69ivn2WFg4QSiz1XfnQdRGSeJpb7ZsdAqmtTplzc/ZyrrUT3TCMxIM1FFFdprKYVnBAiJTGUKg8R9zTC8LYYSGnj7GWmmGwHGOVUh/kG/Zif1xpvRUwAO4rfl9PneYMbTaBFL/N2bSdIwpSH8hzC1rmms7n8mloz9k22Pn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=BdTVLRx2; arc=none smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	s=arc-20240116; t=1740528550; c=relaxed/simple;
+	bh=h26bDQt1EvZvwSeo1EG9AJe/Hyqmt8BinkNFg5j8KtQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=so8o2evdHugFiiUg+0/jxRDJdc5Cy7nS4hC1cxQr4DEv9kV+b16M79mHayen6fPT5rHSiWimcXRHG90hGr/YRGbyXj0qp8fhM3YRN8PHr28GBEu+4A1gSMbjgv5x/eDTW70/fgqUkVCy8w1SBBtQ9GCg2SDdtsF9ftYbNP3XtTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=fW0Zdtbp; arc=none smtp.client-ip=209.85.210.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="BdTVLRx2"
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51PMZ9QH005739;
-	Tue, 25 Feb 2025 23:17:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=corp-2023-11-20; bh=76Jhh
-	4fUvVx9+AeTNo/sVtcgC9p+Mf69ylluqkqvljo=; b=BdTVLRx21vS0X4QPrpmQP
-	gxjS/9u6fRZyE4Byg4vfc4YlNFidlfoumJZju1fkuHNLLO1iNYkhNTapIuB3JcVC
-	GZN2FE1YB22Hc23UTdd/dG47rPfuY63dJZCC/MdwcDraA5OJByued2JFhClzIA7X
-	3P3yeS68ikYiu72KvZOPVLT5WJJhbwMhTZbIXCD7FYTlg85nwpyp+1N09tE3w6zU
-	Gz63B0fW+JuC1Dk6yyikq1T5EzOkevrpRXRXA7RJnfN/W+SgwWC1YGNDE42HtdBG
-	Ictnn31S+NQnM/Y+yhjWFsUKT8/cl0DLh2J/jtJERBVvv/2Xsc588act3B6Tkdyc
-	A==
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 451pse81tc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 25 Feb 2025 23:17:50 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 51PLIQm2025216;
-	Tue, 25 Feb 2025 23:17:48 GMT
-Received: from alaljime-e5-test-20240903-1847.osdevelopmeniad.oraclevcn.com (alaljime-e5-test-20240903-1847.allregionaliads.osdevelopmeniad.oraclevcn.com [100.100.250.206])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 44y51gg9ht-1;
-	Tue, 25 Feb 2025 23:17:48 +0000
-From: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
-To: jgg@nvidia.com
-Cc: alim.akhtar@samsung.com, alyssa@rosenzweig.io, aou@eecs.berkeley.edu,
-        asahi@lists.linux.dev, bagasdotme@gmail.com, baolu.lu@linux.intel.com,
-        dwmw2@infradead.org, heiko@sntech.de, iommu@lists.linux.dev,
-        jernej.skrabec@gmail.com, jonathanh@nvidia.com, joro@8bytes.org,
-        jroedel@suse.de, krzk@kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-        linux-tegra@vger.kernel.org, m.szyprowski@samsung.com,
-        marcan@marcan.st, palmer@dabbelt.com, pasha.tatashin@soleen.com,
-        patches@lists.linux.dev, paul.walmsley@sifive.com, rientjes@google.com,
-        robin.murphy@arm.com, samuel@sholland.org,
-        suravee.suthikulpanit@amd.com, sven@svenpeter.dev,
-        thierry.reding@gmail.com, tjeznach@rivosinc.com, vdumpa@nvidia.com,
-        wens@csie.org, will@kernel.org, willy@infradead.org
-Subject: Re: [PATCH v3 00/23] iommu: Further abstract iommu-pages
-Date: Tue, 25 Feb 2025 23:17:47 +0000
-Message-ID: <20250225231747.15277-1-alejandro.j.jimenez@oracle.com>
-X-Mailer: git-send-email 2.43.5
-In-Reply-To: <0-v3-e797f4dc6918+93057-iommu_pages_jgg@nvidia.com>
-References: <0-v3-e797f4dc6918+93057-iommu_pages_jgg@nvidia.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="fW0Zdtbp"
+Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-7271cc3d73eso3328669a34.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 25 Feb 2025 16:09:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1740528547; x=1741133347; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=juVLmpm4UqW3CDyHjhGjXXzInD2jAOQrY9jRma953QM=;
+        b=fW0ZdtbpiBKkwI0PxBIMdXQvcTBkDy+3Jm7ueP0OdNkaleaaRq08+nia9XjqlczgKI
+         m0/w5F0LIZAvIfF3Q95tw9dLPQenFILTnePRM1G6jrbBfOMa+rS06i44Kw+o6v3SruYw
+         VLuRUWoz6D/ccLbjw/WbKngKl2RhjqM4IMsa6vq+lhrvJbGhy372ifKlAX1whN+jGvzr
+         mk9NL2jl+vASFLSJvPMPTMr6lk1zOHJbMxvms8xcMBcDjpbhcFV2tU0cdclM1DKHfOJ3
+         4TpQCQlcIjArc3EWe0l/8S7uYCyTnKjyN60Y8p/+GFlmChrAKOt8++qlHgIFt2qT1a/G
+         4TzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740528547; x=1741133347;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=juVLmpm4UqW3CDyHjhGjXXzInD2jAOQrY9jRma953QM=;
+        b=AilWPUpKOtnXQK7qhWVcBjKcC1exPpc4DjSdOG10xRGVPj4LYyvOy7RFFz/P0citrz
+         JaMcGyQoWYaJLyBDo8COJp4JY5h0RLfKzqG6r0B0EYOHnX0dCYSAfBvnHqLYvwPqVoWF
+         MavSLYvPlcW2Dw4G29hpzZBVbJJqXxfM6DrltKOKi2Jol6enrIWTWgRopI39y/16v3uB
+         9GkfLPOQvGPJfkNLlp4LTgLxHYtw7N/gbZ2gd1EpiqNdUpRFbaJ172NXghmHSgivSq/l
+         jjuiuqceQGqDtBLRm2F7IfTae5FIq4UZRVb9mD53iQVTti64XfPoogZXqKidUn6bUk+H
+         HOmg==
+X-Forwarded-Encrypted: i=1; AJvYcCXLrhVfXnv1irfglruwfep/YAkxi29uf1nI3oAEp8nAcENRJKvKGLEi/SBYleBcguyGjgo09eAAvfBriA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YydHMW8I7C61AkJc1OpWMXY00Xxn3YfeXh1WG4R+iV5KaEGyEQl
+	/RxLDf6ZBWqqCKgDEWOrwMbFqIV3R4oZ1i7jm7yg37eGK7gsMxJCOhSKmQaDqq0=
+X-Gm-Gg: ASbGncuKR/bla4kekpAbVrExNo2JYBMsW+OXk18bLSpxml1tn3hw54dtfUgKzKMic9J
+	4A6Ed8qPpJxvrd3CnL5LsJRolPPaZ+gDd42TYQByDpgvzvlQ6pzaL1ljoQF3TinG8LMC28elF43
+	j7uoJkPdMYqew/HjCR0XSWVJbYEzEGEU0TJkfRGO+6rM5SdguHf/FrzBy6RavF6TvLQzDwr5SIe
+	nn14knn9iKVBcjvLZeJyf68cGXXvw5WEl2/zQV3+1aDO76R+bE3hS74/PDc35gRPUmQy2OfFilg
+	se/nV5LSfT68jPXlBnm0qw11MkJuBAdOZPwQS+PKUg3Goe9p2gcUYnpzNnUlhZc=
+X-Google-Smtp-Source: AGHT+IFcLe07eLzlySwjtDU+XuKdCvG3TGM5yw/uZ3tgI0c9sfN55oU4icGBmCi8OdnlyMQtoSSFWg==
+X-Received: by 2002:a05:6830:dc3:b0:727:24ab:3e4 with SMTP id 46e09a7af769-7274c1ac6f4mr15683376a34.9.1740528546779;
+        Tue, 25 Feb 2025 16:09:06 -0800 (PST)
+Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7289dee9d50sm497552a34.34.2025.02.25.16.09.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Feb 2025 16:09:06 -0800 (PST)
+Message-ID: <f0d0f114-3953-46b5-b9f6-9b35537e6f8e@baylibre.com>
+Date: Tue, 25 Feb 2025 18:09:04 -0600
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-25_08,2025-02-25_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 spamscore=0 mlxlogscore=987
- phishscore=0 mlxscore=0 suspectscore=0 adultscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2502100000
- definitions=main-2502250137
-X-Proofpoint-GUID: Xr02HcGTinEg17mYvbDuWPbxj8NLDu8q
-X-Proofpoint-ORIG-GUID: Xr02HcGTinEg17mYvbDuWPbxj8NLDu8q
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 07/10] iio: adc: ti-ads7924: Respect device tree config
+To: Matti Vaittinen <mazziesaccount@gmail.com>,
+ Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen
+ <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Hugo Villeneuve <hvilleneuve@dimonoff.com>, Nuno Sa <nuno.sa@analog.com>,
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+ Guillaume Stols <gstols@baylibre.com>,
+ Olivier Moysan <olivier.moysan@foss.st.com>,
+ Dumitru Ceclan <mitrutzceclan@gmail.com>,
+ Trevor Gamblin <tgamblin@baylibre.com>,
+ Matteo Martelli <matteomartelli3@gmail.com>,
+ Alisa-Dariana Roman <alisadariana@gmail.com>,
+ Ramona Alexandra Nechita <ramona.nechita@analog.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <cover.1740421248.git.mazziesaccount@gmail.com>
+ <20dd0e4ea72fe39b90b611f9c08dbd4bc1d5217f.1740421248.git.mazziesaccount@gmail.com>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <20dd0e4ea72fe39b90b611f9c08dbd4bc1d5217f.1740421248.git.mazziesaccount@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
->Improve the API to work directly on sizes instead of order, the drivers
-> generally have HW specs and code paths that already have specific sizes.
-> Pass those sizes down into the allocator to remove some boiler plate
-> get_order() in drivers. This is cleanup to be ready for a possible sub
-> page allocator some day.
->
-> This is on github: https://github.com/jgunthorpe/linux/commits/iommu_pages
->
-> v3:
+On 2/24/25 12:34 PM, Matti Vaittinen wrote:
+> The ti-ads7924 driver ignores the device-tree ADC channel specification
+> and always exposes all 4 channels to users whether they are present in
+> the device-tree or not. Additionally, the "reg" values in the channel
+> nodes are ignored, although an error is printed if they are out of range.
+> 
+> Register only the channels described in the device-tree, and use the reg
+> property as a channel ID.
+> 
+> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+> 
+> ---
+> Revision history:
+> v3 => v4:
+>  - Adapt to 'drop diff-channel support' changes to ADC-helpers
+>  - select ADC helpers in the Kconfig
+> v2 => v3: New patch
+> 
+> Please note that this is potentially breaking existing users if they
+> have wrong values in the device-tree. I believe the device-tree should
+> ideally be respected, and if it says device X has only one channel, then
+> we should believe it and not register 4. Well, we don't live in the
+> ideal world, so even though I believe this is TheRightThingToDo - it may
+> cause havoc because correct device-tree has not been required from the
+> day 1. So, please review and test and apply at your own risk :)
 
-Tested v3 on AMD Zen4 bare metal host, using v1/v2 page table formats. Ran host
-kernel with iommu.passthrough=0. Launched KVM guest with large memory (512+ G)
-and 16 VFs. No errors or warnings found.
+The DT bindings on this one are a little weird. Usually, if we don't
+use any extra properties from adc.yaml, we leave out the channels. In
+this case it does seem kind of like the original intention was to work
+like you are suggesting, but hard to say since the driver wasn't actually
+implemented that way. I would be more inclined to actually not make the
+breaking change here and instead relax the bindings to make channel nodes
+optional and just have the driver ignore the channel nodes by dropping
+the ads7924_get_channels_config() function completely. This would make
+the driver simpler instead of more complex like this patch does.
 
-Tested-by: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
+> 
+> As a side note, this might warrant a fixes tag but the adc-helper -stuff
+> is hardly worth to be backported... (And I've already exceeded my time
+> budget with this series - hence I'll leave crafting backportable fix to
+> TI people ;) )
+> 
+> This has only been compile tested! All testing is highly appreciated.
+> ---
 
+...
+
+> -static int ads7924_get_channels_config(struct device *dev)
+> +static int ads7924_get_channels_config(struct iio_dev *indio_dev,
+> +				       struct device *dev)
+
+Could get dev from indio_dev->dev.parent and keep only one parameter
+to this function.
+
+>  {
+> -	struct fwnode_handle *node;
+> -	int num_channels = 0;
+> +	struct iio_chan_spec *chan_array;
+> +	int num_channels = 0, i;
+
+Don't need initialization here.
+
+> +	static const char * const datasheet_names[] = {
+> +		"AIN0", "AIN1", "AIN2", "AIN3"
+> +	};
+>  
