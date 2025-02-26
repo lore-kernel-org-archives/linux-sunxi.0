@@ -1,108 +1,189 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71D7319C553
-	for <linux-sunxi@lists.linux.dev>; Wed, 26 Feb 2025 16:06:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5026B21CA00
+	for <linux-sunxi@lists.linux.dev>; Wed, 26 Feb 2025 16:10:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740586021; cv=none; b=XLG7MGl6enf+sBEEIhdBplhzIOacmmqHKlPKsqm6in1zgZbJvXfHqBCaTX+8L3m2W/NYngAWjB4m8qjAcf3u/G699TtnPni1HMIh1QCEvJcWbdfCtNZp2ZX6AEiYvomfmzj2zMqEvETgssb7mfyGY6s4Q9kZH5k5sfeBohf/nfE=
+	t=1740586211; cv=none; b=cLJpOjDr6O9/f1pc/L/d7lec6267f+/X12SJF/X2W+fLV5vBYrDG/A87naGR5wTTgjUrSUWLGqQMfVnRDCZYn2AgfdfAZ/c2ORYBdzNcjUGpcPfSZVQ04N3+5NulQ3h3YONZ0FhxCW0MC0JA/LNH7ubcKs/IYBh0REapd2NDkxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740586021; c=relaxed/simple;
-	bh=sVuX0bpHYTirziy6vX1FkmZQ6Idw9gPtVc4HEBMx30Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aa1q18pSVftO9NMdSij/BgfkwU3r+hQUENyicOgC8l1P71mPGMMvONoj0WIbTd+uxqpK7nZ5ZH67M1s++GsapaEEokPkLg0wrRlYI6BerskUT1TOWlZ7EO3VgN50F7GrnsR/jcyWk0lY/DBr0cIyIz4Fm6do/bQK+8sTUVzp7bg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DvKWG6HZ; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1740586211; c=relaxed/simple;
+	bh=x2om7tYp0gEmgSJpi6j4oAprnXjR/G/t+gh7S3DVTUo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ebp84/kiR0GkrNO74/ut7K3MaCdvkjkIDAkKFCEYdquNWFqX2pQJUwxiFbpDgbLk/H40PefGgZ0lhi4jQauaArx+ae47thMi9ONVvhEaUGLPWJWks1d+Zfq4NK6ndi6qz8mQeYBydVFWjqQxbFfqZHoA1i1sRjEqKg7mxPtMods=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=da03SvsP; arc=none smtp.client-ip=209.85.161.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DvKWG6HZ"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ab78e6edb99so988531266b.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 26 Feb 2025 08:06:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="da03SvsP"
+Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-5fc69795ecbso3243275eaf.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 26 Feb 2025 08:10:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740586018; x=1741190818; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sVuX0bpHYTirziy6vX1FkmZQ6Idw9gPtVc4HEBMx30Y=;
-        b=DvKWG6HZr7BmwzPISQ1qeqGdLiaa57in//tzZpdk9PjG2SJPCUbOjnfQwtFLgmuYsT
-         u8C3cc4UgDavgGWqptu1QXRnjvkZ+YdnJOUmb7znAEa7BSu9eUpxEs+jpI3UGegL8Vuk
-         vNnHxZ4BOSUuQHgC/cGkMBHwvCdAFXOT9eFkajzHDWWCNBBMwmtMGiaxN5p5eKqXhj9U
-         jtTbupX0j8HYwpmpfbIItK1sKllFjx3pobb5KfwrDMakXBHVniqGpM1RS3IyV5QHXAvw
-         e+OGd/zUYemV1hYrx0mtleUSXLKKLsE+pA8I1BJph5zXPYx971fNBzd8jeA+q7RxiRr6
-         vD9w==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1740586207; x=1741191007; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8B98WlgviCORS8xNE8tp9wUkQXa0yNmModNYUMBxdlg=;
+        b=da03SvsPiUUxVyt+r86V1MYlJyCwW29KTkmP2UCs66hZ5mlwsl8iCuHhLe5ulLPI7u
+         V9SYHO8Xc6yqUrSBlNGxPxcJi0tszwmEcTCjr/uLyreTHEQLQqPlMdMFzjW+MQHRx1oj
+         PAMuz/jRbiaazuRm+8QEW0/LVCeOF9fJTSCl/XrmZOFmkjN7a3dO9vneT6j7DmuqVQ/S
+         qs9uSzeUvuY3dmbzYq9lktoDP49vxpHlVD7EW4mr1IbiCt30Ir1wxQ661opuraYxOJXW
+         JT37M07tPerjWYhZ9Lo0Gn/2G/pGOGmPgD85kdWAtbQ7NC3Zdbkl+FmAcKXX9zKFeTOQ
+         IxcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740586018; x=1741190818;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sVuX0bpHYTirziy6vX1FkmZQ6Idw9gPtVc4HEBMx30Y=;
-        b=SxHGfJl0Qb1379pFHVETj5OGrVJ7t0aueg1eRrenlCRV+ctQvhlGjP/PxieH4Ok3Wj
-         xlzK1VoMsng8HSp1U2bXQCOAY+H2JvpPCprGtLf3JPm1NiXd4uQcg+3AFtrLDTP4cdZF
-         ECvqqMgDN0cW1aBcZsz0BrmTqj0ldmcMOvAzDyuUssjaqpAIMGdJWMczdK3UCw59oZYv
-         qb2xz0HBv9XVXHyCji8NCOtXZQAWjdMvs+fvuXZrRmlBxuz1XyUpMHYLosnzkmNPZ/b5
-         S1du6qHpKM3RrV6OYLKpGsL/rZJaNyO9M2npq00ptmcXWN/l2FdCM75s5QQRF9ggbR9F
-         ZX0w==
-X-Forwarded-Encrypted: i=1; AJvYcCWLho4QzuwcOmAYI+Tzgv6uEeSRBtuAW9TGaYQBTTkNt/jrXf5wPXt5h7dmRyKXOq0p/MjXemPnxS/Hlw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz2lxi+0hzE1ykAym3Vuv5Y2Rod0PO44vDdQEe11fC2sm2CrWFi
-	ugTTRDZN/e7LSWwovdtdLFpGR4V/58xApjOO/FkdoWl+ylHEzyEp
-X-Gm-Gg: ASbGnctETq/MacDvAZhcW2wSljMByzilUV1S9W0Rp8K9TvR6Xj4IB1XsyAo7F5vWbWg
-	WhhyEfurILViiLx8NiW/IjpgksUtkujdRH6LbUqJVv/VXIYiuAVJufge3+XfaELl3IoPgsvNQkM
-	Adv9T8lgKzeR/pZO8PcKLvzvpRQww+P2tXrVmQrT3C//CDvHg+CM9hPjrANiVMYtUgB1ZHYZY8H
-	UuAZUpokKZ0OdSf34jgKAV0/nKfzYX822kae1RfmleOVjvdeSBUQvWWjbho0i8zCzXZ7qZtsHLa
-	2z6Qkgf1OhDKdiaPXztLrs6pRQRyFLupr3SCTHFaXzFp5gtlKO7GjlHSxz7FGt+qeltFNnfkreo
-	cQg==
-X-Google-Smtp-Source: AGHT+IHKSaBNAQxae8uGh3BHw0DdJPoRYYOePYjoHC8k2jlh5nxTseGqTp5afK3YJqsDzF/GYBcwww==
-X-Received: by 2002:a17:907:7d8c:b0:ab7:d87f:665a with SMTP id a640c23a62f3a-abeeef36285mr435058266b.46.1740586017406;
-        Wed, 26 Feb 2025 08:06:57 -0800 (PST)
-Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abef7132491sm123062766b.166.2025.02.26.08.06.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Feb 2025 08:06:56 -0800 (PST)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Kuba =?UTF-8?B?U3pjem9kcnp5xYRza2k=?= <kuba@szczodrzynski.pl>,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-Subject:
- Re: [PATCH 2/2] clk: sunxi-ng: d1: Add missing divider for MMC mod clocks
-Date: Wed, 26 Feb 2025 17:06:55 +0100
-Message-ID: <8494506.T7Z3S40VBb@jernej-laptop>
-In-Reply-To: <20250226103734.1252013-3-andre.przywara@arm.com>
-References:
- <20250226103734.1252013-1-andre.przywara@arm.com>
- <20250226103734.1252013-3-andre.przywara@arm.com>
+        d=1e100.net; s=20230601; t=1740586207; x=1741191007;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8B98WlgviCORS8xNE8tp9wUkQXa0yNmModNYUMBxdlg=;
+        b=nlkMPwYWEv1JE5jcW86jnWDsa3s7qPbmMUq91cKnM4uclbXU5XIhNzs7uOJU8SLXwW
+         5zuNmp6JE2LBwiyZWiJhsoo3N15miGzyayDXewmiqlsqZyPholsyJ85/61Vs9JLELYNT
+         +gWCLCNXAL8TqrSKBgRygQp5lLrmeFme6mrikFOu+9qyz7AIBxoBeOSzRhplouLMcYnv
+         6aCeanzCn5eZ0wZ05cJHTa4UcHoCfN2g41n1UeC9lmKbSEDB8w6cYnqtNCEjtloxUV+5
+         1k0UJCt7AxI8ctrVEoNFHFOmq+d7LWoMWdbBdbe/Ma7DnzyeI5J8lEIyJYCbXWrzw3Ne
+         TQpg==
+X-Forwarded-Encrypted: i=1; AJvYcCXjJfzNsdSlbMDVp+qQX3Ay8Sv6SXf/uQOH8k9FRmdrTqQ5GdIgA2Jsgu63pJ7xKM0cJxeLhvOhCvojoQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwGySsb9PLphpKPL2xAh5LO/LxeHWM4x6LSQH9OEZbR1gCOf+WU
+	tfNMFXJp6AKrb03PiQDUftY5nsFa/UPtzToe7+LIm7tNTNk4URZ/ikgh+CcNdDY=
+X-Gm-Gg: ASbGncsPTToaeSFC3ckwy4QG8nLp/jOCUFgqkczy/iXHvYiG+hmiQjqbQU443Cy09Da
+	qS8q+zXEVojDCczuLy6iA8ZfG/y7Qa1iwLVGNjjfiO8BUi/v/5mugNyMTXHzIfh8fzOVBm2NNZp
+	JajE+LmiwK4Fo9C4LQYvWRBmJSw1QnmaY6HmGPW3qqFvjYEBjqylF4hNSgLD3V34Gp9/Uie1OpL
+	17wRnai17VFIBNANZE3B3XXcTr1KpeThATjQQRW1b12IRFSmBnxA9Iwsc9kZLMkXKuMWxpiTzVz
+	Qn3FcunZdWWaRKWosuaOoPjLcKvWZUI9akMFS5XkPioY2WYyYx7+TcoE6xN0o6E=
+X-Google-Smtp-Source: AGHT+IEOYib871oGajJ0tAwCyUvFn0Ok9l/YPouvQLougV8cmfpAu3KKTSDRFWXcP1FZvlfxqquzJA==
+X-Received: by 2002:a05:6871:7c02:b0:29e:3c8d:61a0 with SMTP id 586e51a60fabf-2bd514ef349mr14836245fac.8.1740586207211;
+        Wed, 26 Feb 2025 08:10:07 -0800 (PST)
+Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7289df559edsm745510a34.62.2025.02.26.08.10.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Feb 2025 08:10:06 -0800 (PST)
+Message-ID: <6f6e6550-5246-476f-9168-5e24151ab165@baylibre.com>
+Date: Wed, 26 Feb 2025 10:10:05 -0600
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 03/10] iio: adc: add helpers for parsing ADC nodes
+To: Matti Vaittinen <mazziesaccount@gmail.com>,
+ Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen
+ <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Hugo Villeneuve <hvilleneuve@dimonoff.com>, Nuno Sa <nuno.sa@analog.com>,
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+ Guillaume Stols <gstols@baylibre.com>,
+ Olivier Moysan <olivier.moysan@foss.st.com>,
+ Dumitru Ceclan <mitrutzceclan@gmail.com>,
+ Trevor Gamblin <tgamblin@baylibre.com>,
+ Matteo Martelli <matteomartelli3@gmail.com>,
+ Alisa-Dariana Roman <alisadariana@gmail.com>,
+ Ramona Alexandra Nechita <ramona.nechita@analog.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <cover.1740421248.git.mazziesaccount@gmail.com>
+ <23f5ee3e3bf7179930d66c720d5c4c33cdbe8366.1740421248.git.mazziesaccount@gmail.com>
+ <0de7b0ac-eca5-49ba-b1b3-f249655f3646@baylibre.com>
+ <1b308a10-9622-47f9-b489-bd969fbdfc34@gmail.com>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <1b308a10-9622-47f9-b489-bd969fbdfc34@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Dne sreda, 26. februar 2025 ob 11:37:34 Srednjeevropski standardni =C4=8Das=
- je Andre Przywara napisal(a):
-> The D1/R528/T113 SoCs have a hidden divider of 2 in the MMC mod clocks,
-> just as other recent SoCs. So far we did not describe that, which led
-> to the resulting MMC clock rate to be only half of its intended value.
->=20
-> Use a macro that allows to describe a fixed post-divider, to compensate
-> for that divisor.
->=20
-> This brings the MMC performance on those SoCs to its expected level,
-> so about 23 MB/s for SD cards, instead of the 11 MB/s measured so far.
->=20
-> Fixes: 35b97bb94111 ("clk: sunxi-ng: Add support for the D1 SoC clocks")
-> Reported-by: Kuba Szczodrzy=C5=84ski <kuba@szczodrzynski.pl>
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+On 2/26/25 12:28 AM, Matti Vaittinen wrote:
+> Hi David,
+> 
+> Thanks for taking a look at this :)
+> 
+> On 26/02/2025 02:26, David Lechner wrote:
+>> On 2/24/25 12:33 PM, Matti Vaittinen wrote:
+>>> There are ADC ICs which may have some of the AIN pins usable for other
+>>> functions. These ICs may have some of the AIN pins wired so that they
+>>> should not be used for ADC.
+>>>
+>>> (Preferred?) way for marking pins which can be used as ADC inputs is to
+>>> add corresponding channels@N nodes in the device tree as described in
+>>> the ADC binding yaml.
+>>
+>> I think "preferred?" is the key question here. Currently, it is assumed
+>> that basically all IIO bindings have channels implicitly even if the
+>> binding doesn't call them out. It just means that there is nothing
+>> special about the channel that needs to be documented, but the channel
+>> is still there.
+> 
+> I think this works well with the ADCs which have no other purpose for the pins but the ADC. The BD79124 (and some others) do allow muxing the ADC input pins for other purposes. There the DT bindings with nothing but the "reg" are relevant, and channels can't be trusted to just be there without those..
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Makes sense.
 
-Best regards,
-Jernej
+> 
+>> Similarly, on several drivers we added recently that make use of adc.yaml
+>> (adi,ad7380, adi,ad4695) we wrote the bindings with the intention that
+>> if a channel was wired in the default configuration, then you would just
+>> omit the channel node for that input pin. Therefore, this helper couldn't
+>> be used by these drivers since we always have a fixed number of channels
+>> used in the driver regardless of if there are explicit channel nodes in
+>> the devicetree or not.
+> 
+> I think this works with the ICs where channels, indeed, always are there. But this is not the case with _all_ ICs. And in order to keep the consistency I'd actually required that if channels are listed in the DT, then _all_ the channels must be listed. Else it becomes less straightforward for people to understand how many channels there are based on the device tree. I believe this was also proposed by Jonathan during the v1 review:
+> 
+>> > Hmm. That'd mean the ADC channels _must_ be defined in DT in order to be
+>> > usable(?) Well, if this is the usual way, then it should be well known
+>> > by users. Thanks.
+>>
+>> Yes. We basically have two types of binding wrt to channels.
+>> 1) Always there - no explicit binding, but also no way to describe
+>>    anything specific about the channels.
+>> 2) Subnode per channel with stuff from adc.yaml and anything device
+>>    specific.  Only channels that that have a node are enabled.
+>>
 
+Hmm... does that mean we implemented it wrong on ad7380 and ad4695?
 
+>> There are a few drivers that for historical reasons support both
+>> options with 'no channels' meaning 'all channels'.
+> 
+> https://lore.kernel.org/all/20250201162631.2eab9a9a@jic23-huawei/
+> 
+>> In my experience, the only time we don't populate all available channels
+>> on an ADC, even if not used, is in cases like differential chips where
+>> any two inputs can be mixed and matched to form a channel. Some of these,
+>> like adi,ad7173-8 would have 100s or 1000s of channels if we tried to
+>> include all possible channels. In those cases, we make an exception and
+>> use a dynamic number of channels based on the devicetree. But for chips
+>> that have less than 20 total possible channels or so we've always
+>> provided all possible channels to userspace. It makes writing userspace
+>> software for a specific chip easier if we can always assume that chip
+>> has the same number of channels.
+> 
+> In any exception to this rule of describing all channels in DT should just avoid using these helpers and do things as they're done now. No one is forced to use them. But I am not really sure why would you not describe all the channels in the device-tree for ICs with less than 20 channels? I'd assume that if the channels are unconditionally usable in the hardware, then they should be in DT as well(?)
+
+I devicetree, I think the tendency is to be less verbose and only add
+properties/nodes when there is something that is not the usual case.
+Default values are chosen to be the most usual case so we don't have
+to write so much in the .dts.
+
+> 
+>>> Add couple of helper functions which can be used to retrieve the channel
+>>> information from the device node.
+>>>
+>>> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+>>>
+> 
+> Yours,
+>     -- Matti
 
