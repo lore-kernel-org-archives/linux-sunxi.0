@@ -1,169 +1,172 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9112270040
-	for <linux-sunxi@lists.linux.dev>; Thu, 27 Feb 2025 12:18:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 664AD1EB44
+	for <linux-sunxi@lists.linux.dev>; Thu, 27 Feb 2025 12:46:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740658700; cv=none; b=qtOLFix+JDgXxjOl8AXIC+Yl4wgTOWRwl9rxc5E7SQuJ0W6kfBvquBrlnb6GyoB5ZDVYD9ycecdYU5DVQFl+LNJQsLchYrQzb9Exhj90e1BR54EgIEMA/lVKolibY8dl6s7quSzJe2UfAz3Qt/L8m6O+t4PIitnIth9UAaFv5ZM=
+	t=1740660416; cv=none; b=XWj1rrerCmfnvE3e04H1D3CXakBRkiFhVnw1YGW9YTM1t3Dy5cqRBK106OdN2QpL2+5fBk3K2MwWodcXWl18jnh2YumQPJ63G9otH/9PuCy46YN0NxDyLs10m2fsP7q76mZwRZdPFab1qRCDBh6X8OrRHNCjVbwh8/wJpjiF5t4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740658700; c=relaxed/simple;
-	bh=HSa4X05wJ6LbkPCWaSBF4nZC+iFFswKuy147sU4Tx1U=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bgFuTzWe7j/Cy3TziAX3CfylfRW/n43a2WiJov9Va7bCOUv3L0pV36rSMOp7PsG/kJaID1APOAdzWSIkNcriN5+qNpx+rumjUFxAoRk36m+6tuM60p0XoOYa72rTn5CmsjWzuFU9iib6MqHNcxA2u9jLjZZadOzkE4DDQ0luR3E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 971B62BCA;
-	Thu, 27 Feb 2025 04:18:31 -0800 (PST)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6FF5E3F673;
-	Thu, 27 Feb 2025 04:18:14 -0800 (PST)
-Date: Thu, 27 Feb 2025 12:18:11 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Chen-Yu Tsai <wens@csie.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
- Holland <samuel@sholland.org>, <linux-gpio@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 4/8] pinctrl: sunxi: support moved power
- configuration registers
-Message-ID: <20250227121811.23460bf0@donnerap.manchester.arm.com>
-In-Reply-To: <CAGb2v67V7PAOC8MLVzE5SwwvpogN_WLNhQnRVD2pikGVDHtJjA@mail.gmail.com>
-References: <20250214003734.14944-1-andre.przywara@arm.com>
-	<20250214003734.14944-5-andre.przywara@arm.com>
-	<CAGb2v67V7PAOC8MLVzE5SwwvpogN_WLNhQnRVD2pikGVDHtJjA@mail.gmail.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1740660416; c=relaxed/simple;
+	bh=U7PCzUZnVYRvejULBSq6O8X9s2whc0HDjN7qBWSOoYE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=le8QazlxM6OO96K377N5Di9+o4F3FHKjHwFaYUboINIppPDIKKW4QSIfb5zHE7y/n4sLp9xJDr6wTYMv/ZwcyAEFq7YZYMKdjfZpKPD+4ha2tpyF5oG2BHrDvSa6Pk3+a7sM3KFFBAdhqq7WiS6UdNK4MEUrNcquKlsnRKONkxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5461dab4bfdso969572e87.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 27 Feb 2025 04:46:53 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740660411; x=1741265211;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wTt5QbyADMJ+0WvsKLYId9FZQBGxvlR5X8sImHZOIM4=;
+        b=KMQkxRJYbnYT+g7Nc1HEsyixi7uajOfV7rvtfVzxT2MlCdpOkLMsGnSma+zWcbcOUU
+         ssQfjBij9P3MqrXiNkiUiCQo4Ml2Wggr0JuU6Jaj+g/U5vO1+avNYRy9J+UAKkgBiG6z
+         0dx80MQm4tV3+eDN11xW/B54fuPAfcnte36am/TG1+9WZt0lEAshF6oqG56/EzGE2+Qv
+         EwtTWzCByy6+nKaLQ5ZIP8yS5i5DgaNs8kxR4qUaha/be+3df9IOCo/bfWFHPMGmlleB
+         paTwywyzDXBWPk2fyF0NFtMfMxqcx88ydoBWlviEASVTK76gvWsU3O3vo36SYgT0Dn4F
+         B1zg==
+X-Forwarded-Encrypted: i=1; AJvYcCVEvJf07Ora7S7l4LenpwfcfI1kd9C3EpcMzyOjlTowiXcaEFRYKJbmnEXuybcVUEKbmsOrFDE21qQbKg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwXT3QuXUz0s3yU1JTjj1+KQFiWgiasuV6xQBnxZg0bcsDvYcnH
+	4D36LrAWDBIFjcsbssJIss6EVjfwC9dGeA03Z5qmS3OAlhffkBpWpq5u1KYR
+X-Gm-Gg: ASbGncsLVB4g7CPklX3w7jXyOqOButVLFVVSa2aQSWjPFCio+A+y0bHAwOvRCDwyluh
+	Q8hbwaauEEbCFT6xZQLNS4+7X4rMZ/w2p44aZVRYHHuvEOid/QvazNA9h3ChkIQAC6km+K+SgCm
+	ats17Z7FiSB6ui/cqvF6huy1ZfrPKAm6DBhsIvXNgCxJ9Yw6yOiafuUVCvSkkShhmtVH1/fqruX
+	cwslyyixtn04BQhh+KRXGpY7VMN793Q+BNpZjuRqPh4fkEu9eUQLPDyQc8o07+rFthI6jbeNRFv
+	eXB1fZXR4MC5jWEDrg5x76xRo1edW14aQ/d8mgnJ+r2Mpt0VoN+xtZOVw8I=
+X-Google-Smtp-Source: AGHT+IHUFht/v7CZAWZJ5jE27CYJT3Nr7wleWuoh+0reN6o4uZ4kEUN/9RR/leiLh6V4MF+vBDfRIw==
+X-Received: by 2002:a05:6512:3ba8:b0:545:225d:6463 with SMTP id 2adb3069b0e04-54838f4cc93mr11505113e87.42.1740660410538;
+        Thu, 27 Feb 2025 04:46:50 -0800 (PST)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com. [209.85.208.182])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-549441741e0sm151457e87.43.2025.02.27.04.46.49
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Feb 2025 04:46:50 -0800 (PST)
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-30b83290d39so7728581fa.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 27 Feb 2025 04:46:49 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWmn2ITJXgQpIHurynjfhrqNpGp2ugCAGRV04ilQVf5OOPT1XurBRgEgyNNkUktsBPq4SQ3NGjcv/IVuA==@lists.linux.dev
+X-Received: by 2002:a2e:8743:0:b0:308:eb34:1037 with SMTP id
+ 38308e7fff4ca-30a599702f2mr99762991fa.23.1740660409212; Thu, 27 Feb 2025
+ 04:46:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20250214003734.14944-1-andre.przywara@arm.com>
+ <20250214003734.14944-7-andre.przywara@arm.com> <173949598874.895319.6861900349653451498.robh@kernel.org>
+ <20250227114611.67a1ba00@donnerap.manchester.arm.com>
+In-Reply-To: <20250227114611.67a1ba00@donnerap.manchester.arm.com>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Thu, 27 Feb 2025 20:46:37 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66eOuT+0n71OEPUky_rLd37_msT4b1+QC+8Nyhwtqarng@mail.gmail.com>
+X-Gm-Features: AQ5f1Jrl692zM4GeD3auZTYmCOG5P6JcCZDXCDM_tdSURnSO6l5VyT64A9SuHe4
+Message-ID: <CAGb2v66eOuT+0n71OEPUky_rLd37_msT4b1+QC+8Nyhwtqarng@mail.gmail.com>
+Subject: Re: [PATCH v2 6/8] dt-bindings: pinctrl: add compatible for Allwinner A523/T527
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: "Rob Herring (Arm)" <robh@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-gpio@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
+	Samuel Holland <samuel@sholland.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 17 Feb 2025 23:48:13 +0800
-Chen-Yu Tsai <wens@csie.org> wrote:
+On Thu, Feb 27, 2025 at 7:46=E2=80=AFPM Andre Przywara <andre.przywara@arm.=
+com> wrote:
+>
+> On Thu, 13 Feb 2025 19:19:48 -0600
+> "Rob Herring (Arm)" <robh@kernel.org> wrote:
+>
+> Hi Rob,
+>
+> > On Fri, 14 Feb 2025 00:37:32 +0000, Andre Przywara wrote:
+> > > The A523 contains a pin controller similar to previous SoCs, although
+> > > using 10 GPIO banks (PortB-PortK), all of them being IRQ capable.
+> > > With this SoC we introduce a new style of binding, where the pinmux v=
+alues
+> > > for each pin group are stored in the new "allwinner,pinmux" property =
+in
+> > > the DT node, instead of requiring every driver to store a mapping bet=
+ween
+> > > the function names and the required pinmux.
+> > >
+> > > Add a new binding file, since all the different variants of the old
+> > > binding are making the file a bit unwieldy to handle already, and the=
+ new
+> > > property would make the situation worse.
+> > >
+> > > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > > ---
+> > >  .../allwinner,sun55i-a523-pinctrl.yaml        | 177 ++++++++++++++++=
+++
+> > >  1 file changed, 177 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/pinctrl/allwinn=
+er,sun55i-a523-pinctrl.yaml
+> > >
+> >
+> > My bot found errors running 'make dt_binding_check' on your patch:
+> >
+> > yamllint warnings/errors:
+> >
+> > dtschema/dtc warnings/errors:
+> > Documentation/devicetree/bindings/pinctrl/allwinner,sun55i-a523-pinctrl=
+.example.dts:24:18: fatal error: dt-bindings/clock/sun55i-a523-r-ccu.h: No =
+such file or directory
+> >    24 |         #include <dt-bindings/clock/sun55i-a523-r-ccu.h>
+> >       |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>
+> Ah yeah, of course, that's in another series. What's the best approach
+> here? I could cheekily import an existing header file, the symbol names i=
+n
+> there are often the same (ccu-sun20i-d1-r.h defines the same symbol, even
+> with the same number).
+> Or I just replace it below with the number "1"?
 
-Hi,
+This, or just drop in a random number.
 
-> * # Be careful, this email looks suspicious; * Out of Character: The send=
-er is exhibiting a significant deviation from their usual behavior, this ma=
-y indicate that their account has been compromised. Be extra cautious befor=
-e opening links or attachments. *
-> On Fri, Feb 14, 2025 at 8:40=E2=80=AFAM Andre Przywara <andre.przywara@ar=
-m.com> wrote:
-> >
-> > The Allwinner pincontroller IP features some registers to control the
-> > withstand voltage of each pin group. So far those registers were always
-> > located at the same offset, but the A523 SoC has moved them (probably to
-> > accommodate all eleven pin banks).
-> >
-> > Add a flag to note this feature, and use that to program the registers
-> > either at offset 0x340 or 0x380. So far no pincontroller driver uses
-> > this flag, but we need it for the upcoming A523 support.
-> >
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > ---
-> >  drivers/pinctrl/sunxi/pinctrl-sunxi.c | 15 +++++++++++----
-> >  drivers/pinctrl/sunxi/pinctrl-sunxi.h |  7 +++++--
-> >  2 files changed, 16 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/su=
-nxi/pinctrl-sunxi.c
-> > index 83a031ceb29f2..a1057122272bd 100644
-> > --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> > +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> > @@ -736,9 +736,9 @@ static int sunxi_pinctrl_set_io_bias_cfg(struct sun=
-xi_pinctrl *pctl,
-> >                 val =3D uV > 1800000 && uV <=3D 2500000 ? BIT(bank) : 0;
-> >
-> >                 raw_spin_lock_irqsave(&pctl->lock, flags);
-> > -               reg =3D readl(pctl->membase + PIO_POW_MOD_CTL_REG);
-> > +               reg =3D readl(pctl->membase + pctl->pow_mod_sel_offset);
-> >                 reg &=3D ~BIT(bank);
-> > -               writel(reg | val, pctl->membase + PIO_POW_MOD_CTL_REG);
-> > +               writel(reg | val, pctl->membase + pctl->pow_mod_sel_off=
-set);
-> >                 raw_spin_unlock_irqrestore(&pctl->lock, flags);
-> >
-> >                 fallthrough;
-> > @@ -746,9 +746,12 @@ static int sunxi_pinctrl_set_io_bias_cfg(struct su=
-nxi_pinctrl *pctl,
-> >                 val =3D uV <=3D 1800000 ? 1 : 0;
-> >
-> >                 raw_spin_lock_irqsave(&pctl->lock, flags);
-> > -               reg =3D readl(pctl->membase + PIO_POW_MOD_SEL_REG);
-> > +               reg =3D readl(pctl->membase + pctl->pow_mod_sel_offset +
-> > +                           PIO_POW_MOD_SEL_OFS);
-> >                 reg &=3D ~(1 << bank);
-> > -               writel(reg | val << bank, pctl->membase + PIO_POW_MOD_S=
-EL_REG);
-> > +               writel(reg | val << bank,
-> > +                      pctl->membase + pctl->pow_mod_sel_offset +
-> > +                      PIO_POW_MOD_SEL_OFS);
-> >                 raw_spin_unlock_irqrestore(&pctl->lock, flags);
-> >                 return 0;
-> >         default:
-> > @@ -1520,6 +1523,10 @@ int sunxi_pinctrl_init_with_flags(struct platfor=
-m_device *pdev,
-> >                 pctl->pull_regs_offset =3D PULL_REGS_OFFSET;
-> >                 pctl->dlevel_field_width =3D DLEVEL_FIELD_WIDTH;
-> >         }
-> > +       if (flags & SUNXI_PINCTRL_ELEVEN_BANKS)
-> > +               pctl->pow_mod_sel_offset =3D PIO_11B_POW_MOD_SEL_REG;
-> > +       else
-> > +               pctl->pow_mod_sel_offset =3D PIO_POW_MOD_SEL_REG;
-> >
-> >         pctl->irq_array =3D devm_kcalloc(&pdev->dev,
-> >                                        IRQ_PER_BANK * pctl->desc->irq_b=
-anks,
-> > diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.h b/drivers/pinctrl/su=
-nxi/pinctrl-sunxi.h
-> > index 6cf721876d89d..a93385e456a57 100644
-> > --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.h
-> > +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.h
-> > @@ -87,9 +87,11 @@
-> >  #define SUNXI_PINCTRL_VARIANT_MASK     GENMASK(7, 0)
-> >  #define SUNXI_PINCTRL_NEW_REG_LAYOUT   BIT(8)
-> >  #define SUNXI_PINCTRL_PORTF_SWITCH     BIT(9)
-> > +#define SUNXI_PINCTRL_ELEVEN_BANKS     BIT(10)
-> >
-> > -#define PIO_POW_MOD_SEL_REG    0x340
-> > -#define PIO_POW_MOD_CTL_REG    0x344
-> > +#define PIO_POW_MOD_SEL_REG            0x340
-> > +#define PIO_11B_POW_MOD_SEL_REG                0x380
-> > +#define PIO_POW_MOD_SEL_OFS            0x004 =20
->=20
-> Shouldn't this be PIO_POW_MOD_CTL_OFS instead?
+ChenYu
 
-Ah, I already got lost myself in those three-letter stubs, but you are
-right: it's the offset of the control register within the POW_MOD(?)
-register block.
-So nice catch, will fix it.
-
-Thanks,
-Andre
-
-> ChenYu
->=20
+> Or let git format-patch append the patch-id of the clock binding header
+> patch?
+>
+> Cheers,
+> Andre
+>
+> > compilation terminated.
+> > make[2]: *** [scripts/Makefile.dtbs:131: Documentation/devicetree/bindi=
+ngs/pinctrl/allwinner,sun55i-a523-pinctrl.example.dtb] Error 1
+> > make[2]: *** Waiting for unfinished jobs....
+> > make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1511: dt_b=
+inding_check] Error 2
+> > make: *** [Makefile:251: __sub-make] Error 2
 > >
-> >  #define PIO_BANK_K_OFFSET              0x500
+> > doc reference errors (make refcheckdocs):
 > >
-> > @@ -173,6 +175,7 @@ struct sunxi_pinctrl {
-> >         u32                             bank_mem_size;
-> >         u32                             pull_regs_offset;
-> >         u32                             dlevel_field_width;
-> > +       u32                             pow_mod_sel_offset;
-> >  };
+> > See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/2025=
+0214003734.14944-7-andre.przywara@arm.com
 > >
-> >  #define SUNXI_PIN(_pin, ...)                                   \
-> > --
-> > 2.46.3
-> > =20
->=20
->=20
-
+> > The base for the series is generally the latest rc1. A different depend=
+ency
+> > should be noted in *this* patch.
+> >
+> > If you already ran 'make dt_binding_check' and didn't see the above
+> > error(s), then make sure 'yamllint' is installed and dt-schema is up to
+> > date:
+> >
+> > pip3 install dtschema --upgrade
+> >
+> > Please check and re-submit after running the above command yourself. No=
+te
+> > that DT_SCHEMA_FILES can be set to your schema file to speed up checkin=
+g
+> > your schema. However, it must be unset to test all examples with your s=
+chema.
+> >
+>
+>
