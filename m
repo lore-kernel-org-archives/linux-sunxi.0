@@ -1,38 +1,39 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65B1A374F1
-	for <linux-sunxi@lists.linux.dev>; Thu, 27 Feb 2025 11:46:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9112270040
+	for <linux-sunxi@lists.linux.dev>; Thu, 27 Feb 2025 12:18:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740656810; cv=none; b=m3IpQe1ol+X71AeZjdHIcCnn/9NvOsMpv+1+9dwi8VhSuvOT5SJdB+da3BERRYLdMKpVxBaTvrdg4ewsQOM8wQ7U8wPTCGzxN3M2GdKpjG9x/3ktR/OK1y1GK7ynP2LvohndFkd4+37UXn62pLhmpI40hR6Jq7fuxaLvrH2bXn8=
+	t=1740658700; cv=none; b=qtOLFix+JDgXxjOl8AXIC+Yl4wgTOWRwl9rxc5E7SQuJ0W6kfBvquBrlnb6GyoB5ZDVYD9ycecdYU5DVQFl+LNJQsLchYrQzb9Exhj90e1BR54EgIEMA/lVKolibY8dl6s7quSzJe2UfAz3Qt/L8m6O+t4PIitnIth9UAaFv5ZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740656810; c=relaxed/simple;
-	bh=fbJlN7jitHcpATJIzTdtSIk8V9emdxHiUWGjROlMWy0=;
+	s=arc-20240116; t=1740658700; c=relaxed/simple;
+	bh=HSa4X05wJ6LbkPCWaSBF4nZC+iFFswKuy147sU4Tx1U=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=G/BH0+TY6GpQTHceTNvVLhrNQYFiEaGdLM+pgyivEcTnesfmCSDKLEpPId7x0UiMIMejk422CEpScyFr6L6zqKGhyLZ1fzhvBTK5aylZAoKIFSEvmqIawE75meNYz/s0OUdtMneYLQ27Z8J6aS07if0cW+Mb/226zZS1lyKsq10=
+	 MIME-Version:Content-Type; b=bgFuTzWe7j/Cy3TziAX3CfylfRW/n43a2WiJov9Va7bCOUv3L0pV36rSMOp7PsG/kJaID1APOAdzWSIkNcriN5+qNpx+rumjUFxAoRk36m+6tuM60p0XoOYa72rTn5CmsjWzuFU9iib6MqHNcxA2u9jLjZZadOzkE4DDQ0luR3E=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3F48F15A1;
-	Thu, 27 Feb 2025 03:47:02 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 971B62BCA;
+	Thu, 27 Feb 2025 04:18:31 -0800 (PST)
 Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0F9093F6A8;
-	Thu, 27 Feb 2025 03:46:44 -0800 (PST)
-Date: Thu, 27 Feb 2025 11:46:42 +0000
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6FF5E3F673;
+	Thu, 27 Feb 2025 04:18:14 -0800 (PST)
+Date: Thu, 27 Feb 2025 12:18:11 +0000
 From: Andre Przywara <andre.przywara@arm.com>
-To: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Chen-Yu Tsai <wens@csie.org>
 Cc: Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland
- <samuel@sholland.org>, linux-gpio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 5/8] pinctrl: sunxi: allow reading mux values from DT
-Message-ID: <20250227114642.28752709@donnerap.manchester.arm.com>
-In-Reply-To: <12609538.O9o76ZdvQC@jernej-laptop>
+ <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
+ Holland <samuel@sholland.org>, <linux-gpio@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 4/8] pinctrl: sunxi: support moved power
+ configuration registers
+Message-ID: <20250227121811.23460bf0@donnerap.manchester.arm.com>
+In-Reply-To: <CAGb2v67V7PAOC8MLVzE5SwwvpogN_WLNhQnRVD2pikGVDHtJjA@mail.gmail.com>
 References: <20250214003734.14944-1-andre.przywara@arm.com>
-	<20250214003734.14944-6-andre.przywara@arm.com>
-	<12609538.O9o76ZdvQC@jernej-laptop>
+	<20250214003734.14944-5-andre.przywara@arm.com>
+	<CAGb2v67V7PAOC8MLVzE5SwwvpogN_WLNhQnRVD2pikGVDHtJjA@mail.gmail.com>
 Organization: ARM
 X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
@@ -44,61 +45,125 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 18 Feb 2025 18:09:09 +0100
-Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
+On Mon, 17 Feb 2025 23:48:13 +0800
+Chen-Yu Tsai <wens@csie.org> wrote:
 
 Hi,
 
-> Dne petek, 14. februar 2025 ob 01:37:31 Srednjeevropski standardni =C4=8D=
-as je Andre Przywara napisal(a):
-> > So far every Allwinner SoC needs a large table in the kernel code, to
-> > describe the mapping between the pinctrl function names ("uart") and
-> > the actual pincontroller mux value to be written into the registers.
-> > This adds a lot of data into a single image kernel, and also looks
-> > somewhat weird, as the DT can easily store the mux value.
-> >=20
-> > Add some code that allows to avoid that table: the struct that describes
-> > the existing pins will be build at *runtime*, based on very basic
-> > information provided by the respective SoC's pinctrl driver. This
-> > consists of the number of pins per bank, plus information which bank
-> > provides IRQ support, along with the mux value to use for that.
-> > The code will then iterate over all children of the pincontroller DT
-> > node (which describe each pin group), and populate that struct with the
-> > mapping between function names and mux values. The only thing that needs
-> > adding in the DT is a property with that value, per pin group.
-> >=20
-> > When this table is built, it will be handed over to the existing sunxi
-> > pinctrl driver, which cannot tell a difference between a hardcoded
-> > struct and this new one built at runtime. It will take care of
-> > registering the pinctrl device with the pinctrl subsystem.
-> >=20
-> > All a new SoC driver would need to do is to provide two arrays, and then
-> > call the sunxi_pinctrl_dt_table_init() function.
-> >=20
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com> =20
+> * # Be careful, this email looks suspicious; * Out of Character: The send=
+er is exhibiting a significant deviation from their usual behavior, this ma=
+y indicate that their account has been compromised. Be extra cautious befor=
+e opening links or attachments. *
+> On Fri, Feb 14, 2025 at 8:40=E2=80=AFAM Andre Przywara <andre.przywara@ar=
+m.com> wrote:
+> >
+> > The Allwinner pincontroller IP features some registers to control the
+> > withstand voltage of each pin group. So far those registers were always
+> > located at the same offset, but the A523 SoC has moved them (probably to
+> > accommodate all eleven pin banks).
+> >
+> > Add a flag to note this feature, and use that to program the registers
+> > either at offset 0x340 or 0x380. So far no pincontroller driver uses
+> > this flag, but we need it for the upcoming A523 support.
+> >
+> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > ---
+> >  drivers/pinctrl/sunxi/pinctrl-sunxi.c | 15 +++++++++++----
+> >  drivers/pinctrl/sunxi/pinctrl-sunxi.h |  7 +++++--
+> >  2 files changed, 16 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/su=
+nxi/pinctrl-sunxi.c
+> > index 83a031ceb29f2..a1057122272bd 100644
+> > --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+> > +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+> > @@ -736,9 +736,9 @@ static int sunxi_pinctrl_set_io_bias_cfg(struct sun=
+xi_pinctrl *pctl,
+> >                 val =3D uV > 1800000 && uV <=3D 2500000 ? BIT(bank) : 0;
+> >
+> >                 raw_spin_lock_irqsave(&pctl->lock, flags);
+> > -               reg =3D readl(pctl->membase + PIO_POW_MOD_CTL_REG);
+> > +               reg =3D readl(pctl->membase + pctl->pow_mod_sel_offset);
+> >                 reg &=3D ~BIT(bank);
+> > -               writel(reg | val, pctl->membase + PIO_POW_MOD_CTL_REG);
+> > +               writel(reg | val, pctl->membase + pctl->pow_mod_sel_off=
+set);
+> >                 raw_spin_unlock_irqrestore(&pctl->lock, flags);
+> >
+> >                 fallthrough;
+> > @@ -746,9 +746,12 @@ static int sunxi_pinctrl_set_io_bias_cfg(struct su=
+nxi_pinctrl *pctl,
+> >                 val =3D uV <=3D 1800000 ? 1 : 0;
+> >
+> >                 raw_spin_lock_irqsave(&pctl->lock, flags);
+> > -               reg =3D readl(pctl->membase + PIO_POW_MOD_SEL_REG);
+> > +               reg =3D readl(pctl->membase + pctl->pow_mod_sel_offset +
+> > +                           PIO_POW_MOD_SEL_OFS);
+> >                 reg &=3D ~(1 << bank);
+> > -               writel(reg | val << bank, pctl->membase + PIO_POW_MOD_S=
+EL_REG);
+> > +               writel(reg | val << bank,
+> > +                      pctl->membase + pctl->pow_mod_sel_offset +
+> > +                      PIO_POW_MOD_SEL_OFS);
+> >                 raw_spin_unlock_irqrestore(&pctl->lock, flags);
+> >                 return 0;
+> >         default:
+> > @@ -1520,6 +1523,10 @@ int sunxi_pinctrl_init_with_flags(struct platfor=
+m_device *pdev,
+> >                 pctl->pull_regs_offset =3D PULL_REGS_OFFSET;
+> >                 pctl->dlevel_field_width =3D DLEVEL_FIELD_WIDTH;
+> >         }
+> > +       if (flags & SUNXI_PINCTRL_ELEVEN_BANKS)
+> > +               pctl->pow_mod_sel_offset =3D PIO_11B_POW_MOD_SEL_REG;
+> > +       else
+> > +               pctl->pow_mod_sel_offset =3D PIO_POW_MOD_SEL_REG;
+> >
+> >         pctl->irq_array =3D devm_kcalloc(&pdev->dev,
+> >                                        IRQ_PER_BANK * pctl->desc->irq_b=
+anks,
+> > diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.h b/drivers/pinctrl/su=
+nxi/pinctrl-sunxi.h
+> > index 6cf721876d89d..a93385e456a57 100644
+> > --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.h
+> > +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.h
+> > @@ -87,9 +87,11 @@
+> >  #define SUNXI_PINCTRL_VARIANT_MASK     GENMASK(7, 0)
+> >  #define SUNXI_PINCTRL_NEW_REG_LAYOUT   BIT(8)
+> >  #define SUNXI_PINCTRL_PORTF_SWITCH     BIT(9)
+> > +#define SUNXI_PINCTRL_ELEVEN_BANKS     BIT(10)
+> >
+> > -#define PIO_POW_MOD_SEL_REG    0x340
+> > -#define PIO_POW_MOD_CTL_REG    0x344
+> > +#define PIO_POW_MOD_SEL_REG            0x340
+> > +#define PIO_11B_POW_MOD_SEL_REG                0x380
+> > +#define PIO_POW_MOD_SEL_OFS            0x004 =20
 >=20
-> I went through the code and it makes sense.
+> Shouldn't this be PIO_POW_MOD_CTL_OFS instead?
 
-Many thanks, that's much appreciated!
-
-> I wonder if we really need to
-> build whole table instead of having on demand lookups into DT. However,
-> for now, this will do. So:
-
-I agree that would make some sense, but is also quite a departure from the
-current driver, which we have been using for more than a decade now. And I
-guess that would mean that we would need to maintain the two approaches,
-for the old SoCs, and the new ones? With that patch here generic changes
-can be applied just to the one core driver, dealing with the pinctrl
-subsystem.
-
-> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Ah, I already got lost myself in those three-letter stubs, but you are
+right: it's the offset of the control register within the POW_MOD(?)
+register block.
+So nice catch, will fix it.
 
 Thanks,
 Andre
 
-> Thanks!
+> ChenYu
 >=20
-> Best regards,
-> Jernej
+> >
+> >  #define PIO_BANK_K_OFFSET              0x500
+> >
+> > @@ -173,6 +175,7 @@ struct sunxi_pinctrl {
+> >         u32                             bank_mem_size;
+> >         u32                             pull_regs_offset;
+> >         u32                             dlevel_field_width;
+> > +       u32                             pow_mod_sel_offset;
+> >  };
+> >
+> >  #define SUNXI_PIN(_pin, ...)                                   \
+> > --
+> > 2.46.3
+> > =20
 >=20
+>=20
+
