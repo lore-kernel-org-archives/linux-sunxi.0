@@ -1,172 +1,214 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 664AD1EB44
-	for <linux-sunxi@lists.linux.dev>; Thu, 27 Feb 2025 12:46:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C611425BADD
+	for <linux-sunxi@lists.linux.dev>; Thu, 27 Feb 2025 14:49:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740660416; cv=none; b=XWj1rrerCmfnvE3e04H1D3CXakBRkiFhVnw1YGW9YTM1t3Dy5cqRBK106OdN2QpL2+5fBk3K2MwWodcXWl18jnh2YumQPJ63G9otH/9PuCy46YN0NxDyLs10m2fsP7q76mZwRZdPFab1qRCDBh6X8OrRHNCjVbwh8/wJpjiF5t4=
+	t=1740667798; cv=none; b=SmX+s5p7U5nB7hoI2A2VGUr4OHAiHRugUroInpUnyLl944Oibgh+DnVgp6LcdQIo1LF1XHQPaZoNwopoWKOzvDtsk0aSSF2NQ8expuqQ8flpA0/c592Gso2A7aX1X+mawLcVdlwTZu4RxA0MzHXKayJNwnMBTVBioU6oknlDOao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740660416; c=relaxed/simple;
-	bh=U7PCzUZnVYRvejULBSq6O8X9s2whc0HDjN7qBWSOoYE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=le8QazlxM6OO96K377N5Di9+o4F3FHKjHwFaYUboINIppPDIKKW4QSIfb5zHE7y/n4sLp9xJDr6wTYMv/ZwcyAEFq7YZYMKdjfZpKPD+4ha2tpyF5oG2BHrDvSa6Pk3+a7sM3KFFBAdhqq7WiS6UdNK4MEUrNcquKlsnRKONkxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5461dab4bfdso969572e87.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 27 Feb 2025 04:46:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740660411; x=1741265211;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wTt5QbyADMJ+0WvsKLYId9FZQBGxvlR5X8sImHZOIM4=;
-        b=KMQkxRJYbnYT+g7Nc1HEsyixi7uajOfV7rvtfVzxT2MlCdpOkLMsGnSma+zWcbcOUU
-         ssQfjBij9P3MqrXiNkiUiCQo4Ml2Wggr0JuU6Jaj+g/U5vO1+avNYRy9J+UAKkgBiG6z
-         0dx80MQm4tV3+eDN11xW/B54fuPAfcnte36am/TG1+9WZt0lEAshF6oqG56/EzGE2+Qv
-         EwtTWzCByy6+nKaLQ5ZIP8yS5i5DgaNs8kxR4qUaha/be+3df9IOCo/bfWFHPMGmlleB
-         paTwywyzDXBWPk2fyF0NFtMfMxqcx88ydoBWlviEASVTK76gvWsU3O3vo36SYgT0Dn4F
-         B1zg==
-X-Forwarded-Encrypted: i=1; AJvYcCVEvJf07Ora7S7l4LenpwfcfI1kd9C3EpcMzyOjlTowiXcaEFRYKJbmnEXuybcVUEKbmsOrFDE21qQbKg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwXT3QuXUz0s3yU1JTjj1+KQFiWgiasuV6xQBnxZg0bcsDvYcnH
-	4D36LrAWDBIFjcsbssJIss6EVjfwC9dGeA03Z5qmS3OAlhffkBpWpq5u1KYR
-X-Gm-Gg: ASbGncsLVB4g7CPklX3w7jXyOqOButVLFVVSa2aQSWjPFCio+A+y0bHAwOvRCDwyluh
-	Q8hbwaauEEbCFT6xZQLNS4+7X4rMZ/w2p44aZVRYHHuvEOid/QvazNA9h3ChkIQAC6km+K+SgCm
-	ats17Z7FiSB6ui/cqvF6huy1ZfrPKAm6DBhsIvXNgCxJ9Yw6yOiafuUVCvSkkShhmtVH1/fqruX
-	cwslyyixtn04BQhh+KRXGpY7VMN793Q+BNpZjuRqPh4fkEu9eUQLPDyQc8o07+rFthI6jbeNRFv
-	eXB1fZXR4MC5jWEDrg5x76xRo1edW14aQ/d8mgnJ+r2Mpt0VoN+xtZOVw8I=
-X-Google-Smtp-Source: AGHT+IHUFht/v7CZAWZJ5jE27CYJT3Nr7wleWuoh+0reN6o4uZ4kEUN/9RR/leiLh6V4MF+vBDfRIw==
-X-Received: by 2002:a05:6512:3ba8:b0:545:225d:6463 with SMTP id 2adb3069b0e04-54838f4cc93mr11505113e87.42.1740660410538;
-        Thu, 27 Feb 2025 04:46:50 -0800 (PST)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com. [209.85.208.182])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-549441741e0sm151457e87.43.2025.02.27.04.46.49
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Feb 2025 04:46:50 -0800 (PST)
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-30b83290d39so7728581fa.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 27 Feb 2025 04:46:49 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWmn2ITJXgQpIHurynjfhrqNpGp2ugCAGRV04ilQVf5OOPT1XurBRgEgyNNkUktsBPq4SQ3NGjcv/IVuA==@lists.linux.dev
-X-Received: by 2002:a2e:8743:0:b0:308:eb34:1037 with SMTP id
- 38308e7fff4ca-30a599702f2mr99762991fa.23.1740660409212; Thu, 27 Feb 2025
- 04:46:49 -0800 (PST)
+	s=arc-20240116; t=1740667798; c=relaxed/simple;
+	bh=/+J4TVv0pmFUhasUbdo9cIKQLHkTdGgPrNJ8G6n+C/8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=c0ZBRo7jjCuBP2rL4tPD6C/0ALl0F16SwiCT6gyzn2W/TO/lJxG6IgS50IhvyP6DYZGabkj7QuF+SuBfiKrNp6vcIOHWM8i182+p/QuUm8AmXBUH40X1pXcSB7jDTXC2feajW2pp6eAn0oxHltwd4bhH5GnUuT/G+sBRUlCkWWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lTZ6W9Ky; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lTZ6W9Ky"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740667797; x=1772203797;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/+J4TVv0pmFUhasUbdo9cIKQLHkTdGgPrNJ8G6n+C/8=;
+  b=lTZ6W9KywG0wSXdYZhOi/jxRFvoFdM4ARzxioaKlfdFhoR35Vi++DeUs
+   xG5wtxALBfkJ9AjoXVijH0itE02xcwCLeq5dw1rbhvWdN70R4IpweUREZ
+   pbaWt+0l0vSYMjWaRpFMX9fMcuzvbNQeZ/Y+g5ZwXUKEx5U/xgVWBNMQq
+   xR9CJH6/kwZOGVtgd5r3WbszOOWS4ysfLT8NDcDT0okyNyQkEU6wNCvG3
+   elxamHR9gB139wpYmfo1cHlkwNvWrotMPbAFqjbc/gCCWK+O+Aba428GS
+   MZy8Wv4zksorXu9rZoDgdyvqJAGRcibcgi7U3pUCnPA6NW+vJjLhCv8mp
+   A==;
+X-CSE-ConnectionGUID: tTzHKjqCRFK9yIV/A32Gwg==
+X-CSE-MsgGUID: 43YQkAhATAupGhQgibmwEg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="40735924"
+X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; 
+   d="scan'208";a="40735924"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 06:49:55 -0800
+X-CSE-ConnectionGUID: QY9xDufQQdmIzsMP9JwSew==
+X-CSE-MsgGUID: mjWrqQyOSxGjmaB+28Ev5A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; 
+   d="scan'208";a="117070355"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 06:49:47 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tnfCp-0000000Fcnn-1wW6;
+	Thu, 27 Feb 2025 16:49:43 +0200
+Date: Thu, 27 Feb 2025 16:49:43 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Matti Vaittinen <mazziesaccount@gmail.com>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Daniel Scally <djrscally@gmail.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
+	Nuno Sa <nuno.sa@analog.com>, David Lechner <dlechner@baylibre.com>,
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	Guillaume Stols <gstols@baylibre.com>,
+	Olivier Moysan <olivier.moysan@foss.st.com>,
+	Dumitru Ceclan <mitrutzceclan@gmail.com>,
+	Trevor Gamblin <tgamblin@baylibre.com>,
+	Matteo Martelli <matteomartelli3@gmail.com>,
+	Alisa-Dariana Roman <alisadariana@gmail.com>,
+	Ramona Alexandra Nechita <ramona.nechita@analog.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v4 02/10] property: Add
+ device_get_child_node_count_named()
+Message-ID: <Z8B7h4_IWz43gFhO@smile.fi.intel.com>
+References: <29ec24f1498392cafbecc0e0c0e23e1ce3289565.1740421248.git.mazziesaccount@gmail.com>
+ <Z72QAOA9xXbP16K-@kuha.fi.intel.com>
+ <Z72Zp8tpnvlFGdQ_@smile.fi.intel.com>
+ <ad39b453-7e5b-49bd-a4fd-6a4988636130@gmail.com>
+ <Z72d7TzZ21WITW3f@smile.fi.intel.com>
+ <893a3c45-537e-47ad-afbd-1e5d3b9abe2c@gmail.com>
+ <Z73M3Ua6u1FpgBEK@smile.fi.intel.com>
+ <720f9c69-ca1f-45cb-9f6e-c8e4703c9aad@gmail.com>
+ <Z78g_uiXumn4mvET@smile.fi.intel.com>
+ <d7982b76-3da7-47ff-b2b2-f964610af1f7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250214003734.14944-1-andre.przywara@arm.com>
- <20250214003734.14944-7-andre.przywara@arm.com> <173949598874.895319.6861900349653451498.robh@kernel.org>
- <20250227114611.67a1ba00@donnerap.manchester.arm.com>
-In-Reply-To: <20250227114611.67a1ba00@donnerap.manchester.arm.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Thu, 27 Feb 2025 20:46:37 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66eOuT+0n71OEPUky_rLd37_msT4b1+QC+8Nyhwtqarng@mail.gmail.com>
-X-Gm-Features: AQ5f1Jrl692zM4GeD3auZTYmCOG5P6JcCZDXCDM_tdSURnSO6l5VyT64A9SuHe4
-Message-ID: <CAGb2v66eOuT+0n71OEPUky_rLd37_msT4b1+QC+8Nyhwtqarng@mail.gmail.com>
-Subject: Re: [PATCH v2 6/8] dt-bindings: pinctrl: add compatible for Allwinner A523/T527
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: "Rob Herring (Arm)" <robh@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-gpio@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
-	Samuel Holland <samuel@sholland.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d7982b76-3da7-47ff-b2b2-f964610af1f7@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Thu, Feb 27, 2025 at 7:46=E2=80=AFPM Andre Przywara <andre.przywara@arm.=
-com> wrote:
->
-> On Thu, 13 Feb 2025 19:19:48 -0600
-> "Rob Herring (Arm)" <robh@kernel.org> wrote:
->
-> Hi Rob,
->
-> > On Fri, 14 Feb 2025 00:37:32 +0000, Andre Przywara wrote:
-> > > The A523 contains a pin controller similar to previous SoCs, although
-> > > using 10 GPIO banks (PortB-PortK), all of them being IRQ capable.
-> > > With this SoC we introduce a new style of binding, where the pinmux v=
-alues
-> > > for each pin group are stored in the new "allwinner,pinmux" property =
-in
-> > > the DT node, instead of requiring every driver to store a mapping bet=
-ween
-> > > the function names and the required pinmux.
-> > >
-> > > Add a new binding file, since all the different variants of the old
-> > > binding are making the file a bit unwieldy to handle already, and the=
- new
-> > > property would make the situation worse.
-> > >
-> > > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > > ---
-> > >  .../allwinner,sun55i-a523-pinctrl.yaml        | 177 ++++++++++++++++=
-++
-> > >  1 file changed, 177 insertions(+)
-> > >  create mode 100644 Documentation/devicetree/bindings/pinctrl/allwinn=
-er,sun55i-a523-pinctrl.yaml
-> > >
-> >
-> > My bot found errors running 'make dt_binding_check' on your patch:
-> >
-> > yamllint warnings/errors:
-> >
-> > dtschema/dtc warnings/errors:
-> > Documentation/devicetree/bindings/pinctrl/allwinner,sun55i-a523-pinctrl=
-.example.dts:24:18: fatal error: dt-bindings/clock/sun55i-a523-r-ccu.h: No =
-such file or directory
-> >    24 |         #include <dt-bindings/clock/sun55i-a523-r-ccu.h>
-> >       |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->
-> Ah yeah, of course, that's in another series. What's the best approach
-> here? I could cheekily import an existing header file, the symbol names i=
-n
-> there are often the same (ccu-sun20i-d1-r.h defines the same symbol, even
-> with the same number).
-> Or I just replace it below with the number "1"?
+On Thu, Feb 27, 2025 at 10:01:49AM +0200, Matti Vaittinen wrote:
+> On 26/02/2025 16:11, Andy Shevchenko wrote:
+> > On Wed, Feb 26, 2025 at 04:04:02PM +0200, Matti Vaittinen wrote:
+> > > On 25/02/2025 15:59, Andy Shevchenko wrote:
+> > > > On Tue, Feb 25, 2025 at 03:29:17PM +0200, Matti Vaittinen wrote:
+> > > > > On 25/02/2025 12:39, Andy Shevchenko wrote:
+> > > > > > On Tue, Feb 25, 2025 at 12:29:31PM +0200, Matti Vaittinen wrote:
+> > > > > > > On 25/02/2025 12:21, Andy Shevchenko wrote:
+> > > > > > > > On Tue, Feb 25, 2025 at 11:40:16AM +0200, Heikki Krogerus wrote:
 
-This, or just drop in a random number.
+...
 
-ChenYu
+> > > > > > > > > 
+> > > > > > > > > I did not check how many users are you proposing for this, but if
+> > > > > > > > > there's only one, then IMO this should not be a global function yet.
+> > > > > > > > > It just feels to special case to me. But let's see what the others
+> > > > > > > > > think.
+> > > > > > > > 
+> > > > > > > > The problem is that if somebody hides it, we might potentially see
+> > > > > > > > a duplication in the future. So I _slightly_ prefer to publish and
+> > > > > > > > then drop that after a few cycles if no users appear.
+> > > > > > > 
+> > > > > > > After taking a very quick grep I spotted one other existing place where we
+> > > > > > > might be able to do direct conversion to use this function.
+> > > > > > > 
+> > > > > > > drivers/net/ethernet/freescale/gianfar.c
+> > > > > > > 
+> > > > > > > That'd be 2 users.
+> > > > > > 
+> > > > > > I haven't checked myself, I believe your judgement,
+> > > > > 
+> > > > > I took a better look and you obviously shouldn't believe :) The gianfar used
+> > > > > of_node instead of the fwnode. So, it'd be a single caller at starters.
+> > > > 
+> > > > ...which is the same as dev_of_node(), which means that you can use your
+> > > > function there.
+> > > 
+> > > I'm unsure what you mean. The proposed function
+> > > device_get_child_node_count_named() takes device pointer. I don't see how
+> > > dev_of_node() helps converting node to device?
+> > 
+> > dev_of_node() takes the device pointer and dev_fwnode() takes that as well,
+> > it means that there is no difference which one to use OF-centric or fwnode
+> 
+> The proposed device_get_child_node_count_named() takes a device pointer. I
+> don't see how dev_of_node() helps if there is just of_node and no device
+> pointer available in the calling code.
 
-> Or let git format-patch append the patch-id of the clock binding header
-> patch?
->
-> Cheers,
-> Andre
->
-> > compilation terminated.
-> > make[2]: *** [scripts/Makefile.dtbs:131: Documentation/devicetree/bindi=
-ngs/pinctrl/allwinner,sun55i-a523-pinctrl.example.dtb] Error 1
-> > make[2]: *** Waiting for unfinished jobs....
-> > make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1511: dt_b=
-inding_check] Error 2
-> > make: *** [Makefile:251: __sub-make] Error 2
-> >
-> > doc reference errors (make refcheckdocs):
-> >
-> > See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/2025=
-0214003734.14944-7-andre.przywara@arm.com
-> >
-> > The base for the series is generally the latest rc1. A different depend=
-ency
-> > should be noted in *this* patch.
-> >
-> > If you already ran 'make dt_binding_check' and didn't see the above
-> > error(s), then make sure 'yamllint' is installed and dt-schema is up to
-> > date:
-> >
-> > pip3 install dtschema --upgrade
-> >
-> > Please check and re-submit after running the above command yourself. No=
-te
-> > that DT_SCHEMA_FILES can be set to your schema file to speed up checkin=
-g
-> > your schema. However, it must be unset to test all examples with your s=
-chema.
-> >
->
->
+???
+
+The loops are working on
+
+	struct device_node *np = pdev->dev.np;
+
+which is the equivalent to
+
+	struct device_node *np = dev_of_node(&pdev->dev);
+
+which takes device pointer.
+
+> (Well, as I wrote below, I could
+> alter the gianfar code by dropping the gfar_of_group_count(), so that I have
+> the device pointer in caller). Anyways, I don't see how dev_of_node() should
+> help unless you're proposing I add a of_get_child_node_count_named() or
+> somesuch - which I don't think makes sense.
+
+Are you forbidding yourself to change the function prototype to take a device
+pointer instead of device_node one? :-)
+
+> > API in this particular case. Just make sure that the function (and there
+> > is also a second loop AFAICS) takes struct device *dev instead of struct
+> > device_node *np as a parameter.
+> 
+> I think I lost the track here :)
+
+Make gfar_of_group_count() to take device pointer. As simple as that.
+
+> > > I think I could actually kill the whole gfar_of_group_count() function and
+> > > replace it with a direct call to the device_get_child_node_count_named() -
+> > > but I am not at all convinced that'd be worth including the property.h to a
+> > > file which is currently using only of_* -stuff. Well, I suppose it can be
+> > > asked from netdev peeps but I am not convinced they see it as a great idea.
+> > > 
+> > > If I misunderstood your meaning - please elaborate.
+> > 
+> > The driver is quite old
+> 
+> I remember having to modify this driver somewhere around 2010 or so. :) Time
+> flies.
+> 
+> > and has a lot of room to improve. Briefly looking it
+> > may be almost fully converted to fwnode, but it's not your call (only if you
+> > wish). Nevertheless, using agnostic APIs if they reduce code base is fine.
+> > We have drivers that do OF and fwnode mixed approach (for various reasons,
+> > one of which is the new API that is absent in OF realm.
+> 
+> Well, we can propose this to netdev people but I wouldn't be surprized if
+> they requested full of_node => fwnode rewrite instead of removing simple
+> looking loop and bringing mixture of fwnode and of_node in driver.
+
+Without doing the proposal we will never know what they will think of all
+this...
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
