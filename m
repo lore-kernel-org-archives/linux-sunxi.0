@@ -1,134 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.web.de (mout.web.de [212.227.17.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 996B5275601
-	for <linux-sunxi@lists.linux.dev>; Fri, 28 Feb 2025 17:07:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BC3F2702B6
+	for <linux-sunxi@lists.linux.dev>; Fri, 28 Feb 2025 17:34:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740762458; cv=none; b=DnkBdbPQOONF8aOD4UGu09/30hMsjc/6WzADSZJpMo03mtNwfeOmCKyXLX5UPNSOdfNzb5vVtXfqVxJX+8r0A9ocBFCBnc3lAb34b9HDVqDw1iwjGbFB9FUG2i154C6tbKQf24PID6a5LXewz2G8A9o9QbLffDenFgqqSXFhZQ0=
+	t=1740764085; cv=none; b=OiDpaWZ6A4qfGQWyNftTbdaegF/vUybQt7AalwyU0gS5xMy1VBJzZDBeHf6jzdoq6XMrkmmUL95t9Y/OYj303BsnUTRL2WkpbrjsioSGbIzY4eLW+4GNBwrxXfwn+pzZbs+6RG8twNk2Pu+Oiqt8aP4MK0lG7jcGmdR1F7vWLaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740762458; c=relaxed/simple;
-	bh=uz7YWAd8O0uBi8Im2yha/KDIrRaCObz+LjL/VNUp47k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KGNzEvZ0XriCLUh7s+igj7Eq0eEtcToYdsHeViI21PZG0qR6xNvf2G+lqXPuMJ0705iBIGmbl9EusYBhybbSyixUw3oR3DXSeq54YUKD4xVRMA+jTYpC4ZeKskqaTDFXRnevI6Z8qAY9lYPC6HOLt4BQRLMbzRKMUWYvTeGjKCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V1Bc1gJj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740764085; c=relaxed/simple;
+	bh=ngb8oLhKZ+SRoAiUZUCYaHMFKj/xm0Ou7XklxfC2lmw=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=psW3I+vb1zsb1zAWU/swZC3oUlCcWjGgUx2tUQ9zfSnBTvzFAr7zDgedwNo8lix+qm1q27VR1pQj2/3AGJmtbMkGET8FAhtgyP4qF/HQ1vxWRTyU6L1YkPiMYzgLPU6Vk3Hr4QG9MVYd/NvVyBgoXzApi3kv5A7vk52VjenMGMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=OI3GlODT; arc=none smtp.client-ip=212.227.17.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V1Bc1gJj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E1A3C4CEF4
-	for <linux-sunxi@lists.linux.dev>; Fri, 28 Feb 2025 17:07:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740762458;
-	bh=uz7YWAd8O0uBi8Im2yha/KDIrRaCObz+LjL/VNUp47k=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=V1Bc1gJjVvY8uePckrHl2AFcrmUlPiqmSt+OKYDZaaYAJRwiCi7f0yG9+fWABXU+G
-	 5mDN83OtUY092ZtJNVZ7g5fiq40tlGcK6KT5FUYAlbUikn9TLl7XAZy7tpFucqLjpR
-	 xHQJr6rEUrjVcvVH2MeWvnY9qymeF6QoGzQkMVrWWw0LQho2OfjP5wydZF69WBOXIY
-	 Y1P79tmbbAWlev1lftPgkAbmrCpT5K4GQoq7zcrnMQO6Vt/mKR5+kBSVH1Qu2n7CDU
-	 2n70Q8nmFGdOThFtacF8TESbv4hy5Lm0kP8rRqr3sCrUxZ1XVp3BORJEyhg9ZHC/9B
-	 Ew3pJIqBi0btQ==
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5dc89df7eccso3673354a12.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 28 Feb 2025 09:07:38 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU25+CWBS3PsmEeC+WgFz1owhADkSXJiY0HWt8YeorzgI3AbV8L132UixiqmHOnLgE1ggLj+Pyx8XbGVg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy6kPeb2WGfbNk70zdLrfYZidgriCwlrCAoU6iRXlLLUR++5F9C
-	bDp+nJDFiWXYnULzQZMs9+XpI4rtNAEDNAncjQCvy6tBhwl8DSE8hkOJsbSfAaZ/IVKPWd2x4Bu
-	zI3/olsB12CH02RZm+jm2WB0ceg==
-X-Google-Smtp-Source: AGHT+IEHPy1qvm3dSI803ZGj26xFQwAtPW1n1+HYVcZOF+85YFAZAlcsJm1lq/IdmNqWRFeTlLzx0+mxXPel52yDr9A=
-X-Received: by 2002:a05:6402:40c7:b0:5e4:c532:d69d with SMTP id
- 4fb4d7f45d1cf-5e4d6926964mr3829294a12.0.1740762456471; Fri, 28 Feb 2025
- 09:07:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="OI3GlODT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1740764030; x=1741368830; i=markus.elfring@web.de;
+	bh=qFyTk6UI9vQkUT0Y0SbdN5aOZAMFszIFkYavvczvjdM=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:From:
+	 Subject:Content-Type:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=OI3GlODT7nu2SWH5SZy83uUVQU8+5tFb7uB4py2fClEPknvKBpuS2PfOyDKWB0er
+	 BZKTUlQmtYwhjjAK6OFptGcTO9qO6kc1BAtsKWoL9AapFWvRN+UhcORdpUdULxPXd
+	 2veGeKFT5rRqljtUPCNBf9iIMLBGda+HmRgfFFEg4qcMy7XlnKOgy02GV3HYskvsf
+	 aIitWWKNug7hIcurV1ua/qbGqHVSGOPI3lu0dfT07t2rSnSaW44Ru+mCV7ieZO+cP
+	 SRCM+oLEvRQR0vLAz65GSRLRiA2VxUfLJMwhNGdmIkBmPPNg7MxmIvsaZ0doh5L1Y
+	 WUr7g7jKMALPJbk0Lg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.93.27]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MKMA1-1tZz4D0ku7-00KqlH; Fri, 28
+ Feb 2025 18:33:50 +0100
+Message-ID: <8b046033-0f97-49e0-afdd-a3a3a3c23ec4@web.de>
+Date: Fri, 28 Feb 2025 18:33:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1740421248.git.mazziesaccount@gmail.com> <29ec24f1498392cafbecc0e0c0e23e1ce3289565.1740421248.git.mazziesaccount@gmail.com>
-In-Reply-To: <29ec24f1498392cafbecc0e0c0e23e1ce3289565.1740421248.git.mazziesaccount@gmail.com>
-From: Rob Herring <robh@kernel.org>
-Date: Fri, 28 Feb 2025 11:07:24 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+av-fptMQqBeVieKwA9c7+uUCaqZMLGu-RVJzWZ_7+Vg@mail.gmail.com>
-X-Gm-Features: AQ5f1Jq19gEh952WMm9N8aBYMg7AK4rciiMO8rsTCtZsR8RobHuwRIGj0QbQL8Y
-Message-ID: <CAL_Jsq+av-fptMQqBeVieKwA9c7+uUCaqZMLGu-RVJzWZ_7+Vg@mail.gmail.com>
-Subject: Re: [PATCH v4 02/10] property: Add device_get_child_node_count_named()
-To: Matti Vaittinen <mazziesaccount@gmail.com>
-Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, Jonathan Cameron <jic23@kernel.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Hugo Villeneuve <hvilleneuve@dimonoff.com>, 
-	Nuno Sa <nuno.sa@analog.com>, David Lechner <dlechner@baylibre.com>, 
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>, Guillaume Stols <gstols@baylibre.com>, 
-	Olivier Moysan <olivier.moysan@foss.st.com>, Dumitru Ceclan <mitrutzceclan@gmail.com>, 
-	Trevor Gamblin <tgamblin@baylibre.com>, Matteo Martelli <matteomartelli3@gmail.com>, 
-	Alisa-Dariana Roman <alisadariana@gmail.com>, 
-	Ramona Alexandra Nechita <ramona.nechita@analog.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-acpi@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+To: dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
+ David Airlie <airlied@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>
+Content-Language: en-GB
+Cc: LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org,
+ Qasim Ijaz <qasdev00@gmail.com>
+From: Markus Elfring <Markus.Elfring@web.de>
+Subject: [PATCH] drm/sun4i: dsi: Simplify maximum determination in
+ sun6i_dsi_setup_timings()
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:lA+yt6XQXGbHJA8i/dPHH3qngpTXFeGZNQWLvKtVckTh6A0dFKR
+ VvIKo0ilo4K7DBjZeXE4QoS4qwWtxJPnmt0+dUesQA0s5PJMlJP6zleg1N54VKHLbJTKQha
+ HiudkuSGSYTNxDpWe0Xla/n+IJxm8E7UcxoeMqX3F1547PEFeOQFUfV7ixoOQH0wJn1/NzA
+ /JXSU0t61PkVg1S59unew==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:8JS2gQELrJA=;gJeX7bdK3jHXeCd39Zg45iaR7Gt
+ N5Rje24aQ61qqxH+g1IjROCZuJF4VscVGomPjF61aogbFXUU28SeHsRqyv3FWDWeXvDUjNIni
+ vt/ccojul41zlduG8GlSXJ2Q1339FKuIcQDAkNlRuzi7jSE5oOHfKCYs7gxxdW96wAGg3w1U+
+ Ihx+okmz8+lNa5uvwVb2GB4KBeRWLgvDaCaJe1IzDvc5Dy+swyvwDnGHFpBqEP76xFNqQgSxK
+ Dft1doLFmwj12LXzNU1sXa5Yn/5ToilbzQFiwVrJzIc3oh3RmXqCbZtiXf55rT+l0p48xGEDH
+ 0qTuiwNhMfDrFUQV1S2ohAScQY4Yy8cNBYaDUtvuVklWkzJsaTG09Ld0tsNSFpgUK2OEQMBSH
+ dz8g4QMOEnS6jTiXYbF+gQFchy2N8V7OY/fpr1QJpdcQyp5oT1yido+VO2JEhuwTw06iofq6h
+ OlO0nylfacgE/Xy/uWiGHXUXUuaEbCQcRerbpieWv1MeW+NFuvl53F7TCma+Qt7J+EDUVoQp5
+ Oo+rNropgVEn2fI4Ls1vN3D4iif9JWl2Y093cnc4a/IfTyw8gG3p2KALcYz9ERYdB2vuA/Ex4
+ n0EMqsc9kwgKl4X6uDoJOuUsdf3slrEsOgJordmfY2qZQT7/ky4UQ6OqU+EYSst/yCTDco1co
+ jWMAr0+XnrF5MOb8jvYpC4Afe9IpdmqOboSISsM2M4Ru1j3nnj6kZa/UNJgKDT0kOfTfL3KfO
+ QVopsnd8fGgUWI17zRBv9WxYhtoJ5SC15o392Xuzbk+oV+jyZKK+FJoBa8j+IzujDN1u1VmgL
+ DNbBpWckDYzVJkr9TTV1QH/w1OrixRWlrOTEiUNZfnttY5auDCFgxQ/uglCYjagPdcgKZ2vu3
+ 9CxWBNeoWJCj9SKvVU+iNNoQTF1lbx/eRYffs3qrO7P0Y/B0pSSmaN5sFmO2tFLq/vd0r8EBq
+ XC0XJ9JQdZuLSQTVopmNyawcf7Y7whf00c/xOrHUz6mbxyVJGjlVQ5Qo2kqOiKNuOA7OKWXep
+ /Av8XdIYOcGfyYJTPY2BZTRbEmMG4Ub6Bcf1jH+07aDIJ9uGRc20rrp+/cORxBhA3/28uqAHn
+ QfbvPnNyq4ezBG4Q5QS4MLmldlAp9xURS4jRM2b7DKxQF4KHYpLws9E12N/pw/+fPtFx1dNbz
+ BXCXfwunD+qjGzvZdG2lDyDfbS4Ehc6kbB9+5q0TmwUG4NmqA25pgjOPbpnpu8VtD0f9rU+Y/
+ utnMYnvnUiOoqXCh3gC8ubk9oss3wG44KDHs9srVBEvX9/+wH2wEg9lBohIK9oIb+t/a6Swgc
+ NXEzr0jAQK9OeccjJJdNJDAJXaobhRC2x1EbbEHdyVAYvaHYbAzEQtqvH2hBI46hhkgco0jOo
+ pa1YN+7WIVxF6xXR/sqIydC1VQ5UAq0XquTWahAAdM9S97zNUkzRM7LZtvvmk7fwY8/TruN/b
+ /DP7220xsKFeKDIhAS3mbkTO0Io4=
 
-On Mon, Feb 24, 2025 at 12:33=E2=80=AFPM Matti Vaittinen
-<mazziesaccount@gmail.com> wrote:
->
-> There are some use-cases where child nodes with a specific name need to
-> be parsed. In a few cases the data from the found nodes is added to an
-> array which is allocated based on the number of found nodes. One example
-> of such use is the IIO subsystem's ADC channel nodes, where the relevant
-> nodes are named as channel[@N].
->
-> Add a helper for counting device's sub-nodes with certain name instead
-> of open-coding this in every user.
->
-> Suggested-by: Jonathan Cameron <jic23@kernel.org>
-> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
-> ---
-> Revision history:
-> v3 =3D> v4:
->  - New patch as suggested by Jonathan, see discussion in:
-> https://lore.kernel.org/lkml/20250223161338.5c896280@jic23-huawei/
-> ---
->  drivers/base/property.c  | 28 ++++++++++++++++++++++++++++
->  include/linux/property.h |  2 ++
->  2 files changed, 30 insertions(+)
->
-> diff --git a/drivers/base/property.c b/drivers/base/property.c
-> index c1392743df9c..3f85818183cd 100644
-> --- a/drivers/base/property.c
-> +++ b/drivers/base/property.c
-> @@ -945,6 +945,34 @@ unsigned int device_get_child_node_count(const struc=
-t device *dev)
->  }
->  EXPORT_SYMBOL_GPL(device_get_child_node_count);
->
-> +/**
-> + * device_get_child_node_count_named - number of child nodes with given =
-name
-> + *
-> + * Scan device's child nodes and find all the nodes with a specific name=
- and
-> + * return the number of found nodes. Potential '@number' -ending for sca=
-nned
-> + * names is ignored. Eg,
-> + * device_get_child_node_count(dev, "channel");
-> + * would match all the nodes:
-> + * channel { }, channel@0 {}, channel@0xabba {}...
-> + *
-> + * @dev: Device to count the child nodes for
-> + *
-> + * Return: the number of child nodes with a matching name for a given de=
-vice.
-> + */
-> +unsigned int device_get_child_node_count_named(const struct device *dev,
-> +                                              const char *name)
+From: Markus Elfring <elfring@users.sourceforge.net>
+Date: Fri, 28 Feb 2025 18:25:31 +0100
 
-I think this should be implemented as
-fwnode_get_child_node_count_named() with the device variant being just
-a wrapper.
+Reduce nested max() calls by a single max3() call in this
+function implementation.
 
-Rob
+This issue was transformed by using the Coccinelle software.
+
+Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+=2D--
+ drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4=
+i/sun6i_mipi_dsi.c
+index c35b70d83e53..7765a29e2ef6 100644
+=2D-- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
++++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+@@ -597,7 +597,7 @@ static void sun6i_dsi_setup_timings(struct sun6i_dsi *=
+dsi,
+ 	}
+
+ 	/* How many bytes do we need to send all payloads? */
+-	bytes =3D max_t(size_t, max(max(hfp, hblk), max(hsa, hbp)), vblk);
++	bytes =3D max_t(size_t, max3(hfp, hblk, max(hsa, hbp)), vblk);
+ 	buffer =3D kmalloc(bytes, GFP_KERNEL);
+ 	if (WARN_ON(!buffer))
+ 		return;
+=2D-
+2.48.1
+
