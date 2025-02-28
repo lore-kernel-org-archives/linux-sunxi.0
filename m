@@ -1,67 +1,61 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 807341F09A9
-	for <linux-sunxi@lists.linux.dev>; Fri, 28 Feb 2025 16:59:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 996B5275601
+	for <linux-sunxi@lists.linux.dev>; Fri, 28 Feb 2025 17:07:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740761961; cv=none; b=rGqHYNO0icm73p7EMBu8mE8qdNG1imFTlgyHAP0YnmMIoZ/NKzDzi24VZqsDtCkb0zaQA8xriiVBB3jnkOxioS5SObkFHD0M0HNNMMq21Ut1bp6fa171ZwiZe/jazWgS7KIxRDJ0LcemyDjbUH/4SVjk+RbiRvCtytbqxTkU0Gk=
+	t=1740762458; cv=none; b=DnkBdbPQOONF8aOD4UGu09/30hMsjc/6WzADSZJpMo03mtNwfeOmCKyXLX5UPNSOdfNzb5vVtXfqVxJX+8r0A9ocBFCBnc3lAb34b9HDVqDw1iwjGbFB9FUG2i154C6tbKQf24PID6a5LXewz2G8A9o9QbLffDenFgqqSXFhZQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740761961; c=relaxed/simple;
-	bh=qOHi6yDNAQDvAh2OBX2mIKesEC+zW55DOff8GRvWCg4=;
+	s=arc-20240116; t=1740762458; c=relaxed/simple;
+	bh=uz7YWAd8O0uBi8Im2yha/KDIrRaCObz+LjL/VNUp47k=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YXoM6M5Om3OaM7FC1MzDrJ+tTnMasGYRdBpfywIQFKgRgzFP/RGCnBK+2TBJwher61h1FjUepYYR8Jkdplc4pSzPe9A6qQYXNFEHOVxZTuiPqldjhnhmyc7YGJ7u8M8d6znmIk0/d9NKkLE0HcSaLQxoYzqzcjPC0Hgv53b2WMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vFBe+ny5; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=KGNzEvZ0XriCLUh7s+igj7Eq0eEtcToYdsHeViI21PZG0qR6xNvf2G+lqXPuMJ0705iBIGmbl9EusYBhybbSyixUw3oR3DXSeq54YUKD4xVRMA+jTYpC4ZeKskqaTDFXRnevI6Z8qAY9lYPC6HOLt4BQRLMbzRKMUWYvTeGjKCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V1Bc1gJj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vFBe+ny5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F02FFC4CEED
-	for <linux-sunxi@lists.linux.dev>; Fri, 28 Feb 2025 16:59:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V1Bc1gJj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E1A3C4CEF4
+	for <linux-sunxi@lists.linux.dev>; Fri, 28 Feb 2025 17:07:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740761959;
-	bh=qOHi6yDNAQDvAh2OBX2mIKesEC+zW55DOff8GRvWCg4=;
+	s=k20201202; t=1740762458;
+	bh=uz7YWAd8O0uBi8Im2yha/KDIrRaCObz+LjL/VNUp47k=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=vFBe+ny5ptgIJQELJvKn89Ugx6KnDBOPhrEyrHfs9HOSDBZmlcgBgRmR71kqGtjKh
-	 C07djVodfYSYAFVJohZHLtJ9TTRuLy73cKn/oH8BDx4ijxHqwG1kkXJezGYbRng3sO
-	 3Faq7MPtuOx/6wnxpz/qeU6iyXGfwzIDnocx6SSD+glc4fqgGxKRrUM/6tzvKBQLi3
-	 ZW7jlkzsXb0DzGui4K8kVnGAma3uyL+EYw+rMqJTx5fBAeEPvlkhBWYFPSuDpBknTo
-	 gAd84rrjtYkjXLzGyQn+0KeR2CTjhxbvKGqf9ZVn3f0uqRDKmW1ZWZfGKHwAmx14Q8
-	 tm0y+QiIM/qgA==
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-abbdf897503so611628266b.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 28 Feb 2025 08:59:18 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWqHeshfEi0dXXR9JENE5ghBh+SfX4hepJGc5IJdgFzmpifen7eJdQU61xasT4j78/p6enZYoCjQcDtSA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxIBd1EVRL8Pq6D8Ma1nyAEY+xqnPdTnwd8gdUGut0m2wKsEomu
-	eiYFz97pKUYHpPl+oh/ht91F1eYDl7YPHy2WGciGEtL8i2UpCMoAXAUD5DCY+Rd6rbnmx6Xt+Gb
-	GOK6EBlYckhgbYEmKLkMwld8WAA==
-X-Google-Smtp-Source: AGHT+IHA0zPRZLteCxoYig/yVyHsZYfuDj8GOG99a9h83rXOpmBqH7x7Q6QAw1T0TGyfEJFB+8YgmxVupI+GLspZlUw=
-X-Received: by 2002:a17:907:7212:b0:ab2:f6e5:3f1 with SMTP id
- a640c23a62f3a-abf26430310mr376479566b.8.1740761957482; Fri, 28 Feb 2025
- 08:59:17 -0800 (PST)
+	b=V1Bc1gJjVvY8uePckrHl2AFcrmUlPiqmSt+OKYDZaaYAJRwiCi7f0yG9+fWABXU+G
+	 5mDN83OtUY092ZtJNVZ7g5fiq40tlGcK6KT5FUYAlbUikn9TLl7XAZy7tpFucqLjpR
+	 xHQJr6rEUrjVcvVH2MeWvnY9qymeF6QoGzQkMVrWWw0LQho2OfjP5wydZF69WBOXIY
+	 Y1P79tmbbAWlev1lftPgkAbmrCpT5K4GQoq7zcrnMQO6Vt/mKR5+kBSVH1Qu2n7CDU
+	 2n70Q8nmFGdOThFtacF8TESbv4hy5Lm0kP8rRqr3sCrUxZ1XVp3BORJEyhg9ZHC/9B
+	 Ew3pJIqBi0btQ==
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5dc89df7eccso3673354a12.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 28 Feb 2025 09:07:38 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU25+CWBS3PsmEeC+WgFz1owhADkSXJiY0HWt8YeorzgI3AbV8L132UixiqmHOnLgE1ggLj+Pyx8XbGVg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy6kPeb2WGfbNk70zdLrfYZidgriCwlrCAoU6iRXlLLUR++5F9C
+	bDp+nJDFiWXYnULzQZMs9+XpI4rtNAEDNAncjQCvy6tBhwl8DSE8hkOJsbSfAaZ/IVKPWd2x4Bu
+	zI3/olsB12CH02RZm+jm2WB0ceg==
+X-Google-Smtp-Source: AGHT+IEHPy1qvm3dSI803ZGj26xFQwAtPW1n1+HYVcZOF+85YFAZAlcsJm1lq/IdmNqWRFeTlLzx0+mxXPel52yDr9A=
+X-Received: by 2002:a05:6402:40c7:b0:5e4:c532:d69d with SMTP id
+ 4fb4d7f45d1cf-5e4d6926964mr3829294a12.0.1740762456471; Fri, 28 Feb 2025
+ 09:07:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <29ec24f1498392cafbecc0e0c0e23e1ce3289565.1740421248.git.mazziesaccount@gmail.com>
- <Z72QAOA9xXbP16K-@kuha.fi.intel.com> <Z72Zp8tpnvlFGdQ_@smile.fi.intel.com>
- <ad39b453-7e5b-49bd-a4fd-6a4988636130@gmail.com> <Z72d7TzZ21WITW3f@smile.fi.intel.com>
- <893a3c45-537e-47ad-afbd-1e5d3b9abe2c@gmail.com> <Z73M3Ua6u1FpgBEK@smile.fi.intel.com>
- <720f9c69-ca1f-45cb-9f6e-c8e4703c9aad@gmail.com> <Z78g_uiXumn4mvET@smile.fi.intel.com>
- <d7982b76-3da7-47ff-b2b2-f964610af1f7@gmail.com> <Z8B7h4_IWz43gFhO@smile.fi.intel.com>
- <c9424f3e-1ff0-4c01-823a-19801cc3e7a7@gmail.com>
-In-Reply-To: <c9424f3e-1ff0-4c01-823a-19801cc3e7a7@gmail.com>
+References: <cover.1740421248.git.mazziesaccount@gmail.com> <29ec24f1498392cafbecc0e0c0e23e1ce3289565.1740421248.git.mazziesaccount@gmail.com>
+In-Reply-To: <29ec24f1498392cafbecc0e0c0e23e1ce3289565.1740421248.git.mazziesaccount@gmail.com>
 From: Rob Herring <robh@kernel.org>
-Date: Fri, 28 Feb 2025 10:59:06 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+tkXAAVK2D_AtENuXJZOF2eK=sUnjv3=7PM8nAyAB7Xw@mail.gmail.com>
-X-Gm-Features: AQ5f1JoN6diiX-hK5SeGqaOY2e_sxsMHOrauD5SGgB18pP2IXFo3RXN1kEkkKSk
-Message-ID: <CAL_Jsq+tkXAAVK2D_AtENuXJZOF2eK=sUnjv3=7PM8nAyAB7Xw@mail.gmail.com>
+Date: Fri, 28 Feb 2025 11:07:24 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+av-fptMQqBeVieKwA9c7+uUCaqZMLGu-RVJzWZ_7+Vg@mail.gmail.com>
+X-Gm-Features: AQ5f1Jq19gEh952WMm9N8aBYMg7AK4rciiMO8rsTCtZsR8RobHuwRIGj0QbQL8Y
+Message-ID: <CAL_Jsq+av-fptMQqBeVieKwA9c7+uUCaqZMLGu-RVJzWZ_7+Vg@mail.gmail.com>
 Subject: Re: [PATCH v4 02/10] property: Add device_get_child_node_count_named()
 To: Matti Vaittinen <mazziesaccount@gmail.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, Jonathan Cameron <jic23@kernel.org>, 
+Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, Jonathan Cameron <jic23@kernel.org>, 
 	Lars-Peter Clausen <lars@metafoo.de>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Daniel Scally <djrscally@gmail.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
 	Danilo Krummrich <dakr@kernel.org>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
 	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
@@ -79,123 +73,62 @@ Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 27, 2025 at 9:06=E2=80=AFAM Matti Vaittinen
+On Mon, Feb 24, 2025 at 12:33=E2=80=AFPM Matti Vaittinen
 <mazziesaccount@gmail.com> wrote:
 >
-> On 27/02/2025 16:49, Andy Shevchenko wrote:
-> > On Thu, Feb 27, 2025 at 10:01:49AM +0200, Matti Vaittinen wrote:
-> >> On 26/02/2025 16:11, Andy Shevchenko wrote:
-> >>> On Wed, Feb 26, 2025 at 04:04:02PM +0200, Matti Vaittinen wrote:
-> >>>> On 25/02/2025 15:59, Andy Shevchenko wrote:
-> >>>>> On Tue, Feb 25, 2025 at 03:29:17PM +0200, Matti Vaittinen wrote:
-> >>>>>> On 25/02/2025 12:39, Andy Shevchenko wrote:
-> >>>>>>> On Tue, Feb 25, 2025 at 12:29:31PM +0200, Matti Vaittinen wrote:
-> >>>>>>>> On 25/02/2025 12:21, Andy Shevchenko wrote:
-> >>>>>>>>> On Tue, Feb 25, 2025 at 11:40:16AM +0200, Heikki Krogerus wrote=
-:
-> >
-> > ...
-> >
-> >>>>>>>>>>
-> >>>>>>>>>> I did not check how many users are you proposing for this, but=
- if
-> >>>>>>>>>> there's only one, then IMO this should not be a global functio=
-n yet.
-> >>>>>>>>>> It just feels to special case to me. But let's see what the ot=
-hers
-> >>>>>>>>>> think.
-> >>>>>>>>>
-> >>>>>>>>> The problem is that if somebody hides it, we might potentially =
-see
-> >>>>>>>>> a duplication in the future. So I _slightly_ prefer to publish =
-and
-> >>>>>>>>> then drop that after a few cycles if no users appear.
-> >>>>>>>>
-> >>>>>>>> After taking a very quick grep I spotted one other existing plac=
-e where we
-> >>>>>>>> might be able to do direct conversion to use this function.
-> >>>>>>>>
-> >>>>>>>> drivers/net/ethernet/freescale/gianfar.c
-> >>>>>>>>
-> >>>>>>>> That'd be 2 users.
-> >>>>>>>
-> >>>>>>> I haven't checked myself, I believe your judgement,
-> >>>>>>
-> >>>>>> I took a better look and you obviously shouldn't believe :) The gi=
-anfar used
-> >>>>>> of_node instead of the fwnode. So, it'd be a single caller at star=
-ters.
-> >>>>>
-> >>>>> ...which is the same as dev_of_node(), which means that you can use=
- your
-> >>>>> function there.
-> >>>>
-> >>>> I'm unsure what you mean. The proposed function
-> >>>> device_get_child_node_count_named() takes device pointer. I don't se=
-e how
-> >>>> dev_of_node() helps converting node to device?
-> >>>
-> >>> dev_of_node() takes the device pointer and dev_fwnode() takes that as=
- well,
-> >>> it means that there is no difference which one to use OF-centric or f=
-wnode
-> >>
-> >> The proposed device_get_child_node_count_named() takes a device pointe=
-r. I
-> >> don't see how dev_of_node() helps if there is just of_node and no devi=
-ce
-> >> pointer available in the calling code.
-> >
-> > ???
-> >
-> > The loops are working on
-> >
-> >       struct device_node *np =3D pdev->dev.np;
-> >
-> > which is the equivalent to
-> >
-> >       struct device_node *np =3D dev_of_node(&pdev->dev);
-> >
-> > which takes device pointer.
-> >
-> >> (Well, as I wrote below, I could
-> >> alter the gianfar code by dropping the gfar_of_group_count(), so that =
-I have
-> >> the device pointer in caller). Anyways, I don't see how dev_of_node() =
-should
-> >> help unless you're proposing I add a of_get_child_node_count_named() o=
-r
-> >> somesuch - which I don't think makes sense.
-> >
-> > Are you forbidding yourself to change the function prototype to take a =
-device
-> > pointer instead of device_node one? :-)
-> >
+> There are some use-cases where child nodes with a specific name need to
+> be parsed. In a few cases the data from the found nodes is added to an
+> array which is allocated based on the number of found nodes. One example
+> of such use is the IIO subsystem's ADC channel nodes, where the relevant
+> nodes are named as channel[@N].
 >
-> This is our point of misunderstanding. As I wrote, and as you can see
-> from the prototype, the function _is_ taking the device pointer. Hence I
-> didn't understand how dev_of_node() should help us.
+> Add a helper for counting device's sub-nodes with certain name instead
+> of open-coding this in every user.
 >
-> >>> API in this particular case. Just make sure that the function (and th=
-ere
-> >>> is also a second loop AFAICS) takes struct device *dev instead of str=
-uct
-> >>> device_node *np as a parameter.
-> >>
-> >> I think I lost the track here :)
-> >
-> > Make gfar_of_group_count() to take device pointer. As simple as that.
+> Suggested-by: Jonathan Cameron <jic23@kernel.org>
+> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+> ---
+> Revision history:
+> v3 =3D> v4:
+>  - New patch as suggested by Jonathan, see discussion in:
+> https://lore.kernel.org/lkml/20250223161338.5c896280@jic23-huawei/
+> ---
+>  drivers/base/property.c  | 28 ++++++++++++++++++++++++++++
+>  include/linux/property.h |  2 ++
+>  2 files changed, 30 insertions(+)
 >
-> that'd just make the gfar_of_group_count() a wrapper of the
-> of_get_child_node_count_named(). I prefer killing whole
-> gfar_of_group_count().
+> diff --git a/drivers/base/property.c b/drivers/base/property.c
+> index c1392743df9c..3f85818183cd 100644
+> --- a/drivers/base/property.c
+> +++ b/drivers/base/property.c
+> @@ -945,6 +945,34 @@ unsigned int device_get_child_node_count(const struc=
+t device *dev)
+>  }
+>  EXPORT_SYMBOL_GPL(device_get_child_node_count);
+>
+> +/**
+> + * device_get_child_node_count_named - number of child nodes with given =
+name
+> + *
+> + * Scan device's child nodes and find all the nodes with a specific name=
+ and
+> + * return the number of found nodes. Potential '@number' -ending for sca=
+nned
+> + * names is ignored. Eg,
+> + * device_get_child_node_count(dev, "channel");
+> + * would match all the nodes:
+> + * channel { }, channel@0 {}, channel@0xabba {}...
+> + *
+> + * @dev: Device to count the child nodes for
+> + *
+> + * Return: the number of child nodes with a matching name for a given de=
+vice.
+> + */
+> +unsigned int device_get_child_node_count_named(const struct device *dev,
+> +                                              const char *name)
 
-Sigh. This is not that hard.
-
-- unsigned int num_grps =3D gfar_of_group_count(np);
-+ unsigned int num_grps =3D
-device_get_child_node_count_named(&ofdev->dev, "queue-groups");
-
-And remove gfar_of_group_count() of course.
+I think this should be implemented as
+fwnode_get_child_node_count_named() with the device variant being just
+a wrapper.
 
 Rob
