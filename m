@@ -1,150 +1,275 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3003274266
-	for <linux-sunxi@lists.linux.dev>; Thu, 27 Feb 2025 23:17:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DAD326BD8D
+	for <linux-sunxi@lists.linux.dev>; Fri, 28 Feb 2025 13:29:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740698250; cv=none; b=ReAy/72ApQf5tnCgVd2bH4kWrSiYG+zmdvp0d5poIm6Al6Lc4WMcSH96qhF60CGCkGBc6JQw/6ofCyEwpiT7mdfy5Nak917OT/L8X+lbLXcDG3Wyvs2CWSjLD3x/M58BcB5igyZOX1dh6THv6JstZOihjGb7iW1bIQZI8MsVOzM=
+	t=1740749367; cv=none; b=okaDi0Vmj8mlWfHYg1y15qGlE/dUbUHAn5PjhqUyGtQ6bquQvN+tMpSsk0hPCeTwPEn1BlJJoyQasB/xtXycOgvUJFz1o+uGw/ez46zS2NgEd2ATCo4CTfPTT7dOy1zggORqnczucaXUbf4DnBMl+wFy3p205vjLT5AHFFMmtjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740698250; c=relaxed/simple;
-	bh=9DJX4GeezJm5XmMAY97rH2s9kYvmm6DkOakDepGm7+s=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HtW1UW53Q+UylvAT8qnhp1MtnFaSMpYgNfHusyRjU4mrZOxCLUQW8z7F2q6PlEP/z5vmmWpBl0c4CLGDKUdS0EB9gVsKAL53sKJrAlhKfJi9VwaaMfFIN+W/hI3vUSsRSwVUB+JDEKv0BxIu0j+ey+JtewZdbmgSXHGNIxL0G5w=
+	s=arc-20240116; t=1740749367; c=relaxed/simple;
+	bh=9nEznCs8TmXppNEP6Ri/KXbhxb9P855Eu4NIWIxpH2E=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=c9twNRdf/WmtxtUzrm1XaNaa0KAz/LdgClzNcxjdUwXT33KT2JQl8nyCR/fcuI88UyH6QgYsp11D7JWPvJWmQGeeAzSnP62Hon4gY7uF4KKsN2GZOo5J5zDUQglSxCOE0XXWrRhEvwdUO/9Cxd9EpOB4ATrGkmVq8zDxf3PkpUc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D64FB1688;
-	Thu, 27 Feb 2025 15:17:43 -0800 (PST)
-Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CAB693F673;
-	Thu, 27 Feb 2025 15:17:26 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8C7541688;
+	Fri, 28 Feb 2025 05:29:39 -0800 (PST)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 679E23F673;
+	Fri, 28 Feb 2025 05:29:22 -0800 (PST)
+Date: Fri, 28 Feb 2025 13:29:08 +0000
 From: Andre Przywara <andre.przywara@arm.com>
-To: Linus Walleij <linus.walleij@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: linux-gpio@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 8/8] pinctrl: sunxi: Add support for the secondary A523 GPIO ports
-Date: Thu, 27 Feb 2025 23:14:47 +0000
-Message-ID: <20250227231447.20161-9-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.46.3
-In-Reply-To: <20250227231447.20161-1-andre.przywara@arm.com>
-References: <20250227231447.20161-1-andre.przywara@arm.com>
+To: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai
+ <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, linux-clk@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 05/15] clk: sunxi-ng: Add support for the A523/T527
+ CCU PLLs
+Message-ID: <20250228132908.632b82dd@donnerap.manchester.arm.com>
+In-Reply-To: <3341127.44csPzL39Z@jernej-laptop>
+References: <20250214125359.5204-1-andre.przywara@arm.com>
+	<20250214125359.5204-6-andre.przywara@arm.com>
+	<3341127.44csPzL39Z@jernej-laptop>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-As most other Allwinner SoCs before, the A523 chip contains a second
-GPIO controller, managing banks PL and PM.
-Use the newly introduced DT based pinctrl driver to describe just the
-generic pinctrl properties, so advertise the number of pins per bank
-and the interrupt capabilities. The actual function/mux assignment is
-taken from the devicetree.
+On Tue, 18 Feb 2025 20:03:38 +0100
+Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- drivers/pinctrl/sunxi/Kconfig                 |  5 ++
- drivers/pinctrl/sunxi/Makefile                |  1 +
- drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c | 54 +++++++++++++++++++
- 3 files changed, 60 insertions(+)
- create mode 100644 drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c
+Hi Jernej,
 
-diff --git a/drivers/pinctrl/sunxi/Kconfig b/drivers/pinctrl/sunxi/Kconfig
-index 0cbe466683650..dc62eba96348e 100644
---- a/drivers/pinctrl/sunxi/Kconfig
-+++ b/drivers/pinctrl/sunxi/Kconfig
-@@ -136,4 +136,9 @@ config PINCTRL_SUN55I_A523
- 	default ARM64 && ARCH_SUNXI
- 	select PINCTRL_SUNXI
- 
-+config PINCTRL_SUN55I_A523_R
-+	bool "Support for the Allwinner A523 R-PIO"
-+	default ARM64 && ARCH_SUNXI
-+	select PINCTRL_SUNXI
-+
- endif
-diff --git a/drivers/pinctrl/sunxi/Makefile b/drivers/pinctrl/sunxi/Makefile
-index 4e55508ff7f76..951b3f1e4b4f1 100644
---- a/drivers/pinctrl/sunxi/Makefile
-+++ b/drivers/pinctrl/sunxi/Makefile
-@@ -28,5 +28,6 @@ obj-$(CONFIG_PINCTRL_SUN50I_H6_R)	+= pinctrl-sun50i-h6-r.o
- obj-$(CONFIG_PINCTRL_SUN50I_H616)	+= pinctrl-sun50i-h616.o
- obj-$(CONFIG_PINCTRL_SUN50I_H616_R)	+= pinctrl-sun50i-h616-r.o
- obj-$(CONFIG_PINCTRL_SUN55I_A523)	+= pinctrl-sun55i-a523.o
-+obj-$(CONFIG_PINCTRL_SUN55I_A523_R)	+= pinctrl-sun55i-a523-r.o
- obj-$(CONFIG_PINCTRL_SUN9I_A80)		+= pinctrl-sun9i-a80.o
- obj-$(CONFIG_PINCTRL_SUN9I_A80_R)	+= pinctrl-sun9i-a80-r.o
-diff --git a/drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c b/drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c
-new file mode 100644
-index 0000000000000..69cd2b4ebd7d7
---- /dev/null
-+++ b/drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c
-@@ -0,0 +1,54 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Allwinner A523 SoC r-pinctrl driver.
-+ *
-+ * Copyright (C) 2024 Arm Ltd.
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/of.h>
-+#include <linux/of_device.h>
-+#include <linux/pinctrl/pinctrl.h>
-+
-+#include "pinctrl-sunxi.h"
-+
-+static const u8 a523_r_nr_bank_pins[SUNXI_PINCTRL_MAX_BANKS] =
-+/*	  PL  PM */
-+	{ 14,  6 };
-+
-+static const unsigned int a523_r_irq_bank_map[] = { 0, 1 };
-+
-+static const u8 a523_r_irq_bank_muxes[SUNXI_PINCTRL_MAX_BANKS] =
-+/*	  PL  PM */
-+	{ 14, 14 };
-+
-+static struct sunxi_pinctrl_desc a523_r_pinctrl_data = {
-+	.irq_banks = ARRAY_SIZE(a523_r_irq_bank_map),
-+	.irq_bank_map = a523_r_irq_bank_map,
-+	.irq_read_needs_mux = true,
-+	.io_bias_cfg_variant = BIAS_VOLTAGE_PIO_POW_MODE_SEL,
-+	.pin_base = PL_BASE,
-+};
-+
-+static int a523_r_pinctrl_probe(struct platform_device *pdev)
-+{
-+	return sunxi_pinctrl_dt_table_init(pdev, a523_r_nr_bank_pins,
-+					   a523_r_irq_bank_muxes,
-+					   &a523_r_pinctrl_data,
-+					   SUNXI_PINCTRL_NEW_REG_LAYOUT);
-+}
-+
-+static const struct of_device_id a523_r_pinctrl_match[] = {
-+	{ .compatible = "allwinner,sun55i-a523-r-pinctrl", },
-+	{}
-+};
-+
-+static struct platform_driver a523_r_pinctrl_driver = {
-+	.probe	= a523_r_pinctrl_probe,
-+	.driver	= {
-+		.name		= "sun55i-a523-r-pinctrl",
-+		.of_match_table	= a523_r_pinctrl_match,
-+	},
-+};
-+builtin_platform_driver(a523_r_pinctrl_driver);
--- 
-2.46.3
+many thanks for having a look!
+
+> Dne petek, 14. februar 2025 ob 13:53:49 Srednjeevropski standardni =C4=8D=
+as je Andre Przywara napisal(a):
+> > Add the PLL clocks of the main CCU of the Allwinner A523 and T527 SoCs.
+> > The clocks were modelled after the A523 and T527 manual, and double
+> > checked by writing all 1's into the respective register, to spot all
+> > implemented bits.
+> >=20
+> > The PLL and mod clocks for the two CPU clusters and the DSU are part of
+> > a separate CCU, also most audio clocks are collected in a DSP CCU, so
+> > both of these clock groups are missing from this driver.
+> >=20
+> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > ---
+> >  drivers/clk/sunxi-ng/Kconfig           |   5 +
+> >  drivers/clk/sunxi-ng/Makefile          |   2 +
+> >  drivers/clk/sunxi-ng/ccu-sun55i-a523.c | 481 +++++++++++++++++++++++++
+> >  drivers/clk/sunxi-ng/ccu-sun55i-a523.h |  14 +
+> >  drivers/clk/sunxi-ng/ccu_mp.h          |  14 +-
+> >  5 files changed, 510 insertions(+), 6 deletions(-)
+> >  create mode 100644 drivers/clk/sunxi-ng/ccu-sun55i-a523.c
+> >  create mode 100644 drivers/clk/sunxi-ng/ccu-sun55i-a523.h
+> >=20
+> > diff --git a/drivers/clk/sunxi-ng/Kconfig b/drivers/clk/sunxi-ng/Kconfig
+> > index b547198a2c654..04efbda847cf9 100644
+> > --- a/drivers/clk/sunxi-ng/Kconfig
+> > +++ b/drivers/clk/sunxi-ng/Kconfig
+> > @@ -52,6 +52,11 @@ config SUN50I_H6_R_CCU
+> >  	default y
+> >  	depends on ARM64 || COMPILE_TEST
+> > =20
+> > +config SUN55I_A523_CCU
+> > +	tristate "Support for the Allwinner A523/T527 CCU"
+> > +	default y
+> > +	depends on ARM64 || COMPILE_TEST
+> > +
+> >  config SUN4I_A10_CCU
+> >  	tristate "Support for the Allwinner A10/A20 CCU"
+> >  	default y
+> > diff --git a/drivers/clk/sunxi-ng/Makefile b/drivers/clk/sunxi-ng/Makef=
+ile
+> > index 6b3ae2b620db6..01a887f7824bb 100644
+> > --- a/drivers/clk/sunxi-ng/Makefile
+> > +++ b/drivers/clk/sunxi-ng/Makefile
+> > @@ -33,6 +33,7 @@ obj-$(CONFIG_SUN50I_A100_R_CCU)	+=3D sun50i-a100-r-cc=
+u.o
+> >  obj-$(CONFIG_SUN50I_H6_CCU)	+=3D sun50i-h6-ccu.o
+> >  obj-$(CONFIG_SUN50I_H6_R_CCU)	+=3D sun50i-h6-r-ccu.o
+> >  obj-$(CONFIG_SUN50I_H616_CCU)	+=3D sun50i-h616-ccu.o
+> > +obj-$(CONFIG_SUN55I_A523_CCU)	+=3D sun55i-a523-ccu.o
+> >  obj-$(CONFIG_SUN4I_A10_CCU)	+=3D sun4i-a10-ccu.o
+> >  obj-$(CONFIG_SUN5I_CCU)		+=3D sun5i-ccu.o
+> >  obj-$(CONFIG_SUN6I_A31_CCU)	+=3D sun6i-a31-ccu.o
+> > @@ -58,6 +59,7 @@ sun50i-a100-r-ccu-y		+=3D ccu-sun50i-a100-r.o
+> >  sun50i-h6-ccu-y			+=3D ccu-sun50i-h6.o
+> >  sun50i-h6-r-ccu-y		+=3D ccu-sun50i-h6-r.o
+> >  sun50i-h616-ccu-y		+=3D ccu-sun50i-h616.o
+> > +sun55i-a523-ccu-y		+=3D ccu-sun55i-a523.o
+> >  sun4i-a10-ccu-y			+=3D ccu-sun4i-a10.o
+> >  sun5i-ccu-y			+=3D ccu-sun5i.o
+> >  sun6i-a31-ccu-y			+=3D ccu-sun6i-a31.o
+> > diff --git a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c b/drivers/clk/sunxi=
+-ng/ccu-sun55i-a523.c
+> > new file mode 100644
+> > index 0000000000000..8374e841e9d82
+> > --- /dev/null
+> > +++ b/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
+> > @@ -0,0 +1,481 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright (C) 2023-2024 Arm Ltd.
+> > + * Based on the D1 CCU driver:
+> > + *   Copyright (c) 2020 huangzhenwei@allwinnertech.com
+> > + *   Copyright (C) 2021 Samuel Holland <samuel@sholland.org>
+> > + */
+> > +
+> > +#include <linux/clk-provider.h>
+> > +#include <linux/io.h>
+> > +#include <linux/module.h>
+> > +#include <linux/platform_device.h>
+> > +
+> > +#include "../clk.h"
+> > +
+> > +#include "ccu_common.h"
+> > +#include "ccu_reset.h"
+> > +
+> > +#include "ccu_div.h"
+> > +#include "ccu_gate.h"
+> > +#include "ccu_mp.h"
+> > +#include "ccu_mult.h"
+> > +#include "ccu_nk.h"
+> > +#include "ccu_nkm.h"
+> > +#include "ccu_nkmp.h"
+> > +#include "ccu_nm.h"
+> > +
+> > +#include "ccu-sun55i-a523.h"
+> > +
+> > +/*
+> > + * The 24 MHz oscillator, the root of most of the clock tree.
+> > + * .fw_name is the string used in the DT "clock-names" property, used =
+to
+> > + * identify the corresponding clock in the "clocks" property.
+> > + */
+> > +static const struct clk_parent_data osc24M[] =3D {
+> > +	{ .fw_name =3D "hosc" }
+> > +};
+> > +
+> > +/*********************************************************************=
+*****
+> > + *                              PLLs                                  =
+    *
+> > + *********************************************************************=
+*****/
+> > +
+> > +/* Some PLLs are input * N / div1 / P. Model them as NKMP with no K */
+> > +#define SUN55I_A523_PLL_DDR0_REG		0x010
+> > +static struct ccu_nkmp pll_ddr0_clk =3D {
+> > +	.enable		=3D BIT(27),
+> > +	.lock		=3D BIT(28),
+> > +	.n		=3D _SUNXI_CCU_MULT_MIN(8, 8, 11),
+> > +	.m		=3D _SUNXI_CCU_DIV(1, 1), /* input divider */ =20
+>=20
+> Newer manuals, for example A523 manual v1.4, don't mention input dividers=
+ anymore.
+> Newer BSP driver doesn't have them either. Should we drop them (for all P=
+LLs)?
+
+I don't know, as you figured, I found them in my copy of the manual. For
+the PLLs we need today (PLL_PERIPH0) it shouldn't matter anyway: it's
+programmed already, and AFAICS Linux actually never reprograms it(?).
+
+In any case, I just left it in for now: the bit is definitely there, I
+verified that in U-Boot by only seeing half of the MMC performance with
+bit 1 set. We can remove them anytime later, without issue, can't we?
+
+Actually, thinking about that: the manual pretty clearly says that for
+instance PLL_PERIPH0 should be set to 1.2GHz and never changed or even
+touched. I wonder if we should honour this somehow in the code? It seems
+like the CCF doesn't do this anyway at the moment, but it could, I guess?
+
+>=20
+> > +	.p		=3D _SUNXI_CCU_DIV(0, 1), /* output divider */
+> > +	.common		=3D {
+> > +		.reg		=3D 0x010,
+> > +		.hw.init	=3D CLK_HW_INIT_PARENTS_DATA("pll-ddr0", osc24M,
+> > +							   &ccu_nkmp_ops,
+> > +							   CLK_SET_RATE_GATE |
+> > +							   CLK_IS_CRITICAL),
+> > +	},
+> > +};
+> > +
+
+....
+
+> > diff --git a/drivers/clk/sunxi-ng/ccu_mp.h b/drivers/clk/sunxi-ng/ccu_m=
+p.h
+> > index 687bd2ec798e2..5311835a4db60 100644
+> > --- a/drivers/clk/sunxi-ng/ccu_mp.h
+> > +++ b/drivers/clk/sunxi-ng/ccu_mp.h
+> > @@ -100,20 +100,22 @@ struct ccu_mp { =20
+>=20
+> These changes doesn't belong in this commit.
+
+Ah, indeed, I missed that. Moved that out into another patch now.
+
+Cheers,
+Andre
+
+> Other than that, this looks like a good start. Thanks!
+>=20
+> Best regards,
+> Jernej
+>=20
+> >  				   _muxshift, _muxwidth,		\
+> >  				   0, _flags)
+> > =20
+> > -#define SUNXI_CCU_MP_DATA_WITH_MUX_GATE_FEAT(_struct, _name, _parents,=
+ _reg, \
+> > +#define SUNXI_CCU_MP_MUX_GATE_POSTDIV_FEAT(_struct, _name, _parents, _=
+reg, \
+> >  					_mshift, _mwidth,		\
+> >  					_pshift, _pwidth,		\
+> >  					_muxshift, _muxwidth,		\
+> > -					_gate, _flags,			\
+> > -					_features)			\
+> > +					_gate, _postdiv,		\
+> > +					_flags, _features)		\
+> >  	struct ccu_mp _struct =3D {					\
+> >  		.enable	=3D _gate,					\
+> >  		.m	=3D _SUNXI_CCU_DIV(_mshift, _mwidth),		\
+> >  		.p	=3D _SUNXI_CCU_DIV(_pshift, _pwidth),		\
+> >  		.mux	=3D _SUNXI_CCU_MUX(_muxshift, _muxwidth),		\
+> > +		.fixed_post_div =3D _postdiv,				\
+> >  		.common	=3D {						\
+> >  			.reg		=3D _reg,				\
+> > -			.features	=3D _features,			\
+> > +			.features	=3D CCU_FEATURE_FIXED_POSTDIV |	\
+> > +						_features,		\
+> >  			.hw.init	=3D CLK_HW_INIT_PARENTS_DATA(_name, \
+> >  								   _parents, \
+> >  								   &ccu_mp_ops,\
+> > @@ -126,11 +128,11 @@ struct ccu_mp {
+> >  					_pshift, _pwidth,		\
+> >  					_muxshift, _muxwidth,		\
+> >  					_gate, _flags)			\
+> > -	SUNXI_CCU_MP_DATA_WITH_MUX_GATE_FEAT(_struct, _name, _parents,	\
+> > +	SUNXI_CCU_MP_MUX_GATE_POSTDIV_FEAT(_struct, _name, _parents,	\
+> >  					     _reg, _mshift, _mwidth,	\
+> >  					     _pshift, _pwidth,		\
+> >  					     _muxshift, _muxwidth,	\
+> > -					     _gate, _flags, 0)
+> > +					     _gate, 1, _flags, 0)
+> > =20
+> >  #define SUNXI_CCU_MP_DATA_WITH_MUX(_struct, _name, _parents, _reg,	\
+> >  				   _mshift, _mwidth,			\
+> >  =20
+>=20
+>=20
+>=20
+>=20
 
