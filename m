@@ -1,873 +1,201 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC26026FD84
-	for <linux-sunxi@lists.linux.dev>; Fri, 28 Feb 2025 14:41:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 807341F09A9
+	for <linux-sunxi@lists.linux.dev>; Fri, 28 Feb 2025 16:59:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740753685; cv=none; b=VhWX9k7a+HPD72Y6gEVvVAoGH/0dpqp+RKyP2by6c2ww7E9KCHZV/Hd+jNGoGDYWX27iKQ3okY9tBRJSUksQIY4+Xpi3Lkyx/cpiJTYbNYitRry3zyeL8pr2iikmWOMwe6AkdC2UtOUuyjTYFR0AQei/RV3U4ioBX7g30kE+47I=
+	t=1740761961; cv=none; b=rGqHYNO0icm73p7EMBu8mE8qdNG1imFTlgyHAP0YnmMIoZ/NKzDzi24VZqsDtCkb0zaQA8xriiVBB3jnkOxioS5SObkFHD0M0HNNMMq21Ut1bp6fa171ZwiZe/jazWgS7KIxRDJ0LcemyDjbUH/4SVjk+RbiRvCtytbqxTkU0Gk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740753685; c=relaxed/simple;
-	bh=8gR3kTA33I5I/8QsssQ51+QpIy391UMo9xZyprRhoB4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FAxtiRxZcZNHbBfikJ7d7z4APvBgIK23ooRtGMr6FzDMs47LI4Feu/yxI+SgE3nBAVPIFzuYT+7h0GVGZKVFppZVnlkLamTf2QwxiYCRW1rEnnMH5+M3bjZAjOAmwBzElnIJxa6RzBS3ORxsR4l/ReZr+XbSi4qhHmVR/q4wJvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nEUvUz4E; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1740761961; c=relaxed/simple;
+	bh=qOHi6yDNAQDvAh2OBX2mIKesEC+zW55DOff8GRvWCg4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YXoM6M5Om3OaM7FC1MzDrJ+tTnMasGYRdBpfywIQFKgRgzFP/RGCnBK+2TBJwher61h1FjUepYYR8Jkdplc4pSzPe9A6qQYXNFEHOVxZTuiPqldjhnhmyc7YGJ7u8M8d6znmIk0/d9NKkLE0HcSaLQxoYzqzcjPC0Hgv53b2WMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vFBe+ny5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nEUvUz4E"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-390e3b3d432so1538633f8f.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 28 Feb 2025 06:41:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740753681; x=1741358481; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cXw4E4gD02U4RYbEwh1nSCOW2IsRMwqOwQpaC/IsRn8=;
-        b=nEUvUz4EywPxR/aK9sbwPnWhv/zeHTP8aGBXcfjBrYNAlXwFpNBjR6OEjwwsry7jnO
-         LSZA27t2aZeb+EGbbUxVX8hnK8DsT0ufwX3TVa3HZ9cCM8BRG68LecuJ4jyyoTDv1xUP
-         FQrl3ta7z32lhduRa8VN0t3sKGqJsUlNpFkxeBTDPtCvz5/iSTydOEhVwcDl0ZGC8v4d
-         7WGcAbbNS9NeOTVttJp30WF76zNLhkgfcBIv+KB8W7RvRTZdXrKbzOQdxW6ceyjODuDD
-         d3N2Oy7HTjNH+OBYloqSNMsq7ueUsvJdRWUwidPJUpcr0QmqneM/YUDmfZ8HjW9pwMTW
-         /RxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740753681; x=1741358481;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cXw4E4gD02U4RYbEwh1nSCOW2IsRMwqOwQpaC/IsRn8=;
-        b=vrqcWkxCNUe6ip5n2UD6d7L7LCEksFHCUOe97o1+SCONiNq9+YkJ8Ixjx+CCyEPdyV
-         HdDBrJ6ObedU/gQ4hMWJziHythu++2eyynVC5eQmFs9rCc5eNgDO8feQVpHDXHhUWhgw
-         AUloWDaCw9AgSnpqZGjDcdQOQXC1MpXS2vdOS7E5ZMOnfbjxvLZmzY3fAbmJDtVz54vv
-         WKOJW4C0JmxjYgkRsWv0Y23SzFiPTQd6OZXO9bixRXI+MBodwbXcGHoM8L7hydNV8Cdx
-         2AytInNTdANGxweMNZJf2lINqzFkPu/KcbwKPdTnx90JjxDF41mpg4KRLrzdJ58i8290
-         pz8g==
-X-Forwarded-Encrypted: i=1; AJvYcCXyC8v33fxc8RV0ILRKHVzb2AjllYELtrfV7WXUBkvVp6BfAecaWOENybCT3U54kq70fdCvciWW0OQ1IQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwJdpOLs4Cx57hKszDPoL74X0j6L2U5AqC7BPfEaqLMmbo47fZn
-	o70HQkcaNLrw0/NxBa4cTLaeNkr8gCl8Z0t94ElzTf2Ro7hsdRO5
-X-Gm-Gg: ASbGncvA7juPeQBfalof22C0c/sV1kO5bb540/JpeMFZHrk2rxNvGJGQcSP4At8BaV2
-	sYDPTB1YRUiLE/YoUBoIo8qd62F+5pbTxk/HCdLDEYK8kKcCtQz8BgHTgUwVm4wdnB4WxMv9K64
-	/0soLYkQmC+mTJ/nrMqwbT8iQVjxGnBwT8bOcHuwu8ezIgOSzqtDqnLu0MlBkgYKVcagDDS4eCy
-	D9HcbNz9a5+Y3ueuYqbMYhuW7cdMbvB7x9tzFnD8i2jRoCjfqNwacPRcbWqGyqPkAhOwK7TsBQA
-	ofkLoKxtc1GUSuoDCl8UlicYU5eZVS0SgLqfT3rOW+AzLIFL+jNY4tCRFDmlrvrOU224E7lPdXH
-	/ug==
-X-Google-Smtp-Source: AGHT+IGqKBs8okVMmjyuYLbUU0uXb0A5b1TLNrKtkaIVQgn+1KK6RacfTz9tNC1cVdu7r+BA3Z5kbw==
-X-Received: by 2002:a5d:47cd:0:b0:38f:4d91:c118 with SMTP id ffacd0b85a97d-390ec7d2d52mr2995613f8f.28.1740753680772;
-        Fri, 28 Feb 2025 06:41:20 -0800 (PST)
-Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43b7a28b285sm60059125e9.33.2025.02.28.06.41.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Feb 2025 06:41:20 -0800 (PST)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 12/15] clk: sunxi-ng: a523: add bus clock gates
-Date: Fri, 28 Feb 2025 15:41:19 +0100
-Message-ID: <1995552.PYKUYFuaPT@jernej-laptop>
-In-Reply-To: <20250228140458.2e86fd03@donnerap.manchester.arm.com>
-References:
- <20250214125359.5204-1-andre.przywara@arm.com>
- <869956354.0ifERbkFSE@jernej-laptop>
- <20250228140458.2e86fd03@donnerap.manchester.arm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vFBe+ny5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F02FFC4CEED
+	for <linux-sunxi@lists.linux.dev>; Fri, 28 Feb 2025 16:59:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740761959;
+	bh=qOHi6yDNAQDvAh2OBX2mIKesEC+zW55DOff8GRvWCg4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=vFBe+ny5ptgIJQELJvKn89Ugx6KnDBOPhrEyrHfs9HOSDBZmlcgBgRmR71kqGtjKh
+	 C07djVodfYSYAFVJohZHLtJ9TTRuLy73cKn/oH8BDx4ijxHqwG1kkXJezGYbRng3sO
+	 3Faq7MPtuOx/6wnxpz/qeU6iyXGfwzIDnocx6SSD+glc4fqgGxKRrUM/6tzvKBQLi3
+	 ZW7jlkzsXb0DzGui4K8kVnGAma3uyL+EYw+rMqJTx5fBAeEPvlkhBWYFPSuDpBknTo
+	 gAd84rrjtYkjXLzGyQn+0KeR2CTjhxbvKGqf9ZVn3f0uqRDKmW1ZWZfGKHwAmx14Q8
+	 tm0y+QiIM/qgA==
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-abbdf897503so611628266b.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 28 Feb 2025 08:59:18 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWqHeshfEi0dXXR9JENE5ghBh+SfX4hepJGc5IJdgFzmpifen7eJdQU61xasT4j78/p6enZYoCjQcDtSA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxIBd1EVRL8Pq6D8Ma1nyAEY+xqnPdTnwd8gdUGut0m2wKsEomu
+	eiYFz97pKUYHpPl+oh/ht91F1eYDl7YPHy2WGciGEtL8i2UpCMoAXAUD5DCY+Rd6rbnmx6Xt+Gb
+	GOK6EBlYckhgbYEmKLkMwld8WAA==
+X-Google-Smtp-Source: AGHT+IHA0zPRZLteCxoYig/yVyHsZYfuDj8GOG99a9h83rXOpmBqH7x7Q6QAw1T0TGyfEJFB+8YgmxVupI+GLspZlUw=
+X-Received: by 2002:a17:907:7212:b0:ab2:f6e5:3f1 with SMTP id
+ a640c23a62f3a-abf26430310mr376479566b.8.1740761957482; Fri, 28 Feb 2025
+ 08:59:17 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <29ec24f1498392cafbecc0e0c0e23e1ce3289565.1740421248.git.mazziesaccount@gmail.com>
+ <Z72QAOA9xXbP16K-@kuha.fi.intel.com> <Z72Zp8tpnvlFGdQ_@smile.fi.intel.com>
+ <ad39b453-7e5b-49bd-a4fd-6a4988636130@gmail.com> <Z72d7TzZ21WITW3f@smile.fi.intel.com>
+ <893a3c45-537e-47ad-afbd-1e5d3b9abe2c@gmail.com> <Z73M3Ua6u1FpgBEK@smile.fi.intel.com>
+ <720f9c69-ca1f-45cb-9f6e-c8e4703c9aad@gmail.com> <Z78g_uiXumn4mvET@smile.fi.intel.com>
+ <d7982b76-3da7-47ff-b2b2-f964610af1f7@gmail.com> <Z8B7h4_IWz43gFhO@smile.fi.intel.com>
+ <c9424f3e-1ff0-4c01-823a-19801cc3e7a7@gmail.com>
+In-Reply-To: <c9424f3e-1ff0-4c01-823a-19801cc3e7a7@gmail.com>
+From: Rob Herring <robh@kernel.org>
+Date: Fri, 28 Feb 2025 10:59:06 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+tkXAAVK2D_AtENuXJZOF2eK=sUnjv3=7PM8nAyAB7Xw@mail.gmail.com>
+X-Gm-Features: AQ5f1JoN6diiX-hK5SeGqaOY2e_sxsMHOrauD5SGgB18pP2IXFo3RXN1kEkkKSk
+Message-ID: <CAL_Jsq+tkXAAVK2D_AtENuXJZOF2eK=sUnjv3=7PM8nAyAB7Xw@mail.gmail.com>
+Subject: Re: [PATCH v4 02/10] property: Add device_get_child_node_count_named()
+To: Matti Vaittinen <mazziesaccount@gmail.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, Jonathan Cameron <jic23@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Daniel Scally <djrscally@gmail.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Hugo Villeneuve <hvilleneuve@dimonoff.com>, 
+	Nuno Sa <nuno.sa@analog.com>, David Lechner <dlechner@baylibre.com>, 
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>, Guillaume Stols <gstols@baylibre.com>, 
+	Olivier Moysan <olivier.moysan@foss.st.com>, Dumitru Ceclan <mitrutzceclan@gmail.com>, 
+	Trevor Gamblin <tgamblin@baylibre.com>, Matteo Martelli <matteomartelli3@gmail.com>, 
+	Alisa-Dariana Roman <alisadariana@gmail.com>, 
+	Ramona Alexandra Nechita <ramona.nechita@analog.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-acpi@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
 
-Dne petek, 28. februar 2025 ob 15:04:58 Srednjeevropski standardni =C4=8Das=
- je Andre Przywara napisal(a):
-> On Tue, 18 Feb 2025 21:12:33 +0100
-> Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
->=20
-> Hi,
->=20
-> > Dne petek, 14. februar 2025 ob 13:53:56 Srednjeevropski standardni =C4=
-=8Das je Andre Przywara napisal(a):
-> > > Add the various bus clock gates that control access to the devices'
-> > > register interface.
-> > > These clocks are each just one bit, typically the lower bits in some =
-"BGR"
-> > > (Bus Gate / Reset) registers, for each device group: one for all UART=
-s,
-> > > one for all SPI interfaces, and so on.
-> > >=20
-> > > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > > ---
-> > >  drivers/clk/sunxi-ng/ccu-sun55i-a523.c | 295 +++++++++++++++++++++++=
-+-
-> > >  1 file changed, 294 insertions(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c b/drivers/clk/sun=
-xi-ng/ccu-sun55i-a523.c
-> > > index 6a4340f1fd041..fbed9b2b3b2f9 100644
-> > > --- a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
-> > > +++ b/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
-> > > @@ -350,6 +350,8 @@ static SUNXI_CCU_M_DATA_WITH_MUX(ahb_clk, "ahb", =
-ahb_apb0_parents, 0x510,
-> > >  				 0, 5,		/* M */
-> > >  				 24, 2,		/* mux */
-> > >  				 0);
-> > > +static const struct clk_hw *ahb_hws[] =3D { &ahb_clk.common.hw };
-> > > +
-> > >  static SUNXI_CCU_M_DATA_WITH_MUX(apb0_clk, "apb0", ahb_apb0_parents,=
- 0x520,
-> > >  				 0, 5,		/* M */
-> > >  				 24, 2,	/* mux */
-> > > @@ -367,10 +369,11 @@ static SUNXI_CCU_M_DATA_WITH_MUX(apb1_clk, "apb=
-1", apb1_parents, 0x524,
-> > >  				 0, 5,		/* M */
-> > >  				 24, 3,		/* mux */
-> > >  				 0);
-> > > +static const struct clk_hw *apb1_hws[] =3D { &apb1_clk.common.hw };
-> > > =20
-> > > =20
-> > >  /*******************************************************************=
-*******
-> > > - *                          mod clocks                              =
-      *
-> > > + *                          mod clocks with gates                   =
-      *
-> > >   *******************************************************************=
-*******/
-> > > =20
-> > >  static const struct clk_hw *de_parents[] =3D {
-> > > @@ -386,6 +389,8 @@ static SUNXI_CCU_M_HW_WITH_MUX_GATE(de_clk, "de",=
- de_parents, 0x600,
-> > >  				    BIT(31),	/* gate */
-> > >  				    CLK_SET_RATE_PARENT);
-> > > =20
-> > > +static SUNXI_CCU_GATE_HWS(bus_de_clk, "bus-de", ahb_hws, 0x60c, BIT(=
-0), 0);
-> > > +
-> > >  static const struct clk_hw *di_parents[] =3D {
-> > >  	&pll_periph0_300M_clk.hw,
-> > >  	&pll_periph0_400M_clk.hw,
-> > > @@ -399,6 +404,8 @@ static SUNXI_CCU_M_HW_WITH_MUX_GATE(di_clk, "di",=
- di_parents, 0x620,
-> > >  				    BIT(31),	/* gate */
-> > >  				    CLK_SET_RATE_PARENT);
-> > > =20
-> > > +static SUNXI_CCU_GATE_HWS(bus_di_clk, "bus-di", ahb_hws, 0x62c, BIT(=
-0), 0);
-> > > +
-> > >  static const struct clk_hw *g2d_parents[] =3D {
-> > >  	&pll_periph0_400M_clk.hw,
-> > >  	&pll_periph0_300M_clk.hw,
-> > > @@ -412,6 +419,8 @@ static SUNXI_CCU_M_HW_WITH_MUX_GATE(g2d_clk, "g2d=
-", g2d_parents, 0x630,
-> > >  				    BIT(31),	/* gate */
-> > >  				    0);
-> > > =20
-> > > +static SUNXI_CCU_GATE_HWS(bus_g2d_clk, "bus-g2d", ahb_hws, 0x63c, BI=
-T(0), 0);
-> > > +
-> > >  static const struct clk_hw *gpu_parents[] =3D {
-> > >  	&pll_gpu_clk.common.hw,
-> > >  	&pll_periph0_800M_clk.common.hw,
-> > > @@ -427,6 +436,8 @@ static SUNXI_CCU_M_HW_WITH_MUX_GATE(gpu_clk, "gpu=
-", gpu_parents, 0x670,
-> > >  				    BIT(31),	/* gate */
-> > >  				    0);
-> > > =20
-> > > +static SUNXI_CCU_GATE_HWS(bus_gpu_clk, "bus-gpu", ahb_hws, 0x67c, BI=
-T(0), 0);
-> > > +
-> > >  static const struct clk_parent_data ce_parents[] =3D {
-> > >  	{ .fw_name =3D "hosc" },
-> > >  	{ .hw =3D &pll_periph0_480M_clk.common.hw },
-> > > @@ -439,6 +450,10 @@ static SUNXI_CCU_M_DATA_WITH_MUX_GATE(ce_clk, "c=
-e", ce_parents, 0x680,
-> > >  				       BIT(31),	/* gate */
-> > >  				       0);
-> > > =20
-> > > +static SUNXI_CCU_GATE_HWS(bus_ce_clk, "bus-ce", ahb_hws, 0x68c, BIT(=
-0), 0);
-> > > +static SUNXI_CCU_GATE_HWS(bus_ce_sys_clk, "bus-ce-sys", ahb_hws, 0x6=
-8c,
-> > > +			  BIT(1), 0);
-> > > +
-> > >  static const struct clk_hw *ve_parents[] =3D {
-> > >  	&pll_ve_clk.common.hw,
-> > >  	&pll_periph0_480M_clk.common.hw,
-> > > @@ -451,6 +466,16 @@ static SUNXI_CCU_M_HW_WITH_MUX_GATE(ve_clk, "ve"=
-, ve_parents, 0x690,
-> > >  				    BIT(31),	/* gate */
-> > >  				    CLK_SET_RATE_PARENT);
-> > > =20
-> > > +static SUNXI_CCU_GATE_HWS(bus_ve_clk, "bus-ve", ahb_hws, 0x69c, BIT(=
-0), 0);
-> > > +
-> > > +static SUNXI_CCU_GATE_HWS(bus_dma_clk, "bus-dma", ahb_hws, 0x70c, BI=
-T(0), 0);
-> > > +
-> > > +static SUNXI_CCU_GATE_HWS(bus_msgbox_clk, "bus-msgbox", ahb_hws, 0x7=
-1c,
-> > > +			  BIT(0), 0);
-> > > +
-> > > +static SUNXI_CCU_GATE_HWS(bus_spinlock_clk, "bus-spinlock", ahb_hws,=
- 0x72c,
-> > > +			  BIT(0), 0); =20
-> >=20
-> > msgbox and spinlock probably needs to be marked as critical? Crust need=
-s that
-> > for communication with TF-A.
->=20
-> Do they? I don't see this being done on any of the other SoCs that use
-> crust?
-> I would like to leave it like this for now, we can fix this later (and
-> backport to stable) if we need so, I think?
+On Thu, Feb 27, 2025 at 9:06=E2=80=AFAM Matti Vaittinen
+<mazziesaccount@gmail.com> wrote:
+>
+> On 27/02/2025 16:49, Andy Shevchenko wrote:
+> > On Thu, Feb 27, 2025 at 10:01:49AM +0200, Matti Vaittinen wrote:
+> >> On 26/02/2025 16:11, Andy Shevchenko wrote:
+> >>> On Wed, Feb 26, 2025 at 04:04:02PM +0200, Matti Vaittinen wrote:
+> >>>> On 25/02/2025 15:59, Andy Shevchenko wrote:
+> >>>>> On Tue, Feb 25, 2025 at 03:29:17PM +0200, Matti Vaittinen wrote:
+> >>>>>> On 25/02/2025 12:39, Andy Shevchenko wrote:
+> >>>>>>> On Tue, Feb 25, 2025 at 12:29:31PM +0200, Matti Vaittinen wrote:
+> >>>>>>>> On 25/02/2025 12:21, Andy Shevchenko wrote:
+> >>>>>>>>> On Tue, Feb 25, 2025 at 11:40:16AM +0200, Heikki Krogerus wrote=
+:
+> >
+> > ...
+> >
+> >>>>>>>>>>
+> >>>>>>>>>> I did not check how many users are you proposing for this, but=
+ if
+> >>>>>>>>>> there's only one, then IMO this should not be a global functio=
+n yet.
+> >>>>>>>>>> It just feels to special case to me. But let's see what the ot=
+hers
+> >>>>>>>>>> think.
+> >>>>>>>>>
+> >>>>>>>>> The problem is that if somebody hides it, we might potentially =
+see
+> >>>>>>>>> a duplication in the future. So I _slightly_ prefer to publish =
+and
+> >>>>>>>>> then drop that after a few cycles if no users appear.
+> >>>>>>>>
+> >>>>>>>> After taking a very quick grep I spotted one other existing plac=
+e where we
+> >>>>>>>> might be able to do direct conversion to use this function.
+> >>>>>>>>
+> >>>>>>>> drivers/net/ethernet/freescale/gianfar.c
+> >>>>>>>>
+> >>>>>>>> That'd be 2 users.
+> >>>>>>>
+> >>>>>>> I haven't checked myself, I believe your judgement,
+> >>>>>>
+> >>>>>> I took a better look and you obviously shouldn't believe :) The gi=
+anfar used
+> >>>>>> of_node instead of the fwnode. So, it'd be a single caller at star=
+ters.
+> >>>>>
+> >>>>> ...which is the same as dev_of_node(), which means that you can use=
+ your
+> >>>>> function there.
+> >>>>
+> >>>> I'm unsure what you mean. The proposed function
+> >>>> device_get_child_node_count_named() takes device pointer. I don't se=
+e how
+> >>>> dev_of_node() helps converting node to device?
+> >>>
+> >>> dev_of_node() takes the device pointer and dev_fwnode() takes that as=
+ well,
+> >>> it means that there is no difference which one to use OF-centric or f=
+wnode
+> >>
+> >> The proposed device_get_child_node_count_named() takes a device pointe=
+r. I
+> >> don't see how dev_of_node() helps if there is just of_node and no devi=
+ce
+> >> pointer available in the calling code.
+> >
+> > ???
+> >
+> > The loops are working on
+> >
+> >       struct device_node *np =3D pdev->dev.np;
+> >
+> > which is the equivalent to
+> >
+> >       struct device_node *np =3D dev_of_node(&pdev->dev);
+> >
+> > which takes device pointer.
+> >
+> >> (Well, as I wrote below, I could
+> >> alter the gianfar code by dropping the gfar_of_group_count(), so that =
+I have
+> >> the device pointer in caller). Anyways, I don't see how dev_of_node() =
+should
+> >> help unless you're proposing I add a of_get_child_node_count_named() o=
+r
+> >> somesuch - which I don't think makes sense.
+> >
+> > Are you forbidding yourself to change the function prototype to take a =
+device
+> > pointer instead of device_node one? :-)
+> >
+>
+> This is our point of misunderstanding. As I wrote, and as you can see
+> from the prototype, the function _is_ taking the device pointer. Hence I
+> didn't understand how dev_of_node() should help us.
+>
+> >>> API in this particular case. Just make sure that the function (and th=
+ere
+> >>> is also a second loop AFAICS) takes struct device *dev instead of str=
+uct
+> >>> device_node *np as a parameter.
+> >>
+> >> I think I lost the track here :)
+> >
+> > Make gfar_of_group_count() to take device pointer. As simple as that.
+>
+> that'd just make the gfar_of_group_count() a wrapper of the
+> of_get_child_node_count_named(). I prefer killing whole
+> gfar_of_group_count().
 
-Sure, it can be changed later.
+Sigh. This is not that hard.
 
->=20
-> >=20
-> > > +
-> > >  static const struct clk_parent_data hstimer_parents[] =3D {
-> > >  	{ .fw_name =3D "hosc" },
-> > >  	{ .fw_name =3D "iosc" },
-> > > @@ -510,6 +535,15 @@ static SUNXI_CCU_MP_DATA_WITH_MUX_GATE(hstimer5_=
-clk, "hstimer5",
-> > >  				       BIT(31),	/* gate */
-> > >  				       CLK_SET_RATE_PARENT);
-> > > =20
-> > > +static SUNXI_CCU_GATE_HWS(bus_hstimer_clk, "bus-hstimer", ahb_hws, 0=
-x74c,
-> > > +			  BIT(0), 0);
-> > > +
-> > > +static SUNXI_CCU_GATE_HWS(bus_dbg_clk, "bus-dbg", ahb_hws, 0x78c,
-> > > +			  BIT(0), 0);
-> > > +
-> > > +static SUNXI_CCU_GATE_HWS(bus_pwm0_clk, "bus-pwm0", apb1_hws, 0x7ac,=
- BIT(0), 0);
-> > > +static SUNXI_CCU_GATE_HWS(bus_pwm1_clk, "bus-pwm1", apb1_hws, 0x7ac,=
- BIT(1), 0);
-> > > +
-> > >  static const struct clk_parent_data iommu_parents[] =3D {
-> > >  	{ .hw =3D &pll_periph0_600M_clk.hw },
-> > >  	{ .hw =3D &pll_ddr0_clk.common.hw },
-> > > @@ -525,6 +559,9 @@ static SUNXI_CCU_M_DATA_WITH_MUX_GATE(iommu_clk, =
-"iommu", iommu_parents, 0x7b0,
-> > >  				      BIT(31),	/* gate */
-> > >  				      CLK_SET_RATE_PARENT);
-> > > =20
-> > > +static SUNXI_CCU_GATE_HWS(bus_iommu_clk, "bus-iommu", apb0_hws, 0x7b=
-c,
-> > > +			  BIT(0), 0);
-> > > +
-> > >  static const struct clk_hw *dram_parents[] =3D {
-> > >  	&pll_ddr0_clk.common.hw,
-> > >  	&pll_periph0_600M_clk.hw,
-> > > @@ -541,6 +578,22 @@ static SUNXI_CCU_M_HW_WITH_MUX_GATE(dram_clk, "d=
-ram", dram_parents, 0x800,
-> > >  static CLK_FIXED_FACTOR_HW(mbus_clk, "mbus",
-> > >  			   &dram_clk.common.hw, 4, 1, 0);
-> > > =20
-> > > +static SUNXI_CCU_GATE_HW(mbus_dma_clk, "mbus-dma", &mbus_clk.hw,
-> > > +			 0x804, BIT(0), 0);
-> > > +static SUNXI_CCU_GATE_HW(mbus_ve_clk, "mbus-ve", &mbus_clk.hw,
-> > > +			 0x804, BIT(1), 0);
-> > > +static SUNXI_CCU_GATE_HW(mbus_ce_clk, "mbus-ce", &mbus_clk.hw,
-> > > +			 0x804, BIT(2), 0);
-> > > +static SUNXI_CCU_GATE_HW(mbus_nand_clk, "mbus-nand", &mbus_clk.hw,
-> > > +			 0x804, BIT(5), 0);
-> > > +static SUNXI_CCU_GATE_HW(mbus_usb3_clk, "mbus-usb3", &mbus_clk.hw,
-> > > +			 0x804, BIT(6), 0);
-> > > +static SUNXI_CCU_GATE_HW(mbus_csi_clk, "mbus-csi", &mbus_clk.hw,
-> > > +			 0x804, BIT(8), 0); =20
-> >=20
-> > Missing several MBUS gates. Check T527 manual.
->=20
-> Right, I added isp and gmac1. I did not model the bits in the upper half,
-> I don't understand what they are for, really, and they are enabled on
-> reset.
+- unsigned int num_grps =3D gfar_of_group_count(np);
++ unsigned int num_grps =3D
+device_get_child_node_count_named(&ofdev->dev, "queue-groups");
 
-Ok. BSP actually switches them, but they can be coupled together, if needed.
+And remove gfar_of_group_count() of course.
 
-Best regards,
-Jernej
-
->=20
-> >=20
-> > > +
-> > > +static SUNXI_CCU_GATE_HWS(bus_dram_clk, "bus-dram", ahb_hws, 0x80c,
-> > > +			  BIT(0), CLK_IS_CRITICAL);
-> > > +
-> > >  static const struct clk_parent_data nand_mmc_parents[] =3D {
-> > >  	{ .fw_name =3D "hosc" },
-> > >  	{ .hw =3D &pll_periph0_400M_clk.hw },
-> > > @@ -563,6 +616,9 @@ static SUNXI_CCU_M_DATA_WITH_MUX_GATE(nand1_clk, =
-"nand1", nand_mmc_parents,
-> > >  				    BIT(31),	/* gate */
-> > >  				    0);
-> > > =20
-> > > +static SUNXI_CCU_GATE_HWS(bus_nand_clk, "bus-nand", ahb_hws, 0x82c,
-> > > +			  BIT(0), 0);
-> > > +
-> > >  static SUNXI_CCU_MP_MUX_GATE_POSTDIV_FEAT(mmc0_clk, "mmc0", nand_mmc=
-_parents,
-> > >  					   0x830,
-> > >  					   0, 5,	/* M */
-> > > @@ -598,6 +654,39 @@ static SUNXI_CCU_MP_MUX_GATE_POSTDIV_FEAT(mmc2_c=
-lk, "mmc2", mmc2_parents,
-> > >  					   2,		/* post div */
-> > >  					   0, CCU_FEATURE_DUAL_DIV);
-> > > =20
-> > > +static SUNXI_CCU_GATE_HWS(bus_mmc0_clk, "bus-mmc0", ahb_hws, 0x84c, =
-BIT(0), 0);
-> > > +static SUNXI_CCU_GATE_HWS(bus_mmc1_clk, "bus-mmc1", ahb_hws, 0x84c, =
-BIT(1), 0);
-> > > +static SUNXI_CCU_GATE_HWS(bus_mmc2_clk, "bus-mmc2", ahb_hws, 0x84c, =
-BIT(2), 0);
-> > > +
-> > > +static SUNXI_CCU_GATE_HWS(bus_sysdap_clk, "bus-sysdap", apb1_hws, 0x=
-88c,
-> > > +			  BIT(0), 0);
-> > > +
-> > > +static SUNXI_CCU_GATE_HWS(bus_uart0_clk, "bus-uart0", apb1_hws, 0x90=
-c,
-> > > +			  BIT(0), 0);
-> > > +static SUNXI_CCU_GATE_HWS(bus_uart1_clk, "bus-uart1", apb1_hws, 0x90=
-c,
-> > > +			  BIT(1), 0);
-> > > +static SUNXI_CCU_GATE_HWS(bus_uart2_clk, "bus-uart2", apb1_hws, 0x90=
-c,
-> > > +			  BIT(2), 0);
-> > > +static SUNXI_CCU_GATE_HWS(bus_uart3_clk, "bus-uart3", apb1_hws, 0x90=
-c,
-> > > +			  BIT(3), 0);
-> > > +static SUNXI_CCU_GATE_HWS(bus_uart4_clk, "bus-uart4", apb1_hws, 0x90=
-c,
-> > > +			  BIT(4), 0);
-> > > +static SUNXI_CCU_GATE_HWS(bus_uart5_clk, "bus-uart5", apb1_hws, 0x90=
-c,
-> > > +			  BIT(5), 0);
-> > > +static SUNXI_CCU_GATE_HWS(bus_uart6_clk, "bus-uart6", apb1_hws, 0x90=
-c,
-> > > +			  BIT(6), 0);
-> > > +static SUNXI_CCU_GATE_HWS(bus_uart7_clk, "bus-uart7", apb1_hws, 0x90=
-c,
-> > > +			  BIT(7), 0);
-> > > +
-> > > +static SUNXI_CCU_GATE_HWS(bus_i2c0_clk, "bus-i2c0", apb1_hws, 0x91c,=
- BIT(0), 0);
-> > > +static SUNXI_CCU_GATE_HWS(bus_i2c1_clk, "bus-i2c1", apb1_hws, 0x91c,=
- BIT(1), 0);
-> > > +static SUNXI_CCU_GATE_HWS(bus_i2c2_clk, "bus-i2c2", apb1_hws, 0x91c,=
- BIT(2), 0);
-> > > +static SUNXI_CCU_GATE_HWS(bus_i2c3_clk, "bus-i2c3", apb1_hws, 0x91c,=
- BIT(3), 0);
-> > > +static SUNXI_CCU_GATE_HWS(bus_i2c4_clk, "bus-i2c4", apb1_hws, 0x91c,=
- BIT(4), 0);
-> > > +static SUNXI_CCU_GATE_HWS(bus_i2c5_clk, "bus-i2c5", apb1_hws, 0x91c,=
- BIT(5), 0);
-> > > +
-> > > +static SUNXI_CCU_GATE_HWS(bus_can_clk, "bus-can", apb1_hws, 0x92c, B=
-IT(0), 0);
-> > > +
-> > >  static const struct clk_parent_data spi_parents[] =3D {
-> > >  	{ .fw_name =3D "hosc" },
-> > >  	{ .hw =3D &pll_periph0_300M_clk.hw },
-> > > @@ -630,6 +719,11 @@ static SUNXI_CCU_MP_DATA_WITH_MUX_GATE(spifc_clk=
-, "spifc", nand_mmc_parents,
-> > >  				       24, 3,	/* mux */
-> > >  				       BIT(31),	/* gate */
-> > >  				       0);
-> > > +static SUNXI_CCU_GATE_HWS(bus_spi0_clk, "bus-spi0", ahb_hws, 0x96c, =
-BIT(0), 0);
-> > > +static SUNXI_CCU_GATE_HWS(bus_spi1_clk, "bus-spi1", ahb_hws, 0x96c, =
-BIT(1), 0);
-> > > +static SUNXI_CCU_GATE_HWS(bus_spi2_clk, "bus-spi2", ahb_hws, 0x96c, =
-BIT(2), 0);
-> > > +static SUNXI_CCU_GATE_HWS(bus_spifc_clk, "bus-spifc", ahb_hws, 0x96c,
-> > > +			  BIT(3), 0);
-> > > =20
-> > >  static SUNXI_CCU_GATE_HWS_WITH_PREDIV(emac0_25M_clk, "emac0-25M",
-> > >  				      pll_periph0_150M_hws,
-> > > @@ -637,6 +731,10 @@ static SUNXI_CCU_GATE_HWS_WITH_PREDIV(emac0_25M_=
-clk, "emac0-25M",
-> > >  static SUNXI_CCU_GATE_HWS_WITH_PREDIV(emac1_25M_clk, "emac1-25M",
-> > >  				      pll_periph0_150M_hws,
-> > >  				      0x974, BIT(31) | BIT(30), 6, 0);
-> > > +static SUNXI_CCU_GATE_HWS(bus_emac0_clk, "bus-emac0", ahb_hws, 0x97c,
-> > > +			  BIT(0), 0);
-> > > +static SUNXI_CCU_GATE_HWS(bus_emac1_clk, "bus-emac1", ahb_hws, 0x98c,
-> > > +			  BIT(0), 0);
-> > > =20
-> > >  static const struct clk_parent_data ir_rx_parents[] =3D {
-> > >  	{ .fw_name =3D "losc" },
-> > > @@ -648,6 +746,9 @@ static SUNXI_CCU_M_DATA_WITH_MUX_GATE(ir_rx_clk, =
-"ir-rx", ir_rx_parents, 0x990,
-> > >  				      24, 1,	/* mux */
-> > >  				      BIT(31),	/* gate */
-> > >  				      0);
-> > > +static SUNXI_CCU_GATE_HWS(bus_ir_rx_clk, "bus-ir-rx", apb0_hws, 0x99=
-c,
-> > > +			  BIT(0), 0);
-> > > +
-> > >  static const struct clk_parent_data ir_tx_ledc_parents[] =3D {
-> > >  	{ .fw_name =3D "hosc" },
-> > >  	{ .hw =3D &pll_periph1_600M_clk.hw },
-> > > @@ -658,6 +759,8 @@ static SUNXI_CCU_M_DATA_WITH_MUX_GATE(ir_tx_clk, =
-"ir-tx", ir_tx_ledc_parents,
-> > >  				      24, 1,	/* mux */
-> > >  				      BIT(31),	/* gate */
-> > >  				      0);
-> > > +static SUNXI_CCU_GATE_HWS(bus_ir_tx_clk, "bus-ir-tx", apb0_hws, 0x9c=
-c,
-> > > +			  BIT(0), 0);
-> > > =20
-> > >  static SUNXI_CCU_M_WITH_GATE(gpadc0_clk, "gpadc0", "hosc", 0x9e0,
-> > >  				 0, 5,		/* M */
-> > > @@ -667,6 +770,12 @@ static SUNXI_CCU_M_WITH_GATE(gpadc1_clk, "gpadc1=
-", "hosc", 0x9e4,
-> > >  				 0, 5,		/* M */
-> > >  				 BIT(31),	/* gate */
-> > >  				 0);
-> > > +static SUNXI_CCU_GATE_HWS(bus_gpadc0_clk, "bus-gpadc0", ahb_hws, 0x9=
-ec,
-> > > +			  BIT(0), 0);
-> > > +static SUNXI_CCU_GATE_HWS(bus_gpadc1_clk, "bus-gpadc1", ahb_hws, 0x9=
-ec,
-> > > +			  BIT(1), 0);
-> > > +
-> > > +static SUNXI_CCU_GATE_HWS(bus_ths_clk, "bus-ths", apb0_hws, 0x9fc, B=
-IT(0), 0);
-> > > =20
-> > >  /*
-> > >   * The first parent is a 48 MHz input clock divided by 4. That 48 MH=
-z clock is
-> > > @@ -720,6 +829,18 @@ static struct ccu_mux usb_ohci1_clk =3D {
-> > >  	},
-> > >  };
-> > > =20
-> > > +static SUNXI_CCU_GATE_HWS(bus_ohci0_clk, "bus-ohci0", ahb_hws, 0xa8c,
-> > > +			  BIT(0), 0);
-> > > +static SUNXI_CCU_GATE_HWS(bus_ohci1_clk, "bus-ohci1", ahb_hws, 0xa8c,
-> > > +			  BIT(1), 0);
-> > > +static SUNXI_CCU_GATE_HWS(bus_ehci0_clk, "bus-ehci0", ahb_hws, 0xa8c,
-> > > +			  BIT(4), 0);
-> > > +static SUNXI_CCU_GATE_HWS(bus_ehci1_clk, "bus-ehci1", ahb_hws, 0xa8c,
-> > > +			  BIT(5), 0);
-> > > +static SUNXI_CCU_GATE_HWS(bus_otg_clk, "bus-otg", ahb_hws, 0xa8c, BI=
-T(8), 0);
-> > > +
-> > > +static SUNXI_CCU_GATE_HWS(bus_lradc_clk, "bus-lradc", apb0_hws, 0xa9=
-c,
-> > > +			  BIT(0), 0);
-> > > =20
-> > >  static const struct clk_parent_data losc_hosc_parents[] =3D {
-> > >  	{ .fw_name =3D "hosc" },
-> > > @@ -733,6 +854,9 @@ static SUNXI_CCU_M_DATA_WITH_MUX_GATE(pcie_aux_cl=
-k, "pcie-aux",
-> > >  				      BIT(31),	/* gate */
-> > >  				      0);
-> > > =20
-> > > +static SUNXI_CCU_GATE_HWS(bus_dpss_top_clk, "bus-dpss-top", ahb_hws,=
- 0xabc,
-> > > +			  BIT(0), 0);
-> > > +
-> > >  static SUNXI_CCU_GATE_DATA(hdmi_24M_clk, "hdmi-24M", osc24M, 0xb04, =
-BIT(31), 0);
-> > > =20
-> > >  /* TODO: add mux between 32kOSC and PERIPH0/18750 */
-> > > @@ -750,6 +874,8 @@ static SUNXI_CCU_MUX_DATA_WITH_GATE(hdmi_cec_clk,=
- "hdmi-cec", hdmi_cec_parents,
-> > >  				    BIT(31),	/* gate */
-> > >  				    0);
-> > > =20
-> > > +static SUNXI_CCU_GATE_HWS(bus_hdmi_clk, "bus-hdmi", ahb_hws, 0xb1c, =
-BIT(0), 0);
-> > > +
-> > >  static const struct clk_parent_data mipi_dsi_parents[] =3D {
-> > >  	{ .fw_name =3D "hosc" },
-> > >  	{ .hw =3D &pll_periph0_200M_clk.hw },
-> > > @@ -769,6 +895,12 @@ static SUNXI_CCU_M_DATA_WITH_MUX_GATE(mipi_dsi1_=
-clk, "mipi-dsi1",
-> > >  				      BIT(31),	/* gate */
-> > >  				      CLK_SET_RATE_PARENT);
-> > > =20
-> > > +static SUNXI_CCU_GATE_HWS(bus_mipi_dsi0_clk, "bus-mipi-dsi0", ahb_hw=
-s, 0xb4c,
-> > > +			  BIT(0), 0);
-> > > +
-> > > +static SUNXI_CCU_GATE_HWS(bus_mipi_dsi1_clk, "bus-mipi-dsi1", ahb_hw=
-s, 0xb4c,
-> > > +			  BIT(1), 0);
-> > > +
-> > >  static const struct clk_hw *tcon_parents[] =3D {
-> > >  	&pll_video0_4x_clk.common.hw,
-> > >  	&pll_video1_4x_clk.common.hw,
-> > > @@ -806,6 +938,11 @@ static SUNXI_CCU_M_HW_WITH_MUX_GATE(combophy_dsi=
-1_clk, "combophy-dsi1",
-> > >  				    BIT(31),	/* gate */
-> > >  				    CLK_SET_RATE_PARENT);
-> > > =20
-> > > +static SUNXI_CCU_GATE_HWS(bus_tcon_lcd0_clk, "bus-tcon-lcd0", ahb_hw=
-s, 0xb7c,
-> > > +			  BIT(0), 0);
-> > > +static SUNXI_CCU_GATE_HWS(bus_tcon_lcd1_clk, "bus-tcon-lcd1", ahb_hw=
-s, 0xb7c,
-> > > +			  BIT(1), 0); =20
-> >=20
-> > Missing gate for bus-tcon-lcd2.
->=20
-> Right, added now.
->=20
-> >=20
-> > > +
-> > >  static SUNXI_CCU_M_HW_WITH_MUX_GATE(tcon_tv0_clk, "tcon-tv0", tcon_p=
-arents,
-> > >  				    0xb80,
-> > >  				    0, 4,	/* M */
-> > > @@ -820,6 +957,11 @@ static SUNXI_CCU_M_HW_WITH_MUX_GATE(tcon_tv1_clk=
-, "tcon-tv1", tcon_parents,
-> > >  				    BIT(31),	/* gate */
-> > >  				    CLK_SET_RATE_PARENT);
-> > > =20
-> > > +static SUNXI_CCU_GATE_HWS(bus_tcon_tv0_clk, "bus-tcon-tv0", ahb_hws,=
- 0xb9c,
-> > > +			  BIT(0), 0);
-> > > +static SUNXI_CCU_GATE_HWS(bus_tcon_tv1_clk, "bus-tcon-tv1", ahb_hws,=
- 0xb9c,
-> > > +			  BIT(1), 0);
-> > > +
-> > >  static const struct clk_hw *edp_parents[] =3D {
-> > >  	&pll_video0_4x_clk.common.hw,
-> > >  	&pll_video1_4x_clk.common.hw,
-> > > @@ -833,6 +975,8 @@ static SUNXI_CCU_M_HW_WITH_MUX_GATE(edp_clk, "edp=
-", edp_parents, 0xbb0,
-> > >  				    BIT(31),	/* gate */
-> > >  				    0);
-> > > =20
-> > > +static SUNXI_CCU_GATE_HWS(bus_edp_clk, "bus-edp", ahb_hws, 0xbbc, BI=
-T(0), 0);
-> > > +
-> > >  static SUNXI_CCU_M_DATA_WITH_MUX_GATE(ledc_clk, "ledc", ir_tx_ledc_p=
-arents,
-> > >  				      0xbf0,
-> > >  				      0, 4,	/* M */
-> > > @@ -840,6 +984,8 @@ static SUNXI_CCU_M_DATA_WITH_MUX_GATE(ledc_clk, "=
-ledc", ir_tx_ledc_parents,
-> > >  				      BIT(31),	/* gate */
-> > >  				      0);
-> > > =20
-> > > +static SUNXI_CCU_GATE_HWS(bus_ledc_clk, "bus-ledc", apb0_hws, 0xbfc,=
- BIT(0), 0);
-> > > +
-> > >  static const struct clk_hw *csi_top_parents[] =3D {
-> > >  	&pll_periph0_300M_clk.hw,
-> > >  	&pll_periph0_400M_clk.hw,
-> > > @@ -893,6 +1039,8 @@ static SUNXI_CCU_MP_DATA_WITH_MUX_GATE(csi_mclk3=
-_clk, "csi-mclk3",
-> > >  				       BIT(31),	/* gate */
-> > >  				       0);
-> > > =20
-> > > +static SUNXI_CCU_GATE_HWS(bus_csi_clk, "bus-csi", ahb_hws, 0xc1c, BI=
-T(0), 0);
-> > > +
-> > >  static const struct clk_hw *isp_parents[] =3D {
-> > >  	&pll_periph0_300M_clk.hw,
-> > >  	&pll_periph0_400M_clk.hw,
-> > > @@ -918,6 +1066,9 @@ static SUNXI_CCU_M_DATA_WITH_MUX_GATE(dsp_clk, "=
-dsp", dsp_parents, 0xc70,
-> > >  				      BIT(31),	/* gate */
-> > >  				      0);
-> > > =20
-> > > +static SUNXI_CCU_GATE_HWS(bus_dsp_cfg_clk, "bus-dsp-cfg", ahb_hws, 0=
-xc7c,
-> > > +			  BIT(1), 0); =20
-> >=20
-> > I don't see 0xc7c register.
->=20
-> Mmh, good point, I thought I saw this in some BSP drop, this "cfg" suffix
-> hints at this also. But poking it in U-Boot again indeed reveals it's not
-> implemented, the whole register is WI/RAZ.
-> Removed that.
->=20
-> Thanks!
-> Andre
->=20
-> > > +
-> > >  static SUNXI_CCU_GATE_DATA(fanout_24M_clk, "fanout-24M", osc24M,
-> > >  			   0xf30, BIT(0), 0);
-> > >  static SUNXI_CCU_GATE_DATA_WITH_PREDIV(fanout_12M_clk, "fanout-12M",=
- osc24M,
-> > > @@ -1011,55 +1162,128 @@ static struct ccu_common *sun55i_a523_ccu_cl=
-ks[] =3D {
-> > >  	&apb0_clk.common,
-> > >  	&apb1_clk.common,
-> > >  	&de_clk.common,
-> > > +	&bus_de_clk.common,
-> > >  	&di_clk.common,
-> > > +	&bus_di_clk.common,
-> > >  	&g2d_clk.common,
-> > > +	&bus_g2d_clk.common,
-> > >  	&gpu_clk.common,
-> > > +	&bus_gpu_clk.common,
-> > >  	&ce_clk.common,
-> > > +	&bus_ce_clk.common,
-> > > +	&bus_ce_sys_clk.common,
-> > >  	&ve_clk.common,
-> > > +	&bus_ve_clk.common,
-> > > +	&bus_dma_clk.common,
-> > > +	&bus_msgbox_clk.common,
-> > > +	&bus_spinlock_clk.common,
-> > >  	&hstimer0_clk.common,
-> > >  	&hstimer1_clk.common,
-> > >  	&hstimer2_clk.common,
-> > >  	&hstimer3_clk.common,
-> > >  	&hstimer4_clk.common,
-> > >  	&hstimer5_clk.common,
-> > > +	&bus_hstimer_clk.common,
-> > > +	&bus_dbg_clk.common,
-> > > +	&bus_pwm0_clk.common,
-> > > +	&bus_pwm1_clk.common,
-> > >  	&iommu_clk.common,
-> > > +	&bus_iommu_clk.common,
-> > >  	&dram_clk.common,
-> > > +	&mbus_dma_clk.common,
-> > > +	&mbus_ve_clk.common,
-> > > +	&mbus_ce_clk.common,
-> > > +	&mbus_nand_clk.common,
-> > > +	&mbus_usb3_clk.common,
-> > > +	&mbus_csi_clk.common,
-> > > +	&bus_dram_clk.common,
-> > >  	&nand0_clk.common,
-> > >  	&nand1_clk.common,
-> > > +	&bus_nand_clk.common,
-> > >  	&mmc0_clk.common,
-> > >  	&mmc1_clk.common,
-> > >  	&mmc2_clk.common,
-> > > +	&bus_sysdap_clk.common,
-> > > +	&bus_mmc0_clk.common,
-> > > +	&bus_mmc1_clk.common,
-> > > +	&bus_mmc2_clk.common,
-> > > +	&bus_uart0_clk.common,
-> > > +	&bus_uart1_clk.common,
-> > > +	&bus_uart2_clk.common,
-> > > +	&bus_uart3_clk.common,
-> > > +	&bus_uart4_clk.common,
-> > > +	&bus_uart5_clk.common,
-> > > +	&bus_uart6_clk.common,
-> > > +	&bus_uart7_clk.common,
-> > > +	&bus_i2c0_clk.common,
-> > > +	&bus_i2c1_clk.common,
-> > > +	&bus_i2c2_clk.common,
-> > > +	&bus_i2c3_clk.common,
-> > > +	&bus_i2c4_clk.common,
-> > > +	&bus_i2c5_clk.common,
-> > > +	&bus_can_clk.common,
-> > >  	&spi0_clk.common,
-> > >  	&spi1_clk.common,
-> > >  	&spi2_clk.common,
-> > >  	&spifc_clk.common,
-> > > +	&bus_spi0_clk.common,
-> > > +	&bus_spi1_clk.common,
-> > > +	&bus_spi2_clk.common,
-> > > +	&bus_spifc_clk.common,
-> > >  	&emac0_25M_clk.common,
-> > >  	&emac1_25M_clk.common,
-> > > +	&bus_emac0_clk.common,
-> > > +	&bus_emac1_clk.common,
-> > >  	&ir_rx_clk.common,
-> > > +	&bus_ir_rx_clk.common,
-> > >  	&ir_tx_clk.common,
-> > > +	&bus_ir_tx_clk.common,
-> > >  	&gpadc0_clk.common,
-> > >  	&gpadc1_clk.common,
-> > > +	&bus_gpadc0_clk.common,
-> > > +	&bus_gpadc1_clk.common,
-> > > +	&bus_ths_clk.common,
-> > >  	&usb_ohci0_clk.common,
-> > >  	&usb_ohci1_clk.common,
-> > > +	&bus_ohci0_clk.common,
-> > > +	&bus_ohci1_clk.common,
-> > > +	&bus_ehci0_clk.common,
-> > > +	&bus_ehci1_clk.common,
-> > > +	&bus_otg_clk.common,
-> > > +	&bus_lradc_clk.common,
-> > >  	&pcie_aux_clk.common,
-> > > +	&bus_dpss_top_clk.common,
-> > >  	&hdmi_24M_clk.common,
-> > >  	&hdmi_cec_32k_clk.common,
-> > >  	&hdmi_cec_clk.common,
-> > > +	&bus_hdmi_clk.common,
-> > >  	&mipi_dsi0_clk.common,
-> > >  	&mipi_dsi1_clk.common,
-> > > +	&bus_mipi_dsi0_clk.common,
-> > > +	&bus_mipi_dsi1_clk.common,
-> > >  	&tcon_lcd0_clk.common,
-> > >  	&tcon_lcd1_clk.common,
-> > > +	&combophy_dsi0_clk.common,
-> > > +	&combophy_dsi1_clk.common,
-> > > +	&bus_tcon_lcd0_clk.common,
-> > > +	&bus_tcon_lcd1_clk.common,
-> > >  	&tcon_tv0_clk.common,
-> > >  	&tcon_tv1_clk.common,
-> > > +	&bus_tcon_tv0_clk.common,
-> > > +	&bus_tcon_tv1_clk.common,
-> > >  	&edp_clk.common,
-> > > +	&bus_edp_clk.common,
-> > >  	&ledc_clk.common,
-> > > +	&bus_ledc_clk.common,
-> > >  	&csi_top_clk.common,
-> > >  	&csi_mclk0_clk.common,
-> > >  	&csi_mclk1_clk.common,
-> > >  	&csi_mclk2_clk.common,
-> > >  	&csi_mclk3_clk.common,
-> > > +	&bus_csi_clk.common,
-> > >  	&isp_clk.common,
-> > >  	&dsp_clk.common,
-> > > +	&bus_dsp_cfg_clk.common,
-> > >  	&fanout_24M_clk.common,
-> > >  	&fanout_12M_clk.common,
-> > >  	&fanout_16M_clk.common,
-> > > @@ -1119,57 +1343,126 @@ static struct clk_hw_onecell_data sun55i_a52=
-3_hw_clks =3D {
-> > >  		[CLK_APB1]		=3D &apb1_clk.common.hw,
-> > >  		[CLK_MBUS]		=3D &mbus_clk.hw,
-> > >  		[CLK_DE]		=3D &de_clk.common.hw,
-> > > +		[CLK_BUS_DE]		=3D &bus_de_clk.common.hw,
-> > >  		[CLK_DI]		=3D &di_clk.common.hw,
-> > > +		[CLK_BUS_DI]		=3D &bus_di_clk.common.hw,
-> > >  		[CLK_G2D]		=3D &g2d_clk.common.hw,
-> > > +		[CLK_BUS_G2D]		=3D &bus_g2d_clk.common.hw,
-> > >  		[CLK_GPU]		=3D &gpu_clk.common.hw,
-> > > +		[CLK_BUS_GPU]		=3D &bus_gpu_clk.common.hw,
-> > >  		[CLK_CE]		=3D &ce_clk.common.hw,
-> > > +		[CLK_BUS_CE]		=3D &bus_ce_clk.common.hw,
-> > > +		[CLK_BUS_CE_SYS]	=3D &bus_ce_sys_clk.common.hw,
-> > >  		[CLK_VE]		=3D &ve_clk.common.hw,
-> > > +		[CLK_BUS_VE]		=3D &bus_ve_clk.common.hw,
-> > > +		[CLK_BUS_DMA]		=3D &bus_dma_clk.common.hw,
-> > > +		[CLK_BUS_MSGBOX]	=3D &bus_msgbox_clk.common.hw,
-> > > +		[CLK_BUS_SPINLOCK]	=3D &bus_spinlock_clk.common.hw,
-> > >  		[CLK_HSTIMER0]		=3D &hstimer0_clk.common.hw,
-> > >  		[CLK_HSTIMER1]		=3D &hstimer1_clk.common.hw,
-> > >  		[CLK_HSTIMER2]		=3D &hstimer2_clk.common.hw,
-> > >  		[CLK_HSTIMER3]		=3D &hstimer3_clk.common.hw,
-> > >  		[CLK_HSTIMER4]		=3D &hstimer4_clk.common.hw,
-> > >  		[CLK_HSTIMER5]		=3D &hstimer5_clk.common.hw,
-> > > +		[CLK_BUS_HSTIMER]	=3D &bus_hstimer_clk.common.hw,
-> > > +		[CLK_BUS_DBG]		=3D &bus_dbg_clk.common.hw,
-> > > +		[CLK_BUS_PWM0]		=3D &bus_pwm0_clk.common.hw,
-> > > +		[CLK_BUS_PWM1]		=3D &bus_pwm1_clk.common.hw,
-> > >  		[CLK_IOMMU]		=3D &iommu_clk.common.hw,
-> > > +		[CLK_BUS_IOMMU]		=3D &bus_iommu_clk.common.hw,
-> > >  		[CLK_DRAM]		=3D &dram_clk.common.hw,
-> > > +		[CLK_MBUS_DMA]		=3D &mbus_dma_clk.common.hw,
-> > > +		[CLK_MBUS_VE]		=3D &mbus_ve_clk.common.hw,
-> > > +		[CLK_MBUS_CE]		=3D &mbus_ce_clk.common.hw,
-> > > +		[CLK_MBUS_CSI]		=3D &mbus_csi_clk.common.hw,
-> > > +		[CLK_BUS_DRAM]		=3D &bus_dram_clk.common.hw,
-> > >  		[CLK_NAND0]		=3D &nand0_clk.common.hw,
-> > >  		[CLK_NAND1]		=3D &nand1_clk.common.hw,
-> > > +		[CLK_BUS_NAND]		=3D &bus_nand_clk.common.hw,
-> > >  		[CLK_MMC0]		=3D &mmc0_clk.common.hw,
-> > >  		[CLK_MMC1]		=3D &mmc1_clk.common.hw,
-> > >  		[CLK_MMC2]		=3D &mmc2_clk.common.hw,
-> > > +		[CLK_BUS_SYSDAP]	=3D &bus_sysdap_clk.common.hw,
-> > > +		[CLK_BUS_MMC0]		=3D &bus_mmc0_clk.common.hw,
-> > > +		[CLK_BUS_MMC1]		=3D &bus_mmc1_clk.common.hw,
-> > > +		[CLK_BUS_MMC2]		=3D &bus_mmc2_clk.common.hw,
-> > > +		[CLK_BUS_UART0]		=3D &bus_uart0_clk.common.hw,
-> > > +		[CLK_BUS_UART1]		=3D &bus_uart1_clk.common.hw,
-> > > +		[CLK_BUS_UART2]		=3D &bus_uart2_clk.common.hw,
-> > > +		[CLK_BUS_UART3]		=3D &bus_uart3_clk.common.hw,
-> > > +		[CLK_BUS_UART4]		=3D &bus_uart4_clk.common.hw,
-> > > +		[CLK_BUS_UART5]		=3D &bus_uart5_clk.common.hw,
-> > > +		[CLK_BUS_UART6]		=3D &bus_uart6_clk.common.hw,
-> > > +		[CLK_BUS_UART7]		=3D &bus_uart7_clk.common.hw,
-> > > +		[CLK_BUS_I2C0]		=3D &bus_i2c0_clk.common.hw,
-> > > +		[CLK_BUS_I2C1]		=3D &bus_i2c1_clk.common.hw,
-> > > +		[CLK_BUS_I2C2]		=3D &bus_i2c2_clk.common.hw,
-> > > +		[CLK_BUS_I2C3]		=3D &bus_i2c3_clk.common.hw,
-> > > +		[CLK_BUS_I2C4]		=3D &bus_i2c4_clk.common.hw,
-> > > +		[CLK_BUS_I2C5]		=3D &bus_i2c5_clk.common.hw,
-> > > +		[CLK_BUS_CAN]		=3D &bus_can_clk.common.hw,
-> > >  		[CLK_SPI0]		=3D &spi0_clk.common.hw,
-> > >  		[CLK_SPI1]		=3D &spi1_clk.common.hw,
-> > >  		[CLK_SPI2]		=3D &spi2_clk.common.hw,
-> > >  		[CLK_SPIFC]		=3D &spifc_clk.common.hw,
-> > > +		[CLK_BUS_SPI0]		=3D &bus_spi0_clk.common.hw,
-> > > +		[CLK_BUS_SPI1]		=3D &bus_spi1_clk.common.hw,
-> > > +		[CLK_BUS_SPI2]		=3D &bus_spi2_clk.common.hw,
-> > > +		[CLK_BUS_SPIFC]		=3D &bus_spifc_clk.common.hw,
-> > >  		[CLK_EMAC0_25M]		=3D &emac0_25M_clk.common.hw,
-> > >  		[CLK_EMAC1_25M]		=3D &emac1_25M_clk.common.hw,
-> > > +		[CLK_BUS_EMAC0]		=3D &bus_emac0_clk.common.hw,
-> > > +		[CLK_BUS_EMAC1]		=3D &bus_emac1_clk.common.hw,
-> > >  		[CLK_IR_RX]		=3D &ir_rx_clk.common.hw,
-> > > +		[CLK_BUS_IR_RX]		=3D &bus_ir_rx_clk.common.hw,
-> > >  		[CLK_IR_TX]		=3D &ir_tx_clk.common.hw,
-> > > +		[CLK_BUS_IR_TX]		=3D &bus_ir_tx_clk.common.hw,
-> > >  		[CLK_GPADC0]		=3D &gpadc0_clk.common.hw,
-> > >  		[CLK_GPADC1]		=3D &gpadc1_clk.common.hw,
-> > > +		[CLK_BUS_GPADC0]	=3D &bus_gpadc0_clk.common.hw,
-> > > +		[CLK_BUS_GPADC1]	=3D &bus_gpadc1_clk.common.hw,
-> > > +		[CLK_BUS_THS]		=3D &bus_ths_clk.common.hw,
-> > >  		[CLK_USB_OHCI0]		=3D &usb_ohci0_clk.common.hw,
-> > >  		[CLK_USB_OHCI1]		=3D &usb_ohci1_clk.common.hw,
-> > > +		[CLK_BUS_OHCI0]		=3D &bus_ohci0_clk.common.hw,
-> > > +		[CLK_BUS_OHCI1]		=3D &bus_ohci1_clk.common.hw,
-> > > +		[CLK_BUS_EHCI0]		=3D &bus_ehci0_clk.common.hw,
-> > > +		[CLK_BUS_EHCI1]		=3D &bus_ehci1_clk.common.hw,
-> > > +		[CLK_BUS_OTG]		=3D &bus_otg_clk.common.hw,
-> > > +		[CLK_BUS_LRADC]		=3D &bus_lradc_clk.common.hw,
-> > >  		[CLK_PCIE_AUX]		=3D &pcie_aux_clk.common.hw,
-> > > +		[CLK_BUS_DPSS_TOP]	=3D &bus_dpss_top_clk.common.hw,
-> > >  		[CLK_HDMI_24M]		=3D &hdmi_24M_clk.common.hw,
-> > >  		[CLK_HDMI_CEC_32K]	=3D &hdmi_cec_32k_clk.common.hw,
-> > >  		[CLK_HDMI_CEC]		=3D &hdmi_cec_clk.common.hw,
-> > > +		[CLK_BUS_HDMI]		=3D &bus_hdmi_clk.common.hw,
-> > >  		[CLK_MIPI_DSI0]		=3D &mipi_dsi0_clk.common.hw,
-> > >  		[CLK_MIPI_DSI1]		=3D &mipi_dsi1_clk.common.hw,
-> > > +		[CLK_BUS_MIPI_DSI0]	=3D &bus_mipi_dsi0_clk.common.hw,
-> > > +		[CLK_BUS_MIPI_DSI1]	=3D &bus_mipi_dsi1_clk.common.hw,
-> > >  		[CLK_TCON_LCD0]		=3D &tcon_lcd0_clk.common.hw,
-> > >  		[CLK_TCON_LCD1]		=3D &tcon_lcd1_clk.common.hw,
-> > >  		[CLK_COMBOPHY_DSI0]	=3D &combophy_dsi0_clk.common.hw,
-> > >  		[CLK_COMBOPHY_DSI1]	=3D &combophy_dsi1_clk.common.hw,
-> > > +		[CLK_BUS_TCON_LCD0]	=3D &bus_tcon_lcd0_clk.common.hw,
-> > > +		[CLK_BUS_TCON_LCD1]	=3D &bus_tcon_lcd1_clk.common.hw,
-> > >  		[CLK_TCON_TV0]		=3D &tcon_tv0_clk.common.hw,
-> > >  		[CLK_TCON_TV1]		=3D &tcon_tv1_clk.common.hw,
-> > > +		[CLK_BUS_TCON_TV0]	=3D &bus_tcon_tv0_clk.common.hw,
-> > > +		[CLK_BUS_TCON_TV1]	=3D &bus_tcon_tv1_clk.common.hw,
-> > >  		[CLK_EDP]		=3D &edp_clk.common.hw,
-> > > +		[CLK_BUS_EDP]		=3D &bus_edp_clk.common.hw,
-> > >  		[CLK_LEDC]		=3D &ledc_clk.common.hw,
-> > > +		[CLK_BUS_LEDC]		=3D &bus_ledc_clk.common.hw,
-> > >  		[CLK_CSI_TOP]		=3D &csi_top_clk.common.hw,
-> > >  		[CLK_CSI_MCLK0]		=3D &csi_mclk0_clk.common.hw,
-> > >  		[CLK_CSI_MCLK1]		=3D &csi_mclk1_clk.common.hw,
-> > >  		[CLK_CSI_MCLK2]		=3D &csi_mclk2_clk.common.hw,
-> > >  		[CLK_CSI_MCLK3]		=3D &csi_mclk3_clk.common.hw,
-> > > +		[CLK_BUS_CSI]		=3D &bus_csi_clk.common.hw,
-> > >  		[CLK_ISP]		=3D &isp_clk.common.hw,
-> > >  		[CLK_DSP]		=3D &dsp_clk.common.hw,
-> > > +		[CLK_BUS_DSP_CFG]	=3D &bus_dsp_cfg_clk.common.hw,
-> > >  		[CLK_FANOUT_24M]	=3D &fanout_24M_clk.common.hw,
-> > >  		[CLK_FANOUT_12M]	=3D &fanout_12M_clk.common.hw,
-> > >  		[CLK_FANOUT_16M]	=3D &fanout_16M_clk.common.hw,
-> > >  =20
-> >=20
-> >=20
-> >=20
-> >=20
->=20
->=20
-
-
-
-
+Rob
