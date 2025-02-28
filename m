@@ -1,24 +1,24 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1868D1AA1FA
-	for <linux-sunxi@lists.linux.dev>; Fri, 28 Feb 2025 14:21:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8089826FDB4
+	for <linux-sunxi@lists.linux.dev>; Fri, 28 Feb 2025 14:33:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740752474; cv=none; b=SBS/KtWq9rocw1VByKjDwYl0sgg07mWuyeaDAg2fK1PS9B1w0oZSy/va8wmAuk/8gcTfPP48Uy0D0SCp1TIEIdusnHhYsv74ciuI1ZdRdAzw180feW2f1kbXanjz55tjpRwW34TaU6rpqT02TzAaaaWiDBDNG82qSa3MwSZrXlE=
+	t=1740753218; cv=none; b=WaHOxWtpLJ7SQBta+LZxPIBxOGHrPDZ6iSIev7Mh4kOoevDrO0Nvq10Ev/u3MIVZgYeFsS0gED6+8BmSLGQtIzgjBDvAcYvNUIXUF18am5SgMilryX4dN6ZBgw18CctnfAh+/2jht8Yv/KcbirFkT0y7sE1z0WGMU7IB+92h3Gs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740752474; c=relaxed/simple;
-	bh=9NBaILxd7R0N3z3x0yu/mSNRfbQS63Inmtd4qw4bXkc=;
+	s=arc-20240116; t=1740753218; c=relaxed/simple;
+	bh=FQ+6MlUJ0JUYNMzI23swEOO9JD6hoPMF9gUhKJMwyKg=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aPkkTEmjOkM2COrwqkNjhazN+zf/ppbDAMvk5WtUb3ybr5dPprXO5nV+DfcDw/g4LU1ulDO7zUKZ+cLQnvwGwUbWp9JWI/KkEvyOkTQ1lb+2e4LCN1j/mCSRvNX78JcO8jIB2F88gFaN7VG0IWv7mANWzlvEUUvm01PR140aLFQ=
+	 MIME-Version:Content-Type; b=Uaov3T0EfEv77KASmxRZD4RhPazgUmkH8WKoPEe39W5qERbligwwWdtU6SGg4KJEgKVzcr2F6YOlSGqaLsb1KRKPCsGYUL2DttIl6cqwcvhQ/Awcy9SOKhFF+pCHwsYlfkvxtQ4ZcY01KTxgte7K68GMN9FMMW/SF1LmxxV9ANo=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AA84C1515;
-	Fri, 28 Feb 2025 06:21:25 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AA9311515;
+	Fri, 28 Feb 2025 06:33:50 -0800 (PST)
 Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5DF833F6A8;
-	Fri, 28 Feb 2025 06:21:08 -0800 (PST)
-Date: Fri, 28 Feb 2025 14:21:05 +0000
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AE8513F6A8;
+	Fri, 28 Feb 2025 06:33:33 -0800 (PST)
+Date: Fri, 28 Feb 2025 14:33:31 +0000
 From: Andre Przywara <andre.przywara@arm.com>
 To: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
@@ -28,12 +28,13 @@ Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
  <p.zabel@pengutronix.de>, linux-clk@vger.kernel.org,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 13/15] clk: sunxi-ng: a523: add reset lines
-Message-ID: <20250228142105.3ce2f2df@donnerap.manchester.arm.com>
-In-Reply-To: <15399016.tv2OnDr8pf@jernej-laptop>
+Subject: Re: [PATCH v2 15/15] clk: sunxi-ng: add support for the A523/T527
+ PRCM CCU
+Message-ID: <20250228143331.42153af3@donnerap.manchester.arm.com>
+In-Reply-To: <3136553.CbtlEUcBR6@jernej-laptop>
 References: <20250214125359.5204-1-andre.przywara@arm.com>
-	<20250214125359.5204-14-andre.przywara@arm.com>
-	<15399016.tv2OnDr8pf@jernej-laptop>
+	<20250214125359.5204-16-andre.przywara@arm.com>
+	<3136553.CbtlEUcBR6@jernej-laptop>
 Organization: ARM
 X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
@@ -45,158 +46,370 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 18 Feb 2025 21:29:37 +0100
+On Tue, 18 Feb 2025 21:42:06 +0100
 Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
 
 Hi,
 
-> Dne petek, 14. februar 2025 ob 13:53:57 Srednjeevropski standardni =C4=8D=
+> Dne petek, 14. februar 2025 ob 13:53:59 Srednjeevropski standardni =C4=8D=
 as je Andre Przywara napisal(a):
-> > Allwinner SoCs do not contain a separate reset controller, instead the
-> > reset lines for the various devices are integrated into the "BGR" (Bus
-> > Gate / Reset) registers, for each device group: one for all UARTs, one
-> > for all SPI interfaces, and so on.
-> > The Allwinner CCU driver also doubles as a reset provider, and since the
-> > reset lines are indeed just single bits in those BGR register, we can
-> > represent them easily in an array of structs, just containing the
-> > register offset and the bit number.
+> > The A523/T527 SoCs have clock/reset controls in the PRCM part, like many
+> > previous SoCs. For a change, the whole PRCM is documented in the A523
+> > manual, including the system bus tree, so we can describe all those
+> > clocks correctly based on that. There layout seems to be derived from
+> > the H6 and H616 PRCM CCUs, though there are more clocks, and many clocks
+> > have subtly changed.
 > >=20
-> > Add the location of the reset bits for all devices in the A523/T527
-> > SoCs, using the existing sunxi CCU infrastructure.
+> > Describe all the mod and gate clocks, including the three bus clocks
+> > (R_AHB, R_APB0, and R_APB1).
 > >=20
 > > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 > > ---
-> >  drivers/clk/sunxi-ng/ccu-sun55i-a523.c | 83 ++++++++++++++++++++++++++
-> >  1 file changed, 83 insertions(+)
+> >  drivers/clk/sunxi-ng/Kconfig             |   5 +
+> >  drivers/clk/sunxi-ng/Makefile            |   2 +
+> >  drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c | 245 +++++++++++++++++++++++
+> >  drivers/clk/sunxi-ng/ccu-sun55i-a523-r.h |  14 ++
+> >  4 files changed, 266 insertions(+)
+> >  create mode 100644 drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c
+> >  create mode 100644 drivers/clk/sunxi-ng/ccu-sun55i-a523-r.h
 > >=20
-> > diff --git a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c b/drivers/clk/sunxi=
--ng/ccu-sun55i-a523.c
-> > index fbed9b2b3b2f9..d57565f07a112 100644
-> > --- a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
-> > +++ b/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
-> > @@ -1475,11 +1475,94 @@ static struct clk_hw_onecell_data sun55i_a523_h=
-w_clks =3D {
-> >  	},
-> >  };
+> > diff --git a/drivers/clk/sunxi-ng/Kconfig b/drivers/clk/sunxi-ng/Kconfig
+> > index 04efbda847cf9..5830a9d87bf25 100644
+> > --- a/drivers/clk/sunxi-ng/Kconfig
+> > +++ b/drivers/clk/sunxi-ng/Kconfig
+> > @@ -57,6 +57,11 @@ config SUN55I_A523_CCU
+> >  	default y
+> >  	depends on ARM64 || COMPILE_TEST
 > > =20
-> > +static struct ccu_reset_map sun55i_a523_ccu_resets[] =3D {
-> > +	[RST_MBUS]		=3D { 0x540, BIT(30) },
-> > +	[RST_BUS_NSI]		=3D { 0x54c, BIT(16) },
-> > +	[RST_BUS_DE]		=3D { 0x60c, BIT(16) },
-> > +	[RST_BUS_DI]		=3D { 0x62c, BIT(16) },
-> > +	[RST_BUS_G2D]		=3D { 0x63c, BIT(16) },
-> > +	[RST_BUS_SYS]		=3D { 0x64c, BIT(16) },
-> > +	[RST_BUS_GPU]		=3D { 0x67c, BIT(16) },
-> > +	[RST_BUS_CE]		=3D { 0x68c, BIT(16) },
-> > +	[RST_BUS_SYS_CE]	=3D { 0x68c, BIT(17) },
-> > +	[RST_BUS_VE]		=3D { 0x69c, BIT(16) },
-> > +	[RST_BUS_DMA]		=3D { 0x70c, BIT(16) },
-> > +	[RST_BUS_MSGBOX]	=3D { 0x71c, BIT(16) },
-> > +	[RST_BUS_SPINLOCK]	=3D { 0x72c, BIT(16) },
-> > +	[RST_BUS_CPUXTIMER]	=3D { 0x74c, BIT(16) },
-> > +	[RST_BUS_DBG]		=3D { 0x78c, BIT(16) },
-> > +	[RST_BUS_PWM0]		=3D { 0x7ac, BIT(16) },
-> > +	[RST_BUS_PWM1]		=3D { 0x7ac, BIT(17) },
-> > +	[RST_BUS_DRAM]		=3D { 0x80c, BIT(16) },
-> > +	[RST_BUS_NAND]		=3D { 0x82c, BIT(16) },
-> > +	[RST_BUS_MMC0]		=3D { 0x84c, BIT(16) },
-> > +	[RST_BUS_MMC1]		=3D { 0x84c, BIT(17) },
-> > +	[RST_BUS_MMC2]		=3D { 0x84c, BIT(18) },
-> > +	[RST_BUS_SYSDAP]	=3D { 0x88c, BIT(16) },
-> > +	[RST_BUS_UART0]		=3D { 0x90c, BIT(16) },
-> > +	[RST_BUS_UART1]		=3D { 0x90c, BIT(17) },
-> > +	[RST_BUS_UART2]		=3D { 0x90c, BIT(18) },
-> > +	[RST_BUS_UART3]		=3D { 0x90c, BIT(19) },
-> > +	[RST_BUS_UART4]		=3D { 0x90c, BIT(20) },
-> > +	[RST_BUS_UART5]		=3D { 0x90c, BIT(21) },
-> > +	[RST_BUS_UART6]		=3D { 0x90c, BIT(22) },
-> > +	[RST_BUS_UART7]		=3D { 0x90c, BIT(23) },
-> > +	[RST_BUS_I2C0]		=3D { 0x91c, BIT(16) },
-> > +	[RST_BUS_I2C1]		=3D { 0x91c, BIT(17) },
-> > +	[RST_BUS_I2C2]		=3D { 0x91c, BIT(18) },
-> > +	[RST_BUS_I2C3]		=3D { 0x91c, BIT(19) },
-> > +	[RST_BUS_I2C4]		=3D { 0x91c, BIT(20) },
-> > +	[RST_BUS_I2C5]		=3D { 0x91c, BIT(21) },
-> > +	[RST_BUS_CAN]		=3D { 0x92c, BIT(16) },
-> > +	[RST_BUS_SPI0]		=3D { 0x96c, BIT(16) },
-> > +	[RST_BUS_SPI1]		=3D { 0x96c, BIT(17) },
-> > +	[RST_BUS_SPI2]		=3D { 0x96c, BIT(18) },
-> > +	[RST_BUS_SPIFC]		=3D { 0x96c, BIT(19) },
-> > +	[RST_BUS_EMAC0]		=3D { 0x97c, BIT(16) },
-> > +	[RST_BUS_EMAC1]		=3D { 0x98c, BIT(16) | BIT(17) },	/* GMAC1-AXI */ =20
+> > +config SUN55I_A523_R_CCU
+> > +	tristate "Support for the Allwinner A523/T527 PRCM CCU"
+> > +	default y
+> > +	depends on ARM64 || COMPILE_TEST
+> > +
+> >  config SUN4I_A10_CCU
+> >  	tristate "Support for the Allwinner A10/A20 CCU"
+> >  	default y
+> > diff --git a/drivers/clk/sunxi-ng/Makefile b/drivers/clk/sunxi-ng/Makef=
+ile
+> > index 01a887f7824bb..82e471036de69 100644
+> > --- a/drivers/clk/sunxi-ng/Makefile
+> > +++ b/drivers/clk/sunxi-ng/Makefile
+> > @@ -34,6 +34,7 @@ obj-$(CONFIG_SUN50I_H6_CCU)	+=3D sun50i-h6-ccu.o
+> >  obj-$(CONFIG_SUN50I_H6_R_CCU)	+=3D sun50i-h6-r-ccu.o
+> >  obj-$(CONFIG_SUN50I_H616_CCU)	+=3D sun50i-h616-ccu.o
+> >  obj-$(CONFIG_SUN55I_A523_CCU)	+=3D sun55i-a523-ccu.o
+> > +obj-$(CONFIG_SUN55I_A523_R_CCU)	+=3D sun55i-a523-r-ccu.o
+> >  obj-$(CONFIG_SUN4I_A10_CCU)	+=3D sun4i-a10-ccu.o
+> >  obj-$(CONFIG_SUN5I_CCU)		+=3D sun5i-ccu.o
+> >  obj-$(CONFIG_SUN6I_A31_CCU)	+=3D sun6i-a31-ccu.o
+> > @@ -60,6 +61,7 @@ sun50i-h6-ccu-y			+=3D ccu-sun50i-h6.o
+> >  sun50i-h6-r-ccu-y		+=3D ccu-sun50i-h6-r.o
+> >  sun50i-h616-ccu-y		+=3D ccu-sun50i-h616.o
+> >  sun55i-a523-ccu-y		+=3D ccu-sun55i-a523.o
+> > +sun55i-a523-r-ccu-y		+=3D ccu-sun55i-a523-r.o
+> >  sun4i-a10-ccu-y			+=3D ccu-sun4i-a10.o
+> >  sun5i-ccu-y			+=3D ccu-sun5i.o
+> >  sun6i-a31-ccu-y			+=3D ccu-sun6i-a31.o
+> > diff --git a/drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c b/drivers/clk/sun=
+xi-ng/ccu-sun55i-a523-r.c
+> > new file mode 100644
+> > index 0000000000000..0dafc38370f22
+> > --- /dev/null
+> > +++ b/drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c
+> > @@ -0,0 +1,245 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright (C) 2024 Arm Ltd.
+> > + * Based on the D1 CCU driver:
+> > + *   Copyright (c) 2020 huangzhenwei@allwinnertech.com
+> > + *   Copyright (C) 2021 Samuel Holland <samuel@sholland.org>
+> > + */
+> > +
+> > +#include <linux/clk-provider.h>
+> > +#include <linux/module.h>
+> > +#include <linux/platform_device.h>
+> > +
+> > +#include "ccu_common.h"
+> > +#include "ccu_reset.h"
+> > +
+> > +#include "ccu_gate.h"
+> > +#include "ccu_mp.h"
+> > +
+> > +#include "ccu-sun55i-a523-r.h"
+> > +
+> > +static const struct clk_parent_data r_ahb_apb_parents[] =3D {
+> > +	{ .fw_name =3D "hosc" },
+> > +	{ .fw_name =3D "losc" },
+> > +	{ .fw_name =3D "iosc" },
+> > +	{ .fw_name =3D "pll-periph" },
+> > +	{ .fw_name =3D "pll-audio" }, =20
 >=20
-> GMAC AXI reset should be separate.
+> I believe pll-periph has /3 divider and pll-audio x4 multiplier.
 
-I see where you are coming from, but what would be the advantage,
-really? At the moment the generic STMMAC code and binding only knows
-about one reset line, so we would need to add support for a second line
-first, potentially even in generic code, but without any real win, I think.
+Well, it's actually worse, since the audio PLL is the one from the MCU
+CCU (PLL_AUDIO1), which we don't support yet.
+But those are just the names used in the DT, should they actually reflect
+the dividers and multipliers in their string?
 
-On the other hand the reset struct supports a bit mask already, so
-toggling both bits at the same time seems perfectly fine.
-So to make things easier, I thought we should take advantage of that,
-and having one line covering both bits. There is only one clock gate
-bit for GMAC1 as well.
+> > +};
+> > +static SUNXI_CCU_M_DATA_WITH_MUX(r_ahb_clk, "r-ahb",
+> > +				 r_ahb_apb_parents, 0x000,
+> > +				 0, 5,	/* M */
+> > +				 24, 3,	/* mux */
+> > +				 0);
+> > +
+> > +static SUNXI_CCU_M_DATA_WITH_MUX(r_apb0_clk, "r-apb0",
+> > +				 r_ahb_apb_parents, 0x00c,
+> > +				 0, 5,	/* M */
+> > +				 24, 3,	/* mux */
+> > +				 0);
+> > +
+> > +static SUNXI_CCU_M_DATA_WITH_MUX(r_apb1_clk, "r-apb1",
+> > +				 r_ahb_apb_parents, 0x010,
+> > +				 0, 5,	/* M */
+> > +				 24, 3,	/* mux */
+> > +				 0);
+> > +
+> > +static SUNXI_CCU_P_DATA_WITH_MUX_GATE(r_cpu_timer0, "r-timer0",
+> > +				      r_ahb_apb_parents, 0x100,
+> > +				      1, 3,	/* P */
+> > +				      4, 3,	/* mux */
+> > +				      BIT(0),
+> > +				      0);
+> > +static SUNXI_CCU_P_DATA_WITH_MUX_GATE(r_cpu_timer1, "r-timer1",
+> > +				      r_ahb_apb_parents, 0x104,
+> > +				      1, 3,	/* P */
+> > +				      4, 3,	/* mux */
+> > +				      BIT(0),
+> > +				      0);
+> > +static SUNXI_CCU_P_DATA_WITH_MUX_GATE(r_cpu_timer2, "r-timer2",
+> > +				      r_ahb_apb_parents, 0x108,
+> > +				      1, 3,	/* P */
+> > +				      4, 3,	/* mux */
+> > +				      BIT(0),
+> > +				      0);
+> > +
+> > +static SUNXI_CCU_GATE_HW(bus_r_timer_clk, "bus-r-timer", &r_ahb_clk.co=
+mmon.hw,
+> > +			 0x11c, BIT(0), 0);
+> > +static SUNXI_CCU_GATE_HW(bus_r_twd_clk,	"bus-r-twd", &r_apb0_clk.commo=
+n.hw,
+> > +			 0x12c, BIT(0), 0);
+> > +
+> > +static const struct clk_parent_data r_pwmctrl_parents[] =3D {
+> > +	{ .fw_name =3D "hosc" },
+> > +	{ .fw_name =3D "losc" },
+> > +	{ .fw_name =3D "iosc" },
+> > +};
+> > +static SUNXI_CCU_MUX_DATA_WITH_GATE(r_pwmctrl_clk, "r-pwmctrl",
+> > +				  r_pwmctrl_parents, 0x130,
+> > +				  24, 1,	/* mux */ =20
+>=20
+> Mux width is 2.
 
-And I know this isn't a good argument, but the BSP does it like this as wel=
-l ;-)
+Thanks, fixed.
 
 >=20
-> > +	[RST_BUS_IR_RX]		=3D { 0x99c, BIT(16) },
-> > +	[RST_BUS_IR_TX]		=3D { 0x9cc, BIT(16) },
-> > +	[RST_BUS_GPADC0]	=3D { 0x9ec, BIT(16) },
-> > +	[RST_BUS_GPADC1]	=3D { 0x9ec, BIT(17) },
-> > +	[RST_BUS_THS]		=3D { 0x9fc, BIT(16) },
-> > +	[RST_USB_PHY0]		=3D { 0xa70, BIT(30) },
-> > +	[RST_USB_PHY1]		=3D { 0xa74, BIT(30) },
-> > +	[RST_BUS_OHCI0]		=3D { 0xa8c, BIT(16) },
-> > +	[RST_BUS_OHCI1]		=3D { 0xa8c, BIT(17) },
-> > +	[RST_BUS_EHCI0]		=3D { 0xa8c, BIT(20) },
-> > +	[RST_BUS_EHCI1]		=3D { 0xa8c, BIT(21) },
-> > +	[RST_BUS_OTG]		=3D { 0xa8c, BIT(24) },
-> > +	[RST_BUS_3]		=3D { 0xa8c, BIT(25) },	/* BSP + register */
-> > +	[RST_BUS_LRADC]		=3D { 0xa9c, BIT(16) },
-> > +	[RST_BUS_PCIE_USB3]	=3D { 0xaac, BIT(16) },
-> > +	[RST_BUS_DPSS_TOP]	=3D { 0xabc, BIT(16) }, =20
+> > +				  BIT(31),
+> > +				  0);
+> > +static SUNXI_CCU_GATE_HW(bus_r_pwmctrl_clk, "bus-r-pwmctrl",
+> > +			 &r_apb0_clk.common.hw, 0x13c, BIT(0), 0);
+> > +
+> > +/* SPI clock is /M/N (same as new MMC?) */ =20
 >=20
-> Docs say that there is extra display top reset at 0xacc.
+> Missing SPI clock (reg 0x150).
 
-Right, also the name is better there: RST_BUS_DISPLAY[01]. Fixed that.
+I deliberately left that out, since its parent list is annoyingly insane,
+and includes that PLL_AUDIO1 which we don't support yet. I reserved a
+symbol for it, but was wondering if we could add it later?
 
 Cheers,
 Andre
 
 >=20
-> > +	[RST_BUS_HDMI_MAIN]	=3D { 0xb1c, BIT(16) },
-> > +	[RST_BUS_HDMI_SUB]	=3D { 0xb1c, BIT(17) },
-> > +	[RST_BUS_MIPI_DSI0]	=3D { 0xb4c, BIT(16) },
-> > +	[RST_BUS_MIPI_DSI1]	=3D { 0xb4c, BIT(17) },
-> > +	[RST_BUS_TCON_LCD0]	=3D { 0xb7c, BIT(16) },
-> > +	[RST_BUS_TCON_LCD1]	=3D { 0xb7c, BIT(17) },
-> > +	[RST_BUS_TCON_LCD2]	=3D { 0xb7c, BIT(18) },
-> > +	[RST_BUS_TCON_TV0]	=3D { 0xb9c, BIT(16) },
-> > +	[RST_BUS_TCON_TV1]	=3D { 0xb9c, BIT(17) },
-> > +	[RST_BUS_LVDS0]		=3D { 0xbac, BIT(16) },
-> > +	[RST_BUS_LVDS1]		=3D { 0xbac, BIT(17) },
-> > +	[RST_BUS_EDP]		=3D { 0xbbc, BIT(16) },
-> > +	[RST_BUS_VIDEO_OUT0]	=3D { 0xbcc, BIT(16) },
-> > +	[RST_BUS_VIDEO_OUT1]	=3D { 0xbcc, BIT(17) },
-> > +	[RST_BUS_LEDC]		=3D { 0xbfc, BIT(16) },
-> > +	[RST_BUS_CSI]		=3D { 0xc1c, BIT(16) },
-> > +	[RST_BUS_ISP]		=3D { 0xc2c, BIT(16) },	/* BSP + register */
+> > +static SUNXI_CCU_GATE_HW(bus_r_spi_clk, "bus-r-spi",
+> > +			 &r_ahb_clk.common.hw, 0x15c, BIT(0), 0);
+> > +static SUNXI_CCU_GATE_HW(bus_r_spinlock_clk, "bus-r-spinlock",
+> > +			 &r_ahb_clk.common.hw, 0x16c, BIT(0), 0);
+> > +static SUNXI_CCU_GATE_HW(bus_r_msgbox_clk, "bus-r-msgbox",
+> > +			 &r_ahb_clk.common.hw, 0x17c, BIT(0), 0);
+> > +static SUNXI_CCU_GATE_HW(bus_r_uart0_clk, "bus-r-uart0",
+> > +			 &r_apb1_clk.common.hw, 0x18c, BIT(0), 0);
+> > +static SUNXI_CCU_GATE_HW(bus_r_uart1_clk, "bus-r-uart1",
+> > +			 &r_apb1_clk.common.hw, 0x18c, BIT(1), 0);
+> > +static SUNXI_CCU_GATE_HW(bus_r_i2c0_clk, "bus-r-i2c0",
+> > +			 &r_apb1_clk.common.hw, 0x19c, BIT(0), 0);
+> > +static SUNXI_CCU_GATE_HW(bus_r_i2c1_clk, "bus-r-i2c1",
+> > +			 &r_apb1_clk.common.hw, 0x19c, BIT(1), 0);
+> > +static SUNXI_CCU_GATE_HW(bus_r_i2c2_clk, "bus-r-i2c2",
+> > +			 &r_apb1_clk.common.hw, 0x19c, BIT(2), 0);
+> > +static SUNXI_CCU_GATE_HW(bus_r_ppu0_clk, "bus-r-ppu0",
+> > +			 &r_apb0_clk.common.hw, 0x1ac, BIT(0), 0);
+> > +static SUNXI_CCU_GATE_HW(bus_r_ppu1_clk, "bus-r-ppu1",
+> > +			 &r_apb0_clk.common.hw, 0x1ac, BIT(1), 0);
+> > +static SUNXI_CCU_GATE_HW(bus_r_cpu_bist_clk, "bus-r-cpu-bist",
+> > +			 &r_apb0_clk.common.hw, 0x1bc, BIT(0), 0);
+> > +
+> > +static const struct clk_parent_data r_ir_rx_parents[] =3D {
+> > +	{ .fw_name =3D "losc" },
+> > +	{ .fw_name =3D "hosc" },
+> > +};
+> > +static SUNXI_CCU_M_DATA_WITH_MUX_GATE(r_ir_rx_clk, "r-ir-rx",
+> > +				      r_ir_rx_parents, 0x1c0,
+> > +				      0, 5,	/* M */
+> > +				      24, 2,	/* mux */
+> > +				      BIT(31),	/* gate */
+> > +				      0);
+> > +static SUNXI_CCU_GATE_HW(bus_r_ir_rx_clk, "bus-r-ir-rx",
+> > +			 &r_apb0_clk.common.hw, 0x1cc, BIT(0), 0);
+> > +
+> > +static SUNXI_CCU_GATE_HW(bus_r_dma_clk, "bus-r-dma",
+> > +			 &r_apb0_clk.common.hw, 0x1dc, BIT(0), 0);
+> > +static SUNXI_CCU_GATE_HW(bus_r_rtc_clk, "bus-r-rtc",
+> > +			 &r_apb0_clk.common.hw, 0x20c, BIT(0), 0);
+> > +static SUNXI_CCU_GATE_HW(bus_r_cpucfg_clk, "bus-r-cpucfg",
+> > +			 &r_apb0_clk.common.hw, 0x22c, BIT(0), 0);
+> > +
+> > +static struct ccu_common *sun55i_a523_r_ccu_clks[] =3D {
+> > +	&r_ahb_clk.common,
+> > +	&r_apb0_clk.common,
+> > +	&r_apb1_clk.common,
+> > +	&r_cpu_timer0.common,
+> > +	&r_cpu_timer1.common,
+> > +	&r_cpu_timer2.common,
+> > +	&bus_r_timer_clk.common,
+> > +	&bus_r_twd_clk.common,
+> > +	&r_pwmctrl_clk.common,
+> > +	&bus_r_pwmctrl_clk.common,
+> > +	&bus_r_spi_clk.common,
+> > +	&bus_r_spinlock_clk.common,
+> > +	&bus_r_msgbox_clk.common,
+> > +	&bus_r_uart0_clk.common,
+> > +	&bus_r_uart1_clk.common,
+> > +	&bus_r_i2c0_clk.common,
+> > +	&bus_r_i2c1_clk.common,
+> > +	&bus_r_i2c2_clk.common,
+> > +	&bus_r_ppu0_clk.common,
+> > +	&bus_r_ppu1_clk.common,
+> > +	&bus_r_cpu_bist_clk.common,
+> > +	&r_ir_rx_clk.common,
+> > +	&bus_r_ir_rx_clk.common,
+> > +	&bus_r_dma_clk.common,
+> > +	&bus_r_rtc_clk.common,
+> > +	&bus_r_cpucfg_clk.common,
 > > +};
 > > +
-> >  static const struct sunxi_ccu_desc sun55i_a523_ccu_desc =3D {
-> >  	.ccu_clks	=3D sun55i_a523_ccu_clks,
-> >  	.num_ccu_clks	=3D ARRAY_SIZE(sun55i_a523_ccu_clks),
-> > =20
-> >  	.hw_clks	=3D &sun55i_a523_hw_clks,
+> > +static struct clk_hw_onecell_data sun55i_a523_r_hw_clks =3D {
+> > +	.num	=3D CLK_NUMBER,
+> > +	.hws	=3D {
+> > +		[CLK_R_AHB]		=3D &r_ahb_clk.common.hw,
+> > +		[CLK_R_APB0]		=3D &r_apb0_clk.common.hw,
+> > +		[CLK_R_APB1]		=3D &r_apb1_clk.common.hw,
+> > +		[CLK_R_TIMER0]		=3D &r_cpu_timer0.common.hw,
+> > +		[CLK_R_TIMER1]		=3D &r_cpu_timer1.common.hw,
+> > +		[CLK_R_TIMER2]		=3D &r_cpu_timer2.common.hw,
+> > +		[CLK_BUS_R_TIMER]	=3D &bus_r_timer_clk.common.hw,
+> > +		[CLK_BUS_R_TWD]		=3D &bus_r_twd_clk.common.hw,
+> > +		[CLK_R_PWMCTRL]		=3D &r_pwmctrl_clk.common.hw,
+> > +		[CLK_BUS_R_PWMCTRL]	=3D &bus_r_pwmctrl_clk.common.hw,
+> > +		[CLK_BUS_R_SPI]		=3D &bus_r_spi_clk.common.hw,
+> > +		[CLK_BUS_R_SPINLOCK]	=3D &bus_r_spinlock_clk.common.hw,
+> > +		[CLK_BUS_R_MSGBOX]	=3D &bus_r_msgbox_clk.common.hw,
+> > +		[CLK_BUS_R_UART0]	=3D &bus_r_uart0_clk.common.hw,
+> > +		[CLK_BUS_R_UART1]	=3D &bus_r_uart1_clk.common.hw,
+> > +		[CLK_BUS_R_I2C0]	=3D &bus_r_i2c0_clk.common.hw,
+> > +		[CLK_BUS_R_I2C1]	=3D &bus_r_i2c1_clk.common.hw,
+> > +		[CLK_BUS_R_I2C2]	=3D &bus_r_i2c2_clk.common.hw,
+> > +		[CLK_BUS_R_PPU0]	=3D &bus_r_ppu0_clk.common.hw,
+> > +		[CLK_BUS_R_PPU1]	=3D &bus_r_ppu1_clk.common.hw,
+> > +		[CLK_BUS_R_CPU_BIST]	=3D &bus_r_cpu_bist_clk.common.hw,
+> > +		[CLK_R_IR_RX]		=3D &r_ir_rx_clk.common.hw,
+> > +		[CLK_BUS_R_IR_RX]	=3D &bus_r_ir_rx_clk.common.hw,
+> > +		[CLK_BUS_R_DMA]		=3D &bus_r_dma_clk.common.hw,
+> > +		[CLK_BUS_R_RTC]		=3D &bus_r_rtc_clk.common.hw,
+> > +		[CLK_BUS_R_CPUCFG]	=3D &bus_r_cpucfg_clk.common.hw,
+> > +	},
+> > +};
 > > +
-> > +	.resets		=3D sun55i_a523_ccu_resets,
-> > +	.num_resets	=3D ARRAY_SIZE(sun55i_a523_ccu_resets),
-> >  };
-> > =20
-> >  static const u32 pll_regs[] =3D {
+> > +static struct ccu_reset_map sun55i_a523_r_ccu_resets[] =3D {
+> > +	[RST_BUS_R_TIMER]	=3D { 0x11c, BIT(16) },
+> > +	[RST_BUS_R_TWD]		=3D { 0x12c, BIT(16) },
+> > +	[RST_BUS_R_PWMCTRL]	=3D { 0x13c, BIT(16) },
+> > +	[RST_BUS_R_SPI]		=3D { 0x15c, BIT(16) },
+> > +	[RST_BUS_R_SPINLOCK]	=3D { 0x16c, BIT(16) },
+> > +	[RST_BUS_R_MSGBOX]	=3D { 0x17c, BIT(16) },
+> > +	[RST_BUS_R_UART0]	=3D { 0x18c, BIT(16) },
+> > +	[RST_BUS_R_UART1]	=3D { 0x18c, BIT(17) },
+> > +	[RST_BUS_R_I2C0]	=3D { 0x19c, BIT(16) },
+> > +	[RST_BUS_R_I2C1]	=3D { 0x19c, BIT(17) },
+> > +	[RST_BUS_R_I2C2]	=3D { 0x19c, BIT(18) },
+> > +	[RST_BUS_R_PPU1]	=3D { 0x1ac, BIT(17) },
+> > +	[RST_BUS_R_IR_RX]	=3D { 0x1cc, BIT(16) },
+> > +	[RST_BUS_R_RTC]		=3D { 0x20c, BIT(16) },
+> > +	[RST_BUS_R_CPUCFG]	=3D { 0x22c, BIT(16) },
+> > +};
+> > +
+> > +static const struct sunxi_ccu_desc sun55i_a523_r_ccu_desc =3D {
+> > +	.ccu_clks	=3D sun55i_a523_r_ccu_clks,
+> > +	.num_ccu_clks	=3D ARRAY_SIZE(sun55i_a523_r_ccu_clks),
+> > +
+> > +	.hw_clks	=3D &sun55i_a523_r_hw_clks,
+> > +
+> > +	.resets		=3D sun55i_a523_r_ccu_resets,
+> > +	.num_resets	=3D ARRAY_SIZE(sun55i_a523_r_ccu_resets),
+> > +};
+> > +
+> > +static int sun55i_a523_r_ccu_probe(struct platform_device *pdev)
+> > +{
+> > +	void __iomem *reg;
+> > +
+> > +	reg =3D devm_platform_ioremap_resource(pdev, 0);
+> > +	if (IS_ERR(reg))
+> > +		return PTR_ERR(reg);
+> > +
+> > +	return devm_sunxi_ccu_probe(&pdev->dev, reg, &sun55i_a523_r_ccu_desc);
+> > +}
+> > +
+> > +static const struct of_device_id sun55i_a523_r_ccu_ids[] =3D {
+> > +	{ .compatible =3D "allwinner,sun55i-a523-r-ccu" },
+> > +	{ }
+> > +};
+> > +MODULE_DEVICE_TABLE(of, sun55i_a523_r_ccu_ids);
+> > +
+> > +static struct platform_driver sun55i_a523_r_ccu_driver =3D {
+> > +	.probe	=3D sun55i_a523_r_ccu_probe,
+> > +	.driver	=3D {
+> > +		.name			=3D "sun55i-a523-r-ccu",
+> > +		.suppress_bind_attrs	=3D true,
+> > +		.of_match_table		=3D sun55i_a523_r_ccu_ids,
+> > +	},
+> > +};
+> > +module_platform_driver(sun55i_a523_r_ccu_driver);
+> > +
+> > +MODULE_IMPORT_NS("SUNXI_CCU");
+> > +MODULE_DESCRIPTION("Support for the Allwinner A523 PRCM CCU");
+> > +MODULE_LICENSE("GPL");
+> > diff --git a/drivers/clk/sunxi-ng/ccu-sun55i-a523-r.h b/drivers/clk/sun=
+xi-ng/ccu-sun55i-a523-r.h
+> > new file mode 100644
+> > index 0000000000000..d50f46ac4f3fe
+> > --- /dev/null
+> > +++ b/drivers/clk/sunxi-ng/ccu-sun55i-a523-r.h
+> > @@ -0,0 +1,14 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Copyright 2024 Arm Ltd.
+> > + */
+> > +
+> > +#ifndef _CCU_SUN55I_A523_R_H
+> > +#define _CCU_SUN55I_A523_R_H
+> > +
+> > +#include <dt-bindings/clock/sun55i-a523-r-ccu.h>
+> > +#include <dt-bindings/reset/sun55i-a523-r-ccu.h>
+> > +
+> > +#define CLK_NUMBER	(CLK_BUS_R_CPUCFG + 1)
+> > +
+> > +#endif /* _CCU_SUN55I_A523_R_H */
 > >  =20
 >=20
 >=20
