@@ -1,65 +1,65 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 860EC1DFD8B
-	for <linux-sunxi@lists.linux.dev>; Sun,  2 Mar 2025 13:10:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C73D21DF980
+	for <linux-sunxi@lists.linux.dev>; Sun,  2 Mar 2025 13:15:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740921018; cv=none; b=XywnAo2BPhczz8s0QQDxO0FH902QSrk9VsAWJZ+cf8fao72cZZ67xlgnLOYyN4BsRAVkEq/CCvr3v4AzJHWBRsCj05wHLbGr72eKT52BQhBi9tYL/sfVmjPMMMuO5MCvEfPbG2BfA7twNgJn/4T40MKhokwAHTlsKLuqN621JsE=
+	t=1740921352; cv=none; b=OOFARxo4rlKT2FMHBq/ZM8nF2hQKBqKGWbClTiF7nfmpxe02gMvsbYFNlqPJNJuYg8pkS6g/k6C23R1SdM0DGSbCbu3GKHWQx60R5Weqt3lcGlI0fQiSOBJ355s3QphwE323m1ipw+0t8pUTATorBicSCe+zs9zWddRSPm28KLQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740921018; c=relaxed/simple;
-	bh=3ueYCQOJuTgMaM0PoECxWpAIMs+UVlEi7x0gp9ylX2g=;
+	s=arc-20240116; t=1740921352; c=relaxed/simple;
+	bh=E+tf5gJ3h3w6HycF9ratLCSZSX3tCmqhgj6Hu+c132g=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dDKvNdJtF2VJwqFdz8i7WLl4lvBNr0GL0WCG1aUyrJEWofH1JMv2DQ+F/qIfUmr24rOv1PFIA4eDUlMvIqGxyQuoF27GDfORbsAokOy5kqQp1R+2XIs1JitlklwZSH8ruxFuhkrv/7KSfjB3+jOgL7Yamy8SI/54bTIAiXxDrQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lDjZ0nnc; arc=none smtp.client-ip=209.85.167.49
+	 In-Reply-To:Content-Type; b=Qx5OeHtyaOs6HT2HZwp51RhBrTLk4TEaqbzyoDltZZt0iMI5GBLeHJYzyiO0hlNZch9+oQITR2TXJAdh14h2/510QdICYdXfZpYpQByn+XuOKvgvDZLqe8TpYD6BUlIuhBMT1HSN1XSgOPOyOR7+O4wnFc1JaQyLxgIlnNPBfEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dsy0WYMk; arc=none smtp.client-ip=209.85.208.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lDjZ0nnc"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-549681574e0so167495e87.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 02 Mar 2025 05:10:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dsy0WYMk"
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-30ba563a6d1so11103771fa.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 02 Mar 2025 05:15:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740921015; x=1741525815; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1740921349; x=1741526149; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=jG5tOje/zlA/EkhYa4q9r5CoNV0SFPoKRvJ7r+JyzFY=;
-        b=lDjZ0nnc31v5VJwV3xEf4II9g4scjTxu+nFBoiKz9zsR9fk/JB9KwJgwY2wzdZK6p0
-         jIWlJTr6N4Rqlf9MNarRKVg9H/T7Jgihucp/LaTU/FgYlzWq9DqGQL5pVaBacvrqMr/Z
-         FbAjd/PdaXT5KM++Z8CtCwbE8J52lZZtwxkhSbnzF+iX5wkH8UaHqCOQ2jhgbxk026dd
-         Luzj6Bg4+SQHFHiCEmkOtKaetlfUjcKMgX8BmvhxKYJOizFwEjndXYEDC86KKTTBH2j+
-         wLI5qilXTbk+aU+0FEd9Y082CH6F3fkigbEniiy1UNbB45vPhYFvUOuRubTqrk6CGSu9
-         fkUA==
+        bh=aOHZ9RwHYzXMQ8jAnz//sM4ODepJhiFxm1L6Ef+fj6g=;
+        b=dsy0WYMk0ys1vBtf782TJXimUKAuMf9R6xsYnnXNS+r7kywI38clGCqna0IykxbSSO
+         kTdGQmPVOjI5+xaJyvAVLHPWcJhDjnSfk7sEGNKW9IYcriqv5OmUHC+u49HZs/N+EjT7
+         HBZ6o7AHoLh7AY23t2Uixr8l48yqoQcK2c5B2OzynwYICO4YNtcp5WjXuLM2pqo0Z+hL
+         osAS3Uvm2QOEnN8hQjTaU+yr850Bher55zsP4QrQvZ8IalKodoJAjAkovFEqOE7E75Gq
+         uAnQhbRX+brwbPvCZkYkqPLoKhmdytXNJCLDx4Lr8hmjlrPISz0LLoBq6sV2abJQ+0Gi
+         tU6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740921015; x=1741525815;
+        d=1e100.net; s=20230601; t=1740921349; x=1741526149;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jG5tOje/zlA/EkhYa4q9r5CoNV0SFPoKRvJ7r+JyzFY=;
-        b=YLX6/YxQXYIiGGizeIajT3DkRzlC1Ae9tqitQNl4BEx+Ga472AHXOzM8XIGxUQLKlX
-         nwicJG2uAaI7fXqEXP0toZ4f9sKqSBAcio4ZRL1hqFh45ECX7rmWr8ntSBz2W1e2j9Ll
-         u8Lhi+PmXhv508y3e+g676y0XvFna1s9bbYdM3QiVoZUeds2LocIubL8YveT2f15KWMq
-         aua/FtBA6FhrLkFqixoVLR1tzW4o9GDCCtCF/ZnTNJrmBd2p4vYJzFsmDbiFVFtKT8iD
-         nAQqPpwjd9l4bLP88+j22pFoQHUHJrg1g6vI9Fb9/n+ijtniLesw/OGyJFX+SSbIW8Aa
-         rt6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVfjPXlujibgce/tfGqpeDxim2gZgYQsi0caVGAoq/ExrcpFkxLONnJ9vI9hanlxhCBXdNE8rSp4nra3Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz2zsubtTYYmpQfM4JEnmu4KiyMNTN29FHDn1WZU6DYY0pkOOuV
-	D9X92OnM4LnBxzZNfGckrqi/22+OjOpgwfmuscXwL8tFpTHJ08MN
-X-Gm-Gg: ASbGnct7aebL9PWBX+JqhmrR4UhhraMP1mLt9yKZkuTU2fAAXEGD0rYNsnPLWqCGXH0
-	zWdDfGSBfW4DSWaKcZgCc5T3g1zP4d3pFBW8U4iu88XsKg5NjCdEUzn2RB3sJ35gWYOww/e/t9F
-	OXu3T/EYcCITRyZ+mpTtIr2KSs5opj7PZmltJzVsJq8x/lXvWgTrEW5mPsZiTHm4Uxe+w1OPV0I
-	tEJFnsjvH0/SmOknjGKsfkRzEE7neWQcQjVOenkD/3fJxDYBgpn7xVY7TdM4schCR9KSVMMWe0D
-	PBmFKnPXz6ioy8K3BuJadTf/54p8Ht+2jIZG9eJZLs9cc2SSojLxLZ7oPQIjSv2IGRiNqTchU/8
-	2qzhoP6OJrbcbk0UqM7DyH2Q7jw==
-X-Google-Smtp-Source: AGHT+IEGL2GOx+6uK3ORwgW8vnlHYwV9+sg7r6kI4MAFfSmBYTvXGphMqMVaTf+mMGOgpFgDCZ0DhQ==
-X-Received: by 2002:a05:6512:3b83:b0:545:ae6:d740 with SMTP id 2adb3069b0e04-5494c350911mr3777634e87.41.1740921014388;
-        Sun, 02 Mar 2025 05:10:14 -0800 (PST)
+        bh=aOHZ9RwHYzXMQ8jAnz//sM4ODepJhiFxm1L6Ef+fj6g=;
+        b=Ik06KtYZ8gGqN2CWsSje0qrGoVJyoqtNsqpOtKrE+VyQOHzqzObxnbWhlVWTwsYMyC
+         gzzsswkLp+3KkqSZeRBDrHwq2aNE+fcwOPYJFa8cO/zHhEI7i2X+fQuWGJHv/G0Txk9G
+         fl5Pjc9CXPuNuUpIdaZwUgAofCM3oWnBrA6hwOfrMUKlF6bzvfz7/lWoQAylBVzV/ds9
+         2Jm8q7n8nlC5rC+VGUa3pCdNZo0kb7EZg+jy5qfwaI6oymb576A9sWUSru2EBNu8IMgm
+         DiyrG6W98imwko2WILKqxEQeIUc3PUJwk6bVVAhhmNzvLL9JbmeMA20mhTv8gUFtTQcD
+         dARA==
+X-Forwarded-Encrypted: i=1; AJvYcCUdm9xQywPUq2VBUKPQch+FrlS6PaoBHv5jSw4bA5jNQQGGYGiiKO1+voEhXR12MKqVEkt2HdQklyp8tg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx02Iezn55DWYcL2qnhnD1Ou6/tmzkx+wsG2nsZAdzFXpEblaxC
+	FCP1RWkBaEd08Df1Rukcr378UEcKTV8MQ5s9CK5CVG7PoWkwifKx
+X-Gm-Gg: ASbGncsakPCG5PoMEu5ARVlHN/8aqiABDXV+Mv3WwVtbNby9kZvDf8fUcLMdpIdJ0EJ
+	9DiB0TkE+N72I72bQf4sQ1uqkhd7zYjvsY9VqEttv7cJqU1W7OUnnGRkabCcEw5V0ljYFmFJo3K
+	vMd7hqIfwfLUnsBk/K9wzq1FMMR6wVkPk4sqS80LnlBJG093J/3JnWShuAjx18ZyKuMa4wyoXq3
+	u0TI60ekX1FBBccNzNZOuiR7AMly/hWLNsHrssbIgamIU80E0vs/EMcC4szuTkTK9mQ2q3lyLDp
+	cuwwzfl/9k6JQ/XZW49cQOJ3llumyym68UIiCZbDZEvEQUn6BGhNXdRzZ6nBF09aCihxySTR1Jc
+	uKQ1UWs7qmHQlWHhDHltD+t4tuA==
+X-Google-Smtp-Source: AGHT+IGHFptw3pHDNvEkh6S8B9YASLA7Mxg1Ob35UR3qFEC4CECgPhwErw/f4EuhZrqOLOxsFMYCdA==
+X-Received: by 2002:a05:6512:3a90:b0:545:a70:74c5 with SMTP id 2adb3069b0e04-5494c320d67mr3708996e87.13.1740921348639;
+        Sun, 02 Mar 2025 05:15:48 -0800 (PST)
 Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5495fbe4daesm229117e87.100.2025.03.02.05.10.12
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5495bc78d51sm353840e87.27.2025.03.02.05.15.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 02 Mar 2025 05:10:13 -0800 (PST)
-Message-ID: <7c79ce3a-0dc4-4aa4-941a-e05be9a34fb8@gmail.com>
-Date: Sun, 2 Mar 2025 15:10:12 +0200
+        Sun, 02 Mar 2025 05:15:48 -0800 (PST)
+Message-ID: <ccac509c-d063-42f4-a092-bee4014ec9da@gmail.com>
+Date: Sun, 2 Mar 2025 15:15:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -67,11 +67,9 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 07/10] iio: adc: ti-ads7924: Respect device tree config
+Subject: Re: [PATCH v4 08/10] iio: adc: Support ROHM BD79124 ADC
 To: Jonathan Cameron <jic23@kernel.org>
-Cc: David Lechner <dlechner@baylibre.com>,
- Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
- Hugo Villeneuve <hvilleneuve@dimonoff.com>,
+Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
  Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
  <conor+dt@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
@@ -82,7 +80,9 @@ Cc: David Lechner <dlechner@baylibre.com>,
  "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
  Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Nuno Sa <nuno.sa@analog.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Hugo Villeneuve <hvilleneuve@dimonoff.com>, Nuno Sa <nuno.sa@analog.com>,
+ David Lechner <dlechner@baylibre.com>,
  Javier Carrasco <javier.carrasco.cruz@gmail.com>,
  Guillaume Stols <gstols@baylibre.com>,
  Olivier Moysan <olivier.moysan@foss.st.com>,
@@ -95,67 +95,105 @@ Cc: David Lechner <dlechner@baylibre.com>,
  linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
  linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
+ linux-sunxi@lists.linux.dev, Linus Walleij <linus.walleij@linaro.org>
 References: <cover.1740421248.git.mazziesaccount@gmail.com>
- <20dd0e4ea72fe39b90b611f9c08dbd4bc1d5217f.1740421248.git.mazziesaccount@gmail.com>
- <f0d0f114-3953-46b5-b9f6-9b35537e6f8e@baylibre.com>
- <d391b012-0a8e-40ca-af56-ca73b3fd853b@gmail.com>
- <20250302032713.1c834448@jic23-huawei>
+ <4d1bf5df8f3b0f760422b6b67fcc8245ebf520e0.1740421249.git.mazziesaccount@gmail.com>
+ <20250302041046.7fde3c68@jic23-huawei>
 Content-Language: en-US, en-AU, en-GB, en-BW
 From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <20250302032713.1c834448@jic23-huawei>
+In-Reply-To: <20250302041046.7fde3c68@jic23-huawei>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 02/03/2025 05:27, Jonathan Cameron wrote:
-> On Wed, 26 Feb 2025 08:39:11 +0200
+On 02/03/2025 06:10, Jonathan Cameron wrote:
+> On Mon, 24 Feb 2025 20:34:30 +0200
 > Matti Vaittinen <mazziesaccount@gmail.com> wrote:
 > 
->> On 26/02/2025 02:09, David Lechner wrote:
->>> On 2/24/25 12:34 PM, Matti Vaittinen wrote:
->>>> The ti-ads7924 driver ignores the device-tree ADC channel specification
->>>> and always exposes all 4 channels to users whether they are present in
->>>> the device-tree or not. Additionally, the "reg" values in the channel
->>>> nodes are ignored, although an error is printed if they are out of range.
->>>>
->>>> Register only the channels described in the device-tree, and use the reg
->>>> property as a channel ID.
->>>>
->>>> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
->>>>
->>>> ---
->>>> Revision history:
->>>> v3 => v4:
->>>>    - Adapt to 'drop diff-channel support' changes to ADC-helpers
->>>>    - select ADC helpers in the Kconfig
->>>> v2 => v3: New patch
->>>>
->>>> Please note that this is potentially breaking existing users if they
->>>> have wrong values in the device-tree. I believe the device-tree should
->>>> ideally be respected, and if it says device X has only one channel, then
->>>> we should believe it and not register 4. Well, we don't live in the
->>>> ideal world, so even though I believe this is TheRightThingToDo - it may
->>>> cause havoc because correct device-tree has not been required from the
->>>> day 1. So, please review and test and apply at your own risk :)
->>>
->>> The DT bindings on this one are a little weird. Usually, if we don't
->>> use any extra properties from adc.yaml, we leave out the channels. In
->>> this case it does seem kind of like the original intention was to work
->>> like you are suggesting, but hard to say since the driver wasn't actually
->>> implemented that way. I would be more inclined to actually not make the
->>> breaking change here and instead relax the bindings to make channel nodes
->>> optional and just have the driver ignore the channel nodes by dropping
->>> the ads7924_get_channels_config() function completely. This would make
->>> the driver simpler instead of more complex like this patch does.
+>> The ROHM BD79124 is a 12-bit, 8-channel, SAR ADC. The ADC supports
+>> an automatic measurement mode, with an alarm interrupt for out-of-window
+>> measurements. The window is configurable for each channel.
 >>
->> I have no strong opinion on this. I see this driver says 'Supported' in
->> MAINTAINERS. Maybe Hugo is able to provide some insight?
+>> The I2C protocol for manual start of the measurement and data reading is
+>> somewhat peculiar. It requires the master to do clock stretching after
+>> sending the I2C slave-address until the slave has captured the data.
+>> Needless to say this is not well suopported by the I2C controllers.
 >>
-> This seems to be ABI breakage.  Never something we can take if there is
-> a significant chance of anyone noticing.  Here it looks like risk
-> is too high.
+>> Thus the driver does not support the BD79124's manual measurement mode
+>> but implements the measurements using automatic measurement mode relying
+>> on the BD79124's ability of storing latest measurements into register.
+>>
+>> The driver does also support configuring the threshold events for
+>> detecting the out-of-window events.
+>>
+>> The BD79124 keeps asserting IRQ for as long as the measured voltage is
+>> out of the configured window. Thus the driver masks the received event
+>> for a fixed duration (1 second) when an event is handled. This prevents
+>> the user-space from choking on the events
+>>
+>> The ADC input pins can be also configured as general purpose outputs.
+>> Those pins which don't have corresponding ADC channel node in the
+>> device-tree will be controllable as GPO.
+>>
+>> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+> Some minor stuff inline.
 
-Ok. I'll just drop this patch then. Thanks David & Jonathan :)
+...
+
+>> +#define BD79124_INTERVAL_075 0
+> 
+> Can we make these units in these explicit?
+> #define BD79124_INTERVAL_MS_0_75
+> maybe?  Nice to avoid need for comments on what the units are where
+> you use these.
+> 
+
+Sure, thanks.
+
+>> +#define BD79124_INTERVAL_150 1
+>> +#define BD79124_INTERVAL_300 2
+>> +#define BD79124_INTERVAL_600 3
+
+...
+
+> 
+>> +static void bd79124_re_enable_hi(struct bd79124_data *data, unsigned int channel)
+>> +{
+>> +	int ret, evbit = BIT(IIO_EV_DIR_RISING);
+>> +
+>> +	if (!(data->alarm_suppressed[channel] & evbit))
+>> +		return;
+>> +
+>> +	data->alarm_suppressed[channel] &= (~evbit);
+> 
+> No brackets around the ~evbit.
+> Check for other cases of this.
+> Otherwise we'll get some script written 'cleanup'.
+
+Sigh. I had a lengthy discussion about this with Andy explaining why I 
+like having the parenthesis to avoid any confusion. Well, I suppose I 
+have no options if you're strongly opposing them.
+
+...
+
+>> +static void bd79124_alm_enable_worker(struct work_struct *work)
+>> +{
+>> +	int i;
+>> +	struct bd79124_data *data = container_of(work, struct bd79124_data,
+>> +						 alm_enable_work.work);
+>> +
+>> +	guard(mutex)(&data->mutex);
+>> +	/*
+>> +	 * We should not re-enable the event if user has disabled it while
+>> +	 * rate-limiting was enabled.
+>> +	 */
+> 
+> Is this comment suggesting something that isn't done or referring to specific
+> code?  I think it wants to be in the function above where the decision is made.
+
+I have to take another look but it seems it got misplaced during the 
+road. Thanks!
+
+Agreeing with all the rest, thanks!
 
 Yours,
 	-- Matti
