@@ -1,65 +1,65 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F891DED69
-	for <linux-sunxi@lists.linux.dev>; Sun,  2 Mar 2025 13:06:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 860EC1DFD8B
+	for <linux-sunxi@lists.linux.dev>; Sun,  2 Mar 2025 13:10:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740920814; cv=none; b=jeJ53+d7dIOpWmZbYtH6aGrjrTqYalsmHcqX8xiv/aQLIxfmt19SCorBQM6HNTKtQCBobPmgtirBfxvSPV607Ikqy2MYf47yUAIoDWYVi3N4grXNdpJoWoNrcGHEWQaN0UD8xyTjA9CIE7lB++DM2Ezy8G1Fn7QaMOm/u7WNQJc=
+	t=1740921018; cv=none; b=XywnAo2BPhczz8s0QQDxO0FH902QSrk9VsAWJZ+cf8fao72cZZ67xlgnLOYyN4BsRAVkEq/CCvr3v4AzJHWBRsCj05wHLbGr72eKT52BQhBi9tYL/sfVmjPMMMuO5MCvEfPbG2BfA7twNgJn/4T40MKhokwAHTlsKLuqN621JsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740920814; c=relaxed/simple;
-	bh=Wc63yfyqZGwbD63CYJ3J2dS4oj/xXBruMTdVa0We1vo=;
+	s=arc-20240116; t=1740921018; c=relaxed/simple;
+	bh=3ueYCQOJuTgMaM0PoECxWpAIMs+UVlEi7x0gp9ylX2g=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BsIydtUa3d+xCMObLi8jvdwYNBRk0smBqeHEBVOCDXKjywA1F+XKt8+jDHaICtBFOH4bj3y5aqu3qpH2G4O8tca6zpTA68vixUYuHw5yQStWpXAqVvDISA55tohxypiqBw6ToMeFI5lgqWH2pa9VAyMO2DbFdYToroXCL5BDxgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W4CLcO3R; arc=none smtp.client-ip=209.85.208.181
+	 In-Reply-To:Content-Type; b=dDKvNdJtF2VJwqFdz8i7WLl4lvBNr0GL0WCG1aUyrJEWofH1JMv2DQ+F/qIfUmr24rOv1PFIA4eDUlMvIqGxyQuoF27GDfORbsAokOy5kqQp1R+2XIs1JitlklwZSH8ruxFuhkrv/7KSfjB3+jOgL7Yamy8SI/54bTIAiXxDrQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lDjZ0nnc; arc=none smtp.client-ip=209.85.167.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W4CLcO3R"
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-30615661f98so37032211fa.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 02 Mar 2025 05:06:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lDjZ0nnc"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-549681574e0so167495e87.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 02 Mar 2025 05:10:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740920810; x=1741525610; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1740921015; x=1741525815; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=z+axkLd7tQFz7zR9h7JCTxpVngu93rFLR93Lw7kqAh8=;
-        b=W4CLcO3RsV95DdjNYN9D52X0dR5ae3Q97kHy9eyV3fLfEideLNxxQ/TvUrWKo6siNb
-         Lt5jXDZu2EnFUk/hi4euMN8Md3RhyAO51IGHygJdkViktFB3vx7omfKNq+VWwOZwYyo4
-         0f1kmmogtnZp5hadbYJz53SmKBdpxSnxUZgmUTXJntxC968uUDDas8pPuC1WBiscxXTQ
-         WcCBrWxOO2quDDN+8GV5PEifps28QCcDTV9od3gWT7HwFvP7hUMF2dpsG4SZ9rdGGK+f
-         deASvZZnCPdOT2S5NST/cFXS84JiQOUYM6iFTx4OI/mFCp5ZXcpwii2MTXkPHW7g5EuM
-         Uqpw==
+        bh=jG5tOje/zlA/EkhYa4q9r5CoNV0SFPoKRvJ7r+JyzFY=;
+        b=lDjZ0nnc31v5VJwV3xEf4II9g4scjTxu+nFBoiKz9zsR9fk/JB9KwJgwY2wzdZK6p0
+         jIWlJTr6N4Rqlf9MNarRKVg9H/T7Jgihucp/LaTU/FgYlzWq9DqGQL5pVaBacvrqMr/Z
+         FbAjd/PdaXT5KM++Z8CtCwbE8J52lZZtwxkhSbnzF+iX5wkH8UaHqCOQ2jhgbxk026dd
+         Luzj6Bg4+SQHFHiCEmkOtKaetlfUjcKMgX8BmvhxKYJOizFwEjndXYEDC86KKTTBH2j+
+         wLI5qilXTbk+aU+0FEd9Y082CH6F3fkigbEniiy1UNbB45vPhYFvUOuRubTqrk6CGSu9
+         fkUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740920810; x=1741525610;
+        d=1e100.net; s=20230601; t=1740921015; x=1741525815;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=z+axkLd7tQFz7zR9h7JCTxpVngu93rFLR93Lw7kqAh8=;
-        b=blO2ukM27Ub2lyDtkqpriWrhAfPXlPW8IkFDbG+CZmgYwwN2DTEtvFhDq3MzXh9+D6
-         JVyAvU827snveaRgk/3ahY/9kBq5+ila2ENb9BcJYw7ehD2gs652iFjmADDcVlN4I8Me
-         KmqZ4XaNVxtHjwGWgyVQhglwv4rDUMfRRDihI9nZtr1kQGsKxPBaONUiL/OwbpsKi5T8
-         9TcBsn6QKxIZg4A18VVESTRfL1yTO3APGbvz5xCrDamKTXc6sM4v9paAm11T5x7ksktA
-         CctGhyfDWM+t7nmRbgYuGob4bb2N9JxuG98yZnYD+wXI4N9xHDh3fewBp9d1jNEMWio4
-         pFdA==
-X-Forwarded-Encrypted: i=1; AJvYcCWFLaYrapDaw8HroUoEeN8BwdgxPLFQJVJcFrUxQgVeV74joguev5E5sPZd4+QzFpPwITJppzn2CPw3gQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwLggRHm4FkdyyPvLIc2wnTK0Y9uIfxjAN/EOg4FIEqeyzsX9NR
-	2tKoOwBnF2aafMGBjb0Q1gO1eF5QRgi6MIZq5MeyOk/mRt7lVf4G
-X-Gm-Gg: ASbGncsezlrwlpztsBrkJpL56V8Q3PLGdf9DPFotjABsPl9G4mv5d45GcsqVNZmcQya
-	a2jJYwTL4c4XLuiTs6MmSBe0hx8caKwnkfyXOSgyt6MZFgD5vFVpnY8RGBlGxYznKCWvRsAb82+
-	lAi87hPJGqH8ZNybtyTxL1F/jNOjryYgQsWX+C9a6XtdkuA47owzH+sxBTiSkX5OwiE0MrjpxRu
-	7VPMudZhO3IDnTN+6ckptvp3Tvh8E56lEYuuFpjGyG1CxM1kXCb2EuoeBVJb4JZwhU9jJMxdlJk
-	O7YD2j1i6Ag2nCw9FXmlP/12JEVwrNQXgvAJHFU6sELz+jMBFq4YJFOThFXJ+Fmw2vCGbtLH+3h
-	ZiAtwJSjm4fdswMbBa+3fpIY9eg==
-X-Google-Smtp-Source: AGHT+IEucaK4C0/jG/28ToSGCMqDTpO1LwC3UB+LxRq0hxN98edyDZiBux7h98Elv5EsCRuxmORCqg==
-X-Received: by 2002:a05:651c:1545:b0:30b:8faa:9544 with SMTP id 38308e7fff4ca-30b9320c44amr33012291fa.7.1740920810359;
-        Sun, 02 Mar 2025 05:06:50 -0800 (PST)
+        bh=jG5tOje/zlA/EkhYa4q9r5CoNV0SFPoKRvJ7r+JyzFY=;
+        b=YLX6/YxQXYIiGGizeIajT3DkRzlC1Ae9tqitQNl4BEx+Ga472AHXOzM8XIGxUQLKlX
+         nwicJG2uAaI7fXqEXP0toZ4f9sKqSBAcio4ZRL1hqFh45ECX7rmWr8ntSBz2W1e2j9Ll
+         u8Lhi+PmXhv508y3e+g676y0XvFna1s9bbYdM3QiVoZUeds2LocIubL8YveT2f15KWMq
+         aua/FtBA6FhrLkFqixoVLR1tzW4o9GDCCtCF/ZnTNJrmBd2p4vYJzFsmDbiFVFtKT8iD
+         nAQqPpwjd9l4bLP88+j22pFoQHUHJrg1g6vI9Fb9/n+ijtniLesw/OGyJFX+SSbIW8Aa
+         rt6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVfjPXlujibgce/tfGqpeDxim2gZgYQsi0caVGAoq/ExrcpFkxLONnJ9vI9hanlxhCBXdNE8rSp4nra3Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz2zsubtTYYmpQfM4JEnmu4KiyMNTN29FHDn1WZU6DYY0pkOOuV
+	D9X92OnM4LnBxzZNfGckrqi/22+OjOpgwfmuscXwL8tFpTHJ08MN
+X-Gm-Gg: ASbGnct7aebL9PWBX+JqhmrR4UhhraMP1mLt9yKZkuTU2fAAXEGD0rYNsnPLWqCGXH0
+	zWdDfGSBfW4DSWaKcZgCc5T3g1zP4d3pFBW8U4iu88XsKg5NjCdEUzn2RB3sJ35gWYOww/e/t9F
+	OXu3T/EYcCITRyZ+mpTtIr2KSs5opj7PZmltJzVsJq8x/lXvWgTrEW5mPsZiTHm4Uxe+w1OPV0I
+	tEJFnsjvH0/SmOknjGKsfkRzEE7neWQcQjVOenkD/3fJxDYBgpn7xVY7TdM4schCR9KSVMMWe0D
+	PBmFKnPXz6ioy8K3BuJadTf/54p8Ht+2jIZG9eJZLs9cc2SSojLxLZ7oPQIjSv2IGRiNqTchU/8
+	2qzhoP6OJrbcbk0UqM7DyH2Q7jw==
+X-Google-Smtp-Source: AGHT+IEGL2GOx+6uK3ORwgW8vnlHYwV9+sg7r6kI4MAFfSmBYTvXGphMqMVaTf+mMGOgpFgDCZ0DhQ==
+X-Received: by 2002:a05:6512:3b83:b0:545:ae6:d740 with SMTP id 2adb3069b0e04-5494c350911mr3777634e87.41.1740921014388;
+        Sun, 02 Mar 2025 05:10:14 -0800 (PST)
 Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30b8dbd1ad9sm9547021fa.76.2025.03.02.05.06.46
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5495fbe4daesm229117e87.100.2025.03.02.05.10.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 02 Mar 2025 05:06:48 -0800 (PST)
-Message-ID: <45c0bf5a-f821-498e-8a9c-99e53bba5307@gmail.com>
-Date: Sun, 2 Mar 2025 15:06:46 +0200
+        Sun, 02 Mar 2025 05:10:13 -0800 (PST)
+Message-ID: <7c79ce3a-0dc4-4aa4-941a-e05be9a34fb8@gmail.com>
+Date: Sun, 2 Mar 2025 15:10:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -67,9 +67,11 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 04/10] iio: adc: rzg2l_adc: Use adc-helpers
+Subject: Re: [PATCH v4 07/10] iio: adc: ti-ads7924: Respect device tree config
 To: Jonathan Cameron <jic23@kernel.org>
-Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+Cc: David Lechner <dlechner@baylibre.com>,
+ Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+ Hugo Villeneuve <hvilleneuve@dimonoff.com>,
  Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
  <conor+dt@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
@@ -80,9 +82,7 @@ Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
  "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
  Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Hugo Villeneuve <hvilleneuve@dimonoff.com>, Nuno Sa <nuno.sa@analog.com>,
- David Lechner <dlechner@baylibre.com>,
+ Samuel Holland <samuel@sholland.org>, Nuno Sa <nuno.sa@analog.com>,
  Javier Carrasco <javier.carrasco.cruz@gmail.com>,
  Guillaume Stols <gstols@baylibre.com>,
  Olivier Moysan <olivier.moysan@foss.st.com>,
@@ -97,57 +97,65 @@ Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
  linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev
 References: <cover.1740421248.git.mazziesaccount@gmail.com>
- <5658fbdd886cc7ada278a42c63a140bc14d1277d.1740421248.git.mazziesaccount@gmail.com>
- <20250302034042.59d83f53@jic23-huawei>
+ <20dd0e4ea72fe39b90b611f9c08dbd4bc1d5217f.1740421248.git.mazziesaccount@gmail.com>
+ <f0d0f114-3953-46b5-b9f6-9b35537e6f8e@baylibre.com>
+ <d391b012-0a8e-40ca-af56-ca73b3fd853b@gmail.com>
+ <20250302032713.1c834448@jic23-huawei>
 Content-Language: en-US, en-AU, en-GB, en-BW
 From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <20250302034042.59d83f53@jic23-huawei>
+In-Reply-To: <20250302032713.1c834448@jic23-huawei>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 02/03/2025 05:40, Jonathan Cameron wrote:
-> On Mon, 24 Feb 2025 20:33:29 +0200
+On 02/03/2025 05:27, Jonathan Cameron wrote:
+> On Wed, 26 Feb 2025 08:39:11 +0200
 > Matti Vaittinen <mazziesaccount@gmail.com> wrote:
 > 
->> The new devm_iio_adc_device_alloc_chaninfo() -helper is intended to help
->> drivers avoid open-coding the for_each_node -loop for getting the
->> channel IDs. The helper provides standard way to detect the ADC channel
->> nodes (by the node name), and a standard way to convert the "reg",
->> "diff-channels", "single-channel" and the "common-mode-channel" to
->> channel identification numbers used in the struct iio_chan_spec.
-> 
-> Needs an update to reflecting naming and functionality simplifications.
-
-Thanks! I should've noticed this. I'll re-read and alter all the commits 
-for the v5.
-
-> 
->> Furthermore, the helper checks the ID is in range of 0 ... num-channels.
+>> On 26/02/2025 02:09, David Lechner wrote:
+>>> On 2/24/25 12:34 PM, Matti Vaittinen wrote:
+>>>> The ti-ads7924 driver ignores the device-tree ADC channel specification
+>>>> and always exposes all 4 channels to users whether they are present in
+>>>> the device-tree or not. Additionally, the "reg" values in the channel
+>>>> nodes are ignored, although an error is printed if they are out of range.
+>>>>
+>>>> Register only the channels described in the device-tree, and use the reg
+>>>> property as a channel ID.
+>>>>
+>>>> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+>>>>
+>>>> ---
+>>>> Revision history:
+>>>> v3 => v4:
+>>>>    - Adapt to 'drop diff-channel support' changes to ADC-helpers
+>>>>    - select ADC helpers in the Kconfig
+>>>> v2 => v3: New patch
+>>>>
+>>>> Please note that this is potentially breaking existing users if they
+>>>> have wrong values in the device-tree. I believe the device-tree should
+>>>> ideally be respected, and if it says device X has only one channel, then
+>>>> we should believe it and not register 4. Well, we don't live in the
+>>>> ideal world, so even though I believe this is TheRightThingToDo - it may
+>>>> cause havoc because correct device-tree has not been required from the
+>>>> day 1. So, please review and test and apply at your own risk :)
+>>>
+>>> The DT bindings on this one are a little weird. Usually, if we don't
+>>> use any extra properties from adc.yaml, we leave out the channels. In
+>>> this case it does seem kind of like the original intention was to work
+>>> like you are suggesting, but hard to say since the driver wasn't actually
+>>> implemented that way. I would be more inclined to actually not make the
+>>> breaking change here and instead relax the bindings to make channel nodes
+>>> optional and just have the driver ignore the channel nodes by dropping
+>>> the ads7924_get_channels_config() function completely. This would make
+>>> the driver simpler instead of more complex like this patch does.
 >>
->> The original driver treated all found child nodes as channel nodes. The
->> new helper requires channel nodes to be named channel[@N]. This should
->> help avoid problems with devices which may contain also other but ADC
->> child nodes. Quick grep from arch/* with the rzg2l_adc's compatible
->> string didn't reveal any in-tree .dts with channel nodes named
->> othervice. Also, same grep shows all the .dts seem to have channel IDs
-> otherwise
-> 
-> (othervice does sound cool though ;)
+>> I have no strong opinion on this. I see this driver says 'Supported' in
+>> MAINTAINERS. Maybe Hugo is able to provide some insight?
+>>
+> This seems to be ABI breakage.  Never something we can take if there is
+> a significant chance of anyone noticing.  Here it looks like risk
+> is too high.
 
-Thanks :D For some reason I always have difficulties spelling it!
-
-...
-
->> I picked the rzg2l_adc in this series because it has a straightforward
->> approach for populating the struct iio_chan_spec. Only other member
->> in the stuct besides the .channel, which can't use a 'template' -data,
->> is the .datasheet_name. This makes the rzg2l_adc well suited for example
->> user of this new helper. I hope this patch helps to evaluate whether these
->> helpers are worth the hassle.
-> This doesn't seem to match driver. It is messing with channel type.
-
-Ah. Yes. It was simple until I rebased to never version. I'll change 
-this. Thanks!
+Ok. I'll just drop this patch then. Thanks David & Jonathan :)
 
 Yours,
 	-- Matti
