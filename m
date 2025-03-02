@@ -1,65 +1,65 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B714AD24
-	for <linux-sunxi@lists.linux.dev>; Sun,  2 Mar 2025 12:21:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD861D7982
+	for <linux-sunxi@lists.linux.dev>; Sun,  2 Mar 2025 12:22:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740918087; cv=none; b=Wi18LYZwedJxPuBaExvFWiy7IK0jvcmxHBsFrVUlIRG4S3owAXC9Bsf6awTXA56/nqWuab4t7k+tV5B/60c9RAfzDp13OnPc1RxiD1xxmj1EmV88U/w5UKScsbCI4JD+maLXmD8vEyL5U+jfkBU3cwc9NWP10JOGa00MihgyVLM=
+	t=1740918182; cv=none; b=C8LkiSWupzkhQAfmsEfSz++Mvk0WeP9ScTnP5e+N4dCTng2aEQanYN3n4RNVuyrVHlc4VCi1oqGJ7TyJC71eKcCWT5bAQfyDyx+m8iXvOwsl9WdDF5o137Bw2GgF3cUnwQCc78HYfizfIgzIlWmXH/egqDJL8/rOR4TXjCtHAmM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740918087; c=relaxed/simple;
-	bh=VXo9YiQuucOHzzLu2O9MNDIOz3v9HB4UDsRrEQnruDw=;
+	s=arc-20240116; t=1740918182; c=relaxed/simple;
+	bh=hKBTReK3pH8mU/iYRfyBVCfJp0R5KMbvtZlOdcY8Wf4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fIAPzhA4VKHGBdE4bvtmUi+yEcLuz51+tlFhdr+eGODdlZiXRMsu94irGnJA73gsgYs9GQ2kg80BGVUZW3pOD4nucwg1J1oK8ne2NSc5zAa6XFj4XZlb2MuotqN5gBPW2b2FLcOhInQWM+4aiBdJFLkia1TPwmVcFgscUXPOENg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KuntkcKJ; arc=none smtp.client-ip=209.85.167.52
+	 In-Reply-To:Content-Type; b=TWzqzqVnwQNhviyMgJNOPb+yCEYL233GZKluLLLur90A6Pm/AdOf4HvzRiVJAZ+PIcIxuv+SgD7qbRe1FpqC9L8iaAz4igAoALzzKtyjwzdCpXfRk7NZ7KyKbqVF7gxJVS7gr5hSYQsWBLN8KKJh7Jqhylb6CESCv5o36NBMjcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tte56qKR; arc=none smtp.client-ip=209.85.167.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KuntkcKJ"
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-54958009d4dso1522222e87.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 02 Mar 2025 04:21:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tte56qKR"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5495e926364so631908e87.3
+        for <linux-sunxi@lists.linux.dev>; Sun, 02 Mar 2025 04:22:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740918084; x=1741522884; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1740918178; x=1741522978; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Qtblm0i8462d3luljoT5Tnt+0dpoW1Tx169HXsD42sU=;
-        b=KuntkcKJKpkL91LjTIvSB0IQaqCZKeAW3mHvZwzVN6p49V88NYEOoG94uq4Fhj60CQ
-         m326C8l/SyebYQ6HOiwfvB7vzbhQVAuoBDre/1LuzutkLDWGUMHz8ZDVVBwY8wAqhCkP
-         U+K0IqeJJOY+5fh0SrVgsiL/N/psYW+5TEH62vNk0vAXih7/gZGB+ayPPetQXvCmqVSP
-         xo6Szc+QCkxXWhJ/XXY33m1ys8okoRNmkqUWULKa3j4Gt6V6J9wKJkhRoHK8b7YOx66w
-         cqMYOzlfzLnpro4+QxPQuyBzyXb5lahHHANqA7OesmgX/V51QgGNO+sE93q8VnYckqAv
-         3eiQ==
+        bh=fEnnc1dXj5lNrYUNbaQiHP03Z2g3b2VRGVuLnQpfuiI=;
+        b=Tte56qKRVdAVDWWmfst4CNo0uHnNyDy2s4F1VfLC3nBFTNhTEJ8PbfkAVGcR/fIG3S
+         ItuORIsD+Paz7t6zXaoR4vsUanYMoBp+aL86H5Akox3INa/BqFFP/sjKCBEmmEZvweTj
+         RYcdq48YXjufVOpmlVYuQVV5Odim9XDAMK8s2IhzQBqyYpcvcA/bHtiRGBILgNVl32M9
+         4TTfQn1QixDKjLeB/DbDOI6GwFpqFS3PMIUVHziOpy1Gf/8XyHt+nd+BbmXH9tM5UyY8
+         Aknwa7RUvUuDg3qa+GoWsyCn5QFgKTj2vgitaIC50QK2Q5UjUHQL1ID/xptTorns/dyy
+         nNYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740918084; x=1741522884;
+        d=1e100.net; s=20230601; t=1740918178; x=1741522978;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Qtblm0i8462d3luljoT5Tnt+0dpoW1Tx169HXsD42sU=;
-        b=BSXyYzzTV+V99hhKYLIs4aoCNtRicHa8EiBmFf/3YczLSC7njjI02J5dUWKMw2ItB/
-         o6IyeT5TgiviwkKoRPnr533VcuMOI8IE07ZloIR+/vfdM8gYcCW6vAY5IFYSIy1Mjnp/
-         174KXLwziXv8ivK/wM3OipMkT8fcFNTafaQXmueXWrrSkEt+gpiwuNhXBR2yn5WaTIuT
-         VXbPW8IYUf06ghRkcy9tzXuj+SQi6SK5Z9ybsbJqSKqDpuN+WvMNAXsYg0tMju6hlkis
-         VobZz0Ei5myDb/cP8yTyxhOWoyIZJQckZbhErofDdNR1PhMhJKi9hCPXYwdJr7p2l4+e
-         eGig==
-X-Forwarded-Encrypted: i=1; AJvYcCWtSHOrVQa5exKeVsfHEb/+K4mnUP9Ipx24YRzFPnv4IoSEJwnpg0SaOmo5sI5Uge1nYi6V4wwDY13MPg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy+McQdr8ZDeOrv5/5+FtmDT91MtbA66s9pKpgTDG9NfdZwxRAP
-	1Tw06sB0qXLpSPHdV/nvAeuTx3PQl3XFfHKFWMp2uog1sGz2iZXh
-X-Gm-Gg: ASbGnctQnjVQe/Y4yC350dyDymbRwl1Uo1EcSk5efHrqKFbGvOJ5DJJJEPENy+C4vXh
-	fAAkrVwG7L7AeJlcMSil0h0EacSz6TYJnvbXs/4gLBhmWsrSuTMHhtVvICgsjY+6lkDdcBnUS5+
-	svQXTg/CfL35mMbp1gY4EEX4/Qq6o5zMYjGPsxrHgjHKGyqcWFzt0SBlit+NfoxxEYAJlIeAWgt
-	FzIYEKg3aFDqA+r18npvc51NldNqOMK/jGfzpH+b1KGY67aOGLypldjtQGkTo6LrnmE13rqWfDQ
-	pwVq5ByUAhIc7l+f5oESxj0JyWdGQjziEvZ6abvlFzR7gtA88B2o4yjGxD1/5GgIHGE0LFcnIel
-	mTTaOIX3gdEiy1QEkzt/7adnXnw==
-X-Google-Smtp-Source: AGHT+IFo9Y9R+GJf/hvtgnPwl3vpc/B4svOJilmVq9Mn0xTVT2iqrfrmQOieXp0GoaVbPJJmjudwkw==
-X-Received: by 2002:a05:6512:3042:b0:545:fad:a757 with SMTP id 2adb3069b0e04-5494c335f2emr3260926e87.29.1740918083926;
-        Sun, 02 Mar 2025 04:21:23 -0800 (PST)
+        bh=fEnnc1dXj5lNrYUNbaQiHP03Z2g3b2VRGVuLnQpfuiI=;
+        b=REDOcOsUNsiOfa7tz+DCV1+YHfz6SM/nvRSiEECMpJ3k1C+EBRegq1AFarsGl0PhLN
+         nh0URxR/ErADtTHI/pmEEdNHUxwyiPjoHF1yylvzlA3BnVHcyMfRrt2VPhNUYEOGb+PS
+         kz95AG3spbXV+VUKXkylyOL3U6rOho/iu+3dlicX19jwhd+Boq/AAxPSABJQ32IKO4Yo
+         lqLI9H59FBJuGpsaGKzg8NXnNlhVXJ2lkFWq6rS5c6gtdmls+dqtzDR7Q6vuEglpAnFU
+         LuhI9oT2q1P5PEtTbHV2dp2ok1oiIQn30p6EDB3ecdHLt1L3zr0OR64q/vq73OfoA94+
+         N/Wg==
+X-Forwarded-Encrypted: i=1; AJvYcCVb5wavxptoKyZA2ci/HMowHJnsFfvF17T4t8jbB94d9oswC5aFwt7yPx21OpAgvofH9qVy/oLLfwEF0g==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz9fPa0/aAwXtCbTJeA0LVE2umIvZtHK3XqBTWy3mP72qytIDQZ
+	CAwsm/OFq+a9d82CFok/uJWT82NMGsBt7XkGffZ8CkrhNvx2p8v0
+X-Gm-Gg: ASbGnctZbX8AXhiuHSnwvUsHtfrt+K/4kXtZDCa0QH4IobBY+dzZOJntTMekI9FmTNo
+	98f3WUOSFtzeEaeUxIV0812GtGyr1XNOgt9qkXswovV/Ew3pb45O2YW1NtuJJCsUIG6N5n/syNp
+	D0VwrdgAIiyuenrDWwKOiwaB3pDZY1a4aMKGG0aLuKGsuah7ttqfNKTO6AK6dGagF7ZEl9IsBsN
+	RcsgrfrkFHreeo1FENI9NXoAPvGn0USMkVoa/Epsl9/frsrARW7we6eVm2yBtJuAnZkS0Z4gOfB
+	oas4diMtUSH5W/LhCxWoUCCgta7FF/kU8kMpzYQNgUANlJNsZU/ocS7WsVQLir7zi4F/zGr2Tku
+	ScCOfq5o9lRLQCw10ATObdPSWuw==
+X-Google-Smtp-Source: AGHT+IGzZOd1/B02IxZfr4aBje6krfoPxLPc1fsPRoUlTQWF7jrLAwZCd5QWTmq/yw9opL1lzwKo7Q==
+X-Received: by 2002:a05:6512:1044:b0:543:baa3:87ab with SMTP id 2adb3069b0e04-5494c354581mr4068349e87.47.1740918178086;
+        Sun, 02 Mar 2025 04:22:58 -0800 (PST)
 Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5495dcba076sm272177e87.119.2025.03.02.04.21.21
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30bb1098ef6sm2276001fa.42.2025.03.02.04.22.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 02 Mar 2025 04:21:23 -0800 (PST)
-Message-ID: <863ce320-c5cd-47f6-a66b-c43fac98a4b0@gmail.com>
-Date: Sun, 2 Mar 2025 14:21:20 +0200
+        Sun, 02 Mar 2025 04:22:57 -0800 (PST)
+Message-ID: <44b1cc7f-a5e1-4c61-8b9c-1ba0c51e6343@gmail.com>
+Date: Sun, 2 Mar 2025 14:22:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -70,12 +70,12 @@ User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v4 02/10] property: Add
  device_get_child_node_count_named()
 To: Rob Herring <robh@kernel.org>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
  Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Daniel Scally <djrscally@gmail.com>,
+ <conor+dt@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
  Sakari Ailus <sakari.ailus@linux.intel.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
@@ -97,47 +97,72 @@ Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
  linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev
-References: <29ec24f1498392cafbecc0e0c0e23e1ce3289565.1740421248.git.mazziesaccount@gmail.com>
- <Z72QAOA9xXbP16K-@kuha.fi.intel.com> <Z72Zp8tpnvlFGdQ_@smile.fi.intel.com>
- <ad39b453-7e5b-49bd-a4fd-6a4988636130@gmail.com>
- <Z72d7TzZ21WITW3f@smile.fi.intel.com>
- <893a3c45-537e-47ad-afbd-1e5d3b9abe2c@gmail.com>
- <Z73M3Ua6u1FpgBEK@smile.fi.intel.com>
- <720f9c69-ca1f-45cb-9f6e-c8e4703c9aad@gmail.com>
- <Z78g_uiXumn4mvET@smile.fi.intel.com>
- <d7982b76-3da7-47ff-b2b2-f964610af1f7@gmail.com>
- <Z8B7h4_IWz43gFhO@smile.fi.intel.com>
- <c9424f3e-1ff0-4c01-823a-19801cc3e7a7@gmail.com>
- <CAL_Jsq+tkXAAVK2D_AtENuXJZOF2eK=sUnjv3=7PM8nAyAB7Xw@mail.gmail.com>
+References: <cover.1740421248.git.mazziesaccount@gmail.com>
+ <29ec24f1498392cafbecc0e0c0e23e1ce3289565.1740421248.git.mazziesaccount@gmail.com>
+ <CAL_Jsq+av-fptMQqBeVieKwA9c7+uUCaqZMLGu-RVJzWZ_7+Vg@mail.gmail.com>
 Content-Language: en-US, en-AU, en-GB, en-BW
 From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <CAL_Jsq+tkXAAVK2D_AtENuXJZOF2eK=sUnjv3=7PM8nAyAB7Xw@mail.gmail.com>
+In-Reply-To: <CAL_Jsq+av-fptMQqBeVieKwA9c7+uUCaqZMLGu-RVJzWZ_7+Vg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 28/02/2025 18:59, Rob Herring wrote:
-> On Thu, Feb 27, 2025 at 9:06 AM Matti Vaittinen
+On 28/02/2025 19:07, Rob Herring wrote:
+> On Mon, Feb 24, 2025 at 12:33 PM Matti Vaittinen
 > <mazziesaccount@gmail.com> wrote:
 >>
->>>
-> Sigh. This is not that hard.
+>> There are some use-cases where child nodes with a specific name need to
+>> be parsed. In a few cases the data from the found nodes is added to an
+>> array which is allocated based on the number of found nodes. One example
+>> of such use is the IIO subsystem's ADC channel nodes, where the relevant
+>> nodes are named as channel[@N].
+>>
+>> Add a helper for counting device's sub-nodes with certain name instead
+>> of open-coding this in every user.
+>>
+>> Suggested-by: Jonathan Cameron <jic23@kernel.org>
+>> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+>> ---
+>> Revision history:
+>> v3 => v4:
+>>   - New patch as suggested by Jonathan, see discussion in:
+>> https://lore.kernel.org/lkml/20250223161338.5c896280@jic23-huawei/
+>> ---
+>>   drivers/base/property.c  | 28 ++++++++++++++++++++++++++++
+>>   include/linux/property.h |  2 ++
+>>   2 files changed, 30 insertions(+)
+>>
+>> diff --git a/drivers/base/property.c b/drivers/base/property.c
+>> index c1392743df9c..3f85818183cd 100644
+>> --- a/drivers/base/property.c
+>> +++ b/drivers/base/property.c
+>> @@ -945,6 +945,34 @@ unsigned int device_get_child_node_count(const struct device *dev)
+>>   }
+>>   EXPORT_SYMBOL_GPL(device_get_child_node_count);
+>>
+>> +/**
+>> + * device_get_child_node_count_named - number of child nodes with given name
+>> + *
+>> + * Scan device's child nodes and find all the nodes with a specific name and
+>> + * return the number of found nodes. Potential '@number' -ending for scanned
+>> + * names is ignored. Eg,
+>> + * device_get_child_node_count(dev, "channel");
+>> + * would match all the nodes:
+>> + * channel { }, channel@0 {}, channel@0xabba {}...
+>> + *
+>> + * @dev: Device to count the child nodes for
+>> + *
+>> + * Return: the number of child nodes with a matching name for a given device.
+>> + */
+>> +unsigned int device_get_child_node_count_named(const struct device *dev,
+>> +                                              const char *name)
 > 
-> - unsigned int num_grps = gfar_of_group_count(np);
-> + unsigned int num_grps =
-> device_get_child_node_count_named(&ofdev->dev, "queue-groups");
-> 
-> And remove gfar_of_group_count() of course.
+> I think this should be implemented as
+> fwnode_get_child_node_count_named() with the device variant being just
+> a wrapper.
 
-Thanks Rob. That's what I (already twice) wrote I'll do:
-
- >>>> alter the gianfar code by dropping the gfar_of_group_count(),
-
-and
-
- >>  I prefer killing whole
- >> gfar_of_group_count().
-
-I just wanted to understand what Andy suggested.
+I thought of that but it'll mean we had two very little used APIs 
+instead of just one. Well, perhaps we see new users though so I'll 
+follow this suggestion for v5.
 
 Yours,
 	-- Matti
