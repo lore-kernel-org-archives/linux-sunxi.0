@@ -1,153 +1,121 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 948E51FECAD
-	for <linux-sunxi@lists.linux.dev>; Tue,  4 Mar 2025 10:36:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB0921FFC66
+	for <linux-sunxi@lists.linux.dev>; Tue,  4 Mar 2025 12:07:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741084619; cv=none; b=UhF7MbHhbzScx6gp+dBQaiNvGdmH6hLHE1zjErKEAvDqk8/eICPp36ruxRBsDAgXzlMqgTB6A/RRFJ8JNJHYcm2SKJcYMeQ61HpzJW4AlfesZoMKQexz0MQU97k3x3IVEsk2fqg0WeEOB5vSAGpg2AbukbeO6Hsth6IHZzY2urQ=
+	t=1741090074; cv=none; b=k+fFdhmJWlqGv6ocvm6OkArGfGzN2HvbV72A+wlT9L2l3ihRx8/2pK/k5LEcLBnW2SXP12JP+gFdInlB12hopz/87vOM64HIgKxKol092scj3lblXs2gKS8oGMGPNlUfJdP2Iz4DzMre0ae+cNDOHB6aWTSNlzWqT6f3TV5tmH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741084619; c=relaxed/simple;
-	bh=BmEMnUQazYWnIZvlMgVe+B+0gK3c+s4Wul/qIhUAqyw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Tv6RDh7aAoCCyzh1sz66CmizzQUXjjmf89JuORcIIVg7id4XhmsmB30CdG0jn8qWrQqNVsj7F4Mv7bVwtWDy2MNwOOA0P8Je31tdAUCAjiL2Dlndr0qbEKntkxKCh2IUsyb7VOrQ5lb45uD/apkA6PonjwJJRiPvBTn8pjtZrqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A01C3FEC;
-	Tue,  4 Mar 2025 02:37:09 -0800 (PST)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 01D2B3F5A1;
-	Tue,  4 Mar 2025 02:36:53 -0800 (PST)
-Date: Tue, 4 Mar 2025 10:36:50 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 04/15] dt-bindings: clk: sunxi-ng: document Allwinner
- A523 CCU
-Message-ID: <20250304103650.704fd28b@donnerap.manchester.arm.com>
-In-Reply-To: <20250304-resilient-spiritual-crane-30d4e1@krzk-bin>
-References: <20250304012805.28594-1-andre.przywara@arm.com>
-	<20250304012805.28594-5-andre.przywara@arm.com>
-	<20250304-resilient-spiritual-crane-30d4e1@krzk-bin>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1741090074; c=relaxed/simple;
+	bh=MZy0VWiaiUcAOLUZr1EitCj53YlBljkRvHR7tDzANe4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SZ91nflJ6+O0DuCx4XStF74lpKu/eS2FuFeJUPQR6BEa8yj7Ro3R/eWKGZ+U/f2qpOzQpk9t1PWBNNs760LgJEc8kEPaaP/U9xOpjAQK+QQbr+dPbK82bFISvMOdqpKw6gwo53lndi7ERUyirKxdJOsLV2tN56W3vfJpo24OIak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d1blYOCS; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d1blYOCS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741090072; x=1772626072;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=MZy0VWiaiUcAOLUZr1EitCj53YlBljkRvHR7tDzANe4=;
+  b=d1blYOCSzAr6UZhXdN9RWG0JCDeQ2oG4nTxrDmyN13l01HL6N9VGi5GU
+   PGtbaoVFuc/y+W97Oy4ZXaDL0dlY1zoYeKpebmbYPFp9zdB9s3TyR85MS
+   Q9RUU7/CGAsXFl5axyXn6h2SIsMM4PNeSabvjp6MYuy+kwcSinaEE188a
+   xTRdiPTpNsT06Vl1QEDYDIOuxIwR2AVMuIbwKz5Eh0EjgPSQbe0aBvAof
+   2oelAnlIj+ZPwWcYy71SY7vyB2OQLBewV84SAGGKasNp0E/OwC74Q0mVZ
+   5y5EZ4yyuCU8beTKh4/OAizFjdbzi/ggz9lHtNGlj+HuJ2JCILPz4DIcL
+   Q==;
+X-CSE-ConnectionGUID: Z1EXEm1KSa6tX/kpWj/5wg==
+X-CSE-MsgGUID: 1EvdxP0ERiaym2NX88jSeQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="45930044"
+X-IronPort-AV: E=Sophos;i="6.13,331,1732608000"; 
+   d="scan'208";a="45930044"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2025 04:07:52 -0800
+X-CSE-ConnectionGUID: LzJzP827Tnuswzqwqylwxg==
+X-CSE-MsgGUID: 40ygOT6kTlyfDKAMKfgDBw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,331,1732608000"; 
+   d="scan'208";a="118352213"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2025 04:07:46 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tpR3n-0000000H7I7-1M7c;
+	Tue, 04 Mar 2025 14:07:43 +0200
+Date: Tue, 4 Mar 2025 14:07:43 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Matti Vaittinen <mazziesaccount@gmail.com>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
+	Nuno Sa <nuno.sa@analog.com>,
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	Guillaume Stols <gstols@baylibre.com>,
+	Dumitru Ceclan <mitrutzceclan@gmail.com>,
+	Trevor Gamblin <tgamblin@baylibre.com>,
+	Matteo Martelli <matteomartelli3@gmail.com>,
+	Alisa-Dariana Roman <alisadariana@gmail.com>,
+	Ramona Alexandra Nechita <ramona.nechita@analog.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v5 03/10] iio: adc: add helpers for parsing ADC nodes
+Message-ID: <Z8btDzggD29xtaAo@smile.fi.intel.com>
+References: <cover.1740993491.git.mazziesaccount@gmail.com>
+ <e71c63c2f61135f9a8c7884525aab2c48f1e84c2.1740993491.git.mazziesaccount@gmail.com>
+ <CAMknhBGQaqFZJsPAoauZL4S5MYtN05EOQ-BO2vw5gH+Z2RLOhw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMknhBGQaqFZJsPAoauZL4S5MYtN05EOQ-BO2vw5gH+Z2RLOhw@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Tue, 4 Mar 2025 09:25:24 +0100
-Krzysztof Kozlowski <krzk@kernel.org> wrote:
+On Tue, Mar 04, 2025 at 10:25:03AM +0100, David Lechner wrote:
+> On Mon, Mar 3, 2025 at 12:32 PM Matti Vaittinen
+> <mazziesaccount@gmail.com> wrote:
 
-Hi,
+...
 
-> On Tue, Mar 04, 2025 at 01:27:54AM +0000, Andre Przywara wrote:
-> > The Allwinner A523/T527 SoCs have four CCUs, this adds the binding for
-> > the main CCU.
-> > 
-> > The source clock list differs in some annoying details, and folding this
-> > into the existing Allwinner CCU clock binding document gets quite
-> > unwieldy, so create a new document for these CCUs.
-> > Add the new compatible string, along with the required input clock
-> > lists. This conditionally describes the input clock list, to make for
-> > an easier patch adding the other CCUs.
-> > 
-> > Also add the DT binding headers, listing all the clocks with their ID
-> > numbers.
-> > 
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > ---
-> >  .../clock/allwinner,sun55i-a523-ccu.yaml      |  77 +++++++
-> >  include/dt-bindings/clock/sun55i-a523-ccu.h   | 189 ++++++++++++++++++
-> >  include/dt-bindings/reset/sun55i-a523-ccu.h   |  88 ++++++++
-> >  3 files changed, 354 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/clock/allwinner,sun55i-a523-ccu.yaml
-> >  create mode 100644 include/dt-bindings/clock/sun55i-a523-ccu.h
-> >  create mode 100644 include/dt-bindings/reset/sun55i-a523-ccu.h
-> > 
-> > diff --git a/Documentation/devicetree/bindings/clock/allwinner,sun55i-a523-ccu.yaml b/Documentation/devicetree/bindings/clock/allwinner,sun55i-a523-ccu.yaml
-> > new file mode 100644
-> > index 0000000000000..2eacaeaeabac7
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/clock/allwinner,sun55i-a523-ccu.yaml
-> > @@ -0,0 +1,77 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/clock/allwinner,sun55i-a523-ccu.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Allwinner A523 Clock Control Unit
-> > +
-> > +maintainers:
-> > +  - Andre Przywara <andre.przywara@arm.com>
-> > +
-> > +properties:
-> > +  "#clock-cells":
-> > +    const: 1
-> > +
-> > +  "#reset-cells":
-> > +    const: 1
-> > +
-> > +  compatible:
-> > +    enum:
-> > +      - allwinner,sun55i-a523-ccu
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    minItems: 4  
-> 
-> Drop, redundant.
-> 
-> > +    maxItems: 4
-> > +
-> > +  clock-names:
-> > +    minItems: 4
-> > +    maxItems: 4  
-> 
-> Drop both and instead you need to list the items.
+> There are some different opinions on this, but on the last patch I did
+> introducing a new namespace,
 
-> 
-> > +
-> > +required:
-> > +  - "#clock-cells"
-> > +  - "#reset-cells"
-> > +  - compatible
-> > +  - reg
-> > +  - clocks
-> > +  - clock-names
-> > +
-> > +if:  
-> 
-> Drop, you have here only one device, no need for if:then.
+> the consensus
 
-I know, and I do understand the redundancy of the minItems/maxItems above,
-but as I wrote in the commit message, this paves the way for the follow up
-patch and makes both more readable.
-Apart from helping with the review, I didn't want to conflate both devices
-into one patch, I think I saw people complaining about that in the past.
+Hmm... I may not call that "the consensus"...
 
-If you are fine with having them both added all in one go, I am happy to
-just squash the patches.
+> seems to be that putting
+> the MODULE_IMPORT_NS() in the header file was convenient so that users
+> of the API don't have to remember to both include the header and add
+> the import macro.
 
-Cheers,
-Andre
+Which I am against because it will diminish the point of prevention of
+the APIs abuse along with a potential to have the stale headers in
+the file when the code is moved somewhere else..
 
-> 
-> Best regards,
-> Krzysztof
-> 
+So, please do not do that. We have only two abusers currently:
+the PWM and SPI OFFLOAD.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
