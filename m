@@ -1,136 +1,320 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6628743172;
-	Tue,  4 Mar 2025 08:25:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A0CC1FDA9E
+	for <linux-sunxi@lists.linux.dev>; Tue,  4 Mar 2025 09:25:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741076728; cv=none; b=Vh2YCUfluw3emKHB01++vWn2+U0PKYC2NaDasFGTKUQMM8bXd/K7tiKNnkyH1O9yuNN9YOa3JFldvMPIeHSLkUw8YVJq0PaboHpEzwdWOw9N3ywNKredLximA7d+kidbOBIMXdJFEBsrDrrv1m6pDhjiRWWZ9AcqOPNIhxqGqQ4=
+	t=1741080321; cv=none; b=mpbz3Bi4XbX5LdzyeESy9v67nOwK+i5KnODKohJHEp8qSfdcKxKiUPHsPEcuiub3jDG1q7NAhZ/cNLH8pv8uIr2tExWfc2tLggEVH2hS4S1uTtHaJPGB8Zg4qwbV0OvcBp/msNbpwWmuYzgz6oqM7WLF7USfTYt+c3SpEwgw+tI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741076728; c=relaxed/simple;
-	bh=EjG1Ayc6WOrjJoENYUK2AAQIO5stxQf7QR9qv10BbjU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=icJTvtuqlRP+U4BNIOLg7OauCitAyB+RQ0ClEN5gmC1+YmG9QHthuTT2gpchcKqyMJgBBn26VYkuJwRDl7ghYRtxbIQseX4SlT2mzjlXQg/lLjfy4r/2adKlLu7ydK+XpXCYNKR+EAMiIXq/rPCXB+cDcxVjP2rjMhLkuodX0Fg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PpDGT4pl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741080321; c=relaxed/simple;
+	bh=xRC63YN3+rHHCv+C8M4xBY81AdOzVX+WwK/6KZrNcDs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=W7bH/ZuVifZJoFhNPiEUaJ/1//llD3Wu5spPJ7OVdlydtdVgk2FqBxYJBfffcqSdx8VTUY+CR+IMmYQ6Fa+l33EXHMId3GDinpgqUKdhOCMB/Qg39q+kw+W6qQKVUcDShQDi42pq/jCRj2ga01ET6axRBDLfqbB7waHwXksk14U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=0uSD73+3; arc=none smtp.client-ip=209.85.208.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PpDGT4pl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F116BC4CEE5;
-	Tue,  4 Mar 2025 08:25:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741076727;
-	bh=EjG1Ayc6WOrjJoENYUK2AAQIO5stxQf7QR9qv10BbjU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PpDGT4pl9OvTRcB3fq/ZOwLw8spKntrGFEwzLqPphNVifkDf/CruyEbhZQHgk/2P2
-	 OaO/XH8YBr7vXXUzzAXb9MCxHwhS3Gv6Lw96scmHOli+H3nQsIXZDQDGC9W3emPS3N
-	 nY3Dit1FlyI7es4f9fPs1wsEjQbPiYY11PCcNL82Y5z3/khVERpMwEhADig/jJn80Q
-	 vxoAqgpGd+J/JtYDXZxRHPHA6yhMPJnjnhv1xxRiF8rjLhR7Ykgb7/Uf0tznDN5Gph
-	 VGcFHF5LGIIO9dp4qig6fzhiykzDqDLh2TTUyPQxfH7e7pYRq0jETxtmR9wLg1j4SA
-	 C5CHMLvKvr0yQ==
-Date: Tue, 4 Mar 2025 09:25:24 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 04/15] dt-bindings: clk: sunxi-ng: document Allwinner
- A523 CCU
-Message-ID: <20250304-resilient-spiritual-crane-30d4e1@krzk-bin>
-References: <20250304012805.28594-1-andre.przywara@arm.com>
- <20250304012805.28594-5-andre.przywara@arm.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="0uSD73+3"
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-3061513d353so55402161fa.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 04 Mar 2025 01:25:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1741080315; x=1741685115; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WNHGZZAfC/OeouxLYsdw1LTwRghW2GqRfwvXDc9ArBc=;
+        b=0uSD73+3jr+upxq/ablCMFlxUQYE9ovZgWrXgREowRp2/ic8Xq8qDVatrTe9MMnv9z
+         eQoH4UDUJGD/nRKuUMVVHfj6ZXMe9V2RF60TQtRAzEq1uokNEGlakZbQafQ+3233VFQB
+         MUIEN6WTqdo6H9rKis0r2TDrfp2deDH0b1FNYQy8Qqz8GTQ4PlmVP2jgeczvo/Fi4yFW
+         gsQBgilsvbD+sY/QmQkcQ7kXaaEfVsy4rMfddOfu7y4llRE1pw4WbgLCmFEuB3n/j7YW
+         V0OapESvEHtAdZlhaP4ow0wlJKIBaFSBtgAouHls1Ntngfj9eMmDjWDubtNiFooEhT5N
+         okNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741080315; x=1741685115;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WNHGZZAfC/OeouxLYsdw1LTwRghW2GqRfwvXDc9ArBc=;
+        b=KJql1Ozr5jPlcLcZH6qJKZ1um+E0mSY0asS3c4vrTXItNtFow9NCyXcVygpjPXVjMc
+         1iYRBhX6o28bipBqpRqh1c+/PBtaIqSHpM4pjs+jYxzba6bHJkyymvGqwsUglN8x/4qh
+         9HN7AmxxXdp/bVt9mPIH1bFxQc/ncJHFezAoUGjArj0rt3M+oDEplqvvOY6ATXWsPT6q
+         zWM2TjTXx4YkoHWY+VdaPqehIgNbIK7yPAU3OwuXlFp9gyTo1DUP9a5bYN5WzjKK/ivj
+         Mv/lKwPUWMNpBMLwuq/WPkRC7KMQaMo5qGWnbM7ORDNocqUomfBycRTAcb4RmnRee6W0
+         bV/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUcPtjzQ+IChvurC1Uk44AmRlu7X5avS5ewtcbqGgqCstP2XfOmniXQ49GdWw6RIdLUAhF1/SHmG4hbQg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzG2FYOUFEyNRy1OOiHOtYI2Vdwc23pOvQemwlPAPxC8q/+7bHC
+	97N/tqcbU8by72ntPVIkCEjaXLazLnJS2CC8xIOGgcDLPM3zan63acjJeKA43Kq4GciPkALXbY8
+	rFFSga+TEiCvujDBwWiwrxkNS0cn46pwmn11qdA==
+X-Gm-Gg: ASbGncukI2asJexWhUYacB+75u+LcKlg8J3QV3ECL68BXPV1qDdHvY/wZlVXeZVYP8s
+	5jiGZWt44i6CiFTLjzEmyicM1bM2DEjCWCZYjBN8vTczJbOqHTcXsMhrOF/U93hDrRG4PcCowxR
+	80GxRDVxbGg/SL7dekuLWuxFdXFw==
+X-Google-Smtp-Source: AGHT+IGBR2saDF3QQilBjubdBkLz9GIwt81EvLWpbxtqjDwEqBVukkswrlVo60Wa8sQgAwNowo9qt17F/oOZ+WCjClQ=
+X-Received: by 2002:a2e:9c92:0:b0:308:e803:1180 with SMTP id
+ 38308e7fff4ca-30b9344cee6mr42882981fa.31.1741080315257; Tue, 04 Mar 2025
+ 01:25:15 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250304012805.28594-5-andre.przywara@arm.com>
+References: <cover.1740993491.git.mazziesaccount@gmail.com> <e71c63c2f61135f9a8c7884525aab2c48f1e84c2.1740993491.git.mazziesaccount@gmail.com>
+In-Reply-To: <e71c63c2f61135f9a8c7884525aab2c48f1e84c2.1740993491.git.mazziesaccount@gmail.com>
+From: David Lechner <dlechner@baylibre.com>
+Date: Tue, 4 Mar 2025 10:25:03 +0100
+X-Gm-Features: AQ5f1JpLki6dbkM9Ig67nt3sfSzm1pr_ewW2yyuU-GO1iNjarygbWgXgDim39ws
+Message-ID: <CAMknhBGQaqFZJsPAoauZL4S5MYtN05EOQ-BO2vw5gH+Z2RLOhw@mail.gmail.com>
+Subject: Re: [PATCH v5 03/10] iio: adc: add helpers for parsing ADC nodes
+To: Matti Vaittinen <mazziesaccount@gmail.com>
+Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, Jonathan Cameron <jic23@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Hugo Villeneuve <hvilleneuve@dimonoff.com>, Nuno Sa <nuno.sa@analog.com>, 
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>, Guillaume Stols <gstols@baylibre.com>, 
+	Dumitru Ceclan <mitrutzceclan@gmail.com>, Trevor Gamblin <tgamblin@baylibre.com>, 
+	Matteo Martelli <matteomartelli3@gmail.com>, Alisa-Dariana Roman <alisadariana@gmail.com>, 
+	Ramona Alexandra Nechita <ramona.nechita@analog.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-acpi@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 04, 2025 at 01:27:54AM +0000, Andre Przywara wrote:
-> The Allwinner A523/T527 SoCs have four CCUs, this adds the binding for
-> the main CCU.
-> 
-> The source clock list differs in some annoying details, and folding this
-> into the existing Allwinner CCU clock binding document gets quite
-> unwieldy, so create a new document for these CCUs.
-> Add the new compatible string, along with the required input clock
-> lists. This conditionally describes the input clock list, to make for
-> an easier patch adding the other CCUs.
-> 
-> Also add the DT binding headers, listing all the clocks with their ID
-> numbers.
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+On Mon, Mar 3, 2025 at 12:32=E2=80=AFPM Matti Vaittinen
+<mazziesaccount@gmail.com> wrote:
+>
+> There are ADC ICs which may have some of the AIN pins usable for other
+> functions. These ICs may have some of the AIN pins wired so that they
+> should not be used for ADC.
+>
+> (Preferred?) way for marking pins which can be used as ADC inputs is to
+> add corresponding channels@N nodes in the device tree as described in
+> the ADC binding yaml.
+>
+> Add couple of helper functions which can be used to retrieve the channel
+> information from the device node.
+>
+> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+>
 > ---
->  .../clock/allwinner,sun55i-a523-ccu.yaml      |  77 +++++++
->  include/dt-bindings/clock/sun55i-a523-ccu.h   | 189 ++++++++++++++++++
->  include/dt-bindings/reset/sun55i-a523-ccu.h   |  88 ++++++++
->  3 files changed, 354 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/clock/allwinner,sun55i-a523-ccu.yaml
->  create mode 100644 include/dt-bindings/clock/sun55i-a523-ccu.h
->  create mode 100644 include/dt-bindings/reset/sun55i-a523-ccu.h
-> 
-> diff --git a/Documentation/devicetree/bindings/clock/allwinner,sun55i-a523-ccu.yaml b/Documentation/devicetree/bindings/clock/allwinner,sun55i-a523-ccu.yaml
+> Revision history:
+> v4 =3D> v5:
+> - Inline iio_adc_device_num_channels()
+> - Fix Indenting function parameters
+> - Combine the max channel ID checks.
+> v3 =3D> v4:
+>  - Drop diff-channel support
+>  - Drop iio_adc_device_channels_by_property()
+>  - Add IIO_DEVICE namespace
+>  - Move industrialio-adc.o to top of the Makefile
+>  - Some styling as suggested by Andy
+>  - Re-consider included headers
+> v2 =3D> v3: Mostly based on review comments by Jonathan
+>  - Support differential and single-ended channels
+>  - Rename iio_adc_device_get_channels() as
+>    iio_adc_device_channels_by_property()
+>  - Improve spelling
+>  - Drop support for cases where DT comes from parent device's node
+>  - Decrease loop indent by reverting node name check conditions
+>  - Don't set 'chan->indexed' by number of channels to keep the
+>    interface consistent no matter how many channels are connected.
+>  - Fix ID range check and related comment
+> RFC v1 =3D> v2:
+>  - New patch
+> ---
+>  drivers/iio/adc/Kconfig            |  3 ++
+>  drivers/iio/adc/Makefile           |  2 +
+>  drivers/iio/adc/industrialio-adc.c | 82 ++++++++++++++++++++++++++++++
+>  include/linux/iio/adc-helpers.h    | 27 ++++++++++
+>  4 files changed, 114 insertions(+)
+>  create mode 100644 drivers/iio/adc/industrialio-adc.c
+>  create mode 100644 include/linux/iio/adc-helpers.h
+>
+> diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
+> index 849c90203071..37b70a65da6f 100644
+> --- a/drivers/iio/adc/Kconfig
+> +++ b/drivers/iio/adc/Kconfig
+> @@ -6,6 +6,9 @@
+>
+>  menu "Analog to digital converters"
+>
+> +config IIO_ADC_HELPER
+> +       tristate
+> +
+>  config AB8500_GPADC
+>         bool "ST-Ericsson AB8500 GPADC driver"
+>         depends on AB8500_CORE && REGULATOR_AB8500
+> diff --git a/drivers/iio/adc/Makefile b/drivers/iio/adc/Makefile
+> index ee19afba62b7..1c410f483029 100644
+> --- a/drivers/iio/adc/Makefile
+> +++ b/drivers/iio/adc/Makefile
+> @@ -3,6 +3,8 @@
+>  # Makefile for IIO ADC drivers
+>  #
+>
+> +obj-$(CONFIG_IIO_ADC_HELPER) +=3D industrialio-adc.o
+> +
+>  # When adding new entries keep the list in alphabetical order
+>  obj-$(CONFIG_AB8500_GPADC) +=3D ab8500-gpadc.o
+>  obj-$(CONFIG_AD_SIGMA_DELTA) +=3D ad_sigma_delta.o
+> diff --git a/drivers/iio/adc/industrialio-adc.c b/drivers/iio/adc/industr=
+ialio-adc.c
 > new file mode 100644
-> index 0000000000000..2eacaeaeabac7
+> index 000000000000..7bdae5330224
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/clock/allwinner,sun55i-a523-ccu.yaml
-> @@ -0,0 +1,77 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/clock/allwinner,sun55i-a523-ccu.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +++ b/drivers/iio/adc/industrialio-adc.c
+> @@ -0,0 +1,82 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Helpers for parsing common ADC information from a firmware node.
+> + *
+> + * Copyright (c) 2025 Matti Vaittinen <mazziesaccount@gmail.com>
+> + */
 > +
-> +title: Allwinner A523 Clock Control Unit
+> +#include <linux/device.h>
+> +#include <linux/errno.h>
+> +#include <linux/export.h>
+> +#include <linux/module.h>
+> +#include <linux/property.h>
+> +#include <linux/types.h>
 > +
-> +maintainers:
-> +  - Andre Przywara <andre.przywara@arm.com>
+> +#include <linux/iio/adc-helpers.h>
+> +#include <linux/iio/iio.h>
 > +
-> +properties:
-> +  "#clock-cells":
-> +    const: 1
-> +
-> +  "#reset-cells":
-> +    const: 1
-> +
-> +  compatible:
-> +    enum:
-> +      - allwinner,sun55i-a523-ccu
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    minItems: 4
+> +/**
+> + * devm_iio_adc_device_alloc_chaninfo_se - allocate and fill iio_chan_sp=
+ec for ADC
+> + *
+> + * Scan the device node for single-ended ADC channel information. Channe=
+l ID is
+> + * expected to be found from the "reg" property. Allocate and populate t=
+he
+> + * iio_chan_spec structure corresponding to channels that are found. The=
+ memory
+> + * for iio_chan_spec structure will be freed upon device detach.
+> + *
+> + * @dev:               Pointer to the ADC device.
+> + * @template:          Template iio_chan_spec from which the fields of a=
+ll
+> + *                     found and allocated channels are initialized.
+> + * @max_chan_id:       Maximum value of a channel ID. Use -1 if no check=
+ing
+> + *                     is required.
+> + * @cs:                        Location where pointer to allocated iio_c=
+han_spec
+> + *                     should be stored.
+> + *
+> + * Return:     Number of found channels on succes. Negative value to ind=
+icate
 
-Drop, redundant.
+s/succes/success/
 
-> +    maxItems: 4
+> + *             failure.
+> + */
+> +int devm_iio_adc_device_alloc_chaninfo_se(struct device *dev,
+> +                                         const struct iio_chan_spec *tem=
+plate,
+> +                                         int max_chan_id,
+> +                                         struct iio_chan_spec **cs)
+> +{
+> +       struct iio_chan_spec *chan_array, *chan;
+> +       int num_chan =3D 0, ret;
 > +
-> +  clock-names:
-> +    minItems: 4
-> +    maxItems: 4
+> +       num_chan =3D iio_adc_device_num_channels(dev);
+> +       if (num_chan < 1)
+> +               return num_chan;
+> +
+> +       chan_array =3D devm_kcalloc(dev, num_chan, sizeof(*chan_array),
+> +                                 GFP_KERNEL);
+> +       if (!chan_array)
+> +               return -ENOMEM;
+> +
+> +       chan =3D &chan_array[0];
+> +
+> +       device_for_each_child_node_scoped(dev, child) {
+> +               u32 ch;
+> +
+> +               if (!fwnode_name_eq(child, "channel"))
+> +                       continue;
+> +
+> +               ret =3D fwnode_property_read_u32(child, "reg", &ch);
+> +               if (ret)
+> +                       return ret;
+> +
+> +               if (max_chan_id !=3D -1 && ch > max_chan_id)
+> +                       return -ERANGE;
+> +
 
-Drop both and instead you need to list the items.
+Should we use return dev_err_probe() on these to help with debugging a bad =
+dtb?
+
+> +               *chan =3D *template;
+> +               chan->channel =3D ch;
+> +               chan++;
+> +       }
+> +
+> +       *cs =3D chan_array;
+> +
+> +       return num_chan;
+> +}
+> +EXPORT_SYMBOL_NS_GPL(devm_iio_adc_device_alloc_chaninfo_se, "IIO_DRIVER"=
+);
+
+We can make this less verbose by setting #define
+DEFAULT_SYMBOL_NAMESPACE at the start of the file. Then we can just do
+EXPORT_SYMBOL_GPL() throughout the rest of the file.
+
+Also, I would prefer if the namespace matched config name (IIO_ADC_HELPER).
 
 > +
-> +required:
-> +  - "#clock-cells"
-> +  - "#reset-cells"
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
+> +MODULE_LICENSE("GPL");
+> +MODULE_AUTHOR("Matti Vaittinen <mazziesaccount@gmail.com>");
+> +MODULE_DESCRIPTION("IIO ADC fwnode parsing helpers");
+> diff --git a/include/linux/iio/adc-helpers.h b/include/linux/iio/adc-help=
+ers.h
+> new file mode 100644
+> index 000000000000..403a70b109ec
+> --- /dev/null
+> +++ b/include/linux/iio/adc-helpers.h
+> @@ -0,0 +1,27 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
 > +
-> +if:
+> +/*
+> + * The industrial I/O ADC firmware property parsing helpers
+> + *
+> + * Copyright (c) 2025 Matti Vaittinen <mazziesaccount@gmail.com>
+> + */
+> +
+> +#ifndef _INDUSTRIAL_IO_ADC_HELPERS_H_
+> +#define _INDUSTRIAL_IO_ADC_HELPERS_H_
+> +
+> +#include <linux/property.h>
+> +
+> +struct device;
+> +struct iio_chan_spec;
+> +
+> +static inline int iio_adc_device_num_channels(struct device *dev)
+> +{
+> +       return device_get_child_node_count_named(dev, "channel");
+> +}
+> +
+> +int devm_iio_adc_device_alloc_chaninfo_se(struct device *dev,
+> +                                         const struct iio_chan_spec *tem=
+plate,
+> +                                         int max_chan_id,
+> +                                         struct iio_chan_spec **cs);
+> +
 
-Drop, you have here only one device, no need for if:then.
+There are some different opinions on this, but on the last patch I did
+introducing a new namespace, the consensus seems to be that putting
+the MODULE_IMPORT_NS() in the header file was convenient so that users
+of the API don't have to remember to both include the header and add
+the import macro.
 
-Best regards,
-Krzysztof
-
+> +#endif /* _INDUSTRIAL_IO_ADC_HELPERS_H_ */
+> --
+> 2.48.1
+>
