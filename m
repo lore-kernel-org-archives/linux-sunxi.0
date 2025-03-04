@@ -1,23 +1,23 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CECD13D893
-	for <linux-sunxi@lists.linux.dev>; Tue,  4 Mar 2025 01:30:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4534B15666B
+	for <linux-sunxi@lists.linux.dev>; Tue,  4 Mar 2025 01:30:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741051841; cv=none; b=njOsj0h9xK4BiOuhqfTbsm1+kreVnWq033dFoRQCywVgRUVmrvnQpAU0ElLHs3hyNwVmFC+aGN484XWigb+Q8H13oSNjyxI+GQPIlfghQOUbYj/p+S6G5VYI4g+Ntth6p0qbe5GT1lOqgjr9sD1DnOhYTtnDQ6pKcYxM0owMBwc=
+	t=1741051842; cv=none; b=DmQ0BQ9ncwj1pPN2vvDeW9hSQ9Kmsa9+dZutCKyKRqeVsX3sOIK56CxdOGhzbg1/LJ29JBBV2b7rqP/Bc+GWSiRvWSQjO583Nm3c/8vmTJ3xjd7pIUY8TQIrwAlBghQXFA03PS2BJaDeylt2HKRiqlq4rMqUKzk1fYnVYhiZ7VE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741051841; c=relaxed/simple;
-	bh=9w7vRAtkQAW7G8Id799JDC7Ap9kH/BLsKHJeWJAr1eA=;
+	s=arc-20240116; t=1741051842; c=relaxed/simple;
+	bh=H3WLfqLyDMom31G0c8m8HyHJQZtWnzIWqedH84LJqxY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kdO8ijM1L8fnDgPnkp/37cnDWftUQ2mhEugXYvMX98jJEQ5Bw4wUIbvGO15Sf3Yrya5U4oxlbO1Njki97dzlB6m4V2HwXY17Bym5iwe73Ou1SfB5Sbx3Wv8/u3BNTnBNWGeuQPc4Y5gs0m5gJHvcNPypRVOVbd+XQATaet19aVM=
+	 MIME-Version; b=n/tE6+ITt5jiTDfLllUdJhCuoqI/FixPBz5TIfGAXE/ZvPB6Fn9UPC8qbz1eUYdz68ACPzuAxydQFUZq7yM7Co0MpZTFHmCFYLFlnjiHypWXUg4iy3N0JMUstj3dTSs2FHHoPXwPVwqBOOph9UecTziEvrehPae0NHm8umEkQ4Y=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7D874106F;
-	Mon,  3 Mar 2025 17:30:51 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 972661BF7;
+	Mon,  3 Mar 2025 17:30:53 -0800 (PST)
 Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BCB553F673;
-	Mon,  3 Mar 2025 17:30:35 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D67A43F673;
+	Mon,  3 Mar 2025 17:30:37 -0800 (PST)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Michael Turquette <mturquette@baylibre.com>,
 	Stephen Boyd <sboyd@kernel.org>,
@@ -33,9 +33,9 @@ Cc: Philipp Zabel <p.zabel@pengutronix.de>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 02/15] clk: sunxi-ng: mp: provide wrappers for setting feature flags
-Date: Tue,  4 Mar 2025 01:27:52 +0000
-Message-ID: <20250304012805.28594-3-andre.przywara@arm.com>
+Subject: [PATCH v3 03/15] clk: sunxi-ng: Add support for update bit
+Date: Tue,  4 Mar 2025 01:27:53 +0000
+Message-ID: <20250304012805.28594-4-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.46.3
 In-Reply-To: <20250304012805.28594-1-andre.przywara@arm.com>
 References: <20250304012805.28594-1-andre.przywara@arm.com>
@@ -47,102 +47,88 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-So far our sunxi clock instantiation macros set the required clock
-features depending on the clock type, but the new "dual divider MP
-clock" requires us to pass that piece of information in by the user.
+Some clocks in the Allwinner A523 SoC contain an "update bit" (bit 27),
+which must be set to apply any register changes, namely the mux
+selector, the divider and the gate bit.
 
-Add new wrapper macros that allow to specify a "features" field, to
-allow marking those dual-divider clocks accordingly. Also add two
-convenience macros that deal with the most common cases.
+Add a new CCU feature bit to mark those clocks, and set bit 27 whenever
+we are applying any changes.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- drivers/clk/sunxi-ng/ccu_mp.h | 58 ++++++++++++++++++++++++++++++++---
- 1 file changed, 53 insertions(+), 5 deletions(-)
+ drivers/clk/sunxi-ng/ccu_common.h | 4 ++++
+ drivers/clk/sunxi-ng/ccu_div.c    | 2 ++
+ drivers/clk/sunxi-ng/ccu_gate.c   | 4 ++++
+ drivers/clk/sunxi-ng/ccu_mux.c    | 2 ++
+ 4 files changed, 12 insertions(+)
 
-diff --git a/drivers/clk/sunxi-ng/ccu_mp.h b/drivers/clk/sunxi-ng/ccu_mp.h
-index 6e50f3728fb5f..b35aeec70484d 100644
---- a/drivers/clk/sunxi-ng/ccu_mp.h
-+++ b/drivers/clk/sunxi-ng/ccu_mp.h
-@@ -82,11 +82,35 @@ struct ccu_mp {
- 				   _muxshift, _muxwidth,		\
- 				   0, _flags)
+diff --git a/drivers/clk/sunxi-ng/ccu_common.h b/drivers/clk/sunxi-ng/ccu_common.h
+index 50fd268329671..d41d33bdff470 100644
+--- a/drivers/clk/sunxi-ng/ccu_common.h
++++ b/drivers/clk/sunxi-ng/ccu_common.h
+@@ -20,10 +20,14 @@
+ #define CCU_FEATURE_KEY_FIELD		BIT(8)
+ #define CCU_FEATURE_CLOSEST_RATE	BIT(9)
+ #define CCU_FEATURE_DUAL_DIV		BIT(10)
++#define CCU_FEATURE_UPDATE_BIT27	BIT(11)
  
--#define SUNXI_CCU_MP_DATA_WITH_MUX_GATE(_struct, _name, _parents, _reg,	\
--					_mshift, _mwidth,		\
--					_pshift, _pwidth,		\
--					_muxshift, _muxwidth,		\
--					_gate, _flags)			\
-+#define SUNXI_CCU_MP_MUX_GATE_POSTDIV_DUALDIV(_struct, _name, _parents, _reg, \
-+					      _mshift, _mwidth,		\
-+					      _pshift, _pwidth,		\
-+					      _muxshift, _muxwidth,	\
-+					      _gate, _postdiv,		\
-+					      _flags)			\
-+	struct ccu_mp _struct = {					\
-+		.enable	= _gate,					\
-+		.m	= _SUNXI_CCU_DIV(_mshift, _mwidth),		\
-+		.p	= _SUNXI_CCU_DIV(_pshift, _pwidth),		\
-+		.mux	= _SUNXI_CCU_MUX(_muxshift, _muxwidth),		\
-+		.fixed_post_div = _postdiv,				\
-+		.common	= {						\
-+			.reg		= _reg,				\
-+			.features	= CCU_FEATURE_FIXED_POSTDIV |	\
-+						CCU_FEATURE_DUAL_DIV,	\
-+			.hw.init	= CLK_HW_INIT_PARENTS_DATA(_name, \
-+								   _parents, \
-+								   &ccu_mp_ops, \
-+								   _flags), \
-+		}							\
-+	}
-+
-+#define SUNXI_CCU_MP_DATA_WITH_MUX_GATE_FEAT(_struct, _name, _parents, _reg, \
-+					     _mshift, _mwidth,		\
-+					     _pshift, _pwidth,		\
-+					     _muxshift, _muxwidth,	\
-+					     _gate, _features,		\
-+					     _flags)			\
- 	struct ccu_mp _struct = {					\
- 		.enable	= _gate,					\
- 		.m	= _SUNXI_CCU_DIV(_mshift, _mwidth),		\
-@@ -94,6 +118,7 @@ struct ccu_mp {
- 		.mux	= _SUNXI_CCU_MUX(_muxshift, _muxwidth),		\
- 		.common	= {						\
- 			.reg		= _reg,				\
-+			.features	= _features,			\
- 			.hw.init	= CLK_HW_INIT_PARENTS_DATA(_name, \
- 								   _parents, \
- 								   &ccu_mp_ops, \
-@@ -101,6 +126,29 @@ struct ccu_mp {
- 		}							\
- 	}
+ /* MMC timing mode switch bit */
+ #define CCU_MMC_NEW_TIMING_MODE		BIT(30)
  
-+#define SUNXI_CCU_MP_DATA_WITH_MUX_GATE(_struct, _name, _parents, _reg,	\
-+					_mshift, _mwidth,		\
-+					_pshift, _pwidth,		\
-+					_muxshift, _muxwidth,		\
-+					_gate, _flags)			\
-+	SUNXI_CCU_MP_DATA_WITH_MUX_GATE_FEAT(_struct, _name, _parents,	\
-+					     _reg, _mshift, _mwidth,	\
-+					     _pshift, _pwidth,		\
-+					     _muxshift, _muxwidth,	\
-+					     _gate, _flags, 0)
++/* Some clocks need this bit to actually apply register changes */
++#define CCU_SUNXI_UPDATE_BIT		BIT(27)
 +
-+#define SUNXI_CCU_DUALDIV_MUX_GATE(_struct, _name, _parents, _reg,	\
-+				   _mshift, _mwidth,			\
-+				   _pshift, _pwidth,			\
-+				   _muxshift, _muxwidth,		\
-+				   _gate, _flags)			\
-+	SUNXI_CCU_MP_DATA_WITH_MUX_GATE_FEAT(_struct, _name, _parents,	\
-+					     _reg, _mshift, _mwidth,	\
-+					     _pshift, _pwidth,		\
-+					     _muxshift, _muxwidth,	\
-+					     _gate, _flags,		\
-+					     CCU_FEATURE_DUAL_DIV)
-+
- #define SUNXI_CCU_MP_DATA_WITH_MUX(_struct, _name, _parents, _reg,	\
- 				   _mshift, _mwidth,			\
- 				   _pshift, _pwidth,			\
+ struct device_node;
+ 
+ struct ccu_common {
+diff --git a/drivers/clk/sunxi-ng/ccu_div.c b/drivers/clk/sunxi-ng/ccu_div.c
+index 7f4691f09e01f..2d8b98fe4b13a 100644
+--- a/drivers/clk/sunxi-ng/ccu_div.c
++++ b/drivers/clk/sunxi-ng/ccu_div.c
+@@ -106,6 +106,8 @@ static int ccu_div_set_rate(struct clk_hw *hw, unsigned long rate,
+ 
+ 	reg = readl(cd->common.base + cd->common.reg);
+ 	reg &= ~GENMASK(cd->div.width + cd->div.shift - 1, cd->div.shift);
++	if (cd->common.features & CCU_FEATURE_UPDATE_BIT27)
++		reg |= CCU_SUNXI_UPDATE_BIT;
+ 
+ 	writel(reg | (val << cd->div.shift),
+ 	       cd->common.base + cd->common.reg);
+diff --git a/drivers/clk/sunxi-ng/ccu_gate.c b/drivers/clk/sunxi-ng/ccu_gate.c
+index ac52fd6bff677..0490f95781361 100644
+--- a/drivers/clk/sunxi-ng/ccu_gate.c
++++ b/drivers/clk/sunxi-ng/ccu_gate.c
+@@ -20,6 +20,8 @@ void ccu_gate_helper_disable(struct ccu_common *common, u32 gate)
+ 	spin_lock_irqsave(common->lock, flags);
+ 
+ 	reg = readl(common->base + common->reg);
++	if (common->features & CCU_FEATURE_UPDATE_BIT27)
++		reg |= CCU_SUNXI_UPDATE_BIT;
+ 	writel(reg & ~gate, common->base + common->reg);
+ 
+ 	spin_unlock_irqrestore(common->lock, flags);
+@@ -44,6 +46,8 @@ int ccu_gate_helper_enable(struct ccu_common *common, u32 gate)
+ 	spin_lock_irqsave(common->lock, flags);
+ 
+ 	reg = readl(common->base + common->reg);
++	if (common->features & CCU_FEATURE_UPDATE_BIT27)
++		reg |= CCU_SUNXI_UPDATE_BIT;
+ 	writel(reg | gate, common->base + common->reg);
+ 
+ 	spin_unlock_irqrestore(common->lock, flags);
+diff --git a/drivers/clk/sunxi-ng/ccu_mux.c b/drivers/clk/sunxi-ng/ccu_mux.c
+index d7ffbdeee9e04..82ee21e0d3a68 100644
+--- a/drivers/clk/sunxi-ng/ccu_mux.c
++++ b/drivers/clk/sunxi-ng/ccu_mux.c
+@@ -197,6 +197,8 @@ int ccu_mux_helper_set_parent(struct ccu_common *common,
+ 	/* The key field always reads as zero. */
+ 	if (common->features & CCU_FEATURE_KEY_FIELD)
+ 		reg |= CCU_MUX_KEY_VALUE;
++	if (common->features & CCU_FEATURE_UPDATE_BIT27)
++		reg |= CCU_SUNXI_UPDATE_BIT;
+ 
+ 	reg &= ~GENMASK(cm->width + cm->shift - 1, cm->shift);
+ 	writel(reg | (index << cm->shift), common->base + common->reg);
 -- 
 2.46.3
 
