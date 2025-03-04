@@ -1,195 +1,179 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A590E28F950
-	for <linux-sunxi@lists.linux.dev>; Tue,  4 Mar 2025 15:28:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 168A51F03D7
+	for <linux-sunxi@lists.linux.dev>; Tue,  4 Mar 2025 22:25:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741102134; cv=none; b=X7sKBvUlmcVhHMc7bLZR4VauZNi2CfOa3fdbRPO309G1UEoC/DPRkYVioSgWwhh6C1vn6C2PA9C3oenwcV5h51oHFxIBH9i3Y4EAwc74YVKndATuHbstAvtkldZEzPU3VbfjOaVB8LcTwv3yL2A1lJLKCP5YD/rBtr2BhNum0Bw=
+	t=1741127142; cv=none; b=HdzxWvlHLD8nTKtFgtaHJsUdO3rb6c3KX0p2PIhnnzrpM0s5MgexhXNol5LoazbCqTMYiriemEnY7ImSkysl09FPWqvcnIjFnp83TAQ0e9WuCwdfC4G2neLCzft1G+ejj4Q0AHX8Ck1KLyv3BP9dn56N9Wl0k+7LtJANyZ/VE78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741102134; c=relaxed/simple;
-	bh=JD81ilNYFouAKsUXwRzwNxXUtg6eNoEjBJCvikF5+Ds=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FYzTyLPn+0QzAMqqkUS3SMJJOf2jQZcUnmVRU4RHceJqyJv++fh+awFfmwjr4egY7iNvyzcVaYG3oOdRhqFsRkOuMGOFBTr74dnQx3Vr5IqaIuC2ja32az3pR3tEJCUH7Wv9T8Ocy27iasD9flmjyj40gb80j+UXS9RoqNJrOfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kq1nTZmA; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kq1nTZmA"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43bc48ff815so13559855e9.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 04 Mar 2025 07:28:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741102131; x=1741706931; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1GJGl+C+XNyqfDThAEBolXrcWZxVz5MRHfSv1hTEwQU=;
-        b=Kq1nTZmAVC9kJKJvh2jIxLaeqSsbuJKEv6HVxu46aEaKMNPHsBikpvMIINH9BOOIlB
-         W/lXX1Je65F4aL5Gc06bE3ni9p+0YLrLfuHnIOOd/I3uO3U22aQym05Ab9Im5PgLrRA/
-         /GdxniGrEVcGfBMEk0Qijiiszqnzc7Hm7SbOf/OtgaEQkUdsrnRVNp7kHzkev0djYBd3
-         Cl6Gfvya9tvC9MRYvy3Twm45SF9uDtJt+7WXvcSOCKDUKfoYkok9xiW77C83EDT7jsow
-         r6g3E+YOPuaW5H7MoCRMoMU224P4vo+6WTTeExTbE8NcdKjbQSkHprRlb3NHkIOmC7nB
-         ed2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741102131; x=1741706931;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1GJGl+C+XNyqfDThAEBolXrcWZxVz5MRHfSv1hTEwQU=;
-        b=q2iaX7hopN9TvbuTmRlF9jSza44geUMdu2x2p16y66czfOcux0fBCSpYZI8JyU8dmw
-         ZwhU3ZPxfVqULq01SzcQ1fB+lafMZLIeqcFKuN51UIWvVA/1i8rw2aQRj3PbQ/u8LoFz
-         +v9Q6xT/4HEY/cVjzfAVttH+Ib81uImJhq4p3KlQc9zqKCdFF2xDl5wlxef27j/MUBNp
-         GdF4s8mj9HAf9MHbVh4teniy1KOpUH1UpYX4aZTsflkCsd8/lhjchQcaNMQdnKAf1fbc
-         qRO4FKd3seyiOHIN8LKABlwZN8YwwyxZLIZB5xVzNGFWVYE8M0XquriX2N+3yTcRFdAY
-         TisA==
-X-Forwarded-Encrypted: i=1; AJvYcCWnBpCrfS86UHSfbkX+r0E1jpb7+cg9WdFKpeAJYk2Sz/NxeihevcoSDaRaypxYld6IpjlMTnaG8B1QEA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzf4adPBt2IBNJ8AvFaC9vMUmq9aI6jXDj66TJflTyKUFkPasjE
-	DavfGwE55Fps/PQNEA+VvS4FdIpb/CEayTOxP8azE+m9u5sugWPl
-X-Gm-Gg: ASbGncuBWYXTBpvFtAWvVfzQPJePw03kvS5Xw7CqB2xrUkZOuCrOSVk7NjOqixjTqJf
-	b0+7WSE2LNid6sZGPuDN5TNt15GpzQOKmgGtC/hztiOIPryRXmFaDyVXGPQpf/TOY0f4kVxqh4N
-	OU1XsNZm5B9EEV74jayl4Zf7Nx4StfHP1mOhE07DWFZFMlFcabWQq31A5xEC+qSHQHLU/TGhE3P
-	ZtWH5Wt5Xh1VLSJ1Y8LLguL304fSVi9B+SVm7hCc5cVHyCJmJ1gg6pcggTxBWlx76wm8HPaGDm8
-	A2vlbmurOf/fLSvIQlfvGP0dyZ5WyYtzZljpRqVKQnvoYb0fB8g8pHRtygpACF7SoOFs/ewvpvB
-	BneUMib2RbY9xYKbNGjF0
-X-Google-Smtp-Source: AGHT+IFPb9waA98CjEsodSk/NmmLQ1ZnBzxU9eF7fwwfV3+Lk/QdrRxr//FWTFj6LpiihIZeVHwMXg==
-X-Received: by 2002:a05:600c:4917:b0:43b:c824:97fa with SMTP id 5b1f17b1804b1-43bcb04f0e3mr27784975e9.14.1741102130656;
-        Tue, 04 Mar 2025 07:28:50 -0800 (PST)
-Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43aba5710ebsm238381775e9.26.2025.03.04.07.28.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Mar 2025 07:28:50 -0800 (PST)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Andre Przywara <andre.przywara@arm.com>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 03/15] clk: sunxi-ng: Add support for update bit
-Date: Tue, 04 Mar 2025 16:28:48 +0100
-Message-ID: <3616088.iIbC2pHGDl@jernej-laptop>
-In-Reply-To: <20250304012805.28594-4-andre.przywara@arm.com>
-References:
- <20250304012805.28594-1-andre.przywara@arm.com>
- <20250304012805.28594-4-andre.przywara@arm.com>
+	s=arc-20240116; t=1741127142; c=relaxed/simple;
+	bh=iaMvK8/SofOaQ1HyAPJ18Zkd4db1ra2dw+VV6AtENSY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ii7IjO1Kbk1PIRfrbsG4pdLgsBGARtgndt8yG3RWmcq9Ip+gr9gSTOqAFspFWQb16wYlp2hFIBpWN7C7EqTpA7l5d3GRCOAtkXdUByq4veJnHawnvoQVRUQV4UvmwABStM3aubpKfs7vGlszGmJs0nhQqkxfRDnzyBhFclo5wpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A4AEB2F;
+	Tue,  4 Mar 2025 14:25:52 -0800 (PST)
+Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6FEDF3F5A1;
+	Tue,  4 Mar 2025 14:25:36 -0800 (PST)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	linux-mmc@vger.kernel.org,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	linux-watchdog@vger.kernel.org,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	linux-phy@lists.infradead.org
+Subject: [PATCH v2 00/15] arm64: dts: allwinner: Add basic Allwinner A523 support
+Date: Tue,  4 Mar 2025 22:22:54 +0000
+Message-ID: <20250304222309.29385-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.46.3
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Dne torek, 4. marec 2025 ob 02:27:53 Srednjeevropski standardni =C4=8Das je=
- Andre Przywara napisal(a):
-> Some clocks in the Allwinner A523 SoC contain an "update bit" (bit 27),
-> which must be set to apply any register changes, namely the mux
-> selector, the divider and the gate bit.
->=20
-> Add a new CCU feature bit to mark those clocks, and set bit 27 whenever
-> we are applying any changes.
->=20
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  drivers/clk/sunxi-ng/ccu_common.h | 4 ++++
->  drivers/clk/sunxi-ng/ccu_div.c    | 2 ++
->  drivers/clk/sunxi-ng/ccu_gate.c   | 4 ++++
->  drivers/clk/sunxi-ng/ccu_mux.c    | 2 ++
->  4 files changed, 12 insertions(+)
->=20
-> diff --git a/drivers/clk/sunxi-ng/ccu_common.h b/drivers/clk/sunxi-ng/ccu=
-_common.h
-> index 50fd268329671..d41d33bdff470 100644
-> --- a/drivers/clk/sunxi-ng/ccu_common.h
-> +++ b/drivers/clk/sunxi-ng/ccu_common.h
-> @@ -20,10 +20,14 @@
->  #define CCU_FEATURE_KEY_FIELD		BIT(8)
->  #define CCU_FEATURE_CLOSEST_RATE	BIT(9)
->  #define CCU_FEATURE_DUAL_DIV		BIT(10)
-> +#define CCU_FEATURE_UPDATE_BIT27	BIT(11)
+Hi,
 
-There is no reason to have "BIT27" in the name of the macro. This is similar
-to KEY_FIELD, which is generic name and doesn't specify either key or posit=
-ion
-of this key field. Maybe just CCU_FEATURE_UPDATE_BIT or something equaly
-generic.
+this in an update to the series introducing the basic DT support for the
+Allwinner A523 SoC. It now comes with DTs for three boards, using
+slightly different packages of that SoC.[1]
+Functionality-wise it relies on the pinctrl[2] and clock[3] support
+series, though there are no direct code dependency series between the
+series. Three binding patches from there are required to pass dtbs_check,
+git put their patch IDs in the footer below.
+Compared to v1 this drops the patches that have already been merged
+(I2C, USB, RTC), changes the proposed NMI controller binding, extends 
+the SoC .dtsi to include more device instances, also the secondary cores,
+and adds DTs for two new boards. On top of this I added v2 of the DT patch
+for an H616 board, since it shares the newly introduced YuzukiHD vendor
+name patch. Also it adds the tags from the diligent reviewers, many thanks
+for that! More detailed changelog below.
 
-With that fixed:
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+The first patches add DT binding documentation for the most basic
+peripherals, most of them actually being already supported, courtesy of
+identical IP being used. This includes MMC and USB 2.0, so with the above
+mentioned clock and pinctrl support this gives an already somewhat usable
+mainline support for this new SoC family.
+The watchdog is not completely compatible, but is an easy addition, so
+this bit is included in here as well, the same is true for the NMI
+controller, required for delivering PMIC interrupts.
 
-Best regards,
-Jernej
+The A523 features 8 Arm Cortex-A55 cores, organised in two clusters,
+clocked separately, with different OPP limits, in some kind of
+little/LITTLE configuration. The GPU is a Arm Mali G57 MC01, and the chip
+also features a single PCIe 2.1 lane, sharing a PHY with some USB 3.1
+controller - which means only one of the two can be used.
+The rest of the SoC is the usual soup of multimedia SoC IP, with eDP
+support and two Gigabit Ethernet MACs among the highlights.
 
-> =20
->  /* MMC timing mode switch bit */
->  #define CCU_MMC_NEW_TIMING_MODE		BIT(30)
-> =20
-> +/* Some clocks need this bit to actually apply register changes */
-> +#define CCU_SUNXI_UPDATE_BIT		BIT(27)
-> +
->  struct device_node;
-> =20
->  struct ccu_common {
-> diff --git a/drivers/clk/sunxi-ng/ccu_div.c b/drivers/clk/sunxi-ng/ccu_di=
-v.c
-> index 7f4691f09e01f..2d8b98fe4b13a 100644
-> --- a/drivers/clk/sunxi-ng/ccu_div.c
-> +++ b/drivers/clk/sunxi-ng/ccu_div.c
-> @@ -106,6 +106,8 @@ static int ccu_div_set_rate(struct clk_hw *hw, unsign=
-ed long rate,
-> =20
->  	reg =3D readl(cd->common.base + cd->common.reg);
->  	reg &=3D ~GENMASK(cd->div.width + cd->div.shift - 1, cd->div.shift);
-> +	if (cd->common.features & CCU_FEATURE_UPDATE_BIT27)
-> +		reg |=3D CCU_SUNXI_UPDATE_BIT;
-> =20
->  	writel(reg | (val << cd->div.shift),
->  	       cd->common.base + cd->common.reg);
-> diff --git a/drivers/clk/sunxi-ng/ccu_gate.c b/drivers/clk/sunxi-ng/ccu_g=
-ate.c
-> index ac52fd6bff677..0490f95781361 100644
-> --- a/drivers/clk/sunxi-ng/ccu_gate.c
-> +++ b/drivers/clk/sunxi-ng/ccu_gate.c
-> @@ -20,6 +20,8 @@ void ccu_gate_helper_disable(struct ccu_common *common,=
- u32 gate)
->  	spin_lock_irqsave(common->lock, flags);
-> =20
->  	reg =3D readl(common->base + common->reg);
-> +	if (common->features & CCU_FEATURE_UPDATE_BIT27)
-> +		reg |=3D CCU_SUNXI_UPDATE_BIT;
->  	writel(reg & ~gate, common->base + common->reg);
-> =20
->  	spin_unlock_irqrestore(common->lock, flags);
-> @@ -44,6 +46,8 @@ int ccu_gate_helper_enable(struct ccu_common *common, u=
-32 gate)
->  	spin_lock_irqsave(common->lock, flags);
-> =20
->  	reg =3D readl(common->base + common->reg);
-> +	if (common->features & CCU_FEATURE_UPDATE_BIT27)
-> +		reg |=3D CCU_SUNXI_UPDATE_BIT;
->  	writel(reg | gate, common->base + common->reg);
-> =20
->  	spin_unlock_irqrestore(common->lock, flags);
-> diff --git a/drivers/clk/sunxi-ng/ccu_mux.c b/drivers/clk/sunxi-ng/ccu_mu=
-x.c
-> index d7ffbdeee9e04..82ee21e0d3a68 100644
-> --- a/drivers/clk/sunxi-ng/ccu_mux.c
-> +++ b/drivers/clk/sunxi-ng/ccu_mux.c
-> @@ -197,6 +197,8 @@ int ccu_mux_helper_set_parent(struct ccu_common *comm=
-on,
->  	/* The key field always reads as zero. */
->  	if (common->features & CCU_FEATURE_KEY_FIELD)
->  		reg |=3D CCU_MUX_KEY_VALUE;
-> +	if (common->features & CCU_FEATURE_UPDATE_BIT27)
-> +		reg |=3D CCU_SUNXI_UPDATE_BIT;
-> =20
->  	reg &=3D ~GENMASK(cm->width + cm->shift - 1, cm->shift);
->  	writel(reg | (index << cm->shift), common->base + common->reg);
->=20
+The main feature is patch 08/15, which adds the SoC .dtsi. This for now
+is limited to the parts that are supported and could be tested. Compared
+to v1 we now have some basic TF-A support, so the PSCI nodes are in now.
+
+The final patches add basic support for the Avaota-A1 router board, the
+X96QPro+ TV box, and the Radxa A5E development board.
+
+The mainline firmware side in general is coming together now: we have
+basic U-Boot support working (including MMC and USB), most importantly
+with proper DRAM support, so no more binary blobs, and some basic TF-A
+support.
+
+Please have a look at those DT bits here, ideally compare them to the
+available user manual, and test them if you have access to hardware.
+
+Based on v6.14-rc1.
+I pushed a branch with all the three series combined here:
+https://github.com/apritzel/linux/commits/a523-v2/
+
+Cheers,
+Andre
+
+Changelog v1 .. v2:
+- drop USB, I2C, RTC binding patches: already merged
+- add tags from reviewers (with thanks!)
+- drop unrelated deprecation comment from MMC binding patch
+- drop fallback compatible for NMI controller, stands on its own now
+- adjust PHY binding to merged A100 binding (dropping tag)
+- .dtsi: add secondary cores
+- .dtsi: enable PSCI
+- .dtsi: move 32K oscillator to board .dts files
+- .dtsi: adjust CCU source clocks
+- .dtsi: add MMC1 node (typcially for SDIO WiFi)
+- .dtsi: add remaining UARTs
+- .dtsi: add remaing I2C devices
+- add two new board .dts files
+- add DT bindings for those two new board names
+- avaota.dts: drop reserved memory from (TF-A now in SRAM)
+- avaota.dts: drop SD card dummy supply node
+- avaota.dts: add eMMC node (shipped on most boards)
+- avaota.dts: fix OTG mode, explain situation
+- add Chameleon .dts file (depends on YuzukiHD vendor name patch)
+
+[1] https://linux-sunxi.org/A523#Family_of_sun55iw3
+[2] https://lore.kernel.org/linux-sunxi/20250227231447.20161-1-andre.przywara@arm.com/T/#u
+[3] https://lore.kernel.org/linux-sunxi/20250304012805.28594-1-andre.przywara@arm.com/T/#u
+
+Andre Przywara (15):
+  dt-bindings: mmc: sunxi: Simplify compatible string listing
+  dt-bindings: mmc: sunxi: add compatible strings for Allwinner A523
+  dt-bindings: watchdog: sunxi: add Allwinner A523 compatible string
+  watchdog: sunxi_wdt: Add support for Allwinner A523
+  dt-bindings: irq: sun7i-nmi: document the Allwinner A523 NMI
+    controller
+  irqchip/sunxi-nmi: Support Allwinner A523 NMI controller
+  dt-bindings: phy: document Allwinner A523 USB-2.0 PHY
+  arm64: dts: allwinner: Add Allwinner A523 .dtsi file
+  dt-bindings: vendor-prefixes: Add YuzukiHD name
+  dt-bindings: arm: sunxi: Add new board names for A523 generation
+  arm64: dts: allwinner: a523: add Avaota-A1 router support
+  arm64: dts: allwinner: a523: add X96Q-Pro+ support
+  arm64: dts: allwinner: a523: add Radxa A5E support
+  dt-bindings: arm: sunxi: Add YuzukiHD Chameleon board name
+  arm64: dts: allwinner: h616: add YuzukiHD Chameleon support
+
+ .../devicetree/bindings/arm/sunxi.yaml        |  20 +
+ .../allwinner,sun7i-a20-sc-nmi.yaml           |   1 +
+ .../bindings/mmc/allwinner,sun4i-a10-mmc.yaml |  38 +-
+ .../phy/allwinner,sun50i-a64-usb-phy.yaml     |   4 +-
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ .../watchdog/allwinner,sun4i-a10-wdt.yaml     |   2 +
+ arch/arm64/boot/dts/allwinner/Makefile        |   4 +
+ .../sun50i-h618-yuzukihd-chameleon.dts        | 222 +++++++
+ .../arm64/boot/dts/allwinner/sun55i-a523.dtsi | 598 ++++++++++++++++++
+ .../dts/allwinner/sun55i-a527-radxa-a5e.dts   | 299 +++++++++
+ .../dts/allwinner/sun55i-h728-x96qpro+.dts    | 287 +++++++++
+ .../dts/allwinner/sun55i-t527-avaota-a1.dts   | 308 +++++++++
+ drivers/irqchip/irq-sunxi-nmi.c               |  50 +-
+ drivers/watchdog/sunxi_wdt.c                  |  11 +
+ 14 files changed, 1807 insertions(+), 39 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h618-yuzukihd-chameleon.dts
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun55i-a527-radxa-a5e.dts
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
 
 
-
+base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
+prerequisite-patch-id: 5b8a883819d2f3dfc975735a855291cb8b02dd39
+prerequisite-patch-id: ff4d42c2dcb0c3b4be45a4b0b8e22027207979ee
+prerequisite-patch-id: 4596fa402b501a9406821a9535f8329d30bf1ca4
+-- 
+2.46.3
 
