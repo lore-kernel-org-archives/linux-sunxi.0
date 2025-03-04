@@ -1,22 +1,23 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44984BE4E
-	for <linux-sunxi@lists.linux.dev>; Tue,  4 Mar 2025 01:30:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 307CE200A3
+	for <linux-sunxi@lists.linux.dev>; Tue,  4 Mar 2025 01:30:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741051837; cv=none; b=N1Cg0z2e7fwFScry4pzDx5RnhS0CLDYCfa+m9d+OGQL2m7jfr8rkJydB7MWQi9mwjTAb51UN9N6A7jIcQuhZGCSBniQGLLXOmXNcQCh7rxK9o6bxAfbQeYekg6tGDumWAaoM8vh+wW43fzQVzN7AfPc7hE3aBOP3/F0qGw9WF5E=
+	t=1741051837; cv=none; b=pbnGLORdegM2GGgQxVEUHLnNMjRwvlBQyw1q34ti8vdgwgKIvIVfG5fLe1mo3S07naFd3w7OEkam0etYf9nYksnfdZy2aDfN+hN2SV7tDiQY5Fxlq/6nnw6mRxwxbYngdtufJimGirCgLrXn96TMLIhmJF9C5L3n3cGs8lXGGf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1741051837; c=relaxed/simple;
-	bh=8JoIYV2GtWQTDz4HyJ7E6QNN2hNMjfy+UxcKFO1GxDQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rv4wlHfao/UX5pEjvyHirRzcpAj+qpTkHm6tDlrTHLiOe87HkXR5l3mpB4dPVH0MPk3AhTT/TttWvsL4wq2eJc3crgMJcsLS3XFJB/OvHz29EhCckD3UaXVQ2S9Hx3DumWPe9Um2fXTtsHZTBJslOKn7yzkdbXl2BEU4cm08vQ4=
+	bh=gjvQVDmknlC8nq//NDlr46aMC3U84nzCKHABrxLhUHU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=tYGKvW2C+qDqeq0WfUI/9egu6/0PLEunmNUiS0VotczCli+NMQx5f0qQAjH/MyLeIDgSDChogxMPVR8NygselHu7T9HafUAWHEUhPuZbe/HnQ4ETEQjTOJXsvNj4/IfTa6F575WxOHcPcwABR9aDJsKAVioDftbJvQ9+VQaxcug=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4AAA9FEC;
-	Mon,  3 Mar 2025 17:30:47 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 63CBA1063;
+	Mon,  3 Mar 2025 17:30:49 -0800 (PST)
 Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 877753F673;
-	Mon,  3 Mar 2025 17:30:31 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A34B63F673;
+	Mon,  3 Mar 2025 17:30:33 -0800 (PST)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Michael Turquette <mturquette@baylibre.com>,
 	Stephen Boyd <sboyd@kernel.org>,
@@ -32,10 +33,12 @@ Cc: Philipp Zabel <p.zabel@pengutronix.de>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 00/15] clk: sunxi-ng: add A523 clock support
-Date: Tue,  4 Mar 2025 01:27:50 +0000
-Message-ID: <20250304012805.28594-1-andre.przywara@arm.com>
+Subject: [PATCH v3 01/15] clk: sunxi-ng: mp: introduce dual-divider clock
+Date: Tue,  4 Mar 2025 01:27:51 +0000
+Message-ID: <20250304012805.28594-2-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.46.3
+In-Reply-To: <20250304012805.28594-1-andre.przywara@arm.com>
+References: <20250304012805.28594-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -44,153 +47,168 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi,
+The Allwinner A523 SoC introduces some new MP-style mod clock, where the
+second "P" divider is an actual numerical divider value, and not the
+numbers of bits to shift (1..32 instead of 1,2,4,8).
+The rest of the clock is the same as the existing MP clock, so enhance the
+existing code to accommodate for this.
 
-this is the third drop of the series introducing basic clock support for
-the Allwinner A523 family of SoCs, comprising A523, A527, T527, H728. [1]
-This fixes the issues Jernej found in his extensive and gratefully
-received review, many thanks for that, also to the other reviewers! 
-Those changes affect only details, but the rework caused more changes:
-the clock definition helper macros got reworked, and the binding turned
-out to be wrong, as it ignored the change in the source clock names
-(instead just accommodated their changed number). Shoehorning the
-differing names into the existing binding document turned out to be
-quite hard to follow, so I moved that into a separate yaml file.
-For a more detailed changelog, see below.
+Introduce the new CCU feature bit CCU_FEATURE_DUAL_DIV to mark an MP
+clock as having two dividers, and change the dividing and encoding code
+to differentiate the two cases.
 
-*************
-Please note that the clock numbers changed compared to v1 and v2, so DTs
-from that era cannot be used anymore with this driver: you have to update
-the DTB. Just copying the binding header and recompiling the DTB should do
-the trick, since the symbols stayed mostly the same, at least as far they
-are used in the basic DTs we use today.
-*************
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Reviewed-by: Chen-Yu Tsai <wens@csie.org>
+---
+ drivers/clk/sunxi-ng/ccu_common.h |  1 +
+ drivers/clk/sunxi-ng/ccu_mp.c     | 51 +++++++++++++++++++++++++------
+ 2 files changed, 42 insertions(+), 10 deletions(-)
 
-The SoCs contain *four* CCU components, aside from the usual main clock
-device and the PRCM clock (in the always-on-domain), there is an MCU
-clock and a CPU clock. This series just adds support for the first two,
-the other two don't seem to be required for the basic functionality.
-
-The clock tree of each SoC has always been individual, even though the
-main clock *types* mostly remain the same. This time we see three slight
-variations: There is an MP clock without the P (shift) part, there is one
-with two dividers instead of one divider and one shift field, and certain
-clocks require an "update" bit to be set to apply any changes.
-The first three patches add support for these new clock types.
-
-Patch 04 and 05 add the DT binding description for the two CCUs, along
-with all the clock numbers already defined in the binding headers.
-Since the main CCU is massive, and contains a lot of detail, I decided
-to split this driver up into 9 patches, simply to help review. I tried
-to group them somewhat logically, although this is rather arbitrary, and
-just to make each individual patch smaller. I am happy to squash them
-all back into one patch once they have been reviewed, for the final
-merge. The PRCM CCU is comparably small, so I kept this in one patch.
-
-Interestingly the Allwinner BSP has switched to using the existing sunxi
-CCU framework for modelling the clocks (they had their own way before), so
-we could theoretically use their code. However when I started working on
-this more than a year ago, their files had a GPL-3.0-only license header,
-which, according to my research, makes them incompatible for mainline
-inclusion. I thus started from "scratch" (adjusting the D1 driver, really).
-Meanwhile they seem to have changed the license, and a quick comparison
-turned up some differences, some of which seem to be bugs on their, some
-on my side, probably. I hope having such a "reference" helps the mainline
-code quality, as people can help the review by comparing code.
-
-Given the level of detail required in CCU drivers, I am certain there are
-still some bugs in there, also many things that can be improved. But after
-starring and editing this for weeks, I feel like it's time for the
-community to have a look, so please help with the review, and also test.
-
-Based on v6.14-rc1.
-
-Cheers,
-Andre
-
-[1] https://linux-sunxi.org/A523#Family_of_sun55iw3
-
-Changelog v2 .. v3:
-- rename PLL_DDR0 to PLL_DDR
-- move bogus macro definition from PLL patch to an earlier patch
-- adding CLK_SET_RATE_PARENT flags where needed (GPU, eDP, ...)
-- remove CLK_SET_RATE_PARENT from clocks with only fixed parents
-- add support for clocks with the "update" bit (BIT(27))
-- flags IOMMU, MBUS and DRAM clocks as needing "update" bit
-- remove leftover comment about missing mux
-- fix TCON_TV parent list
-- add TCON_LCD2 clock
-- export PLL_GPU
-- describe MBUS clock properly (was copy&pasted wrongly from D1)
-- change MMC clocks to use better macro
-- mark SPI and CSI clocks as being dual-divider clocks
-- fix wrong DSP parent clock (480 instead of 400 MHz)
-- properly implement fanout clocks (describe both dividers)
-- fix MBUS gate clocks and add two new ones
-- rename dpss clock to display0 and add display1 clocks
-- drop non-existing bus_dsp_cfg_clk
-- mark r_timer clocks as having no divider
-- fix r_pwm mux width
-- move DT bindings into separate yaml file
-- describe different source clock sets correctly
-- add review tags
-- remove Chen-Yu's and Conor's tags from changed patches
-
-Changelog v1 .. v2:
-- rebase onto v6.14-rc1
-- split main CCU definition patch into 9 smaller patches
-- rename RST_BUS_VO1_TCONLCD0 to RST_BUS_TCON_LCD2
-- insert CLK_PLL_VIDEO3_xx clocks
-- add clock for 2nd EMAC
-- fix ISP clock definition
-- remove BSP comments from clocks now documented in the T527 manual
-- add Conor's binding ACKs (with thanks!)
-
-Andre Przywara (15):
-  clk: sunxi-ng: mp: introduce dual-divider clock
-  clk: sunxi-ng: mp: provide wrappers for setting feature flags
-  clk: sunxi-ng: Add support for update bit
-  dt-bindings: clk: sunxi-ng: document Allwinner A523 CCU
-  dt-bindings: clk: sunxi-ng: add compatible for the A523 PRCM-CCU
-  clk: sunxi-ng: Add support for the A523/T527 CCU PLLs
-  clk: sunxi-ng: a523: Add support for bus clocks
-  clk: sunxi-ng: a523: add video mod clocks
-  clk: sunxi-ng: a523: add system mod clocks
-  clk: sunxi-ng: a523: add interface mod clocks
-  clk: sunxi-ng: a523: add USB mod clocks
-  clk: sunxi-ng: a523: remaining mod clocks
-  clk: sunxi-ng: a523: add bus clock gates
-  clk: sunxi-ng: a523: add reset lines
-  clk: sunxi-ng: add support for the A523/T527 PRCM CCU
-
- .../clock/allwinner,sun55i-a523-ccu.yaml      |   96 +
- drivers/clk/sunxi-ng/Kconfig                  |   10 +
- drivers/clk/sunxi-ng/Makefile                 |    4 +
- drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c      |  248 +++
- drivers/clk/sunxi-ng/ccu-sun55i-a523-r.h      |   14 +
- drivers/clk/sunxi-ng/ccu-sun55i-a523.c        | 1685 +++++++++++++++++
- drivers/clk/sunxi-ng/ccu-sun55i-a523.h        |   14 +
- drivers/clk/sunxi-ng/ccu_common.h             |    5 +
- drivers/clk/sunxi-ng/ccu_div.c                |    2 +
- drivers/clk/sunxi-ng/ccu_gate.c               |    4 +
- drivers/clk/sunxi-ng/ccu_mp.c                 |   51 +-
- drivers/clk/sunxi-ng/ccu_mp.h                 |   58 +-
- drivers/clk/sunxi-ng/ccu_mux.c                |    2 +
- include/dt-bindings/clock/sun55i-a523-ccu.h   |  189 ++
- include/dt-bindings/clock/sun55i-a523-r-ccu.h |   37 +
- include/dt-bindings/reset/sun55i-a523-ccu.h   |   88 +
- include/dt-bindings/reset/sun55i-a523-r-ccu.h |   25 +
- 17 files changed, 2517 insertions(+), 15 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/clock/allwinner,sun55i-a523-ccu.yaml
- create mode 100644 drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c
- create mode 100644 drivers/clk/sunxi-ng/ccu-sun55i-a523-r.h
- create mode 100644 drivers/clk/sunxi-ng/ccu-sun55i-a523.c
- create mode 100644 drivers/clk/sunxi-ng/ccu-sun55i-a523.h
- create mode 100644 include/dt-bindings/clock/sun55i-a523-ccu.h
- create mode 100644 include/dt-bindings/clock/sun55i-a523-r-ccu.h
- create mode 100644 include/dt-bindings/reset/sun55i-a523-ccu.h
- create mode 100644 include/dt-bindings/reset/sun55i-a523-r-ccu.h
-
+diff --git a/drivers/clk/sunxi-ng/ccu_common.h b/drivers/clk/sunxi-ng/ccu_common.h
+index dd330426a6e5f..50fd268329671 100644
+--- a/drivers/clk/sunxi-ng/ccu_common.h
++++ b/drivers/clk/sunxi-ng/ccu_common.h
+@@ -19,6 +19,7 @@
+ #define CCU_FEATURE_SIGMA_DELTA_MOD	BIT(7)
+ #define CCU_FEATURE_KEY_FIELD		BIT(8)
+ #define CCU_FEATURE_CLOSEST_RATE	BIT(9)
++#define CCU_FEATURE_DUAL_DIV		BIT(10)
+ 
+ /* MMC timing mode switch bit */
+ #define CCU_MMC_NEW_TIMING_MODE		BIT(30)
+diff --git a/drivers/clk/sunxi-ng/ccu_mp.c b/drivers/clk/sunxi-ng/ccu_mp.c
+index 2bb8987ddcc20..354c981943b6f 100644
+--- a/drivers/clk/sunxi-ng/ccu_mp.c
++++ b/drivers/clk/sunxi-ng/ccu_mp.c
+@@ -10,15 +10,23 @@
+ #include "ccu_gate.h"
+ #include "ccu_mp.h"
+ 
++static unsigned int next_div(unsigned int div, bool shift)
++{
++	if (shift)
++		return div << 1;
++	return div + 1;
++}
++
+ static unsigned long ccu_mp_find_best(unsigned long parent, unsigned long rate,
+ 				      unsigned int max_m, unsigned int max_p,
++				      bool shift,
+ 				      unsigned int *m, unsigned int *p)
+ {
+ 	unsigned long best_rate = 0;
+ 	unsigned int best_m = 0, best_p = 0;
+ 	unsigned int _m, _p;
+ 
+-	for (_p = 1; _p <= max_p; _p <<= 1) {
++	for (_p = 1; _p <= max_p; _p = next_div(_p, shift)) {
+ 		for (_m = 1; _m <= max_m; _m++) {
+ 			unsigned long tmp_rate = parent / _p / _m;
+ 
+@@ -43,7 +51,8 @@ static unsigned long ccu_mp_find_best_with_parent_adj(struct clk_hw *hw,
+ 						      unsigned long *parent,
+ 						      unsigned long rate,
+ 						      unsigned int max_m,
+-						      unsigned int max_p)
++						      unsigned int max_p,
++						      bool shift)
+ {
+ 	unsigned long parent_rate_saved;
+ 	unsigned long parent_rate, now;
+@@ -60,7 +69,7 @@ static unsigned long ccu_mp_find_best_with_parent_adj(struct clk_hw *hw,
+ 	maxdiv = max_m * max_p;
+ 	maxdiv = min(ULONG_MAX / rate, maxdiv);
+ 
+-	for (_p = 1; _p <= max_p; _p <<= 1) {
++	for (_p = 1; _p <= max_p; _p = next_div(_p, shift)) {
+ 		for (_m = 1; _m <= max_m; _m++) {
+ 			div = _m * _p;
+ 
+@@ -103,18 +112,26 @@ static unsigned long ccu_mp_round_rate(struct ccu_mux_internal *mux,
+ 	struct ccu_mp *cmp = data;
+ 	unsigned int max_m, max_p;
+ 	unsigned int m, p;
++	bool shift = true;
+ 
+ 	if (cmp->common.features & CCU_FEATURE_FIXED_POSTDIV)
+ 		rate *= cmp->fixed_post_div;
+ 
++	if (cmp->common.features & CCU_FEATURE_DUAL_DIV)
++		shift = false;
++
+ 	max_m = cmp->m.max ?: 1 << cmp->m.width;
+-	max_p = cmp->p.max ?: 1 << ((1 << cmp->p.width) - 1);
++	if (shift)
++		max_p = cmp->p.max ?: 1 << ((1 << cmp->p.width) - 1);
++	else
++		max_p = cmp->p.max ?: 1 << cmp->p.width;
+ 
+ 	if (!clk_hw_can_set_rate_parent(&cmp->common.hw)) {
+-		rate = ccu_mp_find_best(*parent_rate, rate, max_m, max_p, &m, &p);
++		rate = ccu_mp_find_best(*parent_rate, rate, max_m, max_p, shift,
++					&m, &p);
+ 	} else {
+ 		rate = ccu_mp_find_best_with_parent_adj(hw, parent_rate, rate,
+-							max_m, max_p);
++							max_m, max_p, shift);
+ 	}
+ 
+ 	if (cmp->common.features & CCU_FEATURE_FIXED_POSTDIV)
+@@ -167,7 +184,11 @@ static unsigned long ccu_mp_recalc_rate(struct clk_hw *hw,
+ 	p = reg >> cmp->p.shift;
+ 	p &= (1 << cmp->p.width) - 1;
+ 
+-	rate = (parent_rate >> p) / m;
++	if (cmp->common.features & CCU_FEATURE_DUAL_DIV)
++		rate = (parent_rate / p) / m;
++	else
++		rate = (parent_rate >> p) / m;
++
+ 	if (cmp->common.features & CCU_FEATURE_FIXED_POSTDIV)
+ 		rate /= cmp->fixed_post_div;
+ 
+@@ -190,20 +211,27 @@ static int ccu_mp_set_rate(struct clk_hw *hw, unsigned long rate,
+ 	unsigned long flags;
+ 	unsigned int max_m, max_p;
+ 	unsigned int m, p;
++	bool shift = true;
+ 	u32 reg;
+ 
++	if (cmp->common.features & CCU_FEATURE_DUAL_DIV)
++		shift = false;
++
+ 	/* Adjust parent_rate according to pre-dividers */
+ 	parent_rate = ccu_mux_helper_apply_prediv(&cmp->common, &cmp->mux, -1,
+ 						  parent_rate);
+ 
+ 	max_m = cmp->m.max ?: 1 << cmp->m.width;
+-	max_p = cmp->p.max ?: 1 << ((1 << cmp->p.width) - 1);
++	if (shift)
++		max_p = cmp->p.max ?: 1 << ((1 << cmp->p.width) - 1);
++	else
++		max_p = cmp->p.max ?: 1 << cmp->p.width;
+ 
+ 	/* Adjust target rate according to post-dividers */
+ 	if (cmp->common.features & CCU_FEATURE_FIXED_POSTDIV)
+ 		rate = rate * cmp->fixed_post_div;
+ 
+-	ccu_mp_find_best(parent_rate, rate, max_m, max_p, &m, &p);
++	ccu_mp_find_best(parent_rate, rate, max_m, max_p, shift, &m, &p);
+ 
+ 	spin_lock_irqsave(cmp->common.lock, flags);
+ 
+@@ -211,7 +239,10 @@ static int ccu_mp_set_rate(struct clk_hw *hw, unsigned long rate,
+ 	reg &= ~GENMASK(cmp->m.width + cmp->m.shift - 1, cmp->m.shift);
+ 	reg &= ~GENMASK(cmp->p.width + cmp->p.shift - 1, cmp->p.shift);
+ 	reg |= (m - cmp->m.offset) << cmp->m.shift;
+-	reg |= ilog2(p) << cmp->p.shift;
++	if (shift)
++		reg |= ilog2(p) << cmp->p.shift;
++	else
++		reg |= (p - cmp->p.offset) << cmp->p.shift;
+ 
+ 	writel(reg, cmp->common.base + cmp->common.reg);
+ 
 -- 
 2.46.3
 
