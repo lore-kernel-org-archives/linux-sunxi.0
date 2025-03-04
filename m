@@ -1,143 +1,196 @@
-Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E948723F36F;
-	Mon,  3 Mar 2025 15:41:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.120.170
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44984BE4E
+	for <linux-sunxi@lists.linux.dev>; Tue,  4 Mar 2025 01:30:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741016515; cv=none; b=cSEdH2r3gRAs/28kfsRdVGEKF2qQTZL2hmYitwVTANKPAQrJCMoAxzRZj2w1Jw1S7XVMafj3FZgEWDwVnsZ3qoRNiH2mBjgfrDFQOce0pkVb4EhuLUZkVQ0R5+1jl8LAIMz+hcGMGGrF9BrSiO3z3PRsuNlKt/86iCh8Z7Y9/AQ=
+	t=1741051837; cv=none; b=N1Cg0z2e7fwFScry4pzDx5RnhS0CLDYCfa+m9d+OGQL2m7jfr8rkJydB7MWQi9mwjTAb51UN9N6A7jIcQuhZGCSBniQGLLXOmXNcQCh7rxK9o6bxAfbQeYekg6tGDumWAaoM8vh+wW43fzQVzN7AfPc7hE3aBOP3/F0qGw9WF5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741016515; c=relaxed/simple;
-	bh=m25FjPrgYwk7MjQZxfJGTGjcn2SPVYgupnmoKPBo3ug=;
-	h=Date:From:To:Cc:Message-Id:In-Reply-To:References:Mime-Version:
-	 Content-Type:Subject; b=LgRkwj4zJS9V28slU9SGVzkirA/QBJBKNIEg+BsHhXcAWdw1K/QIjTBMz71ApSyh3JpeV0bPAWmH9WQwJwz7tR2PJeNDD6r/Bmzla9b1k78WPtm5UxCeseQQAk71027j6CeHUIk1QS/z8iw0Flhhu2AW2Dwk7suz0ZSPGw9uAT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com; spf=pass smtp.mailfrom=hugovil.com; dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b=cFgkZnKI; arc=none smtp.client-ip=162.243.120.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hugovil.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b="cFgkZnKI"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
-	; s=x; h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
-	:Date:subject:date:message-id:reply-to;
-	bh=C/mjUrCDUh8TvGQ0TNP99UWlQJSkPZIBxxqCtz4GkI0=; b=cFgkZnKIv0/ZHT36d/Zwl7IRW1
-	fW9cvHeQLM8AeK7zGY/zPOWZy9w7wMXgJkCSy5z05SlMk8da27MCzCKt29/I0lhlBw2CscACezTh4
-	2mG4q/f/ES1WSSFlTCdeu0TFqSsnFwe8mN+Gu37FBSbil4W7sh78YpEv424PPHAysC1w=;
-Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:56514 helo=pettiford.lan)
-	by mail.hugovil.com with esmtpa (Exim 4.92)
-	(envelope-from <hugo@hugovil.com>)
-	id 1tp7EM-0000V2-1t; Mon, 03 Mar 2025 09:57:18 -0500
-Date: Mon, 3 Mar 2025 09:57:17 -0500
-From: Hugo Villeneuve <hugo@hugovil.com>
-To: Matti Vaittinen <mazziesaccount@gmail.com>
-Cc: Jonathan Cameron <jic23@kernel.org>, David Lechner
- <dlechner@baylibre.com>, Matti Vaittinen
- <matti.vaittinen@fi.rohmeurope.com>, Hugo Villeneuve
- <hvilleneuve@dimonoff.com>, Lars-Peter Clausen <lars@metafoo.de>, Rob
- Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus
- <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>, Lad Prabhakar
- <prabhakar.mahadev-lad.rj@bp.renesas.com>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, Nuno Sa <nuno.sa@analog.com>, Javier Carrasco
- <javier.carrasco.cruz@gmail.com>, Guillaume Stols <gstols@baylibre.com>,
- Olivier Moysan <olivier.moysan@foss.st.com>, Dumitru Ceclan
- <mitrutzceclan@gmail.com>, Trevor Gamblin <tgamblin@baylibre.com>, Matteo
- Martelli <matteomartelli3@gmail.com>, Alisa-Dariana Roman
- <alisadariana@gmail.com>, Ramona Alexandra Nechita
- <ramona.nechita@analog.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-acpi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Message-Id: <20250303095717.56ef5ac016b99911fc34e198@hugovil.com>
-In-Reply-To: <7c79ce3a-0dc4-4aa4-941a-e05be9a34fb8@gmail.com>
-References: <cover.1740421248.git.mazziesaccount@gmail.com>
-	<20dd0e4ea72fe39b90b611f9c08dbd4bc1d5217f.1740421248.git.mazziesaccount@gmail.com>
-	<f0d0f114-3953-46b5-b9f6-9b35537e6f8e@baylibre.com>
-	<d391b012-0a8e-40ca-af56-ca73b3fd853b@gmail.com>
-	<20250302032713.1c834448@jic23-huawei>
-	<7c79ce3a-0dc4-4aa4-941a-e05be9a34fb8@gmail.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1741051837; c=relaxed/simple;
+	bh=8JoIYV2GtWQTDz4HyJ7E6QNN2hNMjfy+UxcKFO1GxDQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rv4wlHfao/UX5pEjvyHirRzcpAj+qpTkHm6tDlrTHLiOe87HkXR5l3mpB4dPVH0MPk3AhTT/TttWvsL4wq2eJc3crgMJcsLS3XFJB/OvHz29EhCckD3UaXVQ2S9Hx3DumWPe9Um2fXTtsHZTBJslOKn7yzkdbXl2BEU4cm08vQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4AAA9FEC;
+	Mon,  3 Mar 2025 17:30:47 -0800 (PST)
+Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 877753F673;
+	Mon,  3 Mar 2025 17:30:31 -0800 (PST)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>,
+	linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 00/15] clk: sunxi-ng: add A523 clock support
+Date: Tue,  4 Mar 2025 01:27:50 +0000
+Message-ID: <20250304012805.28594-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.46.3
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 70.80.174.168
-X-SA-Exim-Mail-From: hugo@hugovil.com
-X-Spam-Level: 
-X-Spam-Report: 
-	* -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-	* -2.6 NICE_REPLY_A Looks like a legit reply (A)
-Subject: Re: [PATCH v4 07/10] iio: adc: ti-ads7924: Respect device tree
- config
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Sun, 2 Mar 2025 15:10:12 +0200
-Matti Vaittinen <mazziesaccount@gmail.com> wrote:
+Hi,
 
-> On 02/03/2025 05:27, Jonathan Cameron wrote:
-> > On Wed, 26 Feb 2025 08:39:11 +0200
-> > Matti Vaittinen <mazziesaccount@gmail.com> wrote:
-> > 
-> >> On 26/02/2025 02:09, David Lechner wrote:
-> >>> On 2/24/25 12:34 PM, Matti Vaittinen wrote:
-> >>>> The ti-ads7924 driver ignores the device-tree ADC channel specification
-> >>>> and always exposes all 4 channels to users whether they are present in
-> >>>> the device-tree or not. Additionally, the "reg" values in the channel
-> >>>> nodes are ignored, although an error is printed if they are out of range.
-> >>>>
-> >>>> Register only the channels described in the device-tree, and use the reg
-> >>>> property as a channel ID.
-> >>>>
-> >>>> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
-> >>>>
-> >>>> ---
-> >>>> Revision history:
-> >>>> v3 => v4:
-> >>>>    - Adapt to 'drop diff-channel support' changes to ADC-helpers
-> >>>>    - select ADC helpers in the Kconfig
-> >>>> v2 => v3: New patch
-> >>>>
-> >>>> Please note that this is potentially breaking existing users if they
-> >>>> have wrong values in the device-tree. I believe the device-tree should
-> >>>> ideally be respected, and if it says device X has only one channel, then
-> >>>> we should believe it and not register 4. Well, we don't live in the
-> >>>> ideal world, so even though I believe this is TheRightThingToDo - it may
-> >>>> cause havoc because correct device-tree has not been required from the
-> >>>> day 1. So, please review and test and apply at your own risk :)
-> >>>
-> >>> The DT bindings on this one are a little weird. Usually, if we don't
-> >>> use any extra properties from adc.yaml, we leave out the channels. In
-> >>> this case it does seem kind of like the original intention was to work
-> >>> like you are suggesting, but hard to say since the driver wasn't actually
-> >>> implemented that way. I would be more inclined to actually not make the
-> >>> breaking change here and instead relax the bindings to make channel nodes
-> >>> optional and just have the driver ignore the channel nodes by dropping
-> >>> the ads7924_get_channels_config() function completely. This would make
-> >>> the driver simpler instead of more complex like this patch does.
-> >>
-> >> I have no strong opinion on this. I see this driver says 'Supported' in
-> >> MAINTAINERS. Maybe Hugo is able to provide some insight?
-> >>
-> > This seems to be ABI breakage.  Never something we can take if there is
-> > a significant chance of anyone noticing.  Here it looks like risk
-> > is too high.
-> 
-> Ok. I'll just drop this patch then. Thanks David & Jonathan :)
+this is the third drop of the series introducing basic clock support for
+the Allwinner A523 family of SoCs, comprising A523, A527, T527, H728. [1]
+This fixes the issues Jernej found in his extensive and gratefully
+received review, many thanks for that, also to the other reviewers! 
+Those changes affect only details, but the rework caused more changes:
+the clock definition helper macros got reworked, and the binding turned
+out to be wrong, as it ignored the change in the source clock names
+(instead just accommodated their changed number). Shoehorning the
+differing names into the existing binding document turned out to be
+quite hard to follow, so I moved that into a separate yaml file.
+For a more detailed changelog, see below.
 
-Hi Matti,
-I haven't really been able to follow all discussions, but as an
-historic note I developped this driver for a prototype that never
-materialized. So any changes would not have an impact, as far as I am
-concerned.
+*************
+Please note that the clock numbers changed compared to v1 and v2, so DTs
+from that era cannot be used anymore with this driver: you have to update
+the DTB. Just copying the binding header and recompiling the DTB should do
+the trick, since the symbols stayed mostly the same, at least as far they
+are used in the basic DTs we use today.
+*************
 
-Hugo.
+The SoCs contain *four* CCU components, aside from the usual main clock
+device and the PRCM clock (in the always-on-domain), there is an MCU
+clock and a CPU clock. This series just adds support for the first two,
+the other two don't seem to be required for the basic functionality.
+
+The clock tree of each SoC has always been individual, even though the
+main clock *types* mostly remain the same. This time we see three slight
+variations: There is an MP clock without the P (shift) part, there is one
+with two dividers instead of one divider and one shift field, and certain
+clocks require an "update" bit to be set to apply any changes.
+The first three patches add support for these new clock types.
+
+Patch 04 and 05 add the DT binding description for the two CCUs, along
+with all the clock numbers already defined in the binding headers.
+Since the main CCU is massive, and contains a lot of detail, I decided
+to split this driver up into 9 patches, simply to help review. I tried
+to group them somewhat logically, although this is rather arbitrary, and
+just to make each individual patch smaller. I am happy to squash them
+all back into one patch once they have been reviewed, for the final
+merge. The PRCM CCU is comparably small, so I kept this in one patch.
+
+Interestingly the Allwinner BSP has switched to using the existing sunxi
+CCU framework for modelling the clocks (they had their own way before), so
+we could theoretically use their code. However when I started working on
+this more than a year ago, their files had a GPL-3.0-only license header,
+which, according to my research, makes them incompatible for mainline
+inclusion. I thus started from "scratch" (adjusting the D1 driver, really).
+Meanwhile they seem to have changed the license, and a quick comparison
+turned up some differences, some of which seem to be bugs on their, some
+on my side, probably. I hope having such a "reference" helps the mainline
+code quality, as people can help the review by comparing code.
+
+Given the level of detail required in CCU drivers, I am certain there are
+still some bugs in there, also many things that can be improved. But after
+starring and editing this for weeks, I feel like it's time for the
+community to have a look, so please help with the review, and also test.
+
+Based on v6.14-rc1.
+
+Cheers,
+Andre
+
+[1] https://linux-sunxi.org/A523#Family_of_sun55iw3
+
+Changelog v2 .. v3:
+- rename PLL_DDR0 to PLL_DDR
+- move bogus macro definition from PLL patch to an earlier patch
+- adding CLK_SET_RATE_PARENT flags where needed (GPU, eDP, ...)
+- remove CLK_SET_RATE_PARENT from clocks with only fixed parents
+- add support for clocks with the "update" bit (BIT(27))
+- flags IOMMU, MBUS and DRAM clocks as needing "update" bit
+- remove leftover comment about missing mux
+- fix TCON_TV parent list
+- add TCON_LCD2 clock
+- export PLL_GPU
+- describe MBUS clock properly (was copy&pasted wrongly from D1)
+- change MMC clocks to use better macro
+- mark SPI and CSI clocks as being dual-divider clocks
+- fix wrong DSP parent clock (480 instead of 400 MHz)
+- properly implement fanout clocks (describe both dividers)
+- fix MBUS gate clocks and add two new ones
+- rename dpss clock to display0 and add display1 clocks
+- drop non-existing bus_dsp_cfg_clk
+- mark r_timer clocks as having no divider
+- fix r_pwm mux width
+- move DT bindings into separate yaml file
+- describe different source clock sets correctly
+- add review tags
+- remove Chen-Yu's and Conor's tags from changed patches
+
+Changelog v1 .. v2:
+- rebase onto v6.14-rc1
+- split main CCU definition patch into 9 smaller patches
+- rename RST_BUS_VO1_TCONLCD0 to RST_BUS_TCON_LCD2
+- insert CLK_PLL_VIDEO3_xx clocks
+- add clock for 2nd EMAC
+- fix ISP clock definition
+- remove BSP comments from clocks now documented in the T527 manual
+- add Conor's binding ACKs (with thanks!)
+
+Andre Przywara (15):
+  clk: sunxi-ng: mp: introduce dual-divider clock
+  clk: sunxi-ng: mp: provide wrappers for setting feature flags
+  clk: sunxi-ng: Add support for update bit
+  dt-bindings: clk: sunxi-ng: document Allwinner A523 CCU
+  dt-bindings: clk: sunxi-ng: add compatible for the A523 PRCM-CCU
+  clk: sunxi-ng: Add support for the A523/T527 CCU PLLs
+  clk: sunxi-ng: a523: Add support for bus clocks
+  clk: sunxi-ng: a523: add video mod clocks
+  clk: sunxi-ng: a523: add system mod clocks
+  clk: sunxi-ng: a523: add interface mod clocks
+  clk: sunxi-ng: a523: add USB mod clocks
+  clk: sunxi-ng: a523: remaining mod clocks
+  clk: sunxi-ng: a523: add bus clock gates
+  clk: sunxi-ng: a523: add reset lines
+  clk: sunxi-ng: add support for the A523/T527 PRCM CCU
+
+ .../clock/allwinner,sun55i-a523-ccu.yaml      |   96 +
+ drivers/clk/sunxi-ng/Kconfig                  |   10 +
+ drivers/clk/sunxi-ng/Makefile                 |    4 +
+ drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c      |  248 +++
+ drivers/clk/sunxi-ng/ccu-sun55i-a523-r.h      |   14 +
+ drivers/clk/sunxi-ng/ccu-sun55i-a523.c        | 1685 +++++++++++++++++
+ drivers/clk/sunxi-ng/ccu-sun55i-a523.h        |   14 +
+ drivers/clk/sunxi-ng/ccu_common.h             |    5 +
+ drivers/clk/sunxi-ng/ccu_div.c                |    2 +
+ drivers/clk/sunxi-ng/ccu_gate.c               |    4 +
+ drivers/clk/sunxi-ng/ccu_mp.c                 |   51 +-
+ drivers/clk/sunxi-ng/ccu_mp.h                 |   58 +-
+ drivers/clk/sunxi-ng/ccu_mux.c                |    2 +
+ include/dt-bindings/clock/sun55i-a523-ccu.h   |  189 ++
+ include/dt-bindings/clock/sun55i-a523-r-ccu.h |   37 +
+ include/dt-bindings/reset/sun55i-a523-ccu.h   |   88 +
+ include/dt-bindings/reset/sun55i-a523-r-ccu.h |   25 +
+ 17 files changed, 2517 insertions(+), 15 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/clock/allwinner,sun55i-a523-ccu.yaml
+ create mode 100644 drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c
+ create mode 100644 drivers/clk/sunxi-ng/ccu-sun55i-a523-r.h
+ create mode 100644 drivers/clk/sunxi-ng/ccu-sun55i-a523.c
+ create mode 100644 drivers/clk/sunxi-ng/ccu-sun55i-a523.h
+ create mode 100644 include/dt-bindings/clock/sun55i-a523-ccu.h
+ create mode 100644 include/dt-bindings/clock/sun55i-a523-r-ccu.h
+ create mode 100644 include/dt-bindings/reset/sun55i-a523-ccu.h
+ create mode 100644 include/dt-bindings/reset/sun55i-a523-r-ccu.h
+
+-- 
+2.46.3
+
