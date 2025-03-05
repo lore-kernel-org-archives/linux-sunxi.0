@@ -1,40 +1,38 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF6E9233709
-	for <linux-sunxi@lists.linux.dev>; Wed,  5 Mar 2025 11:34:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CA07235BE4
+	for <linux-sunxi@lists.linux.dev>; Wed,  5 Mar 2025 11:55:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741174477; cv=none; b=WeURlJfbfu9xUMSi7/Xg8RztHJJQ45hhzV0GEIuuODjhlLde2xOBRJsmIWEICUMps53uXGoRLRQN10MA0JsV2eidNPE3FUbj/6+tX4zeBBEHnhzioSYqQD4EHUWHNgYK2Tefzh9scxHak/rAJSoySVFWkUAZIDNemrvctPTamOU=
+	t=1741175742; cv=none; b=gutfI/hBNb185qywMqfKYmigoeQA6Rma0OYz3KP4epwzHieJocLWqfmEgYSXfjAACwf7It1BZvdRUacj4nOHfr0In51EFahUAlZQ7fptWUAhxalIPaR5bR5L31I+FqGa7IzN4aQuGA86AbdkQjtAAseGzamMSTHVkvfH7hat+CM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741174477; c=relaxed/simple;
-	bh=PX8YtGNzZCKFmT6MLhflwzHPvwo1LGdQ1btFvdv/xnc=;
+	s=arc-20240116; t=1741175742; c=relaxed/simple;
+	bh=n0ErFNxQMLvccEYJKdGex8SoK60liI0SddSQ9NOfhCE=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TI+WTvKSHtprhv7cuvXM2JGoTj4G6nImWAD/KgfofzAGO/xfRxOQleytx2ZpWZbAlN8jE6FLrS5NfRb0T9coOXHdDEVdWA7cdJqB+Y275ASfzNnRVhOPZTFN71XpswNQ6VHV1dIyRw4TMlBxBi20B/VKJ4t4DAzsvcd8CnrVN5E=
+	 MIME-Version:Content-Type; b=J7GvLS+9XS600G5x5xvMF2r42WhnBhU5+9lnZJ16I3HAH85kX02QWuSLDoCJkrckUPXqeshnr1XmruTN1tTX9eF7Gvp4hK1SMlHE6qHjE0r+4COVtSyKXlAMMzBXktmmS1fc/e8bmxRXet+kQnyaExna+yuPzfiSKGOkxtt35Uk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5691D1007;
-	Wed,  5 Mar 2025 03:34:48 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AE6E3FEC;
+	Wed,  5 Mar 2025 03:55:53 -0800 (PST)
 Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 31DF23F673;
-	Wed,  5 Mar 2025 03:34:33 -0800 (PST)
-Date: Wed, 5 Mar 2025 11:34:30 +0000
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9AC353F66E;
+	Wed,  5 Mar 2025 03:55:38 -0800 (PST)
+Date: Wed, 5 Mar 2025 11:55:35 +0000
 From: Andre Przywara <andre.przywara@arm.com>
-To: Rob Herring <robh@kernel.org>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Philipp
- Zabel <p.zabel@pengutronix.de>, linux-clk@vger.kernel.org,
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 04/15] dt-bindings: clk: sunxi-ng: document Allwinner
- A523 CCU
-Message-ID: <20250305113430.47166de3@donnerap.manchester.arm.com>
-In-Reply-To: <20250304141125.GA2518548-robh@kernel.org>
-References: <20250304012805.28594-1-andre.przywara@arm.com>
-	<20250304012805.28594-5-andre.przywara@arm.com>
-	<20250304141125.GA2518548-robh@kernel.org>
+Subject: Re: [PATCH v2 06/15] irqchip/sunxi-nmi: Support Allwinner A523 NMI
+ controller
+Message-ID: <20250305115535.619ba087@donnerap.manchester.arm.com>
+In-Reply-To: <87frjr6i1j.ffs@tglx>
+References: <20250304222309.29385-1-andre.przywara@arm.com>
+	<20250304222309.29385-7-andre.przywara@arm.com>
+	<87frjr6i1j.ffs@tglx>
 Organization: ARM
 X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
@@ -46,132 +44,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Tue, 4 Mar 2025 08:11:25 -0600
-Rob Herring <robh@kernel.org> wrote:
+On Wed, 05 Mar 2025 08:41:28 +0100
+Thomas Gleixner <tglx@linutronix.de> wrote:
 
-Hi,
+Hi Thomas,
 
-> On Tue, Mar 04, 2025 at 01:27:54AM +0000, Andre Przywara wrote:
-> > The Allwinner A523/T527 SoCs have four CCUs, this adds the binding for
-> > the main CCU.
-> > 
-> > The source clock list differs in some annoying details, and folding this
-> > into the existing Allwinner CCU clock binding document gets quite
-> > unwieldy, so create a new document for these CCUs.
-> > Add the new compatible string, along with the required input clock
-> > lists. This conditionally describes the input clock list, to make for
-> > an easier patch adding the other CCUs.
-> > 
-> > Also add the DT binding headers, listing all the clocks with their ID
-> > numbers.
-> > 
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > ---
-> >  .../clock/allwinner,sun55i-a523-ccu.yaml      |  77 +++++++
-> >  include/dt-bindings/clock/sun55i-a523-ccu.h   | 189 ++++++++++++++++++
-> >  include/dt-bindings/reset/sun55i-a523-ccu.h   |  88 ++++++++
-> >  3 files changed, 354 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/clock/allwinner,sun55i-a523-ccu.yaml
-> >  create mode 100644 include/dt-bindings/clock/sun55i-a523-ccu.h
-> >  create mode 100644 include/dt-bindings/reset/sun55i-a523-ccu.h
-> > 
-> > diff --git a/Documentation/devicetree/bindings/clock/allwinner,sun55i-a523-ccu.yaml b/Documentation/devicetree/bindings/clock/allwinner,sun55i-a523-ccu.yaml
-> > new file mode 100644
-> > index 0000000000000..2eacaeaeabac7
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/clock/allwinner,sun55i-a523-ccu.yaml
-> > @@ -0,0 +1,77 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/clock/allwinner,sun55i-a523-ccu.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Allwinner A523 Clock Control Unit
-> > +
-> > +maintainers:
-> > +  - Andre Przywara <andre.przywara@arm.com>
-> > +
-> > +properties:
-> > +  "#clock-cells":
-> > +    const: 1
-> > +
-> > +  "#reset-cells":
-> > +    const: 1
-> > +
-> > +  compatible:
-> > +    enum:
-> > +      - allwinner,sun55i-a523-ccu
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    minItems: 4
-> > +    maxItems: 4
-> > +
-> > +  clock-names:
-> > +    minItems: 4
-> > +    maxItems: 4
-> > +
-> > +required:
-> > +  - "#clock-cells"
-> > +  - "#reset-cells"
-> > +  - compatible
-> > +  - reg
-> > +  - clocks
-> > +  - clock-names
-> > +
-> > +if:  
+thanks for having a look!
+
+> On Tue, Mar 04 2025 at 22:23, Andre Przywara wrote:
+> >  
+> > -struct sunxi_sc_nmi_reg_offs {
+> > +struct sunxi_sc_nmi_data {
+> >  	u32 ctrl;
+> >  	u32 pend;
+> >  	u32 enable;
+> > +	u32 enable_val;  
 > 
-> Put this under an allOf and use another 'if' instead of the 'else' 
-> clause in the 2nd patch.
+> The data structure name and the corresponding variable/argument name
+> were making the code pretty obvious, but now this is opaque and
+> incomprehensible.
+> 
+> data::ctrl does not even give the slightest hint what this is about. You
+> need to read up in the code to figure out what it means. Something like:
+> 
+> struct sunxi_sc_nmi_data {
+> 	u32	reg_offs_ctrl;
+>   	u32	reg_offs_pend;
+>   	u32	reg_offs_enable;
+> 	u32	enable_val;
+> };
+> 
+> or even better:
+> 
+> struct sunxi_sc_nmi_data {
+> 	struct {
+> 		u32	ctrl;
+>   		u32	pend;
+>   		u32	enable;
+>         } reg_offs;
+> 	u32		enable_val;
+> };
+> 
+> makes it clear and obvious, no?
 
-Ah, that's a neat idea! What do I do with the clocks and clock-names
-above, then? Just have them as "true"?
+Sure, will change it, it was just the usual decision between reworking the
+existing code or just adding my small change in. 50% chance of getting that
+right, I guess ;-)
 
-Krzysztof, would you agree with this approach, and shall I still combine
-both in just one patch?
+> 
+> > +static const struct sunxi_sc_nmi_data sun55i_a523_data __initconst = {
+> > +	.ctrl	= SUN9I_NMI_CTRL,
+> > +	.pend	= SUN9I_NMI_PENDING,
+> > +	.enable	= SUN9I_NMI_ENABLE,
+> > +	.enable_val = BIT(31),  
+> 
+> https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#struct-declarations-and-initializers
 
-Cheers,
+Oops, missed that.
+
+Thanks,
 Andre
 
-> > +  properties:
-> > +    compatible:
-> > +      enum:
-> > +        - allwinner,sun55i-a523-ccu
-> > +
-> > +then:
-> > +  properties:
-> > +    clocks:
-> > +      items:
-> > +        - description: High Frequency Oscillator (usually at 24MHz)
-> > +        - description: Low Frequency Oscillator (usually at 32kHz)
-> > +        - description: Internal Oscillator
-> > +        - description: Low Frequency Oscillator fanout
-> > +
-> > +    clock-names:
-> > +      items:
-> > +        - const: hosc
-> > +        - const: losc
-> > +        - const: iosc
-> > +        - const: losc-fanout
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    ccu: clock@2001000 {  
 > 
-> Drop ccu and it's 'clock-controller' not 'clock'.
+> Thanks,
 > 
-> > +        compatible = "allwinner,sun55i-a523-ccu";
-> > +        reg = <0x2001000 0x1000>;
-> > +        clocks = <&osc24M>, <&osc32k>, <&iosc>, <&r_ccu 2>;
-> > +        clock-names = "hosc", "losc", "iosc", "losc-fanout";
-> > +        #clock-cells = <1>;
-> > +        #reset-cells = <1>;
-> > +    };
-> > +
-> > +...  
-
+>         tglx
