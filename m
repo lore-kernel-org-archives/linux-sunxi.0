@@ -1,111 +1,69 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CA07235BE4
-	for <linux-sunxi@lists.linux.dev>; Wed,  5 Mar 2025 11:55:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1602B19DF41;
+	Wed,  5 Mar 2025 16:45:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741175742; cv=none; b=gutfI/hBNb185qywMqfKYmigoeQA6Rma0OYz3KP4epwzHieJocLWqfmEgYSXfjAACwf7It1BZvdRUacj4nOHfr0In51EFahUAlZQ7fptWUAhxalIPaR5bR5L31I+FqGa7IzN4aQuGA86AbdkQjtAAseGzamMSTHVkvfH7hat+CM=
+	t=1741193130; cv=none; b=meTzbuXXBKSdU1YLWrdQxdm8eWNviSx2EdyiaKWjGLTvT9rLJfOKEf2n0YY7omueTsmy8zWZ58lMqrfmYywBO2IINWHV1Egflz6HsmhYcWZXW6BOgDr2bjeh+ABjw244YOMgnTNeFNKNizW4Sbff3tXf/GkaQwpyyxn+DL33R5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741175742; c=relaxed/simple;
-	bh=n0ErFNxQMLvccEYJKdGex8SoK60liI0SddSQ9NOfhCE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=J7GvLS+9XS600G5x5xvMF2r42WhnBhU5+9lnZJ16I3HAH85kX02QWuSLDoCJkrckUPXqeshnr1XmruTN1tTX9eF7Gvp4hK1SMlHE6qHjE0r+4COVtSyKXlAMMzBXktmmS1fc/e8bmxRXet+kQnyaExna+yuPzfiSKGOkxtt35Uk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AE6E3FEC;
-	Wed,  5 Mar 2025 03:55:53 -0800 (PST)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9AC353F66E;
-	Wed,  5 Mar 2025 03:55:38 -0800 (PST)
-Date: Wed, 5 Mar 2025 11:55:35 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 06/15] irqchip/sunxi-nmi: Support Allwinner A523 NMI
- controller
-Message-ID: <20250305115535.619ba087@donnerap.manchester.arm.com>
-In-Reply-To: <87frjr6i1j.ffs@tglx>
+	s=arc-20240116; t=1741193130; c=relaxed/simple;
+	bh=a79LJ8dE3ma4v7t2qwXAq36pAAKFq9q6whg86nhPw/s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=APaaNvExaTT0iMQifnetyG85JQMHOKEQQaKiASO3hmAxkWoPMssKAb1SN5yKdhtZ/fQV8O2dgMxrL85VmsT5hjSyDTWBZ7Ram91hr6JXx7CNzW9v7keB49kcHdm2oQtz/YVywfHooZoFAbARQ+wPuRXZlRwbe40u5QmPA5Qf8tU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VQVBuKCV; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VQVBuKCV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44266C4CED1;
+	Wed,  5 Mar 2025 16:45:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741193129;
+	bh=a79LJ8dE3ma4v7t2qwXAq36pAAKFq9q6whg86nhPw/s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VQVBuKCV3aenPt1tOXmQ8qWVFYaHkJ3HO+Tv4aSzhqwQ2CLIvzl/w5v/mJ3fv73+X
+	 EV/4lTWIhT5Z0gYRUVi65s6Ni+L8DyqvMDV5WHixHA8DRnIDG82zF3Yyr9NY20wC1s
+	 5dOXksUekCGosTTxfMFj1FWe7/s1WruHXX4nZlfeM8YkDO5YAbewuoyJPgUyu0NU+z
+	 W9YkTHtg8XDc3nLqRh3nhis1D7MztwMYjZvXpdE6FevkXfSBVHccLcITShxGlIDzU2
+	 kY3o27C7vmY+smfUTrBq6DaLpDC6CHEpwHF0St59viSNMnwhz5ADLanZC1hGfTGQjq
+	 hWrM+puQjHidQ==
+Date: Wed, 5 Mar 2025 10:45:27 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Thomas Gleixner <tglx@linutronix.de>, linux-sunxi@lists.linux.dev,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	Chen-Yu Tsai <wens@csie.org>, Conor Dooley <conor+dt@kernel.org>,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 05/15] dt-bindings: irq: sun7i-nmi: document the
+ Allwinner A523 NMI controller
+Message-ID: <174119312747.2117747.1409262151131178032.robh@kernel.org>
 References: <20250304222309.29385-1-andre.przywara@arm.com>
-	<20250304222309.29385-7-andre.przywara@arm.com>
-	<87frjr6i1j.ffs@tglx>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+ <20250304222309.29385-6-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250304222309.29385-6-andre.przywara@arm.com>
 
-On Wed, 05 Mar 2025 08:41:28 +0100
-Thomas Gleixner <tglx@linutronix.de> wrote:
 
-Hi Thomas,
+On Tue, 04 Mar 2025 22:22:59 +0000, Andre Przywara wrote:
+> The Allwinner A523 SoC contains an NMI controller very close to the one
+> used in the recent Allwinner SoCs, but it adds another bit that needs to
+> be toggled to actually deliver the IRQs. Sigh.
+> 
+> Add the A523 specific name to the list of allowed compatible strings.
+> 
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  .../interrupt-controller/allwinner,sun7i-a20-sc-nmi.yaml         | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-thanks for having a look!
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
-> On Tue, Mar 04 2025 at 22:23, Andre Przywara wrote:
-> >  
-> > -struct sunxi_sc_nmi_reg_offs {
-> > +struct sunxi_sc_nmi_data {
-> >  	u32 ctrl;
-> >  	u32 pend;
-> >  	u32 enable;
-> > +	u32 enable_val;  
-> 
-> The data structure name and the corresponding variable/argument name
-> were making the code pretty obvious, but now this is opaque and
-> incomprehensible.
-> 
-> data::ctrl does not even give the slightest hint what this is about. You
-> need to read up in the code to figure out what it means. Something like:
-> 
-> struct sunxi_sc_nmi_data {
-> 	u32	reg_offs_ctrl;
->   	u32	reg_offs_pend;
->   	u32	reg_offs_enable;
-> 	u32	enable_val;
-> };
-> 
-> or even better:
-> 
-> struct sunxi_sc_nmi_data {
-> 	struct {
-> 		u32	ctrl;
->   		u32	pend;
->   		u32	enable;
->         } reg_offs;
-> 	u32		enable_val;
-> };
-> 
-> makes it clear and obvious, no?
-
-Sure, will change it, it was just the usual decision between reworking the
-existing code or just adding my small change in. 50% chance of getting that
-right, I guess ;-)
-
-> 
-> > +static const struct sunxi_sc_nmi_data sun55i_a523_data __initconst = {
-> > +	.ctrl	= SUN9I_NMI_CTRL,
-> > +	.pend	= SUN9I_NMI_PENDING,
-> > +	.enable	= SUN9I_NMI_ENABLE,
-> > +	.enable_val = BIT(31),  
-> 
-> https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#struct-declarations-and-initializers
-
-Oops, missed that.
-
-Thanks,
-Andre
-
-> 
-> Thanks,
-> 
->         tglx
