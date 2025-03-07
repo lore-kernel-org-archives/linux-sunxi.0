@@ -1,151 +1,175 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9C69281501
-	for <linux-sunxi@lists.linux.dev>; Thu,  6 Mar 2025 23:58:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6E813FF1
+	for <linux-sunxi@lists.linux.dev>; Fri,  7 Mar 2025 00:18:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741305533; cv=none; b=NEgM+sevet+PCEM922izbvkqcxHJM34MMqHWB25iHp7e4byX+zIuer9c1Sqjv9EALmesvc+hkePPDIhdxGa8JMD13tCE3QrMapoVFlIg/jDO8lbJUnDxSK+8nX0w8YdFRcHsZ+qlawy0cYyizivO0kTIoAY/PxPA7q8ErPphIJU=
+	t=1741306694; cv=none; b=dghZ3Yy9ceMnklgBJ3rV/QcOLMQH/JBkf5LBon5iWxLL3k0sBIBaefqIbgujJTDcasw/I+My9DDOO8JBmZoBuTOx8Mey2AH6tnKrfiBYsFZjoDN/kuSJDiwM/2CycC9J3TsaAXMJTkooX0of7EWBLBbrySiq4Qq0nMQUjUzxxog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741305533; c=relaxed/simple;
-	bh=Um5IfbD735MZAR0kncrcKD4JbWb8JEH4EMmhAjtc4Lc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lKejGQSGLL7eb/J0x83l6JQ89f+eWAjR2LI9xLJMYQSXAbHWI/pyBP51XvVtZD+P8iXipu9Q4nKJeVVeZxuRvVOfKqRBfjUMKTnW8OYF2mjjSJ/OjfAEgr5OcBSKfum0+u7AuaAO8Z/M6zZZuMMMq3PfhF8OHvQPpz8UJPGPHnI=
+	s=arc-20240116; t=1741306694; c=relaxed/simple;
+	bh=dejDcuU9K1sv2fPwxhDRh16lZKxCSGyYQuKNHFNnAlo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=PuOJAKFaqFu5HeNx3L+chAEGEo84ksSA8ibZMs+RB6Ys8BkHS59U8DvdX7X5eWOq5+HR/U37iK2C0mJplLgcCFNwLtcIawG4ETqupSnGPlyO3UgykVP1Zm07ppMa6b/xknkXdlr76yUJs6fG7a9FjBGYl2vDjw52Qxnq3gExIVA=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3D370169E;
-	Thu,  6 Mar 2025 15:59:04 -0800 (PST)
-Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C4E173F673;
-	Thu,  6 Mar 2025 15:58:49 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BB1A1169E;
+	Thu,  6 Mar 2025 16:18:24 -0800 (PST)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 299A83F673;
+	Thu,  6 Mar 2025 16:18:10 -0800 (PST)
+Date: Fri, 7 Mar 2025 00:18:03 +0000
 From: Andre Przywara <andre.przywara@arm.com>
-To: Linus Walleij <linus.walleij@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: linux-gpio@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 8/8] pinctrl: sunxi: Add support for the secondary A523 GPIO ports
-Date: Thu,  6 Mar 2025 23:58:27 +0000
-Message-ID: <20250306235827.4895-9-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.46.3
-In-Reply-To: <20250306235827.4895-1-andre.przywara@arm.com>
-References: <20250306235827.4895-1-andre.przywara@arm.com>
+To: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai
+ <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, linux-clk@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 03/15] clk: sunxi-ng: Add support for update bit
+Message-ID: <20250307001803.2e4887d7@minigeek.lan>
+In-Reply-To: <3616088.iIbC2pHGDl@jernej-laptop>
+References: <20250304012805.28594-1-andre.przywara@arm.com>
+	<20250304012805.28594-4-andre.przywara@arm.com>
+	<3616088.iIbC2pHGDl@jernej-laptop>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-As most other Allwinner SoCs before, the A523 chip contains a second
-GPIO controller, managing banks PL and PM.
-Use the newly introduced DT based pinctrl driver to describe just the
-generic pinctrl properties, so advertise the number of pins per bank
-and the interrupt capabilities. The actual function/mux assignment is
-taken from the devicetree.
+On Tue, 04 Mar 2025 16:28:48 +0100
+Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- drivers/pinctrl/sunxi/Kconfig                 |  5 ++
- drivers/pinctrl/sunxi/Makefile                |  1 +
- drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c | 54 +++++++++++++++++++
- 3 files changed, 60 insertions(+)
- create mode 100644 drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c
+Hi,
 
-diff --git a/drivers/pinctrl/sunxi/Kconfig b/drivers/pinctrl/sunxi/Kconfig
-index 0cbe466683650..dc62eba96348e 100644
---- a/drivers/pinctrl/sunxi/Kconfig
-+++ b/drivers/pinctrl/sunxi/Kconfig
-@@ -136,4 +136,9 @@ config PINCTRL_SUN55I_A523
- 	default ARM64 && ARCH_SUNXI
- 	select PINCTRL_SUNXI
- 
-+config PINCTRL_SUN55I_A523_R
-+	bool "Support for the Allwinner A523 R-PIO"
-+	default ARM64 && ARCH_SUNXI
-+	select PINCTRL_SUNXI
-+
- endif
-diff --git a/drivers/pinctrl/sunxi/Makefile b/drivers/pinctrl/sunxi/Makefile
-index 4e55508ff7f76..951b3f1e4b4f1 100644
---- a/drivers/pinctrl/sunxi/Makefile
-+++ b/drivers/pinctrl/sunxi/Makefile
-@@ -28,5 +28,6 @@ obj-$(CONFIG_PINCTRL_SUN50I_H6_R)	+= pinctrl-sun50i-h6-r.o
- obj-$(CONFIG_PINCTRL_SUN50I_H616)	+= pinctrl-sun50i-h616.o
- obj-$(CONFIG_PINCTRL_SUN50I_H616_R)	+= pinctrl-sun50i-h616-r.o
- obj-$(CONFIG_PINCTRL_SUN55I_A523)	+= pinctrl-sun55i-a523.o
-+obj-$(CONFIG_PINCTRL_SUN55I_A523_R)	+= pinctrl-sun55i-a523-r.o
- obj-$(CONFIG_PINCTRL_SUN9I_A80)		+= pinctrl-sun9i-a80.o
- obj-$(CONFIG_PINCTRL_SUN9I_A80_R)	+= pinctrl-sun9i-a80-r.o
-diff --git a/drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c b/drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c
-new file mode 100644
-index 0000000000000..69cd2b4ebd7d7
---- /dev/null
-+++ b/drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c
-@@ -0,0 +1,54 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Allwinner A523 SoC r-pinctrl driver.
-+ *
-+ * Copyright (C) 2024 Arm Ltd.
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/of.h>
-+#include <linux/of_device.h>
-+#include <linux/pinctrl/pinctrl.h>
-+
-+#include "pinctrl-sunxi.h"
-+
-+static const u8 a523_r_nr_bank_pins[SUNXI_PINCTRL_MAX_BANKS] =
-+/*	  PL  PM */
-+	{ 14,  6 };
-+
-+static const unsigned int a523_r_irq_bank_map[] = { 0, 1 };
-+
-+static const u8 a523_r_irq_bank_muxes[SUNXI_PINCTRL_MAX_BANKS] =
-+/*	  PL  PM */
-+	{ 14, 14 };
-+
-+static struct sunxi_pinctrl_desc a523_r_pinctrl_data = {
-+	.irq_banks = ARRAY_SIZE(a523_r_irq_bank_map),
-+	.irq_bank_map = a523_r_irq_bank_map,
-+	.irq_read_needs_mux = true,
-+	.io_bias_cfg_variant = BIAS_VOLTAGE_PIO_POW_MODE_SEL,
-+	.pin_base = PL_BASE,
-+};
-+
-+static int a523_r_pinctrl_probe(struct platform_device *pdev)
-+{
-+	return sunxi_pinctrl_dt_table_init(pdev, a523_r_nr_bank_pins,
-+					   a523_r_irq_bank_muxes,
-+					   &a523_r_pinctrl_data,
-+					   SUNXI_PINCTRL_NEW_REG_LAYOUT);
-+}
-+
-+static const struct of_device_id a523_r_pinctrl_match[] = {
-+	{ .compatible = "allwinner,sun55i-a523-r-pinctrl", },
-+	{}
-+};
-+
-+static struct platform_driver a523_r_pinctrl_driver = {
-+	.probe	= a523_r_pinctrl_probe,
-+	.driver	= {
-+		.name		= "sun55i-a523-r-pinctrl",
-+		.of_match_table	= a523_r_pinctrl_match,
-+	},
-+};
-+builtin_platform_driver(a523_r_pinctrl_driver);
--- 
-2.46.3
+> Dne torek, 4. marec 2025 ob 02:27:53 Srednjeevropski standardni =C4=8Das =
+je Andre Przywara napisal(a):
+> > Some clocks in the Allwinner A523 SoC contain an "update bit" (bit 27),
+> > which must be set to apply any register changes, namely the mux
+> > selector, the divider and the gate bit.
+> >=20
+> > Add a new CCU feature bit to mark those clocks, and set bit 27 whenever
+> > we are applying any changes.
+> >=20
+> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > ---
+> >  drivers/clk/sunxi-ng/ccu_common.h | 4 ++++
+> >  drivers/clk/sunxi-ng/ccu_div.c    | 2 ++
+> >  drivers/clk/sunxi-ng/ccu_gate.c   | 4 ++++
+> >  drivers/clk/sunxi-ng/ccu_mux.c    | 2 ++
+> >  4 files changed, 12 insertions(+)
+> >=20
+> > diff --git a/drivers/clk/sunxi-ng/ccu_common.h b/drivers/clk/sunxi-ng/c=
+cu_common.h
+> > index 50fd268329671..d41d33bdff470 100644
+> > --- a/drivers/clk/sunxi-ng/ccu_common.h
+> > +++ b/drivers/clk/sunxi-ng/ccu_common.h
+> > @@ -20,10 +20,14 @@
+> >  #define CCU_FEATURE_KEY_FIELD		BIT(8)
+> >  #define CCU_FEATURE_CLOSEST_RATE	BIT(9)
+> >  #define CCU_FEATURE_DUAL_DIV		BIT(10)
+> > +#define CCU_FEATURE_UPDATE_BIT27	BIT(11) =20
+>=20
+> There is no reason to have "BIT27" in the name of the macro. This is simi=
+lar
+> to KEY_FIELD, which is generic name and doesn't specify either key or pos=
+ition
+> of this key field. Maybe just CCU_FEATURE_UPDATE_BIT or something equaly
+> generic.
+
+Sure, done. This was mostly in anticipation of the typical Allwinner
+behaviour of introducing another update bit at a different location in
+the future. But I guess we use a bitmask should that happen.
+
+> With that fixed:
+> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+
+Many thanks!
+
+Cheers,
+Andre
+
+>=20
+> Best regards,
+> Jernej
+>=20
+> > =20
+> >  /* MMC timing mode switch bit */
+> >  #define CCU_MMC_NEW_TIMING_MODE		BIT(30)
+> > =20
+> > +/* Some clocks need this bit to actually apply register changes */
+> > +#define CCU_SUNXI_UPDATE_BIT		BIT(27)
+> > +
+> >  struct device_node;
+> > =20
+> >  struct ccu_common {
+> > diff --git a/drivers/clk/sunxi-ng/ccu_div.c b/drivers/clk/sunxi-ng/ccu_=
+div.c
+> > index 7f4691f09e01f..2d8b98fe4b13a 100644
+> > --- a/drivers/clk/sunxi-ng/ccu_div.c
+> > +++ b/drivers/clk/sunxi-ng/ccu_div.c
+> > @@ -106,6 +106,8 @@ static int ccu_div_set_rate(struct clk_hw *hw, unsi=
+gned long rate,
+> > =20
+> >  	reg =3D readl(cd->common.base + cd->common.reg);
+> >  	reg &=3D ~GENMASK(cd->div.width + cd->div.shift - 1, cd->div.shift);
+> > +	if (cd->common.features & CCU_FEATURE_UPDATE_BIT27)
+> > +		reg |=3D CCU_SUNXI_UPDATE_BIT;
+> > =20
+> >  	writel(reg | (val << cd->div.shift),
+> >  	       cd->common.base + cd->common.reg);
+> > diff --git a/drivers/clk/sunxi-ng/ccu_gate.c b/drivers/clk/sunxi-ng/ccu=
+_gate.c
+> > index ac52fd6bff677..0490f95781361 100644
+> > --- a/drivers/clk/sunxi-ng/ccu_gate.c
+> > +++ b/drivers/clk/sunxi-ng/ccu_gate.c
+> > @@ -20,6 +20,8 @@ void ccu_gate_helper_disable(struct ccu_common *commo=
+n, u32 gate)
+> >  	spin_lock_irqsave(common->lock, flags);
+> > =20
+> >  	reg =3D readl(common->base + common->reg);
+> > +	if (common->features & CCU_FEATURE_UPDATE_BIT27)
+> > +		reg |=3D CCU_SUNXI_UPDATE_BIT;
+> >  	writel(reg & ~gate, common->base + common->reg);
+> > =20
+> >  	spin_unlock_irqrestore(common->lock, flags);
+> > @@ -44,6 +46,8 @@ int ccu_gate_helper_enable(struct ccu_common *common,=
+ u32 gate)
+> >  	spin_lock_irqsave(common->lock, flags);
+> > =20
+> >  	reg =3D readl(common->base + common->reg);
+> > +	if (common->features & CCU_FEATURE_UPDATE_BIT27)
+> > +		reg |=3D CCU_SUNXI_UPDATE_BIT;
+> >  	writel(reg | gate, common->base + common->reg);
+> > =20
+> >  	spin_unlock_irqrestore(common->lock, flags);
+> > diff --git a/drivers/clk/sunxi-ng/ccu_mux.c b/drivers/clk/sunxi-ng/ccu_=
+mux.c
+> > index d7ffbdeee9e04..82ee21e0d3a68 100644
+> > --- a/drivers/clk/sunxi-ng/ccu_mux.c
+> > +++ b/drivers/clk/sunxi-ng/ccu_mux.c
+> > @@ -197,6 +197,8 @@ int ccu_mux_helper_set_parent(struct ccu_common *co=
+mmon,
+> >  	/* The key field always reads as zero. */
+> >  	if (common->features & CCU_FEATURE_KEY_FIELD)
+> >  		reg |=3D CCU_MUX_KEY_VALUE;
+> > +	if (common->features & CCU_FEATURE_UPDATE_BIT27)
+> > +		reg |=3D CCU_SUNXI_UPDATE_BIT;
+> > =20
+> >  	reg &=3D ~GENMASK(cm->width + cm->shift - 1, cm->shift);
+> >  	writel(reg | (index << cm->shift), common->base + common->reg);
+> >  =20
+>=20
+>=20
+>=20
+>=20
+>=20
 
