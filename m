@@ -1,313 +1,235 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A672519A288
-	for <linux-sunxi@lists.linux.dev>; Fri,  7 Mar 2025 00:57:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56F341B21B4;
+	Sat,  8 Mar 2025 16:29:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741309072; cv=none; b=bxQzN3EhWHkU37J18KHwaM7mzuDmeFA0OIAVhAvr8XSkWiUrFjlqQzC11qGwC6VWbZhoc37z94UHd2oLKV6rPeSSUe1t4DYJqgC5LqAgYo+LRzk26N+fiEpXF6ztqvtSf6al4rc/obIZFhPCX0gfQGpOoHwR4/Rt4SEjxGa16jc=
+	t=1741451383; cv=none; b=V7gBPrPlqbd9o1xODD8IBPzwIVWnvhyEt/1BSaPrgPcynFloeVrSL6IIageP+YgKKHwQbJeyNfj/h2UL6aqq6fyZiXMDKfMf2lL8w7cf2QpGDMrnVreoLvLLMkfT04bG6LyC0NxjwJeY79m1ziJsn2WV+gwmJBoFzISh2EEo00M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741309072; c=relaxed/simple;
-	bh=b6ac9gsryn/biv+Qm9Qm5Kp4+Sp/ecGafckN2AXquo8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jZfyxrQWc4cgGVKvccQJFl0EffMiNIegFTCUOeGT0CKQyOBKuTxNiGvEbBHr3aesoosPis5HiOPMRgpBj/pFvS6/DDICLuxMEvWTJIwBXVaP3CfSnJ21jXZJww4JqruXDGphYGP2ZJiqnB2bxHFh890b1ilyTBNqrcmwLFkTtEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ABB9B2103;
-	Thu,  6 Mar 2025 16:58:02 -0800 (PST)
-Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 789303F5A1;
-	Thu,  6 Mar 2025 16:57:48 -0800 (PST)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 15/15] arm64: dts: allwinner: h616: add YuzukiHD Chameleon support
-Date: Fri,  7 Mar 2025 00:57:12 +0000
-Message-ID: <20250307005712.16828-16-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.46.3
-In-Reply-To: <20250307005712.16828-1-andre.przywara@arm.com>
-References: <20250307005712.16828-1-andre.przywara@arm.com>
+	s=arc-20240116; t=1741451383; c=relaxed/simple;
+	bh=SdeY4HUDR25gSwHntex8TgQMRjhWp1R3x/osJlwkf2A=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=u57RRz4rlN//oeRQ7AQh3oZLQW7+rt92lc/5jwSlfUoX3x//v0IAry+0APgVtpKV5yPVTqBb4jvB9i4bLTWsH2XqvlWO3Kw2ozkEt4HVAju6GwU2rVrjQ3pT9TLYuFpC5l5q2g7vrdr6fuWYgR+gWcPvBwNMt672dBA+u/MGyBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NSzp+BIy; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NSzp+BIy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0032C4CEE0;
+	Sat,  8 Mar 2025 16:29:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741451383;
+	bh=SdeY4HUDR25gSwHntex8TgQMRjhWp1R3x/osJlwkf2A=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=NSzp+BIy+RyYAh5eXPfpEeXytNRO+Yn6QDm61AqJR8JPEZz8lPYUdH5rwAtQ05Xgi
+	 nJ52JT45pfwi6qQmjNAQl3PQm42j3TaIFdCd9qBeOGwEiLP5I4ChuxG/eiUIvHz+gf
+	 vFNeOPjjYakfsWHf3baQaOKsl1voaEzszbfYyZf3MV94dErx1nbWai2CFl3Azkw15j
+	 rPpzaDB7MAis2oreAPGOwD994ClDh/BRvfWkNboiV69CTNipPu/XspI5zRPgzAWTgR
+	 owYLqgaQkKxX174yazNjuFoEFyme0FYmA2oF6DDFWudPFsQy0VFIbtdTW9FkcU73tW
+	 wdzVAijHUAy0A==
+Date: Sat, 8 Mar 2025 16:29:28 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Matti Vaittinen <mazziesaccount@gmail.com>
+Cc: David Lechner <dlechner@baylibre.com>, Matti Vaittinen
+ <matti.vaittinen@fi.rohmeurope.com>, Lars-Peter Clausen <lars@metafoo.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Lad Prabhakar
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+ <samuel@sholland.org>, Hugo Villeneuve <hvilleneuve@dimonoff.com>, Nuno Sa
+ <nuno.sa@analog.com>, Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+ Guillaume Stols <gstols@baylibre.com>, Dumitru Ceclan
+ <mitrutzceclan@gmail.com>, Trevor Gamblin <tgamblin@baylibre.com>, Matteo
+ Martelli <matteomartelli3@gmail.com>, Alisa-Dariana Roman
+ <alisadariana@gmail.com>, Ramona Alexandra Nechita
+ <ramona.nechita@analog.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-acpi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v5 03/10] iio: adc: add helpers for parsing ADC nodes
+Message-ID: <20250308162928.72bd1d1b@jic23-huawei>
+In-Reply-To: <54a031d0-df47-4baa-a23a-1a79c0922542@gmail.com>
+References: <cover.1740993491.git.mazziesaccount@gmail.com>
+	<e71c63c2f61135f9a8c7884525aab2c48f1e84c2.1740993491.git.mazziesaccount@gmail.com>
+	<CAMknhBGQaqFZJsPAoauZL4S5MYtN05EOQ-BO2vw5gH+Z2RLOhw@mail.gmail.com>
+	<54a031d0-df47-4baa-a23a-1a79c0922542@gmail.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-The Chameleon board is an OpenHardware devboard made by YuzukiTsuru.
-The form factor resembles the Raspberry Pi Model A boards, though it
-differs significantly in its features:
+On Wed, 5 Mar 2025 12:54:33 +0200
+Matti Vaittinen <mazziesaccount@gmail.com> wrote:
 
-  - Allwinner H618 SoC (4 * Arm Cortex-A53 cores, 1MB L2 cache, 1.4 GHz)
-  - between 512MiB and 2GiB DDR3 DRAM
-  - up to 128 GiB eMMC flash
-  - AXP313a PMIC
-  - 100 Mbit/s Ethernet pins on a header
-  - XR829 WIFI+Bluetooth chip
-  - 4 * USB 2.0 USB-C ports
-  - microSD card slot
-  - 3.5mm A/V port
+> Thanks for the review David.
+>=20
+> On 04/03/2025 11:25, David Lechner wrote:
+> > On Mon, Mar 3, 2025 at 12:32=E2=80=AFPM Matti Vaittinen
+> > <mazziesaccount@gmail.com> wrote: =20
+> >>
+> >> There are ADC ICs which may have some of the AIN pins usable for other
+> >> functions. These ICs may have some of the AIN pins wired so that they
+> >> should not be used for ADC.
+> >>
+> >> (Preferred?) way for marking pins which can be used as ADC inputs is to
+> >> add corresponding channels@N nodes in the device tree as described in
+> >> the ADC binding yaml.
+> >>
+> >> Add couple of helper functions which can be used to retrieve the chann=
+el
+> >> information from the device node.
+> >>
+> >> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+> >>
+> >> --- =20
+>=20
+> >> + *
+> >> + * Return:     Number of found channels on succes. Negative value to =
+indicate =20
+> >=20
+> > s/succes/success/ =20
+>=20
+> Thanks!
+>=20
+> >> +int devm_iio_adc_device_alloc_chaninfo_se(struct device *dev,
+> >> +                                         const struct iio_chan_spec *=
+template,
+> >> +                                         int max_chan_id,
+> >> +                                         struct iio_chan_spec **cs)
+> >> +{
+> >> +       struct iio_chan_spec *chan_array, *chan;
+> >> +       int num_chan =3D 0, ret;
+> >> +
+> >> +       num_chan =3D iio_adc_device_num_channels(dev);
+> >> +       if (num_chan < 1)
+> >> +               return num_chan;
+> >> +
+> >> +       chan_array =3D devm_kcalloc(dev, num_chan, sizeof(*chan_array),
+> >> +                                 GFP_KERNEL);
+> >> +       if (!chan_array)
+> >> +               return -ENOMEM;
+> >> +
+> >> +       chan =3D &chan_array[0];
+> >> +
+> >> +       device_for_each_child_node_scoped(dev, child) {
+> >> +               u32 ch;
+> >> +
+> >> +               if (!fwnode_name_eq(child, "channel"))
+> >> +                       continue;
+> >> +
+> >> +               ret =3D fwnode_property_read_u32(child, "reg", &ch);
+> >> +               if (ret)
+> >> +                       return ret;
+> >> +
+> >> +               if (max_chan_id !=3D -1 && ch > max_chan_id)
+> >> +                       return -ERANGE;
+> >> + =20
+> >=20
+> > Should we use return dev_err_probe() on these to help with debugging a =
+bad dtb?
+> >  =20
+>=20
+> I am not fan of using dev_err_probe() in a 'library code'. This is=20
+> because we never know if there'll be some odd use-case where this is not=
+=20
+> called from the probe.
+>=20
+> All in all, I'd leave adding most of the debugs to the callers -=20
+> especially because we do not expect to have bad device-trees after the=20
+> initial 'development stage' of a board. The board 'development stage'=20
+> should really reveal bugs which prevent the channels from being=20
+> registered - and after the DT is correct, these debug prints become=20
+> unnecessary (albeit minor) binary bloat.
+>=20
+> >> +               *chan =3D *template;
+> >> +               chan->channel =3D ch;
+> >> +               chan++;
+> >> +       }
+> >> +
+> >> +       *cs =3D chan_array;
+> >> +
+> >> +       return num_chan;
+> >> +}
+> >> +EXPORT_SYMBOL_NS_GPL(devm_iio_adc_device_alloc_chaninfo_se, "IIO_DRIV=
+ER"); =20
+> >=20
+> > We can make this less verbose by setting #define
+> > DEFAULT_SYMBOL_NAMESPACE at the start of the file. Then we can just do
+> > EXPORT_SYMBOL_GPL() throughout the rest of the file. =20
+>=20
+> I am not sure what to think of this. I use the good old 'ctrl + ]' in my=
+=20
+> editor when I need to check how a function was supposed to be used. That=
+=20
+> jumps to the spot of code where the function is. I'd like to see the=20
+> namespace mentioned there in order to not accidentally miss the fact the=
+=20
+> function belongs to one.
+>=20
+> OTOH, I do like simplifications. Yet, the added simplification might not=
+=20
+> warrant the namespace not being visible in the function definition.
+>=20
+> > Also, I would prefer if the namespace matched config name (IIO_ADC_HELP=
+ER). =20
+>=20
+> I had some lengthy discussion about this with Andy and Jonathan during=20
+> earlier review versions. In short, I don't like the idea of very=20
+> fragmented namespaces in IIO, which will just complicate the drivers=20
+> without providing any obvious benefit.
+>=20
+> https://lore.kernel.org/all/20250222174842.57c091c5@jic23-huawei/
+>=20
+> >> +
+> >> +int devm_iio_adc_device_alloc_chaninfo_se(struct device *dev,
+> >> +                                         const struct iio_chan_spec *=
+template,
+> >> +                                         int max_chan_id,
+> >> +                                         struct iio_chan_spec **cs);
+> >> + =20
+> >=20
+> > There are some different opinions on this, but on the last patch I did
+> > introducing a new namespace, the consensus seems to be that putting
+> > the MODULE_IMPORT_NS() in the header file was convenient so that users
+> > of the API don't have to remember to both include the header and add
+> > the import macro.
+> >  =20
+>=20
+> I do like this suggestion, and I believe this would be the balance=20
+> between getting the benefit of hiding part of the symbols - while not=20
+> unnecessarily complicating the callers. I know some people are opposing=20
+> it though. My personal opinion is that having the MODULE_IMPORT_NS() in=20
+> a header would be neatly simplifying the calling code with very little=20
+> harm, especially here where including the header hardly has use-cases=20
+> outside the IIO ADC.
+>=20
+> Unfortunately, the "safety" seems to often be a synonym for just "making=
+=20
+> it intentionally hard". As Finnish people say: "K=C3=A4rsi, k=C3=A4rsi,=20
+> kirkkaamman kruunun saat". :)
+> (Roughly translated as "Suffer, suffer, you will get a brighter crown").
+>=20
+> Let's hear what Jonathan thinks of your suggestion.
 
-Add the devicetree describing the board's peripherals and their
-connections.
+For this particular case my intent was that all the IIO exports that
+are suitable for use in simple IIO drives will be in this namespace,
+we just haven't started that conversion yet.
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- arch/arm64/boot/dts/allwinner/Makefile        |   1 +
- .../sun50i-h618-yuzukihd-chameleon.dts        | 222 ++++++++++++++++++
- 2 files changed, 223 insertions(+)
- create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h618-yuzukihd-chameleon.dts
+As such, having it defined from a header for this helper isn't a good
+thing to do.  Generally I prefer to see in driver code what namespaces
+are involved but do understand the other viewpoint. In this case I
+definitely don't think it is appropriate unless we go for a specific namesp=
+ace
+for just this helper.
 
-diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
-index 9d5e14695af0b..c15f6a0d8d55a 100644
---- a/arch/arm64/boot/dts/allwinner/Makefile
-+++ b/arch/arm64/boot/dts/allwinner/Makefile
-@@ -48,6 +48,7 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-longanpi-3h.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero2w.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero3.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-transpeed-8k618-t.dtb
-+dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-yuzukihd-chameleon.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-2024.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-h.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-plus.dtb
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-yuzukihd-chameleon.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-yuzukihd-chameleon.dts
-new file mode 100644
-index 0000000000000..eae56908b9b4e
---- /dev/null
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-yuzukihd-chameleon.dts
-@@ -0,0 +1,222 @@
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
-+/*
-+ * Copyright (C) 2024 Arm Ltd.
-+ */
-+
-+/dts-v1/;
-+
-+#include "sun50i-h616.dtsi"
-+#include "sun50i-h616-cpu-opp.dtsi"
-+
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+/ {
-+	model = "Yuzuki Chameleon";
-+	compatible = "yuzukihd,chameleon", "allwinner,sun50i-h618";
-+
-+	aliases {
-+		ethernet1 = &sdio_wifi;
-+		serial0 = &uart0;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial0:115200n8";
-+	};
-+
-+	reg_vcc5v: vcc5v {
-+		/* board wide 5V supply directly from the USB-C socket */
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc-5v";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+		regulator-always-on;
-+	};
-+
-+	wifi_pwrseq: pwrseq {
-+		compatible = "mmc-pwrseq-simple";
-+		clocks = <&rtc CLK_OSC32K_FANOUT>;
-+		clock-names = "ext_clock";
-+		pinctrl-0 = <&x32clk_fanout_pin>;
-+		pinctrl-names = "default";
-+		reset-gpios = <&pio 6 11 GPIO_ACTIVE_LOW>; /* PG11 */
-+	};
-+};
-+
-+&codec {
-+	allwinner,audio-routing = "Line Out", "LINEOUT";
-+	status = "okay";
-+};
-+
-+&cpu0 {
-+	cpu-supply = <&reg_dcdc2>;
-+};
-+
-+&ehci0 {
-+	status = "okay";
-+};
-+
-+&ehci1 {
-+	status = "okay";
-+};
-+
-+&ehci2 {
-+	status = "okay";
-+};
-+
-+&ehci3 {
-+	status = "okay";
-+};
-+
-+&mmc0 {
-+	bus-width = <4>;
-+	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;	/* PF6 */
-+	disable-wp;
-+	vmmc-supply = <&reg_dldo1>;
-+	status = "okay";
-+};
-+
-+&mmc1 {
-+	bus-width = <4>;
-+	mmc-pwrseq = <&wifi_pwrseq>;
-+	non-removable;
-+	vmmc-supply = <&reg_dldo1>;
-+	vqmmc-supply = <&reg_dldo1>;
-+	status = "okay";
-+
-+	sdio_wifi: wifi@1 {
-+		reg = <1>;
-+		interrupt-parent = <&pio>;
-+		interrupts = <6 12 IRQ_TYPE_LEVEL_LOW>;  /* PG12 */
-+		interrupt-names = "host-wake";
-+	};
-+};
-+
-+&mmc2 {
-+	bus-width = <8>;
-+	cap-mmc-hw-reset;
-+	mmc-ddr-3_3v;
-+	non-removable;
-+	vmmc-supply = <&reg_dldo1>;
-+	vqmmc-supply = <&reg_dldo1>;
-+	status = "okay";
-+};
-+
-+&ohci0 {
-+	status = "okay";
-+};
-+
-+&ohci1 {
-+	status = "okay";
-+};
-+
-+&ohci2 {
-+	status = "okay";
-+};
-+
-+&ohci3 {
-+	status = "okay";
-+};
-+
-+&pio {
-+	vcc-pc-supply = <&reg_dldo1>;
-+	vcc-pf-supply = <&reg_dldo1>;	/* via VCC_IO */
-+	vcc-pg-supply = <&reg_dldo1>;
-+	vcc-ph-supply = <&reg_dldo1>;	/* via VCC_IO */
-+	vcc-pi-supply = <&reg_dldo1>;
-+};
-+
-+&r_i2c {
-+	status = "okay";
-+
-+	axp313: pmic@36 {
-+		compatible = "x-powers,axp313a";
-+		reg = <0x36>;
-+		#interrupt-cells = <1>;
-+		interrupt-controller;
-+		interrupt-parent = <&pio>;
-+		interrupts = <2 2 IRQ_TYPE_LEVEL_LOW>;	/* PC2 */
-+
-+		vin1-supply = <&reg_vcc5v>;
-+		vin2-supply = <&reg_vcc5v>;
-+		vin3-supply = <&reg_vcc5v>;
-+
-+		regulators {
-+			/* Supplies VCC-PLL, so needs to be always on. */
-+			reg_aldo1: aldo1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <1800000>;
-+				regulator-max-microvolt = <1800000>;
-+				regulator-name = "vcc1v8";
-+			};
-+
-+			/* Supplies VCC-IO, so needs to be always on. */
-+			reg_dldo1: dldo1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <3300000>;
-+				regulator-max-microvolt = <3300000>;
-+				regulator-name = "vcc3v3";
-+			};
-+
-+			reg_dcdc1: dcdc1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <810000>;
-+				regulator-max-microvolt = <990000>;
-+				regulator-name = "vdd-gpu-sys";
-+			};
-+
-+			reg_dcdc2: dcdc2 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <810000>;
-+				regulator-max-microvolt = <1100000>;
-+				regulator-name = "vdd-cpu";
-+			};
-+
-+			reg_dcdc3: dcdc3 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <1500000>;
-+				regulator-max-microvolt = <1500000>;
-+				regulator-name = "vdd-dram";
-+			};
-+		};
-+	};
-+};
-+
-+&uart0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart0_ph_pins>;
-+	status = "okay";
-+};
-+
-+/* Connected to the Bluetooth UART pins of the XR829 Wifi/BT chip. */
-+&uart1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart1_pins>, <&uart1_rts_cts_pins>;
-+	uart-has-rtscts;
-+	status = "okay";
-+};
-+
-+&usbotg {
-+	/*
-+	 * PHY0 pins are connected to a USB-C socket, but a role switch
-+	 * is not implemented: both CC pins are pulled to GND.
-+	 * The VBUS pins power the device, so a fixed peripheral mode
-+	 * is the best choice.
-+	 * The board can be powered via GPIOs, in this case port0 *can*
-+	 * act as a host (with a cable/adapter ignoring CC), as VBUS is
-+	 * then provided by the GPIOs. Any user of this setup would
-+	 * need to adjust the DT accordingly: dr_mode set to "host",
-+	 * enabling OHCI0 and EHCI0.
-+	 */
-+	dr_mode = "peripheral";
-+	status = "okay";
-+};
-+
-+&usbphy {
-+	usb0_id_det-gpios = <&pio 6 18 GPIO_ACTIVE_HIGH>; /* PG18 */
-+	usb0_vbus-supply = <&reg_vcc5v>;
-+	usb1_vbus-supply = <&reg_vcc5v>;
-+	usb2_vbus-supply = <&reg_vcc5v>;
-+	usb3_vbus-supply = <&reg_vcc5v>;
-+	status = "okay";
-+};
--- 
-2.46.3
+Jonathan
+
+>=20
+> Thanks!
+> 	-- Matti
+>=20
 
