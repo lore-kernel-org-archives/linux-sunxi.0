@@ -1,62 +1,62 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C93622CCC0
-	for <linux-sunxi@lists.linux.dev>; Sun,  9 Mar 2025 06:43:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E138EC2FD
+	for <linux-sunxi@lists.linux.dev>; Sun,  9 Mar 2025 06:49:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741502623; cv=none; b=f5QpxEuhs5w5ABv1GBEJQnAa0M0JfXojtENFdyDUf44xMLR2mq3UPuUc/grKPYjARf29jCZQ1+xHDmOGKZs8FctwDzu47VzwhJAj5j0GO5WZkJ2JHRlz0fZbWbd7iX4rzwqO26kbUccriqrxajBV4j2BftEtV7BfgIf3hCkpNU0=
+	t=1741502983; cv=none; b=IMXnGzr2RipnZ48TDksXo9PwdZ3HnQCb5O8UPfAlXdVjG2/P58y8m/H1pl7lZ6IA57te1GhA4iMNK4ChfZggmsKU4/5ysEGcl3hKj09KQdMpgTOilSJ2sskuU2RtebTqC2L5zWFNGxmaVnx6Uq176dGT9/+gw2ZjRe963Nm1imw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741502623; c=relaxed/simple;
-	bh=pcbrVw4Njs0Kum/2VhRZM7j2L0V2JUwYQMRq+XXSVQ8=;
+	s=arc-20240116; t=1741502983; c=relaxed/simple;
+	bh=cl65f/0t7FsLCASGiewdIE8SaLE0/OtzJdiDvPmWgAE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Z53PORWtPYsqLLge1WaBEx/CNT8h9qO/z1y6aBvN9bi054CYeHoJYlVGu73JKm2z594mbsKomVc+vrhLbjRhZyKK7nhs+8Et26N6IHswV2FtRUZrUNP8bhygp0vk5dRTf8kyMwrmQM6CEypD1k0Uuqermgi7iU7i7GuB8CQgwvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HLCnBiI3; arc=none smtp.client-ip=209.85.218.43
+	 MIME-Version:Content-Type; b=D7iw3GGVDWLE6Lc9qTABhZrJHb12HOXge5lObA+MAFN9qPDcQlX39yBBCCn9I6uzd203A8a5lTgj9c63WswwWQ4xNjasmruXcA/epWYe0sMJrdjhTcBNCBdLQzx6BtvJ7A/2q7KrbyMhzyyFUm9lU2lE3MqeREImX1JXhC2PrVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XIyig2AD; arc=none smtp.client-ip=209.85.208.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HLCnBiI3"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-aaf0f1adef8so558403666b.3
-        for <linux-sunxi@lists.linux.dev>; Sat, 08 Mar 2025 22:43:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XIyig2AD"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5dca468c5e4so6019673a12.1
+        for <linux-sunxi@lists.linux.dev>; Sat, 08 Mar 2025 22:49:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741502620; x=1742107420; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1741502980; x=1742107780; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pcbrVw4Njs0Kum/2VhRZM7j2L0V2JUwYQMRq+XXSVQ8=;
-        b=HLCnBiI3BWiE/+kUnvg6pfuG2DcEb0Lcko/781YWZLDpGfOi7yLVrKS+mfFI0BicQp
-         GHaa5d9teAjHAT4FIKkCnNHt4Sc7kFh0HYBlWUWIxGNPsbwwk8wIpOhE3cJ7nhlRRxQo
-         HOTksmBISXPPQpM2CS32BYkSMYaNvd+7PSg7FIdV6iz6EizAv2RIvhORsGd/GRyTkc2h
-         WievbzlAhz/OUxhEumq6wkmF0w0eeou40H20lxoAzclgi/CLpRY+d9GdC40haNIbrSw9
-         L8QRv0QQZIlIKEh5HVhScd1kpjUkGNHnnjiNe6txOckR9ZkyufF2THkrE1Ect1QtVfJC
-         l1tA==
+        bh=cl65f/0t7FsLCASGiewdIE8SaLE0/OtzJdiDvPmWgAE=;
+        b=XIyig2ADyj5HY7959NqhGWthidiVu9YKuPLe1ZJ7zVenw18Gt6drQ+dRFxuzk9EaD+
+         ys8YoMx5HCGu+WBXTxh+nS0HIZubeuAwr9m32HNxqYTMlP1UTudC8zF/q5GCuadQgChh
+         nqTXAGaDSwITlWI5BM5iuxLySav3s6E1JljDONpsSVV9vDr/yDl7Fa3r6I210YBjVWBn
+         654Swd6f+B+XTP0QHrSSmSu/CJCKrgY3ekWWxt2ua0W6a2iG2eSEwaAlnNjVybFwxe0w
+         4kbe/5bf71jwZMs86W824TVhQ6EqalF5ZlRJiX/5967GSfeVjtgGDImMWFsZs0FCiITo
+         mdDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741502620; x=1742107420;
+        d=1e100.net; s=20230601; t=1741502980; x=1742107780;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=pcbrVw4Njs0Kum/2VhRZM7j2L0V2JUwYQMRq+XXSVQ8=;
-        b=po/QYobNDQAMVi66oUHtXhOj8X0dpuswPAMqaEGzKz/V5ebX+ao/JqtTCMqHZnRYQs
-         I2Za21fF4HrYQBcrMC6acdY99TmrONxzCt6P9JlA13HxeD+66wxIXv2Tvx4tmbtxJ7u6
-         zPD4FnJ/rC9MAWpwB3qVyPIPiIkMKxmqvm01xOy8vSzyfMnRl1cdHEv6drvvHiXdZH7C
-         mWWMMxQHWo/RNdu2wqrcvUzvNfVF9h/IsvvpSXsb8urNwcSaQC4mtSAW4BNJAWcyU4NC
-         ImNnKiwhujYmjElZ2yu3XP6YyaZUZO3ENOao7UYO2RY6+9u9Q/u2zbFL/CI9KfbG9Y7Y
-         0Yng==
-X-Forwarded-Encrypted: i=1; AJvYcCV7BbgUhv1SseLKg2moBnWJ6JfCea+GDHmPwHq8X9UficaJlCgdgSrv106oxxJTLk+WPRH8upMjN/kNDA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxat2ztuPqvxeGIsWEjBUnaUQMjUhQhgFXOaHDT7QDxuQrk+ltZ
-	QRa9xDmOErecIEV5lUGTAkEBmqukUZm3VXPC20FXA285OiYC1r3l
-X-Gm-Gg: ASbGncvZs2rfNiefiWsqKe/BWYLdPP6rbUz33G3KQDGMWxyuXlxNPeYKalq8f0HV70F
-	4xE2UkpWZ/qmdGUmbnHVtxT+HL9hOz02WEC1HgLak0eMwTRaOcZakP7aa//zK5romdeI4lpTG09
-	D54WBiFVvS+H3KD8BAmAmMedjrauvURUSEKty/mUwGPTn/8aPuMJF4m2rueliwGNGIvhXaJ84+4
-	OjyYSyKHLbnEzSvomD/WVplKEAc/XqsrDfIvw48WQ/9+WGPNksDyRoE/ktOfCAZAPHRsv2iaKg5
-	4dZj2WkyLcjUgEjjB5GmY76D+UcCtQH8aTSF8+oQaj8r20BvFUClXeDXME+0xhMDmg==
-X-Google-Smtp-Source: AGHT+IGoHXU/ZKdJQBXrrTuO1peZxmq65riLT31sE4BFWMi71oPY28XqAsCq2AVsnbOJtj538rdAGw==
-X-Received: by 2002:a17:907:2d92:b0:ac1:fab4:a83 with SMTP id a640c23a62f3a-ac252b5a837mr1044767666b.25.1741502620028;
-        Sat, 08 Mar 2025 22:43:40 -0800 (PST)
+        bh=cl65f/0t7FsLCASGiewdIE8SaLE0/OtzJdiDvPmWgAE=;
+        b=aJM/c20ShoZisr4Qvkrxj/QJSph7nCwBNlufVA5M5GnxwHE1Bw3BxDSH4MJ1yewav5
+         SlLfJsmPXEGW/kt/R3R4DmQqoTck1GmKyoRp4tzg1iWnwvnQHcn0qYM2rjl/pR6dCfrx
+         vK1dxcvSkPuQ4cUN1P+Y4M11tVM3WKOGaWBsbjZ6KdbGmkiestPVDXJxn/HKjuOebHsO
+         MPapjOr64YKXxQU19QHUmahS3fpbe8UuS2D7u6eEgr2g14jqqMWDmMppVk0Aq0h7S4/G
+         pzLmBsZbbgArONnQsiSZyHDX8wDKblJRV+LSOnfI6jsFRzvoKqVO/YLCuDdoyKVfzBpy
+         s32A==
+X-Forwarded-Encrypted: i=1; AJvYcCVYugHsxo1SKpKmfkEFuRfDarnumNr3NK2eep5P1bGvoF21xDSUjAAXH4x7PBM39k4KEodG9Du1vLL4gg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyRI+iF+AVsM0tMCSsF/TwSBBiScy0R863+DRFL9E+lvA87PBkz
+	Zy28ah0twwB6nVro37Wv6b3B4KQqzweQV9mEaEFcQCiTl0hy5gtf
+X-Gm-Gg: ASbGncvNp76FjR47jYg82B9Ap9lKnw3+ElObV2KIetvuvQRuylXbofPK+QrtesFQsWq
+	vAnLp2gZ3KRrbbOOGyY6eGi2oB07uZhqBCzKPz8IET1xSi25N9NUdABtZYQmGGWapx7/kRXa6Qs
+	lPBEgYJcSzZBHUipGYvJiUsEQclUNbLHziM3k0JNds+QPoKdVduD0VeBpSEh2Ezr8s9wEeU2ll6
+	aDkzbXxIlAqrUZrel/K+HftDqCJtdbLH9HxclxYMmF+RdcirARcBErNFNoOYTisaD0zpfkUGfjw
+	GwuFhWVEmyiX2V4Y7RdESDUaCGA1+ItSZsNDRgVnWMB42vzo0Mir5qyBxKqyLAaJTA==
+X-Google-Smtp-Source: AGHT+IFI/zjd7lG5rPco3cg8PnFl2h9bozpdBtlW5SATxdyS7wM6nxNoH3ZloBa8WWl8S2snqJH40g==
+X-Received: by 2002:a05:6402:1e93:b0:5e4:c7be:f8bd with SMTP id 4fb4d7f45d1cf-5e5e24ddabcmr9224865a12.21.1741502980045;
+        Sat, 08 Mar 2025 22:49:40 -0800 (PST)
 Received: from jernej-laptop.localnet ([188.159.248.16])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac287653e64sm109036266b.136.2025.03.08.22.43.38
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5e5c7669fd0sm4835570a12.51.2025.03.08.22.49.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Mar 2025 22:43:39 -0800 (PST)
+        Sat, 08 Mar 2025 22:49:38 -0800 (PST)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Michael Turquette <mturquette@baylibre.com>,
  Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
@@ -66,14 +66,13 @@ To: Michael Turquette <mturquette@baylibre.com>,
 Cc: Philipp Zabel <p.zabel@pengutronix.de>, linux-clk@vger.kernel.org,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject:
- Re: [PATCH v4 05/14] clk: sunxi-ng: Add support for the A523/T527 CCU PLLs
-Date: Sun, 09 Mar 2025 07:43:38 +0100
-Message-ID: <4633243.LvFx2qVVIh@jernej-laptop>
-In-Reply-To: <20250307002628.10684-6-andre.przywara@arm.com>
+Subject: Re: [PATCH v4 07/14] clk: sunxi-ng: a523: add video mod clocks
+Date: Sun, 09 Mar 2025 07:49:36 +0100
+Message-ID: <4963134.GXAFRqVoOG@jernej-laptop>
+In-Reply-To: <20250307002628.10684-8-andre.przywara@arm.com>
 References:
  <20250307002628.10684-1-andre.przywara@arm.com>
- <20250307002628.10684-6-andre.przywara@arm.com>
+ <20250307002628.10684-8-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -83,16 +82,12 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne petek, 7. marec 2025 ob 01:26:19 Srednjeevropski standardni =C4=8Das je=
+Dne petek, 7. marec 2025 ob 01:26:21 Srednjeevropski standardni =C4=8Das je=
  Andre Przywara napisal(a):
-> Add the PLL clocks of the main CCU of the Allwinner A523 and T527 SoCs.
-> The clocks were modelled after the A523 and T527 manual, and double
-> checked by writing all 1's into the respective register, to spot all
-> implemented bits.
->=20
-> The PLL and mod clocks for the two CPU clusters and the DSU are part of
-> a separate CCU, also most audio clocks are collected in a DSP CCU, so
-> both of these clock groups are missing from this driver.
+> Add the clocks driving the various video subsystems of the SoC: the "DE"
+> display engine, the "DI" deinterlacer, the "G2D" 2D graphics system, the
+> Mali "GPU", the "VE" video engine, its associated IOMMU, as well as the
+> clocks for the various video output drivers (HDMI, DP, LCDs).
 >=20
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
