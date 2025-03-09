@@ -1,62 +1,63 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 825DC146A72
-	for <linux-sunxi@lists.linux.dev>; Sun,  9 Mar 2025 07:00:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57CA7175BF
+	for <linux-sunxi@lists.linux.dev>; Sun,  9 Mar 2025 07:03:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741503626; cv=none; b=kqQsKr9Dz8Om0hIU2tqtsYf2l4kG03Q8E0t0CGzLLfr3sp4f/fzVenGPBbtIKN9lUwydzRp/yCDqPKk4BJS5wFaLFmyWB+IGNxGlDT19vOMkiG/Lfa3eaDNN7Zd82Qw9UcWAKTzYxKjYPlT9QOITtXof/tEK0TlQ+sTNi5gZEDQ=
+	t=1741503824; cv=none; b=N8mefqaiTU42X0/wITpFBmgWYlyedGYfG0Gf2YcMUVErMlfwvO2g6O96QzVBrWrfCVfDOvM89lSmIhjWeZ4GRA63YJ5AMmuBxRTwsUw4/SmkrfprpApMZ4u9s3hp+I84OCErnat4qf9hecuCgcjZ11GlMvwFWaCpuB6YZzyjKm0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741503626; c=relaxed/simple;
-	bh=rOXmjlR5Rk5KRf6rwJVBLM/R3Wk88g6lM6HYMKYo1vc=;
+	s=arc-20240116; t=1741503824; c=relaxed/simple;
+	bh=4/qs3Uwkfo+ukkyY7y6RUTEw3elPT4tc7TjK0JH5xRw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EPaaizeyVXno11gm91jqfF/IQ6oQs00z2Qs+kNAZpah5L8baWW8jJnWWqt9CfwD6aN8yIPv7m8/uvvgXKTtM3U7MIllPF1Gtj5/OtBkEGQhUfrUpntTv25k3as4cF45I9pTHdovOq1iqnnDnjDORCxGXE2nw1yqoPQQjUzkwqvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IFYdjNEe; arc=none smtp.client-ip=209.85.218.43
+	 MIME-Version:Content-Type; b=NiNoBz2nlX0cb44d3OIIELUfRvjg8OL45Plb/VPhSSgQdqDpTwQP7suhBUmVYtyMbfd2QT9ssfEwRgOO0lIdl08nSieGWassaoOjWCDIFYxSqLEW0DuRN9BbKgS1FNDIuLPq3uydnyLgAE5wTfl1ujXY6XwwmMckqPjAee7+XLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WeroV25q; arc=none smtp.client-ip=209.85.208.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IFYdjNEe"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-ac289147833so68421866b.2
-        for <linux-sunxi@lists.linux.dev>; Sat, 08 Mar 2025 23:00:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WeroV25q"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5e5e22e6ed2so3361415a12.3
+        for <linux-sunxi@lists.linux.dev>; Sat, 08 Mar 2025 23:03:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741503623; x=1742108423; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1741503821; x=1742108621; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rOXmjlR5Rk5KRf6rwJVBLM/R3Wk88g6lM6HYMKYo1vc=;
-        b=IFYdjNEe3EK58rWntm5iXHTru7GRmuxLC9uce5YulaW6b/NRHYyNK6lK1rjFYewTbM
-         Vx7Ag4Qj+JjNjaD6KtRTj9wITU6B+29kaFvkXZKjW/g93IKiEF5rIl0CAjdEHFzLa+L+
-         gRv46HevbPIIdS/Ok/93dPRBS/E6ZLfjZXEtq+Z5L6ZxtepZy+l4A/TGqlm3qsToVEWy
-         Bbx73Q7MqotTcEVqZEWYql2SOy/s1ShZzsPd+ya/Qpdd915Eg0J9FUPgbpNvrLatttto
-         6Pa1LULq5lTba+mR0dH1KpwWxam/80vfIZB+g04roAy5SYfBImYFr4/XPdxahn39kUxR
-         knLA==
+        bh=4/qs3Uwkfo+ukkyY7y6RUTEw3elPT4tc7TjK0JH5xRw=;
+        b=WeroV25qldm+oZZB9V1AgxvKa9jMSAfyuz7Lwn0ppHFoqIrDjjSh/k7LcRyXbCzzpY
+         DUaYg5ZAiz7cmpdBEH0iu+5oV2M4WQj5EeC7hQ6pCM8DWn+PXWM96R2mdIzwdWKCde2e
+         KuZMmfXtcn5T5ys1qdEgQiBJF7U2P0Y/zH4K3Se1HXCGT6wYntBXGMzvHshKjWW6xbyn
+         G7UH8QT6fcrrpWAsSBO1pBQLrwhNmZ8suTzKyVC4WbEzgZM+V86PuupF7FEP6ItMQ3Gx
+         Pikcd/UrnWvLtov8RpYecDC5xnAx0tkPxTqu6cYMt4yhsG5DqtirS2t1kdj9HmjR4YcN
+         G5Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741503623; x=1742108423;
+        d=1e100.net; s=20230601; t=1741503821; x=1742108621;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rOXmjlR5Rk5KRf6rwJVBLM/R3Wk88g6lM6HYMKYo1vc=;
-        b=f3/ONfliBX7LZ2WABd2Vq6fxFEbkHr3v6QkIE0h4FH4EzAIQ3oL/9Cipp7PYo3Sa9f
-         hzLpiMcNRcI1AZdGQSf/oz/yRBl5SEWXT+ssDNzlOKAjNIdS875el3CSdvqRcRAK8U5Q
-         FB1HYdW943jjgjZ6hH2qVB3QxDuil0jd3lzAElOD1HP3x+2KBE9zygSjUNFfKF6RiCxb
-         g+7hREGI4Jm1bM0B7UhsTi6gcjVZ/FJ4usLgUAyHKTp/Bu4cpPbMryO8cEfpMgmkBJCA
-         BXhRxbkGPBrq0AOqkytawbEGG8rqdUS/a7K7PZnLsXr4cGFYual1gcYY9Dj9NQCWpiMx
-         1U0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXLAYVRvCgLiBOTaqh2qQNXOggw1Mzh/ZVX/juMH7w37sshxtYKGIcjLuxyA6Bl06N29ZHoZ9BFVGipBw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx/M6hppcJLz3be5fDisNg1BZYUGFYP0n88d9EGNHRS07EPew7n
-	5oXkd3EI1Thqze/eSf7KKsiu6pWqOxJuEVNHLWwASM1SSIC61R7j
-X-Gm-Gg: ASbGnct1ZKC2AD/+lsQ509nug6Zke1ZoonvtUEXJYG5xCbN3QytTiTtvJ46Sj2NzA8F
-	OjHwDiM0SQX2gVVFABa0XgMuvsnG1xBUjagE5rNQGplazuxPfEAZ4SEwt5LQ1tl8f53LU7tLBgf
-	hgtVFG45mbi39fWCdenpiDDNJQuOUmV2do2lPKajbGNNjqgcESLyQyURQholpadtJhwMCfAkn3A
-	5qSj+Ui6IyamuBvSEqqoDtG6Mjt3VkUwsjermwlCLow/UyJVMiP0iF5jGqkeWNTv8V9LW1lVZL7
-	bq0kMmnnBEcrPmhcGWBz5aDnlbEhHnx+44GtB8sqlf9tmAi9Xc41UUgVnukL8eQFiw==
-X-Google-Smtp-Source: AGHT+IHYSxE3dHIHTEa8uoEGGMpuf/AZ9EL0n7GTLf/jTzfr1egAgB9Y7RFOLIp+NZliiikRziEP0A==
-X-Received: by 2002:a17:907:94c8:b0:abf:45d9:2607 with SMTP id a640c23a62f3a-ac252598005mr1084558066b.3.1741503622721;
-        Sat, 08 Mar 2025 23:00:22 -0800 (PST)
+        bh=4/qs3Uwkfo+ukkyY7y6RUTEw3elPT4tc7TjK0JH5xRw=;
+        b=GS8b6cTQr+z1SC1D/VWNUJa6EFdddEVQzcYrPJmY5k24D1rknPRmp+3vFzX+5KLSso
+         0IMdTqjH7BQprjVHb1iemzyfdqMVcB5UCmqHS1iZHzRknFY3YV0QnMv1Mv4OFqWr8d5c
+         tVJ/UOYmx3ymeEfUC9d8Q5hhG03sHADnDuDIXEcZ1nfeNhTYeeYk9QDt219d9YlVX7FN
+         mg+Ap9SCdVl8gdEsiJP7BsaQdp7Z71vKvdvgEJzlbebOX8SngrKSDclO4Pqcz3G/NJh1
+         8H0i/2o6pFuAxSrXrBDG/D2G8YarvXQx1jh7VZe88OeUo0E/7bstWbg/9xfexbC+oKG6
+         dJ9g==
+X-Forwarded-Encrypted: i=1; AJvYcCVr89oAVt+b9oL9urbjWf5TV8I7q8+Hv1tWqiwZvVmtN5+/C+SqAeHoTjRLY9IC4f5GfgElu4YZ6xLg7w==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywc/V51QlSnWrDj1dOveHxvgUKTrYA0AdzSGPsbx8MQwVQcw+Yu
+	e8PPPsyviCnjZPDiSaJqqVFN88/XExgnqUMllpKDcKPdJUdJ03zu
+X-Gm-Gg: ASbGncuKrZg68kBZ90TeZ4T0RXiAvzozcpyCpNd6INsPgPqwDzcqDWokpxdmhQSmfut
+	zRG8OvY+alx3Mh+qTnbhbNkGRktSnx8+Vsq5jyAsoYxQ5qGB7y4hr+LVVHfQYIDhC2rHm90PTNG
+	ScAkpUESRgHBMEX+uD9FMmVG0nt2EJ19O7WswD5MMWHQyqCsZhdnm5emrvpKXDZ28ti+jbN9ynH
+	kud7LKDz10OfxwUc05KPYN95Cy34VgIMHAa9j1QkTtZSm7d+aywZlwby4lOUXYNuUQlMB1hq33c
+	PIHj/wWk7zUevNhT1zU3qZsHOVAFcrW+/1gphHnbBfR471LYyHYwoRIF1uObmUvQ43t1IYRIyag
+	Z
+X-Google-Smtp-Source: AGHT+IGMCqfgtOksXCU2D5pV4LcZbxKnKSmq361rjbRlUZqwxHJQeerhBdOB3YccYo/fjODMlK3Onw==
+X-Received: by 2002:a17:907:26c9:b0:ac2:166f:42fc with SMTP id a640c23a62f3a-ac2530200bdmr963517966b.52.1741503820537;
+        Sat, 08 Mar 2025 23:03:40 -0800 (PST)
 Received: from jernej-laptop.localnet ([188.159.248.16])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac299a025c7sm14713966b.51.2025.03.08.23.00.21
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac298412a9asm21402166b.156.2025.03.08.23.03.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Mar 2025 23:00:22 -0800 (PST)
+        Sat, 08 Mar 2025 23:03:40 -0800 (PST)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Michael Turquette <mturquette@baylibre.com>,
  Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
@@ -66,13 +67,14 @@ To: Michael Turquette <mturquette@baylibre.com>,
 Cc: Philipp Zabel <p.zabel@pengutronix.de>, linux-clk@vger.kernel.org,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 13/14] clk: sunxi-ng: a523: add reset lines
-Date: Sun, 09 Mar 2025 08:00:20 +0100
-Message-ID: <1994155.PYKUYFuaPT@jernej-laptop>
-In-Reply-To: <20250307002628.10684-14-andre.przywara@arm.com>
+Subject:
+ Re: [PATCH v4 14/14] clk: sunxi-ng: add support for the A523/T527 PRCM CCU
+Date: Sun, 09 Mar 2025 08:03:38 +0100
+Message-ID: <7776158.EvYhyI6sBW@jernej-laptop>
+In-Reply-To: <20250307002628.10684-15-andre.przywara@arm.com>
 References:
  <20250307002628.10684-1-andre.przywara@arm.com>
- <20250307002628.10684-14-andre.przywara@arm.com>
+ <20250307002628.10684-15-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -82,19 +84,17 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne petek, 7. marec 2025 ob 01:26:27 Srednjeevropski standardni =C4=8Das je=
+Dne petek, 7. marec 2025 ob 01:26:28 Srednjeevropski standardni =C4=8Das je=
  Andre Przywara napisal(a):
-> Allwinner SoCs do not contain a separate reset controller, instead the
-> reset lines for the various devices are integrated into the "BGR" (Bus
-> Gate / Reset) registers, for each device group: one for all UARTs, one
-> for all SPI interfaces, and so on.
-> The Allwinner CCU driver also doubles as a reset provider, and since the
-> reset lines are indeed just single bits in those BGR register, we can
-> represent them easily in an array of structs, just containing the
-> register offset and the bit number.
+> The A523/T527 SoCs have clock/reset controls in the PRCM part, like many
+> previous SoCs. For a change, the whole PRCM is documented in the A523
+> manual, including the system bus tree, so we can describe all those
+> clocks correctly based on that. There layout seems to be derived from
+> the H6 and H616 PRCM CCUs, though there are more clocks, and many clocks
+> have subtly changed.
 >=20
-> Add the location of the reset bits for all devices in the A523/T527
-> SoCs, using the existing sunxi CCU infrastructure.
+> Describe all the mod and gate clocks, including the three bus clocks
+> (R_AHB, R_APB0, and R_APB1).
 >=20
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
