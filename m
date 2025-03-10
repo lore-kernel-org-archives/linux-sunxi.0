@@ -1,150 +1,72 @@
-Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C46EEAC7
-	for <linux-sunxi@lists.linux.dev>; Mon, 10 Mar 2025 09:30:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 703FD1D5AB2;
+	Mon, 10 Mar 2025 10:19:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741599061; cv=none; b=FaT0u9HTDlxATcC2cC0WLt/BWvUcDmdssCJKo8nLMGc8UXM5fNR+/MdsqTlLfID7iOd9oLuKoo1ld5HsWov+sM1zsP+iub+9P6q2+ThgxLGAPJrsjTnAd6IqJznC35BXuaE9ja8C8QVqFHaXbdSsn9k18gO5jLQvcIaHLYr1rqE=
+	t=1741601996; cv=none; b=Yw8znpodFjd1WPxsmsRrQn707kGgYGPkFVmWx1yXVLpoF424EvGH95tWFplf32GAw/v5Tev0rbhhPlo+oHcyJXY8QQp1ZxZ5u2zKD1WW/8XltJGRgPdvJeH0PwysMFMd/LuiqD8meYzF+jXHWV3v53L1yuJ1NG5cnX+CSEnwNic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741599061; c=relaxed/simple;
-	bh=lRi5W35xGNH5dHBw89pU7IiFn3gC5KvO6PdSIKkNM34=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=tHbbwR07TXG/qk89ED0M40fhkpo+ZGx2bhjlrV8g87ScWS3gCx81DsM0GuwpV9CuQjglYFnwl+vzrsTobciYLDeg/nvcnAdPn5rhnqMlh73880VdSb4/MEh6pp6JCU7QaGpFVrF0xPPQxDRgVCWy17O69joUILbf5lqsxFeZ9VM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=crOe3gB2; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=u0EkRWlI; arc=none smtp.client-ip=103.168.172.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="crOe3gB2";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="u0EkRWlI"
-Received: from phl-compute-13.internal (phl-compute-13.phl.internal [10.202.2.53])
-	by mailfout.phl.internal (Postfix) with ESMTP id 1D02C1382D1A;
-	Mon, 10 Mar 2025 05:30:58 -0400 (EDT)
-Received: from phl-imap-07 ([10.202.2.97])
-  by phl-compute-13.internal (MEProxy); Mon, 10 Mar 2025 05:30:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm1;
-	 t=1741599058; x=1741685458; bh=TlfIZxwEH199yoeoqgqRaK5o2m1xiByl
-	+CXP110BFB0=; b=crOe3gB2m9g9LoW1nZ9xJ4JRKWSvgMKPhyNVaRc6CqiYaLoA
-	3U0pyvo9RVmrTPbjo4c/bdDRKkY5vVhKod+VE4309QlgDDHp59sRVK3mkj2vxiGd
-	Y3huigyNK2yXlM4VG/znms3jSLiah/7SCNG2BNLE3tUu3xmOKg8N0mQOsnFgFmB0
-	ALAP7tti1+xqy8hx4+G/Pc6QblscqXMVsOkboANEqGyS0TTFxChdeluSwazoNLXr
-	HpQ7Wn7D2O7qjpHw8ul/4hh8mhRS793lDgwzUjxPA1siH74LoROmOf64Oihrtw37
-	7EGJAoMm7VtYpBqelniC3TuvpZbUdRDYZDMHnA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1741599058; x=
-	1741685458; bh=TlfIZxwEH199yoeoqgqRaK5o2m1xiByl+CXP110BFB0=; b=u
-	0EkRWlI+dB79gh3+6iouR+oWqISL8XTriiMRFPHBOE5yd+eWRSn1rNKC4EkGZ+LE
-	3tH4Jd+tiWbs/jVEauBT8EQmRkfUzzclWhw+2cjDkpyBKv0fXzXxqgcI97Imyiyb
-	FIzutPS72ft7kiH0QqYvsT4Vq+sCPjprAYEhVoW9DUtLlzP8VC3Fqbt46dZbw8Oj
-	zxQ8ZJaBVN1MPx8eCBRS7O3CG1ma0lfqeA7p1kaIkZVCRhhTyLzBaGlt3nB4Nnc0
-	YaWP9m7ZbWbsYX5DRaTK3lq6ksdletNNL/5cZ9YO64JxaCjv9HOnSQErHp8s48eE
-	BUt110looaBeZ0mrc3n3Q==
-X-ME-Sender: <xms:UbHOZ8wHmz67RttlxjK4vuG8ibl4ELp5ZmYqeioxIV-co8ABaWrfXg>
-    <xme:UbHOZwS2CVHk_NYWZDOYQhaZTXgnQUg0mNZFku3oJ3idzN4zc6cgmUgxAP7IIGNhU
-    uFEjMZOOZXCHI7D6Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduudekleelucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
-    tddtnecuhfhrohhmpedftfihrghnucghrghlkhhlihhnfdcuoehrhigrnhesthgvshhtth
-    horghsthdrtghomheqnecuggftrfgrthhtvghrnhepjefhueekjeejgfduvdffheevveej
-    hfdtuddthfduuddvveefjeffgfdvleefuefgnecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomheprhihrghnsehtvghsthhtohgrshhtrdgtohhmpdhn
-    sggprhgtphhtthhopedvgedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprghnug
-    hrvgdrphhriiihfigrrhgrsegrrhhmrdgtohhmpdhrtghpthhtohepmhhtuhhrqhhuvght
-    thgvsegsrgihlhhisghrvgdrtghomhdprhgtphhtthhopeifvghnshestghsihgvrdhorh
-    hgpdhrtghpthhtohepuggrnhhivghlsehffhiflhhlrdgthhdprhgtphhtthhopegrihhr
-    lhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepjhgvrhhnvghjrdhskhhrrggsvg
-    gtsehgmhgrihhlrdgtohhmpdhrtghpthhtohepkhhikhhutghhrghnleeksehgmhgrihhl
-    rdgtohhmpdhrtghpthhtohepmhgrtghrohgrlhhphhgrkedvsehgmhgrihhlrdgtohhmpd
-    hrtghpthhtohepshhimhhonhhsrdhphhhilhhiphhpvgesghhmrghilhdrtghomh
-X-ME-Proxy: <xmx:UbHOZ-VvunW_sPPqtlJ4BobU9ozGTaPNwI7gISNyjW605kq8rsiutg>
-    <xmx:UbHOZ6jO6KL1OWVSrcVwHKnfQWL_hNjwzCti0stxgZ1la7IGZ1xd-g>
-    <xmx:UbHOZ-Cx7vVhpcqtxcRLmRLEyFb62dzxk45gt33YtUBx2HWjWMk-0w>
-    <xmx:UbHOZ7KY1-XU9dCC_z9ki8E0QLxUx5ETJ4qaVoMyAV2eEid6ajUrDg>
-    <xmx:UrHOZ_z3lUbW02xPGs-PdXpXZY7xJAo2BujQGyYXOK-S67PqbneLl-A2>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 76AABBA006F; Mon, 10 Mar 2025 05:30:57 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1741601996; c=relaxed/simple;
+	bh=100GLxY3vbQfixL5KlFRnqxcfqt31VUMXg8446EaDyI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TOuPHlJ5cPeLAsvtxsuwQeiISdGtwQ9BZyRMsgwO1k8NGQJbJ0K+74EvT/gDmaNm30oIqhwAVE5FYy3bnJo+5SmQk2Mi83ClYqd3tpln3BYJAQ+YMEGbcK7JZX9EAy8Wm8DEydF9hMY2kLEhclxFL3WwMaQ0od2m3KGrVbvDVI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5103C153B;
+	Mon, 10 Mar 2025 03:20:05 -0700 (PDT)
+Received: from bogus (e133711.arm.com [10.1.196.55])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0A2573F673;
+	Mon, 10 Mar 2025 03:19:50 -0700 (PDT)
+Date: Mon, 10 Mar 2025 10:19:48 +0000
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: Jacky Bai <ping.bai@nxp.com>
+Cc: <rafael@kernel.org>, <viresh.kumar@linaro.org>, <ilia.lin@kernel.org>,
+	Sudeep Holla <sudeep.holla@arm.com>, <tiny.windzz@gmail.com>,
+	<wens@csie.org>, <jernej.skrabec@gmail.com>, <samuel@sholland.org>,
+	<matthias.bgg@gmail.com>, <angelogioacchino.delregno@collabora.com>,
+	<linux-pm@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>,
+	<linux-sunxi@lists.linux.dev>, <linux-mediatek@lists.infradead.org>,
+	<imx@lists.linux.dev>
+Subject: Re: [PATCH] cpufreq: Init cpufreq only for present CPUs
+Message-ID: <Z868xB3_3NhMsa7R@bogus>
+References: <20250310071640.3140435-1-ping.bai@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Mon, 10 Mar 2025 22:30:36 +1300
-From: "Ryan Walklin" <ryan@testtoast.com>
-To: "Andre Przywara" <andre.przywara@arm.com>
-Cc: "Maxime Ripard" <mripard@kernel.org>, "Chen-Yu Tsai" <wens@csie.org>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Thomas Zimmermann" <tzimmermann@suse.de>,
- "David Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>,
- "Samuel Holland" <samuel@sholland.org>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>,
- "Michael Turquette" <mturquette@baylibre.com>,
- "Stephen Boyd" <sboyd@kernel.org>, "Chris Morgan" <macroalpha82@gmail.com>,
- "Hironori KIKUCHI" <kikuchan98@gmail.com>,
- "Philippe Simons" <simons.philippe@gmail.com>,
- "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- linux-clk@vger.kernel.org, "Conor Dooley" <conor.dooley@microchip.com>
-Message-Id: <c8b85753-5c97-4258-a158-06a17929fad6@app.fastmail.com>
-In-Reply-To: <20250224175642.170c124e@donnerap.manchester.arm.com>
-References: <20250216183710.8443-3-ryan@testtoast.com>
- <20250216183710.8443-23-ryan@testtoast.com>
- <20250224175642.170c124e@donnerap.manchester.arm.com>
-Subject: Re: [PATCH v7 22/27] dt-bindings: allwinner: add H616 DE33 mixer binding
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250310071640.3140435-1-ping.bai@nxp.com>
 
-On Tue, 25 Feb 2025, at 6:56 AM, Andre Przywara wrote:
-
-Apologies Andre, I came to review your comments on the TCON series and realised I had missed responding to this comment before sending v8. 
-
->> +      - allwinner,sun50i-h616-de33-mixer-0
->>  
->>    reg:
->> -    maxItems: 1
->> +    minItems: 1
->> +    maxItems: 3
+On Mon, Mar 10, 2025 at 03:16:40PM +0800, Jacky Bai wrote:
+> for_each_possible_cpu() is currently used to initialize cpufreq
+> in below cpufreq drivers:
+>   drivers/cpufreq/cpufreq-dt.c
+>   drivers/cpufreq/mediatek-cpufreq-hw.c
+>   drivers/cpufreq/mediatek-cpufreq.c
+>   drivers/cpufreq/qcom-cpufreq-nvmem.c
+>   drivers/cpufreq/sun50i-cpufreq-nvmem.c
 >
-> What are those three regions? I wonder if we should have reg-names here,
-> to fix the order, and to document them on the way?
 
-This would be the top, display and mixer groups for the DE333, and mixer for DE3 and earlier. Can certainly add in names for these. Is there any example elsewhere in the bindings to look at?
+Again how did you just narrow down to the list above ? Is that just a
+random pick ? As I suggested with corresponding cpuidle changes, please
+look into the details in side the for_each_possible_cpu() loop and then
+decide if it applies or not.
 
->> @@ -61,6 +63,23 @@ properties:
->>      required:
->>        - port@1
->>  
->> +allOf:
->> +  - if:
->> +      properties:
->> +        compatible:
->> +          enum:
->> +            - allwinner,sun50i-h616-de33-mixer-0
->> +
->> +    then:
->> +      properties:
->> +        reg:
->> +          maxItems: 3
->
-> Should we override minItems here as well? I guess any driver would need
-> all three region to work?
+For me, it applied to the below files as well at the least.
 
-This seems sensible, as you say it would always be 3 groups for the DE33.
+drivers/cpufreq/mvebu-cpufreq.c
+drivers/cpufreq/qcom-cpufreq-hw.c
+drivers/cpufreq/scmi-cpufreq.c
+drivers/cpufreq/scpi-cpufreq.c
+drivers/cpufreq/virtual-cpufreq.c
 
+Please check everything thoroughly as I just looked at these briefly.
+
+--
 Regards,
-
-Ryan
+Sudeep
