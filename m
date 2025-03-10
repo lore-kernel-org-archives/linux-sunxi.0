@@ -1,42 +1,42 @@
 Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F173C22A4E3
-	for <linux-sunxi@lists.linux.dev>; Mon, 10 Mar 2025 12:11:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F80922A1E4
+	for <linux-sunxi@lists.linux.dev>; Mon, 10 Mar 2025 12:11:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741608687; cv=none; b=BYlaU74jnAq7u+fxGmHQPb909FDwY6fGiDAUI0S+xKADLmumGx6pY56cL/ddnd6plrhxAMKTfcJoIIeDIf8eSaII4IWkZAC5Y5EI5x0kDzkplD4GbGTgi7Ynf3NHCQuO0mqMvjHQrI0PB8E45qL1aevC9LcyIZtlBOo0tGIXWlA=
+	t=1741608695; cv=none; b=sOGDcvlo1/R4AFZ9bPFXkKecMyiSl8FRa3QsVvT3tS5LhrvcU3eNpiqkIGeftgZN29rqUWs/XWVGgtD/iDw6vn2ZWWrnyCXQoRIcXLR56fVAuprF+C5+Z9KBoExis2esvx1o+xmJBof87hZRvV3hkXScAfdLEO6UxeChespRuIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741608687; c=relaxed/simple;
-	bh=jC+qUhQV6UPyrqce6N8uVM+CkW5dXSJ5LzFTfXYKpJQ=;
+	s=arc-20240116; t=1741608695; c=relaxed/simple;
+	bh=HBQQTMuVmSJuaXVsBzESg5OlPxIwuUvoPHTzXg87S7E=;
 	h=In-Reply-To:References:From:To:Cc:Subject:MIME-Version:
-	 Content-Disposition:Content-Type:Message-Id:Date; b=XWZj2CKc+SxLuV4FFRMV2vkqtXCvtpMVLBut3GZc+dilfK1zrQ5GJEVjFaG0KG71UmCEJyDrvv5D8f7R/1Y8YDeUpsq0uSztIVTrO4ryquB3U+ye4dS/7WCE67dJmHiLJRCfGzzwVF7Jsk3SUDWeHFAFlPw0wHfLFXLftSQ9pUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=Yc7lENZV; arc=none smtp.client-ip=78.32.30.218
+	 Content-Disposition:Content-Type:Message-Id:Date; b=ZnTp4bnkzR2PvoP8YSyJ9ifSp4Dd07Jel5h/TiR9Tg2t8on8T+WyyMIWPyS5kEn270OogJ+fMYpjOH4IKWQfykoDOzAC0pGjMWLy00Bq/Xv/d55wqsa++1cdEfSyvhn5OalZ9hPpTDN68Fsr3pHocU0lzVxwh1ooUaAkQnLZRJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=cfsfbkHn; arc=none smtp.client-ip=78.32.30.218
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="Yc7lENZV"
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="cfsfbkHn"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:Subject:Cc:To:From:References:
 	In-Reply-To:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
 	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=/tMOKUpE4K7j5aG1WbP5NmysKsZDJ/sNkUlDJpXtB50=; b=Yc7lENZVcITLYBQexI8NRWwYxp
-	ERJSnpnipQz+6yKHNjsAxA1KRpxoSkXtJGJybt4EEonmCuynrNs06yF8HfazpXbmxaqTkUl3aW/95
-	SUFJvYHioO81IxrOhkoVoFyHEsU+Q2yXIAaW4tsWJ1/RF4C8mbMOk4m+gFa0To8D37jEAIKKLxZsQ
-	x/heoQsI2JM6XCXHmz+Dq2cK8Zgjac95u11VKr4fCstvxS9PlJfjP7PRZG81zPW8u+X9xVpad6msv
-	e7nrApQZsx4++f0Zy6DinOXuX9CHeUptX0g2WledN7aDoHCGUh8S08vCdH5tTZaQ6TXd0Iu8J1mze
-	TE8RTsww==;
-Received: from e0022681537dd.dyn.armlinux.org.uk ([fd8f:7570:feb6:1:222:68ff:fe15:37dd]:46320 helo=rmk-PC.armlinux.org.uk)
+	bh=mt2YgBWZEUT0iG0aW0svGoQUDQefZBeHbVh7XZ/Ckxo=; b=cfsfbkHnMPo81oyupsD05mhfb0
+	i16j/27Y/Yb4O/djV8MbdjiVMADgjxVT4cCbQGEwemaKPGpBnfHD2pxYjOLrxSCoNhET+1BqM02ng
+	ikDvTiTI5FBSYLPSFnwlxEk9VHrHQPWGsafXOBrMYeW1MPaFez2CyPIKU4Nsd3jmhWLe7ut7XO77o
+	dn134AYTko5CGT5ME6WW/YR/quKXuzZ/BcD/aPHDhtnEFLgwTtyU5opaPuOPKVWFS2ECIw+SeaUWo
+	znwuWwELLyLyuaE77Jcs0nDceavWVcxkB9Iqu26KnSeaMA/86EHFJAnkyYzOTKSPRLLqB++mcctcM
+	T3sTN3jA==;
+Received: from e0022681537dd.dyn.armlinux.org.uk ([fd8f:7570:feb6:1:222:68ff:fe15:37dd]:46328 helo=rmk-PC.armlinux.org.uk)
 	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <rmk@armlinux.org.uk>)
-	id 1trbyM-0002ZT-18;
-	Mon, 10 Mar 2025 12:11:06 +0000
+	id 1trbyS-0002Zq-25;
+	Mon, 10 Mar 2025 12:11:12 +0000
 Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.94.2)
 	(envelope-from <rmk@rmk-PC.armlinux.org.uk>)
-	id 1trby0-005qYS-AE; Mon, 10 Mar 2025 12:10:44 +0000
+	id 1trby5-005qYY-Dp; Mon, 10 Mar 2025 12:10:49 +0000
 In-Reply-To: <Z87WVk0NzMUyaxDj@shell.armlinux.org.uk>
 References: <Z87WVk0NzMUyaxDj@shell.armlinux.org.uk>
 From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
@@ -66,7 +66,7 @@ Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
 	Paolo Abeni <pabeni@redhat.com>,
 	Samuel Holland <samuel@sholland.org>,
 	Vinod Koul <vkoul@kernel.org>
-Subject: [PATCH net-next 6/9] net: stmmac: rk: remove of_get_phy_mode()
+Subject: [PATCH net-next 7/9] net: stmmac: sti: remove of_get_phy_mode()
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -76,34 +76,59 @@ MIME-Version: 1.0
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <E1trby0-005qYS-AE@rmk-PC.armlinux.org.uk>
+Message-Id: <E1trby5-005qYY-Dp@rmk-PC.armlinux.org.uk>
 Sender: Russell King <rmk@armlinux.org.uk>
-Date: Mon, 10 Mar 2025 12:10:44 +0000
+Date: Mon, 10 Mar 2025 12:10:49 +0000
 
 devm_stmmac_probe_config_dt() already gets the PHY mode from firmware,
 which is stored in plat_dat->phy_interface. Therefore, we don't need to
 get it in platform code.
 
-Set bsp_priv->phy_iface from plat->phy_interface.
+Pass plat_dat into sti_dwmac_parse_data(), and set dwmac->interface
+from plat_dat->phy_interface.
 
 Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 ---
- drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/net/ethernet/stmicro/stmmac/dwmac-sti.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c
-index 003fa5cf42c3..40e8197812e2 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c
-@@ -1749,7 +1749,7 @@ static struct rk_priv_data *rk_gmac_setup(struct platform_device *pdev,
- 	if (!bsp_priv)
- 		return ERR_PTR(-ENOMEM);
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sti.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sti.c
+index 13b9c2a51fce..be57c6c12c1c 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sti.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sti.c
+@@ -185,7 +185,8 @@ static int sti_dwmac_set_mode(struct sti_dwmac *dwmac)
+ }
  
--	of_get_phy_mode(dev->of_node, &bsp_priv->phy_iface);
-+	bsp_priv->phy_iface = plat->phy_interface;
- 	bsp_priv->ops = ops;
+ static int sti_dwmac_parse_data(struct sti_dwmac *dwmac,
+-				struct platform_device *pdev)
++				struct platform_device *pdev,
++				struct plat_stmmacenet_data *plat_dat)
+ {
+ 	struct resource *res;
+ 	struct device *dev = &pdev->dev;
+@@ -204,12 +205,7 @@ static int sti_dwmac_parse_data(struct sti_dwmac *dwmac,
+ 	if (IS_ERR(regmap))
+ 		return PTR_ERR(regmap);
  
- 	/* Some SoCs have multiple MAC controllers, which need
+-	err = of_get_phy_mode(np, &dwmac->interface);
+-	if (err && err != -ENODEV) {
+-		dev_err(dev, "Can't get phy-mode\n");
+-		return err;
+-	}
+-
++	dwmac->interface = plat_dat->phy_interface;
+ 	dwmac->regmap = regmap;
+ 	dwmac->gmac_en = of_property_read_bool(np, "st,gmac_en");
+ 	dwmac->ext_phyclk = of_property_read_bool(np, "st,ext-phyclk");
+@@ -268,7 +264,7 @@ static int sti_dwmac_probe(struct platform_device *pdev)
+ 	if (!dwmac)
+ 		return -ENOMEM;
+ 
+-	ret = sti_dwmac_parse_data(dwmac, pdev);
++	ret = sti_dwmac_parse_data(dwmac, pdev, plat_dat);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "Unable to parse OF data\n");
+ 		return ret;
 -- 
 2.30.2
 
