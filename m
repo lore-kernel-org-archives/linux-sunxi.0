@@ -1,111 +1,118 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 617121A23BE;
-	Mon, 10 Mar 2025 02:24:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 365F0A935
+	for <linux-sunxi@lists.linux.dev>; Mon, 10 Mar 2025 02:36:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741573466; cv=none; b=NlYHrf05Y/mQolXJne25JzB7PPgiNbg9wPfjntAlIShAVmLbE2+7CPzfdG+xe66I7+yw5LyxIf7gFoZTD+yJWi7RUVesm6mIHhh3PiF+PnQxoy2w8SP53JQEW/24tJVpV21sGOMj8aUOxMlMwErFeCast3CKhPscnvJPEbtTBnI=
+	t=1741574204; cv=none; b=BFg/4qJUxxdNw9Pk9fddKf9SmOYf1FNEqfFAh/i5OT4FLprSBtbRh/QS8OuejSsfp+xX8QU6Wuug7krKnbj+kboAZ5zyvpxeAwxXFBJIEJUtJ3eSVWBFFxq8V4neViqwcKAtjrppfvgb9CRG0w4qoBfEVWc04Z4wax5kzlxwmYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741573466; c=relaxed/simple;
-	bh=WKFaRGNbm41ygiDOYwuZyQiHlC64X9yBshoJhOG//8I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=maSA61ozKasp4NjRUlBaz61hXuGH3w6RVk7NLBNb+jk7keo5z0RFj08b3bATQgVThCeO2G0pbUgTH9cXlW+aC0moaLsdjX35ZHCi4d1eDeplnLVIOYEjps9I+20Q0oj0IOLqbjpssBcWsfp44wiN5oLQeQy7JKLNkyb5L4GPnmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jnMlHSSF; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1741574204; c=relaxed/simple;
+	bh=3xsbCR/ur4ryF13kR5CSsbwn3pDAs3RSYlwN94tkTQk=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=vFBYsCpf/xGBHJ5goPDjdDsUyohX0Uukb4VE/7ofmO5qd1LnzgJ5hBfjenpTOE3CvsXEolBFsLTUXYqHWSjf+eaKz+UZx2xwSDq9irqTi/CLKmYl/xMNxiP8WLIjiuS7iXkZ7KBkpHmafqAlVsnIEaIgSeSMVIfbjL66ASUbnUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=MMx++aCE; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=GXX6FOVt; arc=none smtp.client-ip=103.168.172.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jnMlHSSF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741573463; x=1773109463;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=WKFaRGNbm41ygiDOYwuZyQiHlC64X9yBshoJhOG//8I=;
-  b=jnMlHSSFwCSoSxg9WKFmeAiZG8gycT6bCJQWCDO/I3IFI8KD34U7WPFX
-   iCxurxqJG2A4DewW6JddKpHXppSP6lsaygkVRoO5fr8+WLIMUowBffZST
-   uZdKjJ5oEC7AEo4ad8uhXQihb1dVjoPVeXtx30NhissLz8CEBEb/1tKdA
-   +lrKAziR77JL6d158ktQ70dxxypsPmhyut2+WS63XJrAuanGTiRZocCXK
-   KP/KhJ6ja4HvBdwOW1GzJzpmOTJQTXFTbMw4TbCFHQ/+84ODELq50NuWH
-   y5UpVeTr2kgO5nYOtoMeN2ZFdL/ueEk3P8coAyLVn8GZXZok4qKwjTavv
-   Q==;
-X-CSE-ConnectionGUID: OTTb0LIaQzKcfmDAl3/t6w==
-X-CSE-MsgGUID: e1lHuOU8Q5+iwQCm1qYt/g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11368"; a="65000964"
-X-IronPort-AV: E=Sophos;i="6.14,235,1736841600"; 
-   d="scan'208";a="65000964"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2025 19:24:22 -0700
-X-CSE-ConnectionGUID: EBcI4p/gQFCFWXYHUd2zOQ==
-X-CSE-MsgGUID: kuyCE67oS6CBdcD22w3xyA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,235,1736841600"; 
-   d="scan'208";a="124459380"
-Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2025 19:24:15 -0700
-Message-ID: <2db8d0c9-f6df-48f3-8bbb-4592e86d92fa@linux.intel.com>
-Date: Mon, 10 Mar 2025 10:21:03 +0800
+	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="MMx++aCE";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="GXX6FOVt"
+Received: from phl-compute-13.internal (phl-compute-13.phl.internal [10.202.2.53])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 26B221140113;
+	Sun,  9 Mar 2025 22:36:41 -0400 (EDT)
+Received: from phl-imap-07 ([10.202.2.97])
+  by phl-compute-13.internal (MEProxy); Sun, 09 Mar 2025 22:36:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm1;
+	 t=1741574201; x=1741660601; bh=imDwWPN2j0ieYUj5D2vQxi/r5MfhjOWb
+	zk/XtH9q3zU=; b=MMx++aCESxesUnpemYpyKmO3HVUtlf7STcCtX/rRRcyDFl33
+	MLknT9oo3OhiLBTFC+BmJlJnJ5UkebQZpAzk0Kx6svHs6SQskKNk1VcYK2N+v4VZ
+	1s0z1b/fnmCdmVKxkTxmyEl8bzPMqm1cU+Zvwe0aSBuSTQIheB0flYzjaIfjpX/g
+	Pb6MJgieVZtm21K2UBZ8XXYY6wlaKf9iGqB+ok2oUDcFZcPkw3UU5NAAduR2k5Pd
+	+W4nNLr6FwXMHzWKCnVngBFNh3kZWi/PfBNg/N4aTRm3bshbOkQC/wyORA+qZRhk
+	T+TpCBnlMGoKvDGElGm/JSjbuoJ84YgMlCpqpA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1741574201; x=
+	1741660601; bh=imDwWPN2j0ieYUj5D2vQxi/r5MfhjOWbzk/XtH9q3zU=; b=G
+	XX6FOVtOHZP9lHlBw3tkbRgvt1/i6fwmeH5pVb1XvRfkmQ1rwhIf+15O84ZZ0UY3
+	99PQ2UKDhZJYQ6/MjvuNJ0YDmJoXtLzxVcp8J2LI1Eb2BksZ6t7nt5lyqA4qR+tu
+	03ZLnB9HP7tad40AMWPESS57tTLFhasgWXZ1lF/tIVURYCNiwxO9Zp8kfMvTNmzC
+	YzJFG0hsw8xHXx2okj5fS+uobIeCJPMwB+Yk/tj2Vliag2dJHTFgpOzhWJjkhWkw
+	3zcO4+arxkTdhMyJVVfPFosEKv5s8iD/7ktiDotMKY51uJKoS4joPJSZ9KxO0gGG
+	f7ngM6yEPXI7bmRZ3fxIA==
+X-ME-Sender: <xms:OFDOZzi1gQgXHKrHdh4pkDKcKv3pXiUoSOJweYFm3Mju0PGETFD8gQ>
+    <xme:OFDOZwCVoA_u-2rQdsupk5t9VyRphebvl2LDvY12vW1RDw3Hld0v7Q_0qYEI5mYOo
+    FVgZWzNHhnzi4kcSQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduudekudeiucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
+    tddtnecuhfhrohhmpedftfihrghnucghrghlkhhlihhnfdcuoehrhigrnhesthgvshhtth
+    horghsthdrtghomheqnecuggftrfgrthhtvghrnhepjefhueekjeejgfduvdffheevveej
+    hfdtuddthfduuddvveefjeffgfdvleefuefgnecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomheprhihrghnsehtvghsthhtohgrshhtrdgtohhmpdhn
+    sggprhgtphhtthhopeejpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehjrghgrg
+    hnsegrmhgrrhhulhgrshholhhuthhiohhnshdrtghomhdprhgtphhtthhopegrnhgurhgv
+    rdhprhiihiifrghrrgesrghrmhdrtghomhdprhgtphhtthhopehjvghrnhgvjhdrshhkrh
+    grsggvtgesghhmrghilhdrtghomhdprhgtphhtthhopehmrggtrhhomhhorhhgrghnsehh
+    ohhtmhgrihhlrdgtohhmpdhrtghpthhtohepthhrihhniheskhhonhhsuhhlkhhordgtoh
+    hmpdhrtghpthhtohepuhdqsghoohhtsehlihhsthhsrdguvghngidruggvpdhrtghpthht
+    oheplhhinhhugidqshhunhigiheslhhishhtshdrlhhinhhugidruggvvh
+X-ME-Proxy: <xmx:OFDOZzHJnUA-xzEgMRRw2JUclLokI_YAVEckXVpR03UZlsvID3Qp5w>
+    <xmx:OFDOZwQcAIIGWbItamvfQ5LmpoCVWmJpWSv6RZ8_gEh-XS5kU7lvEQ>
+    <xmx:OFDOZwxKK_t-Y_B_y5Njk5DcXpRlWy2eKpGZcPNbz8TMi8RA0oSHww>
+    <xmx:OFDOZ27r6wGyHCq03InThJ-fCEydPOqGSWTGfS6va-nX08sOhL7d4Q>
+    <xmx:OVDOZ3nYJvXTQdg5SWVDMCrt5zL70LjUTW5D8ccMq4fBneUjNP9756mT>
+Feedback-ID: idc0145fc:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 9A261BA006F; Sun,  9 Mar 2025 22:36:40 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 08/23] iommu/vtd: Use virt_to_phys()
-To: Jason Gunthorpe <jgg@nvidia.com>, Alim Akhtar <alim.akhtar@samsung.com>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Albert Ou <aou@eecs.berkeley.edu>,
- asahi@lists.linux.dev, David Woodhouse <dwmw2@infradead.org>,
- Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, linux-arm-kernel@lists.infradead.org,
- linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org, Marek Szyprowski <m.szyprowski@samsung.com>,
- Hector Martin <marcan@marcan.st>, Palmer Dabbelt <palmer@dabbelt.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Robin Murphy
- <robin.murphy@arm.com>, Samuel Holland <samuel@sholland.org>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Sven Peter <sven@svenpeter.dev>, Thierry Reding <thierry.reding@gmail.com>,
- Tomasz Jeznach <tjeznach@rivosinc.com>, Krishna Reddy <vdumpa@nvidia.com>,
- Chen-Yu Tsai <wens@csie.org>, Will Deacon <will@kernel.org>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>, Joerg Roedel <jroedel@suse.de>,
- Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
- David Rientjes <rientjes@google.com>, Matthew Wilcox <willy@infradead.org>
-References: <8-v3-e797f4dc6918+93057-iommu_pages_jgg@nvidia.com>
-Content-Language: en-US
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <8-v3-e797f4dc6918+93057-iommu_pages_jgg@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Date: Mon, 10 Mar 2025 15:36:19 +1300
+From: "Ryan Walklin" <ryan@testtoast.com>
+To: "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+ "Jagan Teki" <jagan@amarulasolutions.com>,
+ "Andre Przywara" <andre.przywara@arm.com>, "Tom Rini" <trini@konsulko.com>
+Cc: "Chris Morgan" <macromorgan@hotmail.com>, u-boot@lists.denx.de,
+ linux-sunxi@lists.linux.dev
+Message-Id: <10b26205-6798-4ed4-b170-4555265e08ac@app.fastmail.com>
+In-Reply-To: <20250309063143.62859-3-jernej.skrabec@gmail.com>
+References: <20250309063143.62859-1-jernej.skrabec@gmail.com>
+ <20250309063143.62859-3-jernej.skrabec@gmail.com>
+Subject: Re: [PATCH 2/2] sunxi: H616: dram: Improve address wrapping detection
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
-On 2/26/25 03:39, Jason Gunthorpe wrote:
-> If all the inlines are unwound virt_to_dma_pfn() is simply:
->     return page_to_pfn(virt_to_page(p)) << (PAGE_SHIFT - VTD_PAGE_SHIFT);
-> 
-> Which can be re-arranged to:
->     (page_to_pfn(virt_to_page(p)) << PAGE_SHIFT) >> VTD_PAGE_SHIFT
-> 
-> The only caller is:
->     ((uint64_t)virt_to_dma_pfn(tmp_page) << VTD_PAGE_SHIFT)
-> 
-> re-arranged to:
->     ((page_to_pfn(virt_to_page(tmp_page)) << PAGE_SHIFT) >> VTD_PAGE_SHIFT) << VTD_PAGE_SHIFT
-> 
-> Which simplifies to:
->     page_to_pfn(virt_to_page(tmp_page)) << PAGE_SHIFT
-> 
-> That is the same as virt_to_phys(tmp_page), so just remove all of this.
-> 
-> Reviewed-by: Lu Baolu<baolu.lu@linux.intel.com>
-> Signed-off-by: Jason Gunthorpe<jgg@nvidia.com>
+On Sun, 9 Mar 2025, at 7:31 PM, Jernej Skrabec wrote:
+> It turns out that checking just one write is not enough. Due to
+> unexplained reasons scan procedure detected double the size. By making
+> 16 dword writes and comparisons that never happens.
+>
+> New procedure is also inverted. Instead of writing two different values
+> to base address and some offset and then reading both and comparing
+> values, simplify this by writing pattern at the base address and then
+> search for this pattern at some offset.
+>
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 > ---
->   drivers/iommu/intel/iommu.c |  3 ++-
->   drivers/iommu/intel/iommu.h | 19 -------------------
->   2 files changed, 2 insertions(+), 20 deletions(-)
+>  arch/arm/mach-sunxi/dram_sun50i_h616.c | 58 +++++++++++++++++++++++++-
+>  1 file changed, 56 insertions(+), 2 deletions(-)
 
-Queued this cleanup patch for iommu/vt-d.
+Tested with H700 devices with both 1GB (RG35XX-H) and 4GB (RG40XX-V) of LPDDR4; reliable detection with over 50 boots combined on both devices. Previously ~1 in 10 boots would mistakenly incorrectly detect RAM size, in particular 2 or 4 GB RAM on the 1GB device.
 
-Thanks,
-baolu
+Tested-by: Ryan Walklin <ryan@testtoast.com>
+
+Regards,
+
+Ryan
