@@ -1,106 +1,111 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57CA7175BF
-	for <linux-sunxi@lists.linux.dev>; Sun,  9 Mar 2025 07:03:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 617121A23BE;
+	Mon, 10 Mar 2025 02:24:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741503824; cv=none; b=N8mefqaiTU42X0/wITpFBmgWYlyedGYfG0Gf2YcMUVErMlfwvO2g6O96QzVBrWrfCVfDOvM89lSmIhjWeZ4GRA63YJ5AMmuBxRTwsUw4/SmkrfprpApMZ4u9s3hp+I84OCErnat4qf9hecuCgcjZ11GlMvwFWaCpuB6YZzyjKm0=
+	t=1741573466; cv=none; b=NlYHrf05Y/mQolXJne25JzB7PPgiNbg9wPfjntAlIShAVmLbE2+7CPzfdG+xe66I7+yw5LyxIf7gFoZTD+yJWi7RUVesm6mIHhh3PiF+PnQxoy2w8SP53JQEW/24tJVpV21sGOMj8aUOxMlMwErFeCast3CKhPscnvJPEbtTBnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741503824; c=relaxed/simple;
-	bh=4/qs3Uwkfo+ukkyY7y6RUTEw3elPT4tc7TjK0JH5xRw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NiNoBz2nlX0cb44d3OIIELUfRvjg8OL45Plb/VPhSSgQdqDpTwQP7suhBUmVYtyMbfd2QT9ssfEwRgOO0lIdl08nSieGWassaoOjWCDIFYxSqLEW0DuRN9BbKgS1FNDIuLPq3uydnyLgAE5wTfl1ujXY6XwwmMckqPjAee7+XLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WeroV25q; arc=none smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741573466; c=relaxed/simple;
+	bh=WKFaRGNbm41ygiDOYwuZyQiHlC64X9yBshoJhOG//8I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=maSA61ozKasp4NjRUlBaz61hXuGH3w6RVk7NLBNb+jk7keo5z0RFj08b3bATQgVThCeO2G0pbUgTH9cXlW+aC0moaLsdjX35ZHCi4d1eDeplnLVIOYEjps9I+20Q0oj0IOLqbjpssBcWsfp44wiN5oLQeQy7JKLNkyb5L4GPnmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jnMlHSSF; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WeroV25q"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5e5e22e6ed2so3361415a12.3
-        for <linux-sunxi@lists.linux.dev>; Sat, 08 Mar 2025 23:03:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741503821; x=1742108621; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4/qs3Uwkfo+ukkyY7y6RUTEw3elPT4tc7TjK0JH5xRw=;
-        b=WeroV25qldm+oZZB9V1AgxvKa9jMSAfyuz7Lwn0ppHFoqIrDjjSh/k7LcRyXbCzzpY
-         DUaYg5ZAiz7cmpdBEH0iu+5oV2M4WQj5EeC7hQ6pCM8DWn+PXWM96R2mdIzwdWKCde2e
-         KuZMmfXtcn5T5ys1qdEgQiBJF7U2P0Y/zH4K3Se1HXCGT6wYntBXGMzvHshKjWW6xbyn
-         G7UH8QT6fcrrpWAsSBO1pBQLrwhNmZ8suTzKyVC4WbEzgZM+V86PuupF7FEP6ItMQ3Gx
-         Pikcd/UrnWvLtov8RpYecDC5xnAx0tkPxTqu6cYMt4yhsG5DqtirS2t1kdj9HmjR4YcN
-         G5Zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741503821; x=1742108621;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4/qs3Uwkfo+ukkyY7y6RUTEw3elPT4tc7TjK0JH5xRw=;
-        b=GS8b6cTQr+z1SC1D/VWNUJa6EFdddEVQzcYrPJmY5k24D1rknPRmp+3vFzX+5KLSso
-         0IMdTqjH7BQprjVHb1iemzyfdqMVcB5UCmqHS1iZHzRknFY3YV0QnMv1Mv4OFqWr8d5c
-         tVJ/UOYmx3ymeEfUC9d8Q5hhG03sHADnDuDIXEcZ1nfeNhTYeeYk9QDt219d9YlVX7FN
-         mg+Ap9SCdVl8gdEsiJP7BsaQdp7Z71vKvdvgEJzlbebOX8SngrKSDclO4Pqcz3G/NJh1
-         8H0i/2o6pFuAxSrXrBDG/D2G8YarvXQx1jh7VZe88OeUo0E/7bstWbg/9xfexbC+oKG6
-         dJ9g==
-X-Forwarded-Encrypted: i=1; AJvYcCVr89oAVt+b9oL9urbjWf5TV8I7q8+Hv1tWqiwZvVmtN5+/C+SqAeHoTjRLY9IC4f5GfgElu4YZ6xLg7w==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywc/V51QlSnWrDj1dOveHxvgUKTrYA0AdzSGPsbx8MQwVQcw+Yu
-	e8PPPsyviCnjZPDiSaJqqVFN88/XExgnqUMllpKDcKPdJUdJ03zu
-X-Gm-Gg: ASbGncuKrZg68kBZ90TeZ4T0RXiAvzozcpyCpNd6INsPgPqwDzcqDWokpxdmhQSmfut
-	zRG8OvY+alx3Mh+qTnbhbNkGRktSnx8+Vsq5jyAsoYxQ5qGB7y4hr+LVVHfQYIDhC2rHm90PTNG
-	ScAkpUESRgHBMEX+uD9FMmVG0nt2EJ19O7WswD5MMWHQyqCsZhdnm5emrvpKXDZ28ti+jbN9ynH
-	kud7LKDz10OfxwUc05KPYN95Cy34VgIMHAa9j1QkTtZSm7d+aywZlwby4lOUXYNuUQlMB1hq33c
-	PIHj/wWk7zUevNhT1zU3qZsHOVAFcrW+/1gphHnbBfR471LYyHYwoRIF1uObmUvQ43t1IYRIyag
-	Z
-X-Google-Smtp-Source: AGHT+IGMCqfgtOksXCU2D5pV4LcZbxKnKSmq361rjbRlUZqwxHJQeerhBdOB3YccYo/fjODMlK3Onw==
-X-Received: by 2002:a17:907:26c9:b0:ac2:166f:42fc with SMTP id a640c23a62f3a-ac2530200bdmr963517966b.52.1741503820537;
-        Sat, 08 Mar 2025 23:03:40 -0800 (PST)
-Received: from jernej-laptop.localnet ([188.159.248.16])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac298412a9asm21402166b.156.2025.03.08.23.03.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Mar 2025 23:03:40 -0800 (PST)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Andre Przywara <andre.przywara@arm.com>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject:
- Re: [PATCH v4 14/14] clk: sunxi-ng: add support for the A523/T527 PRCM CCU
-Date: Sun, 09 Mar 2025 08:03:38 +0100
-Message-ID: <7776158.EvYhyI6sBW@jernej-laptop>
-In-Reply-To: <20250307002628.10684-15-andre.przywara@arm.com>
-References:
- <20250307002628.10684-1-andre.przywara@arm.com>
- <20250307002628.10684-15-andre.przywara@arm.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jnMlHSSF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741573463; x=1773109463;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=WKFaRGNbm41ygiDOYwuZyQiHlC64X9yBshoJhOG//8I=;
+  b=jnMlHSSFwCSoSxg9WKFmeAiZG8gycT6bCJQWCDO/I3IFI8KD34U7WPFX
+   iCxurxqJG2A4DewW6JddKpHXppSP6lsaygkVRoO5fr8+WLIMUowBffZST
+   uZdKjJ5oEC7AEo4ad8uhXQihb1dVjoPVeXtx30NhissLz8CEBEb/1tKdA
+   +lrKAziR77JL6d158ktQ70dxxypsPmhyut2+WS63XJrAuanGTiRZocCXK
+   KP/KhJ6ja4HvBdwOW1GzJzpmOTJQTXFTbMw4TbCFHQ/+84ODELq50NuWH
+   y5UpVeTr2kgO5nYOtoMeN2ZFdL/ueEk3P8coAyLVn8GZXZok4qKwjTavv
+   Q==;
+X-CSE-ConnectionGUID: OTTb0LIaQzKcfmDAl3/t6w==
+X-CSE-MsgGUID: e1lHuOU8Q5+iwQCm1qYt/g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11368"; a="65000964"
+X-IronPort-AV: E=Sophos;i="6.14,235,1736841600"; 
+   d="scan'208";a="65000964"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2025 19:24:22 -0700
+X-CSE-ConnectionGUID: EBcI4p/gQFCFWXYHUd2zOQ==
+X-CSE-MsgGUID: kuyCE67oS6CBdcD22w3xyA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,235,1736841600"; 
+   d="scan'208";a="124459380"
+Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2025 19:24:15 -0700
+Message-ID: <2db8d0c9-f6df-48f3-8bbb-4592e86d92fa@linux.intel.com>
+Date: Mon, 10 Mar 2025 10:21:03 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 08/23] iommu/vtd: Use virt_to_phys()
+To: Jason Gunthorpe <jgg@nvidia.com>, Alim Akhtar <alim.akhtar@samsung.com>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Albert Ou <aou@eecs.berkeley.edu>,
+ asahi@lists.linux.dev, David Woodhouse <dwmw2@infradead.org>,
+ Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-tegra@vger.kernel.org, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Hector Martin <marcan@marcan.st>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Robin Murphy
+ <robin.murphy@arm.com>, Samuel Holland <samuel@sholland.org>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Sven Peter <sven@svenpeter.dev>, Thierry Reding <thierry.reding@gmail.com>,
+ Tomasz Jeznach <tjeznach@rivosinc.com>, Krishna Reddy <vdumpa@nvidia.com>,
+ Chen-Yu Tsai <wens@csie.org>, Will Deacon <will@kernel.org>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>, Joerg Roedel <jroedel@suse.de>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
+ David Rientjes <rientjes@google.com>, Matthew Wilcox <willy@infradead.org>
+References: <8-v3-e797f4dc6918+93057-iommu_pages_jgg@nvidia.com>
+Content-Language: en-US
+From: Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <8-v3-e797f4dc6918+93057-iommu_pages_jgg@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Dne petek, 7. marec 2025 ob 01:26:28 Srednjeevropski standardni =C4=8Das je=
- Andre Przywara napisal(a):
-> The A523/T527 SoCs have clock/reset controls in the PRCM part, like many
-> previous SoCs. For a change, the whole PRCM is documented in the A523
-> manual, including the system bus tree, so we can describe all those
-> clocks correctly based on that. There layout seems to be derived from
-> the H6 and H616 PRCM CCUs, though there are more clocks, and many clocks
-> have subtly changed.
->=20
-> Describe all the mod and gate clocks, including the three bus clocks
-> (R_AHB, R_APB0, and R_APB1).
->=20
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+On 2/26/25 03:39, Jason Gunthorpe wrote:
+> If all the inlines are unwound virt_to_dma_pfn() is simply:
+>     return page_to_pfn(virt_to_page(p)) << (PAGE_SHIFT - VTD_PAGE_SHIFT);
+> 
+> Which can be re-arranged to:
+>     (page_to_pfn(virt_to_page(p)) << PAGE_SHIFT) >> VTD_PAGE_SHIFT
+> 
+> The only caller is:
+>     ((uint64_t)virt_to_dma_pfn(tmp_page) << VTD_PAGE_SHIFT)
+> 
+> re-arranged to:
+>     ((page_to_pfn(virt_to_page(tmp_page)) << PAGE_SHIFT) >> VTD_PAGE_SHIFT) << VTD_PAGE_SHIFT
+> 
+> Which simplifies to:
+>     page_to_pfn(virt_to_page(tmp_page)) << PAGE_SHIFT
+> 
+> That is the same as virt_to_phys(tmp_page), so just remove all of this.
+> 
+> Reviewed-by: Lu Baolu<baolu.lu@linux.intel.com>
+> Signed-off-by: Jason Gunthorpe<jgg@nvidia.com>
+> ---
+>   drivers/iommu/intel/iommu.c |  3 ++-
+>   drivers/iommu/intel/iommu.h | 19 -------------------
+>   2 files changed, 2 insertions(+), 20 deletions(-)
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Queued this cleanup patch for iommu/vt-d.
 
-Best regards,
-Jernej
-
-
+Thanks,
+baolu
