@@ -1,291 +1,270 @@
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2061.outbound.protection.outlook.com [40.107.20.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D6291B423B;
-	Mon, 10 Mar 2025 07:15:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.20.61
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741590937; cv=fail; b=OYLiAA/kNM/OvTuqHY6GYqmUqP3qfUvMgZKxhB7Yc9UGo1K1rEX5MRUTgBdgxupBh51kLjMV6pQO730olGU/JWYdZAAiRIz+Ww1/Fhg8zCO1wxAfqbTKqJ4w9C7D/PEerC8AC/rSECHSagUk93xPy7UTaUqkUgwRbgZ8VyWbeDQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741590937; c=relaxed/simple;
-	bh=FSFZG5CtL7glyrZO39kpo4NEHgEIbzAyFBLmeSo+6jw=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=inDfIcAd7LABYQaDHcdaGLadC7NBsNNcyR/KTDAT9Kz2kiRjV8jMyZUWPMYAeDRQlwfClDaxx1rpWi/Bua/St2CFlOCRDjV00ZMwTgbtmkweF8HhdsO+cTpieH3rJqn/YfPQQAaUOcCjnNODQKnH345KVoFHxjZDwe0PqbNnxcU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=FwDaheLJ; arc=fail smtp.client-ip=40.107.20.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F04221DB0
+	for <linux-sunxi@lists.linux.dev>; Mon, 10 Mar 2025 07:41:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741592467; cv=none; b=kekR+rQXy7/my9jaSrI/7GFeVVN22/Ov9TDVo9NXg0STFt58xAF0wpOSWvQsjEmexsRwzhNjWXR4EizRUidQoz/YH1bGfW0dETd3MlpzBzJSEs6UvXo2hDUfhpvkO8icb+L8G73ENJjSRSSkbg9ZsJJ+Mu7JQkJuQKEPEcSXVIY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741592467; c=relaxed/simple;
+	bh=LTMAUQTizHw74W2gOqhgX2l8ap8D2eBxC8RTz2GImYg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PClRoOW/nXoiGIjDXaw2QHVsEJA7wLCgiiGaCKz5W2c4FW0g9R+rDoJ04+qHlrL44D15m5cA46/ttVDMYRLgh+xbvLvTXi5rKlu8GuMA5RmlsyQEZlSia0JpM4mRbz4p0qEn0J/p5r+TqK0CC5nAHNBFDaoVRZhFmHWFAeAt2/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WdBKL7m8; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="FwDaheLJ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LSlBcNEwgeEjUszzY2Aeia7r8D7xDA0kzJ9MGuXd4vDqgLoROf5U1xfhx3uP5GzjwYGSnOiWAPM71ZJBtmxi4W2LOeXWvx4/cfl/f4mDSgpa74Wb25INqlnpyvb6k5wNSq+eSBKLl04uJQ4xd1hIvm1rqvkcTBoEM7Evl62annwizA+qC3uhZgq5kyj2y2fycQZa5miMrtqmSeQUv7Egl7vvE7VuBTJ2IiinbkX03pfs0mzFqK1FzeLdLuFsZjnxXHMdzYDcMe5IohIn2I0tTaRBIotJak7yxdfuNvbq//ja5FvxpPLKKSrjj75eNObftezS6vAUzHamKd5yzTfAsA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lMx7n7xdTAzvgf/DjrakrUzyUWsc05RmQ+HIT2Wr9CQ=;
- b=iO7afFo/aorZm6azxeGNPU2XAQoaJgoGbuajx8CDMwNaY+Z9DZBo5m+zspbCkujuIhlo9h9CnVNPad0T8iLAHXbqGmb5mA8WRUqMOHu0aPYCK+KsvBRoty7L4slaQplzXKjqsgAzP1CKOmx88lZqWQZKjaSN8A4ps3WEL2n4XGZ9gzSfqVWTeg6QNSD3SpOcIgT1i1d6g/zhNJ5/Cv3JNzzm6DeU/Mjfo69pOliCvdwoHp2OdUKVX/vtvZh+dlHtfpXhgf8s5r1t5hkgn69+a6w/0a0KxHDRuKhnDzE+lM4y0UbZMsMs4iYyewWPLBs33rnaIVoBPQbkKw4wuFrsjA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lMx7n7xdTAzvgf/DjrakrUzyUWsc05RmQ+HIT2Wr9CQ=;
- b=FwDaheLJWkXnx9Z6yYH4I6Q+uIZnTkC4RJmrK8MG/y1tpf89hGqn9x2oPxRTWqD3Mbzs4ZqeVJ38wcK3tqmQlX4jSintNDLBSRlCzN0ktAWAvN/sHVHC6EDI2wKZLvi9nkABil3Uu8v/0S9fBesJO9rrzGf+GK3NVv/UpYdwvG9ntvZPRuh5qVW5otE4X/Iu2PMr7dsTHzBlo08yV/P41fq4Dq8j1FRco2H5yr6PiIeArkk80W9nkRaRPiNfEGXgG4BZ3NQMkbXaJT4SvlMTwNIBTdhDDMb6ZwOO1rYqAsTL5WE6WijhMoBaC1Ruq89YiUljbMP2NnH1b7pcfD8Egw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AS8PR04MB8642.eurprd04.prod.outlook.com (2603:10a6:20b:429::24)
- by AM9PR04MB8324.eurprd04.prod.outlook.com (2603:10a6:20b:3e2::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.26; Mon, 10 Mar
- 2025 07:15:32 +0000
-Received: from AS8PR04MB8642.eurprd04.prod.outlook.com
- ([fe80::50d3:c32a:2a83:34bb]) by AS8PR04MB8642.eurprd04.prod.outlook.com
- ([fe80::50d3:c32a:2a83:34bb%7]) with mapi id 15.20.8511.026; Mon, 10 Mar 2025
- 07:15:32 +0000
-From: Jacky Bai <ping.bai@nxp.com>
-To: rafael@kernel.org,
-	viresh.kumar@linaro.org,
-	ilia.lin@kernel.org,
-	tiny.windzz@gmail.com,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com
-Cc: linux-pm@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-mediatek@lists.infradead.org,
-	imx@lists.linux.dev
-Subject: [PATCH] cpufreq: Init cpufreq only for present CPUs
-Date: Mon, 10 Mar 2025 15:16:40 +0800
-Message-Id: <20250310071640.3140435-1-ping.bai@nxp.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR06CA0190.apcprd06.prod.outlook.com (2603:1096:4:1::22)
- To AS8PR04MB8642.eurprd04.prod.outlook.com (2603:10a6:20b:429::24)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WdBKL7m8"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5498c742661so4299273e87.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 10 Mar 2025 00:41:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741592463; x=1742197263; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=osEFHHA8j9TYONQ8F8JDSlqbUbM3s6nOsIv91QRD3Lc=;
+        b=WdBKL7m8ZrEtJPEy/+IQOXAgoBulMOrrdIF+Gm+YzkKf3ufAHkE+84WpLa/CaLpD07
+         /Z9YPcR4fOxWxQgS2rZXcTLHU9Sz6ydAhrEKgpbAWp/Mzxmee8IqX18IFxJ5kdLq2WC0
+         7kaWfg05P9sY3t1oIuKoYMFYk14qk7VeDjW9Bo5uGniL51m4TlKOK4XWzV8cOD2wVLSa
+         5OWnaE5vEIieC9r+X3KrB+kpcDhwCDzjAmNtY8gF4nbbSsqfxXxl/XkZmmjBcaRhr59p
+         iY9evslcAgcIZYsQhV1vEn3YPh0j/mWg9h43Ef6/TWRQjIXlIRA84AXR9f2MqZZJcCO/
+         vARQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741592463; x=1742197263;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=osEFHHA8j9TYONQ8F8JDSlqbUbM3s6nOsIv91QRD3Lc=;
+        b=kLSSV0Y0VPN3KRfYEG//dLoKyy48zGdG7MA7R92rLHtl1+lBIPsgb+a0ASEy6P0Fub
+         3F2zPCAOH5v3KVLVG2gL/kLSN4sIOwntAe/QpucYPISjLTdWABPuSeDEvFftzRRtLU88
+         mhRnhbGy5yfQKs3rVImvMyUkrcCNrf2eebCILIWATU1J6YCWMNuiT78ocxrI9+czRp84
+         x+alkjryUJt5P0+8C/ZuMQJZ/WEFEZXXrmFjRxc8B7uMN003IUI6irG5BXVJSyKGec6a
+         XBh64CoRnSRCvO9R9yv61l7piZBMVcxbvl7ONBxLrh/tvbIhHdgovkj1wERDTzBIz4eH
+         ZtQw==
+X-Forwarded-Encrypted: i=1; AJvYcCULzHzRYkXDc/WFg1ECfoN/0/tkp17MtdBAhNkTcivNf/cMOdFfm3UX1E+hFcb/mQqS8vM+nYQwjKUA/A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyR4bjG8k1sdK6KucEpND1PrBx7pQ75MwQ9ahcjt9j8pH7DppYD
+	4Zs9TxUSn4UKnd53g9A5szxaPgbfs11Et6HbPXGpuRPhgZCqImEs
+X-Gm-Gg: ASbGncsd8SwtIApKU+2UefEPU6+6FMBXg7gt/UYMISNfejRb249ET125yZxcdwZLVKj
+	2r4acX0Lbh0Py24S9ImL1N8ohmhV3iEZxhiMXp7iuIbTerlGFaknhoQ9ksHMyRzEIswG/BgUYrU
+	Eg8EALE59iuhWHKTa9pxPm51YJR8N4vAXBXSyGxjKesKjOeRFhYkBpqKfkDLGTN0G/Px1SNPXkW
+	vYxG498e83xvtJUMI03P/mpAKWNiLhngODNr7ChkHLm2X0lPvmMHnQLuv3pyE7ed5Mf3+m4y3g9
+	HoBdRBg4y6qgpn1ueow0GIuBU/RCDxW35twxgdyptI0o2s0HglgnSmQYYEsfRPCwLagaS+kxJqK
+	tSa0mvJtrVoQFlVQuwvLkDNoIXQ==
+X-Google-Smtp-Source: AGHT+IH2xlfCjxUf0Jmc6edmxLihr/sOKf0PRYUS3gP/gGJ3W6JuFQR6v8x9TcODLg2RTjj4/+/a7A==
+X-Received: by 2002:a05:6512:ba6:b0:549:8f15:db2f with SMTP id 2adb3069b0e04-54990e6771cmr4714399e87.31.1741592462737;
+        Mon, 10 Mar 2025 00:41:02 -0700 (PDT)
+Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5498b0bd032sm1379150e87.142.2025.03.10.00.41.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Mar 2025 00:41:02 -0700 (PDT)
+Message-ID: <4d5212b3-3801-408c-9a5d-c6111189793c@gmail.com>
+Date: Mon, 10 Mar 2025 09:41:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8PR04MB8642:EE_|AM9PR04MB8324:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1239f005-9a0d-4c09-a193-08dd5fa3588a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|52116014|7416014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?N/DatF7+MjTUw1DrQNU9SgathohhN5FjfA88vpVLl+DAaqMr7SL7Add1Udue?=
- =?us-ascii?Q?qha5b32X63Jxvc3s5k5U0FGnQb3hQHye/DcNNTcnxW7dFCQeXOCLv0NOI5yr?=
- =?us-ascii?Q?PiGxx1t5uaWk/gZW21x7+XQ1Yd/+7uMNKxeB2yLRPfq1ZTju6bQUf1nfjxhB?=
- =?us-ascii?Q?3fE885lcV8SaP153UKy/r/PfC1lohaoHRICz9uYbUHyEqXfmUurC79yRBAy5?=
- =?us-ascii?Q?YLuFbqSsw+rbrDV/mdCKkLPy8F7gxe9ebjqqWeE7pzFCnC6+nzrPZ/1RnZty?=
- =?us-ascii?Q?1oeooo+zl38MvYvAKeYVv01TL8OpHCSOqfukNdU63/4DQzEcLq7+sS8xetKr?=
- =?us-ascii?Q?x7idCXaUbM5Tie55HTyQs6sOv1XxKEbpZNAOt5BVw/qjl5kqXR7uZr0iVpCM?=
- =?us-ascii?Q?UXF5LmAVdqJ9JBDKgWAdqe0TlKGk6O3Ug+z3YMOol6o0Xd6UJ6y2BYURPVOS?=
- =?us-ascii?Q?/P/1EIf/lWVMjvR3mHyyTX0R2hlx5ZuBeEtpooEgKvSJ8+u6/a2rEuA0iC0G?=
- =?us-ascii?Q?LirmD0M16ItaCWWBCEHsQwkUBwfpdhRe0RNyvELUotCZUURyQYk3zSK/AFox?=
- =?us-ascii?Q?mYEg4nupAICg5X8wD00XIyGvp85xMhbqbXwFKBzbTsO4TqK3ACMPkUwn1wqe?=
- =?us-ascii?Q?irOhCUWylBrWKGU4/eAcsnfIxCX95QLTwD4RWz9skNP01k2CuNJblwc/jsdS?=
- =?us-ascii?Q?e+htiDCuE/oIXdlsajW7dBRY8xZiT7gZ8vpG77hXYjIgP18zMiEwT6az3mJG?=
- =?us-ascii?Q?dK29gXbprfTNG1O8gsSNhdJQY5WEAbz+DrLlYuwE1Gt9sHQHUeo4Xl6FnvO5?=
- =?us-ascii?Q?9HeH79VL5Pp2GX9QwsfYDdAms3rwQkj1l6TnfQDn+qpBEl+QBLA9OrpA3pAB?=
- =?us-ascii?Q?vG07ni+0oC8SUXQsb3gA6oT1/Vzk4MD8f0GbIVQ4wg/4mTSMRLXA/BogN3WS?=
- =?us-ascii?Q?UG4/blLuEQOQ74wYCh5TSPPnCctNDZyaT3L3cXXWxJArAHShbFLvCZMkBFnP?=
- =?us-ascii?Q?LKZ4GrCRY8057VqKktj9aOjWP5vyfSmfyNiO19bx3/AAqRYOUxkU1hLJUmlZ?=
- =?us-ascii?Q?jM09acBZ5sQCRjNH8eOmix4hD8STs/WA4tIqn2D/IWyv9mOWM3YNnwnLtz0s?=
- =?us-ascii?Q?QteFAj95vLtFS6A9PJ9P8OX1jLw9KYUn24+7lGhcpqcahtGiLsvyqcOpjz6B?=
- =?us-ascii?Q?enH6Fyb1wvMer0xLOLIPsYyj67h4Dp6OU9IUtVrMSJSjb7pa4Cp0tuJtGO5j?=
- =?us-ascii?Q?hPRxj+CoSKvarYhxeGq4tjYLh850Gir9Gj/sf8FZkjCdR/mTS6QOJqayeTbg?=
- =?us-ascii?Q?vqUR11EwWFv6sjJ4wWOmL46Fdym5AsJBIzwLPb32YMsoxU5normzVn9CTmij?=
- =?us-ascii?Q?Z4tospwahnDqLdbBW98h8gDFGsgwk6omrqYKlG0hyka+j0Jxy0nQJKM3j5yS?=
- =?us-ascii?Q?P8vZ2iSZFD5KGgph3EU7PIYxVCKHaDMu?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(52116014)(7416014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?CP4ZJ0V5TYJUFjjKzmckFlf475Bw+nWIgeVz6RrBQkc5TFrxO//vLTawSEyk?=
- =?us-ascii?Q?u+VIxuQkOy0qUH8Xu24oUrTeZ3GgGuBLid7Zk54SH5F+lSQjxhdJA9Quu+m5?=
- =?us-ascii?Q?t5HP0XL1MHGxcV/IsN7XO+fHbqvE8gQVlx2FqivKh9UJ7jFUdEsze8X9dODg?=
- =?us-ascii?Q?VRZma7jXVmqRjo/hdpE79ZXaAwN0rkNEPm54jlL1BOfuh+lIgAwkRREEgsat?=
- =?us-ascii?Q?Nsz3PQfnluyb1cmrXJwqkGPPBDnWL0CaFh/VK8UgSbqHmuy+dH0Cv7XX+sUF?=
- =?us-ascii?Q?hFMH2bTFzczygbkM90quPacV15Emcqf20btX/p02KHxUpcqkd5ju2GjnYXEP?=
- =?us-ascii?Q?iR6/gOvaInOvE0C0Dh+VarG0g4RZIXfzaRRhw5C7CgE5EldU3OGsPhSxAKv1?=
- =?us-ascii?Q?tZ2SAyhpD85Za+jKSweBeAuSBzfxYqbvhhwhizUj76SpDOsuMy4oJaBtcnG5?=
- =?us-ascii?Q?qKv3uRGdzVdvC2/Std5isXxULPqFlVnbkjJMyyrx+vpzhLr5IxMXkxtTnaq4?=
- =?us-ascii?Q?X8lK5ur/K1z6H2P7ZBGKB7kBzOQSzLJpoFTLo6czB3sMaE121t4CIwBDygUB?=
- =?us-ascii?Q?4JSzGx2IvbN8bgnBTTUX73+PCbb0Ju4jnVtPUbIvl1SQLK3h7xTzRagQjDYX?=
- =?us-ascii?Q?dq65ZRPmB+EaxcuvwfAemQ8NNb37DjzZJunJvwO7FGbmd4Qwj7J3n46sD5aI?=
- =?us-ascii?Q?T/6PDd9zyLhyNuCzo4ZIHGId96bvtDSE/ZjByGZLN7eWNt9HZVF7JbmwDY+F?=
- =?us-ascii?Q?387rFTRbr7H/amDUKozxtC2yVtvbtTHb6RGRKEzKcQpeHwe/qQxH3aqbOR1C?=
- =?us-ascii?Q?KwCc6xpiTEDlOTHS4LC7LpcAHCVjpy2HlKWj1/JBDzOAFkvvIZ18kNFt7XdK?=
- =?us-ascii?Q?klsws2cDE/LM+x/ZQd9hjzQP7CyFKG/cxMrKDArF0i/YhuFjlyG1dhVMt0tu?=
- =?us-ascii?Q?RBIuxeXiORY3sQKJJJyrAjiTzSJPG3K1CGkICwk32b0RbaB0QVFppfeLpZMF?=
- =?us-ascii?Q?8A2XepcHlf5BCa1qVz80wmB1TmCtKnKuWKuFS8NAEDe49HvFqzwxMxerccVv?=
- =?us-ascii?Q?rDvl5RZ+ZrqB4gLOSXt3kKZ5yvI38wteTeXGA5ceowVnLUd1MRqfPicQg3wo?=
- =?us-ascii?Q?eP2snKkoaqVVPZEkzlvBslpzK2zMN2kcxZGwYZqt/9l3uCiA2xzv1teSov2f?=
- =?us-ascii?Q?/ctBF140sJifr0O66un4pYhcGR9s9tcjvnl6GR5lrOOG2rLrvH5JvnvHSKqJ?=
- =?us-ascii?Q?ln3a0Opa1OaCLc0/CRz2rkpHw8EPEgtNDspTlXK2iUi6v2Ow4F9jUw3JFg/I?=
- =?us-ascii?Q?sh/xPq2aEM5O+G8le9ZlO+X0/MQp8C+P567kOiNT5lstsei62nJhWaeNM0t+?=
- =?us-ascii?Q?GrE3cLBQUaIVyeo99lGjf1QYsFViEvO5Oo1XpRoalqotbRkUpu4sTggZH8P3?=
- =?us-ascii?Q?iKst/SaM+m+wB+nj64wcXqG+hZHlGkPsILR0hRBAoxxPjtFNmqsHRv13CBl0?=
- =?us-ascii?Q?j8S3Drr+HhdI+dxlbgzZO4s/T1WDj+MvV1H6WhcnRl85rKTHVsiy8WZnZp2p?=
- =?us-ascii?Q?44Ji5nejO3/0dJP6xYb98EYpM3vku5PyPikWG4hD?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1239f005-9a0d-4c09-a193-08dd5fa3588a
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8642.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2025 07:15:32.7995
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: P7VIR0eU3hkKApNkY+ckLgsD1v8QbznnLHTNuiFJnFfDkx3OKg8g1+zWu486DyM+kuGSNNVcyT7fLB3mlvG5JQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8324
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 03/10] iio: adc: add helpers for parsing ADC nodes
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: David Lechner <dlechner@baylibre.com>,
+ Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+ Lars-Peter Clausen <lars@metafoo.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Hugo Villeneuve <hvilleneuve@dimonoff.com>, Nuno Sa <nuno.sa@analog.com>,
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+ Guillaume Stols <gstols@baylibre.com>,
+ Dumitru Ceclan <mitrutzceclan@gmail.com>,
+ Trevor Gamblin <tgamblin@baylibre.com>,
+ Matteo Martelli <matteomartelli3@gmail.com>,
+ Alisa-Dariana Roman <alisadariana@gmail.com>,
+ Ramona Alexandra Nechita <ramona.nechita@analog.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <cover.1740993491.git.mazziesaccount@gmail.com>
+ <e71c63c2f61135f9a8c7884525aab2c48f1e84c2.1740993491.git.mazziesaccount@gmail.com>
+ <CAMknhBGQaqFZJsPAoauZL4S5MYtN05EOQ-BO2vw5gH+Z2RLOhw@mail.gmail.com>
+ <54a031d0-df47-4baa-a23a-1a79c0922542@gmail.com>
+ <20250308162928.72bd1d1b@jic23-huawei>
+Content-Language: en-US, en-AU, en-GB, en-BW
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+In-Reply-To: <20250308162928.72bd1d1b@jic23-huawei>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-for_each_possible_cpu() is currently used to initialize cpufreq
-in below cpufreq drivers:
-  drivers/cpufreq/cpufreq-dt.c
-  drivers/cpufreq/mediatek-cpufreq-hw.c
-  drivers/cpufreq/mediatek-cpufreq.c
-  drivers/cpufreq/qcom-cpufreq-nvmem.c
-  drivers/cpufreq/sun50i-cpufreq-nvmem.c
+On 08/03/2025 18:29, Jonathan Cameron wrote:
+> On Wed, 5 Mar 2025 12:54:33 +0200
+> Matti Vaittinen <mazziesaccount@gmail.com> wrote:
+> 
+>> Thanks for the review David.
+>>
+>> On 04/03/2025 11:25, David Lechner wrote:
+>>> On Mon, Mar 3, 2025 at 12:32 PM Matti Vaittinen
+>>> <mazziesaccount@gmail.com> wrote:
+>>>>
+>>>> There are ADC ICs which may have some of the AIN pins usable for other
+>>>> functions. These ICs may have some of the AIN pins wired so that they
+>>>> should not be used for ADC.
+>>>>
+>>>> (Preferred?) way for marking pins which can be used as ADC inputs is to
+>>>> add corresponding channels@N nodes in the device tree as described in
+>>>> the ADC binding yaml.
+>>>>
+>>>> Add couple of helper functions which can be used to retrieve the channel
+>>>> information from the device node.
+>>>>
+>>>> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+>>>>
+>>>> ---
+>>
+>>>> + *
+>>>> + * Return:     Number of found channels on succes. Negative value to indicate
+>>>
+>>> s/succes/success/
+>>
+>> Thanks!
+>>
+>>>> +int devm_iio_adc_device_alloc_chaninfo_se(struct device *dev,
+>>>> +                                         const struct iio_chan_spec *template,
+>>>> +                                         int max_chan_id,
+>>>> +                                         struct iio_chan_spec **cs)
+>>>> +{
+>>>> +       struct iio_chan_spec *chan_array, *chan;
+>>>> +       int num_chan = 0, ret;
+>>>> +
+>>>> +       num_chan = iio_adc_device_num_channels(dev);
+>>>> +       if (num_chan < 1)
+>>>> +               return num_chan;
+>>>> +
+>>>> +       chan_array = devm_kcalloc(dev, num_chan, sizeof(*chan_array),
+>>>> +                                 GFP_KERNEL);
+>>>> +       if (!chan_array)
+>>>> +               return -ENOMEM;
+>>>> +
+>>>> +       chan = &chan_array[0];
+>>>> +
+>>>> +       device_for_each_child_node_scoped(dev, child) {
+>>>> +               u32 ch;
+>>>> +
+>>>> +               if (!fwnode_name_eq(child, "channel"))
+>>>> +                       continue;
+>>>> +
+>>>> +               ret = fwnode_property_read_u32(child, "reg", &ch);
+>>>> +               if (ret)
+>>>> +                       return ret;
+>>>> +
+>>>> +               if (max_chan_id != -1 && ch > max_chan_id)
+>>>> +                       return -ERANGE;
+>>>> +
+>>>
+>>> Should we use return dev_err_probe() on these to help with debugging a bad dtb?
+>>>    
+>>
+>> I am not fan of using dev_err_probe() in a 'library code'. This is
+>> because we never know if there'll be some odd use-case where this is not
+>> called from the probe.
+>>
+>> All in all, I'd leave adding most of the debugs to the callers -
+>> especially because we do not expect to have bad device-trees after the
+>> initial 'development stage' of a board. The board 'development stage'
+>> should really reveal bugs which prevent the channels from being
+>> registered - and after the DT is correct, these debug prints become
+>> unnecessary (albeit minor) binary bloat.
+>>
+>>>> +               *chan = *template;
+>>>> +               chan->channel = ch;
+>>>> +               chan++;
+>>>> +       }
+>>>> +
+>>>> +       *cs = chan_array;
+>>>> +
+>>>> +       return num_chan;
+>>>> +}
+>>>> +EXPORT_SYMBOL_NS_GPL(devm_iio_adc_device_alloc_chaninfo_se, "IIO_DRIVER");
+>>>
+>>> We can make this less verbose by setting #define
+>>> DEFAULT_SYMBOL_NAMESPACE at the start of the file. Then we can just do
+>>> EXPORT_SYMBOL_GPL() throughout the rest of the file.
+>>
+>> I am not sure what to think of this. I use the good old 'ctrl + ]' in my
+>> editor when I need to check how a function was supposed to be used. That
+>> jumps to the spot of code where the function is. I'd like to see the
+>> namespace mentioned there in order to not accidentally miss the fact the
+>> function belongs to one.
+>>
+>> OTOH, I do like simplifications. Yet, the added simplification might not
+>> warrant the namespace not being visible in the function definition.
+>>
+>>> Also, I would prefer if the namespace matched config name (IIO_ADC_HELPER).
+>>
+>> I had some lengthy discussion about this with Andy and Jonathan during
+>> earlier review versions. In short, I don't like the idea of very
+>> fragmented namespaces in IIO, which will just complicate the drivers
+>> without providing any obvious benefit.
+>>
+>> https://lore.kernel.org/all/20250222174842.57c091c5@jic23-huawei/
+>>
+>>>> +
+>>>> +int devm_iio_adc_device_alloc_chaninfo_se(struct device *dev,
+>>>> +                                         const struct iio_chan_spec *template,
+>>>> +                                         int max_chan_id,
+>>>> +                                         struct iio_chan_spec **cs);
+>>>> +
+>>>
+>>> There are some different opinions on this, but on the last patch I did
+>>> introducing a new namespace, the consensus seems to be that putting
+>>> the MODULE_IMPORT_NS() in the header file was convenient so that users
+>>> of the API don't have to remember to both include the header and add
+>>> the import macro.
+>>>    
+>>
+>> I do like this suggestion, and I believe this would be the balance
+>> between getting the benefit of hiding part of the symbols - while not
+>> unnecessarily complicating the callers. I know some people are opposing
+>> it though. My personal opinion is that having the MODULE_IMPORT_NS() in
+>> a header would be neatly simplifying the calling code with very little
+>> harm, especially here where including the header hardly has use-cases
+>> outside the IIO ADC.
+>>
+>> Unfortunately, the "safety" seems to often be a synonym for just "making
+>> it intentionally hard". As Finnish people say: "Kärsi, kärsi,
+>> kirkkaamman kruunun saat". :)
+>> (Roughly translated as "Suffer, suffer, you will get a brighter crown").
+>>
+>> Let's hear what Jonathan thinks of your suggestion.
+> 
+> For this particular case my intent was that all the IIO exports that
+> are suitable for use in simple IIO drives will be in this namespace,
+> we just haven't started that conversion yet.
+> 
+> As such, having it defined from a header for this helper isn't a good
+> thing to do.
 
-However, in cpu_dev_register_generic(), for_each_present_cpu()
-is used to register CPU devices which means the CPU devices are
-only registered for present CPUs and not all possible CPUs.
+Hmm. I agree.
 
-With nosmp or maxcpus=0, only the boot CPU is present, lead
-to the cpufreq probe failure or defer probe due to no cpu device
-available for not present CPUs.
+>  Generally I prefer to see in driver code what namespaces
+> are involved but do understand the other viewpoint. In this case I
+> definitely don't think it is appropriate unless we go for a specific namespace
+> for just this helper.
 
-Change for_each_possible_cpu() to for_each_present_cpu() in the
-above cpufreq drivers to ensure it only registers cpufreq for
-CPUs that are actually present.
+I suppose having the MODULE_IMPORT_NS() in the header would actually 
+make the more fine-grained namespaces (like IIO_ADC_HELPERS, IIO_GTS, 
+...) much more usable. That'd relieved the drivers from explicitly 
+listing multiple namespaces while nicely limiting the visibility.
 
-Fixes: b0c69e1214bc ("drivers: base: Use present CPUs in GENERIC_CPU_DEVICES")
-Signed-off-by: Jacky Bai <ping.bai@nxp.com>
----
- drivers/cpufreq/cpufreq-dt.c           | 2 +-
- drivers/cpufreq/mediatek-cpufreq-hw.c  | 2 +-
- drivers/cpufreq/mediatek-cpufreq.c     | 2 +-
- drivers/cpufreq/qcom-cpufreq-nvmem.c   | 8 ++++----
- drivers/cpufreq/sun50i-cpufreq-nvmem.c | 6 +++---
- 5 files changed, 10 insertions(+), 10 deletions(-)
+If IIO was my territory, I might want to ask people to go with that 
+approach - but I am quite happy being a freeloade.. errm, I mean, 
+bystander ;)
 
-diff --git a/drivers/cpufreq/cpufreq-dt.c b/drivers/cpufreq/cpufreq-dt.c
-index 778916f89a51..e80dd982a3e2 100644
---- a/drivers/cpufreq/cpufreq-dt.c
-+++ b/drivers/cpufreq/cpufreq-dt.c
-@@ -283,7 +283,7 @@ static int dt_cpufreq_probe(struct platform_device *pdev)
- 	int ret, cpu;
- 
- 	/* Request resources early so we can return in case of -EPROBE_DEFER */
--	for_each_possible_cpu(cpu) {
-+	for_each_present_cpu(cpu) {
- 		ret = dt_cpufreq_early_init(&pdev->dev, cpu);
- 		if (ret)
- 			goto err;
-diff --git a/drivers/cpufreq/mediatek-cpufreq-hw.c b/drivers/cpufreq/mediatek-cpufreq-hw.c
-index aa209f5527dc..74f1b4c796e4 100644
---- a/drivers/cpufreq/mediatek-cpufreq-hw.c
-+++ b/drivers/cpufreq/mediatek-cpufreq-hw.c
-@@ -303,7 +303,7 @@ static int mtk_cpufreq_hw_driver_probe(struct platform_device *pdev)
- 	struct regulator *cpu_reg;
- 
- 	/* Make sure that all CPU supplies are available before proceeding. */
--	for_each_possible_cpu(cpu) {
-+	for_each_present_cpu(cpu) {
- 		cpu_dev = get_cpu_device(cpu);
- 		if (!cpu_dev)
- 			return dev_err_probe(&pdev->dev, -EPROBE_DEFER,
-diff --git a/drivers/cpufreq/mediatek-cpufreq.c b/drivers/cpufreq/mediatek-cpufreq.c
-index 2656b88db378..f3f02c4b6888 100644
---- a/drivers/cpufreq/mediatek-cpufreq.c
-+++ b/drivers/cpufreq/mediatek-cpufreq.c
-@@ -631,7 +631,7 @@ static int mtk_cpufreq_probe(struct platform_device *pdev)
- 		return dev_err_probe(&pdev->dev, -ENODEV,
- 				     "failed to get mtk cpufreq platform data\n");
- 
--	for_each_possible_cpu(cpu) {
-+	for_each_present_cpu(cpu) {
- 		info = mtk_cpu_dvfs_info_lookup(cpu);
- 		if (info)
- 			continue;
-diff --git a/drivers/cpufreq/qcom-cpufreq-nvmem.c b/drivers/cpufreq/qcom-cpufreq-nvmem.c
-index 3a8ed723a23e..54f8117103c8 100644
---- a/drivers/cpufreq/qcom-cpufreq-nvmem.c
-+++ b/drivers/cpufreq/qcom-cpufreq-nvmem.c
-@@ -489,7 +489,7 @@ static int qcom_cpufreq_probe(struct platform_device *pdev)
- 		nvmem_cell_put(speedbin_nvmem);
- 	}
- 
--	for_each_possible_cpu(cpu) {
-+	for_each_present_cpu(cpu) {
- 		struct dev_pm_opp_config config = {
- 			.supported_hw = NULL,
- 		};
-@@ -543,7 +543,7 @@ static int qcom_cpufreq_probe(struct platform_device *pdev)
- 	dev_err(cpu_dev, "Failed to register platform device\n");
- 
- free_opp:
--	for_each_possible_cpu(cpu) {
-+	for_each_present_cpu(cpu) {
- 		dev_pm_domain_detach_list(drv->cpus[cpu].pd_list);
- 		dev_pm_opp_clear_config(drv->cpus[cpu].opp_token);
- 	}
-@@ -557,7 +557,7 @@ static void qcom_cpufreq_remove(struct platform_device *pdev)
- 
- 	platform_device_unregister(cpufreq_dt_pdev);
- 
--	for_each_possible_cpu(cpu) {
-+	for_each_present_cpu(cpu) {
- 		dev_pm_domain_detach_list(drv->cpus[cpu].pd_list);
- 		dev_pm_opp_clear_config(drv->cpus[cpu].opp_token);
- 	}
-@@ -568,7 +568,7 @@ static int qcom_cpufreq_suspend(struct device *dev)
- 	struct qcom_cpufreq_drv *drv = dev_get_drvdata(dev);
- 	unsigned int cpu;
- 
--	for_each_possible_cpu(cpu)
-+	for_each_present_cpu(cpu)
- 		qcom_cpufreq_suspend_pd_devs(drv, cpu);
- 
- 	return 0;
-diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-index 17d6a149f580..47d6840b3489 100644
---- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-+++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-@@ -262,7 +262,7 @@ static int sun50i_cpufreq_nvmem_probe(struct platform_device *pdev)
- 	snprintf(name, sizeof(name), "speed%d", speed);
- 	config.prop_name = name;
- 
--	for_each_possible_cpu(cpu) {
-+	for_each_present_cpu(cpu) {
- 		struct device *cpu_dev = get_cpu_device(cpu);
- 
- 		if (!cpu_dev) {
-@@ -288,7 +288,7 @@ static int sun50i_cpufreq_nvmem_probe(struct platform_device *pdev)
- 	pr_err("Failed to register platform device\n");
- 
- free_opp:
--	for_each_possible_cpu(cpu)
-+	for_each_present_cpu(cpu)
- 		dev_pm_opp_clear_config(opp_tokens[cpu]);
- 	kfree(opp_tokens);
- 
-@@ -302,7 +302,7 @@ static void sun50i_cpufreq_nvmem_remove(struct platform_device *pdev)
- 
- 	platform_device_unregister(cpufreq_dt_pdev);
- 
--	for_each_possible_cpu(cpu)
-+	for_each_present_cpu(cpu)
- 		dev_pm_opp_clear_config(opp_tokens[cpu]);
- 
- 	kfree(opp_tokens);
--- 
-2.34.1
+Thanks!
 
+Yours,
+	-- Matti
