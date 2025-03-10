@@ -1,72 +1,112 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 703FD1D5AB2;
-	Mon, 10 Mar 2025 10:19:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCACB846C
+	for <linux-sunxi@lists.linux.dev>; Mon, 10 Mar 2025 10:48:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741601996; cv=none; b=Yw8znpodFjd1WPxsmsRrQn707kGgYGPkFVmWx1yXVLpoF424EvGH95tWFplf32GAw/v5Tev0rbhhPlo+oHcyJXY8QQp1ZxZ5u2zKD1WW/8XltJGRgPdvJeH0PwysMFMd/LuiqD8meYzF+jXHWV3v53L1yuJ1NG5cnX+CSEnwNic=
+	t=1741603710; cv=none; b=X8rbMUFJ7NpzAdJ4dC0j1Uz27NMGABAQb1AWVp1u+38rtby8HX6aHKNgtymPPOVE7uHbKvvK1ECIe8/fE4ea2OP7vMNH9W01KLCx+Y/+eoxgNvu4YbvQlyQ+e5m1bPoAf4LHBYCUR7hQGa/UT4PCidaMYo0Xk7hgDUkEOofXYOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741601996; c=relaxed/simple;
-	bh=100GLxY3vbQfixL5KlFRnqxcfqt31VUMXg8446EaDyI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TOuPHlJ5cPeLAsvtxsuwQeiISdGtwQ9BZyRMsgwO1k8NGQJbJ0K+74EvT/gDmaNm30oIqhwAVE5FYy3bnJo+5SmQk2Mi83ClYqd3tpln3BYJAQ+YMEGbcK7JZX9EAy8Wm8DEydF9hMY2kLEhclxFL3WwMaQ0od2m3KGrVbvDVI4=
+	s=arc-20240116; t=1741603710; c=relaxed/simple;
+	bh=vp3GGKR2xiMcDEYzikelXFHF5XdEOgesgxhI4m2MWX8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SdPPPKR04voNzKH4z0KQfjAwmQtJK6pxqNqzUBXQ7NzniaNWStDIUEGqXw9iAHc4k7e+wcAHXwbJ/jAfg559PzgA96kCiDMacKANH0UkiI0swUPhmEEYXAGSbIoiZ7AbBZz+qKUxzUwP/ulLYGDKSh3+MSYG4Gd//m7GzIZV78Q=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5103C153B;
-	Mon, 10 Mar 2025 03:20:05 -0700 (PDT)
-Received: from bogus (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0A2573F673;
-	Mon, 10 Mar 2025 03:19:50 -0700 (PDT)
-Date: Mon, 10 Mar 2025 10:19:48 +0000
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Jacky Bai <ping.bai@nxp.com>
-Cc: <rafael@kernel.org>, <viresh.kumar@linaro.org>, <ilia.lin@kernel.org>,
-	Sudeep Holla <sudeep.holla@arm.com>, <tiny.windzz@gmail.com>,
-	<wens@csie.org>, <jernej.skrabec@gmail.com>, <samuel@sholland.org>,
-	<matthias.bgg@gmail.com>, <angelogioacchino.delregno@collabora.com>,
-	<linux-pm@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-mediatek@lists.infradead.org>,
-	<imx@lists.linux.dev>
-Subject: Re: [PATCH] cpufreq: Init cpufreq only for present CPUs
-Message-ID: <Z868xB3_3NhMsa7R@bogus>
-References: <20250310071640.3140435-1-ping.bai@nxp.com>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 95160153B;
+	Mon, 10 Mar 2025 03:48:39 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8E4223F673;
+	Mon, 10 Mar 2025 03:48:24 -0700 (PDT)
+Date: Mon, 10 Mar 2025 10:48:21 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: "Ryan Walklin" <ryan@testtoast.com>
+Cc: "Maxime Ripard" <mripard@kernel.org>, "Chen-Yu Tsai" <wens@csie.org>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Thomas
+ Zimmermann" <tzimmermann@suse.de>, "David Airlie" <airlied@gmail.com>,
+ "Daniel Vetter" <daniel@ffwll.ch>, "Jernej Skrabec"
+ <jernej.skrabec@gmail.com>, "Samuel Holland" <samuel@sholland.org>, "Rob
+ Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>, "Michael Turquette"
+ <mturquette@baylibre.com>, "Stephen Boyd" <sboyd@kernel.org>, "Chris
+ Morgan" <macroalpha82@gmail.com>, "Hironori KIKUCHI"
+ <kikuchan98@gmail.com>, "Philippe Simons" <simons.philippe@gmail.com>,
+ "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-clk@vger.kernel.org, "Conor Dooley" <conor.dooley@microchip.com>
+Subject: Re: [PATCH v7 22/27] dt-bindings: allwinner: add H616 DE33 mixer
+ binding
+Message-ID: <20250310104821.3c85977a@donnerap.manchester.arm.com>
+In-Reply-To: <c8b85753-5c97-4258-a158-06a17929fad6@app.fastmail.com>
+References: <20250216183710.8443-3-ryan@testtoast.com>
+	<20250216183710.8443-23-ryan@testtoast.com>
+	<20250224175642.170c124e@donnerap.manchester.arm.com>
+	<c8b85753-5c97-4258-a158-06a17929fad6@app.fastmail.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250310071640.3140435-1-ping.bai@nxp.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 10, 2025 at 03:16:40PM +0800, Jacky Bai wrote:
-> for_each_possible_cpu() is currently used to initialize cpufreq
-> in below cpufreq drivers:
->   drivers/cpufreq/cpufreq-dt.c
->   drivers/cpufreq/mediatek-cpufreq-hw.c
->   drivers/cpufreq/mediatek-cpufreq.c
->   drivers/cpufreq/qcom-cpufreq-nvmem.c
->   drivers/cpufreq/sun50i-cpufreq-nvmem.c
->
+On Mon, 10 Mar 2025 22:30:36 +1300
+"Ryan Walklin" <ryan@testtoast.com> wrote:
 
-Again how did you just narrow down to the list above ? Is that just a
-random pick ? As I suggested with corresponding cpuidle changes, please
-look into the details in side the for_each_possible_cpu() loop and then
-decide if it applies or not.
+Hi Ryan,
 
-For me, it applied to the below files as well at the least.
+> On Tue, 25 Feb 2025, at 6:56 AM, Andre Przywara wrote:
+> 
+> Apologies Andre, I came to review your comments on the TCON series and realised I had missed responding to this comment before sending v8. 
 
-drivers/cpufreq/mvebu-cpufreq.c
-drivers/cpufreq/qcom-cpufreq-hw.c
-drivers/cpufreq/scmi-cpufreq.c
-drivers/cpufreq/scpi-cpufreq.c
-drivers/cpufreq/virtual-cpufreq.c
+No worries about that!
 
-Please check everything thoroughly as I just looked at these briefly.
+> >> +      - allwinner,sun50i-h616-de33-mixer-0
+> >>  
+> >>    reg:
+> >> -    maxItems: 1
+> >> +    minItems: 1
+> >> +    maxItems: 3  
+> >
+> > What are those three regions? I wonder if we should have reg-names here,
+> > to fix the order, and to document them on the way?  
+> 
+> This would be the top, display and mixer groups for the DE333, and mixer for DE3 and earlier. Can certainly add in names for these. Is there any example elsewhere in the bindings to look at?
 
---
-Regards,
-Sudeep
+It's basically the same idea as for clock-names, as used in this very file
+here (allwinner,sun8i-a83t-de2-mixer.yaml). You can find an explicit
+example for reg-names in allwinner,sun4i-a10-mbus.yaml, for instance.
+In the code you would use devm_platform_ioremap_resource_byname() then.
+
+Cheers,
+Andre
+
+> >> @@ -61,6 +63,23 @@ properties:
+> >>      required:
+> >>        - port@1
+> >>  
+> >> +allOf:
+> >> +  - if:
+> >> +      properties:
+> >> +        compatible:
+> >> +          enum:
+> >> +            - allwinner,sun50i-h616-de33-mixer-0
+> >> +
+> >> +    then:
+> >> +      properties:
+> >> +        reg:
+> >> +          maxItems: 3  
+> >
+> > Should we override minItems here as well? I guess any driver would need
+> > all three region to work?  
+> 
+> This seems sensible, as you say it would always be 3 groups for the DE33.
+> 
+> Regards,
+> 
+> Ryan
+
