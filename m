@@ -1,270 +1,131 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F04221DB0
-	for <linux-sunxi@lists.linux.dev>; Mon, 10 Mar 2025 07:41:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741592467; cv=none; b=kekR+rQXy7/my9jaSrI/7GFeVVN22/Ov9TDVo9NXg0STFt58xAF0wpOSWvQsjEmexsRwzhNjWXR4EizRUidQoz/YH1bGfW0dETd3MlpzBzJSEs6UvXo2hDUfhpvkO8icb+L8G73ENJjSRSSkbg9ZsJJ+Mu7JQkJuQKEPEcSXVIY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741592467; c=relaxed/simple;
-	bh=LTMAUQTizHw74W2gOqhgX2l8ap8D2eBxC8RTz2GImYg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PClRoOW/nXoiGIjDXaw2QHVsEJA7wLCgiiGaCKz5W2c4FW0g9R+rDoJ04+qHlrL44D15m5cA46/ttVDMYRLgh+xbvLvTXi5rKlu8GuMA5RmlsyQEZlSia0JpM4mRbz4p0qEn0J/p5r+TqK0CC5nAHNBFDaoVRZhFmHWFAeAt2/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WdBKL7m8; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7CC21C3C11
+	for <linux-sunxi@lists.linux.dev>; Mon, 10 Mar 2025 09:16:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741598196; cv=pass; b=NS9TpStCk0BGp2y9pVfEgngCXHLyPQsj5phROsupwOYkHUNZpS9DV3EcFAeY5EC5yl/flS5DmRcyMzOtxjHEC8DhM8O7bW+aonPL9lysNzmQCFZedS2vUM5pwQ1tZ4LJ8JqIUhKoCa0r58T7OzcbthZ/RHNyk6iD2UKb/XG98/c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741598196; c=relaxed/simple;
+	bh=LIsNC0d0+vMPzVLhQsuXvCpcApfcbeBCFsHnT4lffgI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=AMak6Fwwh9nnKcGBHZXHM3o3vKa7fBbAuzV2fisqeDHP9glmC+vtMUFNlBsg0B9CUK4QEluaZOyrBVc44ef4FzlhDMAvwk0nNzM5BXVHRGfNYOQcQ4c04coFgckb8j9YW7Ep4VGHYDBgtLfNr7r5UZmHiX16rKeZ+2onfvGrxqE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me; spf=pass smtp.mailfrom=icenowy.me; dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b=bMekBTLC; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icenowy.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WdBKL7m8"
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5498c742661so4299273e87.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 10 Mar 2025 00:41:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741592463; x=1742197263; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=osEFHHA8j9TYONQ8F8JDSlqbUbM3s6nOsIv91QRD3Lc=;
-        b=WdBKL7m8ZrEtJPEy/+IQOXAgoBulMOrrdIF+Gm+YzkKf3ufAHkE+84WpLa/CaLpD07
-         /Z9YPcR4fOxWxQgS2rZXcTLHU9Sz6ydAhrEKgpbAWp/Mzxmee8IqX18IFxJ5kdLq2WC0
-         7kaWfg05P9sY3t1oIuKoYMFYk14qk7VeDjW9Bo5uGniL51m4TlKOK4XWzV8cOD2wVLSa
-         5OWnaE5vEIieC9r+X3KrB+kpcDhwCDzjAmNtY8gF4nbbSsqfxXxl/XkZmmjBcaRhr59p
-         iY9evslcAgcIZYsQhV1vEn3YPh0j/mWg9h43Ef6/TWRQjIXlIRA84AXR9f2MqZZJcCO/
-         vARQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741592463; x=1742197263;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=osEFHHA8j9TYONQ8F8JDSlqbUbM3s6nOsIv91QRD3Lc=;
-        b=kLSSV0Y0VPN3KRfYEG//dLoKyy48zGdG7MA7R92rLHtl1+lBIPsgb+a0ASEy6P0Fub
-         3F2zPCAOH5v3KVLVG2gL/kLSN4sIOwntAe/QpucYPISjLTdWABPuSeDEvFftzRRtLU88
-         mhRnhbGy5yfQKs3rVImvMyUkrcCNrf2eebCILIWATU1J6YCWMNuiT78ocxrI9+czRp84
-         x+alkjryUJt5P0+8C/ZuMQJZ/WEFEZXXrmFjRxc8B7uMN003IUI6irG5BXVJSyKGec6a
-         XBh64CoRnSRCvO9R9yv61l7piZBMVcxbvl7ONBxLrh/tvbIhHdgovkj1wERDTzBIz4eH
-         ZtQw==
-X-Forwarded-Encrypted: i=1; AJvYcCULzHzRYkXDc/WFg1ECfoN/0/tkp17MtdBAhNkTcivNf/cMOdFfm3UX1E+hFcb/mQqS8vM+nYQwjKUA/A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyR4bjG8k1sdK6KucEpND1PrBx7pQ75MwQ9ahcjt9j8pH7DppYD
-	4Zs9TxUSn4UKnd53g9A5szxaPgbfs11Et6HbPXGpuRPhgZCqImEs
-X-Gm-Gg: ASbGncsd8SwtIApKU+2UefEPU6+6FMBXg7gt/UYMISNfejRb249ET125yZxcdwZLVKj
-	2r4acX0Lbh0Py24S9ImL1N8ohmhV3iEZxhiMXp7iuIbTerlGFaknhoQ9ksHMyRzEIswG/BgUYrU
-	Eg8EALE59iuhWHKTa9pxPm51YJR8N4vAXBXSyGxjKesKjOeRFhYkBpqKfkDLGTN0G/Px1SNPXkW
-	vYxG498e83xvtJUMI03P/mpAKWNiLhngODNr7ChkHLm2X0lPvmMHnQLuv3pyE7ed5Mf3+m4y3g9
-	HoBdRBg4y6qgpn1ueow0GIuBU/RCDxW35twxgdyptI0o2s0HglgnSmQYYEsfRPCwLagaS+kxJqK
-	tSa0mvJtrVoQFlVQuwvLkDNoIXQ==
-X-Google-Smtp-Source: AGHT+IH2xlfCjxUf0Jmc6edmxLihr/sOKf0PRYUS3gP/gGJ3W6JuFQR6v8x9TcODLg2RTjj4/+/a7A==
-X-Received: by 2002:a05:6512:ba6:b0:549:8f15:db2f with SMTP id 2adb3069b0e04-54990e6771cmr4714399e87.31.1741592462737;
-        Mon, 10 Mar 2025 00:41:02 -0700 (PDT)
-Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5498b0bd032sm1379150e87.142.2025.03.10.00.41.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Mar 2025 00:41:02 -0700 (PDT)
-Message-ID: <4d5212b3-3801-408c-9a5d-c6111189793c@gmail.com>
-Date: Mon, 10 Mar 2025 09:41:00 +0200
+	dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b="bMekBTLC"
+ARC-Seal: i=1; a=rsa-sha256; t=1741598187; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=JnXIElBrhxld/OxIgMq5ru+g03VC6LPVlWou+AaAYMJf8/rSIQzcJUDNUGkEkWODW4K1Iv/hKETx9OlviRMyHiNmLSKtd/L4lgIhms/y9BPotoZ/YX74v6vja0jnwCG7fHKAvvbCogmdIsC+MwgGP/pjlhqZ9P6z8Y7eo2y06HU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1741598187; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=LIsNC0d0+vMPzVLhQsuXvCpcApfcbeBCFsHnT4lffgI=; 
+	b=QRSaa79EVuEH5OX58kpMSaTuFEiaP8tQDyRInCG7xDoHj3WJA+lpqbR/RwsOQYFyUiIEGVsQQvRuJBNG0kwiHI3NrEWpyud7dYFoaDWXO6Md0p6tuBa92vCpi7CstGaXUYrdQgI38bsvURGTQquscZWZWI63CBlbqY8bPNZhzJg=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=icenowy.me;
+	spf=pass  smtp.mailfrom=uwu@icenowy.me;
+	dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1741598187;
+	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+	bh=LIsNC0d0+vMPzVLhQsuXvCpcApfcbeBCFsHnT4lffgI=;
+	b=bMekBTLCC/pQTrrbhIyDC5qGaXkViK4Y9TRz2R+KOFtz0RVkJn4VZOUEzvADiwcG
+	SdwKHCM+6FhFspPWK3fgmNuYPtq7Gp85LsFAm5hbKthu7syOnCo12zU1zaMeznF4B9q
+	YdoT4xwPzTfCPHSCPJm25l946mChsUwJEg1vIXkTYasTV3CpymPcjo9KX8Kre/Slfbi
+	LpYuyTKJfw6FJvS2RLOInG7eB/KEidZ15DrFtT1WOXS+lguYmd03WlI2FgNNgvFRITd
+	7ufjhiz2vXHqj89P/ien3wT6eyn4rHk6BdFF/tZn4D3R259eCFNEk41ukWvZ8Ck0X4/
+	JKxoEampEA==
+Received: by mx.zohomail.com with SMTPS id 1741598184307212.35897077943946;
+	Mon, 10 Mar 2025 02:16:24 -0700 (PDT)
+Message-ID: <271b604cc5d4e8f145651f7c327ddeb50e2945d8.camel@icenowy.me>
+Subject: Re: [PATCH 1/2] sunxi: h616: dram: Rework size detection
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>, jagan@amarulasolutions.com, 
+	andre.przywara@arm.com, trini@konsulko.com
+Cc: macromorgan@hotmail.com, u-boot@lists.denx.de,
+ linux-sunxi@lists.linux.dev
+Date: Mon, 10 Mar 2025 17:16:16 +0800
+In-Reply-To: <20250309063143.62859-2-jernej.skrabec@gmail.com>
+References: <20250309063143.62859-1-jernej.skrabec@gmail.com>
+	 <20250309063143.62859-2-jernej.skrabec@gmail.com>
+Organization: Anthon Open-Source Community
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.44.4 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 03/10] iio: adc: add helpers for parsing ADC nodes
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: David Lechner <dlechner@baylibre.com>,
- Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
- Lars-Peter Clausen <lars@metafoo.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Hugo Villeneuve <hvilleneuve@dimonoff.com>, Nuno Sa <nuno.sa@analog.com>,
- Javier Carrasco <javier.carrasco.cruz@gmail.com>,
- Guillaume Stols <gstols@baylibre.com>,
- Dumitru Ceclan <mitrutzceclan@gmail.com>,
- Trevor Gamblin <tgamblin@baylibre.com>,
- Matteo Martelli <matteomartelli3@gmail.com>,
- Alisa-Dariana Roman <alisadariana@gmail.com>,
- Ramona Alexandra Nechita <ramona.nechita@analog.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <cover.1740993491.git.mazziesaccount@gmail.com>
- <e71c63c2f61135f9a8c7884525aab2c48f1e84c2.1740993491.git.mazziesaccount@gmail.com>
- <CAMknhBGQaqFZJsPAoauZL4S5MYtN05EOQ-BO2vw5gH+Z2RLOhw@mail.gmail.com>
- <54a031d0-df47-4baa-a23a-1a79c0922542@gmail.com>
- <20250308162928.72bd1d1b@jic23-huawei>
-Content-Language: en-US, en-AU, en-GB, en-BW
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <20250308162928.72bd1d1b@jic23-huawei>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-On 08/03/2025 18:29, Jonathan Cameron wrote:
-> On Wed, 5 Mar 2025 12:54:33 +0200
-> Matti Vaittinen <mazziesaccount@gmail.com> wrote:
-> 
->> Thanks for the review David.
->>
->> On 04/03/2025 11:25, David Lechner wrote:
->>> On Mon, Mar 3, 2025 at 12:32 PM Matti Vaittinen
->>> <mazziesaccount@gmail.com> wrote:
->>>>
->>>> There are ADC ICs which may have some of the AIN pins usable for other
->>>> functions. These ICs may have some of the AIN pins wired so that they
->>>> should not be used for ADC.
->>>>
->>>> (Preferred?) way for marking pins which can be used as ADC inputs is to
->>>> add corresponding channels@N nodes in the device tree as described in
->>>> the ADC binding yaml.
->>>>
->>>> Add couple of helper functions which can be used to retrieve the channel
->>>> information from the device node.
->>>>
->>>> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
->>>>
->>>> ---
->>
->>>> + *
->>>> + * Return:     Number of found channels on succes. Negative value to indicate
->>>
->>> s/succes/success/
->>
->> Thanks!
->>
->>>> +int devm_iio_adc_device_alloc_chaninfo_se(struct device *dev,
->>>> +                                         const struct iio_chan_spec *template,
->>>> +                                         int max_chan_id,
->>>> +                                         struct iio_chan_spec **cs)
->>>> +{
->>>> +       struct iio_chan_spec *chan_array, *chan;
->>>> +       int num_chan = 0, ret;
->>>> +
->>>> +       num_chan = iio_adc_device_num_channels(dev);
->>>> +       if (num_chan < 1)
->>>> +               return num_chan;
->>>> +
->>>> +       chan_array = devm_kcalloc(dev, num_chan, sizeof(*chan_array),
->>>> +                                 GFP_KERNEL);
->>>> +       if (!chan_array)
->>>> +               return -ENOMEM;
->>>> +
->>>> +       chan = &chan_array[0];
->>>> +
->>>> +       device_for_each_child_node_scoped(dev, child) {
->>>> +               u32 ch;
->>>> +
->>>> +               if (!fwnode_name_eq(child, "channel"))
->>>> +                       continue;
->>>> +
->>>> +               ret = fwnode_property_read_u32(child, "reg", &ch);
->>>> +               if (ret)
->>>> +                       return ret;
->>>> +
->>>> +               if (max_chan_id != -1 && ch > max_chan_id)
->>>> +                       return -ERANGE;
->>>> +
->>>
->>> Should we use return dev_err_probe() on these to help with debugging a bad dtb?
->>>    
->>
->> I am not fan of using dev_err_probe() in a 'library code'. This is
->> because we never know if there'll be some odd use-case where this is not
->> called from the probe.
->>
->> All in all, I'd leave adding most of the debugs to the callers -
->> especially because we do not expect to have bad device-trees after the
->> initial 'development stage' of a board. The board 'development stage'
->> should really reveal bugs which prevent the channels from being
->> registered - and after the DT is correct, these debug prints become
->> unnecessary (albeit minor) binary bloat.
->>
->>>> +               *chan = *template;
->>>> +               chan->channel = ch;
->>>> +               chan++;
->>>> +       }
->>>> +
->>>> +       *cs = chan_array;
->>>> +
->>>> +       return num_chan;
->>>> +}
->>>> +EXPORT_SYMBOL_NS_GPL(devm_iio_adc_device_alloc_chaninfo_se, "IIO_DRIVER");
->>>
->>> We can make this less verbose by setting #define
->>> DEFAULT_SYMBOL_NAMESPACE at the start of the file. Then we can just do
->>> EXPORT_SYMBOL_GPL() throughout the rest of the file.
->>
->> I am not sure what to think of this. I use the good old 'ctrl + ]' in my
->> editor when I need to check how a function was supposed to be used. That
->> jumps to the spot of code where the function is. I'd like to see the
->> namespace mentioned there in order to not accidentally miss the fact the
->> function belongs to one.
->>
->> OTOH, I do like simplifications. Yet, the added simplification might not
->> warrant the namespace not being visible in the function definition.
->>
->>> Also, I would prefer if the namespace matched config name (IIO_ADC_HELPER).
->>
->> I had some lengthy discussion about this with Andy and Jonathan during
->> earlier review versions. In short, I don't like the idea of very
->> fragmented namespaces in IIO, which will just complicate the drivers
->> without providing any obvious benefit.
->>
->> https://lore.kernel.org/all/20250222174842.57c091c5@jic23-huawei/
->>
->>>> +
->>>> +int devm_iio_adc_device_alloc_chaninfo_se(struct device *dev,
->>>> +                                         const struct iio_chan_spec *template,
->>>> +                                         int max_chan_id,
->>>> +                                         struct iio_chan_spec **cs);
->>>> +
->>>
->>> There are some different opinions on this, but on the last patch I did
->>> introducing a new namespace, the consensus seems to be that putting
->>> the MODULE_IMPORT_NS() in the header file was convenient so that users
->>> of the API don't have to remember to both include the header and add
->>> the import macro.
->>>    
->>
->> I do like this suggestion, and I believe this would be the balance
->> between getting the benefit of hiding part of the symbols - while not
->> unnecessarily complicating the callers. I know some people are opposing
->> it though. My personal opinion is that having the MODULE_IMPORT_NS() in
->> a header would be neatly simplifying the calling code with very little
->> harm, especially here where including the header hardly has use-cases
->> outside the IIO ADC.
->>
->> Unfortunately, the "safety" seems to often be a synonym for just "making
->> it intentionally hard". As Finnish people say: "Kärsi, kärsi,
->> kirkkaamman kruunun saat". :)
->> (Roughly translated as "Suffer, suffer, you will get a brighter crown").
->>
->> Let's hear what Jonathan thinks of your suggestion.
-> 
-> For this particular case my intent was that all the IIO exports that
-> are suitable for use in simple IIO drives will be in this namespace,
-> we just haven't started that conversion yet.
-> 
-> As such, having it defined from a header for this helper isn't a good
-> thing to do.
+5ZyoIDIwMjUtMDMtMDnmmJ/mnJ/ml6XnmoQgMDc6MzEgKzAxMDDvvIxKZXJuZWogU2tyYWJlY+WG
+memBk++8mgo+IFNpbmNlIHRoZXJlIGlzIHF1aXRlIGEgZmV3IHBvc3NpYmxlIERSQU0gY29uZmln
+dXJhdGlvbnMgaW4gdGVybXMgb2YKPiBidXMKPiB3aWR0aCwgcmFuayBhbmQgcm93cyBhbmQgY29s
+dW1ucyBjb3VudCwgc2l6ZSBkZXRlY3Rpb24gYWxnb3JpdGhtIG11c3QKPiBiZQo+IHZlcnkgY2Fy
+ZWZ1bCBub3QgdG8gdGVzdCBjb21iaW5hdGlvbiB3aGljaCB3b3VsZCBiZSBiaWdnZXIgdGhhbiBI
+NjE2Cj4gaXMKPiBhY3R1YWxseSBjYXBhYmxlIG9mIGhhbmRsaW5nLgo+IAo+IElkZWFsbHksIHdl
+IHNob3VsZCBhbHdheXMgZGV0ZWN0IG1lbW9yeSBhbGlhc2luZywgZXZlbiBmb3IgNCBHQgo+IG1l
+bW9yeQo+IHNpemUsIHdoaWNoIGlzIHRoZSBtYXhpbXVtIGFtb3VudCBvZiBtZW1vcnkgdGhhdCBI
+NjE2IGlzIGNhcGFibGUgb2YKPiBoYW5kbGluZy4gRm9yIHRoaXMgcmVhc29uLCB3ZSBoYXZlIHRv
+IGNvbmZpZ3VyZSBtaW5pbXVtIGFtb3VudCBvZgo+IHN1cHBvcnRlZCByb3dzIHdoZW4gdGVzdGlu
+ZyBmb3IgY29sdW1ucyBhbmQgdmljZSB2ZXJzYS4gVGhpcyB3YXkgdGVzdAo+IGNvZGUgd2lsbCBu
+ZXZlciBzdGVwIG91dCBvZiA0IEdCIGJvdW5kYXJ5LgoKVGhpcyBpcyBhbHNvIHRoZSBiZWhhdmlv
+ciBvZiBwcmV2aW91cyBEUkFNIGRyaXZlcnMuCgo+IAo+IFdoaWxlIGF0IGl0LCBjaGVjayBmb3Ig
+MTcgcm93cyBtYXhpbXVtLiBUaGlzIGFsaWducyBjb2RlIHdpdGggQlNQCj4gRFJBTQo+IGRyaXZl
+ci4gVGhlcmUgaXMgcHJvYmFibHkgbm8gc3VjaCBjb25maWd1cmF0aW9uIHdoaWNoIHdvdWxkIG1h
+a2UKPiBzZW5zZQo+IHdpdGggNCBHQiBtZW1vcnkuCgpJIGNoZWNrZWQgdGhlIEpFREVDIEpFU0Q3
+OS00RCBkb2N1bWVudCwgYW5kIGZvdW5kIHRoYXQgMTggcm93cyBhcmUgb25seQphdmFpbGFibGUg
+Zm9yIHg0IGRpZXMsIHdoaWNoIGFyZSBub3QgY29tcGF0aWJsZSB3aXRoIHRoZXNlIEFsbHdpbm5l
+cgpTb0NzIGF0IGFsbCAobm90IGVub3VnaCBEUVMgcGlucykuCgpSZXZpZXdlZC1ieTogSWNlbm93
+eSBaaGVuZyA8dXd1QGljZW5vd3kubWU+Cgo+IAo+IFNpZ25lZC1vZmYtYnk6IEplcm5laiBTa3Jh
+YmVjIDxqZXJuZWouc2tyYWJlY0BnbWFpbC5jb20+Cj4gLS0tCj4gwqBhcmNoL2FybS9tYWNoLXN1
+bnhpL2RyYW1fc3VuNTBpX2g2MTYuYyB8IDIwICsrKysrKysrKysrKy0tLS0tLS0tCj4gwqAxIGZp
+bGUgY2hhbmdlZCwgMTIgaW5zZXJ0aW9ucygrKSwgOCBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0t
+Z2l0IGEvYXJjaC9hcm0vbWFjaC1zdW54aS9kcmFtX3N1bjUwaV9oNjE2LmMgYi9hcmNoL2FybS9t
+YWNoLQo+IHN1bnhpL2RyYW1fc3VuNTBpX2g2MTYuYwo+IGluZGV4IGIzNTU0Y2M2NGJmNS4uNmY4
+NGU1OWUzOWNkIDEwMDY0NAo+IC0tLSBhL2FyY2gvYXJtL21hY2gtc3VueGkvZHJhbV9zdW41MGlf
+aDYxNi5jCj4gKysrIGIvYXJjaC9hcm0vbWFjaC1zdW54aS9kcmFtX3N1bjUwaV9oNjE2LmMKPiBA
+QCAtMTM2Myw3ICsxMzYzLDcgQEAgc3RhdGljIHZvaWQgbWN0bF9hdXRvX2RldGVjdF9yYW5rX3dp
+ZHRoKGNvbnN0Cj4gc3RydWN0IGRyYW1fcGFyYSAqcGFyYSwKPiDCoHN0YXRpYyB2b2lkIG1jdGxf
+YXV0b19kZXRlY3RfZHJhbV9zaXplKGNvbnN0IHN0cnVjdCBkcmFtX3BhcmEgKnBhcmEsCj4gwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3QgZHJhbV9jb25maWcgKmNvbmZpZykKPiDCoHsKPiAtwqDC
+oMKgwqDCoMKgwqB1bnNpZ25lZCBpbnQgc2hpZnQ7Cj4gK8KgwqDCoMKgwqDCoMKgdW5zaWduZWQg
+aW50IHNoaWZ0LCBjb2xzLCByb3dzOwo+IMKgCj4gwqDCoMKgwqDCoMKgwqDCoC8qIG1heC4gY29u
+ZmlnIGZvciBjb2x1bW5zLCBidXQgbm90IHJvd3MgKi8KPiDCoMKgwqDCoMKgwqDCoMKgY29uZmln
+LT5jb2xzID0gMTE7Cj4gQEAgLTEzNzMsMjMgKzEzNzMsMjcgQEAgc3RhdGljIHZvaWQgbWN0bF9h
+dXRvX2RldGVjdF9kcmFtX3NpemUoY29uc3QKPiBzdHJ1Y3QgZHJhbV9wYXJhICpwYXJhLAo+IMKg
+wqDCoMKgwqDCoMKgwqBzaGlmdCA9IGNvbmZpZy0+YnVzX2Z1bGxfd2lkdGggKyAxOwo+IMKgCj4g
+wqDCoMKgwqDCoMKgwqDCoC8qIGRldGVjdCBjb2x1bW4gYWRkcmVzcyBiaXRzICovCj4gLcKgwqDC
+oMKgwqDCoMKgZm9yIChjb25maWctPmNvbHMgPSA4OyBjb25maWctPmNvbHMgPCAxMTsgY29uZmln
+LT5jb2xzKyspIHsKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaWYgKG1jdGxfbWVt
+X21hdGNoZXMoMVVMTCA8PCAoY29uZmlnLT5jb2xzICsgc2hpZnQpKSkKPiArwqDCoMKgwqDCoMKg
+wqBmb3IgKGNvbHMgPSA4OyBjb2xzIDwgMTE7IGNvbHMrKykgewo+ICvCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqBpZiAobWN0bF9tZW1fbWF0Y2hlcygxVUxMIDw8IChjb2xzICsgc2hpZnQp
+KSkKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBicmVh
+azsKPiDCoMKgwqDCoMKgwqDCoMKgfQo+IC3CoMKgwqDCoMKgwqDCoGRlYnVnKCJkZXRlY3RlZCAl
+dSBjb2x1bW5zXG4iLCBjb25maWctPmNvbHMpOwo+ICvCoMKgwqDCoMKgwqDCoGRlYnVnKCJkZXRl
+Y3RlZCAldSBjb2x1bW5zXG4iLCBjb2xzKTsKPiDCoAo+IMKgwqDCoMKgwqDCoMKgwqAvKiByZWNv
+bmZpZ3VyZSB0byBtYWtlIHN1cmUgdGhhdCBhbGwgYWN0aXZlIHJvd3MgYXJlCj4gYWNjZXNzaWJs
+ZSAqLwo+IC3CoMKgwqDCoMKgwqDCoGNvbmZpZy0+cm93cyA9IDE4Owo+ICvCoMKgwqDCoMKgwqDC
+oGNvbmZpZy0+Y29scyA9IDg7Cj4gK8KgwqDCoMKgwqDCoMKgY29uZmlnLT5yb3dzID0gMTc7Cj4g
+wqDCoMKgwqDCoMKgwqDCoG1jdGxfY29yZV9pbml0KHBhcmEsIGNvbmZpZyk7Cj4gwqAKPiDCoMKg
+wqDCoMKgwqDCoMKgLyogZGV0ZWN0IHJvdyBhZGRyZXNzIGJpdHMgKi8KPiDCoMKgwqDCoMKgwqDC
+oMKgc2hpZnQgPSBjb25maWctPmJ1c19mdWxsX3dpZHRoICsgNCArIGNvbmZpZy0+Y29sczsKPiAt
+wqDCoMKgwqDCoMKgwqBmb3IgKGNvbmZpZy0+cm93cyA9IDEzOyBjb25maWctPnJvd3MgPCAxODsg
+Y29uZmlnLT5yb3dzKyspIHsKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaWYgKG1j
+dGxfbWVtX21hdGNoZXMoMVVMTCA8PCAoY29uZmlnLT5yb3dzICsgc2hpZnQpKSkKPiArwqDCoMKg
+wqDCoMKgwqBmb3IgKHJvd3MgPSAxMzsgcm93cyA8IDE3OyByb3dzKyspIHsKPiArwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgaWYgKG1jdGxfbWVtX21hdGNoZXMoMVVMTCA8PCAocm93cyAr
+IHNoaWZ0KSkpCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgYnJlYWs7Cj4gwqDCoMKgwqDCoMKgwqDCoH0KPiAtwqDCoMKgwqDCoMKgwqBkZWJ1ZygiZGV0
+ZWN0ZWQgJXUgcm93c1xuIiwgY29uZmlnLT5yb3dzKTsKPiArwqDCoMKgwqDCoMKgwqBkZWJ1Zygi
+ZGV0ZWN0ZWQgJXUgcm93c1xuIiwgcm93cyk7Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoGNvbmZpZy0+
+Y29scyA9IGNvbHM7Cj4gK8KgwqDCoMKgwqDCoMKgY29uZmlnLT5yb3dzID0gcm93czsKPiDCoH0K
+PiDCoAo+IMKgc3RhdGljIHVuc2lnbmVkIGxvbmcgbWN0bF9jYWxjX3NpemUoY29uc3Qgc3RydWN0
+IGRyYW1fY29uZmlnCj4gKmNvbmZpZykKCg==
 
-Hmm. I agree.
-
->  Generally I prefer to see in driver code what namespaces
-> are involved but do understand the other viewpoint. In this case I
-> definitely don't think it is appropriate unless we go for a specific namespace
-> for just this helper.
-
-I suppose having the MODULE_IMPORT_NS() in the header would actually 
-make the more fine-grained namespaces (like IIO_ADC_HELPERS, IIO_GTS, 
-...) much more usable. That'd relieved the drivers from explicitly 
-listing multiple namespaces while nicely limiting the visibility.
-
-If IIO was my territory, I might want to ask people to go with that 
-approach - but I am quite happy being a freeloade.. errm, I mean, 
-bystander ;)
-
-Thanks!
-
-Yours,
-	-- Matti
