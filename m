@@ -1,164 +1,98 @@
-Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE47B263885
-	for <linux-sunxi@lists.linux.dev>; Tue, 11 Mar 2025 18:03:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E6A2263C82;
+	Tue, 11 Mar 2025 18:24:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741716191; cv=none; b=M4uw9QSSXXbjDg73tm5F7feUE9oK5KtJqCp6NmZRai9GCbyXJ2+tTg4kZSe3wP5QdOnOSXEHtNovALYG3/WEuOzoeyp+IP+mHdnMt55Py7aUP+SBhHb1h46u7cu1sPzoD+2nOtIPCE2fHQ/QTcuOhnUGG/sohxCIHg7LuvQiGyY=
+	t=1741717487; cv=none; b=KL0prH6uU0f19RKFH/tL9qXiR/1NvK4aat1pBEu3fESomAXsY58gB7g/bSXQSHpuND0l1DcsEGbF0usuMpkw65yqmKXAVS/FXNSNJTSvrzmBBBuncf7IpWn1szb3nPTXujf+1BCo03fsUjb7x4bAUeYk5544t0mcEXvcB2/yyQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741716191; c=relaxed/simple;
-	bh=U+RNplFd6qinTEw3vNw9Zo36WoeKy7QuTkJ35A0hr0s=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=supPqS49XSNrbyZh+HMCJO2kPlGKg9IaXjTktO2Evg7oyIJLzHLXEQE5xbgo8exlgm4fpEVSMAhARyjTmosZI8lVlIRg27j1lnuvHUHlxqQaMjitqD3kYXuKrTM3xkBINeyoLabi33iAIzt4kuEr9Kal0z7kRG/dUx6eHAswUSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=EMF4JM/i; arc=none smtp.client-ip=193.68.50.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="EMF4JM/i"
-Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
-	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id 47B52A00F5;
-	Tue, 11 Mar 2025 19:03:00 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:from:from:message-id:mime-version:reply-to:subject:subject:to
-	:to; s=mail; bh=TsRvBIxlcl5Qad54ud98hdRrluFIPgrqpgvv7s3c5UM=; b=
-	EMF4JM/i0QYoLPNY/wWPaSYJzhNCWCYDCE1tzq8d9ZU7ip4kvs/yjOxTwSj5RfzS
-	viyB2ipwm0cB/PB9O6dGDOj283+xKT0CTJ986cPwoZiLOpmL70kNho/89hjaDJOd
-	KcSf44scLawxu2n9iiFJywa+pQ+vOjdLBFf2r7wyYERz7x4Zgw/9lpnOKqXsrPYJ
-	Z7UfZysilc0qIj8D5speea2hNQw5TPUEAouf6YUwPpPsdZiQHWxWZQdoKUO8R8Ln
-	awxGW53/p938iDMmNv8n4erS3nqa7WNCE92OnsNTkPXtGiELs1lwrWxOpG9UhKO2
-	QSEkLm5bQSAolIMoLcfnBn9hvDAHvDhvRjDANhY0Bb5nFy0IT2RQwiLE5T61jFrk
-	zV3kmPmHorKdIEYhqYVFgnHaCOJ4TlEw8ye2LzXTihdRQgaSIaM1NTXfKFqIxVaO
-	9kqSDSPQwgGEfBfiJVXt6aUYP30lFGYohEluJkHANVnQBChhlcZiKgSfR1MtNL3V
-	2lPZAGfc9Nc8I18ZtytPkGMYuJAxjbpXVfrueKuPDOY6fhlaSu2P0ZnN+Bl+iS/9
-	rA3bchqkzLezR9MlQNZgiSp+kER56r+8jqzF+qyf9gzBf6mFOeLjYYfmGMUKOuPO
-	HtEfd0koaaY7sn2b1+unGGbVl9GfiCK+A2y+jlPc1UY=
-From: =?UTF-8?q?Bence=20Cs=C3=B3k=C3=A1s?= <csokas.bence@prolan.hu>
-To: <dmaengine@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-CC: =?UTF-8?q?Bence=20Cs=C3=B3k=C3=A1s?= <csokas.bence@prolan.hu>, "Chen-Yu
- Tsai" <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, "Chen-Yu
- Tsai" <wens@csie.org>, Vinod Koul <vkoul@kernel.org>, Samuel Holland
-	<samuel@sholland.org>
-Subject: [PATCH v4] dma-engine: sun4i: Use devm functions in probe()
-Date: Tue, 11 Mar 2025 19:02:53 +0100
-Message-ID: <20250311180254.149484-1-csokas.bence@prolan.hu>
-X-Mailer: git-send-email 2.48.1
+	s=arc-20240116; t=1741717487; c=relaxed/simple;
+	bh=X/kifDF7vVOvdHV/s2HFBd/9y6wRS9DpCSIfNvNZK1I=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Egv+eUEkm4/rbKkXyiaiY9j/GkjYKrJyz5ZQ9wCsG98Y88/WeDGCWdC02c4FU6GAVM8eRViqGLzWzEILaV/VlbLolz44XgTB/j7U4p4+hfcKqq9Wkj6u10bjYndsmIFskRdzsaaoXYf2TGE89prWI6tVSv3qxa9MWfHqCR6Vm+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA252C4CEEC;
+	Tue, 11 Mar 2025 18:24:46 +0000 (UTC)
+Received: from wens.tw (localhost [127.0.0.1])
+	by wens.tw (Postfix) with ESMTP id 6624F5FA01;
+	Wed, 12 Mar 2025 02:24:43 +0800 (CST)
+From: Chen-Yu Tsai <wens@csie.org>
+To: Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Andre Przywara <andre.przywara@arm.com>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>, linux-clk@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+In-Reply-To: <20250307002628.10684-1-andre.przywara@arm.com>
+References: <20250307002628.10684-1-andre.przywara@arm.com>
+Subject: Re: [PATCH v4 00/14] clk: sunxi-ng: add A523 clock support
+Message-Id: <174171748337.1740144.15952522850275241981.b4-ty@csie.org>
+Date: Wed, 12 Mar 2025 02:24:43 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ESET-AS: R=OK;S=0;OP=CALC;TIME=1741716179;VERSION=7985;MC=3687417233;ID=1831017;TRN=0;CRV=0;IPC=;SP=0;SIPS=0;PI=3;F=0
-X-ESET-Antispam: OK
-X-EsetResult: clean, is OK
-X-EsetId: 37303A29ACD94852627066
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-Clean up error handling by using devm functions
-and dev_err_probe(). This should make it easier
-to add new code, as we can eliminate the "goto
-ladder" in probe().
+On Fri, 07 Mar 2025 00:26:14 +0000, Andre Przywara wrote:
+> this is the fourth drop of the series introducing basic clock support for
+> the Allwinner A523 family of SoCs, comprising A523, A527, T527, H728. [1]
+> This times just a small rename of a macro name, and fixing the DT
+> binding, where the separate patches for the two CCUs got merged into
+> one. For a more detailed changelog, see below.
+> 
+> *************
+> Please note that the clock numbers changed compared to v1 and v2, (but
+> not against v3) so DTs from that older era cannot be used anymore with
+> this driver: you have to update the DTB. Just copying the binding header
+> and recompiling the DTB should do the trick, since the symbols stayed
+> mostly the same, at least as far they are used in the basic DTs we use
+> today.
+> *************
+> 
+> [...]
 
-Suggested-by: Chen-Yu Tsai <wens@kernel.org>
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Acked-by: Chen-Yu Tsai <wens@csie.org>
-Signed-off-by: Bence Csókás <csokas.bence@prolan.hu>
----
+Applied to clk-for-6.15 in git@github.com:linux-sunxi/linux-sunxi.git, thanks!
 
-Notes:
-    Changes in v2:
-    * rebase on current next
-    Changes in v3:
-    * rebase on current next
-    * collect Jernej's tag
-    Changes in v4:
-    * rebase on current next
-    * collect Chen-Yu's tag
+[01/14] clk: sunxi-ng: mp: introduce dual-divider clock
+        commit: af7a221c12137271e8c31bc0c205ef4c57e89b4c
+[02/14] clk: sunxi-ng: mp: provide wrappers for setting feature flags
+        commit: 24ad1a7e8a3eca04dfe225b3e7935ab4ec326bb8
+[03/14] clk: sunxi-ng: Add support for update bit
+        commit: 38ea575784d3121b9c2e4c0bf425bc669e1c5e1b
+[04/14] dt-bindings: clk: sunxi-ng: document two Allwinner A523 CCUs
+        commit: 17bed1817f11b7d3c4ea0b38254f1bab78531a3d
+[05/14] clk: sunxi-ng: Add support for the A523/T527 CCU PLLs
+        commit: 04f6ff49525a8ba8ef3297de3e1a0e15ea3f5102
+[06/14] clk: sunxi-ng: a523: Add support for bus clocks
+        commit: 2d47dae9398135a48b58da9b059c23027b0e345e
+[07/14] clk: sunxi-ng: a523: add video mod clocks
+        commit: 4b759de121c46c693b61d6a22bf77d62333838e9
+[08/14] clk: sunxi-ng: a523: add system mod clocks
+        commit: 9bc061e57b4d97e187a767e45bff06b63f2a3126
+[09/14] clk: sunxi-ng: a523: add interface mod clocks
+        commit: dd19c52e686eb9f66816cd55fddfae8c7be2e6ea
+[10/14] clk: sunxi-ng: a523: add USB mod clocks
+        commit: 5fd7421770fb31a1ec35dd2400a849598466ac3b
+[11/14] clk: sunxi-ng: a523: remaining mod clocks
+        commit: 680f52d723e2ee9d97d167040eacc6a3af0b9cda
+[12/14] clk: sunxi-ng: a523: add bus clock gates
+        commit: 4548c0414839989be821e106b5128d5e7e13f2a4
+[13/14] clk: sunxi-ng: a523: add reset lines
+        commit: 9c8d960c13ab41c7e678eab5396b9258eaf8a159
+[14/14] clk: sunxi-ng: add support for the A523/T527 PRCM CCU
+        commit: 575464821eb0f72c86d93794a79900a853b256b5
 
- drivers/dma/sun4i-dma.c | 31 ++++++-------------------------
- 1 file changed, 6 insertions(+), 25 deletions(-)
-
-diff --git a/drivers/dma/sun4i-dma.c b/drivers/dma/sun4i-dma.c
-index 24796aaaddfa..b10639720efd 100644
---- a/drivers/dma/sun4i-dma.c
-+++ b/drivers/dma/sun4i-dma.c
-@@ -1249,10 +1249,9 @@ static int sun4i_dma_probe(struct platform_device *pdev)
- 	if (priv->irq < 0)
- 		return priv->irq;
- 
--	priv->clk = devm_clk_get(&pdev->dev, NULL);
-+	priv->clk = devm_clk_get_enabled(&pdev->dev, NULL);
- 	if (IS_ERR(priv->clk)) {
--		dev_err(&pdev->dev, "No clock specified\n");
--		return PTR_ERR(priv->clk);
-+		return dev_err_probe(&pdev->dev, PTR_ERR(priv->clk), "Couldn't start the clock");
- 	}
- 
- 	if (priv->cfg->has_reset) {
-@@ -1328,12 +1327,6 @@ static int sun4i_dma_probe(struct platform_device *pdev)
- 		vchan_init(&vchan->vc, &priv->slave);
- 	}
- 
--	ret = clk_prepare_enable(priv->clk);
--	if (ret) {
--		dev_err(&pdev->dev, "Couldn't enable the clock\n");
--		return ret;
--	}
--
- 	/*
- 	 * Make sure the IRQs are all disabled and accounted for. The bootloader
- 	 * likes to leave these dirty
-@@ -1344,32 +1337,23 @@ static int sun4i_dma_probe(struct platform_device *pdev)
- 	ret = devm_request_irq(&pdev->dev, priv->irq, sun4i_dma_interrupt,
- 			       0, dev_name(&pdev->dev), priv);
- 	if (ret) {
--		dev_err(&pdev->dev, "Cannot request IRQ\n");
--		goto err_clk_disable;
-+		return dev_err_probe(&pdev->dev, ret, "Cannot request IRQ");
- 	}
- 
--	ret = dma_async_device_register(&priv->slave);
-+	ret = dmaenginem_async_device_register(&priv->slave);
- 	if (ret) {
--		dev_warn(&pdev->dev, "Failed to register DMA engine device\n");
--		goto err_clk_disable;
-+		return dev_err_probe(&pdev->dev, ret, "Failed to register DMA engine device");
- 	}
- 
- 	ret = of_dma_controller_register(pdev->dev.of_node, sun4i_dma_of_xlate,
- 					 priv);
- 	if (ret) {
--		dev_err(&pdev->dev, "of_dma_controller_register failed\n");
--		goto err_dma_unregister;
-+		return dev_err_probe(&pdev->dev, ret, "Failed to register translation function");
- 	}
- 
- 	dev_dbg(&pdev->dev, "Successfully probed SUN4I_DMA\n");
- 
- 	return 0;
--
--err_dma_unregister:
--	dma_async_device_unregister(&priv->slave);
--err_clk_disable:
--	clk_disable_unprepare(priv->clk);
--	return ret;
- }
- 
- static void sun4i_dma_remove(struct platform_device *pdev)
-@@ -1380,9 +1364,6 @@ static void sun4i_dma_remove(struct platform_device *pdev)
- 	disable_irq(priv->irq);
- 
- 	of_dma_controller_free(pdev->dev.of_node);
--	dma_async_device_unregister(&priv->slave);
--
--	clk_disable_unprepare(priv->clk);
- }
- 
- static struct sun4i_dma_config sun4i_a10_dma_cfg = {
+Best regards,
 -- 
-2.48.1
-
+Chen-Yu Tsai <wens@csie.org>
 
