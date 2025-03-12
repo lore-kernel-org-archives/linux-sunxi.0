@@ -1,105 +1,148 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [85.215.255.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9991F242938
-	for <linux-sunxi@lists.linux.dev>; Wed, 12 Mar 2025 16:56:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741798600; cv=none; b=GMo3Ty3YU9vIFCOuLz/HpJOEBuV3pwIHU156yYJF9Kdxj6NF0hapPGtGeTfnmoFm5iZjjHsHF6Nks/zxUReaRjhsgCDhwYy0s5sdI9/eplHxS9TQoDsU1jjpiOfTPQCaA/WkmRgfEREAt4x8KIhGJqADARZqyVYq+4KT7E0LGqU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741798600; c=relaxed/simple;
-	bh=CDMBG7Ofhb8Xcjzw4thNxoeXHKWZ/B76fEVimy8iEtM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hkOvD3o9OWRoairMx9gTKb8t/KJjkeawr6kcdJcOfIUurEurEzoMWAFwk8Xi/HjtQIBQrFoOK7W7eQl8241eJUktO7vw2YceI3taBYnLRbxfdKCEleLdRevMO+frfKTTCoZ/VQ5fD/ZqwvRlSAGbunoO3d3kzZCj+EbNZLpE2cA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XTpWJbDT; arc=none smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E25AA2571A4
+	for <linux-sunxi@lists.linux.dev>; Wed, 12 Mar 2025 19:39:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=85.215.255.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741808392; cv=pass; b=mVQHiAi58tgcd08L0p907n+zDl4CbUuygG2jiN4woQ1ZTZ7EhpghnKB3zBvqQULOxGpEGNBbOBPxtv1JiSDWWouUqPM0txL0hLQhi227MnRgnqOdNVy2BnRdh83s2/62q+omiku7UN8YNC3/m087c6V1rzfi8G4cmeUnTC+RVDE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741808392; c=relaxed/simple;
+	bh=JGvc9t6eH0Disvyp4YztNchToLyen6Ed5SE8DsNC68M=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Ln/bLEY60+mjfTTB8VLuqqAyftdQGYaBA4XR6hSE0015LoNLPf2z1IpoD7vKDncpVO1mFDJjWt2ABkUSWEc1L+9usqOeRPGAgx/CvDfDWjnSctZuAY79NCDwY/hKQeJOACb2BwRtgcflV8F8R325XsnuS5gtK/z4BbK23iq2lkw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fossekall.de; spf=pass smtp.mailfrom=a98shuttle.de; dkim=pass (2048-bit key) header.d=fossekall.de header.i=@fossekall.de header.b=gt7FamQ2; dkim=permerror (0-bit key) header.d=fossekall.de header.i=@fossekall.de header.b=QXCgkYUd; arc=pass smtp.client-ip=85.215.255.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fossekall.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=a98shuttle.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XTpWJbDT"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5e5b572e45cso12783161a12.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 12 Mar 2025 09:56:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741798597; x=1742403397; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CDMBG7Ofhb8Xcjzw4thNxoeXHKWZ/B76fEVimy8iEtM=;
-        b=XTpWJbDTvr5UPIpb3BGdztnL/1mAYEkc4qrwcTBmHbYk9vMapRhtvtzIhy1l3BwJ89
-         jQVBvC+jeI2DcLwgFqw88vSmA5x8P/iFpevuveGUI3NIafG7NcVVvS0cRRdjQ7JT4ed3
-         FcDWFis5hvAqUwG4JVFWk6PxV3LEKv6qU7QGNao4pDKPklxtThIZLcZ6QIBObA0aMqSc
-         g3Ga0pOwKQ6oa5YbVbm+2cFAXwo7UqSeYPROMnoIA2/wQP6Y40HmNsbiL+ks575Qkc9O
-         TaAHAg1jsNAqg263gzXMFFYH6MoOw1uTk9L4Lgm69w+TLskYOSEgN9qrwLZE67nEEOJl
-         DvnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741798597; x=1742403397;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CDMBG7Ofhb8Xcjzw4thNxoeXHKWZ/B76fEVimy8iEtM=;
-        b=cQfotgI1+VxP1xFwI3X0ijPUnGICPPtxemmN+rN/ze5azZsZm/hMuAwR9HUuL8d4BU
-         PM3Yjvhc22nBgQArb9ngoA05VXRQ7H/cwSx4jxQnWfFruqXqnPu9pFj+1jibQR9E+bi+
-         2X7Xx8B9eL4HA5WaCQYi+kMtr14vHOFYMx/9z6lloNpkndP9SwoHNRi4ExMHY5I7fKqY
-         RdNc2g7+zxM+XFCr9nW/7JqhVg8kGb2LhaXxVPHyyuKake8mqGqhePIIYt9ZRBYut7ym
-         RMEiEEJxO9q/u+mrC8e8R36MJxgIbXHkkHotUSTISVyX+AFQGtGlLhKYWxqDs8caWzwL
-         r7iw==
-X-Forwarded-Encrypted: i=1; AJvYcCU+i9wq3e0XRTQbDzTs1G7HqtS+/8iIi58GcMv59qNkCzxf73hmereOzlaB7jCqKdwCEcAjLjytqsaFGw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzgKz0NxOMdlc4fyYWmBSE/lgTf+I/lV6hDck+/YOIb9Btx7HA+
-	ehfzWF96Vgv0IHoVmy8has++5prqFwq7XoriLV3iLLl9hkXYlRky
-X-Gm-Gg: ASbGncsUTGMGLGHo7FqkSMEO1m1RoGThA3lARcgxOse7GiggLmZYCIuQ/IPRTNdUJJC
-	AmqEP6XDdF0fOzYDk+hTFeUghiTnd5s8Dh4eNWXlhknFO4mxy/EwbHR9Antk4I9a9vMR///i7Yq
-	9MrsKCkNhNWBks02daJ335bgZ1x+SJHiaYSrpQYGn13g/CdeKoArQIFkHaqjAMWa5zL2M4sO6tC
-	A51IBC2upuH+qca9AKnFJKuOZUqWzCaeNvNdyaQB2MZDyMT61Kj6nh4AdKW3kA2eibXiGnch2eX
-	B2ehJlo4DoiWCkORIQR8gi+UCC2mXPNwBXn58dNS4T8Zy0tkd87IMM7u+wm8RBQlC2Ij2Pzy/N3
-	LtLy4M3DBNzd4lAI0KtGK
-X-Google-Smtp-Source: AGHT+IH8y8hQv6Sg8xyZcCsQDnuxux9UAtTTC9yU686JDb3h1xpkGSNrZOvF6nGyd/4nw/gseiJziA==
-X-Received: by 2002:a05:6402:d0e:b0:5e7:7262:30a5 with SMTP id 4fb4d7f45d1cf-5e7726231demr9291906a12.23.1741798596469;
-        Wed, 12 Mar 2025 09:56:36 -0700 (PDT)
-Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5e5c733f8b5sm9909588a12.12.2025.03.12.09.56.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Mar 2025 09:56:35 -0700 (PDT)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Andre Przywara <andre.przywara@arm.com>
-Cc: linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject:
- Re: [PATCH v4 4/8] pinctrl: sunxi: support moved power configuration
- registers
-Date: Wed, 12 Mar 2025 17:56:34 +0100
-Message-ID: <5869984.DvuYhMxLoT@jernej-laptop>
-In-Reply-To: <20250306235827.4895-5-andre.przywara@arm.com>
-References:
- <20250306235827.4895-1-andre.przywara@arm.com>
- <20250306235827.4895-5-andre.przywara@arm.com>
+	dkim=pass (2048-bit key) header.d=fossekall.de header.i=@fossekall.de header.b="gt7FamQ2";
+	dkim=permerror (0-bit key) header.d=fossekall.de header.i=@fossekall.de header.b="QXCgkYUd"
+ARC-Seal: i=1; a=rsa-sha256; t=1741808199; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=bZTM+TpNLvX2TTB1x5D6nVm6z3UwFgMWiNrpQs3N9yxuoKqt+C2OsafUxoMUxcNvv+
+    6S7vy+rlJ4cLs9mgc9X2cKmG4MFPLfnemMypjdrmy1zzV0dtVo1KS0ggGdswLcV4dZjm
+    Pm/34Xw5+//hUhdMINtRAkHLoRcN6YS2mWbIxUo7IP3wnTYVYhAG1//WC5jFDGej76Ea
+    rE0Ti/CQDgYtgMDE5YOq/C9DPvBHfVrZEBG5nW65zRiNE7Qd5W7ioQQYBWFHU7ryqaPl
+    WhtGczY05021riCyXNXTJrlzEGb9x3bVGUl4XrwBQnb3yAh4zQF3LdG1CMMcUDtCVZga
+    h28A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1741808199;
+    s=strato-dkim-0002; d=strato.com;
+    h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Cc:Date:
+    From:Subject:Sender;
+    bh=lxcMHEKMN0k1o6vOkcWOO4z96etmbwK9XpxIauqtEzg=;
+    b=P1GfOOwvi1B3JVUQyFFdHAYDNy9n41E4PEttx23NEaO9+OU3aA0HO+GrIxi9IF9cDP
+    OVkvp8Y59XpGnDMvgVEgdNtWeDIsO5rhQ+XuhG77rM5PQOcmJJS8OLFKVCbAU8eHdOkO
+    RaSASdQAyj2YcqwKb402KS3agLPFlgrO405H4Q59pZI6kwwUo4h42AsoewzIeKnXonLv
+    Cj8xCAXiCPsjJP12JdrHbyy3eRjBZRo2m/2dfnlDIxtr9eSyQWGWezGPMCvm1DcQF8wt
+    wskJYhnn2psGKiDRye0oCg/MqdmsGhaW+BU0NnTeWwMuJkK17EoXNlN84IPduhdOi/I0
+    1C4g==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1741808199;
+    s=strato-dkim-0002; d=fossekall.de;
+    h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Cc:Date:
+    From:Subject:Sender;
+    bh=lxcMHEKMN0k1o6vOkcWOO4z96etmbwK9XpxIauqtEzg=;
+    b=gt7FamQ25ZzxZ9sFrcg90bxaAuhAk3yFKTmHvQpXB7PGw0AWpXTRaG+VsrWAqE4N8T
+    IiXeuHlnfLQ0pIakXdNHDK/Wlv3NNFhUlL07lSENxJFHEa16TTTIy7g4RYF55gAwOXyL
+    Wmkt0I0aWVFw7TuQP9wkE9w6oNSswAwRrufUefDM3RRA2c1oDP3nOotH0j+nYHNMhHGq
+    qFoXTJ/+gCMvpu5xoWqc76bEaNVryl0G8XX+X6y3zAzPmbTaUPCFj3TEEt/hlj2dUYqR
+    x3UXFdl2AhKHz96xTvLqhDPHrx8xQwUTBC0zy+hHkF9Ol4NFCKKgQi4tsWf3SXxq9HtN
+    Pmgw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1741808199;
+    s=strato-dkim-0003; d=fossekall.de;
+    h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Cc:Date:
+    From:Subject:Sender;
+    bh=lxcMHEKMN0k1o6vOkcWOO4z96etmbwK9XpxIauqtEzg=;
+    b=QXCgkYUdfs/CwX/mn9IEzU6DJkDIHTl1S+jLKvYoa9PAtq9eHaOt99/9NnnAVjfTVR
+    P1TuhcYisDn2Thgo0WAQ==
+X-RZG-AUTH: ":O2kGeEG7b/pS1EzgE2y7nF0STYsSLflpbjNKxx7cGrBdao6FTL4AJcMdm+lap4JEHkzok9eyEg=="
+Received: from aerfugl
+    by smtp.strato.de (RZmta 51.3.0 AUTH)
+    with ESMTPSA id f28b3512CJackg5
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+	(Client did not present a certificate);
+    Wed, 12 Mar 2025 20:36:38 +0100 (CET)
+Received: from koltrast.home ([192.168.1.27] helo=a98shuttle.de)
+	by aerfugl with smtp (Exim 4.96)
+	(envelope-from <michael@a98shuttle.de>)
+	id 1tsRsb-00058E-1Q;
+	Wed, 12 Mar 2025 20:36:37 +0100
+Received: (nullmailer pid 85457 invoked by uid 502);
+	Wed, 12 Mar 2025 19:36:37 -0000
+From: Michael Klein <michael@fossekall.de>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>
+Cc: Michael Klein <michael@fossekall.de>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH 2/2] ARM: dts: bananapi: add support for PHY LEDs
+Date: Wed, 12 Mar 2025 20:36:28 +0100
+Message-Id: <20250312193629.85417-2-michael@fossekall.de>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250312193629.85417-1-michael@fossekall.de>
+References: <20250312193629.85417-1-michael@fossekall.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
 
-Dne petek, 7. marec 2025 ob 00:58:23 Srednjeevropski standardni =C4=8Das je=
- Andre Przywara napisal(a):
-> The Allwinner pincontroller IP features some registers to control the
-> withstand voltage of each pin group. So far those registers were always
-> located at the same offset, but the A523 SoC has moved them (probably to
-> accommodate all eleven pin banks).
->=20
-> Add a flag to note this feature, and use that to program the registers
-> either at offset 0x340 or 0x380. So far no pincontroller driver uses
-> this flag, but we need it for the upcoming A523 support.
->=20
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+The Bananapi M1 has three LEDs connected to the RTL8211E ethernet PHY.
+Add the corresponding nodes to the device tree.
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Signed-off-by: Michael Klein <michael@fossekall.de>
+---
+ .../boot/dts/allwinner/sun7i-a20-bananapi.dts | 27 +++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-Best regards,
-Jernej
-
+diff --git a/arch/arm/boot/dts/allwinner/sun7i-a20-bananapi.dts b/arch/arm/boot/dts/allwinner/sun7i-a20-bananapi.dts
+index 46ecf9db2324..4976453ed192 100644
+--- a/arch/arm/boot/dts/allwinner/sun7i-a20-bananapi.dts
++++ b/arch/arm/boot/dts/allwinner/sun7i-a20-bananapi.dts
+@@ -48,6 +48,7 @@
+ 
+ #include <dt-bindings/gpio/gpio.h>
+ #include <dt-bindings/interrupt-controller/irq.h>
++#include <dt-bindings/leds/common.h>
+ 
+ / {
+ 	model = "LeMaker Banana Pi";
+@@ -169,6 +170,32 @@ &ir0 {
+ &gmac_mdio {
+ 	phy1: ethernet-phy@1 {
+ 		reg = <1>;
++
++		leds {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			led@0 {
++				reg = <0>;
++				color = <LED_COLOR_ID_GREEN>;
++				default-state = "keep";
++				linux,default-trigger = "netdev";
++			};
++
++			led@1 {
++				reg = <1>;
++				color = <LED_COLOR_ID_AMBER>;
++				default-state = "keep";
++				linux,default-trigger = "netdev";
++			};
++
++			led@2 {
++				reg = <2>;
++				color = <LED_COLOR_ID_BLUE>;
++				default-state = "keep";
++				linux,default-trigger = "netdev";
++			};
++		};
+ 	};
+ };
+ 
+-- 
+2.39.5
 
