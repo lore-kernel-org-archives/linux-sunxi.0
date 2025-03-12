@@ -1,93 +1,109 @@
-Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B61AD236A7B
-	for <linux-sunxi@lists.linux.dev>; Wed, 12 Mar 2025 08:53:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CA4378F51
+	for <linux-sunxi@lists.linux.dev>; Wed, 12 Mar 2025 09:15:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741769593; cv=none; b=Iius9SNLh0ARCfwDpFgoNA0F4MLDp/mlxcXFFUxVQPhKFx+vkiyRNbnROdaudIFl+EbrRDbHrQCZjJoT+nGHODnum5a5Y7SOXLafiiOZhKU9pMf4ggFGABDdzolc8vFtFRX3wW+4XVJbJyGbuzmpLs7tDj2lHpmPTWLgMzo4slQ=
+	t=1741770920; cv=none; b=TBKHO+yCmJBv/Ep1OyQ/m6/DV16ekgKkQkrSW+OoL5HeF+yIA1c9UONilMJNrnfla1BN+lcy7YFlA9BLh8ojR+MZLsv5uWHKxALpMPELQXO6wLPMWs0E0VadcbdP/PCEZ9ttCxQIzEnyWq0vEb1DBOF9M3YeXl/fMkxIFteShno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741769593; c=relaxed/simple;
-	bh=F5V0MKowf2JDzxxZKfhQHTUo1BEp1LSgfrCTL90txrQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=CqEBcf90ZsMrkdWBgpYBzRLrCCF28zoDF2oYdzG5nUPn8dzLrTSJdiDCDb+ZBH8FWheS6n3qpw5Zvgszlq4FBAyMzPrSfm7aUIFta5volykNLvfedEQiZ2feXTdve4JYdS1G7AY9PHaY3dP597uIWFIzj+SHe9UCKUb2mMfKZB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=cA6WoRrI; arc=none smtp.client-ip=193.68.50.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
+	s=arc-20240116; t=1741770920; c=relaxed/simple;
+	bh=/ZhUX/DXq4nHu0LOSR1gUuS30JxQuoradw2Id3mYjPg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dewccuzdOlZvJfm9ZMQMCW3yfh3vPXbG8Wvot1gnKhvfNxuZBgNXIIGK/yBLR17d7d0tXjiSc45qagTrqJrN6h9GicpzU5LuAbi99ygDPU34elyYsZ5/sFgGiUCrG1Z3TuFCJvciYQ47n1GRkBCU0SNwKgRxnIsNSWxZ5Kl/aqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=F6P8O9yM; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="cA6WoRrI"
-Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
-	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id 15D44A0899;
-	Wed, 12 Mar 2025 09:53:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:from:from:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=mail; bh=JiVJU8vpI1AzUUyUc/XP
-	lRSfdp4+hku0cXCtyGPLMbc=; b=cA6WoRrI5U/yz2OLyFMpnhEGEovu6aQOMXxI
-	lC941G06oI+Ls70GNgzE+ffCn8elNqqxlZR3+iUQS4tpVKCvhMfQ1ENdyVEOifEt
-	bMn5myL3EPV8r84zIqOmf9sSz7GjzTOMIF11UOP7kGdktJNpljs/bAdAqU8VIvi+
-	roFFmXrxTu9HgVqEm2GMNxOVbNwzcULdVaVwq6jbaxxZuKUJkufQhABm5R91cTxA
-	wv/fz7qla5xz0uVEpKrRgjmCXDCT6CLQIUwOYsrxuT8H8IHDxzAFcibcYbuCkqY3
-	BmXZcS+hXgMMDxM2cLzobcIkPbbttuaO5/vCeX8JW4O6iNGWa3WHOTKBr5KpxHvU
-	1IeFLBNlKJ7Nm7/B0XVaahEV+WaeLDzlLPQV+0BRgye1wiZ5LgZCR5P6jXX7Cqrj
-	GFAHOhW0QijeuVcGZd/bW0nGxL3rV6/LAQzqM2rCrTxeGSbfX+SNVYAbLoEL+Fam
-	PMDhhqFl8/JAfmKnungDQEW4CL0RH6JPUCwokGcMUBc4bWpQ3goGfNAyoD+fmlTc
-	VnkQ4stbUT5i65GtQZyAr6GEmZSYAPaALHAWlSeK0vKy0qemFv/kLS575KZM1/s7
-	vt/x0nkNsnkQdOn4SC9+WRpvg2vq77GKIvKk+pSbPBUhsPlaC/Dy/MUgopvD3Anu
-	wzbdQ2U=
-Message-ID: <81f87d39-d3f8-4b6a-91cb-b0177d34171b@prolan.hu>
-Date: Wed, 12 Mar 2025 09:53:04 +0100
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="F6P8O9yM"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=GLIba+q4BDE9qdzTgPLlPQOlp5Vu1/gYQkbg2o8SPf4=; b=F6P8O9yMyitUkFBMj+62u1Wxx1
+	8tFlx/t5XL1sRU3psd0hU/hHxFYJJ3qA6cgX6fDUir0PJq0sN38pxNZlkOD9gBDQ42J+X36nhC6pg
+	eBwJv5WTwJ+FyAKjSVpPua8pcVcCMlAgTKNjuvr2JrVdikixn/gR8Fwp/IHDYeCzT40KqXW1y8Z4d
+	d6gdNon8uIGCgflq0cbdeTWJmKceAsN+ngdhOoTOziNmf7bHkdM8ynDjB/gXvEFHxAVqSFOHEXmTK
+	4d950rgkvRVZMtdhHwYQYW2BvttkhHrF+vRiXzKGYcIhpBirIaMRNj0RzaNjl00e5FPMhAPtQ6nd8
+	1y6QEqdQ==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:39976)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1tsIB1-0005A4-2C;
+	Wed, 12 Mar 2025 09:14:59 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.96)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1tsIAv-0004PY-1F;
+	Wed, 12 Mar 2025 09:14:53 +0000
+Date: Wed, 12 Mar 2025 09:14:53 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Kevin Hilman <khilman@baylibre.com>,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>, netdev@vger.kernel.org,
+	Paolo Abeni <pabeni@redhat.com>,
+	Samuel Holland <samuel@sholland.org>, Vinod Koul <vkoul@kernel.org>
+Subject: [PATCH net-next v2 0/9] net: stmmac: remove unnecessary
+ of_get_phy_mode() calls
+Message-ID: <Z9FQjQZb0IMaQJ9H@shell.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] dma-engine: sun4i: Use devm functions in probe()
-To: Markus Elfring <Markus.Elfring@web.de>, <dmaengine@vger.kernel.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>
-CC: LKML <linux-kernel@vger.kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
-	Samuel Holland <samuel@sholland.org>, Vinod Koul <vkoul@kernel.org>
-References: <20250311180254.149484-1-csokas.bence@prolan.hu>
- <885ceb3e-d6c6-4e7b-a3b6-585d2d110ccf@web.de>
-Content-Language: en-US, hu-HU
-From: =?UTF-8?B?Q3PDs2vDoXMgQmVuY2U=?= <csokas.bence@prolan.hu>
-In-Reply-To: <885ceb3e-d6c6-4e7b-a3b6-585d2d110ccf@web.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: ATLAS.intranet.prolan.hu (10.254.0.229) To
- ATLAS.intranet.prolan.hu (10.254.0.229)
-X-EsetResult: clean, is OK
-X-EsetId: 37303A2980D94852627362
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-Dear Markus,
+Hi,
 
-On 2025. 03. 11. 20:33, Markus Elfring wrote:
- >> Clean up error handling by using devm functions
- >> and dev_err_probe(). This should make it easier
- > …
- >
- > You may occasionally put more than 47 characters into text lines
- > of such a change description.
+This series removes unnecessary of_get_phy_mode() calls from the stmmac
+glue drivers. stmmac_probe_config_dt() / devm_stmmac_probe_config_dt()
+already gets the interface mode using device_get_phy_mode() and stores
+it in plat_dat->phy_interface.
 
-It was an old patch I hadn't yet reformatted to 75 cols. I used 50-60 
-cols before, because my mail client's preview panel is very narrow, so 
-anything more than ~65 characters will wrap. If there will be a v5, I'll 
-reformat it to 75 cols as well, as per the style guidelines.
+Therefore, glue drivers using of_get_phy_mode() are just duplicating
+the work that has already been done.
 
-> How good does such a change combination fit to the patch requirement
-> according to separation of concerns?
-> https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst?h=v6.14-rc6#n81
+This series adjusts the glue drivers to remove their usage of
+of_get_phy_mode().
 
-It is a general refactor patch, it shouldn't change any functionality. I 
-could split it to one part introducing `devm_clk_get_enabled()` and the 
-other `dmaenginem_async_device_register()`, but I don't feel that to be 
-necessary, nor does it bring any advantages I believe.
+Changes in v2:
+- correct subject for patch 3
+- fix build error in patch 3
+- add attributations
 
-> Regards,
-> Markus
+ drivers/net/ethernet/stmicro/stmmac/dwmac-anarion.c | 21 +++++++++------------
+ drivers/net/ethernet/stmicro/stmmac/dwmac-ipq806x.c | 12 ++++--------
+ .../net/ethernet/stmicro/stmmac/dwmac-mediatek.c    |  8 +-------
+ drivers/net/ethernet/stmicro/stmmac/dwmac-meson8b.c |  6 +-----
+ .../net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c |  4 +---
+ drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c      |  2 +-
+ drivers/net/ethernet/stmicro/stmmac/dwmac-sti.c     | 12 ++++--------
+ drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c   |  8 +-------
+ drivers/net/ethernet/stmicro/stmmac/dwmac-sunxi.c   |  6 +-----
+ 9 files changed, 23 insertions(+), 56 deletions(-)
 
-Bence
-
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
