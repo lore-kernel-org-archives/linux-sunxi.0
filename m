@@ -1,288 +1,160 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66F5823A98A;
-	Wed, 12 Mar 2025 09:50:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D56D923F39C
+	for <linux-sunxi@lists.linux.dev>; Wed, 12 Mar 2025 11:25:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741773057; cv=none; b=Wg5hM4uWuPro45He14guu/pgVinJckcfeBu56QVYPw6L/MLQRvCbtwuJCwOBA08LJS/JQkWgkdcur7qRxjK+6C8DDz0jcUei+FN8U+KdPowdgfweggKoLyJF1AiezgqFhMccfca59yg7sS4DJ0ZUbSnqGlO5dtZK0XpA6vtKFWE=
+	t=1741778739; cv=none; b=A34OHs9lkvG9fOVRg4VZ8Zy2aqLo+JHU0xOjvNd/rBeA07UvOISwWTLqhCDR94Cd3vod7p2NXDgimYofqBBS6RSXAj1ROcvx1nVdyBRdG1X2xAzcKQJX0/mEns5sS/zLiWuWDH+L5vif0ERnqEijeFZc2wYF22jhJb8cjcAA5/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741773057; c=relaxed/simple;
-	bh=cPaifqjn+79emxa4flNc0qkuWrozQrP5tn9MQpqTWl8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d+WspqazwcgIkYF7MAs0H79MNl4UgowNFWxUWG2JhPkoGYf3AjA6HXQzmn4cuCbQp2qPRxXEWjFNnAuRbi/Ei/AoPpi1N8OgTqZxuXZ1dQGBKfCHoMt6rSe0aY4wh/WfLKqKovzH4F5b0WmFrkGwKG0OHeLsgBRIpqeOMBJABco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com; spf=none smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foss.arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 47C97152B;
-	Wed, 12 Mar 2025 02:51:05 -0700 (PDT)
-Received: from bogus (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D4E443F5A1;
-	Wed, 12 Mar 2025 02:50:51 -0700 (PDT)
-Date: Wed, 12 Mar 2025 09:50:49 +0000
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Jacky Bai <ping.bai@nxp.com>
-Cc: <rafael@kernel.org>, <viresh.kumar@linaro.org>, <ilia.lin@kernel.org>,
-	<tiny.windzz@gmail.com>, <wens@csie.org>,
-	<jernej.skrabec@gmail.com>, <samuel@sholland.org>,
-	<matthias.bgg@gmail.com>, <angelogioacchino.delregno@collabora.com>,
-	<linux-pm@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-mediatek@lists.infradead.org>,
-	<imx@lists.linux.dev>
-Subject: Re: [PATCH v2] cpufreq: Init cpufreq only for present CPUs
-Message-ID: <Z9FY-Uu-7R9eWEQ7@bogus>
-References: <20250312092127.357316-1-ping.bai@nxp.com>
+	s=arc-20240116; t=1741778739; c=relaxed/simple;
+	bh=zKSN1MPByApvA+OUlh27K1FJwz3QmJ32fWxe2xd1RGg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Nob9bAKN8ancwNEAw1KghwC6KNQGbofP2CRZa+66Ij1gzzg/iRIVHvV0Uef7B0eeQYF0xOGMXGUxC5AmuMM9GgcvQQhAtN0XD4MYu/CdI3BF0MwVPORmzfzAxP8cdMLEY2eflQpSst/elENTuHsrluJMAUAKwdstvazUdsgldOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KMnPS9Gm; arc=none smtp.client-ip=209.85.128.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KMnPS9Gm"
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-6fee63b9139so7184897b3.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 12 Mar 2025 04:25:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1741778736; x=1742383536; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=oMmWW278S3Hwy+hLP82+XTpci0VAB4ee7BNXBj9aT9k=;
+        b=KMnPS9GmKr4zDmb/B/4qs6QQ4SPAM/WaT0lUyVRiwElRhzKwEVCFYYapUHJxewuyRT
+         m2Ejv89zeVXCw8KY/r1S9W1WHAZGB+CKrESFYpSYP7eiAIRvMRwPG2uCIW/J4Tl+iaRn
+         DqJzCYThUyeRxWxcb+bIeRZL534ghCSVRvql3d9beAIPPP/6rrNuLxDAqy5tawqQ4+QC
+         gB08g00ta9Pp+i+BBRDBSYToHDRwB1aQcoyL/NQsrxiNYhoLKpdtncsKxdDODTaagZq1
+         h5tlLbcY6MsxKsYvqK4Q+qjKPuIipd2KBBoiwW9dqrMRfBAGjLw+ffHcXDo5ZFUOiWCb
+         bMow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741778736; x=1742383536;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oMmWW278S3Hwy+hLP82+XTpci0VAB4ee7BNXBj9aT9k=;
+        b=RjeVtmsFrMP09zKlSjPcW+mdQCe0fsBvXGlJTn+i6pOril+i3MFPRj5lK+V7VnDcE8
+         KWnZsnUtWiD8LlY+zcYaJvl13NR2FS8nkZxx/l6FbOyESATTiiUT4ptw0PseKTFVfPDD
+         cl6kQjr8qaMGGhhc8YMw7i8Y+3REYFBG159WW2j/YUjGQTPjTQeWozHYDNE1ClDe6gpH
+         JSSAGDfnzm+UydRbVFtNAwcTivmBjyM9xl5IE/mn1NtPR3LKOIAR4CTL+9Or43cn6LLm
+         eeuPkuRZRzUF89od9QYq6VByyUyd/CgHRnUmwQCcKYtl1JRq0epdLEJqXPp4OJeDLfct
+         RiOw==
+X-Forwarded-Encrypted: i=1; AJvYcCVdLrguFAs9Vz2ahoi86z783zkA1yz7bhE1aYPKon88kZkIAktGoKMnQDydgGKx7Ee+ARfU6A8BRSVhRw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyeuK9Kz9GGkSan7Ve8iKHqNeD4fGAS+2V/mzjqw5jSPwq7PwPk
+	p76uxWnv3OeP/93828UjPCBH6qCRxRJuHQJKZaYuYX9JPHc9TJxefTzbQq1swgXdVt7PTkktaTx
+	3XkE+u6Rj6Iv/2VPhD8+vJPff8Ykw8sWnRa7gAA==
+X-Gm-Gg: ASbGncsyWXul4zHGrgR2KD8rYW6yCltKPwydQBQ7gp1nrVPPNub0pS+tCDYBo5hZNAt
+	Hc3pAvJv7xlqRL+QNKJOlfc8Gvgz/oU6yVTw955YHabXaiH6pCRpgR8iGWefR5nkTl72LqFt+rf
+	sIj3IPSu+AaL4oqruU/tX8pqv3Gmk=
+X-Google-Smtp-Source: AGHT+IF+2TUj0AijHF6r+vPxRqI/7rfE3ie+f/dBAlUG+gV7qBwbChu82fS6cFOmTtK6ezNyic5kn3RkBhCY6+/TI2Y=
+X-Received: by 2002:a05:690c:7207:b0:6fb:b38e:207e with SMTP id
+ 00721157ae682-6ff0a33c8f8mr83949777b3.14.1741778735829; Wed, 12 Mar 2025
+ 04:25:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250312092127.357316-1-ping.bai@nxp.com>
+References: <20250307005712.16828-1-andre.przywara@arm.com> <20250307005712.16828-2-andre.przywara@arm.com>
+In-Reply-To: <20250307005712.16828-2-andre.przywara@arm.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Wed, 12 Mar 2025 12:24:59 +0100
+X-Gm-Features: AQ5f1JoiQnCX1EBg93UaXE5EJlbj1n7TONyL__Rgw9VQ-gzhs1UrEpRxnqBou7Y
+Message-ID: <CAPDyKFpFgNjy+Tu7ZKB05m55HAf5RQ+AFPgk+6Q8_g1xu0akng@mail.gmail.com>
+Subject: Re: [PATCH v3 01/15] dt-bindings: mmc: sunxi: Simplify compatible
+ string listing
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-mmc@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Mar 12, 2025 at 05:21:27PM +0800, Jacky Bai wrote:
-> for_each_possible_cpu() is currently used to initialize cpufreq
-> in below cpufreq drivers:
->   drivers/cpufreq/cpufreq-dt.c
->   drivers/cpufreq/mediatek-cpufreq-hw.c
->   drivers/cpufreq/mediatek-cpufreq.c
->   drivers/cpufreq/qcom-cpufreq-nvmem.c
->   drivers/cpufreq/sun50i-cpufreq-nvmem.c
+On Fri, 7 Mar 2025 at 01:57, Andre Przywara <andre.przywara@arm.com> wrote:
 >
+> New Allwinner SoCs only occasionally update their MMC IP, leading to many
+> pairs of compatible strings, though there are sometimes a number of them
+> being compatible with one particular SoC.
+>
+> Collate the compatible string listing in the binding, to group those
+> being compatible together. This makes the list more readable, and allows
+> for easier addition of new SoC's MMC devices.
+>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-Just drop this list, totally redundant as diffstat must give that anyways.
-You have already made it stale as it doesn't match the diffstat.
+Applied for next, thanks!
 
-With that fixed:
+Kind regards
+Uffe
 
-Reviewed-by: Sudeep Holla <sudeep.holla@arm.com>
 
-> However, in cpu_dev_register_generic(), for_each_present_cpu()
-> is used to register CPU devices which means the CPU devices are
-> only registered for present CPUs and not all possible CPUs.
-> 
-> With nosmp or maxcpus=0, only the boot CPU is present, lead
-> to the cpufreq probe failure or defer probe due to no cpu device
-> available for not present CPUs.
-> 
-> Change for_each_possible_cpu() to for_each_present_cpu() in the
-> above cpufreq drivers to ensure it only registers cpufreq for
-> CPUs that are actually present.
-> 
-> Fixes: b0c69e1214bc ("drivers: base: Use present CPUs in GENERIC_CPU_DEVICES")
-> Signed-off-by: Jacky Bai <ping.bai@nxp.com>
 > ---
->  - v2 changes:
->   - Add changes for armada-8k-cpufreq, mvebu-cpfureq, qcome-cpufreq-hw,
->     scmi-cpufreq, scpi-cpufreq, virtual-cpufreq.
-> ---
->  drivers/cpufreq/armada-8k-cpufreq.c    | 2 +-
->  drivers/cpufreq/cpufreq-dt.c           | 2 +-
->  drivers/cpufreq/mediatek-cpufreq-hw.c  | 2 +-
->  drivers/cpufreq/mediatek-cpufreq.c     | 2 +-
->  drivers/cpufreq/mvebu-cpufreq.c        | 2 +-
->  drivers/cpufreq/qcom-cpufreq-hw.c      | 2 +-
->  drivers/cpufreq/qcom-cpufreq-nvmem.c   | 8 ++++----
->  drivers/cpufreq/scmi-cpufreq.c         | 2 +-
->  drivers/cpufreq/scpi-cpufreq.c         | 2 +-
->  drivers/cpufreq/sun50i-cpufreq-nvmem.c | 6 +++---
->  drivers/cpufreq/virtual-cpufreq.c      | 2 +-
->  11 files changed, 16 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/cpufreq/armada-8k-cpufreq.c b/drivers/cpufreq/armada-8k-cpufreq.c
-> index 7a979db81f09..5a3545bd0d8d 100644
-> --- a/drivers/cpufreq/armada-8k-cpufreq.c
-> +++ b/drivers/cpufreq/armada-8k-cpufreq.c
-> @@ -47,7 +47,7 @@ static void __init armada_8k_get_sharing_cpus(struct clk *cur_clk,
->  {
->  	int cpu;
->  
-> -	for_each_possible_cpu(cpu) {
-> +	for_each_present_cpu(cpu) {
->  		struct device *cpu_dev;
->  		struct clk *clk;
->  
-> diff --git a/drivers/cpufreq/cpufreq-dt.c b/drivers/cpufreq/cpufreq-dt.c
-> index 778916f89a51..e80dd982a3e2 100644
-> --- a/drivers/cpufreq/cpufreq-dt.c
-> +++ b/drivers/cpufreq/cpufreq-dt.c
-> @@ -283,7 +283,7 @@ static int dt_cpufreq_probe(struct platform_device *pdev)
->  	int ret, cpu;
->  
->  	/* Request resources early so we can return in case of -EPROBE_DEFER */
-> -	for_each_possible_cpu(cpu) {
-> +	for_each_present_cpu(cpu) {
->  		ret = dt_cpufreq_early_init(&pdev->dev, cpu);
->  		if (ret)
->  			goto err;
-> diff --git a/drivers/cpufreq/mediatek-cpufreq-hw.c b/drivers/cpufreq/mediatek-cpufreq-hw.c
-> index aa209f5527dc..74f1b4c796e4 100644
-> --- a/drivers/cpufreq/mediatek-cpufreq-hw.c
-> +++ b/drivers/cpufreq/mediatek-cpufreq-hw.c
-> @@ -303,7 +303,7 @@ static int mtk_cpufreq_hw_driver_probe(struct platform_device *pdev)
->  	struct regulator *cpu_reg;
->  
->  	/* Make sure that all CPU supplies are available before proceeding. */
-> -	for_each_possible_cpu(cpu) {
-> +	for_each_present_cpu(cpu) {
->  		cpu_dev = get_cpu_device(cpu);
->  		if (!cpu_dev)
->  			return dev_err_probe(&pdev->dev, -EPROBE_DEFER,
-> diff --git a/drivers/cpufreq/mediatek-cpufreq.c b/drivers/cpufreq/mediatek-cpufreq.c
-> index 2656b88db378..f3f02c4b6888 100644
-> --- a/drivers/cpufreq/mediatek-cpufreq.c
-> +++ b/drivers/cpufreq/mediatek-cpufreq.c
-> @@ -631,7 +631,7 @@ static int mtk_cpufreq_probe(struct platform_device *pdev)
->  		return dev_err_probe(&pdev->dev, -ENODEV,
->  				     "failed to get mtk cpufreq platform data\n");
->  
-> -	for_each_possible_cpu(cpu) {
-> +	for_each_present_cpu(cpu) {
->  		info = mtk_cpu_dvfs_info_lookup(cpu);
->  		if (info)
->  			continue;
-> diff --git a/drivers/cpufreq/mvebu-cpufreq.c b/drivers/cpufreq/mvebu-cpufreq.c
-> index 7f3cfe668f30..2aad4c04673c 100644
-> --- a/drivers/cpufreq/mvebu-cpufreq.c
-> +++ b/drivers/cpufreq/mvebu-cpufreq.c
-> @@ -56,7 +56,7 @@ static int __init armada_xp_pmsu_cpufreq_init(void)
->  	 * it), and registers the clock notifier that will take care
->  	 * of doing the PMSU part of a frequency transition.
->  	 */
-> -	for_each_possible_cpu(cpu) {
-> +	for_each_present_cpu(cpu) {
->  		struct device *cpu_dev;
->  		struct clk *clk;
->  		int ret;
-> diff --git a/drivers/cpufreq/qcom-cpufreq-hw.c b/drivers/cpufreq/qcom-cpufreq-hw.c
-> index 4b3b3dbc7d38..8422704a3b10 100644
-> --- a/drivers/cpufreq/qcom-cpufreq-hw.c
-> +++ b/drivers/cpufreq/qcom-cpufreq-hw.c
-> @@ -306,7 +306,7 @@ static void qcom_get_related_cpus(int index, struct cpumask *m)
->  	struct of_phandle_args args;
->  	int cpu, ret;
->  
-> -	for_each_possible_cpu(cpu) {
-> +	for_each_present_cpu(cpu) {
->  		cpu_np = of_cpu_device_node_get(cpu);
->  		if (!cpu_np)
->  			continue;
-> diff --git a/drivers/cpufreq/qcom-cpufreq-nvmem.c b/drivers/cpufreq/qcom-cpufreq-nvmem.c
-> index 3a8ed723a23e..54f8117103c8 100644
-> --- a/drivers/cpufreq/qcom-cpufreq-nvmem.c
-> +++ b/drivers/cpufreq/qcom-cpufreq-nvmem.c
-> @@ -489,7 +489,7 @@ static int qcom_cpufreq_probe(struct platform_device *pdev)
->  		nvmem_cell_put(speedbin_nvmem);
->  	}
->  
-> -	for_each_possible_cpu(cpu) {
-> +	for_each_present_cpu(cpu) {
->  		struct dev_pm_opp_config config = {
->  			.supported_hw = NULL,
->  		};
-> @@ -543,7 +543,7 @@ static int qcom_cpufreq_probe(struct platform_device *pdev)
->  	dev_err(cpu_dev, "Failed to register platform device\n");
->  
->  free_opp:
-> -	for_each_possible_cpu(cpu) {
-> +	for_each_present_cpu(cpu) {
->  		dev_pm_domain_detach_list(drv->cpus[cpu].pd_list);
->  		dev_pm_opp_clear_config(drv->cpus[cpu].opp_token);
->  	}
-> @@ -557,7 +557,7 @@ static void qcom_cpufreq_remove(struct platform_device *pdev)
->  
->  	platform_device_unregister(cpufreq_dt_pdev);
->  
-> -	for_each_possible_cpu(cpu) {
-> +	for_each_present_cpu(cpu) {
->  		dev_pm_domain_detach_list(drv->cpus[cpu].pd_list);
->  		dev_pm_opp_clear_config(drv->cpus[cpu].opp_token);
->  	}
-> @@ -568,7 +568,7 @@ static int qcom_cpufreq_suspend(struct device *dev)
->  	struct qcom_cpufreq_drv *drv = dev_get_drvdata(dev);
->  	unsigned int cpu;
->  
-> -	for_each_possible_cpu(cpu)
-> +	for_each_present_cpu(cpu)
->  		qcom_cpufreq_suspend_pd_devs(drv, cpu);
->  
->  	return 0;
-> diff --git a/drivers/cpufreq/scmi-cpufreq.c b/drivers/cpufreq/scmi-cpufreq.c
-> index ff2897789797..c310aeebc8f3 100644
-> --- a/drivers/cpufreq/scmi-cpufreq.c
-> +++ b/drivers/cpufreq/scmi-cpufreq.c
-> @@ -104,7 +104,7 @@ scmi_get_sharing_cpus(struct device *cpu_dev, int domain,
->  	int cpu, tdomain;
->  	struct device *tcpu_dev;
->  
-> -	for_each_possible_cpu(cpu) {
-> +	for_each_present_cpu(cpu) {
->  		if (cpu == cpu_dev->id)
->  			continue;
->  
-> diff --git a/drivers/cpufreq/scpi-cpufreq.c b/drivers/cpufreq/scpi-cpufreq.c
-> index 048dc43a9997..17cda84f00df 100644
-> --- a/drivers/cpufreq/scpi-cpufreq.c
-> +++ b/drivers/cpufreq/scpi-cpufreq.c
-> @@ -65,7 +65,7 @@ scpi_get_sharing_cpus(struct device *cpu_dev, struct cpumask *cpumask)
->  	if (domain < 0)
->  		return domain;
->  
-> -	for_each_possible_cpu(cpu) {
-> +	for_each_present_cpu(cpu) {
->  		if (cpu == cpu_dev->id)
->  			continue;
->  
-> diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> index 17d6a149f580..47d6840b3489 100644
-> --- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> +++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> @@ -262,7 +262,7 @@ static int sun50i_cpufreq_nvmem_probe(struct platform_device *pdev)
->  	snprintf(name, sizeof(name), "speed%d", speed);
->  	config.prop_name = name;
->  
-> -	for_each_possible_cpu(cpu) {
-> +	for_each_present_cpu(cpu) {
->  		struct device *cpu_dev = get_cpu_device(cpu);
->  
->  		if (!cpu_dev) {
-> @@ -288,7 +288,7 @@ static int sun50i_cpufreq_nvmem_probe(struct platform_device *pdev)
->  	pr_err("Failed to register platform device\n");
->  
->  free_opp:
-> -	for_each_possible_cpu(cpu)
-> +	for_each_present_cpu(cpu)
->  		dev_pm_opp_clear_config(opp_tokens[cpu]);
->  	kfree(opp_tokens);
->  
-> @@ -302,7 +302,7 @@ static void sun50i_cpufreq_nvmem_remove(struct platform_device *pdev)
->  
->  	platform_device_unregister(cpufreq_dt_pdev);
->  
-> -	for_each_possible_cpu(cpu)
-> +	for_each_present_cpu(cpu)
->  		dev_pm_opp_clear_config(opp_tokens[cpu]);
->  
->  	kfree(opp_tokens);
-> diff --git a/drivers/cpufreq/virtual-cpufreq.c b/drivers/cpufreq/virtual-cpufreq.c
-> index 45becb92aa4a..7dd1b0c263c7 100644
-> --- a/drivers/cpufreq/virtual-cpufreq.c
-> +++ b/drivers/cpufreq/virtual-cpufreq.c
-> @@ -138,7 +138,7 @@ static int virt_cpufreq_get_sharing_cpus(struct cpufreq_policy *policy)
->  	cur_perf_domain = readl_relaxed(base + policy->cpu *
->  					PER_CPU_OFFSET + REG_PERF_DOMAIN_OFFSET);
->  
-> -	for_each_possible_cpu(cpu) {
-> +	for_each_present_cpu(cpu) {
->  		cpu_dev = get_cpu_device(cpu);
->  		if (!cpu_dev)
->  			continue;
-> -- 
-> 2.34.1
-> 
-
--- 
-Regards,
-Sudeep
+>  .../bindings/mmc/allwinner,sun4i-a10-mmc.yaml | 36 ++++++++-----------
+>  1 file changed, 14 insertions(+), 22 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/mmc/allwinner,sun4i-a10-mmc.yaml b/Documentation/devicetree/bindings/mmc/allwinner,sun4i-a10-mmc.yaml
+> index 0ccd632d56200..8e4c77b7e4ab9 100644
+> --- a/Documentation/devicetree/bindings/mmc/allwinner,sun4i-a10-mmc.yaml
+> +++ b/Documentation/devicetree/bindings/mmc/allwinner,sun4i-a10-mmc.yaml
+> @@ -30,38 +30,30 @@ properties:
+>        - const: allwinner,sun50i-a100-emmc
+>        - const: allwinner,sun50i-a100-mmc
+>        - items:
+> -          - const: allwinner,sun8i-a83t-mmc
+> +          - enum:
+> +              - allwinner,sun8i-a83t-mmc
+> +              - allwinner,suniv-f1c100s-mmc
+>            - const: allwinner,sun7i-a20-mmc
+>        - items:
+> -          - const: allwinner,sun8i-r40-emmc
+> +          - enum:
+> +              - allwinner,sun8i-r40-emmc
+> +              - allwinner,sun50i-h5-emmc
+> +              - allwinner,sun50i-h6-emmc
+>            - const: allwinner,sun50i-a64-emmc
+>        - items:
+> -          - const: allwinner,sun8i-r40-mmc
+> +          - enum:
+> +              - allwinner,sun8i-r40-mmc
+> +              - allwinner,sun50i-h5-mmc
+> +              - allwinner,sun50i-h6-mmc
+>            - const: allwinner,sun50i-a64-mmc
+>        - items:
+> -          - const: allwinner,sun50i-h5-emmc
+> -          - const: allwinner,sun50i-a64-emmc
+> -      - items:
+> -          - const: allwinner,sun50i-h5-mmc
+> -          - const: allwinner,sun50i-a64-mmc
+> -      - items:
+> -          - const: allwinner,sun50i-h6-emmc
+> -          - const: allwinner,sun50i-a64-emmc
+> -      - items:
+> -          - const: allwinner,sun50i-h6-mmc
+> -          - const: allwinner,sun50i-a64-mmc
+> -      - items:
+> -          - const: allwinner,sun20i-d1-emmc
+> -          - const: allwinner,sun50i-a100-emmc
+> -      - items:
+> -          - const: allwinner,sun50i-h616-emmc
+> +          - enum:
+> +              - allwinner,sun20i-d1-emmc
+> +              - allwinner,sun50i-h616-emmc
+>            - const: allwinner,sun50i-a100-emmc
+>        - items:
+>            - const: allwinner,sun50i-h616-mmc
+>            - const: allwinner,sun50i-a100-mmc
+> -      - items:
+> -          - const: allwinner,suniv-f1c100s-mmc
+> -          - const: allwinner,sun7i-a20-mmc
+>
+>    reg:
+>      maxItems: 1
+> --
+> 2.46.3
+>
