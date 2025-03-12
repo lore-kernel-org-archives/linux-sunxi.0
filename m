@@ -1,116 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCD24154426;
-	Wed, 12 Mar 2025 04:03:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B61AD236A7B
+	for <linux-sunxi@lists.linux.dev>; Wed, 12 Mar 2025 08:53:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741752238; cv=none; b=eNuZBtId2xQ46jP5bzGtNQO8pO3pe9G91XXzxpa9L5fLYqkU3usJxFq6DhS2M2Um+N0s51NrPGc4HDy/eYKmvMbs5UbtjBUqjqeKAMIgdPlxqIUfgu2OyZ6KCL98kMTTbpFVMMpVeoXfC/+o8QoyQ8h7KvvOMnCNMFB6rq8iiRQ=
+	t=1741769593; cv=none; b=Iius9SNLh0ARCfwDpFgoNA0F4MLDp/mlxcXFFUxVQPhKFx+vkiyRNbnROdaudIFl+EbrRDbHrQCZjJoT+nGHODnum5a5Y7SOXLafiiOZhKU9pMf4ggFGABDdzolc8vFtFRX3wW+4XVJbJyGbuzmpLs7tDj2lHpmPTWLgMzo4slQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741752238; c=relaxed/simple;
-	bh=XkOWlzk6E8YZf8b8QRvvfwojqXUrA8YB4Q+CY34n8TI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=S+Z5Cf1YIaPhxN+Kd8wB11YVp9ICxgYXw3uYIlKScBNRwuPelzTSSWFLHNMmdBui1WwkttzFb0T7YCWsvOIBRm6xussXV2I3ZjiRyDvfrQGHb6vsm73KrqVEC3iSur09xWnoBjMiSsz9KwRmYryRgfzc1gmApAwJcWuXUPd9/7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hN2ymMXc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741769593; c=relaxed/simple;
+	bh=F5V0MKowf2JDzxxZKfhQHTUo1BEp1LSgfrCTL90txrQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=CqEBcf90ZsMrkdWBgpYBzRLrCCF28zoDF2oYdzG5nUPn8dzLrTSJdiDCDb+ZBH8FWheS6n3qpw5Zvgszlq4FBAyMzPrSfm7aUIFta5volykNLvfedEQiZ2feXTdve4JYdS1G7AY9PHaY3dP597uIWFIzj+SHe9UCKUb2mMfKZB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=cA6WoRrI; arc=none smtp.client-ip=193.68.50.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hN2ymMXc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CE8DC4CEE3;
-	Wed, 12 Mar 2025 04:03:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741752238;
-	bh=XkOWlzk6E8YZf8b8QRvvfwojqXUrA8YB4Q+CY34n8TI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=hN2ymMXcw4hGU5fwGZfosxtuSdYfyboEsStjGFykCP8oO9sy6OoeNPAl9FUK3w2OU
-	 3zMWOn+CVBTlI/4aRfT1dNGRUNx9w4WAekiT2BXMD4rXKd2oiHgjy3w6uvTzlL4PFR
-	 MG0Og9z5mMHBiHucw15sR+r6iPkAwdX6EMqHPQ68Fzt8n4l/ZDaNSpCOn2VtbNDHqu
-	 8kMCtJDFhPFhhX5DUPPGJElZprCySjwxP3MwZdekEjySE7lpugMXhu8+PNGCIKj1aq
-	 S3XO3FwNQBsDQsyhDO2w2sGxF0O2h4bJ+0KJmOsUV/iQykttIdhEKecptIpNMXTCWd
-	 cQBqHPNnPSdww==
-Received: by wens.tw (Postfix, from userid 1000)
-	id 64EF85FC08; Wed, 12 Mar 2025 12:03:55 +0800 (CST)
-From: Chen-Yu Tsai <wens@kernel.org>
-To: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Andre Przywara <andre.przywara@arm.com>
-Cc: Chen-Yu Tsai <wens@csie.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 00/14] clk: sunxi-ng: add A523 clock support
-Date: Wed, 12 Mar 2025 12:03:54 +0800
-Message-Id: <174175218236.1911740.8731884904697217692.b4-ty@csie.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250307002628.10684-1-andre.przywara@arm.com>
-References: <20250307002628.10684-1-andre.przywara@arm.com>
+	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="cA6WoRrI"
+Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
+	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id 15D44A0899;
+	Wed, 12 Mar 2025 09:53:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:from:from:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=mail; bh=JiVJU8vpI1AzUUyUc/XP
+	lRSfdp4+hku0cXCtyGPLMbc=; b=cA6WoRrI5U/yz2OLyFMpnhEGEovu6aQOMXxI
+	lC941G06oI+Ls70GNgzE+ffCn8elNqqxlZR3+iUQS4tpVKCvhMfQ1ENdyVEOifEt
+	bMn5myL3EPV8r84zIqOmf9sSz7GjzTOMIF11UOP7kGdktJNpljs/bAdAqU8VIvi+
+	roFFmXrxTu9HgVqEm2GMNxOVbNwzcULdVaVwq6jbaxxZuKUJkufQhABm5R91cTxA
+	wv/fz7qla5xz0uVEpKrRgjmCXDCT6CLQIUwOYsrxuT8H8IHDxzAFcibcYbuCkqY3
+	BmXZcS+hXgMMDxM2cLzobcIkPbbttuaO5/vCeX8JW4O6iNGWa3WHOTKBr5KpxHvU
+	1IeFLBNlKJ7Nm7/B0XVaahEV+WaeLDzlLPQV+0BRgye1wiZ5LgZCR5P6jXX7Cqrj
+	GFAHOhW0QijeuVcGZd/bW0nGxL3rV6/LAQzqM2rCrTxeGSbfX+SNVYAbLoEL+Fam
+	PMDhhqFl8/JAfmKnungDQEW4CL0RH6JPUCwokGcMUBc4bWpQ3goGfNAyoD+fmlTc
+	VnkQ4stbUT5i65GtQZyAr6GEmZSYAPaALHAWlSeK0vKy0qemFv/kLS575KZM1/s7
+	vt/x0nkNsnkQdOn4SC9+WRpvg2vq77GKIvKk+pSbPBUhsPlaC/Dy/MUgopvD3Anu
+	wzbdQ2U=
+Message-ID: <81f87d39-d3f8-4b6a-91cb-b0177d34171b@prolan.hu>
+Date: Wed, 12 Mar 2025 09:53:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] dma-engine: sun4i: Use devm functions in probe()
+To: Markus Elfring <Markus.Elfring@web.de>, <dmaengine@vger.kernel.org>,
+	<linux-sunxi@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>
+CC: LKML <linux-kernel@vger.kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+	Samuel Holland <samuel@sholland.org>, Vinod Koul <vkoul@kernel.org>
+References: <20250311180254.149484-1-csokas.bence@prolan.hu>
+ <885ceb3e-d6c6-4e7b-a3b6-585d2d110ccf@web.de>
+Content-Language: en-US, hu-HU
+From: =?UTF-8?B?Q3PDs2vDoXMgQmVuY2U=?= <csokas.bence@prolan.hu>
+In-Reply-To: <885ceb3e-d6c6-4e7b-a3b6-585d2d110ccf@web.de>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: ATLAS.intranet.prolan.hu (10.254.0.229) To
+ ATLAS.intranet.prolan.hu (10.254.0.229)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A2980D94852627362
 
-From: Chen-Yu Tsai <wens@csie.org>
+Dear Markus,
 
-On Fri, 07 Mar 2025 00:26:14 +0000, Andre Przywara wrote:
-> this is the fourth drop of the series introducing basic clock support for
-> the Allwinner A523 family of SoCs, comprising A523, A527, T527, H728. [1]
-> This times just a small rename of a macro name, and fixing the DT
-> binding, where the separate patches for the two CCUs got merged into
-> one. For a more detailed changelog, see below.
-> 
-> *************
-> Please note that the clock numbers changed compared to v1 and v2, (but
-> not against v3) so DTs from that older era cannot be used anymore with
-> this driver: you have to update the DTB. Just copying the binding header
-> and recompiling the DTB should do the trick, since the symbols stayed
-> mostly the same, at least as far they are used in the basic DTs we use
-> today.
-> *************
-> 
-> [...]
+On 2025. 03. 11. 20:33, Markus Elfring wrote:
+ >> Clean up error handling by using devm functions
+ >> and dev_err_probe(). This should make it easier
+ > …
+ >
+ > You may occasionally put more than 47 characters into text lines
+ > of such a change description.
 
-Re-applied to clk-for-6.15 in git@github.com:linux-sunxi/linux-sunxi.git
-to add SoB, thanks! Please note the commit hashes have changed.
+It was an old patch I hadn't yet reformatted to 75 cols. I used 50-60 
+cols before, because my mail client's preview panel is very narrow, so 
+anything more than ~65 characters will wrap. If there will be a v5, I'll 
+reformat it to 75 cols as well, as per the style guidelines.
 
-[01/14] clk: sunxi-ng: mp: introduce dual-divider clock
-        commit: 45717804b75eda8a76eacc04509ca4d68dd2caaf
-[02/14] clk: sunxi-ng: mp: provide wrappers for setting feature flags
-        commit: cdbb9d0d09db4cd09d23fec02d3b458664bc3d38
-[03/14] clk: sunxi-ng: Add support for update bit
-        commit: e16b9b71f40f603d5cbdcf02007c05ee03cb2be7
-[04/14] dt-bindings: clk: sunxi-ng: document two Allwinner A523 CCUs
-        commit: 52dbf84857f051df38f6de3f0c7b7f4506e7ad25
-[05/14] clk: sunxi-ng: Add support for the A523/T527 CCU PLLs
-        commit: 7cae1e2b5544a6f51972458ec4360c7717ca0145
-[06/14] clk: sunxi-ng: a523: Add support for bus clocks
-        commit: e6f4b4b77981feb3af06e16da073e788fe16de2a
-[07/14] clk: sunxi-ng: a523: add video mod clocks
-        commit: 6702d17f54a8f6c48cd6ba12282fae8c936e7944
-[08/14] clk: sunxi-ng: a523: add system mod clocks
-        commit: 74b0443a0d0ad283f20ee2985758143485942c31
-[09/14] clk: sunxi-ng: a523: add interface mod clocks
-        commit: ed064e65b92a1d78d90b6b87a3d99790f88c1c83
-[10/14] clk: sunxi-ng: a523: add USB mod clocks
-        commit: fb2c60366d3259aeb5507902e50032fb05b11895
-[11/14] clk: sunxi-ng: a523: remaining mod clocks
-        commit: 00bc60ea24a7b31da97a3b8a833711491c285ae4
-[12/14] clk: sunxi-ng: a523: add bus clock gates
-        commit: f3dabb29f0ca44f2053c0c3943ca6f47b248d348
-[13/14] clk: sunxi-ng: a523: add reset lines
-        commit: a36cc6cd0feb7ea656a1a33db0e6347149f50fed
-[14/14] clk: sunxi-ng: add support for the A523/T527 PRCM CCU
-        commit: 8cea339cfb81eb3354b0f27ceb27e2bb107efa6d
+> How good does such a change combination fit to the patch requirement
+> according to separation of concerns?
+> https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst?h=v6.14-rc6#n81
 
-Best regards,
--- 
-Chen-Yu Tsai <wens@csie.org>
+It is a general refactor patch, it shouldn't change any functionality. I 
+could split it to one part introducing `devm_clk_get_enabled()` and the 
+other `dmaenginem_async_device_register()`, but I don't feel that to be 
+necessary, nor does it bring any advantages I believe.
+
+> Regards,
+> Markus
+
+Bence
+
