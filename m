@@ -1,61 +1,59 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B01CA1F152E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F42C1F1524
 	for <linux-sunxi@lists.linux.dev>; Wed, 12 Mar 2025 23:23:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741821804; cv=none; b=B0DA0fPqKw/TmInrofu5Ib4cYGTsM0lHFMiWoab8UKZhlFLu1xxv2onS4FUn+MDtWRW3xe6tGJ+qRdc5OcyF4EMcklrxJzNNz1wLnNDDYFt5AgTDpvHtG7x4RPMgk3NtGEfiDkY8/lC+H9QD2XeZIja+gbC9lQS9K7v/SBViDWM=
+	t=1741821804; cv=none; b=c9AApcSFVnS8iyc978ET9iYOWVNxac8Yfi+LG0mgf2Z5Mt6J2TysXO6VDLdtqivIJFDU9GajySOHXJ1gO0QDLzBvTfJN0W/w/2ukSjya4BPHv3SblkOhSiVRsGHhJLr8oQ8crday26MqgxdaLCnsHHnQgYseUxyxRgM4TiXPiZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1741821804; c=relaxed/simple;
-	bh=jKbOUFo/QpG3issCs2i4WX7naelfGHn+4IO1WTag5I0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=g6nmE4gzvZgbJNPKBXkRyfQbc+W8SJouryaViEAFlNnhc6Z7pTZnFnpWR8UuIX27pg0xUz1J6LMzcAu1nmP/JWMXios10pF5DzP4SFu9H9/MtmQMISxkAL6nnFCz623S8+t6FW+ASuS8jrUiDglxc9t2d8fgv8IZI2Tujk/aNxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mXSrr/ri; arc=none smtp.client-ip=209.85.208.46
+	bh=AlMyTKDEpt5SFnEfiL/4Y+fTEsmXPpNzUT5Ac4vNIlY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MyuYLIWBjpNxjV8QMbsMf8yygeaAdoMCVdap2IOJyUNSwKxb36CFclr1RdUI5Upo2cnyJ7kAGxzZj6QszK8KbjtFoXlgTHl3WNBdHRplK2WG02lpZTKj8hjozFJiDzkFE8eI+cUSfIg38uvDgqXwN+jCWRGbL4RWhJhNblICDyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WhnMemqH; arc=none smtp.client-ip=209.85.208.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mXSrr/ri"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5e5cd420781so611114a12.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 12 Mar 2025 16:23:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WhnMemqH"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5e6ff035e9aso700735a12.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 12 Mar 2025 16:23:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741821801; x=1742426601; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lLItQqCf1upGBSXyTCmQWhPc9KffbuhOFWAykScbb6c=;
-        b=mXSrr/riKHB64c1dFxT5KEyGb2QoiJq6+vebqGP7HZy3E25z30jsNDgvneG1nyJbQs
-         fp0Yri6XI3oxGRlEcfij9pPGHZSTLkMDLhytDMDmNcG6Xds0/cXJhCrWZzl2e+znGYsc
-         NMgN6zOJS++LkMGqPF54vlRtQdiBY7ZpllLykGqhIKSrSG5zkkWZULTA/4fq6+7sY5vK
-         UQivJHqIK+GcOD6sYplCIiTayZYmJY1Z11PwenSe/yVtLQZ7l9H0NaGWEupIfpuBq1eO
-         kkeA7A3g+//9GeUs25gp0swhtf5iX3wldqOt/Vtn9i7CTkyyZLRFH44F9xUMk/q4WMLt
-         pYCA==
+        d=gmail.com; s=20230601; t=1741821800; x=1742426600; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=N5XiRjmmSEl/27WyQtk9B76hARduq1iukuO2DeaA0TI=;
+        b=WhnMemqHvNBjSMmd1/wJbH4hIT9KJjjc2BonK1PBFieBtISDcACqnq2dExQUGj/kRg
+         2D10DXb/lfNuP1pQ6wX67RnnVZL9SdxetTAEbO1FzVfmeMxnGbr3IWXPkLs06mvd+oJg
+         Be72uramvkBifUGWnalPo7sOclmIDGK4E6hatsqrCheeoTEa4qrbWLUWVGXueeoupWql
+         JDXpAwEv3UT4As7xyz+7lfUQiOpi+6oYtxgudGszPsjdhkQxQTz11fkYpka0eZFGPa+d
+         CELL2ZwANL+WUndrBbi8AOuCQSViHexS3hEn1QdYeUMwm2PvyXYn9Ssi0kVlhicwWt21
+         B77w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741821801; x=1742426601;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lLItQqCf1upGBSXyTCmQWhPc9KffbuhOFWAykScbb6c=;
-        b=nEPyF5mKuysB8lgHaa8fECH4QUefAuMwAsWIrGfTnPGMny64AXJ1zS/E7pWVHmf0z5
-         J4TfqooSmbUrhbTazF3Ogyr+ohQIFAiOEQN8nSo/0rZt9UhuoutVJMicsZMjhsi511I4
-         2kTABCztU9ASVYZte80FAsS2p6fJk25ZPMB2k7F8wQlqf+zRcxZx5LwmGZFhGGwOSZTn
-         szDz+iTS8jzotxaFk9CXt1jzPFXjH2y3pTlEjueXE3I06lN2KTGN9rrB/W2JAoNzGu/W
-         gjgn/4wqKJfx0OYAeriBIx0cXXW1LrzUFndKdcKfeosO0tvKsDClun1nnDouQC4BcGQw
-         IvTA==
-X-Forwarded-Encrypted: i=1; AJvYcCWNCnRpydWyEL/t3We0urdegTH+5vjgZCWHCB/xQyaQ+iixqNhFn+NcZVq+X+FJShDQ/005dtguT8mxPw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzaYrlMy4waBP3fX2yP5y30fFS1QPsQy5veK4H+Em1hTu6tmF7D
-	blvCWNfEB1hulZHetvXyQMpiFnXqcNGijHNozlueo+uO2KmikNJ6
-X-Gm-Gg: ASbGncuvB+0dy46iOHJPc396VLoTnx8u/xEfSNRdBTQJQpYSzkKGX6/QOvlkfXzaL3u
-	V3l/yMdvNpL3pGHpbnSY2deLg4lewHf5Bhz++24b1cNNFTHTkeYBfMEd3IVqtMpE7nXSZI+iis6
-	KsRykNqLO72ewr09dKEdwC0lEYd9+SAeIBtBSwDEj7BG3Cdhnogzyc9O1YR7BuN2G9jy5W4Ut8j
-	a8MA7AdzxmgvK8lSX1ARrF4jDknMnC35LA2RxABOW1JzvVdvA7rKvr8O3TygbbdNrYB/sZjNNQg
-	/tcFn1sddbNbht7uQpIahhMrX5SWyZIz0CMx7tTpih/bixRZ0YrHUvuP1N2MfoEGLgm1Fm03nYO
-	1/Vp3CD9QRBxILxUK9GFokeUWW775wYo=
-X-Google-Smtp-Source: AGHT+IGTT9lbHnlAuZxDgl2ruuPaXaEWe6rhYtxsk5VuLikqAKEjXsCw9yzdc7f50PpSyBlv1A41Nw==
-X-Received: by 2002:a05:6402:5109:b0:5e0:58ca:6706 with SMTP id 4fb4d7f45d1cf-5e5e24db96amr31469423a12.30.1741821800942;
+        d=1e100.net; s=20230601; t=1741821800; x=1742426600;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=N5XiRjmmSEl/27WyQtk9B76hARduq1iukuO2DeaA0TI=;
+        b=SriHfB2N8dtKJMJVYwoVizRqkhOnm4uvVvviBO48NE85pKzNbb2XsHkYSSVjj5D248
+         aBgvGxsjrWIIYoHpyXy31skeoWdXo/qZ+oPJ4G3BIR2jpbuYK4wkVrasMHruKkbQZuFb
+         XbZGnf3lXWewPB2Ifq/u18tygr4JwBLAOhb5YNRzHK0DPe3slVS7LmjxMMh1J+n7kMZk
+         krcfU5WhwEzd969XfUeZsfgDqhxTF+LqXOyPjR/MxDvfhd0/+U0t4SRuz8msXh1sWL9C
+         pdeg7qFdbV74kri0X9A8ZJHTsgbzUrTWMdIYwRWiipjjVvSo6v2Ea/SpdM2krSLV+P+b
+         eO+w==
+X-Forwarded-Encrypted: i=1; AJvYcCVF9NWi7VOAW7B+Cd6CBHS3ObzbpMto/1BfrRUzUUd7iZlNu+In48pyX4pSIuqTco23WykemxtqOrKMjA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzwwDDYVkFQMX80GXERnu9j7WcieemFFqQFMU8p7EgSb/+tctMn
+	08L9x8QN216RT6x+bl4IN4dMuHdO87YoZNXb3VR5hwDIhudc6/6R
+X-Gm-Gg: ASbGnctKIu2fnL0lOFEGtAXLijmUb4qGhQj+Qi57pLJTmOHO8tINhVeGkUvpqofzZoi
+	qezpo12GzqCLVhee+/Td3F1E2DIeBh1n4Gm/+eg7ktBpM3RmYmU/PHvfycKa+/yEjmRByXau9JK
+	TXR93NMZmo/j9qmTIJJoMr+NpLv83PHqEoQawJGFElhyuZbIQxGZwNfoVOkJQPEz+dUDa1iHWi5
+	gA95InmDDMC289S9BLLKoGRF+7oS47uT7PxaY4kgV1ed+Ny3oauRS+a4U/knbV6bm/wehWkQccs
+	HhczE+fHHGvRYnlizaeqLrQMQV+fR9tm491XONMHkOzr0eeu6P/Ty/V/dZ2kZlyAP4bJ/U2HkDe
+	/HnSEEKV00cEdEgLCZSNkQbJ5O4bBNMlacf18XXSULQ==
+X-Google-Smtp-Source: AGHT+IGHCuvkKN2Hnl4IIftTv7iSM7L6WhcdJmI8aN2Zt/SmXrCXjIxp9Wwtgzg+MHajHiqjVl+fZA==
+X-Received: by 2002:a05:6402:d08:b0:5e6:60da:dc45 with SMTP id 4fb4d7f45d1cf-5e75f987950mr11542688a12.31.1741821800333;
         Wed, 12 Mar 2025 16:23:20 -0700 (PDT)
 Received: from localhost.localdomain (146.10-240-81.adsl-dyn.isp.belgacom.be. [81.240.10.146])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5e816afe223sm26732a12.70.2025.03.12.16.23.20
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5e816afe223sm26732a12.70.2025.03.12.16.23.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 12 Mar 2025 16:23:20 -0700 (PDT)
 From: Philippe Simons <simons.philippe@gmail.com>
@@ -73,12 +71,10 @@ Cc: dri-devel@lists.freedesktop.org,
 	linux-sunxi@lists.linux.dev,
 	Andre Przywara <andre.przywara@arm.com>,
 	=?UTF-8?q?Jernej=20=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Subject: [PATCH 1/2] drm/panfrost: Add PM runtime flags
-Date: Thu, 13 Mar 2025 00:23:18 +0100
-Message-ID: <20250312232319.25712-2-simons.philippe@gmail.com>
+Subject: [PATCH 0/2] drm/panfrost:
+Date: Thu, 13 Mar 2025 00:23:17 +0100
+Message-ID: <20250312232319.25712-1-simons.philippe@gmail.com>
 X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250312232319.25712-1-simons.philippe@gmail.com>
-References: <20250312232319.25712-1-simons.philippe@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -87,100 +83,32 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When the GPU is the only device attached to a single power domain,
-core genpd disable and enable it when gpu enter and leave runtime suspend.
+Allwinner H616 has a dedicated power domain for its Mali G31.
 
-Some power-domain requires a sequence before disabled,
-and the reverse when enabled.
+Currently after probe, the GPU is put in runtime suspend which 
+disable the power domain.
+On first usage of GPU, the power domain enable hangs the system.
 
-Add PM flags for CLK and RST, and implement in
-panfrost_device_runtime_suspend/resume.
+This series adds the necessary calls to enable the clocks and
+deasserting the reset line after the power domain enabling and
+asserting the reset line and disabling the clocks prior to the
+power domain disabling.
 
-Signed-off-by: Philippe Simons <simons.philippe@gmail.com>
----
+This allows to use the Mali GPU on all Allwinner H616
+boards and devices.
+
+Philippe Simons (2):
+  drm/panfrost: Add PM runtime flags
+  drm/panfrost: add h616 compatible string
+
  drivers/gpu/drm/panfrost/panfrost_device.c | 37 ++++++++++++++++++++++
  drivers/gpu/drm/panfrost/panfrost_device.h |  4 +++
- 2 files changed, 41 insertions(+)
+ drivers/gpu/drm/panfrost/panfrost_drv.c    |  8 +++++
+ 3 files changed, 49 insertions(+)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
-index a45e4addcc19..189ad2ad2b32 100644
---- a/drivers/gpu/drm/panfrost/panfrost_device.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_device.c
-@@ -406,11 +406,38 @@ void panfrost_device_reset(struct panfrost_device *pfdev)
- static int panfrost_device_runtime_resume(struct device *dev)
- {
- 	struct panfrost_device *pfdev = dev_get_drvdata(dev);
-+	int ret;
-+
-+	if (pfdev->comp->pm_features & BIT(GPU_PM_RT_RST_ASRT)) {
-+		ret = reset_control_deassert(pfdev->rstc);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	if (pfdev->comp->pm_features & BIT(GPU_PM_RT_CLK_DIS)) {
-+		ret = clk_enable(pfdev->clock);
-+		if (ret)
-+			goto err_clk;
-+
-+		if (pfdev->bus_clock) {
-+			ret = clk_enable(pfdev->bus_clock);
-+			if (ret)
-+				goto err_bus_clk;
-+		}
-+	}
- 
- 	panfrost_device_reset(pfdev);
- 	panfrost_devfreq_resume(pfdev);
- 
- 	return 0;
-+
-+err_bus_clk:
-+	if (pfdev->comp->pm_features & BIT(GPU_PM_RT_CLK_DIS))
-+		clk_disable(pfdev->clock);
-+err_clk:
-+	if (pfdev->comp->pm_features & BIT(GPU_PM_RT_RST_ASRT))
-+		reset_control_assert(pfdev->rstc);
-+	return ret;
- }
- 
- static int panfrost_device_runtime_suspend(struct device *dev)
-@@ -426,6 +453,16 @@ static int panfrost_device_runtime_suspend(struct device *dev)
- 	panfrost_gpu_suspend_irq(pfdev);
- 	panfrost_gpu_power_off(pfdev);
- 
-+	if (pfdev->comp->pm_features & BIT(GPU_PM_RT_CLK_DIS)) {
-+		if (pfdev->bus_clock)
-+			clk_disable(pfdev->bus_clock);
-+
-+		clk_disable(pfdev->clock);
-+	}
-+
-+	if (pfdev->comp->pm_features & BIT(GPU_PM_RT_RST_ASRT))
-+		reset_control_assert(pfdev->rstc);
-+
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
-index cffcb0ac7c11..f372d4819262 100644
---- a/drivers/gpu/drm/panfrost/panfrost_device.h
-+++ b/drivers/gpu/drm/panfrost/panfrost_device.h
-@@ -36,10 +36,14 @@ enum panfrost_drv_comp_bits {
-  * enum panfrost_gpu_pm - Supported kernel power management features
-  * @GPU_PM_CLK_DIS:  Allow disabling clocks during system suspend
-  * @GPU_PM_VREG_OFF: Allow turning off regulators during system suspend
-+ * @GPU_PM_RT_CLK_DIS: Allow disabling clocks during system runtime suspend
-+ * @GPU_PM_RST_ASRT: Allow asserting the reset control during runtime suspend
-  */
- enum panfrost_gpu_pm {
- 	GPU_PM_CLK_DIS,
- 	GPU_PM_VREG_OFF,
-+	GPU_PM_RT_CLK_DIS,
-+	GPU_PM_RT_RST_ASRT
- };
- 
- struct panfrost_features {
+
+base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
+prerequisite-patch-id: eb8a11e2b24bb282970d8b8528834dea7ee392cc
 -- 
 2.48.1
 
