@@ -1,61 +1,63 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F42C1F1524
-	for <linux-sunxi@lists.linux.dev>; Wed, 12 Mar 2025 23:23:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6223E1F1536
+	for <linux-sunxi@lists.linux.dev>; Wed, 12 Mar 2025 23:23:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741821804; cv=none; b=c9AApcSFVnS8iyc978ET9iYOWVNxac8Yfi+LG0mgf2Z5Mt6J2TysXO6VDLdtqivIJFDU9GajySOHXJ1gO0QDLzBvTfJN0W/w/2ukSjya4BPHv3SblkOhSiVRsGHhJLr8oQ8crday26MqgxdaLCnsHHnQgYseUxyxRgM4TiXPiZA=
+	t=1741821806; cv=none; b=Foaf2s4DjYQyy5xc4AJ/Q/HbnqqNcBYtU+l52FwVi5P/cpcQ4Ml6mjFUWq+IypUoy2hqTXdwc0RkROCp/sAYTAdpxpegY6Qj75dVusxJ7rCK0n2me5pvDRcioV3DtfrwGfPGwpxlRdKIbnPpcQrvtb8Uc7l//QVKhezqPOczPnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741821804; c=relaxed/simple;
-	bh=AlMyTKDEpt5SFnEfiL/4Y+fTEsmXPpNzUT5Ac4vNIlY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MyuYLIWBjpNxjV8QMbsMf8yygeaAdoMCVdap2IOJyUNSwKxb36CFclr1RdUI5Upo2cnyJ7kAGxzZj6QszK8KbjtFoXlgTHl3WNBdHRplK2WG02lpZTKj8hjozFJiDzkFE8eI+cUSfIg38uvDgqXwN+jCWRGbL4RWhJhNblICDyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WhnMemqH; arc=none smtp.client-ip=209.85.208.45
+	s=arc-20240116; t=1741821806; c=relaxed/simple;
+	bh=4YZluZGJ4DEMVE+2SA7gUODIucELBWly4WYu8TV+KoA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=EnPVjH3T592Mg77QjlSO+VtrhPuFYeQp/dhgm2eZnoPHfdG4dyj/gf6eHRgSn7mRQt3yCHJkuBSQh3KjXDz2XOICv6S0bgnXt4CJNShdxtgZvfGbPdp6GF4I0TY5MT2WjcEsn/799NmNjUGUL+bd7Sopjh5HtGqnGld0lOAYt4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IUQQZA43; arc=none smtp.client-ip=209.85.208.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WhnMemqH"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5e6ff035e9aso700735a12.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 12 Mar 2025 16:23:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IUQQZA43"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5e5e1a38c1aso384526a12.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 12 Mar 2025 16:23:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741821800; x=1742426600; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=N5XiRjmmSEl/27WyQtk9B76hARduq1iukuO2DeaA0TI=;
-        b=WhnMemqHvNBjSMmd1/wJbH4hIT9KJjjc2BonK1PBFieBtISDcACqnq2dExQUGj/kRg
-         2D10DXb/lfNuP1pQ6wX67RnnVZL9SdxetTAEbO1FzVfmeMxnGbr3IWXPkLs06mvd+oJg
-         Be72uramvkBifUGWnalPo7sOclmIDGK4E6hatsqrCheeoTEa4qrbWLUWVGXueeoupWql
-         JDXpAwEv3UT4As7xyz+7lfUQiOpi+6oYtxgudGszPsjdhkQxQTz11fkYpka0eZFGPa+d
-         CELL2ZwANL+WUndrBbi8AOuCQSViHexS3hEn1QdYeUMwm2PvyXYn9Ssi0kVlhicwWt21
-         B77w==
+        d=gmail.com; s=20230601; t=1741821802; x=1742426602; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6zrV7lfXICcs3l0g4L6oSOhAbz0Vn05AYlZgbp4rDoM=;
+        b=IUQQZA43c9RNMztay5ZfolfGlExckrb2nDBMJV6n+LwZer9prnJsaKa2P/rti4eCFC
+         uYZ0S1gNXK8+bg7f3d4w/9/x/u3OBFbeGYFi9yiFq2MRO2Op6tl2XqcLm7pasEwWuF4Q
+         jjkS/vlWA20gNB8keO8OnAr6LjGxfjLQipaJtX7P9KSDeXgEOpRZ4vblkOHIEJJDaMEh
+         uMgId1H3aYDQuPVLBV3sILyIMo8dGapvFCBEhFUe1o33XgWfAsz9MXrj7Ae9ewB5b9OS
+         MhZt6q7hRooEAeUVng1JZnelIAIzi9UNt2PWSRoQmRnSnbndYrzODDS3IahIaZ33DyAB
+         sbAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741821800; x=1742426600;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=N5XiRjmmSEl/27WyQtk9B76hARduq1iukuO2DeaA0TI=;
-        b=SriHfB2N8dtKJMJVYwoVizRqkhOnm4uvVvviBO48NE85pKzNbb2XsHkYSSVjj5D248
-         aBgvGxsjrWIIYoHpyXy31skeoWdXo/qZ+oPJ4G3BIR2jpbuYK4wkVrasMHruKkbQZuFb
-         XbZGnf3lXWewPB2Ifq/u18tygr4JwBLAOhb5YNRzHK0DPe3slVS7LmjxMMh1J+n7kMZk
-         krcfU5WhwEzd969XfUeZsfgDqhxTF+LqXOyPjR/MxDvfhd0/+U0t4SRuz8msXh1sWL9C
-         pdeg7qFdbV74kri0X9A8ZJHTsgbzUrTWMdIYwRWiipjjVvSo6v2Ea/SpdM2krSLV+P+b
-         eO+w==
-X-Forwarded-Encrypted: i=1; AJvYcCVF9NWi7VOAW7B+Cd6CBHS3ObzbpMto/1BfrRUzUUd7iZlNu+In48pyX4pSIuqTco23WykemxtqOrKMjA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzwwDDYVkFQMX80GXERnu9j7WcieemFFqQFMU8p7EgSb/+tctMn
-	08L9x8QN216RT6x+bl4IN4dMuHdO87YoZNXb3VR5hwDIhudc6/6R
-X-Gm-Gg: ASbGnctKIu2fnL0lOFEGtAXLijmUb4qGhQj+Qi57pLJTmOHO8tINhVeGkUvpqofzZoi
-	qezpo12GzqCLVhee+/Td3F1E2DIeBh1n4Gm/+eg7ktBpM3RmYmU/PHvfycKa+/yEjmRByXau9JK
-	TXR93NMZmo/j9qmTIJJoMr+NpLv83PHqEoQawJGFElhyuZbIQxGZwNfoVOkJQPEz+dUDa1iHWi5
-	gA95InmDDMC289S9BLLKoGRF+7oS47uT7PxaY4kgV1ed+Ny3oauRS+a4U/knbV6bm/wehWkQccs
-	HhczE+fHHGvRYnlizaeqLrQMQV+fR9tm491XONMHkOzr0eeu6P/Ty/V/dZ2kZlyAP4bJ/U2HkDe
-	/HnSEEKV00cEdEgLCZSNkQbJ5O4bBNMlacf18XXSULQ==
-X-Google-Smtp-Source: AGHT+IGHCuvkKN2Hnl4IIftTv7iSM7L6WhcdJmI8aN2Zt/SmXrCXjIxp9Wwtgzg+MHajHiqjVl+fZA==
-X-Received: by 2002:a05:6402:d08:b0:5e6:60da:dc45 with SMTP id 4fb4d7f45d1cf-5e75f987950mr11542688a12.31.1741821800333;
-        Wed, 12 Mar 2025 16:23:20 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1741821803; x=1742426603;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6zrV7lfXICcs3l0g4L6oSOhAbz0Vn05AYlZgbp4rDoM=;
+        b=Quyyal+6lfI5arr9JEMAaaWbTF2hBEsWN9OARS3JGQvpyFYtdxIm93t9rKcyrQ1L4Y
+         BpmaDznfinZAzCKy+hwGC5d6zShCwvQ5LJ8c5nLA3VUBJd68ro+cIBMsSagGunYi3omK
+         /B9bTro6CWbpCA+KuLb3bNUYh7ZiUlDxYv078pmSgLYBqTH8dmqlEQ4HVkp0ci+hZ0Zz
+         KuKt4mHGcsCcX1634tghGPjc7ZB4bGpFfBSXIR5XAMO25pqiWMxtTmGDfBvtfnQMK+87
+         skEPdY7xInJAD2ILL0LrHzwjycERtQqdZ4NSS8aX8UQWo+ZbwJ5Ps76gYDY8qnujT+RG
+         GeVA==
+X-Forwarded-Encrypted: i=1; AJvYcCX18KyHymJX67WhgEFN3f+EtcP6/PGk4HaPjq2pCecX7GuCO1ULYeXZpoU/gSOorFC58z64uaRSJS2tEw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw3NqfNQdAweis9Q5RwcUmpgkTxA0Gp/DZAtOOuuEjPMpGBjRvo
+	UA6A0Sg1MX599y/kTxK5/akSWG7u9ub2hwnmsR19hiC+0jOuRXKI
+X-Gm-Gg: ASbGnculkh+ln84eovcvujt8HSdW/2ObQL0bXlg/OrL1KvT53q/+ugFGPZaJqmd7bqK
+	dtQKH5MgBPhRC74pb4CRNHQrPOUgNR8W/OxAjeEp9oKg6yUWok6S+4ImaQm5xK6BrqJ3Hf3kk59
+	FyHBbiJLzQh8gJ7C7wSZ1V2SYTxtZHCmRiyR+3FWvh3IoYiviSwA8nuRVTV38kyRgjF+CH3+bZX
+	w2F0Y0rlQmbAZW2QX1f/v0evpgqk476o9OXKG4Tigc8tuS8TPwSrCshyI8HC1qorPJjT6qd9qrv
+	1YGo0KyzbuUl6u/OmXeuNV5dlIfiW8IITkYWpyZ2xP/zS1NlA47uD6IFIeEBRra/1d9THtFyvOp
+	q8x6RGoTFoO6sB4v1IEiPAUyaYCACazw=
+X-Google-Smtp-Source: AGHT+IE/HS7pBbJiG0dtxqr09NjUVWMflt711bAAkhk0a2Jd0FhTvLGrwUMbdOg+tiQiWKRSLoGTNQ==
+X-Received: by 2002:a05:6402:430b:b0:5df:25e8:26d2 with SMTP id 4fb4d7f45d1cf-5e5e22a79ccmr49699585a12.5.1741821802314;
+        Wed, 12 Mar 2025 16:23:22 -0700 (PDT)
 Received: from localhost.localdomain (146.10-240-81.adsl-dyn.isp.belgacom.be. [81.240.10.146])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5e816afe223sm26732a12.70.2025.03.12.16.23.19
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5e816afe223sm26732a12.70.2025.03.12.16.23.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Mar 2025 16:23:20 -0700 (PDT)
+        Wed, 12 Mar 2025 16:23:21 -0700 (PDT)
 From: Philippe Simons <simons.philippe@gmail.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
 	Rob Herring <robh@kernel.org>,
@@ -71,10 +73,12 @@ Cc: dri-devel@lists.freedesktop.org,
 	linux-sunxi@lists.linux.dev,
 	Andre Przywara <andre.przywara@arm.com>,
 	=?UTF-8?q?Jernej=20=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Subject: [PATCH 0/2] drm/panfrost:
-Date: Thu, 13 Mar 2025 00:23:17 +0100
-Message-ID: <20250312232319.25712-1-simons.philippe@gmail.com>
+Subject: [PATCH 2/2] drm/panfrost: add h616 compatible string
+Date: Thu, 13 Mar 2025 00:23:19 +0100
+Message-ID: <20250312232319.25712-3-simons.philippe@gmail.com>
 X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250312232319.25712-1-simons.philippe@gmail.com>
+References: <20250312232319.25712-1-simons.philippe@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -83,32 +87,41 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Allwinner H616 has a dedicated power domain for its Mali G31.
+Tie the Allwinner compatible string to the two features bits that will
+toggle the clocks and the reset line whenever the power domain is changing
+state.
 
-Currently after probe, the GPU is put in runtime suspend which 
-disable the power domain.
-On first usage of GPU, the power domain enable hangs the system.
+Signed-off-by: Philippe Simons <simons.philippe@gmail.com>
+---
+ drivers/gpu/drm/panfrost/panfrost_drv.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-This series adds the necessary calls to enable the clocks and
-deasserting the reset line after the power domain enabling and
-asserting the reset line and disabling the clocks prior to the
-power domain disabling.
-
-This allows to use the Mali GPU on all Allwinner H616
-boards and devices.
-
-Philippe Simons (2):
-  drm/panfrost: Add PM runtime flags
-  drm/panfrost: add h616 compatible string
-
- drivers/gpu/drm/panfrost/panfrost_device.c | 37 ++++++++++++++++++++++
- drivers/gpu/drm/panfrost/panfrost_device.h |  4 +++
- drivers/gpu/drm/panfrost/panfrost_drv.c    |  8 +++++
- 3 files changed, 49 insertions(+)
-
-
-base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
-prerequisite-patch-id: eb8a11e2b24bb282970d8b8528834dea7ee392cc
+diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+index 0f3935556ac7..f13743fe6bad 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_drv.c
++++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+@@ -776,6 +776,13 @@ static const struct panfrost_compatible default_data = {
+ 	.pm_domain_names = NULL,
+ };
+ 
++static const struct panfrost_compatible allwinner_h616_data = {
++	.num_supplies = ARRAY_SIZE(default_supplies) - 1,
++	.supply_names = default_supplies,
++	.num_pm_domains = 1,
++	.pm_features = BIT(GPU_PM_RT_CLK_DIS) | BIT(GPU_PM_RT_RST_ASRT),
++};
++
+ static const struct panfrost_compatible amlogic_data = {
+ 	.num_supplies = ARRAY_SIZE(default_supplies) - 1,
+ 	.supply_names = default_supplies,
+@@ -859,6 +866,7 @@ static const struct of_device_id dt_match[] = {
+ 	{ .compatible = "mediatek,mt8186-mali", .data = &mediatek_mt8186_data },
+ 	{ .compatible = "mediatek,mt8188-mali", .data = &mediatek_mt8188_data },
+ 	{ .compatible = "mediatek,mt8192-mali", .data = &mediatek_mt8192_data },
++	{ .compatible = "allwinner,sun50i-h616-mali", .data = &allwinner_h616_data },
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(of, dt_match);
 -- 
 2.48.1
 
