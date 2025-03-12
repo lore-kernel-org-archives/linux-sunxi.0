@@ -1,41 +1,42 @@
-Received: from mout.web.de (mout.web.de [212.227.15.3])
+Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B77523F377
-	for <linux-sunxi@lists.linux.dev>; Wed, 12 Mar 2025 11:44:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA4731E4A9
+	for <linux-sunxi@lists.linux.dev>; Wed, 12 Mar 2025 12:30:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741779887; cv=none; b=eAhbHrLXHklcjcZLQF1czO9kwRRSxyw6c2lyn6gJvoqSomq5Udo0mDBjfpj+F6EZAi+abic9UsmP3DxxfJhCNFFY+AWM33xY65GQD0iI/qvVzZS15gQlHWxDCd8+YE/bzNYqpmbeZsSpkV142FA2mqairISi7timkOHPRzFYHjM=
+	t=1741782652; cv=none; b=Lughch4k5VaRbEDACMDBzcDQivUOSuDi0RWy906fmPovuHdfbNd4hCzxhUTilEASTNfYG9GScMUfHM9e+pV4BuoNyZ9oGVcLCuPghDVeDPWmraKzVrH1pWM9z5QKn1l3ZjJdCmnfWJPAgliUNcNXWbBmpca2qGdDnlvL/X968o4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741779887; c=relaxed/simple;
-	bh=MLnKan3lFYDD+jvzhQNITIAxq798Ip34clQk5vThoys=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kfK9gQlgORQoYq7VFalbfLHAoMKKSC37E8YQYIy9P3+p/reR2ysNq1afGWvAfWerSLW03NcW1z31fo8jZcicJd57jmgC1amYFsC/RJNC+XzpjO/7HNECpp1VdyxV/9SVRNvMpRYrJl0NyeAIu+c/nTKZMd7BGv7WWZO3muvsQCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=fwCA+hTv; arc=none smtp.client-ip=212.227.15.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1741782652; c=relaxed/simple;
+	bh=laYQCx88mjcDu1ZnBLvTOB+6I7d/yFECJ8I8PLU/mrU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=V08j/Mph9TvcRJjv3BnlezDwHbaq961YAXC85McinfqdBIsIc7sbmry1FQWC5C4ROg6J/9HUAe+kso9NTg0983egH/lNDJP5cs+eApDC/iQnUDKDYyUTjzsqt2WPwLoS5uT5QhnuTV1azYJ8bRemzIh6dGllKe16txN+khNwC9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=qQ49a4EU; arc=none smtp.client-ip=193.68.50.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="fwCA+hTv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1741779856; x=1742384656; i=markus.elfring@web.de;
-	bh=MLnKan3lFYDD+jvzhQNITIAxq798Ip34clQk5vThoys=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=fwCA+hTv+xevWhkTQGzqZY54XO6nMElzeJc1/orgz60gpX4gGPsEy3THUzP2JCL8
-	 uATjwFM9g8qat/TJbX+g7G1THZP1MA5MeHU6nSi1X/u8vBXf9npIopEpxmq6LwaIS
-	 2CtcslgwC3F97QMnSc3rR1k19fB+56zD8GJum7845m4JJDrEpR0CdTBowzPJhaumm
-	 vVWYiSMZ4Njfg77aU6rlvOx7a6hBMIJy6kM/EoTZbFdiPPxOJdLcVJwOo8i5n0epa
-	 KaEyAZxe56MFUdzDPbXo9jLGEA0eM5BP/9JMx7wBwS4LBV5BQNej0Ugsw1EAj5523
-	 7LqDuVYMMHgNrOHEGQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.93.19]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MoNZM-1tPpFo1ODw-00fcM3; Wed, 12
- Mar 2025 12:44:16 +0100
-Message-ID: <9ef781b0-8a63-42b7-91a2-fa8a8ea3c0b4@web.de>
-Date: Wed, 12 Mar 2025 12:44:05 +0100
+	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="qQ49a4EU"
+Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
+	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id 4F763A0433;
+	Wed, 12 Mar 2025 13:30:46 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:from:from:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=mail; bh=cmklfvLlFZxYw5WHt0NS
+	MePxUydM1gh/qon5awTqfRY=; b=qQ49a4EU6xjyrrZrVO8B+hvj25GZPeSjA0jb
+	7nWqtx/yE+/PuOh6axYscnpPtJZnCUmT1XiXz34qdphteXIo2TKJ5KsVsaQbrXlk
+	tUylJKdzUJ6EfDz4qFK6yVM1aVGbxPGaUdWI/bQOuiBI7c3nXLNeTFPrfx5bv68J
+	vSJsJYx3lZujSrSva+A6xE/tym5fl0MQR/34G1oev+OcThulayAyqB90QYnXB8rS
+	EsMyweSxMqzxmwvlG/62+oJXrrRx/23oPcywfMzqCIHPrTizUL5I1hKt9qJxNQ7G
+	0hp4aELeQ8tdiUjwGqvTbbbqJykqBqzZzxeWmyZZ3TReORAfhJ7HnlLmirxrBbDa
+	bzfwMJAPkNNpRba8Z2ahlXTtuP/nQbOtBnaJj4Lm561VyLg1pj6n4nQyecsminBK
+	9JZ1iaOdx6ikfJeW+2aC9/eykxPtKm0CahpIScO09ixdrP6D2WUUHpAFdQ8AnqJT
+	FIxcYKKDwenm5asoKkx7K75nJxFX8DHeGnIoMFn3kV01Le7YYX2H3POwTWR8TbRo
+	Izrs5IjAB8SonwI2Nwdi3x4a1yt6XQNPRgXRZE6UQljKWhLFhfwTskZe+LdKCar4
+	bBitkR5bthaRvlro6f2XsFW/g08V6CvdOTl7UVQOg4knyzU6/miZUM2x/aMmdqTZ
+	nOE9+MU=
+Message-ID: <505c2e3b-f1bb-4e3a-96f2-eef0d0d682e6@prolan.hu>
+Date: Wed, 12 Mar 2025 13:30:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -44,61 +45,46 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [v4] dma-engine: sun4i: Use devm functions in probe()
-To: =?UTF-8?B?Q3PDs2vDoXMgQmVuY2U=?= <csokas.bence@prolan.hu>,
- dmaengine@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: LKML <linux-kernel@vger.kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
- Samuel Holland <samuel@sholland.org>, Vinod Koul <vkoul@kernel.org>
+To: Markus Elfring <Markus.Elfring@web.de>, <dmaengine@vger.kernel.org>,
+	<linux-sunxi@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>
+CC: LKML <linux-kernel@vger.kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+	Samuel Holland <samuel@sholland.org>, Vinod Koul <vkoul@kernel.org>
 References: <20250311180254.149484-1-csokas.bence@prolan.hu>
  <885ceb3e-d6c6-4e7b-a3b6-585d2d110ccf@web.de>
  <81f87d39-d3f8-4b6a-91cb-b0177d34171b@prolan.hu>
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <81f87d39-d3f8-4b6a-91cb-b0177d34171b@prolan.hu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:80YpDH0o3hUHkweOLLEIn/ZK5SDX0jpLC2Q+zbRQrqjKibA/0ho
- NbKKWd8SOUb18XeqaK4CFWgRzmMNdV+5QRagLrkle67BCLcpV2u8fwvo6RcLmDZmJiXKZ/Q
- 727i6hAL6RhEmYRmjeNpRINEwCdFOBlhf+KsJzcgS5TFt6ohZfpEIoMt1YxkFS2kCZce+9h
- J+GzvoTvhZoM7eyZdcPUA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:AV80ruHJYxs=;dZeG8Z3LKpqUsPmFKaUNL3FOj3i
- JTXsrn9BP9hHyIulU9qz8iv24czCZwqjFT5FJ2IbPMIaxFD1njxdP1gyClAOqkvA/eyaaQxtg
- HHv4ERWXjJG61uWD5mG0SiNv9y6fwrtmBbaROCl+f52TkQDdwHLumuNp7IRBqcfVEWVrJPy9Z
- 2OQNrmyHsMnQCniE9Yi+vHd4Sx/+4ZFWkQFvCsrLk7iSczyVNKRYqGruKCZ8DJYqhfaWBBO1d
- OFCKC40T5lfPxWBdYZdw94/0N/MOAxxc8N/0xRVyASE0RRXCayhk0qGWN5GE7QC+Be3tVoyQo
- FiDt27/FgkM0jooz8FK/r9Qxd/fj5aemv58iRvJ+F5TNdggpBQ30k7TShiP5N3dPBogufQ5ii
- FHdWIuf35zk8KOLGuXMUIDo2sZTgCRfjmOL7rytrCqJSdUeq8kBjQWn+X9r1sqS9eqsVj000A
- hH02//eHL6Ohw14cwo368Tmt9EQkPhxDHz/tYMIBOF/6hkJfOOSQXvlKIDG4eVBxU/NNTLZl0
- OPBmFWuF4cbk0Bwjw6C85/gJRGStHJ2d02NB9bj7dmlfOB0Nm+kk2Fuuty/sB5emCm9mY7Kg2
- lgPetwHF7Kt/5zKZmqRtQUf0yI2MsaO/F7VWvFEE4+aojjjIp29K5ChJxVyykgLlRK9EjhSFn
- 0MaH/Q/JxrWXK3R7eeY6J8SkAb4eaTWCXMSP7Y8xjISitwnGdmQnIt7epJP6zW8VCZm9ON1bS
- fddlbe6Vct6TL1F2jIpATEGtRsQ3o+vKMlezDY+Qrt+lVomocTB5YQ2c+3/t40wIPUniRpNJt
- w10O9p7e6j3dXZlBI7YM9kM8pk4oKGjPEEu9KTeQS+RkDB17TW9jQ/Fi1zw+LZedr6qknA5Wj
- edKjYr/l0uVuyZQp2W1ICDnzTPWX+mvZpgnSLdXfD/WGqwV/E0/a8/EG2DiZO6JE+gKhkRM7u
- hJ5QvazDMa+f+zFhMmDA4bbqSwvNX21ItGxElC9XevECHHwJxKiSQkHPKlSz1Bt+15UNHSnVN
- bUqya6rF4/K46GqAvrS7Tk3lNpzGXHupHQYXbVxHXFRQF/UY4S6HtX7o0OOh3h9t/u5l5o/Jk
- 8cpbyFnO+ls+tUEuCY+3KBsYbI5YvRWI3ToY8aDFPsHz9cw7c90qbXkUNVroMqwCx2VNFONDP
- NWMGr0SMtoGKNlO8MC/T/EBgMuPgPmpGeeM6ev9JvRinbWADLkw9wfpY8+a318gv7yPzSMfGH
- bfWNLxyyXdFkh9IXuEA1El9iHIuCGX3nm/4GeFZNcDJcxVJp0Ee8GF4nykQWnhTuLo9rjuY9z
- V/LuSbrQgbEHy2k/d7yJHFZ+s8yk78YbmpnOdAoqU0wnH4I37Wlhrp7+f3d/hMI6Vu2h+/D3J
- aubt/z3jPkabRZR0xPONPeBH3gJjRHqat1V5HsUe9QX/rkxMEDVFzKiHr/d50ybpUDUiOvaEe
- yhKJ7nw==
+ <9ef781b0-8a63-42b7-91a2-fa8a8ea3c0b4@web.de>
+Content-Language: en-US, hu-HU
+From: =?UTF-8?B?Q3PDs2vDoXMgQmVuY2U=?= <csokas.bence@prolan.hu>
+In-Reply-To: <9ef781b0-8a63-42b7-91a2-fa8a8ea3c0b4@web.de>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: ATLAS.intranet.prolan.hu (10.254.0.229) To
+ ATLAS.intranet.prolan.hu (10.254.0.229)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A2980D94852627360
 
->> How good does such a change combination fit to the patch requirement
->> according to separation of concerns?
->> https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/=
-tree/Documentation/process/submitting-patches.rst?h=3Dv6.14-rc6#n81
->
-> It is a general refactor patch, it shouldn't change any functionality. I=
- could split it to one part introducing `devm_clk_get_enabled()` and the o=
-ther `dmaenginem_async_device_register()`, but I don't feel that to be nec=
-essary, nor does it bring any advantages I believe.
-Can it matter a bit more to separate changes for the application of devm f=
-unctions
-and the adjustment of corresponding exception handling with dev_err_probe(=
-) calls?
+Hi,
 
-Regards,
-Markus
+On 2025. 03. 12. 12:44, Markus Elfring wrote:
+>>> How good does such a change combination fit to the patch requirement
+>>> according to separation of concerns?
+>>> https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst?h=v6.14-rc6#n81
+>>
+>> It is a general refactor patch, it shouldn't change any functionality. I could split it to one part introducing `devm_clk_get_enabled()` and the other `dmaenginem_async_device_register()`, but I don't feel that to be necessary, nor does it bring any advantages I believe.
+> Can it matter a bit more to separate changes for the application of devm functions
+> and the adjustment of corresponding exception handling with dev_err_probe() calls?
+
+The change in error handling is just the result of switching to devm 
+functions, because it is no longer needed to separately dev_err(), store 
+the error code to `ret` and goto a cleanup phase (as the whole point of 
+using devm functions is to have auto-cleanup), you can just return with 
+the error code (which dev_err_probe() returns for us) right away. The 
+devm functions are used precisely _because_ they allow us to simplify 
+this error handling.
+
+> Regards,
+> Markus
+
+Bence
+
