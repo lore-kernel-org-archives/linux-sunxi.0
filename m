@@ -1,324 +1,105 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D658F243951
-	for <linux-sunxi@lists.linux.dev>; Wed, 12 Mar 2025 12:59:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9991F242938
+	for <linux-sunxi@lists.linux.dev>; Wed, 12 Mar 2025 16:56:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741784350; cv=none; b=LtrHpcWsj5DIQzGwgrjckO+eklBefLBCW12nrpoAZ0rT2SSgQEOOHTM833GhhBZhhpYtaJFhzvlcrOCi3524aym6NXENS1rjPG9XpKidK1d9jadyplCeSOSzb1NA8Yg3wX/YtbrAn91kSLbncTd5IybuYjRzEcc1ADAC0LE0brI=
+	t=1741798600; cv=none; b=GMo3Ty3YU9vIFCOuLz/HpJOEBuV3pwIHU156yYJF9Kdxj6NF0hapPGtGeTfnmoFm5iZjjHsHF6Nks/zxUReaRjhsgCDhwYy0s5sdI9/eplHxS9TQoDsU1jjpiOfTPQCaA/WkmRgfEREAt4x8KIhGJqADARZqyVYq+4KT7E0LGqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741784350; c=relaxed/simple;
-	bh=OXwVk7cSVE+TDqEc3HVraviwVrXEEbqZxuHx7kPXpwY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N3bu1vKa0pFdhGXe2Je4/+jHD9iZpz38QzZPT5OKCQuXcp+/6To54TJJRC2ARVtAE9jf6c3TDFlE6TcnODDfAp9yjQZDSfRX1CRo8ZD45uUGBVYlE7ZDXYYDT/Ei7eh3ASvkrTj1S69qToKq3mFaU0L7zMc0MpbdadNZnbIyQa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=D9Qz6xkS; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1741798600; c=relaxed/simple;
+	bh=CDMBG7Ofhb8Xcjzw4thNxoeXHKWZ/B76fEVimy8iEtM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hkOvD3o9OWRoairMx9gTKb8t/KJjkeawr6kcdJcOfIUurEurEzoMWAFwk8Xi/HjtQIBQrFoOK7W7eQl8241eJUktO7vw2YceI3taBYnLRbxfdKCEleLdRevMO+frfKTTCoZ/VQ5fD/ZqwvRlSAGbunoO3d3kzZCj+EbNZLpE2cA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XTpWJbDT; arc=none smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="D9Qz6xkS"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43cf3192d8bso43595e9.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 12 Mar 2025 05:59:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XTpWJbDT"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5e5b572e45cso12783161a12.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 12 Mar 2025 09:56:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1741784345; x=1742389145; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4hVHQpBdFL8A1OMCaWXXGUDiGHIY98dt+fAh5aFuAqk=;
-        b=D9Qz6xkSOrH0IqrYZ9Obk6GawBoUfMbuO9z0siGRbezV/t7WTxAeeo74IEkSQsF+Bk
-         2PJSFo5Wnlt6UGbdLC8sBs1CUAFFqOPceQSVAAgswovtLCJg/iaovRMXhGuk3jOjGR3n
-         OivJNmEUgeRDXLnFH6Xc2Ku4t4L01dMe6iHMbCff+5Mty4681527opc+0LSSIeoG16Od
-         DhJYVZ6ngaWDld8kPGjZnmdIBJ3ZEtSrRS3PHlc22EHemD1YwW/BUSe7IOuNyvSRrlM3
-         +qW1p5njtIaqyQ3rb7Sp844lCJCqOkMnJ2Crf3mBY7eHbxCWoIhuHkNuh6Sh29iwzdk2
-         LY5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741784345; x=1742389145;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1741798597; x=1742403397; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4hVHQpBdFL8A1OMCaWXXGUDiGHIY98dt+fAh5aFuAqk=;
-        b=Xh4JUK6+B94z5q1HV+6TduAw4qWj5tkSRIRbIC+YqFQk+gcA2uO7aQV8BhnOY67EKH
-         Uk/oMeNos08bOtkBErVutodYHFLdAxCCpGVkonrmOtIGqnqFVuiRi4Lzho6TTfHUMVgD
-         OU2dqovr3YDeuDeByJFp26f7MuM5yum8fGQrBRc1Ns6HnHzBw+v6xDxoCCDPeA8pcqqJ
-         zQbKTu+NGX8YQN00pd8IOx1wVAXPehQOwg0B6S0qqO9A4NsBu/NbuPw+SEa3QeBUeUuo
-         0ySl7fm57NUPtrYXpBF8qUa2vqMsAgm+mx78l48bNp7/6neLUsLBwM5ngmyf2qaXlUcX
-         NUAA==
-X-Forwarded-Encrypted: i=1; AJvYcCXdS6O+p+wSkrrqPDjD3hwDy9UKeabOPeDCSIN166NuilLS+Jrt+KLCpYDyuv8on8Yzn6icjGxoxt+xkg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzu+frTC/BAzVrn66bII77dQOuw3PwOIkepKcF4TjElc4209J/C
-	iLZ/Z5ePYc9+UFHhqCEhUyHeLxzUMAjf0N5CPHvL48Qz4mPc2TToS1gm2rhaUw==
-X-Gm-Gg: ASbGncvgB3k92zAaAgnope6YpA4TnREq4FaljLILAmCn7Xb7sklHLOUtkUC0jXAldXl
-	SbqiJkR/m6S+tyJN7zMMb5Rmz+9XpMepoQBlJQYKeLeXNFHEI7o7ffWg7slSUB5KZXTw2Oxddko
-	k3SFBh4uKvfEpjvJ/WBeP5HS8czXHPKbqxYyo0Snu264itbwhTs7zk97HpXfXmRYki0Cn8utbCZ
-	ny/Xq+6jKeaZGm1/ZWgnlGrcoJy85VxKFOwHPGIDMp9yecpjwe1d+8ks17HrOmwWwhrxG/dyEVa
-	ABmFCe8HGHuhvxxTtxJ2SVeoPke5/uTYWPDEOvDragma8qd9M01Jd2pFfRd+I7u5TW6h0U2Cixg
-	kD26t
-X-Google-Smtp-Source: AGHT+IGv3VwL/nDTfZJkT02Z+Ln6cpEc0JtjX8qb40ZbVAGSWsBoi80OOQ8vIb/VOjdd5NkKwgkkDw==
-X-Received: by 2002:a05:600c:1c11:b0:439:9434:1b66 with SMTP id 5b1f17b1804b1-43d0a5e3299mr1028055e9.1.1741784344924;
-        Wed, 12 Mar 2025 05:59:04 -0700 (PDT)
-Received: from google.com (88.140.78.34.bc.googleusercontent.com. [34.78.140.88])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3947a24449bsm1688998f8f.45.2025.03.12.05.59.04
+        bh=CDMBG7Ofhb8Xcjzw4thNxoeXHKWZ/B76fEVimy8iEtM=;
+        b=XTpWJbDTvr5UPIpb3BGdztnL/1mAYEkc4qrwcTBmHbYk9vMapRhtvtzIhy1l3BwJ89
+         jQVBvC+jeI2DcLwgFqw88vSmA5x8P/iFpevuveGUI3NIafG7NcVVvS0cRRdjQ7JT4ed3
+         FcDWFis5hvAqUwG4JVFWk6PxV3LEKv6qU7QGNao4pDKPklxtThIZLcZ6QIBObA0aMqSc
+         g3Ga0pOwKQ6oa5YbVbm+2cFAXwo7UqSeYPROMnoIA2/wQP6Y40HmNsbiL+ks575Qkc9O
+         TaAHAg1jsNAqg263gzXMFFYH6MoOw1uTk9L4Lgm69w+TLskYOSEgN9qrwLZE67nEEOJl
+         DvnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741798597; x=1742403397;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CDMBG7Ofhb8Xcjzw4thNxoeXHKWZ/B76fEVimy8iEtM=;
+        b=cQfotgI1+VxP1xFwI3X0ijPUnGICPPtxemmN+rN/ze5azZsZm/hMuAwR9HUuL8d4BU
+         PM3Yjvhc22nBgQArb9ngoA05VXRQ7H/cwSx4jxQnWfFruqXqnPu9pFj+1jibQR9E+bi+
+         2X7Xx8B9eL4HA5WaCQYi+kMtr14vHOFYMx/9z6lloNpkndP9SwoHNRi4ExMHY5I7fKqY
+         RdNc2g7+zxM+XFCr9nW/7JqhVg8kGb2LhaXxVPHyyuKake8mqGqhePIIYt9ZRBYut7ym
+         RMEiEEJxO9q/u+mrC8e8R36MJxgIbXHkkHotUSTISVyX+AFQGtGlLhKYWxqDs8caWzwL
+         r7iw==
+X-Forwarded-Encrypted: i=1; AJvYcCU+i9wq3e0XRTQbDzTs1G7HqtS+/8iIi58GcMv59qNkCzxf73hmereOzlaB7jCqKdwCEcAjLjytqsaFGw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzgKz0NxOMdlc4fyYWmBSE/lgTf+I/lV6hDck+/YOIb9Btx7HA+
+	ehfzWF96Vgv0IHoVmy8has++5prqFwq7XoriLV3iLLl9hkXYlRky
+X-Gm-Gg: ASbGncsUTGMGLGHo7FqkSMEO1m1RoGThA3lARcgxOse7GiggLmZYCIuQ/IPRTNdUJJC
+	AmqEP6XDdF0fOzYDk+hTFeUghiTnd5s8Dh4eNWXlhknFO4mxy/EwbHR9Antk4I9a9vMR///i7Yq
+	9MrsKCkNhNWBks02daJ335bgZ1x+SJHiaYSrpQYGn13g/CdeKoArQIFkHaqjAMWa5zL2M4sO6tC
+	A51IBC2upuH+qca9AKnFJKuOZUqWzCaeNvNdyaQB2MZDyMT61Kj6nh4AdKW3kA2eibXiGnch2eX
+	B2ehJlo4DoiWCkORIQR8gi+UCC2mXPNwBXn58dNS4T8Zy0tkd87IMM7u+wm8RBQlC2Ij2Pzy/N3
+	LtLy4M3DBNzd4lAI0KtGK
+X-Google-Smtp-Source: AGHT+IH8y8hQv6Sg8xyZcCsQDnuxux9UAtTTC9yU686JDb3h1xpkGSNrZOvF6nGyd/4nw/gseiJziA==
+X-Received: by 2002:a05:6402:d0e:b0:5e7:7262:30a5 with SMTP id 4fb4d7f45d1cf-5e7726231demr9291906a12.23.1741798596469;
+        Wed, 12 Mar 2025 09:56:36 -0700 (PDT)
+Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5e5c733f8b5sm9909588a12.12.2025.03.12.09.56.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Mar 2025 05:59:04 -0700 (PDT)
-Date: Wed, 12 Mar 2025 12:59:00 +0000
-From: Mostafa Saleh <smostafa@google.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Alim Akhtar <alim.akhtar@samsung.com>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Joerg Roedel <joro@8bytes.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Hector Martin <marcan@marcan.st>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Sven Peter <sven@svenpeter.dev>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Tomasz Jeznach <tjeznach@rivosinc.com>,
-	Krishna Reddy <vdumpa@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
-	Will Deacon <will@kernel.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
-	Joerg Roedel <jroedel@suse.de>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
-	David Rientjes <rientjes@google.com>,
-	Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH v3 20/23] iommu: Update various drivers to pass in lg2sz
- instead of order to iommu pages
-Message-ID: <Z9GFFBvUFg7a9WEg@google.com>
-References: <0-v3-e797f4dc6918+93057-iommu_pages_jgg@nvidia.com>
- <20-v3-e797f4dc6918+93057-iommu_pages_jgg@nvidia.com>
+        Wed, 12 Mar 2025 09:56:35 -0700 (PDT)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ Andre Przywara <andre.przywara@arm.com>
+Cc: linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject:
+ Re: [PATCH v4 4/8] pinctrl: sunxi: support moved power configuration
+ registers
+Date: Wed, 12 Mar 2025 17:56:34 +0100
+Message-ID: <5869984.DvuYhMxLoT@jernej-laptop>
+In-Reply-To: <20250306235827.4895-5-andre.przywara@arm.com>
+References:
+ <20250306235827.4895-1-andre.przywara@arm.com>
+ <20250306235827.4895-5-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20-v3-e797f4dc6918+93057-iommu_pages_jgg@nvidia.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On Tue, Feb 25, 2025 at 03:39:37PM -0400, Jason Gunthorpe wrote:
-> Convert most of the places calling get_order() as an argument to the
-> iommu-pages allocator into order_base_2() or the _sz flavour
-> instead. These places already have an exact size, there is no particular
-> reason to use order here.
-> 
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->  drivers/iommu/amd/init.c        | 29 +++++++++++++++--------------
->  drivers/iommu/intel/dmar.c      |  6 +++---
->  drivers/iommu/io-pgtable-arm.c  |  3 +--
->  drivers/iommu/io-pgtable-dart.c | 12 +++---------
->  drivers/iommu/sun50i-iommu.c    |  4 ++--
->  5 files changed, 24 insertions(+), 30 deletions(-)
-> 
-> diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
-> index e3f4283ebbc201..a5720df7b22397 100644
-> --- a/drivers/iommu/amd/init.c
-> +++ b/drivers/iommu/amd/init.c
-> @@ -635,8 +635,8 @@ static int __init find_last_devid_acpi(struct acpi_table_header *table, u16 pci_
->  /* Allocate per PCI segment device table */
->  static inline int __init alloc_dev_table(struct amd_iommu_pci_seg *pci_seg)
->  {
-> -	pci_seg->dev_table = iommu_alloc_pages(GFP_KERNEL | GFP_DMA32,
-> -					       get_order(pci_seg->dev_table_size));
-> +	pci_seg->dev_table = iommu_alloc_pages_sz(GFP_KERNEL | GFP_DMA32,
-> +						  pci_seg->dev_table_size);
->  	if (!pci_seg->dev_table)
->  		return -ENOMEM;
->  
-> @@ -716,8 +716,7 @@ static void __init free_alias_table(struct amd_iommu_pci_seg *pci_seg)
->   */
->  static int __init alloc_command_buffer(struct amd_iommu *iommu)
->  {
-> -	iommu->cmd_buf = iommu_alloc_pages(GFP_KERNEL,
-> -					   get_order(CMD_BUFFER_SIZE));
-> +	iommu->cmd_buf = iommu_alloc_pages_sz(GFP_KERNEL, CMD_BUFFER_SIZE);
->  
->  	return iommu->cmd_buf ? 0 : -ENOMEM;
->  }
-> @@ -820,14 +819,16 @@ static void __init free_command_buffer(struct amd_iommu *iommu)
->  void *__init iommu_alloc_4k_pages(struct amd_iommu *iommu, gfp_t gfp,
->  				  size_t size)
->  {
-> -	int order = get_order(size);
-> -	void *buf = iommu_alloc_pages(gfp, order);
-> +	void *buf;
->  
-> -	if (buf &&
-> -	    check_feature(FEATURE_SNP) &&
-> -	    set_memory_4k((unsigned long)buf, (1 << order))) {
-> +	size = PAGE_ALIGN(size);
-> +	buf = iommu_alloc_pages_sz(gfp, size);
-> +	if (!buf)
-> +		return NULL;
-> +	if (check_feature(FEATURE_SNP) &&
-> +	    set_memory_4k((unsigned long)buf, size / PAGE_SIZE)) {
->  		iommu_free_pages(buf);
-> -		buf = NULL;
-> +		return NULL;
->  	}
->  
->  	return buf;
-> @@ -922,11 +923,11 @@ static int iommu_init_ga_log(struct amd_iommu *iommu)
->  	if (!AMD_IOMMU_GUEST_IR_VAPIC(amd_iommu_guest_ir))
->  		return 0;
->  
-> -	iommu->ga_log = iommu_alloc_pages(GFP_KERNEL, get_order(GA_LOG_SIZE));
-> +	iommu->ga_log = iommu_alloc_pages_sz(GFP_KERNEL, GA_LOG_SIZE);
->  	if (!iommu->ga_log)
->  		goto err_out;
->  
-> -	iommu->ga_log_tail = iommu_alloc_pages(GFP_KERNEL, get_order(8));
-> +	iommu->ga_log_tail = iommu_alloc_pages_sz(GFP_KERNEL, 8);
->  	if (!iommu->ga_log_tail)
->  		goto err_out;
->  
-> @@ -1021,8 +1022,8 @@ static bool __copy_device_table(struct amd_iommu *iommu)
->  	if (!old_devtb)
->  		return false;
->  
-> -	pci_seg->old_dev_tbl_cpy = iommu_alloc_pages(GFP_KERNEL | GFP_DMA32,
-> -						     get_order(pci_seg->dev_table_size));
-> +	pci_seg->old_dev_tbl_cpy = iommu_alloc_pages_sz(
-> +		GFP_KERNEL | GFP_DMA32, pci_seg->dev_table_size);
->  	if (pci_seg->old_dev_tbl_cpy == NULL) {
->  		pr_err("Failed to allocate memory for copying old device table!\n");
->  		memunmap(old_devtb);
-> diff --git a/drivers/iommu/intel/dmar.c b/drivers/iommu/intel/dmar.c
-> index c812c83d77da10..4c7ce92acf6976 100644
-> --- a/drivers/iommu/intel/dmar.c
-> +++ b/drivers/iommu/intel/dmar.c
-> @@ -1681,7 +1681,6 @@ int dmar_enable_qi(struct intel_iommu *iommu)
->  {
->  	struct q_inval *qi;
->  	void *desc;
-> -	int order;
->  
->  	if (!ecap_qis(iommu->ecap))
->  		return -ENOENT;
-> @@ -1702,8 +1701,9 @@ int dmar_enable_qi(struct intel_iommu *iommu)
->  	 * Need two pages to accommodate 256 descriptors of 256 bits each
->  	 * if the remapping hardware supports scalable mode translation.
->  	 */
-> -	order = ecap_smts(iommu->ecap) ? 1 : 0;
-> -	desc = iommu_alloc_pages_node(iommu->node, GFP_ATOMIC, order);
-> +	desc = iommu_alloc_pages_node_sz(iommu->node, GFP_ATOMIC,
-> +					 ecap_smts(iommu->ecap) ? SZ_8K :
-> +								  SZ_4K);
->  	if (!desc) {
->  		kfree(qi);
->  		iommu->qi = NULL;
-> diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
-> index 08d0f62abe8a09..d13149ec5be77e 100644
-> --- a/drivers/iommu/io-pgtable-arm.c
-> +++ b/drivers/iommu/io-pgtable-arm.c
-> @@ -263,14 +263,13 @@ static void *__arm_lpae_alloc_pages(size_t size, gfp_t gfp,
->  				    void *cookie)
->  {
->  	struct device *dev = cfg->iommu_dev;
-> -	int order = get_order(size);
->  	dma_addr_t dma;
->  	void *pages;
->  
->  	if (cfg->alloc)
->  		pages = cfg->alloc(cookie, size, gfp);
->  	else
-> -		pages = iommu_alloc_pages_node(dev_to_node(dev), gfp, order);
-> +		pages = iommu_alloc_pages_node_sz(dev_to_node(dev), gfp, size);
+Dne petek, 7. marec 2025 ob 00:58:23 Srednjeevropski standardni =C4=8Das je=
+ Andre Przywara napisal(a):
+> The Allwinner pincontroller IP features some registers to control the
+> withstand voltage of each pin group. So far those registers were always
+> located at the same offset, but the A523 SoC has moved them (probably to
+> accommodate all eleven pin banks).
+>=20
+> Add a flag to note this feature, and use that to program the registers
+> either at offset 0x340 or 0x380. So far no pincontroller driver uses
+> this flag, but we need it for the upcoming A523 support.
+>=20
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-Although, the current implementation of iommu_alloc_pages_node_sz() would round
-the size to order, but this is not correct according to the API definition
-"The returned allocation is round_up_pow_two(size) big, and is physically aligned
-to its size."
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-SMMUv3 has special alignment with small number of entries at the start level,
-according the manual:
-	A 64-byte minimum alignment on starting-level translation table addresses
-	is imposed when TG0 selects 64KB granules and the effective IPS value
-	indicates 52-bit output. In this case bits [5:0] are treated as zero.
+Best regards,
+Jernej
 
-And according to the Arm Arm (ex D24.2.195 in Version L)
-	- Bits A[(x-1):0] of the stage 1 translation table base address are zero.
-	... The smallest permitted value of x is 5.
-Which 32 bytes
 
-For a case as (which is valid in Linux)
-- S1 with IAS 40-bits and 4K, start level has 2 entries (16 bytes) but alignment
-  must be at least 32 bytes.
-
-- Similarly with 16K and 48 bits.
-
-I'd say we can align the size or use min with 64 bytes before calling the
-function would be enough (or change the API to state that allocations
-are rounded to order)
-
-Thanks,
-Mostafa
-
->  
->  	if (!pages)
->  		return NULL;
-> diff --git a/drivers/iommu/io-pgtable-dart.c b/drivers/iommu/io-pgtable-dart.c
-> index ebf330e67bfa30..a0988669bb951a 100644
-> --- a/drivers/iommu/io-pgtable-dart.c
-> +++ b/drivers/iommu/io-pgtable-dart.c
-> @@ -107,13 +107,6 @@ static phys_addr_t iopte_to_paddr(dart_iopte pte,
->  	return paddr;
->  }
->  
-> -static void *__dart_alloc_pages(size_t size, gfp_t gfp)
-> -{
-> -	int order = get_order(size);
-> -
-> -	return iommu_alloc_pages(gfp, order);
-> -}
-> -
->  static int dart_init_pte(struct dart_io_pgtable *data,
->  			     unsigned long iova, phys_addr_t paddr,
->  			     dart_iopte prot, int num_entries,
-> @@ -255,7 +248,7 @@ static int dart_map_pages(struct io_pgtable_ops *ops, unsigned long iova,
->  
->  	/* no L2 table present */
->  	if (!pte) {
-> -		cptep = __dart_alloc_pages(tblsz, gfp);
-> +		cptep = iommu_alloc_pages_sz(gfp, tblsz);
->  		if (!cptep)
->  			return -ENOMEM;
->  
-> @@ -412,7 +405,8 @@ apple_dart_alloc_pgtable(struct io_pgtable_cfg *cfg, void *cookie)
->  	cfg->apple_dart_cfg.n_ttbrs = 1 << data->tbl_bits;
->  
->  	for (i = 0; i < cfg->apple_dart_cfg.n_ttbrs; ++i) {
-> -		data->pgd[i] = __dart_alloc_pages(DART_GRANULE(data), GFP_KERNEL);
-> +		data->pgd[i] =
-> +			iommu_alloc_pages_sz(GFP_KERNEL, DART_GRANULE(data));
->  		if (!data->pgd[i])
->  			goto out_free_data;
->  		cfg->apple_dart_cfg.ttbr[i] = virt_to_phys(data->pgd[i]);
-> diff --git a/drivers/iommu/sun50i-iommu.c b/drivers/iommu/sun50i-iommu.c
-> index 6385560dbc3fb0..76c9620af4bba8 100644
-> --- a/drivers/iommu/sun50i-iommu.c
-> +++ b/drivers/iommu/sun50i-iommu.c
-> @@ -690,8 +690,8 @@ sun50i_iommu_domain_alloc_paging(struct device *dev)
->  	if (!sun50i_domain)
->  		return NULL;
->  
-> -	sun50i_domain->dt = iommu_alloc_pages(GFP_KERNEL | GFP_DMA32,
-> -					      get_order(DT_SIZE));
-> +	sun50i_domain->dt =
-> +		iommu_alloc_pages_sz(GFP_KERNEL | GFP_DMA32, DT_SIZE);
->  	if (!sun50i_domain->dt)
->  		goto err_free_domain;
->  
-> -- 
-> 2.43.0
-> 
