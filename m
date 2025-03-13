@@ -1,150 +1,90 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 646E426772C
-	for <linux-sunxi@lists.linux.dev>; Thu, 13 Mar 2025 13:29:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 629F2267AEA
+	for <linux-sunxi@lists.linux.dev>; Thu, 13 Mar 2025 13:49:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741872589; cv=none; b=b9C+N2q5JEwU1kobNbpYitPVkNe8NbIu84EHKnM/FDb5xfDzYVt/72rLqbEvGj3ndi8v3i8k4P/gPR7ipvCWKXN7PdILOyATZ3CgOuGXCBtYYgWI7qP1Jv0q+3m5VcqmKE6lFyljuKT3h725qQxrIaH0WczU1WD18lAM6ORzcR8=
+	t=1741873783; cv=none; b=hLwPmfs5Za1PdZ3nesUJBxslAnMct6a5ICirQ7jgxXh3ncOyTpkSmSwcWEg+vQrCaj4BjswoGGyl9jsfDNgKGt5cnUy11bFHL3TL8gKU++IGOgndsccuiXNiyO7VB6Mj3whk+L1SMMYPlJ30sJgIj0lM5hTDhMm17UC2XSk+nhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741872589; c=relaxed/simple;
-	bh=3R5NqPG75eCifry1xE8jCo+Ba/RPNsND3Th6ewF0DW8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pjr0XwrO2Le61guHJtLLN0eB4E8eQg8DYikuUVZ83wmTbiHC55y3GiabxTCohbFd+1Yovt8aIp4sr1BNh6Jh53bDb5WF/xc/sTvO/XzzdFcZ+010yc1c7/OmdXXHKWVeGGn31sc+RZXB4AymJc72qyX2WFIG14RQiZgd5UaqOmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LUOQWDVp; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1741873783; c=relaxed/simple;
+	bh=s72E+WiRW3VjWXLF2oTp3RR6w8yjtvEkUxbaH/xY8NM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LLg6kgWlkeoirw3+DWqvbfPjo9m0G780vVKohB+ajPRbBkwAfQHOKvVrxzZFwvPHSx0sPKM3+6VW8BiyfIzYyNaSYDjuQixfeFPjEKzwMXCPepHujuLlHxWmUt7QDR9qIvFX2comQydf695UQqpFzozp6olhodM/4/tJBBsZp+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wWy0RLqa; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LUOQWDVp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741872588; x=1773408588;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3R5NqPG75eCifry1xE8jCo+Ba/RPNsND3Th6ewF0DW8=;
-  b=LUOQWDVpcOi8PI2qbyByY+2qScKBOOZtthpREA7utobv+e4OSJ9vhNSy
-   pYTVOP2t+jxFIuYYwDYJ8rF7EujzPCkqTyjUwbwv1AALqiB5O5vO5InMp
-   Sr1Ij9n8iQoe1rHbCS7orbAiFaCcnpPdld8YplDbk/ZSiYbedVwldkH13
-   4K756Ohf1jMeQ+rx7Zu9U+QMd9Tw+jcy0O8o/W5u58Nsn/Y0W7RoN7/aB
-   Mlvpqqtr9Isa/ebhOt5eQ5EddubBZhhN6WQhY1KNoEdz4MOca5RO4sax0
-   BNvSwae4hDe49XBZEqxYoHT9vpTgpuCvIMZop4JjI8IpDZrT82sPKe0PZ
-   Q==;
-X-CSE-ConnectionGUID: aYUgHIZNSDWqc2pC++buLQ==
-X-CSE-MsgGUID: 0n7zhYQdTEW2GBfsiRlmBw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="43119150"
-X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; 
-   d="scan'208";a="43119150"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 06:29:47 -0700
-X-CSE-ConnectionGUID: 04qS8wQPRn6wZVe4oTPTzg==
-X-CSE-MsgGUID: 4xEfR6NSTcGJ84TSNnC6hg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; 
-   d="scan'208";a="120669500"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 06:29:42 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tsid0-00000002BNc-0muS;
-	Thu, 13 Mar 2025 15:29:38 +0200
-Date: Thu, 13 Mar 2025 15:29:37 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Matti Vaittinen <mazziesaccount@gmail.com>
-Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
-	Nuno Sa <nuno.sa@analog.com>, David Lechner <dlechner@baylibre.com>,
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-	Guillaume Stols <gstols@baylibre.com>,
-	Dumitru Ceclan <mitrutzceclan@gmail.com>,
-	Trevor Gamblin <tgamblin@baylibre.com>,
-	Matteo Martelli <matteomartelli3@gmail.com>,
-	Alisa-Dariana Roman <alisadariana@gmail.com>,
-	Ramona Alexandra Nechita <ramona.nechita@analog.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v7 03/10] iio: adc: add helpers for parsing ADC nodes
-Message-ID: <Z9LdwUVBOEx-Tbvr@smile.fi.intel.com>
-References: <cover.1741849323.git.mazziesaccount@gmail.com>
- <c8899e8c535a1d93cd7588b7c160eb0fae5d26d2.1741849323.git.mazziesaccount@gmail.com>
- <Z9LQFqSweiV-zT3b@smile.fi.intel.com>
- <bca95d63-fb6e-4d6c-8ab6-df67f0e697e6@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wWy0RLqa"
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5499659e669so1093952e87.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 13 Mar 2025 06:49:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1741873778; x=1742478578; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=s72E+WiRW3VjWXLF2oTp3RR6w8yjtvEkUxbaH/xY8NM=;
+        b=wWy0RLqac7zdUjsKjw/U/P+XX6pKjeMwuZclqC2iIqAxBuZAYw+qxKJfRtOjw2BJhE
+         TGdH6FDmCFniVMxM7x7Bf/OpER06pmTFMprk0BslVFqtO4IqazRt8OKOeno1MiV5Gfnf
+         qOmOhWyeZcyKshgYpN0xCCJXH29SfpifXv8tUcLYYiSWraJBgohAN1ffJD2a/kGIpLtH
+         jiXaABNNUaRVd7GHFcUlg5eL6hkteky7Zxim1oHTKPbdIgn5VKEiTpASXm0j3Esx8JXQ
+         WiJjFKNA7aaJesspewKaT7U1gxzLxjxPJuRHdPRhJHCsmCiOmkOClXH0rYwG6iKYVpJr
+         m3uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741873778; x=1742478578;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=s72E+WiRW3VjWXLF2oTp3RR6w8yjtvEkUxbaH/xY8NM=;
+        b=BIKQX73nqFhP1vSeS37Hg+m28Ig+Bg3YzDWNohMsNjxSMaL/WDYHL6flnBvGwu8Tju
+         Fzuc2E6rEkttgJALfQJSp2ErPRfO14EeJGg0Mz93Y2ElGk0FB5+BPSD77UF2LgSe8CB7
+         znnatvYeq4BoCvFzptrKMlpl0FD+zmOB+ZBlwOg5YrV4/o8bRoEUrl3AIcz/bo99RNh8
+         Qh2UksmF9dktl2ZRqX0HAT+1fAVxwIbQBRw2Xor7pdf9NNHO5NJmUlxOf9tgSlCYAHDX
+         8uYuvvKCzO4bAeyzDz+5YAJaYAx2Z/2OJ8v6n+h3IF9XjTR5wQ97/lgIoEgiEvKOb8Dw
+         4kyA==
+X-Forwarded-Encrypted: i=1; AJvYcCVer6MjyeBQBtYAFguEHxVbqqT3YtSuavAhhJbqjhdijk1ZJ5vKRusWpvrhse0QbJwbSOjd0bpS56MB3w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzXyCJg+J2Yy3wB5t+ZxWUqe9bpmbh98oYCsmeGpT+aByUASCY9
+	l+CSYTRVV4WuIQY3FWO8Zccu5yHW8cZhph1rBuFjQsa97WjreHaOOiUlxEeNZQPEmbEz2/EtFN1
+	iUQuSeWuGyrkQ4oi1BybF/s6Nb8IVuVkF8O0Gog==
+X-Gm-Gg: ASbGncvtQ1ftBhmOZdG7m8CUISsqPSgIpxyzJ5eonJvTZ4uBMNah4WvMWSPwQx1F3ws
+	3YKkBFTseQ18OTc/yxyQLAsaZq+iSJ03zvzR4fGxzfyqGN7y6bTPmsud8hOqKli42E8rSCIohlT
+	N6kVHJwfW1fWoHHuNcmklX0vhYiw==
+X-Google-Smtp-Source: AGHT+IEccZO3i5+lVUwnSS/WaACh7JJj5Xo6UXfk6dLNaFoPEkEoI3mENp7/zCsA/uhLA0RMiNFyQBBG0+AbjlILsis=
+X-Received: by 2002:a05:6512:304a:b0:545:6ee:8396 with SMTP id
+ 2adb3069b0e04-549ababc849mr4033095e87.13.1741873778434; Thu, 13 Mar 2025
+ 06:49:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bca95d63-fb6e-4d6c-8ab6-df67f0e697e6@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250306235827.4895-1-andre.przywara@arm.com>
+In-Reply-To: <20250306235827.4895-1-andre.przywara@arm.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 13 Mar 2025 14:49:27 +0100
+X-Gm-Features: AQ5f1JrLPVPuCTomUP4jXqnxl_0p1ehI2pivoJIVPNCchweDQ93p9WO-dULZ7nM
+Message-ID: <CACRpkdaVH8GAx_K0a01FbRKe8CQ=jh7jwfVrs_PgS9og4vnWmQ@mail.gmail.com>
+Subject: Re: [PATCH v4 0/8] pinctrl: sunxi: Add Allwinner A523 support
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 13, 2025 at 03:17:27PM +0200, Matti Vaittinen wrote:
-> On 13/03/2025 14:31, Andy Shevchenko wrote:
-> > On Thu, Mar 13, 2025 at 09:18:18AM +0200, Matti Vaittinen wrote:
+On Fri, Mar 7, 2025 at 12:58=E2=80=AFAM Andre Przywara <andre.przywara@arm.=
+com> wrote:
 
-...
+> this is the fourth drop of the series introducing pinctrl support for the
+> Allwinner A523 family of SoCs (comprising A523, A527, T527, H728). [1]
+> This time only a small fix, spotted by Jernej, thanks for that. Also
+> adding the new tags. Changelog below.
 
-> > > +	num_chan = iio_adc_device_num_channels(dev);
-> > > +	if (num_chan < 1)
-> > > +		return num_chan;
-> > 
-> > This is really interesting code. So, if the above returns negative error code,
-> > we return it, if it returns 0, we return success (but 0 channels)?
-> 
-> Yes. I don't think it's that interesting though. Checking the devicetree
-> succeeded while no channels were found. I think returning 0 is very much
-> aligned with this.
+Patches applied!
 
-Right, but as I suggested, let's follow already established APIs that return
--ENOENT and never 0 in similar cases.
-
-> > Shouldn't we do *cs = NULL; at the case of 0 channels if it's a success?
-> 
-> I suppose you're right.
-> 
-> But, as you pointed out in review of the 05/10:
-> > Usually in other similar APIs we return -ENOENT. And user won't need
-> > to have an additional check in case of 0 being considered as an error
-> > case too.
-> 
-> I don't know whether to agree with you here. For majority of the ADC
-> drivers, having no channels in devicetree is indeed just another error,
-> which I think is not in any ways special.
-
-So...? (I see below your answer :-)
-
-> However, for 33,3333% of the users added in this patch, the "no channels
-> found" is not really an error condition ;) The BD79124 could have all
-> channels used for GPO - although this would probably be very very unusual.
-> (Why buying an ADC chip if you need just a GPO?). Still, this wouldn't be an
-> error. (And I need to handle this better in BD79124 probe - so thanks).
-
-ENOENT check is again established for optional/not_found cases.
-
-> > (Under success I assume that returned values are okay to go with, and cs in
-> > your case will be left uninitialised or contain something we don't control.
-> 
-> I see your point although I wouldn't be concerned with cs not being NULL for
-> as long as number of channels is zero.
-> 
-> Anyway, I think it makes sense to simplify ~67% of callers by returning
-> -ENODEV if there is no channels. The remaining ~33% can then check for the
-> -ENODEV and handle it separately from other returned errors. So, thanks.
-
-Not at all!
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Yours,
+Linus Walleij
