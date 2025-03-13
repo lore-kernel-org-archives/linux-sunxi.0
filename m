@@ -1,152 +1,259 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDC4978F4A
-	for <linux-sunxi@lists.linux.dev>; Thu, 13 Mar 2025 06:07:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9DAA13AA3E
+	for <linux-sunxi@lists.linux.dev>; Thu, 13 Mar 2025 07:17:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741846051; cv=none; b=GEw8Nu/LC4grZ5nUb91Itqn0sitdf0yNoHYX6Oovj9+UWuPdJcj26LO9/nYNR3jFi7nHPsCueeF1YXgMK0oCvlILu4YYKmcQfUk5SXJVbaoi2rhuC6h3BxsMM1XMHRhjfm0I/ym2KHGKD26VZe+mS3+sgA1BvCB0JmxjXsX6IIE=
+	t=1741850234; cv=none; b=XjsPk7cPCMNe41tlqqEZy6oW5+7LqhEMdfz4EcOD5tbcbKdpT2K1wrxfzAdM1VxyQFgN1FA32xDWhCUNRaJz8bCOtQIAdEyjqav1wZuQfUzHBu/UAO0mzbjvug4EHDtok7zuG4v+0GpmP1n5lZvsESYZWPfLkRvkVsAAaXtDBiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741846051; c=relaxed/simple;
-	bh=oY6o8II9iLNtAxXs2X/GMZFzCo3ZF6DKGHBUDkbm90U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=THdoKcWiduw8Yru4UhAAaWe1VdEHlfJz2YMq0mVyKHrte4PNNumQOG49RJVzPKdCBfvnsJPe72DkhpNNHyEL/C6yXhdYnim81Uelv7iLRz0yTlLO+aPF01mG9oey+t5L1UQ0+Iu0ZVzAjV0Pdf5j5rc9uPce5w/sDVuMWEVwPQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hciY3SfU; arc=none smtp.client-ip=209.85.208.44
+	s=arc-20240116; t=1741850234; c=relaxed/simple;
+	bh=naI9JVR3MUeCMddBWDH5dmeWuvYgRpMlDDy8bd4HaCs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FtdYPSJiGVbhemJMSn6Z/tJmU9D0u3apyNPcPiuqfuFIKWmqtDB0aiDjhffhGF1eJPosvTqOC7E+8iFbAv9kV+2RKWEVFFOoQDWEPc/qjp0WTqDxmPqr78XWhFn/qsudZnvt5CT+1MEzdfJ/REDx4nvd+MBWcJwR/QA5/PSzv60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YTptnzdB; arc=none smtp.client-ip=209.85.208.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hciY3SfU"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5e5b56fc863so704621a12.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 12 Mar 2025 23:07:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YTptnzdB"
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-30bd11bfec6so7054691fa.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 13 Mar 2025 00:17:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741846048; x=1742450848; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fna2H3vwjdEZcl/b/bY1yvDSI46yeeVTssxA2eJJMgo=;
-        b=hciY3SfUg8LyZ3ZIW5H9bma/NXz44Awfd2vPvEzGnDq9R30CwyHP61Y+QalA02kWEy
-         jrPCfmm5qZO7QycNCcksnBJRZoXIjRZfDqEDs6lmZ059J3wvdtbrYZ5Ht3gtLXGMXO8U
-         LywvyuqzBmin4k6N31a4jSEv6pGh+2DmMC4ucINquEQtBwFtb67fRHfFGtXftSZATnkW
-         JEGNC3exr9l5+imk68Ms7LAfHeIgJLq2XBUFsFHbnVQtmcemfB+xtwlK5TKxazj8B8lr
-         wLBT0mxv0BTl1MoVsTwNXMPHkvrdjEcUyjiI3UJIf5NVl5nCLT2b6/iBn9K5sVWcywT5
-         m/IA==
+        d=gmail.com; s=20230601; t=1741850231; x=1742455031; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=P5WHcmvIMGQWDWl3ITE+2vt5egvOVi0st3Z+q7JAjLI=;
+        b=YTptnzdBqqwndajz155y/A2VSTjojw8FQX8UjT/ShasoCptrbcy1rwuKEw2ezM0Spk
+         j8jGZT7p+b/SVmHW2yb8qGKhO+2SGms+4biDnXMsfJsXCyF9Rt2IFFzUBxaoD3D51Vw6
+         8laoCSjNqAjd00Mr41ooIPexPlZbI9r2J+P0NXonJTn1kY2imrtd5mjcJIvhcHCHRhSD
+         xrQANThQyjww92qIzqK2RCYgLkvviqXvZfjffbRUWwug+qwQqFRJE2CzeEn4iBBo+7MC
+         758yIftI6TXpjQ3SEmWjszxdaGsdTLs/Oar3R7Ry/v2YPVXzRvdUyMULSzhPnoOof7Xf
+         Ixow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741846048; x=1742450848;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fna2H3vwjdEZcl/b/bY1yvDSI46yeeVTssxA2eJJMgo=;
-        b=qF3spDXoz0iND5Z0HcSWimif9SxWrenkRF2MRG3/d8zikXBo0F8HL8rhDjZNcK3geV
-         eVoZfg4WXKuATOZsBAck7kJSQ815PO8F0aR2a3cF19px99sKGIVGrvaja2sQMXdkxJlU
-         nydKcmzsas8uIr2m5W2CZyDqTeL0Nr6iErxUD70CqhoyURwxRe8TMIQMiACOs9fnmPST
-         T00EGngegSO9omnHrsB6mLinZ8wtngh3SUniHcYihe5KwP2mVZ02CU6gKWeyYj/dUtgx
-         juzPKt3ngJUUVAO77CuWh0s0OEOR9rZ7SqvaWVJnlRica341DSkT7cqSIvLyXn14sQrT
-         REJw==
-X-Forwarded-Encrypted: i=1; AJvYcCXCSa6dyEShBqDtVaN/zEEdyYuj/xS/P5jMH1Eym8dOz1mHgSutq/k3lJsvC/TAqdaZHQDl7bt7Vhs8dA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwpJC4gn1KBLJUcGuZkl5J7uHSzPaTHZ8gQmvHlBvuUY49Qqq7d
-	PZOIzRl+dXYU94OtcKBQrJmEggRuB6FHvnHnPgok+cVSd0NYVvu4TyN1+Q==
-X-Gm-Gg: ASbGncshFq5PtFGZO+xeoe114p24SiOMUL09GNdHen4c465Whg1p8L+ddOIddteO471
-	dLPvQxedUvnLr6b0/ctTdMqyjmljfZn3qZQHZ/+REMlV/rUNP5u5lzQlysOzlpdP8SOAOlgl2lp
-	DyfNX0f+H4500/pVdhKM+gjxAqxZBOP5x3v71KmMoMrAyTUSADaNsMMfbZ2UMP79mFzT/Ue7kju
-	XlKwwjOaEtRj1AUQO9oj7m9sUG/5fftE3l/wMHTaitvoIy+SrB5CUzrA25kUv8GH+fWFXV5tOea
-	LCuOG7HpzCycobqn7YkiZ/3K9wbAXZ6I7lnEOCSjPBIPTTKV/8q+NXw7nufbDu0x/lOgbZ2S+qQ
-	cSuvVa5o1BnZ/WGoayWl76rYNvH5QSRg=
-X-Google-Smtp-Source: AGHT+IHhGz8J8Life4SG/qgqJ0ye1c0G+Al3baprNQ+dcPxYYmPbWk9QrWHvq7NPTGPL3KzA3Wv0eQ==
-X-Received: by 2002:a17:907:c10:b0:ac2:7cf9:71a1 with SMTP id a640c23a62f3a-ac2b9ea16d2mr1529284566b.41.1741846047859;
-        Wed, 12 Mar 2025 23:07:27 -0700 (PDT)
-Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac3146aef85sm39791166b.20.2025.03.12.23.07.26
+        d=1e100.net; s=20230601; t=1741850231; x=1742455031;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=P5WHcmvIMGQWDWl3ITE+2vt5egvOVi0st3Z+q7JAjLI=;
+        b=q/VoxZ/aqJm7ykuST6DSeXAdOjLcCMWDR1oJ3FpRHZXjxszzoVSfmitxsBHVLzdnC6
+         027egzZH+RBOHkcYm0VwFtSeSgvBeEqGpgewpg4qWfT1ikMChoNRhim4jHc8zFb8mjzh
+         LGlBV1Os0DAPudSE3AxtdvXwoezBD+qNpqjD68IVz9OQ3HoWTL/kCGRnmGnVIbHAj/h/
+         zINDuQnFQoRaS0c/7A6hLWMKxmTHfeTFBbT1dq94GS9GLC+QqnaGG1uKJcWE8DjDqmKj
+         Um5et+IEpKdtiwd31y5MhmG312ITWZHsLBvThJGmXDENz5sMBE/+eEWe8SfX9yKe2aKw
+         sw9A==
+X-Forwarded-Encrypted: i=1; AJvYcCUPrgJJQYtmFQOW6Fl1R4P1347YrEXqSCeikIs/f7w7MGut9xmzq4KqdFv1WVvk+ERQrVvcxg2qf8ZPBw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxfdtKmyVIgKAaTzt1IeCg1YLCd/EjJ/7zhivLA7FJ+3z3OhjUG
+	ZLXJs3LWFmF1TIhrEqvTn7hBoA/IM94Gbvpf3O8fmGFboH8yMsYD
+X-Gm-Gg: ASbGnctvl5RdBAMqvPXAdpBh3FIBkzVhCc8duxqVwTOsD9j/GoqqqQ3SsVGDzbL2GYD
+	AN7hN+kz6vZ+X/6G8rn8avi4WWFm7eBNdcWIV0uE9iIUGGFC3PuWCW1rka/4YcP7xavGFx+OVx1
+	lXAr4WMXyOMhMFdnRELFAOshWvbAJtnUC8Gx2zs1ijhTp2Yj+ovxFPPpT0aHao9qNhNa5LHMxr0
+	8pyLSQ7R2XGaDbWQivlWA/nd8+a/jaecO/8VtiI2XvHoH32Q7187yeWVvNrdTdkM8+v3BX/M2th
+	AZSPtiEYzCPqdh2X3SCzLAL/wbjMyjoKwA3Ao3a/6t3o5Lupkoy2i1ZYKPZ4lA==
+X-Google-Smtp-Source: AGHT+IHx3X2FqctNBmr2hZceebB3bJJVXoyrN9cDqpAfPu3OVpvwfWDgftPDLFysrAbjWyTNApS5UA==
+X-Received: by 2002:a2e:a7c1:0:b0:302:22e6:5f8 with SMTP id 38308e7fff4ca-30c206c0ccemr44055391fa.22.1741850230372;
+        Thu, 13 Mar 2025 00:17:10 -0700 (PDT)
+Received: from mva-rohm ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30c3f0d2574sm1227071fa.7.2025.03.13.00.17.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Mar 2025 23:07:27 -0700 (PDT)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>, Michael Klein <michael@fossekall.de>
-Cc: Michael Klein <michael@fossekall.de>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] ARM: dts: bananapi: add support for PHY LEDs
-Date: Thu, 13 Mar 2025 07:07:24 +0100
-Message-ID: <4637912.LvFx2qVVIh@jernej-laptop>
-In-Reply-To: <20250312193629.85417-2-michael@fossekall.de>
-References:
- <20250312193629.85417-1-michael@fossekall.de>
- <20250312193629.85417-2-michael@fossekall.de>
+        Thu, 13 Mar 2025 00:17:06 -0700 (PDT)
+Date: Thu, 13 Mar 2025 09:16:38 +0200
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+To: Matti Vaittinen <mazziesaccount@gmail.com>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+Cc: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Samuel Holland <samuel@sholland.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>, netdev@vger.kernel.org,
+	Rob Herring <robh@kernel.org>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Herve Codina <herve.codina@bootlin.com>,
+	Thomas Bonnefille <thomas.bonnefille@bootlin.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Nuno Sa <nuno.sa@analog.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
+	Claudiu Manoil <claudiu.manoil@nxp.com>, devicetree@vger.kernel.org,
+	Marcelo Schmitt <marcelo.schmitt@analog.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Lars-Peter Clausen <lars@metafoo.de>, linux-acpi@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-iio@vger.kernel.org,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	Eric Dumazet <edumazet@google.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Olivier Moysan <olivier.moysan@foss.st.com>,
+	Trevor Gamblin <tgamblin@baylibre.com>,
+	Ramona Alexandra Nechita <ramona.nechita@analog.com>,
+	Paul Elder <paul.elder@ideasonboard.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Matteo Martelli <matteomartelli3@gmail.com>,
+	Guillaume Stols <gstols@baylibre.com>,
+	Alisa-Dariana Roman <alisadariana@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Dumitru Ceclan <mitrutzceclan@gmail.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	David Lechner <dlechner@baylibre.com>, Chen-Yu Tsai <wens@csie.org>,
+	Daniel Scally <djrscally@gmail.com>
+Subject: [PATCH v7 00/10] Support ROHM BD79124 ADC
+Message-ID: <cover.1741849323.git.mazziesaccount@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="7xzkgzh6Rt0Ce+oi"
+Content-Disposition: inline
+
+
+--7xzkgzh6Rt0Ce+oi
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
 
-Hi,
+Support ROHM BD79124 ADC.
 
-Dne sreda, 12. marec 2025 ob 20:36:28 Srednjeevropski standardni =C4=8Das j=
-e Michael Klein napisal(a):
-> The Bananapi M1 has three LEDs connected to the RTL8211E ethernet PHY.
-> Add the corresponding nodes to the device tree.
->=20
-> Signed-off-by: Michael Klein <michael@fossekall.de>
+This series adds also couple of IIO ADC helper functions for parsing the
+channel information from the device tree. There are also new helpers
+included for iterating and counting firmware child nodes with a specific
+name.
 
-This is patch 2/2. Which one is patch 1/2? I got only one.
+Series does also convert couple of drivers to use these helpers. The
+rzg2l_adc and the sun20i-gpadc are converted to use the new ADC helper.
 
-Best regards,
-Jernej
+The gianfar driver under net and the thp7312 under media/i2c are added as
+first users of the newly added "named child node" -helpers.
 
-> ---
->  .../boot/dts/allwinner/sun7i-a20-bananapi.dts | 27 +++++++++++++++++++
->  1 file changed, 27 insertions(+)
->=20
-> diff --git a/arch/arm/boot/dts/allwinner/sun7i-a20-bananapi.dts b/arch/ar=
-m/boot/dts/allwinner/sun7i-a20-bananapi.dts
-> index 46ecf9db2324..4976453ed192 100644
-> --- a/arch/arm/boot/dts/allwinner/sun7i-a20-bananapi.dts
-> +++ b/arch/arm/boot/dts/allwinner/sun7i-a20-bananapi.dts
-> @@ -48,6 +48,7 @@
-> =20
->  #include <dt-bindings/gpio/gpio.h>
->  #include <dt-bindings/interrupt-controller/irq.h>
-> +#include <dt-bindings/leds/common.h>
-> =20
->  / {
->  	model =3D "LeMaker Banana Pi";
-> @@ -169,6 +170,32 @@ &ir0 {
->  &gmac_mdio {
->  	phy1: ethernet-phy@1 {
->  		reg =3D <1>;
-> +
-> +		leds {
-> +			#address-cells =3D <1>;
-> +			#size-cells =3D <0>;
-> +
-> +			led@0 {
-> +				reg =3D <0>;
-> +				color =3D <LED_COLOR_ID_GREEN>;
-> +				default-state =3D "keep";
-> +				linux,default-trigger =3D "netdev";
-> +			};
-> +
-> +			led@1 {
-> +				reg =3D <1>;
-> +				color =3D <LED_COLOR_ID_AMBER>;
-> +				default-state =3D "keep";
-> +				linux,default-trigger =3D "netdev";
-> +			};
-> +
-> +			led@2 {
-> +				reg =3D <2>;
-> +				color =3D <LED_COLOR_ID_BLUE>;
-> +				default-state =3D "keep";
-> +				linux,default-trigger =3D "netdev";
-> +			};
-> +		};
->  	};
->  };
-> =20
->=20
+There has been some discussion about how useful these ADC helpers are,
+and whether they should support also differential and single ended channel
+configurations. This version does not include support for those - with the
+benefit of reduced complexity and easier to use API.
+
+NOTE: Patches 4,5,9 and 10 are untested as I lack of relevant HW.
+They have been compile tested only.
+
+The ROHM BD79124 ADC itself is quite usual stuff. 12-bit, 8-channel ADC
+with threshold monitoring.
+
+Except that:
+ - each ADC input pin can be configured as a general purpose output.
+ - manually starting an ADC conversion and reading the result would
+   require the I2C _master_ to do clock stretching(!) for the duration
+   of the conversion... Let's just say this is not well supported.
+ - IC supports 'autonomous measurement mode' and storing latest results
+   to the result registers. This mode is used by the driver due to the
+   "peculiar" I2C when doing manual reads.
+
+Furthermore, the ADC uses this continuous autonomous measuring,
+and the IC keeps producing new 'out of window' IRQs if measurements are
+out of window - the driver disables the event for 1 seconds when sending
+it to user. This prevents generating storm of events
+
+Revision history:
+v6 =3D> v7:
+ - Inline device_get_named_child_node_count()
+ - Fix kernel-doc for fwnode_get_named_child_node_count()
+ - Minor styling fixes
+ More accurate changelog in individual patches.
+
+v5 =3D> v6:
+ - Drop applied patch
+ - Add *_for_each_named_child_* iterators
+ - Add a patch converting the thp7312 driver to use the new helper
+ - Styling and minor things pointed by reviewers
+
+v4 =3D> v5: Fixes as per various review comments. Most notably:
+ - Drop the patch making the TI's ADC driver to respect device tree.
+ - Add (RFC) patch converting gianfar driver to use new name child-node
+   counting API as suggested by Andy.
+ - Add fwnode_get_child_node_count_named() as suggested by Rob.
+ - rebase to v6.14-rc5
+ More accurate changelog in individual patches.
+
+v3 =3D> v4:
+ - Drop the ADC helper support for differential channels
+ - Drop the ADC helper for getting only channel IDs by fwnode.
+ - "Promote" the function counting the number of child nodes with a
+   specific name to the property.h (As suggested by Jonathan).
+ - Add ADC helpers to a namespace.
+ - Rebase on v6.14-rc3
+ - More minor changes described in individual patches.
+
+v2 =3D> v3:
+ - Restrict BD79124 channel numbers as suggested by Conor and add
+   Conor's Reviewed-by tag.
+ - Support differential and single-ended inputs
+ - Convert couple of existing drivers to use the added ADC helpers
+ - Minor fixes based on reviews
+Link to v2:
+https://lore.kernel.org/all/cover.1738761899.git.mazziesaccount@gmail.com/
+
+RFC v1 =3D> v2:
+ - Drop MFD and pinmux.
+ - Automatically re-enable events after 1 second.
+ - Export fwnode parsing helpers for finding the ADC channels.
+
+---
+
+Matti Vaittinen (10):
+  dt-bindings: ROHM BD79124 ADC/GPO
+  property: Add functions to iterate named child
+  iio: adc: add helpers for parsing ADC nodes
+  iio: adc: rzg2l_adc: Use adc-helpers
+  iio: adc: sun20i-gpadc: Use adc-helpers
+  iio: adc: Support ROHM BD79124 ADC
+  MAINTAINERS: Add IIO ADC helpers
+  MAINTAINERS: Add ROHM BD79124 ADC/GPO
+  net: gianfar: Use device_get_child_node_count_named()
+  media: thp7312: Use helper for iterating named child nodes
+
+ .../bindings/iio/adc/rohm,bd79124.yaml        |  114 ++
+ MAINTAINERS                                   |   12 +
+ drivers/base/property.c                       |   27 +
+ drivers/iio/adc/Kconfig                       |   17 +
+ drivers/iio/adc/Makefile                      |    3 +
+ drivers/iio/adc/industrialio-adc.c            |   79 ++
+ drivers/iio/adc/rohm-bd79124.c                | 1107 +++++++++++++++++
+ drivers/iio/adc/rzg2l_adc.c                   |   38 +-
+ drivers/iio/adc/sun20i-gpadc-iio.c            |   38 +-
+ drivers/media/i2c/thp7312.c                   |    8 +-
+ drivers/net/ethernet/freescale/gianfar.c      |   17 +-
+ include/linux/iio/adc-helpers.h               |   27 +
+ include/linux/property.h                      |   24 +
+ 13 files changed, 1449 insertions(+), 62 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/iio/adc/rohm,bd79124.=
+yaml
+ create mode 100644 drivers/iio/adc/industrialio-adc.c
+ create mode 100644 drivers/iio/adc/rohm-bd79124.c
+ create mode 100644 include/linux/iio/adc-helpers.h
 
 
+base-commit: 7eb172143d5508b4da468ed59ee857c6e5e01da6
+--=20
+2.48.1
 
 
+--7xzkgzh6Rt0Ce+oi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmfShk0ACgkQeFA3/03a
+ocWNpgf/TG9MRdXix3NCy8/EzhHwwwGPzHkZu844kW+j84Ro7p67BMd87uiY6kj0
+SWfT77vNLXFXNhHhTOGYXjdtLxaXsmqWCOBzmafT93NAXmBIE/Ypis7uSZe0xmRc
+hAzDEhE0bHEaLzu+Dlln4Ud6wc3wayHSbGDx6810Gh6JQpfbdbY6boyE3F+5yy+b
+erV2JcPGKfjMfQVeVy4kIXHrjeTphelK6HIwS64lLSkzDsL6V4oMkNThXpFG27t7
+P94a2cMBiNvX5g55O3VusaA5uyN7ab1uETa1jvvI9e8liARAp31nkbXJCuLb7AKB
+56rkfS4sM+2R7cLBLSxTqts/5xjWVQ==
+=laFK
+-----END PGP SIGNATURE-----
+
+--7xzkgzh6Rt0Ce+oi--
