@@ -1,101 +1,150 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5F65267735;
-	Thu, 13 Mar 2025 13:17:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 646E426772C
+	for <linux-sunxi@lists.linux.dev>; Thu, 13 Mar 2025 13:29:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741871869; cv=none; b=GhHMS+rCa+HGrcZh64+LbX9rvu8CkTqMdFlGM7FYU1ahlPlrJVnLxpXmCaS48yAxaSbaV42b1W2xRyj3tVF5RwFCqPzxa9ji/vk9BRatoJOlhSv5qEzG2ey96S3p/2QUYKkKe+2o8U7WpABno4YDcXnEjYcVdLwKzI/Uu9KGRBM=
+	t=1741872589; cv=none; b=b9C+N2q5JEwU1kobNbpYitPVkNe8NbIu84EHKnM/FDb5xfDzYVt/72rLqbEvGj3ndi8v3i8k4P/gPR7ipvCWKXN7PdILOyATZ3CgOuGXCBtYYgWI7qP1Jv0q+3m5VcqmKE6lFyljuKT3h725qQxrIaH0WczU1WD18lAM6ORzcR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741871869; c=relaxed/simple;
-	bh=yDGWynoa4NHLG+/FL8La2c2pXIbj5JLF9ZRJKihaX0M=;
+	s=arc-20240116; t=1741872589; c=relaxed/simple;
+	bh=3R5NqPG75eCifry1xE8jCo+Ba/RPNsND3Th6ewF0DW8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JXeoA3aMiAKgz/9mdvWRAufys9FPB39eL60zrK71s1Y0i66f0kDJkhnDrGgMHQ/v+zQNRLhPBPOTPjQcONX7LRz7pEjWU4xy1NWOt+Qj5ug+1a3Gg75m73VZGXBvqFB2HTHZ01Vcbf0y/rcEbKvvk2U5gKBiTj3f7bYxL4syv0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=CbxcRkr5; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	 Content-Type:Content-Disposition:In-Reply-To; b=pjr0XwrO2Le61guHJtLLN0eB4E8eQg8DYikuUVZ83wmTbiHC55y3GiabxTCohbFd+1Yovt8aIp4sr1BNh6Jh53bDb5WF/xc/sTvO/XzzdFcZ+010yc1c7/OmdXXHKWVeGGn31sc+RZXB4AymJc72qyX2WFIG14RQiZgd5UaqOmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LUOQWDVp; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="CbxcRkr5"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-	In-Reply-To:References; bh=4EvY1LEFvjjHJU3jZAtzphl1AzmykKRYyWCA/SvfCK4=; b=Cb
-	xcRkr5Js6+IwxGpOdQ1oKGkQeF2cq/TMzpc3U5FT2lIMY76EHMFIggsHj8bcQ651yDwsQnnj+ykg/
-	VVeS7E5Fzb19hUdFqt2smal5gYticNcoGaqM1qybqC23066JPaLgcwYgNZK7XSU5DFkTI5Si9hhIM
-	sbyH5zQuUwYlRao=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1tsiRD-004zrS-Is; Thu, 13 Mar 2025 14:17:27 +0100
-Date: Thu, 13 Mar 2025 14:17:27 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Michael Klein <michael@fossekall.de>,
-	Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] ARM: dts: bananapi: add support for PHY LEDs
-Message-ID: <7cf91323-d550-496a-a8ec-ae104c77224d@lunn.ch>
-References: <20250312193629.85417-1-michael@fossekall.de>
- <20250312193629.85417-2-michael@fossekall.de>
- <4637912.LvFx2qVVIh@jernej-laptop>
- <Z9KYqlfUYxRaWnGQ@a98shuttle.de>
- <20250313104042.694c1856@donnerap.manchester.arm.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LUOQWDVp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741872588; x=1773408588;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3R5NqPG75eCifry1xE8jCo+Ba/RPNsND3Th6ewF0DW8=;
+  b=LUOQWDVpcOi8PI2qbyByY+2qScKBOOZtthpREA7utobv+e4OSJ9vhNSy
+   pYTVOP2t+jxFIuYYwDYJ8rF7EujzPCkqTyjUwbwv1AALqiB5O5vO5InMp
+   Sr1Ij9n8iQoe1rHbCS7orbAiFaCcnpPdld8YplDbk/ZSiYbedVwldkH13
+   4K756Ohf1jMeQ+rx7Zu9U+QMd9Tw+jcy0O8o/W5u58Nsn/Y0W7RoN7/aB
+   Mlvpqqtr9Isa/ebhOt5eQ5EddubBZhhN6WQhY1KNoEdz4MOca5RO4sax0
+   BNvSwae4hDe49XBZEqxYoHT9vpTgpuCvIMZop4JjI8IpDZrT82sPKe0PZ
+   Q==;
+X-CSE-ConnectionGUID: aYUgHIZNSDWqc2pC++buLQ==
+X-CSE-MsgGUID: 0n7zhYQdTEW2GBfsiRlmBw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="43119150"
+X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; 
+   d="scan'208";a="43119150"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 06:29:47 -0700
+X-CSE-ConnectionGUID: 04qS8wQPRn6wZVe4oTPTzg==
+X-CSE-MsgGUID: 4xEfR6NSTcGJ84TSNnC6hg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; 
+   d="scan'208";a="120669500"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 06:29:42 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tsid0-00000002BNc-0muS;
+	Thu, 13 Mar 2025 15:29:38 +0200
+Date: Thu, 13 Mar 2025 15:29:37 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Matti Vaittinen <mazziesaccount@gmail.com>
+Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
+	Nuno Sa <nuno.sa@analog.com>, David Lechner <dlechner@baylibre.com>,
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	Guillaume Stols <gstols@baylibre.com>,
+	Dumitru Ceclan <mitrutzceclan@gmail.com>,
+	Trevor Gamblin <tgamblin@baylibre.com>,
+	Matteo Martelli <matteomartelli3@gmail.com>,
+	Alisa-Dariana Roman <alisadariana@gmail.com>,
+	Ramona Alexandra Nechita <ramona.nechita@analog.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v7 03/10] iio: adc: add helpers for parsing ADC nodes
+Message-ID: <Z9LdwUVBOEx-Tbvr@smile.fi.intel.com>
+References: <cover.1741849323.git.mazziesaccount@gmail.com>
+ <c8899e8c535a1d93cd7588b7c160eb0fae5d26d2.1741849323.git.mazziesaccount@gmail.com>
+ <Z9LQFqSweiV-zT3b@smile.fi.intel.com>
+ <bca95d63-fb6e-4d6c-8ab6-df67f0e697e6@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250313104042.694c1856@donnerap.manchester.arm.com>
+In-Reply-To: <bca95d63-fb6e-4d6c-8ab6-df67f0e697e6@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Thu, Mar 13, 2025 at 10:40:42AM +0000, Andre Przywara wrote:
-> On Thu, 13 Mar 2025 09:34:50 +0100
-> Michael Klein <michael@fossekall.de> wrote:
-> 
-> Hi,
-> 
-> > On Thu, Mar 13, 2025 at 07:07:24AM +0100, Jernej Škrabec wrote:
-> > >Dne sreda, 12. marec 2025 ob 20:36:28 Srednjeevropski standardni čas je Michael Klein napisal(a):  
-> > >> The Bananapi M1 has three LEDs connected to the RTL8211E ethernet PHY.
-> > >> Add the corresponding nodes to the device tree.
-> > >>
-> > >> Signed-off-by: Michael Klein <michael@fossekall.de>  
-> > >
-> > >This is patch 2/2. Which one is patch 1/2? I got only one.  
+On Thu, Mar 13, 2025 at 03:17:27PM +0200, Matti Vaittinen wrote:
+> On 13/03/2025 14:31, Andy Shevchenko wrote:
+> > On Thu, Mar 13, 2025 at 09:18:18AM +0200, Matti Vaittinen wrote:
+
+...
+
+> > > +	num_chan = iio_adc_device_num_channels(dev);
+> > > +	if (num_chan < 1)
+> > > +		return num_chan;
 > > 
-> > https://patchwork.kernel.org/project/netdevbpf/patch/20250312193629.85417-1-michael@fossekall.de/
-> > 
-> > Sorry for any inconvenience in case I messed up the patch submission.
-> > 
-> > I made two commits for this change and submitted them via `git send-email 
-> > HEAD^^`. The first patch went to netdev@vger.kernel.org, the second 
-> > to linux-arm-kernel@lists.infradead.org, which seems logical. Have I 
-> > done something wrong?
+> > This is really interesting code. So, if the above returns negative error code,
+> > we return it, if it returns 0, we return success (but 0 channels)?
 > 
-> Well, for those really small "series" it's probably better to send all
-> patches to everyone, especially if the first patch gives some context,
-> without which the second leaves people (like me) scratching their head.
+> Yes. I don't think it's that interesting though. Checking the devicetree
+> succeeded while no channels were found. I think returning 0 is very much
+> aligned with this.
 
-However, netdev does not like pathchsets which contain patches which
-should not be applied to the netdev tree. DT patches generally go
-through a different Maintainer to driver changes implementing the
-binding.
+Right, but as I suggested, let's follow already established APIs that return
+-ENOENT and never 0 in similar cases.
 
-So for your DT patch, you could add to the commit message something
-like:
+> > Shouldn't we do *cs = NULL; at the case of 0 channels if it's a success?
+> 
+> I suppose you're right.
+> 
+> But, as you pointed out in review of the 05/10:
+> > Usually in other similar APIs we return -ENOENT. And user won't need
+> > to have an additional check in case of 0 being considered as an error
+> > case too.
+> 
+> I don't know whether to agree with you here. For majority of the ADC
+> drivers, having no channels in devicetree is indeed just another error,
+> which I think is not in any ways special.
 
-The RTL8211E ethernet PHY driver has recently gained support for
-controlling PHY LEDs via /sys/class/leds. The Bananapi M1 has three
-LEDs connected to the RTL8211E PHY.  Add the corresponding nodes to
-the device tree.
+So...? (I see below your answer :-)
 
-	Andrew
+> However, for 33,3333% of the users added in this patch, the "no channels
+> found" is not really an error condition ;) The BD79124 could have all
+> channels used for GPO - although this would probably be very very unusual.
+> (Why buying an ADC chip if you need just a GPO?). Still, this wouldn't be an
+> error. (And I need to handle this better in BD79124 probe - so thanks).
+
+ENOENT check is again established for optional/not_found cases.
+
+> > (Under success I assume that returned values are okay to go with, and cs in
+> > your case will be left uninitialised or contain something we don't control.
+> 
+> I see your point although I wouldn't be concerned with cs not being NULL for
+> as long as number of channels is zero.
+> 
+> Anyway, I think it makes sense to simplify ~67% of callers by returning
+> -ENODEV if there is no channels. The remaining ~33% can then check for the
+> -ENODEV and handle it separately from other returned errors. So, thanks.
+
+Not at all!
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
