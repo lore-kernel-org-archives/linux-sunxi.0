@@ -1,148 +1,164 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68FFE1EE013
-	for <linux-sunxi@lists.linux.dev>; Thu, 13 Mar 2025 10:40:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57BAC1EDA17
+	for <linux-sunxi@lists.linux.dev>; Thu, 13 Mar 2025 12:31:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741862451; cv=none; b=pCw/GtjeU+dn7faIQVxVuwpRkpelPhtrooF/JH/nNnfDlR/g50SIKcmueBukOaaA6F0OMC8pXW9qZ3ItCOIfyPouwPxl+yupeC4s72y6YrpzI0pRmKlYDlATd+LRMPMuyh2DYSJOJ8zX+f8n1Me+waoJc3XYvUc+Q99jN5As3yY=
+	t=1741869090; cv=none; b=WXWxQiTDr0E5JZU8zF9FlYals5pmRZFj+DI0MwLnpqoUekmbX8Cl7nyGloQBozFC6dtGNid2cIgs2ZSP4WzPzFqJA9NLwEw3IdWX1BTwRKKDJtsX5MMXAijNZ5XtKDuiDLR079NRfZICpO6Wz/baF3viBkptH+bRuK3FnF33le0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741862451; c=relaxed/simple;
-	bh=4o3UedLCe/DgFbR3RKmsogTND36AT5FRXO4VwEfXLRQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lT9GK56akqLiGd4/ULLXnb4MNx0b8ec+RAfTXb6X593P6blTyPPzAy/btUWDyprsrXUObYTqHHRp29QQW7f3+I0VgZCMkGNE3oTqXThcuVjOLwVAdatfQrVYYHTbL9rMQ5Wy2wPsUKcfzMBVDtoM3iUsXs53VDLXzs+1S2JVPlM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0763C12FC;
-	Thu, 13 Mar 2025 03:40:59 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D83F23F694;
-	Thu, 13 Mar 2025 03:40:46 -0700 (PDT)
-Date: Thu, 13 Mar 2025 10:40:42 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Michael Klein <michael@fossekall.de>
-Cc: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland
- <samuel@sholland.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] ARM: dts: bananapi: add support for PHY LEDs
-Message-ID: <20250313104042.694c1856@donnerap.manchester.arm.com>
-In-Reply-To: <Z9KYqlfUYxRaWnGQ@a98shuttle.de>
-References: <20250312193629.85417-1-michael@fossekall.de>
-	<20250312193629.85417-2-michael@fossekall.de>
-	<4637912.LvFx2qVVIh@jernej-laptop>
-	<Z9KYqlfUYxRaWnGQ@a98shuttle.de>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1741869090; c=relaxed/simple;
+	bh=SaIYexesddvO0UWpmRz0MzTzyVkL/mdX/8rqZt/hSb4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h+iVaCgqNkMABbgeCcY0KkPuHMJscZ8Kz8ofCo+wpGSXweRsEXcOKcYchNY78TMCIV+r+S5IzdiOyPq04zryFD3aLvpqZmtLtmGnd4aEwnQtTtXbU5ReluuH1hkMtmTLCbJ35JFAtxUpX+2fmeO1RN3PUBg2hTmg8Frt4rVZqkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hgzDi35J; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hgzDi35J"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741869088; x=1773405088;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SaIYexesddvO0UWpmRz0MzTzyVkL/mdX/8rqZt/hSb4=;
+  b=hgzDi35JTJqmywopeUpr27IGiRGw+iv7PXHfmbkxZ046+ozsxLa3p/Cq
+   EA2qdB0CNqz6vjEXghAGAOXpWWWt/KxsbnZ62vlrwNZevf8EUtDyjEwA8
+   Xi8EOmEzMAsC7htI+X+1FrgKNgw+WPl4E0ePSZjsfH2x4zglyPgMmnSH+
+   eaaZZkPiSd6GmyJOXniR8pMhjbmceq7iOOFvBNis8LpWekPI3Qs1seoy7
+   H+YbDAQ0Cg50lNavFiqUOQZNTVdD7VC5MXeL4G4dWkPooqhES31Y+MNNr
+   H4AUHGfn/INIhEM4x+NKWHAnSN4Ww8bxz4j5NvIneQRtbGaUwpqP1FgTa
+   w==;
+X-CSE-ConnectionGUID: 2hPBy6aFS/WpnPXm2liMIA==
+X-CSE-MsgGUID: 4CzOVRC0Q4afrzRuVRvf2Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="30571973"
+X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; 
+   d="scan'208";a="30571973"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 05:31:27 -0700
+X-CSE-ConnectionGUID: jQelpd4eTZ2rpBfxbdM9hA==
+X-CSE-MsgGUID: JO4NOY5VRgq94b7DdOX/ZQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; 
+   d="scan'208";a="121441131"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 05:31:22 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tshiY-00000002Aba-2whI;
+	Thu, 13 Mar 2025 14:31:18 +0200
+Date: Thu, 13 Mar 2025 14:31:18 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Matti Vaittinen <mazziesaccount@gmail.com>
+Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
+	Nuno Sa <nuno.sa@analog.com>, David Lechner <dlechner@baylibre.com>,
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	Guillaume Stols <gstols@baylibre.com>,
+	Dumitru Ceclan <mitrutzceclan@gmail.com>,
+	Trevor Gamblin <tgamblin@baylibre.com>,
+	Matteo Martelli <matteomartelli3@gmail.com>,
+	Alisa-Dariana Roman <alisadariana@gmail.com>,
+	Ramona Alexandra Nechita <ramona.nechita@analog.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v7 03/10] iio: adc: add helpers for parsing ADC nodes
+Message-ID: <Z9LQFqSweiV-zT3b@smile.fi.intel.com>
+References: <cover.1741849323.git.mazziesaccount@gmail.com>
+ <c8899e8c535a1d93cd7588b7c160eb0fae5d26d2.1741849323.git.mazziesaccount@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c8899e8c535a1d93cd7588b7c160eb0fae5d26d2.1741849323.git.mazziesaccount@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Thu, 13 Mar 2025 09:34:50 +0100
-Michael Klein <michael@fossekall.de> wrote:
+On Thu, Mar 13, 2025 at 09:18:18AM +0200, Matti Vaittinen wrote:
+> There are ADC ICs which may have some of the AIN pins usable for other
+> functions. These ICs may have some of the AIN pins wired so that they
+> should not be used for ADC.
+> 
+> (Preferred?) way for marking pins which can be used as ADC inputs is to
+> add corresponding channels@N nodes in the device tree as described in
+> the ADC binding yaml.
+> 
+> Add couple of helper functions which can be used to retrieve the channel
+> information from the device node.
 
-Hi,
+...
 
-> On Thu, Mar 13, 2025 at 07:07:24AM +0100, Jernej =C5=A0krabec wrote:
-> >Dne sreda, 12. marec 2025 ob 20:36:28 Srednjeevropski standardni =C4=8Da=
-s je Michael Klein napisal(a): =20
-> >> The Bananapi M1 has three LEDs connected to the RTL8211E ethernet PHY.
-> >> Add the corresponding nodes to the device tree.
-> >>
-> >> Signed-off-by: Michael Klein <michael@fossekall.de> =20
-> >
-> >This is patch 2/2. Which one is patch 1/2? I got only one. =20
->=20
-> https://patchwork.kernel.org/project/netdevbpf/patch/20250312193629.85417=
--1-michael@fossekall.de/
->=20
-> Sorry for any inconvenience in case I messed up the patch submission.
->=20
-> I made two commits for this change and submitted them via `git send-email=
-=20
-> HEAD^^`. The first patch went to netdev@vger.kernel.org, the second=20
-> to linux-arm-kernel@lists.infradead.org, which seems logical. Have I=20
-> done something wrong?
+> +int devm_iio_adc_device_alloc_chaninfo_se(struct device *dev,
+> +					  const struct iio_chan_spec *template,
+> +					  int max_chan_id,
+> +					  struct iio_chan_spec **cs)
+> +{
+> +	struct iio_chan_spec *chan_array, *chan;
+> +	int num_chan = 0, ret;
 
-Well, for those really small "series" it's probably better to send all
-patches to everyone, especially if the first patch gives some context,
-without which the second leaves people (like me) scratching their head.
-Also in this case a cover letter would help
-(git format-patch --cover-letter), to give some idea of what you are after.
+Unneeded assignment.
 
-Cheers,
-Andre
+> +	num_chan = iio_adc_device_num_channels(dev);
+> +	if (num_chan < 1)
+> +		return num_chan;
 
+This is really interesting code. So, if the above returns negative error code,
+we return it, if it returns 0, we return success (but 0 channels)?
 
->=20
-> >Best regards,
-> >Jernej =20
->=20
-> Michael
->=20
-> > =20
-> >> ---
-> >>  .../boot/dts/allwinner/sun7i-a20-bananapi.dts | 27 +++++++++++++++++++
-> >>  1 file changed, 27 insertions(+)
-> >>
-> >> diff --git a/arch/arm/boot/dts/allwinner/sun7i-a20-bananapi.dts b/arch=
-/arm/boot/dts/allwinner/sun7i-a20-bananapi.dts
-> >> index 46ecf9db2324..4976453ed192 100644
-> >> --- a/arch/arm/boot/dts/allwinner/sun7i-a20-bananapi.dts
-> >> +++ b/arch/arm/boot/dts/allwinner/sun7i-a20-bananapi.dts
-> >> @@ -48,6 +48,7 @@
-> >>
-> >>  #include <dt-bindings/gpio/gpio.h>
-> >>  #include <dt-bindings/interrupt-controller/irq.h>
-> >> +#include <dt-bindings/leds/common.h>
-> >>
-> >>  / {
-> >>  	model =3D "LeMaker Banana Pi";
-> >> @@ -169,6 +170,32 @@ &ir0 {
-> >>  &gmac_mdio {
-> >>  	phy1: ethernet-phy@1 {
-> >>  		reg =3D <1>;
-> >> +
-> >> +		leds {
-> >> +			#address-cells =3D <1>;
-> >> +			#size-cells =3D <0>;
-> >> +
-> >> +			led@0 {
-> >> +				reg =3D <0>;
-> >> +				color =3D <LED_COLOR_ID_GREEN>;
-> >> +				default-state =3D "keep";
-> >> +				linux,default-trigger =3D "netdev";
-> >> +			};
-> >> +
-> >> +			led@1 {
-> >> +				reg =3D <1>;
-> >> +				color =3D <LED_COLOR_ID_AMBER>;
-> >> +				default-state =3D "keep";
-> >> +				linux,default-trigger =3D "netdev";
-> >> +			};
-> >> +
-> >> +			led@2 {
-> >> +				reg =3D <2>;
-> >> +				color =3D <LED_COLOR_ID_BLUE>;
-> >> +				default-state =3D "keep";
-> >> +				linux,default-trigger =3D "netdev";
-> >> +			};
-> >> +		};
-> >>  	};
-> >>  };
-> >>
-> >> =20
-> >
-> >
-> >
-> >
-> > =20
->=20
+Shouldn't we do *cs = NULL; at the case of 0 channels if it's a success?
+(Under success I assume that returned values are okay to go with, and cs in
+your case will be left uninitialised or contain something we don't control.
+
+> +	chan_array = devm_kcalloc(dev, num_chan, sizeof(*chan_array),
+> +				  GFP_KERNEL);
+> +	if (!chan_array)
+> +		return -ENOMEM;
+> +
+> +	chan = &chan_array[0];
+> +
+> +	device_for_each_named_child_node_scoped(dev, child, "channel") {
+> +		u32 ch;
+> +
+> +		ret = fwnode_property_read_u32(child, "reg", &ch);
+> +		if (ret)
+> +			return ret;
+
+> +		if (max_chan_id != -1 && ch > max_chan_id)
+> +			return -ERANGE;
+
+Hmm... What if max_chan_id is equal to an error code?
+Or in other words, why -1 is special and not all negative numbers?
+
+Also note, you used unsigned type and compare it to int which,
+in case of being negative will give promotion. The ch will not be
+big enough in most cases (unless it's great than (INT_MAX + 1).
+
+TL;DR: you have a potential integer overflow here.
+
+> +		*chan = *template;
+> +		chan->channel = ch;
+> +		chan++;
+> +	}
+> +
+> +	*cs = chan_array;
+> +
+> +	return num_chan;
+> +}
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
