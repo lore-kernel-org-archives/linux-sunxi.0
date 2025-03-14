@@ -1,98 +1,155 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6FAF78F2E;
-	Fri, 14 Mar 2025 15:52:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 743281EE03D
+	for <linux-sunxi@lists.linux.dev>; Fri, 14 Mar 2025 16:00:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741967571; cv=none; b=CTsvOG/ISi7hYWVg3awpBfITF8Z6b5hBopNvouNm6K5WENxsxx3e11pK+0rclfurKrtgYBrUUANVXGjil5mogwoMRuLNaHAyUsE6NqCsXz2zZoA2Snqc7TYg1U2LnxTFFf39raywPIZ8Cf+8lSTIA2X0+D2ZBm+JpTtqudP2jxk=
+	t=1741968039; cv=none; b=SIJsCkbPKfEfWn/M6Q2db06PiHtB3ThSaZ5NMb/4V+sy7yQLiKSvN5+umVPNQwHh5nE0N9OO2eDRT6Qgl4w/w9EQQR2/NiqRsG3y8y/gsma3CJnqdKiM3UxTba+GjL5MgRVadLu4++yOEJ2KjhmCbfKR3374Jkk6rjy7+c1r2no=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741967571; c=relaxed/simple;
-	bh=NX2Md3U+bOQqXplBc113iIeIOo0t7MlCS1wk9cRyyQk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=UDVuRglTKoLjjknTQBfkQo/0L/V2r3wFKIkVfgfSYHmPafs0e0JwaF5ZqZMjiuCqyqx0LM2BICive83mncrtU0xn+NBpI8RIsHEpw5sC4xbmndL7TJu+On7gAnxpEalcAkGnIOubjO9gHbfnyMtkDT8DBwafw7493QPGLUGbnn0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NPhKdtTm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741968039; c=relaxed/simple;
+	bh=ax7jDivqNCm8Fd79tbZPgMwBc3TPoRnbbcDI9CxwYzA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ET8V0tIQq4hTxafNT4ei8lehp7OJCLsqkEjMiUJBfdhyPZ6bZwVn+PNSMKIsgpg64mQRazGIuo13A0/0ZuVlw47n+kidf628cfQBiUlCq3pgT+jMgCZb9a7xjPNKPRY7ajZlFLZap+vtWhzAdA6l6JgVx1XcbGjaLzavL5j/ACw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VRlMJBB7; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NPhKdtTm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A853DC4CEEF;
-	Fri, 14 Mar 2025 15:52:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741967571;
-	bh=NX2Md3U+bOQqXplBc113iIeIOo0t7MlCS1wk9cRyyQk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=NPhKdtTm7NG1HkUBT/Jq2uCczGCk9Wmqy6J8QpukK834sVNxdFMogsT2Kz/1XvsxX
-	 vfwd8AlClj7x8WL/PgnLGupjmPZJGy82k91wsITI+doXcODNdSeswtkkZEbzzzAV5t
-	 3GDEeIdWP7fivabiK1LudxjvHhgUEfC+Xw1ZJt5Z4V5SG96gfzmLHNb13qIBI1SDQC
-	 p6iBbIrSohhG+XkBo2FA+PPrw3NKq2quBIR42d2JGampBA+Iytk2SLfs18+PXF4szX
-	 ktsXmp17cb4LT3j1s+t2THn6I2v8nOAQ+O4WzwLLR0FHrtGeCK1OvLLD1FcBZD5emC
-	 CCRS192mPvFKA==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Ryan Walklin <ryan@testtoast.com>
-Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, 
- Chris Morgan <macromorgan@hotmail.com>, Rob Herring <robh@kernel.org>, 
- Philippe Simons <simons.philippe@gmail.com>
-In-Reply-To: <20250214220247.10810-1-ryan@testtoast.com>
-References: <20250214220247.10810-1-ryan@testtoast.com>
-Subject: Re: (subset) [PATCH v3 0/5] ASoC: sun4i-codec: add headphone
- dectection for Anbernic RG35XX devices
-Message-Id: <174196756840.19728.17664266192768404946.b4-ty@kernel.org>
-Date: Fri, 14 Mar 2025 15:52:48 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VRlMJBB7"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2ff66327419so556811a91.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 14 Mar 2025 09:00:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741968038; x=1742572838; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tIY165QBF2I7E64kxf0y7gan5+WkPY6SwpR93M25+8U=;
+        b=VRlMJBB7HayL2A2XTkb5y+GhVucVerAoMgi2Ib/gDo+HF+HeXtvTvUZduVczBNeESw
+         oJhU64U8XxfsXTDx6lXbItcgDNs7bpdhVXiTuN9G+tdjmebJXEUxr2ozB5WYewPpp342
+         C3sMeWv6EZRFVaIONh2VXan48MWIHCMjoeaoVqbc2kfFuRASh6q3HeBElVN8dYNM/EGr
+         IyRwkfsmQGeqXl6JhrMWzsWHuZ72knvxithw8YkFtB8UV1dvf+/owHKEJsTqZu0NMQHc
+         EFOC6o3Hq0Lk+tqiUa1vUV7XVRkBspYmrAy54fCoVBgWREsdo+HXp2+pjuXmyqYnm9Pf
+         spTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741968038; x=1742572838;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tIY165QBF2I7E64kxf0y7gan5+WkPY6SwpR93M25+8U=;
+        b=UB6q9F0k10I6mM2Ou1gobxqWgy7KIws//t7y4PHkIDWIH6vuumdkrM3VYF/00UlTXK
+         aUoxms+Xz94k9yjOhPggA1RZpNyB38+WEyduR8spkBl2pCeUiGC5E6jmURYCCjJhl2wr
+         Wfo3Y/yYl3wpmHncoT/m0F5NK2xTUR0oPH2hjYSGaEd8H2mHPVe5nwFtSArLVpclCRIz
+         vthiMAuoqGXOoq4tlMQ1XYkEHehWwlpGi2mUErcX9sgNgtS/zzq1DCMthEdFUm/ntMW2
+         AHIdQwDV2oZjU2qCc5jB6PiFusXgZyc8eO0RHiqcJC9SWgjYjl+hdijQ+2AymVP9185P
+         ipsA==
+X-Forwarded-Encrypted: i=1; AJvYcCUgBfaf0x+j6EUeyV7QXAfDoxh3lXAl6y8VSkro2TNQEMV1X1Vh4wXb1Th94s98t6uBJLqAqJA/Yj8gBg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyewaCO4vfiBHA6Y0iE5rPOwGZwk27O7X9qNCGbR+XD0NmIAMnq
+	YGQnP46MMe1/hV9ho+Bp0BpUUT4rsbgXN5WLiMiCvliLKQM8L3Xsx4Lg6efnlA6qkeU3KpFRNpw
+	XRcdHgS09pTmAAjZC1rO0uCuRAA==
+X-Gm-Gg: ASbGncuIX3cI5+iHASnUDLal1e7FlsDcAuwMwS9G/PdIbg0HK1xapYzcGHJYiR78Z5v
+	trYemIWfaDu5lWsz8/K0Nt6BuqfrHgKC3gYCEGi7XMbiv+vvO8YVTgpox8Yb0OlwMKZNg2+5mx5
+	ukolPUikwWU/dwPVNg/cS3A34TMzk=
+X-Google-Smtp-Source: AGHT+IHPg5LEX9RcXJcT7z3Dh6z47dRs4csMp548pLAhreG5srJVcZIIpfZ8T/92XQSoT8s0QhUvp3pVVX5xQ+RxwCQ=
+X-Received: by 2002:a17:90b:164f:b0:2ff:5759:549a with SMTP id
+ 98e67ed59e1d1-30151c88e12mr1556703a91.1.1741968037522; Fri, 14 Mar 2025
+ 09:00:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-1b0d6
+References: <20250314012029.668306-1-chenyuan0y@gmail.com> <20250314-prophetic-attentive-platypus-3ab214@houat>
+In-Reply-To: <20250314-prophetic-attentive-platypus-3ab214@houat>
+From: Chenyuan Yang <chenyuan0y@gmail.com>
+Date: Fri, 14 Mar 2025 11:00:26 -0500
+X-Gm-Features: AQ5f1JoUD0V5ZOdvR5FcIitlHbVLK_E695Xu4I0ACsV86e_NOveKe5yScUlp2jo
+Message-ID: <CALGdzurT1_fY_o8Hv92j4+XFQHu1iHRzqVtZAM8upHYBPfA1BA@mail.gmail.com>
+Subject: Re: [PATCH] drm/sun4i: backend: Fix error pointers in sun4i_backend_atomic_check
+To: Maxime Ripard <mripard@kernel.org>
+Cc: wens@csie.org, maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, 
+	airlied@gmail.com, simona@ffwll.ch, jernej.skrabec@gmail.com, 
+	samuel@sholland.org, neil.armstrong@linaro.org, 
+	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, 15 Feb 2025 11:02:22 +1300, Ryan Walklin wrote:
-> V3 of this patch adding headphone jack detection support to the Anbernic RGnnXX series of handhelds. V3 corrects my misunderstanding of derivation of ALSA UCM file paths, and adds recieved Reviewed-by and Tested-by tags. Thanks to those that have reviewed and fed back on previous versions.
-> 
-> Original message below:
-> 
-> This series adds the required device tree bindings to describe GPIOs for jack detection in the sun4i-codec driver, adds support for jack detection to the codec machine driver, and describes the hardware configuration in the RG35XX DTS. The existing speaker amplifier GPIO pin can then be used in concert with jack detection to enable userspace sound servers (via an ALSA UCM configuration) to disable the speaker route when headphones are connected.
-> 
-> Thanks to Chris Morgan for his assistance putting this series together.
-> 
-> [...]
+HI Maxime.
 
-Applied to
+Thanks so much for pointing that out!
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+How about such a patch?
 
-Thanks!
+diff --git a/drivers/gpu/drm/sun4i/sun4i_backend.c
+b/drivers/gpu/drm/sun4i/sun4i_backend.c
+index 2dded3b828df..5ad0e90d3e6b 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_backend.c
++++ b/drivers/gpu/drm/sun4i/sun4i_backend.c
+@@ -490,9 +490,14 @@ static int sun4i_backend_atomic_check(struct
+sunxi_engine *engine,
+  drm_for_each_plane_mask(plane, drm, crtc_state->plane_mask) {
+  struct drm_plane_state *plane_state =3D
+  drm_atomic_get_plane_state(state, plane);
+- struct sun4i_layer_state *layer_state =3D
+- state_to_sun4i_layer_state(plane_state);
+- struct drm_framebuffer *fb =3D plane_state->fb;
++ struct sun4i_layer_state *layer_state =3D NULL;
++ struct drm_framebuffer *fb =3D NULL;
++
++ if (IS_ERR(plane_state))
++ return PTR_ERR(plane_state);
++
++ layer_state =3D state_to_sun4i_layer_state(plane_state);
++ fb =3D plane_state->fb;
 
-[1/5] ASoC: dt-bindings: sun4i-a10-codec: add hp-det-gpios
-      commit: 7bda89a2489fb012c4c63f3338827ad1f35c8880
-[2/5] ASoC: sun4i-codec: correct dapm widgets and controls for h616
-      commit: ae5f76d4044d1580849316c49290678605e0889d
-[3/5] ASoC: sun4i-codec: support hp-det-gpios property
-      commit: a149377c033afe6557c50892ebbfc0e8b7e2e253
-[5/5] ASoC: sun4i-codec: add h616 card long_name
-      commit: d389719fb4ece17ea28c0cf908066815d3ab0e25
+  if (!sun4i_backend_plane_is_supported(plane_state,
+        &layer_state->uses_frontend))
+--=20
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+-Chenyuan
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+On Fri, Mar 14, 2025 at 2:17=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
+wrote:
+>
+> Hi,
+>
+> On Thu, Mar 13, 2025 at 08:20:29PM -0500, Chenyuan Yang wrote:
+> > The function sun4i_backend_atomic_check was dereferencing pointers
+> > returned by drm_atomic_get_plane_state without checking for errors. Thi=
+s
+> > could lead to undefined behavior if the function returns an error point=
+er.
+> >
+> > This commit adds checks using IS_ERR to ensure that plane_state is
+> > valid before dereferencing them.
+> >
+> > Similar to commit da29abe71e16
+> > ("drm/amd/display: Fix error pointers in amdgpu_dm_crtc_mem_type_change=
+d").
+> >
+> > Fixes: 96180dde23b7 ("drm/sun4i: backend: Add a custom atomic_check for=
+ the frontend")
+> > Signed-off-by: Chenyuan Yang <chenyuan0y@gmail.com>
+> > ---
+> >  drivers/gpu/drm/sun4i/sun4i_backend.c | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/sun4i/sun4i_backend.c b/drivers/gpu/drm/su=
+n4i/sun4i_backend.c
+> > index 2dded3b828df..a8e0e2123764 100644
+> > --- a/drivers/gpu/drm/sun4i/sun4i_backend.c
+> > +++ b/drivers/gpu/drm/sun4i/sun4i_backend.c
+> > @@ -490,6 +490,10 @@ static int sun4i_backend_atomic_check(struct sunxi=
+_engine *engine,
+> >       drm_for_each_plane_mask(plane, drm, crtc_state->plane_mask) {
+> >               struct drm_plane_state *plane_state =3D
+> >                       drm_atomic_get_plane_state(state, plane);
+> > +
+> > +             if (IS_ERR(plane_state))
+> > +                     return PTR_ERR(plane_state);
+> > +
+>
+> This introduces a build warning. You shouldn't mix declarations and code.
+>
+> Maxime
