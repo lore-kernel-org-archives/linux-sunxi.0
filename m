@@ -1,41 +1,71 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC16A1C862D
-	for <linux-sunxi@lists.linux.dev>; Fri, 14 Mar 2025 17:12:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D4AE1FECAD;
+	Sat, 15 Mar 2025 18:28:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741972366; cv=none; b=POzCGu0BVNEa4Pcvy6sEYmcYbVIeH2sBPV+l81oJwI2H+4GfqmcRU67WUUweh7E3ZKNA4mJbPy3q52yRg9RAGKLnEIYoffBF+Y9PcRI++W0j9ORrgbfO3e22KswUy4dqh3p56BJXAf8NJFPC53XSDVkb0gUAP726WfpRZAE4/XI=
+	t=1742063309; cv=none; b=LY7WwhbgVQtHx4DvtiOkOzSjkVwFEuOqxNRl9jtsQJJAKTdFmzDn5jOJnz6kNGiSTR4Cp8s6ZWRQwvV0wbqO2CoW/+ZN+t09pf2j+3wO+tsEuwgm6ZCjSpoqzA7cmHiz4AiTt9+I7kVVr+Bw5uX0ovhdh58RsZxk4yNVyy9ZpsY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741972366; c=relaxed/simple;
-	bh=oMRf5D9xED76AloBmylBsBKYgSUDihyoTcfIWxoaKyc=;
+	s=arc-20240116; t=1742063309; c=relaxed/simple;
+	bh=sMKrjH62WoD/khslIsrraD1DRdosmW6hiDuN4h1CExc=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=b8z8XtQdGxM9Of3fQsE7OV2X/EF5Rp/ucO6JAVT9at994K4oCpq+ZSETy2Klgkx6utgxDTWR3Ue3bKZBXX2Mrbq5g5X6UKgRY2Fblvt84i7eR5XrCkZwIxJYPhyux2W6CMG/kD13GX2tjVe6oKnordCwBdlFr8hwxcGXkkVnraE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3B18E1424;
-	Fri, 14 Mar 2025 10:12:52 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 251433F673;
-	Fri, 14 Mar 2025 10:12:40 -0700 (PDT)
-Date: Fri, 14 Mar 2025 17:12:35 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck
- <linux@roeck-us.net>
-Cc: <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <linux-watchdog@vger.kernel.org>, Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: [PATCH v3 03/15] dt-bindings: watchdog: sunxi: add Allwinner
- A523 compatible string
-Message-ID: <20250314171235.25db7044@donnerap.manchester.arm.com>
-In-Reply-To: <20250307005712.16828-4-andre.przywara@arm.com>
-References: <20250307005712.16828-1-andre.przywara@arm.com>
-	<20250307005712.16828-4-andre.przywara@arm.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	 MIME-Version:Content-Type; b=CUf8smIi0xU5ENXm8xVRmddyY6gIYsa9PbLPlX1M8A7bHJes2t3xDmfIYxS+AEqXc5D7THT6PwkeeENeNXjvRnncYrIYwCSFxp81NYhN5C0tiAHTh2jxzj4wg3as4SMXd3Er4xqv54ZpUN216UrzMM6NXnBgZjAAWudhuiNrisI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=snXASOq1; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="snXASOq1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C9C5C4CEE5;
+	Sat, 15 Mar 2025 18:28:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742063309;
+	bh=sMKrjH62WoD/khslIsrraD1DRdosmW6hiDuN4h1CExc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=snXASOq1cllJq1YTzDr4qDVX4xo/lxUHFZy5n9suL0QxsZkZAUZM1i5zZk7uoKn7T
+	 eignihiclaj4hs8EJ/v/qppGcHX1leERoUdOm5BnAe9COVUk4TU1nIOxfVikm3jJXU
+	 cI3Z65HXbPpPiiO0hOr6iK+tqdnelXHSD+UtsANAzhNECjS0JeNnMsw01WeDCX6G88
+	 swbZ/gbJerFL1k7OXCVQT4mB/8nD5xZ+19cgx4+r2Ml+M8WU5KmcOB49pBvjQheG5s
+	 vB9stQQLN3SggAUGmT3zLZ+Gu5LpJpFodH/523FaWEeSGqSa3yDhi4aOGRr5Eiv6As
+	 DDxjAIvVTxcbw==
+Date: Sat, 15 Mar 2025 18:28:06 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Matti Vaittinen <mazziesaccount@gmail.com>
+Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, Javier Carrasco
+ <javier.carrasco.cruz@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ Samuel Holland <samuel@sholland.org>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, netdev@vger.kernel.org, Rob Herring
+ <robh@kernel.org>, Herve Codina <herve.codina@bootlin.com>, Thomas
+ Bonnefille <thomas.bonnefille@bootlin.com>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Nuno Sa <nuno.sa@analog.com>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, linux-media@vger.kernel.org, Claudiu
+ Manoil <claudiu.manoil@nxp.com>, devicetree@vger.kernel.org, Marcelo
+ Schmitt <marcelo.schmitt@analog.com>, Lad Prabhakar
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ "David S. Miller" <davem@davemloft.net>, Lars-Peter Clausen
+ <lars@metafoo.de>, linux-acpi@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-iio@vger.kernel.org, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, Eric Dumazet <edumazet@google.com>, Conor
+ Dooley <conor+dt@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Olivier
+ Moysan <olivier.moysan@foss.st.com>, Trevor Gamblin
+ <tgamblin@baylibre.com>, Ramona Alexandra Nechita
+ <ramona.nechita@analog.com>, Paul Elder <paul.elder@ideasonboard.com>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Matteo Martelli
+ <matteomartelli3@gmail.com>, Guillaume Stols <gstols@baylibre.com>,
+ Alisa-Dariana Roman <alisadariana@gmail.com>, Jakub Kicinski
+ <kuba@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Dumitru Ceclan <mitrutzceclan@gmail.com>, Paolo Abeni <pabeni@redhat.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, David Lechner <dlechner@baylibre.com>, Chen-Yu
+ Tsai <wens@csie.org>, Daniel Scally <djrscally@gmail.com>
+Subject: Re: [PATCH v6 00/10] Support ROHM BD79124 ADC
+Message-ID: <20250315182806.653bd71c@jic23-huawei>
+In-Reply-To: <e685d31c-8cdc-4732-b3a8-8e70a6f82578@gmail.com>
+References: <cover.1741610847.git.mazziesaccount@gmail.com>
+	<20250310202738.13301548@jic23-huawei>
+	<e685d31c-8cdc-4732-b3a8-8e70a6f82578@gmail.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,55 +75,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Fri, 7 Mar 2025 00:57:00 +0000
-Andre Przywara <andre.przywara@arm.com> wrote:
+On Tue, 11 Mar 2025 07:49:35 +0200
+Matti Vaittinen <mazziesaccount@gmail.com> wrote:
 
-Hi Wim, Guenter,
-
-> The Allwinner A523 SoC features a watchdog similar to the one used in
-> previous SoCs, but moves some registers around (by just one word), making
-> it incompatible to existing IPs.
+> On 10/03/2025 22:27, Jonathan Cameron wrote:
+> > On Mon, 10 Mar 2025 14:53:50 +0200
+> > Matti Vaittinen <mazziesaccount@gmail.com> wrote:
+> >   
+> >> Support ROHM BD79124 ADC.
+> >>
+> >> This series adds also couple of IIO ADC helper functions for parsing the
+> >> channel information from the device tree. There are also new helpers
+> >> included for iterating and counting firmware child nodes with a specific
+> >> name.
+> >>
+> >> Series does also convert couple of drivers to use these helpers. The
+> >> rzg2l_adc and the sun20i-gpadc are converted to use the new ADC helper.
+> >>
+> >> The gianfar driver under net and the thp7312 under media/i2c are added as
+> >> first users of the newly added "named child node" -helpers.
+> >>
+> >> There has been some discussion about how useful these ADC helpers are,
+> >> and whether they should support also differential and single ended channel
+> >> configurations. This version does not include support for those - with the
+> >> benefit of reduced complexity and easier to use API.
+> >>
+> >> NOTE: Patches 4,5,9 and 10 are untested as I lack of relevant HW.
+> >> They have been compile tested only.  
+> > This probably wants an update.  Also, 00/10? There are only 8 that I can see.  
 > 
-> Add the new name to the list of compatible string, and also to the list
-> of IP requiring two clock inputs.
+> That's odd.
+> There should be 10 in total. And the 4, 5, 9 and 10 was updated.
 > 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
-
-is there any chance that this DT binding patch (and patch 04/15, touching
-the actual driver) would make it into -next any time soon, and hopefully
-into v6.15? From what I can see it's the only binding left before the
-sunxi maintainers can merge the devicetree patches for this new SoC (most
-others are in, pinctrl and NMI should show up in the next days).
-
-Let me know if I can help with anything or if you need more information!
+> 9/10:
+> https://lore.kernel.org/all/1c4b9b4ceb1995bce76a0ddef0e04ad0d1d81190.1741610847.git.mazziesaccount@gmail.com/
+> 
+> 10/10:
+> https://lore.kernel.org/all/ab79cf4415d21ff2854fee4f4189fac555c30b7a.1741610847.git.mazziesaccount@gmail.com/
+> 
+> Perhaps it's because of the "net-next" in subject?
+> 
+Nope. My filters broke the series up into different directories.
 
 Thanks,
-Andre
 
-> ---
->  .../devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml   | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
-> index 64c8f73938099..b35ac03d51727 100644
-> --- a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
-> +++ b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
-> @@ -32,6 +32,7 @@ properties:
->        - items:
->            - const: allwinner,sun20i-d1-wdt-reset
->            - const: allwinner,sun20i-d1-wdt
-> +      - const: allwinner,sun55i-a523-wdt
->  
->    reg:
->      maxItems: 1
-> @@ -60,6 +61,7 @@ if:
->            - allwinner,sun20i-d1-wdt-reset
->            - allwinner,sun50i-r329-wdt
->            - allwinner,sun50i-r329-wdt-reset
-> +          - allwinner,sun55i-a523-wdt
->  
->  then:
->    properties:
+Jonathan
+
+> Yours,
+> 	-- Matti
 
