@@ -1,69 +1,58 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46AFD17A2EA
-	for <linux-sunxi@lists.linux.dev>; Mon, 17 Mar 2025 15:51:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B1B72C9D
+	for <linux-sunxi@lists.linux.dev>; Mon, 17 Mar 2025 16:01:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742226706; cv=none; b=LrnEIAt7Qn9yjcVvxM+ZSJWrt0xr2Jeoy7Cq4NvxTC3nIDkyzAKZPUf5gpdAMP+QmMLjUYP3Wh9Lmk2l7YI0n9eu1MdBVGGXNPcopNStVAJlRWpO6a3bXY4243c9D+ZNIwUgWU508d4ZpNq4znAcFEDolseN6QiojC7tdvm2K5o=
+	t=1742227284; cv=none; b=hTlOLhJBKgE6Ei9gvYpsJnSKZm3OXConmhueBWbTE00u3ewiH/7iMUO3XHn7WJGpg9DTIYJKtsvyGevf4ozwtKNeHvy8wZYsrlLb71xDq4CDjSM2gRXnuIC0w007wGgJESbfZU54gC/Z0rV0nFDNOiQbL+iQfym/TAS7f9d/IPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742226706; c=relaxed/simple;
-	bh=Oh4plqYxXdIyOPcR3vPrbHY1zS/ykJMjhXiKqSvBciA=;
+	s=arc-20240116; t=1742227284; c=relaxed/simple;
+	bh=rJe8kVKyH077ow1Mw00nxnv3bgj5DDeZ/UYwSoiFKZk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SRTfUHsTCmAR7ol7H/59VNSGtq7H/IiVj8XGHcC4CNaG9WDkdFUXY/R52pf4d7zG1XaDJ2U+d4WGhx4RE8lMyzJ2N98mmzVm2TxCWfDU45FLdGwUcBuULdw29D7anzFE86rYit1Gz1ei8zoI3XjPQd4tbWI9ho7t6e6DMkm/bhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IplsFlfv; arc=none smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=W15atWwsgw0GzaHCxonaS3FlSpQk8rwgESScebUnKMI3Ur5eEql0gL89QwaHUsPZntTNGMBfCcuSBJMm7MLsrJ6HgyLMxGJknWeEM40kuAnHJwX/nwe+Ibb6GJkorsNPJDvG5FK4p729Quupb+vL4zIzUKzLxj/np1j8YwWD7L0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dcluKTUO; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IplsFlfv"
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-549a4a4400aso4826885e87.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 17 Mar 2025 08:51:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742226703; x=1742831503; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qZp/H4slk78IiHDNm1oAqEElmdRePMABQQlvBKJ8MF4=;
-        b=IplsFlfvtiNoaug04MF8I2CDL6xL7vzoeLLcDa4wHzCvLQmuEEMr6tO+nqZOJtGGom
-         fUtOUC6Vh7QISrdXPvfRt9tBiaA3Vhvrw1IG61igFyItEXZhUwJBpKwPVtZOYTDCk5jF
-         SAiHdi2PYpXi9tKhgvGLShVAS2tp3LxQjr3PNVHjgF1ks9rUEb4F/hJK1leRyDgousd6
-         nJnWlXHN2rVAxBjCoP0Xrn/+AkAQkTRxuXBPn/aWnZbbn2Q6ekdI0PBggfWuNWWqyKpb
-         zOcS0UMAif3gKpi6e5i1/JpwDTOytb+l84XsF8muVXg/fyQ5OwYYtVJyeKicpn/kqtQt
-         aF2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742226703; x=1742831503;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qZp/H4slk78IiHDNm1oAqEElmdRePMABQQlvBKJ8MF4=;
-        b=Dq33Dx6pLXFAE9Dmd+nfYE5vYXWQaapoKmPqot/m/c4DCQvGzSyADDMwIAFuu7zYGX
-         PZPfZkIWsgy063CFHVZ6OwOdzKnfsGD6OQp/ulRLuBnpe9RoI0/VYlvRWTmtIBz8F5zS
-         7ss2I3+EhuPJvqz/6Cc3xORyQk9Nn2sJu5LWB0TeZXKQ0aVAr2Yb2n+SwP2zrPRu2x1z
-         Kgp9z/wVPUHx8wxTTIt79B3/zBHT//9PtkDKwp9VTt5fzFmG0WVCVQ4n9LctnIxloPnC
-         B4gtIUSzeQ2ve219k1tE29vYMVSGAA3MFd/6xPOM7+cLBqDqYWy0McdmK+OPdOvsLbuO
-         bo7A==
-X-Forwarded-Encrypted: i=1; AJvYcCVYmcMEk+rFjr13FWcurF2WTYkeiqqlDRPDW8SDW6KH8rL/HyrLgg8eu8HtNOFIlZxTzHNzRkDQWwwSew==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyHu9ju1CxQjP44OdKHcaZosRaiHRAw+vQGqBjmgHjC3k2iImmq
-	foJLeNH62ExqheDWFR/8hsV5SXJ47Gx/RByjlI1lRgrtUvxaBYrp
-X-Gm-Gg: ASbGncsU3KY7rv2e/7ORwac3SCIT95pCE2NZXT1EwkHBO7LhvBxp3PnhibEay+A0u9+
-	tpDQYhZrf00ny5UZOunE1KJuTpg6HH0SwVcLy65oy41vDlOT4fZbdtB+rk8qPyrW7cMvSOOgC+m
-	J6jHlxLt4Vo046NJ3JneIbsHTHNkB4HlloabtsT1kP5RqiiLCQiyKebJ2F4gspCd+5wEgnAvJ4M
-	pBGVmWEed6XkwLloTTujKSaJ2O3uRylop6QycU4mhjAD+zQ8TunPJfAk8uYw06betrIisIbpvOO
-	bMgtGV94bk6bjtOixZfhCIu0lzHrKPZTZjhxBd0m2E15H8xCcFGs86ZRx9oRjQ==
-X-Google-Smtp-Source: AGHT+IGvE83lD5O75qXN7tU8+BEUTnVmyQ+DR7gPnljh2efy53y9OxWZRbn1FAQt9KPWJXz11ev7ZQ==
-X-Received: by 2002:a05:6512:398a:b0:545:2335:6597 with SMTP id 2adb3069b0e04-54a03d02bcfmr277694e87.50.1742226703043;
-        Mon, 17 Mar 2025 08:51:43 -0700 (PDT)
-Received: from mva-rohm ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-549ba7c0a39sm1359539e87.65.2025.03.17.08.51.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Mar 2025 08:51:42 -0700 (PDT)
-Date: Mon, 17 Mar 2025 17:51:38 +0200
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-To: Matti Vaittinen <mazziesaccount@gmail.com>,
-	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Cc: Jonathan Cameron <jic23@kernel.org>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dcluKTUO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1742227283; x=1773763283;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rJe8kVKyH077ow1Mw00nxnv3bgj5DDeZ/UYwSoiFKZk=;
+  b=dcluKTUO+i0gRH/ZqQv3uTLBFwH1GcKVHWr4GcA48ogt/kJQbRHeSjKu
+   fazB0j78M4aaDbhX2X3azhTuw9iXXZasj2NmoZxocJu+xBuDUIxp3zSU/
+   UqyK9ibTOi/QlXNAbEPqp1v3D6I3odfbqzfKF+5jSAsHfqH6MGkDxx/M3
+   Va1F1LqdSq/1AhNd1eatTI1zri78yz5XHW2rFzXC111DSBT9sy4e1g2FK
+   LYmfEDLLfPYMRIRChmHIEKbuufR7nviqzBCjUxuiEtziehCgZJJWlULQo
+   Xxw0rgPwF7yhLEQckIpjGpyvGl/NsD0gwfFdIkY6MizvU5A+ylnZESDWx
+   A==;
+X-CSE-ConnectionGUID: u/NmNe2oS7u8HLk5vbzscw==
+X-CSE-MsgGUID: UzHRjdF5TkSV4N2ipgai1w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11376"; a="54703323"
+X-IronPort-AV: E=Sophos;i="6.14,254,1736841600"; 
+   d="scan'208";a="54703323"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2025 09:01:14 -0700
+X-CSE-ConnectionGUID: 63yQND79Scmjk8NuLdValg==
+X-CSE-MsgGUID: DHM8kifPQZSKZYZM2QSPpA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,254,1736841600"; 
+   d="scan'208";a="122479989"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2025 09:01:08 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tuCtk-00000003Lvv-0VD0;
+	Mon, 17 Mar 2025 18:01:04 +0200
+Date: Mon, 17 Mar 2025 18:01:03 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Matti Vaittinen <mazziesaccount@gmail.com>
+Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Jonathan Cameron <jic23@kernel.org>,
 	Lars-Peter Clausen <lars@metafoo.de>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -82,74 +71,38 @@ Cc: Jonathan Cameron <jic23@kernel.org>,
 	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: [PATCH v8 07/10] MAINTAINERS: Add IIO ADC helpers
-Message-ID: <a94e347b7a1dde5329bd20a34f2be99c598bf5f5.1742225817.git.mazziesaccount@gmail.com>
+Subject: Re: [PATCH v8 03/10] iio: adc: add helpers for parsing ADC nodes
+Message-ID: <Z9hHP3vdCm0WFoyH@smile.fi.intel.com>
 References: <cover.1742225817.git.mazziesaccount@gmail.com>
+ <e556f152a9cff2ff61e7b7a4b42feffb400cb1f9.1742225817.git.mazziesaccount@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="jMWN2jjOy9xOrAbO"
-Content-Disposition: inline
-In-Reply-To: <cover.1742225817.git.mazziesaccount@gmail.com>
-
-
---jMWN2jjOy9xOrAbO
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <e556f152a9cff2ff61e7b7a4b42feffb400cb1f9.1742225817.git.mazziesaccount@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Add undersigned as a maintainer for the IIO ADC helpers.
+On Mon, Mar 17, 2025 at 05:50:49PM +0200, Matti Vaittinen wrote:
+> There are ADC ICs which may have some of the AIN pins usable for other
+> functions. These ICs may have some of the AIN pins wired so that they
+> should not be used for ADC.
+> 
+> (Preferred?) way for marking pins which can be used as ADC inputs is to
+> add corresponding channels@N nodes in the device tree as described in
+> the ADC binding yaml.
+> 
+> Add couple of helper functions which can be used to retrieve the channel
+> information from the device node.
 
-Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
----
-Revision history:
-v2 =3D>
- - No changes
-RFC v1 =3D> v2:
- - New patch
----
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
+LGTM now, thanks!
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8e0736dc2ee0..5b96fb864227 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11208,6 +11208,13 @@ L:	linux-media@vger.kernel.org
- S:	Maintained
- F:	drivers/media/rc/iguanair.c
-=20
-+IIO ADC HELPERS
-+M:	Matti Vaittinen <mazziesaccount@gmail.com>
-+L:	linux-iio@vger.kernel.org
-+S:	Maintained
-+F:	drivers/iio/adc/industrialio-adc.c
-+F:	include/linux/iio/adc-helpers.h
-+
- IIO BACKEND FRAMEWORK
- M:	Nuno Sa <nuno.sa@analog.com>
- R:	Olivier Moysan <olivier.moysan@foss.st.com>
---=20
-2.48.1
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
---jMWN2jjOy9xOrAbO
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmfYRQoACgkQeFA3/03a
-ocXx1QgAlMDxwtisjRwLvP8KziloblMOlFslOnZ48Q2HXhA3yRy/A2Xx0ls1xQJp
-ChvCUhSiCnQbRqhx8R/4teE4qVQVNynkfbQ2Nv6S9/dc6O4SK7fPqRC0CKk8veFz
-bcVWJjuVASjtXvT1uzWgPJIgnDrLeURUNeLuWDEpI5QOcc2P9eiyNOM6gi4GJRNO
-v24yX4+JJ9+zC1x7o+er+8PvhFMfqNFQB8ne6YGKs8BobomFtN0OSNEaJB+9LUbr
-VopSHM181zpElcvGxK9KpROKKQYANHZTf5jMq43PS+rsiifxT3YjneZ2KmRO2OJ6
-RXM+hI/GkXu3MN8wUvzZ898RghADng==
-=dZAB
------END PGP SIGNATURE-----
-
---jMWN2jjOy9xOrAbO--
