@@ -1,106 +1,151 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0AC2E3373
-	for <linux-sunxi@lists.linux.dev>; Mon, 17 Mar 2025 06:01:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CE3A1C6FF3
+	for <linux-sunxi@lists.linux.dev>; Mon, 17 Mar 2025 07:11:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742191275; cv=none; b=Ym8FWKOFXE7aklhluGaANUfbTyKW2u8x7e7JX6lE0CkkieTKZpfrPRSBXiWIl1GJ2Q2rT+BtZzDnoSB+EcocleAWY4wKTiKvG7Zajy8N2ZwHqHV1dlgDaoHZz4YzwPg8pmAqUSjl70XOoqzOTx5hPfunGZ0u5N7R6Wm//sN3w8s=
+	t=1742195475; cv=none; b=VToHkiDW+XGskuikpcdrE65GsQQBoYocdpdA6Fp6df+Vh559j5HIt9/hlLmxkWJBT2XRDn5XuYq2lsNcW9NXxTLNI+EOpTzyRzrGBvml8BjCTzYrHRfHlU3TNJ/4jguBpMMrxNSsD0KT1F0XNSIN6X0nfGqlnXGbpSh49PQAvW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742191275; c=relaxed/simple;
-	bh=sYhKHIY1kH/Sv85aMyZfq/DmcwiJ9qI1WjhsBbWJhMg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hh7Bci4R798+pwhXvPPaBfpLi0Qk1WwBKG/Qh7mguJNi+vAispFV1ZYEw/aDmD808VemHL938M9adwAe75IsPZ0nFMF2f7N70gUNkKgzgUVJjst2TVYttRUHnquQefjJxFMvXNJxMhZ72itxYZVu5xdWn4L2RkeVRUkHZBNlVAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sbS0Ohez; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1742195475; c=relaxed/simple;
+	bh=bxC9ANzFX9uX0dn0RdpNnhuv0Rw4vLPvZggRh2iBFK0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ysuxt37fM38zTdbnCOzhu/BBVUcLCZEwRoKEFeOYupf6fbGrF9rTzkMH8GsXUO7yp9lRmvyJUo/4bLerVyBt6rg9CbtBrIx5WAHFVHjUY1FJLq1/3FQLmLxS6YDw97YjodlY4yqCnHCJQux5LmpWhA7PagN1ak0yz99j1ErjXUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b09un03i; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sbS0Ohez"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-225e3002dffso33364065ad.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 16 Mar 2025 23:01:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b09un03i"
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-54957f0c657so4198148e87.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 17 Mar 2025 00:11:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1742191273; x=1742796073; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/t696LxEbizTgZEO/Thjd7sK7TQiRojJYmJJpO8fsxc=;
-        b=sbS0OhezBkaxhz65y7tyVisWQqJuVoe8zMv0ss8vy+VVBTuQd/mul+/sxVU24cjJdJ
-         VePEeIon+Thcv/rDJG4lb1dl4KHvDWUfvd4dfUi3Ag7/lQzEa8I7LCwZnxQaJQcz+BG6
-         PLQyl8BqG+V3WfoMfzr3JJfL3Qn8LtJnpsfJOW8PAGKLcd60RBFkdgzCUp9q5LOfZxqd
-         TG7Sck1pNmf9JNEZcnpsp0QZ5NR9LM+oCY9H2/tlDkCQUOGraPNeChKp2Mhfg89C5Vlw
-         ogES9lZIMurHVIElG6U7mHA0ySlPhLL080KjwK91sfq+ndW9AhMr2KrgWqPYzJ3qP7LW
-         oZUQ==
+        d=gmail.com; s=20230601; t=1742195471; x=1742800271; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HalaitR3wNqHBLiZ26kGsVTmgpsmEjHSTSSRfu+eT1s=;
+        b=b09un03i4+2/lXU/5NhkBsCd+fiEKByxJKt5c1hIzN/rN6Hx/v2MAtOtHEGHO6/KbY
+         mcdmGznPBBntWD9OfWVeyyqN+wY+Rxe//0OpmQwuQQ/ApHHJugak81wl0y0sJOxe6QdT
+         EOOBlP9o8E3PFiGcK6/wxWB8CTvywz1On2RaFBGCQ2y4dJDMC+/BKISe2wY3oAqpziwi
+         kT5YXtudoEEqpKo3hvZFU/BOOiS8/hOGN09WoaNjEVndbM2zh2or/ZZ2QmP4oasH7WIb
+         66ZXw0pnPReEkQPKo0a3GbHc5nDBonby1e+aq5w5ErHG/WaqQ+QjFA5Kgi1qamYhFJat
+         fAWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742191273; x=1742796073;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/t696LxEbizTgZEO/Thjd7sK7TQiRojJYmJJpO8fsxc=;
-        b=HNzaEuO1vlPoESk2gJ1h0XGi5kUE2aXH8WdP1x2IV72v09+XPuvf7d4fJ2zes/5Tng
-         GnfSBR5fshx7If2pzXaHzuZRi/DjWMuyHiaxUuNWpp+w4rIkDgx/Rd34qdV78+kqD6Zg
-         yNuBLBHa9O74mfN91EqvpoRzuggZNOK4613iDM9rryEr8gyjW/X9N64o9ATMZ9f9YPoC
-         9MkO8sxkLQuj8HKCI7dV0DhZE958aIdiOdUatV4XpGRUfbymUbzU12ni5NVUatcqq0rU
-         t82Yr+uNk7+x+PCv/4WoP9Iktc2PtnyI2ONMaaQUeK5jlVEJpBCdF1GSEpoonCMhqKh+
-         w/6g==
-X-Forwarded-Encrypted: i=1; AJvYcCXzenFlVsfZLsQOLJz8GYWuuN0E69J6V+kUQ8qSDMcZULFnjsI2lbbUpX5jEdiCM0EIpIxTIdc0iS3wXg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwGkbN3DFl9xxAtCX0Ro2Htoo7ST/rmlD/b1/bxuW8Xa8fyulxH
-	Aklyffl8vSJDnXwAfEttlEZAUGwhiRv2eM4JuAurxSgDi9qAV/Xd3jqFe/9ROxs=
-X-Gm-Gg: ASbGnctVO66r+EUuP9ktLjlc5L+hk6JDone9YUYdi6ztoeVNFzz52Kljhtw+Bd3hrzl
-	Rdfnt6EO+65MZgfh4pMDvP2gCsxGWnf4+/gs9WyiqBTox3+p0wMiTa6WfK9Q48dGFQYMD9QeC3r
-	MWPrmJu6n7+i0fjElkVqdbNZsj1I/WbUmvQ+ce6AnOj+6u65Ju5BNo3TiV6qm+aNdRICdsGa99o
-	mgKfDCUGmaI/du1ek3+yVuARQnXx044LkRIBVB7tBXZz0KFDuwsPoAPehs+QqpUJiBl3Q7YjqxP
-	BTRGyD+RScrLFatewaDz7FZ3w28l/VFQCjWrz9A8eupH2A==
-X-Google-Smtp-Source: AGHT+IGZgTvwmbnlN60aL/w128MQKSBVf0ulmLghu2RqTVsFN9YIVHdgYTn08PK0fXwGZKBluWTVCg==
-X-Received: by 2002:a17:902:e74c:b0:223:3bf6:7e6a with SMTP id d9443c01a7336-225e0a40bb3mr160011395ad.12.1742191273540;
-        Sun, 16 Mar 2025 23:01:13 -0700 (PDT)
-Received: from localhost ([122.172.84.15])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c6bbeb94sm66648165ad.199.2025.03.16.23.01.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Mar 2025 23:01:12 -0700 (PDT)
-Date: Mon, 17 Mar 2025 11:31:10 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Jacky Bai <ping.bai@nxp.com>
-Cc: rafael@kernel.org, sudeep.holla@arm.com, ilia.lin@kernel.org,
-	tiny.windzz@gmail.com, wens@csie.org, jernej.skrabec@gmail.com,
-	samuel@sholland.org, matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com, linux-pm@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-mediatek@lists.infradead.org,
-	imx@lists.linux.dev
-Subject: Re: [PATCH v3] cpufreq: Init cpufreq only for present CPUs
-Message-ID: <20250317060110.tvjat7ugmaceayyk@vireshk-i7>
-References: <20250313013928.529926-1-ping.bai@nxp.com>
+        d=1e100.net; s=20230601; t=1742195471; x=1742800271;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HalaitR3wNqHBLiZ26kGsVTmgpsmEjHSTSSRfu+eT1s=;
+        b=R8GsCuxQ6NwpTaynPYj4rzbHUKoeFZBid8lgLUZme3bMEbzYdpQ+app/t08+npPTGI
+         JzesPTs/I8yPJz5DAEkzgzZKmuCw1MHSKW2Mi8xdBTCZvGMARRRt+IjtGJZ4yBJ0PCcj
+         AhKzsnllPkqTnsU5/TnFsufp7Nq4Ag7c+h+vZo0UWsroqpn1QjXSfvZpK48jUCdp0z9C
+         dK65mshh5k7T6Jg3+2ea8Gzib0U1Zgjsk5OMbn7GTxQgfOGq1fFxVqeVV23Vmb9NVhYG
+         /3/brZmIjkZ00Tr4TiRPPuFW0SyiQUMYGe0pzWyfU6y7F5RvUXZI6m2oV/f5AjAGYEaI
+         0pCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV5rlAk4RlcXAHiIzrW7gt7SZix7lpJMFAOEDR6pcWHVj7EYtfixlcfPcAy8wkxBCWJzXOaAjo254SdlA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YylJqOd4PqKp3bK9JwWcaK+GO17H7Vdoj/cj2+khz6RemXfTaeX
+	lzlOZeDV3BCeaUzPZ++68GeS2uUW6tJdFy1Z7qLd8cTxv/Z+OKmW
+X-Gm-Gg: ASbGncsnbZJVKtC/gvdMl7qNZXJG1tI5Gnfzf4XEJiS6uqUoJmWfO80JfEMHMVFatZx
+	CjXWDp9sBI1pWCCvtx9+I8RQ4MF2J1S5lY6yzIfwvAZIgALs0bYLLFsQ6FM8wW5xgvg8LELqAd+
+	Cuk397hOLbhexBtgnk9vDxIM1l0gzj7oaifV2IZDDsEpad25nkzP5KgJPYPOrim57ZI5WqqxldX
+	w80Vvbx3XMOt+Cs9Pp8S5MGewbcSxxdKZApRZLCTTCx+v+Xi2+e/pChfDDpmkfF4/JmI6IbM/R2
+	OLIkOX+4tX52v+19R3MI40c1JtbDgOL+6zsvWIJWeBeXoFHGVgPhh8et2dnLIXLif+5Zb3BUh7F
+	i4EP3hmziPm9MwhiUCM5ggCfpsA==
+X-Google-Smtp-Source: AGHT+IGYn0VINpzgzh6MdKG0thylUkI/oz83FeKBKYjY8VACZiA9L37BUf8dAo+M8/olFMTjah+v2A==
+X-Received: by 2002:a05:6512:118a:b0:549:8f14:a839 with SMTP id 2adb3069b0e04-549c3f23817mr5553692e87.11.1742195471393;
+        Mon, 17 Mar 2025 00:11:11 -0700 (PDT)
+Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-549ba8a761asm1220851e87.229.2025.03.17.00.11.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Mar 2025 00:11:09 -0700 (PDT)
+Message-ID: <50b126c5-248e-4694-9782-4f28d6db5fce@gmail.com>
+Date: Mon, 17 Mar 2025 09:11:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250313013928.529926-1-ping.bai@nxp.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 05/10] iio: adc: sun20i-gpadc: Use adc-helpers
+To: Jonathan Cameron <jic23@kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+ Lars-Peter Clausen <lars@metafoo.de>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Nuno Sa <nuno.sa@analog.com>,
+ David Lechner <dlechner@baylibre.com>,
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+ Olivier Moysan <olivier.moysan@foss.st.com>,
+ Guillaume Stols <gstols@baylibre.com>,
+ Dumitru Ceclan <mitrutzceclan@gmail.com>,
+ Trevor Gamblin <tgamblin@baylibre.com>,
+ Matteo Martelli <matteomartelli3@gmail.com>,
+ Alisa-Dariana Roman <alisadariana@gmail.com>, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <cover.1741849323.git.mazziesaccount@gmail.com>
+ <df0b2b53affbef5ccb7219328cc15db3ba843737.1741849323.git.mazziesaccount@gmail.com>
+ <Z9LQ0O34EUM8WZku@smile.fi.intel.com> <20250316094112.6731bd01@jic23-huawei>
+Content-Language: en-US, en-AU, en-GB, en-BW
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+In-Reply-To: <20250316094112.6731bd01@jic23-huawei>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 13-03-25, 09:39, Jacky Bai wrote:
-> for_each_possible_cpu() is currently used to initialize cpufreq.
-> However, in cpu_dev_register_generic(), for_each_present_cpu()
-> is used to register CPU devices which means the CPU devices are
-> only registered for present CPUs and not all possible CPUs.
+On 16/03/2025 11:41, Jonathan Cameron wrote:
+> On Thu, 13 Mar 2025 14:34:24 +0200
+> Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
 > 
-> With nosmp or maxcpus=0, only the boot CPU is present, lead
-> to the cpufreq probe failure or defer probe due to no cpu device
-> available for not present CPUs.
+>> On Thu, Mar 13, 2025 at 09:18:49AM +0200, Matti Vaittinen wrote:
+>>> The new devm_iio_adc_device_alloc_chaninfo_se() -helper is intended to
+>>> help drivers avoid open-coding the for_each_node -loop for getting the
+>>> channel IDs. The helper provides standard way to detect the ADC channel
+>>> nodes (by the node name), and a standard way to convert the "reg"
+>>> -properties to channel identification numbers, used in the struct
+>>> iio_chan_spec. Furthermore, the helper can optionally check the found
+>>> channel IDs are smaller than given maximum. This is useful for callers
+>>> which later use the IDs for example for indexing a channel data array.
+>>>
+>>> The original driver treated all found child nodes as channel nodes. The
+>>> new helper requires channel nodes to be named channel[@N]. This should
+>>> help avoid problems with devices which may contain also other but ADC
+>>> child nodes. Quick grep from arch/* with the sun20i-gpadc's compatible
+>>> string didn't reveal any in-tree .dts with channel nodes named
+>>> otherwise. Also, same grep shows all the in-tree .dts seem to have
+>>> channel IDs between 0..num of channels.
+>>>
+>>> Use the new helper.
+>>
+>> ...
+>>
+>>> +	num_channels = devm_iio_adc_device_alloc_chaninfo_se(dev,
+>>> +				&sun20i_gpadc_chan_template, -1, &channels);
+>>> +	if (num_channels < 0)
+>>> +		return num_channels;
+>>> +
+>>>   	if (num_channels == 0)
+>>>   		return dev_err_probe(dev, -ENODEV, "no channel children\n");
+>>
+>> Note, this what I would expected in your helper to see, i.e. separated cases
+>> for < 0 (error code) and == 0, no channels.
+>>
+>> Also, are all users going to have this check? Usually in other similar APIs
+>> we return -ENOENT. And user won't need to have an additional check in case of
+>> 0 being considered as an error case too.
+> In a few cases we'll need to do the dance the other way in the caller.
+> So specifically check for -ENOENT and not treat it as an error.
 > 
-> Change for_each_possible_cpu() to for_each_present_cpu() in the
-> above cpufreq drivers to ensure it only registers cpufreq for
-> CPUs that are actually present.
+> That stems from channel nodes being optionally added to drivers after
+> they have been around a while (usually to add more specific configuration)
+> and needing to maintain old behaviour of presenting all channels with default
+> settings.
 > 
-> Fixes: b0c69e1214bc ("drivers: base: Use present CPUs in GENERIC_CPU_DEVICES")
-> Reviewed-by: Sudeep Holla <sudeep.holla@arm.com>
-> Signed-off-by: Jacky Bai <ping.bai@nxp.com>
-> ---
->  - v3 changes:
->   - refine the changlog to drop the changed driver list.
+> I agree that returning -ENOENT is a reasonable way to handle this.
 
-Applied. Thanks.
+I agree - but I'm going to use -ENODEV instead of -ENOENT because that's 
+what the current callers return if they find no channels. That way the 
+drivers can return the value directly without converting -ENOENT to -ENODEV.
 
--- 
-viresh
+Yours,
+	-- Matti
