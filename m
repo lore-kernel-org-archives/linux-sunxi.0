@@ -1,139 +1,162 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D82BD528
-	for <linux-sunxi@lists.linux.dev>; Tue, 18 Mar 2025 00:40:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E47432080EE
+	for <linux-sunxi@lists.linux.dev>; Tue, 18 Mar 2025 10:46:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742258405; cv=none; b=a9EYwRTCrmsO708ZppXTtY9qRTMVgpD8+6KN/wttdAga6tfxQGvDkk/NP/IN1En3sTlcdObv0NWGOGNgYC2zzJVscyTnvIjVelKz4zQgbll4j892HAKEFYNQpFrKeFPAaPh1T7Bm20ZrfunNpv7bSHJR2HgCyHBDrlskXc7s89M=
+	t=1742294791; cv=none; b=r2s7xNHICo3Q9qsyWuS866XralE+0gJyzr+EtwTlxIUZWOsJnMTu0K5/cumQGtL+tRsPNPRf026e00cjtn1236Nnz1XER1tGCjNkeSbQrbaEX0Jz5ICTDhlwRFydJNMT3420E/i9IGg1zbiewL/IHMPsVMN1w+IQX1mCYXMZHmc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742258405; c=relaxed/simple;
-	bh=DgIpM0PN6zcJ2XidFzj5i1AWXVIiIVderTlTjiuzn1E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tn8DgZh4gK4rgco9B6vTIXqESdxqEzw20LqUrbnXTeTU2bby7jrD4tC1hiUClhlWvTtLbZkxCUZeGq4HcWeYbF9/DQ7BUynAnyKlL4wK64jSbFr7yO9VC67QNE38QHn7DyGq1I8z/C4y1vJIBmc5MxdjMJ86r+OkGywGv1k/hPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 37C7F13D5;
-	Mon, 17 Mar 2025 17:40:10 -0700 (PDT)
-Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 78F6D3F63F;
-	Mon, 17 Mar 2025 17:40:00 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jaehoon Chung <jh80.chung@samsung.com>,
-	Tom Rini <trini@konsulko.com>
-Cc: u-boot@lists.denx.de,
-	linux-sunxi@lists.linux.dev,
+	s=arc-20240116; t=1742294791; c=relaxed/simple;
+	bh=BH/02l/7jfK62esHmL2nQqidEObr1IPIfhlBILiTzRU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=asqMa1JobQNettePzTQHO5OqgDBkxpOILxPUtK4pLCGfUnvaB4RPFmigAiJSCsxH4t1/vAmEAtwN98oqo4lhuyaGFXSS9OTHvQODl+425nVCCw/HX9ykSQpDSCjuo3zWS32tH9OaybEVj6/FKEblyeY4RBc1d/5giNc/tUTV+J4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MXe/Cxhg; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MXe/Cxhg"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-438d9c391fcso44755e9.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 18 Mar 2025 03:46:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1742294784; x=1742899584; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/+Q9jlO5xuM+dGNN5vOy/zKLThOd0aux5Q2kg9METOQ=;
+        b=MXe/CxhgR4YPfXnkNhk2z1cK8G0CgjsERaz3ggQJR5D2FaqIqvXWsvhlq7E/6DNwvA
+         2+ZxFFk8DQ5cHnp+wakfRu6aYQ872X0ek9Z5uNkyTUwnlKuaTM+4nIugNOw0f4u0B81/
+         iq4JIFDWZM0sx6kE4pIcVmmXuyOUcPIiIgtfCAsw7AxD7SYST9J681V6497UfSJj4BIa
+         24Xz91uTgLT+AlyNTYqWYFQgap9ggxyie0F+8lesgl99E3OTpbSnszc4Xl+vv+2UyqY/
+         qpZxRd4qJJv1kTZ2XZ4P4Gs8GOorU5QrO8pWVbJsNcTYABRcrTWHSm0bP2uGcN/A7rom
+         MC2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742294784; x=1742899584;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/+Q9jlO5xuM+dGNN5vOy/zKLThOd0aux5Q2kg9METOQ=;
+        b=wUpFfXYgjj03Uj9+bcA1lpCAd/AHfAMvu32G/PUe/brZ4hq6XcMaL2pHchQqIC1AXM
+         yTce3LX34aciN6QsPnpJe8qg/mxtAH+MeWhOy5XkeKGgcSfB1J7VoEFnQh4rxmFlG+mW
+         8qpR2xNILgvdLFNQ5gIEEEjk04V0BB43Vq0YVMq7fUejZsD8gQYhGCeyNQwTWZG6U7ui
+         lEP/mhAl0SsRgoByCpIFtBEUWlvSt1+Y3WACNeskBINvZrtwNQYoGcXDhHVAeOG8aalG
+         dry8Ot2dZTSbZ2gGlJs7bZAmBCLqUNM+MQX8yne3mQQ8YoMDzDlsNK/HOROIEhsjyGR9
+         oNFw==
+X-Forwarded-Encrypted: i=1; AJvYcCXv15kmjdDyQLEalLwoAKvyGBSy6z19Uf7pZQuWZQPrgOb5MnXwOsJY6Oy2bg0qBg2bR6Z+vd1xnwW5mw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyUZ2GHKiU+7c7X7bqJqxyd9+4MuyGOURpe89Ec4q4XTM1mto4r
+	k3Ut15GFX2Vq8glZ/3DaRnc/slYTRq1wi7UvSXaAS3YdCRL+bPE0fDvxbqaX6Q==
+X-Gm-Gg: ASbGnct917ovGRtdqjJmScNGjLntfdPlzg0KWVitQ3TgOyANR9WbQsecEPWTdRQyWRN
+	MK0lp2IdeaWsaa37Tp1A1cweMj7OdO0pRA1G3CQ+qsn130mjGkY6qKmePCV+QhI/cHaF8OFnh1n
+	Aibx9oJ2qbe+QBweGwvK5dMWh3fREpxVe7pKGIsRMJZ0j3t47dVJmOJytcyo/At2aEfH3Nk2k8O
+	WH3/QLr+AH0iCpg8/OWN0O64ykXufSGftX8RHE7xyXe7+FVYPRJlJzPMRn+Kldks/dZkz90KUZf
+	LMh2B1/2JMPUMIo/gAPDz2M48MAosVM3YwOwxa9D/lcaf4xAVzUPQzzlZy4M5lajtTMP95odGz0
+	OoZIg
+X-Google-Smtp-Source: AGHT+IHJJJKc86lCeSfkPHpB/CtXXs0Prp3Nz9+7FXSfTlHmKZ30/6jEnzkR0iwoq3j3jwsYbn5hfA==
+X-Received: by 2002:a05:600c:1d20:b0:439:4a76:c246 with SMTP id 5b1f17b1804b1-43d3e14f871mr474575e9.6.1742294783884;
+        Tue, 18 Mar 2025 03:46:23 -0700 (PDT)
+Received: from google.com (88.140.78.34.bc.googleusercontent.com. [34.78.140.88])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d1ffbcf00sm129988595e9.10.2025.03.18.03.46.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Mar 2025 03:46:23 -0700 (PDT)
+Date: Tue, 18 Mar 2025 10:46:18 +0000
+From: Mostafa Saleh <smostafa@google.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Alim Akhtar <alim.akhtar@samsung.com>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Simon Glass <sjg@chromium.org>
-Subject: [PATCH] sunxi: pmic_bus: Move SPL I2C addresses into Kconfig
-Date: Tue, 18 Mar 2025 00:39:43 +0000
-Message-ID: <20250318003943.6714-1-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.46.3
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Hector Martin <marcan@marcan.st>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Sven Peter <sven@svenpeter.dev>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Tomasz Jeznach <tjeznach@rivosinc.com>,
+	Krishna Reddy <vdumpa@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
+	Will Deacon <will@kernel.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
+	Joerg Roedel <jroedel@suse.de>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
+	David Rientjes <rientjes@google.com>,
+	Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v3 20/23] iommu: Update various drivers to pass in lg2sz
+ instead of order to iommu pages
+Message-ID: <Z9lO-viudk9YGakl@google.com>
+References: <0-v3-e797f4dc6918+93057-iommu_pages_jgg@nvidia.com>
+ <20-v3-e797f4dc6918+93057-iommu_pages_jgg@nvidia.com>
+ <Z9GFFBvUFg7a9WEg@google.com>
+ <20250317133500.GC9311@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250317133500.GC9311@nvidia.com>
 
-Some of the X-Power AXP PMICs can be ordered with an alternative I2C
-address, for instance an AXP717 could be shipped with address 0x34 or
-with address 0x35. Similarly the AXP803 lists two possible addresses.
-For DM (DT) based drivers this is no problem, but the Allwinner SPL
-code relies on exactly one hardcoded address per PMIC so far.
+On Mon, Mar 17, 2025 at 10:35:00AM -0300, Jason Gunthorpe wrote:
+> On Wed, Mar 12, 2025 at 12:59:00PM +0000, Mostafa Saleh wrote:
+> > > --- a/drivers/iommu/io-pgtable-arm.c
+> > > +++ b/drivers/iommu/io-pgtable-arm.c
+> > > @@ -263,14 +263,13 @@ static void *__arm_lpae_alloc_pages(size_t size, gfp_t gfp,
+> > >  				    void *cookie)
+> > >  {
+> > >  	struct device *dev = cfg->iommu_dev;
+> > > -	int order = get_order(size);
+> > >  	dma_addr_t dma;
+> > >  	void *pages;
+> > >  
+> > >  	if (cfg->alloc)
+> > >  		pages = cfg->alloc(cookie, size, gfp);
+> > >  	else
+> > > -		pages = iommu_alloc_pages_node(dev_to_node(dev), gfp, order);
+> > > +		pages = iommu_alloc_pages_node_sz(dev_to_node(dev), gfp, size);
+> > 
+> > Although, the current implementation of iommu_alloc_pages_node_sz() would round
+> > the size to order, but this is not correct according to the API definition
+> > "The returned allocation is round_up_pow_two(size) big, and is physically aligned
+> > to its size."
+> 
+> Yes.. The current implementation is limited to full PAGE_SIZE only,
+> the documentation imagines a future where it is not. Drivers should
+> ideally not assume the PAGE_SIZE limit during this conversion.
+> 
+> > I'd say we can align the size or use min with 64 bytes before calling the
+> > function would be enough (or change the API to state that allocations
+> > are rounded to order)
+> 
+> OK, like this:
+> 
+> 	if (cfg->alloc) {
+> 		pages = cfg->alloc(cookie, size, gfp);
+> 	} else {
+> 		/*
+> 		 * For very small starting-level translation tables the HW
+> 		 * requires a minimum alignment of at least 64 to cover all
+> 		 * cases.
+> 		 */
+> 		pages = iommu_alloc_pages_node_sz(dev_to_node(dev), gfp,
+> 						  max(size, 64));
+> 	}
 
-Add a Kconfig variable that holds the I2C address used by the PMIC
-accessed in the SPL, and provide the (mostly only one) supported address
-as its default, for the PMICs we use. Boards using the other address
-can easily set this in their defconfig.
-This effectively moves the hardcoding from C code to Kconfig.
+Yes, that looks good.
 
-That enables to use the AXP717 on some boards with the new Allwinner
-A523 chip, which use the other I2C address there.
+Thanks,
+Mostafa
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- arch/arm/mach-sunxi/pmic_bus.c | 27 ++-------------------------
- drivers/power/Kconfig          | 10 ++++++++++
- 2 files changed, 12 insertions(+), 25 deletions(-)
-
-diff --git a/arch/arm/mach-sunxi/pmic_bus.c b/arch/arm/mach-sunxi/pmic_bus.c
-index 8e19324c8ac..c77dc538456 100644
---- a/arch/arm/mach-sunxi/pmic_bus.c
-+++ b/arch/arm/mach-sunxi/pmic_bus.c
-@@ -16,33 +16,10 @@
- #include <power/pmic.h>
- #include <asm/arch/pmic_bus.h>
- 
--#define AXP152_I2C_ADDR			0x30
--
--#define AXP209_I2C_ADDR			0x34
--#define AXP717_I2C_ADDR			0x34
--
--#define AXP305_I2C_ADDR			0x36
--#define AXP313_I2C_ADDR			0x36
--
- #define AXP221_CHIP_ADDR		0x68
- 
- #if CONFIG_IS_ENABLED(PMIC_AXP)
- static struct udevice *pmic;
--#else
--static int pmic_i2c_address(void)
--{
--	if (IS_ENABLED(CONFIG_AXP152_POWER))
--		return AXP152_I2C_ADDR;
--	if (IS_ENABLED(CONFIG_AXP305_POWER))
--		return AXP305_I2C_ADDR;
--	if (IS_ENABLED(CONFIG_AXP313_POWER))
--		return AXP313_I2C_ADDR;
--	if (IS_ENABLED(CONFIG_AXP717_POWER))
--		return AXP717_I2C_ADDR;
--
--	/* Other AXP2xx and AXP8xx variants */
--	return AXP209_I2C_ADDR;
--}
- #endif
- 
- int pmic_bus_init(void)
-@@ -88,7 +65,7 @@ int pmic_bus_read(u8 reg, u8 *data)
- 	if (IS_ENABLED(CONFIG_SYS_I2C_SUN8I_RSB))
- 		return rsb_read(AXP_PMIC_PRI_RUNTIME_ADDR, reg, data);
- 
--	return i2c_read(pmic_i2c_address(), reg, 1, data, 1);
-+	return i2c_read(CONFIG_AXP_I2C_ADDRESS, reg, 1, data, 1);
- #endif
- }
- 
-@@ -102,7 +79,7 @@ int pmic_bus_write(u8 reg, u8 data)
- 	if (IS_ENABLED(CONFIG_SYS_I2C_SUN8I_RSB))
- 		return rsb_write(AXP_PMIC_PRI_RUNTIME_ADDR, reg, data);
- 
--	return i2c_write(pmic_i2c_address(), reg, 1, &data, 1);
-+	return i2c_write(CONFIG_AXP_I2C_ADDRESS, reg, 1, &data, 1);
- #endif
- }
- 
-diff --git a/drivers/power/Kconfig b/drivers/power/Kconfig
-index 5c73bc75a15..eed65058e66 100644
---- a/drivers/power/Kconfig
-+++ b/drivers/power/Kconfig
-@@ -148,6 +148,16 @@ config SY8106A_POWER
- 
- endchoice
- 
-+config AXP_I2C_ADDRESS
-+	hex "AXP PMIC I2C address"
-+	depends on ARCH_SUNXI && !SUNXI_NO_PMIC
-+	default 0x36 if AXP305_POWER
-+	default 0x36 if AXP313_POWER
-+	default 0x30 if AXP152_POWER
-+	default 0x34
-+	---help---
-+	I2C address of the AXP PMIC, used for the SPL only.
-+
- config AXP_DCDC1_VOLT
- 	int "axp pmic dcdc1 voltage"
- 	depends on AXP221_POWER || AXP809_POWER || AXP818_POWER || AXP803_POWER
--- 
-2.46.3
-
+> 
+> Thanks,
+> Jason
