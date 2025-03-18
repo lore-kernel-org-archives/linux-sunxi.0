@@ -1,109 +1,166 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62FAA194C86
-	for <linux-sunxi@lists.linux.dev>; Mon, 17 Mar 2025 16:05:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B71E97E9
+	for <linux-sunxi@lists.linux.dev>; Tue, 18 Mar 2025 00:34:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742227515; cv=none; b=Z9DkR5YooDUV+8iN91XlJj0xP8PBXZieoksjEjq7caOR8sGoegdfKAskyAskDZFLhQDJM1yHYWdkFxbuvxehko7bshxeVAdQLyb19D5fx5bZc9nJhE6lsYhvThSiGICVqbOV+RN8rpEbgTHJ0xRJNdCa0IceVAapMHdhPP4H6KU=
+	t=1742258078; cv=none; b=pCR2LFWhYk1n5mPBEmer9E9Zso8sNpuls9Tpiyz74+yWa25uIwN2NxvLFOzUIClVp2NOvfWV7JsaGNVAvIAzvEHsUXEfpBSrj1sXFu/GYmz749yLG9opJEkyyXc/Zc/A2PX0cRgjuRPsk6ToNthhaBKPACe9rXsw9ZF+ELcx1q8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742227515; c=relaxed/simple;
-	bh=gBan3RY0LoNCVgD61lrCi1GDyG/NWfQNDeRXn9WrIYQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l/A1Z0fA+EUvXzWA4AEuVEyyo3+BNl+pNQ+DuSSZ2ycVSgHBfqN54r3hcnJ9uCo/l13tSEtTYQTY51Xmny+3DsxSJ1WGNKD0CovwR89aw5gkXE4n8JDR7fIqx128XzExC2F/P0Npv3ykEuUUFOgLFxfLGzsp04p0bR//kve1RfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PmWlovo2; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PmWlovo2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742227514; x=1773763514;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gBan3RY0LoNCVgD61lrCi1GDyG/NWfQNDeRXn9WrIYQ=;
-  b=PmWlovo298OIlYvtAt9QLdLF/WUJgGdQ05IL6XvbpnxoJjKlpUhlzlhy
-   ESLSwHO0ITfC/q5vDPO41LQXdb9MnXG7SbVJ+IhXMhhWSPk8OCusTZ1qu
-   uy5y/LU6nb5g0t7NKcd/wQvvYd6mN3lGHV+5iV2AVEv5Uct2w5QM3Czw2
-   GdtdKzcrH9kzX3tmT3vntfDrTRl3b/oyWcb+G6MRWxgTnlW2tJLSt9vue
-   iTCjL19qtqCepzb9i0f2uJBB6XQQvqBA9DTHNXo8QOJce92pEMD92/Gvs
-   hxPmuy194CB1w44fMsiq5Bnh7f9HigRwYu9ba+Z73mkZJTk/djl2bDV+Q
-   g==;
-X-CSE-ConnectionGUID: CCCGkReDTXGBHf1ZH0NJCQ==
-X-CSE-MsgGUID: 7CBr3vvfRAW4V7dz8THKpQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11376"; a="43240986"
-X-IronPort-AV: E=Sophos;i="6.14,254,1736841600"; 
-   d="scan'208";a="43240986"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2025 09:03:13 -0700
-X-CSE-ConnectionGUID: CVPcKQ0jRjW7UNLmHtaUbQ==
-X-CSE-MsgGUID: mhtgn21rSZuwusaAqIQDYg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,254,1736841600"; 
-   d="scan'208";a="122470767"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2025 09:03:06 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tuCvd-00000003LyD-3atp;
-	Mon, 17 Mar 2025 18:03:01 +0200
-Date: Mon, 17 Mar 2025 18:03:01 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Matti Vaittinen <mazziesaccount@gmail.com>
-Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, Nuno Sa <nuno.sa@analog.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-	Olivier Moysan <olivier.moysan@foss.st.com>,
-	Guillaume Stols <gstols@baylibre.com>,
-	Dumitru Ceclan <mitrutzceclan@gmail.com>,
-	Trevor Gamblin <tgamblin@baylibre.com>,
-	Matteo Martelli <matteomartelli3@gmail.com>,
-	Alisa-Dariana Roman <alisadariana@gmail.com>,
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v8 05/10] iio: adc: sun20i-gpadc: Use adc-helpers
-Message-ID: <Z9hHtTzUQ4CE8AB_@smile.fi.intel.com>
-References: <cover.1742225817.git.mazziesaccount@gmail.com>
- <78d33ea9a795abdb2c5a4c606d48593e827ca59e.1742225817.git.mazziesaccount@gmail.com>
+	s=arc-20240116; t=1742258078; c=relaxed/simple;
+	bh=biqnJCjj8mhppXfAw2NFfyoiXyJ1r7GKXQXYVsvLK9k=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Jm3O7aNq5nnFv719dhzWdUrnQ4RIGm7onED50F3m7SYkd1R8i3dT0XaKj1T9qZIMJBu8M7CxtqHybHuAmmi37t3tIH1mZVTzeFcN2Ijm3V3eFmJJ6KsNeUuDcLFO+FQsZzikKNcXQfGPO7si9gGcZ5ZoUM9bUavCiA6MZP2Y4H4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 354A413D5;
+	Mon, 17 Mar 2025 17:34:38 -0700 (PDT)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 26E8A3F63F;
+	Mon, 17 Mar 2025 17:34:28 -0700 (PDT)
+Date: Tue, 18 Mar 2025 00:34:08 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Simon Glass <sjg@chromium.org>
+Cc: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>,
+ u-boot@lists.denx.de, Lukasz Majewski <lukma@denx.de>, Sean Anderson
+ <seanga2@gmail.com>, Jaehoon Chung <jh80.chung@samsung.com>, Tom Rini
+ <trini@konsulko.com>, Cody Eksal <masterr3c0rd@epochal.quest>,
+ linux-sunxi@lists.linux.dev, Parthiban <parthiban@linumiz.com>
+Subject: Re: [PATCH 2/8] sunxi: pmic_bus: support alternative I2C address
+Message-ID: <20250318003408.4408c16c@minigeek.lan>
+In-Reply-To: <CAFLszTg95xH08bVt_LnVO=Gu+dEQh1+vNAszxQv5a6Rdt3u8WA@mail.gmail.com>
+References: <20250117014537.22513-1-andre.przywara@arm.com>
+	<2352334.ElGaqSPkdT@jernej-laptop>
+	<20250119222530.1fd97018@minigeek.lan>
+	<4622391.LvFx2qVVIh@jernej-laptop>
+	<CAFLszTjDq4E05Q_esYA2tAGOYdhgbRp3B38gAsF0hX44Nf-34A@mail.gmail.com>
+	<20250121000508.22db819a@minigeek.lan>
+	<CAFLszTg95xH08bVt_LnVO=Gu+dEQh1+vNAszxQv5a6Rdt3u8WA@mail.gmail.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <78d33ea9a795abdb2c5a4c606d48593e827ca59e.1742225817.git.mazziesaccount@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 17, 2025 at 05:51:14PM +0200, Matti Vaittinen wrote:
-> The new devm_iio_adc_device_alloc_chaninfo_se() -helper is intended to
-> help drivers avoid open-coding the for_each_node -loop for getting the
-> channel IDs. The helper provides standard way to detect the ADC channel
-> nodes (by the node name), and a standard way to convert the "reg"
-> -properties to channel identification numbers, used in the struct
-> iio_chan_spec. Furthermore, the helper can optionally check the found
-> channel IDs are smaller than given maximum. This is useful for callers
-> which later use the IDs for example for indexing a channel data array.
-> 
-> The original driver treated all found child nodes as channel nodes. The
-> new helper requires channel nodes to be named channel[@N]. This should
-> help avoid problems with devices which may contain also other but ADC
-> child nodes. Quick grep from arch/* with the sun20i-gpadc's compatible
-> string didn't reveal any in-tree .dts with channel nodes named
-> otherwise. Also, same grep shows all the in-tree .dts seem to have
-> channel IDs between 0..num of channels.
-> 
-> Use the new helper.
+On Thu, 23 Jan 2025 07:37:37 -0700
+Simon Glass <sjg@chromium.org> wrote:
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Hi Simon,
 
--- 
-With Best Regards,
-Andy Shevchenko
+thanks for chiming in, and sorry, just realised I never answered to
+that email ....
 
+> On Mon, 20 Jan 2025 at 17:06, Andre Przywara <andre.przywara@arm.com> wro=
+te:
+> >
+> > On Mon, 20 Jan 2025 12:21:28 -0700
+> > Simon Glass <sjg@chromium.org> wrote:
+> >
+> > Hi Simon,
+> > =20
+> > > On Mon, 20 Jan 2025 at 09:42, Jernej =C5=A0krabec <jernej.skrabec@gma=
+il.com> wrote: =20
+> > > >
+> > > > Dne nedelja, 19. januar 2025 ob 23:25:30 Srednjeevropski standardni=
+ =C4=8Das je Andre Przywara napisal(a): =20
+> > > > > On Sat, 18 Jan 2025 08:21:31 +0100
+> > > > > Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
+> > > > >
+> > > > > Hi Jernej,
+> > > > >
+> > > > > many thanks for the review and your opinion.
+> > > > > =20
+> > > > > > Dne petek, 17. januar 2025 ob 02:45:31 Srednjeevropski standard=
+ni =C4=8Das je Andre Przywara napisal(a): =20
+> > > > > > > Some of the X-Power AXP PMICs can be ordered with an alternat=
+ive I2C
+> > > > > > > address, for instance an AXP717 could be shipped with address=
+ 0x34 or
+> > > > > > > with address 0x35.
+> > > > > > > The datasheets for the AXP717 and AXP803 list two possible ad=
+dresses,
+> > > > > > > and they are always consecutive. For DM (DT) based drivers th=
+is is no
+> > > > > > > problem, but the Allwinner SPL code relies on a hardcoded add=
+ress.
+> > > > > > >
+> > > > > > > Add a Kconfig variable that will add "1" to the existing addr=
+ess if it
+> > > > > > > is set.
+> > > > > > > This enables to use the AXP717 as used on boards with the new=
+ Allwinner
+> > > > > > > A523 chip.
+> > > > > > >
+> > > > > > > Signed-off-by: Andre Przywara <andre.przywara@arm.com> =20
+> > > > > >
+> > > > > > This works until some board vendor start mixing one or another =
+address
+> > > > > > PMIC. Note that BSP boot0 does address autodetection, so it's n=
+ot entirely
+> > > > > > out of the question. Anyway, let's hope we don't see anything l=
+ike that. =20
+> > > > >
+> > > > > I looked at the datasheets for all supported PMICs, and they eith=
+er
+> > > > > state one or two supported addresses, in the latter case both
+> > > > > consecutive. Autodetection sounds nice, but also unnecessary: we =
+surely
+> > > > > know what address it is for a certain board? And with those A523 =
+boards
+> > > > > having two PMICs, autodetection might become sketchy, as we don't=
+ know
+> > > > > for sure which PMIC we got? =20
+> > > >
+> > > > Speaking for T527 BSP boot0 - they check version register to make s=
+ure that
+> > > > correct PMIC is installed.
+> > > > =20
+> > > > >
+> > > > > But that got me thinking: what about putting the I2C address in K=
+config
+> > > > > directly, with defaults depending on the PMIC type?
+> > > > >
+> > > > > config AXP_I2C_ADDR
+> > > > >       hex "AXP PMIC I2C address"
+> > > > >       depends on ARCH_SUNXI && !SUNXI_NO_PMIC
+> > > > >       default 0x36 if AXP305_POWER
+> > > > >       ....
+> > > > >
+> > > > > That's should work seamlessly for all supported PMICs, and we jus=
+t need
+> > > > > one line for the Avaota, same as with this patch here.
+> > > > >
+> > > > > What do you think? =20
+> > > >
+> > > > Yeah, looks more universal and avoids code changes in pmic_bus.c wh=
+en
+> > > > adding support for new AXP PMIC, which is very nice indeed. =20
+> > >
+> > > Shouldn't this be in the devicetree? =20
+> >
+> > It is, and the DM based I2C driver used in U-Boot proper does this
+> > properly, and works fine. But this here is for the SPL, where we don't
+> > have DT support. We need just minimal support to adjust the regulator
+> > for the DRAMs. So far there is one fixed address used by each PMIC, so
+> > this is simply hardcoded, based on which PMIC is selected. The patch I
+> > am now proposing (snippet above) just moves that hardcoding into
+> > Kconfig. =20
+>=20
+> I suppose you could use of-platdata?
 
+Theoretically, maybe, but from what I can see this would be a huge
+effort for very little gain. It's really about some odd board using a
+different address. I now made a new patch which selects the I2C address
+by default in Kconfig (it's just four lines there). Those special
+snowflake boards can then select the differing address in their
+defconfig. That's both flexible, simple and lean.
+
+Will send that patch in a minute.
+
+Cheers,
+Andre
