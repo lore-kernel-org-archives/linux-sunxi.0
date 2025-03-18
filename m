@@ -1,115 +1,100 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 911B2207667;
-	Tue, 18 Mar 2025 10:57:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BBA620468F;
+	Tue, 18 Mar 2025 14:59:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742295477; cv=none; b=YEu1wp3ht2FF54zRURLyas/w6pkanKZnST/D51RZ9GbI8aN99Aj8lpBrdLzrbQUX0l9NO9VaiiHS+cTQ7WosqyYJ7d4koIR7pAZ8BkrdFQZ6319qdXvOW8Rkn3k0I2CsjIWH08VIcoPG1wRJAp3p+1iwHwbSoAxhKdKPrYPSTjI=
+	t=1742309999; cv=none; b=QL9w8lNG6Ewr0J1Ng747Fs2iyJ9ggmhKzruAlwutG8AqQhHeydmHbTZWTcd++rOrhd8zBi2J8zE8d2MeHg8qOmS87aYfKCXcJe6TjFIhvgQ29J7SWEgS+KYBdeAB/qaFMEhE2mgtXACLtd6mVR9OcTtG5WzrwsATKl/PQduvy9k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742295477; c=relaxed/simple;
-	bh=ZWxPY0B7EGIVdFzO8GxKTzEp2DolBgnuCP4upl6RN8o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TUusz/jKN/9Ky0R53EVv8xba6JAbRisHvnZLk2K+6wlK7xGnCOkGcgxskklDLEjAf0InBDCHC7KRZWtkHemlZVIfguW3YudGYN3CtEWfMrJYlnTT9lKJ17LBRBjBMjQ/pz5ROAkk0sewg2yX+WuLN3p8mMU7cHxc8fGR3MY/9mo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4ADA713D5;
-	Tue, 18 Mar 2025 03:58:03 -0700 (PDT)
-Received: from [10.57.40.187] (unknown [10.57.40.187])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DC01D3F63F;
-	Tue, 18 Mar 2025 03:57:48 -0700 (PDT)
-Message-ID: <b956d9d0-d169-4deb-9b7e-cbec95363214@arm.com>
-Date: Tue, 18 Mar 2025 10:57:47 +0000
+	s=arc-20240116; t=1742309999; c=relaxed/simple;
+	bh=r0NrzcNDxEAo6t+Xoz4A+ZsjzVa5mHQEjDvSbM8+ItM=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=D4DmxnWlalXKhAQCcNgF3DdpZvZcTTJBxiLk7JlNNslFFhEMChaHZVvlMgNdpihKZuBRdg0pXBz4v7OhpEMsyyEwPGbPnr1719CsXH7vd4KXaMVifvzXKaqv2Ex3ctzaZAdybzMDF/9BeohHVQVPmldLS1vtbG7NiwGjOlBVN0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y7BIYDHM; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y7BIYDHM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8457EC4CEE3;
+	Tue, 18 Mar 2025 14:59:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742309998;
+	bh=r0NrzcNDxEAo6t+Xoz4A+ZsjzVa5mHQEjDvSbM8+ItM=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=Y7BIYDHM86vWww2amj46/mLjgIS9Pd+7uQlOXialHBqRDb8TRbN8eHCTUEXr44qjw
+	 aOIsxiBVjuJYca07fp8YJLOmvV2xbFRNjwOTK8w5dGpjOC458+667lzGFnKd2sgF/1
+	 MEqYnxpu7gk3iP8HTvN1PWsLX0tL2Uj55mHuE+F3f28JLUTnj9Z4g7dyNsZ3F+4/H6
+	 R50JhgxMv4KAL7casbv0AMtCC8Z+tM+JYOUVRCDLWi9HIqN1ZRbUBrCJxUCMly60Ol
+	 WGvhYD4LhyMINquvspNJGrgYwK7dKnt2Dl9H9NLPMMwWUBPcz/3jkWkeTnNeNlWhPd
+	 3mvxeqCe3WO5Q==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33FFB380DBE8;
+	Tue, 18 Mar 2025 15:00:35 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 20/23] iommu: Update various drivers to pass in lg2sz
- instead of order to iommu pages
-To: Mostafa Saleh <smostafa@google.com>, Jason Gunthorpe <jgg@nvidia.com>
-Cc: Alim Akhtar <alim.akhtar@samsung.com>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Albert Ou <aou@eecs.berkeley.edu>,
- asahi@lists.linux.dev, Lu Baolu <baolu.lu@linux.intel.com>,
- David Woodhouse <dwmw2@infradead.org>, Heiko Stuebner <heiko@sntech.de>,
- iommu@lists.linux.dev, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, linux-arm-kernel@lists.infradead.org,
- linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org, Marek Szyprowski <m.szyprowski@samsung.com>,
- Hector Martin <marcan@marcan.st>, Palmer Dabbelt <palmer@dabbelt.com>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Samuel Holland <samuel@sholland.org>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Sven Peter <sven@svenpeter.dev>, Thierry Reding <thierry.reding@gmail.com>,
- Tomasz Jeznach <tjeznach@rivosinc.com>, Krishna Reddy <vdumpa@nvidia.com>,
- Chen-Yu Tsai <wens@csie.org>, Will Deacon <will@kernel.org>,
- Bagas Sanjaya <bagasdotme@gmail.com>, Joerg Roedel <jroedel@suse.de>,
- Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
- David Rientjes <rientjes@google.com>, Matthew Wilcox <willy@infradead.org>
-References: <0-v3-e797f4dc6918+93057-iommu_pages_jgg@nvidia.com>
- <20-v3-e797f4dc6918+93057-iommu_pages_jgg@nvidia.com>
- <Z9GFFBvUFg7a9WEg@google.com> <20250317133500.GC9311@nvidia.com>
- <Z9lO-viudk9YGakl@google.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <Z9lO-viudk9YGakl@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v2 0/9] net: stmmac: remove unnecessary
+ of_get_phy_mode() calls
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <174231003400.344268.9977818669398853411.git-patchwork-notify@kernel.org>
+Date: Tue, 18 Mar 2025 15:00:34 +0000
+References: <Z9FQjQZb0IMaQJ9H@shell.armlinux.org.uk>
+In-Reply-To: <Z9FQjQZb0IMaQJ9H@shell.armlinux.org.uk>
+To: Russell King (Oracle) <linux@armlinux.org.uk>
+Cc: andrew@lunn.ch, hkallweit1@gmail.com, alexandre.torgue@foss.st.com,
+ andrew+netdev@lunn.ch, angelogioacchino.delregno@collabora.com,
+ wens@csie.org, davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ jernej.skrabec@gmail.com, jbrunet@baylibre.com, khilman@baylibre.com,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
+ martin.blumenstingl@googlemail.com, matthias.bgg@gmail.com,
+ mcoquelin.stm32@gmail.com, neil.armstrong@linaro.org, netdev@vger.kernel.org,
+ pabeni@redhat.com, samuel@sholland.org, vkoul@kernel.org
 
-On 2025-03-18 10:46 am, Mostafa Saleh wrote:
-> On Mon, Mar 17, 2025 at 10:35:00AM -0300, Jason Gunthorpe wrote:
->> On Wed, Mar 12, 2025 at 12:59:00PM +0000, Mostafa Saleh wrote:
->>>> --- a/drivers/iommu/io-pgtable-arm.c
->>>> +++ b/drivers/iommu/io-pgtable-arm.c
->>>> @@ -263,14 +263,13 @@ static void *__arm_lpae_alloc_pages(size_t size, gfp_t gfp,
->>>>   				    void *cookie)
->>>>   {
->>>>   	struct device *dev = cfg->iommu_dev;
->>>> -	int order = get_order(size);
->>>>   	dma_addr_t dma;
->>>>   	void *pages;
->>>>   
->>>>   	if (cfg->alloc)
->>>>   		pages = cfg->alloc(cookie, size, gfp);
->>>>   	else
->>>> -		pages = iommu_alloc_pages_node(dev_to_node(dev), gfp, order);
->>>> +		pages = iommu_alloc_pages_node_sz(dev_to_node(dev), gfp, size);
->>>
->>> Although, the current implementation of iommu_alloc_pages_node_sz() would round
->>> the size to order, but this is not correct according to the API definition
->>> "The returned allocation is round_up_pow_two(size) big, and is physically aligned
->>> to its size."
->>
->> Yes.. The current implementation is limited to full PAGE_SIZE only,
->> the documentation imagines a future where it is not. Drivers should
->> ideally not assume the PAGE_SIZE limit during this conversion.
->>
->>> I'd say we can align the size or use min with 64 bytes before calling the
->>> function would be enough (or change the API to state that allocations
->>> are rounded to order)
->>
->> OK, like this:
->>
->> 	if (cfg->alloc) {
->> 		pages = cfg->alloc(cookie, size, gfp);
->> 	} else {
->> 		/*
->> 		 * For very small starting-level translation tables the HW
->> 		 * requires a minimum alignment of at least 64 to cover all
->> 		 * cases.
->> 		 */
->> 		pages = iommu_alloc_pages_node_sz(dev_to_node(dev), gfp,
->> 						  max(size, 64));
->> 	}
+Hello:
+
+This series was applied to netdev/net-next.git (main)
+by Paolo Abeni <pabeni@redhat.com>:
+
+On Wed, 12 Mar 2025 09:14:53 +0000 you wrote:
+> Hi,
 > 
-> Yes, that looks good.
+> This series removes unnecessary of_get_phy_mode() calls from the stmmac
+> glue drivers. stmmac_probe_config_dt() / devm_stmmac_probe_config_dt()
+> already gets the interface mode using device_get_phy_mode() and stores
+> it in plat_dat->phy_interface.
+> 
+> [...]
 
-Although for completeness it really wants to cover both paths, so an 
-unconditional "size = max(size, 64);" further up would be even better.
+Here is the summary with links:
+  - [net-next,v2,1/9] net: stmmac: qcom-ethqos: remove of_get_phy_mode()
+    https://git.kernel.org/netdev/net-next/c/8ee1c926f31e
+  - [net-next,v2,2/9] net: stmmac: mediatek: remove of_get_phy_mode()
+    https://git.kernel.org/netdev/net-next/c/46f84d700cb8
+  - [net-next,v2,3/9] net: stmmac: anarion: remove of_get_phy_mode()
+    https://git.kernel.org/netdev/net-next/c/e3ef12172a83
+  - [net-next,v2,4/9] net: stmmac: ipq806x: remove of_get_phy_mode()
+    https://git.kernel.org/netdev/net-next/c/f07cb4b4b481
+  - [net-next,v2,5/9] net: stmmac: meson8b: remove of_get_phy_mode()
+    https://git.kernel.org/netdev/net-next/c/3e5833060efb
+  - [net-next,v2,6/9] net: stmmac: rk: remove of_get_phy_mode()
+    https://git.kernel.org/netdev/net-next/c/9886718ad1c5
+  - [net-next,v2,7/9] net: stmmac: sti: remove of_get_phy_mode()
+    https://git.kernel.org/netdev/net-next/c/3e2858bb3f59
+  - [net-next,v2,8/9] net: stmmac: sun8i: remove of_get_phy_mode()
+    https://git.kernel.org/netdev/net-next/c/3d9e9dfce04c
+  - [net-next,v2,9/9] net: stmmac: sunxi: remove of_get_phy_mode()
+    https://git.kernel.org/netdev/net-next/c/00d2c3c07124
 
-Thanks,
-Robin.
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
