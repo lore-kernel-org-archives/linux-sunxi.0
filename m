@@ -1,100 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx.denx.de (mx.denx.de [89.58.32.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BBA620468F;
-	Tue, 18 Mar 2025 14:59:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F8CB154BE0
+	for <linux-sunxi@lists.linux.dev>; Wed, 19 Mar 2025 13:56:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.58.32.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742309999; cv=none; b=QL9w8lNG6Ewr0J1Ng747Fs2iyJ9ggmhKzruAlwutG8AqQhHeydmHbTZWTcd++rOrhd8zBi2J8zE8d2MeHg8qOmS87aYfKCXcJe6TjFIhvgQ29J7SWEgS+KYBdeAB/qaFMEhE2mgtXACLtd6mVR9OcTtG5WzrwsATKl/PQduvy9k=
+	t=1742392581; cv=none; b=Sp9X3rfQ6z7TPUp+YbCJFlVmZVv90oB4YPE1pMFScS9ahpH9cqoMioqkIcJsWTwSK6u9wIDkefHqe1rmIxejYXCr5Jyx4LuLaCqHqdzg5uhr6FgCU8+X/fYWJuMHs5elDoEugPzY7YejzEuDCuwuopQy7ZKJ9iHwpWTbiW3VB00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742309999; c=relaxed/simple;
-	bh=r0NrzcNDxEAo6t+Xoz4A+ZsjzVa5mHQEjDvSbM8+ItM=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=D4DmxnWlalXKhAQCcNgF3DdpZvZcTTJBxiLk7JlNNslFFhEMChaHZVvlMgNdpihKZuBRdg0pXBz4v7OhpEMsyyEwPGbPnr1719CsXH7vd4KXaMVifvzXKaqv2Ex3ctzaZAdybzMDF/9BeohHVQVPmldLS1vtbG7NiwGjOlBVN0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y7BIYDHM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1742392581; c=relaxed/simple;
+	bh=wUERKUtCo++5Q3qCdOJCRxG6khkWbH3+VqDgWlV9PvQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BmlVtAZ48VU9yb6P1k9HVnntjkgAzv0wtP7zvwFzdYx3/nUu6CFTgONqpqS2zAwcFI5qoKQY6LSOrZK2kQfId8J0Lrq49r46S2aT8Rk91NnD4iqYJutJQRaOJ3NYCyrnrpPO0wL3kuPjVzEB/do7rqWpO57n7w8DrDkm7dKaGpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=QCnZgCLm; arc=none smtp.client-ip=89.58.32.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y7BIYDHM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8457EC4CEE3;
-	Tue, 18 Mar 2025 14:59:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742309998;
-	bh=r0NrzcNDxEAo6t+Xoz4A+ZsjzVa5mHQEjDvSbM8+ItM=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=Y7BIYDHM86vWww2amj46/mLjgIS9Pd+7uQlOXialHBqRDb8TRbN8eHCTUEXr44qjw
-	 aOIsxiBVjuJYca07fp8YJLOmvV2xbFRNjwOTK8w5dGpjOC458+667lzGFnKd2sgF/1
-	 MEqYnxpu7gk3iP8HTvN1PWsLX0tL2Uj55mHuE+F3f28JLUTnj9Z4g7dyNsZ3F+4/H6
-	 R50JhgxMv4KAL7casbv0AMtCC8Z+tM+JYOUVRCDLWi9HIqN1ZRbUBrCJxUCMly60Ol
-	 WGvhYD4LhyMINquvspNJGrgYwK7dKnt2Dl9H9NLPMMwWUBPcz/3jkWkeTnNeNlWhPd
-	 3mvxeqCe3WO5Q==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33FFB380DBE8;
-	Tue, 18 Mar 2025 15:00:35 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="QCnZgCLm"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 744FD101E91CC;
+	Wed, 19 Mar 2025 14:56:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
+	t=1742392569;
+	h=from:reply-to:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=bTutbFYZrRA5du+iTJ+OA8vD6T9q8KAOn4cIwegpt0g=;
+	b=QCnZgCLm4nQW/7QFPsO06TseGva+Y+07drSdRzm47H574XpSxIk28936ALKRAMI3y4yn1z
+	N3FJXHjLGtVm5HIjhWUNY8hWVYPxltxfc4jmlCM/auOfY+b+bXLwPg03NNz1Fg+M6tBWQj
+	kTfGL7H0c8sX52Hc/gY+lPaUGgLxqgOoZvmLvTku6KcXcVcjQS5QC8FMGXIF9FXvwEAi4H
+	BKYtopE42ETUNe/GoOIBcBa2r15lfpRTyehnJ830sXmYVM4XhOd6wMdb3Yeuoms4Q7toT4
+	z6Gau7ovQn0LMj+BWXJlgIG+8CXNQBenOebdUJ+L/eIn2B+OPWOldi5X2mxFvQ==
+Message-ID: <77b1cc96-593a-9856-5d18-b4dba4d5ea6f@denx.de>
+Date: Wed, 19 Mar 2025 14:56:33 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v2 0/9] net: stmmac: remove unnecessary
- of_get_phy_mode() calls
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <174231003400.344268.9977818669398853411.git-patchwork-notify@kernel.org>
-Date: Tue, 18 Mar 2025 15:00:34 +0000
-References: <Z9FQjQZb0IMaQJ9H@shell.armlinux.org.uk>
-In-Reply-To: <Z9FQjQZb0IMaQJ9H@shell.armlinux.org.uk>
-To: Russell King (Oracle) <linux@armlinux.org.uk>
-Cc: andrew@lunn.ch, hkallweit1@gmail.com, alexandre.torgue@foss.st.com,
- andrew+netdev@lunn.ch, angelogioacchino.delregno@collabora.com,
- wens@csie.org, davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- jernej.skrabec@gmail.com, jbrunet@baylibre.com, khilman@baylibre.com,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
- martin.blumenstingl@googlemail.com, matthias.bgg@gmail.com,
- mcoquelin.stm32@gmail.com, neil.armstrong@linaro.org, netdev@vger.kernel.org,
- pabeni@redhat.com, samuel@sholland.org, vkoul@kernel.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH] sunxi: pmic_bus: Move SPL I2C addresses into Kconfig
+Content-Language: en-US
+To: Andre Przywara <andre.przywara@arm.com>,
+ Jaehoon Chung <jh80.chung@samsung.com>, Tom Rini <trini@konsulko.com>
+Cc: u-boot@lists.denx.de, linux-sunxi@lists.linux.dev,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Simon Glass <sjg@chromium.org>
+References: <20250318003943.6714-1-andre.przywara@arm.com>
+Reply-To: hs@denx.de
+From: Heiko Schocher <hs@denx.de>
+In-Reply-To: <20250318003943.6714-1-andre.przywara@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hello:
+Hello Andre,
 
-This series was applied to netdev/net-next.git (main)
-by Paolo Abeni <pabeni@redhat.com>:
-
-On Wed, 12 Mar 2025 09:14:53 +0000 you wrote:
-> Hi,
+On 18.03.25 01:39, Andre Przywara wrote:
+> Some of the X-Power AXP PMICs can be ordered with an alternative I2C
+> address, for instance an AXP717 could be shipped with address 0x34 or
+> with address 0x35. Similarly the AXP803 lists two possible addresses.
+> For DM (DT) based drivers this is no problem, but the Allwinner SPL
+> code relies on exactly one hardcoded address per PMIC so far.
 > 
-> This series removes unnecessary of_get_phy_mode() calls from the stmmac
-> glue drivers. stmmac_probe_config_dt() / devm_stmmac_probe_config_dt()
-> already gets the interface mode using device_get_phy_mode() and stores
-> it in plat_dat->phy_interface.
+> Add a Kconfig variable that holds the I2C address used by the PMIC
+> accessed in the SPL, and provide the (mostly only one) supported address
+> as its default, for the PMICs we use. Boards using the other address
+> can easily set this in their defconfig.
+> This effectively moves the hardcoding from C code to Kconfig.
 > 
-> [...]
+> That enables to use the AXP717 on some boards with the new Allwinner
+> A523 chip, which use the other I2C address there.
+> 
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>   arch/arm/mach-sunxi/pmic_bus.c | 27 ++-------------------------
+>   drivers/power/Kconfig          | 10 ++++++++++
+>   2 files changed, 12 insertions(+), 25 deletions(-)
 
-Here is the summary with links:
-  - [net-next,v2,1/9] net: stmmac: qcom-ethqos: remove of_get_phy_mode()
-    https://git.kernel.org/netdev/net-next/c/8ee1c926f31e
-  - [net-next,v2,2/9] net: stmmac: mediatek: remove of_get_phy_mode()
-    https://git.kernel.org/netdev/net-next/c/46f84d700cb8
-  - [net-next,v2,3/9] net: stmmac: anarion: remove of_get_phy_mode()
-    https://git.kernel.org/netdev/net-next/c/e3ef12172a83
-  - [net-next,v2,4/9] net: stmmac: ipq806x: remove of_get_phy_mode()
-    https://git.kernel.org/netdev/net-next/c/f07cb4b4b481
-  - [net-next,v2,5/9] net: stmmac: meson8b: remove of_get_phy_mode()
-    https://git.kernel.org/netdev/net-next/c/3e5833060efb
-  - [net-next,v2,6/9] net: stmmac: rk: remove of_get_phy_mode()
-    https://git.kernel.org/netdev/net-next/c/9886718ad1c5
-  - [net-next,v2,7/9] net: stmmac: sti: remove of_get_phy_mode()
-    https://git.kernel.org/netdev/net-next/c/3e2858bb3f59
-  - [net-next,v2,8/9] net: stmmac: sun8i: remove of_get_phy_mode()
-    https://git.kernel.org/netdev/net-next/c/3d9e9dfce04c
-  - [net-next,v2,9/9] net: stmmac: sunxi: remove of_get_phy_mode()
-    https://git.kernel.org/netdev/net-next/c/00d2c3c07124
+Thanks!
 
-You are awesome, thank you!
+Reviewed-by: Heiko Schocher <hs@denx.de>
+
+bye,
+Heiko
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+DENX Software Engineering GmbH,      Managing Director: Erika Unter
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: +49-8142-66989-52   Fax: +49-8142-66989-80   Email: hs@denx.de
