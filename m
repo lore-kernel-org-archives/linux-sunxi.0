@@ -1,109 +1,115 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EE1D1E9B0F
-	for <linux-sunxi@lists.linux.dev>; Thu, 20 Mar 2025 15:56:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF9F414901B
+	for <linux-sunxi@lists.linux.dev>; Sat, 22 Mar 2025 07:38:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742486168; cv=none; b=seJWfSzJd2dm/twkbBoMpVib6XkETbXvfTMrkJU+kbdF//hHVjuNCTWqEDfRrkq/LkJhIjxCr0fhQHUGTW7ep1fXNBF0W0yi5nEk9RJgELbGYv63O5RtK0GvNPWc4DoMfutdb8SEpWu3PtBA0jA20Bvy2eoxRZ1Lb3C8P2KPd34=
+	t=1742629125; cv=none; b=Fdcr0Cp0mDej6N6fFPSaAM+AgdxFJf7w3+st2TSK0yL9IZ0E6XzzMs3f+a/bld2Umgqd33qXYSGiFF44jF8kul5OLpTUmjI2NUGpSq1By6kXFjrKuLUEgJv/MB2IEMPPiFtJR8SchhNwLYzsMQRnxuTwgwS1PbJtQeqdZpTFRlE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742486168; c=relaxed/simple;
-	bh=h6Tcpw25xgx4OGNJRXuC8Ivumbn4vEdkkk6QO2pNB4M=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=hAfcsGCKqX7ajRdIkwRw5Ec/rskc5sqp3KLG8ilTFrWDdAK6FEI2Q6fjdTp4hcrR4jdMg+pX+0Gv6FA3mqsUMjPzEU60tI73+7L3c2xjSzEtZH+dkWhPk4VyUEvPqbwbl9fuNRWpDcXVicacUeeN2+VGNNHXXE8+8BlkqJYCazM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2FFAD1063;
-	Thu, 20 Mar 2025 08:56:14 -0700 (PDT)
-Received: from donnerap.arm.com (donnerap.manchester.arm.com [10.32.100.21])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D24693F673;
-	Thu, 20 Mar 2025 08:56:04 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
+	s=arc-20240116; t=1742629125; c=relaxed/simple;
+	bh=ayMGlcqMwQb+ftuOYdEgfcPSnBDR+02p6diqdiWcO6c=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JODwT0RRw+ie7yck/ea0Sli8hvObdUzOmktpiMm/5Ga0HeO/na7D668TnT6rFcULQlVMRSDPoFB91csUam4MkFyahP4HfoicRPQQ7h9S/hodoHP63g+0Yz1ioJKolYFDhnOXLYAO1yr0Zpq3hu/Trg8eBKp9a9VknYEX6tSVvsg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h98BRLSS; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h98BRLSS"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43cf58eea0fso14846705e9.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 22 Mar 2025 00:38:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742629122; x=1743233922; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ayMGlcqMwQb+ftuOYdEgfcPSnBDR+02p6diqdiWcO6c=;
+        b=h98BRLSS4IRJVqurRABjSIXMeos/v+hR+SC/YYmTrgt890LuZdh87RuYWcWad/7hVw
+         dWHOEDGXEOspaqpTtyD2/qX+px2gWmY3JWNwFL69sEijGmAVHMbcClObbp5jqe/YcVFY
+         cjgsDkoLXq954mKr9QV6Y2PdTVjXcQ8IElbEsKMqpSwiQPuco8Dnwloe7MCuzOX1029f
+         WzV+IEvfy3lgGpsgNWsE6vLNkLrwEr0vSZoxl+D52GDXtYNetoFt6f7QLgR1PkrG1qqN
+         e5BFWq2vO1Fs2b8eU7wPSuclRrZj3Wu/Bf3zDfwybHgwepiPHLOn+3hdmI1O/A0PJ0BH
+         /FVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742629122; x=1743233922;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ayMGlcqMwQb+ftuOYdEgfcPSnBDR+02p6diqdiWcO6c=;
+        b=ul/mpALNigpjiYk3+cd/DCLwGMiCz6CAuKndh+MZ/2oAOzn3XVVHrPQBnZfJCtJpUp
+         Py/ViSdzfm3PgJUXpo4FF0Hg8T37Thxyfwq9E08PHzeqBZmFic7G6LNLTaxtPSuw/6SE
+         JuUBeY2eWHclaQ6X1CE1tEdsDtZ4NokJWrJKiKc+OJ7BQoqLXejMlHhC5tU9yePTp0Hi
+         vBYpW81SRi+iyutkIJ8SUKkMApV1BfpSzOTiLf77BC5Ot5kAHsqRWfJf6pS3dttYbrRm
+         E/qFurH530Nicf1X1RIm2lS+cC2C4bjv6yexaqioGTpwerH/lFQ5E/boSIvXmfKTBhNM
+         YNsA==
+X-Forwarded-Encrypted: i=1; AJvYcCWyvISiJ715bvrOe/P/ZTekOUdcGnrq7S5Z1PxR3hxbaiEXUTTel2u6jq+kztv4p+B6iktkD/OZhO/kmg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywog4m9SjVQpsbReHpguveysAk+K5hOUvgcVVPkp1EKiocy5MCS
+	lPy0OJ1Jgj105dunjCWRoZGrXgUcUS0Hg5xz5JnA0eSKrcHtXu2bpsE56w==
+X-Gm-Gg: ASbGncvrWWnpLU3st+hVH0Qt5nl93csOsHYigFWX39UNMs77WpnGAjaRmK2YiTwFOQy
+	6dXT3rzBN2/Sig8ggGssyKiesRbXweq7OvkKxFXZJ9bFvvpaNTEoLAYTJ++HyrZfN/PvyXiyBzv
+	8iUecdZ9zpVzU4S70/BKueOqIgVjBNp67CMpkN14OqQqitQfbRB3iA/zWumDerG1DUCz4Z10h3b
+	236Iq9xuQwfqEehUK/GtiTGiu55tXIo1vrJZjYwyqzWMLDP+ZlmVK2JrjZLPoqzVq2PB42+1V2O
+	nl09k9JREfBmkignEXw4YiP4ccliCuSkFAat/IJVz0LMWV+PRpOv9AsYJqVJ94MgohejvlmYuMh
+	wpuvO3fT8p+lavEW2PaoW
+X-Google-Smtp-Source: AGHT+IGOAdcCQV9td5yBg/DeGMyuPfW6QJ09F7Nlor08PYOx21zTuurCfS0tdlMSsD+iLtwPsmEq7w==
+X-Received: by 2002:a05:600c:1909:b0:43c:e8ba:e166 with SMTP id 5b1f17b1804b1-43d50a213f6mr57806325e9.22.1742629121821;
+        Sat, 22 Mar 2025 00:38:41 -0700 (PDT)
+Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3997f9eef37sm4347075f8f.85.2025.03.22.00.38.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 22 Mar 2025 00:38:41 -0700 (PDT)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Yangtao Li <tiny.windzz@gmail.com>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: Brandon Cheo Fusi <fusibrandon13@gmail.com>,
-	linux-pm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] cpufreq: sun50i: prevent out-of-bounds access
-Date: Thu, 20 Mar 2025 15:55:57 +0000
-Message-Id: <20250320155557.211211-1-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.25.1
+ "Rafael J . Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>
+Cc: Brandon Cheo Fusi <fusibrandon13@gmail.com>, linux-pm@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] cpufreq: sun50i: prevent out-of-bounds access
+Date: Sat, 22 Mar 2025 08:38:39 +0100
+Message-ID: <2772067.mvXUDI8C0e@jernej-laptop>
+In-Reply-To: <20250320155557.211211-1-andre.przywara@arm.com>
+References: <20250320155557.211211-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-A KASAN enabled kernel reports an out-of-bounds access when handling the
-nvmem cell in the sun50i cpufreq driver:
-==================================================================
-BUG: KASAN: slab-out-of-bounds in sun50i_cpufreq_nvmem_probe+0x180/0x3d4
-Read of size 4 at addr ffff000006bf31e0 by task kworker/u16:1/38
+Dne =C4=8Detrtek, 20. marec 2025 ob 16:55:57 Srednjeevropski standardni =C4=
+=8Das je Andre Przywara napisal(a):
+> A KASAN enabled kernel reports an out-of-bounds access when handling the
+> nvmem cell in the sun50i cpufreq driver:
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> BUG: KASAN: slab-out-of-bounds in sun50i_cpufreq_nvmem_probe+0x180/0x3d4
+> Read of size 4 at addr ffff000006bf31e0 by task kworker/u16:1/38
+>=20
+> This is because the DT specifies the nvmem cell as covering only two
+> bytes, but we use a u32 pointer to read the value. DTs for other SoCs
+> indeed specify 4 bytes, so we cannot just shorten the variable to a u16.
+>=20
+> Fortunately nvmem_cell_read() allows to return the length of the nvmem
+> cell, in bytes, so we can use that information to only access the valid
+> portion of the data.
+> To cover multiple cell sizes, use memcpy() to copy the information into a
+> zeroed u32 buffer, then also make sure we always read the data in little
+> endian fashion, as this is how the data is stored in the SID efuses.
+>=20
+> Fixes: 6cc4bcceff9a ("cpufreq: sun50i: Refactor speed bin decoding")
+> Reported-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-This is because the DT specifies the nvmem cell as covering only two
-bytes, but we use a u32 pointer to read the value. DTs for other SoCs
-indeed specify 4 bytes, so we cannot just shorten the variable to a u16.
+Thanks for fixing that!
 
-Fortunately nvmem_cell_read() allows to return the length of the nvmem
-cell, in bytes, so we can use that information to only access the valid
-portion of the data.
-To cover multiple cell sizes, use memcpy() to copy the information into a
-zeroed u32 buffer, then also make sure we always read the data in little
-endian fashion, as this is how the data is stored in the SID efuses.
+Reviewed-by: Jernej =C5=A0krabec <jernej.skrabec@gmail.com>
 
-Fixes: 6cc4bcceff9a ("cpufreq: sun50i: Refactor speed bin decoding")
-Reported-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- drivers/cpufreq/sun50i-cpufreq-nvmem.c | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+Best regards,
+Jernej
 
-diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-index 17d6a149f580d..c48ed04b82335 100644
---- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-+++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-@@ -194,7 +194,9 @@ static int sun50i_cpufreq_get_efuse(void)
- 	struct nvmem_cell *speedbin_nvmem;
- 	const struct of_device_id *match;
- 	struct device *cpu_dev;
--	u32 *speedbin;
-+	void *speedbin_ptr;
-+	u32 speedbin = 0;
-+	size_t len;
- 	int ret;
- 
- 	cpu_dev = get_cpu_device(0);
-@@ -217,14 +219,18 @@ static int sun50i_cpufreq_get_efuse(void)
- 		return dev_err_probe(cpu_dev, PTR_ERR(speedbin_nvmem),
- 				     "Could not get nvmem cell\n");
- 
--	speedbin = nvmem_cell_read(speedbin_nvmem, NULL);
-+	speedbin_ptr = nvmem_cell_read(speedbin_nvmem, &len);
- 	nvmem_cell_put(speedbin_nvmem);
--	if (IS_ERR(speedbin))
--		return PTR_ERR(speedbin);
-+	if (IS_ERR(speedbin_ptr))
-+		return PTR_ERR(speedbin_ptr);
- 
--	ret = opp_data->efuse_xlate(*speedbin);
-+	if (len <= 4)
-+		memcpy(&speedbin, speedbin_ptr, len);
-+	speedbin = le32_to_cpu(speedbin);
- 
--	kfree(speedbin);
-+	ret = opp_data->efuse_xlate(speedbin);
-+
-+	kfree(speedbin_ptr);
- 
- 	return ret;
- };
--- 
-2.46.3
 
