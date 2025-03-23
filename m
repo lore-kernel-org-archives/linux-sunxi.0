@@ -1,23 +1,23 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB48A200130
-	for <linux-sunxi@lists.linux.dev>; Sun, 23 Mar 2025 11:36:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEC5920408D
+	for <linux-sunxi@lists.linux.dev>; Sun, 23 Mar 2025 11:36:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742729781; cv=none; b=KE2mPqmd6/JTG92+MW/ywzURnlr7Z9ei36iGLpfbl2ET0kyaQx4CcAwgbJxuDBHUrtryhqetCUdAT40wlg8XcXwWQc7I5bud/ILOIKDbfCugnM5p6hI8T1/L4gBWjYxEwqowSDmor3YssCRlyJ5CoS8rybP7jVk/P5Ip8GWGd2U=
+	t=1742729781; cv=none; b=AR2VrV23rM93K+CGlPXLXAXgyzkLBmUi9t/OJOXp7y9YMXDFNzrJEWIOyW01j45R02I5L6MDjQAXqXk0I3bz1TG5sTZFmaM/kJK4ZA5bgAc0/4iBLK8arS9Nj58RqG3pqwhQdz0CB1J/c0ND7LxM8huLTdo0pmAgcg5Bmnn3CR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1742729781; c=relaxed/simple;
-	bh=VjRS7yrABqVAPnHlRZf3sOeeTP9f1hMonGaaqryA3tE=;
+	bh=nrF7RMYJQ9sA/Pb3ncQxRdWl5daZWVY9DJKJEWMd5cU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rMCuMxNF0fue054QpgEHA3n++hd594E37yYe975dxA7kKL83fO5jhnu5JgR6uErItbNEvuDrmWkT3UaG4gSgFwvW3DS84WFsacTO96D3waVU/adNuUvTH01/Rlf6knOkcCVsGxrdMsBQm89evI8F5+WcMZakLQQVpdzzMVEgA3w=
+	 MIME-Version; b=iLIr4+0ziJaz+vmTjlxwvwpNXFspJ178cdx+/7qjXuwgXqI7NwmaT17PtgqR7GpugCsigSHpVEHUQUf2w6lfV0vp+9cTYWyShUlFZDBKXsVjSv8WSm1J9SfokGm2Qwt8IyV7KA3MUq8ngnjgtg0tjfpBxsR/jJv/cFl4i+nJUeg=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 399EB106F;
-	Sun, 23 Mar 2025 04:36:26 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 009BD339;
+	Sun, 23 Mar 2025 04:36:25 -0700 (PDT)
 Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 809783F694;
-	Sun, 23 Mar 2025 04:36:18 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4143C3F694;
+	Sun, 23 Mar 2025 04:36:17 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Tom Rini <trini@konsulko.com>
 Cc: Simon Glass <sjg@chromium.org>,
@@ -25,9 +25,9 @@ Cc: Simon Glass <sjg@chromium.org>,
 	Mikhail Kalashnikov <iuncuim@gmail.com>,
 	u-boot@lists.denx.de,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH 07/34] sunxi: H6/H616: dram: remove usage of struct sunxi_prcm_reg
-Date: Sun, 23 Mar 2025 11:35:17 +0000
-Message-ID: <20250323113544.7933-8-andre.przywara@arm.com>
+Subject: [PATCH 06/34] sunxi: clock: H6: drop usage of struct sunxi_prcm_reg
+Date: Sun, 23 Mar 2025 11:35:16 +0000
+Message-ID: <20250323113544.7933-7-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.46.3
 In-Reply-To: <20250323113544.7933-1-andre.przywara@arm.com>
 References: <20250323113544.7933-1-andre.przywara@arm.com>
@@ -39,81 +39,130 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Allwinner H6 and H616 DRAM initialisation code uses a complex C
-struct, modelling the PRCM clock register frame. For those SoCs, this
-struct contains 20 registers, but the DRAM code only uses two of them.
+U-Boot drivers often revert to using C structures for modelling hardware
+register frames. This creates some problems:
+- A "struct" is a C language construct to group several variables
+  together. The details of the layout of this struct are partly subject
+  to the compiler's discretion (padding and alignment).
+- The "packed" attribute would force a certain layout, but we are not
+  using it.
+- The actual source of information from the data sheet is the register
+  offset. Here we create an artificial struct, carefully tuning the
+  layout (with a lot of reserved members) to match that offset. To help
+  with correctness, we put the desired information as a *comment*,
+  though this is purely for the human reader, and has no effect on the
+  generated layout. This sounds all very backwards.
+- Using a struct suggests we can assign a pointer and then access the
+  register content via the members. But this is not the case, instead
+  every MMIO register access must go through specific accessor functions,
+  to meet the ordering and access size guarantees the hardware requires.
+- We share those structs in code shared across multiple SoC families,
+  though most SoCs define their own version of the struct. Members must
+  match in their name, across every SoC, otherwise compilation will fail.
+  We work around this with even more #ifdefs in the shared code.
+- Some SoCs have an *almost* identical layout, but differ in a few
+  registers. This requires hard to maintain #ifdef's in the struct
+  definition.
+- Some of the register frames are huge: the H6 CCU device defines 127
+  registers. We use 15 of them. Still the whole frame would need to be
+  described, which is very tedious, but for no reason.
+- Adding a new SoC often forces people to decide whether to share an
+  existing struct, or to create a new copy. For some cases (say like 80%
+  similarity) this works out badly either way.
 
-Since we want to get rid of this struct, drop the usage of the struct in
-the H6 and H616 DRAM code, by using #define'd register names and their
-offset, and then adding those names to the base pointer.
+The Linux kernel heavily frowns upon those register structs, and instead
+uses a much simpler solution: #define REG_NAME  <offset>
+This easily maps to the actual information from the data sheet, and can
+much simpler be shared across multiple SoCs, as it allows to have all
+SoC versions visible, so we can use C "if" statements instead of #ifdef's.
+Also it requires to just define the registers we need, and we can use
+alternative locations for some registers much more easily.
 
-This removes one more user of the PRCM clock register struct.
+Drop the usage of "struct sunxi_prcm_reg" in the H6 SPL clock code, by
+defining the respective register names and their offsets, then adding
+them to the base pointer.
+We cannot drop the struct definition quite yet, as it's also used in
+other drivers, still.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- arch/arm/include/asm/arch-sunxi/prcm_sun50i.h | 1 +
- arch/arm/mach-sunxi/dram_sun50i_h6.c          | 7 +++----
- arch/arm/mach-sunxi/dram_sun50i_h616.c        | 7 +++----
- 3 files changed, 7 insertions(+), 8 deletions(-)
+ arch/arm/include/asm/arch-sunxi/prcm_sun50i.h |  5 +++++
+ arch/arm/mach-sunxi/clock_sun50i_h6.c         | 20 +++++++++----------
+ 2 files changed, 14 insertions(+), 11 deletions(-)
 
 diff --git a/arch/arm/include/asm/arch-sunxi/prcm_sun50i.h b/arch/arm/include/asm/arch-sunxi/prcm_sun50i.h
-index 8ed78dccf10..738cd68320c 100644
+index fd63d3aad83..8ed78dccf10 100644
 --- a/arch/arm/include/asm/arch-sunxi/prcm_sun50i.h
 +++ b/arch/arm/include/asm/arch-sunxi/prcm_sun50i.h
-@@ -15,6 +15,7 @@
- #define CCU_PRCM_PLL_LDO_CFG		0x244
- #define CCU_PRCM_SYS_PWROFF_GATING	0x250
- #define CCU_PRCM_RES_CAL_CTRL		0x310
-+#define CCU_PRCM_OHMS240		0x318
+@@ -11,6 +11,11 @@
+ #ifndef __ASSEMBLY__
+ #include <linux/compiler.h>
  
++#define CCU_PRCM_I2C_GATE_RESET		0x19c
++#define CCU_PRCM_PLL_LDO_CFG		0x244
++#define CCU_PRCM_SYS_PWROFF_GATING	0x250
++#define CCU_PRCM_RES_CAL_CTRL		0x310
++
  struct sunxi_prcm_reg {
  	u32 cpus_cfg;		/* 0x000 */
-diff --git a/arch/arm/mach-sunxi/dram_sun50i_h6.c b/arch/arm/mach-sunxi/dram_sun50i_h6.c
-index 35f7a247718..5bf932001cb 100644
---- a/arch/arm/mach-sunxi/dram_sun50i_h6.c
-+++ b/arch/arm/mach-sunxi/dram_sun50i_h6.c
-@@ -665,8 +665,7 @@ unsigned long sunxi_dram_init(void)
+ 	u8 res0[0x8];		/* 0x004 */
+diff --git a/arch/arm/mach-sunxi/clock_sun50i_h6.c b/arch/arm/mach-sunxi/clock_sun50i_h6.c
+index 482d9e0c695..615c13b5da0 100644
+--- a/arch/arm/mach-sunxi/clock_sun50i_h6.c
++++ b/arch/arm/mach-sunxi/clock_sun50i_h6.c
+@@ -7,26 +7,25 @@
+ void clock_init_safe(void)
  {
- 	struct sunxi_mctl_com_reg * const mctl_com =
- 			(struct sunxi_mctl_com_reg *)SUNXI_DRAM_COM_BASE;
+ 	void *const ccm = (void *)SUNXI_CCM_BASE;
 -	struct sunxi_prcm_reg *const prcm =
 -		(struct sunxi_prcm_reg *)SUNXI_PRCM_BASE;
 +	void *const prcm = (void *)SUNXI_PRCM_BASE;
- 	struct dram_para para = {
- 		.clk = CONFIG_DRAM_CLK,
- #ifdef CONFIG_SUNXI_DRAM_H6_LPDDR3
-@@ -682,8 +681,8 @@ unsigned long sunxi_dram_init(void)
  
- 	unsigned long size;
+ 	if (IS_ENABLED(CONFIG_MACH_SUN50I_H616)) {
+ 		/* this seems to enable PLLs on H616 */
+-		setbits_le32(&prcm->sys_pwroff_gating, 0x10);
+-		setbits_le32(&prcm->res_cal_ctrl, 2);
++		setbits_le32(prcm + CCU_PRCM_SYS_PWROFF_GATING, 0x10);
++		setbits_le32(prcm + CCU_PRCM_RES_CAL_CTRL, 2);
+ 	}
  
--	setbits_le32(&prcm->res_cal_ctrl, BIT(8));
--	clrbits_le32(&prcm->ohms240, 0x3f);
-+	setbits_le32(prcm + CCU_PRCM_RES_CAL_CTRL, BIT(8));
-+	clrbits_le32(prcm + CCU_PRCM_OHMS240, 0x3f);
+ 	if (IS_ENABLED(CONFIG_MACH_SUN50I_H616) ||
+ 	    IS_ENABLED(CONFIG_MACH_SUN50I_H6)) {
+-		clrbits_le32(&prcm->res_cal_ctrl, 1);
+-		setbits_le32(&prcm->res_cal_ctrl, 1);
++		clrbits_le32(prcm + CCU_PRCM_RES_CAL_CTRL, 1);
++		setbits_le32(prcm + CCU_PRCM_RES_CAL_CTRL, 1);
+ 	}
  
- 	mctl_auto_detect_rank_width(&para);
- 	mctl_auto_detect_dram_size(&para);
-diff --git a/arch/arm/mach-sunxi/dram_sun50i_h616.c b/arch/arm/mach-sunxi/dram_sun50i_h616.c
-index b310c6a7632..ab00bd263f4 100644
---- a/arch/arm/mach-sunxi/dram_sun50i_h616.c
-+++ b/arch/arm/mach-sunxi/dram_sun50i_h616.c
-@@ -1423,13 +1423,12 @@ static const struct dram_para para = {
+ 	if (IS_ENABLED(CONFIG_MACH_SUN50I_H6)) {
+ 		/* set key field for ldo enable */
+-		setbits_le32(&prcm->pll_ldo_cfg, 0xA7000000);
++		setbits_le32(prcm + CCU_PRCM_PLL_LDO_CFG, 0xA7000000);
+ 		/* set PLL VDD LDO output to 1.14 V */
+-		setbits_le32(&prcm->pll_ldo_cfg, 0x60000);
++		setbits_le32(prcm + CCU_PRCM_PLL_LDO_CFG, 0x60000);
+ 	}
  
- unsigned long sunxi_dram_init(void)
+ 	clock_set_pll1(408000000);
+@@ -105,8 +104,7 @@ void clock_set_pll1(unsigned int clk)
+ int clock_twi_onoff(int port, int state)
  {
+ 	void *const ccm = (void *)SUNXI_CCM_BASE;
 -	struct sunxi_prcm_reg *const prcm =
 -		(struct sunxi_prcm_reg *)SUNXI_PRCM_BASE;
 +	void *const prcm = (void *)SUNXI_PRCM_BASE;
- 	struct dram_config config;
- 	unsigned long size;
+ 	u32 value, *ptr;
+ 	int shift;
  
--	setbits_le32(&prcm->res_cal_ctrl, BIT(8));
--	clrbits_le32(&prcm->ohms240, 0x3f);
-+	setbits_le32(prcm + CCU_PRCM_RES_CAL_CTRL, BIT(8));
-+	clrbits_le32(prcm + CCU_PRCM_OHMS240, 0x3f);
+@@ -114,7 +112,7 @@ int clock_twi_onoff(int port, int state)
  
- 	mctl_auto_detect_rank_width(&para, &config);
- 	mctl_auto_detect_dram_size(&para, &config);
+ 	if (port == 5) {
+ 		shift = 0;
+-		ptr = &prcm->twi_gate_reset;
++		ptr = prcm + CCU_PRCM_I2C_GATE_RESET;
+ 	} else {
+ 		shift = port;
+ 		ptr = ccm + CCU_H6_I2C_GATE_RESET;
 -- 
 2.46.3
 
