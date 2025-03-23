@@ -1,23 +1,23 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 215512045BA
-	for <linux-sunxi@lists.linux.dev>; Sun, 23 Mar 2025 11:36:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AB1678F4C
+	for <linux-sunxi@lists.linux.dev>; Sun, 23 Mar 2025 11:36:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742729800; cv=none; b=NC2ZSTm7lrzG5ctqEhd440oqQY+F3VAKYNMEYCVS16S7h/71aE0FepDg93Q6aUQ/1O9Zo2/pcCWfRfttHk9rp3EiN9+e1kT4muXnhF+nh3G+2W2GwLSeaFb3yKmIaT7naYrryvSZqMBzFDn2ahigb+pobJVfC1RrbOanSKH4i+Q=
+	t=1742729801; cv=none; b=WznJ/YG9U9dA/BZYSJBkEIWnRCa6ckCtXngNFpaH/q7G932DvM1uDye2Y+2FbjTHBwTybR79y5Sxagab8RaMy6Rs8UtZqUpxGC04GEWTQdVTyOMQEEui2ZIr0twWL5iFxYIknaK1BH2AJyiKifU9+3cNee5rkZ0YUFxXYkrwsqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742729800; c=relaxed/simple;
-	bh=Q4eMR90R3uqFG9S7T18WeFY4g2kdgqiDCF7VhbVxFkM=;
+	s=arc-20240116; t=1742729801; c=relaxed/simple;
+	bh=SPn27zbv4GNIXXvZ36wpKaek34uHN+73MmLZ9Ag1k2Y=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Jlj/3GLqWuwJa/vxsdFh0RXbCglvMmUk8V/IijCkPyHHrQmFWeSIPrhRKRN0MuyLjwkrRB5OL0wxuk3xACAVZOJUL6GI8B+jYiZWtmfGz1TMg5+A1FPmuBTFXtiQ7Lel7j90YQYvHx30fRIQrU8oa7P8m6UTFBncRT4h2K32ick=
+	 MIME-Version; b=AIGTioq/Ksv//5QhKQZ3otaF1DLmOGlhw+tTzL+jMILPEwIqHJjwdsBWx+cZpoFfFj2DALU5C0+yt/DmHhclHoBApFgW22fLA1eFjP7QAqsX6FJbm+R5NCMbMnwXRIn9WJwjB7oG7fI/iLY6th56NgZS4k/+qMtk1yPpfsEGlrE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A3FFF106F;
-	Sun, 23 Mar 2025 04:36:45 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DDD86339;
+	Sun, 23 Mar 2025 04:36:46 -0700 (PDT)
 Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EAD263F694;
-	Sun, 23 Mar 2025 04:36:37 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3034D3F694;
+	Sun, 23 Mar 2025 04:36:39 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Tom Rini <trini@konsulko.com>
 Cc: Simon Glass <sjg@chromium.org>,
@@ -25,9 +25,9 @@ Cc: Simon Glass <sjg@chromium.org>,
 	Mikhail Kalashnikov <iuncuim@gmail.com>,
 	u-boot@lists.denx.de,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH 22/34] sunxi: Kconfig: consolidate SYS_CLK_FREQ selection
-Date: Sun, 23 Mar 2025 11:35:32 +0000
-Message-ID: <20250323113544.7933-23-andre.przywara@arm.com>
+Subject: [PATCH 23/34] spl: reorder SPL_MAX_SIZE defaults for sunxi
+Date: Sun, 23 Mar 2025 11:35:33 +0000
+Message-ID: <20250323113544.7933-24-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.46.3
 In-Reply-To: <20250323113544.7933-1-andre.przywara@arm.com>
 References: <20250323113544.7933-1-andre.przywara@arm.com>
@@ -39,40 +39,33 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Most Allwinner SoCs (used on 107 out of 172 boards) use a default CPU
-frequency of 1008 MHz during the initial setup in the SPL.
-
-Make this the fallback default, in case nothing else is selected, to
-simplify the Kconfig stanza and make future additions easier.
+Reorder the Kconfig defaults for the maximum SPL size, to make the
+Allwinner specific values more readable and extensible: many older SoCs
+need to be limited to 32KB, so make this the last ARCH_SUNXI entry, used
+as a fallback unless explicitly overridden before.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- arch/arm/mach-sunxi/Kconfig | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+ common/spl/Kconfig | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
-index 950b9047470..ab432390d3c 100644
---- a/arch/arm/mach-sunxi/Kconfig
-+++ b/arch/arm/mach-sunxi/Kconfig
-@@ -716,16 +716,10 @@ endif
- 
- config SYS_CLK_FREQ
- 	default 408000000 if MACH_SUNIV
--	default 1008000000 if MACH_SUN4I
--	default 1008000000 if MACH_SUN5I
--	default 1008000000 if MACH_SUN6I
--	default 912000000 if MACH_SUN7I
- 	default 816000000 if MACH_SUN50I || MACH_SUN50I_H5
--	default 1008000000 if MACH_SUN8I
--	default 1008000000 if MACH_SUN9I
- 	default 888000000 if MACH_SUN50I_H6
--	default 1008000000 if MACH_SUN50I_H616
--	default 1008000000 if MACH_SUN8I_R528
-+	default 912000000 if MACH_SUN7I
-+	default 1008000000
- 
- config SYS_CONFIG_NAME
- 	default "suniv" if MACH_SUNIV
+diff --git a/common/spl/Kconfig b/common/spl/Kconfig
+index 94e118f8465..29d30f5040d 100644
+--- a/common/spl/Kconfig
++++ b/common/spl/Kconfig
+@@ -80,11 +80,10 @@ config SPL_MAX_SIZE
+ 	default 0x1b000 if AM33XX && !TI_SECURE_DEVICE
+ 	default 0xec00 if OMAP34XX
+ 	default 0x10000 if ARCH_MX6 && !MX6_OCRAM_256KB
+-	default 0x7fa0 if SUNXI_SRAM_ADDRESS = 0x10000
+-	default 0x7fa0 if SUNXI_SRAM_ADDRESS = 0x20000 && !MACH_SUN50I_H616
+ 	default 0xbfa0 if MACH_SUN50I_H616
+ 	default 0x7000 if RCAR_GEN3
+ 	default 0x5fa0 if SUNXI_SRAM_ADDRESS = 0x0
++	default 0x7fa0 if ARCH_SUNXI
+ 	default 0x10000 if ASPEED_AST2600
+ 	default 0x27000 if IMX8MM && SPL_TEXT_BASE = 0x7E1000
+ 	default 0x30000 if ARCH_SC5XX && (SC59X_64 || SC59X)
 -- 
 2.46.3
 
