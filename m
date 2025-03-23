@@ -1,74 +1,75 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CC54202992
-	for <linux-sunxi@lists.linux.dev>; Sun, 23 Mar 2025 12:23:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1BA7202992
+	for <linux-sunxi@lists.linux.dev>; Sun, 23 Mar 2025 12:23:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742732583; cv=none; b=GWh3UgV4/b/FZBzUJhecKw0kBklw8cmpmrhmL4lUl9j53lTApFcrU8cdf5Gywn+sBNy56OJc8Hd7dII26c27sf+A+IJycB/Qgk7Ik4h8zopOOpOzq99l35u5caX57L4j7qPiGiQS7AEKOOQpdiNU9iKUrmPmj2UGCoh2abcj38c=
+	t=1742732615; cv=none; b=GJP9j31/mTlAzxbnNFPNo21JwKuUPTrbP/tb8fASpSXBH4RkwpvFYz1jim3xznpcZwnNnCRcSy+PCyHGvR7f44GGHTdoZ8vsmqB9olDucStjdE+xip92+ihY02tFZi/IvTM0fNBC7MxbQg+UKUZQR2xkYYsWFJJtLiVjkRxS2IQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742732583; c=relaxed/simple;
-	bh=DTdIfrNn1k1oB9hKV+by+eO9U8QMFK5a1AfMFrSLvu4=;
+	s=arc-20240116; t=1742732615; c=relaxed/simple;
+	bh=ITGzomHGqlNZ+3M/Bf4Vq0obByW5e55Dh93nE+DdX8I=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ruDvAVxzpQpR7qKJZfyyqDcB1hIZ3cZAFweMbqXNpKOgwzVQgo8C0asz6a61BYN7TXLvHYhoyiqOdg/3SRM5Qm1MueWvVGXuRZZmaBcYGk6aXL1Mw5IJJjWCZUSPL16lLzNk/qe7cc19cp3x1xhkrl3KJKHOOG5Xhg0GbyOLK6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h4IzI1g8; arc=none smtp.client-ip=209.85.128.49
+	 MIME-Version:Content-Type; b=ApPLLXAwnCaNYOkwpy108o0xhK+ZJ2n4Zc1nl61QgPOO5nkdV9gOWPooKRW/XkGciNz9JOLjjV67JlSV22sA9YZZW+6cxcS9nNXv4IU6cDQmwuNUZcIRoZa/++uwpoZZHKG3NNRHiDEk2NEudQBKKth72A8fm6mGk6hlpO2//SY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OY6zmaFX; arc=none smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h4IzI1g8"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-43d0c18e84eso15874785e9.3
-        for <linux-sunxi@lists.linux.dev>; Sun, 23 Mar 2025 05:23:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OY6zmaFX"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-391342fc0b5so2825451f8f.3
+        for <linux-sunxi@lists.linux.dev>; Sun, 23 Mar 2025 05:23:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742732580; x=1743337380; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1742732612; x=1743337412; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AyB7aI8jg7npvoARedijEVN3XKQW+Kn2juSZr/TPcms=;
-        b=h4IzI1g80EpGVEZMt9buCKfYsHvcWVVnyJK+00H9vwV5ras/In5FwZbmtPPSGVaqKA
-         wdRmyMrlBI7s/BAmH//fL/NqRkhe4IchPhVRfAGd6nTKVou+1LdqXizejhl8JR+MjT8o
-         K7lDwJSORB5lkAWNeMxtnyDPdpJHJ7P3sq/Bigfz1DpUJuYB88+Qu+vnVsLkxQch7db8
-         GTHoDmFPtZhv0B024g2yNu4in1B0H6XX4rkM9c35/u0FPH+vdMDjf9XIxWJZI7Pxv+hQ
-         fRaX4o03UeKGxOLTO2PUiIQEO2DweZBkOVQqwb93Wed9hURkqVxjV4M8tfsPbs1RurFK
-         tXuQ==
+        bh=ITGzomHGqlNZ+3M/Bf4Vq0obByW5e55Dh93nE+DdX8I=;
+        b=OY6zmaFX8xm1Dj3V9bHY/mEer8fPuMgX+9oHhBe6yrV0cjgtTnhF9cvDG1DS0ucAIe
+         AiQlmqPWCmzMBzSCnftyuaLIRg2opE5LayyiPSmX5dc2ZvJ/3u44q8Oz3Yi5c+XfJRzB
+         9M0E/4cp1Um0NvGjOH0EFVkZYLHPiHbZFPxdp7L88JAEfsXyvWGTnd6UWHpz3C0CHGt/
+         ql1no3m90kcHU8W+ZGftSl7V4ipnFs2cZ6fNdimqkx02QtLWm4PhaxqUmYACUYYaAtZN
+         d9xpOQWTSX9z4voXW6FMWhbNs+5eaN/7Dhe8Sg45Wtmgsm8jXFHm3GnT1NhZk2FpRt4l
+         V2dQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742732580; x=1743337380;
+        d=1e100.net; s=20230601; t=1742732612; x=1743337412;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=AyB7aI8jg7npvoARedijEVN3XKQW+Kn2juSZr/TPcms=;
-        b=JuY7tC3NvgLZd13p9VrtoALO7AUMbe48UfeT/nNNDko0haf467m1KAN9o3oj+E4i1E
-         wcMeUWOK3mp92G+YZkGe4h756+LdMzrlPDw+KIbXTGRKdV2M23078+sCUzJMweOSbkek
-         eov0fyi9k2RG3lwK4lLBY3yK3mnY2+GngKwxZIoOs7/bLCFg3tCa7PN20T5YPW+4IEpQ
-         jzqhSarVx1M/obOwnMgMFIoQihM7fgYAg7lk8iYQE6Kua8UrA9APruU8d845YJDeVWgU
-         1WSaIgiFhnriWpbBx2fXDg35/Q/2OFowijbEgM+If9Rl7QQ4+c8qI3efoDrnpgyayWN1
-         JnjA==
-X-Forwarded-Encrypted: i=1; AJvYcCVjnLGSRrUdGeacIWsDMKG9c3LRzJ5rhsZNeE6Vok67X3dbL2qvDfMs/kAzjJoXvIK9s9qJMzRW20VtKA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzTaXrOwLx0iDfJTgxaj9eN9PJ0QbbjiPfAH3i/z0eqpaUhmjPR
-	wwZ6efXb/Z1u0O8KZ2tOzZ04JzTRf8V1RQhX0DaDLsWEfH21sS78
-X-Gm-Gg: ASbGncs+0QRRMiplRe0w6JLY1ldB5ugeqsBjG3BYu8pZT8vNqxX/Mj5E92jTCNIA572
-	Wl6vtPkApQw04uURr1P4opFpjd+vck+lR+9APCrsppt6wFRSi6cRSwrapbxrXajAQbo352fbdmv
-	AEHy2A6kOvbZpAF0uQfB7/72/8rhT1Ifzy1wcE7hvYrr7Ax/LcJjyI0d/Y9sK08XbZNgYmsHwv7
-	Zyc5cz3E7I8sR69yuKR2AhNBQcOYuEL2su8F5sZLar1tZfeKeXvWT1D677BBnkhXwhOrRPtgS5I
-	lBvhZBY+MJC95m9RGh5Jm8MOV/L5XOAwnFIfM8XEOmQBc/Oh9OjyI7ipvYjzjwA4dsHTYbIuUD4
-	vLXsTeXVRtFpuG5Op5Nxq
-X-Google-Smtp-Source: AGHT+IEEgs4EmyttTAIIb2dfbTBM6Ehc3DEXjELIzMzApLxtN+pUUFtf+o3D2xiRB9bwn5jaHx5gLQ==
-X-Received: by 2002:a05:600c:4686:b0:434:fa55:eb56 with SMTP id 5b1f17b1804b1-43d509ee23dmr90116815e9.7.1742732580211;
-        Sun, 23 Mar 2025 05:23:00 -0700 (PDT)
+        bh=ITGzomHGqlNZ+3M/Bf4Vq0obByW5e55Dh93nE+DdX8I=;
+        b=UgYq+mjXvgwVBHkqqRKmZtea1r/yxbGLz8Xc5kAuz2e9ydiHFcDxziXTo3/ypwUZUa
+         GWYcVnsKmvU5AknaTBly8lA+zpN5u78IO4a88tJ/QM+UC3H0f0v6N497m9goDVhvdwH+
+         I8gQ9e+N31NDbuCz/hkRlI6M7N9yS6qUX/FuldEcDJruWsuvDxWHABWYUWeN1l6nC2/x
+         6qv4+ZJCwi44AZV8M6OKnU/Qfc56gX4puOmbkEAdDsPLO1TpEbjds3YaaH5i2mqRjOVp
+         cmlqcfNZs/gRvVzNy0XA8cqBeeVNNN3/M5uL50Fq2SgR1DOxBSNcZUtNVnRqMq+/Mbq5
+         t9jA==
+X-Forwarded-Encrypted: i=1; AJvYcCWNtfCZSiVO/Zbw8hSaXP+qBGk3/iypHtKh494FF9zhd9Pt8QopBFn+PCntXgEE6l601B9wTSKYsFgb0Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyeSXjvxgv/w8jVniAeBUfsyBKh9dSF+ALI1DjGuERTaVRBrzf1
+	N3tYtHNxhidlgZYIaW8n5cwA2lzG5M5iJZFQm8QvJyUw8QKX6eO+
+X-Gm-Gg: ASbGnctmsyh994MycW/jJggcz6fQrtrmg2b4Nw24xIo0h91tYeQjrqPE4brETLekGrS
+	be6S+b1AlhnJCr9orWQRVK9hKgnp4N9IVrSh5LSS0zkOiz2PvNJOEeQ2/yF+PAEmwgmPrBugnxj
+	BYbZ8MN/QhlJyK7OU+Bjqkbglzx/urnLY1kMFHFXIlTOX93oG6r/DRTvnYFAWaXTboMD4uldhb8
+	iTE9aP1fKAsnYE+wWAWzHDuA4JCXnO6wAuJOhujKoLWUAtQK1AkVO2yC0WshBQCC1DLzLPCT/M4
+	U1BN5V9+r02DsTYZG3w/v7EJ8B4Jddy6BiSpIt0AlUcic3Re1ChzKILwCdmi1kJWPlq2W4NMIX+
+	yTSS5bLd3Zi+w+lDaqceF1h/o7fcHCdQ=
+X-Google-Smtp-Source: AGHT+IFdTpMYk1hbEnwfk3GGoCnQQoigUura2Ouq45WN4gxQRkyFCNphUBiIl6z1NzLUpK+pWIjlQA==
+X-Received: by 2002:a5d:5f50:0:b0:391:47d8:de2d with SMTP id ffacd0b85a97d-3997f90ff8amr7922895f8f.23.1742732611795;
+        Sun, 23 Mar 2025 05:23:31 -0700 (PDT)
 Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d4fd185c5sm84411325e9.15.2025.03.23.05.22.58
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d4fceae03sm87764665e9.8.2025.03.23.05.23.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Mar 2025 05:22:59 -0700 (PDT)
+        Sun, 23 Mar 2025 05:23:31 -0700 (PDT)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Tom Rini <trini@konsulko.com>, Andre Przywara <andre.przywara@arm.com>
 Cc: Simon Glass <sjg@chromium.org>, Mikhail Kalashnikov <iuncuim@gmail.com>,
  u-boot@lists.denx.de, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 23/34] spl: reorder SPL_MAX_SIZE defaults for sunxi
-Date: Sun, 23 Mar 2025 13:22:58 +0100
-Message-ID: <2300711.iZASKD2KPV@jernej-laptop>
-In-Reply-To: <20250323113544.7933-24-andre.przywara@arm.com>
+Subject:
+ Re: [PATCH 24/34] sunxi: armv8: fel: move fel_stash variable to the front
+Date: Sun, 23 Mar 2025 13:23:30 +0100
+Message-ID: <22634483.EfDdHjke4D@jernej-laptop>
+In-Reply-To: <20250323113544.7933-25-andre.przywara@arm.com>
 References:
  <20250323113544.7933-1-andre.przywara@arm.com>
- <20250323113544.7933-24-andre.przywara@arm.com>
+ <20250323113544.7933-25-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -78,43 +79,30 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne nedelja, 23. marec 2025 ob 12:35:33 Srednjeevropski standardni =C4=8Das=
+Dne nedelja, 23. marec 2025 ob 12:35:34 Srednjeevropski standardni =C4=8Das=
  je Andre Przywara napisal(a):
-> Reorder the Kconfig defaults for the maximum SPL size, to make the
-> Allwinner specific values more readable and extensible: many older SoCs
-> need to be limited to 32KB, so make this the last ARCH_SUNXI entry, used
-> as a fallback unless explicitly overridden before.
+> To return a 64-bit Allwinner chip back to the 32-bit BootROM code, we
+> have some embedded AArch32 code that restores the CPU state, before
+> branching back to the BootROM. At the moment the pointer to the buffer
+> with that state is located *after* the code, which makes the PC relative
+> code fragile: adding or removing instructions will change the distance
+> to that pointer variable.
+> The "new" Allwinner A523 SoC requires more state to be restored (GICv3
+> system registers), but we must do that *only* on that SoC. Conditional
+> compilation sounds like the easiest solution, but would mean that the
+> distance to that pointer would change.
+>=20
+> Solve this rather easily by moving the pointer to the *front* of the
+> code: we load that pointer in the first instruction, so the distance
+> would always stay the same. Later in the code we won't need PC relative
+> addressing anymore, so this code can grow or shrink easily, for instance
+> due to conditional compilation.
 >=20
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
-
-> ---
->  common/spl/Kconfig | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->=20
-> diff --git a/common/spl/Kconfig b/common/spl/Kconfig
-> index 94e118f8465..29d30f5040d 100644
-> --- a/common/spl/Kconfig
-> +++ b/common/spl/Kconfig
-> @@ -80,11 +80,10 @@ config SPL_MAX_SIZE
->  	default 0x1b000 if AM33XX && !TI_SECURE_DEVICE
->  	default 0xec00 if OMAP34XX
->  	default 0x10000 if ARCH_MX6 && !MX6_OCRAM_256KB
-> -	default 0x7fa0 if SUNXI_SRAM_ADDRESS =3D 0x10000
-> -	default 0x7fa0 if SUNXI_SRAM_ADDRESS =3D 0x20000 && !MACH_SUN50I_H616
->  	default 0xbfa0 if MACH_SUN50I_H616
->  	default 0x7000 if RCAR_GEN3
->  	default 0x5fa0 if SUNXI_SRAM_ADDRESS =3D 0x0
-> +	default 0x7fa0 if ARCH_SUNXI
->  	default 0x10000 if ASPEED_AST2600
->  	default 0x27000 if IMX8MM && SPL_TEXT_BASE =3D 0x7E1000
->  	default 0x30000 if ARCH_SC5XX && (SC59X_64 || SC59X)
->=20
-
-
 
 
