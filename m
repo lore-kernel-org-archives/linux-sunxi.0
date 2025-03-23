@@ -1,101 +1,196 @@
-Received: from mout.web.de (mout.web.de [212.227.15.3])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAB723FD1
-	for <linux-sunxi@lists.linux.dev>; Sun, 23 Mar 2025 08:31:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.3
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C15D1D95B4
+	for <linux-sunxi@lists.linux.dev>; Sun, 23 Mar 2025 11:36:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742718664; cv=none; b=bNwySQHuouLrj+ytb6sKC8/b9IdNFFFnpVpzEHfdsmsOoiABIosOmaIc5aDAH0L45yDbu9ZZ7P5Y2zLJH38B+lDzA0LzQ5Xu5RNV9YTgR4GcWxE9GDzCVJ1zEoChonyL4R11yRyhx3ZXcCwrXwsZsMpjUdmxShza8rRuCew9N00=
+	t=1742729773; cv=none; b=GvXss7dicCO1AlGp91WZZEfHYqFqmNv8+Wb/dsoeuuynbws5XPXiXYzVCQHwykJyEId9+IzH0791489axntmfrWInhkB/t0Lxya5zxFsdXmPOzQoDKm8tMsQd+r3YdUUlc5KRl9O34WCWSHN5Us2W0TT6ktPT7CEtjEUFeqiATY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742718664; c=relaxed/simple;
-	bh=DYPNU7IrXM3BAA5bDt9np5+DeRI7TeRzLYJArUf3A84=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eY816j5rfq/CUD7guJBvkuq5v5C7+vc8gatp4Wlm35sBeof0deq9KNNm21eWGCY1AlPO0Ek6IzuEkudtNeR7CWVtDuuEffzAi0ugE+hDQxD2FC96wV4u40PQ7MnKHske8tBfInJLpPWZJH1UeUsskDdb4eeFQcKCrH7KGRIlcR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=VIMimFAi; arc=none smtp.client-ip=212.227.15.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="VIMimFAi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1742718653; x=1743323453; i=markus.elfring@web.de;
-	bh=DYPNU7IrXM3BAA5bDt9np5+DeRI7TeRzLYJArUf3A84=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=VIMimFAiNYiWnto0HLD9gvyhH9Teq0oGbpaxVZz2KUd3uAZJ+3dRIb8lZhbyXlSo
-	 XbVlSPYaQ46JkHNu55JWfsn9x7p54idTHIHGT3C+uQyYDSXjUDpBuGoLETTq4HSRK
-	 3Nx5U0VOAkqJAcCXZcgF2K3TcFnlBj4q8S4k0dKU5zpKnsLiLN+oDxSHQ78gKwbYe
-	 jSLDikgNjpOKSL1lH8lY/VrCFdZL4HNKFv+4fHCyzxIjVF/Q558C7Wc0qk+KivlRP
-	 66DCXJMxBBHvXJ8kXjbJdQpLjUsBJm4SRcY2jQQz7Ik6abcn8mbGSEuObXrneagh1
-	 zrti/qqb1UWxxq4Gug==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.70.71]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MNwjc-1tY1m12DLU-00MYlX; Sun, 23
- Mar 2025 09:30:53 +0100
-Message-ID: <352b3fb3-0acd-44bf-8f69-cf72b5d27e67@web.de>
-Date: Sun, 23 Mar 2025 09:30:21 +0100
+	s=arc-20240116; t=1742729773; c=relaxed/simple;
+	bh=n91+7exNsKMFAjV+zeXi7T+7gsyhVFkZAtBo0GvLnto=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BlL++X79Iqh6LQnXysev3AvveT2FIu9Duji9xwJYTAEAd84ztWyv+WDQimu4babcSG3x+imiSrXIw0gVm+lAZQBOaVVNvntvMElP+U1AupvWRv+uRCWXgqFxLWsupoFJr0BkOlHWsqX2Edi6WVNyiSspqpF+Pv2SKEDXXaNegEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 541EE339;
+	Sun, 23 Mar 2025 04:36:17 -0700 (PDT)
+Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 96E633F694;
+	Sun, 23 Mar 2025 04:36:09 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Tom Rini <trini@konsulko.com>
+Cc: Simon Glass <sjg@chromium.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Mikhail Kalashnikov <iuncuim@gmail.com>,
+	u-boot@lists.denx.de,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH 00/34] sunxi: clock refactoring and Allwinner A523 support
+Date: Sun, 23 Mar 2025 11:35:10 +0000
+Message-ID: <20250323113544.7933-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.46.3
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5] dma-engine: sun4i: Use devm functions in probe()
-To: =?UTF-8?B?QmVuY2UgQ3PDs2vDoXM=?= <csokas.bence@prolan.hu>,
- dmaengine@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
-Cc: LKML <linux-kernel@vger.kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>,
- Christophe Jaillet <christophe.jaillet@wanadoo.fr>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Vinod Koul <vkoul@kernel.org>,
- Samuel Holland <samuel@sholland.org>
-References: <20250322193640.246382-2-csokas.bence@prolan.hu>
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20250322193640.246382-2-csokas.bence@prolan.hu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Eok7N/ZFTQPH/RQ/eVBr6b5jC0i/dy6yeFBhBmj57IReVHa0aDa
- qbRh06yLzMUPZpKRncmU9SPEssGx7qTPaLN58ZKELTkKtXRah2HhmLxfGLqRP8kASsuZjqE
- YX6u3nQqKtsYrc3G8wAAD8/NVbBcmZxvwqbTdW848BaJ3Cd5ITThEsNw7/+fVitGEU5Pjaj
- LMubty8hVyW9lL23kL2HQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:dAswLujEvUw=;9KVLCGNHyqed/0kFl03BZHn51pP
- JtULO5FjGC71GnLRkuJmDwVcaad3GtJ4sWROV/cHrnK7YVqurRfU2JOMy4wa/qMTUiClKb+XM
- i5dDhKLnihGijJ8rcUtOCqsj4L7Hwd5gV3kfI8Tn2tYl1RxH7YIXUdaw2uWR5Rh/fnzEJEXvK
- F81r6T3K2M38M0s5r+kag2r5+y/blWAzlfaGLM2KZMQbrYIWz7GZDwld0VRqnkQEdzMUtjSJc
- SYpb3O+zoLnvBHzS/HZWb2ly80REu8e4+YDIrGz/VwGpGNyOwEsjWAE5qRx5Dy77TWUKVoJlc
- ULI6XFoiu2Wlj6qaLUIZw1Chh2u2m3Eh7rI+xUWqV5h75M9omCyks454bw7E1o6iqkJi9BXIL
- K//cFsuR/OR3NodNia2/feiIq4anuYEJCgjkaHvoyUb15KcMAzADYR9giYsbVfpOF4MSHPtPr
- /CayK9cXHUdjrE1yiCmB/EeMp8u7IAv7vmGQKi2z5w1RXAM/PndOBUJ1bjjm6c0GOGfNZnM8I
- dlZm5SVpF+TTZPiRlHURFekB7dPJwckgUvVsyoSGMCR2+5lCU+zg5h3akxB7l0gJgYrap0qT3
- rA078/SRxVSZ4+TKQo9JfxQKeFdGvhQlrg4L/dXG+YiSHJHuQA87/Q7BNyBKaAL7P/L/hNueB
- YeIPyne+LcjWdgwbjyoPKnxf0R87h9zjXcXAEHxahhOvQHe6dbtqVFmGH38Yslsr7ZjyOhDnH
- AmTvOWHy/U52vph3+/wvBHKr8IDkji5u2MF0RLMXfoy36/roocdliXxwWWKJ/3kz5X73wsQ7U
- w/DBxqw0BeEQcARYeFvZZ3us2Kfuxf7JUd5OUu/omDgTmMnN8rCmZqhSlstBa320ibbW71OWg
- iQJ0sdevcI8hxxwhhvXLUpP+XgpW4EjE+8olxJt4KPMmDI3pKMWh7XiqhiY/Vga/9Z4sB68zo
- H4f1LWoKLEokg5BUrImjEa5hXR7V9kaMQOTKvBLYJQjGmFOjC9pe1QKz8QMNX+epWUGjYZg2j
- R4LBji5Q9iu56kK7eU4znvoqYJO3gl80PC2EGY9KNbK3F0gMtg0a/V6960lHC2zizRC0YRN7d
- NL7JRaJFD6NRpOQUfibofYIZ2U3Q9+feRQ+7Z07DZFNlKfS7y3b3g7cOmQfLfPyKDDlJ9y2MU
- Tt1clxt3Vzf5C0ifJuZ15d+ai5xc7EKUMK6yEsPDL0wKGQQBEb20E5E3LBzSZqaEghN0tNwO6
- T60z+pO9Dg/tzBBm09OGl4SoBDDn71XfRC/RVj8Aj0Mc9EwkkCmMy6895zcUs/HxHh6hV5uQ6
- Y7eOwdpEsK1uEuvicb+i9S5vyUyEVHftT8+KII2Z2tOB0cKfnUqGFPufTkNCG4qR2VpxtzemQ
- nX/ennEcACKse+LcnHz3F0gozgCj3XZS62TNtHsvZfacf88YpEwxp/bnSL/G+QLmxI4hPIORc
- 6/5rd2dDXQkXKBU3k+zvybNZ7oFsjE8VZl57nu2g7H+SOomBx5Ye4ZOTdMH6I8aE/nD+u6Q==
+Content-Transfer-Encoding: 8bit
 
-> Clean up =E2=80=A6 and dev_err_probe(). =E2=80=A6
-I find it more reasonable to offer such a change in a separate update step=
-.
-https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tre=
-e/Documentation/process/submitting-patches.rst?h=3Dv6.14-rc7#n81
+This series introduces support for the Allwinner A523 SoC family. The
+same die is used in different packages: the A523, A527, T527, and H728:
+they connect a different set of peripherals to the pins, or enable extra
+goodies like an NPU. From a U-Boot perspective those chips do not differ
+much, all the differences are described in the board DT files.
+These patches are not the most refined at the moment, but I hope that
+people start reviewing them, so we can merge the ones that are ready,
+to reduce their number.
 
+To be able to share the SPL clock code, the existing H6 code gets
+refactored in patches 01-13. This removes the C struct describing the
+127 clock registers, and replaces it with macros defining the register
+offsets. For more rationale and explanation see the 01/34 commit message.
 
-Will it be clearer to mention also the function name =E2=80=9Csun4i_dma_pr=
-obe=E2=80=9D
-in the summary phrases?
+Patches 14-20 extend the existing Allwinner U-Boot drivers to cope with
+some of the changed peripherals, this includes the mandatory clock and
+pinctrl drivers, but also some clock tweaks for the MMC controller
+driver, and support for the new watchdog and the AXP323 used.
 
-Regards,
-Markus
+Patches 21-23 update some SPL bits to be able to cope with the A523.
+Patches 24-28 extend the FEL handling code: the A523 has a GICv3, which
+requires saving some GICv3 system registers, plus the IRQ mode stack
+pointer. Patches 25-27 refactor the CPU clock code, and add the new
+clock bits required by the A523.
+
+Patch 29-32 add the new SPL bits for the A523, most prominently the DRAM
+initialisation code. Many thanks to Jernej and Mikhail for providing
+this part, there is a great reverse engineering and testing effort behind
+this.
+
+Patch 33 copies the DT files from the proposed Linux patches. They have
+not been merged yet, mostly due to one missing DT binding dependency in
+the linux-next tree, but have otherwise been agreed upon, with almost
+every used binding being already merged. Eventually we will use the copy
+from the DT rebasing repo, but for now those files must do.
+
+The final patch adds defconfig files for the three boards that seem to be
+the most popular at the moment, they include two development boards and
+one TV box. The most interesting bits in there are the DRAM parameters.
+
+Please have a look, review, and test.
+
+Thanks!
+Andre
+
+Andre Przywara (30):
+  sunxi: clock: H6: drop usage of struct sunxi_ccm_reg
+  sunxi: mmc: remove usage of struct sunxi_ccm_reg
+  sunxi: H616: dram: remove usage of struct sunxi_ccm_reg
+  sunxi: H6: dram: remove usage of struct sunxi_ccm_reg
+  sunxi: clock: H6: remove struct sunxi_ccm_reg
+  sunxi: clock: H6: drop usage of struct sunxi_prcm_reg
+  sunxi: H6/H616: dram: remove usage of struct sunxi_prcm_reg
+  sunxi: clock: H6: remove struct sunxi_prcm_reg
+  sunxi: clock: H6: unify PLL control bit definitions
+  sunxi: clock: H6: factor out clock_set_pll()
+  sunxi: clock: H6: factor out H6/H616 CPU clock setup
+  sunxi: clock: H6: add A523 CPU PLL support
+  dt-bindings: add Allwinner A523 CCU bindings
+  clk: sunxi: Add support for the A523 CCU
+  clk: sunxi: Add support for the A523 -R CCU
+  pinctrl: sunxi: add Allwinner A523 pinctrl description
+  sunxi: mmc: add support for Allwinner A523 MMC mod clock
+  watchdog: sunxi: add A523 support
+  power: regulator: add AXP323 support
+  sunxi: update cpu_sunxi_ncat2.h
+  sunxi: Kconfig: consolidate SYS_CLK_FREQ selection
+  spl: reorder SPL_MAX_SIZE defaults for sunxi
+  sunxi: armv8: fel: move fel_stash variable to the front
+  sunxi: arm64: boot0.h: move fel_stash_addr variable to the front
+  sunxi: update rmr_switch.S source code
+  sunxi: armv8: FEL: save and restore GICv3 registers
+  sunxi: armv8: FEL: save and restore SP_IRQ
+  sunxi: add basic A523 support
+  sunxi: A523: add DT files from Linux v3 branch
+  sunxi: A523: add defconfigs for three boards
+
+Jernej Skrabec (3):
+  sunxi: spl: add support for Allwinner A523 watchdog
+  sunxi: sun50i_h6: add A523 SPL clock setup code
+  sunxi: A523: add DRAM initialisation routine
+
+Mikhail Kalashnikov (1):
+  sunxi: A523: add DDR3 DRAM support
+
+ arch/arm/cpu/armv8/fel_utils.S                |   20 +-
+ arch/arm/dts/sun55i-a523.dtsi                 |  598 +++++++
+ arch/arm/dts/sun55i-a527-radxa-a5e.dts        |  299 ++++
+ arch/arm/dts/sun55i-h728-x96qpro+.dts         |  287 +++
+ arch/arm/dts/sun55i-t527-avaota-a1.dts        |  308 ++++
+ arch/arm/include/asm/arch-sunxi/boot0.h       |   20 +-
+ arch/arm/include/asm/arch-sunxi/clock_sun4i.h |    6 +
+ .../include/asm/arch-sunxi/clock_sun50i_h6.h  |  280 +--
+ arch/arm/include/asm/arch-sunxi/clock_sun6i.h |    7 +
+ .../include/asm/arch-sunxi/clock_sun8i_a83t.h |    7 +
+ arch/arm/include/asm/arch-sunxi/clock_sun9i.h |    7 +
+ .../include/asm/arch-sunxi/cpu_sunxi_ncat2.h  |   20 +
+ arch/arm/include/asm/arch-sunxi/dram.h        |    2 +
+ .../include/asm/arch-sunxi/dram_sun55i_a523.h |  183 ++
+ arch/arm/include/asm/arch-sunxi/prcm_sun50i.h |   44 +-
+ arch/arm/include/asm/arch-sunxi/watchdog.h    |   12 +
+ arch/arm/mach-sunxi/Kconfig                   |   69 +-
+ arch/arm/mach-sunxi/Makefile                  |    2 +
+ arch/arm/mach-sunxi/board.c                   |   14 +
+ arch/arm/mach-sunxi/clock_sun50i_h6.c         |  203 ++-
+ arch/arm/mach-sunxi/cpu_info.c                |    2 +
+ arch/arm/mach-sunxi/dram_sun50i_h6.c          |   41 +-
+ arch/arm/mach-sunxi/dram_sun50i_h616.c        |   41 +-
+ arch/arm/mach-sunxi/dram_sun55i_a523.c        | 1592 +++++++++++++++++
+ arch/arm/mach-sunxi/dram_timings/Makefile     |    2 +
+ arch/arm/mach-sunxi/dram_timings/a523_ddr3.c  |  135 ++
+ .../arm/mach-sunxi/dram_timings/a523_lpddr4.c |  119 ++
+ arch/arm/mach-sunxi/rmr_switch.S              |   52 +-
+ board/sunxi/board.c                           |    6 +-
+ common/spl/Kconfig                            |    7 +-
+ configs/avaota-a1_defconfig                   |   31 +
+ configs/radxa-a5e_defconfig                   |   30 +
+ configs/x96q_pro_plus_defconfig               |   33 +
+ drivers/clk/sunxi/Kconfig                     |   14 +
+ drivers/clk/sunxi/Makefile                    |    2 +
+ drivers/clk/sunxi/clk_a523.c                  |   85 +
+ drivers/clk/sunxi/clk_a523_r.c                |   44 +
+ drivers/clk/sunxi/clk_sunxi.c                 |   10 +
+ drivers/mmc/sunxi_mmc.c                       |   36 +-
+ drivers/pinctrl/sunxi/Kconfig                 |   10 +
+ drivers/pinctrl/sunxi/pinctrl-sunxi.c         |   49 +
+ drivers/power/pmic/axp.c                      |    1 +
+ drivers/power/regulator/axp_regulator.c       |    1 +
+ drivers/watchdog/sunxi_wdt.c                  |   11 +
+ include/axp_pmic.h                            |    1 +
+ include/configs/sun55i.h                      |   11 +
+ include/dt-bindings/clock/sun55i-a523-ccu.h   |  189 ++
+ include/dt-bindings/clock/sun55i-a523-r-ccu.h |   37 +
+ include/dt-bindings/reset/sun55i-a523-ccu.h   |   88 +
+ include/dt-bindings/reset/sun55i-a523-r-ccu.h |   25 +
+ 50 files changed, 4685 insertions(+), 408 deletions(-)
+ create mode 100644 arch/arm/dts/sun55i-a523.dtsi
+ create mode 100644 arch/arm/dts/sun55i-a527-radxa-a5e.dts
+ create mode 100644 arch/arm/dts/sun55i-h728-x96qpro+.dts
+ create mode 100644 arch/arm/dts/sun55i-t527-avaota-a1.dts
+ create mode 100644 arch/arm/include/asm/arch-sunxi/dram_sun55i_a523.h
+ create mode 100644 arch/arm/mach-sunxi/dram_sun55i_a523.c
+ create mode 100644 arch/arm/mach-sunxi/dram_timings/a523_ddr3.c
+ create mode 100644 arch/arm/mach-sunxi/dram_timings/a523_lpddr4.c
+ create mode 100644 configs/avaota-a1_defconfig
+ create mode 100644 configs/radxa-a5e_defconfig
+ create mode 100644 configs/x96q_pro_plus_defconfig
+ create mode 100644 drivers/clk/sunxi/clk_a523.c
+ create mode 100644 drivers/clk/sunxi/clk_a523_r.c
+ create mode 100644 include/configs/sun55i.h
+ create mode 100644 include/dt-bindings/clock/sun55i-a523-ccu.h
+ create mode 100644 include/dt-bindings/clock/sun55i-a523-r-ccu.h
+ create mode 100644 include/dt-bindings/reset/sun55i-a523-ccu.h
+ create mode 100644 include/dt-bindings/reset/sun55i-a523-r-ccu.h
+
+-- 
+2.46.3
+
