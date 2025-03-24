@@ -1,36 +1,33 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3352228F1
-	for <linux-sunxi@lists.linux.dev>; Mon, 24 Mar 2025 00:37:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98274195
+	for <linux-sunxi@lists.linux.dev>; Mon, 24 Mar 2025 01:19:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742776673; cv=none; b=ller2cHLXNTKX1WwFjHvS8neYSZ4tKZsQPf5Rb1SWyTCEaM7HCigC4ImDP63IxgM0mNBJlgOqHVMhie6n6MDFNJ2sb+Zswj37eQzX2Nj0jsKRG+/VuWsb9lDwFbPAISbX58AIMouosMEmPQXs0Z97sG1gh27xUBIuNtkDoVnpcw=
+	t=1742779162; cv=none; b=Gk9G1Cb6EIfrOFBKb2tYb/yWgpFoAxhpJ46kS5FVdBTRzMFPWz2TZzVzULLfrzC4UF3iJ/dHk089EOzNJ9nYW/yoPSagivdvyqklGJNfRQei5Zp538DzgRA7yirOyWA1+VITJXI56mYIrhTmpPzMBdayWVMJ2QKznAAP/d3Ts+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742776673; c=relaxed/simple;
-	bh=+fjbjcsyCTU4fsaB2Dg64GFitIwwD2Ht1zwbatViTA0=;
+	s=arc-20240116; t=1742779162; c=relaxed/simple;
+	bh=xLwGjqdTa0FMHWpiAu7Z3+qbiFwlOa20+ksHqfHYtKQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lM0YkaLmMh1vhssZUcUwuvt/x/XGDB8X+XEkBRpFHh9IZIFz+AnYcmeVr6f9NtkWzs/4v0/Ya5mI/0rR2q8owUZXe9D1EMIIcysRZKew40gXn+HtvbfBMlcdEBWi7YnM6YIaPqITqt3H7LCzLqmDlaLQxNokAsP3KPnXnJ3KOes=
+	 MIME-Version:Content-Type; b=RqngeeUGi+kyh+atPvCJxDYitOuo4sXrAWFiUdJBbiANup6Vk36UGHrF3ViVi3rWrBXuqdP1aU/E6jm2opMz7FIZEW1Pjg2z2ljSc1waYfs21cmBCpbJnUvCqFYAuCYNJ9LhiYbZBcv+J/8dz9K3+E4EUi0O5DgIvLJN3XMaETw=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 95C3E106F;
-	Sun, 23 Mar 2025 17:37:56 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 29FD5106F;
+	Sun, 23 Mar 2025 18:19:25 -0700 (PDT)
 Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EF66D3F58B;
-	Sun, 23 Mar 2025 17:37:48 -0700 (PDT)
-Date: Mon, 24 Mar 2025 00:37:25 +0000
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B661C3F694;
+	Sun, 23 Mar 2025 18:19:17 -0700 (PDT)
+Date: Mon, 24 Mar 2025 01:18:54 +0000
 From: Andre Przywara <andre.przywara@arm.com>
-To: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-Cc: Tom Rini <trini@konsulko.com>, Simon Glass <sjg@chromium.org>, Mikhail
- Kalashnikov <iuncuim@gmail.com>, u-boot@lists.denx.de,
- linux-sunxi@lists.linux.dev, Lukasz Majewski <lukma@denx.de>, Sean Anderson
- <seanga2@gmail.com>
-Subject: Re: [PATCH 16/34] clk: sunxi: Add support for the A523 -R CCU
-Message-ID: <20250324003725.5963c8bb@minigeek.lan>
-In-Reply-To: <3340159.aeNJFYEL58@jernej-laptop>
-References: <20250323113544.7933-1-andre.przywara@arm.com>
-	<20250323113544.7933-17-andre.przywara@arm.com>
-	<3340159.aeNJFYEL58@jernej-laptop>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: jagan@amarulasolutions.com, trini@konsulko.com, macromorgan@hotmail.com,
+ u-boot@lists.denx.de, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 1/2] sunxi: h616: dram: Rework size detection
+Message-ID: <20250324011854.0a05d29b@minigeek.lan>
+In-Reply-To: <20250309063143.62859-2-jernej.skrabec@gmail.com>
+References: <20250309063143.62859-1-jernej.skrabec@gmail.com>
+	<20250309063143.62859-2-jernej.skrabec@gmail.com>
 Organization: Arm Ltd.
 X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
@@ -39,149 +36,93 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sun, 23 Mar 2025 13:18:17 +0100
-Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
+On Sun,  9 Mar 2025 07:31:42 +0100
+Jernej Skrabec <jernej.skrabec@gmail.com> wrote:
 
-Hi,
+Hi Jernej,
 
-> Dne nedelja, 23. marec 2025 ob 12:35:26 Srednjeevropski standardni =C4=8D=
-as je Andre Przywara napisal(a):
-> > Add a clock driver for the PRCM clock controller on the Allwinner A523
-> > family of SoCs, often also used with an "r" prefix or suffix.
-> > This just describes the clock gates and reset lines for the few devices
-> > that we would need, most prominently the R_I2C device for the PMIC.
-> >=20
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > ---
-> >  drivers/clk/sunxi/Kconfig      |  7 ++++++
-> >  drivers/clk/sunxi/Makefile     |  1 +
-> >  drivers/clk/sunxi/clk_a523_r.c | 44 ++++++++++++++++++++++++++++++++++
-> >  drivers/clk/sunxi/clk_sunxi.c  |  5 ++++
-> >  4 files changed, 57 insertions(+)
-> >  create mode 100644 drivers/clk/sunxi/clk_a523_r.c
-> >=20
-> > diff --git a/drivers/clk/sunxi/Kconfig b/drivers/clk/sunxi/Kconfig
-> > index 74e89b86301..1c1cc82719c 100644
-> > --- a/drivers/clk/sunxi/Kconfig
-> > +++ b/drivers/clk/sunxi/Kconfig
-> > @@ -136,4 +136,11 @@ config CLK_SUN55I_A523
-> >  	  This enables common clock driver support for platforms based
-> >  	  on Allwinner A523/T527 SoC.
-> > =20
-> > +config CLK_SUN55I_A523_R
-> > +	bool "Clock driver for Allwinner A523 generation PRCM"
-> > +	default MACH_SUN55I_A523
-> > +	help
-> > +	  This enables common clock driver support for the PRCM
-> > +	  in Allwinner A523/T527 SoCs.
-> > +
-> >  endif # CLK_SUNXI
-> > diff --git a/drivers/clk/sunxi/Makefile b/drivers/clk/sunxi/Makefile
-> > index dd33eabe2ed..93b542cebcd 100644
-> > --- a/drivers/clk/sunxi/Makefile
-> > +++ b/drivers/clk/sunxi/Makefile
-> > @@ -26,3 +26,4 @@ obj-$(CONFIG_CLK_SUN50I_H616) +=3D clk_h616.o
-> >  obj-$(CONFIG_CLK_SUN50I_A64) +=3D clk_a64.o
-> >  obj-$(CONFIG_CLK_SUN50I_A100) +=3D clk_a100.o
-> >  obj-$(CONFIG_CLK_SUN55I_A523) +=3D clk_a523.o
-> > +obj-$(CONFIG_CLK_SUN55I_A523_R) +=3D clk_a523_r.o
-> > diff --git a/drivers/clk/sunxi/clk_a523_r.c b/drivers/clk/sunxi/clk_a52=
-3_r.c
-> > new file mode 100644
-> > index 00000000000..e864ce16199
-> > --- /dev/null
-> > +++ b/drivers/clk/sunxi/clk_a523_r.c
-> > @@ -0,0 +1,44 @@
-> > +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> > +/*
-> > + * Copyright (C) 2024 Arm Ltd.
-> > + */
-> > +
-> > +#include <clk-uclass.h>
-> > +#include <dm.h>
-> > +#include <clk/sunxi.h>
-> > +#include <dt-bindings/clock/sun55i-a523-r-ccu.h>
-> > +#include <dt-bindings/reset/sun55i-a523-r-ccu.h>
-> > +#include <linux/bitops.h>
-> > +
-> > +static struct ccu_clk_gate a523_r_gates[] =3D {
-> > +	[CLK_R_AHB]             =3D GATE_DUMMY,
-> > +	[CLK_R_APB0]            =3D GATE_DUMMY,
-> > +	[CLK_R_APB1]            =3D GATE_DUMMY,
-> > +	[CLK_BUS_R_TWD]         =3D GATE(0x12c, BIT(0)),
-> > +	[CLK_BUS_R_I2C0]        =3D GATE(0x19c, BIT(0)),
-> > +	[CLK_BUS_R_I2C1]        =3D GATE(0x19c, BIT(1)),
-> > +	[CLK_BUS_R_I2C2]        =3D GATE(0x19c, BIT(2)),
-> > +	[CLK_BUS_R_RTC]         =3D GATE(0x20c, BIT(0)),
-> > +};
-> > +
-> > +static struct ccu_reset a523_r_resets[] =3D {
-> > +//	[RST_BUS_R_TIMER]       =3D RESET(0x11c, BIT(16)),
-> > +	[RST_BUS_R_TWD]         =3D RESET(0x12c, BIT(16)),
-> > +//	[RST_BUS_R_PWMCTRL]     =3D RESET(0x13c, BIT(16)),
-> > +//	[RST_BUS_R_SPI]         =3D RESET(0x15c, BIT(16)),
-> > +//	[RST_BUS_R_UART0]       =3D RESET(0x18c, BIT(16)),
-> > +//	[RST_BUS_R_UART1]       =3D RESET(0x18c, BIT(17)),
-> > +	[RST_BUS_R_I2C0]        =3D RESET(0x19c, BIT(16)),
-> > +	[RST_BUS_R_I2C1]        =3D RESET(0x19c, BIT(17)),
-> > +	[RST_BUS_R_I2C2]        =3D RESET(0x19c, BIT(18)),
-> > +//	[RST_BUS_R_PPU1]        =3D RESET(0x1ac, BIT(17)),
-> > +	[RST_BUS_R_RTC]         =3D RESET(0x20c, BIT(16)),
-> > +//	[RST_BUS_R_CPUCFG]      =3D RESET(0x22c, BIT(16)), =20
->=20
-> Any specific reason that you commented out some reset lines?
+thanks for keeping digging into this long-standing problem!
 
-Ah yeah, looks like a leftover from development, more for documentation
-purposes. In general we just mention lines that we actually need, and
-that's not much from the PRCM CCU. I will just remove those lines,
-shall we need, it's easy to bring them back.
+> Since there is quite a few possible DRAM configurations in terms of bus
+> width, rank and rows and columns count, size detection algorithm must be
+> very careful not to test combination which would be bigger than H616 is
+> actually capable of handling.
+> 
+> Ideally, we should always detect memory aliasing, even for 4 GB memory
+> size, which is the maximum amount of memory that H616 is capable of
+> handling. For this reason, we have to configure minimum amount of
+> supported rows when testing for columns and vice versa. This way test
+> code will never step out of 4 GB boundary.
+> 
+> While at it, check for 17 rows maximum. This aligns code with BSP DRAM
+> driver. There is probably no such configuration which would make sense
+> with 4 GB memory.
+> 
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+
+The change itself looks good to me, I have not done enough tests myself
+to confirm its reliability, but I trust the reports from others who
+were more affected by this.
+
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 
 Cheers,
 Andre
 
->=20
-> Best regards,
-> Jernej
->=20
-> > +};
-> > +
-> > +const struct ccu_desc a523_r_ccu_desc =3D {
-> > +	.gates =3D a523_r_gates,
-> > +	.resets =3D a523_r_resets,
-> > +	.num_gates =3D ARRAY_SIZE(a523_r_gates),
-> > +	.num_resets =3D ARRAY_SIZE(a523_r_resets),
-> > +};
-> > diff --git a/drivers/clk/sunxi/clk_sunxi.c b/drivers/clk/sunxi/clk_sunx=
-i.c
-> > index 30baabaafcd..842a0541bd6 100644
-> > --- a/drivers/clk/sunxi/clk_sunxi.c
-> > +++ b/drivers/clk/sunxi/clk_sunxi.c
-> > @@ -127,6 +127,7 @@ extern const struct ccu_desc h6_r_ccu_desc;
-> >  extern const struct ccu_desc r40_ccu_desc;
-> >  extern const struct ccu_desc v3s_ccu_desc;
-> >  extern const struct ccu_desc a523_ccu_desc;
-> > +extern const struct ccu_desc a523_r_ccu_desc;
-> > =20
-> >  static const struct udevice_id sunxi_clk_ids[] =3D {
-> >  #ifdef CONFIG_CLK_SUN4I_A10
-> > @@ -228,6 +229,10 @@ static const struct udevice_id sunxi_clk_ids[] =3D=
- {
-> >  #ifdef CONFIG_CLK_SUN55I_A523
-> >  	{ .compatible =3D "allwinner,sun55i-a523-ccu",
-> >  	  .data =3D (ulong)&a523_ccu_desc },
-> > +#endif
-> > +#ifdef CONFIG_CLK_SUN55I_A523_R
-> > +	{ .compatible =3D "allwinner,sun55i-a523-r-ccu",
-> > +	  .data =3D (ulong)&a523_r_ccu_desc },
-> >  #endif
-> >  	{ }
-> >  };
-> >  =20
->=20
->=20
->=20
->=20
+
+> ---
+>  arch/arm/mach-sunxi/dram_sun50i_h616.c | 20 ++++++++++++--------
+>  1 file changed, 12 insertions(+), 8 deletions(-)
+> 
+> diff --git a/arch/arm/mach-sunxi/dram_sun50i_h616.c b/arch/arm/mach-sunxi/dram_sun50i_h616.c
+> index b3554cc64bf5..6f84e59e39cd 100644
+> --- a/arch/arm/mach-sunxi/dram_sun50i_h616.c
+> +++ b/arch/arm/mach-sunxi/dram_sun50i_h616.c
+> @@ -1363,7 +1363,7 @@ static void mctl_auto_detect_rank_width(const struct dram_para *para,
+>  static void mctl_auto_detect_dram_size(const struct dram_para *para,
+>  				       struct dram_config *config)
+>  {
+> -	unsigned int shift;
+> +	unsigned int shift, cols, rows;
+>  
+>  	/* max. config for columns, but not rows */
+>  	config->cols = 11;
+> @@ -1373,23 +1373,27 @@ static void mctl_auto_detect_dram_size(const struct dram_para *para,
+>  	shift = config->bus_full_width + 1;
+>  
+>  	/* detect column address bits */
+> -	for (config->cols = 8; config->cols < 11; config->cols++) {
+> -		if (mctl_mem_matches(1ULL << (config->cols + shift)))
+> +	for (cols = 8; cols < 11; cols++) {
+> +		if (mctl_mem_matches(1ULL << (cols + shift)))
+>  			break;
+>  	}
+> -	debug("detected %u columns\n", config->cols);
+> +	debug("detected %u columns\n", cols);
+>  
+>  	/* reconfigure to make sure that all active rows are accessible */
+> -	config->rows = 18;
+> +	config->cols = 8;
+> +	config->rows = 17;
+>  	mctl_core_init(para, config);
+>  
+>  	/* detect row address bits */
+>  	shift = config->bus_full_width + 4 + config->cols;
+> -	for (config->rows = 13; config->rows < 18; config->rows++) {
+> -		if (mctl_mem_matches(1ULL << (config->rows + shift)))
+> +	for (rows = 13; rows < 17; rows++) {
+> +		if (mctl_mem_matches(1ULL << (rows + shift)))
+>  			break;
+>  	}
+> -	debug("detected %u rows\n", config->rows);
+> +	debug("detected %u rows\n", rows);
+> +
+> +	config->cols = cols;
+> +	config->rows = rows;
+>  }
+>  
+>  static unsigned long mctl_calc_size(const struct dram_config *config)
 
