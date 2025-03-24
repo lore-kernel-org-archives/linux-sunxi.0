@@ -1,80 +1,180 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5C4B1E0DB3;
-	Mon, 24 Mar 2025 13:59:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 237F625F992
+	for <linux-sunxi@lists.linux.dev>; Mon, 24 Mar 2025 17:30:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742824773; cv=none; b=s9Y5it4ohp7MQVR2m6TCs+ShsHz2PRsLNQpEr5B56xuzcRRgC7JAUpDrjbzFZclVSMxnhWSDvhV+zZ87AVdh0uwHGY1Bk8JLnKzeqblrBk+m/SrpQU1lroXQKzBKTCq25VbXx8Yl9zRistOuTo2yjGlCvibdM454wEAk15K0L3Y=
+	t=1742837425; cv=none; b=hYK7DCCrTepMf/zjagEkbOuEX3fWE4EQDXFoVceEz4UzuOl+RQTyTcaVuWKT8oDnJ3boialbrPET4HYIjj2bG5ogK5yyhs8BlgH9gzWrXu8Wv+/L5TIABpTYjIKR4ZqnpU4vA0aWAJZUsvJdUeDswaG5H51liqVpiU9cyjmU1go=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742824773; c=relaxed/simple;
-	bh=pPpPGmbFhlnpcrD/sdzrDoBTzh8QL5fZzQQDJK4oxFg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=YBISBCTmKGnYLqwM+cd84IJHI8B8yoQ7CKWfyyO1m+2TBLJc7VTLan0WyUIanA0pT+nbn6ZKiRoebX3H+7rD10sg/wSGjw9XEljhEHdyq8pg/e9+I7P7p0ax84pqixcaYANwYKCw9JqNs4ugDrfjwNB8KsTnGlIHty4s90hCV+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=NoOFdZGM; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1742837425; c=relaxed/simple;
+	bh=a18JP2W8KQVW4PEFPdnixiYC42ZqHhBz7RYwa8V3mfM=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=r68HGCs7tzQWbbofcrbQ79kK4Hu114Bbb4O66vUKXpq51F4FXsQEo6MfoBVp5Jd5ExDZVDaBQ6V9VxWk9LjSXLGY1v5V30/JXgxzd1Y2EMlhn3TggXBN9WTb/kkyEjCRIPDCeR9cxcnjSfnR+tav6rYz14oTpa5ov5W+FcvA6Qc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=N/We4BvY; arc=none smtp.client-ip=193.68.50.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="NoOFdZGM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1742824770;
-	bh=pPpPGmbFhlnpcrD/sdzrDoBTzh8QL5fZzQQDJK4oxFg=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=NoOFdZGMVYWoM9DEu8WggGAbsUWyXP8z1gBmOVYNDchafopGHD8cg4ne8gCQsrEOh
-	 JuPHDleNcmv2mZtMw280dk7j8HJNk0a2bA09/3uu/G9Uan44pDZR/7pX1/ujgzT38+
-	 Rdagsu4hGj3TsONQ0hWTCj58/NVcn/+o8gN6FioqAwbbI51EgB2ciGuYEPfxVjU9aG
-	 4L9msFdmuoIAAHy336MF8sXfMWPhsl469v7mWyDIQtr9FU0VZYSEtdcGCqAPkFzK2G
-	 R6rVAXwgu/vjlgh73bV7Cxrpz4kZcKKNchIGPzlVxsKRAX+Ytb8w2TnpKBz7jOsxaQ
-	 3TNL44MXe1f6A==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 3AAF417E0673;
-	Mon, 24 Mar 2025 14:59:28 +0100 (CET)
-Message-ID: <28135f96-ef99-4347-884d-20e870a3d64a@collabora.com>
-Date: Mon, 24 Mar 2025 14:59:26 +0100
+	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="N/We4BvY"
+Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
+	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id 4BB15A0611;
+	Mon, 24 Mar 2025 18:21:31 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:from:from:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=mail; bh=sn+9WvrfHWY+2IqdbQcpXc2meRV7F6T0M7XWCp5U8+M=; b=
+	N/We4BvY8xp9qmON0WwaSaZZNPVnV/yejxsPz9uP3dS7fmbOucHgc5Lwhkvurdtb
+	hLt0ZsdhHzkY0N0kIJdUFqVqw022p4fNFukJe/qQ23crkUnfuwNqYR2IV94v5cXI
+	1fu7/U8K4gNfEMMnPvMCS9Brc7JWkiD1vetg/jqfzrKWreKWM96mIWnbCQf2QuK4
+	EhmWOHGz36PBv4NM107zb5+sdulhuKcucJTFK1sAZHW6W3yhexHWxxdcbtXU+Fc6
+	ndC1ZBaExHo9xpPmvEyuryBisoKQE494Oou76iSRmyH6j//tBl3tGnXCzqnuTBTu
+	0doMda47UZOfavOpy8ssII3vGdLqOZ/Ey+dCnu/kBvqeN31ZJH5aeeuBH/elocFh
+	/v9hE8DH9Ohrc8FEqCtyxG06DBTHopfSX1LIELaREiEoGt2XNWh1FOg+qLwlnfMv
+	A4oremgjR9wuiQyiyFBEp7w8xR8pW9ybQ7ytVyqIGysYU4EFLeiacQdM84//5E4N
+	gbVtmHJBWAYLjI/nyeN8ZAnRPKMtzFnUmR3DGtOMI7DiClapOL+7drfkeg6LH37m
+	bxXNZDlnmqtrnJP2pfFcu0dYepGU/isu4s2DyOQlSPkzvVZxt0HYQ//1zoZAiS9z
+	5qBtvyusORs8TtLrW7jR1LmMmNWmDMvS76TRenHsctg=
+From: =?UTF-8?q?Bence=20Cs=C3=B3k=C3=A1s?= <csokas.bence@prolan.hu>
+To: <dmaengine@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+CC: =?UTF-8?q?Bence=20Cs=C3=B3k=C3=A1s?= <csokas.bence@prolan.hu>, "Markus
+ Elfring" <Markus.Elfring@web.de>, Christophe JAILLET
+	<christophe.jaillet@wanadoo.fr>, Chen-Yu Tsai <wens@kernel.org>, "Jernej
+ Skrabec" <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>, Vinod Koul
+	<vkoul@kernel.org>, Samuel Holland <samuel@sholland.org>
+Subject: [PATCH v6] dma-engine: sun4i: Simplify error handling in probe()
+Date: Mon, 24 Mar 2025 18:20:25 +0100
+Message-ID: <20250324172026.370253-2-csokas.bence@prolan.hu>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dt-bindings: iommu: Correct indentation and style in DTS
- example
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Yong Wu <yong.wu@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Maxime Ripard
- <mripard@kernel.org>, David Heidelberg <david@ixit.cz>,
- iommu@lists.linux.dev, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org
-References: <20250324125250.82137-1-krzysztof.kozlowski@linaro.org>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20250324125250.82137-1-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ESET-AS: R=OK;S=0;OP=CALC;TIME=1742836890;VERSION=7987;MC=2160210615;ID=85768;TRN=0;CRV=0;IPC=;SP=0;SIPS=0;PI=3;F=0
+X-ESET-Antispam: OK
+X-EsetResult: clean, is OK
+X-EsetId: 37303A2980D948526D7C62
 
-Il 24/03/25 13:52, Krzysztof Kozlowski ha scritto:
-> DTS example in the bindings should be indented with 2- or 4-spaces and
-> aligned with opening '- |', so correct any differences like 3-spaces or
-> mixtures 2- and 4-spaces in one binding.  While re-indenting, drop
-> unused labels.
-> 
-> No functional changes here, but saves some comments during reviews of
-> new patches built on existing code.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Clean up error handling by using devm functions and dev_err_probe(). This
+should make it easier to add new code, as we can eliminate the "goto
+ladder" in sun4i_dma_probe().
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Suggested-by: Chen-Yu Tsai <wens@kernel.org>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Acked-by: Chen-Yu Tsai <wens@csie.org>
+Signed-off-by: Bence Csókás <csokas.bence@prolan.hu>
+---
+
+Notes:
+    Changes in v2:
+    * rebase on current next
+    Changes in v3:
+    * rebase on current next
+    * collect Jernej's tag
+    Changes in v4:
+    * rebase on current next
+    * collect Chen-Yu's tag
+    Changes in v5:
+    * reformat msg to 75 cols
+    * keep `\n`s in error messages
+    Changes in v6:
+    * remove redundant braces
+    * break lines to stay under 85 cols
+    * reword subject and message
+
+ drivers/dma/sun4i-dma.c | 46 ++++++++++++-----------------------------
+ 1 file changed, 13 insertions(+), 33 deletions(-)
+
+diff --git a/drivers/dma/sun4i-dma.c b/drivers/dma/sun4i-dma.c
+index 24796aaaddfa..00d2fd38d17f 100644
+--- a/drivers/dma/sun4i-dma.c
++++ b/drivers/dma/sun4i-dma.c
+@@ -1249,11 +1249,10 @@ static int sun4i_dma_probe(struct platform_device *pdev)
+ 	if (priv->irq < 0)
+ 		return priv->irq;
+ 
+-	priv->clk = devm_clk_get(&pdev->dev, NULL);
+-	if (IS_ERR(priv->clk)) {
+-		dev_err(&pdev->dev, "No clock specified\n");
+-		return PTR_ERR(priv->clk);
+-	}
++	priv->clk = devm_clk_get_enabled(&pdev->dev, NULL);
++	if (IS_ERR(priv->clk))
++		return dev_err_probe(&pdev->dev, PTR_ERR(priv->clk),
++				     "Couldn't start the clock\n");
+ 
+ 	if (priv->cfg->has_reset) {
+ 		priv->rst = devm_reset_control_get_exclusive_deasserted(&pdev->dev, NULL);
+@@ -1328,12 +1327,6 @@ static int sun4i_dma_probe(struct platform_device *pdev)
+ 		vchan_init(&vchan->vc, &priv->slave);
+ 	}
+ 
+-	ret = clk_prepare_enable(priv->clk);
+-	if (ret) {
+-		dev_err(&pdev->dev, "Couldn't enable the clock\n");
+-		return ret;
+-	}
+-
+ 	/*
+ 	 * Make sure the IRQs are all disabled and accounted for. The bootloader
+ 	 * likes to leave these dirty
+@@ -1343,33 +1336,23 @@ static int sun4i_dma_probe(struct platform_device *pdev)
+ 
+ 	ret = devm_request_irq(&pdev->dev, priv->irq, sun4i_dma_interrupt,
+ 			       0, dev_name(&pdev->dev), priv);
+-	if (ret) {
+-		dev_err(&pdev->dev, "Cannot request IRQ\n");
+-		goto err_clk_disable;
+-	}
++	if (ret)
++		return dev_err_probe(&pdev->dev, ret, "Cannot request IRQ\n");
+ 
+-	ret = dma_async_device_register(&priv->slave);
+-	if (ret) {
+-		dev_warn(&pdev->dev, "Failed to register DMA engine device\n");
+-		goto err_clk_disable;
+-	}
++	ret = dmaenginem_async_device_register(&priv->slave);
++	if (ret)
++		return dev_err_probe(&pdev->dev, ret,
++				     "Failed to register DMA engine device\n");
+ 
+ 	ret = of_dma_controller_register(pdev->dev.of_node, sun4i_dma_of_xlate,
+ 					 priv);
+-	if (ret) {
+-		dev_err(&pdev->dev, "of_dma_controller_register failed\n");
+-		goto err_dma_unregister;
+-	}
++	if (ret)
++		return dev_err_probe(&pdev->dev, ret,
++				     "Failed to register translation function\n");
+ 
+ 	dev_dbg(&pdev->dev, "Successfully probed SUN4I_DMA\n");
+ 
+ 	return 0;
+-
+-err_dma_unregister:
+-	dma_async_device_unregister(&priv->slave);
+-err_clk_disable:
+-	clk_disable_unprepare(priv->clk);
+-	return ret;
+ }
+ 
+ static void sun4i_dma_remove(struct platform_device *pdev)
+@@ -1380,9 +1363,6 @@ static void sun4i_dma_remove(struct platform_device *pdev)
+ 	disable_irq(priv->irq);
+ 
+ 	of_dma_controller_free(pdev->dev.of_node);
+-	dma_async_device_unregister(&priv->slave);
+-
+-	clk_disable_unprepare(priv->clk);
+ }
+ 
+ static struct sun4i_dma_config sun4i_a10_dma_cfg = {
+-- 
+2.49.0
 
 
