@@ -1,115 +1,273 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E7372E3367
-	for <linux-sunxi@lists.linux.dev>; Mon, 24 Mar 2025 05:48:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57CAB282F0
+	for <linux-sunxi@lists.linux.dev>; Mon, 24 Mar 2025 07:12:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742795299; cv=none; b=RCgt1igoTiUfuSI9fSIG9YFOvSwqEJTQYxfFdiGXf7SWvRHwNf/JximeKfrGfi6BADpmLNBLTUe1PJeHrF86ItGbLs3eGHuatjLIpAx899ECT44G0DnQ2UIfKp5kdBpwcxqPPLiqB2L0CmDnfYOWpcz/6wOE4k6IXXx/EPExu5w=
+	t=1742800353; cv=none; b=VLfSQcy8agyJK07b/FtboKls0G8y7IiM33ejvorYOPPFp4+9PyAJWG9uMIXcXrdZayYMXHqmSqzX5/DkMRMjta4B/EW952SaSG/C1EYknTgdiAVdSqsGizzk6hafDTwbxqA+4Wd7ivVNkQNCgrCZ85ChufmldJy5k4p7c7c9AdI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742795299; c=relaxed/simple;
-	bh=hFzwVsvlTm6FzsGdNshq6DKl0QckI85JLKWYGluazmY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gvcFYkvobZ5uvVsC0dPNscMChwj2qHdtmmkceyAR6SZg8ErX3INCRfG+G6h0q35AVvHsnuvFSVDZJbN3CNwKq7zRsgcl0MrdbKgeSFarIVWQamVmtuisPKSrnYCkEp5yjHvDFoL6IgQ+Z/igGHohONPpnG0nWmS3mdBoOAFS+Aw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=iKSay9fp; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1742800353; c=relaxed/simple;
+	bh=xxsp+OscMoZLwTVJ4/Cttaosh9NZrmtqrfWjgfCbC0M=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rhmQV1jtzN21jwywu+t5u5bIkDiwJTQYNNms2jOcPtFoipjJ5+nFIB1XpeZLuCv9WnVOsCGFQPYDXxcT9lF0Ikj6zGP9nDs1AvjB9Pa4sAuaJGUeKhW8/oDzJIv9qpsSHFiF0zrxt2QpfA4tWlHjtplvo/RT3GMozsV7KJRgOyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kEAVky8J; arc=none smtp.client-ip=209.85.208.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iKSay9fp"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-224191d92e4so72281615ad.3
-        for <linux-sunxi@lists.linux.dev>; Sun, 23 Mar 2025 22:48:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kEAVky8J"
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-30bf3f3539dso40126441fa.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 24 Mar 2025 00:12:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1742795297; x=1743400097; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=/R5x+1WOSlr2ATn0vFw3CXpQGRrxOjJ4eIn39P6K6yc=;
-        b=iKSay9fpWnP6GEYncISetkMFBjcm1ITN+d4Lz6k+rII4bPL5uBJgoVbPC+XUS2Vr7r
-         bmvddm9FsGULKNhMW+e8Wrkb2EFwiNvj879nk9U750TABOpBDRI31aICzjdRxnkSbgD5
-         jPNUzOpCX/N3knj8i5LuFdSqyXAq1V0F6jgL37LMUvBmLQLLskoDWGxoluPhXERkJNCn
-         MzR1Aa2oFi8w9FSV2T8w520oiztywq2ZzXa/HoqnF86DCRRXGELCrThc+ex2tdNq3aoc
-         Rx7VOyXKQNNbMopasri0Z+Q5917Xqd++gHkRWkxmkjxDzdtO860mqznDjaupW6q0ql+w
-         zfnQ==
+        d=gmail.com; s=20230601; t=1742800348; x=1743405148; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=sowTRCf+Tb5j3/bsFU0jjdH3gxVyOrbSH7sFKvyOG64=;
+        b=kEAVky8JxHe6ZOKqAg9lAF2S+jEAiEsKYJYVczfBr1A7xa15T1E+xfKjCKEaqhhn77
+         Ok26D8gb1oyECMPpGn1r52LhGG6Hnp96fW14gt+HimgEeoy9uAgXIoxgLX99/dqdus2/
+         4o325uKIepnC/zIK4OvnyZSpV2BSyAAITD52oKCA/ErtQrPpNW2PiKnM2eD2XALVek5C
+         vDKv/YCYtmhSFT1dgRgZQ5IoGlRMS5J/WA3PF/nx8ApzrmSnVBuR5vIYA31Q44idsIeC
+         JolZvkn3CMQssLK8uqIIfzfoXLfdVfa9Loy9n0LFC/FkPXL3EGB61thMtDfg2FY850OW
+         WBlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742795297; x=1743400097;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20230601; t=1742800348; x=1743405148;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/R5x+1WOSlr2ATn0vFw3CXpQGRrxOjJ4eIn39P6K6yc=;
-        b=kLRC0whVzppDzKB4s7hCWx7xICAcx8KNOP3sMcbEusvlbFa9pGRl+s1mO4YwolC8tP
-         P8Uxx4tWvUaSB4eSFlnASYfUAKj5eqtj8Ykz4xpR/pr4PpU66FHb8ToIW/qtdLH9X62U
-         I6u1JvLIUx+8vD6F0lDerhdp3FiXEDkQq3ZtySS2PwqKHea9t+SbQ16sBRP/aEO9NSQP
-         fG8HBkmkr4EhQSCPPMoo/OutqV5yTLI2+ee1sl4+jh4A/t57z+bLsEYapFsrVH6Ft/xe
-         MLpKQLoREjvj6RGJ9ZNwm1t+AqU0TAc11u8Wt08irunUKtNtfE7nYZnrOuvWZRLKfdI/
-         2jwg==
-X-Forwarded-Encrypted: i=1; AJvYcCXJ6oo9A01H/HouC/FJeWJlOucqbQIFZC71hnuQ0/62NGWs0kiNgme/BVEyTALLxUj0460XEmrHeMmhpw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw5NyMAPtVk6t5CIwogOYSyo7jOLBIEzjSpv1ABsHJyUTouIGeY
-	ngtVhwsP0Fwp0wVZRr8VyQt2YhswINS2ZZxUdYQDbBFSnCgoVjZanVf86MV011Q=
-X-Gm-Gg: ASbGnctoxR9C1Efg3Vr058TiYA/S/r9MyCPGhZODzqgA1kdTIh/G67UkDzs05DH6X81
-	AXxDIFSVrJ8CFQ6EfOkZ70FlstnztcZ9AKXIJ289By4P1aNSzH/bazWEPAZtEVqeK0zCXyHhOZR
-	mgEzm5Gjcth25s011aukTMFlJmCGl7ctLurEd9FnfUCWo+aPUg/Ley6niRfQesxBeXgTJe6d7l3
-	nrnr/p+g3woeuEjGAwdLrxXPK/7gzNmV6c58ofm3ipi2AiY2mkLhFoxAvatp2ce5IvMZBy0XSYb
-	oIjRTvf5+UPZzyMLjlDh4yGN98s0LOXsY7YsnV7YjDZT6A==
-X-Google-Smtp-Source: AGHT+IEjzOfTYFKH7m9L7KhblERHs6U5SD2x2kJlkL36nq/EuBvZ3tJQu+dClNO0tHh2wUcONaNzMw==
-X-Received: by 2002:a05:6a00:b4e:b0:736:34a2:8a20 with SMTP id d2e1a72fcca58-73905a2300cmr18173268b3a.21.1742795296466;
-        Sun, 23 Mar 2025 22:48:16 -0700 (PDT)
-Received: from localhost ([122.172.83.32])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73906158ef2sm7170982b3a.141.2025.03.23.22.48.15
+        bh=sowTRCf+Tb5j3/bsFU0jjdH3gxVyOrbSH7sFKvyOG64=;
+        b=YJQiHIy5DSuoDMrw3MBW96MKtNuV39MUAv8ZEd+ZIWE8PO/hSpjQMnn+ic0sNjy0ea
+         0N6yr5mfedoejT2Hn7ftzgtOrrfUXlqg3Hn+PhtolX26VTXD8IrxinLP012vw3C4SPcB
+         EXfJjopJPxkhMMAszHCbNp66nBgDk8wvXTU+ioGsYhzeRf5X+iGRUxGWhWlsf0RFv5y9
+         BhEcBVdukgwi/haO7n5DYp0bE8Iz9X+/BZaXNcSR/PDDfJkxKlrsRL86dF2c4o8wDxLM
+         mU1hZDrM+PsVInyM+7LIW6DMZ/TFG1MR8Ka6sZ1YxXreP8muHh5w/c7/UkcZMMOYlRxY
+         uUQg==
+X-Forwarded-Encrypted: i=1; AJvYcCU7fcI52mKAeVLO2bOWuHZkY9MzRxhhMx/nwMgB0vVulKWL8kZ14UvuP2OCJmJsKLvMUncclLOQ00UaeQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwbphY284mAlLyXqbq2JnHcmuJHAR2IDBD7HKA8PduNLsc0WqNt
+	OoQxsksRLDUVFL7P6QfFzG/XV6bLRhqQTKPS68PCfPKbqMTC0/eL
+X-Gm-Gg: ASbGnctoIKzstpkom6yTAds+F48TfCZlCa3xMq5v12yjHxnYSqYtbahrXfllnL/dPtU
+	5QKfoIoo0Rdf4CjEJtlPEKkFa9Lf89+hk9hiVcqmFIWiPIKmQsqPTNKPFtOaH7+VSgdPddhr0wY
+	2O+Wc1BZ4Xkd78SXQFhG/4jJq6dR/2DEfwDEH3wzmBNQuDPDQbi5GFwbDdmXh2f75czp6kym351
+	CVy1jlbO7h8tTjUOvgmWIRZJZLSOqC4jkBaqTwUQKEmjLItIJQZ2MO6FHJtUvsfNEFr2HVF8fts
+	xMha643Uxr8TSjI3HxoggeDGIJu6WyTz5kxUiOw0vtFRUf7PFfQ=
+X-Google-Smtp-Source: AGHT+IEnPPDATgowgnImDNLSvusoM0BTZl2CHm0V3kdZ6FVCrucX9v/2JU56loHRJqHxxkYiE05MEQ==
+X-Received: by 2002:a2e:6817:0:b0:30b:f599:d78f with SMTP id 38308e7fff4ca-30d727317a3mr56663871fa.7.1742800347972;
+        Mon, 24 Mar 2025 00:12:27 -0700 (PDT)
+Received: from mva-rohm ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30d7d7c19c3sm13336481fa.4.2025.03.24.00.12.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Mar 2025 22:48:15 -0700 (PDT)
-Date: Mon, 24 Mar 2025 11:18:05 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: Yangtao Li <tiny.windzz@gmail.com>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Brandon Cheo Fusi <fusibrandon13@gmail.com>,
-	linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] cpufreq: sun50i: prevent out-of-bounds access
-Message-ID: <20250324054805.3x3nwl4vtvf63rwj@vireshk-i7>
-References: <20250320155557.211211-1-andre.przywara@arm.com>
- <2772067.mvXUDI8C0e@jernej-laptop>
+        Mon, 24 Mar 2025 00:12:26 -0700 (PDT)
+Date: Mon, 24 Mar 2025 09:12:17 +0200
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+To: Matti Vaittinen <mazziesaccount@gmail.com>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, Nuno Sa <nuno.sa@analog.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	Guillaume Stols <gstols@baylibre.com>,
+	Olivier Moysan <olivier.moysan@foss.st.com>,
+	Dumitru Ceclan <mitrutzceclan@gmail.com>,
+	Trevor Gamblin <tgamblin@baylibre.com>,
+	Matteo Martelli <matteomartelli3@gmail.com>,
+	Alisa-Dariana Roman <alisadariana@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	=?iso-8859-1?Q?Jo=E3o_Paulo_Gon=E7alves?= <joao.goncalves@toradex.com>,
+	Ramona Alexandra Nechita <ramona.nechita@analog.com>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: [PATCH v10 0/8] Support ROHM BD79124 ADC
+Message-ID: <cover.1742560649.git.mazziesaccount@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="x9LRqC/eTzOvp8+V"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2772067.mvXUDI8C0e@jernej-laptop>
 
-On 22-03-25, 08:38, Jernej Škrabec wrote:
-> Dne četrtek, 20. marec 2025 ob 16:55:57 Srednjeevropski standardni čas je Andre Przywara napisal(a):
-> > A KASAN enabled kernel reports an out-of-bounds access when handling the
-> > nvmem cell in the sun50i cpufreq driver:
-> > ==================================================================
-> > BUG: KASAN: slab-out-of-bounds in sun50i_cpufreq_nvmem_probe+0x180/0x3d4
-> > Read of size 4 at addr ffff000006bf31e0 by task kworker/u16:1/38
-> > 
-> > This is because the DT specifies the nvmem cell as covering only two
-> > bytes, but we use a u32 pointer to read the value. DTs for other SoCs
-> > indeed specify 4 bytes, so we cannot just shorten the variable to a u16.
-> > 
-> > Fortunately nvmem_cell_read() allows to return the length of the nvmem
-> > cell, in bytes, so we can use that information to only access the valid
-> > portion of the data.
-> > To cover multiple cell sizes, use memcpy() to copy the information into a
-> > zeroed u32 buffer, then also make sure we always read the data in little
-> > endian fashion, as this is how the data is stored in the SID efuses.
-> > 
-> > Fixes: 6cc4bcceff9a ("cpufreq: sun50i: Refactor speed bin decoding")
-> > Reported-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> 
-> Thanks for fixing that!
-> 
-> Reviewed-by: Jernej Škrabec <jernej.skrabec@gmail.com>
 
-Applied. Thanks.
+--x9LRqC/eTzOvp8+V
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
-viresh
+Support ROHM BD79124 ADC.
+
+This series adds also couple of IIO ADC helper functions for parsing the
+channel information from the device tree. There are also new helpers
+included for iterating and counting firmware child nodes with a specific
+name.
+
+The rzg2l_adc and the sun20i-gpadc are converted to use the new ADC helper.
+
+There has been some discussion about how useful these ADC helpers are,
+and whether they should support also differential and single ended channel
+configurations. This version does not include support for those - with the
+benefit of reduced complexity and easier to use API.
+
+NOTE: The rzg2l_adc and the sun20i-gpadc are untested as I lack of relevant
+HW. They have been compile tested only.
+
+The ROHM BD79124 ADC itself is quite usual stuff. 12-bit, 8-channel ADC
+with threshold monitoring.
+
+Except that:
+ - each ADC input pin can be configured as a general purpose output.
+ - manually starting an ADC conversion and reading the result would
+   require the I2C _master_ to do clock stretching(!) for the duration
+   of the conversion... Let's just say this is not well supported.
+ - IC supports 'autonomous measurement mode' and storing latest results
+   to the result registers. This mode is used by the driver due to the
+   "peculiar" I2C when doing manual reads.
+
+Furthermore, the ADC uses this continuous autonomous measuring,
+and the IC keeps producing new 'out of window' IRQs if measurements are
+out of window - the driver disables the event for 1 seconds when sending
+it to user. This prevents generating storm of events
+
+Revision history:
+v9 =3D> v10:
+ BD79124 driver fixes as suggested by Andy:
+   - Use regmap_assign_bits()
+   - dont change the mask for caller in bd79124gpo_set_multiple()
+   - styling
+
+v8 =3D> v9:
+ - Drop the gianfar and the thp7312 drivers from the series to limit the
+   review noise and to simplify the merging. They can be submitted later
+   as separate changes.
+ - Drop the fwnode_for_each_available_named_child() as suggested by
+   Sakari.
+ - BD79124 driver styling and fixes
+
+v7 =3D> v8:
+  property helpers:
+    - Fix the example in fwnode_get_named_child_node_count() documentation
+      to use the fwnode_get_named_child_node_count() and not the
+      device_get_named_child_node_count()
+    - Fix the rest of the new macro's indentiations
+  adc helpers:
+    - Treat 0 ADC channels as an error in
+      devm_iio_adc_device_alloc_chaninfo_se().
+  rzg2l_adc / sun20i-gpadc:
+    - Drop zero channels check from the ADC drivers using
+      devm_iio_adc_device_alloc_chaninfo_se()
+  BD79124:
+    - Use unsigned for regmap values
+    - Commit message fine tuning
+    - Check devm_mutex_init() return value
+    - Handle 'ALL pins as ADC or GPO' cleanly in BD79124 driver
+    - BD79124 styling / typofixes
+
+v6 =3D> v7:
+ - Inline device_get_named_child_node_count()
+ - Fix kernel-doc for fwnode_get_named_child_node_count()
+ - Minor styling fixes
+ More accurate changelog in individual patches.
+
+v5 =3D> v6:
+ - Drop applied patch
+ - Add *_for_each_named_child_* iterators
+ - Add a patch converting the thp7312 driver to use the new helper
+ - Styling and minor things pointed by reviewers
+
+v4 =3D> v5: Fixes as per various review comments. Most notably:
+ - Drop the patch making the TI's ADC driver to respect device tree.
+ - Add (RFC) patch converting gianfar driver to use new name child-node
+   counting API as suggested by Andy.
+ - Add fwnode_get_child_node_count_named() as suggested by Rob.
+ - rebase to v6.14-rc5
+ More accurate changelog in individual patches.
+
+v3 =3D> v4:
+ - Drop the ADC helper support for differential channels
+ - Drop the ADC helper for getting only channel IDs by fwnode.
+ - "Promote" the function counting the number of child nodes with a
+   specific name to the property.h (As suggested by Jonathan).
+ - Add ADC helpers to a namespace.
+ - Rebase on v6.14-rc3
+ - More minor changes described in individual patches.
+
+v2 =3D> v3:
+ - Restrict BD79124 channel numbers as suggested by Conor and add
+   Conor's Reviewed-by tag.
+ - Support differential and single-ended inputs
+ - Convert couple of existing drivers to use the added ADC helpers
+ - Minor fixes based on reviews
+Link to v2:
+https://lore.kernel.org/all/cover.1738761899.git.mazziesaccount@gmail.com/
+
+RFC v1 =3D> v2:
+ - Drop MFD and pinmux.
+ - Automatically re-enable events after 1 second.
+ - Export fwnode parsing helpers for finding the ADC channels.
+
+---
+
+Matti Vaittinen (8):
+  dt-bindings: ROHM BD79124 ADC/GPO
+  property: Add functions to iterate named child
+  iio: adc: add helpers for parsing ADC nodes
+  iio: adc: rzg2l_adc: Use adc-helpers
+  iio: adc: sun20i-gpadc: Use adc-helpers
+  iio: adc: Support ROHM BD79124 ADC
+  MAINTAINERS: Add IIO ADC helpers
+  MAINTAINERS: Add ROHM BD79124 ADC/GPO
+
+ .../bindings/iio/adc/rohm,bd79124.yaml        |  114 ++
+ MAINTAINERS                                   |   12 +
+ drivers/base/property.c                       |   27 +
+ drivers/iio/adc/Kconfig                       |   17 +
+ drivers/iio/adc/Makefile                      |    3 +
+ drivers/iio/adc/industrialio-adc.c            |   82 ++
+ drivers/iio/adc/rohm-bd79124.c                | 1147 +++++++++++++++++
+ drivers/iio/adc/rzg2l_adc.c                   |   39 +-
+ drivers/iio/adc/sun20i-gpadc-iio.c            |   39 +-
+ include/linux/iio/adc-helpers.h               |   27 +
+ include/linux/property.h                      |   20 +
+ 11 files changed, 1479 insertions(+), 48 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/iio/adc/rohm,bd79124.=
+yaml
+ create mode 100644 drivers/iio/adc/industrialio-adc.c
+ create mode 100644 drivers/iio/adc/rohm-bd79124.c
+ create mode 100644 include/linux/iio/adc-helpers.h
+
+
+base-commit: 7eb172143d5508b4da468ed59ee857c6e5e01da6
+--=20
+2.49.0
+
+
+--x9LRqC/eTzOvp8+V
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmfhBc4ACgkQeFA3/03a
+ocWangf+NI4B0saJ44yhPgbEq325fSJhMOfkikVYiNQDzf5tPKqdhE3H2+EJitTR
+Q3uQ6HF0uvIhH+sVBIPZpFSDeiS/80JCyyaeXyqaIaAwhyrctLf8wJ0Np8M/c7kt
+kNdnEQPK2zPPSEurLI7f6GmskY71NXfH1Ogdtve32GfLvm89NIPwolg3MmC43/T3
+TteJLSflBgs8HLarrggxMuz4sW1QSIp8My2iIim9A4SKfeHh6VabjqVx1Pgt+9Pd
+aRVXRV+j9OpBkvViz3602kp4TWCGnP3/uJSYGPPaqdFUPD+9ylptoTPBW9e8ZbbT
+ak6Ih1C9yZ6LE/GY2JLdRu+3U2vhpw==
+=yHBg
+-----END PGP SIGNATURE-----
+
+--x9LRqC/eTzOvp8+V--
