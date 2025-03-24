@@ -1,102 +1,80 @@
-Received: from mout.web.de (mout.web.de [212.227.15.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 960A0263F54
-	for <linux-sunxi@lists.linux.dev>; Mon, 24 Mar 2025 17:55:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADF4117E0;
+	Mon, 24 Mar 2025 20:28:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742838936; cv=none; b=cTyQqBMFY09lCM92AMET0Gx52YEf1gWAhwwJulHWxewHiLu5VU5lVyn8blS0De7ZvM7oHPG7GgwhnhfQpx2CJVA1xm9WLUbcD5RzG5VVTSvi5iL2hVC4SaVgPHTt08fKZNwqxRfNQeG3zLD+lBEp/AqKHLLBDtcwYenjFLEsd1c=
+	t=1742848096; cv=none; b=ejNthFNppqriivnHlmPWf4rFnEnRCZEnpENrgYNkJnddedSBMBDDWjS8WeiJQ5jHgopt58rV6/oHfuPgdfx6Jk3kI59xGCa/OT6mGcM1n5VqEGShfm0Qi3eq4mVklyMzGjnow5OYE+nXmjPx265Fqushk27nUN2UzA1yVzNOi8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742838936; c=relaxed/simple;
-	bh=Ugip4fd8Pdklj4B/ZVd31QAyVX2ztU3G46zy5Bsha/Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DewqUDdARSy9O9WGLm4sHS2B6DxuVALR6TBPNFLK/MrE3jXjchDyryUJnP0+0GCVLWzGR/MiOZqYTudl7ILAiLX55tE0UQDJDaYQRtp5rh5xNI4Ayu5Tug6fuRCToy5O28bi93+8V9m7iLqnv06sekEtE+Rya5ZvalTEemh5A6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=R5Dauses; arc=none smtp.client-ip=212.227.15.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1742848096; c=relaxed/simple;
+	bh=nraEfwXGNNYxOKREgx+klOuG419qOT50aasEjbGDBd8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lTUlQ4U6u9CQ9/yNqaHFbFpO6b8kQ64gTVzLzZtuBogHYcwjQHXsS83WG0iKul+TPNqgFK2wqGI+yyDqKZoQANoefUgmxGQN7eWiBLoAI5Gg1x8i0k/OcQMDv5g9Udnfu4EW1sALNuuFGbBTUbIyES9GJ6fEMRo15Jd/K0Plc8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OnNSYE68; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="R5Dauses"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1742838922; x=1743443722; i=markus.elfring@web.de;
-	bh=Ugip4fd8Pdklj4B/ZVd31QAyVX2ztU3G46zy5Bsha/Q=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=R5DausesgqbnhBZ9rriIR+mzrPsczUdHyoPkP7gCpaLxbKtU0GaeSX4nK42hF+Iz
-	 QFl66AscEF8xM6xdPzSd67aIUtkySqhUedJm1Wr6eoNksFtw32Ab4Levn4iZO4Uly
-	 c/s6DkWtQwnHtr98OFGFm5uBnbRnfEPn4o/J5Il3qRkitiWAApeTA+1IMMhzdNG8H
-	 0D0DduJ7SYcEjx6WywjIECE+B/lJEVe7G+RI8ie+sY/cTHvKCqA510Nmy385k2QPZ
-	 qzBFlcDf4TcQSEN1ccMZyVcdwd7o7gqggwtqh+ShoOzX7X5DfehWqZq2l82dYrkFC
-	 H6fGBEUThwwEnhFQ8Q==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.93.33]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1N9cHJ-1t2Lap0xrp-018IAt; Mon, 24
- Mar 2025 18:55:22 +0100
-Message-ID: <92772f63-52c9-4979-9b60-37c8320ca009@web.de>
-Date: Mon, 24 Mar 2025 18:55:20 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OnNSYE68"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56685C4CEDD;
+	Mon, 24 Mar 2025 20:28:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742848096;
+	bh=nraEfwXGNNYxOKREgx+klOuG419qOT50aasEjbGDBd8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OnNSYE68hBSBzyeGtTO8nd4tOOxSR0aog7akGaYiLwkG8num2NSKLgjJWh8uC3WuK
+	 U06pjVmuTdST0N48/cGtLz1X/xbKBvuVyo38G1KyRqk5JRDML7T2ur0OiskHh+GacP
+	 G7B/QgXENoJQLeeGgj3s9fP9hpjQxsPg5EAfU+QmH/ORmrU8nUC9sLfESe3SAjib5g
+	 Z5ygHc7Z6x2ayebeHLhKEgKL+fioKExC6D233ds831t23wzaGpVtdNUtbH/M6eNGmt
+	 LYI/cznIe/PeS+qM2oKj5D2MgTJ/BaX50rAh9BVbl6ZwXxuPu6LozGomPx5qwW6rwl
+	 MRcHsdtysEnRg==
+Date: Mon, 24 Mar 2025 15:28:15 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, iommu@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-arm-msm@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
+	Conor Dooley <conor+dt@kernel.org>, Yong Wu <yong.wu@mediatek.com>,
+	David Heidelberg <david@ixit.cz>,
+	Maxime Ripard <mripard@kernel.org>, linux-sunxi@lists.linux.dev,
+	Samuel Holland <samuel@sholland.org>,
+	Joerg Roedel <joro@8bytes.org>, Robin Murphy <robin.murphy@arm.com>,
+	Will Deacon <will@kernel.org>, linux-mediatek@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: iommu: Correct indentation and style in DTS
+ example
+Message-ID: <174284809477.815772.5676101186306641286.robh@kernel.org>
+References: <20250324125250.82137-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6] dma-engine: sun4i: Simplify error handling in probe()
-To: =?UTF-8?B?QmVuY2UgQ3PDs2vDoXM=?= <csokas.bence@prolan.hu>,
- dmaengine@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
-Cc: LKML <linux-kernel@vger.kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>,
- Christophe Jaillet <christophe.jaillet@wanadoo.fr>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Vinod Koul <vkoul@kernel.org>
-References: <20250324172026.370253-2-csokas.bence@prolan.hu>
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20250324172026.370253-2-csokas.bence@prolan.hu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:SAbuJubhSHN4pH7HvyQuZsAhyfLQIhB/cY7Fku1PM7dBzzJ+znK
- KFJIy7rF7WIjRryO3MpAP0TzRJAeZLmlMou8bUAV83VJoJbg0+uOTk+MgAbaj3WwpvFH/Xu
- 1ntkxxFmrGDxiek9nc4IzlE2vfQxeD8sOv0ZFEzA6AOJCD0Us5b4u8pTugFyU/PbLJ7xfMh
- cDxfSzpNuEeihAtctNcyw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:Zndp+Xt2ZBc=;FT5IcWgiEDFexAVkd/U8C2waAjY
- NhEJydSVA4u8sdlQJ9/KtqhxElzLhdWlygPYw8a/dUe8nIOBZivJEwSLMpUR7yiNFq8rQGu+f
- L9eWKq/BItQMtDJA9vCzZPpgQap2eWhCPaaDybV9ctbrKntOKWkjgG56pu8V7oR9MpyU5Qnjx
- uQMS9m+9Y0N3e2FNhVmVlQw9UJiQkLydGQtBJ+vfUrBdx9AmmJFSvIfumv+HnrANvPIGtkV2U
- S71KzKgPxnAWJolLsJ87detQZoFkGl2FKIvcezcS4D8k8mVvUPL3fMV4B0NDryXnrJIRp3hrr
- jj6O9aE26iNOBy+VyTL3t4mFYyAtxqw69f6jLAXLWP4+lktAVv05W4S/Fl29ntdBNehfCD7Ii
- yyTbMkQw8tEyQghtf3f6rDom0OHJXFPnxkmISGgvwVWzzu7OBjKfzmbOsXKxZbyKkV6EbMK2T
- 0LNKiPtwyRyL3KED0KX325rTswaQT1tMWs7y36nAOEPzdcUDvK94SfzDvja+UICKKguCo/Kl8
- JYQDMM0zaLJT13Js+pvyvUFbLUlHTzeQJTJJmZJAwCixYD2Gi3Op573en1TbmmDE0apkIC4uL
- 9ag6yBxHRKnRoRNLVP6MBimbagbeJJHQISdqZHR4F4Op32kBrlZglxSTUmpI4q0JZDuEfCPCs
- xiLniaEz7magxGmf1GLYFvPH37iiy9nvUx33P5KWLlQI6W6IrpSPRLwNvEvdFGYd6aUldCQrW
- UH4r+jLM0ZbUTtESTFx+lua2x4feIfKy8E+AYovYXH3WCNZQs6Un8GXzpRevhR6H5GLNGyJSF
- ABLNBooS4EOaaE8xNJmnsNgJ8qcAh6KHwBUHhsCrKDj4fEloKzKNoDAOrULAEtyb8+NPqOKAW
- 87g5sBduWTBH+/z/Sq3Tlu5SK0WTmhgLdFdP5woX5iEa6KuaGsH+JhmyABkoWYIt4pvZ5PJsu
- JcoZm32Z77NrVNJj0nXdl9stgqyBrAViASlUiivW+dffqkLpZs/oyc6N+9l6FrB0F80Qd2TPc
- nrzUARcymTL+dX++S5hBiewrSzJjbWOF8sCWz/sxhxW7823VrT9bjA7vq46rKScCdF8xLkeEy
- xZtaqnfs7Pzp7sAvijUWwNJfAy654Ee0K7DyEa28fXJztYnKvWlI/pTM5ZG1TmvFAuWCDHm6q
- f4CpqAdAuuw9TB3uW2M8iN0ise7i6qnFG8/VAo3LI4uZg41r0VNC18wirs58nH46HoPZw8yyR
- y4erIdlVSDlVvV2zHBxtT4QTellxRba9YLEL8SPXN2N4JKds8kuTNZ2NghR5ePD2uA94LJd2Q
- SzgaUmfJWX2GdDTykrjQ3y7yci/vhZVgfWPQIs9MMeNlycLkh6aqJJkvr+rdSVASk9xIPRU0Z
- hbYleqa1/YK1zKecOeECTpmiKPZ8F4baAMRVLtUAB8WUxxyLShlAgjNiFbFo8Y3Q/46/3v73g
- JFaAE+lOy0g0FOqUF5Clb/9sFBo5LADokelkYwS+t2SGOizY/
-
-> Clean up error handling by using devm functions and dev_err_probe().
-=E2=80=A6
-
-Do any contributors care for a different patch granularity?
-https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tre=
-e/Documentation/process/submitting-patches.rst?h=3Dv6.14#n81
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250324125250.82137-1-krzysztof.kozlowski@linaro.org>
 
 
-Will it be clearer to mention also the function name =E2=80=9Csun4i_dma_pr=
-obe=E2=80=9D
-in the summary phrases?
+On Mon, 24 Mar 2025 13:52:50 +0100, Krzysztof Kozlowski wrote:
+> DTS example in the bindings should be indented with 2- or 4-spaces and
+> aligned with opening '- |', so correct any differences like 3-spaces or
+> mixtures 2- and 4-spaces in one binding.  While re-indenting, drop
+> unused labels.
+> 
+> No functional changes here, but saves some comments during reviews of
+> new patches built on existing code.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  .../iommu/allwinner,sun50i-h6-iommu.yaml      |  24 ++--
+>  .../bindings/iommu/arm,smmu-v3.yaml           |  20 ++--
+>  .../devicetree/bindings/iommu/arm,smmu.yaml   | 104 +++++++++---------
+>  .../bindings/iommu/mediatek,iommu.yaml        |  18 +--
+>  .../bindings/iommu/qcom,apq8064-iommu.yaml    |  20 ++--
+>  5 files changed, 92 insertions(+), 94 deletions(-)
+> 
 
-Regards,
-Markus
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+
