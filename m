@@ -1,112 +1,150 @@
-Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DEC313D89D
-	for <linux-sunxi@lists.linux.dev>; Tue, 25 Mar 2025 09:28:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A672580D2
+	for <linux-sunxi@lists.linux.dev>; Tue, 25 Mar 2025 12:20:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742894888; cv=none; b=FLCn+x2N3PVRnbqAFpdnZR7y5a8ZW8t5jzsUIMqXwh3HOa5bDD013jgMx+W/WPQfNvtraeAHSxPOPmoqvhyhXJQppMN+GXPUAAW/VPtYFDt1jKh40f3wtJj3kZWdNTzFKN9uV6KkteE7LUegOI0YEoV16QLFN2LCHFnnQopCQNE=
+	t=1742905248; cv=none; b=jnghew9P5UXugBuJpEfHoV29Ev7nBStP/I82QFctXEqG0otdlRUNtPGXIOeVhE/oKIVs/tydWlm4OmzOVc1pjvzmOe3RobgroRv5fl2qChx6BQGqLpHa4QNpZ8PAkHVck395TfU62a8O11dOw5HFNrxn+MyIjQoByrBplnQEd2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742894888; c=relaxed/simple;
-	bh=RlzV/DVotiI5IkmU1KWUD9pG+Qn9qmbhQ/6ss8Rk0+I=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=fECU/5fMrIO7o5gukZep7CRiXAhCtpT5gb36S3vURElWKxeSaOXaXITOq+sFivya3sNw8GrphH58cKhZiSntFVdh/rum3MDN1jOdfssoutJiRiF4KKQS57JOu5xnAET5L6Ipde6kU01CXq8xLw2iNwJ+Wu3RVOWtpnSwGyC1dFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost (unknown [124.16.138.129])
-	by APP-05 (Coremail) with SMTP id zQCowACn5g4cd+JnPWRMAQ--.6335S2;
-	Tue, 25 Mar 2025 17:27:56 +0800 (CST)
-From: Chen Ni <nichen@iscas.ac.cn>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	ckeepax@opensource.cirrus.com,
-	u.kleine-koenig@baylibre.com,
-	megi@xff.cz
-Cc: linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Chen Ni <nichen@iscas.ac.cn>
-Subject: [PATCH v2] ASoC: sun8i-codec: Remove unnecessary NULL check before clk_prepare_enable/clk_disable_unprepare
-Date: Tue, 25 Mar 2025 17:26:40 +0800
-Message-Id: <20250325092640.996802-1-nichen@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1742905248; c=relaxed/simple;
+	bh=+Q6Q8jost6RR+L6/1WQaoG8urBg7K9/rNabjNfsQh20=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MIeIoNzVkuOcAmUfrdmCbU3lVIHQahIokaNmuPZ9iXg6hZLxHNC/lqJWWevoltXjWJ/5kiDbqodzFeBtspYxJqm2rvKVmTV6kIvu1W9P9ee0X+PZoE10DBkGtaBadp0JpR0vSScq2rifhredoOXGEMNDOKDKwjLWRx6KmzRhEwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TX7MY8hG; arc=none smtp.client-ip=209.85.219.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TX7MY8hG"
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-6e8f05acc13so65874996d6.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 25 Mar 2025 05:20:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742905245; x=1743510045; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+Q6Q8jost6RR+L6/1WQaoG8urBg7K9/rNabjNfsQh20=;
+        b=TX7MY8hGQAJ1sRDepGJX6og7DbvK6Jp16jkP6FShP2PaoJHtfw3ae5mUKgNqkNFHeZ
+         7D8p2kulFaaueUB4sgOFNYkiVPBL+P3eiBoMxvL9BBSt9Fl8qpRTK/c7fEPcq/GhemPR
+         1MaUyICPEhQeDHi4Fa/L8zGFWTExHW7UaBs0EGqNtPsYxQO5e8uO8GDPA2abV2TB0xQi
+         +Vz5sJWHpPaP6fZDmLlyP33E3bxESufETGrdSOCZrrvfoJ+zX/kMvD/Trpdoq0vMjYFD
+         CyoQYpJ2F7eF6znGiyEcKuaacIIJ23O8jplnmAgH8uwxCSSiqcWuMug/XoqCvolbGENG
+         wlXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742905245; x=1743510045;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+Q6Q8jost6RR+L6/1WQaoG8urBg7K9/rNabjNfsQh20=;
+        b=tz7rY12S9rCWIsWulwg0AgfrphoHZw2stQ2T7l9QyCg0f9Z064k9gvUOk5iNC+CEL+
+         QuRtYlRGx6QQf2K+hPtCad/R1dIi2Jy5VsNL6i5OioQetoTKKblGzwzI4jQd906QXvoE
+         RH1le1JBfakYeDaryG2EcUkGl3cdloiAzjxv8Pl1m9+APJv2A0FtiKJc220dODXM6+8Z
+         LWqvcSFV70HozGF7kbUrIT/MAqqAUuYffg0mFsVKgqu+Mnm8hLGJFFat/CxjRSS4hnUd
+         FSf2cJSmK0Dr0b7OLe1nxNoV47h5KcSw9/SpJxp35B5+Z/JAYAVNn5SYjp0Bb61k68GA
+         WAOg==
+X-Forwarded-Encrypted: i=1; AJvYcCUNPMPmscMgsWUzrdTQxGoeOAsyPz/E9pjZW4NHOO1+2yKYfh7r2Ec3sMGFOTqUuD0M3y5WeXwtdd0hww==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwzFG2l9DvqlMTI5fWKGz68v9z8/ncKvOVRs++u9Hr0bq3dRk6c
+	EIY4La/FUwmafd1cnd4tDkfNMVqmUnfbS1RC2Rfw3MPqFXUcYiZmQkk0Jz2BeIVUkjUUBWny5fq
+	8mHo8ZfxKifkNlkSNKkIHKUZmQIs=
+X-Gm-Gg: ASbGncsmC6LGibiYGF9mKNbvXacHDV5xA7q09FNP1pekwTB28CS3841+V0bbYuXHaEl
+	2nxpg2qJgZMjOLKw64fswT2vlUhx+ecQ/B9Ol+63eu9o64XPwuztKTktj+MeK+6Oy0Bk4XXtkeu
+	vtw6B6ytMn7eWDNinvJQC+5cNS11foJriTE/1p7GX7lg==
+X-Google-Smtp-Source: AGHT+IHzPCRF5SOBl5uX+I45ItuIcu7yYqv1UpwkBeNgwvJPwNXZIu0GAxVrZtFs9aKbKMtvCsG5QpWp0f/ADoOZEd0=
+X-Received: by 2002:a05:6214:c64:b0:6e8:f17e:e00d with SMTP id
+ 6a1803df08f44-6eb3f2b884amr196473756d6.14.1742905245447; Tue, 25 Mar 2025
+ 05:20:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowACn5g4cd+JnPWRMAQ--.6335S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxJrWDWF18XrWDCr45WFWDtwb_yoW8GF15pa
-	4fGFWftrWfJ34F9rs3Zr18t3W5KrW29ay3A3yYk3Z5Zwn8GF10qF45Ja4v9FZ0kr98KF47
-	Wr1UtasYyFn8GaDanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUBj14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-	6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-	I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Gr1j6F4UJwAm72CE4IkC6x0Yz7v_Jr
-	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E
-	8cxan2IY04v7MxkF7I0En4kS14v26r1q6r43MxkIecxEwVAFwVW8uwCF04k20xvY0x0EwI
-	xGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480
-	Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7
-	IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k2
-	6cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxV
-	AFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUkrcfUUUUU=
-X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
+References: <20250324172026.370253-2-csokas.bence@prolan.hu>
+ <92772f63-52c9-4979-9b60-37c8320ca009@web.de> <7064597b-caf7-42e2-b083-b3531e874200@prolan.hu>
+ <7332ccd2-ebe6-4b9d-a2ae-8f33641e7bd4@web.de> <7afcbbee-6261-4b2f-be14-a3076746d53c@prolan.hu>
+ <26e36378-d393-4fe1-938a-be8c3db94ede@web.de>
+In-Reply-To: <26e36378-d393-4fe1-938a-be8c3db94ede@web.de>
+From: Julian Calaby <julian.calaby@gmail.com>
+Date: Tue, 25 Mar 2025 23:20:34 +1100
+X-Gm-Features: AQ5f1JqJR8vf390EC146ON7d6-teBUeT_TrrTXamjUUZoP5Hfz81vyeOiEOgepg
+Message-ID: <CAGRGNgU7t85oG3Bq7L3KjKUAbRyd6SHSM6F6BvmdXDVkbNegKg@mail.gmail.com>
+Subject: Re: [v6] dma-engine: sun4i: Simplify error handling in probe()
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: =?UTF-8?B?Q3PDs2vDoXMgQmVuY2U=?= <csokas.bence@prolan.hu>, 
+	dmaengine@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, LKML <linux-kernel@vger.kernel.org>, 
+	Chen-Yu Tsai <wens@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Christophe Jaillet <christophe.jaillet@wanadoo.fr>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Vinod Koul <vkoul@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-clk_prepare_enable() and clk_disable_unprepare() already checked
-NULL clock parameter.Remove unneeded NULL check for clk here.
+Hi Markus,
 
-Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
----
-Changelog:
+I really wanted to keep out of this, but...
 
-v1 -> v2:
+On Tue, Mar 25, 2025 at 8:14=E2=80=AFPM Markus Elfring <Markus.Elfring@web.=
+de> wrote:
+>
+> >> Implementation details are probably worth for another look.
+> >
+> > What don't you like in the implementation? Let's discuss that then.
+>
+> I dare to point concerns out also for the development process.
 
-1. Add clean up for clk_prepare_enable() call.
----
- sound/soc/sunxi/sun8i-codec.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+You're "concerned" about patch granularity, but this is not the sort
+of thing that some random person would raise, this is the sort of
+thing a maintainer asks for when patches are doing too many things or
+are unreviewable. This is neither. It is a very simple cleanup of a
+probe function as it says in the patch subject.
 
-diff --git a/sound/soc/sunxi/sun8i-codec.c b/sound/soc/sunxi/sun8i-codec.c
-index 8b9eb1a202f7..7b3496caa31e 100644
---- a/sound/soc/sunxi/sun8i-codec.c
-+++ b/sound/soc/sunxi/sun8i-codec.c
-@@ -248,12 +248,10 @@ static int sun8i_codec_runtime_resume(struct device *dev)
- 	struct sun8i_codec *scodec = dev_get_drvdata(dev);
- 	int ret;
- 
--	if (scodec->clk_bus) {
--		ret = clk_prepare_enable(scodec->clk_bus);
--		if (ret) {
--			dev_err(dev, "Failed to enable the bus clock\n");
--			return ret;
--		}
-+	ret = clk_prepare_enable(scodec->clk_bus);
-+	if (ret) {
-+		dev_err(dev, "Failed to enable the bus clock\n");
-+		return ret;
- 	}
- 
- 	regcache_cache_only(scodec->regmap, false);
-@@ -274,8 +272,7 @@ static int sun8i_codec_runtime_suspend(struct device *dev)
- 	regcache_cache_only(scodec->regmap, true);
- 	regcache_mark_dirty(scodec->regmap);
- 
--	if (scodec->clk_bus)
--		clk_disable_unprepare(scodec->clk_bus);
-+	clk_disable_unprepare(scodec->clk_bus);
- 
- 	return 0;
- }
--- 
-2.25.1
+Futhermore, this already has an ack from the maintainer of this file.
+This indicates that they're happy with it and no significant changes
+are required. This is also version 6 of the patch, if the maintainer
+was concerned about this, they'd have already provided some clear
+guidance on this. If you check previous versions of this patch, no
+such requests have been made.
 
+Your only other "concern" had already been addressed as has already
+been pointed out to you.
+
+> >> Please distinguish better between information from the =E2=80=9Cchange=
+log=E2=80=9D
+> >> and items in a message subject.
+> >
+> > What do you mean? The email body will be the commit message.
+> See also:
+> https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tr=
+ee/Documentation/process/submitting-patches.rst?h=3Dv6.14#n623
+
+The email and patch structure are following the format outlined in the
+document you link to _exactly_.
+
+
+Once again your comments are just noise, and your insistence on
+repeating them over and over and over and over and over again is
+borderline harassment.
+
+You have been told to stop this nonsense many many times, here's a
+link to the most recent one:
+
+https://lore.kernel.org/all/92d1a410788c54facedec033474046dda6a1a2cc.camel@=
+sipsolutions.net/
+
+Please stop sending these emails and go do something constructive with
+your life.
+
+* * * * *
+
+Bence Cs=C3=B3k=C3=A1s, (I hope I've got the order of your names correct)
+
+Please block or ignore Markus, at best he's a nuisance and at worst a troll=
+.
+
+Thanks,
+
+--=20
+Julian Calaby
+
+Email: julian.calaby@gmail.com
+Profile: http://www.google.com/profiles/julian.calaby/
