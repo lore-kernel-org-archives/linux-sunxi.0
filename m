@@ -1,89 +1,92 @@
-Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A221B19DFAB
-	for <linux-sunxi@lists.linux.dev>; Tue, 25 Mar 2025 03:29:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E38F149E13
+	for <linux-sunxi@lists.linux.dev>; Tue, 25 Mar 2025 08:26:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742873363; cv=none; b=Apn/JpRPliadtJZ1UF1q1+fnzt0zTDulkp8dH9HMksZZUgL9gOAWWVIOd8AzsVYeWXWnuUixMnH7TRXvMAJx7lLU+5vxXfvl5mGrOuk4uI4s+rkaOVxpKVKgcNb3fsQiOWVNg4GdguObgfLzhuPT0BkvE4hCfcQTyXP4xxr6na0=
+	t=1742891196; cv=none; b=c343hEbkvB4RZej4hLt1uI7cGJmnsAtpOJeEIr+JS3GczQ8+C95rlJC6/lyTN7h5E0EYCsVjVtZaGWrImXrdpygKiE57KpZBT41zLY6LBg4opUrFDoavHWCV8JTTqhDiNAeo/lRdmPam9MEf2b3sW6cy5Jg2AE06EDOoP6INp/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742873363; c=relaxed/simple;
-	bh=6o+CHdy5QkJF6edUb3JpjX3/cjxJ13Pr6UqZX3sCqE4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=FFSYSfikLrLbpovvocUzIfJt/lgKawa6i+BdcCG6dh3F8+XoJ3ROPRH7Lf7r3N2oGFMcAiC+HWx/pkaoI6mYti95pjn1QvFpMEhq8LP+Ec+yUho7WqzP9UJVv2embYxAff+Evx70+Pq9Xjh2b7918VgF7+UNN8ccVN4GbSSRmus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost (unknown [124.16.138.129])
-	by APP-05 (Coremail) with SMTP id zQCowABnowsJI+JnbvMuAQ--.961S2;
-	Tue, 25 Mar 2025 11:29:14 +0800 (CST)
-From: Chen Ni <nichen@iscas.ac.cn>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	ckeepax@opensource.cirrus.com,
-	u.kleine-koenig@baylibre.com,
-	megi@xff.cz
-Cc: linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Chen Ni <nichen@iscas.ac.cn>
-Subject: [PATCH] ASoC: sun8i-codec: Remove unnecessary NULL check before clk_disable_unprepare()
-Date: Tue, 25 Mar 2025 11:28:33 +0800
-Message-Id: <20250325032833.604073-1-nichen@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1742891196; c=relaxed/simple;
+	bh=XJBOQX68Wiw/xxf+8cp4P0AZ+h1LmW7Aor9NhCYN/9c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=KEm00UCeTGv1SpVIrxRr4K8pjQIPbQrkQXRA3c7L09c+arNWSZQ5TSP0hNPywyWV+M0N5uLrmivTAAf3YUqQImFvvyRDRpfIeUP3Aqe8Cdk9jSVqmw+P3VjCoVJ/Y+eV1DmjFxaiABDnIqY9i6JEZgPkEEU5YXSRiXbViR0rk0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=jZUKmodv; arc=none smtp.client-ip=193.68.50.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="jZUKmodv"
+Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
+	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id 0C49DA05E5;
+	Tue, 25 Mar 2025 09:26:30 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:from:from:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=mail; bh=75jo1ATccOc9aW+qm12j
+	P+zYXFT30Ic6m1MzSKkACUs=; b=jZUKmodvzicP1rFtYuKNCAsnMD9y5KhV2RWA
+	A0Hdk6Xh1SNDGR9j833aE3fn5qvp5KTSRyq9kduSs6hkkOG0VGeSGR+9GYDDHsRB
+	zXD11Jy5KL6OdkoLNM+zbaOf3fQWeLhl0Id9z5qAHmzrV3pNf1/u3/UKWB91qnYS
+	zZ2JxbtglXa6AE5ft61G0s+iaT/r5O9gksUgJDd1zmVUmlrtJQStJoMPchM3P2UQ
+	MX0MY6dPIKBz4KLxhOdbbOtnv7YcWIWcrwtui/b1PVzlyl/4V6dBO+foin1gms7A
+	ovsEsy2knhaYR+WNlgq7BIIhLLyd4O7f5NI3ITer3K+zaBUMpE4c8ieX7ArB34gO
+	Gm7PkO2mV7Qr3vSjeYZ5Y8bT35Wobf925bkmhbbuB9jn62iWeDK2KmN2UJ/Fgi0k
+	7reWmRN1+txMo2SebooxkNw1Lsq6HPwphSo6OwGjCV2LJ2Ov5fCTDvW8lEoPqQsB
+	teHJgkXPRhVZLt0l3iXvgnXMXGudpTKra4gPIGnKpbkqclDoEyETK8wRz4PjJXdR
+	uyJCnTme+8/hUwJ5Qu5JGiWN8KyqI42jQObZ4dljCLNfFrE/bWjGZj96MVs4NTCb
+	EkN5E+4646eXwMJEK6gvT7nTd08MVVnrgN0cl1Ew8qtvolRk5ccIkn/bLhxsq7wO
+	T5AFAeA=
+Message-ID: <7064597b-caf7-42e2-b083-b3531e874200@prolan.hu>
+Date: Tue, 25 Mar 2025 09:26:28 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6] dma-engine: sun4i: Simplify error handling in probe()
+To: Markus Elfring <Markus.Elfring@web.de>, <dmaengine@vger.kernel.org>,
+	<linux-sunxi@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>
+CC: LKML <linux-kernel@vger.kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>, Christophe Jaillet
+	<christophe.jaillet@wanadoo.fr>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, Vinod Koul <vkoul@kernel.org>
+References: <20250324172026.370253-2-csokas.bence@prolan.hu>
+ <92772f63-52c9-4979-9b60-37c8320ca009@web.de>
+Content-Language: en-US, hu-HU
+From: =?UTF-8?B?Q3PDs2vDoXMgQmVuY2U=?= <csokas.bence@prolan.hu>
+In-Reply-To: <92772f63-52c9-4979-9b60-37c8320ca009@web.de>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowABnowsJI+JnbvMuAQ--.961S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7XFyrKrWkZry7Kry3GrWDtwb_yoW3CrX_Zr
-	48uayDWFWUJr9Iyay3Jr4qyr4kXF1F9Fyxtr9ayrWDJ348Ars8Cry8tw4fur97JrykCF9x
-	Gw1qvrZrA3409jkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbakFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
-	Gr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
-	1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
-	6xIIjxv20xvE14v26r126r1DMcIj6I8E87Iv67AKxVW8Jr0_Cr1UMcvjeVCFs4IE7xkEbV
-	WUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7Cj
-	xVA2Y2ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4I
-	kC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWU
-	WwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr
-	0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWU
-	JVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJb
-	IYCTnIWIevJa73UjIFyTuYvjfUrrWFUUUUU
-X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
+X-ClientProxiedBy: ATLAS.intranet.prolan.hu (10.254.0.229) To
+ ATLAS.intranet.prolan.hu (10.254.0.229)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A2980D948526D7C6A
 
-clk_disable_unprepare() already checks NULL by using IS_ERR_OR_NULL.
-Remove unneeded NULL check for clk here.
+Hi,
 
-Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
----
- sound/soc/sunxi/sun8i-codec.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+On 2025. 03. 24. 18:55, Markus Elfring wrote:
+>> Clean up error handling by using devm functions and dev_err_probe().
+> …
+> 
+> Do any contributors care for a different patch granularity?
+> https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst?h=v6.14#n81
 
-diff --git a/sound/soc/sunxi/sun8i-codec.c b/sound/soc/sunxi/sun8i-codec.c
-index 8b9eb1a202f7..a27976c375fe 100644
---- a/sound/soc/sunxi/sun8i-codec.c
-+++ b/sound/soc/sunxi/sun8i-codec.c
-@@ -274,8 +274,7 @@ static int sun8i_codec_runtime_suspend(struct device *dev)
- 	regcache_cache_only(scodec->regmap, true);
- 	regcache_mark_dirty(scodec->regmap);
- 
--	if (scodec->clk_bus)
--		clk_disable_unprepare(scodec->clk_bus);
-+	clk_disable_unprepare(scodec->clk_bus);
- 
- 	return 0;
- }
--- 
-2.25.1
+I still don't understand why you are so adamant on this. It is just a 
+simple refactor patch changing 33 lines, mostly in one function, with no 
+logic change. Does it break something in your system? Please explain 
+yourself so we can understand your viewpoint better.
+
+> Will it be clearer to mention also the function name “sun4i_dma_probe”
+> in the summary phrases?
+
+
+I already added it as per your last response, did you not read the message?
+
+On 2025. 03. 24. 18:20, Bence Csókás wrote:
+ > Clean up error handling by using devm functions and dev_err_probe(). This
+ > should make it easier to add new code, as we can eliminate the "goto
+ > ladder" in sun4i_dma_probe().
+
+Bence
 
