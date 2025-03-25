@@ -1,166 +1,89 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCF18BE46
-	for <linux-sunxi@lists.linux.dev>; Tue, 25 Mar 2025 01:17:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A221B19DFAB
+	for <linux-sunxi@lists.linux.dev>; Tue, 25 Mar 2025 03:29:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742865430; cv=none; b=AEmUlC/zEUYkJ0ywk7F5zUGJgueuYPlvJfvfG8GTd5hsvn0Y51suR5mWrNdUyj1TIjrtP4cgsdnLUi/LErOGrx90Zkh4o7lGEFwFzsy/EjwPxJzZH6Cu3t5edD8PAxkLDXIO/43HetEfntPu8ptimQfEaThGttOzRWOB87Zuf8I=
+	t=1742873363; cv=none; b=Apn/JpRPliadtJZ1UF1q1+fnzt0zTDulkp8dH9HMksZZUgL9gOAWWVIOd8AzsVYeWXWnuUixMnH7TRXvMAJx7lLU+5vxXfvl5mGrOuk4uI4s+rkaOVxpKVKgcNb3fsQiOWVNg4GdguObgfLzhuPT0BkvE4hCfcQTyXP4xxr6na0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742865430; c=relaxed/simple;
-	bh=LaGQ8+f3h5cNnITW43UUAARcYnNeThIjKzkJ3+JzVlw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=utiakkEiKJv52OQh/3lG8nSpemUjwsZeKT/TZ/O0UJFBE7CXuPpW4BjoGOiU/SvToScYp27qDIS/bLn+E6SUHl9CyPM+SCcESV2de3nQzEAUmAPR5A59qzaCE571xV2B1Ofo4WfO5BEu3YWoTVUEdlV4aHnC0NLukAdFs9LkCYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E38C51596;
-	Mon, 24 Mar 2025 18:17:12 -0700 (PDT)
-Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A4C233F58B;
-	Mon, 24 Mar 2025 18:17:05 -0700 (PDT)
-Date: Tue, 25 Mar 2025 01:16:41 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: eng.fan@nxp.com, jh80.chung@samsung.com, trini@konsulko.com,
- u-boot@lists.denx.de, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] sunxi: mmc: Improve reset procedure
-Message-ID: <20250325011641.19b7d7e1@minigeek.lan>
-In-Reply-To: <20250309061241.62170-1-jernej.skrabec@gmail.com>
-References: <20250309061241.62170-1-jernej.skrabec@gmail.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	s=arc-20240116; t=1742873363; c=relaxed/simple;
+	bh=6o+CHdy5QkJF6edUb3JpjX3/cjxJ13Pr6UqZX3sCqE4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=FFSYSfikLrLbpovvocUzIfJt/lgKawa6i+BdcCG6dh3F8+XoJ3ROPRH7Lf7r3N2oGFMcAiC+HWx/pkaoI6mYti95pjn1QvFpMEhq8LP+Ec+yUho7WqzP9UJVv2embYxAff+Evx70+Pq9Xjh2b7918VgF7+UNN8ccVN4GbSSRmus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost (unknown [124.16.138.129])
+	by APP-05 (Coremail) with SMTP id zQCowABnowsJI+JnbvMuAQ--.961S2;
+	Tue, 25 Mar 2025 11:29:14 +0800 (CST)
+From: Chen Ni <nichen@iscas.ac.cn>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	ckeepax@opensource.cirrus.com,
+	u.kleine-koenig@baylibre.com,
+	megi@xff.cz
+Cc: linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Chen Ni <nichen@iscas.ac.cn>
+Subject: [PATCH] ASoC: sun8i-codec: Remove unnecessary NULL check before clk_disable_unprepare()
+Date: Tue, 25 Mar 2025 11:28:33 +0800
+Message-Id: <20250325032833.604073-1-nichen@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zQCowABnowsJI+JnbvMuAQ--.961S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7XFyrKrWkZry7Kry3GrWDtwb_yoW3CrX_Zr
+	48uayDWFWUJr9Iyay3Jr4qyr4kXF1F9Fyxtr9ayrWDJ348Ars8Cry8tw4fur97JrykCF9x
+	Gw1qvrZrA3409jkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbakFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
+	Gr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
+	1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+	6xIIjxv20xvE14v26r126r1DMcIj6I8E87Iv67AKxVW8Jr0_Cr1UMcvjeVCFs4IE7xkEbV
+	WUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7Cj
+	xVA2Y2ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4I
+	kC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWU
+	WwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr
+	0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWU
+	JVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJb
+	IYCTnIWIevJa73UjIFyTuYvjfUrrWFUUUUU
+X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
 
-On Sun,  9 Mar 2025 07:12:41 +0100
-Jernej Skrabec <jernej.skrabec@gmail.com> wrote:
+clk_disable_unprepare() already checks NULL by using IS_ERR_OR_NULL.
+Remove unneeded NULL check for clk here.
 
-Hi Jernej,
+Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
+---
+ sound/soc/sunxi/sun8i-codec.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-many thanks for your investigation and this fix here! Not having
-working eMMC access was a major annoyance for those TV boxes, and this
-indeed seems to be fixed now, judging by my experiments. Also checked
-boot partition access, works fine (though data partitions seem to take
-precedence on most devices).
-
-> Cards should always be reset and threshold set. This fixes eMMC on H616.
-> 
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-
-Acked-by: Andre Przywara <andre.przywara@arm.com>
-
-Cheers,
-Andre
-
-> ---
->  drivers/mmc/sunxi_mmc.c | 28 ++++++++++++++++++++++------
->  drivers/mmc/sunxi_mmc.h | 15 +++++++++++++--
->  2 files changed, 35 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/mmc/sunxi_mmc.c b/drivers/mmc/sunxi_mmc.c
-> index 0b56d1405bee..335def4b9738 100644
-> --- a/drivers/mmc/sunxi_mmc.c
-> +++ b/drivers/mmc/sunxi_mmc.c
-> @@ -442,6 +442,26 @@ out:
->  	return error;
->  }
->  
-> +static void sunxi_mmc_reset(struct sunxi_mmc *regs)
-> +{
-> +	/* Reset controller */
-> +	writel(SUNXI_MMC_GCTRL_RESET, &regs->gctrl);
-> +	udelay(1000);
-> +
-> +	if (IS_ENABLED(CONFIG_SUN50I_GEN_H6) || IS_ENABLED(CONFIG_SUNXI_GEN_NCAT2)) {
-> +		/* Reset card */
-> +		writel(SUNXI_MMC_HWRST_ASSERT, &regs->hwrst);
-> +		udelay(10);
-> +		writel(SUNXI_MMC_HWRST_DEASSERT, &regs->hwrst);
-> +		udelay(300);
-> +
-> +		/* Setup FIFO R/W threshold. Needed on H616. */
-> +		writel(SUNXI_MMC_THLDC_READ_THLD(512) |
-> +		       SUNXI_MMC_THLDC_WRITE_EN |
-> +		       SUNXI_MMC_THLDC_READ_EN, &regs->thldc);
-> +	}
-> +}
-> +
->  /* non-DM code here is used by the (ARM) SPL only */
->  
->  #if !CONFIG_IS_ENABLED(DM_MMC)
-> @@ -489,9 +509,7 @@ static int sunxi_mmc_core_init(struct mmc *mmc)
->  {
->  	struct sunxi_mmc_priv *priv = mmc->priv;
->  
-> -	/* Reset controller */
-> -	writel(SUNXI_MMC_GCTRL_RESET, &priv->reg->gctrl);
-> -	udelay(1000);
-> +	sunxi_mmc_reset(priv->reg);
->  
->  	return 0;
->  }
-> @@ -684,9 +702,7 @@ static int sunxi_mmc_probe(struct udevice *dev)
->  
->  	upriv->mmc = &plat->mmc;
->  
-> -	/* Reset controller */
-> -	writel(SUNXI_MMC_GCTRL_RESET, &priv->reg->gctrl);
-> -	udelay(1000);
-> +	sunxi_mmc_reset(priv->reg);
->  
->  	return 0;
->  }
-> diff --git a/drivers/mmc/sunxi_mmc.h b/drivers/mmc/sunxi_mmc.h
-> index f4ae5a790c87..9d55904c213c 100644
-> --- a/drivers/mmc/sunxi_mmc.h
-> +++ b/drivers/mmc/sunxi_mmc.h
-> @@ -37,7 +37,9 @@ struct sunxi_mmc {
->  	u32 res0;		/* 0x54 reserved */
->  	u32 a12a;		/* 0x58 Auto command 12 argument */
->  	u32 ntsr;		/* 0x5c	New timing set register */
-> -	u32 res1[8];
-> +	u32 res1[6];
-> +	u32 hwrst;		/* 0x78 Hardware Reset */
-> +	u32 res5;
->  	u32 dmac;		/* 0x80 internal DMA control */
->  	u32 dlba;		/* 0x84 internal DMA descr list base address */
->  	u32 idst;		/* 0x88 internal DMA status */
-> @@ -46,7 +48,8 @@ struct sunxi_mmc {
->  	u32 cbda;		/* 0x94 */
->  	u32 res2[26];
->  #if defined(CONFIG_SUNXI_GEN_SUN6I) || defined(CONFIG_SUN50I_GEN_H6) || defined(CONFIG_SUNXI_GEN_NCAT2)
-> -	u32 res3[17];
-> +	u32 thldc;		/* 0x100 Threshold control */
-> +	u32 res3[16];
->  	u32 samp_dl;
->  	u32 res4[46];
->  #endif
-> @@ -123,6 +126,9 @@ struct sunxi_mmc {
->  
->  #define SUNXI_MMC_NTSR_MODE_SEL_NEW		(0x1 << 31)
->  
-> +#define SUNXI_MMC_HWRST_ASSERT		(0x0 << 0)
-> +#define SUNXI_MMC_HWRST_DEASSERT	(0x1 << 0)
-> +
->  #define SUNXI_MMC_IDMAC_RESET		(0x1 << 0)
->  #define SUNXI_MMC_IDMAC_FIXBURST	(0x1 << 1)
->  #define SUNXI_MMC_IDMAC_ENABLE		(0x1 << 7)
-> @@ -133,6 +139,11 @@ struct sunxi_mmc {
->  #define SUNXI_MMC_COMMON_CLK_GATE		(1 << 16)
->  #define SUNXI_MMC_COMMON_RESET			(1 << 18)
->  
-> +#define SUNXI_MMC_THLDC_READ_EN		(0x1 << 0)
-> +#define SUNXI_MMC_THLDC_BSY_CLR_INT_EN	(0x1 << 1)
-> +#define SUNXI_MMC_THLDC_WRITE_EN	(0x1 << 2)
-> +#define SUNXI_MMC_THLDC_READ_THLD(x)	(((x) & 0xfff) << 16)
-> +
->  #define SUNXI_MMC_CAL_DL_SW_EN		(0x1 << 7)
->  
->  #endif /* _SUNXI_MMC_H */
+diff --git a/sound/soc/sunxi/sun8i-codec.c b/sound/soc/sunxi/sun8i-codec.c
+index 8b9eb1a202f7..a27976c375fe 100644
+--- a/sound/soc/sunxi/sun8i-codec.c
++++ b/sound/soc/sunxi/sun8i-codec.c
+@@ -274,8 +274,7 @@ static int sun8i_codec_runtime_suspend(struct device *dev)
+ 	regcache_cache_only(scodec->regmap, true);
+ 	regcache_mark_dirty(scodec->regmap);
+ 
+-	if (scodec->clk_bus)
+-		clk_disable_unprepare(scodec->clk_bus);
++	clk_disable_unprepare(scodec->clk_bus);
+ 
+ 	return 0;
+ }
+-- 
+2.25.1
 
