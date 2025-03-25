@@ -1,155 +1,128 @@
-Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7562026FA70
-	for <linux-sunxi@lists.linux.dev>; Tue, 25 Mar 2025 12:39:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66092193062
+	for <linux-sunxi@lists.linux.dev>; Tue, 25 Mar 2025 13:04:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742906398; cv=none; b=AP70zZGAQL98/LUDZ0aficWiPY5U0+TB95aSizW56QRkEaNlUFsaMOWYxG/zyFzW+4m3wPKMe+3zy3IHg2WWbmUA1DO/iCJAt6dxyhSLBB8ptBLDbMzi3Oqz8YPxXVzPMkj2xvpnCpp7pXfivHF2nB0GBwIINk7LnWaTvJzq1bs=
+	t=1742907864; cv=none; b=BnSXmgioh7h4YqYeAKO9pd9+29/4HJu2e7biCdj7zvx8ZBVIeo/zeEzD0aaDg4IKGIgYuwSCha7j1lgJGEgLncbT2xyUK9efGU+oUUSdxZiUI2uiFtO5eZ08RxKoGCiLQVXQgVtSSaNI8ivi42jdObcficWe6it3p+fbT5SRYdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742906398; c=relaxed/simple;
-	bh=8tP82OotsJmSeaPv/t9mJp2OiMqNRSJ6qjsDyEcX6/g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=sIrQNwSduDK1D2NiEr1bK4KQUTQ6B+KYcnKiiSLGBMgprxzrbO/D3MeLCqvKJFBVFOvv7LCVgcSdcZk6Ty+D9dbT+I7x1ietVyuSNJsml+18o2hNBvvX0OpWqBvF0aAV3gRMpqN7VvqrsxpXATTJiHqjodFDLi2uMykLSNxwrqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=S9dATbHQ; arc=none smtp.client-ip=193.68.50.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
+	s=arc-20240116; t=1742907864; c=relaxed/simple;
+	bh=ytAAvQ7JGlkRy9+sQoqDV7MKxsmXX7OMGSm/op62KLs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UjsCwZODP7KRct9pOlXYb59EuZ5yaaaNKwg/zQDYqFZI3vE30ME2iwWD0HB1N7zAToKhp91f8oHHfxa+LcH1IWf5v/M/0oaXz9UIiqmxlEjWpnMUke8+mlH0PrkRnIkHpEL2orEIRwthaiIjqnwVoZaYJpXREjpAWkLQgSmagtg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Isv2qRAn; arc=none smtp.client-ip=209.85.219.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="S9dATbHQ"
-Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
-	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id E788AA05BE;
-	Tue, 25 Mar 2025 13:39:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:from:from:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=mail; bh=RB9GJiRFJg6/bN2vnJM4
-	vC1ljE25oPT92TiI7BbGuH4=; b=S9dATbHQKVhWMebPspBcq6wTeWmup9sX72Kh
-	N6n2EOKfMxJ8hfo0eTHPW1XJagCC0ai0nBmCHIVy4CcHtuy/IXnIgexI30R+GdNl
-	duApg87u5HRR6AeTK/YocuQ6l0qO/UdIfXUct1soL8X9PKv9cQq0h1NBt2X0kI5q
-	+lEN+F2l2JIQI486Y6hh0CZEyKqP0TkDztsZGjlE3Uso/PHsCX1aGKhdGaqF1Rjl
-	+yZcvJGLae6yNEZgZGvIv3HmOOj4JjKAWu/0xAH4uJW4swwIiqcoJFiSrmskdLTm
-	7Y8ihLBis0RuF6MM+NSrVlSq4oBw/2dK9YHX3tSsi05orp7W06buvBssdGEA9Ovd
-	fZ2XqrL02cu625TnlTkTjrZBBs2DMjBk09f03HHe3wJhNAcqCHG5HmRSwsqLkJ0d
-	szXn94T4iai0+JUcFgko07Kg+uYwgI8hpnU+wrH90xaphxeVtGYJzCpqbXd6zy/A
-	5z8DotmD6V5RMOrH2eXdQhM8tJTAkLeUyWinSo3HCsKf8NIzqB8pJz95XaMWGHH+
-	1PqX1GnooCT3EhMYUffDfPUnOWlwoeOhS5ygusL8nLXtNLTMmYRquF+i7C7zWzVM
-	kwqMGcHByQCN9+ea0sgxkir8QTN4PyVDIzYVihd/v0s3gW9o51tuF2S0SEKD2pDk
-	+07bpVg=
-Message-ID: <bd7b31d8-be25-4dbc-9a81-4b0cccd64798@prolan.hu>
-Date: Tue, 25 Mar 2025 13:39:51 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Isv2qRAn"
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-6ecfc7fb2aaso17068216d6.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 25 Mar 2025 06:04:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742907862; x=1743512662; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ytAAvQ7JGlkRy9+sQoqDV7MKxsmXX7OMGSm/op62KLs=;
+        b=Isv2qRAn4CKSwPwSQV8xcl9sev915qU6RSiRfZNPMAMmBx34YqCcl5ji4lWGFAuO15
+         jQFDPz/1jvzINhcx3UqQRBkybB1qXW+tSM4+hN6uZirmpWmkkDQ/Da52QWUgE+Wj2DRw
+         ukvKeTtfbGpaatgH9EM4ulg9RPl/+1usHOPcBb+94eBaYWAfIjlAXeIVUVs3p6mgPkj5
+         8pbUD4ryRuYuGhpT6CIPntgee5jwx/auc8jmZzCdIatucdlK3pipE3FvCcBWYRNqfj/T
+         wtrG396MSOFFDHn1ok5VAzgx/4hMqfJhwiv1vhgjNNtsgv2W/OYMlltj6joOH3c4G5Ve
+         UAqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742907862; x=1743512662;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ytAAvQ7JGlkRy9+sQoqDV7MKxsmXX7OMGSm/op62KLs=;
+        b=cbvkHvQ0aS6UgNNyjOzYEEMN3A+kLVv0b6Ycl8NxvyS9RubzNKBzzoF8+UMtPIXPjR
+         r1wfyrq3JolbefxmYjtRgHdQtIO4JlGwVaDV3Bjth6xPLUvjJHrlWHW3VPSRkjFVRQV+
+         GkUvM9XrwXwRpgrmyltEPea4joOOhljGh4+57cSxVP2/mzcLSGLbMCBlAgltyEtX57fU
+         IYgb59gRii0P8Cxtr9AZ/ob5ATMdtf8h08rhrrTZ21P5+7A3uJb/8x2UrCzL+dpEYpBk
+         KBHq9x31MeX+IHEUl7tkP85SUYk7huLfYp2OfCh5KCcxvDTc01avVgznzIYmj0bCnBNv
+         ygCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVUqLC5eT43Xr/BtHpT1Vt/zsp+aonU3U50mnfsw82hASfmEl4taYbszLRjG+XVaXxEfPqNYI/3zYpKOg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyDJX5u+w+113z8o1TJkxEJVgAVpBj41pNhJLVyOiyRTp5YThMC
+	LbwQDWF4fYYaq02gnc/4jd9T1VfsLAF93iltQm+dyvqj6mzMWXn4s8T+5W5nlXjG8qvxp3o52Xg
+	tXfLd0usHid30SwbTsq92WZCXXmo=
+X-Gm-Gg: ASbGncuJO7YRpgfSK6FcfohnEzuE6O1dsAWjQ6QnSKx39Tw8V0w/TFe6KUam8AEv7zm
+	YhhP1gPXRIb4pogWa5DjGyU5GRRrzmemHGD2gvf/iL9tJ/nljZjDzIhFN6eRJi6tRF/g1WGloK7
+	rh6301eDPb/9NgWn6dHyzqDQL0/g3ge2dfB2V45sZcGw==
+X-Google-Smtp-Source: AGHT+IE51PXGLgkSnQJ98M/ddGNci74PQXWvqk0kA+jVT/PXCPMy/JwdbENsPVcSNY10HlA73yPF/yQqtOeqqz2rqvE=
+X-Received: by 2002:a05:6214:2607:b0:6e6:61a5:aa57 with SMTP id
+ 6a1803df08f44-6eb3f2937ccmr297309616d6.14.1742907862103; Tue, 25 Mar 2025
+ 06:04:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v6] dma-engine: sun4i: Simplify error handling in probe()
-To: Julian Calaby <julian.calaby@gmail.com>, Markus Elfring
-	<Markus.Elfring@web.de>
-CC: <dmaengine@vger.kernel.org>, <linux-sunxi@lists.linux.dev>,
-	<linux-arm-kernel@lists.infradead.org>, LKML <linux-kernel@vger.kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>, Chen-Yu Tsai <wens@csie.org>, "Christophe
- Jaillet" <christophe.jaillet@wanadoo.fr>, Jernej Skrabec
-	<jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Vinod Koul
-	<vkoul@kernel.org>
 References: <20250324172026.370253-2-csokas.bence@prolan.hu>
- <92772f63-52c9-4979-9b60-37c8320ca009@web.de>
- <7064597b-caf7-42e2-b083-b3531e874200@prolan.hu>
- <7332ccd2-ebe6-4b9d-a2ae-8f33641e7bd4@web.de>
- <7afcbbee-6261-4b2f-be14-a3076746d53c@prolan.hu>
- <26e36378-d393-4fe1-938a-be8c3db94ede@web.de>
- <CAGRGNgU7t85oG3Bq7L3KjKUAbRyd6SHSM6F6BvmdXDVkbNegKg@mail.gmail.com>
-Content-Language: en-US, hu-HU
-From: =?UTF-8?B?Q3PDs2vDoXMgQmVuY2U=?= <csokas.bence@prolan.hu>
-In-Reply-To: <CAGRGNgU7t85oG3Bq7L3KjKUAbRyd6SHSM6F6BvmdXDVkbNegKg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: ATLAS.intranet.prolan.hu (10.254.0.229) To
- ATLAS.intranet.prolan.hu (10.254.0.229)
-X-EsetResult: clean, is OK
-X-EsetId: 37303A2980D948526C7562
+ <92772f63-52c9-4979-9b60-37c8320ca009@web.de> <7064597b-caf7-42e2-b083-b3531e874200@prolan.hu>
+ <7332ccd2-ebe6-4b9d-a2ae-8f33641e7bd4@web.de> <7afcbbee-6261-4b2f-be14-a3076746d53c@prolan.hu>
+ <26e36378-d393-4fe1-938a-be8c3db94ede@web.de> <CAGRGNgU7t85oG3Bq7L3KjKUAbRyd6SHSM6F6BvmdXDVkbNegKg@mail.gmail.com>
+ <bd7b31d8-be25-4dbc-9a81-4b0cccd64798@prolan.hu>
+In-Reply-To: <bd7b31d8-be25-4dbc-9a81-4b0cccd64798@prolan.hu>
+From: Julian Calaby <julian.calaby@gmail.com>
+Date: Wed, 26 Mar 2025 00:04:10 +1100
+X-Gm-Features: AQ5f1JoI1ggKA9Gw7ELv7T2TUC8A9SzwWIQijK61-mP9ZJ-R-qeFWsNR8IL_vmU
+Message-ID: <CAGRGNgVcPRJB+sx_5g-+CLJih4vTWU-FrqiRbvVQ07219WBZPA@mail.gmail.com>
+Subject: Re: [v6] dma-engine: sun4i: Simplify error handling in probe()
+To: =?UTF-8?B?Q3PDs2vDoXMgQmVuY2U=?= <csokas.bence@prolan.hu>
+Cc: Markus Elfring <Markus.Elfring@web.de>, dmaengine@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	LKML <linux-kernel@vger.kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
+	Chen-Yu Tsai <wens@csie.org>, Christophe Jaillet <christophe.jaillet@wanadoo.fr>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Vinod Koul <vkoul@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Julian,
+Hi Bence,
 
-On 2025. 03. 25. 13:20, Julian Calaby wrote:
-> Hi Markus,
-> 
-> I really wanted to keep out of this, but...
-> 
-> On Tue, Mar 25, 2025 at 8:14 PM Markus Elfring <Markus.Elfring@web.de> wrote:
->>
->>>> Implementation details are probably worth for another look.
->>>
->>> What don't you like in the implementation? Let's discuss that then.
->>
->> I dare to point concerns out also for the development process.
-> 
-> You're "concerned" about patch granularity, but this is not the sort
-> of thing that some random person would raise, this is the sort of
-> thing a maintainer asks for when patches are doing too many things or
-> are unreviewable. This is neither. It is a very simple cleanup of a
-> probe function as it says in the patch subject.
+On Tue, Mar 25, 2025 at 11:39=E2=80=AFPM Cs=C3=B3k=C3=A1s Bence <csokas.ben=
+ce@prolan.hu> wrote:
+>
+> Hi Julian,
+>
+> On 2025. 03. 25. 13:20, Julian Calaby wrote:
 
-Exactly. That's why I asked if it broke something on Markus' end, 
-because it is a really specific thing to nitpick about, especially in a 
-changeset this small. So far, he did not indicate the *reasons* why he 
-thinks this should be split further.
+[snip]
 
-> Futhermore, this already has an ack from the maintainer of this file.
-> This indicates that they're happy with it and no significant changes
-> are required. This is also version 6 of the patch, if the maintainer
-> was concerned about this, they'd have already provided some clear
-> guidance on this. If you check previous versions of this patch, no
-> such requests have been made.
-> 
-> Your only other "concern" had already been addressed as has already
-> been pointed out to you.
-> 
->>>> Please distinguish better between information from the “changelog”
->>>> and items in a message subject.
->>>
->>> What do you mean? The email body will be the commit message.
->> See also:
->> https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst?h=v6.14#n623
-> 
-> The email and patch structure are following the format outlined in the
-> document you link to _exactly_.
-> 
-> 
-> Once again your comments are just noise, and your insistence on
-> repeating them over and over and over and over and over again is
-> borderline harassment.
-> 
-> You have been told to stop this nonsense many many times, here's a
-> link to the most recent one:
-> 
-> https://lore.kernel.org/all/92d1a410788c54facedec033474046dda6a1a2cc.camel@sipsolutions.net/
-> 
-> Please stop sending these emails and go do something constructive with
-> your life.
-> 
-> * * * * *
-> 
-> Bence Csókás, (I hope I've got the order of your names correct)
+> > Bence Cs=C3=B3k=C3=A1s, (I hope I've got the order of your names correc=
+t)
+>
+> Either order works, Bence is the given name, and Cs=C3=B3k=C3=A1s is the =
+family
+> name (surname). Hungarian and Japanese order follows the scientific
+> "Surname, Given Name(s)" order, but commas broke many tools, including
+> Git < v2.46, and b4, so I switched to the germanic "Firstname Lastname"
+> format.
 
-Either order works, Bence is the given name, and Csókás is the family 
-name (surname). Hungarian and Japanese order follows the scientific 
-"Surname, Given Name(s)" order, but commas broke many tools, including 
-Git < v2.46, and b4, so I switched to the germanic "Firstname Lastname" 
-format.
+Thanks for that, I'll try to keep that in mind!
 
-> Please block or ignore Markus, at best he's a nuisance and at worst a troll.
+[snip]
 
-I'm still open to hear him out if, and only if, he can give *clear and 
-valid* reasoning on why he wants to achieve this. I'm a generally 
-understanding person. But if it's just hand-waving and linking to the 
-same page over and over again with no explanation on why he _thinks_ I 
-broke SubmittingPatches, then I will do exactly this.
+> Lastly, to all other adressees, sorry for the spam. So let's end this
+> meta-discussion here and keep the rest of the conversation professional,
+> reasoning about the technicals.
 
-Lastly, to all other adressees, sorry for the spam. So let's end this 
-meta-discussion here and keep the rest of the conversation professional, 
-reasoning about the technicals.
+And this is why I was so hessitant to step in here.
 
-Bence
+Getting back to that, your patch looks good to me and it's awesome how
+the devm_ functions and their frends can simplify things.
 
+I'm going to point out that this does swap the clock enable and reset
+deassert, but I'm assuming that is harmless.
+
+Reviewed-by: Julian Calaby <julian.calaby@gmail.com>
+
+Thanks,
+
+--=20
+Julian Calaby
+
+Email: julian.calaby@gmail.com
+Profile: http://www.google.com/profiles/julian.calaby/
