@@ -1,80 +1,171 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADF4117E0;
-	Mon, 24 Mar 2025 20:28:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 228BC2F5B
+	for <linux-sunxi@lists.linux.dev>; Tue, 25 Mar 2025 01:13:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742848096; cv=none; b=ejNthFNppqriivnHlmPWf4rFnEnRCZEnpENrgYNkJnddedSBMBDDWjS8WeiJQ5jHgopt58rV6/oHfuPgdfx6Jk3kI59xGCa/OT6mGcM1n5VqEGShfm0Qi3eq4mVklyMzGjnow5OYE+nXmjPx265Fqushk27nUN2UzA1yVzNOi8Q=
+	t=1742865243; cv=none; b=cSRFOIt2G+C2arxLKv7TtAiPJWQ2o0qHzdWSj0gDAkpt/c6+Kb4vcTmjsTngN4llAboxLZGpcMoLFSfccEX3kSnGU2z3ldXz7VvmVxmc68zbDh9yiAPKrJy6l/kX78aHq90J+EXSnf9PmX3s9z0V+gS5+nDXwY350PE4206V9Cc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742848096; c=relaxed/simple;
-	bh=nraEfwXGNNYxOKREgx+klOuG419qOT50aasEjbGDBd8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lTUlQ4U6u9CQ9/yNqaHFbFpO6b8kQ64gTVzLzZtuBogHYcwjQHXsS83WG0iKul+TPNqgFK2wqGI+yyDqKZoQANoefUgmxGQN7eWiBLoAI5Gg1x8i0k/OcQMDv5g9Udnfu4EW1sALNuuFGbBTUbIyES9GJ6fEMRo15Jd/K0Plc8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OnNSYE68; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OnNSYE68"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56685C4CEDD;
-	Mon, 24 Mar 2025 20:28:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742848096;
-	bh=nraEfwXGNNYxOKREgx+klOuG419qOT50aasEjbGDBd8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OnNSYE68hBSBzyeGtTO8nd4tOOxSR0aog7akGaYiLwkG8num2NSKLgjJWh8uC3WuK
-	 U06pjVmuTdST0N48/cGtLz1X/xbKBvuVyo38G1KyRqk5JRDML7T2ur0OiskHh+GacP
-	 G7B/QgXENoJQLeeGgj3s9fP9hpjQxsPg5EAfU+QmH/ORmrU8nUC9sLfESe3SAjib5g
-	 Z5ygHc7Z6x2ayebeHLhKEgKL+fioKExC6D233ds831t23wzaGpVtdNUtbH/M6eNGmt
-	 LYI/cznIe/PeS+qM2oKj5D2MgTJ/BaX50rAh9BVbl6ZwXxuPu6LozGomPx5qwW6rwl
-	 MRcHsdtysEnRg==
-Date: Mon, 24 Mar 2025 15:28:15 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, iommu@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-arm-msm@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
-	Conor Dooley <conor+dt@kernel.org>, Yong Wu <yong.wu@mediatek.com>,
-	David Heidelberg <david@ixit.cz>,
-	Maxime Ripard <mripard@kernel.org>, linux-sunxi@lists.linux.dev,
-	Samuel Holland <samuel@sholland.org>,
-	Joerg Roedel <joro@8bytes.org>, Robin Murphy <robin.murphy@arm.com>,
-	Will Deacon <will@kernel.org>, linux-mediatek@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: iommu: Correct indentation and style in DTS
- example
-Message-ID: <174284809477.815772.5676101186306641286.robh@kernel.org>
-References: <20250324125250.82137-1-krzysztof.kozlowski@linaro.org>
+	s=arc-20240116; t=1742865243; c=relaxed/simple;
+	bh=+BdegROz2GAKu01I0EmdF/cqhSBR9i9o53zlLn2jA44=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mu2gWzBT6auP2hrRhnnF0Owa3UmKvBagDJLbMHnen8sMlhO8AZd1kdJyMVxRhdobOg9V4v5NLNg0OOC7I+/S7VWo7QfSBQe49LE7vMnC8rkS1wcFAONOewdW6+jxIJNkurFBsld99foCnWc8OM4+bwuhp5CfVLGhwvxFjxStbR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0B3391596;
+	Mon, 24 Mar 2025 18:14:05 -0700 (PDT)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E37953F58B;
+	Mon, 24 Mar 2025 18:13:57 -0700 (PDT)
+Date: Tue, 25 Mar 2025 01:13:29 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: jagan@amarulasolutions.com, trini@konsulko.com, macromorgan@hotmail.com,
+ u-boot@lists.denx.de, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 2/2] sunxi: H616: dram: Improve address wrapping
+ detection
+Message-ID: <20250325011329.51176143@minigeek.lan>
+In-Reply-To: <20250309063143.62859-3-jernej.skrabec@gmail.com>
+References: <20250309063143.62859-1-jernej.skrabec@gmail.com>
+	<20250309063143.62859-3-jernej.skrabec@gmail.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250324125250.82137-1-krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Sun,  9 Mar 2025 07:31:43 +0100
+Jernej Skrabec <jernej.skrabec@gmail.com> wrote:
 
-On Mon, 24 Mar 2025 13:52:50 +0100, Krzysztof Kozlowski wrote:
-> DTS example in the bindings should be indented with 2- or 4-spaces and
-> aligned with opening '- |', so correct any differences like 3-spaces or
-> mixtures 2- and 4-spaces in one binding.  While re-indenting, drop
-> unused labels.
+Hi,
+
+> It turns out that checking just one write is not enough. Due to
+> unexplained reasons scan procedure detected double the size. By making
+> 16 dword writes and comparisons that never happens.
 > 
-> No functional changes here, but saves some comments during reviews of
-> new patches built on existing code.
+> New procedure is also inverted. Instead of writing two different values
+> to base address and some offset and then reading both and comparing
+> values, simplify this by writing pattern at the base address and then
+> search for this pattern at some offset.
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+
+Thanks for improving this, I guess we want to eventually move this to
+more generic code, and use this for more SoCs?
+
+Anyway:
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+
+Cheers,
+Andre
+
 > ---
->  .../iommu/allwinner,sun50i-h6-iommu.yaml      |  24 ++--
->  .../bindings/iommu/arm,smmu-v3.yaml           |  20 ++--
->  .../devicetree/bindings/iommu/arm,smmu.yaml   | 104 +++++++++---------
->  .../bindings/iommu/mediatek,iommu.yaml        |  18 +--
->  .../bindings/iommu/qcom,apq8064-iommu.yaml    |  20 ++--
->  5 files changed, 92 insertions(+), 94 deletions(-)
+>  arch/arm/mach-sunxi/dram_sun50i_h616.c | 58 +++++++++++++++++++++++++-
+>  1 file changed, 56 insertions(+), 2 deletions(-)
 > 
-
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+> diff --git a/arch/arm/mach-sunxi/dram_sun50i_h616.c b/arch/arm/mach-sunxi/dram_sun50i_h616.c
+> index 6f84e59e39cd..1e21f5dd451f 100644
+> --- a/arch/arm/mach-sunxi/dram_sun50i_h616.c
+> +++ b/arch/arm/mach-sunxi/dram_sun50i_h616.c
+> @@ -1360,38 +1360,92 @@ static void mctl_auto_detect_rank_width(const struct dram_para *para,
+>  	panic("This DRAM setup is currently not supported.\n");
+>  }
+>  
+> +static void mctl_write_pattern(void)
+> +{
+> +	unsigned int i;
+> +	u32 *ptr, val;
+> +
+> +	ptr = (u32 *)CFG_SYS_SDRAM_BASE;
+> +	for (i = 0; i < 16; ptr++, i++) {
+> +		if (i & 1)
+> +			val = ~(ulong)ptr;
+> +		else
+> +			val = (ulong)ptr;
+> +		writel(val, ptr);
+> +	}
+> +}
+> +
+> +static bool mctl_check_pattern(ulong offset)
+> +{
+> +	unsigned int i;
+> +	u32 *ptr, val;
+> +
+> +	ptr = (u32 *)CFG_SYS_SDRAM_BASE;
+> +	for (i = 0; i < 16; ptr++, i++) {
+> +		if (i & 1)
+> +			val = ~(ulong)ptr;
+> +		else
+> +			val = (ulong)ptr;
+> +		if (val != *(ptr + offset / 4))
+> +			return false;
+> +	}
+> +
+> +	return true;
+> +}
+> +
+>  static void mctl_auto_detect_dram_size(const struct dram_para *para,
+>  				       struct dram_config *config)
+>  {
+>  	unsigned int shift, cols, rows;
+> +	u32 buffer[16];
+>  
+>  	/* max. config for columns, but not rows */
+>  	config->cols = 11;
+>  	config->rows = 13;
+>  	mctl_core_init(para, config);
+>  
+> +	/*
+> +	 * Store content so it can be restored later. This is important
+> +	 * if controller was already initialized and holds any data
+> +	 * which is important for restoring system.
+> +	 */
+> +	memcpy(buffer, (u32 *)CFG_SYS_SDRAM_BASE, sizeof(buffer));
+> +
+> +	mctl_write_pattern();
+> +
+>  	shift = config->bus_full_width + 1;
+>  
+>  	/* detect column address bits */
+>  	for (cols = 8; cols < 11; cols++) {
+> -		if (mctl_mem_matches(1ULL << (cols + shift)))
+> +		if (mctl_check_pattern(1ULL << (cols + shift)))
+>  			break;
+>  	}
+>  	debug("detected %u columns\n", cols);
+>  
+> +	/* restore data */
+> +	memcpy((u32 *)CFG_SYS_SDRAM_BASE, buffer, sizeof(buffer));
+> +
+>  	/* reconfigure to make sure that all active rows are accessible */
+>  	config->cols = 8;
+>  	config->rows = 17;
+>  	mctl_core_init(para, config);
+>  
+> +	/* store data again as it might be moved */
+> +	memcpy(buffer, (u32 *)CFG_SYS_SDRAM_BASE, sizeof(buffer));
+> +
+> +	mctl_write_pattern();
+> +
+>  	/* detect row address bits */
+>  	shift = config->bus_full_width + 4 + config->cols;
+>  	for (rows = 13; rows < 17; rows++) {
+> -		if (mctl_mem_matches(1ULL << (rows + shift)))
+> +		if (mctl_check_pattern(1ULL << (rows + shift)))
+>  			break;
+>  	}
+>  	debug("detected %u rows\n", rows);
+>  
+> +	/* restore data again */
+> +	memcpy((u32 *)CFG_SYS_SDRAM_BASE, buffer, sizeof(buffer));
+> +
+>  	config->cols = cols;
+>  	config->rows = rows;
+>  }
 
