@@ -1,119 +1,163 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D35E620E6EE
-	for <linux-sunxi@lists.linux.dev>; Thu, 27 Mar 2025 11:12:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E75320B209
+	for <linux-sunxi@lists.linux.dev>; Thu, 27 Mar 2025 12:36:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743073943; cv=none; b=o4C1DGs1V+eniLEO3+YRBuNMoF848rZixLetsUAuugvN+WC1GwvzbXCJDJIionz0p8Xz+XPa2mTxOIZVLZCoOuk9TXM2GZqskibE7MpLNTPIbCYpEbvMyY628cwHYJZ2LhKlc2wqOZdiyH0oz/hoJVrMtCjbqILchAsuPnZw3nE=
+	t=1743078996; cv=none; b=iYoADCI6eqVr9ZyuBxH6VZwQRiS/vXjAeqCAbU+gR9zMq6Kf5DpRSSeNVDSQLNWKbb47CaT9z2opg89xaEG08sDkzzuWgiq3EfKgJkEjdfPFLJgiwpc01840uuSGfyKBnCSLD2GxIF3oRO02HEx1x0NnGaaXzehpbJWvypZcBI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743073943; c=relaxed/simple;
-	bh=0lX70g5WS07DSi4bpklrCyXbO/iTNSCsOvo3Dyka74A=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NhDqlvSzdcsAGP5FYPsO4FB0TMLpRPX7tGOXZKPyOyF2AEMku7TimHdqLkQHr7B2B5RjLy2kmOqQNO8FY8cy5tiqfM7Fe/fC/U4P8xgynXRrIdSTmH+M0y+aq0TkGCwFWHamvSYynubsC56rl4nw5+9g05VOCkLdbsMpKqb1Kkw=
+	s=arc-20240116; t=1743078996; c=relaxed/simple;
+	bh=zLWdYtqImRVpdcyhFlRIq2t/1nIjBVUrdpwk/EoErTM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uYXXdVxoBi8z5fwAvR9NJNFXxxKOJQEebZQbmjQENA+fHRIWqW8I3gr1qEkw5XCJOE/uHDKxyY3s3nqBgTSBQflWASmcSBlxj1Sd//OYPbEj/WrXVuAkjIK9zv9GsS917rqaoDn132UY1kR+1Uju/e+T/pnAnAhbKBfuo7vfcsA=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 31D3A1063;
-	Thu, 27 Mar 2025 04:12:26 -0700 (PDT)
-Received: from donnerap.arm.com (donnerap.manchester.arm.com [10.32.100.21])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 100FC3F58B;
-	Thu, 27 Mar 2025 04:12:19 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B60AE1063;
+	Thu, 27 Mar 2025 05:36:38 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ACA8E3F58B;
+	Thu, 27 Mar 2025 05:36:31 -0700 (PDT)
+Date: Thu, 27 Mar 2025 12:36:28 +0000
 From: Andre Przywara <andre.przywara@arm.com>
-To: Tom Rini <trini@konsulko.com>
-Cc: u-boot@lists.denx.de,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Liya Huang <1425075683@qq.com>,
-	linux-sunxi@lists.linux.dev
-Subject: Pull request: u-boot-sunxi/next for next
-Date: Thu, 27 Mar 2025 11:12:14 +0000
-Message-Id: <20250327111214.2064340-1-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.25.1
+To: Boris Brezillon <boris.brezillon@collabora.com>, Rob Herring
+ <robh@kernel.org>, Steven Price <steven.price@arm.com>
+Cc: Philippe Simons <simons.philippe@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, Jernej =?UTF-8?B?xaBrcmFiZWM=?=
+ <jernej.skrabec@gmail.com>
+Subject: Re: [PATCH 1/2] drm/panfrost: Add PM runtime flags
+Message-ID: <20250327123628.3d33c68e@donnerap.manchester.arm.com>
+In-Reply-To: <20250312232319.25712-2-simons.philippe@gmail.com>
+References: <20250312232319.25712-1-simons.philippe@gmail.com>
+	<20250312232319.25712-2-simons.philippe@gmail.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Tom,
+On Thu, 13 Mar 2025 00:23:18 +0100
+Philippe Simons <simons.philippe@gmail.com> wrote:
 
-please pull these sunxi changes into next:
+Hi Rob, Boris, Steven,
 
-Assorted fixes, refactorings and additions that are ready, and shave
-off some load from upcoming series'.
+> When the GPU is the only device attached to a single power domain,
+> core genpd disable and enable it when gpu enter and leave runtime suspend.
+> 
+> Some power-domain requires a sequence before disabled,
+> and the reverse when enabled.
+> 
+> Add PM flags for CLK and RST, and implement in
+> panfrost_device_runtime_suspend/resume.
 
-Improves MMC performance on D1/T113 (missed clock divider), enables
-eMMC access on the H616 family (never worked, many thanks to Jernej for
-the fix!), DRAM detection fixes for the H616 (now reportedly stable).
+So some Mali configuration and integration manual I am looking at says
+that this sequence should be always observed, as the powerdown sequence
+would include disabling the clocks first, then asserting the reset, then
+turning the power switches off (and the inverse sequence on powerup).
 
-Some patches for the upcoming Allwinner A133 SoC support: a few
-refactorings, plus the DM clock and pinctrl driver. The DRAM init
-routines work, but need some more polishing, that also holds back the
-actual enablement patch, which will hopefully follow for v2025.07 still.
+So should we make this unconditional, not depending on implementation
+specific flags?
 
-Also some preparatory patches for the Allwinner A523 SoC support, for
-now just to improve the FEL save/restore code. There will be more patches
-coming up for this, ideally also in the coming cycle still.
+And also I am wondering if panfrost_device_init() gets this wrong as well?
+As I see it enabling clock first, then reset, then pm_domain, where it
+should be exactly the opposite?
 
-Gitlab CI passed, and I booted that briefly on some boards.
-
-Thanks,
+Cheers,
 Andre
 
-===========================================================
-The following changes since commit b052de94fa14577cb5d9e724edeb09fee674d582:
+> 
+> Signed-off-by: Philippe Simons <simons.philippe@gmail.com>
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_device.c | 37 ++++++++++++++++++++++
+>  drivers/gpu/drm/panfrost/panfrost_device.h |  4 +++
+>  2 files changed, 41 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
+> index a45e4addcc19..189ad2ad2b32 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
+> @@ -406,11 +406,38 @@ void panfrost_device_reset(struct panfrost_device *pfdev)
+>  static int panfrost_device_runtime_resume(struct device *dev)
+>  {
+>  	struct panfrost_device *pfdev = dev_get_drvdata(dev);
+> +	int ret;
+> +
+> +	if (pfdev->comp->pm_features & BIT(GPU_PM_RT_RST_ASRT)) {
+> +		ret = reset_control_deassert(pfdev->rstc);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	if (pfdev->comp->pm_features & BIT(GPU_PM_RT_CLK_DIS)) {
+> +		ret = clk_enable(pfdev->clock);
+> +		if (ret)
+> +			goto err_clk;
+> +
+> +		if (pfdev->bus_clock) {
+> +			ret = clk_enable(pfdev->bus_clock);
+> +			if (ret)
+> +				goto err_bus_clk;
+> +		}
+> +	}
+>  
+>  	panfrost_device_reset(pfdev);
+>  	panfrost_devfreq_resume(pfdev);
+>  
+>  	return 0;
+> +
+> +err_bus_clk:
+> +	if (pfdev->comp->pm_features & BIT(GPU_PM_RT_CLK_DIS))
+> +		clk_disable(pfdev->clock);
+> +err_clk:
+> +	if (pfdev->comp->pm_features & BIT(GPU_PM_RT_RST_ASRT))
+> +		reset_control_assert(pfdev->rstc);
+> +	return ret;
+>  }
+>  
+>  static int panfrost_device_runtime_suspend(struct device *dev)
+> @@ -426,6 +453,16 @@ static int panfrost_device_runtime_suspend(struct device *dev)
+>  	panfrost_gpu_suspend_irq(pfdev);
+>  	panfrost_gpu_power_off(pfdev);
+>  
+> +	if (pfdev->comp->pm_features & BIT(GPU_PM_RT_CLK_DIS)) {
+> +		if (pfdev->bus_clock)
+> +			clk_disable(pfdev->bus_clock);
+> +
+> +		clk_disable(pfdev->clock);
+> +	}
+> +
+> +	if (pfdev->comp->pm_features & BIT(GPU_PM_RT_RST_ASRT))
+> +		reset_control_assert(pfdev->rstc);
+> +
+>  	return 0;
+>  }
+>  
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+> index cffcb0ac7c11..f372d4819262 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+> @@ -36,10 +36,14 @@ enum panfrost_drv_comp_bits {
+>   * enum panfrost_gpu_pm - Supported kernel power management features
+>   * @GPU_PM_CLK_DIS:  Allow disabling clocks during system suspend
+>   * @GPU_PM_VREG_OFF: Allow turning off regulators during system suspend
+> + * @GPU_PM_RT_CLK_DIS: Allow disabling clocks during system runtime suspend
+> + * @GPU_PM_RST_ASRT: Allow asserting the reset control during runtime suspend
+>   */
+>  enum panfrost_gpu_pm {
+>  	GPU_PM_CLK_DIS,
+>  	GPU_PM_VREG_OFF,
+> +	GPU_PM_RT_CLK_DIS,
+> +	GPU_PM_RT_RST_ASRT
+>  };
+>  
+>  struct panfrost_features {
 
-  test: lmb: fix the lmb_alloc_addr() based test cases (2025-03-26 14:05:36 -0600)
-
-are available in the Git repository at:
-
-  https://source.denx.de/u-boot/custodians/u-boot-sunxi.git next
-
-for you to fetch changes up to 6d6d58be25dd0b8e1955b15cf197f418be58bfd9:
-
-  sunxi: update rmr_switch.S source code (2025-03-27 00:26:35 +0000)
-
-----------------------------------------------------------------
-Andre Przywara (11):
-      sunxi: mmc: Fix T113-s3 MMC clock divider
-      sunxi: sun50i_h6: clock: fix PLL_PERIPH0 rate calculation
-      power: pmic: sunxi: add SPL support for the AXP803
-      sunxi: pmic_bus: Move SPL I2C addresses into Kconfig
-      sunxi: Kconfig: consolidate SYS_CLK_FREQ selection
-      spl: reorder SPL_MAX_SIZE defaults for sunxi
-      clk: sunxi: Add support for the A100/A133 CCU
-      pinctrl: sunxi: add Allwinner A100/A133 pinctrl description
-      sunxi: armv8: fel: move fel_stash variable to the front
-      sunxi: arm64: boot0.h: move fel_stash_addr variable to the front
-      sunxi: update rmr_switch.S source code
-
-Jernej Skrabec (3):
-      sunxi: h616: dram: Rework size detection
-      sunxi: H616: dram: Improve address wrapping detection
-      sunxi: mmc: Improve reset procedure
-
-Liya Huang (1):
-      sunxi: kconfig : Make CHIP_DIP_SCAN depend on ARCH_SUNXI
-
- arch/arm/cpu/armv8/fel_utils.S          |   7 ++-
- arch/arm/include/asm/arch-sunxi/boot0.h |   8 +--
- arch/arm/mach-sunxi/Kconfig             |  21 +++----
- arch/arm/mach-sunxi/clock_sun50i_h6.c   |  15 +++--
- arch/arm/mach-sunxi/dram_sun50i_h616.c  |  74 ++++++++++++++++++++---
- arch/arm/mach-sunxi/pmic_bus.c          |  27 +--------
- arch/arm/mach-sunxi/rmr_switch.S        |  40 +++++++++++--
- board/sunxi/board.c                     |   5 +-
- common/spl/Kconfig                      |   3 +-
- drivers/clk/sunxi/Kconfig               |   7 +++
- drivers/clk/sunxi/Makefile              |   1 +
- drivers/clk/sunxi/clk_a100.c            | 102 ++++++++++++++++++++++++++++++++
- drivers/clk/sunxi/clk_sunxi.c           |   5 ++
- drivers/mmc/sunxi_mmc.c                 |  35 +++++++++--
- drivers/mmc/sunxi_mmc.h                 |  18 +++++-
- drivers/pinctrl/sunxi/Kconfig           |  10 ++++
- drivers/pinctrl/sunxi/pinctrl-sunxi.c   |  47 +++++++++++++++
- drivers/power/Kconfig                   |  25 ++++++--
- drivers/power/Makefile                  |   1 +
- drivers/power/axp_spl.c                 |  17 ++++++
- 20 files changed, 390 insertions(+), 78 deletions(-)
- create mode 100644 drivers/clk/sunxi/clk_a100.c
