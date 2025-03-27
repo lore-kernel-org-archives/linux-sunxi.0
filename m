@@ -1,160 +1,117 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77DA725D202
-	for <linux-sunxi@lists.linux.dev>; Tue, 25 Mar 2025 16:13:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CEB32080CB;
+	Thu, 27 Mar 2025 08:42:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742919231; cv=none; b=VsXlsdo2BdvKAIfrgYar8NQeJbGkYQ6uXYe6xAginj0ePBJxpQxS+vowwwqKmwEf7ez/m529lAdoA0fYHx/qEPbMBiMn7ngajZLSS3MhPuaCUqJRiDuiZFmTnx1xKXt3jVHizMFBo/LXSZZnAqTKD3hVNrYy41G9DDsFv/AprS4=
+	t=1743064973; cv=none; b=BU7UAyVZnC3WWMUUCE+rj4yNTSnpKIXJJZ6df197aAL3fEc1RuiG15htEuygdsalRL0/xeiHV2zU+1dEsfvxbQsypWRAGENckIq7WwKBJy+JvEH8qOG/qVJYRsmPqzI1/g5eQQPUn0uKduZxcqA7FZcDijXbZb4Xrze3TIgXhso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742919231; c=relaxed/simple;
-	bh=vhrkcD3f3RIlLuxv+zeNMHCAis6FPlc8Wt9nqKbBW9s=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HQSea2Imj7ts7IUi+zi4QDNcOMotDPT5fE8HmvSEaOkITMKBC+2jXlq/C/EA+FvjTsUzUUD79NValpg9mybPSIUU0y5GleeAhARFsekHBZcBRqiY0W6NlRKm27LgPy3ds4T3y1tN5fICum8N19HNa1O/1b02Mnj+1Tt1vP1U+ps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QFMhJoyx; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1743064973; c=relaxed/simple;
+	bh=YD48CO4FsnwCglT67h5qBvSC1Oj4vkTc/ynkSqfBkbU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kIDc5Zk+16CmWU+AGyW7MBuzy9TjpBB71iSM2KsLpV6+6zb1TTBEixvlHGH7zInhg/P2FQmPIpVPkoCgXfgchw3mvZNIuNFAZKJJggSPAKN3miFmoBkkrxn99HYpXEqnaEOKbWyNQ8LXfBjMbzszEE3yORtRpsJjFFse912Bk/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nOnUw5Ci; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QFMhJoyx"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43690d4605dso41568275e9.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 25 Mar 2025 09:13:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742919228; x=1743524028; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=a/TYpWG8Tu95bi+rSvHSLhGf06sfL2qUKyVTKktd0ZM=;
-        b=QFMhJoyxQ06yqFgzVptxOB+q2TouMjCpM1BK2ozw84eD5YYhW1s+aUYIhmNsbqLkZ8
-         s3lolzXDf4366Y4DfI0fRm7YDLR9FXnNg21+EALrbutol8r9aNxjiXQdsCgD1R60hRVG
-         YDbkkMdIxZ3RhHFyPfFTm5bqIZQfpZ/K27C6fyUaeIc31SubJmiykOy+6Tr/51idr+vC
-         m3S+4kZX9egBYIcLPXijTKmoy0EjnGRxdspNOgrVD8ZeWwserjzTX6Gl4IUkjLTNGceQ
-         sd1jeNfOLnJRGedQbeEti1InWR9OaUztlSrYPQuvWdflu2NMySVYfAbujIew1O2Mxft2
-         3yew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742919228; x=1743524028;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=a/TYpWG8Tu95bi+rSvHSLhGf06sfL2qUKyVTKktd0ZM=;
-        b=uWG8seSBaQxVkEHJJ+s67kWA2KE7UnCC03evB/jVDjsWNb4BmRdgGWyIsVLWDm+QzQ
-         K6gEWsJKrvovd7He5AXqgYi/wFH6YEX6vf35x78TZTjOJOfXGCZ3P8z1KM90xpKqBsfJ
-         xD0lUHgsC5atMiYhKLlYckuP4aYkEXt1DZCKaaOgnffiG6X4UojNArwh/uBCEi/5+bQE
-         dfFk8uBe7pmIzH1x9JFgw5AFzek9iBheBgMSH19x3VuF80hB36lGDeMcrfvUSHY6tesn
-         +aLxGRUqwJ9Wy2iYWTqll+X3Oh2A4IDFK6nmvXBGyY5G/8qNVCI1oHafAFlE19Mi/R7e
-         ZzlA==
-X-Forwarded-Encrypted: i=1; AJvYcCXPO09rinHKAVdAiYuXqmvREFMmWRIdSaaAWiJIFoHdYFr3tsx8c0bxb4NRFEHUBrA736y/TFLomTuUPA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzOJjvhzC0eo1ee9XtRU0Uw9Bryy0AzLViiMmSImDBm5TT1rPvf
-	gbhGtpNt6PxPk4Evzx1kCz3/Lv4XhXVTUeiGOA1IStlJPHDs3Git
-X-Gm-Gg: ASbGncuwXYDqA8XaRYRxZ0rBeZ6EahMdAR7OauP0eTGwMHomqp3s8LiVw4H7lwSDwce
-	Joj27flBDfpruNoEOXNvIN/t2lPGPqgkAqtn+kBNcSPRFAz0u2TuCTOo8OYrEC2fTVqc2b8LAva
-	6V4pxDIulqE05MvO3bihwvvLRGluOEXMp1XhhyAmcuT7LCfvKPzmpty+v9JN5OKTqarRiTz4D1c
-	03raDmbVIiHixaSjf8mMLQc/rP3suWawFjXudnre7DCRFD7G/frMw2t1FtH+5EsmcIj7C7Zhki6
-	95mhRe4M8J2vlcZYWuitvbK7SArzmZW5ognfWRcUKxOFzsVsJvAB8/qN/zTDG7TIwEDgAn6dz7U
-	skh4FIQB3LCPAZ1qQAQK5tvVCR/I5klw=
-X-Google-Smtp-Source: AGHT+IE5K5+KWhyMqNd/oWylDaIWUAKFAV+sWpCvLcUBmvZaXCmZvQtYds//Ndv9HXrwn1/j5n9rSQ==
-X-Received: by 2002:a5d:5f92:0:b0:391:4389:f363 with SMTP id ffacd0b85a97d-3997f91bc76mr14013562f8f.21.1742919227412;
-        Tue, 25 Mar 2025 09:13:47 -0700 (PDT)
-Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d4fdbd1c7sm157742995e9.40.2025.03.25.09.13.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Mar 2025 09:13:47 -0700 (PDT)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Peng Fan <peng.fan@nxp.com>, Jaehoon Chung <jh80.chung@samsung.com>,
- Tom Rini <trini@konsulko.com>, Andre Przywara <andre.przywara@arm.com>
-Cc: u-boot@lists.denx.de, linux-sunxi@lists.linux.dev
-Subject: Re: FIXUP! sunxi: mmc: Improve reset procedure
-Date: Tue, 25 Mar 2025 17:13:46 +0100
-Message-ID: <2772552.mvXUDI8C0e@jernej-laptop>
-In-Reply-To: <20250325142737.1702796-1-andre.przywara@arm.com>
-References:
- <20250325133953.1dab37c8@donnerap.manchester.arm.com>
- <20250325142737.1702796-1-andre.przywara@arm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nOnUw5Ci"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10F1FC4CEDD;
+	Thu, 27 Mar 2025 08:42:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743064972;
+	bh=YD48CO4FsnwCglT67h5qBvSC1Oj4vkTc/ynkSqfBkbU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nOnUw5CiiGx9MW6mTLS3QpYBwCi1ecL7NIZ54rPiNogF5wqbYofbS7ZsUmJuRxOEK
+	 VmjINAOiHZG5fr2UqaSFPFa0RR7aoWNBY3rd6ldXeDEwC+r6h8zCfOBjuI1A7p8E1q
+	 HFPn5tXVTytEjQ+XcTNZ8fxwCSkLnnVis6YszVKWXfuNWunvmnzxF5pnASBCr3NHIR
+	 Z6JeGIbiyq05a9lLiEV9gTwA7OszwjPB4CXTD/6QsVB674OCI73mGO/M00/RC9/vhi
+	 CfJuG9imQVqlDaHgG9M8gB/2mzm1d9SekbfhqlLWkHgNnzAWHhs9VecB0F5JLILSNV
+	 U5ExS4PeES/YQ==
+Date: Thu, 27 Mar 2025 09:42:49 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Aleksandr Shubin <privatesub2@gmail.com>
+Cc: linux-kernel@vger.kernel.org, 
+	Conor Dooley <conor.dooley@microchip.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Cheo Fusi <fusibrandon13@gmail.com>, linux-pwm@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v11 1/3] dt-bindings: pwm: Add binding for Allwinner
+ D1/T113-S3/R329 PWM controller
+Message-ID: <t3zbutuclculgqchj2byhjqbebdyrs3sslt65faph5tljppljk@lr5pbdovyuxv>
+References: <20250213094018.134081-1-privatesub2@gmail.com>
+ <20250213094018.134081-2-privatesub2@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="chw7rzoep466ms63"
+Content-Disposition: inline
+In-Reply-To: <20250213094018.134081-2-privatesub2@gmail.com>
+
+
+--chw7rzoep466ms63
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Subject: Re: [PATCH v11 1/3] dt-bindings: pwm: Add binding for Allwinner
+ D1/T113-S3/R329 PWM controller
+MIME-Version: 1.0
 
-Dne torek, 25. marec 2025 ob 15:27:37 Srednjeevropski standardni =C4=8Das j=
-e Andre Przywara napisal(a):
-> Hi Jernej,
+Hello,
+
+On Thu, Feb 13, 2025 at 12:40:12PM +0300, Aleksandr Shubin wrote:
+> Allwinner's D1, T113-S3 and R329 SoCs have a new pwm
+> controller witch is different from the previous pwm-sun4i.
 >=20
-> what do you think about this solution the A10 compilation problem?
-> That looks like a simple change, somewhat half of the way to the proper
-> solution.
-> If you agree, I'd squash that into your patch, then push it for U-Boot
-> next.
-
-Sure, I'm all for it.  Sorry for missing this, it seems so obvious now.
-
-Best regards,
-Jernej
-
+> The D1 and T113 are identical in terms of peripherals,
+> they differ only in the architecture of the CPU core, and
+> even share the majority of their DT. Because of that,
+> using the same compatible makes sense.
+> The R329 is a different SoC though, and should have
+> a different compatible string added, especially as there
+> is a difference in the number of channels.
 >=20
-> Cheers,
-> Andre
+> D1 and T113s SoCs have one PWM controller with 8 channels.
+> R329 SoC has two PWM controllers in both power domains, one of
+> them has 9 channels (CPUX one) and the other has 6 (CPUS one).
 >=20
+> Add a device tree binding for them.
 >=20
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  drivers/mmc/sunxi_mmc.c | 10 +++++-----
->  drivers/mmc/sunxi_mmc.h |  4 ++++
->  2 files changed, 9 insertions(+), 5 deletions(-)
->=20
-> diff --git a/drivers/mmc/sunxi_mmc.c b/drivers/mmc/sunxi_mmc.c
-> index 31dbfb10c59..951e6acd34d 100644
-> --- a/drivers/mmc/sunxi_mmc.c
-> +++ b/drivers/mmc/sunxi_mmc.c
-> @@ -449,23 +449,23 @@ out:
->  	return error;
->  }
-> =20
-> -static void sunxi_mmc_reset(struct sunxi_mmc *regs)
-> +static void sunxi_mmc_reset(void *regs)
->  {
->  	/* Reset controller */
-> -	writel(SUNXI_MMC_GCTRL_RESET, &regs->gctrl);
-> +	writel(SUNXI_MMC_GCTRL_RESET, regs + SUNXI_MMC_GCTRL);
->  	udelay(1000);
-> =20
->  	if (IS_ENABLED(CONFIG_SUN50I_GEN_H6) || IS_ENABLED(CONFIG_SUNXI_GEN_NCA=
-T2)) {
->  		/* Reset card */
-> -		writel(SUNXI_MMC_HWRST_ASSERT, &regs->hwrst);
-> +		writel(SUNXI_MMC_HWRST_ASSERT, regs + SUNXI_MMC_HWRST);
->  		udelay(10);
-> -		writel(SUNXI_MMC_HWRST_DEASSERT, &regs->hwrst);
-> +		writel(SUNXI_MMC_HWRST_DEASSERT, regs + SUNXI_MMC_HWRST);
->  		udelay(300);
-> =20
->  		/* Setup FIFO R/W threshold. Needed on H616. */
->  		writel(SUNXI_MMC_THLDC_READ_THLD(512) |
->  		       SUNXI_MMC_THLDC_WRITE_EN |
-> -		       SUNXI_MMC_THLDC_READ_EN, &regs->thldc);
-> +		       SUNXI_MMC_THLDC_READ_EN, regs + SUNXI_MMC_THLDC);
->  	}
->  }
-> =20
-> diff --git a/drivers/mmc/sunxi_mmc.h b/drivers/mmc/sunxi_mmc.h
-> index 9d55904c213..bc313dcabe0 100644
-> --- a/drivers/mmc/sunxi_mmc.h
-> +++ b/drivers/mmc/sunxi_mmc.h
-> @@ -12,6 +12,10 @@
-> =20
->  #include <linux/types.h>
-> =20
-> +#define SUNXI_MMC_GCTRL		0x000
-> +#define SUNXI_MMC_HWRST		0x078
-> +#define SUNXI_MMC_THLDC		0x100
-> +
->  struct sunxi_mmc {
->  	u32 gctrl;		/* 0x00 global control */
->  	u32 clkcr;		/* 0x04 clock control */
->=20
+> Signed-off-by: Aleksandr Shubin <privatesub2@gmail.com>
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 
+nitpick: Put your S-o-b last.
 
+> +  allwinner,npwms:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description: The number of PWM channels configured for this instance
+> +    enum: [6, 9]
 
+Maybe mention the default that is assumed if this property isn't
+provided? Reading the commit log makes me wonder if the default is 8. If
+so I suggest to also allow that value explicitly.
 
+Best regards
+Uwe
+
+--chw7rzoep466ms63
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmflD4YACgkQj4D7WH0S
+/k4zPwf/YgFEiTFLIAzGN93hGhAtrlBkY9Wk7sGF/1me7yiQulyYfZVNVE6VYT+d
+ePJ4J6WFE+mBBUN7AUaq2L3TqRbq0Fe5fRURdVxpk+RHdtcMhn5FKUTpUWSfB9eM
+v1qDWxVJfZEFhhs5w6pdVeOP3EUjqNxD6oKqTXROCLJQIe4WA/TtPOMK3oJccVCv
+nSnAtTGktNW1RdDOZH6iltBKmY01oZJO1AkRjE7sOcWkjDVk6f68cgig337GWs7p
+b/2z0uKOyAlDQZFi8TaMA323lLDgPyoKAbNx+xdcLdlCKNMXUADk+3vF5caqPwQL
+9InY8wuNgSZh208F1a8d2YBqGxJlhA==
+=gz3O
+-----END PGP SIGNATURE-----
+
+--chw7rzoep466ms63--
