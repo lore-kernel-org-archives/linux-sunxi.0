@@ -1,95 +1,219 @@
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBD8E8615A
-	for <linux-sunxi@lists.linux.dev>; Sat, 29 Mar 2025 16:37:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C0E8175D50;
+	Sun, 30 Mar 2025 16:39:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743266239; cv=none; b=Oj7/i4eTaMK5IGawAVuqeFtNtt0PsKgtVzZGPhsKIMkHvVgMlq6/lBtG3GKhFoVwoA4X0ionDRUD/JEzoc2K/bXsLrQz8syP8oe0nJhtFrJkIpB/wyqXNTL8GVkCW3QRMZqR/ucGJB6Ys3lDUGAI0nu7R5xnTnzBZYgc8M8mV8s=
+	t=1743352783; cv=none; b=UFHE6rC1To+nGxga1nZa4SDrKax3nYAg+M1BpGsTLk2DEm7bNVMD0hnADZg0QAn8a1UWelLgrKXphbNfi5zeJbIvddD9GJdybn4tOFAqkorJ02HFvmKuvrfUjgedAJkEOWjNBqsD7L3iHamF20ubxQiQf+L410BK7zSgejZxWzw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743266239; c=relaxed/simple;
-	bh=t0lEVTxbz5+YnLWL/IMuqdf0yHAENWgsVkRovJLU0wE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=mmFc6XAACzZxdQe0fl7PH8NGBUa2jxOMA3q7KIG/RJ+dbgdMO+qqZfWB+8nE/Zb8QnDrgAFK6FV+dt+X0BOyWQhysOMJGS8Ur+eBNR4LQvMWcUFLD8hf8zHxZ+gxxYXvLCEWNwg95BWD++LEYb0EEYSQy6gKoRIOVYt2yBE7THk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=konsulko.com; spf=pass smtp.mailfrom=konsulko.com; dkim=pass (1024-bit key) header.d=konsulko.com header.i=@konsulko.com header.b=ojeqn/Wt; arc=none smtp.client-ip=209.85.167.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=konsulko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=konsulko.com
+	s=arc-20240116; t=1743352783; c=relaxed/simple;
+	bh=V5j1W1nJpZdHJRcysq7Oe534M79h+6sw32lCrhO5bko=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=H687h5A76VYm0nK4WxqPE3+Ia7tJ0LNC+447PFAg6Zgc5G4zpYhbSGRejr/HYNRxv8o/eCoSzbLS0rr4KbkQ+wBg67PHmZ/z1OQSa2fud0lJ5wcXDoJ4Y7Gb97QfGBt2GGdkzmaZ2InDujMGBV3I7KDU8djRa859FUGQlDWbZV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DSlP+kHK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=konsulko.com header.i=@konsulko.com header.b="ojeqn/Wt"
-Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-3feaedb6670so1921448b6e.1
-        for <linux-sunxi@lists.linux.dev>; Sat, 29 Mar 2025 09:37:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1743266237; x=1743871037; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Tdw4NX1XXd9o6UvrntRwBB26VbQgoApAJWsvC1pLdaw=;
-        b=ojeqn/WtFCqtiqjVdBifE0OAmJFjE92W9dXz2Jqw4V7aid5fpMegvFU8YwD4V/t9Wr
-         g5HGuwpFmik4E3rAZXT3a6M+KaQkaTppdrI/5YqWpYeANE6FftVCCsn9pCaDMTQovOl3
-         kTTuulXb+uk4zj848pf7een0NCoIvCdXda5h8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743266237; x=1743871037;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Tdw4NX1XXd9o6UvrntRwBB26VbQgoApAJWsvC1pLdaw=;
-        b=b3nLzQzdk9lB+WiGUvPqRo3e8znTLHIuZY1Bf6wiLQFJ5Sg9pOlti1aRHVd0116pH4
-         Ui/IFlmNHLBcnlH+GxHs5NUkwEh4lJ2xCCNb4Wr2BBk0HGTM5uPE+yk8zwOukL5Q12Wx
-         sgA+fIDjDJLRpOi8vDthmjYvG6FKs+7oXUVeVRBXki9648DZ4QldXyV3n6NoFP8e/N7i
-         FufGtYklLQIEMygypr2kDWjliXZkUmE65ZR6NHdGLPCwaKHhyeRbS7C35dOpqnDyH66I
-         B9JSFp08d7+yUE/TCxKc6tiFbBdRq3sWCkgc2pC25UNu1ufoufbge2+TgHeH6/K0+U6A
-         cPJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU6Y5SYeN7CqVTKdIXFsjc4C4Hm1ZWeq5D4FW34CIkIdwoXZvB0dcyGqTk727VAyrKLgInUuIxUTk0GgQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyEPC8qYILpC82FrWKaOqVtRbQeJYWaRuC8AKbLEl3/q8g5chMm
-	SE5u7HhR0rNqRt/Baz1T23hARhLV8JVE3GZ/i1Ok22eqGQJyRNXop8m+7t774a8=
-X-Gm-Gg: ASbGnct5C0dCjt6WFMfkXiUdy1iQRme23RBjWwzl5OxMjFabmx3axQ0bFyVPnZ1hCuT
-	kLuNUnneL0u2WfJY+R2+POQW0EKu9md/DiNxRIkt8dSy7nMpRSJsu7p2H6owW6xMwhteWosb5tT
-	SxsG03qhLgqn5Uqddye9gDu6gsK3rcyk5wnyyxOkcNYNU2Hh1pjvfUiaQNVMj0oC4Su8YnVY13+
-	fcfMEEEoEXETHBF3fDTOW/r8mfZQr3+FdrJ0wzcCGYf+tB/i9p464VSIb6WENDj0psPvJle8z3V
-	1P0t80gRr0vuh/qPe2H3S3HqAWap6G4ID59i6Gm2VnIjZLk9I17SGYxLuaOaQXMO4oH8JL/MGkg
-	GKzNG
-X-Google-Smtp-Source: AGHT+IGtCwVtyUBKksnYHD3zk06XJkD76upYWgNrHvYD/Jg4+LwG2yENgw7hhPVD5x4NEG3t0bFKqQ==
-X-Received: by 2002:a05:6808:1406:b0:3f8:e55c:16d6 with SMTP id 5614622812f47-3ff0f5b5bb2mr2129767b6e.28.1743266236862;
-        Sat, 29 Mar 2025 09:37:16 -0700 (PDT)
-Received: from [127.0.1.1] (fixed-187-190-205-42.totalplay.net. [187.190.205.42])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-3ff05278de3sm766988b6e.36.2025.03.29.09.37.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Mar 2025 09:37:16 -0700 (PDT)
-From: Tom Rini <trini@konsulko.com>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: u-boot@lists.denx.de, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Liya Huang <1425075683@qq.com>, linux-sunxi@lists.linux.dev
-In-Reply-To: <20250327111214.2064340-1-andre.przywara@arm.com>
-References: <20250327111214.2064340-1-andre.przywara@arm.com>
-Subject: Re: Pull request: u-boot-sunxi/next for next
-Message-Id: <174326623538.1009520.14409042559701400584.b4-ty@konsulko.com>
-Date: Sat, 29 Mar 2025 10:37:15 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DSlP+kHK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07588C4CEDD;
+	Sun, 30 Mar 2025 16:39:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743352783;
+	bh=V5j1W1nJpZdHJRcysq7Oe534M79h+6sw32lCrhO5bko=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=DSlP+kHKxiKQhEBGuOxQvTYGW2bothqLP6dIcRecKrLJBpk2FAQQ1Sd6hhBeuzeRq
+	 uzc+n5Lat8DYzJqEunPmSYRE3SWpFes1lhxdokXGw03tLAp23GJKKluvvimOCXPXzr
+	 9UmTF60kHO92zccmwnCHVjfMlIklx5i4nr51Nr805xZSQQTjGsz6cSApKud+Fzabh+
+	 eHNWEZR4K7lM2YOA8ejB3M+0umjyLGGLRxj71D4WjHFXKgtGlKse1d6MhXjelM7wwm
+	 Rjrd49yz8AqS0I3NW6FBkjhGZOMp4ePleRmbdgPmKCS5dcaBzjQB7IfZSR5Jn1sy6G
+	 sB4EyXezgVr5Q==
+Date: Sun, 30 Mar 2025 17:39:29 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Matti Vaittinen <mazziesaccount@gmail.com>
+Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, Lars-Peter Clausen
+ <lars@metafoo.de>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, Lad Prabhakar
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+ <samuel@sholland.org>, Nuno Sa <nuno.sa@analog.com>, David Lechner
+ <dlechner@baylibre.com>, Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+ Guillaume Stols <gstols@baylibre.com>, Olivier Moysan
+ <olivier.moysan@foss.st.com>, Dumitru Ceclan <mitrutzceclan@gmail.com>,
+ Trevor Gamblin <tgamblin@baylibre.com>, Matteo Martelli
+ <matteomartelli3@gmail.com>, Alisa-Dariana Roman <alisadariana@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ =?UTF-8?B?Sm/Do28=?= Paulo =?UTF-8?B?R29uw6dhbHZlcw==?=
+ <joao.goncalves@toradex.com>, Ramona Alexandra Nechita
+ <ramona.nechita@analog.com>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-acpi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v10 2/8] property: Add functions to iterate named child
+Message-ID: <20250330173929.155477d1@jic23-huawei>
+In-Reply-To: <2767173b7b18e974c0bac244688214bd3863ff06.1742560649.git.mazziesaccount@gmail.com>
+References: <cover.1742560649.git.mazziesaccount@gmail.com>
+	<2767173b7b18e974c0bac244688214bd3863ff06.1742560649.git.mazziesaccount@gmail.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
 
-On Thu, 27 Mar 2025 11:12:14 +0000, Andre Przywara wrote:
+On Mon, 24 Mar 2025 09:12:50 +0200
+Matti Vaittinen <mazziesaccount@gmail.com> wrote:
 
-> please pull these sunxi changes into next:
+> There are a few use-cases where child nodes with a specific name need to
+> be parsed. Code like:
 > 
-> Assorted fixes, refactorings and additions that are ready, and shave
-> off some load from upcoming series'.
+> fwnode_for_each_child_node()
+> 	if (fwnode_name_eq())
+> 		...
 > 
-> Improves MMC performance on D1/T113 (missed clock divider), enables
-> eMMC access on the H616 family (never worked, many thanks to Jernej for
-> the fix!), DRAM detection fixes for the H616 (now reportedly stable).
+> can be found from a various drivers/subsystems. Adding a macro for this
+> can simplify things a bit.
 > 
-> [...]
+> In a few cases the data from the found nodes is later added to an array,
+> which is allocated based on the number of found nodes. One example of
+> such use is the IIO subsystem's ADC channel nodes, where the relevant
+> nodes are named as channel[@N].
+> 
+> Add helpers for iterating and counting device's sub-nodes with certain
+> name instead of open-coding this in every user.
+> 
+> Suggested-by: Jonathan Cameron <jic23@kernel.org>
+> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Reviewed-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+Whilst I've queued up the series, I'll be rebasing on rc1 anyway
+so if Sakari or anyone else still wants to comment on this patch
+or offer tags, go ahead!
 
-Merged into u-boot/next, thanks!
-
--- 
-Tom
-
+Jonathan
+> ---
+> Revision history:
+> v9 =>
+>  - No changes
+> v8 => v9:
+>  - Drop the fwnode_for_each_available_named_child_node() as suggested
+>    by Sakari during v8 review:
+>    https://lore.kernel.org/all/Z9mQPJwnKAkPHriT@kekkonen.localdomain/
+> v7 => v8:
+>  - Fix the example in fwnode_get_named_child_node_count() documentation
+>    to use the fwnode_get_named_child_node_count() and not the
+>    device_get_named_child_node_count()
+>  - Fix the rest of the new macro's indentiations
+> v6 => v7:
+>  - Improve kerneldoc
+>  - Inline device_get_named_child_node_count() and change it to call
+>    fwnode_get_named_child_node_count() inside
+>  - Fix indentiation of the new macros
+> v5 => v6:
+>  - Add helpers to also iterate through the nodes.
+> v4 => v5:
+>  - Use given name instead of string 'channel' when counting the nodes
+>  - Add also fwnode_get_child_node_count_named() as suggested by Rob.
+> v3 => v4:
+>  - New patch as suggested by Jonathan, see discussion in:
+> https://lore.kernel.org/lkml/20250223161338.5c896280@jic23-huawei/
+> ---
+>  drivers/base/property.c  | 27 +++++++++++++++++++++++++++
+>  include/linux/property.h | 20 ++++++++++++++++++++
+>  2 files changed, 47 insertions(+)
+> 
+> diff --git a/drivers/base/property.c b/drivers/base/property.c
+> index c1392743df9c..f42f32ff45fc 100644
+> --- a/drivers/base/property.c
+> +++ b/drivers/base/property.c
+> @@ -945,6 +945,33 @@ unsigned int device_get_child_node_count(const struct device *dev)
+>  }
+>  EXPORT_SYMBOL_GPL(device_get_child_node_count);
+>  
+> +/**
+> + * fwnode_get_named_child_node_count - number of child nodes with given name
+> + * @fwnode: Node which child nodes are counted.
+> + * @name: String to match child node name against.
+> + *
+> + * Scan child nodes and count all the nodes with a specific name. Potential
+> + * 'number' -ending after the 'at sign' for scanned names is ignored.
+> + * E.g.::
+> + *   fwnode_get_named_child_node_count(fwnode, "channel");
+> + * would match all the nodes::
+> + *   channel { }, channel@0 {}, channel@0xabba {}...
+> + *
+> + * Return: the number of child nodes with a matching name for a given device.
+> + */
+> +unsigned int fwnode_get_named_child_node_count(const struct fwnode_handle *fwnode,
+> +					       const char *name)
+> +{
+> +	struct fwnode_handle *child;
+> +	unsigned int count = 0;
+> +
+> +	fwnode_for_each_named_child_node(fwnode, child, name)
+> +		count++;
+> +
+> +	return count;
+> +}
+> +EXPORT_SYMBOL_GPL(fwnode_get_named_child_node_count);
+> +
+>  bool device_dma_supported(const struct device *dev)
+>  {
+>  	return fwnode_call_bool_op(dev_fwnode(dev), device_dma_supported);
+> diff --git a/include/linux/property.h b/include/linux/property.h
+> index e214ecd241eb..3e83babac0b0 100644
+> --- a/include/linux/property.h
+> +++ b/include/linux/property.h
+> @@ -167,6 +167,10 @@ struct fwnode_handle *fwnode_get_next_available_child_node(
+>  	for (child = fwnode_get_next_child_node(fwnode, NULL); child;	\
+>  	     child = fwnode_get_next_child_node(fwnode, child))
+>  
+> +#define fwnode_for_each_named_child_node(fwnode, child, name)		\
+> +	fwnode_for_each_child_node(fwnode, child)			\
+> +		if (!fwnode_name_eq(child, name)) { } else
+> +
+>  #define fwnode_for_each_available_child_node(fwnode, child)		       \
+>  	for (child = fwnode_get_next_available_child_node(fwnode, NULL); child;\
+>  	     child = fwnode_get_next_available_child_node(fwnode, child))
+> @@ -178,11 +182,19 @@ struct fwnode_handle *device_get_next_child_node(const struct device *dev,
+>  	for (child = device_get_next_child_node(dev, NULL); child;	\
+>  	     child = device_get_next_child_node(dev, child))
+>  
+> +#define device_for_each_named_child_node(dev, child, name)		\
+> +	device_for_each_child_node(dev, child)				\
+> +		if (!fwnode_name_eq(child, name)) { } else
+> +
+>  #define device_for_each_child_node_scoped(dev, child)			\
+>  	for (struct fwnode_handle *child __free(fwnode_handle) =	\
+>  		device_get_next_child_node(dev, NULL);			\
+>  	     child; child = device_get_next_child_node(dev, child))
+>  
+> +#define device_for_each_named_child_node_scoped(dev, child, name)	\
+> +	device_for_each_child_node_scoped(dev, child)			\
+> +		if (!fwnode_name_eq(child, name)) { } else
+> +
+>  struct fwnode_handle *fwnode_get_named_child_node(const struct fwnode_handle *fwnode,
+>  						  const char *childname);
+>  struct fwnode_handle *device_get_named_child_node(const struct device *dev,
+> @@ -210,6 +222,14 @@ int fwnode_irq_get_byname(const struct fwnode_handle *fwnode, const char *name);
+>  
+>  unsigned int device_get_child_node_count(const struct device *dev);
+>  
+> +unsigned int fwnode_get_named_child_node_count(const struct fwnode_handle *fwnode,
+> +					       const char *name);
+> +static inline unsigned int device_get_named_child_node_count(const struct device *dev,
+> +							     const char *name)
+> +{
+> +	return fwnode_get_named_child_node_count(dev_fwnode(dev), name);
+> +}
+> +
+>  static inline int device_property_read_u8(const struct device *dev,
+>  					  const char *propname, u8 *val)
+>  {
 
