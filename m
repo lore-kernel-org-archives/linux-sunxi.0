@@ -1,76 +1,197 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD15333EA;
-	Mon, 31 Mar 2025 06:48:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A04F1DE3AA;
+	Mon, 31 Mar 2025 09:49:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743403713; cv=none; b=eNR7haMEdxuq9Gsw47qvSjb9j64aUp9YHnG4CsdBWd57hIeU7yoSS/hF2j+WeM2v+Zh/Y+0VRByI7l1GKT4RL41qgsYzQL+4s2F9AvhmJZoozJeFFN3dX9a6wjCsFvb3slDCwHf7MZ4J3/v9s2zo838+9P2cROqa98930Gw5g9Y=
+	t=1743414544; cv=none; b=bWhZ2pYaAbWuqN3WsJ0XQoyLryZDKK4SMtiwfv6G0H2wBpO5K/JFyAb3gE1ttH9lhk4Li/gFbLj2W13fBE27RRW2Kcz++cAjTpD4h2fEOdVyAzBYB7VHSsBEqZMP8iIiJB3SNTwdedNlOu9Nnv395zV4UvrXJv0K2TiCIDGTnDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743403713; c=relaxed/simple;
-	bh=ftEA5HkR9HKgNZtzyjrtkfCte/96vO2XvKPBChSlxXM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kOHUlV0HQyPxOjyPXSK7TBtYtfQquPBHQvOov9uTUWpVihekOZf2EsapaBIa7lJAuuiw8Go3ssj8gawQ11E+tJTGSvgIKMHuavtQRZyuSvsGG+5ZlmMMKvMvrZTTlmw0rMkU70qCrVfRwBZTguwVs72ygC26NHJ3ixm5nBLRXEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MlSNfO3d; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1743414544; c=relaxed/simple;
+	bh=9MmRAQT7FkmG5GtAiYqFguUGDYdzNTFv3scMm94gPxo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Xga5kIpTOE6WD6MELP60+XqFNNm7+aZgy36x0bmv5NY3eqPhXvDy5Wx+mAe6v1r3z025zjJTsJUusOf7x+EQmL2quuvaPLYJOYaXY7hALlWP/WSVMXlO54jdAHPeUnPhbRb0t3rIPJgPWP7vflirIXqMZtkoAiK2Cn31uczuB3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rbxfz0nQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MlSNfO3d"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77E4BC4CEE3;
-	Mon, 31 Mar 2025 06:48:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rbxfz0nQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE06CC4CEE3;
+	Mon, 31 Mar 2025 09:48:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743403712;
-	bh=ftEA5HkR9HKgNZtzyjrtkfCte/96vO2XvKPBChSlxXM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MlSNfO3dzGoTsrUyJAiKxpFMAj41Kt3P37e+V7vO6XpUDVBH6wBCJhe9XNMDpsq5s
-	 qZT/qinvZsOfzYPcW/ifHdmqGctNLOqwAoI9kc5fDTNg4bliRMbo4P+9FTLl/zDLMo
-	 GxDidqjcd7N97JJE0clAUSU6EC2H59lYPQt2te2f36jg+Yqa1p2xO8qQ24TFoyWEEr
-	 tuG2MrO1wJmaNX6b3/PV1sVS6+AE0/dSJ555cq16MYr/DS3akUb/sc/F8tcN2QA4TL
-	 U9gQeWGnjP+ia6QKbwKvnrgJFiHUWof7eUGRkD1iQ9PrFLk7onFlcnlJc4Qo13B9my
-	 LSbKcT6ePfhlg==
-Date: Mon, 31 Mar 2025 12:18:26 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: shao.mingyin@zte.com.cn
-Cc: krzk@kernel.org, kishon@kernel.org, wens@csie.org,
-	jernej.skrabec@gmail.com, samuel@sholland.org,
-	zhang.enpei@zte.com.cn, linux-phy@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, yang.yang29@zte.com.cn,
-	xu.xin16@zte.com.cn, ye.xingchen@zte.com.cn
-Subject: Re: [PATCH] phy/allwinner: phy-sun50i-usb3: Use dev_err_probe()
-Message-ID: <Z+o6uhfMCsqru2v+@vaman>
-References: <20250331103257372kkrgDrRRskdABmXRnmbID@zte.com.cn>
+	s=k20201202; t=1743414543;
+	bh=9MmRAQT7FkmG5GtAiYqFguUGDYdzNTFv3scMm94gPxo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=rbxfz0nQRvHl/a30jPVpQGtLtt86XG3ULJs/CF+eZZkMtvUNiYuJh+0G2eln3liVH
+	 KAdkt7f1vTHW5uvqtzm+lcoaDP/ejYuYkP6okHVEwImHA1skjNbh/pPQyw9kOupmBD
+	 z08ZVkGlbczdSo5q7zrupGuOmHaQgAFF7B0gIGr+8PhbjuZg118Rf90ZT9uhLPsrPw
+	 yv5OgKyCX3o88F/x1xODN1IkZvfTiF3yvEEFsx1ndYH7BQBHKuOk7MUK7DPuydzxZP
+	 R67Qy4dU8pw+stj/MfU2o9e1u6NKKgvq0amXF03neIgSaESwh7kySTzLpsAZt/O04t
+	 kDZtyJqm8WbYg==
+Date: Mon, 31 Mar 2025 10:48:49 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Matti Vaittinen <mazziesaccount@gmail.com>
+Cc: Marcelo Schmitt <marcelo.schmitt1@gmail.com>, Matti Vaittinen
+ <matti.vaittinen@fi.rohmeurope.com>, Lars-Peter Clausen <lars@metafoo.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Lad Prabhakar
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+ <samuel@sholland.org>, Nuno Sa <nuno.sa@analog.com>, David Lechner
+ <dlechner@baylibre.com>, Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+ Guillaume Stols <gstols@baylibre.com>, Dumitru Ceclan
+ <mitrutzceclan@gmail.com>, Trevor Gamblin <tgamblin@baylibre.com>, Matteo
+ Martelli <matteomartelli3@gmail.com>, Alisa-Dariana Roman
+ <alisadariana@gmail.com>, Ramona Alexandra Nechita
+ <ramona.nechita@analog.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-acpi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v10 3/8] iio: adc: add helpers for parsing ADC nodes
+Message-ID: <20250331104849.3eb748a8@jic23-huawei>
+In-Reply-To: <4d66b3b5-bfcb-42f0-9096-7c448c863dfc@gmail.com>
+References: <cover.1742560649.git.mazziesaccount@gmail.com>
+	<f1d8b3e15237947738912c0d297b3e1e21d8b03e.1742560649.git.mazziesaccount@gmail.com>
+	<Z-mnNtYLkwsTYjMh@debian-BULLSEYE-live-builder-AMD64>
+	<4d66b3b5-bfcb-42f0-9096-7c448c863dfc@gmail.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250331103257372kkrgDrRRskdABmXRnmbID@zte.com.cn>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On 31-03-25, 10:32, shao.mingyin@zte.com.cn wrote:
-> >On 28/03/2025 10:02, shao.mingyin@zte.com.cn wrote:
-> >> From: Zhang Enpei <zhang.enpei@zte.com.cn>
-> >> 
-> >> Replace the open-code with dev_err_probe() to simplify the code.
-> >> 
-> >> Signed-off-by: Zhang Enpei <zhang.enpei@zte.com.cn>
-> >> Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
-> >
-> >Why are you sending patch-by-patch? Organize your work for the same
-> >subsystem into one patchset so we see entire picture at once, not spread
-> >onto 10 separate threads.
-> >
-> >Best regards,
-> >Krzysztof
+On Mon, 31 Mar 2025 08:39:35 +0300
+Matti Vaittinen <mazziesaccount@gmail.com> wrote:
+
+> Hi Marcelo,
 > 
-> Dear Krzysztof,
-> Thank you for the constructive feedback.
-> We apologize for any inconvenience caused.We will regroup the patches 
-> targeting the same subsystem into a consolidated series.
+> Thanks for the review!
+> 
+> On 30/03/2025 23:19, Marcelo Schmitt wrote:
+> > Hi Matti,
+> > 
+> > The new helpers for ADC drivers look good to me.
+> > I am now very late to complain about anything but am leaving some minor comments
+> > below that can be completely ignored.
+> > 
+> > Reviewed-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+> > 
+> > Thanks,
+> > Marcelo
+> > 
+> > On 03/24, Matti Vaittinen wrote:  
+> >> There are ADC ICs which may have some of the AIN pins usable for other
+> >> functions. These ICs may have some of the AIN pins wired so that they
+> >> should not be used for ADC.
+> >>
+> >> (Preferred?) way for marking pins which can be used as ADC inputs is to
+> >> add corresponding channels@N nodes in the device tree as described in
+> >> the ADC binding yaml.  
+> > Not sure it's preferred to have ADC channels always declared in dt. That
+> > question was somewhat also raised during ADC doc review [1].  
+> 
+> I had missed that doc and the review. Interesting read, thanks for 
+> pointing it :)
+> 
+> We did also do a bit discussion about this during the review of the 
+> earlier versions. I am not sure if we found an ultimate common consensus 
+> though :)
+> 
+> A recap as seen through my eyes:
+> 
+> - It is preferred to have either _all_ or _none_ of the channels 
+> described in the device tree.
+> https://lore.kernel.org/all/20250201162631.2eab9a9a@jic23-huawei/
+> 
+> - This, however, is not _always_ required to be followed, and it may be 
+> impractical in some cases:
+> https://lore.kernel.org/linux-iio/6f6e6550-5246-476f-9168-5e24151ab165@baylibre.com/#t
+> 
+> - We do have bunch of existing drivers which we need to support. With 
+> some very different approaches to bindings.
+> https://lore.kernel.org/linux-iio/20250302032054.1fb8a011@jic23-huawei/
+> 
+> 
+> My _personal_ thinking is that:
+> 
+> This means that we can't hide the binding parsing in the IIO-core. We 
+> can't go and change the channels in existing drivers.
+> 
+> But, we can provide helpers (like this one) for drivers to use. I also 
+> believe we should still try to have common (and preferred!) approach for 
+> the _new_ drivers. Eventually, the new ones will be majority. Some of 
+> the old ones die, and if we keep same practices for new ones, the old 
+> ones will become rare exceptions while majority follows same principles ;)
+> 
+> > In short, ADC
+> > channel may and may not be declared under ADC dt node. ADC bindings often don't
+> > enforce channels to be declared. On IIO side of things, many ADC drivers just
+> > populate channels even if they are not declared in dt.
+> > The ADCs you are supporting in the other patches of this series seem to require
+> > dt declared channels though.
+> > 
+> > [1]: https://lore.kernel.org/linux-iio/20250118155153.2574dbe5@jic23-huawei/
+> > 
+> > Would something like
+> > 
+> > A common way of marking pins that can be used as ADC inputs is to add
+> > corresponding channel@N nodes in the device tree as described in the ADC
+> > binding yaml.
+> > 
+> > be a good rephrasing of the above paragraph?  
+> 
+> Yes, if we don't want to guide new drivers to either have all usable 
+> channels, or no channels in the device tree.
+> 
+> I think Jonathan said he'll be rebasing this to rc1. I am a newcomer and 
+> I should not enforce my view over more experienced ones ;) So, feel free 
+> to reword the description as Marcelo suggests if you don't think we 
+> should prefer one direction or the other.
 
-Nice, while at it, please see the subsystem tagging style. Here it
-should be "phy: allwinner: xxxxx"
+I've gone with Marcelo's suggestion because I don't want to be too specific
+here given the complex history.   We can absolutely encourage the all or
+nothing description going forwards though as it is logical in the vast
+majority of cases.
 
--- 
-~Vinod
+
+> 
+> >>
+> >> Add couple of helper functions which can be used to retrieve the channel
+> >> information from the device node.
+> >>
+> >> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+> >> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> >>  
+> > ...  
+> >> +static inline int iio_adc_device_num_channels(struct device *dev)
+> >> +{
+> >> +	return device_get_named_child_node_count(dev, "channel");
+> >> +}  
+> > I wonder if this function name can eventually become misleading.
+> > 
+> > In Documentation/devicetree/bindings/iio/temperature/adi,ltc2983.yaml we have
+> > temperature sensor with channel nodes named after external hardware connected to
+> > the sensor, leading to channels having different node names. Can anything like
+> > that ever be accepted for ADC bindings?  
+> 
+> My initial thinking is that the hardware which is connected to the ADC 
+> should have it's own node - and there should be only a reference from 
+> the ADC to the other hardware's description. I think the connected 
+> hardware should not be a property of the ADC channel.
+> 
+> Anyways, the current ADC binding (bindings/iio/adc/adc.yaml) says the 
+> node name must be channel[@xxx] (which, I believe makes sense as it 
+> makes it easier to understand device-trees for ICs which may provide 
+> other nodes but ADC channels too).
+> 
+> properties:
+>    $nodename:
+>      pattern: "^channel(@[0-9a-f]+)?$"
+>      description:
+>        A channel index should match reg.
+> 
+> Yours,
+> 	-- Matti
+
