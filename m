@@ -1,193 +1,171 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B75781E0E13
-	for <linux-sunxi@lists.linux.dev>; Mon, 31 Mar 2025 11:13:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D4AB1E1DF1
+	for <linux-sunxi@lists.linux.dev>; Mon, 31 Mar 2025 15:25:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743419634; cv=none; b=NYbf+C5Eshxts9pQ/BXwa1hPPY3phMSbk33ZV8N8R2LaBD9+kjiTy7YpExOnZwhrKsZnLJOAAkSdRvSMYtcHE2ORtjXsEWSnqfXBBPrXVgjgV8V6hWg9zqjYquvhxhxw+uq/cWAvK7uQq1kq3OhRWRD/zs1rZ2nazw04CUGqYdw=
+	t=1743434730; cv=none; b=Oyp4Tm9We4EYovIW6qDP+tNTNt6saTVQ0EJne006SBp/4DXBIA0l+Gdw1aULgXtJSOk4NH4NYBEvEFgh8I9fJXsNk9ttCHV4enNVCzdhYrGBUINwWseay8VVYTmXgLnm9YF2lTs1/YtZD/kCNQ6TJYd4bqxqJc9Y2phKIpMmcSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743419634; c=relaxed/simple;
-	bh=HC26LdIq2V2ccwTjv1vB6lt05uNFtHGl0Y+NFc5qdMg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EEcJFwytkboFBRy8eLHuo/vJfIotYSMtCSpqAaJK+ZPuV5PuD5mrrM8mAsuTDoYv111kcoUFOvakrXdzC/GPuPSp0hEP8iJ6hdI3aowYF+wL5CO4BaaWGcn2WX/zKhp5hyHb3JFBbCJpA4qpFcvhGyi33anS2/yyWq4V62MhA54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DC9A31F02;
-	Mon, 31 Mar 2025 04:13:55 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 50AA33F694;
-	Mon, 31 Mar 2025 04:13:50 -0700 (PDT)
-Date: Mon, 31 Mar 2025 12:13:47 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Steven Price <steven.price@arm.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>, Rob Herring
- <robh@kernel.org>, Philippe Simons <simons.philippe@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Philipp Zabel
- <p.zabel@pengutronix.de>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <linux-sunxi@lists.linux.dev>, Jernej
- =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-Subject: Re: [PATCH 1/2] drm/panfrost: Add PM runtime flags
-Message-ID: <20250331121347.150d4f4f@donnerap.manchester.arm.com>
-In-Reply-To: <d102aa1b-61cf-4dcc-851e-fc56adf9fab8@arm.com>
-References: <20250312232319.25712-1-simons.philippe@gmail.com>
-	<20250312232319.25712-2-simons.philippe@gmail.com>
-	<20250327123628.3d33c68e@donnerap.manchester.arm.com>
-	<d102aa1b-61cf-4dcc-851e-fc56adf9fab8@arm.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1743434730; c=relaxed/simple;
+	bh=Ss77VAHk8eVOAa8cwgXm9lkzs8JtRwEns8qC9n6KLm0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=r+2KX3Ty+MLU8nWm2k5lOIU09ZyqCMXHfFi18P4oGRKhL5n4lxdvzLX30cXP9f4x/w+dslUsYG19IfJRgx9C+kWvXgBNR55CZrT2z8fNyb6FHD43v0jEzaX8RjG93hQvgZ+P4jb3gfT84raB88p6L7uadRqnbrMFv1y08SjBEuk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-549963b5551so4720166e87.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 31 Mar 2025 08:25:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743434724; x=1744039524;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1Ffgl1EJ78XV8Ww8+yzDw7A3vtP3rI2eTTBEDeOFpPo=;
+        b=TQ6T/E99DnDhDSdfVgXcT+finM8pZW+fCjUuaaQNe5pcUumAydZQSwwWZOk0k0qsk+
+         pLxIygEMnte1uRrx9vX8mTjyhWpXfhqpqzsZBtFlnwMNiXDCsmlXeMyHEisnpP0aq6+r
+         2w26Ggpq7t2uDhp8iYzuSqY3a6xWDFfiuwWq7TCEmYyzyRb45dVCXJ08HOKIoMlRKt3P
+         2wujAilS1HWBvu+c/JRdGhyAHs+izcb1j7g9ifFgkOheK786QCC4Obc3pmlVhVwiqPCR
+         nIKKpHerW2cQ0XqxxEzjlHnTUibN8ySgiaUtCWs7Bm30bslGwImTLnvImBRhLf6WaIHK
+         VHTA==
+X-Forwarded-Encrypted: i=1; AJvYcCUb98gIgIN6k1g1QsEsbrsbXkW3cVb2bEeX0sbtro42RnlPzy1cJz/JJPD8KvNpUcFuTOpo7jxCu60PCA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzF9QoqzAVHshZSlx8Lr+AynrNIzBV0/PK9vs4IttUF0+GETOgp
+	PjNN3FgCdnRLiwogv9knvv/e71POlzbvWBGeKxQ+Z38Va6tR2g5YHTnwmtte
+X-Gm-Gg: ASbGncuRAY69scrGPxqsf8dNxQ1z9tCzPd51MMqGaFg9gD0qo+6RqNGmi6LV/tUHhFx
+	fIpaCA5KE139Q05KRCk9Nj/Fy1VBy66S8AUqQf9NtSsMCAoFPk69nYASzWIvbsxARj6WbaiIesw
+	sAqPS4ESqbSo9/JquRHc54Lhm5olQG3zA9U4muZqDn1LNBt6XPs7d6+sY7bhd6y3OCsGd2x1pXY
+	MNpiYjoL/lLB9AB4ZtKKUs906D0C149H4+DVd+vFV4sMmXBGYJueMfG/B9oB0PgXtrL7Y7j2IVL
+	jsh/Ivo2oni+oLg1X2XGGKkiYTPR6alXcMrkLs/piZqWBlAKlpjbC3h9zEVnCXa2UQNu3UavUue
+	Pzg==
+X-Google-Smtp-Source: AGHT+IEPcubcugGrQBbdICUuykJ/jcYbafpNQ1cEqybvqpcYp4SfXos0CknEvRRpwL1qzyoQ9vKUvQ==
+X-Received: by 2002:a05:6512:68f:b0:549:86c8:113a with SMTP id 2adb3069b0e04-54b10dc7dc7mr2182694e87.15.1743434723744;
+        Mon, 31 Mar 2025 08:25:23 -0700 (PDT)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com. [209.85.208.172])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54b0957fff0sm1152828e87.126.2025.03.31.08.25.23
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 31 Mar 2025 08:25:23 -0700 (PDT)
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-30bef9b04adso46089111fa.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 31 Mar 2025 08:25:23 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCX7oYMOa3G5hGjducI02rX2Ufxnii8sCIPLL7PuITNHP1Zfk11WK+R3AtF39aMCnahFgnaSTNKWJgXJ9Q==@lists.linux.dev
+X-Received: by 2002:a2e:9a0a:0:b0:30b:b987:b676 with SMTP id
+ 38308e7fff4ca-30de021a5e7mr27500301fa.2.1743434723282; Mon, 31 Mar 2025
+ 08:25:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20241220120038.3137248-1-pbrobinson@gmail.com>
+ <20241220120038.3137248-2-pbrobinson@gmail.com> <CAGb2v66enf0ybbyW3tW_YRdJB0=aOsXidm_bNHh=wdmm+HPBuw@mail.gmail.com>
+ <CALeDE9MEBn+Sdi6VDPwv8KNqTGa3sUsvBWUStzg9eOTDCVi82Q@mail.gmail.com>
+In-Reply-To: <CALeDE9MEBn+Sdi6VDPwv8KNqTGa3sUsvBWUStzg9eOTDCVi82Q@mail.gmail.com>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Mon, 31 Mar 2025 23:25:09 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65sanUAiMNm+Brpm+p+r5PoEJe5cU6-3ES2w4+7BDUK+w@mail.gmail.com>
+X-Gm-Features: AQ5f1JqaknCpQUGEiJLOOM81wDYjjstnDdXE6imvYdtIgyUSyVJlVKvFRiCt9rM
+Message-ID: <CAGb2v65sanUAiMNm+Brpm+p+r5PoEJe5cU6-3ES2w4+7BDUK+w@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] arm64: dts: allwinner: a64: Add WiFi/BT header on Pine64
+To: Peter Robinson <pbrobinson@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 31 Mar 2025 11:32:58 +0100
-Steven Price <steven.price@arm.com> wrote:
+On Mon, Mar 31, 2025 at 11:16=E2=80=AFPM Peter Robinson <pbrobinson@gmail.c=
+om> wrote:
+>
+> Hi Chen-Yu,
+>
+> Apologies for the delayed reply, preparing an update, comment inline.
+>
+> On Sun, 22 Dec 2024 at 17:19, Chen-Yu Tsai <wens@csie.org> wrote:
+>>
+>> On Fri, Dec 20, 2024 at 8:00=E2=80=AFPM Peter Robinson <pbrobinson@gmail=
+.com> wrote:
+>> >
+>> > This adds all the pin mappings on the WiFi/BT header on
+>> > the original Pine64. They're disabled by default as the
+>> > modules don't ship by default. This includes, where they
+>> > haven't been already, UART1 for BT and mmc1 for WiFi.
+>> >
+>> > Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
+>> > ---
+>> >  .../boot/dts/allwinner/sun50i-a64-pine64.dts    | 17 ++++++++++++++++=
++
+>> >  1 file changed, 17 insertions(+)
+>> >
+>> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pine64.dts b/arc=
+h/arm64/boot/dts/allwinner/sun50i-a64-pine64.dts
+>> > index 09e71fd60785..f04f0f1badc4 100644
+>> > --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pine64.dts
+>> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pine64.dts
+>> > @@ -35,6 +35,11 @@ hdmi_con_in: endpoint {
+>> >                         };
+>> >                 };
+>> >         };
+>> > +
+>> > +       wifi_pwrseq: pwrseq {
+>> > +               compatible =3D "mmc-pwrseq-simple";
+>> > +               reset-gpios =3D <&r_pio 0 2 GPIO_ACTIVE_LOW>; /* PL2 *=
+/
+>> > +       };
+>> >  };
+>> >
+>> >  &codec {
+>> > @@ -124,6 +129,17 @@ &mmc0 {
+>> >         status =3D "okay";
+>> >  };
+>> >
+>> > +/* On Wifi/BT connector */
+>> > +&mmc1 {
+>> > +       pinctrl-names =3D "default";
+>> > +       pinctrl-0 =3D <&mmc1_pins>;
+>> > +       vmmc-supply =3D <&reg_dldo4>;
+>> > +       vqmmc-supply =3D <&reg_eldo1>;
+>> > +       mmc-pwrseq =3D <&wifi_pwrseq>;
+>> > +       bus-width =3D <4>;
+>> > +       non-removable;
+>>
+>> Please also add an explicit 'status =3D "disabled"', like what is done
+>> for the uart below.
+>
+>
+> So the status is disabled already because it's disabled in sun50i-a64.dts=
+i, as is the uart1 actually, so in both cases it's not actually needed and =
+will then just be set to okay in the overlay, do you still wanted it explic=
+itly, else I'll drop the unneded uart one too.
 
-> On 27/03/2025 12:36, Andre Przywara wrote:
-> > On Thu, 13 Mar 2025 00:23:18 +0100
-> > Philippe Simons <simons.philippe@gmail.com> wrote:
-> > 
-> > Hi Rob, Boris, Steven,
-> >   
-> >> When the GPU is the only device attached to a single power domain,
-> >> core genpd disable and enable it when gpu enter and leave runtime suspend.
-> >>
-> >> Some power-domain requires a sequence before disabled,
-> >> and the reverse when enabled.
-> >>
-> >> Add PM flags for CLK and RST, and implement in
-> >> panfrost_device_runtime_suspend/resume.  
-> > 
-> > So some Mali configuration and integration manual I am looking at says
-> > that this sequence should be always observed, as the powerdown sequence
-> > would include disabling the clocks first, then asserting the reset, then
-> > turning the power switches off (and the inverse sequence on powerup).
-> > 
-> > So should we make this unconditional, not depending on implementation
-> > specific flags?  
-> 
-> I think you're right, this probably should be unconditional. My only
-> reservation is that "it works" currently and we'd need to test this
-> doesn't cause regressions on existing platforms. So unless someone with
-> a reasonable board farm is able to do that testing I think this solution
-> is reasonable. So:
-> 
-> Reviewed-by: Steven Price <steven.price@arm.com>
-> 
-> > And also I am wondering if panfrost_device_init() gets this wrong as well?
-> > As I see it enabling clock first, then reset, then pm_domain, where it
-> > should be exactly the opposite?  
-> 
-> I agree, that looks very wrong - the power needs to be enabled before
-> reset is deasserted. I'm somewhat surprised we've got away with that.
-> Fancy writing a patch? ;)
+I know they are disabled by default, so yes I still want to see them
+explicitly disabled at the board level.
 
-Seems like Philippe volunteered ;-) (on IRC). Actually we tried this
-already some weeks ago, but this alone didn't help. I think it's that this
-power domain in panfrost_device_init() doesn't trigger for some reason,
-but only in suspend()/resume(), so he came up with this patch here.
 
-Thanks!
-Andre
+ChenYu
 
-> Steve
-> 
-> > Cheers,
-> > Andre
-> >   
-> >>
-> >> Signed-off-by: Philippe Simons <simons.philippe@gmail.com>
-> >> ---
-> >>  drivers/gpu/drm/panfrost/panfrost_device.c | 37 ++++++++++++++++++++++
-> >>  drivers/gpu/drm/panfrost/panfrost_device.h |  4 +++
-> >>  2 files changed, 41 insertions(+)
-> >>
-> >> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
-> >> index a45e4addcc19..189ad2ad2b32 100644
-> >> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
-> >> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
-> >> @@ -406,11 +406,38 @@ void panfrost_device_reset(struct panfrost_device *pfdev)
-> >>  static int panfrost_device_runtime_resume(struct device *dev)
-> >>  {
-> >>  	struct panfrost_device *pfdev = dev_get_drvdata(dev);
-> >> +	int ret;
-> >> +
-> >> +	if (pfdev->comp->pm_features & BIT(GPU_PM_RT_RST_ASRT)) {
-> >> +		ret = reset_control_deassert(pfdev->rstc);
-> >> +		if (ret)
-> >> +			return ret;
-> >> +	}
-> >> +
-> >> +	if (pfdev->comp->pm_features & BIT(GPU_PM_RT_CLK_DIS)) {
-> >> +		ret = clk_enable(pfdev->clock);
-> >> +		if (ret)
-> >> +			goto err_clk;
-> >> +
-> >> +		if (pfdev->bus_clock) {
-> >> +			ret = clk_enable(pfdev->bus_clock);
-> >> +			if (ret)
-> >> +				goto err_bus_clk;
-> >> +		}
-> >> +	}
-> >>  
-> >>  	panfrost_device_reset(pfdev);
-> >>  	panfrost_devfreq_resume(pfdev);
-> >>  
-> >>  	return 0;
-> >> +
-> >> +err_bus_clk:
-> >> +	if (pfdev->comp->pm_features & BIT(GPU_PM_RT_CLK_DIS))
-> >> +		clk_disable(pfdev->clock);
-> >> +err_clk:
-> >> +	if (pfdev->comp->pm_features & BIT(GPU_PM_RT_RST_ASRT))
-> >> +		reset_control_assert(pfdev->rstc);
-> >> +	return ret;
-> >>  }
-> >>  
-> >>  static int panfrost_device_runtime_suspend(struct device *dev)
-> >> @@ -426,6 +453,16 @@ static int panfrost_device_runtime_suspend(struct device *dev)
-> >>  	panfrost_gpu_suspend_irq(pfdev);
-> >>  	panfrost_gpu_power_off(pfdev);
-> >>  
-> >> +	if (pfdev->comp->pm_features & BIT(GPU_PM_RT_CLK_DIS)) {
-> >> +		if (pfdev->bus_clock)
-> >> +			clk_disable(pfdev->bus_clock);
-> >> +
-> >> +		clk_disable(pfdev->clock);
-> >> +	}
-> >> +
-> >> +	if (pfdev->comp->pm_features & BIT(GPU_PM_RT_RST_ASRT))
-> >> +		reset_control_assert(pfdev->rstc);
-> >> +
-> >>  	return 0;
-> >>  }
-> >>  
-> >> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
-> >> index cffcb0ac7c11..f372d4819262 100644
-> >> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
-> >> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
-> >> @@ -36,10 +36,14 @@ enum panfrost_drv_comp_bits {
-> >>   * enum panfrost_gpu_pm - Supported kernel power management features
-> >>   * @GPU_PM_CLK_DIS:  Allow disabling clocks during system suspend
-> >>   * @GPU_PM_VREG_OFF: Allow turning off regulators during system suspend
-> >> + * @GPU_PM_RT_CLK_DIS: Allow disabling clocks during system runtime suspend
-> >> + * @GPU_PM_RST_ASRT: Allow asserting the reset control during runtime suspend
-> >>   */
-> >>  enum panfrost_gpu_pm {
-> >>  	GPU_PM_CLK_DIS,
-> >>  	GPU_PM_VREG_OFF,
-> >> +	GPU_PM_RT_CLK_DIS,
-> >> +	GPU_PM_RT_RST_ASRT
-> >>  };
-> >>  
-> >>  struct panfrost_features {  
-> >   
-> 
 
+> Peter
+>
+>>
+>> ChenYu
+>>
+>> > +};
+>> > +
+>> >  &ohci0 {
+>> >         status =3D "okay";
+>> >  };
+>> > @@ -286,6 +302,7 @@ &uart0 {
+>> >  &uart1 {
+>> >         pinctrl-names =3D "default";
+>> >         pinctrl-0 =3D <&uart1_pins>, <&uart1_rts_cts_pins>;
+>> > +       uart-has-rtscts;
+>> >         status =3D "disabled";
+>> >  };
+>> >
+>> > --
+>> > 2.47.1
+>> >
+>> >
