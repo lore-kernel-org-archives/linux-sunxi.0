@@ -1,171 +1,201 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D4AB1E1DF1
-	for <linux-sunxi@lists.linux.dev>; Mon, 31 Mar 2025 15:25:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A65FC2C6
+	for <linux-sunxi@lists.linux.dev>; Tue,  1 Apr 2025 19:23:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743434730; cv=none; b=Oyp4Tm9We4EYovIW6qDP+tNTNt6saTVQ0EJne006SBp/4DXBIA0l+Gdw1aULgXtJSOk4NH4NYBEvEFgh8I9fJXsNk9ttCHV4enNVCzdhYrGBUINwWseay8VVYTmXgLnm9YF2lTs1/YtZD/kCNQ6TJYd4bqxqJc9Y2phKIpMmcSs=
+	t=1743535440; cv=none; b=B93rGrjovZ9JM/Zd6YTQrFlzDUwyss4FvRoWFuE/1hQCJNHKu4zDp+ebcieI4oN5cKN9iRsztZs6dkzh3ShLyPoNpxDWvnIihLE7Es1kFnRvJnpsjRCx0QXJ8mqvbrAO7ZSu+gN1zE+htbOEiaRPsaUZ4GfHgDKY85ZDNdT//Lo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743434730; c=relaxed/simple;
-	bh=Ss77VAHk8eVOAa8cwgXm9lkzs8JtRwEns8qC9n6KLm0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=r+2KX3Ty+MLU8nWm2k5lOIU09ZyqCMXHfFi18P4oGRKhL5n4lxdvzLX30cXP9f4x/w+dslUsYG19IfJRgx9C+kWvXgBNR55CZrT2z8fNyb6FHD43v0jEzaX8RjG93hQvgZ+P4jb3gfT84raB88p6L7uadRqnbrMFv1y08SjBEuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+	s=arc-20240116; t=1743535440; c=relaxed/simple;
+	bh=/4EojNlyd9dMoLRzf5Mm/q8bty3ZBw5BXSWBsU/clpE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EjPTIaDbfXs9I+h4GoANZS/A8yjY4Y1t+fccMmFP5DHqMFvTEWm1gNeP43Yw4MyIgLazRlGhPUws3O6aVAoukuZcCusXQz14xUOinzGHr7uaHl1eQ10I4sSi/phymQ5s6BBeGyeuJH8Zrg+t5Vipt1FHAOI/EVUtu9kmmrS6z74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W62SlcmM; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-549963b5551so4720166e87.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 31 Mar 2025 08:25:26 -0700 (PDT)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W62SlcmM"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-39c0dfba946so2494963f8f.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 01 Apr 2025 12:23:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743535437; x=1744140237; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nierB4LEgce+4kZQOSa3FNbylwS0gDWPVPBM7TYut2U=;
+        b=W62SlcmMR9yeq02SHX6oa6LzP7AfPeiU6YebnglTFIBc8TRG1m/RlZX69ZJniOFf7D
+         Yn2kXH2kLw5neJpMBkdXsQturoom77EVa2XkLGs65Wup9l8xPKiVvULqmajN/JHMK+3q
+         EbjaT2RrTUo8W/6tuDLdosq1flJlpz39v88TAp6m+jyLEmsM2qZTs+JAUSi4Oogf+eTJ
+         ADu6jz4cQHWEKsXVMVXQmX7KIr3A6Zv2OHub7DHezdIpg2IRrdlBoo23nNLiYOUwRDuW
+         EgHUInMFllC514/B8mias2Nd66KKGH6Y5XEZ8+NcqDuh3i3zjDHOIK14kJ/XX1KPFaj2
+         GlZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743434724; x=1744039524;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1Ffgl1EJ78XV8Ww8+yzDw7A3vtP3rI2eTTBEDeOFpPo=;
-        b=TQ6T/E99DnDhDSdfVgXcT+finM8pZW+fCjUuaaQNe5pcUumAydZQSwwWZOk0k0qsk+
-         pLxIygEMnte1uRrx9vX8mTjyhWpXfhqpqzsZBtFlnwMNiXDCsmlXeMyHEisnpP0aq6+r
-         2w26Ggpq7t2uDhp8iYzuSqY3a6xWDFfiuwWq7TCEmYyzyRb45dVCXJ08HOKIoMlRKt3P
-         2wujAilS1HWBvu+c/JRdGhyAHs+izcb1j7g9ifFgkOheK786QCC4Obc3pmlVhVwiqPCR
-         nIKKpHerW2cQ0XqxxEzjlHnTUibN8ySgiaUtCWs7Bm30bslGwImTLnvImBRhLf6WaIHK
-         VHTA==
-X-Forwarded-Encrypted: i=1; AJvYcCUb98gIgIN6k1g1QsEsbrsbXkW3cVb2bEeX0sbtro42RnlPzy1cJz/JJPD8KvNpUcFuTOpo7jxCu60PCA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzF9QoqzAVHshZSlx8Lr+AynrNIzBV0/PK9vs4IttUF0+GETOgp
-	PjNN3FgCdnRLiwogv9knvv/e71POlzbvWBGeKxQ+Z38Va6tR2g5YHTnwmtte
-X-Gm-Gg: ASbGncuRAY69scrGPxqsf8dNxQ1z9tCzPd51MMqGaFg9gD0qo+6RqNGmi6LV/tUHhFx
-	fIpaCA5KE139Q05KRCk9Nj/Fy1VBy66S8AUqQf9NtSsMCAoFPk69nYASzWIvbsxARj6WbaiIesw
-	sAqPS4ESqbSo9/JquRHc54Lhm5olQG3zA9U4muZqDn1LNBt6XPs7d6+sY7bhd6y3OCsGd2x1pXY
-	MNpiYjoL/lLB9AB4ZtKKUs906D0C149H4+DVd+vFV4sMmXBGYJueMfG/B9oB0PgXtrL7Y7j2IVL
-	jsh/Ivo2oni+oLg1X2XGGKkiYTPR6alXcMrkLs/piZqWBlAKlpjbC3h9zEVnCXa2UQNu3UavUue
-	Pzg==
-X-Google-Smtp-Source: AGHT+IEPcubcugGrQBbdICUuykJ/jcYbafpNQ1cEqybvqpcYp4SfXos0CknEvRRpwL1qzyoQ9vKUvQ==
-X-Received: by 2002:a05:6512:68f:b0:549:86c8:113a with SMTP id 2adb3069b0e04-54b10dc7dc7mr2182694e87.15.1743434723744;
-        Mon, 31 Mar 2025 08:25:23 -0700 (PDT)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com. [209.85.208.172])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54b0957fff0sm1152828e87.126.2025.03.31.08.25.23
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Mar 2025 08:25:23 -0700 (PDT)
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-30bef9b04adso46089111fa.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 31 Mar 2025 08:25:23 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCX7oYMOa3G5hGjducI02rX2Ufxnii8sCIPLL7PuITNHP1Zfk11WK+R3AtF39aMCnahFgnaSTNKWJgXJ9Q==@lists.linux.dev
-X-Received: by 2002:a2e:9a0a:0:b0:30b:b987:b676 with SMTP id
- 38308e7fff4ca-30de021a5e7mr27500301fa.2.1743434723282; Mon, 31 Mar 2025
- 08:25:23 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1743535437; x=1744140237;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nierB4LEgce+4kZQOSa3FNbylwS0gDWPVPBM7TYut2U=;
+        b=o5iEhxJVFyXxAxSFDvDhC4tq8xDJvjLHVc4avq1WRFc/O/5kJv5+pyiibDIGRY0ZUP
+         R6r1JtZ6fSRkOz1cjj+ZoA/WrwJUw+5d/hDUlH84ywhivsFpKG77uoGZhH+y2VaHWX2F
+         H1vmuSfFljKEzPQ8qvdqbRf3o3nlZgIDqSdAwcj1dk/7+Aj8fC7mX8h3U7ty0d/smqn5
+         bwuRKNvcUepIF+M/HpsY1o+GkOQttNHy6T2LU1RM9X/GXKr60oPUSYT7vFOmGDaREoHI
+         Z7ZP1coBq5Xc1UpOGHAK8LonVeRzaBcYNm7yL0XeY+5QFEjuLoZJqjX4bwCXp9ijV1K+
+         Rclw==
+X-Forwarded-Encrypted: i=1; AJvYcCVd3U3ebOu/wZP5aimjqIhmBCzriiQchLtcqfBj68YT8qEGkY9qkSnYxrJcnNTqfJbueIjA1wBP/PHtCw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw5fUSJNglcV275U1sMZd6VLUsKAQr//uKBIWRGnMg1rqwbLUpd
+	kuD3uei63hkMxDDw0kA5v3kynCkH13uXKPtRjniWTmsH/gEf0gpkuFervw==
+X-Gm-Gg: ASbGncv1bV+KmacVZBGn3QSLz1L0s1vn5zHapfdUlHtnvc1nrvyBtHURQpaeYufUdlN
+	wbyswmcqmYKISeWeFIlzmlI+SNxTzUHdD8zRp9qgXQubk/U4vY/xhVeKP2nNySoREeAEUf3Wd+3
+	+jcP0vkVEZ1PIPkUUzV7hkstcrKpxMMfcl3N2iBQb7VAQojlRrRlPm4ZO1dHvnnEwKx9f17GcqT
+	4RJ0JP08QWWq3dL5dbKE1XeRd+EB/Ko+o2OjsAXfBu/J9jHLUQzeyOaoXK5oKMdmCMVAzqOWKyi
+	cugPuxx5eQRrYn6VNMr3R8yxDZysTOd+LPsXJHr/S5ESm6rO6IwbvrZz8ub47cSGYoxJsWLD
+X-Google-Smtp-Source: AGHT+IGHyzi31e3692ONFiGCVRk0AOakCuPS3Q8lpPUYekXyBseRhASvcdujfWAcxWGfSdab5h7ydg==
+X-Received: by 2002:a5d:64c7:0:b0:391:4bfd:6d5 with SMTP id ffacd0b85a97d-39c1211d5c8mr11428784f8f.52.1743535436607;
+        Tue, 01 Apr 2025 12:23:56 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:2f0e:c50a:8800:cf9e:ee0b:4a01:37f6])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c0b66aa32sm15353438f8f.50.2025.04.01.12.23.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Apr 2025 12:23:56 -0700 (PDT)
+From: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
+To: clabbe.montjoie@gmail.com,
+	herbert@gondor.apana.org.au,
+	davem@davemloft.net,
+	linux-crypto@vger.kernel.org
+Cc: wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Ovidiu Panait <ovidiu.panait.oss@gmail.com>
+Subject: [PATCH 1/6] crypto: sun8i-ce-hash - fix error handling in sun8i_ce_hash_run()
+Date: Tue,  1 Apr 2025 22:23:16 +0300
+Message-ID: <20250401192321.3370188-1-ovidiu.panait.oss@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241220120038.3137248-1-pbrobinson@gmail.com>
- <20241220120038.3137248-2-pbrobinson@gmail.com> <CAGb2v66enf0ybbyW3tW_YRdJB0=aOsXidm_bNHh=wdmm+HPBuw@mail.gmail.com>
- <CALeDE9MEBn+Sdi6VDPwv8KNqTGa3sUsvBWUStzg9eOTDCVi82Q@mail.gmail.com>
-In-Reply-To: <CALeDE9MEBn+Sdi6VDPwv8KNqTGa3sUsvBWUStzg9eOTDCVi82Q@mail.gmail.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Mon, 31 Mar 2025 23:25:09 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65sanUAiMNm+Brpm+p+r5PoEJe5cU6-3ES2w4+7BDUK+w@mail.gmail.com>
-X-Gm-Features: AQ5f1JqaknCpQUGEiJLOOM81wDYjjstnDdXE6imvYdtIgyUSyVJlVKvFRiCt9rM
-Message-ID: <CAGb2v65sanUAiMNm+Brpm+p+r5PoEJe5cU6-3ES2w4+7BDUK+w@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] arm64: dts: allwinner: a64: Add WiFi/BT header on Pine64
-To: Peter Robinson <pbrobinson@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Mar 31, 2025 at 11:16=E2=80=AFPM Peter Robinson <pbrobinson@gmail.c=
-om> wrote:
->
-> Hi Chen-Yu,
->
-> Apologies for the delayed reply, preparing an update, comment inline.
->
-> On Sun, 22 Dec 2024 at 17:19, Chen-Yu Tsai <wens@csie.org> wrote:
->>
->> On Fri, Dec 20, 2024 at 8:00=E2=80=AFPM Peter Robinson <pbrobinson@gmail=
-.com> wrote:
->> >
->> > This adds all the pin mappings on the WiFi/BT header on
->> > the original Pine64. They're disabled by default as the
->> > modules don't ship by default. This includes, where they
->> > haven't been already, UART1 for BT and mmc1 for WiFi.
->> >
->> > Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
->> > ---
->> >  .../boot/dts/allwinner/sun50i-a64-pine64.dts    | 17 ++++++++++++++++=
+Rework error handling in sun8i_ce_hash_run() to unmap the dma buffers in
+case of failure. Currently, the dma unmap functions are not called if the
+function errors out at various points.
+
+Fixes: 56f6d5aee88d1 ("crypto: sun8i-ce - support hash algorithms")
+Signed-off-by: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
+---
+ .../crypto/allwinner/sun8i-ce/sun8i-ce-hash.c | 34 ++++++++++++-------
+ 1 file changed, 21 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
+index 6072dd9f390b..3f9d79ea01aa 100644
+--- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
++++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
+@@ -343,9 +343,8 @@ int sun8i_ce_hash_run(struct crypto_engine *engine, void *breq)
+ 	u32 common;
+ 	u64 byte_count;
+ 	__le32 *bf;
+-	void *buf = NULL;
++	void *buf, *result;
+ 	int j, i, todo;
+-	void *result = NULL;
+ 	u64 bs;
+ 	int digestsize;
+ 	dma_addr_t addr_res, addr_pad;
+@@ -365,14 +364,14 @@ int sun8i_ce_hash_run(struct crypto_engine *engine, void *breq)
+ 	buf = kcalloc(2, bs, GFP_KERNEL | GFP_DMA);
+ 	if (!buf) {
+ 		err = -ENOMEM;
+-		goto theend;
++		goto err_out;
+ 	}
+ 	bf = (__le32 *)buf;
+ 
+ 	result = kzalloc(digestsize, GFP_KERNEL | GFP_DMA);
+ 	if (!result) {
+ 		err = -ENOMEM;
+-		goto theend;
++		goto err_free_buf;
+ 	}
+ 
+ 	flow = rctx->flow;
+@@ -398,7 +397,7 @@ int sun8i_ce_hash_run(struct crypto_engine *engine, void *breq)
+ 	if (nr_sgs <= 0 || nr_sgs > MAX_SG) {
+ 		dev_err(ce->dev, "Invalid sg number %d\n", nr_sgs);
+ 		err = -EINVAL;
+-		goto theend;
++		goto err_free_result;
+ 	}
+ 
+ 	len = areq->nbytes;
+@@ -411,7 +410,7 @@ int sun8i_ce_hash_run(struct crypto_engine *engine, void *breq)
+ 	if (len > 0) {
+ 		dev_err(ce->dev, "remaining len %d\n", len);
+ 		err = -EINVAL;
+-		goto theend;
++		goto err_unmap_src;
+ 	}
+ 	addr_res = dma_map_single(ce->dev, result, digestsize, DMA_FROM_DEVICE);
+ 	cet->t_dst[0].addr = desc_addr_val_le32(ce, addr_res);
+@@ -419,7 +418,7 @@ int sun8i_ce_hash_run(struct crypto_engine *engine, void *breq)
+ 	if (dma_mapping_error(ce->dev, addr_res)) {
+ 		dev_err(ce->dev, "DMA map dest\n");
+ 		err = -EINVAL;
+-		goto theend;
++		goto err_unmap_src;
+ 	}
+ 
+ 	byte_count = areq->nbytes;
+@@ -441,7 +440,7 @@ int sun8i_ce_hash_run(struct crypto_engine *engine, void *breq)
+ 	}
+ 	if (!j) {
+ 		err = -EINVAL;
+-		goto theend;
++		goto err_unmap_result;
+ 	}
+ 
+ 	addr_pad = dma_map_single(ce->dev, buf, j * 4, DMA_TO_DEVICE);
+@@ -450,7 +449,7 @@ int sun8i_ce_hash_run(struct crypto_engine *engine, void *breq)
+ 	if (dma_mapping_error(ce->dev, addr_pad)) {
+ 		dev_err(ce->dev, "DMA error on padding SG\n");
+ 		err = -EINVAL;
+-		goto theend;
++		goto err_unmap_result;
+ 	}
+ 
+ 	if (ce->variant->hash_t_dlen_in_bits)
+@@ -463,16 +462,25 @@ int sun8i_ce_hash_run(struct crypto_engine *engine, void *breq)
+ 	err = sun8i_ce_run_task(ce, flow, crypto_ahash_alg_name(tfm));
+ 
+ 	dma_unmap_single(ce->dev, addr_pad, j * 4, DMA_TO_DEVICE);
+-	dma_unmap_sg(ce->dev, areq->src, ns, DMA_TO_DEVICE);
 +
->> >  1 file changed, 17 insertions(+)
->> >
->> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pine64.dts b/arc=
-h/arm64/boot/dts/allwinner/sun50i-a64-pine64.dts
->> > index 09e71fd60785..f04f0f1badc4 100644
->> > --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pine64.dts
->> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pine64.dts
->> > @@ -35,6 +35,11 @@ hdmi_con_in: endpoint {
->> >                         };
->> >                 };
->> >         };
->> > +
->> > +       wifi_pwrseq: pwrseq {
->> > +               compatible =3D "mmc-pwrseq-simple";
->> > +               reset-gpios =3D <&r_pio 0 2 GPIO_ACTIVE_LOW>; /* PL2 *=
-/
->> > +       };
->> >  };
->> >
->> >  &codec {
->> > @@ -124,6 +129,17 @@ &mmc0 {
->> >         status =3D "okay";
->> >  };
->> >
->> > +/* On Wifi/BT connector */
->> > +&mmc1 {
->> > +       pinctrl-names =3D "default";
->> > +       pinctrl-0 =3D <&mmc1_pins>;
->> > +       vmmc-supply =3D <&reg_dldo4>;
->> > +       vqmmc-supply =3D <&reg_eldo1>;
->> > +       mmc-pwrseq =3D <&wifi_pwrseq>;
->> > +       bus-width =3D <4>;
->> > +       non-removable;
->>
->> Please also add an explicit 'status =3D "disabled"', like what is done
->> for the uart below.
->
->
-> So the status is disabled already because it's disabled in sun50i-a64.dts=
-i, as is the uart1 actually, so in both cases it's not actually needed and =
-will then just be set to okay in the overlay, do you still wanted it explic=
-itly, else I'll drop the unneded uart one too.
++err_unmap_result:
+ 	dma_unmap_single(ce->dev, addr_res, digestsize, DMA_FROM_DEVICE);
++	if (!err)
++		memcpy(areq->result, result, algt->alg.hash.base.halg.digestsize);
+ 
++err_unmap_src:
++	dma_unmap_sg(ce->dev, areq->src, ns, DMA_TO_DEVICE);
+ 
+-	memcpy(areq->result, result, algt->alg.hash.base.halg.digestsize);
+-theend:
+-	kfree(buf);
++err_free_result:
+ 	kfree(result);
++
++err_free_buf:
++	kfree(buf);
++
++err_out:
+ 	local_bh_disable();
+ 	crypto_finalize_hash_request(engine, breq, err);
+ 	local_bh_enable();
++
+ 	return 0;
+ }
+-- 
+2.48.1
 
-I know they are disabled by default, so yes I still want to see them
-explicitly disabled at the board level.
-
-
-ChenYu
-
-
-> Peter
->
->>
->> ChenYu
->>
->> > +};
->> > +
->> >  &ohci0 {
->> >         status =3D "okay";
->> >  };
->> > @@ -286,6 +302,7 @@ &uart0 {
->> >  &uart1 {
->> >         pinctrl-names =3D "default";
->> >         pinctrl-0 =3D <&uart1_pins>, <&uart1_rts_cts_pins>;
->> > +       uart-has-rtscts;
->> >         status =3D "disabled";
->> >  };
->> >
->> > --
->> > 2.47.1
->> >
->> >
