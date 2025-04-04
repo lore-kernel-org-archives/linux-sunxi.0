@@ -1,138 +1,241 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC1401F1300;
-	Fri,  4 Apr 2025 14:10:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F5DE1F37D1
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Apr 2025 14:13:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743775832; cv=none; b=rlUJPj3OKROTl7DVSgDnA1X52xaoYnrMHCQdK+EWQ9F/wDITqd7oICnKi6dSPnquMbKIj4DC3s/RpkI8D3mIhMZkl6q32erhexdu9IPx0A1qBmIjc7FZYP1dKn4kK9QjrFGRqVZwi/qEx2cwpMYKPY96ZzdD+wOHtqSFM2QTvDA=
+	t=1743776008; cv=none; b=CyXiZL1fezaxl8AbEiL8MtQyOYg/qz3JIR7B9JsvklVfVY6Yi24ZAYiBeKSg9dPgmGxJi5hHgPLsMKfpfVTCNm1QOBH7qeWGqLDH7ydrUCMc+WiS7G92RRV3O4I94uK8TZkBl/mIeKjKG50i8MF/+jfNr7IrzGqw0Gmu+PutdH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743775832; c=relaxed/simple;
-	bh=l2lzsNRrga+hAwlZPw2hZyVI7hOngQ48zjWgc72CGr4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uiChbc9rbv0oAZYXxsogvYs5aVUgEs0rbX+lxzlKrd8DAD6mm9JAQSIBkMf4XMIkZcHfR+Z1f81agX0MBuFQmF0F96aSPmOFQ+B2NTmRC9yGE2GXF/mc+cmlUZp38vE5w0nUNONnCUkT12TYBDVCP15p53grUQuOUX1Kz5/kOBQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MhXqLqpa; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MhXqLqpa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA1DFC4AF0B;
-	Fri,  4 Apr 2025 14:10:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743775831;
-	bh=l2lzsNRrga+hAwlZPw2hZyVI7hOngQ48zjWgc72CGr4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=MhXqLqpa43mJjzUE+SiXJTbXwmVJ/HY6gBTctJU9FfRezIv1qLjartTS85rOgNg9a
-	 ZhN4HzOepVa85NDLlDWJODei3AOF6LINQBifXsj/9vcNkRNTNwOPyODWr//oY7SEXN
-	 pqbYfSz27XnI8DD+h0GaWdbcrDerOqpp+11Vuj4JYUOWKhgGITX67L3hbAOFtsPvzb
-	 xSZsVs/S+Pr54A87UysNCn/RkaXJaFv8XaW0L8BHyTXXNGj+g0awaZqTwq7UI8BMyg
-	 xtscO/vdTlk2M4zdjpWE5iml8FERUp0D7y1vv/91pL6IP0dkPhJrxNVtmC/K/73oRz
-	 naujA3WQObjpA==
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5e66407963fso3991797a12.2;
-        Fri, 04 Apr 2025 07:10:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVup/RsUFcoHW4t82lM6vhbAZizPPUDqM2VqPuNYUaLggE2F0bujTedPjjuDxR0kx1blcavOPjdWWi63pI=@lists.linux.dev, AJvYcCX6fhqHJIwQ8ht8sp1ZIG2U9knxyfxy/6uY3E0ZtnxvBKKOjsfzHY4JRgNnmxuAFx8xcg0=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwWyE6oyagsxQt1TeMagj+2+BT3OnQ9HlThdIbo/YpTF9pOuJxO
-	xL5vgdlz8yMFEEtFZ/WOW2TWvnL8msaIF+q5MYUvgMgvLovVzTMJ+A5TAOboI0Eyi0q2eOCywVr
-	ylpuq8jQ6mroCLAUNd7nVAoFjVQ==
-X-Google-Smtp-Source: AGHT+IGYXjl+q1G3Ghk1zMOjaKXndZfqYp9hiiK7OTWs/zAZNM/+0QVdqEQQ+zuW4YRtKHDm+WaT1WT3knVA25eifPc=
-X-Received: by 2002:a05:6402:3481:b0:5ed:921a:ded6 with SMTP id
- 4fb4d7f45d1cf-5f0b657862emr2694084a12.18.1743775830233; Fri, 04 Apr 2025
- 07:10:30 -0700 (PDT)
+	s=arc-20240116; t=1743776008; c=relaxed/simple;
+	bh=6/ZliiFeJpRlMUpP4YFEsGIx2O3ziIJndM7oADHVj34=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fe1dksq8wB5+0Rtnb5ppmyE2j/ZyDAaEgS4GWDsfmSEJqq08NAHEubdrrZgv/+pYgalhOKcuN0m3bUD9bN3Van4CZruaTiEE+LTReDPIi1NcfWHFc7AUHxmoIKVQbPFufD0tPvzHsiZfDR6yO3ZKcfDS7Z+/Ujw2dNsDDjdNCUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BAE311515;
+	Fri,  4 Apr 2025 07:13:27 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 909073F63F;
+	Fri,  4 Apr 2025 07:13:22 -0700 (PDT)
+Date: Fri, 4 Apr 2025 15:13:20 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jerome Brunet
+ <jbrunet@baylibre.com>, Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Kevin Hilman <khilman@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@csie.org>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ Emilio =?UTF-8?B?TMOzcGV6?= <emilio@elopez.com.ar>,
+ linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 4/5] clk: sunxi-ng: Do not enable by default during
+ compile testing
+Message-ID: <20250404151320.53c4698b@donnerap.manchester.arm.com>
+In-Reply-To: <20250404-kconfig-defaults-clk-v1-4-4d2df5603332@linaro.org>
+References: <20250404-kconfig-defaults-clk-v1-0-4d2df5603332@linaro.org>
+	<20250404-kconfig-defaults-clk-v1-4-4d2df5603332@linaro.org>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250403-dt-cpu-schema-v1-0-076be7171a85@kernel.org>
- <20250403-dt-cpu-schema-v1-6-076be7171a85@kernel.org> <Z-_K2XDEcbtcCMVM@linaro.org>
- <CAL_JsqJT-0gwvJnMb63izy6WwJpBVsswkauL8OMLCrF08q9HYQ@mail.gmail.com>
-In-Reply-To: <CAL_JsqJT-0gwvJnMb63izy6WwJpBVsswkauL8OMLCrF08q9HYQ@mail.gmail.com>
-From: Rob Herring <robh@kernel.org>
-Date: Fri, 4 Apr 2025 09:10:18 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJDkoj4d-aKvZ92kZ1mikqjJV4J4w=-3eNk3z6q6g0ssw@mail.gmail.com>
-X-Gm-Features: ATxdqUGgk50-VgqfiN2r-WHP1-0cyp1Dem4hGHbf6672N4-b5gggSNdLRbwnjDg
-Message-ID: <CAL_JsqJDkoj4d-aKvZ92kZ1mikqjJV4J4w=-3eNk3z6q6g0ssw@mail.gmail.com>
-Subject: Re: [PATCH 06/19] arm64: dts: qcom: msm8939: Fix CPU node
- "enable-method" property dependencies
-To: Stephan Gerhold <stephan.gerhold@linaro.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Viresh Kumar <viresh.kumar@linaro.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Vincenzo Frascino <vincenzo.frascino@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
-	Sudeep Holla <sudeep.holla@arm.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Viresh Kumar <vireshk@kernel.org>, 
-	Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, zhouyanjie@wanyeetech.com, 
-	Conor Dooley <conor@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Steen Hegelund <Steen.Hegelund@microchip.com>, 
-	Daniel Machon <daniel.machon@microchip.com>, UNGLinuxDriver@microchip.com, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Heiko Stuebner <heiko@sntech.de>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-mips@vger.kernel.org, 
-	imx@lists.linux.dev, linux-rockchip@lists.infradead.org, 
-	linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Apr 4, 2025 at 8:18=E2=80=AFAM Rob Herring <robh@kernel.org> wrote:
->
-> On Fri, Apr 4, 2025 at 7:04=E2=80=AFAM Stephan Gerhold
-> <stephan.gerhold@linaro.org> wrote:
-> >
-> > On Thu, Apr 03, 2025 at 09:59:27PM -0500, Rob Herring (Arm) wrote:
-> > > The "qcom,acc" and "qcom,saw" properties aren't valid with "spin-tabl=
-e"
-> > > enable-method nor are they used on 64-bit kernels, so they can be
-> > > dropped.
-> > >
-> >
-> > The bootloader we currently use on these devices reads these properties
-> > to set up the spin-table, so removing these will break booting secondar=
-y
-> > CPU cores.
-> >
-> > The motivation for implementing it that way was that 32-bit vs 64-bit
-> > kernel shouldn't be relevant for the describing the hardware blocks in
-> > the device tree. The code in the bootloader is generic and handles
-> > different SoCs (e.g. msm8916 with 4 cores and msm8939 with 8 cores, the
-> > enable sequences are identical).
-> >
-> > Can we keep this in somehow? To be fair, I'm not sure what property we
-> > could match on to check if these properties are allowed ...
->
-> Yes, we can keep them. We'll have to allow them with "spin-table" and
-> "psci" I guess.
+On Fri, 04 Apr 2025 13:57:00 +0200
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
 
-I came up with something like this instead:
+Hi 
+> Enabling the compile test should not cause automatic enabling of all
+> drivers.  Restrict the default to ARCH also for individual drivers, even
+> though their choice is not visible without selecting parent Kconfig
+> symbol, because otherwise selecting parent would select the child during
+> compile testing.
 
-- if:
-  # 2 Qualcomm platforms bootloaders need qcom,acc and qcom,saw yet use
-  # "spin-table" or "psci" enable-methods. Disallowing the properties for
-  # all other CPUs is the best we can do as there's not any way to
-  # distinguish these Qualcomm platforms.
-    properties:
-      compatible:
-        not:
-          const: arm,cortex-a53
-  then:
-    properties:
-      qcom,acc: false
-      qcom,saw: false
+so I remember we changed this to "default y", because there were some
+tricky problems with regards to RISC-V and ARM. See commits:
 
-Not ideal as there are lots of A53s, but better than enabling for
-every 64-bit platform.
+commit 0ff347db4c97cc16b4e428dc1db550ba3628f1e2
+Author: Samuel Holland <samuel@sholland.org>
+Date:   Sat Dec 31 17:14:25 2022 -0600
+    clk: sunxi-ng: Move SoC driver conditions to dependencies
 
+and 
 
-Also, is adding the cpu-release-addr fine? It could trip up a
-bootloader tests if the property is already present and doesn't update
-it in that case.
+commit a26dc096f683ca27ac5e68703bfd3098b4212abd
+Author: Samuel Holland <samuel@sholland.org>
+Date:   Sat Dec 31 17:14:24 2022 -0600
+    clk: sunxi-ng: Remove duplicate ARCH_SUNXI dependencies
 
-Rob
+Don't remember what broke, exactly, but just wanted to give a heads up.
+
+Cheers,
+Andre
+
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  drivers/clk/sunxi-ng/Kconfig | 48 ++++++++++++++++++++++----------------------
+>  1 file changed, 24 insertions(+), 24 deletions(-)
+> 
+> diff --git a/drivers/clk/sunxi-ng/Kconfig b/drivers/clk/sunxi-ng/Kconfig
+> index 5830a9d87bf25d536ac787fe83669c64c8214952..8896fd052ef1784d60d488ab1498737c1405deb2 100644
+> --- a/drivers/clk/sunxi-ng/Kconfig
+> +++ b/drivers/clk/sunxi-ng/Kconfig
+> @@ -9,123 +9,123 @@ if SUNXI_CCU
+>  
+>  config SUNIV_F1C100S_CCU
+>  	tristate "Support for the Allwinner newer F1C100s CCU"
+> -	default y
+> +	default ARCH_SUNXI
+>  	depends on MACH_SUNIV || COMPILE_TEST
+>  
+>  config SUN20I_D1_CCU
+>  	tristate "Support for the Allwinner D1/R528/T113 CCU"
+> -	default y
+> +	default ARCH_SUNXI
+>  	depends on MACH_SUN8I || RISCV || COMPILE_TEST
+>  
+>  config SUN20I_D1_R_CCU
+>  	tristate "Support for the Allwinner D1/R528/T113 PRCM CCU"
+> -	default y
+> +	default ARCH_SUNXI
+>  	depends on MACH_SUN8I || RISCV || COMPILE_TEST
+>  
+>  config SUN50I_A64_CCU
+>  	tristate "Support for the Allwinner A64 CCU"
+> -	default y
+> +	default ARCH_SUNXI
+>  	depends on ARM64 || COMPILE_TEST
+>  
+>  config SUN50I_A100_CCU
+>  	tristate "Support for the Allwinner A100 CCU"
+> -	default y
+> +	default ARCH_SUNXI
+>  	depends on ARM64 || COMPILE_TEST
+>  
+>  config SUN50I_A100_R_CCU
+>  	tristate "Support for the Allwinner A100 PRCM CCU"
+> -	default y
+> +	default ARCH_SUNXI
+>  	depends on ARM64 || COMPILE_TEST
+>  
+>  config SUN50I_H6_CCU
+>  	tristate "Support for the Allwinner H6 CCU"
+> -	default y
+> +	default ARCH_SUNXI
+>  	depends on ARM64 || COMPILE_TEST
+>  
+>  config SUN50I_H616_CCU
+>  	tristate "Support for the Allwinner H616 CCU"
+> -	default y
+> +	default ARCH_SUNXI
+>  	depends on ARM64 || COMPILE_TEST
+>  
+>  config SUN50I_H6_R_CCU
+>  	tristate "Support for the Allwinner H6 and H616 PRCM CCU"
+> -	default y
+> +	default ARCH_SUNXI
+>  	depends on ARM64 || COMPILE_TEST
+>  
+>  config SUN55I_A523_CCU
+>  	tristate "Support for the Allwinner A523/T527 CCU"
+> -	default y
+> +	default ARCH_SUNXI
+>  	depends on ARM64 || COMPILE_TEST
+>  
+>  config SUN55I_A523_R_CCU
+>  	tristate "Support for the Allwinner A523/T527 PRCM CCU"
+> -	default y
+> +	default ARCH_SUNXI
+>  	depends on ARM64 || COMPILE_TEST
+>  
+>  config SUN4I_A10_CCU
+>  	tristate "Support for the Allwinner A10/A20 CCU"
+> -	default y
+> +	default ARCH_SUNXI
+>  	depends on MACH_SUN4I || MACH_SUN7I || COMPILE_TEST
+>  
+>  config SUN5I_CCU
+>  	bool "Support for the Allwinner sun5i family CCM"
+> -	default y
+> +	default ARCH_SUNXI
+>  	depends on MACH_SUN5I || COMPILE_TEST
+>  	depends on SUNXI_CCU=y
+>  
+>  config SUN6I_A31_CCU
+>  	tristate "Support for the Allwinner A31/A31s CCU"
+> -	default y
+> +	default ARCH_SUNXI
+>  	depends on MACH_SUN6I || COMPILE_TEST
+>  
+>  config SUN6I_RTC_CCU
+>  	tristate "Support for the Allwinner H616/R329 RTC CCU"
+> -	default y
+> +	default ARCH_SUNXI
+>  	depends on MACH_SUN8I || ARM64 || RISCV || COMPILE_TEST
+>  
+>  config SUN8I_A23_CCU
+>  	tristate "Support for the Allwinner A23 CCU"
+> -	default y
+> +	default ARCH_SUNXI
+>  	depends on MACH_SUN8I || COMPILE_TEST
+>  
+>  config SUN8I_A33_CCU
+>  	tristate "Support for the Allwinner A33 CCU"
+> -	default y
+> +	default ARCH_SUNXI
+>  	depends on MACH_SUN8I || COMPILE_TEST
+>  
+>  config SUN8I_A83T_CCU
+>  	tristate "Support for the Allwinner A83T CCU"
+> -	default y
+> +	default ARCH_SUNXI
+>  	depends on MACH_SUN8I || COMPILE_TEST
+>  
+>  config SUN8I_H3_CCU
+>  	tristate "Support for the Allwinner H3 CCU"
+> -	default y
+> +	default ARCH_SUNXI
+>  	depends on MACH_SUN8I || ARM64 || COMPILE_TEST
+>  
+>  config SUN8I_V3S_CCU
+>  	tristate "Support for the Allwinner V3s CCU"
+> -	default y
+> +	default ARCH_SUNXI
+>  	depends on MACH_SUN8I || COMPILE_TEST
+>  
+>  config SUN8I_DE2_CCU
+>  	tristate "Support for the Allwinner SoCs DE2 CCU"
+> -	default y
+> +	default ARCH_SUNXI
+>  	depends on MACH_SUN8I || ARM64 || RISCV || COMPILE_TEST
+>  
+>  config SUN8I_R40_CCU
+>  	tristate "Support for the Allwinner R40 CCU"
+> -	default y
+> +	default ARCH_SUNXI
+>  	depends on MACH_SUN8I || COMPILE_TEST
+>  
+>  config SUN9I_A80_CCU
+>  	tristate "Support for the Allwinner A80 CCU"
+> -	default y
+> +	default ARCH_SUNXI
+>  	depends on MACH_SUN9I || COMPILE_TEST
+>  
+>  config SUN8I_R_CCU
+>  	tristate "Support for Allwinner SoCs' PRCM CCUs"
+> -	default y
+> +	default ARCH_SUNXI
+>  	depends on MACH_SUN8I || ARM64 || COMPILE_TEST
+>  
+>  endif
+> 
+
