@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC59E82D98;
-	Fri,  4 Apr 2025 13:18:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCFD928E8;
+	Fri,  4 Apr 2025 14:05:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743772723; cv=none; b=WBHtB2gECLN3nVmSfJXc9J83/HAPpYVVBjX8KMq6rwFjjzOML+6+X+oQWfFFFz0jVLuZbcKLg4u3HT0y0Y0hkBWRMATV3ouW9PFjw/a5kgKGptbAuLAT8g136HS5KPZoSqd1DGYk4G3I7F6QwhFzkGxOMac3O82l0oPsWLRKsdY=
+	t=1743775515; cv=none; b=bfGJWspo00jZbTmRtiloJRWM5x0o4/QWvuEFOnj+KdnykVyu6CoBxIu/XIxNJ59g1XYVftvRc+x3Jr99VCbt6vkUh7QcgSQioQvCLhHve/1Nq5uSLjJkoTtMJSkKzKYnTDQmE8Fy3A3YCgXp9+2WTYPKnUNfGJWlDjlSnkF0NO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743772723; c=relaxed/simple;
-	bh=8p+c4MB2Vz2NLD+RiN8PNGA7Pc+YAFAuwCP+/mMX5Bs=;
+	s=arc-20240116; t=1743775515; c=relaxed/simple;
+	bh=sXc59e9oCS1JyARzmEkCFC/sWd+6b3k5Zd9xARKgKhU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AWCGWZhp7YoZZlgfZZe7UyhWysKClJPho1HADKGbjANSYTkBFqmzFQld4lxkAbBOwONv07sSO6+tZzfMUODb+kb0hxWBoAZ83WEGFTBQrLKx0svUjuWeQu5oBQFfjuuGro0uWI3eBXKkQfven8hkKdEdmomw4MB/VqPEzsI6/dc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eKW8BkEP; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=scQwsL74DJ9i8ZLDmSbqb/IsDF5s0KRrVcQA6rC+d/2eEjitOggss8bzUrnBrDoNSfp/5nq0ji4xjFW87GKYMphDMvCy208g882mwp5Fafapr5jOY/1icgQcA53ye/b8TmYYHDTO1CTYryg8OR8WfvtC2n4whhIC5HolPeXZP1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nCGf3I9t; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eKW8BkEP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72201C4CEE9;
-	Fri,  4 Apr 2025 13:18:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nCGf3I9t"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42B52C4AF0B;
+	Fri,  4 Apr 2025 14:05:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743772723;
-	bh=8p+c4MB2Vz2NLD+RiN8PNGA7Pc+YAFAuwCP+/mMX5Bs=;
+	s=k20201202; t=1743775515;
+	bh=sXc59e9oCS1JyARzmEkCFC/sWd+6b3k5Zd9xARKgKhU=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=eKW8BkEPXJzBEfA6eyTODP0H96m9hqR98uXmWJ+NQbzBwEXHrdYrjtSd1C8RWZmfz
-	 2rcbpHdZXLJRVcFaE9n5Kp4yS8ugzHBQqGEDWJS2qXvoobc+wP2LpgFooZ3AZGa3xa
-	 6bKGGVFi85i5+b/AfCt8XkZRJhnqVnGqQ0ftCT5vqRVzGTuQFelxLx7V8tqxC1gZv7
-	 u1xcnhxGxabJM0V87wUWYVqmKLm/TNRviJGpd0rTUcnJlFhcHwhwwXhdKoE4G2UVgz
-	 pjRM+2K+IxITVbj+DgcmSYFJK28J91/7Ppto2N1C+xXzQUFvu+zdmpvR8Gf7606QS7
-	 J6mnKZPky2aVw==
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-ac29af3382dso320292266b.2;
-        Fri, 04 Apr 2025 06:18:43 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUHY3hVErVrbFzeFT8hqHf6hPGNsvzJkmpme4MLUnkSmsBHwKvDijJmEbwWUTG3s+kq9yacS74SdRQDorU=@lists.linux.dev, AJvYcCWK0BgazMPYcWoqbaUz4bpn/Eb5RJp9eXyrRR/w3LCBfBEwtGbmEF4D6wElW1YXHHK4qWY=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy8bsNlt2G19BiaJZLBqQoxorSOeJEvcT/D8L4Ap8AP4p82sjcZ
-	DnNO7YusPYqQC85xAujZ5B/mprpj8vZhXnaj6HFoeqJkAwdqjj7LlIvB0j8BEiHxQLaAOlXHn7Z
-	+Zu20zC4htDA+eAqD5lEv31FJkQ==
-X-Google-Smtp-Source: AGHT+IGeMGvCEeK8AclL93nVBIzL9ZaOIe89VJXnsQlCY86LywWmTQFiXrpurfnLdBj4EjlXLbq/bSkPsN9UQIZ0bQ0=
-X-Received: by 2002:a17:907:7209:b0:ac3:45c6:a1ec with SMTP id
- a640c23a62f3a-ac7d6d5dff4mr229454566b.25.1743772721929; Fri, 04 Apr 2025
- 06:18:41 -0700 (PDT)
+	b=nCGf3I9tEmCSvB0E76/BUXH6Nk1Q786Smv1KYQf7QmCCD9o9Vf7Jhiuw+t0LRBV69
+	 fCQDUgY4uJnXj9Qtye3sGi5fSmLjQJjXNRK/EEEdrFO4FIOnMma7eAkGuyZRmfOSfg
+	 hldrIX+bb9WXeeI5iiR1rh1rVUuQqiXwgbhatKkxVl4shFjEMD6B/1hgd5VDxXk3s1
+	 2GLoeerZIcXyrkvsszXm+iKisJa7hv/VYq64834LR35wmHqQST9N7TujpLPgk8EdVT
+	 UcAJ9djGAUQ/qu7XPoq1vjZ58Lh+q8niDbtBdREOB9J7EnKo65uRZQ9qCRO90Gcjnk
+	 R08WFLmx941ew==
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5e686d39ba2so3992138a12.2;
+        Fri, 04 Apr 2025 07:05:15 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU+IAWARgMf2j/oOGgBlDbdydR2o8h1VZCDSweE/RJMt37dWa7nS0Ey0+NYH5HYvw8GD7UEAExeKhFAxKc=@lists.linux.dev, AJvYcCX3DrbxWhiPXlDYjhd7d9wXpx/Fiy6cNvB2SaWDARryuCn4jS3Cy2+rkDosjJUcBcMust8=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx8IDOzEBZ2CJp8teRgehnlXFSEnb0evh9DrzXf5cy5GH9bBQcA
+	f0ebOgViAKpwLV+a6suWKnx27SeyTsHs+qKSW2mpGxTEK4P6O59EPqtbvqC/QXPfDa7SlHFPJ4F
+	LNd9xgrYhtw43mspi1hVM7oBwqg==
+X-Google-Smtp-Source: AGHT+IGvjzmo+S0oZ7wclO731FKO/yFH3v6rfa52+MwQrSf/9tdEEQ9A/kWSXMLtJKL4wmLWRjaXPrcr+vGPnUPbJIE=
+X-Received: by 2002:a05:6402:5112:b0:5e7:8be5:d189 with SMTP id
+ 4fb4d7f45d1cf-5f0b3b62317mr2699905a12.4.1743775513430; Fri, 04 Apr 2025
+ 07:05:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -43,16 +43,15 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20250403-dt-cpu-schema-v1-0-076be7171a85@kernel.org>
- <20250403-dt-cpu-schema-v1-6-076be7171a85@kernel.org> <Z-_K2XDEcbtcCMVM@linaro.org>
-In-Reply-To: <Z-_K2XDEcbtcCMVM@linaro.org>
+ <20250403-dt-cpu-schema-v1-9-076be7171a85@kernel.org> <CAPDyKFoEEp8AZ7aJ8-wwp8=n+T4gbij15oYaCNhF1Bd-E1nMbg@mail.gmail.com>
+In-Reply-To: <CAPDyKFoEEp8AZ7aJ8-wwp8=n+T4gbij15oYaCNhF1Bd-E1nMbg@mail.gmail.com>
 From: Rob Herring <robh@kernel.org>
-Date: Fri, 4 Apr 2025 08:18:30 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJT-0gwvJnMb63izy6WwJpBVsswkauL8OMLCrF08q9HYQ@mail.gmail.com>
-X-Gm-Features: ATxdqUHOgMca65CFxOkpc1GwFhcina94zKtpSzj7uSzh0WZ2vI4WGj4U0KjYQTw
-Message-ID: <CAL_JsqJT-0gwvJnMb63izy6WwJpBVsswkauL8OMLCrF08q9HYQ@mail.gmail.com>
-Subject: Re: [PATCH 06/19] arm64: dts: qcom: msm8939: Fix CPU node
- "enable-method" property dependencies
-To: Stephan Gerhold <stephan.gerhold@linaro.org>
+Date: Fri, 4 Apr 2025 09:05:02 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqLB7SpVNTVruAb98YEPC5sRpssjsSP=NkqdON6qP+74fw@mail.gmail.com>
+X-Gm-Features: ATxdqUGVc4_Mt0PqKKmf21CRVRmw-a_zuqLCxbME19ZuBODzSy1GgUUs6hNAKo0
+Message-ID: <CAL_JsqLB7SpVNTVruAb98YEPC5sRpssjsSP=NkqdON6qP+74fw@mail.gmail.com>
+Subject: Re: [PATCH 09/19] arm: dts: qcom: sdx55/sdx65: Fix CPU power-domain-names
+To: Ulf Hansson <ulf.hansson@linaro.org>
 Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
 	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
 	Samuel Holland <samuel@sholland.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
@@ -81,29 +80,43 @@ Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 4, 2025 at 7:04=E2=80=AFAM Stephan Gerhold
-<stephan.gerhold@linaro.org> wrote:
+On Fri, Apr 4, 2025 at 5:31=E2=80=AFAM Ulf Hansson <ulf.hansson@linaro.org>=
+ wrote:
 >
-> On Thu, Apr 03, 2025 at 09:59:27PM -0500, Rob Herring (Arm) wrote:
-> > The "qcom,acc" and "qcom,saw" properties aren't valid with "spin-table"
-> > enable-method nor are they used on 64-bit kernels, so they can be
-> > dropped.
+> On Fri, 4 Apr 2025 at 05:02, Rob Herring (Arm) <robh@kernel.org> wrote:
 > >
+> > "rpmhpd" is not documented nor used anywhere. As the enable-method is
+> > "psci" use "psci" for the power-domain name.
+> >
+> > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> > ---
+> >  arch/arm/boot/dts/qcom/qcom-sdx55.dtsi | 2 +-
+> >  arch/arm/boot/dts/qcom/qcom-sdx65.dtsi | 2 +-
+> >  2 files changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/arch/arm/boot/dts/qcom/qcom-sdx55.dtsi b/arch/arm/boot/dts=
+/qcom/qcom-sdx55.dtsi
+> > index 39530eb580ea..64d9858b4248 100644
+> > --- a/arch/arm/boot/dts/qcom/qcom-sdx55.dtsi
+> > +++ b/arch/arm/boot/dts/qcom/qcom-sdx55.dtsi
+> > @@ -57,7 +57,7 @@ cpu0: cpu@0 {
+> >                         enable-method =3D "psci";
+> >                         clocks =3D <&apcs>;
+> >                         power-domains =3D <&rpmhpd SDX55_CX>;
+> > -                       power-domain-names =3D "rpmhpd";
+> > +                       power-domain-names =3D "psci";
 >
-> The bootloader we currently use on these devices reads these properties
-> to set up the spin-table, so removing these will break booting secondary
-> CPU cores.
+> As I understand it, this isn't for cpu-power-mgmt but for
+> cpu-performance-scaling.
 >
-> The motivation for implementing it that way was that 32-bit vs 64-bit
-> kernel shouldn't be relevant for the describing the hardware blocks in
-> the device tree. The code in the bootloader is generic and handles
-> different SoCs (e.g. msm8916 with 4 cores and msm8939 with 8 cores, the
-> enable sequences are identical).
->
-> Can we keep this in somehow? To be fair, I'm not sure what property we
-> could match on to check if these properties are allowed ...
+> I have been thinking of adding a common power-domain-name for this,
+> but never reached to do it. I think the last one we added was the
+> Airoha SoC [1] which uses "perf", which seems to be the most common
+> one. Still I don't see that being documented.
 
-Yes, we can keep them. We'll have to allow them with "spin-table" and
-"psci" I guess.
+It's all a mess and abuse of the power-domains binding...
+
+"perf" is documented. I can add "rpmhpd" I suppose, but I don't see
+anything using the name. Or I can remove it.
 
 Rob
