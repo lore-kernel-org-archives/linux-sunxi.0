@@ -1,72 +1,72 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD0FD21D5A9
-	for <linux-sunxi@lists.linux.dev>; Fri,  4 Apr 2025 20:28:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 909C01F416A
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Apr 2025 20:30:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743798504; cv=none; b=MGBDeDRyYepDTNixfqPC3fUSEz1JgaAs726jSuPYG3JX1JI4UJi+n9KFKH1RKL8VzBDhpRMqM5h32rThmQalwjfE8SeTd6K6eIGm3z6W2AAdSeSt7anXp+2MNP7WME5ApaEfvjmicBexlJ5aQfI+oy95cLLUYhvl4EHGKq/o4sg=
+	t=1743798655; cv=none; b=OE9tG5NjcMcMCLpgvHwp62knL+O8b8+SYdqagzBE2+SQsmEKv2CgYyHECyN8p6UsLFZldCpkEL1q3DNmFdoMvis0pWe/lpOdc6dDZibcW/XdxfYCpPxl9L+N9LxdWf0CJGNienqsvQCryZZ7Il5bWYrpi8+b+PuRqUHsSIkKf9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743798504; c=relaxed/simple;
-	bh=6VdnbYhGy3r5+8eECcpomK5pToziEFD72vAtfF1wNLU=;
+	s=arc-20240116; t=1743798655; c=relaxed/simple;
+	bh=oBT4dqU35i3jNYaDg/R08akXO2az0Oc76Luk1EkR+II=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VTvYGeD3jjWY/iBFsOc0HbsHYL+Z4dt2gvs3B4aZPaWkuNbXsoDFOJCytjwUtVBW3oTHMVX7gFN2R8EP2iakKwwm2al2v/N8apNxswKBZSuGxmh77fkQSJy7FpilQEws9YKz7wod9xn/FGR+4nejWWt8vlBQqeMg5WJVk7k6DHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=pJVvUSiH; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:Content-Type; b=tGSJAq5ixgGFGzlLSeI7xGzRBFj5atO48lztRd5usmyZgAGp+JH+PMYHRb2CbxBtINm48O8mzwG2DqmPdBRWT7pFis6DgYz2MX/7jXSXPPl/MpugHTAoceC1ObHPAkT/tOimGWgs4eZb3b1ElG6a7D9aMclRBNg+1xUjuQCGq/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=VEtxvX0y; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="pJVvUSiH"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="VEtxvX0y"
 Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 534JEdRq012670
-	for <linux-sunxi@lists.linux.dev>; Fri, 4 Apr 2025 20:28:16 GMT
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 534JEbti012650
+	for <linux-sunxi@lists.linux.dev>; Fri, 4 Apr 2025 20:30:51 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	GHRYAy9VYazkChkIxg8YtCXwmpRsQX0Tl5KM+EPPgvU=; b=pJVvUSiHwqmvo86h
-	Mqz4Q/WnqANpbfqZlCaDSPUWlkMubqtdXp/NaRc9naRXuxP0prRMEmBbAV49djOi
-	UK+On9tkJ5vdP0DhZ1mRJXRhJXZ5vwWRG8XadPvXFA7XtnAQtQQrfaKi999ImzN9
-	BbLTI7PMR2ayw1pjmyL2JNIMFBjOIa/UvqdlknD7EToePBBBl2wQv0qZI1bqeDL5
-	xPLtEJAugYwpzUGlPHz+tngdqJ9Ss8wnwxuAxNHJOyJ4KtmGPSbkZ7v9QzqrdQkU
-	2hdWTedgIQq3DFuV39YYB9DewaZ+Y+vxeInHLQfMyWokX4IGTGB57SrId8+LNDot
-	T7f62Q==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com [209.85.219.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45t2d72w65-1
+	7hWRzIPdUXdKBlWVaK7wwLn27NVVJ/zKlX8uz3CkEsU=; b=VEtxvX0y4phHJf4s
+	ehGLNsWkMXWxhM24EkpJXM1djb9W9Wd/DqXBlImXSexeCSqf0aHinkAWtpXeOUhm
+	T+bWRnySeVvjcmTbRvIJomfylivgX/XwN/q3x4eAIK9k4UaX83gwQivU0WML71ri
+	uFCGE35Hcpe1+xzY3YzLhY2hpPMu3O7nqNlV4ZL258Gxr+ppYvexR29GlatgQ0sD
+	7hYD1Gz4H4T4IIH/iI7zM9TDUKiPJxWmkmlOgCw/HyhoKDcF2jHiWzj94JFbf2dG
+	q5YHPB+Jn3QTgI3w5YXw0TPSfNoPfRjQr/xuuyhR2pi32nZy1WHUqP8XyES3Pwhj
+	MYhTyA==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45t2d72wah-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sunxi@lists.linux.dev>; Fri, 04 Apr 2025 20:28:15 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-6e8f3766737so4824966d6.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 04 Apr 2025 13:28:15 -0700 (PDT)
+	for <linux-sunxi@lists.linux.dev>; Fri, 04 Apr 2025 20:30:51 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-478f933cb4bso905551cf.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 04 Apr 2025 13:30:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743798495; x=1744403295;
+        d=1e100.net; s=20230601; t=1743798650; x=1744403450;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GHRYAy9VYazkChkIxg8YtCXwmpRsQX0Tl5KM+EPPgvU=;
-        b=F5QUjRWJglRxe/V1+gehzTp3JGxwDBAlz+ISakOjKnNLPLtHT/1qu5bwlAWDzh5v98
-         hvBSK3Qx7jJpt6YAdMkmJjiYy/g+Rlhlkx0oHiRh9DMt5SaFfvtS3IHb89RZ4iEzHbuG
-         aZZTVkhR6o5eKTb4VsSejIyhA9Z6zPvUqRf4OvJjqM84euuwbCIaj3g1E3SXyODSV2As
-         8nkG7WM1qxx1V+c/1GWrbkf/avU6NGvJN89lHz7/6vZCt+cE5wOVBKYvHSEuKmjjDMnf
-         sT1xnZV9p5FW6dPSV78/AGopv4bidv38oPndSRW+xxRiufmw8E9iy6dJcYqu9RUMOEvI
-         dcXg==
-X-Forwarded-Encrypted: i=1; AJvYcCUio+MHrmqs8/IdpTD288LJ5JxcaN4iebNRrKSQ7by6D10HMiWbXovIXdZRPOEJuClWXFIv51yXRVV6DQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxmWxQdle3iN/cc656iIzZGL+xeWsKrrqnjmZjz/KGLbAjgJRBN
-	w7A3jfJ0W6ats71wQvOVeLRw+XoD3b/NgX65MZFh89skQxKjNDHGGkHMjasgdw2ngicxao402XF
-	ySez4wj0tH9Z6dCadbyMNPJvqB9kublG5CoOC/LLCZS378BFTZ0uYd2X+67sU3g==
-X-Gm-Gg: ASbGnctE4+j1bJlz6XvUgt3koOEl24AqiZne8/WAaFO8M5+a1VuyPWsTWl/S1DXd0Lb
-	YEdA6DMk1CHymVRjZkghsnbbHM3XaQlOqkzjVlM/RRiwEfhlvSn4C1smlK0Ym7aNKFcmH+IYFgM
-	gcatmbqK/r+uzmXDlfAzXRbB3/VzsEYWxstYefJLcU0cJcTiC//xyHpOsgFJFCbK+f0xLk6LGza
-	TBT2Wh44TUU+e1trt8WZAZMQ4XRto8MGad0N12ZUOWofS99ZuKm7sizrzVmRW4dZseZYmyM/io7
-	AOyfzKmA+h4m27wCZ+aSz0Co50sjn3YGy1ZqleLxs15XRJdldsfxF8Zliw9yzEv+I08uyQ==
-X-Received: by 2002:ad4:4eee:0:b0:6e8:fbaf:fad8 with SMTP id 6a1803df08f44-6f00deb2207mr23904556d6.5.1743798495081;
-        Fri, 04 Apr 2025 13:28:15 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEoIVAXrUTfJsMNH3k0XqfcfQJdY+GOn1kP1o4noSEmw/2wsl4BJad6Is0Sd5MjPz2dbgObFw==
-X-Received: by 2002:ad4:4eee:0:b0:6e8:fbaf:fad8 with SMTP id 6a1803df08f44-6f00deb2207mr23904146d6.5.1743798494647;
-        Fri, 04 Apr 2025 13:28:14 -0700 (PDT)
+        bh=7hWRzIPdUXdKBlWVaK7wwLn27NVVJ/zKlX8uz3CkEsU=;
+        b=nLozdJRCsYPef5tTSepQB6b3ZwBXdfn3lXe1njAsgZRYFVsHRCxLuva8bzPbjI6rQG
+         ju41drnpYmp2Yo5Qjk4OLstCj82POGiks58FjNvJXJp7Iv8Vwc5EMiMbeLQLZAkIVm7t
+         44idECkIk5GmyOX+Z3wJTS022ntb/37KCpiXC9JFjEOFBw9OaUrsuq5IcxJXCvbfWzsn
+         Q2hwiESm4Ip+RWbm1Lgn3ayKr07bgFkruAlXG9h6RS/d1eTChouTEDczXtHX4uGdnwbK
+         ljI6op5pCTN/HQ6gP+tKsOWF4f8RpIW6QmJWEUk3PDm1XnDuJ9M5ONeZeg96jyrbDegC
+         ceSg==
+X-Forwarded-Encrypted: i=1; AJvYcCXqnF30KIBTTiiRZPOllNTdM8CLiIZw/pXN/zX+j1gezqaZC0uc7wE9W+pn7GY6hynkt9JBgO8M759r2A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzCUtRY3xNHs9LLIzKdeypwDCjVxX9nsMgqCrp5JwHjijk4MNU2
+	blbxqQlyJ6QIU50JOAHMFp9nV/o9+HlZDOfi47S6G4c34lDtsS8G4J2O+BN37QcLXAZ48slz+EA
+	voxRe/erkTn53hQPz8GoQAkivzWprPpkXydvYk4/VAz0Bl7pVup9bogMOCZ4ITw==
+X-Gm-Gg: ASbGncsBLwxLuyaQ//G/g7yftvKQeh+ESWdQzxtNJwVBpWnoT58513zsVPuvWBmi+4p
+	SwniyV3tr0gjd5Bi8l/9LPuSwPvIo+hnF190OMR4+lXbKnr30Mb02dvg+tDbRkM9QoOf1yya2Jq
+	AlJ4bnBnvmzJj0dIpUdoyTbpGGJXDfCO8zW4XYuMZH9LksVkcLAPFTintFAfLtzEujWhp3Nx44I
+	l5Gi5+XzSJaxhrNLjrStypHXPDisZVRugKbylvz9mepHuBmtyDy+hDc+4JUqyj/kdtuBj+ON6yz
+	+FpALfgwzEyswkj7RN1mYVqLxsi/2gXg36j4X+oM6E/4307n+OSD+Jhp0ysPqHvdg9lPPw==
+X-Received: by 2002:a05:622a:2c3:b0:474:e4bd:834 with SMTP id d75a77b69052e-4792490427fmr26497591cf.2.1743798650356;
+        Fri, 04 Apr 2025 13:30:50 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGuSVd6Czwiac8qs9SQtzY9AT0v4N+1AWxlKTXMwazPDheG9mDDd7uUgjlpULwCLJqJUrfzww==
+X-Received: by 2002:a05:622a:2c3:b0:474:e4bd:834 with SMTP id d75a77b69052e-4792490427fmr26497151cf.2.1743798649900;
+        Fri, 04 Apr 2025 13:30:49 -0700 (PDT)
 Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac7bfe5d420sm309414066b.2.2025.04.04.13.28.09
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5f0880a4027sm2911588a12.73.2025.04.04.13.30.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Apr 2025 13:28:14 -0700 (PDT)
-Message-ID: <69da0db9-8f32-476a-a8fb-ddb5e6e185e7@oss.qualcomm.com>
-Date: Fri, 4 Apr 2025 22:28:08 +0200
+        Fri, 04 Apr 2025 13:30:48 -0700 (PDT)
+Message-ID: <470e2155-7145-44ab-9d6d-117a2d98d7f8@oss.qualcomm.com>
+Date: Fri, 4 Apr 2025 22:30:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -74,7 +74,8 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 05/19] arm64: dts: qcom: qdu1000: Fix qcom,freq-domain
+Subject: Re: [PATCH 07/19] arm64: dts: qcom: msm8992-lg-h815: Fix CPU node
+ "enable-method" property dependencies
 To: "Rob Herring (Arm)" <robh@kernel.org>,
         Krzysztof Kozlowski <krzk+dt@kernel.org>,
         Conor Dooley
@@ -117,35 +118,38 @@ Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         imx@lists.linux.dev, linux-rockchip@lists.infradead.org,
         linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org
 References: <20250403-dt-cpu-schema-v1-0-076be7171a85@kernel.org>
- <20250403-dt-cpu-schema-v1-5-076be7171a85@kernel.org>
+ <20250403-dt-cpu-schema-v1-7-076be7171a85@kernel.org>
 Content-Language: en-US
 From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250403-dt-cpu-schema-v1-5-076be7171a85@kernel.org>
+In-Reply-To: <20250403-dt-cpu-schema-v1-7-076be7171a85@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=CfwI5Krl c=1 sm=1 tr=0 ts=67f040df cx=c_pps a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=nTi4DTMcPcBUEvcNss0A:9 a=QEXdDO2ut3YA:10
- a=3T6Gmkx0uuYA:10 a=pJ04lnu7RYOZP9TFuWaZ:22
-X-Proofpoint-ORIG-GUID: vuG8S19OmXcGlKiGe9CS0D-O3xzULq5M
-X-Proofpoint-GUID: vuG8S19OmXcGlKiGe9CS0D-O3xzULq5M
+X-Authority-Analysis: v=2.4 cv=CfwI5Krl c=1 sm=1 tr=0 ts=67f0417b cx=c_pps a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=HGLQH7UMpQlDbUUNBC0A:9 a=QEXdDO2ut3YA:10
+ a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-ORIG-GUID: k1p9DUohL_MO6fj0GeGyR6vIjGhbKytk
+X-Proofpoint-GUID: k1p9DUohL_MO6fj0GeGyR6vIjGhbKytk
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-04-04_09,2025-04-03_03,2024-11-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
  phishscore=0 impostorscore=0 lowpriorityscore=0 bulkscore=0 adultscore=0
- mlxscore=0 mlxlogscore=978 suspectscore=0 clxscore=1011 spamscore=0
+ mlxscore=0 mlxlogscore=796 suspectscore=0 clxscore=1011 spamscore=0
  malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504040139
+ definitions=main-2504040140
 
 On 4/4/25 4:59 AM, Rob Herring (Arm) wrote:
-> The correct property name is 'qcom,freq-domain', not
-> 'qcom,freq-domains'.
+> The "spin-table" enable-method requires "cpu-release-addr" property,
+> so add a dummy entry. It is assumed the bootloader will fill in the
+> correct values.
 > 
 > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 > ---
 
-Thanks for spotting this!
+This looks good to me without knowing any better about the specifics
+of this device..
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
++Alexander - does the bootloader you use take care of this? Otherwise
+we can just do what Sony devices do and stop on removing the psci node
 
 Konrad
