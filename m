@@ -1,129 +1,173 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7D712512D7
-	for <linux-sunxi@lists.linux.dev>; Thu,  3 Apr 2025 17:39:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A9A2940B;
+	Fri,  4 Apr 2025 02:59:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743701970; cv=none; b=htpO+6HOUDTRyjdxpbb0WeVQP3T20eHgC3m+A5iZBbTrdnOf3kgYgTWnGYMqseH7zX3xgzB19h67aS+pgf8leivSaTeb0HT8wUUeysqZuPB4rlsjRlQKCb7XrJ3tYTr05BtasewkCyatl+aAnWokhAd178AmjrBOXwbFQYDUz3w=
+	t=1743735582; cv=none; b=QdCGRTlFKvqA0tTq79/yv41gWNPRuz+ghLFdkaun49H2SJ3syq8o69oZdzPl1KiYUN7lwo0zNauMv4lNa/viWN+5EnU9w9N7VTG22z3F/JmlE206S+XzfC7xB/wigaws8P48vs2+vV9r5Oi2ifmiWmgKyuyl2EqdW6PR2nCRMcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743701970; c=relaxed/simple;
-	bh=h6lDn2oRoZVQr2eL3ETbBPAyiqVUOXRCf4qhIrmhyHY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MhdLonmWRGMucWhSz9xh4KQs3bNhL9vyem0pdaVGQki/HJW2gDzCDY5i3B8OOd/R8ul8LgXgaM6tNPRZkOVK08yvwhu0ZNhm/nlJfPueT02Rf1FPr5eMTVQ8DU43+vChS5AnBimYr5WpGqCv28m26epvXYxs86jf1UFHTLY5BJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CwZiYgBa; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1743735582; c=relaxed/simple;
+	bh=R97K1edD4zHvzCCaN7fvUpcILyjz5fPxwxzTH3c208Y=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=k3DG/IxuSLJ22FF19hOLr2kbkty9UYL4+uWPFPld1sj7EB9gTBLAT3YgNOXkpsuPNqy0fO31bVkwb0cVPFKQ3TAUpJAv72dHhUVW8/Jx84weWNCnGaCludFQIohFBrLkI7SWljZNHOOA9T4qfasrVekKCRmaTZaASK3yEvU+45Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DInFV6Zz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CwZiYgBa"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-43ce71582e9so8202945e9.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 03 Apr 2025 10:39:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743701967; x=1744306767; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xNO/JA0foT2DpdUYBUk7pcZAoPgEl1mlc8h7/c2UazE=;
-        b=CwZiYgBaGbN4VZftSSKLsg7tscOuK4X5pwCatBS8c4q9VwqVDtJnVCEd4xmNFk/Bte
-         ptip7DzPx0GbAqRP9SdWZjonxCbXKDosG4V0ydoHB8Z06xCfvHZ4poSlrZy6z79FilPK
-         Ln9thFHwHPV/Bd4s2K/rczsLXyvCMbdTfiz+m1TNfHFBDPjBgxRoSLgV1XgP91z8ZWu0
-         mweOvoc0OhNeVtHh0+/8g+Byubwz72sttb7A/JD3HY5ttoVe28Sv5M9VY9Zdb+lNecpu
-         Nk7PQEcCAe1rlqDDSwLeSb/4WB8FAZgXBJnPe3c/AlZ8jZHYOwAOO2u3XYfLP872JSUA
-         U5cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743701967; x=1744306767;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xNO/JA0foT2DpdUYBUk7pcZAoPgEl1mlc8h7/c2UazE=;
-        b=QP8iy1VsghHghtAThYERgKEF8q3diqnDU2xcnqetEbF7wcHmwe1h+kGNdn6/6unKjK
-         880itGM+pa+8T6Vz7Ykk4+pbc+X2NeBuWl0myDubCA5hsc8d9XPjEMlhf20lV99asbZ2
-         FKokLKgcBg8RboQuNLPLmjCdSNcxYA8s3EE5r297WQA6d4gH5n8lkv/HXQQMUPHSq+bI
-         I+bid4hOQDZDI601ATRLsB6i1Qhjd8pckQnAXtyykLl9XRQMsfu+E680rCgsO3Ssrgau
-         Ne9xzZAqO1fMYieA98c1TYgEWBfH246kcgi7cZOsZ+s7/02g8aHeP4rOFSCuOHF/AWn6
-         YB+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXf0WoPQ1zZ5RtlwkRgK5uYmqAN45lemSY0PntbSsMbZjiYI9lp2I/7GNEzObBtDkmfGIOpRSxqC0TkkA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwxjXrbIJZk/hYOugV9jGtjAQnL8abMaNCXy5GIL5G8odEIO/vL
-	MyxjkctkXJIOM2nX3WLeue/Uu8OtwWg0g25QVHzZAYb0F6Fv8Tf4
-X-Gm-Gg: ASbGncv8K8TYyrKXMZ0G3ni/iFv0AW/9jVcEAntAtEjz6jQOfTtJsDsebJQCQu2fK5C
-	p8/s4DcJhyPVFbFwHHVpi4C1cbRvLGMm2wcV0r5YMdrQRPy0Md0YSzmpWStl2+3tspeAXD7ZWM5
-	/+/o2e//s4/pP9nDnHCZwnWqMbAUbU0K/TDARaO8ZkcBSvuag9jb6rgwCdcwfVGGWnN9NsKNf8p
-	0LWvJX9bB+EMkHJfNbGAJFqZ3CMtgpBjeJ2RsdyswtDp3KXCeWXVxi9qF8Ls0WNXaSl9h+M/L9F
-	tQvXrvS7tWefpepnt/XBhS9kp1i2f/AE8QKwBgah9wpCHcDZ0IILD5yo3Agbyr4Vsk95bTp/X6d
-	tx5CqtIN/YmqnIh8Izv7N
-X-Google-Smtp-Source: AGHT+IFMIi4hovLxofIkRnajXomszFrujt7/tyePth8kw2e++hEC+Kp0OE+ILwmXrxf3oLN23kvKDw==
-X-Received: by 2002:a05:6000:2907:b0:391:4999:778b with SMTP id ffacd0b85a97d-39cb35bda01mr174975f8f.28.1743701966921;
-        Thu, 03 Apr 2025 10:39:26 -0700 (PDT)
-Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c30096923sm2385018f8f.17.2025.04.03.10.39.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Apr 2025 10:39:26 -0700 (PDT)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: vkoul@kernel.org, robert.marko@sartura.hr, shao.mingyin@zte.com.cn
-Cc: kishon@kernel.org, wens@csie.org, samuel@sholland.org,
- zhang.enpei@zte.com.cn, linux-phy@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, luka.perkov@sartura.hr,
- linux-arm-msm@vger.kernel.org, heiko@sntech.de,
- linux-rockchip@lists.infradead.org, yang.yang29@zte.com.cn,
- xu.xin16@zte.com.cn, ye.xingchen@zte.com.cn
-Subject:
- Re: [PATCH linux-next 1/5] phy: allwinner: phy-sun50i-usb3: Use
- dev_err_probe()
-Date: Thu, 03 Apr 2025 19:39:24 +0200
-Message-ID: <2773791.mvXUDI8C0e@jernej-laptop>
-In-Reply-To: <20250402194203426goMMzm9R9_yQBb7SMNGj1@zte.com.cn>
-References: <20250402194203426goMMzm9R9_yQBb7SMNGj1@zte.com.cn>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DInFV6Zz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 770AFC4CEE3;
+	Fri,  4 Apr 2025 02:59:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743735580;
+	bh=R97K1edD4zHvzCCaN7fvUpcILyjz5fPxwxzTH3c208Y=;
+	h=From:Subject:Date:To:Cc:From;
+	b=DInFV6ZzZBtDCjprD0wNsyVhBlrl/OLVq59Qc8WDA3UnSu6pzYrn/+z8sAldu048T
+	 ECwlYcs9UBoRPnPvxrGuu3EVcEF6J+/4r0wCEVgadFKl7SSEGWPQGtFvgKZ1uGx6Gw
+	 NTLPe6lvFsgBfDYD7MVxeaup6ebGs1VhLDI2kWsioUB4+zEg5amoqw+NwiA92bLggV
+	 DiTcm1B9ZIta65dj/bHTQlKbhzaJ+b8ojif64yPJtiGJ9m0NXcBKtR4YA89r3Wz/hE
+	 JDizBDNh1vovQRv3FZYw5ee6m1E8APjoQChggwO8qym2IVuWiSgZhxgZi6eSXcB4yL
+	 +O4eazKiulj1g==
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Subject: [PATCH 00/19] Arm cpu schema clean-ups
+Date: Thu, 03 Apr 2025 21:59:21 -0500
+Message-Id: <20250403-dt-cpu-schema-v1-0-076be7171a85@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAlL72cC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDEwNj3ZQS3eSCUt3i5IzU3ERdE4tUM7Nk8zSzREsDJaCegqLUtMwKsHn
+ RsbW1AGXLomtfAAAA
+X-Change-ID: 20250403-dt-cpu-schema-48e66c7f6a90
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Viresh Kumar <viresh.kumar@linaro.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Vincenzo Frascino <vincenzo.frascino@arm.com>, 
+ Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@arm.com>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, 
+ Stephen Boyd <sboyd@kernel.org>, zhouyanjie@wanyeetech.com, 
+ Conor Dooley <conor@kernel.org>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+ Steen Hegelund <Steen.Hegelund@microchip.com>, 
+ Daniel Machon <daniel.machon@microchip.com>, UNGLinuxDriver@microchip.com, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Heiko Stuebner <heiko@sntech.de>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ linux-pm@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+ linux-arm-msm@vger.kernel.org, linux-mips@vger.kernel.org, 
+ imx@lists.linux.dev, linux-rockchip@lists.infradead.org, 
+ linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org
+X-Mailer: b4 0.15-dev
 
-Dne sreda, 2. april 2025 ob 13:42:03 Srednjeevropski poletni =C4=8Das je sh=
-ao.mingyin@zte.com.cn napisal(a):
-> From: Zhang Enpei <zhang.enpei@zte.com.cn>
->=20
-> Replace the open-code with dev_err_probe() to simplify the code.
->=20
-> Signed-off-by: Zhang Enpei <zhang.enpei@zte.com.cn>
-> Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
+The Arm cpu.yaml schema fails to restrict allowed properties in 'cpu' 
+nodes. The result, not surprisely, is a number of additional properties 
+and errors in .dts files. This series resolves those issues.
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+There's still more properties in arm32 DTS files which I have not 
+documented. Mostly yet more supply names and "fsl,soc-operating-points". 
+What's a few more warnings on the 10000s of warnings...
+
+The .dts files can be taken by the respective SoC maintainers. I will 
+take the binding changes.
+
+Signed-off-by: "Rob Herring (Arm)" <robh@kernel.org>
+---
+Rob Herring (Arm) (19):
+      arm64: dts: allwinner: h5/h6: Drop spurious 'clock-latency-ns' properties
+      arm64: dts: broadcom: bcm2712: Use "l2-cache" for L2 cache node names
+      arm64: dts: morello: Fix-up cache nodes
+      arm64: dts: microchip: sparx5: Fix CPU node "enable-method" property dependencies
+      arm64: dts: qcom: qdu1000: Fix qcom,freq-domain
+      arm64: dts: qcom: msm8939: Fix CPU node "enable-method" property dependencies
+      arm64: dts: qcom: msm8992-lg-h815: Fix CPU node "enable-method" property dependencies
+      arm: dts: qcom: msm8916: Move "qcom,acc" and "qcom,saw" to 32-bit .dtsi
+      arm: dts: qcom: sdx55/sdx65: Fix CPU power-domain-names
+      arm/arm64: dts: imx: Drop redundant CPU "clock-latency"
+      arm: dts: qcom: ipq4019: Drop redundant CPU "clock-latency"
+      arm: dts: rockchip: Drop redundant CPU "clock-latency"
+      arm64: dts: amlogic: Drop redundant CPU "clock-latency"
+      dt-bindings: arm/cpus: Add schemas for "enable-method" dependencies
+      dt-bindings: arm/cpus: Re-wrap 'description' entries
+      dt-bindings: Reference opp-v1 schema in CPU schemas
+      dt-bindings: arm/cpus: Add missing properties
+      dt-bindings: arm/cpus: Add power-domains constraints
+      dt-bindings: cpufreq: Drop redundant Mediatek binding
+
+ Documentation/devicetree/bindings/arm/cpus.yaml    | 220 ++++++++++--------
+ .../bindings/cpufreq/cpufreq-mediatek.txt          | 250 ---------------------
+ Documentation/devicetree/bindings/mips/cpus.yaml   |   3 +-
+ Documentation/devicetree/bindings/opp/opp-v1.yaml  |  18 +-
+ arch/arm/boot/dts/nxp/imx/imx7s.dtsi               |   1 -
+ arch/arm/boot/dts/qcom/qcom-ipq4019.dtsi           |   4 -
+ arch/arm/boot/dts/qcom/qcom-msm8916-smp.dtsi       |   8 +
+ arch/arm/boot/dts/qcom/qcom-sdx55.dtsi             |   2 +-
+ arch/arm/boot/dts/qcom/qcom-sdx65.dtsi             |   2 +-
+ arch/arm/boot/dts/rockchip/rk3128.dtsi             |   8 +-
+ arch/arm/boot/dts/rockchip/rk3188.dtsi             |   1 -
+ arch/arm/boot/dts/rockchip/rk322x.dtsi             |   1 -
+ arch/arm/boot/dts/rockchip/rk3288.dtsi             |   5 +-
+ arch/arm/boot/dts/rockchip/rv1108.dtsi             |   1 -
+ arch/arm64/boot/dts/allwinner/sun50i-h5.dtsi       |   4 -
+ arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi       |   4 -
+ arch/arm64/boot/dts/amlogic/meson-g12a-fbx8am.dts  |   4 -
+ .../boot/dts/amlogic/meson-g12a-radxa-zero.dts     |   4 -
+ arch/arm64/boot/dts/amlogic/meson-g12a-sei510.dts  |   4 -
+ arch/arm64/boot/dts/amlogic/meson-g12a-u200.dts    |   4 -
+ arch/arm64/boot/dts/amlogic/meson-g12a-x96-max.dts |   4 -
+ arch/arm64/boot/dts/amlogic/meson-g12a.dtsi        |   1 +
+ .../dts/amlogic/meson-g12b-a311d-libretech-cc.dts  |   6 -
+ arch/arm64/boot/dts/amlogic/meson-g12b-a311d.dtsi  |   2 +
+ .../boot/dts/amlogic/meson-g12b-bananapi-cm4.dtsi  |   6 -
+ .../boot/dts/amlogic/meson-g12b-bananapi.dtsi      |   6 -
+ .../boot/dts/amlogic/meson-g12b-khadas-vim3.dtsi   |   6 -
+ .../dts/amlogic/meson-g12b-odroid-go-ultra.dts     |   6 -
+ arch/arm64/boot/dts/amlogic/meson-g12b-odroid.dtsi |   6 -
+ .../boot/dts/amlogic/meson-g12b-radxa-zero2.dts    |   6 -
+ arch/arm64/boot/dts/amlogic/meson-g12b-s922x.dtsi  |   2 +
+ arch/arm64/boot/dts/amlogic/meson-g12b-w400.dtsi   |   6 -
+ arch/arm64/boot/dts/amlogic/meson-sm1-ac2xx.dtsi   |   4 -
+ .../arm64/boot/dts/amlogic/meson-sm1-bananapi.dtsi |   4 -
+ .../boot/dts/amlogic/meson-sm1-khadas-vim3l.dts    |   4 -
+ arch/arm64/boot/dts/amlogic/meson-sm1-odroid.dtsi  |   4 -
+ .../dts/amlogic/meson-sm1-s905d3-libretech-cc.dts  |   4 -
+ arch/arm64/boot/dts/amlogic/meson-sm1-sei610.dts   |   4 -
+ arch/arm64/boot/dts/amlogic/meson-sm1.dtsi         |   1 +
+ arch/arm64/boot/dts/arm/morello.dtsi               |  22 +-
+ arch/arm64/boot/dts/broadcom/bcm2712.dtsi          |   8 +-
+ arch/arm64/boot/dts/freescale/imx8mm.dtsi          |   4 -
+ arch/arm64/boot/dts/freescale/imx8mn.dtsi          |   4 -
+ arch/arm64/boot/dts/freescale/imx8mp.dtsi          |   4 -
+ arch/arm64/boot/dts/freescale/imx8mq.dtsi          |   4 -
+ .../boot/dts/microchip/sparx5_pcb_common.dtsi      |   2 +
+ arch/arm64/boot/dts/qcom/msm8916.dtsi              |   8 -
+ arch/arm64/boot/dts/qcom/msm8939.dtsi              |  24 +-
+ arch/arm64/boot/dts/qcom/msm8992-lg-h815.dts       |   6 +
+ arch/arm64/boot/dts/qcom/qdu1000.dtsi              |   8 +-
+ 50 files changed, 210 insertions(+), 514 deletions(-)
+---
+base-commit: a2cc6ff5ec8f91bc463fd3b0c26b61166a07eb11
+change-id: 20250403-dt-cpu-schema-48e66c7f6a90
 
 Best regards,
-Jernej
-
-> ---
->  drivers/phy/allwinner/phy-sun50i-usb3.c | 8 +++-----
->  1 file changed, 3 insertions(+), 5 deletions(-)
->=20
-> diff --git a/drivers/phy/allwinner/phy-sun50i-usb3.c b/drivers/phy/allwin=
-ner/phy-sun50i-usb3.c
-> index 363f9a0df503..b03faffc160d 100644
-> --- a/drivers/phy/allwinner/phy-sun50i-usb3.c
-> +++ b/drivers/phy/allwinner/phy-sun50i-usb3.c
-> @@ -141,11 +141,9 @@ static int sun50i_usb3_phy_probe(struct platform_dev=
-ice *pdev)
->  		return -ENOMEM;
->=20
->  	phy->clk =3D devm_clk_get(dev, NULL);
-> -	if (IS_ERR(phy->clk)) {
-> -		if (PTR_ERR(phy->clk) !=3D -EPROBE_DEFER)
-> -			dev_err(dev, "failed to get phy clock\n");
-> -		return PTR_ERR(phy->clk);
-> -	}
-> +	if (IS_ERR(phy->clk))
-> +		return dev_err_probe(dev, PTR_ERR(phy->clk),
-> +				     "failed to get phy clock\n");
->=20
->  	phy->reset =3D devm_reset_control_get(dev, NULL);
->  	if (IS_ERR(phy->reset)) {
->=20
-
-
-
+-- 
+Rob Herring (Arm) <robh@kernel.org>
 
