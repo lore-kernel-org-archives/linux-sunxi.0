@@ -1,64 +1,66 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8620E1E8352
-	for <linux-sunxi@lists.linux.dev>; Fri,  4 Apr 2025 11:57:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC3FE1EB1A9
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Apr 2025 11:57:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743767823; cv=none; b=cQjSg4kHGrAEyvVgtqoTvdNdPJWl1IwGOP47dCqt2vfeuiVMlfeQGUYmu3/J7nBRewl5bLh+A3lgSCPWW9SRNnVJ2D8lrQ/lZ7cj8b96ZuRf1E+rt3B0OCM0RBFyu7XLCmeEb3vWJaQBNdFDK1lEigAlw2OptAgRyxw5kDiGNc8=
+	t=1743767826; cv=none; b=kxgVFaUgWqVnhI1TwDwW1TgG9zn81XV2JzP1ld87PszuoK1RdjGQINCCoTwdyYE3oivZmvjgIxgmwlVKthbjNC9FCzsgw/aHsIGKnuPPSCqTDnd47Et8a8SnVb+jeQQsKw6Zg6O35EI0kCqNuN+5rKOQUrkBqYbqmvFd7KqqQxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743767823; c=relaxed/simple;
-	bh=zsqexfN3olOy8cznO5MQ/mSDVYhWtEHBp8RW8IswWus=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=XM8QA1py9P7XgjlhJ6QQSDvBE8mvYDnQhU18U/9cTSOUzGQIlWqIbBl7PdjYd/okDKna9R3iA5QJd4R2bMyDhR285sGmPrXPkj5/dvYuBUMTJW5/B3o0lhiWM6XkVM1LzdLHuRKrgqdjuVXBSz7PDF3R9ZNIRzQTuRu7OLUVHFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Emvyb+I8; arc=none smtp.client-ip=209.85.128.54
+	s=arc-20240116; t=1743767826; c=relaxed/simple;
+	bh=d1fAb3fHPiIYP5vnZt7mimC59KcGXB/kjjU+riDZhLM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=RIa27vhAibVs76Ar1VFSCAbQB4ELOq3evG7QB4cdyCi+pZ5vS1YoNdDdeJe5NnEc0QPvdtY+XgUCVFvwxVMEsH780TOTXifk39BGHV7mF8DGPQT9XKOXbEFAWRZNzCts9hi95T7qAGda5kUGIkD9QS43sC1enjsWRpmIrWHcjXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=emPvZE5Q; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Emvyb+I8"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43e9ccaa1ebso2222155e9.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 04 Apr 2025 04:57:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="emPvZE5Q"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3913290f754so218058f8f.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 04 Apr 2025 04:57:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1743767820; x=1744372620; darn=lists.linux.dev;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9y9jtm3UdXwtwABizUC1WU+17uEhYP0YGv4IThPOMns=;
-        b=Emvyb+I8TII7aNKTDd7XK2hq+tiViOPIF7wnq5u98gzuVyYytfTkBWN99EIEI74+2O
-         0b5XrucSkI+Z9Yn/zDOYr4WLSGMvCeqtQJ2m2IPyWWPVgJs+Wn117GNPwLW5NVvFWHeb
-         paN+fzVyjX/4ww+gcLxDxnTZEqyaMHUEOrgG+733MYW+92bJCGD6WrISolbWO9qngnEU
-         8kjpuz16O9nEM4BtrM/mZ/ijU4vb6Jm6XQYVjCQeB8MJWY8BWMPj9iYAjMXwqKLapAgI
-         36ikovncplAo25hT92PZ7WYYVVuTdqjgcb94vcOD0VO9/3UCkWQxQzCAtg+UfMeb3Rd0
-         729w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743767820; x=1744372620;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=linaro.org; s=google; t=1743767823; x=1744372623; darn=lists.linux.dev;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9y9jtm3UdXwtwABizUC1WU+17uEhYP0YGv4IThPOMns=;
-        b=FkJSCA+bXg3PliNXMWmYrwpvuNbAjiPd/0Dd8fe/FGJ3/acGPHO7yiqBcrwyJSzqRN
-         xJA18gR5S8BXN6bQMNITw8qTKDi157UT0tBW/UfuMcYc7+H8w/xqf+kCkUaPg5WiRvLl
-         RzliOWGb9EOZ9U3HGRf0sFlzjSmfrk2zvG33QEgQwrS7FlP39SSd6Yp8b9Gnxf0qglOJ
-         1KKoBt2KKPHRG07Rprlu+rIKxJfBUy8+0mhdusWmf0Df8xiB6nFty6NBp1vSxjapsegE
-         87Ag73sOODLE/GLPvxHIZBJvQfdZ4aOmuHKUZNGv9fUvJiKvQ2Lti/wty9roifY4TXUr
-         6xQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUm2IjKtoLhhCSh9CaCF1ZfTNosQy5SRNWcUf27pLv61kigUyjuKALjCiaeF310y4D8TPEr2RcKanalTA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzcAfYJgrRqU438zDFOJDYptaskTpI5VXYTtVvF7+aBRQqC0f+Q
-	9eZ5+n120ZXnj8b4VXAhIVOOGHTg4VkfslM4QTxKPvQvFmLWYPftjDS/vjOa2F8=
-X-Gm-Gg: ASbGnctfqOJFzMPTvqZ11s42TTzf/Hr5/8hLaFcP6JTt6asm3iH2FO3/7qBnOfupyEp
-	joRLwD1LIMzHF9+zX3io/K1fSSxqmUTszAOzhKQ3TJXKan59MOVDWjnWldjsNpFhNvV2bHnRGi2
-	SEr6t6HQXrcc9cBChMdzNDEzLNl00okBKeJ4720xHxrUkuLy0OaUyPRbRqIQHkq++dZxOnjyPAv
-	UIenFa7+xb5MUq9WfQiAIGTQEzHpsHuzBpci5+Q0D+hRxUpcGkJejftFmpjecY+CcyKMQ3mQ0Dh
-	ivbc36LxexuZLIur+dtmi0Oj7JdzAY//MVkkjqq/PG56RYb+orB1Yq2ZPGZSsK0=
-X-Google-Smtp-Source: AGHT+IE3YMdROfy4Pz/lL2bVAErbCHUi9OQZGeJfx60uexq6ErgRMWHK+iTZDQBEUem01jamr5n43g==
-X-Received: by 2002:a05:600c:3ba2:b0:43b:cab3:1fd1 with SMTP id 5b1f17b1804b1-43ecf81ce08mr9264575e9.1.1743767819747;
-        Fri, 04 Apr 2025 04:56:59 -0700 (PDT)
+        bh=rP6n61SWekMknO/zRlSYN14fVYP5G3VDX27XosLbmfk=;
+        b=emPvZE5QN+c3aXZURf+8ONwhJq5oNY9FnhYLqKmfmfK9KqKtv2BNOmytY+TRWUpqgL
+         9mJ0i7PzqHxxSxuv2DHpWM+kUOjM0W+qd0b82Faau80LS7K6WpfMJzKNLEOm5Wb+Dw1R
+         F8q3DcnT0txDsvLV4+JErYWH3XaLSgBdXqDhPKqpCniNmDdAfJlve5mEsJw+zJLe+R5v
+         FEUl/UAPc7XNfZ6i+xaKQOMBXZi78DB0J+LvVTZflvNGWafo4qkQV0XWVgxszde7LTTV
+         +kPMwFwd9mZdbeZOeBqL1dr5A62WrJxl4ZVeR06oheTdkc1Pg8RwJzDQPpsfMKqcw1xA
+         ro+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743767823; x=1744372623;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rP6n61SWekMknO/zRlSYN14fVYP5G3VDX27XosLbmfk=;
+        b=UKSkEjClY58AdsOlFvlc9KHnij44VTU6kl9o2h55HYbv2kZwf9Vd8RGnmosv1ozHCO
+         bZh4OQu6/SZcA8m2ZcF0GZUF0ZGSdxsUiUcQ4Q3MT6KoP+1oIyemexZtTd2GULHOExD8
+         RQjyFsLnjygxxO0QykVEJ3Cy0E+8s/W38/5r3M9FgVDnrabIKS+/sT7+2PvcsMcNw4oC
+         iLwSFPkbDPGwkLMEh0mDHfiVWUXTILuQ83VyoMNLRB5+D4R+6KTi0b0hvfoNsMxJ8ZUD
+         aN9yYDvtqAxyrUiRr41dUU89xf9SgU9u0rFngR7Y/H+cJ+5i8zhA1WcX5QrJyhp4imqN
+         gTMg==
+X-Forwarded-Encrypted: i=1; AJvYcCXJhEpHk5NVz4T6TpUpwK9KVorUdPWRfgwLSwmAHoy37lmYJW6vfaOGNj2zPc9cTwlGoipxrgQgE8Pd2w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyEC4hCyYjz9hUzhT1bg346eAt1T6k0UVkts7hbqoIb1Q6wq4ru
+	RDE+k9bdBbpM9DubeLecDgejCLM5GhRuH0lUPu/HZqnV9LSBPOtAuuT76K/ZS7g=
+X-Gm-Gg: ASbGncsbWgo3Qk9HH1la4peP5b2hISjdXjHu3spXqClKEvqgsUO+NlWuy1uC7qVhZCC
+	6vmEl5OiAkHsjLSq3hoSeO8WMNN4iBbfCxrYhtRFMiph+UW1GDUBuQjA6+Hb663czGdiZQEDGaq
+	eDZ6MaGwzpagDMxXBFtIHmPTKr1rQIVdpIK9qB+p/bgjuhQes7mzRXutU0gk+cKaAzqgZ1if2e4
+	3frNkMGQ6M7T3PduV6tH17/1YyTrSW3nkgEXnHwMr0QrdSrVGrDyXo/WD2N5lO8XaUT6eMoZc7G
+	+WT2Advd8P2czEky2h6V+czQC6HIZAnqFSkakDFvEj8AfMfWvs3OKD4lWFlU3Fs=
+X-Google-Smtp-Source: AGHT+IGREdRnQ2gEflgpMySypGT2xrFpTeuT80iZBzxVkRizH3MB1Iv/GdfxP0Mu67TBThpOTa6MIw==
+X-Received: by 2002:a05:6000:188e:b0:39c:266c:dae with SMTP id ffacd0b85a97d-39cba936215mr862740f8f.11.1743767823172;
+        Fri, 04 Apr 2025 04:57:03 -0700 (PDT)
 Received: from [192.168.1.26] ([178.197.198.86])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ec364cb9asm43842815e9.31.2025.04.04.04.56.58
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ec364cb9asm43842815e9.31.2025.04.04.04.57.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Apr 2025 04:56:59 -0700 (PDT)
+        Fri, 04 Apr 2025 04:57:02 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 0/5] clk: Do not enable by default during compile testing
-Date: Fri, 04 Apr 2025 13:56:56 +0200
-Message-Id: <20250404-kconfig-defaults-clk-v1-0-4d2df5603332@linaro.org>
+Date: Fri, 04 Apr 2025 13:56:58 +0200
+Subject: [PATCH 2/5] clk: nuvoton: Do not enable by default during compile
+ testing
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -67,10 +69,9 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAjJ72cC/x3MQQqAIBBA0avErBsws4iuEi1EZ2ooLLQiiO6et
- HyL/x9IFIUS9MUDkS5JsoWMqizAzTZMhOKzQSvdKKMMLm4LLBN6YnuuR0K3LshWG+68aytTQ07
- 3SCz3vx3G9/0AHeSjdWYAAAA=
-X-Change-ID: 20250404-kconfig-defaults-clk-fa24f8dc6143
+Message-Id: <20250404-kconfig-defaults-clk-v1-2-4d2df5603332@linaro.org>
+References: <20250404-kconfig-defaults-clk-v1-0-4d2df5603332@linaro.org>
+In-Reply-To: <20250404-kconfig-defaults-clk-v1-0-4d2df5603332@linaro.org>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
  Jerome Brunet <jbrunet@baylibre.com>, 
  Michael Turquette <mturquette@baylibre.com>, 
@@ -88,32 +89,39 @@ Cc: linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org,
 X-Mailer: b4 0.14.2
 
 Enabling the compile test should not cause automatic enabling of all
-drivers.
+drivers.  Restrict the default to ARCH also for individual driver, even
+though its choice is not visible without selecting parent Kconfig
+symbol, because otherwise selecting parent would select the child during
+compile testing.
 
-No dependencies, can be picked by individual maintainers.
-
-Best regards,
-Krzysztof
-
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
-Krzysztof Kozlowski (5):
-      clk: meson: Do not enable by default during compile testing
-      clk: nuvoton: Do not enable by default during compile testing
-      clk: stm32: Do not enable by default during compile testing
-      clk: sunxi-ng: Do not enable by default during compile testing
-      clk: sunxi: Do not enable by default during compile testing
+ drivers/clk/nuvoton/Kconfig | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
- drivers/clk/meson/Kconfig    | 16 +++++++--------
- drivers/clk/nuvoton/Kconfig  |  4 ++--
- drivers/clk/stm32/Kconfig    |  8 ++++----
- drivers/clk/sunxi-ng/Kconfig | 48 ++++++++++++++++++++++----------------------
- drivers/clk/sunxi/Kconfig    | 10 ++++-----
- 5 files changed, 43 insertions(+), 43 deletions(-)
----
-base-commit: 07951d09335e96138e0595208fcc66c35ce0447e
-change-id: 20250404-kconfig-defaults-clk-fa24f8dc6143
+diff --git a/drivers/clk/nuvoton/Kconfig b/drivers/clk/nuvoton/Kconfig
+index fe4b7f62f467048b7c86890972d55faebd066947..e7019b69ea74824de6943108f30ec259aa52e5f4 100644
+--- a/drivers/clk/nuvoton/Kconfig
++++ b/drivers/clk/nuvoton/Kconfig
+@@ -4,7 +4,7 @@
+ config COMMON_CLK_NUVOTON
+ 	bool "Nuvoton clock controller common support"
+ 	depends on ARCH_MA35 || COMPILE_TEST
+-	default y
++	default ARCH_MA35
+ 	help
+ 	  Say y here to enable common clock controller for Nuvoton platforms.
+ 
+@@ -12,7 +12,7 @@ if COMMON_CLK_NUVOTON
+ 
+ config CLK_MA35D1
+ 	bool "Nuvoton MA35D1 clock controller support"
+-	default y
++	default ARCH_MA35
+ 	help
+ 	  Build the clock controller driver for MA35D1 SoC.
+ 
 
-Best regards,
 -- 
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+2.45.2
 
