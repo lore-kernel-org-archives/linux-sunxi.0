@@ -1,96 +1,119 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E5831D2F42;
-	Fri,  4 Apr 2025 11:35:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8620E1E8352
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Apr 2025 11:57:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743766536; cv=none; b=Svi3dAe3sMaH01hQsJItHo6OigPXKiKvXrey1R4rhfnqV2AMqLFcr1ua1kii6YD7EIyPB97VER028zZlHISctTrLJ/BWCYf+HqYZ1QIZxULQ4wnjsy2GBdWmr5zVtmpJ9OguNGzpCfPOQH5ZEYomRA/y32TQ91+bZFusUo+wPQo=
+	t=1743767823; cv=none; b=cQjSg4kHGrAEyvVgtqoTvdNdPJWl1IwGOP47dCqt2vfeuiVMlfeQGUYmu3/J7nBRewl5bLh+A3lgSCPWW9SRNnVJ2D8lrQ/lZ7cj8b96ZuRf1E+rt3B0OCM0RBFyu7XLCmeEb3vWJaQBNdFDK1lEigAlw2OptAgRyxw5kDiGNc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743766536; c=relaxed/simple;
-	bh=C2EbOJXZ4SFMszaSc0+T54wWbvFcCkJT7AbChKE5SOA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AhEyjxy3CW6cxMERvI/u3deUw8hLFl6J49tQ/PoMdDBDB15CJrafvtow17q2yh5gv1m4AAV/9IS9n401la0sIwhbumq+ZlSdJ1YQP6as1wP86UVcnFLKts7DVuHDZpsbOKiViT/ejlB3hYSiI6POhPVKsjDv9vfMhTZ952K7J+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Y3AOOlEt; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1743767823; c=relaxed/simple;
+	bh=zsqexfN3olOy8cznO5MQ/mSDVYhWtEHBp8RW8IswWus=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=XM8QA1py9P7XgjlhJ6QQSDvBE8mvYDnQhU18U/9cTSOUzGQIlWqIbBl7PdjYd/okDKna9R3iA5QJd4R2bMyDhR285sGmPrXPkj5/dvYuBUMTJW5/B3o0lhiWM6XkVM1LzdLHuRKrgqdjuVXBSz7PDF3R9ZNIRzQTuRu7OLUVHFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Emvyb+I8; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Y3AOOlEt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1743766533;
-	bh=C2EbOJXZ4SFMszaSc0+T54wWbvFcCkJT7AbChKE5SOA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Y3AOOlEtIhRpUcueVVGkPYW8bCRuNkUIytsushereC01TWMZH3/KeWeF/5RboaIAl
-	 78Klj2FgIPCFqwXtKWAIYom/8V3TetKbYBcKXAAjZmznbErK9Uy3Ej6xdDKrah2B/p
-	 sypEbyv/R5etYfGSVRah/b4dC1U5lEgPV/ktK5nL4S6SnHvfKwtEyH4AGpChDIJF4/
-	 IKpewUZwYX+a3pDV7RGc4L35inqoorMIUHzbP1wqQEJmYInIjjFGyc2UhPOUJ7aMHy
-	 Gu9migaijF/TNDu3DZCbDnQTP4lcm2KM93cy370gb/LJUB8t9ax8Po5mmy+5YX7DcU
-	 pI1ahFUleRAVQ==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 17B4917E0865;
-	Fri,  4 Apr 2025 13:35:31 +0200 (CEST)
-Message-ID: <1b590b23-d18f-43db-ab39-cee8433fd9f6@collabora.com>
-Date: Fri, 4 Apr 2025 13:35:30 +0200
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Emvyb+I8"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43e9ccaa1ebso2222155e9.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 04 Apr 2025 04:57:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1743767820; x=1744372620; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9y9jtm3UdXwtwABizUC1WU+17uEhYP0YGv4IThPOMns=;
+        b=Emvyb+I8TII7aNKTDd7XK2hq+tiViOPIF7wnq5u98gzuVyYytfTkBWN99EIEI74+2O
+         0b5XrucSkI+Z9Yn/zDOYr4WLSGMvCeqtQJ2m2IPyWWPVgJs+Wn117GNPwLW5NVvFWHeb
+         paN+fzVyjX/4ww+gcLxDxnTZEqyaMHUEOrgG+733MYW+92bJCGD6WrISolbWO9qngnEU
+         8kjpuz16O9nEM4BtrM/mZ/ijU4vb6Jm6XQYVjCQeB8MJWY8BWMPj9iYAjMXwqKLapAgI
+         36ikovncplAo25hT92PZ7WYYVVuTdqjgcb94vcOD0VO9/3UCkWQxQzCAtg+UfMeb3Rd0
+         729w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743767820; x=1744372620;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9y9jtm3UdXwtwABizUC1WU+17uEhYP0YGv4IThPOMns=;
+        b=FkJSCA+bXg3PliNXMWmYrwpvuNbAjiPd/0Dd8fe/FGJ3/acGPHO7yiqBcrwyJSzqRN
+         xJA18gR5S8BXN6bQMNITw8qTKDi157UT0tBW/UfuMcYc7+H8w/xqf+kCkUaPg5WiRvLl
+         RzliOWGb9EOZ9U3HGRf0sFlzjSmfrk2zvG33QEgQwrS7FlP39SSd6Yp8b9Gnxf0qglOJ
+         1KKoBt2KKPHRG07Rprlu+rIKxJfBUy8+0mhdusWmf0Df8xiB6nFty6NBp1vSxjapsegE
+         87Ag73sOODLE/GLPvxHIZBJvQfdZ4aOmuHKUZNGv9fUvJiKvQ2Lti/wty9roifY4TXUr
+         6xQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUm2IjKtoLhhCSh9CaCF1ZfTNosQy5SRNWcUf27pLv61kigUyjuKALjCiaeF310y4D8TPEr2RcKanalTA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzcAfYJgrRqU438zDFOJDYptaskTpI5VXYTtVvF7+aBRQqC0f+Q
+	9eZ5+n120ZXnj8b4VXAhIVOOGHTg4VkfslM4QTxKPvQvFmLWYPftjDS/vjOa2F8=
+X-Gm-Gg: ASbGnctfqOJFzMPTvqZ11s42TTzf/Hr5/8hLaFcP6JTt6asm3iH2FO3/7qBnOfupyEp
+	joRLwD1LIMzHF9+zX3io/K1fSSxqmUTszAOzhKQ3TJXKan59MOVDWjnWldjsNpFhNvV2bHnRGi2
+	SEr6t6HQXrcc9cBChMdzNDEzLNl00okBKeJ4720xHxrUkuLy0OaUyPRbRqIQHkq++dZxOnjyPAv
+	UIenFa7+xb5MUq9WfQiAIGTQEzHpsHuzBpci5+Q0D+hRxUpcGkJejftFmpjecY+CcyKMQ3mQ0Dh
+	ivbc36LxexuZLIur+dtmi0Oj7JdzAY//MVkkjqq/PG56RYb+orB1Yq2ZPGZSsK0=
+X-Google-Smtp-Source: AGHT+IE3YMdROfy4Pz/lL2bVAErbCHUi9OQZGeJfx60uexq6ErgRMWHK+iTZDQBEUem01jamr5n43g==
+X-Received: by 2002:a05:600c:3ba2:b0:43b:cab3:1fd1 with SMTP id 5b1f17b1804b1-43ecf81ce08mr9264575e9.1.1743767819747;
+        Fri, 04 Apr 2025 04:56:59 -0700 (PDT)
+Received: from [192.168.1.26] ([178.197.198.86])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ec364cb9asm43842815e9.31.2025.04.04.04.56.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Apr 2025 04:56:59 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 0/5] clk: Do not enable by default during compile testing
+Date: Fri, 04 Apr 2025 13:56:56 +0200
+Message-Id: <20250404-kconfig-defaults-clk-v1-0-4d2df5603332@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 18/19] dt-bindings: arm/cpus: Add power-domains
- constraints
-To: "Rob Herring (Arm)" <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@arm.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
- Stephen Boyd <sboyd@kernel.org>, zhouyanjie@wanyeetech.com,
- Conor Dooley <conor@kernel.org>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Steen Hegelund <Steen.Hegelund@microchip.com>,
- Daniel Machon <daniel.machon@microchip.com>, UNGLinuxDriver@microchip.com,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Heiko Stuebner <heiko@sntech.de>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-mips@vger.kernel.org,
- imx@lists.linux.dev, linux-rockchip@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org
-References: <20250403-dt-cpu-schema-v1-0-076be7171a85@kernel.org>
- <20250403-dt-cpu-schema-v1-18-076be7171a85@kernel.org>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20250403-dt-cpu-schema-v1-18-076be7171a85@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAjJ72cC/x3MQQqAIBBA0avErBsws4iuEi1EZ2ooLLQiiO6et
+ HyL/x9IFIUS9MUDkS5JsoWMqizAzTZMhOKzQSvdKKMMLm4LLBN6YnuuR0K3LshWG+68aytTQ07
+ 3SCz3vx3G9/0AHeSjdWYAAAA=
+X-Change-ID: 20250404-kconfig-defaults-clk-fa24f8dc6143
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jerome Brunet <jbrunet@baylibre.com>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Kevin Hilman <khilman@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ =?utf-8?q?Emilio_L=C3=B3pez?= <emilio@elopez.com.ar>
+Cc: linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.2
 
-Il 04/04/25 04:59, Rob Herring (Arm) ha scritto:
-> The "power-domains" and "power-domains-names" properties are missing any
-> constraints. Add the constraints and drop the generic descriptions.
-> 
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+Enabling the compile test should not cause automatic enabling of all
+drivers.
 
-For MediaTek:
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+No dependencies, can be picked by individual maintainers.
+
+Best regards,
+Krzysztof
+
+---
+Krzysztof Kozlowski (5):
+      clk: meson: Do not enable by default during compile testing
+      clk: nuvoton: Do not enable by default during compile testing
+      clk: stm32: Do not enable by default during compile testing
+      clk: sunxi-ng: Do not enable by default during compile testing
+      clk: sunxi: Do not enable by default during compile testing
+
+ drivers/clk/meson/Kconfig    | 16 +++++++--------
+ drivers/clk/nuvoton/Kconfig  |  4 ++--
+ drivers/clk/stm32/Kconfig    |  8 ++++----
+ drivers/clk/sunxi-ng/Kconfig | 48 ++++++++++++++++++++++----------------------
+ drivers/clk/sunxi/Kconfig    | 10 ++++-----
+ 5 files changed, 43 insertions(+), 43 deletions(-)
+---
+base-commit: 07951d09335e96138e0595208fcc66c35ce0447e
+change-id: 20250404-kconfig-defaults-clk-fa24f8dc6143
+
+Best regards,
+-- 
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
