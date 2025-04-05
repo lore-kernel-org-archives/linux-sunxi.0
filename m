@@ -1,152 +1,141 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27C9421E094
-	for <linux-sunxi@lists.linux.dev>; Fri,  4 Apr 2025 20:42:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 799C01917F9
+	for <linux-sunxi@lists.linux.dev>; Sat,  5 Apr 2025 02:44:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743799345; cv=none; b=ncznk2/74iZEm9I+8e/RXJL3MDHEN/H69xkNnOZ/WmUH1tPBXgdBJpAQKfkl36n7cIkrdkud95gdQAEmkkfBu1D8WKm0EFl6ZT3BuvFJwLqI2I+84zjxpcMs8gHEJFtDjxp09qYVQeAAshkm21yLbkXxhJJ00suNlAlOsZYr8+c=
+	t=1743821088; cv=none; b=sbzt1sPhcl85PMZ24hSZcZOlWiLxEI2VWBBK4z3KPPcVf8/1XBT8kewKadluLNBWYSnpMDSmQBivgxZPS2EJnLzhe5NAelzBYe1gy2PHGG/OhQ8K9FUOa04OD0pPrszxu/wXCeaas2K8rLAs3YYgz/n6xLDliRukWeV+W+riOdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743799345; c=relaxed/simple;
-	bh=p6LZnYfwuVevib83X2fj2dIlaEtzYIiTJ1wKXc6z23U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=q7z5W+PoVT4iJtLaaj2vCjLvMyf/D/F71oE1TA0eXYBoEd/el+zRhRHlEm+2RN38/pS6Kz19cqCkuqkZCb/TvAMz0ahpyzOkl7xtK7ghSiwiFjNoisNjZJ3VeqgfdoAaW6rQcqV8DswQmC7K8M2G5DYiHWjWWv+PXs7sqV5Yg4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=UsllvDr7; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="UsllvDr7"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 534JEcMj014090
-	for <linux-sunxi@lists.linux.dev>; Fri, 4 Apr 2025 20:42:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Dvhmq4YEot5WzH3QxroXInz9L/fpcl+l6rHMMX3PtHk=; b=UsllvDr7X0dVrVbg
-	KZrNk15XTlIpsHlSLRUHo1Rjd3mfVeLUdGKHjVPPT5oOtoD+m/7gYsxr82zV892q
-	b7DDA2z8RHrrKZPaefDEmcOzeLnzA/lFvL5E+X69QLvc+QhNryoD3SpGeyVat7A0
-	l7g8KWHIdbS8b8uQKBh4BbQqAUDVJHYqq5HvXdC6gjCVWJ9VCosCJBQDi43vBsmH
-	GoBGnTtv+L6v4/5iXkHEKdSOpElOzwzfnUz/k8AoMoGiD4+1akr5kALv4pZKHFDM
-	PDQPTTo607hZqu+RzrP4NeG19lbnkHE5lUaymOg4HAIwKg/Z1ceaJG4sp9s4dZoX
-	29V1lQ==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45t2datwxh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sunxi@lists.linux.dev>; Fri, 04 Apr 2025 20:42:22 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-7c555d4ad75so36357385a.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 04 Apr 2025 13:42:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743799342; x=1744404142;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Dvhmq4YEot5WzH3QxroXInz9L/fpcl+l6rHMMX3PtHk=;
-        b=n+ayn/JxtW7+xv4mEf2wAx7zNHacozgNuP8MB0PjhdOulxxPNftdGX1xSeMXwdDyMj
-         0XhCZGL41BTmk3a7QkkkDsCiqh5an31cYuW5M82MgHqgnubh3OJDIvXfMh42MpaSe+Ff
-         hxs3+UKwjF6cIk9trVdhQNPBWxrcudnW9+ZwtmMjeI9hfUZ1zgMmAM0P6Jz9VxwvBsvq
-         C6T1F6UNpqdAdRGnbP8st1otxeq1NRFvIxIkiGxfvcpgzmL/oWd9ddTYRh11kOjNQFpi
-         7h5Ap/DR9KmSaWUu84EzNdWGAk9d/BNuGSREyNMCS141X04ki2DxyqbctTHx39EjVNYl
-         sU8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCV4F8jDbq//ZdrFOCRue3lWVtv+VUzNRG8qxS3R414hsxpPTeMArk73AOpcetKxvzzkHTna1Hhn1oiTew==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxVwYGleRHpQ48LUamQ73cY+8/03i9ZCurGbfrbMCiRVpJeHDup
-	O0z9BSnzir8EUkaSdGiecCbCZLYpSpHs8uFpoqOxha46kXi5N2rwh7QJq/l1IDE0ib14VRdWc3W
-	SaRNN54BIH680FbKZCDcCJwsdHZwxoHoodkOy+izW/vaUdv8BatjMQuCMuPpztA==
-X-Gm-Gg: ASbGnctcXpps1m1PXyLV5fNEG3eR8ZXCFq+HEbbms8yEUE2CTE2aqQkSBjFbKntMbwX
-	5iq1P81bbPbTahA+03lb+/HOsh/jZ2EMOfDtlLR2KTTHQZZdCY5n+KkLxmMo+aiRrSpTX0wMxeL
-	kfM608HIMGqI4MeS8hXNlqad3RmzZ/JU4f09uAQ0RWDEf+t1iMy+u+TEePxPquiUdMMvEKFzwnC
-	O5b+mC7o5LxdU0y+D3fWM3LuzeVd4RXl1fqjdF96TLsvRSP1MDsOtXpU0nFAf1GFHGCHpSdmACG
-	2jYhT0b8279eAvJMDg4Y2FE3gv2ly6199FJ10Au4ozeB3kIDAlxm+nBhDBPNcecK1zyMkw==
-X-Received: by 2002:a05:620a:2890:b0:7c5:c5cd:7599 with SMTP id af79cd13be357-7c774d0f248mr242295385a.3.1743799341847;
-        Fri, 04 Apr 2025 13:42:21 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE+SWzK4xJTznItCy4yyRIatUgCtVJCf8ZO8c+GM8oZYtvMasi6TSfEl5lIgHq+ml10q5QRWA==
-X-Received: by 2002:a05:620a:2890:b0:7c5:c5cd:7599 with SMTP id af79cd13be357-7c774d0f248mr242292385a.3.1743799341449;
-        Fri, 04 Apr 2025 13:42:21 -0700 (PDT)
-Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac7bfe5d442sm310126866b.26.2025.04.04.13.42.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Apr 2025 13:42:20 -0700 (PDT)
-Message-ID: <beb1e6a1-8fdf-451c-9c48-bb3abff89226@oss.qualcomm.com>
-Date: Fri, 4 Apr 2025 22:42:15 +0200
+	s=arc-20240116; t=1743821088; c=relaxed/simple;
+	bh=B6UBFdI/VQwxcldf0+w9ah5LrbdVAmiOf1RD/FYSG8A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MufLW5oUrzeg75FliG09qMCOzzJaKYCHdzZ2UibHpzNMFRVKXGTy+IgAHnGAzJiIVn2PdQSbdkoPQCuOAfYfQARlkoV5d4zNpTDct93iKTWQ/pbyM8yfWbN0b8W35u8L2XkuGFAqpdvZS+zBl2CPFFgeI5TuBrsMXrHLJrIQS+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
+Received: from localhost (unknown [116.232.48.233])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: dlan)
+	by smtp.gentoo.org (Postfix) with ESMTPSA id E3B0334309F;
+	Sat, 05 Apr 2025 02:44:44 +0000 (UTC)
+Date: Sat, 5 Apr 2025 02:44:33 +0000
+From: Yixun Lan <dlan@gentoo.org>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Tom Rini <trini@konsulko.com>, Simon Glass <sjg@chromium.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Mikhail Kalashnikov <iuncuim@gmail.com>, u-boot@lists.denx.de,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 00/34] sunxi: clock refactoring and Allwinner A523 support
+Message-ID: <20250405024433-GYA8928@gentoo>
+References: <20250323113544.7933-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/19] arm: dts: qcom: ipq4019: Drop redundant CPU
- "clock-latency"
-To: "Rob Herring (Arm)" <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        "Rafael J. Wysocki"
- <rafael@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@arm.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
-        Stephen Boyd <sboyd@kernel.org>, zhouyanjie@wanyeetech.com,
-        Conor Dooley <conor@kernel.org>,
-        Nicolas Ferre
- <nicolas.ferre@microchip.com>,
-        Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-        Steen Hegelund <Steen.Hegelund@microchip.com>,
-        Daniel Machon <daniel.machon@microchip.com>,
-        UNGLinuxDriver@microchip.com, Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>, Heiko Stuebner <heiko@sntech.de>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-mips@vger.kernel.org,
-        imx@lists.linux.dev, linux-rockchip@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org
-References: <20250403-dt-cpu-schema-v1-0-076be7171a85@kernel.org>
- <20250403-dt-cpu-schema-v1-11-076be7171a85@kernel.org>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250403-dt-cpu-schema-v1-11-076be7171a85@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: YWeR9J19UFlrlHP_AS2BlP_FRvdPmHXD
-X-Authority-Analysis: v=2.4 cv=MqFS63ae c=1 sm=1 tr=0 ts=67f0442e cx=c_pps a=qKBjSQ1v91RyAK45QCPf5w==:117 a=FpWmc02/iXfjRdCD7H54yg==:17 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=EKXQiu_l0foPX_vtw34A:9 a=QEXdDO2ut3YA:10
- a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-GUID: YWeR9J19UFlrlHP_AS2BlP_FRvdPmHXD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-04_09,2025-04-03_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- malwarescore=0 mlxlogscore=803 clxscore=1015 mlxscore=0 adultscore=0
- impostorscore=0 bulkscore=0 priorityscore=1501 spamscore=0 suspectscore=0
- phishscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504040141
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250323113544.7933-1-andre.przywara@arm.com>
 
-On 4/4/25 4:59 AM, Rob Herring (Arm) wrote:
-> The "clock-latency" property is part of the deprecated opp-v1 binding
-> and is redundant if the opp-v2 table has equal or larger values in any
-> "clock-latency-ns". The OPP table has values of 256000, so it can be
-> removed.
+hi Andre:
+
+On 11:35 Sun 23 Mar     , Andre Przywara wrote:
+> This series introduces support for the Allwinner A523 SoC family. The
+> same die is used in different packages: the A523, A527, T527, and H728:
+> they connect a different set of peripherals to the pins, or enable extra
+> goodies like an NPU. From a U-Boot perspective those chips do not differ
+> much, all the differences are described in the board DT files.
+> These patches are not the most refined at the moment, but I hope that
+> people start reviewing them, so we can merge the ones that are ready,
+> to reduce their number.
 > 
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> ---
+> To be able to share the SPL clock code, the existing H6 code gets
+> refactored in patches 01-13. This removes the C struct describing the
+> 127 clock registers, and replaces it with macros defining the register
+> offsets. For more rationale and explanation see the 01/34 commit message.
+> 
+> Patches 14-20 extend the existing Allwinner U-Boot drivers to cope with
+> some of the changed peripherals, this includes the mandatory clock and
+> pinctrl drivers, but also some clock tweaks for the MMC controller
+> driver, and support for the new watchdog and the AXP323 used.
+> 
+> Patches 21-23 update some SPL bits to be able to cope with the A523.
+> Patches 24-28 extend the FEL handling code: the A523 has a GICv3, which
+> requires saving some GICv3 system registers, plus the IRQ mode stack
+> pointer. Patches 25-27 refactor the CPU clock code, and add the new
+> clock bits required by the A523.
+> 
+> Patch 29-32 add the new SPL bits for the A523, most prominently the DRAM
+> initialisation code. Many thanks to Jernej and Mikhail for providing
+> this part, there is a great reverse engineering and testing effort behind
+> this.
+> 
+> Patch 33 copies the DT files from the proposed Linux patches. They have
+> not been merged yet, mostly due to one missing DT binding dependency in
+> the linux-next tree, but have otherwise been agreed upon, with almost
+> every used binding being already merged. Eventually we will use the copy
+> from the DT rebasing repo, but for now those files must do.
+> 
+> The final patch adds defconfig files for the three boards that seem to be
+> the most popular at the moment, they include two development boards and
+> one TV box. The most interesting bits in there are the DRAM parameters.
+> 
+> Please have a look, review, and test.
+> 
+> Thanks!
+> Andre
+> 
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-Konrad
+Is there any docs about how to compile and run this patch series?
+I've got some complaint while apply to v2025.04-rc5 (not found correct base myself)
+
+I'm following doc/board/allwinner/sunxi.rst to build and using sunxi-tools to run,
+but it seems stuck at running uboot (should pass SPL stage)
+
+here are steps I tried
+
+1) build trust firmware
+$ git clone https://git.trustedfirmware.org/TF-A/trusted-firmware-a.git
+$ make CROSS_COMPILE=aarch64-unknown-linux-gnu- PLAT=sun50i_a64
+is sun50i_a64 correct for a527 SoC? besides, got a oversize error if DEBUG=1 enabled
+
+2) build SCP
+
+3) build uboot
+$ export BL31=/home/work/trusted-firmware-a/build/sun50i_a64/release/bl31.bin  
+export SCP..
+$ make ARCH=arm CROSS_COMPILE=aarch64-unknown-linux-gnu- -j30 radxa-a5e_defconfig
+$ make ARCH=arm CROSS_COMPILE=aarch64-unknown-linux-gnu- -j30
+
+4) run:  sunxi-fel -v uboot u-boot-sunxi-with-spl.bin
+ 4.a) serial console from a527 board
+
+U-Boot SPL 2025.04-rc5-00048-g432f0f975187 (Apr 05 2025 - 10:21:15 +0800)
+DRAM: 4096 MiB
+Trying to boot from FEL
+
+ 4.b) from host which run sunxi-fel
+
+ $ sunxi-fel -v uboot u-boot-sunxi-with-spl.bin
+found DT name in SPL header: sun55i-a527-radxa-a5e
+Stack pointers: sp_irq=0x00045400, sp=0x00060300
+MMU is not enabled by BROM
+=> Executing the SPL... done.
+loading image "ARM Trusted Firmware" (37076 bytes) to 0x54000
+loading image "U-Boot" (657216 bytes) to 0x4a000000
+loading DTB "sun55i-a527-radxa-a5e" (19024 bytes)
+Starting U-Boot (0x00054000).
+Store entry point 0x00054000 to RVBAR 0x08000040, and request warm reset with RMR mode 3... done.
+
+is ATF loading address correct, 0x54000 here? which seems override sp address?
+
+thanks
+-- 
+Yixun Lan (dlan)
+Gentoo Linux Developer
+GPG Key ID AABEFD55
