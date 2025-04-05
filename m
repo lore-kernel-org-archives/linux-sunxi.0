@@ -1,424 +1,150 @@
-Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3B9C1A5B98
-	for <linux-sunxi@lists.linux.dev>; Sat,  5 Apr 2025 22:02:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743890523; cv=none; b=CENN1IPN8MfFQ+zq7m/zSSgNffYN7SSu8IuC+khi+jmppt0DvZ/7C3Tbm11EDQHNyqKtQE1RfTYz+M9mtq60ZlHe0ZlTvlI8ddrtqx4SoLMM5vsrID2lAKSzdy0wGTv1MWW4Ri/8s0OfGCed1Zm4RBEpAb3jIbFqwqWCHnIfa2A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743890523; c=relaxed/simple;
-	bh=nBwAY8ZAFhKXpb5MNrLBrntM56KBhf8J3VUnRFkw4Fs=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B741E13A88A
+	for <linux-sunxi@lists.linux.dev>; Sat,  5 Apr 2025 23:04:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1743894260; cv=pass; b=Ms9bblEkV/86+kQiClU5Q6VLdS7aiWgwFG3fg2rqR+szo1P/d0EEqC2jhivIYGP9Lkqr0UzZb0LvpMRiF5cxEwNDWIiUoJgZl14n85ifeG/kDa/cWZuL379timrZiZTxQVh5ceujofOFWTnA8fjcrpdHj632in/hvuCirroS8Mw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1743894260; c=relaxed/simple;
+	bh=r4KRKWJ9Jh7EgS3Ff9eaTSRaConaA2itmO9tvvwJH1s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LAtZOiWfgfyA+uy87YR8YFg+zCW3rZipSwtLLd9vIEgJ3Rmne8hiM4d0xTyGhgSZ0XrfOvuqRHR5iozoR3mjwcpQnatYj+RTBJ8wELmX19CITzznum44ZMnEKIC+MRMiOVQmKoLXvRajXAihie0hQIwgVhpZfTTzNwrSbPjeQbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-Received: from localhost (unknown [116.232.27.72])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: dlan)
-	by smtp.gentoo.org (Postfix) with ESMTPSA id 7F2BC343178;
-	Sat, 05 Apr 2025 22:02:00 +0000 (UTC)
-Date: Sat, 5 Apr 2025 22:01:50 +0000
-From: Yixun Lan <dlan@gentoo.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Tom Rini <trini@konsulko.com>, Simon Glass <sjg@chromium.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Mikhail Kalashnikov <iuncuim@gmail.com>, u-boot@lists.denx.de,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 30/34] sunxi: A523: add DRAM initialisation routine
-Message-ID: <20250405215823-GYA11067@gentoo>
-References: <20250323113544.7933-1-andre.przywara@arm.com>
- <20250323113544.7933-31-andre.przywara@arm.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=B3lgFG3umccAVLF47mSSGUw3ZzkXT2hWjEfymPGvBkwAPyGYu7HABdIhu2+0Y9PNwj9Hc9vTkZU+/kSMm2aimljwtF1IO6ClL817++5TeLmjWqcDBRNrjHpUsZ4XVrXUFYLVtTLnOkT2ZliU8NAZ1QySma8D5NJY5vtDq9KnFeU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=eiM7hbKr; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="eiM7hbKr"
+ARC-Seal: i=1; a=rsa-sha256; t=1743894244; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=T/1l6nSYmkjzcrrhFTI74xTmOePIaUVo+9aMZXhvp/em86ekNMSnEkys1Dl04Wg5HpPuiyIwtdazr8Fw3Hz4JSHyUW57kCyQXxjeBApggdXJ0kZocMpnyhA5sgpyRMr9P0x6gwNwJXsfusU89KADlFNJbOYchdG/z0iQFTGMaNs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1743894244; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=lyZGSnBMeeneCIwyMr0oHComy6X8X/19w17qqFQ5cVw=; 
+	b=EsJ/SJaaQoh4W0h9Ylztc8Ckr0Mw865B682my/yuLQQgCQMzax9Xqr99zKPknOPQfUIjdXa1scRJrVBtwe/jFFSYyZ72ZgASIwYFjDNi79wGcKwe4iO2htknhrJbNjM/x31G/4LOVq0mtFLTVev+uxXWNsBLwNGNUuHopCK0b6g=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
+	dmarc=pass header.from=<sebastian.reichel@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1743894244;
+	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+	bh=lyZGSnBMeeneCIwyMr0oHComy6X8X/19w17qqFQ5cVw=;
+	b=eiM7hbKr8YeqnfvfxZ0qJNFvbXiGEeDrKwbc3vU9mBZF128PH6o/eFsl2M8f2hO5
+	pVfxkjZuRXNH8vEsjXh9p/50oGDezN+4eiKZ7pwIvWm4dDAxbFkEdflA+xprElEzwtn
+	SnX9Ziw7QqG6PvyLWOV0DljjF0HzTsOvw8Cu7JmY=
+Received: by mx.zohomail.com with SMTPS id 1743894241072346.3815949955907;
+	Sat, 5 Apr 2025 16:04:01 -0700 (PDT)
+Received: by venus (Postfix, from userid 1000)
+	id D2E43182317; Sun, 06 Apr 2025 01:03:54 +0200 (CEST)
+Date: Sun, 6 Apr 2025 01:03:54 +0200
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: shao.mingyin@zte.com.cn
+Cc: vkoul@kernel.org, robert.marko@sartura.hr, kishon@kernel.org, 
+	wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org, 
+	zhang.enpei@zte.com.cn, linux-phy@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	luka.perkov@sartura.hr, linux-arm-msm@vger.kernel.org, heiko@sntech.de, 
+	linux-rockchip@lists.infradead.org, yang.yang29@zte.com.cn, xu.xin16@zte.com.cn, 
+	ye.xingchen@zte.com.cn
+Subject: Re: [PATCH linux-next 5/5] phy: rockchip: =?utf-8?Q?phy-rockchip-?=
+ =?utf-8?B?dHlwZWM6IFVzZcKgZGV2X2Vycl9wcm9iZSgp?=
+Message-ID: <gkq5rxrawtcqsnru7jsfkrxfzubbqq3rbd6fdulmqtdjmitbwk@5jj6l5aafh7x>
+References: <20250402194100610qY6KQ4JPISk-4v214Qs36@zte.com.cn>
+ <20250402194542026OH8jAzuv0uq-J-D9AVPqJ@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="bfw6qh3c36p7wbnt"
 Content-Disposition: inline
-In-Reply-To: <20250323113544.7933-31-andre.przywara@arm.com>
+In-Reply-To: <20250402194542026OH8jAzuv0uq-J-D9AVPqJ@zte.com.cn>
+X-Zoho-Virus-Status: 1
+X-Zoho-AV-Stamp: zmail-av-1.4.2/243.872.34
+X-ZohoMailClient: External
 
-Hi Andre:
 
-On 11:35 Sun 23 Mar     , Andre Przywara wrote:
-> From: Jernej Skrabec <jernej.skrabec@gmail.com>
-> 
-> DRAM init code, as per reverse engineering and matching against
-> previous SoCs.
-> Supports LPDDR4 for now only.
+--bfw6qh3c36p7wbnt
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH linux-next 5/5] phy: rockchip: =?utf-8?Q?phy-rockchip-?=
+ =?utf-8?B?dHlwZWM6IFVzZcKgZGV2X2Vycl9wcm9iZSgp?=
+MIME-Version: 1.0
+
+Hi,
+
+On Wed, Apr 02, 2025 at 07:45:42PM +0800, shao.mingyin@zte.com.cn wrote:
+> From: Zhang Enpei <zhang.enpei@zte.com.cn>
+>=20
+> Replace the open-code with dev_err_probe() to simplify the code.
+>=20
+> Signed-off-by: Zhang Enpei <zhang.enpei@zte.com.cn>
+> Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
 > ---
->  arch/arm/include/asm/arch-sunxi/dram.h        |    2 +
->  .../include/asm/arch-sunxi/dram_sun55i_a523.h |  183 ++
->  arch/arm/mach-sunxi/Kconfig                   |   31 +-
->  arch/arm/mach-sunxi/Makefile                  |    2 +
->  arch/arm/mach-sunxi/dram_sun55i_a523.c        | 1468 +++++++++++++++++
->  arch/arm/mach-sunxi/dram_timings/Makefile     |    1 +
->  .../arm/mach-sunxi/dram_timings/a523_lpddr4.c |  119 ++
->  7 files changed, 1804 insertions(+), 2 deletions(-)
->  create mode 100644 arch/arm/include/asm/arch-sunxi/dram_sun55i_a523.h
->  create mode 100644 arch/arm/mach-sunxi/dram_sun55i_a523.c
->  create mode 100644 arch/arm/mach-sunxi/dram_timings/a523_lpddr4.c
-> 
-> diff --git a/arch/arm/include/asm/arch-sunxi/dram.h b/arch/arm/include/asm/arch-sunxi/dram.h
-> index 9d21b492418..9676c747442 100644
-> --- a/arch/arm/include/asm/arch-sunxi/dram.h
-> +++ b/arch/arm/include/asm/arch-sunxi/dram.h
-> @@ -33,6 +33,8 @@
->  #include <asm/arch/dram_sun50i_h616.h>
->  #elif defined(CONFIG_MACH_SUNIV)
->  #include <asm/arch/dram_suniv.h>
-> +#elif defined(CONFIG_MACH_SUN55I_A523)
-> +#include <asm/arch/dram_sun55i_a523.h>
->  #else
->  #include <asm/arch/dram_sun4i.h>
->  #endif
-> diff --git a/arch/arm/include/asm/arch-sunxi/dram_sun55i_a523.h b/arch/arm/include/asm/arch-sunxi/dram_sun55i_a523.h
-> new file mode 100644
-> index 00000000000..24e487b6880
-> --- /dev/null
-> +++ b/arch/arm/include/asm/arch-sunxi/dram_sun55i_a523.h
-> @@ -0,0 +1,183 @@
-> +/*
-> + * t527 dram controller register and constant defines
-> + *
-> + * (C) Copyright 2024  Jernej Skrabec <jernej.skrabec@gmail.com>
-> + *
-> + * SPDX-License-Identifier:	GPL-2.0+
-> + */
-> +
-> +#ifndef _SUNXI_DRAM_SUN55I_A523_H
-> +#define _SUNXI_DRAM_SUN55I_A523_H
-> +
-> +#include <stdbool.h>
-> +#ifndef __ASSEMBLY__
-> +#include <linux/bitops.h>
-> +#endif
-> +
-> +enum sunxi_dram_type {
-> +	SUNXI_DRAM_TYPE_DDR3 = 3,
-> +	SUNXI_DRAM_TYPE_DDR4,
-> +	SUNXI_DRAM_TYPE_LPDDR3 = 7,
-> +	SUNXI_DRAM_TYPE_LPDDR4
-> +};
-> +
-> +/* MBUS part is largely the same as in H6, except for one special register */
-> +struct sunxi_mctl_com_reg {
-> +	u32 cr;			/* 0x000 control register */
-> +	u8 reserved_0x004[4];	/* 0x004 */
-> +	u32 unk_0x008;		/* 0x008 */
-> +	u32 tmr;		/* 0x00c timer register */
-> +	u8 reserved_0x010[4];	/* 0x010 */
-> +	u32 unk_0x014;		/* 0x014 */
-> +	u8 reserved_0x018[8];	/* 0x018 */
-> +	u32 unk_0x020;		/* 0x020 */
-> +	u32 unk_0x024;		/* 0x024 */
-> +	u32 unk_0x028;		/* 0x028 */
-> +	u8 reserved_0x02c[468];	/* 0x02c */
-> +	u32 bwcr;		/* 0x200 bandwidth control register */
-> +	u8 reserved_0x204[12];	/* 0x204 */
-> +	/*
-> +	 * The last master configured by BSP libdram is at 0x49x, so the
-> +	 * size of this struct array is set to 41 (0x29) now.
-> +	 */
-> +	struct {
-> +		u32 cfg0;		/* 0x0 */
-> +		u32 cfg1;		/* 0x4 */
-> +		u8 reserved_0x8[8];	/* 0x8 */
-> +	} master[41];		/* 0x210 + index * 0x10 */
-> +	u8 reserved_0x4a0[96];	/* 0x4a0 */
-> +	u32 unk_0x500;		/* 0x500 */
-> +};
-> +check_member(sunxi_mctl_com_reg, unk_0x500, 0x500);
-> +
-> +/*
-> + * Controller registers seems to be the same or at least very similar
-> + * to those in H6.
-> + */
-> +struct sunxi_mctl_ctl_reg {
-> +	u32 mstr;		/* 0x000 */
-> +	u32 statr;		/* 0x004 unused */
-> +	u32 mstr1;		/* 0x008 unused */
-> +	u32 clken;		/* 0x00c */
-> +	u32 mrctrl0;		/* 0x010 unused */
-> +	u32 mrctrl1;		/* 0x014 unused */
-> +	u32 mrstatr;		/* 0x018 unused */
-> +	u32 mrctrl2;		/* 0x01c unused */
-> +	u32 derateen;		/* 0x020 unused */
-> +	u32 derateint;		/* 0x024 unused */
-> +	u8 reserved_0x028[8];	/* 0x028 */
-> +	u32 pwrctl;		/* 0x030 */
-> +	u32 pwrtmg;		/* 0x034 unused */
-> +	u32 hwlpctl;		/* 0x038 */
-> +	u8 reserved_0x03c[20];	/* 0x03c */
-> +	u32 rfshctl0;		/* 0x050 unused */
-> +	u32 rfshctl1;		/* 0x054 unused */
-> +	u8 reserved_0x058[8];	/* 0x05c */
-> +	u32 rfshctl3;		/* 0x060 */
-> +	u32 rfshtmg;		/* 0x064 */
-> +	u8 reserved_0x068[104];	/* 0x068 */
-> +	u32 init[8];		/* 0x0d0 */
-> +	u32 dimmctl;		/* 0x0f0 unused */
-> +	u32 rankctl;		/* 0x0f4 */
-> +	u8 reserved_0x0f8[8];	/* 0x0f8 */
-> +	u32 dramtmg[17];	/* 0x100 */
-> +	u8 reserved_0x144[60];	/* 0x144 */
-> +	u32 zqctl[3];		/* 0x180 */
-> +	u32 zqstat;		/* 0x18c unused */
-> +	u32 dfitmg0;		/* 0x190 */
-> +	u32 dfitmg1;		/* 0x194 */
-> +	u32 dfilpcfg[2];	/* 0x198 unused */
-> +	u32 dfiupd[3];		/* 0x1a0 */
-> +	u32 reserved_0x1ac;	/* 0x1ac */
-> +	u32 dfimisc;		/* 0x1b0 */
-> +	u32 dfitmg2;		/* 0x1b4 unused */
-> +	u32 dfitmg3;		/* 0x1b8 unused */
-> +	u32 dfistat;		/* 0x1bc */
-> +	u32 dbictl;		/* 0x1c0 */
-> +	u8 reserved_0x1c4[60];	/* 0x1c4 */
-> +	u32 addrmap[12];	/* 0x200 */
-> +	u8 reserved_0x230[16];	/* 0x230 */
-> +	u32 odtcfg;		/* 0x240 */
-> +	u32 odtmap;		/* 0x244 */
-> +	u8 reserved_0x248[8];	/* 0x248 */
-> +	u32 sched[2];		/* 0x250 */
-> +	u8 reserved_0x258[12];	/* 0x258 */
-> +	u32 unk_0x264;		/* 0x264 */
-> +	u8 reserved_0x268[8];	/* 0x268 */
-> +	u32 unk_0x270;		/* 0x270 */
-> +	u8 reserved_0x274[152];	/* 0x274 */
-> +	u32 dbgcmd;		/* 0x30c unused */
-> +	u32 dbgstat;		/* 0x310 unused */
-> +	u8 reserved_0x314[12];	/* 0x314 */
-> +	u32 swctl;		/* 0x320 */
-> +	u32 swstat;		/* 0x324 */
-> +	u8 reserved_0x328[7768];/* 0x328 */
-> +	u32 unk_0x2180;		/* 0x2180 */
-> +	u8 reserved_0x2184[188];/* 0x2184 */
-> +	u32 unk_0x2240;		/* 0x2240 */
-> +	u8 reserved_0x2244[3900];/* 0x2244 */
-> +	u32 unk_0x3180;		/* 0x3180 */
-> +	u8 reserved_0x3184[188];/* 0x3184 */
-> +	u32 unk_0x3240;		/* 0x3240 */
-> +	u8 reserved_0x3244[3900];/* 0x3244 */
-> +	u32 unk_0x4180;		/* 0x4180 */
-> +	u8 reserved_0x4184[188];/* 0x4184 */
-> +	u32 unk_0x4240;		/* 0x4240 */
-> +};
-> +check_member(sunxi_mctl_ctl_reg, swstat, 0x324);
-> +check_member(sunxi_mctl_ctl_reg, unk_0x4240, 0x4240);
-> +
-> +#define MSTR_DEVICETYPE_DDR3	BIT(0)
-> +#define MSTR_DEVICETYPE_LPDDR2	BIT(2)
-> +#define MSTR_DEVICETYPE_LPDDR3	BIT(3)
-> +#define MSTR_DEVICETYPE_DDR4	BIT(4)
-> +#define MSTR_DEVICETYPE_LPDDR4	BIT(5)
-> +#define MSTR_DEVICETYPE_MASK	GENMASK(5, 0)
-> +#define MSTR_2TMODE		BIT(10)
-> +#define MSTR_BUSWIDTH_FULL	(0 << 12)
-> +#define MSTR_BUSWIDTH_HALF	(1 << 12)
-> +#define MSTR_ACTIVE_RANKS(x)	(((x == 2) ? 3 : 1) << 24)
-> +#define MSTR_BURST_LENGTH(x)	(((x) >> 1) << 16)
-> +
-> +#define TPR10_CA_BIT_DELAY	0xffff0000
-> +#define TPR10_DX_BIT_DELAY0	BIT(17)
-> +#define TPR10_DX_BIT_DELAY1	BIT(18)
-> +#define TPR10_WRITE_LEVELING	BIT(20)
-> +#define TPR10_READ_CALIBRATION	BIT(21)
-> +#define TPR10_READ_TRAINING	BIT(22)
-> +#define TPR10_WRITE_TRAINING	BIT(23)
-> +
-> +struct dram_para {
-> +	enum sunxi_dram_type type;
-> +	u32 dx_odt;
-> +	u32 dx_dri;
-> +	u32 ca_dri;
-> +	u32 tpr0;
-> +	u32 tpr1;
-> +	u32 tpr2;
-> +	u32 tpr6;
-> +	u32 tpr10;
-> +};
-> +
-> +struct dram_config {
-> +	u8 cols;
-> +	u8 rows;
-> +	u8 ranks;
-> +	u8 bus_full_width;
-> +	u32 clk;
-> +	u32 odt_en;
-> +	u32 tpr11;
-> +	u32 tpr12;
-> +	u32 tpr14;
-> +};
-> +
-> +static inline int ns_to_t(int nanoseconds, u32 clk)
-> +{
-> +	const unsigned int ctrl_freq = clk / 2;
-> +
-> +	return DIV_ROUND_UP(ctrl_freq * nanoseconds, 1000);
-> +}
-> +
-> +void mctl_set_timing_params(u32 clk);
-> +
-> +#endif /* _SUNXI_DRAM_SUN55I_T527_H */
-> diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
-> index ab432390d3c..aeab2b3f6dd 100644
-> --- a/arch/arm/mach-sunxi/Kconfig
-> +++ b/arch/arm/mach-sunxi/Kconfig
-> @@ -51,7 +51,12 @@ config DRAM_SUN50I_H616
->  	  Select this dram controller driver for some sun50i platforms,
->  	  like H616.
->  
-> -if DRAM_SUN50I_H616
-> +config DRAM_SUN55I_A523
-> +	bool
-> +	help
-> +	  Select this DRAM controller driver for A523/T527 SoCs.
-> +
-> +if DRAM_SUN50I_H616 || DRAM_SUN55I_A523
->  config DRAM_SUNXI_DX_ODT
->  	hex "DRAM DX ODT parameter"
->  	help
-> @@ -79,6 +84,12 @@ config DRAM_SUNXI_TPR0
->  	help
->  	  TPR0 value from vendor DRAM settings.
->  
-> +config DRAM_SUNXI_TPR1
-> +	hex "DRAM TPR1 parameter"
-> +	default 0x0
-> +	help
-> +	  TPR1 value from vendor DRAM settings.
-> +
->  config DRAM_SUNXI_TPR2
->  	hex "DRAM TPR2 parameter"
->  	default 0x0
-> @@ -109,6 +120,13 @@ config DRAM_SUNXI_TPR12
->  	help
->  	  TPR12 value from vendor DRAM settings.
->  
-> +config DRAM_SUNXI_TPR14
-> +	hex "DRAM TPR14 parameter"
-> +	depends on MACH_SUN55I_A523
-> +	default 0x48484848
-> +	help
-> +	  TPR14 value from vendor DRAM settings.
-> +
->  choice
->  	prompt "DRAM PHY pin mapping selection"
->  	default DRAM_SUNXI_PHY_ADDR_MAP_0
-> @@ -497,7 +515,7 @@ config ARM_BOOT_HOOK_RMR
->  	This allows both the SPL and the U-Boot proper to be entered in
->  	either mode and switch to AArch64 if needed.
->  
-> -if SUNXI_DRAM_DW || DRAM_SUN50I_H6 || DRAM_SUN50I_H616
-> +if SUNXI_DRAM_DW || DRAM_SUN50I_H6 || DRAM_SUN50I_H616 || DRAM_SUN55I_A523
->  config SUNXI_DRAM_DDR3
->  	bool
->  
-> @@ -512,6 +530,7 @@ config SUNXI_DRAM_LPDDR4
->  
->  choice
->  	prompt "DRAM Type and Timing"
-> +	default SUNXI_DRAM_A523_LPDDR4 if MACH_SUN55I_A523
->  	default SUNXI_DRAM_DDR3_1333 if !MACH_SUN8I_V3S
->  	default SUNXI_DRAM_DDR2_V3S if MACH_SUN8I_V3S
->  
-> @@ -577,6 +596,13 @@ config SUNXI_DRAM_DDR2_V3S
->  	This option is only for the DDR2 memory chip which is co-packaged in
->  	Allwinner V3s SoC.
->  
-> +config SUNXI_DRAM_A523_LPDDR4
-> +	bool "LPDDR4 DRAM chips on the A523/T527 DRAM controller"
-> +	select SUNXI_DRAM_LPDDR4
-> +	depends on DRAM_SUN55I_A523
-> +	help
-> +	  This option is the LPDDR4 timing used by the stock boot0 by
-> +	  Allwinner.
->  endchoice
->  endif
->  
-> @@ -597,6 +623,7 @@ config DRAM_CLK
->  	default 672 if MACH_SUN50I
->  	default 744 if MACH_SUN50I_H6
->  	default 720 if MACH_SUN50I_H616
-> +	default 1200 if MACH_SUN55I_A523
->  	---help---
->  	Set the dram clock speed, valid range 240 - 480 (prior to sun9i),
->  	must be a multiple of 24. For the sun9i (A80), the tested values
-> diff --git a/arch/arm/mach-sunxi/Makefile b/arch/arm/mach-sunxi/Makefile
-> index eb6a49119a1..3521335dbbf 100644
-> --- a/arch/arm/mach-sunxi/Makefile
-> +++ b/arch/arm/mach-sunxi/Makefile
-> @@ -45,4 +45,6 @@ obj-$(CONFIG_DRAM_SUN50I_H6)	+= dram_sun50i_h6.o
->  obj-$(CONFIG_DRAM_SUN50I_H6)	+= dram_timings/
->  obj-$(CONFIG_DRAM_SUN50I_H616)	+= dram_sun50i_h616.o
->  obj-$(CONFIG_DRAM_SUN50I_H616)	+= dram_timings/
-> +obj-$(CONFIG_MACH_SUN55I_A523)	+= dram_sun55i_a523.o
-> +obj-$(CONFIG_DRAM_SUN55I_A523)	+= dram_timings/
->  endif
-> diff --git a/arch/arm/mach-sunxi/dram_sun55i_a523.c b/arch/arm/mach-sunxi/dram_sun55i_a523.c
-> new file mode 100644
-> index 00000000000..fae02062547
-> --- /dev/null
-> +++ b/arch/arm/mach-sunxi/dram_sun55i_a523.c
-> @@ -0,0 +1,1468 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * sun55i A523/A527/T527/H728 platform DRAM controller driver
-> + *
-> + * This driver supports DDR3 and LPDDR4 memory.
-> + *
-> + * (C) Copyright 2024 Jernej Skrabec <jernej.skrabec@gmail.com>
-> + *
-> + */
-> +#include <init.h>
-> +#include <log.h>
-> +#include <asm/io.h>
-> +#include <asm/arch/clock.h>
-> +#include <asm/arch/dram.h>
-> +#include <asm/arch/cpu.h>
-> +#include <asm/arch/prcm.h>
-> +#include <linux/bitops.h>
-> +#include <linux/delay.h>
-> +
-...snip
-> +static void mctl_auto_detect_dram_size(const struct dram_para *para,
-> +				       struct dram_config *config)
-> +{
-> +	/* detect row address bits */
-> +	config->cols = 8;
-> +	config->rows = 16;
-> +	mctl_core_init(para, config);
-> +
-> +	for (config->rows = 13; config->rows < 16; config->rows++) {
-> +		/* 8 banks, 8 bit per byte and 16/32 bit width */
-> +		if (mctl_mem_matches((1 << (config->rows + config->cols +
-> +					    4 + config->bus_full_width))))
-> +			break;
-> +	}
-> +
-> +	/* detect column address bits */
-> +	config->cols = 11;
-> +	mctl_core_init(para, config);
-> +
-...
-> +	for (config->cols = 8; config->cols < 11; config->cols++) {
-> +		/* 8 bits per byte and 16/32 bit width */
-> +		if (mctl_mem_matches(1 << (config->cols + 1 +
-> +					   config->bus_full_width)))
-> +			break;
-> +	}
-on radxa a5e, I've got occasionally wrong dram size, roughly 2/10 rate
-in the wrong case it got 8192M, while actually should be 4096M..
+>  drivers/phy/rockchip/phy-rockchip-typec.c | 8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/drivers/phy/rockchip/phy-rockchip-typec.c b/drivers/phy/rock=
+chip/phy-rockchip-typec.c
+> index d9701b6106d5..94d1e6ead1a7 100644
+> --- a/drivers/phy/rockchip/phy-rockchip-typec.c
+> +++ b/drivers/phy/rockchip/phy-rockchip-typec.c
+> @@ -1151,11 +1151,9 @@ static int rockchip_typec_phy_probe(struct platfor=
+m_device *pdev)
+>  	if (IS_ERR(tcphy->extcon)) {
+>  		if (PTR_ERR(tcphy->extcon) =3D=3D -ENODEV) {
+>  			tcphy->extcon =3D NULL;
+> -		} else {
+> -			if (PTR_ERR(tcphy->extcon) !=3D -EPROBE_DEFER)
+> -				dev_err(dev, "Invalid or missing extcon\n");
+> -			return PTR_ERR(tcphy->extcon);
+> -		}
+> +		} else
+> +			return dev_err_probe(dev, PTR_ERR(tcphy->extcon),
+> +					     "Invalid or missing extcon\n");
 
-spent a few time to debug, found it got config->cols = 11 while should be 10
-and above for loop has been skipped, thus fail to detect correct cols value..
+You should also remove the { } for the normal if clause. Otherwise
 
--- 
-Yixun Lan (dlan)
-Gentoo Linux Developer
-GPG Key ID AABEFD55
+Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+
+But you might want to throw in an extra patch updating the error
+message. -ENODEV is covered explicitly, so it's not "missing". I
+suggest "Failed to get extcon".
+
+Greetings,
+
+-- Sebastian
+
+>  	}
+>=20
+>  	pm_runtime_enable(dev);
+> --=20
+> 2.25.1
+>=20
+
+--bfw6qh3c36p7wbnt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmfxttMACgkQ2O7X88g7
++ppy+A//fWq3tj+yzqjkHN+x3+fx/l6vrY7SMi3s0Y5iNWc8KoQih+KHs5rVt5gv
++/ubWJhmdA0ArduoDnuG8Q6iqWHqKQdDmqATJG7GvMUXLGWk4WewVGT7fFgWJ8ri
+0+lLkp2w4XFP2ODJYoAL0u7JXRtlBrK9hGoPAVn9qb5hlEBeFWsKKA1ymZcUJMzr
+Uo9dL69VDBghYPDHfTtF0ssyNncVWkcU6NXgOVmBv89hzhVKY/5k19h0tj97QTyK
+XxLwZTYGur3VACuGvu5fNj29bGq74enxRknPiGROryprdTklU5kojss0+SYQXbWU
+UIrLDj/FcOceikn6N+lmntsC7Xev2yXnoIdG8g4t0ft2MMNTzyyaTiUzpXrn6P9b
+3ywDYRigFeWi/ep5Mr6iMm0g8imQ398SOEn357I2Mj+XwkGZo3v3fo0G8LhfDBu9
+ea9y/z04gKVr1yVvqg5blz/G7U9XugwX2K8STj7xJjZkIadq7T7Ncq8xiYji30eU
+TAsXSbtxkzapGVJ6UZfnxSb+UE/lj1h21rGaQewt/jCUJz3XhrKaApKcNSb7fWcJ
+9AAGcKlCjiMhak8zOTGxJwO1P80Dq8oJ6oQrqciQRdYcOMUGjb3kp1/F6TdW2pji
+ifw2gZWm7FAFSVVH/jiSq9FYaoGhUrza6HITG0GEx7y1kK+yB+s=
+=4gXu
+-----END PGP SIGNATURE-----
+
+--bfw6qh3c36p7wbnt--
