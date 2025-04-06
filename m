@@ -1,150 +1,89 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B741E13A88A
-	for <linux-sunxi@lists.linux.dev>; Sat,  5 Apr 2025 23:04:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743894260; cv=pass; b=Ms9bblEkV/86+kQiClU5Q6VLdS7aiWgwFG3fg2rqR+szo1P/d0EEqC2jhivIYGP9Lkqr0UzZb0LvpMRiF5cxEwNDWIiUoJgZl14n85ifeG/kDa/cWZuL379timrZiZTxQVh5ceujofOFWTnA8fjcrpdHj632in/hvuCirroS8Mw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743894260; c=relaxed/simple;
-	bh=r4KRKWJ9Jh7EgS3Ff9eaTSRaConaA2itmO9tvvwJH1s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B3lgFG3umccAVLF47mSSGUw3ZzkXT2hWjEfymPGvBkwAPyGYu7HABdIhu2+0Y9PNwj9Hc9vTkZU+/kSMm2aimljwtF1IO6ClL817++5TeLmjWqcDBRNrjHpUsZ4XVrXUFYLVtTLnOkT2ZliU8NAZ1QySma8D5NJY5vtDq9KnFeU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=eiM7hbKr; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EE7A190678
+	for <linux-sunxi@lists.linux.dev>; Sun,  6 Apr 2025 20:32:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1743971526; cv=none; b=PXd5Jj/cwriFio0XB1QOmwCFTBA9EXonNedFEUgheq6iTijhQQlilf0vekyOXZYPVNwC80CakflYLeKmJl5ClDQn+MUIb3eJKND9DgHzleBW+WHqTwWkL2fv47cjEc+bATp1cQcY6J7X82nnjpN3KzejenxyfFjC6DrEUZrpmC8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1743971526; c=relaxed/simple;
+	bh=/QKe2abRQc2yYg8840jEvGySXkfzcfSJKHrjRel0tUY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rHQIM+eaglI6WYrQy3aYyAIGGHbzsvXNZ2qhp4JwgagXvPnZ5TBZ6hoxeIMu1G7S6vf7wfaX6rA+INFKkbfZ4i8cfPdXEK4n9wuHublXPGuajrGgd5kct1OPWAggS54enrdm69pQZkR4O++mneZuNliLVwi1SNFAWeYZrnin7ME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=googlemail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=HfNSf2ia; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=googlemail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="eiM7hbKr"
-ARC-Seal: i=1; a=rsa-sha256; t=1743894244; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=T/1l6nSYmkjzcrrhFTI74xTmOePIaUVo+9aMZXhvp/em86ekNMSnEkys1Dl04Wg5HpPuiyIwtdazr8Fw3Hz4JSHyUW57kCyQXxjeBApggdXJ0kZocMpnyhA5sgpyRMr9P0x6gwNwJXsfusU89KADlFNJbOYchdG/z0iQFTGMaNs=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1743894244; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=lyZGSnBMeeneCIwyMr0oHComy6X8X/19w17qqFQ5cVw=; 
-	b=EsJ/SJaaQoh4W0h9Ylztc8Ckr0Mw865B682my/yuLQQgCQMzax9Xqr99zKPknOPQfUIjdXa1scRJrVBtwe/jFFSYyZ72ZgASIwYFjDNi79wGcKwe4iO2htknhrJbNjM/x31G/4LOVq0mtFLTVev+uxXWNsBLwNGNUuHopCK0b6g=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
-	dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1743894244;
-	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=lyZGSnBMeeneCIwyMr0oHComy6X8X/19w17qqFQ5cVw=;
-	b=eiM7hbKr8YeqnfvfxZ0qJNFvbXiGEeDrKwbc3vU9mBZF128PH6o/eFsl2M8f2hO5
-	pVfxkjZuRXNH8vEsjXh9p/50oGDezN+4eiKZ7pwIvWm4dDAxbFkEdflA+xprElEzwtn
-	SnX9Ziw7QqG6PvyLWOV0DljjF0HzTsOvw8Cu7JmY=
-Received: by mx.zohomail.com with SMTPS id 1743894241072346.3815949955907;
-	Sat, 5 Apr 2025 16:04:01 -0700 (PDT)
-Received: by venus (Postfix, from userid 1000)
-	id D2E43182317; Sun, 06 Apr 2025 01:03:54 +0200 (CEST)
-Date: Sun, 6 Apr 2025 01:03:54 +0200
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: shao.mingyin@zte.com.cn
-Cc: vkoul@kernel.org, robert.marko@sartura.hr, kishon@kernel.org, 
-	wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org, 
-	zhang.enpei@zte.com.cn, linux-phy@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	luka.perkov@sartura.hr, linux-arm-msm@vger.kernel.org, heiko@sntech.de, 
-	linux-rockchip@lists.infradead.org, yang.yang29@zte.com.cn, xu.xin16@zte.com.cn, 
-	ye.xingchen@zte.com.cn
-Subject: Re: [PATCH linux-next 5/5] phy: rockchip: =?utf-8?Q?phy-rockchip-?=
- =?utf-8?B?dHlwZWM6IFVzZcKgZGV2X2Vycl9wcm9iZSgp?=
-Message-ID: <gkq5rxrawtcqsnru7jsfkrxfzubbqq3rbd6fdulmqtdjmitbwk@5jj6l5aafh7x>
-References: <20250402194100610qY6KQ4JPISk-4v214Qs36@zte.com.cn>
- <20250402194542026OH8jAzuv0uq-J-D9AVPqJ@zte.com.cn>
+	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="HfNSf2ia"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-22423adf751so34521985ad.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 06 Apr 2025 13:32:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20230601; t=1743971524; x=1744576324; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/QKe2abRQc2yYg8840jEvGySXkfzcfSJKHrjRel0tUY=;
+        b=HfNSf2iajlc8hviP3f7ph/VB12AbKcB1/wLeHW0IcMXn5shz54spvHkB335qmJuddi
+         Kp98s2eZ2mb414BudDdE9IJe9maZaD5asa9UiRPLMW4fhZoX9tSnilA8Xv8hCk6FNlTM
+         7nBubvNKC5/IcKVa4QxCU+0y4UA5wltrGXXlMnaPY2Vui1IMXckRWEJ/dvpgkRpJ3ckT
+         pMF4IFSMacQWHRAp89xSc4HP+x7Id6jkzhprF1/4cAUkIfUb5R/HY6iC58CT8imR9KwB
+         2YhvUojtT5NqQrmJuWlZLfQKq11+cJwPoeStiFsgGeU8I65VPy/Zu0jOUnpsjffQMhdD
+         +D1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743971524; x=1744576324;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/QKe2abRQc2yYg8840jEvGySXkfzcfSJKHrjRel0tUY=;
+        b=UUqAw+0aK2FVrz/ILy8KhO2lkkT9WbF9BBsUomM4ywVvdGAG8LOkC2E8ZB/XzvFJc7
+         88ZAVYgo2sSei42eK5OCsUWst6SuBh5eeCzD2w5Xtjz+ixr1l1wW8ljaGjdqdS5j592F
+         qcna5abFhNiyJBlBtUvV0BVUDlF26z4RoJUH031p9V1vEAz2Z7VQzLk2sJm06U5Mozb6
+         GPD87NUEjlTBmNEUdNo1KIudisUgqktk/OqSEDXTmPwO3+ZYh+YwGf6BkZwPfd2+qWOV
+         YxQM6iDRKbYt7lghIwXHxcqNXjqEjQTwELsmHKGh1NLMt7gpFZ2MmNCkv9se34e6ro9t
+         jurg==
+X-Forwarded-Encrypted: i=1; AJvYcCUqW+aveJGMF/8xbcAgAI0tGjL3OXYPM2iQhQqs8OhJaezRauWEeWM22PslMz3aWNUs20clUa1HJCFuMA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy4LdHejbiVCDmT62nGuK3+y7Pa1NvM4OTHt7hGoUmx9LktEJ/N
+	7b9XmxO29kX1dOYhKDM1dNrDkGy9XJvTtjLkx6ZvGv9WJajmaMFWu6u1Wt/Fsiw3Had6n+MjXMP
+	1CgYHouCivBTaGoiM/hDuDin5CFA=
+X-Gm-Gg: ASbGncveqDmmz0OpejsFIbr4dKeRBfR6XFYxqrfX5Bl80/HsrV42e7qChJvOW+dc1rc
+	4dbqEI96KMdDiI7OaS6F1GXokX3RkQrkoiC3VvOUV6KfiZoiUh3uUuD9/ph5o+T3VXBdOactroj
+	m8UuD6zfLn4HPK0QCdSVTb48A8AtIC/MuzRty0IjAu
+X-Google-Smtp-Source: AGHT+IHT9v90+iSAiZXg5CI9I2oqKoRX4lqsSVS1Jifp+TsFpnk0GJAUF4rHe1Z3iO76l1ihTjaQBPryFYN0akQAcDI=
+X-Received: by 2002:a17:902:e546:b0:216:410d:4c53 with SMTP id
+ d9443c01a7336-22a8a0a24f1mr155808815ad.41.1743971524234; Sun, 06 Apr 2025
+ 13:32:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="bfw6qh3c36p7wbnt"
-Content-Disposition: inline
-In-Reply-To: <20250402194542026OH8jAzuv0uq-J-D9AVPqJ@zte.com.cn>
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-1.4.2/243.872.34
-X-ZohoMailClient: External
-
-
---bfw6qh3c36p7wbnt
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
+References: <20250404-kconfig-defaults-clk-v1-0-4d2df5603332@linaro.org> <20250404-kconfig-defaults-clk-v1-1-4d2df5603332@linaro.org>
+In-Reply-To: <20250404-kconfig-defaults-clk-v1-1-4d2df5603332@linaro.org>
+From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Date: Sun, 6 Apr 2025 22:31:53 +0200
+X-Gm-Features: ATxdqUGuzCGyUj4WFxWudQ3GalFFdus2VKUZdP35pUaLUbjhJd9NZclZR-cjauk
+Message-ID: <CAFBinCB00HsScB6d4UboQkp8HPQ3pbDwbbwnzwgqJOvHwBDSdA@mail.gmail.com>
+Subject: Re: [PATCH 1/5] clk: meson: Do not enable by default during compile testing
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Kevin Hilman <khilman@baylibre.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	=?UTF-8?Q?Emilio_L=C3=B3pez?= <emilio@elopez.com.ar>, 
+	linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH linux-next 5/5] phy: rockchip: =?utf-8?Q?phy-rockchip-?=
- =?utf-8?B?dHlwZWM6IFVzZcKgZGV2X2Vycl9wcm9iZSgp?=
-MIME-Version: 1.0
 
-Hi,
-
-On Wed, Apr 02, 2025 at 07:45:42PM +0800, shao.mingyin@zte.com.cn wrote:
-> From: Zhang Enpei <zhang.enpei@zte.com.cn>
->=20
-> Replace the open-code with dev_err_probe() to simplify the code.
->=20
-> Signed-off-by: Zhang Enpei <zhang.enpei@zte.com.cn>
-> Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
-> ---
->  drivers/phy/rockchip/phy-rockchip-typec.c | 8 +++-----
->  1 file changed, 3 insertions(+), 5 deletions(-)
->=20
-> diff --git a/drivers/phy/rockchip/phy-rockchip-typec.c b/drivers/phy/rock=
-chip/phy-rockchip-typec.c
-> index d9701b6106d5..94d1e6ead1a7 100644
-> --- a/drivers/phy/rockchip/phy-rockchip-typec.c
-> +++ b/drivers/phy/rockchip/phy-rockchip-typec.c
-> @@ -1151,11 +1151,9 @@ static int rockchip_typec_phy_probe(struct platfor=
-m_device *pdev)
->  	if (IS_ERR(tcphy->extcon)) {
->  		if (PTR_ERR(tcphy->extcon) =3D=3D -ENODEV) {
->  			tcphy->extcon =3D NULL;
-> -		} else {
-> -			if (PTR_ERR(tcphy->extcon) !=3D -EPROBE_DEFER)
-> -				dev_err(dev, "Invalid or missing extcon\n");
-> -			return PTR_ERR(tcphy->extcon);
-> -		}
-> +		} else
-> +			return dev_err_probe(dev, PTR_ERR(tcphy->extcon),
-> +					     "Invalid or missing extcon\n");
-
-You should also remove the { } for the normal if clause. Otherwise
-
-Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-
-But you might want to throw in an extra patch updating the error
-message. -ENODEV is covered explicitly, so it's not "missing". I
-suggest "Failed to get extcon".
-
-Greetings,
-
--- Sebastian
-
->  	}
->=20
->  	pm_runtime_enable(dev);
-> --=20
-> 2.25.1
->=20
-
---bfw6qh3c36p7wbnt
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmfxttMACgkQ2O7X88g7
-+ppy+A//fWq3tj+yzqjkHN+x3+fx/l6vrY7SMi3s0Y5iNWc8KoQih+KHs5rVt5gv
-+/ubWJhmdA0ArduoDnuG8Q6iqWHqKQdDmqATJG7GvMUXLGWk4WewVGT7fFgWJ8ri
-0+lLkp2w4XFP2ODJYoAL0u7JXRtlBrK9hGoPAVn9qb5hlEBeFWsKKA1ymZcUJMzr
-Uo9dL69VDBghYPDHfTtF0ssyNncVWkcU6NXgOVmBv89hzhVKY/5k19h0tj97QTyK
-XxLwZTYGur3VACuGvu5fNj29bGq74enxRknPiGROryprdTklU5kojss0+SYQXbWU
-UIrLDj/FcOceikn6N+lmntsC7Xev2yXnoIdG8g4t0ft2MMNTzyyaTiUzpXrn6P9b
-3ywDYRigFeWi/ep5Mr6iMm0g8imQ398SOEn357I2Mj+XwkGZo3v3fo0G8LhfDBu9
-ea9y/z04gKVr1yVvqg5blz/G7U9XugwX2K8STj7xJjZkIadq7T7Ncq8xiYji30eU
-TAsXSbtxkzapGVJ6UZfnxSb+UE/lj1h21rGaQewt/jCUJz3XhrKaApKcNSb7fWcJ
-9AAGcKlCjiMhak8zOTGxJwO1P80Dq8oJ6oQrqciQRdYcOMUGjb3kp1/F6TdW2pji
-ifw2gZWm7FAFSVVH/jiSq9FYaoGhUrza6HITG0GEx7y1kK+yB+s=
-=4gXu
------END PGP SIGNATURE-----
-
---bfw6qh3c36p7wbnt--
+On Fri, Apr 4, 2025 at 1:57=E2=80=AFPM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> Enabling the compile test should not cause automatic enabling of all
+> drivers.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
