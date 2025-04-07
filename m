@@ -1,134 +1,140 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2BA6224251
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Apr 2025 06:26:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F34CE19DF40
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Apr 2025 09:26:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744007182; cv=none; b=m49WAPtMkqdTOLW8afTQhKRDMg62gyWPqeaFHjIBC9aONY6OooJ9+Q1gemvHbCLafjtFGKO/FXPYHuUnReVSiWpQZLXPv2HqlA/PBIen9raXSi5GnGTmG4nUY0Nx+KlT8RAjORIy/7clhjOAtLpSd9YAcHL2fpzIZThXbMYB0hY=
+	t=1744017973; cv=none; b=Se1WuWjx9A+BOnrlsWSvLzAapWoo6iO2eplcZDMZQPzsO/S3S+RQ7muS3x52xsYFLSWBaWNP0fNB5XG3KNXvGQEwDU8azN64OvXrTec9S4udX8ef1GJ3gjf9n6+sCB6XNZhMbWTmod4Exa1wUn5FWwBM9kSpFupEWKoEC+/bXoU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744007182; c=relaxed/simple;
-	bh=k8YYOPh/3JkuLOMn/Hj98STqPu3UvcIJ1IzVOh1TAOA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jsJ92awq78QcSgGJb1zhxISzzBfx80LoxCKpmu/SqcKPj7eKsA88atrBbbDU2MoVYVw98qI/AJKLblajWn00uWW0fYDk2k60AwwNqsIYlnLYtcbwXemYdlQqQmuQxXWmU0hM7wdP93NlMOXjxzNoBk+HxmAuGAoRKuKQsm3SMOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OKH/Gazy; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OKH/Gazy"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-43cf848528aso32593175e9.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 06 Apr 2025 23:26:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744007179; x=1744611979; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=7vcZaHtT0Bdp7jhNpBVwgeNyTw0QbyKnO+4kb1PkgZw=;
-        b=OKH/GazyneKbKK6RVd7w0qL/JRfNHm2SWMC/2/kueR5DSlKluO9ZkglVH76zxAsNEJ
-         /L7vuA/XbCgy4Pa8NvkUZacHSfJhx3UmSxu8bMMYw0wxx/OKTxlLx/hu6Eck/elafABJ
-         RtTil+U0yk+g7Epw/fH2iHtXjAsjwmf42glwKkCxo22ZrjFDyQa0g+yEChLF+kmUaRPF
-         bm0u5dK6jq7KD5qrIy2SkYCDK7D3OVDeDjatWgiS1ykVwC5yFsQNx0wWqGrqq0f7TJYi
-         js/xSY5gvxr4O7/4hIBalbT23qDFB8Mov7HH9OXRgPeZYx0PqPX79fO5MKSOr+Qf38bA
-         F/Tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744007179; x=1744611979;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7vcZaHtT0Bdp7jhNpBVwgeNyTw0QbyKnO+4kb1PkgZw=;
-        b=UXpzWcmZHzTww/3qo1BlGEdp6w/SE/rR9uD5VtJEXKE0KvA9pU8dViRTZqNXIPK38Y
-         WOyUcEkNFB5VrevYqEBiaKw26FHu+fK0eRjEId4fY0IX3qUPpKQpJGAUYh5gjDE07wOq
-         RU7vwACNX7vyPMAvs+B43s/MBAoW8Nt7gePe+KiWgwHkngnr15Hgp5Ugnxjth3xyudzi
-         1Tbs5TNdZSBY2PWmdpYlJMrKg6gRw05twaocVHSHnxCadwx19+H1KmEL9bX0I64fh0ak
-         +JLDcs4w+KUp3D3yfuz/TZSKSgpHAJREzK48QEXI/vn2FvuIVwNUx+dXATeB1wXBCeUI
-         d7aw==
-X-Forwarded-Encrypted: i=1; AJvYcCX2tecLNPerGnlXEal05rt9sF/m3XYFp2+lw5iImyqObfgfUG1QqX4ryg1/NRl0//opkznmk2gC+tN0jA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyMEMqv4M7O2wIUE2UMy1qlRtXHWVBBW/MeOGEbcWjftUgR3TOO
-	1mTjvvIGQBUdAUhLls4DEv7qRN85pxoh1+Y/VW28HRZG0raKqUKV
-X-Gm-Gg: ASbGncsXD0bfl2xVRcB4WcWU5ziCowGm1nGysMiOUPZ2z4UQV9FrAK+1IeXMwW5CHvS
-	QboWfKl2h6Ps4dV2cji0KeMfykHF694/OkQrvZYliJnVCitFo3ZSwU9RVE1RjFv84lpbnX5G6gG
-	r8JTRhS8vUlDw2EzWI6bfQy574QKW3cttWgL5kCxMJKLhn/kCC3KTRX1chUigI4lFsbkjxdUuEt
-	xOIQAtS0GVS75pqZhMJVAVqYwzSoi5JAohXdeG2gBKSTJ1iw4AAVG1HZ+MQXwMUDzIU0ALZ6PUy
-	bkBoKbuMoIHs5/XTgkknzQEGvZMCqwaOca4C9w89sAsExXdvqPzu4ZVGRvNt88MylQidbZt0eU/
-	EewoaYvNqI5UDOMfriIl8QI1z7diKvQ==
-X-Google-Smtp-Source: AGHT+IGNAbuqm5FmxluF5wtjWawmF2WQ5tcvDHorTjnjuiAauWPbvFZ5uA5beNY4uy00YPPjFwGD/g==
-X-Received: by 2002:a05:600c:a04:b0:43c:efed:733e with SMTP id 5b1f17b1804b1-43ee06401a7mr54753425e9.14.1744007178599;
-        Sun, 06 Apr 2025 23:26:18 -0700 (PDT)
-Received: from ?IPV6:2a02:2f0e:c50a:8800:cf9e:ee0b:4a01:37f6? ([2a02:2f0e:c50a:8800:cf9e:ee0b:4a01:37f6])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c301a9da1sm10916991f8f.22.2025.04.06.23.26.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 06 Apr 2025 23:26:18 -0700 (PDT)
-Message-ID: <115a9838-faf0-4607-87f9-c952b43bca78@gmail.com>
-Date: Mon, 7 Apr 2025 09:26:17 +0300
+	s=arc-20240116; t=1744017973; c=relaxed/simple;
+	bh=71fNEv7nXUHMIzJUswZ4MG2WXxTHQBFervw2qaf+vU8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VwjBxMA13//k/x8eU9Jn2MWujNNKg9uHkzScIZun8LrlJeNMszue3mMePO/lPoT7Kf13KwIIEjsh1Mo5e2QyiysvIxT7sP/1CXdw9LjQFSIiLB6AMY7IpqCM0ff9sVVPHroxjfe2nQailrp61EA1Cm1Yl3rUjE6ObpF0lnC+gaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6CAB3106F;
+	Mon,  7 Apr 2025 02:26:12 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 342D93F59E;
+	Mon,  7 Apr 2025 02:26:10 -0700 (PDT)
+Date: Mon, 7 Apr 2025 10:26:06 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Yixun Lan <dlan@gentoo.org>
+Cc: Tom Rini <trini@konsulko.com>, Simon Glass <sjg@chromium.org>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Mikhail Kalashnikov
+ <iuncuim@gmail.com>, <u-boot@lists.denx.de>, <linux-sunxi@lists.linux.dev>
+Subject: Re: [PATCH 30/34] sunxi: A523: add DRAM initialisation routine
+Message-ID: <20250407102606.604fa0a6@donnerap.manchester.arm.com>
+In-Reply-To: <20250405215823-GYA11067@gentoo>
+References: <20250323113544.7933-1-andre.przywara@arm.com>
+	<20250323113544.7933-31-andre.przywara@arm.com>
+	<20250405215823-GYA11067@gentoo>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/6] crypto: sun8i-ce-hash - drop
- CONFIG_CRYPTO_DEV_SUN8I_CE_DEBUG ifdefs
-To: Herbert Xu <herbert@gondor.apana.org.au>
-Cc: clabbe.montjoie@gmail.com, davem@davemloft.net,
- linux-crypto@vger.kernel.org, wens@csie.org, jernej.skrabec@gmail.com,
- samuel@sholland.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20250401192321.3370188-1-ovidiu.panait.oss@gmail.com>
- <20250401192321.3370188-4-ovidiu.panait.oss@gmail.com>
- <Z_NM9LnUF6Gpv_iz@gondor.apana.org.au>
-Content-Language: en-US
-From: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
-In-Reply-To: <Z_NM9LnUF6Gpv_iz@gondor.apana.org.au>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+
+On Sat, 5 Apr 2025 22:01:50 +0000
+Yixun Lan <dlan@gentoo.org> wrote:
 
 Hi,
 
-On 4/7/25 6:56 AM, Herbert Xu wrote:
-> On Tue, Apr 01, 2025 at 10:23:19PM +0300, Ovidiu Panait wrote:
->> 'struct sun8i_ce_alg_template' is always defined, even with
->> CONFIG_CRYPTO_DEV_SUN8I_CE_DEBUG disabled, so the ifdef guards
->> are not needed.
->>
->> Make sure the statistics have IS_ENABLED() checks instead.
->>
->> Signed-off-by: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
->> ---
->>   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c | 8 +++-----
->>   1 file changed, 3 insertions(+), 5 deletions(-)
->>
->> diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
->> index b0959d8218cb..530c5181d73c 100644
->> --- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
->> +++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
->> @@ -31,9 +31,7 @@ static void sun8i_ce_hash_stat_fb_inc(struct crypto_ahash *tfm)
->>   
->>   		algt = container_of(alg, struct sun8i_ce_alg_template,
->>   				    alg.hash.base);
->> -#ifdef CONFIG_CRYPTO_DEV_SUN8I_CE_DEBUG
->>   		algt->stat_fb++;
->> -#endif
+> Hi Andre:
 > 
-> Should this go under IS_ENABLED as well?
+> On 11:35 Sun 23 Mar     , Andre Przywara wrote:
+> > From: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > 
+> > DRAM init code, as per reverse engineering and matching against
+> > previous SoCs.
+> > Supports LPDDR4 for now only.
+> > ---
+> >  arch/arm/include/asm/arch-sunxi/dram.h        |    2 +
+> >  .../include/asm/arch-sunxi/dram_sun55i_a523.h |  183 ++
+> >  arch/arm/mach-sunxi/Kconfig                   |   31 +-
+> >  arch/arm/mach-sunxi/Makefile                  |    2 +
+> >  arch/arm/mach-sunxi/dram_sun55i_a523.c        | 1468 +++++++++++++++++
+> >  arch/arm/mach-sunxi/dram_timings/Makefile     |    1 +
+> >  .../arm/mach-sunxi/dram_timings/a523_lpddr4.c |  119 ++
+> >  7 files changed, 1804 insertions(+), 2 deletions(-)
+> >  create mode 100644 arch/arm/include/asm/arch-sunxi/dram_sun55i_a523.h
+> >  create mode 100644 arch/arm/mach-sunxi/dram_sun55i_a523.c
+> >  create mode 100644 arch/arm/mach-sunxi/dram_timings/a523_lpddr4.c
+> > 
+[ ... ]
+
+> > diff --git a/arch/arm/mach-sunxi/dram_sun55i_a523.c b/arch/arm/mach-sunxi/dram_sun55i_a523.c
+> > new file mode 100644
+> > index 00000000000..fae02062547
+> > --- /dev/null
+> > +++ b/arch/arm/mach-sunxi/dram_sun55i_a523.c
+> > @@ -0,0 +1,1468 @@
+> > +// SPDX-License-Identifier: GPL-2.0+
+> > +/*
+> > + * sun55i A523/A527/T527/H728 platform DRAM controller driver
+> > + *
+> > + * This driver supports DDR3 and LPDDR4 memory.
+> > + *
+> > + * (C) Copyright 2024 Jernej Skrabec <jernej.skrabec@gmail.com>
+> > + *
+> > + */
+> > +#include <init.h>
+> > +#include <log.h>
+> > +#include <asm/io.h>
+> > +#include <asm/arch/clock.h>
+> > +#include <asm/arch/dram.h>
+> > +#include <asm/arch/cpu.h>
+> > +#include <asm/arch/prcm.h>
+> > +#include <linux/bitops.h>
+> > +#include <linux/delay.h>
+> > +  
+> ...snip
+> > +static void mctl_auto_detect_dram_size(const struct dram_para *para,
+> > +				       struct dram_config *config)
+> > +{
+> > +	/* detect row address bits */
+> > +	config->cols = 8;
+> > +	config->rows = 16;
+> > +	mctl_core_init(para, config);
+> > +
+> > +	for (config->rows = 13; config->rows < 16; config->rows++) {
+> > +		/* 8 banks, 8 bit per byte and 16/32 bit width */
+> > +		if (mctl_mem_matches((1 << (config->rows + config->cols +
+> > +					    4 + config->bus_full_width))))
+> > +			break;
+> > +	}
+> > +
+> > +	/* detect column address bits */
+> > +	config->cols = 11;
+> > +	mctl_core_init(para, config);
+> > +  
+> ...
+> > +	for (config->cols = 8; config->cols < 11; config->cols++) {
+> > +		/* 8 bits per byte and 16/32 bit width */
+> > +		if (mctl_mem_matches(1 << (config->cols + 1 +
+> > +					   config->bus_full_width)))
+> > +			break;
+> > +	}  
+> on radxa a5e, I've got occasionally wrong dram size, roughly 2/10 rate
+> in the wrong case it got 8192M, while actually should be 4096M..
 > 
+> spent a few time to debug, found it got config->cols = 11 while should be 10
+> and above for loop has been skipped, thus fail to detect correct cols value..
 
-This is already part of an IS_ENABLED(CONFIG_CRYPTO_DEV_SUN8I_CE_DEBUG) 
-block, so no need to add an extra IS_ENABLED() check here. Just the 
-ifdef was dropped:
+Ah yes, we were already suspecting that. We had those "double detection"
+issues on H616 for a while, and Jernej fixed them there recently:
+https://lore.kernel.org/u-boot/20250309063143.62859-1-jernej.skrabec@gmail.com/T/#u
 
-	if (IS_ENABLED(CONFIG_CRYPTO_DEV_SUN8I_CE_DEBUG)) {
-		struct sun8i_ce_alg_template *algt __maybe_unused;
-		struct ahash_alg *alg = crypto_ahash_alg(tfm);
+So we were already thinking of folding a similar fix into this (and
+other SoCs') DRAM code, ideally by sharing some code.
 
-		algt = container_of(alg, struct sun8i_ce_alg_template,
-				    alg.hash.base);
-#ifdef CONFIG_CRYPTO_DEV_SUN8I_CE_DEBUG
-		algt->stat_fb++;
-#endif
-	}
+Thanks for the test and the report!
 
-Thanks,
-
-> Thanks,
-
+Cheers,
+Andre
