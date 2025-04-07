@@ -1,89 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CAD11EB5DA;
-	Mon,  7 Apr 2025 15:05:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC4FF204F87;
+	Mon,  7 Apr 2025 15:49:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744038333; cv=none; b=Gfz+F0kUAFjVjR4PRhtxjLAId0WQB8Su+ycOK7qjoAFGwZzyR3zCO/ToSTDNt/GTyRyxjbT8XfMpPIUFNtt9jx0A72J28ZcSloXvCOXDptxf7qKIk9JKSEU5fC/9tSj+GVekol67n+B+J3D6xy+UAUbii/2KBF+SgNvMlFvADcg=
+	t=1744040971; cv=none; b=r2I0tiBtJ+PE7BG8pnzHCh89H1JSgyTiNjf2+f0kKIodM1kLrRhtGUZoNq+d84ZFj1MM5KnwR3ZwzAFlSkQB+IBvGlZGlzlykIeWeV0QUVspeWQOC+wO2dO56GyNsnQSTJ9odyYj7suyEC+wfbbU2kCjZXeu58sUe1WUNWYbJ5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744038333; c=relaxed/simple;
-	bh=Mw9qucjIp0Omq/A9vAIb/29JeyZDGU+9uc/m9jCRX7A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cUGul2QS+jwaE58G2kPNge4fPAnzNnGXiCt7GNpJl5z0POWLRF9W7E4mVqcSY9IBp+Gv9AF2QiM+D2oTGIx94/wlzkwcIqTsLxGWmbiRkehk/A056ofRiZaq9jWmrR3wbgVZYsqGGJLzghENY7VJ8pQkaEhxCk33hRHw8eoxTfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gKQS3aWs; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gKQS3aWs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 031B8C4CEE8;
-	Mon,  7 Apr 2025 15:05:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744038332;
-	bh=Mw9qucjIp0Omq/A9vAIb/29JeyZDGU+9uc/m9jCRX7A=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=gKQS3aWs5xVxCEeJcS5zafu+bQCjIu6I8wU63yWdkZqgTpN0ZX/HSRgG0wgmWL3Df
-	 tO4n9x0oecWmoMZuH9gLl66GZO1AzfyrFd6iPK8hsaD1rVynbuKzMzFYofrQdqnGmp
-	 YE1GFpYc3rTrfy463qTV34W6ytzsjmWknY/GRntLu/xhoBMNTaqRfPiTSkkl8yRcm3
-	 JZa3p5KhofL4wTtG8vofHq+wfE28TQJYr6EcDYsDgl5WUa2CRXX81T5kYlpVYFKA1X
-	 tILrVOmLhSJEvkXnYTKUB3Ueun2ZuSdoGzFkrObrHcMl3dRZeuhARHTmLzv3nTPBng
-	 XpeskTYpqLJZA==
-From: Conor Dooley <conor@kernel.org>
-To: Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Viresh Kumar <vireshk@kernel.org>,
-	Nishanth Menon <nm@ti.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	zhouyanjie@wanyeetech.com,
-	Conor Dooley <conor@kernel.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Steen Hegelund <Steen.Hegelund@microchip.com>,
-	Daniel Machon <daniel.machon@microchip.com>,
-	UNGLinuxDriver@microchip.com,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	"Rob Herring (Arm)" <robh@kernel.org>
-Cc: Conor Dooley <conor.dooley@microchip.com>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-mips@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-rockchip@lists.infradead.org,
-	linux-amlogic@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: (subset) [PATCH 00/19] Arm cpu schema clean-ups
-Date: Mon,  7 Apr 2025 16:04:56 +0100
-Message-ID: <20250407-explicit-explain-a741ef76ba8e@spud>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20250403-dt-cpu-schema-v1-0-076be7171a85@kernel.org>
-References: <20250403-dt-cpu-schema-v1-0-076be7171a85@kernel.org>
+	s=arc-20240116; t=1744040971; c=relaxed/simple;
+	bh=z1Vo+dwaof12v9FJV1zldoq4gxlfm8goG7zQDI0UfYg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=QQcSCpEr/dkk9E9jxqMv/UZC4HJPDW8lQ28tdpkhnBQfUT/GGV2f9Dulx4Bu0aoHHBkbRm9JchE08GbEHkNqCRsIMK4KIDJTe/05435WSr3nRaE2pjGLam64RNYG8mYShMpdTxxOvtoqSFshM185pwUeouPriKtjH59ZmooJoSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 824D1C4CEDD;
+	Mon,  7 Apr 2025 15:49:31 +0000 (UTC)
+Received: from wens.tw (localhost [127.0.0.1])
+	by wens.tw (Postfix) with ESMTP id C8D385F9F2;
+	Mon,  7 Apr 2025 23:49:28 +0800 (CST)
+From: Chen-Yu Tsai <wens@csie.org>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Andre Przywara <andre.przywara@arm.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Ulf Hansson <ulf.hansson@linaro.org>, linux-mmc@vger.kernel.org, 
+ Wim Van Sebroeck <wim@linux-watchdog.org>, 
+ Guenter Roeck <linux@roeck-us.net>, linux-watchdog@vger.kernel.org, 
+ Thomas Gleixner <tglx@linutronix.de>, Vinod Koul <vkoul@kernel.org>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, linux-phy@lists.infradead.org
+In-Reply-To: <20250307005712.16828-1-andre.przywara@arm.com>
+References: <20250307005712.16828-1-andre.przywara@arm.com>
+Subject: Re: (subset) [PATCH v3 00/15] arm64: dts: allwinner: Add basic
+ Allwinner A523 support
+Message-Id: <174404096879.829294.8545896192881134098.b4-ty@csie.org>
+Date: Mon, 07 Apr 2025 23:49:28 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -91,27 +43,44 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=698; i=conor.dooley@microchip.com; h=from:subject:message-id; bh=3ED6nRUUmofI7rnQA5nqnPZ4e85/GutKQ3V+2IZjPhU=; b=owGbwMvMwCFWscWwfUFT0iXG02pJDOmfX85o+sg3ueWv6O3Sh03r2wxfSPGs4/kmI3wy2pZ9l jij8++rHaUsDGIcDLJiiiyJt/tapNb/cdnh3PMWZg4rE8gQBi5OAZjI0yMM/7PeKB0VzvzRsU76 6ZZK72k+2yufHdmVoe3au+jKpq5jvk8Y/oc+Uf8o/IzxBH/rpdnLH972fP4uU2Jz797u8z9eX11 z8TcbAA==
-X-Developer-Key: i=conor.dooley@microchip.com; a=openpgp; fpr=F9ECA03CF54F12CD01F1655722E2C55B37CF380C
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-From: Conor Dooley <conor.dooley@microchip.com>
-
-On Thu, 03 Apr 2025 21:59:21 -0500, Rob Herring (Arm) wrote:
-> The Arm cpu.yaml schema fails to restrict allowed properties in 'cpu'
-> nodes. The result, not surprisely, is a number of additional properties
-> and errors in .dts files. This series resolves those issues.
-> 
-> There's still more properties in arm32 DTS files which I have not
-> documented. Mostly yet more supply names and "fsl,soc-operating-points".
-> What's a few more warnings on the 10000s of warnings...
+On Fri, 07 Mar 2025 00:56:57 +0000, Andre Przywara wrote:
+> this in an update to the series introducing the basic DT support for the
+> Allwinner A523 SoC. It now comes with DTs for three boards, using
+> slightly different packages of that SoC.[1]
+> Functionality-wise it relies on the pinctrl[2] and clock[3] support
+> series, though there are no direct code dependency series between the
+> series. Two binding patches from there are required to pass dtbs_check,
+> git put their patch IDs in the footer below.
+> Compared to v2 only small fixes in the NMI controller driver: renaming
+> the struct to better reflect its new usage, add adding the DS pin to
+> the eMMC pingroup list. Adding accrued tags on the way, many thanks to
+> the diligent reviewers! More detailed changelog below.
 > 
 > [...]
 
-Applied to microchip-dt64, thanks!
+Applied to dt-for-6.16 in git@github.com:linux-sunxi/linux-sunxi.git, thanks!
 
-[04/19] arm64: dts: microchip: sparx5: Fix CPU node "enable-method" property dependencies
-        https://git.kernel.org/at91/c/ec32344d2a3b
+[08/15] arm64: dts: allwinner: Add Allwinner A523 .dtsi file
+        commit: 35ac96f796649346c9b0440413dc6c5138249b3e
+[09/15] dt-bindings: vendor-prefixes: Add YuzukiHD name
+        commit: acf5b947cff1b991ceb7fa53c66555242ff4c87b
+[10/15] dt-bindings: arm: sunxi: Add new board names for A523 generation
+        commit: f9d55227839199e928a41574e41089288a43a2d6
+[11/15] arm64: dts: allwinner: a523: add Avaota-A1 router support
+        commit: 3a1883f32b9b5083883624f9b39a3c6edfa6d490
+[12/15] arm64: dts: allwinner: a523: add X96Q-Pro+ support
+        commit: 66611715c473a9820b65322c94401a367711acd7
+[13/15] arm64: dts: allwinner: a523: add Radxa A5E support
+        commit: 80e0fb4e491b4994434e42c33c1387a46b7986bc
+[14/15] dt-bindings: arm: sunxi: Add YuzukiHD Chameleon board name
+        commit: 7273c0e2e4229bca42c70e6f3c33f1756902301a
+[15/15] arm64: dts: allwinner: h616: add YuzukiHD Chameleon support
+        commit: 6d1cb8de157382facedf50f1a80ee033243b8494
 
-Thanks,
-Conor.
+Best regards,
+-- 
+Chen-Yu Tsai <wens@csie.org>
+
