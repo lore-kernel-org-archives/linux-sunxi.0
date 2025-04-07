@@ -1,57 +1,41 @@
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F05520897F
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Apr 2025 16:27:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D89772139A1;
+	Mon,  7 Apr 2025 16:50:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744043269; cv=none; b=lSaLnp08OIfD/q8h32C+Ypi7/rMRH8P630L/q/G141uSiUxsulIRYXJOazgF2I2u0PaaA5wSNnBswn174UGksZX5ngZwa1KVxgHDeflOtkWzclX4SRIeR8l0qnBJnbZMmJOXdJiu52g+8djJ3SwUctLT6PStdrRjhA6z0mfBUh8=
+	t=1744044650; cv=none; b=JhkpX1YJ06ymOOYl1iLRvAcqjCpNlSVB2N/863DHr2/6nXyxisFAT9HhYQJhg0cC9b5G657b3oaX8IZ7341+f43Idhe/SBd+m9q+nZUmmodzlRTQhYHdIpOzUlzaoO9HLQ5A1ua1+388MXl3ThRjFc+ERGkUL0ji/4FCZOPWimM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744043269; c=relaxed/simple;
-	bh=2E83vRDeGBi2KQKmMy4PdlP5hsTnpBPGTayVZg7p9Bg=;
+	s=arc-20240116; t=1744044650; c=relaxed/simple;
+	bh=9rKDfEvc7K+7LzU7nTcuoqeYfX0y7c5G08Njz5uF/Vo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=e3NgSGzR3BgsG54y8SK/nAT8zK1kLxp7R42BEdpzYPcTxTWkO9WGYwME2Py2J3+ANBGuSAaAFPl9wqkeYbmKHW+1DdrErxkVrxPaaCDp1AeZbhRNTSAmVP7X39ruWO5PL+MhQim9fXVfsr10euYN7+w6Nty0QJt8Py9J+yuUkDI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IxwYQwrY; arc=none smtp.client-ip=209.85.128.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 To:Cc:Content-Type; b=g1UoxyPmyf0GPp2OzvCKQFKGpU1QaQvrmZ7YJhHFQ490qVB0Q4eAj03lEZKG90aloYdCJW+Bi0BiVEdqU0nmHMeZz+TR2nNksLRLAZXNh6QHXtJRPyqc2riZJQkCpSyXRgcBIiBPOJUnjjy2ra68Fu9eBYrjO4ejy3eFzavHPUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sp9MSWDJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IxwYQwrY"
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-6f666c94285so49312017b3.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 07 Apr 2025 09:27:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744043266; x=1744648066; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=2E83vRDeGBi2KQKmMy4PdlP5hsTnpBPGTayVZg7p9Bg=;
-        b=IxwYQwrYRK2gIVFr/4GMJaH0jfXRzMcdXpnNPEAZpjER77IgRAynGAHJTBp0bVHPbs
-         9vT0E0FsKDn7H7MSKggJEWxY+owdkV52oLBIKUUQW6nh830eeVpQR8c9Tj1UrEIhxZHi
-         Pg5znQ+gU1sdLmMfsfdJHhGJml8h0EjoaLZC13Owu3IihQszt5i2TQJpJ/qUs2CTDAQV
-         33TJhwv1fDOuGYt3WVcpe1LHn86LSjjU2PQ3xF426+VKNlOGVXe9CznW0ntKLhcTNsOE
-         zGuUoWxzYo7twvmEDsVh9NARplaB4E2HM3pGL/6kbLUK0VV1xoem8uZRwW4oJ3J7Z4bh
-         OvXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744043266; x=1744648066;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2E83vRDeGBi2KQKmMy4PdlP5hsTnpBPGTayVZg7p9Bg=;
-        b=s1SqM73uN957cAp0s8gH8YMSmyIJDxo1Y1rYBfSE1cvja9DwWYJ6MFB30Ywx0J7Li3
-         jN/ERm3qHZ4vSjrQST0LCxcmXx9DL2Aqah5otnL3B7pXsVk9yY+QiAOwFxMfLbhngo9p
-         GHVtC5EqUu0yPBt4aMdnWdT3cSFbF6iv5dxE1kh0CD++nBOBVuTvUzPUWJqdfyOyYVEo
-         jPHiz5xmzl5ej3MyTeEEwWisAlebc+NSRX/dM41l/tq0AoPzWL4bG+jhVpcaWXp+5sAX
-         YU/lHIJ17mDYhfRSm+gaOoUZsU5UrDHEAYnJQX/sMS3uihWK0ftxPPThOKBXc2TWrAGO
-         9Z0A==
-X-Forwarded-Encrypted: i=1; AJvYcCXe+XRaMlUR5ckuZtfxsdlMmGQ0ZO917eUr1Ryqfzh2Ka/85fLzNL27aoLJVsGmygJX6LzzXEMPqwOh0w==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxiza/oDO6EYInGQ45OioNIoeh8T/TVwSQ7vPctZEf7ih0KQfHm
-	uFqx4obcnPdM9NsjXIZe7m6cBz2wri/VgNwuAY9SQDVq9fApkpYzbeD+mLrQO/+8ZMyqTrfzQ7c
-	mQEAdtn5NGd0D5ENVKJxLvvyCHd1y5QGsNv8Utw==
-X-Gm-Gg: ASbGncsRRVpG3IRkkVUwMKbnsQBFVKJbN6WUW4Xw7Y/m9bpciRTZQKTVq4GhcMsh3c7
-	ic3EmdxY7zSX0gfFtTbDvKGGA1Vg2M8bxPJ4GurDKB5not1vMoLSiELpV4HQWU6CtBNlneaZlcz
-	k4lSX/BVeH1rZKv9PQc2PCUnH7niQ=
-X-Google-Smtp-Source: AGHT+IGtNp2BrAkn3PRcCBrP5vhlJ1looux4OpDWyP6ljq92N0vWykgYWHtVBu01P5IBh7MS/lbuITHOgr8FD7w/MVE=
-X-Received: by 2002:a05:690c:a84:b0:6f9:9d40:35cb with SMTP id
- 00721157ae682-703f41267b0mr168266747b3.6.1744043266227; Mon, 07 Apr 2025
- 09:27:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sp9MSWDJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC7DBC4CEEE;
+	Mon,  7 Apr 2025 16:50:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744044650;
+	bh=9rKDfEvc7K+7LzU7nTcuoqeYfX0y7c5G08Njz5uF/Vo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Sp9MSWDJaaAqP1q2SYIWKIo2g5ROm+6P5tR7LFd8E50X8gK4zuhxBadi53VkyP+Ic
+	 Mjsmlr7jxLIM1qBo59vxeEqPR6FZPe9YVLx4CPyU2A4DHmeFfsEwHB8BxVshIFEmeC
+	 12MMo2b3egIrNo05eXUirOJt6tvZCoIHerm6NWQWppuvtrt7Sdv8HQefioWs1cgwOv
+	 mkQpF5mP4YM/Mqvyo83b7cKwtpLn0eBZTzXGJBE6sjFWjRkVl9Js0s32ghUeE+0pJ2
+	 vKcR/Tzpjum/ZIgOGGfWTmbdDSesqQEtB6FpedtzQIqOmygCuQe1BApOBiIe8k3tMk
+	 ZEfSj8h17KEtg==
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5e60cfef9cfso7608749a12.2;
+        Mon, 07 Apr 2025 09:50:50 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUy1f+SlwWUs/MM4m6MOqUUzEX+9WjbsDyFInRLB+X9Hjw+bjU7S70RJ+a9vUWsCOMm+j8=@lists.linux.dev, AJvYcCXu55+MJlMksvN9VjQSgfsHo32qT7+aU77s36Ig+CDHUhSU/ysLBu4O4D0tEKKSeQf0JL5AfMT+pCunVFI=@lists.linux.dev
+X-Gm-Message-State: AOJu0YyMFeA1vKSBVyL9RBywvgfiKyypQI0BVgNaxThYXCMLGM9T9osl
+	VJCEe7COOCJjfw1zMReRb4H4bnWIpX8yptRAhG9DZoo3/kiIq2FWRONkZxsENrRh2UDfPaqylU5
+	Ogs2TdZeKXx/GyG6B5BVI8tw6qw==
+X-Google-Smtp-Source: AGHT+IEYKsKGhFSJY/Ew6wLedApBd8mm5Tfxxs3oUxIJoVcHTWnGkb+RbDSqCHxLGxft/yGwgIdnVVemND8kyOfPXZI=
+X-Received: by 2002:a05:6402:26ca:b0:5e7:c779:85db with SMTP id
+ 4fb4d7f45d1cf-5f0db7fc898mr8148611a12.4.1744044649254; Mon, 07 Apr 2025
+ 09:50:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -59,19 +43,20 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20250403-dt-cpu-schema-v1-0-076be7171a85@kernel.org>
- <20250403-dt-cpu-schema-v1-9-076be7171a85@kernel.org> <03011a33-174b-4027-bdd2-043aa685380b@oss.qualcomm.com>
-In-Reply-To: <03011a33-174b-4027-bdd2-043aa685380b@oss.qualcomm.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Mon, 7 Apr 2025 18:27:10 +0200
-X-Gm-Features: ATxdqUE6-dDNiPO2iJ2zywPixm7KYg2Lx2vGxVH4s4tPgli0QW4REXdhqc3rxfE
-Message-ID: <CAPDyKFoZ7NfN+pkCPnusvTOEaxbQhr=1FJqzdDGrLcKAzBpGyQ@mail.gmail.com>
-Subject: Re: [PATCH 09/19] arm: dts: qcom: sdx55/sdx65: Fix CPU power-domain-names
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: "Rob Herring (Arm)" <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
+ <20250403-dt-cpu-schema-v1-18-076be7171a85@kernel.org> <CAPDyKFrFRrPVJ_t0JrAE1VTbS02hwr=L-EHtqb7CQiWzB1MnQg@mail.gmail.com>
+ <CAL_JsqKygxhcQ=PZW84sfiW7BVXKF839vfNyxS9GwAXuqmN=8g@mail.gmail.com> <CAPDyKFoHQdHED0hHUR7VKin0XG6SVnYXuvPjB=Xe+1o2hpiPJA@mail.gmail.com>
+In-Reply-To: <CAPDyKFoHQdHED0hHUR7VKin0XG6SVnYXuvPjB=Xe+1o2hpiPJA@mail.gmail.com>
+From: Rob Herring <robh@kernel.org>
+Date: Mon, 7 Apr 2025 11:50:37 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+Oa7MvVO7Y-RG+qrY2e86B_q0XGq1LWoy5Mq+G72ZHzQ@mail.gmail.com>
+X-Gm-Features: ATxdqUFxTokrKuT9iYBdxHBpsv0NfQo4Eim7mTXXSg7aEaclQFxJWUQS1crmjko
+Message-ID: <CAL_Jsq+Oa7MvVO7Y-RG+qrY2e86B_q0XGq1LWoy5Mq+G72ZHzQ@mail.gmail.com>
+Subject: Re: [PATCH 18/19] dt-bindings: arm/cpus: Add power-domains constraints
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Viresh Kumar <viresh.kumar@linaro.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
 	Vincenzo Frascino <vincenzo.frascino@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
 	Sudeep Holla <sudeep.holla@arm.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
@@ -94,37 +79,58 @@ Cc: "Rob Herring (Arm)" <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.o
 	imx@lists.linux.dev, linux-rockchip@lists.infradead.org, 
 	linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 4 Apr 2025 at 22:41, Konrad Dybcio
-<konrad.dybcio@oss.qualcomm.com> wrote:
+On Mon, Apr 7, 2025 at 11:23=E2=80=AFAM Ulf Hansson <ulf.hansson@linaro.org=
+> wrote:
 >
-> On 4/4/25 4:59 AM, Rob Herring (Arm) wrote:
-> > "rpmhpd" is not documented nor used anywhere. As the enable-method is
-> > "psci" use "psci" for the power-domain name.
+> On Fri, 4 Apr 2025 at 15:09, Rob Herring <robh@kernel.org> wrote:
 > >
-> > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> > ---
+> > On Fri, Apr 4, 2025 at 5:37=E2=80=AFAM Ulf Hansson <ulf.hansson@linaro.=
+org> wrote:
+> > >
+> > > On Fri, 4 Apr 2025 at 05:06, Rob Herring (Arm) <robh@kernel.org> wrot=
+e:
+> > > >
+> > > > The "power-domains" and "power-domains-names" properties are missin=
+g any
+> > > > constraints. Add the constraints and drop the generic descriptions.
+> > > >
+> > > > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> > > > ---
+> > > >  Documentation/devicetree/bindings/arm/cpus.yaml | 8 ++------
+> > > >  1 file changed, 2 insertions(+), 6 deletions(-)
+> > > >
+> > > > diff --git a/Documentation/devicetree/bindings/arm/cpus.yaml b/Docu=
+mentation/devicetree/bindings/arm/cpus.yaml
+> > > > index 6f74ebfd38df..5bd5822db8af 100644
+> > > > --- a/Documentation/devicetree/bindings/arm/cpus.yaml
+> > > > +++ b/Documentation/devicetree/bindings/arm/cpus.yaml
+> > > > @@ -313,19 +313,15 @@ properties:
+> > > >      maxItems: 1
+> > > >
+> > > >    power-domains:
+> > > > -    description:
+> > > > -      List of phandles and PM domain specifiers, as defined by bin=
+dings of the
+> > > > -      PM domain provider (see also ../power_domain.txt).
+> > > > +    maxItems: 1
+> > >
+> > > There are more than one in some cases. The most is probably three, I =
+think.
+> >
+> > Unless I missed it, testing says otherwise. What would the names be if
+> > more than 1 entry?
 >
-> "psci" is what we want here, but these platforms require some more
-> massaging..
-
-So this isn't for CPU performance scaling?
-
+> "psci", "perf", "cpr", etc
 >
-> These SoCs don't seem to have any PSCI idle states (deeper than WFI)
-> described, which is no bueno, as they support some..
-
-If PSCI PC mode is the only supported CPU suspend mode, we don't need
-the power-domain topology to be described in DT as it's optional to
-use.
-
-Is this a PC or OSI based platform?
-
+> The "psci" is always for CPU power management, the other is for CPU
+> performance scaling (which may be more than one power-domain in some
+> cases).
 >
-> I'll try to improve this.
->
-> Konrad
->
+> I would suggest changing this to "maxItems: 3". That should be
+> sufficient I think.
 
-Kind regards
-Uffe
+Again, my testing says 1 is enough. So where is a .dts file with 3 or 2?
+
+Rob
