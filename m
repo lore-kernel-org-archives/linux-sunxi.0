@@ -1,89 +1,89 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EE7A190678
-	for <linux-sunxi@lists.linux.dev>; Sun,  6 Apr 2025 20:32:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E959014AA9;
+	Mon,  7 Apr 2025 03:56:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.6.53.87
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743971526; cv=none; b=PXd5Jj/cwriFio0XB1QOmwCFTBA9EXonNedFEUgheq6iTijhQQlilf0vekyOXZYPVNwC80CakflYLeKmJl5ClDQn+MUIb3eJKND9DgHzleBW+WHqTwWkL2fv47cjEc+bATp1cQcY6J7X82nnjpN3KzejenxyfFjC6DrEUZrpmC8=
+	t=1743998214; cv=none; b=GbmI3Tb7IiobPRksS8ezr+nNBh9XpaZzr2hgsRXrLpeqtFtMd6OcU6HMhh/6mhsOtJOgh6T38+n2b+cGSCKGdyvVfH00vdkA5TlJwoTubWplWmYz8fxrhmKFiAIK0pQO6s/L0ZVPfSihyccQB5A4iBoxk7j5YfmiU6uNZLoJU2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743971526; c=relaxed/simple;
-	bh=/QKe2abRQc2yYg8840jEvGySXkfzcfSJKHrjRel0tUY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rHQIM+eaglI6WYrQy3aYyAIGGHbzsvXNZ2qhp4JwgagXvPnZ5TBZ6hoxeIMu1G7S6vf7wfaX6rA+INFKkbfZ4i8cfPdXEK4n9wuHublXPGuajrGgd5kct1OPWAggS54enrdm69pQZkR4O++mneZuNliLVwi1SNFAWeYZrnin7ME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=googlemail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=HfNSf2ia; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=googlemail.com
+	s=arc-20240116; t=1743998214; c=relaxed/simple;
+	bh=S+pL2t3URZac9VfYC4csGspGyQI2T3N3K6Ln7gjkKw0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fuestfxYRbhBSDSvWDk/Nc4Aea0JLhk1xi5CrtJHoStWekFknKtIxzyfE0ra5RtHGc58X9yDMpQoEtJYrOl5BIVMzwpe0R9KYXBNtpA9iP3LkTXkxaxsA76DVIvyoxyS2FExm9+h601kEVGJ2QPzGqfpsDYcIuTBUfsk81A7WdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b=MjM7iyEY; arc=none smtp.client-ip=144.6.53.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="HfNSf2ia"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-22423adf751so34521985ad.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 06 Apr 2025 13:32:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20230601; t=1743971524; x=1744576324; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/QKe2abRQc2yYg8840jEvGySXkfzcfSJKHrjRel0tUY=;
-        b=HfNSf2iajlc8hviP3f7ph/VB12AbKcB1/wLeHW0IcMXn5shz54spvHkB335qmJuddi
-         Kp98s2eZ2mb414BudDdE9IJe9maZaD5asa9UiRPLMW4fhZoX9tSnilA8Xv8hCk6FNlTM
-         7nBubvNKC5/IcKVa4QxCU+0y4UA5wltrGXXlMnaPY2Vui1IMXckRWEJ/dvpgkRpJ3ckT
-         pMF4IFSMacQWHRAp89xSc4HP+x7Id6jkzhprF1/4cAUkIfUb5R/HY6iC58CT8imR9KwB
-         2YhvUojtT5NqQrmJuWlZLfQKq11+cJwPoeStiFsgGeU8I65VPy/Zu0jOUnpsjffQMhdD
-         +D1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743971524; x=1744576324;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/QKe2abRQc2yYg8840jEvGySXkfzcfSJKHrjRel0tUY=;
-        b=UUqAw+0aK2FVrz/ILy8KhO2lkkT9WbF9BBsUomM4ywVvdGAG8LOkC2E8ZB/XzvFJc7
-         88ZAVYgo2sSei42eK5OCsUWst6SuBh5eeCzD2w5Xtjz+ixr1l1wW8ljaGjdqdS5j592F
-         qcna5abFhNiyJBlBtUvV0BVUDlF26z4RoJUH031p9V1vEAz2Z7VQzLk2sJm06U5Mozb6
-         GPD87NUEjlTBmNEUdNo1KIudisUgqktk/OqSEDXTmPwO3+ZYh+YwGf6BkZwPfd2+qWOV
-         YxQM6iDRKbYt7lghIwXHxcqNXjqEjQTwELsmHKGh1NLMt7gpFZ2MmNCkv9se34e6ro9t
-         jurg==
-X-Forwarded-Encrypted: i=1; AJvYcCUqW+aveJGMF/8xbcAgAI0tGjL3OXYPM2iQhQqs8OhJaezRauWEeWM22PslMz3aWNUs20clUa1HJCFuMA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy4LdHejbiVCDmT62nGuK3+y7Pa1NvM4OTHt7hGoUmx9LktEJ/N
-	7b9XmxO29kX1dOYhKDM1dNrDkGy9XJvTtjLkx6ZvGv9WJajmaMFWu6u1Wt/Fsiw3Had6n+MjXMP
-	1CgYHouCivBTaGoiM/hDuDin5CFA=
-X-Gm-Gg: ASbGncveqDmmz0OpejsFIbr4dKeRBfR6XFYxqrfX5Bl80/HsrV42e7qChJvOW+dc1rc
-	4dbqEI96KMdDiI7OaS6F1GXokX3RkQrkoiC3VvOUV6KfiZoiUh3uUuD9/ph5o+T3VXBdOactroj
-	m8UuD6zfLn4HPK0QCdSVTb48A8AtIC/MuzRty0IjAu
-X-Google-Smtp-Source: AGHT+IHT9v90+iSAiZXg5CI9I2oqKoRX4lqsSVS1Jifp+TsFpnk0GJAUF4rHe1Z3iO76l1ihTjaQBPryFYN0akQAcDI=
-X-Received: by 2002:a17:902:e546:b0:216:410d:4c53 with SMTP id
- d9443c01a7336-22a8a0a24f1mr155808815ad.41.1743971524234; Sun, 06 Apr 2025
- 13:32:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b="MjM7iyEY"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hmeau.com;
+	s=formenos; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=JOCVFoZKN/0pqI+VbreA8eza28Uh0Gc02Hvheb6BCGo=; b=MjM7iyEY/h4tSrTK0unjHkO4Oo
+	2RuFhUkcyGB72cfF9bCWWIpSkUw7gsLUuo78Mk08Isdsb8djPNEwFTtU3lMbJtH6opFwnNwte3Rt2
+	Xm+ZX9TI5ZR1BQLBW91PxI7qXGWQ04x6QuhEa4o2r1EnHehMNpX7ok2ThI6hH8eJp5/PNpXhBkGRE
+	nijigLBBfka/ZRIVVMtUE7vwqFxAJcPZwmJb5RpquykO73AzRTJ/4OLT8/gNdKsu22iu+ZVJPnFzB
+	nTub1XOMRiaTwQy1G3lhBfe0KCzLRT+YsHMuR7VRRrJvnSh0YzPN7na66M5jZbsFNwKRjjQBDGrgB
+	eDSa+SwQ==;
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
+	id 1u1dbA-00DMQq-2a;
+	Mon, 07 Apr 2025 11:56:37 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Mon, 07 Apr 2025 11:56:36 +0800
+Date: Mon, 7 Apr 2025 11:56:36 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
+Cc: clabbe.montjoie@gmail.com, davem@davemloft.net,
+	linux-crypto@vger.kernel.org, wens@csie.org,
+	jernej.skrabec@gmail.com, samuel@sholland.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/6] crypto: sun8i-ce-hash - drop
+ CONFIG_CRYPTO_DEV_SUN8I_CE_DEBUG ifdefs
+Message-ID: <Z_NM9LnUF6Gpv_iz@gondor.apana.org.au>
+References: <20250401192321.3370188-1-ovidiu.panait.oss@gmail.com>
+ <20250401192321.3370188-4-ovidiu.panait.oss@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250404-kconfig-defaults-clk-v1-0-4d2df5603332@linaro.org> <20250404-kconfig-defaults-clk-v1-1-4d2df5603332@linaro.org>
-In-Reply-To: <20250404-kconfig-defaults-clk-v1-1-4d2df5603332@linaro.org>
-From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date: Sun, 6 Apr 2025 22:31:53 +0200
-X-Gm-Features: ATxdqUGuzCGyUj4WFxWudQ3GalFFdus2VKUZdP35pUaLUbjhJd9NZclZR-cjauk
-Message-ID: <CAFBinCB00HsScB6d4UboQkp8HPQ3pbDwbbwnzwgqJOvHwBDSdA@mail.gmail.com>
-Subject: Re: [PATCH 1/5] clk: meson: Do not enable by default during compile testing
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Kevin Hilman <khilman@baylibre.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	=?UTF-8?Q?Emilio_L=C3=B3pez?= <emilio@elopez.com.ar>, 
-	linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250401192321.3370188-4-ovidiu.panait.oss@gmail.com>
 
-On Fri, Apr 4, 2025 at 1:57=E2=80=AFPM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> Enabling the compile test should not cause automatic enabling of all
-> drivers.
->
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Reviewed-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+On Tue, Apr 01, 2025 at 10:23:19PM +0300, Ovidiu Panait wrote:
+> 'struct sun8i_ce_alg_template' is always defined, even with
+> CONFIG_CRYPTO_DEV_SUN8I_CE_DEBUG disabled, so the ifdef guards
+> are not needed.
+> 
+> Make sure the statistics have IS_ENABLED() checks instead.
+> 
+> Signed-off-by: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
+> ---
+>  drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c | 8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
+> index b0959d8218cb..530c5181d73c 100644
+> --- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
+> +++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
+> @@ -31,9 +31,7 @@ static void sun8i_ce_hash_stat_fb_inc(struct crypto_ahash *tfm)
+>  
+>  		algt = container_of(alg, struct sun8i_ce_alg_template,
+>  				    alg.hash.base);
+> -#ifdef CONFIG_CRYPTO_DEV_SUN8I_CE_DEBUG
+>  		algt->stat_fb++;
+> -#endif
+
+Should this go under IS_ENABLED as well?
+
+Thanks,
+-- 
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
