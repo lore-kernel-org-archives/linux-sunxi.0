@@ -1,177 +1,150 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79E4725D8E8
-	for <linux-sunxi@lists.linux.dev>; Wed,  9 Apr 2025 10:01:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mout.web.de (mout.web.de [212.227.15.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05C7B25E817
+	for <linux-sunxi@lists.linux.dev>; Wed,  9 Apr 2025 11:43:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744192895; cv=none; b=arPB+X8MF6wa6EApp5QudxDz9VxGqnrJf5ywq9cVisbVkxArkhO6mn76oyKn/r4JrgQgoAEW1fYCOyrLhEbkbMZSzLqlWsCrcN4WmU5TrJzrCYqbOPxvtygfAf51TEE0Trd1JKK6j8k3ERBwQwMdQuJRWcKEjZga3Awbw3u2tN0=
+	t=1744199040; cv=none; b=VdU++JCJAKO0SbqVT6IpW0X2jQRg/8HIy+993HB/ieKLcKFS2Vp1aynybKolETZfD0r1RM6xLTeq2/DvkXysykWlK2csBP7vRW7awriTpl9kz/3U3JKcYuiHRrIwQ8DUy0YE/mXRhT35AzhVbwEIP0vBDOCwsPzylmZ6dGDMxWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744192895; c=relaxed/simple;
-	bh=EJ/uw4z1d+LaL79fAqKZewRaTha0dxh3bhLthUWPx/k=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ww3tfK7AoSQt31xbXzv2GY5u9PQNJkmsEmj19nR0D6Z46i2YrpllNz3jyGtOUw6bzBl8vUak1ohUTA6oCOJEeyZEuETr1yqtt0WE5uwJ2kdHKizfRxJjXlQ4k8J5iqRumjumC/Mcd3dzC4M81jPKeJ8isAaqaqhmswtFN8CLJBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 00FE3106F;
-	Wed,  9 Apr 2025 03:01:32 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7A0233F59E;
-	Wed,  9 Apr 2025 03:01:30 -0700 (PDT)
-Date: Wed, 9 Apr 2025 11:01:26 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Yixun Lan <dlan@gentoo.org>
-Cc: Jagan Teki <jagan@amarulasolutions.com>, <u-boot@lists.denx.de>, Tom
- Rini <trini@konsulko.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, <linux-sunxi@lists.linux.dev>
-Subject: Re: [PATCH] sunxi: add "fake" FEL pin support
-Message-ID: <20250409110126.2cc59d30@donnerap.manchester.arm.com>
-In-Reply-To: <20250409022303-GYA17019@gentoo>
-References: <20250408235959.10720-1-andre.przywara@arm.com>
-	<20250409022303-GYA17019@gentoo>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1744199040; c=relaxed/simple;
+	bh=1cPrVQ7kf4CjzELcx2r3Mt/clhzq06BtS1bl+mQBAbc=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=uRSK9OVHc0VQq/C4QTLjGGCcuC/YlllLOoygupLBAl+UF6cGBEU+L8TjtgdKUkAKHFWxskzl8l6XtYmgfsvLycLXFK9dQCoplp0dZf5xvN3FDCclSUG7Orl1+Hmf0aTQyuHMaoBi3PyzgeQxVV69xmGCIFxFQ7NKnUVyB87zXRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=HHQyIUCH; arc=none smtp.client-ip=212.227.15.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="HHQyIUCH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1744199024; x=1744803824; i=markus.elfring@web.de;
+	bh=ZcboPvUR5IHm0tuhCfo0KhbP/W6yUMqtAc0Ziq24U7U=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:From:
+	 Subject:Content-Type:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=HHQyIUCH2tXvFr1A9+pq3qpGYQJ58DNhx0SvwG3ZcnAQEInuolYwItp6q8aHQxVg
+	 9hEl7g83CAsnsLDxLy4+Zgi4Df4Y52kd3Zpx0PZyPYXvqp795SEd0YmCe7oLPBHv9
+	 tgO0IAfSBqan6RYKvkp6oSpmviw4XgDD2c7l4cjiEt6HqZsTNIgBRPMOlR0+9NBJ2
+	 RUBPJuCX1DNTjQklZjsYcrc3H1fgU3BMzSgGUGMjgYqHkF8acEhUTCZgapXHaL+Ha
+	 2tUxHRSJmhrGhnVHowTMdo1uRY1wpnvW7olHQU6ik0AW+4o3dsQsObvMtINTV7Alf
+	 pX6+q01rCHUk9xptsQ==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.70.27]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1N30dV-1t4LfG3KqT-00xgZ1; Wed, 09
+ Apr 2025 13:43:43 +0200
+Message-ID: <3727de04-7993-4b81-80c0-adb40b847307@web.de>
+Date: Wed, 9 Apr 2025 13:43:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+To: linux-sunxi@lists.linux.dev, linux-crypto@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Andre Przywara
+ <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>,
+ Corentin Labbe <clabbe.montjoie@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Ovidiu Panait <ovidiu.panait.oss@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+Content-Language: en-GB
+Cc: LKML <linux-kernel@vger.kernel.org>, Julia Lawall <julia.lawall@inria.fr>
+From: Markus Elfring <Markus.Elfring@web.de>
+Subject: [PATCH] crypto: sun8i-ce-hash - Refine exception handling in
+ sun8i_ce_hash_run()
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:jEGNiMKs8nAQw2qIQjUCQq/KWOsVvdlxMimxs5ulT7dkC8Jy8vn
+ sjvXtDkHx1NdmMR2lfMzvk9aLWGt6cUsQAf4s4emy/sWUqdg3UOLtEjqk17QN47SO7dFcJb
+ AXUoI3lNiWi1QxGCvZBv3C1zvrsuJNDxfKbgyudePrBW8wI9qmNQ4IeqhC27tyOSa3ZpB6i
+ 1sbNZMcwz1m1/XdJa+Dgw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:xNwPz1kyRa4=;mhac4w7rrkZIUH0v2PZOyYFCNiY
+ JyzmGclW/6PQvJJ45Nz42p+6+B9uGh+XKN1ZwSDZpqjHJ5OimogrHASfjWlyFI14Hh0YYUOol
+ ZkUJknhX4uAv5J+cFMubYlTZGUG/Bo++ZnvSGmGnF70rAcMsxeAMHcAVrBD8L2ujzwCsu8Nqe
+ 4JB3h+oEyfqn9FfS5GOfCXVPcf4+EDFGoQ8QvUd+qjCzbD0dtLan5W5QV7m8loLKGao52gnhI
+ FPfJYsA++FkB+UbSCAlBRw7Xm+gZv01E7L3fPOLV/2lrIhXxhNjiGO3svor4dTetQW5vXW5HR
+ 8fTBaqSwwVxuFLK/1bACOSrkbyo8WTEoeUzI8GZHaui31Z/XXFBKUzdEody1ymjEVGlMDdTrB
+ epPne+q0z0xzaIWBJyBAIjZFBYogkQZ4dxc5BdI4kdH5keHGGptYQlAoLBChZhWrQQ/uhUJK8
+ TzxmOn/KSiIhwLOUUo/mG1bh9emuXe14PRzcl/nugKDccjefIYJ+0Dq8+/gKyvKyXXRGZyD1q
+ okI2wmDTI3VGUiHjZQI0fjdleH1QJqkR9B986Mu1aw+3DMv2czXTuMI8Ac7+63pJxuK/RWys/
+ MQzG9ZhH6fx8HNTraJBRgH3J006Tze/vLmPqGhZjdGIqhANJPp+I8IuMLQju9yme3Y4wCQ3WZ
+ qOR2embihPCMKfrba+MTqjHe5FOLEXqgyeRFRL3isO0gPaQAiHNZ8Klk5PlgMIrRGS509nvFM
+ I+5enqjNqKWdUcj9AjZRG20o+4d8hKYJBRS0UVCrscp44yGgG8aW2M5BlWk9faqnicr7Kz1tS
+ J2QbvRCUcAr2DBHu82vCmCbhWeL8dvRRzOIYc/Ljoya4rNX3A9EG8sbvcccOhLyth3mS29lIl
+ 08m+rEr/FPMIuI/GKUqALXQpa2tlbFMizemDSUJ3dNUsgwhiXZ57OtlZRx582WVHUUyxjEb4u
+ 3Oe6kQvxD/soNWmJC2ESsC6OzZWcIPvqfwXlEzkUcw8K1gJxGcg1Lq0vfxCFeiq3vEMDCNv7l
+ 4R3tkXylq+wgilTD8HgWiKsGtM3rRPufDeD3jKunDbAwhQMDeOpcGeCjAb7YuixPJzGru9m5Y
+ l1hVZfZvuNN6tjfgEljjut8M49BAwGWByQ6uWpkk2yGySY+82oOo8otShveK2kS38P5GzsRFx
+ 2i1/j2BzovByq9gGjlz5llgCv92MpDkwPpt9QkzA2J7/baSD1tcoVPSVbfwqRYRVZpIJLs6Gr
+ cHtSBZikXE8fIQC2liW+EtsF+sALU5F5FMujb4W3+pqqrQakTozhzTUrvwIeWKixNi+VGuxc+
+ YYxy35wkU0EPEoMUeji3co3tbLllbFWCeGWyUQis0S8lxv0NXhThkW59OqfliT9sn217/IJxN
+ kRxcwoW+UFf+a44sfTstf4N36E1XsLqTFkxemtsKQ/gej5PECPnTs2a20VBDGZuVWqlTstS/J
+ fz61JGNz42bJBhKTE7MNA9yRm6vdHnT4o9Yi9lW3tCK44ZDyt4SnI2F3fValD3iGEAf0ewnUA
+ l5CXOLI5PhcXDfZoi08=
 
-On Wed, 9 Apr 2025 02:23:03 +0000
-Yixun Lan <dlan@gentoo.org> wrote:
+From: Markus Elfring <elfring@users.sourceforge.net>
+Date: Wed, 9 Apr 2025 13:26:55 +0200
 
-Hi,
+Two if branches contained duplicate source code.
+Thus avoid the specification of repeated error code assignments by using
+additional labels instead.
 
-> I can understand the motivation behind this patch, which
-> I think it's a good addition to BROM FEL mode..
+This issue was transformed by using the Coccinelle software.
 
-Thanks for having a look!
+Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+=2D--
+ drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-> On 00:59 Wed 09 Apr     , Andre Przywara wrote:
-> > Some boards with Allwinner SoCs feature a "FEL" key, sometimes also
-> > labelled "uboot", which triggers the BootROM FEL mode, when pressed upon
-> > power-on or reset. This allows to access the SoC's memory via USB OTG,
-> > and to upload and execute code. There is a tool to upload our U-Boot image
-> > and immediately boot it, when the SoC is in FEL mode.
-> > 
-> > To mimic this convenient behaviour on boards without such a dedicated key,
-> > we can query a GPIO pin very early in the SPL boot, then trigger the
-> > BootROM FEL routine.  There has not been much of a SoC or board setup at
-> > this point, so we enter the BROM in a rather pristine state still. On
-> > 64-bit SoCs the required AArch32 reset guarantees a clean CPU state anyway.
-> > 
-> > Any GPIO can be used for that, and a board (or a user) is expected to
-> > specify the GPIO name using the CONFIG_SUNXI_FAKE_FEL_PIN Kconfig variable.
-> > When this variable is not set, the compiler will optimise away the call.
-> >   
-> is it possible to provide a dts interface to specify the gpio pin?
-> it would be more convenient, but a CONFIG option would be fine..
+diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c b/drivers/c=
+rypto/allwinner/sun8i-ce/sun8i-ce-hash.c
+index ba13fb75c05d..7d31e190bb6a 100644
+=2D-- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
++++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
+@@ -399,14 +399,14 @@ int sun8i_ce_hash_run(struct crypto_engine *engine, =
+void *breq)
+ 	}
+ 	if (len > 0) {
+ 		dev_err(ce->dev, "remaining len %d\n", len);
+-		err =3D -EINVAL;
+-		goto err_unmap_src;
++		goto e_inval_src;
+ 	}
+ 	addr_res =3D dma_map_single(ce->dev, result, digestsize, DMA_FROM_DEVICE=
+);
+ 	cet->t_dst[0].addr =3D desc_addr_val_le32(ce, addr_res);
+ 	cet->t_dst[0].len =3D cpu_to_le32(digestsize / 4);
+ 	if (dma_mapping_error(ce->dev, addr_res)) {
+ 		dev_err(ce->dev, "DMA map dest\n");
++e_inval_src:
+ 		err =3D -EINVAL;
+ 		goto err_unmap_src;
+ 	}
+@@ -428,16 +428,15 @@ int sun8i_ce_hash_run(struct crypto_engine *engine, =
+void *breq)
+ 		j =3D hash_pad(bf, 2 * bs, j, byte_count, false, bs);
+ 		break;
+ 	}
+-	if (!j) {
+-		err =3D -EINVAL;
+-		goto err_unmap_result;
+-	}
++	if (!j)
++		goto e_inval_result;
 
-That wouldn't really help here, since this patch is SPL only, and we have
-no DT there. And it must be in the SPL, because otherwise we cannot easily
-trigger the RMR reset, we need to be in EL3 for that.
-
-Besides, I imagine this also as a hacker option, where I just specify this
-GPIO temporarily, for development, and just bridge two pins on the headers
-with a screwdriver or so ;-)
-
-The X96 Mate box has an actual switch connected to PH9, and it's meant
-to be the FEL button, so I have a DT patch to describe this as a button,
-but this is in addition to this patch here.
-
-> > Call the code first thing in board_init_f(), which is the first sunxi
-> > specific C routine.
-> > 
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > ---
-> >  arch/arm/mach-sunxi/Kconfig |  9 +++++++++
-> >  arch/arm/mach-sunxi/board.c | 30 ++++++++++++++++++++++++++++++
-> >  2 files changed, 39 insertions(+)
-> > 
-> > diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
-> > index 25b47ada7ad..912d3a3a650 100644
-> > --- a/arch/arm/mach-sunxi/Kconfig
-> > +++ b/arch/arm/mach-sunxi/Kconfig
-> > @@ -789,6 +789,15 @@ config MMC_SUNXI_SLOT_EXTRA
-> >  	slot or emmc on mmc1 - mmc3. Setting this to 1, 2 or 3 will enable
-> >  	support for this.
-> >  
-> > +config SUNXI_FAKE_FEL_PIN
-> > +	string "fake FEL GPIO pin"
-> > +	default ""
-> > +	---help---
-> > +	Define a GPIO that shall force entering FEL mode when a button
-> > +	connected to this pin is pressed at boot time.
-> > +	This takes a string in the format understood by sunxi_name_to_gpio,
-> > +	e.g. PH1 for pin 1 of port H.
-> > +
-> >  config I2C0_ENABLE
-> >  	bool "Enable I2C/TWI controller 0"
-> >  	default y if MACH_SUN4I || MACH_SUN5I || MACH_SUN7I || MACH_SUN8I_R40
-> > diff --git a/arch/arm/mach-sunxi/board.c b/arch/arm/mach-sunxi/board.c
-> > index 701899ee4b2..ea0e7bb381d 100644
-> > --- a/arch/arm/mach-sunxi/board.c
-> > +++ b/arch/arm/mach-sunxi/board.c
-> > @@ -457,8 +457,38 @@ u32 spl_mmc_boot_mode(struct mmc *mmc, const u32 boot_device)
-> >  	return result;
-> >  }
-> >  
-> > +static void check_fake_fel_button(void)
-> > +{
-> > +	u32 brom_entry = 0x20;
-> > +	int pin, value, mux;
-> > +
-> > +	/* check for empty string at compile time */
-> > +	if (sizeof(CONFIG_SUNXI_FAKE_FEL_PIN) == sizeof(""))
-> > +		return;
-> > +
-> > +	pin = sunxi_name_to_gpio(CONFIG_SUNXI_FAKE_FEL_PIN);
-> > +	if (pin < 0)
-> > +		return;
-> > +
-> > +	mux = sunxi_gpio_get_cfgpin(pin);
-> > +	sunxi_gpio_set_cfgpin(pin, SUNXI_GPIO_INPUT);
-> > +	value = gpio_get_value(pin);
-> > +	sunxi_gpio_set_cfgpin(pin, mux);
-> > +
-> > +	if (value)
-> > +		return;  
-> so will skip EFL mode when "GPIO == 1" (which means gpio high level)?
-> maybe we should document in the Kconfig help section:
->  setting GPIO low to enter FEL mode
-> or even great if the gpio can be configurable for FEL mode
-
-Yes, it assumes to be active low, which I think is the common
-configuration. I should probably activate the pull ups on the way, and
-indeed document this. Thanks for the heads up!
-
-As for a CONFIG option: yes, I thought about that, but wanted to see if we
-really need that. So happy to add this when a user shows up who needs it.
-
-Cheers,
-Andre
-
-
-> > +
-> > +	/* Older SoCs maps the BootROM high in the address space. */
-> > +	if (fel_stash.sctlr & BIT(13))
-> > +		brom_entry |= 0xffff0000;
-> > +
-> > +	return_to_fel(0, brom_entry);
-> > +}
-> > +
-> >  void board_init_f(ulong dummy)
-> >  {
-> > +	check_fake_fel_button();
-> > +
-> >  	sunxi_sram_init();
-> >  
-> >  	/* Enable non-secure access to some peripherals */
-> > -- 
-> > 2.46.3
-> >   
-> 
+ 	addr_pad =3D dma_map_single(ce->dev, buf, j * 4, DMA_TO_DEVICE);
+ 	cet->t_src[i].addr =3D desc_addr_val_le32(ce, addr_pad);
+ 	cet->t_src[i].len =3D cpu_to_le32(j);
+ 	if (dma_mapping_error(ce->dev, addr_pad)) {
+ 		dev_err(ce->dev, "DMA error on padding SG\n");
++e_inval_result:
+ 		err =3D -EINVAL;
+ 		goto err_unmap_result;
+ 	}
+=2D-
+2.49.0
 
