@@ -1,104 +1,130 @@
-Received: from mout.web.de (mout.web.de [212.227.15.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9FA02627EA
-	for <linux-sunxi@lists.linux.dev>; Wed,  9 Apr 2025 12:47:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6031C265CA1
+	for <linux-sunxi@lists.linux.dev>; Wed,  9 Apr 2025 14:29:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744202825; cv=none; b=WD3gBJIrbSF5LxUaegjMzOBs6LB+7DSKq005bOm1X4fXkWqglFpbpUMACQI8QZz9xC2LW+s4ou5Bm6rTUVkSKuB4gcFDPM66cw+YLEoqDqVLCteb6dLxreq2f57kxq4hZFVoNO8SUusBSJiZSaEV/R5S35fELSVH+RVHWAJmIcE=
+	t=1744208950; cv=none; b=aNxUI+iz3JLdUa8B17rVbnSeRbfrQIa+1v6tsI9cqKlHXCMc6eFy2uZaGh8qRsyg56oIabQtXC3rn5VpBMBWILIkpc8F/xZ16QOpfNlbYgR7upjDpJYKi46cfVFmkhuloZEpe76Bqp13JUb5vXOtujmOJ/xijPHCNXvLGiuyU8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744202825; c=relaxed/simple;
-	bh=MeWWBGTjlUvvFQ2dwgcDW5DN0xlT820wyIW0MjZrGlE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EPcrWs3epCjNY5kXdjgNYWnEQfSSun9pTl6gP3CKJoo6F6iL4Bor3JOQ558cCkXFOsm4rd5Csdd/4gVBDz9MR+p2ExEnroPE08ytcX+w03v6tpm/JckRUME3sICAoC0mu/IMh8nULjv2KNn7wdyuVn1aT/g9a+06nqYu+vy1tEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=KOC8Czrk; arc=none smtp.client-ip=212.227.15.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="KOC8Czrk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1744202790; x=1744807590; i=markus.elfring@web.de;
-	bh=MeWWBGTjlUvvFQ2dwgcDW5DN0xlT820wyIW0MjZrGlE=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=KOC8Czrkj4FVNXeoWnAAhjtN367USJpwt1kZYmG/65l3/Ew+NnabXSYJLN36/ZJB
-	 SZafwzsNrP02DPMfY23b5IZ5Y3XkwESHF3ONKvGvQzC23Z/zoQfBvldxf7NaeTNXJ
-	 UKgUwpcaen4U/liTzUZAi8lJP8/f5f+fPx4771cbdhF0F8UGxgnIhNVD2ikymPiVC
-	 bIHL58LaMAFAQUGArD9Plkygfa2JHjkh7ohjgjhxoKiASOMBZ2goAgFa3F4FnamFl
-	 U2/ymC8IQbGSb9cWRlIkLZIzm2hWqVJbm0wASgaxusPLZJ0GUYc1T6RVhT1eiov53
-	 B4dXTWCNSP35fhAS4w==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.70.27]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MW9ra-1tZFvQ36Mc-00Lc4g; Wed, 09
- Apr 2025 14:46:30 +0200
-Message-ID: <e10ecbe1-d8c3-444d-92cb-647a1c54675f@web.de>
-Date: Wed, 9 Apr 2025 14:46:28 +0200
+	s=arc-20240116; t=1744208950; c=relaxed/simple;
+	bh=7tgjpWGcvsQiaQk1D1ZIi87uvPyB6Ng7qdIUngtFPNU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p1Fv2kkWGKOFABElXEktIk0i7HhMzLuKGbseh9tuTpxl+O/5ZCPB6oqeScgtwXGwGHjM11oQyg5y9YK+aAsDHRIEnyKauPCxI5H9sM2SQxdk64hjuJ6juu5HwFId3z/A7oPOt27cOmoEUJhRJhso3MV7DOlnJ3MTYOqf7ZINdGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
+Received: from localhost (unknown [116.232.27.72])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: dlan)
+	by smtp.gentoo.org (Postfix) with ESMTPSA id 074AC343336;
+	Wed, 09 Apr 2025 14:29:06 +0000 (UTC)
+Date: Wed, 9 Apr 2025 14:28:54 +0000
+From: Yixun Lan <dlan@gentoo.org>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Tom Rini <trini@konsulko.com>, Simon Glass <sjg@chromium.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Mikhail Kalashnikov <iuncuim@gmail.com>, u-boot@lists.denx.de,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 33/34] sunxi: A523: add DT files from Linux v3 branch
+Message-ID: <20250409142854-GYA18396@gentoo>
+References: <20250323113544.7933-1-andre.przywara@arm.com>
+ <20250323113544.7933-34-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: crypto: sun8i-ce-hash - Refine exception handling in
- sun8i_ce_hash_run()
-To: Andre Przywara <andre.przywara@arm.com>,
- Ovidiu Panait <ovidiu.panait.oss@gmail.com>, linux-sunxi@lists.linux.dev,
- linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Cc: Chen-Yu Tsai <wens@csie.org>, Corentin Labbe <clabbe.montjoie@gmail.com>,
- "David S. Miller" <davem@davemloft.net>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, LKML <linux-kernel@vger.kernel.org>,
- Julia Lawall <julia.lawall@inria.fr>
-References: <3727de04-7993-4b81-80c0-adb40b847307@web.de>
- <20250409133610.59d42bec@donnerap.manchester.arm.com>
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20250409133610.59d42bec@donnerap.manchester.arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:fGRJhLFb/+v0O2mafP9QCc0EviHzvpX5ikoqmmYcIiWSJhKDnDY
- fjojfNZCKBcliE5Cmge9pM4cqDNVFNDHzBofT//KsNmyshdeZPDLItuLsHCvUVWc5cZ3G1L
- CaUjYAi2hu2A37x9JQTjlm9d1152fqk24dPLQFMnYSyV/f7pSncretj0sJdj5thPnr+uJue
- EWh45MonlU0WyMkJT5X8g==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:2PalMa3QEWk=;gLr3Yt97VScssGDAYWAG6YNzSG1
- 8QkarCyeTXM9UGR3C4b8kQiGX7QN9CLLSJoZa31hEhIc/WpFat1dMp51bwZ8In4f7TEhJIk+6
- lDqousHP2E5M6YP1chKxQa2vDyLIQeS2ZvmrwUVJtsE7OHpXDbLo9/lon6GCjQs0Fs8nokXWI
- i1oYak0FYJanAx7gtDgrZfeqt4g04RqxuhS1Qb6C9aU85nbkFaKCLpxd70Wdph1xh916zkE0n
- xLMvP23xXJcoP5AKie1j4N2sXkiwSNHCCmM2bS0s6BI8l9FIhdbznWAlr7CdmAMPxtLE+9NQX
- UBH2lGVX38QXskZ8li5EmyzxLGIprh0JBxERToxZon66z6CTHxfYx1UFFkByD8UUkWzltxr5j
- ZbQSj2uvptUIOfOLEIw2FJbsQjPgbFhqYx98AsCE4P3COjKDP+i98d39JzApMTt2a9XcFKEU5
- zXMBM0TdSY/gTFPOZccfPEXOAMb5OsBAh6ICtGvLBOIlMDolk9PmuVIPAGZGjOLxlZ0+d2KZm
- jeKbsvuxkvA737dOS5IF1GoEIqKZCuxoG+L4P12bWGyKtURmLZXiLB2pevRCmcmtq4I+vsq+J
- q6RMzE4xXtYzyJoi86LJuLOgvvXPpHfaOnvV0HXsKondRNOv8VBk5QUMqywL5fkEygaNBZtK8
- S2Y4JeiCE+aa+QWjrZ+eRtmLA0Q001UNULWBH30kLclzkSeOG9nQw4b9EMMW+0wGHKXVtwdN9
- 1vK5bUFLcGFHvZqut+gNv4mZAF38Fki48GwLfbeFD8pHC+GRBHI4M3ej+raH9o4HGtjq5vU3v
- eY4APlCk8OZgFOMSvW8WPO+7dX9OD9eRIJ0yyTZH/PsfKhaPI1oSMp2Ml37ETGxPtdTTaNpmk
- OJyRh+Qo973VajckcNMeU/jEuOAKvgmh+nBleGJvogSIFZt+h41BBGPFtLub55ZpB4uKDkRjL
- vCogFtoAs9PvwY+AqMVUbfNEjdUgKThgh4MQKaYk7z35a2gnrGGiyTJER8/KqoyQ7wjCvK8Ua
- zVsKQYtkjUN49WD8IO47NY7/xD7h1zPzWTb+dhSVzvHuVCYbd0sBWRtpf/B7ZQ+izDfCwMUSU
- +SfQKcGI5+FFt16oSHMPnvWFobp/QEZNouXfxn/F5kyIi/QCVddxVV5Abu1oNrD2n+VNCoR4E
- YZTjxGnGVMsa6RpGB0CvhmBPMBAuApFTYf3EhaSHskeZ7Og8sWT1JTSojzpOonDtnMOh/pump
- Iytgv/pKSQsqPsqWrpjZykzGl4w9kKJWaFqKQQOs4GgwwMtJ84h1lrbuBVoqO+8NP52rWwZRd
- sDqBd6xEOoahcmZOpFe4xIH/yZDpnAaQnI6GeUzi/n5vmp+c7vav9qLE4sb3PRf9jWcpGURmo
- J+sJr7TC6WBjAmuaf7oUJBuc8nDc+qbpawoC98NszBB1slMhhbiSDSGNGFNMc/Sa3/h7Ahz7y
- 68vdnKhJgrhJcdk3B3lp1d99it1pmjb5+nCMuKIQYpsRB7D/IJ+XapwyMmcu9CGQG/Sc29whU
- 4j2msyib3Ks2uSfAyBM=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250323113544.7933-34-andre.przywara@arm.com>
 
->> Two if branches contained duplicate source code.
->> Thus avoid the specification of repeated error code assignments by usin=
-g
->> additional labels instead.
-=E2=80=A6
-> Now there is one rather opaque label it goes to, so a reader doesn't see
-> the error code immediately. And it really just saves one line per case
-> here. =E2=80=A6
-I imagine that such a code refinement can occasionally matter.
+Hi Andre,
 
-Regards,
-Markus
+On 11:35 Sun 23 Mar     , Andre Przywara wrote:
+> This imports the (preliminary) devicetree files for the boards with the
+> new Allwinner A523/T527/H728 SoCs, including the basic SoC .dtsi.
+> 
+> Those files have been reviewed and confirmed, but have not been merged
+> into the official kernel repositories yet.
+> 
+> Pending upstream kernel repository:
+> https://github.com/apritzel/linux/commits/a523-v3/
+> 
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  arch/arm/dts/sun55i-a523.dtsi          | 598 +++++++++++++++++++++++++
+>  arch/arm/dts/sun55i-a527-radxa-a5e.dts | 299 +++++++++++++
+>  arch/arm/dts/sun55i-h728-x96qpro+.dts  | 287 ++++++++++++
+>  arch/arm/dts/sun55i-t527-avaota-a1.dts | 308 +++++++++++++
+>  4 files changed, 1492 insertions(+)
+>  create mode 100644 arch/arm/dts/sun55i-a523.dtsi
+>  create mode 100644 arch/arm/dts/sun55i-a527-radxa-a5e.dts
+>  create mode 100644 arch/arm/dts/sun55i-h728-x96qpro+.dts
+>  create mode 100644 arch/arm/dts/sun55i-t527-avaota-a1.dts
+> 
+> diff --git a/arch/arm/dts/sun55i-a523.dtsi b/arch/arm/dts/sun55i-a523.dtsi
+> new file mode 100644
+> index 00000000000..ee485899ba0
+> --- /dev/null
+> +++ b/arch/arm/dts/sun55i-a523.dtsi
+> @@ -0,0 +1,598 @@
+> +// SPDX-License-Identifier: (GPL-2.0-only OR MIT)
+> +// Copyright (C) 2023-2024 Arm Ltd.
+> +
+> +#include <dt-bindings/interrupt-controller/arm-gic.h>
+> +#include <dt-bindings/clock/sun6i-rtc.h>
+> +#include <dt-bindings/clock/sun55i-a523-ccu.h>
+> +#include <dt-bindings/clock/sun55i-a523-r-ccu.h>
+> +#include <dt-bindings/reset/sun55i-a523-ccu.h>
+> +#include <dt-bindings/reset/sun55i-a523-r-ccu.h>
+> +
+> +
+[...]
+> +		ohci1: usb@4200400 {
+> +			compatible = "allwinner,sun55i-a523-ohci",
+> +				     "generic-ohci";
+> +			reg = <0x4200400 0x100>;
+> +			interrupts = <GIC_SPI 33 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks = <&ccu CLK_BUS_OHCI1>,
+> +				 <&ccu CLK_USB_OHCI1>;
+> +			resets = <&ccu RST_BUS_OHCI1>;
+> +			phys = <&usbphy 1>;
+> +			phy-names = "usb";
+> +			status = "disabled";
+> +		};
+> +
+> +		r_ccu: clock-controller@7010000 {
+> +			compatible = "allwinner,sun55i-a523-r-ccu";
+> +			reg = <0x7010000 0x250>;
+> +			clocks = <&osc24M>,
+> +				 <&rtc CLK_OSC32K>,
+> +				 <&rtc CLK_IOSC>,
+> +				 <&ccu CLK_PLL_PERIPH0_200M>,
+[...]
+> +				 <&ccu CLK_PLL_AUDIO0_4X>;
+
+U-Boot 2025.04-rc5-00056-g1ef486ead58d (Apr 09 2025 - 22:06:21 +0800) Allwinner Technology
+
+CPU:   Allwinner A523 (SUN55I)
+Model: Radxa A5E
+DRAM:  4 GiB
+sunxi_set_gate: (CLK#35) unhandled
+Core:  77 devices, 21 uclasses, devicetree: separate
+..
+
+
+I've got a "CLK unhandled" err, checked and found CLK_PLL_AUDIO0_4X is not
+implemtend in clk driver - drivers/clk/sunxi/clk_a523.c
+
+do you have any idea why this clk gate not implemented?
+or somehow, I guess we could drop it from uboot if not used
+(or no need to keep sync with kernel dts? I did no further check)
+
+-- 
+Yixun Lan (dlan)
+Gentoo Linux Developer
+GPG Key ID AABEFD55
