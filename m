@@ -1,153 +1,177 @@
-Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 191E44AEE2
-	for <linux-sunxi@lists.linux.dev>; Wed,  9 Apr 2025 02:23:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79E4725D8E8
+	for <linux-sunxi@lists.linux.dev>; Wed,  9 Apr 2025 10:01:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744165390; cv=none; b=UN/2VRL3YRcNVHGFCpY+4yLtrjOhhA6s7SBvfvp/2gBl59z58GrCEPFzUvoGdVNMyyFjjKBaA6HNmRRLtG26Q/5W2OZDuG1IV5Cl+Pb3AE/54FGlX1IdnBzbl3ce/YwwIc53qDQrivczNUgip/TMq4V+Z8hufBmE7AIqOr/g2gs=
+	t=1744192895; cv=none; b=arPB+X8MF6wa6EApp5QudxDz9VxGqnrJf5ywq9cVisbVkxArkhO6mn76oyKn/r4JrgQgoAEW1fYCOyrLhEbkbMZSzLqlWsCrcN4WmU5TrJzrCYqbOPxvtygfAf51TEE0Trd1JKK6j8k3ERBwQwMdQuJRWcKEjZga3Awbw3u2tN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744165390; c=relaxed/simple;
-	bh=YpYVYQafOn9FkO4JJLzXWIVv3sLZg48zJmwC5hQslag=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JGya841hIEzLtl3/R6f/ovUrCKkFi56k78Niqxu+ido9VEMFyJL2aMSBqMT04vNv9TK419tOaQ10gEqGbeAtKC/YJ+nkSabU/MVNOHTHf13XHbwWUAUvPlf+Z8tond9xIgwxQ2xboUwZesTppAzaS+5L2AO8LHyRZp6YJ9qAJu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-Received: from localhost (unknown [116.232.27.72])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: dlan)
-	by smtp.gentoo.org (Postfix) with ESMTPSA id C2748343221;
-	Wed, 09 Apr 2025 02:23:07 +0000 (UTC)
-Date: Wed, 9 Apr 2025 02:23:03 +0000
-From: Yixun Lan <dlan@gentoo.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Jagan Teki <jagan@amarulasolutions.com>, u-boot@lists.denx.de,
-	Tom Rini <trini@konsulko.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev
+	s=arc-20240116; t=1744192895; c=relaxed/simple;
+	bh=EJ/uw4z1d+LaL79fAqKZewRaTha0dxh3bhLthUWPx/k=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Ww3tfK7AoSQt31xbXzv2GY5u9PQNJkmsEmj19nR0D6Z46i2YrpllNz3jyGtOUw6bzBl8vUak1ohUTA6oCOJEeyZEuETr1yqtt0WE5uwJ2kdHKizfRxJjXlQ4k8J5iqRumjumC/Mcd3dzC4M81jPKeJ8isAaqaqhmswtFN8CLJBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 00FE3106F;
+	Wed,  9 Apr 2025 03:01:32 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7A0233F59E;
+	Wed,  9 Apr 2025 03:01:30 -0700 (PDT)
+Date: Wed, 9 Apr 2025 11:01:26 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Yixun Lan <dlan@gentoo.org>
+Cc: Jagan Teki <jagan@amarulasolutions.com>, <u-boot@lists.denx.de>, Tom
+ Rini <trini@konsulko.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, <linux-sunxi@lists.linux.dev>
 Subject: Re: [PATCH] sunxi: add "fake" FEL pin support
-Message-ID: <20250409022303-GYA17019@gentoo>
+Message-ID: <20250409110126.2cc59d30@donnerap.manchester.arm.com>
+In-Reply-To: <20250409022303-GYA17019@gentoo>
 References: <20250408235959.10720-1-andre.przywara@arm.com>
+	<20250409022303-GYA17019@gentoo>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250408235959.10720-1-andre.przywara@arm.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Andre Przywara:
+On Wed, 9 Apr 2025 02:23:03 +0000
+Yixun Lan <dlan@gentoo.org> wrote:
 
-I can understand the motivation behind this patch, which
-I think it's a good addition to BROM FEL mode..
+Hi,
 
-On 00:59 Wed 09 Apr     , Andre Przywara wrote:
-> Some boards with Allwinner SoCs feature a "FEL" key, sometimes also
-> labelled "uboot", which triggers the BootROM FEL mode, when pressed upon
-> power-on or reset. This allows to access the SoC's memory via USB OTG,
-> and to upload and execute code. There is a tool to upload our U-Boot image
-> and immediately boot it, when the SoC is in FEL mode.
-> 
-> To mimic this convenient behaviour on boards without such a dedicated key,
-> we can query a GPIO pin very early in the SPL boot, then trigger the
-> BootROM FEL routine.  There has not been much of a SoC or board setup at
-> this point, so we enter the BROM in a rather pristine state still. On
-> 64-bit SoCs the required AArch32 reset guarantees a clean CPU state anyway.
-> 
-> Any GPIO can be used for that, and a board (or a user) is expected to
-> specify the GPIO name using the CONFIG_SUNXI_FAKE_FEL_PIN Kconfig variable.
-> When this variable is not set, the compiler will optimise away the call.
-> 
-is it possible to provide a dts interface to specify the gpio pin?
-it would be more convenient, but a CONFIG option would be fine..
+> I can understand the motivation behind this patch, which
+> I think it's a good addition to BROM FEL mode..
 
-> Call the code first thing in board_init_f(), which is the first sunxi
-> specific C routine.
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  arch/arm/mach-sunxi/Kconfig |  9 +++++++++
->  arch/arm/mach-sunxi/board.c | 30 ++++++++++++++++++++++++++++++
->  2 files changed, 39 insertions(+)
-> 
-> diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
-> index 25b47ada7ad..912d3a3a650 100644
-> --- a/arch/arm/mach-sunxi/Kconfig
-> +++ b/arch/arm/mach-sunxi/Kconfig
-> @@ -789,6 +789,15 @@ config MMC_SUNXI_SLOT_EXTRA
->  	slot or emmc on mmc1 - mmc3. Setting this to 1, 2 or 3 will enable
->  	support for this.
->  
-> +config SUNXI_FAKE_FEL_PIN
-> +	string "fake FEL GPIO pin"
-> +	default ""
-> +	---help---
-> +	Define a GPIO that shall force entering FEL mode when a button
-> +	connected to this pin is pressed at boot time.
-> +	This takes a string in the format understood by sunxi_name_to_gpio,
-> +	e.g. PH1 for pin 1 of port H.
-> +
->  config I2C0_ENABLE
->  	bool "Enable I2C/TWI controller 0"
->  	default y if MACH_SUN4I || MACH_SUN5I || MACH_SUN7I || MACH_SUN8I_R40
-> diff --git a/arch/arm/mach-sunxi/board.c b/arch/arm/mach-sunxi/board.c
-> index 701899ee4b2..ea0e7bb381d 100644
-> --- a/arch/arm/mach-sunxi/board.c
-> +++ b/arch/arm/mach-sunxi/board.c
-> @@ -457,8 +457,38 @@ u32 spl_mmc_boot_mode(struct mmc *mmc, const u32 boot_device)
->  	return result;
->  }
->  
-> +static void check_fake_fel_button(void)
-> +{
-> +	u32 brom_entry = 0x20;
-> +	int pin, value, mux;
-> +
-> +	/* check for empty string at compile time */
-> +	if (sizeof(CONFIG_SUNXI_FAKE_FEL_PIN) == sizeof(""))
-> +		return;
-> +
-> +	pin = sunxi_name_to_gpio(CONFIG_SUNXI_FAKE_FEL_PIN);
-> +	if (pin < 0)
-> +		return;
-> +
-> +	mux = sunxi_gpio_get_cfgpin(pin);
-> +	sunxi_gpio_set_cfgpin(pin, SUNXI_GPIO_INPUT);
-> +	value = gpio_get_value(pin);
-> +	sunxi_gpio_set_cfgpin(pin, mux);
-> +
-> +	if (value)
-> +		return;
-so will skip EFL mode when "GPIO == 1" (which means gpio high level)?
-maybe we should document in the Kconfig help section:
- setting GPIO low to enter FEL mode
-or even great if the gpio can be configurable for FEL mode
+Thanks for having a look!
 
-> +
-> +	/* Older SoCs maps the BootROM high in the address space. */
-> +	if (fel_stash.sctlr & BIT(13))
-> +		brom_entry |= 0xffff0000;
-> +
-> +	return_to_fel(0, brom_entry);
-> +}
-> +
->  void board_init_f(ulong dummy)
->  {
-> +	check_fake_fel_button();
-> +
->  	sunxi_sram_init();
->  
->  	/* Enable non-secure access to some peripherals */
-> -- 
-> 2.46.3
+> On 00:59 Wed 09 Apr     , Andre Przywara wrote:
+> > Some boards with Allwinner SoCs feature a "FEL" key, sometimes also
+> > labelled "uboot", which triggers the BootROM FEL mode, when pressed upon
+> > power-on or reset. This allows to access the SoC's memory via USB OTG,
+> > and to upload and execute code. There is a tool to upload our U-Boot image
+> > and immediately boot it, when the SoC is in FEL mode.
+> > 
+> > To mimic this convenient behaviour on boards without such a dedicated key,
+> > we can query a GPIO pin very early in the SPL boot, then trigger the
+> > BootROM FEL routine.  There has not been much of a SoC or board setup at
+> > this point, so we enter the BROM in a rather pristine state still. On
+> > 64-bit SoCs the required AArch32 reset guarantees a clean CPU state anyway.
+> > 
+> > Any GPIO can be used for that, and a board (or a user) is expected to
+> > specify the GPIO name using the CONFIG_SUNXI_FAKE_FEL_PIN Kconfig variable.
+> > When this variable is not set, the compiler will optimise away the call.
+> >   
+> is it possible to provide a dts interface to specify the gpio pin?
+> it would be more convenient, but a CONFIG option would be fine..
+
+That wouldn't really help here, since this patch is SPL only, and we have
+no DT there. And it must be in the SPL, because otherwise we cannot easily
+trigger the RMR reset, we need to be in EL3 for that.
+
+Besides, I imagine this also as a hacker option, where I just specify this
+GPIO temporarily, for development, and just bridge two pins on the headers
+with a screwdriver or so ;-)
+
+The X96 Mate box has an actual switch connected to PH9, and it's meant
+to be the FEL button, so I have a DT patch to describe this as a button,
+but this is in addition to this patch here.
+
+> > Call the code first thing in board_init_f(), which is the first sunxi
+> > specific C routine.
+> > 
+> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > ---
+> >  arch/arm/mach-sunxi/Kconfig |  9 +++++++++
+> >  arch/arm/mach-sunxi/board.c | 30 ++++++++++++++++++++++++++++++
+> >  2 files changed, 39 insertions(+)
+> > 
+> > diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
+> > index 25b47ada7ad..912d3a3a650 100644
+> > --- a/arch/arm/mach-sunxi/Kconfig
+> > +++ b/arch/arm/mach-sunxi/Kconfig
+> > @@ -789,6 +789,15 @@ config MMC_SUNXI_SLOT_EXTRA
+> >  	slot or emmc on mmc1 - mmc3. Setting this to 1, 2 or 3 will enable
+> >  	support for this.
+> >  
+> > +config SUNXI_FAKE_FEL_PIN
+> > +	string "fake FEL GPIO pin"
+> > +	default ""
+> > +	---help---
+> > +	Define a GPIO that shall force entering FEL mode when a button
+> > +	connected to this pin is pressed at boot time.
+> > +	This takes a string in the format understood by sunxi_name_to_gpio,
+> > +	e.g. PH1 for pin 1 of port H.
+> > +
+> >  config I2C0_ENABLE
+> >  	bool "Enable I2C/TWI controller 0"
+> >  	default y if MACH_SUN4I || MACH_SUN5I || MACH_SUN7I || MACH_SUN8I_R40
+> > diff --git a/arch/arm/mach-sunxi/board.c b/arch/arm/mach-sunxi/board.c
+> > index 701899ee4b2..ea0e7bb381d 100644
+> > --- a/arch/arm/mach-sunxi/board.c
+> > +++ b/arch/arm/mach-sunxi/board.c
+> > @@ -457,8 +457,38 @@ u32 spl_mmc_boot_mode(struct mmc *mmc, const u32 boot_device)
+> >  	return result;
+> >  }
+> >  
+> > +static void check_fake_fel_button(void)
+> > +{
+> > +	u32 brom_entry = 0x20;
+> > +	int pin, value, mux;
+> > +
+> > +	/* check for empty string at compile time */
+> > +	if (sizeof(CONFIG_SUNXI_FAKE_FEL_PIN) == sizeof(""))
+> > +		return;
+> > +
+> > +	pin = sunxi_name_to_gpio(CONFIG_SUNXI_FAKE_FEL_PIN);
+> > +	if (pin < 0)
+> > +		return;
+> > +
+> > +	mux = sunxi_gpio_get_cfgpin(pin);
+> > +	sunxi_gpio_set_cfgpin(pin, SUNXI_GPIO_INPUT);
+> > +	value = gpio_get_value(pin);
+> > +	sunxi_gpio_set_cfgpin(pin, mux);
+> > +
+> > +	if (value)
+> > +		return;  
+> so will skip EFL mode when "GPIO == 1" (which means gpio high level)?
+> maybe we should document in the Kconfig help section:
+>  setting GPIO low to enter FEL mode
+> or even great if the gpio can be configurable for FEL mode
+
+Yes, it assumes to be active low, which I think is the common
+configuration. I should probably activate the pull ups on the way, and
+indeed document this. Thanks for the heads up!
+
+As for a CONFIG option: yes, I thought about that, but wanted to see if we
+really need that. So happy to add this when a user shows up who needs it.
+
+Cheers,
+Andre
+
+
+> > +
+> > +	/* Older SoCs maps the BootROM high in the address space. */
+> > +	if (fel_stash.sctlr & BIT(13))
+> > +		brom_entry |= 0xffff0000;
+> > +
+> > +	return_to_fel(0, brom_entry);
+> > +}
+> > +
+> >  void board_init_f(ulong dummy)
+> >  {
+> > +	check_fake_fel_button();
+> > +
+> >  	sunxi_sram_init();
+> >  
+> >  	/* Enable non-secure access to some peripherals */
+> > -- 
+> > 2.46.3
+> >   
 > 
 
--- 
-Yixun Lan (dlan)
-Gentoo Linux Developer
-GPG Key ID AABEFD55
