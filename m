@@ -1,65 +1,65 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A7CE284B2D
-	for <linux-sunxi@lists.linux.dev>; Thu, 10 Apr 2025 12:36:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ACBB28540C
+	for <linux-sunxi@lists.linux.dev>; Thu, 10 Apr 2025 12:37:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744288579; cv=none; b=EdaLEefsJW2Z8RUIH29Dr9Xdf20/JFebfNfC9l9MVwOptxTPdM5JF0cMDTLpMpqNm4Au8SR7u3T44t879gSMwodVjD+pPjZam/aBznhgA6UEk+xAiVFKmHMjpKguZv4fdm6rScHgBbyhnB/na0uy3E1GV/EXhUSeGqje63R541U=
+	t=1744288627; cv=none; b=foDvatsEYuZPGSxQ/NQycVCpUQv9HSBkdCkeuJMyp6wN4r7sPlXJWGMeMaiNJKWgduSAX1iI24WWihs8nvRxSlRUqK2VD1yQIktiv+DKoxMKbTgv0T7Q9E8EMyOPzogcBHJgQEbPxvzn+0Y0G3qLlrEkqYBtDk3cqjtr6NzGEEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744288579; c=relaxed/simple;
-	bh=H2rAYnbGeFgX5saZ/b7X46QHeJfq5kinlY6BpgEnd3Q=;
+	s=arc-20240116; t=1744288627; c=relaxed/simple;
+	bh=ABz4cDqiNS3kQXrpTOAbpSPw5QYVtGShy0gfjNUg76g=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fg3sRkEVXDN3mcymhYShibZhzOFw7Bep6qCXPgaKodH732V0Cm8KT1DcjhmN6tl0HJb3TOCWNBzDiIBOt2Vbl/uQleWbigUxJF24zpajLHCyRgrR16inDeJtKWarn1hnQTxTW1zFzb0NjlbW9AybGzmkj4x6fstR2nXspCZrlnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vo6OASiq; arc=none smtp.client-ip=209.85.221.53
+	 In-Reply-To:Content-Type; b=AUexvdIoG+Ijl4ker+YmRPkZtu13vlNanFiuTlAj1jam9K64diNPxD850EQWCTBEjY3PJ6nw1aHwKJri2km8o/kHOSPBHosJD3HquQCgR0EkzhAfMDRodl0OpC17dcLefS+eaX9JkXt1uHf0DJF9POZucnCNgpelp3gFIJc3HcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tbrzCnaZ; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vo6OASiq"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-39149bccb69so609806f8f.2
-        for <linux-sunxi@lists.linux.dev>; Thu, 10 Apr 2025 05:36:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tbrzCnaZ"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43d0782d787so5361155e9.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 10 Apr 2025 05:37:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744288574; x=1744893374; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1744288623; x=1744893423; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=iQ0j7wMSGTmXUuOHtflR052mxHlsC9aOf5SK3WIqsvY=;
-        b=vo6OASiqokQVZ6XgKn1EOd3hpAdOiO/X/+6A9SNT8rbrfMiDwv3mna3sgIXHzNd8So
-         ApclJAOHXMog3kk1ccFWGMFvMpt0gixhZ7pTAgFXIuGHjsljFC50lnyekeUGRoXJHx+m
-         5Gj1pN1SSEU7qtcqyjXPj2lvZ3Zw0u1adj/EYLQTJDZYOf/1Jjp+N0xeM1nQg4ZHpuNC
-         IoyDg8+GFMm+S7q2GZtuah5w8S6itoPwsamF4PQ3HpEtGX2TkK1uoTApI8ubzTmpXEgM
-         ImR5d7iwQjDiqVxw2P/acqwdIXkWh9CfelCgWLw7N92MDslKtuY8UtKNhUvaxKSGCS+g
-         mfDA==
+        bh=9VoKRS+yOUVccmHWqHCUYdtGt2QnJX1Av3s20gfz76g=;
+        b=tbrzCnaZjHoA/gYJaxMuRWfgDPa+1OaKZnixB/fyiXQaWoEl2rY+0HRynA+Ghwp+tX
+         CykRf1JiuM3HBu068VDK+FpsqI/4AdUebJWRzzTWtHATJ1FOqTG2mh7HOex101fdqPKF
+         MKnCwSGBwrwL4KeXbU9kgrfyg9N/POUL1YsP9ohf5BzANPwWmGtJtZZMHrZwkH1TzmWo
+         e9qYBun1+gmUWNYmwMUzqI9ZlHjbJZF1cyltrKWtRkB4aw2cGDmdTu6abxiExxfBTMoP
+         7O3Yl7oo5uEEvEa2UUmDTFS3JqF5fuEF61snH336UEazu4BVEirezIO43JHLo9kAGlEW
+         Frnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744288574; x=1744893374;
+        d=1e100.net; s=20230601; t=1744288623; x=1744893423;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iQ0j7wMSGTmXUuOHtflR052mxHlsC9aOf5SK3WIqsvY=;
-        b=PJcsTUNm3V6bIMl+bT6LT5s4zDFOO2mI5aCH0ltjxuE1XTIybc8Z3l6s5Emf/l526y
-         a73f75iJs7woVhPZykJzfh7shemJBIV/tPl0tq+ic8rYgkSixFhf9EvrkkYAccRlrX9/
-         JleJ+7VWFlhzIdhdV0djPMWlvKG7d1+KgndJeSVbUIKXlrl9noNniDX653bhV4n4KuBD
-         +yF1A29rThid/7LmmTuOOj7mYaE7RFJrK6KNOxvc+iVGtjDbkLrhAMIGCrKAhr6uh4ic
-         oItgGvNiJbglTZ9yqueWz/S0tZwnF5Ijic8DuWCv21itrMqD1La20UkmEOptyNbBnGq8
-         UmJA==
-X-Forwarded-Encrypted: i=1; AJvYcCV3RbkaeWct5w3h1Sd7adbJjxtfAhgM2Wmi4hJQV+uRjVsXH59DmKugaz4UVDYMZVjL1jKXbEU1e1Jpdw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzWDNqSla1bLXQh8wXArlCwgBT73jrih4SvDG8Chw2dE9dewvtC
-	LpmF/K8pdsenTSpoGhL6wmC3wFK8Jc/m0UmArgyayEc0efFNtzpzYVKzA9vutEk=
-X-Gm-Gg: ASbGncugZJ4TTQ3J+0WJtN6hFI5HE63TsZp0Li5R7U45HJG36Chw76Ombn+ZI+XFrXJ
-	ncuhNhQIFjw3befVO5jpxFBtFaLustR9YdZ0ieMno6H5DM7fBADwnReNrOInUm01lhQRcSL2EjW
-	WYUVwYkIHKdegcyH+xvDsdXcNE+ymKCkd6gHa0eMdUIClKzQMVm6len/ragv5zhgq6g9/6HWk9M
-	I4223Sb2AtdNEDPtLWh2LstkXFZ90pFN1qd9ml7ZJpaO+ZYi7OiV6kyuL0MqVvrZnRNSZ9jzkRl
-	S6w0zHjttYQ3oISGqiaJKOGg2cLhvOmsH0Z/N1zcXI5M/iFbi5qzqdeRre3dJZ8tKwb7fkAi5Kz
-	gckG4Z/69pB0C8w==
-X-Google-Smtp-Source: AGHT+IFetWy1yp/dwylC0fW3Xc3rkEsOkh6f7DWozfmMsr0xNplY7KcWpRd6urR6Mieq6r6/8yNM9w==
-X-Received: by 2002:a05:6000:4285:b0:39a:c80b:8283 with SMTP id ffacd0b85a97d-39d8f498980mr2285415f8f.31.1744288573720;
-        Thu, 10 Apr 2025 05:36:13 -0700 (PDT)
+        bh=9VoKRS+yOUVccmHWqHCUYdtGt2QnJX1Av3s20gfz76g=;
+        b=H98DsXMrui/vCM5AhxQCoGWNj5VCJr8dGsqyXbuUuFhukWVnJQ05P9amgxWRJakKrv
+         8nYSzepI86EmxI5fKRUFLBLuIy/cunpn6zVf8/Cada6X46hGbq2qjwnx8q95LiwOi34Q
+         Ax9UvclTaVLgtVr6OZDvSyMEhA+3M2TvhqAvvnMRswwafUdchbL0JgocPaTCRXABnrAk
+         Ee/9Rs2ChRNd4YF+hnp3KeLgqhOSSgCLPbgvE7tHsiounjAVM+YMLMztRxSAFgwnnQFg
+         LhzUSZb6pQA5PS19uLVLQAvcm+p+1KVi+M82PTp2cOkG4/2WtCmVRrcFC28GqZT1hYIw
+         iKnw==
+X-Forwarded-Encrypted: i=1; AJvYcCU+nWwO3/+u6xRIudedggysyqWnjCS5AquM3Ojlcq4W804tUDCxu9hDlf3vC3pT1YLnfeMFn7Y8omexwQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxHLJEQIWQvPmpMzEWt8ptJpAK6nHsoqhxuNYB7k7L5MvtmSdQs
+	gA4oAONVXxPoDyyiwB8a7PQKZdwFiNjk82wNjzjKDzOhHS3qZTVsMzqcndAgDbo=
+X-Gm-Gg: ASbGncv0GtpY/ZIte1ctLivkVtxdFzKjC8dwMqBtCbB1PfYSEfWTL/T1ShaQbv2CpuJ
+	P80C2BGlUPcnPEyhrBtIi67W+DCY2cn9hY/i0+Q9ce5Y79LV3FhdY9uP+L3nd51EPiP3soT2WHL
+	srgwgTX4oIE6ne7E21kG/oJVlAIJiBSbUYxPI4M/87kQrjNFz/+GWf1+am36PRBHW1wfW9EjSjQ
+	qUDUyh8Q/QZ+s7fZJeDZLH8QlUEvPpcuYayDXIdBAtYqaRaUmYyndNI29FEv3z23FWwxd2AwyWu
+	mDUiwJdNCwvJAJWGa6c8WJhhzceNHNJQ4uhxpVm170Flw8qrQOn1ohIAhVGqqX6DxnCZTNpTBtX
+	98UgMJzjv0aa+cg==
+X-Google-Smtp-Source: AGHT+IGMoIZKu18tKxGlE0nCM035PBeR69RdqmMHuq8h1Eu58CnOlQWvz4UQddkUAElDY1GsfzU8ew==
+X-Received: by 2002:a05:600c:348a:b0:43c:fdbe:4398 with SMTP id 5b1f17b1804b1-43f2fdceccfmr22721935e9.6.1744288622955;
+        Thu, 10 Apr 2025 05:37:02 -0700 (PDT)
 Received: from [192.168.69.238] (88-187-86-199.subs.proxad.net. [88.187.86.199])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39d893fdf8fsm4624182f8f.91.2025.04.10.05.36.11
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43f207cb88asm53015095e9.37.2025.04.10.05.37.00
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Apr 2025 05:36:13 -0700 (PDT)
-Message-ID: <17b9ff87-899e-44ca-b902-ab965cff0879@linaro.org>
-Date: Thu, 10 Apr 2025 14:36:10 +0200
+        Thu, 10 Apr 2025 05:37:02 -0700 (PDT)
+Message-ID: <20de7ce7-1cfc-40bb-9457-84e462cf4483@linaro.org>
+Date: Thu, 10 Apr 2025 14:37:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -67,8 +67,7 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/19] arm64: dts: broadcom: bcm2712: Use "l2-cache" for
- L2 cache node names
+Subject: Re: [PATCH 03/19] arm64: dts: morello: Fix-up cache nodes
 To: "Rob Herring (Arm)" <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
  <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
@@ -104,10 +103,10 @@ Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  imx@lists.linux.dev, linux-rockchip@lists.infradead.org,
  linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org
 References: <20250403-dt-cpu-schema-v1-0-076be7171a85@kernel.org>
- <20250403-dt-cpu-schema-v1-2-076be7171a85@kernel.org>
+ <20250403-dt-cpu-schema-v1-3-076be7171a85@kernel.org>
 Content-Language: en-US
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-In-Reply-To: <20250403-dt-cpu-schema-v1-2-076be7171a85@kernel.org>
+In-Reply-To: <20250403-dt-cpu-schema-v1-3-076be7171a85@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
@@ -116,10 +115,14 @@ On 4/4/25 04:59, Rob Herring (Arm) wrote:
 > the names are local to the CPU nodes. The documented node name is
 > also just "l2-cache".
 > 
+> The L3 cache is not part of cpu@0/l2-cache as it is shared among all
+> cores. Move it to /cpus node which is the typical place for shared
+> caches.
+> 
 > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 > ---
->   arch/arm64/boot/dts/broadcom/bcm2712.dtsi | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
+>   arch/arm64/boot/dts/arm/morello.dtsi | 22 +++++++++++-----------
+>   1 file changed, 11 insertions(+), 11 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
