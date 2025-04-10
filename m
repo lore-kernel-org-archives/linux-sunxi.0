@@ -1,128 +1,116 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ACBB28540C
-	for <linux-sunxi@lists.linux.dev>; Thu, 10 Apr 2025 12:37:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03EFF2857EA;
+	Thu, 10 Apr 2025 14:11:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744288627; cv=none; b=foDvatsEYuZPGSxQ/NQycVCpUQv9HSBkdCkeuJMyp6wN4r7sPlXJWGMeMaiNJKWgduSAX1iI24WWihs8nvRxSlRUqK2VD1yQIktiv+DKoxMKbTgv0T7Q9E8EMyOPzogcBHJgQEbPxvzn+0Y0G3qLlrEkqYBtDk3cqjtr6NzGEEc=
+	t=1744294296; cv=none; b=OYd7inSeen1beryw9n0w/DHOppU888sLu1JnBYiuEHimm5fonKmH9J6ShyoJ20IyfpQFPPtQ3QMuhPK9r0IkYtTNys3XIIcpifoDQbkMVdkLLLT4EFxvkzIlA4dKo1EMy2PEI2MQmM8Piv6cc8iR3O5GQUtsBdVRY4ruFClABAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744288627; c=relaxed/simple;
-	bh=ABz4cDqiNS3kQXrpTOAbpSPw5QYVtGShy0gfjNUg76g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AUexvdIoG+Ijl4ker+YmRPkZtu13vlNanFiuTlAj1jam9K64diNPxD850EQWCTBEjY3PJ6nw1aHwKJri2km8o/kHOSPBHosJD3HquQCgR0EkzhAfMDRodl0OpC17dcLefS+eaX9JkXt1uHf0DJF9POZucnCNgpelp3gFIJc3HcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tbrzCnaZ; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1744294296; c=relaxed/simple;
+	bh=rco72FMDY4JgO03QNoKdCEdvvo+YwCaCCrx/8pDGOPE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=k0i9obL9ebakpL9RWEgZUbMf69FkcgMJRYH8mCDoYKnqlUDzjK194LEpVhrTG0BqZ1GsXn/kTjoaH/U+QhdncwUQWZFithu8UM9PHEWEGVDkNK929IRuMw73tnT8LrJakDnOxb+ZL5xIUI15jz5Bbh5JoePL9jTDWLBqw15kY+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eQ7IoFkt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tbrzCnaZ"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43d0782d787so5361155e9.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 10 Apr 2025 05:37:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744288623; x=1744893423; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9VoKRS+yOUVccmHWqHCUYdtGt2QnJX1Av3s20gfz76g=;
-        b=tbrzCnaZjHoA/gYJaxMuRWfgDPa+1OaKZnixB/fyiXQaWoEl2rY+0HRynA+Ghwp+tX
-         CykRf1JiuM3HBu068VDK+FpsqI/4AdUebJWRzzTWtHATJ1FOqTG2mh7HOex101fdqPKF
-         MKnCwSGBwrwL4KeXbU9kgrfyg9N/POUL1YsP9ohf5BzANPwWmGtJtZZMHrZwkH1TzmWo
-         e9qYBun1+gmUWNYmwMUzqI9ZlHjbJZF1cyltrKWtRkB4aw2cGDmdTu6abxiExxfBTMoP
-         7O3Yl7oo5uEEvEa2UUmDTFS3JqF5fuEF61snH336UEazu4BVEirezIO43JHLo9kAGlEW
-         Frnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744288623; x=1744893423;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9VoKRS+yOUVccmHWqHCUYdtGt2QnJX1Av3s20gfz76g=;
-        b=H98DsXMrui/vCM5AhxQCoGWNj5VCJr8dGsqyXbuUuFhukWVnJQ05P9amgxWRJakKrv
-         8nYSzepI86EmxI5fKRUFLBLuIy/cunpn6zVf8/Cada6X46hGbq2qjwnx8q95LiwOi34Q
-         Ax9UvclTaVLgtVr6OZDvSyMEhA+3M2TvhqAvvnMRswwafUdchbL0JgocPaTCRXABnrAk
-         Ee/9Rs2ChRNd4YF+hnp3KeLgqhOSSgCLPbgvE7tHsiounjAVM+YMLMztRxSAFgwnnQFg
-         LhzUSZb6pQA5PS19uLVLQAvcm+p+1KVi+M82PTp2cOkG4/2WtCmVRrcFC28GqZT1hYIw
-         iKnw==
-X-Forwarded-Encrypted: i=1; AJvYcCU+nWwO3/+u6xRIudedggysyqWnjCS5AquM3Ojlcq4W804tUDCxu9hDlf3vC3pT1YLnfeMFn7Y8omexwQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxHLJEQIWQvPmpMzEWt8ptJpAK6nHsoqhxuNYB7k7L5MvtmSdQs
-	gA4oAONVXxPoDyyiwB8a7PQKZdwFiNjk82wNjzjKDzOhHS3qZTVsMzqcndAgDbo=
-X-Gm-Gg: ASbGncv0GtpY/ZIte1ctLivkVtxdFzKjC8dwMqBtCbB1PfYSEfWTL/T1ShaQbv2CpuJ
-	P80C2BGlUPcnPEyhrBtIi67W+DCY2cn9hY/i0+Q9ce5Y79LV3FhdY9uP+L3nd51EPiP3soT2WHL
-	srgwgTX4oIE6ne7E21kG/oJVlAIJiBSbUYxPI4M/87kQrjNFz/+GWf1+am36PRBHW1wfW9EjSjQ
-	qUDUyh8Q/QZ+s7fZJeDZLH8QlUEvPpcuYayDXIdBAtYqaRaUmYyndNI29FEv3z23FWwxd2AwyWu
-	mDUiwJdNCwvJAJWGa6c8WJhhzceNHNJQ4uhxpVm170Flw8qrQOn1ohIAhVGqqX6DxnCZTNpTBtX
-	98UgMJzjv0aa+cg==
-X-Google-Smtp-Source: AGHT+IGMoIZKu18tKxGlE0nCM035PBeR69RdqmMHuq8h1Eu58CnOlQWvz4UQddkUAElDY1GsfzU8ew==
-X-Received: by 2002:a05:600c:348a:b0:43c:fdbe:4398 with SMTP id 5b1f17b1804b1-43f2fdceccfmr22721935e9.6.1744288622955;
-        Thu, 10 Apr 2025 05:37:02 -0700 (PDT)
-Received: from [192.168.69.238] (88-187-86-199.subs.proxad.net. [88.187.86.199])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43f207cb88asm53015095e9.37.2025.04.10.05.37.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Apr 2025 05:37:02 -0700 (PDT)
-Message-ID: <20de7ce7-1cfc-40bb-9457-84e462cf4483@linaro.org>
-Date: Thu, 10 Apr 2025 14:37:00 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eQ7IoFkt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6165C4CEE8;
+	Thu, 10 Apr 2025 14:11:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744294295;
+	bh=rco72FMDY4JgO03QNoKdCEdvvo+YwCaCCrx/8pDGOPE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=eQ7IoFkt+osTTj0Vi2+kpNtwDFjpZvXxiewz37bA8FBL4ZFA+CuGaUhIkcbbXR0k6
+	 29Fy2FHt0RumRcvkuDYPQqmLh45tYMCsTeWcx/7yRedEvadWGSNT3qNQCaOEPWaIhi
+	 sQ4M/3koFKQMQtD/p3dgWNUi+TktHMSbsFTetAE7iQAOPr1kFNMDHElpUIfORI75ih
+	 Y1mz/jaogtjNAchtXKtaHV3jAfPhlwYK8l+Ev9ql2/fTarC9pdP6vCO+1LVsL1mN4F
+	 wm3PLW30ItliFoXF10R7DtPFDDPMghDP0rRQVzEYt78nRT0N33cKXJqOrMXX+rXwSW
+	 sXJVlxGKmrCOQ==
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5f0c8448f99so1765207a12.1;
+        Thu, 10 Apr 2025 07:11:35 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU7nT8ptFCJoSUgz7KKLOqJYB1dlnfNHxp6i9hiYqKfce0gfu4VbyPsoDV/9emXt5geIQk=@lists.linux.dev, AJvYcCUyHaTWobK2R6SS/LugjSLANE7dTuFoA8QwidF/pES17YkDe5nXnMbQOKprThL3IoCkPdtQrwTFPJRt7z4=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxUk/QIrPU8u9zNkdUCVnvBvyByWyF3AWOt6wlwkh9lkMYu0hvR
+	D3tpqOCby95xEWSK4jAf2MPjTbNxHAjdSjYdxE1tIKD7L3s0kRETi0sTf/MhBIffGqgGwTsndZ4
+	IK7zyBccYn6Np9FuU9lmsQw09Bw==
+X-Google-Smtp-Source: AGHT+IGlh97um6SMQiGxBgsgdbsviDx65SZRgGYwOH79oWcJKJOpcvjinlVEV2oCvrCbvL9uHlFPqdqxcM1fMXmRyBY=
+X-Received: by 2002:a05:6402:42c3:b0:5e4:d2c9:455c with SMTP id
+ 4fb4d7f45d1cf-5f3292682cfmr2701509a12.10.1744294294406; Thu, 10 Apr 2025
+ 07:11:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/19] arm64: dts: morello: Fix-up cache nodes
-To: "Rob Herring (Arm)" <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@arm.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
- Stephen Boyd <sboyd@kernel.org>, zhouyanjie@wanyeetech.com,
- Conor Dooley <conor@kernel.org>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Steen Hegelund <Steen.Hegelund@microchip.com>,
- Daniel Machon <daniel.machon@microchip.com>, UNGLinuxDriver@microchip.com,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Heiko Stuebner <heiko@sntech.de>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-mips@vger.kernel.org,
- imx@lists.linux.dev, linux-rockchip@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org
 References: <20250403-dt-cpu-schema-v1-0-076be7171a85@kernel.org>
- <20250403-dt-cpu-schema-v1-3-076be7171a85@kernel.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-In-Reply-To: <20250403-dt-cpu-schema-v1-3-076be7171a85@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ <20250403-dt-cpu-schema-v1-14-076be7171a85@kernel.org> <174377856145.1313232.11316769002552655294.robh@kernel.org>
+In-Reply-To: <174377856145.1313232.11316769002552655294.robh@kernel.org>
+From: Rob Herring <robh@kernel.org>
+Date: Thu, 10 Apr 2025 09:11:22 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKiduJBRBuRS364_bSjEfC_cvgyicZX1BwvNyb1+GVc3w@mail.gmail.com>
+X-Gm-Features: ATxdqUEvfSUaWUzPsxy3ohcumibpamjDRmILBf-6gs6fjUtKKg1MwCu-Qt45NOQ
+Message-ID: <CAL_JsqKiduJBRBuRS364_bSjEfC_cvgyicZX1BwvNyb1+GVc3w@mail.gmail.com>
+Subject: Re: [PATCH 14/19] dt-bindings: arm/cpus: Add schemas for
+ "enable-method" dependencies
+To: "Rob Herring (Arm)" <robh@kernel.org>, Stephan Gerhold <stephan.gerhold@linaro.org>
+Cc: Bjorn Andersson <andersson@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, 
+	linux-kernel@vger.kernel.org, Conor Dooley <conor@kernel.org>, 
+	linux-rockchip@lists.infradead.org, 
+	Daniel Machon <daniel.machon@microchip.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Shawn Guo <shawnguo@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, UNGLinuxDriver@microchip.com, 
+	Jerome Brunet <jbrunet@baylibre.com>, Kevin Hilman <khilman@baylibre.com>, linux-sunxi@lists.linux.dev, 
+	Liviu Dudau <liviu.dudau@arm.com>, linux-arm-kernel@lists.infradead.org, 
+	Fabio Estevam <festevam@gmail.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Stephen Boyd <sboyd@kernel.org>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Vincenzo Frascino <vincenzo.frascino@arm.com>, linux-renesas-soc@vger.kernel.org, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Magnus Damm <magnus.damm@gmail.com>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Viresh Kumar <vireshk@kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>, zhouyanjie@wanyeetech.com, 
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Heiko Stuebner <heiko@sntech.de>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, linux-pm@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>, 
+	linux-mips@vger.kernel.org, imx@lists.linux.dev, 
+	Samuel Holland <samuel@sholland.org>, Sudeep Holla <sudeep.holla@arm.com>, Nishanth Menon <nm@ti.com>, 
+	devicetree@vger.kernel.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	linux-arm-msm@vger.kernel.org, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	linux-amlogic@lists.infradead.org, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Steen Hegelund <Steen.Hegelund@microchip.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 4/4/25 04:59, Rob Herring (Arm) wrote:
-> There's no need include the CPU number in the L2 cache node names as
-> the names are local to the CPU nodes. The documented node name is
-> also just "l2-cache".
-> 
-> The L3 cache is not part of cpu@0/l2-cache as it is shared among all
-> cores. Move it to /cpus node which is the typical place for shared
-> caches.
-> 
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> ---
->   arch/arm64/boot/dts/arm/morello.dtsi | 22 +++++++++++-----------
->   1 file changed, 11 insertions(+), 11 deletions(-)
+On Fri, Apr 4, 2025 at 9:56=E2=80=AFAM Rob Herring (Arm) <robh@kernel.org> =
+wrote:
+>
+>
+> On Thu, 03 Apr 2025 21:59:35 -0500, Rob Herring (Arm) wrote:
+> > Replace the prose for properties dependent on specific "enable-method"
+> > values with schemas defining the same requirements.
+> >
+> > Both "qcom,acc" and "qcom,saw" properties appear to be required for any
+> > of the Qualcomm enable-method values, so the schema is a bit simpler
+> > than what the text said. The references to arm/msm/qcom,saw2.txt and
+> > arm/msm/qcom,kpss-acc.txt are out of date, so just drop them.
+> >
+> > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> > ---
+> >  Documentation/devicetree/bindings/arm/cpus.yaml | 82 +++++++++++++++--=
+--------
+> >  1 file changed, 49 insertions(+), 33 deletions(-)
+> >
+>
+> My bot found errors running 'make dt_binding_check' on your patch:
+>
+> yamllint warnings/errors:
+>
+> dtschema/dtc warnings/errors:
+> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/s=
+oc/qcom/qcom,saw2.example.dtb: cpu@0: 'qcom,acc' is a required property
+>         from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Any Qcom folks want to tell me whether both qcom,acc and qcom,saw are
+required or not? All the actual users have both.
 
+Rob
