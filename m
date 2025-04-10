@@ -1,63 +1,63 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF0B51CEEB2
-	for <linux-sunxi@lists.linux.dev>; Thu, 10 Apr 2025 07:19:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A595320D51D
+	for <linux-sunxi@lists.linux.dev>; Thu, 10 Apr 2025 07:20:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744269584; cv=none; b=PQQA9Ve5fhqwrIEs5xaFPAQv/CCmnHdj8qHP2GH3rYJ6NxQNLzVu9ZesBr8NZidfUa76m7UZ8c2gFeAdUbV1X3MiaT4mP/VfnTC1ZRF5Bb0SRZyZ4EvsGkDINDxNZ2kf8mMCQwNKG6fbYfDg38sLRVzceJ+IIyz6oeIQ1ZGovXE=
+	t=1744269620; cv=none; b=BF+0k8zcvLDhszlIAgLCt+CTI9jHTm29NwFleQYsLtXTqx+ANt7Ndcih49Qc5uXIzwn8vLJ90Jse1CiSWLSESXMcr+7nnjoKLo5uKnGn/haoIoCwjROs0SNz5M1sfcNqXd1wg6rJr6ajEXlbvovAfggKpOObuwvX42BHsq8iNyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744269584; c=relaxed/simple;
-	bh=nLQlgrMoy82GYCbXYbFq6unl2OVBU5LRa5pWPRzOI9c=;
+	s=arc-20240116; t=1744269620; c=relaxed/simple;
+	bh=fxWEedt3fMr2+s19ndrV/m3BR+qDLQD+2272oybXZ+M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BTBm+1p9r2ZkZn6rA5o75IEsvoJ3GompX1VaxhNByHNU9v76cIR78onvrzeOGJlkPGvYr3zEc4OhqAN/qIHeKEzfs4gEJWLd9AoA423vdcOvsAT3g7l0smhVMpZhL2EKNqzmQEoHRMslDKy9eJsuw+k+Fe0r9FJpagEjkKGHDLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PeRd0/dd; arc=none smtp.client-ip=209.85.128.47
+	 MIME-Version:Content-Type; b=AQ2nIWOCV/WCIrLjLF5xFsZRcY7kI0Hmhm62UPnYP17Oe8uUbHFhaCgnHEyrkLUpgctF1zgXYcbYQLU7gNobEYq+Xl5Q1hi39PKiJTods0ajb945xQ9DCeMWh9wsIbrBVscrTND66UB20uYRXMEWZOJ2vkZ7WYyx1zWrw5zLZwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BCIzOZeo; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PeRd0/dd"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-43cf257158fso3599435e9.2
-        for <linux-sunxi@lists.linux.dev>; Thu, 10 Apr 2025 00:19:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BCIzOZeo"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4394a0c65fcso5232925e9.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 10 Apr 2025 00:20:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744269581; x=1744874381; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1744269617; x=1744874417; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nLQlgrMoy82GYCbXYbFq6unl2OVBU5LRa5pWPRzOI9c=;
-        b=PeRd0/dd87uyM/yKn1eF2clNREQYmoMuZUoudjpEK96KTb8goFB95F4DDpYu5OPZnC
-         7lkqufYzvoRF5sGrC9ILGEmdZot3UcrGKps2qlS5bYMWEi11rCIQsvX3j4nLB/95x/sI
-         T1clEM8OXlvULzrHfnaq/GZc+GHmPqd3D/56Ne0febCmUkyt4xLuY/QYwaWYZ1uyWnSd
-         XrAZMO2urkDZbRSbqa/x3d8Osu8u2PeSns3WEgM7Vg1SndAH17MQo2nquxv7wzIOI4xs
-         TNJQRiJGwz3oi9pQalqPn/dmdo6BL/OEj9+arfmfagziLWPqjrtRPpeO2H/QUuut4Nhx
-         jGVg==
+        bh=fxWEedt3fMr2+s19ndrV/m3BR+qDLQD+2272oybXZ+M=;
+        b=BCIzOZeoSByq/nWmU3yWRTH0tusKtGg3C6g74BSV9Rm7+WQQXo9w9/saJAXZrIrg0Y
+         bE/OYQyVu2zOU4YgdLTfioA4DapF4wvUEn/Oyqaknm9dwSfHZXCvbFca6jr2XJIstkOH
+         +XHme00wseHcsNjf7v7cm6mxG3aIS2Iey0letWI8T0UOOmE6H7+qPZwRR7YA6XMICRWv
+         sWo7smLuKHVOsTqPtwH/RcVAt9fIwwIhK6WeuGEqlZPPRwY6ykD4T+J+WRbCKLllFS+a
+         x90sdK6ROQMagemCeO5A812Gfwa4yt5nRepaZPsjGwXfRKSLvjU8XlXJA0ldxxM3EVgL
+         4znA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744269581; x=1744874381;
+        d=1e100.net; s=20230601; t=1744269617; x=1744874417;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=nLQlgrMoy82GYCbXYbFq6unl2OVBU5LRa5pWPRzOI9c=;
-        b=FftqtVPKsnm+TuE4q8Kvf0Jo542TCe3r9FiHB8QaFdkU4j3HPehdHJ8h3nacFfajJj
-         8rNM4JfBDRd8ZkIlJc9M7YWD/ezVfP4opTJsc8+NEzrl4akeN8YADSwfV0ClA5g3PYmr
-         GVzb6Yv6QNcNn185PJx0c5ZgYWR6l0fCEOT/x6GUECwJXVtwvu8a6gCSLRYQrnprMUoo
-         Y0G2t2EIWIa1z+6uKLYtvK/T/pdVKMKCmzbubqFroyB++jXiJEvgzVtcZ6A0pjIbwNAy
-         wtkp23VKsEO4TJvLHpP5Y9FhqZkvj7wDZimabIWjJQ35vpt9I88WWpByFSs5TdpMNPxp
-         u9ZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVPnrQnKrWc0aP7P2Ka/A7qZ7QTTd23MZw9UFcbpnw80+vHvIrrRVgbjTZOkjBmv5yYvrrxk4ei1rwFtg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyTpIvRJ2125XHcdsNkaYLUcTI2GvWVirhvea+7RssaULDZpZMi
-	/b5YXo70jNTXTT2yoh+V42s1D6lIG029Ujk5n0qVWJC/m2/9/cYe
-X-Gm-Gg: ASbGncucDZQcvwroE8hl9e/tfeAVFuyu7yg9UCmyciN8eSHTFhltgeJjCX7ESKXjNN9
-	bCsXHgl9xGfyli28O2jFXY/46vinN5HN2HSZmpFGc+ssDRTZpSwVAAIKZf4vwwUxxDt++pzd1nn
-	cKYymRhiudEVaZZR8PFmiXxB3rMXCFltGAnEnHY53XZTz1K7k6dlexadlgypvEuInbHfjg3t6ip
-	vk4rzF+OnvKyPpZSoKmOMg61I/qnFnGTL06TVZNyg6FB0A9bgVUCQyK7jJ+pTe0F0yeZOWoSDxc
-	soeu66FyvmmvG+4FLH9XlzeB/XT4+hp+jiUvlBw6A1gweF+tYbbZdyuPiRvEu4gKMuOwo++fqnq
-	lbPaRS5H7FSbVcyVx
-X-Google-Smtp-Source: AGHT+IGfNqlvzVtINcMCObh8Pdg/NUrnf3i8B3l/L4y+h5lADSteCrZVRbbmzwMvHJyYENlMhRmtRg==
-X-Received: by 2002:a05:600c:4e14:b0:43c:f8fc:f69a with SMTP id 5b1f17b1804b1-43f2d7af23cmr17600255e9.4.1744269580932;
-        Thu, 10 Apr 2025 00:19:40 -0700 (PDT)
+        bh=fxWEedt3fMr2+s19ndrV/m3BR+qDLQD+2272oybXZ+M=;
+        b=GtGsWjeuyQ0KIcBDc6oo1Vf5nEYm6iHY9I6rqU9/e+DdPt3xTCiaBeCqjgIwsL8mR2
+         q/t0EpchGY+zwG/yskQtVHguMt/azWXDMRGi4Md/v7rEYF7Fu/rgl5HEKg+itPTkeApB
+         Jm8EGoFKCe1ZLE9EMCw43eGRCg4bJ2U+X9OOMNby0pU9JMcXTMRhqTasDeFAILk35SBI
+         SGwBDNgAWtG4w7y1pUg+lPEvI30Lh/o7Gc0IEPOt+wCwXNoPojxC75wz6UTwI5Jowc9J
+         ptU3HNRwNWfvshzNERBuZgDR+HrSoGvvcwX0qTRB/JyBAUKDoQsXTacMUBqMg69bnAcS
+         3ETw==
+X-Forwarded-Encrypted: i=1; AJvYcCVaLMOe4DoKU676uvPNO+UQDITz/CDEFDrwgP/7zy+/qM9VLhkGHOrlE3WAiVPvvg6qsAOZghzIxH7tqw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyrNRrltGvsc2OgR3U3uwyZV+ymQJS97oNHXgr8qhMjiplQ6Szr
+	MRCW2B5zlHRIb6WjjnMixGxeMFeDnDGxcGUlqVXuU70b0T63ufRq
+X-Gm-Gg: ASbGncu1/SwdqpassykNpTUnRzpbS31uim790Lb2KNHoNtwcNyBaoDjeGe/55A4myLF
+	Z3fazLqX5eKKPcPwLt/efq3eSy9Ht6kSscT/GJyGI9NWP7nRrSDtQBNBH3wfnnh2OLEDV8nNRvH
+	cWhngdqd8+CvdVtGrAnIarS6ect/EEmJ7UW6L4Sy/tZxEoDtpBdlrVUS5IUcl8vOCZvqWW8fGkX
+	TGJ71JjJahnj8ks354oSzrE7MuJ7ZphOPQtMsmubfNFyBaq3Vc+g0+b40CLv2HeGKRCsinA2iKk
+	T/KDB6RV+mhN6MtZVU3uQnqd2+kdCmnhNo5EBtpfSCPsj6Qki+U/2f20c+7FoMA6htPTyg/YzmE
+	L59OG9D0+327YWfvaRckf6sNsBG0=
+X-Google-Smtp-Source: AGHT+IGcbG9TTzv88SGGmYonUe5BWCB8tFfVJ/XyJ88KQjsTrUUWfslLGtbCYo5HW3Bwq+n1rTOsQw==
+X-Received: by 2002:a5d:64e3:0:b0:391:3f4f:a172 with SMTP id ffacd0b85a97d-39d8f4e8e14mr989437f8f.49.1744269616992;
+        Thu, 10 Apr 2025 00:20:16 -0700 (PDT)
 Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43f2066d26bsm45444395e9.22.2025.04.10.00.19.39
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39d89389ed6sm3804553f8f.41.2025.04.10.00.20.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Apr 2025 00:19:40 -0700 (PDT)
+        Thu, 10 Apr 2025 00:20:16 -0700 (PDT)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Jagan Teki <jagan@amarulasolutions.com>,
  Andre Przywara <andre.przywara@arm.com>
@@ -78,15 +78,13 @@ Cc: Samuel Holland <samuel@sholland.org>, Tom Rini <trini@konsulko.com>,
  Jonas Smedegaard <dr@jones.dk>, Jaehoon Chung <jh80.chung@samsung.com>,
  Heiko Schocher <hs@denx.de>, u-boot@lists.denx.de,
  linux-sunxi@lists.linux.dev
-Subject:
- Re: [PATCH v2 7/8] phy: sun4i-usb: Determine USB OTG detection pin from
- devicetree
-Date: Thu, 10 Apr 2025 09:19:38 +0200
-Message-ID: <7788519.EvYhyI6sBW@jernej-laptop>
-In-Reply-To: <20250409002036.12212-8-andre.przywara@arm.com>
+Subject: Re: [PATCH v2 8/8] sunxi: Kconfig: Remove obsolete USBx_* pin symbols
+Date: Thu, 10 Apr 2025 09:20:14 +0200
+Message-ID: <3620418.iIbC2pHGDl@jernej-laptop>
+In-Reply-To: <20250409002036.12212-9-andre.przywara@arm.com>
 References:
  <20250409002036.12212-1-andre.przywara@arm.com>
- <20250409002036.12212-8-andre.przywara@arm.com>
+ <20250409002036.12212-9-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -96,24 +94,15 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne sreda, 9. april 2025 ob 02:20:35 Srednjeevropski poletni =C4=8Das je An=
+Dne sreda, 9. april 2025 ob 02:20:36 Srednjeevropski poletni =C4=8Das je An=
 dre Przywara napisal(a):
-> So far Allwinner boards controlled the USB OTG ID detection via the
-> respective GPIO pin specified in Kconfig, as a string. All boards should
-> have the same GPIO already specified in the devicetree, in the
-> usb0_id_det-gpios property.
->=20
-> Convert the usage of the Kconfig configured GPIO over to query that
-> information from the devicetree, then use the existing DM GPIO
-> infrastructure to request the GPIO.
-> Only PHY0 supports USB-OTG, so limit the GPIO request to that PHY, to
-> avoid claiming it multiple times.
->=20
-> This removes the need to name that GPIO in the defconfig file.
+> Now that the USB PHY driver uses the device tree to get the VBUS detect
+> and USB ID GPIOs, these Kconfig symbols are unused. Remove them from
+> their Kconfig definition, and also from all defconfig files.
 >=20
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
