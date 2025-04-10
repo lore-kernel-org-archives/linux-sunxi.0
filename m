@@ -1,63 +1,63 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7414720AF78
-	for <linux-sunxi@lists.linux.dev>; Thu, 10 Apr 2025 07:17:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 353D71FF5F7
+	for <linux-sunxi@lists.linux.dev>; Thu, 10 Apr 2025 07:18:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744269454; cv=none; b=SHzlGBUvQIKfibB7Shxod7OSvDDRI3oBUO1KBonuuWQr9YKBjpdXoVbBR648mnhuplOdG+HmfpLehBvMuHF3MzGjRbIu2hCAujm2IBiBqDMBUyecV6SWlp4hLHkTU5Qzx84Yh7KOV+LxeJNJcqOIbzYykj5+0jx6gu7Ks2Eytpg=
+	t=1744269525; cv=none; b=s2T6dhu0JRYOezekE2kI/MHPbOI6C2kflRfd+xMpYm8zvzsQxcEP/KMKS7tOtIjebfBnMw8RnsSDBKucFt/GDoXVost3mKmCT3scjgg31f3tWqQ0Z6zrgOWTvE2rrfv+dPqv66T6+AKmbCzn8K/rx8DOE9X2i2s5FV+dPvTSN+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744269454; c=relaxed/simple;
-	bh=vj4dRFeIPg69IJI563j/AOt0mSXQ1SnlTmdMvO+wPSM=;
+	s=arc-20240116; t=1744269525; c=relaxed/simple;
+	bh=igfhmktc4O9/el7E3iil/mb7fCZm4IRQ4EpV0X3Eshw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=f76s6ZdDYHW4js2Zq4QkVke6sy9duHywYN0+hip5dYgpvCPlepkonR/wBv17q2on89XlN4lSvN86j3MDXXZTVONCaxOduv54183mzGKlSrs+IBnkNR6NlQGLWui65amMZlEHJrOy3p4fzR99khzGTUeh8gQWf3218zsICX70yY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y3oMLH+O; arc=none smtp.client-ip=209.85.128.52
+	 MIME-Version:Content-Type; b=pQ+yujmYCkfwFHIUg2rjcCsrWid0ETjPW0XY0xNuF9iD/TXDlbc+nQ3LODAtGg+SslzgFJ0ANGnPwCK7LBQOP9jwIyPJmv44LILCKywLmQp14+CnV4DMKs0nSrpq8a5RY32VN+aYdFoBbJC5liiuZ0XCugvDqkm8cSJNVxFsAEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h0VrMB5B; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y3oMLH+O"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43ce71582e9so3809695e9.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 10 Apr 2025 00:17:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h0VrMB5B"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43cfba466b2so4884235e9.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 10 Apr 2025 00:18:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744269450; x=1744874250; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1744269522; x=1744874322; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vj4dRFeIPg69IJI563j/AOt0mSXQ1SnlTmdMvO+wPSM=;
-        b=Y3oMLH+OjjpTVkgeB3LzlotmReQYVcwWhp0QhRRHtF2crmc5oVCynwQuEKd37lwyja
-         t9DGNyMaA9YPGcW5fDoAkv9aaWLCBmSmqiQdADVUIeqj4MzqA3TLWtxaTrscepBmUPUK
-         iJ6+qSYtNCHtrvuqShXvKCWd7a1+pJxRG7uoqnPUFEEFS2mnxDt21XYDg55s5lgz9/BX
-         0nS8gfdZT5YovKx9fBZ5IRc/XjDW/OQAuK0qUHVTGLO9pa+z9meLXg8oA1VL+VNl8RDg
-         sNYs3j4nhruIK4XpZ3xRecUpdI5XNx+F6T33scVVLZedFZE/EYXn54rDw+zTfpvt4w1w
-         HQLg==
+        bh=igfhmktc4O9/el7E3iil/mb7fCZm4IRQ4EpV0X3Eshw=;
+        b=h0VrMB5Bna6TPhIycJSLvlipkDghSqSUMFWPa4CNYfQIfdJiNmuqlfFXJ/duAG2FWT
+         l96elLSCoVYFxtKqwxX5O7JrLN0nAt6+iODAbgFrUdZhqFCktbyQz4nISdfhQLnQx+MN
+         ni96KOGRP5KZ1tXWJmZgbSm+GzHq/cwzwFnISABuYsTEE1JNABzdzjlRSyN10C6t1pwv
+         nutDgGf7lmXartBkUkkgForNAOFk4h5Ko2QU4fTqXgb6qlbvnFnmJrLZPRGlTjcVGhM3
+         6uoZre4iKsA1k2WQEfTPyja79dYgCGaiJHGjjw6wTiRKmySxXlJPU3Xy4xOvnI1vkoj4
+         xYsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744269450; x=1744874250;
+        d=1e100.net; s=20230601; t=1744269522; x=1744874322;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vj4dRFeIPg69IJI563j/AOt0mSXQ1SnlTmdMvO+wPSM=;
-        b=ee/f83gwJ0IgUliIWrZ02HbVOMxT4LcHhBRjusvzbjw4gmUTI+7klz37lvRmVYCYKz
-         d4LKWba8ro1NQHTnszD8gLCOsKy60mcebcGmKg2Z+1OaGqMIANYvaOLzXvEAWudgYj+n
-         Pnqg3s37PAxnad1BjCF21nrbhBuXEdA0lg1lnmPxvElX4uSrMoKEDxawrukLw5KW8O7L
-         /ZIK2oVL5kM/APIG52TDuC/VKbicQnj+QgT9EHxGAgs31lCua+eYd+0qXyhZ/lZsIF+F
-         lGRgFbjFlcYccaYjYn+DL/mDhf/4m2p6rLgwQFjuWwjoqmpg/gOUZPDf/Hbpg9ZiZiY4
-         K05g==
-X-Forwarded-Encrypted: i=1; AJvYcCX/8xVzBDWJbztJNYSSEvnsqqXH19x6XhTjwCy4miU8cjH/mAmRz+ZvP/lIkMdauTsJIv1qqYBh9H7U8w==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yye/sWo+eYQK274+BtdgNkx2VljbvKQkqaIX5Lq5Pqh+esL4txl
-	wxg4eUgnijSRAqvbYKiedujaU4L6sXpVnPmbdtw669lzJWtFR4XP
-X-Gm-Gg: ASbGncsDh0F40VcVxmA+wA4bDJKztEXZsXinPMTdxFIYQ0QYWa4SNl9jXbPKq79qred
-	GymA2Ss1hUdcs9gQhj4faibBX+UBZStUxUTc0r57pIevrbiBpw1JxisTiAmWABquMOl1XhwLLEu
-	TfcBrkScNAdjfr/x4Rzld1IiPqCbmqWGMaXMIf7SBJU9S2MVg+N6Ratx9aEEgK1fbimKluO9to7
-	piSpVFI1e9apsMHWV79GVgVvfTDm6RYlzdNHruG/jSAZVLDKOUHhB78EGAlUXBuxrngPggSBeph
-	BimBiy+R2nb7WrzT6bjF1Oe6js9RH6QQjrf4Th5abpdWfJS5f5hG7mZm+JInnQqqBk8Ni0SCv9U
-	iRAhfQLWJQwODi1IO
-X-Google-Smtp-Source: AGHT+IFJZFrovX0zOi8eNh8UCyt+flT0nIpcr3x+ML9B9tU0pU/GcNFYha0+y0JFspALUbRQw8rnsA==
-X-Received: by 2002:a5d:5846:0:b0:391:29f:4f87 with SMTP id ffacd0b85a97d-39d8fda76d9mr862373f8f.49.1744269450220;
-        Thu, 10 Apr 2025 00:17:30 -0700 (PDT)
+        bh=igfhmktc4O9/el7E3iil/mb7fCZm4IRQ4EpV0X3Eshw=;
+        b=CJKlkEceat8iGzXqGtqXLq7ofsCbFB8HyTSvAlebuUUclkkQfrFOFgTB/yhm+GrSxS
+         uR6GtKFazMXLI9PoyL4pqFReL1PNhAr8eYcRxclPZ1SAddZTsT+ATe9TOEDtl5mjgjMu
+         RgEImpatH0/MBtEH4a7//zfAGpJeHVnzZBlV19uYZ4YDfLm9R8u9uINxN+3nsy25jFc7
+         GtntY/HIlQF1NW445XUMrHEFYy5U6mQULUuf/ImPOs3OtNS1nWjpiqg1mwZ2a2B1+nnk
+         8Jj11kStC9dDwU0ZnFDXg1ke2908yE8XNHq1B/STcaJgvgLkUiBu6M1G/ZYO041XNJg/
+         8Zuw==
+X-Forwarded-Encrypted: i=1; AJvYcCWXjSxY2oD/1PZtU9NCaXTEiaMmnz0PsyBwd6FmqJ5GK2o7ZqdzwPFs9DwHHnRwIrJxJgcUYFCgIqBqdg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzyIYVRG7zHyM8JlXqWPCEw7lnXKT+QosQY5Vc3jR+Q2EhlrPrI
+	rUQPNMIXrMy6jIZwcSuQ/zzJRKTwhW3wIlGk+OOsg5zwPjcKNOEr
+X-Gm-Gg: ASbGncvD6n4lZtHztwpWHkekgLV5209pH88T/hiBHmcvfbdpThWq7veyWXr12bUIcY6
+	/R+7pSZAazlxrjUBYHtdK5eKHzWBgzPlJtwcB7dxvJFgG3YraNrgNLM+IGEDlKs7vckgRvYzpHb
+	0YUxmk7XqvVLSK2TCteg7xU/TV3jtD61AWhPg+BFRWZPuwJKC8i6mHMmEITcfUjfVl7s4HFen6G
+	7Wa2rG8Qk4V72eSWa6/i1Wz929p+44g4wKsHesWVMzDJe9BDC5KkyX2hGAEujBXO8jlW1EdFKSK
+	pnA1u/uvG8yFSQ+XgpCT+V2KKdKpHo7ihSodxwMgKAx9pZ8/I7XyOXwL9rHhfSxI9RWWznEhvN0
+	rGbirlf/M8ARxwUDl
+X-Google-Smtp-Source: AGHT+IFfzqNNpQgZzMhSOTBS34F+vVbgXHCLS/Ubmc6J9sN5ZyRsu19rqv4vwg9unKbVYDbMBD/dTw==
+X-Received: by 2002:a05:600c:3b97:b0:43c:fc00:f94f with SMTP id 5b1f17b1804b1-43f2d95ebf4mr14397185e9.23.1744269522160;
+        Thu, 10 Apr 2025 00:18:42 -0700 (PDT)
 Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39d893611fbsm3828556f8f.20.2025.04.10.00.17.27
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43f20901c58sm28873065e9.0.2025.04.10.00.18.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Apr 2025 00:17:29 -0700 (PDT)
+        Thu, 10 Apr 2025 00:18:41 -0700 (PDT)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Jagan Teki <jagan@amarulasolutions.com>,
  Andre Przywara <andre.przywara@arm.com>
@@ -78,13 +78,15 @@ Cc: Samuel Holland <samuel@sholland.org>, Tom Rini <trini@konsulko.com>,
  Jonas Smedegaard <dr@jones.dk>, Jaehoon Chung <jh80.chung@samsung.com>,
  Heiko Schocher <hs@denx.de>, u-boot@lists.denx.de,
  linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 5/8] gpio: axp: Remove virtual VBUS enable GPIO
-Date: Thu, 10 Apr 2025 09:17:26 +0200
-Message-ID: <10637391.nUPlyArG6x@jernej-laptop>
-In-Reply-To: <20250409002036.12212-6-andre.przywara@arm.com>
+Subject:
+ Re: [PATCH v2 6/8] phy: sun4i-usb: Determine VBUS detection pin from
+ devicetree
+Date: Thu, 10 Apr 2025 09:18:40 +0200
+Message-ID: <1997333.PYKUYFuaPT@jernej-laptop>
+In-Reply-To: <20250409002036.12212-7-andre.przywara@arm.com>
 References:
  <20250409002036.12212-1-andre.przywara@arm.com>
- <20250409002036.12212-6-andre.przywara@arm.com>
+ <20250409002036.12212-7-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -94,15 +96,21 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne sreda, 9. april 2025 ob 02:20:33 Srednjeevropski poletni =C4=8Das je An=
+Dne sreda, 9. april 2025 ob 02:20:34 Srednjeevropski poletni =C4=8Das je An=
 dre Przywara napisal(a):
-> From: Samuel Holland <samuel@sholland.org>
+> So far Allwinner boards controlled the USB VBUS detection via the
+> respective GPIO pin specified in Kconfig, as a string. All boards should
+> have the same GPIO already specified in the devicetree, in the
+> usb0_vbus_det-gpios property.
 >=20
-> Now that this functionality is modeled using the device tree and
-> regulator uclass, the named GPIO is not referenced anywhere. Remove
-> it, along with the rest of the support for AXP virtual GPIOs.
+> Convert the usage of the Kconfig configured GPIO over to query that
+> information from the devicetree, then use the existing DM GPIO
+> infrastructure to request the GPIO.
+> Only PHY0 supports USB-OTG, so limit the GPIO request to that PHY, to
+> avoid claiming it multiple times.
 >=20
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> This removes the need to name that GPIO in the defconfig file.
+>=20
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
 Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
