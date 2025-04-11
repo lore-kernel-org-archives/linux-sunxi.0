@@ -1,62 +1,62 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 710181F4C8F
-	for <linux-sunxi@lists.linux.dev>; Fri, 11 Apr 2025 16:15:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C2F81E833D
+	for <linux-sunxi@lists.linux.dev>; Fri, 11 Apr 2025 16:15:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744388126; cv=none; b=BNT3cmY0DjNlpvHvAVhryZJwebEJ4j/XDBLvF19YDl+DzPVmA0+KoMVEAOt/SBM/VG4niCIrtr5OdueIFc9q8Ie7qTzVoOMmonjvP0IQMu/57/qL892CvgEneft4yeYJKiw5Ah+I5/HpG4eZMYsjzWfw5oTwj43mpnjbahq8RPQ=
+	t=1744388128; cv=none; b=WHPczyBMZaNFXYkLa/DO9hCxvaLgSQYDNvrL0zdFpstbbwuPzVUeXTJDrl8AvxetZmwJivHow05Ngj9mZnja8ZXpXhFE/9u+grgh7XNhPnFFu1SxYU+gStKnVO+9gByEgJfTL9UhMy3qdem8twsHQmIP9sm0TGx01wzmLsLx3Zc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744388126; c=relaxed/simple;
-	bh=ECYgc8/yr5gFpaRdD8zI/+/+O02lM+ZiVHZFAzP9QVo=;
+	s=arc-20240116; t=1744388128; c=relaxed/simple;
+	bh=/uDh6xisdDttyOBDhxRhE344S2W3v5V90juKjuD1Fj0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=J27tuwe42sVLNGCRvL1bNxZoKW/0UXFKWeWDrO6TwspsVbKJlv7NRiETJVJOZHNkSbiMGVTwYmWOeMp2lbUV9wSizQnJ73WTLtZDCLO4Fam+ywyqmQGF6+NWqLCxo3eB4Y5yUx4uwngzJYW6+ql0zZ2WaBfDfa9tq9iyuvpss6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iYU8CLut; arc=none smtp.client-ip=209.85.208.41
+	 MIME-Version; b=WYV8P8+pLYoV08aN7Bgr41hAjpT33L6PT2RbcyWMlHCX/dsXbxLgLk/I+WcMRS8YtEvNpXJOrZUjCuASaM0FeyWY1io5bkCgZXR+YXxxSI+ly1fLHv5x30ggaF6+j6D1BP+ANal/2nocnLhBNZEwj/txoFitoMjfbtlE6xMheow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gG/dfS7s; arc=none smtp.client-ip=209.85.208.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iYU8CLut"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5e5dce099f4so2853546a12.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 11 Apr 2025 09:15:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gG/dfS7s"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5e5cd420781so4268663a12.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 11 Apr 2025 09:15:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744388123; x=1744992923; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1744388125; x=1744992925; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5IGNN6aGbKHcH6Capa+ymRdfB7bDOe1OnvdR4NcBsvY=;
-        b=iYU8CLutY/1WATt6jlcI3A0QmT0vuTjl+BLL+Hvh6XKL+GPPjJII3/paGaKEqOmNNM
-         rRIWgfh/tnJClOoMWoEAL/jAkGxj5FyNSMKyXHA2FB57WOeUo/1H6XZ3QIOWNEWn1qE7
-         6haFGk0Fh9eqj0bpS3gjgHeFlSxIptZrR9P/ysU7R+huHhBTxQHlP8kFo7JjBMrfR/f1
-         FbFdLZyspDuAvetpwJiBq8tYCAYb8vhx1wNjrxwTOm9+PGPew7qsr+TAZyxzwlR5D9uA
-         Zk8BZGFEOMfQ6qQ+1IBvZcTG16HooK8IvnIqqSwuALzAdp/ULxYQhbSPGvhofiixhwFe
-         EbQw==
+        bh=plFavMblBUPZMwgoP8wOxSFygVXsbi6ncRkK/LjY2cI=;
+        b=gG/dfS7sdfWc0wy3j0/3OM3KcJYSoBamM68o1OKx+42JNNEG22hm14ePqGOumdN9/6
+         KjYoERovZjbpVd6IEtjx31vUpIlrabgPyukO+er/kbVhq7yG7MRMlYLmXmmUaYugRPZP
+         lDj8GFSMKrXfnHLTQw1NNCWbEf1RXWPo94mOL2yyDU/NCjXLz4s28IGHqTKm8pWiYZ37
+         GukYRYHoI1reRVk4qZYMM6ONrVqHN2a8EiclG2N7uAmWnPG8U6hL4gTuFKRXrw+nqmLk
+         MKbw55RsRdkt0usUL/IIAJJBLqCurR21X33+CWGNPIJJfuIFnwFQhSveWZyqvWBpa4Fh
+         tQUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744388123; x=1744992923;
+        d=1e100.net; s=20230601; t=1744388125; x=1744992925;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=5IGNN6aGbKHcH6Capa+ymRdfB7bDOe1OnvdR4NcBsvY=;
-        b=VcXuQGHK+fXpx+v6+E/lQyNlSyGMiv6fNx+usrqXRy4+8AHLgcdT9Bp3eOdjM6QUjx
-         oN8jcuoMsqK1bReSQtrYSe1CPdzgg+9GmeWDmz4O0ph8iJ1+Q85FtscO7++vKtvx224y
-         eu4AMqeB08Qq7admNhyOJKiRQ0HShIyzzl9fAWEWjvxn0m7sV7/ZPm3zrDEOLFmoeNCr
-         v1rHl0OUwYyuPaa0s54FDrfOEONwXrthYFfN8fI5xdJyGXIGEbpEKSSZU6gTWPf7KlKb
-         4P5jLEgWxToJ4KIGu++7ZCURBKktpXf8yu1H6T4YIPrA+8wcUeq0T808dMVDn3vRgqZs
-         nTlA==
-X-Forwarded-Encrypted: i=1; AJvYcCWNFDWvzOttKE1vsSeiK9CVb7C1ANwuWAkd1P4Ugxdjcmk29HmsoZne/hqZhUGP5aQVYUnXMnA9m6lETQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw9d7N5I6BTZSude1jXMUO/74Uw4bw6cvYna/oL9sKqiaxELDmF
-	tJaUYBZ21qiHM9m1pHGTeTRfF6emMyxD3r/fgCXwQ8r8/8qSKJSL
-X-Gm-Gg: ASbGncswSfZV8/CBFOLjnvboKkuyBb9lqT1cF+ivZt1hZOfwGrjOKBFymTdHhUnebev
-	tL0e9LhsT6tiYNg2epbLfiNeYPrYHThcnJ5JLM0zKG77BUKN1DomcNZi02KpozLX8nJWQoC8WAZ
-	0DWSCeGGP4QUIAi0w3OqLiYg7TRRY/Xb18sC7Hwrn/iFJBeMawHk5Q1E5ud3jqQtLe7wlmReRfM
-	gi00kEnk41Wy783BPr9y906tLVt7X5afQp40qm5MvA9yrwpPZuFtG0jrcPdveLo8De6dkJza1p4
-	j6TD5EPIrlm35cuxZ7hxx44kkUIWodiPOJccz6NOO/WOj+elxQRx1j+Upg==
-X-Google-Smtp-Source: AGHT+IHGPQcIH6fxyoGt0YfhSdF0afBr8xnUcPqiyOupXM5CcByh7Q/fMnwhqpNRnJzCSJMXSnSfLA==
-X-Received: by 2002:a05:6402:270f:b0:5e7:110a:c55 with SMTP id 4fb4d7f45d1cf-5f36f77aad1mr2867188a12.18.1744388122272;
-        Fri, 11 Apr 2025 09:15:22 -0700 (PDT)
+        bh=plFavMblBUPZMwgoP8wOxSFygVXsbi6ncRkK/LjY2cI=;
+        b=BfQ5tWsrIrXb953HM26B+4AYoxExEcAK6WnOgjsxQBi4XWx92znbJh17Iq6qHzU+Lu
+         1/Vfh1hw2ZJP/9ELlD7QeN8/GG5JbCLT1TDKiBIibX+FXn9JZOVE/sdU5PY1qorBjkZc
+         D5YuN2kr7oh4LNI3ncGNjeumM2mF4ig9QrdFxEFzoROY8cmro4gL5QDSsy9UZkp5PqJw
+         WTcYij5qfj/zTO+xczX5aCI94mFuU9+FpAUw5Hf/dlAViN9DL/0cbDSK3Rc3QOU3oTKO
+         0pW1As+uf1aXRNhtUtERATRV21yG0Z0pLvaA/LYwagaLCqHHZCRKzu5W4LR/bx/hdf+b
+         REKg==
+X-Forwarded-Encrypted: i=1; AJvYcCUX2H/j74upxHZGQXz/9DZ9ZFfvtbehBAxruMPypdF2ubG/LOapw4J7fiuvAsCpDSTPrql3BeiUh6ziQw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzfInCtwXkQSsLYujVlSFwAowtZsLK9MsoYgUff4gyCLBpugSs5
+	xHu8ISt45aFJNMeB+tmjzpwDToMPR0eMyTmJIuS+8mmErkSZikC0k7vHxmyF2jU=
+X-Gm-Gg: ASbGncsISRj6e3tlLvFWa6DI6sAxsraO0uK4Bzwkht8aN7Dl+nixg97hw0isKEX7Y/b
+	534rZrQomo3kVf+p4w4/p/jByR3S369zaneM1vr7WegBVdvXXhUFinmWs9VhZkMLl9E4GrVTW6U
+	COMpbiOB9h20olL/szb3MsmJ6WBBlJekVg3439t9XBam86pS58bTH0p/Dacse2IRvJJy0qrd/mt
+	Izbdz7svD45NWZZiXpQTe9GqwikfrElUS1S4r2WTa5F2w7RKuSvveB1zKdMgF/lWboIWLcU0CNX
+	xdG9vEoYAqQqgNouRB5McyWKPWpuMi9uY+VAX0DXfigS17hLs6bEkN8/Ag==
+X-Google-Smtp-Source: AGHT+IG3z5ipT/8ygt9z8Ao/4hNyMj1+30brbGgn4tag3FWFzn/e9+tfPxzPBNJdAEnuTLQo+tfgqg==
+X-Received: by 2002:a05:6402:1ec4:b0:5de:dfd0:9d22 with SMTP id 4fb4d7f45d1cf-5f36ff075d2mr3093629a12.22.1744388125097;
+        Fri, 11 Apr 2025 09:15:25 -0700 (PDT)
 Received: from localhost.localdomain ([80.90.89.143])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5f36f526da3sm1136246a12.67.2025.04.11.09.15.20
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5f36f526da3sm1136246a12.67.2025.04.11.09.15.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Apr 2025 09:15:21 -0700 (PDT)
+        Fri, 11 Apr 2025 09:15:24 -0700 (PDT)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: jagan@amarulasolutions.com,
 	andre.przywara@arm.com
@@ -66,9 +66,9 @@ Cc: trini@konsulko.com,
 	u-boot@lists.denx.de,
 	linux-sunxi@lists.linux.dev,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH 1/5] sunxi: h616: Panic if DRAM size is not detected
-Date: Fri, 11 Apr 2025 18:14:35 +0200
-Message-ID: <20250411161439.4743-2-jernej.skrabec@gmail.com>
+Subject: [PATCH 2/5] sunxi: H6: Remove useless DRAM timings parameter
+Date: Fri, 11 Apr 2025 18:14:36 +0200
+Message-ID: <20250411161439.4743-3-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250411161439.4743-1-jernej.skrabec@gmail.com>
 References: <20250411161439.4743-1-jernej.skrabec@gmail.com>
@@ -80,62 +80,67 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-If colum or row size is not detected, panic instead of continuing. It
-won't work anyway and it's better to inform user directly what's wrong
-instead of failing later down the road for random reason.
+This is just cosmetic fix for later easier rework.
 
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- arch/arm/mach-sunxi/dram_sun50i_h616.c | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
+ arch/arm/include/asm/arch-sunxi/dram_sun50i_h6.h | 2 +-
+ arch/arm/mach-sunxi/dram_sun50i_h6.c             | 2 +-
+ arch/arm/mach-sunxi/dram_timings/h6_ddr3_1333.c  | 2 +-
+ arch/arm/mach-sunxi/dram_timings/h6_lpddr3.c     | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/arch/arm/mach-sunxi/dram_sun50i_h616.c b/arch/arm/mach-sunxi/dram_sun50i_h616.c
-index cd9d321a0185..d1768a7e7d3a 100644
---- a/arch/arm/mach-sunxi/dram_sun50i_h616.c
-+++ b/arch/arm/mach-sunxi/dram_sun50i_h616.c
-@@ -1396,7 +1396,7 @@ static bool mctl_check_pattern(ulong offset)
- static void mctl_auto_detect_dram_size(const struct dram_para *para,
- 				       struct dram_config *config)
+diff --git a/arch/arm/include/asm/arch-sunxi/dram_sun50i_h6.h b/arch/arm/include/asm/arch-sunxi/dram_sun50i_h6.h
+index f0caecc807dd..f05a1845b32b 100644
+--- a/arch/arm/include/asm/arch-sunxi/dram_sun50i_h6.h
++++ b/arch/arm/include/asm/arch-sunxi/dram_sun50i_h6.h
+@@ -330,6 +330,6 @@ static inline int ns_to_t(int nanoseconds)
+ 	return DIV_ROUND_UP(ctrl_freq * nanoseconds, 1000);
+ }
+ 
+-void mctl_set_timing_params(struct dram_para *para);
++void mctl_set_timing_params(void);
+ 
+ #endif /* _SUNXI_DRAM_SUN50I_H6_H */
+diff --git a/arch/arm/mach-sunxi/dram_sun50i_h6.c b/arch/arm/mach-sunxi/dram_sun50i_h6.c
+index e7862bd06ea3..0adbda756639 100644
+--- a/arch/arm/mach-sunxi/dram_sun50i_h6.c
++++ b/arch/arm/mach-sunxi/dram_sun50i_h6.c
+@@ -45,7 +45,7 @@ static bool mctl_core_init(struct dram_para *para)
+ 	switch (para->type) {
+ 	case SUNXI_DRAM_TYPE_LPDDR3:
+ 	case SUNXI_DRAM_TYPE_DDR3:
+-		mctl_set_timing_params(para);
++		mctl_set_timing_params();
+ 		break;
+ 	default:
+ 		panic("Unsupported DRAM type!");
+diff --git a/arch/arm/mach-sunxi/dram_timings/h6_ddr3_1333.c b/arch/arm/mach-sunxi/dram_timings/h6_ddr3_1333.c
+index afe8e25c7f58..1ed46fed411f 100644
+--- a/arch/arm/mach-sunxi/dram_timings/h6_ddr3_1333.c
++++ b/arch/arm/mach-sunxi/dram_timings/h6_ddr3_1333.c
+@@ -37,7 +37,7 @@ static u32 mr_ddr3[7] = {
+ };
+ 
+ /* TODO: flexible timing */
+-void mctl_set_timing_params(struct dram_para *para)
++void mctl_set_timing_params(void)
  {
--	unsigned int shift, cols, rows;
-+	unsigned int shift, cols, rows, found;
- 	u32 buffer[16];
+ 	struct sunxi_mctl_ctl_reg * const mctl_ctl =
+ 			(struct sunxi_mctl_ctl_reg *)SUNXI_DRAM_CTL0_BASE;
+diff --git a/arch/arm/mach-sunxi/dram_timings/h6_lpddr3.c b/arch/arm/mach-sunxi/dram_timings/h6_lpddr3.c
+index c243b574406d..c02f542c989f 100644
+--- a/arch/arm/mach-sunxi/dram_timings/h6_lpddr3.c
++++ b/arch/arm/mach-sunxi/dram_timings/h6_lpddr3.c
+@@ -16,7 +16,7 @@ static u32 mr_lpddr3[12] = {
+ };
  
- 	/* max. config for columns, but not rows */
-@@ -1416,10 +1416,15 @@ static void mctl_auto_detect_dram_size(const struct dram_para *para,
- 	shift = config->bus_full_width + 1;
- 
- 	/* detect column address bits */
-+	found = 0;
- 	for (cols = 8; cols < 11; cols++) {
--		if (mctl_check_pattern(1ULL << (cols + shift)))
-+		if (mctl_check_pattern(1ULL << (cols + shift))) {
-+			found = 1;
- 			break;
-+		}
- 	}
-+	if (!found)
-+		panic("DRAM init failed: Can't detect number of columns!");
- 	debug("detected %u columns\n", cols);
- 
- 	/* restore data */
-@@ -1437,10 +1442,15 @@ static void mctl_auto_detect_dram_size(const struct dram_para *para,
- 
- 	/* detect row address bits */
- 	shift = config->bus_full_width + 4 + config->cols;
-+	found = 0;
- 	for (rows = 13; rows < 17; rows++) {
--		if (mctl_check_pattern(1ULL << (rows + shift)))
-+		if (mctl_check_pattern(1ULL << (rows + shift))) {
-+			found = 1;
- 			break;
-+		}
- 	}
-+	if (!found)
-+		panic("DRAM init failed: Can't detect number of rows!");
- 	debug("detected %u rows\n", rows);
- 
- 	/* restore data again */
+ /* TODO: flexible timing */
+-void mctl_set_timing_params(struct dram_para *para)
++void mctl_set_timing_params(void)
+ {
+ 	struct sunxi_mctl_ctl_reg * const mctl_ctl =
+ 			(struct sunxi_mctl_ctl_reg *)SUNXI_DRAM_CTL0_BASE;
 -- 
 2.49.0
 
