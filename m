@@ -1,218 +1,116 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1441034545;
-	Fri, 11 Apr 2025 13:11:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2461A13E898;
+	Fri, 11 Apr 2025 13:43:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744377071; cv=none; b=bmca/0W3GrARMJGWcq4/k17d33z3dz3ZMkqiqKvfZAQVq/9uRbsiJX0QjSHsHRMiO8BhYRNMpwT8TBhli1q+vQP798gSWtaNaQwFXFTvXQqBrD/U1e+9mYbIGR7xddkix5ZWCCuzDl/9F6pF2YOVsmsv7IsH3b2U4Yrs+FMazKg=
+	t=1744379012; cv=none; b=N0z5RB5pP1pxMGh6ZY7PshWNByzPtYLhMHlrN+BLuMPogvOZn5cv+rq28MXssxOcPMu7Ut6lqfnnfWHfZVihtxwc4GZpV6rczywAnHdH9px10oKq0EiIGrye8e777BR7nWy8v+yDL7VeKtLzuVHZKtVoopKxZGkcRWoUqMm2oRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744377071; c=relaxed/simple;
-	bh=MBtfZeK+L5SE/OxjFO69UjaSHdP7HcfrXWtfD3sjoH8=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=FBS77sQlFEyWpaw8MbY8jp8u9cVUtX7kLBzj1fj1H9oZ1OWQHn06te2LaTTzDFIlCoPF5o442SJUTlkPhvFJ/kBK9Gc4vZql/AsCEOSHCSXLVQioeSzS5FcVvLaANLyrGfSO9KDdIP4E9iaXG9H55atTngygFCwGharhAq72GuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VxMo4+0Q; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744379012; c=relaxed/simple;
+	bh=tliAMtv1OcJaSk4zt2mFjXPHpuo4+e2d80RH30k39qg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r9BMWAiVSINdGsFMg0i0jZSRbwJQ+P4iJXYcMtALcWOgp9rD/mXwWOJfF0rrbh5xXhz4UfxaqTHFCg66zRxgUxY9fhoM9XBRtXo3Ff+SjrNCgAZqjYQoqno+7wuRhHX/xMxqdUUz0YnWdlZvLW3gtozupv+bCwUswM9SBIvOhZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kYtYR9HT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VxMo4+0Q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46B3FC4CEE2;
-	Fri, 11 Apr 2025 13:11:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kYtYR9HT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55A24C4CEE7;
+	Fri, 11 Apr 2025 13:43:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744377070;
-	bh=MBtfZeK+L5SE/OxjFO69UjaSHdP7HcfrXWtfD3sjoH8=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=VxMo4+0QAlI/GkifjcZ/vaw/RotkBJdzAJp584XF0DPGrw+EsQPckShtD93kFLJqR
-	 tYozVFnWXStZbsw6AOE7IlSZlaQOoh++SopMULCzvGElP4vCpQEpkhIADBNCCHTfjt
-	 nnXYbHOlYCSbweing5+XYCbqggIlKdH+rzp/To0jdoFSbdKB73IYRxFr8BLIrmopXj
-	 mhUh6yd+matkw0MgbU86sLpmUe6iBJkHbMw6//pyglkaqaX4HQ+Z32z4LhbHYRT0dE
-	 hW/XTkSk9vhaPlMS/JxTX0JtclG2MyZ/2ugUi/P/AYb0zetDTfhVQ307gm8au3AvlT
-	 VEDmEp1tIy7zg==
-Date: Fri, 11 Apr 2025 08:11:09 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20201202; t=1744379011;
+	bh=tliAMtv1OcJaSk4zt2mFjXPHpuo4+e2d80RH30k39qg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kYtYR9HTZBwMP5Oi7bPretfsvPfOvYCRBS72D97j7i3aPPNTx2mrMavXTUE6McB9f
+	 eTbX6bKtprpTBwHE2o48DSGO3p5BNHOT+nxdbcl0Gq6RpscUvQrNXjeLq4pZV15Afx
+	 Ntbw5YpLpXkixY2/VcHFc1SpYlgJHv9tGOVUeceRLfMjUPmbLjGftwcOXvB1ErfW1k
+	 z+rdIwx6u/uhB7vbmz8CcpHuPlSmtfoANznSJIhe/6W4TJ/goaw/USm8ZNj5qdPXgS
+	 ozeIXMulaLNv2bYN3z3FZkW/VtEbFHxfl/4UuxBFw8Y7oE/dRrYMe50F5OZeTH9Rqh
+	 3DtQX7+3B2iKA==
+Date: Fri, 11 Apr 2025 08:43:30 -0500
+From: Rob Herring <robh@kernel.org>
+To: iuncuim <iuncuim@gmail.com>
+Cc: Vasily Khoruzhick <anarsoul@gmail.com>,
+	Yangtao Li <tiny.windzz@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Andre Przywara <andre.przywara@arm.com>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>, linux-pm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+Subject: Re: [PATCH 6/6] dt-bindings: thermal: sun8i: Add A523 THS0/1
+ controllers
+Message-ID: <20250411134330.GA3054295-robh@kernel.org>
+References: <20250411003827.782544-1-iuncuim@gmail.com>
+ <20250411003827.782544-7-iuncuim@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Vasily Khoruzhick <anarsoul@gmail.com>, Lukasz Luba <lukasz.luba@arm.com>, 
- Andre Przywara <andre.przywara@arm.com>, Conor Dooley <conor+dt@kernel.org>, 
- "Rafael J . Wysocki" <rafael@kernel.org>, 
- linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org, 
- Zhang Rui <rui.zhang@intel.com>, linux-kernel@vger.kernel.org, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org, 
- Piotr Oniszczuk <piotr.oniszczuk@gmail.com>, 
- Daniel Lezcano <daniel.lezcano@linaro.org>, 
- Yangtao Li <tiny.windzz@gmail.com>, Samuel Holland <samuel@sholland.org>, 
- Chen-Yu Tsai <wens@csie.org>, linux-sunxi@lists.linux.dev, 
- Philipp Zabel <p.zabel@pengutronix.de>
-To: iuncuim <iuncuim@gmail.com>
-In-Reply-To: <20250411003827.782544-1-iuncuim@gmail.com>
-References: <20250411003827.782544-1-iuncuim@gmail.com>
-Message-Id: <174437699652.3021610.12549809682925096974.robh@kernel.org>
-Subject: Re: [PATCH 0/6] Add support for A523 Thermal system
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250411003827.782544-7-iuncuim@gmail.com>
 
+On Fri, Apr 11, 2025 at 08:38:26AM +0800, iuncuim wrote:
+> From: Mikhail Kalashnikov <iuncuim@gmail.com>
+> 
+> Add dt-bindings description of the thermal sensors in the A523 processor.
 
-On Fri, 11 Apr 2025 08:38:20 +0800, iuncuim wrote:
-> This patch series adds temperature sensor support for the Allwinner A523
-> family of processors (same die with H728/A527/T527)
+That's obvious from the diff. What's not is how is the h/w different 
+from prior versions? For example, why is there another clock?
+
 > 
-> Mikhail Kalashnikov (6):
->   thermal/drivers/sun8i: add gpadc clock
->   thermal/drivers/sun8i: replace devm_reset_control_get to shared
->   thermal/drivers/sun8i: Add support for A523 THS0/1 controllers
->   arm64: dts: allwinner: A523: Add SID controller node
->   arm64: dts: allwinner: A523: Add thermal sensors and zones
->   dt-bindings: thermal: sun8i: Add A523 THS0/1 controllers
+> Signed-off-by: Mikhail Kalashnikov <iuncuim@gmail.com>
+> ---
+>  .../bindings/thermal/allwinner,sun8i-a83t-ths.yaml           | 5 +++++
+>  1 file changed, 5 insertions(+)
 > 
->  .../thermal/allwinner,sun8i-a83t-ths.yaml     |   5 +
->  .../arm64/boot/dts/allwinner/sun55i-a523.dtsi | 145 +++++++++++++++++
->  drivers/thermal/sun8i_thermal.c               | 154 +++++++++++++++++-
->  3 files changed, 300 insertions(+), 4 deletions(-)
-> 
-> --
+> diff --git a/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.yaml b/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.yaml
+> index 3e61689f6..70ac395ef 100644
+> --- a/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.yaml
+> +++ b/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.yaml
+> @@ -24,17 +24,21 @@ properties:
+>        - allwinner,sun50i-h5-ths
+>        - allwinner,sun50i-h6-ths
+>        - allwinner,sun50i-h616-ths
+> +      - allwinner,sun55i-a523-ths0
+> +      - allwinner,sun55i-a523-ths1
+>  
+>    clocks:
+>      minItems: 1
+>      items:
+>        - description: Bus Clock
+> +      - description: GPADC Clock
+>        - description: Module Clock
+>  
+>    clock-names:
+>      minItems: 1
+>      items:
+>        - const: bus
+> +      - const: gpadc
+
+You cannot add new entries in the middle. They must go on the end and 
+you then need to restrict the existing users to 2 clocks. And for the 
+new users, how many clocks are required? 1, 2, or 3?
+
+>        - const: mod
+>  
+>    reg:
+> @@ -107,6 +111,7 @@ allOf:
+>              enum:
+>                - allwinner,sun8i-h3-ths
+>                - allwinner,sun20i-d1-ths
+> +              - allwinner,sun55i-a523-ths0
+>  
+>      then:
+>        properties:
+> -- 
 > 2.49.0
 > 
-> 
-> 
-
-
-My bot found new DTB warnings on the .dts files added or changed in this
-series.
-
-Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-are fixed by another series. Ultimately, it is up to the platform
-maintainer whether these warnings are acceptable or not. No need to reply
-unless the platform maintainer has comments.
-
-If you already ran DT checks and didn't see these error(s), then
-make sure dt-schema is up to date:
-
-  pip3 install dtschema --upgrade
-
-
-This patch series was applied (using b4) to base:
- Base: attempting to guess base-commit...
- Base: tags/next-20250411 (exact match)
-
-If this is not the correct base, please add 'base-commit' tag
-(or use b4 which does this automatically)
-
-New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/allwinner/' for 20250411003827.782544-1-iuncuim@gmail.com:
-
-arch/arm64/boot/dts/allwinner/sun50i-h5-libretech-all-h3-cc.dtb: thermal-sensor@1c25000 (allwinner,sun50i-h5-ths): clock-names:1: 'gpadc' was expected
-	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
-arch/arm64/boot/dts/allwinner/sun50i-h5-libretech-all-h3-it.dtb: thermal-sensor@1c25000 (allwinner,sun50i-h5-ths): clock-names:1: 'gpadc' was expected
-	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
-arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-pc2.dtb: thermal-sensor@1c25000 (allwinner,sun50i-h5-ths): clock-names:1: 'gpadc' was expected
-	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
-arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.1.dtb: thermal-sensor@1c25000 (allwinner,sun50i-a64-ths): clock-names:1: 'gpadc' was expected
-	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
-arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus2.dtb: thermal-sensor@1c25000 (allwinner,sun50i-h5-ths): clock-names:1: 'gpadc' was expected
-	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
-arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino-emmc.dtb: thermal-sensor@1c25000 (allwinner,sun50i-a64-ths): clock-names:1: 'gpadc' was expected
-	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
-arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dtb: thermal-sensor@1c25000 (allwinner,sun50i-a64-ths): clock-names:1: 'gpadc' was expected
-	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
-arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5-devboard.dtb: thermal-sensor@1c25000 (allwinner,sun50i-h5-ths): clock-names:1: 'gpadc' was expected
-	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
-arch/arm64/boot/dts/allwinner/sun55i-a527-radxa-a5e.dtb: efuse@3006000 (allwinner,sun50i-a523-sid): compatible: 'oneOf' conditional failed, one must be fixed:
-	['allwinner,sun50i-a523-sid', 'allwinner,sun50i-a64-sid'] is too long
-	'allwinner,sun4i-a10-sid' was expected
-	'allwinner,sun7i-a20-sid' was expected
-	'allwinner,sun8i-a83t-sid' was expected
-	'allwinner,sun8i-h3-sid' was expected
-	'allwinner,sun20i-d1-sid' was expected
-	'allwinner,sun50i-a64-sid' was expected
-	'allwinner,sun50i-a523-sid' is not one of ['allwinner,sun50i-a100-sid', 'allwinner,sun50i-h616-sid']
-	'allwinner,sun50i-h5-sid' was expected
-	'allwinner,sun50i-h6-sid' was expected
-	from schema $id: http://devicetree.org/schemas/nvmem/allwinner,sun4i-a10-sid.yaml#
-arch/arm64/boot/dts/allwinner/sun55i-a527-radxa-a5e.dtb: efuse@3006000 (allwinner,sun50i-a523-sid): Unevaluated properties are not allowed ('compatible' was unexpected)
-	from schema $id: http://devicetree.org/schemas/nvmem/allwinner,sun4i-a10-sid.yaml#
-arch/arm64/boot/dts/allwinner/sun55i-a527-radxa-a5e.dtb: /soc/efuse@3006000: failed to match any schema with compatible: ['allwinner,sun50i-a523-sid', 'allwinner,sun50i-a64-sid']
-arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.2.dtb: thermal-sensor@1c25000 (allwinner,sun50i-a64-ths): clock-names:1: 'gpadc' was expected
-	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
-arch/arm64/boot/dts/allwinner/sun50i-a64-pine64.dtb: thermal-sensor@1c25000 (allwinner,sun50i-a64-ths): clock-names:1: 'gpadc' was expected
-	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
-arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab-early-adopter.dtb: thermal-sensor@1c25000 (allwinner,sun50i-a64-ths): clock-names:1: 'gpadc' was expected
-	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
-arch/arm64/boot/dts/allwinner/sun50i-a64-orangepi-win.dtb: thermal-sensor@1c25000 (allwinner,sun50i-a64-ths): clock-names:1: 'gpadc' was expected
-	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
-arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dtb: thermal-sensor@1c25000 (allwinner,sun50i-h5-ths): clock-names:1: 'gpadc' was expected
-	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
-arch/arm64/boot/dts/allwinner/sun50i-h5-bananapi-m2-plus-v1.2.dtb: thermal-sensor@1c25000 (allwinner,sun50i-h5-ths): clock-names:1: 'gpadc' was expected
-	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
-arch/arm64/boot/dts/allwinner/sun50i-a64-pine64-lts.dtb: thermal-sensor@1c25000 (allwinner,sun50i-a64-ths): clock-names:1: 'gpadc' was expected
-	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
-arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dtb: thermal-sensor@1c25000 (allwinner,sun50i-a64-ths): clock-names:1: 'gpadc' was expected
-	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
-arch/arm64/boot/dts/allwinner/sun50i-h5-bananapi-m2-plus.dtb: thermal-sensor@1c25000 (allwinner,sun50i-h5-ths): clock-names:1: 'gpadc' was expected
-	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
-arch/arm64/boot/dts/allwinner/sun50i-a64-bananapi-m64.dtb: thermal-sensor@1c25000 (allwinner,sun50i-a64-ths): clock-names:1: 'gpadc' was expected
-	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
-arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus.dtb: thermal-sensor@1c25000 (allwinner,sun50i-h5-ths): clock-names:1: 'gpadc' was expected
-	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
-arch/arm64/boot/dts/allwinner/sun50i-a64-oceanic-5205-5inmfd.dtb: thermal-sensor@1c25000 (allwinner,sun50i-a64-ths): clock-names:1: 'gpadc' was expected
-	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
-arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dtb: thermal-sensor@1c25000 (allwinner,sun50i-a64-ths): clock-names:1: 'gpadc' was expected
-	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
-arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dtb: efuse@3006000 (allwinner,sun50i-a523-sid): compatible: 'oneOf' conditional failed, one must be fixed:
-	['allwinner,sun50i-a523-sid', 'allwinner,sun50i-a64-sid'] is too long
-	'allwinner,sun4i-a10-sid' was expected
-	'allwinner,sun7i-a20-sid' was expected
-	'allwinner,sun8i-a83t-sid' was expected
-	'allwinner,sun8i-h3-sid' was expected
-	'allwinner,sun20i-d1-sid' was expected
-	'allwinner,sun50i-a64-sid' was expected
-	'allwinner,sun50i-a523-sid' is not one of ['allwinner,sun50i-a100-sid', 'allwinner,sun50i-h616-sid']
-	'allwinner,sun50i-h5-sid' was expected
-	'allwinner,sun50i-h6-sid' was expected
-	from schema $id: http://devicetree.org/schemas/nvmem/allwinner,sun4i-a10-sid.yaml#
-arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dtb: efuse@3006000 (allwinner,sun50i-a523-sid): Unevaluated properties are not allowed ('compatible' was unexpected)
-	from schema $id: http://devicetree.org/schemas/nvmem/allwinner,sun4i-a10-sid.yaml#
-arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dtb: /soc/efuse@3006000: failed to match any schema with compatible: ['allwinner,sun50i-a523-sid', 'allwinner,sun50i-a64-sid']
-arch/arm64/boot/dts/allwinner/sun50i-a64-pine64-plus.dtb: thermal-sensor@1c25000 (allwinner,sun50i-a64-ths): clock-names:1: 'gpadc' was expected
-	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
-arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dtb: thermal-sensor@1c25000 (allwinner,sun50i-a64-ths): clock-names:1: 'gpadc' was expected
-	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
-arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dtb: thermal-sensor@1c25000 (allwinner,sun50i-a64-ths): clock-names:1: 'gpadc' was expected
-	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
-arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dtb: thermal-sensor@1c25000 (allwinner,sun50i-a64-ths): clock-names:1: 'gpadc' was expected
-	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
-arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-prime.dtb: thermal-sensor@1c25000 (allwinner,sun50i-h5-ths): clock-names:1: 'gpadc' was expected
-	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
-arch/arm64/boot/dts/allwinner/sun50i-a64-nanopi-a64.dtb: thermal-sensor@1c25000 (allwinner,sun50i-a64-ths): clock-names:1: 'gpadc' was expected
-	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
-arch/arm64/boot/dts/allwinner/sun50i-h5-libretech-all-h5-cc.dtb: thermal-sensor@1c25000 (allwinner,sun50i-h5-ths): clock-names:1: 'gpadc' was expected
-	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
-arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.0.dtb: thermal-sensor@1c25000 (allwinner,sun50i-a64-ths): clock-names:1: 'gpadc' was expected
-	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
-arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dtb: efuse@3006000 (allwinner,sun50i-a523-sid): compatible: 'oneOf' conditional failed, one must be fixed:
-	['allwinner,sun50i-a523-sid', 'allwinner,sun50i-a64-sid'] is too long
-	'allwinner,sun4i-a10-sid' was expected
-	'allwinner,sun7i-a20-sid' was expected
-	'allwinner,sun8i-a83t-sid' was expected
-	'allwinner,sun8i-h3-sid' was expected
-	'allwinner,sun20i-d1-sid' was expected
-	'allwinner,sun50i-a64-sid' was expected
-	'allwinner,sun50i-a523-sid' is not one of ['allwinner,sun50i-a100-sid', 'allwinner,sun50i-h616-sid']
-	'allwinner,sun50i-h5-sid' was expected
-	'allwinner,sun50i-h6-sid' was expected
-	from schema $id: http://devicetree.org/schemas/nvmem/allwinner,sun4i-a10-sid.yaml#
-arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dtb: efuse@3006000 (allwinner,sun50i-a523-sid): Unevaluated properties are not allowed ('compatible' was unexpected)
-	from schema $id: http://devicetree.org/schemas/nvmem/allwinner,sun4i-a10-sid.yaml#
-arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dtb: /soc/efuse@3006000: failed to match any schema with compatible: ['allwinner,sun50i-a523-sid', 'allwinner,sun50i-a64-sid']
-arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dtb: thermal-sensor@1c25000 (allwinner,sun50i-h5-ths): clock-names:1: 'gpadc' was expected
-	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
-arch/arm64/boot/dts/allwinner/sun50i-h64-remix-mini-pc.dtb: thermal-sensor@1c25000 (allwinner,sun50i-a64-ths): clock-names:1: 'gpadc' was expected
-	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
-arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo2.dtb: thermal-sensor@1c25000 (allwinner,sun50i-h5-ths): clock-names:1: 'gpadc' was expected
-	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
-
-
-
-
-
