@@ -1,95 +1,155 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C11BD299;
-	Fri, 11 Apr 2025 01:21:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD907293B4F
+	for <linux-sunxi@lists.linux.dev>; Fri, 11 Apr 2025 08:37:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744334474; cv=none; b=BxdZb2U+xCH9np0DN8yE0fsnflP/CwzMz6VsNK7GY/7f2e4fFQYHvDQdY0cexX1QxbQoKp0mOuyrouVRGS9VlWwA0wST4aSjEEhwDF+CmBhj2wpIA5Uq+pLfRfLyamk5pdeRsLbus1Azvb+T1lkz7pO6kcU+rIyhLUdI7jN6URc=
+	t=1744360678; cv=none; b=loNtXI22JEepqIGRu9QwVQKHuYMWc2ADaut/rRYXDXZ35zKfI2PFkI1GS0hRXWpjDXsNNGNT6jolqVKM3A2kJpbymR2l5bmeC3pNUY8cHfRboQh3XgV3Xa5kRn8wju94F7WQp+ljTGJRj0tlCv46RWi81JwKY1NgpMz9ntz8gEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744334474; c=relaxed/simple;
-	bh=o046V02WtqlkkRSSA2YGh7WNKcRkrZEbNpFokx1S5W0=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=Uzgi81XEngTwSN+s9eRTJshvm8qoNloxWBXq9wGEfc1pxfKS470AHOQUnYc+aOqFAZ0UiW2s6fEa6bL24hyM7iYaDrCqi4x3u+TImTR1oaHss7SX3HBJK0pqW5DGyhq4z0/ES1MQ4rjay8BaPvtWl7Ca+NYLQovqm2vzr8ZVEKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JTlPmKyP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744360678; c=relaxed/simple;
+	bh=5kt3MWtin3KNwdzDbJU//7Uxuz+S1QGZ/maTZ/hrbSs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=BWkaJAMJYeL8RMIZsGf8Wg7FmCSHRGFrJUObGralL4zkBBneid1jrhn4kiEeZiPpHzLYSTjvmZcWUo2zF5P8VCMyrXSr721ZFnIaF/75DkVRHYhzcrlq/EXQDH467LLaYy/FPGq9XgF5oi25D14+MZnxwqobQtIpHHRBAaaXU0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Afpbh03Z; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JTlPmKyP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D109C4CEDD;
-	Fri, 11 Apr 2025 01:21:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744334473;
-	bh=o046V02WtqlkkRSSA2YGh7WNKcRkrZEbNpFokx1S5W0=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=JTlPmKyPES5VA7ZmxJLYX1Msxt/oigWQD0OYiLRLmvQ4k5N4T8xhUdZ5xzhOfWfuU
-	 2QirmG6s7SD3uYGjXNTWWb45j1z9JkqnBu7gopdKbjSvx9rbMggpw5ony3HE8patxh
-	 UqDtEJx0igTWcE0PJwIO1gX2qY9tq4pWjs2IxBRyBg+4a42zX1PngeGYx+LOBBsXHw
-	 J1NZwi8Z8/HI45/GGHSFJWQcYdavbZJDJl5zz3gu3UIqCLLyTtC59/DeNxPHEJ1+So
-	 4yKPPFKWwyvqnuCfRaxSFcTsAecRigu1p04AelE1h1NBItayGmFO3F3QY0YCYUFDxr
-	 stsTG6NEuqFRg==
-Date: Thu, 10 Apr 2025 20:21:12 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Afpbh03Z"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43d07ca6a80so8186145e9.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 11 Apr 2025 01:37:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1744360674; x=1744965474; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wH2ZPuzfR/sU9gtELQf1xx9ouW+DErODBwUT5LwG1mM=;
+        b=Afpbh03ZDgmUP7ColgL+PJg5GGAOkV1HsXMw7MLdou9cwfYQYsjEjPHfMh0D5GIgv4
+         uwZKGIo0mkyaDnKkBxNzeEXGTi9JhpWhdyNRykd+r2mZgXOLruwMi98AJ4IwnpLscRCA
+         uNEIk9JxRrZJZIEhwSnLakzpuiTL2rizuHcjCVw57wKip2LEN/sDWAUeZzv6P6FEnm/c
+         vIKK3/BilQYdcHO3ujEgu7kKKPRBUiPV9bTIHLKm1uVq5DdhYAbvhcqkVC6h/5eFPe1+
+         8YfR7Q1s0GXEfYB1873++N8Z7rh6WEzkxld0R5LZ6zTsGpw6nE0WY19o3ILwaaHmmG0m
+         zx/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744360674; x=1744965474;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wH2ZPuzfR/sU9gtELQf1xx9ouW+DErODBwUT5LwG1mM=;
+        b=MulehuFijiYyONcWCkSc3b93RT0r3CXFpJTKiMcsmvv4vn4kSNF9tCu/fK3Y+PzMwb
+         CXR+plkGEoSTK8fjEfuRZ+6s++gUgyshR1D+xqgBuBomL2V3tEBgOliAfyube4TVctJ/
+         3ysU6EPp/5RG/l5IfpmGTYRgfQ3VCJNcqBJqJb7u3azlfafVoAcRAhG26Z2oL3SLcOyF
+         mChtXXhAlwI5NrpNUsrcBDlvjWvBXs5F8pqFP6hBQz+kuWUUJuwiR6/QGU+a+2qoJE06
+         LN0RhWWtPcFMN9ri716J6RSpZhw6wIAe374O6ufNdwQJe0RPKb2yVfUZQ48buAHf3RlB
+         Injg==
+X-Forwarded-Encrypted: i=1; AJvYcCWVko6PI1SBW/U3NQKAca/IBfYrAcA6VSsMKH113OXQOHAa6Adwlrf1Xnx5pn5ZDXtSP6Ch9789p8ZWBQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwWmQGcVtfvoHKz7Cg7yU75JYr1pkkHeIsK27K8QFNPBFpTMaDN
+	VyYtRU6l4eRwxvbmpS0xPSNteSNQ9Sy/CKTDeHGyd1CCaSnCSaNwl6sYHIG4LH0=
+X-Gm-Gg: ASbGncsoic6HXFZAyLr0OXCWZQIV9gPq4bvBKw0NxWAtnWtSgWWQdozVsRNNe62Cidi
+	j7HNGVBp61treYKFjlGm1veL+vpPUcey+1agITxXUZgj3OpcqHcZkXgREDN1awAqiORoSjM96rB
+	IPsMMzLY0z0ur8T7YTRYilZDfe4cB6GVCiG5Mr4hm2SLrpRHSu7BYhkrFmhrBoxwzZ8B5MlBR5J
+	6dtYk+wUvOm/AILYUYkpn0FGyIXRkA1f0r/ADo0tbcvycLawQ8MmjNVuPgb+a5Wzr2jhDTPwwd6
+	hyOkIsiYqYG8kqfF4CB5Q+qz5FsuiRdYDk18VR5YBWY1lwST3vvn5434MX40cw==
+X-Google-Smtp-Source: AGHT+IESQEmfqjjVD+jC6dd63FDfAGrpItTMGFb0BJ+4OP4VGIDucBWUqxZDD69YlSOe5qeibdfp9g==
+X-Received: by 2002:a05:6000:2c5:b0:38f:3224:65ff with SMTP id ffacd0b85a97d-39ea51ecb8bmr1357243f8f.5.1744360673907;
+        Fri, 11 Apr 2025 01:37:53 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080:52eb:f6ff:feb3:451a])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39eae9777a0sm1326282f8f.43.2025.04.11.01.37.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Apr 2025 01:37:53 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Conor Dooley <conor@kernel.org>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+ Steen Hegelund <Steen.Hegelund@microchip.com>, 
+ Daniel Machon <daniel.machon@microchip.com>, UNGLinuxDriver@microchip.com, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Heiko Stuebner <heiko@sntech.de>, 
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, Andy Gross <agross@kernel.org>, 
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, 
+ Stephen Boyd <sboyd@kernel.org>, zhouyanjie@wanyeetech.com, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Stephan Gerhold <stephan.gerhold@linaro.org>, 
+ "Rob Herring (Arm)" <robh@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, imx@lists.linux.dev, 
+ linux-rockchip@lists.infradead.org, linux-amlogic@lists.infradead.org, 
+ linux-renesas-soc@vger.kernel.org, linux-mips@vger.kernel.org, 
+ linux-pm@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+ Andre Przywara <andre.przywara@arm.com>, 
+ =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+ Sudeep Holla <sudeep.holla@arm.com>, Viresh Kumar <viresh.kumar@linaro.org>, 
+ Ulf Hansson <ulf.hansson@linaro.org>
+In-Reply-To: <20250410-dt-cpu-schema-v2-0-63d7dc9ddd0a@kernel.org>
+References: <20250410-dt-cpu-schema-v2-0-63d7dc9ddd0a@kernel.org>
+Subject: Re: (subset) [PATCH v2 00/17] Arm cpu schema clean-ups
+Message-Id: <174436067236.3436338.6767561918297500530.b4-ty@linaro.org>
+Date: Fri, 11 Apr 2025 10:37:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, 
- linux-arm-kernel@lists.infradead.org, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, devicetree@vger.kernel.org, 
- Andre Przywara <andre.przywara@arm.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Zhang Rui <rui.zhang@intel.com>, 
- Lukasz Luba <lukasz.luba@arm.com>, Yangtao Li <tiny.windzz@gmail.com>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org, 
- linux-sunxi@lists.linux.dev, Conor Dooley <conor+dt@kernel.org>, 
- Vasily Khoruzhick <anarsoul@gmail.com>, 
- Daniel Lezcano <daniel.lezcano@linaro.org>, linux-pm@vger.kernel.org, 
- Piotr Oniszczuk <piotr.oniszczuk@gmail.com>, 
- "Rafael J . Wysocki" <rafael@kernel.org>
-To: iuncuim <iuncuim@gmail.com>
-In-Reply-To: <20250411003827.782544-7-iuncuim@gmail.com>
-References: <20250411003827.782544-1-iuncuim@gmail.com>
- <20250411003827.782544-7-iuncuim@gmail.com>
-Message-Id: <174433447237.1635065.9681378963946489764.robh@kernel.org>
-Subject: Re: [PATCH 6/6] dt-bindings: thermal: sun8i: Add A523 THS0/1
- controllers
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
+Hi,
 
-On Fri, 11 Apr 2025 08:38:26 +0800, iuncuim wrote:
-> From: Mikhail Kalashnikov <iuncuim@gmail.com>
+On Thu, 10 Apr 2025 10:47:21 -0500, Rob Herring (Arm) wrote:
+> The Arm cpu.yaml schema fails to restrict allowed properties in 'cpu'
+> nodes. The result, not surprisely, is a number of additional properties
+> and errors in .dts files. This series resolves those issues.
 > 
-> Add dt-bindings description of the thermal sensors in the A523 processor.
+> There's still more properties in arm32 DTS files which I have not
+> documented. Mostly yet more supply names and "fsl,soc-operating-points".
+> What's a few more warnings on the 10000s of warnings...
 > 
-> Signed-off-by: Mikhail Kalashnikov <iuncuim@gmail.com>
-> ---
->  .../bindings/thermal/allwinner,sun8i-a83t-ths.yaml           | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
+> [...]
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Thanks, Applied to https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git (v6.16/arm64-dt)
 
-yamllint warnings/errors:
+[11/17] arm64: dts: amlogic: Drop redundant CPU "clock-latency"
+        https://git.kernel.org/amlogic/c/4bc28af2da876531e5183d25ae807e608c816d18
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.example.dtb: thermal-sensor@1c25000 (allwinner,sun8i-h3-ths): clock-names:1: 'gpadc' was expected
-	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
+These changes has been applied on the intermediate git tree [1].
 
-doc reference errors (make refcheckdocs):
+The v6.16/arm64-dt branch will then be sent via a formal Pull Request to the Linux SoC maintainers
+for inclusion in their intermediate git branches in order to be sent to Linus during
+the next merge window, or sooner if it's a set of fixes.
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250411003827.782544-7-iuncuim@gmail.com
+In the cases of fixes, those will be merged in the current release candidate
+kernel and as soon they appear on the Linux master branch they will be
+backported to the previous Stable and Long-Stable kernels [2].
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
+The intermediate git branches are merged daily in the linux-next tree [3],
+people are encouraged testing these pre-release kernels and report issues on the
+relevant mailing-lists.
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+If problems are discovered on those changes, please submit a signed-off-by revert
+patch followed by a corrective changeset.
 
-pip3 install dtschema --upgrade
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
+[3] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
 
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+-- 
+Neil
 
