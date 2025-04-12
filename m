@@ -1,65 +1,64 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EE1A2BEC25;
-	Fri, 11 Apr 2025 23:37:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A750F1494C2
+	for <linux-sunxi@lists.linux.dev>; Sat, 12 Apr 2025 03:50:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744414632; cv=none; b=kaZGOOzZ9KpijQxwfHpUiXxewZcDIW4+QkMcNC5GnKwkyFf9+NbljA+irK7iZdMFZWOTFgumEMuSii7Oy4m0k43qFI6VaoT5fXq0RdkHBCsOZnY/D2Bl5o4hmFailrQx6nf0LvCdyL8r90Xx9NsPKYbCYFqcOA/wQq/Oeyo6NfY=
+	t=1744429840; cv=none; b=izIddij1UsqYUo8QWe/1Sn+vTD3gnxF8KUOf8zT33MnW4bgF3eJxziRZzEMgHH4KVAJM2nRWPYnwOsDFHYxy3H4HsUXGFgxuO3xHNDVQu8UMwg7FOOx0WE8qTykQhKrthWFTLz2eEJ1ou6BiSdrUZGr82HWDKIokZPkKMQ2i5Bw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744414632; c=relaxed/simple;
-	bh=b/3gzVMfgYxEZ77GHCaJmjb5ba9wNIawHHXzPE8U/VU=;
+	s=arc-20240116; t=1744429840; c=relaxed/simple;
+	bh=LxzxpLuFqzA20rKYrlVYVZ1GYPBQpHk0m8ab776NZFs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KSdK0XeMksMvwUly0wAciT5/1xAmx3UwPfytAJl//kDgrYa01nkxJUiHwrBheNYwnZIgYbb/3XHEWorMSMqOdIrQOJVzll9b8V39KylPOn8zfrcCVztgeAJLOE1FgOBwUAnftUDepS7v9YV76I3sENWj4WEE1sQNRdc5j0uvL0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AvaGN06o; arc=none smtp.client-ip=209.85.210.44
+	 In-Reply-To:Content-Type; b=pxkXR4JWPQ+yPkv+bmq0vEVbZQx+doy91EOZEcJ9dw6E/Gx71zoQ+sxTqvcnG9N/2dQXAxD90n+24wiQGXTYZ/CVhiZZqh2WIPmAL3kXkvjBY7R6jWPIeIDoVdXnKcO/LaoDSO+i1F+6z/1HKPaBNdsABgd/A3esTdJigEDoWPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N5axEFba; arc=none smtp.client-ip=209.85.210.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AvaGN06o"
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-72c1425fbfcso1540627a34.3;
-        Fri, 11 Apr 2025 16:37:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N5axEFba"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-736c1cf75e4so1970662b3a.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 11 Apr 2025 20:50:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744414630; x=1745019430; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=TKjBnAI0llRD88HQinqqWPzae0oerPBARTmSqosHWIk=;
-        b=AvaGN06okDp2eHxprsci9CAiV2qWlJmeD3Uwjr7wf77tYxOxttgoY5QbrPMOhKYt38
-         UooS20xZ1Ysj0kNKOX3+c1pDHrumWjFyKoOzeMmkokP6QSGdYIFgf3vo6pQbguvvH9S1
-         myT2e6jS+BYpe99c88TRPQRdX5DQsA0HkfMqSy+92JVQlRHiW0rOkR2SglKA5kknRvlE
-         qt9T8iEhOx0foLUYJBpnBIavXoaVMl3NFcViO1TOnpvbAzn1kTdKgMrzOpjds5AiNA1P
-         iBfYEt3Bctw69W43Q3ue3ZT23MzIcpgL8EfbzvN814LESTQ+WcdBJF1FRKXbe6KPCyo8
-         XOgw==
+        d=gmail.com; s=20230601; t=1744429838; x=1745034638; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=uxgICOMpj0NVx3WYcPGVSamgvQ2YeH2wLMAPVBj+n7M=;
+        b=N5axEFbahRPKRjLrPUoV2jLr8uRSqdxHJ4WXOz4CHT5mBDQeRq06lKr/uNjK0VUHVc
+         m0b2b3KPN6szA4yGsnoCJMis7gnCCTdo9+gwuTeXU1jcFX9nLKnbaJ+Svo0isn7K2901
+         PCxgcK9BN9P+aKgR3pasvsU1dCFTGoaSis6yua+aIXrYzhw7yxYRIY5A4tjKvwXuBndM
+         2W6xGXr+0ghi/GGUQv5t9ld0bForm3d9IGjG/BnrOFTmzVMEB5e1ON0pgan8noSzGbZa
+         rOVGz8L9GBNzRBndM7tpfTwlkiEzF77mX4XJZR6Kijbh0JuV5Io43w/BtFQDAe6jpLYK
+         XDLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744414630; x=1745019430;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TKjBnAI0llRD88HQinqqWPzae0oerPBARTmSqosHWIk=;
-        b=gwj8URGyfVLllPQnxfvaG18yLqGrvxBYPdZNATrApWm4/QBMlo9hDfaQSy6b5C5Wmv
-         iUTNjiVccb7MKXQ/EAfOFsGx9KGkXm7Ed/vGoKkCtwRJrQK3p+k/o7A98eHCQ7sREInX
-         oxxkYHUyxO3bHtijl8tGz6vEko04nJrwA2iSdqneNvKmCc6VxRyGq4aDgZni6PN2uh9U
-         TtxyzU2uQCUeYi9Dyx6xZ1G/Swv0kQoB7HginwiUQ1YamNkJSL394r6aDtQ2EtngMw/L
-         W9svi6/0hkU/HAecNfHh1rU8yrZsXh2vmBnjbSx3i8ukaFyF36MaGJvTfrdIsETCpjtD
-         oy2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUofaM8vLQ5IDsHhmeE7z3hGx4zhtrdGahpM2N2UKLsEeLprZpC3cvom5ZX29JRp/qjMHm1T/500jMpJpA=@lists.linux.dev, AJvYcCVl4TEnjznLWADDjGlDcl2E/cT+y59ozQKmntSdDJIBZNIBBujAmSiNhVyzmJTod4HW+t0=@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywp/JXfNnGjiCGO4nDvO4XTshET6pXXQLz3W/zvet0v0FQawxXF
-	VK/jtf4tcVe6YwCmFwentK0N7KJzzMHzudUumfvlCdft6IPESg+W
-X-Gm-Gg: ASbGncuQ5NggQqjQkF2rdLx8emXoerZKKif7+2und3azduxiVEJWqSu9HBOmBHfMbr4
-	W0O0ZKznc5jyen3XpHyU1VqijDTNHAMsuIOSl8p8tGnytkZ5k53TAKqiPGW7Orte+8IZqfIHO1A
-	ZJStyCXVFFP0MFK55TWeTgXNnxbNGe3gv6GZDsSSETb32AKuRHtcs71QusE76a059NHx2KgxtMH
-	N/C4jHAH0IUPQ9QIOekk0rG+bBQactGjUNIvoNWvqWrhDZVvfIvY+MuwNU8Z97OngG7+HuYwygh
-	4tTB30HIHsqQHr083MAWbPRjUwh5pvUW5aQE6+kn0AC8sY6JBZXjIyfAIyGdoiZmIK5O
-X-Google-Smtp-Source: AGHT+IFJfzFy8MikJxGoTFLuN6tcrmJtPOA/qBHSB3opFc0xc5RXfyX0+z3ecAr5bH4Qt7gKQzRQRg==
-X-Received: by 2002:a05:6830:d1a:b0:72c:4032:76f with SMTP id 46e09a7af769-72e86304edfmr3726235a34.12.1744414630055;
-        Fri, 11 Apr 2025 16:37:10 -0700 (PDT)
-Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-72e73d7140esm1131783a34.22.2025.04.11.16.37.05
+        d=1e100.net; s=20230601; t=1744429838; x=1745034638;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uxgICOMpj0NVx3WYcPGVSamgvQ2YeH2wLMAPVBj+n7M=;
+        b=bqVxlxGKsdJpTomLmBsu4zc5HnDp+DUA6zdaOtom0xB3nMO+eQAUKc2Ub7cjUu6QMO
+         s6m+1eqeKtbqH+f4Pv7/dLF8nl4YFmrW2Sucy/+dB/5pTq1KEwW4u4eF4meEV/wrqs03
+         k6CVuvXKrfnMuclVpmllKtBdyQuAXSF0DuujnR2ZedgbAaF/KI/RlHFBauRiWpmnKjSP
+         4WMOO1yu0B7jQpCP8sWfvefkLjIcZxMc/uoSVE80XsZeAkoBTw/mPHntuFJHshdU9T7I
+         CUJ7lEfMKizgYibik8iau71+qPqqhyZd4ISlIejjFKJ57aBoY8IxsbSg2/IGKUJHcbxv
+         ClBA==
+X-Forwarded-Encrypted: i=1; AJvYcCVIDiAcYWpP2WTOdiAU2NIAD2lCmYVSqIpjl17YvSPcwJDiuiwzsS+CKd2EmbjHFdX0N8BrPUl5p2b5cg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxpoQmA4SK57v14ZVTxn5CZer54yq8T7ufzDKGf7yqVw95pJtwT
+	bdjpOtNTtSTN8Wai+1xmfXVHHAQOh6HYd34ul20m5s8R2IIubJhW
+X-Gm-Gg: ASbGnctmZ/LG6gGQXaRv2aEJc8F9n/rj/IdNk96lrjmaX750qtC5Mq9xme/WBjA1qs3
+	iqqGNgPynNj3ec6WZmyR+svP/A/sVNwVwh1Ql+oBYKAsbVfen4q4xyCe2hhlHPsi6vG9NMZOe7I
+	W1o9EnpqynXKVFMdNphAa78LqFdIn6G2WO11hP2ZnpsdvjLOfhPDYVajhm53/vGK06UErIvJqpe
+	DnbfVpy1mlL5DWXzEd/zzrwpPjKTW4gN+kj5b2HBMeUzSDrj9ez6KhhnJLZ0EaxJIDKbB1d0eNp
+	Bit1Vu5SR+D30ThqMWoN
+X-Google-Smtp-Source: AGHT+IHEPw9l2lckImW21hc5WfLjuKibfw20oGZVWj/fM/Sh5wIaMnFrYyjNGc7ye9/ekqZxC0bumQ==
+X-Received: by 2002:a05:6a21:3a4a:b0:1f3:194b:30ae with SMTP id adf61e73a8af0-20179780638mr6529548637.1.1744429837641;
+        Fri, 11 Apr 2025 20:50:37 -0700 (PDT)
+Received: from [192.168.101.248] ([2605:e440:15::152])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73bd21c210esm2476926b3a.41.2025.04.11.20.50.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Apr 2025 16:37:08 -0700 (PDT)
-Message-ID: <0ce8559d-5c7d-43a0-8177-7704969fd334@gmail.com>
-Date: Fri, 11 Apr 2025 16:37:03 -0700
+        Fri, 11 Apr 2025 20:50:37 -0700 (PDT)
+Message-ID: <dc4cc121-9e75-45af-98c1-5a4c0802e2ca@gmail.com>
+Date: Sat, 12 Apr 2025 03:50:17 +0300
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -67,95 +66,68 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 02/17] arm64: dts: broadcom: bcm2712: Use "l2-cache"
- for L2 cache node names
-To: "Rob Herring (Arm)" <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Conor Dooley <conor@kernel.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Steen Hegelund <Steen.Hegelund@microchip.com>,
- Daniel Machon <daniel.machon@microchip.com>, UNGLinuxDriver@microchip.com,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Heiko Stuebner <heiko@sntech.de>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>, Andy Gross <agross@kernel.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
- Stephen Boyd <sboyd@kernel.org>, zhouyanjie@wanyeetech.com,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Stephan Gerhold <stephan.gerhold@linaro.org>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, imx@lists.linux.dev,
- linux-rockchip@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-mediatek@lists.infradead.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-References: <20250410-dt-cpu-schema-v2-0-63d7dc9ddd0a@kernel.org>
- <20250410-dt-cpu-schema-v2-2-63d7dc9ddd0a@kernel.org>
+Subject: Re: [PATCH 6/6] dt-bindings: thermal: sun8i: Add A523 THS0/1
+ controllers
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ linux-arm-kernel@lists.infradead.org,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, devicetree@vger.kernel.org,
+ Andre Przywara <andre.przywara@arm.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Zhang Rui <rui.zhang@intel.com>,
+ Lukasz Luba <lukasz.luba@arm.com>, Yangtao Li <tiny.windzz@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, Conor Dooley <conor+dt@kernel.org>,
+ Vasily Khoruzhick <anarsoul@gmail.com>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, linux-pm@vger.kernel.org,
+ Piotr Oniszczuk <piotr.oniszczuk@gmail.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>
+References: <20250411003827.782544-1-iuncuim@gmail.com>
+ <20250411003827.782544-7-iuncuim@gmail.com>
+ <174433447237.1635065.9681378963946489764.robh@kernel.org>
 Content-Language: en-US
-From: Florian Fainelli <f.fainelli@gmail.com>
-Autocrypt: addr=f.fainelli@gmail.com; keydata=
- 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
- WlfRzlpjIPmdjgoicA==
-In-Reply-To: <20250410-dt-cpu-schema-v2-2-63d7dc9ddd0a@kernel.org>
+From: Mikhail Kalashnikov <iuncuim@gmail.com>
+In-Reply-To: <174433447237.1635065.9681378963946489764.robh@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 4/10/25 08:47, Rob Herring (Arm) wrote:
-> There's no need include the CPU number in the L2 cache node names as
-> the names are local to the CPU nodes. The documented node name is
-> also just "l2-cache".
-> 
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
-Not sure how you had intended for me to pick up that patch without 
-copying the maintainers.
-
-Applied nonetheless, thanks!
--- 
-Florian
+On 4/11/25 04:21, Rob Herring (Arm) wrote:
+> On Fri, 11 Apr 2025 08:38:26 +0800, iuncuim wrote:
+>> From: Mikhail Kalashnikov <iuncuim@gmail.com>
+>>
+>> Add dt-bindings description of the thermal sensors in the A523 processor.
+>>
+>> Signed-off-by: Mikhail Kalashnikov <iuncuim@gmail.com>
+>> ---
+>>   .../bindings/thermal/allwinner,sun8i-a83t-ths.yaml           | 5 +++++
+>>   1 file changed, 5 insertions(+)
+>>
+> My bot found errors running 'make dt_binding_check' on your patch:
+>
+> yamllint warnings/errors:
+>
+> dtschema/dtc warnings/errors:
+> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.example.dtb: thermal-sensor@1c25000 (allwinner,sun8i-h3-ths): clock-names:1: 'gpadc' was expected
+> 	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
+Thanks for the reply, I didn't know about this tool, I will use it in v2.
+>
+> doc reference errors (make refcheckdocs):
+>
+> See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250411003827.782544-7-iuncuim@gmail.com
+>
+> The base for the series is generally the latest rc1. A different dependency
+> should be noted in *this* patch.
+Yes, I forgot to point out that the patches are based on 6.15-rc1 using dts
+patches from that series that didn't make it into the latest rc:
+https://lore.kernel.org/linux-sunxi/20250307005712.16828-1-andre.przywara@arm.com/T/#t
+I'll add that information to the cover letter.
+>
+> If you already ran 'make dt_binding_check' and didn't see the above
+> error(s), then make sure 'yamllint' is installed and dt-schema is up to
+> date:
+>
+> pip3 install dtschema --upgrade
+>
+> Please check and re-submit after running the above command yourself. Note
+> that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+> your schema. However, it must be unset to test all examples with your schema.
+>
