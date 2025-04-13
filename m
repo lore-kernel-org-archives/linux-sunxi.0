@@ -1,117 +1,118 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78FA91419A9
-	for <linux-sunxi@lists.linux.dev>; Sat, 12 Apr 2025 16:57:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3823F4A29
+	for <linux-sunxi@lists.linux.dev>; Sun, 13 Apr 2025 07:46:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744477026; cv=none; b=jhSlBwAaEo6+I9COOI524j7HAS4IJyjc5WU7BpotOHoUUCZawYktoNlTT79GD74mfhjC26SPVRpp2/nkBSwZrbLCQwYTTmIALsJ/unfCqE6HY4SNCUW0jZoHy9UrlLNiqm2EYjsCacyJ4t3+cKB/L3095Z9hDTELR6YWX7Jm0HA=
+	t=1744530370; cv=none; b=Qux0z9FjCZ5wWxTPZlYV07oCcrlvyyi31Vk9OFi9LlTGLZmABj2vTG2IJxESHbpOGndkYy77ZHqyi4oaUdIRFGAzZ6yZC2zFq3J7uwHchUGD4k8FSlmibqN8FQlFYKAogKQdMxwhw/cF/UPuQK34pYyR/HvyRSYLG9O86scL+xo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744477026; c=relaxed/simple;
-	bh=RzycCxqtsOnySu4060tumn57SXIWNnavKbmzSVy10HU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=g16Pj5c7xMY1bY+Q52mjorU0F3CHNAtFaWQEre33n7f+uY21VwQJO8Zu50Gp59x5C8FvV2WbPGaCepg4Nuu7SuUvicw0JIYvLAamx5U6J5FlWVlzCHA8dLIo9QqhXwkOnj7rqSIIRIsR2FKVplFT2iypKjBQfL8jEy4fFIgid40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Attpg0D3; arc=none smtp.client-ip=209.85.222.171
+	s=arc-20240116; t=1744530370; c=relaxed/simple;
+	bh=bDSu5/EVHFrCNsSIo9MPis9K1+uBYhIFfq4Okm82ftE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Sy72Eb6uEBnihFbaH7hFz+dd/YIbHJaDLBOJiRc0FuhA0n6NV1jojKstF1yoWodSRb1Yzfdu/277ActiDIVTxjJjiSNl+yp/7JXahZCdpBTm9nwNrf97fSDjmvPp7fJXyGjffTt+hNH3OjsbXgRhck9ORCW+th8722uGTX27zZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AlDRuVhX; arc=none smtp.client-ip=209.85.219.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Attpg0D3"
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-7c55d853b54so51031585a.0
-        for <linux-sunxi@lists.linux.dev>; Sat, 12 Apr 2025 09:57:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AlDRuVhX"
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6e8ec399427so28062196d6.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 13 Apr 2025 00:46:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744477023; x=1745081823; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3OAUNtzrYtxLdmxfVBvMY5Gk3k0kx42SFNBtSsQElR4=;
-        b=Attpg0D3bhjVr3kCT2HVN6GPCk4LqKeELyyqhXEuA+U/YcR5DGVBxe98rq+z0iyLMx
-         IyOotjjJDojY16TF5MbVQE3XPFEwFgpPTV1x7djG67zTsVuFIBAoflWEgo4nOsbH+Ymg
-         XSNdALu18qyFSQyY16JqqgA/N4mgnZ7VGfYHIW7tirDkGOcSKYi9Zb8BV/xhkVy/AMzR
-         9Wikn1FxH7P7ZgXax5dVubQWnLNeWxZwkm0i5efDl9D6NqIt+2F+LC1Bbg7qZvFQdsW+
-         csoPpxfpMn+32TfuPLnUqiz67DcWhrCsWlGz4nVzYFR9IAt8g2bGeIj6NP9pV1fhDxwM
-         vGgg==
+        d=gmail.com; s=20230601; t=1744530368; x=1745135168; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bDSu5/EVHFrCNsSIo9MPis9K1+uBYhIFfq4Okm82ftE=;
+        b=AlDRuVhXLdX2+iOI7GT+OH4z0x7rKlhiWdqnBWtARA7DGEC+ZaGouysnjGCd5iFvZ9
+         4/M/yQp69KgIS3utwNTqIq4U3HdsM4XCk/KGksVjW1wHOJwHukMv5plxZANX66T2kzQk
+         BDuXowRZWx57/7EgWxL++XB7bma2WmkquaVAgsljMRWEhTnelfeaDCPCg9CgurSiMpVF
+         vaydrrTUFEUX9RZu5no9A+4OxcOtczt6O9lVXV5jw5FkL+mpleeNXWhUC8RwyiwMLBv1
+         a1Lpf1nqeuNHHljFkTkRDdpLDWOPCq9UVfyJoxKhea2yk6KBKxKP7ZtLfns7l6A59bRT
+         FalQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744477023; x=1745081823;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3OAUNtzrYtxLdmxfVBvMY5Gk3k0kx42SFNBtSsQElR4=;
-        b=siK3SJFWEPTCCYbENyWM9iTtbEo+7Coh7RUeWCLp1PfnVS4es6J4w2NSajbajEXaSi
-         Dp9Da5tRE7pONZLTq+kd7WqIdjdIGjWlTLNL0Hmwxr4wiOPyvcLlYrV9x6ojb0KnUf74
-         3My1nQbdfxjb/yW5iMJFBKl2K6uOcWlZ/oD/hTzxxjLWS25PX6LXIpp0mF3uKKsCO77v
-         Ruw9NfkW0f68x1+CY/D6B7GuPkCK97rU20CejiA1sjALndmrk3MPKmh+hK7AHdPKpW7O
-         LGOcUBSsMKEdMw2TR89GTVwa6e1h7QJt5kRvg99sX0loz4gvsQzXl7yh9mWVg5zpjLpq
-         QUOg==
-X-Forwarded-Encrypted: i=1; AJvYcCUYEBD4c3M/24qo0HT7wt15E3K7lyHN7G7jQaT8YXtkME5J7uiTLRi58scafFOcELBSY0Q1hmYrdx0Lfg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyKTy13kP52z5QwPsado9SUtcGJfLWtqYM7pFSMLt4Zc8L5k4ve
-	DMCLMP49Jwh0BnN/ZzWepg/rrEb8k3vFIxxh7T1PUDqrlDyGzptz5eIh
-X-Gm-Gg: ASbGncuJSXjbxc9LBZLLkPD+BgI8P943+TPmx94crJeQ0qxn3SA3uNQjYL0A86OLdyA
-	oeTxtndpzbg4XwJvqWGPk/IAied1YOhgG6x+Nt5NxJCQ/1Xkq0AHiloGEulDsRrOVvY5lfNEGoP
-	JKGAt+ARQJW8Jbxi+mfVdPxqoPkOGof4TfrE+wcFCef7ozyYApCa5ZX9ePjKIt1Lkw8dbnwTNoO
-	FRVGzpFvEduQK1uhpORlG1B2EJV1C1vjVNoA5Ro5W3bxaft2re0mipRX9kSLXa0uT/T4lmC5vUA
-	vlQH1i40za0aBbQPBRnp1alqcG3SR9Ey0NczEkFykLjKM3sS
-X-Google-Smtp-Source: AGHT+IH8bGQWXcYiS6oP92AvgrToxoeCNlaJKrS6pTKqr+tWtGd4xgrw6ujWrk7k9KKOoduS3EC6pQ==
-X-Received: by 2002:a05:6214:1ccc:b0:6e4:449c:ab1d with SMTP id 6a1803df08f44-6f230cb46cfmr37544306d6.2.1744477023136;
-        Sat, 12 Apr 2025 09:57:03 -0700 (PDT)
-Received: from ise-alpha.. ([2620:0:e00:550a:642:1aff:fee8:511b])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f0dea106a2sm52300916d6.115.2025.04.12.09.57.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Apr 2025 09:57:02 -0700 (PDT)
-From: Chenyuan Yang <chenyuan0y@gmail.com>
-To: wens@csie.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	arnd@arndb.de,
-	hdegoede@redhat.com,
-	mripard@kernel.org
-Cc: linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Chenyuan Yang <chenyuan0y@gmail.com>
-Subject: [PATCH] drivers: soc: sunxi: Fix possible null pointer dereference
-Date: Sat, 12 Apr 2025 11:57:00 -0500
-Message-Id: <20250412165700.2298733-1-chenyuan0y@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1744530368; x=1745135168;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bDSu5/EVHFrCNsSIo9MPis9K1+uBYhIFfq4Okm82ftE=;
+        b=RjlIzBvMC0pt8uFNa8GG9xk468UIx28t4waCFqUAD5KNtKzfgMYOIKxxYTxuIT2pDz
+         VyvXU8rh8SZEj+yYpodqp4AUs0JMk1SAywoeCHUmZnplNcnKHIzBsKvQ4DiXXJCfwxej
+         pPtjTtk1wE4GslCy7mQPidgQt6omAm7zuhc2hPM4iJXhPfOF10gP1L7rStbog08qZUSz
+         q2gvpUk1Qd0tdgtOwhVxZ1s28JLKwtOtaZwLEjzvnZdN9+W5WEjUj0nziG48D+xALFy9
+         YjFQHfQ5O4yBmeRFwqfKgNx96GbP7WcKECmEAkT5aui6ssfotcGekI7Bl+PFxNGTJZbl
+         PERQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV2lU6NK8i4FrIXGddk+1PpTdFn4XhwtojOhT1wxnIB4biQ7xYho8x59Rrf/LKQyVZjdemML4c1Nsh+Jw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyGpNRDrs1FuqtJKBZ2sGAxNBHjDNwG01p9+Rv2FXQoYM5rTR5V
+	aHsc6yRDS0TU1M7XXtSLV7YWF4hUdyOx9WoLM7FaeyFJOKU9h6f2agLuxQcvc4BWkH5sXXN/qlq
+	23cYCDg53+A128QbcY5mXNBHLmls=
+X-Gm-Gg: ASbGncuG2Rq1Tn6BN27ccyTh84Z8NzJjug6BNePzioFaDrzOYSvUs103cD2+O4GZnVd
+	yjJ0DOxQgklb8zRHXl3+2nEQbnhWa9JkZorLoc3he59NeQI9D/xyFkEMzkDbSO9rF1UxyXIIHCE
+	2VP8ivZq2k3XtKxnEL8VBAm3mOuwxO8d86f48F8LdQ3EWS5a+Y
+X-Google-Smtp-Source: AGHT+IE2ltyuOxfGOryXdaLo+W43seZVcMMz3+9+li7smTXP3KjLa9lJvabIEPh7RW1u+VRnSNyF0yWPYUQYYsnOyvY=
+X-Received: by 2002:a05:6214:496:b0:6ea:d604:9e59 with SMTP id
+ 6a1803df08f44-6f230caf43fmr148715986d6.9.1744530367915; Sun, 13 Apr 2025
+ 00:46:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <3727de04-7993-4b81-80c0-adb40b847307@web.de> <20250409133610.59d42bec@donnerap.manchester.arm.com>
+ <e10ecbe1-d8c3-444d-92cb-647a1c54675f@web.de>
+In-Reply-To: <e10ecbe1-d8c3-444d-92cb-647a1c54675f@web.de>
+From: Julian Calaby <julian.calaby@gmail.com>
+Date: Sun, 13 Apr 2025 17:45:56 +1000
+X-Gm-Features: ATxdqUGCfzpcdhEUWjj5b9x98mojrheGEprGdWhLMUFri6RCu-8lKdWby7ULwLo
+Message-ID: <CAGRGNgUV6Dq6ZR9bcgomzj1PMQj4vLq9qJCy0dxVd0vQoPWYXA@mail.gmail.com>
+Subject: Re: crypto: sun8i-ce-hash - Refine exception handling in sun8i_ce_hash_run()
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: Andre Przywara <andre.przywara@arm.com>, Ovidiu Panait <ovidiu.panait.oss@gmail.com>, 
+	linux-sunxi@lists.linux.dev, linux-crypto@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>, 
+	Corentin Labbe <clabbe.montjoie@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, LKML <linux-kernel@vger.kernel.org>, 
+	Julia Lawall <julia.lawall@inria.fr>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-of_get_address() may return NULL which is later dereferenced.
-Fix this bug by adding NULL check
+Hi Markus,
 
-This is similar to the commit c534b63bede6
-("drm: vc4: Fix possible null pointer dereference").
+On Wed, Apr 9, 2025 at 10:47=E2=80=AFPM Markus Elfring <Markus.Elfring@web.=
+de> wrote:
+>
+> >> Two if branches contained duplicate source code.
+> >> Thus avoid the specification of repeated error code assignments by usi=
+ng
+> >> additional labels instead.
+> =E2=80=A6
+> > Now there is one rather opaque label it goes to, so a reader doesn't se=
+e
+> > the error code immediately. And it really just saves one line per case
+> > here. =E2=80=A6
+> I imagine that such a code refinement can occasionally matter.
 
-Signed-off-by: Chenyuan Yang <chenyuan0y@gmail.com>
-Fixes: 4af34b572a85 ("drivers: soc: sunxi: Introduce SoC driver to map SRAMs")
----
- drivers/soc/sunxi/sunxi_sram.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Just because you imagine that such a code refinement might matter,
+doesn't mean it's actually useful.
 
-diff --git a/drivers/soc/sunxi/sunxi_sram.c b/drivers/soc/sunxi/sunxi_sram.c
-index 2781a091a6a6..1853dcc806ea 100644
---- a/drivers/soc/sunxi/sunxi_sram.c
-+++ b/drivers/soc/sunxi/sunxi_sram.c
-@@ -122,6 +122,8 @@ static int sunxi_sram_show(struct seq_file *s, void *data)
- 			continue;
- 
- 		sram_addr_p = of_get_address(sram_node, 0, NULL, NULL);
-+		if (!sram_addr_p)
-+			continue;
- 
- 		seq_printf(s, "sram@%08x\n",
- 			   be32_to_cpu(*sram_addr_p));
-@@ -134,6 +136,8 @@ static int sunxi_sram_show(struct seq_file *s, void *data)
- 
- 			section_addr_p = of_get_address(section_node, 0,
- 							NULL, NULL);
-+			if (!section_addr_p)
-+				continue;
- 
- 			seq_printf(s, "\tsection@%04x\t(%s)\n",
- 				   be32_to_cpu(*section_addr_p),
--- 
-2.34.1
+1. this is making the code significantly less readable to save 1 line.
+2. gotos into control blocks are weird at best and problematic and
+confusing at worst. There's a reason why nobody writes code like this.
+3. this sort of tail merging is something a compiler would apply
+automatically when optimising for size and it can do a much better job
+of this than you can.
 
+I note that you said you did this using the Coccinelle software. Is
+the semantic patch something you're trying to get upstream at part of
+coccicheck? If so, could you please get that semantic patch merged
+before posting these patches?
+
+Thanks,
+
+--=20
+Julian Calaby
+
+Email: julian.calaby@gmail.com
+Profile: http://www.google.com/profiles/julian.calaby/
