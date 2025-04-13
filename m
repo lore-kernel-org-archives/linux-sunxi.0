@@ -1,121 +1,114 @@
-Received: from fhigh-b4-smtp.messagingengine.com (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 490EA5103F
-	for <linux-sunxi@lists.linux.dev>; Sun, 13 Apr 2025 09:03:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8460A1A4E70
+	for <linux-sunxi@lists.linux.dev>; Sun, 13 Apr 2025 13:43:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744535025; cv=none; b=Qj9AbAIN4QT+6jWdbEMn2pOcCB2h7kGNZ6tD1vD7n8oFnksAzHKcu96JDwhRpifZ7ZPVnatFFk6GWzmfSC3NjdGRsdh/tFYdWP0rAcaVf/q1ZgtQwgUtuJSPkuCWbfoa+ylcwOGhNUOGIRLd0+ZfnR+2lx87K9qwcklm7yqgEag=
+	t=1744551819; cv=none; b=JmCLKN+USRuB7PDATtOHgQRLuDZNZh8dJYg/hv/yIBQ+mTVuAkBlqf+EeoBLwDdsaDlHKtp/h9Lt5o4unozfK9HJiYTZBoasE0FpmNfyd5AS10JUjFE2dUjkxDEKQlfecPPz+Q4OxPge+sxKSrdnr8g5f/pdpsRPLcZoxcc19R8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744535025; c=relaxed/simple;
-	bh=u4O0zrvtwd/x3r42Bw/EXFSAj3M0NwFIEeiBXDQFw+k=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=s4ROkU+daftxnz+iDk4d2K9yBnnLepAdnBDdTmaK1DkRNCdyB18/CQ2/F+aQCh5Bv84yGsLZcyvFLl8NI7dezFlgmwLH/4FVo12tJmqr32vnZLzB9Za2/mx7245B+JifaHC8R1LBvY0jN3Ix+cl98JwvvIBG6VcHen6PEf4IN/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=0gSfNSwQ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=p1A1JDB4; arc=none smtp.client-ip=202.12.124.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
+	s=arc-20240116; t=1744551819; c=relaxed/simple;
+	bh=CaqNdZl65hgemUPAe9eut5/ZXmtuHDnKufCOoFTEFM4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TfohLFKHouQ8oC1fbIGMsWVIcdpYX6wi9QsoT3jtvY4vE4ZNX+kPaKWgObFSST8DnIGxmpr5MjNNpg4bDRh5SVp4/68eK3Idn7vjzRP2BxAsut/Pp/3qkic57qBhxMyT2w/6ajseikQy1ae/rCls9YDbt3K/FZYeGEpDi0lkbXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P4ZSxdeC; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="0gSfNSwQ";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="p1A1JDB4"
-Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id DC85F254024B;
-	Sun, 13 Apr 2025 05:03:41 -0400 (EDT)
-Received: from phl-imap-07 ([10.202.2.97])
-  by phl-compute-06.internal (MEProxy); Sun, 13 Apr 2025 05:03:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm2;
-	 t=1744535021; x=1744621421; bh=u4O0zrvtwd/x3r42Bw/EXFSAj3M0NwFI
-	EeiBXDQFw+k=; b=0gSfNSwQ4PuK/lwE+6TlHRgtEvjx9P3CN9lPollOBcbq+3m6
-	C4xNMtCPfIyTh+oKsKjmy/HgvWJ4AnOnII61FcGCjOFtf9oiv41tPlNgcNz/bYDL
-	MfQSnGR1hk9WkT/cAnce+ElnlgbHK8KkuLz724Rgbagrt021xKAZsgHU3I0noa3n
-	jRWhhmK9s4vhbdhw1d9fx7jATfPucQfGr1KFG+ycBaaDUvhzhn2adeHU/ml9NuN4
-	VQ8Viu8ZPze91H9vH9jQglWvRs2qJ+EryAAAYp3csXBN4tRP9R5Ow4xUfBTBZ/7z
-	sP22RWhzIZG0ZoCRO0VRScAfFOVXKbY6a+nn4g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1744535021; x=
-	1744621421; bh=u4O0zrvtwd/x3r42Bw/EXFSAj3M0NwFIEeiBXDQFw+k=; b=p
-	1A1JDB4jwAW4aIfbVFSHjacgRv08fkoUHNzjq3CUBcj/vGuJyVS3CA1ke6MRYhnv
-	BC1YE5IcCIc/4G0NlwkpRzUaeOBVeQGMlvASnKDQItplV8qK5PfYi006V8TwaQJW
-	wVpL5OTFh+uFVPi/Hk4zD/ulvoRoX8w4Tm71F/HUxmq04E1JvqmZw4gUZ6Y3dV0s
-	4wM6wVTuubovppEVcsgXsvjGjunvUhPG9PLibOADs/74vXYRYE7hV3OR6FfMfxds
-	Om63u3zcUTOFqJ4nrPEKiqd6Ojz4sXS4512NGq2J6/MFTVAgk+NUa6bBgW5Vy5wn
-	ICvyQIWph05I/bAdsxUiA==
-X-ME-Sender: <xms:7H37ZwHcvNHThsBihjyDR2PSh_Rv6vJBh8PvyTrqD5lAzj91WI0HGg>
-    <xme:7H37Z5Wu9PFjvf_I6BIg5PfjqHZOpAwnr-VB9INfa3B1yU_JXVp6wItPF_QKuN2TW
-    tFZfdJtw5L8-WfQEg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvudejvdduucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
-    tddtnecuhfhrohhmpedftfihrghnucghrghlkhhlihhnfdcuoehrhigrnhesthgvshhtth
-    horghsthdrtghomheqnecuggftrfgrthhtvghrnhepgeekuddvvdeggfejuddtjeegjeff
-    tdevudffudegudethfekjeelgeeitdelgedunecuffhomhgrihhnpehkvghrnhgvlhdroh
-    hrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehr
-    higrnhesthgvshhtthhorghsthdrtghomhdpnhgspghrtghpthhtohepudegpdhmohguvg
-    epshhmthhpohhuthdprhgtphhtthhopeifvghnshestghsihgvrdhorhhgpdhrtghpthht
-    ohepjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplh
-    hgihhrugifohhougesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnshdrphhh
-    ihhlihhpphgvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrtghrohhmohhrghgrnh
-    eshhhothhmrghilhdrtghomhdprhgtphhtthhopegsrhhoohhnihgvsehkvghrnhgvlhdr
-    ohhrghdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplh
-    hinhhugidqrghrmhdqkhgvrhhnvghlsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhg
-    pdhrtghpthhtoheplhhinhhugidqshhunhigiheslhhishhtshdrlhhinhhugidruggvvh
-X-ME-Proxy: <xmx:7H37Z6KLxPhFZNVRGL_UmKOr3KWsc5MXiASIPmWmw6l7Pz0uJy_PMg>
-    <xmx:7H37ZyFsXvt4Sqg3zm5wPsd-4m_FNXAYglxhb2EenIB52-ACujp_Ag>
-    <xmx:7H37Z2V0CWW5idddSXcTaPraaW6FaJVSpFmCVZJGXS6Ug5nsSeGYZA>
-    <xmx:7H37Z1Ppm-en6G5ygiwPB-AGVUmP-XIhB9k-b9dKtV2uyd8evI6kyg>
-    <xmx:7X37Z-7hUsJdyKqR0skR9rWrs588Knh9WTpIYuI59_vF2Ss2rOaLbcNR>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 25653BA0070; Sun, 13 Apr 2025 05:03:40 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P4ZSxdeC"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-ac28e66c0e1so537704466b.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 13 Apr 2025 06:43:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744551816; x=1745156616; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hXQZ9yojQV6stSDTDo/eH4vyNLxCP0mp6bCX3lmKvKI=;
+        b=P4ZSxdeCH0h9q60EwchYscUjwSetyolVKHNZf7rRj29YinULwHuDEVUuqiEMjqYhZw
+         diCp9dVovZp20v9ZER7yNZdSukhTz8V6yEWSWJ2xfQQq0vEy8U710d1ndO6dlGSh3FWw
+         wOi/lC7Vgz+5JPazXSImwzjYyILrnvLa4dc6QTLuVLoXAp6vz0H9WGNAQcAj5YsZRArQ
+         NeFe7jlkzp2nKLrcD9BzBVunQOHRvfZEFpIPSkQ0b5IDAF3lLdtPm0EWRtvUL96B9M9v
+         3keJsSxwUrTNjVS3ahoPLHUS+qe42sdnuAi6TN5AZ8+SV0F29VveuVRm6ImGn+aN4eIh
+         y4hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744551816; x=1745156616;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hXQZ9yojQV6stSDTDo/eH4vyNLxCP0mp6bCX3lmKvKI=;
+        b=m8LfQfSlV7PEJXjllEgf6y1PWWPvQka4uVaZ5qKXA3jk1bmv1Ne+chv36pQkYhpQRp
+         Xe86HsPfmHWdZA5pOy1GwOoSeEM1lEacORr2F34O/Pvn2kp5L16J0qJHq8s9biFCDE+e
+         n7ggCn9vY4JBrWtaXSIH8It87gqpWDwgIGnjBmeYpz6qPu4D7hTEzcxnAdmGmfB1uQEh
+         KHgb1cZJWRHsZn8dSzwGws0YkFeqjmhvMTWH0Fd9PLJYa5Ns6bU+F6NW6Hmn1Qv6TDXO
+         SEL/9hbo9rM5Ai1Xb4xOK1Tm52NQhjgsoUZtaeeyLecTSv1ThOk+Ta3rTpa0edKmDtjs
+         Ei2g==
+X-Forwarded-Encrypted: i=1; AJvYcCV3BJyRsXfvEovdQDg4kxf3FWkZpr6GtYuSSZHAL8XuNew/W1suvtjHaLfmkztrRrsEl5b65m1eZli+yQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxAt277AoL71YWCoZ5BX97lQblltsgVjAN+PPpFcANV973Z9XfH
+	AqYm+2gRYoIQJ34v5J5z5sAxKvAir71sz6lFrbmgTFs9pXXLfork
+X-Gm-Gg: ASbGnctcztg0tJHjQDx6ve/PIH/Y8e6BFb4cHCnLywemQoXeqNzTfGJ7XEc4ogjETMG
+	o/rMCC9K28llwNSfG2UppzTeDQiPBd7WEk15wxDbGTT7qUHoRZCV4UECFTMNgaRKE1W9f0OppIk
+	d1X1Bisxgk7QcGzOMETKeS9qsDDeRVChvJktW6cnNXXGYvmGRPeCScPKIC+oruIn12b4RfNk8nj
+	UrVXeAS/fOTSlX/38Fz3KvEMPKPn2TjfuGc8TFteGGHgu1JAifH4hK6wFEzJMKH6yBVvrkfLszu
+	xjqzBDqnMg6/5RZe9gimRHVqtv1IKT6fYxpYkoC8ilGAl7A6mKKjJebtABk=
+X-Google-Smtp-Source: AGHT+IEOIJ1i4Kh+VcM9sFRP+cgJp2vQQUT+Pqo4qfUY0eHTw4Probs6u1rivZcSvRWydAIs1ARTVQ==
+X-Received: by 2002:a17:907:3c95:b0:ac6:ffb0:a2be with SMTP id a640c23a62f3a-acad36a0809mr750895066b.47.1744551815575;
+        Sun, 13 Apr 2025 06:43:35 -0700 (PDT)
+Received: from localhost.localdomain ([37.248.246.92])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acaa1be95d0sm749422666b.55.2025.04.13.06.43.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 13 Apr 2025 06:43:35 -0700 (PDT)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org
+Cc: wens@csie.org,
+	samuel@sholland.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH 0/2] arm64: dts: allwinner: Support Orange Pi 3 LTS board
+Date: Sun, 13 Apr 2025 15:42:55 +0200
+Message-ID: <20250413134318.66681-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: Tde5ab3e282bf40d5
-Date: Sun, 13 Apr 2025 21:03:18 +1200
-From: "Ryan Walklin" <ryan@testtoast.com>
-To: "Liam Girdwood" <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>,
- "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
- "Chen-Yu Tsai" <wens@csie.org>, "Jernej Skrabec" <jernej.skrabec@gmail.com>,
- "Samuel Holland" <samuel@sholland.org>
-Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- "Chris Morgan" <macromorgan@hotmail.com>, "Rob Herring" <robh@kernel.org>,
- "Philippe Simons" <simons.philippe@gmail.com>
-Message-Id: <3234bd5d-c2c9-41f6-abda-b1aaad42f31e@app.fastmail.com>
-In-Reply-To: <20250214220247.10810-5-ryan@testtoast.com>
-References: <20250214220247.10810-1-ryan@testtoast.com>
- <20250214220247.10810-5-ryan@testtoast.com>
-Subject: Re: [PATCH v3 4/5] arm64: dts: allwinner: h700: Add hp-det-gpios for Anbernic
- RG35XX
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Sat, 15 Feb 2025, at 11:02 AM, Ryan Walklin wrote:
-> From: Chris Morgan <macromorgan@hotmail.com>
->
-> Add support for headphone insertion detection via GPIO for the
-> RG35XX series, and add the corresponding routing to the codec node.
->
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
-> Tested-by: Philippe Simons <simons.philippe@gmail.com>
->
+Orange Pi 3 LTS has similar functionality to Orange Pi 3 with slightly
+different hardware. 
 
-Hi all, this DT patch did not get picked up for 6.15, however the rest of this set have been merged as part of the 6.15 sound tree [1]. Would appreciate if this could be picked up.
+OrangePi 3 LTS has following features:
+- Allwinner H6 quad-core 64-bit ARM Cortex-A53
+- GPU Mali-T720
+- 2 GB LPDDR3 RAM
+- AXP805 PMIC
+- AW859A Wifi/BT 5.0
+- 2x USB 2.0 host port (A)
+- USB 3.0 Host
+- Gigabit Ethernet (Motorcomm YT8531C phy)
+- HDMI 2.0 port
+- soldered 8 GB eMMC
+- 2x LED
+- microphone
+- audio jack
 
-Regards,
+Best regards,
+Jernej
 
-Ryan
+Jernej Skrabec (2):
+  dt-bindings: arm: sunxi: Add Orange Pi 3 LTS board
+  arm64: dts: allwinner: h6: Add OrangePi 3 LTS DTS
 
-1. https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e50da555ca4d42b1b98d0f26789db64f26a0919a
+ .../devicetree/bindings/arm/sunxi.yaml        |   5 +
+ arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+ .../allwinner/sun50i-h6-orangepi-3-lts.dts    | 351 ++++++++++++++++++
+ 3 files changed, 357 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3-lts.dts
+
+-- 
+2.49.0
+
