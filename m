@@ -1,64 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF3DE78F4C;
-	Sun, 13 Apr 2025 15:17:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA6A5184540
+	for <linux-sunxi@lists.linux.dev>; Sun, 13 Apr 2025 22:12:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744557471; cv=none; b=fV6MBOxAItipCMIaLS3cJwn9MFeQiZUKo5q6Mv3AnGn8mUd2cGJ4F+9MYtk/KpLenovV0oASF/rme7lAT5sqforGRa1omG9uMuB2MFEeUbQ85Zb0I4n418mRgnP6sLi50gY/aKftvr/tAkN6bfo5myL2CouglHLFwfBNB50wuv0=
+	t=1744582369; cv=none; b=nFa2sYSL5MTIiZqv7YgRRlXDZ4Zv8KCVHr4tiU8VgiuJzz1puNBwS8IhDrgDDKQYxadUkumwygOnrs+CQLSjLaoqvf2l5jfTikrTtN00kRHfchMH1mQJ4pnMkDME/gg/7fNi74eh8ZPl2WZV7JPkSeaiDrefGTlhMe7USI0e6vA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744557471; c=relaxed/simple;
-	bh=Cv0w0H6kJ9nxtclidW3FK/DftZmrxBW+wuvDWOY6/g4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=C4nzUPdyXaw6YL0vic74mcoweKf+U7rPjkEoGaZ8uqulC+tHBM8DEYYQaRPHav7ZU//hEb9ismLGSjUn/1tMm0TuoSkGjO9jy9eWicOGQszxQOM6fSQ/MqBRKfhXt3KOgCOABBz3Sb29MXElFrwb9zYqu9H7YAWT68ttbGDgG3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 232A3C4CEDD;
-	Sun, 13 Apr 2025 15:17:51 +0000 (UTC)
-Received: from wens.tw (localhost [127.0.0.1])
-	by wens.tw (Postfix) with ESMTP id 0DCE75F939;
-	Sun, 13 Apr 2025 23:17:48 +0800 (CST)
-From: Chen-Yu Tsai <wens@csie.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Ryan Walklin <ryan@testtoast.com>
-Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, 
- Chris Morgan <macromorgan@hotmail.com>, Rob Herring <robh@kernel.org>, 
- Philippe Simons <simons.philippe@gmail.com>
-In-Reply-To: <20250214220247.10810-1-ryan@testtoast.com>
-References: <20250214220247.10810-1-ryan@testtoast.com>
-Subject: Re: (subset) [PATCH v3 0/5] ASoC: sun4i-codec: add headphone
- dectection for Anbernic RG35XX devices
-Message-Id: <174455746802.3439512.6704778087672497474.b4-ty@csie.org>
-Date: Sun, 13 Apr 2025 23:17:48 +0800
+	s=arc-20240116; t=1744582369; c=relaxed/simple;
+	bh=j7o4TmN6qMjf7TFwhhk0Y8oqqNUQI2mLCa//MN18WCE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kyVxFkfhi0yish35plPUIEHIuXDh+PuAkic8MoqR7mPIKjz3sYmh7wQwmV5V9/U6Xw1VdNsRq5q0NXqpSHRi14z8Sx7M7gYCXM8sMHWixRI0RM6NpRCq0r5KEpP4EZjQxi+V+ZUhlezjdl+lEhhUqXiLU1lNuZyLnm39zhZP9ao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C820B169E;
+	Sun, 13 Apr 2025 15:12:44 -0700 (PDT)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E0F7D3F59E;
+	Sun, 13 Apr 2025 15:12:42 -0700 (PDT)
+Date: Sun, 13 Apr 2025 23:11:45 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Mikhail Kalashnikov <iuncuim@gmail.com>
+Cc: Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li
+ <tiny.windzz@gmail.com>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, "Rafael J
+ . Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+Subject: Re: [PATCH 0/6] Add support for A523 Thermal system
+Message-ID: <20250413231128.75983a60@minigeek.lan>
+In-Reply-To: <5084c2dc-d268-4268-a827-2ae445782a4e@gmail.com>
+References: <20250411003827.782544-1-iuncuim@gmail.com>
+	<5084c2dc-d268-4268-a827-2ae445782a4e@gmail.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
 
-On Sat, 15 Feb 2025 11:02:22 +1300, Ryan Walklin wrote:
-> V3 of this patch adding headphone jack detection support to the Anbernic RGnnXX series of handhelds. V3 corrects my misunderstanding of derivation of ALSA UCM file paths, and adds recieved Reviewed-by and Tested-by tags. Thanks to those that have reviewed and fed back on previous versions.
-> 
-> Original message below:
-> 
-> This series adds the required device tree bindings to describe GPIOs for jack detection in the sun4i-codec driver, adds support for jack detection to the codec machine driver, and describes the hardware configuration in the RG35XX DTS. The existing speaker amplifier GPIO pin can then be used in concert with jack detection to enable userspace sound servers (via an ALSA UCM configuration) to disable the speaker route when headphones are connected.
-> 
-> Thanks to Chris Morgan for his assistance putting this series together.
-> 
-> [...]
+On Sat, 12 Apr 2025 03:53:08 +0300
+Mikhail Kalashnikov <iuncuim@gmail.com> wrote:
 
-Applied to dt-for-6.16 in git@github.com:linux-sunxi/linux-sunxi.git, thanks!
+Hi,
 
-[4/5] arm64: dts: allwinner: h700: Add hp-det-gpios for Anbernic RG35XX
-      commit: 69714722df19a7d9e81b7e8f208ca8f325af4502
+> On 4/11/25 03:38, Mikhail Kalashnikov wrote:
+> > This patch series adds temperature sensor support for the Allwinner A523
+> > family of processors (same die with H728/A527/T527)  
+> 
+> Based on 6.15-rc1 with dts patches from
+> 
+> https://lore.kernel.org/linux-sunxi/20250307005712.16828-1-andre.przywara@arm.com/T/#t
 
-Best regards,
--- 
-Chen-Yu Tsai <wens@csie.org>
+Chen-Yu merged those patches already, to the sunxi repo on kernel.org,
+under the dt-for-6.16 branch, so you can reference that instead, and
+also base any new patches on that.
+
+Cheers,
+Andre
+
+> 
+> > Mikhail Kalashnikov (6):
+> >    thermal/drivers/sun8i: add gpadc clock
+> >    thermal/drivers/sun8i: replace devm_reset_control_get to shared
+> >    thermal/drivers/sun8i: Add support for A523 THS0/1 controllers
+> >    arm64: dts: allwinner: A523: Add SID controller node
+> >    arm64: dts: allwinner: A523: Add thermal sensors and zones
+> >    dt-bindings: thermal: sun8i: Add A523 THS0/1 controllers
+> >
+> >   .../thermal/allwinner,sun8i-a83t-ths.yaml     |   5 +
+> >   .../arm64/boot/dts/allwinner/sun55i-a523.dtsi | 145 +++++++++++++++++
+> >   drivers/thermal/sun8i_thermal.c               | 154 +++++++++++++++++-
+> >   3 files changed, 300 insertions(+), 4 deletions(-)
+> >  
+> 
 
