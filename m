@@ -1,118 +1,108 @@
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.15.3])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3823F4A29
-	for <linux-sunxi@lists.linux.dev>; Sun, 13 Apr 2025 07:46:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9021AD51
+	for <linux-sunxi@lists.linux.dev>; Sun, 13 Apr 2025 08:21:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744530370; cv=none; b=Qux0z9FjCZ5wWxTPZlYV07oCcrlvyyi31Vk9OFi9LlTGLZmABj2vTG2IJxESHbpOGndkYy77ZHqyi4oaUdIRFGAzZ6yZC2zFq3J7uwHchUGD4k8FSlmibqN8FQlFYKAogKQdMxwhw/cF/UPuQK34pYyR/HvyRSYLG9O86scL+xo=
+	t=1744532489; cv=none; b=S98B4fTwpUgmQEfZcNNDGQcnS4O8H6z/XUXBsfvUoRycpE1mo6iOJdS5wuq1GId2zmlseX99ixh0aI1uDB5CrH2v2lKrX8rWdTTB1yHNGPSX1TNEieNSg6Xd1qA55aJIbTxDVfNhezq/Cie5iEdLKODfoOhvu7t4r6H4yzsF0CM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744530370; c=relaxed/simple;
-	bh=bDSu5/EVHFrCNsSIo9MPis9K1+uBYhIFfq4Okm82ftE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Sy72Eb6uEBnihFbaH7hFz+dd/YIbHJaDLBOJiRc0FuhA0n6NV1jojKstF1yoWodSRb1Yzfdu/277ActiDIVTxjJjiSNl+yp/7JXahZCdpBTm9nwNrf97fSDjmvPp7fJXyGjffTt+hNH3OjsbXgRhck9ORCW+th8722uGTX27zZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AlDRuVhX; arc=none smtp.client-ip=209.85.219.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1744532489; c=relaxed/simple;
+	bh=DcWshjfTC1lMC6YXHeeUL4bjuPWPxBzwpr8Rq5Zmfnw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qxwt8CCGT0LuC+JAL7DbFYb5kPX0yOYTCLiR8MwuQWWwJxUo5Eiez8cj1KLzFpnaquFZJIT7Tz4+BlQLdBfEKkR+RkwqE76Rlqs1COXAEha0DLUu/BeH6a1eFPDGFS+fneFi2zYnfUqFXHGCutN91zwklp58HCyCQJGu6mEtatA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=exzryWU/; arc=none smtp.client-ip=212.227.15.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AlDRuVhX"
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6e8ec399427so28062196d6.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 13 Apr 2025 00:46:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744530368; x=1745135168; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bDSu5/EVHFrCNsSIo9MPis9K1+uBYhIFfq4Okm82ftE=;
-        b=AlDRuVhXLdX2+iOI7GT+OH4z0x7rKlhiWdqnBWtARA7DGEC+ZaGouysnjGCd5iFvZ9
-         4/M/yQp69KgIS3utwNTqIq4U3HdsM4XCk/KGksVjW1wHOJwHukMv5plxZANX66T2kzQk
-         BDuXowRZWx57/7EgWxL++XB7bma2WmkquaVAgsljMRWEhTnelfeaDCPCg9CgurSiMpVF
-         vaydrrTUFEUX9RZu5no9A+4OxcOtczt6O9lVXV5jw5FkL+mpleeNXWhUC8RwyiwMLBv1
-         a1Lpf1nqeuNHHljFkTkRDdpLDWOPCq9UVfyJoxKhea2yk6KBKxKP7ZtLfns7l6A59bRT
-         FalQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744530368; x=1745135168;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bDSu5/EVHFrCNsSIo9MPis9K1+uBYhIFfq4Okm82ftE=;
-        b=RjlIzBvMC0pt8uFNa8GG9xk468UIx28t4waCFqUAD5KNtKzfgMYOIKxxYTxuIT2pDz
-         VyvXU8rh8SZEj+yYpodqp4AUs0JMk1SAywoeCHUmZnplNcnKHIzBsKvQ4DiXXJCfwxej
-         pPtjTtk1wE4GslCy7mQPidgQt6omAm7zuhc2hPM4iJXhPfOF10gP1L7rStbog08qZUSz
-         q2gvpUk1Qd0tdgtOwhVxZ1s28JLKwtOtaZwLEjzvnZdN9+W5WEjUj0nziG48D+xALFy9
-         YjFQHfQ5O4yBmeRFwqfKgNx96GbP7WcKECmEAkT5aui6ssfotcGekI7Bl+PFxNGTJZbl
-         PERQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV2lU6NK8i4FrIXGddk+1PpTdFn4XhwtojOhT1wxnIB4biQ7xYho8x59Rrf/LKQyVZjdemML4c1Nsh+Jw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyGpNRDrs1FuqtJKBZ2sGAxNBHjDNwG01p9+Rv2FXQoYM5rTR5V
-	aHsc6yRDS0TU1M7XXtSLV7YWF4hUdyOx9WoLM7FaeyFJOKU9h6f2agLuxQcvc4BWkH5sXXN/qlq
-	23cYCDg53+A128QbcY5mXNBHLmls=
-X-Gm-Gg: ASbGncuG2Rq1Tn6BN27ccyTh84Z8NzJjug6BNePzioFaDrzOYSvUs103cD2+O4GZnVd
-	yjJ0DOxQgklb8zRHXl3+2nEQbnhWa9JkZorLoc3he59NeQI9D/xyFkEMzkDbSO9rF1UxyXIIHCE
-	2VP8ivZq2k3XtKxnEL8VBAm3mOuwxO8d86f48F8LdQ3EWS5a+Y
-X-Google-Smtp-Source: AGHT+IE2ltyuOxfGOryXdaLo+W43seZVcMMz3+9+li7smTXP3KjLa9lJvabIEPh7RW1u+VRnSNyF0yWPYUQYYsnOyvY=
-X-Received: by 2002:a05:6214:496:b0:6ea:d604:9e59 with SMTP id
- 6a1803df08f44-6f230caf43fmr148715986d6.9.1744530367915; Sun, 13 Apr 2025
- 00:46:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="exzryWU/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1744532439; x=1745137239; i=markus.elfring@web.de;
+	bh=DcWshjfTC1lMC6YXHeeUL4bjuPWPxBzwpr8Rq5Zmfnw=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=exzryWU/R0uk0fdqTP5OPLHzIJm4fdYAX0IolxCopzBwWYsoo+5Pnz8Z07oaUtlO
+	 ZJOMwHt+XJzDA9rUjSkKjdWp1TBEEEjiEowI6o4EyVwQ1PDtuBXNzZ0MhhgCothyh
+	 HGKRBTPDSfiFfUR9lz6ZZxoSasgRd8V7ZCg1YT7xPabWYQL9YmHt69s4enkwUROtS
+	 G9VH4cYchnpEYydNLz5jwMCBeDgGbtb6EuC7Wki1sBL3FtjO1UxaCfmYKh+gtpL8j
+	 FX/jverm+icguogZ+pAqDu8HbICHVonIi4ox9qgbzWioLxgLQVKlQf9dtfaIILEhJ
+	 QgC1KztyMwYYC31jlg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.70.67]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MPrPT-1tgxyG33UR-00SVpJ; Sun, 13
+ Apr 2025 10:20:39 +0200
+Message-ID: <18573488-ca37-48b8-adae-1728712aec0e@web.de>
+Date: Sun, 13 Apr 2025 10:20:27 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <3727de04-7993-4b81-80c0-adb40b847307@web.de> <20250409133610.59d42bec@donnerap.manchester.arm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: crypto: sun8i-ce-hash - Refine exception handling in
+ sun8i_ce_hash_run()
+To: Julian Calaby <julian.calaby@gmail.com>,
+ Andre Przywara <andre.przywara@arm.com>,
+ Ovidiu Panait <ovidiu.panait.oss@gmail.com>, linux-sunxi@lists.linux.dev,
+ linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: Chen-Yu Tsai <wens@csie.org>, Corentin Labbe <clabbe.montjoie@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, LKML <linux-kernel@vger.kernel.org>,
+ Julia Lawall <julia.lawall@inria.fr>
+References: <3727de04-7993-4b81-80c0-adb40b847307@web.de>
+ <20250409133610.59d42bec@donnerap.manchester.arm.com>
  <e10ecbe1-d8c3-444d-92cb-647a1c54675f@web.de>
-In-Reply-To: <e10ecbe1-d8c3-444d-92cb-647a1c54675f@web.de>
-From: Julian Calaby <julian.calaby@gmail.com>
-Date: Sun, 13 Apr 2025 17:45:56 +1000
-X-Gm-Features: ATxdqUGCfzpcdhEUWjj5b9x98mojrheGEprGdWhLMUFri6RCu-8lKdWby7ULwLo
-Message-ID: <CAGRGNgUV6Dq6ZR9bcgomzj1PMQj4vLq9qJCy0dxVd0vQoPWYXA@mail.gmail.com>
-Subject: Re: crypto: sun8i-ce-hash - Refine exception handling in sun8i_ce_hash_run()
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: Andre Przywara <andre.przywara@arm.com>, Ovidiu Panait <ovidiu.panait.oss@gmail.com>, 
-	linux-sunxi@lists.linux.dev, linux-crypto@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>, 
-	Corentin Labbe <clabbe.montjoie@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, LKML <linux-kernel@vger.kernel.org>, 
-	Julia Lawall <julia.lawall@inria.fr>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <CAGRGNgUV6Dq6ZR9bcgomzj1PMQj4vLq9qJCy0dxVd0vQoPWYXA@mail.gmail.com>
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <CAGRGNgUV6Dq6ZR9bcgomzj1PMQj4vLq9qJCy0dxVd0vQoPWYXA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:oVb/K4rokwXrOqYsrdIDmqG4XKpI3nnVM8seiRqbzdcw0cNOV+a
+ tYO6eLyzCj6OLXXbZMczd3yXVNlYRA6sf6kr5LSDhn3BPJbQiAD2KlXT78QnSyXWnKwwYeU
+ gSQ5jAeoUy3PMT/+dp7P3eR+URUZfBNidvEQAQo0PQHhv1Lje+ktvIdd+qFJogodywkwrkA
+ 8u1H/eG5FM+Yk1KnkhQzA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:DWeY799sZOI=;JbD2Tgww7jyD7iXyT4Kkb+3BuGr
+ Os8Bfuzy0I/sbD/raQrPtbMnrxgEsx0ZtqHe7sdNeeEVxxiI4gWeJJMXvE/Zpn2Hw3KjXRACa
+ YyIad+snIp9m4yq66JLptCd4Hapi/K0vJcrHIEmYaZHpMDq1kYfGy6vDHtfPqJomNvyZ4H1Ky
+ 8NCb+nklxF62ydIvesPtZR7wsdsIUcaKJcwUHikcXC4RCR7qmN9Pf2mbBGy/mjvsX/A0t6FCz
+ mTlDHeoFonNKEH4BMFkNtB7lY/kpt21dglyRP/8c5onwQv/dx0o/ge4f3JG9Tzay04BQfHA7V
+ FVS5pnvdbBGFRW7sx2IADGOdzL6Bzvoc4NSRaWYJSfLbNJcFNV3OqJOHRKV7N9Wt7SnP7KN2p
+ 3elYK+78v1KjT0474hKuX9iec2S6AILBYtBj6ZWo9uUpAJtYm7fbGqwN/ORc2KAUm/Hb3YbYN
+ E9E29MI2sqS/daBcubIyEWyeN+AmZQ4AGgCvSq4/M3TuCmzYkvUCqI4oWnKdxvf8cyH/R4bpc
+ xrqRthH9RPVJtIsCdG2aR5hvnC9UfVexc50tl/azRzGJOjcX6PkFMHkZWL6NyHp6dreMHoXpv
+ iRVLPDHHpQ2cFce9o5lZ+8eNn1sX2RqS91khwtOEC9pmcoVpEQZeu9jIAK9/qvCqR+0kBkV+d
+ rAbqXkiwmuvejYV5Zyp99IHa743UVWwLLcbvo15soJddp5CveU74m8caymlB7jK2ECyqHR46d
+ ogcB6efDvvUN32HzjeIrIzvV5RNJ5tu6JsJHJISrNcf3KskYqrYwEnyPtHLFYaHnn0ljCw3kT
+ KpT/w8QCYyV2o5PjLQx2NFKvJxaGIxM9Yi/yK7JI+UMkCeLxuGn0DfPzdnnBMaWuXBasyIJCo
+ oEVBeGxWj3PXExnJsESjt1tlXh5uIvAbxjuJBoTdZIwod7nwTcw9w4Y5JU29AAjSQ/BbAxShT
+ FuK2YyYCDkBu7xi+5C6iI2V+o0CpGLuT8MyHkRkgZ9Jq7BMWroUCSra3f/4jg5kVCXxvEGHyd
+ sT5jvKLRyn5z9PaS73Q9I+TCQWuKvoHtMZ0dWzll0YVbM3hS0hrDc81ir0Eigt//neSSmwkx7
+ MnZSJ14QReP/QfxJAQjvuNR09i63GFYi9cvNgtZKgCkkapts4srR/6yezSZJoiWvrSzIgW69P
+ F3DyRXSu6nL47uI+muhUy7oPhhjv+TtlMzrT472hIDbAYQcgS74r3dJRowDN3ekiCt+AB7ais
+ lrJQA6OzBUB3hnsw+x9m7hKACHpINg9d2KUiC+ETJ9k9o7DBSbD6a5WOfi7L4/jHEO5vuI9Uj
+ 77DIvPwnPMkEdGpkryg/JohEQIZvJ2b9tqmEEYK1xtYSX7Qbu5Fccgb1GpKrnTiCzZx54WBnZ
+ kuNGrvpifM3pm2yGcxe5m5BY0FdBsd/vPHhI0RZSw7MprH640e0W0shALykpy+wV9TOaBO0GI
+ vO3b+TUAEEmOut5RW8UJOiz+TnklbF17EUGmZo/qR7RJBrux0
 
-Hi Markus,
+> I note that you said you did this using the Coccinelle software. Is
+> the semantic patch something you're trying to get upstream at part of
+> coccicheck?
 
-On Wed, Apr 9, 2025 at 10:47=E2=80=AFPM Markus Elfring <Markus.Elfring@web.=
-de> wrote:
->
-> >> Two if branches contained duplicate source code.
-> >> Thus avoid the specification of repeated error code assignments by usi=
-ng
-> >> additional labels instead.
-> =E2=80=A6
-> > Now there is one rather opaque label it goes to, so a reader doesn't se=
-e
-> > the error code immediately. And it really just saves one line per case
-> > here. =E2=80=A6
-> I imagine that such a code refinement can occasionally matter.
+Not yet.
 
-Just because you imagine that such a code refinement might matter,
-doesn't mean it's actually useful.
+It might become more interesting to achieve wider applications of similar
+source code analyses and transformations.
 
-1. this is making the code significantly less readable to save 1 line.
-2. gotos into control blocks are weird at best and problematic and
-confusing at worst. There's a reason why nobody writes code like this.
-3. this sort of tail merging is something a compiler would apply
-automatically when optimising for size and it can do a much better job
-of this than you can.
+Several SmPL script variants were published which are also still waiting
+on constructive review for coccicheck extensions.
 
-I note that you said you did this using the Coccinelle software. Is
-the semantic patch something you're trying to get upstream at part of
-coccicheck? If so, could you please get that semantic patch merged
-before posting these patches?
-
-Thanks,
-
---=20
-Julian Calaby
-
-Email: julian.calaby@gmail.com
-Profile: http://www.google.com/profiles/julian.calaby/
+Regards,
+Markus
