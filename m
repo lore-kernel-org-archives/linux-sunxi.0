@@ -1,62 +1,62 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7DBE1D63E4
-	for <linux-sunxi@lists.linux.dev>; Sun, 13 Apr 2025 13:43:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11AB71DB154
+	for <linux-sunxi@lists.linux.dev>; Sun, 13 Apr 2025 13:43:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744551823; cv=none; b=C0ahfUP6gD5iUWY+omzknD5sP54Y4izFjFjllgCwPnIlwMIR9xSV4jkSwerIYVO+tCH9cbw4gccpyVtadpU8yP+XawTA+oIiFsubil131ZkMcYcLAzUG/iGFESGEtNYa1wzhPLQM0DGedePr9+28D5D8o+Ze7Bc90iLJzHGipeQ=
+	t=1744551828; cv=none; b=RAzQ75fdtF6QjcW7r45U2qpFBv4RFYerHVnW3pQYsEoo+881nMVsiVhnLcGFEifhjiBiDM3bdaD3TDh/DzKxDTDFnUIML9U7C5NHKJtObfW161iPdF3+6hZOK3bn5x2LJnMi9PnOErlFVL/kwui5F133kVQ6SO4tu1IUMFvSlJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744551823; c=relaxed/simple;
-	bh=1Ia2AWT5OhwUbhLRQjR66eedV4eNqMJnlfK+ozgUHpc=;
+	s=arc-20240116; t=1744551828; c=relaxed/simple;
+	bh=MrYKDFhm7Ipv2QQOhCVg+Jts40S85AC/POr136iEbl4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=f/6iQyw0DAXKDAQO9GSHNRHCLI3phc23hNnoTvnvSr7yERqWTSb9Hv6CrI2ON+r7ROttv89xoO8cAErw8JgsRQXDhOMyXeYlD1S17Ch/rPin7Tput4TNDzdLW/edsZ4Nm+Uir8nZXDJbpGsGgLLGYCyYSnD2g5mAqKggOi4fb1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=keZor8Iv; arc=none smtp.client-ip=209.85.218.52
+	 MIME-Version:Content-Type; b=ixAxMOmcdprqtaH9xsXHUiHld0uwtrwBihg6vCEyD++ArAI8piLCTxekpGmQtdYCa2nuhy+kKVhq7ES1XYEPYJBjk9fZT/A+iIzMsoQRZwx54JSgbMHfhwCaPRM4pzt+MgUXGtE2sTorktsdH78QRmqUOlA3AFQg7XGujWrqjkc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EKIBM7CB; arc=none smtp.client-ip=209.85.208.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="keZor8Iv"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-ac3fcf5ab0dso590772566b.3
-        for <linux-sunxi@lists.linux.dev>; Sun, 13 Apr 2025 06:43:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EKIBM7CB"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5eb92df4fcbso6023427a12.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 13 Apr 2025 06:43:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744551820; x=1745156620; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1744551824; x=1745156624; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xSogYBlrl731ThFJF3RuKmPw2V8Xexi9sOixYh0Nyzs=;
-        b=keZor8Ivt4o8pkVrJyJCfljJKU1HG/ySu1APwl3SgGGaDTHqbZFZ/W0VcJj4rOOkCS
-         et5KxPTTSWYk/Uv42SwwHLTUYWN86GUZjiWFRFvsf5H8Pnwf8vrDZkJW0K19qDfa+xOF
-         6Ll0kAMfaLf8/opeqaxyJmIbe+f/fRdADVwttPH2WrgB5MIZShQcyctogqDqfdLK09al
-         9WlwC53jFWq6OsCp8Nh96B0Ph4T3mvpXTuXwH0O7rqUEwaZFhsBxpqmLJTXXLA1VL9BE
-         LT8nqctqCU6gpbvuceSwF4fdSMBL9g9BQrPO2AMOdyeqUktIed5K887tL+XqPeXgRFMp
-         7+Tg==
+        bh=qOmgqsJSkssZHmhwqtwssWV2ayrx+169yAq3iEk3wLs=;
+        b=EKIBM7CBSF4hi7hu/96EvFmknulhmNM4w7ueJAQtTJvdU5tXKHe9SpBvgIFeEmz88q
+         WXoHBUoOiHt0Nzzp4cF7AKa57rMvkSzh/lbKSxyWnBWQJQrLVd+4yGw6OBznjTpLfs2a
+         uWIydOJZ/MZb6sXxsFhWYfVKulo/PzQoEAIf8dxu7Ul0M2a1z2ZwhoSozQOSuGUEXT2S
+         bjxgtCEh3RwnVVL844p7DVreE2mJhn2UsMiY99eB8AC9c8ae3UCoTf/N0ebMdjZTsw+8
+         fl6/OA3O5xRy9phTOXgjQNynZX2BvMD7nse0cH7I4r52dPHtwY466ltz0JD6sOlb9om6
+         QHng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744551820; x=1745156620;
+        d=1e100.net; s=20230601; t=1744551824; x=1745156624;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xSogYBlrl731ThFJF3RuKmPw2V8Xexi9sOixYh0Nyzs=;
-        b=RnI7cCEpxNFkTp2H1aahc/JuUzEcmQe4BWtnwNgKrukjlEzTHb4+ij55Ek/+baF8Fv
-         ZkG1C492NyuRzQYfJUBL4LrkaXjiX+yesE4LFnmffrQfnQk7PW9VSMj/esJHyM4lKzCb
-         EBp4+cdPykxX3ymyCgGhPD/Sl+9eETdVBwUnWzx0oz1c7Fj2NxHQQxcP4rY7nZEazUiB
-         S2f+5brL6YS+vQ907qqywtXtbtqYgJ/cHHnp2w/5Jf/y0UoOHBLs0kGsmuvhY9H0jSJQ
-         prkjbwLq+6X2gLeS3Asdd8eY22Z0tMXyEVl4L0gziIJ+0L4IdU1QiXVnWNxkUmYtDsO6
-         FirQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVEerym3paf5c66o50qnoxvUZieR9v/WklfQ+fy1+qvUkUUCaBltyLN75GIYADABtCOZnZ7QVF3o9NfVg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx4BHzxpji5n+dn2AYmEwG/xeX8a5NPHV9Q/gHxtFBphiA/GPMt
-	eZPnjKPQ/en0NZM8vyscuoaAE7JUFGmknvrF1kEX8fdpUwdomjeR
-X-Gm-Gg: ASbGnctBITixDxNU29vH49ZXZ6vv8mRJu2KpFg3eppdv+Aza3Bqp/dGLpLxjs9qHct1
-	suTSDqgt1PshKHAbTGvAa1nlS/7ccbblVbdCJXvrlumVMdqL8giOaCD5/b7N5OrYChaEtjHjpjc
-	veWknc0+bZCL3QMGwgX3M7h621IxIHdt2fd5BIgytZgIuBpT9jezRVTiiNNk5cjtNT9Q4bD6O7J
-	C+UdxS5/hQkIglu438RfkoMdPi//I2CG/6AJnh8fCpqSsP8HM39600xCpVIX0JV0NIrjUhccd92
-	f2dFPRtHXa55mtlgZoMytKoNrWCMpyYcGXQejqAC2/zk5foS+hzTtZ/6lM8=
-X-Google-Smtp-Source: AGHT+IG6IIvTcbFlePkAwHT/05Hid/xlS3qf9C/W84/Ywcx7O1L5k60TXgJeL0SSV6porQsrQjvvUw==
-X-Received: by 2002:a17:907:9728:b0:aca:cc55:fd35 with SMTP id a640c23a62f3a-acad36d901fmr776146866b.56.1744551819626;
-        Sun, 13 Apr 2025 06:43:39 -0700 (PDT)
+        bh=qOmgqsJSkssZHmhwqtwssWV2ayrx+169yAq3iEk3wLs=;
+        b=dIJr96EHMmUKl2inMWjTU0sfBBvYkKFQMpxIx2dl2rBHf87ueLz+BMQiV+xjLK8/5O
+         oVrvEVAAyWLSs2D2cxeeKqVgyF/SFjKnbNVL+9Dp5poOPQ6yA4d1ZNPWL/Egl9UW99TA
+         i+la9oTiY+xHdrKQHU0qcls8doKbJKWhalVWSpCMDpAZN+RG2Fi012ToU2lNQEXKGFed
+         eN30QsHsK/VIvQIFa3rWibSsdXu/44GTElVCF1dqU8BHIAegt7V3YPhbydg6o/drSGSO
+         WcSGoIlJmKp8to5x0p1bQBI8bM1iiDs1muM6i2MX3/wZstErs6EWEv26Ud+xSPOlkZj0
+         sDgw==
+X-Forwarded-Encrypted: i=1; AJvYcCWaWLfgvLlTGzG2T5kfY7Y85HK2ihFFD8JeB6+bQeLei8Toy98OJ9G0v02loVTXDY5V2HaBXBM+07qOCw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwPeUcVWvvc2KV1Q5MgKBy8TZvipzcYH0cePhDL0CAHqaB0mZKh
+	26IUDgug+cEvoe7YeECcKwDlZdNxnCz01izdwkPmreRY63THyvp2
+X-Gm-Gg: ASbGncvEKPwP6Gh+Hfy+6kLV/0H9/DAtkxJM1wNxKqJDo6T7Vz+X681ujR+r9Duxp4W
+	lKu+TiM+oMNLrGE5qwA6Qmy4LqMRFvZ+r/91LI4cz5PQAqtgKaMm6alZjuZirnPTPuI2QAQgJxN
+	4cgtsr1s9xZTgAGTnb1rxVdmMk/CWX6fOjSH7g/4v0xBLDhDU/k8zKibUHIeHYwPzeqClUJI5og
+	aryGejMSWhTuBsCzdekgm+Pueg0fCIdft1GhuNzB5chSJSi1x35xASaQNBj5iT4t9lNs1plC3FK
+	JYovykxVSLUmW+OYkmVGOnLjpxKey6baZHP9XNWQMiGKvA3F0ZQkMwADnjQ=
+X-Google-Smtp-Source: AGHT+IECxibRivd1Qa+TCHtBQFZFGdZnRUR09a7FvkF3ONZsY1WfKF4J3gWn1VCseafmw3KMpMcyLA==
+X-Received: by 2002:a17:907:3cc3:b0:ac2:d1bd:3293 with SMTP id a640c23a62f3a-acad34a1858mr835080966b.19.1744551823890;
+        Sun, 13 Apr 2025 06:43:43 -0700 (PDT)
 Received: from localhost.localdomain ([37.248.246.92])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acaa1be95d0sm749422666b.55.2025.04.13.06.43.35
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acaa1be95d0sm749422666b.55.2025.04.13.06.43.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Apr 2025 06:43:39 -0700 (PDT)
+        Sun, 13 Apr 2025 06:43:43 -0700 (PDT)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: robh@kernel.org,
 	krzk+dt@kernel.org,
@@ -68,9 +68,9 @@ Cc: wens@csie.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH 1/2] dt-bindings: arm: sunxi: Add Orange Pi 3 LTS board
-Date: Sun, 13 Apr 2025 15:42:56 +0200
-Message-ID: <20250413134318.66681-2-jernej.skrabec@gmail.com>
+Subject: [PATCH 2/2] arm64: dts: allwinner: h6: Add OrangePi 3 LTS DTS
+Date: Sun, 13 Apr 2025 15:42:57 +0200
+Message-ID: <20250413134318.66681-3-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250413134318.66681-1-jernej.skrabec@gmail.com>
 References: <20250413134318.66681-1-jernej.skrabec@gmail.com>
@@ -80,34 +80,403 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Orange Pi 3 LTS board is similar to Orange Pi 3, with slightly different
-hardware but mostly same functionality. It has less options than
-original variant. eMMC was optional before, now it's always included.
-2 GB RAM is now standard, previous variant also has 1 GB RAM version.
+OrangePi 3 LTS is quite similar to original OrangePi 3, but it has a lot
+small changes that makes DT sharing unpractical with it.
+
+OrangePi 3 LTS has following features:
+- Allwinner H6 quad-core 64-bit ARM Cortex-A53
+- GPU Mali-T720
+- 2 GB LPDDR3 RAM
+- AXP805 PMIC
+- AW859A Wifi/BT 5.0
+- 2x USB 2.0 host port (A)
+- USB 3.0 Host
+- Gigabit Ethernet (Motorcomm YT8531C phy)
+- HDMI 2.0 port
+- soldered 8 GB eMMC
+- 2x LED
+- microphone
+- audio jack
 
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- Documentation/devicetree/bindings/arm/sunxi.yaml | 5 +++++
- 1 file changed, 5 insertions(+)
+ arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+ .../allwinner/sun50i-h6-orangepi-3-lts.dts    | 351 ++++++++++++++++++
+ 2 files changed, 352 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3-lts.dts
 
-diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
-index f536cdd2c1a6..f417745c799e 100644
---- a/Documentation/devicetree/bindings/arm/sunxi.yaml
-+++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
-@@ -981,6 +981,11 @@ properties:
-           - const: xunlong,orangepi-3
-           - const: allwinner,sun50i-h6
- 
-+      - description: Xunlong OrangePi 3 LTS
-+        items:
-+          - const: xunlong,orangepi-3-lts
-+          - const: allwinner,sun50i-h6
+diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
+index 00bed412ee31..72c43bd0e2ab 100644
+--- a/arch/arm64/boot/dts/allwinner/Makefile
++++ b/arch/arm64/boot/dts/allwinner/Makefile
+@@ -33,6 +33,7 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-orangepi-zero-plus.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-orangepi-zero-plus2.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-beelink-gs1.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-orangepi-3.dtb
++dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-orangepi-3-lts.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-orangepi-lite2.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-orangepi-one-plus.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-pine-h64.dtb
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3-lts.dts b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3-lts.dts
+new file mode 100644
+index 000000000000..c8830d5c2f09
+--- /dev/null
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3-lts.dts
+@@ -0,0 +1,351 @@
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
++// Copyright (C) 2025 Jernej Skrabec <jernej.skrabec@gmail.com>
++// Based on sun50i-h6-orangepi-3.dts, which is:
++// Copyright (C) 2019 Ondřej Jirman <megous@megous.com>
 +
-       - description: Xunlong OrangePi Lite
-         items:
-           - const: xunlong,orangepi-lite
++/dts-v1/;
++
++#include "sun50i-h6.dtsi"
++#include "sun50i-h6-cpu-opp.dtsi"
++#include "sun50i-h6-gpu-opp.dtsi"
++#include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/leds/common.h>
++
++/ {
++	model = "OrangePi 3 LTS";
++	compatible = "xunlong,orangepi-3-lts", "allwinner,sun50i-h6";
++
++	aliases {
++		ethernet0 = &emac;
++		ethernet1 = &aw859a;
++		serial0 = &uart0;
++	};
++
++	chosen {
++		stdout-path = "serial0:115200n8";
++	};
++
++	connector {
++		compatible = "hdmi-connector";
++		ddc-en-gpios = <&pio 7 2 GPIO_ACTIVE_HIGH>; /* PH2 */
++		type = "a";
++
++		port {
++			hdmi_con_in: endpoint {
++				remote-endpoint = <&hdmi_out_con>;
++			};
++		};
++	};
++
++	ext_osc32k: ext_osc32k_clk {
++		#clock-cells = <0>;
++		compatible = "fixed-clock";
++		clock-frequency = <32768>;
++		clock-output-names = "ext_osc32k";
++	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		led-0 {
++			function = LED_FUNCTION_POWER;
++			color = <LED_COLOR_ID_RED>;
++			gpios = <&r_pio 0 4 GPIO_ACTIVE_HIGH>; /* PL4 */
++			default-state = "on";
++		};
++
++		led-1 {
++			function = LED_FUNCTION_STATUS;
++			color = <LED_COLOR_ID_GREEN>;
++			gpios = <&r_pio 0 7 GPIO_ACTIVE_HIGH>; /* PL7 */
++		};
++	};
++
++	reg_gmac_3v3: gmac-3v3 {
++		compatible = "regulator-fixed";
++		regulator-name = "gmac-3v3";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++		startup-delay-us = <150000>;
++		enable-active-high;
++		gpio = <&pio 3 6 GPIO_ACTIVE_HIGH>; /* PD6 */
++	};
++
++	reg_vcc5v: vcc5v {
++		/* board wide 5V supply directly from the DC jack */
++		compatible = "regulator-fixed";
++		regulator-name = "vcc-5v";
++		regulator-min-microvolt = <5000000>;
++		regulator-max-microvolt = <5000000>;
++		regulator-always-on;
++	};
++
++	reg_wifi_3v3: wifi-3v3 {
++		/* 3.3V regulator for WiFi and BT */
++		compatible = "regulator-fixed";
++		regulator-name = "wifi-3v3";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++		enable-active-high;
++		gpio = <&pio 7 7 GPIO_ACTIVE_HIGH>; /* PH7 */
++	};
++
++	wifi_pwrseq: wifi-pwrseq {
++		compatible = "mmc-pwrseq-simple";
++		clocks = <&rtc 1>;
++		clock-names = "ext_clock";
++		reset-gpios = <&r_pio 1 3 GPIO_ACTIVE_LOW>; /* PM3 */
++		post-power-on-delay-ms = <200>;
++	};
++};
++
++&cpu0 {
++	cpu-supply = <&reg_dcdca>;
++};
++
++&de {
++	status = "okay";
++};
++
++&dwc3 {
++	status = "okay";
++};
++
++&ehci0 {
++	status = "okay";
++};
++
++&ehci3 {
++	status = "okay";
++};
++
++&emac {
++	pinctrl-names = "default";
++	pinctrl-0 = <&ext_rgmii_pins>;
++	phy-mode = "rgmii-rxid";
++	phy-handle = <&ext_rgmii_phy>;
++	phy-supply = <&reg_gmac_3v3>;
++	allwinner,rx-delay-ps = <0>;
++	allwinner,tx-delay-ps = <700>;
++	status = "okay";
++};
++
++&gpu {
++	mali-supply = <&reg_dcdcc>;
++	status = "okay";
++};
++
++&hdmi {
++	hvcc-supply = <&reg_bldo2>;
++	status = "okay";
++};
++
++&hdmi_out {
++	hdmi_out_con: endpoint {
++		remote-endpoint = <&hdmi_con_in>;
++	};
++};
++
++&mdio {
++	ext_rgmii_phy: ethernet-phy@1 {
++		compatible = "ethernet-phy-ieee802.3-c22";
++		reg = <1>;
++
++		motorcomm,clk-out-frequency-hz = <125000000>;
++
++		reset-gpios = <&pio 3 14 GPIO_ACTIVE_LOW>; /* PD14 */
++		reset-assert-us = <15000>;
++		reset-deassert-us = <100000>;
++	};
++};
++
++&mmc0 {
++	vmmc-supply = <&reg_cldo1>;
++	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>; /* PF6 */
++	disable-wp;
++	bus-width = <4>;
++	status = "okay";
++};
++
++&mmc1 {
++	vmmc-supply = <&reg_wifi_3v3>;
++	vqmmc-supply = <&reg_bldo3>;
++	mmc-pwrseq = <&wifi_pwrseq>;
++	bus-width = <4>;
++	non-removable;
++	status = "okay";
++
++	aw859a: wifi@1 {
++		reg = <1>;
++	};
++};
++
++&mmc2 {
++	vmmc-supply = <&reg_cldo1>;
++	vqmmc-supply = <&reg_bldo2>;
++	cap-mmc-hw-reset;
++	non-removable;
++	bus-width = <8>;
++	status = "okay";
++};
++
++&ohci0 {
++	status = "okay";
++};
++
++&ohci3 {
++	status = "okay";
++};
++
++&pio {
++	vcc-pc-supply = <&reg_bldo2>;
++	vcc-pd-supply = <&reg_cldo1>;
++	vcc-pg-supply = <&reg_bldo3>;
++};
++
++&r_ir {
++	status = "okay";
++};
++
++&r_i2c {
++	status = "okay";
++
++	axp805: pmic@36 {
++		compatible = "x-powers,axp805", "x-powers,axp806";
++		reg = <0x36>;
++		interrupt-parent = <&r_intc>;
++		interrupts = <GIC_SPI 96 IRQ_TYPE_LEVEL_LOW>;
++		interrupt-controller;
++		#interrupt-cells = <1>;
++		x-powers,self-working-mode;
++		vina-supply = <&reg_vcc5v>;
++		vinb-supply = <&reg_vcc5v>;
++		vinc-supply = <&reg_vcc5v>;
++		vind-supply = <&reg_vcc5v>;
++		vine-supply = <&reg_vcc5v>;
++		aldoin-supply = <&reg_vcc5v>;
++		bldoin-supply = <&reg_vcc5v>;
++		cldoin-supply = <&reg_vcc5v>;
++
++		regulators {
++			reg_aldo1: aldo1 {
++				regulator-always-on;
++				regulator-min-microvolt = <3300000>;
++				regulator-max-microvolt = <3300000>;
++				regulator-name = "vcc-pl-led-ir";
++			};
++
++			reg_aldo2: aldo2 {
++				regulator-min-microvolt = <3300000>;
++				regulator-max-microvolt = <3300000>;
++				regulator-name = "vcc33-audio-tv-ephy-mac";
++			};
++
++			/* ALDO3 is shorted to CLDO1 */
++			reg_aldo3: aldo3 {
++				regulator-always-on;
++				regulator-min-microvolt = <3300000>;
++				regulator-max-microvolt = <3300000>;
++				regulator-name = "vcc33-io-pd-emmc-sd-usb-uart-1";
++			};
++
++			reg_bldo1: bldo1 {
++				regulator-always-on;
++				regulator-min-microvolt = <1800000>;
++				regulator-max-microvolt = <1800000>;
++				regulator-name = "vcc18-dram-bias-pll";
++			};
++
++			reg_bldo2: bldo2 {
++				regulator-min-microvolt = <1800000>;
++				regulator-max-microvolt = <1800000>;
++				regulator-name = "vcc-efuse-pcie-hdmi-pc";
++			};
++
++			reg_bldo3: bldo3 {
++				regulator-min-microvolt = <1800000>;
++				regulator-max-microvolt = <1800000>;
++				regulator-name = "vcc-pm-pg-dcxoio-wifi";
++			};
++
++			bldo4 {
++				/* unused */
++			};
++
++			reg_cldo1: cldo1 {
++				regulator-always-on;
++				regulator-min-microvolt = <3300000>;
++				regulator-max-microvolt = <3300000>;
++				regulator-name = "vcc33-io-pd-emmc-sd-usb-uart-2";
++			};
++
++			cldo2 {
++				/* unused */
++			};
++
++			cldo3 {
++				/* unused */
++			};
++
++			reg_dcdca: dcdca {
++				regulator-always-on;
++				regulator-min-microvolt = <800000>;
++				regulator-max-microvolt = <1160000>;
++				regulator-ramp-delay = <2500>;
++				regulator-name = "vdd-cpu";
++			};
++
++			reg_dcdcc: dcdcc {
++				regulator-enable-ramp-delay = <32000>;
++				regulator-min-microvolt = <810000>;
++				regulator-max-microvolt = <1080000>;
++				regulator-ramp-delay = <2500>;
++				regulator-name = "vdd-gpu";
++			};
++
++			reg_dcdcd: dcdcd {
++				regulator-always-on;
++				regulator-min-microvolt = <960000>;
++				regulator-max-microvolt = <960000>;
++				regulator-name = "vdd-sys";
++			};
++
++			reg_dcdce: dcdce {
++				regulator-always-on;
++				regulator-min-microvolt = <1200000>;
++				regulator-max-microvolt = <1200000>;
++				regulator-name = "vcc-dram";
++			};
++
++			sw {
++				/* unused */
++			};
++		};
++	};
++};
++
++&rtc {
++	clocks = <&ext_osc32k>;
++};
++
++&uart0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&uart0_ph_pins>;
++	status = "okay";
++};
++
++&usb2otg {
++	dr_mode = "host";
++	status = "okay";
++};
++
++&usb2phy {
++	usb0_id_det-gpios = <&pio 2 15 GPIO_ACTIVE_HIGH>; /* PC15 */
++	usb0_vbus-supply = <&reg_vcc5v>;
++	usb3_vbus-supply = <&reg_vcc5v>;
++	status = "okay";
++};
++
++&usb3phy {
++	status = "okay";
++};
 -- 
 2.49.0
 
