@@ -1,106 +1,131 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB442275855
-	for <linux-sunxi@lists.linux.dev>; Mon, 14 Apr 2025 14:31:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5B04539A;
+	Mon, 14 Apr 2025 17:02:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744641079; cv=none; b=D3cJ9fRAqKaMguxbOm1+vFypze2cJYhohc4noxNpqxIBmuE+8fKvq+mIJGcpXgTG7OQ9smgpFJVoE8BRq/Z4duIBI76X6NoMyvIkVd0a2Xw20+Yp8/J8NsqbdwMN5XsqWECVTwCXa7jnk8RHuzCLPvEooFkP7Ap1UizV076gwtI=
+	t=1744650165; cv=none; b=FBRCHYgh8EJvnuLCAMHLhGvmV0pSj9ohVqoIz7zZWk9nSnx/wCcD49X2PsJUbM5KVN20v3c+zjp2eJjb8quDNExj4Qaq1i+ShD9FV8tW7apxge0ROVaGlHhtF3MS6MPz5Mrc9jKoL8i+tEfn4DSW3u0Lmn4e/Hd+R2poWqzfr0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744641079; c=relaxed/simple;
-	bh=2gXSInJKusrPdd4J5X6NbBlVa5dxF7j9qgzK0PQiHaE=;
+	s=arc-20240116; t=1744650165; c=relaxed/simple;
+	bh=KqFT3PKAxBM7aneYNA4QM0R7Gd1DemUhbyEfOOJZdwc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HyCwB369mZoPVYRWRXawNK7cB4vRtrhOl0uU72u7HAT8HPQHsDJJWd7kthlwHiry8IYK+a1UoTMKYEQXkW8l2M0POD0TMGpjyblfdH656W0SA/0Snrv/UCkE8pwjjEtsfLsmBCRbpEVDkue1LjZsrQj8gJrCy8erY71DFbwMF1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U2F3h9Xo; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=ghxVq4wfI9T/VpgrrQGHQ4EcZ6hXTesPpkVkT5G+1EJo1y6TDFT15KIhdF58v0UVv7YA+eKu6o4NP0UfDbl6TFM09v8etH55NAbK8lbB1PXKUZI7jkBzuKVVgJvnHNSk08DB0NyLncxbi4fcHgEQ3obX4jtDcEreSX6OjjxGcm4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=haXXUUQ5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U2F3h9Xo"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-39c2688619bso2871393f8f.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 14 Apr 2025 07:31:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744641074; x=1745245874; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=HCrgWYM3Hgypgkdhg98cFtG7nn+j6jrPiIXWi6bPyp0=;
-        b=U2F3h9Xoyb2R06ydnonMnLx5dJQ8MPey6/03rfDUfGWCuVSyCHOuaUnq8KPXYoAF8C
-         /Tqw5NyP/7/QUQn3TOpGZdv8Ylf1S9fTReETMjbHTCs2xmj6MjhrVXwZrpJgscG97+C+
-         NLIi6qAxMZaN9LRnUnBtI8eUy7s6HsXrTszDKDrZBN2JxnT605CZcoSXpNbnBQg2BYP5
-         0mii07ymmRWAaIQANz/x5BJFdT/pJ8Lz2ur/nzL5IrOYIDK7Vdiz6jSTgqz9+ZE+Of6d
-         Fc7t22eX6Oc+LCDZuUXXrM7MyrLZ3WL3eiREQQJmKbM5VyQMHBTd1+4v56vAN0YI4WuW
-         +/qA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744641074; x=1745245874;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HCrgWYM3Hgypgkdhg98cFtG7nn+j6jrPiIXWi6bPyp0=;
-        b=hXRGIcstfY4N+LSxi2Z6v4TsqPS8Hr6HghsE6v1AwzQfcYd5VTZ1Y+21RUIEZERENv
-         Eju8nNLnP5OMTM80GteQwEeglqoUAo1h0NMpa1LYBiCcj28sdu7rg4FIADVMCD3nY9Cf
-         duv5q+RT5VvB/MIAYFqm9UrB76S51Y797SBb4VLVUhnYNAe+ab1UVSLd5zSULUWEJg2N
-         NOP5Nq7+48Y/6XqHC64iFUfo48aRTVo+rexPvEEX7QC7hTtqy8vNf7Fd0C5jhisDsJTk
-         ZmzG6f5WZS3c6m+M19o/miHePL3bfQgzf3C5aqTUlyzYOEq4i1fglhsRM2HEvfrSu1wZ
-         z2AA==
-X-Forwarded-Encrypted: i=1; AJvYcCWv2Nog+9ctpsp4OICby42QMHXlksxUmFb3N7bIe7XgFcy6Jrp6uiE8rUgK8h0+veLZ8H5pkFfef0IFXw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxgRgqrf6xyMIXX4X4k4yLOUDSMl8kqm046idBPOJukL4UEC3z4
-	utYKZL5gCIQcyp6aj4UwWecEiItUwz4AJTYWDE3SzuwOnVc4CJF7
-X-Gm-Gg: ASbGnctxxCRPmrGsisav9j3yCFF361Q1WSrZkYhl7lpKKIixtYcLO0Qykv1N2Wqe56N
-	yEMGmc7a5L27McBDIabbHKUmRVt4jVGXfjapaB7vzk07qQX6mO3+0KpsU4pi4mP5g2tD+xeSf05
-	oKt344UMOs2VgofuEUsaD3DdMYp+dI//+2iCPNmZF+ywJLiTbxi0oXwu9Sl+vOznH+3VLU5wtIk
-	ickiNA+G6Ce/9NoT1AS93uHr/TVCgO3bXHAvGcSOfuWiWk3IsAmThd//T9WmiqZLo12rMX5jMcL
-	0pUSfLibwrV0mMe0/6usdqX9/Roj/eHALPX6DaYgm+POKd9Tv68=
-X-Google-Smtp-Source: AGHT+IF4cFQXcUsJCUJ4rTn9rXcC4sO3n9nbDC1x24huqFx1CW67qBr8ulhefX4lOvKb92oRjDJHCw==
-X-Received: by 2002:a05:6000:144d:b0:391:4999:776c with SMTP id ffacd0b85a97d-39eaaecdb44mr10571104f8f.40.1744641073750;
-        Mon, 14 Apr 2025 07:31:13 -0700 (PDT)
-Received: from Red ([2a01:cb1d:898:ab00:4a02:2aff:fe07:1efc])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-39eaf43cd17sm11246340f8f.78.2025.04.14.07.31.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Apr 2025 07:31:13 -0700 (PDT)
-Date: Mon, 14 Apr 2025 16:31:11 +0200
-From: Corentin Labbe <clabbe.montjoie@gmail.com>
-To: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
-Cc: linux-crypto@vger.kernel.org, herbert@gondor.apana.org.au,
-	davem@davemloft.net, linux-kernel@vger.kernel.org,
-	Chen-Yu Tsai <wens@csie.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="haXXUUQ5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BD4FC4CEEB;
+	Mon, 14 Apr 2025 17:02:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744650164;
+	bh=KqFT3PKAxBM7aneYNA4QM0R7Gd1DemUhbyEfOOJZdwc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=haXXUUQ5j7/xdMK6YjwHt6lr9C50Nl/g7bFmEYMZvNiz+gF0wIYn0k0JlsN7AgIIr
+	 4iu+74zlC0pGVbnny4GpZcvFCtRv7UbXiLj/Jktoz55Xw4OI0gFEF9IMr5JRkbS89a
+	 FWUp+fMSf5UkmLfyLJ4Oh8mMhzRX4zRBtIyxizLmg1yK8LXnD6fzQ4a/5VdOID9XcX
+	 dE75rVIJSiBbQRqIjkmlXD+Sz1tODj0aRj329Hqs8wN3tRMUOekPmkiQJuBXhlIRBs
+	 zzEUQdKKdZxKbNiIRzd4lVHI7DTVE6ie+lpUtXY7UaT3cQKWd5+rfYxv5sIPEdod6N
+	 ZZHwk4psw8ppw==
+Date: Mon, 14 Apr 2025 18:02:33 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Rob Herring <robh@kernel.org>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 3/4] crypto: sun8i-ss - use API helpers to setup fallback
- request
-Message-ID: <Z_0cLywDNhlYIQBd@Red>
-References: <20250407123604.2109561-1-ovidiu.panait.oss@gmail.com>
- <20250407123604.2109561-3-ovidiu.panait.oss@gmail.com>
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Steen Hegelund <Steen.Hegelund@microchip.com>,
+	Daniel Machon <daniel.machon@microchip.com>,
+	UNGLinuxDriver@microchip.com,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Andy Gross <agross@kernel.org>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
+	Stephen Boyd <sboyd@kernel.org>, zhouyanjie@wanyeetech.com,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Stephan Gerhold <stephan.gerhold@linaro.org>,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, imx@lists.linux.dev,
+	linux-rockchip@lists.infradead.org,
+	linux-amlogic@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org, linux-mips@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v2 03/17] arm64: dts: microchip: sparx5: Fix CPU node
+ "enable-method" property dependencies
+Message-ID: <20250414-fragile-same-9cd06114cd85@spud>
+References: <20250410-dt-cpu-schema-v2-0-63d7dc9ddd0a@kernel.org>
+ <20250410-dt-cpu-schema-v2-3-63d7dc9ddd0a@kernel.org>
+ <20250411-ebay-exerciser-392c42daf5ba@spud>
+ <CAL_JsqJza-bufzjZ415THyDDQaOfk8F+JRFvFxzNwObG=NKVJQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="pt+1yttKuNYLWgzQ"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250407123604.2109561-3-ovidiu.panait.oss@gmail.com>
+In-Reply-To: <CAL_JsqJza-bufzjZ415THyDDQaOfk8F+JRFvFxzNwObG=NKVJQ@mail.gmail.com>
 
-Le Mon, Apr 07, 2025 at 03:36:03PM +0300, Ovidiu Panait a écrit :
-> Rather than setting up the fallback request by hand, use
-> ahash_request_set_callback() and ahash_request_set_crypt() API helpers
-> to properly setup the new request.
-> 
-> This also ensures that the completion callback is properly passed down
-> to the fallback algorithm, which avoids a crash with async fallbacks.
-> 
-> Signed-off-by: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
-> ---
-> Cc: Corentin Labbe <clabbe.montjoie@gmail.com>
-> Cc: Chen-Yu Tsai <wens@csie.org>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Samuel Holland <samuel@sholland.org>
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-sunxi@lists.linux.dev
-> 
 
-Herbert I acked but just saw some crash I didnt saw in first look.
-Please wait a bit before merging, I verify what is the cause.
+--pt+1yttKuNYLWgzQ
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Regards
+On Fri, Apr 11, 2025 at 03:26:50PM -0500, Rob Herring wrote:
+> On Fri, Apr 11, 2025 at 11:22=E2=80=AFAM Conor Dooley <conor@kernel.org> =
+wrote:
+> >
+> > On Thu, Apr 10, 2025 at 10:47:24AM -0500, Rob Herring (Arm) wrote:
+> > > The "spin-table" enable-method requires "cpu-release-addr" property,
+> > > so add a dummy entry. It is assumed the bootloader will fill in the
+> > > correct values.
+> > >
+> > > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> > > Reviewed-by: Daniel Machon <daniel.machon@microchip.com>
+> > > Tested-by: Daniel Machon <daniel.machon@microchip.com>
+> >
+> > This is already applied, guess I forgot to merge it into the branch that
+> > appears in linux next. I'll do that now..
+>=20
+> Sometimes I check next, but in this case I just looked at replies for
+> which there were none. I dislike submitting dts changes because it's a
+> range of AWOL maintainers, only applying around some rcN (so up to 2
+> months later), silently applying, and applied but never in linux-next
+> (until in soc tree).
+
+Let's add "send the b4 ty email" to the list of things that I did not
+do, but thought that I had done.
+
+--pt+1yttKuNYLWgzQ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ/0/qQAKCRB4tDGHoIJi
+0llIAQCfeSIfGZefusGStXxy21uaJUGlki/H/XzQ1dq4t278oAD9GMv/CXNEj8CG
+oPoSllLdscFoA/5qVRjJh0erPiNF8gA=
+=q+yA
+-----END PGP SIGNATURE-----
+
+--pt+1yttKuNYLWgzQ--
