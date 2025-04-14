@@ -1,115 +1,83 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 592DE2D3A6C;
-	Mon, 14 Apr 2025 13:13:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8676C27F73A;
+	Mon, 14 Apr 2025 14:25:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744636382; cv=none; b=NW91nL0KdIfn5/IEsMLuzdL+ztcJpdk9JrvGl368+XxDbRfaFNvPT4ap+T70TiZaTI8Zlv4sVqqUv/IzMOzsPSMb2AQOOL4JThXifXK4nJQiRaF6jMdZTelitbfrlohJUgOY15qcirQtm6OeHLNy5IJWYgKNSKoBgHLXzkWOHGc=
+	t=1744640728; cv=none; b=G4vP7eL853s1u1MZqqObSVnMbXxbZtm8whLA/bo8HS6nQ4L//j2eywgwps3gLPYUclw5kDBhzwKoa7xaFuWLEpxQh23k07sLhsaHJYMmbjWsB70AevaoKQA7W5KcPtkEDtrvYRq/f30O/1h4hsUxN1ygR/5my0xJJ+KSpa/fBt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744636382; c=relaxed/simple;
-	bh=PYtZof1JpAgYgjbf7Rfsjlu1zvZsWl5iqqO93SvjAxA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GpjH6aVdGGXm5Yg8aSYskJXMSj2mYoySuPQe6i5eWalBUOtfbTrXihTzGRQNNkwjmtWbixlDAeld9d4iAO+9/yHve2mHNIC1XY5gkQG/QuPCMlMe+Dk2FTIxd9Sbif24rSjxi4hSi5k9bFJ4PtjfVRCDM6r5Ogi28+nOR18K/1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JlWkqhAk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744640728; c=relaxed/simple;
+	bh=3daDj0mcIsp68OogGpd0fzNPIdyotvmgnk6RkCbuVWc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=cnU2LjeRg4GC6PpCA5TF8rPtfH6dP1nGMMTMadO4ddvb8JY2RpRiasQu74338fPKLs1+lnt5T6fQsSEgj9VLLqPkhK/GDh7gWUPVa/PUNVYm6DnpHAUawpDBVtdj+vzfGKns2wn++R6yIFw2TYByQHnwoSedy0MOxnGCIG8llpM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KyP9D3Nv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JlWkqhAk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC660C4CEEC;
-	Mon, 14 Apr 2025 13:13:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KyP9D3Nv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FE2DC4CEE2;
+	Mon, 14 Apr 2025 14:25:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744636381;
-	bh=PYtZof1JpAgYgjbf7Rfsjlu1zvZsWl5iqqO93SvjAxA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=JlWkqhAkffqQUy7ti9hPGnnhvDvKTOIcBCWG5k12bTxqHOWceJcjpt5DeZaOX9rw5
-	 k+O9UNs2yN2I6WSh2xKCbB4XVsecud69yS8bjL5Y8UU9gIARpwj73EyxX7g4ig3qCt
-	 ZGkzxEHlqjBXBzdCQD9Ko6UrhuiLbOKl81GrD/x2+OSzK+V/nuktrJv/jg741qEMwZ
-	 RD8RKyrLwy5p2AlJdFVY40Ijv1jkSEbec9JTX0ytX9dFaVkfdTswxHvU+BOvgm0E6A
-	 GeKI7tyrJs2Gvgp+z44jolI6wm3kaWUT/y4B8GJgV5v4h4KlH9bVHS+6MCDetWtoeu
-	 /Vf69sMXYQO+w==
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5e5dce099f4so5547939a12.1;
-        Mon, 14 Apr 2025 06:13:01 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVMXJhN2cI3fVS+pv2ll4keqzarQ3uJC/kGIaCHoR8HCB0wCc6pLijn4ui0xFC3i2qkVPs=@lists.linux.dev, AJvYcCWSPMWd81XgtOqHbH+LrtCExv1/95QgF0H4kA2q3XfvKlP1zWh2hZFMx10aGvKPUM7SvpeohHdZZAqJrjI=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxenzlJ5qxLECjnrSp9/je/o/6IManNOCYAPngzEs0IDUJPjZte
-	rYipAXVqiVGsEXai4yUY6fHyBVnoqk7T+ge/GAcgGyapGI+K2ZnjD01a7pS9Lw6j1iBOYeDLWcs
-	I6vViTbpkENv97g1EUb4qSM2gvw==
-X-Google-Smtp-Source: AGHT+IGD1RjwJGslsl4TZQ3wfuNijXDBc01yF9Y4gnZ5DJt+B5EtvoBjX+ECQxWRz+SZvCEqXEVdeGMo7Gts//oS3Co=
-X-Received: by 2002:a05:6402:1d4d:b0:5ee:497:67d6 with SMTP id
- 4fb4d7f45d1cf-5f36ff1c023mr10307363a12.33.1744636380328; Mon, 14 Apr 2025
- 06:13:00 -0700 (PDT)
+	s=k20201202; t=1744640727;
+	bh=3daDj0mcIsp68OogGpd0fzNPIdyotvmgnk6RkCbuVWc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=KyP9D3Nvl9VPs4Y+adIbgJ/kWDV8oOJFDl25SW4Z8E3+fC5MdUg2iVjQ3ngxK6IHd
+	 xveMv/ctz4aIS3rkjZhiFXun4FauYhVpTc2nNHA4xMvq6kV4ZiXWvPE8melIYiWUd5
+	 WyGC28M9iH2WBh+W4SvBqfKeGzMPFqTKT7rNVN8Sl0KmrJ+8iuyGjqxdvXf11M1So3
+	 bYcp2JgZBOB5D553M4LCbhOyqODMDAxOKOCe8jJj0cRJvhNAuI3A2Docv8DbQn/jS9
+	 Hu3nE2pUhk3iL5f667EVFF7Ns2T2KTRFl8m6EvMW4c6HiwJsh4+D8qw7O8nW5iH2aW
+	 d7RuK1wsCPezQ==
+From: Mark Brown <broonie@kernel.org>
+To: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Mans Rullgard <mans@mansr.com>
+Cc: Pan Nan <pannan@allwinnertech.com>, Maxime Ripard <mripard@kernel.org>, 
+ linux-spi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+In-Reply-To: <20250410115303.5150-1-mans@mansr.com>
+References: <20250410115303.5150-1-mans@mansr.com>
+Subject: Re: [PATCH] spi: sun4i: add support for GPIO chip select lines
+Message-Id: <174464072481.99542.17446384569030524351.b4-ty@kernel.org>
+Date: Mon, 14 Apr 2025 15:25:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250410-dt-cpu-schema-v2-0-63d7dc9ddd0a@kernel.org>
- <20250410-dt-cpu-schema-v2-2-63d7dc9ddd0a@kernel.org> <0ce8559d-5c7d-43a0-8177-7704969fd334@gmail.com>
-In-Reply-To: <0ce8559d-5c7d-43a0-8177-7704969fd334@gmail.com>
-From: Rob Herring <robh@kernel.org>
-Date: Mon, 14 Apr 2025 08:12:47 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJi+8-WdYEyrGjb=cQXPEb07Lkcj90a32d38ChvYJAA-Q@mail.gmail.com>
-X-Gm-Features: ATxdqUHJKQLq2A74uSC_bdg-o7xbFw7BNZs9YlgJy-cREnL8L5s0aEVjMNnl6WA
-Message-ID: <CAL_JsqJi+8-WdYEyrGjb=cQXPEb07Lkcj90a32d38ChvYJAA-Q@mail.gmail.com>
-Subject: Re: [PATCH v2 02/17] arm64: dts: broadcom: bcm2712: Use "l2-cache"
- for L2 cache node names
-To: Florian Fainelli <f.fainelli@gmail.com>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Conor Dooley <conor@kernel.org>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Steen Hegelund <Steen.Hegelund@microchip.com>, Daniel Machon <daniel.machon@microchip.com>, 
-	UNGLinuxDriver@microchip.com, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Heiko Stuebner <heiko@sntech.de>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Andy Gross <agross@kernel.org>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Viresh Kumar <vireshk@kernel.org>, 
-	Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, zhouyanjie@wanyeetech.com, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
-	Stephan Gerhold <stephan.gerhold@linaro.org>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	imx@lists.linux.dev, linux-rockchip@lists.infradead.org, 
-	linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-pm@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, 
-	=?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-c25d1
 
-On Fri, Apr 11, 2025 at 6:37=E2=80=AFPM Florian Fainelli <f.fainelli@gmail.=
-com> wrote:
->
-> On 4/10/25 08:47, Rob Herring (Arm) wrote:
-> > There's no need include the CPU number in the L2 cache node names as
-> > the names are local to the CPU nodes. The documented node name is
-> > also just "l2-cache".
-> >
-> > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
->
-> Not sure how you had intended for me to pick up that patch without
-> copying the maintainers.
+On Thu, 10 Apr 2025 12:53:03 +0100, Mans Rullgard wrote:
+> Set use_gpio_descriptors to true so that GPIOs can be used for chip
+> select in accordance with the DT binding.
+> 
+> 
 
-Looks like there is a problem in MAINTAINERS. This matches what b4 runs:
+Applied to
 
-$ git show cca91c99fe14 | scripts/get_maintainer.pl --nogit
---nogit-fallback --nogit-chief-penguins --norolestats
-Rob Herring <robh@kernel.org>
-Krzysztof Kozlowski <krzk+dt@kernel.org>
-Conor Dooley <conor+dt@kernel.org>
-devicetree@vger.kernel.org
-linux-kernel@vger.kernel.org
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
+Thanks!
 
-> Applied nonetheless, thanks!
+[1/1] spi: sun4i: add support for GPIO chip select lines
+      commit: 36ff6c3f5084f2dbb6cd89d15b78cf734e9abfa6
 
-Thanks.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-Rob
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
