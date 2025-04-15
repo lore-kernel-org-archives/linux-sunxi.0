@@ -1,64 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 617932248AB;
-	Tue, 15 Apr 2025 21:56:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B19FF2528E1
+	for <linux-sunxi@lists.linux.dev>; Tue, 15 Apr 2025 23:06:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744754186; cv=none; b=MpeHY5yO335gL871qwJG0q4MmEDeeYoqq0kUKqY6YJh81u4VtFPoF5WhrQsnQ6m1nrfIR8KJvU+zMNUptQqihVMdEh8xhlCp9mhgo9DBkB/HHEPH+w+ymqr2m3WCqbzSF1pHcpYpiV7xknGBPFr10PnS3VVSZetazPJT+fXLcYg=
+	t=1744758405; cv=none; b=u83/mZyi6pwN15gqpsWj3DP5ThXlc5pCaMevipJnRkH1BtOa9DDxWsedDWj+ok7o0DFrCLSUa5XieGOUhprIGLcvu9FDCdt4QUo1pH+7mAole1Ujil1gzvjAcnDdnSdv0AILePcvGpPOsjGptLo3apFUWVdKFaoVTmkjy1zSK6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744754186; c=relaxed/simple;
-	bh=Vo/YKkJ/8t7MWgy4qvcqRwSc3jZbe8FFEUN84uQGTQM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ImoD8KCnTwcEQVTM8t8JQ07INLOD1Wizsv5TGJadEwwem9lKOSp/bqmLNCySlNgdK5k1hUl9oKgy4tkKyDoXpICDO1MUpjhNdLTj3cLXormWn/cCt5aT+Cemd0PEhw0yc2ThDeKR9LQJVJb3h3K3LkWzK3fKXzEYvQZeUweOaDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r2IDSzD6; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r2IDSzD6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EEFFC4CEE7;
-	Tue, 15 Apr 2025 21:56:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744754186;
-	bh=Vo/YKkJ/8t7MWgy4qvcqRwSc3jZbe8FFEUN84uQGTQM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=r2IDSzD6Kl5nwaZoIdLcD6+WF8g5Tmol0Ffd8tTdPEvmDuYHUNBw1OpU5UFDwATzk
-	 Zjx4aAYSKftDnaFVDbDnTRyCuBDgZkqDyPWyFXbYLlZ2Uk+NL4NheyqZ1fnMWs3Fwm
-	 xV2gmbhNDCKmID211P2qWYsl0MtDHx7ad3WFGp7nHhi+UGv+iK3FdrCr/zxWW27gF+
-	 pHWq+2EmLIg42/vj0cTNWCfR4FBqAU/Wwkfec9nhJCXdzmqWgsmMdOTB6q+xqz9QpU
-	 SCoLm0bHvqWPtQ0eTzp/xV2zQHyaL5kt1SY9kIvQ3is+C7Ld9dHGoD0kDUlyDv/1MA
-	 FLADkDwxK1Afw==
-Date: Tue, 15 Apr 2025 16:56:24 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
+	s=arc-20240116; t=1744758405; c=relaxed/simple;
+	bh=Z0748HkvcB4JD/wMW6S04ZaASEaXmWF1UzUpLXdaR38=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aLTPT5zl+3grGfdBNBZtegFa7Sy5BYR6ODzR4wi15wmb3HKw4OTs6SUdRdvyzoiGtdxcRi2t2Kheo5r7bH5tK6NlXv6Wc0fV+xsdJvV7wNBY9V5QwhPppLfsKtTt7HA0REZZwUSrmAcubd5ESDeB64PDIoyEW/LXev9KSTkIIyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9C10C1595;
+	Tue, 15 Apr 2025 16:06:39 -0700 (PDT)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 792AB3F59E;
+	Tue, 15 Apr 2025 16:06:40 -0700 (PDT)
+Date: Wed, 16 Apr 2025 00:05:41 +0100
+From: Andre Przywara <andre.przywara@arm.com>
 To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: samuel@sholland.org, linux-sunxi@lists.linux.dev, conor+dt@kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	krzk+dt@kernel.org, wens@csie.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 1/2] dt-bindings: arm: sunxi: Add Orange Pi 3 LTS board
-Message-ID: <174475418391.894498.2952286031502803448.robh@kernel.org>
-References: <20250413134318.66681-1-jernej.skrabec@gmail.com>
- <20250413134318.66681-2-jernej.skrabec@gmail.com>
+Cc: jagan@amarulasolutions.com, trini@konsulko.com, macromorgan@hotmail.com,
+ uwu@icenowy.me, u-boot@lists.denx.de, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 2/5] sunxi: H6: Remove useless DRAM timings parameter
+Message-ID: <20250416000523.6303b411@minigeek.lan>
+In-Reply-To: <20250411161439.4743-3-jernej.skrabec@gmail.com>
+References: <20250411161439.4743-1-jernej.skrabec@gmail.com>
+	<20250411161439.4743-3-jernej.skrabec@gmail.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250413134318.66681-2-jernej.skrabec@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Fri, 11 Apr 2025 18:14:36 +0200
+Jernej Skrabec <jernej.skrabec@gmail.com> wrote:
 
-On Sun, 13 Apr 2025 15:42:56 +0200, Jernej Skrabec wrote:
-> Orange Pi 3 LTS board is similar to Orange Pi 3, with slightly different
-> hardware but mostly same functionality. It has less options than
-> original variant. eMMC was optional before, now it's always included.
-> 2 GB RAM is now standard, previous variant also has 1 GB RAM version.
+> This is just cosmetic fix for later easier rework.
 > 
 > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> ---
->  Documentation/devicetree/bindings/arm/sunxi.yaml | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+
+Cheers,
+Andre
+
+> ---
+>  arch/arm/include/asm/arch-sunxi/dram_sun50i_h6.h | 2 +-
+>  arch/arm/mach-sunxi/dram_sun50i_h6.c             | 2 +-
+>  arch/arm/mach-sunxi/dram_timings/h6_ddr3_1333.c  | 2 +-
+>  arch/arm/mach-sunxi/dram_timings/h6_lpddr3.c     | 2 +-
+>  4 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/arch/arm/include/asm/arch-sunxi/dram_sun50i_h6.h b/arch/arm/include/asm/arch-sunxi/dram_sun50i_h6.h
+> index f0caecc807dd..f05a1845b32b 100644
+> --- a/arch/arm/include/asm/arch-sunxi/dram_sun50i_h6.h
+> +++ b/arch/arm/include/asm/arch-sunxi/dram_sun50i_h6.h
+> @@ -330,6 +330,6 @@ static inline int ns_to_t(int nanoseconds)
+>  	return DIV_ROUND_UP(ctrl_freq * nanoseconds, 1000);
+>  }
+>  
+> -void mctl_set_timing_params(struct dram_para *para);
+> +void mctl_set_timing_params(void);
+>  
+>  #endif /* _SUNXI_DRAM_SUN50I_H6_H */
+> diff --git a/arch/arm/mach-sunxi/dram_sun50i_h6.c b/arch/arm/mach-sunxi/dram_sun50i_h6.c
+> index e7862bd06ea3..0adbda756639 100644
+> --- a/arch/arm/mach-sunxi/dram_sun50i_h6.c
+> +++ b/arch/arm/mach-sunxi/dram_sun50i_h6.c
+> @@ -45,7 +45,7 @@ static bool mctl_core_init(struct dram_para *para)
+>  	switch (para->type) {
+>  	case SUNXI_DRAM_TYPE_LPDDR3:
+>  	case SUNXI_DRAM_TYPE_DDR3:
+> -		mctl_set_timing_params(para);
+> +		mctl_set_timing_params();
+>  		break;
+>  	default:
+>  		panic("Unsupported DRAM type!");
+> diff --git a/arch/arm/mach-sunxi/dram_timings/h6_ddr3_1333.c b/arch/arm/mach-sunxi/dram_timings/h6_ddr3_1333.c
+> index afe8e25c7f58..1ed46fed411f 100644
+> --- a/arch/arm/mach-sunxi/dram_timings/h6_ddr3_1333.c
+> +++ b/arch/arm/mach-sunxi/dram_timings/h6_ddr3_1333.c
+> @@ -37,7 +37,7 @@ static u32 mr_ddr3[7] = {
+>  };
+>  
+>  /* TODO: flexible timing */
+> -void mctl_set_timing_params(struct dram_para *para)
+> +void mctl_set_timing_params(void)
+>  {
+>  	struct sunxi_mctl_ctl_reg * const mctl_ctl =
+>  			(struct sunxi_mctl_ctl_reg *)SUNXI_DRAM_CTL0_BASE;
+> diff --git a/arch/arm/mach-sunxi/dram_timings/h6_lpddr3.c b/arch/arm/mach-sunxi/dram_timings/h6_lpddr3.c
+> index c243b574406d..c02f542c989f 100644
+> --- a/arch/arm/mach-sunxi/dram_timings/h6_lpddr3.c
+> +++ b/arch/arm/mach-sunxi/dram_timings/h6_lpddr3.c
+> @@ -16,7 +16,7 @@ static u32 mr_lpddr3[12] = {
+>  };
+>  
+>  /* TODO: flexible timing */
+> -void mctl_set_timing_params(struct dram_para *para)
+> +void mctl_set_timing_params(void)
+>  {
+>  	struct sunxi_mctl_ctl_reg * const mctl_ctl =
+>  			(struct sunxi_mctl_ctl_reg *)SUNXI_DRAM_CTL0_BASE;
 
