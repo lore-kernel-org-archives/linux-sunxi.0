@@ -1,118 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30BFB1B0412;
-	Tue, 15 Apr 2025 02:52:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 796B71991B2
+	for <linux-sunxi@lists.linux.dev>; Tue, 15 Apr 2025 10:16:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744685571; cv=none; b=q9a79mnJvkXSiwBZTQzLNXEpwp2ZcsDHw7pRIF0Sw/TA+L7fPa/QfTqsrDa3vaCcpogDMSzrhgoNrQtUpoL0I3BK9c50Dp0xsGfgAwYDalwWw01SMEOVIdtl2jJk0MuvtYAIfcU6L6/iHSVml+1KHm6lWMUoKsKa5OQJF1vmQ2o=
+	t=1744712203; cv=none; b=HK9czcnnFHzkZjBagsY9nH4ADWOzBedFHdyM47N86r8Q5evQ3JSlioIgaqemXa0TTh1VSOXJVyZva6Ze1z4gjqBXsGvcM6+z3frWwemCJZM7A6IDHPjJL/OCW/rMwgsZ9u2A4n/TlLSiY/r21extHTJz8mVT/ybTWD2s63NHIfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744685571; c=relaxed/simple;
-	bh=S7Tbw1ancnS17xgUm3xXxIxS9F8JptfwmG5wu66abzI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=okMMXCT+FpDgkFzG4te7v4ajjlk7YLouav/7YrnEgqmUNuln18a5eAhbfpq75KDVlYKr5jpLovznHD5bGcCUOf9dF4K3Zf8teGb/SGil8vIKruMEHNbXN/uvTbn+Mk27oTWbvoZIW8aDyehLoBXYC0CAlW71AGtx3trlzWRL6iQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J/FGjbrP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744712203; c=relaxed/simple;
+	bh=6UgR8EYxjI9b7ZbVJhG4JlxzUH+2P8uAlh0p81YuDP0=;
+	h=From:To:Cc:Subject:MIME-Version:Content-Disposition:Content-Type:
+	 Message-Id:Date; b=bjygsu5iM1JWj6EpnPs9VGqhHDDq5IA66MA4N28E1xdlIjajzTH3cvIGkrIEih5VX0UeXang3RV7JEtroedBTnBYIRsg3XvqXDivljaPqxu4ebsjOhB7Cdh+JhOoEM91gHSqWtweMM0QV3fwdRp07gFUPoFh+YTk8nv1pm57Lzk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=pBFYel6Z; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J/FGjbrP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDD8BC4CEF0;
-	Tue, 15 Apr 2025 02:52:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744685570;
-	bh=S7Tbw1ancnS17xgUm3xXxIxS9F8JptfwmG5wu66abzI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=J/FGjbrP7Ps3XNUKwsWzzHkZY95xSQCDX8olOmOvxlT1iR8OfpXsqVRk2+I8BhfvM
-	 jNKv/vl+F5DfRRUqSLuijvoU9lChcs+FYUWw5x5OB+/i6kjOMgcgpmQkbYb5L71jyZ
-	 zQjmeo69gXP6+BKQ7Oq6R1gyNQzC4Z+oxPciHVYcYnYiPQ2sX1/mzJ2zjyqHZ35T7U
-	 EAJwKKed5e8zZcYJyGBEdRcd7hP+xq60hv5l0SlXbh6uO7hp+IP45/wSfpNiUNUNNv
-	 hMREt00OicERarFeGV8p4FADAYRtbGx7z4sB8NJH0edzPYWnPRx13Sexa78HuowgtJ
-	 M1HqL+QTLN+qA==
-From: Bjorn Andersson <andersson@kernel.org>
-To: Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="pBFYel6Z"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Subject:Cc:To:From:Reply-To:Content-ID
+	:Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
+	Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=GSBt2MJMjAhzFPApeUUI2g2BMUd4P0q8zYxmPlvwJ4o=; b=pBFYel6ZhGCVZlhKkN/xfHKsko
+	tfy1jP7AXZCpn+Fv0iO3J+QH9y+fdv9ae4eyH3wZvouaDR0Q4rjtII3jx8b677GlXq0aQNvGe211F
+	jVo/Nxzpjkrj2sKzknLp358emVznhbUzkGmsG31BW7nQsrPEp3idj2VJtAt1YDKhRbLKu4Pu72WtC
+	o9aoZ9MOLjriuUdcfKgr39maOzwwWmvg4Q4GII5/ZpZ55MQ/nTOxe/WpgZ/CCmArF90EzKkqoua+k
+	stER9Yr1gqsBEbI4ujJWByZxkFbeTVelpbwTYNbCcFzXD+ObzhCSigsKRjCVi+UwMlHgJ+X9IoVsX
+	aGcvGTqw==;
+Received: from e0022681537dd.dyn.armlinux.org.uk ([fd8f:7570:feb6:1:222:68ff:fe15:37dd]:36516 helo=rmk-PC.armlinux.org.uk)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <rmk@armlinux.org.uk>)
+	id 1u4dLC-0007w1-1L;
+	Tue, 15 Apr 2025 11:16:30 +0100
+Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <rmk@rmk-PC.armlinux.org.uk>)
+	id 1u4dKb-000dV7-3B; Tue, 15 Apr 2025 11:15:53 +0100
+From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+To: Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
 	Chen-Yu Tsai <wens@csie.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Conor Dooley <conor@kernel.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Steen Hegelund <Steen.Hegelund@microchip.com>,
-	Daniel Machon <daniel.machon@microchip.com>,
-	UNGLinuxDriver@microchip.com,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Andy Gross <agross@kernel.org>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Viresh Kumar <vireshk@kernel.org>,
-	Nishanth Menon <nm@ti.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	zhouyanjie@wanyeetech.com,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Stephan Gerhold <stephan.gerhold@linaro.org>,
-	"Rob Herring (Arm)" <robh@kernel.org>
-Cc: devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
 	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-rockchip@lists.infradead.org,
-	linux-amlogic@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-mips@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	Andre Przywara <andre.przywara@arm.com>,
-	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>
-Subject: Re: (subset) [PATCH v2 00/17] Arm cpu schema clean-ups
-Date: Mon, 14 Apr 2025 21:52:40 -0500
-Message-ID: <174468553423.331095.11490981905578175154.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250410-dt-cpu-schema-v2-0-63d7dc9ddd0a@kernel.org>
-References: <20250410-dt-cpu-schema-v2-0-63d7dc9ddd0a@kernel.org>
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	netdev@vger.kernel.org,
+	Paolo Abeni <pabeni@redhat.com>,
+	Samuel Holland <samuel@sholland.org>
+Subject: [PATCH net-next] net: stmmac: sun8i: use stmmac_pltfr_probe()
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <E1u4dKb-000dV7-3B@rmk-PC.armlinux.org.uk>
+Sender: Russell King <rmk@armlinux.org.uk>
+Date: Tue, 15 Apr 2025 11:15:53 +0100
 
+Using stmmac_pltfr_probe() simplifies the probe function. This will not
+only call plat_dat->init (sun8i_dwmac_init), but also plat_dat->exit
+(sun8i_dwmac_exit) appropriately if stmmac_dvr_probe() fails. This
+results in an overall simplification of the glue driver.
 
-On Thu, 10 Apr 2025 10:47:21 -0500, Rob Herring (Arm) wrote:
-> The Arm cpu.yaml schema fails to restrict allowed properties in 'cpu'
-> nodes. The result, not surprisely, is a number of additional properties
-> and errors in .dts files. This series resolves those issues.
-> 
-> There's still more properties in arm32 DTS files which I have not
-> documented. Mostly yet more supply names and "fsl,soc-operating-points".
-> What's a few more warnings on the 10000s of warnings...
-> 
-> [...]
+Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+---
+ drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-Applied, thanks!
-
-[07/17] arm: dts: qcom: sdx55/sdx65: Fix CPU power-domain-names
-        commit: ae33b874fc81bfb60bdda5a350c0635f98e6d747
-
-Best regards,
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+index 85723a78793a..fd6518e252e3 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+@@ -1239,14 +1239,10 @@ static int sun8i_dwmac_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = sun8i_dwmac_init(pdev, plat_dat->bsp_priv);
++	ret = stmmac_pltfr_probe(pdev, plat_dat, &stmmac_res);
+ 	if (ret)
+ 		goto dwmac_syscon;
+ 
+-	ret = stmmac_dvr_probe(&pdev->dev, plat_dat, &stmmac_res);
+-	if (ret)
+-		goto dwmac_exit;
+-
+ 	ndev = dev_get_drvdata(&pdev->dev);
+ 	priv = netdev_priv(ndev);
+ 
+@@ -1283,9 +1279,7 @@ static int sun8i_dwmac_probe(struct platform_device *pdev)
+ 	clk_put(gmac->ephy_clk);
+ dwmac_remove:
+ 	pm_runtime_put_noidle(&pdev->dev);
+-	stmmac_dvr_remove(&pdev->dev);
+-dwmac_exit:
+-	sun8i_dwmac_exit(pdev, gmac);
++	stmmac_pltfr_remove(pdev);
+ dwmac_syscon:
+ 	sun8i_dwmac_unset_syscon(gmac);
+ 
 -- 
-Bjorn Andersson <andersson@kernel.org>
+2.30.2
+
