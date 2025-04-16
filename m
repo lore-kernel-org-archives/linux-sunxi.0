@@ -1,77 +1,80 @@
-Received: from mail-m49198.qiye.163.com (mail-m49198.qiye.163.com [45.254.49.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE9B723F40C
-	for <linux-sunxi@lists.linux.dev>; Wed, 16 Apr 2025 10:00:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.198
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DB2823536A
+	for <linux-sunxi@lists.linux.dev>; Wed, 16 Apr 2025 10:11:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744797624; cv=none; b=iYY5SEmH9vQ8sn0XnwDOgEXAGJtyT2ZWkh+MzjxF0LyD2M5RIT1Cn60rzkpXohBaeFpy6GEeciaiSiUbv7oNFOZU8qSrqE9I0LXbqh0tLAlC4VnNOKJlrH2eU3WdV7/XE37hWBbQvItpZOaWBUITqU1r939b2gi61g5nwvpAZvA=
+	t=1744798287; cv=none; b=Zvzvv6kIMy9kIO0EC0LvCn6SFF/ljG213PeVjlhwvb5eLZmWnTmKwvyGefhY4yatNkPGWSqG8QBER2CEv9HjPqw807tH9iVRREip11hhN4EmN07cVsExcqlzksPInzWGsgvc/opBwr7Ag9xsqH4tKIv0I6GUppeLwbLc7B92F/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744797624; c=relaxed/simple;
-	bh=kGN2aD857pJDb+H3nbziFSBMmHeAQay5/PvA7Ob7aBw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=PMG2kclxI2HrTUyQgNpr1oT0DR5+J9fFxgN0/nawAUANX/IJpAcJf1jtdk5ysAORxJ1/EjZ4UFeOjr+8D26wEPBaAJxr2IZk5D/ZP6VgknzIkLy7e0qe1uTq3uVHPihwYmVH+xMqTu76R35+c6wI9u/cNwJ564aSpjrddu8jDGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jmu.edu.cn; spf=pass smtp.mailfrom=jmu.edu.cn; arc=none smtp.client-ip=45.254.49.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jmu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jmu.edu.cn
-Received: from localhost.localdomain (unknown [119.122.214.249])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 1215c4861;
-	Wed, 16 Apr 2025 18:00:10 +0800 (GMT+08:00)
-From: Chukun Pan <amadeus@jmu.edu.cn>
-To: Chen-Yu Tsai <wens@csie.org>
-Cc: Rob Herring <robh@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	devicetree@vger.kernel.org,
-	Chukun Pan <amadeus@jmu.edu.cn>
-Subject: [PATCH 1/1] arm64: dts: allwinner: correct the model name for Radxa Cubie A5E
-Date: Wed, 16 Apr 2025 18:00:06 +0800
-Message-Id: <20250416100006.82920-1-amadeus@jmu.edu.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1744798287; c=relaxed/simple;
+	bh=bPoeZDmonHWLDSTPwGCwozvXf49O//btsCfxc1EAQs4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qcZ3+k7ZHfulZvOjBGlL8oprq83u0+ql+nu76an41uQOjfh2abuRRaiKsPx4s0bs/VPeNILhVlqnyj0Hjk8sxAohA4pzC98KPG6UIFyhlGM970MG+dlMY5ZhwTvaVw09nex4wLixki/+TyndQWK62UUw/vf7HIOwUlpwoTCJcnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3DA5D152B;
+	Wed, 16 Apr 2025 03:11:23 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 867EE3F694;
+	Wed, 16 Apr 2025 03:11:23 -0700 (PDT)
+Date: Wed, 16 Apr 2025 11:11:18 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Chukun Pan <amadeus@jmu.edu.cn>
+Cc: Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>, <linux-sunxi@lists.linux.dev>,
+ <devicetree@vger.kernel.org>
+Subject: Re: [PATCH 1/1] arm64: dts: allwinner: correct the model name for
+ Radxa Cubie A5E
+Message-ID: <20250416111118.2afd8f89@donnerap.manchester.arm.com>
+In-Reply-To: <20250416100006.82920-1-amadeus@jmu.edu.cn>
+References: <20250416100006.82920-1-amadeus@jmu.edu.cn>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZHkkfVh0fS05DTUxPGkhCH1YeHw5VEwETFhoSFy
-	QUDg9ZV1kYEgtZQVlKSkJVSklJVUlKT1VJT0JZV1kWGg8SFR0UWUFZS1VLVUtVS1kG
-X-HM-Tid: 0a963e0ab3c903a2kunm1215c4861
-X-HM-MType: 10
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Njo6Sgw4DzICGhM0OTkPDiwo
-	KjdPCkNVSlVKTE9PTEJMTUpJSUpJVTMWGhIXVRoWGh8eDgg7ERYOVR4fDlUYFUVZV1kSC1lBWUpK
-	QlVKSUlVSUpPVUlPQllXWQgBWUFKTEpJNwY+
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-According to https://radxa.com/products/cubie/a5e,
-the name of this board should be "Radxa Cubie A5E".
-This is also consistent with the dt-bindings.
+On Wed, 16 Apr 2025 18:00:06 +0800
+Chukun Pan <amadeus@jmu.edu.cn> wrote:
 
-Fixes: 80e0fb4e491b ("arm64: dts: allwinner: a523: add Radxa A5E support")
-Signed-off-by: Chukun Pan <amadeus@jmu.edu.cn>
----
- arch/arm64/boot/dts/allwinner/sun55i-a527-radxa-a5e.dts | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> According to https://radxa.com/products/cubie/a5e,
+> the name of this board should be "Radxa Cubie A5E".
+> This is also consistent with the dt-bindings.
+> 
+> Fixes: 80e0fb4e491b ("arm64: dts: allwinner: a523: add Radxa A5E support")
+> Signed-off-by: Chukun Pan <amadeus@jmu.edu.cn>
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a527-radxa-a5e.dts b/arch/arm64/boot/dts/allwinner/sun55i-a527-radxa-a5e.dts
-index 912e1bda974c..03c9a9ef5adc 100644
---- a/arch/arm64/boot/dts/allwinner/sun55i-a527-radxa-a5e.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun55i-a527-radxa-a5e.dts
-@@ -8,7 +8,7 @@
- #include <dt-bindings/gpio/gpio.h>
- 
- / {
--	model = "Radxa A5E";
-+	model = "Radxa Cubie A5E";
- 	compatible = "radxa,cubie-a5e", "allwinner,sun55i-a527";
- 
- 	aliases {
--- 
-2.25.1
+Indeed, thanks for sending a patch!
+
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+
+Cheers,
+Andre
+
+> ---
+>  arch/arm64/boot/dts/allwinner/sun55i-a527-radxa-a5e.dts | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a527-radxa-a5e.dts b/arch/arm64/boot/dts/allwinner/sun55i-a527-radxa-a5e.dts
+> index 912e1bda974c..03c9a9ef5adc 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun55i-a527-radxa-a5e.dts
+> +++ b/arch/arm64/boot/dts/allwinner/sun55i-a527-radxa-a5e.dts
+> @@ -8,7 +8,7 @@
+>  #include <dt-bindings/gpio/gpio.h>
+>  
+>  / {
+> -	model = "Radxa A5E";
+> +	model = "Radxa Cubie A5E";
+>  	compatible = "radxa,cubie-a5e", "allwinner,sun55i-a527";
+>  
+>  	aliases {
 
