@@ -1,337 +1,669 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 288061EFFB4
-	for <linux-sunxi@lists.linux.dev>; Wed, 16 Apr 2025 15:01:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51F541AF0AE
+	for <linux-sunxi@lists.linux.dev>; Wed, 16 Apr 2025 16:30:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744815714; cv=none; b=B1cxyR7vy79WWXpTOjeEue3b2Vi5DwcWmrxtL1N18MAWVm8rhuNhxEXXZ5liJ8caQJ0JwwkdxYcbo6yKSOci7cDacVjg1PJ1tSEu9nMweLhYvb31JZjrDgXkejxiqm2YRVOirZ0j99Wmw5qkwEOBOBjzSN3OB2G5h7PA5NLRe+k=
+	t=1744821049; cv=none; b=rNF36yFCcXQN+JhD4N1gahuo9eSf2nojbJlJBchzg3Qn1O/SWyYMOKndK41Rvk++3/QtLWQsDO1TEf06MFqvklxQC6Y74ixtCKaqh238Atn2NXVqkpsRgRi/OQoYwTRFntMVyC/6tI058w4OMXHZd9qWCTrwCFUJ+rJs8OHzs1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744815714; c=relaxed/simple;
-	bh=EuG4cI7tkGPfXlD2E3oHBytMj0EmaXZJU53+wAWDb58=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LiKk55uNh8z2L9Bgnt6xexsCo2FcBM5HaYAq3u3h4anvcCQs21WvGNY8ySdteTaj0n8iixRM0WXCnaXQJImn8PZ0WkRLp0qJYX0Mg6rsTqIBN0uRKth8ohayV3HAM00azDQ8t4eJBFXnGSnAzydSqaiKjwxsJs0AFBvY3BtJmgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 497501595;
-	Wed, 16 Apr 2025 08:01:49 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 124A63F66E;
-	Wed, 16 Apr 2025 08:01:48 -0700 (PDT)
-Date: Wed, 16 Apr 2025 16:01:46 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, David
- Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Boris
- Brezillon <boris.brezillon@collabora.com>, Steven Price
- <steven.price@arm.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-pm@vger.kernel.org
-Subject: Re: [PATCH 2/5] pmdomain: sunxi: add H6 PRCM PPU driver
-Message-ID: <20250416160146.5338e791@donnerap.manchester.arm.com>
-In-Reply-To: <CAPDyKFqne4VLemkkgS948whoNm4pOdvp_CCJ4SSBJOBzt9k2Nw@mail.gmail.com>
-References: <20250221005802.11001-1-andre.przywara@arm.com>
-	<20250221005802.11001-3-andre.przywara@arm.com>
-	<CAPDyKFqne4VLemkkgS948whoNm4pOdvp_CCJ4SSBJOBzt9k2Nw@mail.gmail.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1744821049; c=relaxed/simple;
+	bh=SCb13XGxxzPgNCZcuvUHxJ7yuGiruyaSpXlyqSkYPtk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NJKqjUUHEWSnvzemH2xGTJ23+8HiB4wwcTzy1vf0E5uyNmZnYVurYurKFIPiJqZAIzzcQhlq245B+Ic4HEF3F5pkEVSh8A8imq43dYMpRnYA4co0q+ZkVrJEGfuc+7w+tSg+qxh3I/u1YNa+qz+Niih45I2Yb/Xnu+h3JZgN+Lo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QaXv/te9; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QaXv/te9"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-38f2f391864so4235836f8f.3
+        for <linux-sunxi@lists.linux.dev>; Wed, 16 Apr 2025 09:30:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744821045; x=1745425845; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YKFlAPudsuz5dNBwkEvxa3b1wkVcUwtLBvTINOyLBqA=;
+        b=QaXv/te9J5sHUheR0XEHlUoHFyPABQ3uBCPRhA/5SjluFnhm6bNzTdUmU0UCRuP2e1
+         vxtyAez6cYHpafmMdLjHFllzaKBEkDI5l5GQ4Kn3rlIMEFYtVRs54I8mAgjRtQ51oaxo
+         j+RHHdT3WHCt41fD4w+90PyRnx2jbKpScjvp3e4uJnNlx9JvBm+nGZfvDNBfaI5yGDNn
+         2Wq8fzXR5E4vPdu0jTPe8pkfQji6ZCx/4/G6u7E1hFhe6mkTehaVBAEKnPT61fmOcg6d
+         z+dcwR1xLVhyTUCc9I7CQ0FAoOKSPc08UhjsLK9nOTiFDzBWdXpyq6HTznxraz1EGGfU
+         GBhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744821045; x=1745425845;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YKFlAPudsuz5dNBwkEvxa3b1wkVcUwtLBvTINOyLBqA=;
+        b=Ks15O7pVailC2Ln1rnvMHt9b033OImZuPoYxkOs505Wzh/TkbJnnEmcLr8GR0YhlaZ
+         1X0NU5QUtEWOi+wsYieeJcwfjcjYl9oiKQFcpcIYnxCXMk3y/4uJmmUNMQHvwUEZcTKi
+         1HUClZjMkaE4XfId/SbriBNd5gmluVnDSxS+jc5qeQ8g9OV1vkxueWcWhoYazVwmnTCw
+         FX0Mco+L6HSwh1Kz65C3tIshOlr9djIQChk1R26gHgIBcWyLQGmik2/Gg2NnILNZ0pMy
+         AlbLFOUjZIzr3AxRvEYIJ8BtKueL78Ww6uhbowAPJCxO7mTkrw41FRzzDp786TfJ8i+A
+         wgEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVNiY+Y/RydkyCLRhkpYiJGpvgeaqzZOFFcr659/tWj5IDFxZ0bWmxsjhqa9PVYYSO6VmXFXPik8WTiUw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywlp5lHAt1q7WykEpObgmS7RAK1WJZdCr0vFtlR5U5W6kpDYLPq
+	VM8oi+Ki1e3QguXkNnq64f8UfQFpNVmnZcbvxC3pC5Ve8S4AfvC5
+X-Gm-Gg: ASbGncs/ZILiImKntl3mdNix3S4euZkRy60OCB7A7caaYNfqLoEoGzVbHmCd/BH4dJ4
+	ClorbP/+iMiTSCBs02dt4UEXX/xrAgODgNGGkJhUgX4xBbKB1ORQ2b+khKHDP6SY2Myvw8KGVnp
+	83tAEBpejLF1k6FiFBbuiH13sfYNBYMLf7v8xYsBU4YeiFqyaF+6xN3YtZ2bU3BFokYmAHzR4oU
+	cAigWoOdbTuWe7yQVydkU+b82VzXeRdB8VhxH4w9wymfkvK4TWfwxFfeGRiF8UduzvBru439e8O
+	R2nZawvVIV8AI0rIy/XuEWdOXKkMeMbIH+48RawpJZ5SKVVkA9+/OcnpK3CAxIu6+RDrpbfqQj/
+	bUcub6JZcioRyElfS
+X-Google-Smtp-Source: AGHT+IGB+Xu6HxgWBpW1dknqn4U7Y3tB3nAW4cMTP2KU3IiHERyjLU0FyI5biJKH04XK/toNh2PNGQ==
+X-Received: by 2002:a5d:47cc:0:b0:39c:e14:cd70 with SMTP id ffacd0b85a97d-39ee5b37f25mr2677853f8f.34.1744821045059;
+        Wed, 16 Apr 2025 09:30:45 -0700 (PDT)
+Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4405b4c8263sm26033505e9.4.2025.04.16.09.30.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Apr 2025 09:30:44 -0700 (PDT)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: jagan@amarulasolutions.com, trini@konsulko.com, macromorgan@hotmail.com,
+ uwu@icenowy.me, u-boot@lists.denx.de, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 5/5] sunxi: h6/h616: Reuse common DRAM infrastructure
+Date: Wed, 16 Apr 2025 18:30:43 +0200
+Message-ID: <12645199.O9o76ZdvQC@jernej-laptop>
+In-Reply-To: <20250416003942.12d13ee4@minigeek.lan>
+References:
+ <20250411161439.4743-1-jernej.skrabec@gmail.com>
+ <20250411161439.4743-6-jernej.skrabec@gmail.com>
+ <20250416003942.12d13ee4@minigeek.lan>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On Thu, 27 Feb 2025 23:43:29 +0100
-Ulf Hansson <ulf.hansson@linaro.org> wrote:
+Dne sreda, 16. april 2025 ob 01:40:04 Srednjeevropski poletni =C4=8Das je A=
+ndre Przywara napisal(a):
+> On Fri, 11 Apr 2025 18:14:39 +0200
+> Jernej Skrabec <jernej.skrabec@gmail.com> wrote:
+>=20
+> Hi Jernej,
+>=20
+> > H616 rank and size detection code is superior to the H6. Nevertheless,
+> > they are structurally the same. Split functions from H616 into new file
+> > and reuse them in H6 DRAM driver too. This should also fix some bugs for
+> > H6 too, like incorrect DRAM size detection.
+>=20
+> that's a nice patch, but actually breaks on my Pine H64:
+>=20
+> U-Boot SPL 2025.04-01089-g14694431269f (Apr 15 2025 - 22:55:07 +0100)
+> DRAM:DRAM init failed: Can't detect number of columns!
+> resetting ...
+>=20
+> It's none of the previous H6 reworks that causes the problem, but it's
+> actually already in the current code somehow: If I apply the equivalent
+> of [PATCH 1/5] to the H6 code, it already complains. Replacing the
+> panic with a printf() gives me (on mainline):
+>=20
+> U-Boot SPL 2025.04-01085-g7a43fe97dc86-dirty (Apr 15 2025 - 23:48:42 +010=
+0)
+> DRAM:detected 14 rows (found=3D1)
+> detected 11 columns (found=3D0)
+>  2048 MiB
+> Trying to boot from FEL
+> NOTICE:  BL31: v2.12.0(debug):v2.12.0-724-gf745e004a
+>    < continues booting >
+>=20
+> So it seems like the match failed, but apparently 11 columns are correct =
+anyway.
+> And since the same happens after this patch, I assume that even the
+> newer and better matching routine doesn't change that, unfortunately.
+>=20
+> The config on this board is: 2 ranks, full width, 11 cols, 14 rows =3D> 2=
+GB.
+> And that seems to work (in Linux).
+> It's a single chip Elpida FA232A2MA JD-F, listed by Micron as
+> EDFA232A2MA-JD-F-D, though I couldn't find a datasheet quickly.
 
-Hi Ulf,
+Thanks for testing! It looks like it's best just to drop first patch in the
+series. 11 columns is for sure valid. Not that sure about 17 rows, but
+better leave it as is.
 
-sorry for the delay, I actually changed to code according to your comments
-back then already, just now find time to come back to this.
+What do you think?
 
-> On Fri, 21 Feb 2025 at 02:00, Andre Przywara <andre.przywara@arm.com> wrote:
-> >
-> > The Allwinner Power Reset Clock Management (RPCM) block contains a few
-> > bits that control some power domains. The most prominent one is the one
-> > for the Mali GPU. On the Allwinner H6 this domain is enabled at reset, so
-> > we didn't care about it so far, but the H616 defaults to it being disabled.
-> >
-> > Add a power domain driver for those bits. Some BSP code snippets and
-> > some spare documentation describe three bits, slightly different between
-> > the H6 and H616, so add three power domains for each SoC, connected to
-> > their compatible string.
-> >
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Best regards,
+Jernej
+
+>=20
+> Cheers,
+> Andre
+>=20
+> > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 > > ---
-> >  drivers/pmdomain/sunxi/Kconfig              |  10 +
-> >  drivers/pmdomain/sunxi/Makefile             |   1 +
-> >  drivers/pmdomain/sunxi/sun50i-h6-prcm-ppu.c | 191 ++++++++++++++++++++
-> >  3 files changed, 202 insertions(+)
-> >  create mode 100644 drivers/pmdomain/sunxi/sun50i-h6-prcm-ppu.c
-> >
-> > diff --git a/drivers/pmdomain/sunxi/Kconfig b/drivers/pmdomain/sunxi/Kconfig
-> > index 17781bf8d86d7..43eecb3ea9819 100644
-> > --- a/drivers/pmdomain/sunxi/Kconfig
-> > +++ b/drivers/pmdomain/sunxi/Kconfig
-> > @@ -8,3 +8,13 @@ config SUN20I_PPU
-> >         help
-> >           Say y to enable the PPU power domain driver. This saves power
-> >           when certain peripherals, such as the video engine, are idle.
-> > +
-> > +config SUN50I_H6_PRCM_PPU
-> > +       tristate "Allwinner H6 PRCM power domain driver"
-> > +       depends on ARCH_SUNXI || COMPILE_TEST
-> > +       depends on PM
-> > +       select PM_GENERIC_DOMAINS
-> > +       help
-> > +         Say y to enable the Allwinner H6/H616 PRCM power domain driver.
-> > +         This is required to enable the Mali GPU in the H616 SoC, it is
-> > +         optional for the H6.
-> > diff --git a/drivers/pmdomain/sunxi/Makefile b/drivers/pmdomain/sunxi/Makefile
-> > index ec1d7a2fb21db..c1343e1237599 100644
-> > --- a/drivers/pmdomain/sunxi/Makefile
-> > +++ b/drivers/pmdomain/sunxi/Makefile
-> > @@ -1,2 +1,3 @@
-> >  # SPDX-License-Identifier: GPL-2.0-only
-> >  obj-$(CONFIG_SUN20I_PPU)               += sun20i-ppu.o
-> > +obj-$(CONFIG_SUN50I_H6_PRCM_PPU)       += sun50i-h6-prcm-ppu.o
-> > diff --git a/drivers/pmdomain/sunxi/sun50i-h6-prcm-ppu.c b/drivers/pmdomain/sunxi/sun50i-h6-prcm-ppu.c
+> >  .../include/asm/arch-sunxi/dram_dw_helpers.h  |  22 +++
+> >  arch/arm/mach-sunxi/Makefile                  |   4 +-
+> >  arch/arm/mach-sunxi/dram_dw_helpers.c         | 160 ++++++++++++++++++
+> >  arch/arm/mach-sunxi/dram_sun50i_h6.c          |  91 +---------
+> >  arch/arm/mach-sunxi/dram_sun50i_h616.c        | 155 +----------------
+> >  5 files changed, 190 insertions(+), 242 deletions(-)
+> >  create mode 100644 arch/arm/include/asm/arch-sunxi/dram_dw_helpers.h
+> >  create mode 100644 arch/arm/mach-sunxi/dram_dw_helpers.c
+> >=20
+> > diff --git a/arch/arm/include/asm/arch-sunxi/dram_dw_helpers.h b/arch/a=
+rm/include/asm/arch-sunxi/dram_dw_helpers.h
 > > new file mode 100644
-> > index 0000000000000..1c6b0c78b222d
+> > index 000000000000..bc9e0d868c55
 > > --- /dev/null
-> > +++ b/drivers/pmdomain/sunxi/sun50i-h6-prcm-ppu.c
-> > @@ -0,0 +1,191 @@
-> > +// SPDX-License-Identifier: GPL-2.0-only
+> > +++ b/arch/arm/include/asm/arch-sunxi/dram_dw_helpers.h
+> > @@ -0,0 +1,22 @@
+> > +/* SPDX-License-Identifier: GPL-2.0+ */
 > > +/*
-> > + * Copyright (C) Arm Ltd. 2024
+> > + * Helpers that are commonly used with DW memory controller.
 > > + *
-> > + * Allwinner H6/H616 PRCM power domain driver.
-> > + * This covers a few registers inside the PRCM (Power Reset Clock Management)
-> > + * block that control some power rails, most prominently for the Mali GPU.
+> > + * (C) Copyright 2025 Jernej Skrabec <jernej.skrabec@gmail.com>
+> > + *
 > > + */
 > > +
-> > +#include <linux/bitfield.h>
-> > +#include <linux/clk.h>
-> > +#include <linux/io.h>
-> > +#include <linux/iopoll.h>
-> > +#include <linux/module.h>
-> > +#include <linux/of.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/pm_domain.h>
-> > +#include <linux/reset.h>
+> > +#ifndef _DRAM_DW_HELPERS_H
+> > +#define _DRAM_DW_HELPERS_H
 > > +
+> > +#include <asm/arch/dram.h>
+> > +
+> > +bool mctl_core_init(const struct dram_para *para,
+> > +		    const struct dram_config *config);
+> > +void mctl_auto_detect_rank_width(const struct dram_para *para,
+> > +				 struct dram_config *config);
+> > +void mctl_auto_detect_dram_size(const struct dram_para *para,
+> > +				struct dram_config *config);
+> > +unsigned long mctl_calc_size(const struct dram_config *config);
+> > +
+> > +#endif
+> > diff --git a/arch/arm/mach-sunxi/Makefile b/arch/arm/mach-sunxi/Makefile
+> > index eb6a49119a13..a33cd5b0f07a 100644
+> > --- a/arch/arm/mach-sunxi/Makefile
+> > +++ b/arch/arm/mach-sunxi/Makefile
+> > @@ -41,8 +41,8 @@ obj-$(CONFIG_DRAM_SUN9I)	+=3D dram_sun9i.o
+> >  obj-$(CONFIG_SPL_SPI_SUNXI)	+=3D spl_spi_sunxi.o
+> >  obj-$(CONFIG_SUNXI_DRAM_DW)	+=3D dram_sunxi_dw.o
+> >  obj-$(CONFIG_SUNXI_DRAM_DW)	+=3D dram_timings/
+> > -obj-$(CONFIG_DRAM_SUN50I_H6)	+=3D dram_sun50i_h6.o
+> > +obj-$(CONFIG_DRAM_SUN50I_H6)	+=3D dram_sun50i_h6.o dram_dw_helpers.o
+> >  obj-$(CONFIG_DRAM_SUN50I_H6)	+=3D dram_timings/
+> > -obj-$(CONFIG_DRAM_SUN50I_H616)	+=3D dram_sun50i_h616.o
+> > +obj-$(CONFIG_DRAM_SUN50I_H616)	+=3D dram_sun50i_h616.o dram_dw_helpers=
+=2Eo
+> >  obj-$(CONFIG_DRAM_SUN50I_H616)	+=3D dram_timings/
+> >  endif
+> > diff --git a/arch/arm/mach-sunxi/dram_dw_helpers.c b/arch/arm/mach-sunx=
+i/dram_dw_helpers.c
+> > new file mode 100644
+> > index 000000000000..885d1f2c0b12
+> > --- /dev/null
+> > +++ b/arch/arm/mach-sunxi/dram_dw_helpers.c
+> > @@ -0,0 +1,160 @@
+> > +// SPDX-License-Identifier: GPL-2.0+
 > > +/*
-> > + * The PRCM block covers multiple devices, starting with some clocks,
-> > + * then followed by the power rails.
-> > + * The clocks are covered by a different driver, so this driver's MMIO range
-> > + * starts later in the PRCM MMIO frame, not at the beginning of it.
-> > + * To keep the register offsets consistent with other PRCM documentation,
-> > + * express the registers relative to the beginning of the whole PRCM, and
-> > + * subtract the PPU offset this driver is bound to.
+> > + * Helpers that are commonly used with DW memory controller.
+> > + *
+> > + * (C) Copyright 2025 Jernej Skrabec <jernej.skrabec@gmail.com>
+> > + *
 > > + */
-> > +#define PD_H6_PPU_OFFSET               0x250
-> > +#define PD_H6_VDD_SYS_REG              0x250
-> > +#define PD_H616_ANA_VDD_GATE                   BIT(4)
-> > +#define PD_H6_CPUS_VDD_GATE                    BIT(3)
-> > +#define PD_H6_AVCC_VDD_GATE                    BIT(2)
-> > +#define PD_H6_GPU_REG                  0x254
-> > +#define PD_H6_GPU_GATE                         BIT(0)
 > > +
-> > +struct sun50i_h6_ppu_pd {
-> > +       struct generic_pm_domain        genpd;
-> > +       void __iomem                    *reg;
-> > +       u32                             gate_mask;
-> > +       bool                            negated;
-> > +};
+> > +#include <init.h>
+> > +#include <asm/arch/dram_dw_helpers.h>
 > > +
-> > +#define FLAG_PPU_ALWAYS_ON     BIT(0)
-> > +#define FLAG_PPU_NEGATED       BIT(1)
-> > +
-> > +struct sun50i_h6_ppu_desc {
-> > +       const char *name;
-> > +       u32 offset;
-> > +       u32 mask;
-> > +       unsigned int flags;
-> > +};
-> > +
-> > +struct sun50i_h6_ppu_desc sun50i_h6_ppus[] = {
-> > +       { "AVCC", PD_H6_VDD_SYS_REG, PD_H6_AVCC_VDD_GATE },
-> > +       { "CPUS", PD_H6_VDD_SYS_REG, PD_H6_CPUS_VDD_GATE },
-> > +       { "GPU", PD_H6_GPU_REG, PD_H6_GPU_GATE },
-> > +       {}
-> > +};  
-> 
-> I suggest we define a new struct (perhaps sun50_domain_data!?) that
-> has a struct sun50i_h6_ppu_desc* member along with a size_t member to
-> keep the number of the domains, set by using ARRAY_SIZE().
-> 
-> In this way we don't need the additional NULL domain at the end - and
-> we can also avoid looping through the array during probe  to count
-> them.
-
-OK, I implemented it that way, indeed removes the need for the extra
-iteration of all entries.
-
-> > +
-> > +struct sun50i_h6_ppu_desc sun50i_h616_ppus[] = {
-> > +       { "PLL", PD_H6_VDD_SYS_REG, PD_H6_AVCC_VDD_GATE,
-> > +               FLAG_PPU_ALWAYS_ON | FLAG_PPU_NEGATED },
-> > +       { "ANA", PD_H6_VDD_SYS_REG, PD_H616_ANA_VDD_GATE, FLAG_PPU_ALWAYS_ON },
-> > +       { "GPU", PD_H6_GPU_REG, PD_H6_GPU_GATE, FLAG_PPU_NEGATED },
-> > +       {}
-> > +};
-> > +#define to_sun50i_h6_ppu_pd(_genpd) \
-> > +       container_of(_genpd, struct sun50i_h6_ppu_pd, genpd)
-> > +
-> > +static bool sun50i_h6_ppu_power_status(const struct sun50i_h6_ppu_pd *pd)
+> > +void mctl_auto_detect_rank_width(const struct dram_para *para,
+> > +				 struct dram_config *config)
 > > +{
-> > +       bool bit = readl(pd->reg) & pd->gate_mask;
+> > +	/* this is minimum size that it's supported */
+> > +	config->cols =3D 8;
+> > +	config->rows =3D 13;
 > > +
-> > +       return bit ^ pd->negated;
+> > +	/*
+> > +	 * Strategy here is to test most demanding combination first and least
+> > +	 * demanding last, otherwise HW might not be fully utilized. For
+> > +	 * example, half bus width and rank =3D 1 combination would also work
+> > +	 * on HW with full bus width and rank =3D 2, but only 1/4 RAM would be
+> > +	 * visible.
+> > +	 */
+> > +
+> > +	debug("testing 32-bit width, rank =3D 2\n");
+> > +	config->bus_full_width =3D 1;
+> > +	config->ranks =3D 2;
+> > +	if (mctl_core_init(para, config))
+> > +		return;
+> > +
+> > +	debug("testing 32-bit width, rank =3D 1\n");
+> > +	config->bus_full_width =3D 1;
+> > +	config->ranks =3D 1;
+> > +	if (mctl_core_init(para, config))
+> > +		return;
+> > +
+> > +	debug("testing 16-bit width, rank =3D 2\n");
+> > +	config->bus_full_width =3D 0;
+> > +	config->ranks =3D 2;
+> > +	if (mctl_core_init(para, config))
+> > +		return;
+> > +
+> > +	debug("testing 16-bit width, rank =3D 1\n");
+> > +	config->bus_full_width =3D 0;
+> > +	config->ranks =3D 1;
+> > +	if (mctl_core_init(para, config))
+> > +		return;
+> > +
+> > +	panic("This DRAM setup is currently not supported.\n");
 > > +}
 > > +
-> > +static int sun50i_h6_ppu_pd_set_power(const struct sun50i_h6_ppu_pd *pd,
-> > +                                     bool set_bit)
+> > +static void mctl_write_pattern(void)
 > > +{
-> > +       u32 reg = readl(pd->reg);
+> > +	unsigned int i;
+> > +	u32 *ptr, val;
 > > +
-> > +       if (set_bit)
-> > +               writel(reg | pd->gate_mask, pd->reg);
-> > +       else
-> > +               writel(reg & ~pd->gate_mask, pd->reg);
-> > +
-> > +       return 0;
+> > +	ptr =3D (u32 *)CFG_SYS_SDRAM_BASE;
+> > +	for (i =3D 0; i < 16; ptr++, i++) {
+> > +		if (i & 1)
+> > +			val =3D ~(ulong)ptr;
+> > +		else
+> > +			val =3D (ulong)ptr;
+> > +		writel(val, ptr);
+> > +	}
 > > +}
 > > +
-> > +static int sun50i_h6_ppu_pd_power_on(struct generic_pm_domain *genpd)
+> > +static bool mctl_check_pattern(ulong offset)
 > > +{
-> > +       const struct sun50i_h6_ppu_pd *pd = to_sun50i_h6_ppu_pd(genpd);
+> > +	unsigned int i;
+> > +	u32 *ptr, val;
 > > +
-> > +       return sun50i_h6_ppu_pd_set_power(pd, !pd->negated);
+> > +	ptr =3D (u32 *)CFG_SYS_SDRAM_BASE;
+> > +	for (i =3D 0; i < 16; ptr++, i++) {
+> > +		if (i & 1)
+> > +			val =3D ~(ulong)ptr;
+> > +		else
+> > +			val =3D (ulong)ptr;
+> > +		if (val !=3D *(ptr + offset / 4))
+> > +			return false;
+> > +	}
+> > +
+> > +	return true;
 > > +}
 > > +
-> > +static int sun50i_h6_ppu_pd_power_off(struct generic_pm_domain *genpd)
+> > +void mctl_auto_detect_dram_size(const struct dram_para *para,
+> > +				struct dram_config *config)
 > > +{
-> > +       const struct sun50i_h6_ppu_pd *pd = to_sun50i_h6_ppu_pd(genpd);
+> > +	unsigned int shift, cols, rows, found;
+> > +	u32 buffer[16];
 > > +
-> > +       return sun50i_h6_ppu_pd_set_power(pd, pd->negated);
+> > +	/* max. config for columns, but not rows */
+> > +	config->cols =3D 11;
+> > +	config->rows =3D 13;
+> > +	mctl_core_init(para, config);
+> > +
+> > +	/*
+> > +	 * Store content so it can be restored later. This is important
+> > +	 * if controller was already initialized and holds any data
+> > +	 * which is important for restoring system.
+> > +	 */
+> > +	memcpy(buffer, (u32 *)CFG_SYS_SDRAM_BASE, sizeof(buffer));
+> > +
+> > +	mctl_write_pattern();
+> > +
+> > +	shift =3D config->bus_full_width + 1;
+> > +
+> > +	/* detect column address bits */
+> > +	found =3D 0;
+> > +	for (cols =3D 8; cols < 11; cols++) {
+> > +		if (mctl_check_pattern(1ULL << (cols + shift))) {
+> > +			found =3D 1;
+> > +			break;
+> > +		}
+> > +	}
+> > +	if (!found)
+> > +		panic("DRAM init failed: Can't detect number of columns!");
+> > +	debug("detected %u columns\n", cols);
+> > +
+> > +	/* restore data */
+> > +	memcpy((u32 *)CFG_SYS_SDRAM_BASE, buffer, sizeof(buffer));
+> > +
+> > +	/* reconfigure to make sure that all active rows are accessible */
+> > +	config->cols =3D 8;
+> > +	config->rows =3D 17;
+> > +	mctl_core_init(para, config);
+> > +
+> > +	/* store data again as it might be moved */
+> > +	memcpy(buffer, (u32 *)CFG_SYS_SDRAM_BASE, sizeof(buffer));
+> > +
+> > +	mctl_write_pattern();
+> > +
+> > +	/* detect row address bits */
+> > +	shift =3D config->bus_full_width + 4 + config->cols;
+> > +	found =3D 0;
+> > +	for (rows =3D 13; rows < 17; rows++) {
+> > +		if (mctl_check_pattern(1ULL << (rows + shift))) {
+> > +			found =3D 1;
+> > +			break;
+> > +		}
+> > +	}
+> > +	if (!found)
+> > +		panic("DRAM init failed: Can't detect number of rows!");
+> > +	debug("detected %u rows\n", rows);
+> > +
+> > +	/* restore data again */
+> > +	memcpy((u32 *)CFG_SYS_SDRAM_BASE, buffer, sizeof(buffer));
+> > +
+> > +	config->cols =3D cols;
+> > +	config->rows =3D rows;
 > > +}
 > > +
-> > +static int sun50i_h6_ppu_probe(struct platform_device *pdev)
+> > +unsigned long mctl_calc_size(const struct dram_config *config)
 > > +{
-> > +       struct device *dev = &pdev->dev;
-> > +       struct genpd_onecell_data *ppu;
-> > +       struct sun50i_h6_ppu_pd *pds;
-> > +       const struct sun50i_h6_ppu_desc *desc;
-> > +       void __iomem *base;
-> > +       int ret, i, count;
+> > +	u8 width =3D config->bus_full_width ? 4 : 2;
 > > +
-> > +       desc = of_device_get_match_data(dev);
-> > +       if (!desc)
-> > +               return -EINVAL;
-> > +
-> > +       for (count = 0; desc[count].name; count++)
-> > +               ;
-> > +
-> > +       pds = devm_kcalloc(dev, count, sizeof(*pds), GFP_KERNEL);
-> > +       if (!pds)
-> > +               return -ENOMEM;
-> > +
-> > +       ppu = devm_kzalloc(dev, sizeof(*ppu), GFP_KERNEL);
-> > +       if (!ppu)
-> > +               return -ENOMEM;
-> > +
-> > +       ppu->num_domains = count;
-> > +       ppu->domains = devm_kcalloc(dev, count, sizeof(*ppu->domains),
-> > +                                   GFP_KERNEL);
-> > +       if (!ppu->domains)
-> > +               return -ENOMEM;
-> > +
-> > +       platform_set_drvdata(pdev, ppu);
-> > +
-> > +       base = devm_platform_ioremap_resource(pdev, 0);
-> > +       if (IS_ERR(base))
-> > +               return PTR_ERR(base);
-> > +
-> > +       for (i = 0; i < count; i++) {
-> > +               struct sun50i_h6_ppu_pd *pd = &pds[i];
-> > +
-> > +               pd->genpd.name          = desc[i].name;
-> > +               pd->genpd.power_off     = sun50i_h6_ppu_pd_power_off;
-> > +               pd->genpd.power_on      = sun50i_h6_ppu_pd_power_on;
-> > +               if (desc[i].flags & FLAG_PPU_ALWAYS_ON)
-> > +                       pd->genpd.flags = GENPD_FLAG_ALWAYS_ON;
-> > +               pd->negated             = !!(desc[i].flags & FLAG_PPU_NEGATED);
-> > +               pd->reg                 = base + desc[i].offset - PD_H6_PPU_OFFSET;
-> > +               pd->gate_mask           = desc[i].mask;
-> > +
-> > +               ret = pm_genpd_init(&pd->genpd, NULL,
-> > +                                   !sun50i_h6_ppu_power_status(pd));
-> > +               if (ret) {
-> > +                       dev_warn(dev, "Failed to add GPU power domain: %d\n", ret);
-> > +                       return ret;
-> > +               }
-> > +               ppu->domains[i] = &pd->genpd;
-> > +       }
-> > +
-> > +       ret = of_genpd_add_provider_onecell(dev->of_node, ppu);
-> > +       if (ret)
-> > +               dev_warn(dev, "Failed to add provider: %d\n", ret);  
-> 
-> If of_genpd_add_provider_onecell() fails, shouldn't we remove the
-> genpds in the error path?
-
-Ah, good point, I was put off by the name "init" in pm_genpd_init(), but I
-see that it does an allocation in there, so would need to be paired with
-the remove on the error path.
-I also added a goto to deal with a failed init in the middle of the loop
-above, so that it cleans up the already registered genpds.
-I tested this lightly by faking an error return for the 3rd
-pm_genpd_init() call, and seeing the other genpds being cleaned up.
-
-So thanks for your comments and the heads up, v2 incoming.
-
-Cheers,
-Andre
-
-> > +
-> > +       return 0;
+> > +	/* 8 banks */
+> > +	return (1ULL << (config->cols + config->rows + 3)) * width * config->=
+ranks;
 > > +}
-> > +
-> > +static const struct of_device_id sun50i_h6_ppu_of_match[] = {
-> > +       { .compatible   = "allwinner,sun50i-h6-prcm-ppu",
-> > +         .data         = &sun50i_h6_ppus },
-> > +       { .compatible   = "allwinner,sun50i-h616-prcm-ppu",
-> > +         .data         = &sun50i_h616_ppus },
-> > +       { }
-> > +};
-> > +MODULE_DEVICE_TABLE(of, sun50i_h6_ppu_of_match);
-> > +
-> > +static struct platform_driver sun50i_h6_ppu_driver = {
-> > +       .probe  = sun50i_h6_ppu_probe,
-> > +       .driver = {
-> > +               .name                   = "sun50i-h6-prcm-ppu",
-> > +               .of_match_table         = sun50i_h6_ppu_of_match,
-> > +               /* Power domains cannot be removed while they are in use. */
-> > +               .suppress_bind_attrs    = true,
-> > +       },
-> > +};
-> > +module_platform_driver(sun50i_h6_ppu_driver);
-> > +
-> > +MODULE_AUTHOR("Andre Przywara <andre.przywara@arm.com>");
-> > +MODULE_DESCRIPTION("Allwinner H6 PRCM power domain driver");
-> > +MODULE_LICENSE("GPL");
-> > --
-> > 2.46.3
-> >  
-> 
-> Kind regards
-> Uffe
+> > diff --git a/arch/arm/mach-sunxi/dram_sun50i_h6.c b/arch/arm/mach-sunxi=
+/dram_sun50i_h6.c
+> > index 6a9e53f965eb..fbb865131e08 100644
+> > --- a/arch/arm/mach-sunxi/dram_sun50i_h6.c
+> > +++ b/arch/arm/mach-sunxi/dram_sun50i_h6.c
+> > @@ -10,6 +10,7 @@
+> >  #include <asm/io.h>
+> >  #include <asm/arch/clock.h>
+> >  #include <asm/arch/dram.h>
+> > +#include <asm/arch/dram_dw_helpers.h>
+> >  #include <asm/arch/cpu.h>
+> >  #include <asm/arch/prcm.h>
+> >  #include <linux/bitops.h>
+> > @@ -40,8 +41,8 @@ static void mctl_com_init(const struct dram_para *par=
+a,
+> >  static bool mctl_channel_init(const struct dram_para *para,
+> >  			      const struct dram_config *config);
+> > =20
+> > -static bool mctl_core_init(const struct dram_para *para,
+> > -			   const struct dram_config *config)
+> > +bool mctl_core_init(const struct dram_para *para,
+> > +		    const struct dram_config *config)
+> >  {
+> >  	mctl_sys_init(para->clk);
+> >  	mctl_com_init(para, config);
+> > @@ -560,92 +561,6 @@ static bool mctl_channel_init(const struct dram_pa=
+ra *para,
+> >  	return true;
+> >  }
+> > =20
+> > -static void mctl_auto_detect_rank_width(const struct dram_para *para,
+> > -					struct dram_config *config)
+> > -{
+> > -	/* this is minimum size that it's supported */
+> > -	config->cols =3D 8;
+> > -	config->rows =3D 13;
+> > -
+> > -	/*
+> > -	 * Previous versions of this driver tried to auto detect the rank
+> > -	 * and width by looking at controller registers. However this proved
+> > -	 * to be not reliable, so this approach here is the more robust
+> > -	 * solution. Check the git history for details.
+> > -	 *
+> > -	 * Strategy here is to test most demanding combination first and least
+> > -	 * demanding last, otherwise HW might not be fully utilized. For
+> > -	 * example, half bus width and rank =3D 1 combination would also work
+> > -	 * on HW with full bus width and rank =3D 2, but only 1/4 RAM would be
+> > -	 * visible.
+> > -	 */
+> > -
+> > -	debug("testing 32-bit width, rank =3D 2\n");
+> > -	config->bus_full_width =3D 1;
+> > -	config->ranks =3D 2;
+> > -	if (mctl_core_init(para, config))
+> > -		return;
+> > -
+> > -	debug("testing 32-bit width, rank =3D 1\n");
+> > -	config->bus_full_width =3D 1;
+> > -	config->ranks =3D 1;
+> > -	if (mctl_core_init(para, config))
+> > -		return;
+> > -
+> > -	debug("testing 16-bit width, rank =3D 2\n");
+> > -	config->bus_full_width =3D 0;
+> > -	config->ranks =3D 2;
+> > -	if (mctl_core_init(para, config))
+> > -		return;
+> > -
+> > -	debug("testing 16-bit width, rank =3D 1\n");
+> > -	config->bus_full_width =3D 0;
+> > -	config->ranks =3D 1;
+> > -	if (mctl_core_init(para, config))
+> > -		return;
+> > -
+> > -	panic("This DRAM setup is currently not supported.\n");
+> > -}
+> > -
+> > -static void mctl_auto_detect_dram_size(const struct dram_para *para,
+> > -				       struct dram_config *config)
+> > -{
+> > -	/* TODO: non-(LP)DDR3 */
+> > -
+> > -	/* detect row address bits */
+> > -	config->cols =3D 8;
+> > -	config->rows =3D 18;
+> > -	mctl_core_init(para, config);
+> > -
+> > -	for (config->rows =3D 13; config->rows < 18; config->rows++) {
+> > -		/* 8 banks, 8 bit per byte and 16/32 bit width */
+> > -		if (mctl_mem_matches((1 << (config->rows + config->cols +
+> > -					    4 + config->bus_full_width))))
+> > -			break;
+> > -	}
+> > -
+> > -	/* detect column address bits */
+> > -	config->cols =3D 11;
+> > -	mctl_core_init(para, config);
+> > -
+> > -	for (config->cols =3D 8; config->cols < 11; config->cols++) {
+> > -		/* 8 bits per byte and 16/32 bit width */
+> > -		if (mctl_mem_matches(1 << (config->cols + 1 +
+> > -					   config->bus_full_width)))
+> > -			break;
+> > -	}
+> > -}
+> > -
+> > -unsigned long mctl_calc_size(const struct dram_config *config)
+> > -{
+> > -	u8 width =3D config->bus_full_width ? 4 : 2;
+> > -
+> > -	/* TODO: non-(LP)DDR3 */
+> > -
+> > -	/* 8 banks */
+> > -	return (1ULL << (config->cols + config->rows + 3)) * width * config->=
+ranks;
+> > -}
+> > -
+> >  #define SUN50I_H6_LPDDR3_DX_WRITE_DELAYS			\
+> >  	{{  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 },	\
+> >  	 {  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 },	\
+> > diff --git a/arch/arm/mach-sunxi/dram_sun50i_h616.c b/arch/arm/mach-sun=
+xi/dram_sun50i_h616.c
+> > index d1768a7e7d3a..80d9de557876 100644
+> > --- a/arch/arm/mach-sunxi/dram_sun50i_h616.c
+> > +++ b/arch/arm/mach-sunxi/dram_sun50i_h616.c
+> > @@ -17,6 +17,7 @@
+> >  #include <asm/io.h>
+> >  #include <asm/arch/clock.h>
+> >  #include <asm/arch/dram.h>
+> > +#include <asm/arch/dram_dw_helpers.h>
+> >  #include <asm/arch/cpu.h>
+> >  #include <asm/arch/prcm.h>
+> >  #include <linux/bitops.h>
+> > @@ -1310,164 +1311,14 @@ static bool mctl_ctrl_init(const struct dram_p=
+ara *para,
+> >  	return true;
+> >  }
+> > =20
+> > -static bool mctl_core_init(const struct dram_para *para,
+> > -			   const struct dram_config *config)
+> > +bool mctl_core_init(const struct dram_para *para,
+> > +		    const struct dram_config *config)
+> >  {
+> >  	mctl_sys_init(para->clk);
+> > =20
+> >  	return mctl_ctrl_init(para, config);
+> >  }
+> > =20
+> > -static void mctl_auto_detect_rank_width(const struct dram_para *para,
+> > -					struct dram_config *config)
+> > -{
+> > -	/* this is minimum size that it's supported */
+> > -	config->cols =3D 8;
+> > -	config->rows =3D 13;
+> > -
+> > -	/*
+> > -	 * Strategy here is to test most demanding combination first and least
+> > -	 * demanding last, otherwise HW might not be fully utilized. For
+> > -	 * example, half bus width and rank =3D 1 combination would also work
+> > -	 * on HW with full bus width and rank =3D 2, but only 1/4 RAM would be
+> > -	 * visible.
+> > -	 */
+> > -
+> > -	debug("testing 32-bit width, rank =3D 2\n");
+> > -	config->bus_full_width =3D 1;
+> > -	config->ranks =3D 2;
+> > -	if (mctl_core_init(para, config))
+> > -		return;
+> > -
+> > -	debug("testing 32-bit width, rank =3D 1\n");
+> > -	config->bus_full_width =3D 1;
+> > -	config->ranks =3D 1;
+> > -	if (mctl_core_init(para, config))
+> > -		return;
+> > -
+> > -	debug("testing 16-bit width, rank =3D 2\n");
+> > -	config->bus_full_width =3D 0;
+> > -	config->ranks =3D 2;
+> > -	if (mctl_core_init(para, config))
+> > -		return;
+> > -
+> > -	debug("testing 16-bit width, rank =3D 1\n");
+> > -	config->bus_full_width =3D 0;
+> > -	config->ranks =3D 1;
+> > -	if (mctl_core_init(para, config))
+> > -		return;
+> > -
+> > -	panic("This DRAM setup is currently not supported.\n");
+> > -}
+> > -
+> > -static void mctl_write_pattern(void)
+> > -{
+> > -	unsigned int i;
+> > -	u32 *ptr, val;
+> > -
+> > -	ptr =3D (u32 *)CFG_SYS_SDRAM_BASE;
+> > -	for (i =3D 0; i < 16; ptr++, i++) {
+> > -		if (i & 1)
+> > -			val =3D ~(ulong)ptr;
+> > -		else
+> > -			val =3D (ulong)ptr;
+> > -		writel(val, ptr);
+> > -	}
+> > -}
+> > -
+> > -static bool mctl_check_pattern(ulong offset)
+> > -{
+> > -	unsigned int i;
+> > -	u32 *ptr, val;
+> > -
+> > -	ptr =3D (u32 *)CFG_SYS_SDRAM_BASE;
+> > -	for (i =3D 0; i < 16; ptr++, i++) {
+> > -		if (i & 1)
+> > -			val =3D ~(ulong)ptr;
+> > -		else
+> > -			val =3D (ulong)ptr;
+> > -		if (val !=3D *(ptr + offset / 4))
+> > -			return false;
+> > -	}
+> > -
+> > -	return true;
+> > -}
+> > -
+> > -static void mctl_auto_detect_dram_size(const struct dram_para *para,
+> > -				       struct dram_config *config)
+> > -{
+> > -	unsigned int shift, cols, rows, found;
+> > -	u32 buffer[16];
+> > -
+> > -	/* max. config for columns, but not rows */
+> > -	config->cols =3D 11;
+> > -	config->rows =3D 13;
+> > -	mctl_core_init(para, config);
+> > -
+> > -	/*
+> > -	 * Store content so it can be restored later. This is important
+> > -	 * if controller was already initialized and holds any data
+> > -	 * which is important for restoring system.
+> > -	 */
+> > -	memcpy(buffer, (u32 *)CFG_SYS_SDRAM_BASE, sizeof(buffer));
+> > -
+> > -	mctl_write_pattern();
+> > -
+> > -	shift =3D config->bus_full_width + 1;
+> > -
+> > -	/* detect column address bits */
+> > -	found =3D 0;
+> > -	for (cols =3D 8; cols < 11; cols++) {
+> > -		if (mctl_check_pattern(1ULL << (cols + shift))) {
+> > -			found =3D 1;
+> > -			break;
+> > -		}
+> > -	}
+> > -	if (!found)
+> > -		panic("DRAM init failed: Can't detect number of columns!");
+> > -	debug("detected %u columns\n", cols);
+> > -
+> > -	/* restore data */
+> > -	memcpy((u32 *)CFG_SYS_SDRAM_BASE, buffer, sizeof(buffer));
+> > -
+> > -	/* reconfigure to make sure that all active rows are accessible */
+> > -	config->cols =3D 8;
+> > -	config->rows =3D 17;
+> > -	mctl_core_init(para, config);
+> > -
+> > -	/* store data again as it might be moved */
+> > -	memcpy(buffer, (u32 *)CFG_SYS_SDRAM_BASE, sizeof(buffer));
+> > -
+> > -	mctl_write_pattern();
+> > -
+> > -	/* detect row address bits */
+> > -	shift =3D config->bus_full_width + 4 + config->cols;
+> > -	found =3D 0;
+> > -	for (rows =3D 13; rows < 17; rows++) {
+> > -		if (mctl_check_pattern(1ULL << (rows + shift))) {
+> > -			found =3D 1;
+> > -			break;
+> > -		}
+> > -	}
+> > -	if (!found)
+> > -		panic("DRAM init failed: Can't detect number of rows!");
+> > -	debug("detected %u rows\n", rows);
+> > -
+> > -	/* restore data again */
+> > -	memcpy((u32 *)CFG_SYS_SDRAM_BASE, buffer, sizeof(buffer));
+> > -
+> > -	config->cols =3D cols;
+> > -	config->rows =3D rows;
+> > -}
+> > -
+> > -static unsigned long mctl_calc_size(const struct dram_config *config)
+> > -{
+> > -	u8 width =3D config->bus_full_width ? 4 : 2;
+> > -
+> > -	/* 8 banks */
+> > -	return (1ULL << (config->cols + config->rows + 3)) * width * config->=
+ranks;
+> > -}
+> > -
+> >  static const struct dram_para para =3D {
+> >  	.clk =3D CONFIG_DRAM_CLK,
+> >  #ifdef CONFIG_SUNXI_DRAM_H616_DDR3_1333
+>=20
+>=20
+
+
+
 
