@@ -1,36 +1,53 @@
-Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11B278836
-	for <linux-sunxi@lists.linux.dev>; Thu, 17 Apr 2025 04:11:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E050E17332C;
+	Thu, 17 Apr 2025 07:16:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.6.53.87
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744863063; cv=none; b=Fkn4iZP2XS6A3WMZgXl+A6myexsYntnC4HEA+aairbSuTbfLqzCYGQ/cctBjPltWYsJxHJ+/8nE3GN8vXLWycq7ZaDsYbcsapmTqt2qIOAqEgW452WGec9eHz8fKIZTYJhImUE98C+C5MlRktUZGpMBnOhVsmZwGL0keRN6dFfk=
+	t=1744874175; cv=none; b=ZLr++3v6Y7F/Xvrg7lTs2lcyqL6u+DVaKvCVhY2vaD6x2AsvKjqabTqX02+dBk5hxW61OpuPyWjtJIJsCgciSHoxLEI/ApjouRIJSZt+vOF1AhZCvz8UZy8dEq1RGroub89VH29RaFwhKsmVZHbS0p2i5mNUhCeCbOYnZXWo3+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744863063; c=relaxed/simple;
-	bh=nP7vJaLq646Bbonu2sdlzrRYYgyMuqN688tDxuxuddI=;
+	s=arc-20240116; t=1744874175; c=relaxed/simple;
+	bh=wbY+xCAceps6BiEokx5mZ7TV1N/5MDzo2KtlsYlwDgg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pEBJKUucnIB4KJjiYX56jKONzROHFOCNL24gx1OBW06jE2z1ZLlkdshDqStK9t2A0H/ahhzoD+arysCnqS2YIk55+ODGqw6ZWN6ROJiVysJYjkZUEjZPGHeDazTHnbw500vyKuxk7tNTZ1w4EWf49TfvwudoPL4i0MhEc0ZUbWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-Received: from localhost (unknown [116.232.27.72])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: dlan)
-	by smtp.gentoo.org (Postfix) with ESMTPSA id CE87B343128;
-	Thu, 17 Apr 2025 04:11:00 +0000 (UTC)
-Date: Thu, 17 Apr 2025 04:10:55 +0000
-From: Yixun Lan <dlan@gentoo.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Jagan Teki <jagan@amarulasolutions.com>, u-boot@lists.denx.de,
-	Tom Rini <trini@konsulko.com>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=sPtS3tbGpxfZE8eJy4q9Fph2FDmjKo85qMQf9pWaf/CyNOEuzELVpro3eY4eb2wfMuuqSx8C1kbtH2Kf4Mdnh3ImFHVFqL1Lg/uyvfPhvxegMmiY2Z5JMhxhRsw73MJkvT/UfnWY89/Tgifw1Oqzio8C5t8krXsqEn67T+J5Ej4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b=TnnsifGl; arc=none smtp.client-ip=144.6.53.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b="TnnsifGl"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hmeau.com;
+	s=formenos; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=LlDCp6AVu7/4JZIeTdq8YPdA+butgXVNGLgdY4CoYJE=; b=TnnsifGlQXhpunXm1BJ+lpeUIA
+	v55zJ0pnZgqNnA5zFfYCTIVtitGIlGBqT7z9ZX0xiWW488rM2WnD9Aw/R58FDG0yNbMRp1voPxfK5
+	MF4dAf2iwJkr59IcbHLXyZr/dBiDYRGc0qWI4rkx2LVdw1PTpAggRW6HFRusG1GzFQmbK0dQ/Xcvx
+	LYIPI7QcSkkx+H0OALZThzAI5xVLmJ1pwQy0QzeqFEbmDqiTmEKp3S1+suGizN1mCJ6Vqw/X8+cMw
+	S52iCk9YRpp6WAy9IJNQJWLd/KQHb76zhhph91l/j1+s1RPJ0yrYJTB7bz+jIugUmVgyIp608kXEz
+	ajkSv+nQ==;
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
+	id 1u5JTg-00GP9A-21;
+	Thu, 17 Apr 2025 15:16:05 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Thu, 17 Apr 2025 15:16:04 +0800
+Date: Thu, 17 Apr 2025 15:16:04 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
+Cc: linux-crypto@vger.kernel.org, davem@davemloft.net,
+	linux-kernel@vger.kernel.org,
+	Corentin Labbe <clabbe.montjoie@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 0/3] sunxi: add "fake" FEL button feature
-Message-ID: <20250417041055-GYC34332@gentoo>
-References: <20250417000539.3709-1-andre.przywara@arm.com>
+	Samuel Holland <samuel@sholland.org>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 3/4] crypto: sun8i-ss - use API helpers to setup fallback
+ request
+Message-ID: <aACqtBnAJD-3Txey@gondor.apana.org.au>
+References: <20250407123604.2109561-1-ovidiu.panait.oss@gmail.com>
+ <20250407123604.2109561-3-ovidiu.panait.oss@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -39,52 +56,27 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250417000539.3709-1-andre.przywara@arm.com>
+In-Reply-To: <20250407123604.2109561-3-ovidiu.panait.oss@gmail.com>
 
-On 01:05 Thu 17 Apr     , Andre Przywara wrote:
-> Some boards with Allwinner SoCs feature a "FEL" key, sometimes also
-> labelled "uboot", which allows to easily enter the BootROM FEL mode, when
-> pressed upon power-on or reset. This allows to access the USB-OTG boot
-> protocol, for convenient access to memory and uploading code.
+On Mon, Apr 07, 2025 at 03:36:03PM +0300, Ovidiu Panait wrote:
+> Rather than setting up the fallback request by hand, use
+> ahash_request_set_callback() and ahash_request_set_crypt() API helpers
+> to properly setup the new request.
 > 
-> Add a software emulation of this functionality for boards without a button
-> connected to this special SoC pin, to give easy FEL access to more
-> boards. Any GPIO can be used, as long as the button uses active-low
-> logic.
+> This also ensures that the completion callback is properly passed down
+> to the fallback algorithm, which avoids a crash with async fallbacks.
 > 
-> This is used on the X96 Mate TV box, where the hidden "update" button is
-> actually just some GPIO, checked by the vendor firmware.
-> 
-> Please have a look!
-> 
-for the series
+> Signed-off-by: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
+> ---
+> Cc: Corentin Labbe <clabbe.montjoie@gmail.com>
+> Cc: Chen-Yu Tsai <wens@csie.org>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Samuel Holland <samuel@sholland.org>
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-sunxi@lists.linux.dev
 
-Tested-by: Yixun Lan <dlan@gentoo.org> # On A527 SoC
-Reviewed-by: Yixun Lan <dlan@gentoo.org>
-
-> Cheers,
-> Andre
-> 
-> Changelog v1 .. v2:
-> - add patch to fix return_to_fel() prototype
-> - document signal needs to be active-low
-> - activate internal pull-up resistors
-> - add patch to activate button on the X96 Mate TV box
-> 
-> Andre Przywara (3):
->   sunxi: fix return_to_fel() prototype
->   sunxi: add "fake" FEL pin support
->   sunxi: x96_mate: Add "fake" FEL key definition
-> 
->  arch/arm/include/asm/arch-sunxi/sys_proto.h |  4 +--
->  arch/arm/mach-sunxi/Kconfig                 | 10 +++++++
->  arch/arm/mach-sunxi/board.c                 | 31 +++++++++++++++++++++
->  configs/x96_mate_defconfig                  |  1 +
->  4 files changed, 44 insertions(+), 2 deletions(-)
-> 
-> -- 
-> 2.46.3
-> 
-
+Patch applied.  Thanks.
 -- 
-Yixun Lan (dlan)
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
