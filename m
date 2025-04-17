@@ -1,53 +1,73 @@
-Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E050E17332C;
-	Thu, 17 Apr 2025 07:16:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.6.53.87
+Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C475E74BED;
+	Thu, 17 Apr 2025 14:25:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744874175; cv=none; b=ZLr++3v6Y7F/Xvrg7lTs2lcyqL6u+DVaKvCVhY2vaD6x2AsvKjqabTqX02+dBk5hxW61OpuPyWjtJIJsCgciSHoxLEI/ApjouRIJSZt+vOF1AhZCvz8UZy8dEq1RGroub89VH29RaFwhKsmVZHbS0p2i5mNUhCeCbOYnZXWo3+Q=
+	t=1744899935; cv=none; b=JZG3r/ux3vKQFjpUILNNWUgTXg21GPkrePJZ6b/fM9yJz/GJ4HPazc9t005KvaFzzSuQSgfRS8qkEQCGynAFsn96uHBBOgpa53q4aHyCe/rylqPw0rAg8xmUha2QEB9952aNq/JNAHo335Rea6f4NZvQzW8FiPzS7jbg2cVgipU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744874175; c=relaxed/simple;
-	bh=wbY+xCAceps6BiEokx5mZ7TV1N/5MDzo2KtlsYlwDgg=;
+	s=arc-20240116; t=1744899935; c=relaxed/simple;
+	bh=/HJPLJW7CBCK1J9D/Tt5sZhelJYUDsDIjSLUZbWv1OE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sPtS3tbGpxfZE8eJy4q9Fph2FDmjKo85qMQf9pWaf/CyNOEuzELVpro3eY4eb2wfMuuqSx8C1kbtH2Kf4Mdnh3ImFHVFqL1Lg/uyvfPhvxegMmiY2Z5JMhxhRsw73MJkvT/UfnWY89/Tgifw1Oqzio8C5t8krXsqEn67T+J5Ej4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b=TnnsifGl; arc=none smtp.client-ip=144.6.53.87
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
+	 Content-Type:Content-Disposition:In-Reply-To; b=tMAmpL19lJ0uYNbNAdSjf8ah3jglHC7zM8ZOHNxNkFoH4G9j++8QuP2SrocplVKsEijf8Uub/mA3tCWTZxfEL4HNFXg3+Ylhn9uHZ82GHwZrlJxJFDl/ptOqn6Vhrl2DVJhgv3aHP/rW9NfXSCi3BtNNHzz0OZzP2QAWeUs80Sg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=EuElz7+Q; arc=none smtp.client-ip=85.214.250.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b="TnnsifGl"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hmeau.com;
-	s=formenos; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=LlDCp6AVu7/4JZIeTdq8YPdA+butgXVNGLgdY4CoYJE=; b=TnnsifGlQXhpunXm1BJ+lpeUIA
-	v55zJ0pnZgqNnA5zFfYCTIVtitGIlGBqT7z9ZX0xiWW488rM2WnD9Aw/R58FDG0yNbMRp1voPxfK5
-	MF4dAf2iwJkr59IcbHLXyZr/dBiDYRGc0qWI4rkx2LVdw1PTpAggRW6HFRusG1GzFQmbK0dQ/Xcvx
-	LYIPI7QcSkkx+H0OALZThzAI5xVLmJ1pwQy0QzeqFEbmDqiTmEKp3S1+suGizN1mCJ6Vqw/X8+cMw
-	S52iCk9YRpp6WAy9IJNQJWLd/KQHb76zhhph91l/j1+s1RPJ0yrYJTB7bz+jIugUmVgyIp608kXEz
-	ajkSv+nQ==;
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
-	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
-	id 1u5JTg-00GP9A-21;
-	Thu, 17 Apr 2025 15:16:05 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Thu, 17 Apr 2025 15:16:04 +0800
-Date: Thu, 17 Apr 2025 15:16:04 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
-Cc: linux-crypto@vger.kernel.org, davem@davemloft.net,
-	linux-kernel@vger.kernel.org,
-	Corentin Labbe <clabbe.montjoie@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>,
+	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="EuElz7+Q"
+Received: from 8bytes.org (p4ffe03ae.dip0.t-ipconnect.de [79.254.3.174])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.8bytes.org (Postfix) with ESMTPSA id E900D485FD;
+	Thu, 17 Apr 2025 16:25:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
+	s=default; t=1744899931;
+	bh=/HJPLJW7CBCK1J9D/Tt5sZhelJYUDsDIjSLUZbWv1OE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EuElz7+Qx317T37R6Xk86MhTtQwxCkmp7UHTFVuhPJMl9k8WUHkrpkhEHjiIIU05a
+	 HAzRnmkgmL+RUvIuZioUKw7Vlp9fZaCDnvU3iA4vVdaEZsHSVM/0fMzv6HIRkOKA1H
+	 chS5VzHsAK7xJzIE/CfhOd0QMQq1TCQw4LQUF9XGapf525Y1ufDPhOH9Vvq34bzNc5
+	 NoIPQRHmnCzb7eL4G8h21D64hMj6oM4CkSXYLdrD78OqxWTP5I/Jl8OmL36GnsK76B
+	 +iNsSxMcEukAqjZx3Ur+ZnLAflFKwuDuR6GXgtRCL8p4ZN1N1sjzsv0I5KMogrNGV2
+	 EkNWoKRqfm8Eg==
+Date: Thu, 17 Apr 2025 16:25:29 +0200
+From: Joerg Roedel <joro@8bytes.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Alexandre Ghiti <alex@ghiti.fr>, Alim Akhtar <alim.akhtar@samsung.com>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev,
+	David Woodhouse <dwmw2@infradead.org>,
+	Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
+	Janne Grunau <j@jannau.net>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Neal Gompa <neal@gompa.dev>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Robin Murphy <robin.murphy@arm.com>,
 	Samuel Holland <samuel@sholland.org>,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 3/4] crypto: sun8i-ss - use API helpers to setup fallback
- request
-Message-ID: <aACqtBnAJD-3Txey@gondor.apana.org.au>
-References: <20250407123604.2109561-1-ovidiu.panait.oss@gmail.com>
- <20250407123604.2109561-3-ovidiu.panait.oss@gmail.com>
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Sven Peter <sven@svenpeter.dev>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Tomasz Jeznach <tjeznach@rivosinc.com>,
+	Krishna Reddy <vdumpa@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
+	Will Deacon <will@kernel.org>,
+	Alejandro Jimenez <alejandro.j.jimenez@oracle.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <jroedel@suse.de>,
+	Nicolin Chen <nicolinc@nvidia.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
+	David Rientjes <rientjes@google.com>,
+	Mostafa Saleh <smostafa@google.com>,
+	Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v4 00/23] iommu: Further abstract iommu-pages
+Message-ID: <aAEPWXaBocqgsvbR@8bytes.org>
+References: <0-v4-c8663abbb606+3f7-iommu_pages_jgg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -56,27 +76,37 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250407123604.2109561-3-ovidiu.panait.oss@gmail.com>
+In-Reply-To: <0-v4-c8663abbb606+3f7-iommu_pages_jgg@nvidia.com>
 
-On Mon, Apr 07, 2025 at 03:36:03PM +0300, Ovidiu Panait wrote:
-> Rather than setting up the fallback request by hand, use
-> ahash_request_set_callback() and ahash_request_set_crypt() API helpers
-> to properly setup the new request.
-> 
-> This also ensures that the completion callback is properly passed down
-> to the fallback algorithm, which avoids a crash with async fallbacks.
-> 
-> Signed-off-by: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
-> ---
-> Cc: Corentin Labbe <clabbe.montjoie@gmail.com>
-> Cc: Chen-Yu Tsai <wens@csie.org>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Samuel Holland <samuel@sholland.org>
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-sunxi@lists.linux.dev
+> Jason Gunthorpe (23):
+>   iommu/terga: Do not use struct page as the handle for as->pd memory
+>   iommu/tegra: Do not use struct page as the handle for pts
+>   iommu/pages: Remove __iommu_alloc_pages()/__iommu_free_pages()
+>   iommu/pages: Make iommu_put_pages_list() work with high order
+>     allocations
+>   iommu/pages: Remove the order argument to iommu_free_pages()
+>   iommu/pages: Remove iommu_free_page()
+>   iommu/pages: De-inline the substantial functions
+>   iommu/pages: Formalize the freelist API
+>   iommu/riscv: Convert to use struct iommu_pages_list
+>   iommu/amd: Convert to use struct iommu_pages_list
+>   iommu: Change iommu_iotlb_gather to use iommu_page_list
+>   iommu/pages: Remove iommu_put_pages_list_old and the _Generic
+>   iommu/pages: Move from struct page to struct ioptdesc and folio
+>   iommu/pages: Move the __GFP_HIGHMEM checks into the common code
+>   iommu/pages: Allow sub page sizes to be passed into the allocator
+>   iommu/amd: Change rlookup, irq_lookup, and alias to use kvalloc()
+>   iommu/amd: Use roundup_pow_two() instead of get_order()
+>   iommu/riscv: Update to use iommu_alloc_pages_node_lg2()
+>   iommu: Update various drivers to pass in lg2sz instead of order to
+>     iommu pages
+>   iommu/pages: Remove iommu_alloc_page/pages()
+>   iommu/pages: Remove iommu_alloc_page_node()
+>   iommu/amd: Use iommu_alloc_pages_node_sz() for the IRT
+>   iommu/vtd: Remove iommu_alloc_pages_node()
 
-Patch applied.  Thanks.
--- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+Applied to the new iommu-pages branch. I think this has the potential to
+become a conflict nightmare, let's see how it goes in this cycle.
+
+ 	Joerg
+
