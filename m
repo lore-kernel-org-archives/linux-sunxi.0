@@ -1,92 +1,110 @@
-Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 963F72512D7;
-	Thu, 17 Apr 2025 14:40:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744900840; cv=none; b=ewRv94xBtNQQYWOYXxmN9eSQB2jIAqt2WfmMaPzKFbDWWYRaq6g+sSlmPNmVudSJTjC3EIeueOmO/mZJJEbgTGI83ouegBg4jmb1G4QCoHwiBiIwn8yCYJ/ZrkgrJhT72H9iIbcrO+4/Yajev7vbxRsbz+o0kzz0bSoBE69B7U8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744900840; c=relaxed/simple;
-	bh=ZkCqmSbXt1v3PVfUXnyy4jP63qsdkBbj3FBpkdPeHH8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F64vNd1VsTbNTIzFyKHEvHQr/8YMu96b7ZXsqg5W9rkng7N26ewbaxpHn5JWfayH0nw2ZMu/HvaAlJAA5w+8cJlnM+njhbd3wJieqn5Hn3/YchAQqLF7B00yI+OuSm+VPIVVyDLl95eyw2QHPSQSlCDbePAlXNHwALVCLmn0J/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=3uWpx2LX; arc=none smtp.client-ip=85.214.250.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="3uWpx2LX"
-Received: from 8bytes.org (p4ffe03ae.dip0.t-ipconnect.de [79.254.3.174])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id 06A4448658;
-	Thu, 17 Apr 2025 16:40:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-	s=default; t=1744900837;
-	bh=ZkCqmSbXt1v3PVfUXnyy4jP63qsdkBbj3FBpkdPeHH8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=3uWpx2LX4TTFi1PE/0XADmLNcMTSSgp6V32+y7Jg9w1nRQrdFpRAshKO/MlaYKmzl
-	 Kttyj0sv2jvWQoOp8zotVwqMMlAQCKmYCNbPML6UF1D5se9TmoU4CvIYYUB7WJ29Hh
-	 YCuyKsNnf2Mmo3OXZNrQmDlvgN/8GOUwV5PxfpzWW4NZ7ojBC28SJ+XuDZZa64pU9V
-	 LdeFxt+6nerOumveCriRC80bM6PcRXDa7RXPSV0aZTjN7pRdclEJwA0TMtL9zXx/XR
-	 PfZwVAfOpjAzu7vbS5fzJ8u/XVNitcdYRjWNcN+VNsc8QUkdsVvI5kkKABr62vC1De
-	 GOaeG/ITg6e7w==
-Date: Thu, 17 Apr 2025 16:40:35 +0200
-From: Joerg Roedel <joro@8bytes.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Alexandre Ghiti <alex@ghiti.fr>, Alim Akhtar <alim.akhtar@samsung.com>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev,
-	David Woodhouse <dwmw2@infradead.org>,
-	Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
-	Janne Grunau <j@jannau.net>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Neal Gompa <neal@gompa.dev>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Sven Peter <sven@svenpeter.dev>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Tomasz Jeznach <tjeznach@rivosinc.com>,
-	Krishna Reddy <vdumpa@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
-	Will Deacon <will@kernel.org>,
-	Alejandro Jimenez <alejandro.j.jimenez@oracle.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <jroedel@suse.de>,
-	Nicolin Chen <nicolinc@nvidia.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
-	David Rientjes <rientjes@google.com>,
-	Mostafa Saleh <smostafa@google.com>,
-	Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH v4 00/23] iommu: Further abstract iommu-pages
-Message-ID: <aAES47w6yaRDFsLg@8bytes.org>
-References: <0-v4-c8663abbb606+3f7-iommu_pages_jgg@nvidia.com>
- <aAEPWXaBocqgsvbR@8bytes.org>
- <20250417142752.GH823903@nvidia.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6C5D1DF260;
+	Thu, 17 Apr 2025 23:32:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744932772; cv=none; b=i7c0r5m7jJsx/UQ314LLXENjt+xpkaRpzJ2JfD4un49gPb2gg2wBLuoFRyCqRLQMgM8Nywr4MLnTkYtX+elHZjI/vkrRn7cei2rr5Dw/lY8LxCm5GjCS9AaCqdoy5mUKI+y61wRW9W0mAjGyoffhkvfaqY4tsv4uu0PFlNt6W1w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744932772; c=relaxed/simple;
+	bh=NjeDRiJTwUo1cP3hkUv6xDm1gfr1mj3fB9ermM3sWkI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=mSYw/+bmSuVeHS4GnXamFBjIx/U+6A6we4b48Q8TClUjIrCjQH5RHv8mVg42hnslsdi0rS1dt13MTTdY8nLz+KzsUy92SYfc6nPNafLzxoJW2e8V6Ydue5Eb6Wt9qxobty6dvAt1f+Gbn61bHOsFziU+Ay48Fxd4OvmcPyqBGq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OW6CQJvs; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OW6CQJvs"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 31C8EC4CEEA;
+	Thu, 17 Apr 2025 23:32:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744932772;
+	bh=NjeDRiJTwUo1cP3hkUv6xDm1gfr1mj3fB9ermM3sWkI=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=OW6CQJvs7mRM8Ph4luHzB5TaTF/gDC0wIDwXS+GHSid/HWyY1ZfwUKwWc1BAZgOIq
+	 Q3o98pAK+tt/DmxJPBEZuy+EXseDivse2c8XsEUTc7pL/h+VGzVC3FsJqi4FbKvhAA
+	 UKA2uDXMHQOtT9j2/8Ege7CcHaLs1ezhtfZCC65c3oBV60Qo614sRF/bb9ajKT0Joz
+	 cpuLFja2dsor6zIobA9IS3EVzklgprGS9Dzn5QLu/7S64VbtkNoxDYGbwAcJCcPW3g
+	 8hjN65fsgewJ7aAuetF07k+Nb7judNAoXsaBp93TA58OfR8qE3Pe5ADfIvHQIrAa/k
+	 8CgSu3zoYTy0g==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F3D4C369C2;
+	Thu, 17 Apr 2025 23:32:52 +0000 (UTC)
+From: =?utf-8?q?J=2E_Neusch=C3=A4fer_via_B4_Relay?= <devnull+j.ne.posteo.net@kernel.org>
+Date: Fri, 18 Apr 2025 01:32:49 +0200
+Subject: [PATCH] ARM: dts: allwinner: orangepi-zero: Enable audio codec
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250417142752.GH823903@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20250418-opz-audio-v1-1-4e86bb5bc734@posteo.net>
+X-B4-Tracking: v=1; b=H4sIAKCPAWgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDE0Nz3fyCKt3E0pTMfF0LSwMLE8tki6Qko1QloPqCotS0zAqwWdGxtbU
+ AXPuJz1sAAAA=
+X-Change-ID: 20250417-opz-audio-890849c8bb2e
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?J=2E_Neusch=C3=A4fer?= <j.ne@posteo.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1744932771; l=1299;
+ i=j.ne@posteo.net; s=20240329; h=from:subject:message-id;
+ bh=k/eQQFQjUWyBWBOWbfy/ABZzzwLp3ynUUvGy69783PQ=;
+ b=XFDURnfsrz3fEywg3lhFqDKzoRTAi/FcZG9XBdQ96YdDa7CZFBotwe5QPeCWFtnsRKebQD/SK
+ u4ZHjkpmgcCB6noff2Vt0VoZe7aulUZBUyOZs83ORW4NTGoV7Puxm/G
+X-Developer-Key: i=j.ne@posteo.net; a=ed25519;
+ pk=NIe0bK42wNaX/C4bi6ezm7NJK0IQE+8MKBm7igFMIS4=
+X-Endpoint-Received: by B4 Relay for j.ne@posteo.net/20240329 with
+ auth_id=156
+X-Original-From: =?utf-8?q?J=2E_Neusch=C3=A4fer?= <j.ne@posteo.net>
+Reply-To: j.ne@posteo.net
 
-On Thu, Apr 17, 2025 at 11:27:52AM -0300, Jason Gunthorpe wrote:
-> I haven't had much trouble rebasing it, so fingers crossed, thanks
+From: "J. Neuschäfer" <j.ne@posteo.net>
 
-Forget the iommu-pages branch, this just makes it worse. I put it
-directly into the core branch now for everyone to rebase on in case of
-conflicts. This should avoid some of the potential trouble :)
+Line out playback and microphone capture work, after enabling the
+corresponding ALSA controls. Tested with the Orange Pi Zero interface
+board, which is a (mostly) passive adapter from the 13-pin header to
+standard connectors (2x USB A, 1x Audio/Video output, 1x built-in
+microphone).
 
-Regards,
+  https://orangepi.com/index.php?route=product/product&product_id=871
 
-	Joerg
+Signed-off-by: J. Neuschäfer <j.ne@posteo.net>
+---
+ arch/arm/boot/dts/allwinner/sun8i-h2-plus-orangepi-zero.dts | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/arch/arm/boot/dts/allwinner/sun8i-h2-plus-orangepi-zero.dts b/arch/arm/boot/dts/allwinner/sun8i-h2-plus-orangepi-zero.dts
+index 1b001f2ad0efd2e77218742efe6d8edfdd18a816..d65ede3dd6ed1206248a39c91e46065684e7ba29 100644
+--- a/arch/arm/boot/dts/allwinner/sun8i-h2-plus-orangepi-zero.dts
++++ b/arch/arm/boot/dts/allwinner/sun8i-h2-plus-orangepi-zero.dts
+@@ -112,6 +112,14 @@ wifi_pwrseq: pwrseq {
+ 	};
+ };
+ 
++&codec {
++	allwinner,audio-routing =
++		"Line Out", "LINEOUT",
++		"MIC1", "Mic",
++		"Mic",  "MBIAS";
++	status = "okay";
++};
++
+ &cpu0 {
+ 	cpu-supply = <&reg_vdd_cpux>;
+ };
+
+---
+base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
+change-id: 20250417-opz-audio-890849c8bb2e
+
+Best regards,
+-- 
+J. Neuschäfer <j.ne@posteo.net>
+
+
