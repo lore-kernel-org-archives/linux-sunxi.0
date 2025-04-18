@@ -1,294 +1,223 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2055.outbound.protection.outlook.com [40.107.20.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB0EA1DFFD
-	for <linux-sunxi@lists.linux.dev>; Fri, 18 Apr 2025 08:41:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744965701; cv=none; b=kMY7YUefOilpe0pjKtoKZn0kMZQcYf0FZmslJvbs/nIYYcsvM7jT57QTyhSd/wKfNhJsqYsPLGZ/lAWKd+kD/CMBJftbtCaal2swZc/jFNtaXaNLxWnpohA2Lr9IOCcU/dKEP72DtuHAMUKJWHPkvBNCYLvlQGh51XeeEtkLyhU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744965701; c=relaxed/simple;
-	bh=z/VMqLLc0c9P7A6tQMr61cXUcQtOdWT3vG5LQcEmd2s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=itT0AO1RZBAIQgKrl2jB/H7oVmIzIzdZHqBNDUMxFGma+T6X9exaws9KaxN/ZJCPNibu/obzKWw5fN275CQ7B9Vgyug1ot+676mtpwRn0eb31X3p7g+IdDVQszD+Ewqzhy2F2vCxSw2hYKaFc+bEuw/HGdGzjU2tOGEKxKTqTGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Yudugo9n; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 405BB274667
+	for <linux-sunxi@lists.linux.dev>; Fri, 18 Apr 2025 11:28:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.20.55
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744975712; cv=fail; b=R15N74y0LFO4rw4MEIEWzBgSXvL+we6BQTUOWI2v0xo5mmztnsYnf8tLF48OZF3+3wUCWdqwoSbSeZ+uYs3ohujLEVULXrLjZ/0/kUn88WKQ2r2HGP8OnqLVgAKV68k5nlj1W4e6kCbmzdmAfvH9/EIK9QFoVkjJuIx0F+HhHEA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744975712; c=relaxed/simple;
+	bh=oBh+XLJeoHSCSUzJ6SOvsl0ldrwc1nG7bsjsGiIzfZo=;
+	h=Message-ID:Date:From:Subject:To:Cc:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=aq0oAIOrz//ag0Vk6SlVQVotwNUuJZl3Zhwe9fLWBNISlQN7j0dLk9m9wcrSEaQV0UwKadRWDroQj9pGcr2QLLxj1IBpz7i0dJOsiktFKT77WhxpRcVdwkEmVCVLL3WSbDmaBN589RxQxWOZeXBT6BJiDimqhH2XiGjG6Ua1ijc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cherry.de; spf=pass smtp.mailfrom=cherry.de; dkim=pass (1024-bit key) header.d=cherry.de header.i=@cherry.de header.b=VdiYpx++; arc=fail smtp.client-ip=40.107.20.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cherry.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cherry.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Yudugo9n"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-39bf44be22fso1127927f8f.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 18 Apr 2025 01:41:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744965697; x=1745570497; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=gaYe4zy0Ou27FvsmHa5NmILaWl1zdTnktRLAnBaEUHo=;
-        b=Yudugo9nI4pVwp5FbPAvJYbIgXnligufm4Mzqz+B5HVSmuQElAdzr5B8sN2JKFzr5P
-         2vaMKyWomYliBPC0Ndee5f3qArPFdvTybg9YbJ8v5txD9TXAvzoRadf88GTfxIF8f0Fw
-         TwcB1HnHlmdod0V6AqxQzuKuz5cvWbmTVb5v6OPSlQ1bdoSRTNuyix/jgMD067YA6NDK
-         WKVd2vgI3qf0KzHubc16FIpXLCP8R/hWq5rWXVCxdkWECEDKgiCZ4XgX29pS82aK0VGm
-         7o41ArnB/dqqbx6VyVDjL4DEr13zkc4H0RSMcx/T1yxvAcHEiRqVUQ7hNavr7rY3vOr2
-         NP8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744965697; x=1745570497;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gaYe4zy0Ou27FvsmHa5NmILaWl1zdTnktRLAnBaEUHo=;
-        b=BkZ7rTibSWPxq4HSUt6xYkmg5W8KgHJsvjYc9dFJRVWjWCv8zSIMEFWkAzGVM4WRjB
-         5Xv+Z7qgv8OcES8gBuV0k+P3xzm89X0dgieTQZRyhnwINAevheL2lPrR7Q8S2dn153JG
-         XtNEmf2hS/qAXkITlLzzys6eeltwr0wOL1jUDPgYMAxssKH1HxBDCQFVfoFO1gp0wRAJ
-         MaLwX+ZNByvEFOZVpJWpCKNHMVTPPvc4/HD69U1PRnbGsncSIFNVEJQk8/DuzIUsfUm7
-         ehN1EEiM6zOySYS8LGe0u6UnzJ9q03+MvnIV2H5BKxmoa7IyVYsbefYdz9Rrg/DslSUu
-         o+/g==
-X-Forwarded-Encrypted: i=1; AJvYcCUkXPJlfLpFisIzHBi0vi1f/LdM1w1fm2HOijc4EsbiteRW1wNjPuBXR+BTRCb086ez4qhIzXGekWY/jw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxTswkLulF6eYX5rPwo9dIjPik5V7AvJ0cNeZyvRr3ZMri6pJDC
-	uzAWRoV0Hi0xdmKb256x2ETlHQvZKU0FJLqZ/bsmvTbcOrWze1EKOzEvR55bN70=
-X-Gm-Gg: ASbGnctRm5VdWVuI8BTej9fucTCEvv+lkJnzUWD9daF/+FZaobg6g9EELorw3o4pZOc
-	vy+l5Lmq57VH8TO3aZrR/wovv6KSXGS1sYq/Z8YIE4u05ljMNLS7HLKfNC1w7e9HG1cE4y28gca
-	vjp1YdtJ6pqUFyXNIjKEfd7FDYQULP38uLYOKeJrvkL97+z+7iu4bISH6nx7h2EDz7v2dX8Tebl
-	WYGrU3w2iwdaFlmcB2F9eOAO2IFQwkiaUvJrAlO6peU17Wf9+ygc+UAGK9srVb+GRHZfK0EjqaR
-	WeMtVVqRazWdhByjAJ0KoAxkez5JuMTRmuOOx6F9G/eyfJ3BoaZvjMZowJrT8f5p9nwFmp2ALXG
-	J0hs=
-X-Google-Smtp-Source: AGHT+IE3GyLzZUyelI40gS2vTuDQpSNMhcJ1TL+LpOT3j005P7cUJ4VklepZjvjFsXXu1LyMWnIBEQ==
-X-Received: by 2002:a05:6000:18a2:b0:39a:c9ac:cd58 with SMTP id ffacd0b85a97d-39efba5af80mr1425563f8f.29.1744965696999;
-        Fri, 18 Apr 2025 01:41:36 -0700 (PDT)
-Received: from mai.linaro.org (146725694.box.freepro.com. [130.180.211.218])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39efa4a5150sm2039295f8f.82.2025.04.18.01.41.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Apr 2025 01:41:36 -0700 (PDT)
-Date: Fri, 18 Apr 2025 10:41:34 +0200
-From: Daniel Lezcano <daniel.lezcano@linaro.org>
-To: iuncuim <iuncuim@gmail.com>
-Cc: Vasily Khoruzhick <anarsoul@gmail.com>,
-	Yangtao Li <tiny.windzz@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Andre Przywara <andre.przywara@arm.com>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>, linux-pm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-Subject: Re: [PATCH 3/6] thermal/drivers/sun8i: Add support for A523 THS0/1
- controllers
-Message-ID: <aAIQPtxCDuT2e7vE@mai.linaro.org>
-References: <20250411003827.782544-1-iuncuim@gmail.com>
- <20250411003827.782544-4-iuncuim@gmail.com>
+	dkim=pass (1024-bit key) header.d=cherry.de header.i=@cherry.de header.b="VdiYpx++"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SI+y13+PQ77EVn5vv4fSBVuxtbG7d2za+EoQrTYhNUaknk35BsQxhlcVdDA8pfxCIoJ0fTG2GVNAbRWhaWEX8OTcTjPxRVXI6/YG8OSSxM6UYCcLsVJZclSK0het4KgaYOqu90abUSeSkWr3zip0cR7dpiLMncjodXNXHApqnOJxee+FpzHTr18GeN4JuBjhLVXK2j4kb1HbiREHA3Huvgv8xV9IBoXyDXWCrHtEQP/W/KTWbLwHFL4LYPJADEwx+M7ONxKz+TzLEPvXDuJaZyWJG38fBbK7nniLEIgmL6cPhcb1pHC+eUnc9v+PNnE4zz6eQOeDQuC3phBPqxwXpA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=z20gIT4qLtFSoMDNT6zkPVxE7+YCFdhXeN/JR6bmWhY=;
+ b=PZatVEoRMiK9/ySnDwpX9GinRHBTUCwBOZbLxRnI5Fo6UvZif7/RrJExbe/R8tjp9inf3xRF4mzEyxQhy40j6GDy1DzL/iYCGSXvHrxJU356BAYUn1CF1wAxeeuDksy7FVGDxGCOyCgA7pWQyL+/DkcKqxM0Mk9UGjGij8ZAESlYtDnviysbiT8/3F01ycwhonYO09wtpdDUJ5njwsddWJ3LLcu6ghNMOA6AJ3ATRKb+Dyv/Ctt+iaLe2kvcP+2Uzvqyjb6lDfwDeb2lTzVDWz/kuafDBZK83h4AnBQSbsG73nlVZ+VQX60akC0HqPZXpttVgARAjq5BMHvSqRU1wA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
+ dkim=pass header.d=cherry.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=z20gIT4qLtFSoMDNT6zkPVxE7+YCFdhXeN/JR6bmWhY=;
+ b=VdiYpx++15qijxKxuFX8eg1o4lST0woYXxmTN6zl1V2Cs7KScJUCdF3wcj/62Mh+zbVB6QR3RNmR0pWxgnwJlF5VQjLBE7ujevGTPRDZoaSZ4AGAKTa82ulW6xOiG8G6/JtYm+RmGoO5083njSu9ah2fticrdoFw34ZF+hqoncs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=cherry.de;
+Received: from AM9PR04MB8906.eurprd04.prod.outlook.com (2603:10a6:20b:409::9)
+ by VI0PR04MB10542.eurprd04.prod.outlook.com (2603:10a6:800:265::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.27; Fri, 18 Apr
+ 2025 11:28:25 +0000
+Received: from AM9PR04MB8906.eurprd04.prod.outlook.com
+ ([fe80::d379:5378:b1:cea]) by AM9PR04MB8906.eurprd04.prod.outlook.com
+ ([fe80::d379:5378:b1:cea%6]) with mapi id 15.20.8632.030; Fri, 18 Apr 2025
+ 11:28:25 +0000
+Message-ID: <b7ffc468-1970-4eba-85e1-47aaced0161a@cherry.de>
+Date: Fri, 18 Apr 2025 13:28:23 +0200
+User-Agent: Mozilla Thunderbird
+From: Quentin Schulz <quentin.schulz@cherry.de>
+Subject: Re: [PATCH v2 2/3] sunxi: add "fake" FEL pin support
+To: Andre Przywara <andre.przywara@arm.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, u-boot@lists.denx.de
+Cc: Yixun Lan <dlan@gentoo.org>, Tom Rini <trini@konsulko.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev
+References: <20250417000539.3709-1-andre.przywara@arm.com>
+ <20250417000539.3709-3-andre.przywara@arm.com>
+Content-Language: en-US
+In-Reply-To: <20250417000539.3709-3-andre.przywara@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR4P281CA0143.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:b8::14) To AM9PR04MB8906.eurprd04.prod.outlook.com
+ (2603:10a6:20b:409::9)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250411003827.782544-4-iuncuim@gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM9PR04MB8906:EE_|VI0PR04MB10542:EE_
+X-MS-Office365-Filtering-Correlation-Id: 69aa8276-df60-4f3f-7eac-08dd7e6c2238
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?OUx1MmZaV1ZwM1RzVGNqN3plWkhiUm1rV0ticm1WUjl3S2J0L1RyOWNTSmdL?=
+ =?utf-8?B?eTYra3FVaWZHRmcrcW9lWWlYdkdWTTRENnM4ZmtlbTdaa1E2amtDRkdoQWZq?=
+ =?utf-8?B?YlJCNzNpNXpqWXl0RlVFSUxaQ2dwNkhWNmhudjVOUTBwaVVqQVdlQ2x2SWhF?=
+ =?utf-8?B?cFBXM2VOdWNkMUo5bGRNeU5uTHlqOThRb3dkaVNwOW1YQzdpdHFURElFMnlD?=
+ =?utf-8?B?VE9XL3lUOFR2OG5FaGJ4SHZqUDlrY1NzelgxeHMzck1DMURhMFNsU3pLa2Z5?=
+ =?utf-8?B?RVZhakkwQVJzOUpuQ2RWcmRsYXJnY3RXK1JpdHAwOVAzelk5SzVHSUdwNlYy?=
+ =?utf-8?B?azIwaFFUSzdhNkRXZjdmdDBwK2xiZEk4YTNsdlUwT3ZCUEtPR2VCUUhNLzFp?=
+ =?utf-8?B?Ny9BSGRoZWg1YWd5TlFKclpMMVZGK3VWYUdCbkppSHlrRTA1aXEyQnFWd0NK?=
+ =?utf-8?B?N3o5aVpaN3V0emJVOEllR29EVElLN0VabDAyZU9zZHhsdU43WEpUOUF2NlFS?=
+ =?utf-8?B?L1BZVTkyTWxCdVVXalJNbXJiMjUyWjdUaWVjNWhYL2I2R1o1eUgxeUprcnBP?=
+ =?utf-8?B?MjBSaHVjMElFcXVYay9NUmFibWwwQXJUNzB3eUNIVXg3c1JSQkFReE9RbjBj?=
+ =?utf-8?B?dGhwM25GMVVwdVpDQm11RG8rUkJDUlB5Z1plMk9QMGtkcjRQYjNyenprMy82?=
+ =?utf-8?B?b3pxOHJSSGZYTVdYaWEzL0hzK3VuQkZrUzE3eWJQeGZhbWY5UVZKMm1rQXJU?=
+ =?utf-8?B?QWRndktES1BMVmdxdjBJVGkwdHBwYnNhcXlnOUVvRGt5aTlxWU1UUzhsTVNl?=
+ =?utf-8?B?VG8yUmVhK1JhNlZFL2pkcWtUN2w5bEVYQ3JJVnpMMWFPNUdFVTNYQ2dBMHdB?=
+ =?utf-8?B?eW1RM25nOXlxZkFYRWtxQk5nb1BNKzRRVmpLeXpXYXhDZEFTa3h3Mkc4RTZY?=
+ =?utf-8?B?dy9PYlMwc1NyRHI3MW8vNGpwMmVnRTh6UjlpS2JuNU5hVGUxV0VOVW5LUEpF?=
+ =?utf-8?B?RlFGME9NaGNDOHlGSG5QcWRHVWpBb0NjdElJeFZ2Yno0bStoUllYcjB6c01M?=
+ =?utf-8?B?MzRtam9Od0xFanVhcTJleTJyN3dpdnU2Tis2Sy9mamxuelIwdkZ4MGR5V1lw?=
+ =?utf-8?B?L1NnQ3NxZitpNGRtM0JDcWRLdGpUVy85YWtkVCt0bndBdGZncHlNUUp1SUp1?=
+ =?utf-8?B?ZGRGSFFjNjlrb0ZqNzZWUUgwN0VGQWNyRTVsSktQR2JscFN3VjE3Qnp1S3lF?=
+ =?utf-8?B?MDc4VTlwWlJnNHRXSm5QaFY1MWVBUElHK1d4b2ZtUmRPdlpOSkdkOUZSdXdO?=
+ =?utf-8?B?ZzVuTlY2aUpOVGpsNy9RNmVIZUdsTGhQRmVnVE8yZkIrNFVYbUN1Um5COXM1?=
+ =?utf-8?B?YnlTbjlVVW8zcFhoclZGcTZHTzJYUXcySEVzSnFXc0NBTWl0Q3lCK3Q1RllH?=
+ =?utf-8?B?UEZsbE41SldSVGpCWHMxVDFMVVNqT25JRG1WNDlpdDZxck1OK1RWcUJnZ29v?=
+ =?utf-8?B?cXZSWE5VTU1SZGtzUDg5N3FwQ1ZQdGp3SnVHeVptUmZTUGVUelhIT3FFLzRK?=
+ =?utf-8?B?RXg3QWt2QzFKeDZJdWF1Vm1qQmRxclpkcXZwVVU1V09KWW8yS0hPOFhjbS9k?=
+ =?utf-8?B?bzJLWE1wOXA4SlpKemNWK0lLNEdPUWRmdnREbFdKc2l5aU5yelRmTURJTlFX?=
+ =?utf-8?B?c09LQllKYlV5WTFCNmJRWUJZeFk0N3dWekd5Mmx1N2tWdHA2NFBZMmZiS2Jt?=
+ =?utf-8?B?cjIrZ2tMSmc4NEZjem1rOVlTWXI1RUQ3d05CcG1tU3ZxZFRySHFGeU40eDJO?=
+ =?utf-8?B?QnluS0NrbUZhek5YMkc4eXd4UCswS2FRMUdYSUxBN2NVeHc2VE1nMS8xTFRP?=
+ =?utf-8?B?bDVodmVQZFlTaHdoUUFqU2tOUVlLSDJOTU95MmdZajY0My9La1B6Unl5SWla?=
+ =?utf-8?Q?rsHogR4FovI=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8906.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?OTRsU2s2N1ZnQmMvYjZCd29DTjh4bUpjTXgzanltcU4ydmRWMCtRcmYwM05G?=
+ =?utf-8?B?eWtuMzBzNjhNOVJSd2g4blM0cDVMYmNBakRmK0o0MHNxZHcrVHE0UUd2dHpt?=
+ =?utf-8?B?ZGVqUVBhSGd1dmpkNUVEZnZlUWxMZGR3UlgyOHFVYkNDU2F2Y2phV2JFTzQv?=
+ =?utf-8?B?UXU0d24zL1hBQmtVTU55N2JTRnFWWWVKdXFIUzAvL05UWGIzYlcxdHV3a3ZT?=
+ =?utf-8?B?Y3BiOHI5SHNPeE9qZWRaWXBQazU4RkZPQ3hac3pJcmNWQkFtWHpORE5hanlz?=
+ =?utf-8?B?OHZDK21GZmprUXkyRGpzUkZjaGE4NnN1dG0xTUhlbkxXK1VCWlMzaFIzWFls?=
+ =?utf-8?B?ak1USWtNYnI1Mm85SWFhRklIMkU3aFZBUlhma0xwNndFK2RNSEJ4d0V0aVdn?=
+ =?utf-8?B?RVc1YWJueTA3U05INnR4OVpqZGI5Z3BscmpBZUt1OXVOTmxuaU1DRzd6NnZz?=
+ =?utf-8?B?YnN2OURCVktIK3lxMTN6TTZLMDdXTmljZUhGOWpXSU9RNUJmWTV6R0dlZ0c0?=
+ =?utf-8?B?RzF4Uk9ldDFseW1HaTh2NWJKVkNyVHp1WHNrS2VPMTNvTjlKeEZRS3dBejJs?=
+ =?utf-8?B?MnVhSnRLcnNzZXNySUR3dVV0djNHOVEvYjNJY2d3R1FuWVdrdDA5YUd6SjNO?=
+ =?utf-8?B?SXN5eFNUVk8xZHB0YkU2K0l5T2xwTGp0cnJQcXdwT2NSN1hFVVBSM2Z3VkRM?=
+ =?utf-8?B?dU9pU3JsTzdZbkhjZG45SHozNlNIcVd5eTNoNk1tNjl4QUNGUFNkVWEvSyt4?=
+ =?utf-8?B?SUVOd3pQYjh1Nksvc2RjZ1ZRYkNzaDcxbXZVYXVLYTgxbm1kMzhTak8vQnV0?=
+ =?utf-8?B?eWp2Y0hHb3VFc1VoOEg0OENWT1NwaGJIWnVGTW0wSm5OU1hpcDlvbkhLNll5?=
+ =?utf-8?B?UUxLWTRYbTVqNHFkaTZyd2IvRjIzYnhJbkwyZEJhY1RkQ1dubm42MzVGMkJJ?=
+ =?utf-8?B?UlRtdmo5Wk9rdUFIR0JhQm1xa1BkdjlhREdXblFLa0RtWGYxc3ZlaXhMQU8v?=
+ =?utf-8?B?dUxoOUZhYVAzZHJtbDNKVFNMWUhsNHFUaUltai9pc2d6c0I5ZG81MmFZK1lX?=
+ =?utf-8?B?c0JrcUpxU0lJTzFXNVU1L0Z1K0JCcDNsVDhVcG11eGJYcWZzbVYzZXV4UTBJ?=
+ =?utf-8?B?ODQ4Z2hkWHU1dlpPUzFnVS9YMTdIMTJ3WXlsaXVzM2hUZ0dySHNvQkpGNjlH?=
+ =?utf-8?B?MUQ3YUswV25sMXRnbVhISGNKb1R6emJKdmJPZUxHNytNbE5PbDRLcStBUitw?=
+ =?utf-8?B?V0Q0QWlJNUpYNFpBRDY1UTEyTk52OWswMEJzeDdOSGpNN3V0RjFwZGFjamsx?=
+ =?utf-8?B?RVAzME9PQ0JSSlRYVFM0cDNaMkRxOG5TN0FCZTJ4dGRheEVnVTZNNFk4OCtt?=
+ =?utf-8?B?ZUcvTzAwdHZkYmF3Y1pNWnRmS2M5OXRwNm9tL1h6V0w2cFlzaHFWVFUvcFBB?=
+ =?utf-8?B?L2lGZFhqTmR4bGpSaXRDT1BNbEJnaE9DcTR5ZDNjYy8wV29Sek9lYkpZK0FT?=
+ =?utf-8?B?bHQyOVJLUGFvR1ZiUHhicTZOV3p3eXBnSGEraEhYME5PNGlrNERwMFRweVdr?=
+ =?utf-8?B?ZTFKZzJqUER6S0x0Rzc2ZGM0QkJMajhQbURETHBKZG9aVkdkZWFVUmVCcEoz?=
+ =?utf-8?B?TDZocjNhaisxOTRiKy9xOWVsd3dKNW5jTGU2TnR6bk05KzJ1NkFsYS90SDN3?=
+ =?utf-8?B?VGJ1MDVwRFNzYmFlWDNzd2RlZGplb3kvUWs4QkhsN0pIcm41VE1zMFZBYmVE?=
+ =?utf-8?B?UU1uZDl5Zisrb09VbVM2VTZrZi9kUW92N2YvWmprNGhrQXIrbnhJc0IydmpH?=
+ =?utf-8?B?NXkwa0s1SXRPVUVUTXdLNVNaR1RPdGI5dkJ6cXF1Z1hwd3JJOHoyZXFaaXZV?=
+ =?utf-8?B?SVQvYjN2TFJlbzFWOVBjNTFKM21rdjlyUjhnTTQ2b3hrUG9obWhrSFVYUFJ6?=
+ =?utf-8?B?cWN4Yjd1YlNwRGxHbWoyVmhrbGJBRmdwM2gzTlY0TFU0NHpYdWsvdzhMZXFV?=
+ =?utf-8?B?aU9nUEZ1RXdSVlhnM2dvdlBxbFZaMkd6NGI1QVVMSmxuc0tyeFZMSTMyWGNv?=
+ =?utf-8?B?b1dBMzBJNWhoNjhKOXE1V3pINnJBR1lPNXZWcFEyWHVBN0R5d09TSUd6TERE?=
+ =?utf-8?B?WWdCQ0ZPbXN4NllpNjFJdERCQXhaYWp0Yk1vMUREVy9ScC9EY3dLT3lXYmQw?=
+ =?utf-8?B?NkE9PQ==?=
+X-OriginatorOrg: cherry.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 69aa8276-df60-4f3f-7eac-08dd7e6c2238
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8906.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Apr 2025 11:28:25.5648
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sZJ/Tax4qLqjuPnE/6sZhEy8TlVPxXkeeAT7EJxobeDL4ieLUEUaX107GiqvcYQmB1m7ReDVEUQqfQOhEnRAwgJorBJMHMRRduASCxfp1xA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB10542
 
-On Fri, Apr 11, 2025 at 08:38:23AM +0800, Mikhail Kalashnikov wrote:
-> From: Mikhail Kalashnikov <iuncuim@gmail.com>
+Hi Andre,
+
+On 4/17/25 2:05 AM, Andre Przywara wrote:
+> Some boards with Allwinner SoCs feature a "FEL" key, sometimes also
+> labelled "uboot", which triggers the BootROM FEL mode, when pressed upon
+> power-on or reset. This allows to access the SoC's memory via USB OTG,
+> and to upload and execute code. There is a tool to upload our U-Boot image
+> and immediately boot it, when the SoC is in FEL mode.
 > 
-> The A523 processor has two temperature controllers, THS0 and THS1.
-> THS0 has only one temperature sensor, which is located in the DRAM.
+> To mimic this convenient behaviour on boards without such a dedicated key,
+> we can query a GPIO pin very early in the SPL boot, then trigger the
+> BootROM FEL routine.  There has not been much of a SoC or board setup at
+> this point, so we enter the BROM in a rather pristine state still. On
+> 64-bit SoCs the required AArch32 reset guarantees a clean CPU state anyway.
 > 
-> THS1 does have 3 sensors:
-> ths1_0 - "big" cores
-> ths1_1 - "little" cores
-> ths1_2 - gpu
+> Any GPIO can be used for that, the signal is expected to be active low,
+> consequently we enable the pull-up resistors for that pin. A board (or a
+> user) is expected to specify the GPIO name using the
+> CONFIG_SUNXI_FAKE_FEL_PIN Kconfig variable. When this variable is not set,
+> the compiler will optimise away the call.
 > 
-> The datasheet mentions a fourth sensor in the NPU, but lacks any registers
-> for operation other than calibration registers. The vendor code reads the
-> value from ths1_2, but uses separate calibration data, so we get two
-> different values from real one.
+> Call the code first thing in board_init_f(), which is the first sunxi
+> specific C routine.
 > 
-> Signed-off-by: Mikhail Kalashnikov <iuncuim@gmail.com>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 > ---
->  drivers/thermal/sun8i_thermal.c | 134 ++++++++++++++++++++++++++++++++
->  1 file changed, 134 insertions(+)
+>   arch/arm/mach-sunxi/Kconfig | 10 ++++++++++
+>   arch/arm/mach-sunxi/board.c | 31 +++++++++++++++++++++++++++++++
+>   2 files changed, 41 insertions(+)
 > 
-> diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_thermal.c
-> index dc4055c9c..919b05a96 100644
-> --- a/drivers/thermal/sun8i_thermal.c
-> +++ b/drivers/thermal/sun8i_thermal.c
-> @@ -116,6 +116,15 @@ static int sun50i_h5_calc_temp(struct ths_device *tmdev,
->  		return -1590 * reg / 10 + 276000;
->  }
->  
-> +static int sun55i_a523_calc_temp(struct ths_device *tmdev,
-> +					int id, int reg)
-> +{
-> +	if (reg >= 0x7c8)
-> +		return tmdev->chip->scale * (tmdev->chip->offset - reg);
-> +	else
-> +		return 65 * (2825 - reg);
-> +}
+> diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
+> index ab432390d3c..f1cfdb548bc 100644
+> --- a/arch/arm/mach-sunxi/Kconfig
+> +++ b/arch/arm/mach-sunxi/Kconfig
+> @@ -825,6 +825,16 @@ config USB3_VBUS_PIN
+>   	---help---
+>   	See USB1_VBUS_PIN help text.
+>   
+> +config SUNXI_FAKE_FEL_PIN
+> +	string "fake FEL GPIO pin"
+> +	default ""
+> +	---help---
+> +	Define a GPIO that shall force entering FEL mode when a button
+> +	connected to this pin is pressed at boot time. This must be an
+> +	active low signal, the internal pull-up resistors are activated.
+> +	This takes a string in the format understood by sunxi_name_to_gpio,
+> +	e.g. PH1 for pin 1 of port H.
+> +
 
-Please use macro instead of litterals
+Why not use the DT for that? Then you wouldn't even need to assume the 
+polarity of the signal or whether pull-up/downs need to be activated, etc.
 
-> +
->  static int sun8i_ths_get_temp(struct thermal_zone_device *tz, int *temp)
->  {
->  	struct tsensor *s = thermal_zone_device_priv(tz);
-> @@ -208,6 +217,100 @@ static irqreturn_t sun8i_irq_thread(int irq, void *data)
->  	return IRQ_HANDLED;
->  }
->  
-> +
-> +/*
-> + * The A523 nvmem calibration values. The ths1_3 is not used as it
-> + * doesn't have its own sensor and doesn't have any internal switch.
-> + * Instead, the value from the ths1_2 sensor is used, which gives the
-> + * illusion of an independent sensor for NPU and GPU when using
-> + * different calibration values.
-> + *
-> + * efuse layout 0x38-0x3F (caldata[0..3]):
-> + *     caldata[0]      caldata[1]      caldata[2]      caldata[3]
-> + * 0               16      24      32  36          48          60 64
-> + * +---------------+---------------+---------------+---------------+
-> + * |               |       |   temp    |  ths1_0   |  ths1_1   |   +
-> + * +---------------+---------------+---------------+---------------+
-> + *
-> + * efuse layout 0x40-0x43 (caldata[4..5]) - not in use
-> + *
-> + * efuse layout 0x44-0x4B (caldata[6..9]):
-> + *     caldata[6]      caldata[7]      caldata[8]      caldata[9]
-> + * 0           12  16      24      32  36          48             64
-> + * +---------------+---------------+---------------+---------------+
-> + * |  ths1_2   |  ths1_3   |  ths0_0   |           |               +
-> + * +---------------+---------------+---------------+---------------+
-> + */
-> +static int sun55i_a523_ths_calibrate(struct ths_device *tmdev,
-> +				   u16 *caldata, int callen)
-> +{
-> +	struct device *dev = tmdev->dev;
-> +	int i, ft_temp;
-> +
-> +	if (!caldata[0])
-> +		return -EINVAL;
-> +
-> +	ft_temp = (((caldata[2] << 8) | (caldata[1] >> 8)) & FT_TEMP_MASK) * 100;
-> +
-> +	for (i = 0; i < tmdev->chip->sensor_num; i++) {
-> +		int sensor_reg, sensor_temp, cdata, offset;
-> +		/*
-> +		 * Chips ths0 and ths1 have common parameters for value
-> +		 * calibration. To separate them we can use the number of
-> +		 * temperature sensors on each chip.
-> +		 * For ths0 this value is 1.
-> +		 */
-> +		if (tmdev->chip->sensor_num == 1) {
-> +			sensor_reg = ((caldata[7] >> 8) | (caldata[8] << 8)) & TEMP_CALIB_MASK;
-> +		} else {
-> +			switch (i) {
-> +			case 0:
-> +				sensor_reg = (caldata[2] >> 4) & TEMP_CALIB_MASK;
-> +				break;
-> +			case 1:
-> +				sensor_reg = caldata[3] & TEMP_CALIB_MASK;
-> +				break;
-> +			case 2:
-> +				sensor_reg = caldata[6] & TEMP_CALIB_MASK;
-> +				break;
-> +			default:
-> +				sensor_reg = 0;
-> +				break;
-> +			}
-> +		}
-> +
-> +		sensor_temp = tmdev->chip->calc_temp(tmdev, i, sensor_reg);
-> +
-> +		/*
-> +		 * Calibration data is CALIBRATE_DEFAULT - (calculated
-> +		 * temperature from sensor reading at factory temperature
-> +		 * minus actual factory temperature) * X (scale from
-> +		 * temperature to register values)
-> +		 */
-> +		cdata = CALIBRATE_DEFAULT -
-> +			((sensor_temp - ft_temp) / tmdev->chip->scale);
-> +
-> +		if (cdata & ~TEMP_CALIB_MASK) {
-> +			/*
-> +			 * Calibration value more than 12-bit, but calibration
-> +			 * register is 12-bit. In this case, ths hardware can
-> +			 * still work without calibration, although the data
-> +			 * won't be so accurate.
-> +			 */
-> +			dev_warn(dev, "sensor%d is not calibrated.\n", i);
-> +			continue;
-> +		}
-> +
-> +		offset = (i % 2) * 16;
-> +		regmap_update_bits(tmdev->regmap,
-> +				   SUN50I_H6_THS_TEMP_CALIB + (i / 2 * 4),
-> +				   TEMP_CALIB_MASK << offset,
-> +				   cdata << offset);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static int sun8i_h3_ths_calibrate(struct ths_device *tmdev,
->  				  u16 *caldata, int callen)
->  {
-> @@ -721,6 +824,35 @@ static const struct ths_thermal_chip sun50i_h616_ths = {
->  	.calc_temp = sun8i_ths_calc_temp,
->  };
->  
-> +/* The A523 has a shared reset line for both chips */
-> +static const struct ths_thermal_chip sun55i_a523_ths0 = {
-> +	.sensor_num = 1,
-> +	.has_bus_clk_reset = true,
-> +	.has_gpadc_clk = true,
-> +	.ft_deviation = 5000,
-> +	.offset = 2736,
-> +	.scale = 74,
-> +	.temp_data_base = SUN50I_H6_THS_TEMP_DATA,
-> +	.calibrate = sun55i_a523_ths_calibrate,
-> +	.init = sun50i_h6_thermal_init,
-> +	.irq_ack = sun50i_h6_irq_ack,
-> +	.calc_temp = sun55i_a523_calc_temp,
-> +};
-> +
-> +static const struct ths_thermal_chip sun55i_a523_ths1 = {
-> +	.sensor_num = 3,
-> +	.has_bus_clk_reset = true,
-> +	.has_gpadc_clk = true,
-> +	.ft_deviation = 5000,
-> +	.offset = 2736,
-> +	.scale = 74,
-> +	.temp_data_base = SUN50I_H6_THS_TEMP_DATA,
-> +	.calibrate = sun55i_a523_ths_calibrate,
-> +	.init = sun50i_h6_thermal_init,
-> +	.irq_ack = sun50i_h6_irq_ack,
-> +	.calc_temp = sun55i_a523_calc_temp,
-> +};
-> +
->  static const struct of_device_id of_ths_match[] = {
->  	{ .compatible = "allwinner,sun8i-a83t-ths", .data = &sun8i_a83t_ths },
->  	{ .compatible = "allwinner,sun8i-h3-ths", .data = &sun8i_h3_ths },
-> @@ -731,6 +863,8 @@ static const struct of_device_id of_ths_match[] = {
->  	{ .compatible = "allwinner,sun50i-h6-ths", .data = &sun50i_h6_ths },
->  	{ .compatible = "allwinner,sun20i-d1-ths", .data = &sun20i_d1_ths },
->  	{ .compatible = "allwinner,sun50i-h616-ths", .data = &sun50i_h616_ths },
-> +	{ .compatible = "allwinner,sun55i-a523-ths0", .data = &sun55i_a523_ths0 },
-> +	{ .compatible = "allwinner,sun55i-a523-ths1", .data = &sun55i_a523_ths1 },
->  	{ /* sentinel */ },
->  };
->  MODULE_DEVICE_TABLE(of, of_ths_match);
-> -- 
-> 2.49.0
-> 
+You can have the property in the -u-boot.dtsi then if you want?
 
--- 
+While the FEL button on the X96 is "fake", it does what it says, just in 
+software, maybe that is close enough to "hardware definition" which 
+would make it suitable for the DT (well, we also store binman nodes in 
+the DT, which aren't strictly speaking hardware definition either :) ).
 
- <http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+Cheers,
+Quentin
