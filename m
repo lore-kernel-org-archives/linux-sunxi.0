@@ -1,201 +1,120 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1CB7224F6
-	for <linux-sunxi@lists.linux.dev>; Fri, 18 Apr 2025 13:38:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94F3D22F17B
+	for <linux-sunxi@lists.linux.dev>; Fri, 18 Apr 2025 22:51:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744983506; cv=none; b=RSXvHwwKmLQTugy8tO6oRuYl+SLjYnS4uGKAbygsqrSCarcfiACG2n7pvH9VXWFWSA+h1SdcC0x7KfkOzdckDVlSC7v7XOXU1y2Nsv4vOTEZBE3SL0pVmxy9mpaqukfULgK2PujERPL6T6C76+1vuCj9NJSi2kIn3eawbH+q+m8=
+	t=1745016679; cv=none; b=Hjt9mJrKKiRtjSsjjThVRh+dr7/56IExLItW3YeC3POOTZAAJsJ2oP8C4t7YPu7TJ9jlYtaOT70E4uo97+fQFERsb7a6XGm8Wpc/WBDrrlg2qVFY0gQb3RFYdIQ9BzbUUnn7lmUa+zLw8eFZlnvg8R9pQWQQitIoQgMIv4nPFbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744983506; c=relaxed/simple;
-	bh=uNPAmOkyXrXKI21dJPKiHtF/AiAGws8IUUtspmfI4uQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:In-Reply-To:
-	 From:Content-Type; b=ZEdZJTCZyEzepW9vP/oucbFXS1Wx9y8/dXhoKiPhMT34h9hP6iDsEwLvCeiGFCW02i53+PzlBweaGttcFhUAU0aYkEJcq/ZfI2MfPCh4nYR5kMBZXHuds51vB3yspLEMu4GX/kp++wSPhanNyySBRDQR9ugPUBLDjKkZnOQDo84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H6AnSUjf; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H6AnSUjf"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-22409402574so3510705ad.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 18 Apr 2025 06:38:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744983504; x=1745588304; darn=lists.linux.dev;
-        h=content-transfer-encoding:from:in-reply-to:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=gPTcC0Qo0IfweDpTBHJVf2QO3zsuTW+Lm6WypoA0fRY=;
-        b=H6AnSUjfanfUbcGpeMg1gHphE+wg/3NIUe+gKNZQgC9mDstjkF7TakcPJOoiOcg16L
-         aeO+odoorVCHkYSAfxBmeH6NWb/J7bIMU6XqfvBCUnUEV8e8B3A9BYtei4BffgbUNgnJ
-         QMquulNJqtqwJUY6jntnLZ18QuNJTtpYGgkrDQBeh5wlcnU3Svfd/d5SUnCvC5IK4+++
-         N5lyJNeOwko3+mffBEct4kWGFKSw2URx9jd2Yg06FjsElPNKR0lmzwL67HrdZ7TFo6UM
-         /EogrVxNKpr/WbuWrj0wHL6ht2JLlULXficiBcbP3A9zqCiIM12mYshYdGykFDkmhsqZ
-         Nvrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744983504; x=1745588304;
-        h=content-transfer-encoding:from:in-reply-to:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gPTcC0Qo0IfweDpTBHJVf2QO3zsuTW+Lm6WypoA0fRY=;
-        b=F4Tr/Q773is0AfWzZPmmNlaVu7qfYb2ULxwZva7rF2Ez+1TlgnWpmsSSzR5Irv9no0
-         q0/NdD8b2VNBJ7/EhfucV+f6GCnx0HBJa/uDk8lWgw1/vxK2AQXtJ3DJ3dD6NWzOPtEk
-         sVbzMFzF81hOOpDj0k2i2z6gtyHUnkKUR6yuN9w6YzwxWqoH5GpWeAZxW0Di3bzRnb/c
-         8ZC6RUa3c6jpdqjUXe6FLuZ8sfzHpmmdksKpBfhZM32pcuIy04A91fNOeGZKo8CkQBzN
-         eZB+/ouZ2tZElchLtuzZYTHByjuzp5PQ/G2x+6NrCwOVL/TaGquw5rkZccHr/rdXXqas
-         P/vQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX8bLk/E7GNhE0KbhyG/yJ/iz605+3FR2Y6YfFIzUURRuz/GhgVU8mzTeYxLDuOEWdjcvHqAuxrl5QKIg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxsNs65G5vPKjJE8CW03l8zEV4SP9A3K9YNf+2HLUxnyUYP5uwz
-	eaZfl7R/dXJzZVfcfOUP9uoaO8LRu9bO5592uHOp58rsbmvI/rgx
-X-Gm-Gg: ASbGncsEphB8lcpeBWxoTZjqQcyLbI2rwQEsZ5UCc6aopPorBjxohuqeryenn/DEMUO
-	sK0k6zkWL538vJ3+LA9e+5KSSg9yVjFGHLPXS4VJRyp2zi/ycL68gI8so6vVNfvjtV5HD/JGnny
-	FnhG/0OttAK9YR8s3kQUgXJcomoX5W6CarG+bW3ep+cXlgLkluI3J5JlF8DESpn9z4xehSsuyJ2
-	sFxynbSFC03cMKc8OnQ8BBw0ISkqT8WP4q0ztIPpnpPqFrZLQ08bKsdV9CdqivCa95aikq7/UI4
-	cuAx2WwrkHr19I4Ekr+T37ym1ZyhL1iCluuLMUHk7QZaxwkzVtMGwTEiaboP9Q/e43AVR0wr7rg
-	qKsvsMXykIZuM213Wi8rvycc5DA==
-X-Google-Smtp-Source: AGHT+IEYryzzRgr0FcDDUzJNYZVMf5qL5xMbHqFRL9xrVSNiBPnB48rP0O+OYmAEiF3wFKWEMbeD2w==
-X-Received: by 2002:a17:902:d4cc:b0:215:a57e:88d6 with SMTP id d9443c01a7336-22c530bc997mr14523115ad.0.1744983503877;
-        Fri, 18 Apr 2025 06:38:23 -0700 (PDT)
-Received: from ?IPV6:2406:3400:21b:310:2ef0:5dff:fe09:98db? ([2406:3400:21b:310:2ef0:5dff:fe09:98db])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22c50bdb1d2sm16663205ad.25.2025.04.18.06.38.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Apr 2025 06:38:23 -0700 (PDT)
-Message-ID: <417a77f3-8532-4528-9c3d-89671d1e6177@gmail.com>
-Date: Fri, 18 Apr 2025 23:38:16 +1000
+	s=arc-20240116; t=1745016679; c=relaxed/simple;
+	bh=emV3dKaOYasoNpwY47tGAaU3+OcbfsDYs73KayC6BcE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GoZ9roUmzIb078sVUBE42j3naaV7Pq+4otLZ6+s46A8ULwPtGChVBvnB6FnBmd+e4J98bGPe5YNftg5FGw1G1W3U1H0hiNihPG44MJtm5pX5rzIhWSfkyqR8dBZznUwdrWeD/dMeAN2AXOt5mlZBYI5v+QhopVGAPzNJghfhXHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
+Received: from localhost (unknown [116.232.27.72])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: dlan)
+	by smtp.gentoo.org (Postfix) with ESMTPSA id 30DD0342FF8;
+	Fri, 18 Apr 2025 22:51:13 +0000 (UTC)
+Date: Fri, 18 Apr 2025 22:51:04 +0000
+From: Yixun Lan <dlan@gentoo.org>
+To: Quentin Schulz <quentin.schulz@cherry.de>
+Cc: Andre Przywara <andre.przywara@arm.com>,
+	Jagan Teki <jagan@amarulasolutions.com>, u-boot@lists.denx.de,
+	Tom Rini <trini@konsulko.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 2/3] sunxi: add "fake" FEL pin support
+Message-ID: <20250418225104-GYA37749@gentoo>
+References: <20250417000539.3709-1-andre.przywara@arm.com>
+ <20250417000539.3709-3-andre.przywara@arm.com>
+ <b7ffc468-1970-4eba-85e1-47aaced0161a@cherry.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] drm/panfrost: reorder pd/clk/rst sequence
-To: Philippe Simons <simons.philippe@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev, Andre Przywara <andre.przywara@arm.com>,
- =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Philipp Zabel <p.zabel@pengutronix.de>
-References: <20250403055210.54486-1-simons.philippe@gmail.com>
- <20250403055210.54486-4-simons.philippe@gmail.com>
-Content-Language: en-US
-In-Reply-To: <20250403055210.54486-4-simons.philippe@gmail.com>
-From: John Williams <porschemad911@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b7ffc468-1970-4eba-85e1-47aaced0161a@cherry.de>
 
-I have regression tested this patch on the following devices:
+Hi
 
-Powkiddy RGB10X - Rockchip RK3326 (Mali G31)
+On 13:28 Fri 18 Apr     , Quentin Schulz wrote:
+> Hi Andre,
+> 
+> On 4/17/25 2:05 AM, Andre Przywara wrote:
+> > Some boards with Allwinner SoCs feature a "FEL" key, sometimes also
+> > labelled "uboot", which triggers the BootROM FEL mode, when pressed upon
+> > power-on or reset. This allows to access the SoC's memory via USB OTG,
+> > and to upload and execute code. There is a tool to upload our U-Boot image
+> > and immediately boot it, when the SoC is in FEL mode.
+> > 
+> > To mimic this convenient behaviour on boards without such a dedicated key,
+> > we can query a GPIO pin very early in the SPL boot, then trigger the
+> > BootROM FEL routine.  There has not been much of a SoC or board setup at
+> > this point, so we enter the BROM in a rather pristine state still. On
+> > 64-bit SoCs the required AArch32 reset guarantees a clean CPU state anyway.
+> > 
+> > Any GPIO can be used for that, the signal is expected to be active low,
+> > consequently we enable the pull-up resistors for that pin. A board (or a
+> > user) is expected to specify the GPIO name using the
+> > CONFIG_SUNXI_FAKE_FEL_PIN Kconfig variable. When this variable is not set,
+> > the compiler will optimise away the call.
+> > 
+> > Call the code first thing in board_init_f(), which is the first sunxi
+> > specific C routine.
+> > 
+> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > ---
+> >   arch/arm/mach-sunxi/Kconfig | 10 ++++++++++
+> >   arch/arm/mach-sunxi/board.c | 31 +++++++++++++++++++++++++++++++
+> >   2 files changed, 41 insertions(+)
+> > 
+> > diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
+> > index ab432390d3c..f1cfdb548bc 100644
+> > --- a/arch/arm/mach-sunxi/Kconfig
+> > +++ b/arch/arm/mach-sunxi/Kconfig
+> > @@ -825,6 +825,16 @@ config USB3_VBUS_PIN
+> >   	---help---
+> >   	See USB1_VBUS_PIN help text.
+> >   
+> > +config SUNXI_FAKE_FEL_PIN
+> > +	string "fake FEL GPIO pin"
+> > +	default ""
+> > +	---help---
+> > +	Define a GPIO that shall force entering FEL mode when a button
+> > +	connected to this pin is pressed at boot time. This must be an
+> > +	active low signal, the internal pull-up resistors are activated.
+> > +	This takes a string in the format understood by sunxi_name_to_gpio,
+> > +	e.g. PH1 for pin 1 of port H.
+> > +
+> 
+> Why not use the DT for that? Then you wouldn't even need to assume the 
+> polarity of the signal or whether pull-up/downs need to be activated, etc.
+> 
+> You can have the property in the -u-boot.dtsi then if you want?
+> 
+I've raised similar question in v1, but it's in SPL which has no DT available
+see Andre's commment
+https://lore.kernel.org/all/20250409110126.2cc59d30@donnerap.manchester.arm.com/
 
-Powkiddy RGB20 Pro - Rockchip RK3566 (Mali G52)
+maybe better add a SPL prefix to config? or some info in help docs to
+state clearly it should only work in SPL phase?
 
-Odroid Go Ultra - Amlogic S922X (Mali G52)
+> While the FEL button on the X96 is "fake", it does what it says, just in 
+> software, maybe that is close enough to "hardware definition" which 
+> would make it suitable for the DT (well, we also store binman nodes in 
+> the DT, which aren't strictly speaking hardware definition either :) ).
+> 
+> Cheers,
+> Quentin
 
-Gameforce ACE - Rockchip RK3588S (Mali G610)
-
-No regressions found during cold boot or with wake after sleep.
-
-Tested-by: John Williams <porschemad911@gmail.com>
-
-On 3/4/25 16:52, Philippe Simons wrote:
-> According to Mali manuals, the powerup sequence should be
-> enable pd, asserting the reset then enabling the clock and
-> the reverse for powerdown.
->
-> Signed-off-by: Philippe Simons <simons.philippe@gmail.com>
-> ---
->   drivers/gpu/drm/panfrost/panfrost_device.c | 38 +++++++++++-----------
->   1 file changed, 19 insertions(+), 19 deletions(-)
->
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
-> index 93d48e97ce10..5d35076b2e6d 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
-> @@ -209,10 +209,20 @@ int panfrost_device_init(struct panfrost_device *pfdev)
->   
->   	spin_lock_init(&pfdev->cycle_counter.lock);
->   
-> +	err = panfrost_pm_domain_init(pfdev);
-> +	if (err)
-> +		return err;
-> +
-> +	err = panfrost_reset_init(pfdev);
-> +	if (err) {
-> +		dev_err(pfdev->dev, "reset init failed %d\n", err);
-> +		goto out_pm_domain;
-> +	}
-> +
->   	err = panfrost_clk_init(pfdev);
->   	if (err) {
->   		dev_err(pfdev->dev, "clk init failed %d\n", err);
-> -		return err;
-> +		goto out_reset;
->   	}
->   
->   	err = panfrost_devfreq_init(pfdev);
-> @@ -229,25 +239,15 @@ int panfrost_device_init(struct panfrost_device *pfdev)
->   			goto out_devfreq;
->   	}
->   
-> -	err = panfrost_reset_init(pfdev);
-> -	if (err) {
-> -		dev_err(pfdev->dev, "reset init failed %d\n", err);
-> -		goto out_regulator;
-> -	}
-> -
-> -	err = panfrost_pm_domain_init(pfdev);
-> -	if (err)
-> -		goto out_reset;
-> -
->   	pfdev->iomem = devm_platform_ioremap_resource(pfdev->pdev, 0);
->   	if (IS_ERR(pfdev->iomem)) {
->   		err = PTR_ERR(pfdev->iomem);
-> -		goto out_pm_domain;
-> +		goto out_regulator;
->   	}
->   
->   	err = panfrost_gpu_init(pfdev);
->   	if (err)
-> -		goto out_pm_domain;
-> +		goto out_regulator;
->   
->   	err = panfrost_mmu_init(pfdev);
->   	if (err)
-> @@ -268,16 +268,16 @@ int panfrost_device_init(struct panfrost_device *pfdev)
->   	panfrost_mmu_fini(pfdev);
->   out_gpu:
->   	panfrost_gpu_fini(pfdev);
-> -out_pm_domain:
-> -	panfrost_pm_domain_fini(pfdev);
-> -out_reset:
-> -	panfrost_reset_fini(pfdev);
->   out_regulator:
->   	panfrost_regulator_fini(pfdev);
->   out_devfreq:
->   	panfrost_devfreq_fini(pfdev);
->   out_clk:
->   	panfrost_clk_fini(pfdev);
-> +out_reset:
-> +	panfrost_reset_fini(pfdev);
-> +out_pm_domain:
-> +	panfrost_pm_domain_fini(pfdev);
->   	return err;
->   }
->   
-> @@ -287,11 +287,11 @@ void panfrost_device_fini(struct panfrost_device *pfdev)
->   	panfrost_job_fini(pfdev);
->   	panfrost_mmu_fini(pfdev);
->   	panfrost_gpu_fini(pfdev);
-> -	panfrost_pm_domain_fini(pfdev);
-> -	panfrost_reset_fini(pfdev);
->   	panfrost_devfreq_fini(pfdev);
->   	panfrost_regulator_fini(pfdev);
->   	panfrost_clk_fini(pfdev);
-> +	panfrost_reset_fini(pfdev);
-> +	panfrost_pm_domain_fini(pfdev);
->   }
->   
->   #define PANFROST_EXCEPTION(id) \
+-- 
+Yixun Lan (dlan)
