@@ -1,110 +1,85 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6C5D1DF260;
-	Thu, 17 Apr 2025 23:32:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12F2825E834;
+	Fri, 18 Apr 2025 01:50:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744932772; cv=none; b=i7c0r5m7jJsx/UQ314LLXENjt+xpkaRpzJ2JfD4un49gPb2gg2wBLuoFRyCqRLQMgM8Nywr4MLnTkYtX+elHZjI/vkrRn7cei2rr5Dw/lY8LxCm5GjCS9AaCqdoy5mUKI+y61wRW9W0mAjGyoffhkvfaqY4tsv4uu0PFlNt6W1w=
+	t=1744941024; cv=none; b=hfdVUamuQPpGIx1qt4FwJi5IxSAL0ZcNPye7PdDocY4AkMbvzBKSvE5jneHTdwW3ELYwGZSgnrMoRybU4KEmmB1OuBpdO3UESUi54Fef2DxOIUbk//7qeQ4WMcmTXk4fexK2j9N4aLBILW6IMzA0PfijplwbkADJknb0O6tEoCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744932772; c=relaxed/simple;
-	bh=NjeDRiJTwUo1cP3hkUv6xDm1gfr1mj3fB9ermM3sWkI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=mSYw/+bmSuVeHS4GnXamFBjIx/U+6A6we4b48Q8TClUjIrCjQH5RHv8mVg42hnslsdi0rS1dt13MTTdY8nLz+KzsUy92SYfc6nPNafLzxoJW2e8V6Ydue5Eb6Wt9qxobty6dvAt1f+Gbn61bHOsFziU+Ay48Fxd4OvmcPyqBGq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OW6CQJvs; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744941024; c=relaxed/simple;
+	bh=RWS3beSN0nf1LG/1NlhXEkDw2nBv4zaRnqOhm+10ccI=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=cdP32PTnq3Xsvo6W/aOA+ngM5u7mCTavpP5xF/mfg8retcCW8BY+XJaV8CRd18bnO0cwIbijM6kgBGN21usB9/KwmXzwpyAoaYUJiYkJBLA05XP9A8oDRZrDxED/0XltKaCE44aDmI13SmzpfBZHHhu+/5QBG2XQIyddj2fNJ0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hc1SNNT+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OW6CQJvs"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 31C8EC4CEEA;
-	Thu, 17 Apr 2025 23:32:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hc1SNNT+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC52CC4CEEB;
+	Fri, 18 Apr 2025 01:50:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744932772;
-	bh=NjeDRiJTwUo1cP3hkUv6xDm1gfr1mj3fB9ermM3sWkI=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=OW6CQJvs7mRM8Ph4luHzB5TaTF/gDC0wIDwXS+GHSid/HWyY1ZfwUKwWc1BAZgOIq
-	 Q3o98pAK+tt/DmxJPBEZuy+EXseDivse2c8XsEUTc7pL/h+VGzVC3FsJqi4FbKvhAA
-	 UKA2uDXMHQOtT9j2/8Ege7CcHaLs1ezhtfZCC65c3oBV60Qo614sRF/bb9ajKT0Joz
-	 cpuLFja2dsor6zIobA9IS3EVzklgprGS9Dzn5QLu/7S64VbtkNoxDYGbwAcJCcPW3g
-	 8hjN65fsgewJ7aAuetF07k+Nb7judNAoXsaBp93TA58OfR8qE3Pe5ADfIvHQIrAa/k
-	 8CgSu3zoYTy0g==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F3D4C369C2;
-	Thu, 17 Apr 2025 23:32:52 +0000 (UTC)
-From: =?utf-8?q?J=2E_Neusch=C3=A4fer_via_B4_Relay?= <devnull+j.ne.posteo.net@kernel.org>
-Date: Fri, 18 Apr 2025 01:32:49 +0200
-Subject: [PATCH] ARM: dts: allwinner: orangepi-zero: Enable audio codec
+	s=k20201202; t=1744941023;
+	bh=RWS3beSN0nf1LG/1NlhXEkDw2nBv4zaRnqOhm+10ccI=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=Hc1SNNT+G7wWIDXsMbBYH6kqxhekJntqM19hxW+syQOW5t8laYO+5aKRzz8QYhMrX
+	 bF1u0Ay9Qu1NTL3YoBDE+8lfoliQKhOT8/WUUoPQevnNmERTAxfNSoa3TEbQb02XhJ
+	 d9yRTqlz9dSqkd7jUQA5hv2lXVeLZJZyGTAL66t/G5DznRDt3IagjzE+rcoVp37Mpc
+	 SYbukbpLlYZAzPItqcVdVPleocnrFlsp+1NzZAGzsL5nMsfinvYvzBkxOk8OepL9Bx
+	 krH5AR1X9D2i1Mct8gD4P+ODe0uaw+pvcDOpQFnk5uJh0lRroXyf/UFu5wd5JHMTgg
+	 wstyBa+3h68Hw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33B0B380AAEB;
+	Fri, 18 Apr 2025 01:51:03 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250418-opz-audio-v1-1-4e86bb5bc734@posteo.net>
-X-B4-Tracking: v=1; b=H4sIAKCPAWgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1MDE0Nz3fyCKt3E0pTMfF0LSwMLE8tki6Qko1QloPqCotS0zAqwWdGxtbU
- AXPuJz1sAAAA=
-X-Change-ID: 20250417-opz-audio-890849c8bb2e
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- =?utf-8?q?J=2E_Neusch=C3=A4fer?= <j.ne@posteo.net>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1744932771; l=1299;
- i=j.ne@posteo.net; s=20240329; h=from:subject:message-id;
- bh=k/eQQFQjUWyBWBOWbfy/ABZzzwLp3ynUUvGy69783PQ=;
- b=XFDURnfsrz3fEywg3lhFqDKzoRTAi/FcZG9XBdQ96YdDa7CZFBotwe5QPeCWFtnsRKebQD/SK
- u4ZHjkpmgcCB6noff2Vt0VoZe7aulUZBUyOZs83ORW4NTGoV7Puxm/G
-X-Developer-Key: i=j.ne@posteo.net; a=ed25519;
- pk=NIe0bK42wNaX/C4bi6ezm7NJK0IQE+8MKBm7igFMIS4=
-X-Endpoint-Received: by B4 Relay for j.ne@posteo.net/20240329 with
- auth_id=156
-X-Original-From: =?utf-8?q?J=2E_Neusch=C3=A4fer?= <j.ne@posteo.net>
-Reply-To: j.ne@posteo.net
+Subject: Re: [PATCH net-next 0/3] net: stmmac: sunxi cleanups
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <174494106174.75375.14390030556312826842.git-patchwork-notify@kernel.org>
+Date: Fri, 18 Apr 2025 01:51:01 +0000
+References: <Z_5WT_jOBgubjWQg@shell.armlinux.org.uk>
+In-Reply-To: <Z_5WT_jOBgubjWQg@shell.armlinux.org.uk>
+To: Russell King (Oracle) <linux@armlinux.org.uk>
+Cc: andrew@lunn.ch, hkallweit1@gmail.com, alexandre.torgue@foss.st.com,
+ andrew+netdev@lunn.ch, wens@csie.org, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, jernej.skrabec@gmail.com,
+ linux-arm-kernel@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
+ mcoquelin.stm32@gmail.com, netdev@vger.kernel.org, pabeni@redhat.com,
+ samuel@sholland.org
 
-From: "J. Neuschäfer" <j.ne@posteo.net>
+Hello:
 
-Line out playback and microphone capture work, after enabling the
-corresponding ALSA controls. Tested with the Orange Pi Zero interface
-board, which is a (mostly) passive adapter from the 13-pin header to
-standard connectors (2x USB A, 1x Audio/Video output, 1x built-in
-microphone).
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-  https://orangepi.com/index.php?route=product/product&product_id=871
+On Tue, 15 Apr 2025 13:51:27 +0100 you wrote:
+> Hi,
+> 
+> This series cleans up the sunxi (sun7i) code in two ways:
+> 
+> 1. it converts to use the new set_clk_tx_rate() method, even though
+>    we don't use clk_tx_i. In doing so, I reformat the function to
+>    read better, but with no changes to the code.
+> 
+> [...]
 
-Signed-off-by: J. Neuschäfer <j.ne@posteo.net>
----
- arch/arm/boot/dts/allwinner/sun8i-h2-plus-orangepi-zero.dts | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Here is the summary with links:
+  - [net-next,1/3] net: stmmac: sunxi: convert to set_clk_tx_rate()
+    https://git.kernel.org/netdev/net-next/c/a27d798fd83c
+  - [net-next,2/3] net: stmmac: sunxi: use stmmac_pltfr_probe()
+    https://git.kernel.org/netdev/net-next/c/dd2cdba4709f
+  - [net-next,3/3] net: stmmac: sunxi: use devm_stmmac_pltfr_probe()
+    https://git.kernel.org/netdev/net-next/c/69b3e38e2fb5
 
-diff --git a/arch/arm/boot/dts/allwinner/sun8i-h2-plus-orangepi-zero.dts b/arch/arm/boot/dts/allwinner/sun8i-h2-plus-orangepi-zero.dts
-index 1b001f2ad0efd2e77218742efe6d8edfdd18a816..d65ede3dd6ed1206248a39c91e46065684e7ba29 100644
---- a/arch/arm/boot/dts/allwinner/sun8i-h2-plus-orangepi-zero.dts
-+++ b/arch/arm/boot/dts/allwinner/sun8i-h2-plus-orangepi-zero.dts
-@@ -112,6 +112,14 @@ wifi_pwrseq: pwrseq {
- 	};
- };
- 
-+&codec {
-+	allwinner,audio-routing =
-+		"Line Out", "LINEOUT",
-+		"MIC1", "Mic",
-+		"Mic",  "MBIAS";
-+	status = "okay";
-+};
-+
- &cpu0 {
- 	cpu-supply = <&reg_vdd_cpux>;
- };
-
----
-base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
-change-id: 20250417-opz-audio-890849c8bb2e
-
-Best regards,
+You are awesome, thank you!
 -- 
-J. Neuschäfer <j.ne@posteo.net>
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
