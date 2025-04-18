@@ -1,223 +1,201 @@
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2055.outbound.protection.outlook.com [40.107.20.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 405BB274667
-	for <linux-sunxi@lists.linux.dev>; Fri, 18 Apr 2025 11:28:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.20.55
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744975712; cv=fail; b=R15N74y0LFO4rw4MEIEWzBgSXvL+we6BQTUOWI2v0xo5mmztnsYnf8tLF48OZF3+3wUCWdqwoSbSeZ+uYs3ohujLEVULXrLjZ/0/kUn88WKQ2r2HGP8OnqLVgAKV68k5nlj1W4e6kCbmzdmAfvH9/EIK9QFoVkjJuIx0F+HhHEA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744975712; c=relaxed/simple;
-	bh=oBh+XLJeoHSCSUzJ6SOvsl0ldrwc1nG7bsjsGiIzfZo=;
-	h=Message-ID:Date:From:Subject:To:Cc:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=aq0oAIOrz//ag0Vk6SlVQVotwNUuJZl3Zhwe9fLWBNISlQN7j0dLk9m9wcrSEaQV0UwKadRWDroQj9pGcr2QLLxj1IBpz7i0dJOsiktFKT77WhxpRcVdwkEmVCVLL3WSbDmaBN589RxQxWOZeXBT6BJiDimqhH2XiGjG6Ua1ijc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cherry.de; spf=pass smtp.mailfrom=cherry.de; dkim=pass (1024-bit key) header.d=cherry.de header.i=@cherry.de header.b=VdiYpx++; arc=fail smtp.client-ip=40.107.20.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cherry.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cherry.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1CB7224F6
+	for <linux-sunxi@lists.linux.dev>; Fri, 18 Apr 2025 13:38:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744983506; cv=none; b=RSXvHwwKmLQTugy8tO6oRuYl+SLjYnS4uGKAbygsqrSCarcfiACG2n7pvH9VXWFWSA+h1SdcC0x7KfkOzdckDVlSC7v7XOXU1y2Nsv4vOTEZBE3SL0pVmxy9mpaqukfULgK2PujERPL6T6C76+1vuCj9NJSi2kIn3eawbH+q+m8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744983506; c=relaxed/simple;
+	bh=uNPAmOkyXrXKI21dJPKiHtF/AiAGws8IUUtspmfI4uQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:In-Reply-To:
+	 From:Content-Type; b=ZEdZJTCZyEzepW9vP/oucbFXS1Wx9y8/dXhoKiPhMT34h9hP6iDsEwLvCeiGFCW02i53+PzlBweaGttcFhUAU0aYkEJcq/ZfI2MfPCh4nYR5kMBZXHuds51vB3yspLEMu4GX/kp++wSPhanNyySBRDQR9ugPUBLDjKkZnOQDo84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H6AnSUjf; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cherry.de header.i=@cherry.de header.b="VdiYpx++"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SI+y13+PQ77EVn5vv4fSBVuxtbG7d2za+EoQrTYhNUaknk35BsQxhlcVdDA8pfxCIoJ0fTG2GVNAbRWhaWEX8OTcTjPxRVXI6/YG8OSSxM6UYCcLsVJZclSK0het4KgaYOqu90abUSeSkWr3zip0cR7dpiLMncjodXNXHApqnOJxee+FpzHTr18GeN4JuBjhLVXK2j4kb1HbiREHA3Huvgv8xV9IBoXyDXWCrHtEQP/W/KTWbLwHFL4LYPJADEwx+M7ONxKz+TzLEPvXDuJaZyWJG38fBbK7nniLEIgmL6cPhcb1pHC+eUnc9v+PNnE4zz6eQOeDQuC3phBPqxwXpA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=z20gIT4qLtFSoMDNT6zkPVxE7+YCFdhXeN/JR6bmWhY=;
- b=PZatVEoRMiK9/ySnDwpX9GinRHBTUCwBOZbLxRnI5Fo6UvZif7/RrJExbe/R8tjp9inf3xRF4mzEyxQhy40j6GDy1DzL/iYCGSXvHrxJU356BAYUn1CF1wAxeeuDksy7FVGDxGCOyCgA7pWQyL+/DkcKqxM0Mk9UGjGij8ZAESlYtDnviysbiT8/3F01ycwhonYO09wtpdDUJ5njwsddWJ3LLcu6ghNMOA6AJ3ATRKb+Dyv/Ctt+iaLe2kvcP+2Uzvqyjb6lDfwDeb2lTzVDWz/kuafDBZK83h4AnBQSbsG73nlVZ+VQX60akC0HqPZXpttVgARAjq5BMHvSqRU1wA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
- dkim=pass header.d=cherry.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=z20gIT4qLtFSoMDNT6zkPVxE7+YCFdhXeN/JR6bmWhY=;
- b=VdiYpx++15qijxKxuFX8eg1o4lST0woYXxmTN6zl1V2Cs7KScJUCdF3wcj/62Mh+zbVB6QR3RNmR0pWxgnwJlF5VQjLBE7ujevGTPRDZoaSZ4AGAKTa82ulW6xOiG8G6/JtYm+RmGoO5083njSu9ah2fticrdoFw34ZF+hqoncs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cherry.de;
-Received: from AM9PR04MB8906.eurprd04.prod.outlook.com (2603:10a6:20b:409::9)
- by VI0PR04MB10542.eurprd04.prod.outlook.com (2603:10a6:800:265::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.27; Fri, 18 Apr
- 2025 11:28:25 +0000
-Received: from AM9PR04MB8906.eurprd04.prod.outlook.com
- ([fe80::d379:5378:b1:cea]) by AM9PR04MB8906.eurprd04.prod.outlook.com
- ([fe80::d379:5378:b1:cea%6]) with mapi id 15.20.8632.030; Fri, 18 Apr 2025
- 11:28:25 +0000
-Message-ID: <b7ffc468-1970-4eba-85e1-47aaced0161a@cherry.de>
-Date: Fri, 18 Apr 2025 13:28:23 +0200
-User-Agent: Mozilla Thunderbird
-From: Quentin Schulz <quentin.schulz@cherry.de>
-Subject: Re: [PATCH v2 2/3] sunxi: add "fake" FEL pin support
-To: Andre Przywara <andre.przywara@arm.com>,
- Jagan Teki <jagan@amarulasolutions.com>, u-boot@lists.denx.de
-Cc: Yixun Lan <dlan@gentoo.org>, Tom Rini <trini@konsulko.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev
-References: <20250417000539.3709-1-andre.przywara@arm.com>
- <20250417000539.3709-3-andre.przywara@arm.com>
-Content-Language: en-US
-In-Reply-To: <20250417000539.3709-3-andre.przywara@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0143.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b8::14) To AM9PR04MB8906.eurprd04.prod.outlook.com
- (2603:10a6:20b:409::9)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H6AnSUjf"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-22409402574so3510705ad.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 18 Apr 2025 06:38:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744983504; x=1745588304; darn=lists.linux.dev;
+        h=content-transfer-encoding:from:in-reply-to:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gPTcC0Qo0IfweDpTBHJVf2QO3zsuTW+Lm6WypoA0fRY=;
+        b=H6AnSUjfanfUbcGpeMg1gHphE+wg/3NIUe+gKNZQgC9mDstjkF7TakcPJOoiOcg16L
+         aeO+odoorVCHkYSAfxBmeH6NWb/J7bIMU6XqfvBCUnUEV8e8B3A9BYtei4BffgbUNgnJ
+         QMquulNJqtqwJUY6jntnLZ18QuNJTtpYGgkrDQBeh5wlcnU3Svfd/d5SUnCvC5IK4+++
+         N5lyJNeOwko3+mffBEct4kWGFKSw2URx9jd2Yg06FjsElPNKR0lmzwL67HrdZ7TFo6UM
+         /EogrVxNKpr/WbuWrj0wHL6ht2JLlULXficiBcbP3A9zqCiIM12mYshYdGykFDkmhsqZ
+         Nvrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744983504; x=1745588304;
+        h=content-transfer-encoding:from:in-reply-to:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gPTcC0Qo0IfweDpTBHJVf2QO3zsuTW+Lm6WypoA0fRY=;
+        b=F4Tr/Q773is0AfWzZPmmNlaVu7qfYb2ULxwZva7rF2Ez+1TlgnWpmsSSzR5Irv9no0
+         q0/NdD8b2VNBJ7/EhfucV+f6GCnx0HBJa/uDk8lWgw1/vxK2AQXtJ3DJ3dD6NWzOPtEk
+         sVbzMFzF81hOOpDj0k2i2z6gtyHUnkKUR6yuN9w6YzwxWqoH5GpWeAZxW0Di3bzRnb/c
+         8ZC6RUa3c6jpdqjUXe6FLuZ8sfzHpmmdksKpBfhZM32pcuIy04A91fNOeGZKo8CkQBzN
+         eZB+/ouZ2tZElchLtuzZYTHByjuzp5PQ/G2x+6NrCwOVL/TaGquw5rkZccHr/rdXXqas
+         P/vQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX8bLk/E7GNhE0KbhyG/yJ/iz605+3FR2Y6YfFIzUURRuz/GhgVU8mzTeYxLDuOEWdjcvHqAuxrl5QKIg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxsNs65G5vPKjJE8CW03l8zEV4SP9A3K9YNf+2HLUxnyUYP5uwz
+	eaZfl7R/dXJzZVfcfOUP9uoaO8LRu9bO5592uHOp58rsbmvI/rgx
+X-Gm-Gg: ASbGncsEphB8lcpeBWxoTZjqQcyLbI2rwQEsZ5UCc6aopPorBjxohuqeryenn/DEMUO
+	sK0k6zkWL538vJ3+LA9e+5KSSg9yVjFGHLPXS4VJRyp2zi/ycL68gI8so6vVNfvjtV5HD/JGnny
+	FnhG/0OttAK9YR8s3kQUgXJcomoX5W6CarG+bW3ep+cXlgLkluI3J5JlF8DESpn9z4xehSsuyJ2
+	sFxynbSFC03cMKc8OnQ8BBw0ISkqT8WP4q0ztIPpnpPqFrZLQ08bKsdV9CdqivCa95aikq7/UI4
+	cuAx2WwrkHr19I4Ekr+T37ym1ZyhL1iCluuLMUHk7QZaxwkzVtMGwTEiaboP9Q/e43AVR0wr7rg
+	qKsvsMXykIZuM213Wi8rvycc5DA==
+X-Google-Smtp-Source: AGHT+IEYryzzRgr0FcDDUzJNYZVMf5qL5xMbHqFRL9xrVSNiBPnB48rP0O+OYmAEiF3wFKWEMbeD2w==
+X-Received: by 2002:a17:902:d4cc:b0:215:a57e:88d6 with SMTP id d9443c01a7336-22c530bc997mr14523115ad.0.1744983503877;
+        Fri, 18 Apr 2025 06:38:23 -0700 (PDT)
+Received: from ?IPV6:2406:3400:21b:310:2ef0:5dff:fe09:98db? ([2406:3400:21b:310:2ef0:5dff:fe09:98db])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22c50bdb1d2sm16663205ad.25.2025.04.18.06.38.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Apr 2025 06:38:23 -0700 (PDT)
+Message-ID: <417a77f3-8532-4528-9c3d-89671d1e6177@gmail.com>
+Date: Fri, 18 Apr 2025 23:38:16 +1000
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9PR04MB8906:EE_|VI0PR04MB10542:EE_
-X-MS-Office365-Filtering-Correlation-Id: 69aa8276-df60-4f3f-7eac-08dd7e6c2238
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?OUx1MmZaV1ZwM1RzVGNqN3plWkhiUm1rV0ticm1WUjl3S2J0L1RyOWNTSmdL?=
- =?utf-8?B?eTYra3FVaWZHRmcrcW9lWWlYdkdWTTRENnM4ZmtlbTdaa1E2amtDRkdoQWZq?=
- =?utf-8?B?YlJCNzNpNXpqWXl0RlVFSUxaQ2dwNkhWNmhudjVOUTBwaVVqQVdlQ2x2SWhF?=
- =?utf-8?B?cFBXM2VOdWNkMUo5bGRNeU5uTHlqOThRb3dkaVNwOW1YQzdpdHFURElFMnlD?=
- =?utf-8?B?VE9XL3lUOFR2OG5FaGJ4SHZqUDlrY1NzelgxeHMzck1DMURhMFNsU3pLa2Z5?=
- =?utf-8?B?RVZhakkwQVJzOUpuQ2RWcmRsYXJnY3RXK1JpdHAwOVAzelk5SzVHSUdwNlYy?=
- =?utf-8?B?azIwaFFUSzdhNkRXZjdmdDBwK2xiZEk4YTNsdlUwT3ZCUEtPR2VCUUhNLzFp?=
- =?utf-8?B?Ny9BSGRoZWg1YWd5TlFKclpMMVZGK3VWYUdCbkppSHlrRTA1aXEyQnFWd0NK?=
- =?utf-8?B?N3o5aVpaN3V0emJVOEllR29EVElLN0VabDAyZU9zZHhsdU43WEpUOUF2NlFS?=
- =?utf-8?B?L1BZVTkyTWxCdVVXalJNbXJiMjUyWjdUaWVjNWhYL2I2R1o1eUgxeUprcnBP?=
- =?utf-8?B?MjBSaHVjMElFcXVYay9NUmFibWwwQXJUNzB3eUNIVXg3c1JSQkFReE9RbjBj?=
- =?utf-8?B?dGhwM25GMVVwdVpDQm11RG8rUkJDUlB5Z1plMk9QMGtkcjRQYjNyenprMy82?=
- =?utf-8?B?b3pxOHJSSGZYTVdYaWEzL0hzK3VuQkZrUzE3eWJQeGZhbWY5UVZKMm1rQXJU?=
- =?utf-8?B?QWRndktES1BMVmdxdjBJVGkwdHBwYnNhcXlnOUVvRGt5aTlxWU1UUzhsTVNl?=
- =?utf-8?B?VG8yUmVhK1JhNlZFL2pkcWtUN2w5bEVYQ3JJVnpMMWFPNUdFVTNYQ2dBMHdB?=
- =?utf-8?B?eW1RM25nOXlxZkFYRWtxQk5nb1BNKzRRVmpLeXpXYXhDZEFTa3h3Mkc4RTZY?=
- =?utf-8?B?dy9PYlMwc1NyRHI3MW8vNGpwMmVnRTh6UjlpS2JuNU5hVGUxV0VOVW5LUEpF?=
- =?utf-8?B?RlFGME9NaGNDOHlGSG5QcWRHVWpBb0NjdElJeFZ2Yno0bStoUllYcjB6c01M?=
- =?utf-8?B?MzRtam9Od0xFanVhcTJleTJyN3dpdnU2Tis2Sy9mamxuelIwdkZ4MGR5V1lw?=
- =?utf-8?B?L1NnQ3NxZitpNGRtM0JDcWRLdGpUVy85YWtkVCt0bndBdGZncHlNUUp1SUp1?=
- =?utf-8?B?ZGRGSFFjNjlrb0ZqNzZWUUgwN0VGQWNyRTVsSktQR2JscFN3VjE3Qnp1S3lF?=
- =?utf-8?B?MDc4VTlwWlJnNHRXSm5QaFY1MWVBUElHK1d4b2ZtUmRPdlpOSkdkOUZSdXdO?=
- =?utf-8?B?ZzVuTlY2aUpOVGpsNy9RNmVIZUdsTGhQRmVnVE8yZkIrNFVYbUN1Um5COXM1?=
- =?utf-8?B?YnlTbjlVVW8zcFhoclZGcTZHTzJYUXcySEVzSnFXc0NBTWl0Q3lCK3Q1RllH?=
- =?utf-8?B?UEZsbE41SldSVGpCWHMxVDFMVVNqT25JRG1WNDlpdDZxck1OK1RWcUJnZ29v?=
- =?utf-8?B?cXZSWE5VTU1SZGtzUDg5N3FwQ1ZQdGp3SnVHeVptUmZTUGVUelhIT3FFLzRK?=
- =?utf-8?B?RXg3QWt2QzFKeDZJdWF1Vm1qQmRxclpkcXZwVVU1V09KWW8yS0hPOFhjbS9k?=
- =?utf-8?B?bzJLWE1wOXA4SlpKemNWK0lLNEdPUWRmdnREbFdKc2l5aU5yelRmTURJTlFX?=
- =?utf-8?B?c09LQllKYlV5WTFCNmJRWUJZeFk0N3dWekd5Mmx1N2tWdHA2NFBZMmZiS2Jt?=
- =?utf-8?B?cjIrZ2tMSmc4NEZjem1rOVlTWXI1RUQ3d05CcG1tU3ZxZFRySHFGeU40eDJO?=
- =?utf-8?B?QnluS0NrbUZhek5YMkc4eXd4UCswS2FRMUdYSUxBN2NVeHc2VE1nMS8xTFRP?=
- =?utf-8?B?bDVodmVQZFlTaHdoUUFqU2tOUVlLSDJOTU95MmdZajY0My9La1B6Unl5SWla?=
- =?utf-8?Q?rsHogR4FovI=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8906.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?OTRsU2s2N1ZnQmMvYjZCd29DTjh4bUpjTXgzanltcU4ydmRWMCtRcmYwM05G?=
- =?utf-8?B?eWtuMzBzNjhNOVJSd2g4blM0cDVMYmNBakRmK0o0MHNxZHcrVHE0UUd2dHpt?=
- =?utf-8?B?ZGVqUVBhSGd1dmpkNUVEZnZlUWxMZGR3UlgyOHFVYkNDU2F2Y2phV2JFTzQv?=
- =?utf-8?B?UXU0d24zL1hBQmtVTU55N2JTRnFWWWVKdXFIUzAvL05UWGIzYlcxdHV3a3ZT?=
- =?utf-8?B?Y3BiOHI5SHNPeE9qZWRaWXBQazU4RkZPQ3hac3pJcmNWQkFtWHpORE5hanlz?=
- =?utf-8?B?OHZDK21GZmprUXkyRGpzUkZjaGE4NnN1dG0xTUhlbkxXK1VCWlMzaFIzWFls?=
- =?utf-8?B?ak1USWtNYnI1Mm85SWFhRklIMkU3aFZBUlhma0xwNndFK2RNSEJ4d0V0aVdn?=
- =?utf-8?B?RVc1YWJueTA3U05INnR4OVpqZGI5Z3BscmpBZUt1OXVOTmxuaU1DRzd6NnZz?=
- =?utf-8?B?YnN2OURCVktIK3lxMTN6TTZLMDdXTmljZUhGOWpXSU9RNUJmWTV6R0dlZ0c0?=
- =?utf-8?B?RzF4Uk9ldDFseW1HaTh2NWJKVkNyVHp1WHNrS2VPMTNvTjlKeEZRS3dBejJs?=
- =?utf-8?B?MnVhSnRLcnNzZXNySUR3dVV0djNHOVEvYjNJY2d3R1FuWVdrdDA5YUd6SjNO?=
- =?utf-8?B?SXN5eFNUVk8xZHB0YkU2K0l5T2xwTGp0cnJQcXdwT2NSN1hFVVBSM2Z3VkRM?=
- =?utf-8?B?dU9pU3JsTzdZbkhjZG45SHozNlNIcVd5eTNoNk1tNjl4QUNGUFNkVWEvSyt4?=
- =?utf-8?B?SUVOd3pQYjh1Nksvc2RjZ1ZRYkNzaDcxbXZVYXVLYTgxbm1kMzhTak8vQnV0?=
- =?utf-8?B?eWp2Y0hHb3VFc1VoOEg0OENWT1NwaGJIWnVGTW0wSm5OU1hpcDlvbkhLNll5?=
- =?utf-8?B?UUxLWTRYbTVqNHFkaTZyd2IvRjIzYnhJbkwyZEJhY1RkQ1dubm42MzVGMkJJ?=
- =?utf-8?B?UlRtdmo5Wk9rdUFIR0JhQm1xa1BkdjlhREdXblFLa0RtWGYxc3ZlaXhMQU8v?=
- =?utf-8?B?dUxoOUZhYVAzZHJtbDNKVFNMWUhsNHFUaUltai9pc2d6c0I5ZG81MmFZK1lX?=
- =?utf-8?B?c0JrcUpxU0lJTzFXNVU1L0Z1K0JCcDNsVDhVcG11eGJYcWZzbVYzZXV4UTBJ?=
- =?utf-8?B?ODQ4Z2hkWHU1dlpPUzFnVS9YMTdIMTJ3WXlsaXVzM2hUZ0dySHNvQkpGNjlH?=
- =?utf-8?B?MUQ3YUswV25sMXRnbVhISGNKb1R6emJKdmJPZUxHNytNbE5PbDRLcStBUitw?=
- =?utf-8?B?V0Q0QWlJNUpYNFpBRDY1UTEyTk52OWswMEJzeDdOSGpNN3V0RjFwZGFjamsx?=
- =?utf-8?B?RVAzME9PQ0JSSlRYVFM0cDNaMkRxOG5TN0FCZTJ4dGRheEVnVTZNNFk4OCtt?=
- =?utf-8?B?ZUcvTzAwdHZkYmF3Y1pNWnRmS2M5OXRwNm9tL1h6V0w2cFlzaHFWVFUvcFBB?=
- =?utf-8?B?L2lGZFhqTmR4bGpSaXRDT1BNbEJnaE9DcTR5ZDNjYy8wV29Sek9lYkpZK0FT?=
- =?utf-8?B?bHQyOVJLUGFvR1ZiUHhicTZOV3p3eXBnSGEraEhYME5PNGlrNERwMFRweVdr?=
- =?utf-8?B?ZTFKZzJqUER6S0x0Rzc2ZGM0QkJMajhQbURETHBKZG9aVkdkZWFVUmVCcEoz?=
- =?utf-8?B?TDZocjNhaisxOTRiKy9xOWVsd3dKNW5jTGU2TnR6bk05KzJ1NkFsYS90SDN3?=
- =?utf-8?B?VGJ1MDVwRFNzYmFlWDNzd2RlZGplb3kvUWs4QkhsN0pIcm41VE1zMFZBYmVE?=
- =?utf-8?B?UU1uZDl5Zisrb09VbVM2VTZrZi9kUW92N2YvWmprNGhrQXIrbnhJc0IydmpH?=
- =?utf-8?B?NXkwa0s1SXRPVUVUTXdLNVNaR1RPdGI5dkJ6cXF1Z1hwd3JJOHoyZXFaaXZV?=
- =?utf-8?B?SVQvYjN2TFJlbzFWOVBjNTFKM21rdjlyUjhnTTQ2b3hrUG9obWhrSFVYUFJ6?=
- =?utf-8?B?cWN4Yjd1YlNwRGxHbWoyVmhrbGJBRmdwM2gzTlY0TFU0NHpYdWsvdzhMZXFV?=
- =?utf-8?B?aU9nUEZ1RXdSVlhnM2dvdlBxbFZaMkd6NGI1QVVMSmxuc0tyeFZMSTMyWGNv?=
- =?utf-8?B?b1dBMzBJNWhoNjhKOXE1V3pINnJBR1lPNXZWcFEyWHVBN0R5d09TSUd6TERE?=
- =?utf-8?B?WWdCQ0ZPbXN4NllpNjFJdERCQXhaYWp0Yk1vMUREVy9ScC9EY3dLT3lXYmQw?=
- =?utf-8?B?NkE9PQ==?=
-X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 69aa8276-df60-4f3f-7eac-08dd7e6c2238
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8906.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Apr 2025 11:28:25.5648
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sZJ/Tax4qLqjuPnE/6sZhEy8TlVPxXkeeAT7EJxobeDL4ieLUEUaX107GiqvcYQmB1m7ReDVEUQqfQOhEnRAwgJorBJMHMRRduASCxfp1xA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB10542
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] drm/panfrost: reorder pd/clk/rst sequence
+To: Philippe Simons <simons.philippe@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, Andre Przywara <andre.przywara@arm.com>,
+ =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+References: <20250403055210.54486-1-simons.philippe@gmail.com>
+ <20250403055210.54486-4-simons.philippe@gmail.com>
+Content-Language: en-US
+In-Reply-To: <20250403055210.54486-4-simons.philippe@gmail.com>
+From: John Williams <porschemad911@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Andre,
+I have regression tested this patch on the following devices:
 
-On 4/17/25 2:05 AM, Andre Przywara wrote:
-> Some boards with Allwinner SoCs feature a "FEL" key, sometimes also
-> labelled "uboot", which triggers the BootROM FEL mode, when pressed upon
-> power-on or reset. This allows to access the SoC's memory via USB OTG,
-> and to upload and execute code. There is a tool to upload our U-Boot image
-> and immediately boot it, when the SoC is in FEL mode.
-> 
-> To mimic this convenient behaviour on boards without such a dedicated key,
-> we can query a GPIO pin very early in the SPL boot, then trigger the
-> BootROM FEL routine.  There has not been much of a SoC or board setup at
-> this point, so we enter the BROM in a rather pristine state still. On
-> 64-bit SoCs the required AArch32 reset guarantees a clean CPU state anyway.
-> 
-> Any GPIO can be used for that, the signal is expected to be active low,
-> consequently we enable the pull-up resistors for that pin. A board (or a
-> user) is expected to specify the GPIO name using the
-> CONFIG_SUNXI_FAKE_FEL_PIN Kconfig variable. When this variable is not set,
-> the compiler will optimise away the call.
-> 
-> Call the code first thing in board_init_f(), which is the first sunxi
-> specific C routine.
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Powkiddy RGB10X - Rockchip RK3326 (Mali G31)
+
+Powkiddy RGB20 Pro - Rockchip RK3566 (Mali G52)
+
+Odroid Go Ultra - Amlogic S922X (Mali G52)
+
+Gameforce ACE - Rockchip RK3588S (Mali G610)
+
+No regressions found during cold boot or with wake after sleep.
+
+Tested-by: John Williams <porschemad911@gmail.com>
+
+On 3/4/25 16:52, Philippe Simons wrote:
+> According to Mali manuals, the powerup sequence should be
+> enable pd, asserting the reset then enabling the clock and
+> the reverse for powerdown.
+>
+> Signed-off-by: Philippe Simons <simons.philippe@gmail.com>
 > ---
->   arch/arm/mach-sunxi/Kconfig | 10 ++++++++++
->   arch/arm/mach-sunxi/board.c | 31 +++++++++++++++++++++++++++++++
->   2 files changed, 41 insertions(+)
-> 
-> diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
-> index ab432390d3c..f1cfdb548bc 100644
-> --- a/arch/arm/mach-sunxi/Kconfig
-> +++ b/arch/arm/mach-sunxi/Kconfig
-> @@ -825,6 +825,16 @@ config USB3_VBUS_PIN
->   	---help---
->   	See USB1_VBUS_PIN help text.
+>   drivers/gpu/drm/panfrost/panfrost_device.c | 38 +++++++++++-----------
+>   1 file changed, 19 insertions(+), 19 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
+> index 93d48e97ce10..5d35076b2e6d 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
+> @@ -209,10 +209,20 @@ int panfrost_device_init(struct panfrost_device *pfdev)
 >   
-> +config SUNXI_FAKE_FEL_PIN
-> +	string "fake FEL GPIO pin"
-> +	default ""
-> +	---help---
-> +	Define a GPIO that shall force entering FEL mode when a button
-> +	connected to this pin is pressed at boot time. This must be an
-> +	active low signal, the internal pull-up resistors are activated.
-> +	This takes a string in the format understood by sunxi_name_to_gpio,
-> +	e.g. PH1 for pin 1 of port H.
+>   	spin_lock_init(&pfdev->cycle_counter.lock);
+>   
+> +	err = panfrost_pm_domain_init(pfdev);
+> +	if (err)
+> +		return err;
 > +
-
-Why not use the DT for that? Then you wouldn't even need to assume the 
-polarity of the signal or whether pull-up/downs need to be activated, etc.
-
-You can have the property in the -u-boot.dtsi then if you want?
-
-While the FEL button on the X96 is "fake", it does what it says, just in 
-software, maybe that is close enough to "hardware definition" which 
-would make it suitable for the DT (well, we also store binman nodes in 
-the DT, which aren't strictly speaking hardware definition either :) ).
-
-Cheers,
-Quentin
+> +	err = panfrost_reset_init(pfdev);
+> +	if (err) {
+> +		dev_err(pfdev->dev, "reset init failed %d\n", err);
+> +		goto out_pm_domain;
+> +	}
+> +
+>   	err = panfrost_clk_init(pfdev);
+>   	if (err) {
+>   		dev_err(pfdev->dev, "clk init failed %d\n", err);
+> -		return err;
+> +		goto out_reset;
+>   	}
+>   
+>   	err = panfrost_devfreq_init(pfdev);
+> @@ -229,25 +239,15 @@ int panfrost_device_init(struct panfrost_device *pfdev)
+>   			goto out_devfreq;
+>   	}
+>   
+> -	err = panfrost_reset_init(pfdev);
+> -	if (err) {
+> -		dev_err(pfdev->dev, "reset init failed %d\n", err);
+> -		goto out_regulator;
+> -	}
+> -
+> -	err = panfrost_pm_domain_init(pfdev);
+> -	if (err)
+> -		goto out_reset;
+> -
+>   	pfdev->iomem = devm_platform_ioremap_resource(pfdev->pdev, 0);
+>   	if (IS_ERR(pfdev->iomem)) {
+>   		err = PTR_ERR(pfdev->iomem);
+> -		goto out_pm_domain;
+> +		goto out_regulator;
+>   	}
+>   
+>   	err = panfrost_gpu_init(pfdev);
+>   	if (err)
+> -		goto out_pm_domain;
+> +		goto out_regulator;
+>   
+>   	err = panfrost_mmu_init(pfdev);
+>   	if (err)
+> @@ -268,16 +268,16 @@ int panfrost_device_init(struct panfrost_device *pfdev)
+>   	panfrost_mmu_fini(pfdev);
+>   out_gpu:
+>   	panfrost_gpu_fini(pfdev);
+> -out_pm_domain:
+> -	panfrost_pm_domain_fini(pfdev);
+> -out_reset:
+> -	panfrost_reset_fini(pfdev);
+>   out_regulator:
+>   	panfrost_regulator_fini(pfdev);
+>   out_devfreq:
+>   	panfrost_devfreq_fini(pfdev);
+>   out_clk:
+>   	panfrost_clk_fini(pfdev);
+> +out_reset:
+> +	panfrost_reset_fini(pfdev);
+> +out_pm_domain:
+> +	panfrost_pm_domain_fini(pfdev);
+>   	return err;
+>   }
+>   
+> @@ -287,11 +287,11 @@ void panfrost_device_fini(struct panfrost_device *pfdev)
+>   	panfrost_job_fini(pfdev);
+>   	panfrost_mmu_fini(pfdev);
+>   	panfrost_gpu_fini(pfdev);
+> -	panfrost_pm_domain_fini(pfdev);
+> -	panfrost_reset_fini(pfdev);
+>   	panfrost_devfreq_fini(pfdev);
+>   	panfrost_regulator_fini(pfdev);
+>   	panfrost_clk_fini(pfdev);
+> +	panfrost_reset_fini(pfdev);
+> +	panfrost_pm_domain_fini(pfdev);
+>   }
+>   
+>   #define PANFROST_EXCEPTION(id) \
