@@ -1,64 +1,64 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 366831E5729
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7321A1E5B6F
 	for <linux-sunxi@lists.linux.dev>; Sun, 20 Apr 2025 09:48:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745142513; cv=none; b=g57IKkgsTtTkWfZugKJ0sDyz0SK8sRkfv82SSDnOr9m66cMRKHSrvDrZQIdygruLZTNSd1FPSwFxKza69H5r2FHWJh9WCn2bBAHJ0DD1DN3So5sPbXUt4UuyWbTi6KYCrwJam9ji2PtWtLgZ6/DeegPWt+nCn0aYOF8NG5mBnaI=
+	t=1745142514; cv=none; b=frwBdJkxPP7FumeToO1Td3PgGaS/lUKp5fNVz0JisQMKd5/lsJOr9xud0A+Sg7UJkqLkGZIuTZgd49Zqh62V+J5F8LyYitxB1gqkNZgYq3zIksomrPy8FxnLbabO6utg3SlYI0YTgWiqFUpH6rOIQhZyO7/ekfKSLXdwfCHBGoQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745142513; c=relaxed/simple;
-	bh=ANkoL7ea81UHYIa++4P/2uX3YHtTBEieOWgY8Mvo1F4=;
+	s=arc-20240116; t=1745142514; c=relaxed/simple;
+	bh=6VxIYaKIWn8yii/GfU9vwQ76mILw7alX8heBfuLY9lo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cmhCjTXRGsrMYiI5uq77yEYxEC58uDCkb6itVBxBH95LUa5Z23h4LK0yYEq7MQa9vbFdLNngR6iWSBgYlXQvE1CT+18ST7r1qs0eXZQkDykP6BoKkrulxWgV2MdfehUXMSJdTn5Z/Jmqx3YNYicWcmOc/py0CSXYKxDi3MM/wXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fM+JqKuW; arc=none smtp.client-ip=209.85.128.45
+	 MIME-Version; b=uonwdpgG0/wgPMieLfVOcF9PNyeuxg0CVApefjp2YkhIjxMMb5YnZp52LakndbNoB19zRDzyPbTRC16NAiUDGH0YNBAQbaFLA8e41znSfMZXHyAKFrR3uZGsg60kkZVCTxipAp3aY4WfFZyKUmtIqRHbmAKGrVCOeFCpoEbZ6EQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EQtOaLYh; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fM+JqKuW"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43edecbfb46so23052825e9.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EQtOaLYh"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-43cebe06e9eso25968345e9.3
         for <linux-sunxi@lists.linux.dev>; Sun, 20 Apr 2025 02:48:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1745142510; x=1745747310; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MV1KL0B4Ol1zLYcOywJS50VMsEVaOjK36lDCk5xYJ8U=;
-        b=fM+JqKuWQ6MJ6gMDtET8PCaoG5EOp+qudJ2eHggE+2oHUMffCGRcffX6CNVK9ZnnLG
-         cr9MeWeBbv/A2UPAEM+uUplXSxPCWvIMZWwwlGw9F/mmFQFar+N9KlDFqUySmtHKMQGu
-         4z364CRBna0GQ+5PyuTivhVQMl4QyXzRzLqhcUqQs/y6MTYYx0FRae850JpaUmn02lCG
-         8edlBbNt7LD04hIHHIac5zsiWy4B0ux2t/N+D+yHvEC1b3IUfhjYVbATJ9gPQI4J3243
-         tsbsRgMk0odq0+UqoKOKLunX0JlWbQMnnAhhXgSmV9eIa1FI9WQx2kno/AAZ3uEDilkm
-         ob/Q==
+        bh=J70zSIsICNkhe0luW48bZRB0FNJW9CojZ7pnZGLzqis=;
+        b=EQtOaLYhPGmeiRc5GfWQF3dZQuqtTp+rkK8A1mxdKuqIOX/Hi3BR3k2goiYHL/bsQb
+         qUKE+xK+BqS3qbTtT9A9KcEddGSVICgnpl4k0llF1+OCj7Ja0U5vjqrxVqn9tvhmwEyR
+         eBS3ou6AATs+XQL7RKcFCCYZan1H6OoxK+DuaOOohj+wAlRCAhlMV8KpqE8Dmx76xbF8
+         kFtRxFYKP4U0uuB8jUUofzvsYu568Sw6D9rZqt8Z6f9zAy43RtOXAC+IZEPu7mbd0kLJ
+         FKACLGuLRrq0fa6Cz2w5OsyF3AsmuYYlqir3/+DQ5V9+PtPcqjSRsT3O1TK/72eUyhxa
+         8oOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1745142510; x=1745747310;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=MV1KL0B4Ol1zLYcOywJS50VMsEVaOjK36lDCk5xYJ8U=;
-        b=OcaavKtm+YdjBU/VCbPqyGgj/7Uzp/1KAxtEvC9neosnqYcvZZpGI/AOxA4XC3DHIK
-         OZQwWgv6jSya2NtYgpNqY/EOTYKJKIe9KaTNzu7qWj+9wuNjelQ/ON+aARqKOOcN7bzI
-         54JOPT1182VYsLoR801CI2xKxV+VQWrcnUJ5Xx5R+JhoOADqHPW6+Mjvf+yZo7gUHSsm
-         H7w4imxWJGQ1M5PwWAC0DaTHT9ww7SySBXLcED4miYtpdkgtPT/MXCjjdSctMJvu9TMj
-         NTDeCDWYdHluUaEcmCCEqWO6GqlWH8QKnIClNznWCdTcBEiI9b2JJ5ZkgDCL1uMc/eSY
-         agiQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUgB5TGJkBbnJQr4Z5rTNxsy+ZTBe7Y1iOOXJokmix3kGDSKJPHbGJ2Et1BD0/gTyoKF2+AlalapDtMSg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx0pPAce737++u02i91htOP4XpuHofr65QmrsWkk2hcZ+uBLRI/
-	hi5wOvoiYc75zsFjR/xEGJh5Vcs3vdRMBt/s8oKcfMvmdOePUzSG
-X-Gm-Gg: ASbGncuHC63MKL+p6oEERnEir9sfHBGKi2WIkQJKXI0PmE+ZEgNHs4NRA6nzgyiuo5F
-	a3+nPiEyM0h4BRVLm7qyDBKxScDHMfEcm/borDKf5+eEXNbRlbUlYk6Md3PsA6mYgSwR7D5h0TM
-	/uF9WhsDlcYPdl4aAH2feuznJYBiAIs/aHYpjoj6BjrJzLHVc2RUjMYZ9hgRY+cjeA0Lrpeojne
-	LJqW7DPE4fa2t94WKdCf3/L8rEJbHyn5jldWaI3kP8NY8sofyEnvxKRUgeHEh8cBxWoBV7USKPI
-	jP4etNv6Gj7LW4qV4vSWKCBIBdYbz8V4EnpdLD4XJzU7qXDlla6q8kMVUB2Wi7mlyhvpaHxOzZ9
-	yI3lvJtIqBk4QOLFCoeSK8Zc3Ee/fKLDhbDaHeP+s8xkIAMuP7eA2zvf/6HTjkvsZkic/DkfJBn
-	g=
-X-Google-Smtp-Source: AGHT+IGLhlzrje0W/99vHutqnqraxOZnv9q3niHg6lZbOoS4HG8LPSq62S6s1AF4Tg3e6WlI1VcYEA==
-X-Received: by 2002:a05:600c:c0db:b0:43d:10a:1b90 with SMTP id 5b1f17b1804b1-44072c7f6fbmr44810305e9.16.1745142510468;
-        Sun, 20 Apr 2025 02:48:30 -0700 (PDT)
+        bh=J70zSIsICNkhe0luW48bZRB0FNJW9CojZ7pnZGLzqis=;
+        b=Gwz3aQexaMYfhKv2+H0Gg6Pm9AXFQ47as+mV+44EvSCsErLrYSfjC8nnyyHBAFvQLD
+         YEWgRcmxJiEV8ggZExhW4egu9DJCsGBN8aG+T+MVYLLVSYLQ0tlZau/0+oxVu27WfVzY
+         ksJB/E4W7oqaYkgcDysngTZ1EIJHdrQEm5Zi0GUB9me8mnLF4VA0C9bkbnkR3+hGyYZA
+         ZPW35h7TVAUCKiqdkP/gaOMWSEOsWIKxChLy434uvCJqJlQ7lPeNbJzcS1Z7BrMnAZV6
+         g+Ycf/wP8IfvPppcwLwCWSBkj8bMLTqkGeRM20hQKZM2+MToD+UQj4+np6jlIuIw3wCP
+         sS7Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUrFxzgDHazzgm8PnDOltEOtQ01+6kkaSr3WRoKrPQ3k/A+tzqglI9SZtVlixbuXXXOt8hL2xRCSSIGsg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyeI/ZQCyq/rSt9Z/YgxeDrMye/OAxUwDs/cwhzkfOfGWnCMFyW
+	jsyxZCZLpRYLc1J8BioE040UGpB4KHiAFxz1Nz5c4T5Av2nFTxRe
+X-Gm-Gg: ASbGncsJc+eMfhVCY36fXhx6KscWoBmSZDLRLW/pakZ8Tej4+P4Vk0M59S5kuDJI+7q
+	9zRco+4j4EX2NPVcpfp3+yzJjgiGZAhBTi/l6QzXRyjS9H217hMcZcOOwH0Tml22fZ1JVSzjfEU
+	J9u1ttKKPE78v6IrazeWCxy9lPcqKaz0BZ7EQA6F9IP6/na6k2HHOii7DOaOw3W5e8fdpbkb6sj
+	X9FMCPoY47KxlzscRbS5j+A8n0m+E8IbDETDZ/LAHsnSpMRoLlyfOjAjVcdIUM17IY8VWoXb7mx
+	og48MMkE8BJPMgjuxxtKFmj0+yuuR0peOuxTiZaThBsD6mlJQfzE99tTn7QrtvDlgGb6rQisdOI
+	gVx29ymS+IgFlqd55kwBXSxkQt4j+kMApXZ951aIDwKMYJc9raEv98OziK71y6l/iLUvxYlvMaF
+	0=
+X-Google-Smtp-Source: AGHT+IF9o36sHCpVLQh3u/uS8Mj0MuecjMIiXN/dsX6wb8zysslgsszsD29TtXQILSnoqleCJeVPxg==
+X-Received: by 2002:a05:600c:8711:b0:43d:934:ea97 with SMTP id 5b1f17b1804b1-4406ac0f82bmr69263145e9.27.1745142509826;
+        Sun, 20 Apr 2025 02:48:29 -0700 (PDT)
 Received: from cypher.home.roving-it.com (2.c.4.1.7.3.6.4.2.a.a.3.0.f.c.2.1.8.6.2.1.1.b.f.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:fb11:2681:2cf0:3aa2:4637:14c2])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-39efa43bef1sm8273712f8f.49.2025.04.20.02.48.29
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-39efa43bef1sm8273712f8f.49.2025.04.20.02.48.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Apr 2025 02:48:30 -0700 (PDT)
+        Sun, 20 Apr 2025 02:48:29 -0700 (PDT)
 From: Peter Robinson <pbrobinson@gmail.com>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -71,9 +71,9 @@ To: Rob Herring <robh@kernel.org>,
 	linux-sunxi@lists.linux.dev,
 	Dragan Simic <dsimic@manjaro.org>
 Cc: Peter Robinson <pbrobinson@gmail.com>
-Subject: [PATCH v4 2/2] arm64: dts: allwinner: a64: Add WiFi/BT header on SOPINE Baseboard
-Date: Sun, 20 Apr 2025 10:48:05 +0100
-Message-ID: <20250420094823.954073-3-pbrobinson@gmail.com>
+Subject: [PATCH v4 1/2] arm64: dts: allwinner: a64: Add WiFi/BT header on PINE A64
+Date: Sun, 20 Apr 2025 10:48:04 +0100
+Message-ID: <20250420094823.954073-2-pbrobinson@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250420094823.954073-1-pbrobinson@gmail.com>
 References: <20250420094823.954073-1-pbrobinson@gmail.com>
@@ -86,21 +86,21 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 This adds all the pin mappings on the WiFi/BT header on
-the SOPINE Baseboard/A64-LTS. They're disabled by default
-as the modules don't ship by default. This includes, where
-they haven't been already, UART1 for BT and mmc1 for WiFi.
+the original Pine64. They're disabled by default as the
+modules don't ship by default. This includes, where they
+haven't been already, UART1 for BT and mmc1 for WiFi.
 
 Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
 ---
- .../allwinner/sun50i-a64-sopine-baseboard.dts | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ arch/arm64/boot/dts/allwinner/sun50i-a64-pine64.dts | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dts
-index be2347c8f267..231e652cab67 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dts
-@@ -103,6 +103,17 @@ ext_rgmii_phy: ethernet-phy@1 {
- 	};
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pine64.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-pine64.dts
+index 09e71fd60785..3256acec1ff9 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pine64.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pine64.dts
+@@ -124,6 +124,17 @@ &mmc0 {
+ 	status = "okay";
  };
  
 +/* On Wifi/BT connector */
@@ -114,24 +114,17 @@ index be2347c8f267..231e652cab67 100644
 +	status = "disabled";
 +};
 +
- &mmc2 {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&mmc2_pins>;
-@@ -175,6 +186,14 @@ &uart0 {
+ &ohci0 {
  	status = "okay";
  };
- 
-+/* On Wifi/BT connector, with RTS/CTS */
-+&uart1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart1_pins>, <&uart1_rts_cts_pins>;
-+	uart-has-rtscts;
-+	status = "disabled";
-+};
-+
- /* On Pi-2 connector */
- &uart2 {
+@@ -286,6 +297,7 @@ &uart0 {
+ &uart1 {
  	pinctrl-names = "default";
+ 	pinctrl-0 = <&uart1_pins>, <&uart1_rts_cts_pins>;
++	uart-has-rtscts;
+ 	status = "disabled";
+ };
+ 
 -- 
 2.49.0
 
