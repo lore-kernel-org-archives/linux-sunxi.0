@@ -1,56 +1,57 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 713EA224EA
-	for <linux-sunxi@lists.linux.dev>; Sun, 20 Apr 2025 02:21:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E96135893
+	for <linux-sunxi@lists.linux.dev>; Sun, 20 Apr 2025 09:33:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745115670; cv=none; b=jj3lEZPCXSLtJoPECLB3KrwLByjVQn43eTZE+BSPDjskwR2UmK0bNgzqXmipvAvnX3G6nxXr1gMmg+mVsUfGcDSP0ck98RLcDpNt94x3ecLdmNVV2voQjJ8nrYWnCqxgGQYeEIVuXuz0bWQSE6lfdL1qAy7DuiZyLMFInfp3rn0=
+	t=1745141605; cv=none; b=N4Npawg0LpxCtxDLjCQbSy038dO+qyKZo8aDgdsqANDq4vBIbuAYzBsXABa8uAVy6VLfpMkaSDmYh9/R06o5BppB3x7oZ4UhhoA6ZeOLxX+DuhBtP3uDXDNeBrWMMAymsi5HENHRrSaRo7CTworHSFqrRwrNVQ525nsdtrFGEtA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745115670; c=relaxed/simple;
-	bh=/oHR1mO+Ms0vTbiSKXZWwc+pJ/A4fZQHrfSjp0yXkhE=;
+	s=arc-20240116; t=1745141605; c=relaxed/simple;
+	bh=CERzLF2HMMagvpVmZ72rVu4QgARchQ1fUnnFwJHdGug=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=f00jDpJK1MMvNMwZDs9xkC4zOohUGrukzvO3atmp8hUMXCnNjtniB0l/VN8PUG+TUoBJV2SzHO4YVTS2Gh8qmfi0I8AkrRj6IZrTMXsS9PiIh1n4hvpxQ4WE20X1PzXwp/6Q5moBg428ssRkRnX+S4mmOLF3yz8K7RanvUJouO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+	 To:Cc:Content-Type; b=k+EJiPDQgvUIC5IX6Jy9cgwOKLzw9LeIRi0MsMqa+Sa4xpv0rwNxaJhRfqWmGfasTuJmBrb7noxmsQ6vI99pLq1Y1i4xgjhUU2pCuP2Q54rkGX48vv6XHOoeuUfw9W0YhSn9OW1oil/ezvndOnlsrVKhrR0ukRoo3MRRLLlNKGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MQC/mxXf; arc=none smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-54afb5fcebaso3980843e87.3
-        for <linux-sunxi@lists.linux.dev>; Sat, 19 Apr 2025 19:21:08 -0700 (PDT)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MQC/mxXf"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5e5e0caa151so5244474a12.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 20 Apr 2025 02:33:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745141602; x=1745746402; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=/8TOZ1wqavZra/je2htJyl9Z7dmGZ7iMnPc5kvx9b5c=;
+        b=MQC/mxXfeBVxOotgWxpLMFOXZgh434XiM/dUIqjk6x+UxeQ7yYCm5bESiA7HC9LLaK
+         v/qtqLBuEYeJtCKptAd0BUYSk7s14F0Ja88Ptodju8jScfMdSe3RdFNyatETe3n8ChfE
+         h7CsVgC1kaKn/dSIWww1XZUj1ndEHorQ+TUzrpYi9gz0ddDkxIG+ZleMt4t5ZGarmnRx
+         tV4YEvwZcequOiY4AapJEWogNqK9tFM+C5ekOPAQH9Z28eQhGY7p9miwEL0AKqi9pdLQ
+         Fmbo02eu4esgcQmdwg5OmTBUSsqBF7+1Pyfs6tSjBOvN+nGK9BhVfWGQfaNc99gP1kx1
+         xHOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745115665; x=1745720465;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qg2wv8GF6M7XRIb44nhP/CauCw9/Jy21/AsV6h0SZts=;
-        b=RaRiY4hqinzt94Kq/yM+Z6dfkVaICKRAsh6wjm3oFE26AFT7vhCVswt1HaqMeVLaCJ
-         Fk14VsoLuCa88gVD7bksU1RVTrTAeU1FLbHYYVfIondI6xIfEowWZY+hMVTmpqfKMLPU
-         7aCeCO2UJeeNWc+8SN+3cPkfJBMwdt41xYY90KB0wm7fZJVH6X6VEKCkx6elQory2xXr
-         5NOyquNaHRsYb+uuaSx5fCWw8STJ7RCe20G9mlQHOvXxk2FwJ/G9iBzR4FiA3XvxRYAi
-         /jTpm9VMaalNgJeGKsizu6fBlCKaUZ6qTawP4QBtkoQV9WgRYyFW4JUI03KHu2VpO3F+
-         uNaA==
-X-Forwarded-Encrypted: i=1; AJvYcCVR+VbiaI0yEdqdXThb72SR/0WOxLtvzkai12DOKuPLqsSZG8RCsx5x1s6NC/Xsn2YnC0qdVD2d4krfcA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy4z5U2q0O+2SEPeKLK8Deoz0rY+E4h2OVsw0u6szH3HZDvajss
-	CNiMv4SFYrC82mhm3VrBMP5fEbGtaIJV6NOxUs9V+fiiRWJSs0cyBOd0cFte
-X-Gm-Gg: ASbGncvHhN6RhduochFX3WLSHSRwtNVjbiyt+p3dwPAfJYRD9hxLoXwQnja2M3c3Y8B
-	5pNT1zjXoyDQrgStc1GgSO5EPMBbjU+LWC9FyOLwfsrjd2MMhYRObqsHaApVjv2FXoj2Uu4CD17
-	mJj2cnWvpnbqOOMczOjxOUV9hfMTShLUa76lt13WCENdqeoc/uaGHySqR46WPBdIxR+aAdbrIc9
-	J27JY/PEKAOg+QU2TDzts4gMfMC2cPd95rQo8XuexgwNe3JbjRYzTy8hUMP+wOb0WapndFx1pcn
-	01ZWu3adNA53tf0LIyLEoi5G0+CUonfTZ04Vqlax1H+fykEl0NQrpcH6r7+5c6UQMAnp6iEgfQ=
-	=
-X-Google-Smtp-Source: AGHT+IHV5zCcyq1HtBL6e/aOuzWPgIJKxoRa0Nv+dohwaXndIXHl9mmP68kLrw9cYKfc4jBP1XFcCw==
-X-Received: by 2002:a05:6512:401a:b0:549:8a44:493e with SMTP id 2adb3069b0e04-54d6e61c6a5mr1739326e87.5.1745115665383;
-        Sat, 19 Apr 2025 19:21:05 -0700 (PDT)
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com. [209.85.208.177])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54d6e5cfbcasm565597e87.107.2025.04.19.19.21.05
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 19 Apr 2025 19:21:05 -0700 (PDT)
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-30db1bc464dso29620331fa.0
-        for <linux-sunxi@lists.linux.dev>; Sat, 19 Apr 2025 19:21:05 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXNpY/WWVdNifNSOHKGABpa1wePH9eiOLNvPP+furVzsFlDTBIH7QZ9VmU9QuX4bVDsXeqk75Q8atmpXg==@lists.linux.dev
-X-Received: by 2002:a2e:a547:0:b0:30d:b49d:7fb7 with SMTP id
- 38308e7fff4ca-310904db02bmr22991831fa.16.1745115664872; Sat, 19 Apr 2025
- 19:21:04 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1745141602; x=1745746402;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/8TOZ1wqavZra/je2htJyl9Z7dmGZ7iMnPc5kvx9b5c=;
+        b=Es8Mph3wrxLVs1owv0880ewdbwrhd0V1tK3U63UVAz0II0d53QK6REk7e3uzQREODg
+         aj/a1FO7lKgxe/6YQirZJGq4PrpE5HPUxIT605jIDYnOsWqXxr7UK7eGZDfNYHJI95OD
+         5s8pmuT6OXn92l45uleg8V4poy3PntWw/nzWFYTjNMvlEW31a5pXxGY/sRj4gUH8zjOD
+         5NxymDbpsLV6WNbfcZSaLYyHrFoLPnYv+TqbYrLgbm9Xp1YMmfl5WwzX+eFrOrLY0u5g
+         3jC0jSF6FxwL9dmLXfzV2O6NjEHUxc4oITjW4I2Lwm3TvNa0OjpirhwnCOcHi1XJotrT
+         wd5Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUZLJaszo6t3KHMTy/ZVhJ1L4lgJpvOUPNgKe5iJLrskPpFMsi7UTej0BpyLZl3MQrdGSVfYVHsWdwkew==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyUNmS5NhMB0yX7xIAmgM5oUca5bv5Fqcmcyk8x1ukySc+RnjK5
+	JcM3PwEQtW1rUOR0H6wmRKtNCGQ+VrDoNY8uu6HLGMwUUW5RpIIpQnEknXn57iccJjSi0McvFue
+	N//bQr1XgQfrShmirTmkr8qGCMBA=
+X-Gm-Gg: ASbGncvJziDhcHwdhoIvGlv3tO0lFO5HC6w1/9zuh14LRo+ky0yok4kQNnzTjUt60fj
+	EI1znJXg2HEKfYzAVzyl1qrR3eRmolGh0VAKSogGkwcn9CN19byEhmug/X2LjYEgjaF4s7g0jVX
+	pR7TOCmHo9raKi7b+4U7a5Pjf9eFqhH309bHUq2/12Xw/+R5prZZbrWD4=
+X-Google-Smtp-Source: AGHT+IGX10xsrDu5V/UjkEupGH0LyUzW3ha9EoTXPcUMoBfunRTwSAC3I1NonXEe/hPiG88ngXa6JOs1oqW3vl3TGZA=
+X-Received: by 2002:a17:907:1c07:b0:ac6:e20f:fa48 with SMTP id
+ a640c23a62f3a-acb74bdcde0mr706379066b.33.1745141602109; Sun, 20 Apr 2025
+ 02:33:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -58,147 +59,102 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20250419160051.677485-1-pbrobinson@gmail.com> <20250419160051.677485-3-pbrobinson@gmail.com>
- <5dd7825c9fcc83764fbb4b0b53704152@manjaro.org> <CALeDE9M_c7556sTdTC37Ce5vzLC2E8SV_P-J2CtFiUksdM_71Q@mail.gmail.com>
- <9380495a5dd09c6ab08e0a8cd315bf45@manjaro.org> <CAGb2v65s8d_jA3JveqTWUUGkXrAs6mBuNTwP1DahfLNz+x8sRQ@mail.gmail.com>
- <20b11baa25be196ec3e46144f11cb334@manjaro.org>
-In-Reply-To: <20b11baa25be196ec3e46144f11cb334@manjaro.org>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Sun, 20 Apr 2025 10:20:51 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66bui3Ddhteaz577okxAZjvW6q0KdK0rV6p5T4L15MZ_Q@mail.gmail.com>
-X-Gm-Features: ATxdqUE0Ykt6DxMi0bwj0hRXcKnJZa21RBLZvuOPQ2qQ1O91XX1328QXUi7RSJQ
-Message-ID: <CAGb2v66bui3Ddhteaz577okxAZjvW6q0KdK0rV6p5T4L15MZ_Q@mail.gmail.com>
+ <5dd7825c9fcc83764fbb4b0b53704152@manjaro.org>
+In-Reply-To: <5dd7825c9fcc83764fbb4b0b53704152@manjaro.org>
+From: Peter Robinson <pbrobinson@gmail.com>
+Date: Sun, 20 Apr 2025 10:33:11 +0100
+X-Gm-Features: ATxdqUG50NCyTDEBxJuIUN4T06VkkXzEZg9j2zhXsssvhxuy2mRvejdomh4GKDo
+Message-ID: <CALeDE9Nyt7Di2_u-Vf=6OCAg-6wmbz75Cs_MCfZrk6upbD9nZw@mail.gmail.com>
 Subject: Re: [PATCH v3 2/2] arm64: dts: allwinner: a64: Add WiFi/BT header on SoPine
 To: Dragan Simic <dsimic@manjaro.org>
-Cc: Peter Robinson <pbrobinson@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
 	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
 	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
 	linux-sunxi@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sun, Apr 20, 2025 at 10:13=E2=80=AFAM Dragan Simic <dsimic@manjaro.org> =
-wrote:
+Hi Dragan,
+
+> > This adds all the pin mappings on the WiFi/BT header on
+> > the SoPine baseboard/A64-LTS. They're disabled by default
+> > as the modules don't ship by default. This includes, where
+> > they haven't been already, UART1 for BT and mmc1 for WiFi.
 >
-> Hello Chen-Yu,
->
-> On 2025-04-20 03:59, Chen-Yu Tsai wrote:
-> > On Sun, Apr 20, 2025 at 3:57=E2=80=AFAM Dragan Simic <dsimic@manjaro.or=
-g>
-> > wrote:
-> >>
-> >> On 2025-04-19 21:26, Peter Robinson wrote:
-> >> > On Sat, 19 Apr 2025 at 19:25, Dragan Simic <dsimic@manjaro.org> wrot=
-e:
-> >> >> On 2025-04-19 18:00, Peter Robinson wrote:
-> >> >>> This adds all the pin mappings on the WiFi/BT header on
-> >> >>> the SoPine baseboard/A64-LTS. They're disabled by default
-> >> >>> as the modules don't ship by default. This includes, where
-> >> >>> they haven't been already, UART1 for BT and mmc1 for WiFi.
-> >> >>
-> >> >> The patch subject should be improved a bit, to include
-> >> >> "Baseboard" as well.  Having just "SoPine" is a bit too
-> >> >> vague, and it should actually be written as "SOPINE"
-> >> >> at all places in the prose.
-> >> >>
-> >> >>> Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
-> >> >>> ---
-> >> >>> .../allwinner/sun50i-a64-sopine-baseboard.dts | 25
-> >> >> +++++++++++++++++++
-> >> >>> 1 file changed, 25 insertions(+)
-> >> >>>
-> >> >>> diff --git
-> >> >>> a/arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dts
-> >> >>> b/arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dts
-> >> >>> index be2347c8f267..64d696f110ee 100644
-> >> >>> ---
-> >> >> a/arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dts
-> >> >>> +++
-> >> >> b/arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dts
-> >> >>> @@ -42,6 +42,11 @@ reg_vcc1v8: vcc1v8 {
-> >> >>> regulator-min-microvolt =3D <1800000>;
-> >> >>> regulator-max-microvolt =3D <1800000>;
-> >> >>> };
-> >> >>> +
-> >> >>> +     wifi_pwrseq: pwrseq {
-> >> >>> +             compatible =3D "mmc-pwrseq-simple";
-> >> >>> +             reset-gpios =3D <&r_pio 0 2 GPIO_ACTIVE_LOW>; /* PL2
-> >> >> */
-> >> >>> +     };
-> >> >>
-> >> >> Is there a reason why the status of this node isn't set to
-> >> >> "disabled"?  Or even better, why don't we move this node
-> >> >> entirely into the proposed DT overlay?
-> >> >>
-> >> >> The required reset procedure actually depends on what's
-> >> >> found on the add-on module, so it should belong to the DT
-> >> >> overlay that defines the add-on module.
-> >> >
-> >> > But the pin itself is pinned out through the header on the device.
-> >>
-> >> Good point.  On second thought, the right approach should be
-> >> to reserve the reset pin through pinctrl additions to the
-> >> board dts files, but to move the "mmc-pwrseq-simple" nodes
-> >> to the proposed add-on overlays.
->
-> Actually, s/overlays/overlay/
->
-> >>
-> >> You can have a look at rk3399-pinebook-pro.dts for an example
-> >> of such a pinctrl definition and its use.
+> The patch subject should be improved a bit, to include
+> "Baseboard" as well.  Having just "SoPine" is a bit too
+> vague, and it should actually be written as "SOPINE"
+> at all places in the prose.
+
+It literally has baseboard in the second line of the description.
+
+> > Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
+> > ---
+> >  .../allwinner/sun50i-a64-sopine-baseboard.dts | 25 +++++++++++++++++++
+> >  1 file changed, 25 insertions(+)
 > >
-> > For sunxi, we don't add pinctrl nodes for GPIO usage.
+> > diff --git
+> > a/arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dts
+> > b/arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dts
+> > index be2347c8f267..64d696f110ee 100644
+> > --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dts
+> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dts
+> > @@ -42,6 +42,11 @@ reg_vcc1v8: vcc1v8 {
+> >               regulator-min-microvolt = <1800000>;
+> >               regulator-max-microvolt = <1800000>;
+> >       };
+> > +
+> > +     wifi_pwrseq: pwrseq {
+> > +             compatible = "mmc-pwrseq-simple";
+> > +             reset-gpios = <&r_pio 0 2 GPIO_ACTIVE_LOW>; /* PL2 */
+> > +     };
 >
-> I see, thanks for the note.  In that case, I'd still suggest
-> that the "mmc-pwrseq-simple" nodes are moved to the proposed
-> add-on overlay, because that's where they belong to.
+> Is there a reason why the status of this node isn't set to
+> "disabled"?  Or even better, why don't we move this node
+> entirely into the proposed DT overlay?
 >
-> In theory, some add-on module may actually not need resetting,
-> so defining that should belong to what defines the specific
-> add-on module, which is the add-on overlay.
-
-I agree.
-
-> >> >>> };
-> >> >>>
-> >> >>> &ac_power_supply {
-> >> >>> @@ -103,6 +108,18 @@ ext_rgmii_phy: ethernet-phy@1 {
-> >> >>> };
-> >> >>> };
-> >> >>>
-> >> >>> +/* On Wifi/BT connector */
-> >> >>> +&mmc1 {
-> >> >>> +     pinctrl-names =3D "default";
-> >> >>> +     pinctrl-0 =3D <&mmc1_pins>;
-> >> >>> +     vmmc-supply =3D <&reg_dldo4>;
-> >> >>> +     vqmmc-supply =3D <&reg_eldo1>;
-> >> >>> +     mmc-pwrseq =3D <&wifi_pwrseq>;
-> >> >>
-> >> >> Of course, the "mmc-pwrseq" property would then also be moved
-> >> >> to the DT overlay that defines the add-on module.
-> >> >>
-> >> >>> +     bus-width =3D <4>;
-> >> >>> +     non-removable;
-> >> >>> +     status =3D "disabled";
-> >> >>> +};
-> >> >>> +
-> >> >>> &mmc2 {
-> >> >>> pinctrl-names =3D "default";
-> >> >>> pinctrl-0 =3D <&mmc2_pins>;
-> >> >>> @@ -175,6 +192,14 @@ &uart0 {
-> >> >>> status =3D "okay";
-> >> >>> };
-> >> >>>
-> >> >>> +/* On Wifi/BT connector, with RTS/CTS */
-> >> >>> +&uart1 {
-> >> >>> +     pinctrl-names =3D "default";
-> >> >>> +     pinctrl-0 =3D <&uart1_pins>, <&uart1_rts_cts_pins>;
-> >> >>> +     uart-has-rtscts;
-> >> >>> +     status =3D "disabled";
-> >> >>> +};
-> >> >>> +
-> >> >>> /* On Pi-2 connector */
-> >> >>> &uart2 {
-> >> >>> pinctrl-names =3D "default";
+> The required reset procedure actually depends on what's
+> found on the add-on module, so it should belong to the DT
+> overlay that defines the add-on module.
 >
+> >  };
+> >
+> >  &ac_power_supply {
+> > @@ -103,6 +108,18 @@ ext_rgmii_phy: ethernet-phy@1 {
+> >       };
+> >  };
+> >
+> > +/* On Wifi/BT connector */
+> > +&mmc1 {
+> > +     pinctrl-names = "default";
+> > +     pinctrl-0 = <&mmc1_pins>;
+> > +     vmmc-supply = <&reg_dldo4>;
+> > +     vqmmc-supply = <&reg_eldo1>;
+> > +     mmc-pwrseq = <&wifi_pwrseq>;
+>
+> Of course, the "mmc-pwrseq" property would then also be moved
+> to the DT overlay that defines the add-on module.
+>
+> > +     bus-width = <4>;
+> > +     non-removable;
+> > +     status = "disabled";
+> > +};
+> > +
+> >  &mmc2 {
+> >       pinctrl-names = "default";
+> >       pinctrl-0 = <&mmc2_pins>;
+> > @@ -175,6 +192,14 @@ &uart0 {
+> >       status = "okay";
+> >  };
+> >
+> > +/* On Wifi/BT connector, with RTS/CTS */
+> > +&uart1 {
+> > +     pinctrl-names = "default";
+> > +     pinctrl-0 = <&uart1_pins>, <&uart1_rts_cts_pins>;
+> > +     uart-has-rtscts;
+> > +     status = "disabled";
+> > +};
+> > +
+> >  /* On Pi-2 connector */
+> >  &uart2 {
+> >       pinctrl-names = "default";
