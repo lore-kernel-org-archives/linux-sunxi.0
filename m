@@ -1,150 +1,130 @@
-Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D76347C7
-	for <linux-sunxi@lists.linux.dev>; Mon, 21 Apr 2025 04:07:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E26DD1E9916
+	for <linux-sunxi@lists.linux.dev>; Mon, 21 Apr 2025 21:30:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745208427; cv=none; b=OlplVsZ16pdlniVhC3grjLnbjA8L7IutKpzzzBQS72Z7I0ClooF5IjDrnJsOYMnL2ljZ5JkESmWvP86QVQp54UWKHGu5V9tGKubCyqO5RoQrXEN/LeEgVqGwS8I4wiihat+Mac4GuZASIJ/n0FSysyn7lbk0J4RqPz2OFZliOSE=
+	t=1745271050; cv=none; b=ds9FRYZkPDWxxu7e7mN5opsAo219qLx7rZTus0V+/wLgu3nhB6omHJG6xj3Jil7OiPsmU5Hy6J2GkcTEsKRbveb9WtV9L4vCzzsloAb4fQecFr1kjkit6QmmHXK9UEX39AJsjwDSq5lmArTd0T7W5bh3vVgzHJwmadCQAgLZNBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745208427; c=relaxed/simple;
-	bh=xVmmnLS7Rka7aIa4tpRYJokBiJiCJjZw4FpBDjWWEQQ=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=mSS+W17bMvoo57/ASd7i7LV9D7714b2xe8odp399gbDg+6u/OtMk2m1Zx3NemWMCPcjByNUEfpCgRQqfSlCat8ySKfDUmNDA67P8Q/iXZgDLIcC5kuQ77wYxSb193r7uWLyNuSFkrq2NkBVDziKdl/6NER/UuqSvcg7oIGBhsws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=bDafJ9QD; arc=none smtp.client-ip=116.203.91.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="bDafJ9QD"
+	s=arc-20240116; t=1745271050; c=relaxed/simple;
+	bh=iQSKJnIC/l/N4oGmJZKJ29taP8MiF3TefuU6BaSe+z8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UT3Pd3kT8YaPJq41hqLoinvC/rrXerVcfKDrsiI/GIzeyBcfH2y50qg2hnthWJ7oUx+5+AqHHJe7KKnE2JZDjVEEMe1ucb1WGfA3pCfdLUr0jjtc9Q5faanlG7WcgiVk8P04X1QYDNvN2VHU9c1cmOof9hztxgqmMERFihrruPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 94CC112FC;
+	Mon, 21 Apr 2025 14:30:37 -0700 (PDT)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8772E3F59E;
+	Mon, 21 Apr 2025 14:30:40 -0700 (PDT)
+Date: Mon, 21 Apr 2025 22:29:39 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Quentin Schulz <quentin.schulz@cherry.de>
+Cc: Jagan Teki <jagan@amarulasolutions.com>, u-boot@lists.denx.de, Yixun Lan
+ <dlan@gentoo.org>, Tom Rini <trini@konsulko.com>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 2/3] sunxi: add "fake" FEL pin support
+Message-ID: <20250421222939.69832f73@minigeek.lan>
+In-Reply-To: <b7ffc468-1970-4eba-85e1-47aaced0161a@cherry.de>
+References: <20250417000539.3709-1-andre.przywara@arm.com>
+	<20250417000539.3709-3-andre.przywara@arm.com>
+	<b7ffc468-1970-4eba-85e1-47aaced0161a@cherry.de>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
-	t=1745208416;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lY3pHDqBhZkwmlfby1vou0JW0D/+selSw5j/J+G5UCs=;
-	b=bDafJ9QDK4n8Kw4J6oQOtsQsJb8TTq//YPFV6XDpE46S4esKOtwQhw9EHL3tIdA8xJel2X
-	18Ar/ny+n4/KmKydMkiKNzvwnabxk7Tf4aFSP2nic6mHQrqFTfLYxF4KXNGjpbdDrayrdd
-	gCZmn6rF9GymUwOc3MUGS9KSNNO8t6wUux3BsNIRtuPtYyPca6exygrmLijAHK0dxgriq+
-	D5xuc6LBc5sVkFqOSxqH2JwSILHjnInmGwVwcB6AjQLqojoCzyJFawKnD+QL7berCMLf6o
-	AgUowsvI9c6Su4K8wibFVCXP4OpFCdKb/y6AtJt2ut5Zz8UIhN9MLxH+1s/53g==
-Date: Mon, 21 Apr 2025 06:06:54 +0200
-From: Dragan Simic <dsimic@manjaro.org>
-To: Icenowy Zheng <uwu@icenowy.me>
-Cc: Peter Robinson <pbrobinson@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-Subject: Re: [RFC] arm64: dts: allwinner: a64: Add overlay for Realtek
-In-Reply-To: <16b34d85a710b4900e6d842c001a38b3d538bc2a.camel@icenowy.me>
-References: <20250419160751.678827-1-pbrobinson@gmail.com>
- <f063ced3436e239eaad8ab0589ba2cb1@manjaro.org>
- <16b34d85a710b4900e6d842c001a38b3d538bc2a.camel@icenowy.me>
-Message-ID: <98ce582813cd899d4b9efd671625ac99@manjaro.org>
-X-Sender: dsimic@manjaro.org
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hello Icenowy,
+On Fri, 18 Apr 2025 13:28:23 +0200
+Quentin Schulz <quentin.schulz@cherry.de> wrote:
 
-On 2025-04-21 05:43, Icenowy Zheng wrote:
-> 在 2025-04-19星期六的 20:08 +0200，Dragan Simic写道：
->> Hello Peter,
->> 
->> On 2025-04-19 18:07, Peter Robinson wrote:
->> > Add overlay for the Pine64 Realtek rtl8723bs WiFi
->> > module that works on the Pine64/64+/SoPine devices.
->> >
->> > Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
->> >
->> > I've looked at overlays for other vendors, such as available
->> > for some of the Rockchip devices, and I believe I have this
->> > mostly correct but would like some feedback both on if I have
->> > everything needed for Allwinner devices, but also what's needed
->> > to be able to use a single overlay across more than one device.
->> >
->> > This is dependent on the following [1] patch series.
->> >
->> > Peter
->> >
->> > [1]
->> > https://lore.kernel.org/linux-devicetree/20250419160051.677485-3-pbrobinson@gmail.com/t/#u
->> >
->> > ---
->> >  arch/arm64/boot/dts/allwinner/Makefile        |  6 ++++
->> >  .../allwinner/sun50i-a64-pine64-realtek.dtso  | 30
->> > +++++++++++++++++++
->> >  2 files changed, 36 insertions(+)
->> >  create mode 100644
->> > arch/arm64/boot/dts/allwinner/sun50i-a64-pine64-realtek.dtso
->> >
->> > diff --git a/arch/arm64/boot/dts/allwinner/Makefile
->> > b/arch/arm64/boot/dts/allwinner/Makefile
->> > index 00bed412ee31..be991f8d8110 100644
->> > --- a/arch/arm64/boot/dts/allwinner/Makefile
->> > +++ b/arch/arm64/boot/dts/allwinner/Makefile
->> > @@ -8,6 +8,7 @@ dtb-$(CONFIG_ARCH_SUNXI) +=
->> > sun50i-a64-olinuxino-emmc.dtb
->> >  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-orangepi-win.dtb
->> >  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-pine64-lts.dtb
->> >  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-pine64-plus.dtb
->> > sun50i-a64-pine64.dtb
->> > +dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-pine64-realtek.dtb
->> >  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-pinebook.dtb
->> >  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-pinephone-1.0.dtb
->> >  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-pinephone-1.1.dtb
->> > @@ -52,3 +53,8 @@ dtb-$(CONFIG_ARCH_SUNXI) +=
->> > sun50i-h700-anbernic-rg35xx-2024.dtb
->> >  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-h.dtb
->> >  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-plus.dtb
->> >  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-sp.dtb
->> > +
->> > +# Overlays
->> > +sun50i-a64-pine64-realtek-dtbs      := sun50i-a64-pine64.dtb
->> > sun50i-a64-pine64-realtek.dtbo
->> > +sun50i-a64-pine64-lts-realtek-dtbs  := sun50i-a64-pine64-lts.dtb
->> > sun50i-a64-pine64-realtek.dtbo
->> > +sun50i-a64-pine64-plus-realtek-dtbs := sun50i-a64-pine64-plus.dtb
->> > sun50i-a64-pine64-realtek.dtbo
->> 
->> Thanks for the patch, having this DT overlay makes perfectly
->> sense to me.  The only possible issues may arise from the
->> resulting size increase of the compiled .dtb files, caused by
->> the implicit inclusion of symbols.
->> 
->> However, please see an earlier linux-rockchip thread [2] that
->> shows the desired layout of the additions to the Makefile, which
->> was determined through a few rounds of discussion.
->> 
->> Finally, I think we should choose a slightly better name for the
->> DT overlay, instead of "sun50i-a64-pine64-realtek.dtso", in which
->> "-realtek" seems a bit to vague.  Perhaps "-wifi-bt-addon" as the
->> filename suffix would fit better, and it's virtually guaranteed
->> that there will be no new version of that add-on board, so there
->> should be no potential for name clashing.
+Hi Quentin,
+
+thanks for having a look!
+
+> Hi Andre,
 > 
-> Yes. In fact I think Pine64 messed up with pinouts of Wi-Fi modules and
-> only the RTL8723BS module works with Pine A64. (The Broadcom/Ampak ones
-> only work with Rockchip boards, as what I assumed.)
+> On 4/17/25 2:05 AM, Andre Przywara wrote:
+> > Some boards with Allwinner SoCs feature a "FEL" key, sometimes also
+> > labelled "uboot", which triggers the BootROM FEL mode, when pressed upon
+> > power-on or reset. This allows to access the SoC's memory via USB OTG,
+> > and to upload and execute code. There is a tool to upload our U-Boot image
+> > and immediately boot it, when the SoC is in FEL mode.
+> > 
+> > To mimic this convenient behaviour on boards without such a dedicated key,
+> > we can query a GPIO pin very early in the SPL boot, then trigger the
+> > BootROM FEL routine.  There has not been much of a SoC or board setup at
+> > this point, so we enter the BROM in a rather pristine state still. On
+> > 64-bit SoCs the required AArch32 reset guarantees a clean CPU state anyway.
+> > 
+> > Any GPIO can be used for that, the signal is expected to be active low,
+> > consequently we enable the pull-up resistors for that pin. A board (or a
+> > user) is expected to specify the GPIO name using the
+> > CONFIG_SUNXI_FAKE_FEL_PIN Kconfig variable. When this variable is not set,
+> > the compiler will optimise away the call.
+> > 
+> > Call the code first thing in board_init_f(), which is the first sunxi
+> > specific C routine.
+> > 
+> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > ---
+> >   arch/arm/mach-sunxi/Kconfig | 10 ++++++++++
+> >   arch/arm/mach-sunxi/board.c | 31 +++++++++++++++++++++++++++++++
+> >   2 files changed, 41 insertions(+)
+> > 
+> > diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
+> > index ab432390d3c..f1cfdb548bc 100644
+> > --- a/arch/arm/mach-sunxi/Kconfig
+> > +++ b/arch/arm/mach-sunxi/Kconfig
+> > @@ -825,6 +825,16 @@ config USB3_VBUS_PIN
+> >   	---help---
+> >   	See USB1_VBUS_PIN help text.
+> >   
+> > +config SUNXI_FAKE_FEL_PIN
+> > +	string "fake FEL GPIO pin"
+> > +	default ""
+> > +	---help---
+> > +	Define a GPIO that shall force entering FEL mode when a button
+> > +	connected to this pin is pressed at boot time. This must be an
+> > +	active low signal, the internal pull-up resistors are activated.
+> > +	This takes a string in the format understood by sunxi_name_to_gpio,
+> > +	e.g. PH1 for pin 1 of port H.
+> > +  
+> 
+> Why not use the DT for that? Then you wouldn't even need to assume the 
+> polarity of the signal or whether pull-up/downs need to be activated, etc.
 
-Yes, I can confirm that the two Pine64 WiFi+BT module variants
-aren't interchangeable.  I forgot the details about the actual
-hardware differences, but they're large enough to be incompatible,
-which is quite unfortunate.
+As Yixun Lan already pointed out, the DT is not available at this
+point, and doing several pull-ups to get this information from the DT
+into the SPL image are really over the top for this purpose.
+This is more a sweet hacker device: I often have devices with eMMC and
+SPI flash, but without a FEL button. So the idea was to just pick a
+GPIO and use menuconfig to set it. Then I could just connect this pin
+to GND during boot, to get into FEL and test-boot firmware. "Connect to
+GND" could really be a jumper or even the tip of a screwdriver ;-)
+So I don't think this qualifies to being defined in the DT, really.
 
->> As a minor suggestion, the patch subject should also be tweaked
->> a bit, because "Realtek" is also a bit too vague there.
->> 
->> [2]
->> https://lore.kernel.org/linux-rockchip/20250226140942.3825223-4-heiko@sntech.de/
+> You can have the property in the -u-boot.dtsi then if you want?
+> 
+> While the FEL button on the X96 is "fake", it does what it says, just in 
+> software, maybe that is close enough to "hardware definition" which 
+> would make it suitable for the DT (well, we also store binman nodes in 
+
+Yes, I have a patch to add this particular button as a GPIO button into
+the DT, so people can use it for whatever they want in Linux (trigger
+reboot, update, you name it). But this is rather orthogonal to this
+problem, as mentioned above.
+
+> the DT, which aren't strictly speaking hardware definition either :) ).
+
+Please don't get me started on this, we don't need to make it worse ;-)
+
+Cheers,
+Andre
