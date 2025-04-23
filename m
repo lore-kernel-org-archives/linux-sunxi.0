@@ -1,125 +1,185 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF3BB223DC5
-	for <linux-sunxi@lists.linux.dev>; Wed, 23 Apr 2025 10:06:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C0BF1F585B
+	for <linux-sunxi@lists.linux.dev>; Wed, 23 Apr 2025 12:32:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745402813; cv=none; b=sWfQc0/B34Wsi2+XXoyTXeM0KNUHKzJtP9W6Wz3TWrQbfbLz1e5CbYaxEnOHog2d9pRzcEViat52PK5tL5YpmFRhYR5qYqXYc/0BGWl5t7r3uj10Yv69X9SGVzWmxn9wRCI7aY00LMqVVbmx1sVOEP+sXlkEqwkwa8aCp+k6MA4=
+	t=1745411543; cv=none; b=mcDyRCuqH8DTrGjWCwfi2xtOPActly0P7UNiQsxRP9pj5z3oqI8KNXmvxl6UJBtLF9SFp/X4UqW72J1Yg5hOdgjNCO0ObJml1NVg2pfDfNMfT/XElrMjJWZAQTNaZ1UqXxp7rAnjnyZiphAwJgdrNNValctsng5EQoq/tGyA9RI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745402813; c=relaxed/simple;
-	bh=p1aeHbezR6P+B0RDIv5XMNvfkOFMi7yR6BnbDSgQIIs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UpV5CSKPOA8i8IF0olkZrILDBvcVdzXtgFFCvaAqEmtNQ9iai6PVeLe0ymxKwJ97/CeaIs3xNcQ6LTsZBDDv/Qb1epD5V6JPcE7dfnCDDHBiGtZ0E8fkp2fHxRzf4iPFRZYgXJs9xnHTeqhvOQT5cKkWxeByc6kmsgg1mDYC1Dc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NIYzcuEL; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1745411543; c=relaxed/simple;
+	bh=8L+WUBxDYMa7/4G5Y02q3NkjPSEMnh6XiE98Bgepv30=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=KW9qCVe2ffxmxiofp/GLi5RbRURG+cJHMjGtLdSSrisHcDvHoRi/ux05cuRxtk8z+HlEgRABGMe+5mMw44wS3Bu7rCUqkkZmuY9v4M/fKQFVBseOvrhuyTgPJQQjI9soc/aaPskBCGkuStA6AWk6pfDrFNwk9xi9aILXLseTxI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=tuKUANRi; arc=none smtp.client-ip=193.68.50.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NIYzcuEL"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43cebe06e9eso51049235e9.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 23 Apr 2025 03:06:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745402810; x=1746007610; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=yLF36sbTYK0KIWRbMmjLucJkeA+0T4TK0wNGl/x6x44=;
-        b=NIYzcuELcCsnSw1xs6+NfKFtyNKRKKDmFfSGMd4yfT+xQhshcbNBoNlM9LuMXnth/q
-         3SE3RZbbXxL6Xhf49GBHsm6efEdBpbAme2E6WLqUgMXQheEYDY0KJTNmpCb9r8QCsj9/
-         +UxVt/sxeafzDXvj0Ub7jyg3Ur6Er8Kt6MB5tehD+jcpLlT3mVwE4is74olkX/H/OHXN
-         qNj/3nDXJGVlovKiQdaASwkvSAPPovOICAeA/bp9OwloyKxK9Mh/SOGn3VBK4r/jqgDT
-         Q1OZUsrQwFQ65LQc06o3NVcFUl110Nvn4bjXgHd0efsWcmOS2CO1cvZSyo8zORIpTg1D
-         hPSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745402810; x=1746007610;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yLF36sbTYK0KIWRbMmjLucJkeA+0T4TK0wNGl/x6x44=;
-        b=hrTjP52597qIF+WKMjUUJJxtikl8yvTUYSomOLyYqmgsljznF4Wqw19GLo5gB0gHZB
-         luts/7SgfwJTwuidqD6nCz4wYab24IY17+RZ1zsUP5BmFjMjz8X3RurKAHHJvRPIpkR0
-         xnxNVSo2be2FwDwKd9JbvLOO6ocsx0lKMT5EvKv5G+tvRYOWZeNfc4hrG2uBF3luUCS4
-         ZHx9Cqw3ZVNJ+wVou1chYyx1p24YFRlnkReGRi8sS3dO3yGPx+NI7l5uoe/hVwuTP41T
-         Jfm8drqh69ZBtLkhd7GPMZpz4iI2j+z/7wl3XUg6ZWRIua2spVwUUnqy8rXN6A7YmCf5
-         wtBA==
-X-Forwarded-Encrypted: i=1; AJvYcCWRZe/zSfJMqGstRqjg72vx6Wbs1nTUrNxkdv/RFcUSuYMBNaQQR9FyTjbQJ28KKjpgQBU901L/RoNZWQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyL1a5JcMYK+GyzChVmi+CxFQdU+dp4NZHQVHYMLyyq6/i6bIIW
-	Z8RD7nMOixsYtTOkL8X7RdC+22WQSiTFsQdmC6TfkdinVWk32o+w
-X-Gm-Gg: ASbGncsq7zjZbvSiwH2PTpWpKRaGmRZ7Psf5zFmYswntdqQMCGEA5m1E5G76uV8vtpc
-	HKJB4q0ndxHI65II9N7dZa65YgvxNWBjw+aPiVfvtZumOjMf1/5DZWSz5AD9AUMcnPqM9/BESYx
-	mPmLVmVD11Ldd1eTOwT7Mq+OMJTtgHvPe/IKbSIEk3ItEpYoCoYS8bPaDv0bwcEVgS4/ZfC916b
-	0tcm79a1NBn8UaJ8IjDu6pfcUXJ5NH5CuXeT+1/fQqA42GEdciJXgZCVuF2DQpxG+R2CMJOEfzS
-	+ROtGXuk7rVMG4yyfrN2h6F7U80fMJKW8UKqcl0+rQ==
-X-Google-Smtp-Source: AGHT+IHWK0WshXlOs5OraQgDN/FsgzhL7hkkmTvNLw7hrCUa5cxOfc9S10EHvHC0RFX+JdX2CVNVXQ==
-X-Received: by 2002:a05:600c:3c91:b0:43c:f00b:d581 with SMTP id 5b1f17b1804b1-4406ac0fc21mr156671605e9.29.1745402809826;
-        Wed, 23 Apr 2025 03:06:49 -0700 (PDT)
-Received: from Red ([2a01:cb1d:898:ab00:4a02:2aff:fe07:1efc])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-39efa43bef1sm17924994f8f.49.2025.04.23.03.06.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Apr 2025 03:06:49 -0700 (PDT)
-Date: Wed, 23 Apr 2025 12:06:46 +0200
-From: Corentin Labbe <clabbe.montjoie@gmail.com>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, Yixun Lan <dlan@gentoo.org>,
-	Maxime Ripard <mripard@kernel.org>, netdev@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH net-next] net: stmmac: sun8i: drop unneeded default
- syscon value
-Message-ID: <aAi7tq-otdhJRpTy@Red>
-References: <20250423095222.1517507-1-andre.przywara@arm.com>
+	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="tuKUANRi"
+Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
+	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id 233CDA043A;
+	Wed, 23 Apr 2025 14:32:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:from:from:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=mail; bh=qoKuNtvRAd7bvDwHrWfXjADoX3OQphidioaO/OVYjNc=; b=
+	tuKUANRih4/Dxdph7W7xvDzva3uWT36xx43YyIjv0PDVqESPGcp4L98sTUUF1SJQ
+	pzUsXHZjseftl144EL9Ip2bmkEMdtI/+i2RCWrCbxl4Ks6j7OuLU7dINx5Dj4Foe
+	XBUFbmxI6G3AONTspDM3BAMIh1R0dUhNPUnItIwWjX4LmltCzqWmJJasaY5fFTo8
+	yQIk0/L66jsYRD4VI7SeAYw1ZaSZfMnnkymHIXRlNYbS6JUbTqr5uo2NhRQdRfv9
+	9QE14hzgvFUg3++xrE3bBV90DzgLB6CBo8IPqWYEkm+D7wb4qBJIDZHwhJVuSCpu
+	t3a/RyJEHzU/Mle271XF7BYgWbIRCmxSXKyWaU/08VldKytsQWP+ctHtWSO74ubp
+	vZ6PLa3mF9ErYRNWyk1odrSz/zgaA/Rgj/fW8SJoVOXZIvxr5LJBB7NduNqVkUvb
+	ZjG0HZ243YU5k4PJvVLdGbzQoiOLHhm/j45WbM9Yhl6+bk4IbUI4e3nf8ouPV1nM
+	1Sv5h4KfUJVob3XxSIbwSlSwQJ566Tx11pHLBWeJbGYhphv4s5WiqpEMWtukzkGf
+	q3nVuZs5loMw8SOquWsnVksNfyaquUz80A1fCYpMMogtovRPa41v004PqrR899Rp
+	fqjhlW3gXpT0FvN5tVsppeSmqVCw07iiOsoklJWoseU=
+From: =?UTF-8?q?Bence=20Cs=C3=B3k=C3=A1s?= <csokas.bence@prolan.hu>
+To: <dmaengine@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+CC: =?UTF-8?q?Bence=20Cs=C3=B3k=C3=A1s?= <csokas.bence@prolan.hu>, "Chen-Yu
+ Tsai" <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, "Chen-Yu
+ Tsai" <wens@csie.org>, Julian Calaby <julian.calaby@gmail.com>, Vinod Koul
+	<vkoul@kernel.org>, Samuel Holland <samuel@sholland.org>
+Subject: [PATCH v7] dma-engine: sun4i: Simplify error handling in probe()
+Date: Wed, 23 Apr 2025 14:31:46 +0200
+Message-ID: <20250423123146.76973-2-csokas.bence@prolan.hu>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250423095222.1517507-1-andre.przywara@arm.com>
+X-ESET-AS: R=OK;S=0;OP=CALC;TIME=1745411530;VERSION=7989;MC=226666071;ID=131881;TRN=0;CRV=0;IPC=;SP=0;SIPS=0;PI=3;F=0
+X-ESET-Antispam: OK
+X-EsetResult: clean, is OK
+X-EsetId: 37303A2980D94853677466
 
-Le Wed, Apr 23, 2025 at 10:52:22AM +0100, Andre Przywara a �crit :
-> For some odd reason we are very picky about the value of the EMAC clock
-> register from the syscon block, insisting on a certain reset value and
-> only doing read-modify-write operations on that register, even though we
-> pretty much know the register layout.
-> This already led to a basically redundant variant entry for the H6, which
-> only differs by that value. We will have the same situation with the new
-> A523 SoC, which again is compatible to the A64, but has a different syscon
-> reset value.
-> 
-> Drop any assumptions about that value, and set or clear the bits that we
-> want to program, from scratch (starting with a value of 0). For the
-> remove() implementation, we just turn on the POWERDOWN bit, and deselect
-> the internal PHY, which mimics the existing code.
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
-> Hi,
-> 
-> if anyone can shed some light on why we had this value and its handling
-> in the first place, I would be grateful. I don't really get its purpose,
-> and especially the warning message about the reset value seems odd.
-> I briefly tested this on A523, H3, H6, but would be glad to see more
-> testing on this.
-> 
+Clean up error handling by using devm functions and dev_err_probe(). This
+should make it easier to add new code, as we can eliminate the "goto
+ladder" in sun4i_dma_probe().
 
-Hello
+Suggested-by: Chen-Yu Tsai <wens@kernel.org>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Acked-by: Chen-Yu Tsai <wens@csie.org>
+Reviewed-by: Julian Calaby <julian.calaby@gmail.com>
+Signed-off-by: Bence Csókás <csokas.bence@prolan.hu>
+---
 
-The origin is me, when doing initial sun8i-emac I feared to miss something and so added some strict tests on its value.
-Another goal was to detect half init from firmware/bootloader.
+Notes:
+    Changes in v2:
+    * rebase on current next
+    Changes in v3:
+    * rebase on current next
+    * collect Jernej's tag
+    Changes in v4:
+    * rebase on current next
+    * collect Chen-Yu's tag
+    Changes in v5:
+    * reformat msg to 75 cols
+    * keep `\n`s in error messages
+    Changes in v6:
+    * remove redundant braces
+    * break lines to stay under 85 cols
+    * reword subject and message
+    Changes in v7:
+    * rebase onto current next
+    * collect Julian's tag
 
-But I agree it is now useless.
+ drivers/dma/sun4i-dma.c | 46 ++++++++++++-----------------------------
+ 1 file changed, 13 insertions(+), 33 deletions(-)
 
-I will send this patch on all my CI boards, so you will have extra test.
+diff --git a/drivers/dma/sun4i-dma.c b/drivers/dma/sun4i-dma.c
+index 24796aaaddfa..00d2fd38d17f 100644
+--- a/drivers/dma/sun4i-dma.c
++++ b/drivers/dma/sun4i-dma.c
+@@ -1249,11 +1249,10 @@ static int sun4i_dma_probe(struct platform_device *pdev)
+ 	if (priv->irq < 0)
+ 		return priv->irq;
+ 
+-	priv->clk = devm_clk_get(&pdev->dev, NULL);
+-	if (IS_ERR(priv->clk)) {
+-		dev_err(&pdev->dev, "No clock specified\n");
+-		return PTR_ERR(priv->clk);
+-	}
++	priv->clk = devm_clk_get_enabled(&pdev->dev, NULL);
++	if (IS_ERR(priv->clk))
++		return dev_err_probe(&pdev->dev, PTR_ERR(priv->clk),
++				     "Couldn't start the clock\n");
+ 
+ 	if (priv->cfg->has_reset) {
+ 		priv->rst = devm_reset_control_get_exclusive_deasserted(&pdev->dev, NULL);
+@@ -1328,12 +1327,6 @@ static int sun4i_dma_probe(struct platform_device *pdev)
+ 		vchan_init(&vchan->vc, &priv->slave);
+ 	}
+ 
+-	ret = clk_prepare_enable(priv->clk);
+-	if (ret) {
+-		dev_err(&pdev->dev, "Couldn't enable the clock\n");
+-		return ret;
+-	}
+-
+ 	/*
+ 	 * Make sure the IRQs are all disabled and accounted for. The bootloader
+ 	 * likes to leave these dirty
+@@ -1343,33 +1336,23 @@ static int sun4i_dma_probe(struct platform_device *pdev)
+ 
+ 	ret = devm_request_irq(&pdev->dev, priv->irq, sun4i_dma_interrupt,
+ 			       0, dev_name(&pdev->dev), priv);
+-	if (ret) {
+-		dev_err(&pdev->dev, "Cannot request IRQ\n");
+-		goto err_clk_disable;
+-	}
++	if (ret)
++		return dev_err_probe(&pdev->dev, ret, "Cannot request IRQ\n");
+ 
+-	ret = dma_async_device_register(&priv->slave);
+-	if (ret) {
+-		dev_warn(&pdev->dev, "Failed to register DMA engine device\n");
+-		goto err_clk_disable;
+-	}
++	ret = dmaenginem_async_device_register(&priv->slave);
++	if (ret)
++		return dev_err_probe(&pdev->dev, ret,
++				     "Failed to register DMA engine device\n");
+ 
+ 	ret = of_dma_controller_register(pdev->dev.of_node, sun4i_dma_of_xlate,
+ 					 priv);
+-	if (ret) {
+-		dev_err(&pdev->dev, "of_dma_controller_register failed\n");
+-		goto err_dma_unregister;
+-	}
++	if (ret)
++		return dev_err_probe(&pdev->dev, ret,
++				     "Failed to register translation function\n");
+ 
+ 	dev_dbg(&pdev->dev, "Successfully probed SUN4I_DMA\n");
+ 
+ 	return 0;
+-
+-err_dma_unregister:
+-	dma_async_device_unregister(&priv->slave);
+-err_clk_disable:
+-	clk_disable_unprepare(priv->clk);
+-	return ret;
+ }
+ 
+ static void sun4i_dma_remove(struct platform_device *pdev)
+@@ -1380,9 +1363,6 @@ static void sun4i_dma_remove(struct platform_device *pdev)
+ 	disable_irq(priv->irq);
+ 
+ 	of_dma_controller_free(pdev->dev.of_node);
+-	dma_async_device_unregister(&priv->slave);
+-
+-	clk_disable_unprepare(priv->clk);
+ }
+ 
+ static struct sun4i_dma_config sun4i_a10_dma_cfg = {
 
-Acked-by: Corentin LABBE <clabbe.montjoie@gmail.com>
+base-commit: 5d099706449d54b4693a1c6bb7c2251072234508
+-- 
+2.49.0
 
-Thanks
-Regards
+
