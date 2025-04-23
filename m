@@ -1,231 +1,125 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36481262FC2
-	for <linux-sunxi@lists.linux.dev>; Wed, 23 Apr 2025 09:52:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF3BB223DC5
+	for <linux-sunxi@lists.linux.dev>; Wed, 23 Apr 2025 10:06:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745401957; cv=none; b=cIbdEI5RzCZSnYUcSiG/JLeI3hkcUHctTq6Yq16n8uUXls0WtDj9c7ZXgQBUIFbYvfZsd70wo3t+QxRZOHxkhr3rKdX+JB8x9D93FCbtEg4nQh+jeKw/5Z3MjsyWAft0ePGpqQSfZL53bVTXmXC2iiJrFEU2g3c0hb6QMI2pOpg=
+	t=1745402813; cv=none; b=sWfQc0/B34Wsi2+XXoyTXeM0KNUHKzJtP9W6Wz3TWrQbfbLz1e5CbYaxEnOHog2d9pRzcEViat52PK5tL5YpmFRhYR5qYqXYc/0BGWl5t7r3uj10Yv69X9SGVzWmxn9wRCI7aY00LMqVVbmx1sVOEP+sXlkEqwkwa8aCp+k6MA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745401957; c=relaxed/simple;
-	bh=eng0Kl1y21wM6mLTFLHDhzUYy9jCSvV0putd8xHi5Ro=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jDbKiqwulQ4ESDEHGE+W00JjKaDWi96HevHA7Kbb+6O6DYkgdVdj5cQJkQy9s7wz2b7RCDcotlbxe9JzHlPlAYTrCFWB7qzbNvnkk+T+vkXE/d5UWl/6qlBCNdlBW+EaZug/PiBx2Q7eyLoT9i5y3uj837MsNNyXvVDXixnEYAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CB64B2B;
-	Wed, 23 Apr 2025 02:52:29 -0700 (PDT)
-Received: from donnerap.arm.com (donnerap.manchester.arm.com [10.32.100.21])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2DC8F3F59E;
-	Wed, 23 Apr 2025 02:52:32 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Andrew Lunn <andrew+netdev@lunn.ch>,
+	s=arc-20240116; t=1745402813; c=relaxed/simple;
+	bh=p1aeHbezR6P+B0RDIv5XMNvfkOFMi7yR6BnbDSgQIIs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UpV5CSKPOA8i8IF0olkZrILDBvcVdzXtgFFCvaAqEmtNQ9iai6PVeLe0ymxKwJ97/CeaIs3xNcQ6LTsZBDDv/Qb1epD5V6JPcE7dfnCDDHBiGtZ0E8fkp2fHxRzf4iPFRZYgXJs9xnHTeqhvOQT5cKkWxeByc6kmsgg1mDYC1Dc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NIYzcuEL; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NIYzcuEL"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43cebe06e9eso51049235e9.3
+        for <linux-sunxi@lists.linux.dev>; Wed, 23 Apr 2025 03:06:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745402810; x=1746007610; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=yLF36sbTYK0KIWRbMmjLucJkeA+0T4TK0wNGl/x6x44=;
+        b=NIYzcuELcCsnSw1xs6+NfKFtyNKRKKDmFfSGMd4yfT+xQhshcbNBoNlM9LuMXnth/q
+         3SE3RZbbXxL6Xhf49GBHsm6efEdBpbAme2E6WLqUgMXQheEYDY0KJTNmpCb9r8QCsj9/
+         +UxVt/sxeafzDXvj0Ub7jyg3Ur6Er8Kt6MB5tehD+jcpLlT3mVwE4is74olkX/H/OHXN
+         qNj/3nDXJGVlovKiQdaASwkvSAPPovOICAeA/bp9OwloyKxK9Mh/SOGn3VBK4r/jqgDT
+         Q1OZUsrQwFQ65LQc06o3NVcFUl110Nvn4bjXgHd0efsWcmOS2CO1cvZSyo8zORIpTg1D
+         hPSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745402810; x=1746007610;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yLF36sbTYK0KIWRbMmjLucJkeA+0T4TK0wNGl/x6x44=;
+        b=hrTjP52597qIF+WKMjUUJJxtikl8yvTUYSomOLyYqmgsljznF4Wqw19GLo5gB0gHZB
+         luts/7SgfwJTwuidqD6nCz4wYab24IY17+RZ1zsUP5BmFjMjz8X3RurKAHHJvRPIpkR0
+         xnxNVSo2be2FwDwKd9JbvLOO6ocsx0lKMT5EvKv5G+tvRYOWZeNfc4hrG2uBF3luUCS4
+         ZHx9Cqw3ZVNJ+wVou1chYyx1p24YFRlnkReGRi8sS3dO3yGPx+NI7l5uoe/hVwuTP41T
+         Jfm8drqh69ZBtLkhd7GPMZpz4iI2j+z/7wl3XUg6ZWRIua2spVwUUnqy8rXN6A7YmCf5
+         wtBA==
+X-Forwarded-Encrypted: i=1; AJvYcCWRZe/zSfJMqGstRqjg72vx6Wbs1nTUrNxkdv/RFcUSuYMBNaQQR9FyTjbQJ28KKjpgQBU901L/RoNZWQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyL1a5JcMYK+GyzChVmi+CxFQdU+dp4NZHQVHYMLyyq6/i6bIIW
+	Z8RD7nMOixsYtTOkL8X7RdC+22WQSiTFsQdmC6TfkdinVWk32o+w
+X-Gm-Gg: ASbGncsq7zjZbvSiwH2PTpWpKRaGmRZ7Psf5zFmYswntdqQMCGEA5m1E5G76uV8vtpc
+	HKJB4q0ndxHI65II9N7dZa65YgvxNWBjw+aPiVfvtZumOjMf1/5DZWSz5AD9AUMcnPqM9/BESYx
+	mPmLVmVD11Ldd1eTOwT7Mq+OMJTtgHvPe/IKbSIEk3ItEpYoCoYS8bPaDv0bwcEVgS4/ZfC916b
+	0tcm79a1NBn8UaJ8IjDu6pfcUXJ5NH5CuXeT+1/fQqA42GEdciJXgZCVuF2DQpxG+R2CMJOEfzS
+	+ROtGXuk7rVMG4yyfrN2h6F7U80fMJKW8UKqcl0+rQ==
+X-Google-Smtp-Source: AGHT+IHWK0WshXlOs5OraQgDN/FsgzhL7hkkmTvNLw7hrCUa5cxOfc9S10EHvHC0RFX+JdX2CVNVXQ==
+X-Received: by 2002:a05:600c:3c91:b0:43c:f00b:d581 with SMTP id 5b1f17b1804b1-4406ac0fc21mr156671605e9.29.1745402809826;
+        Wed, 23 Apr 2025 03:06:49 -0700 (PDT)
+Received: from Red ([2a01:cb1d:898:ab00:4a02:2aff:fe07:1efc])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-39efa43bef1sm17924994f8f.49.2025.04.23.03.06.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Apr 2025 03:06:49 -0700 (PDT)
+Date: Wed, 23 Apr 2025 12:06:46 +0200
+From: Corentin Labbe <clabbe.montjoie@gmail.com>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
 	"David S . Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
-Cc: Chen-Yu Tsai <wens@csie.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Corentin Labbe <clabbe.montjoie@gmail.com>,
-	Yixun Lan <dlan@gentoo.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	netdev@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH net-next] net: stmmac: sun8i: drop unneeded default syscon value
-Date: Wed, 23 Apr 2025 10:52:22 +0100
-Message-Id: <20250423095222.1517507-1-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.25.1
+	Samuel Holland <samuel@sholland.org>, Yixun Lan <dlan@gentoo.org>,
+	Maxime Ripard <mripard@kernel.org>, netdev@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH net-next] net: stmmac: sun8i: drop unneeded default
+ syscon value
+Message-ID: <aAi7tq-otdhJRpTy@Red>
+References: <20250423095222.1517507-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250423095222.1517507-1-andre.przywara@arm.com>
 
-For some odd reason we are very picky about the value of the EMAC clock
-register from the syscon block, insisting on a certain reset value and
-only doing read-modify-write operations on that register, even though we
-pretty much know the register layout.
-This already led to a basically redundant variant entry for the H6, which
-only differs by that value. We will have the same situation with the new
-A523 SoC, which again is compatible to the A64, but has a different syscon
-reset value.
+Le Wed, Apr 23, 2025 at 10:52:22AM +0100, Andre Przywara a écrit :
+> For some odd reason we are very picky about the value of the EMAC clock
+> register from the syscon block, insisting on a certain reset value and
+> only doing read-modify-write operations on that register, even though we
+> pretty much know the register layout.
+> This already led to a basically redundant variant entry for the H6, which
+> only differs by that value. We will have the same situation with the new
+> A523 SoC, which again is compatible to the A64, but has a different syscon
+> reset value.
+> 
+> Drop any assumptions about that value, and set or clear the bits that we
+> want to program, from scratch (starting with a value of 0). For the
+> remove() implementation, we just turn on the POWERDOWN bit, and deselect
+> the internal PHY, which mimics the existing code.
+> 
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+> Hi,
+> 
+> if anyone can shed some light on why we had this value and its handling
+> in the first place, I would be grateful. I don't really get its purpose,
+> and especially the warning message about the reset value seems odd.
+> I briefly tested this on A523, H3, H6, but would be glad to see more
+> testing on this.
+> 
 
-Drop any assumptions about that value, and set or clear the bits that we
-want to program, from scratch (starting with a value of 0). For the
-remove() implementation, we just turn on the POWERDOWN bit, and deselect
-the internal PHY, which mimics the existing code.
+Hello
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
-Hi,
+The origin is me, when doing initial sun8i-emac I feared to miss something and so added some strict tests on its value.
+Another goal was to detect half init from firmware/bootloader.
 
-if anyone can shed some light on why we had this value and its handling
-in the first place, I would be grateful. I don't really get its purpose,
-and especially the warning message about the reset value seems odd.
-I briefly tested this on A523, H3, H6, but would be glad to see more
-testing on this.
+But I agree it is now useless.
 
-Cheers,
-Andre
+I will send this patch on all my CI boards, so you will have extra test.
 
- .../net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 47 ++-----------------
- 1 file changed, 4 insertions(+), 43 deletions(-)
+Acked-by: Corentin LABBE <clabbe.montjoie@gmail.com>
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-index 85723a78793ab..0f8d29763a909 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-@@ -31,10 +31,6 @@
-  */
- 
- /* struct emac_variant - Describe dwmac-sun8i hardware variant
-- * @default_syscon_value:	The default value of the EMAC register in syscon
-- *				This value is used for disabling properly EMAC
-- *				and used as a good starting value in case of the
-- *				boot process(uboot) leave some stuff.
-  * @syscon_field		reg_field for the syscon's gmac register
-  * @soc_has_internal_phy:	Does the MAC embed an internal PHY
-  * @support_mii:		Does the MAC handle MII
-@@ -48,7 +44,6 @@
-  *				value of zero indicates this is not supported.
-  */
- struct emac_variant {
--	u32 default_syscon_value;
- 	const struct reg_field *syscon_field;
- 	bool soc_has_internal_phy;
- 	bool support_mii;
-@@ -94,7 +89,6 @@ static const struct reg_field sun8i_ccu_reg_field = {
- };
- 
- static const struct emac_variant emac_variant_h3 = {
--	.default_syscon_value = 0x58000,
- 	.syscon_field = &sun8i_syscon_reg_field,
- 	.soc_has_internal_phy = true,
- 	.support_mii = true,
-@@ -105,14 +99,12 @@ static const struct emac_variant emac_variant_h3 = {
- };
- 
- static const struct emac_variant emac_variant_v3s = {
--	.default_syscon_value = 0x38000,
- 	.syscon_field = &sun8i_syscon_reg_field,
- 	.soc_has_internal_phy = true,
- 	.support_mii = true
- };
- 
- static const struct emac_variant emac_variant_a83t = {
--	.default_syscon_value = 0,
- 	.syscon_field = &sun8i_syscon_reg_field,
- 	.soc_has_internal_phy = false,
- 	.support_mii = true,
-@@ -122,7 +114,6 @@ static const struct emac_variant emac_variant_a83t = {
- };
- 
- static const struct emac_variant emac_variant_r40 = {
--	.default_syscon_value = 0,
- 	.syscon_field = &sun8i_ccu_reg_field,
- 	.support_mii = true,
- 	.support_rgmii = true,
-@@ -130,7 +121,6 @@ static const struct emac_variant emac_variant_r40 = {
- };
- 
- static const struct emac_variant emac_variant_a64 = {
--	.default_syscon_value = 0,
- 	.syscon_field = &sun8i_syscon_reg_field,
- 	.soc_has_internal_phy = false,
- 	.support_mii = true,
-@@ -141,7 +131,6 @@ static const struct emac_variant emac_variant_a64 = {
- };
- 
- static const struct emac_variant emac_variant_h6 = {
--	.default_syscon_value = 0x50000,
- 	.syscon_field = &sun8i_syscon_reg_field,
- 	/* The "Internal PHY" of H6 is not on the die. It's on the
- 	 * co-packaged AC200 chip instead.
-@@ -933,25 +922,11 @@ static int sun8i_dwmac_set_syscon(struct device *dev,
- 	struct sunxi_priv_data *gmac = plat->bsp_priv;
- 	struct device_node *node = dev->of_node;
- 	int ret;
--	u32 reg, val;
--
--	ret = regmap_field_read(gmac->regmap_field, &val);
--	if (ret) {
--		dev_err(dev, "Fail to read from regmap field.\n");
--		return ret;
--	}
--
--	reg = gmac->variant->default_syscon_value;
--	if (reg != val)
--		dev_warn(dev,
--			 "Current syscon value is not the default %x (expect %x)\n",
--			 val, reg);
-+	u32 reg = 0, val;
- 
- 	if (gmac->variant->soc_has_internal_phy) {
- 		if (of_property_read_bool(node, "allwinner,leds-active-low"))
- 			reg |= H3_EPHY_LED_POL;
--		else
--			reg &= ~H3_EPHY_LED_POL;
- 
- 		/* Force EPHY xtal frequency to 24MHz. */
- 		reg |= H3_EPHY_CLK_SEL;
-@@ -965,11 +940,6 @@ static int sun8i_dwmac_set_syscon(struct device *dev,
- 		 * address. No need to mask it again.
- 		 */
- 		reg |= 1 << H3_EPHY_ADDR_SHIFT;
--	} else {
--		/* For SoCs without internal PHY the PHY selection bit should be
--		 * set to 0 (external PHY).
--		 */
--		reg &= ~H3_EPHY_SELECT;
- 	}
- 
- 	if (!of_property_read_u32(node, "allwinner,tx-delay-ps", &val)) {
-@@ -980,8 +950,6 @@ static int sun8i_dwmac_set_syscon(struct device *dev,
- 		val /= 100;
- 		dev_dbg(dev, "set tx-delay to %x\n", val);
- 		if (val <= gmac->variant->tx_delay_max) {
--			reg &= ~(gmac->variant->tx_delay_max <<
--				 SYSCON_ETXDC_SHIFT);
- 			reg |= (val << SYSCON_ETXDC_SHIFT);
- 		} else {
- 			dev_err(dev, "Invalid TX clock delay: %d\n",
-@@ -998,8 +966,6 @@ static int sun8i_dwmac_set_syscon(struct device *dev,
- 		val /= 100;
- 		dev_dbg(dev, "set rx-delay to %x\n", val);
- 		if (val <= gmac->variant->rx_delay_max) {
--			reg &= ~(gmac->variant->rx_delay_max <<
--				 SYSCON_ERXDC_SHIFT);
- 			reg |= (val << SYSCON_ERXDC_SHIFT);
- 		} else {
- 			dev_err(dev, "Invalid RX clock delay: %d\n",
-@@ -1008,11 +974,6 @@ static int sun8i_dwmac_set_syscon(struct device *dev,
- 		}
- 	}
- 
--	/* Clear interface mode bits */
--	reg &= ~(SYSCON_ETCS_MASK | SYSCON_EPIT);
--	if (gmac->variant->support_rmii)
--		reg &= ~SYSCON_RMII_EN;
--
- 	switch (plat->mac_interface) {
- 	case PHY_INTERFACE_MODE_MII:
- 		/* default */
-@@ -1039,9 +1000,9 @@ static int sun8i_dwmac_set_syscon(struct device *dev,
- 
- static void sun8i_dwmac_unset_syscon(struct sunxi_priv_data *gmac)
- {
--	u32 reg = gmac->variant->default_syscon_value;
--
--	regmap_field_write(gmac->regmap_field, reg);
-+	if (gmac->variant->soc_has_internal_phy)
-+		regmap_field_write(gmac->regmap_field,
-+				   (H3_EPHY_SHUTDOWN | H3_EPHY_SELECT));
- }
- 
- static void sun8i_dwmac_exit(struct platform_device *pdev, void *priv)
--- 
-2.25.1
-
+Thanks
+Regards
