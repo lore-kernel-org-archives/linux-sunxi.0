@@ -1,111 +1,74 @@
-Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CC5A27EC64
-	for <linux-sunxi@lists.linux.dev>; Wed, 23 Apr 2025 14:04:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B94CF2820AF;
+	Wed, 23 Apr 2025 16:59:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745417081; cv=none; b=oUR6VsP75+gtp2P+ZgQOUQNeAWU+hODmgYbQphSeSQiv+1JMJGpRP3bfLnLqee645FCOwyYgVr2u6C+13sEU5WjYFau+1BwUbK1BPe5iQzWD0vsAhGKQuZ4AKy9oxL/8dIJ2nRmoyCJEf8p8RwAB5XHdWQ/B4YCJdGd8eNhbj1k=
+	t=1745427554; cv=none; b=IpYBQWEZKLdiAfMu/M3OnHPPY80wA03KGpufJyS7Y8NEsJdn19vPmzeLo7B9f7xeLJn/MusXdgo5WkhWY2bGtQxH44W26dBox0d6CuBJSLLq6lvyRJi+UZkZOELHTs+gE5QozTH/oRbuRS5PEluNMj7feRcghd4SHf9F8zLXTQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745417081; c=relaxed/simple;
-	bh=M4BoCqHOzCogtKg+TanyAV3G2PPloVmiBgQFQOsTpKc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=jIn5jUgv8fzmP3vVeM91PoNSCbWxBnaogXzjQBQLXrNpP51lYG4hW6Vfr/FMg1KzYfNoAgerUMNnf6l8Yg/uRd+eMKImX+MZaDWfS49e8ftbo/mupyq354bjJZ86Vpiwu+BvDg+/sx66cxtM+HUmTNdfVeM7Z4uNSvEW9QwFATw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-Received: from [127.0.0.1] (unknown [116.232.18.95])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: dlan)
-	by smtp.gentoo.org (Postfix) with ESMTPSA id EF8843430DF;
-	Wed, 23 Apr 2025 14:04:32 +0000 (UTC)
-From: Yixun Lan <dlan@gentoo.org>
-Date: Wed, 23 Apr 2025 22:03:26 +0800
-Subject: [PATCH 5/5] arm64: dts: allwinner: t527: add EMAC0 to Avaoto-A1
+	s=arc-20240116; t=1745427554; c=relaxed/simple;
+	bh=ZBYjCWap5snCq+ls10DvvCuKnV6nwylAsutQrwPX7Gw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Dq2teiRiM2x2eio9dPmMI0miKgtMbW7oSXJ5xbq0sogQrD5PO4Y5IqOpR5MIIXmXXBfPk9h1JUVYDGAMSEaSGIi0xzvl6EMwU/zmX/t69vaYhMWjfN8yvyLU8zOuS256FVEQRZJqJZ8g0uJmmYQ2oO0RK533rI1gjHLPxFJdNlQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=n989T3S3; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="n989T3S3"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=+pGhfX/4H3scf/HydnEYjfq1z6zKounijmYTLMLhC5E=; b=n989T3S3GDIXGm1qZvGBeYMZus
+	FFbkrtH8uTUC5JEGWWDg1gzaXJKpIm6WJL4xNXmsGG607YJy9Sp2XJvWYbYSJ+eTA6KLJDm+L9UsP
+	YP9DGWt/OIbhPtQv9sfilbwMU7bSjlKGpijJY28Qhe1jNNoKo/3GIi2LLSDCk7AQOo0M=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1u7dQj-00AMSb-42; Wed, 23 Apr 2025 18:58:37 +0200
+Date: Wed, 23 Apr 2025 18:58:37 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Yixun Lan <dlan@gentoo.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Andre Przywara <andre.przywara@arm.com>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH 4/5] arm64: dts: allwinner: a527: add EMAC0 to Radxa A5E
  board
+Message-ID: <aa38baed-f528-4650-9e06-e7a76c25ec89@lunn.ch>
+References: <20250423-01-sun55i-emac0-v1-0-46ee4c855e0a@gentoo.org>
+ <20250423-01-sun55i-emac0-v1-4-46ee4c855e0a@gentoo.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250423-01-sun55i-emac0-v1-5-46ee4c855e0a@gentoo.org>
-References: <20250423-01-sun55i-emac0-v1-0-46ee4c855e0a@gentoo.org>
-In-Reply-To: <20250423-01-sun55i-emac0-v1-0-46ee4c855e0a@gentoo.org>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: Andre Przywara <andre.przywara@arm.com>, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
- Yixun Lan <dlan@gentoo.org>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1241; i=dlan@gentoo.org;
- h=from:subject:message-id; bh=M4BoCqHOzCogtKg+TanyAV3G2PPloVmiBgQFQOsTpKc=;
- b=owEBzQIy/ZANAwAKATGq6kdZTbvtAcsmYgBoCPNJikiDFxOUjRYRat/2gcDcU/vJZBj8PEW6I
- iQ73O1J436JApMEAAEKAH0WIQS1urjJwxtxFWcCI9wxqupHWU277QUCaAjzSV8UgAAAAAAuAChp
- c3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0QjVCQUI4QzlDMzF
- CNzExNTY3MDIyM0RDMzFBQUVBNDc1OTREQkJFRAAKCRAxqupHWU277SYoD/421Qk44Q1Jus7V78
- qGm7OCd/RJkrPzvCpOHoJDYcTCHzrTRyO7tl8VxeN5a932xDcPVevZ8aha/TCrP/Bzcm/XNEouE
- 4wjv6wRl3CTZKzTeWpDHTnQP39PxDk6GVUARB1LPmaKu58WtV2SZXsuj1/0LX3pWrLvPQP7se7e
- aOComIv4VVjwV9Ig/92thsQ9KLGkNKqb/aSheFRnMqxWlG1sW9qo39QtT7bjCv+BKFdZ21lBD6/
- 3jJRJTFSlFJnwSDJ+gaA/YZpOosc9jrrYlGgTt8O59te51ZGzosG5phw5NJYgviOVQ8l5VZsoWY
- lHiMEHtxBjJcEuo6SG3u2SbnN93Pe8Kht0euT0g08nXl90vIqjk/WVifcz6LidlbVpJodqKJsZ/
- zYY802jn5jcm8Gp+BTvsIHcbx6jROTtWsJDaPnp1ryBltHHbHqEIlA6qpC3yUb3kkr0aOXbZXz5
- MVN/ONnW4tHBF5xdjoSEY95QcYlU0fqaCZ9+I+ogzj2Lq//3RX5AaYhBukK/Jji7H2Ce/bIPdAE
- qHu5rMkNzcNjSbBesBSuGE/TFttTGQostbY+8G/DLPfE7B63bCSzF5PpEUOR5XA1vIgi1SU+vUY
- xjezmq6zY4QSHVxk73iCHESfvvzSUvL/OZn7fdY9ItnEv1L+VvkgPTSZwwxsECXD49TQ==
-X-Developer-Key: i=dlan@gentoo.org; a=openpgp;
- fpr=50B03A1A5CBCD33576EF8CD7920C0DBCAABEFD55
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250423-01-sun55i-emac0-v1-4-46ee4c855e0a@gentoo.org>
 
-On Avaoto A1 board, the EMAC0 connect to an external RTL8211F-CG PHY,
-which features a 25MHz crystal, and using PH8 pin as PHY reset.
+> +&emac0 {
+> +	phy-mode = "rgmii";
 
-Signed-off-by: Yixun Lan <dlan@gentoo.org>
----
-I don't own this board, only compose this patch according to the
-schematics. Let me know if it works.
----
- arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+Does the PCB have extra long clock lines in order to provide the
+needed 2ns delay? I guess not, so this should be rgmii-id.
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts b/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
-index 85a546aecdbe149d6bad10327fca1fb7dafff6ad..23ab89c742c679fb274babbb0205f119eb2c9baa 100644
---- a/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
-@@ -64,6 +64,23 @@ &ehci1 {
- 	status = "okay";
- };
- 
-+&emac0 {
-+	phy-mode = "rgmii";
-+	phy-handle = <&ext_rgmii_phy>;
-+
-+	allwinner,tx-delay-ps = <100>;
-+	allwinner,rx-delay-ps = <300>;
-+
-+	status = "okay";
-+};
-+
-+&mdio0 {
-+	ext_rgmii_phy: ethernet-phy@1 {
-+		compatible = "ethernet-phy-ieee802.3-c22";
-+		reg = <1>;
-+	};
-+};
-+
- &mmc0 {
- 	vmmc-supply = <&reg_cldo3>;
- 	cd-gpios = <&pio 5 6 (GPIO_ACTIVE_LOW | GPIO_PULL_DOWN)>; /* PF6 */
+> +	phy-handle = <&ext_rgmii_phy>;
+> +
+> +	allwinner,tx-delay-ps = <300>;
+> +	allwinner,rx-delay-ps = <400>;
 
--- 
-2.49.0
+These are rather low delays, since the standard requires 2ns. Anyway,
+once you change phy-mode, you probably don't need these.
 
+     Andrew
