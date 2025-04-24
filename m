@@ -1,70 +1,70 @@
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22D1028A1D1
-	for <linux-sunxi@lists.linux.dev>; Thu, 24 Apr 2025 16:57:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE4BC289372
+	for <linux-sunxi@lists.linux.dev>; Thu, 24 Apr 2025 16:58:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745513880; cv=none; b=pN+xziZJTEFwAE2SH6y2L4jNNFmvXDsAKBiwmZEWg93LmlyvuHO9SGJo0iXVlYtYoso0GZ9u0JQit/QINoX02tAvpWNcn5EJC/dRWbjzTiwvfrNr4MzdgZoK8UCKd1QaRU73X2xRDhTRPNqPwO0m5IutegW0SwxCTTWWjoXavWE=
+	t=1745513885; cv=none; b=u7SaOXa8ErbTZHXqbBs/xyV7pXPosYbRCBmn3yHWTFqkuu+nsLr53MFvzcPvx1KpxS4Xf8kCd+3JL/pDS36y9u+PwVniiYr9uJ4Rj9OHrMVPs8TDIOsg3mymrO8G0Kg3KnfIttYFXWxmyrj+m7EtkOEeumGtKsq7JDmMB/TO/vg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745513880; c=relaxed/simple;
-	bh=j1MfpPRWqhfX/2KQfilannHBewLFWL4iLNkee7p1jNc=;
+	s=arc-20240116; t=1745513885; c=relaxed/simple;
+	bh=d3q579kzDJ3+DUyvJtnGafDJWhrUej0ZDbD7FfPXqsU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fKG6lokvfVRcYICfwJmI7SMB+eU4Gr8XR0V7qbGMKCWPUODMAh+pzYf2M0PVDYTC8yDFTl/U98nXkBbADyGnV2fDBdon2spx/sLgY6HUJ8rcyczK3gBQWXZDFtbzvd9OCTtE/U1CNSoYk9Jzne47ahaOXc0Is0AS5kTznpepbUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yGvWjMsC; arc=none smtp.client-ip=209.85.219.178
+	 To:Cc:Content-Type; b=MPPqQ+8CkSCVNSGJCC37jJBoBs7bfAKX1MwNVdzh0ZZQPGxendUsU+dEnQ5iL9+oZdhkyD94DZXsC50w8zn9HISGx1fltne1ZVkkaPMuOXMr6gCmgoROxtmh9KGsk0d0qk5Ge+EVhT1oiNo6TrL9MgUkRFoysfi+sXzdF0DZUO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=V6iRG56w; arc=none smtp.client-ip=209.85.128.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yGvWjMsC"
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-e73120cc26fso137706276.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 24 Apr 2025 09:57:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="V6iRG56w"
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-7053f85f059so13036357b3.2
+        for <linux-sunxi@lists.linux.dev>; Thu, 24 Apr 2025 09:58:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1745513878; x=1746118678; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1745513883; x=1746118683; darn=lists.linux.dev;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=CC8QXc9LsvxTqtPlPIyO29AB2sQN6RDFy5sekBxfX70=;
-        b=yGvWjMsCaNcDU5Dnj2EDZO0id8UALfP+pOWK9Go6gGJWl4lyKW9huqomEhk9Dm4Kjs
-         n9X8iBVkJKPRvKn5inhzFJ33t6zMOlhp0FQbmsANsk/ph8b4w0ICWD25H8TQNFh9i0sM
-         Y+uRL5ZJiHqi5a4q4IQ0L52JMWPFBjwUNusKGWMFc6a/zOANURdqCY0uIdi4i7WW4dUV
-         egQsSqUsVKmvyOSiyDzE8GnKBhJs9DDXhqAySC5j51SF+NtIK/MoFQcOVtwHf8Vey0f3
-         ApMy9GpfMEFeUkdeHkO5eKRRjl165/rP+ueTm/VrQNRm9OCwUeXErTpThIS/dbWde91q
-         /q8Q==
+        bh=PVhR2hLHLi9hBr30OMbQ9jGMgnfMq+j3RfhjudSluRw=;
+        b=V6iRG56wlut6unVrdBetcFMXXRx840y10WoVdf+Prkref5qPUZ1jMNJtZXbrqaf+/j
+         6hqo4qB8OpVD8oSr4VFgc6cGG60wbQNnhgenslXDMhLxXTZfPP39+Hyz3ED5ppMYoE4g
+         w4rgwloFg1BAxRAijuG7s9N42FJuGsUJPBlLw8EQD7B1qpKpSm3MVFHsj1jbVvnYj71O
+         hSbB0bahu49IgbRUoge1BUKnZeBRXegpsRPIzuCl41gFlHSh/sRo/mq4QhgLPWuWuRsY
+         9pZZ2UfpVkv1PJST5aZc8aGg94pyMWV5IUASdBecMKohNrOuS8/MfmlhoEjtngz3SXZ6
+         EtIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745513878; x=1746118678;
+        d=1e100.net; s=20230601; t=1745513883; x=1746118683;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=CC8QXc9LsvxTqtPlPIyO29AB2sQN6RDFy5sekBxfX70=;
-        b=JBTemXCKlQw2p19n1TSHId2ku4hQa5oyWKd34GexAQ6WR+k+uNRGq6sdnl2dM5X369
-         UhWHfP7Merd9DvXWTUxfDAU0mDhOdutSywFWgX6ZAhEzT8Vx+dDBNcfVG6Qc3EKaI1Rl
-         kt1oRAyyhym9KUMZZA/nHmuIxfMg0pKo6mWx84WP6rROdHOylBDUPyNzPKpX1zE9wJnQ
-         SJhoCkY06teWKPRZ0lebtrIiv5c8rt1x9+1riWsUtAD1LTAX2S7P3Dyov7wFJiOCRyCx
-         O43T5LULPTCdFFi4iAR4VFpBMtR0QJsCQIEruaab88AoWOlv8NXh//BOvLaL9OjCf96A
-         fAfQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVQXOcxlTGBsxJQVFhCkzh/WmPMaBBTVKjx2ouNIYDahXX+w+J6w0dmOoLEiibbtho0OihRD1V0t8CT1w==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yya+lyqZbMWiCmwuQj7n8U1j3lPgLeZTjdF3AS+J/emjK7aUUdM
-	eJWfSVDIIp8jHvVxLJ4V2H/vkEhu/DF1D3RYLuZQGKuMuiDr3UfdLy1fguZeP1tY4tYpFaEJoBF
-	f+hXuFLf5TF4KrDNJfMwOvGvl2jJ76pcGKuQkqg==
-X-Gm-Gg: ASbGncudxM4BGdWYN3yNBsFJTmeDA8ml2MNIEnggda7FEz7uFiUdYwg9ZQdnno57Nl2
-	83Qi9IX4flXq0eEGX83WjHphddkHrmM2glayk9dgBhm+u2C63RWor9pqUW9kO78DuxukPYVkYVt
-	TIhjZc65HdZ42CfKPhHk2CKFU=
-X-Google-Smtp-Source: AGHT+IGUSO5FK4cTNY1s8aCOE0QjJA5+ZdVnwWYHpoNAMpE1vPT98E65H3GN3XHKq0FMUPOvfV/2uwmg/47o7Q3uAQg=
-X-Received: by 2002:a05:6902:1b12:b0:e72:d449:72ed with SMTP id
- 3f1490d57ef6-e7312d6905emr175202276.24.1745513878058; Thu, 24 Apr 2025
- 09:57:58 -0700 (PDT)
+        bh=PVhR2hLHLi9hBr30OMbQ9jGMgnfMq+j3RfhjudSluRw=;
+        b=ANZLDTuCBRFR31lw2epwT5GoU7q6sTjXWVgA+2Ker53OoJNz9zXFA4YLvyKUnAW0g8
+         B4rjPRmEGqh2b3t6CqIeK/HBeFj2LGzQRhgQC3K8GZI5SLTJlWgFVY5GlrTFpadfIGL7
+         AtVZ5dNzu+uGFIWFGYF8EHr2B3fQl1CIHGMIGq0Mw2aN6LpxE1Y09KZrBkfymH6P/jPg
+         KaG7Qf6497TOro0CfWcU4czuGDuLTuPNT+TxLjgCnPWmsB2bDhSjvz4hFCsD1qOXiF8K
+         FWvD5bC0RxpS9KrHiBYV8Tojj+vx862eZ0a9XZNGgBpgmBPwFCQBiM7YF+VNCLARhxtL
+         6dyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVl0VeYvUqQH12eqk8bKh/vPF6uaNzziFbCSrPEwhwmAreUJ50kbtvKb2uifCIrGdfzVtSw0yXh1N2Qcg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxrjC8S1XlRB+OLC60pMnU4rn6XALLDyEZV32XZ7aUCH0NqcMqb
+	u2JCnhw/2Ap6m2H2o5zuNard1EJk1tz5l1GIZ0nlE1TnFbYanWc0hDduV+jbbGJNuq3JMBp4WoF
+	uNaUoqUclD3LJvIqYZmDAgJ4zmxkEi03D0s2+QA==
+X-Gm-Gg: ASbGncttBkBJhIk3YCnDdMKgbQQJGcBIVVy19XOpQEL3WQx47Jvtm6m8HKRzquynZ3j
+	YwRMf+6pSnLCtDwctFlJrkUJkeogf0FUkYew5Uokr5s/yf8Tb1taTIBU3SNEsD6a6FVzsgZM4Cf
+	IE+qfNDKBX0XJS3kGMzqhcDqAd4nul9fOEqQ==
+X-Google-Smtp-Source: AGHT+IHSsh/kmYkn+WFgtXin2ugMOVreggmMbrbDjCJDUl4G4egWdalbyROVRXdskuUNfx7wc+7/u/hJdLHgKm/EwTI=
+X-Received: by 2002:a05:690c:7449:b0:702:5926:8609 with SMTP id
+ 00721157ae682-7084efe39f2mr7183287b3.12.1745513882778; Thu, 24 Apr 2025
+ 09:58:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250416224839.9840-1-andre.przywara@arm.com> <20250416224839.9840-2-andre.przywara@arm.com>
-In-Reply-To: <20250416224839.9840-2-andre.przywara@arm.com>
+References: <20250416224839.9840-1-andre.przywara@arm.com> <20250416224839.9840-3-andre.przywara@arm.com>
+In-Reply-To: <20250416224839.9840-3-andre.przywara@arm.com>
 From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Thu, 24 Apr 2025 18:57:22 +0200
-X-Gm-Features: ATxdqUFsZ4jKzTVE_MqQW5hWNU9yilyI4trLvJSpUG2toFoex3HtMd6XPhqZ5bI
-Message-ID: <CAPDyKFop9gAUq3kG4-hs358y=N48rLQSvJaRveXo_ebVTf8gEg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] dt-bindings: power: Add Allwinner H6/H616 PRCM PPU
+Date: Thu, 24 Apr 2025 18:57:25 +0200
+X-Gm-Features: ATxdqUFR8Hq7WOkuFgj-ubpob4xQ7WjUuRyyTbKB719qT0w2HuvbM4JN7_zT25o
+Message-ID: <CAPDyKFoOMy43uFJ5S09+y0cwE-eFttx-PZgWdGmjjdi9oonJDQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] pmdomain: sunxi: add H6 PRCM PPU driver
 To: Andre Przywara <andre.przywara@arm.com>
 Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
 	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
@@ -77,77 +77,271 @@ Content-Type: text/plain; charset="UTF-8"
 
 On Thu, 17 Apr 2025 at 00:49, Andre Przywara <andre.przywara@arm.com> wrote:
 >
-> The Allwinner H6 and some later SoCs contain some bits in the PRCM (Power
-> Reset Clock Management) block that control some power domains.
-> Those power domains include the one for the GPU, the PLLs and some
-> analogue circuits.
+> The Allwinner Power Reset Clock Management (RPCM) block contains a few
+> bits that control some power domains. The most prominent one is the one
+> for the Mali GPU. On the Allwinner H6 this domain is enabled at reset, so
+> we didn't care about it so far, but the H616 defaults to it being disabled.
+>
+> Add a power domain driver for those bits. Some BSP code snippets and
+> some spare documentation describe three bits, slightly different between
+> the H6 and H616, so add three power domains for each SoC, connected to
+> their compatible string.
 >
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
-Applied for next by amending the example according to ChenYu's comment, thanks!
-
-Note this patch is also available on the immutable dt branch, for SoC
-maintainers to pull.
+Applied for next, thanks!
 
 Kind regards
 Uffe
 
 
-
 > ---
->  .../power/allwinner,sun50i-h6-prcm-ppu.yaml   | 42 +++++++++++++++++++
->  1 file changed, 42 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/power/allwinner,sun50i-h6-prcm-ppu.yaml
+>  drivers/pmdomain/sunxi/Kconfig              |  10 +
+>  drivers/pmdomain/sunxi/Makefile             |   1 +
+>  drivers/pmdomain/sunxi/sun50i-h6-prcm-ppu.c | 208 ++++++++++++++++++++
+>  3 files changed, 219 insertions(+)
+>  create mode 100644 drivers/pmdomain/sunxi/sun50i-h6-prcm-ppu.c
 >
-> diff --git a/Documentation/devicetree/bindings/power/allwinner,sun50i-h6-prcm-ppu.yaml b/Documentation/devicetree/bindings/power/allwinner,sun50i-h6-prcm-ppu.yaml
+> diff --git a/drivers/pmdomain/sunxi/Kconfig b/drivers/pmdomain/sunxi/Kconfig
+> index 17781bf8d86d7..43eecb3ea9819 100644
+> --- a/drivers/pmdomain/sunxi/Kconfig
+> +++ b/drivers/pmdomain/sunxi/Kconfig
+> @@ -8,3 +8,13 @@ config SUN20I_PPU
+>         help
+>           Say y to enable the PPU power domain driver. This saves power
+>           when certain peripherals, such as the video engine, are idle.
+> +
+> +config SUN50I_H6_PRCM_PPU
+> +       tristate "Allwinner H6 PRCM power domain driver"
+> +       depends on ARCH_SUNXI || COMPILE_TEST
+> +       depends on PM
+> +       select PM_GENERIC_DOMAINS
+> +       help
+> +         Say y to enable the Allwinner H6/H616 PRCM power domain driver.
+> +         This is required to enable the Mali GPU in the H616 SoC, it is
+> +         optional for the H6.
+> diff --git a/drivers/pmdomain/sunxi/Makefile b/drivers/pmdomain/sunxi/Makefile
+> index ec1d7a2fb21db..c1343e1237599 100644
+> --- a/drivers/pmdomain/sunxi/Makefile
+> +++ b/drivers/pmdomain/sunxi/Makefile
+> @@ -1,2 +1,3 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  obj-$(CONFIG_SUN20I_PPU)               += sun20i-ppu.o
+> +obj-$(CONFIG_SUN50I_H6_PRCM_PPU)       += sun50i-h6-prcm-ppu.o
+> diff --git a/drivers/pmdomain/sunxi/sun50i-h6-prcm-ppu.c b/drivers/pmdomain/sunxi/sun50i-h6-prcm-ppu.c
 > new file mode 100644
-> index 0000000000000..7eaff9baf7268
+> index 0000000000000..d59644499dfe0
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/power/allwinner,sun50i-h6-prcm-ppu.yaml
-> @@ -0,0 +1,42 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/power/allwinner,sun50i-h6-prcm-ppu.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +++ b/drivers/pmdomain/sunxi/sun50i-h6-prcm-ppu.c
+> @@ -0,0 +1,208 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (C) Arm Ltd. 2024
+> + *
+> + * Allwinner H6/H616 PRCM power domain driver.
+> + * This covers a few registers inside the PRCM (Power Reset Clock Management)
+> + * block that control some power rails, most prominently for the Mali GPU.
+> + */
 > +
-> +title: Allwinner SoCs PRCM power domain controller
+> +#include <linux/bitfield.h>
+> +#include <linux/clk.h>
+> +#include <linux/io.h>
+> +#include <linux/iopoll.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_domain.h>
+> +#include <linux/reset.h>
 > +
-> +maintainers:
-> +  - Andre Przywara <andre.przywara@arm.com>
+> +/*
+> + * The PRCM block covers multiple devices, starting with some clocks,
+> + * then followed by the power rails.
+> + * The clocks are covered by a different driver, so this driver's MMIO range
+> + * starts later in the PRCM MMIO frame, not at the beginning of it.
+> + * To keep the register offsets consistent with other PRCM documentation,
+> + * express the registers relative to the beginning of the whole PRCM, and
+> + * subtract the PPU offset this driver is bound to.
+> + */
+> +#define PD_H6_PPU_OFFSET               0x250
+> +#define PD_H6_VDD_SYS_REG              0x250
+> +#define PD_H616_ANA_VDD_GATE                   BIT(4)
+> +#define PD_H6_CPUS_VDD_GATE                    BIT(3)
+> +#define PD_H6_AVCC_VDD_GATE                    BIT(2)
+> +#define PD_H6_GPU_REG                  0x254
+> +#define PD_H6_GPU_GATE                         BIT(0)
 > +
-> +description:
-> +  The Allwinner Power Reset Clock Management (PRCM) unit contains bits to
-> +  control a few power domains.
+> +struct sun50i_h6_ppu_pd {
+> +       struct generic_pm_domain        genpd;
+> +       void __iomem                    *reg;
+> +       u32                             gate_mask;
+> +       bool                            negated;
+> +};
 > +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - allwinner,sun50i-h6-prcm-ppu
-> +      - allwinner,sun50i-h616-prcm-ppu
-> +      - allwinner,sun55i-a523-prcm-ppu
+> +#define FLAG_PPU_ALWAYS_ON     BIT(0)
+> +#define FLAG_PPU_NEGATED       BIT(1)
 > +
-> +  reg:
-> +    maxItems: 1
+> +struct sun50i_h6_ppu_desc {
+> +       const char *name;
+> +       u32 offset;
+> +       u32 mask;
+> +       unsigned int flags;
+> +};
 > +
-> +  '#power-domain-cells':
-> +    const: 1
+> +static const struct sun50i_h6_ppu_desc sun50i_h6_ppus[] = {
+> +       { "AVCC", PD_H6_VDD_SYS_REG, PD_H6_AVCC_VDD_GATE },
+> +       { "CPUS", PD_H6_VDD_SYS_REG, PD_H6_CPUS_VDD_GATE },
+> +       { "GPU", PD_H6_GPU_REG, PD_H6_GPU_GATE },
+> +};
+> +static const struct sun50i_h6_ppu_desc sun50i_h616_ppus[] = {
+> +       { "PLL", PD_H6_VDD_SYS_REG, PD_H6_AVCC_VDD_GATE,
+> +               FLAG_PPU_ALWAYS_ON | FLAG_PPU_NEGATED },
+> +       { "ANA", PD_H6_VDD_SYS_REG, PD_H616_ANA_VDD_GATE, FLAG_PPU_ALWAYS_ON },
+> +       { "GPU", PD_H6_GPU_REG, PD_H6_GPU_GATE, FLAG_PPU_NEGATED },
+> +};
 > +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - '#power-domain-cells'
+> +struct sun50i_h6_ppu_data {
+> +       const struct sun50i_h6_ppu_desc *descs;
+> +       int nr_domains;
+> +};
 > +
-> +additionalProperties: false
+> +static const struct sun50i_h6_ppu_data sun50i_h6_ppu_data = {
+> +       .descs = sun50i_h6_ppus,
+> +       .nr_domains = ARRAY_SIZE(sun50i_h6_ppus),
+> +};
 > +
-> +examples:
-> +  - |
-> +    prcm_ppu: power-controller@7010210 {
-> +        compatible = "allwinner,sun50i-h616-prcm-ppu";
-> +        reg = <0x07010250 0x10>;
-> +        #power-domain-cells = <1>;
-> +    };
+> +static const struct sun50i_h6_ppu_data sun50i_h616_ppu_data = {
+> +       .descs = sun50i_h616_ppus,
+> +       .nr_domains = ARRAY_SIZE(sun50i_h616_ppus),
+> +};
+> +
+> +#define to_sun50i_h6_ppu_pd(_genpd) \
+> +       container_of(_genpd, struct sun50i_h6_ppu_pd, genpd)
+> +
+> +static bool sun50i_h6_ppu_power_status(const struct sun50i_h6_ppu_pd *pd)
+> +{
+> +       bool bit = readl(pd->reg) & pd->gate_mask;
+> +
+> +       return bit ^ pd->negated;
+> +}
+> +
+> +static int sun50i_h6_ppu_pd_set_power(const struct sun50i_h6_ppu_pd *pd,
+> +                                     bool set_bit)
+> +{
+> +       u32 reg = readl(pd->reg);
+> +
+> +       if (set_bit)
+> +               writel(reg | pd->gate_mask, pd->reg);
+> +       else
+> +               writel(reg & ~pd->gate_mask, pd->reg);
+> +
+> +       return 0;
+> +}
+> +
+> +static int sun50i_h6_ppu_pd_power_on(struct generic_pm_domain *genpd)
+> +{
+> +       const struct sun50i_h6_ppu_pd *pd = to_sun50i_h6_ppu_pd(genpd);
+> +
+> +       return sun50i_h6_ppu_pd_set_power(pd, !pd->negated);
+> +}
+> +
+> +static int sun50i_h6_ppu_pd_power_off(struct generic_pm_domain *genpd)
+> +{
+> +       const struct sun50i_h6_ppu_pd *pd = to_sun50i_h6_ppu_pd(genpd);
+> +
+> +       return sun50i_h6_ppu_pd_set_power(pd, pd->negated);
+> +}
+> +
+> +static int sun50i_h6_ppu_probe(struct platform_device *pdev)
+> +{
+> +       struct device *dev = &pdev->dev;
+> +       struct genpd_onecell_data *ppu;
+> +       struct sun50i_h6_ppu_pd *pds;
+> +       const struct sun50i_h6_ppu_data *data;
+> +       void __iomem *base;
+> +       int ret, i;
+> +
+> +       data = of_device_get_match_data(dev);
+> +       if (!data)
+> +               return -EINVAL;
+> +
+> +       pds = devm_kcalloc(dev, data->nr_domains, sizeof(*pds), GFP_KERNEL);
+> +       if (!pds)
+> +               return -ENOMEM;
+> +
+> +       ppu = devm_kzalloc(dev, sizeof(*ppu), GFP_KERNEL);
+> +       if (!ppu)
+> +               return -ENOMEM;
+> +
+> +       ppu->num_domains = data->nr_domains;
+> +       ppu->domains = devm_kcalloc(dev, data->nr_domains,
+> +                                   sizeof(*ppu->domains), GFP_KERNEL);
+> +       if (!ppu->domains)
+> +               return -ENOMEM;
+> +
+> +       platform_set_drvdata(pdev, ppu);
+> +
+> +       base = devm_platform_ioremap_resource(pdev, 0);
+> +       if (IS_ERR(base))
+> +               return PTR_ERR(base);
+> +
+> +       for (i = 0; i < data->nr_domains; i++) {
+> +               struct sun50i_h6_ppu_pd *pd = &pds[i];
+> +               const struct sun50i_h6_ppu_desc *desc = &data->descs[i];
+> +
+> +               pd->genpd.name          = desc->name;
+> +               pd->genpd.power_off     = sun50i_h6_ppu_pd_power_off;
+> +               pd->genpd.power_on      = sun50i_h6_ppu_pd_power_on;
+> +               if (desc->flags & FLAG_PPU_ALWAYS_ON)
+> +                       pd->genpd.flags = GENPD_FLAG_ALWAYS_ON;
+> +               pd->negated             = !!(desc->flags & FLAG_PPU_NEGATED);
+> +               pd->reg                 = base + desc->offset - PD_H6_PPU_OFFSET;
+> +               pd->gate_mask           = desc->mask;
+> +
+> +               ret = pm_genpd_init(&pd->genpd, NULL,
+> +                                   !sun50i_h6_ppu_power_status(pd));
+> +               if (ret) {
+> +                       dev_warn(dev, "Failed to add %s power domain: %d\n",
+> +                                desc->name, ret);
+> +                       goto out_remove_pds;
+> +               }
+> +               ppu->domains[i] = &pd->genpd;
+> +       }
+> +
+> +       ret = of_genpd_add_provider_onecell(dev->of_node, ppu);
+> +       if (!ret)
+> +               return 0;
+> +
+> +       dev_warn(dev, "Failed to add provider: %d\n", ret);
+> +out_remove_pds:
+> +       for (i--; i >= 0; i--)
+> +               pm_genpd_remove(&pds[i].genpd);
+> +
+> +       return ret;
+> +}
+> +
+> +static const struct of_device_id sun50i_h6_ppu_of_match[] = {
+> +       { .compatible   = "allwinner,sun50i-h6-prcm-ppu",
+> +         .data         = &sun50i_h6_ppu_data },
+> +       { .compatible   = "allwinner,sun50i-h616-prcm-ppu",
+> +         .data         = &sun50i_h616_ppu_data },
+> +       { }
+> +};
+> +MODULE_DEVICE_TABLE(of, sun50i_h6_ppu_of_match);
+> +
+> +static struct platform_driver sun50i_h6_ppu_driver = {
+> +       .probe  = sun50i_h6_ppu_probe,
+> +       .driver = {
+> +               .name                   = "sun50i-h6-prcm-ppu",
+> +               .of_match_table         = sun50i_h6_ppu_of_match,
+> +               /* Power domains cannot be removed while they are in use. */
+> +               .suppress_bind_attrs    = true,
+> +       },
+> +};
+> +module_platform_driver(sun50i_h6_ppu_driver);
+> +
+> +MODULE_AUTHOR("Andre Przywara <andre.przywara@arm.com>");
+> +MODULE_DESCRIPTION("Allwinner H6 PRCM power domain driver");
+> +MODULE_LICENSE("GPL");
 > --
 > 2.46.3
 >
