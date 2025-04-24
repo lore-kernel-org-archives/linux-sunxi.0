@@ -1,117 +1,100 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2344828FFE4
-	for <linux-sunxi@lists.linux.dev>; Thu, 24 Apr 2025 19:05:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DD8ADDC1
+	for <linux-sunxi@lists.linux.dev>; Thu, 24 Apr 2025 19:15:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745521538; cv=none; b=La0nNmJ/AGN8msWoZHICfy/0ttgnp1b6Xs3xVXiZBzOrTlB+arSg0wGqwbPVrVOAWTitJtn5Dj8sEYyp3VJSl524t9PK2Nf8MtjlWiEhXmORvyQw+EC982T+QuuwKeWTdfOVUh0bWUnmmOekfaqIRz+Lex9Db6W1Vr4d8w4ldAc=
+	t=1745522156; cv=none; b=EGXNrAq6IUY2heN1PpdRl0yrRtzL0JUQnW29Nz1SOuFxm0zxdfcJ0RYl3P07gHR4a5mbu9G+s4MxvqITp/YpYVtAZfx8F1rkYyXQJtx+jNyccZ7JqO9yFuxPowjapaxp8sa8cYBRpMokFvD+2p5QzQ7PblZz4KlR/oPBYG716U4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745521538; c=relaxed/simple;
-	bh=YBKsUW/EPfANNhvxLG05JedW2Qch1UwPCKwOdSUXq7M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fRvla9J3rrL6SDOyqUpeyoRNrgM/Nv4c67uGyQh7LM2zSkP+ZH7y96kTQ+ZQ/VW8lGzLNxM7Z5pDf/CLMLvm4J855UU/snquTdeKE0jgH7WlTbP5R4ZXpRzbIZJvcfswS2z5xXy58Mb/8HDgy8qEbPatdf/MHdzqdbiVf4wvSwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+	s=arc-20240116; t=1745522156; c=relaxed/simple;
+	bh=xaX9GfEYK9n44mlY1Zl6aj7j0/jFobvrb6dPwXaxJfU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=baIYUbkXu4Eln22hfl4/Pv0X1en4WNSuieItWJBzMSPhGSwNdDf5g2DnaveSFu4m6wbdkLwigTkYKao+HgauBT0u2Co7WnGETKe/dAfTxKRC0Dcck91T3EKVU3jCrSkeTQfu8kj+ovtmo3Pn6In1gYN+Slm4hcMEoEm/UolEWpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dCxBn8dj; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-30db1bd3bebso15658021fa.2
-        for <linux-sunxi@lists.linux.dev>; Thu, 24 Apr 2025 12:05:35 -0700 (PDT)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dCxBn8dj"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-39c1efbefc6so1058173f8f.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 24 Apr 2025 12:15:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745522152; x=1746126952; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=fg/5CSYGx8pustO7TFATB5SoThu17c6gLk2jPxapenA=;
+        b=dCxBn8djKzDrKwukrRS1pRoKPUn5E5O7OEe26+mixLAwDYHs7GGnri/47fQK1/qjvI
+         WxXBM/vFmpd12nIO9u3BglAlo0ksWFkejTZj9DZ66SF071RLwCtL03oJQHteKTO9S9MT
+         6X8vXS573fHraNCTtKLQSdoUuGmxNcpNoDcJqCuHnY1nHZgjShXLYJDLlO4VazGYp4bn
+         e7JuP/PVwdnv+QcVSlz1PaH+wOpNW3xVqOzl7Tz/nD0DkzLOnlz+VgGd3nDmwqxKosHk
+         jsfSFKjyggzDvu4ufll/J8FuHILSuPCe+8MiK40Oe9HWX5zWDLDdpeIpkWfqqPuQuco1
+         Ox+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745521531; x=1746126331;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YBKsUW/EPfANNhvxLG05JedW2Qch1UwPCKwOdSUXq7M=;
-        b=XKzy4uvsNaLnWjiqWttThIBh9dDbNoOp5RbQumlkSS3jdPsp4kcP7KacYBibo3wiVr
-         yHnNL4rhDT1Kam0b6rRoEVUASk20fPz0+8xJZAgTnn5fwsJJn03nu/Uge2bsCJ0xpsTL
-         Tor7RNL+YJrtyrxkA6TJuY7SoEX4DviIqXLLwyfiDaVSSfFAFPFFzp2e7j4EN7z5al+J
-         VaH8sjSkCpKMnry4a0tSS13mf2SSbLb880tijJPHPB90u11TAqsPfZnzo9RbsdYRFQFl
-         i+ioF8WnsxUPsj0DLWvmaM9v1FBvXBnDNxQNtmOHck7nKOCaHyCk+GJ7BMwj3knFudLV
-         SmBw==
-X-Forwarded-Encrypted: i=1; AJvYcCVJm9rmIakzR/M89Vm3kSww9o6CCb9g6MRZ56pULKA7ES7QFl25Mr4CcWDjH6DgQniN0Fue2wpr1lO5PQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzjAzHZqSFdo6Ggga+VoWERQNKfzypbg6PijP5JifWSxFe0j61k
-	IjFJsc7EzS6uvrvd9SSAlcTzr7I3kkDAyC//qutKjCRmUHtQMsihRIZBmJEz
-X-Gm-Gg: ASbGncudYnV3IirmQunT7tg/hHNvuAhOXEfcW4SO6hLnkQMrk5fGZLP2TbOuIT30Ukr
-	AosJnsRFN9IR1w7iSMGwQ4nNEDeuquHcSTZCULq7wWhdt0RE3UPaoVMSYZTZ6dBjMrpzw8rEq/R
-	wCheKEhRnxwrZX3Z6qSgwzjVlIXYK+VcCnyus49WHMbQdzQ+ESP1Z0ok/FlPxvNsUV1bs5sGA+m
-	93aQKoGMPSByQ+nJJE7mJeFvY5ZoskvP40YCyCwVDBd3R4GE05dfyATd3//vg2S6c1Cn7u4Qz7v
-	waE6PxxS/zvJyl7yhQb8ySHGd2jmZkJXbp40cYxQP2fHdkXhE+rOSOGEZ+bLcKDyq8HcRu+VW1L
-	PEC9eGZxa
-X-Google-Smtp-Source: AGHT+IETZwV0vJSD4wLU/jRiQwOs/0hHGGOfz/IXOpkPn2L3QqUkAvDhalDm95lt+nh0swj8cgZO0Q==
-X-Received: by 2002:a2e:a989:0:b0:30b:fe19:b07a with SMTP id 38308e7fff4ca-318a9290bd1mr3131851fa.25.1745521531044;
-        Thu, 24 Apr 2025 12:05:31 -0700 (PDT)
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com. [209.85.208.171])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-317cfb4855esm3779161fa.30.2025.04.24.12.05.30
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Apr 2025 12:05:30 -0700 (PDT)
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-30bfb6ab47cso13212221fa.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 24 Apr 2025 12:05:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXmt4Dt+Gw9DEIJs+sHSXYom4r7MbF67NeapPZERAAR53nUDTzu4xpi/X2zJ7PjTzt0XoG0t0GypsCwmg==@lists.linux.dev
-X-Received: by 2002:a2e:bc83:0:b0:30c:2d44:c212 with SMTP id
- 38308e7fff4ca-318a7ef5782mr3267911fa.9.1745521530295; Thu, 24 Apr 2025
- 12:05:30 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1745522152; x=1746126952;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fg/5CSYGx8pustO7TFATB5SoThu17c6gLk2jPxapenA=;
+        b=r0NgJDpfoNMIDHVtCe4sptNlcaIVHvEFkgOobozaaGvzXwT15X+jRrEL4TnlCYez8U
+         8IRrQag3+fHOL2tMLt5YEx0tGedZzLBL8iUL1NTqsBiF/kLNv6bwlGZGH+oi0/b+08UT
+         4N4DHPBAztBb1kLI2+t5YPe3UM8jfiyE0ra4E3Xne/wvHbZ24MDA4niakuZG0xevpvrd
+         VXLQNw6pEhi1K5uusQ6Fn3wiNXLMgUG0Fh8IwU5+GB7/kO+XswN7OEIp4mxvdUezwX3p
+         8I7JZ7Xj0AR4nmuCuN64ujQbxjHAN/8+wnfzS3imKichNa2mfk/kcq9Isk79I+B+5rO9
+         rZ5g==
+X-Forwarded-Encrypted: i=1; AJvYcCXrhXcOeZUcrMnUpTv8mgLsEAo08R6NNpsL4HU4YNiiuLlwQyXsMyO962BrndOQS87w6OIrNBvOotqKOA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxunH/uQ1PN8zTcEGaEWimm7n/xh23K8Jt3yXpcMLwGY//0DqWn
+	5qHBqkImI1SvlzURz3uRB3vTUCIvOwEK4TlrRlwbgfaYfK2HJ+y4
+X-Gm-Gg: ASbGncsVM3tfFCocJ1VGFHIV5G7YTZgrNYMbWTG7dSZ9+pzQSL+edWWsbvM6kLLAWuR
+	Ijn1mmCfMDMflEPup/KR9XGaqYLQ4ghD9229NitFLC95fjJit5r+uqkprvdKU51hAgKaUrGfVSp
+	a08kVtE6tQ4ATTxrs4VEUUD18aiDEVqNk66EzY5lAlkuCiVSb4N4Z+HJRJKQ0G/ITUxDsHKP8tp
+	ILyGRbXLzFckVOYV5F8D2BVSpnmQ2NAJmeWGLva9LwZADbDgs79JEdxevdB+YzuU5bT5zDZc3zy
+	v9wK+U3nJij+6lCyT0waMq4Dt0+lQYvwDPsiNRz08iBDRtpnPWHJ
+X-Google-Smtp-Source: AGHT+IGDtJkWxzHCs3qBzGx1s0jq+yB7NCM4c9k0cZ/pHOBdBV+p+7aYjAospsSGtI/LXj666TeSig==
+X-Received: by 2002:a05:6000:1ac6:b0:390:f6aa:4e80 with SMTP id ffacd0b85a97d-3a06cfb24abmr3545024f8f.53.1745522152219;
+        Thu, 24 Apr 2025 12:15:52 -0700 (PDT)
+Received: from Red ([2a01:cb1d:898:ab00:4a02:2aff:fe07:1efc])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3a073c8ca99sm161810f8f.20.2025.04.24.12.15.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Apr 2025 12:15:51 -0700 (PDT)
+Date: Thu, 24 Apr 2025 21:15:49 +0200
+From: Corentin Labbe <clabbe.montjoie@gmail.com>
+To: Yixun Lan <dlan@gentoo.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Andre Przywara <andre.przywara@arm.com>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH v2 4/5] arm64: dts: allwinner: a527: add EMAC0 to Radxa
+ A5E board
+Message-ID: <aAqN5cKdDr_D10LX@Red>
+References: <20250424-01-sun55i-emac0-v2-0-833f04d23e1d@gentoo.org>
+ <20250424-01-sun55i-emac0-v2-4-833f04d23e1d@gentoo.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250423-01-sun55i-emac0-v1-0-46ee4c855e0a@gentoo.org>
- <4ba3e7b8-e680-40fa-b159-5146a16a9415@lunn.ch> <20250424150037.0f09a867@donnerap.manchester.arm.com>
- <4643958.LvFx2qVVIh@jernej-laptop> <7fcedce7-5cfe-48a4-9769-e6e7e82dc786@lunn.ch>
-In-Reply-To: <7fcedce7-5cfe-48a4-9769-e6e7e82dc786@lunn.ch>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Fri, 25 Apr 2025 03:05:17 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65GPqr5Vnqb_MhAJBAjQzd-vKi1g1pJ53oUnF0Ym2PH9g@mail.gmail.com>
-X-Gm-Features: ATxdqUHHFIvGhKguImv0eKl6AhZd0EW8z8xCFHbw-GoYUR64Hf9zgUT_-m4qJRA
-Message-ID: <CAGb2v65GPqr5Vnqb_MhAJBAjQzd-vKi1g1pJ53oUnF0Ym2PH9g@mail.gmail.com>
-Subject: Re: [PATCH 4/5] arm64: dts: allwinner: a527: add EMAC0 to Radxa A5E board
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>, 
-	Andre Przywara <andre.przywara@arm.com>, Yixun Lan <dlan@gentoo.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	netdev@vger.kernel.org, clabbe.montjoie@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250424-01-sun55i-emac0-v2-4-833f04d23e1d@gentoo.org>
 
-On Fri, Apr 25, 2025 at 3:02=E2=80=AFAM Andrew Lunn <andrew@lunn.ch> wrote:
->
-> > In my experience, vendor DT has proper delays specified, just 7 instead=
- of
-> > 700, for example. What they get wrong, or better said, don't care, is p=
-hy
-> > mode. It's always set to rgmii because phy driver most of the time igno=
-res
-> > this value and phy IC just uses mode set using resistors. Proper way he=
-re
-> > would be to check schematic and set phy mode according to that. This me=
-thod
-> > always works, except for one board, which had resistors set wrong and
-> > phy mode configured over phy driver was actually fix for it.
->
-> What PHY driver is this? If it is ignoring the mode, it is broken.
->
-> We have had problems in the past in this respect. A PHY driver which
-> ignored the RGMII modes, and strapping was used. That 'worked' until
-> somebody built a board with broken strapping and added code to respect
-> the RGMII mode, overriding the strapping. It made that board work, but
-> broke lots of others which had the wrong RGMII mode....
->
-> If we have this again, i would like to know so we can try to get in
-> front of the problem, before we have lots of broken boards...
+Le Thu, Apr 24, 2025 at 06:08:42PM +0800, Yixun Lan a écrit :
+> On Radxa A5E board, the EMAC0 connect to an external YT8531C PHY,
+> which features a 25MHz crystal, and using PH8 pin as PHY reset.
+> 
+> Tested on A5E board with schematic V1.20.
+> 
 
-I think the incident you are referring to is exactly the one that Jernej
-mentioned.
+Tested-by: Corentin LABBE <clabbe.montjoie@gmail.com>
 
-And regarding the bad PHY driver, it could simply be that the PHY driver
-was not built or not loaded, hence the kernel falling back to the generic
-one, which of course doesn't know how to set the modes.
-
-ChenYu
+Thanks
