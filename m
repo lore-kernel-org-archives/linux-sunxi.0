@@ -1,81 +1,128 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCCE44EB51;
-	Thu, 24 Apr 2025 13:32:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4719B8633F
+	for <linux-sunxi@lists.linux.dev>; Thu, 24 Apr 2025 14:00:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745501570; cv=none; b=uxh5NVW3qVAz7yEWs9m9tA2IEEIrIcmKu0Ljkta4feIF/iCAEbf0Mkl4zgQDsr0qrfYPyxsXXNn2yRSB6j7UzUI2Z2bOSW3MDtqzXKmaSb/7jRz16WDaNYAnXxToAANpKVOEIU+3KMUasN0sCZNtXq92UdSElFteiltEFHQorbE=
+	t=1745503245; cv=none; b=UeGmFPGceYulQoI1cu1CIvbdzV5boZamvQPz5+UzVRl3lpyRhJPI04t8pS/8GwmLQHJFHBmcSMEPZuy2JDMErvxoqzt96pWJKnq2GI7vcMCLQB5DUQKDJU90OoHyPRAcc0yB+3YgMwYmngDaMuUOugD/7Z28nGOcS2dHN6CByNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745501570; c=relaxed/simple;
-	bh=KQNMIAfXh49xCtRQBxsBAwyCnS6gS+XOH1q2PhlhLyc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=floWsJFrYmOZSgJra0Gys/hV2/J6dB+C4O6Is1uthhhuBT9ifVyDROf5uYC1BvavACZnBJh+xwXV69WMp0XdmcNLqhsRaG4L3R+Zr2Ro8q5PEuXSR80+70eorQKZKi44eFbO0DiUn58AfABzmpNVtZfdS5rkqqh3qkOgBcCf2BQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=E94egB8C; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="E94egB8C"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-	In-Reply-To:References; bh=gmFv+tXEHYX7Ma3ew81kmxN4G8P+6CzJSOvVgnKOh54=; b=E9
-	4egB8CqtTOjDUEqJRsWVzhfzq39pm38uoijSaR8zqYVzxqKVf3UdUGAnvKpxqy+exD/orSQbqAic4
-	XHev/HvOzLuJ5auj96yizY8WaPxhBqlSuh1DqYZ1nMQQFZt5C+GyPZv+hNRU8aoHnHuwMf5liMiNK
-	tyhhMeyNlLvJy6c=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1u7wgW-00AT1W-9j; Thu, 24 Apr 2025 15:32:12 +0200
-Date: Thu, 24 Apr 2025 15:32:12 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Yixun Lan <dlan@gentoo.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org
+	s=arc-20240116; t=1745503245; c=relaxed/simple;
+	bh=VXBgvoZTtrA5JYDFoyhknIVGp8ZSKhzEYnqrJP640i8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=sbq+0O5zxu3ksl0x9hZ+xPEpgpGEHiES6qQn4gIQWj8B5Me2opynKjI0dvqvsjpZbzVWw97tSSpqUQDlEkiDAIzprApx5DrkG4q+SpDFLIWkG4zj6GshvfAWeW8PlrnfSkvy3IoMCQRWMlCa7nMjGkpWoXKSJ/1Dqz9vicAHT7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8FFAC1063;
+	Thu, 24 Apr 2025 07:00:37 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C995C3F66E;
+	Thu, 24 Apr 2025 07:00:39 -0700 (PDT)
+Date: Thu, 24 Apr 2025 15:00:37 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Yixun Lan <dlan@gentoo.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu
+ Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
+ Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, Andrew
+ Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org
 Subject: Re: [PATCH 4/5] arm64: dts: allwinner: a527: add EMAC0 to Radxa A5E
  board
-Message-ID: <caad87f2-8243-4571-8236-6aa3d4fb9fab@lunn.ch>
+Message-ID: <20250424150037.0f09a867@donnerap.manchester.arm.com>
+In-Reply-To: <4ba3e7b8-e680-40fa-b159-5146a16a9415@lunn.ch>
 References: <20250423-01-sun55i-emac0-v1-0-46ee4c855e0a@gentoo.org>
- <20250423-01-sun55i-emac0-v1-4-46ee4c855e0a@gentoo.org>
- <aa38baed-f528-4650-9e06-e7a76c25ec89@lunn.ch>
- <20250424014120.0d66bd85@minigeek.lan>
- <20250424100514-GYA48784@gentoo>
- <6e9c003e-2a38-43a7-8474-286bdb6306a0@lunn.ch>
- <20250424142006.021d6ab4@donnerap.manchester.arm.com>
+	<20250423-01-sun55i-emac0-v1-4-46ee4c855e0a@gentoo.org>
+	<aa38baed-f528-4650-9e06-e7a76c25ec89@lunn.ch>
+	<20250424014120.0d66bd85@minigeek.lan>
+	<835b58a3-82a0-489e-a80f-dcbdb70f6f8d@lunn.ch>
+	<20250424134104.18031a70@donnerap.manchester.arm.com>
+	<4ba3e7b8-e680-40fa-b159-5146a16a9415@lunn.ch>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250424142006.021d6ab4@donnerap.manchester.arm.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-> Speaking of which: do you know of a good method to verify the delay
-> timing? Is there *something* which is sensitive to those timings and which
-> can be easily checked and qualified?
+On Thu, 24 Apr 2025 14:57:27 +0200
+Andrew Lunn <andrew@lunn.ch> wrote:
 
-Not really. If you are on the edge, you might get more ethernet FCS
-errors. For iperf3 in UDP mode, that would translate to packet loss.
-Or ethtool -S might report checksum errors, depending on the driver.
+Hi Andrew,
 
-From what i've heard from others there is a pretty sharp cut off from
-broken to working. Just stay away from the cliff and it should be
-O.K. for −40°C to 85°C, or whatever the temperate range is supposed to
-be.
+> > > Just to be clear, you tried it with "rgmii-id" and the same <300> and
+> > > <400> values?  
+> > 
+> > Yes, sorry, I wasn't clear: I used rgmii-id, then experimented with those
+> > values.  
+> 
+> O.K, great.
+> 
+> I do suspect the delays are not actually in pico seconds. But without
+> a data sheet, it is hard to know.
+> 
+>        if (!of_property_read_u32(node, "allwinner,rx-delay-ps", &val)) {
+>                 if (val % 100) {
+>                         dev_err(dev, "rx-delay must be a multiple of 100\n");
+>                         return -EINVAL;
+>                 }
+>                 val /= 100;
+>                 dev_dbg(dev, "set rx-delay to %x\n", val);
+>                 if (val <= gmac->variant->rx_delay_max) {
+>                         reg &= ~(gmac->variant->rx_delay_max <<
+>                                  SYSCON_ERXDC_SHIFT);
+>                         reg |= (val << SYSCON_ERXDC_SHIFT);
+> 
+> So the code divides by 100 and writes it to a register. But:
+> 
+> static const struct emac_variant emac_variant_h3 = {
+>         .rx_delay_max = 31,
+> 
+> 
+> static const struct emac_variant emac_variant_r40 = {
+>         .rx_delay_max = 7,
+> };
+> 
+> With the change from 7 to 31, did the range get extended by a factor
+> of 4, or did the step go down by a factor of 4, and the / 100 should
+> be / 25? I suppose the git history might have the answer in the commit
+> message, but i'm too lazy to go look.
 
-	Andrew
+IIRC this picosecond mapping was somewhat made up, to match common DT
+properties. The manual just says:
+====================
+12:10  R/W  default: 0x0 ETXDC: Configure EMAC Transmit Clock Delay Chain.
+====================
+
+So the unit is really unknown, but is probably some kind of internal cycle count.
+The change from 7 to 31 is purely because the bitfield grew from 3 to 5
+bits. We don't know if the underlying unit changed on the way.
+Those values are just copied from whatever the board vendor came up with,
+we then multiply them by 100 and put them in the mainline DT. Welcome to
+the world of Allwinner ;-)
+
+And git history doesn't help, it's all already in the first commit for this
+driver. I remember some discussions on the mailing list, almost 10 years
+ago, but this requires even more digging ...
+
+Cheers,
+Andre
+
+
+
+> 
+> I briefly tried "rgmii", and I couldn't get a lease, so I quite
+> > confident it's rgmii-id, as you said. The vendor DTs just use "rgmii", but
+> > they might hack the delay up another way (and I cannot be asked to look at
+> > that awful code).
+> > 
+> > Cheers,
+> > Andre  
+
