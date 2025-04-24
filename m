@@ -1,106 +1,98 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AEC11FC0F3
-	for <linux-sunxi@lists.linux.dev>; Thu, 24 Apr 2025 12:05:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0900321FF4A;
+	Thu, 24 Apr 2025 12:16:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745496332; cv=none; b=N26gSdSZYzFVaGQ8WaaTfq+3zyiYRA84xmBPRrqg655whVctUslfGvX0Ji+fWqQuaDUjiqbp+rlfKFZKGelLZM2IHnJSqXNGhz2bz5gW0QFdcGZhSErOEwcKCoigYgl1bBYl4TvE9lHFA/dSGHCIzTYmyuV63rwinBv7fXwhVuI=
+	t=1745496996; cv=none; b=SWF1xQNurqBIN1tE5hwXc8dVbLUkJpV6woBohOiUBCqSWcb///HSs728pfk2hI2lTnoh3hib+X8YN/2J7w2doeG79xK5VrkRXnjNRiO4+cZxARFlxfVMEWC3LM/8+JtHkfB6AQU5JH9NGUKcqVXsIgAMgQg6tC7+IcB8f3tl3mI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745496332; c=relaxed/simple;
-	bh=s1lwQ6KQJegruKsJwhoAbmV6Zxh4FSZt6yJYj9j9ISg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gM5VbgMZK1Q68rbaQgZL6jhnIy98iPk+J4S39kZ6kVoBvBYlXaLWs+KURT5cxqxdlGZR7BTlu3bHGZtHs8EyC+jBIky5leKHFirghWxuO/OGMPSpfSbrAED9xkAvjnSyxp5kGEAicWRAj41Mx5oTmY41+WPPA4cImdNprWNHQJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 83B231063;
-	Thu, 24 Apr 2025 05:05:24 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B57FC3F59E;
-	Thu, 24 Apr 2025 05:05:26 -0700 (PDT)
-Date: Thu, 24 Apr 2025 13:05:23 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Yixun Lan <dlan@gentoo.org>
-Cc: Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu
- Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
- Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, Andrew
- Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, <devicetree@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>
+	s=arc-20240116; t=1745496996; c=relaxed/simple;
+	bh=EXCQGkJVb3ikUhe5Z7xJEbZwlIarJMazIfPkb5WCNJ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o2M+ns2KMJdwdLe2GkPqnZ417mQ16Lbs3LyYFozgNTeWyM/lKblhEt48XaaoHHkvQEKRoIkD48ZWW3t422HX2FPPD2UGmMrB8ZTvLIXP9AI9BhDNsOwDyq3ICSZrMa1uBhCIB+Pk7a4zauTSDxWOR2cMmJzrUses1iwzwfFpStA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=iH/RIdmp; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="iH/RIdmp"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=eToxWlS7Uu55X/OpbjIrz7rNLwhtOBmHvxKOjjoFdUg=; b=iH/RIdmpljQM3Gx8gJpTMuc59Y
+	Mi9NE9Ux9q+RktIIpPcpvjjGCjVnCwSJPQjedapo+PS5uc7gZzTP+/XGBMjXwBKU5uiG7JsCNCTm6
+	EmqaA7qw2nVPkhsCgKn7c8cwSL+pcuT5yP8IzIoO6xVc8OXsmYCzMKOetEbkIokhNkWE=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1u7vV2-00ASTy-RL; Thu, 24 Apr 2025 14:16:16 +0200
+Date: Thu, 24 Apr 2025 14:16:16 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Yixun Lan <dlan@gentoo.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org
 Subject: Re: [PATCH 4/5] arm64: dts: allwinner: a527: add EMAC0 to Radxa A5E
  board
-Message-ID: <20250424130523.6ceecca3@donnerap.manchester.arm.com>
-In-Reply-To: <20250424100514-GYA48784@gentoo>
+Message-ID: <835b58a3-82a0-489e-a80f-dcbdb70f6f8d@lunn.ch>
 References: <20250423-01-sun55i-emac0-v1-0-46ee4c855e0a@gentoo.org>
-	<20250423-01-sun55i-emac0-v1-4-46ee4c855e0a@gentoo.org>
-	<aa38baed-f528-4650-9e06-e7a76c25ec89@lunn.ch>
-	<20250424014120.0d66bd85@minigeek.lan>
-	<20250424100514-GYA48784@gentoo>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+ <20250423-01-sun55i-emac0-v1-4-46ee4c855e0a@gentoo.org>
+ <aa38baed-f528-4650-9e06-e7a76c25ec89@lunn.ch>
+ <20250424014120.0d66bd85@minigeek.lan>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250424014120.0d66bd85@minigeek.lan>
 
-On Thu, 24 Apr 2025 10:05:14 +0000
-Yixun Lan <dlan@gentoo.org> wrote:
-
-Hi,
-
-> Hi Andrew, Andre,
+On Thu, Apr 24, 2025 at 01:42:41AM +0100, Andre Przywara wrote:
+> On Wed, 23 Apr 2025 18:58:37 +0200
+> Andrew Lunn <andrew@lunn.ch> wrote:
 > 
-> On 01:42 Thu 24 Apr     , Andre Przywara wrote:
-> > On Wed, 23 Apr 2025 18:58:37 +0200
-> > Andrew Lunn <andrew@lunn.ch> wrote:
+> Hi,
+> 
+> > > +&emac0 {
+> > > +	phy-mode = "rgmii";  
 > > 
-> > Hi,
-> >   
-> > > > +&emac0 {
-> > > > +	phy-mode = "rgmii";    
-> > > 
-> > > Does the PCB have extra long clock lines in order to provide the
-> > > needed 2ns delay? I guess not, so this should be rgmii-id.  
+> > Does the PCB have extra long clock lines in order to provide the
+> > needed 2ns delay? I guess not, so this should be rgmii-id.
+> 
+> That's a good point, and it probably true.
+> 
 > > 
-> > That's a good point, and it probably true.
-> >   
-> > >   
-> > > > +	phy-handle = <&ext_rgmii_phy>;
-> > > > +
-> > > > +	allwinner,tx-delay-ps = <300>;
-> > > > +	allwinner,rx-delay-ps = <400>;    
-> > > 
-> > > These are rather low delays, since the standard requires 2ns. Anyway,
-> > > once you change phy-mode, you probably don't need these.  
-> >   
-> As I tested, drop these two properties making ethernet unable to work,
-> there might be some space to improve, but currently I'd leave it for now
+> > > +	phy-handle = <&ext_rgmii_phy>;
+> > > +
+> > > +	allwinner,tx-delay-ps = <300>;
+> > > +	allwinner,rx-delay-ps = <400>;  
+> > 
+> > These are rather low delays, since the standard requires 2ns. Anyway,
+> > once you change phy-mode, you probably don't need these.
+> 
+> Those go on top of the main 2ns delay
 
-Yes, I think we need those delays to be programmed into the syscon clock
-register, and have been doing so for years.
+Which 2ns delay? "rgmii" means don't add 2ns delay, the PCB is doing
+it. So if there is a 2ns delay, something is broken by not respecting
+"rgmii".
 
-> > Those go on top of the main 2ns delay, I guess to accommodate some skew
-> > between the RX and TX lines, or to account for extra some PCB delay
-> > between clock and data? The vendor BSP kernels/DTs program those board
-> > specific values, so we have been following suit for a while, for the
-> > previous SoCs as well.
-> > I just tried, it also works with some variations of those values, but
-> > setting tx-delay to 0 stops communication.
-> >   
-> I'd not bother to try other combinations, and just stick to vendor's settings
+> I just tried, it also works with some variations of those values, but
+> setting tx-delay to 0 stops communication.
 
-I learned to not rely too much on Allwinner BSP settings ;-)
+Just to be clear, you tried it with "rgmii-id" and the same <300> and
+<400> values?
 
-And it's quite easy to experiment, actually: you can write directly to
-0x3000030, for instance using devmem or peekpoke, at Linux runtime. Run
-some tests or benchmarks, then try a new setting, without rebooting.
-
-Cheers,
-Andre.
+	Andrew
