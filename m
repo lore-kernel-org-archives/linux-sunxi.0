@@ -1,63 +1,63 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DD8ADDC1
-	for <linux-sunxi@lists.linux.dev>; Thu, 24 Apr 2025 19:15:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B5DD290BCA
+	for <linux-sunxi@lists.linux.dev>; Thu, 24 Apr 2025 19:17:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745522156; cv=none; b=EGXNrAq6IUY2heN1PpdRl0yrRtzL0JUQnW29Nz1SOuFxm0zxdfcJ0RYl3P07gHR4a5mbu9G+s4MxvqITp/YpYVtAZfx8F1rkYyXQJtx+jNyccZ7JqO9yFuxPowjapaxp8sa8cYBRpMokFvD+2p5QzQ7PblZz4KlR/oPBYG716U4=
+	t=1745522255; cv=none; b=UduZ7kVBf6VOqiaY5yPPM+OKLSXDl9Sak58ra6C9f1E4C/nviO5u+QgdLQ1QU/io4zmFgplWoZNQ7qw85KOtWSjYdgRCfjjIR1j5Phaonw67g6pbkXWPetWIOXW/U3NGxsqeZg3X6jFYIQLN8D2RUKl+mcMZ3toXeFQkLCmDcCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745522156; c=relaxed/simple;
-	bh=xaX9GfEYK9n44mlY1Zl6aj7j0/jFobvrb6dPwXaxJfU=;
+	s=arc-20240116; t=1745522255; c=relaxed/simple;
+	bh=4FAg9dOCib/NxKAtEqDq/2c3ne9EVt+MCqwoJUr75Ps=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=baIYUbkXu4Eln22hfl4/Pv0X1en4WNSuieItWJBzMSPhGSwNdDf5g2DnaveSFu4m6wbdkLwigTkYKao+HgauBT0u2Co7WnGETKe/dAfTxKRC0Dcck91T3EKVU3jCrSkeTQfu8kj+ovtmo3Pn6In1gYN+Slm4hcMEoEm/UolEWpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dCxBn8dj; arc=none smtp.client-ip=209.85.221.47
+	 Content-Type:Content-Disposition:In-Reply-To; b=cWhycHY4vPmFTLJKiHtQ+vm3Xax6eWYxA3AQGmBe/CJsYKtP6DlbWbcFNzI4TM2jWfPznnkXkW4b7qYgjtxRY9UiBb4n/8olKyGvvxcOxv+wSwPCwmrqLHZOOBVrREWCVV6OVPwG2eY0ooOYLTG9wpGImCbiKBkbSsR+QygUuKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cev+LDig; arc=none smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dCxBn8dj"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-39c1efbefc6so1058173f8f.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 24 Apr 2025 12:15:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cev+LDig"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43cf257158fso9023405e9.2
+        for <linux-sunxi@lists.linux.dev>; Thu, 24 Apr 2025 12:17:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745522152; x=1746126952; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1745522252; x=1746127052; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=fg/5CSYGx8pustO7TFATB5SoThu17c6gLk2jPxapenA=;
-        b=dCxBn8djKzDrKwukrRS1pRoKPUn5E5O7OEe26+mixLAwDYHs7GGnri/47fQK1/qjvI
-         WxXBM/vFmpd12nIO9u3BglAlo0ksWFkejTZj9DZ66SF071RLwCtL03oJQHteKTO9S9MT
-         6X8vXS573fHraNCTtKLQSdoUuGmxNcpNoDcJqCuHnY1nHZgjShXLYJDLlO4VazGYp4bn
-         e7JuP/PVwdnv+QcVSlz1PaH+wOpNW3xVqOzl7Tz/nD0DkzLOnlz+VgGd3nDmwqxKosHk
-         jsfSFKjyggzDvu4ufll/J8FuHILSuPCe+8MiK40Oe9HWX5zWDLDdpeIpkWfqqPuQuco1
-         Ox+g==
+        bh=hKtiIR8/1ANFiI3jvmxK88n9ocUCdqWIViGNXRe9MXE=;
+        b=cev+LDigdhutchZNRWHHG9XrqI4PlhRxsi9ZC3yc3bMo6KKUSvnr07+ZlDkl/WFVLb
+         4vaDThuAtIXxP1LX8WDR3PWAmpJ53exCo8YesNnJhVqP7qjC/q7vv1eTRVwJ0NTwMPie
+         gr248uyPiyCclbxN8ruaarNkMdPgs2DfOk/PGlLh13TtzUMJlYzK2RhxtJdpNVqzT5mB
+         UkyUNt12r2QtF1++mKiimP8QW8da3nFLKrm4yjB0pBiXn9W6PrQEJ7/GvTchEsixP+9s
+         nefc3DGBixM3OEtx5r2aeW885x2vfoF5jnk4vKFqgoYWNaAeGGgBmDiROjadj9KN6k3E
+         CchQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745522152; x=1746126952;
+        d=1e100.net; s=20230601; t=1745522252; x=1746127052;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fg/5CSYGx8pustO7TFATB5SoThu17c6gLk2jPxapenA=;
-        b=r0NgJDpfoNMIDHVtCe4sptNlcaIVHvEFkgOobozaaGvzXwT15X+jRrEL4TnlCYez8U
-         8IRrQag3+fHOL2tMLt5YEx0tGedZzLBL8iUL1NTqsBiF/kLNv6bwlGZGH+oi0/b+08UT
-         4N4DHPBAztBb1kLI2+t5YPe3UM8jfiyE0ra4E3Xne/wvHbZ24MDA4niakuZG0xevpvrd
-         VXLQNw6pEhi1K5uusQ6Fn3wiNXLMgUG0Fh8IwU5+GB7/kO+XswN7OEIp4mxvdUezwX3p
-         8I7JZ7Xj0AR4nmuCuN64ujQbxjHAN/8+wnfzS3imKichNa2mfk/kcq9Isk79I+B+5rO9
-         rZ5g==
-X-Forwarded-Encrypted: i=1; AJvYcCXrhXcOeZUcrMnUpTv8mgLsEAo08R6NNpsL4HU4YNiiuLlwQyXsMyO962BrndOQS87w6OIrNBvOotqKOA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxunH/uQ1PN8zTcEGaEWimm7n/xh23K8Jt3yXpcMLwGY//0DqWn
-	5qHBqkImI1SvlzURz3uRB3vTUCIvOwEK4TlrRlwbgfaYfK2HJ+y4
-X-Gm-Gg: ASbGncsVM3tfFCocJ1VGFHIV5G7YTZgrNYMbWTG7dSZ9+pzQSL+edWWsbvM6kLLAWuR
-	Ijn1mmCfMDMflEPup/KR9XGaqYLQ4ghD9229NitFLC95fjJit5r+uqkprvdKU51hAgKaUrGfVSp
-	a08kVtE6tQ4ATTxrs4VEUUD18aiDEVqNk66EzY5lAlkuCiVSb4N4Z+HJRJKQ0G/ITUxDsHKP8tp
-	ILyGRbXLzFckVOYV5F8D2BVSpnmQ2NAJmeWGLva9LwZADbDgs79JEdxevdB+YzuU5bT5zDZc3zy
-	v9wK+U3nJij+6lCyT0waMq4Dt0+lQYvwDPsiNRz08iBDRtpnPWHJ
-X-Google-Smtp-Source: AGHT+IGDtJkWxzHCs3qBzGx1s0jq+yB7NCM4c9k0cZ/pHOBdBV+p+7aYjAospsSGtI/LXj666TeSig==
-X-Received: by 2002:a05:6000:1ac6:b0:390:f6aa:4e80 with SMTP id ffacd0b85a97d-3a06cfb24abmr3545024f8f.53.1745522152219;
-        Thu, 24 Apr 2025 12:15:52 -0700 (PDT)
+        bh=hKtiIR8/1ANFiI3jvmxK88n9ocUCdqWIViGNXRe9MXE=;
+        b=Q1y4WMdFtpvqu19LU7HI2iCjEikjPeN5Igmp7ClDGajCNvj4IWJiNP0ySGBv/79JGU
+         L5PviPhZtFU9FrCUIj2ReFeKlRk4nTSI8NvFv5P5On7vfffWGi+liR/iG2myXHxKpxyt
+         RrzqB7CJ/AC3I/hCAZY5wtflGp3KqIN5eFHuRSUPaDSJ9uInkKzP0gHjKCZVgH7Lgne4
+         jqi5qKsfGVDYoRQxUKHUN2pgl49TuoVrJ8Sn/PZMs5ZGkKZaDrtjCydVrJdUoAX4lynb
+         nDNkrasazQrhROMOkH+wSyNCYBGACObTGBUhv20+398ohtrdLInovuxXyRGIOKKgKN6Q
+         BmKw==
+X-Forwarded-Encrypted: i=1; AJvYcCXEFzBuKCTrMCgf8ELUU3I4zPERUfVwLfWpPnl6va9dwEoTcM331gVnlwemXafCexunybM9449/bUgAEg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyhNfemXvc687/PC/KIRutrS+pOcHtes9Voj2ywyVbpDpRLI1ge
+	KYtxFzqlcWNJfPwX8srLHlGs6Q8mVoEjXGZhYzGGn3K5q3Xs5DCo
+X-Gm-Gg: ASbGncv8mog2v5KhNxZD/d5ZWIX6fFRTI++FCsFf8I4TJ+vR976Foso5P+osbqNiqHA
+	7lbB0CAXWnNnuuP6jqYOjSG6QloCSKRWcopAauytWbXX9NjmUAwI1zNqf0dHNM6pXYYI+VJywmp
+	wIRoquvX5/dLYvSe3PsBb+v6mOuFgHQOzwnXqwJIz8ngx7OEceJ93YtRmPFcINmnrvUypY4bFAq
+	m7QUjNxbzNAi6iY03DQ6Zsc0uK9oUeuCg7idbQJcEQvJhpaeijkUmThd/vICuxl97umbTeBcFue
+	vrWJX6ToMX2D4+7F7fokUuGe/I6UYTtLJm8X/QXB
+X-Google-Smtp-Source: AGHT+IGHUagr5uQkmxlICqpS4xt1BsRnNl8Y/nS1PqKVhK6DbPifS1o99SIUo9WiHCLLy1FyDQtZ4g==
+X-Received: by 2002:a5d:64ef:0:b0:38d:dd52:1b5d with SMTP id ffacd0b85a97d-3a072a4636dmr351698f8f.4.1745522252237;
+        Thu, 24 Apr 2025 12:17:32 -0700 (PDT)
 Received: from Red ([2a01:cb1d:898:ab00:4a02:2aff:fe07:1efc])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3a073c8ca99sm161810f8f.20.2025.04.24.12.15.50
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3a073cbedc4sm156237f8f.47.2025.04.24.12.17.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Apr 2025 12:15:51 -0700 (PDT)
-Date: Thu, 24 Apr 2025 21:15:49 +0200
+        Thu, 24 Apr 2025 12:17:31 -0700 (PDT)
+Date: Thu, 24 Apr 2025 21:17:29 +0200
 From: Corentin Labbe <clabbe.montjoie@gmail.com>
 To: Yixun Lan <dlan@gentoo.org>
 Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -72,11 +72,11 @@ Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Andre Przywara <andre.przywara@arm.com>, devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH v2 4/5] arm64: dts: allwinner: a527: add EMAC0 to Radxa
- A5E board
-Message-ID: <aAqN5cKdDr_D10LX@Red>
+Subject: Re: [PATCH v2 3/5] arm64: dts: allwinner: a523: Add EMAC0 ethernet
+ MAC
+Message-ID: <aAqOSRQCKNuezyUK@Red>
 References: <20250424-01-sun55i-emac0-v2-0-833f04d23e1d@gentoo.org>
- <20250424-01-sun55i-emac0-v2-4-833f04d23e1d@gentoo.org>
+ <20250424-01-sun55i-emac0-v2-3-833f04d23e1d@gentoo.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -86,13 +86,12 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250424-01-sun55i-emac0-v2-4-833f04d23e1d@gentoo.org>
+In-Reply-To: <20250424-01-sun55i-emac0-v2-3-833f04d23e1d@gentoo.org>
 
-Le Thu, Apr 24, 2025 at 06:08:42PM +0800, Yixun Lan a écrit :
-> On Radxa A5E board, the EMAC0 connect to an external YT8531C PHY,
-> which features a 25MHz crystal, and using PH8 pin as PHY reset.
-> 
-> Tested on A5E board with schematic V1.20.
+Le Thu, Apr 24, 2025 at 06:08:41PM +0800, Yixun Lan a écrit :
+> Add EMAC0 ethernet MAC support which found on A523 variant SoCs,
+> including the A527/T527 chips. MAC0 is compatible to the A64 chip which
+> requires an external PHY. This patch only add RGMII pins for now.
 > 
 
 Tested-by: Corentin LABBE <clabbe.montjoie@gmail.com>
