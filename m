@@ -1,137 +1,185 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16D8827BF9E
-	for <linux-sunxi@lists.linux.dev>; Thu, 24 Apr 2025 19:21:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E675A27F74E
+	for <linux-sunxi@lists.linux.dev>; Thu, 24 Apr 2025 22:58:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745522475; cv=none; b=YJCPd9kcc7r11eL5ZPT0F1GDiS4ZkjNQA6Yg0455agLZ7huj+vHB+cNSX7JqN0MzImLti8WwHddvC5IPHIdb50UAAmEhYVVBqlHbnK/ru0yXFdQ4sUjhujY77KMk/4/XWoWrYVzLJbHC0BCzSMegZ6Er7lC/IwjV7bGDASiz4UM=
+	t=1745535486; cv=none; b=CRUretaoMiCA5kp78krv9e/eZayb3KaQ+A8kFhCK/FdUn9zPCWNA6H2fRlPcaPIUNsx+ppVGZMJcmsxExybqsfdt5m5rCtx4TO82hCP2T0JzjMQCK9Vo2wv1EDoZFj6JLdrrRgubjIhjkdQxiBhJxyq7dMIwRraqIuZKsNGWdtk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745522475; c=relaxed/simple;
-	bh=VxZVbaLuerUQOiGUQNqAhYl1gyDXczPcezBxadZyF5A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=h6mMEtygp2slosSBH8HnngVeZrcMa7Mhaaq7RT1QjomWCiUZQUgIjSCJzIJrfYXk5ehMxgs33uoxg+v/+Dq04gaQCGQbQPcfesfptsLDFzzu8XXqtxVRy0GFmj5UKR8i6vQZu6gVi84sXAiediAykZ+448x8r08bLo1gUGnUGgQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P0As8hZt; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P0As8hZt"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43cf257158fso9039065e9.2
-        for <linux-sunxi@lists.linux.dev>; Thu, 24 Apr 2025 12:21:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745522472; x=1746127272; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VxZVbaLuerUQOiGUQNqAhYl1gyDXczPcezBxadZyF5A=;
-        b=P0As8hZtLWGkOWEkJqOnH0P6cd19v+urF8FxqiWx8NJ7l1qv/klY0FbGf2pVmKKeqw
-         0xRuNCEdWX6UycHe/28MYowV5dEFRMtybACb9jTfF/AIMV5X7CjoB1Fyw6R8B4r11H4r
-         wqbxt4Zb7/omzrjfCeBgswd6KyrBAqyWPhssumT4e8Ws3l8I0DSDPkgofLF75EwHyJ/e
-         nmr2Yxo3EOeKKWJUuncbAZqxqd7GucfXzMODhGHdS8IZcYgjtchfRp77mC2np41TZrQY
-         Zl/Dl5xX4ykFmLp6rYxjCoGTMt+uxzsF+buXZAPS9Ag+bvVIVGlA90uAGbVGCL+XmydX
-         pyxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745522472; x=1746127272;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VxZVbaLuerUQOiGUQNqAhYl1gyDXczPcezBxadZyF5A=;
-        b=JwSHQqa9cS145bbU3kZBTAlPGZp8ikoOrlWyp77it/zXC9tgsr7LVBbtqHFQyEMauZ
-         Naq3GoFpH/lH4KEqlwAcW7wO6SaBz6XTanOx7PxGh2hnb9cDnTJ9es7pxzDBUz0vPT0I
-         +t/UMe31WQ1PwUwZ7Kze6wqoOCKF39/NzpQlI7PPKy5rdWEeRhdFZs4Y4I5iSuHCi+LT
-         IFZVxgX55JjtK8m3gEjqi6RVA9px4GPbelw1w1vKIBG9uef4kW7FIl5fJA5Fuq/MszUo
-         Oyf33EHDqAYH7hhc3F1+KzmguhVxWh6g7PgMpo169lCSk/f/Dz3wyCDyJvSE8d7lrlGF
-         GOKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWJ6ku6TaenxCRhIvVKsEZiXKM4YQzTNd53AGrKUhz/emDaVDhdOiTQhu5ZgR6qEcUkr/+nepuY4oPPOA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxBTSxNSj2PC5Z2VB8O0IuTyte2j8atvgiI7YqHpstv0+kWl34V
-	y1hLfaTi0ohqE3SKLTCyvLING1dkeLXplbIfPlHa1uZg9zWZiFD3
-X-Gm-Gg: ASbGnctDCrGdZ8+/qgS+QBVvkvUKf1q9K9SFH5j/kxLfKYhweTbnkhvmkkB1e2808e6
-	XxKfybfu9iXd9MSsJ6Zp7+Aw4bhM4G4asU0eWunPCCsAOlUOgM2BRmVg3gHceBjKtAWsBf+rXOn
-	p2A6jVl3lkvax14jcYIAF+a1u0HhfiD2OyYF+/2tlakvr4CHOgTGgUcnBAojplEjgafRMOpBAyz
-	sKFXYI23u7l1Nq01ilcySNXPTNmphTBbduviP97XOrsdXCpvGU5lTLZeu6GXflvNSXegzaTOsHJ
-	7qyf0PkzvwdQ5kMfHQjBmpMLVrVqZHqjBALzH2AXd0+/bFcx1nEZfbsdPVDMn4QwLspl/iUMGrn
-	/cR3/BD1EcptHDw/y
-X-Google-Smtp-Source: AGHT+IFZGRprjS3R9kdZBnFSrqQKh3fPVHhwBoQA7Av3OfiEbnQa9dyvQJUljIblbrFBUYdwTbBs0Q==
-X-Received: by 2002:a05:600c:1e86:b0:43d:b3:f95 with SMTP id 5b1f17b1804b1-440a3186746mr5102125e9.28.1745522472126;
-        Thu, 24 Apr 2025 12:21:12 -0700 (PDT)
-Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4409d2d868asm31066455e9.26.2025.04.24.12.21.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Apr 2025 12:21:10 -0700 (PDT)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Andrew Lunn <andrew@lunn.ch>, wens@csie.org
-Cc: Andre Przywara <andre.przywara@arm.com>, Yixun Lan <dlan@gentoo.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Samuel Holland <samuel@sholland.org>,
- Maxime Ripard <mripard@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, clabbe.montjoie@gmail.com
-Subject:
- Re: [PATCH 4/5] arm64: dts: allwinner: a527: add EMAC0 to Radxa A5E board
-Date: Thu, 24 Apr 2025 21:21:09 +0200
-Message-ID: <8516361.T7Z3S40VBb@jernej-laptop>
-In-Reply-To:
- <CAGb2v65GPqr5Vnqb_MhAJBAjQzd-vKi1g1pJ53oUnF0Ym2PH9g@mail.gmail.com>
-References:
- <20250423-01-sun55i-emac0-v1-0-46ee4c855e0a@gentoo.org>
- <7fcedce7-5cfe-48a4-9769-e6e7e82dc786@lunn.ch>
- <CAGb2v65GPqr5Vnqb_MhAJBAjQzd-vKi1g1pJ53oUnF0Ym2PH9g@mail.gmail.com>
+	s=arc-20240116; t=1745535486; c=relaxed/simple;
+	bh=731nWIyt9OFN6kxXt/6KA+nv44zep6jyOw5FxNS1B/Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TaoAnS3WFc+4zZiRVBdXlvkUEmzCRM2nac8x7NPrRYjfvlQq8aoT0SezSZjAk0FhqKIIIgmX2cdna2kxtG0EvSOmyQPCbc6x8FAog6F9kgTOng+uupu21in0PQYMZ2iYLUHcMrw37qSev92jf9MVdViqz4uYEEEhApW4s4U41Zo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E369D2F;
+	Thu, 24 Apr 2025 15:57:57 -0700 (PDT)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A76533F59E;
+	Thu, 24 Apr 2025 15:58:00 -0700 (PDT)
+Date: Thu, 24 Apr 2025 23:56:58 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Yixun Lan <dlan@gentoo.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland
+ <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ clabbe.montjoie@gmail.com
+Subject: Re: [PATCH 4/5] arm64: dts: allwinner: a527: add EMAC0 to Radxa A5E
+ board
+Message-ID: <20250424235658.0c662e67@minigeek.lan>
+In-Reply-To: <4643958.LvFx2qVVIh@jernej-laptop>
+References: <20250423-01-sun55i-emac0-v1-0-46ee4c855e0a@gentoo.org>
+	<4ba3e7b8-e680-40fa-b159-5146a16a9415@lunn.ch>
+	<20250424150037.0f09a867@donnerap.manchester.arm.com>
+	<4643958.LvFx2qVVIh@jernej-laptop>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
 
-Dne =C4=8Detrtek, 24. april 2025 ob 21:05:17 Srednjeevropski poletni =C4=8D=
-as je Chen-Yu Tsai napisal(a):
-> On Fri, Apr 25, 2025 at 3:02=E2=80=AFAM Andrew Lunn <andrew@lunn.ch> wrot=
-e:
-> >
-> > > In my experience, vendor DT has proper delays specified, just 7 inste=
-ad of
-> > > 700, for example. What they get wrong, or better said, don't care, is=
- phy
-> > > mode. It's always set to rgmii because phy driver most of the time ig=
-nores
-> > > this value and phy IC just uses mode set using resistors. Proper way =
-here
-> > > would be to check schematic and set phy mode according to that. This =
-method
-> > > always works, except for one board, which had resistors set wrong and
-> > > phy mode configured over phy driver was actually fix for it.
-> >
-> > What PHY driver is this? If it is ignoring the mode, it is broken.
-> >
-> > We have had problems in the past in this respect. A PHY driver which
-> > ignored the RGMII modes, and strapping was used. That 'worked' until
-> > somebody built a board with broken strapping and added code to respect
-> > the RGMII mode, overriding the strapping. It made that board work, but
-> > broke lots of others which had the wrong RGMII mode....
-> >
-> > If we have this again, i would like to know so we can try to get in
-> > front of the problem, before we have lots of broken boards...
+On Thu, 24 Apr 2025 20:38:34 +0200
+Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
+
+> cc: Corentin LABBE
 >=20
-> I think the incident you are referring to is exactly the one that Jernej
-> mentioned.
+> Dne =C4=8Detrtek, 24. april 2025 ob 16:00:37 Srednjeevropski poletni =C4=
+=8Das je Andre Przywara napisal(a):
+> > On Thu, 24 Apr 2025 14:57:27 +0200
+> > Andrew Lunn <andrew@lunn.ch> wrote:
+> >=20
+> > Hi Andrew,
+> >  =20
+> > > > > Just to be clear, you tried it with "rgmii-id" and the same <300>=
+ and
+> > > > > <400> values?   =20
+> > > >=20
+> > > > Yes, sorry, I wasn't clear: I used rgmii-id, then experimented with=
+ those
+> > > > values.   =20
+> > >=20
+> > > O.K, great.
+> > >=20
+> > > I do suspect the delays are not actually in pico seconds. But without
+> > > a data sheet, it is hard to know.
+> > >=20
+> > >        if (!of_property_read_u32(node, "allwinner,rx-delay-ps", &val)=
+) {
+> > >                 if (val % 100) {
+> > >                         dev_err(dev, "rx-delay must be a multiple of =
+100\n");
+> > >                         return -EINVAL;
+> > >                 }
+> > >                 val /=3D 100;
+> > >                 dev_dbg(dev, "set rx-delay to %x\n", val);
+> > >                 if (val <=3D gmac->variant->rx_delay_max) {
+> > >                         reg &=3D ~(gmac->variant->rx_delay_max <<
+> > >                                  SYSCON_ERXDC_SHIFT);
+> > >                         reg |=3D (val << SYSCON_ERXDC_SHIFT);
+> > >=20
+> > > So the code divides by 100 and writes it to a register. But:
+> > >=20
+> > > static const struct emac_variant emac_variant_h3 =3D {
+> > >         .rx_delay_max =3D 31,
+> > >=20
+> > >=20
+> > > static const struct emac_variant emac_variant_r40 =3D {
+> > >         .rx_delay_max =3D 7,
+> > > };
+> > >=20
+> > > With the change from 7 to 31, did the range get extended by a factor
+> > > of 4, or did the step go down by a factor of 4, and the / 100 should
+> > > be / 25? I suppose the git history might have the answer in the commit
+> > > message, but i'm too lazy to go look. =20
+> >=20
+> > IIRC this picosecond mapping was somewhat made up, to match common DT
+> > properties. The manual just says:
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > 12:10  R/W  default: 0x0 ETXDC: Configure EMAC Transmit Clock Delay Cha=
+in.
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >=20
+> > So the unit is really unknown, but is probably some kind of internal cy=
+cle count.
+> > The change from 7 to 31 is purely because the bitfield grew from 3 to 5
+> > bits. We don't know if the underlying unit changed on the way.
+> > Those values are just copied from whatever the board vendor came up wit=
+h,
+> > we then multiply them by 100 and put them in the mainline DT. Welcome to
+> > the world of Allwinner ;-) =20
 >=20
-> And regarding the bad PHY driver, it could simply be that the PHY driver
-> was not built or not loaded, hence the kernel falling back to the generic
-> one, which of course doesn't know how to set the modes.
+> IIRC Corentin asked Allwinner about units and their response was in 100 p=
+s.
+>=20
+> In my experience, vendor DT has proper delays specified, just 7 instead of
+> 700, for example. What they get wrong, or better said, don't care, is phy
+> mode. It's always set to rgmii because phy driver most of the time ignores
+> this value and phy IC just uses mode set using resistors.
 
-Mainline is sorted out as far as I'm aware. Broken PHY drivers are part
-of BSP code drops, from where these values are taken from. So, for sure
-I wouldn't trust phy mode set in BSP code, but allwinner,tx-delay-ps and
-allwinner,rx-delay-ps are usually trustworthy.
+Ah, right, I dimly remembered there was some hardware setting, but your
+mentioning of those strap resistors now tickled my memory!
 
-Best regards,
-Jernej
+So according to the Radxa board schematic, RGMII0-RXD0/RXDLY is pulled
+up to VCCIO via 4.7K, while RGMII0-RXD1/TXDLY is pulled to GND (also via
+4K7). According to the Motorcom YT8531 datasheet this means that RX
+delay is enabled, but TX delay is not.
+The Avaota board uses the same setup, albeit with an RTL8211F-CG PHY,
+but its datasheet confirms it uses the same logic.
 
+So does this mean we should say rgmii-rxid, so that the MAC adds the TX
+delay? Does the stmmac driver actually support this? I couldn't find
+this part by quickly checking the code.
 
+Cheers,
+Andre
 
+> Proper way here
+> would be to check schematic and set phy mode according to that. This meth=
+od
+> always works, except for one board, which had resistors set wrong and
+> phy mode configured over phy driver was actually fix for it.
+>=20
+> Best regards,
+> Jernej
+>=20
+> >=20
+> > And git history doesn't help, it's all already in the first commit for =
+this
+> > driver. I remember some discussions on the mailing list, almost 10 years
+> > ago, but this requires even more digging ...
+> >=20
+> > Cheers,
+> > Andre
+> >=20
+> >=20
+> >  =20
+> > >=20
+> > > I briefly tried "rgmii", and I couldn't get a lease, so I quite =20
+> > > > confident it's rgmii-id, as you said. The vendor DTs just use "rgmi=
+i", but
+> > > > they might hack the delay up another way (and I cannot be asked to =
+look at
+> > > > that awful code).
+> > > >=20
+> > > > Cheers,
+> > > > Andre   =20
+> >=20
+> >  =20
+>=20
+>=20
+>=20
+>=20
+>=20
 
