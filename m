@@ -1,110 +1,96 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CA6117D2
-	for <linux-sunxi@lists.linux.dev>; Thu, 24 Apr 2025 01:18:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B2EA42A82
+	for <linux-sunxi@lists.linux.dev>; Thu, 24 Apr 2025 03:24:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745457518; cv=none; b=m/ltmMPrvBZ7ds3zYw9L8QD9Hh8uIwfd90J7mVC8Is37GcSpihn+H+S12n+sjLwX5KU2mZpy5cHmhiICrOS0uZ7Dd8KtCiogebHGi1s1OJdH1E/oOVNzZN9stncEomNAqs6+x/vfMpX7YuCPMSXym4m5flSAeq6FQCu/YR88ruA=
+	t=1745465064; cv=none; b=KR6lag/+mhvkJzjiWPCvM+sQbI7QbaGpboEJxiEvUXIc9YmKv+cGsMIE2IPybQjPdFnuJOjVpT5Sdsr1RxhvP+8wE5NCfWhtgf3Ri59y5CYIV8uu9qjW0oN4xTaw2kUuGx0LVyTfIdFUKaMxK4HxBm4v6NLGvvV2KSHNVxteU38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745457518; c=relaxed/simple;
-	bh=6QsNkW8RggGxROGxeCbIql2iwtqZ02C3h5q0Gelldzs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OXJsxagjbMBotr1A/tVGxob19VDYiHGmdYn85Vtj8OLCnpwsCxhWP+jxt2wXX22nA8RQXh8/26uJx2xiXYlkreisNzJgO9fThXZm58d0hp7A+I1cSJ5K+nMLXJXhcFPnV8d/tKTZA4S1g4eujHUJQtdTI3u/4VX7PzGY+98DcIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C9F141063;
-	Wed, 23 Apr 2025 18:18:31 -0700 (PDT)
-Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 57A833F5A1;
-	Wed, 23 Apr 2025 18:18:34 -0700 (PDT)
-Date: Thu, 24 Apr 2025 02:17:26 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Yixun Lan <dlan@gentoo.org>
+	s=arc-20240116; t=1745465064; c=relaxed/simple;
+	bh=itub4aTQPUiiZAXFKiJAcDWZ7EfwN5bRQbzE2Xx+7yQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MMceNSrRV154e+jvUI7fYrIMD0GppCJXKnhcOOQheyRh+au4Bn6gl+7TH9DhMc9HnSdoVFaXDEUX5ChfXeqOTqeSAarKo4Ej4BVZ8kFdSr3K9gDF4oFBaCXkb4x+QeX6b/l7tU7fVAxfCpHLMXGOAvAO/13Hpl7sLnb4WzVTFmw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
+Received: from localhost (unknown [116.232.18.95])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: dlan)
+	by smtp.gentoo.org (Postfix) with ESMTPSA id C8D4D342FAE;
+	Thu, 24 Apr 2025 03:24:21 +0000 (UTC)
+Date: Thu, 24 Apr 2025 03:24:17 +0000
+From: Yixun Lan <dlan@gentoo.org>
+To: Andre Przywara <andre.przywara@arm.com>
 Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- Maxime Ripard <mripard@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH 5/5] arm64: dts: allwinner: t527: add EMAC0 to Avaoto-A1
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org
+Subject: Re: [PATCH 4/5] arm64: dts: allwinner: a527: add EMAC0 to Radxa A5E
  board
-Message-ID: <20250424021706.22eaab66@minigeek.lan>
-In-Reply-To: <20250423-01-sun55i-emac0-v1-5-46ee4c855e0a@gentoo.org>
+Message-ID: <20250424032417-GYA47799@gentoo>
 References: <20250423-01-sun55i-emac0-v1-0-46ee4c855e0a@gentoo.org>
-	<20250423-01-sun55i-emac0-v1-5-46ee4c855e0a@gentoo.org>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+ <20250423-01-sun55i-emac0-v1-4-46ee4c855e0a@gentoo.org>
+ <20250424014341.7006ea65@minigeek.lan>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250424014341.7006ea65@minigeek.lan>
 
-On Wed, 23 Apr 2025 22:03:26 +0800
-Yixun Lan <dlan@gentoo.org> wrote:
+Hi Andre,
 
-Hi,
-
-> On Avaoto A1 board, the EMAC0 connect to an external RTL8211F-CG PHY,
-
-The name would be "Avaota" A1 board.
-
-> which features a 25MHz crystal, and using PH8 pin as PHY reset.
+On 01:43 Thu 24 Apr     , Andre Przywara wrote:
+> On Wed, 23 Apr 2025 22:03:25 +0800
+> Yixun Lan <dlan@gentoo.org> wrote:
 > 
-> Signed-off-by: Yixun Lan <dlan@gentoo.org>
-> ---
-> I don't own this board, only compose this patch according to the
-> schematics. Let me know if it works.
-> ---
->  arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
+> Hi Yixun,
 > 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts b/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
-> index 85a546aecdbe149d6bad10327fca1fb7dafff6ad..23ab89c742c679fb274babbb0205f119eb2c9baa 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
-> @@ -64,6 +64,23 @@ &ehci1 {
->  	status = "okay";
->  };
-
-As for the Radxa board, we need an alias for ethernet0.
-
->  
-> +&emac0 {
-> +	phy-mode = "rgmii";
-
-As Andrew mentioned, this should probably be "rgmii-id".
-
-> +	phy-handle = <&ext_rgmii_phy>;
-
-Can you please add the phy-supply here, it's reg_dcdc4.
-
-Cheers,
-Andre
-
-> +
-> +	allwinner,tx-delay-ps = <100>;
-> +	allwinner,rx-delay-ps = <300>;
-> +
-> +	status = "okay";
-> +};
-> +
-> +&mdio0 {
-> +	ext_rgmii_phy: ethernet-phy@1 {
-> +		compatible = "ethernet-phy-ieee802.3-c22";
-> +		reg = <1>;
-> +	};
-> +};
-> +
->  &mmc0 {
->  	vmmc-supply = <&reg_cldo3>;
->  	cd-gpios = <&pio 5 6 (GPIO_ACTIVE_LOW | GPIO_PULL_DOWN)>; /* PF6 */
+> > On Radxa A5E board, the EMAC0 connect to an external YT8531C PHY,
+> > which features a 25MHz crystal, and using PH8 pin as PHY reset.
+> > 
+> > Tested on A5E board with schematic V1.20.
 > 
+> Can you please add a name to the /aliases node, to make U-Boot add a
+> MAC address?
+> 	ethernet0 = &emac0;
+> 
+> > 
+> > Signed-off-by: Yixun Lan <dlan@gentoo.org>
+> > ---
+> >  arch/arm64/boot/dts/allwinner/sun55i-a527-radxa-a5e.dts | 17 +++++++++++++++++
+> >  1 file changed, 17 insertions(+)
+> > 
+> > diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a527-radxa-a5e.dts b/arch/arm64/boot/dts/allwinner/sun55i-a527-radxa-a5e.dts
+> > index 912e1bda974ce5f64c425e371357b1a78b7c13dd..b3399a28badb5172801e47b8a45d5b753fc56ef1 100644
+> > --- a/arch/arm64/boot/dts/allwinner/sun55i-a527-radxa-a5e.dts
+> > +++ b/arch/arm64/boot/dts/allwinner/sun55i-a527-radxa-a5e.dts
+> > @@ -54,6 +54,23 @@ &ehci1 {
+> >  	status = "okay";
+> >  };
+> >  
+> > +&emac0 {
+> > +	phy-mode = "rgmii";
+> > +	phy-handle = <&ext_rgmii_phy>;
+> 
+> Can you please add the phy-supply here, which should be CLDO3? It's
+> referenced by other nodes, so would be enabled already,but each node
+> should be self-contained.
+right, I was about to check and then forgot.. will add it back next version
 
+-- 
+Yixun Lan (dlan)
