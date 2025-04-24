@@ -1,98 +1,115 @@
 Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C698F221FBF
-	for <linux-sunxi@lists.linux.dev>; Thu, 24 Apr 2025 10:05:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F7F8634F
+	for <linux-sunxi@lists.linux.dev>; Thu, 24 Apr 2025 10:09:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745489121; cv=none; b=XLSk+8350NV6pmAjNirWlX62LZRvJ7SL064kisXXVLM9AZHq7I1sEVxvFhqDCgHSEvyWmznGxFQQROinlxpMpLmtwDj8FSSeTnm54662KyH14we1uYfJV0kMFt/TY3OEsjxCCIMCKvNuCrJeFBq4YMhA16v0wf5tPof0Oq386Jk=
+	t=1745489361; cv=none; b=iAWdpFafVqWxhHkuYzFCgcQ7XcoS0QwaG0xHf8lwTmxHoLRj7O5IMZ7y8O0gr6SCWdAto+0Mz5VBzLZf4zXJrfw4OR81R98vE3L55I/nk9YBhj4mS+Q9Nen2CrPlnBaPraqenUjjcc4rLnp2PTUkQf2aett9h4fQrGoicbIXfdI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745489121; c=relaxed/simple;
-	bh=IkAVQLQcbBsqd++RWlxWPNV68rQ02JZMdcpF9vVK4mw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CbRqZZoeCQK+uYeRVwHsVHvtGEKFRY/Cjx44j/4npEGqdCUtBoDG6E1349crFRJXad7RMQkT7DNG/bBLcXIKoL5u6jhuZAgAsFfVTCXfPXE+7jYDRJnUl+K+kQ1TZ0s8bu4lYKsjDXWd/AcNbLOCbme9yaG+xuxApQbxvHLMi6A=
+	s=arc-20240116; t=1745489361; c=relaxed/simple;
+	bh=aTRP5MOUdrYudfIXeH7X1qFPiPt5o8uB0GSNLVO1Y3Y=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Fmd08Fx3kempR3mK1/aGpTF8JMqk1wTnM7SWoBg+wLokQj0vl1kahON7E1n0HcFCW4Rub4nDipd657CzXOur/y/6ARkb9Jcwqi1BiDNaXYrbSiZ1j4ohrgfyyWg0HBMe1I/KXJQtbLe/vesHsXI9gKzhrbLfwzluqG2pQ926o7I=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-Received: from localhost (unknown [116.232.18.95])
+Received: from [127.0.0.1] (unknown [116.232.18.95])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: dlan)
-	by smtp.gentoo.org (Postfix) with ESMTPSA id 9CCA2340DF9;
-	Thu, 24 Apr 2025 10:05:18 +0000 (UTC)
-Date: Thu, 24 Apr 2025 10:05:14 +0000
+	by smtp.gentoo.org (Postfix) with ESMTPSA id 144B9343016;
+	Thu, 24 Apr 2025 10:09:13 +0000 (UTC)
 From: Yixun Lan <dlan@gentoo.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH 4/5] arm64: dts: allwinner: a527: add EMAC0 to Radxa A5E
- board
-Message-ID: <20250424100514-GYA48784@gentoo>
-References: <20250423-01-sun55i-emac0-v1-0-46ee4c855e0a@gentoo.org>
- <20250423-01-sun55i-emac0-v1-4-46ee4c855e0a@gentoo.org>
- <aa38baed-f528-4650-9e06-e7a76c25ec89@lunn.ch>
- <20250424014120.0d66bd85@minigeek.lan>
+Subject: [PATCH v2 0/5] allwinner: Add EMAC0 support to A523 variant SoC
+Date: Thu, 24 Apr 2025 18:08:38 +0800
+Message-Id: <20250424-01-sun55i-emac0-v2-0-833f04d23e1d@gentoo.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250424014120.0d66bd85@minigeek.lan>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKYNCmgC/3WNQQ6CMBBFr0Jm7ZihMARdeQ/DotYpzMLWtEg0h
+ Ltb2bt8L/nvr5AlqWQ4VyskWTRrDAXMoQI32TAK6r0wGDJMrWmQasyvwKwoD+sIWZoT2558d/N
+ QVs8kXt978ToUnjTPMX32g6X+2f+tpUbCthNpXc8sZC+jhDnGY0wjDNu2fQFSbWT/rwAAAA==
+X-Change-ID: 20250423-01-sun55i-emac0-5e395a80f6bf
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: Andre Przywara <andre.przywara@arm.com>, 
+ Corentin Labbe <clabbe.montjoie@gmail.com>, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+ Yixun Lan <dlan@gentoo.org>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1638; i=dlan@gentoo.org;
+ h=from:subject:message-id; bh=aTRP5MOUdrYudfIXeH7X1qFPiPt5o8uB0GSNLVO1Y3Y=;
+ b=owEBzQIy/ZANAwAKATGq6kdZTbvtAcsmYgBoCg21wuR03eG7PJ5BcbAbEvSBCD2s6I1UGgiC0
+ 4QRFOwWOemJApMEAAEKAH0WIQS1urjJwxtxFWcCI9wxqupHWU277QUCaAoNtV8UgAAAAAAuAChp
+ c3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0QjVCQUI4QzlDMzF
+ CNzExNTY3MDIyM0RDMzFBQUVBNDc1OTREQkJFRAAKCRAxqupHWU277UcED/41P2u7nuUUGzH+Nl
+ RH0IcFgw4kRxzmS64sXWYjeWMg3ZTJsmZdlrMePlTHFpT5dyt5lwILhAahFQxmswPOyiEJz5QDZ
+ enEhZOQNb2wn316NeTE0oQzcsZzxYerhMMQcSsT8pO6zNCq0dEixRV/yik60P9ZCmUqdqUI51NN
+ NlOegqa70BDG04ab2t1Q5FlNqDp+TfSFL6Dp5IF+VcKLzMcQgWoyOXSH8Y8yEyUdQkCHl6qrgyI
+ cQaypj/GjCf1zrQOx27Hr4mdprc5fm/6nL7AuadhA4Qmy+Ln5K5Cj9A+ydj8+RSMMKEwQI+3r0v
+ M73RO/nDJmKdNTG7e4Y/CGHo7+fsKYseFNB1C+39ruUa7rmudnAX+TzpRM2mp2kuepALq1nWtG8
+ R3SyqHSM46UQNnt8ueMREiOmynLNvPujhGfE5cPA0RrfjTAffqx2tOIGtSRgLNl731NtW0R138O
+ f+591g8Da+aSCnTDvaehhifgMbWiZ4DeAWsB0VB6DoqwHVfH/idMFbTcKZQ7gSPd0E8Ot+VIItr
+ toWl+nYX/lr0XFfA7xxCpZASIotWVbXTsdqcxg3waYs5DasLWJX0OC0bNxoUOFapabMa/4XiJW+
+ qMQGkDHKz1eJGgHSs0dvSOIE8Sy+MN8aI7bkETD8k7ZY1VJn9+qPX58+iwQpq8PPoZlA==
+X-Developer-Key: i=dlan@gentoo.org; a=openpgp;
+ fpr=50B03A1A5CBCD33576EF8CD7920C0DBCAABEFD55
 
-Hi Andrew, Andre,
+This patch series is trying to add EMAC0 ethernet MAC support
+to the A523 variant SoCs, including A523, A527/T527 chips.
 
-On 01:42 Thu 24 Apr     , Andre Przywara wrote:
-> On Wed, 23 Apr 2025 18:58:37 +0200
-> Andrew Lunn <andrew@lunn.ch> wrote:
-> 
-> Hi,
-> 
-> > > +&emac0 {
-> > > +	phy-mode = "rgmii";  
-> > 
-> > Does the PCB have extra long clock lines in order to provide the
-> > needed 2ns delay? I guess not, so this should be rgmii-id.
-> 
-> That's a good point, and it probably true.
-> 
-> > 
-> > > +	phy-handle = <&ext_rgmii_phy>;
-> > > +
-> > > +	allwinner,tx-delay-ps = <300>;
-> > > +	allwinner,rx-delay-ps = <400>;  
-> > 
-> > These are rather low delays, since the standard requires 2ns. Anyway,
-> > once you change phy-mode, you probably don't need these.
-> 
-As I tested, drop these two properties making ethernet unable to work,
-there might be some space to improve, but currently I'd leave it for now
+This MAC0 is compatible to previous A64 SoC, so introduce a new DT
+compatible but make it as a fallback to A64's compatible.
 
-> Those go on top of the main 2ns delay, I guess to accommodate some skew
-> between the RX and TX lines, or to account for extra some PCB delay
-> between clock and data? The vendor BSP kernels/DTs program those board
-> specific values, so we have been following suit for a while, for the
-> previous SoCs as well.
-> I just tried, it also works with some variations of those values, but
-> setting tx-delay to 0 stops communication.
-> 
-I'd not bother to try other combinations, and just stick to vendor's settings
+In this version, the PHYRSTB pin which routed to external phy
+has not been populated in DT. It's kind of optional for now,
+but we probably should handle it well later.
 
-thanks
+I've tested only on Radxa A5E board.
 
+Signed-off-by: Yixun Lan <dlan@gentoo.org>
+---
+Changes in v2:
+- add ethernet alias node
+- add phy-supply
+- change to rgmii-id
+- drop PH13, rename pin name
+- drop bias-pull-up
+- collect Review tags
+- improve commit log
+- Link to v1: https://lore.kernel.org/r/20250423-01-sun55i-emac0-v1-0-46ee4c855e0a@gentoo.org
+
+---
+Yixun Lan (5):
+      dt-bindings: sram: sunxi-sram: Add A523 compatible
+      dt-bindings: arm: sunxi: Add A523 EMAC0 compatible
+      arm64: dts: allwinner: a523: Add EMAC0 ethernet MAC
+      arm64: dts: allwinner: a527: add EMAC0 to Radxa A5E board
+      arm64: dts: allwinner: t527: add EMAC0 to Avaota-A1 board
+
+ .../bindings/net/allwinner,sun8i-a83t-emac.yaml    |  1 +
+ .../sram/allwinner,sun4i-a10-system-control.yaml   |  1 +
+ arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi     | 40 ++++++++++++++++++++++
+ .../boot/dts/allwinner/sun55i-a527-radxa-a5e.dts   | 19 ++++++++++
+ .../boot/dts/allwinner/sun55i-t527-avaota-a1.dts   | 19 ++++++++++
+ 5 files changed, 80 insertions(+)
+---
+base-commit: 69714722df19a7d9e81b7e8f208ca8f325af4502
+change-id: 20250423-01-sun55i-emac0-5e395a80f6bf
+
+Best regards,
 -- 
-Yixun Lan (dlan)
+Yixun Lan
+
