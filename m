@@ -1,42 +1,35 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF6071FAC42
-	for <linux-sunxi@lists.linux.dev>; Thu, 24 Apr 2025 23:20:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD1BD223DDF
+	for <linux-sunxi@lists.linux.dev>; Thu, 24 Apr 2025 23:39:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745536852; cv=none; b=WtCKPsv4E1gS4KYHgACvVOBN66Q3A4zUF0GqocqtIQJ5eukPPyIt/FQRBztI+0emwKE0sYzzzcLvwWjouxLco4jokaq7YuONCTqdQtVVGdMqNwl3hJYV9AXaVj2s0ygH7H5ag8OAZsmN+Ha3OtVxBXA81y9dTBaMUf8w3fcj51Y=
+	t=1745537981; cv=none; b=P15Tn74dN38lGVdUQ9M7N4BtcqBV0jy573fV2UXAw5clhS2txPcHbwr57dF6eD4FqTSuE1bm42/O4kj/+gZNhtzTC+2JMy6xNKEZDrYK351xbzIjpnCwyXH1NGXiuKEZYza3upBjeWK2Q4Nn10uCCLNo3UnZKxQKjy/rHSnkVPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745536852; c=relaxed/simple;
-	bh=N4jW3VnF6lQU+lm5lYfa5xJbQYoyDpUDVIHaXmX3tL4=;
+	s=arc-20240116; t=1745537981; c=relaxed/simple;
+	bh=Ed4KLFH9HuHYkKJUWPeVRZ3OYFaVcVj2uHUgklVRMTc=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=POmSnxhr7Gi5LzyWz4B+Kzul7R0V3uMBTBlwlv+ZKA1Hd4ErDW/dtmAh9+pn4wtCpuMCo/YcIcOtUrkcGSptsq1YDNzKNSdd50XXscN48niDfsvTn1QgwzyNI6Gti1LTHwuUOx8I0tonqsAstHpastB5CSPM0Y5CCdmNou4hf80=
+	 MIME-Version:Content-Type; b=hn1WgaUM/6d7Dj+KXQixtSeO7+4wJunOlUAiLmKkc1FScqo1HEnDNgp3l148ZoEDkRVD4kM53FWr3H86ZQi32/cyoidP4IICSBY4CDl/oBp0IcfaXVOHdAJDbCSNZhk5y/uZ6F5vCNrcgxd3ZA2My1aqP/7A5+Xaln8mZhjwteA=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E2C472F;
-	Thu, 24 Apr 2025 16:20:43 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CB4D9339;
+	Thu, 24 Apr 2025 16:39:33 -0700 (PDT)
 Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BB6653F59E;
-	Thu, 24 Apr 2025 16:20:46 -0700 (PDT)
-Date: Fri, 25 Apr 2025 00:19:45 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AD4C23F59E;
+	Thu, 24 Apr 2025 16:39:37 -0700 (PDT)
+Date: Fri, 25 Apr 2025 00:38:36 +0100
 From: Andre Przywara <andre.przywara@arm.com>
-To: Yixun Lan <dlan@gentoo.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- Maxime Ripard <mripard@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Corentin Labbe <clabbe.montjoie@gmail.com>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org
-Subject: Re: [PATCH v2 3/5] arm64: dts: allwinner: a523: Add EMAC0 ethernet
- MAC
-Message-ID: <20250425001945.48473374@minigeek.lan>
-In-Reply-To: <20250424-01-sun55i-emac0-v2-3-833f04d23e1d@gentoo.org>
-References: <20250424-01-sun55i-emac0-v2-0-833f04d23e1d@gentoo.org>
-	<20250424-01-sun55i-emac0-v2-3-833f04d23e1d@gentoo.org>
+To: Chenyuan Yang <chenyuan0y@gmail.com>
+Cc: wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org,
+ arnd@arndb.de, hdegoede@redhat.com, mripard@kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drivers: soc: sunxi: Fix possible null pointer
+ dereference
+Message-ID: <20250425003836.74f068da@minigeek.lan>
+In-Reply-To: <20250412165700.2298733-1-chenyuan0y@gmail.com>
+References: <20250412165700.2298733-1-chenyuan0y@gmail.com>
 Organization: Arm Ltd.
 X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
@@ -48,90 +41,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Thu, 24 Apr 2025 18:08:41 +0800
-Yixun Lan <dlan@gentoo.org> wrote:
+On Sat, 12 Apr 2025 11:57:00 -0500
+Chenyuan Yang <chenyuan0y@gmail.com> wrote:
 
-> Add EMAC0 ethernet MAC support which found on A523 variant SoCs,
-> including the A527/T527 chips. MAC0 is compatible to the A64 chip which
-> requires an external PHY. This patch only add RGMII pins for now.
+> of_get_address() may return NULL which is later dereferenced.
+> Fix this bug by adding NULL check
 > 
-> Signed-off-by: Yixun Lan <dlan@gentoo.org>
+> This is similar to the commit c534b63bede6
+> ("drm: vc4: Fix possible null pointer dereference").
+> 
+> Signed-off-by: Chenyuan Yang <chenyuan0y@gmail.com>
+> Fixes: 4af34b572a85 ("drivers: soc: sunxi: Introduce SoC driver to map SRAMs")
 
-Thanks, looks good now!
+That fix looks alright, indeed of_get_address() returns NULL if the
+slightest bit in the property is not as expected, and we should check
+for that.
 
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+I am just wondering if we should issue a firmware warning in this case,
+instead of just silently skipping an entry.
 
 Cheers,
 Andre
 
 > ---
->  arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi | 40 ++++++++++++++++++++++++++
->  1 file changed, 40 insertions(+)
+>  drivers/soc/sunxi/sunxi_sram.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-> index ee485899ba0af69f32727a53de20051a2e31be1d..c9a9b9dd479af05ba22fe9d783e32f6d61a74ef7 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-> @@ -126,6 +126,15 @@ pio: pinctrl@2000000 {
->  			interrupt-controller;
->  			#interrupt-cells = <3>;
+> diff --git a/drivers/soc/sunxi/sunxi_sram.c b/drivers/soc/sunxi/sunxi_sram.c
+> index 2781a091a6a6..1853dcc806ea 100644
+> --- a/drivers/soc/sunxi/sunxi_sram.c
+> +++ b/drivers/soc/sunxi/sunxi_sram.c
+> @@ -122,6 +122,8 @@ static int sunxi_sram_show(struct seq_file *s, void *data)
+>  			continue;
 >  
-> +			rgmii0_pins: rgmii0-pins {
-> +				pins = "PH0", "PH1", "PH2", "PH3", "PH4",
-> +				       "PH5", "PH6", "PH7", "PH9", "PH10",
-> +				       "PH14", "PH15", "PH16", "PH17", "PH18";
-> +				allwinner,pinmux = <5>;
-> +				function = "emac0";
-> +				drive-strength = <40>;
-> +			};
-> +
->  			mmc0_pins: mmc0-pins {
->  				pins = "PF0" ,"PF1", "PF2", "PF3", "PF4", "PF5";
->  				allwinner,pinmux = <2>;
-> @@ -409,6 +418,15 @@ i2c5: i2c@2503400 {
->  			#size-cells = <0>;
->  		};
+>  		sram_addr_p = of_get_address(sram_node, 0, NULL, NULL);
+> +		if (!sram_addr_p)
+> +			continue;
 >  
-> +		syscon: syscon@3000000 {
-> +			compatible = "allwinner,sun55i-a523-system-control",
-> +				     "allwinner,sun50i-a64-system-control";
-> +			reg = <0x03000000 0x1000>;
-> +			#address-cells = <1>;
-> +			#size-cells = <1>;
-> +			ranges;
-> +		};
-> +
->  		gic: interrupt-controller@3400000 {
->  			compatible = "arm,gic-v3";
->  			#address-cells = <1>;
-> @@ -521,6 +539,28 @@ ohci1: usb@4200400 {
->  			status = "disabled";
->  		};
+>  		seq_printf(s, "sram@%08x\n",
+>  			   be32_to_cpu(*sram_addr_p));
+> @@ -134,6 +136,8 @@ static int sunxi_sram_show(struct seq_file *s, void *data)
 >  
-> +		emac0: ethernet@4500000 {
-> +			compatible = "allwinner,sun55i-a523-emac0",
-> +				     "allwinner,sun50i-a64-emac";
-> +			reg = <0x04500000 0x10000>;
-> +			clocks = <&ccu CLK_BUS_EMAC0>;
-> +			clock-names = "stmmaceth";
-> +			resets = <&ccu RST_BUS_EMAC0>;
-> +			reset-names = "stmmaceth";
-> +			interrupts = <GIC_SPI 46 IRQ_TYPE_LEVEL_HIGH>;
-> +			interrupt-names = "macirq";
-> +			pinctrl-names = "default";
-> +			pinctrl-0 = <&rgmii0_pins>;
-> +			syscon = <&syscon>;
-> +			status = "disabled";
-> +
-> +			mdio0: mdio {
-> +				compatible = "snps,dwmac-mdio";
-> +				#address-cells = <1>;
-> +				#size-cells = <0>;
-> +			};
-> +		};
-> +
->  		r_ccu: clock-controller@7010000 {
->  			compatible = "allwinner,sun55i-a523-r-ccu";
->  			reg = <0x7010000 0x250>;
-> 
+>  			section_addr_p = of_get_address(section_node, 0,
+>  							NULL, NULL);
+> +			if (!section_addr_p)
+> +				continue;
+>  
+>  			seq_printf(s, "\tsection@%04x\t(%s)\n",
+>  				   be32_to_cpu(*section_addr_p),
 
