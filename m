@@ -1,99 +1,137 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B5DD290BCA
-	for <linux-sunxi@lists.linux.dev>; Thu, 24 Apr 2025 19:17:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16D8827BF9E
+	for <linux-sunxi@lists.linux.dev>; Thu, 24 Apr 2025 19:21:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745522255; cv=none; b=UduZ7kVBf6VOqiaY5yPPM+OKLSXDl9Sak58ra6C9f1E4C/nviO5u+QgdLQ1QU/io4zmFgplWoZNQ7qw85KOtWSjYdgRCfjjIR1j5Phaonw67g6pbkXWPetWIOXW/U3NGxsqeZg3X6jFYIQLN8D2RUKl+mcMZ3toXeFQkLCmDcCg=
+	t=1745522475; cv=none; b=YJCPd9kcc7r11eL5ZPT0F1GDiS4ZkjNQA6Yg0455agLZ7huj+vHB+cNSX7JqN0MzImLti8WwHddvC5IPHIdb50UAAmEhYVVBqlHbnK/ru0yXFdQ4sUjhujY77KMk/4/XWoWrYVzLJbHC0BCzSMegZ6Er7lC/IwjV7bGDASiz4UM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745522255; c=relaxed/simple;
-	bh=4FAg9dOCib/NxKAtEqDq/2c3ne9EVt+MCqwoJUr75Ps=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cWhycHY4vPmFTLJKiHtQ+vm3Xax6eWYxA3AQGmBe/CJsYKtP6DlbWbcFNzI4TM2jWfPznnkXkW4b7qYgjtxRY9UiBb4n/8olKyGvvxcOxv+wSwPCwmrqLHZOOBVrREWCVV6OVPwG2eY0ooOYLTG9wpGImCbiKBkbSsR+QygUuKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cev+LDig; arc=none smtp.client-ip=209.85.128.48
+	s=arc-20240116; t=1745522475; c=relaxed/simple;
+	bh=VxZVbaLuerUQOiGUQNqAhYl1gyDXczPcezBxadZyF5A=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=h6mMEtygp2slosSBH8HnngVeZrcMa7Mhaaq7RT1QjomWCiUZQUgIjSCJzIJrfYXk5ehMxgs33uoxg+v/+Dq04gaQCGQbQPcfesfptsLDFzzu8XXqtxVRy0GFmj5UKR8i6vQZu6gVi84sXAiediAykZ+448x8r08bLo1gUGnUGgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P0As8hZt; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cev+LDig"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43cf257158fso9023405e9.2
-        for <linux-sunxi@lists.linux.dev>; Thu, 24 Apr 2025 12:17:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P0As8hZt"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43cf257158fso9039065e9.2
+        for <linux-sunxi@lists.linux.dev>; Thu, 24 Apr 2025 12:21:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745522252; x=1746127052; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=hKtiIR8/1ANFiI3jvmxK88n9ocUCdqWIViGNXRe9MXE=;
-        b=cev+LDigdhutchZNRWHHG9XrqI4PlhRxsi9ZC3yc3bMo6KKUSvnr07+ZlDkl/WFVLb
-         4vaDThuAtIXxP1LX8WDR3PWAmpJ53exCo8YesNnJhVqP7qjC/q7vv1eTRVwJ0NTwMPie
-         gr248uyPiyCclbxN8ruaarNkMdPgs2DfOk/PGlLh13TtzUMJlYzK2RhxtJdpNVqzT5mB
-         UkyUNt12r2QtF1++mKiimP8QW8da3nFLKrm4yjB0pBiXn9W6PrQEJ7/GvTchEsixP+9s
-         nefc3DGBixM3OEtx5r2aeW885x2vfoF5jnk4vKFqgoYWNaAeGGgBmDiROjadj9KN6k3E
-         CchQ==
+        d=gmail.com; s=20230601; t=1745522472; x=1746127272; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VxZVbaLuerUQOiGUQNqAhYl1gyDXczPcezBxadZyF5A=;
+        b=P0As8hZtLWGkOWEkJqOnH0P6cd19v+urF8FxqiWx8NJ7l1qv/klY0FbGf2pVmKKeqw
+         0xRuNCEdWX6UycHe/28MYowV5dEFRMtybACb9jTfF/AIMV5X7CjoB1Fyw6R8B4r11H4r
+         wqbxt4Zb7/omzrjfCeBgswd6KyrBAqyWPhssumT4e8Ws3l8I0DSDPkgofLF75EwHyJ/e
+         nmr2Yxo3EOeKKWJUuncbAZqxqd7GucfXzMODhGHdS8IZcYgjtchfRp77mC2np41TZrQY
+         Zl/Dl5xX4ykFmLp6rYxjCoGTMt+uxzsF+buXZAPS9Ag+bvVIVGlA90uAGbVGCL+XmydX
+         pyxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745522252; x=1746127052;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hKtiIR8/1ANFiI3jvmxK88n9ocUCdqWIViGNXRe9MXE=;
-        b=Q1y4WMdFtpvqu19LU7HI2iCjEikjPeN5Igmp7ClDGajCNvj4IWJiNP0ySGBv/79JGU
-         L5PviPhZtFU9FrCUIj2ReFeKlRk4nTSI8NvFv5P5On7vfffWGi+liR/iG2myXHxKpxyt
-         RrzqB7CJ/AC3I/hCAZY5wtflGp3KqIN5eFHuRSUPaDSJ9uInkKzP0gHjKCZVgH7Lgne4
-         jqi5qKsfGVDYoRQxUKHUN2pgl49TuoVrJ8Sn/PZMs5ZGkKZaDrtjCydVrJdUoAX4lynb
-         nDNkrasazQrhROMOkH+wSyNCYBGACObTGBUhv20+398ohtrdLInovuxXyRGIOKKgKN6Q
-         BmKw==
-X-Forwarded-Encrypted: i=1; AJvYcCXEFzBuKCTrMCgf8ELUU3I4zPERUfVwLfWpPnl6va9dwEoTcM331gVnlwemXafCexunybM9449/bUgAEg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyhNfemXvc687/PC/KIRutrS+pOcHtes9Voj2ywyVbpDpRLI1ge
-	KYtxFzqlcWNJfPwX8srLHlGs6Q8mVoEjXGZhYzGGn3K5q3Xs5DCo
-X-Gm-Gg: ASbGncv8mog2v5KhNxZD/d5ZWIX6fFRTI++FCsFf8I4TJ+vR976Foso5P+osbqNiqHA
-	7lbB0CAXWnNnuuP6jqYOjSG6QloCSKRWcopAauytWbXX9NjmUAwI1zNqf0dHNM6pXYYI+VJywmp
-	wIRoquvX5/dLYvSe3PsBb+v6mOuFgHQOzwnXqwJIz8ngx7OEceJ93YtRmPFcINmnrvUypY4bFAq
-	m7QUjNxbzNAi6iY03DQ6Zsc0uK9oUeuCg7idbQJcEQvJhpaeijkUmThd/vICuxl97umbTeBcFue
-	vrWJX6ToMX2D4+7F7fokUuGe/I6UYTtLJm8X/QXB
-X-Google-Smtp-Source: AGHT+IGHUagr5uQkmxlICqpS4xt1BsRnNl8Y/nS1PqKVhK6DbPifS1o99SIUo9WiHCLLy1FyDQtZ4g==
-X-Received: by 2002:a5d:64ef:0:b0:38d:dd52:1b5d with SMTP id ffacd0b85a97d-3a072a4636dmr351698f8f.4.1745522252237;
-        Thu, 24 Apr 2025 12:17:32 -0700 (PDT)
-Received: from Red ([2a01:cb1d:898:ab00:4a02:2aff:fe07:1efc])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3a073cbedc4sm156237f8f.47.2025.04.24.12.17.31
+        d=1e100.net; s=20230601; t=1745522472; x=1746127272;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VxZVbaLuerUQOiGUQNqAhYl1gyDXczPcezBxadZyF5A=;
+        b=JwSHQqa9cS145bbU3kZBTAlPGZp8ikoOrlWyp77it/zXC9tgsr7LVBbtqHFQyEMauZ
+         Naq3GoFpH/lH4KEqlwAcW7wO6SaBz6XTanOx7PxGh2hnb9cDnTJ9es7pxzDBUz0vPT0I
+         +t/UMe31WQ1PwUwZ7Kze6wqoOCKF39/NzpQlI7PPKy5rdWEeRhdFZs4Y4I5iSuHCi+LT
+         IFZVxgX55JjtK8m3gEjqi6RVA9px4GPbelw1w1vKIBG9uef4kW7FIl5fJA5Fuq/MszUo
+         Oyf33EHDqAYH7hhc3F1+KzmguhVxWh6g7PgMpo169lCSk/f/Dz3wyCDyJvSE8d7lrlGF
+         GOKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWJ6ku6TaenxCRhIvVKsEZiXKM4YQzTNd53AGrKUhz/emDaVDhdOiTQhu5ZgR6qEcUkr/+nepuY4oPPOA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxBTSxNSj2PC5Z2VB8O0IuTyte2j8atvgiI7YqHpstv0+kWl34V
+	y1hLfaTi0ohqE3SKLTCyvLING1dkeLXplbIfPlHa1uZg9zWZiFD3
+X-Gm-Gg: ASbGnctDCrGdZ8+/qgS+QBVvkvUKf1q9K9SFH5j/kxLfKYhweTbnkhvmkkB1e2808e6
+	XxKfybfu9iXd9MSsJ6Zp7+Aw4bhM4G4asU0eWunPCCsAOlUOgM2BRmVg3gHceBjKtAWsBf+rXOn
+	p2A6jVl3lkvax14jcYIAF+a1u0HhfiD2OyYF+/2tlakvr4CHOgTGgUcnBAojplEjgafRMOpBAyz
+	sKFXYI23u7l1Nq01ilcySNXPTNmphTBbduviP97XOrsdXCpvGU5lTLZeu6GXflvNSXegzaTOsHJ
+	7qyf0PkzvwdQ5kMfHQjBmpMLVrVqZHqjBALzH2AXd0+/bFcx1nEZfbsdPVDMn4QwLspl/iUMGrn
+	/cR3/BD1EcptHDw/y
+X-Google-Smtp-Source: AGHT+IFZGRprjS3R9kdZBnFSrqQKh3fPVHhwBoQA7Av3OfiEbnQa9dyvQJUljIblbrFBUYdwTbBs0Q==
+X-Received: by 2002:a05:600c:1e86:b0:43d:b3:f95 with SMTP id 5b1f17b1804b1-440a3186746mr5102125e9.28.1745522472126;
+        Thu, 24 Apr 2025 12:21:12 -0700 (PDT)
+Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4409d2d868asm31066455e9.26.2025.04.24.12.21.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Apr 2025 12:17:31 -0700 (PDT)
-Date: Thu, 24 Apr 2025 21:17:29 +0200
-From: Corentin Labbe <clabbe.montjoie@gmail.com>
-To: Yixun Lan <dlan@gentoo.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Andre Przywara <andre.przywara@arm.com>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH v2 3/5] arm64: dts: allwinner: a523: Add EMAC0 ethernet
- MAC
-Message-ID: <aAqOSRQCKNuezyUK@Red>
-References: <20250424-01-sun55i-emac0-v2-0-833f04d23e1d@gentoo.org>
- <20250424-01-sun55i-emac0-v2-3-833f04d23e1d@gentoo.org>
+        Thu, 24 Apr 2025 12:21:10 -0700 (PDT)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Andrew Lunn <andrew@lunn.ch>, wens@csie.org
+Cc: Andre Przywara <andre.przywara@arm.com>, Yixun Lan <dlan@gentoo.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ Maxime Ripard <mripard@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, clabbe.montjoie@gmail.com
+Subject:
+ Re: [PATCH 4/5] arm64: dts: allwinner: a527: add EMAC0 to Radxa A5E board
+Date: Thu, 24 Apr 2025 21:21:09 +0200
+Message-ID: <8516361.T7Z3S40VBb@jernej-laptop>
+In-Reply-To:
+ <CAGb2v65GPqr5Vnqb_MhAJBAjQzd-vKi1g1pJ53oUnF0Ym2PH9g@mail.gmail.com>
+References:
+ <20250423-01-sun55i-emac0-v1-0-46ee4c855e0a@gentoo.org>
+ <7fcedce7-5cfe-48a4-9769-e6e7e82dc786@lunn.ch>
+ <CAGb2v65GPqr5Vnqb_MhAJBAjQzd-vKi1g1pJ53oUnF0Ym2PH9g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250424-01-sun55i-emac0-v2-3-833f04d23e1d@gentoo.org>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-Le Thu, Apr 24, 2025 at 06:08:41PM +0800, Yixun Lan a écrit :
-> Add EMAC0 ethernet MAC support which found on A523 variant SoCs,
-> including the A527/T527 chips. MAC0 is compatible to the A64 chip which
-> requires an external PHY. This patch only add RGMII pins for now.
-> 
+Dne =C4=8Detrtek, 24. april 2025 ob 21:05:17 Srednjeevropski poletni =C4=8D=
+as je Chen-Yu Tsai napisal(a):
+> On Fri, Apr 25, 2025 at 3:02=E2=80=AFAM Andrew Lunn <andrew@lunn.ch> wrot=
+e:
+> >
+> > > In my experience, vendor DT has proper delays specified, just 7 inste=
+ad of
+> > > 700, for example. What they get wrong, or better said, don't care, is=
+ phy
+> > > mode. It's always set to rgmii because phy driver most of the time ig=
+nores
+> > > this value and phy IC just uses mode set using resistors. Proper way =
+here
+> > > would be to check schematic and set phy mode according to that. This =
+method
+> > > always works, except for one board, which had resistors set wrong and
+> > > phy mode configured over phy driver was actually fix for it.
+> >
+> > What PHY driver is this? If it is ignoring the mode, it is broken.
+> >
+> > We have had problems in the past in this respect. A PHY driver which
+> > ignored the RGMII modes, and strapping was used. That 'worked' until
+> > somebody built a board with broken strapping and added code to respect
+> > the RGMII mode, overriding the strapping. It made that board work, but
+> > broke lots of others which had the wrong RGMII mode....
+> >
+> > If we have this again, i would like to know so we can try to get in
+> > front of the problem, before we have lots of broken boards...
+>=20
+> I think the incident you are referring to is exactly the one that Jernej
+> mentioned.
+>=20
+> And regarding the bad PHY driver, it could simply be that the PHY driver
+> was not built or not loaded, hence the kernel falling back to the generic
+> one, which of course doesn't know how to set the modes.
 
-Tested-by: Corentin LABBE <clabbe.montjoie@gmail.com>
+Mainline is sorted out as far as I'm aware. Broken PHY drivers are part
+of BSP code drops, from where these values are taken from. So, for sure
+I wouldn't trust phy mode set in BSP code, but allwinner,tx-delay-ps and
+allwinner,rx-delay-ps are usually trustworthy.
 
-Thanks
+Best regards,
+Jernej
+
+
+
+
