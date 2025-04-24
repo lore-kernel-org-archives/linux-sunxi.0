@@ -1,128 +1,153 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4719B8633F
-	for <linux-sunxi@lists.linux.dev>; Thu, 24 Apr 2025 14:00:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22D1028A1D1
+	for <linux-sunxi@lists.linux.dev>; Thu, 24 Apr 2025 16:57:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745503245; cv=none; b=UeGmFPGceYulQoI1cu1CIvbdzV5boZamvQPz5+UzVRl3lpyRhJPI04t8pS/8GwmLQHJFHBmcSMEPZuy2JDMErvxoqzt96pWJKnq2GI7vcMCLQB5DUQKDJU90OoHyPRAcc0yB+3YgMwYmngDaMuUOugD/7Z28nGOcS2dHN6CByNM=
+	t=1745513880; cv=none; b=pN+xziZJTEFwAE2SH6y2L4jNNFmvXDsAKBiwmZEWg93LmlyvuHO9SGJo0iXVlYtYoso0GZ9u0JQit/QINoX02tAvpWNcn5EJC/dRWbjzTiwvfrNr4MzdgZoK8UCKd1QaRU73X2xRDhTRPNqPwO0m5IutegW0SwxCTTWWjoXavWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745503245; c=relaxed/simple;
-	bh=VXBgvoZTtrA5JYDFoyhknIVGp8ZSKhzEYnqrJP640i8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sbq+0O5zxu3ksl0x9hZ+xPEpgpGEHiES6qQn4gIQWj8B5Me2opynKjI0dvqvsjpZbzVWw97tSSpqUQDlEkiDAIzprApx5DrkG4q+SpDFLIWkG4zj6GshvfAWeW8PlrnfSkvy3IoMCQRWMlCa7nMjGkpWoXKSJ/1Dqz9vicAHT7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8FFAC1063;
-	Thu, 24 Apr 2025 07:00:37 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C995C3F66E;
-	Thu, 24 Apr 2025 07:00:39 -0700 (PDT)
-Date: Thu, 24 Apr 2025 15:00:37 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Yixun Lan <dlan@gentoo.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu
- Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
- Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, Andrew
- Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH 4/5] arm64: dts: allwinner: a527: add EMAC0 to Radxa A5E
- board
-Message-ID: <20250424150037.0f09a867@donnerap.manchester.arm.com>
-In-Reply-To: <4ba3e7b8-e680-40fa-b159-5146a16a9415@lunn.ch>
-References: <20250423-01-sun55i-emac0-v1-0-46ee4c855e0a@gentoo.org>
-	<20250423-01-sun55i-emac0-v1-4-46ee4c855e0a@gentoo.org>
-	<aa38baed-f528-4650-9e06-e7a76c25ec89@lunn.ch>
-	<20250424014120.0d66bd85@minigeek.lan>
-	<835b58a3-82a0-489e-a80f-dcbdb70f6f8d@lunn.ch>
-	<20250424134104.18031a70@donnerap.manchester.arm.com>
-	<4ba3e7b8-e680-40fa-b159-5146a16a9415@lunn.ch>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1745513880; c=relaxed/simple;
+	bh=j1MfpPRWqhfX/2KQfilannHBewLFWL4iLNkee7p1jNc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fKG6lokvfVRcYICfwJmI7SMB+eU4Gr8XR0V7qbGMKCWPUODMAh+pzYf2M0PVDYTC8yDFTl/U98nXkBbADyGnV2fDBdon2spx/sLgY6HUJ8rcyczK3gBQWXZDFtbzvd9OCTtE/U1CNSoYk9Jzne47ahaOXc0Is0AS5kTznpepbUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yGvWjMsC; arc=none smtp.client-ip=209.85.219.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yGvWjMsC"
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-e73120cc26fso137706276.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 24 Apr 2025 09:57:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1745513878; x=1746118678; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=CC8QXc9LsvxTqtPlPIyO29AB2sQN6RDFy5sekBxfX70=;
+        b=yGvWjMsCaNcDU5Dnj2EDZO0id8UALfP+pOWK9Go6gGJWl4lyKW9huqomEhk9Dm4Kjs
+         n9X8iBVkJKPRvKn5inhzFJ33t6zMOlhp0FQbmsANsk/ph8b4w0ICWD25H8TQNFh9i0sM
+         Y+uRL5ZJiHqi5a4q4IQ0L52JMWPFBjwUNusKGWMFc6a/zOANURdqCY0uIdi4i7WW4dUV
+         egQsSqUsVKmvyOSiyDzE8GnKBhJs9DDXhqAySC5j51SF+NtIK/MoFQcOVtwHf8Vey0f3
+         ApMy9GpfMEFeUkdeHkO5eKRRjl165/rP+ueTm/VrQNRm9OCwUeXErTpThIS/dbWde91q
+         /q8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745513878; x=1746118678;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CC8QXc9LsvxTqtPlPIyO29AB2sQN6RDFy5sekBxfX70=;
+        b=JBTemXCKlQw2p19n1TSHId2ku4hQa5oyWKd34GexAQ6WR+k+uNRGq6sdnl2dM5X369
+         UhWHfP7Merd9DvXWTUxfDAU0mDhOdutSywFWgX6ZAhEzT8Vx+dDBNcfVG6Qc3EKaI1Rl
+         kt1oRAyyhym9KUMZZA/nHmuIxfMg0pKo6mWx84WP6rROdHOylBDUPyNzPKpX1zE9wJnQ
+         SJhoCkY06teWKPRZ0lebtrIiv5c8rt1x9+1riWsUtAD1LTAX2S7P3Dyov7wFJiOCRyCx
+         O43T5LULPTCdFFi4iAR4VFpBMtR0QJsCQIEruaab88AoWOlv8NXh//BOvLaL9OjCf96A
+         fAfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVQXOcxlTGBsxJQVFhCkzh/WmPMaBBTVKjx2ouNIYDahXX+w+J6w0dmOoLEiibbtho0OihRD1V0t8CT1w==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yya+lyqZbMWiCmwuQj7n8U1j3lPgLeZTjdF3AS+J/emjK7aUUdM
+	eJWfSVDIIp8jHvVxLJ4V2H/vkEhu/DF1D3RYLuZQGKuMuiDr3UfdLy1fguZeP1tY4tYpFaEJoBF
+	f+hXuFLf5TF4KrDNJfMwOvGvl2jJ76pcGKuQkqg==
+X-Gm-Gg: ASbGncudxM4BGdWYN3yNBsFJTmeDA8ml2MNIEnggda7FEz7uFiUdYwg9ZQdnno57Nl2
+	83Qi9IX4flXq0eEGX83WjHphddkHrmM2glayk9dgBhm+u2C63RWor9pqUW9kO78DuxukPYVkYVt
+	TIhjZc65HdZ42CfKPhHk2CKFU=
+X-Google-Smtp-Source: AGHT+IGUSO5FK4cTNY1s8aCOE0QjJA5+ZdVnwWYHpoNAMpE1vPT98E65H3GN3XHKq0FMUPOvfV/2uwmg/47o7Q3uAQg=
+X-Received: by 2002:a05:6902:1b12:b0:e72:d449:72ed with SMTP id
+ 3f1490d57ef6-e7312d6905emr175202276.24.1745513878058; Thu, 24 Apr 2025
+ 09:57:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20250416224839.9840-1-andre.przywara@arm.com> <20250416224839.9840-2-andre.przywara@arm.com>
+In-Reply-To: <20250416224839.9840-2-andre.przywara@arm.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Thu, 24 Apr 2025 18:57:22 +0200
+X-Gm-Features: ATxdqUFsZ4jKzTVE_MqQW5hWNU9yilyI4trLvJSpUG2toFoex3HtMd6XPhqZ5bI
+Message-ID: <CAPDyKFop9gAUq3kG4-hs358y=N48rLQSvJaRveXo_ebVTf8gEg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] dt-bindings: power: Add Allwinner H6/H616 PRCM PPU
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Boris Brezillon <boris.brezillon@collabora.com>, Steven Price <steven.price@arm.com>, 
+	Philippe Simons <simons.philippe@gmail.com>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-pm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 24 Apr 2025 14:57:27 +0200
-Andrew Lunn <andrew@lunn.ch> wrote:
+On Thu, 17 Apr 2025 at 00:49, Andre Przywara <andre.przywara@arm.com> wrote:
+>
+> The Allwinner H6 and some later SoCs contain some bits in the PRCM (Power
+> Reset Clock Management) block that control some power domains.
+> Those power domains include the one for the GPU, the PLLs and some
+> analogue circuits.
+>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
-Hi Andrew,
+Applied for next by amending the example according to ChenYu's comment, thanks!
 
-> > > Just to be clear, you tried it with "rgmii-id" and the same <300> and
-> > > <400> values?  
-> > 
-> > Yes, sorry, I wasn't clear: I used rgmii-id, then experimented with those
-> > values.  
-> 
-> O.K, great.
-> 
-> I do suspect the delays are not actually in pico seconds. But without
-> a data sheet, it is hard to know.
-> 
->        if (!of_property_read_u32(node, "allwinner,rx-delay-ps", &val)) {
->                 if (val % 100) {
->                         dev_err(dev, "rx-delay must be a multiple of 100\n");
->                         return -EINVAL;
->                 }
->                 val /= 100;
->                 dev_dbg(dev, "set rx-delay to %x\n", val);
->                 if (val <= gmac->variant->rx_delay_max) {
->                         reg &= ~(gmac->variant->rx_delay_max <<
->                                  SYSCON_ERXDC_SHIFT);
->                         reg |= (val << SYSCON_ERXDC_SHIFT);
-> 
-> So the code divides by 100 and writes it to a register. But:
-> 
-> static const struct emac_variant emac_variant_h3 = {
->         .rx_delay_max = 31,
-> 
-> 
-> static const struct emac_variant emac_variant_r40 = {
->         .rx_delay_max = 7,
-> };
-> 
-> With the change from 7 to 31, did the range get extended by a factor
-> of 4, or did the step go down by a factor of 4, and the / 100 should
-> be / 25? I suppose the git history might have the answer in the commit
-> message, but i'm too lazy to go look.
+Note this patch is also available on the immutable dt branch, for SoC
+maintainers to pull.
 
-IIRC this picosecond mapping was somewhat made up, to match common DT
-properties. The manual just says:
-====================
-12:10  R/W  default: 0x0 ETXDC: Configure EMAC Transmit Clock Delay Chain.
-====================
-
-So the unit is really unknown, but is probably some kind of internal cycle count.
-The change from 7 to 31 is purely because the bitfield grew from 3 to 5
-bits. We don't know if the underlying unit changed on the way.
-Those values are just copied from whatever the board vendor came up with,
-we then multiply them by 100 and put them in the mainline DT. Welcome to
-the world of Allwinner ;-)
-
-And git history doesn't help, it's all already in the first commit for this
-driver. I remember some discussions on the mailing list, almost 10 years
-ago, but this requires even more digging ...
-
-Cheers,
-Andre
+Kind regards
+Uffe
 
 
 
-> 
-> I briefly tried "rgmii", and I couldn't get a lease, so I quite
-> > confident it's rgmii-id, as you said. The vendor DTs just use "rgmii", but
-> > they might hack the delay up another way (and I cannot be asked to look at
-> > that awful code).
-> > 
-> > Cheers,
-> > Andre  
-
+> ---
+>  .../power/allwinner,sun50i-h6-prcm-ppu.yaml   | 42 +++++++++++++++++++
+>  1 file changed, 42 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/power/allwinner,sun50i-h6-prcm-ppu.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/power/allwinner,sun50i-h6-prcm-ppu.yaml b/Documentation/devicetree/bindings/power/allwinner,sun50i-h6-prcm-ppu.yaml
+> new file mode 100644
+> index 0000000000000..7eaff9baf7268
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/power/allwinner,sun50i-h6-prcm-ppu.yaml
+> @@ -0,0 +1,42 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/power/allwinner,sun50i-h6-prcm-ppu.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Allwinner SoCs PRCM power domain controller
+> +
+> +maintainers:
+> +  - Andre Przywara <andre.przywara@arm.com>
+> +
+> +description:
+> +  The Allwinner Power Reset Clock Management (PRCM) unit contains bits to
+> +  control a few power domains.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - allwinner,sun50i-h6-prcm-ppu
+> +      - allwinner,sun50i-h616-prcm-ppu
+> +      - allwinner,sun55i-a523-prcm-ppu
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  '#power-domain-cells':
+> +    const: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - '#power-domain-cells'
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    prcm_ppu: power-controller@7010210 {
+> +        compatible = "allwinner,sun50i-h616-prcm-ppu";
+> +        reg = <0x07010250 0x10>;
+> +        #power-domain-cells = <1>;
+> +    };
+> --
+> 2.46.3
+>
