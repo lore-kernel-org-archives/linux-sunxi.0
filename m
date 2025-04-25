@@ -1,42 +1,49 @@
-Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
+Received: from mail-m49197.qiye.163.com (mail-m49197.qiye.163.com [45.254.49.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78A0563CF
-	for <linux-sunxi@lists.linux.dev>; Fri, 25 Apr 2025 03:00:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01C91188733
+	for <linux-sunxi@lists.linux.dev>; Fri, 25 Apr 2025 03:30:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745550023; cv=none; b=pxq/zIBIm5KNlB+4ZMueRFDRZrnnyLj/AV896LfZDOHDIlHN/8nzFXce5mvXLLJYpofahUgRNPurY9RpxJaq3o7v3Ctmx0CVB6cFX7rn6neNDmPhp4K4A5118I55dtqyLOSuN+nqhRZ2Cpl6eEJfpK1WWHYyZ6aEQjp1WC9onWI=
+	t=1745551812; cv=none; b=VuOgxw7MFLCwyRiKi7/kDvMXLOFvukN3mTtY7KiJ0v/i/qS7tsD/4zFOe/1JymwMCHDqlQr+HBOOPo4OQsKrZgbKEAH1fxfH2MvuvFu83uqC9aWtn4YYSQ2Y4y3DT+zcfXq8C/3rTqhQz9egObZQ1HJvu9KoWzrYOYU7AG2s5nc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745550023; c=relaxed/simple;
-	bh=LVmXxPc0GsxJCoufkyTtR1wIh6N17gyPoDGVcYXM0fk=;
+	s=arc-20240116; t=1745551812; c=relaxed/simple;
+	bh=gOf56mihxMyOdd5gu5wMRopNR9Mnpk5+9hN62Q4a5uA=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=tg9yWv3KgFeD6X4JlcqUTFnyPxKAaTmhZ9IMRwPi4a39uXDGzx+Ie9wIqdrwDregxV0Ag7n5iqKUFhrfUUIR2HGU5AtPC3dVryzCEBikSFq5qWrijktOvsO0+3+XqeIZ94jnukbIfnBfiVmqxDNl4zqGmxv+vSm8m12V56HjRIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jmu.edu.cn; spf=pass smtp.mailfrom=jmu.edu.cn; arc=none smtp.client-ip=101.71.155.101
+	 MIME-Version; b=tifWOYuYVWfUH9DktOMwxKHu2Rx800yFw/KcrOg5lciTZpPMrtC0q8ngqUdoNrlEvQetb2/qTz3qsnbXaVfp/RNoptGbtsBJrXS+i/nfiedImXQ9t9ptuMSsPeOckC9hG3Cbgst4ouWNYzoiRwhaD1hdYuTsF2KvlfCR4wBDsro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jmu.edu.cn; spf=pass smtp.mailfrom=jmu.edu.cn; arc=none smtp.client-ip=45.254.49.197
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jmu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jmu.edu.cn
 Received: from localhost.localdomain (unknown [119.122.214.249])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 131194130;
-	Fri, 25 Apr 2025 11:00:10 +0800 (GMT+08:00)
+	by smtp.qiye.163.com (Hmail) with ESMTP id 131231831;
+	Fri, 25 Apr 2025 11:30:05 +0800 (GMT+08:00)
 From: Chukun Pan <amadeus@jmu.edu.cn>
 To: dlan@gentoo.org
-Cc: amadeus@jmu.edu.cn,
-	andre.przywara@arm.com,
+Cc: andre.przywara@arm.com,
+	andrew+netdev@lunn.ch,
 	conor+dt@kernel.org,
+	davem@davemloft.net,
 	devicetree@vger.kernel.org,
+	edumazet@google.com,
 	jernej.skrabec@gmail.com,
 	krzk+dt@kernel.org,
+	kuba@kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
+	mripard@kernel.org,
+	netdev@vger.kernel.org,
+	pabeni@redhat.com,
 	robh@kernel.org,
 	samuel@sholland.org,
-	wens@csie.org
-Subject: Re: [PATCH 1/1] arm64: dts: allwinner: correct the model name for Radxa Cubie A5E
-Date: Fri, 25 Apr 2025 11:00:06 +0800
-Message-Id: <20250425030006.45169-1-amadeus@jmu.edu.cn>
+	wens@csie.org,
+	Chukun Pan <amadeus@jmu.edu.cn>
+Subject: Re: [PATCH 4/5] arm64: dts: allwinner: a527: add EMAC0 to Radxa A5E board
+Date: Fri, 25 Apr 2025 11:30:01 +0800
+Message-Id: <20250425033001.50236-1-amadeus@jmu.edu.cn>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250425023527-GYA50272@gentoo>
-References: <20250425023527-GYA50272@gentoo>
+In-Reply-To: <20250423-01-sun55i-emac0-v1-4-46ee4c855e0a@gentoo.org>
+References: <20250423-01-sun55i-emac0-v1-4-46ee4c855e0a@gentoo.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,23 +52,25 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZQkNJVk1OSEpPHktPTB5IGVYeHw5VEwETFhoSFy
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZH09DVk9JQkxJSU1NSE5IS1YeHw5VEwETFhoSFy
 	QUDg9ZV1kYEgtZQVlKSkJVSklJVUlKT1VJT0JZV1kWGg8SFR0UWUFZT0tIVUpLSEpOTE5VSktLVU
 	pCS0tZBg++
-X-HM-Tid: 0a966ae36a7503a2kunm131194130
+X-HM-Tid: 0a966afecd6603a2kunm131231831
 X-HM-MType: 10
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PRw6FAw*GTIBSj83AzhNIlEK
-	FBIaCypVSlVKTE9OTk5LS0pJSklPVTMWGhIXVRoWGh8eDgg7ERYOVR4fDlUYFUVZV1kSC1lBWUpK
-	QlVKSUlVSUpPVUlPQllXWQgBWUFKS0NLNwY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6OhA6TQw5ITJWTj9KAUwvEEgt
+	CAkwCStVSlVKTE9OTk5KQ0tMSkpIVTMWGhIXVRoWGh8eDgg7ERYOVR4fDlUYFUVZV1kSC1lBWUpK
+	QlVKSUlVSUpPVUlPQllXWQgBWUFKT0xONwY+
 
 Hi,
 
-> It seems I'm a little bit late for this, but while we are here,
-> Can we also append 'cubie' to dts file name?
-> e.g. - sun55i-a527-radxa-cubie-a5e.dts
+> On Radxa A5E board, the EMAC0 connect to an external YT8531C PHY,
+> which features a 25MHz crystal, and using PH8 pin as PHY reset.
+> 
+> Tested on A5E board with schematic V1.20.
 
-Usually we use the device name (without the vendor name),
-maybe sun55i-a527-cubie-a5e.dts would be better?
+Although the schematic says it is YT8531C, the PHY on the V1.20 board
+is Maxio MAE0621A. The article of cnx-software also mentioned this:
+https://www.cnx-software.com/2025/01/04/radxa-cubie-a5e-allwinner-a527-t527-sbc-with-hdmi-2-0-dual-gbe-wifi-6-bluetooth-5-4/
 
 Thanks,
 Chukun
