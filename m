@@ -1,63 +1,63 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57C6E256C71
-	for <linux-sunxi@lists.linux.dev>; Fri, 25 Apr 2025 13:28:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 328E724BC1A
+	for <linux-sunxi@lists.linux.dev>; Fri, 25 Apr 2025 13:30:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745587704; cv=none; b=XtsgHiUU3KmQquq9KPCA5m6RMxPP/OB7S83SrJQDPq5FLIpwl6JMM8kDMXZc4MrqOjQFmGCb7UavLx1RwYk5N68wCSdTQMkIKmZJFL5+u8ovzR3xxetLpWT0pIS12VDno3ilVJ63SAIIUrEN7N3alze1bk8XeXha44D7j5x6i3c=
+	t=1745587834; cv=none; b=KtRsRWlY5lF7+HCAo9+/lggV5tvatqNleAHYslQBLCI3CnZDH1lkZdGQY/lzfF44X8NEd1NA3xl3ltogRfYyJFsMNtFJlb49WNMGA/mXsBPF6kUoAdsU7s3OzokBK5oUNI/uQ286A+7cxcHmCn5cqqlW4EFb3cgr55YC0AgxLNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745587704; c=relaxed/simple;
-	bh=mDs1kublQxCA1O7cB2fREvwvXpYdNZzxnOO/aSHfTbM=;
+	s=arc-20240116; t=1745587834; c=relaxed/simple;
+	bh=WMPNN23hTTSzf665lOinNQAD+n0lrk8hBHf4iWIYd7g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VyNDpb6fM25rm2D9p81mtZt15iXqW5yqhYwfYIMZmIv7mR0sxn/HaVF6jyHOlljF3zono8I3s34aqyVGX+1H6UIGmhm1r53yZ030pMbkNLoDKqxtq9+rtHRrChrAdA+2lZNgItWQmkFhMWxZCu3kWPJY1WGqCAUF8rGYRx/MapA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VTEd2bIK; arc=none smtp.client-ip=209.85.221.51
+	 Content-Type:Content-Disposition:In-Reply-To; b=ea29fl44zrI9iRDX8HELQLsTII9m0HdGVK3LMGg5jNOrgTb60DtrOPD3QxOo4uWArQJIMri54h3KwAndDqfF5ZDVXC9rN495Lt8yi2YhJT5uWfOiIlMM0YjQ6p3O2Y0eYhcQf0eB2sJ7y/YRZ0j3ha+wyHv27bMunl2L3ky6teg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TcOZh1Fj; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VTEd2bIK"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-39c13fa05ebso1506169f8f.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 25 Apr 2025 06:28:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TcOZh1Fj"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43edb40f357so15730315e9.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 25 Apr 2025 06:30:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745587700; x=1746192500; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1745587831; x=1746192631; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=aug+uhhO10dT8SA1KkPf7sPRP/dd7tZddbirMjYFdb0=;
-        b=VTEd2bIKzlTF1RVKDSCijM3E6gSUC39sFyvFK84zUxgJ+CUUD/gmOQ6KCKFXGkGfSc
-         b2Of4uyvealmC3ALtSVi7J+ZJGGiXHhvINBvQHfyjzL1tAhlnmf+4Cb0xIoL2oxpPM9x
-         tBzphhcXoh3PQ9oHHtmEb/ruWuOZTzU6XlfTrs2EXRIpXy3fYP1BmBsNAba1ppGMFYTt
-         06sjmSIcryIRZbLYFN3ot2Sqbh5z3fMmx8JYoSgWB8ME+a3QaVPj4eeMPNVbXZ3jHr83
-         6ahD92rgTjvXtUmQyh8KpXQT2+xVFJJbPIy/sMk+FaasmW7f2Zv5lg4cKpQdLymyRTsv
-         FkeA==
+        bh=2UqX8ZjtCt77K2Fit3CqVXamabKOpdFvwhUpSSi7NtE=;
+        b=TcOZh1FjNpWCxqw75hiGi1QzlNUjAOZIZX2EuVoXcMIrfl9+g/69/NOl7sU7Y3xRqU
+         u97u3Qcm3m1hPVoybF8R/hK6WWmRTgGwKA/+cPXupyHNy+YSXfclXCvsEVnTChVw5I/f
+         OTcYxPl+XBEpi3194j4ioVbAPZSDGo769vDUrbOlkfxXd7OBJtrTeYBJsHrd0jqfyFKJ
+         zMC3Ycom+LTu475JoIsnbfqMZMQFnBheIL0DbAb2bqG9dkeCHcJGA94oN8JFYlQ7E5Ja
+         o82n31lAfj4nnXhIHV/9VaWKWBGN2kyhAVHfLAt/QhKvXq49QjSMu+xu1u6y3ia+u9/m
+         Hq7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745587700; x=1746192500;
+        d=1e100.net; s=20230601; t=1745587831; x=1746192631;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aug+uhhO10dT8SA1KkPf7sPRP/dd7tZddbirMjYFdb0=;
-        b=UNSIqr5C6s51HgXc2XPDO/MPaD1XDP7Sfz7FWUCagbM8qjt1KZvA0K2Xv47xaSsBCf
-         JWGfFiCLg6wqI2Wdvjo1xtHbz+ch3of/cu0ZSOYhDLu28S8A+yGQBE7u/+5jrvyNLeNt
-         9UzY7vxuwtVa1+OFQJEyUixRSe8iDgR9RoWpqCVpyS+tE1nec+Tb0g1n49+ZYUTeuBgA
-         SMXxhZWKOFbAKPJBBtgr8jCO/vDGPQPz4qWNKUDY/qYb8rr2PzhWRFfweXOF4+j6Pt0v
-         zMbb4PWHmxUiosHHZnAZ+lRxRbYfVkfK1eMY+etIGMip83K3hJ866MVeQClqSb0Hz53q
-         MKZg==
-X-Forwarded-Encrypted: i=1; AJvYcCWge1m8iwPAebh7j5rAvFNilG4lxwH1HAE+VI2jDhTnXUpLQSiJn/xyqvlyvHmIEGdwFCMQiKAMgQQ6ww==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxKK4lzJRJTV6JWy3mw6KTW2iW2bHfqH50DvcSk1jHpED34k5d2
-	QI4lr4Oct+er0RZ3C33eX1PnA7P7Yvk34J/dSPcykY3N4ouTfJYr
-X-Gm-Gg: ASbGncufhdZoRrI/N61LQ/fX09XLW/fyRH881+qpHkuDpt8D+l/wcouQ6aqu/E6aj3T
-	5l5rbKBj0jTofDJYdC2RwXXg63/KBnOylXKbOG83OkxWenUbeg3RCVhZDhtypd4DjYWJZqUoN8B
-	gW21YVSzEIL+yy6jRDhJ0Xa8Xk9/fc79G6vo6VzezrU4BtSCSywAyfXQcb5goigYjRzpatSALd2
-	+6+DYAeUuk8aYeNPBtS1FmfKbfS4J3q1Yt6Jv91NoNgYQ+AH2dOr0wy2q/WiumeuIv6YT4X7z/+
-	6hN0jtYk/ejpkg8wvso8chPfh9epAx0Y5RTyMWEYeDtZnSA5ci+M
-X-Google-Smtp-Source: AGHT+IFSGC6ia6yK5H9T8nOwC67dP5jiFTss/M9i30fMyhHSIu9i6Cr1xRw6VNVbGW1I/F1aUlxm1w==
-X-Received: by 2002:a05:6000:144b:b0:39c:2678:302b with SMTP id ffacd0b85a97d-3a074f14a59mr1999330f8f.45.1745587700424;
-        Fri, 25 Apr 2025 06:28:20 -0700 (PDT)
+        bh=2UqX8ZjtCt77K2Fit3CqVXamabKOpdFvwhUpSSi7NtE=;
+        b=fXKcCkNOet/pLUl567UCwv/1VPcydIhZYNiDSHhdVlxVg/val26cqefrvPjqNEa8nR
+         Rw7qBBjm9fLbBvclDTx2ACFstp1C3CWVjaj9qSFDXbgVWhkbUQFdh80r7SQ41hs13vQ+
+         /+tqZhXADwMAvJYzx67Ywyuj8QYwHldKOjJI5re743VLRZV4bE/rZOpbI7DyDMO7jci4
+         XhZeI3OzMUR8QcBqPqO9HvfOb6Zvht1ugs96cjxblTmBU5KziuL4c99p3c7+K2vn9DDQ
+         I45CdRwZKBteWxeB8xtc2W+IH2DXmDO3HAtEjH3VfmTye3Z2uSYx6nFaoLAD591mqqZT
+         S6rQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWksM9eKng96tpe19R95ZzMv67IY0mesKUZgQ4xuc8i2Rcr6M/SCWawmYgFtfEfNq4I0NLJp1bawwwg9w==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx+VsoowH6M0hLQ9SGCEKCPyBM5cB3IVTlVSLCywf+YRAmbheO/
+	L0vP5ezeN9e+TLDGmw+5dLhU1n7bCXTBHDtXh0fPZbkr3jIiUR5E
+X-Gm-Gg: ASbGncttMa3UqCMfgiMlPIbRjNeeYnD8n7ZmqDUnHVyKB1KJ5CK3GmhlW3Sj8Hl7xX7
+	9OFXEdd9D292OhyhQZ17UfibaIBRJa143Dd8L7f9q0ucOp324llrR2zLIBN8zyh6Z4YJhe+3O3D
+	rPT8N7ymXhOe8NmkwYqEDuwqQoZsSrXiQu5uCiG1xOIz2tweKdJidkHssHQr5OJp1qPUcfP0lu7
+	cQ0u2lvN+P/bkEz2PJINT0RPhLnkYWo4cZdeDORJr4G7Y+npRaQvuyBIX4QmxootgzzBfNTBcaM
+	/+gm2e9RZyZubHgIdYSrWvJI7gaV5N8ixBxXXm/6
+X-Google-Smtp-Source: AGHT+IH4MAUOUOX1z32Y5YjXpUZYGNNANOzJfIUTq3LFTRzfoVT+ERQaNUzYocvxmVzREj0gMHwqtw==
+X-Received: by 2002:a05:600c:1c0a:b0:440:68db:a045 with SMTP id 5b1f17b1804b1-440a66abaffmr18515515e9.26.1745587831225;
+        Fri, 25 Apr 2025 06:30:31 -0700 (PDT)
 Received: from Red ([2a01:cb1d:898:ab00:4a02:2aff:fe07:1efc])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3a073c8c7fesm2394207f8f.6.2025.04.25.06.28.19
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4409d2a2386sm58831505e9.14.2025.04.25.06.30.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Apr 2025 06:28:19 -0700 (PDT)
-Date: Fri, 25 Apr 2025 15:28:18 +0200
+        Fri, 25 Apr 2025 06:30:30 -0700 (PDT)
+Date: Fri, 25 Apr 2025 15:30:28 +0200
 From: Corentin Labbe <clabbe.montjoie@gmail.com>
 To: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
 Cc: herbert@gondor.apana.org.au, davem@davemloft.net,
@@ -65,11 +65,11 @@ Cc: herbert@gondor.apana.org.au, davem@davemloft.net,
 	jernej.skrabec@gmail.com, samuel@sholland.org,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/4] crypto: sun8i-ce-cipher - use
- pm_runtime_resume_and_get()
-Message-ID: <aAuN8i5p1HlEkFn6@Red>
+Subject: Re: [PATCH 3/4] crypto: sun8i-ce-cipher - use IS_ENABLED() checks
+ for debugfs stats
+Message-ID: <aAuOdDhpnLE5bM_y@Red>
 References: <20250425124517.2225963-1-ovidiu.panait.oss@gmail.com>
- <20250425124517.2225963-4-ovidiu.panait.oss@gmail.com>
+ <20250425124517.2225963-3-ovidiu.panait.oss@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -79,25 +79,111 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250425124517.2225963-4-ovidiu.panait.oss@gmail.com>
+In-Reply-To: <20250425124517.2225963-3-ovidiu.panait.oss@gmail.com>
 
-Le Fri, Apr 25, 2025 at 03:45:17PM +0300, Ovidiu Panait a écrit :
-> Replace pm_runtime_get_sync() usage with pm_runtime_resume_and_get() to
-> simplify error handling.
+Le Fri, Apr 25, 2025 at 03:45:16PM +0300, Ovidiu Panait a écrit :
+> Add IS_ENABLED(CONFIG_CRYPTO_DEV_SUN8I_CE_DEBUG) checks before the
+> fallback counter updates to make sure the code is not included when
+> debugfs statistics support is not enabled.
 > 
-> This is recommended in the documentation of pm_runtime_get_sync():
-> /**
->  * pm_runtime_get_sync - Bump up usage counter of a device and resume it.
-> ...
->  * Consider using pm_runtime_resume_and_get() instead of it, especially
->  * if its return value is checked by the caller, as this is likely to result
->  * in cleaner code.
-> ...
->  */
+> Also, drop the existing ifdef guards, since 'struct sun8i_ce_alg_template'
+> is always defined, even with CONFIG_CRYPTO_DEV_SUN8I_CE_DEBUG disabled.
 > 
+> Signed-off-by: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
+> ---
+>  .../allwinner/sun8i-ce/sun8i-ce-cipher.c      | 46 ++++++++++++-------
+>  1 file changed, 30 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
+> index f03a8fa7bfa2..433cd18f0b5b 100644
+> --- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
+> +++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
+> @@ -34,22 +34,30 @@ static int sun8i_ce_cipher_need_fallback(struct skcipher_request *areq)
+>  
+>  	if (sg_nents_for_len(areq->src, areq->cryptlen) > MAX_SG ||
+>  	    sg_nents_for_len(areq->dst, areq->cryptlen) > MAX_SG) {
+> -		algt->stat_fb_maxsg++;
+> +		if (IS_ENABLED(CONFIG_CRYPTO_DEV_SUN8I_CE_DEBUG))
+> +			algt->stat_fb_maxsg++;
+> +
+>  		return true;
+>  	}
+>  
+>  	if (areq->cryptlen < crypto_skcipher_ivsize(tfm)) {
+> -		algt->stat_fb_leniv++;
+> +		if (IS_ENABLED(CONFIG_CRYPTO_DEV_SUN8I_CE_DEBUG))
+> +			algt->stat_fb_leniv++;
+> +
+>  		return true;
+>  	}
+>  
+>  	if (areq->cryptlen == 0) {
+> -		algt->stat_fb_len0++;
+> +		if (IS_ENABLED(CONFIG_CRYPTO_DEV_SUN8I_CE_DEBUG))
+> +			algt->stat_fb_len0++;
+> +
+>  		return true;
+>  	}
+>  
+>  	if (areq->cryptlen % 16) {
+> -		algt->stat_fb_mod16++;
+> +		if (IS_ENABLED(CONFIG_CRYPTO_DEV_SUN8I_CE_DEBUG))
+> +			algt->stat_fb_mod16++;
+> +
+>  		return true;
+>  	}
+>  
+> @@ -57,12 +65,16 @@ static int sun8i_ce_cipher_need_fallback(struct skcipher_request *areq)
+>  	sg = areq->src;
+>  	while (sg) {
+>  		if (!IS_ALIGNED(sg->offset, sizeof(u32))) {
+> -			algt->stat_fb_srcali++;
+> +			if (IS_ENABLED(CONFIG_CRYPTO_DEV_SUN8I_CE_DEBUG))
+> +				algt->stat_fb_srcali++;
+> +
+>  			return true;
+>  		}
+>  		todo = min(len, sg->length);
+>  		if (todo % 4) {
+> -			algt->stat_fb_srclen++;
+> +			if (IS_ENABLED(CONFIG_CRYPTO_DEV_SUN8I_CE_DEBUG))
+> +				algt->stat_fb_srclen++;
+> +
+>  			return true;
+>  		}
+>  		len -= todo;
+> @@ -73,12 +85,16 @@ static int sun8i_ce_cipher_need_fallback(struct skcipher_request *areq)
+>  	sg = areq->dst;
+>  	while (sg) {
+>  		if (!IS_ALIGNED(sg->offset, sizeof(u32))) {
+> -			algt->stat_fb_dstali++;
+> +			if (IS_ENABLED(CONFIG_CRYPTO_DEV_SUN8I_CE_DEBUG))
+> +				algt->stat_fb_dstali++;
+> +
+>  			return true;
+>  		}
+>  		todo = min(len, sg->length);
+>  		if (todo % 4) {
+> -			algt->stat_fb_dstlen++;
+> +			if (IS_ENABLED(CONFIG_CRYPTO_DEV_SUN8I_CE_DEBUG))
+> +				algt->stat_fb_dstlen++;
+> +
+>  			return true;
+>  		}
+>  		len -= todo;
+> @@ -101,9 +117,7 @@ static int sun8i_ce_cipher_fallback(struct skcipher_request *areq)
+>  		algt = container_of(alg, struct sun8i_ce_alg_template,
+>  				    alg.skcipher.base);
+>  
+> -#ifdef CONFIG_CRYPTO_DEV_SUN8I_CE_DEBUG
+>  		algt->stat_fb++;
+> -#endif
 
-Tested-by: Corentin LABBE <clabbe.montjoie@gmail.com>
-Acked-by: Corentin LABBE <clabbe.montjoie@gmail.com>
+Hello
+
+You put IS_ENABLED everywhere, but here you remove it, why ?
+I think you forgot it.
 
 Thanks
 Regards
+
