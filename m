@@ -1,16 +1,16 @@
 Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E04322A807
-	for <linux-sunxi@lists.linux.dev>; Fri, 25 Apr 2025 07:06:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78A201E1C1A
+	for <linux-sunxi@lists.linux.dev>; Fri, 25 Apr 2025 07:46:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745564787; cv=none; b=izAwf7wKAtLXjPDuP6ohpkm3CscccsbArmfndaenxLvNJXUlpbkaiZQp6Rrdvia6mx2HQInR3KJOZmnIrj+f92enVHe0ahkeBplC36bcTMUW0GSBmDZfQgCocpUA+Cxt/a7eDf7LpruhcsPML9HQQzvw93bNcYMtnbMhBrKZZAA=
+	t=1745567188; cv=none; b=mhVMH65DCXSbdh7W9kUy/vS/a68QRYP9vELM2p0Re1+yKPy76xbEwjOZ2vYFApJnncRUFWRBHbLSzG7tYisffwVCZCbEZbtvcDm9Ej34CEwwdUSla6ldjfWJ8cR8pUd6B9O42uuNRrmXhax7KCdgciQf2lKRLVLGfcrXhojKL5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745564787; c=relaxed/simple;
-	bh=ctvHIsXYgGV/juygw8FG9JQyVXTMWfgzu1EuIdKbLnE=;
+	s=arc-20240116; t=1745567188; c=relaxed/simple;
+	bh=DKcS6revqYQuBrgnWEdHy5BJ2gFLK5tD8d5+E6CyPs8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hHoTLrKHX555rxAN6v9uNEBp5mLgwtreQd8W0WoBPW/qE+wcyTBkzbo7vPjh7tqRoJYMtIfmL/GVQo+nggH97wskNl+gPmy5CLCTvWvPtVnW331o/Dwmz+93VUAR/IT+7mDIOa3K2c+PzYQU+er5WA10W/wPBt59DAJ5wMAPwWI=
+	 Content-Type:Content-Disposition:In-Reply-To; b=TUBW/mk3W5HxdGcnac5tgnBsYkC7EoB7E6GKzkUVwjAEQ5CqfWxSqoF4ShBHo51Rcjn55Q7YDuj+eSP60wjcxz4SKVPeKZXvEMDxANAp1GUeq5uR7XK1m2PEERKe6xXiR+uKR4ErKet/w89r29cXqAJWYfB2t6fYdOISjRq8cd8=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
@@ -19,80 +19,52 @@ Received: from localhost (unknown [116.232.18.95])
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: dlan)
-	by smtp.gentoo.org (Postfix) with ESMTPSA id CE285340BEA;
-	Fri, 25 Apr 2025 07:06:24 +0000 (UTC)
-Date: Fri, 25 Apr 2025 07:06:20 +0000
+	by smtp.gentoo.org (Postfix) with ESMTPSA id 581A6341540;
+	Fri, 25 Apr 2025 07:46:25 +0000 (UTC)
+Date: Fri, 25 Apr 2025 07:46:21 +0000
 From: Yixun Lan <dlan@gentoo.org>
-To: Chen-Yu Tsai <wens@csie.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Corentin Labbe <clabbe.montjoie@gmail.com>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH v2 3/5] arm64: dts: allwinner: a523: Add EMAC0 ethernet
- MAC
-Message-ID: <20250425070120-GYB50408@gentoo>
-References: <20250424-01-sun55i-emac0-v2-0-833f04d23e1d@gentoo.org>
- <20250424-01-sun55i-emac0-v2-3-833f04d23e1d@gentoo.org>
- <CAGb2v66a4ERAf_YhPkMWJjm26SsfjO3ze_Zp=QqkXNDLaLnBRg@mail.gmail.com>
+To: Chukun Pan <amadeus@jmu.edu.cn>
+Cc: andre.przywara@arm.com, andrew+netdev@lunn.ch, conor+dt@kernel.org,
+	davem@davemloft.net, devicetree@vger.kernel.org,
+	edumazet@google.com, jernej.skrabec@gmail.com, krzk+dt@kernel.org,
+	kuba@kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	mripard@kernel.org, netdev@vger.kernel.org, pabeni@redhat.com,
+	robh@kernel.org, samuel@sholland.org, wens@csie.org
+Subject: Re: [PATCH 4/5] arm64: dts: allwinner: a527: add EMAC0 to Radxa A5E
+ board
+Message-ID: <20250425074621-GYC50408@gentoo>
+References: <20250423-01-sun55i-emac0-v1-4-46ee4c855e0a@gentoo.org>
+ <20250425033001.50236-1-amadeus@jmu.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGb2v66a4ERAf_YhPkMWJjm26SsfjO3ze_Zp=QqkXNDLaLnBRg@mail.gmail.com>
+In-Reply-To: <20250425033001.50236-1-amadeus@jmu.edu.cn>
 
-Hi Chen-Yu,
+Hi Chukun,
 
-On 13:26 Fri 25 Apr     , Chen-Yu Tsai wrote:
-> On Thu, Apr 24, 2025 at 6:09 PM Yixun Lan <dlan@gentoo.org> wrote:
-> >
-> > Add EMAC0 ethernet MAC support which found on A523 variant SoCs,
-> > including the A527/T527 chips. MAC0 is compatible to the A64 chip which
-> > requires an external PHY. This patch only add RGMII pins for now.
-> >
-> > Signed-off-by: Yixun Lan <dlan@gentoo.org>
-> > ---
-> >  arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi | 40 ++++++++++++++++++++++++++
-> >  1 file changed, 40 insertions(+)
-> >
-> > diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-> > index ee485899ba0af69f32727a53de20051a2e31be1d..c9a9b9dd479af05ba22fe9d783e32f6d61a74ef7 100644
-> > --- a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-> > +++ b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-> > @@ -126,6 +126,15 @@ pio: pinctrl@2000000 {
-> >                         interrupt-controller;
-> >                         #interrupt-cells = <3>;
-> >
-> > +                       rgmii0_pins: rgmii0-pins {
-> > +                               pins = "PH0", "PH1", "PH2", "PH3", "PH4",
-> > +                                      "PH5", "PH6", "PH7", "PH9", "PH10",
-> > +                                      "PH14", "PH15", "PH16", "PH17", "PH18";
-> > +                               allwinner,pinmux = <5>;
-> > +                               function = "emac0";
-> > +                               drive-strength = <40>;
+On 11:30 Fri 25 Apr     , Chukun Pan wrote:
+> Hi,
 > 
-> We should probably add
+> > On Radxa A5E board, the EMAC0 connect to an external YT8531C PHY,
+> > which features a 25MHz crystal, and using PH8 pin as PHY reset.
+> > 
+> > Tested on A5E board with schematic V1.20.
 > 
->                                   bias-disable;
+> Although the schematic says it is YT8531C, the PHY on the V1.20 board
+> is Maxio MAE0621A. The article of cnx-software also mentioned this:
+> https://www.cnx-software.com/2025/01/04/radxa-cubie-a5e-allwinner-a527-t527-sbc-with-hdmi-2-0-dual-gbe-wifi-6-bluetooth-5-4/
 > 
-> to explicitly turn off pull-up and pull-down.
-> 
-I will test this and address in v3
-(saw your comment in v1, but I sent v2 too quickly)
+IMO, then the schematic should be updated, I could definitely adjust
+the commit message to reflect this change, but don't know if further
+action need to take, like writing a new phy driver, I guess a fallback
+to generic phy just works?
+(google says, the MAE0621A is a pin-to-pin chip to RTL8211F..)
 
 -- 
 Yixun Lan (dlan)
