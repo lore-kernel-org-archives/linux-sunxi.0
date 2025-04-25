@@ -1,111 +1,168 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F40C717A2E6
-	for <linux-sunxi@lists.linux.dev>; Fri, 25 Apr 2025 03:53:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A20851FBEBE
+	for <linux-sunxi@lists.linux.dev>; Fri, 25 Apr 2025 03:53:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745553183; cv=none; b=rWU/MhnBIEn93ZWKQHkHDoQJPrCuKtwju6EXGx4a2L/T3JlsWManc95FwXQlBAPNwWz9VAvfKebonsGFwgrzuXUidE2C4HI5JxOuRZc7svY5+s4eT4tVDCAmX5EckcF7FceZrbRwvNblGYtDlszH/YHl6fJYq3evi/X7PLldbpM=
+	t=1745553223; cv=none; b=hbtdTjKT+1rt6tPoI5yzaQynDTI6hYWlWP9YbaTQ43a5wAFOXU0WsEANd/m0sc3MkpYUB2RutJxIrCHG2J2UK15pHXIIzLZKh87jHm+B2OnOrSPEeK2eWpKkoP23JHUKzjqYHTSTNd8Fbve3akIhs6HNDn5R4gwjtj8jirSWJYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745553183; c=relaxed/simple;
-	bh=tMCG7PVJZT2ImV73Bv9BnKAx04gSVppKM7hgJ6w7nuM=;
+	s=arc-20240116; t=1745553223; c=relaxed/simple;
+	bh=VztMRKzeOesNfHq7g9+wiowKS/oWGEpXbSGKWsDLxuM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SOZ2cMHB71RuP7wyRL1++xKL3RX9GREQN8YOTGzbdo15aeN+mK77IzCC4is//NlBvCe9gr1ljpIskU4Nua2mABIQdgjiIcjh+kUFptuJ6ICXzjSTPxdeGVfEmH86Df82aPQxbuNTA3uB7DVwj2Gmj8EfZTFzGE+9KOBzHDI+oek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.47
+	 To:Cc:Content-Type; b=I4MfAP4uJahFPHNgp6CtdOitq2G2P+FOcfmtoRt+wHo/gMEb1laTzdQRoD8hPpa9bl4bwTBl5lFbXR+p0mbqFkkBT76uopeqGkJFs+BKl/lRNMb6UzTMm4eV1Y5ycwExERgYsnxIwGU3aNY3N2m1Ycud/7EXmgPm/394lAwbcWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.166.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-54acc0cd458so2090220e87.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 24 Apr 2025 20:53:00 -0700 (PDT)
+Received: by mail-io1-f48.google.com with SMTP id ca18e2360f4ac-85b41281b50so70117239f.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 24 Apr 2025 20:53:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745553177; x=1746157977;
+        d=1e100.net; s=20230601; t=1745553217; x=1746158017;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :reply-to:in-reply-to:references:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=tMCG7PVJZT2ImV73Bv9BnKAx04gSVppKM7hgJ6w7nuM=;
-        b=P3JidGVf6TWJpXZb9C6bdqYzSZSMo6UWflww7jpMNC0GjqJoTU/afmUFC3YKpJ6TiF
-         XHjCgd1j7ozNIsNdAX9+xvulgCqGBNZzdqW7EkJiHXLogNCX5U6/s/adMx7Vb5O3fBDo
-         LhOKPKeKB1axwuZskx3mcBxhE3ODXBLiaJoc4zXwlPMwZFe5fPVu7djRI6gGEUXHdzOa
-         IvHBcqOW8o+WgJK9n7lOb8Bg7yeXsfRaDRPTnYnOnWsavbAGshIod3mjvCTzY9LkkkNP
-         VdLs6ygc484/PJMlW0KOFeUWQd4NjLcC300yWylYC6hHr/Y2FbhjaBhJthH0wxPJnZCx
-         AbQg==
-X-Forwarded-Encrypted: i=1; AJvYcCUMimXKaZpB8TWv7SMBC9ehDezwNEKTgJ1S2BFSkMhJjo6tp8Th1rDDMkAH/g57gAe3NbeFwb113acXAg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxgWpM+3Vf8pJzNlp4krpWFGvtPhTeFKM6HLlYeES4EJbuJE1+7
-	U4ob4RnxyeUzCYUW+zaiy5Qkc17LbRehnk7bKvZ5Nhomu9aPB5F3+Q7kJ+EU
-X-Gm-Gg: ASbGnctaiAgm4FkB60M13a1OdhHor+2OOGNjgnlFh9w/GEPTpoCXg8fCgGMhYrLYp63
-	o2vkczREeQYHvjPZi4tNcTLVdduQTW98LjhEawqnlEVPqpgcyATiwVMJHMhUW6CEMWdXZaa4L7b
-	GU9J/kiyQhKYSxXRr5WUJVzIVq0tfIAnbI0cJ1+FR7MQAxSWKtuyMOZNacD0UiobjfGEtvTYUjX
-	BYdSBhSTjvFUtB0s6tFhiFVZnFXjsZAvdEgzgIVpocdL1h8BGXit0lJ3kzyeZK1GTWPiu3QV2LX
-	coXEHoz1GV12gBdnQuvyYkO0EPNudEQnP9F3eXL47qxKdYxpISpHQ3OIvB9gkJpst7X9lRHbXw=
+        bh=W4gLbG2Dv99fli5CpF3p4x5McAYSv7OcSMqvlFvR3oA=;
+        b=Lv98ig57rrFwbABPnv6AbPBjpVJmSNtckotCo04beeHrqJm6Jaz960Pi8FdtnR9nlj
+         roBoBlS4E5x6n9z1rpY6sKrQphseu+oRcGyA3MVIQCoa+1384kVT2uPn3nAMjW7p1uYK
+         lnPVriZ9G8iNlKfcQnwCwA6a55PvAxE3qjttbedvezrMdOfvcVSMlP5OPVoxHs99YqpI
+         lVqe33YK7W6Heqb5q8PUmdwlavFuaTuBXQXQ6hhSZ0R5ug3wb55fh+Pfq4gFzeZZ+M7j
+         9FkxjTBRG+7+rbY7dPlC6HYborvYCyXHHIX4wOlIau8MyKlka7NVk50sGEMAxnrjrstV
+         a6lA==
+X-Forwarded-Encrypted: i=1; AJvYcCXqso2VpNwfk8YiXm3/dDI/S9SS+9SDYIOlxMYNoxpHsnR2Z2opQprrXihyZmNmOtTFkrixKHN1j37P1g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwEN+0MU3cXz5Jx9dYUER4GMpa9/zJjUtsK2NRf1LgPwmZEcCaY
+	qp5CXEvcsn9DJTXHGvBWg4TBkzf+i2gBLBF5wIkjyJS/Ro42ckTWK4XxXNjR7nE=
+X-Gm-Gg: ASbGnctst2tiGcpz+81UO6Z2784HRxjzSbYGVrojiWeMlrmMScFmtsJml7n12ya7ryo
+	DXQ9829EhpKF7mG6MT7mjdysP8PlsgN/+xjTVisasmUm6ZxDDr5zThyCm8uEovwCYj7epN4fFdX
+	Jbz3QJOasFhdaVU6FzAqWykAZruaOCIBSZiuq6G+7Mof4wwK8QUbihAeEd1AiGjAVcJq92iYptG
+	iva56OKKM92tikV/Yu3IJ4XpvcXLvwnRwYYeVadNzxiNtUHEBvJLYf7TfnbBqysuYXaQdP1qgCD
+	4C5GxoyhoagR51BaTWzIStsQwwSr/UAliTfb1hw/OPpdojU3euYCS+jl1y9cZYbK+UYH5jTfBQ=
 	=
-X-Google-Smtp-Source: AGHT+IGw2wZMjrHnnI7Yc3DyLl3Hc9ZYXpEecunhQHyNefQYDZrC5uI5880+GDmZQP9elkWHpQvp5w==
-X-Received: by 2002:a05:6512:3c9e:b0:549:5769:6ae3 with SMTP id 2adb3069b0e04-54e8cbcda64mr204429e87.6.1745553176366;
-        Thu, 24 Apr 2025 20:52:56 -0700 (PDT)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com. [209.85.208.174])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54e8ccd3821sm85429e87.19.2025.04.24.20.52.55
+X-Google-Smtp-Source: AGHT+IGldwtRq99wLiidHkp8rCNWbTY14nxEDN53jJdt9nGVRC4ys+0mH+S+BKnoYk+QwY0FyGDrBw==
+X-Received: by 2002:a05:6e02:1785:b0:3d3:dcc4:a58e with SMTP id e9e14a558f8ab-3d93b41dc14mr7367925ab.8.1745553216670;
+        Thu, 24 Apr 2025 20:53:36 -0700 (PDT)
+Received: from mail-il1-f182.google.com (mail-il1-f182.google.com. [209.85.166.182])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3d9314c7e0asm5149825ab.18.2025.04.24.20.53.36
         for <linux-sunxi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Apr 2025 20:52:56 -0700 (PDT)
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-317f68d0dffso15847761fa.2
-        for <linux-sunxi@lists.linux.dev>; Thu, 24 Apr 2025 20:52:55 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWQ7Zh3ocKdhZQrNWXPVUuPHpm0Y0TMWpoNuzTjEy5nAj9V492aa/puTCBn33FDux/BUJJF9g8gNQatPQ==@lists.linux.dev
-X-Received: by 2002:a2e:bc90:0:b0:309:26e8:cb1a with SMTP id
- 38308e7fff4ca-319081da5e5mr1615191fa.30.1745553175817; Thu, 24 Apr 2025
- 20:52:55 -0700 (PDT)
+        Thu, 24 Apr 2025 20:53:36 -0700 (PDT)
+Received: by mail-il1-f182.google.com with SMTP id e9e14a558f8ab-3d938fcb70cso1647005ab.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 24 Apr 2025 20:53:36 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWJ4l16y65u0xKgeAmdXr8yfdnFx/pw2vGxW7mC7J4gwPW9lolglQBtiBQUNegbuXP+jWGdH1/XSGaFhw==@lists.linux.dev
+X-Received: by 2002:a92:cd8a:0:b0:3d4:3ab3:5574 with SMTP id
+ e9e14a558f8ab-3d93b3ae9fdmr8037145ab.3.1745553215789; Thu, 24 Apr 2025
+ 20:53:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250425023527-GYA50272@gentoo> <20250425030006.45169-1-amadeus@jmu.edu.cn>
-In-Reply-To: <20250425030006.45169-1-amadeus@jmu.edu.cn>
+References: <20250425003422.3465-1-andre.przywara@arm.com>
+In-Reply-To: <20250425003422.3465-1-andre.przywara@arm.com>
 Reply-To: wens@csie.org
 From: Chen-Yu Tsai <wens@csie.org>
-Date: Fri, 25 Apr 2025 11:52:42 +0800
-X-Gmail-Original-Message-ID: <CAGb2v649ntfAEUdV5S1wM8nUGhvaOP-RBw07XcxwdbafbC2PYQ@mail.gmail.com>
-X-Gm-Features: ATxdqUGezFuhR_KSYVB0KgNvKi6facsIdDbC9B14oLs_hkhyS0lMNSVl4JE789M
-Message-ID: <CAGb2v649ntfAEUdV5S1wM8nUGhvaOP-RBw07XcxwdbafbC2PYQ@mail.gmail.com>
-Subject: Re: [PATCH 1/1] arm64: dts: allwinner: correct the model name for
- Radxa Cubie A5E
-To: Chukun Pan <amadeus@jmu.edu.cn>, andre.przywara@arm.com
-Cc: dlan@gentoo.org, conor+dt@kernel.org, devicetree@vger.kernel.org, 
-	jernej.skrabec@gmail.com, krzk+dt@kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, robh@kernel.org, samuel@sholland.org
+Date: Fri, 25 Apr 2025 11:53:19 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66vr_X3cB1g-On9opGQ7a4j1ASQyi4G=fqY07safrjfFw@mail.gmail.com>
+X-Gm-Features: ATxdqUGK_blFRIEkriAwI7w8rQlOD9oM5XGsLLIwKX1qwqnzLE3yxYAXQjZKka8
+Message-ID: <CAGb2v66vr_X3cB1g-On9opGQ7a4j1ASQyi4G=fqY07safrjfFw@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: allwinner: a523: fix SD card detect pull resistor
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 25, 2025 at 11:00=E2=80=AFAM Chukun Pan <amadeus@jmu.edu.cn> wr=
-ote:
+On Fri, Apr 25, 2025 at 8:35=E2=80=AFAM Andre Przywara <andre.przywara@arm.=
+com> wrote:
 >
+> Trying to use the SD card on the Radxa board revealed that the card
+> detect wouldn't work as expected (insert not detected). Looking at the
+> schematic shows that the pull-up resistor is actually not populated
+> ("NC"), and the transistor just pulls the GPIO pin to GND, but it's
+> floating otherwise.
+> So using the pull-down flag is definitely wrong, we need the internal
+> pull up to get a reliable signal. The same is true for the Avaota board
+> (there is no transistor there, but it's floating in the same way). There
+> is no schematic for the X96QPro+ board, but experiments show it's the
+> same behaviour.
+>
+> So change the GPIO flag for the card detect GPIO property to activate
+> the pull-up resistor for that pin.
+>
+> Fixes: 80e0fb4e491b ("arm64: dts: allwinner: a523: add Radxa A5E support"=
+)
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
 > Hi,
 >
-> > It seems I'm a little bit late for this, but while we are here,
-> > Can we also append 'cubie' to dts file name?
-> > e.g. - sun55i-a527-radxa-cubie-a5e.dts
->
-> Usually we use the device name (without the vendor name),
-> maybe sun55i-a527-cubie-a5e.dts would be better?
+> please let me know if I should split this up into 3 patches, with proper
+> Fixes: tags, or if you can maybe squash this into the original commits
+> still?
 
-I agree with this one.
+I can squash them in if you prefer.
 
-I can probably squash in a name change (since I'll be squashing in the
-SD card slot fix anyway). Andre?
-
-
-In that case would you prefer to keep your current patch separate, or
-squashed in so that everything is clean from the first commit?
-
-It's up to you since you lose out on commit stats.
-
-
-Thanks
 ChenYu
 
-> Thanks,
-> Chukun
+> Cheers,
+> Andre
 >
+>  arch/arm64/boot/dts/allwinner/sun55i-a527-radxa-a5e.dts | 2 +-
+>  arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts  | 2 +-
+>  arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a527-radxa-a5e.dts b/ar=
+ch/arm64/boot/dts/allwinner/sun55i-a527-radxa-a5e.dts
+> index 03c9a9ef5adc2..2d2f3af91d05e 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun55i-a527-radxa-a5e.dts
+> +++ b/arch/arm64/boot/dts/allwinner/sun55i-a527-radxa-a5e.dts
+> @@ -56,7 +56,7 @@ &ehci1 {
+>
+>  &mmc0 {
+>         vmmc-supply =3D <&reg_cldo3>;
+> -       cd-gpios =3D <&pio 5 6 (GPIO_ACTIVE_LOW | GPIO_PULL_DOWN)>; /* PF=
+6 */
+> +       cd-gpios =3D <&pio 5 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PF6 =
+*/
+>         bus-width =3D <4>;
+>         status =3D "okay";
+>  };
+> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts b/arc=
+h/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts
+> index c0bce3f4fa925..59db103546f65 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts
+> +++ b/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts
+> @@ -56,7 +56,7 @@ &ehci1 {
+>
+>  &mmc0 {
+>         vmmc-supply =3D <&reg_vcc3v3>;
+> -       cd-gpios =3D <&pio 5 6 (GPIO_ACTIVE_LOW | GPIO_PULL_DOWN)>; /* PF=
+6 */
+> +       cd-gpios =3D <&pio 5 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PF6 =
+*/
+>         bus-width =3D <4>;
+>         disable-wp;
+>         status =3D "okay";
+> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts b/ar=
+ch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
+> index 85a546aecdbe1..dea2acc1849bb 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
+> +++ b/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
+> @@ -66,7 +66,7 @@ &ehci1 {
+>
+>  &mmc0 {
+>         vmmc-supply =3D <&reg_cldo3>;
+> -       cd-gpios =3D <&pio 5 6 (GPIO_ACTIVE_LOW | GPIO_PULL_DOWN)>; /* PF=
+6 */
+> +       cd-gpios =3D <&pio 5 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PF6 =
+*/
+>         bus-width =3D <4>;
+>         status =3D "okay";
+>  };
+>
+> base-commit: 1e5a69d67d1b3c55c9b0cd3933af1436b5d52aa1
 > --
-> 2.25.1
->
+> 2.46.3
 >
