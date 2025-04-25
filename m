@@ -1,78 +1,71 @@
-Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A38FA28DD0
-	for <linux-sunxi@lists.linux.dev>; Fri, 25 Apr 2025 02:35:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78A0563CF
+	for <linux-sunxi@lists.linux.dev>; Fri, 25 Apr 2025 03:00:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745548533; cv=none; b=eb3lrT2fDT2DM0QZPWkSSKa+GfHw5Bbs3x02oC+SQtbdgTt8VcvACHsAN8hlqh18MpxNaoQ8aKqfPZQcQ+Wx/ps95uInoxCj8+NYsJEN5YXsJLNWi/JI46QwZ/p7PM7r6kBUD3e+9snbQpdOefuFvBe+DLsRZGpqbcqZhZ8RZ8c=
+	t=1745550023; cv=none; b=pxq/zIBIm5KNlB+4ZMueRFDRZrnnyLj/AV896LfZDOHDIlHN/8nzFXce5mvXLLJYpofahUgRNPurY9RpxJaq3o7v3Ctmx0CVB6cFX7rn6neNDmPhp4K4A5118I55dtqyLOSuN+nqhRZ2Cpl6eEJfpK1WWHYyZ6aEQjp1WC9onWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745548533; c=relaxed/simple;
-	bh=RIs/31Rjyt7B68AoWeqJz+goZQ/NLZV4bEu2N//Tka0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lmNiLdB/YHBLQez5eKkiM9tTmQJQNe7kSgjDXhv7TmXrh/jA9bpqMzMvfVoT6UP3651k0TfGdRReEcz1D0RoCIuZpdmi7XqFtKdLpXfKonHNLYm/z9cCQOccFfEZtuloBglxFcXa8agL3X4P4HsU1k6x7fqNxNICg7IR4yH8rKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-Received: from localhost (unknown [116.232.18.95])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: dlan)
-	by smtp.gentoo.org (Postfix) with ESMTPSA id 8484234133B;
-	Fri, 25 Apr 2025 02:35:31 +0000 (UTC)
-Date: Fri, 25 Apr 2025 02:35:27 +0000
-From: Yixun Lan <dlan@gentoo.org>
-To: Chen-Yu Tsai <wens@csie.org>
-Cc: Chukun Pan <amadeus@jmu.edu.cn>, Rob Herring <robh@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/1] arm64: dts: allwinner: correct the model name for
- Radxa Cubie A5E
-Message-ID: <20250425023527-GYA50272@gentoo>
-References: <20250416100006.82920-1-amadeus@jmu.edu.cn>
- <174551712323.4050580.15085872783453662439.b4-ty@csie.org>
+	s=arc-20240116; t=1745550023; c=relaxed/simple;
+	bh=LVmXxPc0GsxJCoufkyTtR1wIh6N17gyPoDGVcYXM0fk=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=tg9yWv3KgFeD6X4JlcqUTFnyPxKAaTmhZ9IMRwPi4a39uXDGzx+Ie9wIqdrwDregxV0Ag7n5iqKUFhrfUUIR2HGU5AtPC3dVryzCEBikSFq5qWrijktOvsO0+3+XqeIZ94jnukbIfnBfiVmqxDNl4zqGmxv+vSm8m12V56HjRIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jmu.edu.cn; spf=pass smtp.mailfrom=jmu.edu.cn; arc=none smtp.client-ip=101.71.155.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jmu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jmu.edu.cn
+Received: from localhost.localdomain (unknown [119.122.214.249])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 131194130;
+	Fri, 25 Apr 2025 11:00:10 +0800 (GMT+08:00)
+From: Chukun Pan <amadeus@jmu.edu.cn>
+To: dlan@gentoo.org
+Cc: amadeus@jmu.edu.cn,
+	andre.przywara@arm.com,
+	conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	jernej.skrabec@gmail.com,
+	krzk+dt@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	robh@kernel.org,
+	samuel@sholland.org,
+	wens@csie.org
+Subject: Re: [PATCH 1/1] arm64: dts: allwinner: correct the model name for Radxa Cubie A5E
+Date: Fri, 25 Apr 2025 11:00:06 +0800
+Message-Id: <20250425030006.45169-1-amadeus@jmu.edu.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20250425023527-GYA50272@gentoo>
+References: <20250425023527-GYA50272@gentoo>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <174551712323.4050580.15085872783453662439.b4-ty@csie.org>
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZQkNJVk1OSEpPHktPTB5IGVYeHw5VEwETFhoSFy
+	QUDg9ZV1kYEgtZQVlKSkJVSklJVUlKT1VJT0JZV1kWGg8SFR0UWUFZT0tIVUpLSEpOTE5VSktLVU
+	pCS0tZBg++
+X-HM-Tid: 0a966ae36a7503a2kunm131194130
+X-HM-MType: 10
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PRw6FAw*GTIBSj83AzhNIlEK
+	FBIaCypVSlVKTE9OTk5LS0pJSklPVTMWGhIXVRoWGh8eDgg7ERYOVR4fDlUYFUVZV1kSC1lBWUpK
+	QlVKSUlVSUpPVUlPQllXWQgBWUFKS0NLNwY+
 
-Hi Chukun, Chen-Yu,
+Hi,
 
-On 01:52 Fri 25 Apr     , Chen-Yu Tsai wrote:
-> On Wed, 16 Apr 2025 18:00:06 +0800, Chukun Pan wrote:
-> > According to https://radxa.com/products/cubie/a5e,
-> > the name of this board should be "Radxa Cubie A5E".
-> > This is also consistent with the dt-bindings.
-> > 
-> > 
-> 
-> Applied to dt-for-6.16 in git@github.com:linux-sunxi/linux-sunxi.git, thanks!
-> 
-> [1/1] arm64: dts: allwinner: correct the model name for Radxa Cubie A5E
->       commit: 1e5a69d67d1b3c55c9b0cd3933af1436b5d52aa1
-> 
-It seems I'm a little bit late for this, but while we are here,
-Can we also append 'cubie' to dts file name? e.g. - sun55i-a527-radxa-cubie-a5e.dts
+> It seems I'm a little bit late for this, but while we are here,
+> Can we also append 'cubie' to dts file name?
+> e.g. - sun55i-a527-radxa-cubie-a5e.dts
 
-for the reasons:
-1) there are already too many product lines from Radxa - Rock, Orion, Zero..
-some dts file in rockchip already adopt this name scheme:
-  arch/arm64/boot/dts/rockchip/rk3566-radxa-zero-3e.dts
-2) there might be more products in the future for the cubie series..
+Usually we use the device name (without the vendor name),
+maybe sun55i-a527-cubie-a5e.dts would be better?
 
-Chukun, if people agree on this, could you send a follow-up patch
-to address this?
+Thanks,
+Chukun
 
--- 
-Yixun Lan (dlan)
+--
+2.25.1
+
