@@ -1,56 +1,42 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E564F4C7C;
-	Fri, 25 Apr 2025 02:01:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A38FA28DD0
+	for <linux-sunxi@lists.linux.dev>; Fri, 25 Apr 2025 02:35:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745546516; cv=none; b=IN74NdB6qnN6Ys+7QtXL2DHAmbdEDjFQOSOy+EJNGB3T1tTnKl3r54S10/lZE4IZrhVZ9kowZONvLomzKoLTkBGREeyaVD35xqU8363gbKEADns/TufiY8PcYgQ5+5GhKdQhbEiABI16VZy+VwicXZ0JQEVNbZIulZ4udPl1I8Q=
+	t=1745548533; cv=none; b=eb3lrT2fDT2DM0QZPWkSSKa+GfHw5Bbs3x02oC+SQtbdgTt8VcvACHsAN8hlqh18MpxNaoQ8aKqfPZQcQ+Wx/ps95uInoxCj8+NYsJEN5YXsJLNWi/JI46QwZ/p7PM7r6kBUD3e+9snbQpdOefuFvBe+DLsRZGpqbcqZhZ8RZ8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745546516; c=relaxed/simple;
-	bh=pme5iQz5eKFu7fHxQXgGPqQvVq1us5JDlFMnADx3js0=;
+	s=arc-20240116; t=1745548533; c=relaxed/simple;
+	bh=RIs/31Rjyt7B68AoWeqJz+goZQ/NLZV4bEu2N//Tka0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WQjlY/aGcNZoWCP6vduXa7u1uyMvMDVXm5YW2vyTkpNnfk9G+UuUXaIXeG+s8bp+0XhzD7dXksmo0BpLFgBFVPgrJy5/486dVAkdgkene9wHNX2B3GhyRyWt8NJy29Ud/bGY7jGYbT4bmT92n7zua8Wp+HwjbI2QD7yDNZwwKbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=mrpwuK5B; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="mrpwuK5B"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=ICF52ZSrljFNaTIWgavSI5WbnW464jwCjST74huipR8=; b=mrpwuK5B/JJe+wE22m8iiXPB5s
-	KVemoUn5f883G+1qcgAZoJTkUhHQSmUNJP9siqokmXeAGKiU0+o2W3+efjBkzS/bKemfKa0rg7lIj
-	tciOhSvPBB1NSm4/KOaLSPYukDt3NswXnwJvpQlk3ditdHmGBPSjBlhvJS3Okb5HvaA8=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1u88Ne-00AWyd-Cl; Fri, 25 Apr 2025 04:01:30 +0200
-Date: Fri, 25 Apr 2025 04:01:30 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-	Yixun Lan <dlan@gentoo.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=lmNiLdB/YHBLQez5eKkiM9tTmQJQNe7kSgjDXhv7TmXrh/jA9bpqMzMvfVoT6UP3651k0TfGdRReEcz1D0RoCIuZpdmi7XqFtKdLpXfKonHNLYm/z9cCQOccFfEZtuloBglxFcXa8agL3X4P4HsU1k6x7fqNxNICg7IR4yH8rKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
+Received: from localhost (unknown [116.232.18.95])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: dlan)
+	by smtp.gentoo.org (Postfix) with ESMTPSA id 8484234133B;
+	Fri, 25 Apr 2025 02:35:31 +0000 (UTC)
+Date: Fri, 25 Apr 2025 02:35:27 +0000
+From: Yixun Lan <dlan@gentoo.org>
+To: Chen-Yu Tsai <wens@csie.org>
+Cc: Chukun Pan <amadeus@jmu.edu.cn>, Rob Herring <robh@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Samuel Holland <samuel@sholland.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org, clabbe.montjoie@gmail.com
-Subject: Re: [PATCH 4/5] arm64: dts: allwinner: a527: add EMAC0 to Radxa A5E
- board
-Message-ID: <3681181a-0fbb-4979-9a7e-b8fe5c1b7c3c@lunn.ch>
-References: <20250423-01-sun55i-emac0-v1-0-46ee4c855e0a@gentoo.org>
- <4ba3e7b8-e680-40fa-b159-5146a16a9415@lunn.ch>
- <20250424150037.0f09a867@donnerap.manchester.arm.com>
- <4643958.LvFx2qVVIh@jernej-laptop>
- <20250424235658.0c662e67@minigeek.lan>
+	Andre Przywara <andre.przywara@arm.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/1] arm64: dts: allwinner: correct the model name for
+ Radxa Cubie A5E
+Message-ID: <20250425023527-GYA50272@gentoo>
+References: <20250416100006.82920-1-amadeus@jmu.edu.cn>
+ <174551712323.4050580.15085872783453662439.b4-ty@csie.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -59,32 +45,34 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250424235658.0c662e67@minigeek.lan>
+In-Reply-To: <174551712323.4050580.15085872783453662439.b4-ty@csie.org>
 
-> Ah, right, I dimly remembered there was some hardware setting, but your
-> mentioning of those strap resistors now tickled my memory!
+Hi Chukun, Chen-Yu,
+
+On 01:52 Fri 25 Apr     , Chen-Yu Tsai wrote:
+> On Wed, 16 Apr 2025 18:00:06 +0800, Chukun Pan wrote:
+> > According to https://radxa.com/products/cubie/a5e,
+> > the name of this board should be "Radxa Cubie A5E".
+> > This is also consistent with the dt-bindings.
+> > 
+> > 
 > 
-> So according to the Radxa board schematic, RGMII0-RXD0/RXDLY is pulled
-> up to VCCIO via 4.7K, while RGMII0-RXD1/TXDLY is pulled to GND (also via
-> 4K7). According to the Motorcom YT8531 datasheet this means that RX
-> delay is enabled, but TX delay is not.
-> The Avaota board uses the same setup, albeit with an RTL8211F-CG PHY,
-> but its datasheet confirms it uses the same logic.
+> Applied to dt-for-6.16 in git@github.com:linux-sunxi/linux-sunxi.git, thanks!
 > 
-> So does this mean we should say rgmii-rxid, so that the MAC adds the TX
-> delay? Does the stmmac driver actually support this? I couldn't find
-> this part by quickly checking the code.
+> [1/1] arm64: dts: allwinner: correct the model name for Radxa Cubie A5E
+>       commit: 1e5a69d67d1b3c55c9b0cd3933af1436b5d52aa1
+> 
+It seems I'm a little bit late for this, but while we are here,
+Can we also append 'cubie' to dts file name? e.g. - sun55i-a527-radxa-cubie-a5e.dts
 
-No. It is what the PCB provides which matters. A very small number of
-PCB have extra long clock lines to add the 2ns delay. Those boards
-should use 'rgmii'. All other boards should use rgmii-id, meaning the
-delays need to be provided somewhere else. Typically it is the PHY
-which adds the delays.
+for the reasons:
+1) there are already too many product lines from Radxa - Rock, Orion, Zero..
+some dts file in rockchip already adopt this name scheme:
+  arch/arm64/boot/dts/rockchip/rk3566-radxa-zero-3e.dts
+2) there might be more products in the future for the cubie series..
 
-The strapping should not matter, the PHY driver will override that. So
-'rgmii-id' should result in the PHY doing the basis 2ns in both
-directions. The MAC DT properties then add additional delays, which i
-consider fine tuning. Most systems don't actually need fine tuning,
-but the YT8531 is funky, it often does need it for some reason.
+Chukun, if people agree on this, could you send a follow-up patch
+to address this?
 
-	Andrew
+-- 
+Yixun Lan (dlan)
