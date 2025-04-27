@@ -1,125 +1,176 @@
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 740B51DE883;
-	Sat, 26 Apr 2025 21:51:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6302F8821
+	for <linux-sunxi@lists.linux.dev>; Sun, 27 Apr 2025 04:35:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745704273; cv=none; b=tP1su37K6+Defp5GcLBcYo8zRLLJCnJH00HnG4LN0TJMtzFa7e7O/EoqJRZ2kMtSZhQeIBLibSqRw1oeXrVyQLg+91B/MYqVKzy+FQhUedUBFC/uNZlxXbkYmI6tG/PnBZfHd7GOzOuzbVBwyOocBsUTmsSG9cM3MVBBRfg9zaA=
+	t=1745728507; cv=none; b=sswE21rp1A6LihCxF4BeXOtERKukuVowhnYR+1GzcMs2t+CgkHknauw7N2vkMaJVWWkkzwcMZ55urN+vGM4CQb4cWbkfUEUL2hMYCmw2gzW9mzb/2Q98KJfYBuPkPLR5Bn0HyNZp/wB3DVuVXoTlaHYWEYiukkwoFem+pSDh5Eg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745704273; c=relaxed/simple;
-	bh=vU7rQ3ql5ZcEjD49ZOsILjzztWdn9rLW5kD/8m1EG64=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QHPCIZWGk/7ic8vV/WSsc7JPf6QZdvmG2igVGKVUt5BX3YDJxP4WHSD3AfHzQ+JY1ZxZreWNmayP3KMzw/61GAjPNUZvarEOVgYNSVPWyNWPbczgesp2xkDZkQStrUXMhvkWIrSBODhe9a4DsEEngdpRPcJIXAshoG2hwqXmIzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=Sye5YV7N; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="Sye5YV7N"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=gsIFs9lsBStWNO+SAUv4QwVqUpvjBQFP3/IMyXHCh3E=; b=Sye5YV7NL9CEcB/oGe1RyoXudx
-	aQYeOWLye+efnOo9sycbe8k309HBPzOVgvdQeo7HNweqWmNTst6ZB+Irt2iOpJ8H/1NEffnDdZR7y
-	TgLUNbnl1tGVC9edgLpJsjdDVz9KATV22vbIJusuOkzh1BWrOv7meFHgBVd8ujMMJ+0j7j8QOsMFT
-	EaVNMgrPlDgJ5350yiF+vMLKUHddKZe2QwTRTqSExdrfjcOz00BjshTrcn2E3x+2zTVtu8CGZOGJ8
-	IWKhx20FVgecrDUhL9+p2gnRdZPAeOCOKgn7rscJFg5hpC/ZUW15rDktJhz+soODfF7KqtIQUePdJ
-	PSy0q48w==;
-Received: from i53875aba.versanet.de ([83.135.90.186] helo=phil..)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1u8nLv-0001OR-UY; Sat, 26 Apr 2025 23:46:28 +0200
-From: Heiko Stuebner <heiko@sntech.de>
-To: Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Conor Dooley <conor@kernel.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Steen Hegelund <Steen.Hegelund@microchip.com>,
-	Daniel Machon <daniel.machon@microchip.com>,
-	UNGLinuxDriver@microchip.com,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Andy Gross <agross@kernel.org>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Viresh Kumar <vireshk@kernel.org>,
-	Nishanth Menon <nm@ti.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	zhouyanjie@wanyeetech.com,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Stephan Gerhold <stephan.gerhold@linaro.org>,
-	"Rob Herring (Arm)" <robh@kernel.org>
-Cc: Heiko Stuebner <heiko@sntech.de>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-rockchip@lists.infradead.org,
-	linux-amlogic@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-mips@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	Andre Przywara <andre.przywara@arm.com>,
-	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>
-Subject: Re: (subset) [PATCH v2 00/17] Arm cpu schema clean-ups
-Date: Sat, 26 Apr 2025 23:46:17 +0200
-Message-ID: <174570370139.31943.759075106630349490.b4-ty@sntech.de>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250410-dt-cpu-schema-v2-0-63d7dc9ddd0a@kernel.org>
-References: <20250410-dt-cpu-schema-v2-0-63d7dc9ddd0a@kernel.org>
+	s=arc-20240116; t=1745728507; c=relaxed/simple;
+	bh=niJetmjFjvODH5djwvO2RKVD87RTCl2iav6+ljuYbSs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=azHXii84JRcZmZ5XKtUpWaCFb2ZM+8abOsy446ONYyHCxMn7DpeOZ8d3I7RYS71veFK3HbvNOvmiPNDgegjefb3BzABYwPL6x0wnHYzgtjDODRzElTL94I9SJjSR4sMYbMO8CxwteZl6JYaPJBnZZu+l2r6T61dvvYRyWN6L78g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-30bee278c2aso49303671fa.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 26 Apr 2025 21:35:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745728503; x=1746333303;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FD8jPvs02KS23S1dBkAfheuqo80D4A5rfCuAcGUoLwQ=;
+        b=DcWfzj1mxpNq0pFr6Mtyb9NYPtw727lPW30XgCq9Z0mY7UeIKiTtnk/fD3RBaR2Sqk
+         suTjUoVUxU7qs5Zkk10QLsqXdtQBXjJyt9lVkTeaNr7lz5//ezYSqo4hByxpwyubreiH
+         H4eSdbTcV7WZhRzVTceCkzxu40lhcXym4UShR7wNfYirurPbnYPujwxlFLTzCoA+ZivP
+         d+CM/6RJ7ty4miAxC5UvkhhtgbtF75GzkjmTWV7B+5wPeslv4otzC8TvuWjaHRI+kyik
+         CtrMQhipaBS+eyg2P6FTAQ0pSFTtbKiI1DNCAxDC2Zpk08+UvwHpVdKO2W0NtvpGe7dy
+         G0Dw==
+X-Forwarded-Encrypted: i=1; AJvYcCU/RrYojT6kUGciny71nmHUBib88IQGWJfRGtGhP4RmIuKEeOzc1AfMdbmJlvdtILW6fxwQ3D6oR9ZxbQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwjYOhWe8z5hCgseE3yD/B8SiEefmjpkrcfD4MYR/kHzGmxkXWi
+	1y0qVuxpC8IroBSNI/sq/dKuWsgewsb2IUrkkjYMxlPlFoPbitVprGmDw7bT
+X-Gm-Gg: ASbGncsNnL8KX8qiAAES0uYgfieRFL5rsptCrLKBKoDesAQyfQtLjh5niystT/1iY+X
+	sQmxyi+a+ZMXZJOo8teuqI3rXgexDt5/F/jEoi8E3U0XRO62xjsZ+K+BRP19V1e55imOaT7tdzU
+	cC4rxF0kSy04tQxDzMH4PYun12Ecimn07VaJ3zQhoMCSMezib0egBWwfmdK24CuC0v6tiYaNsg+
+	H9dKcLCwl/wemt+AATR4rhsehkrVw4whJRjsPeW38eUPsf6H6jsDQQv6g7BEwtlYy9jRdePKnVh
+	+upkpie0ARbtu3LU3GEaNnHb+dYiIrAGbUYUyWfAdo9EOO8FfFyr0fzsiwbb/cSAQyJqfg==
+X-Google-Smtp-Source: AGHT+IFzZL0UTcjbC9I2+tNyEkdbYpvY3Wl896voAfo7sxi55VQwkiOAhx80VSWFvVC1Ntb8EoXVmw==
+X-Received: by 2002:a05:6512:31c8:b0:54b:117f:67a0 with SMTP id 2adb3069b0e04-54e7da0f17fmr3435706e87.28.1745728502380;
+        Sat, 26 Apr 2025 21:35:02 -0700 (PDT)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com. [209.85.167.42])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-317d16a8279sm15798381fa.71.2025.04.26.21.35.00
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 26 Apr 2025 21:35:02 -0700 (PDT)
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-54b10956398so4127210e87.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 26 Apr 2025 21:35:00 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWwubdmFN/GdHOtZZ/WtUDrVAn62vYHI7GaNKwR7Y9SGv4zD0lGtcjax4KAX1Y2bxzen9vp1AZBXnfRLQ==@lists.linux.dev
+X-Received: by 2002:a05:6512:1096:b0:54d:6b7f:affa with SMTP id
+ 2adb3069b0e04-54e7d516bcdmr3513368e87.1.1745728500749; Sat, 26 Apr 2025
+ 21:35:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20250425003422.3465-1-andre.przywara@arm.com> <CAGb2v66vr_X3cB1g-On9opGQ7a4j1ASQyi4G=fqY07safrjfFw@mail.gmail.com>
+In-Reply-To: <CAGb2v66vr_X3cB1g-On9opGQ7a4j1ASQyi4G=fqY07safrjfFw@mail.gmail.com>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Sun, 27 Apr 2025 12:34:48 +0800
+X-Gmail-Original-Message-ID: <CAGb2v67=aENryhsQ6VBPwPXskMvMDZpzzeHz2LTUt-VDMTyzGQ@mail.gmail.com>
+X-Gm-Features: ATxdqUGbV0LE1Cv48ezG9-bXflmbhyYsf2OHMWQhXg4lsefW6u7-yQG0ryqUMlE
+Message-ID: <CAGb2v67=aENryhsQ6VBPwPXskMvMDZpzzeHz2LTUt-VDMTyzGQ@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: allwinner: a523: fix SD card detect pull resistor
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Apr 25, 2025 at 11:53=E2=80=AFAM Chen-Yu Tsai <wens@csie.org> wrote=
+:
+>
+> On Fri, Apr 25, 2025 at 8:35=E2=80=AFAM Andre Przywara <andre.przywara@ar=
+m.com> wrote:
+> >
+> > Trying to use the SD card on the Radxa board revealed that the card
+> > detect wouldn't work as expected (insert not detected). Looking at the
+> > schematic shows that the pull-up resistor is actually not populated
+> > ("NC"), and the transistor just pulls the GPIO pin to GND, but it's
+> > floating otherwise.
+> > So using the pull-down flag is definitely wrong, we need the internal
+> > pull up to get a reliable signal. The same is true for the Avaota board
+> > (there is no transistor there, but it's floating in the same way). Ther=
+e
+> > is no schematic for the X96QPro+ board, but experiments show it's the
+> > same behaviour.
+> >
+> > So change the GPIO flag for the card detect GPIO property to activate
+> > the pull-up resistor for that pin.
+> >
+> > Fixes: 80e0fb4e491b ("arm64: dts: allwinner: a523: add Radxa A5E suppor=
+t")
+> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > ---
+> > Hi,
+> >
+> > please let me know if I should split this up into 3 patches, with prope=
+r
+> > Fixes: tags, or if you can maybe squash this into the original commits
+> > still?
+>
+> I can squash them in if you prefer.
 
-On Thu, 10 Apr 2025 10:47:21 -0500, Rob Herring (Arm) wrote:
-> The Arm cpu.yaml schema fails to restrict allowed properties in 'cpu'
-> nodes. The result, not surprisely, is a number of additional properties
-> and errors in .dts files. This series resolves those issues.
-> 
-> There's still more properties in arm32 DTS files which I have not
-> documented. Mostly yet more supply names and "fsl,soc-operating-points".
-> What's a few more warnings on the 10000s of warnings...
-> 
-> [...]
+Fixes separated and squashed into the original patches.
 
-Applied, thanks!
+ChenYu
 
-[10/17] arm: dts: rockchip: Drop redundant CPU "clock-latency"
-        commit: 709a25f7a433d53dc9f0daf7cf5657f0671c5026
-
-Best regards,
--- 
-Heiko Stuebner <heiko@sntech.de>
+> ChenYu
+>
+> > Cheers,
+> > Andre
+> >
+> >  arch/arm64/boot/dts/allwinner/sun55i-a527-radxa-a5e.dts | 2 +-
+> >  arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts  | 2 +-
+> >  arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts | 2 +-
+> >  3 files changed, 3 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a527-radxa-a5e.dts b/=
+arch/arm64/boot/dts/allwinner/sun55i-a527-radxa-a5e.dts
+> > index 03c9a9ef5adc2..2d2f3af91d05e 100644
+> > --- a/arch/arm64/boot/dts/allwinner/sun55i-a527-radxa-a5e.dts
+> > +++ b/arch/arm64/boot/dts/allwinner/sun55i-a527-radxa-a5e.dts
+> > @@ -56,7 +56,7 @@ &ehci1 {
+> >
+> >  &mmc0 {
+> >         vmmc-supply =3D <&reg_cldo3>;
+> > -       cd-gpios =3D <&pio 5 6 (GPIO_ACTIVE_LOW | GPIO_PULL_DOWN)>; /* =
+PF6 */
+> > +       cd-gpios =3D <&pio 5 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PF=
+6 */
+> >         bus-width =3D <4>;
+> >         status =3D "okay";
+> >  };
+> > diff --git a/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts b/a=
+rch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts
+> > index c0bce3f4fa925..59db103546f65 100644
+> > --- a/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts
+> > +++ b/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts
+> > @@ -56,7 +56,7 @@ &ehci1 {
+> >
+> >  &mmc0 {
+> >         vmmc-supply =3D <&reg_vcc3v3>;
+> > -       cd-gpios =3D <&pio 5 6 (GPIO_ACTIVE_LOW | GPIO_PULL_DOWN)>; /* =
+PF6 */
+> > +       cd-gpios =3D <&pio 5 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PF=
+6 */
+> >         bus-width =3D <4>;
+> >         disable-wp;
+> >         status =3D "okay";
+> > diff --git a/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts b/=
+arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
+> > index 85a546aecdbe1..dea2acc1849bb 100644
+> > --- a/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
+> > +++ b/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
+> > @@ -66,7 +66,7 @@ &ehci1 {
+> >
+> >  &mmc0 {
+> >         vmmc-supply =3D <&reg_cldo3>;
+> > -       cd-gpios =3D <&pio 5 6 (GPIO_ACTIVE_LOW | GPIO_PULL_DOWN)>; /* =
+PF6 */
+> > +       cd-gpios =3D <&pio 5 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PF=
+6 */
+> >         bus-width =3D <4>;
+> >         status =3D "okay";
+> >  };
+> >
+> > base-commit: 1e5a69d67d1b3c55c9b0cd3933af1436b5d52aa1
+> > --
+> > 2.46.3
+> >
