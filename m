@@ -1,577 +1,251 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7FAC2AD04
-	for <linux-sunxi@lists.linux.dev>; Mon, 28 Apr 2025 14:01:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D26D22D79F
+	for <linux-sunxi@lists.linux.dev>; Mon, 28 Apr 2025 15:09:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745848868; cv=none; b=rbgCDYMgK0CIL7ZUwgtWx+fYOd7Qy0V5GZkGjVZPfEQDy1/40uFHkjgjEIHzQmwbSKEhzhOFx9yD4ydjcShU8ieJeW/V8fYAkRNWW03jPrVPNMLVJLl3JN18gCY4Is5zouisLrVemFmqOKZT0KnvJNP3LsRuN/tpylcougpPzHw=
+	t=1745852963; cv=none; b=LWreyuUTF87cGFxcflubMisFi13zwnQxQkQNVxmY9xfCTKsoiiC9WPOvQ/5tIqpO+6E6gdX9IniWSgOw01wDhOZ061TzrFU7FMC85sGh1NX8vU2dJeynTsQ5gzo0erwNkcODnhz0vR3+K3dZ7q1RscONO6wvKsyvv7P5qx7gx2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745848868; c=relaxed/simple;
-	bh=EopfRNhZ2GYxC49lZ8rpAP5PxNbTCPQdKer9G8Z02gw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iSs9weOBQx7jH12X79EMGlLiiIH5QyKu4H4zjZCanAST1TzV8nsmAtHxyZyEuBEbf2CJHFJuUghgAH7Pnl4gNabk284wY94Snpn8bvukmekaxurh9VNUv8SiQxIvvcigIq6Pka7uJQ9VUZ9hRHkAaN0poFnEHGB8g4i5B3Lgsjo=
+	s=arc-20240116; t=1745852963; c=relaxed/simple;
+	bh=FuRKp/d91MeUjxos9iJYHa9PqwDqUhCXeJZoh9jBl+s=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=N+0YxjZB6Uq5xmTzDvVZyvtK5OGbBNLkLuVKtk/x/GRsFzNkgr/ABpzsTJGR4CvjesZk9d+oT4JX6s11fcu4QKMbSt3RVrDAnYXGwTZSpnSkN4ieHw3Y85ktm+cCYQvZxajM1XTD9S79xX1yUDmLjoKfaotiz/jsV0+5RPYW2+c=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 28F271516;
-	Mon, 28 Apr 2025 07:00:58 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6232E3F66E;
-	Mon, 28 Apr 2025 07:01:03 -0700 (PDT)
-Date: Mon, 28 Apr 2025 15:01:00 +0100
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0E5AA1516;
+	Mon, 28 Apr 2025 08:09:13 -0700 (PDT)
+Received: from donnerap.arm.com (donnerap.manchester.arm.com [10.32.100.21])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 50E603F673;
+	Mon, 28 Apr 2025 08:09:18 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: jagan@amarulasolutions.com, trini@konsulko.com, macromorgan@hotmail.com,
- uwu@icenowy.me, u-boot@lists.denx.de, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 5/5] sunxi: h6/h616: Reuse common DRAM infrastructure
-Message-ID: <20250428150100.30950848@donnerap.manchester.arm.com>
-In-Reply-To: <20250411161439.4743-6-jernej.skrabec@gmail.com>
-References: <20250411161439.4743-1-jernej.skrabec@gmail.com>
-	<20250411161439.4743-6-jernej.skrabec@gmail.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+To: Tom Rini <trini@konsulko.com>
+Cc: Jagan Teki <jagan@amarulasolutions.com>,
+	Simon Glass <sjg@chromium.org>,
+	u-boot@lists.denx.de,
+	linux-sunxi@lists.linux.dev,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Subject: Pull request: u-boot-sunxi/master for v2025.07
+Date: Mon, 28 Apr 2025 16:09:07 +0100
+Message-Id: <20250428150907.206134-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Fri, 11 Apr 2025 18:14:39 +0200
-Jernej Skrabec <jernej.skrabec@gmail.com> wrote:
+Hi Tom,
 
-> H616 rank and size detection code is superior to the H6. Nevertheless,
-> they are structurally the same. Split functions from H616 into new file
-> and reuse them in H6 DRAM driver too. This should also fix some bugs for
-> H6 too, like incorrect DRAM size detection.
+please pull the sunxi/master branch, containing changes for the second
+part of this cycle's sunxi updates.
 
-So as I dropped patch 1/5 for now, I also backed out the respective
-changes from this patch.
-The H616 part is basically identical before and after, but of course the
-H6 sees code changes. I tested this on my two H6 boards, and they still
-worked (TM), so I am going to take it.
+We have improvements to the reliability of H6 and H616 DRAM
+initialisation, hopefully avoiding those occasional size misdetections
+many people reported before.
+Also there is some modernisation of the USB PHY code, to use DT provided
+regulators and GPIOs, instead of relying on this being badly duplicated
+in Kconfig. This also happens to fix broken USB operations for older
+boards (using the A20 SoCs, for instance), which were clashing over
+grabbing some GPIOs, leading to a driver bailout.
+There is also some rework of the H6/H616 SPL clock code, to prepare it
+for being reused by the upcoming Allwinner A523 support. This drops the
+usage of C structs to model MMIO register frames, and replaces them by
+using an addition of the base address with a macro defined offset.
+Also in preparation for A523 there is one fix and one addition for the
+FEL code, to prepare for the GICv3 interrupt controller that the new SoC
+uses. And since this is a simple fix, and was ready, there is also the
+watchdog driver for that new SoC. Finally tossing in an easy fix to some
+H616 defconfig files to enable eMMC.
 
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+I also use the opportunity to enable proper page table protection
+(observing read-only and no-execute attributes), support for which the
+arm64 port recently gained. I didn't spot any issues on my arm64 board
+tests, but it can be easily disabled or backed out again in case any
+issues arise.
 
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+Full support for the two new SoC series (A133 and A523) we are working
+on is not quite ready yet, but might follow still a bit later if
+progress permits.
 
-Cheers,
+CI passed, and boot-tested on at least one board with a H616, H6, A64,
+H3, A20, T113s.
+
+Thanks,
 Andre
 
-> ---
->  .../include/asm/arch-sunxi/dram_dw_helpers.h  |  22 +++
->  arch/arm/mach-sunxi/Makefile                  |   4 +-
->  arch/arm/mach-sunxi/dram_dw_helpers.c         | 160 ++++++++++++++++++
->  arch/arm/mach-sunxi/dram_sun50i_h6.c          |  91 +---------
->  arch/arm/mach-sunxi/dram_sun50i_h616.c        | 155 +----------------
->  5 files changed, 190 insertions(+), 242 deletions(-)
->  create mode 100644 arch/arm/include/asm/arch-sunxi/dram_dw_helpers.h
->  create mode 100644 arch/arm/mach-sunxi/dram_dw_helpers.c
-> 
-> diff --git a/arch/arm/include/asm/arch-sunxi/dram_dw_helpers.h b/arch/arm/include/asm/arch-sunxi/dram_dw_helpers.h
-> new file mode 100644
-> index 000000000000..bc9e0d868c55
-> --- /dev/null
-> +++ b/arch/arm/include/asm/arch-sunxi/dram_dw_helpers.h
-> @@ -0,0 +1,22 @@
-> +/* SPDX-License-Identifier: GPL-2.0+ */
-> +/*
-> + * Helpers that are commonly used with DW memory controller.
-> + *
-> + * (C) Copyright 2025 Jernej Skrabec <jernej.skrabec@gmail.com>
-> + *
-> + */
-> +
-> +#ifndef _DRAM_DW_HELPERS_H
-> +#define _DRAM_DW_HELPERS_H
-> +
-> +#include <asm/arch/dram.h>
-> +
-> +bool mctl_core_init(const struct dram_para *para,
-> +		    const struct dram_config *config);
-> +void mctl_auto_detect_rank_width(const struct dram_para *para,
-> +				 struct dram_config *config);
-> +void mctl_auto_detect_dram_size(const struct dram_para *para,
-> +				struct dram_config *config);
-> +unsigned long mctl_calc_size(const struct dram_config *config);
-> +
-> +#endif
-> diff --git a/arch/arm/mach-sunxi/Makefile b/arch/arm/mach-sunxi/Makefile
-> index eb6a49119a13..a33cd5b0f07a 100644
-> --- a/arch/arm/mach-sunxi/Makefile
-> +++ b/arch/arm/mach-sunxi/Makefile
-> @@ -41,8 +41,8 @@ obj-$(CONFIG_DRAM_SUN9I)	+= dram_sun9i.o
->  obj-$(CONFIG_SPL_SPI_SUNXI)	+= spl_spi_sunxi.o
->  obj-$(CONFIG_SUNXI_DRAM_DW)	+= dram_sunxi_dw.o
->  obj-$(CONFIG_SUNXI_DRAM_DW)	+= dram_timings/
-> -obj-$(CONFIG_DRAM_SUN50I_H6)	+= dram_sun50i_h6.o
-> +obj-$(CONFIG_DRAM_SUN50I_H6)	+= dram_sun50i_h6.o dram_dw_helpers.o
->  obj-$(CONFIG_DRAM_SUN50I_H6)	+= dram_timings/
-> -obj-$(CONFIG_DRAM_SUN50I_H616)	+= dram_sun50i_h616.o
-> +obj-$(CONFIG_DRAM_SUN50I_H616)	+= dram_sun50i_h616.o dram_dw_helpers.o
->  obj-$(CONFIG_DRAM_SUN50I_H616)	+= dram_timings/
->  endif
-> diff --git a/arch/arm/mach-sunxi/dram_dw_helpers.c b/arch/arm/mach-sunxi/dram_dw_helpers.c
-> new file mode 100644
-> index 000000000000..885d1f2c0b12
-> --- /dev/null
-> +++ b/arch/arm/mach-sunxi/dram_dw_helpers.c
-> @@ -0,0 +1,160 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * Helpers that are commonly used with DW memory controller.
-> + *
-> + * (C) Copyright 2025 Jernej Skrabec <jernej.skrabec@gmail.com>
-> + *
-> + */
-> +
-> +#include <init.h>
-> +#include <asm/arch/dram_dw_helpers.h>
-> +
-> +void mctl_auto_detect_rank_width(const struct dram_para *para,
-> +				 struct dram_config *config)
-> +{
-> +	/* this is minimum size that it's supported */
-> +	config->cols = 8;
-> +	config->rows = 13;
-> +
-> +	/*
-> +	 * Strategy here is to test most demanding combination first and least
-> +	 * demanding last, otherwise HW might not be fully utilized. For
-> +	 * example, half bus width and rank = 1 combination would also work
-> +	 * on HW with full bus width and rank = 2, but only 1/4 RAM would be
-> +	 * visible.
-> +	 */
-> +
-> +	debug("testing 32-bit width, rank = 2\n");
-> +	config->bus_full_width = 1;
-> +	config->ranks = 2;
-> +	if (mctl_core_init(para, config))
-> +		return;
-> +
-> +	debug("testing 32-bit width, rank = 1\n");
-> +	config->bus_full_width = 1;
-> +	config->ranks = 1;
-> +	if (mctl_core_init(para, config))
-> +		return;
-> +
-> +	debug("testing 16-bit width, rank = 2\n");
-> +	config->bus_full_width = 0;
-> +	config->ranks = 2;
-> +	if (mctl_core_init(para, config))
-> +		return;
-> +
-> +	debug("testing 16-bit width, rank = 1\n");
-> +	config->bus_full_width = 0;
-> +	config->ranks = 1;
-> +	if (mctl_core_init(para, config))
-> +		return;
-> +
-> +	panic("This DRAM setup is currently not supported.\n");
-> +}
-> +
-> +static void mctl_write_pattern(void)
-> +{
-> +	unsigned int i;
-> +	u32 *ptr, val;
-> +
-> +	ptr = (u32 *)CFG_SYS_SDRAM_BASE;
-> +	for (i = 0; i < 16; ptr++, i++) {
-> +		if (i & 1)
-> +			val = ~(ulong)ptr;
-> +		else
-> +			val = (ulong)ptr;
-> +		writel(val, ptr);
-> +	}
-> +}
-> +
-> +static bool mctl_check_pattern(ulong offset)
-> +{
-> +	unsigned int i;
-> +	u32 *ptr, val;
-> +
-> +	ptr = (u32 *)CFG_SYS_SDRAM_BASE;
-> +	for (i = 0; i < 16; ptr++, i++) {
-> +		if (i & 1)
-> +			val = ~(ulong)ptr;
-> +		else
-> +			val = (ulong)ptr;
-> +		if (val != *(ptr + offset / 4))
-> +			return false;
-> +	}
-> +
-> +	return true;
-> +}
-> +
-> +void mctl_auto_detect_dram_size(const struct dram_para *para,
-> +				struct dram_config *config)
-> +{
-> +	unsigned int shift, cols, rows, found;
-> +	u32 buffer[16];
-> +
-> +	/* max. config for columns, but not rows */
-> +	config->cols = 11;
-> +	config->rows = 13;
-> +	mctl_core_init(para, config);
-> +
-> +	/*
-> +	 * Store content so it can be restored later. This is important
-> +	 * if controller was already initialized and holds any data
-> +	 * which is important for restoring system.
-> +	 */
-> +	memcpy(buffer, (u32 *)CFG_SYS_SDRAM_BASE, sizeof(buffer));
-> +
-> +	mctl_write_pattern();
-> +
-> +	shift = config->bus_full_width + 1;
-> +
-> +	/* detect column address bits */
-> +	found = 0;
-> +	for (cols = 8; cols < 11; cols++) {
-> +		if (mctl_check_pattern(1ULL << (cols + shift))) {
-> +			found = 1;
-> +			break;
-> +		}
-> +	}
-> +	if (!found)
-> +		panic("DRAM init failed: Can't detect number of columns!");
-> +	debug("detected %u columns\n", cols);
-> +
-> +	/* restore data */
-> +	memcpy((u32 *)CFG_SYS_SDRAM_BASE, buffer, sizeof(buffer));
-> +
-> +	/* reconfigure to make sure that all active rows are accessible */
-> +	config->cols = 8;
-> +	config->rows = 17;
-> +	mctl_core_init(para, config);
-> +
-> +	/* store data again as it might be moved */
-> +	memcpy(buffer, (u32 *)CFG_SYS_SDRAM_BASE, sizeof(buffer));
-> +
-> +	mctl_write_pattern();
-> +
-> +	/* detect row address bits */
-> +	shift = config->bus_full_width + 4 + config->cols;
-> +	found = 0;
-> +	for (rows = 13; rows < 17; rows++) {
-> +		if (mctl_check_pattern(1ULL << (rows + shift))) {
-> +			found = 1;
-> +			break;
-> +		}
-> +	}
-> +	if (!found)
-> +		panic("DRAM init failed: Can't detect number of rows!");
-> +	debug("detected %u rows\n", rows);
-> +
-> +	/* restore data again */
-> +	memcpy((u32 *)CFG_SYS_SDRAM_BASE, buffer, sizeof(buffer));
-> +
-> +	config->cols = cols;
-> +	config->rows = rows;
-> +}
-> +
-> +unsigned long mctl_calc_size(const struct dram_config *config)
-> +{
-> +	u8 width = config->bus_full_width ? 4 : 2;
-> +
-> +	/* 8 banks */
-> +	return (1ULL << (config->cols + config->rows + 3)) * width * config->ranks;
-> +}
-> diff --git a/arch/arm/mach-sunxi/dram_sun50i_h6.c b/arch/arm/mach-sunxi/dram_sun50i_h6.c
-> index 6a9e53f965eb..fbb865131e08 100644
-> --- a/arch/arm/mach-sunxi/dram_sun50i_h6.c
-> +++ b/arch/arm/mach-sunxi/dram_sun50i_h6.c
-> @@ -10,6 +10,7 @@
->  #include <asm/io.h>
->  #include <asm/arch/clock.h>
->  #include <asm/arch/dram.h>
-> +#include <asm/arch/dram_dw_helpers.h>
->  #include <asm/arch/cpu.h>
->  #include <asm/arch/prcm.h>
->  #include <linux/bitops.h>
-> @@ -40,8 +41,8 @@ static void mctl_com_init(const struct dram_para *para,
->  static bool mctl_channel_init(const struct dram_para *para,
->  			      const struct dram_config *config);
->  
-> -static bool mctl_core_init(const struct dram_para *para,
-> -			   const struct dram_config *config)
-> +bool mctl_core_init(const struct dram_para *para,
-> +		    const struct dram_config *config)
->  {
->  	mctl_sys_init(para->clk);
->  	mctl_com_init(para, config);
-> @@ -560,92 +561,6 @@ static bool mctl_channel_init(const struct dram_para *para,
->  	return true;
->  }
->  
-> -static void mctl_auto_detect_rank_width(const struct dram_para *para,
-> -					struct dram_config *config)
-> -{
-> -	/* this is minimum size that it's supported */
-> -	config->cols = 8;
-> -	config->rows = 13;
-> -
-> -	/*
-> -	 * Previous versions of this driver tried to auto detect the rank
-> -	 * and width by looking at controller registers. However this proved
-> -	 * to be not reliable, so this approach here is the more robust
-> -	 * solution. Check the git history for details.
-> -	 *
-> -	 * Strategy here is to test most demanding combination first and least
-> -	 * demanding last, otherwise HW might not be fully utilized. For
-> -	 * example, half bus width and rank = 1 combination would also work
-> -	 * on HW with full bus width and rank = 2, but only 1/4 RAM would be
-> -	 * visible.
-> -	 */
-> -
-> -	debug("testing 32-bit width, rank = 2\n");
-> -	config->bus_full_width = 1;
-> -	config->ranks = 2;
-> -	if (mctl_core_init(para, config))
-> -		return;
-> -
-> -	debug("testing 32-bit width, rank = 1\n");
-> -	config->bus_full_width = 1;
-> -	config->ranks = 1;
-> -	if (mctl_core_init(para, config))
-> -		return;
-> -
-> -	debug("testing 16-bit width, rank = 2\n");
-> -	config->bus_full_width = 0;
-> -	config->ranks = 2;
-> -	if (mctl_core_init(para, config))
-> -		return;
-> -
-> -	debug("testing 16-bit width, rank = 1\n");
-> -	config->bus_full_width = 0;
-> -	config->ranks = 1;
-> -	if (mctl_core_init(para, config))
-> -		return;
-> -
-> -	panic("This DRAM setup is currently not supported.\n");
-> -}
-> -
-> -static void mctl_auto_detect_dram_size(const struct dram_para *para,
-> -				       struct dram_config *config)
-> -{
-> -	/* TODO: non-(LP)DDR3 */
-> -
-> -	/* detect row address bits */
-> -	config->cols = 8;
-> -	config->rows = 18;
-> -	mctl_core_init(para, config);
-> -
-> -	for (config->rows = 13; config->rows < 18; config->rows++) {
-> -		/* 8 banks, 8 bit per byte and 16/32 bit width */
-> -		if (mctl_mem_matches((1 << (config->rows + config->cols +
-> -					    4 + config->bus_full_width))))
-> -			break;
-> -	}
-> -
-> -	/* detect column address bits */
-> -	config->cols = 11;
-> -	mctl_core_init(para, config);
-> -
-> -	for (config->cols = 8; config->cols < 11; config->cols++) {
-> -		/* 8 bits per byte and 16/32 bit width */
-> -		if (mctl_mem_matches(1 << (config->cols + 1 +
-> -					   config->bus_full_width)))
-> -			break;
-> -	}
-> -}
-> -
-> -unsigned long mctl_calc_size(const struct dram_config *config)
-> -{
-> -	u8 width = config->bus_full_width ? 4 : 2;
-> -
-> -	/* TODO: non-(LP)DDR3 */
-> -
-> -	/* 8 banks */
-> -	return (1ULL << (config->cols + config->rows + 3)) * width * config->ranks;
-> -}
-> -
->  #define SUN50I_H6_LPDDR3_DX_WRITE_DELAYS			\
->  	{{  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 },	\
->  	 {  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 },	\
-> diff --git a/arch/arm/mach-sunxi/dram_sun50i_h616.c b/arch/arm/mach-sunxi/dram_sun50i_h616.c
-> index d1768a7e7d3a..80d9de557876 100644
-> --- a/arch/arm/mach-sunxi/dram_sun50i_h616.c
-> +++ b/arch/arm/mach-sunxi/dram_sun50i_h616.c
-> @@ -17,6 +17,7 @@
->  #include <asm/io.h>
->  #include <asm/arch/clock.h>
->  #include <asm/arch/dram.h>
-> +#include <asm/arch/dram_dw_helpers.h>
->  #include <asm/arch/cpu.h>
->  #include <asm/arch/prcm.h>
->  #include <linux/bitops.h>
-> @@ -1310,164 +1311,14 @@ static bool mctl_ctrl_init(const struct dram_para *para,
->  	return true;
->  }
->  
-> -static bool mctl_core_init(const struct dram_para *para,
-> -			   const struct dram_config *config)
-> +bool mctl_core_init(const struct dram_para *para,
-> +		    const struct dram_config *config)
->  {
->  	mctl_sys_init(para->clk);
->  
->  	return mctl_ctrl_init(para, config);
->  }
->  
-> -static void mctl_auto_detect_rank_width(const struct dram_para *para,
-> -					struct dram_config *config)
-> -{
-> -	/* this is minimum size that it's supported */
-> -	config->cols = 8;
-> -	config->rows = 13;
-> -
-> -	/*
-> -	 * Strategy here is to test most demanding combination first and least
-> -	 * demanding last, otherwise HW might not be fully utilized. For
-> -	 * example, half bus width and rank = 1 combination would also work
-> -	 * on HW with full bus width and rank = 2, but only 1/4 RAM would be
-> -	 * visible.
-> -	 */
-> -
-> -	debug("testing 32-bit width, rank = 2\n");
-> -	config->bus_full_width = 1;
-> -	config->ranks = 2;
-> -	if (mctl_core_init(para, config))
-> -		return;
-> -
-> -	debug("testing 32-bit width, rank = 1\n");
-> -	config->bus_full_width = 1;
-> -	config->ranks = 1;
-> -	if (mctl_core_init(para, config))
-> -		return;
-> -
-> -	debug("testing 16-bit width, rank = 2\n");
-> -	config->bus_full_width = 0;
-> -	config->ranks = 2;
-> -	if (mctl_core_init(para, config))
-> -		return;
-> -
-> -	debug("testing 16-bit width, rank = 1\n");
-> -	config->bus_full_width = 0;
-> -	config->ranks = 1;
-> -	if (mctl_core_init(para, config))
-> -		return;
-> -
-> -	panic("This DRAM setup is currently not supported.\n");
-> -}
-> -
-> -static void mctl_write_pattern(void)
-> -{
-> -	unsigned int i;
-> -	u32 *ptr, val;
-> -
-> -	ptr = (u32 *)CFG_SYS_SDRAM_BASE;
-> -	for (i = 0; i < 16; ptr++, i++) {
-> -		if (i & 1)
-> -			val = ~(ulong)ptr;
-> -		else
-> -			val = (ulong)ptr;
-> -		writel(val, ptr);
-> -	}
-> -}
-> -
-> -static bool mctl_check_pattern(ulong offset)
-> -{
-> -	unsigned int i;
-> -	u32 *ptr, val;
-> -
-> -	ptr = (u32 *)CFG_SYS_SDRAM_BASE;
-> -	for (i = 0; i < 16; ptr++, i++) {
-> -		if (i & 1)
-> -			val = ~(ulong)ptr;
-> -		else
-> -			val = (ulong)ptr;
-> -		if (val != *(ptr + offset / 4))
-> -			return false;
-> -	}
-> -
-> -	return true;
-> -}
-> -
-> -static void mctl_auto_detect_dram_size(const struct dram_para *para,
-> -				       struct dram_config *config)
-> -{
-> -	unsigned int shift, cols, rows, found;
-> -	u32 buffer[16];
-> -
-> -	/* max. config for columns, but not rows */
-> -	config->cols = 11;
-> -	config->rows = 13;
-> -	mctl_core_init(para, config);
-> -
-> -	/*
-> -	 * Store content so it can be restored later. This is important
-> -	 * if controller was already initialized and holds any data
-> -	 * which is important for restoring system.
-> -	 */
-> -	memcpy(buffer, (u32 *)CFG_SYS_SDRAM_BASE, sizeof(buffer));
-> -
-> -	mctl_write_pattern();
-> -
-> -	shift = config->bus_full_width + 1;
-> -
-> -	/* detect column address bits */
-> -	found = 0;
-> -	for (cols = 8; cols < 11; cols++) {
-> -		if (mctl_check_pattern(1ULL << (cols + shift))) {
-> -			found = 1;
-> -			break;
-> -		}
-> -	}
-> -	if (!found)
-> -		panic("DRAM init failed: Can't detect number of columns!");
-> -	debug("detected %u columns\n", cols);
-> -
-> -	/* restore data */
-> -	memcpy((u32 *)CFG_SYS_SDRAM_BASE, buffer, sizeof(buffer));
-> -
-> -	/* reconfigure to make sure that all active rows are accessible */
-> -	config->cols = 8;
-> -	config->rows = 17;
-> -	mctl_core_init(para, config);
-> -
-> -	/* store data again as it might be moved */
-> -	memcpy(buffer, (u32 *)CFG_SYS_SDRAM_BASE, sizeof(buffer));
-> -
-> -	mctl_write_pattern();
-> -
-> -	/* detect row address bits */
-> -	shift = config->bus_full_width + 4 + config->cols;
-> -	found = 0;
-> -	for (rows = 13; rows < 17; rows++) {
-> -		if (mctl_check_pattern(1ULL << (rows + shift))) {
-> -			found = 1;
-> -			break;
-> -		}
-> -	}
-> -	if (!found)
-> -		panic("DRAM init failed: Can't detect number of rows!");
-> -	debug("detected %u rows\n", rows);
-> -
-> -	/* restore data again */
-> -	memcpy((u32 *)CFG_SYS_SDRAM_BASE, buffer, sizeof(buffer));
-> -
-> -	config->cols = cols;
-> -	config->rows = rows;
-> -}
-> -
-> -static unsigned long mctl_calc_size(const struct dram_config *config)
-> -{
-> -	u8 width = config->bus_full_width ? 4 : 2;
-> -
-> -	/* 8 banks */
-> -	return (1ULL << (config->cols + config->rows + 3)) * width * config->ranks;
-> -}
-> -
->  static const struct dram_para para = {
->  	.clk = CONFIG_DRAM_CLK,
->  #ifdef CONFIG_SUNXI_DRAM_H616_DDR3_1333
+=================================
+The following changes since commit 5a0a93a768487e55ebe50a34cc90d751bf99cc56:
 
+  Merge branch 'master' of https://source.denx.de/u-boot/custodians/u-boot-riscv (2025-04-25 13:13:17 -0600)
+
+are available in the Git repository at:
+
+  https://source.denx.de/u-boot/custodians/u-boot-sunxi.git master
+
+for you to fetch changes up to d5837bbed841889428379ffff3cc19c9dca4cb6d:
+
+  sunxi: clock: H6: remove struct sunxi_prcm_reg (2025-04-28 15:03:28 +0100)
+
+----------------------------------------------------------------
+Andre Przywara (16):
+      sunxi: h616: defconfigs: enable eMMC
+      sunxi: enable MMU_PGPROT proper page table protection
+      phy: sun4i-usb: Determine VBUS detection pin from devicetree
+      phy: sun4i-usb: Determine USB OTG detection pin from devicetree
+      sunxi: Kconfig: Remove obsolete USBx_* pin symbols
+      watchdog: sunxi: add A523 support
+      sunxi: armv8: FEL: save and restore GICv3 registers
+      sunxi: armv8: FEL: save and restore SP_IRQ
+      sunxi: clock: H6: drop usage of struct sunxi_ccm_reg
+      sunxi: mmc: remove usage of struct sunxi_ccm_reg
+      sunxi: H616: dram: remove usage of struct sunxi_ccm_reg
+      sunxi: H6: dram: remove usage of struct sunxi_ccm_reg
+      sunxi: clock: H6: remove struct sunxi_ccm_reg
+      sunxi: clock: H6: drop usage of struct sunxi_prcm_reg
+      sunxi: H6/H616: dram: remove usage of struct sunxi_prcm_reg
+      sunxi: clock: H6: remove struct sunxi_prcm_reg
+
+Jernej Skrabec (4):
+      sunxi: H6: Remove useless DRAM timings parameter
+      sunxi: H6: DRAM: Constify function parameters
+      sunxi: h6: dram: split dram_para struct
+      sunxi: h6/h616: Reuse common DRAM infrastructure
+
+Samuel Holland (5):
+      power: regulator: Add a driver for the AXP PMIC drivevbus
+      sunxi: Enable PMIC drivevbus regulator support for USB supplies
+      phy: sun4i-usb: Control supplies via the regulator uclass
+      sunxi: Remove obsolete USBx_VBUS_PIN Kconfig symbols
+      gpio: axp: Remove virtual VBUS enable GPIO
+
+ arch/arm/Kconfig                                   |   1 +
+ arch/arm/cpu/armv8/fel_utils.S                     |   9 +
+ arch/arm/include/asm/arch-sunxi/boot0.h            |  12 +-
+ arch/arm/include/asm/arch-sunxi/clock_sun4i.h      |   6 +
+ arch/arm/include/asm/arch-sunxi/clock_sun50i_h6.h  | 229 ++-------------------
+ arch/arm/include/asm/arch-sunxi/clock_sun6i.h      |   7 +
+ arch/arm/include/asm/arch-sunxi/clock_sun8i_a83t.h |   7 +
+ arch/arm/include/asm/arch-sunxi/clock_sun9i.h      |   7 +
+ arch/arm/include/asm/arch-sunxi/dram_dw_helpers.h  |  22 ++
+ arch/arm/include/asm/arch-sunxi/dram_sun50i_h6.h   |   9 +-
+ arch/arm/include/asm/arch-sunxi/prcm_sun50i.h      |  44 +---
+ arch/arm/mach-sunxi/Kconfig                        |  43 ----
+ arch/arm/mach-sunxi/Makefile                       |   4 +-
+ arch/arm/mach-sunxi/board.c                        |   3 +
+ arch/arm/mach-sunxi/clock_sun50i_h6.c              |  72 +++----
+ arch/arm/mach-sunxi/dram_dw_helpers.c              | 150 ++++++++++++++
+ arch/arm/mach-sunxi/dram_sun50i_h6.c               | 212 ++++++-------------
+ arch/arm/mach-sunxi/dram_sun50i_h616.c             | 184 ++---------------
+ arch/arm/mach-sunxi/dram_timings/h6_ddr3_1333.c    |   2 +-
+ arch/arm/mach-sunxi/dram_timings/h6_lpddr3.c       |   2 +-
+ arch/arm/mach-sunxi/rmr_switch.S                   |  12 ++
+ configs/A10s-OLinuXino-M_defconfig                 |   1 -
+ configs/A13-OLinuXinoM_defconfig                   |   1 -
+ configs/A13-OLinuXino_defconfig                    |   2 -
+ configs/A20-OLinuXino-Lime2-eMMC_defconfig         |   2 -
+ configs/A20-OLinuXino-Lime2_defconfig              |   2 -
+ configs/A20-Olimex-SOM-EVB_defconfig               |   2 -
+ configs/A20-Olimex-SOM204-EVB-eMMC_defconfig       |   2 -
+ configs/A20-Olimex-SOM204-EVB_defconfig            |   2 -
+ configs/A33-OLinuXino_defconfig                    |   3 +-
+ configs/Ainol_AW1_defconfig                        |   1 -
+ configs/Ampe_A76_defconfig                         |   3 -
+ configs/Auxtek-T003_defconfig                      |   1 -
+ configs/Auxtek-T004_defconfig                      |   1 -
+ configs/Bananapi_M2_Ultra_defconfig                |   2 -
+ configs/Bananapi_m2m_defconfig                     |   1 -
+ configs/Bananapro_defconfig                        |   2 -
+ configs/CHIP_defconfig                             |   1 -
+ configs/CHIP_pro_defconfig                         |   1 -
+ configs/CSQ_CS908_defconfig                        |   2 -
+ configs/Chuwi_V7_CW0825_defconfig                  |   3 -
+ configs/Colombus_defconfig                         |   1 -
+ configs/Cubieboard4_defconfig                      |   5 +-
+ configs/Cubietruck_defconfig                       |   3 -
+ configs/Cubietruck_plus_defconfig                  |   5 +-
+ configs/Empire_electronix_d709_defconfig           |   3 -
+ configs/Empire_electronix_m712_defconfig           |   3 -
+ configs/Hummingbird_A31_defconfig                  |   2 -
+ configs/Hyundai_A7HD_defconfig                     |   4 -
+ configs/Linksprite_pcDuino3_Nano_defconfig         |   1 -
+ configs/Linksprite_pcDuino_defconfig               |   2 -
+ configs/MSI_Primo81_defconfig                      |   2 +-
+ configs/Mele_A1000G_quad_defconfig                 |   2 -
+ configs/Mele_I7_defconfig                          |   2 -
+ configs/Mele_M9_defconfig                          |   2 -
+ configs/Merrii_A80_Optimus_defconfig               |   5 +-
+ configs/Mini-X_defconfig                           |   1 -
+ configs/Orangepi_defconfig                         |   2 -
+ configs/Orangepi_mini_defconfig                    |   2 -
+ configs/Sinlinx_SinA31s_defconfig                  |   2 -
+ configs/Sinlinx_SinA33_defconfig                   |   1 -
+ configs/Sinovoip_BPI_M2_defconfig                  |   2 -
+ configs/Sinovoip_BPI_M3_defconfig                  |   4 +-
+ configs/Sunchip_CX-A99_defconfig                   |   3 -
+ configs/UTOO_P66_defconfig                         |   3 -
+ configs/Wexler_TAB7200_defconfig                   |   2 -
+ configs/Wobo_i5_defconfig                          |   1 -
+ configs/Yones_Toptech_BD1078_defconfig             |   1 -
+ configs/Yones_Toptech_BS1078_V2_defconfig          |   3 +-
+ configs/ba10_tv_box_defconfig                      |   2 -
+ configs/bananapi_m2_berry_defconfig                |   1 -
+ configs/colorfly_e708_q1_defconfig                 |   3 +-
+ configs/difrnce_dit4350_defconfig                  |   3 -
+ configs/dserve_dsrv9703c_defconfig                 |   3 -
+ configs/ga10h_v1_1_defconfig                       |   3 +-
+ configs/gt90h_v4_defconfig                         |   3 +-
+ configs/h8_homlet_v2_defconfig                     |   2 -
+ configs/iNet_3F_defconfig                          |   2 -
+ configs/iNet_3W_defconfig                          |   2 -
+ configs/iNet_86VS_defconfig                        |   2 -
+ configs/iNet_D978_rev2_defconfig                   |   3 +-
+ configs/icnova-a20-swac_defconfig                  |   3 -
+ configs/inet1_defconfig                            |   3 -
+ configs/inet86dz_defconfig                         |   3 +-
+ configs/inet97fv2_defconfig                        |   3 -
+ configs/inet98v_rev2_defconfig                     |   3 -
+ configs/inet9f_rev03_defconfig                     |   3 -
+ configs/inet_q972_defconfig                        |   3 +-
+ configs/jesurun_q5_defconfig                       |   1 -
+ configs/mixtile_loftq_defconfig                    |   2 -
+ configs/mk802_a10s_defconfig                       |   1 -
+ configs/mk802_defconfig                            |   1 -
+ configs/orangepi_2_defconfig                       |   1 -
+ configs/orangepi_plus_defconfig                    |   2 -
+ configs/orangepi_zero2_defconfig                   |   1 -
+ configs/orangepi_zero3_defconfig                   |   1 -
+ configs/parrot_r16_defconfig                       |   2 -
+ configs/pine_h64_defconfig                         |   1 -
+ configs/polaroid_mid2407pxe03_defconfig            |   3 +-
+ configs/polaroid_mid2809pxe04_defconfig            |   3 +-
+ configs/pov_protab2_ips9_defconfig                 |   3 -
+ configs/q8_a13_tablet_defconfig                    |   3 -
+ configs/q8_a23_tablet_800x480_defconfig            |   3 +-
+ configs/q8_a33_tablet_1024x600_defconfig           |   3 +-
+ configs/q8_a33_tablet_800x480_defconfig            |   3 +-
+ configs/r7-tv-dongle_defconfig                     |   1 -
+ configs/sun8i_a23_evb_defconfig                    |   3 -
+ configs/tanix_tx1_defconfig                        |   2 +
+ configs/tbs_a711_defconfig                         |   3 +-
+ configs/teres_i_defconfig                          |   1 -
+ configs/x96_mate_defconfig                         |   1 +
+ drivers/gpio/axp_gpio.c                            |  75 ++-----
+ drivers/gpio/sunxi_gpio.c                          |  12 +-
+ drivers/mmc/sunxi_mmc.c                            |  20 +-
+ drivers/phy/allwinner/phy-sun4i-usb.c              |  96 +++------
+ drivers/power/pmic/axp.c                           |   1 +
+ drivers/power/regulator/Kconfig                    |   7 +
+ drivers/power/regulator/Makefile                   |   1 +
+ drivers/power/regulator/axp_drivevbus.c            |  57 +++++
+ drivers/watchdog/sunxi_wdt.c                       |  11 +
+ include/axp221.h                                   |   4 -
+ include/axp809.h                                   |   4 -
+ include/axp818.h                                   |   4 -
+ include/sunxi_gpio.h                               |   8 -
+ 124 files changed, 552 insertions(+), 984 deletions(-)
+ create mode 100644 arch/arm/include/asm/arch-sunxi/dram_dw_helpers.h
+ create mode 100644 arch/arm/mach-sunxi/dram_dw_helpers.c
+ create mode 100644 drivers/power/regulator/axp_drivevbus.c
