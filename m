@@ -1,142 +1,90 @@
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6DDC2620C3
-	for <linux-sunxi@lists.linux.dev>; Mon, 28 Apr 2025 10:58:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10E6E267AF2;
+	Mon, 28 Apr 2025 11:39:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.6.53.87
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745837939; cv=none; b=CRfhLvxLjN7EcJ7vc4LUYplTQ1s3W4U1Sc5I6WJpjpKcIxGGSBCmYQqonStlnozykupdu2xQj8l7gVN0pM6FDClHspBzBqqA9gOFiaGww44UK31UB+45wd3z0rS0cThTyMwhoirtMjVC9LAtr6tryyDLpUjwviiDi/U3KG8ex2M=
+	t=1745840390; cv=none; b=d4mnd0Rx8q3V6ptA+KOCZpGJZTIRwfjMHY+h2978Z/owtPhGM6yILYWzasyjmeJ4htPCUa8nu6DIJnfQXdrVcOpNAsPQEd2xoqpl9G67WniqZRW1LxtalsBdzUuv0XMxTVJlcRl5KbV2AK5mN6qY2FXv0nHkvSCiZyKVmEFzf90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745837939; c=relaxed/simple;
-	bh=wV5lKKjerP6M76XIjET1jKYjN4kukYAMpdGgE4SoDrE=;
+	s=arc-20240116; t=1745840390; c=relaxed/simple;
+	bh=wXnw6NaXGexdF7bjS7VYaVlXZidbEfsdHdhzCPLP8zk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=daKvpo2ysq0KvG+2qRc+ahg2YjzOkp+hSHYvAgkDbWrb6Ui5Guq5ShIhpjixsonZVYo37m/0s4Uicfv6rGp009jHNoGEMvZWjqBt9T+K3+EDeuzOhnz67DljzaxnHB8pcnLUVnT5ALzasce/2XFv8om1vQbGeY/ItDhbgjgKrc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net; spf=pass smtp.mailfrom=posteo.net; dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b=ohhOoCRM; arc=none smtp.client-ip=185.67.36.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=Eueg/e7JpudriIghmFeEBzH8ZQWwdaiiF+nIR2kp+xHAI/gp+cjFwHkd0VQ7uzjydHbRNJdErmbFwDo2ahM8waSrL+Up1ijFq3hoZTJW6l8tl36AVI8m3HNxqr5M7qeNPmGc25uQaWHa7XZcR4r1KenCWiL8LCxnZqt+QK48WM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b=CEUOlbvK; arc=none smtp.client-ip=144.6.53.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="ohhOoCRM"
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id 9FCB424010C
-	for <linux-sunxi@lists.linux.dev>; Mon, 28 Apr 2025 12:58:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
-	t=1745837935; bh=wV5lKKjerP6M76XIjET1jKYjN4kukYAMpdGgE4SoDrE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:From;
-	b=ohhOoCRMh5jxAblDLchS6kbvAK1bCTAIdbLGxiBzWSuqN2K4bg8apcXHre4jtxiIv
-	 cSG3j2WaI9COIK6ZEKpZgLQsuzMPJ6dFY+g75LKxeX7BWsU34hjBni7CNzrJKZPHXw
-	 f7z1DKPItxkrviAXYpQPHx2/vcxvM3QnXqneOBxEr4j72f5iyBlL90ZcQ/5qzjN9dQ
-	 D3ACksHyfw5OTeueM9/Z4Z0IFX3DytPG2NWcpGmCAP2pmExNOWTroBUh0dz+z+MCK8
-	 8FbDsxAiig8RTGP2i/qi+ku5rHLqpI3BvAfh7Y5PBKdZEePjmjVbWhSHXAbd48Vqrm
-	 wd0y5tJqgGBlQ==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4ZmL6M362Rz6v04;
-	Mon, 28 Apr 2025 12:58:51 +0200 (CEST)
-Date: Mon, 28 Apr 2025 10:58:51 +0000
-From: =?utf-8?Q?J=2E_Neusch=C3=A4fer?= <j.ne@posteo.net>
-To: Chen-Yu Tsai <wens@csie.org>
-Cc: =?utf-8?Q?J=2E_Neusch=C3=A4fer?= <j.ne@posteo.net>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b="CEUOlbvK"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hmeau.com;
+	s=formenos; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=mnUpu6aIGkBvFTLRk8XsqS6jkn7cP+pYPk1SMU1zWj0=; b=CEUOlbvK/GAsNuym/k6N+Y0xv6
+	+at5oP3gUeO0RGzXczUnbrtxYLEudQYFL7yudwFGrpNpHHx/csGAw0zrp4U9mQyeOjjrQbSC4UO15
+	PSB3hVYzDIx2/F3M8kNwI7KpDGRggW//O9sOC6HsrnfDksd/bCtMHBP/0u0g986TiBIV411y/xAxC
+	wmJ2XhPGw609eY5XDVujevyh0GMfteMHsUXhODm6ym9WiiSOv/a0BpnCvMiUuwxdPMpeX4wWkuuHV
+	1wiMOZVAYovWVYVJI5yoN6Vm/X4liHHkOiz4+m4CcCWgPaZ6B3xOKNKlVxD7pnZ8Jf7v59sQ9cSIl
+	92kAOvOQ==;
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
+	id 1u9Mpj-001bAH-1g;
+	Mon, 28 Apr 2025 19:39:36 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Mon, 28 Apr 2025 19:39:35 +0800
+Date: Mon, 28 Apr 2025 19:39:35 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
+Cc: clabbe.montjoie@gmail.com, davem@davemloft.net,
+	linux-crypto@vger.kernel.org, wens@csie.org,
+	jernej.skrabec@gmail.com, samuel@sholland.org,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ARM: dts: allwinner: orangepi-zero: Enable audio codec
-Message-ID: <aA9fa4Ynt3Vq2Xsh@probook>
-References: <20250418-opz-audio-v1-1-4e86bb5bc734@posteo.net>
- <CAGb2v67-1tk0uAmYL-y6479itUxBJua76qhjn+0tTsN+Ni_a1w@mail.gmail.com>
- <aA8tsao6hhW50k4e@probook>
- <CAGb2v67Trz_Dtp5_ME3MnfwBjtp=DwPN4aJ1vrtizgiUn08_3w@mail.gmail.com>
+Subject: Re: [PATCH 2/4] crypto: sun8i-ce-cipher - use
+ crypto_skcipher_driver_name()
+Message-ID: <aA9o9w1odAIgmK0e@gondor.apana.org.au>
+References: <20250425124517.2225963-1-ovidiu.panait.oss@gmail.com>
+ <20250425124517.2225963-2-ovidiu.panait.oss@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGb2v67Trz_Dtp5_ME3MnfwBjtp=DwPN4aJ1vrtizgiUn08_3w@mail.gmail.com>
+In-Reply-To: <20250425124517.2225963-2-ovidiu.panait.oss@gmail.com>
 
-On Mon, Apr 28, 2025 at 04:37:31PM +0800, Chen-Yu Tsai wrote:
-> On Mon, Apr 28, 2025 at 3:26 PM J. Neuschäfer <j.ne@posteo.net> wrote:
-> >
-> > On Sun, Apr 27, 2025 at 01:28:58PM +0800, Chen-Yu Tsai wrote:
-> > > On Fri, Apr 18, 2025 at 7:32 AM J. Neuschäfer via B4 Relay
-> > > <devnull+j.ne.posteo.net@kernel.org> wrote:
-> > > >
-> > > > From: "J. Neuschäfer" <j.ne@posteo.net>
-> > > >
-> > > > Line out playback and microphone capture work, after enabling the
-> > > > corresponding ALSA controls. Tested with the Orange Pi Zero interface
-> > > > board, which is a (mostly) passive adapter from the 13-pin header to
-> > > > standard connectors (2x USB A, 1x Audio/Video output, 1x built-in
-> > > > microphone).
-> > > >
-> > > >   https://orangepi.com/index.php?route=product/product&product_id=871
-> > >
-> > > What about the USB ports?
-> >
-> > Good point, I could test these. I have not mentioned them because they
-> > are not related to audio.
-> >
-> > > In any case, we don't enable peripherals on "headers" by default. That's
-> > > up to the end user. The description for the whole adapter board could be
-> > > an overlay that users can then apply directly.
-> >
-> > For features such as pinmuxed UARTs (already present and disabled in the
-> > dts), I fully agree, because they could as well be used as GPIO, and
-> > that's for the user to decide.
-> >
-> > For the audio pins, there's nothing else one can do with them, as far as
-> > I understand it. It is possible to use at the least the Line Out pins
-> > with very minimal setup, e.g. just connecting the pins to headphones or
-> > something else.
+On Fri, Apr 25, 2025 at 03:45:15PM +0300, Ovidiu Panait wrote:
+> Use crypto_skcipher_driver_name() helper from <crypto/skcipher.h>, instead
+> of accessing struct crypto_alg directly.
 > 
-> Sure, but you are also adding the routing information, which could be
-> different if someone designs a different adapter board. One could
-> include GPIOs and I2C from the 26-pin header, and make a headset
-> adapter (mic on the TRRS instead of tv-out) with a headphone amp
-> and headset detection IC.
-
-Ah, that's a fair point that I didn't consider.
-
-> It's easily overridable, and I suppose providing the basic use-case
-> that one can directly use via the pins does have value. Instead of
-> doing a lot of editing, the user can just toggle the status via
-> the bootloader.
-
-Sounds good!
-
+> Signed-off-by: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
+> ---
+>  drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> > I'll clarify the following points in a comment in the next version:
-> >
-> >  - The audio signals are exposed on the 1x13 header described in
-> >    https://linux-sunxi.org/Xunlong_Orange_Pi_Zero
-> >
-> >  - The pins can't be used for anything else according to section
-> >    3.1. Pin Characteristics of the Allwinner H3 Datasheet.
-> >
-> > Although I would prefer to enable the audio pins by default (because
-> > they are present on the Orange Pi Zero board), I would also be ok with
-> > adding them as status = "disabled", as is the case with uart1 and uart2.
-> > Please let me know your opinion.
-> 
-> I think it's better to have them disabled by default. We don't want to
-> confuse users that don't have the adapter board, who might end up looking
-> at their audio mixer and wondering where the line out is.
+> diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
+> index 05f67661553c..f03a8fa7bfa2 100644
+> --- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
+> +++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
+> @@ -17,6 +17,7 @@
+>  #include <linux/io.h>
+>  #include <linux/pm_runtime.h>
+>  #include <crypto/scatterwalk.h>
+> +#include <crypto/skcipher.h>
+>  #include <crypto/internal/des.h>
+>  #include <crypto/internal/skcipher.h>
 
-Fair enough, that makes sense.
+If you include internal/skcipher.h, there is no need to include
+skcipher.h.
 
-> If they have the adapter, or they are explicitly using wires to hook up
-> things, then they can toggle the status. If they have something else,
-> then they load whatever overlay that matches their hardware.
+There is no need to resend this as I'll just remove this hunk when
+applying the patch.
 
-
-
-Thank you for your review and explanations!
-
-Best regards,
-J. Neuschäfer
+Thanks,
+-- 
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
