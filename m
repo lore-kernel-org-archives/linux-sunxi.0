@@ -1,80 +1,96 @@
-Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EB431EA65;
-	Mon, 28 Apr 2025 03:09:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.6.53.87
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D4002BD04
+	for <linux-sunxi@lists.linux.dev>; Mon, 28 Apr 2025 03:44:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745809746; cv=none; b=SZYSWT3nX7qObDtK+Uu5P2NASzX1xVx63njPGnaauj+FtdUN2pNqlK/6zOdbDzjcQW/lcZ/SRQ3ZxATrabM7tPpDCznvUkN2E1LouCNfGI+o5Q0d5Bv3h8iFKhWBPLH4EV2MQavxo2Nam5cdAKHp6HBZJs+PuNZhkfE+/kkhSoU=
+	t=1745811850; cv=none; b=gbLaf7Q3OXeHkUWV2ihQVUBmAr9hVUGriPB8NIZg3l5bozsVFsxWcwemqQO4sr984qsjlQnvAm1XdkUjr2J+cq8W0woYwSTTFC5BfOnfRK4MKz//YkJg2eQOHwtV/XcO5HrPGPbOt3ub49FngtzOyPzhFgjwCSYpXMM0LgmE9Ug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745809746; c=relaxed/simple;
-	bh=iLTEHCZSyJzcBLSrNbt97hFYVdaUqh8fJjiDPwHlhPg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M5Y1rN1qFFs8HcH9Ya4BuBEhVu2CS0yogR50eAFWYtHKJTCg2TdQA0XCkZu73wGrba7LVR9mSOM0CoWxN2f+q+8CQDiDxDhSakOi1glRN+ErJ7QptpxanGiWHSiqvnMVOmbnKHXO36KPLwEjHVTHC13v9Mv8B6qUc8ZIkBTY0Jw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b=SQkVXEkc; arc=none smtp.client-ip=144.6.53.87
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b="SQkVXEkc"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hmeau.com;
-	s=formenos; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=J3vzUMnOsLaNzEHK42kIA445AJiwOm/XYFtRR4x1Ggk=; b=SQkVXEkc3vuSoeiHUmoL/qBNUy
-	ysWSAblsbuvUOG359Wyk/8nWoScXQd4L7GIJ4Xd38Hcrj2DR/a8pmabQhQWHVazQcejXNpHsyTx1h
-	h/hBQpNTKVok/u3+xY4E14431RXX10DkJtH35PSM2PeKugoHN+xXUWPEWscOwg5Dwhs61VBuKUffQ
-	4Si1gvfB0kxo1fWQxO2/ox72IJsK4hfGGpCJ0J2gDDJ2un/boFeEENZZtHe/JqpcaAYV0Q00tIET8
-	xWo1iROXM3b9xws4ee+6hhR7Yr66v541/IhLwjgXTLCirHAfiEGSxh9ytC5afOEKx0eB3hrNWQihe
-	Phc+NUCA==;
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
-	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
-	id 1u9ErR-001VTp-0b;
-	Mon, 28 Apr 2025 11:08:50 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Mon, 28 Apr 2025 11:08:49 +0800
-Date: Mon, 28 Apr 2025 11:08:49 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
-Cc: Corentin Labbe <clabbe.montjoie@gmail.com>, jernej.skrabec@gmail.com,
-	samuel@sholland.org, wens@csie.org,
-	linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH RESEND] crypto: sun8i-ss: do not use sg_dma_len before
- calling DMA functions
-Message-ID: <aA7xQbuV2oOU1oFq@gondor.apana.org.au>
-References: <20250427111236.25668-1-clabbe.montjoie@gmail.com>
- <e147c220-92e1-40cb-920b-916cf6703b40@gmail.com>
+	s=arc-20240116; t=1745811850; c=relaxed/simple;
+	bh=7CAC38e00t9BNrxBO8THArYyzt9u+eyO7blKiSuqsOg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qsmLcVPCXw7j0qIUuFL/0EifEOA1s1+GdLbGr+dQzW5+0iX8aTpWTEAYeQOnpGiqBrvXjAATumV2n65nztbNS025V0J/z0LnLE0C4Mf0OEpferQGXBJzemZ1KTFkm0agZz9/EKknlYPls8mC0ibfTPncgOCpcAr/xKuJfo2T52k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5493b5bc6e8so5040463e87.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 27 Apr 2025 20:44:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745811841; x=1746416641;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7CAC38e00t9BNrxBO8THArYyzt9u+eyO7blKiSuqsOg=;
+        b=q8gCYPQOushIFQK40PEp3+XlwNsVtWLbzYp5o+zMtnyCAibyVFTYO6FBqoNr/uWzt/
+         pOiYuTbHWDxjb0eEg7whmNBZCCYEHBFOxU++v91wJ9B1cJ26jRWXWmnoqaa0vm3g2gJp
+         kJ3iPCc+6j/6Jr68E9x2Rzlp3EUWT+reu8uvDsnISuqqmfHLNYCWW72IkuShfpq5ET55
+         pqxMpH63UoYOcA+7WJVjyGmsRrZnhWMIZtkhJ3yoh0y+b9G47nNnqmNnHc1vKdNgjYXz
+         thqicR+VepsFUgYDJ/JQIt3tk12s+3Jch/VKwVpJ9DvxBCqnTACZ+7Dies7FDncw7Tbi
+         Quog==
+X-Forwarded-Encrypted: i=1; AJvYcCWnP0oQ3yxrDvzHjFUWErTMHy6mb/o2b9xFSgqNk0phQQlYntO8Sys/kCA+jzj/sYJNZkBZL8HuR7m7Fw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwT0FaGs5leGeRVn/0cHWWwuidfvdhRd/Bvxm+4qujl/eLpOeS/
+	8ZzxCVSg5B2SU0yociIjfMGv5k4xpAStfSkta+RjGCOAM4hja7FYw1HfY9nFMTY=
+X-Gm-Gg: ASbGncsw39JXmsgxQSRtnnNppDqS6ujiymsFF6WQIr0pB5Gmm1WyfwdixUhlCi7WIO1
+	jTN1iDbHyRLTYVm4+X4lR0kmUVM5YIt6vJC59rHkhh4KIksACthz6CJcHnIxuBdgIV2Y0n2cubU
+	KNRYys/bHPeyogxV9bsvgZrMKOurVwhujccAb1eEHPz0v7TjhE3v2HAtJZtezohpvN2ZbI/DzzO
+	vXAzrDS2ry6buODWZHqzEQV1nKnzdw8dI1OHY0QNcIp3o13IY2fL82yfVNU1Dw+sHuxbEUSFNDr
+	nm9GKzYQPg9KYhrCgqtjaobpqKhMC97yeGJ9KMwId2l1SxIvx5U7Jy5gg7JTOgefYxieLlS/VDi
+	liCgJqkAv
+X-Google-Smtp-Source: AGHT+IEa4rpX9IUzfKUtdHOn7Ss+5bNTzUBlxsLnoHg6PIbjQf2DqVKnbuYVP2iwQ3lS91QIz0yHMQ==
+X-Received: by 2002:a05:6512:3dab:b0:54e:93cf:338d with SMTP id 2adb3069b0e04-54e93cf3569mr1783962e87.12.1745811841043;
+        Sun, 27 Apr 2025 20:44:01 -0700 (PDT)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com. [209.85.208.177])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54e7cb3a81dsm1534140e87.89.2025.04.27.20.44.00
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 27 Apr 2025 20:44:00 -0700 (PDT)
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-30c461a45f8so41412091fa.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 27 Apr 2025 20:44:00 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXqtxpqiKYij3EnuIGd8mjrMwOMHxpvAeaNpdomBV+NS+0AJwWA5ZQfsPUVvZd82CZXUUTyZHRTxxS2tw==@lists.linux.dev
+X-Received: by 2002:a05:651c:54f:b0:30d:62c1:3c0a with SMTP id
+ 38308e7fff4ca-31907612579mr39451231fa.25.1745811840373; Sun, 27 Apr 2025
+ 20:44:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e147c220-92e1-40cb-920b-916cf6703b40@gmail.com>
+References: <CAGb2v67=aENryhsQ6VBPwPXskMvMDZpzzeHz2LTUt-VDMTyzGQ@mail.gmail.com>
+ <20250428030015.20915-1-amadeus@jmu.edu.cn>
+In-Reply-To: <20250428030015.20915-1-amadeus@jmu.edu.cn>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Mon, 28 Apr 2025 11:43:47 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65EP7dxOe_dcuF6hY+nU1GdO5gLLEtny_yCiOT7LbHbkA@mail.gmail.com>
+X-Gm-Features: ATxdqUF6GOIa9pZuDBxWtkqX4m1trSs8x7Y-JZiW0r6eRTpffkJIo7zf_mFd4yc
+Message-ID: <CAGb2v65EP7dxOe_dcuF6hY+nU1GdO5gLLEtny_yCiOT7LbHbkA@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: allwinner: a523: fix SD card detect pull resistor
+To: Chukun Pan <amadeus@jmu.edu.cn>
+Cc: andre.przywara@arm.com, conor+dt@kernel.org, devicetree@vger.kernel.org, 
+	jernej.skrabec@gmail.com, krzk+dt@kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	robh@kernel.org, samuel@sholland.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Apr 27, 2025 at 09:23:40PM +0300, Ovidiu Panait wrote:
-> 
-> On the other hand, multi_v7_defconfig has CONFIG_NEED_SG_DMA_LENGTH
-> enabled, so sg_dma_len(sg) defaults to sg->dma_length and it would need
-> to be used after calling dma_map_sg() (as indicated in the comment from
-> include/linux/scatterlist.h).
+On Mon, Apr 28, 2025 at 11:00=E2=80=AFAM Chukun Pan <amadeus@jmu.edu.cn> wr=
+ote:
+>
+> Hi,
+>
+> > Fixes separated and squashed into the original patches.
+>
+> https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git/commit/?h=
+=3Dsunxi/dt-for-6.16&id=3Ddd97ddc4da0af02139b0e97e98c210219631e161
+>
+> In the above commit, dts was renamed but Makefile was not changed.
+>
+> > +dtb-$(CONFIG_ARCH_SUNXI) +=3D sun55i-a527-radxa-a5e.dtb
+>
+> Do you want a patch or will you rebase again?
 
-In general, only use sg_dma_len if you are mapping an entire
-SG list with dma_map_sg.
+Fixed now, though today's linux-next might be broken. Sorry for the mess.
 
-If you're using dma_map_single, do not use sg_dma_len.
-
-This is because dma_map_sg will try to merge entries together,
-thus creating an sg_dma_len that is bigger than the original
-(and reducing the SG list length accordingly).
-
-OTOH dma_map_single can't possibly do that.
-
-Cheers,
--- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+ChenYu
