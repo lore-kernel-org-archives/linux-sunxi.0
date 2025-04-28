@@ -1,47 +1,51 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4069F1DB34B;
-	Mon, 28 Apr 2025 07:23:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F0441760
+	for <linux-sunxi@lists.linux.dev>; Mon, 28 Apr 2025 07:26:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745824982; cv=none; b=TkTibaQfPQ7PESXTT8Td7EIrwrhJOUBAEViUvfV+ZSXyj0GT8XRIMIUHYIgOw9twgmwUvu2mtK5o4vouDjgxKrXp1cagynxvcvTF63Xbfq95UG3e3mdZRBmZOQh19wQi/C1ZqmfnczD9ANCfDSOQ1vYzxBddDBRCQFSiaAMHkIQ=
+	t=1745825216; cv=none; b=b/rpRnvp/5zoK2DXeVutYCQFusOUy9zK7pdMnegOwCIz/ZfPD+pzfANQxukO6uoDg8uBwzB+4V+q2KkTt1JQ8nI36ZCr55iddlmpDbx6ZzTQ99ExSP71TqWW2oho/xSbIhI3rzY0Ma/s0+7PwOq87+lRNddMEpC6L86/WTbDPGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745824982; c=relaxed/simple;
-	bh=qP/8wVu9kz7JxXZ42YE7w0X2oBw+B6PGhKfko70XC1A=;
+	s=arc-20240116; t=1745825216; c=relaxed/simple;
+	bh=nDBkBJAdWu/ACY86EyWr8Sx3/0ngI6TPK6V9GBIUBiU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lY5vXv91b9kpFK3/sM+TZelj03xGYaB0soDCP08HufA1uKV5A/ChW+9xG7doh82Xq73mqejtKujdQ7T0kHAVREWo/qeYgjxsFLLVinotrqrYrWR3SlDiy+wdI/Bp840K3myoFRpzf7o9KNIBIxn7Ghoc3pHcHcaEv8hhjMywCmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t94DEvDU; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=JWSyntISS8kQ8tRwk+bmTG4Sy2XI4Jbe+5O8+9PeOxtC6oIdA6BkiRF3RLtrYfsLJZGTSnbLT9yE0lm8q5Klt6GSPPGH2INiL2a+YDiwGOYTW0yig4iFTMeFmqZZa+JVhcReRPgZnohlq6kPz3+IsdpRka8uUI8YUJM7XLNfzYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net; spf=pass smtp.mailfrom=posteo.net; dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b=BOcE2IqS; arc=none smtp.client-ip=185.67.36.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t94DEvDU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CC7BC4CEE4;
-	Mon, 28 Apr 2025 07:23:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745824981;
-	bh=qP/8wVu9kz7JxXZ42YE7w0X2oBw+B6PGhKfko70XC1A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=t94DEvDU03gDddW43clwxceIcPAB2+GzF2WaZICJGfgbmDrd1Ns4viVu7ZniKI/Zv
-	 dJG6PV3+RmBkV2AGzDsqvuC6UQEpvebsYRWW1JSYJgwj1/ia+GJ7Zc+znQtbp67iYa
-	 4eN68nGvHpFr4MUEkGV3Q5zqBkCx1IUfYohtQoRZtHvK47qxLtGRVH0G1NuZOpTsuC
-	 1yrR/OZ57JtDnLBuTPskbe45xdaN4UkaqYgYkwkBZWAYM8jaIurkvZDBx4ztRe7cWQ
-	 HsDGJqKihvuGc8p+wk32Q/L9HpXztpak8KSDED4aw6D6VxPG9AipDCwWBWqqZrQrLN
-	 mO6hqAQMGF+VQ==
-Date: Mon, 28 Apr 2025 09:22:59 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Yixun Lan <dlan@gentoo.org>
-Cc: Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Maxime Ripard <mripard@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Andre Przywara <andre.przywara@arm.com>, Corentin Labbe <clabbe.montjoie@gmail.com>, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH v2 2/5] dt-bindings: arm: sunxi: Add A523 EMAC0 compatible
-Message-ID: <20250428-prehistoric-fragrant-bear-163afa@kuoka>
-References: <20250424-01-sun55i-emac0-v2-0-833f04d23e1d@gentoo.org>
- <20250424-01-sun55i-emac0-v2-2-833f04d23e1d@gentoo.org>
+	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="BOcE2IqS"
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id 9C770240028
+	for <linux-sunxi@lists.linux.dev>; Mon, 28 Apr 2025 09:26:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
+	t=1745825205; bh=nDBkBJAdWu/ACY86EyWr8Sx3/0ngI6TPK6V9GBIUBiU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:From;
+	b=BOcE2IqSE0aj4vSs00NcAdlFm8ATmFEhh9teUyMmf0JirIaIWhgwB1vb2PndV51Xs
+	 DeOwScmMKSPH4wtviibnNMzL1gBjlrmeWAo7YWmOy9GH59FrZwhqj3/u548KECG1Fn
+	 UTrRW8YU2WWYkc+rrFqL12G1f+FJiDHnBnzAhVh20btLU4XT6l84J1O8rHrL8xsyxE
+	 NNKOO1THUDZahjCzlAucJlX4qtQdrgWTXJuPevlaS8hmOqzM8Pg3PYZOwHbPdi/+xU
+	 kzTbPBhNVrcUdj7xjTBlu1pA7oiSdaqZK8YGTapplJdQeeNKFx+6u9JjzqT50Yoke5
+	 5tNdOFlnxVVrg==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4ZmFPZ1fG3z9rxG;
+	Mon, 28 Apr 2025 09:26:42 +0200 (CEST)
+Date: Mon, 28 Apr 2025 07:26:41 +0000
+From: =?utf-8?Q?J=2E_Neusch=C3=A4fer?= <j.ne@posteo.net>
+To: Chen-Yu Tsai <wens@csie.org>
+Cc: j.ne@posteo.net, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ARM: dts: allwinner: orangepi-zero: Enable audio codec
+Message-ID: <aA8tsao6hhW50k4e@probook>
+References: <20250418-opz-audio-v1-1-4e86bb5bc734@posteo.net>
+ <CAGb2v67-1tk0uAmYL-y6479itUxBJua76qhjn+0tTsN+Ni_a1w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -50,19 +54,57 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250424-01-sun55i-emac0-v2-2-833f04d23e1d@gentoo.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGb2v67-1tk0uAmYL-y6479itUxBJua76qhjn+0tTsN+Ni_a1w@mail.gmail.com>
 
-On Thu, Apr 24, 2025 at 06:08:40PM GMT, Yixun Lan wrote:
-> Allwinner A523 SoC variant (A527/T527) contains an "EMAC0" Ethernet
-> MAC compatible to the A64 version.
+On Sun, Apr 27, 2025 at 01:28:58PM +0800, Chen-Yu Tsai wrote:
+> On Fri, Apr 18, 2025 at 7:32 AM J. Neuschäfer via B4 Relay
+> <devnull+j.ne.posteo.net@kernel.org> wrote:
+> >
+> > From: "J. Neuschäfer" <j.ne@posteo.net>
+> >
+> > Line out playback and microphone capture work, after enabling the
+> > corresponding ALSA controls. Tested with the Orange Pi Zero interface
+> > board, which is a (mostly) passive adapter from the 13-pin header to
+> > standard connectors (2x USB A, 1x Audio/Video output, 1x built-in
+> > microphone).
+> >
+> >   https://orangepi.com/index.php?route=product/product&product_id=871
 > 
-> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-> Signed-off-by: Yixun Lan <dlan@gentoo.org>
-> ---
->  Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml | 1 +
+> What about the USB ports?
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Good point, I could test these. I have not mentioned them because they
+are not related to audio.
+
+> In any case, we don't enable peripherals on "headers" by default. That's
+> up to the end user. The description for the whole adapter board could be
+> an overlay that users can then apply directly.
+
+For features such as pinmuxed UARTs (already present and disabled in the
+dts), I fully agree, because they could as well be used as GPIO, and
+that's for the user to decide.
+
+For the audio pins, there's nothing else one can do with them, as far as
+I understand it. It is possible to use at the least the Line Out pins
+with very minimal setup, e.g. just connecting the pins to headphones or
+something else.
+
+I'll clarify the following points in a comment in the next version:
+
+ - The audio signals are exposed on the 1x13 header described in
+   https://linux-sunxi.org/Xunlong_Orange_Pi_Zero
+
+ - The pins can't be used for anything else according to section
+   3.1. Pin Characteristics of the Allwinner H3 Datasheet.
+
+Although I would prefer to enable the audio pins by default (because
+they are present on the Orange Pi Zero board), I would also be ok with
+adding them as status = "disabled", as is the case with uart1 and uart2.
+Please let me know your opinion.
+
+I will test the USB ports and write a devicetree overlay at
+arch/arm/boot/dts/allwinner/orangepi-zero-interface-board.dtso
+
 
 Best regards,
-Krzysztof
-
+J. Neuschäfer
