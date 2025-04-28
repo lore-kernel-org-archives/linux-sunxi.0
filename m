@@ -1,96 +1,127 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D4002BD04
-	for <linux-sunxi@lists.linux.dev>; Mon, 28 Apr 2025 03:44:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E86F19F120
+	for <linux-sunxi@lists.linux.dev>; Mon, 28 Apr 2025 06:10:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745811850; cv=none; b=gbLaf7Q3OXeHkUWV2ihQVUBmAr9hVUGriPB8NIZg3l5bozsVFsxWcwemqQO4sr984qsjlQnvAm1XdkUjr2J+cq8W0woYwSTTFC5BfOnfRK4MKz//YkJg2eQOHwtV/XcO5HrPGPbOt3ub49FngtzOyPzhFgjwCSYpXMM0LgmE9Ug=
+	t=1745820659; cv=none; b=n6ACyrXuA0PHvI+HXVd67mTC1YsumZHWLAuToBrZm3PQTOqDkqQyoPiDL8FjuwZ++JAbI8jNZ0TDVdTSWFsdN7SfARUBEbpd7y2akM7x76M6gh/VGjC8kRDr4Xs7uN5kmeKMYTHADZoR3f1aqgWC+JkYf1pHTAvYyKYS1PhNnAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745811850; c=relaxed/simple;
-	bh=7CAC38e00t9BNrxBO8THArYyzt9u+eyO7blKiSuqsOg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qsmLcVPCXw7j0qIUuFL/0EifEOA1s1+GdLbGr+dQzW5+0iX8aTpWTEAYeQOnpGiqBrvXjAATumV2n65nztbNS025V0J/z0LnLE0C4Mf0OEpferQGXBJzemZ1KTFkm0agZz9/EKknlYPls8mC0ibfTPncgOCpcAr/xKuJfo2T52k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+	s=arc-20240116; t=1745820659; c=relaxed/simple;
+	bh=9Otz/d2gzrWoOePyNeKzlIpVCpLA5uOam+AtSbppq4k=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=W8BJ+MRxt7A3bWjpH4eCJjAokPKGoab1XmCX8ZuLlpJ3tveKFfb6tWLdYKpQVtXDH68d2h3z26BrQsc1AHj7j3hdekr1wYexCAv8BqoLqj0SuRXNusj5IyaPzOX2Bfj3gqzEnJ69G6+Abvo5BpLDNFknzvGxdyI05y5fWHwzdt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DDm7ojeT; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5493b5bc6e8so5040463e87.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 27 Apr 2025 20:44:05 -0700 (PDT)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DDm7ojeT"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-ac6e8cf9132so844286566b.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 27 Apr 2025 23:10:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745820655; x=1746425455; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=QphPfE+vUE67L3trT4TGohjxqNrvuWYQckH1kmeBzLI=;
+        b=DDm7ojeTEugt8DECrB1FFN+BFFN52yBy9VBaZ4Bxrvb9KyOBL7YpQTF44KyZS7S2vV
+         1YCGVlmMTGMSW1EMV1IPFVbX8YxkPvD1q3NlHJv3FarqzZElQcgALtfvNZYkMfsk4Afu
+         1E0jYuVev/nYLn5VEeJ+7I2Bals0VXxfl8MsDJ+Soae3vWyT6+2/l+POGHtFZtbCb6eY
+         8LnrnG8rStliUbFg2lHvIdW5bRws8pNWKjsSODia19u1FA0uGKRnfRiIzEDMId++jrfY
+         kVyzMbTs2hHnb/MONx65/7xGXfQGUmq+o5hMDocl0fuAFKh7IggapC8WXuCeoFF2BqpJ
+         fXwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745811841; x=1746416641;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=7CAC38e00t9BNrxBO8THArYyzt9u+eyO7blKiSuqsOg=;
-        b=q8gCYPQOushIFQK40PEp3+XlwNsVtWLbzYp5o+zMtnyCAibyVFTYO6FBqoNr/uWzt/
-         pOiYuTbHWDxjb0eEg7whmNBZCCYEHBFOxU++v91wJ9B1cJ26jRWXWmnoqaa0vm3g2gJp
-         kJ3iPCc+6j/6Jr68E9x2Rzlp3EUWT+reu8uvDsnISuqqmfHLNYCWW72IkuShfpq5ET55
-         pqxMpH63UoYOcA+7WJVjyGmsRrZnhWMIZtkhJ3yoh0y+b9G47nNnqmNnHc1vKdNgjYXz
-         thqicR+VepsFUgYDJ/JQIt3tk12s+3Jch/VKwVpJ9DvxBCqnTACZ+7Dies7FDncw7Tbi
-         Quog==
-X-Forwarded-Encrypted: i=1; AJvYcCWnP0oQ3yxrDvzHjFUWErTMHy6mb/o2b9xFSgqNk0phQQlYntO8Sys/kCA+jzj/sYJNZkBZL8HuR7m7Fw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwT0FaGs5leGeRVn/0cHWWwuidfvdhRd/Bvxm+4qujl/eLpOeS/
-	8ZzxCVSg5B2SU0yociIjfMGv5k4xpAStfSkta+RjGCOAM4hja7FYw1HfY9nFMTY=
-X-Gm-Gg: ASbGncsw39JXmsgxQSRtnnNppDqS6ujiymsFF6WQIr0pB5Gmm1WyfwdixUhlCi7WIO1
-	jTN1iDbHyRLTYVm4+X4lR0kmUVM5YIt6vJC59rHkhh4KIksACthz6CJcHnIxuBdgIV2Y0n2cubU
-	KNRYys/bHPeyogxV9bsvgZrMKOurVwhujccAb1eEHPz0v7TjhE3v2HAtJZtezohpvN2ZbI/DzzO
-	vXAzrDS2ry6buODWZHqzEQV1nKnzdw8dI1OHY0QNcIp3o13IY2fL82yfVNU1Dw+sHuxbEUSFNDr
-	nm9GKzYQPg9KYhrCgqtjaobpqKhMC97yeGJ9KMwId2l1SxIvx5U7Jy5gg7JTOgefYxieLlS/VDi
-	liCgJqkAv
-X-Google-Smtp-Source: AGHT+IEa4rpX9IUzfKUtdHOn7Ss+5bNTzUBlxsLnoHg6PIbjQf2DqVKnbuYVP2iwQ3lS91QIz0yHMQ==
-X-Received: by 2002:a05:6512:3dab:b0:54e:93cf:338d with SMTP id 2adb3069b0e04-54e93cf3569mr1783962e87.12.1745811841043;
-        Sun, 27 Apr 2025 20:44:01 -0700 (PDT)
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com. [209.85.208.177])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54e7cb3a81dsm1534140e87.89.2025.04.27.20.44.00
-        for <linux-sunxi@lists.linux.dev>
+        d=1e100.net; s=20230601; t=1745820655; x=1746425455;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QphPfE+vUE67L3trT4TGohjxqNrvuWYQckH1kmeBzLI=;
+        b=gI0H8LNj+zHpNJc/iIAbSld51LcV51tagf5MhWm1XxJ3JoYnOy6jYK2f9ESeg7MG+m
+         Ghec5tVLpFxm8dJVTHWBDWG1CQWsHFV6PFrqlztZlGdHQ08F2OxBG60pW+46l4GDl7fY
+         xL8jRUZsq6UVJBzhLDPeAjKarfOlgNzhQuJQW35G/KX/toLBsSLiPTvkUw7KTAkW0XyE
+         PWIMBqyQZVvtyzaL/DAT3nyRWvOAMfpu4AyMupeVWAzyBT4ecuprUW4bSC6OsnMuM1Va
+         1a1FgYDk5UD3k7BW3KMuF+ulJeOe7HHTB+0WPFX35lgSTQMc9TKrEhnpUNiODwUkFQuN
+         hLfA==
+X-Forwarded-Encrypted: i=1; AJvYcCWs7Z7RaX4kpdY5IUYhibueyrls4y8V0UGsL2/qvJnHbqR/4cVpY1y4RqkoYolnvg8w3iI9+hPY9kpzhw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzoRItPIz+K9upUc8zhbksygj5IeEbaLObPwRt4D960LLE6CxNr
+	cuc564qUBox6qPYoP1P4WAknTyJR9n1+TGq8wHszgy/Y0Nkb3RBo
+X-Gm-Gg: ASbGncsn6baWXFDWOqzSBt72GqwU9G7lLSRRtdNsH58+WPa973Uoc+ATHo3zPMALG+k
+	uFOZjjw9hpaBvQV50fpHzeIZghEfHKvAsjO3K4szai+z2qgBN37FnJ90zBmGchmdDue7FCy/V9q
+	XRWPuY6E74ck9XnfhRynPVknuQOeBKZmAPf699fotM36sP3U0DU/zsXkeGdJwGbwZGTn3lTDVTt
+	MUJA3aaknG+/3vPaxeafafEgGbEDWA61GVApptfL92OnKIT5FEPQTDhZ9MRjh/UBopCh3szVx6T
+	B0JEPsQ3DmWiWlw5qm7HBQlIPHYEF3uavjubJHTgtbQFcTEZWM7FF3yzFb+LU3KpPr2a8JVESef
+	5XqW/2GgzPzWaWvrc6w==
+X-Google-Smtp-Source: AGHT+IHkHGWY//K0wfWb5JEsBAo4EX5tBYhxssfjjb2vj5Y0wAC7SsY0YE6ZYBAcqI4jC1DXrJwMuA==
+X-Received: by 2002:a17:906:f59f:b0:aca:a162:67bb with SMTP id a640c23a62f3a-ace739dcdd6mr918382966b.4.1745820654333;
+        Sun, 27 Apr 2025 23:10:54 -0700 (PDT)
+Received: from [192.168.1.18] (146.10-240-81.adsl-dyn.isp.belgacom.be. [81.240.10.146])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ace6ed70611sm569224466b.143.2025.04.27.23.10.53
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 27 Apr 2025 20:44:00 -0700 (PDT)
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-30c461a45f8so41412091fa.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 27 Apr 2025 20:44:00 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXqtxpqiKYij3EnuIGd8mjrMwOMHxpvAeaNpdomBV+NS+0AJwWA5ZQfsPUVvZd82CZXUUTyZHRTxxS2tw==@lists.linux.dev
-X-Received: by 2002:a05:651c:54f:b0:30d:62c1:3c0a with SMTP id
- 38308e7fff4ca-31907612579mr39451231fa.25.1745811840373; Sun, 27 Apr 2025
- 20:44:00 -0700 (PDT)
+        Sun, 27 Apr 2025 23:10:53 -0700 (PDT)
+Message-ID: <3aea4181-427f-4859-8a89-54c139775da6@gmail.com>
+Date: Mon, 28 Apr 2025 08:10:53 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAGb2v67=aENryhsQ6VBPwPXskMvMDZpzzeHz2LTUt-VDMTyzGQ@mail.gmail.com>
- <20250428030015.20915-1-amadeus@jmu.edu.cn>
-In-Reply-To: <20250428030015.20915-1-amadeus@jmu.edu.cn>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Mon, 28 Apr 2025 11:43:47 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65EP7dxOe_dcuF6hY+nU1GdO5gLLEtny_yCiOT7LbHbkA@mail.gmail.com>
-X-Gm-Features: ATxdqUF6GOIa9pZuDBxWtkqX4m1trSs8x7Y-JZiW0r6eRTpffkJIo7zf_mFd4yc
-Message-ID: <CAGb2v65EP7dxOe_dcuF6hY+nU1GdO5gLLEtny_yCiOT7LbHbkA@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: allwinner: a523: fix SD card detect pull resistor
-To: Chukun Pan <amadeus@jmu.edu.cn>
-Cc: andre.przywara@arm.com, conor+dt@kernel.org, devicetree@vger.kernel.org, 
-	jernej.skrabec@gmail.com, krzk+dt@kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	robh@kernel.org, samuel@sholland.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/3] drm/panfrost: enable G31 on H616
+From: Philippe Simons <simons.philippe@gmail.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, Andre Przywara <andre.przywara@arm.com>,
+ =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
+References: <20250403055210.54486-1-simons.philippe@gmail.com>
+Content-Language: en-US
+In-Reply-To: <20250403055210.54486-1-simons.philippe@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Apr 28, 2025 at 11:00=E2=80=AFAM Chukun Pan <amadeus@jmu.edu.cn> wr=
-ote:
->
-> Hi,
->
-> > Fixes separated and squashed into the original patches.
->
-> https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git/commit/?h=
-=3Dsunxi/dt-for-6.16&id=3Ddd97ddc4da0af02139b0e97e98c210219631e161
->
-> In the above commit, dts was renamed but Makefile was not changed.
->
-> > +dtb-$(CONFIG_ARCH_SUNXI) +=3D sun55i-a527-radxa-a5e.dtb
->
-> Do you want a patch or will you rebase again?
+Hi, is there any issue with this serie
 
-Fixed now, though today's linux-next might be broken. Sorry for the mess.
+Thanks,
 
-ChenYu
+Philippe
+
+On 4/3/25 07:52, Philippe Simons wrote:
+> Allwinner H616 has a dedicated power domain for its Mali G31.
+>
+> Currently after probe, the GPU is put in runtime suspend which
+> disable the power domain.
+> On first usage of GPU, the power domain enable hangs the system.
+>
+> This series adds the necessary calls to enable the clocks and
+> deasserting the reset line after the power domain enabling and
+> asserting the reset line and disabling the clocks prior to the
+> power domain disabling.
+>
+> This allows to use the Mali GPU on all Allwinner H616
+> boards and devices.
+>
+> Changelog v1 .. v2:
+> - merge flags to a single GPU_PM_RT flag
+> - reorder init/deinit powerup/down sequences according to
+>    Mali manuals.
+> Link to v1:
+> https://lore.kernel.org/linux-sunxi/20250312232319.25712-1-simons.philippe@gmail.com/
+>
+> Philippe Simons (3):
+>    drm/panfrost: Add PM runtime flag
+>    drm/panfrost: add h616 compatible string
+>    drm/panfrost: reorder pd/clk/rst sequence
+>
+>   drivers/gpu/drm/panfrost/panfrost_device.c | 71 ++++++++++++++++------
+>   drivers/gpu/drm/panfrost/panfrost_device.h |  3 +
+>   drivers/gpu/drm/panfrost/panfrost_drv.c    |  8 +++
+>   3 files changed, 63 insertions(+), 19 deletions(-)
+>
+>
+> base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
+> prerequisite-patch-id: eb8a11e2b24bb282970d8b8528834dea7ee392cc
