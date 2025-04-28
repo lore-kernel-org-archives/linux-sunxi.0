@@ -1,48 +1,47 @@
-Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A66F26A1A0
-	for <linux-sunxi@lists.linux.dev>; Mon, 28 Apr 2025 12:31:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5F26268FFF;
+	Mon, 28 Apr 2025 12:38:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745843495; cv=none; b=ewVxAR1/RtV0SkhffTAPEad1XLlRzUwBYdaV8gVeJHvCcaXIBz/2+B131w4Fn9A35nyX0v09U4daizJP2u4pCfp+HrZqSmGdILRd4/oWykWRqxcekclZc8N5FINc29RzS84xfVvNkoy4zmYObBShRjc7qrR6bjLzprBsPDaNmYE=
+	t=1745843886; cv=none; b=CR0HyqdM/rIOOSG7CSTY66UjntRlPkNl23kz610tmAVBuOEcFtr0KXFx47xeuTu31lWdiGstkrvNZmZridI/CosaJVsh9AIDBiY/WJ8YXBDgGtPL3M903G8I8exdm+9cD8RKKp+tM1Ig4yIOmYySuWVtpv6C40Nkxi5z1kyt9WU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745843495; c=relaxed/simple;
-	bh=gwBWdi3DsQDSGAcw91QNj4uRRTHDHP7U6CL+tA4Yvgc=;
+	s=arc-20240116; t=1745843886; c=relaxed/simple;
+	bh=meHWLVZ0S5MilVqdf5x6PAb4kftFLYvDmsZ1UCGAZoc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UKLng3v02Pp9n+PrEo00otaTVoA5E7Glva6jBcasl1bAdKFHcMPZB5capwJ/CcvPaDkfDTd3VEdE3xXsnB0wkNe4+98qlMigmuFHfEohGC/+5fNKxmY9/KCcjO2Yh8VNLXI0/+5Ts5NV6VK7sstISCQ2pY/NwD1jHF2fpwHAN2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-Received: from localhost (unknown [116.232.18.46])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: dlan)
-	by smtp.gentoo.org (Postfix) with ESMTPSA id DB59234306D;
-	Mon, 28 Apr 2025 12:31:31 +0000 (UTC)
-Date: Mon, 28 Apr 2025 12:31:27 +0000
-From: Yixun Lan <dlan@gentoo.org>
-To: Chen-Yu Tsai <wens@csie.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Corentin Labbe <clabbe.montjoie@gmail.com>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH v2 2/5] dt-bindings: arm: sunxi: Add A523 EMAC0 compatible
-Message-ID: <20250428123127-GYB56330@gentoo>
-References: <20250424-01-sun55i-emac0-v2-0-833f04d23e1d@gentoo.org>
- <20250424-01-sun55i-emac0-v2-2-833f04d23e1d@gentoo.org>
- <CAGb2v64vy9Zx-mJgT7dLMMcx4nbAeQ3n8pbvwT6QkuMTL6kQTg@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=J9uDrYLJHkbxD0skslweNt4s4PDe2a44/LGk54/KfYtkN1zSzeBDVS2EzMquw0KVPELk3KSEA3BzUzFfHOlVVuSAEOwogQT3zBzMyHVe2gjM8o1r24lsWOBcCPph8Z6//7dUvLrsEtVw6A1cMFwKnaNrxUwUWIcl50skWR6X0kw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=d0FVi0lS; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="d0FVi0lS"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+	In-Reply-To:References; bh=dH/FvjHE8lshhA2GzAYCh4KC+tngQVadf9pdXMFOnjI=; b=d0
+	FVi0lSLJts6XaHlfuaVTqfbQlGFln20eaztuujqTEbBR2i8yn4Zf7TAF06sWq8vpWuEQb0cWOxG+g
+	e5pbH2bSpZAXbo7Waa46KZIhptnYsMfl6hxPJ9ILCMu5iR7AiZ6FXWvIItQ4gllGkewnTfHNY/cHB
+	dLMHkIPA6XTVe8Y=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1u9Nk4-00Apse-Im; Mon, 28 Apr 2025 14:37:48 +0200
+Date: Mon, 28 Apr 2025 14:37:48 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: Andre Przywara <andre.przywara@arm.com>, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, wens@csie.org,
+	samuel@sholland.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] arm64: dts: allwinner: h6: Add OrangePi 3 LTS DTS
+Message-ID: <34e30bf2-6f80-4c43-9e52-c1ebe0521c43@lunn.ch>
+References: <20250413134318.66681-1-jernej.skrabec@gmail.com>
+ <20250425135429.174a1871@donnerap.manchester.arm.com>
+ <cd7fd026-2f82-43d1-abdb-482bfe600bb5@lunn.ch>
+ <2219754.irdbgypaU6@jernej-laptop>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -52,52 +51,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGb2v64vy9Zx-mJgT7dLMMcx4nbAeQ3n8pbvwT6QkuMTL6kQTg@mail.gmail.com>
+In-Reply-To: <2219754.irdbgypaU6@jernej-laptop>
 
-Hi All,
-
-On 13:43 Sun 27 Apr     , Chen-Yu Tsai wrote:
-> On Thu, Apr 24, 2025 at 6:09 PM Yixun Lan <dlan@gentoo.org> wrote:
-> >
-> > Allwinner A523 SoC variant (A527/T527) contains an "EMAC0" Ethernet
-> > MAC compatible to the A64 version.
+On Sat, Apr 26, 2025 at 08:00:49PM +0200, Jernej Škrabec wrote:
+> Dne petek, 25. april 2025 ob 17:34:14 Srednjeevropski poletni čas je Andrew Lunn napisal(a):
+> > > > +&emac {
+> > > > +	pinctrl-names = "default";
+> > > > +	pinctrl-0 = <&ext_rgmii_pins>;
+> > > > +	phy-mode = "rgmii-rxid";
+> > > 
+> > > So relating to what Andrew said earlier today, should this read rgmii-id
+> > > instead? Since the strap resistors just set some boot-up value, but we
+> > > want the PHY driver to enable both RX and TX delay programmatically?
+> > 
+> > Yes.
+> > 
+> > There is a checkpatch.pl patch working its way through the system
+> > which will add warning about any rgmii value other than rgmii-id. Such
+> > values need a comment that the PCB has extra long clock
+> > lines. Hopefully that will make people actually stop and think about
+> > this, rather than just copy broken vendor code.
 > 
-> The patch subject prefix should be "dt-bindings: net: sun8i-emac: ".
-> 
-Ok, I can update in next version
+> I spent quite some time working on ethernet support for this board. Once
+> I've found PHY datasheet, I confirmed that there is added delay. So this
+> particular board needs "rgmii-rxid" mode.
 
-> And this needs an Ack from the DT binding maintainers.
-> 
-I'd assume Krzysztof Kozlowski also fine to have his ack kept in next version
-with above subject updated, since I saw he already gave an ack to this patch.
+There have been numerous discussions about what these rgmii modes
+mean, because DT developers frequently get them wrong.
 
-Thanks
+Does the PCB have an extra long clock line in the TX direction? That
+is what rgmii-rxid means, the PCB is providing the TX delay, the
+MAC/PHY pair needs to add the RX delay.
 
-Yixun Lan
+Ignore strapping. That is just a power on default which gets over
+ridden once the PHY driver is running.
 
-> ChenYu
-> 
-> 
-> > Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-> > Signed-off-by: Yixun Lan <dlan@gentoo.org>
-> > ---
-> >  Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
-> > index 7fe0352dff0f8d74a08f3f6aac5450ad685e6a08..7b6a2fde8175353621367c8d8f7a956e4aac7177 100644
-> > --- a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
-> > +++ b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
-> > @@ -23,6 +23,7 @@ properties:
-> >                - allwinner,sun20i-d1-emac
-> >                - allwinner,sun50i-h6-emac
-> >                - allwinner,sun50i-h616-emac0
-> > +              - allwinner,sun55i-a523-emac0
-> >            - const: allwinner,sun50i-a64-emac
-> >
-> >    reg:
-> >
-> > --
-> > 2.49.0
-> >
-> >
+What PHY is this?
+
+	Andrew
