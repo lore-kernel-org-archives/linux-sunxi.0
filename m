@@ -1,251 +1,167 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D26D22D79F
-	for <linux-sunxi@lists.linux.dev>; Mon, 28 Apr 2025 15:09:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D516F2949ED
+	for <linux-sunxi@lists.linux.dev>; Mon, 28 Apr 2025 19:05:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745852963; cv=none; b=LWreyuUTF87cGFxcflubMisFi13zwnQxQkQNVxmY9xfCTKsoiiC9WPOvQ/5tIqpO+6E6gdX9IniWSgOw01wDhOZ061TzrFU7FMC85sGh1NX8vU2dJeynTsQ5gzo0erwNkcODnhz0vR3+K3dZ7q1RscONO6wvKsyvv7P5qx7gx2s=
+	t=1745867137; cv=none; b=R/foI+NuzdZYcIZJH1jZUmihM/Hcsm7VnfEBeFbVoDhpwKPP8MqKwhLipChfXsNRlsAQX7Bq6/LhLV2r2iPC8d26O+HcUqCRWGYoelxB0z2oht+6XHBnp+Qe0+3JefVfZKH2mG6VvrpgZSuBGIY7BSy2SM4p4v/2SdXlIJc8ydE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745852963; c=relaxed/simple;
-	bh=FuRKp/d91MeUjxos9iJYHa9PqwDqUhCXeJZoh9jBl+s=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=N+0YxjZB6Uq5xmTzDvVZyvtK5OGbBNLkLuVKtk/x/GRsFzNkgr/ABpzsTJGR4CvjesZk9d+oT4JX6s11fcu4QKMbSt3RVrDAnYXGwTZSpnSkN4ieHw3Y85ktm+cCYQvZxajM1XTD9S79xX1yUDmLjoKfaotiz/jsV0+5RPYW2+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0E5AA1516;
-	Mon, 28 Apr 2025 08:09:13 -0700 (PDT)
-Received: from donnerap.arm.com (donnerap.manchester.arm.com [10.32.100.21])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 50E603F673;
-	Mon, 28 Apr 2025 08:09:18 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Tom Rini <trini@konsulko.com>
-Cc: Jagan Teki <jagan@amarulasolutions.com>,
-	Simon Glass <sjg@chromium.org>,
-	u-boot@lists.denx.de,
-	linux-sunxi@lists.linux.dev,
+	s=arc-20240116; t=1745867137; c=relaxed/simple;
+	bh=WteJzO/Z1DzRQW8fq91N8pv+4i0P5V6n3lJEseim6lk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EQlbcd6JyJtNBda4VoSsbf4HH3LlIMM/v2ifYTB3xIKgcBRUBaq3lmhofyyxfaoMYEwoQUfn9ZXw+L8MOs27bo4VEk2w5nWUwO6OkZ/fOuxNTa0XJwlm+mVbd2h1MYmm4NtaZTjtlwjozp4NQibrwVB5GzEDKOOw7skAYjBXzOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=konsulko.com; spf=pass smtp.mailfrom=konsulko.com; dkim=pass (1024-bit key) header.d=konsulko.com header.i=@konsulko.com header.b=p1Uqohh7; arc=none smtp.client-ip=209.85.160.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=konsulko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=konsulko.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=konsulko.com header.i=@konsulko.com header.b="p1Uqohh7"
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-2c873231e7bso3466850fac.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 28 Apr 2025 12:05:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google; t=1745867135; x=1746471935; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=iz5tHaDCtivElLxBv0r1K5Hvs5E1kpZaNW+5X33tlwo=;
+        b=p1Uqohh7qVBN2MMTpKsuJUlg+RXwSFor4RB2ZWn0vpVqR8Y465Ew9VrvUrP0J6lzif
+         UDcDoyVp+2wTC9lGbW+bnL4xPntv1Fy3uDUJtLzgT1JuJQa7yKV5Xsqk8EXCVlrswNOY
+         DBN0NAJKO8Ur9XUnZx2mylq415QT+Cw2a9bgo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745867135; x=1746471935;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iz5tHaDCtivElLxBv0r1K5Hvs5E1kpZaNW+5X33tlwo=;
+        b=b3Xb26kI2WSQ2qnesV5qpmUplS1gi2W5bOpHlGG3IbUbokaSIMoH5zqop9QLHTRv4v
+         gQETv/dPfcpZDE66fqepN47ehAwclS0/GsAu2vGOpAWiUQ3F7LATB7sPPUIfdW7d6ZCp
+         wtZlSwcb5GkwQn0D/0TeK841RIHYBQ7NIK4+mh8xCxH5kKtJLod8PMqp2Twaiusto1Is
+         fBMHmYVCW9yhGkzcDM8L0BT0upmUhsaHpgi5piGKpPig7VUACcnCrPgX0Pmu61mKH2gA
+         iAnNCsL0jk5wVp3s0t9ClhHrWYLrqeGNo30U6hJ1tXH8AFlxv8HeFhX7X5IQnLnBIrR2
+         3OyA==
+X-Forwarded-Encrypted: i=1; AJvYcCUTDz7YEGldZnjQTmBCWMYCOAgVmcgdm/3vAEdgX7zr2L9PbkZjuk10pIGir8ENbUZvXED2PFYZ1WYFlw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywrqu4AmJPHa8v2NDREqizGa6ymU6/to2vf9KkVVqNCyS8OtR47
+	th4lcC7SZCZuTsxeXGW7MYbzAm1bMvvnqKZqY8G5/hP8UkloTmOw3QPQA0Eqn+I=
+X-Gm-Gg: ASbGnct2dnmrJcs+47OoFbrKWQ4F65+cCpXjW/ymC+SeL3vsn7F45unTTV1489KSSKB
+	71ISmVRrqYb66eYeg1k7xrdFRy/Yt6EM162+S6zDJ7g6F8uBKLtmYMMtl6pagj1mO0tT2YpPZ8D
+	Pntv5RpuzD1jrWiwCaCRa79HN11JtUtdIBvSgAbh+cTGP+VuopfkAK0jdZBkjjugfVdxcz7fxxw
+	Vm9oFh+dxypHyZB2KLWmk++c4JkPwBySvgSLmWHsqRnGl0sCHpc4KzB/RwFdrU4ehoFduboNhXu
+	h9WOuBOKyb5rea7h7AG5jHVXC5u9XtBC8TOxI2RhHhRADVGfBq6N2zR7XGruAvxzJykt4euQHTx
+	6hg==
+X-Google-Smtp-Source: AGHT+IHn/p1YAF7unHdWhSvQ4pt+yJIK+0dkJUyk2kaAP+WvNQKGn9Ni3/g8IX/XACswbmQU9YBW9g==
+X-Received: by 2002:a05:6871:4d0:b0:2c2:5639:3a4d with SMTP id 586e51a60fabf-2d9be93a4bdmr5542427fac.38.1745867133551;
+        Mon, 28 Apr 2025 12:05:33 -0700 (PDT)
+Received: from bill-the-cat (fixed-187-190-205-42.totalplay.net. [187.190.205.42])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2d9737e77aasm2442612fac.25.2025.04.28.12.05.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Apr 2025 12:05:32 -0700 (PDT)
+Date: Mon, 28 Apr 2025 13:05:30 -0600
+From: Tom Rini <trini@konsulko.com>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Jagan Teki <jagan@amarulasolutions.com>, Simon Glass <sjg@chromium.org>,
+	u-boot@lists.denx.de, linux-sunxi@lists.linux.dev,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>
-Subject: Pull request: u-boot-sunxi/master for v2025.07
-Date: Mon, 28 Apr 2025 16:09:07 +0100
-Message-Id: <20250428150907.206134-1-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.25.1
+Subject: Re: Pull request: u-boot-sunxi/master for v2025.07
+Message-ID: <20250428190530.GF5495@bill-the-cat>
+References: <20250428150907.206134-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="9CkmJfo5L3Qd/xge"
+Content-Disposition: inline
+In-Reply-To: <20250428150907.206134-1-andre.przywara@arm.com>
+X-Clacks-Overhead: GNU Terry Pratchett
 
-Hi Tom,
 
-please pull the sunxi/master branch, containing changes for the second
-part of this cycle's sunxi updates.
+--9CkmJfo5L3Qd/xge
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-We have improvements to the reliability of H6 and H616 DRAM
-initialisation, hopefully avoiding those occasional size misdetections
-many people reported before.
-Also there is some modernisation of the USB PHY code, to use DT provided
-regulators and GPIOs, instead of relying on this being badly duplicated
-in Kconfig. This also happens to fix broken USB operations for older
-boards (using the A20 SoCs, for instance), which were clashing over
-grabbing some GPIOs, leading to a driver bailout.
-There is also some rework of the H6/H616 SPL clock code, to prepare it
-for being reused by the upcoming Allwinner A523 support. This drops the
-usage of C structs to model MMIO register frames, and replaces them by
-using an addition of the base address with a macro defined offset.
-Also in preparation for A523 there is one fix and one addition for the
-FEL code, to prepare for the GICv3 interrupt controller that the new SoC
-uses. And since this is a simple fix, and was ready, there is also the
-watchdog driver for that new SoC. Finally tossing in an easy fix to some
-H616 defconfig files to enable eMMC.
+On Mon, Apr 28, 2025 at 04:09:07PM +0100, Andre Przywara wrote:
 
-I also use the opportunity to enable proper page table protection
-(observing read-only and no-execute attributes), support for which the
-arm64 port recently gained. I didn't spot any issues on my arm64 board
-tests, but it can be easily disabled or backed out again in case any
-issues arise.
+> Hi Tom,
+>=20
+> please pull the sunxi/master branch, containing changes for the second
+> part of this cycle's sunxi updates.
+>=20
+> We have improvements to the reliability of H6 and H616 DRAM
+> initialisation, hopefully avoiding those occasional size misdetections
+> many people reported before.
+> Also there is some modernisation of the USB PHY code, to use DT provided
+> regulators and GPIOs, instead of relying on this being badly duplicated
+> in Kconfig. This also happens to fix broken USB operations for older
+> boards (using the A20 SoCs, for instance), which were clashing over
+> grabbing some GPIOs, leading to a driver bailout.
+> There is also some rework of the H6/H616 SPL clock code, to prepare it
+> for being reused by the upcoming Allwinner A523 support. This drops the
+> usage of C structs to model MMIO register frames, and replaces them by
+> using an addition of the base address with a macro defined offset.
+> Also in preparation for A523 there is one fix and one addition for the
+> FEL code, to prepare for the GICv3 interrupt controller that the new SoC
+> uses. And since this is a simple fix, and was ready, there is also the
+> watchdog driver for that new SoC. Finally tossing in an easy fix to some
+> H616 defconfig files to enable eMMC.
+>=20
+> I also use the opportunity to enable proper page table protection
+> (observing read-only and no-execute attributes), support for which the
+> arm64 port recently gained. I didn't spot any issues on my arm64 board
+> tests, but it can be easily disabled or backed out again in case any
+> issues arise.
+>=20
+> Full support for the two new SoC series (A133 and A523) we are working
+> on is not quite ready yet, but might follow still a bit later if
+> progress permits.
+>=20
+> CI passed, and boot-tested on at least one board with a H616, H6, A64,
+> H3, A20, T113s.
+>=20
+> Thanks,
+> Andre
+>=20
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> The following changes since commit 5a0a93a768487e55ebe50a34cc90d751bf99cc=
+56:
+>=20
+>   Merge branch 'master' of https://source.denx.de/u-boot/custodians/u-boo=
+t-riscv (2025-04-25 13:13:17 -0600)
+>=20
+> are available in the Git repository at:
+>=20
+>   https://source.denx.de/u-boot/custodians/u-boot-sunxi.git master
+>=20
+> for you to fetch changes up to d5837bbed841889428379ffff3cc19c9dca4cb6d:
+>=20
+>   sunxi: clock: H6: remove struct sunxi_prcm_reg (2025-04-28 15:03:28 +01=
+00)
+>=20
 
-Full support for the two new SoC series (A133 and A523) we are working
-on is not quite ready yet, but might follow still a bit later if
-progress permits.
+Applied to u-boot/master, thanks!
 
-CI passed, and boot-tested on at least one board with a H616, H6, A64,
-H3, A20, T113s.
+--=20
+Tom
 
-Thanks,
-Andre
+--9CkmJfo5L3Qd/xge
+Content-Type: application/pgp-signature; name="signature.asc"
 
-=================================
-The following changes since commit 5a0a93a768487e55ebe50a34cc90d751bf99cc56:
+-----BEGIN PGP SIGNATURE-----
 
-  Merge branch 'master' of https://source.denx.de/u-boot/custodians/u-boot-riscv (2025-04-25 13:13:17 -0600)
+iQGzBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmgP0XYACgkQFHw5/5Y0
+tyyqmwwAmvyC03pAvAaqZzRpeEebVesdI5x0wn6tFk7CfBhZNHsdu2F8g+9OK1vK
+npjs3gV/QjyPdZJTsAAlk281awIydokUNbnZPFbXKcFBZkfOD4chNm/8RJdT7ZDg
+gc0R1Lw1MO5yfQBPcEmPIGdhDgWCHtdP+c21RFFnd5YWyaJzFQDv5bV+t5WWfvKX
+1K6qOQGItsg3rwRKXaFnRpfKR5xv2kcomfwgWbDi2T+ktuZ8YiLUMHgCt8w2d1DL
+U4+/HJGy/87FtkN12i5Wwb5pUc7jBSa/vhSGNn+kz+VunGAv/PxIMg+51jbaFHob
+h6peWAa1uFlZKYpItvwG8YqQPYr7j2jyb5uF4jweIq6qlH+wnh3zLKf52v2+9fAz
+z5a0m8B6RNWWiOsQtOoY5MfV8o0p+pEUHcl40Ja4W9rvoJ2mlj9ml3vxKbzPrCES
+wZjpX5OF79EPltDygmWbuwb0PiEtEaesgxLm0W/WkqP0VNfPew4xkXb4rZQK9dnI
+OEodPs0e
+=tqNW
+-----END PGP SIGNATURE-----
 
-are available in the Git repository at:
-
-  https://source.denx.de/u-boot/custodians/u-boot-sunxi.git master
-
-for you to fetch changes up to d5837bbed841889428379ffff3cc19c9dca4cb6d:
-
-  sunxi: clock: H6: remove struct sunxi_prcm_reg (2025-04-28 15:03:28 +0100)
-
-----------------------------------------------------------------
-Andre Przywara (16):
-      sunxi: h616: defconfigs: enable eMMC
-      sunxi: enable MMU_PGPROT proper page table protection
-      phy: sun4i-usb: Determine VBUS detection pin from devicetree
-      phy: sun4i-usb: Determine USB OTG detection pin from devicetree
-      sunxi: Kconfig: Remove obsolete USBx_* pin symbols
-      watchdog: sunxi: add A523 support
-      sunxi: armv8: FEL: save and restore GICv3 registers
-      sunxi: armv8: FEL: save and restore SP_IRQ
-      sunxi: clock: H6: drop usage of struct sunxi_ccm_reg
-      sunxi: mmc: remove usage of struct sunxi_ccm_reg
-      sunxi: H616: dram: remove usage of struct sunxi_ccm_reg
-      sunxi: H6: dram: remove usage of struct sunxi_ccm_reg
-      sunxi: clock: H6: remove struct sunxi_ccm_reg
-      sunxi: clock: H6: drop usage of struct sunxi_prcm_reg
-      sunxi: H6/H616: dram: remove usage of struct sunxi_prcm_reg
-      sunxi: clock: H6: remove struct sunxi_prcm_reg
-
-Jernej Skrabec (4):
-      sunxi: H6: Remove useless DRAM timings parameter
-      sunxi: H6: DRAM: Constify function parameters
-      sunxi: h6: dram: split dram_para struct
-      sunxi: h6/h616: Reuse common DRAM infrastructure
-
-Samuel Holland (5):
-      power: regulator: Add a driver for the AXP PMIC drivevbus
-      sunxi: Enable PMIC drivevbus regulator support for USB supplies
-      phy: sun4i-usb: Control supplies via the regulator uclass
-      sunxi: Remove obsolete USBx_VBUS_PIN Kconfig symbols
-      gpio: axp: Remove virtual VBUS enable GPIO
-
- arch/arm/Kconfig                                   |   1 +
- arch/arm/cpu/armv8/fel_utils.S                     |   9 +
- arch/arm/include/asm/arch-sunxi/boot0.h            |  12 +-
- arch/arm/include/asm/arch-sunxi/clock_sun4i.h      |   6 +
- arch/arm/include/asm/arch-sunxi/clock_sun50i_h6.h  | 229 ++-------------------
- arch/arm/include/asm/arch-sunxi/clock_sun6i.h      |   7 +
- arch/arm/include/asm/arch-sunxi/clock_sun8i_a83t.h |   7 +
- arch/arm/include/asm/arch-sunxi/clock_sun9i.h      |   7 +
- arch/arm/include/asm/arch-sunxi/dram_dw_helpers.h  |  22 ++
- arch/arm/include/asm/arch-sunxi/dram_sun50i_h6.h   |   9 +-
- arch/arm/include/asm/arch-sunxi/prcm_sun50i.h      |  44 +---
- arch/arm/mach-sunxi/Kconfig                        |  43 ----
- arch/arm/mach-sunxi/Makefile                       |   4 +-
- arch/arm/mach-sunxi/board.c                        |   3 +
- arch/arm/mach-sunxi/clock_sun50i_h6.c              |  72 +++----
- arch/arm/mach-sunxi/dram_dw_helpers.c              | 150 ++++++++++++++
- arch/arm/mach-sunxi/dram_sun50i_h6.c               | 212 ++++++-------------
- arch/arm/mach-sunxi/dram_sun50i_h616.c             | 184 ++---------------
- arch/arm/mach-sunxi/dram_timings/h6_ddr3_1333.c    |   2 +-
- arch/arm/mach-sunxi/dram_timings/h6_lpddr3.c       |   2 +-
- arch/arm/mach-sunxi/rmr_switch.S                   |  12 ++
- configs/A10s-OLinuXino-M_defconfig                 |   1 -
- configs/A13-OLinuXinoM_defconfig                   |   1 -
- configs/A13-OLinuXino_defconfig                    |   2 -
- configs/A20-OLinuXino-Lime2-eMMC_defconfig         |   2 -
- configs/A20-OLinuXino-Lime2_defconfig              |   2 -
- configs/A20-Olimex-SOM-EVB_defconfig               |   2 -
- configs/A20-Olimex-SOM204-EVB-eMMC_defconfig       |   2 -
- configs/A20-Olimex-SOM204-EVB_defconfig            |   2 -
- configs/A33-OLinuXino_defconfig                    |   3 +-
- configs/Ainol_AW1_defconfig                        |   1 -
- configs/Ampe_A76_defconfig                         |   3 -
- configs/Auxtek-T003_defconfig                      |   1 -
- configs/Auxtek-T004_defconfig                      |   1 -
- configs/Bananapi_M2_Ultra_defconfig                |   2 -
- configs/Bananapi_m2m_defconfig                     |   1 -
- configs/Bananapro_defconfig                        |   2 -
- configs/CHIP_defconfig                             |   1 -
- configs/CHIP_pro_defconfig                         |   1 -
- configs/CSQ_CS908_defconfig                        |   2 -
- configs/Chuwi_V7_CW0825_defconfig                  |   3 -
- configs/Colombus_defconfig                         |   1 -
- configs/Cubieboard4_defconfig                      |   5 +-
- configs/Cubietruck_defconfig                       |   3 -
- configs/Cubietruck_plus_defconfig                  |   5 +-
- configs/Empire_electronix_d709_defconfig           |   3 -
- configs/Empire_electronix_m712_defconfig           |   3 -
- configs/Hummingbird_A31_defconfig                  |   2 -
- configs/Hyundai_A7HD_defconfig                     |   4 -
- configs/Linksprite_pcDuino3_Nano_defconfig         |   1 -
- configs/Linksprite_pcDuino_defconfig               |   2 -
- configs/MSI_Primo81_defconfig                      |   2 +-
- configs/Mele_A1000G_quad_defconfig                 |   2 -
- configs/Mele_I7_defconfig                          |   2 -
- configs/Mele_M9_defconfig                          |   2 -
- configs/Merrii_A80_Optimus_defconfig               |   5 +-
- configs/Mini-X_defconfig                           |   1 -
- configs/Orangepi_defconfig                         |   2 -
- configs/Orangepi_mini_defconfig                    |   2 -
- configs/Sinlinx_SinA31s_defconfig                  |   2 -
- configs/Sinlinx_SinA33_defconfig                   |   1 -
- configs/Sinovoip_BPI_M2_defconfig                  |   2 -
- configs/Sinovoip_BPI_M3_defconfig                  |   4 +-
- configs/Sunchip_CX-A99_defconfig                   |   3 -
- configs/UTOO_P66_defconfig                         |   3 -
- configs/Wexler_TAB7200_defconfig                   |   2 -
- configs/Wobo_i5_defconfig                          |   1 -
- configs/Yones_Toptech_BD1078_defconfig             |   1 -
- configs/Yones_Toptech_BS1078_V2_defconfig          |   3 +-
- configs/ba10_tv_box_defconfig                      |   2 -
- configs/bananapi_m2_berry_defconfig                |   1 -
- configs/colorfly_e708_q1_defconfig                 |   3 +-
- configs/difrnce_dit4350_defconfig                  |   3 -
- configs/dserve_dsrv9703c_defconfig                 |   3 -
- configs/ga10h_v1_1_defconfig                       |   3 +-
- configs/gt90h_v4_defconfig                         |   3 +-
- configs/h8_homlet_v2_defconfig                     |   2 -
- configs/iNet_3F_defconfig                          |   2 -
- configs/iNet_3W_defconfig                          |   2 -
- configs/iNet_86VS_defconfig                        |   2 -
- configs/iNet_D978_rev2_defconfig                   |   3 +-
- configs/icnova-a20-swac_defconfig                  |   3 -
- configs/inet1_defconfig                            |   3 -
- configs/inet86dz_defconfig                         |   3 +-
- configs/inet97fv2_defconfig                        |   3 -
- configs/inet98v_rev2_defconfig                     |   3 -
- configs/inet9f_rev03_defconfig                     |   3 -
- configs/inet_q972_defconfig                        |   3 +-
- configs/jesurun_q5_defconfig                       |   1 -
- configs/mixtile_loftq_defconfig                    |   2 -
- configs/mk802_a10s_defconfig                       |   1 -
- configs/mk802_defconfig                            |   1 -
- configs/orangepi_2_defconfig                       |   1 -
- configs/orangepi_plus_defconfig                    |   2 -
- configs/orangepi_zero2_defconfig                   |   1 -
- configs/orangepi_zero3_defconfig                   |   1 -
- configs/parrot_r16_defconfig                       |   2 -
- configs/pine_h64_defconfig                         |   1 -
- configs/polaroid_mid2407pxe03_defconfig            |   3 +-
- configs/polaroid_mid2809pxe04_defconfig            |   3 +-
- configs/pov_protab2_ips9_defconfig                 |   3 -
- configs/q8_a13_tablet_defconfig                    |   3 -
- configs/q8_a23_tablet_800x480_defconfig            |   3 +-
- configs/q8_a33_tablet_1024x600_defconfig           |   3 +-
- configs/q8_a33_tablet_800x480_defconfig            |   3 +-
- configs/r7-tv-dongle_defconfig                     |   1 -
- configs/sun8i_a23_evb_defconfig                    |   3 -
- configs/tanix_tx1_defconfig                        |   2 +
- configs/tbs_a711_defconfig                         |   3 +-
- configs/teres_i_defconfig                          |   1 -
- configs/x96_mate_defconfig                         |   1 +
- drivers/gpio/axp_gpio.c                            |  75 ++-----
- drivers/gpio/sunxi_gpio.c                          |  12 +-
- drivers/mmc/sunxi_mmc.c                            |  20 +-
- drivers/phy/allwinner/phy-sun4i-usb.c              |  96 +++------
- drivers/power/pmic/axp.c                           |   1 +
- drivers/power/regulator/Kconfig                    |   7 +
- drivers/power/regulator/Makefile                   |   1 +
- drivers/power/regulator/axp_drivevbus.c            |  57 +++++
- drivers/watchdog/sunxi_wdt.c                       |  11 +
- include/axp221.h                                   |   4 -
- include/axp809.h                                   |   4 -
- include/axp818.h                                   |   4 -
- include/sunxi_gpio.h                               |   8 -
- 124 files changed, 552 insertions(+), 984 deletions(-)
- create mode 100644 arch/arm/include/asm/arch-sunxi/dram_dw_helpers.h
- create mode 100644 arch/arm/mach-sunxi/dram_dw_helpers.c
- create mode 100644 drivers/power/regulator/axp_drivevbus.c
+--9CkmJfo5L3Qd/xge--
