@@ -1,112 +1,110 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 991B4248191;
-	Tue, 29 Apr 2025 16:56:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 573B434545;
+	Wed, 30 Apr 2025 02:37:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745945780; cv=none; b=Ri9axr/UJj1DLWj16RgES4517PXHG7SzPyU1H0WrDjKkSas+j2ee0lW0u5ZT6jnd+ztAUeIY+ThfG640QObva3OP+X0l7IpX8AvUVNdStxGriEzicoKMSD/jRMgaF1oRABF0hMJnG0wkomit8bJPte807RpBycVDWpDByclZVfk=
+	t=1745980633; cv=none; b=hFxFpcX7FvZKWt+M7zeiH0rcc50wTxAGOEWgCpxyvjjvrsaAHbaNXtb770TqbtGNB91v4NMtpiCkOuuGqNsnFqHVANszSg9AwbhNQfXpInOiPNQ4y6HKgO3ZLISlKZzojW05CmD0qLTb72FRJjeMw0ly8NZACbVwk0rQwxw8GvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745945780; c=relaxed/simple;
-	bh=ZBivkq4bsRKPhUyFGxJQG9MmcvXaxlQ9Dd4wSsqIJSM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q8WKjkMnC/pl3HClMh2B11IHLpcz/e52/6ijQK+93KuzZ3lvyZVufjDOpuYK6b8s8w7eaH0HpjblHr+Mfnr9ywXpKH7VA7N2Q+33GEDqPdsPKf7Qb0W1Vvx4uGduVS3XMN1F1b9C1K+3vRj1OJR0tIZu6Qe+IINU51GyRuoa8ok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=Ho9e5Jmd; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1745980633; c=relaxed/simple;
+	bh=UeVWVQMtCSgoY6I17XEsqNEXKT0TWbHaFTIMLOeTnTs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=E56n228goyoSAXxOhpFWC2KLQVS8csCsq4kC74nRfcQ0aQFqCk/Wox3cUg2geCq01QypWbua7rOUS+krIVDVhkFawPqRKWltaBOcpnHMAjlU433HVIfMfAO14PJY36s7l8OCkDeGHar7GDzUvcNtgj+RpigxJ4UjcHJnP7JZ/rE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RsGi18MN; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="Ho9e5Jmd"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=r5rlUDCcvbNorSSfBxhY0Uo2Pju4LLTw7V0kTzWGnw0=; b=Ho9e5JmdTFW+pLmFUi4wNow9wm
-	VXlhmjwcdIcVeswarlOATW52sNWISJ24fB8EbnhqWkVPq5rWXCKE4XW6CCvksmzSNXGu6Rjho0bq/
-	E09xKIHdsgcp/D40bvZt6p8bdcgD1GU2aPoc/q59R6QMlkz38uxPZV9YB6ACDKlDfR3Q=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1u9oFc-00AxlT-0j; Tue, 29 Apr 2025 18:56:08 +0200
-Date: Tue, 29 Apr 2025 18:56:08 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Chen-Yu Tsai <wens@csie.org>
-Cc: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-	Andre Przywara <andre.przywara@arm.com>, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, samuel@sholland.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] arm64: dts: allwinner: h6: Add OrangePi 3 LTS DTS
-Message-ID: <b98d6bab-d3bb-44d2-9dbf-623dfb673671@lunn.ch>
-References: <20250413134318.66681-1-jernej.skrabec@gmail.com>
- <6a056bf8-9f39-4204-9378-8cc39be60038@lunn.ch>
- <4645060.LvFx2qVVIh@jernej-laptop>
- <4975791.GXAFRqVoOG@jernej-laptop>
- <2486dae4-c5a5-4df2-8048-87b4b2d46d54@lunn.ch>
- <CAGb2v66dF8hMmjjJMnpVxM+092q=ZYZ+kT316roZuty6i+rcXQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RsGi18MN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745980632; x=1777516632;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=UeVWVQMtCSgoY6I17XEsqNEXKT0TWbHaFTIMLOeTnTs=;
+  b=RsGi18MNF8jGZalT5uwWEr7+XwHGKafTsSeLz/yTc84l1CVW8nb6eQGn
+   bJ5FJSZOGdHd3qCWfIEZHesxJGcPvsgwyCTM9Rs7iv2vYhNSpQNw+1DkH
+   hT+41b02Igg2vBsZ1GTXYHAStTougPRAkcRhKN02U9FiuNf6F2UI182dh
+   fibc0UebK422qSdSPFDtQyoQ8NwXcQvSAkIE4w1KMepXqzyTBWLvjZbkt
+   h3GIjj1rlbYDH+Qmf4kpYsGKajeeI6qA/RTWeJ3+Ki4VyYCJmE/5H/lE1
+   03k5aWTVaHL7VGQnXJOCL3OZkfKZLRlTBoUS+WWnKKDS4hhXjArOAIvvP
+   A==;
+X-CSE-ConnectionGUID: R4sf0fRGTneoXFUXRXqVvQ==
+X-CSE-MsgGUID: xhXryxAsTla99pI9NZIkXw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="51445225"
+X-IronPort-AV: E=Sophos;i="6.15,250,1739865600"; 
+   d="scan'208";a="51445225"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 19:37:10 -0700
+X-CSE-ConnectionGUID: rPKpQb86Qv+hi9Gbn/bOCw==
+X-CSE-MsgGUID: eN7Ab3jZTbWZDraScrUmnA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,250,1739865600"; 
+   d="scan'208";a="134508430"
+Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 19:37:00 -0700
+Message-ID: <0a5f2f46-f474-49d3-baee-59f2ad0a6f0a@linux.intel.com>
+Date: Wed, 30 Apr 2025 10:32:46 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAGb2v66dF8hMmjjJMnpVxM+092q=ZYZ+kT316roZuty6i+rcXQ@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/7] iommu: Remove ops.pgsize_bitmap from drivers that
+ don't use it
+To: Jason Gunthorpe <jgg@nvidia.com>, Alexandre Ghiti <alex@ghiti.fr>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ David Woodhouse <dwmw2@infradead.org>,
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+ Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
+ Janne Grunau <j@jannau.net>, Jean-Philippe Brucker
+ <jean-philippe@linaro.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
+ Kevin Tian <kevin.tian@intel.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-riscv@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-tegra@vger.kernel.org, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, Neal Gompa <neal@gompa.dev>,
+ Orson Zhai <orsonzhai@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Rob Clark <robdclark@gmail.com>,
+ Robin Murphy <robin.murphy@arm.com>, Samuel Holland <samuel@sholland.org>,
+ Niklas Schnelle <schnelle@linux.ibm.com>, Sven Peter <sven@svenpeter.dev>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Tomasz Jeznach <tjeznach@rivosinc.com>, Krishna Reddy <vdumpa@nvidia.com>,
+ virtualization@lists.linux.dev, Chen-Yu Tsai <wens@csie.org>,
+ Will Deacon <will@kernel.org>, Yong Wu <yong.wu@mediatek.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>
+Cc: patches@lists.linux.dev
+References: <3-v1-7c5282b0c334+2db-iommu_rm_ops_pgsize_jgg@nvidia.com>
+Content-Language: en-US
+From: Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <3-v1-7c5282b0c334+2db-iommu_rm_ops_pgsize_jgg@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> > The RX path looks O.K. RGMII-RXID means the PHY should be adding the
-> > 2ns delay. The allwinner,rx-delay-ps = <0> should be redundant, that
-> > should be the driver default. And there are no properties in the PHY
-> > node about RX. All good.
+On 4/29/25 22:34, Jason Gunthorpe wrote:
+> These drivers all set the domain->pgsize_bitmap in their
+> domain_alloc_paging() functions, so the ops value is never used. Delete
+> it.
 > 
-> The default action when the property is missing is to leave the hardware
-> settings alone. I admit this doesn't match the bindings.
+> Signed-off-by: Jason Gunthorpe<jgg@nvidia.com>
+> ---
+>   drivers/iommu/apple-dart.c       | 1 -
+>   drivers/iommu/intel/iommu.c      | 1 -
+>   drivers/iommu/iommufd/selftest.c | 1 -
+>   drivers/iommu/riscv/iommu.c      | 1 -
+>   drivers/iommu/virtio-iommu.c     | 6 ++----
+>   5 files changed, 2 insertions(+), 8 deletions(-)
 
-Please submit a patch fix the binding.
+For intel vt-d driver,
 
-> > TX is the problem. The allwinner,tx-delay-ps = <700> causes the MAC to
-> > add 700ps delay, and 'rgmii-rxid' means the PHY should not add any
-> > delay. But 700ps is too low. It should be around 2000ps. So something
-> > else is adding a delay, or the 700ps is not really 700ps.
-> 
-> Anything is possible. As was raised in a previous reply, it's possible
-> instead of extending the delay range, the decreased the step size and
-> added more steps. The problem is we don't really know.
-
-By poking around with other configuration knobs, i hope we can
-determine if this 700ps actually is 700ps.
-
-> > You say the PHY is a YT8531C. These PHYs also accept
-> > rx-internal-delay-ps and tx-internal-delay-ps properties in their DT
-> > node.
-> >
-> > Try setting 'rgmii-id', allwinner,tx-delay-ps = <0>, and both
-> > rx-internal-delay-ps and tx-internal-delay-ps in the PHY node to 1950.
-> > If that does not work, try other values in the PHY node.
-> 
-> I don't get why we should ignore the strappings instead of using them
-> as reference or even truth.
-
-If you don't want the PHY to be reprogrammed pass:
-
-* @PHY_INTERFACE_MODE_NA: Not Applicable - don't touch
-
-rather than one of
-
- * @PHY_INTERFACE_MODE_RGMII: Reduced gigabit media-independent interface
- * @PHY_INTERFACE_MODE_RGMII_ID: RGMII with Internal RX+TX delay
- * @PHY_INTERFACE_MODE_RGMII_RXID: RGMII with Internal RX delay
- * @PHY_INTERFACE_MODE_RGMII_TXID: RGMII with Internal TX delay
-
-However, if we do pass one of these RGMII modes, i expect the PHY to
-follow them.
-
-> If the strappings worked correctly w/ the
-> generic PHY driver (that doesn't know how to configure the delay mode
-> on the PHY side), isn't it working as intended?
-
-The generic PHY driver is there as a fallback, for when the real PHY
-driver is missing. It is nice if it works, but it often does not in
-current systems.  What we really care about is that the real PHY
-driver works, and the system as a whole follows the DT bindings.
-
-	Andrew
+Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
