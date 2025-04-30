@@ -1,121 +1,69 @@
-Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF4631E1DF1
-	for <linux-sunxi@lists.linux.dev>; Wed, 30 Apr 2025 05:33:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 849571EEF9;
+	Wed, 30 Apr 2025 06:35:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745991198; cv=none; b=ZZDTkwl8gLbzNcb0HYDgrdW/KnFAx8tAI3gEGoSwaVUkShBC07bDZFBpzHK1Zd18yTd7ut6qWdlu1JHg9dJBbeoFoArsU62+U/vIL0609B3sxRgzjwqsO1qcKup6K3BbQG9cudbECA5/9fbApqs0npUtBfHBV7wek9J4hV1OvJA=
+	t=1745994924; cv=none; b=DObCrepu5dr5K585BxqpXvAB1wq8e9SgilRaMG0aXHedfCs4+Sv8/aDan/Jh+3JCA8jnXVhStFu/Dcn7PV1XOZDfGaWnAJhMe7sKpB4uPMHwoowJ57EgYrO84S/y3Tk7g23i0vm5tmCiYj90l5re00U0bAL1DkHS+Y88AxKfqL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745991198; c=relaxed/simple;
-	bh=KQtVVkxqKgq++RrOtQPY3AP4zXz78fWySFRMQ+WV2cw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=DYY6T/AjO6SSqB1ZQYw7CMDUw5JHVBqScC21/uictsg5qw4XDfMDS0d7sUrz3iF+5ndr2NSgOUFldM5Ks3EFSYHJ4wXQLwqzQbYIt1UJqK12xBUnvCKtCVNFPzEfadJnI2MpLscMphuTrUxPVf6IMIJVtaWWlupQZzp/cNbO15w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-Received: from [127.0.0.1] (unknown [116.232.147.253])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: dlan)
-	by smtp.gentoo.org (Postfix) with ESMTPSA id D62F4342FF8;
-	Wed, 30 Apr 2025 05:33:10 +0000 (UTC)
-From: Yixun Lan <dlan@gentoo.org>
-Date: Wed, 30 Apr 2025 13:32:07 +0800
-Subject: [PATCH v3 5/5] arm64: dts: allwinner: t527: add EMAC0 to Avaota-A1
- board
+	s=arc-20240116; t=1745994924; c=relaxed/simple;
+	bh=2GBR4Hi5ao4ZWwIgFEL+gg6kKOZ4jKqEx1gxgiu8CSw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VoULwLFp4WTXH8DNwhnah0YMrGlus2xI+IACE4Kf7nyV4rqXuUm33QXI5laa1N5hHHczU8di1FzQ/FkqMBGeoWo+Avv++kv6H7qUyOQPQG+iIv08LJ2ZhRZ9eJGK5Hm3wqmgcPqpZv/L7UsGpWPpAHTjDlOQkbfeo8KJcOh7WYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S0+8I6l1; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S0+8I6l1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7F98C4CEE9;
+	Wed, 30 Apr 2025 06:35:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745994924;
+	bh=2GBR4Hi5ao4ZWwIgFEL+gg6kKOZ4jKqEx1gxgiu8CSw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=S0+8I6l1mbFthpT1IzvMzXEMZJBe9cGpkyteul4sP/gD+CZQaFXc/Prp03BYRz3Ac
+	 K2ac5c2s5IgBLnnVzfufMhZR8sqYGMvXrS3qkKzH+4XiggLLbNNxaXiCJYTzNP+3O4
+	 RW8Ga767/nq9NsK8m8E0qD6W8OgR1VnsL4elc4srXSbuKUBUD1ATLJxWVB90P0Abal
+	 gIL6jFKZHNNoij/zg/gDVt9PvQsKxyg4LUJumX0eIXbeUZnuNH97Yo+C2TMTpQ+6D/
+	 8tDtpWmqF6qWj6tC2ArxMcgV9F/1NoJOQG9uX0yucecjDVB+OgPNOS+HZYvRcRUjMo
+	 fzrhEQmSw/4IQ==
+Date: Wed, 30 Apr 2025 08:35:21 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Yixun Lan <dlan@gentoo.org>
+Cc: Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Maxime Ripard <mripard@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Andre Przywara <andre.przywara@arm.com>, Corentin Labbe <clabbe.montjoie@gmail.com>, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH v3 1/5] dt-bindings: sram: sunxi-sram: Add A523 compatible
+Message-ID: <20250430-fanatic-singing-terrier-68acbb@kuoka>
+References: <20250430-01-sun55i-emac0-v3-0-6fc000bbccbd@gentoo.org>
+ <20250430-01-sun55i-emac0-v3-1-6fc000bbccbd@gentoo.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250430-01-sun55i-emac0-v3-5-6fc000bbccbd@gentoo.org>
-References: <20250430-01-sun55i-emac0-v3-0-6fc000bbccbd@gentoo.org>
-In-Reply-To: <20250430-01-sun55i-emac0-v3-0-6fc000bbccbd@gentoo.org>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: Andre Przywara <andre.przywara@arm.com>, 
- Corentin Labbe <clabbe.montjoie@gmail.com>, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
- Yixun Lan <dlan@gentoo.org>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1431; i=dlan@gentoo.org;
- h=from:subject:message-id; bh=KQtVVkxqKgq++RrOtQPY3AP4zXz78fWySFRMQ+WV2cw=;
- b=owEBzQIy/ZANAwAKATGq6kdZTbvtAcsmYgBoEbXxaftpe1NJ9cfpRt022XLIsXHhvqeP/+lrN
- m3gmTKPy3uJApMEAAEKAH0WIQS1urjJwxtxFWcCI9wxqupHWU277QUCaBG18V8UgAAAAAAuAChp
- c3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0QjVCQUI4QzlDMzF
- CNzExNTY3MDIyM0RDMzFBQUVBNDc1OTREQkJFRAAKCRAxqupHWU277dNvEACeKULnlu5Zk1MfpK
- yFz42975F08U5nXUWjXpJ+dsJ+loBIeJ/f2vkvtVqTj89Rm7vG3CLPPpjS7Oy7EEumMogyINsP5
- q9F8GateiqiLR7QU5FsoaB90gavEActY7+USEUqEE5UmFxuRX6AhhKG6aUy8VVkyiPokgkptcvB
- pz3pPsyg22fBo3Tz4TBVp7O9TyJLGvW+++BPewKoc0PFPUOlcarVraKMm+I+9uAwLsgGSjL0hz5
- Ka6uCcZVQf6VpkUMBfoVj+CqUfbrLAdrMs2SUgxUC2QwMLKRtthXF41CKYSSrVtw/isObSgBPPw
- 932xGk//aOyGX4mEYRTttXm5mgFUnB84/y6N/s8FrVUK0/+y1fVSqi0MnX1NsGa/LOsQn4+CBWs
- NhThpLovc21IjaVakM3bgkL2QzGKfOmA6e/Qek4c3Iq78GGNJ8WccjktK1I/+uWer/4FUePaRQL
- +I0IPjaTSFiG4Qkgv/0NJUFcMSO5R9J3ddEwFLjyuEzOUk/3L3OkPBevxnUN8uTBrYa13Yq3QLu
- puGs9vF+R+41UZFqAOl3nAsQmUwHqY5XGusqKXaDukMAK6Uh3iFENHt7saULfWyY/J4MLu5oP82
- mITBKX8eCawg617cCed6gQvKRtTJWR5aXcV4d880ZlDm2eJIdFSZW2+Db43GwT+/CXJg==
-X-Developer-Key: i=dlan@gentoo.org; a=openpgp;
- fpr=50B03A1A5CBCD33576EF8CD7920C0DBCAABEFD55
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250430-01-sun55i-emac0-v3-1-6fc000bbccbd@gentoo.org>
 
-On Avaota A1 board, the EMAC0 connect to an external RTL8211F-CG PHY,
-which features a 25MHz crystal, and using PH8 pin as PHY reset.
+On Wed, Apr 30, 2025 at 01:32:03PM GMT, Yixun Lan wrote:
+> The Allwinner A523 family of SoCs have their "system control" registers
+> compatible to the A64 SoC, so add the new SoC specific compatible string.
+> 
+> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+> Signed-off-by: Yixun Lan <dlan@gentoo.org>
+> ---
+>  .../devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml     | 1 +
+>  1 file changed, 1 insertion(+)
 
-Signed-off-by: Yixun Lan <dlan@gentoo.org>
----
-I don't own this board, only compose this patch according to the
-schematics. Let me know if it works.
----
- .../boot/dts/allwinner/sun55i-t527-avaota-a1.dts      | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts b/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
-index 85a546aecdbe149d6bad10327fca1fb7dafff6ad..4524a195e86d20089cc35610495424ed2dec7e95 100644
---- a/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
-@@ -12,6 +12,7 @@ / {
- 	compatible = "yuzukihd,avaota-a1", "allwinner,sun55i-t527";
- 
- 	aliases {
-+		ethernet0 = &emac0;
- 		serial0 = &uart0;
- 	};
- 
-@@ -64,6 +65,24 @@ &ehci1 {
- 	status = "okay";
- };
- 
-+&emac0 {
-+	phy-mode = "rgmii-id";
-+	phy-handle = <&ext_rgmii_phy>;
-+	phy-supply = <&reg_dcdc4>;
-+
-+	allwinner,tx-delay-ps = <100>;
-+	allwinner,rx-delay-ps = <300>;
-+
-+	status = "okay";
-+};
-+
-+&mdio0 {
-+	ext_rgmii_phy: ethernet-phy@1 {
-+		compatible = "ethernet-phy-ieee802.3-c22";
-+		reg = <1>;
-+	};
-+};
-+
- &mmc0 {
- 	vmmc-supply = <&reg_cldo3>;
- 	cd-gpios = <&pio 5 6 (GPIO_ACTIVE_LOW | GPIO_PULL_DOWN)>; /* PF6 */
-
--- 
-2.49.0
+Best regards,
+Krzysztof
 
