@@ -1,160 +1,148 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB68A202976
-	for <linux-sunxi@lists.linux.dev>; Thu,  1 May 2025 15:49:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F7332236FA
+	for <linux-sunxi@lists.linux.dev>; Thu,  1 May 2025 19:07:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746114597; cv=none; b=aYQA9rTH0tHzQPciIIkCaN+mrGl+B/UIJvYg1o8UvolK4TjVNKHqKb8UtML9BLLLwJmqzEBxcQI5uHiaqLW0Cj6drcftujp0T87LMZ0j32q0tZuY/plM1qyYu5p5pRDFW/JZ6yjW+VB7DN1+3+nworRTWp6Z5m0NkDY3KW5BpIA=
+	t=1746126461; cv=none; b=oqKdlYGYNDERJvLh1yYh+3iKsUiNHgI+8h5tJCl+niquRS3PY6O4FOkEFymmH7lNNFIQEnsUY/AysHgcdnWoBSKBLBXH6zpYNQmqjzLyfevZdFU4ihHk/qvz4ahXqbEBy02DbWehzdGXdtee8ss6HasZpI0GOpccHsE3yH43HCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746114597; c=relaxed/simple;
-	bh=W9BachoRTeAygYcbHIbG7xkpsgUWVuBAAJuX3hIFZPI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=frK4P5sUeiDBWgOcCjR5NieyJtkVtiD8wJAwRLTAuO6PuqYab6j+rbnNONNMcWOoqVpIiv4f+6C3KTsFpLjf+TVhQL7j17bXpl0J00IkTAPJQRZ/efXwW+cpuhzDbzreWUPYJF8AP2m4vB7Wet5zLvhucNQhlu0iZiAjyLKqXgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+	s=arc-20240116; t=1746126461; c=relaxed/simple;
+	bh=2PjYxqC2TvoFNeTYXNE58FNx+yDrrBK7F/NyaMPn/rE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uZx9cVFScaAjxzrABM5RbTxg5USJmMQC4mPQJShsfpvMFoJNCU2Ihi5NQ89VfiWTsVu9s2NEthap6bmgjzyy0ToFos2asX+E7mMXaw/c0jXKmmE8QRp6jHwuKDnbEg0rbKNGmCqLBDnRQY7rWcJD+tkGWx8O5AgbKlHrzob9WoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fY3SnDVI; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-54d98aa5981so1382235e87.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 01 May 2025 08:49:54 -0700 (PDT)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fY3SnDVI"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-ac3fcf5ab0dso194506566b.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 01 May 2025 12:07:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746126458; x=1746731258; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xYcnJfHyu9Qya9nm0+iaohPyzIhpcE4qtAIXaJuOv9M=;
+        b=fY3SnDVISiC6ZSi4DyZBGo4Czy1ljacOp8WVrUNtUHPq2xyExsi8s0P6JBDiqolOGd
+         3EaewdsfkBubdzX9cku6qFQIJpneAtoD/xA862H+eDiwJfIxyiJwT3Yo4GGFKWzz2maF
+         QVjLou4AaUO32jD3cq3FsELHFfG5pzfXrhD+VANDXpLjkUnq6PLP4cFAjsd5ekwfSgiA
+         RLQyEPl0DyxGtKVXXuGla226MHdv7AQlaCR/V4oxDNWRDTMgalwB6Eb40MyHUvNTA1x7
+         vn2nq423Kcr7pp89Dta8C1cD6zGrSA+T4kQ8zdYm0Cxq+UPmZIskOBdNTZnwU5XMpzXj
+         zWlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746114593; x=1746719393;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=P/BY26p+uht5cjoH02VGkGf/8sVgcKuidq7b9URqiKc=;
-        b=UgCWvTPSTTkkiJanrhsg6z02H27nQ9xD52lE9mHQRyMH7cFSOdNz1ggZxo0pvRax3y
-         ahiineAQtxkMwbwfXEII7TVkQuM57g3eYLPLO1lNL60r8fmvTKrtdI1AyrEPjOdmJBNS
-         kDM3iVeDLfill79+GtSGeF+RRqmLrJwPDWWtD2v0W4ksVueqx4Zs/6JIOtrkQ9AjycAc
-         8DK5UijGOZo5UARQG63s/5WG5CsEx+ZinVHfniCUO2ZxdzhFPMxhylVRvoRfmJJnPPsV
-         Z9Xkn6cyWtuSZo6vssXJnQlx6ZYcDTadKyo38xUJKhnSkyhUX3IEbLcEOwSyPinF/X8n
-         Frlw==
-X-Forwarded-Encrypted: i=1; AJvYcCUMLQS6PJZo8B49xwA+6hgXTZXJWgdVbM0KrN7tJ842Hgp4EhsyLtRWpQA7dLkzpGD0qsHog+ASV6VU/A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzQZhrkTIonDhEM4/dDQo3t1C0cKT5C9L7+k0NSF7udZB7MMwIM
-	FbzUt/SM/RlCTjeNXMb1Kq89okeuAQS4KsddB09C4R9eKiEeDGQxpdHT4Rp9
-X-Gm-Gg: ASbGnctE0RASk9tcplG/B7LHpmzvjbT8DHRCggLlGeQ6vKHkb6bhuL9sAINpXYRs8yo
-	KojL7TXAbqQ9ZfWJPJ/rDykcQhZMlG+9n+mJmYpCWYcbXUt9TQxqM/g5GldrvdvGZd3RPRStid+
-	442Vmv8f9HmukQWbHhaZy3wg7niyFnlNI4GIixG1QmJsZfKeqnnlE78sKWSXGWFaFPm+YbD7+Ct
-	OTAZ7saqOOQgVuPq6nh5ogEt/HH7lTi8Zccu4dW2xnBIwYjwAMSJEPogcYbggYlphZ2lQIjtp/2
-	9Aa8Hce1wmQjQXsdTxl5rBBqaxaDVqHj+TkfTnDG2+aSWIgTCtlT3AJSZGzsNqsakoWorN4A+w=
-	=
-X-Google-Smtp-Source: AGHT+IFd0avw6bqpSxggdzIn66LemqUeJsMPZe+CKXEo/BSgSQukzh6gI8iSdINZJCSoo+t0U59O1Q==
-X-Received: by 2002:a05:6512:3d9f:b0:549:39b1:65c2 with SMTP id 2adb3069b0e04-54ea766b50cmr815239e87.48.1746114592445;
-        Thu, 01 May 2025 08:49:52 -0700 (PDT)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com. [209.85.208.179])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54ea94f18e7sm127849e87.198.2025.05.01.08.49.52
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 May 2025 08:49:52 -0700 (PDT)
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-30c461a45f8so8674621fa.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 01 May 2025 08:49:52 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUG/TlYWYPRtMBBjP4DAJZXulX1L4mbUvCjFuix75V4Nj3k0x0CLsAJ7BPTeVVQD2zyPpyD4wd7hluBvQ==@lists.linux.dev
-X-Received: by 2002:a2e:a815:0:b0:30a:4484:3ee1 with SMTP id
- 38308e7fff4ca-31fc285a2f9mr9843211fa.23.1746114592022; Thu, 01 May 2025
- 08:49:52 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1746126458; x=1746731258;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xYcnJfHyu9Qya9nm0+iaohPyzIhpcE4qtAIXaJuOv9M=;
+        b=EKnq86I5RCmevkjlH3fABXJ7sb9e3JGE9DN13oQmTn2NIG2ucgUu24IdThB4vX09Wg
+         CjimEjaINoea6kx4f+aQ8q+kI7fg10TOYha71WBh6f+tB0tkl5E7HLW3RoG4Tgl9UYt5
+         DeHk7S2+sxqLexTgZ80LqhGIi85zCk6ad+UdC/fUNj2pwZlvA3Nlx0crPkMuKqM8Ne+o
+         0p1TNNx7DDGVUlbJwHgaeBJyKseuAE9Ln+s7ElRDKFeaXIBvel3+0iU9C11E328Vck4o
+         bHlo0YN0SObbH1ia4/hjZ6YgSkk8mD0Fbe4AwyEg+5CwPhV5ErVbPMQwm7OV4UIocLc0
+         I2Hw==
+X-Forwarded-Encrypted: i=1; AJvYcCVscO2Lx6bw9lDbK6aDUPG/5QSYcHMrYybweeVN3RrRg2VY0jvEPdAhCruD4uWGW54vSOmtpG7Ebh4w6g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxVhdU2Ta0aqVGRzsK+m7l7bpwnJF4mv6/MDJCY+ghGm8VpLqEw
+	iP2jlNdS7dcVg28HINNG2D5tK8Ao67sec6+x2omBU1gLJhJPfzrd
+X-Gm-Gg: ASbGnctL3idpv2ts5nC26ZgvTN97n2PkvIX63JgKuCuf+5/PXEQFL9AP4lIUh5yCG6x
+	/FQcFUdOf3rz5qkfQVxb42MXM+hS2xFe5iRR8BPMR2h/ov10VFQ/utEwL71b7XNwP8QiyovRrqu
+	vi27lsS1bc4dPXuaA67qe+OoolDxjJ/Ul90d+mNuC0mslTaHyUnBerh+43Y+dTdxdLVvJr0id5g
+	Dkw1uydt4vH11G2IJy+u6llfnxxAICG4Qpk3SvRcMegMZSECWR7RL4YEGCx8h5WCZ/fiHW5lyHX
+	LuqglXaI5so2eI3frD41C0C8m3ynVwgVuks9MeYQumDxPU7TGO1us3kxsPQJ5HS0Csay
+X-Google-Smtp-Source: AGHT+IHfDMVIQ26ycHG3NCY+1odFkBcAwHTLJ2hCKHMBoEhxiuT8ZDLFmo0kkKjR+EXlLecp/8T5kw==
+X-Received: by 2002:a17:907:1b17:b0:ace:37d6:a5ce with SMTP id a640c23a62f3a-ad17ad819e2mr39669966b.19.1746126458067;
+        Thu, 01 May 2025 12:07:38 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:2f0e:c50a:8800:cf9e:ee0b:4a01:37f6])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad0c70c6917sm80349266b.4.2025.05.01.12.07.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 May 2025 12:07:37 -0700 (PDT)
+From: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
+To: clabbe.montjoie@gmail.com,
+	herbert@gondor.apana.org.au,
+	davem@davemloft.net,
+	linux-crypto@vger.kernel.org
+Cc: wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Ovidiu Panait <ovidiu.panait.oss@gmail.com>
+Subject: [PATCH 1/2] crypto: sun8i-ce: undo runtime PM changes during driver removal
+Date: Thu,  1 May 2025 22:06:50 +0300
+Message-ID: <20250501190651.3863582-1-ovidiu.panait.oss@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250430095325.477311-1-andre.przywara@arm.com>
- <174610166405.2974716.1586244113913047340.b4-ty@csie.org> <20250501132211.0310ae49@donnerap.manchester.arm.com>
- <CAGb2v66UnWo4zL6giQYC+Kmo5SSkNAH1_nODM=r6jyQPoi-JNA@mail.gmail.com>
- <20250501-wakeful-kiwi-of-poetry-59d4bb@lemur> <CAGb2v64g2KJVCpMGapCZUx_f4ny20Q4rGVk4JHnf3D09Q8PKgA@mail.gmail.com>
-In-Reply-To: <CAGb2v64g2KJVCpMGapCZUx_f4ny20Q4rGVk4JHnf3D09Q8PKgA@mail.gmail.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Thu, 1 May 2025 23:49:38 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66RkWixx4NB+a5L9_V=bs3wOSWqaSv9QeWb9-aYy2YxaQ@mail.gmail.com>
-X-Gm-Features: ATxdqUEzaINQ96UDrlB5H71xYG8BIF1gchMgabIx0ovgFq-rMIETBvUGQy2ssOo
-Message-ID: <CAGb2v66RkWixx4NB+a5L9_V=bs3wOSWqaSv9QeWb9-aYy2YxaQ@mail.gmail.com>
-Subject: Re: b4 thank-you letter shows incorrect repo URL
-To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc: Andre Przywara <andre.przywara@arm.com>, 
-	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>, tools@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, May 1, 2025 at 11:45=E2=80=AFPM Chen-Yu Tsai <wens@csie.org> wrote:
->
-> On Thu, May 1, 2025 at 10:26=E2=80=AFPM Konstantin Ryabitsev
-> <konstantin@linuxfoundation.org> wrote:
-> >
-> > On Thu, May 01, 2025 at 10:06:22PM +0800, Chen-Yu Tsai wrote:
-> > > (dropped most people and lists from CC; added Konstantin and kernel.o=
-rg users)
-> >
-> > Note, it should go to tools@kernel.org, not users@kernel.org.
->
-> Ack. Dropping users@kernel.org.
->
-> > > > > Applied to clk-fixes-for-6.15 in git@github.com:linux-sunxi/linux=
--sunxi.git, thanks!
-> > > >
-> > > > thanks for that, but the URL here is not correct, is it? Should be =
-the
-> > > > kernel.org repo instead? Saw this already in other "applied" emails=
-.
-> > >
-> > > That's weird. It is correctly pushed to the kernel.org repo [1].
-> > > Maybe it's because the git-config remote entry for korg repo's  is ca=
-lled
-> > > "sunxi-korg", and the linux-sunxi one on GitHub is called "sunxi", an=
-d
-> > > somehow b4 is getting confused?
-> > >
-> > > Konstantin, have you heard of such reports? FYI my b4 is version 0.14=
-.2.
-> >
-> > This is coming from your custom template, not from b4 itself. By defaul=
-t, b4
-> > just says "Applied to ${branch}".
->
-> My template is: "Applied to ${branch} in ${treename}, thanks!"
->
-> My .git/config is as follows:
->
-> [remote "sunxi"]
->         url =3D git@github.com:linux-sunxi/linux-sunxi.git
->         tagopt =3D --no-tags
->         fetch =3D +refs/heads/*:refs/remotes/sunxi-github/*
-> [remote "sunxi-korg"]
->         url =3D https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/lin=
-ux.git
->         pushURL =3D git@gitolite.kernel.org:pub/scm/linux/kernel/git/sunx=
-i/linux
->         fetch =3D +refs/heads/*:refs/remotes/sunxi-korg/*
->         tagopt =3D --no-tags
->         b4-commit-url-mask =3D https://git.kernel.org/sunxi/linux/c/%.12s
->
-> Also, the branch I applied it to is named "sunxi/clk-fixes-for-6.15",
-> both locally and in the kernel.org repo, not "clk-fixes-for-6.15" as
-> shown in the original thank-you email.
->
-> I think there is a parsing error somewhere. Maybe b4 isn't dealing with
-> nested branch names correctly and somehow thinks the "sunxi/" part is
-> actually the remote name.
->
-> If I rename the "sunxi" remote to "sunxi-github", `b4 ty` now generates:
->
->     Applied to sunxi/clk-fixes-for-6.15 in local tree, thanks!
->
-> Again this seems to point to accidentally treating part of the branch nam=
-e
-> as the remote name.
+The pm_runtime_use_autosuspend() call must be undone with
+pm_runtime_dont_use_autosuspend() at driver exit, but this is not
+currently handled in the driver.
 
-Also, I found a thank-you letter that is correct that is from Jan. 2025:
+To fix this issue and at the same time simplify error handling, switch
+to devm_pm_runtime_enable(). It will call both pm_runtime_disable() and
+pm_runtime_dont_use_autosuspend() during driver removal.
 
-    https://lore.kernel.org/linux-sunxi/173617837421.3282465.58930600702338=
-3641.b4-ty@csie.org/
+Fixes: 06f751b61329 ("crypto: allwinner - Add sun8i-ce Crypto Engine")
+Signed-off-by: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
+---
+ .../crypto/allwinner/sun8i-ce/sun8i-ce-core.c   | 17 ++++++-----------
+ 1 file changed, 6 insertions(+), 11 deletions(-)
 
-The next one that I found was incorrect. This one is from Feb. 2025:
+diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
+index ec1ffda9ea32..658f520cee0c 100644
+--- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
++++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
+@@ -832,13 +832,12 @@ static int sun8i_ce_pm_init(struct sun8i_ce_dev *ce)
+ 	err = pm_runtime_set_suspended(ce->dev);
+ 	if (err)
+ 		return err;
+-	pm_runtime_enable(ce->dev);
+-	return err;
+-}
+ 
+-static void sun8i_ce_pm_exit(struct sun8i_ce_dev *ce)
+-{
+-	pm_runtime_disable(ce->dev);
++	err = devm_pm_runtime_enable(ce->dev);
++	if (err)
++		return err;
++
++	return 0;
+ }
+ 
+ static int sun8i_ce_get_clks(struct sun8i_ce_dev *ce)
+@@ -1041,7 +1040,7 @@ static int sun8i_ce_probe(struct platform_device *pdev)
+ 			       "sun8i-ce-ns", ce);
+ 	if (err) {
+ 		dev_err(ce->dev, "Cannot request CryptoEngine Non-secure IRQ (err=%d)\n", err);
+-		goto error_irq;
++		goto error_pm;
+ 	}
+ 
+ 	err = sun8i_ce_register_algs(ce);
+@@ -1082,8 +1081,6 @@ static int sun8i_ce_probe(struct platform_device *pdev)
+ 	return 0;
+ error_alg:
+ 	sun8i_ce_unregister_algs(ce);
+-error_irq:
+-	sun8i_ce_pm_exit(ce);
+ error_pm:
+ 	sun8i_ce_free_chanlist(ce, MAXFLOW - 1);
+ 	return err;
+@@ -1104,8 +1101,6 @@ static void sun8i_ce_remove(struct platform_device *pdev)
+ #endif
+ 
+ 	sun8i_ce_free_chanlist(ce, MAXFLOW - 1);
+-
+-	sun8i_ce_pm_exit(ce);
+ }
+ 
+ static const struct of_device_id sun8i_ce_crypto_of_match_table[] = {
+-- 
+2.48.1
 
-    https://lore.kernel.org/linux-sunxi/173909140135.1184685.57849106777273=
-56231.b4-ty@csie.org/
-
-Though it could be I upgraded something on my workstation some time
-in between.
-
-
-ChenYu
