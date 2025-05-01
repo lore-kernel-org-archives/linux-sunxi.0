@@ -1,127 +1,173 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7218C2DC781
-	for <linux-sunxi@lists.linux.dev>; Thu,  1 May 2025 05:12:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE8EE211710
+	for <linux-sunxi@lists.linux.dev>; Thu,  1 May 2025 12:06:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746076326; cv=none; b=j1PZ33XLfrex47ob9eo4OtjpkjjXyPpZj8OQXERpEbwRkNJVkL23uEZOP96oSfu5yP+rv1/9RA0xXZ5H2vS6KPgzeiN8vHgKhMvjCLHMuRwtmWivAyJORtTxs7EZez8Nq39/AoE8fi4/akpPG7YR6zeOeyl4783DpCVb/Yh4+4U=
+	t=1746101216; cv=none; b=ovE1njatfrlnnKF4s5CNRqNU23iIdFyxxBZyUDjkbK3jIgRUw9f5JxSw1NSlHJEOf+rWngFGM9fLoPbYElpHMlt05kYci1Tzzi5MtOCrZkO1WIzCuqT+5MORUK35HM0AYBDVgmPkHCqp/tRWZ08ar3EbaLHywGXPTtoHVxdkz0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746076326; c=relaxed/simple;
-	bh=y+e4LNh0a+mZT7KuvkuNN9QKvyqkFkWCWi3RGovQ0vs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=N7BNBWK/ybWUDlvJpC29hSe7R6CXIMB/xT+dF/bDVc+87ugyG4bC4k3B9wP7txkCCxbx+46qHIL7g7SMU03QZUuCbFnOdHg887lrTylDy8b/+1ug+pJKfSqlUs3cAZAMkBGbKJicUbwvhmvuHFOCRL9vrlFcEXqfx0ugTZS/tJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-548409cd2a8so653782e87.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 30 Apr 2025 22:12:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746076321; x=1746681121;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Ajprlg+s4993P4LGMO5ZNBmeiTXr19klHoz0G+I0WL0=;
-        b=YqYncdTV1l+tyqfDQett9DYJbnSa7Jk+0dj6aggFu3k2nCd/T2uJc8DhOKhBRUIw74
-         2oeGHuBcmzv9+RTJKzNCUSumHQER/zerRhQWb0/vfUVCSheHvIsdaAGbXSmuEmDwEcd3
-         XDvN1FUGzcxEr8LLEyrRa97KgNdDy6RqfkPt0aI7ZLzrQ/pZSKUnZyjuARrGlawLJ2jT
-         YrCpLSVP5gGHsH+79WWXNdnxJ+1fBpp6JoRuupW5Fgtpv8Ib+aimVIoAZxqxrjYw/wVz
-         4OThTd1/Olwdj3PBJ49Ar1I7kp/Rz4UxFHzP1glShOEapf0UCtPLV/yuHrt2eN8lU5ZC
-         lWZg==
-X-Forwarded-Encrypted: i=1; AJvYcCVxLMGsMNom/tk9H4CF18kEJvD5d1KjBlJaZeOEaENWc1Acwn8yPoFiCD8bawHZsfL7cvcNzs/SvcnIqA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxErXelJts40b45lq+s/2gP7CcTXTMHYfymWKHp+tVcQqLJwEVw
-	I1r/KwZh/t3pqNJNy/8kvnCdhdKYrgECpBlYbVdbVKhDYrPDX27bmYSpJ64k
-X-Gm-Gg: ASbGnctTOlpeVftYbQO32OaI0f1UbhT2Ap2aaRfBsJ6JQNZGCj1x+eeSQVfDWf8b/pp
-	DlN4GeiB8hSxB6cvKPi/BZNG8+VzddaKduJZMRzhFhwCpYOlnFHKfY1W2pi2UuOSoau8JYRoRwi
-	Rn8LDZupNucQBJlMlFUr1rI/bNhJAenOuyVPmxYQDXmSwqEEi2myJIr9FT1BVACaCxGlCjAC8W3
-	IhR+PggjzIx42/JGwKKQJz18i+ekNWma7rKsKwcf+AVmm7vBb0trwZ/+ji0zhJDbf/XALFR7tF5
-	nmiyLQxXDR3xi72tVdWMYLahGAdwXbntiEEisi1JfWvXMBwEJ0pm0QdIeucqLLn3nbXjnTNp72n
-	V7+l7Gym5
-X-Google-Smtp-Source: AGHT+IEafCDum1aygRrDNdJdmsKBOgweT/bPbvWCauXhpB6wyqZVCMHshyTFubd3gawQ6GB5elXrJQ==
-X-Received: by 2002:a05:6512:6cc:b0:549:91c6:96a8 with SMTP id 2adb3069b0e04-54ea7260f08mr318927e87.7.1746076320478;
-        Wed, 30 Apr 2025 22:12:00 -0700 (PDT)
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com. [209.85.208.175])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54ea7647c83sm91912e87.213.2025.04.30.22.11.59
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Apr 2025 22:12:00 -0700 (PDT)
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-30c416cdcc0so4858561fa.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 30 Apr 2025 22:11:59 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUWTDKLHv9ZHyTgTIXfn3Ss95brlX9oMJi5VgC1ep6OFquVCCRpk1/JgbHvfgzTp9ti7HLKuWvhGF3X/A==@lists.linux.dev
-X-Received: by 2002:a2e:a902:0:b0:309:23ea:5919 with SMTP id
- 38308e7fff4ca-31f950cc7admr4279341fa.31.1746076319318; Wed, 30 Apr 2025
- 22:11:59 -0700 (PDT)
+	s=arc-20240116; t=1746101216; c=relaxed/simple;
+	bh=uBtS6QK15OEKP+SzxR9LZEbF075qtLuvzQ1wAFAppWk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=ANRZn4/nfyazXa7HRZ3xBhFwyxM1vql1nt3YN3DtHH8Sw3oI5wv9IkNgcdXT0i3w7eF2Zm0BjcnFZJq+4Z2OhSgjtDkK0Mj6Bd2UXw2SgUYvU0jvE/NRFCjb1t5yl4GTQb6ublRqk6cRaml/jSTZs36IAeLd0MfcpecA/jEJX6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4E3B71D14;
+	Thu,  1 May 2025 05:06:46 -0700 (PDT)
+Received: from donnerap.arm.com (donnerap.manchester.arm.com [10.32.100.21])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4690A3F673;
+	Thu,  1 May 2025 05:06:52 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] clk: sunxi-ng: d1: Add missing divider for MMC mod clocks
+Date: Thu,  1 May 2025 13:06:31 +0100
+Message-Id: <20250501120631.837186-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250430095325.477311-1-andre.przywara@arm.com>
-In-Reply-To: <20250430095325.477311-1-andre.przywara@arm.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Thu, 1 May 2025 13:11:31 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65-YTLbzwxE_X31+Rc76FA+POjEejCCAhYbMxge3175KA@mail.gmail.com>
-X-Gm-Features: ATxdqUHTuNPlh61n7f8lB4pnNO-UYTl-k-uXFS9Jz53D2xoCXFTQKPt4GQyFAJU
-Message-ID: <CAGb2v65-YTLbzwxE_X31+Rc76FA+POjEejCCAhYbMxge3175KA@mail.gmail.com>
-Subject: Re: [PATCH] clk: sunxi-ng: fix order of arguments in clock macro
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 30, 2025 at 5:53=E2=80=AFPM Andre Przywara <andre.przywara@arm.=
-com> wrote:
->
-> When introducing the SUNXI_CCU_MP_DATA_WITH_MUX_GATE_FEAT macro, the orde=
-r
-> of the last two arguments was different between the users and the
-> definition: features became flags and flags became features.
->
-> This just didn't end up in a desaster yet because most users ended up
+The D1/R528/T113 SoCs have a hidden divider of 2 in the MMC mod clocks,
+just as other recent SoCs. So far we did not describe that, which led
+to the resulting MMC clock rate to be only half of its intended value.
 
-                               ^ typo?
+Use a macro that allows to describe a fixed post-divider, to compensate
+for that divisor.
 
-Will fix when applying.
+This brings the MMC performance on those SoCs to its expected level,
+so about 23 MB/s for SD cards, instead of the 11 MB/s measured so far.
 
-ChenYu
+Fixes: 35b97bb94111 ("clk: sunxi-ng: Add support for the D1 SoC clocks")
+Reported-by: Kuba Szczodrzyński <kuba@szczodrzynski.pl>
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+---
+Hi,
 
-> passing 0 for both arguments, and other clocks (for the new A523 SoC) are
-> not yet used.
->
-> Swap the order of the arguments in the definition, so that users stay
-> untouched.
->
-> Fixes: cdbb9d0d09db ("clk: sunxi-ng: mp: provide wrappers for setting fea=
-ture flags")
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  drivers/clk/sunxi-ng/ccu_mp.h | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/drivers/clk/sunxi-ng/ccu_mp.h b/drivers/clk/sunxi-ng/ccu_mp.=
-h
-> index b35aeec70484d..8fc7fdb7ef494 100644
-> --- a/drivers/clk/sunxi-ng/ccu_mp.h
-> +++ b/drivers/clk/sunxi-ng/ccu_mp.h
-> @@ -109,8 +109,7 @@ struct ccu_mp {
->                                              _mshift, _mwidth,          \
->                                              _pshift, _pwidth,          \
->                                              _muxshift, _muxwidth,      \
-> -                                            _gate, _features,          \
-> -                                            _flags)                    \
-> +                                            _gate, _flags, _features)  \
->         struct ccu_mp _struct =3D {                                      =
- \
->                 .enable =3D _gate,                                       =
- \
->                 .m      =3D _SUNXI_CCU_DIV(_mshift, _mwidth),            =
- \
-> --
-> 2.25.1
->
->
+this v2 does away with the extra patch to introduce a generic wrapper,
+instead just introduce its own special wrapper just for the MMC clocks.
+Rebased on top of v6.15.
+Tested on an T113-s3 board and shown to double SD card read performance.
+
+Cheers,
+Andre
+
+Changelog v1 .. v2:
+- rebased on v6.15-rc1
+- drop extra wrapper patch (somewhat obsoleted by A523 clock changes)
+- add specific wrapper for just those clocks (postdiv + parent_data)
+
+ drivers/clk/sunxi-ng/ccu-sun20i-d1.c | 44 ++++++++++++++++------------
+ drivers/clk/sunxi-ng/ccu_mp.h        | 22 ++++++++++++++
+ 2 files changed, 47 insertions(+), 19 deletions(-)
+
+diff --git a/drivers/clk/sunxi-ng/ccu-sun20i-d1.c b/drivers/clk/sunxi-ng/ccu-sun20i-d1.c
+index bb66c906ebbb6..e83d4fd40240f 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun20i-d1.c
++++ b/drivers/clk/sunxi-ng/ccu-sun20i-d1.c
+@@ -412,19 +412,23 @@ static const struct clk_parent_data mmc0_mmc1_parents[] = {
+ 	{ .hw = &pll_periph0_2x_clk.common.hw },
+ 	{ .hw = &pll_audio1_div2_clk.common.hw },
+ };
+-static SUNXI_CCU_MP_DATA_WITH_MUX_GATE(mmc0_clk, "mmc0", mmc0_mmc1_parents, 0x830,
+-				       0, 4,	/* M */
+-				       8, 2,	/* P */
+-				       24, 3,	/* mux */
+-				       BIT(31),	/* gate */
+-				       0);
+-
+-static SUNXI_CCU_MP_DATA_WITH_MUX_GATE(mmc1_clk, "mmc1", mmc0_mmc1_parents, 0x834,
+-				       0, 4,	/* M */
+-				       8, 2,	/* P */
+-				       24, 3,	/* mux */
+-				       BIT(31),	/* gate */
+-				       0);
++static SUNXI_CCU_MP_DATA_WITH_MUX_GATE_POSTDIV(mmc0_clk, "mmc0",
++					       mmc0_mmc1_parents, 0x830,
++					       0, 4,		/* M */
++					       8, 2,		/* P */
++					       24, 3,		/* mux */
++					       BIT(31),		/* gate */
++					       2,		/* post-div */
++					       0);
++
++static SUNXI_CCU_MP_DATA_WITH_MUX_GATE_POSTDIV(mmc1_clk, "mmc1",
++					       mmc0_mmc1_parents, 0x834,
++					       0, 4,		/* M */
++					       8, 2,		/* P */
++					       24, 3,		/* mux */
++					       BIT(31),		/* gate */
++					       2,		/* post-div */
++					       0);
+ 
+ static const struct clk_parent_data mmc2_parents[] = {
+ 	{ .fw_name = "hosc" },
+@@ -433,12 +437,14 @@ static const struct clk_parent_data mmc2_parents[] = {
+ 	{ .hw = &pll_periph0_800M_clk.common.hw },
+ 	{ .hw = &pll_audio1_div2_clk.common.hw },
+ };
+-static SUNXI_CCU_MP_DATA_WITH_MUX_GATE(mmc2_clk, "mmc2", mmc2_parents, 0x838,
+-				       0, 4,	/* M */
+-				       8, 2,	/* P */
+-				       24, 3,	/* mux */
+-				       BIT(31),	/* gate */
+-				       0);
++static SUNXI_CCU_MP_DATA_WITH_MUX_GATE_POSTDIV(mmc2_clk, "mmc2", mmc2_parents,
++					       0x838,
++					       0, 4,		/* M */
++					       8, 2,		/* P */
++					       24, 3,		/* mux */
++					       BIT(31),		/* gate */
++					       2,		/* post-div */
++					       0);
+ 
+ static SUNXI_CCU_GATE_HWS(bus_mmc0_clk, "bus-mmc0", psi_ahb_hws,
+ 			  0x84c, BIT(0), 0);
+diff --git a/drivers/clk/sunxi-ng/ccu_mp.h b/drivers/clk/sunxi-ng/ccu_mp.h
+index 8fc7fdb7ef494..90cf876855eea 100644
+--- a/drivers/clk/sunxi-ng/ccu_mp.h
++++ b/drivers/clk/sunxi-ng/ccu_mp.h
+@@ -52,6 +52,28 @@ struct ccu_mp {
+ 		}							\
+ 	}
+ 
++#define SUNXI_CCU_MP_DATA_WITH_MUX_GATE_POSTDIV(_struct, _name, _parents, \
++						_reg,			\
++						_mshift, _mwidth,	\
++						_pshift, _pwidth,	\
++						_muxshift, _muxwidth,	\
++						_gate, _postdiv, _flags)\
++	struct ccu_mp _struct = {					\
++		.enable	= _gate,					\
++		.m	= _SUNXI_CCU_DIV(_mshift, _mwidth),		\
++		.p	= _SUNXI_CCU_DIV(_pshift, _pwidth),		\
++		.mux	= _SUNXI_CCU_MUX(_muxshift, _muxwidth),		\
++		.fixed_post_div	= _postdiv,				\
++		.common	= {						\
++			.reg		= _reg,				\
++			.features	= CCU_FEATURE_FIXED_POSTDIV,	\
++			.hw.init	= CLK_HW_INIT_PARENTS_DATA(_name, \
++							_parents,	\
++							&ccu_mp_ops,	\
++							_flags),	\
++		}							\
++	}
++
+ #define SUNXI_CCU_MP_WITH_MUX_GATE(_struct, _name, _parents, _reg,	\
+ 				   _mshift, _mwidth,			\
+ 				   _pshift, _pwidth,			\
+-- 
+2.25.1
+
