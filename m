@@ -1,116 +1,164 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from flow-a8-smtp.messagingengine.com (flow-a8-smtp.messagingengine.com [103.168.172.143])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CE58224B15
-	for <linux-sunxi@lists.linux.dev>; Thu,  1 May 2025 19:07:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EBFD224AE8;
+	Thu,  1 May 2025 19:08:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.143
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746126463; cv=none; b=MXn6POw9G5kpJ0gE555vmtpkbnQj0QO5TqSjrI6DtTFyZyKYF+EBh/scf80Y+TuFNl+qof/tZhvtnzOEv7loU1v1byZhffvmqluNrkaqPtuZW1gADWD3vNyz6sbMNV/LBNjTrCHMh0mvgPnx69DKmoBWcilf0WTSM1tVTI2jhaE=
+	t=1746126492; cv=none; b=PTG+Aq0BM93D8Kn0vHZVEIIAr5sOgW67drYIWhuOf5LBOMRfgnTqqrFBtTSbesalUtRyFVv7F+2rdBhTYaW79mjAn6yIw3AUYUbcbeGBWO7mTTDoYUOxhrGl6mPYxPgZQAczVVWeLtZBwvC1GT2bBW2l6EKIawDnQtwUxf3sIm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746126463; c=relaxed/simple;
-	bh=YXKPVxRR7Upwwq5LKZvZEYOzYl8UfelO+cPhSJKCGp4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lMARKkSt2OoZqvagynNR3dxzczovDw6amFX/gO1/0OHvIT8qd8k0yXTfcsia0xP3xsmNdA86kWmdWQUCcpQyy+Ppwzd0Kojb+9wt9KyyhNsInnEswjBCyZSkW1w5Jj9zfl0EnSZYDnCLZzw6vNcH65WCPeyDWK6EzIDaSXcHeJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fk+tyrOo; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1746126492; c=relaxed/simple;
+	bh=t72V4cMXfgECq2XlBkakvc0ngW0PUat2k9kI4OAGgGQ=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=kC7dmTuOD2kBD3XP+cqE0QVE84XzTZ1P2dKP/6YBWw8IN2gi0SKXbxTHjgL+5nn7+9J/WqHmVQRgU6xAGHglwrtHNVJQxMg/3y7047EZxjGikorOTCnEFVHhP2jtMiT1h85jE9MY83t6r+o4jFop9dgHZdorpa1yYFSxwU49jzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=gMWu11vI; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=kRRWrsXt; arc=none smtp.client-ip=103.168.172.143
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fk+tyrOo"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-ac2aeada833so246971766b.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 01 May 2025 12:07:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746126459; x=1746731259; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Qsp9CaqkI2nnPLo+C7isQc9cYVKQaKUwpPDF4hWhLBE=;
-        b=fk+tyrOorac6vNphInLGlfGzSOjmh6DR301Ey29mHT1Bo7Nm4uWx7bVYVfm0brhqtL
-         2Uklxp/vk4vT+JC1qP+oAX6jZbcUp+o/itA9tcjFRa/Zq3muPYSQPtyzFafvwrW4OGN0
-         vq5jyoERHcJZ3PP5xwHvd8QKtfBK9Ddrwq315kLVORL7GLL5FfGudB3yvQyYipEUJ6oP
-         sS2TKGh+p27zxGiuDiTeNE8rvfFzJ/rAq53rrDBwLRx/uAOB1JfadwT+4qXv2U2WlIJx
-         fr6mrd8oBQRAivChodfvHU5k1LUQ+p+SMdH6rEU1TXNOg1NXCDF1EzPtOkezaGppfP0U
-         KEjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746126459; x=1746731259;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Qsp9CaqkI2nnPLo+C7isQc9cYVKQaKUwpPDF4hWhLBE=;
-        b=oq+77aGyjyaaBiHB6MhsGgXXhG63sRQi+tqLF2OoydvliP05wGGF+DR6WbasDTMLOC
-         /serLonCSzBoLZCtX0OYrZ92ohfz23ncNqs+nupZGN+CbbStIU8az2QAzJp9AJc8v5oh
-         TzlC3KJdQjTdluXfEwWb8Uv2/G75kvd/nG0fdXHgNMVYv3Dg6zuABiWR+GtXd8k7NlrK
-         qKsoH+3kcg6KcdD5A2C+gANyU9iBcqJ/Wl78WGr+BJ5Ms7DZIil5cc7TyrkLIURXu7A2
-         b3UffHTOvVvkGvn++VFRAUjGazMwabu5dlmftG/HpLwMlx4R+KkT1GTvW3clWro1bZcT
-         c0Pw==
-X-Forwarded-Encrypted: i=1; AJvYcCWkzhCGaGLUwUjHPgjAqp+I3tx1xY6nVZd7sbyoLPumFUt8f+nJZYzJFcO07foPEioPfPj52NeTyXcFRw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzGZ4tO+RTWpBgYXy23Tbwq2rDOpC9cMQW9v2/tGY4Kz8JjHbg9
-	+TUwb2h4qeERq+/CqdWqxROfEDzq7sCO+5yrZvp1TftJPlVn/ztK
-X-Gm-Gg: ASbGncssrR1MB+BSWrcmzeiD+dhcDs9Lk4lPkChGkW8ZEe3gl8+TeYZCpOHHobtJGDJ
-	ZYdHmsZW8XRLfV/IDYQfkKFdZ9MlF9WK49cxDP5FA/D9c5ECNLLlQ/d+JkmmwVAlIXxJG4OeipE
-	SL+F8KO+Ebj2lwy7pl5CgBjFekVWXBKh1NB/Cime4n0EnmUaNPBJD7STc/FIXf3bqeT97+uUBlA
-	vCtnP5O+kwius7eh9Aepeoolx2A7+Q4jiyQ9LcYoCCRgX5pb/cHQCjn9pc3c5/6wIIkM3OJ5lv3
-	8TvVuEtF5gEyUCnO+I5GD/CUEPfkCLoooE6QVsBDgnb18iucQe2JA8wkYhTxOJahoavX
-X-Google-Smtp-Source: AGHT+IFPbjdkqPWUcDwWn3gcKgKCDuCT59+nrEo/GOkvbNTeX+sbsXL7iBibXH8JV2ff9RTUgMaADg==
-X-Received: by 2002:a17:906:4fc5:b0:aca:c67d:eac0 with SMTP id a640c23a62f3a-acefe63defemr318866466b.0.1746126459184;
-        Thu, 01 May 2025 12:07:39 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:2f0e:c50a:8800:cf9e:ee0b:4a01:37f6])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad0c70c6917sm80349266b.4.2025.05.01.12.07.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 May 2025 12:07:38 -0700 (PDT)
-From: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
-To: clabbe.montjoie@gmail.com,
-	herbert@gondor.apana.org.au,
-	davem@davemloft.net,
-	linux-crypto@vger.kernel.org
-Cc: wens@csie.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Ovidiu Panait <ovidiu.panait.oss@gmail.com>
-Subject: [PATCH 2/2] crypto: sun8i-ce-hash - use pm_runtime_resume_and_get()
-Date: Thu,  1 May 2025 22:06:51 +0300
-Message-ID: <20250501190651.3863582-2-ovidiu.panait.oss@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250501190651.3863582-1-ovidiu.panait.oss@gmail.com>
-References: <20250501190651.3863582-1-ovidiu.panait.oss@gmail.com>
+	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="gMWu11vI";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="kRRWrsXt"
+Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
+	by mailflow.phl.internal (Postfix) with ESMTP id 2F84F2007A6;
+	Thu,  1 May 2025 15:08:09 -0400 (EDT)
+Received: from phl-imap-07 ([10.202.2.97])
+  by phl-compute-04.internal (MEProxy); Thu, 01 May 2025 15:08:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm1;
+	 t=1746126489; x=1746133689; bh=uy2Z23D4UX2pb4MGng/RS7Rc0DqXehjP
+	gXYL1GZyHEA=; b=gMWu11vIGwyUkebQS6FfJoMbvmG1K5I4PcYPfgos/+3IKTG9
+	gplwSngSdL9b0tzDvioUBprhL4wfVkOmTpNtoAAODeB28Xg6R/kwHB7dvxSuftFL
+	yhPHuhfnyZhbGy1Hk4LH0DS38ZnX4s0nqvPXJdj6j6YsCbSDjUNCmIVLH/A/20KP
+	oo3/VMPCqW0WLap/EGtkYjtqLqADG6I7601JRBgJjC9L0IW/fnmqPmRfywBz38B2
+	l4rECgxFIIXyjmPcKpJ3MKrLDuuogSY9AnqaHJ7N27iyCvQLDrLJO+Uzbvq2a1Ob
+	z/jW7mFvVIaWGr7pr0l6vyW2GdTQ2Hejj4c04Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1746126489; x=
+	1746133689; bh=uy2Z23D4UX2pb4MGng/RS7Rc0DqXehjPgXYL1GZyHEA=; b=k
+	RRWrsXtBP2dGvKqi4W7O8NcUE4T3criJTN4RNqnwM3jvVZB6DFHHOoJRSzF4WwTC
+	zyfSgrVfEAEZo6Ar3KWwXFFgpo9OcSnMRAJNahqn3nlXJrX0g/PcOryetxJVwBdg
+	bMvCV+WGJfrIwElsLCpZTQGf+AFh+vAPQIz7pR9L3B7fo46k+1htBqhXoVi3Nr6i
+	iPfXM7t0uPbUxV6yQuN2xxuUHDxXOhwyx1GBr0m/YPvpPLJFGrE4r55Y1vhjLJkG
+	EYbgK2ov6OqW9yBM/N3vWdDrYa4RmB3gucHV7PaTEJHhJOlijJtkhtTp35Hug9Lp
+	KdTUch2CHWx/XAiNccw8Q==
+X-ME-Sender: <xms:lMYTaGgjwoD9jvvLQF3kWWQqAITXOwX2J_Tz44npf0_rwZTz5vZWuA>
+    <xme:lMYTaHCfTlr4IcDYYP9mfLiZVIcfetmb5w7EMXV6Z0z5aHP8l6w5d06NcLSmpdfDF
+    y_HHxOzjxiGRzZWmjM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvjedtfeekucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
+    tddtnecuhfhrohhmpedfufhvvghnucfrvghtvghrfdcuoehsvhgvnhesshhvvghnphgvth
+    gvrhdruggvvheqnecuggftrfgrthhtvghrnhepleefteeugeduudeuudeuhfefheegveek
+    ueefffdvffektdffffelveffvddvueffnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
+    hrrghmpehmrghilhhfrhhomhepshhvvghnsehsvhgvnhhpvghtvghrrdguvghvpdhnsggp
+    rhgtphhtthhopeegledpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepjhhorhhose
+    eksgihthgvshdrohhrghdprhgtphhtthhopehrohgsihhnrdhmuhhrphhhhiesrghrmhdr
+    tghomhdprhgtphhtthhopegrnhhgvghlohhgihhorggttghhihhnohdruggvlhhrvghgnh
+    hosegtohhllhgrsghorhgrrdgtohhmpdhrtghpthhtohepfigvnhhssegtshhivgdrohhr
+    ghdprhgtphhtthhopehprghlmhgvrhesuggrsggsvghlthdrtghomhdprhgtphhtthhope
+    grohhusegvvggtshdrsggvrhhkvghlvgihrdgvughupdhrtghpthhtoheprghlvgigsehg
+    hhhithhirdhfrhdprhgtphhtthhopehjvghrnhgvjhdrshhkrhgrsggvtgesghhmrghilh
+    drtghomhdprhgtphhtthhopehmrghtthhhihgrshdrsghgghesghhmrghilhdrtghomh
+X-ME-Proxy: <xmx:lMYTaOHaWClXa7praEdCDETzg-YVo8ghBfqAEKgcYyCNv-z3uiOvlg>
+    <xmx:lMYTaPTDyplPkZ6QrXRyRgI6CFJO6g9IDexaTEMgKEAyXB5CcIWOgQ>
+    <xmx:lMYTaDxrliDpH1IiImjsat2Qz56tDsozwSqIgW3l_ha48UqBCKavYA>
+    <xmx:lMYTaN4smmith_jw1KGBc7w4dLVQ7r3zWaP24jB2SlIhLdcRPVRmOw>
+    <xmx:mcYTaH2ZstH58KGLmGnY3MmWQlgQtyVkrQuLwkep4LE-hnCp6R9N54B6>
+Feedback-ID: i51094778:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 6CE25BA0070; Thu,  1 May 2025 15:08:04 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-ThreadId: T5b013bf7ff4edb46
+Date: Thu, 01 May 2025 21:07:44 +0200
+From: "Sven Peter" <sven@svenpeter.dev>
+To: "Jason Gunthorpe" <jgg@nvidia.com>, "Alexandre Ghiti" <alex@ghiti.fr>,
+ "Alim Akhtar" <alim.akhtar@samsung.com>,
+ "Alyssa Rosenzweig" <alyssa@rosenzweig.io>,
+ "AngeloGioacchino Del Regno" <angelogioacchino.delregno@collabora.com>,
+ "Albert Ou" <aou@eecs.berkeley.edu>, asahi@lists.linux.dev,
+ "Baolin Wang" <baolin.wang@linux.alibaba.com>,
+ "Lu Baolu" <baolu.lu@linux.intel.com>,
+ "David Woodhouse" <dwmw2@infradead.org>,
+ "Gerald Schaefer" <gerald.schaefer@linux.ibm.com>,
+ "Heiko Stuebner" <heiko@sntech.de>, iommu@lists.linux.dev,
+ "Janne Grunau" <j@jannau.net>,
+ "Jean-Philippe Brucker" <jean-philippe@linaro.org>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+ "Jonathan Hunter" <jonathanh@nvidia.com>,
+ "Joerg Roedel" <joro@8bytes.org>, "Kevin Tian" <kevin.tian@intel.com>,
+ "Krzysztof Kozlowski" <krzk@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-riscv@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-tegra@vger.kernel.org,
+ "Marek Szyprowski" <m.szyprowski@samsung.com>,
+ "Matthias Brugger" <matthias.bgg@gmail.com>,
+ "Matthew Rosato" <mjrosato@linux.ibm.com>, "Neal Gompa" <neal@gompa.dev>,
+ "Orson Zhai" <orsonzhai@gmail.com>,
+ "Palmer Dabbelt" <palmer@dabbelt.com>,
+ "Paul Walmsley" <paul.walmsley@sifive.com>,
+ "Rob Clark" <robdclark@gmail.com>, "Robin Murphy" <robin.murphy@arm.com>,
+ "Samuel Holland" <samuel@sholland.org>,
+ "Niklas Schnelle" <schnelle@linux.ibm.com>,
+ "Thierry Reding" <thierry.reding@gmail.com>,
+ "Tomasz Jeznach" <tjeznach@rivosinc.com>,
+ "Krishna Reddy" <vdumpa@nvidia.com>, virtualization@lists.linux.dev,
+ "Chen-Yu Tsai" <wens@csie.org>, "Will Deacon" <will@kernel.org>,
+ "Yong Wu" <yong.wu@mediatek.com>,
+ "Chunyan Zhang" <zhang.lyra@gmail.com>
+Cc: patches@lists.linux.dev
+Message-Id: <38706b77-4e58-4dfb-add3-814746f4a3c5@app.fastmail.com>
+In-Reply-To: <3-v1-7c5282b0c334+2db-iommu_rm_ops_pgsize_jgg@nvidia.com>
+References: <3-v1-7c5282b0c334+2db-iommu_rm_ops_pgsize_jgg@nvidia.com>
+Subject: Re: [PATCH 3/7] iommu: Remove ops.pgsize_bitmap from drivers that don't use it
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Replace pm_runtime_get_sync() usage with pm_runtime_resume_and_get() to
-simplify error handling.
+On Tue, Apr 29, 2025, at 16:34, Jason Gunthorpe wrote:
+> These drivers all set the domain->pgsize_bitmap in their
+> domain_alloc_paging() functions, so the ops value is never used. Delete
+> it.
+>
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  drivers/iommu/apple-dart.c       | 1 -
+>  drivers/iommu/intel/iommu.c      | 1 -
+>  drivers/iommu/iommufd/selftest.c | 1 -
+>  drivers/iommu/riscv/iommu.c      | 1 -
+>  drivers/iommu/virtio-iommu.c     | 6 ++----
+>  5 files changed, 2 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/iommu/apple-dart.c b/drivers/iommu/apple-dart.c
+> index 757d24f67ad45a..190f28d7661515 100644
+> --- a/drivers/iommu/apple-dart.c
+> +++ b/drivers/iommu/apple-dart.c
+> @@ -991,7 +991,6 @@ static const struct iommu_ops apple_dart_iommu_ops = {
+>  	.of_xlate = apple_dart_of_xlate,
+>  	.def_domain_type = apple_dart_def_domain_type,
+>  	.get_resv_regions = apple_dart_get_resv_regions,
+> -	.pgsize_bitmap = -1UL, /* Restricted during dart probe */
+>  	.owner = THIS_MODULE,
+>  	.default_domain_ops = &(const struct iommu_domain_ops) {
+>  		.attach_dev	= apple_dart_attach_dev_paging,
 
-This is recommended in the documentation of pm_runtime_get_sync().
+Reviewed-by: Sven Peter <sven@svenpeter.dev> # for Apple DART
 
-Signed-off-by: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
----
- drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
-index ba13fb75c05d..bef44f350167 100644
---- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
-+++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
-@@ -65,12 +65,11 @@ int sun8i_ce_hash_init_tfm(struct crypto_ahash *tfm)
- 		       crypto_ahash_driver_name(op->fallback_tfm),
- 		       CRYPTO_MAX_ALG_NAME);
- 
--	err = pm_runtime_get_sync(op->ce->dev);
-+	err = pm_runtime_resume_and_get(op->ce->dev);
- 	if (err < 0)
- 		goto error_pm;
- 	return 0;
- error_pm:
--	pm_runtime_put_noidle(op->ce->dev);
- 	crypto_free_ahash(op->fallback_tfm);
- 	return err;
- }
--- 
-2.48.1
 
+Best,
+
+
+Sven
