@@ -1,92 +1,101 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0938E5674E;
-	Fri,  2 May 2025 01:00:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15130376
+	for <linux-sunxi@lists.linux.dev>; Fri,  2 May 2025 19:55:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746147612; cv=none; b=U941dq9x3NTWXkJtXx4vcphm0Zi1UkR4hg1QM3ozrbX3KJalTE5W7aIpS6BYdre4YcYZpzt3J7dRXy7T6iO6idJMQHhG8UB1LIlXGd/0eOM11AlNLWtydR7qFS6q9Wkxl3+wQ1rL94HgTqn8ow8UJoDH4fAASzQqu1phSlGEG5Q=
+	t=1746215751; cv=none; b=Wmimeq7qmXTtyFASfG1M8TuBUeFKaL+U6V9YvPIDArHQ9ND/3UeLI0sqqhR+bLvXh2j5X4kkhenaaa0oXLa7LpaNaLE4877r7uUdieHqbJUYKRRV9vgHxKzTcmHuEJMb8fmtRVqHXhAldHeRWuFKHokEXh6yfE9l8vsmi+tsuqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746147612; c=relaxed/simple;
-	bh=HMPgr40VH5mX1QcwLj1gZeZsZHk8igfKOvu5EQAD8sU=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=W+nldaggyHieeBMvmDKS5sEvgZYxghgD+796e4zW0MZmZRv0LuabJqIym5MA+KOR1R7wEWdVKaTU0l5qh6PhkcgRFNsFLSEljOHw5jV+4S4jG5O4kocRrfu+YydQVzCWnvwC1qkcLniqxhzfySzl2kXW+Z3BXcZLrsC+fBqjSXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KVmqGC3j; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746215751; c=relaxed/simple;
+	bh=ckae0oaQieNSpCFqm0YyyTo+t8lHBcoj1SCY5qRDrtU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QW2440AfBeG5F7FO4Y0RVc+NM7yuxzHujlSsZxW6a+8ov8dNmhiuGY/jJi4/rjKp6/BWzEqT3tJhbvAkRVvOOiaaAQabQmWE8Gbz70ymTy2VyyHGG6DnCM3ehHYGAnLWcHpoahcglAPgaJzyJpHA82XCEwJUUgclbTG1kzyee7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=vj+/oMD0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KVmqGC3j"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63442C4CEED;
-	Fri,  2 May 2025 01:00:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746147611;
-	bh=HMPgr40VH5mX1QcwLj1gZeZsZHk8igfKOvu5EQAD8sU=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=KVmqGC3jBsRdqt844cN3DDUqVStk3m7giI8iDRrHZmF41qMsk2Z4hCdRCdFV8zriU
-	 nnu37wTENDZP57E2me7MprbRbFSVazZokTRdlDbR3xgi4JZ7sR8ieHCFP3TSSL7Wor
-	 qKh+KBapyx3Gb4gYrydpEnYy2RvCjnfoGSniPh/upBYOkZooPhY25j60oRWHebgMrt
-	 XbqO1n/cgXjWMxFGNUgx0gIbkNB85IiMo3c81nCdY+Sl7HvVSFnrirn51BXHPJxT7E
-	 BjWXMdM6WPlVFHyuZSVqpaX2um39kVVwPzSqgcpr36Rx578U4BtCD+Y+lyMhIM72gY
-	 5ttmDumUIy9gg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id ADE693822D59;
-	Fri,  2 May 2025 01:00:51 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="vj+/oMD0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EE52C4CEE4;
+	Fri,  2 May 2025 19:55:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1746215750;
+	bh=ckae0oaQieNSpCFqm0YyyTo+t8lHBcoj1SCY5qRDrtU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vj+/oMD0j0ENHRl/TLrHOnb0kno3E3aceBY7laTITunRTNayYb23b5iXep4bEvYei
+	 hBBUUFjvinHTOm4EwcrpMYTLaS2xEBZpPj2iWB/k3oZkUwRuFrDODOPg4SOYMcUYUU
+	 5fnP7V9Ogql0XJzhGWIJ7C3CuPDfHnqrxM/AWOVs=
+Date: Fri, 2 May 2025 15:55:46 -0400
+From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To: Chen-Yu Tsai <wens@csie.org>
+Cc: Andre Przywara <andre.przywara@arm.com>, 
+	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>, tools@kernel.org
+Subject: Re: b4 thank-you letter shows incorrect repo URL
+Message-ID: <20250502-small-caped-oxpecker-92f9bb@lemur>
+References: <20250430095325.477311-1-andre.przywara@arm.com>
+ <174610166405.2974716.1586244113913047340.b4-ty@csie.org>
+ <20250501132211.0310ae49@donnerap.manchester.arm.com>
+ <CAGb2v66UnWo4zL6giQYC+Kmo5SSkNAH1_nODM=r6jyQPoi-JNA@mail.gmail.com>
+ <20250501-wakeful-kiwi-of-poetry-59d4bb@lemur>
+ <CAGb2v64g2KJVCpMGapCZUx_f4ny20Q4rGVk4JHnf3D09Q8PKgA@mail.gmail.com>
+ <CAGb2v66RkWixx4NB+a5L9_V=bs3wOSWqaSv9QeWb9-aYy2YxaQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v3 0/5] allwinner: Add EMAC0 support to A523 variant SoC
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <174614765024.3121766.5842492946410657006.git-patchwork-notify@kernel.org>
-Date: Fri, 02 May 2025 01:00:50 +0000
-References: <20250430-01-sun55i-emac0-v3-0-6fc000bbccbd@gentoo.org>
-In-Reply-To: <20250430-01-sun55i-emac0-v3-0-6fc000bbccbd@gentoo.org>
-To: Yixun Lan <dlan@gentoo.org>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, wens@csie.org,
- jernej.skrabec@gmail.com, samuel@sholland.org, mripard@kernel.org,
- andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, andre.przywara@arm.com,
- clabbe.montjoie@gmail.com, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- krzysztof.kozlowski@linaro.org
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAGb2v66RkWixx4NB+a5L9_V=bs3wOSWqaSv9QeWb9-aYy2YxaQ@mail.gmail.com>
 
-Hello:
-
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Wed, 30 Apr 2025 13:32:02 +0800 you wrote:
-> This patch series is trying to add EMAC0 ethernet MAC support
-> to the A523 variant SoCs, including A523, A527/T527 chips.
+On Thu, May 01, 2025 at 11:49:38PM +0800, Chen-Yu Tsai wrote:
+> > > This is coming from your custom template, not from b4 itself. By default, b4
+> > > just says "Applied to ${branch}".
+> >
+> > My template is: "Applied to ${branch} in ${treename}, thanks!"
+> >
+> > My .git/config is as follows:
+> >
+> > [remote "sunxi"]
+> >         url = git@github.com:linux-sunxi/linux-sunxi.git
+> >         tagopt = --no-tags
+> >         fetch = +refs/heads/*:refs/remotes/sunxi-github/*
+> > [remote "sunxi-korg"]
+> >         url = https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git
+> >         pushURL = git@gitolite.kernel.org:pub/scm/linux/kernel/git/sunxi/linux
+> >         fetch = +refs/heads/*:refs/remotes/sunxi-korg/*
+> >         tagopt = --no-tags
+> >         b4-commit-url-mask = https://git.kernel.org/sunxi/linux/c/%.12s
+> >
+> > Also, the branch I applied it to is named "sunxi/clk-fixes-for-6.15",
+> > both locally and in the kernel.org repo, not "clk-fixes-for-6.15" as
+> > shown in the original thank-you email.
+> >
+> > I think there is a parsing error somewhere. Maybe b4 isn't dealing with
+> > nested branch names correctly and somehow thinks the "sunxi/" part is
+> > actually the remote name.
+> >
+> > If I rename the "sunxi" remote to "sunxi-github", `b4 ty` now generates:
+> >
+> >     Applied to sunxi/clk-fixes-for-6.15 in local tree, thanks!
+> >
+> > Again this seems to point to accidentally treating part of the branch name
+> > as the remote name.
 > 
-> This MAC0 is compatible to previous A64 SoC, so introduce a new DT
-> compatible but make it as a fallback to A64's compatible.
+> Also, I found a thank-you letter that is correct that is from Jan. 2025:
 > 
-> In this version, the PHYRSTB pin which routed to external phy
-> has not been populated in DT. It's kind of optional for now,
-> but we probably should handle it well later.
+>     https://lore.kernel.org/linux-sunxi/173617837421.3282465.589306007023383641.b4-ty@csie.org/
 > 
-> [...]
+> The next one that I found was incorrect. This one is from Feb. 2025:
+> 
+>     https://lore.kernel.org/linux-sunxi/173909140135.1184685.5784910677727356231.b4-ty@csie.org/
+> 
+> Though it could be I upgraded something on my workstation some time
+> in between.
 
-Here is the summary with links:
-  - [v3,1/5] dt-bindings: sram: sunxi-sram: Add A523 compatible
-    (no matching commit)
-  - [v3,2/5] dt-bindings: net: sun8i-emac: Add A523 EMAC0 compatible
-    https://git.kernel.org/netdev/net-next/c/0454b9057e98
-  - [v3,3/5] arm64: dts: allwinner: a523: Add EMAC0 ethernet MAC
-    (no matching commit)
-  - [v3,4/5] arm64: dts: allwinner: a527: add EMAC0 to Radxa A5E board
-    (no matching commit)
-  - [v3,5/5] arm64: dts: allwinner: t527: add EMAC0 to Avaota-A1 board
-    (no matching commit)
+Yes, I think there's a substring/partial match that causes this.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+I'll take a look.
 
+bugspray tag me
 
+-K
