@@ -1,34 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7AE7376;
-	Fri,  2 May 2025 19:59:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30E421DB346;
+	Sat,  3 May 2025 15:56:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746215987; cv=none; b=VFcZPioAbKX5HRUQtN4HSpFwrnFwzZwGkxIyJxNPxyzQ70WMka1D0S0rHZe/jCP8YnA8MxB+Qd0uUbDLO0Ap4kOwFahHbVI7J9ji6Aa0HPJbwDvqoZpNjzVViO0ulcHz7LFMW7WiMJZsdOQI4wjazDgq7uUkRU08C1rh3a+vtF0=
+	t=1746287769; cv=none; b=oTUvIvaLFhjCVWzUQc7ecVzRFC0YVzeQoLisQQdbcqtQA8w1dniukkaf36fR2m4rgt6tv3dfViDzaISZ4zeuHvfZE9zvxbPyyjVC/Bwzok5FP8KMrCDgQpp5SPHEoEIBWXEyNjhOMC6EA62el9DzmdkwALTuf3a3PIdYQzUaNhQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746215987; c=relaxed/simple;
-	bh=QXUsL36qI2Dt94N7gy9BkvwNHCvQhE0dAq66uDKtjq4=;
-	h=MIME-Version:Content-Type:From:To:Message-ID:In-Reply-To:
-	 References:Subject:Date; b=k+NwVinXn7Z9n5NhcDu8rJEh26UbcF/gfg+w23T1LsFVya3HC4Y3yO5ecqxVYcMhQ3QNW6OMJYl1tk6W0pD6pa6MCmUFi4OR3+P9Iso2ExmrfwiHx2wPiim9ONYKwx8JcQnZxvOkC4nIMwCu4Q1Cg0Js8DC9ZNiEh1UjHRR4d74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i2VkxTUv; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i2VkxTUv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35EA3C4CEE4;
-	Fri,  2 May 2025 19:59:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746215987;
-	bh=QXUsL36qI2Dt94N7gy9BkvwNHCvQhE0dAq66uDKtjq4=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=i2VkxTUvJuiRgQpW+T8g673U5lBJRgmcOM4PwVePD8YL8pCTnC4Rte8VXMn4EXnAK
-	 4zA0+OOiWlK1zECxhaIJVQ83FSMl47DX6wiPmW2MORXrM+VoU1cYuJGxxXeCW8FCvf
-	 M745okEISEgx7BDXXIJ/tkVRPu6XaxAn3n+jeZ9ZaQkv5/UynotBjFAk0b5FZ+qbmi
-	 N4y7sCLXm9WY0Z6CE5vLAO0I6CDJbynCE4i3TnQKyx8/8R831WyvoAK2u0E5wC3bqI
-	 9gI0Ql1EDUScAR9WdYbYMxJ2jjrPH7Da5sIKiQ9fycJI0rg0sn+RYAiLAjXpua5Nlv
-	 N9qbVa/lDVa2w==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 74E9C380DBE9;
-	Fri,  2 May 2025 20:00:27 +0000 (UTC)
+	s=arc-20240116; t=1746287769; c=relaxed/simple;
+	bh=MlN4CjpXi3IaHN/bNJWMD4qf9bbw2w3cGlsMeSf7fgQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=U7dGALoHgdAubArjk2fhNPMm0P5RzgG7TAg10zKKuRNS6Bn7d9Mb4CRwdKPUGbWDwDI3Y/vQ08HHxPvH2Rz3caDCmSYA4GTHVoFtjS9T4ynFuR2GImwhywTBw8pgfnjHZXTatCbTtlJNSz8t7l/3yROUpaSmd+lgUrvdHCcrBQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78FADC4CEE3;
+	Sat,  3 May 2025 15:56:08 +0000 (UTC)
+Received: from wens.tw (localhost [127.0.0.1])
+	by wens.tw (Postfix) with ESMTP id 822275F863;
+	Sat,  3 May 2025 23:56:05 +0800 (CST)
+From: Chen-Yu Tsai <wens@csie.org>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Yixun Lan <dlan@gentoo.org>
+Cc: Andre Przywara <andre.przywara@arm.com>, 
+ Corentin Labbe <clabbe.montjoie@gmail.com>, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20250430-01-sun55i-emac0-v3-0-6fc000bbccbd@gentoo.org>
+References: <20250430-01-sun55i-emac0-v3-0-6fc000bbccbd@gentoo.org>
+Subject: Re: (subset) [PATCH v3 0/5] allwinner: Add EMAC0 support to A523
+ variant SoC
+Message-Id: <174628776539.3898418.13280613195656914749.b4-ty@csie.org>
+Date: Sat, 03 May 2025 23:56:05 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -37,26 +45,33 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-From: Bugspray Bot <bugbot@kernel.org>
-To: users@linux.kernel.org, tools@kernel.org, wens@csie.org, 
- linux-sunxi@lists.linux.dev, konstantin@linuxfoundation.org, 
- andre.przywara@arm.com
-Message-ID: <20250502-b220079-d33a525e89aa@bugzilla.kernel.org>
-In-Reply-To: <20250501-wakeful-kiwi-of-poetry-59d4bb@lemur>
-References: <20250501-wakeful-kiwi-of-poetry-59d4bb@lemur>
-Subject: Re: b4 thank-you letter shows incorrect repo URL
-X-Bugzilla-Product: Tools
-X-Bugzilla-Component: Infra
-X-Mailer: bugspray 0.1-dev
-Date: Fri,  2 May 2025 20:00:27 +0000 (UTC)
+X-Mailer: b4 0.14.2
 
-Hello:
+On Wed, 30 Apr 2025 13:32:02 +0800, Yixun Lan wrote:
+> This patch series is trying to add EMAC0 ethernet MAC support
+> to the A523 variant SoCs, including A523, A527/T527 chips.
+> 
+> This MAC0 is compatible to previous A64 SoC, so introduce a new DT
+> compatible but make it as a fallback to A64's compatible.
+> 
+> In this version, the PHYRSTB pin which routed to external phy
+> has not been populated in DT. It's kind of optional for now,
+> but we probably should handle it well later.
+> 
+> [...]
 
-This conversation is now tracked by Kernel.org Bugzilla:
-https://bugzilla.kernel.org/show_bug.cgi?id=220079
+Applied to sunxi/dt-for-6.16 in sunxi/linux.git, thanks!
 
-There is no need to do anything else, just keep talking.
+[1/5] dt-bindings: sram: sunxi-sram: Add A523 compatible
+      https://git.kernel.org/sunxi/linux/c/02f27ea7fa02
+[3/5] arm64: dts: allwinner: a523: Add EMAC0 ethernet MAC
+      https://git.kernel.org/sunxi/linux/c/56766ca6c4f6
+[4/5] arm64: dts: allwinner: a527: add EMAC0 to Radxa A5E board
+      https://git.kernel.org/sunxi/linux/c/acca163f3f51
+[5/5] arm64: dts: allwinner: t527: add EMAC0 to Avaota-A1 board
+      https://git.kernel.org/sunxi/linux/c/c6800f15998b
+
+Best regards,
 -- 
-Deet-doot-dot, I am a bot.
-Kernel.org Bugzilla (bugspray 0.1-dev)
+Chen-Yu Tsai <wens@csie.org>
 
