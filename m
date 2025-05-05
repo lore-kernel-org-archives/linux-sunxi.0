@@ -1,77 +1,187 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30E421DB346;
-	Sat,  3 May 2025 15:56:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E6781A5BB9
+	for <linux-sunxi@lists.linux.dev>; Mon,  5 May 2025 09:06:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746287769; cv=none; b=oTUvIvaLFhjCVWzUQc7ecVzRFC0YVzeQoLisQQdbcqtQA8w1dniukkaf36fR2m4rgt6tv3dfViDzaISZ4zeuHvfZE9zvxbPyyjVC/Bwzok5FP8KMrCDgQpp5SPHEoEIBWXEyNjhOMC6EA62el9DzmdkwALTuf3a3PIdYQzUaNhQ=
+	t=1746435973; cv=none; b=f9gP7oQuE5lrrEMtMznnMtGnXoTdy+7We/RnDXOnqr4CBIsUNBtRwhyw91tnJYHWZiiaG0nELIMbqxWTxc7b0XAbepi0xL3yCiHuAdGNRxq5YdSDkt9WZFibIycODgg6vPNrnKTeaNru/eRRTPU4vm7tiFv7cF0rHWjSw8iBWv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746287769; c=relaxed/simple;
-	bh=MlN4CjpXi3IaHN/bNJWMD4qf9bbw2w3cGlsMeSf7fgQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=U7dGALoHgdAubArjk2fhNPMm0P5RzgG7TAg10zKKuRNS6Bn7d9Mb4CRwdKPUGbWDwDI3Y/vQ08HHxPvH2Rz3caDCmSYA4GTHVoFtjS9T4ynFuR2GImwhywTBw8pgfnjHZXTatCbTtlJNSz8t7l/3yROUpaSmd+lgUrvdHCcrBQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78FADC4CEE3;
-	Sat,  3 May 2025 15:56:08 +0000 (UTC)
-Received: from wens.tw (localhost [127.0.0.1])
-	by wens.tw (Postfix) with ESMTP id 822275F863;
-	Sat,  3 May 2025 23:56:05 +0800 (CST)
-From: Chen-Yu Tsai <wens@csie.org>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Yixun Lan <dlan@gentoo.org>
-Cc: Andre Przywara <andre.przywara@arm.com>, 
- Corentin Labbe <clabbe.montjoie@gmail.com>, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20250430-01-sun55i-emac0-v3-0-6fc000bbccbd@gentoo.org>
-References: <20250430-01-sun55i-emac0-v3-0-6fc000bbccbd@gentoo.org>
-Subject: Re: (subset) [PATCH v3 0/5] allwinner: Add EMAC0 support to A523
- variant SoC
-Message-Id: <174628776539.3898418.13280613195656914749.b4-ty@csie.org>
-Date: Sat, 03 May 2025 23:56:05 +0800
+	s=arc-20240116; t=1746435973; c=relaxed/simple;
+	bh=ZsfoVDotjTc6fEW0ZcM8iPZtB0d6mXI2zoGiKYnbJdY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Rq94B7d/fVfoN4hh/OpGATXH4hIOlsEpbq2z7RpVJHGsym5Nj3oR320W5rWeWoGmJO8jQl98TxC9FQJmkddOVJ9eyPmn0BeIHuDGxVEUha/jC0J5UAnficoao0PydBqzSdgQQM4SvSWRYe6uPLOOX9Ga61i/9aLPAJ133jweSNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=L8vdQ/aJ; arc=none smtp.client-ip=193.68.50.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="L8vdQ/aJ"
+Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
+	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id 33B88A075A;
+	Mon,  5 May 2025 11:06:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:from:from:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=mail; bh=0Y3FLaQzRJru0yhpXTvpGlFFbXSo7NYug0Nf8Nv/OcI=; b=
+	L8vdQ/aJPZa06PN6k3w8NoYum0G2rtEn6rs6FUEyeY0SimG3oP2axfw50p45mhKM
+	GS/U6kDzMsoqs6ev4KrqA91NorvsumvyyiyuSXHacvwW6iJ/ankMFpJ5BwwjWE5t
+	2ooUBTv+bqmNN1doYABPFnxb/CMJYhF46uQlBng8wfY1HRDzpYjdSqupSG7Sl+5v
+	Hlmsk4dWAAzAoniV65mH9pcHs+sIsMYKbV4h1OWJngaRsKGTH1GBIDyv/15WCTGf
+	XMVaViCCXy+B1/1/S5UhTe8pzWGYDET+0nelYU9MJscFXsMusD/3ZrhR54u1O0Ow
+	Ewq9CjBLoVHEgUMIljsV5yvl3SCHFq8L8skg/oVcWcUUvlaIZhk8ReW4t1zASE/6
+	d2WnihQlAxLH5cYoFDw+OBQpqgfasckgiDqfquYX4pxSDRlDZZ9kbMMteh3+utH7
+	eQJhBPEWlFVMRIPl9b/KbXgY7eF9bH4Ra4/ovdpr6jxigRM4aREzIH2OCse3WKey
+	PdS/kFKp3NArXaelRht25NHapljcowXrbQPzdF81HObNVM84i1RrvDy2IVMjYlX2
+	nvTt6RNO6oUSN3UFIQDY62hNTtOlGyrGuNr+ZHku+TE7w07RC4mC2OwQx+C4TNdK
+	QGL2E7EbXZdqljMFYaAFJupOXopb+3DkccD0BaSYEyU=
+From: =?UTF-8?q?Bence=20Cs=C3=B3k=C3=A1s?= <csokas.bence@prolan.hu>
+To: <dmaengine@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+CC: =?UTF-8?q?Bence=20Cs=C3=B3k=C3=A1s?= <csokas.bence@prolan.hu>, "Chen-Yu
+ Tsai" <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, "Chen-Yu
+ Tsai" <wens@csie.org>, Julian Calaby <julian.calaby@gmail.com>, Vinod Koul
+	<vkoul@kernel.org>, Samuel Holland <samuel@sholland.org>
+Subject: [PATCH] dma-engine: sun4i: Simplify error handling in probe()
+Date: Mon, 5 May 2025 11:05:24 +0200
+Message-ID: <20250505090525.274344-2-csokas.bence@prolan.hu>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ESET-AS: R=OK;S=0;OP=CALC;TIME=1746435959;VERSION=7990;MC=342574361;ID=205683;TRN=0;CRV=0;IPC=;SP=0;SIPS=0;PI=3;F=0
+X-ESET-Antispam: OK
+X-EsetResult: clean, is OK
+X-EsetId: 37303A29ACD94853667664
 
-On Wed, 30 Apr 2025 13:32:02 +0800, Yixun Lan wrote:
-> This patch series is trying to add EMAC0 ethernet MAC support
-> to the A523 variant SoCs, including A523, A527/T527 chips.
-> 
-> This MAC0 is compatible to previous A64 SoC, so introduce a new DT
-> compatible but make it as a fallback to A64's compatible.
-> 
-> In this version, the PHYRSTB pin which routed to external phy
-> has not been populated in DT. It's kind of optional for now,
-> but we probably should handle it well later.
-> 
-> [...]
+Clean up error handling by using devm functions and dev_err_probe(). This
+should make it easier to add new code, as we can eliminate the "goto
+ladder" in sun4i_dma_probe().
 
-Applied to sunxi/dt-for-6.16 in sunxi/linux.git, thanks!
+Suggested-by: Chen-Yu Tsai <wens@kernel.org>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Acked-by: Chen-Yu Tsai <wens@csie.org>
+Reviewed-by: Julian Calaby <julian.calaby@gmail.com>
+Signed-off-by: Bence Csókás <csokas.bence@prolan.hu>
+---
 
-[1/5] dt-bindings: sram: sunxi-sram: Add A523 compatible
-      https://git.kernel.org/sunxi/linux/c/02f27ea7fa02
-[3/5] arm64: dts: allwinner: a523: Add EMAC0 ethernet MAC
-      https://git.kernel.org/sunxi/linux/c/56766ca6c4f6
-[4/5] arm64: dts: allwinner: a527: add EMAC0 to Radxa A5E board
-      https://git.kernel.org/sunxi/linux/c/acca163f3f51
-[5/5] arm64: dts: allwinner: t527: add EMAC0 to Avaota-A1 board
-      https://git.kernel.org/sunxi/linux/c/c6800f15998b
+Notes:
+    Changes in v2:
+    * rebase on current next
+    Changes in v3:
+    * rebase on current next
+    * collect Jernej's tag
+    Changes in v4:
+    * rebase on current next
+    * collect Chen-Yu's tag
+    Changes in v5:
+    * reformat msg to 75 cols
+    * keep `\n`s in error messages
+    Changes in v6:
+    * remove redundant braces
+    * break lines to stay under 85 cols
+    * reword subject and message
+    Changes in v7:
+    * rebase onto current next
+    * collect Julian's tag
+    Changes in v8:
+    * rebase onto current next
 
-Best regards,
+ drivers/dma/sun4i-dma.c | 46 ++++++++++++-----------------------------
+ 1 file changed, 13 insertions(+), 33 deletions(-)
+
+diff --git a/drivers/dma/sun4i-dma.c b/drivers/dma/sun4i-dma.c
+index 24796aaaddfa..00d2fd38d17f 100644
+--- a/drivers/dma/sun4i-dma.c
++++ b/drivers/dma/sun4i-dma.c
+@@ -1249,11 +1249,10 @@ static int sun4i_dma_probe(struct platform_device *pdev)
+ 	if (priv->irq < 0)
+ 		return priv->irq;
+ 
+-	priv->clk = devm_clk_get(&pdev->dev, NULL);
+-	if (IS_ERR(priv->clk)) {
+-		dev_err(&pdev->dev, "No clock specified\n");
+-		return PTR_ERR(priv->clk);
+-	}
++	priv->clk = devm_clk_get_enabled(&pdev->dev, NULL);
++	if (IS_ERR(priv->clk))
++		return dev_err_probe(&pdev->dev, PTR_ERR(priv->clk),
++				     "Couldn't start the clock\n");
+ 
+ 	if (priv->cfg->has_reset) {
+ 		priv->rst = devm_reset_control_get_exclusive_deasserted(&pdev->dev, NULL);
+@@ -1328,12 +1327,6 @@ static int sun4i_dma_probe(struct platform_device *pdev)
+ 		vchan_init(&vchan->vc, &priv->slave);
+ 	}
+ 
+-	ret = clk_prepare_enable(priv->clk);
+-	if (ret) {
+-		dev_err(&pdev->dev, "Couldn't enable the clock\n");
+-		return ret;
+-	}
+-
+ 	/*
+ 	 * Make sure the IRQs are all disabled and accounted for. The bootloader
+ 	 * likes to leave these dirty
+@@ -1343,33 +1336,23 @@ static int sun4i_dma_probe(struct platform_device *pdev)
+ 
+ 	ret = devm_request_irq(&pdev->dev, priv->irq, sun4i_dma_interrupt,
+ 			       0, dev_name(&pdev->dev), priv);
+-	if (ret) {
+-		dev_err(&pdev->dev, "Cannot request IRQ\n");
+-		goto err_clk_disable;
+-	}
++	if (ret)
++		return dev_err_probe(&pdev->dev, ret, "Cannot request IRQ\n");
+ 
+-	ret = dma_async_device_register(&priv->slave);
+-	if (ret) {
+-		dev_warn(&pdev->dev, "Failed to register DMA engine device\n");
+-		goto err_clk_disable;
+-	}
++	ret = dmaenginem_async_device_register(&priv->slave);
++	if (ret)
++		return dev_err_probe(&pdev->dev, ret,
++				     "Failed to register DMA engine device\n");
+ 
+ 	ret = of_dma_controller_register(pdev->dev.of_node, sun4i_dma_of_xlate,
+ 					 priv);
+-	if (ret) {
+-		dev_err(&pdev->dev, "of_dma_controller_register failed\n");
+-		goto err_dma_unregister;
+-	}
++	if (ret)
++		return dev_err_probe(&pdev->dev, ret,
++				     "Failed to register translation function\n");
+ 
+ 	dev_dbg(&pdev->dev, "Successfully probed SUN4I_DMA\n");
+ 
+ 	return 0;
+-
+-err_dma_unregister:
+-	dma_async_device_unregister(&priv->slave);
+-err_clk_disable:
+-	clk_disable_unprepare(priv->clk);
+-	return ret;
+ }
+ 
+ static void sun4i_dma_remove(struct platform_device *pdev)
+@@ -1380,9 +1363,6 @@ static void sun4i_dma_remove(struct platform_device *pdev)
+ 	disable_irq(priv->irq);
+ 
+ 	of_dma_controller_free(pdev->dev.of_node);
+-	dma_async_device_unregister(&priv->slave);
+-
+-	clk_disable_unprepare(priv->clk);
+ }
+ 
+ static struct sun4i_dma_config sun4i_a10_dma_cfg = {
+
+base-commit: d175222f5e90b7e1f23713378823c338fabb3258
 -- 
-Chen-Yu Tsai <wens@csie.org>
+2.49.0
+
 
