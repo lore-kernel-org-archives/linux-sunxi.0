@@ -1,51 +1,59 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7773308125;
-	Mon,  5 May 2025 22:28:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27D8A299AAE;
+	Mon,  5 May 2025 22:43:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746484091; cv=none; b=HdoaiPlcgyCeYMnib4M3pjIcQ+3iH/wPahBiDEj+jMZ4C5i8i4DcWpdy/jYy1sIocy50Ykw2FHg8ZjX0laLCLj2/RiAQffnuA0dhdzqrWYjULHhyUc2OhFyDxeGbWYOCkiZgwtFY5W1S5CVGcF31/KyqFdS8T+us6TmSIZwCQ/8=
+	t=1746485016; cv=none; b=QkGCtw2syz9GQ4G+Xcosj4ir8lE7XmyV5bfpS4tCuxLrvDLrqnE8Ev/c7q0f+yvobOcYzFMIk760OFOGHJav6RAdGnhWkuqkXeuSTePRiWX8ob06C6Klp7sWK6s754xMvgOsbxy9UqvW5esRdeoJ+sq3ONacXTcLo85lpIvpIgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746484091; c=relaxed/simple;
-	bh=spRrkMeD8zKbNalNxXQx8E7VWnNwVyeo4rqtJcNxQws=;
+	s=arc-20240116; t=1746485016; c=relaxed/simple;
+	bh=9nylInJVXm9TVFSZYpUXKz42kDfLqGneBtEXJdGEI/Y=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=eE3KC9Kk41V4w6bAbwLhRaOz/6b53S5hTW55bgOS38lvnVYkKeammMKUgpf1fhWlhGJnYIExlJRqsHa8oiimMrP+oaxZ+NZs09Ys2BZk/iMtLDKjGSkBUyTAtmayIgRbIMvnOOqZXt7cL3GMsI/So5Ti5qNxwFIoB9wwmAYzhi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M4eHk7It; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=NU/H6eyQno2DsKjwUYNEILdM+sCs6SayLwV4d2R6zR6w80ZMrCNcweHTvFQQzVYElDZXgaJiSZlwl1XiA0NVkW1QormZLBHl8YoG9LhDtyWyCitawLXuYOrTg5M2MjFLJ6vWJTAvLdrOdIftTG6jB+Ib45GDe2dM4Uk7Asm0dUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pl1jHu0r; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M4eHk7It"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCFEAC4CEEF;
-	Mon,  5 May 2025 22:28:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pl1jHu0r"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E11CCC4CEED;
+	Mon,  5 May 2025 22:43:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746484091;
-	bh=spRrkMeD8zKbNalNxXQx8E7VWnNwVyeo4rqtJcNxQws=;
+	s=k20201202; t=1746485015;
+	bh=9nylInJVXm9TVFSZYpUXKz42kDfLqGneBtEXJdGEI/Y=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=M4eHk7ItwqNo6a6Kde/otUIOe7yqUZ8vM68T5b1/Vl/bOm8cvN/jFVVFV0CyHLQOf
-	 TDYvE4Y28kyoYCzo7LDqfe3upbU945gGZrRLyMkpTO5cU7TsxsJdTK+L+LAeR0eH77
-	 SMrmQ4T5FFW3PsWJbTgOU3WKi0B6MBRivqJZR4UebVhFw209ygKDy4JVhc3fx6w3bf
-	 sRAnNj5HGNp84IZuOE9JrHAK313DqDAIEG4yYtg28HHtT9FkQsWNaDd3IpITeeoW+O
-	 Gcbbps5eOQsu71HUkRpJb9gjjkkSoqNz5c5ABKBtM2d8ffWALUsDlyDnweWfLSd42h
-	 iJNHwT7cb86rQ==
+	b=Pl1jHu0r2B9W+SX+SZeUsga/zOxgciePk6V4Vz6G9eWz11WzBJp58bKyLshm1WG6p
+	 2F8KcbP2Kbo7cEgVTU4GperkW/FIUB+W4nODrmHWr0mUgxK7I9W3Jyr+ccBOyj6TF1
+	 prCYoh3G6eK/7pKy248OmgCNMJUsWrrMO9q9a7LpPJrC1Xb7LcIm4cl/Unzw8TxkVr
+	 WQHmSUWTIkwHHUtXVEk4EB6kmhbLkofvrY50dBSHIvxCZE6Jd9Hub7bdr/KSthaikC
+	 pPVdPLoKdZM4GDuzJ+pbOs9PKRCwtwg7OwTfhiY9Ah9g6k6MPE6BVgWFlf72YDAHU3
+	 bWtdv3nZZ0PhQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Philippe Simons <simons.philippe@gmail.com>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>,
+Cc: Ryan Walklin <ryan@testtoast.com>,
+	Chris Morgan <macromorgan@hotmail.com>,
+	Philippe Simons <simons.philippe@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	mturquette@baylibre.com,
-	sboyd@kernel.org,
+	lgirdwood@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
 	samuel@sholland.org,
-	linux-clk@vger.kernel.org,
+	csokas.bence@prolan.hu,
+	mesihkilinc@gmail.com,
+	andre.przywara@arm.com,
+	codekipper@gmail.com,
+	jbrunet@baylibre.com,
+	linux-sound@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.14 346/642] clk: sunxi-ng: h616: Reparent GPU clock during frequency changes
-Date: Mon,  5 May 2025 18:09:22 -0400
-Message-Id: <20250505221419.2672473-346-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 123/486] ASoC: sun4i-codec: support hp-det-gpios property
+Date: Mon,  5 May 2025 18:33:19 -0400
+Message-Id: <20250505223922.2682012-123-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
-References: <20250505221419.2672473-1-sashal@kernel.org>
+In-Reply-To: <20250505223922.2682012-1-sashal@kernel.org>
+References: <20250505223922.2682012-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -54,104 +62,129 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.14.5
+X-stable-base: Linux 6.12.26
 Content-Transfer-Encoding: 8bit
 
-From: Philippe Simons <simons.philippe@gmail.com>
+From: Ryan Walklin <ryan@testtoast.com>
 
-[ Upstream commit eb963d7948ce6571939c6875424b557b25f16610 ]
+[ Upstream commit a149377c033afe6557c50892ebbfc0e8b7e2e253 ]
 
-The H616 manual does not state that the GPU PLL supports
-dynamic frequency configuration, so we must take extra care when changing
-the frequency. Currently any attempt to do device DVFS on the GPU lead
-to panfrost various ooops, and GPU hangs.
+Add support for GPIO headphone detection with the hp-det-gpios
+property. In order for this to properly disable the path upon
+removal of headphones, the output must be labelled Headphone which
+is a common sink in the driver.
 
-The manual describes the algorithm for changing the PLL
-frequency, which the CPU PLL notifier code already support, so we reuse
-that to reparent the GPU clock to GPU1 clock during frequency
-changes.
+Describe a headphone jack and detection GPIO in the driver, check for
+a corresponding device tree node, and enable jack detection in a new
+machine init function if described.
 
-Signed-off-by: Philippe Simons <simons.philippe@gmail.com>
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Link: https://patch.msgid.link/20250220113808.1122414-2-simons.philippe@gmail.com
-Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+
+--
+Changelog v1..v2:
+- Separate DAPM changes into separate patch and add rationale.
+
+Tested-by: Philippe Simons <simons.philippe@gmail.com>
+Link: https://patch.msgid.link/20250214220247.10810-4-ryan@testtoast.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/clk/sunxi-ng/ccu-sun50i-h616.c | 36 +++++++++++++++++++++++++-
- 1 file changed, 35 insertions(+), 1 deletion(-)
+ sound/soc/sunxi/sun4i-codec.c | 53 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 53 insertions(+)
 
-diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
-index 190816c35da9f..6050cbfa922e2 100644
---- a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
-@@ -328,10 +328,16 @@ static SUNXI_CCU_M_WITH_MUX_GATE(gpu0_clk, "gpu0", gpu0_parents, 0x670,
- 				       24, 1,	/* mux */
- 				       BIT(31),	/* gate */
- 				       CLK_SET_RATE_PARENT);
-+
-+/*
-+ * This clk is needed as a temporary fall back during GPU PLL freq changes.
-+ * Set CLK_IS_CRITICAL flag to prevent from being disabled.
-+ */
-+#define SUN50I_H616_GPU_CLK1_REG        0x674
- static SUNXI_CCU_M_WITH_GATE(gpu1_clk, "gpu1", "pll-periph0-2x", 0x674,
- 					0, 2,	/* M */
- 					BIT(31),/* gate */
--					0);
-+					CLK_IS_CRITICAL);
+diff --git a/sound/soc/sunxi/sun4i-codec.c b/sound/soc/sunxi/sun4i-codec.c
+index 330bc0c09f56b..93dd88fb805dd 100644
+--- a/sound/soc/sunxi/sun4i-codec.c
++++ b/sound/soc/sunxi/sun4i-codec.c
+@@ -21,6 +21,7 @@
+ #include <linux/gpio/consumer.h>
  
- static SUNXI_CCU_GATE(bus_gpu_clk, "bus-gpu", "psi-ahb1-ahb2",
- 		      0x67c, BIT(0), 0);
-@@ -1120,6 +1126,19 @@ static struct ccu_pll_nb sun50i_h616_pll_cpu_nb = {
- 	.lock		= BIT(28),
+ #include <sound/core.h>
++#include <sound/jack.h>
+ #include <sound/pcm.h>
+ #include <sound/pcm_params.h>
+ #include <sound/soc.h>
+@@ -235,6 +236,7 @@ struct sun4i_codec {
+ 	struct clk	*clk_module;
+ 	struct reset_control *rst;
+ 	struct gpio_desc *gpio_pa;
++	struct gpio_desc *gpio_hp;
+ 
+ 	/* ADC_FIFOC register is at different offset on different SoCs */
+ 	struct regmap_field *reg_adc_fifoc;
+@@ -1263,6 +1265,49 @@ static struct snd_soc_dai_driver dummy_cpu_dai = {
+ 	.ops = &dummy_dai_ops,
  };
  
-+static struct ccu_mux_nb sun50i_h616_gpu_nb = {
-+	.common		= &gpu0_clk.common,
-+	.cm		= &gpu0_clk.mux,
-+	.delay_us	= 1, /* manual doesn't really say */
-+	.bypass_index	= 1, /* GPU_CLK1@400MHz */
++static struct snd_soc_jack sun4i_headphone_jack;
++
++static struct snd_soc_jack_pin sun4i_headphone_jack_pins[] = {
++	{ .pin = "Headphone", .mask = SND_JACK_HEADPHONE },
 +};
 +
-+static struct ccu_pll_nb sun50i_h616_pll_gpu_nb = {
-+	.common		= &pll_gpu_clk.common,
-+	.enable		= BIT(29),	/* LOCK_ENABLE */
-+	.lock		= BIT(28),
++static struct snd_soc_jack_gpio sun4i_headphone_jack_gpio = {
++	.name = "hp-det",
++	.report = SND_JACK_HEADPHONE,
++	.debounce_time = 150,
 +};
 +
- static int sun50i_h616_ccu_probe(struct platform_device *pdev)
++static int sun4i_codec_machine_init(struct snd_soc_pcm_runtime *rtd)
++{
++	struct snd_soc_card *card = rtd->card;
++	struct sun4i_codec *scodec = snd_soc_card_get_drvdata(card);
++	int ret;
++
++	if (scodec->gpio_hp) {
++		ret = snd_soc_card_jack_new_pins(card, "Headphone Jack",
++						 SND_JACK_HEADPHONE,
++						 &sun4i_headphone_jack,
++						 sun4i_headphone_jack_pins,
++						 ARRAY_SIZE(sun4i_headphone_jack_pins));
++		if (ret) {
++			dev_err(rtd->dev,
++				"Headphone jack creation failed: %d\n", ret);
++			return ret;
++		}
++
++		sun4i_headphone_jack_gpio.desc = scodec->gpio_hp;
++		ret = snd_soc_jack_add_gpios(&sun4i_headphone_jack, 1,
++					     &sun4i_headphone_jack_gpio);
++
++		if (ret) {
++			dev_err(rtd->dev, "Headphone GPIO not added: %d\n", ret);
++			return ret;
++		}
++	}
++
++	return 0;
++}
++
+ static struct snd_soc_dai_link *sun4i_codec_create_link(struct device *dev,
+ 							int *num_links)
  {
- 	void __iomem *reg;
-@@ -1170,6 +1189,14 @@ static int sun50i_h616_ccu_probe(struct platform_device *pdev)
- 	val |= BIT(0);
- 	writel(val, reg + SUN50I_H616_PLL_AUDIO_REG);
+@@ -1288,6 +1333,7 @@ static struct snd_soc_dai_link *sun4i_codec_create_link(struct device *dev,
+ 	link->codecs->name	= dev_name(dev);
+ 	link->platforms->name	= dev_name(dev);
+ 	link->dai_fmt		= SND_SOC_DAIFMT_I2S;
++	link->init		= sun4i_codec_machine_init;
  
-+	/*
-+	 * Set the input-divider for the gpu1 clock to 3, to reach a safe 400 MHz.
-+	 */
-+	val = readl(reg + SUN50I_H616_GPU_CLK1_REG);
-+	val &= ~GENMASK(1, 0);
-+	val |= 2;
-+	writel(val, reg + SUN50I_H616_GPU_CLK1_REG);
-+
- 	/*
- 	 * First clock parent (osc32K) is unusable for CEC. But since there
- 	 * is no good way to force parent switch (both run with same frequency),
-@@ -1190,6 +1217,13 @@ static int sun50i_h616_ccu_probe(struct platform_device *pdev)
- 	/* Re-lock the CPU PLL after any rate changes */
- 	ccu_pll_notifier_register(&sun50i_h616_pll_cpu_nb);
+ 	*num_links = 1;
  
-+	/* Reparent GPU during GPU PLL rate changes */
-+	ccu_mux_notifier_register(pll_gpu_clk.common.hw.clk,
-+				  &sun50i_h616_gpu_nb);
-+
-+	/* Re-lock the GPU PLL after any rate changes */
-+	ccu_pll_notifier_register(&sun50i_h616_pll_gpu_nb);
-+
- 	return 0;
- }
+@@ -1728,6 +1774,13 @@ static int sun4i_codec_probe(struct platform_device *pdev)
+ 		return ret;
+ 	}
  
++	scodec->gpio_hp = devm_gpiod_get_optional(&pdev->dev, "hp-det", GPIOD_IN);
++	if (IS_ERR(scodec->gpio_hp)) {
++		ret = PTR_ERR(scodec->gpio_hp);
++		dev_err_probe(&pdev->dev, ret, "Failed to get hp-det gpio\n");
++		return ret;
++	}
++
+ 	/* reg_field setup */
+ 	scodec->reg_adc_fifoc = devm_regmap_field_alloc(&pdev->dev,
+ 							scodec->regmap,
 -- 
 2.39.5
 
