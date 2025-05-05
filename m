@@ -1,95 +1,190 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A2B620297D
-	for <linux-sunxi@lists.linux.dev>; Mon,  5 May 2025 20:24:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C021C2D3209;
+	Mon,  5 May 2025 22:20:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746476685; cv=none; b=P3RuZxHz6lxlGNVVOHnPOtZzvg0fJhaP7D+9Wfcu1FqNp5C4OJvCD2jEN09RpXIB0/E5z5WwYJptZ9dXzjIohMvFI2dX+YOhg8Cw9t79UzMMrcRJ1xWtJ0LKNUSLXL0WRA5ElUoYG9Nrbs3/k9/JhuKWVgudf3iJYT/gd+Ml2hk=
+	t=1746483637; cv=none; b=aNd4IA9Qm3nzCVFxgUcZ2J3XYHbl02kAipZVLmOZ3Vp3GyB+hjL3R0ka52OfdlZI+CUHgWCVibvERHwG+Qi6EQqIVVlzy5kHyTq47ilTXPb9h26g2zKLQmm9L0jULHUYR9q/ebdNtnZbMswJfJd+AZs+ZCIpq4Zd0AQXNJTtZYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746476685; c=relaxed/simple;
-	bh=LZ791ZeXfNg+rUEbjt6NyyA6acBDMIH05NFtfeDvWis=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=G3ARVx62OQMf7b1+G4tyKOiq0S9Bgv4Pa/t8Woc60iy4+G3JxjirDc2uWicK1xae+UR7kYuyGfCDNX979Wq076aGyLA41d+MOJhZnpOhmfZ5HMSEw2UmYzYiWB31Stu+laPIUahN2orzJjgUPffNzhtFoaMLvgYY32UqHoEyXg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A3C27339;
-	Mon,  5 May 2025 13:24:32 -0700 (PDT)
-Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8F9043F673;
-	Mon,  5 May 2025 13:24:40 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: Cody Eksal <masterr3c0rd@epochal.quest>,
+	s=arc-20240116; t=1746483637; c=relaxed/simple;
+	bh=RnoO0YSJQ5y92/ETDTZ2S54In+8hATNm+ZUTErT80Lk=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=iIpW4NymZ3RTp5yl5fWSfoNxcIZuAZKbTZUbRQCZBaMbIPMj8RxELJSEseKnaqaBJ2Ke6ZIK1vJCNBP/Uqfv3cenXV4gljjVgEhaCIoxGfzrUvhyNAa4ED4X/iLDnOUto411uaZ+2UcYz35cJikq5xsF6kuu2ZCS3VA1b48MkOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dg9sJfhF; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dg9sJfhF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CC71C4CEE4;
+	Mon,  5 May 2025 22:20:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746483637;
+	bh=RnoO0YSJQ5y92/ETDTZ2S54In+8hATNm+ZUTErT80Lk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=dg9sJfhFt7X9OKgSZdl1bk/28NIum1kp+QVxX9Ln8lMJkpdp1O+s9fyAeFxMx9nI+
+	 VgPxXUHzhZ9/BgK+r2oq3SkYpTKd2t0oTR1tS15/weJqsaSRMvt/BQflE2lhXAC7z5
+	 71uQPyiQqT67J+OcOmTskClp4PdSnyKJGM2jsX8bkKUCIoWUKkCps59N+XC3YVr9v0
+	 YNkuUstScPb1A6okyRUmtJxxahTe4WPjD0k0dULgNEKwFIxVmk/SluboKY03OR3i82
+	 yULA6H9E11HqzvMr6iUMyw49SwXU4ZD4OqEOgUZjcRZd9VSI2sDrIf5eAGjtnkaWmz
+	 H7o3C/TDddkyA==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Ryan Walklin <ryan@testtoast.com>,
+	Chris Morgan <macromorgan@hotmail.com>,
 	Philippe Simons <simons.philippe@gmail.com>,
-	devicetree@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH] arm64: dts: allwinner: a100: set maximum MMC frequency
-Date: Mon,  5 May 2025 21:24:16 +0100
-Message-ID: <20250505202416.23753-1-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.46.3
+	Mark Brown <broonie@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	lgirdwood@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	csokas.bence@prolan.hu,
+	codekipper@gmail.com,
+	mesihkilinc@gmail.com,
+	jbrunet@baylibre.com,
+	u.kleine-koenig@baylibre.com,
+	linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH AUTOSEL 6.14 153/642] ASoC: sun4i-codec: support hp-det-gpios property
+Date: Mon,  5 May 2025 18:06:09 -0400
+Message-Id: <20250505221419.2672473-153-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
+References: <20250505221419.2672473-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.14.5
 Content-Transfer-Encoding: 8bit
 
-The manual for the Allwinner A133 SoC mentions that the maximum
-supported MMC frequency is 150 MHz, for all of the MMC devices.
+From: Ryan Walklin <ryan@testtoast.com>
 
-Describe that in the DT entry, to help drivers setting the right
-interface frequency.
+[ Upstream commit a149377c033afe6557c50892ebbfc0e8b7e2e253 ]
 
-Fixes: fcfbb8d9ec58 ("arm64: allwinner: a100: Add MMC related nodes")
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Add support for GPIO headphone detection with the hp-det-gpios
+property. In order for this to properly disable the path upon
+removal of headphones, the output must be labelled Headphone which
+is a common sink in the driver.
+
+Describe a headphone jack and detection GPIO in the driver, check for
+a corresponding device tree node, and enable jack detection in a new
+machine init function if described.
+
+Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+
+--
+Changelog v1..v2:
+- Separate DAPM changes into separate patch and add rationale.
+
+Tested-by: Philippe Simons <simons.philippe@gmail.com>
+Link: https://patch.msgid.link/20250214220247.10810-4-ryan@testtoast.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
-Hi,
+ sound/soc/sunxi/sun4i-codec.c | 53 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 53 insertions(+)
 
-the Linux and FreeBSD kernels limit the MMC bus frequency to 52 MHz,
-unless explicitly told otherwise via this property. So this patch
-increases the performance of HS-200 eMMC from ~44 MB/s to 129 MB/s.
-
-Cheers,
-Andre
-
- arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
-index 597c2b82693b0..ecc04be243c01 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
-@@ -267,6 +267,7 @@ mmc0: mmc@4020000 {
- 			interrupts = <GIC_SPI 39 IRQ_TYPE_LEVEL_HIGH>;
- 			pinctrl-names = "default";
- 			pinctrl-0 = <&mmc0_pins>;
-+			max-frequency = <150000000>;
- 			status = "disabled";
- 			#address-cells = <1>;
- 			#size-cells = <0>;
-@@ -282,6 +283,7 @@ mmc1: mmc@4021000 {
- 			interrupts = <GIC_SPI 40 IRQ_TYPE_LEVEL_HIGH>;
- 			pinctrl-names = "default";
- 			pinctrl-0 = <&mmc1_pins>;
-+			max-frequency = <150000000>;
- 			status = "disabled";
- 			#address-cells = <1>;
- 			#size-cells = <0>;
-@@ -297,6 +299,7 @@ mmc2: mmc@4022000 {
- 			interrupts = <GIC_SPI 41 IRQ_TYPE_LEVEL_HIGH>;
- 			pinctrl-names = "default";
- 			pinctrl-0 = <&mmc2_pins>;
-+			max-frequency = <150000000>;
- 			status = "disabled";
- 			#address-cells = <1>;
- 			#size-cells = <0>;
+diff --git a/sound/soc/sunxi/sun4i-codec.c b/sound/soc/sunxi/sun4i-codec.c
+index 886b3fa537d26..06e85b34fdf68 100644
+--- a/sound/soc/sunxi/sun4i-codec.c
++++ b/sound/soc/sunxi/sun4i-codec.c
+@@ -22,6 +22,7 @@
+ #include <linux/gpio/consumer.h>
+ 
+ #include <sound/core.h>
++#include <sound/jack.h>
+ #include <sound/pcm.h>
+ #include <sound/pcm_params.h>
+ #include <sound/soc.h>
+@@ -331,6 +332,7 @@ struct sun4i_codec {
+ 	struct clk	*clk_module;
+ 	struct reset_control *rst;
+ 	struct gpio_desc *gpio_pa;
++	struct gpio_desc *gpio_hp;
+ 
+ 	/* ADC_FIFOC register is at different offset on different SoCs */
+ 	struct regmap_field *reg_adc_fifoc;
+@@ -1583,6 +1585,49 @@ static struct snd_soc_dai_driver dummy_cpu_dai = {
+ 	.ops = &dummy_dai_ops,
+ };
+ 
++static struct snd_soc_jack sun4i_headphone_jack;
++
++static struct snd_soc_jack_pin sun4i_headphone_jack_pins[] = {
++	{ .pin = "Headphone", .mask = SND_JACK_HEADPHONE },
++};
++
++static struct snd_soc_jack_gpio sun4i_headphone_jack_gpio = {
++	.name = "hp-det",
++	.report = SND_JACK_HEADPHONE,
++	.debounce_time = 150,
++};
++
++static int sun4i_codec_machine_init(struct snd_soc_pcm_runtime *rtd)
++{
++	struct snd_soc_card *card = rtd->card;
++	struct sun4i_codec *scodec = snd_soc_card_get_drvdata(card);
++	int ret;
++
++	if (scodec->gpio_hp) {
++		ret = snd_soc_card_jack_new_pins(card, "Headphone Jack",
++						 SND_JACK_HEADPHONE,
++						 &sun4i_headphone_jack,
++						 sun4i_headphone_jack_pins,
++						 ARRAY_SIZE(sun4i_headphone_jack_pins));
++		if (ret) {
++			dev_err(rtd->dev,
++				"Headphone jack creation failed: %d\n", ret);
++			return ret;
++		}
++
++		sun4i_headphone_jack_gpio.desc = scodec->gpio_hp;
++		ret = snd_soc_jack_add_gpios(&sun4i_headphone_jack, 1,
++					     &sun4i_headphone_jack_gpio);
++
++		if (ret) {
++			dev_err(rtd->dev, "Headphone GPIO not added: %d\n", ret);
++			return ret;
++		}
++	}
++
++	return 0;
++}
++
+ static struct snd_soc_dai_link *sun4i_codec_create_link(struct device *dev,
+ 							int *num_links)
+ {
+@@ -1608,6 +1653,7 @@ static struct snd_soc_dai_link *sun4i_codec_create_link(struct device *dev,
+ 	link->codecs->name	= dev_name(dev);
+ 	link->platforms->name	= dev_name(dev);
+ 	link->dai_fmt		= SND_SOC_DAIFMT_I2S;
++	link->init		= sun4i_codec_machine_init;
+ 
+ 	*num_links = 1;
+ 
+@@ -2301,6 +2347,13 @@ static int sun4i_codec_probe(struct platform_device *pdev)
+ 		return ret;
+ 	}
+ 
++	scodec->gpio_hp = devm_gpiod_get_optional(&pdev->dev, "hp-det", GPIOD_IN);
++	if (IS_ERR(scodec->gpio_hp)) {
++		ret = PTR_ERR(scodec->gpio_hp);
++		dev_err_probe(&pdev->dev, ret, "Failed to get hp-det gpio\n");
++		return ret;
++	}
++
+ 	/* reg_field setup */
+ 	scodec->reg_adc_fifoc = devm_regmap_field_alloc(&pdev->dev,
+ 							scodec->regmap,
 -- 
-2.46.3
+2.39.5
 
