@@ -1,56 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9FD42D3229;
-	Mon,  5 May 2025 22:20:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7773308125;
+	Mon,  5 May 2025 22:28:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746483641; cv=none; b=ZVmjdLdW5mW/F3acKTIHcBUoeYY2TwxnfiGYdApokWJ72OkmrzZG/WuhvZzNCrnbXwEG//GEWR2AKV81XMFsvLVBAUmmiTtlsY9GOCGj2I14D/WHH/9790T/F3FgRSMXNofXeTX9XJHkvfsmcXVtrO9isUQ0Tf/tMuJR8ofMy7s=
+	t=1746484091; cv=none; b=HdoaiPlcgyCeYMnib4M3pjIcQ+3iH/wPahBiDEj+jMZ4C5i8i4DcWpdy/jYy1sIocy50Ykw2FHg8ZjX0laLCLj2/RiAQffnuA0dhdzqrWYjULHhyUc2OhFyDxeGbWYOCkiZgwtFY5W1S5CVGcF31/KyqFdS8T+us6TmSIZwCQ/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746483641; c=relaxed/simple;
-	bh=i8k4kAuOA12gAeUKPjXuKQ3wEZQVKFo+gD7Ede6jyUQ=;
+	s=arc-20240116; t=1746484091; c=relaxed/simple;
+	bh=spRrkMeD8zKbNalNxXQx8E7VWnNwVyeo4rqtJcNxQws=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=lxcyxrLzLFw4jK4Q36iBWG4uSs9L1FUYefj4M0cLwWuT+wFi1WBf9Xb/UdABBiKs775sN7OjDFrX3jv+pGLUnNBsMQOXMlIyNIMhmr4HLvC9ECBjl2piBaBYYqf988H8hlxih6qXx9Q+N2z+8cPe/V5/H4kEz+tpoo1K0Lu3RbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e7OXpQu/; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=eE3KC9Kk41V4w6bAbwLhRaOz/6b53S5hTW55bgOS38lvnVYkKeammMKUgpf1fhWlhGJnYIExlJRqsHa8oiimMrP+oaxZ+NZs09Ys2BZk/iMtLDKjGSkBUyTAtmayIgRbIMvnOOqZXt7cL3GMsI/So5Ti5qNxwFIoB9wwmAYzhi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M4eHk7It; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e7OXpQu/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B13E1C4CEF2;
-	Mon,  5 May 2025 22:20:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M4eHk7It"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCFEAC4CEEF;
+	Mon,  5 May 2025 22:28:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746483640;
-	bh=i8k4kAuOA12gAeUKPjXuKQ3wEZQVKFo+gD7Ede6jyUQ=;
+	s=k20201202; t=1746484091;
+	bh=spRrkMeD8zKbNalNxXQx8E7VWnNwVyeo4rqtJcNxQws=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=e7OXpQu/mxri18axqEyS8ARu47K1cUkWysOY8d1oLUG/99Z4HGzplDHaBCSNVj12L
-	 ikEfQfDPobeI3ZqDOm3mopMTk4JofZwcSxlsrbzYMr7LAR1O2V64GBr3NqesOvAXiR
-	 0FsxyuxkN1AWUIpFnQBunmeaP0lLJ/GtrkRIKxbyogc7AUksXaOa3CsDg8h5CxH0+D
-	 3DrkCvhn33D4Ma2MA4tchk38tEWeea8/5PSpg/KONIXmncWOFIYgqyA8T/qbDowYNa
-	 tZHUg3nVOwgLQau6FrmAx5wfYPYfRnVWmE9iXmv/iTKYejcTCgrrdG41Glxnd/6dv4
-	 IDrNB1WiSJ67g==
+	b=M4eHk7ItwqNo6a6Kde/otUIOe7yqUZ8vM68T5b1/Vl/bOm8cvN/jFVVFV0CyHLQOf
+	 TDYvE4Y28kyoYCzo7LDqfe3upbU945gGZrRLyMkpTO5cU7TsxsJdTK+L+LAeR0eH77
+	 SMrmQ4T5FFW3PsWJbTgOU3WKi0B6MBRivqJZR4UebVhFw209ygKDy4JVhc3fx6w3bf
+	 sRAnNj5HGNp84IZuOE9JrHAK313DqDAIEG4yYtg28HHtT9FkQsWNaDd3IpITeeoW+O
+	 Gcbbps5eOQsu71HUkRpJb9gjjkkSoqNz5c5ABKBtM2d8ffWALUsDlyDnweWfLSd42h
+	 iJNHwT7cb86rQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Ryan Walklin <ryan@testtoast.com>,
-	Chris Morgan <macromorgan@hotmail.com>,
-	Philippe Simons <simons.philippe@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
+Cc: Philippe Simons <simons.philippe@gmail.com>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>,
 	Sasha Levin <sashal@kernel.org>,
-	lgirdwood@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
+	mturquette@baylibre.com,
+	sboyd@kernel.org,
 	samuel@sholland.org,
-	csokas.bence@prolan.hu,
-	andre.przywara@arm.com,
-	mesihkilinc@gmail.com,
-	codekipper@gmail.com,
-	jbrunet@baylibre.com,
-	linux-sound@vger.kernel.org,
+	linux-clk@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.14 154/642] ASoC: sun4i-codec: correct dapm widgets and controls for h616
-Date: Mon,  5 May 2025 18:06:10 -0400
-Message-Id: <20250505221419.2672473-154-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.14 346/642] clk: sunxi-ng: h616: Reparent GPU clock during frequency changes
+Date: Mon,  5 May 2025 18:09:22 -0400
+Message-Id: <20250505221419.2672473-346-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -65,53 +57,101 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.14.5
 Content-Transfer-Encoding: 8bit
 
-From: Ryan Walklin <ryan@testtoast.com>
+From: Philippe Simons <simons.philippe@gmail.com>
 
-[ Upstream commit ae5f76d4044d1580849316c49290678605e0889d ]
+[ Upstream commit eb963d7948ce6571939c6875424b557b25f16610 ]
 
-The previous H616 support patch added a single LINEOUT DAPM pin switch
-to the card controls. As the codec in this SoC only has a single route,
-this seemed reasonable at the time, however is redundant given the
-existing DAPM codec widget definitions controlling the digital and
-analog sides of the codec.
+The H616 manual does not state that the GPU PLL supports
+dynamic frequency configuration, so we must take extra care when changing
+the frequency. Currently any attempt to do device DVFS on the GPU lead
+to panfrost various ooops, and GPU hangs.
 
-It is also insufficient to describe the scenario where separate
-components (muxes, jack detection etc) are used to modify the audio
-route external to the SoC. For example the Anbernic RG(##)XX series of
-devices uses a headphone jack detection switch, GPIO-controlled speaker
-amplifier and a passive external mux chip to route audio.
+The manual describes the algorithm for changing the PLL
+frequency, which the CPU PLL notifier code already support, so we reuse
+that to reparent the GPU clock to GPU1 clock during frequency
+changes.
 
-Remove the redundant LINEOUT card control, and add a Speaker pin switch
-control and Headphone DAPM widget to allow control of the above
-hardware.
-
-Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-Signed-off-by: Ryan Walklin <ryan@testtoast.com>
-Tested-by: Philippe Simons <simons.philippe@gmail.com>
-Link: https://patch.msgid.link/20250214220247.10810-3-ryan@testtoast.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Philippe Simons <simons.philippe@gmail.com>
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Link: https://patch.msgid.link/20250220113808.1122414-2-simons.philippe@gmail.com
+Signed-off-by: Chen-Yu Tsai <wens@csie.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/sunxi/sun4i-codec.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/clk/sunxi-ng/ccu-sun50i-h616.c | 36 +++++++++++++++++++++++++-
+ 1 file changed, 35 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/sunxi/sun4i-codec.c b/sound/soc/sunxi/sun4i-codec.c
-index 06e85b34fdf68..3701f56c72756 100644
---- a/sound/soc/sunxi/sun4i-codec.c
-+++ b/sound/soc/sunxi/sun4i-codec.c
-@@ -1962,10 +1962,11 @@ static const struct snd_soc_component_driver sun50i_h616_codec_codec = {
+diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+index 190816c35da9f..6050cbfa922e2 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
++++ b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+@@ -328,10 +328,16 @@ static SUNXI_CCU_M_WITH_MUX_GATE(gpu0_clk, "gpu0", gpu0_parents, 0x670,
+ 				       24, 1,	/* mux */
+ 				       BIT(31),	/* gate */
+ 				       CLK_SET_RATE_PARENT);
++
++/*
++ * This clk is needed as a temporary fall back during GPU PLL freq changes.
++ * Set CLK_IS_CRITICAL flag to prevent from being disabled.
++ */
++#define SUN50I_H616_GPU_CLK1_REG        0x674
+ static SUNXI_CCU_M_WITH_GATE(gpu1_clk, "gpu1", "pll-periph0-2x", 0x674,
+ 					0, 2,	/* M */
+ 					BIT(31),/* gate */
+-					0);
++					CLK_IS_CRITICAL);
+ 
+ static SUNXI_CCU_GATE(bus_gpu_clk, "bus-gpu", "psi-ahb1-ahb2",
+ 		      0x67c, BIT(0), 0);
+@@ -1120,6 +1126,19 @@ static struct ccu_pll_nb sun50i_h616_pll_cpu_nb = {
+ 	.lock		= BIT(28),
  };
  
- static const struct snd_kcontrol_new sun50i_h616_card_controls[] = {
--	SOC_DAPM_PIN_SWITCH("LINEOUT"),
-+	SOC_DAPM_PIN_SWITCH("Speaker"),
- };
++static struct ccu_mux_nb sun50i_h616_gpu_nb = {
++	.common		= &gpu0_clk.common,
++	.cm		= &gpu0_clk.mux,
++	.delay_us	= 1, /* manual doesn't really say */
++	.bypass_index	= 1, /* GPU_CLK1@400MHz */
++};
++
++static struct ccu_pll_nb sun50i_h616_pll_gpu_nb = {
++	.common		= &pll_gpu_clk.common,
++	.enable		= BIT(29),	/* LOCK_ENABLE */
++	.lock		= BIT(28),
++};
++
+ static int sun50i_h616_ccu_probe(struct platform_device *pdev)
+ {
+ 	void __iomem *reg;
+@@ -1170,6 +1189,14 @@ static int sun50i_h616_ccu_probe(struct platform_device *pdev)
+ 	val |= BIT(0);
+ 	writel(val, reg + SUN50I_H616_PLL_AUDIO_REG);
  
- static const struct snd_soc_dapm_widget sun50i_h616_codec_card_dapm_widgets[] = {
-+	SND_SOC_DAPM_HP("Headphone", NULL),
- 	SND_SOC_DAPM_LINE("Line Out", NULL),
- 	SND_SOC_DAPM_SPK("Speaker", sun4i_codec_spk_event),
- };
++	/*
++	 * Set the input-divider for the gpu1 clock to 3, to reach a safe 400 MHz.
++	 */
++	val = readl(reg + SUN50I_H616_GPU_CLK1_REG);
++	val &= ~GENMASK(1, 0);
++	val |= 2;
++	writel(val, reg + SUN50I_H616_GPU_CLK1_REG);
++
+ 	/*
+ 	 * First clock parent (osc32K) is unusable for CEC. But since there
+ 	 * is no good way to force parent switch (both run with same frequency),
+@@ -1190,6 +1217,13 @@ static int sun50i_h616_ccu_probe(struct platform_device *pdev)
+ 	/* Re-lock the CPU PLL after any rate changes */
+ 	ccu_pll_notifier_register(&sun50i_h616_pll_cpu_nb);
+ 
++	/* Reparent GPU during GPU PLL rate changes */
++	ccu_mux_notifier_register(pll_gpu_clk.common.hw.clk,
++				  &sun50i_h616_gpu_nb);
++
++	/* Re-lock the GPU PLL after any rate changes */
++	ccu_pll_notifier_register(&sun50i_h616_pll_gpu_nb);
++
+ 	return 0;
+ }
+ 
 -- 
 2.39.5
 
