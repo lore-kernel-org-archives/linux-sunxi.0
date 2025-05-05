@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27D8A299AAE;
-	Mon,  5 May 2025 22:43:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 014BD2DAF79;
+	Mon,  5 May 2025 22:59:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746485016; cv=none; b=QkGCtw2syz9GQ4G+Xcosj4ir8lE7XmyV5bfpS4tCuxLrvDLrqnE8Ev/c7q0f+yvobOcYzFMIk760OFOGHJav6RAdGnhWkuqkXeuSTePRiWX8ob06C6Klp7sWK6s754xMvgOsbxy9UqvW5esRdeoJ+sq3ONacXTcLo85lpIvpIgs=
+	t=1746485945; cv=none; b=OLB/Xv59t7SK60xW+EtE3BOMeeBVa/H0VdRVdatzzeVwPo1Fj7mP3qLiGf9RtGwSsVDtIV2IwkRFsERWr+ubLsC3fJ8EZ+RLIjPhaLSvpjQ6mtMcSZmw1hagEdlNTJ5t3AAxIKDXsrh/jVEHel4SSScd/TWDFXWyDS6Bk2e1arw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746485016; c=relaxed/simple;
-	bh=9nylInJVXm9TVFSZYpUXKz42kDfLqGneBtEXJdGEI/Y=;
+	s=arc-20240116; t=1746485945; c=relaxed/simple;
+	bh=mtaoxzu2wIT0jKOX7m7gen8ET0e4nSpgKqsSlV3NGZU=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=NU/H6eyQno2DsKjwUYNEILdM+sCs6SayLwV4d2R6zR6w80ZMrCNcweHTvFQQzVYElDZXgaJiSZlwl1XiA0NVkW1QormZLBHl8YoG9LhDtyWyCitawLXuYOrTg5M2MjFLJ6vWJTAvLdrOdIftTG6jB+Ib45GDe2dM4Uk7Asm0dUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pl1jHu0r; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=IjrJR26YWZjQ0eXN2Eeo49QQ/+J+bOnplzIVJF1k4YWcVpH2Y6+Z3H5GtsNfuVg4hGqhx4gxoXkEQ440iZbCHlFpd7hMkNI96v4KJs4DXLrIndwkF9TfemMgAw1drmO+P7p4GLkvUw8Jqcul9jj1Fmpd2QxIcb3xFRCf54j29Cg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T8uu4lwP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pl1jHu0r"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E11CCC4CEED;
-	Mon,  5 May 2025 22:43:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T8uu4lwP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7A5BC4CEE4;
+	Mon,  5 May 2025 22:59:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746485015;
-	bh=9nylInJVXm9TVFSZYpUXKz42kDfLqGneBtEXJdGEI/Y=;
+	s=k20201202; t=1746485944;
+	bh=mtaoxzu2wIT0jKOX7m7gen8ET0e4nSpgKqsSlV3NGZU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Pl1jHu0r2B9W+SX+SZeUsga/zOxgciePk6V4Vz6G9eWz11WzBJp58bKyLshm1WG6p
-	 2F8KcbP2Kbo7cEgVTU4GperkW/FIUB+W4nODrmHWr0mUgxK7I9W3Jyr+ccBOyj6TF1
-	 prCYoh3G6eK/7pKy248OmgCNMJUsWrrMO9q9a7LpPJrC1Xb7LcIm4cl/Unzw8TxkVr
-	 WQHmSUWTIkwHHUtXVEk4EB6kmhbLkofvrY50dBSHIvxCZE6Jd9Hub7bdr/KSthaikC
-	 pPVdPLoKdZM4GDuzJ+pbOs9PKRCwtwg7OwTfhiY9Ah9g6k6MPE6BVgWFlf72YDAHU3
-	 bWtdv3nZZ0PhQ==
+	b=T8uu4lwPfF4CbujQeKi7/F3z4wC7B4zAiZBd6/rWF2Hk8zyXF15Duo4sXRc2wiugQ
+	 G6JuK1lMnHaU8AIDu4K7UIKSUnmDjUrT1xQwBH1Cb441tuIcex/LfXhNPZSQhIruYh
+	 lHEiOYrD53JtrrHe5zi0TKInqmsNd+KjXA3OavLYmMeXgvJEsE6lohb8nNLtX2moHE
+	 4+OCLGXekG3oefh9QqNHn74TCRrIjycpITypsD841lnb6pyaF8l6MXfZ25MBZTePu9
+	 AtzRmUyizLNsykPUMsKdpsBAkvaE/r66h4K/ITtvWk1LfdlgLBx73NLP5JPMBgdo5G
+	 /0cZTuCROGqWw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -48,12 +48,12 @@ Cc: Ryan Walklin <ryan@testtoast.com>,
 	linux-sound@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.12 123/486] ASoC: sun4i-codec: support hp-det-gpios property
-Date: Mon,  5 May 2025 18:33:19 -0400
-Message-Id: <20250505223922.2682012-123-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 077/294] ASoC: sun4i-codec: support hp-det-gpios property
+Date: Mon,  5 May 2025 18:52:57 -0400
+Message-Id: <20250505225634.2688578-77-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250505223922.2682012-1-sashal@kernel.org>
-References: <20250505223922.2682012-1-sashal@kernel.org>
+In-Reply-To: <20250505225634.2688578-1-sashal@kernel.org>
+References: <20250505225634.2688578-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -62,7 +62,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.26
+X-stable-base: Linux 6.6.89
 Content-Transfer-Encoding: 8bit
 
 From: Ryan Walklin <ryan@testtoast.com>
@@ -94,10 +94,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 53 insertions(+)
 
 diff --git a/sound/soc/sunxi/sun4i-codec.c b/sound/soc/sunxi/sun4i-codec.c
-index 330bc0c09f56b..93dd88fb805dd 100644
+index f0a5fd9011018..0d7758cc84c63 100644
 --- a/sound/soc/sunxi/sun4i-codec.c
 +++ b/sound/soc/sunxi/sun4i-codec.c
-@@ -21,6 +21,7 @@
+@@ -25,6 +25,7 @@
  #include <linux/gpio/consumer.h>
  
  #include <sound/core.h>
@@ -105,7 +105,7 @@ index 330bc0c09f56b..93dd88fb805dd 100644
  #include <sound/pcm.h>
  #include <sound/pcm_params.h>
  #include <sound/soc.h>
-@@ -235,6 +236,7 @@ struct sun4i_codec {
+@@ -239,6 +240,7 @@ struct sun4i_codec {
  	struct clk	*clk_module;
  	struct reset_control *rst;
  	struct gpio_desc *gpio_pa;
@@ -113,7 +113,7 @@ index 330bc0c09f56b..93dd88fb805dd 100644
  
  	/* ADC_FIFOC register is at different offset on different SoCs */
  	struct regmap_field *reg_adc_fifoc;
-@@ -1263,6 +1265,49 @@ static struct snd_soc_dai_driver dummy_cpu_dai = {
+@@ -1277,6 +1279,49 @@ static struct snd_soc_dai_driver dummy_cpu_dai = {
  	.ops = &dummy_dai_ops,
  };
  
@@ -163,7 +163,7 @@ index 330bc0c09f56b..93dd88fb805dd 100644
  static struct snd_soc_dai_link *sun4i_codec_create_link(struct device *dev,
  							int *num_links)
  {
-@@ -1288,6 +1333,7 @@ static struct snd_soc_dai_link *sun4i_codec_create_link(struct device *dev,
+@@ -1302,6 +1347,7 @@ static struct snd_soc_dai_link *sun4i_codec_create_link(struct device *dev,
  	link->codecs->name	= dev_name(dev);
  	link->platforms->name	= dev_name(dev);
  	link->dai_fmt		= SND_SOC_DAIFMT_I2S;
@@ -171,7 +171,7 @@ index 330bc0c09f56b..93dd88fb805dd 100644
  
  	*num_links = 1;
  
-@@ -1728,6 +1774,13 @@ static int sun4i_codec_probe(struct platform_device *pdev)
+@@ -1742,6 +1788,13 @@ static int sun4i_codec_probe(struct platform_device *pdev)
  		return ret;
  	}
  
