@@ -1,69 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [81.169.146.166])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B18E827B4E6;
-	Tue,  6 May 2025 12:07:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746533244; cv=none; b=fKmtIwMlk6pfKcMPGVsFdJDSxCUQe99PuvvFU4a+nzplkWzr8qaelIHKdFXgU4FI8wx7KAjosSTStHBu9aupA1Jwz1DvGbH7wK5Gk7bGsJSWlymeTZ23zl1k6F8CqRvsbIyWDqZY17urHqvjVwnYzJjVudbNTQfnuN+LOG3dzPs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746533244; c=relaxed/simple;
-	bh=kF4ClozlXaTiubCjpTTMEwshEsW50rfjVmdWRfDGDeU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vw9JPbBBn7V/M/jd+nmGyQFn+u4ndd8x0F781VyCNNnBgAx8K7iQ1WQt+WxNas8KD+7ozl6wFoSEyYUip6KpoVBCErlnvUYE3jiy2g2V/DD2HzkAw1CudwzRIBKbIFQ5dBoX8F9GqcXjRIZhnmfgGkC63em1D4YGQAUlqYigLN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nxf3s2km; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBF5A212FB3
+	for <linux-sunxi@lists.linux.dev>; Tue,  6 May 2025 19:56:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=81.169.146.166
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746561366; cv=pass; b=JkzGt/kFaQG+WDyykWU87tBi5C1mWyV4sm+iTe9iyfjpQf6P6PGf+x4RSJlYus6gTEM7Lz50ua8HxcT3eUX04hFgbGkRM1XGuO6MGNPBshbwK207jR95BkqPzt+xErx1MRN3nQWr5LHJcg4IUPDZlZElMV6ymuARGgO+x2JEuMU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746561366; c=relaxed/simple;
+	bh=dpOQOwmZwxz5yxg6dU34b7vRGoW+3W6OH3VKZZ80vQQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=i0tPY+dF3lwiNWaV5q4T7WT0LWbt0af0FfAD0JRUZsPXY0Lh4Yr9nSU0Y7Mqwl295zvUQZ9ou2A77zDyx/s0fihkawPJpBv3/14N+sojIQOxj6eUO3gLTW+4aSHnsjciDSPuADtozBh3GJ0XtlilCEjuYYce/none0PH1S3FIyM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fossekall.de; spf=pass smtp.mailfrom=a98shuttle.de; dkim=pass (2048-bit key) header.d=fossekall.de header.i=@fossekall.de header.b=PlivN+BK; dkim=permerror (0-bit key) header.d=fossekall.de header.i=@fossekall.de header.b=e14vL1jp; arc=pass smtp.client-ip=81.169.146.166
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fossekall.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=a98shuttle.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nxf3s2km"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DD1FC4CEE4;
-	Tue,  6 May 2025 12:07:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746533244;
-	bh=kF4ClozlXaTiubCjpTTMEwshEsW50rfjVmdWRfDGDeU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nxf3s2km64f58FDljyrwyNDQ43gCDGgojAM4e272PJErdAA6l5da5MWROl1XuzgCQ
-	 OPmYeikt5idn+iLBNg5+6ApyCfdxK5CQDfYM4Ld3WSTeo8HMCrs+g5VhehFEtitnax
-	 4tQkIQ9XiMTGGa+JcQwNYeMwdirMwudx9YBMuj8OeiF0XkAxNs++bJxnGM0OLkCcRq
-	 xiMYPpLA97hzrjMmcFBgeYxREFIXhgq0DzJHp8tKlMuFxOmOCXX34/+ewQF4kKzYzm
-	 eNgVqB6wV997omjY+WgeOMVUG0FwxWHeHtVbtJEHuu2qr082DNj7liOgS0kUiiY9Ei
-	 mawoeyzn+im3Q==
-Date: Tue, 6 May 2025 07:07:22 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Philippe Simons <simons.philippe@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
-	devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Cody Eksal <masterr3c0rd@epochal.quest>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	Conor Dooley <conor+dt@kernel.org>
-Subject: Re: [PATCH 2/3] dt-bindings: arm: sunxi: Add Liontron H-A133L board
- name
-Message-ID: <174653324210.611292.5461572856849949158.robh@kernel.org>
-References: <20250505164729.18175-1-andre.przywara@arm.com>
- <20250505164729.18175-3-andre.przywara@arm.com>
+	dkim=pass (2048-bit key) header.d=fossekall.de header.i=@fossekall.de header.b="PlivN+BK";
+	dkim=permerror (0-bit key) header.d=fossekall.de header.i=@fossekall.de header.b="e14vL1jp"
+ARC-Seal: i=1; a=rsa-sha256; t=1746561353; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=iItlDEyQQkRMyzY8ze3m0HcU17dosn8Pkvvj+GX1tMTR08hGW36/BjwUFy8TVi6su/
+    7GJo6rR47gHauQ6hB5UW1ex24N1+9vu5ZJJemyYFXsCjfLyUXWkuDGcZmhNikl+aPF7f
+    tzk1aah9lLzfp78p/eTZCzfjTC+YJSwD/eZkdAa2vTbV2Zu1XDf9Q56F32LdKEUvucxa
+    ZU4iR6j/USyNSw1OPXyX9g5U3+u4xjOW7CQOO9WlcuOcz/aD/S2s9atzhIHO+IBUPX9c
+    nkNcH3IJHziYk7/SZvApQknO3NMyjXkZPYXm6Mna8KQ/8klPmCqxEDqHN5KsinyDzKa9
+    Qnww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1746561353;
+    s=strato-dkim-0002; d=strato.com;
+    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+    bh=SHGcwlXyO0VPtrwwQiIYT7gn7XIrOvrSomEywP3J7og=;
+    b=WhyD+tdjourEJZIX8lGosf0o8NIq3AuRggcPX2NOjOJPMj+Zf7RCMjExxw5btSkgQm
+    rJ+E1WNop8vHHawAX1pUoYziuBrrCkxOj8cjU4FmKtT/4xLvSp7AM9Kx9By7gvhwerWp
+    We0PU3ADcNsuhZZ4wu7URnriIEGBpcRjf/o1+ieuHxGOo6XjZ5gYz4sBi3BgY2WbeHyJ
+    TdFpDCV83A+fvGds/Kn4hOiD21YVxlR2wFIDIJkpuhfaMzTDSTUe3z0ZP6RZXrZQrnJu
+    1kNXC0olQnB8XZ2Kp9A13bV0WLO2XALNOIRlC+MRlzQ+0U22oBe5Y8Krqaj2fNHq4wzE
+    /j2g==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1746561353;
+    s=strato-dkim-0002; d=fossekall.de;
+    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+    bh=SHGcwlXyO0VPtrwwQiIYT7gn7XIrOvrSomEywP3J7og=;
+    b=PlivN+BKYFOt78sn38yRJhJMT5IJNBMKR2aJfujdg6FJj4moe3ieCoI+XyTi1DKslY
+    TY0Edu9vIPrWiRpA/GCWvV7L+QnXxjNeUmJoS8w1Ptea9aY1sse0R8vXUviJLMevWItP
+    58vWuWWerIGW3shhzZDOpqNm8Myob7+kuuMd0hEBfBi2hrPSoOrXxXkpiAQxydmAyN2G
+    ENLctgZHWLDaPWb65zxgBW+ox9JWe3MV/oT/Nod6FJNZ4ricpZKqmZbULLN/vE5UcDQW
+    RQTrJTZQ0KrpDdRxWztBsczYjUKPI4BlJhdGRMWfSX2MWLwI6WWV8wGto5+t+shmNvZP
+    Visg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1746561353;
+    s=strato-dkim-0003; d=fossekall.de;
+    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+    bh=SHGcwlXyO0VPtrwwQiIYT7gn7XIrOvrSomEywP3J7og=;
+    b=e14vL1jpjJXxoo3bX97kkuUXfmD11zmNoRFt8Q89JoNLbqCqgBMsawyAZsNd1Atw8B
+    GIZ8SV7pIdK2v8JZ2/BQ==
+X-RZG-AUTH: ":O2kGeEG7b/pS1EzgE2y7nF0STYsSLflpbjNKxx7cGrBdao6FTL4AJcMdm+lap4JEHkzok9eyEg=="
+Received: from aerfugl
+    by smtp.strato.de (RZmta 51.3.0 AUTH)
+    with ESMTPSA id f28b35146JtqAsr
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+	(Client did not present a certificate);
+    Tue, 6 May 2025 21:55:52 +0200 (CEST)
+Received: from koltrast.home ([192.168.1.27] helo=a98shuttle.de)
+	by aerfugl with smtp (Exim 4.96)
+	(envelope-from <michael@a98shuttle.de>)
+	id 1uCOON-0000ia-1r;
+	Tue, 06 May 2025 21:55:51 +0200
+Received: (nullmailer pid 601301 invoked by uid 502);
+	Tue, 06 May 2025 19:55:51 -0000
+From: Michael Klein <michael@fossekall.de>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>
+Cc: Michael Klein <michael@fossekall.de>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] ARM: dts: bananapi: add support for PHY LEDs
+Date: Tue,  6 May 2025 21:55:24 +0200
+Message-Id: <20250506195524.601268-1-michael@fossekall.de>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250505164729.18175-3-andre.przywara@arm.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
 
+The Bananapi M1 has three LEDs connected to the RTL8211E ethernet PHY.
+Add the corresponding nodes to the device tree.
 
-On Mon, 05 May 2025 17:47:28 +0100, Andre Przywara wrote:
-> The Liontron H-A133L is an industrial development board using the
-> Allwinner A133 SoC.
-> 
-> Add its compatible name to the list of valid board names.
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  Documentation/devicetree/bindings/arm/sunxi.yaml | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
+Signed-off-by: Michael Klein <michael@fossekall.de>
+---
+ .../boot/dts/allwinner/sun7i-a20-bananapi.dts | 27 +++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+diff --git a/arch/arm/boot/dts/allwinner/sun7i-a20-bananapi.dts b/arch/arm/boot/dts/allwinner/sun7i-a20-bananapi.dts
+index 46ecf9db2324..d8b362c9661a 100644
+--- a/arch/arm/boot/dts/allwinner/sun7i-a20-bananapi.dts
++++ b/arch/arm/boot/dts/allwinner/sun7i-a20-bananapi.dts
+@@ -48,6 +48,7 @@
+ 
+ #include <dt-bindings/gpio/gpio.h>
+ #include <dt-bindings/interrupt-controller/irq.h>
++#include <dt-bindings/leds/common.h>
+ 
+ / {
+ 	model = "LeMaker Banana Pi";
+@@ -169,6 +170,32 @@ &ir0 {
+ &gmac_mdio {
+ 	phy1: ethernet-phy@1 {
+ 		reg = <1>;
++
++		leds {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			led@0 {
++				reg = <0>;
++				color = <LED_COLOR_ID_GREEN>;
++				function = LED_FUNCTION_LAN;
++				linux,default-trigger = "netdev";
++			};
++
++			led@1 {
++				reg = <1>;
++				color = <LED_COLOR_ID_AMBER>;
++				function = LED_FUNCTION_LAN;
++				linux,default-trigger = "netdev";
++			};
++
++			led@2 {
++				reg = <2>;
++				color = <LED_COLOR_ID_BLUE>;
++				function = LED_FUNCTION_LAN;
++				linux,default-trigger = "netdev";
++			};
++		};
+ 	};
+ };
+ 
+-- 
+2.39.5
 
