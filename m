@@ -1,59 +1,59 @@
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCD7128EA68
-	for <linux-sunxi@lists.linux.dev>; Wed,  7 May 2025 20:22:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F6F328EA6A
+	for <linux-sunxi@lists.linux.dev>; Wed,  7 May 2025 20:22:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746649353; cv=none; b=rGn1vMUrvm9t+UINFU4DW4DpDUyWZsCftECi7y3jWeaYXv87+ztFuWYLXldkivk+axeVFn5d2W+0nj8t1Ruoa9GBStA1SlnC/RuXYXtAopP5QcAmo/sYQSp9kROty9yZUm1SboZZJ4lNHh51EMTSdtS/U78jvQQEEiqEsZMcynY=
+	t=1746649354; cv=none; b=ACHaQIoBCxpI+1ThPPasKawhpCQTHdXql278CzZc4+ZFh1NUjxpZ8tfh4F/ogT7Ns8wHrhWNjyW2mMp4XdRVfbpUstWQX9v3+XvJCc/0MWbsgPQ0k1TlGl+giuDdEv5a70yVPRX3DwsXABXnEcI3UoaUpMXq0K5u7w4l9erjznI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746649353; c=relaxed/simple;
-	bh=aE+44eaEhFoEmPEBWxm3CnBBIL5z0Mws6Wyjwk7GFfA=;
+	s=arc-20240116; t=1746649354; c=relaxed/simple;
+	bh=y44t91H76ffOAexooq+mJGs7u/Q9UpjMnTFzLrl8Be4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=O096PO0GRXIey6yrNwMmF3pQyglPW2l1el9kQZOQIPAr+Dd+cm9bMSmX9kJvN07qet9O3b0eTcUqXAst0SuPeaTOsKYCW3zwYfcsQ/U4yJ7bZul98v8cTmJenthVlm+wgk05JDvGgWiQuk7/ClEcjItG6HabvftBB32JuN6VpS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LRL7TQIR; arc=none smtp.client-ip=209.85.210.48
+	 MIME-Version; b=eL08++WLyGBbYUh72YRm+HaoaSixBNExObdLfNTp/P8mhn468i/CtbKrQRx15J3Q4G+4SbeT7I1fywG5azGB+sM+cGW5LIDwARtm0pkL65eQ8it5zXFD7sA1kLKIuNAUtRekCSLIr6nL7OtdOafwFa3YedpSa/osRf5Pac9iskY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YNQzIIU2; arc=none smtp.client-ip=209.85.210.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LRL7TQIR"
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-7311a8bb581so159563a34.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 07 May 2025 13:22:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YNQzIIU2"
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-72b82c8230aso95632a34.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 07 May 2025 13:22:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746649350; x=1747254150; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1746649351; x=1747254151; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6ECm4vsoW+32S8jcl8nf2NLWmke5G4xraIMQjtb0TqM=;
-        b=LRL7TQIRRcfCjpVimtTbS6grUecqC8/izZH/QZ9A8UGYoC7ITMvUn1JUm1C4MR4mM8
-         E8egrxmK0WrdC1vg4iO0BkLjMPBUbp9JxkjF2qFQSJ9WnRIfMBrUgOgS9JxhqrJre5Le
-         WnFJlzmpKb904xT6npm9al28TNkxmOoGk3mdnieQc8S0ngWNCMuh0/SC8828YA336Yw6
-         Q6F+Ttj/KPRgLlr96R10iLI9s6eN6PqLWze8brv6/J9Qt/4nCdhVNJuzVkJmZ5itKdee
-         9cKp7xn36ghTeUpOsZPsfOVVCCPro4D6qx9Sy/T1Neu2kcJTEhyKDi7vY4fCssyNgEAI
-         pBKg==
+        bh=d6UX68KruPGnR61q1oninfcr4e5yK5hNeU8tagVAmo0=;
+        b=YNQzIIU238D0kDBkziN07jqTQsIy9IZIoUoGkV0afxR4sxtNk9wlK64B6mf8bjseTs
+         8ukhgklx3pGaD015IYwVNAdsEyBv7rp4mKKDqmDs6vicTYx7xNn2NbTJ6WQ/OwkkqqAH
+         iBeYajc0432mwDRvklp0VL4QxdFIg0Hp3lIKV085gJ+rAUMhmwXwgLZpkTd6/Opvy7y0
+         6tvn2mCXeDN9uH/l+STnChWn71+W3Smi/c0uFTHmsqDaUkhlA8Lss5E6yk61hBqwpbI3
+         aBxoOlj27NTycmNqM26M/IOFSTLH1AUMOBJEhrD4MrI7iXqMw6YGFXga0AAcVdxxJINP
+         /pXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746649350; x=1747254150;
+        d=1e100.net; s=20230601; t=1746649351; x=1747254151;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6ECm4vsoW+32S8jcl8nf2NLWmke5G4xraIMQjtb0TqM=;
-        b=kS3vvNBxA5O9cKqGOB2NApMdNkAF+uYI/e9CuoYgbFzNepeZzvmt3HgVSyq/OUxEXV
-         9JHI27kqHTHqB8ppk0UNGBn/l5gskKuz+cBnNiuNzT3HYJtz8D1K5AFAMg6OeLPTWjJy
-         Vl/fN+HI/rG1hyhjozn6eiPCAhSiBOXRmUe01f0W8fkFpYmxkOPg5V+9I3TUgn8V2HVD
-         VQ6ErPEw38SCDjLmthQRxdo7chToowQEoKgKv8ei5OhYXMHHHTp/FA5wlDuDb5RmAuuQ
-         8fXL6JIzeoV/gZRzKdUElRfW9Z5HoCi+j97KGBg81CKixM+rh76UJZf+uGXMng8dsIpT
-         GoSw==
-X-Gm-Message-State: AOJu0YyVagUq++iBzn31ByEbzf7ekH8IXvsgd5B7EUwAMZuM5XwpJAWg
-	I6YNhdSU9PXUa4V6dZcpe5LgGrm8he+cIo+tN+/2nQwAfngwG2sa2NwQqw==
-X-Gm-Gg: ASbGnctHJjHhYQflhf9KoVjJgb9nFeDh6u3uyyXEl4bhEYUlyo1aIUTs86ETHjgtFzb
-	LD1xWbI8mTwE5L5h0TZT3+Qmk3B5fTHYRkoYhwWhBTDjJ0pkKNuzB7KzC2gNsbvo2A8uibOg4T9
-	t3uzcdaDXi0vndYi5MgYAYbsdEaqLqUi2UcQMXnWx+WgYCVPLRN9TYQEjtHCEat8Na4KM5+/dyr
-	LYV3jHVtdsLpCsVFxBkzLTbE0iA74+6VYBH5XUn/fpNs4gbZHZHY+x6okW8WEX2tZJEblK4dEoA
-	IAQV3C5ovpsQMZIP6J96Nr+6xNA5mF9R5qsJAAXU7hOIW3v0kThsP1t2T42cnVKJuVW8W7E=
-X-Google-Smtp-Source: AGHT+IFNYiTe2ivxn2BpZru44Mz+Cbpuh5GShVyQbiTzaZin9SYSI0N+J6lKKB11hGqcKOTRI24Jlw==
-X-Received: by 2002:a05:6830:3c8c:b0:72b:9bac:c044 with SMTP id 46e09a7af769-7321b9dc5dcmr559263a34.0.1746649350502;
-        Wed, 07 May 2025 13:22:30 -0700 (PDT)
+        bh=d6UX68KruPGnR61q1oninfcr4e5yK5hNeU8tagVAmo0=;
+        b=bz3G7+qJGHkrTYh+7GxNLeKmA5alE3dGimQPOPRtB6oda8u2ze6exLaRCVNzDj1clW
+         0IK3UePOKsN/E5Jjllqkf+YgMBfjEOCYlCp+b2RuobxIZEKLy2PIxsHHc+vXxx0RKGBa
+         cHPtTyZm35SJcWkBsFdyx3u5wNVP5jGzBntddodZG0CPNghm0103Fhrb7T8u9+WB+tDT
+         2z2enHDToD+pGnV3xvjnwK+4NMmTveDLo0NJXzhgaKj2Gg4QEfPDw1AeCzLWw4OraRjU
+         ey87XUWopRJMWfjJFt/ExXD2oeLQy6fOvab8Qp2oJImCwRRpfSFoLqgH5P/7pIyL+14Q
+         E8oQ==
+X-Gm-Message-State: AOJu0YyMzQl/W1sJJC+MPPEYz8+zfE+vlXGcQoCNJnVbo8VnOgrYMwZK
+	VHQes4DL8sf+EQKNnDfW3Sn/He1eIsCamlzi3IFxiUMJZcBqvtd3zk0XYA==
+X-Gm-Gg: ASbGncuLxng4DJ9j6bLAtF2up97aejdjcI020kwZ3Wc1Y7DFUZzrZBGSgItI923xBSA
+	D+lnQqPL0ic4SgOw3MtO4RXELIUHz3ZRD/L6dPSIMEpbxaRVXq+eP8KCd2Hpqi9rYdqUuZmZpnE
+	foXTLXXFTYrXrbEcVQVxAOPd3ubtpl5E763mM/cjh9QLZGEEjJTMPznoSRhUAw8GZvovHtO5eQ6
+	ZqbOglLmE3HTcZUYMcsznXqHuWkItqr9k388sAGA/TAIhH7WLzqG4MjEJg1/gq2h2whY5K3Tica
+	afIpx6tZVViLRb1JDpFuInW/RcNrJ3LGT72N1JnIqHETrHvMGX6Dc1MVdki3daHn+LCydts=
+X-Google-Smtp-Source: AGHT+IGPGpn615U0r/Oli0xmd+gPDn6qmrBYBvqajhJLToKFTwGprcGZAZPK+hG5gePgwhRtCLZmSw==
+X-Received: by 2002:a05:6830:6216:b0:72c:3235:3b99 with SMTP id 46e09a7af769-73210b11cb2mr3068146a34.19.1746649351312;
+        Wed, 07 May 2025 13:22:31 -0700 (PDT)
 Received: from localhost.localdomain ([2600:1700:fb0:1bcf:e46c:46ba:cecd:a52c])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-732109df2dcsm725945a34.9.2025.05.07.13.22.29
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-732109df2dcsm725945a34.9.2025.05.07.13.22.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 07 May 2025 13:22:30 -0700 (PDT)
 From: Chris Morgan <macroalpha82@gmail.com>
@@ -73,11 +73,10 @@ Cc: devicetree@vger.kernel.org,
 	wens@csie.org,
 	conor+dt@kernel.org,
 	krzk+dt@kernel.org,
-	robh@kernel.org,
-	Andre Przywara <andre.przywara@arm.com>
-Subject: [PATCH V9 04/24] drm: sun4i: de2/de3: refactor mixer initialisation
-Date: Wed,  7 May 2025 15:19:23 -0500
-Message-ID: <20250507201943.330111-5-macroalpha82@gmail.com>
+	robh@kernel.org
+Subject: [PATCH V9 05/24] drm: sun4i: de2/de3: add generic blender register reference function
+Date: Wed,  7 May 2025 15:19:24 -0500
+Message-ID: <20250507201943.330111-6-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250507201943.330111-1-macroalpha82@gmail.com>
 References: <20250507201943.330111-1-macroalpha82@gmail.com>
@@ -91,132 +90,37 @@ Content-Transfer-Encoding: 8bit
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-Now that the DE variant can be selected by enum, take the oppportunity
-to factor out some common initialisation code to a separate function.
+The DE2 and DE3 engines have a blender register range within the
+mixer engine register map, whereas the DE33 separates this out into
+a separate display group.
+
+Prepare for this by adding a function to look the blender reference up,
+with a subsequent patch to add a conditional based on the DE type.
 
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Signed-off-by: Ryan Walklin <ryan@testtoast.com>
 Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 ---
-Changelog v1..v2:
-- Combine base register allocation and initialisation in
-  sun8i_mixer_init
-- Whitespace fix
+ drivers/gpu/drm/sun4i/sun8i_mixer.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Changelog v4..v5:
-- Remove trailing whitespace
-
-Changelog v7..v8:
-- Remove CSC configuration changes (logically better placed with future
-  YUV support) making this the first patch in the series.
----
- drivers/gpu/drm/sun4i/sun8i_mixer.c | 64 +++++++++++++++--------------
- 1 file changed, 34 insertions(+), 30 deletions(-)
-
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-index 2252bef19597..41815b42d6d2 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-@@ -425,6 +425,38 @@ static int sun8i_mixer_of_get_id(struct device_node *node)
- 	return of_ep.id;
+diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h b/drivers/gpu/drm/sun4i/sun8i_mixer.h
+index 7fe5ce20082a..43c413052a22 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
++++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
+@@ -217,6 +217,12 @@ sun8i_blender_base(struct sun8i_mixer *mixer)
+ 	return mixer->cfg->de_type == sun8i_mixer_de3 ? DE3_BLD_BASE : DE2_BLD_BASE;
  }
  
-+static void sun8i_mixer_init(struct sun8i_mixer *mixer)
++static inline struct regmap *
++sun8i_blender_regmap(struct sun8i_mixer *mixer)
 +{
-+	unsigned int base = sun8i_blender_base(mixer);
-+	int plane_cnt, i;
-+
-+	/* Enable the mixer */
-+	regmap_write(mixer->engine.regs, SUN8I_MIXER_GLOBAL_CTL,
-+		     SUN8I_MIXER_GLOBAL_CTL_RT_EN);
-+
-+	/* Set background color to black */
-+	regmap_write(mixer->engine.regs, SUN8I_MIXER_BLEND_BKCOLOR(base),
-+		     SUN8I_MIXER_BLEND_COLOR_BLACK);
-+
-+	/*
-+	 * Set fill color of bottom plane to black. Generally not needed
-+	 * except when VI plane is at bottom (zpos = 0) and enabled.
-+	 */
-+	regmap_write(mixer->engine.regs, SUN8I_MIXER_BLEND_PIPE_CTL(base),
-+		     SUN8I_MIXER_BLEND_PIPE_CTL_FC_EN(0));
-+	regmap_write(mixer->engine.regs, SUN8I_MIXER_BLEND_ATTR_FCOLOR(base, 0),
-+		     SUN8I_MIXER_BLEND_COLOR_BLACK);
-+
-+	plane_cnt = mixer->cfg->vi_num + mixer->cfg->ui_num;
-+	for (i = 0; i < plane_cnt; i++)
-+		regmap_write(mixer->engine.regs,
-+			     SUN8I_MIXER_BLEND_MODE(base, i),
-+			     SUN8I_MIXER_BLEND_MODE_DEF);
-+
-+	regmap_update_bits(mixer->engine.regs, SUN8I_MIXER_BLEND_PIPE_CTL(base),
-+			   SUN8I_MIXER_BLEND_PIPE_CTL_EN_MSK, 0);
++	return mixer->engine.regs;
 +}
 +
- static int sun8i_mixer_bind(struct device *dev, struct device *master,
- 			      void *data)
+ static inline u32
+ sun8i_channel_base(struct sun8i_mixer *mixer, int channel)
  {
-@@ -433,8 +465,6 @@ static int sun8i_mixer_bind(struct device *dev, struct device *master,
- 	struct sun4i_drv *drv = drm->dev_private;
- 	struct sun8i_mixer *mixer;
- 	void __iomem *regs;
--	unsigned int base;
--	int plane_cnt;
- 	int i, ret;
- 
- 	/*
-@@ -534,8 +564,6 @@ static int sun8i_mixer_bind(struct device *dev, struct device *master,
- 
- 	list_add_tail(&mixer->engine.list, &drv->engine_list);
- 
--	base = sun8i_blender_base(mixer);
--
- 	/* Reset registers and disable unused sub-engines */
- 	if (mixer->cfg->de_type == sun8i_mixer_de3) {
- 		for (i = 0; i < DE3_MIXER_UNIT_SIZE; i += 4)
-@@ -551,7 +579,7 @@ static int sun8i_mixer_bind(struct device *dev, struct device *master,
- 		regmap_write(mixer->engine.regs, SUN50I_MIXER_FMT_EN, 0);
- 		regmap_write(mixer->engine.regs, SUN50I_MIXER_CDC0_EN, 0);
- 		regmap_write(mixer->engine.regs, SUN50I_MIXER_CDC1_EN, 0);
--	} else {
-+	} else if (mixer->cfg->de_type == sun8i_mixer_de2) {
- 		for (i = 0; i < DE2_MIXER_UNIT_SIZE; i += 4)
- 			regmap_write(mixer->engine.regs, i, 0);
- 
-@@ -564,31 +592,7 @@ static int sun8i_mixer_bind(struct device *dev, struct device *master,
- 		regmap_write(mixer->engine.regs, SUN8I_MIXER_DCSC_EN, 0);
- 	}
- 
--	/* Enable the mixer */
--	regmap_write(mixer->engine.regs, SUN8I_MIXER_GLOBAL_CTL,
--		     SUN8I_MIXER_GLOBAL_CTL_RT_EN);
--
--	/* Set background color to black */
--	regmap_write(mixer->engine.regs, SUN8I_MIXER_BLEND_BKCOLOR(base),
--		     SUN8I_MIXER_BLEND_COLOR_BLACK);
--
--	/*
--	 * Set fill color of bottom plane to black. Generally not needed
--	 * except when VI plane is at bottom (zpos = 0) and enabled.
--	 */
--	regmap_write(mixer->engine.regs, SUN8I_MIXER_BLEND_PIPE_CTL(base),
--		     SUN8I_MIXER_BLEND_PIPE_CTL_FC_EN(0));
--	regmap_write(mixer->engine.regs, SUN8I_MIXER_BLEND_ATTR_FCOLOR(base, 0),
--		     SUN8I_MIXER_BLEND_COLOR_BLACK);
--
--	plane_cnt = mixer->cfg->vi_num + mixer->cfg->ui_num;
--	for (i = 0; i < plane_cnt; i++)
--		regmap_write(mixer->engine.regs,
--			     SUN8I_MIXER_BLEND_MODE(base, i),
--			     SUN8I_MIXER_BLEND_MODE_DEF);
--
--	regmap_update_bits(mixer->engine.regs, SUN8I_MIXER_BLEND_PIPE_CTL(base),
--			   SUN8I_MIXER_BLEND_PIPE_CTL_EN_MSK, 0);
-+	sun8i_mixer_init(mixer);
- 
- 	return 0;
- 
 -- 
 2.43.0
 
