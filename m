@@ -1,118 +1,173 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [81.169.146.167])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D3E028C2D1;
-	Wed,  7 May 2025 16:38:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746635922; cv=none; b=HyTjQ4zGbIDhPFVppHAVKtQam4T+fzUWsTSatTxwme6FDkaOD5FOALg3EwK+mZBLcxuOt45+V/xBdcd5DrzaTtIRLeJQKyPm9Cg4mLdWfDwEI7M17/uxC+htpOi0pP/JHjC11smS/VvM7VL6JdYAy279XqF8JSNhT0+vNfnDdRw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746635922; c=relaxed/simple;
-	bh=TqTyxNTUeXIXIbgbWfv1PyWf194MsWra/G7EgnvKn1E=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YHlb5qsdiDYzDK4gUvfY4QV0gf5/Dbq5x7i6GXQ5V0Qr9sZyDgPHz7d9cgw5/C83eTIR3wTAs2EpaVb+nLHZBz1NaEFzA/FBnp6SaiaQ2ZkGPhkSVwYZktI2dHJc+P5zelSIpYcxzZDvGngvCg0BtEfRk3aBz94jVJ9OsVN1U9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AyIymc2W; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00D1F2B9AA
+	for <linux-sunxi@lists.linux.dev>; Wed,  7 May 2025 18:11:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=81.169.146.167
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746641482; cv=pass; b=fRhJwBNAWd3kDTrUYmMH3F6w9a35hJYDGeEs+QFpg1vUoTY2mBGpulktWl3uKKXD4ky0Dvw5AJKNUDBA3x49U+XjP0x2CiifOiGm47H7GUChDD5l/lHtbf3WxYtAf0L4fFbkDREALLvBKhlweihWwyTeMlC1EjrdppntR8m+Eck=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746641482; c=relaxed/simple;
+	bh=2fYc++GxrQbRKUHUVDPQ0cPMAxB2NQzkCqCJoy3Sx74=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UtjBE9j6AgrJSwjtq8e67yD7THTcqx2Kbm3GkgbyjlN/zJsSPaNRkD1U24F7aQWiwOP0sTX6AIbz44a0LTMz7us3MpXjrZbsmAJ0Rjs56bpJDPYYlGV0X+sPZ2fMSYxH19yfA4gAersylOSjVHTyfpygtV5COvG5odqYcVLUNf4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fossekall.de; spf=pass smtp.mailfrom=fossekall.de; dkim=pass (2048-bit key) header.d=fossekall.de header.i=@fossekall.de header.b=ojboSf2Y; dkim=permerror (0-bit key) header.d=fossekall.de header.i=@fossekall.de header.b=pFk43Txh; arc=pass smtp.client-ip=81.169.146.167
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fossekall.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fossekall.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AyIymc2W"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F04D7C4CEEE;
-	Wed,  7 May 2025 16:38:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746635920;
-	bh=TqTyxNTUeXIXIbgbWfv1PyWf194MsWra/G7EgnvKn1E=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=AyIymc2WUwyOA8d+yIafhO3j7UN9ALcm+hJ4nXmJ5aU79oNpfstTIMGLCVRACV2ax
-	 JIEL4T+cYujaPi/vwiJjQPC4CBIueS0dZzALrwNExDGGSWSKFn6qgHn2T76DlSbjQ3
-	 YYukBbrippdZmajPTYXivGbBd+1EJCowJ68J2AOuR+NPZQOBFzORc8QXTv7jvjxdCo
-	 zXkrngaysM8SKMppt6W/7J3mjFcHm61ktJqnwuI1oVgXCG8CPlgpinUZr1TYzdsm/P
-	 +bCJSfEOkxWJvo5tKzdr27ATGxkeHQdH7e93YRxYX4YVB8zau06Vnv6oIxo+rJF1Nf
-	 dc/dJAXbgPo7A==
-From: Bjorn Andersson <andersson@kernel.org>
-To: Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	dkim=pass (2048-bit key) header.d=fossekall.de header.i=@fossekall.de header.b="ojboSf2Y";
+	dkim=permerror (0-bit key) header.d=fossekall.de header.i=@fossekall.de header.b="pFk43Txh"
+ARC-Seal: i=1; a=rsa-sha256; t=1746641458; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=jA3kpDt+x4BQhR3Yyf+rpaPdOF0IrjuD0tuTACzzdzBWdhq+4YZ86qSBQtOCpMxoWv
+    KSMK8mN4VPzFpk1RZ6hd/Ho2COOMdV/VFg44d8XoBfQ6XM6scGBuwCJoeLjkOpUVrnka
+    bTXRmnuUJ0C2C1IUdmao6NRmEfl33qh1Ubz/4k80i4Igib+XV9U2Orkv7Ti9mR19v8GD
+    fhmg/8Yti/WJvyzBVgY6l8lCtj8lo1fp1NKkD0b/moyWzIJ2FGvEUX4ViLIBosu8psiS
+    yXloWo1TAYpAJLmKVyGm/bjKMNJzry3H4kdJeJ2dI8tNByIYNewyv6vx3+DnWMgi7359
+    VRsg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1746641458;
+    s=strato-dkim-0002; d=strato.com;
+    h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+    From:Subject:Sender;
+    bh=gZoi91yF78+gC6gLDup+tsCPW9jBL45JepbeQZDf8AA=;
+    b=TcsCk1zjVh2ABRNf11gWSjK08dYZaiS3vlkoAqEtmuoHtAMARAHI3jVTTs9ld0THo4
+    olUELGHgfCxF6Gjecm1equZKi+Zy4DZu3OVTul9lEvvVG4JQZvl35kLsFk8SKSViXINm
+    jjKCJGx6RSzAyWDu2sUzxu6r+ZaWXfiNIu7LdcBh2r5HNE7i6Oen52xeI02/Lr9k1DL1
+    hpaRos1GVrdvu2kR4d8RH3fSsqxk0zVIsALTXZyUjO+25KLz5iNhwb3q3xIESYloLtz+
+    Uu+kFCim/jodA/kyO1dVXtC3UD0LK19ZGEQvsQQ5mhHg/3v8lL9pcT85KAHFJfp6YGcw
+    p5FA==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1746641458;
+    s=strato-dkim-0002; d=fossekall.de;
+    h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+    From:Subject:Sender;
+    bh=gZoi91yF78+gC6gLDup+tsCPW9jBL45JepbeQZDf8AA=;
+    b=ojboSf2Y4LpnoYzXKlc2k+J2ePJmo5G0YEXX5gw0zA/Q44g6/h761lLOgwX1/HqBpy
+    v+wxlKvodOArV8Yr/XINlpIMrhlqt+RgF5SNmjaAJ1FTGYSWLhQxb2EPhvlFFz7ELzt8
+    l3VMntcizaety1Ikx56i82+04QG9c2IEcaGNGF8c35FzmBMqsdX00R/f/JLY62x4JDBE
+    1/cTEO/P5b4yE06BSxs7iVUuWfILhw99Dxw0aUWrfTdqFd+G78sY1AWX3Bf50GjFgDku
+    Pt465M2Z8g+4TeigAeaBBNAYv1law5g2JzZ+Yi07+xg2hskcJr2SiW946JFJv6kv0N46
+    KEUw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1746641458;
+    s=strato-dkim-0003; d=fossekall.de;
+    h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+    From:Subject:Sender;
+    bh=gZoi91yF78+gC6gLDup+tsCPW9jBL45JepbeQZDf8AA=;
+    b=pFk43Txh55pzhUfBPaC55GVze7SLFg87CRvyt6yTKddUqM6PRkTog05dovucUFzjjj
+    AvaHFaUP2mfNWLP6bAAA==
+X-RZG-AUTH: ":O2kGeEG7b/pS1EzgE2y7nF0STYsSLflpbjNKxx7cGrBdao6FTL4AJcMdm+lap4JEHkzok9eyEg=="
+Received: from aerfugl
+    by smtp.strato.de (RZmta 51.3.0 AUTH)
+    with ESMTPSA id f28b35147IAuGKx
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+	(Client did not present a certificate);
+    Wed, 7 May 2025 20:10:56 +0200 (CEST)
+Received: from koltrast.home ([192.168.1.27] helo=a98shuttle.de)
+	by aerfugl with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <michael@fossekall.de>)
+	id 1uCjEO-0002f6-0e;
+	Wed, 07 May 2025 20:10:56 +0200
+Date: Wed, 7 May 2025 20:10:54 +0200
+From: Michael Klein <michael@fossekall.de>
+To: Chen-Yu Tsai <wens@csie.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Conor Dooley <conor@kernel.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Steen Hegelund <Steen.Hegelund@microchip.com>,
-	Daniel Machon <daniel.machon@microchip.com>,
-	UNGLinuxDriver@microchip.com,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Andy Gross <agross@kernel.org>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Viresh Kumar <vireshk@kernel.org>,
-	Nishanth Menon <nm@ti.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	zhouyanjie@wanyeetech.com,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Stephan Gerhold <stephan.gerhold@linaro.org>,
-	"Rob Herring (Arm)" <robh@kernel.org>
-Cc: devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-rockchip@lists.infradead.org,
-	linux-amlogic@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-mips@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	Andre Przywara <andre.przywara@arm.com>,
-	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>
-Subject: Re: (subset) [PATCH v2 00/17] Arm cpu schema clean-ups
-Date: Wed,  7 May 2025 09:38:33 -0700
-Message-ID: <174663591275.3531.6906045623469489227.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250410-dt-cpu-schema-v2-0-63d7dc9ddd0a@kernel.org>
-References: <20250410-dt-cpu-schema-v2-0-63d7dc9ddd0a@kernel.org>
+	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ARM: dts: bananapi: add support for PHY LEDs
+Message-ID: <aBuiLpqURnxQ1t07@a98shuttle.de>
+References: <20250506195524.601268-1-michael@fossekall.de>
+ <CAGb2v671wD7y6n6n20BrhH-pcTGD8RzPp25gCWUtnFmRhh=naw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGb2v671wD7y6n6n20BrhH-pcTGD8RzPp25gCWUtnFmRhh=naw@mail.gmail.com>
 
+On Thu, May 08, 2025 at 12:45:28AM +0900, Chen-Yu Tsai wrote:
+>On Wed, May 7, 2025 at 4:56 AM Michael Klein <michael@fossekall.de> wrote:
+>>
+>> The Bananapi M1 has three LEDs connected to the RTL8211E ethernet PHY.
+>> Add the corresponding nodes to the device tree.
+>
+>I see from old emails that this was supposed to be updated? And if you
+>didn't, then his patch should be marked as a "RESEND", so tooling doesn't
+>get confused and ignore it.
 
-On Thu, 10 Apr 2025 10:47:21 -0500, Rob Herring (Arm) wrote:
-> The Arm cpu.yaml schema fails to restrict allowed properties in 'cpu'
-> nodes. The result, not surprisely, is a number of additional properties
-> and errors in .dts files. This series resolves those issues.
-> 
-> There's still more properties in arm32 DTS files which I have not
-> documented. Mostly yet more supply names and "fsl,soc-operating-points".
-> What's a few more warnings on the 10000s of warnings...
-> 
-> [...]
+Thank you for the reminder. Yes, the commit message was supposed to be 
+updated. I'll follow up.
 
-Applied, thanks!
+Michael
 
-[09/17] arm: dts: qcom: ipq4019: Drop redundant CPU "clock-latency"
-        commit: 3ea267124573f24e67f0fe47c4a865f0f283f8fc
+>I'll wait a couple days in case anyone else wants to take a look.
+>
+>ChenYu
+>
+>> Signed-off-by: Michael Klein <michael@fossekall.de>
+>> ---
+>>  .../boot/dts/allwinner/sun7i-a20-bananapi.dts | 27 +++++++++++++++++++
+>>  1 file changed, 27 insertions(+)
+>>
+>> diff --git a/arch/arm/boot/dts/allwinner/sun7i-a20-bananapi.dts b/arch/arm/boot/dts/allwinner/sun7i-a20-bananapi.dts
+>> index 46ecf9db2324..d8b362c9661a 100644
+>> --- a/arch/arm/boot/dts/allwinner/sun7i-a20-bananapi.dts
+>> +++ b/arch/arm/boot/dts/allwinner/sun7i-a20-bananapi.dts
+>> @@ -48,6 +48,7 @@
+>>
+>>  #include <dt-bindings/gpio/gpio.h>
+>>  #include <dt-bindings/interrupt-controller/irq.h>
+>> +#include <dt-bindings/leds/common.h>
+>>
+>>  / {
+>>         model = "LeMaker Banana Pi";
+>> @@ -169,6 +170,32 @@ &ir0 {
+>>  &gmac_mdio {
+>>         phy1: ethernet-phy@1 {
+>>                 reg = <1>;
+>> +
+>> +               leds {
+>> +                       #address-cells = <1>;
+>> +                       #size-cells = <0>;
+>> +
+>> +                       led@0 {
+>> +                               reg = <0>;
+>> +                               color = <LED_COLOR_ID_GREEN>;
+>> +                               function = LED_FUNCTION_LAN;
+>> +                               linux,default-trigger = "netdev";
+>> +                       };
+>> +
+>> +                       led@1 {
+>> +                               reg = <1>;
+>> +                               color = <LED_COLOR_ID_AMBER>;
+>> +                               function = LED_FUNCTION_LAN;
+>> +                               linux,default-trigger = "netdev";
+>> +                       };
+>> +
+>> +                       led@2 {
+>> +                               reg = <2>;
+>> +                               color = <LED_COLOR_ID_BLUE>;
+>> +                               function = LED_FUNCTION_LAN;
+>> +                               linux,default-trigger = "netdev";
+>> +                       };
+>> +               };
+>>         };
+>>  };
+>>
+>> --
+>> 2.39.5
+>>
+>>
+>
 
-Best regards,
 -- 
-Bjorn Andersson <andersson@kernel.org>
