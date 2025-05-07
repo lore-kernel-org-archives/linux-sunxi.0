@@ -1,61 +1,61 @@
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF17C28EA75
-	for <linux-sunxi@lists.linux.dev>; Wed,  7 May 2025 20:22:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E47C28ECD0
+	for <linux-sunxi@lists.linux.dev>; Wed,  7 May 2025 20:22:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746649357; cv=none; b=DOKNqKzotnZrr6kL78jHfdpchIyirxzATUsJqh9E2Xk7ZM3C1mX4hA9qCKxa8SIkfoRuh67TAw6DPtHeZ7/uF6aS/eFIo6rpSGQ+e3GNo+0uvleZ2XPxYB8v74069Y+pvDG6T7tfpKTvdDlz5DByDx4jfz9S3Mkb/O/dG2N6rHc=
+	t=1746649358; cv=none; b=fosbUezzPg7rsbwYKYOHCNq1khaaka5/JAJ5Slkw9M7UNN9LoEAuNh2SdaooV4M1wu7wEchQMjI2+tA4ROnqlpsq6Spjzgses9BrTL/7m2A8Sfjppk+5ti3YKhxYsedn1LrjSdn6x6qaT2GkfoL23wrJ7zE/j158RuxKg4vScv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746649357; c=relaxed/simple;
-	bh=LsuYS6qoBFINp6ctEKngWvXGFkd5+/qi3wP3l2WCm08=;
+	s=arc-20240116; t=1746649358; c=relaxed/simple;
+	bh=bHTfZ0+5iSv4Kdxevbh3ZYWMCmAEtkigQQWfvBsIAVo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ctB4o1fwINXJ8A5rjVIS4QNOQ6gQxHaJ4IcKTQhWinl2croHn1dn2NwbPwg704/BLpVvwWpOo28eaqraLVy+0MH8o7f2vF3gs1MbjOxeMfwHOIYu4U6BO47j6lnNU1yS390cs64LIy9s/HaQYe5a0K16eC7woneMvM4Htg1xEgQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XpXd9AXS; arc=none smtp.client-ip=209.85.210.51
+	 MIME-Version; b=Uh6Q5f97lT64oIVJ8uzPLj5IkVS07HVXwXTE6/kbpnwvG//I0AV5naG+dN4voaaX5qgd+iqn691E+k3el8XWx6nE9yprpswsLjuXoSbPm+CzJ84vLwSHK0mJaQvycJk4e08FNuBSNq0fJgcCkv3qIfmqBVbLSRwqRKI3WhrTqhA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dAa4WDRO; arc=none smtp.client-ip=209.85.210.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XpXd9AXS"
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-72bd5f25ea6so77331a34.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 07 May 2025 13:22:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dAa4WDRO"
+Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-730580b0de8so793955a34.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 07 May 2025 13:22:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746649354; x=1747254154; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1746649355; x=1747254155; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=521t/CeHAKMYn/pwM/BkFVrSOh7CwyL/JsWX9K+z/SM=;
-        b=XpXd9AXS7RptO55AOsNvIf0Z9Uwyjwg6MKseP6Wci+111oYWA/d0qHeUTupu9FFJA5
-         DQ065CkVkl+tSpRlu5tSxlIFDgDwdZHJ8zlzIknIhdVvLiJVIkwS4ql4/Inoa/BUQAuI
-         qHnifrws2ZNKuXDG+HsXjSHKQRJVChNkE04yey6uiUrxV/ZvSOcYk5QOnmACtp1zxokd
-         k9M/PgotuAnVaQV8FLwJqUe/88rg31bRPRqEA358K9PMPfcUsZUhAw+zeFZAy/aHwMZE
-         c9qXCIsbU1FlPbdVjp9zQLMopHJy2k3x62u3hBpU4DJ05zUQ5xtiNZQfJYRYVLahd0kh
-         ic+A==
+        bh=QHElNaXE3LEW3PDqEvXaDUnvuob14iBVgPt+yqm3W/M=;
+        b=dAa4WDROJIJqSJyN0ZeJt9YlCuwWCt82PTqSYeRcQL89+JhIKvVp0OaxXT5xQQIV2s
+         XbQxFYOWt1xnIDF51v5CCWGW2Bb3cDYQRHukTjvu+J29LuDmmhj9GPRRUB6CttcVZfBO
+         bYNoi1NKBFnZ6ZuH1mGmBstdY4JA4QtjZBJ4WJh+Q2ouv44KtcRUOvxpBLdrwl3EBJV0
+         WdvWnick+mZXIxrExbzLH3XrlBs4TjjG1nP5BGYHMOU61+k7VPkT2JuDTfTODtfl1L10
+         tvIq4l6uTt06pUTfC0qkOji4kw7y9/+GNDHcTFs/jEOLst3PaphFM8rjLHp5d5Jtblyh
+         ti6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746649354; x=1747254154;
+        d=1e100.net; s=20230601; t=1746649355; x=1747254155;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=521t/CeHAKMYn/pwM/BkFVrSOh7CwyL/JsWX9K+z/SM=;
-        b=cgBL6UyWzibMcrvLUnC4r75dYZDWIkdRUrwJAfhBvIWeLakJFfM2EhDoQ5l4azLprC
-         jawPT6CWCv6pb20AzYZ2T+8/UuPKcR3T6CKzkVCjBvJqZ18lT0I/bWECYvLO69+JpEZv
-         EcdWxzKco0XTlTzbUOzDVmMENHwxGEaMWRqLJXmJ7wF/nLMy52UOmEVIz0rdc4RR/Oe/
-         +uoTdbwxoa8onc9eU/z99EbFfAmz2mcuf7HY/f2ObmXuJIYR60y31IZPl6HRhTY/w1L0
-         YAgvaqojGeCo/qXfQbGd/z5schN0uV/yTy2udPQwNd0aicl3dLgEbPQzZYUFv8ARuzju
-         2V5A==
-X-Gm-Message-State: AOJu0YyNvNR4ysaA6tY3xXRQjBXN248eNe+jQ1satoM4easrOI7Ybshq
-	toS2jIAcWuXW7VBY2s76tUd0Y7eTTZkrLpuk3DiRw3h8XjNGN2NjsYg0oQ==
-X-Gm-Gg: ASbGncuxemJDY2BkAAzz34FsMTblQDFqkyIMExmli79z1t4Qc2j+hBlLCGbAYvefTQb
-	O9armPitddz2GdTZ1iYjJh/ir8yFbcDKXSo0ZkHfaxWeOxgu2DjRmDDpr0Y67ptDl6Yea0wPgqp
-	jVeM4bBUsQrd3q1dgOh7TO6rl1rTcutjFxqjR5aMeb9Ore6qvfB9ZTT95zPjKZypzSf4rW72U3t
-	NZdcH621F5Q84yHhuKMSOjeBdiZxKiRxp1BofMxenx81FDqgMBZauQsAlrx8hyL0A8baxXVd1HZ
-	3EqRcz/v32PNj1nB9MdfiUKGcipfTlqEuCmsuJ75GjGwzOB4CSwGCDujPk+i
-X-Google-Smtp-Source: AGHT+IEgovUo3fqEdnkhJw+bsJ52pKIQ7trPCxR4KR+DeBMftR4N+JrGDxjm3mhsjvknZyqu+0Tatg==
-X-Received: by 2002:a05:6830:6204:b0:72b:a3f3:deb6 with SMTP id 46e09a7af769-73210a692famr3145427a34.4.1746649353725;
-        Wed, 07 May 2025 13:22:33 -0700 (PDT)
+        bh=QHElNaXE3LEW3PDqEvXaDUnvuob14iBVgPt+yqm3W/M=;
+        b=P13C8PNbUg8V8izeFMrMqezDiZKzOvuQaGDVhZC/H9z3r7eK+/Uy5PSggR75oeGMZy
+         UTJomA6Emlz5o2fecyI/gM7E7X1/1v/fJdlyGQB2tn7Evh5+YwSZZJVhVVYjCgZNrCZE
+         emKRjogzZmFwh8K0JEQ/NvsUwKkxgQ4rQ3kqvGP9E9PIMTQAGha9BESPWkiauspOv6YP
+         9qBjkwr1ggedH094fFRv5MsznNYj4nfXVayR5R3Q1T6fsOnPi2L+uSUbPdvDpmKEdiLM
+         dDU8YHMLug5RZioj1RL9oUzryF5bds1SRO2yz9vhEEDSEP3khw54xJUpPEvrGInngjKU
+         aVLA==
+X-Gm-Message-State: AOJu0YwQUq50RzIQ0AZwuda0Ly5wZb7zY8NHhfYJJ3cfSPyuuSCCrxfA
+	xS0m5mc2qPXP6ofaDeJkn0h5CES0ubBTne4NzbypWldMLLo2TYSDbOBXiw==
+X-Gm-Gg: ASbGncvMkgZ3CfY9t21nCepUwZdLb8z8fBzRH0deOX4bUWCoCdz+ymND/j1LcYlrDny
+	Ju9q40sq19QhVkA0JgxJouFc6/f5Zaf+bhFLYzEXeGy+utk4GxzvjWRKgzsqc690d+sZnlNn2i6
+	vaOQp7OKgqT4g3Wn0H5E4VQe1+5/YFSO1J5EwTwzyXrG1Ud6MHHL9BevGNHMvIZiWA6ojgsVZla
+	AKwFQdqjVtrdTIim08kSG0opZ63+DAiRuMvdqxQ97o2wXg7kj9s/ekLBMPFD8FGjwrd4RSnUxJC
+	svfNfObQ8Udgw3Ft8imecdmuUHsJA3tSOPXgLjrNk0DscuLemalEY2IhFnok
+X-Google-Smtp-Source: AGHT+IE6odboNkW58fCeUX14Z/mIvgc1rzNqO9suS76MYTky2niUs9LOJQzjbW6M5IVh5uu++8EYIQ==
+X-Received: by 2002:a9d:7995:0:b0:72a:48d1:7fca with SMTP id 46e09a7af769-7321b395cf5mr517632a34.4.1746649355188;
+        Wed, 07 May 2025 13:22:35 -0700 (PDT)
 Received: from localhost.localdomain ([2600:1700:fb0:1bcf:e46c:46ba:cecd:a52c])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-732109df2dcsm725945a34.9.2025.05.07.13.22.33
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-732109df2dcsm725945a34.9.2025.05.07.13.22.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 May 2025 13:22:33 -0700 (PDT)
+        Wed, 07 May 2025 13:22:34 -0700 (PDT)
 From: Chris Morgan <macroalpha82@gmail.com>
 To: linux-sunxi@lists.linux.dev
 Cc: devicetree@vger.kernel.org,
@@ -73,11 +73,10 @@ Cc: devicetree@vger.kernel.org,
 	wens@csie.org,
 	conor+dt@kernel.org,
 	krzk+dt@kernel.org,
-	robh@kernel.org,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH V9 08/24] dt-bindings: allwinner: add H616 DE33 clock binding
-Date: Wed,  7 May 2025 15:19:27 -0500
-Message-ID: <20250507201943.330111-9-macroalpha82@gmail.com>
+	robh@kernel.org
+Subject: [PATCH V9 10/24] clk: sunxi-ng: ccu: add Display Engine 3.3 (DE33) support
+Date: Wed,  7 May 2025 15:19:29 -0500
+Message-ID: <20250507201943.330111-11-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250507201943.330111-1-macroalpha82@gmail.com>
 References: <20250507201943.330111-1-macroalpha82@gmail.com>
@@ -91,34 +90,94 @@ Content-Transfer-Encoding: 8bit
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-The Allwinner H616 and variants have a new display engine revision
-(DE33).
+The DE33 is a newer version of the Allwinner Display Engine IP block,
+found in the H616, H618, H700 and T507 SoCs. DE2 and DE3 are already
+supported by the mainline driver.
 
-Add a clock binding for the DE33.
+The DE33 in the H616 has mixer0 and writeback units. The clocks
+and resets required are identical to the H3 and H5 respectively, so use
+those existing structs for the H616 description.
+
+There are two additional 32-bit registers (at offsets 0x24 and 0x28)
+which require clearing and setting respectively to bring up the
+hardware. The function of these registers is currently unknown, and the
+values are taken from the out-of-tree driver.
+
+Add the required clock description struct and compatible string to the
+DE2 driver.
 
 Signed-off-by: Ryan Walklin <ryan@testtoast.com>
 Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-Reviewed-by: Chen-Yu Tsai <wens@csie.org>
 ---
 Changelog v2..v3:
-- Separate content into three patches for three separate subsystems
----
- .../devicetree/bindings/clock/allwinner,sun8i-a83t-de2-clk.yaml  | 1 +
- 1 file changed, 1 insertion(+)
+- Lowercase hex value
 
-diff --git a/Documentation/devicetree/bindings/clock/allwinner,sun8i-a83t-de2-clk.yaml b/Documentation/devicetree/bindings/clock/allwinner,sun8i-a83t-de2-clk.yaml
-index 70369bd633e4..7fcd55d468d4 100644
---- a/Documentation/devicetree/bindings/clock/allwinner,sun8i-a83t-de2-clk.yaml
-+++ b/Documentation/devicetree/bindings/clock/allwinner,sun8i-a83t-de2-clk.yaml
-@@ -25,6 +25,7 @@ properties:
-       - const: allwinner,sun50i-a64-de2-clk
-       - const: allwinner,sun50i-h5-de2-clk
-       - const: allwinner,sun50i-h6-de3-clk
-+      - const: allwinner,sun50i-h616-de33-clk
-       - items:
-           - const: allwinner,sun8i-r40-de2-clk
-           - const: allwinner,sun8i-h3-de2-clk
+Changelog v2..v3:
+- Correct #include for writel()
+
+Changelog v4..v5:
+- Whitespace fix
+---
+ drivers/clk/sunxi-ng/ccu-sun8i-de2.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+
+diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-de2.c b/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
+index f2aa71206bc2..a6cd0f988859 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
++++ b/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
+@@ -5,6 +5,7 @@
+ 
+ #include <linux/clk.h>
+ #include <linux/clk-provider.h>
++#include <linux/io.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+ #include <linux/platform_device.h>
+@@ -239,6 +240,16 @@ static const struct sunxi_ccu_desc sun50i_h5_de2_clk_desc = {
+ 	.num_resets	= ARRAY_SIZE(sun50i_h5_de2_resets),
+ };
+ 
++static const struct sunxi_ccu_desc sun50i_h616_de33_clk_desc = {
++	.ccu_clks	= sun8i_de2_ccu_clks,
++	.num_ccu_clks	= ARRAY_SIZE(sun8i_de2_ccu_clks),
++
++	.hw_clks	= &sun8i_h3_de2_hw_clks,
++
++	.resets		= sun50i_h5_de2_resets,
++	.num_resets	= ARRAY_SIZE(sun50i_h5_de2_resets),
++};
++
+ static int sunxi_de2_clk_probe(struct platform_device *pdev)
+ {
+ 	struct clk *bus_clk, *mod_clk;
+@@ -291,6 +302,16 @@ static int sunxi_de2_clk_probe(struct platform_device *pdev)
+ 		goto err_disable_mod_clk;
+ 	}
+ 
++	/*
++	 * The DE33 requires these additional (unknown) registers set
++	 * during initialisation.
++	 */
++	if (of_device_is_compatible(pdev->dev.of_node,
++				    "allwinner,sun50i-h616-de33-clk")) {
++		writel(0, reg + 0x24);
++		writel(0x0000a980, reg + 0x28);
++	}
++
+ 	ret = devm_sunxi_ccu_probe(&pdev->dev, reg, ccu_desc);
+ 	if (ret)
+ 		goto err_assert_reset;
+@@ -335,6 +356,10 @@ static const struct of_device_id sunxi_de2_clk_ids[] = {
+ 		.compatible = "allwinner,sun50i-h6-de3-clk",
+ 		.data = &sun50i_h5_de2_clk_desc,
+ 	},
++	{
++		.compatible = "allwinner,sun50i-h616-de33-clk",
++		.data = &sun50i_h616_de33_clk_desc,
++	},
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(of, sunxi_de2_clk_ids);
 -- 
 2.43.0
 
