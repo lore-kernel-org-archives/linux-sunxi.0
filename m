@@ -1,110 +1,148 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D34E20ADE6
-	for <linux-sunxi@lists.linux.dev>; Thu,  8 May 2025 16:05:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746720313; cv=none; b=VGb9WgE7mhtLWX7AaYSVoVnKfK4WdsM//OFuZSkUuZ0EC1Li7Ensa8X+wWA/e8GndomXTOtN9xk4KbRfpHopTAM9wvhd/lJVUcpL1bnBt9g7KpKfnzzDIaV4UnV5ZqnBexk5Xp7hMeWFUpQeIP9urnM/dtRdR0zbaCdgDgDEXHE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746720313; c=relaxed/simple;
-	bh=maMWiNqhYgvQOIvaxXnh6WAgcxX5faEWOBEncaFdieo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cjzsRtHar+DPR1LRiNWAKqwiERUYwdFVBu3ZS0tKdlcZPfpIcyQhUjRtzsuE7FbfAt45cx6Slx82S4JIoi3tBCMF6ZHASePK5hr42mWOQ0TsvWWlwdD0AZAnIFEIHfPASKTFaFllo+0Sn7xcYvnrPLXbKFyAszvEdyXhHtZukYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B7ECF1E2F;
-	Thu,  8 May 2025 09:04:59 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BDD863F5A1;
-	Thu,  8 May 2025 09:05:09 -0700 (PDT)
-Date: Thu, 8 May 2025 17:05:07 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Shivam Gupta <gupta.shivam1996@gmail.com>
-Cc: "linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>
-Subject: Re: [PATCH] add Eachlink H6 Mini
-Message-ID: <20250508170507.3d426494@donnerap.manchester.arm.com>
-In-Reply-To: <SJ1PR12MB6313678B38CB96D3C24FECE5A08BA@SJ1PR12MB6313.namprd12.prod.outlook.com>
-References: <20250508143411.4534-1-gupta.shivam1996@gmail.com>
-	<20250508162526.720c3649@donnerap.manchester.arm.com>
-	<SJ1PR12MB6313678B38CB96D3C24FECE5A08BA@SJ1PR12MB6313.namprd12.prod.outlook.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [81.169.146.166])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EF1228640B
+	for <linux-sunxi@lists.linux.dev>; Thu,  8 May 2025 17:37:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=81.169.146.166
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746725848; cv=pass; b=iYIS+TOxqqe6X6ezMRZfqobAMjZjbRUXSS81gNIg2VJwR7TaGVKvNxTcpMTUmOEVaiwAC4/vqcTAcfnDXMvcIwrszxRGwkJLc9cbBAsiRFfNTVXKx0/yByCq3E8PcNZIeMCylfpRVWspVKe9vc6ZHVPeE7ZAoXy4pKAojtQDpfA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746725848; c=relaxed/simple;
+	bh=Mpdz11lRfSda/bN0TCgdCGp+o75tqHieLP1wvt8v/N0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=kGlVMREJZYPKX+JkVTr38kSnyP9QzT9dQXMosf4EO8KcjJZSrEviD7GLgT9jRdb4RExiKh7oMUyyZPXVdaZNQ0qybGklBu6ntGFBRUXy83bah82bklGjlZrGg9pNoeQaw0+Yraa3OAMWYWqMcyAUqIJHgC69PknJ64K0A9mEONw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fossekall.de; spf=pass smtp.mailfrom=a98shuttle.de; dkim=pass (2048-bit key) header.d=fossekall.de header.i=@fossekall.de header.b=ZVvyJCRK; dkim=permerror (0-bit key) header.d=fossekall.de header.i=@fossekall.de header.b=AyNZaAhz; arc=pass smtp.client-ip=81.169.146.166
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fossekall.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=a98shuttle.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=fossekall.de header.i=@fossekall.de header.b="ZVvyJCRK";
+	dkim=permerror (0-bit key) header.d=fossekall.de header.i=@fossekall.de header.b="AyNZaAhz"
+ARC-Seal: i=1; a=rsa-sha256; t=1746725831; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=E/hu1PaHoB4ZtYo7xbH8KOeUnfSUrqpnCYMfSSUbAop2QsDmf1BV7UbxD+zXSQRAVl
+    vYsFookEPeSjaQth2lgeCP1bZa9kc6BvFOFZEHKf7wTX2kOYFuG5PPhLDuDfj6E8wd7n
+    EV+qgxyO1R/vhLQPoJVFmL0tHBNJPOIC6BUNdullnZUeMXqFXGIy0nZShulYFDzm645c
+    rS085v08u8XAiw7GBKR6sNZQDR7BHFPU9ASQY88B3GCzGEETAVQqCCscXr79zFFBqgWa
+    EC9D5YsrAqw8ffe5HSGCJicicmDJ97rNDoymj04tl7mg/A6YMJNTH1d8lb3fApf1LItp
+    jR0g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1746725831;
+    s=strato-dkim-0002; d=strato.com;
+    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+    bh=6EUN3uH+cBsC/FYES8tXDJVOJ0qqEl8LtFAqKxXbW7w=;
+    b=YdoZCzkrPzOWFHEOng6OrmkO5BxHIsFRQuquLSiMbe/5lp1nNEJf061tcueoavvzQc
+    gmnVzvY08u52HrIBTDIKRjJQqzuml0Ian8LrBQ8TgPBX1bZLpiGslP0/Ij9/qmMs2NNF
+    7Epc0rVQA9qNqTyw1CD3KuccSMxhfioO94T/v80Bu/ORtGiThn7qkdgbc68aXVGzjk5p
+    a7Qs4GyTImU3Y6AKezxWj4KD9rGQuh/ixEl6DTiayFvVewFxtIaWM15O+freWOTL8yLo
+    Of44MROQiH8z/bgsf4k+s675pBA8E1eZE4zXFX6J+Vo9DXrNlHLyS7dnpgjJsBeB8MfQ
+    gXwQ==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1746725831;
+    s=strato-dkim-0002; d=fossekall.de;
+    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+    bh=6EUN3uH+cBsC/FYES8tXDJVOJ0qqEl8LtFAqKxXbW7w=;
+    b=ZVvyJCRKpmBeBE/RO8xHt/Oq8MuvgFFnkbDfFfF0sff1gZ65r3C1zL+X4c58WTwXNr
+    Y6/RAyUtEaJ6Zu6Yz1QV8e8XpTDAFEAOA+ldPreO1jCEjsEo9lz01W/+iTL6qEUWZGqm
+    I0XQqg3RRvfOfVnuc42lhlCPBfsD8dm6B1O6iJzhG1WdeCrO8GlPT6vfORldxe3cXLUu
+    RzzDRvBIdAXHiOzsCZgaMjhXRVCd8oxf/AGfXC72Qu3l+b48KPJtmNzM/na8NJ4ZAPmz
+    jNpOuUwi42M1kAf9knCJ1l0c29WEeh9noXsXfosnz/RihcLn1lKyaM5JRbrZ3fLu+KcT
+    G9Gg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1746725831;
+    s=strato-dkim-0003; d=fossekall.de;
+    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+    bh=6EUN3uH+cBsC/FYES8tXDJVOJ0qqEl8LtFAqKxXbW7w=;
+    b=AyNZaAhzM3eRbO/LdasN+IUEhKYe/C47l6PUCtor5g33FLlsfIgzuzxmpjJAUCx9g5
+    THDWVrLM0wtlyjmCyyAA==
+X-RZG-AUTH: ":O2kGeEG7b/pS1EzgE2y7nF0STYsSLflpbjNKxx7cGrBdao6FTL4AJcMdm+lap4JEHkzok9eyEg=="
+Received: from aerfugl
+    by smtp.strato.de (RZmta 51.3.0 AUTH)
+    with ESMTPSA id f28b35148HbBLQC
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+	(Client did not present a certificate);
+    Thu, 8 May 2025 19:37:11 +0200 (CEST)
+Received: from koltrast.home ([192.168.1.27] helo=a98shuttle.de)
+	by aerfugl with smtp (Exim 4.96)
+	(envelope-from <michael@a98shuttle.de>)
+	id 1uD5BG-0007JD-0K;
+	Thu, 08 May 2025 19:37:10 +0200
+Received: (nullmailer pid 8724 invoked by uid 502);
+	Thu, 08 May 2025 17:37:10 -0000
+From: Michael Klein <michael@fossekall.de>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>
+Cc: Michael Klein <michael@fossekall.de>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v3] ARM: dts: bananapi: add support for PHY LEDs
+Date: Thu,  8 May 2025 19:36:56 +0200
+Message-Id: <20250508173657.8695-1-michael@fossekall.de>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Thu, 8 May 2025 15:41:34 +0000
-Shivam Gupta <gupta.shivam1996@gmail.com> wrote:
+The RTL8211E ethernet PHY driver has recently gained support for
+controlling PHY LEDs via /sys/class/leds. The Bananapi M1 has three
+LEDs connected to the RTL8211E PHY. Add the corresponding nodes to
+the device tree.
 
-> Hi,
-> While following the instructions to the letter on
-> https://linux-sunxi.org/New_Device_howto, I sent the wrong patch. Wanted
-> to add a fex file for an A10 tablet (https://linux-sunxi.org/Softwinners_crane)
-> It's the next patch I sent after that.
+Signed-off-by: Michael Klein <michael@fossekall.de>
+---
 
-Ah, I see. Unfortunately those instructions are somewhat outdated. I don't
-think sunxi-boards is really maintained anymore, at best FEX files are
-somewhat irrelevant for mainline, even Allwinner seems to have dropped
-that ball many years ago.
+v2: Refine commit message
+v3: Move patch changelog below commit message separator
 
-> As a beginner I did exactly what it said, git add and send patch, but
-> didn't git commit as it didn't say that anywhere, I'm sorry for that.
+ .../boot/dts/allwinner/sun7i-a20-bananapi.dts | 27 +++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-Yeah, I see that it proposes to send a patch to the list. Which is
-somewhat pointless, as it's a github based repo, so it should follow that
-process there.
-
-> For an A10 tablet, should I still send a pull request over github or the
-> email method is fine?
-
-For that old tablet I think you can push the FEX file, via a Github PR,
-though I don't know many people care about this still.
-If your aim is to run (mainline) Linux, you would need a devicetree file
-anyway. You can use the information in the FEX to create or generate one.
-
-Cheers,
-Andre
-
-> https://lore.kernel.org/linux-sunxi/20250508150811.7046-1-gupta.shivam1996@gmail.com/T/#u
-> 
-> Thanks,
-> 
-> Shivam
-> 
-> ________________________________
-> From: Andre Przywara <andre.przywara@arm.com>
-> Sent: Thursday, May 8, 2025 8:55:30 pm
-> To: Shivam Gupta <gupta.shivam1996@gmail.com>
-> Cc: linux-sunxi@lists.linux.dev <linux-sunxi@lists.linux.dev>;
-> hundertzwei <46927478+hundertzwei@users.noreply.github.com> Subject: Re:
-> [PATCH] add Eachlink H6 Mini
-> 
-> On Thu,  8 May 2025 20:04:11 +0530
-> Shivam Gupta <gupta.shivam1996@gmail.com> wrote:
-> 
-> Hi,
-> 
-> > From: hundertzwei <46927478+hundertzwei@users.noreply.github.com>
-> >
-> > extracted from miniH6-public-3Gddr-20181113-update.img
-> > ---  
-> 
-> what repository is this against? I guess sunxi-boards.git on
-> github.com/linux-sunxi?
-> 
-> This doesn't use an email based contribution process, so please send a
-> pull-request via github.
-> 
-> Not sure how useful a FEX file for an H6 based device is anyway, but I
-> guess it doesn't hurt...
-> 
-> Cheers,
-> Andre.
-> 
+diff --git a/arch/arm/boot/dts/allwinner/sun7i-a20-bananapi.dts b/arch/arm/boot/dts/allwinner/sun7i-a20-bananapi.dts
+index 46ecf9db2324..d8b362c9661a 100644
+--- a/arch/arm/boot/dts/allwinner/sun7i-a20-bananapi.dts
++++ b/arch/arm/boot/dts/allwinner/sun7i-a20-bananapi.dts
+@@ -48,6 +48,7 @@
+ 
+ #include <dt-bindings/gpio/gpio.h>
+ #include <dt-bindings/interrupt-controller/irq.h>
++#include <dt-bindings/leds/common.h>
+ 
+ / {
+ 	model = "LeMaker Banana Pi";
+@@ -169,6 +170,32 @@ &ir0 {
+ &gmac_mdio {
+ 	phy1: ethernet-phy@1 {
+ 		reg = <1>;
++
++		leds {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			led@0 {
++				reg = <0>;
++				color = <LED_COLOR_ID_GREEN>;
++				function = LED_FUNCTION_LAN;
++				linux,default-trigger = "netdev";
++			};
++
++			led@1 {
++				reg = <1>;
++				color = <LED_COLOR_ID_AMBER>;
++				function = LED_FUNCTION_LAN;
++				linux,default-trigger = "netdev";
++			};
++
++			led@2 {
++				reg = <2>;
++				color = <LED_COLOR_ID_BLUE>;
++				function = LED_FUNCTION_LAN;
++				linux,default-trigger = "netdev";
++			};
++		};
+ 	};
+ };
+ 
+-- 
+2.39.5
 
