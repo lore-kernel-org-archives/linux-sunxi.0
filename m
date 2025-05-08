@@ -1,148 +1,151 @@
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [81.169.146.166])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EF1228640B
-	for <linux-sunxi@lists.linux.dev>; Thu,  8 May 2025 17:37:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=81.169.146.166
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746725848; cv=pass; b=iYIS+TOxqqe6X6ezMRZfqobAMjZjbRUXSS81gNIg2VJwR7TaGVKvNxTcpMTUmOEVaiwAC4/vqcTAcfnDXMvcIwrszxRGwkJLc9cbBAsiRFfNTVXKx0/yByCq3E8PcNZIeMCylfpRVWspVKe9vc6ZHVPeE7ZAoXy4pKAojtQDpfA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746725848; c=relaxed/simple;
-	bh=Mpdz11lRfSda/bN0TCgdCGp+o75tqHieLP1wvt8v/N0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=kGlVMREJZYPKX+JkVTr38kSnyP9QzT9dQXMosf4EO8KcjJZSrEviD7GLgT9jRdb4RExiKh7oMUyyZPXVdaZNQ0qybGklBu6ntGFBRUXy83bah82bklGjlZrGg9pNoeQaw0+Yraa3OAMWYWqMcyAUqIJHgC69PknJ64K0A9mEONw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fossekall.de; spf=pass smtp.mailfrom=a98shuttle.de; dkim=pass (2048-bit key) header.d=fossekall.de header.i=@fossekall.de header.b=ZVvyJCRK; dkim=permerror (0-bit key) header.d=fossekall.de header.i=@fossekall.de header.b=AyNZaAhz; arc=pass smtp.client-ip=81.169.146.166
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fossekall.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=a98shuttle.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 835E638384
+	for <linux-sunxi@lists.linux.dev>; Thu,  8 May 2025 18:35:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746729303; cv=none; b=qHCxof0EBjl8X8BJXPJHhniEx8KGN+LL92Kzy65cvKAGc46w9UuUxgfEIA/GKzUavvgDmZaGVHCYZyKuOZPd4K/Cg6+cFrkAiPcL5mhNJXLbThR7B1G+PPkhZ+54kYdOxF3feLAjA/KlLBpRHFzsD2A3xKZ7iOtjRSIQRTyRBUE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746729303; c=relaxed/simple;
+	bh=pve4kmBWjpJMouJmACKzohZUAEfULdHO46/0YMB2Ys8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z++EUHxk3ljqXMqMws1BkU8Xr8lzngJbjXOz4JiuAul3g7vNDuVL9rWHMb1CakXRn+yZpSxrrDGovpSCrcMULay0TfK84O/ugHhuTCIb980F9yVfF86Nu2WaN9yO0oPCmjM/UT7wq6qLfuyEMQ5NZlIvNsbFDvWlJxQM28RH7Js=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F2H7h09E; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fossekall.de header.i=@fossekall.de header.b="ZVvyJCRK";
-	dkim=permerror (0-bit key) header.d=fossekall.de header.i=@fossekall.de header.b="AyNZaAhz"
-ARC-Seal: i=1; a=rsa-sha256; t=1746725831; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=E/hu1PaHoB4ZtYo7xbH8KOeUnfSUrqpnCYMfSSUbAop2QsDmf1BV7UbxD+zXSQRAVl
-    vYsFookEPeSjaQth2lgeCP1bZa9kc6BvFOFZEHKf7wTX2kOYFuG5PPhLDuDfj6E8wd7n
-    EV+qgxyO1R/vhLQPoJVFmL0tHBNJPOIC6BUNdullnZUeMXqFXGIy0nZShulYFDzm645c
-    rS085v08u8XAiw7GBKR6sNZQDR7BHFPU9ASQY88B3GCzGEETAVQqCCscXr79zFFBqgWa
-    EC9D5YsrAqw8ffe5HSGCJicicmDJ97rNDoymj04tl7mg/A6YMJNTH1d8lb3fApf1LItp
-    jR0g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1746725831;
-    s=strato-dkim-0002; d=strato.com;
-    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
-    bh=6EUN3uH+cBsC/FYES8tXDJVOJ0qqEl8LtFAqKxXbW7w=;
-    b=YdoZCzkrPzOWFHEOng6OrmkO5BxHIsFRQuquLSiMbe/5lp1nNEJf061tcueoavvzQc
-    gmnVzvY08u52HrIBTDIKRjJQqzuml0Ian8LrBQ8TgPBX1bZLpiGslP0/Ij9/qmMs2NNF
-    7Epc0rVQA9qNqTyw1CD3KuccSMxhfioO94T/v80Bu/ORtGiThn7qkdgbc68aXVGzjk5p
-    a7Qs4GyTImU3Y6AKezxWj4KD9rGQuh/ixEl6DTiayFvVewFxtIaWM15O+freWOTL8yLo
-    Of44MROQiH8z/bgsf4k+s675pBA8E1eZE4zXFX6J+Vo9DXrNlHLyS7dnpgjJsBeB8MfQ
-    gXwQ==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo01
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1746725831;
-    s=strato-dkim-0002; d=fossekall.de;
-    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
-    bh=6EUN3uH+cBsC/FYES8tXDJVOJ0qqEl8LtFAqKxXbW7w=;
-    b=ZVvyJCRKpmBeBE/RO8xHt/Oq8MuvgFFnkbDfFfF0sff1gZ65r3C1zL+X4c58WTwXNr
-    Y6/RAyUtEaJ6Zu6Yz1QV8e8XpTDAFEAOA+ldPreO1jCEjsEo9lz01W/+iTL6qEUWZGqm
-    I0XQqg3RRvfOfVnuc42lhlCPBfsD8dm6B1O6iJzhG1WdeCrO8GlPT6vfORldxe3cXLUu
-    RzzDRvBIdAXHiOzsCZgaMjhXRVCd8oxf/AGfXC72Qu3l+b48KPJtmNzM/na8NJ4ZAPmz
-    jNpOuUwi42M1kAf9knCJ1l0c29WEeh9noXsXfosnz/RihcLn1lKyaM5JRbrZ3fLu+KcT
-    G9Gg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1746725831;
-    s=strato-dkim-0003; d=fossekall.de;
-    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
-    bh=6EUN3uH+cBsC/FYES8tXDJVOJ0qqEl8LtFAqKxXbW7w=;
-    b=AyNZaAhzM3eRbO/LdasN+IUEhKYe/C47l6PUCtor5g33FLlsfIgzuzxmpjJAUCx9g5
-    THDWVrLM0wtlyjmCyyAA==
-X-RZG-AUTH: ":O2kGeEG7b/pS1EzgE2y7nF0STYsSLflpbjNKxx7cGrBdao6FTL4AJcMdm+lap4JEHkzok9eyEg=="
-Received: from aerfugl
-    by smtp.strato.de (RZmta 51.3.0 AUTH)
-    with ESMTPSA id f28b35148HbBLQC
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-	(Client did not present a certificate);
-    Thu, 8 May 2025 19:37:11 +0200 (CEST)
-Received: from koltrast.home ([192.168.1.27] helo=a98shuttle.de)
-	by aerfugl with smtp (Exim 4.96)
-	(envelope-from <michael@a98shuttle.de>)
-	id 1uD5BG-0007JD-0K;
-	Thu, 08 May 2025 19:37:10 +0200
-Received: (nullmailer pid 8724 invoked by uid 502);
-	Thu, 08 May 2025 17:37:10 -0000
-From: Michael Klein <michael@fossekall.de>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>
-Cc: Michael Klein <michael@fossekall.de>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v3] ARM: dts: bananapi: add support for PHY LEDs
-Date: Thu,  8 May 2025 19:36:56 +0200
-Message-Id: <20250508173657.8695-1-michael@fossekall.de>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F2H7h09E"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43cfe574976so9210605e9.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 08 May 2025 11:35:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746729300; x=1747334100; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=IVDbdK6tFT4p5qSPziDFcg0ZPFHZewJeUyaEpzkNkuw=;
+        b=F2H7h09EyZTh9fjYBx+GndxQFGsM+ZzilnS0v7/kS83M6r+7ap19RhQEOi3N22iopf
+         U7V6uLEQs7MVsqEzq1LoHNWEbBdggGwvvGIy5O/VfocrC5dStpdxP6twPpQvFbXfBxwQ
+         ZnJzgEf6c0uytIRgSJlG+IKtVCUTOQdsjKRx2vSC7iebAwK/ki5gLwAQhIif26KC9Z+H
+         QvK8+EYFY99rwyLVYu3nPMqn9Cdeve14x41KIbNrvc4faPQN3Ed2ksPDXjylH6GDxSkO
+         TdaSFQIFJE0yyoUEiPGKvabGx+T83eNTXLJQSvQtixoj/Wa3SHWUuMnZPpf4EVnoHq1V
+         1FtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746729300; x=1747334100;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IVDbdK6tFT4p5qSPziDFcg0ZPFHZewJeUyaEpzkNkuw=;
+        b=PpxbGXqFNqyULgCer3J/iJMB2Hg7evLPt1CFC0Epoby6FfGYME3tuLLVaSY52Sq1yg
+         bHPjY71+gzGEe/Mgu0G5mVZESaYXUwbme+dhTxNAp1Og6Ajcqn5tK263dDwtDCI7uDyw
+         WQPK1q0Z3kvFCCNB25iR/Lfxy8fW3lOGgV/6o/SYv7OIpUU6g4Jn1IG4nwNVdZQD8lfp
+         agORjquBVs1MYCUJahFyhI3tuoFIz/ZYgW7O/svXb8kqwW5JoIr4tBd7SNevfo4eN18R
+         gVcJpdyJcWkI+V/A4q1mFAVlSy3URVgt7fLFbVqk4dPcJT9mWtrBF52GsuAivoAQrZca
+         ULzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUt+YeLR7hBYdlxmyQZ/oNxQM4CZQz5bKRgsBDG4voh9/EgmZL32XNa4sTtzo9JcpLB9jCgzBIG/9tkrQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwrF46pI559gQy9TyiP/F+nYb+QCxQ2vg7jyk/kQ6REXT8YaKGS
+	/canx2lztSSrJcrOH2eQhPtZj+wXV9IgbLs4q4wQ7wGNffl+C8Bm
+X-Gm-Gg: ASbGncsNCVLOgKJEI/7jHbBtd5GnmQ6kE+/75Ry5ObHEl60AzSEp4VDCuuvxOhFQgJr
+	3le5AoC5ae0/fjlLq/EUetRMVDNtnHtOmohe2FHCrXj9dThvpjGTw4pwqrspZeHvgoB/9MGyTeH
+	VthgRORr+FEal6Js6mhuDq2mH4pl5jmdHnxUmgBhaNc9JqZg6r0FecDuqWb7MdkPU/m4DHPw1Wv
+	98xSJ+iQCTRdqIFyxgPpvXU7NJlk87FPwrkXk5ki+mQ4JxaCk5UFV+bdkeAf/be0veNzNWfiA9y
+	bnyPItNAFgHbDeg4s4t7UkFiP5qxegW0PuhZR2kITqkwyUU92am3
+X-Google-Smtp-Source: AGHT+IHYSEjULgZ4gpU3lysdol2P4WoCbN6EmeFoDVpmXCq4aDj8KwVvWdJr2UTxFLSQOh9srCA+Tg==
+X-Received: by 2002:a05:600c:1d16:b0:43d:2313:7b49 with SMTP id 5b1f17b1804b1-442d6d44ac2mr3297615e9.12.1746729299349;
+        Thu, 08 May 2025 11:34:59 -0700 (PDT)
+Received: from Red ([2a01:cb1d:898:ab00:4a02:2aff:fe07:1efc])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-442cd3b7dd5sm45158365e9.35.2025.05.08.11.34.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 May 2025 11:34:58 -0700 (PDT)
+Date: Thu, 8 May 2025 20:34:55 +0200
+From: Corentin Labbe <clabbe.montjoie@gmail.com>
+To: Rob Herring <robh@kernel.org>
+Cc: Chris Morgan <macroalpha82@gmail.com>, linux-sunxi@lists.linux.dev,
+	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	ryan@testtoast.com, macromorgan@hotmail.com, p.zabel@pengutronix.de,
+	tzimmermann@suse.de, maarten.lankhorst@linux.intel.com,
+	simona@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
+	samuel@sholland.org, jernej.skrabec@gmail.com, wens@csie.org,
+	conor+dt@kernel.org, krzk+dt@kernel.org
+Subject: Re: [PATCH V9 00/24] drm: sun4i: add Display Engine 3.3 (DE33)
+ support
+Message-ID: <aBz5T-jAnv_RVAmh@Red>
+References: <20250507201943.330111-1-macroalpha82@gmail.com>
+ <CAL_Jsq+gtVi1XG7b2g+n-H=fDrkZRqVA0wNSAA5-Ot7EXqG2QA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="us-ascii"
+In-Reply-To: <CAL_Jsq+gtVi1XG7b2g+n-H=fDrkZRqVA0wNSAA5-Ot7EXqG2QA@mail.gmail.com>
 
-The RTL8211E ethernet PHY driver has recently gained support for
-controlling PHY LEDs via /sys/class/leds. The Bananapi M1 has three
-LEDs connected to the RTL8211E PHY. Add the corresponding nodes to
-the device tree.
+Le Wed, May 07, 2025 at 04:13:38PM -0500, Rob Herring a écrit :
+> On Wed, May 7, 2025 at 3:22 PM Chris Morgan <macroalpha82@gmail.com> wrote:
+> >
+> > From: Chris Morgan <macromorgan@hotmail.com>
+> >
+> > I've spoken with Ryan and he agreed to let me take over this series to
+> > get the display engine working on the Allwinner H616. I've taken his
+> > previous patch series for Display Engine 3.3 and combined it with the
+> > LCD controller patch series. I've also fixed a few additional bugs and
+> > made some changes to the device tree bindings.
+> >
+> > Changes since V8:
+> >  - Combined the DE33 [1] series and the LCD [2] series to better track
+> >    all patches necessary to output to an LCD display for the Allwinner
+> >    H700.
+> >  - Added a required LVDS reset as requested here [3].
+> >  - Added compatible strings with a fallback for
+> >    allwinner,sun50i-h616-display-engine, allwinner,sun50i-h616-tcon-top,
+> >    and allwinner,sun50i-h616-sram-c.
+> >  - Added binding documentation for the LCD controller.
+> >  - Renamed the de3_sram device tree node to de33_sram.
+> >  - Corrected the LVDS reset for the LCD controller binding.
+> >  - Removed the PWM pins from the pincontroller bindings, as PWM is not
+> >    yet supported.
+> >  - Reordered the patches so that a binding or a device tree node is not
+> >    referenced before it is defined.
+> >
+> > [1] https://lore.kernel.org/linux-sunxi/20250310092345.31708-1-ryan@testtoast.com/
+> > [2] https://lore.kernel.org/linux-sunxi/20250216092827.15444-1-ryan@testtoast.com/
+> > [3] https://lore.kernel.org/linux-sunxi/38669808.XM6RcZxFsP@jernej-laptop/
+> >
+> > Chris Morgan (24):
+> >   dt-bindings: clock: sun50i-h616-ccu: Add LVDS reset
+> >   clk: sunxi-ng: h616: Add LVDS reset for LCD TCON
+> >   drm: sun4i: de2/de3: add mixer version enum
+> >   drm: sun4i: de2/de3: refactor mixer initialisation
+> >   drm: sun4i: de2/de3: add generic blender register reference function
+> >   drm: sun4i: de2/de3: use generic register reference function for layer
+> >     configuration
+> >   dt-bindings: allwinner: add H616 DE33 bus binding
+> >   dt-bindings: allwinner: add H616 DE33 clock binding
+> >   dt-bindings: allwinner: add H616 DE33 mixer binding
+> >   clk: sunxi-ng: ccu: add Display Engine 3.3 (DE33) support
+> >   drm: sun4i: de33: vi_scaler: add Display Engine 3.3 (DE33) support
+> >   drm: sun4i: de33: mixer: add Display Engine 3.3 (DE33) support
+> >   drm: sun4i: de33: mixer: add mixer configuration for the H616
+> >   dt-bindings: allwinner: Add TCON_TOP and TCON_LCD clock/reset defines
+> >   dt-bindings: display: sun4i: Add compatible strings for H616 DE
+> >   dt-bindings: display: sun4i: Add compatible strings for H616 TCON TOP
+> >   dt-bindings: sram: sunxi-sram: Add H616 SRAM C compatible
+> >   dt-bindings: display: Add R40 and H616 display engine compatibles
+> >   drm/sun4i: tcon: Add support for R40 LCD
+> >   arm64: dts: allwinner: h616: add display engine, bus and mixer nodes
+> >   arm64: dts: allwinner: h616: Add TCON nodes to H616 DTSI
+> >   arm64: dts: allwinner: h616: add LCD and LVDS pins
+> >   arm64: dts: allwinner: rg35xx: Add GPIO backlight control
+> >   arm64: dts: allwinner: rg35xx: Enable LCD output
+> 
+> What's the base for this series? It didn't apply for me (using b4).
+> 
+> Rob
+> 
 
-Signed-off-by: Michael Klein <michael@fossekall.de>
----
+I tested it on top of linux-next next-20250508 and revert "arm64: dts: allwinner: h616: Add Mali GPU node"
 
-v2: Refine commit message
-v3: Move patch changelog below commit message separator
-
- .../boot/dts/allwinner/sun7i-a20-bananapi.dts | 27 +++++++++++++++++++
- 1 file changed, 27 insertions(+)
-
-diff --git a/arch/arm/boot/dts/allwinner/sun7i-a20-bananapi.dts b/arch/arm/boot/dts/allwinner/sun7i-a20-bananapi.dts
-index 46ecf9db2324..d8b362c9661a 100644
---- a/arch/arm/boot/dts/allwinner/sun7i-a20-bananapi.dts
-+++ b/arch/arm/boot/dts/allwinner/sun7i-a20-bananapi.dts
-@@ -48,6 +48,7 @@
- 
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/interrupt-controller/irq.h>
-+#include <dt-bindings/leds/common.h>
- 
- / {
- 	model = "LeMaker Banana Pi";
-@@ -169,6 +170,32 @@ &ir0 {
- &gmac_mdio {
- 	phy1: ethernet-phy@1 {
- 		reg = <1>;
-+
-+		leds {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			led@0 {
-+				reg = <0>;
-+				color = <LED_COLOR_ID_GREEN>;
-+				function = LED_FUNCTION_LAN;
-+				linux,default-trigger = "netdev";
-+			};
-+
-+			led@1 {
-+				reg = <1>;
-+				color = <LED_COLOR_ID_AMBER>;
-+				function = LED_FUNCTION_LAN;
-+				linux,default-trigger = "netdev";
-+			};
-+
-+			led@2 {
-+				reg = <2>;
-+				color = <LED_COLOR_ID_BLUE>;
-+				function = LED_FUNCTION_LAN;
-+				linux,default-trigger = "netdev";
-+			};
-+		};
- 	};
- };
- 
--- 
-2.39.5
 
