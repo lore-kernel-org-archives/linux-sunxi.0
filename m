@@ -1,169 +1,180 @@
-Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8345718A6DB
-	for <linux-sunxi@lists.linux.dev>; Sun, 11 May 2025 10:42:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00C9F22D4DA
+	for <linux-sunxi@lists.linux.dev>; Sun, 11 May 2025 12:39:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746960170; cv=none; b=q4OiPzTUjJK+VyMLO907btAD+PK4AdKcjqIHDGWIZOCIddGG3Amn7XISARNCStBaZbNaeFR0Hk/ZMV67wum0f8+Kz7nXBSVnn0wMWoYuxx5L0pWvwXofH1xECV9zfW29hsu5aF4mE0zVusWcLts/X+H3ghs1cohUT0JAw/NXZTk=
+	t=1746967155; cv=none; b=RUmiWscOlmbTPjWNWN7xGlUzGs0tYxbYcbl8ga90/+Iwrx16b+FbfIGc1BvMGd2oFOlEkih8oPycigcAJEPQfGmf357LH4SdMmZHnEpaCkrtw6ia527lbXnbawm02ioJ64fAPb7W3+uiGw+g8NAweOj/hYHYANodlaWSt9U6lHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746960170; c=relaxed/simple;
-	bh=01SGTuUZq2iCNSFxmrHHonQPTVrC55gR7rrcTjpaVnc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=J3KfWQBWV8QlzprEj9kwufBREpWXhMHEP6dpM0TYUkcyR7qMArPvha3o77FcoRoin+gXcyW03I780DfBU+OdssgvsnPuoVrO64PMXlEaK7NK3uuP3z0g+9yccXgAXVypkMhrcxw/VIFgAGmxNfhAhBblvqGoU/X1AKNyHBujKkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=gKldsTgC; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=kqQI1rkB; arc=none smtp.client-ip=202.12.124.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
+	s=arc-20240116; t=1746967155; c=relaxed/simple;
+	bh=jhQ5SAEJJF3qUfy6D5IHr1j1BdMfMHXPzSP1qRil+xg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PiILTjL4KNbyzlQFLHkZcaIhSTnHFF2tu44QH+CYGQcQXY3HEaqJ8QAeyEb6vho/BDxSisckt51ngWeYWcseyCxyK1TGRfSTrZOnpUY35CvwAMIXC+wZYMa1QHe+/ZSz02z+vE0umIzjm5JVd5k9I/wFdNObXQ9at4YuLfRP9SA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HVdMeWgS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="gKldsTgC";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="kqQI1rkB"
-Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 5C12025400F4;
-	Sun, 11 May 2025 06:42:47 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Sun, 11 May 2025 06:42:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
-	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
-	:from:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm3; t=1746960167; x=
-	1747046567; bh=7NkCp18/Yuhg5ybR4dfOeqyUzMpfRweO1qk/tseFdhw=; b=g
-	KldsTgCXJfspWmNdSRasTperLwxKyFxccxFxY7JVhIZhU+/xXHVIElgRKumUC6Ju
-	8SoIiljNxgXFXNGvfSnlL48E6PPQCNXYTtDmbwGStVDBn9OVWQr32ug8MQQRyVp1
-	0QUTgAjev+W1vNMK906GV4+PQTOAyfeXBNcnN9PfNh1scglDHuPgMf8jaZEEGcxV
-	UBQZNDvwX0jcfAyNbBrZ+Jztj049Li9vwRSae2l2ieZcPaICKm7IUf88v/YUMz2K
-	oaLC5vpiesDz6Tefc8p16dLZrqBE5UQy6i9HKbjkwY0R/iQm98FKIhPQzJepJZBH
-	pRKpikfj0hmGuvFEWL6sA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm3; t=1746960167; x=1747046567; bh=7
-	NkCp18/Yuhg5ybR4dfOeqyUzMpfRweO1qk/tseFdhw=; b=kqQI1rkBWBH1FNaY4
-	ArOOsRF+cP/pgONE6mE3WWEp+tHLIY84b+/VKgvpCvwK7uFHfFSAOhxP29AVrcHT
-	TB3MRBrKUu5E5WiJYsBJmMS7x/6dEkhL2KzIZo57jjMGm8bCMZtek5V17p9/65o3
-	8GDgYCZF37tfDFzed9Cn7+ZHbn1NSbLQEWY/+t0f0sWA/uFRlq6jGvmOWPJxQFMX
-	AMf29OyC6EFWtezypE7HzZIF5PGJ/Gth64h4OLYAgb+MsTAPw5Sv+Zd8TZnUKfPY
-	47+DnxHvslPnXcTYL3jM4qFLPAXlDEC7BH535nv7MpbjwaprIpgZPcJZqpjc7Tle
-	OcvMQ==
-X-ME-Sender: <xms:J38gaG6QG0RI_PIhZfeiQYLMH-oic8cE2IqOiA_8ZC64k7pLndDA2A>
-    <xme:J38gaP5u3ZTU0J6aGbZ9-mzI0QKN1ktMvGYcIB47HMm1lExKRB8NjRw5zgKCb5Ylt
-    bkPaJ4Hrye4xcvUVQ>
-X-ME-Received: <xmr:J38gaFfOiOFwjTqF3pGEwGptwFzCmoPFfp5eH_qzSWdFu2-aC6YohquGK3YHiIizGbB1OlSa27e6BIIhlDb-ur7ZZmtR3D__hSPFkQjLEkP2>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvleekudejucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgjfhgggfestdekredtredt
-    tdenucfhrhhomheptfihrghnucghrghlkhhlihhnuceorhihrghnsehtvghsthhtohgrsh
-    htrdgtohhmqeenucggtffrrghtthgvrhhnpeffheeiffegtdfgffejteevgeefkeelieel
-    keevueetffetteduffevgeeiieehteenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
-    grmhepmhgrihhlfhhrohhmpehrhigrnhesthgvshhtthhorghsthdrtghomhdpnhgspghr
-    tghpthhtohepvdegpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehmrhhiphgrrh
-    gusehkvghrnhgvlhdrohhrghdprhgtphhtthhopeifvghnshestghsihgvrdhorhhgpdhr
-    tghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlh
-    drtghomhdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghp
-    thhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopegurghnihgvlh
-    esfhhffihllhdrtghhpdhrtghpthhtohepjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgr
-    ihhlrdgtohhmpdhrtghpthhtohepshgrmhhuvghlsehshhholhhlrghnugdrohhrghdprh
-    gtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:J38gaDJxud_CuDBWQVoA8-UeF-aoPyo_jfc4mB5JjXuomLwnjO-Row>
-    <xmx:J38gaKLiA9Cg5dIeYMGAV5m8WWXtQqfme7LV6JZuum3IdPO3AH1-3Q>
-    <xmx:J38gaEyng_l6ChDOEUbehRQ7iPxyS99mEQWi0S39B-bU14Z4cuLfqA>
-    <xmx:J38gaOIUChpbLxw5F4yNKAm0nblR-sQjBEQUcjwR2gjT4JPPUbChyg>
-    <xmx:J38gaMx0cWjOkIIUKyWdDQSfnm2rqQotyBFRD33kYiAYgiAjs-w9HxMM>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 11 May 2025 06:42:40 -0400 (EDT)
-From: Ryan Walklin <ryan@testtoast.com>
-To: Maxime Ripard <mripard@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>
-Cc: Andre Przywara <andre.przywara@arm.com>,
-	Chris Morgan <macroalpha82@gmail.com>,
-	Hironori KIKUCHI <kikuchan98@gmail.com>,
-	Philippe Simons <simons.philippe@gmail.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	devicetree@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	Ryan Walklin <ryan@testtoast.com>
-Subject: [PATCH v10 11/11] drm: sun4i: de33: mixer: add mixer configuration for the H616
-Date: Sun, 11 May 2025 22:31:20 +1200
-Message-ID: <20250511104042.24249-12-ryan@testtoast.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250511104042.24249-1-ryan@testtoast.com>
-References: <20250511104042.24249-1-ryan@testtoast.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HVdMeWgS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66C69C4CEF2
+	for <linux-sunxi@lists.linux.dev>; Sun, 11 May 2025 12:39:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746967154;
+	bh=jhQ5SAEJJF3qUfy6D5IHr1j1BdMfMHXPzSP1qRil+xg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=HVdMeWgSodlOQnOyxyn/G6NScVBNK/Y1Wmovg68lrItlJZEt+ZD59ixdXwNYivUPT
+	 pI091Rmly570u4l5qTu5g8xKK23ttB2HJWyXZdemlZ8PQ3xLbAjsqKVv6Ql73MoGpq
+	 Et/z8yHbPMnuC9L0EXtP8PYt8tGVKt8+J7tgC8epvbKtsGqTtDwpa8+OI4ScYKnnlw
+	 vP7+Owk8Ywfm/Tgh9zsBzGsZwjWJZ0nQFVXInDh+pV1T7vP1lhK8FU1gGQVy6njI31
+	 57fi3/yLUAFcueDt40I5TuMwUsz9NcaPBvL0DBPCy9/54KK2UmwxoKKWjaDBbCJfXS
+	 jTtWMqAL6/qcw==
+Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-4033c89f2aaso2276172b6e.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 11 May 2025 05:39:14 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVgxBJfX5RGBu3JwJIGWyZuu260JcfACrkgWtofyq4fydGHoO9wZv+9erFfCzUsEr/VoetCZOSLpcvcLQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx8OC45jv2FKUQpI4LUVWQObvUSpd/yA0gSG+3bcdrgcoyA1a4J
+	gK/gtCVJIMDsLtYB+kB/iLNQb1TGmyrOyiiG91oMsKfE7ZcWJFX8/4c5x0oFfjQTUMoXtAm6pWE
+	1FEIZGmvAkFin0xrSGr7D3jTdpFQ=
+X-Google-Smtp-Source: AGHT+IF7frhH9fByp3nqkp8f/ToldoQoeo1EQiod3AeYHymrByNbZlMh+WjPHSM8WDiv77VlPQFYxVdDFh6afTzXars=
+X-Received: by 2002:a05:6808:80c7:b0:401:e6c0:3112 with SMTP id
+ 5614622812f47-4037fe3b729mr6449007b6e.15.1746967153770; Sun, 11 May 2025
+ 05:39:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241111112237.336310-2-u.kleine-koenig@baylibre.com>
+In-Reply-To: <20241111112237.336310-2-u.kleine-koenig@baylibre.com>
+From: Chanwoo Choi <chanwoo@kernel.org>
+Date: Sun, 11 May 2025 21:38:36 +0900
+X-Gmail-Original-Message-ID: <CAGTfZH1qMMO3ou4cxwaUoah7jS18nu7Y9kgYyraZ9e7jfjrp_A@mail.gmail.com>
+X-Gm-Features: AX0GCFubjq5u_HzT96chHqqtsl5Hck05kSg1tAuxI0qgXnWh6f_KB3_n-4XXW9o
+Message-ID: <CAGTfZH1qMMO3ou4cxwaUoah7jS18nu7Y9kgYyraZ9e7jfjrp_A@mail.gmail.com>
+Subject: Re: [PATCH] PM / devfreq: sun8i-a33-mbus: Simplify by using more devm functions
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: MyungJoo Ham <myungjoo.ham@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
+	Chanwoo Choi <cw00.choi@samsung.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, linux-pm@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
+Hi,
 
-The H616 (and related SoC packages sharing the same die) carry the new
-DE33 display engine.
+Applied it. I'm sorry for late reply
 
-Add the mixer configuration and a compatible string for the H616 to the
-mixer.
+Thanks.
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+On Mon, Nov 11, 2024 at 8:25=E2=80=AFPM Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@baylibre.com> wrote:
+>
+> Use devm allocators for enabling the bus clock and
+> clk_rate_exclusive_get(). This simplifies error handling and the remove
+> callback.
+>
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com>
+> ---
+>  drivers/devfreq/sun8i-a33-mbus.c | 38 ++++++++------------------------
+>  1 file changed, 9 insertions(+), 29 deletions(-)
+>
+> diff --git a/drivers/devfreq/sun8i-a33-mbus.c b/drivers/devfreq/sun8i-a33=
+-mbus.c
+> index bcf654f4ff96..5b630c6e602e 100644
+> --- a/drivers/devfreq/sun8i-a33-mbus.c
+> +++ b/drivers/devfreq/sun8i-a33-mbus.c
+> @@ -360,7 +360,7 @@ static int sun8i_a33_mbus_probe(struct platform_devic=
+e *pdev)
+>         if (IS_ERR(priv->reg_mbus))
+>                 return PTR_ERR(priv->reg_mbus);
+>
+> -       priv->clk_bus =3D devm_clk_get(dev, "bus");
+> +       priv->clk_bus =3D devm_clk_get_enabled(dev, "bus");
+>         if (IS_ERR(priv->clk_bus))
+>                 return dev_err_probe(dev, PTR_ERR(priv->clk_bus),
+>                                      "failed to get bus clock\n");
+> @@ -375,24 +375,15 @@ static int sun8i_a33_mbus_probe(struct platform_dev=
+ice *pdev)
+>                 return dev_err_probe(dev, PTR_ERR(priv->clk_mbus),
+>                                      "failed to get mbus clock\n");
+>
+> -       ret =3D clk_prepare_enable(priv->clk_bus);
+> -       if (ret)
+> -               return dev_err_probe(dev, ret,
+> -                                    "failed to enable bus clock\n");
+> -
+>         /* Lock the DRAM clock rate to keep priv->nominal_bw in sync. */
+> -       ret =3D clk_rate_exclusive_get(priv->clk_dram);
+> -       if (ret) {
+> -               err =3D "failed to lock dram clock rate\n";
+> -               goto err_disable_bus;
+> -       }
+> +       ret =3D devm_clk_rate_exclusive_get(dev, priv->clk_dram);
+> +       if (ret)
+> +               return dev_err_probe(dev, ret, "failed to lock dram clock=
+ rate\n");
+>
+>         /* Lock the MBUS clock rate to keep MBUS_TMR_PERIOD in sync. */
+> -       ret =3D clk_rate_exclusive_get(priv->clk_mbus);
+> -       if (ret) {
+> -               err =3D "failed to lock mbus clock rate\n";
+> -               goto err_unlock_dram;
+> -       }
+> +       ret =3D devm_clk_rate_exclusive_get(priv->clk_mbus);
+> +       if (ret)
+> +               return dev_err_probe(dev, ret, "failed to lock mbus clock=
+ rate\n");
+>
+>         priv->gov_data.upthreshold      =3D 10;
+>         priv->gov_data.downdifferential =3D  5;
+> @@ -405,10 +396,8 @@ static int sun8i_a33_mbus_probe(struct platform_devi=
+ce *pdev)
+>         priv->profile.max_state         =3D max_state;
+>
+>         ret =3D devm_pm_opp_set_clkname(dev, "dram");
+> -       if (ret) {
+> -               err =3D "failed to add OPP table\n";
+> -               goto err_unlock_mbus;
+> -       }
+> +       if (ret)
+> +               return dev_err_probe(dev, ret, "failed to add OPP table\n=
+");
+>
+>         base_freq =3D clk_get_rate(clk_get_parent(priv->clk_dram));
+>         for (i =3D 0; i < max_state; ++i) {
+> @@ -448,12 +437,6 @@ static int sun8i_a33_mbus_probe(struct platform_devi=
+ce *pdev)
+>
+>  err_remove_opps:
+>         dev_pm_opp_remove_all_dynamic(dev);
+> -err_unlock_mbus:
+> -       clk_rate_exclusive_put(priv->clk_mbus);
+> -err_unlock_dram:
+> -       clk_rate_exclusive_put(priv->clk_dram);
+> -err_disable_bus:
+> -       clk_disable_unprepare(priv->clk_bus);
+>
+>         return dev_err_probe(dev, ret, err);
+>  }
+> @@ -472,9 +455,6 @@ static void sun8i_a33_mbus_remove(struct platform_dev=
+ice *pdev)
+>                 dev_warn(dev, "failed to restore DRAM frequency: %d\n", r=
+et);
+>
+>         dev_pm_opp_remove_all_dynamic(dev);
+> -       clk_rate_exclusive_put(priv->clk_mbus);
+> -       clk_rate_exclusive_put(priv->clk_dram);
+> -       clk_disable_unprepare(priv->clk_bus);
+>  }
+>
+>  static const struct sun8i_a33_mbus_variant sun50i_a64_mbus =3D {
+>
+> base-commit: 6d59cab07b8d74d0f0422b750038123334f6ecc2
+> --
+> 2.45.2
+>
+>
 
---
-Changelog v7..v8:
-- Separate DE33 support and H616 enablement in the mixer.
----
- drivers/gpu/drm/sun4i/sun8i_mixer.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-index 0d4695132dae..f774b693634d 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-@@ -799,6 +799,17 @@ static const struct sun8i_mixer_cfg sun50i_h6_mixer0_cfg = {
- 	.vi_num		= 1,
- };
- 
-+static const struct sun8i_mixer_cfg sun50i_h616_mixer0_cfg = {
-+	.ccsc		= CCSC_MIXER0_LAYOUT,
-+	.de_type	= sun8i_mixer_de33,
-+	.mod_rate	= 600000000,
-+	.scaler_mask	= 0xf,
-+	.scanline_yuv	= 4096,
-+	.ui_num		= 3,
-+	.vi_num		= 1,
-+	.map		= {0, 6, 7, 8},
-+};
-+
- static const struct of_device_id sun8i_mixer_of_table[] = {
- 	{
- 		.compatible = "allwinner,sun8i-a83t-de2-mixer-0",
-@@ -844,6 +855,10 @@ static const struct of_device_id sun8i_mixer_of_table[] = {
- 		.compatible = "allwinner,sun50i-h6-de3-mixer-0",
- 		.data = &sun50i_h6_mixer0_cfg,
- 	},
-+	{
-+		.compatible = "allwinner,sun50i-h616-de33-mixer-0",
-+		.data = &sun50i_h616_mixer0_cfg,
-+	},
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, sun8i_mixer_of_table);
--- 
-2.49.0
-
+--=20
+Best Regards,
+Chanwoo Choi
+Samsung Electronics
