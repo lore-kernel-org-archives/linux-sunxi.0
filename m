@@ -1,180 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00C9F22D4DA
-	for <linux-sunxi@lists.linux.dev>; Sun, 11 May 2025 12:39:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 743B122D788
+	for <linux-sunxi@lists.linux.dev>; Sun, 11 May 2025 16:13:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746967155; cv=none; b=RUmiWscOlmbTPjWNWN7xGlUzGs0tYxbYcbl8ga90/+Iwrx16b+FbfIGc1BvMGd2oFOlEkih8oPycigcAJEPQfGmf357LH4SdMmZHnEpaCkrtw6ia527lbXnbawm02ioJ64fAPb7W3+uiGw+g8NAweOj/hYHYANodlaWSt9U6lHQ=
+	t=1746980013; cv=none; b=KzUvqLfjFXrYQoriVxomfqUvc9TyvWNDvMXgpxVA/qg3rglwUZ14U/rNUtBNddpmP7cvM2U6vcXu5VFYLaln1RSUZz8xNda4A2gXKqjp7e86f0+hIIOaVc8+qSd7uy7h2AfSZEMY6OLFEe4jiqMkic2bhs1bd5uDRbaZ9PmaGcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746967155; c=relaxed/simple;
-	bh=jhQ5SAEJJF3qUfy6D5IHr1j1BdMfMHXPzSP1qRil+xg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PiILTjL4KNbyzlQFLHkZcaIhSTnHFF2tu44QH+CYGQcQXY3HEaqJ8QAeyEb6vho/BDxSisckt51ngWeYWcseyCxyK1TGRfSTrZOnpUY35CvwAMIXC+wZYMa1QHe+/ZSz02z+vE0umIzjm5JVd5k9I/wFdNObXQ9at4YuLfRP9SA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HVdMeWgS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746980013; c=relaxed/simple;
+	bh=SHmLkd7sQJiu2Mufd0cQ2iLgnOytU9zZh+hQC2pegbA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jJB1CLXNCkjgU1d42oHRYuc+P4RGINKAGvkKAUj/0quAvIa4yvfZpZyyjGiL54f6P0D0350FriwzKYKJXwD5jvQq1uqbaEFaxdnJuM8RftvIEKJa2ZTwd0S3Cg6Pq0aXaloxipjCUhu5m4faGucqxEi0IoBBmhi0j9p6WaP3A6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=3CmP0yfN; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HVdMeWgS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66C69C4CEF2
-	for <linux-sunxi@lists.linux.dev>; Sun, 11 May 2025 12:39:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746967154;
-	bh=jhQ5SAEJJF3qUfy6D5IHr1j1BdMfMHXPzSP1qRil+xg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=HVdMeWgSodlOQnOyxyn/G6NScVBNK/Y1Wmovg68lrItlJZEt+ZD59ixdXwNYivUPT
-	 pI091Rmly570u4l5qTu5g8xKK23ttB2HJWyXZdemlZ8PQ3xLbAjsqKVv6Ql73MoGpq
-	 Et/z8yHbPMnuC9L0EXtP8PYt8tGVKt8+J7tgC8epvbKtsGqTtDwpa8+OI4ScYKnnlw
-	 vP7+Owk8Ywfm/Tgh9zsBzGsZwjWJZ0nQFVXInDh+pV1T7vP1lhK8FU1gGQVy6njI31
-	 57fi3/yLUAFcueDt40I5TuMwUsz9NcaPBvL0DBPCy9/54KK2UmwxoKKWjaDBbCJfXS
-	 jTtWMqAL6/qcw==
-Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-4033c89f2aaso2276172b6e.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 11 May 2025 05:39:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVgxBJfX5RGBu3JwJIGWyZuu260JcfACrkgWtofyq4fydGHoO9wZv+9erFfCzUsEr/VoetCZOSLpcvcLQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx8OC45jv2FKUQpI4LUVWQObvUSpd/yA0gSG+3bcdrgcoyA1a4J
-	gK/gtCVJIMDsLtYB+kB/iLNQb1TGmyrOyiiG91oMsKfE7ZcWJFX8/4c5x0oFfjQTUMoXtAm6pWE
-	1FEIZGmvAkFin0xrSGr7D3jTdpFQ=
-X-Google-Smtp-Source: AGHT+IF7frhH9fByp3nqkp8f/ToldoQoeo1EQiod3AeYHymrByNbZlMh+WjPHSM8WDiv77VlPQFYxVdDFh6afTzXars=
-X-Received: by 2002:a05:6808:80c7:b0:401:e6c0:3112 with SMTP id
- 5614622812f47-4037fe3b729mr6449007b6e.15.1746967153770; Sun, 11 May 2025
- 05:39:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="3CmP0yfN"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-ac34257295dso624919066b.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 11 May 2025 09:13:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1746980009; x=1747584809; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+HqZjTSS7S3eJwQA/m3U9yuAxHSWy2oxr0SFmWzaxHw=;
+        b=3CmP0yfNBqDZnlIhl9crbBWDQ4wOpMW+lLLiLRllJRVP1qNYXrX9WEcAG9DIxxlE61
+         cHAqJoFz3E+dLGk8WvFGkV99+mswwEnrm8JsebXqINCytcYZe/a32PFoHj+03AnMCjgz
+         SEtJhmfc1PzRcnYavNPBu4ApbxvxI/aIsoWGkxi0jyXqDuACmQ6OlbhHldq4IBR765vU
+         wQSfkT+/MfVBvRHlMkrb4W5L1frvrwC0FlwVH7DxVH6Dx6ssv/MJLoEPTx4PG1TSyyiX
+         X3i9wYxHHDfV8woWnavlj6jf6RSPQBB5a954FS4XzGhzUVYxQRTfnGCXlLvKCI1VwwgN
+         rC1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746980009; x=1747584809;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+HqZjTSS7S3eJwQA/m3U9yuAxHSWy2oxr0SFmWzaxHw=;
+        b=sZJ/pmROwsOYzZnw7JjbaqFiG7fLPMrYte6/0jAWVIwDuQFAQ0MyPYSjTUPxmBcimd
+         5Am33LMVU++hjzxF5Fzj896YWHvqPd+2ta3k5ftKuMt+oQbBLC8SJrk/czFU/lF8XWbQ
+         KSjCrCmmEEkWfjlB2RUieLT6lr7xQ8CmDYgcyvYLs0CYPpBsXcc8YGcjspHGt0EaB5wp
+         PE1somIfKdxMFy8lf8vf3zg5FGclAK7HLqFX8XBVEZJfEacL90D4RFJjfsXsjRZfjJZO
+         rZFVZpXPQ44xqEN/LjO0CxdhWNnYNxgLJR0tGwLHgoX/ZuufWUPqIuGO9gPxjcK+1gkn
+         wohw==
+X-Forwarded-Encrypted: i=1; AJvYcCVMxV2BF+amIvmnsvhckI50MWnYkhK7XFQtf6CaUDoOsgMO3XkZTdWoDoa2Sze2FvOiwJQHEBZWuEAwhA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YydJhWzpTjbQoTmtud8EUfiKs/fo1ylbAJS3l/YRBTKvodxzKAW
+	gm2PCtCnwmap36AJRS5/T/wNdETcGYhK9Fi/gIgmF4vsCu70fRVnVQGzCNsR1eY=
+X-Gm-Gg: ASbGncvmnpshMfXzwf61vcpl+DbohqiYZkWs0TKK2OyICNlHNnEvf96/5z+v2XVDycy
+	JQi43i1i+f+XTJbQ5aosB+qT909vYEJWsVt3Qm9vdJrJUHJMj5Q1darChu2Xrl6ICfZyVC+d69+
+	ffk/qtxaNXY1Yqnddp+snscsTrUds1yBgW52KEstAD1tcfPDMnLLP7z0Q1hVw0dsMaA4qJF4+8j
+	qAcnZ/y3EVj+G04pvMxxzRZfkW0g9tV2TCl/a+i9mLbNxO9hJtcPedAcFogAxU9qaksP4GOhM1o
+	jCbKsAGygR/Yz4pV6bQflQtjGBiG8+z4TLFDpQQ/jqU/6vUyRUXe911q
+X-Google-Smtp-Source: AGHT+IESpcxI/t5gHS0xU/NroD6WTODIzNlVuTkb58fYBGUQEG0LdYHtrtsB21us5W9WMInSh9G3rQ==
+X-Received: by 2002:a17:906:c14a:b0:ad2:3b29:4cd7 with SMTP id a640c23a62f3a-ad23b295c6emr525907466b.45.1746980009324;
+        Sun, 11 May 2025 09:13:29 -0700 (PDT)
+Received: from localhost ([2a02:8071:b783:6940:36f3:9aff:fec2:7e46])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-ad24121e992sm217138166b.14.2025.05.11.09.13.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 May 2025 09:13:28 -0700 (PDT)
+Date: Sun, 11 May 2025 18:13:27 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Chanwoo Choi <chanwoo@kernel.org>
+Cc: MyungJoo Ham <myungjoo.ham@samsung.com>, 
+	Kyungmin Park <kyungmin.park@samsung.com>, Chanwoo Choi <cw00.choi@samsung.com>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] PM / devfreq: sun8i-a33-mbus: Simplify by using more
+ devm functions
+Message-ID: <zszg23vtaztszlkrgs3acatiu7rmgypsqdzlpojimg22yaeaya@xfv3a7fsd2sa>
+References: <20241111112237.336310-2-u.kleine-koenig@baylibre.com>
+ <CAGTfZH1qMMO3ou4cxwaUoah7jS18nu7Y9kgYyraZ9e7jfjrp_A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241111112237.336310-2-u.kleine-koenig@baylibre.com>
-In-Reply-To: <20241111112237.336310-2-u.kleine-koenig@baylibre.com>
-From: Chanwoo Choi <chanwoo@kernel.org>
-Date: Sun, 11 May 2025 21:38:36 +0900
-X-Gmail-Original-Message-ID: <CAGTfZH1qMMO3ou4cxwaUoah7jS18nu7Y9kgYyraZ9e7jfjrp_A@mail.gmail.com>
-X-Gm-Features: AX0GCFubjq5u_HzT96chHqqtsl5Hck05kSg1tAuxI0qgXnWh6f_KB3_n-4XXW9o
-Message-ID: <CAGTfZH1qMMO3ou4cxwaUoah7jS18nu7Y9kgYyraZ9e7jfjrp_A@mail.gmail.com>
-Subject: Re: [PATCH] PM / devfreq: sun8i-a33-mbus: Simplify by using more devm functions
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: MyungJoo Ham <myungjoo.ham@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
-	Chanwoo Choi <cw00.choi@samsung.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, linux-pm@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="zyq67cjig5hvwfze"
+Content-Disposition: inline
+In-Reply-To: <CAGTfZH1qMMO3ou4cxwaUoah7jS18nu7Y9kgYyraZ9e7jfjrp_A@mail.gmail.com>
+
+
+--zyq67cjig5hvwfze
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] PM / devfreq: sun8i-a33-mbus: Simplify by using more
+ devm functions
+MIME-Version: 1.0
 
-Hi,
+Hello,
 
-Applied it. I'm sorry for late reply
+On Sun, May 11, 2025 at 09:38:36PM +0900, Chanwoo Choi wrote:
+> On Mon, Nov 11, 2024 at 8:25=E2=80=AFPM Uwe Kleine-K=C3=B6nig
+> <u.kleine-koenig@baylibre.com> wrote:
+> > +       ret =3D devm_clk_rate_exclusive_get(priv->clk_mbus);
+> > +       if (ret)
+> > +               return dev_err_probe(dev, ret, "failed to lock mbus clo=
+ck rate\n");
 
-Thanks.
+As the build bot noticed, I missed to add dev as first argument to
+devm_clk_rate_exclusive_get(). Can you fix that up, or should I send a
+proper patch to make the compiler happy.
 
-On Mon, Nov 11, 2024 at 8:25=E2=80=AFPM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@baylibre.com> wrote:
->
-> Use devm allocators for enabling the bus clock and
-> clk_rate_exclusive_get(). This simplifies error handling and the remove
-> callback.
->
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com>
-> ---
->  drivers/devfreq/sun8i-a33-mbus.c | 38 ++++++++------------------------
->  1 file changed, 9 insertions(+), 29 deletions(-)
->
-> diff --git a/drivers/devfreq/sun8i-a33-mbus.c b/drivers/devfreq/sun8i-a33=
--mbus.c
-> index bcf654f4ff96..5b630c6e602e 100644
-> --- a/drivers/devfreq/sun8i-a33-mbus.c
-> +++ b/drivers/devfreq/sun8i-a33-mbus.c
-> @@ -360,7 +360,7 @@ static int sun8i_a33_mbus_probe(struct platform_devic=
-e *pdev)
->         if (IS_ERR(priv->reg_mbus))
->                 return PTR_ERR(priv->reg_mbus);
->
-> -       priv->clk_bus =3D devm_clk_get(dev, "bus");
-> +       priv->clk_bus =3D devm_clk_get_enabled(dev, "bus");
->         if (IS_ERR(priv->clk_bus))
->                 return dev_err_probe(dev, PTR_ERR(priv->clk_bus),
->                                      "failed to get bus clock\n");
-> @@ -375,24 +375,15 @@ static int sun8i_a33_mbus_probe(struct platform_dev=
-ice *pdev)
->                 return dev_err_probe(dev, PTR_ERR(priv->clk_mbus),
->                                      "failed to get mbus clock\n");
->
-> -       ret =3D clk_prepare_enable(priv->clk_bus);
-> -       if (ret)
-> -               return dev_err_probe(dev, ret,
-> -                                    "failed to enable bus clock\n");
-> -
->         /* Lock the DRAM clock rate to keep priv->nominal_bw in sync. */
-> -       ret =3D clk_rate_exclusive_get(priv->clk_dram);
-> -       if (ret) {
-> -               err =3D "failed to lock dram clock rate\n";
-> -               goto err_disable_bus;
-> -       }
-> +       ret =3D devm_clk_rate_exclusive_get(dev, priv->clk_dram);
-> +       if (ret)
-> +               return dev_err_probe(dev, ret, "failed to lock dram clock=
- rate\n");
->
->         /* Lock the MBUS clock rate to keep MBUS_TMR_PERIOD in sync. */
-> -       ret =3D clk_rate_exclusive_get(priv->clk_mbus);
-> -       if (ret) {
-> -               err =3D "failed to lock mbus clock rate\n";
-> -               goto err_unlock_dram;
-> -       }
-> +       ret =3D devm_clk_rate_exclusive_get(priv->clk_mbus);
-> +       if (ret)
-> +               return dev_err_probe(dev, ret, "failed to lock mbus clock=
- rate\n");
->
->         priv->gov_data.upthreshold      =3D 10;
->         priv->gov_data.downdifferential =3D  5;
-> @@ -405,10 +396,8 @@ static int sun8i_a33_mbus_probe(struct platform_devi=
-ce *pdev)
->         priv->profile.max_state         =3D max_state;
->
->         ret =3D devm_pm_opp_set_clkname(dev, "dram");
-> -       if (ret) {
-> -               err =3D "failed to add OPP table\n";
-> -               goto err_unlock_mbus;
-> -       }
-> +       if (ret)
-> +               return dev_err_probe(dev, ret, "failed to add OPP table\n=
-");
->
->         base_freq =3D clk_get_rate(clk_get_parent(priv->clk_dram));
->         for (i =3D 0; i < max_state; ++i) {
-> @@ -448,12 +437,6 @@ static int sun8i_a33_mbus_probe(struct platform_devi=
-ce *pdev)
->
->  err_remove_opps:
->         dev_pm_opp_remove_all_dynamic(dev);
-> -err_unlock_mbus:
-> -       clk_rate_exclusive_put(priv->clk_mbus);
-> -err_unlock_dram:
-> -       clk_rate_exclusive_put(priv->clk_dram);
-> -err_disable_bus:
-> -       clk_disable_unprepare(priv->clk_bus);
->
->         return dev_err_probe(dev, ret, err);
->  }
-> @@ -472,9 +455,6 @@ static void sun8i_a33_mbus_remove(struct platform_dev=
-ice *pdev)
->                 dev_warn(dev, "failed to restore DRAM frequency: %d\n", r=
-et);
->
->         dev_pm_opp_remove_all_dynamic(dev);
-> -       clk_rate_exclusive_put(priv->clk_mbus);
-> -       clk_rate_exclusive_put(priv->clk_dram);
-> -       clk_disable_unprepare(priv->clk_bus);
->  }
->
->  static const struct sun8i_a33_mbus_variant sun50i_a64_mbus =3D {
->
-> base-commit: 6d59cab07b8d74d0f0422b750038123334f6ecc2
-> --
-> 2.45.2
->
->
+Sorry
+Uwe
 
+--zyq67cjig5hvwfze
+Content-Type: application/pgp-signature; name="signature.asc"
 
---=20
-Best Regards,
-Chanwoo Choi
-Samsung Electronics
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmggzKQACgkQj4D7WH0S
+/k7s5wgArggczCoL6efrWWMp6Ly0RZN7W/gX6tbjYjbxoY+uesH9jQGYcisDYF3y
+6NO63q1frIIYM6sAjsLy0WBi31x3OKEo72nv2EXoOr89KEuAY1a3+Bl6BVurOyy4
+wyPtLkpscy7zO42tX8jpdLdvhMgbXRIFFIMx+UC+7FPJR4FhhiCYozBLPqTvU6kI
+PXc2NXmqi0uPF8X091vDWBgFHVghg1XIujiv8pssses+com+4y/bz1YWl5N87ItE
+VoXZJ2TBPV4TJE4roo8I5pjUAEHnEZ1XzoipmpVZN4QT3VRT9xhrp9awUFT2qzi8
+UtTmSw4MI8f/hFjGgksaVG0k27ax4w==
+=3sfY
+-----END PGP SIGNATURE-----
+
+--zyq67cjig5hvwfze--
