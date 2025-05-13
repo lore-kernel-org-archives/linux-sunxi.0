@@ -1,192 +1,114 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9DB3298CD5
-	for <linux-sunxi@lists.linux.dev>; Mon, 12 May 2025 22:56:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B72925B1FA;
+	Tue, 13 May 2025 16:26:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747090597; cv=none; b=OqaKdsG9E54C2q621d/yWQCAVSrvkKXld2HY2dCAW4XCA8zfSfzV68lLUCoitPZc2pkflcCVr/tk39HKpjcTY8atJz0eFmbLrKTOiGJ3V1Go39q3hSwqVdFxXZ8TvwvLwDFnQkckZHB5svsUir7UmsNPK/TPnSGIskMFhwR2XYY=
+	t=1747153588; cv=none; b=nLZiqTm6izgJOu5DdqD9u7GMQ42ohMbO/gvuBN/EtPecOesZ47HCjGUoYOw/WqB0GR/bPgs/iU5kSxOfvkdcf2YKmjbGG0zN7p4CHm8jqP9vdS8C3G+XhDmejjxmbElL4e/SX8mt6PfsXSw8TtqQOtzxum50BgHKvNC6sBPl3T8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747090597; c=relaxed/simple;
-	bh=7DxAso8OUL7kvLO+cW3DmSZK6j8XiMcRUZqvHAuI/M0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Z5gFMC3/8d+uLQFqNolsGDrzY65hch8IQLNQtN1gEY2m32Orp0OTO9vSbLZDoKR9zTc/HNt8FpmzvAg3vmu6UKw4sJ8h4YzXc87Qm20AY1PcEqdHIx694NT7nH6pDse/qYS6FiQHfbHDRihnZiiwnLkntHP98JJEQRNUq8nyrJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 022FC150C;
-	Mon, 12 May 2025 15:56:24 -0700 (PDT)
-Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 666963F673;
-	Mon, 12 May 2025 15:56:32 -0700 (PDT)
-Date: Mon, 12 May 2025 23:56:19 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Aleksandr Shubin <privatesub2@gmail.com>
-Cc: linux-kernel@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>,
- Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <ukleinek@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Paul
- Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Philipp
- Zabel <p.zabel@pengutronix.de>, Cheo Fusi <fusibrandon13@gmail.com>,
- linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v12 1/3] dt-bindings: pwm: Add binding for Allwinner
- D1/T113-S3/R329 PWM controller
-Message-ID: <20250512235619.30cff739@minigeek.lan>
-In-Reply-To: <20250427142500.151925-2-privatesub2@gmail.com>
-References: <20250427142500.151925-1-privatesub2@gmail.com>
-	<20250427142500.151925-2-privatesub2@gmail.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	s=arc-20240116; t=1747153588; c=relaxed/simple;
+	bh=ga3zCv76QkUCBLxG+3obr75Z66d/dc+j2DqdsPQXh0c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZaDAxqSbnCDcjca6n+yQhqTXDY+6kLLtwC6qk4YNpd2JhvpkYskoXvINKI5SCtjWLjYckpAS5vTaeVRlGRewihyXItfRzMm8oYBWO02jDGNssU6kbcUrhRvuGF+6rK7SF5xBI5lvnj6Ydm6yZU+g8gSfaKTytwkXxR3L3VbZX8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ghnA84IH; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ghnA84IH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3A17C4CEEF;
+	Tue, 13 May 2025 16:26:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747153587;
+	bh=ga3zCv76QkUCBLxG+3obr75Z66d/dc+j2DqdsPQXh0c=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=ghnA84IHlg7O22yhptVGd5Vo4K2suyTcvlb+dB5s7Xg4X6SCKx0ZtMdwAnmiIGhrH
+	 M868zaiZXQjfGDXf9pX+lD9EQ9T5uT9qwj6inycMkJOrwftBuYfzqwRkK1PToW2PZs
+	 RYNCKFYf3234mnyWthq+oKNmQQvb8i58T5ANMMw1R8pSUmTgMPX1KuXrfKOLRSumu4
+	 Y/Lg0OuxA6RGFWAgVYErB6RT1wwV+AFVxlYEKgJ6/v10H8Ksf7D8azLajSyucjEEwe
+	 mWxhdjJIYEZ+LQTq5P2LTa366AGYaAE9nvfu0kzlc/FZxK0WpLPebLv/Wk5X+aA5O9
+	 LGfIdhM7MlxpQ==
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5fcc96b6a64so7120245a12.0;
+        Tue, 13 May 2025 09:26:27 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUVQBfRkPIqGTX99HjzpQLFiCjOUtInDi+O6iCwCoAd/ndVIhIhhb9yoFiHk1+7FTElmv+ovfJvmo3vNLubqQ==@lists.linux.dev, AJvYcCVFk0PoVbvYVnEDvdW7Ic3ZlgHSsdNvL60sbq6bnsjyUcHAAwLYyLBjPAebViERuHJhGL5wB6QgMTRtZQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx1vZGRPg4D51Ptpc+gmUNsEv2XMwlumFu7eMu2R4s3vqll/Dlm
+	HiR9DG/UZL5mSUz2wii4EAiQOX9ol8/4x+Gv5mCvctgyEuMcZjpTxDSFiP4ExnMo0ocTNtN3IXp
+	SJwwCAPew4kZDH76e/RZQINmieLY=
+X-Google-Smtp-Source: AGHT+IGLphKmJHdSpxiAM6EZINozmZaCBpRvN/kTcv+//ma0V7JmmF8efQr+QHrkewteuL8JarBqgc1UuBNDbXrxzSs=
+X-Received: by 2002:a17:907:d17:b0:ad4:f6d3:a188 with SMTP id
+ a640c23a62f3a-ad4f755173bmr20068366b.46.1747153586566; Tue, 13 May 2025
+ 09:26:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-
-On Sun, 27 Apr 2025 17:24:53 +0300
-Aleksandr Shubin <privatesub2@gmail.com> wrote:
+References: <20250512082938.97110-2-u.kleine-koenig@baylibre.com>
+In-Reply-To: <20250512082938.97110-2-u.kleine-koenig@baylibre.com>
+From: Chanwoo Choi <chanwoo@kernel.org>
+Date: Wed, 14 May 2025 01:25:51 +0900
+X-Gmail-Original-Message-ID: <CAGTfZH2uk-6-R5QNZwsssQ1UtnqexKeo=e=SsXB26NMwqf8c9g@mail.gmail.com>
+X-Gm-Features: AX0GCFv7rFmK8zZwyel010vviBuZuUDkrqDnxqcGo43EqBsoQ0TBQM5VkdZiclQ
+Message-ID: <CAGTfZH2uk-6-R5QNZwsssQ1UtnqexKeo=e=SsXB26NMwqf8c9g@mail.gmail.com>
+Subject: Re: [PATCH] PM / devfreq: sun8i-a33-mbus: Fix misconversion to devm_clk_rate_exclusive_get()
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: MyungJoo Ham <myungjoo.ham@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
+	Chanwoo Choi <cw00.choi@samsung.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, linux-pm@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, kernel test robot <lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-> Allwinner's D1, T113-S3 and R329 SoCs have a new pwm
-> controller witch is different from the previous pwm-sun4i.
-> 
-> The D1 and T113 are identical in terms of peripherals,
-> they differ only in the architecture of the CPU core, and
-> even share the majority of their DT. Because of that,
-> using the same compatible makes sense.
-> The R329 is a different SoC though, and should have
-> a different compatible string added, especially as there
-> is a difference in the number of channels.
-> 
-> D1 and T113s SoCs have one PWM controller with 8 channels.
-> R329 SoC has two PWM controllers in both power domains, one of
-> them has 9 channels (CPUX one) and the other has 6 (CPUS one).
-> 
-> Add a device tree binding for them.
-> 
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> Signed-off-by: Aleksandr Shubin <privatesub2@gmail.com>
+Instead of fix-up patch, I'd like you to send the v2 of patch[1].
+[1] https://patchwork.kernel.org/project/linux-pm/patch/20241111112237.3363=
+10-2-u.kleine-koenig@baylibre.com/
+
+
+
+On Mon, May 12, 2025 at 5:29=E2=80=AFPM Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@baylibre.com> wrote:
+>
+> The patch converting the driver to make more use of devm functions got
+> one conversion wrong making the driver not compilable any more. I have
+> no excuse, mea culpa!
+>
+> Fix this by adding the needed device parameter.
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Link: https://lore.kernel.org/all/202412070231.MzXdNrLv-lkp@intel.com
+> Fixes: bc253b28a365 ("PM / devfreq: sun8i-a33-mbus: Simplify by using mor=
+e devm functions")
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com>
 > ---
->  .../bindings/pwm/allwinner,sun20i-pwm.yaml    | 84 +++++++++++++++++++
->  1 file changed, 84 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/pwm/allwinner,sun20i-pwm.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/pwm/allwinner,sun20i-pwm.yaml b/Documentation/devicetree/bindings/pwm/allwinner,sun20i-pwm.yaml
-> new file mode 100644
-> index 000000000000..4b25e94a8e46
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/pwm/allwinner,sun20i-pwm.yaml
-> @@ -0,0 +1,84 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/pwm/allwinner,sun20i-pwm.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Allwinner D1, T113-S3 and R329 PWM
-> +
-> +maintainers:
-> +  - Aleksandr Shubin <privatesub2@gmail.com>
-> +  - Brandon Cheo Fusi <fusibrandon13@gmail.com>
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - const: allwinner,sun20i-d1-pwm
-> +      - items:
-> +          - const: allwinner,sun50i-r329-pwm
-> +          - const: allwinner,sun20i-d1-pwm
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  "#pwm-cells":
-> +    const: 3
-> +
-> +  clocks:
-> +    items:
-> +      - description: Bus clock
-> +      - description: 24 MHz oscillator
-> +      - description: APB clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: bus
-> +      - const: hosc
-> +      - const: apb
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  allwinner,npwms:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: The number of PWM channels configured for this instance
-> +    enum: [6, 8, 9]
-
-Do we really need to be so restrictive here? The IP has an
-"architectural" limit of 16 channels (due to the MMIO register layout
-and status/control bits usage in some registers), so can't we just leave
-this value to be anything between 1 and 16 here? If people configure
-this wrongly, it's their fault, I'd say? Without confining this further
-based on the respective compatible strings this enum is less useful
-anyway, I think. The Allwinner A523 uses the same IP, and supports all
-16 channels, the V853 implements 12, that's what I quickly found
-already, and there might be more examples in the future, so I'd rather
-open this up.
-
-> +
-> +allOf:
-> +  - $ref: pwm.yaml#
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: allwinner,sun50i-r329-pwm
-> +
-> +    then:
-> +      required:
-> +        - allwinner,npwms
-
-Can't we just simplify this by always requiring this property? As
-mentioned, there will be more SoCs with different values, so just
-omitting this for the D1 seems odd.
-
-Cheers,
-Andre
+>  drivers/devfreq/sun8i-a33-mbus.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/devfreq/sun8i-a33-mbus.c b/drivers/devfreq/sun8i-a33=
+-mbus.c
+> index f99af530211d..4bd5657558d6 100644
+> --- a/drivers/devfreq/sun8i-a33-mbus.c
+> +++ b/drivers/devfreq/sun8i-a33-mbus.c
+> @@ -381,7 +381,7 @@ static int sun8i_a33_mbus_probe(struct platform_devic=
+e *pdev)
+>                 return dev_err_probe(dev, ret, "failed to lock dram clock=
+ rate\n");
+>
+>         /* Lock the MBUS clock rate to keep MBUS_TMR_PERIOD in sync. */
+> -       ret =3D devm_clk_rate_exclusive_get(priv->clk_mbus);
+> +       ret =3D devm_clk_rate_exclusive_get(dev, priv->clk_mbus);
+>         if (ret)
+>                 return dev_err_probe(dev, ret, "failed to lock mbus clock=
+ rate\n");
+>
+> --
+> 2.47.2
+>
 
 
-> +
-> +unevaluatedProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - "#pwm-cells"
-> +  - clocks
-> +  - clock-names
-> +  - resets
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/sun20i-d1-ccu.h>
-> +    #include <dt-bindings/reset/sun20i-d1-ccu.h>
-> +
-> +    pwm: pwm@2000c00 {
-> +      compatible = "allwinner,sun20i-d1-pwm";
-> +      reg = <0x02000c00 0x400>;
-> +      clocks = <&ccu CLK_BUS_PWM>, <&dcxo>, <&ccu CLK_APB0>;
-> +      clock-names = "bus", "hosc", "apb";
-> +      resets = <&ccu RST_BUS_PWM>;
-> +      #pwm-cells = <0x3>;
-> +    };
-> +
-> +...
 
+--=20
+Best Regards,
+Chanwoo Choi
+Samsung Electronics
