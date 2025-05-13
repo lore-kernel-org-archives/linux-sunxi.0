@@ -1,114 +1,68 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B72925B1FA;
-	Tue, 13 May 2025 16:26:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C32BD2BEC3E;
+	Tue, 13 May 2025 16:29:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747153588; cv=none; b=nLZiqTm6izgJOu5DdqD9u7GMQ42ohMbO/gvuBN/EtPecOesZ47HCjGUoYOw/WqB0GR/bPgs/iU5kSxOfvkdcf2YKmjbGG0zN7p4CHm8jqP9vdS8C3G+XhDmejjxmbElL4e/SX8mt6PfsXSw8TtqQOtzxum50BgHKvNC6sBPl3T8=
+	t=1747153784; cv=none; b=ie27qk7DmeaNKc4gmjRM+zS5DHA/eI8v7JCn9YHAG+QLkD1hwnNarWJFfE4P1FaN+c/+iSxmLqOeRYCNPF0c4PKwkGZYsTUSvHP87R/f/BN4hfwlCMRRcUadkYRrgggDeiwFMO+D1Y0oc6xU8WNj6dTm0ZhVFyI17Vip5Q4seHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747153588; c=relaxed/simple;
-	bh=ga3zCv76QkUCBLxG+3obr75Z66d/dc+j2DqdsPQXh0c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZaDAxqSbnCDcjca6n+yQhqTXDY+6kLLtwC6qk4YNpd2JhvpkYskoXvINKI5SCtjWLjYckpAS5vTaeVRlGRewihyXItfRzMm8oYBWO02jDGNssU6kbcUrhRvuGF+6rK7SF5xBI5lvnj6Ydm6yZU+g8gSfaKTytwkXxR3L3VbZX8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ghnA84IH; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ghnA84IH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3A17C4CEEF;
-	Tue, 13 May 2025 16:26:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747153587;
-	bh=ga3zCv76QkUCBLxG+3obr75Z66d/dc+j2DqdsPQXh0c=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=ghnA84IHlg7O22yhptVGd5Vo4K2suyTcvlb+dB5s7Xg4X6SCKx0ZtMdwAnmiIGhrH
-	 M868zaiZXQjfGDXf9pX+lD9EQ9T5uT9qwj6inycMkJOrwftBuYfzqwRkK1PToW2PZs
-	 RYNCKFYf3234mnyWthq+oKNmQQvb8i58T5ANMMw1R8pSUmTgMPX1KuXrfKOLRSumu4
-	 Y/Lg0OuxA6RGFWAgVYErB6RT1wwV+AFVxlYEKgJ6/v10H8Ksf7D8azLajSyucjEEwe
-	 mWxhdjJIYEZ+LQTq5P2LTa366AGYaAE9nvfu0kzlc/FZxK0WpLPebLv/Wk5X+aA5O9
-	 LGfIdhM7MlxpQ==
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5fcc96b6a64so7120245a12.0;
-        Tue, 13 May 2025 09:26:27 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUVQBfRkPIqGTX99HjzpQLFiCjOUtInDi+O6iCwCoAd/ndVIhIhhb9yoFiHk1+7FTElmv+ovfJvmo3vNLubqQ==@lists.linux.dev, AJvYcCVFk0PoVbvYVnEDvdW7Ic3ZlgHSsdNvL60sbq6bnsjyUcHAAwLYyLBjPAebViERuHJhGL5wB6QgMTRtZQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx1vZGRPg4D51Ptpc+gmUNsEv2XMwlumFu7eMu2R4s3vqll/Dlm
-	HiR9DG/UZL5mSUz2wii4EAiQOX9ol8/4x+Gv5mCvctgyEuMcZjpTxDSFiP4ExnMo0ocTNtN3IXp
-	SJwwCAPew4kZDH76e/RZQINmieLY=
-X-Google-Smtp-Source: AGHT+IGLphKmJHdSpxiAM6EZINozmZaCBpRvN/kTcv+//ma0V7JmmF8efQr+QHrkewteuL8JarBqgc1UuBNDbXrxzSs=
-X-Received: by 2002:a17:907:d17:b0:ad4:f6d3:a188 with SMTP id
- a640c23a62f3a-ad4f755173bmr20068366b.46.1747153586566; Tue, 13 May 2025
- 09:26:26 -0700 (PDT)
+	s=arc-20240116; t=1747153784; c=relaxed/simple;
+	bh=vz7Pn/6EL4wk60dEMYxwC6EfPtUwu20ENGHawZQo4qg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=XwT4yLCIjAuJ+8fw3l2AfcBck1PCNPEDWCfiQsCK+pFzMHfHKh7UMN67cQ4OLeh3P8t4E25GFQSRE9ws0T+KnSkMpaLpjWpKF4OIb6J6RKv9Aw3Y2SSpJUlTW+vAQd7sX6S6MCR/JR4wZdlL5e+I+svCBHkYDATDGdSkzBrE0Ik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F7DFC4CEEF;
+	Tue, 13 May 2025 16:29:44 +0000 (UTC)
+Received: from wens.tw (localhost [127.0.0.1])
+	by wens.tw (Postfix) with ESMTP id AB3345FEDD;
+	Wed, 14 May 2025 00:29:41 +0800 (CST)
+From: Chen-Yu Tsai <wens@csie.org>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Andre Przywara <andre.przywara@arm.com>
+Cc: Cody Eksal <masterr3c0rd@epochal.quest>, 
+ Philippe Simons <simons.philippe@gmail.com>, devicetree@vger.kernel.org, 
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20250505164729.18175-1-andre.przywara@arm.com>
+References: <20250505164729.18175-1-andre.przywara@arm.com>
+Subject: Re: [PATCH 0/3] arm64: dts: sunxi: Add Liontron H-A133L support
+Message-Id: <174715378169.4016543.2717785306714546784.b4-ty@csie.org>
+Date: Wed, 14 May 2025 00:29:41 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250512082938.97110-2-u.kleine-koenig@baylibre.com>
-In-Reply-To: <20250512082938.97110-2-u.kleine-koenig@baylibre.com>
-From: Chanwoo Choi <chanwoo@kernel.org>
-Date: Wed, 14 May 2025 01:25:51 +0900
-X-Gmail-Original-Message-ID: <CAGTfZH2uk-6-R5QNZwsssQ1UtnqexKeo=e=SsXB26NMwqf8c9g@mail.gmail.com>
-X-Gm-Features: AX0GCFv7rFmK8zZwyel010vviBuZuUDkrqDnxqcGo43EqBsoQ0TBQM5VkdZiclQ
-Message-ID: <CAGTfZH2uk-6-R5QNZwsssQ1UtnqexKeo=e=SsXB26NMwqf8c9g@mail.gmail.com>
-Subject: Re: [PATCH] PM / devfreq: sun8i-a33-mbus: Fix misconversion to devm_clk_rate_exclusive_get()
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: MyungJoo Ham <myungjoo.ham@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
-	Chanwoo Choi <cw00.choi@samsung.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, linux-pm@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, kernel test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-Hi,
+On Mon, 05 May 2025 17:47:26 +0100, Andre Przywara wrote:
+> The Liontron H-A133L is an industrial development board featuring the
+> Allwinner A133 SoC.
+> Alongside the usual standard connectors like USB and Ethernet ports,
+> it contains a number of dedicated JST connectors, to connect external
+> peripherals.
+> 
+> Add support for that board with the usual patch trinity: vendor prefix,
+> board name binding, board .dts file.
+> 
+> [...]
 
-Instead of fix-up patch, I'd like you to send the v2 of patch[1].
-[1] https://patchwork.kernel.org/project/linux-pm/patch/20241111112237.3363=
-10-2-u.kleine-koenig@baylibre.com/
+Applied to sunxi/dt-for-6.16 in sunxi/linux.git, thanks!
 
+[1/3] dt-bindings: vendor-prefixes: Add Liontron name
+      https://git.kernel.org/sunxi/linux/c/9baa27a2e9fc
+[2/3] dt-bindings: arm: sunxi: Add Liontron H-A133L board name
+      https://git.kernel.org/sunxi/linux/c/d26382bb852c
+[3/3] arm64: dts: allwinner: a100: add Liontron H-A133L board support
+      https://git.kernel.org/sunxi/linux/c/b631b0bf7648
 
+Best regards,
+-- 
+Chen-Yu Tsai <wens@csie.org>
 
-On Mon, May 12, 2025 at 5:29=E2=80=AFPM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@baylibre.com> wrote:
->
-> The patch converting the driver to make more use of devm functions got
-> one conversion wrong making the driver not compilable any more. I have
-> no excuse, mea culpa!
->
-> Fix this by adding the needed device parameter.
->
-> Reported-by: kernel test robot <lkp@intel.com>
-> Link: https://lore.kernel.org/all/202412070231.MzXdNrLv-lkp@intel.com
-> Fixes: bc253b28a365 ("PM / devfreq: sun8i-a33-mbus: Simplify by using mor=
-e devm functions")
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com>
-> ---
->  drivers/devfreq/sun8i-a33-mbus.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/devfreq/sun8i-a33-mbus.c b/drivers/devfreq/sun8i-a33=
--mbus.c
-> index f99af530211d..4bd5657558d6 100644
-> --- a/drivers/devfreq/sun8i-a33-mbus.c
-> +++ b/drivers/devfreq/sun8i-a33-mbus.c
-> @@ -381,7 +381,7 @@ static int sun8i_a33_mbus_probe(struct platform_devic=
-e *pdev)
->                 return dev_err_probe(dev, ret, "failed to lock dram clock=
- rate\n");
->
->         /* Lock the MBUS clock rate to keep MBUS_TMR_PERIOD in sync. */
-> -       ret =3D devm_clk_rate_exclusive_get(priv->clk_mbus);
-> +       ret =3D devm_clk_rate_exclusive_get(dev, priv->clk_mbus);
->         if (ret)
->                 return dev_err_probe(dev, ret, "failed to lock mbus clock=
- rate\n");
->
-> --
-> 2.47.2
->
-
-
-
---=20
-Best Regards,
-Chanwoo Choi
-Samsung Electronics
