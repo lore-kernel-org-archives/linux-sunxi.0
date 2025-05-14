@@ -1,360 +1,376 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72CB51581EE
-	for <linux-sunxi@lists.linux.dev>; Wed, 14 May 2025 14:15:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A56FC1A23B0;
+	Wed, 14 May 2025 15:07:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747232104; cv=none; b=JBCi3dXDM3uulN0A/zkxRrnjv/WyNf9kTqUyyuNlyQkjTmntBzJQFZoqqWa4c/kQEGvXbFglMb72jARsRnD4wh9/IQVklh8aNlhDOjGAm8n5yI94W6lSFhkULLvLyPTwBLCM7Jt88s15W84yfCwfHllC67bshkfIj1VaEpm6YIY=
+	t=1747235254; cv=none; b=si81tvnA29zgWBRT61W4zLuY/oNnBdZ7v/3TTTrrUdf+fjzr6ZVzsr5FURbvGdSQffjnPXRBW0qTljCPqpP0poEJWVcUMeLLo9qOeKe47hgGG36Q5u5ZYsearLHfy5j2qSnUD2wXZt9wgYUhKhu+V3t4Jzwt1PtXYRPnyMDzJ0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747232104; c=relaxed/simple;
-	bh=EbyCQ5AHPeCih6N7y2V6YS2flWMU/9MNAC+enpw901w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=N5uI+3r6LunKHxkNTsEVmv9ISyYr8ZnD7mXuz3Yy6ITBzjv+gpKY813vQAi+iRr/1v9RfFdlwt1Hns7KzgnfK6/fPYUhqB/JHJomdsJVtnkKGYCeu7dmoVGymrryTbzXlToA7yKxRBzRkBxEEx3sFeSgLC+YXfSwrqx8cBTqR/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-326d67aacc4so45672041fa.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 14 May 2025 07:15:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747232099; x=1747836899;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MHI9+PzW39sul+i6E/EGeNmor59j/M/+OWEp6c+V/+U=;
-        b=VLME+Dr4G+YQhD1hRrbAmlu8ebBbWorrmHKI8h4QOp+9YIOTxuonAykpQAbmPAOLId
-         NOZOZcHZkAvCXAj5eVp5b8Lm3RmECi9uNvg5HT9pn1xHNryVPwL8ghrCYYB/HVVJb9J9
-         H936/U/JLeqG+n/54saz5xBrvj97dv2/iSAk4ilFDtPLQp3D5gR1ANhYVwB8ivH5FrFP
-         0XizQOZKiH2klz+wt55j5OYdUogAYbOkcqOCp345c/HO/h6tlE97pCwruDQyMiT8y4M0
-         GdTiFqlxIj3w5o733BFz93VAPdTTC7QV0eSh8PlKQxDedt0WOWTEHvtk0HIacJ39gGwM
-         c7wA==
-X-Forwarded-Encrypted: i=1; AJvYcCVkHy8+Xicu0K4stj7vC3xFIlrKwIoZ7IT4iX2HF0lufI3E6fla+tPm/U7TExTWzGXnpDxDj4k5EjiEaQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzS9UrM9nLiTjpOrjYxewDWpymVDDjYv5kXq9L2u0YnFCRd3VJH
-	SQoixKHLz5updWuhZyalpv2pZ3/6RFoSun35WzDbbTEBQSn3kAulQhvS3e9O
-X-Gm-Gg: ASbGnctZBQhuI0at/p8gX7bB+KZOy8StwxOr/Z9CLOQ3Fbfqz+OMoFyVcHzLMzKoEXo
-	6Z9a2bh1WAMRPJDPHtqCP6hR5pHstgna+aQtQe6prHS79gz99+NiAzNKFXMXoJ0ESPOS89o4H1/
-	9LA6g0ZkkrbRnXHblzts2cNaUu0OJbyD5INk3Z+Gx4pqjcVdizgq1amNSqSMFxBiBrFnbSFdVKj
-	U6Es69HbrOCTRgUR7OAHnVOTu5S/csWO3MCCenplo6ZJy8kncKsu5F5U3lT4wqWwSc/L2PAL6UZ
-	KeltnswUqWmzfDK2Imm1Oui66hhe9wxWQfZ1b2uJlW5n2z65wGt0TCIddQ7sLJf6BL8A1Nhlo4m
-	Z9y+T
-X-Google-Smtp-Source: AGHT+IEuXT+YMniG8sWJdwfxgdeP5880o+YDjF8CEyQW6iiXFfFBQbXAqA8YOW/BRHAaq3aq6aABzw==
-X-Received: by 2002:a2e:be89:0:b0:30b:ecfc:78bf with SMTP id 38308e7fff4ca-327ed09df01mr13419071fa.5.1747232098751;
-        Wed, 14 May 2025 07:14:58 -0700 (PDT)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com. [209.85.167.48])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-326c33c1256sm19898021fa.48.2025.05.14.07.14.57
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 May 2025 07:14:58 -0700 (PDT)
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-54c0fa6d455so8295129e87.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 14 May 2025 07:14:57 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWWsSNGHesqGKVz1CnZV+63hHIfEl0NqBrOZh4glnC9ic//NPyx0Fg5U0soFa4vXNmrQOig0UBJQj9TyA==@lists.linux.dev
-X-Received: by 2002:a05:651c:144b:b0:326:db50:fa71 with SMTP id
- 38308e7fff4ca-327ed11ecccmr16248041fa.23.1747232097790; Wed, 14 May 2025
- 07:14:57 -0700 (PDT)
+	s=arc-20240116; t=1747235254; c=relaxed/simple;
+	bh=hNTh5N5lXn9QrHGBRwJrp+J9t/VSGvHvfw9vMqyzwSU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o7AE8Kouz+MYRWCLcKV3aBuE658vShXMbj8s0PSYEXmYnCToIVxS2MpdieeV9I46i2WT0N+CqPibKSh0usRL4b9ct7T/z+Wh3YzgEIMtAxYmlB2nT4eqDzKSVUx3FUK4ZLoRHN5+fLcGbYvUNDK1L4LzL6j5wPrTmt3IkPqzlTk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ihpLhnzv; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ihpLhnzv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF009C4CEE9;
+	Wed, 14 May 2025 15:07:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747235254;
+	bh=hNTh5N5lXn9QrHGBRwJrp+J9t/VSGvHvfw9vMqyzwSU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ihpLhnzvP6+f8Bnnfrq42RA6TKUceEUVN1+NqW075ucReOVCir+OHBtHNdhZXQO2S
+	 TrNu1qvtGiOLHqus0tNmCuS5N5mFoeyn+Y/9fCiihN9E19te4GTV1eTDfdYlIjGM4t
+	 TaP/dVKEGOZ9sGSGOQ4O475zJ2Jolndn7OlpIbizs09TpuMV1RMlE3ksfQ/JfMdmCN
+	 0mhn6mjJXzlM61jWlb+dENNQSa/yYbEACvn3mDH3ZA4O0/vmwzvpXI6pe7jpnw7A0M
+	 /irE71rouyy/Uh20daZ6AXxxVWXwX5ZUUQ83g+PICn5A5lzCmFsSb4xk3b66yFn6lN
+	 MmshBrDgN8LYA==
+Date: Wed, 14 May 2025 17:07:30 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Ryan Walklin <ryan@testtoast.com>
+Cc: Chen-Yu Tsai <wens@csie.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Andre Przywara <andre.przywara@arm.com>, 
+	Chris Morgan <macroalpha82@gmail.com>, Hironori KIKUCHI <kikuchan98@gmail.com>, 
+	Philippe Simons <simons.philippe@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, linux-clk@vger.kernel.org, 
+	Chris Morgan <macromorgan@hotmail.com>
+Subject: Re: [PATCH v10 10/11] drm: sun4i: de33: mixer: add Display Engine
+ 3.3 (DE33) support
+Message-ID: <nze2olzqtgagrkiws2dt3uptehyvcgw7kai5ceycroaroin7jb@xeoddccn5uqh>
+References: <20250511104042.24249-1-ryan@testtoast.com>
+ <20250511104042.24249-11-ryan@testtoast.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250505164729.18175-1-andre.przywara@arm.com> <20250505164729.18175-4-andre.przywara@arm.com>
-In-Reply-To: <20250505164729.18175-4-andre.przywara@arm.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Wed, 14 May 2025 22:14:42 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67JGbTgsNcqn4TZ74s_U1+9xGj_a7kYkmfGVxeygQ_Ydw@mail.gmail.com>
-X-Gm-Features: AX0GCFuDYucYLLpLUlhwE2czLbkwqRJZoUBu4cwQtabqLqc0JUaJT_1nWb9P4eE
-Message-ID: <CAGb2v67JGbTgsNcqn4TZ74s_U1+9xGj_a7kYkmfGVxeygQ_Ydw@mail.gmail.com>
-Subject: Re: [PATCH 3/3] arm64: dts: allwinner: a100: add Liontron H-A133L
- board support
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Cody Eksal <masterr3c0rd@epochal.quest>, 
-	Philippe Simons <simons.philippe@gmail.com>, devicetree@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="nuzs5zhgui5fpegk"
+Content-Disposition: inline
+In-Reply-To: <20250511104042.24249-11-ryan@testtoast.com>
+
+
+--nuzs5zhgui5fpegk
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v10 10/11] drm: sun4i: de33: mixer: add Display Engine
+ 3.3 (DE33) support
+MIME-Version: 1.0
 
-On Tue, May 6, 2025 at 12:48=E2=80=AFAM Andre Przywara <andre.przywara@arm.=
-com> wrote:
->
-> The H-A133L board is an industrial development board made by Liontron.
-> It contains a number of dedicated JST connectors, to connect external
-> peripherals. It features:
->
-> - Allwinner A133 SoC (4 * Arm Cortex-A53 cores at up to 1.6 GHz)
-> - 1 GiB, 2 GiB or 4 GiB of LPDDR4 DRAM
-> - between 16 and 128 GiB eMMC flash
-> - AXP707 PMIC (compatible to AXP803)
-> - 100 Mbit/s RJ45 Ethernet socket, using an JLSemi JL1101 PHY
-> - XR829 WIFI+Bluetooth chip
-> - 2 * USB 2.0 USB-A ports, plus three sets of USB pins on connectors
->   (connected via a USB hub connected to USB1 on the SoC)
-> - microSD card slot
-> - 3.5mm A/V port
-> - 12V power supply
-> - connectors for an LVDS or MIPI-DSI panel
->
-> Add the devicetree describing the board's peripherals and their
-> connections.
->
-> Despite being a devboard, the manufacturer does not publish a schematic
-> (I asked), so the PMIC rail assignments were bases on BSP dumps,
-> educated guesses and some experimentation. Dropping the always-on
-> property from any of the rails carrying it will make the board hang as
-> soon as the kernel turns off unused regulators.
->
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+On Sun, May 11, 2025 at 10:31:19PM +1200, Ryan Walklin wrote:
+> From: Jernej Skrabec <jernej.skrabec@gmail.com>
+>=20
+> The DE33 is a newer version of the Allwinner Display Engine IP block,
+> found in the H616, H618, H700 and T507 SoCs. DE2 and DE3 are already
+> supported by the mainline driver.
+>=20
+> Notable features (from the H616 datasheet and implemented):
+> - 4096 x 2048 (4K) output support
+>=20
+> Other features (implemented but not in this patchset):
+> - AFBC ARM Frame Buffer Compression support
+> - YUV pipeline support
+>=20
+> The DE2 and DE3 engines have a blender register range within the
+> mixer engine register map, whereas the DE33 separates this out into
+> a separate display group, and adds a top register map.
+>=20
+> The DE33 also appears to remove the global double buffer control
+> register, present in the DE2 and DE3.
+>=20
+> Extend the mixer to support the DE33.
+>=20
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+>=20
 > ---
->  arch/arm64/boot/dts/allwinner/Makefile        |   1 +
->  .../sun50i-a133-liontron-h-a133l.dts          | 214 ++++++++++++++++++
->  2 files changed, 215 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-a133-liontron-h-=
-a133l.dts
->
-> diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts=
-/allwinner/Makefile
-> index 790aad3a91e86..773cc02a13d04 100644
-> --- a/arch/arm64/boot/dts/allwinner/Makefile
-> +++ b/arch/arm64/boot/dts/allwinner/Makefile
-> @@ -18,6 +18,7 @@ dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-a64-sopine-baseboa=
-rd.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-a64-teres-i.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h64-remix-mini-pc.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-a100-allwinner-perf1.dtb
-> +dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-a133-liontron-h-a133l.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h5-bananapi-m2-plus.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h5-bananapi-m2-plus-v1.2.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h5-emlid-neutis-n5-devboard.dtb
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a133-liontron-h-a133l.d=
-ts b/arch/arm64/boot/dts/allwinner/sun50i-a133-liontron-h-a133l.dts
-> new file mode 100644
-> index 0000000000000..682ed15d84854
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a133-liontron-h-a133l.dts
-> @@ -0,0 +1,211 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> +/*
-> + * Copyright (c) 2025 Arm Ltd.
-> + */
+> Changelog v4..v5:
+> - Whitespace fixes
+> - Correct strict mode warnings from checkpatch.pl
+>=20
+> Changelog v7..v8:
+> - Add top/disp regmaps to mixer for DE33
+> - Remove YUV-specific code
+> - Remove use of global double buffer
+> - Remove unneeded if/then parentheses and fix an alignment issue as sugge=
+sted by checkpatch.pl
+>=20
+> Changelog v9..v10:
+> - Use names from vendor BSP kernel for register blocks.
+> ---
+>  drivers/gpu/drm/sun4i/sun8i_mixer.c | 82 +++++++++++++++++++++++++----
+>  drivers/gpu/drm/sun4i/sun8i_mixer.h | 22 ++++++--
+>  2 files changed, 90 insertions(+), 14 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/=
+sun8i_mixer.c
+> index cc4da11e2c10..0d4695132dae 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> @@ -318,8 +318,9 @@ static void sun8i_mixer_commit(struct sunxi_engine *e=
+ngine,
+>  	regmap_write(bld_regs, SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
+>  		     pipe_en | SUN8I_MIXER_BLEND_PIPE_CTL_FC_EN(0));
+> =20
+> -	regmap_write(engine->regs, SUN8I_MIXER_GLOBAL_DBUFF,
+> -		     SUN8I_MIXER_GLOBAL_DBUFF_ENABLE);
+> +	if (mixer->cfg->de_type !=3D sun8i_mixer_de33)
+> +		regmap_write(engine->regs, SUN8I_MIXER_GLOBAL_DBUFF,
+> +			     SUN8I_MIXER_GLOBAL_DBUFF_ENABLE);
+>  }
+> =20
+>  static struct drm_plane **sun8i_layers_init(struct drm_device *drm,
+> @@ -368,25 +369,31 @@ static void sun8i_mixer_mode_set(struct sunxi_engin=
+e *engine,
+>  				 const struct drm_display_mode *mode)
+>  {
+>  	struct sun8i_mixer *mixer =3D engine_to_sun8i_mixer(engine);
+> +	struct regmap *bld_regs;
+>  	u32 bld_base, size, val;
+>  	bool interlaced;
+> =20
+>  	bld_base =3D sun8i_blender_base(mixer);
+> +	bld_regs =3D sun8i_blender_regmap(mixer);
+>  	interlaced =3D !!(mode->flags & DRM_MODE_FLAG_INTERLACE);
+>  	size =3D SUN8I_MIXER_SIZE(mode->hdisplay, mode->vdisplay);
+> =20
+>  	DRM_DEBUG_DRIVER("Updating global size W: %u H: %u\n",
+>  			 mode->hdisplay, mode->vdisplay);
+> =20
+> -	regmap_write(engine->regs, SUN8I_MIXER_GLOBAL_SIZE, size);
+> -	regmap_write(engine->regs, SUN8I_MIXER_BLEND_OUTSIZE(bld_base), size);
+> +	if (mixer->cfg->de_type =3D=3D sun8i_mixer_de33)
+> +		regmap_write(mixer->top_regs, SUN50I_MIXER_GLOBAL_SIZE, size);
+> +	else
+> +		regmap_write(mixer->engine.regs, SUN8I_MIXER_GLOBAL_SIZE, size);
 > +
-> +/dts-v1/;
-> +
-> +#include "sun50i-a100.dtsi"
-> +#include "sun50i-a100-cpu-opp.dtsi"
-> +
-> +#include <dt-bindings/gpio/gpio.h>
-> +#include <dt-bindings/leds/common.h>
-> +
-> +/{
-> +       model =3D "Liontron H-A133L";
-> +       compatible =3D "liontron,h-a133l", "allwinner,sun50i-a100";
-> +
-> +       aliases {
-> +               serial0 =3D &uart0;
-> +       };
-> +
-> +       chosen {
-> +               stdout-path =3D "serial0:115200n8";
-> +       };
-> +
-> +       leds {
-> +               compatible =3D "gpio-leds";
-> +
-> +               led {
-> +                       function =3D LED_FUNCTION_POWER;
-> +                       color =3D <LED_COLOR_ID_BLUE>;
-> +                       gpios =3D <&pio 7 16 GPIO_ACTIVE_LOW>; /* PH16 */
-> +               };
-> +       };
-> +
-> +       reg_vcc5v: vcc5v {
-> +               /* board wide 5V supply from a 12V->5V regulator */
-> +               compatible =3D "regulator-fixed";
-> +               regulator-name =3D "vcc-5v";
-> +               regulator-min-microvolt =3D <5000000>;
-> +               regulator-max-microvolt =3D <5000000>;
-> +               regulator-always-on;
-> +       };
-> +
-> +       reg_usb1_vbus: regulator-usb1-vbus {
-> +               compatible =3D "regulator-fixed";
-> +               regulator-name =3D "usb1-vbus";
-> +               regulator-min-microvolt =3D <5000000>;
-> +               regulator-max-microvolt =3D <5000000>;
-> +               vin-supply =3D <&reg_vcc5v>;
-> +               enable-active-high;
-> +               gpio =3D <&r_pio 0 8 GPIO_ACTIVE_HIGH>; /* PL8 */
-> +       };
+> +	regmap_write(bld_regs, SUN8I_MIXER_BLEND_OUTSIZE(bld_base), size);
+> =20
+>  	if (interlaced)
+>  		val =3D SUN8I_MIXER_BLEND_OUTCTL_INTERLACED;
+>  	else
+>  		val =3D 0;
+> =20
+> -	regmap_update_bits(engine->regs, SUN8I_MIXER_BLEND_OUTCTL(bld_base),
+> +	regmap_update_bits(bld_regs, SUN8I_MIXER_BLEND_OUTCTL(bld_base),
+>  			   SUN8I_MIXER_BLEND_OUTCTL_INTERLACED, val);
+> =20
+>  	DRM_DEBUG_DRIVER("Switching display mixer interlaced mode %s\n",
+> @@ -400,12 +407,29 @@ static const struct sunxi_engine_ops sun8i_engine_o=
+ps =3D {
+>  };
+> =20
+>  static const struct regmap_config sun8i_mixer_regmap_config =3D {
+> +	.name		=3D "layers",
+>  	.reg_bits	=3D 32,
+>  	.val_bits	=3D 32,
+>  	.reg_stride	=3D 4,
+>  	.max_register	=3D 0xffffc, /* guessed */
+>  };
+> =20
+> +static const struct regmap_config sun8i_top_regmap_config =3D {
+> +	.name		=3D "top",
+> +	.reg_bits	=3D 32,
+> +	.val_bits	=3D 32,
+> +	.reg_stride	=3D 4,
+> +	.max_register	=3D 0x3c,
 > +};
 > +
-> +&cpu0 {
-> +       cpu-supply =3D <&reg_dcdc2>;
+> +static const struct regmap_config sun8i_disp_regmap_config =3D {
+> +	.name		=3D "display",
+> +	.reg_bits	=3D 32,
+> +	.val_bits	=3D 32,
+> +	.reg_stride	=3D 4,
+> +	.max_register	=3D 0x20000,
 > +};
 > +
-> +&ehci0 {
-> +       status =3D "okay";
+>  static int sun8i_mixer_of_get_id(struct device_node *node)
+>  {
+>  	struct device_node *ep, *remote;
+> @@ -428,33 +452,45 @@ static int sun8i_mixer_of_get_id(struct device_node=
+ *node)
+> =20
+>  static void sun8i_mixer_init(struct sun8i_mixer *mixer)
+>  {
+> +	struct regmap *top_regs, *disp_regs;
+>  	unsigned int base =3D sun8i_blender_base(mixer);
+>  	int plane_cnt, i;
+> =20
+> +	if (mixer->cfg->de_type =3D=3D sun8i_mixer_de33) {
+> +		top_regs =3D mixer->top_regs;
+> +		disp_regs =3D mixer->disp_regs;
+> +	} else {
+> +		top_regs =3D mixer->engine.regs;
+> +		disp_regs =3D mixer->engine.regs;
+> +	}
+> +
+>  	/* Enable the mixer */
+> -	regmap_write(mixer->engine.regs, SUN8I_MIXER_GLOBAL_CTL,
+> +	regmap_write(top_regs, SUN8I_MIXER_GLOBAL_CTL,
+>  		     SUN8I_MIXER_GLOBAL_CTL_RT_EN);
+> =20
+> +	if (mixer->cfg->de_type =3D=3D sun8i_mixer_de33)
+> +		regmap_write(top_regs, SUN50I_MIXER_GLOBAL_CLK, 1);
+> +
+>  	/* Set background color to black */
+> -	regmap_write(mixer->engine.regs, SUN8I_MIXER_BLEND_BKCOLOR(base),
+> +	regmap_write(disp_regs, SUN8I_MIXER_BLEND_BKCOLOR(base),
+>  		     SUN8I_MIXER_BLEND_COLOR_BLACK);
+> =20
+>  	/*
+>  	 * Set fill color of bottom plane to black. Generally not needed
+>  	 * except when VI plane is at bottom (zpos =3D 0) and enabled.
+>  	 */
+> -	regmap_write(mixer->engine.regs, SUN8I_MIXER_BLEND_PIPE_CTL(base),
+> +	regmap_write(disp_regs, SUN8I_MIXER_BLEND_PIPE_CTL(base),
+>  		     SUN8I_MIXER_BLEND_PIPE_CTL_FC_EN(0));
+> -	regmap_write(mixer->engine.regs, SUN8I_MIXER_BLEND_ATTR_FCOLOR(base, 0),
+> +	regmap_write(disp_regs, SUN8I_MIXER_BLEND_ATTR_FCOLOR(base, 0),
+>  		     SUN8I_MIXER_BLEND_COLOR_BLACK);
+> =20
+>  	plane_cnt =3D mixer->cfg->vi_num + mixer->cfg->ui_num;
+>  	for (i =3D 0; i < plane_cnt; i++)
+> -		regmap_write(mixer->engine.regs,
+> +		regmap_write(disp_regs,
+>  			     SUN8I_MIXER_BLEND_MODE(base, i),
+>  			     SUN8I_MIXER_BLEND_MODE_DEF);
+> =20
+> -	regmap_update_bits(mixer->engine.regs, SUN8I_MIXER_BLEND_PIPE_CTL(base),
+> +	regmap_update_bits(disp_regs, SUN8I_MIXER_BLEND_PIPE_CTL(base),
+>  			   SUN8I_MIXER_BLEND_PIPE_CTL_EN_MSK, 0);
+>  }
+> =20
+> @@ -526,6 +562,30 @@ static int sun8i_mixer_bind(struct device *dev, stru=
+ct device *master,
+>  		return PTR_ERR(mixer->engine.regs);
+>  	}
+> =20
+> +	if (mixer->cfg->de_type =3D=3D sun8i_mixer_de33) {
+> +		regs =3D devm_platform_ioremap_resource_byname(pdev, "top");
+> +		if (IS_ERR(regs))
+> +			return PTR_ERR(regs);
+> +
+> +		mixer->top_regs =3D devm_regmap_init_mmio(dev, regs,
+> +							&sun8i_top_regmap_config);
+> +		if (IS_ERR(mixer->top_regs)) {
+> +			dev_err(dev, "Couldn't create the top regmap\n");
+> +			return PTR_ERR(mixer->top_regs);
+> +		}
+> +
+> +		regs =3D devm_platform_ioremap_resource_byname(pdev, "display");
+> +		if (IS_ERR(regs))
+> +			return PTR_ERR(regs);
+> +
+> +		mixer->disp_regs =3D devm_regmap_init_mmio(dev, regs,
+> +							 &sun8i_disp_regmap_config);
+> +		if (IS_ERR(mixer->disp_regs)) {
+> +			dev_err(dev, "Couldn't create the disp regmap\n");
+> +			return PTR_ERR(mixer->disp_regs);
+> +		}
+> +	}
+> +
+>  	mixer->reset =3D devm_reset_control_get(dev, NULL);
+>  	if (IS_ERR(mixer->reset)) {
+>  		dev_err(dev, "Couldn't get our reset line\n");
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h b/drivers/gpu/drm/sun4i/=
+sun8i_mixer.h
+> index 43c413052a22..d87d197610e1 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
+> +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
+> @@ -21,6 +21,9 @@
+>  #define SUN8I_MIXER_GLOBAL_DBUFF		0x8
+>  #define SUN8I_MIXER_GLOBAL_SIZE			0xc
+> =20
+> +#define SUN50I_MIXER_GLOBAL_SIZE		0x8
+> +#define SUN50I_MIXER_GLOBAL_CLK			0xc
+> +
+>  #define SUN8I_MIXER_GLOBAL_CTL_RT_EN		BIT(0)
+> =20
+>  #define SUN8I_MIXER_GLOBAL_DBUFF_ENABLE		BIT(0)
+> @@ -151,6 +154,12 @@ enum {
+>  	CCSC_D1_MIXER0_LAYOUT,
+>  };
+> =20
+> +enum sun8i_mixer_type {
+> +	sun8i_mixer_de2,
+> +	sun8i_mixer_de3,
+> +	sun8i_mixer_de33,
 > +};
-> +
-> +&ehci1 {
-> +       status =3D "okay";
-> +};
-> +
-> +&mmc0 {
-> +       vmmc-supply =3D <&reg_dcdc1>;
-> +       cd-gpios =3D <&pio 5 6 GPIO_ACTIVE_LOW>; /* PF6 */
-> +       bus-width =3D <4>;
-> +       status =3D "okay";
-> +};
-> +
-> +&mmc2 {
-> +       vmmc-supply =3D <&reg_dcdc1>;
-> +       vqmmc-supply =3D <&reg_eldo1>;
-> +       cap-mmc-hw-reset;
-> +       non-removable;
-> +       bus-width =3D <8>;
-> +       mmc-ddr-1_8v;
-> +       mmc-hs200-1_8v;
-> +       status =3D "okay";
-> +};
-> +
-> +&ohci0 {
-> +       status =3D "okay";
-> +};
-> +
-> +&ohci1 {
-> +       status =3D "okay";
-> +};
-> +
-> +&pio {
-> +       vcc-pb-supply =3D <&reg_dcdc1>;
-> +       vcc-pc-supply =3D <&reg_eldo1>;
-> +       vcc-pf-supply =3D <&reg_dcdc1>;
-> +       vcc-ph-supply =3D <&reg_dcdc1>;
-> +};
-> +
-> +&r_i2c0 {
-> +       status =3D "okay";
-> +
-> +       axp803: pmic@34 {
-> +               compatible =3D "x-powers,axp803";
-> +               reg =3D <0x34>;
-> +               interrupt-parent =3D <&r_intc>;
-> +               interrupts =3D <0 IRQ_TYPE_LEVEL_LOW>;
-> +       };
-> +};
-> +
-> +#include "axp803.dtsi"
-> +
-> +&ac_power_supply {
-> +       status =3D "okay";
-> +};
-> +
-> +&reg_aldo1 {
-> +       regulator-always-on;
-> +       regulator-min-microvolt =3D <1800000>;
-> +       regulator-max-microvolt =3D <1800000>;
-> +       regulator-name =3D "vcc-codec-avcc";
-> +};
-> +
-> +&reg_aldo2 {
-> +       regulator-always-on;
-> +       regulator-min-microvolt =3D <1800000>;
-> +       regulator-max-microvolt =3D <1800000>;
-> +       regulator-name =3D "vcc-dram-1";
-> +};
-> +
-> +&reg_aldo3 {
-> +       regulator-always-on;
-> +       regulator-min-microvolt =3D <3300000>;
-> +       regulator-max-microvolt =3D <3300000>;
-> +       regulator-name =3D "vcc-usb-pl";
-> +};
-> +
-> +&reg_dcdc1 {
-> +       regulator-always-on;
-> +       regulator-min-microvolt =3D <3300000>;
-> +       regulator-max-microvolt =3D <3300000>;
-> +       regulator-name =3D "vcc-io-usb-pd-emmc";
-> +};
-> +
-> +&reg_dcdc2 {
-> +       regulator-always-on;
-> +       regulator-min-microvolt =3D <810000>;
-> +       regulator-max-microvolt =3D <1200000>;
-> +       regulator-name =3D "vdd-cpux";
-> +};
-> +
-> +&reg_dcdc3 {
-> +       regulator-always-on;
-> +       regulator-min-microvolt =3D <900000>;
-> +       regulator-max-microvolt =3D <900000>;
-> +       regulator-name =3D "vdd-usb-cpus";
-> +};
-> +
-> +&reg_dcdc4 {
-> +       regulator-always-on;
-> +       regulator-min-microvolt =3D <950000>;
-> +       regulator-max-microvolt =3D <950000>;
-> +       regulator-name =3D "vdd-sys";
-> +};
-> +
-> +&reg_dcdc5 {
-> +       regulator-always-on;
-> +       regulator-min-microvolt =3D <1100000>;
-> +       regulator-max-microvolt =3D <1100000>;
-> +       regulator-name =3D "vcc-dram";
-> +};
-> +
-> +/* DCDC6 unused */
-> +/* DLDO3 unused */
-> +/* DLDO4 unused */
-> +
-> +&reg_eldo1 {
-> +       regulator-min-microvolt =3D <1800000>;
-> +       regulator-max-microvolt =3D <1800000>;
-> +       regulator-name =3D "vcc-pc-emmc";
-> +};
-> +
-> +/* ELDO2 unused */
-> +/* ELDO3 unused */
-> +
-> +&reg_fldo1 {
-> +       regulator-always-on;
-> +       regulator-min-microvolt =3D <900000>;
-> +       regulator-max-microvolt =3D <900000>;
-> +       regulator-name =3D "vdd-cpus-usb";
-> +};
-> +
-> +/* reg_drivevbus unused */
-> +/* dc1sw unused */
-> +
-> +&uart0 {
-> +       pinctrl-names =3D "default";
-> +       pinctrl-0 =3D <&uart0_pb_pins>;
-> +       status =3D "okay";
-> +};
-> +
-> +&usb_otg {
-> +       dr_mode =3D "host";       /* USB A type receptacle, always powere=
-d */
 
-                                                noticed a typo here.
+enum variants typically have their name in upper-case.
 
-> +       status =3D "okay";
-> +};
+With that fixed,
+Acked-by: Maxime Ripard <mripard@kernel.org>
+
+Maxime
+
+>  /**
+>   * struct sun8i_mixer_cfg - mixer HW configuration
+>   * @vi_num: number of VI channels
+> @@ -171,8 +180,9 @@ struct sun8i_mixer_cfg {
+>  	int		scaler_mask;
+>  	int		ccsc;
+>  	unsigned long	mod_rate;
+> -	unsigned int	is_de3 : 1;
+> +	unsigned int	de_type;
+>  	unsigned int	scanline_yuv;
+> +	unsigned int	map[6];
+>  };
+> =20
+>  struct sun8i_mixer {
+> @@ -184,6 +194,9 @@ struct sun8i_mixer {
+> =20
+>  	struct clk			*bus_clk;
+>  	struct clk			*mod_clk;
 > +
-> +&usbphy {
-> +       status =3D "okay";
-> +       usb1_vbus-supply =3D <&reg_usb1_vbus>;
+> +	struct regmap			*top_regs;
+> +	struct regmap			*disp_regs;
+>  };
+> =20
+>  enum {
+> @@ -220,13 +233,16 @@ sun8i_blender_base(struct sun8i_mixer *mixer)
+>  static inline struct regmap *
+>  sun8i_blender_regmap(struct sun8i_mixer *mixer)
+>  {
+> -	return mixer->engine.regs;
+> +	return mixer->cfg->de_type =3D=3D sun8i_mixer_de33 ?
+> +		mixer->disp_regs : mixer->engine.regs;
+>  }
+> =20
+>  static inline u32
+>  sun8i_channel_base(struct sun8i_mixer *mixer, int channel)
+>  {
+> -	if (mixer->cfg->is_de3)
+> +	if (mixer->cfg->de_type =3D=3D sun8i_mixer_de33)
+> +		return mixer->cfg->map[channel] * 0x20000 + DE2_CH_SIZE;
+> +	else if (mixer->cfg->de_type =3D=3D sun8i_mixer_de3)
+>  		return DE3_CH_BASE + channel * DE3_CH_SIZE;
+>  	else
+>  		return DE2_CH_BASE + channel * DE2_CH_SIZE;
+> --=20
+> 2.49.0
+>=20
 
-Just noticed that these two were out of order, so I fixed both of
-them and re-pushed.
+--nuzs5zhgui5fpegk
+Content-Type: application/pgp-signature; name="signature.asc"
 
-ChenYu
+-----BEGIN PGP SIGNATURE-----
 
-> +};
-> --
-> 2.46.3
->
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaCSxsgAKCRAnX84Zoj2+
+dkRiAYDo7nX2ItTCe0pf3Z1XdARQNaGktkYXB0zUcB6/1NH1ixm0hPLo4c7hq8hc
+W98Ln8EBgJxniTtSYsPRfs39kMjdE81dS0/lcPKPY639DgGw8xplbyC++TxqGCtZ
+1uyrKcVjtg==
+=SFVX
+-----END PGP SIGNATURE-----
+
+--nuzs5zhgui5fpegk--
