@@ -1,103 +1,360 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A99628DD0;
-	Wed, 14 May 2025 13:16:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72CB51581EE
+	for <linux-sunxi@lists.linux.dev>; Wed, 14 May 2025 14:15:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747228598; cv=none; b=CYsfQwMceG3+W2HFxrruJp6k4sQ/qCULAl6hiyaLfUhUze2hbh1uutT2d06QL8YRld34rW+ZJJOUowbStvf49TWtkZw2ZnYFY2nJyunlvFpXb1vf3zAtc2kgCUvvFBHvf+2i9y49prxxFjEJaIOp5pedxc3POduzAAylhrmX0WM=
+	t=1747232104; cv=none; b=JBCi3dXDM3uulN0A/zkxRrnjv/WyNf9kTqUyyuNlyQkjTmntBzJQFZoqqWa4c/kQEGvXbFglMb72jARsRnD4wh9/IQVklh8aNlhDOjGAm8n5yI94W6lSFhkULLvLyPTwBLCM7Jt88s15W84yfCwfHllC67bshkfIj1VaEpm6YIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747228598; c=relaxed/simple;
-	bh=3mdJiBencSNxta3dyF8z2OWbBuH6yjWb2HaJ34mgkI8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NAAeXAYuFBZvx640pxv1AYwoUwAhyiY1LQLHKGV7t8i11IReMWombwAUF1IHX6yLncSfKYhAZtB7JJRkTwFjtBAOc4ur+AGQ33lPgVZmVepdEr8sVpyBPskFjRlOU4AjwYT53qsNNs5uNs2Y+zHbRVlTx+cBeZaGlyBK2LYbjVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d3HtkqZd; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1747232104; c=relaxed/simple;
+	bh=EbyCQ5AHPeCih6N7y2V6YS2flWMU/9MNAC+enpw901w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=N5uI+3r6LunKHxkNTsEVmv9ISyYr8ZnD7mXuz3Yy6ITBzjv+gpKY813vQAi+iRr/1v9RfFdlwt1Hns7KzgnfK6/fPYUhqB/JHJomdsJVtnkKGYCeu7dmoVGymrryTbzXlToA7yKxRBzRkBxEEx3sFeSgLC+YXfSwrqx8cBTqR/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d3HtkqZd"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-442e9c00bf4so20473285e9.3;
-        Wed, 14 May 2025 06:16:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747228594; x=1747833394; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=6Tc/4nqMXEbm8d6EyQQLonLFnqiRqlfA73rzExd6DXQ=;
-        b=d3HtkqZdgqCKDREd0RvH8jHBUIq0rvZJ+MJyKSrRmvk2KYLRxr4qhNaIgP7/SvBqUD
-         it7A95BG3rxPIFXaafXLBvQFpcThbEEFi5z4zD3eQFPH8BTWUJaEvd1/fG7yvj2rEOr2
-         HYNIb8g3o7WymevQjvDLNbfWkSbSV6SuWc0ckR4zMnGT2N5u2vsY3E1z60XFYE0oIRRK
-         3NRZuo1NjTFfV1kFerqsqyZkHX2aLL5Por7sf29sQKyRBviX4F/aCY2pPJrgZk0AKTTQ
-         Az5tm1oLEwTLMnTrAg2NX4MGLj1B3fPCQlFNIO3hHcRPd5Mn3yhCcFYZ1APOfdf3V8LW
-         Qb6Q==
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-326d67aacc4so45672041fa.3
+        for <linux-sunxi@lists.linux.dev>; Wed, 14 May 2025 07:15:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747228594; x=1747833394;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6Tc/4nqMXEbm8d6EyQQLonLFnqiRqlfA73rzExd6DXQ=;
-        b=MfJzzYMpfuESYeiL422+WNDUQYurdcENc2cZYY9fjaZIFvRBnx6Ye2xfYEfImDmLe3
-         opKDqmm5WgsinyFVbSIX1GTQ1JO2OqHrFc9G8O/thKPsIZndN7zb0WGvFNY2xS6myv/F
-         X1Amhlg06WqwmvqrccYF5l6yHa9JJlaSplqvtjM5zfUvXBL1UAOvwe4BsRkxFqZHuL7g
-         ATDWheX4IPpTo2rezLjXMYLiMYENG1TxatlmXSBFiXzgBOn4DV+i4icU4X+noftFzex3
-         VSd8ablmt3EIaZZoAhmVKslIjcibrb4mwK1MYYo9UJwJ4wAa17FbfMlsxRgdS40iApA5
-         HWLg==
-X-Forwarded-Encrypted: i=1; AJvYcCVA+Nx3jHoXfmq+04vo3h5u9mMKZ0Giw9fHC9TqUoKkJDTufubZ/x9hrTJYyxHvh5FkYRyD5Ds1f4rSQn3LLg==@lists.linux.dev, AJvYcCX6WdN4Puc4c+w005v++wCl/RXWJjKanSMg3JUZdgSGiAx9zuTFINgE6zmAqvBLrgyo6C5sIb7oFR39Ug==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyPksJyoX1lYz42ZvWKEUhp1cJm+ucGVdgkEyoItkHYCqQfQ1XQ
-	UFqvWem9S4wY5hIEpmw0aUFbDa2C1ndi7/MOozKfpGbWDwArYuvJ
-X-Gm-Gg: ASbGncvZg9hqk5H/v7+S3VghTgtdYyFJV2kebVEGL6iAwt4aUkDPq4wstjQFPs2YMrW
-	mdyNt4nxvZDSDgU0czz76qsSHCHkeGKjrD9zG9EjxQAOt1Gf0wNIt2qjSlhZDck56DkekHUN5oT
-	Gvuu3T1fzN43tRf+nqjLIh5+Mnh6I7VId0GfKHAX7Vy5xrcYfqpB+Wu5ZNf5ugvAM0S/RMloOke
-	WOzWQZ+bMN7ul2HRICDYN8pMruwvhS3SPvH+U81Qc5BnuQSHXf2S9TQNFnG2v0+gAaKZlM4NXlC
-	DDTDnUtChzEjFTKjaTk73R6b44EHPNfpnVI74Jp9MBHuUgNEpd0=
-X-Google-Smtp-Source: AGHT+IE8pnOYRJ/c4cfBs063yTkYwwC4PzsQ7cS9MN+l+gs9yIacFQxXiJfgdSPWX+aNftsTNP45Cw==
-X-Received: by 2002:a05:600c:524c:b0:442:e9eb:1b48 with SMTP id 5b1f17b1804b1-442f215f1cbmr26898775e9.24.1747228594244;
-        Wed, 14 May 2025 06:16:34 -0700 (PDT)
-Received: from Red ([2a01:cb1d:898:ab00:4a02:2aff:fe07:1efc])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-442f3979275sm30575305e9.34.2025.05.14.06.16.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 May 2025 06:16:33 -0700 (PDT)
-Date: Wed, 14 May 2025 15:16:31 +0200
-From: Corentin Labbe <clabbe.montjoie@gmail.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
-Cc: Chanwoo Choi <chanwoo@kernel.org>,
-	MyungJoo Ham <myungjoo.ham@samsung.com>,
-	Kyungmin Park <kyungmin.park@samsung.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, linux-pm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2] PM / devfreq: sun8i-a33-mbus: Simplify by using more
- devm functions
-Message-ID: <aCSXr-Hdisg-7jEd@Red>
-References: <20250513203908.205060-2-u.kleine-koenig@baylibre.com>
+        d=1e100.net; s=20230601; t=1747232099; x=1747836899;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MHI9+PzW39sul+i6E/EGeNmor59j/M/+OWEp6c+V/+U=;
+        b=VLME+Dr4G+YQhD1hRrbAmlu8ebBbWorrmHKI8h4QOp+9YIOTxuonAykpQAbmPAOLId
+         NOZOZcHZkAvCXAj5eVp5b8Lm3RmECi9uNvg5HT9pn1xHNryVPwL8ghrCYYB/HVVJb9J9
+         H936/U/JLeqG+n/54saz5xBrvj97dv2/iSAk4ilFDtPLQp3D5gR1ANhYVwB8ivH5FrFP
+         0XizQOZKiH2klz+wt55j5OYdUogAYbOkcqOCp345c/HO/h6tlE97pCwruDQyMiT8y4M0
+         GdTiFqlxIj3w5o733BFz93VAPdTTC7QV0eSh8PlKQxDedt0WOWTEHvtk0HIacJ39gGwM
+         c7wA==
+X-Forwarded-Encrypted: i=1; AJvYcCVkHy8+Xicu0K4stj7vC3xFIlrKwIoZ7IT4iX2HF0lufI3E6fla+tPm/U7TExTWzGXnpDxDj4k5EjiEaQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzS9UrM9nLiTjpOrjYxewDWpymVDDjYv5kXq9L2u0YnFCRd3VJH
+	SQoixKHLz5updWuhZyalpv2pZ3/6RFoSun35WzDbbTEBQSn3kAulQhvS3e9O
+X-Gm-Gg: ASbGnctZBQhuI0at/p8gX7bB+KZOy8StwxOr/Z9CLOQ3Fbfqz+OMoFyVcHzLMzKoEXo
+	6Z9a2bh1WAMRPJDPHtqCP6hR5pHstgna+aQtQe6prHS79gz99+NiAzNKFXMXoJ0ESPOS89o4H1/
+	9LA6g0ZkkrbRnXHblzts2cNaUu0OJbyD5INk3Z+Gx4pqjcVdizgq1amNSqSMFxBiBrFnbSFdVKj
+	U6Es69HbrOCTRgUR7OAHnVOTu5S/csWO3MCCenplo6ZJy8kncKsu5F5U3lT4wqWwSc/L2PAL6UZ
+	KeltnswUqWmzfDK2Imm1Oui66hhe9wxWQfZ1b2uJlW5n2z65wGt0TCIddQ7sLJf6BL8A1Nhlo4m
+	Z9y+T
+X-Google-Smtp-Source: AGHT+IEuXT+YMniG8sWJdwfxgdeP5880o+YDjF8CEyQW6iiXFfFBQbXAqA8YOW/BRHAaq3aq6aABzw==
+X-Received: by 2002:a2e:be89:0:b0:30b:ecfc:78bf with SMTP id 38308e7fff4ca-327ed09df01mr13419071fa.5.1747232098751;
+        Wed, 14 May 2025 07:14:58 -0700 (PDT)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com. [209.85.167.48])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-326c33c1256sm19898021fa.48.2025.05.14.07.14.57
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 May 2025 07:14:58 -0700 (PDT)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-54c0fa6d455so8295129e87.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 14 May 2025 07:14:57 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWWsSNGHesqGKVz1CnZV+63hHIfEl0NqBrOZh4glnC9ic//NPyx0Fg5U0soFa4vXNmrQOig0UBJQj9TyA==@lists.linux.dev
+X-Received: by 2002:a05:651c:144b:b0:326:db50:fa71 with SMTP id
+ 38308e7fff4ca-327ed11ecccmr16248041fa.23.1747232097790; Wed, 14 May 2025
+ 07:14:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250513203908.205060-2-u.kleine-koenig@baylibre.com>
+References: <20250505164729.18175-1-andre.przywara@arm.com> <20250505164729.18175-4-andre.przywara@arm.com>
+In-Reply-To: <20250505164729.18175-4-andre.przywara@arm.com>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Wed, 14 May 2025 22:14:42 +0800
+X-Gmail-Original-Message-ID: <CAGb2v67JGbTgsNcqn4TZ74s_U1+9xGj_a7kYkmfGVxeygQ_Ydw@mail.gmail.com>
+X-Gm-Features: AX0GCFuDYucYLLpLUlhwE2czLbkwqRJZoUBu4cwQtabqLqc0JUaJT_1nWb9P4eE
+Message-ID: <CAGb2v67JGbTgsNcqn4TZ74s_U1+9xGj_a7kYkmfGVxeygQ_Ydw@mail.gmail.com>
+Subject: Re: [PATCH 3/3] arm64: dts: allwinner: a100: add Liontron H-A133L
+ board support
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Cody Eksal <masterr3c0rd@epochal.quest>, 
+	Philippe Simons <simons.philippe@gmail.com>, devicetree@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Le Tue, May 13, 2025 at 10:39:02PM +0200, Uwe Kleine-König a écrit :
-> MIME-Version: 1.0
-> Content-Type: text/plain; charset=UTF-8
-> Content-Transfer-Encoding: 8bit
-> 
-> Use devm allocators for enabling the bus clock and
-> clk_rate_exclusive_get(). This simplifies error handling and the remove
-> callback.
-> 
-> Reviewed-by: Chen-Yu Tsai <wens@csie.org>
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+On Tue, May 6, 2025 at 12:48=E2=80=AFAM Andre Przywara <andre.przywara@arm.=
+com> wrote:
+>
+> The H-A133L board is an industrial development board made by Liontron.
+> It contains a number of dedicated JST connectors, to connect external
+> peripherals. It features:
+>
+> - Allwinner A133 SoC (4 * Arm Cortex-A53 cores at up to 1.6 GHz)
+> - 1 GiB, 2 GiB or 4 GiB of LPDDR4 DRAM
+> - between 16 and 128 GiB eMMC flash
+> - AXP707 PMIC (compatible to AXP803)
+> - 100 Mbit/s RJ45 Ethernet socket, using an JLSemi JL1101 PHY
+> - XR829 WIFI+Bluetooth chip
+> - 2 * USB 2.0 USB-A ports, plus three sets of USB pins on connectors
+>   (connected via a USB hub connected to USB1 on the SoC)
+> - microSD card slot
+> - 3.5mm A/V port
+> - 12V power supply
+> - connectors for an LVDS or MIPI-DSI panel
+>
+> Add the devicetree describing the board's peripherals and their
+> connections.
+>
+> Despite being a devboard, the manufacturer does not publish a schematic
+> (I asked), so the PMIC rail assignments were bases on BSP dumps,
+> educated guesses and some experimentation. Dropping the always-on
+> property from any of the rails carrying it will make the board hang as
+> soon as the kernel turns off unused regulators.
+>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 > ---
+>  arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+>  .../sun50i-a133-liontron-h-a133l.dts          | 214 ++++++++++++++++++
+>  2 files changed, 215 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-a133-liontron-h-=
+a133l.dts
+>
+> diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts=
+/allwinner/Makefile
+> index 790aad3a91e86..773cc02a13d04 100644
+> --- a/arch/arm64/boot/dts/allwinner/Makefile
+> +++ b/arch/arm64/boot/dts/allwinner/Makefile
+> @@ -18,6 +18,7 @@ dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-a64-sopine-baseboa=
+rd.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-a64-teres-i.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h64-remix-mini-pc.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-a100-allwinner-perf1.dtb
+> +dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-a133-liontron-h-a133l.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h5-bananapi-m2-plus.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h5-bananapi-m2-plus-v1.2.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h5-emlid-neutis-n5-devboard.dtb
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a133-liontron-h-a133l.d=
+ts b/arch/arm64/boot/dts/allwinner/sun50i-a133-liontron-h-a133l.dts
+> new file mode 100644
+> index 0000000000000..682ed15d84854
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a133-liontron-h-a133l.dts
+> @@ -0,0 +1,211 @@
+> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> +/*
+> + * Copyright (c) 2025 Arm Ltd.
+> + */
+> +
+> +/dts-v1/;
+> +
+> +#include "sun50i-a100.dtsi"
+> +#include "sun50i-a100-cpu-opp.dtsi"
+> +
+> +#include <dt-bindings/gpio/gpio.h>
+> +#include <dt-bindings/leds/common.h>
+> +
+> +/{
+> +       model =3D "Liontron H-A133L";
+> +       compatible =3D "liontron,h-a133l", "allwinner,sun50i-a100";
+> +
+> +       aliases {
+> +               serial0 =3D &uart0;
+> +       };
+> +
+> +       chosen {
+> +               stdout-path =3D "serial0:115200n8";
+> +       };
+> +
+> +       leds {
+> +               compatible =3D "gpio-leds";
+> +
+> +               led {
+> +                       function =3D LED_FUNCTION_POWER;
+> +                       color =3D <LED_COLOR_ID_BLUE>;
+> +                       gpios =3D <&pio 7 16 GPIO_ACTIVE_LOW>; /* PH16 */
+> +               };
+> +       };
+> +
+> +       reg_vcc5v: vcc5v {
+> +               /* board wide 5V supply from a 12V->5V regulator */
+> +               compatible =3D "regulator-fixed";
+> +               regulator-name =3D "vcc-5v";
+> +               regulator-min-microvolt =3D <5000000>;
+> +               regulator-max-microvolt =3D <5000000>;
+> +               regulator-always-on;
+> +       };
+> +
+> +       reg_usb1_vbus: regulator-usb1-vbus {
+> +               compatible =3D "regulator-fixed";
+> +               regulator-name =3D "usb1-vbus";
+> +               regulator-min-microvolt =3D <5000000>;
+> +               regulator-max-microvolt =3D <5000000>;
+> +               vin-supply =3D <&reg_vcc5v>;
+> +               enable-active-high;
+> +               gpio =3D <&r_pio 0 8 GPIO_ACTIVE_HIGH>; /* PL8 */
+> +       };
+> +};
+> +
+> +&cpu0 {
+> +       cpu-supply =3D <&reg_dcdc2>;
+> +};
+> +
+> +&ehci0 {
+> +       status =3D "okay";
+> +};
+> +
+> +&ehci1 {
+> +       status =3D "okay";
+> +};
+> +
+> +&mmc0 {
+> +       vmmc-supply =3D <&reg_dcdc1>;
+> +       cd-gpios =3D <&pio 5 6 GPIO_ACTIVE_LOW>; /* PF6 */
+> +       bus-width =3D <4>;
+> +       status =3D "okay";
+> +};
+> +
+> +&mmc2 {
+> +       vmmc-supply =3D <&reg_dcdc1>;
+> +       vqmmc-supply =3D <&reg_eldo1>;
+> +       cap-mmc-hw-reset;
+> +       non-removable;
+> +       bus-width =3D <8>;
+> +       mmc-ddr-1_8v;
+> +       mmc-hs200-1_8v;
+> +       status =3D "okay";
+> +};
+> +
+> +&ohci0 {
+> +       status =3D "okay";
+> +};
+> +
+> +&ohci1 {
+> +       status =3D "okay";
+> +};
+> +
+> +&pio {
+> +       vcc-pb-supply =3D <&reg_dcdc1>;
+> +       vcc-pc-supply =3D <&reg_eldo1>;
+> +       vcc-pf-supply =3D <&reg_dcdc1>;
+> +       vcc-ph-supply =3D <&reg_dcdc1>;
+> +};
+> +
+> +&r_i2c0 {
+> +       status =3D "okay";
+> +
+> +       axp803: pmic@34 {
+> +               compatible =3D "x-powers,axp803";
+> +               reg =3D <0x34>;
+> +               interrupt-parent =3D <&r_intc>;
+> +               interrupts =3D <0 IRQ_TYPE_LEVEL_LOW>;
+> +       };
+> +};
+> +
+> +#include "axp803.dtsi"
+> +
+> +&ac_power_supply {
+> +       status =3D "okay";
+> +};
+> +
+> +&reg_aldo1 {
+> +       regulator-always-on;
+> +       regulator-min-microvolt =3D <1800000>;
+> +       regulator-max-microvolt =3D <1800000>;
+> +       regulator-name =3D "vcc-codec-avcc";
+> +};
+> +
+> +&reg_aldo2 {
+> +       regulator-always-on;
+> +       regulator-min-microvolt =3D <1800000>;
+> +       regulator-max-microvolt =3D <1800000>;
+> +       regulator-name =3D "vcc-dram-1";
+> +};
+> +
+> +&reg_aldo3 {
+> +       regulator-always-on;
+> +       regulator-min-microvolt =3D <3300000>;
+> +       regulator-max-microvolt =3D <3300000>;
+> +       regulator-name =3D "vcc-usb-pl";
+> +};
+> +
+> +&reg_dcdc1 {
+> +       regulator-always-on;
+> +       regulator-min-microvolt =3D <3300000>;
+> +       regulator-max-microvolt =3D <3300000>;
+> +       regulator-name =3D "vcc-io-usb-pd-emmc";
+> +};
+> +
+> +&reg_dcdc2 {
+> +       regulator-always-on;
+> +       regulator-min-microvolt =3D <810000>;
+> +       regulator-max-microvolt =3D <1200000>;
+> +       regulator-name =3D "vdd-cpux";
+> +};
+> +
+> +&reg_dcdc3 {
+> +       regulator-always-on;
+> +       regulator-min-microvolt =3D <900000>;
+> +       regulator-max-microvolt =3D <900000>;
+> +       regulator-name =3D "vdd-usb-cpus";
+> +};
+> +
+> +&reg_dcdc4 {
+> +       regulator-always-on;
+> +       regulator-min-microvolt =3D <950000>;
+> +       regulator-max-microvolt =3D <950000>;
+> +       regulator-name =3D "vdd-sys";
+> +};
+> +
+> +&reg_dcdc5 {
+> +       regulator-always-on;
+> +       regulator-min-microvolt =3D <1100000>;
+> +       regulator-max-microvolt =3D <1100000>;
+> +       regulator-name =3D "vcc-dram";
+> +};
+> +
+> +/* DCDC6 unused */
+> +/* DLDO3 unused */
+> +/* DLDO4 unused */
+> +
+> +&reg_eldo1 {
+> +       regulator-min-microvolt =3D <1800000>;
+> +       regulator-max-microvolt =3D <1800000>;
+> +       regulator-name =3D "vcc-pc-emmc";
+> +};
+> +
+> +/* ELDO2 unused */
+> +/* ELDO3 unused */
+> +
+> +&reg_fldo1 {
+> +       regulator-always-on;
+> +       regulator-min-microvolt =3D <900000>;
+> +       regulator-max-microvolt =3D <900000>;
+> +       regulator-name =3D "vdd-cpus-usb";
+> +};
+> +
+> +/* reg_drivevbus unused */
+> +/* dc1sw unused */
+> +
+> +&uart0 {
+> +       pinctrl-names =3D "default";
+> +       pinctrl-0 =3D <&uart0_pb_pins>;
+> +       status =3D "okay";
+> +};
+> +
+> +&usb_otg {
+> +       dr_mode =3D "host";       /* USB A type receptacle, always powere=
+d */
 
-Tested-by: Corentin LABBE <clabbe.montjoie@gmail.com>
-Tested-on: sun8i-a33-olinuxino
+                                                noticed a typo here.
 
-Thanks
-Regards
+> +       status =3D "okay";
+> +};
+> +
+> +&usbphy {
+> +       status =3D "okay";
+> +       usb1_vbus-supply =3D <&reg_usb1_vbus>;
+
+Just noticed that these two were out of order, so I fixed both of
+them and re-pushed.
+
+ChenYu
+
+> +};
+> --
+> 2.46.3
+>
