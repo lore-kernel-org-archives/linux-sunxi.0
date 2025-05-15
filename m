@@ -1,92 +1,98 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A300E289E03
-	for <linux-sunxi@lists.linux.dev>; Thu, 15 May 2025 09:23:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8463C2253B2
+	for <linux-sunxi@lists.linux.dev>; Thu, 15 May 2025 12:59:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747301033; cv=none; b=kL7HCq56sn+tr+rTSuGpdQe5xncX1RoqV1mTJqCqzMoA0SYuxQGj+ff3MEIJGOc5aFmxFaxx4ibYKzk+C3XYCG9u6iEpPzLhNfCVPU1Llvt9QS/HJ/xZuRoAYL0rdIG/H7sK9JE7+MHMed9TKji5ZecI5rHlppzB9PILFO/n2FM=
+	t=1747313959; cv=none; b=fZFOiWLmsEKaUVrzeVLqJtPcztwhXpwhyCL5czhp38/qYIGekciMDm4Hb0cNUFuAVdHakIhnry7XaVgSlxy8Ns0PGdfTx8f36jMmBQdsGJiI6QEdqIlhx5usAV20ek75MY2AwL2qK/OA/tEVqgK1mv29NSBlR6dS/SqOsIEkB8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747301033; c=relaxed/simple;
-	bh=d6ylf5TABX4ADMorSqq9nRJZWTSWF5fEQuucEOnPCfY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=T5DpVMwGs7qX6dqktAQbsr7lQxDnXhZddtfOWBlJg18SDiA5B/hK5AGrJtkV3c0lrR9Hl3Pa4cTSTXt8X4gpb98bLBUxK+g1KgfsqhertYcyuFJ3HQytnLtEPbSH6HCx/AiOZyUT2HY4XxtgrNIY9DQOiynG8RahS0VJ+h5ccJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4574A22FA;
-	Thu, 15 May 2025 02:23:38 -0700 (PDT)
-Received: from [192.168.166.64] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1322D3F5A1;
-	Thu, 15 May 2025 02:23:48 -0700 (PDT)
-Message-ID: <c3e6a5cd-3985-4e71-b2a4-742303836660@arm.com>
-Date: Thu, 15 May 2025 10:23:34 +0100
+	s=arc-20240116; t=1747313959; c=relaxed/simple;
+	bh=OibAgO1lF+UrLS/2SrpwgUDc/nYn6zF9seSKQty2XPk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Dkkn6c6tDokplIx8VYSN7+QLa1QN7jmocSVFwBzTeK5YAseSBJmhhwXty+8eKM4/1xoc5P2APpCajzmsCXghjnVxiOkyIe6fIhHj65TIeXu+xuSLBxNtQ9M4xSnJs7dLW8wTo5uXPkhadV/ZfUvF9GWlOGC2JKiXhoOmT9x81IY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=SeCTuCMC; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="SeCTuCMC"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43cfba466b2so9925275e9.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 15 May 2025 05:59:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1747313954; x=1747918754; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8Qawhlvmv36yrM5PLXHrynEKEEyc5YE0PdfccMvrE2Y=;
+        b=SeCTuCMCLPDcWHiAgZLdQlMuWQVWZg7k8sI8h+e3AAspC+8fOdXG/xx5gAWqocvOMR
+         SOZR3Ecmfe1Djfvx/4nxYHa6Y2i1bKGqFRb3ydTavOk9Q+TP5+9LQBEB/Lb1VN6e/Ix5
+         hYJGPPBhV1JF7uZt2WDJV7KSfO2KLcErbaUSPE68NuxkrHYWF3KHbTWDglw4JeAFlMLC
+         tcEYyJXIgY07+TUWny8yZ3ld2xysdKiLQaGUJ2X8q5xooVTFAr94X2JNvBBxwrRs6pOh
+         KFzoXh0LfAA3qpSlp9QwsWvhKpeBz95ud4HTN5jCGp1yd3PHaKSSO/7ffqLcgmmT/1r2
+         EdCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747313954; x=1747918754;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8Qawhlvmv36yrM5PLXHrynEKEEyc5YE0PdfccMvrE2Y=;
+        b=b0HtUmFVLsG/N6sW4QxhvG3evsWQbcej9AVt4HSCLoz19aKu7WhiFZZijAQjEfYzKx
+         6pdxM9jOnjh8HDk0/FOJgcg3wvubCSZ/S15PWUfoosYKgvLC/T30Q28aWT+Zqm1ctBSy
+         K7LaOsQfeCi3+tDgHZheye//UhHehLu0FfPhIeOYxJxxL2x4tWJljrVIwO2EfYQ/8CYB
+         pHJvwUwH2OVP6upa7S8BJ6eAaWlxnoykhiXU+cIrdCdYKlWOvjfsIk+Z7vXB2qMaw+PS
+         nnXxBO1Dy9zrqX5Q/RQzS84sIH/UDCVEhJ/IAekuWoCGEhixprC0nxLRZCsACFGcW3nV
+         050A==
+X-Forwarded-Encrypted: i=1; AJvYcCXTp9cH3PYs45+w7+G8rXrxiEWK65ytZaMtsgqMbhMS6kiL4sjNtMGKK0mykyvXrnFvEp+U6IgRuOc5HQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx8jOthfRlNeCUBbbS0eeipdP7tcPURsxBQ762H25/fvEn+Byqo
+	uhHqxUTBaNZDqL9fj+KrJesUeTtgh59yCCm91m8k4UUD0Hq2J0lUfUQJUjuEATc=
+X-Gm-Gg: ASbGncs51ZcXb5lvCgnftiHWDrYlEn0iHHtdqK+Y9ONo0UY+LPLBC1BPmCY8bZ32FxM
+	onrF2oM0vbsoLFfp94+j8PuNOVDOBeCNysn+7OxM7/z2vy3e74nJB07t5zlimyhKXJ1BouZlMx7
+	zJbLoSjvbgvmdo8jE6+bsb0KE80iymM9jW0+MyL/aiQCCk7rmzSKnjNSJ8QcWk68nJ7G9A13P1k
+	AQBAXwJEg7ahJfpIUOVpK7wpJh7fTCQGB7/KYam+w8M+mgeduNXwxP7Ipyup1Td78nJJreVkzJ6
+	CA5BOSNyFvaEY1KQo+r2qTJhPQ2lOsomJLMvKv0vmzxCNQiakCZZkRZyx40HeeDdlg==
+X-Google-Smtp-Source: AGHT+IFyeqD0A0IScg3QZihC1XrEVTucJipRcuMxEvf1pQxV8DR8pNFyFAx+gn85sF514EVzZ/V3/Q==
+X-Received: by 2002:a05:600c:3554:b0:442:e109:3032 with SMTP id 5b1f17b1804b1-442f970a9bfmr25956895e9.24.1747313953125;
+        Thu, 15 May 2025 05:59:13 -0700 (PDT)
+Received: from toaster.baylibre.com ([2a01:e0a:3c5:5fb1:82b8:c32f:4d8c:199e])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-442f39e8578sm71180475e9.29.2025.05.15.05.59.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 May 2025 05:59:12 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Kevin Hilman <khilman@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ =?utf-8?q?Emilio_L=C3=B3pez?= <emilio@elopez.com.ar>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev
+In-Reply-To: <20250404-kconfig-defaults-clk-v1-0-4d2df5603332@linaro.org>
+References: <20250404-kconfig-defaults-clk-v1-0-4d2df5603332@linaro.org>
+Subject: Re: (subset) [PATCH 0/5] clk: Do not enable by default during
+ compile testing
+Message-Id: <174731395227.3761659.8617180462546520115.b4-ty@baylibre.com>
+Date: Thu, 15 May 2025 14:59:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] add Eachlink H6 Mini
-To: Shivam Gupta <gupta.shivam1996@gmail.com>
-Cc: "linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>
-References: <20250508143411.4534-1-gupta.shivam1996@gmail.com>
- <20250508162526.720c3649@donnerap.manchester.arm.com>
- <SJ1PR12MB6313678B38CB96D3C24FECE5A08BA@SJ1PR12MB6313.namprd12.prod.outlook.com>
- <20250508170507.3d426494@donnerap.manchester.arm.com>
- <SJ1PR12MB6313123CC3D9C79C9E51BF93A090A@SJ1PR12MB6313.namprd12.prod.outlook.com>
-Content-Language: en-US
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <SJ1PR12MB6313123CC3D9C79C9E51BF93A090A@SJ1PR12MB6313.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-Hi Shivam,
+Applied to clk-meson (clk-meson-next), thanks!
 
-On 15/05/2025 07:44, Shivam Gupta wrote:
-> Hi,
-> After I extracted the fex file, kernel modules and DRAM details for an 
-> old (previously undocumented) A10 tablet (https://linux-sunxi.org/ 
-> Softwinners_crane), I am unable to proceed further with u-boot or kernel 
-> compilation as it seems to need a dts. Can someone help me with this? I 
-> spent many days trying to write a dts based on similar devices, but I 
-> don’t have enough understanding of this.
+[1/5] clk: meson: Do not enable by default during compile testing
+      https://github.com/BayLibre/clk-meson/commit/0afce85ed26c
 
-So what did you try yet? I think the most complete A10 tablet in 
-mainline is probably sun4i-a10-topwise-a721.dts, as this describes both 
-the panel and touch.
-You should copy that file, then go through it and check if you can find 
-the respective settings in the FEX file.
-For instance it looks like the touchscreen is the same, also using the 
-same parameters like I2C address and interrupt, so you can keep that. SD 
-card (MMC0) and UART0 also looks the same.
-If in doubt comment or remove other nodes in the DT, then give it a try, 
-to see how far you come. I'd recommend using serial, as this has a much 
-higher chance of success or at least some output.
-
-> The fex file can be found here:
-> https://github.com/linux-sunxi/sunxi-boards/pull/72/files
-> 
-> Another problem I am facing is that the device boots from NAND by 
-> default so it does not boot from my SD card. How do I get around that?
-
-Are you sure? I think most devices boot from SD card if they find the 
-right magic sector on it, bypassing internal boot media like NAND or 
-eMMC. So what have you tried, exactly? You would need to build a U-Boot 
-image, then "dd" that to sector 16 of an SD card. If you have serial 
-connected, that should already give you some output, even without the DT 
-being fully correct.
-
-Please provide more details like the .dts that you created so far if you 
-need more help.
-
-Cheers,
-Andre
-
-> Please help with this so I can get something up and running.
-> 
-> Thanks,
-> 
-> Shivam
-> 
+Best regards,
+--
+Jerome
 
