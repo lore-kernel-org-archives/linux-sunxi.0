@@ -1,75 +1,41 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03C3E1EB5C3
-	for <linux-sunxi@lists.linux.dev>; Thu, 15 May 2025 20:00:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF1A323AD
+	for <linux-sunxi@lists.linux.dev>; Fri, 16 May 2025 02:08:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747339233; cv=none; b=T03Q22XeAdsld+KAlRWA8SSOAlmladr2EP2YeA78D2sRur0xjnnZPFCy9O6Nc5ZsqwaZ3lNiM6OSHzUZyz1bjCpqQtkHzyVcX2cEc2fDUV71URFfrdCIFYyOE5R+kha7qBIRVUxw8EulIdvntvaaLdEY/IlMF2XKGUyvnwFSPhc=
+	t=1747361328; cv=none; b=iCE4+4Wua7PJRUWIHOozCr3WRERpeAAN1nCJLRgY5GctK+sQLF/uE4VYTH0m6BreZgun3ro/1TBSjs7LCIUpCunUPH+0wVvuD1jXsLUSPgY0yyhcga/Z7REnl/Q/8TfSkHqfeVgx1j0g+lu8hjhiM6Db9NGl4HlHyUnhvlMTAHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747339233; c=relaxed/simple;
-	bh=h1sXw35rTSS7pTuDFEY54HVj+OPPf2cg7Q7+jHB1Tok=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KZNXcIsmchgbxoPJylAoUO4l+O5skFSUjl1YWdFUcr+M+wzR+oERj4I3wcxVyTHYOSVb+4FTFDHF6fEkeCMfc26h/9r3DZsRhzDq3Q0UGKWm2JrZTO6yLgLtjmy3EfLvRAeVJjalDp4JWOo4A2Lm+4coV/7lnebBDYssKZOhCjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=ZpsbVuO1; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1747361328; c=relaxed/simple;
+	bh=X7Y2TUm5WKa8IQzCF3jrHIgaYTlWsW3VGzqSmV/UGCA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=pYWrqtOnOJn2bWsrEbhNiHrMfGktjtziRhjeNYstgmlpjCuY1fa+PAIRM3biIf5VmPX3Dx5CUAFPFaK6UIirzHkhU7BX9+464rWfkTzEfFR/91cC/hfRbJS4IX/AekkkTixGPTl8IP35Nmav9G0W/eFhZTSML3wJpTIc0U/trsc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DkM8a4n2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="ZpsbVuO1"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-ad1a87d93f7so224145566b.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 15 May 2025 13:00:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1747339229; x=1747944029; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=h1sXw35rTSS7pTuDFEY54HVj+OPPf2cg7Q7+jHB1Tok=;
-        b=ZpsbVuO1jWDogt36Oou2aH4F9pEXVl7LsuDbYsZRthLhyS3nNQ+0YxkBNAy/ivzbLz
-         Jh79iQ7qLlhK9hcoa8relZ4JJ0+Zk4wwqHRhQe9618Y6IAo1kl7ZHSG7+oYl/SaOXE2H
-         xrGoP4ZN0ApFwRFewF2zQ1/t+K7gbd1OINgAc1t9a8U6k4THkLfHTw6fzqvieGeYUOWI
-         ig9hp1xE1SjvkB9xwV4C1WdQSJNkR3kPcOEug0AQ91mFqqJZcCsxSjouS2RamG6HXvqW
-         PRyrnSYdEsdVKFsqsLI5q1BY0X7KFjfpGd8yecVfO9shRfFZbIsJa5f8971hmyYOadTN
-         ia3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747339229; x=1747944029;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h1sXw35rTSS7pTuDFEY54HVj+OPPf2cg7Q7+jHB1Tok=;
-        b=FMnJq23XmqiaNA7gLVj20DfpRQg7w+/QZvSVtr+S1wT3LLRQu6kw5yMnFk9PkkK7Tg
-         iAGLjE53+ojCl4zBevLYR3BNemHlRafePTRYsc5/Y6jESAppYD9iB3154q6GKrZPIdJb
-         FVXInVBDjI6a67tI00fWw+uIwe4yu+QetpWHJJppQ1qIQMqGPOumURtMGvOFHh3ZNeRo
-         mqT0EnoMTBkRKTaOdHjqZtFGwT5VdjPQkDSosyK8WkCR/YKPU9cl7eu+hLHSkm2dRV57
-         cvQCDMvtYof1qs/uCFwFsylEUBaViWz7u0z65erbQ9mpR6fc32d2olGCz7S9ElnQxSHk
-         7kgg==
-X-Forwarded-Encrypted: i=1; AJvYcCV2FyFbE8C7MHLVpQh+ua0PGBIUEyk4ezBTk/TT3Zs3xCQW2xk0oDD0Vi0nOwA8asnk8hBCLYO2Q9alQQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwlYPQaUnGfTI9CMOmgD2YlBseb4LZ4mkLRR+qqkXtMx9CzTMEe
-	DGr3MJgmDr6nLvNN2j+2EP1zBl0YiD9lEmw+OGVWtnLpj9/G6CstRcBvJWT1Cdi3jXj4ZImuzUo
-	gKynC
-X-Gm-Gg: ASbGncvWDOo5sYUAROdVesc0wlgSOZM+VTTIVkB9DVQrUZ+iWMo9q+i+q3hHM7qzbug
-	4AcL0fbLaH8dBHdpRmIpueiNKZMb5bljsSEKyRuDwVYwe1k6AiHMvFX+6mj97EZT0Lm8/fo33bu
-	D579whBOa2QRv4PxrnF/+1IQ/nU+Nnxt1x6KCiOr1hza1x9mx2HGIw96MiieQAZIpthaKdROMUy
-	qocUdqQGzxeNAIVAf5yrdoFRjqm3P1qmlDfpUfEpZeFrc4mfjuVmmriKcL+l4h1loF1zDa6XjhL
-	hAkdf0HQ7pcWA7eLLz5w9vmCmY2NYVLK+Wk/GuFshhAdv7lzIb27KXVj
-X-Google-Smtp-Source: AGHT+IGPOFtpI/vK8bB6QX01z/3mHJSuoT96bx2VZRxF7C4JeqX1CuZQvwl02jljZ2PZvA1htePF9A==
-X-Received: by 2002:a17:907:1c0f:b0:ad2:2ef3:d487 with SMTP id a640c23a62f3a-ad52d5ff0f5mr99764766b.58.1747339229197;
-        Thu, 15 May 2025 13:00:29 -0700 (PDT)
-Received: from localhost ([2a02:8071:b783:6940:36f3:9aff:fec2:7e46])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-ad52d06df95sm34035166b.56.2025.05.15.13.00.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 May 2025 13:00:28 -0700 (PDT)
-Date: Thu, 15 May 2025 22:00:26 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Chanwoo Choi <chanwoo@kernel.org>
-Cc: MyungJoo Ham <myungjoo.ham@samsung.com>, 
-	Kyungmin Park <kyungmin.park@samsung.com>, Chanwoo Choi <cw00.choi@samsung.com>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, oe-kbuild-all@lists.linux.dev, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2] PM / devfreq: sun8i-a33-mbus: Simplify by using more
- devm functions
-Message-ID: <tdqcadvrr4lfn2ipkbcu2n7zgv3e57q25tirvuo5ooh5zzf6my@u27v7wxswber>
-References: <20250513203908.205060-2-u.kleine-koenig@baylibre.com>
- <CAGTfZH2jVrD_Bfu3NZJ+vNdQCjdxo4vygxWob+h0VasyxUa4gA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DkM8a4n2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22D43C4CEE7;
+	Fri, 16 May 2025 02:08:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747361328;
+	bh=X7Y2TUm5WKa8IQzCF3jrHIgaYTlWsW3VGzqSmV/UGCA=;
+	h=Date:From:To:Cc:Subject:From;
+	b=DkM8a4n2bIGr9l3gEO/gp1anlCqJgF5ipiLdRHQ2X9owzQBkT8g4iYuYRP114qaKB
+	 40T9tyMr25gcSfk85u8Or70jh1uBsvoxHJ7lHJzkaVJjYOtyhnSaDJSfVbs+WCPVRF
+	 6Qnaqxav9zBf/qyy1FfGdiNGfFm78ZtHrHSHq1u20jCFVUg1fj9+Iul3e6Hj+BjFx9
+	 w1i/WsiUsHMMV4XPIjbwyZuhmHx3s3A0oLJXMOCvW7CvGRuvSBaMRFRsKP3Go30X2a
+	 RcxBNd3NIXegsAbM57tFE+8KOWw2l/zt3sZdxouTaN6HTny+doNHaWFbD2qgFhhwOO
+	 3Re5MDhmhByGA==
+Received: by wens.tw (Postfix, from userid 1000)
+	id 0FEFC5F74F; Fri, 16 May 2025 10:08:46 +0800 (CST)
+Date: Fri, 16 May 2025 10:08:46 +0800
+From: Chen-Yu Tsai <wens@kernel.org>
+To: soc@kernel.org
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej@kernel.org>,
+	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [GIT PULL] Allwinner fixes for 6.15
+Message-ID: <aCaeLgjZllV7bauX@wens.tw>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -77,49 +43,62 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="h3k2tl2vtfjhrlpb"
+	protocol="application/pgp-signature"; boundary="OtkIcRTRYefZpLF2"
 Content-Disposition: inline
-In-Reply-To: <CAGTfZH2jVrD_Bfu3NZJ+vNdQCjdxo4vygxWob+h0VasyxUa4gA@mail.gmail.com>
 
 
---h3k2tl2vtfjhrlpb
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
+--OtkIcRTRYefZpLF2
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2] PM / devfreq: sun8i-a33-mbus: Simplify by using more
- devm functions
-MIME-Version: 1.0
 
-Hello,
+The following changes since commit 0af2f6be1b4281385b618cb86ad946eded089ac8:
 
-On Thu, May 15, 2025 at 11:38:11PM +0900, Chanwoo Choi wrote:
-> On Wed, May 14, 2025 at 5:39=E2=80=AFAM Uwe Kleine-K=C3=B6nig
-> <u.kleine-koenig@baylibre.com> wrote:
-> >
-> > MIME-Version: 1.0
-> > Content-Type: text/plain; charset=3DUTF-8
-> > Content-Transfer-Encoding: 8bit
->=20
-> Applied it after removing the above unneeded information.
+  Linux 6.15-rc1 (2025-04-06 13:11:33 -0700)
 
-Oh indeed. That happend because I added a newline in the header part of
-the patch mail. Thanks for fixing.
+are available in the Git repository at:
 
-Uwe
+  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-fixes-for-6.15
 
---h3k2tl2vtfjhrlpb
+for you to fetch changes up to 573f99c7585f597630f14596550c79e73ffaeef4:
+
+  Revert "arm64: dts: allwinner: h6: Use RSB for AXP805 PMIC connection" (2025-04-27 13:38:14 +0800)
+
+----------------------------------------------------------------
+Allwinner fixes for 6.15
+
+Only one fix:
+
+Switch back to I2C for PMICs on Allwinner H6 devices. Apparently using
+Allwinner's proprietary bus ended up causing issues when the PMIC was
+sharing the bus with other devices.
+
+----------------------------------------------------------------
+Jernej Skrabec (1):
+      Revert "arm64: dts: allwinner: h6: Use RSB for AXP805 PMIC connection"
+
+ .../boot/dts/allwinner/sun50i-h6-beelink-gs1.dts   | 38 +++++++++++-----------
+ .../boot/dts/allwinner/sun50i-h6-orangepi-3.dts    | 14 ++++----
+ .../boot/dts/allwinner/sun50i-h6-orangepi.dtsi     | 22 ++++++-------
+ 3 files changed, 37 insertions(+), 37 deletions(-)
+
+--OtkIcRTRYefZpLF2
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmgmR9cACgkQj4D7WH0S
-/k7qZgf/W9wz4qM8Tz2N3KVv0s0oVU6w1DHns83H0SunE+jquxj7/y0evxnc1Ilq
-V7aafapnyBgz/U74H9Utvd9gMBwKk0+lnAQXnOnGeySRsr05q1toZq1bVilPn44z
-c3HCsfln9Kb7m4ysM5O6U8p92h9Rg7uP0epQ02JXxknaQDHiY0Ac+EzsZZw1uRbe
-mvlrfet/eYHmpaMPxlRM6ksBrxJQpSIKuJpIIf1VlkWNniiXY93fl4yor/7JCj0L
-v/fgrnnDu+6Gk6c7cj1fvpL3Twh3AlRwx5lmMkJ7HoSvxhNcrIc2m7U4o9/pCEh6
-jTzhBsJxpV9AAfOGA02x5qQdG3x9wg==
-=60Q6
+iQIzBAABCgAdFiEE2nN1m/hhnkhOWjtHOJpUIZwPJDAFAmgmni0ACgkQOJpUIZwP
+JDBP6w//dfQ8y3BaDDpECuxk4MTFho8BrEKAUOVNTStsS9UgkdAk+Z2IGRJFSEfY
+vh0Dbr7/MB5Zna60cDgmlF2bIjeE09yDRU+l1MUSMVemKwZBV3TIQriuPNO1susH
+0vfAo/MbvHaC6bta39VCg7dwCMFYKiBHjr83CJnPkUjCMJtUaZeeJOv0kMv5w3cw
+TEdBx0sPp0DXAwnWD1f5Jn65KBR8SJKYIW4zMIGxmHyYKkoKLTgQ5OGyhHb2QfLG
+rZjR3nvB4V67tLlse89BPi42hxeZLNTJ1X8ryt3HHH0mDZZfA70h2vpcQSco1gF+
+78L7TWzR7KdspPj62XcD8WQjYTcmOZRZ7Q1+IDrfgS3VUuqpnpW21d42qTmScvqz
+GJmA9YEQ4NdUtSiDC4mzjKrMzLrTj5T7eL5HgHiyJw1PehZNoJYdJGqDGcHVXsu2
+yllTynJLJxB5XYRYf1sOJwBTAxl33m2n08BFO0zDL6HSZYkxw3yoCQ+OmHPNFDBq
+B+Rdscpnv6s7Tl8P69wq2HNYXCK+W/4S5+T/3IiDktVMwdfJEXCM7Ivid+R+fQ0U
+ceKYO9La8wiKwPGkgJoZML79RnDQ9AcIav8DwQWZAicVnROCIXRz4XpBjfqP++GE
+tOSFoq5oRYi5ytmiTbKK35Yy8heERk6osS2UvNc16eVjRLhNSpc=
+=7c46
 -----END PGP SIGNATURE-----
 
---h3k2tl2vtfjhrlpb--
+--OtkIcRTRYefZpLF2--
