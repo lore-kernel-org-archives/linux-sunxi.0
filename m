@@ -1,110 +1,77 @@
-Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20AA62356D0
-	for <linux-sunxi@lists.linux.dev>; Fri, 16 May 2025 10:52:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B800239E83
+	for <linux-sunxi@lists.linux.dev>; Fri, 16 May 2025 12:08:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747392764; cv=none; b=TkbcbdfiZGjjIKDRdD9WkgoHIDdpDCgoRzG8bVy+iH058E56yQatFajfiD7VcpT4x4EwVPDYdt19spdWWAxVgXjVe1dd2c7+DV0jK4q5wnyE63LGoO7Y93/B+vTVuEHXwnaI/uOfxsMiJ5X5XJPmEAy04MuPXCCCTYnco/8wwo4=
+	t=1747397308; cv=none; b=GaskkrpSqmnhEvZ4VVOK08bMP9Tc56bAbYmDFxGa4Pt0FJRpQjS9PNOFny5hRa0F15MK8sKmU5qlAdAjypy+elUNbUAw7Qtsd8ato7GdG8yadHLtkLG0NlQ4da9hDClej4KMtmRf44KJjgiOyMAq7xmvQ1+CZ4nsuAjseW6CHeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747392764; c=relaxed/simple;
-	bh=XHtoSZNO4OHqLoyTnSPOxT1scq2W0Zbg7ZyFA+t4Z1k=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lraJMRl8uwmkhijpdaT3glEFqyz1/Y0aExWYXSUM8Qdk0zkHzwMDaAoqkN/s5Ni5bcfpHdTU2mLSVb8cjy69sOn+4tqo71FYQK2IfVFs/LAhKIX9/6mL59Ojf/xkuWp/tJrQ6LqoB6smI+hyGpfLrfaD4J/ratZrxPqspOnguIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=V8cO4/4j; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=NYjJvXj7; arc=none smtp.client-ip=202.12.124.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
+	s=arc-20240116; t=1747397308; c=relaxed/simple;
+	bh=LLFTaXnhleq34jL/n5gBjVlQjNQtKROkYDnqUvpqa5U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FPtK4UGFLx06E2jj8iJ8lgKMgBiPAInYPBvUC/Ex73QbD+gnYhNt8bJHPI/VXE6a6S++LXzUygugZzamXRWZ+9VhZbZ8lLJxdmOEouiAUuNSIvEDCl6J46n00pex3DwPeA1aok+25sT7jyh+/NkG08dpsavQaPi3lJccuqVMao4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OnAmWdoK; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="V8cO4/4j";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="NYjJvXj7"
-Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id E0110254009B;
-	Fri, 16 May 2025 06:52:41 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Fri, 16 May 2025 06:52:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
-	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
-	:from:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm3; t=1747392761; x=
-	1747479161; bh=SPH/wuuGSMdDk2e/1NsetZyGIDEN5dTgWZ7weWTf6ag=; b=V
-	8cO4/4jd1Oo2Gyyy4YdH3j4kYVAXb5UvJKM6HcuI8GXNgiyTrUSn+c2xvvFHm4UE
-	pEClPzdI8o9T6Bk46WMb3XljNsYRmEXRVJwX5nuTA3yfCKTLx1jAsMsOTOxPSxCD
-	HLD7A028rx/q0p3yzQYGrOB6dZHhqErUbTZ95/cUyUMYh4gTKBRQNdyBtd7LMNG3
-	cbUC9aoGW1D6NgBVGN9aui+EGUTu2Rfc2EzDIpmyEvC2PcB9fRcIw/vb1g2IDg2W
-	1imbUbyFmkLgMHDq2jH4fguTbM+COMuu06yHQdw0RWlhDXZEB5D9FHEkm4WDs1YC
-	lysUraTdFALc1vMyVi1rQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm3; t=1747392761; x=1747479161; bh=S
-	PH/wuuGSMdDk2e/1NsetZyGIDEN5dTgWZ7weWTf6ag=; b=NYjJvXj7K1BE/DYBb
-	u6BLWi/bE64JsV6kiHSMX56MACqtZG04d4YXfb3GCgsPngMBHoGoCyI+bsxNu5L3
-	kARfCDrgq6/hcAZEGOpX20tPKcSVioQmcVFMuux2oagpE24WHJI0BeJpgUpOiDCk
-	qG+tNz6i+fjc5sTXJizQheZlykBSH/Q1typXKzI6Z1vTBurm8zB7iw5SkMV7DWqw
-	G49qWaHkiAKTLNgCsU6ZlypRlfDPqyALE9Qw2OhGxOBndAvCHCwPza6k5FFiZ+i/
-	/5rX8A4IWnfgoXlFun8wm1vBGGl6LPBf7aXpAN9Jtyv5S2yvNuzVJp3IwQ4DUMeO
-	wzG5Q==
-X-ME-Sender: <xms:-RgnaHz_HMZZYk6M6myIyrPfgni-vaSMk4R1ZjpXDkpWBI3IDf4Hyw>
-    <xme:-RgnaPRLKL5qcgsM2RTrxp9F94ufCAgzLAr9fqB13Zmoo9MsIvNPsg7USx3vR_XkG
-    RtE-qFR_GIzwpFl4A>
-X-ME-Received: <xmr:-RgnaBXntb_rnGp0IU4zTXor5pk9OU7AOGdS7ZvMrtWlCOX1RXLUBpeyef0kEU60NVsHq80rE6IaEONn7QW4S4UtYMACn2lIMoHjrGy78D9a>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefuddvheehucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgjfhgggfestdekredtredt
-    tdenucfhrhhomheptfihrghnucghrghlkhhlihhnuceorhihrghnsehtvghsthhtohgrsh
-    htrdgtohhmqeenucggtffrrghtthgvrhhnpeffheeiffegtdfgffejteevgeefkeelieel
-    keevueetffetteduffevgeeiieehteenucevlhhushhtvghrufhiiigvpedunecurfgrrh
-    grmhepmhgrihhlfhhrohhmpehrhigrnhesthgvshhtthhorghsthdrtghomhdpnhgspghr
-    tghpthhtohepvdegpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehmrhhiphgrrh
-    gusehkvghrnhgvlhdrohhrghdprhgtphhtthhopeifvghnshestghsihgvrdhorhhgpdhr
-    tghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlh
-    drtghomhdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghp
-    thhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopegurghnihgvlh
-    esfhhffihllhdrtghhpdhrtghpthhtohepjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgr
-    ihhlrdgtohhmpdhrtghpthhtohepshgrmhhuvghlsehshhholhhlrghnugdrohhrghdprh
-    gtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:-RgnaBiuT5D7c82SZbe9Hv1PVZ_ub9B3K4UbC2n5Ga-eIprm41RjVg>
-    <xmx:-RgnaJB0upJvoVTtfHZFgU_muHgb8llwE8QvOGha_bYMnrKffH1rZA>
-    <xmx:-RgnaKKdw9OzykW46A2UIAES9fUP1N69mafKzHAL8O7a2chNeASk2w>
-    <xmx:-RgnaIA73yl5Ih0axGp3IsaV6tN1PEIttC_7le2z5rH0ChslkCmi5Q>
-    <xmx:-RgnaGqs6-aWhtdXRoxRf59iPMtTSnJRKPIaX-Rkr8viAnS_2rVyDjd_>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 16 May 2025 06:52:35 -0400 (EDT)
-From: Ryan Walklin <ryan@testtoast.com>
-To: Maxime Ripard <mripard@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>
-Cc: Andre Przywara <andre.przywara@arm.com>,
-	Chris Morgan <macroalpha82@gmail.com>,
-	Hironori KIKUCHI <kikuchan98@gmail.com>,
-	Philippe Simons <simons.philippe@gmail.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	dri-devel@lists.freedesktop.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OnAmWdoK"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-442f4a3a4d6so13017445e9.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 16 May 2025 05:08:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747397305; x=1748002105; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=l7S/vG1lp5geqRglunYVLNLd5lLTAffxPlQ/qp918/4=;
+        b=OnAmWdoKpykj4KJx4YSmAG7k68A4FuA+L6zZpEbfNMlot9hzj+2CyzDjYYTtNudoHn
+         NbBle1CkucOqz554M+KRgB3yWo8sGgNKDuPxKiSRmXd9CrKYJv/btFKrvz1NW6U9h0YE
+         I0rxHA0W2JjUKaomaTey8mkD/im2B6sYZoSzB2q/Aa/z4YS9u8N+Aful1ZAzQ6NRT+NA
+         AN2+OkCnC2wPqT8acLZyB/UvxFbN8zhKbNMdF9yotMTM5B1N8GdL4YnuQsCmvj/GaT+n
+         iH4nobkkFffvl+I9ht1IkLBfwVQgm2q98V4cciHVElj2znhpFrzw90pzj02G7yK8Nu2u
+         bCqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747397305; x=1748002105;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=l7S/vG1lp5geqRglunYVLNLd5lLTAffxPlQ/qp918/4=;
+        b=jf5KrQKy1qNVYRJ1YrVP9Jgx8eLYquip7hsuK7KSLHx+QtYj7HbHBNEGN5hqeGYLk9
+         Zk5/QJe0r9DSVXKjcepB1YAQhsXoAlk0qOVrpAF+5m5qYt8GP2n9O+eD4NLVzvIH/ozE
+         KCw7leZ+3kfBtQoYK1tZvIOU7moJRYqmqDM39V/6gP++9fHtXPQZxTmJU0l3UuWNkzH1
+         vAQFKZjWQSYwSQGt7KhEdFKu847/rnDBh1JhBCf1PtgAHdjaAxnQMfBU0YVrVoLj7k7e
+         0B2IoaQ9VnQmVtnJjZayNzGStBchtkova6njCW2Ekmk2mZZXx3LEdjHvvIxYv2w/kXuM
+         /tIg==
+X-Forwarded-Encrypted: i=1; AJvYcCUEqOgmHkMYmwi51C20LTPOtEWY7sXqfiGcODlNuD6OALr14mrg8gtJ6fWXh/yJEhMJ7QQgeJVhCBt7Kw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxLoaGQSg8M+RXvyA0i8YChHrLO+hQg42DQs3bPJVz1UN7WR1ze
+	rw8ORyNaOOcHcOCtx1vIZueF2h68RrvWip4siaxaMSmOehrNxOfE4SsZyUtz2A==
+X-Gm-Gg: ASbGncuy6Fkmel85OK+URg5eO33C6fFpcEdJvBtcdhLSyC3fqpniyN6w6NAP6RjewCh
+	gBJgLBAmo9iz0LMsj67PJQ1J4YrnhVOhK9CUPXGCj+u1x0a6qFhGWfo7L/yowMb6hV331yYMWFJ
+	BpzIpvbEB8BVbO77tFtclIrxvqoX/kaEKmnFVltAozJnYbV1m1MlOETaI4Dc87gsTEd1GGgUX2n
+	0+bd0p4yD/VqPCgpT30iWitWh2w4dUQR9bzf1LVUWBTkRHF2Z55bM3lCeTmwqbsX8RqeJSfUVEl
+	XGNykah62Kb6T7LewJMxJ0T1hDkp9PA4OAeGPtwlYibZELKlNYGbDktdG6Gz+IcerDY5IxpJ2HL
+	7sQY=
+X-Google-Smtp-Source: AGHT+IETHNO4PZaxAV5fQzFYG7nB1lHUisZaUbqvlKR7l0R0thhXbB9LDnls9f0950ZGMS0nNFwq9w==
+X-Received: by 2002:a05:600c:821b:b0:43b:bfa7:c7d with SMTP id 5b1f17b1804b1-442f84c2008mr72290655e9.2.1747397304833;
+        Fri, 16 May 2025 05:08:24 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:2f07:610b:a400:6472:d2f9:d536:4c30])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442f338050csm102275725e9.10.2025.05.16.05.08.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 May 2025 05:08:24 -0700 (PDT)
+From: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
+To: clabbe.montjoie@gmail.com,
+	herbert@gondor.apana.org.au,
+	davem@davemloft.net,
+	linux-crypto@vger.kernel.org
+Cc: wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
-	devicetree@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	Ryan Walklin <ryan@testtoast.com>
-Subject: [PATCH v11 8/8] drm: sun4i: de33: mixer: add mixer configuration for the H616
-Date: Fri, 16 May 2025 22:44:25 +1200
-Message-ID: <20250516105101.11650-9-ryan@testtoast.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250516105101.11650-1-ryan@testtoast.com>
-References: <20250516105101.11650-1-ryan@testtoast.com>
+	linux-kernel@vger.kernel.org,
+	Ovidiu Panait <ovidiu.panait.oss@gmail.com>
+Subject: [PATCH] crypto: sun8i-ce - move fallback ahash_request to the end of the struct
+Date: Fri, 16 May 2025 15:06:56 +0300
+Message-ID: <20250516120656.3610623-1-ovidiu.panait.oss@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -113,61 +80,32 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
+'struct ahash_request' has a flexible array at the end, so it must be the
+last member in a struct, to avoid overwriting other struct members.
 
-The H616 (and related SoC packages sharing the same die) carry the new
-DE33 display engine.
+Therefore, move 'fallback_req' to the end of the 'sun8i_ce_hash_reqctx'
+struct.
 
-Add the mixer configuration and a compatible string for the H616 to the
-mixer.
-
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Signed-off-by: Ryan Walklin <ryan@testtoast.com>
-Acked-by: Maxime Ripard <mripard@kernel.org>
-
---
-Changelog v7..v8:
-- Separate DE33 support and H616 enablement in the mixer.
-
-Changelog v10..v11:
-- Convert de_type enum to uppercase
+Fixes: 56f6d5aee88d ("crypto: sun8i-ce - support hash algorithms")
+Signed-off-by: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
 ---
- drivers/gpu/drm/sun4i/sun8i_mixer.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-index 13e712382010..31a8409b98f4 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-@@ -799,6 +799,17 @@ static const struct sun8i_mixer_cfg sun50i_h6_mixer0_cfg = {
- 	.vi_num		= 1,
+diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h
+index 3b5c2af013d0..83df4d719053 100644
+--- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h
++++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h
+@@ -308,8 +308,8 @@ struct sun8i_ce_hash_tfm_ctx {
+  * @flow:	the flow to use for this request
+  */
+ struct sun8i_ce_hash_reqctx {
+-	struct ahash_request fallback_req;
+ 	int flow;
++	struct ahash_request fallback_req; // keep at the end
  };
  
-+static const struct sun8i_mixer_cfg sun50i_h616_mixer0_cfg = {
-+	.ccsc		= CCSC_MIXER0_LAYOUT,
-+	.de_type	= SUN8I_MIXER_DE33,
-+	.mod_rate	= 600000000,
-+	.scaler_mask	= 0xf,
-+	.scanline_yuv	= 4096,
-+	.ui_num		= 3,
-+	.vi_num		= 1,
-+	.map		= {0, 6, 7, 8},
-+};
-+
- static const struct of_device_id sun8i_mixer_of_table[] = {
- 	{
- 		.compatible = "allwinner,sun8i-a83t-de2-mixer-0",
-@@ -844,6 +855,10 @@ static const struct of_device_id sun8i_mixer_of_table[] = {
- 		.compatible = "allwinner,sun50i-h6-de3-mixer-0",
- 		.data = &sun50i_h6_mixer0_cfg,
- 	},
-+	{
-+		.compatible = "allwinner,sun50i-h616-de33-mixer-0",
-+		.data = &sun50i_h616_mixer0_cfg,
-+	},
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, sun8i_mixer_of_table);
+ /*
 -- 
-2.49.0
+2.48.1
 
