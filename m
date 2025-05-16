@@ -1,188 +1,146 @@
-Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
+Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9682D230BC7
-	for <linux-sunxi@lists.linux.dev>; Fri, 16 May 2025 09:50:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D06A216E24
+	for <linux-sunxi@lists.linux.dev>; Fri, 16 May 2025 10:51:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747389018; cv=none; b=Qn7MkrvcFpQf4idaYIJOn8N3i04tCB4gIWMF5egsjWj/hZg7A/MLeujYeXn6c1BtTMJxyocosCkBjaAo79bplCDKWnVflKsPs/N8dAcqZqUpMeXV9yQOzT8jCuwn3G4Bb+1I4mM57N6SuMyoeUhVGG5YGSW17W0MQ6yKawruHN0=
+	t=1747392704; cv=none; b=uK57r0leJC9IeZ/Vc2rYSF19cosq5R+IOj5CrNfClSccF7iAoX2i0uV2ivwoFYb8275piHF7mhgS+FDyaCq9+dbM7uC6RsBXiw+gc/hukaoZ5aiUxFe6R/krE9RHkRn95jSnCkzKfIn9ea0jJ45vyssI8tkIrFr2B8r2z5+txeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747389018; c=relaxed/simple;
-	bh=pDjfNpsKfcpXFOhBp4uRBXfVrhuuhTv/HTPK8LprGh8=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=LVFRt2nXykfzxZf5obw8w1GZq0wFlYbG6XDxchFp+wqW+eaUMpwz5iFXlbkBVgF6B/VZzG2MAg+o0/7Gjf/TZc1DAqhXVvh40kPzyhMaTaLYIHHwyq1VY9kXrkKCsQR+9tawr9HmB7Kiv0cxLWd+f7/BiH5ryUZxJF0Q8agjMhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=GEx+yCQH; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=UmgyP2sm; arc=none smtp.client-ip=202.12.124.144
+	s=arc-20240116; t=1747392704; c=relaxed/simple;
+	bh=5LJzuos//TFsjEr88Y+Up2E2nlGMm56HYlFXU3rX0Qg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hrnsYJheyPluoLFkF8EHreZzKfpVLUAZUsk9fq+p9Ns+iClmneyFrMxTSf5ysPypKw8G7A1CnCa/2R/ghXIZpW5rVgwpTfI1GxXC5kMRzVjRA7q4mv8m3pLBQ65k5v6D5993OJRhEirbSrVT8OQgXrx6lOs9Dfdzqm/r1JhpuIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=Mq2Xes4D; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=d5jsWcQx; arc=none smtp.client-ip=202.12.124.159
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="GEx+yCQH";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="UmgyP2sm"
-Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
-	by mailfout.stl.internal (Postfix) with ESMTP id 524571140104;
-	Fri, 16 May 2025 05:50:15 -0400 (EDT)
-Received: from phl-imap-17 ([10.202.2.105])
-  by phl-compute-06.internal (MEProxy); Fri, 16 May 2025 05:50:15 -0400
+	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="Mq2Xes4D";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="d5jsWcQx"
+Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 942AC25400CA;
+	Fri, 16 May 2025 06:51:40 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-11.internal (MEProxy); Fri, 16 May 2025 06:51:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
-	 t=1747389015; x=1747475415; bh=ICAnzqRn8f548e/xF9gHUGpMoaEnzr4U
-	V/vlaT50lSk=; b=GEx+yCQH6hcWVDweddJQzydxrrzZeZdKPGUKJdP46h1wvpVF
-	4Kpd5MNYEEXeMaGtZadn11Tr6PPhJMd4qXvZjvFy8wdjJKZMNTydgjYhRnLiUHEg
-	rY4YdrJDV8hw1aXQ2NGw0IKDKdU7C7ljRCCowjjwUDN1c1dD32iCnbVkq/cNRtsN
-	WlF5AtKfS4WOzEijOB0iIMrfOeI46MiQAe9dxNVaaBY8scu0OxnFm44V23vjxotz
-	LDU6QvpeMpav/fE9TS1l5F0AcujKL+vPuO7C+dMCHoj9mRHJg81n2j1PZvsCbktI
-	HYCogxEyhRKqiFwKBPveRoqMEALnFXK8RqOE1w==
+	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
+	:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to; s=fm3; t=1747392700; x=1747479100; bh=VDIJz6NdPv
+	TlCQzLO6Any5IgSGj4IrnIRIKUGoRE4mw=; b=Mq2Xes4DOqZnt5ARvIMrtukCSh
+	o1lse6IBACUjEI+dCsYWzX2lMK6aSWcFE5YGfwKhgso1XOwwfxgUIbqNq3lyRttd
+	2f5JyykPa1bOlOcUrohw4ApejqYhAsHDejhl8XXjm7J7/Qe5JtDwWTMgltfLdgBe
+	nYaKXeG3fHMXQLe3ZuQXWdmBG0boGZYn2+xhfPylPU7GaWvdpkBHemmd4bLiEGdn
+	hYX+ueH8xqpB6UXf/9Wsl6vTsMgVu9116hr/NVH6AZPzznLoQ9UGLN3fNPIzDZSY
+	M9Mi9O3D5Blik/M0VP5u+i2CwEmC+LkIS0SSx0ms+ypUrdWDzAx7frA56S7Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1747389015; x=
-	1747475415; bh=ICAnzqRn8f548e/xF9gHUGpMoaEnzr4UV/vlaT50lSk=; b=U
-	mgyP2smkPYT4zFKGycsILpZGr1Vl6Iy4PZING0yw38DZ965IDdQZolchV+hsZURE
-	Ibs9r0scwq+nNxmkj1W4eVx3fONWHaFMR/Hyq1hXgrpnGh5YKwLmyBWj7mJOnAoM
-	9yZIisSXkJe3IE8P0i2CJPn6fi/yd1FSwsVbcsYQ76i0gULwCcnRx8ZrnvVkI9+A
-	RrsbAtXltYeTMWo3cLXHR/waAE1VMQKfTYh9+QSSe0IUV++OfxvIFsYYChhETJQH
-	FLSHsrPpZhFjTuAL0TpidTDia7Vyzst/wxybqh9v6zSAB90YkBKXQmzjDzDfGiCh
-	DNnYikGwvKQ6/MHeng0aQ==
-X-ME-Sender: <xms:VgonaOAJcFfpMwmNAZqnNyXo2Oth442oIk7wlq6Fzy16oe3M6baPSA>
-    <xme:VgonaIiQCYbSvHRBkR4pzGe5rkX8pjWQDjTddI4nP1QZXZRqp_JrqKH0_ZyiUHQPz
-    sj7JrlNQ0VwfMrzmA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefuddvgeefucetufdoteggodetrf
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1747392700; x=1747479100; bh=VDIJz6NdPvTlCQzLO6Any5IgSGj4IrnIRIK
+	UGoRE4mw=; b=d5jsWcQxrSuFwjW3PLzPF0TlzQZqlUFPtRJEczugJeQdCjiMDtb
+	GoNHBKVsL7kn2/BaQYGfKAInWofZh+92vR7OLZtBgajYskU+SKbUYaF3i1Ib//K6
+	WU2IYDm1LJtuJjnRtkKM5nJvHKxQFU+tXu/fnX6pY/I81SLiseizo4tiiJlGbmdv
+	nP0QyQ8xGxQS/EU0X/Sa+BhaAkEEY9RfqhYQMygE7jiNY1xr00OXjsssd/qrgdMw
+	RN03cFOZLnct4k2FmJ4kkyRO1YcWEIWCRGZ8HaNQTE3EkOH2GsjKlQkIjRiPHokT
+	vRDF7j4XhobAnuoLTbs7IfoDEh8i2A6YSUA==
+X-ME-Sender: <xms:uhgnaNx_E6CsIQuXTqjaobD7SZ-QvV4EWQ7E6jsNWL5M80Mtx6U5Ow>
+    <xme:uhgnaNQ085vmWY7-ufybl7hRs6Zep_yiCrYg152TGwePZSvOFWgNex--sqhWqXHEP
+    PAa3zFjJ6lFlCsypQ>
+X-ME-Received: <xmr:uhgnaHVO1GomO0V8nhD3Mas5GYuQdkAySNsx6-8o9QP79PuMbec05HcUALerxD2w2idqz_iEWoYcyZ-xtfiXXyhKaeJzr9G1W8rpf7nPj0hY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefuddvheeiucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
     pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
-    tddtnecuhfhrohhmpedftfihrghnucghrghlkhhlihhnfdcuoehrhigrnhesthgvshhtth
-    horghsthdrtghomheqnecuggftrfgrthhtvghrnhepjefhueekjeejgfduvdffheevveej
-    hfdtuddthfduuddvveefjeffgfdvleefuefgnecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomheprhihrghnsehtvghsthhtohgrshhtrdgtohhmpdhn
-    sggprhgtphhtthhopedvgedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprghnug
-    hrvgdrphhriiihfigrrhgrsegrrhhmrdgtohhmpdhrtghpthhtohepmhhtuhhrqhhuvght
-    thgvsegsrgihlhhisghrvgdrtghomhdprhgtphhtthhopeifvghnshestghsihgvrdhorh
-    hgpdhrtghpthhtohepuggrnhhivghlsehffhiflhhlrdgthhdprhgtphhtthhopegrihhr
-    lhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepjhgvrhhnvghjrdhskhhrrggsvg
-    gtsehgmhgrihhlrdgtohhmpdhrtghpthhtohepkhhikhhutghhrghnleeksehgmhgrihhl
-    rdgtohhmpdhrtghpthhtohepmhgrtghrohgrlhhphhgrkedvsehgmhgrihhlrdgtohhmpd
-    hrtghpthhtohepshhimhhonhhsrdhphhhilhhiphhpvgesghhmrghilhdrtghomh
-X-ME-Proxy: <xmx:VgonaBkSrc6upcBvaEARz4TVu4qk0C-Y9CBwKCoMyEVJqNMl7C118A>
-    <xmx:VgonaMyW4h-Kg4A4Xl9joK7Sj0IeX-CytUlAHPn_MsDGRgvcZnHCFg>
-    <xmx:VgonaDRBSU9tKa7_dqw48bEbsHl2uo8GTbdALULRsfPSDaWEnu4LPg>
-    <xmx:VgonaHYXnEeePGIQMdCtqv36fx2DNs_4rwUjRiW4DrsW7cxH8ecxPA>
-    <xmx:VwonaDe0fJJ5QBICmoOWjLcBLnNmwHyH09TKXiPR3IYwFeRpljAmSHPT>
+    gvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgggfestdekredtredttden
+    ucfhrhhomheptfihrghnucghrghlkhhlihhnuceorhihrghnsehtvghsthhtohgrshhtrd
+    gtohhmqeenucggtffrrghtthgvrhhnpeduvdeuudeugedtueffteevveegheehvdfhfedu
+    udevkefggfeftdehgeethffhffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+    epmhgrihhlfhhrohhmpehrhigrnhesthgvshhtthhorghsthdrtghomhdpnhgspghrtghp
+    thhtohepvdegpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehmrhhiphgrrhguse
+    hkvghrnhgvlhdrohhrghdprhgtphhtthhopeifvghnshestghsihgvrdhorhhgpdhrtghp
+    thhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtg
+    homhdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthht
+    oheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopegurghnihgvlhesfh
+    hffihllhdrtghhpdhrtghpthhtohepjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgrihhl
+    rdgtohhmpdhrtghpthhtohepshgrmhhuvghlsehshhholhhlrghnugdrohhrghdprhgtph
+    htthhopehrohgshheskhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:uhgnaPjxoUkt5Gc7CSQPRzJnS2DiXt6cP8dLgxcQRkPo8O1tPWTFag>
+    <xmx:uhgnaPCaPDZcTBHjD_2oDvBeJAp2YLE2guSS-cyT2XOkg2q4ld09kw>
+    <xmx:uhgnaII0KAHY0I5mqHh_ivc6FzgX4XgdjK0Ix1XUI_B_tHhPIE94MQ>
+    <xmx:uhgnaOC4wDM2qZmhgVxKytBKC0VLQJp9NqCSA5W-b3zk-3_-O1CgzQ>
+    <xmx:vBgnaMp5bLmDEHIomjrq1tVcTwhYrwSgV_kFW35yLIvda4lMQpVzOukY>
 Feedback-ID: idc0145fc:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 49704C40061; Fri, 16 May 2025 05:50:14 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 16 May 2025 06:51:32 -0400 (EDT)
+From: Ryan Walklin <ryan@testtoast.com>
+To: Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Cc: Andre Przywara <andre.przywara@arm.com>,
+	Chris Morgan <macroalpha82@gmail.com>,
+	Hironori KIKUCHI <kikuchan98@gmail.com>,
+	Philippe Simons <simons.philippe@gmail.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	devicetree@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	Ryan Walklin <ryan@testtoast.com>
+Subject: [PATCH v11 0/8] drm: sun4i: add Display Engine 3.3 (DE33) support
+Date: Fri, 16 May 2025 22:44:17 +1200
+Message-ID: <20250516105101.11650-1-ryan@testtoast.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: Tf495426756189e99
-Date: Fri, 16 May 2025 21:49:54 +1200
-From: "Ryan Walklin" <ryan@testtoast.com>
-To: "Maxime Ripard" <mripard@kernel.org>
-Cc: "Chen-Yu Tsai" <wens@csie.org>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Thomas Zimmermann" <tzimmermann@suse.de>,
- "David Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>,
- "Samuel Holland" <samuel@sholland.org>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>,
- "Michael Turquette" <mturquette@baylibre.com>,
- "Stephen Boyd" <sboyd@kernel.org>, "Andre Przywara" <andre.przywara@arm.com>,
- "Chris Morgan" <macroalpha82@gmail.com>,
- "Hironori KIKUCHI" <kikuchan98@gmail.com>,
- "Philippe Simons" <simons.philippe@gmail.com>,
- "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- linux-clk@vger.kernel.org, "Chris Morgan" <macromorgan@hotmail.com>
-Message-Id: <70232334-a0c5-454c-8e1f-551860d74cba@app.fastmail.com>
-In-Reply-To: 
- <nze2olzqtgagrkiws2dt3uptehyvcgw7kai5ceycroaroin7jb@xeoddccn5uqh>
-References: <20250511104042.24249-1-ryan@testtoast.com>
- <20250511104042.24249-11-ryan@testtoast.com>
- <nze2olzqtgagrkiws2dt3uptehyvcgw7kai5ceycroaroin7jb@xeoddccn5uqh>
-Subject: Re: [PATCH v10 10/11] drm: sun4i: de33: mixer: add Display Engine 3.3 (DE33)
- support
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Thu, 15 May 2025, at 3:07 AM, Maxime Ripard wrote:
-> On Sun, May 11, 2025 at 10:31:19PM +1200, Ryan Walklin wrote:
+Hi All,
 
->> +enum sun8i_mixer_type {
->> +	sun8i_mixer_de2,
->> +	sun8i_mixer_de3,
->> +	sun8i_mixer_de33,
->> +};
->
-> enum variants typically have their name in upper-case.
+v11 of this patch adding support for the Allwinner DE33 display engine. This version removes the clock dt-binding and ccu driver support that Chen-Yu has also taken as a subset, and as suggested removes the bus dt-binding patch which will be sent with the device-tree changes to enable downstream device support subsequently.
 
-Ah of course, will correct, thanks.
-
-> With that fixed,
-> Acked-by: Maxime Ripard <mripard@kernel.org>
->
-> Maxime
-
-Thanks for the review! Will submit a v11 with the enum fixed and without the clock bits Chen-Yu has already picked up.
+Use of lower-case for an enum is also corrected and Maxime's Acked-by added. I also noticed a couple of other ordering issues while fixing the enum, and have also corrected these so that the intermediate patches all compile, but no code changes, so the end result of applying this series (now on top of clk-next) is unchanged.
 
 Regards,
 
 Ryan
 
->
->>  /**
->>   * struct sun8i_mixer_cfg - mixer HW configuration
->>   * @vi_num: number of VI channels
->> @@ -171,8 +180,9 @@ struct sun8i_mixer_cfg {
->>  	int		scaler_mask;
->>  	int		ccsc;
->>  	unsigned long	mod_rate;
->> -	unsigned int	is_de3 : 1;
->> +	unsigned int	de_type;
->>  	unsigned int	scanline_yuv;
->> +	unsigned int	map[6];
->>  };
->>  
->>  struct sun8i_mixer {
->> @@ -184,6 +194,9 @@ struct sun8i_mixer {
->>  
->>  	struct clk			*bus_clk;
->>  	struct clk			*mod_clk;
->> +
->> +	struct regmap			*top_regs;
->> +	struct regmap			*disp_regs;
->>  };
->>  
->>  enum {
->> @@ -220,13 +233,16 @@ sun8i_blender_base(struct sun8i_mixer *mixer)
->>  static inline struct regmap *
->>  sun8i_blender_regmap(struct sun8i_mixer *mixer)
->>  {
->> -	return mixer->engine.regs;
->> +	return mixer->cfg->de_type == sun8i_mixer_de33 ?
->> +		mixer->disp_regs : mixer->engine.regs;
->>  }
->>  
->>  static inline u32
->>  sun8i_channel_base(struct sun8i_mixer *mixer, int channel)
->>  {
->> -	if (mixer->cfg->is_de3)
->> +	if (mixer->cfg->de_type == sun8i_mixer_de33)
->> +		return mixer->cfg->map[channel] * 0x20000 + DE2_CH_SIZE;
->> +	else if (mixer->cfg->de_type == sun8i_mixer_de3)
->>  		return DE3_CH_BASE + channel * DE3_CH_SIZE;
->>  	else
->>  		return DE2_CH_BASE + channel * DE2_CH_SIZE;
->> -- 
->> 2.49.0
->> 
->
-> Attachments:
-> * signature.asc
+Jernej Skrabec (7):
+  drm: sun4i: de2/de3: add mixer version enum
+  drm: sun4i: de2/de3: refactor mixer initialisation
+  drm: sun4i: de2/de3: add generic blender register reference function
+  drm: sun4i: de2/de3: use generic register reference function for layer
+    configuration
+  drm: sun4i: de33: mixer: add Display Engine 3.3 (DE33) support
+  drm: sun4i: de33: vi_scaler: add Display Engine 3.3 (DE33) support
+  drm: sun4i: de33: mixer: add mixer configuration for the H616
+
+Ryan Walklin (1):
+  dt-bindings: allwinner: add H616 DE33 mixer binding
+
+ .../allwinner,sun8i-a83t-de2-mixer.yaml       |  34 +++-
+ drivers/gpu/drm/sun4i/sun8i_csc.c             |   4 +-
+ drivers/gpu/drm/sun4i/sun8i_mixer.c           | 168 ++++++++++++++----
+ drivers/gpu/drm/sun4i/sun8i_mixer.h           |  30 +++-
+ drivers/gpu/drm/sun4i/sun8i_ui_layer.c        |  27 ++-
+ drivers/gpu/drm/sun4i/sun8i_ui_scaler.c       |   2 +-
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c        |  14 +-
+ drivers/gpu/drm/sun4i/sun8i_vi_scaler.c       |   6 +-
+ 8 files changed, 223 insertions(+), 62 deletions(-)
+
+-- 
+2.49.0
+
