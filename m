@@ -1,114 +1,173 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3596123AD;
-	Fri, 16 May 2025 02:11:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F6B92116FE
+	for <linux-sunxi@lists.linux.dev>; Fri, 16 May 2025 09:47:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747361465; cv=none; b=BTCpPFG71I/I1466Hqej8v324KSRUsLwtrb5x/VbYPtoSxOwqg4S2M4/dac9PWoBJfQM56BY8m0nHPz28L/oLNhulJ/5jdjB21RDBV6zKdx2KO8YhQJr/giWsITaq3d72hll1B6auFHajGSX/t3qEKfN4Gn5/J3RK4oYIYL0Q3g=
+	t=1747388834; cv=none; b=KoiQYM/1jhZezN3SVICeSRpuv//Z0Scot68FAQNPrddtrQPh1cK1x+Y4o2c2wKUJJaLglYlSdU/sgNLGHt72gU0PQmCmZHdpA5d9WtOlrIMFcFj/A65xc+FtPh2DJqnP65axYi8EAM18JECBHpbtpUWnPIIFX7FLHKtEeje7l8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747361465; c=relaxed/simple;
-	bh=it64++/TBIcO04ua6YzkJRzrmlhEFYRLff/zIz8IRLY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hd3Nuu2F5WwdgsfOw0knBtcU2Ssk2tdJV/uJRDd1Man4VWfJri2fIC0gzDaQMJrRSMF7nYJF+cY7y0vhgqsSQAmu0Rrkg+AD80NkswGW4Jrk7swdWAP7eEXjb2zJeaQlYJxRykIG6dvBqA8dRKlSh8Aim/VqlkiZs9Wfvg9vp1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fra0/69R; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747388834; c=relaxed/simple;
+	bh=m8C4HtRA+zfmNNcNvn3JSHWOMu/6kiXJzI9ljX70t/g=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=uqN6C0QuCd3eOiponS/JpzvV541+soolNgUS1Sn7XPz/xKQLko7r1NOM68m3UGm2dvO60gL8/Fl/Yki5FsEp/QlWes7/PaYeMNYrVJzP1R+/lF0xVycPa8GyYFKrAyRYVQTnFKO7uN7wqDmX6oi+hChnnd++dm7KJwHYk8zgDko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=mv2U/1NV; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ucq/8s+U; arc=none smtp.client-ip=202.12.124.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fra0/69R"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3FE4C4CEE7;
-	Fri, 16 May 2025 02:11:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747361465;
-	bh=it64++/TBIcO04ua6YzkJRzrmlhEFYRLff/zIz8IRLY=;
-	h=Date:From:To:Cc:Subject:From;
-	b=Fra0/69RxRrtTmaMG2zPJTnWfeO9BCcGEgJSIDbPhunyx4rGhIdc+36OPpr5zsBRC
-	 noX8xQEw67KdcJMVoQizLEcE3nTf8tEmUvsdmArh/TN0XVTBYBTIveZirhjfTO2kRb
-	 xidLsezRYuK14NicNK4WjaYUWZrJD1mbJqEr8R4LB9kJQe+2xPUbFB8GQ31KjZTR7Q
-	 dDMk8JXo39ju6TFmWMG77FJsYmRhcA9Co36lLoS2EOmzP4ecrx9GaOJTlTaHTW4jlC
-	 VrhUZ9mm4CcIS/OrvNHVjN1AQPXEt1YCzg2ogtFOdvY4nmFUmGtsl+Epj/xXGg9GTN
-	 PT7UILHTgH11Q==
-Received: by wens.tw (Postfix, from userid 1000)
-	id 39CCD5FEC5; Fri, 16 May 2025 10:11:03 +0800 (CST)
-Date: Fri, 16 May 2025 10:11:03 +0800
-From: Chen-Yu Tsai <wens@kernel.org>
-To: Stephen Boyd <sboyd@kernel.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev,
-	linux-clk@vger.kernel.org
-Subject: [GIT PULL] Allwinner clock changes for 6.16
-Message-ID: <aCaetzKYzCpzRYzd@wens.tw>
+	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="mv2U/1NV";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ucq/8s+U"
+Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
+	by mailfout.stl.internal (Postfix) with ESMTP id C81FE11400D8;
+	Fri, 16 May 2025 05:47:08 -0400 (EDT)
+Received: from phl-imap-17 ([10.202.2.105])
+  by phl-compute-06.internal (MEProxy); Fri, 16 May 2025 05:47:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
+	 t=1747388828; x=1747475228; bh=bNDnc+aKYABP6EVt0m2pTGeyc+6skQHz
+	1+A+corZaFc=; b=mv2U/1NViwPZ4IAWkszV2qSUvdYJbwbNUe1ko2zc3eibVoTc
+	hZn1lK9klMtX93uEkG8zmDqUJeV9RSmylTii1lKHQtQ1C/AQ9Y2FZsfIsQW1Y/1y
+	4WFaapr//YiOG3WPCIynDfJIl/9P8pfBsh8+AxarSwSlG9WgUCBb9aWWwF8Ufr1r
+	5cp1sBaaF+DEBJeRonx/U/1DjdLkx/coZB1rlgFMbieTgjS/REVSKHP5K+puGjuR
+	2nPOyHa4UaafL5mMf6PnFmZpKNbAdJq9iE+9ANJSqwDiNpVHuN70uHdRMy+4VSpw
+	7EbFStcMtULfwXCgVXvPbPt0BcP/15oE4GNhOA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1747388828; x=
+	1747475228; bh=bNDnc+aKYABP6EVt0m2pTGeyc+6skQHz1+A+corZaFc=; b=u
+	cq/8s+U6BcBVikfrE40TvE2CwdF5aoi7noVhfsAdEo6u9DVqFWlFqtq7R7G/kM4t
+	hFxhaUbWFTiJtnu2AwwrFkCa5P6mIBBKYCICQLQpRZ7r7LN/VH7zBPUl39RA3CGA
+	z95tt6E/JfLUDJTtN3bm6O2S+qxvWyncRw/e95lHOFspT5sr55yDWYbgk9YAvsPc
+	OoXfJG3HLVRhQOLPfze8XqV9nbhQjT6zLrlu81jlqGMHVA6SfOlyH+9AzArzA++q
+	vXDdHn78yQUQOgInJGKHEMIpAq4+IpC1TYpU85Q8wlfIm6Bfs3rO7ncpQ5wEfF9G
+	D2YHXb2OaOMVqMS5S0Yng==
+X-ME-Sender: <xms:mgknaNW4CHO4meF6_Nt5FBL-z8WtlTvsYLtWmsPvZDk1Sj0hCiNttw>
+    <xme:mgknaNksGDPm7hKLF4tDD6fto96miXAVn_9VdfRwgsmWcOZMT8AKNckyvvm-Pez2g
+    6tUlXVH8rERUYLogQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefuddvgedvucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtqhertder
+    tdejnecuhfhrohhmpedftfihrghnucghrghlkhhlihhnfdcuoehrhigrnhesthgvshhtth
+    horghsthdrtghomheqnecuggftrfgrthhtvghrnhepgefhgfektdeuieduueekvdevvefh
+    udeuhfehvdeigfffudehueeiieehhfefgfevnecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomheprhihrghnsehtvghsthhtohgrshhtrdgtohhmpdhn
+    sggprhgtphhtthhopedvhedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprghnug
+    hrvgdrphhriiihfigrrhgrsegrrhhmrdgtohhmpdhrtghpthhtohepmhhtuhhrqhhuvght
+    thgvsegsrgihlhhisghrvgdrtghomhdprhgtphhtthhopeifvghnshestghsihgvrdhorh
+    hgpdhrtghpthhtohepuggrnhhivghlsehffhiflhhlrdgthhdprhgtphhtthhopegrihhr
+    lhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepjhgvrhhnvghjrdhskhhrrggsvg
+    gtsehgmhgrihhlrdgtohhmpdhrtghpthhtohepkhhikhhutghhrghnleeksehgmhgrihhl
+    rdgtohhmpdhrtghpthhtohepmhgrtghrohgrlhhphhgrkedvsehgmhgrihhlrdgtohhmpd
+    hrtghpthhtohepshhimhhonhhsrdhphhhilhhiphhpvgesghhmrghilhdrtghomh
+X-ME-Proxy: <xmx:mgknaJZmAvdw4E5hLRz_HADffNbtUjHMknHAOYua7LbeuuweT7C33w>
+    <xmx:mgknaAXeWz_saEPijL_d0p1xt3SykD_o-G48u3KIbhe4InRye7NxPA>
+    <xmx:mgknaHnKdcJF3uWrJ8lx4zs7iECT6aFYrIEiP6CMDVVqATilBL7w4A>
+    <xmx:mgknaNeHgrZvtJ01_DzMf6TAWarC3_v68Ct2KRGwZRVxdeEC07t8kg>
+    <xmx:nAknaKiUJ9TxH1Mfz43vj2CB091KB_eozhns6ShMKMbhp02Imh1-PMPf>
+Feedback-ID: idc0145fc:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id A5C65C40062; Fri, 16 May 2025 05:47:06 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Gw1K57SsA+7Aw7T4"
-Content-Disposition: inline
+X-ThreadId: T8206d035b13fbed2
+Date: Fri, 16 May 2025 21:46:46 +1200
+From: "Ryan Walklin" <ryan@testtoast.com>
+To: "Chen-Yu Tsai" <wens@csie.org>
+Cc: "Maxime Ripard" <mripard@kernel.org>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "David Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+ "Samuel Holland" <samuel@sholland.org>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>,
+ "Michael Turquette" <mturquette@baylibre.com>,
+ "Stephen Boyd" <sboyd@kernel.org>, "Andre Przywara" <andre.przywara@arm.com>,
+ "Chris Morgan" <macroalpha82@gmail.com>,
+ "Hironori KIKUCHI" <kikuchan98@gmail.com>,
+ "Philippe Simons" <simons.philippe@gmail.com>,
+ "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-clk@vger.kernel.org, "Conor Dooley" <conor.dooley@microchip.com>,
+ "Chris Morgan" <macromorgan@hotmail.com>
+Message-Id: <2c838188-34e1-4f62-adab-ff9182c8132b@app.fastmail.com>
+In-Reply-To: 
+ <CAGb2v64BY+8ZkoxG82MCP+-5BZAFiYMRcm4LXeke9uVfpZX2bA@mail.gmail.com>
+References: <20250511104042.24249-1-ryan@testtoast.com>
+ <20250511104042.24249-6-ryan@testtoast.com>
+ <CAGb2v64BY+8ZkoxG82MCP+-5BZAFiYMRcm4LXeke9uVfpZX2bA@mail.gmail.com>
+Subject: Re: [PATCH v10 05/11] dt-bindings: allwinner: add H616 DE33 bus binding
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, 15 May 2025, at 8:00 PM, Chen-Yu Tsai wrote:
+> On Sun, May 11, 2025 at 6:42=E2=80=AFPM Ryan Walklin <ryan@testtoast.c=
+om> wrote:
+>> Add a display engine bus binding for the DE33.
+>
+> Since this just falls back to the A64 compatible, there's no matching
+> driver change. Can you send this together with the DT changes instead?
+>
+> Otherwise it goes unused.
+>
+> ChenYu
 
---Gw1K57SsA+7Aw7T4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Thanks for reviewing and taking the clock patches. Sure, will pull this =
+out for the DT series.
 
-The following changes since commit 0af2f6be1b4281385b618cb86ad946eded089ac8:
+Regards,
 
-  Linux 6.15-rc1 (2025-04-06 13:11:33 -0700)
+Ryan
 
-are available in the Git repository at:
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-clk-for-6.16
-
-for you to fetch changes up to be0e9a3727872783bad0752dc82e0857f4776049:
-
-  clk: sunxi-ng: ccu: add Display Engine 3.3 (DE33) support (2025-05-12 23:55:06 +0800)
-
-----------------------------------------------------------------
-Allwinner clk changes for 6.16
-
-- Add support for DE (display engine) 3.3 clocks on H616
-- Add missing LVDS reset control on H616
-- Do not enable by default during compile testing
-
-----------------------------------------------------------------
-Chris Morgan (2):
-      dt-bindings: clock: sun50i-h616-ccu: Add LVDS reset
-      clk: sunxi-ng: h616: Add LVDS reset for LCD TCON
-
-Krzysztof Kozlowski (2):
-      clk: sunxi-ng: Do not enable by default during compile testing
-      clk: sunxi: Do not enable by default during compile testing
-
-Ryan Walklin (2):
-      dt-bindings: allwinner: add H616 DE33 clock binding
-      clk: sunxi-ng: ccu: add Display Engine 3.3 (DE33) support
-
- .../clock/allwinner,sun8i-a83t-de2-clk.yaml        |  1 +
- drivers/clk/sunxi-ng/Kconfig                       | 48 +++++++++++-----------
- drivers/clk/sunxi-ng/ccu-sun50i-h616.c             |  1 +
- drivers/clk/sunxi-ng/ccu-sun8i-de2.c               | 25 +++++++++++
- drivers/clk/sunxi/Kconfig                          | 10 ++---
- include/dt-bindings/reset/sun50i-h616-ccu.h        |  1 +
- 6 files changed, 57 insertions(+), 29 deletions(-)
-
---Gw1K57SsA+7Aw7T4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE2nN1m/hhnkhOWjtHOJpUIZwPJDAFAmgmnrYACgkQOJpUIZwP
-JDBCuA/+L7SwNTYn44v9qFFL76D+T2bGKbgIIVqqMZgJbDPs5jSTN97C7DXNJySg
-2O3SFJgDJ3uOdK4WX6xOZi1MXtSeOSWuM23zrddO4gfQU8KtLOUANixuq+F362j4
-E3o8SlPzdqEFJgCtcDlozumY6uM8yuhyEBv68QpPNkYfS/aNQd4whJwH9wosBTOp
-xQWDCYqp6NoFZvgh3oHYLLBqGkMFdgAlYmtUukrxIRykVWVHuqf4QO1WhiC4HPK6
-e4RTVtAWKpK0fqy3/RcsolDDTpMrOOhChm53XuMn4qYgp7uRspVuHhLVPxfjvFR6
-phl/3Lig01sMK7iaBFp1XCmPwGFQ0GyUYPKT0oTPylgsZwAZqpV+eQibTOXRz9/v
-1n9TJxSlsHatZXDQdhAt/4/uTULnJzs0aynOEEZWSpD4wRyRsSX5dijLSXofyxVe
-GlfUBo2RDDbqzmQ9evpp2kcBfi0WK07MUoVvyT4ONvolc1zBaBoq4NZDLnj5IXqT
-X9kkzQhBw3PT7dm30FmNsKNqg2F07hzv1/nUqMZlyw0HkqRCyPWQdKv6yoPUbCKi
-8zKVWc+PX4FJLwlZ1GzUGfTdmDlVpbLCMtj6J2/8tLMN1B37YQCH0TZ4rvDnLJMw
-Z3KHAJRSiubZOPTWLijvGPa0jQSDA7CVWc0/lcBHk/n5Zhsj2JQ=
-=HbLa
------END PGP SIGNATURE-----
-
---Gw1K57SsA+7Aw7T4--
+>> Changelog v1..v2:
+>> - Correct DE2 bus enum to reflect fallback devices accurately.
+>>
+>> Changelog v2..v3:
+>> - Separate content into three patches for three separate subsystems
+>>
+>> Changelog v5..v6:
+>> - Increase reg maxItems to 3.
+>>
+>> Changelog v9..v10:
+>> - Remove maxItems, this was added in error to the bus binding (rather=
+ than the mixer binding) when it was split from the other bindings in an=
+ earlier revision.
+>> ---
+>>  .../devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml     | 4 ++=
++-
+>>  1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/bus/allwinner,sun50i-a=
+64-de2.yaml b/Documentation/devicetree/bindings/bus/allwinner,sun50i-a64=
+-de2.yaml
+>> index 9845a187bdf6..ea7ee89158c6 100644
+>> --- a/Documentation/devicetree/bindings/bus/allwinner,sun50i-a64-de2.=
+yaml
+>> +++ b/Documentation/devicetree/bindings/bus/allwinner,sun50i-a64-de2.=
+yaml
+>> @@ -24,7 +24,9 @@ properties:
+>>      oneOf:
+>>        - const: allwinner,sun50i-a64-de2
+>>        - items:
+>> -          - const: allwinner,sun50i-h6-de3
+>> +          - enum:
+>> +              - allwinner,sun50i-h6-de3
+>> +              - allwinner,sun50i-h616-de33
+>>            - const: allwinner,sun50i-a64-de2
+>>
+>>    reg:
+>> --
+>> 2.49.0
+>>
