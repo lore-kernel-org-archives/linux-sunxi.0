@@ -1,72 +1,72 @@
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40983A55
-	for <linux-sunxi@lists.linux.dev>; Sun, 18 May 2025 16:42:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68B3F487A5
+	for <linux-sunxi@lists.linux.dev>; Sun, 18 May 2025 16:45:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747586528; cv=none; b=IbkG5thQFfs4uNNt+AeBzOgWQiSUy2d91FQJhxiU9xhECIKnidmodJBnhqb0nxQJvwmz0DpXLxjRcH2tyCxKNXgWb/Cm/S30Hp2fkRhIco/XiOoMTJVD9iHwTfVJCNmo2to++mLAZC2FISjgBaRLkUIxbzQYQsJqjBtBPNFaO9s=
+	t=1747586734; cv=none; b=DVXdnZhLRRKhqDwe5GfKx289ST/0f2pY03ag0UUWQtPgJ8Rb6IA7KmvunoJ9QdMaw4c2HPERCPz92pABIfAgft9i8aV/IZSqlctq0zQDe5wlGHJ4WreFa8kPFIOZugIvQqK1Q9gQL0QnXy+HtmD4wS6ISoQxEbKaM7aBcdwjDUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747586528; c=relaxed/simple;
-	bh=wD0Py1Y+nYCa3T32gfjqbB8qmXGi889eEZKva2VRulI=;
+	s=arc-20240116; t=1747586734; c=relaxed/simple;
+	bh=16lKLKeXiKEhT1aqzPTlfh1MfJCWJqXdbVQD33iMWeM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GsU7KwcNi3p7aJJ3Yx5pLV0fW3XUxqypT98pXBbIfPX7Q8VZdPww9iodNrHgVLsYybbsp77asEBmwxyKSfeeX3atIq56/FxB6ZbTCsVnAtE04eJkPIoiBjlzaMqfGChUzRAGdf/v9QY36qy1twEzXkrpgW3S2LIiFtWZyzzWJJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.166.41
+	 To:Cc:Content-Type; b=XmVsSc/LDg2jvJLMw7WMUKu6+GYtvN/zDokGrXRJ0tCIUtdzC8Aj27JvCR7EFG+3+zezuKIOGGsCnJR/qOBpP/NwPle+NwYjaUuR8rcgTT81qH4I8wGf3RldWsOjq7CpYgmCZrn5+b+j8R9h3M+FgCzcBNp/XfFYI5eFmmUvRwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.166.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-io1-f41.google.com with SMTP id ca18e2360f4ac-86a464849faso15797839f.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 18 May 2025 09:42:06 -0700 (PDT)
+Received: by mail-io1-f43.google.com with SMTP id ca18e2360f4ac-86192b6946eso97775139f.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 18 May 2025 09:45:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747586522; x=1748191322;
+        d=1e100.net; s=20230601; t=1747586728; x=1748191528;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :reply-to:in-reply-to:references:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=wD0Py1Y+nYCa3T32gfjqbB8qmXGi889eEZKva2VRulI=;
-        b=bfpptkelM+Av/x/e6uJhs5dXMKdGL0PTeFsIeXTBPge4MV73WYfAfcQeVF5YE9yvp+
-         0MFHi1CJhthQ4B5WlOIyKeOzwKUKmf1aLO1YxNVcZchg2y/36knrMHATHN4/5HUw/zL9
-         xBG5sNl3zI5ylZcmiRt2NUBEAhIqoTmxYJxtBBzXboHK47UGAFSINWSMmIRPZzCjTDf6
-         QPzvuuf6NOSUpKBbyoaXOoSI7Lt4LlT5HK9VlYvs6F8nbTL7F4Xa6vOx6XjpRSMT1jXu
-         cj5/SKxY2j0FzbOngj4yWpHxYTYMmI2Yt3cX8iscyk2TA0qvKqkR905vhrgb0jWDaNik
-         Fb9g==
-X-Forwarded-Encrypted: i=1; AJvYcCXJ7kCV2EHLF+4fPxMwfqAUeYr0OOTEuYAUG6u2RnJ0sfgc0kWOLgs21Rdowp7XQ+uW8QBptdDhuj3YnA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw9HRd0w58xaf5U/e1NDjnSu9r79d4HF778zXgKz0zr3QKtccUP
-	CmEE7IsrXejZV8/DU4mFu81OGzjs/R22PmjmSBPa8bV2MouFMULezroaXy9rT5h59f8=
-X-Gm-Gg: ASbGncvVPXVFcR0PNcYmxPNZi/FLjsyVyCDsXkl7i8zuWxilHK9FSjEF2Jh1xUaD+pC
-	3Ew+fKYz8HdhA0HS2oFM7JBuuiy/YazC83NxojbYYJ3P1+zDsDkvOTQSB4xIjMlnMvAUM53mpEf
-	aJzZBpVuonzOQTtFVpZU8V+ai6eSa6BPbaB7Wz60ctQMgqMeUcD/3j375ngF/WFaTixfN6tlqFm
-	aXnRpjXHcWuuLOHdWtdTmBPWD7giJiT0m7blRDlGiLx+0+Spu7QYHdnl5dKKkRV++Ct1jRxlx7L
-	B05FeGdcOJEhyn1wtr7/5dzzEeoYesAt0MJvmiVz8S+yxKo8WVsyT1WCfWJ1Fgkc1R7Ziy8BHcj
-	cHdsJX09l
-X-Google-Smtp-Source: AGHT+IEVAH5TgdhL3ivJzPU2P5neNWgQj1T6+rE1bfjE5/b13qjycHlk1Pa/kQdBezanKbU4L7X7jQ==
-X-Received: by 2002:a05:6602:3f0c:b0:869:fc1b:2194 with SMTP id ca18e2360f4ac-86a24be4576mr1412869839f.6.1747586521934;
-        Sun, 18 May 2025 09:42:01 -0700 (PDT)
-Received: from mail-il1-f179.google.com (mail-il1-f179.google.com. [209.85.166.179])
-        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-86a236e68ccsm130719539f.33.2025.05.18.09.42.01
+        bh=16lKLKeXiKEhT1aqzPTlfh1MfJCWJqXdbVQD33iMWeM=;
+        b=h+8B19/yeLB3gwJd84NPP7V7UDstaOpbT4GfhoatZ8SPzOzY9QUCKeexyRPaIP3PXP
+         9UDx8rokUkS3+0RBB4/sUNLv5g0Fuyu36aCSkNvNq3M7SP55+vCC9JrogAb0Dg5IZfrq
+         ovPIUxJ5z5oXlP/+z/k8m8mcQlqcv44yE/cqYYFRqRBMYUOA7V2gjWqLzsQbctBrTasC
+         hZa7fTjNxXgtUIoQZfer4RX2+txZFx83q2+YlvReIdBgMNu1D1ZaRQ01BYLDSR0y5iM1
+         tUgKiHcm7GXkgC8QhLs2v1QuFZD11Y/wa61w/gF/+CHk4d/fNGfubBVtoZUkXFmnHfgN
+         g+Vg==
+X-Forwarded-Encrypted: i=1; AJvYcCU5Rk1RIWYXlISPPW9ej9l3hjfGdCyVZx2PAK2fnNp2O8S2bJ45W7BPKoKhJQh1fBUDm0RieJsGfzmgRg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxNoDPlitHxnvGvZV7VKw5H0bxy9e3lmhJeVWVoJcXAfCTUgEDO
+	E5mVjbhH85yrqCyILmEQpSer1XbpYg+TXCY4kZ5AB0jRqI1OOVokmWHDnzoSHOxk3tY=
+X-Gm-Gg: ASbGncsiYPqUHOAOBPxu3Vk/DSXpggbr/X9Zt38eEtGuVhwAgU5A+KBBDju65jNP55g
+	qkVZ/GrvsJtSNR9VoYGmSkEqJwLtytMHniFu/SVmzbgimBnbR+xHY2eEBiwaLTGLcTevkudGRuF
+	DP8Axiq2L/w8Ow26PAm0YhseB2VHGT4Kafx2wM1tDuWC0evLfxE4dI0EQ3hYxBoycKtydEOOSjz
+	shBwxMVoPdxhY5l6/jMa+/7oaH2RbUYTbLbd6AZT7CWhMo8zJ2hkRB1TXpxx1YSaOxI+XRV7KTP
+	TRL0/5QeDk6N6G0dfEvIiVdKON/svj6uKYvcm78kdS4SUsaf0rlhyLVbexiCXwn8INU8sao/E3b
+	tvIcOz/o1
+X-Google-Smtp-Source: AGHT+IFhOo4kLKIF6POHE0ntgE1T5GN+L7zHs7p7w7Nksslq6VvZ94Ri0QphShZRVT1iAGJJahK44g==
+X-Received: by 2002:a05:6602:7510:b0:864:48ec:c312 with SMTP id ca18e2360f4ac-86a24bbb4f6mr1085939539f.3.1747586728058;
+        Sun, 18 May 2025 09:45:28 -0700 (PDT)
+Received: from mail-il1-f181.google.com (mail-il1-f181.google.com. [209.85.166.181])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4fbcc3ae126sm1345851173.37.2025.05.18.09.45.26
         for <linux-sunxi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 18 May 2025 09:42:01 -0700 (PDT)
-Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-3db7b3de375so28544885ab.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 18 May 2025 09:42:01 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWRJpKP+EIjpf5Los0SvQD4Y1htSwumTmmIMPtq8ZC5Rl+DcC1qfUCKnGYek1I76Km2KQF1r5YSiEtu5Q==@lists.linux.dev
-X-Received: by 2002:a05:6e02:2164:b0:3db:6fb2:4b95 with SMTP id
- e9e14a558f8ab-3db857a6f7fmr111584635ab.18.1747586521124; Sun, 18 May 2025
- 09:42:01 -0700 (PDT)
+        Sun, 18 May 2025 09:45:26 -0700 (PDT)
+Received: by mail-il1-f181.google.com with SMTP id e9e14a558f8ab-3dc6b2a8647so1491355ab.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 18 May 2025 09:45:26 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXYCAHplQQWYn0f9kGu8JbhJ5v6/J0lQivnZz9/7/Gxy2p9J7pZ7Tk1Vn8XYSjgQDQNOydLqrZVL/jkFQ==@lists.linux.dev
+X-Received: by 2002:a05:6e02:351d:b0:3d0:47cf:869c with SMTP id
+ e9e14a558f8ab-3db857b6555mr99202655ab.19.1747586726194; Sun, 18 May 2025
+ 09:45:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250516105101.11650-1-ryan@testtoast.com> <20250516105101.11650-5-ryan@testtoast.com>
-In-Reply-To: <20250516105101.11650-5-ryan@testtoast.com>
+References: <20250516105101.11650-1-ryan@testtoast.com> <20250516105101.11650-7-ryan@testtoast.com>
+In-Reply-To: <20250516105101.11650-7-ryan@testtoast.com>
 Reply-To: wens@csie.org
 From: Chen-Yu Tsai <wens@csie.org>
-Date: Mon, 19 May 2025 00:41:43 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66+c9j-uFn-d59VkP6Fk1_af7i=0sWJxSTmp+3+A=+V1A@mail.gmail.com>
-X-Gm-Features: AX0GCFvx955idocxBLHWdxaZkcNf0j8vEssSsAEhRIcCueVqPuT49DZqnymord0
-Message-ID: <CAGb2v66+c9j-uFn-d59VkP6Fk1_af7i=0sWJxSTmp+3+A=+V1A@mail.gmail.com>
-Subject: Re: [PATCH v11 4/8] drm: sun4i: de2/de3: use generic register
- reference function for layer configuration
+Date: Mon, 19 May 2025 00:45:12 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65S2B2tatzJP3fJKcEYaoX-UGG2MtQX1VbUoTK4xTsyxg@mail.gmail.com>
+X-Gm-Features: AX0GCFslyTJW3_SklNq3JULGeTuerD-gifQjm7kfUwjIWTbHbiDIUF58cpuqmoU
+Message-ID: <CAGb2v65S2B2tatzJP3fJKcEYaoX-UGG2MtQX1VbUoTK4xTsyxg@mail.gmail.com>
+Subject: Re: [PATCH v11 6/8] drm: sun4i: de33: mixer: add Display Engine 3.3
+ (DE33) support
 To: Ryan Walklin <ryan@testtoast.com>
 Cc: Maxime Ripard <mripard@kernel.org>, 
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
@@ -78,7 +78,8 @@ Cc: Maxime Ripard <mripard@kernel.org>,
 	Hironori KIKUCHI <kikuchan98@gmail.com>, Philippe Simons <simons.philippe@gmail.com>, 
 	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, dri-devel@lists.freedesktop.org, 
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	devicetree@vger.kernel.org, linux-clk@vger.kernel.org
+	devicetree@vger.kernel.org, linux-clk@vger.kernel.org, 
+	Chris Morgan <macromorgan@hotmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -87,11 +88,31 @@ rote:
 >
 > From: Jernej Skrabec <jernej.skrabec@gmail.com>
 >
-> Use the new blender register lookup function where required in the layer
-> commit and update code.
+> The DE33 is a newer version of the Allwinner Display Engine IP block,
+> found in the H616, H618, H700 and T507 SoCs. DE2 and DE3 are already
+> supported by the mainline driver.
+>
+> Notable features (from the H616 datasheet and implemented):
+> - 4096 x 2048 (4K) output support
+>
+> Other features (implemented but not in this patchset):
+> - AFBC ARM Frame Buffer Compression support
+> - YUV pipeline support
+>
+> The DE2 and DE3 engines have a blender register range within the
+> mixer engine register map, whereas the DE33 separates this out into
+> a separate display group, and adds a top register map.
+>
+> The DE33 also appears to remove the global double buffer control
+> register, present in the DE2 and DE3.
+>
+> Extend the mixer to support the DE33.
 >
 > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 > Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 > Acked-by: Maxime Ripard <mripard@kernel.org>
 
 Reviewed-by: Chen-Yu Tsai <wens@csie.org>
+
+Code looks OK, though I have not tried to check the register offsets.
