@@ -1,71 +1,72 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EAF736D
-	for <linux-sunxi@lists.linux.dev>; Sun, 18 May 2025 16:40:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5821136D
+	for <linux-sunxi@lists.linux.dev>; Sun, 18 May 2025 16:41:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747586454; cv=none; b=T81FLsAGTuvjRcIiLCyeAzMQ8iBQ8QQuUcC4+CfSA4f3S/omLAwBsPpqljwkt2dSGo+2yE/G16UnN9GsHd3dHGeDBpWWnfdYp/go818a8+KmZo716Me1WRcYV5isckteyrlrNjvZoPuO+cwItwa9RWaJhHnTLpp30OWZzBchEPs=
+	t=1747586504; cv=none; b=OT+Nc56eNPCzZ/4vQJh39bRaloqK0Xo4qFHcZcPdU8zf7IXK75GgVzTvDQ34jLRwL/7cySM1rPgxXw/1PDuwOyqYvzxqYS5wC+qZR+k7CJwf1BbJ5RVMwbzQ+UuzHWDYrsbpLNhM0JxdUxG8vWTpZmPz5RlJ1+w+C0JanMdSqxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747586454; c=relaxed/simple;
-	bh=/hg4XOiM8dzAP+sj3OctfJb8nVC7grXLEYczEbyGvks=;
+	s=arc-20240116; t=1747586504; c=relaxed/simple;
+	bh=aZDebBuIwhQGKIA5zH7FXUsKlBBCwxUk5Cqi9xBTjTY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=P9uMeMTEqmrmE/DIquIGx7UTQbwrdtYb+uDgXmALUZHPpoPGKe4XCmytBId7NMphKMbPOuaGqXkJ5wGCl9Fu32XnsIfBNnjFhZmYdv4kNyCU/whH614bmcXVhldIPOYVR6+B5WdwwOjH4dO4nb9WD1NBW1ECH9djU+XjCLoP368=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.180
+	 To:Cc:Content-Type; b=YpfS5OzM11QNZSZlM+IMB9KMkYVaID8tp4Qb+dH/6iW9JNr34A1fbxTTIrDiL4I+YkgJHcpaYYxs1f8WaLbUUUBdPVD2oofiBZEH2JvfIuFNugDq0aUmsW/HHl0QuYGCyoEOpnTbbEMSFzl1WVCFFnuGvUcR5Zy+Iv9q6fLLE2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.166.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-3288f926bc0so5396181fa.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 18 May 2025 09:40:52 -0700 (PDT)
+Received: by mail-il1-f176.google.com with SMTP id e9e14a558f8ab-3d8020ba858so38980535ab.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 18 May 2025 09:41:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747586450; x=1748191250;
+        d=1e100.net; s=20230601; t=1747586500; x=1748191300;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :reply-to:in-reply-to:references:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=/hg4XOiM8dzAP+sj3OctfJb8nVC7grXLEYczEbyGvks=;
-        b=q+deBS8pbbgPjsWCopO526QdjwH/v8bawxAuzBW25VLkIpEw6yXfJUPKwbb3GtSVrC
-         JCcrDhaxbKzD/u2yu0Jr8y6Taw3OWYyr3OcN8OsdHWZMTtEjSIud6FxadJeMif8oEHSk
-         DmqnN24s0EqBmIv0hrH4Tpdi49cVJnQlb74Q5Pe5lc7lhvzdGzE+hSEx9wzJK6lnnzy1
-         sk078jiqh5qXhuimIHgYT/IGdAknJDb+79Ea0EQmY6OnnPSHmBF5FiVlSP4wSDNvF6zE
-         TakY6HWpxKHiRW7JsT8HbAfG1IyqC5jRB1iQtHXlwDQf0AY84FMSNpmVT/fGFAV7fZTm
-         H/7A==
-X-Forwarded-Encrypted: i=1; AJvYcCX7nLwgtAkdGvsCCBq4H0jyh00VXm1iy1Z1cfZ6ST309hhi4YkFq3IYx3rNEJINJ2zixdBy9+5QZzwR9w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwUOlLEZd+Sn7kWKUXBBQ/DHdXj5/hdsmwA5Tz9LSCqNjZ2t8QA
-	H5TrVGBaH6eMsIFv+XgId8RWkiOnpg0TFoudPuyEt2WAKVJYspoBmGcalHi8gxYr/a4=
-X-Gm-Gg: ASbGnctTehJL8O7agXCx6i4e04McOv74s2Hpyg7K+amqW2EyFUWkbdsiQmZsDVj+w3i
-	JPYaRB6ts/4hwqf1+TdOvSfxEhXsnwukCEt0nSqxYTUbeyKQJ89kofSHRbUdexQ7RTo2Jis2Q+g
-	75btvKu3o/csJDjqHVaqTssajuzXS0M4jj9oZpkjehgm4nBpCWwbAZjw5faPjW/T2aAHN0n1y8J
-	TfqMoTlI4o1MwlS4vY8h+VZewl+AeI2uOBYhURslXxkQDaWyE8M3L16pMObJKWjPFMsSS6xFIcT
-	Y4RA+YBDC4TrfJA/2KSOypwU/XAozaijYnXsPZ61Ni69vrZIRb70xuWUJQTPxpzcRZsGxUs0KvP
-	z1GnH0SBx
-X-Google-Smtp-Source: AGHT+IGLDIlot9swCbGq8s4L+wkLW67qoTLzcBfvU8c9c/ZUwrOho8quNVXdG3xSeRgoxhuk1ii1fA==
-X-Received: by 2002:a2e:ae0e:0:b0:30b:b7c3:ea71 with SMTP id 38308e7fff4ca-3280773e671mr24565021fa.15.1747586449822;
-        Sun, 18 May 2025 09:40:49 -0700 (PDT)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com. [209.85.208.182])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-328084b3951sm15292501fa.19.2025.05.18.09.40.49
+        bh=aZDebBuIwhQGKIA5zH7FXUsKlBBCwxUk5Cqi9xBTjTY=;
+        b=Yb8X6dMJdIX/Th7TE3NdqApFqBUb0cZks+in3fc2MeADXYFQJ22+Ktfi7CMNRWbDjg
+         imGjS19AR7/cpq8ro/1l1yVnSJq7DHoCngPmlf3WOp5SIGmYMXkwNBOXn1ERn5UKNqm3
+         IX0ordjc4Ocddyw1GUwhj8v7ieYDjgVKYdc0b1uNA86kt7e9IKS636gmsYBRuNFzH2e5
+         IbLTVV5QooZc68r9Ut0sAWLsR4XklZzjfZNk0XrLH2IUOpQpDuuOE6NMfQOHF15c//Du
+         PIIrdETzmGP8Hkeos1AVTS3OjLqcnjiZBcb018VQTcR0QtwWuuuZgb7/xfocaWcwb8Lz
+         amhA==
+X-Forwarded-Encrypted: i=1; AJvYcCVfUt+EVSezbFIN1lAX6TbzKPBEBnieKL2BtqTG7WEEuzngBoR2krGIB1JJNGKjQLP5vvuTyb+TSHLCWA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwuNNA3Un52CI3QmLPvakKisf2ITSDbkJBnSIrLnwR+6j65MjsW
+	FdXwVc8i5x4zKJk5OtD+Obzpe4xgl03pXZei/IFf+lOnXVAjzvS4RDR/2ZpTtBgeu+w=
+X-Gm-Gg: ASbGnctjp9HtrY1BxJnJmehG54D9XdStL3/VlA5fm+r/7l4DYPGTIefNpO2G3jgbsTn
+	aWenGMYGqT71wmYP5aYWVJ+jEA2lrdFeK0oFDyff0inAZqKg6Pl1YZXcyt1QvkBDGF/QvNbbKXm
+	/Fg3Q7ENicgPl1g/WCjxgqN7McsaH9yk1W0pZLZz/BN6MkTWWNy1hbFdeRBh3zbvr/73HSILzmF
+	L7h1jW1MIpQ9QUxOTjSqTCDH8Enl2d1/mo0C3stXzp4jBEwVimROBmSJwF1tuWTYASuZK6kRlpY
+	6hLpxsrS5rUpX44MdwU+j2Fjqtod42USTPWXYp2PZ7/hKWSzT8p7jLzWhjwplLzgE7NVsDFy6yB
+	HcqLI
+X-Google-Smtp-Source: AGHT+IG00dMv12jC0umB3Lt09xucyX0sB4lIF89e+o3ebb8RZab6sMF+OuJ5xLg48pyt1i2pd8MAYg==
+X-Received: by 2002:a05:6e02:12cf:b0:3da:7cb7:79c with SMTP id e9e14a558f8ab-3db842dea53mr103485795ab.13.1747586499665;
+        Sun, 18 May 2025 09:41:39 -0700 (PDT)
+Received: from mail-io1-f42.google.com (mail-io1-f42.google.com. [209.85.166.42])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4fbcc48c5c0sm1352708173.88.2025.05.18.09.41.39
         for <linux-sunxi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 18 May 2025 09:40:49 -0700 (PDT)
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-3280ce0795bso21704761fa.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 18 May 2025 09:40:49 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWgP673MOvOWK5dDsKbxmdxwUsVHVkaezsRH9SGyV1pzg0cm7x5JLBps1URPsuUU49cjqHqripQh3sXlg==@lists.linux.dev
-X-Received: by 2002:a2e:b8d2:0:b0:307:e368:6bd6 with SMTP id
- 38308e7fff4ca-328077cc6eemr39628791fa.32.1747586449458; Sun, 18 May 2025
- 09:40:49 -0700 (PDT)
+        Sun, 18 May 2025 09:41:39 -0700 (PDT)
+Received: by mail-io1-f42.google.com with SMTP id ca18e2360f4ac-86135af1045so469666739f.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 18 May 2025 09:41:39 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXIxj2wBKujK7QwUUArMFao7I0zogsMp1dXHLegmgf8V3R19uM7DEiQXS5qOK9huyfe5FptVHIp791UUg==@lists.linux.dev
+X-Received: by 2002:a05:6602:6cce:b0:86a:93c:f5fb with SMTP id
+ ca18e2360f4ac-86a231901efmr1346917139f.1.1747586498864; Sun, 18 May 2025
+ 09:41:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250516105101.11650-1-ryan@testtoast.com> <20250516105101.11650-3-ryan@testtoast.com>
-In-Reply-To: <20250516105101.11650-3-ryan@testtoast.com>
+References: <20250516105101.11650-1-ryan@testtoast.com> <20250516105101.11650-4-ryan@testtoast.com>
+In-Reply-To: <20250516105101.11650-4-ryan@testtoast.com>
 Reply-To: wens@csie.org
 From: Chen-Yu Tsai <wens@csie.org>
-Date: Mon, 19 May 2025 00:40:36 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67jfZx4gxhBh9cc5SRknzwc0jX_148v2p0HAV5+adL9aQ@mail.gmail.com>
-X-Gm-Features: AX0GCFtGZP94oDImPioaa5-NKNR-5OiIQ3Lm0O3X3TZCX6x7PwMx49wsoQ0m4fQ
-Message-ID: <CAGb2v67jfZx4gxhBh9cc5SRknzwc0jX_148v2p0HAV5+adL9aQ@mail.gmail.com>
-Subject: Re: [PATCH v11 2/8] drm: sun4i: de2/de3: refactor mixer initialisation
+Date: Mon, 19 May 2025 00:41:05 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66nwNrL1bJjqeLaUKxntPbbL=amao=3fLQnVwKt6bFyFw@mail.gmail.com>
+X-Gm-Features: AX0GCFvPNTkEIdX7vf-6v-hZnL1kJZY7vaEnvAF5rZAuePObHWHQncZKVmFJnYo
+Message-ID: <CAGb2v66nwNrL1bJjqeLaUKxntPbbL=amao=3fLQnVwKt6bFyFw@mail.gmail.com>
+Subject: Re: [PATCH v11 3/8] drm: sun4i: de2/de3: add generic blender register
+ reference function
 To: Ryan Walklin <ryan@testtoast.com>
 Cc: Maxime Ripard <mripard@kernel.org>, 
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
@@ -81,17 +82,20 @@ Cc: Maxime Ripard <mripard@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 16, 2025 at 6:51=E2=80=AFPM Ryan Walklin <ryan@testtoast.com> w=
+On Fri, May 16, 2025 at 6:52=E2=80=AFPM Ryan Walklin <ryan@testtoast.com> w=
 rote:
 >
 > From: Jernej Skrabec <jernej.skrabec@gmail.com>
 >
-> Now that the DE variant can be selected by enum, take the oppportunity
-> to factor out some common initialisation code to a separate function.
+> The DE2 and DE3 engines have a blender register range within the
+> mixer engine register map, whereas the DE33 separates this out into
+> a separate display group.
+>
+> Prepare for this by adding a function to look the blender reference up,
+> with a subsequent patch to add a conditional based on the DE type.
 >
 > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 > Signed-off-by: Ryan Walklin <ryan@testtoast.com>
-> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 > Acked-by: Maxime Ripard <mripard@kernel.org>
 
 Reviewed-by: Chen-Yu Tsai <wens@csie.org>
