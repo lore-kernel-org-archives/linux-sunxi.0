@@ -1,72 +1,72 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F8B836D
-	for <linux-sunxi@lists.linux.dev>; Sun, 18 May 2025 16:50:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73EEE202969
+	for <linux-sunxi@lists.linux.dev>; Sun, 18 May 2025 16:54:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747587059; cv=none; b=lhpTIXW2zU9V6VAL9JlSlXTRd8kb+0ZXVcPGSn1GeNvM6GFknk664AiZkPol3rgILyDoK9AxNIwHWK6vOJB1CtfEmR7PVqJO9Z2JAKOigHS1HIu2BAypfeJ527X91xSYRRJj+AkH2/9w3KzFEuD+1nYHY+uHAU4R+KiYDIKWPRY=
+	t=1747587256; cv=none; b=Hgj0rtZpmBpr7ubteGZaimrCwRO44UoUZewxSHvrxJVU/XpK4SRgEq+BuxGIgxY7KfYATQ+nZEWkYcd1oV8+vvKi/YTjvxDdwr8xGq/VzcxJYYvBVNYYq/nWOgDBwNn0vxql7vLIEyCnfWn6AIa5MDs0TLvHEEWj1CZcLmPfY5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747587059; c=relaxed/simple;
-	bh=Cjf9RkohDGX9YYNtqE4vGQjyj1EQX8nQWRzC7QDYNLo=;
+	s=arc-20240116; t=1747587256; c=relaxed/simple;
+	bh=STMuo8/qd05GfAY8QU0fDaRLs2uLrskCqPaVJINbTME=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IZdQjZTMcHMGnHTr7s3Ju3JjeaBpDQcLsaIfwk5LDzoa7g9A7zwY5e7aY/VIyIrE5viotgNwigLgwzidoGF/FnvRJBOeA5vpAVFtpKGsws574Vl+o5Lm+n2ucBO6MjMhr/ghBiCD4gvWhhgHBgqIjeavlwUnU0mQ20DKrJt48gM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.47
+	 To:Cc:Content-Type; b=rbiVZ/NL5X+yWtu1hYHhb5cDwQqFqvGpRgruM8edyj15g/ZeDjcS3DXSCeRdi44oMc+IhigDN5XdX7D/IEemtS5u0fGj+TZk04jGByRX0ESYgekDswbqpe2EvlqyrAjSLn1y9CGLZ81fxbRCy1gtI22aWhwuKBLs5Y/+0+rrcpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-54b0d638e86so4823349e87.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 18 May 2025 09:50:57 -0700 (PDT)
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-54d6f933152so5463494e87.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 18 May 2025 09:54:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747587051; x=1748191851;
+        d=1e100.net; s=20230601; t=1747587247; x=1748192047;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :reply-to:in-reply-to:references:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=FMCSgP1jqOSpYfOyIfGCKgapP8IcMXQbC49KZ7zqoq0=;
-        b=WiIXaoR5pcMVf9ZA+7bFttlryKqathgTnGyBjchsXlzOf34PyAAAbNrJ7Yofhhmtk3
-         1LEFH/tyYowziggh7VOgObsFMdcvw85EEoVVVVvwdRUrPByne+3wX63jruVTuFxNX0lr
-         BSAPNvELPXoQ0lWXulwiGP/RsunJkG0Vi4l4k071Baqd6Z3bG0O3eAbJSWEM7pwWm3T3
-         1A1iKZPSV3xcY1sSlrQsoROahwW0IVoaWd3HVk9hFaeP+geRgxpTugbRmBo7DlSnH842
-         3BNrIdES+dJ/Wir3TUHaElj5Xn2roRz3H1W8ARWHZ/MWoNO7EmCErEPKKrU4jD9pWcxH
-         sgtQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWWHZTIwX4c/g4FDzCA8hcExqMTiMMLFt94RxjZfAhOMeRjxQF13wRJCjXGZPlAhcL+TqnDqqmkWo/Ceg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxYX+zFaGaJJHfXEi7vcKs1/gzw6GdUw60RlN8UvWaUPxdMUXhQ
-	bLOTaFNx1bpOmSx03wjT7L/db+Vj1dbnYXA5y4EmobALuGM6UgFbsm/gxRKyjp5Lues=
-X-Gm-Gg: ASbGnctfgdkoxOXoSGNfcRx2wV2FLhRD3wB7+4XDiRBBXSntHGKoDlJmUObTSLt7XS4
-	J95ghksa883nPZat45568RdChnnzDXREBL8fvHz2OOF7j8gQdZPnhaKQDq4aNl4ExbsjRA/ZFfD
-	7eeLSUx7X1XCQeEQ3PUxYtvXeqxMWTtRV0RA4iqNoHGUsnQXjaqj0EAjtLcLSfDwenjNyLYc7T0
-	qzs9b/UFE667CgyFTT5bVga8THJ6CEXv19vd9DlXzluf4njEXHEcVT8xv+pb3gBwpE8cAWERr8i
-	WReabMdPYV5FbIfSOqG6a+auxkNuHOiU08I2cUesl51TVVa1hRj/SmxShhA7mvyTBzFG7dF28DS
-	dXbxUc0C8
-X-Google-Smtp-Source: AGHT+IEpo/AaHx23lh36KBjQOrg3/BpT4LpWuDBOjmqE6uns2I/18Jy8Wtiqowh9aIMRZf4hfFD4cQ==
-X-Received: by 2002:a05:6512:220b:b0:549:8fd0:bad8 with SMTP id 2adb3069b0e04-550e97cc44amr2553948e87.21.1747587051358;
-        Sun, 18 May 2025 09:50:51 -0700 (PDT)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com. [209.85.208.180])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-550e7017ef7sm1470616e87.108.2025.05.18.09.50.50
+        bh=STMuo8/qd05GfAY8QU0fDaRLs2uLrskCqPaVJINbTME=;
+        b=q/SfWhXC73JL2FnMv3zE2Gl6s5xX57qyVhV865BAMRFPRbWiN352qRRjCBZFYwkI1z
+         W+MuBm+Nt0M2w8l1qZkNbhkoZjJZu2DeSX1mj0EYUU7D/i37b1Zl8w/lXeqEwFy/q0Qs
+         HR3ILRSbp6HGQDIAPn7yQjDucCG8uT4xK67RwFLYVo4Llt8/2+F2chb/lRqLXnqCHUod
+         K/n85xBP+vlsibTf7wLnqbmysuiGjmb4jINX1f+5zJ31rZ194KkId8OLgMdzN6H6Oe20
+         QvpC8VFhgJ2ATwJwWMv+xuFGZj2IaygGLdzh8Sz3EkJP2kv4sXmsHkYwgSNLbCRrA/UZ
+         IGiQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWVhgHLy7HGRYsw1aq198IYxAI4FqInT22VYYmA3LglHORt1OkihF8FGpH1DuEIjZQyoXyuL7eJk+PgBw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxyZJk3Q70ycy4UZUhL5z/P0RnHAu7jBdvZgohtdLSYLto8SgET
+	uVd+R3u31nRGrSbrCx49IZpPQzBlol4TyNquovkCqH0J4MxbPqs9wSt0kgJXPxKEtJw=
+X-Gm-Gg: ASbGncuez/FFN29Ktf6dFWtmRPjRfMCGAzopyU/oSjIoZghXoVErqm+WniEwQfdEpS4
+	G1t3R5Xas88f9a8W7Ch/kgfz3ZYQSW/T6u3HRlhXXwRFz10DcWTB/ofL3RwfY0NDggVXYi/3MEr
+	NjBENYebr5Ss809B6dsmmTJwZ7ha2AszBI9DypKYfpJXfZ7UYy60FklwDyA8zpuf38fVZcMW4gj
+	BeuDrEk3ckn/t8z0duKkI+quM3hTHBpUjyR5apC1J6bev7qTt4hZw+6NADLWv3VQjeugQNCCmuB
+	uCOL7VOsmUE4VbMILFAi5Y5YnlgxsoHMUtV63qYdQGBbYmiveAfYOaqmx3zMLUu+ItAQhTU3pHn
+	dNXOl5/uI
+X-Google-Smtp-Source: AGHT+IFBfU4+I1dUhTRZ4qSXhQY+MoH8HGvNi3RsgSyyTclKs6cpRDn5my+Nb2Qmm3OwtFyJwluY7w==
+X-Received: by 2002:a05:6512:230b:b0:549:903a:1bf with SMTP id 2adb3069b0e04-550e9906dccmr2386543e87.48.1747587247399;
+        Sun, 18 May 2025 09:54:07 -0700 (PDT)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com. [209.85.208.171])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-550e703f611sm1481231e87.240.2025.05.18.09.54.06
         for <linux-sunxi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 18 May 2025 09:50:50 -0700 (PDT)
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-3105ef2a071so40632881fa.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 18 May 2025 09:50:50 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCX0xbLNdA9UO4KCi8WlCy/fml4wA38mbxjl5jiYqxZqzWhV4XBhOMhMN04QlRitw7tpi6E9A6W7bXFhOg==@lists.linux.dev
-X-Received: by 2002:a2e:8a88:0:b0:328:685:7cc4 with SMTP id
- 38308e7fff4ca-32809782356mr26567051fa.30.1747587050098; Sun, 18 May 2025
- 09:50:50 -0700 (PDT)
+        Sun, 18 May 2025 09:54:06 -0700 (PDT)
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-30bf7d0c15eso35824431fa.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 18 May 2025 09:54:06 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCX0kcQ5917cc85FZG7zqfkux79h1NvBgpAajwjcoI10K2tEh03/BJJ8WskkxeDnohJSrYHFOIopqUu9hQ==@lists.linux.dev
+X-Received: by 2002:a2e:a546:0:b0:30b:fe19:b07a with SMTP id
+ 38308e7fff4ca-3280974cd4bmr28754701fa.25.1747587246119; Sun, 18 May 2025
+ 09:54:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250516105101.11650-1-ryan@testtoast.com> <20250516105101.11650-7-ryan@testtoast.com>
-In-Reply-To: <20250516105101.11650-7-ryan@testtoast.com>
+References: <20250516105101.11650-1-ryan@testtoast.com> <20250516105101.11650-9-ryan@testtoast.com>
+In-Reply-To: <20250516105101.11650-9-ryan@testtoast.com>
 Reply-To: wens@csie.org
 From: Chen-Yu Tsai <wens@csie.org>
-Date: Mon, 19 May 2025 00:50:37 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67oQhoM9aFnOX9njcF3USmEz_80oqfrmY7jrMboHT8fEA@mail.gmail.com>
-X-Gm-Features: AX0GCFthsimZ1Vpr-P15pdmflifaZ2Czon48jDxa1m9hAkmxkrKyvTCzCS0vxW4
-Message-ID: <CAGb2v67oQhoM9aFnOX9njcF3USmEz_80oqfrmY7jrMboHT8fEA@mail.gmail.com>
-Subject: Re: [PATCH v11 6/8] drm: sun4i: de33: mixer: add Display Engine 3.3
- (DE33) support
+Date: Mon, 19 May 2025 00:53:53 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64v_uDKVs0QZkC43fH9aiBbyBnVwJVYNWAHPe2GMtwo6Q@mail.gmail.com>
+X-Gm-Features: AX0GCFvgY9QrpGrKT96c6LVa08NAsANlz2uVfwNxjbxYFVM6-idz9sCykjNFd2E
+Message-ID: <CAGb2v64v_uDKVs0QZkC43fH9aiBbyBnVwJVYNWAHPe2GMtwo6Q@mail.gmail.com>
+Subject: Re: [PATCH v11 8/8] drm: sun4i: de33: mixer: add mixer configuration
+ for the H616
 To: Ryan Walklin <ryan@testtoast.com>
 Cc: Maxime Ripard <mripard@kernel.org>, 
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
@@ -78,103 +78,23 @@ Cc: Maxime Ripard <mripard@kernel.org>,
 	Hironori KIKUCHI <kikuchan98@gmail.com>, Philippe Simons <simons.philippe@gmail.com>, 
 	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, dri-devel@lists.freedesktop.org, 
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	devicetree@vger.kernel.org, linux-clk@vger.kernel.org, 
-	Chris Morgan <macromorgan@hotmail.com>
+	devicetree@vger.kernel.org, linux-clk@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-
-Hi,
 
 On Fri, May 16, 2025 at 6:52=E2=80=AFPM Ryan Walklin <ryan@testtoast.com> w=
 rote:
 >
 > From: Jernej Skrabec <jernej.skrabec@gmail.com>
 >
-> The DE33 is a newer version of the Allwinner Display Engine IP block,
-> found in the H616, H618, H700 and T507 SoCs. DE2 and DE3 are already
-> supported by the mainline driver.
+> The H616 (and related SoC packages sharing the same die) carry the new
+> DE33 display engine.
 >
-> Notable features (from the H616 datasheet and implemented):
-> - 4096 x 2048 (4K) output support
->
-> Other features (implemented but not in this patchset):
-> - AFBC ARM Frame Buffer Compression support
-> - YUV pipeline support
->
-> The DE2 and DE3 engines have a blender register range within the
-> mixer engine register map, whereas the DE33 separates this out into
-> a separate display group, and adds a top register map.
->
-> The DE33 also appears to remove the global double buffer control
-> register, present in the DE2 and DE3.
->
-> Extend the mixer to support the DE33.
+> Add the mixer configuration and a compatible string for the H616 to the
+> mixer.
 >
 > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 > Signed-off-by: Ryan Walklin <ryan@testtoast.com>
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 > Acked-by: Maxime Ripard <mripard@kernel.org>
->
-> ---
-> Changelog v4..v5:
-> - Whitespace fixes
-> - Correct strict mode warnings from checkpatch.pl
->
-> Changelog v7..v8:
-> - Add top/disp regmaps to mixer for DE33
-> - Remove YUV-specific code
-> - Remove use of global double buffer
-> - Remove unneeded if/then parentheses and fix an alignment issue as sugge=
-sted by checkpatch.pl
->
-> Changelog v9..v10:
-> - Use names from vendor BSP kernel for register blocks.
->
-> Changelog v10..v11:
-> - move before vi_scaler patch as vi_scaler code references new DE33 enum.
->
-> Changelog v10..v11:
-> - Convert de_type enum to uppercase
-> ---
->  drivers/gpu/drm/sun4i/sun8i_mixer.c | 82 +++++++++++++++++++++++++----
->  drivers/gpu/drm/sun4i/sun8i_mixer.h | 15 +++++-
->  2 files changed, 84 insertions(+), 13 deletions(-)
->
 
-[...]
-
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h b/drivers/gpu/drm/sun4i/=
-sun8i_mixer.h
-> index b75008d05fc9..870f9b9daf0d 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
-> +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
-> @@ -21,6 +21,9 @@
->  #define SUN8I_MIXER_GLOBAL_DBUFF               0x8
->  #define SUN8I_MIXER_GLOBAL_SIZE                        0xc
->
-> +#define SUN50I_MIXER_GLOBAL_SIZE               0x8
-> +#define SUN50I_MIXER_GLOBAL_CLK                        0xc
-> +
->  #define SUN8I_MIXER_GLOBAL_CTL_RT_EN           BIT(0)
->
->  #define SUN8I_MIXER_GLOBAL_DBUFF_ENABLE                BIT(0)
-> @@ -154,6 +157,7 @@ enum {
->  enum sun8i_mixer_type {
->         SUN8I_MIXER_DE2,
->         SUN8I_MIXER_DE3,
-> +       SUN8I_MIXER_DE33,
->  };
->
->  /**
-> @@ -178,6 +182,7 @@ struct sun8i_mixer_cfg {
->         unsigned long   mod_rate;
->         unsigned int    de_type;
->         unsigned int    scanline_yuv;
-> +       unsigned int    map[6];
-
-This needs a corresponding change to the kernel-doc immediately
-before it, or the doc generation build will produce a warning.
-
-You can keep the reviewed-by after fixing it.
-
-ChenYu
+Reviewed-by: Chen-Yu Tsai <wens@csie.org>
