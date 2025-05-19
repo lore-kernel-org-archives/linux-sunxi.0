@@ -1,84 +1,130 @@
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6581DC997
-	for <linux-sunxi@lists.linux.dev>; Mon, 19 May 2025 17:00:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 778AC20FAB6
+	for <linux-sunxi@lists.linux.dev>; Mon, 19 May 2025 18:59:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747674006; cv=none; b=DDVgcVgFkrYDZCMmVpdIjf1+LCB+Inhoawy1fQcJSXUHzQ9mitUiI4yZtsuwix4QMd5yXrebWWyvKgpY3jrsGXh8GbjX+TgRpRNCz1sPYhRTFw2xnPYymZLWpwxZ7IlpionshtbjyYKHcZ9r2qEAxJulLymnvBCuc8pmGUzF+4w=
+	t=1747681186; cv=none; b=bz/wqFKDmkJmJVVYDrY748BcnrXIB3SWv2y4XOWUNVuhkYtUURhr1DbJpJkz1bAmyXgA/hCY8S3wH2nFaLsV8Gv8jQ3Q8cNCVFQ2wTuMFrC82Ab1DiiLAbO8lwqJSvJhioHY2Q5P58iJrNMI9GdR0+kPgUc+EBqrgMLMoHr9Y8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747674006; c=relaxed/simple;
-	bh=DhnCSKYnCcHJP7adP7B7aiXP352DFFSnM0q4AZoM1Bg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GqJlLVhWaK8KBRVtFjC2Bjee5XoHCGkblJij+Hwq7hVfEwqe50dAXqoWshIyn0mx2JBEkJVOUHBUBCcvbmqJREMP2rvxbRogj9RfE4J+5B8e/D2AjtDjfS0r5NivwWDgiBqdXenkV3fTPiAYbAJ+WrfPNmB+WUFz1QW/B2UV6Gc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 753381F0003D
-	for <linux-sunxi@lists.linux.dev>; Mon, 19 May 2025 16:50:17 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id F32F4AC2ABC; Mon, 19 May 2025 16:50:16 +0000 (UTC)
-X-Spam-Level: *
-Received: from localhost.localdomain (unknown [192.168.1.64])
-	by laika.paulk.fr (Postfix) with ESMTP id 4EB52AC2ABA;
-	Mon, 19 May 2025 16:49:43 +0000 (UTC)
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: netdev@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
+	s=arc-20240116; t=1747681186; c=relaxed/simple;
+	bh=fcRR+5EcSH2NnZRiq+ktBDbPi2pbVrwiv1JAzpr30/g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qoh2AJtOnSpNXSLK7+2J6JgAJ4O5ZNiMHr0PxEcf61wkTKgxIVEz34yeTK7cpolERspOT58IAi2pV1eQyq9sd675H2XmX5k5TugJbgWmGl10NPCqBnEmUQjQPOl38jKCR3w2tR1AmdfgdB46AmJip4J7KsCSwNvCA/8DV2TKd/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=N7zmZOKr; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="N7zmZOKr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=fcRR
+	+5EcSH2NnZRiq+ktBDbPi2pbVrwiv1JAzpr30/g=; b=N7zmZOKr6XTLjOmlTya8
+	qpS/cZfFj9/bODuxKLEJ0emekgGh3jPw9pOF397y0bUXwKq7buAu1QvQwc0Ye7pj
+	8Sg5Ek5BHup+uxJLXeECcFaJ3tBYFXP0Z7U0+WzcV+G45hE8si/ZvSwQzbd8PvXU
+	ez0V5Q1qRYZ/6m+t45zGmwhPeFGpKwxSVKGIzpPUQUuB1oYYaHaaHxKoDUFBaRtt
+	aUxFSbFudm8BI9U6TNjYQG4xO7UTn4oxHl1H/UQJ7hULuBuFfFdzeTqzDkoQ1j4k
+	zr4wKw8rRbwma44sPE0nF+jt3FaAI0IJhr0ezollsXBQEK7JMrLfnwLTzudUTIzg
+	hw==
+Received: (qmail 2605808 invoked from network); 19 May 2025 20:59:41 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 May 2025 20:59:41 +0200
+X-UD-Smtp-Session: l3s3148p1@gd37u4E1qNdZz6uL
+Date: Mon, 19 May 2025 20:59:41 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
 	Chen-Yu Tsai <wens@csie.org>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	Huacai Chen <chenhuacai@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Corentin Labbe <clabbe.montjoie@gmail.com>,
-	Paul Kocialkowski <paulk@sys-base.io>
-Subject: [PATCH] net: dwmac-sun8i: Use parsed internal PHY address instead of 1
-Date: Mon, 19 May 2025 18:49:36 +0200
-Message-ID: <20250519164936.4172658-1-paulk@sys-base.io>
-X-Mailer: git-send-email 2.49.0
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-riscv@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	loongarch@lists.linux.dev,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Rob Herring <robh@kernel.org>, Samuel Holland <samuel@sholland.org>,
+	WANG Xuerui <kernel@xen0n.name>
+Subject: Re: [PATCH 0/7] archs: use proper node names for GPIO based I2C
+ busses
+Message-ID: <aCt_nTLapk0XdI4E@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-renesas-soc@vger.kernel.org,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-riscv@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	loongarch@lists.linux.dev,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Rob Herring <robh@kernel.org>, Samuel Holland <samuel@sholland.org>,
+	WANG Xuerui <kernel@xen0n.name>
+References: <20250519121512.5657-1-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Miw4moGlT/mH/7E/"
+Content-Disposition: inline
+In-Reply-To: <20250519121512.5657-1-wsa+renesas@sang-engineering.com>
 
-While the MDIO address of the internal PHY on Allwinner sun8i chips is
-generally 1, of_mdio_parse_addr is used to cleanly parse the address
-from the device-tree instead of hardcoding it.
 
-A commit reworking the code ditched the parsed value and hardcoded the
-value 1 instead, which didn't really break anything but is more fragile
-and not future-proof.
+--Miw4moGlT/mH/7E/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Restore the initial behavior using the parsed address returned from the
-helper.
+On Mon, May 19, 2025 at 02:15:00PM +0200, Wolfram Sang wrote:
+> A lot of boards across various archs have a superfluous '-' in their
+> node name for GPIO based I2C busses. 'dtbs_check' complains, so fix
+> them.
 
-Fixes: 634db83b8265 ("net: stmmac: dwmac-sun8i: Handle integrated/external MDIOs")
-Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
----
- drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Please drop this series. We found out that upstream dt-schema is broken
+instead. I sent a fix.
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-index 85723a78793a..6c7e8655a7eb 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-@@ -964,7 +964,7 @@ static int sun8i_dwmac_set_syscon(struct device *dev,
- 		/* of_mdio_parse_addr returns a valid (0 ~ 31) PHY
- 		 * address. No need to mask it again.
- 		 */
--		reg |= 1 << H3_EPHY_ADDR_SHIFT;
-+		reg |= ret << H3_EPHY_ADDR_SHIFT;
- 	} else {
- 		/* For SoCs without internal PHY the PHY selection bit should be
- 		 * set to 0 (external PHY).
--- 
-2.49.0
 
+--Miw4moGlT/mH/7E/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmgrf5wACgkQFA3kzBSg
+Kba0/w/8DghRfAlopqU9war5gwpE26Ihxt5Q+oMhY5xMtWaQFNqTEc66w4HdQr3/
+29RR7JJnOaX3VKQ/WpSYysrZxG185wIlaNA8jb8NRcvdI5N0p06SVBaJbnFh2e05
+q3Y/EL5RCfyagvTQjCtTSZQPW0LjKIFM+EsxgWtZU2GgD8dQJMylLMgkgruViB95
+8nFoBB+wxTKUcOixJxztDXAmeGOBh5J7XnpKVU8rH7Uqp4YePBIXDtN761U4Mf5S
+PGHndrQ6+96AfztgD+X/jOLw3udkj8jM/PjkXRm00LRqk7bkC9C33WXIC4yk0G/X
+KLFBh6KOP8JB0VqUC4v3ijbxaeVnPQIEFbFwGtY/XRBftELqN9vMNIEQixTPciB/
+uBMbD2XacAwyCcmeDSEv2nqKm7oSuJ+mN5Zk6k1PnDbRFsrkq+fp+uWEyhoyybLD
+1viuWAWh/rzsPwfixjyPKy0zd9aHaV3hNT4sSzrqhCrZikEmcusq1LqLPlGLsYbx
+Mm1U9EU/JtSvJwQyUX8ZUWN5w1ndA/fzR9UDSZ9oE+cZCvnfV0PaSfuNZYH/ehVH
+UzwSkZrjklNhZ/RQQCZGxce7bCbMUbSg6UdYDn+qW+UHqXyzp7b9Uk6PDWtUtla0
+3GHameu2L+C947A6uzLxX0OJWCYJKdRqaghannzZwZibP0E5sxY=
+=J0Ho
+-----END PGP SIGNATURE-----
+
+--Miw4moGlT/mH/7E/--
