@@ -1,35 +1,31 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B96002116FB;
-	Mon, 19 May 2025 19:26:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 085561EA7C9
+	for <linux-sunxi@lists.linux.dev>; Mon, 19 May 2025 19:51:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747682770; cv=none; b=N3pfPWC0GTendh/e1SeIKgEFKA6ueNl+kv20wEiDLJK3i68aYI6SeZpENlQTD6b7FaY5zraAaNZGAeTpEgfBeH0rJVl4jK4QzDcGDkPktudK8P+xnF4fmVtI7jR0/0nxMKBQTg4cWTSzAS29B6fhLYEmQun8btwP3r802hh2v0A=
+	t=1747684304; cv=none; b=k+vn8lD7kGoybPHzZssUWOCeDkGY9twvnXNK2c/aMCABSNq7aCbkedIDOr8FyVPw92Be18YaQ3o00dKRUgkQnhRTRgKaHTI2t5tj4/C2IWHuy7DEk+jmQaMsIK7GHbKzlXKyekJIjx5Hi2pIep+wvQ9hl6jkU9anh9ElDI2D7pY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747682770; c=relaxed/simple;
-	bh=TuZDdferYgryE5eM52otDGLgnYe7LjTCqbt0IkPyBy4=;
+	s=arc-20240116; t=1747684304; c=relaxed/simple;
+	bh=d5+GpqYlRnvy9j99rtBZRRfevga+7sc0qw0iNVxAEAA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QhFp1jI0AeG/uhnSSk30/mVszGbJrnhPa4VGLUWNwicPB1fqWimsg5Bx9WrcTCUUZZ85mlHBMMKnoS45SRS8S3ttr8vRKN3Av/YsDQ4sLMoIK08j8rWVnO1ffig+uibYwmd7mhG6lOu9WHYS8XKEXoCdQ/iwa8spfY2VRznjzfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=iuWJLgsF; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="iuWJLgsF"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=V/ChxHNdxHGa7PCVkQKYWwIJ8o1DVV/3CQmBnmO0tpA=; b=iuWJLgsFIr7a0Dbf6xa4akBst0
-	BCqtmhb5x1fVYRVfOWGLUAeWIJlJ5YQ3vValSwGCPoQ1XhwMvY8f7GqB/sqUVcJ6uxGryxGRRMEdx
-	PJTcmjCdqSu0hjAlGsGe4/gY0Lwhm70YQaovrG4Yr/aPtr7g4m3Af1HRnjI8Qp+DjlGI=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1uH67b-00D38I-Gg; Mon, 19 May 2025 21:25:59 +0200
-Date: Mon, 19 May 2025 21:25:59 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Paul Kocialkowski <paulk@sys-base.io>
+	 Content-Type:Content-Disposition:In-Reply-To; b=CCX85SNFkzEazXyJXvsd0x5ko9Bw9zsWZ76rLRTXR+z52+Jkx3Qn+JjTNiMb0p7Fgdf2068UnbWOkgkk85FOp4pOVfaOJ+uNZ5Rz8J8RJOU46bf3ir6dmM4s1DL97YLLKGPXlLJ3H4ej+48bHWWTWj/zc5BrKKGMwH0SfABzXMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+	by leonov.paulk.fr (Postfix) with ESMTPS id 5F69C1F00050
+	for <linux-sunxi@lists.linux.dev>; Mon, 19 May 2025 19:51:36 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+	id 0D276AC2AF4; Mon, 19 May 2025 19:51:35 +0000 (UTC)
+X-Spam-Level: 
+Received: from collins (unknown [192.168.1.1])
+	by laika.paulk.fr (Postfix) with ESMTPSA id 9BE1CAC2AED;
+	Mon, 19 May 2025 19:51:32 +0000 (UTC)
+Date: Mon, 19 May 2025 21:51:30 +0200
+From: Paul Kocialkowski <paulk@sys-base.io>
+To: Andrew Lunn <andrew@lunn.ch>
 Cc: netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
 	Andrew Lunn <andrew+netdev@lunn.ch>,
@@ -42,39 +38,99 @@ Cc: netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	Corentin Labbe <clabbe.montjoie@gmail.com>
 Subject: Re: [PATCH] net: dwmac-sun8i: Use parsed internal PHY address
  instead of 1
-Message-ID: <d89565fc-e338-4a58-b547-99f5ae87b559@lunn.ch>
+Message-ID: <aCuLwuSliICh86SP@collins>
 References: <20250519164936.4172658-1-paulk@sys-base.io>
+ <d89565fc-e338-4a58-b547-99f5ae87b559@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="VL1tc0gaoDiGu1D4"
 Content-Disposition: inline
-In-Reply-To: <20250519164936.4172658-1-paulk@sys-base.io>
+In-Reply-To: <d89565fc-e338-4a58-b547-99f5ae87b559@lunn.ch>
 
-On Mon, May 19, 2025 at 06:49:36PM +0200, Paul Kocialkowski wrote:
-> While the MDIO address of the internal PHY on Allwinner sun8i chips is
-> generally 1, of_mdio_parse_addr is used to cleanly parse the address
-> from the device-tree instead of hardcoding it.
-> 
-> A commit reworking the code ditched the parsed value and hardcoded the
-> value 1 instead, which didn't really break anything but is more fragile
-> and not future-proof.
-> 
-> Restore the initial behavior using the parsed address returned from the
-> helper.
-> 
-> Fixes: 634db83b8265 ("net: stmmac: dwmac-sun8i: Handle integrated/external MDIOs")
-> Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
 
-Have you validated all .dts files using this binding? Any using
-anything other than 1? The problem with silly bugs like this is that
-there might be DT blobs with the value 42 which currently work, but
-will break as soon as this patch lands.
+--VL1tc0gaoDiGu1D4
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Just stating in the commit message you have checked will help get the
-patch merged.
+Hi Andrew,
 
-      Andrew
+Thanks for your reply.
+
+Le Mon 19 May 25, 21:25, Andrew Lunn a =C3=A9crit :
+> On Mon, May 19, 2025 at 06:49:36PM +0200, Paul Kocialkowski wrote:
+> > While the MDIO address of the internal PHY on Allwinner sun8i chips is
+> > generally 1, of_mdio_parse_addr is used to cleanly parse the address
+> > from the device-tree instead of hardcoding it.
+> >=20
+> > A commit reworking the code ditched the parsed value and hardcoded the
+> > value 1 instead, which didn't really break anything but is more fragile
+> > and not future-proof.
+> >=20
+> > Restore the initial behavior using the parsed address returned from the
+> > helper.
+> >=20
+> > Fixes: 634db83b8265 ("net: stmmac: dwmac-sun8i: Handle integrated/exter=
+nal MDIOs")
+> > Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
+>=20
+> Have you validated all .dts files using this binding? Any using
+> anything other than 1? The problem with silly bugs like this is that
+> there might be DT blobs with the value 42 which currently work, but
+> will break as soon as this patch lands.
+
+There's actually only two users of this (this code path for internal PHYs is
+only used by two chips), which are platform dtsi files that have the address
+already set to 1.
+
+I have actually tested both with hardware and they work fine.
+
+> Just stating in the commit message you have checked will help get the
+> patch merged.
+
+Do you think it's worth resending? I'd be fine with adding this when picking
+up the patch:
+
+The internal PHY is only found on the H3/H5 and V3s/V3/S3 chips which alrea=
+dy
+have the same address properly described in their platform device-tree and
+were verified to work after this patch.
+
+Cheers,
+
+Paul
+
+--=20
+Paul Kocialkowski,
+
+Independent contractor - sys-base - https://www.sys-base.io/
+Free software developer - https://www.paulk.fr/
+
+Expert in multimedia, graphics and embedded hardware support with Linux.
+
+--VL1tc0gaoDiGu1D4
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmgri8IACgkQhP3B6o/u
+lQxmxQ//buEL628Aci5cGp43IOq18Bzcz4AqwqiGwgLeInHX5XL/j7iKqm3Snxvw
+EgF1CVwszdRfg7wt/C6HaIQiz1VX4HtfvwY11oQNR3gom2gTzIzLsEqYiC+ZbLAf
+zx5h38nsM47Yml4gxXLfXp3YcKgdSZzUePvTgkoI4ScCFRUaUxW8fDUOILDEnR6D
+vpjbp+qXjuA3lFWpREr2OztgOr/BxNMu/g2KVvuuSRtRXxPsesjls2mtXkimrmB+
+2kUDz/s83L50iCLbnmVY0Ac6D6V4G3DIpXwI8EcssnzA9nQmnnZ3d6X4tBQU+3Eh
+G1hZfgWzMg7p7F09cHOqpoflvAyuPeU9LAdHVjgP3oAcK5Zredbtha8mVMOz8JFF
+JMF99vrBfcq0W0uUPvOu0bW9IoC/rSlilHURibBPNbzZRq318pk8i6CMozIv9CD6
+a3+fH69JxziH+jYNSKtPl8uNLsZM0o4QLVCQZYiY8ep8ZgodDsjtb5uCGzULedR2
+UMhu7eYKXJPU3777swOzakEcW6k0ZHRVgit2hA2xLLbCBm7fWNeaDhxQAIta0kPh
+fZCFJQ1ChcNM+aJ0/GhkUDZvurax7mBW19qXemer587wPHSqjwKYsZldU+jhChXe
+9tE6Njmq5MqsrBQe3olAmyePoVYKQrqqDLr9aCiXLTS6ewf+jUo=
+=lDrU
+-----END PGP SIGNATURE-----
+
+--VL1tc0gaoDiGu1D4--
