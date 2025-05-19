@@ -1,81 +1,40 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF56285412
-	for <linux-sunxi@lists.linux.dev>; Mon, 19 May 2025 15:14:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E69F62857CA
+	for <linux-sunxi@lists.linux.dev>; Mon, 19 May 2025 15:42:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747667674; cv=none; b=PCbMiMd7XAJhOBJeBuQCv4vbvCDuN5ZfCdIimOFzKfhes6JD+N3XD2c9Ty3JqlBRg4TBTsvaw5J+CYyB/m3X+VBeOTU/QwyRDYZMlJpEfWlBWZTPSDBgMX25l8Kd/XfOePDrc1zNl2lxcJyBEn0vK2/w/5kUAgnFHjZr/5Qrk8g=
+	t=1747669383; cv=none; b=eSo0/U3zRuH5r0SSbkMNaOfkL1oBejkF/8e2agPBbz2YZItBwA1fNp+RQYd04CJwJkJUFc8LjvqSmWN5SfubAOk3mfnG5MZyvkgFQN7Ogusew2nQKoWWnoJEG9jJ5nvZeeusMn+yoClCoBvZ0PmY8XcvyjhveCsRQpc6CjVLZa8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747667674; c=relaxed/simple;
-	bh=jBoiZ2GaWcghwbS8pyGx4WZcTi5x2cK8RY/sPEKxu5Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VOYKJFFyOpn9XRN06qTfvIAlyC/gEOPSYxVs8inQ5z8xrHviOzjKridzdNH/Mq1Kyz11deHWysiB9sbrGum47BwxAwwahK2ncKFL2MioZQSiijsncdNdM5HbztgRqnYVfyussRYpA6UOr6RBg6dK+FELJd9Zi9Hx0tNnjbQa1uY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nkj2bqd9; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nkj2bqd9"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-601afe51106so2432573a12.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 19 May 2025 08:14:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747667671; x=1748272471; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AzPLTyR8BLY/EVNJO6GgeWhpConHv27PYp6Y5vYD5J0=;
-        b=nkj2bqd9OnQHh8gB2JO6rYNZjjbuIvxwrToKued5DW3qmGGS2i0HyEzNCfob7Jl5b2
-         98gYsBo8a94FXH0IBFrD9qtsVsekZU7tsbEb1EfF0RhmnRZEHQJNcjcBUqqXDA2y7mp+
-         xIOWRqZha/m5QWKSncSpzwlcw60F+ERViBmLvbzxOILdAmrZczW7/0V/CGpaHdX56sNH
-         XECKvEcQKkmkpxDD3rjqIdskJyErZhiJ5FPPxnzDK54a5tMYcWemAgVBQmjLAJ/VCYIv
-         bnA+og4KQvtjg5Zql1Bh+UFaB4wIitxWXX7283SLhFd95Eox8/DLWJhD+CJV5zix4Pk/
-         fCOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747667671; x=1748272471;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AzPLTyR8BLY/EVNJO6GgeWhpConHv27PYp6Y5vYD5J0=;
-        b=wl0pYQGSrvngnhRaTnLm4jVfenRJUovlbx3VcRAhqDxdQgDwkTdLM3pP9NgakdpSyM
-         BezdTaC2cQmy6LCcwu0tCbMaAKY37HJeU5QMsxYxy+jSZ0ZNc3ACMMJmRTeFd8KwcHNY
-         QaqpRagDqNEQFppAJJMbWSciqjC1yPO4cN7G7JJVsYg5ZJG8T+GBChQK5180htutVln/
-         g/pFKhO40iLw2puyJWJ1oL8WY+fglEPvU61UVfSyts2SB2DIf6bAuYcxaCqBaMYwTU4H
-         pSo6Bli8lhzpUHDKawfx2KUQ+r6Brc2sK2Irf8VXYVkDhPZA1Cjf72vD/1svUHzTfE0S
-         ieOg==
-X-Forwarded-Encrypted: i=1; AJvYcCXOChHCOryhYVtU12qde2G7KzibQaHNRdFryNvtPLE3aBQVFLEqnk9U2MHK3lE+jKWHXQF2rv+h6rnIig==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyekXajuhtADNI7WaSm/KQtqFuk7WzjwhntwmNo9mA7uc72IINd
-	0/XPq2Sgt20MvaXoVu7nWZQMN9++W+iWaDNITLlUpdsfSBwdziKv4guP
-X-Gm-Gg: ASbGnctUskHtanWYVnrnR9UcAuSVOP57xe8EakFm6jCh7nuOkuAtxa4f4osEQ+LoyyF
-	YUnAxPsPkxtm1qi+gTXLW7/EOEXlTpqckk11hAgk/aAMpLPr94Uvrl/IROE+KYG9L6+XN2Zk6/h
-	JttcbBSyJllb5u5GwQ6Mtb136vBs4opRJgKIrENJ12oCeEVJFMCFVRrPKGn64HNPiFCY6zThwTq
-	LHbYl3EAXq9GSZyPNyXcMEIkjYys4YehaDFVkI+k7gWTMzzy5ajf9tZu8Ag0fPNmxaAsbiC44E9
-	t/f0OH5E+NT0Gg921VAaPrwL2yZPKlX1U8G8jamPlffKd/4OMVXDpAAXWmbbku4Av7cYWjWceS5
-	OC8k=
-X-Google-Smtp-Source: AGHT+IHgJ+seY57z+XoTNGawx66JWeSgri2TnpAdEN3iSpX2I08ljlzJynMEjU7v1ngmRpqeLCLRKA==
-X-Received: by 2002:a17:906:dc93:b0:ad5:6ca3:c795 with SMTP id a640c23a62f3a-ad56ca3cb15mr472987066b.33.1747667671489;
-        Mon, 19 May 2025 08:14:31 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:2f07:610b:a400:6472:d2f9:d536:4c30])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad52d04b08bsm608522566b.13.2025.05.19.08.14.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 May 2025 08:14:31 -0700 (PDT)
-From: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
-To: clabbe.montjoie@gmail.com,
-	herbert@gondor.apana.org.au,
-	davem@davemloft.net,
-	linux-crypto@vger.kernel.org
-Cc: wens@csie.org,
+	s=arc-20240116; t=1747669383; c=relaxed/simple;
+	bh=zV0VW4DN1bDPoQ2dgjlFiDvPJcGxgfxR7bRSjD9D65I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=O+EvRh+cw/1CSyJ731qDu97PVfz80WKtRzIKwQPRGffbKeWfdYM9f/Q00RNQ9eWYgjJPaRkjGIhlf7oqlnh+GW8BVjghE7i6qlKqyaIsaCfdIbD9fsRvYIZ11fE7D/AJYkzckmU9WaKmwSv8no1At49Zxf8ocPvYg1mCmRrfa7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost.localdomain (unknown [124.16.141.245])
+	by APP-01 (Coremail) with SMTP id qwCowAAHcL96UStoD9NmAQ--.49806S2;
+	Mon, 19 May 2025 23:42:52 +0800 (CST)
+From: Wentao Liang <vulab@iscas.ac.cn>
+To: miquel.raynal@bootlin.com,
+	richard@nod.at,
+	vigneshr@ti.com,
+	wens@csie.org,
 	jernej.skrabec@gmail.com,
 	samuel@sholland.org,
+	ruanjinjie@huawei.com,
+	u.kleine-koenig@baylibre.com
+Cc: linux-mtd@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Ovidiu Panait <ovidiu.panait.oss@gmail.com>
-Subject: [PATCH 3/3] crypto: sun8i-ce - use helpers to get hash block and digest sizes
-Date: Mon, 19 May 2025 18:13:50 +0300
-Message-ID: <20250519151350.3442981-3-ovidiu.panait.oss@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250519151350.3442981-1-ovidiu.panait.oss@gmail.com>
-References: <20250519151350.3442981-1-ovidiu.panait.oss@gmail.com>
+	Wentao Liang <vulab@iscas.ac.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH] mtd: nand: sunxi: Add randomizer configuration before randomizer enable
+Date: Mon, 19 May 2025 23:42:24 +0800
+Message-ID: <20250519154225.2928-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.42.0.windows.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -83,39 +42,50 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qwCowAAHcL96UStoD9NmAQ--.49806S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrKrW7XF4rGr1DtFy8GF4xtFb_yoWDtFc_W3
+	y2v34kKr1Uur93JF1fuF4xCry7tw4UWr4vqwnIqrW3A3W3XryIq3s0vrn7AF1kXF18uFy5
+	Aaykt3WxA34jqjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbf8FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+	Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+	jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWxJVW8Jr1lOx8S6xCaFVCjc4AY6r1j6r
+	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+	n2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCY02Avz4vE14v_XrWl42xK82IYc2Ij64vIr4
+	1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK
+	67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI
+	8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAv
+	wI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14
+	v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7VUbrgA7UUUUU==
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBgoHA2grSSUO0QABs5
 
-Use crypto_ahash_blocksize() and crypto_ahash_digestsize() helpers instead
-of directly accessing 'struct ahash_alg' members.
+In sunxi_nfc_hw_ecc_read_chunk(), the sunxi_nfc_randomizer_enable() is
+called without the config of randomizer. A proper implementation can be
+found in sunxi_nfc_hw_ecc_read_chunks_dma().
 
-Signed-off-by: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
+Add sunxi_nfc_randomizer_config() before the start of randomization.
+
+Fixes: 4be4e03efc7f ("mtd: nand: sunxi: add randomizer support")
+Cc: stable@vger.kernel.org # v4.6
+Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
 ---
- drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/mtd/nand/raw/sunxi_nand.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
-index bef44f350167..13bdfb8a2c62 100644
---- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
-+++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
-@@ -342,8 +342,8 @@ int sun8i_ce_hash_run(struct crypto_engine *engine, void *breq)
- 	algt = container_of(alg, struct sun8i_ce_alg_template, alg.hash.base);
- 	ce = algt->ce;
+diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sunxi_nand.c
+index fab371e3e9b7..9179719f639e 100644
+--- a/drivers/mtd/nand/raw/sunxi_nand.c
++++ b/drivers/mtd/nand/raw/sunxi_nand.c
+@@ -817,6 +817,7 @@ static int sunxi_nfc_hw_ecc_read_chunk(struct nand_chip *nand,
+ 	if (ret)
+ 		return ret;
  
--	bs = algt->alg.hash.base.halg.base.cra_blocksize;
--	digestsize = algt->alg.hash.base.halg.digestsize;
-+	bs = crypto_ahash_blocksize(tfm);
-+	digestsize = crypto_ahash_digestsize(tfm);
- 	if (digestsize == SHA224_DIGEST_SIZE)
- 		digestsize = SHA256_DIGEST_SIZE;
- 	if (digestsize == SHA384_DIGEST_SIZE)
-@@ -455,7 +455,7 @@ int sun8i_ce_hash_run(struct crypto_engine *engine, void *breq)
- err_unmap_result:
- 	dma_unmap_single(ce->dev, addr_res, digestsize, DMA_FROM_DEVICE);
- 	if (!err)
--		memcpy(areq->result, result, algt->alg.hash.base.halg.digestsize);
-+		memcpy(areq->result, result, crypto_ahash_digestsize(tfm));
- 
- err_unmap_src:
- 	dma_unmap_sg(ce->dev, areq->src, ns, DMA_TO_DEVICE);
++	sunxi_nfc_randomizer_config(nand, page, false);
+ 	sunxi_nfc_randomizer_enable(nand);
+ 	writel(NFC_DATA_TRANS | NFC_DATA_SWAP_METHOD | NFC_ECC_OP,
+ 	       nfc->regs + NFC_REG_CMD);
 -- 
-2.48.1
+2.42.0.windows.2
 
