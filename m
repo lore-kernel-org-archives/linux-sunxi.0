@@ -1,130 +1,80 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 778AC20FAB6
-	for <linux-sunxi@lists.linux.dev>; Mon, 19 May 2025 18:59:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B96002116FB;
+	Mon, 19 May 2025 19:26:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747681186; cv=none; b=bz/wqFKDmkJmJVVYDrY748BcnrXIB3SWv2y4XOWUNVuhkYtUURhr1DbJpJkz1bAmyXgA/hCY8S3wH2nFaLsV8Gv8jQ3Q8cNCVFQ2wTuMFrC82Ab1DiiLAbO8lwqJSvJhioHY2Q5P58iJrNMI9GdR0+kPgUc+EBqrgMLMoHr9Y8U=
+	t=1747682770; cv=none; b=N3pfPWC0GTendh/e1SeIKgEFKA6ueNl+kv20wEiDLJK3i68aYI6SeZpENlQTD6b7FaY5zraAaNZGAeTpEgfBeH0rJVl4jK4QzDcGDkPktudK8P+xnF4fmVtI7jR0/0nxMKBQTg4cWTSzAS29B6fhLYEmQun8btwP3r802hh2v0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747681186; c=relaxed/simple;
-	bh=fcRR+5EcSH2NnZRiq+ktBDbPi2pbVrwiv1JAzpr30/g=;
+	s=arc-20240116; t=1747682770; c=relaxed/simple;
+	bh=TuZDdferYgryE5eM52otDGLgnYe7LjTCqbt0IkPyBy4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qoh2AJtOnSpNXSLK7+2J6JgAJ4O5ZNiMHr0PxEcf61wkTKgxIVEz34yeTK7cpolERspOT58IAi2pV1eQyq9sd675H2XmX5k5TugJbgWmGl10NPCqBnEmUQjQPOl38jKCR3w2tR1AmdfgdB46AmJip4J7KsCSwNvCA/8DV2TKd/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=N7zmZOKr; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=QhFp1jI0AeG/uhnSSk30/mVszGbJrnhPa4VGLUWNwicPB1fqWimsg5Bx9WrcTCUUZZ85mlHBMMKnoS45SRS8S3ttr8vRKN3Av/YsDQ4sLMoIK08j8rWVnO1ffig+uibYwmd7mhG6lOu9WHYS8XKEXoCdQ/iwa8spfY2VRznjzfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=iuWJLgsF; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="N7zmZOKr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=fcRR
-	+5EcSH2NnZRiq+ktBDbPi2pbVrwiv1JAzpr30/g=; b=N7zmZOKr6XTLjOmlTya8
-	qpS/cZfFj9/bODuxKLEJ0emekgGh3jPw9pOF397y0bUXwKq7buAu1QvQwc0Ye7pj
-	8Sg5Ek5BHup+uxJLXeECcFaJ3tBYFXP0Z7U0+WzcV+G45hE8si/ZvSwQzbd8PvXU
-	ez0V5Q1qRYZ/6m+t45zGmwhPeFGpKwxSVKGIzpPUQUuB1oYYaHaaHxKoDUFBaRtt
-	aUxFSbFudm8BI9U6TNjYQG4xO7UTn4oxHl1H/UQJ7hULuBuFfFdzeTqzDkoQ1j4k
-	zr4wKw8rRbwma44sPE0nF+jt3FaAI0IJhr0ezollsXBQEK7JMrLfnwLTzudUTIzg
-	hw==
-Received: (qmail 2605808 invoked from network); 19 May 2025 20:59:41 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 May 2025 20:59:41 +0200
-X-UD-Smtp-Session: l3s3148p1@gd37u4E1qNdZz6uL
-Date: Mon, 19 May 2025 20:59:41 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="iuWJLgsF"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=V/ChxHNdxHGa7PCVkQKYWwIJ8o1DVV/3CQmBnmO0tpA=; b=iuWJLgsFIr7a0Dbf6xa4akBst0
+	BCqtmhb5x1fVYRVfOWGLUAeWIJlJ5YQ3vValSwGCPoQ1XhwMvY8f7GqB/sqUVcJ6uxGryxGRRMEdx
+	PJTcmjCdqSu0hjAlGsGe4/gY0Lwhm70YQaovrG4Yr/aPtr7g4m3Af1HRnjI8Qp+DjlGI=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1uH67b-00D38I-Gg; Mon, 19 May 2025 21:25:59 +0200
+Date: Mon, 19 May 2025 21:25:59 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Paul Kocialkowski <paulk@sys-base.io>
+Cc: netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	Chen-Yu Tsai <wens@csie.org>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	Huacai Chen <chenhuacai@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-riscv@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	loongarch@lists.linux.dev,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Rob Herring <robh@kernel.org>, Samuel Holland <samuel@sholland.org>,
-	WANG Xuerui <kernel@xen0n.name>
-Subject: Re: [PATCH 0/7] archs: use proper node names for GPIO based I2C
- busses
-Message-ID: <aCt_nTLapk0XdI4E@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	linux-renesas-soc@vger.kernel.org,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-riscv@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	loongarch@lists.linux.dev,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Rob Herring <robh@kernel.org>, Samuel Holland <samuel@sholland.org>,
-	WANG Xuerui <kernel@xen0n.name>
-References: <20250519121512.5657-1-wsa+renesas@sang-engineering.com>
+	Samuel Holland <samuel@sholland.org>,
+	Corentin Labbe <clabbe.montjoie@gmail.com>
+Subject: Re: [PATCH] net: dwmac-sun8i: Use parsed internal PHY address
+ instead of 1
+Message-ID: <d89565fc-e338-4a58-b547-99f5ae87b559@lunn.ch>
+References: <20250519164936.4172658-1-paulk@sys-base.io>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Miw4moGlT/mH/7E/"
-Content-Disposition: inline
-In-Reply-To: <20250519121512.5657-1-wsa+renesas@sang-engineering.com>
-
-
---Miw4moGlT/mH/7E/
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250519164936.4172658-1-paulk@sys-base.io>
 
-On Mon, May 19, 2025 at 02:15:00PM +0200, Wolfram Sang wrote:
-> A lot of boards across various archs have a superfluous '-' in their
-> node name for GPIO based I2C busses. 'dtbs_check' complains, so fix
-> them.
+On Mon, May 19, 2025 at 06:49:36PM +0200, Paul Kocialkowski wrote:
+> While the MDIO address of the internal PHY on Allwinner sun8i chips is
+> generally 1, of_mdio_parse_addr is used to cleanly parse the address
+> from the device-tree instead of hardcoding it.
+> 
+> A commit reworking the code ditched the parsed value and hardcoded the
+> value 1 instead, which didn't really break anything but is more fragile
+> and not future-proof.
+> 
+> Restore the initial behavior using the parsed address returned from the
+> helper.
+> 
+> Fixes: 634db83b8265 ("net: stmmac: dwmac-sun8i: Handle integrated/external MDIOs")
+> Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
 
-Please drop this series. We found out that upstream dt-schema is broken
-instead. I sent a fix.
+Have you validated all .dts files using this binding? Any using
+anything other than 1? The problem with silly bugs like this is that
+there might be DT blobs with the value 42 which currently work, but
+will break as soon as this patch lands.
 
+Just stating in the commit message you have checked will help get the
+patch merged.
 
---Miw4moGlT/mH/7E/
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmgrf5wACgkQFA3kzBSg
-Kba0/w/8DghRfAlopqU9war5gwpE26Ihxt5Q+oMhY5xMtWaQFNqTEc66w4HdQr3/
-29RR7JJnOaX3VKQ/WpSYysrZxG185wIlaNA8jb8NRcvdI5N0p06SVBaJbnFh2e05
-q3Y/EL5RCfyagvTQjCtTSZQPW0LjKIFM+EsxgWtZU2GgD8dQJMylLMgkgruViB95
-8nFoBB+wxTKUcOixJxztDXAmeGOBh5J7XnpKVU8rH7Uqp4YePBIXDtN761U4Mf5S
-PGHndrQ6+96AfztgD+X/jOLw3udkj8jM/PjkXRm00LRqk7bkC9C33WXIC4yk0G/X
-KLFBh6KOP8JB0VqUC4v3ijbxaeVnPQIEFbFwGtY/XRBftELqN9vMNIEQixTPciB/
-uBMbD2XacAwyCcmeDSEv2nqKm7oSuJ+mN5Zk6k1PnDbRFsrkq+fp+uWEyhoyybLD
-1viuWAWh/rzsPwfixjyPKy0zd9aHaV3hNT4sSzrqhCrZikEmcusq1LqLPlGLsYbx
-Mm1U9EU/JtSvJwQyUX8ZUWN5w1ndA/fzR9UDSZ9oE+cZCvnfV0PaSfuNZYH/ehVH
-UzwSkZrjklNhZ/RQQCZGxce7bCbMUbSg6UdYDn+qW+UHqXyzp7b9Uk6PDWtUtla0
-3GHameu2L+C947A6uzLxX0OJWCYJKdRqaghannzZwZibP0E5sxY=
-=J0Ho
------END PGP SIGNATURE-----
-
---Miw4moGlT/mH/7E/--
+      Andrew
