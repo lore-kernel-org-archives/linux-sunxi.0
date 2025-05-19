@@ -1,40 +1,46 @@
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E69F62857CA
-	for <linux-sunxi@lists.linux.dev>; Mon, 19 May 2025 15:42:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6581DC997
+	for <linux-sunxi@lists.linux.dev>; Mon, 19 May 2025 17:00:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747669383; cv=none; b=eSo0/U3zRuH5r0SSbkMNaOfkL1oBejkF/8e2agPBbz2YZItBwA1fNp+RQYd04CJwJkJUFc8LjvqSmWN5SfubAOk3mfnG5MZyvkgFQN7Ogusew2nQKoWWnoJEG9jJ5nvZeeusMn+yoClCoBvZ0PmY8XcvyjhveCsRQpc6CjVLZa8=
+	t=1747674006; cv=none; b=DDVgcVgFkrYDZCMmVpdIjf1+LCB+Inhoawy1fQcJSXUHzQ9mitUiI4yZtsuwix4QMd5yXrebWWyvKgpY3jrsGXh8GbjX+TgRpRNCz1sPYhRTFw2xnPYymZLWpwxZ7IlpionshtbjyYKHcZ9r2qEAxJulLymnvBCuc8pmGUzF+4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747669383; c=relaxed/simple;
-	bh=zV0VW4DN1bDPoQ2dgjlFiDvPJcGxgfxR7bRSjD9D65I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=O+EvRh+cw/1CSyJ731qDu97PVfz80WKtRzIKwQPRGffbKeWfdYM9f/Q00RNQ9eWYgjJPaRkjGIhlf7oqlnh+GW8BVjghE7i6qlKqyaIsaCfdIbD9fsRvYIZ11fE7D/AJYkzckmU9WaKmwSv8no1At49Zxf8ocPvYg1mCmRrfa7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [124.16.141.245])
-	by APP-01 (Coremail) with SMTP id qwCowAAHcL96UStoD9NmAQ--.49806S2;
-	Mon, 19 May 2025 23:42:52 +0800 (CST)
-From: Wentao Liang <vulab@iscas.ac.cn>
-To: miquel.raynal@bootlin.com,
-	richard@nod.at,
-	vigneshr@ti.com,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	ruanjinjie@huawei.com,
-	u.kleine-koenig@baylibre.com
-Cc: linux-mtd@lists.infradead.org,
+	s=arc-20240116; t=1747674006; c=relaxed/simple;
+	bh=DhnCSKYnCcHJP7adP7B7aiXP352DFFSnM0q4AZoM1Bg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GqJlLVhWaK8KBRVtFjC2Bjee5XoHCGkblJij+Hwq7hVfEwqe50dAXqoWshIyn0mx2JBEkJVOUHBUBCcvbmqJREMP2rvxbRogj9RfE4J+5B8e/D2AjtDjfS0r5NivwWDgiBqdXenkV3fTPiAYbAJ+WrfPNmB+WUFz1QW/B2UV6Gc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+	by leonov.paulk.fr (Postfix) with ESMTPS id 753381F0003D
+	for <linux-sunxi@lists.linux.dev>; Mon, 19 May 2025 16:50:17 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+	id F32F4AC2ABC; Mon, 19 May 2025 16:50:16 +0000 (UTC)
+X-Spam-Level: *
+Received: from localhost.localdomain (unknown [192.168.1.64])
+	by laika.paulk.fr (Postfix) with ESMTP id 4EB52AC2ABA;
+	Mon, 19 May 2025 16:49:43 +0000 (UTC)
+From: Paul Kocialkowski <paulk@sys-base.io>
+To: netdev@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Wentao Liang <vulab@iscas.ac.cn>,
-	stable@vger.kernel.org
-Subject: [PATCH] mtd: nand: sunxi: Add randomizer configuration before randomizer enable
-Date: Mon, 19 May 2025 23:42:24 +0800
-Message-ID: <20250519154225.2928-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.42.0.windows.2
+	linux-kernel@vger.kernel.org
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Corentin Labbe <clabbe.montjoie@gmail.com>,
+	Paul Kocialkowski <paulk@sys-base.io>
+Subject: [PATCH] net: dwmac-sun8i: Use parsed internal PHY address instead of 1
+Date: Mon, 19 May 2025 18:49:36 +0200
+Message-ID: <20250519164936.4172658-1-paulk@sys-base.io>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -42,50 +48,37 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowAAHcL96UStoD9NmAQ--.49806S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrKrW7XF4rGr1DtFy8GF4xtFb_yoWDtFc_W3
-	y2v34kKr1Uur93JF1fuF4xCry7tw4UWr4vqwnIqrW3A3W3XryIq3s0vrn7AF1kXF18uFy5
-	Aaykt3WxA34jqjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbf8FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-	Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
-	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
-	jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWxJVW8Jr1lOx8S6xCaFVCjc4AY6r1j6r
-	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
-	n2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCY02Avz4vE14v_XrWl42xK82IYc2Ij64vIr4
-	1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK
-	67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI
-	8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAv
-	wI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14
-	v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7VUbrgA7UUUUU==
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBgoHA2grSSUO0QABs5
 
-In sunxi_nfc_hw_ecc_read_chunk(), the sunxi_nfc_randomizer_enable() is
-called without the config of randomizer. A proper implementation can be
-found in sunxi_nfc_hw_ecc_read_chunks_dma().
+While the MDIO address of the internal PHY on Allwinner sun8i chips is
+generally 1, of_mdio_parse_addr is used to cleanly parse the address
+from the device-tree instead of hardcoding it.
 
-Add sunxi_nfc_randomizer_config() before the start of randomization.
+A commit reworking the code ditched the parsed value and hardcoded the
+value 1 instead, which didn't really break anything but is more fragile
+and not future-proof.
 
-Fixes: 4be4e03efc7f ("mtd: nand: sunxi: add randomizer support")
-Cc: stable@vger.kernel.org # v4.6
-Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+Restore the initial behavior using the parsed address returned from the
+helper.
+
+Fixes: 634db83b8265 ("net: stmmac: dwmac-sun8i: Handle integrated/external MDIOs")
+Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
 ---
- drivers/mtd/nand/raw/sunxi_nand.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sunxi_nand.c
-index fab371e3e9b7..9179719f639e 100644
---- a/drivers/mtd/nand/raw/sunxi_nand.c
-+++ b/drivers/mtd/nand/raw/sunxi_nand.c
-@@ -817,6 +817,7 @@ static int sunxi_nfc_hw_ecc_read_chunk(struct nand_chip *nand,
- 	if (ret)
- 		return ret;
- 
-+	sunxi_nfc_randomizer_config(nand, page, false);
- 	sunxi_nfc_randomizer_enable(nand);
- 	writel(NFC_DATA_TRANS | NFC_DATA_SWAP_METHOD | NFC_ECC_OP,
- 	       nfc->regs + NFC_REG_CMD);
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+index 85723a78793a..6c7e8655a7eb 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+@@ -964,7 +964,7 @@ static int sun8i_dwmac_set_syscon(struct device *dev,
+ 		/* of_mdio_parse_addr returns a valid (0 ~ 31) PHY
+ 		 * address. No need to mask it again.
+ 		 */
+-		reg |= 1 << H3_EPHY_ADDR_SHIFT;
++		reg |= ret << H3_EPHY_ADDR_SHIFT;
+ 	} else {
+ 		/* For SoCs without internal PHY the PHY selection bit should be
+ 		 * set to 0 (external PHY).
 -- 
-2.42.0.windows.2
+2.49.0
 
