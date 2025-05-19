@@ -1,61 +1,63 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0196C1DF273
-	for <linux-sunxi@lists.linux.dev>; Mon, 19 May 2025 15:14:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6672A284B33
+	for <linux-sunxi@lists.linux.dev>; Mon, 19 May 2025 15:14:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747667672; cv=none; b=EIl0PLh2b9TQ1hl1IdedENMsfK1juZdy8w8mAk4BJwJO+2el/0xir4k/2pOIj2X7mBAB+wScF58qKXw2TnYo34dJ8F/3HKcV9m8NQEkPpTxcyEhWmTP0VXD7N6na2uGLMxAllS35KODDTrkgDCfVAAQlj+yVOjhDc5TJNBoXGbM=
+	t=1747667674; cv=none; b=PunkiEjk+wHwkK+kHa6w1aF7aeJBGfqjtd0bRjVldunBYwtB7zDii9/T89uqib5wrOPlnQ9+bJ/2jXEKmkPnmQo56gBBme6gCmNhQc33DstHXWhtug+vTCv3GfhmF0n5JexW4gwsoIQ+nmLbr/HKSs42KO/DgvEYhDRqcxb9ric=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747667672; c=relaxed/simple;
-	bh=tlVXRvNMHzLQ2IjUl++okGPXDqq4MPvOzcHaYSkpS6Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JslbY42Doh0LC7d746F5IPDArkc3cw0bqyvvP/HvAhzYT/f8mKaWyyWrYS0XdmSiot0noFMl3LllMutNJpgr7XYCxgreCbRysG7kFIZ7/xTB7wUSOOs+S+SeXu7dHhsYc9ezzoscw89wFv9rsKCr2Czl/wjwje8O3DmULPvatAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dvjqsT52; arc=none smtp.client-ip=209.85.208.45
+	s=arc-20240116; t=1747667674; c=relaxed/simple;
+	bh=uQMEZH2UY5Jm2u+FOuxDZp8bnbU3aSj7eRys9xEdlOw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=pwWapSjHHYaGa5Mms4bCVCqsSsRf5gYYocwsf1/LiOoudR46vqS4zjjmMqhrv60rG+O+umw9tWDl687xdcFhNt7ZkcS3RKFgHt4/Dm3dRDJj10nlD2DhnaFGR8ROHdJGUA8OD5/Veo4Ge0MjUWU8GZ8PDmaem6Eqc9kiRjXbLKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XTvJoaDI; arc=none smtp.client-ip=209.85.218.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dvjqsT52"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-601aa44af77so3360662a12.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 19 May 2025 08:14:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XTvJoaDI"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-acb39c45b4eso645949966b.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 19 May 2025 08:14:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747667669; x=1748272469; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IqcrMvL7TRi/F7iH7e+SW+BnTVjngWX2CY239LaHS6A=;
-        b=dvjqsT52uctR9iRDHNYBkLjieKqel8k07Z6Kem7Nv6wgzfwnxH++8wn8OdAS1X16gX
-         riTZ+vPijcjnHHU7Q6e9Dbfszyy4iG9x5grdp0c1Ow6P7dzdMnad8C7ssLFzEnAaKxqQ
-         OkMAgEfHFMlI9kRtD5HU8b4PhSyGg57Hn5Sj+3FHUvxowHWJeGsptAKkFot64y7j/fOX
-         W9eDO/YTt+e/DYvvjFwE/gULfvqrkxkQiHiqdV1zUSwgPlb9KzqUyeNcoFLJpRKGocvK
-         ymvl7kGVJc4eWVhZyStl+TdLRPApJRxU9GTjBcWCL3LWzCop0LveGQFbF4TTNMtBdBMp
-         6t0w==
+        d=gmail.com; s=20230601; t=1747667670; x=1748272470; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iYtYa5Hmz7e97gZT2Sf2chY466RHYEoEJJ/npJRNZKw=;
+        b=XTvJoaDIcueXTi+IOfs/pA/Tc7F9vCanHrYJ9yv4Mu5tYrk8sLTOS2+FpUzBZK5bzF
+         E5gBGgtOm4Rcs1aROgpCVtDRJbMd1zG0Tw8gdGFiSZAf/fExPOvlzreOi8UiUODRSqw5
+         trDaPorlIFjiZg07QTZhjuzqkVA7RF+t6Yo3HCsErXmf3X6KTIrZDnL5q/yLiol2DFIb
+         IiIKrDmOlm3SHRqBMg5iO8eyBElgM3yRNuc++aZl8zeX7eszp1AiYRgCT0DGCENhT3cp
+         JfJfy3IuVq5x+s5e35NkgoI5DWcRDxD1FtXjNH8JaDZXSV86pZj1oZNCY+XQ3BLSHsd2
+         P0EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747667669; x=1748272469;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IqcrMvL7TRi/F7iH7e+SW+BnTVjngWX2CY239LaHS6A=;
-        b=mx47eGbeW3UM1Fuq+yS0HchJNjW1uL3ng2r2RnNy9GEMurlUCY6Ab1cvZvnj9Ok8Cj
-         vV5mgiBpr5W4anceBYFIaWhEvGnv1wCjXg5H3gY1Giz5N8gr/t6ttvgRitK68/y0edt9
-         M/VXYkah59wOZjpapcR63kpTN9hnDunlQKngDNv05UTgwOZBZQSI3oNLaF0RdwHAfpYi
-         mUDS57g7PaL3JJUCXWfRSGRFbhUZ9/d+QwwlouV2oVMBOIz0zUqyrVnQFZv7L2jkSx6y
-         v7vXevVQNUr2veMWF4FT8xnqk1Qn8DHV/VkcBB1aC90tySbE8DnyXGMoACbJrdqIug3L
-         m+pQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWwZ9IZD5RHnX2QTH35/o3VKqBGFZV3AZZbstSrmWPvZlX9OqITAr207cUbqU/WexBBxqefttVK8sCDsQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxTg3SKk9DplH+uDT8fH2Alg8UJdTmxfZHg9Ao2m6xDwKBvVpjR
-	QYZMXTf3YvAAvIiCCvD5yfsWSPC/zflYsMhn/OQ2sqhAFxd2yAYEfGqe
-X-Gm-Gg: ASbGncuecIld7euG2Dg6yrH4Qcwi/hEbgo6pbJBK/5zPIrBiBkngIRwQJtGYSqVG8Sr
-	CwPU4qt3xtyYVPJIA6Y40y69KWDgY+aP9oHoWS2kJ7iBODjN6AYQclBjKPfbY0pegYwOqKNYiwx
-	Q6x0WjjRSHf3sIiWcPaNKPRAuMl6Ekqhbea2Vj6Wom7p0mwTlJPKOqB+8+Cydwdw/PAOLyqwf5m
-	rXqDfkVHn6YFcJ0KYVDycGL/hIsh6XX+4cIuJfffrv6UMFTCN3PbdLet/33iJP7S98wi1OJPkNj
-	xDhJvtM8b8HVyxnWQbMzHQTEp8GtT+QacaviQf+KsKjwL9fs4iwybb3BIlco0UuynYFSexxxMXP
-	nGvo=
-X-Google-Smtp-Source: AGHT+IEyDWsgk5ZuKcJJnCwuMrygWqmpsdfXmccP5TnaNBnDa5/JU98yEJj7J7lss4EJg1nxvJYFvQ==
-X-Received: by 2002:a17:907:1b09:b0:acb:b900:2bca with SMTP id a640c23a62f3a-ad52d07636amr1189789966b.0.1747667669049;
-        Mon, 19 May 2025 08:14:29 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1747667670; x=1748272470;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iYtYa5Hmz7e97gZT2Sf2chY466RHYEoEJJ/npJRNZKw=;
+        b=wwz20kY7qvsNvJtUUuly+h14XlBxq7/XDvkHkLciUFtjCOcR2h1x3a7lLHrLSTYZmD
+         34H2YA1/ksDCs8et2O+tFudzrqAW5HMYIxPIGAqoeTV1tryaKw3CvO3+18Za69dNZeGB
+         uULOLLvA/BHRN0vreTzvxQbOfxmWccj2PMRz9QHwFtUYDmdM/o6aYMidcvGccbzQLDFw
+         cqSckDXG8g40G4mORDf0EITcvXmMqKrOGMJnGwPKAbpWe+kHBiV51gVC8cju+blLi+Et
+         Sqt3Mt+yAy1L5dc9kh+YZQEmwqyy06EKciU//lMIW49rN4QGAIR6wMPK5TOa7kU++VFa
+         YAVg==
+X-Forwarded-Encrypted: i=1; AJvYcCVcFh7bfRifpkgkauIBDsRGJ2ZclnqNxBpKOOgXO2HDW0yjmIt81YY6LeGv1ZIhXa/Xl7etjRosRLmJtw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzyr+USl+mo4m8cjqqH7dh2bBEUsPGSKZiNWWAPM1OCjrUs2BcJ
+	wNCgeL8+xYjaMFrHRRDDGPym+kyf50OKIHmhIrtprEA8DS2SGTvuE01A
+X-Gm-Gg: ASbGnct/rprK6LffDjPh/hrd3onCNPf9+AKurwX0hH/mEz+6O3sOPzsVmAbU23za3Fi
+	EifP8u6GQ6ua8PJSFuPhZs2tBe5fP+Ds6jW8BsGPgE4LA/INnwSW+mRVZV1JW56v1KXosZwaIKX
+	+E0cCRQU2OiDByevjV06o1dSlFyIpk0uPS9kPyhla3xBKKWTnbYHl+OEdEv/BYv8bujyoF4GOUY
+	LIymM5kyWHs6ibQ7aMo1qBUD6ywn6vdBkjkN0qMRDEYE7xBAvT/VLBSW1MbhntJUMp1J0c6p2kT
+	TeRQY1wE+XBShJRlL5ZCTXhdHDJboV8Wi/0r4CQt52OQykqg9BDWpjGMhpyz5BNSuQ/FR0V1Z6D
+	ztTc=
+X-Google-Smtp-Source: AGHT+IEdFDlMvFo4JwLpnmG07B9+mYT8Lr9dmRx+b+IvnhMbKrdoukQEvMfyH7MVsguioYjxxvQVMQ==
+X-Received: by 2002:a17:907:1c91:b0:ad5:5857:ece2 with SMTP id a640c23a62f3a-ad55857f064mr687560966b.37.1747667670306;
+        Mon, 19 May 2025 08:14:30 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:2f07:610b:a400:6472:d2f9:d536:4c30])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad52d04b08bsm608522566b.13.2025.05.19.08.14.27
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad52d04b08bsm608522566b.13.2025.05.19.08.14.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 May 2025 08:14:28 -0700 (PDT)
+        Mon, 19 May 2025 08:14:29 -0700 (PDT)
 From: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
 To: clabbe.montjoie@gmail.com,
 	herbert@gondor.apana.org.au,
@@ -68,10 +70,12 @@ Cc: wens@csie.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Ovidiu Panait <ovidiu.panait.oss@gmail.com>
-Subject: [PATCH 1/3] crypto: sun8i-ce - fix nents passed to dma_unmap_sg()
-Date: Mon, 19 May 2025 18:13:48 +0300
-Message-ID: <20250519151350.3442981-1-ovidiu.panait.oss@gmail.com>
+Subject: [PATCH 2/3] crypto: sun8i-ce - remove ivlen field of sun8i_cipher_req_ctx
+Date: Mon, 19 May 2025 18:13:49 +0300
+Message-ID: <20250519151350.3442981-2-ovidiu.panait.oss@gmail.com>
 X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250519151350.3442981-1-ovidiu.panait.oss@gmail.com>
+References: <20250519151350.3442981-1-ovidiu.panait.oss@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -80,34 +84,79 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In sun8i_ce_cipher_unprepare(), dma_unmap_sg() is incorrectly called with
-the number of entries returned by dma_map_sg(), rather than using the
-original number of entries passed when mapping the scatterlist.
+Remove `ivlen` field of `sun8i_cipher_req_ctx`, as it is not really useful.
 
-To fix this, stash the original number of entries passed to dma_map_sg()
-in the request context.
+The iv length returned by crypto_skcipher_ivsize() is already available
+everywhere and can be used instead.
 
-Fixes: 0605fa0f7826 ("crypto: sun8i-ce - split into prepare/run/unprepare")
 Signed-off-by: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
 ---
- drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c | 11 ++++++-----
+ drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h        |  2 --
+ 2 files changed, 6 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
-index f9cf00d690e2..7cd3b13f3bdc 100644
+index 7cd3b13f3bdc..5663df49dd81 100644
 --- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
 +++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
-@@ -278,8 +278,8 @@ static int sun8i_ce_cipher_prepare(struct crypto_engine *engine, void *async_req
- 	}
+@@ -206,15 +206,14 @@ static int sun8i_ce_cipher_prepare(struct crypto_engine *engine, void *async_req
+ 	cet->t_key = desc_addr_val_le32(ce, rctx->addr_key);
  
- 	chan->timeout = areq->cryptlen;
--	rctx->nr_sgs = nr_sgs;
--	rctx->nr_sgd = nr_sgd;
-+	rctx->nr_sgs = ns;
-+	rctx->nr_sgd = nd;
- 	return 0;
+ 	ivsize = crypto_skcipher_ivsize(tfm);
+-	if (areq->iv && crypto_skcipher_ivsize(tfm) > 0) {
+-		rctx->ivlen = ivsize;
++	if (areq->iv && ivsize > 0) {
+ 		if (rctx->op_dir & CE_DECRYPTION) {
+ 			offset = areq->cryptlen - ivsize;
+ 			scatterwalk_map_and_copy(chan->backup_iv, areq->src,
+ 						 offset, ivsize, 0);
+ 		}
+ 		memcpy(chan->bounce_iv, areq->iv, ivsize);
+-		rctx->addr_iv = dma_map_single(ce->dev, chan->bounce_iv, rctx->ivlen,
++		rctx->addr_iv = dma_map_single(ce->dev, chan->bounce_iv, ivsize,
+ 					       DMA_TO_DEVICE);
+ 		if (dma_mapping_error(ce->dev, rctx->addr_iv)) {
+ 			dev_err(ce->dev, "Cannot DMA MAP IV\n");
+@@ -296,7 +295,8 @@ static int sun8i_ce_cipher_prepare(struct crypto_engine *engine, void *async_req
+ theend_iv:
+ 	if (areq->iv && ivsize > 0) {
+ 		if (!dma_mapping_error(ce->dev, rctx->addr_iv))
+-			dma_unmap_single(ce->dev, rctx->addr_iv, rctx->ivlen, DMA_TO_DEVICE);
++			dma_unmap_single(ce->dev, rctx->addr_iv, ivsize,
++					 DMA_TO_DEVICE);
  
- theend_sgs:
+ 		offset = areq->cryptlen - ivsize;
+ 		if (rctx->op_dir & CE_DECRYPTION) {
+@@ -345,7 +345,8 @@ static void sun8i_ce_cipher_unprepare(struct crypto_engine *engine,
+ 
+ 	if (areq->iv && ivsize > 0) {
+ 		if (cet->t_iv)
+-			dma_unmap_single(ce->dev, rctx->addr_iv, rctx->ivlen, DMA_TO_DEVICE);
++			dma_unmap_single(ce->dev, rctx->addr_iv, ivsize,
++					 DMA_TO_DEVICE);
+ 		offset = areq->cryptlen - ivsize;
+ 		if (rctx->op_dir & CE_DECRYPTION) {
+ 			memcpy(areq->iv, chan->backup_iv, ivsize);
+diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h
+index 83df4d719053..0f9a89067016 100644
+--- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h
++++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h
+@@ -260,7 +260,6 @@ static inline __le32 desc_addr_val_le32(struct sun8i_ce_dev *dev,
+  * struct sun8i_cipher_req_ctx - context for a skcipher request
+  * @op_dir:		direction (encrypt vs decrypt) for this request
+  * @flow:		the flow to use for this request
+- * @ivlen:		size of bounce_iv
+  * @nr_sgs:		The number of source SG (as given by dma_map_sg())
+  * @nr_sgd:		The number of destination SG (as given by dma_map_sg())
+  * @addr_iv:		The IV addr returned by dma_map_single, need to unmap later
+@@ -270,7 +269,6 @@ static inline __le32 desc_addr_val_le32(struct sun8i_ce_dev *dev,
+ struct sun8i_cipher_req_ctx {
+ 	u32 op_dir;
+ 	int flow;
+-	unsigned int ivlen;
+ 	int nr_sgs;
+ 	int nr_sgd;
+ 	dma_addr_t addr_iv;
 -- 
 2.48.1
 
