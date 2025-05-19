@@ -1,92 +1,135 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EDAC1F4717
-	for <linux-sunxi@lists.linux.dev>; Mon, 19 May 2025 13:10:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1295B19F419
+	for <linux-sunxi@lists.linux.dev>; Mon, 19 May 2025 14:47:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747660249; cv=none; b=qHc8W6pi7zHOyVYUgIaQEh8jtOa1DEZf5eaoEUqnpy98j6Xgg+8uyMtOLSIjLuvpHTjsCP743r4F9N1JRPG2errlgDsFEqpGTEtLtNnR5nJhaCRfsuldz2bo2Exttn3QSn+sYjdWaoqVjPoCUbxpVVs4DiIe5+Vf7LMwECFXUN8=
+	t=1747666058; cv=none; b=bifTY8s1ZTB3uNcV0+tSNidCZUxuU/zanOgMYJ2qOt10/bNiW6N5UzA/p+tWKjtYzSCd3NzqnJeSYHq8gGpsVUG6EhKroa/mIr0LHDmWFA4SEywBx+XWLZJdmrrYUP4BuSU3wIVNSyCDOxwzRtarE0W7YnJUe9FTbbtTNKPHgv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747660249; c=relaxed/simple;
-	bh=JJw+hlbauIF+Woszu8rX7v1wJgbD5TwAMaCcWAZytfQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ULitqdhBkFI+9YapWMBaei5H3Eu6NlRZ3rbg/tngX2ByNmsQww46Mqwo02YSURloUSXs3eyswq6LVV51O8hvp8w2eFKzk+sbqX0qd1o5T63N1uZH0hrtVbQWNRlNSVatv1npIMVR/uMdZaFf1281SLaCvzCvZ/iKNeu2WttQNe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-54b09cb06b0so5191032e87.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 19 May 2025 06:10:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747660243; x=1748265043;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JJw+hlbauIF+Woszu8rX7v1wJgbD5TwAMaCcWAZytfQ=;
-        b=bHjp9kudGMO1/j10nbZPh2wuZSZsFPucZzHivMTOhF/HCJnHjRedT/yJiNIHEhT0nU
-         HTBqnc0qCkThY+cA15zsLkffR/geSQ/Bmcgqq+qXQ0KmZ/gYMieaTD7eVCrBYuIOnk3E
-         COYatdnCdkBivTf6fHttYCPqXjq/PcTcmu6cVW5x1IwySgps9v6s5tNNB2phcshy4mPE
-         bpR4XSxFYMzjr29ZBYJNgjLYgIEgZmXGx05MoOc08VeOIVZu0fPYqsfKBOykeysTI4IP
-         q4E5l31ccrdT2KEqVEXgdmBoyvpJYgP/TMphgPNLIOrroQ9L7EBz2ZKRNLL7TbXcpQnU
-         D1yg==
-X-Forwarded-Encrypted: i=1; AJvYcCX2OBQwMz3zRekwJiHL7tPaaRWMPPCbwHdqiButX1Oef6x8oMRaVKXZuOEts46RBp/FpQ4rWL3aSo5JNQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyRZb/PpvPxnTPAKQuK0JEy0cs55i3z7cWmvsHysIFnv6+5KFwJ
-	PbjC1i6jSaqiVHly67e9tnAdm89YveYz5Zs3d8/bJr7SmuZAnTzaR/vtGnZ4JHmqQxk=
-X-Gm-Gg: ASbGncvwfP3PJqn54I2cHGDhORee8rtpQb0vXQyOmsnaqlGN5I+GeM75WVu4tDNmwR/
-	cqr3CiC+H2nGdULhNzqAeMbp9u10Kx36BWQkx7uUCkdac6AMH3A+wbWhtGXD3SCYBZA7iLFnYl8
-	xXIA8J9d0PSQZMM1rYmdgclobPEBz+85M3jHJONnpZYTqZ+gcHs7se7iRSU+U91bKxeCaJmm2+o
-	FbI5fy7nN7463DeUwZ05ZyRw+IoDQAfWopCHVmBtb6Q+xOOQhluY39wXsFQDyzVt3rVFGiHOYBU
-	EEuqMRt5i5Lgz77qmEQBJReulwCYGR/E5wDIr4CQk8w+msq7wzCtAjbvPgY4+ijHC5339hVqEMZ
-	Vxk35QOhUziVg1OVpLF0=
-X-Google-Smtp-Source: AGHT+IGt6i3YjsyUKbj6kQVh+FLEVZ1SS6CRokvILlWlBr4gchi6s+3njGXivIAP/cWdBJ1OiSZCNg==
-X-Received: by 2002:a05:6512:6301:b0:545:2a7f:8f79 with SMTP id 2adb3069b0e04-550e71b4a93mr4133264e87.16.1747660242950;
-        Mon, 19 May 2025 06:10:42 -0700 (PDT)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com. [209.85.208.179])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-550e702a289sm1864118e87.163.2025.05.19.06.10.42
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 May 2025 06:10:42 -0700 (PDT)
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-327ff195303so36011441fa.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 19 May 2025 06:10:42 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUxUt/INsFS3R/6bYuKcz71oquq5fBYFqHxc6VqG8x/mx1qbrCMNVtjgkDwVCf0dc2hMPBCZIBHfyzrHA==@lists.linux.dev
-X-Received: by 2002:a05:651c:421b:b0:30b:a20d:1c06 with SMTP id
- 38308e7fff4ca-328075fafd4mr32090081fa.0.1747660242500; Mon, 19 May 2025
- 06:10:42 -0700 (PDT)
+	s=arc-20240116; t=1747666058; c=relaxed/simple;
+	bh=DaQWvWsw3oOgXKm2fONwUyOY8e59GUzYmRtivJS0iws=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eESoSMQ31olmHHh76Ck1hKrWvhlMsAwF4tK55Kh5D79SC5JKQme744cAUMMYeLUvQ41kg4C9OxNfpqANmPM/igvSHoKwkEemt84SQanv4yZ6rfoLBsdv0EQ/+AS04jSVIQNppiDaEer9Et+oXkZop0QiDSo7Zunr8rZX+8z7Ev0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Oa2i8hLG; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Oa2i8hLG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=DaQW
+	vWsw3oOgXKm2fONwUyOY8e59GUzYmRtivJS0iws=; b=Oa2i8hLGt0Jdgu81TAxR
+	42Sq/n5Fy06uXNsziux+wldXdqK8G8Z80rUrQNuT+3gELRNOV36sDV4bOgtcWFQh
+	WbtOMLrjM7t15wXZOZGj2mmPwRKmvpu2+zfGlbhbsoFIUsdd+G4+5ABdYKF1nVCn
+	7T/xLeRYiPSx0ZpyRsIPHve6rda6mcFtludrKaa4PHiNj4F2AUcmMx5oVi3zJrp1
+	mu7hWjngUZV4Zm/vwcgGsj8VzBCyLNjjOQk7bm1s8O2gjN16+gLSZcN3cthfmLlK
+	klzN7Nm/6Isc29qsKwJvByK1Bt0iBEM4smkLBBvfsSVe+gJqoRJ7qdwld5sGuLry
+	EQ==
+Received: (qmail 2526926 invoked from network); 19 May 2025 16:47:34 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 May 2025 16:47:34 +0200
+X-UD-Smtp-Session: l3s3148p1@veEiNn41guhZz6uL
+Date: Mon, 19 May 2025 16:47:30 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-renesas-soc@vger.kernel.org, Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-riscv@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	loongarch@lists.linux.dev,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Rob Herring <robh@kernel.org>, Samuel Holland <samuel@sholland.org>,
+	WANG Xuerui <kernel@xen0n.name>
+Subject: Re: [PATCH 0/7] archs: use proper node names for GPIO based I2C
+ busses
+Message-ID: <aCtEgg55uuXQ87HP@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	linux-renesas-soc@vger.kernel.org,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-riscv@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	loongarch@lists.linux.dev,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Rob Herring <robh@kernel.org>, Samuel Holland <samuel@sholland.org>,
+	WANG Xuerui <kernel@xen0n.name>
+References: <20250519121512.5657-1-wsa+renesas@sang-engineering.com>
+ <CAMuHMdUOXZOe++Zpk_fGnPuGtQARN1fLQvTr0YX108OzZi4YmA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250519121512.5657-1-wsa+renesas@sang-engineering.com> <20250519121512.5657-8-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20250519121512.5657-8-wsa+renesas@sang-engineering.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Mon, 19 May 2025 21:10:29 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65FnoVMaoHYWWsWCcPZe-khw0G=jkt4MotnJemf2xPN+A@mail.gmail.com>
-X-Gm-Features: AX0GCFsxXp0f6XTIbmnJnSjvW3P0HJFBLSxCw1t28jUvhSs6_4fuwFkzC0zig3Y
-Message-ID: <CAGb2v65FnoVMaoHYWWsWCcPZe-khw0G=jkt4MotnJemf2xPN+A@mail.gmail.com>
-Subject: Re: [PATCH 7/7] riscv: dts: allwinner: use proper node names for GPIO
- based I2C busses
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-riscv@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="N7Vk71n9RCcoPa7f"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdUOXZOe++Zpk_fGnPuGtQARN1fLQvTr0YX108OzZi4YmA@mail.gmail.com>
 
-On Mon, May 19, 2025 at 8:15=E2=80=AFPM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
->
-> There shall not be a '-' before the number.
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-If you want the SoC maintainers to take it directly,
+--N7Vk71n9RCcoPa7f
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Acked-by: Chen-Yu Tsai <wens@csie.org>
 
-Or I can take it after the upcoming merge window.
+> Hmmm... which of these changes affect the R-Car board? ;-)
+
+Right, in this series, none :)
+
+> Am I missing something?
+
+I tested another series on top of this series with Lager. After the
+EmbeddedRecipes break, I forgot that only the next series affects Lager.
+Sorry for the confusion!
+
+
+--N7Vk71n9RCcoPa7f
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmgrRIIACgkQFA3kzBSg
+KbbgVRAAmUME4MmnnZpUQF8oA9Puxa4+zkHCjVgbOIgusPPh2aR5/c0/7PUXw2Bx
+ukaYwg8/xwbBBinpd9xhp1DmqZGsGGSJO5XLiNKrX6OBBaMNZpd4v5Ei9z8E4UJL
+UlVumquQLHo1ZDXbOfcDNkMfUrNnX7TtnZ0c30giIbm6nonKr8s+QYV0q7lC/DpI
+Oltxl6kw1P/dWfnL2NJz5TyspBwEIHcocL7D1PIIfvtZEgVQnHSZFrh6fQBpcX4F
+54FtZCi9DDbf0HZm9EfFzz3ZwRIZlzRW1Y9tgxl2qpX2Qp7jAM8wTVt10o4l4ETp
+M7tnC4Z1Kuu8H49QB/LjJg3QzJbwbxpEFXATgxtu6AzlkNx/IiNXWalPyfnSu77v
+ZOMT0GEooVmBZQsDZdOhW5MlPHkOZ2J5CSaGL/OvuFv5yU32ptbpaIbg2zrz8TCa
+k80QJ6g6yYIyWnYYWW3qOMlp3UFBecMKI9ySmCdrgJBFA/1dPeaj2oaS/QcTWMh9
+ZF2/zsYXssh8d3RBIUeNSXjkPtqa25SQkSadSMtBp1qnf7krcS0BaYwKcFFEmMAL
+oxBozBVc2c1cTc5A0ASRTNBObEw6GNwm117KzDjFvKaToLfpJjh6miCw7u9VDYV0
+SwabTA88Llt75S083kfsEK4rmvosJnLWTNuClppH+ziwVhboPa4=
+=DyAR
+-----END PGP SIGNATURE-----
+
+--N7Vk71n9RCcoPa7f--
