@@ -1,135 +1,81 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78E88219A8A
-	for <linux-sunxi@lists.linux.dev>; Tue, 20 May 2025 11:47:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8290E24A043
+	for <linux-sunxi@lists.linux.dev>; Tue, 20 May 2025 15:35:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747741650; cv=none; b=rAKE5p/eVvof4CVVDHTtXytBjKj3HirgYbHu7YPHayYUQbZOf41bKeTujaRkrLtzyLrOZV7xo2zp45H+E1qiP8o3UCu8tx4VzU5Tyxg+4Ue8w2roR9KcAamBEOI/IpVwVDPb8AsG632ZiCp07A/y9a5C51ytHpw2736HNUm3Z2o=
+	t=1747755307; cv=none; b=CCP8i8RzzHHc3ROlBRsxJkgDIsCXQkfId/xGfMTrdnb3O2pi/UevZ3JyjcC33zkdwb9ViEPtmUZ1Se4/MWiniBegpAdDLEG8x/m8Rj8s+aeRcy6PG/J+u/hhRZQyQYhsT9fasKddsHNyC3Ol8XURHiL+Ysw19Hd1eFSW2YiagWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747741650; c=relaxed/simple;
-	bh=ziQgPU1HgCUf8YfQKlM8RUir9sKbHOmg2en++bha32w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=P/XWIEUu+LiEUQNkJ/d/cOMbtDikxSHiyw100M8rRB9R5Tp1Q7TsoXcY5oRFfXn0490gHWefTgm/NT5nOEBTS8W6BO8NkhO9URoUHIhJRKAXy0vfpc8YWwW4fCxBDOFMF+F571WTG0jBXD36R3TpW3DirNj5zhPKYZ7JdIAT8y0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [223.64.69.3])
-	by gateway (Coremail) with SMTP id _____8Bx7eLOayxoXF7zAA--.30542S3;
-	Tue, 20 May 2025 19:47:26 +0800 (CST)
-Received: from localhost.localdomain (unknown [223.64.69.3])
-	by front1 (Coremail) with SMTP id qMiowMBxLsfLayxo+jvjAA--.62543S2;
-	Tue, 20 May 2025 19:47:24 +0800 (CST)
-From: Binbin Zhou <zhoubinbin@loongson.cn>
-To: Binbin Zhou <zhoubb.aaron@gmail.com>,
-	Huacai Chen <chenhuacai@loongson.cn>,
-	Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Huacai Chen <chenhuacai@kernel.org>,
-	linux-mmc@vger.kernel.org,
-	Binbin Zhou <zhoubinbin@loongson.cn>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH 34/36] mmc: sunxi: Use devm_mmc_alloc_host() helper
-Date: Tue, 20 May 2025 19:47:12 +0800
-Message-ID: <e6aa4f46c471bb0178ba9b8bdf285a38f2684d56.1747739323.git.zhoubinbin@loongson.cn>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <cover.1747739323.git.zhoubinbin@loongson.cn>
-References: <cover.1747739323.git.zhoubinbin@loongson.cn>
+	s=arc-20240116; t=1747755307; c=relaxed/simple;
+	bh=gUNOhEGntnSAatTzlVRx2gBmPImDzhBCIlG3OB0w+dw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=kC1kBAIHKJz57KeXK8dc6u/2Iu47cs5qH1W80BAAh8s9zUYHDOyjfhdtgNAj8elsIJaOvFnZ5rwQicg5cEfqhIo4GGJ14vdKhvvI1/nFAlimjR5vkdd0u7hOlMXGUkqCM2DDn5EyPOe11dwOBV0GClXtfWdNgJd9WIFrKgY8jOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=XhrodVPK; arc=none smtp.client-ip=217.70.183.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="XhrodVPK"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id DB11A432FA;
+	Tue, 20 May 2025 15:35:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1747755303;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xtli7qrKdDqJDEKpaUtEPgLih8RTCPqJd1HrwnUKnAs=;
+	b=XhrodVPKe2Da9aIjEgLFROZaIR+dwQscLhUZdqThMEllrC+kwxvD/y1Ytxkw22DIKBtpTz
+	tcwo6aIfjMlt3QLRhhq6b3/9Ywaw5w4uP2D1XY2coO245jfBFW8oAWFNhgZppstOgIDOEj
+	CXqtM1lv5TzvzC9XHKLtzGR0/mo3YgITipMR8XBuFzEg5yS4R+zMoTLS/Rx6N23vGFUklY
+	UzUnfAbv49s8IJwrPyRh2QusLZaoJC+y0JpahMcQyvrh1RZ/xYEgcVTvZmZTpYbTCIxU/p
+	fvEGxxolSE4tbmX1icEJcTcnjhjv7SHw0CsGnePan6FDrAglZREa0z3B6Rt1Uw==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: richard@nod.at, vigneshr@ti.com, wens@csie.org, 
+ jernej.skrabec@gmail.com, samuel@sholland.org, ruanjinjie@huawei.com, 
+ u.kleine-koenig@baylibre.com, Wentao Liang <vulab@iscas.ac.cn>
+Cc: linux-mtd@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org
+In-Reply-To: <20250519154225.2928-1-vulab@iscas.ac.cn>
+References: <20250519154225.2928-1-vulab@iscas.ac.cn>
+Subject: Re: [PATCH] mtd: nand: sunxi: Add randomizer configuration before
+ randomizer enable
+Message-Id: <174775530075.689292.3024700439135563644.b4-ty@bootlin.com>
+Date: Tue, 20 May 2025 17:35:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowMBxLsfLayxo+jvjAA--.62543S2
-X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/
-X-Coremail-Antispam: 1Uk129KBj93XoW7ur4fJFy7Gw1rArWkWF1DXFc_yoW8tr45pF
-	1rJFy3KrWUXr4YqrZrAF4UC34fZw4xKa48KrWrJw1fZ3sxKr4DtFn3CFy0gF95GFWkGa1S
-	gFyDWr4rCF1Du3XCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUBEb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
-	xVW0oVCq3wAaw2AFwI0_Jrv_JF1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0c
-	Ia020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Gryq
-	6s0DMcIj6I8E87Iv67AKxVW8Jr0_Cr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x
-	0EwIxGrwACjcxG6xCI17CEII8vrVW3JVW8Jr1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC
-	6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s
-	026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF
-	0xvE2Ix0cI8IcVAFwI0_tr0E3s1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1lIx
-	AIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4UJVWxJr1lIxAIcVC2
-	z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x07ba1v3UUUUU=
+X-Mailer: b4 0.15-dev
+X-GND-State: clean
+X-GND-Score: 0
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgdehkeculddtuddrgeefvddrtddtmdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucenucfjughrpefhvfevjghfuffkffggtgfgofesthekredtredtjeenucfhrhhomhepofhiqhhuvghlucftrgihnhgrlhcuoehmihhquhgvlhdrrhgrhihnrghlsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeehieffhfeulefgtdeltefgleevgffgheduledvheduudelgfehlefgheeivedvgeenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrdegvddrgeeingdpmhgrihhlfhhrohhmpehmihhquhgvlhdrrhgrhihnrghlsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedufedprhgtphhtthhopehurdhklhgvihhnvgdqkhhovghnihhgsegsrgihlhhisghrvgdrtghomhdprhgtphhtthhopehjvghrnhgvjhdrshhkrhgrsggvtgesghhmrghilhdrtghomhdprhgtphhtthhopehsthgrsghlvgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehrihgthhgrrhgusehnohgurdgrthdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtshdrihhnf
+ hhrrgguvggrugdrohhrghdprhgtphhtthhopeifvghnshestghsihgvrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqshhunhigiheslhhishhtshdrlhhinhhugidruggvvh
+X-GND-Sasl: miquel.raynal@bootlin.com
 
-Use new function devm_mmc_alloc_host() to simplify the code.
+On Mon, 19 May 2025 23:42:24 +0800, Wentao Liang wrote:
+> In sunxi_nfc_hw_ecc_read_chunk(), the sunxi_nfc_randomizer_enable() is
+> called without the config of randomizer. A proper implementation can be
+> found in sunxi_nfc_hw_ecc_read_chunks_dma().
+> 
+> Add sunxi_nfc_randomizer_config() before the start of randomization.
+> 
+> 
+> [...]
 
-Cc: Chen-Yu Tsai <wens@csie.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Samuel Holland <samuel@sholland.org>
-Cc: linux-sunxi@lists.linux.dev
-Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
----
- drivers/mmc/host/sunxi-mmc.c | 22 ++++++++--------------
- 1 file changed, 8 insertions(+), 14 deletions(-)
+Applied to nand/next, thanks!
 
-diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mmc.c
-index 1508eead5d01..96498c40017e 100644
---- a/drivers/mmc/host/sunxi-mmc.c
-+++ b/drivers/mmc/host/sunxi-mmc.c
-@@ -1369,11 +1369,10 @@ static int sunxi_mmc_probe(struct platform_device *pdev)
- 	struct mmc_host *mmc;
- 	int ret;
- 
--	mmc = mmc_alloc_host(sizeof(struct sunxi_mmc_host), &pdev->dev);
--	if (!mmc) {
--		dev_err(&pdev->dev, "mmc alloc host failed\n");
--		return -ENOMEM;
--	}
-+	mmc = devm_mmc_alloc_host(&pdev->dev, sizeof(*host));
-+	if (!mmc)
-+		return dev_err_probe(&pdev->dev, -ENOMEM,
-+				     "mmc alloc host failed\n");
- 	platform_set_drvdata(pdev, mmc);
- 
- 	host = mmc_priv(mmc);
-@@ -1383,15 +1382,13 @@ static int sunxi_mmc_probe(struct platform_device *pdev)
- 
- 	ret = sunxi_mmc_resource_request(host, pdev);
- 	if (ret)
--		goto error_free_host;
-+		return ret;
- 
- 	host->sg_cpu = dma_alloc_coherent(&pdev->dev, PAGE_SIZE,
- 					  &host->sg_dma, GFP_KERNEL);
--	if (!host->sg_cpu) {
--		dev_err(&pdev->dev, "Failed to allocate DMA descriptor mem\n");
--		ret = -ENOMEM;
--		goto error_free_host;
--	}
-+	if (!host->sg_cpu)
-+		return dev_err_probe(&pdev->dev, -ENOMEM,
-+				     `"Failed to allocate DMA descriptor mem\n");
- 
- 	if (host->cfg->ccu_has_timings_switch) {
- 		/*
-@@ -1481,8 +1478,6 @@ static int sunxi_mmc_probe(struct platform_device *pdev)
- 
- error_free_dma:
- 	dma_free_coherent(&pdev->dev, PAGE_SIZE, host->sg_cpu, host->sg_dma);
--error_free_host:
--	mmc_free_host(mmc);
- 	return ret;
- }
- 
-@@ -1498,7 +1493,6 @@ static void sunxi_mmc_remove(struct platform_device *pdev)
- 		sunxi_mmc_disable(host);
- 	}
- 	dma_free_coherent(&pdev->dev, PAGE_SIZE, host->sg_cpu, host->sg_dma);
--	mmc_free_host(mmc);
- }
- 
- #ifdef CONFIG_PM
--- 
-2.47.1
+[1/1] mtd: nand: sunxi: Add randomizer configuration before randomizer enable
+      commit: 4a5a99bc79cdc4be63933653682b0261a67a0c9f
+
+Patche(s) should be available on mtd/linux.git and will be
+part of the next PR (provided that no robot complains by then).
+
+Kind regards,
+Miquèl
 
