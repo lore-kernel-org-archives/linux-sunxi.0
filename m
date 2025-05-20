@@ -1,104 +1,135 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73E6F263F52
-	for <linux-sunxi@lists.linux.dev>; Tue, 20 May 2025 08:24:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78E88219A8A
+	for <linux-sunxi@lists.linux.dev>; Tue, 20 May 2025 11:47:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747729497; cv=none; b=RkHqa7shKCZq6YHCmlAV43hfwG9p2+oNDHal0YdcEib6P/v7fWY9exZRUjmPHi3RKgyhFGqBOd1kp5+HRAfdDJs0VVjdAY52nCED9SCw0gr3lol48XkwDN1quRz7fCBLKxQftBVpmxpHCEqCt8Jm9JqKcJPDHb+FiCJFdKbT+t4=
+	t=1747741650; cv=none; b=rAKE5p/eVvof4CVVDHTtXytBjKj3HirgYbHu7YPHayYUQbZOf41bKeTujaRkrLtzyLrOZV7xo2zp45H+E1qiP8o3UCu8tx4VzU5Tyxg+4Ue8w2roR9KcAamBEOI/IpVwVDPb8AsG632ZiCp07A/y9a5C51ytHpw2736HNUm3Z2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747729497; c=relaxed/simple;
-	bh=T/BPs7AVr5XnkfJdKRAT/wF0DytkqWa/g+g70eIDPuc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bYic9lHQKj8mOJOzcZWqxugj6UGZtBR+blp9xSBStf3Ao87tinFqJJcgyaVaejv8pQcQRk40eEnT3SHQZS3l4MeVTSEEhtxi/SKP2csTBq3Gnkw8steCgh5y0YkInG/L5qpFK/q8/Izry6WsK+tdOpPDDgiKj4oy638Boi9sEQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jvKo7m0i; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jvKo7m0i"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-441c99459e9so33868205e9.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 20 May 2025 01:24:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747729492; x=1748334292; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=pBe9HFmfYkZA0vZ9epGzGQwP62XWv9bdcLFLfgUYqN4=;
-        b=jvKo7m0iU/ggPCX9UJp4RQop93L4O14BJpFP7YgbPTZr4YW7s1aI4yIvI6z4BQizbg
-         GIKTv9SiW2Y+YM8Cg2wlvmVy8Axt6iGy+7ANxJO3Y8MYNaasA9OBf+0P16SS0AVh3COE
-         3n7fevO46PBHTwJwvf0k29DnaE5IDV4Jn2OSZUsEq7x+zY9kBiw/vl7qLccTdtNLLz9Q
-         YKF4sf9E4n551WTrsGt0FULp9BlcgJsauBeneIbSQcQFxFKUogAzpm5JGVTgJ35ApqeJ
-         7dwRB2BoGhjNKdOS4uq37WkvUdSCe40w2Kfa4e9+aUJmTNKB1g+lkWDZrFe6VfrBjXuM
-         k74w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747729492; x=1748334292;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pBe9HFmfYkZA0vZ9epGzGQwP62XWv9bdcLFLfgUYqN4=;
-        b=iZ1N6MfHPLhWSYNJXyVhxHJLPvKXsD5QOax9kyMsc5ivwuJ4vhFCFDxXdE6L6+hREB
-         p2gps2YxSraCllIE04KmwfNaMD8uoAr1BaW27S6pNy7ODGcd9wPU6gzvjqj/6iDWMs8I
-         prd5PwQUEiocvgP/c/CiGaYt9wkSEziW/eC+33/yHuTGbcmQ5VZfjQMOM11nrxlKfwQE
-         5Sys9lO5OKmqkb9zN6ruLA5i9vY999N088Slbc3CPS4b2s1qyVaXGjUohuexeN9OvmNN
-         qdq1bB6FI7kvi7DeiRp2VvxixVLYKtJ3rTC3GR5tJJVG9lGL/wpQhHdlWqNnGzXVwBsr
-         uzWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWnruyKgVo1zzZniyhfWCXY6vlp2JczYcwz+qmHyq37T7kG2FviBOKZD7n9SogluQTyqCYXe9/vRz/14g==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy36YX6MbX1B5vbm2gv1GgOKQAlG+l8SgnBi3fUPiFI2ojCledy
-	HfVQI9krKoCcc9ouPJMChpuMHPPCsI6zGabU8l3cUD44yZCCXZSl28o5
-X-Gm-Gg: ASbGnctwQhKKcj69MNQMYecN30o3M1o743he2fwL3KU/ThPkc32mws9LmpbPDzeD1po
-	bqjo/g67yvim6sbT+FOw2f9/5l7uIHayZSfOGIDVTzVvu2BC4sZNjjIHMrupnXEVze+r55/ce0E
-	qoDKYQ9XtOxTCC/GdSB2TodhqOQLly7ZLfqKD0RbMmrr4LbG9pYHmMMCN7MHq4HFkGGKPRFZ9MW
-	AAS2KP6Rp7w7gZdTMiYU9byIo50bHXPhj3ZugqlcL3TlIiFSsDclQyHpFuVxP391DcoWzvQQCxe
-	rbIJMHhyrcENoz7lxBV2SE09tVpL8rlTaITfLOdCZNWby5lX2nRZ
-X-Google-Smtp-Source: AGHT+IFiq7yNzRMHYgxf8Y2AvL/vFL+N/JR75NfHsu+y2i1yEiKH/7J56FYwi2SZ/j61+N05P1IBwQ==
-X-Received: by 2002:a05:600c:8597:b0:445:cd3:fa00 with SMTP id 5b1f17b1804b1-4450cd3faafmr73300515e9.4.1747729492130;
-        Tue, 20 May 2025 01:24:52 -0700 (PDT)
-Received: from Red ([2a01:cb1d:897:7800:4a02:2aff:fe07:1efc])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-447f74cce5bsm20578415e9.24.2025.05.20.01.24.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 May 2025 01:24:51 -0700 (PDT)
-Date: Tue, 20 May 2025 10:24:49 +0200
-From: Corentin Labbe <clabbe.montjoie@gmail.com>
-To: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
-Cc: herbert@gondor.apana.org.au, davem@davemloft.net,
-	linux-crypto@vger.kernel.org, wens@csie.org,
-	jernej.skrabec@gmail.com, samuel@sholland.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] crypto: sun8i-ce - fix nents passed to dma_unmap_sg()
-Message-ID: <aCw8UVORVj7GFc22@Red>
-References: <20250519151350.3442981-1-ovidiu.panait.oss@gmail.com>
+	s=arc-20240116; t=1747741650; c=relaxed/simple;
+	bh=ziQgPU1HgCUf8YfQKlM8RUir9sKbHOmg2en++bha32w=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=P/XWIEUu+LiEUQNkJ/d/cOMbtDikxSHiyw100M8rRB9R5Tp1Q7TsoXcY5oRFfXn0490gHWefTgm/NT5nOEBTS8W6BO8NkhO9URoUHIhJRKAXy0vfpc8YWwW4fCxBDOFMF+F571WTG0jBXD36R3TpW3DirNj5zhPKYZ7JdIAT8y0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [223.64.69.3])
+	by gateway (Coremail) with SMTP id _____8Bx7eLOayxoXF7zAA--.30542S3;
+	Tue, 20 May 2025 19:47:26 +0800 (CST)
+Received: from localhost.localdomain (unknown [223.64.69.3])
+	by front1 (Coremail) with SMTP id qMiowMBxLsfLayxo+jvjAA--.62543S2;
+	Tue, 20 May 2025 19:47:24 +0800 (CST)
+From: Binbin Zhou <zhoubinbin@loongson.cn>
+To: Binbin Zhou <zhoubb.aaron@gmail.com>,
+	Huacai Chen <chenhuacai@loongson.cn>,
+	Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Huacai Chen <chenhuacai@kernel.org>,
+	linux-mmc@vger.kernel.org,
+	Binbin Zhou <zhoubinbin@loongson.cn>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH 34/36] mmc: sunxi: Use devm_mmc_alloc_host() helper
+Date: Tue, 20 May 2025 19:47:12 +0800
+Message-ID: <e6aa4f46c471bb0178ba9b8bdf285a38f2684d56.1747739323.git.zhoubinbin@loongson.cn>
+X-Mailer: git-send-email 2.47.1
+In-Reply-To: <cover.1747739323.git.zhoubinbin@loongson.cn>
+References: <cover.1747739323.git.zhoubinbin@loongson.cn>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250519151350.3442981-1-ovidiu.panait.oss@gmail.com>
+X-CM-TRANSID:qMiowMBxLsfLayxo+jvjAA--.62543S2
+X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/
+X-Coremail-Antispam: 1Uk129KBj93XoW7ur4fJFy7Gw1rArWkWF1DXFc_yoW8tr45pF
+	1rJFy3KrWUXr4YqrZrAF4UC34fZw4xKa48KrWrJw1fZ3sxKr4DtFn3CFy0gF95GFWkGa1S
+	gFyDWr4rCF1Du3XCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUBEb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
+	xVW0oVCq3wAaw2AFwI0_Jrv_JF1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0c
+	Ia020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Gryq
+	6s0DMcIj6I8E87Iv67AKxVW8Jr0_Cr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x
+	0EwIxGrwACjcxG6xCI17CEII8vrVW3JVW8Jr1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC
+	6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s
+	026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF
+	0xvE2Ix0cI8IcVAFwI0_tr0E3s1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1lIx
+	AIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4UJVWxJr1lIxAIcVC2
+	z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x07ba1v3UUUUU=
 
-Le Mon, May 19, 2025 at 06:13:48PM +0300, Ovidiu Panait a écrit :
-> In sun8i_ce_cipher_unprepare(), dma_unmap_sg() is incorrectly called with
-> the number of entries returned by dma_map_sg(), rather than using the
-> original number of entries passed when mapping the scatterlist.
-> 
-> To fix this, stash the original number of entries passed to dma_map_sg()
-> in the request context.
-> 
-> Fixes: 0605fa0f7826 ("crypto: sun8i-ce - split into prepare/run/unprepare")
-> Signed-off-by: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
-> ---
->  drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
+Use new function devm_mmc_alloc_host() to simplify the code.
 
-Hello
+Cc: Chen-Yu Tsai <wens@csie.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Samuel Holland <samuel@sholland.org>
+Cc: linux-sunxi@lists.linux.dev
+Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
+---
+ drivers/mmc/host/sunxi-mmc.c | 22 ++++++++--------------
+ 1 file changed, 8 insertions(+), 14 deletions(-)
 
-All patches are:
-Acked-by: Corentin LABBE <clabbe.montjoie@gmail.com>
-Tested-by: Corentin LABBE <clabbe.montjoie@gmail.com>
+diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mmc.c
+index 1508eead5d01..96498c40017e 100644
+--- a/drivers/mmc/host/sunxi-mmc.c
++++ b/drivers/mmc/host/sunxi-mmc.c
+@@ -1369,11 +1369,10 @@ static int sunxi_mmc_probe(struct platform_device *pdev)
+ 	struct mmc_host *mmc;
+ 	int ret;
+ 
+-	mmc = mmc_alloc_host(sizeof(struct sunxi_mmc_host), &pdev->dev);
+-	if (!mmc) {
+-		dev_err(&pdev->dev, "mmc alloc host failed\n");
+-		return -ENOMEM;
+-	}
++	mmc = devm_mmc_alloc_host(&pdev->dev, sizeof(*host));
++	if (!mmc)
++		return dev_err_probe(&pdev->dev, -ENOMEM,
++				     "mmc alloc host failed\n");
+ 	platform_set_drvdata(pdev, mmc);
+ 
+ 	host = mmc_priv(mmc);
+@@ -1383,15 +1382,13 @@ static int sunxi_mmc_probe(struct platform_device *pdev)
+ 
+ 	ret = sunxi_mmc_resource_request(host, pdev);
+ 	if (ret)
+-		goto error_free_host;
++		return ret;
+ 
+ 	host->sg_cpu = dma_alloc_coherent(&pdev->dev, PAGE_SIZE,
+ 					  &host->sg_dma, GFP_KERNEL);
+-	if (!host->sg_cpu) {
+-		dev_err(&pdev->dev, "Failed to allocate DMA descriptor mem\n");
+-		ret = -ENOMEM;
+-		goto error_free_host;
+-	}
++	if (!host->sg_cpu)
++		return dev_err_probe(&pdev->dev, -ENOMEM,
++				     `"Failed to allocate DMA descriptor mem\n");
+ 
+ 	if (host->cfg->ccu_has_timings_switch) {
+ 		/*
+@@ -1481,8 +1478,6 @@ static int sunxi_mmc_probe(struct platform_device *pdev)
+ 
+ error_free_dma:
+ 	dma_free_coherent(&pdev->dev, PAGE_SIZE, host->sg_cpu, host->sg_dma);
+-error_free_host:
+-	mmc_free_host(mmc);
+ 	return ret;
+ }
+ 
+@@ -1498,7 +1493,6 @@ static void sunxi_mmc_remove(struct platform_device *pdev)
+ 		sunxi_mmc_disable(host);
+ 	}
+ 	dma_free_coherent(&pdev->dev, PAGE_SIZE, host->sg_cpu, host->sg_dma);
+-	mmc_free_host(mmc);
+ }
+ 
+ #ifdef CONFIG_PM
+-- 
+2.47.1
 
-Thanks
-Regards
