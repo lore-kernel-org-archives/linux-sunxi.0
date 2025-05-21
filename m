@@ -1,80 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA2D1AE875;
-	Wed, 21 May 2025 01:39:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F735BA27
+	for <linux-sunxi@lists.linux.dev>; Wed, 21 May 2025 07:01:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747791598; cv=none; b=kkLkoOc3kfFUQ8qrmh7qqRC35wHCuVOPXgLpRUoDV0jUCSlaBgD8pLkOTy4KkKf84XnO/ZozbN7RrF+Kzr06+xUJ+go3ShoJYUut+RNcgI3gZ/MbvkQLatuukfVihLaUrvxrNgpOJ7SgttpKGdVjAdOyb4scep0QyWRFhbW19Ys=
+	t=1747810893; cv=none; b=KX4ou8hfkfU+vM1JWQUg1cANbvwUCg3BqXh4NnAa4oPeTrEtyR68CrZqvVcY6SQNlC1CN99TFnpV3/oDqVb0lE7189dxBmP4aM2WXuvR5KJmp82jSXHaz4Xe7BBCaqp8zLeER0U/HlSm/CYkvJS+TFnB2dAImyvKf34vOQZEZfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747791598; c=relaxed/simple;
-	bh=4AtQcRMMFt/TxSF9wLGYAAdGE1Q6TOLHf7/oWt7wMNg=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=oVK7/OKZAQKGJ0T2uoTyvB29iC1B+ZrVJmIINpNDXQldJsOJkTPhZOtulA5tg+bNZW2P0r1IRGQYHdNgPxWaqoLWZxDDt23LrHr8E10FRRTIku5tUKhtsldRN+dbCURQvf67KIQddtoTc3WReeZMW55RSTabc5G2ffYV5XXqHX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MrzBD5D8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747810893; c=relaxed/simple;
+	bh=Lt9CYMW02DOzhxDa6Rug1d76eG/C37B/SYIOvEnt+1c=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:CC:References:
+	 In-Reply-To:Content-Type; b=DhXG/RmBD05SLdT8aIDn9pa8usn/kKArI1Rm5JrEiCp0U8uIrOWGBjHdF3CO28kGfQqUBs3ArFTF1ubBZlv8Ka4p3RDcFz9ndlSusnXd5+ZQpXN7psPHTNozXIVcNikPAHkOouDZhk3pFeeGoTxKPx1V+JjdiOJTi0hUBxrcrxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=tbqsNC0g; arc=none smtp.client-ip=193.68.50.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MrzBD5D8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F1B7C4CEE9;
-	Wed, 21 May 2025 01:39:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747791598;
-	bh=4AtQcRMMFt/TxSF9wLGYAAdGE1Q6TOLHf7/oWt7wMNg=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=MrzBD5D86GqbY5ifWbOU6YggYpbHQNSgCkXze5Bu9fzQO5SS/DExk5UTQwLOdSsiJ
-	 EMrSsaLv9ESxAmGqDHC72KWDhdmBh67/1z4O13WFi/bZdgbr/cwgAZrG2WRlyCMDtR
-	 1tXp3O9vZYxJFxNZ4SBj+wGlhfNsq889CoSYfPWeUVxmRyI0bLPTr0NJ27FT0pI5MO
-	 vXaI2SZ+u/VGrURad6CRJayZWizaZp0Yc75vKIdkfZNzCuewZjkvCnsce1+nlXusDF
-	 Wz762sk2s6eJPVfayfTU16kNPE7q3T4hM2HQo1X7guM01kxirEL7hZ3kv6o5gIkdLF
-	 XBfQ3JKcIun2g==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33D0B380AAD0;
-	Wed, 21 May 2025 01:40:35 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="tbqsNC0g"
+Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
+	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id 30B8FA0F32;
+	Wed, 21 May 2025 09:01:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:from:from:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=mail; bh=2QiAvvm3mFGO7j5haJ/C
+	RUWWnyjSWWlUqQr8DQ5A31A=; b=tbqsNC0g1PX0U/IumfDoDbGPVXK3kUuNSOfS
+	NTGoAORLsuXfvB1x6Bui/CjmuHNWeGpjlizFaeRKtTghJOuut/KXSK2VROeEVdUy
+	N+LUPci3lsBvJyxSr4RGgQ62mOXkVwYfT8h9q52evCcTuSuZoBe2SFye1zEpkP9A
+	3BjAGPE06GAv77PTT9hcEwKzuxi9QIgFEjUYAP3W27rTEvcmPWtu7AOEzwPR9OKH
+	lEkDatJbfEsuMZaihHMEVnNqIcVfUxgNmJLbljG6MzZ2CDDmgsHsWCC8/qUG3r7c
+	4a+h1duVe107lZh2JQQj31AxnBnH+/Bq/WC8sJHwGoRGaOkh7tumHXecPzNYCxzH
+	5uLQiloaCL4RC0nsmoUIUpVJW1VaPwYTLfagRbav+qrtzhybtxtr3BK8p4RmbdGw
+	ykKHdvbYjoDoQjBogYGO8C8nGJPi8Gw6CAUsX6iHisIByZvPDQNhhfi61nxgLQ4b
+	fSUtgZoTuICW/171rTCZfgWaaI0CpoFW+jCF/lpI3xwa9GfusY0sLfKtsPtT2sZr
+	UcwxLwvSOBudjQNBTOL5UBvjaACTAIoRFAn4lZ3cCij9/F+lVK85mCIlmIGGvTDe
+	XV+iSxG/tmJdwFALKyCwycszjZzFWvOZKhfOlkoiGQHShEo1tiCAugsyXhqP17Nr
+	nL6BCw0=
+Message-ID: <6a7ffc24-dba0-4b67-9d3d-477f3bdf2128@prolan.hu>
+Date: Wed, 21 May 2025 09:01:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: =?UTF-8?B?Q3PDs2vDoXMgQmVuY2U=?= <csokas.bence@prolan.hu>
+Subject: Re: [PATCH v9] dma-engine: sun4i: Simplify error handling in probe()
+To: <dmaengine@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+CC: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>, Julian Calaby <julian.calaby@gmail.com>, "Vinod
+ Koul" <vkoul@kernel.org>, Samuel Holland <samuel@sholland.org>
+References: <20250514161803.229600-1-csokas.bence@prolan.hu>
+Content-Language: en-US
+In-Reply-To: <20250514161803.229600-1-csokas.bence@prolan.hu>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] net: dwmac-sun8i: Use parsed internal PHY address instead of
- 1
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <174779163374.1531331.18316141953380951353.git-patchwork-notify@kernel.org>
-Date: Wed, 21 May 2025 01:40:33 +0000
-References: <20250519164936.4172658-1-paulk@sys-base.io>
-In-Reply-To: <20250519164936.4172658-1-paulk@sys-base.io>
-To: Paul Kocialkowski <paulk@sys-base.io>
-Cc: netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, wens@csie.org, jernej.skrabec@gmail.com,
- samuel@sholland.org, clabbe.montjoie@gmail.com
+X-ClientProxiedBy: sinope.intranet.prolan.hu (10.254.0.237) To
+ ATLAS.intranet.prolan.hu (10.254.0.229)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A296767155D607466
 
-Hello:
+Hi,
 
-This patch was applied to netdev/net.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Mon, 19 May 2025 18:49:36 +0200 you wrote:
-> While the MDIO address of the internal PHY on Allwinner sun8i chips is
-> generally 1, of_mdio_parse_addr is used to cleanly parse the address
-> from the device-tree instead of hardcoding it.
+On 2025. 05. 14. 18:18, Bence Csókás wrote:
+> Clean up error handling by using devm functions and dev_err_probe(). This
+> should make it easier to add new code, as we can eliminate the "goto
+> ladder" in sun4i_dma_probe().
 > 
-> A commit reworking the code ditched the parsed value and hardcoded the
-> value 1 instead, which didn't really break anything but is more fragile
-> and not future-proof.
-> 
-> [...]
+> Suggested-by: Chen-Yu Tsai <wens@kernel.org>
+> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Acked-by: Chen-Yu Tsai <wens@csie.org>
+> Reviewed-by: Julian Calaby <julian.calaby@gmail.com>
+> Signed-off-by: Bence Csókás <csokas.bence@prolan.hu>
+> ---
 
-Here is the summary with links:
-  - net: dwmac-sun8i: Use parsed internal PHY address instead of 1
-    https://git.kernel.org/netdev/net/c/47653e4243f2
+So, can this be merged? I do believe we have ACKs from most maintainers.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+Bence
 
