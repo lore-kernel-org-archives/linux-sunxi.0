@@ -1,81 +1,80 @@
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8290E24A043
-	for <linux-sunxi@lists.linux.dev>; Tue, 20 May 2025 15:35:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA2D1AE875;
+	Wed, 21 May 2025 01:39:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747755307; cv=none; b=CCP8i8RzzHHc3ROlBRsxJkgDIsCXQkfId/xGfMTrdnb3O2pi/UevZ3JyjcC33zkdwb9ViEPtmUZ1Se4/MWiniBegpAdDLEG8x/m8Rj8s+aeRcy6PG/J+u/hhRZQyQYhsT9fasKddsHNyC3Ol8XURHiL+Ysw19Hd1eFSW2YiagWY=
+	t=1747791598; cv=none; b=kkLkoOc3kfFUQ8qrmh7qqRC35wHCuVOPXgLpRUoDV0jUCSlaBgD8pLkOTy4KkKf84XnO/ZozbN7RrF+Kzr06+xUJ+go3ShoJYUut+RNcgI3gZ/MbvkQLatuukfVihLaUrvxrNgpOJ7SgttpKGdVjAdOyb4scep0QyWRFhbW19Ys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747755307; c=relaxed/simple;
-	bh=gUNOhEGntnSAatTzlVRx2gBmPImDzhBCIlG3OB0w+dw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=kC1kBAIHKJz57KeXK8dc6u/2Iu47cs5qH1W80BAAh8s9zUYHDOyjfhdtgNAj8elsIJaOvFnZ5rwQicg5cEfqhIo4GGJ14vdKhvvI1/nFAlimjR5vkdd0u7hOlMXGUkqCM2DDn5EyPOe11dwOBV0GClXtfWdNgJd9WIFrKgY8jOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=XhrodVPK; arc=none smtp.client-ip=217.70.183.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1747791598; c=relaxed/simple;
+	bh=4AtQcRMMFt/TxSF9wLGYAAdGE1Q6TOLHf7/oWt7wMNg=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=oVK7/OKZAQKGJ0T2uoTyvB29iC1B+ZrVJmIINpNDXQldJsOJkTPhZOtulA5tg+bNZW2P0r1IRGQYHdNgPxWaqoLWZxDDt23LrHr8E10FRRTIku5tUKhtsldRN+dbCURQvf67KIQddtoTc3WReeZMW55RSTabc5G2ffYV5XXqHX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MrzBD5D8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="XhrodVPK"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id DB11A432FA;
-	Tue, 20 May 2025 15:35:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1747755303;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xtli7qrKdDqJDEKpaUtEPgLih8RTCPqJd1HrwnUKnAs=;
-	b=XhrodVPKe2Da9aIjEgLFROZaIR+dwQscLhUZdqThMEllrC+kwxvD/y1Ytxkw22DIKBtpTz
-	tcwo6aIfjMlt3QLRhhq6b3/9Ywaw5w4uP2D1XY2coO245jfBFW8oAWFNhgZppstOgIDOEj
-	CXqtM1lv5TzvzC9XHKLtzGR0/mo3YgITipMR8XBuFzEg5yS4R+zMoTLS/Rx6N23vGFUklY
-	UzUnfAbv49s8IJwrPyRh2QusLZaoJC+y0JpahMcQyvrh1RZ/xYEgcVTvZmZTpYbTCIxU/p
-	fvEGxxolSE4tbmX1icEJcTcnjhjv7SHw0CsGnePan6FDrAglZREa0z3B6Rt1Uw==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: richard@nod.at, vigneshr@ti.com, wens@csie.org, 
- jernej.skrabec@gmail.com, samuel@sholland.org, ruanjinjie@huawei.com, 
- u.kleine-koenig@baylibre.com, Wentao Liang <vulab@iscas.ac.cn>
-Cc: linux-mtd@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org
-In-Reply-To: <20250519154225.2928-1-vulab@iscas.ac.cn>
-References: <20250519154225.2928-1-vulab@iscas.ac.cn>
-Subject: Re: [PATCH] mtd: nand: sunxi: Add randomizer configuration before
- randomizer enable
-Message-Id: <174775530075.689292.3024700439135563644.b4-ty@bootlin.com>
-Date: Tue, 20 May 2025 17:35:00 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MrzBD5D8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F1B7C4CEE9;
+	Wed, 21 May 2025 01:39:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747791598;
+	bh=4AtQcRMMFt/TxSF9wLGYAAdGE1Q6TOLHf7/oWt7wMNg=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=MrzBD5D86GqbY5ifWbOU6YggYpbHQNSgCkXze5Bu9fzQO5SS/DExk5UTQwLOdSsiJ
+	 EMrSsaLv9ESxAmGqDHC72KWDhdmBh67/1z4O13WFi/bZdgbr/cwgAZrG2WRlyCMDtR
+	 1tXp3O9vZYxJFxNZ4SBj+wGlhfNsq889CoSYfPWeUVxmRyI0bLPTr0NJ27FT0pI5MO
+	 vXaI2SZ+u/VGrURad6CRJayZWizaZp0Yc75vKIdkfZNzCuewZjkvCnsce1+nlXusDF
+	 Wz762sk2s6eJPVfayfTU16kNPE7q3T4hM2HQo1X7guM01kxirEL7hZ3kv6o5gIkdLF
+	 XBfQ3JKcIun2g==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33D0B380AAD0;
+	Wed, 21 May 2025 01:40:35 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.15-dev
-X-GND-State: clean
-X-GND-Score: 0
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgdehkeculddtuddrgeefvddrtddtmdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucenucfjughrpefhvfevjghfuffkffggtgfgofesthekredtredtjeenucfhrhhomhepofhiqhhuvghlucftrgihnhgrlhcuoehmihhquhgvlhdrrhgrhihnrghlsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeehieffhfeulefgtdeltefgleevgffgheduledvheduudelgfehlefgheeivedvgeenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrdegvddrgeeingdpmhgrihhlfhhrohhmpehmihhquhgvlhdrrhgrhihnrghlsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedufedprhgtphhtthhopehurdhklhgvihhnvgdqkhhovghnihhgsegsrgihlhhisghrvgdrtghomhdprhgtphhtthhopehjvghrnhgvjhdrshhkrhgrsggvtgesghhmrghilhdrtghomhdprhgtphhtthhopehsthgrsghlvgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehrihgthhgrrhgusehnohgurdgrthdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtshdrihhnf
- hhrrgguvggrugdrohhrghdprhgtphhtthhopeifvghnshestghsihgvrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqshhunhigiheslhhishhtshdrlhhinhhugidruggvvh
-X-GND-Sasl: miquel.raynal@bootlin.com
+Subject: Re: [PATCH] net: dwmac-sun8i: Use parsed internal PHY address instead of
+ 1
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <174779163374.1531331.18316141953380951353.git-patchwork-notify@kernel.org>
+Date: Wed, 21 May 2025 01:40:33 +0000
+References: <20250519164936.4172658-1-paulk@sys-base.io>
+In-Reply-To: <20250519164936.4172658-1-paulk@sys-base.io>
+To: Paul Kocialkowski <paulk@sys-base.io>
+Cc: netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, wens@csie.org, jernej.skrabec@gmail.com,
+ samuel@sholland.org, clabbe.montjoie@gmail.com
 
-On Mon, 19 May 2025 23:42:24 +0800, Wentao Liang wrote:
-> In sunxi_nfc_hw_ecc_read_chunk(), the sunxi_nfc_randomizer_enable() is
-> called without the config of randomizer. A proper implementation can be
-> found in sunxi_nfc_hw_ecc_read_chunks_dma().
+Hello:
+
+This patch was applied to netdev/net.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Mon, 19 May 2025 18:49:36 +0200 you wrote:
+> While the MDIO address of the internal PHY on Allwinner sun8i chips is
+> generally 1, of_mdio_parse_addr is used to cleanly parse the address
+> from the device-tree instead of hardcoding it.
 > 
-> Add sunxi_nfc_randomizer_config() before the start of randomization.
-> 
+> A commit reworking the code ditched the parsed value and hardcoded the
+> value 1 instead, which didn't really break anything but is more fragile
+> and not future-proof.
 > 
 > [...]
 
-Applied to nand/next, thanks!
+Here is the summary with links:
+  - net: dwmac-sun8i: Use parsed internal PHY address instead of 1
+    https://git.kernel.org/netdev/net/c/47653e4243f2
 
-[1/1] mtd: nand: sunxi: Add randomizer configuration before randomizer enable
-      commit: 4a5a99bc79cdc4be63933653682b0261a67a0c9f
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Patche(s) should be available on mtd/linux.git and will be
-part of the next PR (provided that no robot complains by then).
-
-Kind regards,
-Miquèl
 
