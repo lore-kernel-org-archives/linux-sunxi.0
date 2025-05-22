@@ -1,66 +1,65 @@
 Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA23F1917F9
-	for <linux-sunxi@lists.linux.dev>; Thu, 22 May 2025 18:32:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DF5B19C540
+	for <linux-sunxi@lists.linux.dev>; Thu, 22 May 2025 18:32:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747938740; cv=none; b=sUT0vb90xpbgPc4tjVSIAyY5NCAAC476DTd0bac6vkbVbkjUcWajddt3X0YBNvjaRDm65EXiT98MNr/rsfiLdfYINiCo6x7MpWfujrqgqWzOLVeenoCc1HbmMU1WPK9id+CvQljEi31mUObey1y8kjialARPOO/4aOq27oL7gc8=
+	t=1747938774; cv=none; b=ApvFUwebfwB6px6OeQKUFYhzYOM3wdOI3r+DHjRtsj/+FxR4Uvur8rrKfVlN6l9kcNFRvckfFH/uo57Ec/NzXmK4BrmPdqtGTIQBPXvs4cMwjieaeNdzc9MuJVKy++L5yvgERhgFjfTo5leWg6QxX1KQsLZUhTHmo+TpNjglhBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747938740; c=relaxed/simple;
-	bh=utZbOKXUpsVCUiSXZg10bx3I+v3jj2dHl7w4DDwLeCY=;
+	s=arc-20240116; t=1747938774; c=relaxed/simple;
+	bh=lMJ6tHz4tOW1eWeTG1Uc6/k5VF7JF9zmg/OfZNm2H1M=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jt/glqsZXnw8QEs3/PTGrleRF49DusBDxNESlRHL7Ez3rUVbxY7o1XKmqdCjcASEGZ9VzXpjp+g9ZGRh3h5k9mMpt0t0zd23xEa/t0wS6pa6SWYtHhKK4xk93xR+kYKy3ulT4YIuWAdbG/w+ILuWsLwveZVHtPxSfhfLCeRNElU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ffS6AuXm; arc=none smtp.client-ip=209.85.221.42
+	 In-Reply-To:Content-Type; b=qwzsT6lG2jy+NDlWqGqGCUd03+j0odwHrtzslrUa8oN0VFJtZCJ0Z+Lv5PDhkgBLG0UP/Y13E6lx1ALJtc8SGMrQPEZau2hizLk57Pe+/En8Z8Eo6mFrp9QYcdywNkCA4XvehRMF1+xLGD964q+PCnTZhAFfRkWzzmNhg9IC5dw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GkA2wfUm; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ffS6AuXm"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3a367226ad2so607555f8f.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 22 May 2025 11:32:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GkA2wfUm"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3a36210dbe4so917560f8f.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 22 May 2025 11:32:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1747938736; x=1748543536; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1747938771; x=1748543571; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=rOYkb8ARNGoWzGK6NIRQbMqEIL4sIWgyEMwNFCwUiPs=;
-        b=ffS6AuXmgkPg0Yn+lsJ91Hqe8R7N+AzWKy5LAiYKDO+9tLj9p2V3RSTYOCNjek09rr
-         Tg3Yc2gG+LgslcXySnDTjzRyD+ys3i/mm0YR3D2vnSuvxygYJNum0UNdZHk61WVoZ+df
-         Ck25KKZitIdhJ29SnXQKjfD8Bv+VK/IjLV3QkLGosZqV35IQn6kFNL1qiqQBrL1yWCDk
-         8Nok9jXzak4FHoLqIoPMH46jkF+4jrWH6rwfMKTxTekCmN9vN5SVuTAKM5JrmkkF1Jaf
-         NKYfLXYd4sU7sN8vS0QE4LrwPR198HQdmwAI6h3LljciyvPNu3mee0IGppMJM1jo07hT
-         qmZA==
+        bh=cJY9vehP2g7EGxYhkgZzcqCJWvR4zDkNLhtdKYt0bgU=;
+        b=GkA2wfUmub0fMqaSZeR+PMqLo4O8LJKjAYETseW8aA2bvrCymTpjMM9G27v72dVFxh
+         osN6h6Qrg4/7VWNofwhvXffLdYwlVuv1gNvLr1VfgjnXTvGsbEwBcQa67RqYD+HYwdqm
+         19QI7R6DPJ0uiroyBY0A4O+7c5+ipHoFsPWW1FSIWPfPuH/ts8ey/5vDWfcfoQpRWxCv
+         EQxN1/8z/mlYPP3SG2WoMR9Ve1E58XuaE2SLR/c4VzLyO8GAKYym0zrqwdoM77UbvOWu
+         yrjJyEpDNHmxRdgsbUfyD9+1gNZNLA1d3N5hf8ixt6WC8HSObqOGk8xzHEqfrcmyvcy9
+         wqEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747938736; x=1748543536;
+        d=1e100.net; s=20230601; t=1747938771; x=1748543571;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=rOYkb8ARNGoWzGK6NIRQbMqEIL4sIWgyEMwNFCwUiPs=;
-        b=CychsM76qYfJTRwQqTqP23MzTWWtbGyYQguLiaV8KCt7Lx61qS5fTQ8i/XPGjdFBQc
-         5OSfyIxzchra6fZOjwAnkQm40QetoQAWTpLqV9xEoPDBXbkpLztUT62Y1i0AfWfK5kYX
-         vc64dVMj0hFhSmksXMn0gzCFyj/94VksExoh5qWiZG7oXUtNU3hURvUZ6hKz4RkJDXja
-         FCV2kkT2a4G3udl69AbUFL6rPBdo7wdQm7biZA/Ld1rY61zymHBltHpZJ+j0kO75LG39
-         5SibRS2CLFszhLjY6/wkbh2qMQODldAbXxHDHsA0lvB7TKqeD1ypuMe6qHUDk1+jUDFF
-         Hx7w==
-X-Forwarded-Encrypted: i=1; AJvYcCXlO3RFQ9Bxh0zJnLzY7eveO++xbuOREBBeu6GYddJ4tuDlGuDom2Z3XAWoESf4JH+jkF2r0JXZgUac4Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwViJXWUibKHynei5w2FLcdHb7EDylL3XbYiLEpiyB+C3Gs2hOx
-	I+Tp9E20m8u6BFRZDDpXq6r02baoBhkjhrvhsQCaS3KXLmTyYLAiWT4jauRWcfZs+dI=
-X-Gm-Gg: ASbGncv0qC/bBUHpXA3mnZ8zOntRl/kVFIVBJgqZnbkDsBGDds+DDkVLCPc/+cOp/3N
-	aVhhzhHUtN07l5WCzVix/+2Uj53Tzvv1dOq7no4/gsXaKj47i3Y2Fy0MZfCgsas+Ju1r21gDYqS
-	dBpt5+YSnYvBsoShhdjoUN7xp2aQsvI/Blxj0krafYnmWcM6e3A9Q5k8ReYv6n+taLAuYddl4bg
-	z9sORT3CvqD4jPyrHkQ3A+O0oSDES2xKs/kmQSLweb57+1zdbga+a3bsFVHo6fGlNQRJ9OTOORv
-	dzHF8V12YaieicF+7eRasVGJxi/1ljowSYU+6UX1SXoPu9CL+ScEplnjpfcqo4u4SHkFIcexELF
-	wNH5hnQ==
-X-Google-Smtp-Source: AGHT+IElOSB5BApnFcPON4k3G6fN+T3e6tCMODFfwlTj5KlbfM3fgpMePZRiUwP9/6DJMNlIdFOSPQ==
-X-Received: by 2002:a5d:404a:0:b0:3a3:62e1:a7dc with SMTP id ffacd0b85a97d-3a362e1ab39mr6921412f8f.1.1747938736169;
-        Thu, 22 May 2025 11:32:16 -0700 (PDT)
+        bh=cJY9vehP2g7EGxYhkgZzcqCJWvR4zDkNLhtdKYt0bgU=;
+        b=Zl8pw0UI6QvL9q+HuZK/n57V65le3s97kxpO6BFVeQ3dP0ANG8YUAOxYFfmuW59RtQ
+         9zMkoGTteN1VH31ezgFp9oqUMAVLynPNOLDN5AMLqnPQvog4/Qu8Awp9of4kCqaR5DSY
+         hLWLo6vs+8WWjksROhc5jsTklHkldcvFy5Lp7y04Z2WXoWihRzspThfgHkwv7C8CKyxY
+         nX7KZx9AWSOhR8gpRs1DGStcHaTfULP1Pqpir8VqjBbuLsag8CcmtR+aRWLQXC3EC9KA
+         A0LFJrq3auAAUvEaF0ri/K+N/RhjQ3CGSh2iNabj5mukybPByTOj7Tj+peqIhMLWSbOf
+         1Izw==
+X-Forwarded-Encrypted: i=1; AJvYcCUTWZ0qCyoophIngQ63gxQgdNq17xLazBLeu3iYSL6UTK/8vueYwNlqDyRQi6a98q7yXX0B2zlX0y/fmg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwcrM8WVSV1aoQEloUNRPOu8taxh5Q8RAuMB/OOo55g5sNuxWh6
+	fOPDoBww5Hg72pXSUHBn5jMrJhDX2XTqA1/CsoW0JDsNUa4UleZ2rKygETqt5idL7iU=
+X-Gm-Gg: ASbGncsJJy19BcGe3bfWPu0vMUSJ5AoG9XciqkAQf8Hut0WSVJmvDKHr8VT/GR6JX0Q
+	UBWTCquYXgUA4J0GCn/zTBtct8k1UppJDoLovT9V0J0qC87G8yxcX9YDdOT3dNsl2RdLaR141Bb
+	0BSFgyjFi3KX1VnSzzbCC7hOJa4Yxk+DyQLAKtxEORrR9XqKnW3LhBmdZTuQwsfcjXvhiywrmrJ
+	0A48nwgL15RNL9nFEhAQhhlFAqzAjP+rycccM45TPdpvRio0WO8oX2f6jtHR9SZmo8i04QhaUhT
+	EFhxl0QhdlQyCKRvm17z3h9EAdesTbTDg6eV1zM5nj0wfiIgzUZ9t1IYaj8FW4c1m7UgZDY=
+X-Google-Smtp-Source: AGHT+IGLyHoeTc4HSvaXyg3+PQJQKiImY3KCxwct5wGRCFTjBfvCwUsuGdayZtCuy6sdlhDOtQDFIQ==
+X-Received: by 2002:a05:600c:3587:b0:439:9a1f:d73d with SMTP id 5b1f17b1804b1-442fd68257fmr90763505e9.8.1747938771266;
+        Thu, 22 May 2025 11:32:51 -0700 (PDT)
 Received: from [192.168.1.29] ([178.197.223.125])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a3ca066eb7sm5955103f8f.2.2025.05.22.11.32.14
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-447f3ce483bsm113545715e9.33.2025.05.22.11.32.49
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 May 2025 11:32:15 -0700 (PDT)
-Message-ID: <24905725-21ca-4408-9822-285f0a96b4da@linaro.org>
-Date: Thu, 22 May 2025 20:32:13 +0200
+        Thu, 22 May 2025 11:32:50 -0700 (PDT)
+Message-ID: <f3f2b57c-d745-40b4-8317-5f123e2ab018@linaro.org>
+Date: Thu, 22 May 2025 20:32:49 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -68,7 +67,7 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/5] clk: nuvoton: Do not enable by default during compile
+Subject: Re: [PATCH 3/5] clk: stm32: Do not enable by default during compile
  testing
 To: Neil Armstrong <neil.armstrong@linaro.org>,
  Jerome Brunet <jbrunet@baylibre.com>,
@@ -84,7 +83,7 @@ Cc: linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev
 References: <20250404-kconfig-defaults-clk-v1-0-4d2df5603332@linaro.org>
- <20250404-kconfig-defaults-clk-v1-2-4d2df5603332@linaro.org>
+ <20250404-kconfig-defaults-clk-v1-3-4d2df5603332@linaro.org>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Language: en-US
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -131,7 +130,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  h0At/TN/618e/QVlZPbMeNSp3S3ieMP9Q6y4gw5CfgiDRJ2K9g99m6Rvlx1qwom6QbU06ltb
  vJE2K9oKd9nPp1NrBfBdEhX8oOwdCLJXEq83vdtOEqE42RxfYta4P3by0BHpcwzYbmi/Et7T
  2+47PN9NZAOyb771QoVr8A==
-In-Reply-To: <20250404-kconfig-defaults-clk-v1-2-4d2df5603332@linaro.org>
+In-Reply-To: <20250404-kconfig-defaults-clk-v1-3-4d2df5603332@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
@@ -144,11 +143,11 @@ On 04/04/2025 13:56, Krzysztof Kozlowski wrote:
 > 
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > ---
->  drivers/clk/nuvoton/Kconfig | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
+>  drivers/clk/stm32/Kconfig | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 
-Ping. Any Nuvoton maintainers are going to pick this up?
+Ping. Any feedback from maintainers? Stephen, are you picking up this
+directly?
 
 Best regards,
 Krzysztof
