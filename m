@@ -1,136 +1,154 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 580B03BBC9
-	for <linux-sunxi@lists.linux.dev>; Thu, 22 May 2025 07:01:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA23F1917F9
+	for <linux-sunxi@lists.linux.dev>; Thu, 22 May 2025 18:32:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747897298; cv=none; b=ZzNkQ8PPuF7/9rf6GCN4X9git+4xcD6gM+PhPYBUrV+5dEFcwbF0onJ0j3u9ubVGbZAWzbVE5CAapYQ6QDQgyXEmFCoX8ibUvaZ4E8jkrUAq+R5uarSPBAS4UbZcNd9LTeLwBzKznoZTNQK4rD9nuRFUCZkx2M8UCsHJSEEnHNc=
+	t=1747938740; cv=none; b=sUT0vb90xpbgPc4tjVSIAyY5NCAAC476DTd0bac6vkbVbkjUcWajddt3X0YBNvjaRDm65EXiT98MNr/rsfiLdfYINiCo6x7MpWfujrqgqWzOLVeenoCc1HbmMU1WPK9id+CvQljEi31mUObey1y8kjialARPOO/4aOq27oL7gc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747897298; c=relaxed/simple;
-	bh=eFvM3TMFXkvcw6kmoo9BGbl9roxeA7s81fdcjz4it1M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BDJoWN7njY1UMxs03FEyBCPqFDiJxu0uHyF3vALNmwN5aMBlBxJ3t7wLBSoBu0vKx9RVu3HD7N4cIonjDmj/VxAcnBWPYbczRf1R8r88uLkWgl0SSyCWfYwVU1zAVa65qOISMmpjhRjHLI5s8a6wkiyRbygbbegrnzXbxgGIZjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [223.64.69.3])
-	by gateway (Coremail) with SMTP id _____8AxaeDOyy5oFiP2AA--.6201S3;
-	Thu, 22 May 2025 15:01:34 +0800 (CST)
-Received: from localhost.localdomain (unknown [223.64.69.3])
-	by front1 (Coremail) with SMTP id qMiowMBxHcXLyy5otXLnAA--.2923S2;
-	Thu, 22 May 2025 15:01:31 +0800 (CST)
-From: Binbin Zhou <zhoubinbin@loongson.cn>
-To: Binbin Zhou <zhoubb.aaron@gmail.com>,
-	Huacai Chen <chenhuacai@loongson.cn>,
-	Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Huacai Chen <chenhuacai@kernel.org>,
-	linux-mmc@vger.kernel.org,
-	Binbin Zhou <zhoubinbin@loongson.cn>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH v2 34/36] mmc: sunxi: Use devm_mmc_alloc_host() helper
-Date: Thu, 22 May 2025 15:01:20 +0800
-Message-ID: <b120e66ad97458ea9465e6bb5f619c53ad51e804.1747877176.git.zhoubinbin@loongson.cn>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <cover.1747877175.git.zhoubinbin@loongson.cn>
-References: <cover.1747877175.git.zhoubinbin@loongson.cn>
+	s=arc-20240116; t=1747938740; c=relaxed/simple;
+	bh=utZbOKXUpsVCUiSXZg10bx3I+v3jj2dHl7w4DDwLeCY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jt/glqsZXnw8QEs3/PTGrleRF49DusBDxNESlRHL7Ez3rUVbxY7o1XKmqdCjcASEGZ9VzXpjp+g9ZGRh3h5k9mMpt0t0zd23xEa/t0wS6pa6SWYtHhKK4xk93xR+kYKy3ulT4YIuWAdbG/w+ILuWsLwveZVHtPxSfhfLCeRNElU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ffS6AuXm; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ffS6AuXm"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3a367226ad2so607555f8f.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 22 May 2025 11:32:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1747938736; x=1748543536; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=rOYkb8ARNGoWzGK6NIRQbMqEIL4sIWgyEMwNFCwUiPs=;
+        b=ffS6AuXmgkPg0Yn+lsJ91Hqe8R7N+AzWKy5LAiYKDO+9tLj9p2V3RSTYOCNjek09rr
+         Tg3Yc2gG+LgslcXySnDTjzRyD+ys3i/mm0YR3D2vnSuvxygYJNum0UNdZHk61WVoZ+df
+         Ck25KKZitIdhJ29SnXQKjfD8Bv+VK/IjLV3QkLGosZqV35IQn6kFNL1qiqQBrL1yWCDk
+         8Nok9jXzak4FHoLqIoPMH46jkF+4jrWH6rwfMKTxTekCmN9vN5SVuTAKM5JrmkkF1Jaf
+         NKYfLXYd4sU7sN8vS0QE4LrwPR198HQdmwAI6h3LljciyvPNu3mee0IGppMJM1jo07hT
+         qmZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747938736; x=1748543536;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rOYkb8ARNGoWzGK6NIRQbMqEIL4sIWgyEMwNFCwUiPs=;
+        b=CychsM76qYfJTRwQqTqP23MzTWWtbGyYQguLiaV8KCt7Lx61qS5fTQ8i/XPGjdFBQc
+         5OSfyIxzchra6fZOjwAnkQm40QetoQAWTpLqV9xEoPDBXbkpLztUT62Y1i0AfWfK5kYX
+         vc64dVMj0hFhSmksXMn0gzCFyj/94VksExoh5qWiZG7oXUtNU3hURvUZ6hKz4RkJDXja
+         FCV2kkT2a4G3udl69AbUFL6rPBdo7wdQm7biZA/Ld1rY61zymHBltHpZJ+j0kO75LG39
+         5SibRS2CLFszhLjY6/wkbh2qMQODldAbXxHDHsA0lvB7TKqeD1ypuMe6qHUDk1+jUDFF
+         Hx7w==
+X-Forwarded-Encrypted: i=1; AJvYcCXlO3RFQ9Bxh0zJnLzY7eveO++xbuOREBBeu6GYddJ4tuDlGuDom2Z3XAWoESf4JH+jkF2r0JXZgUac4Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwViJXWUibKHynei5w2FLcdHb7EDylL3XbYiLEpiyB+C3Gs2hOx
+	I+Tp9E20m8u6BFRZDDpXq6r02baoBhkjhrvhsQCaS3KXLmTyYLAiWT4jauRWcfZs+dI=
+X-Gm-Gg: ASbGncv0qC/bBUHpXA3mnZ8zOntRl/kVFIVBJgqZnbkDsBGDds+DDkVLCPc/+cOp/3N
+	aVhhzhHUtN07l5WCzVix/+2Uj53Tzvv1dOq7no4/gsXaKj47i3Y2Fy0MZfCgsas+Ju1r21gDYqS
+	dBpt5+YSnYvBsoShhdjoUN7xp2aQsvI/Blxj0krafYnmWcM6e3A9Q5k8ReYv6n+taLAuYddl4bg
+	z9sORT3CvqD4jPyrHkQ3A+O0oSDES2xKs/kmQSLweb57+1zdbga+a3bsFVHo6fGlNQRJ9OTOORv
+	dzHF8V12YaieicF+7eRasVGJxi/1ljowSYU+6UX1SXoPu9CL+ScEplnjpfcqo4u4SHkFIcexELF
+	wNH5hnQ==
+X-Google-Smtp-Source: AGHT+IElOSB5BApnFcPON4k3G6fN+T3e6tCMODFfwlTj5KlbfM3fgpMePZRiUwP9/6DJMNlIdFOSPQ==
+X-Received: by 2002:a5d:404a:0:b0:3a3:62e1:a7dc with SMTP id ffacd0b85a97d-3a362e1ab39mr6921412f8f.1.1747938736169;
+        Thu, 22 May 2025 11:32:16 -0700 (PDT)
+Received: from [192.168.1.29] ([178.197.223.125])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a3ca066eb7sm5955103f8f.2.2025.05.22.11.32.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 22 May 2025 11:32:15 -0700 (PDT)
+Message-ID: <24905725-21ca-4408-9822-285f0a96b4da@linaro.org>
+Date: Thu, 22 May 2025 20:32:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowMBxHcXLyy5otXLnAA--.2923S2
-X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/
-X-Coremail-Antispam: 1Uk129KBj93XoW7ur4fJFy7Gw1rWw1rGr1xJFc_yoW8tF4fpF
-	45JF9xKrWUJr4YgrZrAr4Uu34fZw4xKa48KrWrJw1fu3s8Kr4DtrnxCFy0gF95GFWkGa1S
-	gFyDWr4rCF1Du3XCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUBEb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
-	xVW0oVCq3wAaw2AFwI0_Jrv_JF1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0c
-	Ia020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Gryq
-	6s0DMcIj6I8E87Iv67AKxVW8Jr0_Cr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x
-	0EwIxGrwACjcxG6xCI17CEII8vrVW3JVW8Jr1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC
-	6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s
-	026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF
-	0xvE2Ix0cI8IcVAFwI0_tr0E3s1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1lIx
-	AIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4UJVWxJr1lIxAIcVC2
-	z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x07ba1v3UUUUU=
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/5] clk: nuvoton: Do not enable by default during compile
+ testing
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jerome Brunet <jbrunet@baylibre.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Kevin Hilman <khilman@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai
+ <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, =?UTF-8?Q?Emilio_L=C3=B3pez?=
+ <emilio@elopez.com.ar>
+Cc: linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev
+References: <20250404-kconfig-defaults-clk-v1-0-4d2df5603332@linaro.org>
+ <20250404-kconfig-defaults-clk-v1-2-4d2df5603332@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Language: en-US
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ 2+47PN9NZAOyb771QoVr8A==
+In-Reply-To: <20250404-kconfig-defaults-clk-v1-2-4d2df5603332@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Use new function devm_mmc_alloc_host() to simplify the code.
+On 04/04/2025 13:56, Krzysztof Kozlowski wrote:
+> Enabling the compile test should not cause automatic enabling of all
+> drivers.  Restrict the default to ARCH also for individual driver, even
+> though its choice is not visible without selecting parent Kconfig
+> symbol, because otherwise selecting parent would select the child during
+> compile testing.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  drivers/clk/nuvoton/Kconfig | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
 
-Cc: Chen-Yu Tsai <wens@csie.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Samuel Holland <samuel@sholland.org>
-Cc: linux-sunxi@lists.linux.dev
-Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
-Reviewed-by: Huacai Chen <chenhuacai@loongson.cn>
----
- drivers/mmc/host/sunxi-mmc.c | 22 ++++++++--------------
- 1 file changed, 8 insertions(+), 14 deletions(-)
+Ping. Any Nuvoton maintainers are going to pick this up?
 
-diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mmc.c
-index 1508eead5d01..ee4a65b0a22d 100644
---- a/drivers/mmc/host/sunxi-mmc.c
-+++ b/drivers/mmc/host/sunxi-mmc.c
-@@ -1369,11 +1369,10 @@ static int sunxi_mmc_probe(struct platform_device *pdev)
- 	struct mmc_host *mmc;
- 	int ret;
- 
--	mmc = mmc_alloc_host(sizeof(struct sunxi_mmc_host), &pdev->dev);
--	if (!mmc) {
--		dev_err(&pdev->dev, "mmc alloc host failed\n");
--		return -ENOMEM;
--	}
-+	mmc = devm_mmc_alloc_host(&pdev->dev, sizeof(*host));
-+	if (!mmc)
-+		return dev_err_probe(&pdev->dev, -ENOMEM,
-+				     "mmc alloc host failed\n");
- 	platform_set_drvdata(pdev, mmc);
- 
- 	host = mmc_priv(mmc);
-@@ -1383,15 +1382,13 @@ static int sunxi_mmc_probe(struct platform_device *pdev)
- 
- 	ret = sunxi_mmc_resource_request(host, pdev);
- 	if (ret)
--		goto error_free_host;
-+		return ret;
- 
- 	host->sg_cpu = dma_alloc_coherent(&pdev->dev, PAGE_SIZE,
- 					  &host->sg_dma, GFP_KERNEL);
--	if (!host->sg_cpu) {
--		dev_err(&pdev->dev, "Failed to allocate DMA descriptor mem\n");
--		ret = -ENOMEM;
--		goto error_free_host;
--	}
-+	if (!host->sg_cpu)
-+		return dev_err_probe(&pdev->dev, -ENOMEM,
-+				     "Failed to allocate DMA descriptor mem\n");
- 
- 	if (host->cfg->ccu_has_timings_switch) {
- 		/*
-@@ -1481,8 +1478,6 @@ static int sunxi_mmc_probe(struct platform_device *pdev)
- 
- error_free_dma:
- 	dma_free_coherent(&pdev->dev, PAGE_SIZE, host->sg_cpu, host->sg_dma);
--error_free_host:
--	mmc_free_host(mmc);
- 	return ret;
- }
- 
-@@ -1498,7 +1493,6 @@ static void sunxi_mmc_remove(struct platform_device *pdev)
- 		sunxi_mmc_disable(host);
- 	}
- 	dma_free_coherent(&pdev->dev, PAGE_SIZE, host->sg_cpu, host->sg_dma);
--	mmc_free_host(mmc);
- }
- 
- #ifdef CONFIG_PM
--- 
-2.47.1
-
+Best regards,
+Krzysztof
