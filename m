@@ -1,153 +1,65 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DF5B19C540
-	for <linux-sunxi@lists.linux.dev>; Thu, 22 May 2025 18:32:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B3402BFC78;
+	Thu, 22 May 2025 23:15:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747938774; cv=none; b=ApvFUwebfwB6px6OeQKUFYhzYOM3wdOI3r+DHjRtsj/+FxR4Uvur8rrKfVlN6l9kcNFRvckfFH/uo57Ec/NzXmK4BrmPdqtGTIQBPXvs4cMwjieaeNdzc9MuJVKy++L5yvgERhgFjfTo5leWg6QxX1KQsLZUhTHmo+TpNjglhBE=
+	t=1747955759; cv=none; b=grnDNZ0IZgVcQ1eLjsP26IioRXlX7KpBjb83Vf6hE0FoSlfSwFs9BBvmvTmhXEqMLttpuJblqJ0u1tbwB/4cOXz2aNSkxHGpi3nIGAt9UEEEH674uXFoav/Uu2uQAKMwwUMaeMQKpDQ/N1NdXIcGFi4fwRxCIXY0+SWleZI0XLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747938774; c=relaxed/simple;
-	bh=lMJ6tHz4tOW1eWeTG1Uc6/k5VF7JF9zmg/OfZNm2H1M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qwzsT6lG2jy+NDlWqGqGCUd03+j0odwHrtzslrUa8oN0VFJtZCJ0Z+Lv5PDhkgBLG0UP/Y13E6lx1ALJtc8SGMrQPEZau2hizLk57Pe+/En8Z8Eo6mFrp9QYcdywNkCA4XvehRMF1+xLGD964q+PCnTZhAFfRkWzzmNhg9IC5dw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GkA2wfUm; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1747955759; c=relaxed/simple;
+	bh=Jv56dkfNZCxpxUt9eux/nBkDnSUhfvknB6cfSV3tHfE=;
+	h=Message-ID:Content-Type:MIME-Version:In-Reply-To:References:
+	 Subject:From:Cc:To:Date; b=WbVMhIGW3JL7UcmoKGPTTqFFSjCyvzCKx5uw8sjqaTkzYu9R5xs5BVZzswcrFKS8Dw658LZ26g1LVpljg/YWbahxc4hFOY/rrNLwXiBXcSzvs+4QNUhck+jRRWCmOHrymNk1LpI7hSIBfxm4ccsrORGPBfhqp5/umMGvXG0Bu+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=di+Ji8IP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GkA2wfUm"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3a36210dbe4so917560f8f.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 22 May 2025 11:32:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1747938771; x=1748543571; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=cJY9vehP2g7EGxYhkgZzcqCJWvR4zDkNLhtdKYt0bgU=;
-        b=GkA2wfUmub0fMqaSZeR+PMqLo4O8LJKjAYETseW8aA2bvrCymTpjMM9G27v72dVFxh
-         osN6h6Qrg4/7VWNofwhvXffLdYwlVuv1gNvLr1VfgjnXTvGsbEwBcQa67RqYD+HYwdqm
-         19QI7R6DPJ0uiroyBY0A4O+7c5+ipHoFsPWW1FSIWPfPuH/ts8ey/5vDWfcfoQpRWxCv
-         EQxN1/8z/mlYPP3SG2WoMR9Ve1E58XuaE2SLR/c4VzLyO8GAKYym0zrqwdoM77UbvOWu
-         yrjJyEpDNHmxRdgsbUfyD9+1gNZNLA1d3N5hf8ixt6WC8HSObqOGk8xzHEqfrcmyvcy9
-         wqEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747938771; x=1748543571;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cJY9vehP2g7EGxYhkgZzcqCJWvR4zDkNLhtdKYt0bgU=;
-        b=Zl8pw0UI6QvL9q+HuZK/n57V65le3s97kxpO6BFVeQ3dP0ANG8YUAOxYFfmuW59RtQ
-         9zMkoGTteN1VH31ezgFp9oqUMAVLynPNOLDN5AMLqnPQvog4/Qu8Awp9of4kCqaR5DSY
-         hLWLo6vs+8WWjksROhc5jsTklHkldcvFy5Lp7y04Z2WXoWihRzspThfgHkwv7C8CKyxY
-         nX7KZx9AWSOhR8gpRs1DGStcHaTfULP1Pqpir8VqjBbuLsag8CcmtR+aRWLQXC3EC9KA
-         A0LFJrq3auAAUvEaF0ri/K+N/RhjQ3CGSh2iNabj5mukybPByTOj7Tj+peqIhMLWSbOf
-         1Izw==
-X-Forwarded-Encrypted: i=1; AJvYcCUTWZ0qCyoophIngQ63gxQgdNq17xLazBLeu3iYSL6UTK/8vueYwNlqDyRQi6a98q7yXX0B2zlX0y/fmg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwcrM8WVSV1aoQEloUNRPOu8taxh5Q8RAuMB/OOo55g5sNuxWh6
-	fOPDoBww5Hg72pXSUHBn5jMrJhDX2XTqA1/CsoW0JDsNUa4UleZ2rKygETqt5idL7iU=
-X-Gm-Gg: ASbGncsJJy19BcGe3bfWPu0vMUSJ5AoG9XciqkAQf8Hut0WSVJmvDKHr8VT/GR6JX0Q
-	UBWTCquYXgUA4J0GCn/zTBtct8k1UppJDoLovT9V0J0qC87G8yxcX9YDdOT3dNsl2RdLaR141Bb
-	0BSFgyjFi3KX1VnSzzbCC7hOJa4Yxk+DyQLAKtxEORrR9XqKnW3LhBmdZTuQwsfcjXvhiywrmrJ
-	0A48nwgL15RNL9nFEhAQhhlFAqzAjP+rycccM45TPdpvRio0WO8oX2f6jtHR9SZmo8i04QhaUhT
-	EFhxl0QhdlQyCKRvm17z3h9EAdesTbTDg6eV1zM5nj0wfiIgzUZ9t1IYaj8FW4c1m7UgZDY=
-X-Google-Smtp-Source: AGHT+IGLyHoeTc4HSvaXyg3+PQJQKiImY3KCxwct5wGRCFTjBfvCwUsuGdayZtCuy6sdlhDOtQDFIQ==
-X-Received: by 2002:a05:600c:3587:b0:439:9a1f:d73d with SMTP id 5b1f17b1804b1-442fd68257fmr90763505e9.8.1747938771266;
-        Thu, 22 May 2025 11:32:51 -0700 (PDT)
-Received: from [192.168.1.29] ([178.197.223.125])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-447f3ce483bsm113545715e9.33.2025.05.22.11.32.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 May 2025 11:32:50 -0700 (PDT)
-Message-ID: <f3f2b57c-d745-40b4-8317-5f123e2ab018@linaro.org>
-Date: Thu, 22 May 2025 20:32:49 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="di+Ji8IP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C011C4CEEB;
+	Thu, 22 May 2025 23:15:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747955759;
+	bh=Jv56dkfNZCxpxUt9eux/nBkDnSUhfvknB6cfSV3tHfE=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=di+Ji8IP5qIQGjCFOKy7Wwlnvqdoetb1VciQKZzvoEZZ5gRTyN/h+IM9+xnlhRbff
+	 iuMHYtjkiVhCh5S5bmopo5i+GwUo4It42eoB+S+cgx5IaZIGhe5i4AusJqdHidSvwc
+	 0knP0R/cL+06zbtWzlLiakw6373VOn2e5h68D7YoBsD1oXdG91Bx+3EkIWKMUrywrV
+	 NcxpIU5QYjWzrhhpS9vbCB9yYCk5XhhkHW/hf0lpFm9qdaOAOyKLdRYMBDeWFRxYEB
+	 H8ubNEsD0OkCtl/icfGSMJnQg/sQwA591Zk45F8k/I0Cs32RtPetBGxjgKDLYEC/0d
+	 E5891P93wNTUg==
+Message-ID: <1950c6ba75c7045a06bac6fe15cc6d43@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/5] clk: stm32: Do not enable by default during compile
- testing
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Jerome Brunet <jbrunet@baylibre.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Kevin Hilman <khilman@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, =?UTF-8?Q?Emilio_L=C3=B3pez?=
- <emilio@elopez.com.ar>
-Cc: linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev
-References: <20250404-kconfig-defaults-clk-v1-0-4d2df5603332@linaro.org>
- <20250404-kconfig-defaults-clk-v1-3-4d2df5603332@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- 2+47PN9NZAOyb771QoVr8A==
-In-Reply-To: <20250404-kconfig-defaults-clk-v1-3-4d2df5603332@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <aCaetzKYzCpzRYzd@wens.tw>
+References: <aCaetzKYzCpzRYzd@wens.tw>
+Subject: Re: [GIT PULL] Allwinner clock changes for 6.16
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev, linux-clk@vger.kernel.org
+To: Chen-Yu Tsai <wens@kernel.org>
+Date: Thu, 22 May 2025 16:15:57 -0700
+User-Agent: alot/0.12.dev8+g17a99a841c4b
 
-On 04/04/2025 13:56, Krzysztof Kozlowski wrote:
-> Enabling the compile test should not cause automatic enabling of all
-> drivers.  Restrict the default to ARCH also for individual driver, even
-> though its choice is not visible without selecting parent Kconfig
-> symbol, because otherwise selecting parent would select the child during
-> compile testing.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  drivers/clk/stm32/Kconfig | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+Quoting Chen-Yu Tsai (2025-05-15 19:11:03)
+> The following changes since commit 0af2f6be1b4281385b618cb86ad946eded089a=
+c8:
+>=20
+>   Linux 6.15-rc1 (2025-04-06 13:11:33 -0700)
+>=20
+> are available in the Git repository at:
+>=20
+>   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/su=
+nxi-clk-for-6.16
+>=20
+> for you to fetch changes up to be0e9a3727872783bad0752dc82e0857f4776049:
+>=20
+>   clk: sunxi-ng: ccu: add Display Engine 3.3 (DE33) support (2025-05-12 2=
+3:55:06 +0800)
+>=20
+> ----------------------------------------------------------------
 
-Ping. Any feedback from maintainers? Stephen, are you picking up this
-directly?
-
-Best regards,
-Krzysztof
+Thanks. Pulled into clk-next
