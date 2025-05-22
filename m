@@ -1,81 +1,136 @@
-Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F735BA27
-	for <linux-sunxi@lists.linux.dev>; Wed, 21 May 2025 07:01:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 580B03BBC9
+	for <linux-sunxi@lists.linux.dev>; Thu, 22 May 2025 07:01:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747810893; cv=none; b=KX4ou8hfkfU+vM1JWQUg1cANbvwUCg3BqXh4NnAa4oPeTrEtyR68CrZqvVcY6SQNlC1CN99TFnpV3/oDqVb0lE7189dxBmP4aM2WXuvR5KJmp82jSXHaz4Xe7BBCaqp8zLeER0U/HlSm/CYkvJS+TFnB2dAImyvKf34vOQZEZfE=
+	t=1747897298; cv=none; b=ZzNkQ8PPuF7/9rf6GCN4X9git+4xcD6gM+PhPYBUrV+5dEFcwbF0onJ0j3u9ubVGbZAWzbVE5CAapYQ6QDQgyXEmFCoX8ibUvaZ4E8jkrUAq+R5uarSPBAS4UbZcNd9LTeLwBzKznoZTNQK4rD9nuRFUCZkx2M8UCsHJSEEnHNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747810893; c=relaxed/simple;
-	bh=Lt9CYMW02DOzhxDa6Rug1d76eG/C37B/SYIOvEnt+1c=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:CC:References:
-	 In-Reply-To:Content-Type; b=DhXG/RmBD05SLdT8aIDn9pa8usn/kKArI1Rm5JrEiCp0U8uIrOWGBjHdF3CO28kGfQqUBs3ArFTF1ubBZlv8Ka4p3RDcFz9ndlSusnXd5+ZQpXN7psPHTNozXIVcNikPAHkOouDZhk3pFeeGoTxKPx1V+JjdiOJTi0hUBxrcrxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=tbqsNC0g; arc=none smtp.client-ip=193.68.50.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="tbqsNC0g"
-Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
-	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id 30B8FA0F32;
-	Wed, 21 May 2025 09:01:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:from:from:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=mail; bh=2QiAvvm3mFGO7j5haJ/C
-	RUWWnyjSWWlUqQr8DQ5A31A=; b=tbqsNC0g1PX0U/IumfDoDbGPVXK3kUuNSOfS
-	NTGoAORLsuXfvB1x6Bui/CjmuHNWeGpjlizFaeRKtTghJOuut/KXSK2VROeEVdUy
-	N+LUPci3lsBvJyxSr4RGgQ62mOXkVwYfT8h9q52evCcTuSuZoBe2SFye1zEpkP9A
-	3BjAGPE06GAv77PTT9hcEwKzuxi9QIgFEjUYAP3W27rTEvcmPWtu7AOEzwPR9OKH
-	lEkDatJbfEsuMZaihHMEVnNqIcVfUxgNmJLbljG6MzZ2CDDmgsHsWCC8/qUG3r7c
-	4a+h1duVe107lZh2JQQj31AxnBnH+/Bq/WC8sJHwGoRGaOkh7tumHXecPzNYCxzH
-	5uLQiloaCL4RC0nsmoUIUpVJW1VaPwYTLfagRbav+qrtzhybtxtr3BK8p4RmbdGw
-	ykKHdvbYjoDoQjBogYGO8C8nGJPi8Gw6CAUsX6iHisIByZvPDQNhhfi61nxgLQ4b
-	fSUtgZoTuICW/171rTCZfgWaaI0CpoFW+jCF/lpI3xwa9GfusY0sLfKtsPtT2sZr
-	UcwxLwvSOBudjQNBTOL5UBvjaACTAIoRFAn4lZ3cCij9/F+lVK85mCIlmIGGvTDe
-	XV+iSxG/tmJdwFALKyCwycszjZzFWvOZKhfOlkoiGQHShEo1tiCAugsyXhqP17Nr
-	nL6BCw0=
-Message-ID: <6a7ffc24-dba0-4b67-9d3d-477f3bdf2128@prolan.hu>
-Date: Wed, 21 May 2025 09:01:14 +0200
+	s=arc-20240116; t=1747897298; c=relaxed/simple;
+	bh=eFvM3TMFXkvcw6kmoo9BGbl9roxeA7s81fdcjz4it1M=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=BDJoWN7njY1UMxs03FEyBCPqFDiJxu0uHyF3vALNmwN5aMBlBxJ3t7wLBSoBu0vKx9RVu3HD7N4cIonjDmj/VxAcnBWPYbczRf1R8r88uLkWgl0SSyCWfYwVU1zAVa65qOISMmpjhRjHLI5s8a6wkiyRbygbbegrnzXbxgGIZjY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [223.64.69.3])
+	by gateway (Coremail) with SMTP id _____8AxaeDOyy5oFiP2AA--.6201S3;
+	Thu, 22 May 2025 15:01:34 +0800 (CST)
+Received: from localhost.localdomain (unknown [223.64.69.3])
+	by front1 (Coremail) with SMTP id qMiowMBxHcXLyy5otXLnAA--.2923S2;
+	Thu, 22 May 2025 15:01:31 +0800 (CST)
+From: Binbin Zhou <zhoubinbin@loongson.cn>
+To: Binbin Zhou <zhoubb.aaron@gmail.com>,
+	Huacai Chen <chenhuacai@loongson.cn>,
+	Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Huacai Chen <chenhuacai@kernel.org>,
+	linux-mmc@vger.kernel.org,
+	Binbin Zhou <zhoubinbin@loongson.cn>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v2 34/36] mmc: sunxi: Use devm_mmc_alloc_host() helper
+Date: Thu, 22 May 2025 15:01:20 +0800
+Message-ID: <b120e66ad97458ea9465e6bb5f619c53ad51e804.1747877176.git.zhoubinbin@loongson.cn>
+X-Mailer: git-send-email 2.47.1
+In-Reply-To: <cover.1747877175.git.zhoubinbin@loongson.cn>
+References: <cover.1747877175.git.zhoubinbin@loongson.cn>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: =?UTF-8?B?Q3PDs2vDoXMgQmVuY2U=?= <csokas.bence@prolan.hu>
-Subject: Re: [PATCH v9] dma-engine: sun4i: Simplify error handling in probe()
-To: <dmaengine@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-CC: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>, Julian Calaby <julian.calaby@gmail.com>, "Vinod
- Koul" <vkoul@kernel.org>, Samuel Holland <samuel@sholland.org>
-References: <20250514161803.229600-1-csokas.bence@prolan.hu>
-Content-Language: en-US
-In-Reply-To: <20250514161803.229600-1-csokas.bence@prolan.hu>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: sinope.intranet.prolan.hu (10.254.0.237) To
- ATLAS.intranet.prolan.hu (10.254.0.229)
-X-EsetResult: clean, is OK
-X-EsetId: 37303A296767155D607466
+X-CM-TRANSID:qMiowMBxHcXLyy5otXLnAA--.2923S2
+X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/
+X-Coremail-Antispam: 1Uk129KBj93XoW7ur4fJFy7Gw1rWw1rGr1xJFc_yoW8tF4fpF
+	45JF9xKrWUJr4YgrZrAr4Uu34fZw4xKa48KrWrJw1fu3s8Kr4DtrnxCFy0gF95GFWkGa1S
+	gFyDWr4rCF1Du3XCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUBEb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
+	xVW0oVCq3wAaw2AFwI0_Jrv_JF1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0c
+	Ia020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Gryq
+	6s0DMcIj6I8E87Iv67AKxVW8Jr0_Cr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x
+	0EwIxGrwACjcxG6xCI17CEII8vrVW3JVW8Jr1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC
+	6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s
+	026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF
+	0xvE2Ix0cI8IcVAFwI0_tr0E3s1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1lIx
+	AIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4UJVWxJr1lIxAIcVC2
+	z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x07ba1v3UUUUU=
 
-Hi,
+Use new function devm_mmc_alloc_host() to simplify the code.
 
-On 2025. 05. 14. 18:18, Bence Csókás wrote:
-> Clean up error handling by using devm functions and dev_err_probe(). This
-> should make it easier to add new code, as we can eliminate the "goto
-> ladder" in sun4i_dma_probe().
-> 
-> Suggested-by: Chen-Yu Tsai <wens@kernel.org>
-> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Acked-by: Chen-Yu Tsai <wens@csie.org>
-> Reviewed-by: Julian Calaby <julian.calaby@gmail.com>
-> Signed-off-by: Bence Csókás <csokas.bence@prolan.hu>
-> ---
+Cc: Chen-Yu Tsai <wens@csie.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Samuel Holland <samuel@sholland.org>
+Cc: linux-sunxi@lists.linux.dev
+Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
+Reviewed-by: Huacai Chen <chenhuacai@loongson.cn>
+---
+ drivers/mmc/host/sunxi-mmc.c | 22 ++++++++--------------
+ 1 file changed, 8 insertions(+), 14 deletions(-)
 
-So, can this be merged? I do believe we have ACKs from most maintainers.
-
-Bence
+diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mmc.c
+index 1508eead5d01..ee4a65b0a22d 100644
+--- a/drivers/mmc/host/sunxi-mmc.c
++++ b/drivers/mmc/host/sunxi-mmc.c
+@@ -1369,11 +1369,10 @@ static int sunxi_mmc_probe(struct platform_device *pdev)
+ 	struct mmc_host *mmc;
+ 	int ret;
+ 
+-	mmc = mmc_alloc_host(sizeof(struct sunxi_mmc_host), &pdev->dev);
+-	if (!mmc) {
+-		dev_err(&pdev->dev, "mmc alloc host failed\n");
+-		return -ENOMEM;
+-	}
++	mmc = devm_mmc_alloc_host(&pdev->dev, sizeof(*host));
++	if (!mmc)
++		return dev_err_probe(&pdev->dev, -ENOMEM,
++				     "mmc alloc host failed\n");
+ 	platform_set_drvdata(pdev, mmc);
+ 
+ 	host = mmc_priv(mmc);
+@@ -1383,15 +1382,13 @@ static int sunxi_mmc_probe(struct platform_device *pdev)
+ 
+ 	ret = sunxi_mmc_resource_request(host, pdev);
+ 	if (ret)
+-		goto error_free_host;
++		return ret;
+ 
+ 	host->sg_cpu = dma_alloc_coherent(&pdev->dev, PAGE_SIZE,
+ 					  &host->sg_dma, GFP_KERNEL);
+-	if (!host->sg_cpu) {
+-		dev_err(&pdev->dev, "Failed to allocate DMA descriptor mem\n");
+-		ret = -ENOMEM;
+-		goto error_free_host;
+-	}
++	if (!host->sg_cpu)
++		return dev_err_probe(&pdev->dev, -ENOMEM,
++				     "Failed to allocate DMA descriptor mem\n");
+ 
+ 	if (host->cfg->ccu_has_timings_switch) {
+ 		/*
+@@ -1481,8 +1478,6 @@ static int sunxi_mmc_probe(struct platform_device *pdev)
+ 
+ error_free_dma:
+ 	dma_free_coherent(&pdev->dev, PAGE_SIZE, host->sg_cpu, host->sg_dma);
+-error_free_host:
+-	mmc_free_host(mmc);
+ 	return ret;
+ }
+ 
+@@ -1498,7 +1493,6 @@ static void sunxi_mmc_remove(struct platform_device *pdev)
+ 		sunxi_mmc_disable(host);
+ 	}
+ 	dma_free_coherent(&pdev->dev, PAGE_SIZE, host->sg_cpu, host->sg_dma);
+-	mmc_free_host(mmc);
+ }
+ 
+ #ifdef CONFIG_PM
+-- 
+2.47.1
 
