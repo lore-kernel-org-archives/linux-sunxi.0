@@ -1,65 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B3402BFC78;
-	Thu, 22 May 2025 23:15:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E712B293459;
+	Fri, 23 May 2025 15:45:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747955759; cv=none; b=grnDNZ0IZgVcQ1eLjsP26IioRXlX7KpBjb83Vf6hE0FoSlfSwFs9BBvmvTmhXEqMLttpuJblqJ0u1tbwB/4cOXz2aNSkxHGpi3nIGAt9UEEEH674uXFoav/Uu2uQAKMwwUMaeMQKpDQ/N1NdXIcGFi4fwRxCIXY0+SWleZI0XLg=
+	t=1748015106; cv=none; b=IHh0XbrpRhxLVZrc32WK9VZur1fMWAzZsBAi/hJ9Js1tScN+X3sDxfGmr+qxKAekBmanwoAGHWfRC1PC2W3w6L6AjePMbXkv1O2NxPr4UkVK+cq7gpmVzGqmUArbM2fsSDiLv2QjmMgnNXhbzqzcxMs64qkZuzCca3b9MeDSmKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747955759; c=relaxed/simple;
-	bh=Jv56dkfNZCxpxUt9eux/nBkDnSUhfvknB6cfSV3tHfE=;
-	h=Message-ID:Content-Type:MIME-Version:In-Reply-To:References:
-	 Subject:From:Cc:To:Date; b=WbVMhIGW3JL7UcmoKGPTTqFFSjCyvzCKx5uw8sjqaTkzYu9R5xs5BVZzswcrFKS8Dw658LZ26g1LVpljg/YWbahxc4hFOY/rrNLwXiBXcSzvs+4QNUhck+jRRWCmOHrymNk1LpI7hSIBfxm4ccsrORGPBfhqp5/umMGvXG0Bu+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=di+Ji8IP; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="di+Ji8IP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C011C4CEEB;
-	Thu, 22 May 2025 23:15:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747955759;
-	bh=Jv56dkfNZCxpxUt9eux/nBkDnSUhfvknB6cfSV3tHfE=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=di+Ji8IP5qIQGjCFOKy7Wwlnvqdoetb1VciQKZzvoEZZ5gRTyN/h+IM9+xnlhRbff
-	 iuMHYtjkiVhCh5S5bmopo5i+GwUo4It42eoB+S+cgx5IaZIGhe5i4AusJqdHidSvwc
-	 0knP0R/cL+06zbtWzlLiakw6373VOn2e5h68D7YoBsD1oXdG91Bx+3EkIWKMUrywrV
-	 NcxpIU5QYjWzrhhpS9vbCB9yYCk5XhhkHW/hf0lpFm9qdaOAOyKLdRYMBDeWFRxYEB
-	 H8ubNEsD0OkCtl/icfGSMJnQg/sQwA591Zk45F8k/I0Cs32RtPetBGxjgKDLYEC/0d
-	 E5891P93wNTUg==
-Message-ID: <1950c6ba75c7045a06bac6fe15cc6d43@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1748015106; c=relaxed/simple;
+	bh=7dQrUsrdfwQqtppMZ9nZPjLQxrBRNZnSqBS7RSpZIlY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fxoPrns/1liwbSuKCbHaKUkCbYm4g4Zw2+P7utt25LWN5ywBg96AQpKj+ubH9kepnnBEnQSV3tq/AAS917Y18Yx+0EzOiUsVYPS7UftsaJO0ekwUMD4/nuTJy9iAmiZwh75D4mlUccuUYzqvmle79uu32Wu7oJ47AriUX1VMIDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+	by leonov.paulk.fr (Postfix) with ESMTPS id A33F21F0004B;
+	Fri, 23 May 2025 15:44:53 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+	id E5A9BAC2EB0; Fri, 23 May 2025 15:44:52 +0000 (UTC)
+X-Spam-Level: *
+Received: from localhost.localdomain (unknown [192.168.1.64])
+	by laika.paulk.fr (Postfix) with ESMTP id CD313AC2EA9;
+	Fri, 23 May 2025 15:44:18 +0000 (UTC)
+From: Paul Kocialkowski <paulk@sys-base.io>
+To: linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Paul Kocialkowski <paulk@sys-base.io>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Hans Verkuil <hans@jjverkuil.nl>,
+	Jernej Skrabec <jernej.skrabec@siol.net>
+Subject: [PATCH] media: cedrus: Add support for additional output formats
+Date: Fri, 23 May 2025 17:43:59 +0200
+Message-ID: <20250523154359.2454180-1-paulk@sys-base.io>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <aCaetzKYzCpzRYzd@wens.tw>
-References: <aCaetzKYzCpzRYzd@wens.tw>
-Subject: Re: [GIT PULL] Allwinner clock changes for 6.16
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev, linux-clk@vger.kernel.org
-To: Chen-Yu Tsai <wens@kernel.org>
-Date: Thu, 22 May 2025 16:15:57 -0700
-User-Agent: alot/0.12.dev8+g17a99a841c4b
+Content-Transfer-Encoding: 8bit
 
-Quoting Chen-Yu Tsai (2025-05-15 19:11:03)
-> The following changes since commit 0af2f6be1b4281385b618cb86ad946eded089a=
-c8:
->=20
->   Linux 6.15-rc1 (2025-04-06 13:11:33 -0700)
->=20
-> are available in the Git repository at:
->=20
->   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/su=
-nxi-clk-for-6.16
->=20
-> for you to fetch changes up to be0e9a3727872783bad0752dc82e0857f4776049:
->=20
->   clk: sunxi-ng: ccu: add Display Engine 3.3 (DE33) support (2025-05-12 2=
-3:55:06 +0800)
->=20
-> ----------------------------------------------------------------
+From: Jernej Skrabec <jernej.skrabec@siol.net>
 
-Thanks. Pulled into clk-next
+If VPU supports untiled output, it actually supports several different
+YUV 4:2:0 layouts, namely NV12, NV21, YUV420 and YVU420.
+
+Add support for all of them.
+
+Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+Reviewed-by: Paul Kocialkowski <paulk@sys-base.io>
+---
+
+Looks like this patch never made it, sorry about that.
+I've rebased it atop media/next and added my Reviewed-by tag.
+---
+ drivers/staging/media/sunxi/cedrus/cedrus_hw.c | 18 +++++++++++++++++-
+ .../staging/media/sunxi/cedrus/cedrus_video.c  | 18 ++++++++++++++++++
+ 2 files changed, 35 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+index 32af0e96e762..168d89c5a16d 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+@@ -86,9 +86,25 @@ void cedrus_dst_format_set(struct cedrus_dev *dev,
+ 
+ 	switch (fmt->pixelformat) {
+ 	case V4L2_PIX_FMT_NV12:
++	case V4L2_PIX_FMT_NV21:
++	case V4L2_PIX_FMT_YUV420:
++	case V4L2_PIX_FMT_YVU420:
+ 		chroma_size = ALIGN(width, 16) * ALIGN(height, 16) / 2;
+ 
+-		reg = VE_PRIMARY_OUT_FMT_NV12;
++		switch (fmt->pixelformat) {
++		case V4L2_PIX_FMT_NV12:
++			reg = VE_PRIMARY_OUT_FMT_NV12;
++			break;
++		case V4L2_PIX_FMT_NV21:
++			reg = VE_PRIMARY_OUT_FMT_NV21;
++			break;
++		case V4L2_PIX_FMT_YUV420:
++			reg = VE_PRIMARY_OUT_FMT_YU12;
++			break;
++		case V4L2_PIX_FMT_YVU420:
++			reg = VE_PRIMARY_OUT_FMT_YV12;
++			break;
++		}
+ 		cedrus_write(dev, VE_PRIMARY_OUT_FMT, reg);
+ 
+ 		reg = chroma_size / 2;
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+index 77f78266f406..9fae2c7493d0 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+@@ -64,6 +64,21 @@ static struct cedrus_format cedrus_formats[] = {
+ 		.pixelformat	= V4L2_PIX_FMT_NV12_32L32,
+ 		.directions	= CEDRUS_DECODE_DST,
+ 	},
++	{
++		.pixelformat	= V4L2_PIX_FMT_NV21,
++		.directions	= CEDRUS_DECODE_DST,
++		.capabilities	= CEDRUS_CAPABILITY_UNTILED,
++	},
++	{
++		.pixelformat	= V4L2_PIX_FMT_YUV420,
++		.directions	= CEDRUS_DECODE_DST,
++		.capabilities	= CEDRUS_CAPABILITY_UNTILED,
++	},
++	{
++		.pixelformat	= V4L2_PIX_FMT_YVU420,
++		.directions	= CEDRUS_DECODE_DST,
++		.capabilities	= CEDRUS_CAPABILITY_UNTILED,
++	},
+ };
+ 
+ #define CEDRUS_FORMATS_COUNT	ARRAY_SIZE(cedrus_formats)
+@@ -140,6 +155,9 @@ void cedrus_prepare_format(struct v4l2_pix_format *pix_fmt)
+ 		break;
+ 
+ 	case V4L2_PIX_FMT_NV12:
++	case V4L2_PIX_FMT_NV21:
++	case V4L2_PIX_FMT_YUV420:
++	case V4L2_PIX_FMT_YVU420:
+ 		/* 16-aligned stride. */
+ 		bytesperline = ALIGN(width, 16);
+ 
+-- 
+2.49.0
+
