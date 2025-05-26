@@ -1,60 +1,62 @@
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
+Received: from mail-il1-f170.google.com (mail-il1-f170.google.com [209.85.166.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C195F8472
-	for <linux-sunxi@lists.linux.dev>; Mon, 26 May 2025 00:30:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF8AA4AEE0
+	for <linux-sunxi@lists.linux.dev>; Mon, 26 May 2025 00:30:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748219428; cv=none; b=k/AKz5Vy0PBZotNWcx3hRjgMHrrgIp7qFe1tDsSa5FeU7BzNnznkwW/TAJ+rQEU9e3ZL8R9LCDiN6Lk9aa3RIlLx34TIpu5LfrmFjPKHL2Jn+IDw2pVUhWiLimeF7BTqseFrqorzky1cr6u5YqQbUvlvXz3EF3i+iLfc+sHRwUU=
+	t=1748219431; cv=none; b=uxxpwIoNDmqMlgQ2FdqKZ++1X/WEFRjhX6GUHZMc4OWZJxifuUaHzRfX6zcd1rD47D3N4FCqR5fj3Y/AaTsAz2M0WNT4N7WCSW7KExLfEJ07wLR8kzh1QRgIjLepe/NKiJnVGUiALOWuF1REEt9vFrP+/SORKewMKsbP6f7Osb8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748219428; c=relaxed/simple;
-	bh=ocL9xN3l5CZIkJMP4iIsK/bvcDmu7NvmAZRKme5JHYE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kNjjqyaj37LHXU9te/4seuNTpmYSdpejWClNsc0tDUm5twFBp5P/YPDYKBpu8ELTvIsKlNbYbsGCLGL9KV8AOAQMpXtlsWOzQmR+ddgTNXli7EKjmpLLiOsaKjg5hpXiHXXfpbpJfMROwmhg8/l9GMmuJs/rb4AzuPu7GFP1X1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WbttAqKi; arc=none smtp.client-ip=209.85.166.52
+	s=arc-20240116; t=1748219431; c=relaxed/simple;
+	bh=j/AgqK6sTn7GZhod0s1Zdw40IxV6Jv0f8Ah9CoFUBmI=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=uwKPJyLmwuBRyXGPR8PSMk4F2/Cb6q887zWWnc4lZC8kkUL+TbOQGk7S/cPXT0Lxy41y6UG5SrkVsPP4+dVN13R9Tvmy8K7ehwCfE+CWlmm5AagjcpfE4MEpkVPT7Ey1y+kPleGxChrBYSFJObF61bH0zfXy4xwifkDlGXmAZo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CGweSoLp; arc=none smtp.client-ip=209.85.166.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WbttAqKi"
-Received: by mail-io1-f52.google.com with SMTP id ca18e2360f4ac-86135af1045so163671639f.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 25 May 2025 17:30:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CGweSoLp"
+Received: by mail-il1-f170.google.com with SMTP id e9e14a558f8ab-3dd24c86779so8123635ab.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 25 May 2025 17:30:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748219426; x=1748824226; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QlxuW8EiAaobylr07WlFl9Wc9Vavh5mNNDPDEO1zHCA=;
-        b=WbttAqKisYyPDoFcDZcgrkkis+T2kB4y7S/2VS2UkzY2thATz86yn+jPuJ4pnbYTwH
-         4ZrzcXj36md1eiixAWOjzKebX1FkYBbN1ZV+e5O+k6SxFlfwALAVR76LjSTMoGJJO5mb
-         oJGgTJOxgQyHjlExrd2dSdq1bkcUrhpG4DsVdIA0RP1HP0yF3utq0kQjG3RT7bzbc6G9
-         7R7HxRw8AJrj11w+uDvHUBUtMsOSUkFetv5PL64Tsk/EQo3AwRsk4vsMNwmnCXQKLFd+
-         uIDP4DiTA3n48CqrVDbTbp8xPGos8TMtjNWJzH6zxV/xhJ7fU7Ws9ldNjXiZWiReLG1b
-         HpXg==
+        d=gmail.com; s=20230601; t=1748219429; x=1748824229; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hE9h/M7uKcWqMcsxjrPkg3JJriS4MccIRahSsbbNqE8=;
+        b=CGweSoLpl17Rii5t5LeDnH7cMj1tGQlEzRWLD+HlYWhjY/o9ZWr/0VpOQdqghuqcyU
+         khYdJzPnaA3FZbTvNxPjuRszY60FRJtQ06a5/C8yt4vIYvjV/muSs7xQ+fait6mTTYr+
+         fH4HAu3TPBhoU7T5bFldhD7Tj2V6tjLMGDWPwCi4fXhZxGkIY2HQu/MWmCCYww7Wo67j
+         AIkayAPJals+m4wPf3E6CyZ8LFdvLdfT9iovyKtUYD5vvGSXAMKe3PWO7EytFRHRl5EY
+         xDB45lcfs1x73ZJN9RF62Wzye0iTalefQgu/0NooQtpW2Pb07XgQTfYDCq4d0+XGZvl9
+         v+/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748219426; x=1748824226;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QlxuW8EiAaobylr07WlFl9Wc9Vavh5mNNDPDEO1zHCA=;
-        b=R3CHU210tGQYgyzTmGAGQ+PZ9ynQjUk10rCFESmwGsueIzRNRJjQO7oGhRB13Is1dY
-         03sWdpAq7HSeU6S3ZD1NDmS1lAkLwGAzMJqmxLbrziBrQNA1jAC8wsNPqpzvk/tu7+YK
-         ZR4Mm7P5xmPlM740q2gscVHz0WkMQ/G3MZoXu16vOaJx2/AiPdr1Qr/PoWEtRaqtpduc
-         cpTgQ0LkSxMI/Faekde0Jov3wobgC7mfkAVT/GPqEpCWo95aT7y1egfBxJZJe6Wx+aaB
-         rzVWel0CsN47T7Cmkal/XPNgwvrQ4h7kM9iqtWkKswtDtNH3nKOAcmPi7FEUu2QHnHzM
-         sx/g==
-X-Gm-Message-State: AOJu0YzA8nYBaa1kA4hkmervFlA+7kovKZiP9zTh634Kb0A8sdGWOUm2
-	t+Y+2YJeni/GJlAhA+ZA+qx1n+4BF+qhTBDYOJUuG3sVxzF8+yrQc2Mr
-X-Gm-Gg: ASbGncu8E1MM1rF0eYjVTYibnXjgPeZk7ruxH9mVtn3ubC1g7aGe8+PbwaZTpdKJLDX
-	SyrDqUtfkcFOm/2fKouuwmMo5sdxk73Z5bHaI32heK7Qyzd8BNDYKd3Df7u/q585CNiXvsHQJVG
-	bkBTO4O9k8DQ5N1KApux+x8k5ishWmiXv0OcS3HVcxwPGVfU20h5yJ5gEiL/bb52oTbkNBkrbdo
-	COjk3CnqSa+wkMs8NLyoz9i9+vTskRIqOLZUj4DEHHSwwx0RxrDyX5RXCHTsLjlY8jJpHnOaASU
-	7RDM90FIfJoBap1VqB4w0/pFRrc4qvKMPezCdmIV9HQkiW0FbHn+ibCqCfEMGHNiJvdhvW/QyJq
-	rEWcYRnUYpW4H00EKvGDODf6qwetUjA==
-X-Google-Smtp-Source: AGHT+IEUiP1VLM7hATU3uX+Sltx9XV9gv6KswEzefF313KmIFDOZCAlrrtUCSCIruHAM39yxFL/YfA==
-X-Received: by 2002:a05:6e02:1988:b0:3dc:8c77:4d28 with SMTP id e9e14a558f8ab-3dc9b6aa09bmr58114665ab.1.1748219425742;
-        Sun, 25 May 2025 17:30:25 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1748219429; x=1748824229;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hE9h/M7uKcWqMcsxjrPkg3JJriS4MccIRahSsbbNqE8=;
+        b=ty/VRzuAvxaHAWjyM9V23BcJn0amG39D6ivkyy4PkRBxZrsF+MOugbcivSjPe90IbU
+         +HD2kYexMIg9zVvQIj+yF6XneQPGy4cDbxrccP2xO1QUyJTsaFj3ran6FIC/Te5T4S/a
+         Nrbt9Ge7nIFN0SWiWsQnP2f0h1GBjlD4nEB1RMs8JzyBmANw+W7PrsoXwURVOpV36JB3
+         J77jadPJ8NS2UFHKMIH6k8AKvD3xFuJBZDnNPIuQ3pMufRLsNBm/StM3naNDvqGITCuf
+         DcGLipyokuraAXdx1l+JTopyONJt77vUPLyxW7MqzTTOygSfEDMMr1JI1rlbmRl1PvHQ
+         42KA==
+X-Gm-Message-State: AOJu0YwN2xb/GZvM3RMgyentq8Wf1FktycUOJkfyjZlL+n7QBu0Fc/xB
+	kQwPmGV0nLlko5/VF2hlBQqJZhgJPhLVGDOg4DY2SPSXUxqPNVW/51Bm
+X-Gm-Gg: ASbGncvIbs/6lhxsW/REeYSki+vXGax7fULXwTu2U3/fzi5WyoNt8u4miHK7qvZW9GP
+	Fv3EOKnzgfnuPMi7+rCU2UFIcpUPMUfTkVED8ybTKq68bucG63EPqTzzpsF6mW9ABVEHy4uCY75
+	XzBO5EaITr091vFIEOuTPcUevecizqQ1vCvN54FVrRNqQSGLlVfal1/AmvMY+DfbJUrp9Csj/hd
+	PDVgOvN6Rk/Oy+PYWmUERapd3flh1kXpLhuaqVNzWcfkZ8cMEaQWhA2TAEY5jzx8IC7TlvLGceg
+	zabfkOGM/2nxYdzqgvrOe2XS7rG8Mc/E3CLkAd2CJQ9pIr4nG9ySgtzdlRjO0lNY7KOumkH5Ljb
+	kbXLIPNP6A5e/TOxurxZ9xZw0zHDZIQ==
+X-Google-Smtp-Source: AGHT+IHeprWN0OT6Xq1C608Ko9smpP11pwLwlFe3T1+FZlCl5LSrUPerfPVKNYI6owNKSrybdMvlyA==
+X-Received: by 2002:a05:6e02:2193:b0:3dc:8b57:b759 with SMTP id e9e14a558f8ab-3dc9b7517a5mr74670715ab.21.1748219428699;
+        Sun, 25 May 2025 17:30:28 -0700 (PDT)
 Received: from james-x399.localdomain (97-118-146-220.hlrn.qwest.net. [97.118.146.220])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3dc85ef07dcsm25532785ab.36.2025.05.25.17.30.24
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3dc85ef07dcsm25532785ab.36.2025.05.25.17.30.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 May 2025 17:30:25 -0700 (PDT)
+        Sun, 25 May 2025 17:30:28 -0700 (PDT)
 From: James Hilliard <james.hilliard1@gmail.com>
 To: netdev@vger.kernel.org
 Cc: linux-sunxi@lists.linux.dev,
@@ -64,19 +66,28 @@ Cc: linux-sunxi@lists.linux.dev,
 	Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>,
 	Paolo Abeni <pabeni@redhat.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
 	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
 	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Russell King <linux@armlinux.org.uk>,
+	Yinggang Gu <guyinggang@loongson.cn>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Feiyang Chen <chenfeiyang@loongson.cn>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
 	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	Furong Xu <0x1207@gmail.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	linux-stm32@st-md-mailman.stormreply.com,
+	Jinjie Ruan <ruanjinjie@huawei.com>,
+	Paul Kocialkowski <paulk@sys-base.io>,
 	linux-arm-kernel@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
 	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 1/2] net: stmmac: allow drivers to explicitly select PHY device
-Date: Sun, 25 May 2025 18:29:21 -0600
-Message-Id: <20250526002924.2567843-1-james.hilliard1@gmail.com>
+Subject: [RFC PATCH 2/2] net: stmmac: dwmac-sun8i: Allow runtime AC200/AC300 phy selection
+Date: Sun, 25 May 2025 18:29:22 -0600
+Message-Id: <20250526002924.2567843-2-james.hilliard1@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250526002924.2567843-1-james.hilliard1@gmail.com>
+References: <20250526002924.2567843-1-james.hilliard1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -85,53 +96,74 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Some devices like the Allwinner H616 need the ability to select a phy
-in cases where multiple PHY's may be present in a device tree due to
-needing the ability to support multiple SoC variants with runtime
-PHY selection.
+The Allwinner H616 ships with two different on-die phy variants, in
+order to determine the phy being used we need to read an efuse and
+then select the appropriate PHY based on the AC300 bit.
+
+By defining an emac node without a phy-handle we can override the
+default PHY selection logic in stmmac by passing a specific phy_node
+selected based on the ac200 and ac300 names in a phys list.
+
+This allows us to have a device tree that defines both PHY variants
+even though only one will actually end up being used at runtime
+based on the ac300 nvmem efuse bit.
 
 Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
 ---
- .../net/ethernet/stmicro/stmmac/stmmac_main.c | 22 +++++++++++++------
- 1 file changed, 15 insertions(+), 7 deletions(-)
+ .../net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-index 59d07d0d3369..949c4a8a1456 100644
---- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-@@ -1210,17 +1210,25 @@ static int stmmac_init_phy(struct net_device *dev)
- 	 */
- 	if (!phy_fwnode || IS_ERR(phy_fwnode)) {
- 		int addr = priv->plat->phy_addr;
--		struct phy_device *phydev;
-+		struct phy_device *phydev = NULL;
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+index 6c7e8655a7eb..e275f4caa684 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+@@ -11,6 +11,7 @@
+ #include <linux/mdio-mux.h>
+ #include <linux/mfd/syscon.h>
+ #include <linux/module.h>
++#include <linux/nvmem-consumer.h>
+ #include <linux/of.h>
+ #include <linux/of_mdio.h>
+ #include <linux/of_net.h>
+@@ -280,6 +281,8 @@ static const struct emac_variant emac_variant_h6 = {
+ #define SYSCON_ETCS_EXT_GMII	0x1
+ #define SYSCON_ETCS_INT_GMII	0x2
  
--		if (addr < 0) {
--			netdev_err(priv->dev, "no phy found\n");
--			return -ENODEV;
-+		if (priv->plat->phy_node) {
-+			phy_fwnode = of_fwnode_handle(priv->plat->phy_node);
-+			phydev = fwnode_phy_find_device(phy_fwnode);
-+			fwnode_handle_put(phy_fwnode);
- 		}
- 
--		phydev = mdiobus_get_phy(priv->mii, addr);
- 		if (!phydev) {
--			netdev_err(priv->dev, "no phy at addr %d\n", addr);
--			return -ENODEV;
-+			if (addr < 0) {
-+				netdev_err(priv->dev, "no phy found\n");
-+				return -ENODEV;
-+			}
++#define AC300_KEY		BIT(8)
 +
-+			phydev = mdiobus_get_phy(priv->mii, addr);
-+			if (!phydev) {
-+				netdev_err(priv->dev, "no phy at addr %d\n", addr);
-+				return -ENODEV;
-+			}
- 		}
+ /* sun8i_dwmac_dma_reset() - reset the EMAC
+  * Called from stmmac via stmmac_dma_ops->reset
+  */
+@@ -1159,6 +1162,7 @@ static int sun8i_dwmac_probe(struct platform_device *pdev)
+ 	struct net_device *ndev;
+ 	struct regmap *regmap;
+ 	int ret;
++	u16 val;
  
- 		ret = phylink_connect_phy(priv->phylink, phydev);
+ 	ret = stmmac_get_platform_resources(pdev, &stmmac_res);
+ 	if (ret)
+@@ -1222,6 +1226,21 @@ static int sun8i_dwmac_probe(struct platform_device *pdev)
+ 	if (IS_ERR(plat_dat))
+ 		return PTR_ERR(plat_dat);
+ 
++	if (!nvmem_cell_read_u16(dev, "ac300", &val)) {
++		const char *phy_name = (val & AC300_KEY) ? "ac300" : "ac200";
++		int index = of_property_match_string(dev->of_node, "phy-names", phy_name);
++		if (index < 0) {
++			dev_err(dev, "PHY name not found in device tree\n");
++			return -EINVAL;
++		}
++
++		plat_dat->phy_node = of_parse_phandle(dev->of_node, "phys", index);
++		if (!plat_dat->phy_node) {
++			dev_err(dev, "Failed to get PHY node from phys property\n");
++			return -EINVAL;
++		}
++	}
++
+ 	/* platform data specifying hardware features and callbacks.
+ 	 * hardware features were copied from Allwinner drivers.
+ 	 */
 -- 
 2.34.1
 
