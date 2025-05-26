@@ -1,99 +1,83 @@
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 166503595E
-	for <linux-sunxi@lists.linux.dev>; Mon, 26 May 2025 08:12:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F0581DF27F
+	for <linux-sunxi@lists.linux.dev>; Mon, 26 May 2025 09:31:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748247136; cv=none; b=NHBO4XGJR7PPMHfXf9PEy0zcS65mi7suG/leSm9isCleO0MVPoIUpRRwBWAq0GpyVjvrsOSQ+Lf3K1Va39EeNN4Q1LbFHa7XgTG+ZluInIGMAVUDM1JauH4Q+yBNPs0f7tFOtlJDX/UGBaU3H/OQPrS3O8tN6IMYTNXsOwWU8ME=
+	t=1748251917; cv=none; b=ZOtYnr4skK5LZS2VCQF9Z/k9ciOAFP1jVFgYVON5kGsXTB7AKM53pb0I0RkhJseK7jOSgcJD2sizlJco98Sk23nJHizPELEYLCJOCxeHsPH4sKJw3JH+m5SgS5XQpVW9oPO7+PsDrP/ehqlIJyyoCS427q52IwPPeb2SQCbK5co=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748247136; c=relaxed/simple;
-	bh=M7T0+D011hV6QFHPETqMmfJ9yU1LxuHKmv+N2IRha8Y=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=OE0HMYLtOmiMexGuwtGhG7Ci//xgZcgN0wU31H2fxZUVelRp3mJQLVEyP0vqAGG2fNMn6oYnPz5slCG97CHA/UbSU0lsTEED8+rsvhObpYtQ1/NohcrLt5kvKoJXgIUjE57hgItpcsIhB0sT6QUVllpLRJeD2Z6x1OcObaL/zuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=VALR+SSJ; arc=none smtp.client-ip=217.70.183.198
+	s=arc-20240116; t=1748251917; c=relaxed/simple;
+	bh=nEnZXS21luBxBukdlYNpkDBZ/dd9/QrJOo9L6XL2dJU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=T3sKy4k4skoxJpYbbZETxFpD2peWjA3SC7GKFRmg7Oo8Y/6JBmaOwQyVaL9YUXASiau6q/EEikJr+yawrzHHgF+E87QIsjYfwYFMypbD9oGAjGVdQ+VOvu4hFqM/9WjInjSimVIiz1dnGaFWX+kQ1BY3SwkErivASiTkOr0hH1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=aPapo4hO; arc=none smtp.client-ip=217.70.183.196
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="VALR+SSJ"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id B610342DFF;
-	Mon, 26 May 2025 08:12:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="aPapo4hO"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 406AD433B6;
+	Mon, 26 May 2025 09:31:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1748247132;
+	t=1748251906;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=h5ar1+ii+EEJg36aGo+is3ncJ1EKGEqq8suROqpajvc=;
-	b=VALR+SSJ/mrK8uubAwfd02c0E4HinwQa3Fr7aSxh2mvFGRSNLT7oirBd3JBdl0XvI/I3ve
-	2evkgdxzo/ok6EblNKPz8JAivojF0jfEoOaHHvsMM6gZ153NrNmis2Ih6WYiek0TF5Obk+
-	9Osx6wN9VUphURRJ1Y0YBs+5kC2/gCXZyT5BVBSyqp1uqRTk0iB4Ix+CzG46DN6W6+1InP
-	O/E8XOVgCJHzfMfIRQJvTkNMbod2JDgssODpznMUBg0438gMUwyOx5HZpNRqEXcs45lSht
-	A4OsIziIr6c12taUyHJIck7wOISnWiIipl9sk0JfPb9p5UghhjUj5t2KZkckcA==
+	bh=P/ZZTG2q7hLM3GZrcupIxllRxvC3z0wIhPiqMbFVFDg=;
+	b=aPapo4hOvLjoEd66BIkA1dN4XiHOGFqdSVXpM3loHuOVl3pSD0unXcrWWA3fVyjd/4bUYi
+	Lop5M09S/nBAzIH7xe+RPoFfpRXaInKFiPKzvhd0bawG3B+uoMMxZ0d9TqT73I5LTtnD2u
+	9ziR6MYLBMB59L83vuLT3V11TJqiZCt8d6gk38yJlwz0l/TV/yFrNBTdqQyznw7fRuClVY
+	F1Y5nmyQp78/YVeEwhhWIilpyJD7IoeoIMFH5kmq+mbOHuVe8XNgePIv7xz03qy/hRK/vx
+	NWG43ivHn85uB3NbW3MrdP/zX/wg6ujySE0ttHMWcTFRTbgvKHHnpohQlefNyA==
 From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Wentao Liang <vulab@iscas.ac.cn>
-Cc: richard@nod.at,  vigneshr@ti.com,  wens@csie.org,
-  jernej.skrabec@gmail.com,  samuel@sholland.org,  ruanjinjie@huawei.com,
-  u.kleine-koenig@baylibre.com,  linux-kernel@vger.kernel.org,
-  linux-mtd@lists.infradead.org,  linux-arm-kernel@lists.infradead.org,
-  linux-sunxi@lists.linux.dev,  stable@vger.kernel.org
+To: richard@nod.at, vigneshr@ti.com, wens@csie.org, 
+ jernej.skrabec@gmail.com, samuel@sholland.org, 
+ Wentao Liang <vulab@iscas.ac.cn>
+Cc: ruanjinjie@huawei.com, u.kleine-koenig@baylibre.com, 
+ linux-kernel@vger.kernel.org, linux-mtd@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ stable@vger.kernel.org
+In-Reply-To: <20250526034344.517-1-vulab@iscas.ac.cn>
+References: <20250526034344.517-1-vulab@iscas.ac.cn>
 Subject: Re: [PATCH] mtd: nand: sunxi: Add randomizer configuration in
  sunxi_nfc_hw_ecc_write_chunk
-In-Reply-To: <20250526034344.517-1-vulab@iscas.ac.cn> (Wentao Liang's message
-	of "Mon, 26 May 2025 11:43:44 +0800")
-References: <20250526034344.517-1-vulab@iscas.ac.cn>
-User-Agent: mu4e 1.12.7; emacs 29.4
-Date: Mon, 26 May 2025 10:12:09 +0200
-Message-ID: <8734cr3i5i.fsf@bootlin.com>
+Message-Id: <174825190312.1028286.17391612651322284901.b4-ty@bootlin.com>
+Date: Mon, 26 May 2025 11:31:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.15-dev
 X-GND-State: clean
 X-GND-Score: 0
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgddujedttdculddtuddrgeefvddrtddtmdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucenucfjughrpefhvfevufgjfhgffffkgggtgfesthhqredttderjeenucfhrhhomhepofhiqhhuvghlucftrgihnhgrlhcuoehmihhquhgvlhdrrhgrhihnrghlsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeffgefhjedtfeeigeduudekudejkedtiefhleelueeiueevheekvdeludehiedvfeenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmihhquhgvlhdrrhgrhihnrghlsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedufedprhgtphhtthhopehvuhhlrggssehishgtrghsrdgrtgdrtghnpdhrtghpthhtoheprhhitghhrghrugesnhhougdrrghtpdhrtghpthhtohepvhhighhnvghshhhrsehtihdrtghomhdprhgtphhtthhopeifvghnshestghsihgvrdhorhhgpdhrtghpthhtohepjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgrihhlrdgtohhmpdhrtghpthhtohepshgrmhhuvghlsehshhholhhlrghnugdrohhrghdprhgtphhtthhop
- ehruhgrnhhjihhnjhhivgeshhhurgifvghirdgtohhmpdhrtghpthhtohepuhdrkhhlvghinhgvqdhkohgvnhhighessggrhihlihgsrhgvrdgtohhm
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgddujeduieculddtuddrgeefvddrtddtmdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucenucfjughrpefhvfevjghfuffkffggtgfgofesthekredtredtjeenucfhrhhomhepofhiqhhuvghlucftrgihnhgrlhcuoehmihhquhgvlhdrrhgrhihnrghlsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeehieffhfeulefgtdeltefgleevgffgheduledvheduudelgfehlefgheeivedvgeenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrdegvddrgeeingdpmhgrihhlfhhrohhmpehmihhquhgvlhdrrhgrhihnrghlsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedufedprhgtphhtthhopehjvghrnhgvjhdrshhkrhgrsggvtgesghhmrghilhdrtghomhdprhgtphhtthhopehlihhnuhigqdhsuhhngihisehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepvhhighhnvghshhhrsehtihdrtghomhdprhgtphhtthhopehlihhnuhigqdhmthgusehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtohepshhtrggslhgvsehvghgvrhdrkhgvrhhnv
+ ghlrdhorhhgpdhrtghpthhtohepvhhulhgrsgesihhstggrshdrrggtrdgtnhdprhgtphhtthhopehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgpdhrtghpthhtoheprhhitghhrghrugesnhhougdrrght
 X-GND-Sasl: miquel.raynal@bootlin.com
 
-Hi Liang,
-
-On 26/05/2025 at 11:43:44 +08, Wentao Liang <vulab@iscas.ac.cn> wrote:
-
+On Mon, 26 May 2025 11:43:44 +0800, Wentao Liang wrote:
 > The function sunxi_nfc_hw_ecc_write_chunk() calls the
 > sunxi_nfc_hw_ecc_write_chunk(), but does not call the configuration
 > function sunxi_nfc_randomizer_config(). Consequently, the randomization
 > might not conduct correctly, which will affect the lifespan of NAND flash.
 > A proper implementation can be found in sunxi_nfc_hw_ecc_write_page_dma().
->
+> 
 > Add the sunxi_nfc_randomizer_config() to config randomizer.
->
-> Fixes: 4be4e03efc7f ("mtd: nand: sunxi: add randomizer support")
-> Cc: stable@vger.kernel.org # v4.6
-> Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
-> ---
->  drivers/mtd/nand/raw/sunxi_nand.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sun=
-xi_nand.c
-> index 9179719f639e..162cd5f4f234 100644
-> --- a/drivers/mtd/nand/raw/sunxi_nand.c
-> +++ b/drivers/mtd/nand/raw/sunxi_nand.c
-> @@ -1050,6 +1050,7 @@ static int sunxi_nfc_hw_ecc_write_chunk(struct nand=
-_chip *nand,
->  	if (ret)
->  		return ret;
->=20=20
-> +	sunxi_nfc_randomizer_config(nand, page, false);
->  	sunxi_nfc_randomizer_enable(nand);
->  	sunxi_nfc_hw_ecc_set_prot_oob_bytes(nand, oob, 0, bbm, page);
+> 
+> [...]
 
-Please next time send all these "identical" changes in a single patch.
+Applied to nand/next, thanks!
 
-Cheers,
-Miqu=C3=A8l
+[1/1] mtd: nand: sunxi: Add randomizer configuration in sunxi_nfc_hw_ecc_write_chunk
+      (no commit info)
+
+Patche(s) should be available on mtd/linux.git and will be
+part of the next PR (provided that no robot complains by then).
+
+Kind regards,
+Miquèl
 
