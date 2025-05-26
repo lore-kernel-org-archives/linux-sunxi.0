@@ -1,105 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B9677E9;
-	Mon, 26 May 2025 17:30:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FD9E1C84D7
+	for <linux-sunxi@lists.linux.dev>; Mon, 26 May 2025 18:30:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748280638; cv=none; b=qz9DtUBy+p2/3JVwbQkRH3mGzrWQWMh6T/OR0ppaAGpI9eegrdic3fw7g0J9X7yq+0nc76vpK2kV77+8SANBfNHLuR++ZxMLfhGtVLx2MK91FzpzABKzbFe9O+bUnDe1CVbdos93C/gPRStJxB/KqgLTvNj0u3POHQgLSFMiINw=
+	t=1748284214; cv=none; b=nlt/UDZvWFgW75ohwzq/R2eH7OYWJLUWZArfQR9TssHcvhAUrI0tsBdncPX6jOV4jro3eAYQMtaYtWDnPicZPwQbyqOdd5ZyvKPpJqOdzS4HX2XusnGCzMFnBR6FS590ISMBHBlJJo8eKCo3HOk2c5Shdz5WF3JTniwLHMbp6VA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748280638; c=relaxed/simple;
-	bh=++BoeWAgoVok/kbNT/X+LVWuRHe4UOQ0Rg+rCYlkPWo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kXmZm8Fl39jvIoU00/MvoXBZXnwtBVgSpYfMLRUHR9qCD/4Ws4CoEqumXGxK9UXJUDnczpwOsauC2dVr9kIrsuil6hRl+3ynzYht0gpEHtU+B+DvYAU0yAskt2COjVkybm/ZKA5S9WslnHl7FSCNaw94etcLnMtmyQqQHTqRbjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TLipo4G1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1748284214; c=relaxed/simple;
+	bh=ocL9xN3l5CZIkJMP4iIsK/bvcDmu7NvmAZRKme5JHYE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=WityYzORCdFDyDMnUmtz1VmYRzCv9elWBSeqCpECM7RpAhWHCBfkCXhG2VuyXmXBrIrdLIVvAnjukvY0/E/zun+JvprrP3yILlmzyY/LH/iiUOnnP1eBVRrc5j2YeVgi4W0P2GRz12l7k4xBH96uuqQc/kRgTmuXW5Lldba4FsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bWI/QOOu; arc=none smtp.client-ip=209.85.166.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TLipo4G1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FEFAC4CEE7;
-	Mon, 26 May 2025 17:30:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748280637;
-	bh=++BoeWAgoVok/kbNT/X+LVWuRHe4UOQ0Rg+rCYlkPWo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TLipo4G1A4/dTZ2yoky4OJWMqtN5wnK1+8zs1tLfjZ37azdeDbxOn33urpKYPSj8R
-	 x7hghE+gkHJurHCis31OgpI80DarhFDkMPw0/4AiMVbZvClX1y7PyF1nC0d0BSbhAd
-	 InmAs8Nl5SeHnJo1wJwaLb9l1FkvqhO7yrPEEFr3H8O/iZUe7OhGgRsevEOX6YfFnQ
-	 CavK9GJ7YdSG+0+b2oCttmiBak6d5qtFueohieqLA++qkwJxVGAGkJ5Q77QSOoRTRt
-	 EtI238iv70lZ6dUrXk4VuvHpvcBa+jMrRI6Fp3gF/jGMs1q+OCI8lBa2nCsKMKHWht
-	 w9rxZuU6LjWrg==
-Date: Mon, 26 May 2025 19:30:35 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Michael <michael@fossekall.de>
-Cc: Chen-Yu Tsai <wens@csie.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, regressions@lists.linux.dev
-Subject: Re: [REGRESSION] [BISECTED] drm/sun4i: hdmi: No HDMI output with
- BananaPI M1 on 6.9
-Message-ID: <20250526-refined-dog-of-blizzard-b48f11@houat>
-References: <aCJZmm8rC0RwbcBX@a98shuttle.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bWI/QOOu"
+Received: by mail-io1-f45.google.com with SMTP id ca18e2360f4ac-864a071b44bso41583439f.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 26 May 2025 11:30:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1748284211; x=1748889011; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QlxuW8EiAaobylr07WlFl9Wc9Vavh5mNNDPDEO1zHCA=;
+        b=bWI/QOOu9SZHNgqu0VhVCpTONJN9SSw6NCNT5PRImINUTIoEonVgF7esuTTwkjkrzz
+         zJvPIi7KGKC9SmrXa4xFyiLFBeCpqkhu2WOFOJajL5TXPk8zgnc+GowXapnBWveTD3d+
+         pxDYlMS6GZMcxAIeaAF0U06C+mQY6NRXvIeTf7CrjbJ9ibC7qFXH9TIaSr7GmP2p8gq8
+         JR1hJB+P1cOVG7BLWFpKk17zftsnmJWuRfHLPxmYDGdRcwHvjsc40MHZU5huvJ4qeDry
+         Gma7Orv6kbfbBCbhnr4q956Wr/9ohs0SlUVBoFctKzFpywiv1MYkIQdn9MHEjFeOJHuG
+         i7DA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748284211; x=1748889011;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QlxuW8EiAaobylr07WlFl9Wc9Vavh5mNNDPDEO1zHCA=;
+        b=MJhMvG/Q1INl9W6kjrDc+xavZPKlJ19p9RzkK4popybemFMToQyuuJY41Yi+QpqC+F
+         7oJ7T52H9Kfwk/TVKVTjoQw5Fy5bAAO82kohXK5nO9fJWn38/32zv4rroqHRK7LsYj3j
+         Ut3JBId1V7bJ46rYYc9CF6C8BNwH84PULj8QNw8k5iYi84BpZSd/RaWzGllly5i5hUm4
+         sDi3oil3GV6ZK1xja+J8vSkYyi36bDLE0sO50wQGMsjkHqji04F5/lartw7SLIxNomi7
+         wjEBUVT2v2lcDnsqUctfUv1CSS1PGWn+0/ovThZtiuiHWw/6FjEzYUKb3VuEWbc+Phg8
+         yitA==
+X-Gm-Message-State: AOJu0Ywau8GnnKTRhw4tYzanKBA4pX2m/L/kp1QfeZmjY/mDWCxrp6Ez
+	rL7tn3YabOaeDWcTXVFMLyGkOvHA1VyRx1oFjwWM4FxFzxKTJ606nnpD
+X-Gm-Gg: ASbGncuPoRyAtqipnt7JJNul/1gF8vwr4AGjtu+e0/+w1NK1iu+52dsg2BPArzZMJ5r
+	CQz3ja8GuhrQsQwZJG07QQkFFfWM9frYJD67Cs7xO0dwRf7HRNM6gISit2+bwIC2S2TSlkFauL9
+	oT1UyDuP5Lnwli84dQRXLx0Plxz1sXFVluM9y1isAnSGH1f6vVD71iS19ECF8JXpTNOhQwNAX74
+	PdD+m3sqfvWX8vomotVa9dKcHpED9ee0Qc7c63jgqUeWwDMJqa+EONkM82rtDM0cCqTa7nEbQtt
+	zqduN6nkl4yIGfTwlSRnj7UEKCh4Gv2P6vfn+8dtSKtyExmWunizpXpI/d+6yTj7Rp+L9jbsFHt
+	1famYlg6NgzPbl8Q59OypYuM39iPMeQ==
+X-Google-Smtp-Source: AGHT+IF1vt1ugwCJCcgD8FLb9pLv6neLoJcOaXY12NIdGkKI+c6RUDeQIjiCz+L7fEf4ThkwNMlUxA==
+X-Received: by 2002:a05:6602:474b:b0:864:48ec:c312 with SMTP id ca18e2360f4ac-86cbb7b86c3mr1087224339f.3.1748284211399;
+        Mon, 26 May 2025 11:30:11 -0700 (PDT)
+Received: from james-x399.localdomain (97-118-146-220.hlrn.qwest.net. [97.118.146.220])
+        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-86a235bff69sm477028639f.8.2025.05.26.11.30.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 May 2025 11:30:10 -0700 (PDT)
+From: James Hilliard <james.hilliard1@gmail.com>
+To: netdev@vger.kernel.org
+Cc: linux-sunxi@lists.linux.dev,
+	James Hilliard <james.hilliard1@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Furong Xu <0x1207@gmail.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v1 1/3] net: stmmac: allow drivers to explicitly select PHY device
+Date: Mon, 26 May 2025 12:29:34 -0600
+Message-Id: <20250526182939.2593553-1-james.hilliard1@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="wx3fp4rhvd2s43t7"
-Content-Disposition: inline
-In-Reply-To: <aCJZmm8rC0RwbcBX@a98shuttle.de>
+Content-Transfer-Encoding: 8bit
 
+Some devices like the Allwinner H616 need the ability to select a phy
+in cases where multiple PHY's may be present in a device tree due to
+needing the ability to support multiple SoC variants with runtime
+PHY selection.
 
---wx3fp4rhvd2s43t7
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [REGRESSION] [BISECTED] drm/sun4i: hdmi: No HDMI output with
- BananaPI M1 on 6.9
-MIME-Version: 1.0
+Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+---
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c | 22 +++++++++++++------
+ 1 file changed, 15 insertions(+), 7 deletions(-)
 
-Hi,
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+index 59d07d0d3369..949c4a8a1456 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+@@ -1210,17 +1210,25 @@ static int stmmac_init_phy(struct net_device *dev)
+ 	 */
+ 	if (!phy_fwnode || IS_ERR(phy_fwnode)) {
+ 		int addr = priv->plat->phy_addr;
+-		struct phy_device *phydev;
++		struct phy_device *phydev = NULL;
+ 
+-		if (addr < 0) {
+-			netdev_err(priv->dev, "no phy found\n");
+-			return -ENODEV;
++		if (priv->plat->phy_node) {
++			phy_fwnode = of_fwnode_handle(priv->plat->phy_node);
++			phydev = fwnode_phy_find_device(phy_fwnode);
++			fwnode_handle_put(phy_fwnode);
+ 		}
+ 
+-		phydev = mdiobus_get_phy(priv->mii, addr);
+ 		if (!phydev) {
+-			netdev_err(priv->dev, "no phy at addr %d\n", addr);
+-			return -ENODEV;
++			if (addr < 0) {
++				netdev_err(priv->dev, "no phy found\n");
++				return -ENODEV;
++			}
++
++			phydev = mdiobus_get_phy(priv->mii, addr);
++			if (!phydev) {
++				netdev_err(priv->dev, "no phy at addr %d\n", addr);
++				return -ENODEV;
++			}
+ 		}
+ 
+ 		ret = phylink_connect_phy(priv->phylink, phydev);
+-- 
+2.34.1
 
-On Mon, May 12, 2025 at 10:27:06PM +0200, Michael wrote:
-> with v6.9 and later there is no output on the BananaPI HDMI connector.
->=20
-> I have bisected the issue to the following commit:
->=20
->   358e76fd613a ("drm/sun4i: hdmi: Consolidate atomic_check and mode_valid=
-")
->=20
-> With this patch, sun4i_hdmi_connector_clock_valid() is occasionally called
-> with clock=3D0, causing the function to return MODE_NOCLOCK.
-> In the old sun4i_hdmi_mode_valid() before the patch, mode->clock is
-> always!=3D0, maybe that gives someone a hint.
-
-This doesn't make sense to me, if only because the two callers of
-tmds_char_rate_valid (hdmi_compute_clock and
-drm_hdmi_connector_mode_valid) have, right before calling it, checks to
-make sure the clock rate isn't 0, and would return MODE_ERROR or EINVAL
-in such a case.
-
-https://elixir.bootlin.com/linux/v6.15/source/drivers/gpu/drm/display/drm_h=
-dmi_state_helper.c#L234
-https://elixir.bootlin.com/linux/v6.15/source/drivers/gpu/drm/display/drm_h=
-dmi_state_helper.c#L553
-
-Do you have some logs (with dri.devel=3D0xff)? Does it happen with 6.15 as
-well?
-
-Maxime
-
---wx3fp4rhvd2s43t7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaDSlOgAKCRAnX84Zoj2+
-dsbbAX99s9kKf45MW0A0sRoR7VuFGBnreiDwHOLIAAo4qprwTU4rlEcbnOBL7Y1m
-XpJezKkBgJizzKS4du2vMNyg/eBB/0g/gvrzOsCy21C78GxZsMiwUpQBB81Ja0fq
-gR2HdeNy8w==
-=UHi2
------END PGP SIGNATURE-----
-
---wx3fp4rhvd2s43t7--
