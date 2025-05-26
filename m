@@ -1,101 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1AFD72607;
-	Mon, 26 May 2025 19:26:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F026472607;
+	Mon, 26 May 2025 19:36:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748287581; cv=none; b=Afx5rZ4BlxYbgnyDh96C9jFYyHMuOw5CiQ3QTosDCXVQzucPZY9AgGM2VQItrCQgrZe/ewn67QITLOkmL+OzJ+lHYqs5Wn+wM3z2Kjukk6H4fOGq98ltKlEzZjrFhgdNI0keScawG/Ua0D2ihRCFqWmAm5EnSZDz7NOrQ9d4xg8=
+	t=1748288202; cv=none; b=PHjpGFTWHDbRNX0wZaUCTWkXS1+AsWDyL369Yk7gMygwv+sUq9wYxDhhhfrzxeN1ZIMEcK4a9j6vixqTdiFsbgmohq2+p/8tPlE9GteYsPffJVmx11lQoqIM0WUAR/HwmT86neAqoUO/t5mWT1XIuHXWdj15Rz1Qt6RQG5sfOa0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748287581; c=relaxed/simple;
-	bh=FaL621iJbj/67K/Av8Le03EGK0pHPFx/zpQdIWk/TYY=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=raTAGCGKXByEFlPLLSz9x4D/GWVd8m9X+2MB2b9ogNNQxApASahcaCBTgOzkTJhMbZMgVHg9Dc7W28LjmrO7xE7OB4WBeyBU6u70JJoxRdudQMYQZsiw4bZCydZMhO1uhYpQeULkli/Kzau8r8g7gjIuyOU2F9vP/3OK5l75NqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VoHTb2Mf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1748288202; c=relaxed/simple;
+	bh=tUMYkhsjR+DV6weZBNIQDSbSGynVgSFULoxvGLVkw6E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A7PuFBvMSWKTBnGd5irzDpY+80NTPXgHSx8wCDLH4bFVQWVecIJv1Zgh6dwUou18p6RzZVTlyaBhEZOp7mt6AHDCeai+hYXSa9QCpQIW1CgZudMu1F4MTNijWTDDhg3t7UEF7EIcEroCTXeMgJrg+ZcYrsUNsHApR7WIukJGVsg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=dZEGbMI2; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VoHTb2Mf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF8ABC4CEE7;
-	Mon, 26 May 2025 19:26:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748287581;
-	bh=FaL621iJbj/67K/Av8Le03EGK0pHPFx/zpQdIWk/TYY=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=VoHTb2Mf099/zglBpx1ECF8UqZrtYZLkXKlHE9VLsMGd/wpLIgJaBD+uJvdbrFNKP
-	 5/OYLBHG3jfTOUuKoajriDsjOsScVYJj1+z1aKXyn194xaoC1MBAl4oElXvtF3KgJz
-	 frJiTXEpUA1c6jbjR2sMbdGvds4O+/HKAww05iW3R2MSKY/BsSH/VdOqWVKWpIkOe4
-	 4EGi1vlVcbb4tQTDBuaB+fjjGlptyMvOd4jwsOiaXKtJWpgiIZHu0XMZJ2BUxfgEcG
-	 FmXeFpWig2tcgxTzfTR1gMdaRuXd/6WFBj/xCBU8h5vc1YtF//UYdNMk7yFGeXtJZS
-	 9vY7WAAeqdb7w==
-Date: Mon, 26 May 2025 14:26:19 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="dZEGbMI2"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=4k9z3rNoaxvsZh30uSr90husp7CDgyQMsf5rUgjtaNU=; b=dZEGbMI244Z6VqhpAY3fWaIfh5
+	kV3jP75Ntv0uqIiDd10Gxfi5sxVDrEkSmsnMHGlo1knf8cIcEw2D74nfUmCPiE4OWoF+FzutuQow6
+	nQAxASczMZgn86iFIrH3w7Cpo0V3y85B4n1r+hg+EnFvebt0EPu2Qgs739YdtlFM9KdM=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1uJdcY-00E1Qy-2i; Mon, 26 May 2025 21:36:26 +0200
+Date: Mon, 26 May 2025 21:36:26 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: James Hilliard <james.hilliard1@gmail.com>
+Cc: netdev@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 3/3] dt-bindings: net: sun8i-emac: Add AC300 EMAC1
+ nvmem phy selection
+Message-ID: <959e576e-bf36-4d01-9ffb-023931b61574@lunn.ch>
+References: <20250526182939.2593553-1-james.hilliard1@gmail.com>
+ <20250526182939.2593553-3-james.hilliard1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, Jakub Kicinski <kuba@kernel.org>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, 
- Samuel Holland <samuel@sholland.org>, Paolo Abeni <pabeni@redhat.com>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
- devicetree@vger.kernel.org, Andrew Lunn <andrew+netdev@lunn.ch>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, netdev@vger.kernel.org
-To: James Hilliard <james.hilliard1@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20250526182939.2593553-3-james.hilliard1@gmail.com>
-References: <20250526182939.2593553-1-james.hilliard1@gmail.com>
- <20250526182939.2593553-3-james.hilliard1@gmail.com>
-Message-Id: <174828757941.2206833.11560250898621466497.robh@kernel.org>
-Subject: Re: [PATCH v1 3/3] dt-bindings: net: sun8i-emac: Add AC300 EMAC1
- nvmem phy selection
 
+> +        phy-mode = "rgmii";
 
-On Mon, 26 May 2025 12:29:36 -0600, James Hilliard wrote:
-> The Allwinner H616 EMAC1 can be connected to an on-die AC200 or AC300
-> PHY depending upon the silicon variant.
-> 
-> Add a new allwinner,sun50i-h616-emac1 compatible and example, support
-> for the allwinner,sun50i-h616-emac1 will be added later on.
-> 
-> Add nvmem-cells and nvmem-cell-names properties for the ac300 efuse
-> based phy selection.
-> 
-> Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
-> ---
->  .../net/allwinner,sun8i-a83t-emac.yaml        | 42 +++++++++++++++++++
->  1 file changed, 42 insertions(+)
-> 
+Does the PCB have extra long clock lines?
 
-My bot found errors running 'make dt_binding_check' on your patch:
+https://elixir.bootlin.com/linux/v6.15/source/Documentation/devicetree/bindings/net/ethernet-controller.yaml#L287
 
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-Error: Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.example.dts:219.27-28 syntax error
-FATAL ERROR: Unable to parse input tree
-make[2]: *** [scripts/Makefile.dtbs:131: Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.example.dtb] Error 1
-make[2]: *** Waiting for unfinished jobs....
-make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1519: dt_binding_check] Error 2
-make: *** [Makefile:248: __sub-make] Error 2
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250526182939.2593553-3-james.hilliard1@gmail.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+	Andrew
