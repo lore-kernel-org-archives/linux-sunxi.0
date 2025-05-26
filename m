@@ -1,146 +1,93 @@
-Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B9491DDD1
-	for <linux-sunxi@lists.linux.dev>; Mon, 26 May 2025 01:38:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 719721957FC
+	for <linux-sunxi@lists.linux.dev>; Mon, 26 May 2025 03:44:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748223535; cv=none; b=jVOLh8i3U5SyXkTXxRjzmd22QiXgHSmlm2Ssq/SsyauyYg54Yf8EiZYx0JHOIxTQPdU6EKpx3RT82R/aklZi76RrJo+h+rK/4/y43d/tp8JUorkZTwyTpj7psbRGxaOOQqwD/I5WwsysdKrCKd3MDT4nObN+EgDLHOL2TVUfEpw=
+	t=1748231077; cv=none; b=MMMRfohi5uOX9WBTrdMRNt5rx/FWWUPF/265uFnOhcZoDYh5TUT8fswglmQaxwr2na4ddeaPMHov2fQ++OMcvAi/xLcJUY045cGRve8Cogy/VlY8Cko6LDTe3DgmiJkMfH2QKjftSX+dWONkjnNeEX6nZ6rWHEGKrIh1p1jMFiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748223535; c=relaxed/simple;
-	bh=VIW94w16yOpBMokEAjRnl0da6S/B+huTLDB0mXI095c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TyY+oMyxmbWIJgac8aNX4C9z+y/20HDebg2OduruhgmRyqmGu0wvYe6FkqWtjVcL3MF8X4cCCQg1uuMe5IyqECij6dlAVZxVHIWGWrLkos6U0pWf7HFYxAiDiTka3O37MPGsTmR+6wtTbwwiqV28rGuW0KEx3uH0zx8MJEfk7uY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=SRmnfHNI; arc=none smtp.client-ip=91.218.175.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="SRmnfHNI"
-Message-ID: <7a42e9d1-93ce-4666-b7e7-3c0b4e2c0c99@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1748223531;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2hFUsN/K02BBP5aa1d+e+JjhSauhkH1OuFe7JHH5P4E=;
-	b=SRmnfHNINkkKfSn8W6N3pK4Z32Bvd80Uh08Q+VdxonIAirvRyyHDvIwm8ANYNOvux0/JLO
-	0U2c1dWTONVN/nJbFvjAgwMBItF9uxzGpG/L5ch0SkuohWyu1lMmpHsVjDjvtxMxO1S6Z2
-	TyB5xx15aOYf1UA8YhwNyYLwFBVbGo0=
-Date: Mon, 26 May 2025 09:38:41 +0800
+	s=arc-20240116; t=1748231077; c=relaxed/simple;
+	bh=hDOkeb1ifPk+Hydf4a/gPJBIfrZrr+ugw6O3xDS0YKM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pAyPLiZ/R0Y4t5ltI5EJrrd1p7GIQVt/oTXpbzypOldz5BpaqsgxbvMhqBzsQhiilYXIPrkz4eS4nY2eFdehYtH/FNoTEKHsklUwhoR3pkY5HJx4dxOmO00oHd6z5ra6bCQR8yMOTe9FVMZ/JJlrlO3IsD1LG9HaqHUdLWoZkEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost.localdomain (unknown [124.16.141.245])
+	by APP-05 (Coremail) with SMTP id zQCowAC3QRCS4zNoQrYKAA--.5221S2;
+	Mon, 26 May 2025 11:44:20 +0800 (CST)
+From: Wentao Liang <vulab@iscas.ac.cn>
+To: miquel.raynal@bootlin.com,
+	richard@nod.at,
+	vigneshr@ti.com,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org
+Cc: ruanjinjie@huawei.com,
+	u.kleine-koenig@baylibre.com,
+	linux-kernel@vger.kernel.org,
+	linux-mtd@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	Wentao Liang <vulab@iscas.ac.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH] mtd: nand: sunxi: Add randomizer configuration in sunxi_nfc_hw_ecc_write_chunk
+Date: Mon, 26 May 2025 11:43:44 +0800
+Message-ID: <20250526034344.517-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.42.0.windows.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [RFC PATCH 2/2] net: stmmac: dwmac-sun8i: Allow runtime
- AC200/AC300 phy selection
-To: James Hilliard <james.hilliard1@gmail.com>, netdev@vger.kernel.org
-Cc: linux-sunxi@lists.linux.dev, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Yinggang Gu <guyinggang@loongson.cn>, Huacai Chen <chenhuacai@kernel.org>,
- Feiyang Chen <chenfeiyang@loongson.cn>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
- "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
- Jinjie Ruan <ruanjinjie@huawei.com>, Paul Kocialkowski <paulk@sys-base.io>,
- linux-arm-kernel@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-kernel@vger.kernel.org
-References: <20250526002924.2567843-1-james.hilliard1@gmail.com>
- <20250526002924.2567843-2-james.hilliard1@gmail.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yanteng Si <si.yanteng@linux.dev>
-In-Reply-To: <20250526002924.2567843-2-james.hilliard1@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-CM-TRANSID:zQCowAC3QRCS4zNoQrYKAA--.5221S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Gw1UWF1UXw4rZr1UXryftFb_yoWkKwb_W3
+	yIvrykKr1DCrZ5JF1xuF4xCryxtw4UWa1vqFnIqrZxAan3XryxJ3sxZF1vyF18WF1jkFyF
+	y3sYv3W2y347XjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUb3xFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
+	Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+	jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxa
+	n2IY04v7MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
+	AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
+	17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
+	IF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4l
+	IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvf
+	C2KfnxnUUI43ZEXa7VUbGQ6JUUUUU==
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBgsOA2gzt8ibngABsg
 
+The function sunxi_nfc_hw_ecc_write_chunk() calls the
+sunxi_nfc_hw_ecc_write_chunk(), but does not call the configuration
+function sunxi_nfc_randomizer_config(). Consequently, the randomization
+might not conduct correctly, which will affect the lifespan of NAND flash.
+A proper implementation can be found in sunxi_nfc_hw_ecc_write_page_dma().
 
-在 5/26/25 8:29 AM, James Hilliard 写道:
-> The Allwinner H616 ships with two different on-die phy variants, in
-> order to determine the phy being used we need to read an efuse and
-> then select the appropriate PHY based on the AC300 bit.
->
-> By defining an emac node without a phy-handle we can override the
-> default PHY selection logic in stmmac by passing a specific phy_node
-> selected based on the ac200 and ac300 names in a phys list.
->
-> This allows us to have a device tree that defines both PHY variants
-> even though only one will actually end up being used at runtime
-> based on the ac300 nvmem efuse bit.
->
-> Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
-> ---
->   .../net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 19 +++++++++++++++++++
->   1 file changed, 19 insertions(+)
->
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> index 6c7e8655a7eb..e275f4caa684 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> @@ -11,6 +11,7 @@
->   #include <linux/mdio-mux.h>
->   #include <linux/mfd/syscon.h>
->   #include <linux/module.h>
-> +#include <linux/nvmem-consumer.h>
->   #include <linux/of.h>
->   #include <linux/of_mdio.h>
->   #include <linux/of_net.h>
-> @@ -280,6 +281,8 @@ static const struct emac_variant emac_variant_h6 = {
->   #define SYSCON_ETCS_EXT_GMII	0x1
->   #define SYSCON_ETCS_INT_GMII	0x2
->   
+Add the sunxi_nfc_randomizer_config() to config randomizer.
 
-> +#define AC300_KEY		BIT(8)
-> +
+Fixes: 4be4e03efc7f ("mtd: nand: sunxi: add randomizer support")
+Cc: stable@vger.kernel.org # v4.6
+Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+---
+ drivers/mtd/nand/raw/sunxi_nand.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-I have observed all the BIT macros in this file, and they all
-
-have a line of comments. I think a comment is also needed here.
-
->   /* sun8i_dwmac_dma_reset() - reset the EMAC
->    * Called from stmmac via stmmac_dma_ops->reset
->    */
-> @@ -1159,6 +1162,7 @@ static int sun8i_dwmac_probe(struct platform_device *pdev)
->   	struct net_device *ndev;
->   	struct regmap *regmap;
->   	int ret;
-> +	u16 val;
->   
->   	ret = stmmac_get_platform_resources(pdev, &stmmac_res);
->   	if (ret)
-> @@ -1222,6 +1226,21 @@ static int sun8i_dwmac_probe(struct platform_device *pdev)
->   	if (IS_ERR(plat_dat))
->   		return PTR_ERR(plat_dat);
->   
-> +	if (!nvmem_cell_read_u16(dev, "ac300", &val)) {
-> +		const char *phy_name = (val & AC300_KEY) ? "ac300" : "ac200";
-> +		int index = of_property_match_string(dev->of_node, "phy-names", phy_name);
-> +		if (index < 0) {
-> +			dev_err(dev, "PHY name not found in device tree\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		plat_dat->phy_node = of_parse_phandle(dev->of_node, "phys", index);
-> +		if (!plat_dat->phy_node) {
-> +			dev_err(dev, "Failed to get PHY node from phys property\n");
-> +			return -EINVAL;
-> +		}
-> +	}
-> +
-How about preparing a separate function for it?  Then call it in probe().
-
-If you are willing to do so, remember to write a code comment.
-
-
-Thanks,
-
-Yanteng
-
+diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sunxi_nand.c
+index 9179719f639e..162cd5f4f234 100644
+--- a/drivers/mtd/nand/raw/sunxi_nand.c
++++ b/drivers/mtd/nand/raw/sunxi_nand.c
+@@ -1050,6 +1050,7 @@ static int sunxi_nfc_hw_ecc_write_chunk(struct nand_chip *nand,
+ 	if (ret)
+ 		return ret;
+ 
++	sunxi_nfc_randomizer_config(nand, page, false);
+ 	sunxi_nfc_randomizer_enable(nand);
+ 	sunxi_nfc_hw_ecc_set_prot_oob_bytes(nand, oob, 0, bbm, page);
+ 
+-- 
+2.42.0.windows.2
 
