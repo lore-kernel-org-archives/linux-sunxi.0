@@ -1,113 +1,175 @@
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [85.215.255.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E75FA23E35F
-	for <linux-sunxi@lists.linux.dev>; Mon, 26 May 2025 21:09:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748293749; cv=none; b=Mp3VM7ycQ8qpBNSyLiLniCqFmfTrYCVF1PsZWC4midtE22NiPRlj4BbtDc9cvVSmPurLYw3yZeHnUXNQw4QW4/A9/PW+KdjfksbrNqMlwtXwrZA5O6BSvZrejaa2Jri+IPTa3xMTf3QKlGo0GyokShoNoNqvyWV4ytf/s1/ElPQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748293749; c=relaxed/simple;
-	bh=KR9ydQyBqL+zWssbHMoqdPjTuy3H8LZPz+kipGRjVyE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WHrDkLpF86qZfpLFlYmVC6TID0CsHXQXtxt4CcAxRx1IeGBawEfaCeUDAbmJc0ZF6e2Au/fchftKycUtnJeZHWkZ1HYkQxggIVAYMxnvvLmquIgVa92xfxfXRV/AHgPq4oyMQu/rx4LNLXLks2fosFvFy98eTPQdYXjb1FsxseM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FJi8/67L; arc=none smtp.client-ip=209.85.217.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8298376;
+	Mon, 26 May 2025 21:13:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=85.215.255.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1748293992; cv=pass; b=UqbglaBeUHmivjJpTEfDkNOraaieFoAEtk5GH0dEIR23rimCpEuBnRZKA+yzBb/Xu5Q8NHLz9yFYestDCuO6sxdYSpy4SzGQMZBtfOvHgdS8VhUabP8hQigvTFy4/rABwuqRUrAiWo3oyDzMtUFHNiVDc+DZW3dTTO280FGJBrU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1748293992; c=relaxed/simple;
+	bh=5kG/q9PVvle8mmD+HvY+yY22kbs17cbhqjTvD5A5A8I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T+KLtF9TFddhoMJMwvyqhdPhMs8CpVxYVyN6JKDUY90CXXFwUEEJfVTvv6j4CmTkVd0HaeJ/j6jHV/Nk+UPGDlHhNXVHZ/jZZBalt91HVJdmNVi6FJ01b+xjiVQYKgBPE9EoXOb/zOF/GEuk5GQ/kCWOH2QdgAQcRRYK0TzSFc0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fossekall.de; spf=pass smtp.mailfrom=fossekall.de; dkim=pass (2048-bit key) header.d=fossekall.de header.i=@fossekall.de header.b=JFM4E4uW; dkim=permerror (0-bit key) header.d=fossekall.de header.i=@fossekall.de header.b=avm+Govr; arc=pass smtp.client-ip=85.215.255.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fossekall.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fossekall.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FJi8/67L"
-Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-4e58d270436so18576137.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 26 May 2025 14:09:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748293746; x=1748898546; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=87fhuAp8NmqR1otDh/HGxIh14e89XZX4r9lz9YqYugM=;
-        b=FJi8/67LRHjdWL60p6DzvH8sgKPDSm4RujXDnFb3J1TQUC6WFiXj1W+nU1LDvZFNzQ
-         dlqtjYtlmLN/ty88Pdq7TvU7LiH61qWVsc7aQNNS5XAgdRS7rv3x41v/9SLKYVXa38js
-         zyxhLkmr5jw4d0+dSZAHE5KUno132x4yVeuWq44nm88UamhZLXP0hwPGWJJqUuIpZpEZ
-         6E7R/DhjOAhEcYvJ/yZhskFbXntBWAF0Ethvd2btqWjJVPHhcdjwH39ZFa5N28VKOfQe
-         gbJ90c6Zg6CfnKjTmugEw6BD67DtiluK2hedFvUza1mnGMxo1N9TrZU6JKJZ7dUlfnXc
-         ikDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748293746; x=1748898546;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=87fhuAp8NmqR1otDh/HGxIh14e89XZX4r9lz9YqYugM=;
-        b=AyrU+nPKIHGL/ScQJJyE4ZlUj0nSoReL962DLG1LqU8i+Ko1IZ2LbRNJry1lNj1TJ2
-         hD0efD54lhwVtLOk97wludU6CwFVCN+isrwnYuyuUb6XpAIHV2RwoCr3YhXyHy+rne/f
-         TeoTzUkE31bQm3lKUskISysQLmqMAT7v6tgjv47ojG1qxTf80k+Pyx+PdgalA3ZZuwJo
-         PQAvNTGH96WjLAIqH+UzaelLAPLrjE6/hg79kzmQsU/iveCWFDlbdfUrAIWpD6BdQ1TO
-         edcJzLqj6Nsq+U9KbqzI3aHI9xfWUTFI1BqwBzjTK7Up5BHMpc6h9koiYTJIEqCwogxp
-         VOmw==
-X-Forwarded-Encrypted: i=1; AJvYcCUFB1gQAdQrOp6NZ7I81+ZedKn2RXP5vudzPA+DEZWuhDkfYokNSgUWZq/MQrTf0T4DF1cDPuD2g79+Iw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzj7zNIKEJJeyW5RWOKxRcpSjlqLHFdB4BCja6J0Ai0k8hd7j0l
-	9xHi4N58l1BhP85+Kq6glQ+99dKkiSYKFWHFUWQU1MhvVdPGLqS4aDV9T2v3HzsF0rCFXy7JtLG
-	I5XAC0k2IBk5itStTyt83LD3zp1TG7Sk=
-X-Gm-Gg: ASbGncskNXQhqFG2JJF+fWGgKlRDYVJzNlr9NEeULCXrMLj2mkqNSNw86DwWG+8THtL
-	ENybAR3rLrgDvFqlmlDWRtGcnrXCQcHWKQhbx10kHD8cfsbGdz2fOKkPB2LgOBA9asZ7Nv/BDSK
-	Hbt2MSo0IgOe1AYG0rXAYkcJTSFga1rw/6tA==
-X-Google-Smtp-Source: AGHT+IHJS491hwCg7QPzHL8sgVSadrrDFwt5Fkv2jVRTS71w6+V06+FNAv/Rmt5Zw/NYt58vCJJpAIGoZZeec3aMqrg=
-X-Received: by 2002:a05:6102:6e85:b0:4e4:5e11:6832 with SMTP id
- ada2fe7eead31-4e45e116d29mr2273063137.7.1748293746485; Mon, 26 May 2025
- 14:09:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=fossekall.de header.i=@fossekall.de header.b="JFM4E4uW";
+	dkim=permerror (0-bit key) header.d=fossekall.de header.i=@fossekall.de header.b="avm+Govr"
+ARC-Seal: i=1; a=rsa-sha256; t=1748293984; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=SBnCxxSXiIiddnKsNUoos8EzazWtIvC4bKbWPUepcnmdhmXdHyJi8hPakBcnU7kHLV
+    1FH5Z83svo2oEQFRPYmvgJI37fZjG2rwiJhy7HsneKGaOgZuYb3fpp4fzv6Ix79ZCyv5
+    5I2AVD8CGGlmj3N1cqi9jz2qnzK9izi7HjDKtDa3Vqjf5uD+LinpXpvg8RIiP4XhMxYE
+    s6uH2RutFF9AlHkJB2CGpynPnTNUN3479IG47Vfhj+WuKF6leMwJxXcolQ8LICmPPHWi
+    1yOIRzD853qP4Gr5NfJKKKPM8hb65JCdhTwdW/CM1Y+Ehmvy5KBKoWl8VI14x1mo2TqY
+    tUmQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1748293984;
+    s=strato-dkim-0002; d=strato.com;
+    h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+    From:Subject:Sender;
+    bh=AVwR3RqXfhEXlhoGhmwUftz4FLAY7joifHIAsoI1opk=;
+    b=OvFyu0tIjcvYj39AWAaPt7ni0JoeD6LVrR7n650YRZzHcdXAZCSXmod9hGXMHs/mmq
+    jIe1OFQAEDuFeDJRoLAD+m1093+HWk/mYBEjJbUxkkG2osuNFgYTH0QVAXedz1tikvdc
+    PwNVQIQSLaWW5HWAID7+0XwpLB4g6PYIVC3r/ZFsANctmHz89HIMjvdIIP3jf4qpo44V
+    YxJdqXYBkI+sINKQ7vTFr+bdkBIqWdzBD/awRVrg6iI0p28vEyQvO411OKNxH/DwxaV5
+    3v2aonPLcLUu21m/zZTuMOC/vwOcZ8DQYjrp2EWhVRTgwWLh2cBpRGKzgsmIuHKfIFXD
+    TGow==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1748293984;
+    s=strato-dkim-0002; d=fossekall.de;
+    h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+    From:Subject:Sender;
+    bh=AVwR3RqXfhEXlhoGhmwUftz4FLAY7joifHIAsoI1opk=;
+    b=JFM4E4uWQrv7IX07x09XDxvaleGSg846j1gzsnGypyamNDo0kP8UKj9pHKHgHS80G2
+    wFEaccJ6FLcGXlYnoT0gSshqnBWB2GBcTSrg598ktHY/O7mVfp0l9y36RGTU16m4qviK
+    7zvqx20kzI0G9brqLkMt2kn/TW9NPps/sR8ig786i/brSpbrRdDelRBSgkV6iZEhz9AE
+    Bsi5qgRZztzaogMEu4sSnUnV5ixy2DY3dED28gZIm1eRj10N6umG5McmY8sCD916Tc8A
+    fWPKzm+Whivq9kQmjl94VChlLILuGoHSj4VC9bwnpHgSONZ2yzZJOiXKA7GJZPm8L/5s
+    W0nw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1748293984;
+    s=strato-dkim-0003; d=fossekall.de;
+    h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+    From:Subject:Sender;
+    bh=AVwR3RqXfhEXlhoGhmwUftz4FLAY7joifHIAsoI1opk=;
+    b=avm+GovrShQDZ5jb9fbwW3Txdkh+3LcP/cFmWcO5Jq1kKqSnyvhDQH/VtyYZvzOHsG
+    PvVYJwo4CElmkKKajlAQ==
+X-RZG-AUTH: ":O2kGeEG7b/pS1EzgE2y7nF0STYsSLflpbjNKxx7cGrBdao6FTL4AJcMdm+lap4JEHkzok9eyEg=="
+Received: from aerfugl
+    by smtp.strato.de (RZmta 51.3.0 AUTH)
+    with ESMTPSA id f28b3514QLD3ZDy
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+	(Client did not present a certificate);
+    Mon, 26 May 2025 23:13:03 +0200 (CEST)
+Received: from koltrast.home ([192.168.1.32] helo=a98shuttle.de)
+	by aerfugl with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <michael@fossekall.de>)
+	id 1uJf83-0001y1-0A;
+	Mon, 26 May 2025 23:13:03 +0200
+Date: Mon, 26 May 2025 23:13:01 +0200
+From: Michael <michael@fossekall.de>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, regressions@lists.linux.dev
+Subject: Re: [REGRESSION] [BISECTED] drm/sun4i: hdmi: No HDMI output with
+ BananaPI M1 on 6.9
+Message-ID: <aDTZXagQ28OdNtLh@a98shuttle.de>
+References: <aCJZmm8rC0RwbcBX@a98shuttle.de>
+ <20250526-refined-dog-of-blizzard-b48f11@houat>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250526182939.2593553-1-james.hilliard1@gmail.com>
- <20250526182939.2593553-2-james.hilliard1@gmail.com> <a2ac65eb-e240-48f1-b787-c57b5f3ce135@lunn.ch>
-In-Reply-To: <a2ac65eb-e240-48f1-b787-c57b5f3ce135@lunn.ch>
-From: James Hilliard <james.hilliard1@gmail.com>
-Date: Mon, 26 May 2025 15:08:54 -0600
-X-Gm-Features: AX0GCFvBOmoEuniobTH4Q2bGCB-bMqy5gqMhcJ9AabATXY_w6ImnhtwMSjGOdz0
-Message-ID: <CADvTj4rO-thqYE3VZPE0B0fTTR_v=gJDAxBA3=fo501OL+qvNg@mail.gmail.com>
-Subject: Re: [PATCH v1 2/3] net: stmmac: dwmac-sun8i: Allow runtime
- AC200/AC300 phy selection
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: netdev@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Serge Semin <fancer.lancer@gmail.com>, 
-	Feiyang Chen <chenfeiyang@loongson.cn>, Yanteng Si <si.yanteng@linux.dev>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
-	Jinjie Ruan <ruanjinjie@huawei.com>, Paul Kocialkowski <paulk@sys-base.io>, 
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>, linux-arm-kernel@lists.infradead.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20250526-refined-dog-of-blizzard-b48f11@houat>
+Content-Transfer-Encoding: 7bit
 
-On Mon, May 26, 2025 at 1:56=E2=80=AFPM Andrew Lunn <andrew@lunn.ch> wrote:
+Hi,
+
+On Mon, May 26, 2025 at 07:30:35PM +0200, Maxime Ripard wrote:
+>On Mon, May 12, 2025 at 10:27:06PM +0200, Michael wrote:
+>> with v6.9 and later there is no output on the BananaPI HDMI connector.
+>>
+>> I have bisected the issue to the following commit:
+>>
+>>   358e76fd613a ("drm/sun4i: hdmi: Consolidate atomic_check and mode_valid")
+>>
+>> With this patch, sun4i_hdmi_connector_clock_valid() is occasionally called
+>> with clock=0, causing the function to return MODE_NOCLOCK.
+>> In the old sun4i_hdmi_mode_valid() before the patch, mode->clock is
+>> always!=0, maybe that gives someone a hint.
 >
-> On Mon, May 26, 2025 at 12:29:35PM -0600, James Hilliard wrote:
-> > The Allwinner H616 ships with two different on-die phy variants, in
-> > order to determine the phy being used we need to read an efuse and
-> > then select the appropriate PHY based on the AC300 bit.
-> >
-> > By defining an emac node without a phy-handle we can override the
-> > default PHY selection logic in stmmac by passing a specific phy_node
-> > selected based on the ac200 and ac300 names in a phys list.
+>This doesn't make sense to me, if only because the two callers of
+>tmds_char_rate_valid (hdmi_compute_clock and
+>drm_hdmi_connector_mode_valid) have, right before calling it, checks to
+>make sure the clock rate isn't 0, and would return MODE_ERROR or EINVAL
+>in such a case.
 >
-> The normal way to do this is phy_find_first().
+>https://elixir.bootlin.com/linux/v6.15/source/drivers/gpu/drm/display/drm_hdmi_state_helper.c#L234
+>https://elixir.bootlin.com/linux/v6.15/source/drivers/gpu/drm/display/drm_hdmi_state_helper.c#L553
 
-Sure, but there are problems with that approach here.
+Before 6.14, sun4i_hdmi_connector_clock_valid() was also called from 
+sun4i_hdmi_connector_atomic_check()...
 
-The initialization sequences are rather different and the devices
-won't be visible on the mdio bus until after they are initialized.
+>Do you have some logs (with dri.devel=0xff)? Does it happen with 6.15 as
+>well?
 
-The resets will be specific to either the AC200 or AC300 so we
-need to choose the correct PHY based on the efuse value rather
-than a mdio bus scan to avoid a circular dependency essentially.
+It does not happen with 6.15, as it was fixed in 6.14 with 84e541b1e58e 
+("drm/sun4i: use drm_atomic_helper_connector_hdmi_check()").
 
-AC200: i2c based reset/init sequence
-AC300: mdio based reset/init sequence
+For completeness:
+
+358e76fd613a:
+
+[    1.091807] sun4i-drm display-engine: [drm:drm_atomic_check_only] checking (ptrval)
+[    1.091850] sun4i-drm display-engine: [drm:drm_atomic_helper_check_modeset] [CRTC:47:crtc-0] mode changed
+[    1.091876] sun4i-drm display-engine: [drm:drm_atomic_helper_check_modeset] [CRTC:47:crtc-0] enable changed
+[    1.091898] sun4i-drm display-engine: [drm:drm_atomic_helper_check_modeset] [CRTC:47:crtc-0] active changed
+[    1.091927] sun4i-drm display-engine: [drm:drm_atomic_helper_check_modeset] Updating routing for [CONNECTOR:66:HDMI-A-1]
+[    1.091953] sun4i-drm display-engine: [drm:drm_atomic_helper_check_modeset] [CONNECTOR:66:HDMI-A-1] using [ENCODER:65:TMDS-65] on [CRTC:47:crtc-0]
+[    1.092019] sun4i-drm display-engine: [drm:drm_atomic_helper_check_modeset] [CONNECTOR:66:HDMI-A-1] driver check failed
+[    1.092042] sun4i-drm display-engine: [drm:drm_atomic_check_only] atomic driver check for (ptrval) failed: -22
+[    1.092070] sun4i-drm display-engine: [drm:drm_atomic_state_default_clear] Clearing atomic state (ptrval)
+
+358e76fd613a^ :
+
+[   14.402623] sun4i-drm display-engine: [drm] 	crtc=crtc-0
+[   14.402630] sun4i-drm display-engine: [drm] 	self_refresh_aware=0
+[   14.402638] sun4i-drm display-engine: [drm] 	max_requested_bpc=0
+[   14.402647] sun4i-drm display-engine: [drm] 	colorspace=Default
+[   14.402657] sun4i-drm display-engine: [drm:drm_atomic_check_only] checking 31bd6e91
+[   14.402714] sun4i-drm display-engine: [drm:drm_atomic_helper_check_modeset] Updating routing for [CONNECTOR:66:HDMI-A-1]
+[   14.402741] sun4i-drm display-engine: [drm:drm_atomic_helper_check_modeset] [CONNECTOR:66:HDMI-A-1] keeps [ENCODER:65:TMDS-65], now on [CRTC:47:crtc-0]
+[   14.402767] sun4i-drm display-engine: [drm:drm_atomic_add_encoder_bridges] Adding all bridges for [encoder:65:TMDS-65] to 31bd6e91
+[   14.402792] sun4i-drm display-engine: [drm:drm_atomic_add_encoder_bridges] Adding all bridges for [encoder:65:TMDS-65] to 31bd6e91
+[   14.402826] [drm:sun4i_backend_atomic_check] Starting checking our planes
+[   14.402846] [drm:sun4i_backend_atomic_check] Input size 1024x600, output size 1024x600
+[   14.402862] [drm:sun4i_backend_atomic_check] Input size 1024x600, output size 1024x600
+[   14.402877] [drm:sun4i_backend_atomic_check] Plane FB format is XR24 little-endian (0x34325258)
+[   14.402894] [drm:sun4i_backend_atomic_check] Plane zpos is 0
+[   14.402906] [drm:sun4i_backend_atomic_check] State valid with 1 planes, 0 alpha, 0 video, 0 YUV
+[   14.402922] [drm:sun4i_backend_atomic_check] Starting checking our planes
+
+Sorry for the noise :)
 
 >
->     Andrew
->
+>Maxime
+
+Michael
+
+#regzbot fix: 84e541b1e58e
