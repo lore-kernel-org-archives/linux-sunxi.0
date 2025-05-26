@@ -1,33 +1,33 @@
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F026472607;
-	Mon, 26 May 2025 19:36:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9BC023ED75;
+	Mon, 26 May 2025 19:55:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748288202; cv=none; b=PHjpGFTWHDbRNX0wZaUCTWkXS1+AsWDyL369Yk7gMygwv+sUq9wYxDhhhfrzxeN1ZIMEcK4a9j6vixqTdiFsbgmohq2+p/8tPlE9GteYsPffJVmx11lQoqIM0WUAR/HwmT86neAqoUO/t5mWT1XIuHXWdj15Rz1Qt6RQG5sfOa0=
+	t=1748289361; cv=none; b=XRdF/x6CZQcVRPf+r/xXR497IT17scwj18jcMDqzWGqdQyEtt2QfYoExTGdP5Z+P+SHVo/ZHjOveJpuWfxN4+cBwm63Kl1Qko02uXl49ReXAldIREtoj3OeyIJSXHOb+BrP84E26CsLSJ6P996uervzQOaI26sObJeERQlQZsW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748288202; c=relaxed/simple;
-	bh=tUMYkhsjR+DV6weZBNIQDSbSGynVgSFULoxvGLVkw6E=;
+	s=arc-20240116; t=1748289361; c=relaxed/simple;
+	bh=U8tGrcORNhsrVTb5sJb22d4+YfDP9oQ0T4Y+3poIiVM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A7PuFBvMSWKTBnGd5irzDpY+80NTPXgHSx8wCDLH4bFVQWVecIJv1Zgh6dwUou18p6RzZVTlyaBhEZOp7mt6AHDCeai+hYXSa9QCpQIW1CgZudMu1F4MTNijWTDDhg3t7UEF7EIcEroCTXeMgJrg+ZcYrsUNsHApR7WIukJGVsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=dZEGbMI2; arc=none smtp.client-ip=156.67.10.101
+	 Content-Type:Content-Disposition:In-Reply-To; b=donXKkwpSDzd+mZvebR9CUNPo5bNz13OqPG83FBoTnjgm0I0lm+P+vh7MdPgvLDWrfBtuYVCWjxQPVoxqJSq3y9nutWakZk5UYrCRBMgmVn/KnJUtUkgdwD8g0QjNTFshB/QaPchXHKkmMGiOIPKuHomIWHYft3iPN4R7F9Zbtg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=4tEXRGQf; arc=none smtp.client-ip=156.67.10.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="dZEGbMI2"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="4tEXRGQf"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
 	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
 	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=4k9z3rNoaxvsZh30uSr90husp7CDgyQMsf5rUgjtaNU=; b=dZEGbMI244Z6VqhpAY3fWaIfh5
-	kV3jP75Ntv0uqIiDd10Gxfi5sxVDrEkSmsnMHGlo1knf8cIcEw2D74nfUmCPiE4OWoF+FzutuQow6
-	nQAxASczMZgn86iFIrH3w7Cpo0V3y85B4n1r+hg+EnFvebt0EPu2Qgs739YdtlFM9KdM=;
+	bh=4+r/nHRyZltKy41tZTedOu70Px/F9mZ4F2bNtsI59OU=; b=4tEXRGQfPFBKpQqSc4z3gLgkOI
+	2o4h5Mvi6Sh0ZTFi1D2+yNvmyXjWCGYdmEHfGYz0Cg28GnJ2XGysRQrywM1DpEhKGquRqpftFPcNI
+	8DjUFHygH594V/sfYAptUWciuDPafHD5BXrYWXj9wRwcblq7YpMgBF+7bvyXY3SQXb9Y=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1uJdcY-00E1Qy-2i; Mon, 26 May 2025 21:36:26 +0200
-Date: Mon, 26 May 2025 21:36:26 +0200
+	id 1uJdvL-00E1V8-N2; Mon, 26 May 2025 21:55:51 +0200
+Date: Mon, 26 May 2025 21:55:51 +0200
 From: Andrew Lunn <andrew@lunn.ch>
 To: James Hilliard <james.hilliard1@gmail.com>
 Cc: netdev@vger.kernel.org, linux-sunxi@lists.linux.dev,
@@ -35,18 +35,26 @@ Cc: netdev@vger.kernel.org, linux-sunxi@lists.linux.dev,
 	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 3/3] dt-bindings: net: sun8i-emac: Add AC300 EMAC1
- nvmem phy selection
-Message-ID: <959e576e-bf36-4d01-9ffb-023931b61574@lunn.ch>
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Serge Semin <fancer.lancer@gmail.com>,
+	Feiyang Chen <chenfeiyang@loongson.cn>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Jinjie Ruan <ruanjinjie@huawei.com>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 2/3] net: stmmac: dwmac-sun8i: Allow runtime
+ AC200/AC300 phy selection
+Message-ID: <a2ac65eb-e240-48f1-b787-c57b5f3ce135@lunn.ch>
 References: <20250526182939.2593553-1-james.hilliard1@gmail.com>
- <20250526182939.2593553-3-james.hilliard1@gmail.com>
+ <20250526182939.2593553-2-james.hilliard1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -55,12 +63,17 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250526182939.2593553-3-james.hilliard1@gmail.com>
+In-Reply-To: <20250526182939.2593553-2-james.hilliard1@gmail.com>
 
-> +        phy-mode = "rgmii";
+On Mon, May 26, 2025 at 12:29:35PM -0600, James Hilliard wrote:
+> The Allwinner H616 ships with two different on-die phy variants, in
+> order to determine the phy being used we need to read an efuse and
+> then select the appropriate PHY based on the AC300 bit.
+> 
+> By defining an emac node without a phy-handle we can override the
+> default PHY selection logic in stmmac by passing a specific phy_node
+> selected based on the ac200 and ac300 names in a phys list.
 
-Does the PCB have extra long clock lines?
+The normal way to do this is phy_find_first().
 
-https://elixir.bootlin.com/linux/v6.15/source/Documentation/devicetree/bindings/net/ethernet-controller.yaml#L287
-
-	Andrew
+    Andrew
