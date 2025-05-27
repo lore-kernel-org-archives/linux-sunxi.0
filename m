@@ -1,62 +1,60 @@
-Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E375281504
-	for <linux-sunxi@lists.linux.dev>; Tue, 27 May 2025 17:56:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 459242882AC
+	for <linux-sunxi@lists.linux.dev>; Tue, 27 May 2025 17:56:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748368586; cv=none; b=k6YED95fu6l6AvSTxB1bxbnT7T8BJZUQWNqicZCbwYJLXDpJoEIGKoVlWHP0qH/AXEprWCixPsxFBpwD4An2nCV9xJXccSSqumUVoSHUeVDj6+E0ryPTf8OeGsp5pdxCQQtV3lAEjkfv1n9BTmyVSpp7phEeDkb+mlwW09hw8cE=
+	t=1748368593; cv=none; b=jsgU3bFgtUBTzTR0PXfMqs+1Y3s7+iAD1HljCKjqOpyzisOLobMTcsMLDeTJT1QcW0CvNxy3cAN1BSMaJerEA+FXx7sshSeKmUWt6KlAvy0JHk/Xq7FNLZn0WU0eb7PIwmU+ZbLYFfOqdgjMHoh2PXjiPoI7Va7NXn78W0+TLFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748368586; c=relaxed/simple;
-	bh=ysE5VQEeovJqr9bZqisHWPRj0Fb3prPMdXXWvIA1Iwg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=cYcA11Qhyik+DPAA/Mf+nUDghVgd4nfdCl9oH4xHsXlwR60vNwR/I6dy88H6NTSOdATZHI9Znw6loAq2jznWTqc5rykJNlXlreqi0b08i/utsPxjMcFAQdELAIhdKfYP+pwaLuQC3MVJBo4A86ppWEUZovOFh7ln7U4WKZbaUFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UC0h3Qvp; arc=none smtp.client-ip=209.85.166.178
+	s=arc-20240116; t=1748368593; c=relaxed/simple;
+	bh=ocL9xN3l5CZIkJMP4iIsK/bvcDmu7NvmAZRKme5JHYE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=BAbfv8Kfs8LUlwZsSEXQAjd56WIHCa5ilF/grbf+V+zyKd0+OX1UHt/CuNNU1GYRmQ66R4etbEBWPM3HmHXyBEV2g7+yR9PaS96DHbXaXfvggVLnlrtNi8iHDmZHF6kPcwiI+sDcBV/XC/MgJ72xLA5sBaxAtfzkBNNJAdY79vc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dF2A8TDZ; arc=none smtp.client-ip=209.85.219.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UC0h3Qvp"
-Received: by mail-il1-f178.google.com with SMTP id e9e14a558f8ab-3dd87535709so3358215ab.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 27 May 2025 10:56:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dF2A8TDZ"
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-6f0c30a1ca3so38770516d6.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 27 May 2025 10:56:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748368584; x=1748973384; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=75t1KQGtX7DtR0KwXgxMTDEvGLkyel42aN9/Vltyf4E=;
-        b=UC0h3Qvp1b7WWweqMFiD5tlukkBA6DDytSAnFu3D2EjPbGpErfG1fugGqzZRjtZjZe
-         JxzFr5g8g6u9pJ2ZpmFVYF0vlLVvPu8LH/Lb+6kygVL14NXntvT1IwY5Kmhv8nvnFRbM
-         500JaRe4jiZQcJnrDgG/XsYqKn3kf9Sx8L2VNQHh62F7BA3+WFyDSxxJ6vMmNWm5bFDb
-         M4yvw3r9U3T438ZmOoei1CmDP8IWzs5WNrvyo95rOUsnLScW9+nNowyqGvAPJmOEePaT
-         1o74U4yYqi6Tf+uvrcBUUIbUmUH9p6c6R9ypBsLVlDjamlSgnue+Fnl3jMZn2Tf1jAMm
-         rBRw==
+        d=gmail.com; s=20230601; t=1748368590; x=1748973390; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QlxuW8EiAaobylr07WlFl9Wc9Vavh5mNNDPDEO1zHCA=;
+        b=dF2A8TDZrbVMjIz7An05Tv1zmijDOjVAzm2YeTN/ex6uaD76/zVw6+3CkfpmBVU2xq
+         acXX/Zep5T6sys3UxHlIjzrWK/SFIGn4SGoiOby4ex5JYV96KEE5eS+r4subOBpBqWQP
+         qs2epJfKNiM9nOm5j3R+Kxmpg4EW0/gB/BPAiZCHH9ET8cU9Mih47vDtmobEtyQI/ZIm
+         YR6J5F0sMkwq2S+k80k96bjzZs1Jh0+1LyYkQLR2A4ldpRbelTqLuB7+M2kRCsFdOTJ9
+         qnS6SR5bwJ/MUDYzwUhatPkZ1CLC14lmu6OAs4HJ+av/u72SH5hNHfHIVU2nc7WzuVgC
+         VEAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748368584; x=1748973384;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=75t1KQGtX7DtR0KwXgxMTDEvGLkyel42aN9/Vltyf4E=;
-        b=TAqswQvLGHKoFng/oDKX3tQ0AovqUmLItvDkWNVidDB8gqFttSEAMhJ2gOxLYqlwhi
-         womf5tkLvdf6PRgWrpKpJFSYoXP13EqihL3iJkAflaJHRyBR0N4JQJk+e4EkD2izxjmz
-         21ZUHU1oMMC4MXluAeRqWe0Usmp1P2rk0ZCyRHyG2oz0YArmmJ9swrgaLdCNAn9VZHMj
-         E1vbO5r4lSLsE6YLzKoKB8Ql49MjGj5CSV9/714KbQnQPxlwNZcOrSQH8mgSP3uOMhTE
-         NokJ7/1kadZWEYHmis34q7GBNCmxaa9VRm/mQSWEV39HDDhwvbIRnGnayxubqpWCj+L8
-         jzoQ==
-X-Gm-Message-State: AOJu0Yx/SwMZS1hAZH4ac4uvGw3xzOhHpSam04vKteU86JQxRfCfW8SJ
-	vb3iGCaUF5x6Z2webMe+1bCBmX6nOkClixtUxFyUg4u/4gFes4/+Rq+X
-X-Gm-Gg: ASbGncvnTBTo1mXkhUn98GG8ziWcKmjQ1r1k3g1o38F7KaJQ9O02Eim2ChcoVoZmwEj
-	KXiqpEY4YDTveFp9KJTZeY+B4mTBDUIrT3WS4n6Yqk/DzTnQNGl0xXdzdCwCquyFLr3O8oxGKoI
-	Sf0oLCt+iABMJxNONq7xe9GPwcSeA88R8FGI76V/hpJoh9VkNVoVAH2/UUrt1dY8JGozBVU3jqK
-	i+PeYMsQ8rGOpWxyYoSG8MYo/Tt+EJrPDCB7Bbg8bzvIZKLs/wXwL1PPHL6iWKBRDhUx6NcCG2+
-	cOiCRir8axAiHz4hoaYKkxoUYMdLvL1gCARQLKGpkwdWRbnNdlf1QyofC8qcMHm1QVI2DSnjZMC
-	Ob5dgTxOGvOCqKRzB/cCo2ApR1AD5gA==
-X-Google-Smtp-Source: AGHT+IEG1Ty/l3Gh00PtWxsgabl40eUie4mjzIcYjsL+B8so87NPY18sPvIj6HQRx+VZNV4Xgx4J1g==
-X-Received: by 2002:a05:6e02:144d:b0:3d5:8923:faa5 with SMTP id e9e14a558f8ab-3dc9b6aa36dmr108298815ab.10.1748368584073;
-        Tue, 27 May 2025 10:56:24 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1748368590; x=1748973390;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QlxuW8EiAaobylr07WlFl9Wc9Vavh5mNNDPDEO1zHCA=;
+        b=F+mf7oPXmZocmyJ18oycOYtQncn1Ibd+IkgTgE/OYkamSzfuTMxHZFN6V2OmcVlUua
+         fS+sV0xPKTR1hBd/+BadUsYAv4PvOxs8XGF8nf2mFKaRe6B5rMzmX/vD+O0TiojspWKJ
+         sGgFoTkgaYvt4T3N8zT3urYLq/KL1rv3ZXkMDSQp1ReDUWbCvhc+CYjsJpuf9M7n+rg0
+         7+8r+4dO0woau+2fBsXc5iAEWMRCjW02xPY505SKwExCalGAQPUrybWkrJvXL7foXid0
+         O+wZxF4KhwXZ2zlyq3fQvBWk9qyRb2sb1kMmMLAjt80Dvte8JLDaOzIHHah+9lGsJtYn
+         HS3A==
+X-Gm-Message-State: AOJu0YwRkc6Dfq36VC15YptoHZes4dFW0rsVIpq77DqFHy8bHHO5rYQY
+	xb11j2JH4tjUWBlKP2SuEqUYM0d1z0vuLRek1N4n0VmGt9crEyQUEvY8sEekNwxMyKw=
+X-Gm-Gg: ASbGncseoJSLzM7udJSHjXRRdpOuR6cRqjj5xhnU/A3zaPrvBzLzOEYGDMf8/gtDtLN
+	Mb5vU8Jddh2XJFQT5wFVNVcPXbv9uIyBpgyewnw9y90G33H6sxLrOSZ75PLz4rbmLiaG5Ao282j
+	k6jA2qy2YX9jpXkscKQRET0CI1TLa6oU6zR1VtkxvQcpEUs7MwsE/ndbexEpCBvsCay86Ose4Uw
+	GD4DOC7ESZjr8C+w9yQsy3y5m+J7hwYyVvo24drL783tkIVsCG2rCEbPMfhLnmE7qQV0R8ZXdfQ
+	hX96nPNECtX+hGUIid9vZHHmS24P7WxywV4SdblnrUWiOHBUVscrcF/egK2oZVRjw/UhX/loZUC
+	gMApR8kcBmjXHo20RvG/FwJJQ0m3g3g==
+X-Google-Smtp-Source: AGHT+IFLIO0D64jUevJ/lz7zQvSZw2ntrY7H7wTTGXZU+ByFDYJ39AXVKInapU4LgwZEqDykU4orhg==
+X-Received: by 2002:a05:6e02:154e:b0:3dc:87c7:a5b5 with SMTP id e9e14a558f8ab-3dc9b67fdd9mr138337085ab.3.1748368579606;
+        Tue, 27 May 2025 10:56:19 -0700 (PDT)
 Received: from james-x399.localdomain (97-118-146-220.hlrn.qwest.net. [97.118.146.220])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3dc82e014f4sm38082275ab.40.2025.05.27.10.56.23
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3dc82e014f4sm38082275ab.40.2025.05.27.10.56.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 May 2025 10:56:23 -0700 (PDT)
+        Tue, 27 May 2025 10:56:19 -0700 (PDT)
 From: James Hilliard <james.hilliard1@gmail.com>
 To: netdev@vger.kernel.org
 Cc: linux-sunxi@lists.linux.dev,
@@ -66,25 +64,19 @@ Cc: linux-sunxi@lists.linux.dev,
 	Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>,
 	Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Maxime Ripard <mripard@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
 	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-	Jose Abreu <joabreu@synopsys.com>,
-	devicetree@vger.kernel.org,
+	Russell King <linux@armlinux.org.uk>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Furong Xu <0x1207@gmail.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	linux-stm32@st-md-mailman.stormreply.com,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/3] dt-bindings: net: sun8i-emac: Add AC300 EMAC1 nvmem phy selection
-Date: Tue, 27 May 2025 11:55:56 -0600
-Message-Id: <20250527175558.2738342-3-james.hilliard1@gmail.com>
+Subject: [PATCH v2 1/3] net: stmmac: allow drivers to explicitly select PHY device
+Date: Tue, 27 May 2025 11:55:54 -0600
+Message-Id: <20250527175558.2738342-1-james.hilliard1@gmail.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250527175558.2738342-1-james.hilliard1@gmail.com>
-References: <20250527175558.2738342-1-james.hilliard1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -93,201 +85,53 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Allwinner H616 EMAC1 can be connected to an copackaged AC200
-or AC300 PHY depending upon the variant.
-
-Add a new allwinner,sun50i-h616-emac1 compatible and example, support
-for the allwinner,sun50i-h616-emac1 EMAC1 MAC will be added later on.
-
-Add nvmem-cells and nvmem-cell-names properties for the ac300 efuse
-based phy selection.
+Some devices like the Allwinner H616 need the ability to select a phy
+in cases where multiple PHY's may be present in a device tree due to
+needing the ability to support multiple SoC variants with runtime
+PHY selection.
 
 Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
 ---
-Changes v1 -> v2:
-  - fix dt_binding_check
----
- .../net/allwinner,sun8i-a83t-emac.yaml        | 75 ++++++++++++++++++-
- .../bindings/net/ethernet-controller.yaml     | 26 +++++--
- .../devicetree/bindings/net/snps,dwmac.yaml   |  2 +
- 3 files changed, 94 insertions(+), 9 deletions(-)
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c | 22 +++++++++++++------
+ 1 file changed, 15 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
-index 7fe0352dff0f..3a8c31dd9ae7 100644
---- a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
-+++ b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
-@@ -18,6 +18,7 @@ properties:
-       - const: allwinner,sun8i-r40-gmac
-       - const: allwinner,sun8i-v3s-emac
-       - const: allwinner,sun50i-a64-emac
-+      - const: allwinner,sun50i-h616-emac1
-       - items:
-           - enum:
-               - allwinner,sun20i-d1-emac
-@@ -58,7 +59,6 @@ required:
-   - clock-names
-   - resets
-   - reset-names
--  - phy-handle
-   - phy-mode
-   - syscon
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+index 59d07d0d3369..949c4a8a1456 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+@@ -1210,17 +1210,25 @@ static int stmmac_init_phy(struct net_device *dev)
+ 	 */
+ 	if (!phy_fwnode || IS_ERR(phy_fwnode)) {
+ 		int addr = priv->plat->phy_addr;
+-		struct phy_device *phydev;
++		struct phy_device *phydev = NULL;
  
-@@ -73,6 +73,7 @@ allOf:
-               - allwinner,sun8i-h3-emac
-               - allwinner,sun8i-v3s-emac
-               - allwinner,sun50i-a64-emac
-+              - allwinner,sun50i-h616-emac1
+-		if (addr < 0) {
+-			netdev_err(priv->dev, "no phy found\n");
+-			return -ENODEV;
++		if (priv->plat->phy_node) {
++			phy_fwnode = of_fwnode_handle(priv->plat->phy_node);
++			phydev = fwnode_phy_find_device(phy_fwnode);
++			fwnode_handle_put(phy_fwnode);
+ 		}
  
-     then:
-       properties:
-@@ -189,6 +190,42 @@ allOf:
-             - mdio-parent-bus
-             - mdio@1
+-		phydev = mdiobus_get_phy(priv->mii, addr);
+ 		if (!phydev) {
+-			netdev_err(priv->dev, "no phy at addr %d\n", addr);
+-			return -ENODEV;
++			if (addr < 0) {
++				netdev_err(priv->dev, "no phy found\n");
++				return -ENODEV;
++			}
++
++			phydev = mdiobus_get_phy(priv->mii, addr);
++			if (!phydev) {
++				netdev_err(priv->dev, "no phy at addr %d\n", addr);
++				return -ENODEV;
++			}
+ 		}
  
-+  - if:
-+      not:
-+        properties:
-+          compatible:
-+            contains:
-+              enum:
-+                - allwinner,sun50i-h616-emac1
-+
-+    then:
-+      required:
-+        - phy-handle
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - allwinner,sun50i-h616-emac1
-+
-+    then:
-+      properties:
-+        nvmem-cells: true
-+
-+        nvmem-cell-names: true
-+
-+        phys:
-+          maxItems: 2
-+
-+        phy-names:
-+          items:
-+            - const: ac200
-+            - const: ac300
-+
-+        mdio:
-+          $ref: mdio.yaml#
-+
- unevaluatedProperties: false
- 
- examples:
-@@ -321,4 +358,40 @@ examples:
-         };
-     };
- 
-+  - |
-+    ethernet@5030000 {
-+        compatible = "allwinner,sun50i-h616-emac1";
-+        syscon = <&syscon>;
-+        reg = <0x05030000 0x10000>;
-+        interrupts = <0 15 4>;
-+        interrupt-names = "macirq";
-+        resets = <&ccu 31>;
-+        reset-names = "stmmaceth";
-+        clocks = <&ccu 83>;
-+        clock-names = "stmmaceth";
-+        phys = <&ac200_rmii_phy>, <&ac300_rmii_phy>;
-+        phy-names = "ac200", "ac300";
-+        phy-mode = "rgmii";
-+        nvmem-cells = <&ephy_acx00>;
-+        nvmem-cell-names = "ac300";
-+
-+        mdio {
-+            compatible = "snps,dwmac-mdio";
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            ac300_rmii_phy: ac300-ethernet-phy@0 {
-+              #phy-cells = <0>;
-+              compatible = "ethernet-phy-ieee802.3-c22";
-+              reg = <0>;
-+            };
-+
-+            ac200_rmii_phy: ac200-ethernet-phy@1 {
-+              #phy-cells = <0>;
-+              compatible = "ethernet-phy-ieee802.3-c22";
-+              reg = <1>;
-+            };
-+        };
-+    };
-+
- ...
-diff --git a/Documentation/devicetree/bindings/net/ethernet-controller.yaml b/Documentation/devicetree/bindings/net/ethernet-controller.yaml
-index a2d4c626f659..710e651851e5 100644
---- a/Documentation/devicetree/bindings/net/ethernet-controller.yaml
-+++ b/Documentation/devicetree/bindings/net/ethernet-controller.yaml
-@@ -45,14 +45,6 @@ properties:
-     description:
-       Specifies maximum speed in Mbit/s supported by the device.
- 
--  nvmem-cells:
--    maxItems: 1
--    description:
--      Reference to an nvmem node for the MAC address
--
--  nvmem-cell-names:
--    const: mac-address
--
-   phy-connection-type:
-     description:
-       Specifies interface type between the Ethernet device and a physical
-@@ -260,6 +252,24 @@ dependencies:
-   pcs-handle-names: [pcs-handle]
- 
- allOf:
-+  - if:
-+      not:
-+        properties:
-+          compatible:
-+            contains:
-+              enum:
-+                - allwinner,sun50i-h616-emac1
-+
-+    then:
-+      properties:
-+        nvmem-cells:
-+          maxItems: 1
-+          description:
-+            Reference to an nvmem node for the MAC address
-+
-+        nvmem-cell-names:
-+          const: mac-address
-+
-   - if:
-       properties:
-         phy-mode:
-diff --git a/Documentation/devicetree/bindings/net/snps,dwmac.yaml b/Documentation/devicetree/bindings/net/snps,dwmac.yaml
-index 78b3030dc56d..a6dfed00c48f 100644
---- a/Documentation/devicetree/bindings/net/snps,dwmac.yaml
-+++ b/Documentation/devicetree/bindings/net/snps,dwmac.yaml
-@@ -56,6 +56,7 @@ properties:
-         - allwinner,sun8i-r40-gmac
-         - allwinner,sun8i-v3s-emac
-         - allwinner,sun50i-a64-emac
-+        - allwinner,sun50i-h616-emac1
-         - amlogic,meson6-dwmac
-         - amlogic,meson8b-dwmac
-         - amlogic,meson8m2-dwmac
-@@ -620,6 +621,7 @@ allOf:
-                 - allwinner,sun8i-r40-gmac
-                 - allwinner,sun8i-v3s-emac
-                 - allwinner,sun50i-a64-emac
-+                - allwinner,sun50i-h616-emac1
-                 - loongson,ls2k-dwmac
-                 - loongson,ls7a-dwmac
-                 - ingenic,jz4775-mac
+ 		ret = phylink_connect_phy(priv->phylink, phydev);
 -- 
 2.34.1
 
