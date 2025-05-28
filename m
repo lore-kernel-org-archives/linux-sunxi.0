@@ -1,99 +1,127 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6729CFC0E;
-	Wed, 28 May 2025 21:05:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 219463B1AB
+	for <linux-sunxi@lists.linux.dev>; Wed, 28 May 2025 21:14:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748466345; cv=none; b=CkWM6MCQ0VKwTQaFDIR2Jp3Bxiryzj5pnHY6gGehJtO54f+NWnw6vy4OJNroFmwt4nBRZA826lcD37oN5NUyl4fdEcA07FOBkGj/KBWHeylF4f2jHxodDYrFR5rXpy4UXcnuK4ewxzzqJ94K4cKQJuAHBfYiiARIYlUBPas/i6Y=
+	t=1748466870; cv=none; b=IRASMKJTXl/Z/PIjuynb5FP5Z6Vgq1mYk6fe+QLAAa6sIOT66rPCHYmkXvBSSRrYbnjXhGKJ25m5X2yIVlrOEq41mrpZeTNY0yh+SjI1SyTY91D3zeKbXaJsy+iJNVhl451dodC+m0xTI9gOBwZ8UhKdbn8y08yG0WZYZATrFIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748466345; c=relaxed/simple;
-	bh=thfMG70n9VgYdgGnvWHjyk1eF+yc+6WAcoijPrrRo4I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gzCEn00vbn6vOwX1FqhTMNLF52Pkq2I/WpUkNqmqKeUG7xGVbsLo+O4XCHsois8snr3u8HVa2m6CnkmIiynQysjfb+bEN/qU8sPfHhkv+oV/eszodOcQh1a2QuuFECTvMDZ2AkJGNI8ZkwRqqYCqC1D3TOVymcexnXHC5Tzlpmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=4L8mlfeR; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1748466870; c=relaxed/simple;
+	bh=bik8tiy9zD4tncn3V/spfXhSHei4QkySdXosKgPMaGo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=N4hAjtvgw+PI8vhmOqyOjAwZLrrT70dYx1gGV2M7wdi5/2z/lZ12wxH2MIBi/4+yU6tJNXSsPLyQ+YXd+NY7XrHzg4FDsv7UiuaofDKkoloUT6bDhikXmQmwYKWslceAAtnVzAt5f+nYe1YAKf6gLZsYLsPRgYm5pBU/geVjkZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nD20Rd+U; arc=none smtp.client-ip=209.85.217.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="4L8mlfeR"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-	In-Reply-To:References; bh=b95mbv58GC1sLRpCdVviPp1TGSLCgwADdPiOEMX8kAs=; b=4L
-	8mlfeRvliv9ijr/wpaHqc6/m0DT95i0TweNRw89IsfTxUOZnG0O1o0KeOLB19ufZ+HsFnaxD3i5Ts
-	XssIZNhQxsjOi4mcw1okG4dYNjkby2gZWp5YFVilP1G+kR0xz7chzpgpvJNNB0vrjgUZNLTaWFF4m
-	A2gneThrUTubonA=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1uKNxl-00ED1x-It; Wed, 28 May 2025 23:05:25 +0200
-Date: Wed, 28 May 2025 23:05:25 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: James Hilliard <james.hilliard1@gmail.com>
-Cc: "Russell King (Oracle)" <linux@armlinux.org.uk>, wens@csie.org,
-	netdev@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Furong Xu <0x1207@gmail.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] net: stmmac: allow drivers to explicitly select
- PHY device
-Message-ID: <1e6e4a44-9d2b-4af4-8635-150ccc410c22@lunn.ch>
-References: <CADvTj4oVj-38ohw7Na9rkXLTGEEFkLv=4S40GPvHM5eZnN7KyA@mail.gmail.com>
- <aDbA5l5iXNntTN6n@shell.armlinux.org.uk>
- <CADvTj4qP_enKCG-xpNG44ddMOJj42c+yiuMjV_N9LPJPMJqyOg@mail.gmail.com>
- <f915a0ca-35c9-4a95-8274-8215a9a3e8f5@lunn.ch>
- <CAGb2v66PEA4OJxs2rHrYFAxx8bw4zab7TUXQr+DM-+ERBO-UyQ@mail.gmail.com>
- <CADvTj4qyRRCSnvvYHLvTq73P0YOjqZ=Z7kyjPMm206ezMePTpQ@mail.gmail.com>
- <aDdXRPD2NpiZMsfZ@shell.armlinux.org.uk>
- <CADvTj4pKsAYsm6pm0sgZgQ+AxriXH5_DLmF30g8rFd0FewGG6w@mail.gmail.com>
- <8306dac8-3a0e-4e79-938a-10e9ee38e325@lunn.ch>
- <CADvTj4rWvEaFyOm2HdNonASE4y1qoPoNgP_9n_ZbLCqAo1gGYw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nD20Rd+U"
+Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-4e58ef9cb69so87694137.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 28 May 2025 14:14:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1748466868; x=1749071668; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bik8tiy9zD4tncn3V/spfXhSHei4QkySdXosKgPMaGo=;
+        b=nD20Rd+UpFpHlHRRW9yDGc77jrWFbPfOBYnbbvbvuqO0VmU9yes2h3cwaf1GQo1Tcl
+         KlL7DtcAPOKPfgGII3f7BbIeuZCNmHk7GeqZwJ+jo2eWZL9pqa1rd5+HePrDHIdRq+/o
+         1DpqJ+IGx/t7KBFWNVAGM3KQfO8hiC/ugeMitNH3UEd7XD2/0uwVMJ2VR5EPwOvC5lCl
+         R8Pf6HfJwjmbZkCxGIWX6ygonU7VX92zRD6Qu0UhBZsxjLpd3GNIYJMsZWgaa0VfBMGu
+         9wP6icRrxETelNea79lxTccBI9+SDQt3hlzOwnNQEJy9fGg8GCfzdv5m3+fI52HZQ7QE
+         9puQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748466868; x=1749071668;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bik8tiy9zD4tncn3V/spfXhSHei4QkySdXosKgPMaGo=;
+        b=wyx+A3SH1qENka0lGg33WnFZLaS76Ij1aX4L/7ke2nTrzmmYNOOuVpQAlYj8Dp09BR
+         eU3H6HX0lGg1jDVa9StXTteSafUk6Qd2dwKCTMfnVfLhzxWm8kFf3c/Z+LVdV88ONVW3
+         /A+JHQFPf6/KPdxrEJPYRz0nIfxXEyszvge2UHb3O9MiRjmX4LNcH7G0MY2jfyBCEEWm
+         A2mENpYcHrwmZTI/saunt5JtHvfeDNbQEX5QgCIYG2srGPGsXyQ4E3ymvCU1UYnSj4sH
+         vsZZb6BlwnX96Mkm3J6sAtYS1SpWfd7rOFxrV35Y9U/ojoWZS41xfSHPSayGphGBiAJr
+         XnVA==
+X-Forwarded-Encrypted: i=1; AJvYcCW1qQ9gnZpFC5jD8mDEG8zxDDt63a+lFpPOqmrFPc8TszM/Ezz5IyUth9HLQ5BsB/OA9dKlS0tVUVJSew==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwKVQUo7RUruJoVk8ypb16uAOPe2Jb2WeuxiiqGMTsYq2tfwVUc
+	oSmlNN69ev/nyP+LFDLbKx122TzS5P0jADjbYl0wtGzcP97K+CiL8hjGlqByI4/CsKA8MbebJlJ
+	FQ3+vHFFKGrwnPVFtuqrOzAoUO0ZSb3g=
+X-Gm-Gg: ASbGncv8/7h4BWWl9wQbLePnWeFMmARB1JW764+X3YRYa2ycmIzgkFLa3LqaKbCpJca
+	An4B3T1ebl36e8BjBZbU9wCe5fqWX9oPqcNJMYkMmRj2+f5iWsRqDTnUJLTyeDz0ZG98RwIRgIC
+	66ny9CXHsScJqRgMlWF9v2c7YRE/OCh/uDGA==
+X-Google-Smtp-Source: AGHT+IGGLLvtEb730nnh7rC673oR16aeQY2nH92ZW4fGCX/YiQ4QwWrxJP/i3AUVjXlzBuIQT/Ux8cWPw7wSCO4tioo=
+X-Received: by 2002:a05:6102:1612:b0:4e5:958d:4962 with SMTP id
+ ada2fe7eead31-4e5958d5d03mr7448988137.2.1748466867876; Wed, 28 May 2025
+ 14:14:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADvTj4rWvEaFyOm2HdNonASE4y1qoPoNgP_9n_ZbLCqAo1gGYw@mail.gmail.com>
+References: <CADvTj4oVj-38ohw7Na9rkXLTGEEFkLv=4S40GPvHM5eZnN7KyA@mail.gmail.com>
+ <aDbA5l5iXNntTN6n@shell.armlinux.org.uk> <CADvTj4qP_enKCG-xpNG44ddMOJj42c+yiuMjV_N9LPJPMJqyOg@mail.gmail.com>
+ <f915a0ca-35c9-4a95-8274-8215a9a3e8f5@lunn.ch> <CAGb2v66PEA4OJxs2rHrYFAxx8bw4zab7TUXQr+DM-+ERBO-UyQ@mail.gmail.com>
+ <CADvTj4qyRRCSnvvYHLvTq73P0YOjqZ=Z7kyjPMm206ezMePTpQ@mail.gmail.com>
+ <aDdXRPD2NpiZMsfZ@shell.armlinux.org.uk> <CADvTj4pKsAYsm6pm0sgZgQ+AxriXH5_DLmF30g8rFd0FewGG6w@mail.gmail.com>
+ <8306dac8-3a0e-4e79-938a-10e9ee38e325@lunn.ch> <CADvTj4rWvEaFyOm2HdNonASE4y1qoPoNgP_9n_ZbLCqAo1gGYw@mail.gmail.com>
+ <1e6e4a44-9d2b-4af4-8635-150ccc410c22@lunn.ch>
+In-Reply-To: <1e6e4a44-9d2b-4af4-8635-150ccc410c22@lunn.ch>
+From: James Hilliard <james.hilliard1@gmail.com>
+Date: Wed, 28 May 2025 15:14:16 -0600
+X-Gm-Features: AX0GCFtJbKcSZrV6aI_DEhodkWvBg_0kUSxJMObTitKRlUNU-S1IGzUWOHTLoqc
+Message-ID: <CADvTj4r1VvjiK4tj3tiHYVJtLDWtMSJ3GFQgYyteTnLGsQQ2Eg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] net: stmmac: allow drivers to explicitly select
+ PHY device
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: "Russell King (Oracle)" <linux@armlinux.org.uk>, wens@csie.org, netdev@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Furong Xu <0x1207@gmail.com>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
+	linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 28, 2025 at 01:45:40PM -0600, James Hilliard wrote:
-> On Wed, May 28, 2025 at 1:27 PM Andrew Lunn <andrew@lunn.ch> wrote:
+On Wed, May 28, 2025 at 3:05=E2=80=AFPM Andrew Lunn <andrew@lunn.ch> wrote:
+>
+> On Wed, May 28, 2025 at 01:45:40PM -0600, James Hilliard wrote:
+> > On Wed, May 28, 2025 at 1:27=E2=80=AFPM Andrew Lunn <andrew@lunn.ch> wr=
+ote:
+> > >
+> > > > I think a lot of ethernet drivers use phy_find_first() for phy scan=
+ning
+> > > > as well so it's not limited to just stmmac AFAIU.
+> > >
+> > > You need to differentiate by time. It has become a lot less used in
+> > > the last decade. DT describes the PHY, so there is no need to hunt
+> > > around for it. The only real use case now a days is USB dongles, whic=
+h
+> > > don't have DT, and maybe PCIe devices without ACPI support.
 > >
-> > > I think a lot of ethernet drivers use phy_find_first() for phy scanning
-> > > as well so it's not limited to just stmmac AFAIU.
+> > I mean, hardware probing features for this sort of use case have been
+> > getting added outside the network subsystem so I'm not sure what the
+> > issue with this is as those use cases don't appear to be meaningfully
+> > different.
 > >
-> > You need to differentiate by time. It has become a lot less used in
-> > the last decade. DT describes the PHY, so there is no need to hunt
-> > around for it. The only real use case now a days is USB dongles, which
-> > don't have DT, and maybe PCIe devices without ACPI support.
-> 
-> I mean, hardware probing features for this sort of use case have been
-> getting added outside the network subsystem so I'm not sure what the
-> issue with this is as those use cases don't appear to be meaningfully
-> different.
-> 
-> > I suggest you give up pushing this. You have two Maintainers saying no
-> > to this, so it is very unlikely you are going to succeed.
-> 
-> So what should I be doing instead?
+> > > I suggest you give up pushing this. You have two Maintainers saying n=
+o
+> > > to this, so it is very unlikely you are going to succeed.
+> >
+> > So what should I be doing instead?
+>
+> Describe the one PHY which actually exists in device tree for the
+> board, and point to it using phy-handle. No runtime detection, just
+> correctly describe the hardware.
 
-Describe the one PHY which actually exists in device tree for the
-board, and point to it using phy-handle. No runtime detection, just
-correctly describe the hardware.
+But the boards randomly contain SoC's with different PHY's so we
+have to support both variants.
 
-Do you have examples of boards where the SoC variant changed during
-the boards production life?
+> Do you have examples of boards where the SoC variant changed during
+> the boards production life?
 
-	Andrew
-
+Yes, the boards I'm working for example, but this is likely an issue for
+other boards as well(vendor BSP auto detects PHY variants):
+https://www.zeusbtc.com/ASIC-Miner-Repair/Parts-Tools-Details.asp?ID=3D1139
