@@ -1,136 +1,122 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62A6622E402
-	for <linux-sunxi@lists.linux.dev>; Tue,  3 Jun 2025 12:28:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 385EE7263C;
+	Tue,  3 Jun 2025 15:46:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748953718; cv=none; b=AX/LFyk/hsn6LXZIIJ/RAVpWAmZrQRloKKkMCvj+Id997+xxiI8jC1iR37A020mdosNktLggfXcoSf142M5rzmZAIeJI9waUNEF5oYc9ypBJEY+1OWcX9MVzgEIshZogxbSJ3cxahnuQxzlTCvIoWOoi1OT4KICzccTtmPouUc4=
+	t=1748965564; cv=none; b=cRyjOzITrTTkNfnhTSIzFVQ3ns6ZRixhICwYH+NZ/18P1AYhIN2BLUttY8IzXjDydiAbC6kzVVLmh+YoL+Ot/LnP7d3WSobUIEzjl66w1bbbGBGeowQxugr0qQC22gdyMsF6uPAxUtg+fJuHhvXzh4bMMozV4JQH4OWDx4JTQ1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748953718; c=relaxed/simple;
-	bh=05+4tnxTfZT1S+4UoIxQ6g+n5pQyTXemSfTMz9XW6CY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eYQXApxsKJUe6Tfj3LhIjoGZKPlGtHBnnM5Ti1T9p4daU5Har5hyOfGAIgldAz/toPHBBRBdRtsmLtu6e9nPckOTUxZuFz7LqByB7kb19Pk9Ie33g7HbynkDmjIfgKjUTTWwhooGX0mauFWsY9Ij3iUqFiUpHA7KNmQDJnry4Ig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [223.64.69.3])
-	by gateway (Coremail) with SMTP id _____8AxDGty6j5o7DYKAQ--.33040S3;
-	Tue, 03 Jun 2025 20:28:34 +0800 (CST)
-Received: from localhost.localdomain (unknown [223.64.69.3])
-	by front1 (Coremail) with SMTP id qMiowMAxj8Vv6j5ofg8HAQ--.25897S2;
-	Tue, 03 Jun 2025 20:28:33 +0800 (CST)
-From: Binbin Zhou <zhoubinbin@loongson.cn>
-To: Binbin Zhou <zhoubb.aaron@gmail.com>,
-	Huacai Chen <chenhuacai@loongson.cn>,
-	Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Huacai Chen <chenhuacai@kernel.org>,
-	linux-mmc@vger.kernel.org,
-	Binbin Zhou <zhoubinbin@loongson.cn>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH v3 34/36] mmc: sunxi: Use devm_mmc_alloc_host() helper
-Date: Tue,  3 Jun 2025 20:28:20 +0800
-Message-ID: <ee7726b1ea37084258a5d8cec67cad12473152c2.1748933789.git.zhoubinbin@loongson.cn>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <cover.1748933789.git.zhoubinbin@loongson.cn>
-References: <cover.1748933789.git.zhoubinbin@loongson.cn>
+	s=arc-20240116; t=1748965564; c=relaxed/simple;
+	bh=7W40XcPbIp9auuYKPsUESX4uR0NXpKHXqGhBdPTYtQo=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y4aY80aSwqo02uk7KiLLfSTBmsmmbHQm3VqEN9s577Q4HdTNXP/s42+N3XtHHveRj/hM5MheOffYJ3KdD+PGz8ygs8+gro2KBF2PWFsz60D/AgxmHnGeGSIXdakcoXKPxUeEKI01atjmuAnWgyAkSCSVkqysW0NkNXUFWVvMEIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=LAIDzCaG; arc=none smtp.client-ip=198.47.23.235
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="LAIDzCaG"
+Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
+	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 553Fjb4Y3549572;
+	Tue, 3 Jun 2025 10:45:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1748965537;
+	bh=k79/t0nkrynCfBdnkrMBZYitRqiJPksoN+vCidZA6tg=;
+	h=Date:From:To:CC:Subject:References:In-Reply-To;
+	b=LAIDzCaGtrG7BOYxjg2Zy5SWUgjPSOlLbzKuTEjYh/xUtaU3Ngn30qsYvcZeXbOUf
+	 e+PmZpftIyyC5AdxoaRviwrh6UP/f9H/+jYz5OBXeqxh8jy9KDtEkTt8BBAZKQZ3E3
+	 KTlOUYZnkGYFn/ST7gI7cjN8yWxgA+R8JAAFv+pk=
+Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
+	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 553FjbLd3852667
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Tue, 3 Jun 2025 10:45:37 -0500
+Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 3
+ Jun 2025 10:45:36 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Tue, 3 Jun 2025 10:45:36 -0500
+Received: from localhost (uda0133052.dhcp.ti.com [128.247.81.232])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 553Fja5C649814;
+	Tue, 3 Jun 2025 10:45:36 -0500
+Date: Tue, 3 Jun 2025 10:45:36 -0500
+From: Nishanth Menon <nm@ti.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+CC: Jassi Brar <jassisinghbrar@gmail.com>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman
+	<khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin
+ Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Chen-Yu Tsai
+	<wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland
+	<samuel@sholland.org>, Sven Peter <sven@svenpeter.dev>,
+        Janne Grunau
+	<j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Neal Gompa
+	<neal@gompa.dev>, Hector Martin <marcan@marcan.st>,
+        Thierry Reding
+	<thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>, Suman
+ Anna <s-anna@ti.com>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-amlogic@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
+        <asahi@lists.linux.dev>, <linux-tegra@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>
+Subject: Re: [PATCH 2/5] dt-bindings: mailbox: ti,secure-proxy: Add missing
+ reg maxItems
+Message-ID: <20250603154536.cfa6galvuwkq2qxp@recipient>
+References: <20250603-dt-bindings-mailbox-cleanup-v1-0-724407563997@linaro.org>
+ <20250603-dt-bindings-mailbox-cleanup-v1-2-724407563997@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowMAxj8Vv6j5ofg8HAQ--.25897S2
-X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/
-X-Coremail-Antispam: 1Uk129KBj93XoW7ur4fJFy7Gw1rArW5GF17Arc_yoW8tF4fpF
-	45JF9xKrWUJr4YgrZrAr4Uu34fZw4xKa48KrWrJw1fu3s8Kr4DtrnxCFy0gF95GFWkGa1S
-	gFyDXr4rCF1Du3XCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUBEb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
-	xVW0oVCq3wAaw2AFwI0_Jrv_JF1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0c
-	Ia020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Gryq
-	6s0DMcIj6I8E87Iv67AKxVW8Jr0_Cr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x
-	0EwIxGrwACjcxG6xCI17CEII8vrVW3JVW8Jr1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC
-	6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s
-	026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF
-	0xvE2Ix0cI8IcVAFwI0_tr0E3s1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1lIx
-	AIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4UJVWxJr1lIxAIcVC2
-	z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x07ba1v3UUUUU=
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20250603-dt-bindings-mailbox-cleanup-v1-2-724407563997@linaro.org>
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-Use new function devm_mmc_alloc_host() to simplify the code.
+On 13:57-20250603, Krzysztof Kozlowski wrote:
+> Lists should have fixed constraint, so add missing maxItems to the "reg"
+> property.  Since minItems=maxItems, the minItems is implied by dtschema
+> so can be dropped.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  Documentation/devicetree/bindings/mailbox/ti,secure-proxy.yaml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/mailbox/ti,secure-proxy.yaml b/Documentation/devicetree/bindings/mailbox/ti,secure-proxy.yaml
+> index eea822861804c259068aa8c4598188db28895518..682ccd76f5c25fc13bb3375007d39e6208cdddc0 100644
+> --- a/Documentation/devicetree/bindings/mailbox/ti,secure-proxy.yaml
+> +++ b/Documentation/devicetree/bindings/mailbox/ti,secure-proxy.yaml
+> @@ -36,7 +36,7 @@ properties:
+>        - const: scfg
+>  
+>    reg:
+> -    minItems: 3
+> +    maxItems: 3
+>  
+>    interrupt-names:
+>      minItems: 1
+> 
+> -- 
+> 2.45.2
+> 
+Reviewed-by: Nishanth Menon <nm@ti.com>
 
-Cc: Chen-Yu Tsai <wens@csie.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Samuel Holland <samuel@sholland.org>
-Cc: linux-sunxi@lists.linux.dev
-Reviewed-by: Huacai Chen <chenhuacai@loongson.cn>
-Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
----
- drivers/mmc/host/sunxi-mmc.c | 22 ++++++++--------------
- 1 file changed, 8 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mmc.c
-index 1508eead5d01..ee4a65b0a22d 100644
---- a/drivers/mmc/host/sunxi-mmc.c
-+++ b/drivers/mmc/host/sunxi-mmc.c
-@@ -1369,11 +1369,10 @@ static int sunxi_mmc_probe(struct platform_device *pdev)
- 	struct mmc_host *mmc;
- 	int ret;
- 
--	mmc = mmc_alloc_host(sizeof(struct sunxi_mmc_host), &pdev->dev);
--	if (!mmc) {
--		dev_err(&pdev->dev, "mmc alloc host failed\n");
--		return -ENOMEM;
--	}
-+	mmc = devm_mmc_alloc_host(&pdev->dev, sizeof(*host));
-+	if (!mmc)
-+		return dev_err_probe(&pdev->dev, -ENOMEM,
-+				     "mmc alloc host failed\n");
- 	platform_set_drvdata(pdev, mmc);
- 
- 	host = mmc_priv(mmc);
-@@ -1383,15 +1382,13 @@ static int sunxi_mmc_probe(struct platform_device *pdev)
- 
- 	ret = sunxi_mmc_resource_request(host, pdev);
- 	if (ret)
--		goto error_free_host;
-+		return ret;
- 
- 	host->sg_cpu = dma_alloc_coherent(&pdev->dev, PAGE_SIZE,
- 					  &host->sg_dma, GFP_KERNEL);
--	if (!host->sg_cpu) {
--		dev_err(&pdev->dev, "Failed to allocate DMA descriptor mem\n");
--		ret = -ENOMEM;
--		goto error_free_host;
--	}
-+	if (!host->sg_cpu)
-+		return dev_err_probe(&pdev->dev, -ENOMEM,
-+				     "Failed to allocate DMA descriptor mem\n");
- 
- 	if (host->cfg->ccu_has_timings_switch) {
- 		/*
-@@ -1481,8 +1478,6 @@ static int sunxi_mmc_probe(struct platform_device *pdev)
- 
- error_free_dma:
- 	dma_free_coherent(&pdev->dev, PAGE_SIZE, host->sg_cpu, host->sg_dma);
--error_free_host:
--	mmc_free_host(mmc);
- 	return ret;
- }
- 
-@@ -1498,7 +1493,6 @@ static void sunxi_mmc_remove(struct platform_device *pdev)
- 		sunxi_mmc_disable(host);
- 	}
- 	dma_free_coherent(&pdev->dev, PAGE_SIZE, host->sg_cpu, host->sg_dma);
--	mmc_free_host(mmc);
- }
- 
- #ifdef CONFIG_PM
 -- 
-2.47.1
-
+Regards,
+Nishanth Menon
+Key (0xDDB5849D1736249D) / Fingerprint: F8A2 8693 54EB 8232 17A3  1A34 DDB5 849D 1736 249D
