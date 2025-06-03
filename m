@@ -1,100 +1,140 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1635A78C91
-	for <linux-sunxi@lists.linux.dev>; Tue,  3 Jun 2025 04:41:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E47931F3B97
+	for <linux-sunxi@lists.linux.dev>; Tue,  3 Jun 2025 11:57:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748925711; cv=none; b=RPIMCeParnhk9LOR2HRNAb0+VQ2lsKL/le2zKRmefogsH3WIQkyLwDvEzM6RqhhymYnaH1/AA3vPuda9rEkjYDySQT/7MREtWlMOJZXFzAHN+i5bI9D/xg0Z40LtV1NyHxdnlG6p+Jay38bhUxy6hv7BRTlzZTXJ3Wmy4H0GDh0=
+	t=1748951850; cv=none; b=UCEjGtHUSE3wYcQihWUFrLevOfiwISGBIGTB+ijENMNKr9jJEOu6BhZdp53w18vUmbVsLwqjEE3xSUNHAj/zg+LBkl4XEuIjhQpq8zhFN3DeaciAcnZb71HgQbuOI3DOcWsIdGdEaP5hPEnE6a2gN0h4hO9wBIb73lc6iNNb9/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748925711; c=relaxed/simple;
-	bh=BED0WVH0ui801+fOhuTnComAdNPJBDfJ7ZYmPTvoYyA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kf8es7s8kg93c7hIRsQcdkpW4/akOCXQw87ZSO44FuH7mAVkqybxJvMZfaqLPCrpsaPbczV4Nu/PqJxX0NYqYVZ1C4uT64tLaLhljo8n44R/VbXK7HchAwndqZ9BlYeI9szCNjvapNl6DIVjV6VnlekiOj6tR177nYhaAkz17a8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-55342bca34eso2955263e87.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 02 Jun 2025 21:41:48 -0700 (PDT)
+	s=arc-20240116; t=1748951850; c=relaxed/simple;
+	bh=8VGdoBQnsW1Y8fk4p9+RrKW9XWt9gACX/CPbdQ0dOb8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=OzAs1ElG8yhfIcdi2RZC0aes2VPUfxdyuwZy63KYB++4A5KCTeXOJfX0qhCuoeoO8COvaltIdLwgKBBlsIrp3/jSe4ddGA2c8R7vh305uxqjHZa3ktAGjXHvX23I7OzCiuGBxbbugqFB0XbAy0GvK6zwz6YQA5cFY0gORAA7Nrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZhpNAaYb; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZhpNAaYb"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3a4e57d018cso905093f8f.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 03 Jun 2025 04:57:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1748951845; x=1749556645; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1IBFWQj94F31lf6usd6PCcvd2+aXV7FOAOa4N/LRiuA=;
+        b=ZhpNAaYbDRsy9wF7WkTopyKJBTfVU5ssMRICBy6HvgBJ5va2BysZ3jW1JB20FJuILs
+         lnrr2V11rGgmuBf7NoTfXNd9oNf7a8DjVqAAWcw24hjMQ75IzhFDntZDdpT74xEGVXUm
+         prdG/tUZXitLTyujWunEJ/SSBxjKHp0/ng0FsH/I/Ntv+uIXU2YoOfN9AiZAdMgppHMA
+         MVQeHTfzhKpkOICKl+/Mwu2f4MaLHYRh997kYZESGHy9vJjTI41RyRWyuxG42GYAS/DG
+         MBONMbEMcnj8+DarZcJaRbrT4yR/wBpvG1hx8OWaf/UfFHa3yKxTUV6MvxxVnP8yM5Px
+         xrnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748925705; x=1749530505;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BED0WVH0ui801+fOhuTnComAdNPJBDfJ7ZYmPTvoYyA=;
-        b=BNkXCwWko4dIMmJfwvPJV0TFROM0JIIFqYbwKbtiaNwhw7fi7fUWKwqgRmciVcCSb+
-         dB8EHuVoaGWMUKyOqqmNFhG2cwftKX9sIFRi58el8h4LFb0xYuxjkozRHqfNY72M/Rzw
-         zCIb56ZsraRY+UXjlyj799RXWnOe37k+q7+R7FSO0Ei3g8ka8fiUdnx0VbV2eejJ/sbC
-         C+Wfp1A0XUiw55OYWi5pZvg+Mr9Nt35cRA1duoMwL7Nel0cFdBmzssN5mltTd+og1CPx
-         x4tREIzN1a7SK80Y3uvqeEOPPURJrsxNN/vNDVgqTjfT3eYRdtqYqkEfd1HaS9ocFK4w
-         JwJA==
-X-Forwarded-Encrypted: i=1; AJvYcCXIKipN40EoKtnLaQfLtwJ29QKv28nJgkNzI52nt3RpO6eod9/VXXW9Yp1ADE4TCwZuhCWL3ZLviWdsuw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyainSY748MKuBQbPWQHLF8JEhByGuEVtzD8ocY4ZB+MCoDTZuK
-	LqM8detnOC1D0x6zqHDFMP23mP2Rpaqoyu2IDJs0P+TkZ3HmCzKanuQLJxKm9+SNfYg=
-X-Gm-Gg: ASbGncuwf7KzXGE5yegYihNOllyUUxxV4NZUa3w5hQAwbLlTcfDsIQwpOuSpD2m3C8W
-	U8ue8J1yVz/r1PTfrogYCf30ykz2/+vNG+LB6gbZ2vStGKCjDtN1e2Gf94LWyjDAbPwkjNPGHB5
-	fjl2/A0mwgSxOdHcdGgJNKWooJyT/pgxlOh8YbcPTNte9274Ga4bj5lnHoO0Z2XoPOr5jZdyeXF
-	nc7vRlL6D7Tqtaw6KRHOvenGReCT/hYA7NZmBeAyMFM23/kJzJCGlA53ZQQpLziyf9vJ2zjSfU/
-	aXhrsL0MEH/AJqeoizs60WjDY+sExNoZUrnRQxzsRfW+wnog391EuDuSre/SCzYUl9vl9TLu7FM
-	+8yONz5ltm3nCmZzYx98=
-X-Google-Smtp-Source: AGHT+IGWi95HtQ0y4wMgwX/JhYnTF7yfwa3t2XlJ5MW38OkCWnjdZLE/hxR9RZ4Wi1qg6/VgQPT/JA==
-X-Received: by 2002:a05:6512:2203:b0:54b:1055:f4c3 with SMTP id 2adb3069b0e04-55342f544d3mr2562003e87.11.1748925705286;
-        Mon, 02 Jun 2025 21:41:45 -0700 (PDT)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com. [209.85.208.172])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553378a001bsm1780364e87.62.2025.06.02.21.41.43
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Jun 2025 21:41:44 -0700 (PDT)
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-30f30200b51so50693281fa.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 02 Jun 2025 21:41:43 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVycmz3lBJMXdG1epRmiOg5IuPaHfSFyFNdsNhEb/4QHBhMf9/5NPaDAnxbXHz6YlieZOFWvpeOr6IJWQ==@lists.linux.dev
-X-Received: by 2002:a2e:bea5:0:b0:32a:8c7a:8350 with SMTP id
- 38308e7fff4ca-32a9ea675f3mr36137841fa.30.1748925703708; Mon, 02 Jun 2025
- 21:41:43 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1748951845; x=1749556645;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1IBFWQj94F31lf6usd6PCcvd2+aXV7FOAOa4N/LRiuA=;
+        b=I2TV6m0b1uZTMv4sLncZ+jwRmGoW2lgXbNH/kjGGeY/U1K9JzHJzmJhi9WuEhMGt6r
+         BRKozTaZTy7fF48qGcP/r7DUSss5uOZlkx/dH2a8saIr4KeTSsBph6CHQQGFLWai9bZ2
+         vtxXzlwcwB4zZ+Yuit7nx4LaLOP34g5otovEJd1hL0uCfZxBsz0/xeNCBUZ4Ygu4of0i
+         KMPL/TQCTpYwEGvF5nWs6OWxkCDVhRHlRqKXSKtmEQsGcknD1tVXFm+B7uk+rnCTEz9O
+         9LwLeLur6eL0rX+kv8a7VHhU1rLfW9ulzXCMfLeqSJfmSVCXOkaBGiUaBmb7W7KhM5ur
+         bxtw==
+X-Forwarded-Encrypted: i=1; AJvYcCUMvnLRwmLzKSpuSq9REPTbNBRDDoFPajxZ/s3hqlBAyPHAnnNRy/GkfseV6KWkIJYgFI7iL1PNOuzZLQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy0Vy9HE/p4KoecA28nGnzxzqnsnvHXD3GdKyN9mk6fZcyEV9Z4
+	kC712JPNd6Gt+khsa100mSSOgS2P8+Aibk7bGgkMsS7jMH53gKPeLW+itiAo3zTvVfk=
+X-Gm-Gg: ASbGncuPgFGWw/2EO0DMYPL8n2L0nsa6mMHe4d4H+8Fdjy1ZY+y9DG7mWMPVZVrgUx0
+	UZgj6MZAwQGI+9QjOyyxbBDQWPHQFJhCwILz07l34oZIE2ea2q0rDFQGK/BKp9r6xZZ5PEOoHXg
+	nDY7tA3TYz943luwpjtDL0sLdH+RGWJ19QqOq5nhQCq+CCVc+3A0/GZ38/aWmZDEvU2XKoYMTTs
+	kGOVCv+Q4NM+WccT9Fc7nexxm70mYBvfv/nGEfqf96y0jsXkYahuUKoMHJGEyovfdLVucgLM7rb
+	zrZ915o+0Fm6yx692ZSc//lyFf55kdNQf7uwO3VvVb3/HTHvRkutuCZmu5UNZLx77/Mz2jiugcA
+	QSIxrQzY4YGxdQAJ7ZAb1Pw==
+X-Google-Smtp-Source: AGHT+IHcDKEnQI0iAe8KmJOAN+5AyRCThhejg+k63FaCsSnbGWGPgYCXX5i11cKOm0Js9aE/AZP8Og==
+X-Received: by 2002:a05:6000:2dc6:b0:3a4:e8c8:fb89 with SMTP id ffacd0b85a97d-3a4f892f306mr4455673f8f.0.1748951845084;
+        Tue, 03 Jun 2025 04:57:25 -0700 (PDT)
+Received: from [172.16.23.13] (adsl-84-227-104-5.adslplus.ch. [84.227.104.5])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4efe6c7adsm17671666f8f.26.2025.06.03.04.57.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Jun 2025 04:57:24 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 0/5] dt-bindings: mailbox: Few cleanups
+Date: Tue, 03 Jun 2025 13:57:07 +0200
+Message-Id: <20250603-dt-bindings-mailbox-cleanup-v1-0-724407563997@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250602151853.1942521-1-daniel.lezcano@linaro.org> <20250602151853.1942521-4-daniel.lezcano@linaro.org>
-In-Reply-To: <20250602151853.1942521-4-daniel.lezcano@linaro.org>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Tue, 3 Jun 2025 12:41:31 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67qHKVGdNDmg_mbT-bkhAmn=NxQBsRZMtGgpdOGh6Z37w@mail.gmail.com>
-X-Gm-Features: AX0GCFsButCX6XOPdUHg9gMIjlAItX_YWWR5mtXZWLyYajpbu0GEJNOaxHVxyxs
-Message-ID: <CAGb2v67qHKVGdNDmg_mbT-bkhAmn=NxQBsRZMtGgpdOGh6Z37w@mail.gmail.com>
-Subject: Re: [PATCH v1 3/7] clocksource/drivers/sun5i: Add module owner
-To: Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc: tglx@linutronix.de, Jim Cromie <jim.cromie@gmail.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	"Peter Zijlstra (Intel)" <peterz@infradead.org>, Marco Elver <elver@google.com>, Nam Cao <namcao@linutronix.de>, 
-	linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, John Stulz <jstultz@google.com>, 
-	Will McVicker <willmcvicker@google.com>, Peter Griffin <peter.griffin@linaro.org>, 
-	Saravan Kanna <saravanak@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABPjPmgC/x3MSwqDMBAA0KvIrB1IU5OqV5Eu8hl1QEdJbBHEu
+ zd0+TbvgkyJKUNfXZDoy5k3KXjUFYTZyUTIsRi00kZZ9cR4oGeJLFPG1fHitxPDQk4+O4a2bUx
+ jtH1RB2XYE418/vfhfd8/Li2Ljm0AAAA=
+X-Change-ID: 20250603-dt-bindings-mailbox-cleanup-c884545267e9
+To: Jassi Brar <jassisinghbrar@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Nishanth Menon <nm@ti.com>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Sven Peter <sven@svenpeter.dev>, 
+ Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, Suman Anna <s-anna@ti.com>
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, asahi@lists.linux.dev, 
+ linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1218;
+ i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
+ bh=8VGdoBQnsW1Y8fk4p9+RrKW9XWt9gACX/CPbdQ0dOb8=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoPuMWnfe5utyaUx5gvALmsxmruk7JbV/krIhA4
+ j8qvLrJLFCJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaD7jFgAKCRDBN2bmhouD
+ 15ILD/910b+r8xCBseUJF1YO+j/IHLYwnq2p99ZLKQrjJPODK2Hsa8PvABhsMOVX7NEhd45xauB
+ 1gokachMmddL3QTHvT2SwZxCkXOkbMCydACOrC/fTJt47ZMqSJVTQddnBcQSgLyjNGm4CeOEnp9
+ PNBoEYnzvybXEkQACPTe80hUYBPNMff0l9H1886se4gDoMTuKflotBkuNAKnzK+8kiDBgxNOH9h
+ bZsCvRJodQOSAPreMvq0IihcpWlEs34BWltovMVcvF9aAUp083WRW+KVQYmOhWlos+j/T4BRIbR
+ CwPlyHjcGOVLxKnlJKijLA9qGkIsezGqUQ2SPYxLPKlc2qzyajNrDlj84gdKweskDeOpiBvLN+B
+ KyqdmGfxbd7NpRwX3CTYh4w/0CtWItIAUr9Ys7jFtXr/VsuA0YOCgJjVX1uEFU1xkudoFs1rAth
+ RJ/8B3UMC55EENVrV4M2L4siLZlqy2RcczsoTJFZF2waT+o7rvR+fmeeJf0wybsj1f/u9znmagT
+ kQ8ZnJpha5iIwXpe+p1xsFf82A53nj0jMMo0yNx2V3WeXOWMo7LyjgxfIAQHTUVhIFc4TIZqJVB
+ +kMs1/3Ubq5gPtCQo6w7qymB7PfuxwdaWvtwnw2jPw7zgEtHYR+5EiDbtFhXsuuiB3VyuoxS3ez
+ N7pia2kgSwXPEsw==
+X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
+ fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-On Mon, Jun 2, 2025 at 11:19=E2=80=AFPM Daniel Lezcano
-<daniel.lezcano@linaro.org> wrote:
->
-> The conversion to modules requires a correct handling of the module
-> refcount in order to prevent to unload it if it is in use. That is
-> especially true with the clockevents where there is no function to
-> unregister them.
->
-> The core time framework correctly handles the module refcount with the
-> different clocksource and clockevents if the module owner is set.
->
-> Add the module owner to make sure the core framework will prevent
-> stupid things happening when the driver will be converted into a
-> module.
->
-> Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
+Few cleanups for Mailbox bindings.
 
-Acked-by: Chen-Yu Tsai <wens@csie.org>
+Best regards,
+Krzysztof
+
+---
+Krzysztof Kozlowski (5):
+      dt-bindings: mailbox: amlogic,meson-gxbb-mhu: Add missing interrupts maxItems
+      dt-bindings: mailbox: ti,secure-proxy: Add missing reg maxItems
+      dt-bindings: mailbox: Correct example indentation
+      dt-bindings: mailbox: nvidia,tegra186-hsp: Use generic node name
+      dt-bindings: mailbox: Drop consumers example DTS
+
+ .../bindings/mailbox/allwinner,sun6i-a31-msgbox.yaml   | 14 +++++++-------
+ .../bindings/mailbox/amlogic,meson-gxbb-mhu.yaml       | 10 +++++-----
+ .../devicetree/bindings/mailbox/apple,mailbox.yaml     | 16 ++++++++--------
+ .../bindings/mailbox/nvidia,tegra186-hsp.yaml          |  9 +--------
+ .../bindings/mailbox/qcom,apcs-kpss-global.yaml        |  9 +--------
+ .../devicetree/bindings/mailbox/ti,omap-mailbox.yaml   | 10 +++-------
+ .../devicetree/bindings/mailbox/ti,secure-proxy.yaml   | 18 +++++++++---------
+ 7 files changed, 34 insertions(+), 52 deletions(-)
+---
+base-commit: 3be1a7a31fbda82f3604b6c31e4f390110de1b46
+change-id: 20250603-dt-bindings-mailbox-cleanup-c884545267e9
+
+Best regards,
+-- 
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
