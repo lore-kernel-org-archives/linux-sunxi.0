@@ -1,147 +1,160 @@
-Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50021182D2;
-	Tue,  3 Jun 2025 15:49:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6A524A01
+	for <linux-sunxi@lists.linux.dev>; Tue,  3 Jun 2025 17:37:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748965764; cv=none; b=jR9olZqn6rdoraZcxDxd2JfM1fySld2GEapg8z02Xms4S3H9RS9nebnBDjd1wAOxL5J6CiSXWofmBqMFYxKMzlavZvMuVS2no0PfvYYRXi0PFtAeKZdGZxEecIFAwmTZa2COuR3zTmx9uqGgrGdFYunitN2kUdDzsXmeAeK3thw=
+	t=1748972270; cv=none; b=GzegBBQfdFZK+lSADFvt7tfmWfP/e2E7Md6zJcc+/U2nEzbt3BL2J9+1qSYvAGUD6J6K4F/6mOHdLPiO1YWEaS+D+Tz40hATCgcNf2nbelRTquz2LIwkJ+MppCHL0rXdacQrM3QnKaOTdRponjAMAVOvC8gYR7joyn1Dz2DIZxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748965764; c=relaxed/simple;
-	bh=zRJhD7sF5YaVre9akGENc8NLed+Bjt5csNUjdKbF2tc=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DoIQmFUQXYK2+ZrRUPXKJI1/fPghTbY70RnC65xIIgcg0Xr+7Q8FB5E/usvoialCo3Uy2/BCIUE+3Ack162WHSM5Xx+lorK+39TV7vOOSX7sV+n0nnQpCuedT1CwzW+3qQLY623i8xGdrDrH+W5H2jXe6c7RIqKuPGUCSNXcNQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=FPVbgXwM; arc=none smtp.client-ip=198.47.19.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="FPVbgXwM"
-Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
-	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 553Fn5bq556677;
-	Tue, 3 Jun 2025 10:49:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1748965745;
-	bh=Ar5D4zBSs/YUAUx/REy11enEaNMluqXtZe67Zl84UoY=;
-	h=Date:From:To:CC:Subject:References:In-Reply-To;
-	b=FPVbgXwMAZE/ZsvtLocKXO3Y3kWf4ta5LsqRBF84wWrOSiq7MrQaGxAofMCJRvFag
-	 q534Ov6HTadamlsWXy5sNeqsNM2W3mbasRZBdG90ky87j88oF60ugwyhXorSRgw568
-	 YTexki4PRPNXAJAAw5YEFaaAC6IIdx3BF+R+Qp4E=
-Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
-	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 553Fn4O53854379
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Tue, 3 Jun 2025 10:49:04 -0500
-Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 3
- Jun 2025 10:49:04 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 3 Jun 2025 10:49:04 -0500
-Received: from localhost (uda0133052.dhcp.ti.com [128.247.81.232])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 553Fn4is569045;
-	Tue, 3 Jun 2025 10:49:04 -0500
-Date: Tue, 3 Jun 2025 10:49:04 -0500
-From: Nishanth Menon <nm@ti.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-CC: Jassi Brar <jassisinghbrar@gmail.com>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman
-	<khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin
- Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Chen-Yu Tsai
-	<wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland
-	<samuel@sholland.org>, Sven Peter <sven@svenpeter.dev>,
-        Janne Grunau
-	<j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Neal Gompa
-	<neal@gompa.dev>, Hector Martin <marcan@marcan.st>,
-        Thierry Reding
-	<thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>, Suman
- Anna <s-anna@ti.com>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-amlogic@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
-        <asahi@lists.linux.dev>, <linux-tegra@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>
-Subject: Re: [PATCH 5/5] dt-bindings: mailbox: Drop consumers example DTS
-Message-ID: <20250603154904.oa5lx5loywmzoqhr@varmint>
-References: <20250603-dt-bindings-mailbox-cleanup-v1-0-724407563997@linaro.org>
- <20250603-dt-bindings-mailbox-cleanup-v1-5-724407563997@linaro.org>
+	s=arc-20240116; t=1748972270; c=relaxed/simple;
+	bh=LaXNcl6QbffGLPTvZk16m6Bp1yVd9qyxbMGk5M90O2Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WM5J9TVGAGZPmQ57KRUr7Ytpp5vlCI2PAS/h67Vow95Qo+gZcU1q36F3hF82dvkYb0pFeEfvT9KanoHNRaCcc9sSWd3ynDeARrzkLHV00JzBnZZDYvDfRt6baiGaeeSk4FgHbj4Z+Ufdniumrh0e5Y68WxTP3K5J8tUg8AMDioo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=paulk.fr; spf=pass smtp.mailfrom=paulk.fr; arc=none smtp.client-ip=185.233.101.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=paulk.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paulk.fr
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+	by leonov.paulk.fr (Postfix) with ESMTPS id 95F931F0004F
+	for <linux-sunxi@lists.linux.dev>; Tue,  3 Jun 2025 17:37:37 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+	id 20685AC3549; Tue,  3 Jun 2025 17:37:35 +0000 (UTC)
+X-Spam-Level: 
+Received: from collins (unknown [192.168.1.1])
+	by laika.paulk.fr (Postfix) with ESMTPSA id A30A0AC3543;
+	Tue,  3 Jun 2025 17:37:34 +0000 (UTC)
+Date: Tue, 3 Jun 2025 19:37:32 +0200
+From: Paul Kocialkowski <contact@paulk.fr>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: u-boot@lists.denx.de, Tom Rini <trini@konsulko.com>,
+	Jagan Teki <jagan@amarulasolutions.com>,
+	Icenowy Zheng <icenowy@aosc.xyz>, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 2/6] sunxi: Add support for the Lichee Pi Zero with Dock
+Message-ID: <aD8y3JiXF6ATCWTS@collins>
+References: <20250601153943.2690123-1-contact@paulk.fr>
+ <20250601153943.2690123-3-contact@paulk.fr>
+ <20250602014014.0664e6fe@minigeek.lan>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="4IBd5vSnfAoqLdZU"
 Content-Disposition: inline
-In-Reply-To: <20250603-dt-bindings-mailbox-cleanup-v1-5-724407563997@linaro.org>
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+In-Reply-To: <20250602014014.0664e6fe@minigeek.lan>
 
-On 13:57-20250603, Krzysztof Kozlowski wrote:
-> Providers DTS examples should not contain consumer nodes, because they
-> are completely redundant, obvious (defined in common schema) and add
-> unnecessary bloat.  Drop consumer examples and unneeded node labels.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
 
-[...]
+--4IBd5vSnfAoqLdZU
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> diff --git a/Documentation/devicetree/bindings/mailbox/ti,omap-mailbox.yaml b/Documentation/devicetree/bindings/mailbox/ti,omap-mailbox.yaml
-> index 1a2001e58880d2fc26954b26cff8ed53e7667f33..8504ceb64806bc7e25468597acdff99624571e9f 100644
-> --- a/Documentation/devicetree/bindings/mailbox/ti,omap-mailbox.yaml
-> +++ b/Documentation/devicetree/bindings/mailbox/ti,omap-mailbox.yaml
-> @@ -242,7 +242,7 @@ examples:
->    - |
->      /* OMAP4 */
->      #include <dt-bindings/interrupt-controller/arm-gic.h>
-> -    mailbox: mailbox@4a0f4000 {
-> +    mailbox@4a0f4000 {
->          compatible = "ti,omap4-mailbox";
->          reg = <0x4a0f4000 0x200>;
->          interrupts = <GIC_SPI 26 IRQ_TYPE_LEVEL_HIGH>;
-> @@ -260,13 +260,9 @@ examples:
->          };
->      };
->  
-> -    dsp {
-> -        mboxes = <&mailbox &mbox_dsp>;
-> -    };
-> -
->    - |
->      /* AM33xx */
-> -    mailbox1: mailbox@480c8000 {
-> +    mailbox@480c8000 {
->          compatible = "ti,omap4-mailbox";
->          reg = <0x480c8000 0x200>;
->          interrupts = <77>;
-> @@ -283,7 +279,7 @@ examples:
->  
->    - |
->      /* AM65x */
-> -    mailbox0_cluster0: mailbox@31f80000 {
-> +    mailbox@31f80000 {
->          compatible = "ti,am654-mailbox";
->          reg = <0x31f80000 0x200>;
->          #mbox-cells = <1>;
-> 
+Hi Andre,
 
-Reviewed-by: Nishanth Menon <nm@ti.com>
+Le Mon 02 Jun 25, 01:40, Andre Przywara a =C3=A9crit :
+> On Sun,  1 Jun 2025 17:39:39 +0200
+> Paul Kocialkowski <contact@paulk.fr> wrote:
+>=20
+> Hi Paul,
+>=20
+> > This adds a U-Boot config and device-tree build for the Lichee Pi Zero
+> > with Dock. Compared to the Lichee Pi Zero, it has an ethernet port
+> > (with internal PHY) so the EMAC driver and network support are enabled.
+>=20
+> I just realised that there is no difference between the U-Boot versions
+> of the DT and the kernel ones, so can you please use the opportunity to
+> upgrade the V3x systems to OF_UPSTREAM (in a separate patch)? This would
+> involve removing all the redundant .dts* files from arch/arm/dts, see
+> dc2dd2de0f782860 for an example.
 
-> -- 
-> 2.45.2
-> 
+Yes definitely! I wasn't sure whether there was some specific reason why
+it hadn't been done yet.
 
--- 
-Regards,
-Nishanth Menon
-Key (0xDDB5849D1736249D) / Fingerprint: F8A2 8693 54EB 8232 17A3  1A34 DDB5 849D 1736 249D
+> Regardless the defconfig looks alright, but one comment:
+>=20
+> > Signed-off-by: Paul Kocialkowski <contact@paulk.fr>
+> > ---
+> >  arch/arm/dts/Makefile                | 3 ++-
+> >  configs/LicheePi_Zero_Dock_defconfig | 7 +++++++
+> >  2 files changed, 9 insertions(+), 1 deletion(-)
+> >  create mode 100644 configs/LicheePi_Zero_Dock_defconfig
+> >=20
+> > diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
+> > index 32b698a7f411..be6867ceae0e 100644
+> > --- a/arch/arm/dts/Makefile
+> > +++ b/arch/arm/dts/Makefile
+> > @@ -650,7 +650,8 @@ dtb-$(CONFIG_MACH_SUN8I_V3S) +=3D \
+> >  	sun8i-s3-elimo-initium.dtb \
+> >  	sun8i-s3-pinecube.dtb \
+> >  	sun8i-v3-sl631-imx179.dtb \
+> > -	sun8i-v3s-licheepi-zero.dtb
+> > +	sun8i-v3s-licheepi-zero.dtb \
+> > +	sun8i-v3s-licheepi-zero-dock.dtb
+> >  dtb-$(CONFIG_MACH_SUN8I_R528) +=3D \
+> >  	sun8i-t113s-mangopi-mq-r-t113.dtb
+> >  dtb-$(CONFIG_MACH_SUN50I_H5) +=3D \
+> > diff --git a/configs/LicheePi_Zero_Dock_defconfig b/configs/LicheePi_Ze=
+ro_Dock_defconfig
+> > new file mode 100644
+> > index 000000000000..ec172d98b65e
+> > --- /dev/null
+> > +++ b/configs/LicheePi_Zero_Dock_defconfig
+> > @@ -0,0 +1,7 @@
+> > +CONFIG_ARM=3Dy
+> > +CONFIG_ARCH_SUNXI=3Dy
+> > +CONFIG_DEFAULT_DEVICE_TREE=3D"sun8i-v3s-licheepi-zero-dock"
+> > +CONFIG_SPL=3Dy
+> > +CONFIG_MACH_SUN8I_V3S=3Dy
+> > +# CONFIG_HAS_ARMV7_SECURE_BASE is not set
+>=20
+> IIUC, the V3S does not have (secure) SRAM A2, and no ARISC? Can we
+> express this in the Kconfig file then, since it's not a board config
+> option?
+
+Indeed I cannot find any mention of SRAM A2 and ARISC. Makes sense given the
+low-end target for this chip.
+
+Sure it's better to move it to the Kconfig too. Will do in the next revisio=
+n.
+
+All the best,
+
+Paul
+
+> Cheers,
+> Andre
+>=20
+> > +CONFIG_SUN8I_EMAC=3Dy
+>=20
+
+--=20
+Paul Kocialkowski,
+
+Free software developer - https://www.paulk.fr/
+Independent contractor - sys-base - https://www.sys-base.io/
+
+Contributor to fully free software support for selected hardware.
+
+--4IBd5vSnfAoqLdZU
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmg/MtwACgkQhP3B6o/u
+lQxmWxAAgIAxp7XvnXKyiQhRKT7PAqehl0Vj0Jt3ygxjtF836Sk6UiORnQ7DI0M3
+oOZPrys3G9ndZiKCBt3JM7mGhrRyEvURvzV7TDucfVIYg33Wa45oW02HCKXdgVIW
+OM45t+7L1nK90pF+s1c/erNbtEZKoFz+wuzPYht/E0JnUmeh5WmKyrqBffkPJOLu
+kng2Cvn4T5ffSo4E3tlN+1Por93mK9iKDDXliyImq4SzCzS32Ui0vCxq73LumiwV
+iGpg4fzkVLC6x3E90MSPHi7iiITk/W/LK51aQeUG1HHt3SEilXykv9v2ypIOc14H
+ktXwZ3zd27e5YHqZuLjRVSlkW3i93dSHfrBKc6UP6hCvixu1k+u+VkXIuIErVkD4
+MGMpuu83ZhfLk4Iv0BymW6VE9Um4bdtgEhft7PiDlDhfUiP1Gr+TvMvBVDQni+kg
+MJxOP2PjzGTd08Hqj1au+YU6Y0NIJpBs7kf7RWyRS4ERzERZCWkf3nsMwScDf1tW
+CXbBrMWQgrMoeSxg6yjHjXj8t3koAY6f+plapuy22XOz1kPpqvuJOaFGe6Qwnh42
+zoukJa/oYa0ulnTmA/GyZWrYH3bkJ9GW/Qs0Bfr0W8MIKP9S/7x+j3lxTEX20Lbj
+1s/P9cERmSLRDtx/9b6FryonO1vTB/1BUdMXgwYQCXpQiToXLmY=
+=JiZQ
+-----END PGP SIGNATURE-----
+
+--4IBd5vSnfAoqLdZU--
