@@ -1,63 +1,63 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5138816F8E5
-	for <linux-sunxi@lists.linux.dev>; Tue,  3 Jun 2025 18:01:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A207A1E5B97
+	for <linux-sunxi@lists.linux.dev>; Tue,  3 Jun 2025 18:04:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748973693; cv=none; b=V6nsNaDWkUtnEcgprdXhPCHCh3J8PJ3SSExKaJq5euDDh9Af873Dksc90HGj7UA5h9NbsgTOANpaTjZ2IPp4DkmWUob81zfV91ryWk7baVrK0cjVjTRekBf16DWPn768Bj+i5d9d00PUSfQu07s0dQ3wy3ZX88osiwYCqURuPb0=
+	t=1748973868; cv=none; b=b5NXstg6j1yAudxYrYsN4tlW7is0bb8YN/p4uTqnNF7SXx5YxfvhufFYDJUPIx6MZlF4v2B0d4Lp5u1ylc5PnOw+RYt+lTriQovndGWfMOSJFEaCLWdtjlVvgsQ6OUVmmBm+45O4Z9NeT+Zym4z39OqgLcNYkWznSnitr7MacFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748973693; c=relaxed/simple;
-	bh=2dyMbRz1h7s7edNrWCTXDbYuBWjwzW91GnsgeY0rtXI=;
+	s=arc-20240116; t=1748973868; c=relaxed/simple;
+	bh=o3opKOrfcTuzr4DqAqhaR8sfzX3Hm8/ZaGQ2oWe0ido=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FQtMYZ8zg1rVUYgdbK9ELsmkfvfLkh0K+hj37nmy/+50b1N80Azeo+33LReQfpq03IV1ZWELY+UcuIssZ+lVePoAYLO++H17jJ+sgy00h7HnGZfFXwstrJBRrL0gYO1ZzhnC0Px9T2skSkh+x3L61FcXT5jFtsk0Zr9kb4NG9qU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=n3tTmryz; arc=none smtp.client-ip=209.85.214.175
+	 Content-Type:Content-Disposition:In-Reply-To; b=gxNY6CUYFouIgz8FcCuepwkugedN3+idMzfeQYRQe37jKwjWSdT/5J9kH2yavdAGwt6/IlEuFWR+6robPHRlnfnspjU8C8FnIFVvT6GfpDbbjMr6B5Axn3AaRRXXIUDTMH6bDmPT3PKzpty5dxbgY4SrvjJII8fB2rZvllmqX7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=LfHKQyiY; arc=none smtp.client-ip=209.85.210.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="n3tTmryz"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-234d2d914bcso42116245ad.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 03 Jun 2025 11:01:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="LfHKQyiY"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-742c2ed0fe1so5750037b3a.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 03 Jun 2025 11:04:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1748973691; x=1749578491; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1748973866; x=1749578666; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Oio5+oLisctncuh+HzW9YUjFC1egO1KiH1XNbWO+K7k=;
-        b=n3tTmryzWY9nwFXOkPCXnITEmnrJ9tQYb8+VOpIjF48EiuBGIU6EA+X6WhwjJ1DTJs
-         CQF0VImZiLGJiEpWqeWJyk7WdOOFaY7P5OYs8LEBk5bPemNNDor5jAouwohHaQ7smnXD
-         pMhXi+Nv/WDQ1YE90ARiBzqs5llnI25uTFkp7zdKv6nYyTQwjVvFbXhYY1OxSjmza9uR
-         EYMri7/Z1SlwSFm7cKReooPJs7i3pyn4+1geRiftyJB147b+rnPp1X6+DGbU5IgmdDGh
-         uGqC316XOBV92WD5SnI5y6Snu/HOzrovOFAf4z6HJ/Tes/7e8gPpcSy5+bEeBzLoH58e
-         ffCw==
+        bh=KYrpDXZnKMDiJldti/dMMJILacoHM1+V5NOSlkoGpIs=;
+        b=LfHKQyiY9IE8xiwXsZOmqGK/H6ljXIcbND+lhQ/RIpe60lY1bkSFUg1VySeoKaXAjU
+         pjlLrApdYpCRJeD3bmMiDqd+LFdqQcbp5w7SttRlbDrLmcnClFvepBI51TPVuDhF6W2O
+         adoniVT1MeCHYBiG40tsRMY8Ola3+i1VVWkdoELhxH13MEcUqqf+YO1aF1ffpLd1Ro4K
+         CJux3LWnGfhuoREXofo7Mc/Z7B2lhj13/vjoNa72Dnqlgx24PTupPTvglsaf0zZpcxh9
+         kx8TCRtifyV0qWVh6UmE4XTw2UA78iBNqzXSSghEn6M6NqVoE6qRRIRfQZlCZgWRYygq
+         2sRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748973691; x=1749578491;
+        d=1e100.net; s=20230601; t=1748973866; x=1749578666;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Oio5+oLisctncuh+HzW9YUjFC1egO1KiH1XNbWO+K7k=;
-        b=AlBfm/d+sI8eso88FLXhzJv7Es7wHGRsJXqGn9jlI3HN12ZwvnyOkzfbG5FQoo9p+f
-         mbZImhq1c+m6KlxP3TAUPvEgvlwCV4Jv1d6TYJXkQxRAIjFkbTsSqs0O80ONyqRfP9ep
-         PRCW5bGITwMx9Z35laUosgW6A08LxD+shuOjEoENNmQ3AEukRW/Qx8xcL45HlnMasUAZ
-         9z7Rx1NjpicEHpaAYrqzZShctdo/kYQaneh2rYB8h8zrneqTbFocwpeLTW7/dY23LLZ5
-         UuyZDQ6NxjatO4IWHRGCqO/VdiQQaG0iQDf/4Lp9pynGXQlhY1gUTTO1xKdqI8oMbAet
-         gfFw==
-X-Forwarded-Encrypted: i=1; AJvYcCVTLc1FmyIsfqZsGifFN6eoB7UFVb6uDfjt7Bu3hVXN6/9tlb18ZGmIJnz0oVFG7dF36Um8u4U2XKr4rw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyZq83o0nrydXWtWC9k/TOa36M1xa97cBZYe+O3uUVoE+ZVdMgL
-	3vdOwROAEx46ab7cADA1YTrCXoAW/zDtFd406f2O6YBYL58mchsXrtGn7Q4fTGxSbQ==
-X-Gm-Gg: ASbGncv75jzi3HIBkSrSijZNxjV1iPSaxLA8/LZsqPj/DQ2J5ic446TTa6xu6HLzTfD
-	NhRQ4mVpP1SZ+pNsukkcvdSJtQSUAYaDRSUtRpsrjh0i3e0d6LW1pVtk724xXcSRXZPM3KjbbgC
-	8GM2wDCL5XaDajZubkeicKm1XRA6sjfkVnzFkRO+MLQl7RTAoexuSMR+RM/z2qghXdZkgTncEjW
-	ucGDnGHEHP39RLlYvKaDFfVi6qiCneaVTtIf7epUMlPZ6aYiRv3vdPyt99uzMHcum+vJ2vZy5BH
-	Gh6tfyzfdYz3KnVropDDji9QT6Z4ETDl6pimvJ5jetsHyGR6WppuxiK7b4qK9ptcKeMsJ21WjAA
-	Km9gy/FWLbvAropQ3ei6sLvp6htA=
-X-Google-Smtp-Source: AGHT+IGJVe96mQDhzEhZqYJnC27O9vMFUAoTp1xS/H2NANso8WpCr6YJ9fd9Q8qaZg1NI2W+7g1xJw==
-X-Received: by 2002:a17:90b:3f10:b0:312:f263:954a with SMTP id 98e67ed59e1d1-3130ccaa125mr73097a91.5.1748973691331;
-        Tue, 03 Jun 2025 11:01:31 -0700 (PDT)
+        bh=KYrpDXZnKMDiJldti/dMMJILacoHM1+V5NOSlkoGpIs=;
+        b=IKLo0Gnl2KGHjaGjq8FNN37WY/SeJDAtybA8QfFm5IHqNl6qEz4z83WxrrCcoQY+0R
+         X2zWqJIBo7U+jHRNy0JCWywNC0RDgTromwI8nF7u5NsQfFL701lmlGJBOjRUbW8J6QFI
+         5k4co8vSK38cr1RL+KPfUz6EjOzbwn+kqqyARnEmU9WmfjZ4XQxiUEzUILiDjFE2Kp4y
+         8Oruvl0xIae6qgpW5RU8nSgoYuK3x62rEMEOxxKiG/8HKe6HgShAya3CFxh1mPW6Ih0S
+         jyLek7swh+/rDP83e7m/J89r0Btbzz6KDQeWwz/0E4nERxGDEgqN98V6zDVyfabA2/Q1
+         p+7g==
+X-Forwarded-Encrypted: i=1; AJvYcCXN7Z9DGaPI34wEBxYqdMivhGLbLz3pjUYTQtmrKuISd7Dv7sM6wkozXQ/GPC9WJ6SPmFLu2hiyBPbCQQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwgOSygHbpB00/+eqzUWie2SvQ+Tp9tJbu1u0v6VvqZMYCQF/MD
+	wLek5n8JUBLawoUaqGfWYsheUMqg/uC4LTm8+CUoCIgNLuQ0OjDUZNjZlFqRnVjVVQ==
+X-Gm-Gg: ASbGncv7ZyRngf7BHD54DGnZYcd9Bzw2YDreYAf4Jh83b0I6o+CIhhi5Yx2Bm4wSm0r
+	+FxKKMVXsBhLwL/auRjQtFyquiPxQWXkMWt7J4hdNZj5UoCFTSVNvJB3B3hUxtcvhMWhi8NAsic
+	8U/wnhIe5z39XaIJLqEm2CmB5qSQpEHzwhLOhuErrxraZ2H5YmFnzKO20nxASH+odeSlWQsS+2P
+	w4lZJeHYsHrRPaLS1Bpuzd0PFNWisWw6ByQfu6lyajHHw8sRuCeFDfiYaRhGWMP0fH9P3OcGtqu
+	8X6lTINi1MG7Ppqk0h0KyupscliJqfXLjb3jX4cLnQK7svd4C/sVPxRwow5ii0fsazGqkcnM2bP
+	T2+1M9K32AfVyEOqyjVOgEhzbSxU=
+X-Google-Smtp-Source: AGHT+IH7hVHc0tlAgXxgFaCxYRaYIJQ3DQ+FY7DmQvhi6XPfShjmFssaz9Z/mtpKobWUSTQxJxN8MQ==
+X-Received: by 2002:a05:6a20:e68c:b0:1f5:889c:3cbd with SMTP id adf61e73a8af0-21ad98b31f0mr31767222637.35.1748973865748;
+        Tue, 03 Jun 2025 11:04:25 -0700 (PDT)
 Received: from google.com (128.65.83.34.bc.googleusercontent.com. [34.83.65.128])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3124e29f899sm7572695a91.6.2025.06.03.11.01.30
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-747afe966d4sm9999195b3a.11.2025.06.03.11.04.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Jun 2025 11:01:30 -0700 (PDT)
-Date: Tue, 3 Jun 2025 11:01:27 -0700
+        Tue, 03 Jun 2025 11:04:25 -0700 (PDT)
+Date: Tue, 3 Jun 2025 11:04:21 -0700
 From: William McVicker <willmcvicker@google.com>
 To: Daniel Lezcano <daniel.lezcano@linaro.org>
 Cc: tglx@linutronix.de, Jim Cromie <jim.cromie@gmail.com>,
@@ -76,11 +76,10 @@ Cc: tglx@linutronix.de, Jim Cromie <jim.cromie@gmail.com>,
 	linux-tegra@vger.kernel.org, John Stulz <jstultz@google.com>,
 	Peter Griffin <peter.griffin@linaro.org>,
 	Saravan Kanna <saravanak@google.com>
-Subject: Re: [PATCH v1 7/7] time: Export symbol for sched_clock register
- function
-Message-ID: <aD84d4WArf_terBP@google.com>
+Subject: Re: [PATCH v1 0/7] Setting the scene to convert the timers into
+ modules
+Message-ID: <aD85JdXveNWlWDn4@google.com>
 References: <20250602151853.1942521-1-daniel.lezcano@linaro.org>
- <20250602151853.1942521-8-daniel.lezcano@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -89,50 +88,80 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250602151853.1942521-8-daniel.lezcano@linaro.org>
+In-Reply-To: <20250602151853.1942521-1-daniel.lezcano@linaro.org>
 
 On 06/02/2025, Daniel Lezcano wrote:
-> The timer drivers could be converted into modules. The different
-> functions to register the clocksource or the clockevent are already
-> exporting their symbols for modules but the sched_clock_register()
-> function is missing.
+> The timer drivers are all compiled-in. The initial pre-requisite is to
+> have them available as soon as possible in the boot process. While
+> this statement made sense a long time ago, the platforms have today
+> multiple timers for different purposes along with architected timers
+> which are initialized very early. For example, a timer can be used as
+> a backup timer when the local timers are belonging to a power domain
+> which is shutted down, or used a watchdog timer when the counter are
+> shared, or also as a pulse width modulation counter. Another use case
+> is the platform user may want to switch to a timer different from the
+> architected timers because they have interesting characteristics in
+> the context of a dedicated platform (eg. automotive).
 > 
-> Export the symbols so the drivers using this function can be converted
-> into modules.
+> In some existing drivers, there is already the code to load and unload
+> a timer driver even if the Kconfig does not allow that. It means, the
+> need is there but partially upstream.
 > 
-> Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
+> There were multiple attempts to configure the timer drivers into
+> modules but it faced the fact that we were unsure if it is correctly
+> supported by the time framework.
+> 
+> After investigating deeper in the core code it appears we have
+> everything set for the modularization of the timer drivers.
+> 
+>  - When a clocksource is registered with a better rating, the current
+>    clocksource is swapped with the new one. The userspace allows to
+>    change the current clocksource via sysfs
+> 
+>  - A clocksource can be unregistered
+> 
+>  - When a clockevent is registered with a better rating, it becomes
+>    the active one
+> 
+>  - A clockevent can not be unregistered
+> 
+> A timer driver can be loaded later because of all the supported
+> above. However unloading is unsupported because a clockevent can not
+> be unregistered and that will lead to a crash.
+> 
+> But if the timer driver has the module owner set, the core framework
+> will handle the refcount correctly and will prevent to unload the
+> module if a clockevent is registered. All the refcounting is working
+> in different use cases.
+> 
+>  - A clocksource is the current clocksource, the refcount is held
+> 
+>  - A current clocksource is switched to another one, the refcount is
+>    released
+> 
+>  - A broadcast timer is registered, the refcount is held
+> 
+>  - A local timer is registered, the refcount is held
+> 
+> Consequently, it is possible to unload a module which is only used as
+> a clocksource. As soon as a clockevent is registered, the refcount is
+> held and can not be released thus preventing the module to be
+> unloaded.
+> 
+> That mechanism ensure it is safe to convert the different timer
+> drivers into modules.
+> 
+> This series adds the module owner in the different driver which are
+> initialized with the module_platform_driver() function and export the
+> symbols for the sched_clock_register() function.
+> 
 
-Reviewed-by: Will McVicker <willmcvicker@google.com>
+Thanks Daniel for taking the time to dig into this deeper to help identify how
+we can safely convert the timer drivers to modules! The series LGTM. I'll go
+ahead and address the review comments on my MCT series and rebase it on top of
+your patch series.
 
 Thanks,
 Will
 
-> ---
->  kernel/time/sched_clock.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/kernel/time/sched_clock.c b/kernel/time/sched_clock.c
-> index cc15fe293719..cc1afec306b3 100644
-> --- a/kernel/time/sched_clock.c
-> +++ b/kernel/time/sched_clock.c
-> @@ -174,8 +174,7 @@ static enum hrtimer_restart sched_clock_poll(struct hrtimer *hrt)
->  	return HRTIMER_RESTART;
->  }
->  
-> -void __init
-> -sched_clock_register(u64 (*read)(void), int bits, unsigned long rate)
-> +void sched_clock_register(u64 (*read)(void), int bits, unsigned long rate)
->  {
->  	u64 res, wrap, new_mask, new_epoch, cyc, ns;
->  	u32 new_mult, new_shift;
-> @@ -247,6 +246,7 @@ sched_clock_register(u64 (*read)(void), int bits, unsigned long rate)
->  
->  	pr_debug("Registered %pS as sched_clock source\n", read);
->  }
-> +EXPORT_SYMBOL_GPL(sched_clock_register);
->  
->  void __init generic_sched_clock_init(void)
->  {
-> -- 
-> 2.43.0
-> 
+<cut>
