@@ -1,67 +1,67 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D06D222DF80
-	for <linux-sunxi@lists.linux.dev>; Tue,  3 Jun 2025 11:57:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F12BC22FDF2
+	for <linux-sunxi@lists.linux.dev>; Tue,  3 Jun 2025 11:57:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748951850; cv=none; b=rLedzcAUfVBeDysWDwyONbRQDvQeaYrUD8D5oEbb2iGmfVrxQccANGOArncCNCEWdp0iUdW54svZIkrAP4IIX+noA4z5MdpQDRJoiiUVRVLhiMbFQJRqklIWNtkzPd26F90lZq59d0RPpUaSqxlWvwo1Wn+dIYus7bb2j1N2wzM=
+	t=1748951853; cv=none; b=RJ4asMXs4hmbWT75uXWzV6IAIHhD2lez1egIJ5SrIXdx2lhTBJIfyToUP3qkNGcGGe8fv4iEPVZ6hKTMvZbpKSrOjK8WuVPTQpkghmHu6cWGoGLMJ/fJNzczpymjxCi5aL6EzX6YWdF6u3iEGj/8nanclC32WkNafv/YTipibsc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748951850; c=relaxed/simple;
-	bh=ar5+pdd2TFr1JcFtgPO5JaiU/Jpg3+NCQIURcO8Mub4=;
+	s=arc-20240116; t=1748951853; c=relaxed/simple;
+	bh=PmQVq4hQS35gwAsgZYe0MBq9ErqtT+mom2oZuUDxvi4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=s/0SbQ5+7CSgMpQ5OkPHDTsIAh9f9kVmchKueIfSWjL/klIlkEyhQow2miQ77hhPBIJyqa6BTHbWVye75My0yRK1CtX1p4sdYF5OASrfZWxu3bWsDGf7ifUuL1TGDcuJjQ9dUUKhnoOA3qJTtN2x77rS3WIhzC7PUP2j/JPkDGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jMgFytF8; arc=none smtp.client-ip=209.85.221.54
+	 In-Reply-To:To:Cc; b=fGRnkx7NIfi6nk29vWm3wtUzRXS9Jaol4IsFNjPHNVyXgOyzP8+yr05FGn54T5QZ9ever3ibgQOWDSLgDpSkyBxzqu6GycrJ9khQZtsDn8E7wR3l/82/uFc4NSY8r2o2tG3xLtHgEhZ+mYDTV36sJPk+PehW1HSLbzQN6NvALV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HZTxrgYq; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jMgFytF8"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3a4e6a0c274so583099f8f.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 03 Jun 2025 04:57:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HZTxrgYq"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3a4e57d018cso905095f8f.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 03 Jun 2025 04:57:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748951847; x=1749556647; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1748951849; x=1749556649; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ekpXsFXiBQlOEYcI0oMkBbtivVJ9v85D39Ocv5s98/g=;
-        b=jMgFytF8/HD58n6w4iElDb21x14UGcwpN4cn0fsl02/v9XAVE3ACF9Sezx5rWCKn9E
-         w1jlbPYFz7tVwlOpwMWePcf1xMl8aP3PXN9HrsmnH0BDil2hZb5L8Y5inI0eIfqmE2eX
-         ghuT3AXrbkwjFE8kdIXMNqsvQ/uJrI6MdORPpLQBQE6eE+ppiTUFQamIfZPal0QpWZgP
-         P/CYredzLF3kQ0JiG/WagPG3ocML5xPo2i11bFQZqR6AifnDSV+g1HHnBXYFobJccnQe
-         tQpKR7BPwyfoTjIf24g4nblo4JdKGNN+xsnySYW3rVQFHpXJYlW4NvcrOsBDS3/gOnFL
-         lD7w==
+        bh=P9iOMNCqnm556i6iWSK9mE2UkHu3B2asZSKy8c1kTbA=;
+        b=HZTxrgYq7AkdUfNP1RWy9nzZhnBQeB0GdK+2/gW1GsYc54VSUcgfX5ePAYcFkIfH3D
+         0j8fe4nQP+is8eCEm/a75qmSC+kmjxbEctIAamB+5IyCHDy8RdacdHSc1V013q3gY27E
+         OhiGJWeuHD68kJMiJ2okSgFX0puKIFW2dLobD9Jcn0pLHg4Sng31fQv5G4cV5wD27vrC
+         0mIbpq6ffqWGF2cPuy/7vIOJ8SbFA0+iD/DJZxfBoaSJi6yYM6UMKfQHWDyhS9/pGHP8
+         CG773v0GFJJSTECzGqNURS/6Sdm7fjej95FwqY1p2lm0u1MUyiEOSrc4AddUY7GWk+IX
+         x7SQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748951847; x=1749556647;
+        d=1e100.net; s=20230601; t=1748951849; x=1749556649;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ekpXsFXiBQlOEYcI0oMkBbtivVJ9v85D39Ocv5s98/g=;
-        b=bQBrrNFhjaoQAPHX1VUaZbQrWKgezWfonFeSbSJDteJUuUIOv9f39IP1/NL0wT7ThD
-         pqwyFxLUheTa/N2qMbo/qFLZWSbgVnG/DqrzNbR5RGjiilBAXljVWZdZP0MEQPmqN6xs
-         3WYlWFPbC+jLr1GtMzMUSdjiYvJk87fesVEhieTzX6frt0J7PXJ6elT9zuSf9L4NlEej
-         34r7luniybme6ki9r2I5XH+4lUC9zwjvD9ooMyF7giOLH8T/DyI2XpEDN80+EiSFkxoF
-         5YKDCsctarajFmCwyES3JRx1SO7oilPP5GRtRVgVTD0PrjFHj5l7WIu9ybaoqFcprChU
-         Ai3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWj8h1Q+7wZdQQqsIT1J/HPzvrAyJ3wyROt0rEkhhRHjH+riVD6bvxw3l1AF38JbzRnVtT0N85A42sOfQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwNZt5DoraVvpXaKONhCcyQWgQajTjDFC84KEXosj4DLwRE6irQ
-	9Y7nZ3F/WeGZOnSSWasc7oHloV0ucvFsqAv5q9p/auVv3OsYbkcKgbm3dKu+Dr5y7xs=
-X-Gm-Gg: ASbGncvo1N919Mp5RVIyJfDB7qOD7Fcj563uVmAIS4xq0IUkgE6yXW8P054GBPA811u
-	XN6zQ3Ybklivi1X5jAt6g2E4qCMHf/GCV/W9esHhy1om1KahPpBr+0WTS0P8e/RW6m3mpDy8Zuc
-	sZTdAtQi4hMe5pBCLocZMr/b4dAiA1FlyvPxGG4bKTU5du1emdR8dNkfspv6vi3j8BkK0pWXckA
-	CIEMrTSCvr6er+J2SWxA8i39QbMbrWezH75ew9YsElEW9v94rNyh4TCK0YwsUdNhnzPVh0b4WQ/
-	3gJwe12v2VxbgjS1Hc/RjAy7C3M/0vj58T2NYbwkFqv7fWD/P5gZvQuFIcymsxPciQKAGH/UH+K
-	eybRvnYLI651/5mBeMf5EtQ==
-X-Google-Smtp-Source: AGHT+IHBMSZmFHh0iBBqbg6iYgmvQuQtkRQ7ni42guJxRJHi8RXPAyYfJYKwxYJrmX9gnms5o+3FMw==
-X-Received: by 2002:a05:6000:230c:b0:3a4:dc42:a0c2 with SMTP id ffacd0b85a97d-3a512c032ccmr984242f8f.1.1748951847021;
-        Tue, 03 Jun 2025 04:57:27 -0700 (PDT)
+        bh=P9iOMNCqnm556i6iWSK9mE2UkHu3B2asZSKy8c1kTbA=;
+        b=GF8ZE4uuL6qP9u9swZlZyYVummVSd9pmqoAUhpnHeF+nSqrJB1P5+Fj/bQW9a+uJzP
+         ThnDZvWT+Re2A+nZ1V0s75udV+av6aVGu/T2rxHyEdcQfit8QU6jtpBm3MGxb+Zq+p1T
+         w2h7bESVcKmkUdmMXp2ZGOPDsueOykmeMoeCNEuPjaXY/NgxHxOTZjOpqYdNXtO5HDGr
+         xN63nNtqwoEoUNWcH3F225gypomsB/EhSOwMBJQuT5PFM/Lxh6I2QXQ9hpp7ig5+3P0z
+         sE3b+XVD01Q9Z3zOiatZYVz1SYtldacKNy3UCvqz5xllYsda/jzpIJNAl8dLq1ksRHcT
+         Dagw==
+X-Forwarded-Encrypted: i=1; AJvYcCUUPThDQnGQByBMpHI0wIlhY6reaBRikwtuSwf+7sGSprh75ID5fomUXDu+ZyPAeQ/aVA9WLxbLjxfE8g==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz05wfnhRRHBrZaEwB1kMk9EZUjNFCmsNFcicSVwi3vYPK7BQAq
+	EI55/F/SOW00AUaiXWk9FngLnnPaJM85JGJFDrcssI1rE9LT7X+LhT9JjodxioHdhfo=
+X-Gm-Gg: ASbGncvsoE3GotPLxDe6G4GVmqarYeLXfKG7u/EPqzEPEjQ0UH8DZEVUK3f+e8lBK7R
+	SP6KNL6vQ9spoHoo+PTRXIGSulXx+n46B4l+jcbhFTEXuzGkQrvvDJnYLaoGBo0/dm4Y2xvbwCO
+	HMcrVZrkaSdhsdcS/CnG4K7gpXqAc22jEU1uZv4X2gRPJXPMTu1kdzvZTZWl4OYFZfkOwFCjE4z
+	e5FTGMjN59vvxiMgGQlkYW9Tgnr+TmaMKnPw0EU50YPIC18yuAc+wptBPRHz4hytHxdDqcbNKPg
+	6BlJ4fuvJrh1a58tA3JZgH6jGTBm1BQIOByMVC304czch+Td06yCvpXNIz0XNTFIDurlmo9tj1Q
+	lc9O8kEM5DtvpGlrt41rEcw==
+X-Google-Smtp-Source: AGHT+IG6CmWM3RslzVJ9Zs6x2OnxvGd9okADIrUTxvkVwVY0rJS07w9DnVo5m/6fQdGbvnL2BjUAIg==
+X-Received: by 2002:a05:6000:2886:b0:3a3:7049:f947 with SMTP id ffacd0b85a97d-3a4f897bc88mr4781768f8f.10.1748951849223;
+        Tue, 03 Jun 2025 04:57:29 -0700 (PDT)
 Received: from [172.16.23.13] (adsl-84-227-104-5.adslplus.ch. [84.227.104.5])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4efe6c7adsm17671666f8f.26.2025.06.03.04.57.25
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4efe6c7adsm17671666f8f.26.2025.06.03.04.57.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Jun 2025 04:57:26 -0700 (PDT)
+        Tue, 03 Jun 2025 04:57:28 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Tue, 03 Jun 2025 13:57:08 +0200
-Subject: [PATCH 1/5] dt-bindings: mailbox: amlogic,meson-gxbb-mhu: Add
- missing interrupts maxItems
+Date: Tue, 03 Jun 2025 13:57:09 +0200
+Subject: [PATCH 2/5] dt-bindings: mailbox: ti,secure-proxy: Add missing reg
+ maxItems
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -70,7 +70,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250603-dt-bindings-mailbox-cleanup-v1-1-724407563997@linaro.org>
+Message-Id: <20250603-dt-bindings-mailbox-cleanup-v1-2-724407563997@linaro.org>
 References: <20250603-dt-bindings-mailbox-cleanup-v1-0-724407563997@linaro.org>
 In-Reply-To: <20250603-dt-bindings-mailbox-cleanup-v1-0-724407563997@linaro.org>
 To: Jassi Brar <jassisinghbrar@gmail.com>, Rob Herring <robh@kernel.org>, 
@@ -92,46 +92,46 @@ Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
  linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1020;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=902;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=ar5+pdd2TFr1JcFtgPO5JaiU/Jpg3+NCQIURcO8Mub4=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoPuMafbts+SQHLrCKWoSXydLXFpBuxk4+UMd/K
- nu5qIc0ykGJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaD7jGgAKCRDBN2bmhouD
- 1ybCD/9RNGsVwuWaYUnIhMCF6XOqANSxF4pvD+oiEd/nFdvuoXKyHPDhNDJkzr5JI+eCG+Ub/MQ
- IFPA1Eq4zim5rKSJGghjZ4QRpCKGP/BiC0e3S+lzj0PcZ47Upq2cpIw5uEGa84l7HVOKXzobLHS
- 4dtbpNI66GnxgZ1/hAQyG7cQ+b/JVVCKbo1XzHQdPkwO/sBtnEFmUp36ZDI/u9u2hJTCNd9xwDh
- z8DyRDvM8YT02OvK2sUVR4UoJIaFA43uNXyC0U+o2mZ/XAHLxkOL6t9aY9JhZ1KZ+heKhYVtVDq
- jq6Zz6go76ikVf85UUQkieagE/lk1hxHLb8tPkYIOVn2IR9e9sjHN/DFFOa4m725Ke7rxh2Q4FT
- 3xEYfP/AU+h/cHPAK8he55zMq5tzMMHeNybBTtDKzJP6gXsE3UrINKmF/MYJBWgtu9wx5yWcFY1
- VYfpQ7cJNEoGpu/gPhFNVgrNwEs9yeRon6WMn3H12OTKdniyzdgIpnJ7JIqajxRgkZkKb7n/zxM
- zAzeos1xnYnl4qwTwwQHYBwmfVZYlkcYcXUthGxU188ahk3mMCNE5DE2eEzBmKlVUVfoGpETAFD
- xe8BwA6xrgnmksHotq8VKWpDAzKd0sqUmepz4DJDrs9GYrxZuqqnQzCCE7b34Hj7GArCuhFFaYq
- RxgIODOMV9Ib71w==
+ bh=PmQVq4hQS35gwAsgZYe0MBq9ErqtT+mom2oZuUDxvi4=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoPuMb6qbPyHvmIRIrN/4NfNvZ2r6JN2VnhQ/rt
+ P/6fx1bFIiJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaD7jGwAKCRDBN2bmhouD
+ 11okD/9H8uQVKm6Fba6vs1oJEhpW2E6WDVf76MJKju/FQ59Kihwd3IlRjqvGcI3JVd0sghwfs5E
+ dVHRZW7lejfKzozTRGlzYKm8jWya/bma153cjRkvzpDQ4dCBvIRrkIYg1uIO2KFYZbF+V1iRT3b
+ g7UmqkWQqU2Xb3Vf2CVYNjeCKU7YQMZfAM2zsm2XqrHunsByEHhmiuPvSN4lljzOe//vWePZRWG
+ oO8322aArQSfeBI4C52Yg3eKV9fHdvXpB6DijXi8YYx1Wb7SNfaj4LhVu8ODa/+DU8SGRNlxNP1
+ Z9PDMuPCdkOOHza9p/Gzg96ZEX6jiKXZKNLNsZ+MjGfjP+789AdQqGGgMgnuGAk8XzT9GFl8lwQ
+ fiu3PECrJ9h2dK0zIrh7fps9SVMjmuxVr4ap/yatDj2cnoKj1Ecc3/++X50tuN4BcbhEcrwOBNX
+ KhkMPb8L/I7QgZ5Au5q7TpxMhDVfJXNqe+Iy+pY/JEE4GthRQjtzicDApK+RT8f+pceNlH4Ic/c
+ Z1yMhvvNcKbEQkmwRPFyFCJHuv4iX9VNx0nZOxzJnR5Lc+ILPanys9dW3fr6NbwJo5ZlEyyJujQ
+ JAyTMfMPK7r9ETJN711C9Myj4NJ76EYYBkR/8yBzgRKUIZmx+mA4WHhJApZvSUkhlTtOCzwMCuu
+ LpLpbn5wLmTgrQA==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-Lists should have fixed constraint, so add missing maxItems to the
-"interrupts" property.  Since minItems=maxItems, the minItems is implied
-by dtschema so can be dropped.
+Lists should have fixed constraint, so add missing maxItems to the "reg"
+property.  Since minItems=maxItems, the minItems is implied by dtschema
+so can be dropped.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- Documentation/devicetree/bindings/mailbox/amlogic,meson-gxbb-mhu.yaml | 2 +-
+ Documentation/devicetree/bindings/mailbox/ti,secure-proxy.yaml | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/mailbox/amlogic,meson-gxbb-mhu.yaml b/Documentation/devicetree/bindings/mailbox/amlogic,meson-gxbb-mhu.yaml
-index 385809ed1569206a7304b777ea42743321c899ad..0849799ee0c5caaeb27fe1e3e3714a630a7c2b09 100644
---- a/Documentation/devicetree/bindings/mailbox/amlogic,meson-gxbb-mhu.yaml
-+++ b/Documentation/devicetree/bindings/mailbox/amlogic,meson-gxbb-mhu.yaml
-@@ -27,7 +27,7 @@ properties:
-     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/mailbox/ti,secure-proxy.yaml b/Documentation/devicetree/bindings/mailbox/ti,secure-proxy.yaml
+index eea822861804c259068aa8c4598188db28895518..682ccd76f5c25fc13bb3375007d39e6208cdddc0 100644
+--- a/Documentation/devicetree/bindings/mailbox/ti,secure-proxy.yaml
++++ b/Documentation/devicetree/bindings/mailbox/ti,secure-proxy.yaml
+@@ -36,7 +36,7 @@ properties:
+       - const: scfg
  
-   interrupts:
+   reg:
 -    minItems: 3
 +    maxItems: 3
-     description:
-       Contains the interrupt information corresponding to each of the 3 links
-       of MHU.
+ 
+   interrupt-names:
+     minItems: 1
 
 -- 
 2.45.2
