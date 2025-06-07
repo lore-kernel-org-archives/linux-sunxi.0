@@ -1,45 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF08115E8B;
-	Sat,  7 Jun 2025 13:52:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E88A360;
+	Sat,  7 Jun 2025 13:54:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749304328; cv=none; b=i9SmJ3Mk0IcOUtn2x29lx7NjIyBmSmv9w54XKVWuCQy2ahIK+PC2BCBR7rSYNnwdgTUejOpaHBx4EJcRNDSc7hPgYyHq4P3Zb7EfCplxwaICuYg1isWnzjWIZWoSVuMaSeTf2QZzhuLxkIS6JUNAbpaAJ6AHqHht2YilVjgZWB0=
+	t=1749304494; cv=none; b=H4lvoJOjnfR9BW/sri+4bdDuy8pCOvYRNS7RHhky/dWw/zrysqjrw0tnMLZkbhfIEMEXCSlX0rrvjp3ZvLSi/07rKMB4mXDVJcgKpjA1e1RIe+N+T4RV56kSvPgcP2AtgPviTpy2q7dtubjqPjMofASK4w4qAbjInq/e12qouvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749304328; c=relaxed/simple;
-	bh=9zSazWezvyHshE0sEu5aQkyy5OabfF5jzCtXfOLRKO4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dq2yIlEMmTXepwmOOFcxL7F2/Y/LD1wWKyG+SPWKjP1xePq91SrenRXBR5nIksSBzhtUnzVBKTt2v6oXYoi7BpcSqlHma33Yydp197WflhySPbBDwt6okUKvMr+mnBIu9TeKheCzmwaa3BdHGdQM3CU7IU3J345xwhIsc/BTpZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DeqQ8Dbh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749304494; c=relaxed/simple;
+	bh=cmThDcb02rdfOWIo8z/d3jAmVfEg/kXS4OHfeoZ1jmY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=E1bDYCRXaGPrJBXX/klvVp17GHrwTIn1b0T9rl2uYiyXZGN2gk8K27qO0pCNe69w2XbsBOJihB6PdU+JUEkcfWl9ie3DwTeU8FwjLkMv2qIDXc9y9AzPNP/5Ok+i787+lv/9MZy04CV5B1QpgSv4b/M640HFXhJ8L0M2HdKX5MQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jsLZhJm2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DeqQ8Dbh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 572F7C4CEE4;
-	Sat,  7 Jun 2025 13:52:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jsLZhJm2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9133C4CEE4;
+	Sat,  7 Jun 2025 13:54:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749304327;
-	bh=9zSazWezvyHshE0sEu5aQkyy5OabfF5jzCtXfOLRKO4=;
+	s=k20201202; t=1749304493;
+	bh=cmThDcb02rdfOWIo8z/d3jAmVfEg/kXS4OHfeoZ1jmY=;
 	h=From:To:Cc:Subject:Date:From;
-	b=DeqQ8Dbh8aETNHEVlm1+aC3sbVBlmPuB+tlCEUfzmn7hnbp4lwQ0qlz1Me9kqJKJS
-	 JXVEuHqU20jWN5lyfpmkdFlvlxQl52a6kdxQOMVoJ48y+oiqITNP8m3Tbd9d1JZZrm
-	 sDGltNTz9lqMUZdXi7HmYI8jLwOvuKRLjvU9NmH/MAPJDl7ccTVRqivI4YSrdVs07m
-	 Ab7iWNLWVFn2h8zZmRdcl7qDV9BO/GByjn9GWd+yMtSj9qFqxA+2GljoYF/mIAllTh
-	 eCVvzPBuzoZrM8/D/1SDeGarVd3zNUengRasMOqk54dIkIZgVJSSvc/Iz1S2avpnVs
-	 0+juCQ6rjh36A==
+	b=jsLZhJm2UN37rYwys1H4vv3Yj23hoDiLQqK/rMBMeIC3kckiwvu0LPiSq2Tp8aiAi
+	 mm8uOHNKZYXjQWg6/kshWPM8DdTWRhpj6vHZVZlv/+ci6wXljnpiLxS5JpSI6gmoTk
+	 2XylaOhu0TWKNTOQUbNH2t7EPZlxnd78WLpb7hRcK8PDtC1Atuh0PdkdEfHUGwbW3I
+	 4aDvxG5repQir8/seK2hsTkU8VXQzYByC0/pODw62E/olz/clIp7ktorRSVOfgEaOe
+	 EQ1j1q0RUOztGi1QsJ79XuTTP32TeST37CqbFhMv3rT9LkaGP1puIjM84IBxAOEcPv
+	 Q0CU+w8Uu3pkw==
 Received: by wens.tw (Postfix, from userid 1000)
-	id BA7335FD0C; Sat,  7 Jun 2025 21:52:04 +0800 (CST)
+	id 1153A5FD0C; Sat,  7 Jun 2025 21:54:51 +0800 (CST)
 From: Chen-Yu Tsai <wens@kernel.org>
 To: Linus Walleij <linus.walleij@linaro.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>
 Cc: Chen-Yu Tsai <wens@csie.org>,
-	linux-clk@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Andre Przywara <andre.przywara@arm.com>
-Subject: [PATCH] pinctrl: sunxi: dt: Consider pin base when calculating bank number from pin
-Date: Sat,  7 Jun 2025 21:52:03 +0800
-Message-Id: <20250607135203.2085226-1-wens@kernel.org>
+Subject: [PATCH resend] pinctrl: sunxi: dt: Consider pin base when calculating bank number from pin
+Date: Sat,  7 Jun 2025 21:54:50 +0800
+Message-Id: <20250607135450.2086806-1-wens@kernel.org>
 X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -62,6 +62,8 @@ Correct this by taking into account the pin base of the controller.
 Fixes: f5e2cd34b12f ("pinctrl: sunxi: allow reading mux values from DT")
 Signed-off-by: Chen-Yu Tsai <wens@csie.org>
 ---
+Resent to linux-gpio mailing list instead of linux-clk.
+
  drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c | 8 ++++----
  1 file changed, 4 insertions(+), 4 deletions(-)
 
