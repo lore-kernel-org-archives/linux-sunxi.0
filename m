@@ -1,116 +1,85 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68F932AD0D;
-	Fri,  6 Jun 2025 12:03:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9BDE15E8B;
+	Sat,  7 Jun 2025 13:50:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749211401; cv=none; b=uC1nhaE0ino8Bo+yNVX6HWuOaAgl0snungOlMgn6yL5f70/nz/uuDeMCbi7TFg+ana6HvCWGm5CUUVWeveq75I/bokzHaSOZ4UdCdlqYE4DVUo+QdU3vGVcL/zBlX2ZTGpIqekgSK3OoomdlFH38IA41G9EMjzjrsdukxCkupYY=
+	t=1749304234; cv=none; b=ciOT8+9a168NX+zF5N0xfY/lzaJV/4NEZLKCJX3BZqNQ7GGZqifY16FrGg9vNVlLd6+/cIwFBQq0FFUMr4kocMdAI6L4dsus5DrHR6nBQvnyER3eEZ6xyGk2eZ8NiTTgBeq1srQXcFXYoNHEZbjNYXaPyPdYAZIhIC3ZJgzr1oQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749211401; c=relaxed/simple;
-	bh=6oz9cLgBpq1+bwaTR5/JwtLIYahXmjDOpJo1Ih+IxD4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j48qAd5dumekbKi3PNIiZadCZj9ycyUryleQTRBiKRDPNjuK69cJUvtWJWEvF4d4lo/0gfj1uPb0Ixdyhp1IpX5AQ7Ue3OVVofSZVdJMqiMhwC1RazwKvZO+SqdPiwyP4SbtbWk77IVhRXwLLo7/4qtBCDdw5avbtrUd5q5lfvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SeNM+vw6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749304234; c=relaxed/simple;
+	bh=sKhnDtstllZuii5hWHsr9I5he6MYPD06tRZoSOBtdoE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=c3geie8Qict1wMCYZQMP9VQIdnE82l5oB0HgnEBR65sJJy1QIzBYnmuHTL0/8J1Vo8oYL624fZEJae6WzZqT5f6C7u9rXzSIgAK2MFiu4j+Nn2jD9DINsV4w/E63CeN1RjQ0J+SEvcvrNagd84WiOKyajoMGbc7hCL1mUhQ6AJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N7eEytPP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SeNM+vw6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C16BFC4CEEB;
-	Fri,  6 Jun 2025 12:03:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N7eEytPP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48649C4CEE4;
+	Sat,  7 Jun 2025 13:50:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749211401;
-	bh=6oz9cLgBpq1+bwaTR5/JwtLIYahXmjDOpJo1Ih+IxD4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SeNM+vw6o2R/VlOg+xOelhhzCXW9usTQ42ANhiV95Y2x9Zn03fWe3qeJLHG/Irx/V
-	 Ql+SwV5H4mHoIKAcoaq2UwshrQHD6bGBm4u6t2zp9iHtjOBL0ZO9RabpIdByFPnF0h
-	 nqzutpLb25wSNP2wH9Foo26YdAFUOUXmRhUVtbiPA3qPycHZ1fc6C8cXHnKZfVN+WK
-	 xT3fOBQgnFjYwte/ANAF2HV/22aK4vTebfl33KbuQ5bPgOrZYwCk0Z72Q37FigH+8c
-	 eqeO+OdQDej06AfYvflVWtrLcZWKoxbZUqoCCKaYZuYGy8Kmsvx7XGjdirdcgiNxpO
-	 sdTSFPhyYXnPQ==
-Date: Fri, 6 Jun 2025 14:03:18 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Anusha Srivatsa <asrivats@redhat.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
-	Jessica Zhang <quic_jesszhan@quicinc.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
-	Jagan Teki <jagan@amarulasolutions.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Samuel Holland <samuel@sholland.org>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
-	Kyungmin Park <kyungmin.park@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH 2/4] drm/panel/samsung-dsicm: Keep up with refcounting
-Message-ID: <20250606-radical-rigorous-buzzard-ca09cd@houat>
-References: <20250604-of_drm_find_panel_part1-v1-0-c632e12e131d@redhat.com>
- <20250604-of_drm_find_panel_part1-v1-2-c632e12e131d@redhat.com>
+	s=k20201202; t=1749304233;
+	bh=sKhnDtstllZuii5hWHsr9I5he6MYPD06tRZoSOBtdoE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=N7eEytPPe06EbRaeWSSfIFm2FNfiewNxewu0+HffGPb4l4UyFaUcxsh7oycYmym/B
+	 5GL/ZFY9aSqI4xYy4f5u+dn0/sEO2W8wR1DKcWmjQ1P77QM5yvJoS6Wf8aB/jYRiQN
+	 xgdHUMXdi4ebuXvrp/19Wyug+9K1LhZZlUFs3OP4Jb5EGKnmlBFdCOrwCofd3QP8wJ
+	 AN+Xvsup6vNFfhrYFhXUnkflqZFwohTZebO/1jPeh41VqapRP95ZbzV8RlR2I39tge
+	 MySk73S7dZAaiA/yhDCS68g6swtNFfCDsfsBgtr/ziyIwhYiEB+p1jlYvtm7mxTk94
+	 nsifPwCFArmBA==
+Received: by wens.tw (Postfix, from userid 1000)
+	id 3FC195FD0C; Sat,  7 Jun 2025 21:50:30 +0800 (CST)
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Stephen Boyd <sboyd@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: Chen-Yu Tsai <wens@csie.org>,
+	linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Andre Przywara <andre.przywara@arm.com>
+Subject: [PATCH] clk: sunxi-ng: a523: Mark MBUS clock as critical
+Date: Sat,  7 Jun 2025 21:50:29 +0800
+Message-Id: <20250607135029.2085140-1-wens@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="naqzmlhexuyovrm5"
-Content-Disposition: inline
-In-Reply-To: <20250604-of_drm_find_panel_part1-v1-2-c632e12e131d@redhat.com>
+Content-Transfer-Encoding: 8bit
 
+From: Chen-Yu Tsai <wens@csie.org>
 
---naqzmlhexuyovrm5
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 2/4] drm/panel/samsung-dsicm: Keep up with refcounting
-MIME-Version: 1.0
+The MBUS serves as the main data bus for various DMA masters in the
+system. If its clock is not enabled, the DMA operations will stall,
+leading to the peripherals stalling or timing out. This has been
+observed as USB or MMC hosts timing out waiting for transactions
+when the clock is automatically disabled by the CCF due to it not
+being used.
 
-On Wed, Jun 04, 2025 at 10:45:11PM -0500, Anusha Srivatsa wrote:
-> Put the panel reference back when driver is no
-> longer using it.
->=20
-> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
-> ---
->  drivers/gpu/drm/bridge/samsung-dsim.c | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/brid=
-ge/samsung-dsim.c
-> index 0014c497e3fe7d8349a119dbdda30d65d816cccf..3667855ff0d6d1b608c579573=
-de657af7fd14388 100644
-> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
-> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-> @@ -1748,6 +1748,7 @@ static int samsung_dsim_host_attach(struct mipi_dsi=
-_host *host,
->  			dsi->out_bridge =3D ERR_PTR(-EINVAL);
->  	}
-> =20
-> +	drm_panel_put(panel);
->  	of_node_put(remote);
-> =20
->  	if (IS_ERR(dsi->out_bridge)) {
+Mark the clock as critical so that it never gets disabled.
 
-Explaining in your commit log why you think it's a good idea to put it
-there would be really nice. In particular, it looks super odd to me that
-you would put the panel reference in attach.
+Fixes: 74b0443a0d0a ("clk: sunxi-ng: a523: add system mod clocks")
+Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+---
+ drivers/clk/sunxi-ng/ccu-sun55i-a523.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Also, your patch doesn't work, and you have a reference inbalance. You
-have one taken by the panel driver, put in remove. You have one in
-drm_panel_add, put in drm_panel_remove. Which reference do you put here?
+diff --git a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c b/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
+index 9efb9fd24b42..1a9a1cb869e2 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
++++ b/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
+@@ -385,7 +385,8 @@ static SUNXI_CCU_MP_DATA_WITH_MUX_GATE_FEAT(mbus_clk, "mbus", mbus_parents,
+ 					    0, 0,		/* no P */
+ 					    24, 3,	/* mux */
+ 					    BIT(31),	/* gate */
+-					    0, CCU_FEATURE_UPDATE_BIT);
++					    CLK_IS_CRITICAL,
++					    CCU_FEATURE_UPDATE_BIT);
+ 
+ static const struct clk_hw *mbus_hws[] = { &mbus_clk.common.hw };
+ 
+-- 
+2.39.5
 
-This applies to your other patches too.
-
-Maxime
-
---naqzmlhexuyovrm5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaELY/wAKCRAnX84Zoj2+
-diBYAXwKsnGG/hDaACTi2QF85rFrKiFaFWibUe+aygZ2K7/QBjFUhuAmCr4gs9ij
-KBDYTjQBgNXlwuo0a1Tzh+JZDgdPXgj1NZYl1UppVoWcYCBkxzww5vfwCw0+YexU
-o1W0BPKmpA==
-=VbEd
------END PGP SIGNATURE-----
-
---naqzmlhexuyovrm5--
