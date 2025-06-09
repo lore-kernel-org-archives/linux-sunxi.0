@@ -1,192 +1,178 @@
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2072.outbound.protection.outlook.com [40.107.220.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5BA21A238C;
-	Mon,  9 Jun 2025 22:45:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.72
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749509157; cv=fail; b=Oy4GIQ4lI78qmab80ax/Ds//MEZ+72pSWLTJxms9/IvePBlSakGJxBqp1BK5jalhJeTu/ATrPL0amAPLL0Aq4+n5BSXNip52eiB48sIYcjh/DHszKP5IF2sVCkxGbnc50vc9NKJ9MmuQ8+/bQTq+sWq6adaLC0UP4tu7pko/CP4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749509157; c=relaxed/simple;
-	bh=799N08ZxDrP6sr6kln078M5yJNjMHwfPA6NWZ0kSaGA=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PlM0W9dVTD01WHLPqqKMq+gs7bhhht8YiWAwi1Fh5x/dPMiYvRO3WKXePXT+s+a0Yq02okFofnkbEcOA8PLNZ8N1Ikp6VVcOYo6QoLC2p1owEBTxfFV3rPlOkG8HHKRDuzrhJxK1wr7yx69iwpL3CeaoMgGXzVqwQnIpC9H0YVs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=epC6+HqC; arc=fail smtp.client-ip=40.107.220.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="epC6+HqC"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HBV50CLIyJQM20KvEI6VacdmYagyh3UdrTvVpfLYeQon90BsWsstRnTrSgdC+l9sBcCDo2puJudciddZ+f7EA/yABdposRT9BbaieVvBOkWlwnfrqsBVrw+aEQC1/w5oWlmRdVoSANS9loVXz8wYSAIB5Zq9FAnviwWNKY8nFDsMwSC9bRy+AUXC+MvfaRoCHswORyj3bYL4CoaJQKp2wsA5DCTynPUU8brO/OesJNFMk0lTaExfTNPfZFSfKQ37NISK3i1mRhx2+FCdxB40EQ7HADGJ00MwDoIwTesad+Hiqiavj0Hf6qbu8N8GwcwXlW803kXcxEdtRx8jTilpQQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YVTBaLD5jsJF9Kshb7PdHMaNMlvcDKhGXR7NzhRSw7Q=;
- b=hv5RkRnCSZkxW7wCHNmUbtTt5GhzjzT4e4aJrwsAgQmeDGqjcbDl/NyIODtXsG8GpVvc3SxxSXPjiROXLlzwh20gV+daic3tX5lfRyDs/bJsM8rHcG6cVRGQlcz1HUHoerKzmXvodnD0cONLfJOJNYLOHEgGFwszLM+eey2rsH1bOIN7CnvV2tTQuoFFz9KJxTfDBgRlA9WsFvGVvH/wH0Xzy8bGsCvaCp7ynw52XRbeHfjxUdA4nePHYqtaTiGz7aXYeqM7sLNrP6j6tKTGaXV0FrlhxsGsQEanxr155ORXtDkBL3XWIgDFHpjN2OrmF2B3YG8CzKspB6/GSIJdyA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.233) smtp.rcpttodomain=samsung.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YVTBaLD5jsJF9Kshb7PdHMaNMlvcDKhGXR7NzhRSw7Q=;
- b=epC6+HqCfXhzm/Lj+EFBmL7Z5VBTBmx0gQsDwNtiMFwffNf2rrvfuO5mnURjjhLohA/mKB52h1A+MXKKTpp26oFYT1Pg4A3wAjFYbag0CVnHcJCQzsw9uNOJzOJp6bQHFubMNWO+V+CM9c9d66b2jTK/exODiy54R+pDJNrx48BjVpLhnN8ji9miLvrqMF9Ogp50PF8McI79lj0t9JVEwN3wVkS85OvcFstF5FVFhLztd+Pw4gdWOMuHy6VrDRuAngn7v5/+xyN5IOXWtXxzV+2QMjOoP84a8ag0vdrByLRiiH1sePO6yydqIf0WqnRaaxWaqgu7kd9oAGAk6BYRhg==
-Received: from SA9P221CA0020.NAMP221.PROD.OUTLOOK.COM (2603:10b6:806:25::25)
- by DS7PR12MB8250.namprd12.prod.outlook.com (2603:10b6:8:db::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8792.38; Mon, 9 Jun
- 2025 22:45:51 +0000
-Received: from SA2PEPF000015CC.namprd03.prod.outlook.com
- (2603:10b6:806:25:cafe::69) by SA9P221CA0020.outlook.office365.com
- (2603:10b6:806:25::25) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8769.18 via Frontend Transport; Mon,
- 9 Jun 2025 22:45:51 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.233) by
- SA2PEPF000015CC.mail.protection.outlook.com (10.167.241.202) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8835.15 via Frontend Transport; Mon, 9 Jun 2025 22:45:51 +0000
-Received: from drhqmail203.nvidia.com (10.126.190.182) by mail.nvidia.com
- (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 9 Jun 2025
- 15:45:37 -0700
-Received: from drhqmail201.nvidia.com (10.126.190.180) by
- drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Mon, 9 Jun 2025 15:45:36 -0700
-Received: from nvidia.com (10.127.8.10) by mail.nvidia.com (10.126.190.180)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14 via Frontend
- Transport; Mon, 9 Jun 2025 15:45:24 -0700
-Date: Mon, 9 Jun 2025 15:45:20 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-CC: Alexandre Ghiti <alex@ghiti.fr>, Alim Akhtar <alim.akhtar@samsung.com>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, Albert Ou <aou@eecs.berkeley.edu>,
-	<asahi@lists.linux.dev>, Baolin Wang <baolin.wang@linux.alibaba.com>, "David
- Woodhouse" <dwmw2@infradead.org>, Gerald Schaefer
-	<gerald.schaefer@linux.ibm.com>, Heiko Stuebner <heiko@sntech.de>,
-	<iommu@lists.linux.dev>, Janne Grunau <j@jannau.net>, Jean-Philippe Brucker
-	<jean-philippe@linaro.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-arm-msm@vger.kernel.org>,
-	<linux-mediatek@lists.infradead.org>, <linux-riscv@lists.infradead.org>,
-	<linux-rockchip@lists.infradead.org>, <linux-s390@vger.kernel.org>,
-	<linux-samsung-soc@vger.kernel.org>, <linux-sunxi@lists.linux.dev>,
-	<linux-tegra@vger.kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>, Matthew Rosato
-	<mjrosato@linux.ibm.com>, Neal Gompa <neal@gompa.dev>, Orson Zhai
-	<orsonzhai@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley
-	<paul.walmsley@sifive.com>, Rob Clark <robin.clark@oss.qualcomm.com>, "Robin
- Murphy" <robin.murphy@arm.com>, Samuel Holland <samuel@sholland.org>, "Sven
- Peter" <sven@kernel.org>, Thierry Reding <thierry.reding@gmail.com>, "Krishna
- Reddy" <vdumpa@nvidia.com>, <virtualization@lists.linux.dev>, Chen-Yu Tsai
-	<wens@csie.org>, Will Deacon <will@kernel.org>, Yong Wu
-	<yong.wu@mediatek.com>, Chunyan Zhang <zhang.lyra@gmail.com>, Lu Baolu
-	<baolu.lu@linux.intel.com>, Kevin Tian <kevin.tian@intel.com>,
-	<patches@lists.linux.dev>, Niklas Schnelle <schnelle@linux.ibm.com>, "Sven
- Peter" <sven@svenpeter.dev>, Tomasz Jeznach <tjeznach@rivosinc.com>
-Subject: Re: [PATCH v2 0/7] Remove ops.pgsize_bitmap
-Message-ID: <aEdkADqw6WGIPAmH@nvidia.com>
-References: <0-v2-68a2e1ba507c+1fb-iommu_rm_ops_pgsize_jgg@nvidia.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 185ED2868B
+	for <linux-sunxi@lists.linux.dev>; Mon,  9 Jun 2025 22:52:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749509528; cv=none; b=FMsub6zrFXWLpTb1mElpiBY0sUZAcAVCNnXsVHLl3m6V4zMTfh0koe2Xp8u5CIio/EUJC6Bu/ltgHDoSGcfuJ8FxvksMiJBIfPVsoOyNHOGiyT67OfmzFgUS0A6naG7y6XIDc64p1qlWGGi57xR9LZXjSP0pAw1jnG1+KBuyvQY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749509528; c=relaxed/simple;
+	bh=EpkWKUGwSONnLPElbTEYlwNEeNc17Wtoffv0kZluqms=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Yak9jTBadyTdqqarVD8Pd5Cat760lDSI8lqJaYnhStVmGAXGaKHJURnGpazEyOdIBT6dSr5BM/BQU3AB9QoJcI5JWi/4rr/7g/0WMVB7evXyFz3vKQsN53rUa4cs2KQi9xhYXqRPttUrrCZGJfgNDzE/VM2Uw56d8FgZQQRh5OY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ECF6914BF;
+	Mon,  9 Jun 2025 15:51:45 -0700 (PDT)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 017AA3F66E;
+	Mon,  9 Jun 2025 15:52:03 -0700 (PDT)
+Date: Mon, 9 Jun 2025 23:51:06 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Lukas Schmid <lukas.schmid@netcube.li>
+Cc: Hans de Goede <hdegoede@redhat.com>, Jagan Teki
+ <jagan@amarulasolutions.com>, Tom Rini <trini@konsulko.com>,
+ u-boot@lists.denx.de, Paul Kocialkowski <contact@paulk.fr>, linux-sunxi
+ <linux-sunxi@lists.linux.dev>
+Subject: Re: [PATCH 2/2] configs: add support for NetCube Systems Kumquat
+Message-ID: <20250608165423.16bce5dd@minigeek.lan>
+In-Reply-To: <20250607091141.439318-3-lukas.schmid@netcube.li>
+References: <20250607091141.439318-1-lukas.schmid@netcube.li>
+	<20250607091141.439318-3-lukas.schmid@netcube.li>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <0-v2-68a2e1ba507c+1fb-iommu_rm_ops_pgsize_jgg@nvidia.com>
-X-NV-OnPremToCloud: AnonymousSubmission
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF000015CC:EE_|DS7PR12MB8250:EE_
-X-MS-Office365-Filtering-Correlation-Id: 821cff94-7dab-4a01-b154-08dda7a762b8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|36860700013|7416014|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?9hy1/mxqHhI+GYv4/fe1Qy583x4kPL4eZB5sQhZtcUDzREe7Nix1fe9Wf+kx?=
- =?us-ascii?Q?aSoGYXn1wZ0Qm4lWn4Bw4/0qB9X4S8wGqR5xHkWotWLUbrGarPa66trHVtpv?=
- =?us-ascii?Q?LE4mxLjzbHfOE0k3/V4aU18ULhh61ZNUXmNCldE2qhzra8tZMJ4OjxhB7f0h?=
- =?us-ascii?Q?uObDLKGMCGwSLqU+McNNbwJxjV2D+BPN+uW3XjLu1d/g5OIKgQ3D/z3NF1CV?=
- =?us-ascii?Q?OckGz5gl0FzEmPO72ly6AO5+oyOCBJrsY8ZzUzimGsZrAD6miSoTLrlAisKQ?=
- =?us-ascii?Q?PdtEiyOURHCREwvJ/DAiMDuD9aRxvV7k9RQAYC0lST5oFWYi0usoMO1s6zi5?=
- =?us-ascii?Q?WZcT+BWlHlZk+WY31QRt/q4t2fVsV4NiazyGEVBDEQ+2SZPoAOcKZnpLo2Xm?=
- =?us-ascii?Q?RbMbbxrjWLKh2kls90Cdxlh9/IQo32Wp4kg7ucCf0k5kYHnoxJnKCBI/NdLt?=
- =?us-ascii?Q?dq+eaXDa73H+3WXfrNtIzXafdylGsZ9OHbkNeHT/z/+wZsJEASHLqLVYJ8+G?=
- =?us-ascii?Q?cOjDXKwInO8SXQ+ePIqJWrrwOPA4xxMKwZpihYFcZbKIV5EftC2SSUFPOlgh?=
- =?us-ascii?Q?bb8MkKtQZZk8A9N7i9fks9e24cKA8zzW2RBqCEM3bTZS2w1aH1ncZzos2e0r?=
- =?us-ascii?Q?ojyava+qqQDTwAuFyudyDeYpsH5eE8RmGp+Fz0rLRxBUPnZtP90J3F5trZmJ?=
- =?us-ascii?Q?SAgcl2pTTX3UuU8Fe2ivFiztmumSHXBBBVlrC+13mzF1vHVuZQHARvU4X+ex?=
- =?us-ascii?Q?rLCGXnXKJ9jqvEZlsSfKGRH6NvQUBX9z2JSNgfddd3rJ9AVl8wgsRpiT3yQm?=
- =?us-ascii?Q?u1B3DECagfbHkmwNK1e2C7ZzKgMkP40efjDPXIEHy5vP/eZIZbN0fYKyO88p?=
- =?us-ascii?Q?ioWV8aRuZkCoaUSUWwa+y3BpJI7zOjR2nOsHY5t3KmoSHlQgEtqYX/grv9+k?=
- =?us-ascii?Q?l7IME/gnNDcHPNJvt+CCcVK1VGFf8KHdVgB/LV+eolprWb4hJFb0mW5Q4699?=
- =?us-ascii?Q?f5kiYMDRC1J9GD1HwORDKLLgoCIOE1AP8zlaH8RGucE1rqFpGHAfVyB4iAfX?=
- =?us-ascii?Q?3tdzE9G+UWfamRMf37AApf6U+EmqwxOpZ/QOL198ckjztWVyOzw2ai3ilW4Q?=
- =?us-ascii?Q?p+kQGmOD7G8B8vn3SK5N24BvoiTavuaRAEuBmIx6d94lYKcw2D14SAu3jjHU?=
- =?us-ascii?Q?1zarGYajdjf4LzYXCmv0jaaOh4r8fAYvZnJvXMBBHrv9Kw+xYtz/I9FSXoDY?=
- =?us-ascii?Q?rpduL8c5eGVmHnHoytm/F8CSsGqFrVtXg195/pGctKeQKxw3vEU9AeUfeeJy?=
- =?us-ascii?Q?3J/J4lVBFUoZbIklZJkKSLtWQpf5zqEZKnsUsjYDjPVArSRHvWaOtWGyJ7xQ?=
- =?us-ascii?Q?GH+M/shu3PnVDxwGG2pJS0A3DDErd5xlhdPoVGjIhvtmXV+VMGqUvxmgU514?=
- =?us-ascii?Q?ISCuNRs/bKx88D1HyG15y9638CruaYWDlsqip+8xI8DVqc86Mq8zg0gAPecx?=
- =?us-ascii?Q?eOHFfQE9NcAPnNT/XCSGQ+NoUmdEbDA4M2y6?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2025 22:45:51.3126
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 821cff94-7dab-4a01-b154-08dda7a762b8
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SA2PEPF000015CC.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB8250
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 09, 2025 at 05:41:24PM -0300, Jason Gunthorpe wrote:
-> Now that all drivers are using domain_alloc_paging() and dev is never
-> NULL, we can have all drivers correctly set domain.pgsize_bitmap during
-> their allocation function.
-> 
-> There are a few oddities that have accumulated here over past changes:
-> 
->  - Some drivers always set domain.pgsize_bitmap during their
->    domain_alloc_paging() call but still provide a value in ops. This is dead
->    code, delete it.
-> 
->  - Some drivers calculate a system global pgsize_bitmap in the ops, but
->    it is now trivial to use the per-instance value instead. In several
->    cases this is dead code, delete it. This also allows
->    constifying the ops in these drivers as a hardening measure
-> 
->  - Some drivers have a fixed pgsize_bitmap, put it next to setting up the
->    geometry in their domain_alloc_paging() functions.
-> 
->  - Finally a few drivers still use ops because they have a delayed
->    finalize operation. Set the constant pgsize_bitmap in the
->    domain_alloc_paging().
-> 
-> Then remove ops.pgsize_bitmap.
-> 
-> This is based on iommu next, and must go after the virtio
-> domain_alloc_paging() conversion.
-> 
-> v2:
->  - Rebase on v6.16-rc1
+On Sat,  7 Jun 2025 11:11:40 +0200
+Lukas Schmid <lukas.schmid@netcube.li> wrote:
 
-Sanity tests with SMMUv3 look good.
+Hi Lukas,
 
-Tested-by: Nicolin Chen <nicolinc@nvidia.com>
+thanks for taking care and sending a patch!
+
+(CC:ing Paul, please mind his recent V3x U-Boot series here:
+https://lore.kernel.org/linux-sunxi/20250601153943.2690123-1-contact@paulk.fr/T/#t)
+
+> NetCube Systems Kumquat is a board based on the Allwinner V3s SoC,
+> including:
+> 
+> - 64MB DDR2 included in SoC
+> - 10/100 Mbps Ethernet
+> - USB-C DRD
+> - Audio Codec
+> - Isolated CAN-FD
+> - ESP32 over SDIO
+> - 8MB SPI-NOR Flash for bootloader
+> - I2C EEPROM for MAC addresses
+> - SDIO Connector for eMMC or SD-Card
+> - 8x 12/24V IOs, 4x normally open relays
+> - DS3232 RTC with Battery Backup
+> - QWIIC connectors for external I2C devices
+> 
+> Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
+> ---
+>  configs/sun8i_v3s_netcube_kumquat_defconfig | 57 +++++++++++++++++++++
+>  1 file changed, 57 insertions(+)
+>  create mode 100644 configs/sun8i_v3s_netcube_kumquat_defconfig
+> 
+> diff --git a/configs/sun8i_v3s_netcube_kumquat_defconfig b/configs/sun8i_v3s_netcube_kumquat_defconfig
+> new file mode 100644
+> index 00000000..7a03de16
+> --- /dev/null
+> +++ b/configs/sun8i_v3s_netcube_kumquat_defconfig
+
+The defconfig names are just maker-model style, we do not use any sunxi
+prefixes. So just name it "netcube_kumquat_defconfig".
+
+> @@ -0,0 +1,57 @@
+> +CONFIG_ARM=y
+> +CONFIG_ARCH_SUNXI=y
+> +CONFIG_SF_DEFAULT_SPEED=40000000
+> +CONFIG_ENV_SIZE=0x80000
+> +CONFIG_ENV_OFFSET=0x100000
+
+What are the reasons for the non-default environment size and location?
+Isn't 64K just under 1MB enough? 512K sounds like a lot, what do you
+store in there?
+
+> +CONFIG_DEFAULT_DEVICE_TREE="sun8i-v3s-netcube-kumquat"
+> +CONFIG_SPL=y
+> +CONFIG_ENV_OFFSET_REDUND=0x180000
+> +CONFIG_MACH_SUN8I_V3S=y
+> +CONFIG_DRAM_CLK=360
+> +CONFIG_SPL_SPI_SUNXI=y
+> +# CONFIG_HAS_ARMV7_SECURE_BASE is not set
+> +# CONFIG_TIMESTAMP is not set
+> +CONFIG_SPI_BOOT=y
+
+That symbol is admittedly somewhat misnamed, and is only needed on one
+Atmel SoC, apparently. So please remove it.
+
+> +CONFIG_BOOTDELAY=1
+> +CONFIG_PREBOOT=""
+> +# CONFIG_SYS_DEVICE_NULLDEV is not set
+> +CONFIG_SPL_MTD=y
+> +CONFIG_SYS_PROMPT="Kumquat> "  
+> +CONFIG_CMD_EEPROM=y
+> +CONFIG_CMD_I2C=y
+> +CONFIG_CMD_MTD=y
+> +CONFIG_CMD_RTC=y
+
+Just curious, what is the RTC command used for? Do you really read or
+set the time, or are there are configuration values you store in NVRAM?
+And also, given all the commands, are there any custom boot scripts
+you are using?
+
+> +CONFIG_MTDIDS_DEFAULT="nor0=firmware"
+> +CONFIG_MTDPARTS_DEFAULT="mtdparts=firmware:1M(u-boot)ro,512k(u-boot-env1),512k(u-boot-env2),-(user)"
+
+That does not match what's described in the Kumquat readthedocs
+documentation, is there any particular reason for that?
+
+> +CONFIG_CMD_DIAG=y
+> +# CONFIG_ENV_IS_IN_FAT is not set
+> +CONFIG_ENV_SPI_MAX_HZ=1000000
+> +CONFIG_SYS_REDUNDAND_ENVIRONMENT=y
+> +CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG=y
+> +CONFIG_USE_HOSTNAME=y
+> +CONFIG_HOSTNAME="kumquat"
+> +CONFIG_VERSION_VARIABLE=y
+> +# CONFIG_USB_FUNCTION_FASTBOOT is not set
+> +CONFIG_SYS_I2C_MVTWSI=y
+> +CONFIG_MISC=y
+> +CONFIG_NVMEM=y
+> +CONFIG_I2C_EEPROM=y
+> +CONFIG_SYS_I2C_EEPROM_ADDR=0x50
+> +CONFIG_MTD=y
+> +CONFIG_SPI_FLASH_BAR=y
+
+Do you really need this? It looks like the SPI flash is only 8MB in
+size, and judging by the doc this is only needed for SPI flash chips
+larger than 16MB.
+
+> +CONFIG_SPI_FLASH_WINBOND=y
+> +CONFIG_SPI_FLASH_MTD=y
+> +CONFIG_SUN8I_EMAC=y
+> +CONFIG_PHY_SUN4I_USB=y
+> +CONFIG_DM_RTC=y
+> +CONFIG_RTC_DS3232=y
+> +CONFIG_SPI=y
+> +CONFIG_USB_MUSB_HOST=y
+> +CONFIG_USB_MUSB_GADGET=y
+> +CONFIG_USB_HOST_ETHER=y
+> +CONFIG_USB_ETHER_ASIX=y
+> +CONFIG_USB_ETHER_ASIX88179=y
+> +CONFIG_USB_ETHER_MCS7830=y
+> +CONFIG_USB_ETHER_RTL8152=y
+> +CONFIG_USB_ETHER_SMSC95XX=y
+
+Why do you need all those Ethernet USB drivers? The board seems to have
+the SoC EMAC connected, no?
+Please note that the defconfig is not meant to reflect some useful
+debug or bring-up configuration, but more a common setup. In the case
+of this board I doubt that many people connect USB Ethernet adapters to
+the only USB port to use in U-Boot?
+
+Cheers,
+Andre
+ 
+> +# CONFIG_USB_ETHER is not set
+
