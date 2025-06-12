@@ -1,30 +1,30 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E5CE239E69
-	for <linux-sunxi@lists.linux.dev>; Thu, 12 Jun 2025 23:19:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C56F7239E75
+	for <linux-sunxi@lists.linux.dev>; Thu, 12 Jun 2025 23:19:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749770398; cv=none; b=J0Orh6biw1rkeVFJEiuHkRb35N9OFXyuXa55CG1UM3Mitab9eXgCAjdcz8GOJ3WfYNmF5/iKobNMt3b0qtYBJJNvPw6r/raSQEZNdXCc+hOsJZ/BFOcLLqXQnypUd48QBtDCz0SO6P0RgFMfhQUBTjDfFD/v7/LRauHsznMcDmM=
+	t=1749770400; cv=none; b=srCKYruP/3cYfEDtJGgtrFYSCA1v0yoMA64p0mQdId+JuiqixIThQAIyFVCRRshtqtV1ar3+ugFyZ6+6C+9QeMLT7UGYmKrzLhFU+MEg+n5FScx0I1F2bO2FLl34/4pv8idIGe4/QXL/JqreIF6aweCm7OO4vqm44bOkZ5IpLpc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749770398; c=relaxed/simple;
-	bh=5TBnNHRUiiOPnfoCLiq6ECI61uuhz4gZlSmc2lk0mWs=;
+	s=arc-20240116; t=1749770400; c=relaxed/simple;
+	bh=UQ4ETyskigECl7m4l1E+qN8BJncTLlbCXA0RDn94Ovw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UiF+iqF9TJmsmekDJiO5JZY52F+cQIRD8y7pTrLqgfGctFASEPmvb9ZewL2xHzYqq1VBZOk4truEvbgXGwdlj422vQ0gwURgr1V6daOi1OZismabpkgusrbP4O1dlrbwNOC+KaX1ypBOTsXle2xHN0r9cZ3KPzndseUwrljbN3w=
+	 MIME-Version; b=jke95iW0/Klj+HCMi35Kk7JauPqIDmRn61m8KnnljhnghRgdn0Bw6NmmnZ6keNYeFHeXzSFTTOJGjK+T9LkahZbGg5lwQ+SWegNKC8bI8Kuq8Dcf7OIx3Resp3V3nOAbNyhwYsp+bop+DPr/9uYTy/XgbsUVc4EP5lKCY7GOQgE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 67F391D14;
-	Thu, 12 Jun 2025 16:19:35 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0F5E31D31;
+	Thu, 12 Jun 2025 16:19:37 -0700 (PDT)
 Received: from e134369.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 629B63F59E;
-	Thu, 12 Jun 2025 16:19:54 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0040F3F59E;
+	Thu, 12 Jun 2025 16:19:55 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: u-boot@lists.denx.de
 Cc: Tom Rini <trini@konsulko.com>,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH 1/2] arm64: dts: allwinner: h616: add YuzukiHD Chameleon support
-Date: Fri, 13 Jun 2025 00:19:44 +0100
-Message-ID: <20250612231945.981893-2-andre.przywara@arm.com>
+Subject: [PATCH 2/2] sunxi: H616: add support for YuzukiHD Chameleon board
+Date: Fri, 13 Jun 2025 00:19:45 +0100
+Message-ID: <20250612231945.981893-3-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250612231945.981893-1-andre.przywara@arm.com>
 References: <20250612231945.981893-1-andre.przywara@arm.com>
@@ -36,264 +36,57 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Chameleon board is an OpenHardware devboard made by YuzukiTsuru.
-The form factor resembles the Raspberry Pi Model A boards, though it
-differs significantly in its features:
+The Chameleon board is an OpenHardware devboard made by YuzukiTsuru,
+featuring an Allwinner H616 SoC. The form factor resembles the Raspberry
+Pi Model A boards, though it differs significantly in its features.
+Apart from the usual peripherals of those kind of boards (SD card, eMMC,
+WiFi, HDMI), it features four USB-C 2.0 ports.
 
-  - Allwinner H618 SoC (4 * Arm Cortex-A53 cores, 1MB L2 cache, 1.4 GHz)
-  - between 512MiB and 2GiB DDR3 DRAM
-  - up to 128 GiB eMMC flash
-  - AXP313a PMIC
-  - 100 Mbit/s Ethernet pins on a header
-  - XR829 WIFI+Bluetooth chip
-  - 4 * USB 2.0 USB-C ports
-  - microSD card slot
-  - 3.5mm A/V port
-
-Add the devicetree describing the board's peripherals and their
-connections.
+Add a defconfig for the board, the DRAM parameters have been extracted
+from the firmware shipped with the board.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Link: https://patch.msgid.link/20250307005712.16828-16-andre.przywara@arm.com
-Signed-off-by: Chen-Yu Tsai <wens@csie.org>
-
-[ upstream commit: f4a6b0f7200f8629f4138f1094ce654ab75df41e ]
-
-(cherry picked from commit 3a879d878553d57057ce0a7096bfbf1eb077f6dc)
 ---
- .../sun50i-h618-yuzukihd-chameleon.dts        | 222 ++++++++++++++++++
- 1 file changed, 222 insertions(+)
- create mode 100644 dts/upstream/src/arm64/allwinner/sun50i-h618-yuzukihd-chameleon.dts
+ configs/yuzukihd-chameleon_defconfig | 30 ++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
+ create mode 100644 configs/yuzukihd-chameleon_defconfig
 
-diff --git a/dts/upstream/src/arm64/allwinner/sun50i-h618-yuzukihd-chameleon.dts b/dts/upstream/src/arm64/allwinner/sun50i-h618-yuzukihd-chameleon.dts
+diff --git a/configs/yuzukihd-chameleon_defconfig b/configs/yuzukihd-chameleon_defconfig
 new file mode 100644
-index 00000000000..eae56908b9b
+index 00000000000..883be12c4ef
 --- /dev/null
-+++ b/dts/upstream/src/arm64/allwinner/sun50i-h618-yuzukihd-chameleon.dts
-@@ -0,0 +1,222 @@
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
-+/*
-+ * Copyright (C) 2024 Arm Ltd.
-+ */
-+
-+/dts-v1/;
-+
-+#include "sun50i-h616.dtsi"
-+#include "sun50i-h616-cpu-opp.dtsi"
-+
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+/ {
-+	model = "Yuzuki Chameleon";
-+	compatible = "yuzukihd,chameleon", "allwinner,sun50i-h618";
-+
-+	aliases {
-+		ethernet1 = &sdio_wifi;
-+		serial0 = &uart0;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial0:115200n8";
-+	};
-+
-+	reg_vcc5v: vcc5v {
-+		/* board wide 5V supply directly from the USB-C socket */
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc-5v";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+		regulator-always-on;
-+	};
-+
-+	wifi_pwrseq: pwrseq {
-+		compatible = "mmc-pwrseq-simple";
-+		clocks = <&rtc CLK_OSC32K_FANOUT>;
-+		clock-names = "ext_clock";
-+		pinctrl-0 = <&x32clk_fanout_pin>;
-+		pinctrl-names = "default";
-+		reset-gpios = <&pio 6 11 GPIO_ACTIVE_LOW>; /* PG11 */
-+	};
-+};
-+
-+&codec {
-+	allwinner,audio-routing = "Line Out", "LINEOUT";
-+	status = "okay";
-+};
-+
-+&cpu0 {
-+	cpu-supply = <&reg_dcdc2>;
-+};
-+
-+&ehci0 {
-+	status = "okay";
-+};
-+
-+&ehci1 {
-+	status = "okay";
-+};
-+
-+&ehci2 {
-+	status = "okay";
-+};
-+
-+&ehci3 {
-+	status = "okay";
-+};
-+
-+&mmc0 {
-+	bus-width = <4>;
-+	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;	/* PF6 */
-+	disable-wp;
-+	vmmc-supply = <&reg_dldo1>;
-+	status = "okay";
-+};
-+
-+&mmc1 {
-+	bus-width = <4>;
-+	mmc-pwrseq = <&wifi_pwrseq>;
-+	non-removable;
-+	vmmc-supply = <&reg_dldo1>;
-+	vqmmc-supply = <&reg_dldo1>;
-+	status = "okay";
-+
-+	sdio_wifi: wifi@1 {
-+		reg = <1>;
-+		interrupt-parent = <&pio>;
-+		interrupts = <6 12 IRQ_TYPE_LEVEL_LOW>;  /* PG12 */
-+		interrupt-names = "host-wake";
-+	};
-+};
-+
-+&mmc2 {
-+	bus-width = <8>;
-+	cap-mmc-hw-reset;
-+	mmc-ddr-3_3v;
-+	non-removable;
-+	vmmc-supply = <&reg_dldo1>;
-+	vqmmc-supply = <&reg_dldo1>;
-+	status = "okay";
-+};
-+
-+&ohci0 {
-+	status = "okay";
-+};
-+
-+&ohci1 {
-+	status = "okay";
-+};
-+
-+&ohci2 {
-+	status = "okay";
-+};
-+
-+&ohci3 {
-+	status = "okay";
-+};
-+
-+&pio {
-+	vcc-pc-supply = <&reg_dldo1>;
-+	vcc-pf-supply = <&reg_dldo1>;	/* via VCC_IO */
-+	vcc-pg-supply = <&reg_dldo1>;
-+	vcc-ph-supply = <&reg_dldo1>;	/* via VCC_IO */
-+	vcc-pi-supply = <&reg_dldo1>;
-+};
-+
-+&r_i2c {
-+	status = "okay";
-+
-+	axp313: pmic@36 {
-+		compatible = "x-powers,axp313a";
-+		reg = <0x36>;
-+		#interrupt-cells = <1>;
-+		interrupt-controller;
-+		interrupt-parent = <&pio>;
-+		interrupts = <2 2 IRQ_TYPE_LEVEL_LOW>;	/* PC2 */
-+
-+		vin1-supply = <&reg_vcc5v>;
-+		vin2-supply = <&reg_vcc5v>;
-+		vin3-supply = <&reg_vcc5v>;
-+
-+		regulators {
-+			/* Supplies VCC-PLL, so needs to be always on. */
-+			reg_aldo1: aldo1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <1800000>;
-+				regulator-max-microvolt = <1800000>;
-+				regulator-name = "vcc1v8";
-+			};
-+
-+			/* Supplies VCC-IO, so needs to be always on. */
-+			reg_dldo1: dldo1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <3300000>;
-+				regulator-max-microvolt = <3300000>;
-+				regulator-name = "vcc3v3";
-+			};
-+
-+			reg_dcdc1: dcdc1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <810000>;
-+				regulator-max-microvolt = <990000>;
-+				regulator-name = "vdd-gpu-sys";
-+			};
-+
-+			reg_dcdc2: dcdc2 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <810000>;
-+				regulator-max-microvolt = <1100000>;
-+				regulator-name = "vdd-cpu";
-+			};
-+
-+			reg_dcdc3: dcdc3 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <1500000>;
-+				regulator-max-microvolt = <1500000>;
-+				regulator-name = "vdd-dram";
-+			};
-+		};
-+	};
-+};
-+
-+&uart0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart0_ph_pins>;
-+	status = "okay";
-+};
-+
-+/* Connected to the Bluetooth UART pins of the XR829 Wifi/BT chip. */
-+&uart1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart1_pins>, <&uart1_rts_cts_pins>;
-+	uart-has-rtscts;
-+	status = "okay";
-+};
-+
-+&usbotg {
-+	/*
-+	 * PHY0 pins are connected to a USB-C socket, but a role switch
-+	 * is not implemented: both CC pins are pulled to GND.
-+	 * The VBUS pins power the device, so a fixed peripheral mode
-+	 * is the best choice.
-+	 * The board can be powered via GPIOs, in this case port0 *can*
-+	 * act as a host (with a cable/adapter ignoring CC), as VBUS is
-+	 * then provided by the GPIOs. Any user of this setup would
-+	 * need to adjust the DT accordingly: dr_mode set to "host",
-+	 * enabling OHCI0 and EHCI0.
-+	 */
-+	dr_mode = "peripheral";
-+	status = "okay";
-+};
-+
-+&usbphy {
-+	usb0_id_det-gpios = <&pio 6 18 GPIO_ACTIVE_HIGH>; /* PG18 */
-+	usb0_vbus-supply = <&reg_vcc5v>;
-+	usb1_vbus-supply = <&reg_vcc5v>;
-+	usb2_vbus-supply = <&reg_vcc5v>;
-+	usb3_vbus-supply = <&reg_vcc5v>;
-+	status = "okay";
-+};
++++ b/configs/yuzukihd-chameleon_defconfig
+@@ -0,0 +1,30 @@
++CONFIG_ARM=y
++CONFIG_ARCH_SUNXI=y
++CONFIG_DEFAULT_DEVICE_TREE="allwinner/sun50i-h618-yuzukihd-chameleon"
++CONFIG_SPL=y
++CONFIG_DRAM_SUNXI_DX_ODT=0x03030303
++CONFIG_DRAM_SUNXI_DX_DRI=0x0e0e0e0e
++CONFIG_DRAM_SUNXI_CA_DRI=0x1c12
++CONFIG_DRAM_SUNXI_ODT_EN=0x1
++CONFIG_DRAM_SUNXI_TPR6=0x33808080
++CONFIG_DRAM_SUNXI_TPR10=0x002f0006
++CONFIG_DRAM_SUNXI_TPR11=0xddddcccc
++CONFIG_DRAM_SUNXI_TPR12=0xeddc7564
++CONFIG_MACH_SUN50I_H616=y
++CONFIG_SUNXI_DRAM_H616_DDR3_1333=y
++CONFIG_DRAM_CLK=648
++CONFIG_MMC_SUNXI_SLOT_EXTRA=2
++CONFIG_R_I2C_ENABLE=y
++CONFIG_SPL_SPI_SUNXI=y
++# CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
++CONFIG_SPL_I2C=y
++CONFIG_SPL_SYS_I2C_LEGACY=y
++CONFIG_SYS_I2C_MVTWSI=y
++CONFIG_SYS_I2C_SLAVE=0x7f
++CONFIG_SYS_I2C_SPEED=400000
++CONFIG_SUPPORT_EMMC_BOOT=y
++CONFIG_AXP313_POWER=y
++CONFIG_AXP_DCDC3_VOLT=1500
++CONFIG_USB_EHCI_HCD=y
++CONFIG_USB_OHCI_HCD=y
++CONFIG_USB_MUSB_GADGET=y
 -- 
 2.43.0
 
