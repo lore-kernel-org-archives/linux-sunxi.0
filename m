@@ -1,92 +1,155 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C56F7239E75
-	for <linux-sunxi@lists.linux.dev>; Thu, 12 Jun 2025 23:19:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD5F520010A;
+	Fri, 13 Jun 2025 07:20:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749770400; cv=none; b=srCKYruP/3cYfEDtJGgtrFYSCA1v0yoMA64p0mQdId+JuiqixIThQAIyFVCRRshtqtV1ar3+ugFyZ6+6C+9QeMLT7UGYmKrzLhFU+MEg+n5FScx0I1F2bO2FLl34/4pv8idIGe4/QXL/JqreIF6aweCm7OO4vqm44bOkZ5IpLpc=
+	t=1749799233; cv=none; b=asDyV8b34XXG4KKwNfb4DX9wQRIHBPA/DqtNFyhVmu8GllJDyk1deNP7NsKcc+5lcPrBiiOKPtji5sKeJc7dArEpoQ032TdMhrG9LeKM2/15hc/2YJiQgYF2YRpkBsCIQzECcSLIH/DYIo4QajoXz/jGeJEpNuypMyeeVJy7yJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749770400; c=relaxed/simple;
-	bh=UQ4ETyskigECl7m4l1E+qN8BJncTLlbCXA0RDn94Ovw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jke95iW0/Klj+HCMi35Kk7JauPqIDmRn61m8KnnljhnghRgdn0Bw6NmmnZ6keNYeFHeXzSFTTOJGjK+T9LkahZbGg5lwQ+SWegNKC8bI8Kuq8Dcf7OIx3Resp3V3nOAbNyhwYsp+bop+DPr/9uYTy/XgbsUVc4EP5lKCY7GOQgE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0F5E31D31;
-	Thu, 12 Jun 2025 16:19:37 -0700 (PDT)
-Received: from e134369.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0040F3F59E;
-	Thu, 12 Jun 2025 16:19:55 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: u-boot@lists.denx.de
-Cc: Tom Rini <trini@konsulko.com>,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH 2/2] sunxi: H616: add support for YuzukiHD Chameleon board
-Date: Fri, 13 Jun 2025 00:19:45 +0100
-Message-ID: <20250612231945.981893-3-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250612231945.981893-1-andre.przywara@arm.com>
-References: <20250612231945.981893-1-andre.przywara@arm.com>
+	s=arc-20240116; t=1749799233; c=relaxed/simple;
+	bh=+YjpX3ehJBzFyIlBBXVZgihirAzVPRAt2FcAqpuOgFA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m+1BxY0SQGmd9bP1hhzJ+Evjx9h3llVJCu/YXWLtVS0dIxBzzN3mg61bfojz3LvzaMo98R1WIzDfJva6TClzPPTt1rK5lFEN0+lL/AgmqN8D/NybbPTLs8+K85FUsMogZaRFv1+OmjbZczMYfWXnFucntopDYyD0Ii6ZjXiiMFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=P1vjmPIW; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=aJDF6bH9; arc=none smtp.client-ip=202.12.124.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="P1vjmPIW";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="aJDF6bH9"
+Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
+	by mailfout.stl.internal (Postfix) with ESMTP id 650B91140176;
+	Fri, 13 Jun 2025 03:20:29 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Fri, 13 Jun 2025 03:20:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1749799229; x=1749885629; bh=jG3O/Ud05M
+	Zx4jdqboGk4v0NA5OIKt/wUnoKzAyvNxg=; b=P1vjmPIW2/wAUEeA7U/tXdD8iO
+	X2gFnzTYmpSLkVbC09w7bT6bPL1TULq8W2sUytLHHqJJ4aI0qfqwkpBqqo7q6w+v
+	a4ZHk6WXcFmwc2WPo9lyZCkx+u8Y/b+3YOlz1U1JWnCYeqPK9rF5mGZ4mzJYVWiF
+	A1c0n+byiXnzx0u/cTlX4daS5hB61IqB5DzXn0pSZ0svhFE7jSCbiy1lYy0KsGI6
+	nMMcRQ/Pi3oq7K89ZwjgmxFbeMhEhTJArNSb04t9Rd0AJSAYpwRQ1tGQsvvBj18f
+	JS2eTa6EAZhrLgZ/mimYfOFD3ZLrXAEAtU/b1qiCUau14sMkRX9Xz+pp3StA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1749799229; x=1749885629; bh=jG3O/Ud05MZx4jdqboGk4v0NA5OIKt/wUno
+	KzAyvNxg=; b=aJDF6bH96UoECz7OWyAzTsE/qMXwjlqUqMqdgelSBR4u823P+lA
+	OuIyyyna2iMtA+W+U5lFIt7HQwyx2w14Ve+gORg6fMrT/3ngWMY9mTAgrv2qgmAZ
+	TmyPb2cFdF7DtNdUbvw8lnK2Kd5oQ38Czjg5XXt0ZbJxebF/yAXygAk6r/243gkv
+	PQq+3hfhnC98ELI/3H19HjbTUm6s5YVUvYzt6D0uBT9Hp819sEFnFUcMVrX70PZ4
+	HVO36Qv2TaL+S4uiExs0XvgWXgmHSS7mQcMHpfv0dREkGJDIC07yCJM5R4AWwTOj
+	hQlV0rjzXHZKIj6cGNgjNUb7+Sz0ThOR6TQ==
+X-ME-Sender: <xms:OtFLaFzKONTfZkXILH3XYzZEUfG55o5HOePR8cyOYqgjQEheeXElRA>
+    <xme:OtFLaFTtwv46-jgC8eQlBk675fBDJDGwFoAGiEn6nElhmiFF-pJZg4bjG7pCyUo7P
+    bifV4GMC71OkTG2vzs>
+X-ME-Received: <xmr:OtFLaPXcCDMRRp9eE7KY1wBc1Thy0_u1RF6WWc0Bu6CQaDc08Ls5Xz72R7GZJoSuGa2FEalZSMpX0L-OqRD2ZTaK_VLLYkpSIjk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugddujeefgecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttdej
+    necuhfhrohhmpeflrghnnhgvucfirhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqne
+    cuggftrfgrthhtvghrnhepgfdvffevleegudejfeefheehkeehleehfefgjefffeetudeg
+    tefhuedufeehfeetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
+    hfrhhomhepjhesjhgrnhhnrghurdhnvghtpdhnsggprhgtphhtthhopedvvddpmhhouggv
+    pehsmhhtphhouhhtpdhrtghpthhtohepsghrghhlsegsghguvghvrdhplhdprhgtphhtth
+    hopeguvhhorhhkihhnsehtihgssghordgtohhmpdhrtghpthhtohepfigvlhhlshhluhht
+    fiesghhmrghilhdrtghomhdprhgtphhtthhopehlihhnuhhsrdifrghllhgvihhjsehlih
+    hnrghrohdrohhrghdprhgtphhtthhopehprghtrhhitggvrdgthhhothgrrhgusehfohhs
+    shdrshhtrdgtohhmpdhrtghpthhtohepshhuphhpohhrthdrohhpvghnshhouhhrtggvse
+    guihgrshgvmhhirdgtohhmpdhrtghpthhtohepsggrrhhutghhsehtkhhoshdrtghordhi
+    lhdprhgtphhtthhopehsvhgvnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghlhi
+    hsshgrsehrohhsvghniiifvghighdrihho
+X-ME-Proxy: <xmx:OtFLaHieCR7i3mjNcCHPqOC39MqmdSV6LhCiKBfiFb-q64TIIB5YUQ>
+    <xmx:OtFLaHANXNHonW-Il6-KF7ktKwZkTU5LCJT5a6FVkmtn9vomjsSZ3Q>
+    <xmx:OtFLaAL1atxc5kXngDg_VktyWDUvEDvh4xA-SzMkDl8AkEhtXk3jhw>
+    <xmx:OtFLaGCvH_4PXKngaqe3MEnUmB4JVoNxMqDElPwknNqXKyWeOim_ZA>
+    <xmx:PdFLaHUFclZvZJTCtf0C2rxGbtX2fEn1ZeQ73ehog305zlAuCf063FOc>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 13 Jun 2025 03:20:26 -0400 (EDT)
+Date: Fri, 13 Jun 2025 09:20:24 +0200
+From: Janne Grunau <j@jannau.net>
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Dvorkin Dmitry <dvorkin@tibbo.com>, Wells Lu <wellslutw@gmail.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Baruch Siach <baruch@tkos.co.il>, Sven Peter <sven@kernel.org>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>, Viresh Kumar <vireshk@kernel.org>,
+	Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+	soc@lists.linux.dev, linux-sunxi@lists.linux.dev,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: Re: [PATCH 10/16] pinctrl: apple: use new GPIO line value setter
+ callbacks
+Message-ID: <20250613072024.GE3141695@robin.jannau.net>
+References: <20250612-gpiochip-set-rv-pinctrl-remaining-v1-0-556b0a530cd4@linaro.org>
+ <20250612-gpiochip-set-rv-pinctrl-remaining-v1-10-556b0a530cd4@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250612-gpiochip-set-rv-pinctrl-remaining-v1-10-556b0a530cd4@linaro.org>
 
-The Chameleon board is an OpenHardware devboard made by YuzukiTsuru,
-featuring an Allwinner H616 SoC. The form factor resembles the Raspberry
-Pi Model A boards, though it differs significantly in its features.
-Apart from the usual peripherals of those kind of boards (SD card, eMMC,
-WiFi, HDMI), it features four USB-C 2.0 ports.
+On Thu, Jun 12, 2025 at 03:15:19PM +0200, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> 
+> struct gpio_chip now has callbacks for setting line values that return
+> an integer, allowing to indicate failures. Convert the driver to using
+> them.
+> 
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> ---
+>  drivers/pinctrl/pinctrl-apple-gpio.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/pinctrl/pinctrl-apple-gpio.c b/drivers/pinctrl/pinctrl-apple-gpio.c
+> index 0f551d67d482d96c7a1e4c28a6db580f0db6452e..dcf3a921b4df54250194403f06a3c1fb40110eaa 100644
+> --- a/drivers/pinctrl/pinctrl-apple-gpio.c
+> +++ b/drivers/pinctrl/pinctrl-apple-gpio.c
+> @@ -217,11 +217,13 @@ static int apple_gpio_get(struct gpio_chip *chip, unsigned offset)
+>  	return !!(reg & REG_GPIOx_DATA);
+>  }
+>  
+> -static void apple_gpio_set(struct gpio_chip *chip, unsigned int offset, int value)
+> +static int apple_gpio_set(struct gpio_chip *chip, unsigned int offset, int value)
+>  {
+>  	struct apple_gpio_pinctrl *pctl = gpiochip_get_data(chip);
+>  
+>  	apple_gpio_set_reg(pctl, offset, REG_GPIOx_DATA, value ? REG_GPIOx_DATA : 0);
+> +
+> +	return 0;
+>  }
+>  
+>  static int apple_gpio_direction_input(struct gpio_chip *chip, unsigned int offset)
+> @@ -376,7 +378,7 @@ static int apple_gpio_register(struct apple_gpio_pinctrl *pctl)
+>  	pctl->gpio_chip.direction_input = apple_gpio_direction_input;
+>  	pctl->gpio_chip.direction_output = apple_gpio_direction_output;
+>  	pctl->gpio_chip.get = apple_gpio_get;
+> -	pctl->gpio_chip.set = apple_gpio_set;
+> +	pctl->gpio_chip.set_rv = apple_gpio_set;
+>  	pctl->gpio_chip.base = -1;
+>  	pctl->gpio_chip.ngpio = pctl->pinctrl_desc.npins;
+>  	pctl->gpio_chip.parent = pctl->dev;
 
-Add a defconfig for the board, the DRAM parameters have been extracted
-from the firmware shipped with the board.
+apple_gpio_set_reg() could pass the return value of regmap_update_bits()
+but I suppose this change to switch to the new callback is ok on its
+own.
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- configs/yuzukihd-chameleon_defconfig | 30 ++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
- create mode 100644 configs/yuzukihd-chameleon_defconfig
+Reviewed-by: Janne Grunau <j@jannau.net>
 
-diff --git a/configs/yuzukihd-chameleon_defconfig b/configs/yuzukihd-chameleon_defconfig
-new file mode 100644
-index 00000000000..883be12c4ef
---- /dev/null
-+++ b/configs/yuzukihd-chameleon_defconfig
-@@ -0,0 +1,30 @@
-+CONFIG_ARM=y
-+CONFIG_ARCH_SUNXI=y
-+CONFIG_DEFAULT_DEVICE_TREE="allwinner/sun50i-h618-yuzukihd-chameleon"
-+CONFIG_SPL=y
-+CONFIG_DRAM_SUNXI_DX_ODT=0x03030303
-+CONFIG_DRAM_SUNXI_DX_DRI=0x0e0e0e0e
-+CONFIG_DRAM_SUNXI_CA_DRI=0x1c12
-+CONFIG_DRAM_SUNXI_ODT_EN=0x1
-+CONFIG_DRAM_SUNXI_TPR6=0x33808080
-+CONFIG_DRAM_SUNXI_TPR10=0x002f0006
-+CONFIG_DRAM_SUNXI_TPR11=0xddddcccc
-+CONFIG_DRAM_SUNXI_TPR12=0xeddc7564
-+CONFIG_MACH_SUN50I_H616=y
-+CONFIG_SUNXI_DRAM_H616_DDR3_1333=y
-+CONFIG_DRAM_CLK=648
-+CONFIG_MMC_SUNXI_SLOT_EXTRA=2
-+CONFIG_R_I2C_ENABLE=y
-+CONFIG_SPL_SPI_SUNXI=y
-+# CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
-+CONFIG_SPL_I2C=y
-+CONFIG_SPL_SYS_I2C_LEGACY=y
-+CONFIG_SYS_I2C_MVTWSI=y
-+CONFIG_SYS_I2C_SLAVE=0x7f
-+CONFIG_SYS_I2C_SPEED=400000
-+CONFIG_SUPPORT_EMMC_BOOT=y
-+CONFIG_AXP313_POWER=y
-+CONFIG_AXP_DCDC3_VOLT=1500
-+CONFIG_USB_EHCI_HCD=y
-+CONFIG_USB_OHCI_HCD=y
-+CONFIG_USB_MUSB_GADGET=y
--- 
-2.43.0
-
+Janne 
