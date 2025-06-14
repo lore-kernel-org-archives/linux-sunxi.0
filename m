@@ -1,75 +1,60 @@
-Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6040279DDE;
-	Fri, 13 Jun 2025 09:33:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.6.53.87
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1956586338;
+	Sat, 14 Jun 2025 17:14:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749807233; cv=none; b=oKAIArbZ5X7RtLKBPByahkcNRdStaDegx026+x49YDbLiesDpNptUd/h3ip4hTLL9deHZhLn/zUEiyL9xLzkAJ4Nrh2NVDS6+T3jdZlQmV1ugA8lGApGEJsTEKaYK6a/SfFU7Tzu40HcHN91yWpHLs7TyBrROT/7Jns0i1PaLVM=
+	t=1749921273; cv=none; b=myy1XcQhvhTf8Hew+z6e3HLFehCDFMS+Mqgh0uWCHPDh+L1adoOyXu0XLHDSFo9g3kIlKEjDgQxYuZZ5thCejnmfImJCOjICFBif47KaKMu7JWfnLOoj/6bel/9jJ65ZU2/oBgkNLg5MU2ZfS4GOyH8uf6KN5xwoMAJKS6Py6gg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749807233; c=relaxed/simple;
-	bh=Eqp+V72EaWNPkZw4qjCDr556H/HNa3qOlLz/oQ2LYwo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ttWRooqZ+Fhsagnzz1yQS2qZ20V/7qz9vYNooPC3XB8PaH0ZI34hPF4fV102BEM11XZsuMDNFGBqqQ0RsoQ97geaN6ix4K15E4Gua2KCTw0sSRumSXeII/qURuy+42xWBF2cLacNcE/NnpDKcbNxLGnAi/rWvpcpOTh7GiW58qo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b=HB6cxMbu; arc=none smtp.client-ip=144.6.53.87
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b="HB6cxMbu"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hmeau.com;
-	s=formenos; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=RJ9X0kaBblbNG+aXoLy8U3PCQzc+sowmQF/zXxcEjiA=; b=HB6cxMbu2/d1Vxe9k+FnVdQXFj
-	aTJD7F26yZ5qI/urpQYXZV9CWqeiRKaAk7geieB9vEvYglwJ9Zpk/I4Hf4jjWdEUk1uhn5Om3kHS7
-	f111l4Wq7E8Ql2//cf2dpBhpPvP+7AWuE7esZNVXL80czXFgPDGOOsc9+Vf6ciA9ChdGkNAejUYl5
-	mE4G+domQ3LuBvF+mQZdGKGo9k7bdmek0PzVsgmp0oqJnqDIOfQkVMZzZok3e654sv2gd0ki9+WOj
-	b8hNSoaYGjl121BDcBWvhdfzh3FDhlUfOoaioR64+7VLSrko/zIhjESkNM3qDvWgudUEotTaYSPSo
-	YcizbaGg==;
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
-	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
-	id 1uQ0n2-00Csua-0T;
-	Fri, 13 Jun 2025 17:33:37 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Fri, 13 Jun 2025 17:33:36 +0800
-Date: Fri, 13 Jun 2025 17:33:36 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
-Cc: clabbe.montjoie@gmail.com, davem@davemloft.net,
-	linux-crypto@vger.kernel.org, wens@csie.org,
-	jernej.skrabec@gmail.com, samuel@sholland.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] crypto: sun8i-ce - fix nents passed to dma_unmap_sg()
-Message-ID: <aEvwcABHs8tV9SHN@gondor.apana.org.au>
-References: <20250519151350.3442981-1-ovidiu.panait.oss@gmail.com>
+	s=arc-20240116; t=1749921273; c=relaxed/simple;
+	bh=l5EHxSIxi7NTnazzC0L1Igk1gz4xMxFq1CE3F4jqqTI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=AsBc/4TrYrvOqgE6i5IUzHym8bXlO5BFVGOCUfeN07B4W2PW3Dp4CRbhTieF5bb6ox1LHbPZIQdvgZ6nN4N2HifzAFmjP/pRl2he+lyU431ouU+ElFQdhl3PP5Xw2t9L06MvTnEUYaDvZTKudlVMWYEUEndSpJxk38K8ao6VgaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79EEFC4CEEB;
+	Sat, 14 Jun 2025 17:14:31 +0000 (UTC)
+Received: from wens.tw (localhost [127.0.0.1])
+	by wens.tw (Postfix) with ESMTP id AE39F5F755;
+	Sun, 15 Jun 2025 01:14:28 +0800 (CST)
+From: Chen-Yu Tsai <wens@csie.org>
+To: Stephen Boyd <sboyd@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@kernel.org>
+Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <20250607135029.2085140-1-wens@kernel.org>
+References: <20250607135029.2085140-1-wens@kernel.org>
+Subject: Re: [PATCH] clk: sunxi-ng: a523: Mark MBUS clock as critical
+Message-Id: <174992126867.1032609.10087338535850688863.b4-ty@csie.org>
+Date: Sun, 15 Jun 2025 01:14:28 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250519151350.3442981-1-ovidiu.panait.oss@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-On Mon, May 19, 2025 at 06:13:48PM +0300, Ovidiu Panait wrote:
-> In sun8i_ce_cipher_unprepare(), dma_unmap_sg() is incorrectly called with
-> the number of entries returned by dma_map_sg(), rather than using the
-> original number of entries passed when mapping the scatterlist.
+On Sat, 07 Jun 2025 21:50:29 +0800, Chen-Yu Tsai wrote:
+> The MBUS serves as the main data bus for various DMA masters in the
+> system. If its clock is not enabled, the DMA operations will stall,
+> leading to the peripherals stalling or timing out. This has been
+> observed as USB or MMC hosts timing out waiting for transactions
+> when the clock is automatically disabled by the CCF due to it not
+> being used.
 > 
-> To fix this, stash the original number of entries passed to dma_map_sg()
-> in the request context.
-> 
-> Fixes: 0605fa0f7826 ("crypto: sun8i-ce - split into prepare/run/unprepare")
-> Signed-off-by: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
-> ---
->  drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> [...]
 
-All applied.  Thanks.
+Applied to sunxi/clk-fixes-for-6.16 in local tree, thanks!
+
+[1/1] clk: sunxi-ng: a523: Mark MBUS clock as critical
+      commit: 713d48878e8a5e4bcca6355324f943eb72cd2c84
+
+Best regards,
 -- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+Chen-Yu Tsai <wens@csie.org>
+
