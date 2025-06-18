@@ -1,88 +1,100 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82A882676D3
-	for <linux-sunxi@lists.linux.dev>; Sun, 15 Jun 2025 13:06:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DDD22BD5AF
+	for <linux-sunxi@lists.linux.dev>; Wed, 18 Jun 2025 11:32:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749992774; cv=none; b=KBJk9vNDg+eNQGoSP8BSXxOtvSUQLwGV/hXRcQsvrzZBEKUhnfqAr3LjzIjskSw+Zd2+/JVwC/PRAFD9SkN5e5JwBDle7noWLEXXZwQ2vZ0qzP/t+XC0bopgGuyCQNdO3ufzt5yvm6ZxRqM3xK/MHkSH3bEDbTO8HaS0S67W+h4=
+	t=1750246340; cv=none; b=lT0yFOPFJj9+BqZ7SoqF23mpchV8QqPGe2NzoUmg/TZOhlLHLAjmI0Z6NTLkkxJ+GJg7rBN/0SCot9GzDvE7lB3EL+09LyY7a7/gsHb9vsk07d3o3gwPk/EARntCGKX6b4SRW2hP/ID6URFYjUZdzhsOe2GjfUeyVuZ864M1Uyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749992774; c=relaxed/simple;
-	bh=fSxCjIuvBo4A7fl+B7Db8lopzgrfjbWQHQDFBtBGwjw=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=Pi5LoqXDXTn6B99rDeyHmz8kZgRy03PQGc0wuIE9Z7kl9Vtx4YmOSRqjfuFwxkaf1ejUzj5nSoB4GK5qyI8PiOiwljk3NIsZHzoCaGWbeeCIoZv6E4pzLYAkjKjRbRDvRVXPR+MV0chSvQbL7PrIAWzVAu4uB2TukrHyh73jpaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zky2q3kJ; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1750246340; c=relaxed/simple;
+	bh=Dn2ph2mkRUbTFNZLkAEFvorPY5MaAM3g9LKeDgumlGU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PtnJTKN+DyyqR7buBn4qAfFd7XUY50t+4fMvcKeeWQEwJ8qmm8Mu/G3wWbSjbHQ6f2rKwZ37ignDMTU4+rmrqLWCkek3pH8u3awxLqgH5hlJ6XgTBDwyXwZsRWbAgxrBDB7kHFKfiav/gy0DgfHYITp0shi1g19+h9xv36XLopc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jikyk42N; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zky2q3kJ"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-ad8a8da2376so588260966b.3
-        for <linux-sunxi@lists.linux.dev>; Sun, 15 Jun 2025 06:06:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jikyk42N"
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-553b584ac96so5260229e87.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 18 Jun 2025 04:32:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749992771; x=1750597571; darn=lists.linux.dev;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=g51SjfzQX40A4wbP5H8wSwuT3GakEU9AeQC9zZKcUgI=;
-        b=Zky2q3kJov1BobADpTKdqiONyQvpeuRz3+gUuNigdiSVqwxmI/FEG3Wi2FUmhib01m
-         vSptBWh0Aa8xnos/7PvrWn0+kXLNhFM6vEP8Qjhr3gIHkEKx/5bAzLzZS828LIoDptn7
-         TtqliV9VdPKYyFt4uyI2q8Yvkt3q9qdfxZ5mMg7Hz7LG5ibjTtjQugDXxYFwOFIQZcSD
-         qHq4yBGlzOpk6DO0QNrB89qGwfHvYZM52ssBNsn3nb/DQReYzkPUZa3Zp1y/V6uYyQdD
-         I/mSLVWWawkxtvgxnR88RTGWLzDSFasgf3rz0B7nHR/Vm44e+FoAoedANJEBYBNOVFuw
-         o4RQ==
+        d=linaro.org; s=google; t=1750246334; x=1750851134; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Dn2ph2mkRUbTFNZLkAEFvorPY5MaAM3g9LKeDgumlGU=;
+        b=jikyk42NN7CzME8zPyBRgBmV7WJzTQQs3a72hAYCpA62m9msO5Y3arsvQ3GnMjRcRX
+         wdt0LLdwVzhgmAaIgiktMvutYF3FLgukRcHzWxXaWlpOZS4wtvgMCDXcmhqHnK59sRUp
+         ZF8zfh2n+yFU7ZQH0rJKN06U66CBVIKOTQyplXhsPNssyf0Hg2ADGSlet7ysCjAS7BXg
+         mGO63CPkHC73xzSUmYJDDgKAntNV402+J/O2ls+ZGg6I7fX/HBzJhyMrRXOR7bQbuLZQ
+         j9gM7zmQ3QYJcOkKBh/ntvZiVLo8UHuKRAW9k+2qAAQluiQ342K7VCCkq1fD4KsFCvXY
+         tukw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749992771; x=1750597571;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=g51SjfzQX40A4wbP5H8wSwuT3GakEU9AeQC9zZKcUgI=;
-        b=raCEc5pDoeH4P9LobB067VNGNM1cBIgYDC2PMlB2VLqoGno7FZPIbXRfUSNrBBU3RN
-         41TmCLU6iwsxUvrT9FpW3KNJRRgdycRSJSw8qs31O1LQyx06dVfJvhneWnv5+dwcAR5E
-         IiWp1e2nV9fzCdrd8Wl3NRV2xlfULNU2s5qBOs5OYkS+xqLlK6NUa743LZzlvrG5BccW
-         jgQL8r/OirxdBQa2KcCH53U5Iy/D21+WIQ6Dl3953zF4IanL7G0fHCXb25AddXC7majw
-         SPkzGIFn7XkbM4YGnnV16kblD9OlYSCs9RVrkVosxyTYe64ylCsQzBl1tc1rC+ibriXJ
-         n3Ow==
-X-Gm-Message-State: AOJu0YwUBqwz1VO+2fbK+h9R3N/CJJsiLw/MiJ0iKmz/XWZNPp3b1Woq
-	hnCpQHUQuzYYiIo+LsGa46cM+XScFbEws30zp504YBs64EVzyk8jcgl1AVCixc7rPavuIWL2t6o
-	dwnFdkrcFfM3gr3DnGZXNwRlsm9+3onyMFNl9
-X-Gm-Gg: ASbGncs3s8IRRFzPFPpDZrYSXObV7GUT2s2BW35kEyY/7E2vx47lhc1UK/tTdxBW2/K
-	7VYemqCxdAJoNU1U8gwJO/UwrJXITRNWgYDrMfNu7bcLsMJRfHzpnE7ukrHWdPMFJsKMoh4s9BY
-	mU1U7K5HVvMLc21xvYU2FOAdOeKp4rtF0bIVtk/a4lxA==
-X-Google-Smtp-Source: AGHT+IEJhLY1pMzvE/tpeT/GKYr/v7K9zfDi7VuJZVshZte08czKn6a6bkXvkBAkcQn+W5EUVUZfJb2VLKiGrCjFRlg=
-X-Received: by 2002:a17:907:7e8c:b0:ade:4121:8d3d with SMTP id
- a640c23a62f3a-adfad2a1e75mr606982966b.12.1749992770659; Sun, 15 Jun 2025
- 06:06:10 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1750246334; x=1750851134;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Dn2ph2mkRUbTFNZLkAEFvorPY5MaAM3g9LKeDgumlGU=;
+        b=Ocs3k/IFSdT8X4FdcHkgC0tlAxdLyVN7WRcuxaKN5OOVc5ORLWec/PTJkIsX1WCamh
+         /6IR9lT4jKViTeSMYHheS2Z9NT4QQG5z784IB9Yi0btEhzqOvSPLXRif9uDoeSaoSzQk
+         YExCYvCtjfouUGjLM+TCHh0rBNjzYyFf5KO7D42nMRcNkyJU3QTJWMT2k80KNXsBMlGV
+         S2zIYXY+/5+xf5touFb2aHEisaevzngFJAFu0ltNFwkJKubrMBgEhDe5SGeWi+dfGFxE
+         mtTHM3ugmTzQag6SCKbWIePmeWeXw1xb8vzrEKa0X0mhpSMdw+gjLWU9jD6jPOB9vF8v
+         VveA==
+X-Forwarded-Encrypted: i=1; AJvYcCXLnm18tjP2uIOAgrTHHzob/CB0zV6lYGRFUAbjWtuw0tQIShMA14LMMgUT4x+7ZEjxxTT5AHTuJzI3cw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzFJba1gcph9aqsVHuC7uFdMuNGuTCBRTJfFxLbohP59Y0o/48+
+	aCWYsAI+FKTjX9zBuTVbb/m74DLJBo3VpvO6LC2S4fs+BWnDnJ+9tFxc6p5vEC2aWzoBWBuKi9q
+	iGwI1sBsBvBtQNBZtTJwr9vWwF0vw/yQe6EYkZsVWug==
+X-Gm-Gg: ASbGncshYHbfFlRFU/uMWlKluN3YzWjlvHisHm+4OixS1zrkNEem7UPT6vF/qXAcHv6
+	qmj7TlZECvWNpvkegHwmxfIHcaV0QzVwBmnZMfmCdBd7z+laRszDIvAsuf0rI9VI/lL/JzeN5Pe
+	Ug3zp9J1j2otXO3fnS3iHywUPd2DApgXRX8NCLjGrTNnA=
+X-Google-Smtp-Source: AGHT+IG/cXE1HQ3EEXy0cPSnaDLNTuKJgzCF0qLdhOb/5CcGOOw+a/DTjj5TWhlAS5cXMjlqM/mbx0AMV43GUJjmW2k=
+X-Received: by 2002:a05:6512:31d6:b0:553:2e4a:bb58 with SMTP id
+ 2adb3069b0e04-553b6e7337amr4658199e87.9.1750246334530; Wed, 18 Jun 2025
+ 04:32:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Ricardo <mcgrathricardol@gmail.com>
-Date: Sun, 15 Jun 2025 10:05:58 -0300
-X-Gm-Features: AX0GCFsuemesBQVfFaAm4ed9mzlgV6JcMaQ1TnfnsNKbtVyhpvgrwJ_DvDUQpJs
-Message-ID: <CABWoLKm_-Ky5X7YyTkxOE3VCNGgxTHjYE9admGTHsGDPT93noQ@mail.gmail.com>
-Subject: Failed to write USB descriptors No such process with kernel 4.9.170
-To: linux-sunxi@lists.linux.dev
+References: <20250611104348.192092-1-jirislaby@kernel.org> <20250611104348.192092-17-jirislaby@kernel.org>
+In-Reply-To: <20250611104348.192092-17-jirislaby@kernel.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 18 Jun 2025 13:32:03 +0200
+X-Gm-Features: AX0GCFvVR50_3aX2UCUBcxsZuxXj9BpNTfKCs9hxZHJvTphADGhBSjR3yjyWU08
+Message-ID: <CACRpkdYkgHzEnqN3VA2MqBChjtwjC+Fhem7Bo3PdnfGZQgQ99Q@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl: Use dev_fwnode()
+To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+Cc: linux-kernel@vger.kernel.org, tglx@linutronix.de, 
+	Sean Wang <sean.wang@kernel.org>, linux-gpio@vger.kernel.org, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Ludovic Desroches <ludovic.desroches@microchip.com>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, linux-mediatek@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi, good day.
+On Wed, Jun 11, 2025 at 12:44=E2=80=AFPM Jiri Slaby (SUSE) <jirislaby@kerne=
+l.org> wrote:
 
-I have an H313 device which have trouble with USB ports which couldn=E2=80=
-=99t
-upgrade firmware due to the following messages.
+> irq_domain_create_simple() takes fwnode as the first argument. It can be
+> extracted from the struct device using dev_fwnode() helper instead of
+> using of_node with of_fwnode_handle().
+>
+> So use the dev_fwnode() helper.
+>
+> Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
+> Cc: Sean Wang <sean.wang@kernel.org>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: linux-gpio@vger.kernel.org
 
-usb_ffs.cpp:232] opening control endpoint /dev/usb-ffs/adb/ep0
+Patch applied!
 
-usb_ffs.cpp:249] failed to write USB descriptors: No such process
-
-CPU:   Allwinner Family
-
-Model: sun50iw9
-
-Linux localhost 4.9.170 #23 SMP PREEMPT Thu Dec 5 09:40:08 CST 2024 armv8l
-
-
-
-Any help will be appreciated in advance.
-
-Mc Grath Ricardo
+Yours,
+Linus Walleij
