@@ -1,63 +1,63 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BCDD2459E6
-	for <linux-sunxi@lists.linux.dev>; Thu, 19 Jun 2025 12:24:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 163BB248F47
+	for <linux-sunxi@lists.linux.dev>; Thu, 19 Jun 2025 12:24:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750335857; cv=none; b=ShT+Z8a4GSNIV9N2I8Qzu9er6v6QLkPkCHTlsf+Pnxo3TtkbBkEyVp4Kd/+ZgwkzSb4stkZLcylUdXpZHXsM9g/X71JDWUaYBwWftzOy88iGelZjZYNsInVQ8Q018XjIC1f78LEP8Af7oCUIADt9Q9dQuREIyBzdFJV80t6ehYM=
+	t=1750335859; cv=none; b=X3ejcMiKOhlt4nay11nF2s9i9IaxLrW80r6Ioj+RY3z1z27vozh79vOnBm+3jGw4YHw0uN76zNCmHzy4qEy1zaafpkJfbl/HPf4spkv1iiuA9C7QUy2srN+gb3IW///09+BQd/++iWoR9vMfmXNQBlfl8hWxYKKnuhNYIcWqifI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750335857; c=relaxed/simple;
-	bh=pRmnLFjBJ2dWkN+uiG3G+4366k2+/zNV3iQ7dsrr+ws=;
+	s=arc-20240116; t=1750335859; c=relaxed/simple;
+	bh=C/gJk2ObWTENdNN8gXRsiciv6hvj3wk+copliiqlW8I=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Nd2yqrhtK3vnsgXrfGnAi174WE0pEHynuTj2Y7fAvxDrBFykyiOkcL8OwP3qJKEqr4WyjCsKsgvA+SZZRgX11lUCKeuHoew+fAtyI/AmhQ+GIvRLNAVcEGCUxXLV82GxMx+y4D1Nd9yQMJ2bp6lRB+oxnSGidnxgw7x+9o2hOZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RBdQsGXR; arc=none smtp.client-ip=209.85.218.51
+	 MIME-Version; b=tNnUmNQYML6rQyUAEkDkJbQFaNfxZNvFXmdeCqSLw98onfejXL97SXAoSuRUpKcA2XMMlVIEa/TgG1DkYuSf/S3B2r3X4CsTfQLLpoA+QM4sZ3lqYBNXll/1qxgdnbKpnhS5FCpv/yDF67S92orReOWEXL/Y1hDp12jyJw5Wlo0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k2VkR6Ln; arc=none smtp.client-ip=209.85.218.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RBdQsGXR"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-ade48b24c97so115178266b.2
-        for <linux-sunxi@lists.linux.dev>; Thu, 19 Jun 2025 05:24:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k2VkR6Ln"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-ade4679fba7so144146166b.2
+        for <linux-sunxi@lists.linux.dev>; Thu, 19 Jun 2025 05:24:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750335854; x=1750940654; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1750335855; x=1750940655; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=t10wxuAUiB4KyOt9zeZgZ/9RxJrj16+YdQHln4bOH7s=;
-        b=RBdQsGXRSa0bnm8O3uTZqaI0MB4R6g6Svsdi94TwjQbExn/wbJCRjoACeIyhVR5ufm
-         gopl4SpmBkf4rlTLsESVJpCcNgybXcwG5rAgA3gq8lgzgSAK+W3Bzz1HxNkcE2FJ0rWh
-         JOAfdkUr0V50lXp8MUOk4x0riCpllHN4wkR4M5zs1LiTiv/mZQjse6OneQJd/ks7+9ly
-         nSPw3Xhqp/nDp2zyx6M6EZf+IOIJJmtCohLl/5xxifgDUf3Z6BpRSu3cDUHSm8RNp51g
-         CFWxzl6Re8nEFmN/paBnETmXXAGHx1haavLlEZnEeOySU5c1m+0EGtr/4htNu/GajbTF
-         BXCw==
+        bh=n4FE/m8CCQWWX6zEjUZSa1AuebcPVAo/kb1WN2hI258=;
+        b=k2VkR6LncHyovtNfzCjN1k0azTOnMH7/GlFNYpuYYRe3dll/KjHOrd3Qd6TChQF3//
+         /h+epIUAj+/clarROinI1ruGnm87UtNAtC1/c9nps+tMnGG/n4HTG8fQOLxcJMBSz62h
+         dVJ7O/2R+yZVazD6OkHPItcVQ6tmwZbMBBAhWgt9N7rYRH2BEDc5z+RBy6mSnYWUtS46
+         ZTRN3/2/E3EWibHkk32iR/KSIDb6vN2tSvffOpy6a1XuilKrLyfJjaUSoZvu6VDRPwoO
+         wieDB+qIzY2leVJAS/ZMLzVWz7Q6imSH2OpPydbW9kGAC7Naj//lFXi/SZ4mLBmN6Ndf
+         Pj/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750335854; x=1750940654;
+        d=1e100.net; s=20230601; t=1750335855; x=1750940655;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=t10wxuAUiB4KyOt9zeZgZ/9RxJrj16+YdQHln4bOH7s=;
-        b=viUTwRxDl9ppxE6f2M36dA6QrDECD89Vw/ElZm2g+4EhVMNiCJxk0r2/qhDOjpgha+
-         hh+ZDDRfsIlGiO5w4MVMJhbzwin9D8KRbS6v6QmPyaywvoE8Act6poaBEOqvC3SjDRPU
-         MFor16rh9rBPg8wWNmLFXj+u6xDyD3Ne8gxR4qgsfK4eOGwBZKiMnPBX3I7W6oWymC2h
-         dFuGC5nrGYGEKgiIhnNAB3Qr3aWIlmWbRBbjvRev7Cqa8sOPKQFxSbvrePbQYx3iIeNr
-         S9lkfpEcAmaMyQZ1U6M6EcHOBoNi4c08I6UZj3mERx7Y1hweqJi51GX/mpqof24GkaBj
-         U2Ug==
-X-Forwarded-Encrypted: i=1; AJvYcCV/Ma+2ObuYz69IEQc56y4jaVujB03BScrWYv2X+DafzXN9fZPmU0q90p/uMR8CwWY+Qh7HH+OYbHnmLg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwzlMGyCQMG419iAswdPgmVrFdNai2mOukCNYEPLhDs6PW7StQE
-	XuvTj22/9FskmZTfl55XSgKIS6EkiFM/geR6ZiNa++v6WcU+YmGYP7U8hdsoTw==
-X-Gm-Gg: ASbGncvNonptfAtxJz6vQ9OnzJMqwJ0S6WWPTh3UV2Txh/Nct2CuDQ7zvlCBOZcDDhT
-	cLhtOgNp7mKC8wIATGcOyge9o3DBp6+gZwb9jxu8bgasGMNyIJSCV8qBLGAxlUEm+GSaj3N5BWr
-	D7Ka/6J/m3XmeZx9g4qjGDYb8j4Si+Xhqn5IdxZE+asnkjh1a94Rt4t/MAdIeh2+suuMyGdrKyH
-	LevQIsLuQp3LOENzQm2q6sdncDc4L08OEN1zSHzcJt8y7WGcvpthonnotQk9qTIYj+zujmCbGYt
-	5CAgIYwju1jmFahCXnzDu7lRHziZrI1p1QEf3BKnR3GkFo96dZVpK/hhDIwhzD2IxRHbuLEhBTB
-	o2M+ob7tQLnrJTw==
-X-Google-Smtp-Source: AGHT+IHjXBuVHBHVzGX7KJawSoi/MaD0OIMw0TPwOstgtvFQbFHnqwQM6253a1WMLNA8WmktvzgJrw==
-X-Received: by 2002:a17:907:7fa6:b0:ae0:3f20:68f8 with SMTP id a640c23a62f3a-ae03f207cdamr188465966b.39.1750335854011;
-        Thu, 19 Jun 2025 05:24:14 -0700 (PDT)
+        bh=n4FE/m8CCQWWX6zEjUZSa1AuebcPVAo/kb1WN2hI258=;
+        b=vwzQzFF6mkgE+B+tOq9zpSUddNjgKBnnhcmi4TPVtQRBb5jMr/r4SgamFvxLFPAHGv
+         Dt8DR8ul3xVPhFLROIkCFfM6XjUwLu1BxBUxWMMIUfnmBKeVnNCCoNyTvGzMc3bxH+rT
+         mwxhtvYLo1bZUwReOnzOGkGpIGOwZ3dXbgBLR4zTz1EcAXtq5HH5J2+9nF+IgocQAQfS
+         5WEQKx6r/bQTpEPE/WLpD88tquZXcXWzXlqSZyKNOxgC169BaSFv1FV+PTbcdII8w4iM
+         G2W2E/jHyzy4+/2eNz0qunLFwi0xD8wXhBpFmZTtkI6PT91QSialfGMtyh5WeYVx8Qxe
+         4AOw==
+X-Forwarded-Encrypted: i=1; AJvYcCVvjaK1fZvwXNPEMgjJ7jXwu/1GUchdBtQ/wXLBLkYZJj4FlAZJ/N64FyhKDsmUBuL95sHwM6X7DNEINA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwpuZ8LtOprPaTEzPMG1io+eKnEVqtSOd+1MZp8wpOEd+zBYhsF
+	IJqKgyoiuzEqn9Aj3G0fPvukzSSgx3GsbsfJ/ONvfk7w3C9+u2PL3e6a
+X-Gm-Gg: ASbGnctmmbnSN9hEqJfavqC7+/k2VW0b0PULz3Nhh2BVNg2C0PVTr4lpQkDtW+T/qFJ
+	kU+xJ3DOChOWwkgCNQ5ZSnqh2j8qlo5Pzqn87fInthyfbeTJKgzuco2cIYwNjd9R6skzxPAdTHy
+	e498eUfEx0twxMqPw5lJ5KhpAlxEipMKDqL6GMlaAES6bLQT9AhFF2phC8ttNWeVUmIuP1nJjHi
+	e5D7qVkP1C9KZ4CB2S6BhL7JyPWJMvAXoYN4+Avx2CzFuHLxaZREcNmbHbiSwbtd1hUEkb/0SMe
+	JyjzH3YZ+NhoD/izlKiozZGsVrSvZkLwYiGkntD/R0KeRCiM/MkhnI7yZwdpr8+71/0xZvmBdjR
+	fBpDJbj1nudVHqQ==
+X-Google-Smtp-Source: AGHT+IEqkd21piHtgzZrKyYzEgGCeUARprhDQ5f8PJdOXO/FUR4X0Sb+5gSgjLC8tCZKpkV/N0CMLw==
+X-Received: by 2002:a17:907:1c9e:b0:ad8:8529:4f86 with SMTP id a640c23a62f3a-adfad5e2b12mr2149539166b.58.1750335855186;
+        Thu, 19 Jun 2025 05:24:15 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:2f0e:c51b:8900:a03f:12cb:72f7:9069])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae000b02bd3sm504688066b.3.2025.06.19.05.24.13
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae000b02bd3sm504688066b.3.2025.06.19.05.24.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Jun 2025 05:24:13 -0700 (PDT)
+        Thu, 19 Jun 2025 05:24:14 -0700 (PDT)
 From: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
 To: clabbe.montjoie@gmail.com,
 	herbert@gondor.apana.org.au,
@@ -70,9 +70,9 @@ Cc: wens@csie.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Ovidiu Panait <ovidiu.panait.oss@gmail.com>
-Subject: [PATCH 03/10] crypto: sun8i-ce - move bounce_iv and backup_iv to request context
-Date: Thu, 19 Jun 2025 15:23:09 +0300
-Message-ID: <20250619122316.2587236-4-ovidiu.panait.oss@gmail.com>
+Subject: [PATCH 04/10] crypto: sun8i-ce - save hash buffers and dma info to request context
+Date: Thu, 19 Jun 2025 15:23:10 +0300
+Message-ID: <20250619122316.2587236-5-ovidiu.panait.oss@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250619122316.2587236-1-ovidiu.panait.oss@gmail.com>
 References: <20250619122316.2587236-1-ovidiu.panait.oss@gmail.com>
@@ -84,135 +84,169 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Currently, the iv buffers are allocated once per flow during driver probe.
-Having a single iv buffer for all requests works with the current setup
-where requests are processed one by one, but it wouldn't work if multiple
-requests are chained together and processed in one go.
+Currently, all hash processing (buffer allocation/deallocation, dma
+mapping/unmapping) is done inside do_one_request() callback.
 
-In preparation for introducing request batching, allocate iv buffers per
-request, rather than per flow.
+In order to implement request batching, the hash buffers and dma info
+associated with each request need to be saved inside request context, for
+later use (during do_batch_requests() callback).
 
 Signed-off-by: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
 ---
- .../allwinner/sun8i-ce/sun8i-ce-cipher.c       | 18 +++++++++---------
- .../crypto/allwinner/sun8i-ce/sun8i-ce-core.c  | 12 ------------
- drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h   |  8 ++++----
- 3 files changed, 13 insertions(+), 25 deletions(-)
+ .../crypto/allwinner/sun8i-ce/sun8i-ce-hash.c | 56 +++++++------------
+ drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h  | 17 ++++++
+ 2 files changed, 38 insertions(+), 35 deletions(-)
 
-diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
-index 113a1100f2ae..9963e5962551 100644
---- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
-+++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
-@@ -209,11 +209,11 @@ static int sun8i_ce_cipher_prepare(struct crypto_engine *engine, void *async_req
- 	if (areq->iv && ivsize > 0) {
- 		if (rctx->op_dir & CE_DECRYPTION) {
- 			offset = areq->cryptlen - ivsize;
--			scatterwalk_map_and_copy(chan->backup_iv, areq->src,
-+			scatterwalk_map_and_copy(rctx->backup_iv, areq->src,
- 						 offset, ivsize, 0);
- 		}
--		memcpy(chan->bounce_iv, areq->iv, ivsize);
--		rctx->addr_iv = dma_map_single(ce->dev, chan->bounce_iv, ivsize,
-+		memcpy(rctx->bounce_iv, areq->iv, ivsize);
-+		rctx->addr_iv = dma_map_single(ce->dev, rctx->bounce_iv, ivsize,
- 					       DMA_TO_DEVICE);
- 		if (dma_mapping_error(ce->dev, rctx->addr_iv)) {
- 			dev_err(ce->dev, "Cannot DMA MAP IV\n");
-@@ -299,13 +299,13 @@ static int sun8i_ce_cipher_prepare(struct crypto_engine *engine, void *async_req
+diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
+index 61e8d968fdcc..3ee0c65ef600 100644
+--- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
++++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
+@@ -328,12 +328,9 @@ int sun8i_ce_hash_run(struct crypto_engine *engine, void *breq)
+ 	u32 common;
+ 	u64 byte_count;
+ 	__le32 *bf;
+-	void *buf, *result;
+ 	int j, i, todo;
+ 	u64 bs;
+ 	int digestsize;
+-	dma_addr_t addr_res, addr_pad;
+-	int ns = sg_nents_for_len(areq->src, areq->nbytes);
  
- 		offset = areq->cryptlen - ivsize;
- 		if (rctx->op_dir & CE_DECRYPTION) {
--			memcpy(areq->iv, chan->backup_iv, ivsize);
--			memzero_explicit(chan->backup_iv, ivsize);
-+			memcpy(areq->iv, rctx->backup_iv, ivsize);
-+			memzero_explicit(rctx->backup_iv, ivsize);
- 		} else {
- 			scatterwalk_map_and_copy(areq->iv, areq->dst, offset,
- 						 ivsize, 0);
- 		}
--		memzero_explicit(chan->bounce_iv, ivsize);
-+		memzero_explicit(rctx->bounce_iv, ivsize);
+ 	algt = container_of(alg, struct sun8i_ce_alg_template, alg.hash.base);
+ 	ce = algt->ce;
+@@ -345,19 +342,7 @@ int sun8i_ce_hash_run(struct crypto_engine *engine, void *breq)
+ 	if (digestsize == SHA384_DIGEST_SIZE)
+ 		digestsize = SHA512_DIGEST_SIZE;
+ 
+-	/* the padding could be up to two block. */
+-	buf = kcalloc(2, bs, GFP_KERNEL | GFP_DMA);
+-	if (!buf) {
+-		err = -ENOMEM;
+-		goto err_out;
+-	}
+-	bf = (__le32 *)buf;
+-
+-	result = kzalloc(digestsize, GFP_KERNEL | GFP_DMA);
+-	if (!result) {
+-		err = -ENOMEM;
+-		goto err_free_buf;
+-	}
++	bf = (__le32 *)rctx->pad;
+ 
+ 	flow = rctx->flow;
+ 	chan = &ce->chanlist[flow];
+@@ -378,11 +363,12 @@ int sun8i_ce_hash_run(struct crypto_engine *engine, void *breq)
+ 	cet->t_sym_ctl = 0;
+ 	cet->t_asym_ctl = 0;
+ 
+-	nr_sgs = dma_map_sg(ce->dev, areq->src, ns, DMA_TO_DEVICE);
++	rctx->nr_sgs = sg_nents_for_len(areq->src, areq->nbytes);
++	nr_sgs = dma_map_sg(ce->dev, areq->src, rctx->nr_sgs, DMA_TO_DEVICE);
+ 	if (nr_sgs <= 0 || nr_sgs > MAX_SG) {
+ 		dev_err(ce->dev, "Invalid sg number %d\n", nr_sgs);
+ 		err = -EINVAL;
+-		goto err_free_result;
++		goto err_out;
  	}
  
- 	dma_unmap_single(ce->dev, rctx->addr_key, op->keylen, DMA_TO_DEVICE);
-@@ -348,13 +348,13 @@ static void sun8i_ce_cipher_unprepare(struct crypto_engine *engine,
- 					 DMA_TO_DEVICE);
- 		offset = areq->cryptlen - ivsize;
- 		if (rctx->op_dir & CE_DECRYPTION) {
--			memcpy(areq->iv, chan->backup_iv, ivsize);
--			memzero_explicit(chan->backup_iv, ivsize);
-+			memcpy(areq->iv, rctx->backup_iv, ivsize);
-+			memzero_explicit(rctx->backup_iv, ivsize);
- 		} else {
- 			scatterwalk_map_and_copy(areq->iv, areq->dst, offset,
- 						 ivsize, 0);
- 		}
--		memzero_explicit(chan->bounce_iv, ivsize);
-+		memzero_explicit(rctx->bounce_iv, ivsize);
+ 	len = areq->nbytes;
+@@ -397,10 +383,13 @@ int sun8i_ce_hash_run(struct crypto_engine *engine, void *breq)
+ 		err = -EINVAL;
+ 		goto err_unmap_src;
+ 	}
+-	addr_res = dma_map_single(ce->dev, result, digestsize, DMA_FROM_DEVICE);
+-	cet->t_dst[0].addr = desc_addr_val_le32(ce, addr_res);
+-	cet->t_dst[0].len = cpu_to_le32(digestsize / 4);
+-	if (dma_mapping_error(ce->dev, addr_res)) {
++
++	rctx->result_len = digestsize;
++	rctx->addr_res = dma_map_single(ce->dev, rctx->result, rctx->result_len,
++					DMA_FROM_DEVICE);
++	cet->t_dst[0].addr = desc_addr_val_le32(ce, rctx->addr_res);
++	cet->t_dst[0].len = cpu_to_le32(rctx->result_len / 4);
++	if (dma_mapping_error(ce->dev, rctx->addr_res)) {
+ 		dev_err(ce->dev, "DMA map dest\n");
+ 		err = -EINVAL;
+ 		goto err_unmap_src;
+@@ -428,10 +417,12 @@ int sun8i_ce_hash_run(struct crypto_engine *engine, void *breq)
+ 		goto err_unmap_result;
  	}
  
- 	dma_unmap_single(ce->dev, rctx->addr_key, op->keylen, DMA_TO_DEVICE);
-diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
-index 79ec172e5c99..930a6579d853 100644
---- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
-+++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
-@@ -757,18 +757,6 @@ static int sun8i_ce_allocate_chanlist(struct sun8i_ce_dev *ce)
- 			err = -ENOMEM;
- 			goto error_engine;
- 		}
--		ce->chanlist[i].bounce_iv = devm_kmalloc(ce->dev, AES_BLOCK_SIZE,
--							 GFP_KERNEL | GFP_DMA);
--		if (!ce->chanlist[i].bounce_iv) {
--			err = -ENOMEM;
--			goto error_engine;
--		}
--		ce->chanlist[i].backup_iv = devm_kmalloc(ce->dev, AES_BLOCK_SIZE,
--							 GFP_KERNEL);
--		if (!ce->chanlist[i].backup_iv) {
--			err = -ENOMEM;
--			goto error_engine;
--		}
- 	}
- 	return 0;
- error_engine:
+-	addr_pad = dma_map_single(ce->dev, buf, j * 4, DMA_TO_DEVICE);
+-	cet->t_src[i].addr = desc_addr_val_le32(ce, addr_pad);
++	rctx->pad_len = j * 4;
++	rctx->addr_pad = dma_map_single(ce->dev, rctx->pad, rctx->pad_len,
++					DMA_TO_DEVICE);
++	cet->t_src[i].addr = desc_addr_val_le32(ce, rctx->addr_pad);
+ 	cet->t_src[i].len = cpu_to_le32(j);
+-	if (dma_mapping_error(ce->dev, addr_pad)) {
++	if (dma_mapping_error(ce->dev, rctx->addr_pad)) {
+ 		dev_err(ce->dev, "DMA error on padding SG\n");
+ 		err = -EINVAL;
+ 		goto err_unmap_result;
+@@ -444,21 +435,16 @@ int sun8i_ce_hash_run(struct crypto_engine *engine, void *breq)
+ 
+ 	err = sun8i_ce_run_task(ce, flow, crypto_ahash_alg_name(tfm));
+ 
+-	dma_unmap_single(ce->dev, addr_pad, j * 4, DMA_TO_DEVICE);
++	dma_unmap_single(ce->dev, rctx->addr_pad, rctx->pad_len, DMA_TO_DEVICE);
+ 
+ err_unmap_result:
+-	dma_unmap_single(ce->dev, addr_res, digestsize, DMA_FROM_DEVICE);
++	dma_unmap_single(ce->dev, rctx->addr_res, rctx->result_len,
++			 DMA_FROM_DEVICE);
+ 	if (!err)
+-		memcpy(areq->result, result, crypto_ahash_digestsize(tfm));
++		memcpy(areq->result, rctx->result, crypto_ahash_digestsize(tfm));
+ 
+ err_unmap_src:
+-	dma_unmap_sg(ce->dev, areq->src, ns, DMA_TO_DEVICE);
+-
+-err_free_result:
+-	kfree(result);
+-
+-err_free_buf:
+-	kfree(buf);
++	dma_unmap_sg(ce->dev, areq->src, rctx->nr_sgs, DMA_TO_DEVICE);
+ 
+ err_out:
+ 	local_bh_disable();
 diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h
-index f12c32d1843f..0d46531c475c 100644
+index 0d46531c475c..90b955787d37 100644
 --- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h
 +++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h
-@@ -188,8 +188,6 @@ struct ce_task {
-  * @status:	set to 1 by interrupt if task is done
-  * @t_phy:	Physical address of task
-  * @tl:		pointer to the current ce_task for this flow
-- * @backup_iv:		buffer which contain the next IV to store
-- * @bounce_iv:		buffer which contain the IV
-  * @stat_req:	number of request done by this flow
+@@ -110,6 +110,9 @@
+ 
+ #define MAXFLOW 4
+ 
++#define CE_MAX_HASH_DIGEST_SIZE		SHA512_DIGEST_SIZE
++#define CE_MAX_HASH_BLOCK_SIZE		SHA512_BLOCK_SIZE
++
+ /*
+  * struct ce_clock - Describe clocks used by sun8i-ce
+  * @name:	Name of clock needed by this variant
+@@ -304,9 +307,23 @@ struct sun8i_ce_hash_tfm_ctx {
+  * struct sun8i_ce_hash_reqctx - context for an ahash request
+  * @fallback_req:	pre-allocated fallback request
+  * @flow:	the flow to use for this request
++ * @nr_sgs: number of entries in the source scatterlist
++ * @result_len: result length in bytes
++ * @pad_len: padding length in bytes
++ * @addr_res: DMA address of the result buffer, returned by dma_map_single()
++ * @addr_pad: DMA address of the padding buffer, returned by dma_map_single()
++ * @result: per-request result buffer
++ * @pad: per-request padding buffer (up to 2 blocks)
   */
- struct sun8i_ce_flow {
-@@ -198,8 +196,6 @@ struct sun8i_ce_flow {
- 	int status;
- 	dma_addr_t t_phy;
- 	struct ce_task *tl;
--	void *backup_iv;
--	void *bounce_iv;
- #ifdef CONFIG_CRYPTO_DEV_SUN8I_CE_DEBUG
- 	unsigned long stat_req;
- #endif
-@@ -264,6 +260,8 @@ static inline __le32 desc_addr_val_le32(struct sun8i_ce_dev *dev,
-  * @nr_sgd:		The number of destination SG (as given by dma_map_sg())
-  * @addr_iv:		The IV addr returned by dma_map_single, need to unmap later
-  * @addr_key:		The key addr returned by dma_map_single, need to unmap later
-+ * @bounce_iv:		Current IV buffer
-+ * @backup_iv:		Next IV buffer
-  * @fallback_req:	request struct for invoking the fallback skcipher TFM
-  */
- struct sun8i_cipher_req_ctx {
-@@ -273,6 +271,8 @@ struct sun8i_cipher_req_ctx {
- 	int nr_sgd;
- 	dma_addr_t addr_iv;
- 	dma_addr_t addr_key;
-+	u8 bounce_iv[AES_BLOCK_SIZE] ____cacheline_aligned;
-+	u8 backup_iv[AES_BLOCK_SIZE] ____cacheline_aligned;
- 	struct skcipher_request fallback_req;   // keep at the end
+ struct sun8i_ce_hash_reqctx {
+ 	int flow;
++	int nr_sgs;
++	size_t result_len;
++	size_t pad_len;
++	dma_addr_t addr_res;
++	dma_addr_t addr_pad;
++	u8 result[CE_MAX_HASH_DIGEST_SIZE] ____cacheline_aligned;
++	u8 pad[2 * CE_MAX_HASH_BLOCK_SIZE] ____cacheline_aligned;
+ 	struct ahash_request fallback_req; // keep at the end
  };
  
 -- 
