@@ -1,124 +1,63 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA26F1E8342
-	for <linux-sunxi@lists.linux.dev>; Thu, 19 Jun 2025 19:20:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6550330E82B;
+	Thu, 19 Jun 2025 19:54:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750360814; cv=none; b=gyKwoCa0W7LDPjpuOvIsNhnfOBtn5oWqQdVGLbHk9dX/adEQyDvNDfaNcrpevfEP1Qwcn1qBNK8zLz5hP8bxkMfRberc5eV3N4DT8TYAJMXPaGQ1mY0In8Z1nBYgz5UccLb/Qe3U0waTZ5IuWR4SkRah7jOdMprKvFfLNfvNuBE=
+	t=1750362871; cv=none; b=ZYyTwqA8BYT3He1Brb2OMwJWFzSNMpc8BQczWRw+PftrKpjJk5P7o9GKaMfTjZxpkjbsPv3sA18DL4RRmUgbDlWECk9PLylGKFRsrw8K4p8ZrgvyjAqX568U6gnzhFbKTa+J86va1d1dvtwFLjg22GXVBFoom2d68qKPkUHyMhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750360814; c=relaxed/simple;
-	bh=OUGP+9Bc5zn706e0s5SjFMKump4OS0LBSwQrlzy2aP8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Efge1Sqx323qkHENoLZF7jYUNRzpPD0wpxHOkpS1U3+L4y763iYeuB9inqssK9Qhl4CCE0l47HhRyoV1B5FoAYIkDd4B1wVURx3lmQdjihr3g3JS8nx3sCXyBI4G1Mk9hoCkxgCRmpbonrQs7nwl77GM6qsgzrS75VqlB73FT9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cPwtr9Iq; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1750362871; c=relaxed/simple;
+	bh=lLUNA2btcTVM+29cX0zM/hTgXoUCcTegeYyK/w6c0IU=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=lBt73oRh+7dAP+fdaUaMq7VGP2IIOVBGFqHr7u15m3RHs1AN4jg1E4AVSfMXXywXsrOZanIfYsm4/Srkvh77JCDi3IxhxgJv3SzcAQhdiMIDSy0Bvz475Wvd2x/skHp2XkaIV/lXTazLLLhmztoxo22lfwRBpS9nGvPqyeK2PJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u9YRHxfC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cPwtr9Iq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1750360810;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=su+KvBhgSlwSz8Qo8A5gRsBfuCg0rvVY9PlXRCR9Fas=;
-	b=cPwtr9Iqc8SnD87s/tquQQSZN2tpdgpecb3tVtW/AJ2eBSIjzaKnB/t33XMMvyPlCzWLLO
-	BVOMYFQ2uubQ8NJ8azH4/uHD49DIVyKO5X4JhB/THyPSjmBTWPPj6LycrYukI+Rc+UHIGk
-	WbqoWnHK1ImfasRPGXBo2p/xNrTFpew=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-425-BrdIiTfMN9aBDxa_eKupnA-1; Thu,
- 19 Jun 2025 15:20:06 -0400
-X-MC-Unique: BrdIiTfMN9aBDxa_eKupnA-1
-X-Mimecast-MFC-AGG-ID: BrdIiTfMN9aBDxa_eKupnA_1750360802
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4C9CA18002E4;
-	Thu, 19 Jun 2025 19:20:02 +0000 (UTC)
-Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.132])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id E64CC19560A3;
-	Thu, 19 Jun 2025 19:19:52 +0000 (UTC)
-From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Thu, 19 Jun 2025 14:16:08 -0500
-Subject: [PATCH v2 16/16] drm/tegra: Keep up with refcounting
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u9YRHxfC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC6B3C4CEEA;
+	Thu, 19 Jun 2025 19:54:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750362871;
+	bh=lLUNA2btcTVM+29cX0zM/hTgXoUCcTegeYyK/w6c0IU=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=u9YRHxfC2xlyG6DZZGG2H4+kRICD2k+XrdDMTw95UheQdSuU7WXUyqa7d/X/I/5W9
+	 lds/oNSwWQMZ9+9D9buuuMwKk8/BP7S53VMzCF+tcmORbRyK2N2bEn8fglN5Z4RmS0
+	 looOeJz4yzN/XHK6M+HsBczKMbUZwPHBtqF5FyACkFc56WuU2H5Hx3gXGidLOpDDqg
+	 jhv2DQG4XnwNkLRyR9LCQ9dIChLOjhglo4qR7O+BYpaT0JwevNdxDsfXjxUqz3/tzq
+	 W36TozvzLJZRh5Z+WHwssmjL4oNAKG3Bj7gH1JgI31kMERvkG3lmY3LQhcmoy4Vwb4
+	 ltmC0ePBpT2jQ==
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250619-b4-of_drm_find_panel_part1-v2-16-0df94aecc43d@redhat.com>
-References: <20250619-b4-of_drm_find_panel_part1-v2-0-0df94aecc43d@redhat.com>
-In-Reply-To: <20250619-b4-of_drm_find_panel_part1-v2-0-0df94aecc43d@redhat.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, 
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, 
- Seung-Woo Kim <sw0312.kim@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Alain Volmat <alain.volmat@foss.st.com>, 
- Raphael Gallais-Pou <rgallaispou@gmail.com>, Stefan Agner <stefan@agner.ch>, 
- Alison Wang <alison.wang@nxp.com>, Linus Walleij <linus.walleij@linaro.org>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Mikko Perttunen <mperttunen@nvidia.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-samsung-soc@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- linux-tegra@vger.kernel.org, Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1750360565; l=771;
- i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=OUGP+9Bc5zn706e0s5SjFMKump4OS0LBSwQrlzy2aP8=;
- b=avJnxiZEciA9G70sV2NKBkfKbz54xRs+P5jyouBdV0SNcLqS3cJKy0hqVYnVWDGJW/jjQRzUq
- NDWEDyAhk60CpeImtnfvwtzvcfADtJkVdF/qIT7anuYZnwLT3jZTlf5
-X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
- pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250619171025.3359384-2-wens@kernel.org>
+References: <20250619171025.3359384-1-wens@kernel.org> <20250619171025.3359384-2-wens@kernel.org>
+Subject: Re: [PATCH 1/2] dt-bindings: reset: sun55i-a523-r-ccu: Add missing PPU0 reset
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: Andre Przywara <andre.przywara@arm.com>, Philipp Zabel <p.zabel@pengutronix.de>, devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+To: Chen-Yu Tsai <wens@csie.org>, Chen-Yu Tsai <wens@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, Samuel Holland <samuel@sholland.org>
+Date: Thu, 19 Jun 2025 12:54:30 -0700
+Message-ID: <175036287011.4372.17190370496961036062@lazor>
+User-Agent: alot/0.11
 
-Put the panel reference back when driver is no
-longer using it.
+Quoting Chen-Yu Tsai (2025-06-19 10:10:24)
+> From: Chen-Yu Tsai <wens@csie.org>
+>=20
+> There is a PPU0 reset control bit in the same register as the PPU1
+> reset control. This missing reset control is for the PCK-600 unit
+> in the SoC. Manual tests show that the reset control indeed exists,
+> and if not configured, the system will hang when the PCK-600 registers
+> are accessed.
+>=20
+> Add a reset entry for it at the end of the existing ones.
+>=20
+> Fixes: 52dbf84857f0 ("dt-bindings: clk: sunxi-ng: document two Allwinner =
+A523 CCUs")
+> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+> ---
 
-Patch added in v2.
-
-Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
----
- drivers/gpu/drm/tegra/dsi.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
-index b5089b7722676cfaee5d28216af4ae706a47f895..830e90178302a76e7c091c92b66ce385ad26207e 100644
---- a/drivers/gpu/drm/tegra/dsi.c
-+++ b/drivers/gpu/drm/tegra/dsi.c
-@@ -1523,6 +1523,7 @@ static int tegra_dsi_host_detach(struct mipi_dsi_host *host,
- 
- 	if (output->panel && &device->dev == output->panel->dev) {
- 		output->panel = NULL;
-+		drm_panel_put(output->panel);
- 
- 		if (output->connector.dev)
- 			drm_helper_hpd_irq_event(output->connector.dev);
-
--- 
-2.48.1
-
+Acked-by: Stephen Boyd <sboyd@kernel.org>
