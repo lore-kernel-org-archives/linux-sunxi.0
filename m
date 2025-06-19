@@ -1,206 +1,227 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CF6E70830;
-	Wed, 18 Jun 2025 18:19:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E73821D5B4
+	for <linux-sunxi@lists.linux.dev>; Thu, 19 Jun 2025 09:44:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750270761; cv=none; b=DDbrHWoQ5sPK3xbln3kQgKm1x57v+xWQGqwWdrgl5WKEMUBYihKDDSG2TSodhTz0XfFdKUFd7hYqJor6G+o0E+CVKkBoOYfmEed82A3pZFxy12ayeectUBWGVk1pPSDbpGCbRWokIG8rzGH/RVw23bD8ZFaJ4JT3FGeGukoCF/U=
+	t=1750326259; cv=none; b=GItDV2gRl0rtRiQC5yNiEUSwX4byO8qmjF6WR3Pf0Juqypb1NIRS/0uwv3SURw7fAemOmUBO50p5Pa0+AVYlvWfq7ahI7+pPKHWtFonGpUMeehF0yQfDBH0Ru/1GJNWjcexgYGN5i4zchj8xtpWON6VKIX/Tuu0iM4qk0FbIVe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750270761; c=relaxed/simple;
-	bh=a50wlknDlpagNq9jT3Q/IWSLUrXmeXKtizwXZ65RjX0=;
+	s=arc-20240116; t=1750326259; c=relaxed/simple;
+	bh=cCQWwvXkYBKj2yDuzsNH38nMWfLHScMgp0lVjz5a9vI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JtY0/Oy3t6VVByjww8SbTUsdy5nrH8y3xYx9S5CKHq1ANnsDs/IKoqx2CFm5tqFKxOFZspogO+m8Kyq2q9TZWteGToJdErp1Lmpj4E/0cP07dMdlxOI06uSmLUoTjoXiTVpSzbokFLKmserO2lLVdvgQdVT7O5ebaIoMdApqJDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lzKZWqwH; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=MHoTBnpvrB7v9Kj97Kfec+1e03lCG8RVHREtpqAvMSK2zocPsRn6y4nHPgRjm446aeVzGdm+8ira04hCYAFGjKAXwX3sIuLqlNrKFUlSXMEwLCDu+N0fqFVwjDahWSQ4s5MKMVSrv383u+P9c/RA3cO9OwZxyRhOsOxE563APO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=plQyC+M2; arc=none smtp.client-ip=217.70.183.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lzKZWqwH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28080C4CEE7;
-	Wed, 18 Jun 2025 18:19:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750270760;
-	bh=a50wlknDlpagNq9jT3Q/IWSLUrXmeXKtizwXZ65RjX0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lzKZWqwHZj3IpGzO5PE2PMzFEc9y+To0ksq9WMfVFHMABL5TvgULiuHVEv1Q3sICd
-	 IvcBuy+9JdRDH9jmtmYKfEGU4DmKUfgoiKms+0R8YUpDXkRf3B0WH60WlDjuJTD6S4
-	 2RCswt7B+ik4mQwGkHA7obrN/2VGwQqRxPAXnAplqAx0PVQsRdI+UECPKAIBaAkBKL
-	 b0o1Um6RqawIVq36Xc0ZG/mgZFaifAE55ARqxI11lANsh5gjgdy4lJGu6smC7kBtZn
-	 CooEN3OuhxDOkP1Efqj2P6vx3bjkzTm2RZJcPdIZShHV0Ng8rm7gXcz/ml3vlKwCN5
-	 ZV200A33o5DPQ==
-Date: Wed, 18 Jun 2025 20:19:18 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="plQyC+M2"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D243443B02;
+	Thu, 19 Jun 2025 09:44:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1750326250;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=o4Yn1AmvZSHJwnVEX7Q8ZOWNcDOmD6fTQEVrdoy4wnE=;
+	b=plQyC+M2KzD70YQbE/E8RIPi+QPaZRyIMMyZmqDdCoNbRKl0cX9fk0BwXTB/JKO1N96KHO
+	qLcWINZiAqq25ltHOUAEBoUGvBFuz93SwRDAZNkG92uzBvFBhpwN5hSkYU3QXmQkWGfwxy
+	hpb4yQlmi60F/YGqrWb+vZB5MZRFgbBHeAQKASLk6ycJlvydvT2JoOltRbX9gW7zY/ZZTQ
+	FTVHX/clQAqrkhFlJvxKpcKdIIKuzHU0KHBAJmHt0Au17KqOdDi/AUKxJzpZR8JWXBmlyH
+	Vva3+4TK5YWTKZMvTcAmqHvZXZjjmOQjRtAN8oTyAcfLmreN59KjPjRq0aswtg==
+Date: Thu, 19 Jun 2025 11:44:07 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
 To: Andre Przywara <andre.przywara@arm.com>
-Cc: =?utf-8?B?0JDQu9C10LrRgdCw0L3QtNGAINCo0YPQsdC40L0=?= <privatesub2@gmail.com>, 
-	linux-kernel@vger.kernel.org, Brandon Cheo Fusi <fusibrandon13@gmail.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, linux-pwm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v12 2/3] pwm: Add Allwinner's D1/T113-S3/R329 SoCs PWM
- support
-Message-ID: <daopyy24kta2myimufkf2v6c6igdplco6b2kxohm47j6cez5mb@34ccs3wbtkop>
+Cc: Aleksandr Shubin <privatesub2@gmail.com>, linux-kernel@vger.kernel.org,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Cheo Fusi <fusibrandon13@gmail.com>, linux-pwm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v12 1/3] dt-bindings: pwm: Add binding for Allwinner
+ D1/T113-S3/R329 PWM controller
+Message-ID: <20250619094407c4c849f3@mail.local>
 References: <20250427142500.151925-1-privatesub2@gmail.com>
- <20250427142500.151925-3-privatesub2@gmail.com>
- <20250512233944.06bc1cb7@minigeek.lan>
- <CAF4idN=Kwp8bDYVyjM52eUwVEEZcPM9YyK9KiqUzyf8Dm=cXTQ@mail.gmail.com>
- <hetih6ul7hdj3kflhy2s2zkkh3r7pcupgwde3xnwmjzs6cujp3@vcw4pde76bdb>
- <20250528132902.70f634cd@donnerap.manchester.arm.com>
+ <20250427142500.151925-2-privatesub2@gmail.com>
+ <20250512235619.30cff739@minigeek.lan>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="zqgmvr7sp22wp6bu"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250528132902.70f634cd@donnerap.manchester.arm.com>
+In-Reply-To: <20250512235619.30cff739@minigeek.lan>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddvgdehudelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpeetlhgvgigrnhgurhgvuceuvghllhhonhhiuceorghlvgigrghnughrvgdrsggvlhhlohhnihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnheptdekudegleeiteefgfekteevieeuudekfeeiudeiheduleeuueeuudfhffeuudfhnecuffhomhgrihhnpeguvghvihgtvghtrhgvvgdrohhrghdpihhnfhhrrgguvggrugdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmedvrggtjeemfhgvgegvmeehiegrugemtgekvgegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmedvrggtjeemfhgvgegvmeehiegrugemtgekvgegpdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpegrlhgvgigrnhgurhgvrdgsvghllhhonhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvvddprhgtphhtthhopegrnhgurhgvrdhprhiihiifrghrrgesrghrmhdrtghomhdprhgtphhtthhopehprhhiv
+ hgrthgvshhusgdvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghonhhorhdrughoohhlvgihsehmihgtrhhotghhihhprdgtohhmpdhrtghpthhtohepuhhklhgvihhnvghksehkvghrnhgvlhdrohhrghdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrgh
+X-GND-Sasl: alexandre.belloni@bootlin.com
 
+On 12/05/2025 23:56:19+0100, Andre Przywara wrote:
+> On Sun, 27 Apr 2025 17:24:53 +0300
+> Aleksandr Shubin <privatesub2@gmail.com> wrote:
+> 
+> Hi,
+> 
+> > Allwinner's D1, T113-S3 and R329 SoCs have a new pwm
+> > controller witch is different from the previous pwm-sun4i.
+> > 
+> > The D1 and T113 are identical in terms of peripherals,
+> > they differ only in the architecture of the CPU core, and
+> > even share the majority of their DT. Because of that,
+> > using the same compatible makes sense.
+> > The R329 is a different SoC though, and should have
+> > a different compatible string added, especially as there
+> > is a difference in the number of channels.
+> > 
+> > D1 and T113s SoCs have one PWM controller with 8 channels.
+> > R329 SoC has two PWM controllers in both power domains, one of
+> > them has 9 channels (CPUX one) and the other has 6 (CPUS one).
+> > 
+> > Add a device tree binding for them.
+> > 
+> > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> > Signed-off-by: Aleksandr Shubin <privatesub2@gmail.com>
+> > ---
+> >  .../bindings/pwm/allwinner,sun20i-pwm.yaml    | 84 +++++++++++++++++++
+> >  1 file changed, 84 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/pwm/allwinner,sun20i-pwm.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/pwm/allwinner,sun20i-pwm.yaml b/Documentation/devicetree/bindings/pwm/allwinner,sun20i-pwm.yaml
+> > new file mode 100644
+> > index 000000000000..4b25e94a8e46
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/pwm/allwinner,sun20i-pwm.yaml
+> > @@ -0,0 +1,84 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/pwm/allwinner,sun20i-pwm.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Allwinner D1, T113-S3 and R329 PWM
+> > +
+> > +maintainers:
+> > +  - Aleksandr Shubin <privatesub2@gmail.com>
+> > +  - Brandon Cheo Fusi <fusibrandon13@gmail.com>
+> > +
+> > +properties:
+> > +  compatible:
+> > +    oneOf:
+> > +      - const: allwinner,sun20i-d1-pwm
+> > +      - items:
+> > +          - const: allwinner,sun50i-r329-pwm
+> > +          - const: allwinner,sun20i-d1-pwm
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  "#pwm-cells":
+> > +    const: 3
+> > +
+> > +  clocks:
+> > +    items:
+> > +      - description: Bus clock
+> > +      - description: 24 MHz oscillator
+> > +      - description: APB clock
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: bus
+> > +      - const: hosc
+> > +      - const: apb
+> > +
+> > +  resets:
+> > +    maxItems: 1
+> > +
+> > +  allwinner,npwms:
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > +    description: The number of PWM channels configured for this instance
+> > +    enum: [6, 8, 9]
+> 
+> Do we really need to be so restrictive here? The IP has an
+> "architectural" limit of 16 channels (due to the MMIO register layout
+> and status/control bits usage in some registers), so can't we just leave
+> this value to be anything between 1 and 16 here? If people configure
+> this wrongly, it's their fault, I'd say? Without confining this further
+> based on the respective compatible strings this enum is less useful
+> anyway, I think. The Allwinner A523 uses the same IP, and supports all
+> 16 channels, the V853 implements 12, that's what I quickly found
+> already, and there might be more examples in the future, so I'd rather
+> open this up.
+> 
 
---zqgmvr7sp22wp6bu
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v12 2/3] pwm: Add Allwinner's D1/T113-S3/R329 SoCs PWM
- support
-MIME-Version: 1.0
+Do we really need this property? I feel like the number of PWM channels should be
+something the driver could infer from the compatible string as we are going to
+have one compatible string per SoC anyway.
 
-Hello Andre,
+> > +
+> > +allOf:
+> > +  - $ref: pwm.yaml#
+> > +
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            const: allwinner,sun50i-r329-pwm
+> > +
+> > +    then:
+> > +      required:
+> > +        - allwinner,npwms
+> 
+> Can't we just simplify this by always requiring this property? As
+> mentioned, there will be more SoCs with different values, so just
+> omitting this for the D1 seems odd.
+> 
+> Cheers,
+> Andre
+> 
+> 
+> > +
+> > +unevaluatedProperties: false
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - "#pwm-cells"
+> > +  - clocks
+> > +  - clock-names
+> > +  - resets
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/clock/sun20i-d1-ccu.h>
+> > +    #include <dt-bindings/reset/sun20i-d1-ccu.h>
+> > +
+> > +    pwm: pwm@2000c00 {
+> > +      compatible = "allwinner,sun20i-d1-pwm";
+> > +      reg = <0x02000c00 0x400>;
+> > +      clocks = <&ccu CLK_BUS_PWM>, <&dcxo>, <&ccu CLK_APB0>;
+> > +      clock-names = "bus", "hosc", "apb";
+> > +      resets = <&ccu RST_BUS_PWM>;
+> > +      #pwm-cells = <0x3>;
+> > +    };
+> > +
+> > +...
+> 
+> 
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
 
-On Wed, May 28, 2025 at 01:29:02PM +0100, Andre Przywara wrote:
-> On Wed, 28 May 2025 13:08:40 +0200
-> Uwe Kleine-K=C3=B6nig <ukleinek@kernel.org> wrote:
-> > On Sat, May 24, 2025 at 12:07:28PM +0300, =D0=90=D0=BB=D0=B5=D0=BA=D1=
-=81=D0=B0=D0=BD=D0=B4=D1=80 =D0=A8=D1=83=D0=B1=D0=B8=D0=BD wrote:
-> > > =D0=B2=D1=82, 13 =D0=BC=D0=B0=D1=8F 2025=E2=80=AF=D0=B3. =D0=B2 01:39=
-, Andre Przywara <andre.przywara@arm.com>: =20
-> > > >
-> > > > On Sun, 27 Apr 2025 17:24:54 +0300
-> > > > Aleksandr Shubin <privatesub2@gmail.com> wrote: =20
-> > > > > +              */
-> > > > > +             use_bus_clk =3D false;
-> > > > > +             val =3D mul_u64_u64_div_u64(state->period, hosc_rat=
-e, NSEC_PER_SEC);
-> > > > > +             /*
-> > > > > +              * If the calculated value is =E2=89=A4 1, the peri=
-od is too short
-> > > > > +              * for proper PWM operation
-> > > > > +              */
-> > > > > +             if (val <=3D 1) { =20
-> > > >
-> > > > So if I get the code correctly, it prefers HOSC over APB? Is that
-> > > > really the best way? Shouldn't it be the other way around: we use t=
-he
-> > > > faster clock, since this will not limit the sibling channel?
-> > > >
-> > > > And another thing to consider are rounding errors due to integer
-> > > > division: certain period rates might be better achievable with one =
-or
-> > > > the other source clock: 3 MHz works best as 24MHz/8, 3.125MHz as
-> > > > 100MHz/32.
-> > > > So shall we calculate the values and compare the errors instead?
-> > > > Oh, and also we need to consider bypassing, I feel like this should=
- be
-> > > > checked first.
-> > > >
-> > > > In any case I think there should be a comment describing the strate=
-gy
-> > > > and give some rationale, I think. =20
-> > >=20
-> > > I like the idea of comparing the quantization error for each clock so=
-urce
-> > > (i.e. computing the actual period for both APB and HOSC and choosing
-> > > whichever is closer to the requested period).
-> > > I can try to implement that error-minimization approach in the next
-> > > series of patches and add a comment explaining the strategy. =20
-> >=20
-> > Consumers have different needs. Some might prefer a better match for
-> > period, but in my experience most would go for a fine-grained selection
-> > of duty_cycle, so prefering the faster clock sounds sane.
-> >=20
-> > I don't say minimizing the error is wrong, but if it's unclear that
-> > this matches what a consumer wants I object to make the procedure to
-> > select the hardware settings considerably more complicated and run-time
-> > intensive.
->=20
-> Yes, I agree. There seems to be another use case here, which is to provide
-> clocks on output pins. The PWM IP has a bypass switch (per channel, after
-> the divider), and this feature is already required to supply the
-> "internal" (co-packaged) Ethernet PHY on the Allwinner H616 with its cloc=
-k.
-> With the two possible input clocks and those pre-dividers there is actual=
-ly
-> quite a number of possible frequencies to deliver on output pins.
->=20
-> Since we need some algorithm to decide when we need to use the bypass
-> mode, should we check for that if the duty cycle is 50%, to see if we can
-> reach the frequency with just the pre-dividers?
-> Chances are we need this anyway, since for instance the 24MHz required for
-> the PHY cannot be achieved otherwise.
-
-And the clk output is the output after the predividers I assume? I would
-prefer to make the driver create a clk_provider instead of guessing
-which requests are supposed to have a meaning for the clk output.
-
-> > > > > +static int sun20i_pwm_probe(struct platform_device *pdev)
-> > > > > +{
-> > > > > +     struct pwm_chip *chip;
-> > > > > +     struct sun20i_pwm_chip *sun20i_chip;
-> > > > > +     struct clk *clk_bus;
-> > > > > +     struct reset_control *rst;
-> > > > > +     u32 npwm;
-> > > > > +     int ret;
-> > > > > +
-> > > > > +     ret =3D of_property_read_u32(pdev->dev.of_node, "allwinner,=
-npwms", &npwm);
-> > > > > +     if (ret < 0)
-> > > > > +             npwm =3D 8; /* Default value */
-> > > > > +
-> > > > > +     if (npwm > 16) {
-> > > > > +             dev_info(&pdev->dev, "Limiting number of PWM lines =
-=66rom %u to 16", npwm); =20
-> > > >
-> > > > I don't think we should proceed if the firmware information is clea=
-rly
-> > > > wrong. Just bail out with -EINVAL or so here, so that gets fixed in=
- the
-> > > > DT. =20
-> >=20
-> > To me it's not obvious that the "firmware information is clearly wrong".
-> > Maybe the next Allwinner SoC will have 24 outputs and the problem is
-> > only that this driver isn't prepared to cope for that number of outputs?
->=20
-> But then it would be an error, regardless?
-> The MMIO register frame of this IP here has a hard limit on 16 channels,
-> both by the bit assignments in each register (2 bits per channel in a
-> 32-bit register), but also by the layout of the registers (max 8
-> registers, each for a pair of 2 PWM channels). So anything with more than
-> 16 channels cannot be compatible with what this driver supports.
-> So as this driver here stands right now, more than 16 channels is an
-> error, simple as that. If we extend the driver later on, to cover more
-> advanced IP, we would naturally amend this check, of course.
-
-Agreed. In that case I don't care much if .probe() fails or just limits
-the number of PWMs to 16.
-
-Best regards
-Uwe
-
---zqgmvr7sp22wp6bu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmhTAyMACgkQj4D7WH0S
-/k5TXQf/WQifjbmW7D5efouTLo5vO4iUok97pK1+s3+HHamdmm23IWg0PAFmFQBB
-UNd0buVhud3TtGtJeSPa57FUEzriGdGzJ2CFN+qDdUY7L7VGACE6S7mGsnLLYQuN
-UsGMB0G7qVL5h3zhySTgXtgMF+D9QZHZq/LwR00/PpXVDAG6vES7AwdQlsG0PS+4
-so3ravkEOTsVKRYzFLC6dNZoGeGWaz3X0Iedjl4Y8NXs+HKpp2qyh1x8FPJYIy9V
-GBtDzx8E4s8SwuJeTJSdcfs/PlIyCWCa51El8AExmHaB0oE8JEB3dqdrKRHxLc0Z
-Ie0GiCpIKi3W7ApbehC3rBcHxbwj9g==
-=USjg
------END PGP SIGNATURE-----
-
---zqgmvr7sp22wp6bu--
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
