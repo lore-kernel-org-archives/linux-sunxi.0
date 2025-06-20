@@ -1,128 +1,94 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3F9628DF2B
-	for <linux-sunxi@lists.linux.dev>; Fri, 20 Jun 2025 14:10:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FC487FBA1;
+	Fri, 20 Jun 2025 14:17:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750428657; cv=none; b=uuWaaZLzmN0mQ/eKuCV/Ltd7/I5IaDieC+41PknUkoZru1NhDeINrECF+dF2STGdA2iI7AtriCxKxJ3jHsrX229WOa8HoDNfqkjmmjF7HLMn1LVxJMrv1oyDIL5O1G3lbVrJYKWLceKKM4Xi00a9SsGqVAYgVWecLkkZbnElN68=
+	t=1750429036; cv=none; b=br0LOQkKqog5LobzDliOOtKlu3cUP4nzxGi2oxDhh68jII2rrmg4eku8memjmgxZlPS4dqZeySUYkt+cPrWWmu/VBdWyMGNMWMhjHnP3ROJHMgC60+elRNRJfK4NnwFcHob42a+9pNdPjw01hhvWhMof6EEDuld5pNz+Kmht7X0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750428657; c=relaxed/simple;
-	bh=DWLqTlt7qScs/eSqGbluIhMQJKPILMhDxFv5Fnv72L4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kUTE9fGFWb0InVYipT3izDsqUWw96g7lJ49Ikq6ZiiEYFkOFPjhbyDD6cIA9D61Rj2L9CZ0tWee0HhglbuwU3IF2zJ1RwaZIJvR9ZjyI080C4kidr2Sa6AtJ+a6U0MwrSXhhZnAoMa05lNBw24quXD7OmHPk0p1ceqciJG//y3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aFeoPcWJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750429036; c=relaxed/simple;
+	bh=WXG/AivZAenzGBIGKaECDIg+iGpwiWQE1Xvg8g0ytx0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V4+qdMD5/PCiGIHbWjEA2miF4VXa5umr1pksk86yFoKiJrxDUk2c8ZnrqJefCDiuMT0jv85OlfmfjWpHtzMB1LaVA36wNosuwykP1sUgg1Dlafxi6tmUBpour+8Jt7QGf+iOx8usTd+hTOR/5UnP4pwQB/jWY05JFUJo/DO1Jro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RBc35g6I; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aFeoPcWJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DAC3C4AF09
-	for <linux-sunxi@lists.linux.dev>; Fri, 20 Jun 2025 14:10:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RBc35g6I"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58825C4CEE3;
+	Fri, 20 Jun 2025 14:17:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750428657;
-	bh=DWLqTlt7qScs/eSqGbluIhMQJKPILMhDxFv5Fnv72L4=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=aFeoPcWJMnJJuG3uY3WNTldZ7QqXEuKax9osUXOEC/BlfQ1pDs/Ov32VZ9Yv4XTQ3
-	 lQNKx47qX7paNjvfsENL661ABeLP57dDabdE8wAbR6KbZlLbLbAxHshHP1FS91ipKV
-	 1qxD/0ClURf6XbmNjlDkptniJkAKl7CbKFFv0L2pDGmKCNUBqJNUuFf9/uKdIVnQLV
-	 gD/9g272BlMPwerwzPvHgNVqsQVekFAs+d5f6aW1HOaoINhfR1rWmL/BGmuHXVvJFU
-	 N+FEDu2G/WFhCjaEpSzlLmkI20ssityG/Qv+1D26ykwJ6604NFpWL45MkFmSEFF53m
-	 4F9qg45KlUzfw==
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-32b43846e8cso16008641fa.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 20 Jun 2025 07:10:57 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV1z25hYcEsxZu0mzslPm8Y4Q6BpekM831tvcMFbhoBqpkcKqLhMzX2psDMhiYGQwt1qWGYJNi8tZyxaA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyxTzNgQhxvCYOqg4932iY/zfivvI8F6iDMiQXWuek4tSSwUbNi
-	GnltpUEL0YtLVII4VZgj90vet69se/jLDNStkR6kawOWE4RnLY/trFUpLGuZZWIpsLoB7gELu8j
-	dZ5/iCZ38uXdkBzlMsDjf0cRb/QraHOE=
-X-Google-Smtp-Source: AGHT+IH8CF2NEra9No6azeD1GCngMtpDBipIwRYnL5TXqwOKzg1LS0rA27TzN6NN9wS6furzgVnYmCLyy13aH/I5tbY=
-X-Received: by 2002:a05:651c:2006:b0:32a:74db:f3c1 with SMTP id
- 38308e7fff4ca-32b992d7c61mr6520011fa.24.1750428655837; Fri, 20 Jun 2025
- 07:10:55 -0700 (PDT)
+	s=k20201202; t=1750429035;
+	bh=WXG/AivZAenzGBIGKaECDIg+iGpwiWQE1Xvg8g0ytx0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RBc35g6I659KGOTPfykwRzlur/3XShBZTklwpr7pxPucow48iGbOlYnDOAe95hMT/
+	 huU4Ovm/Lml3dHTwSjFs5JpQ9Y2XjEtyZuF3OxFIVi3bE2jEzZnq6GUmGKhVUZCYY8
+	 W0bZDKtNep0j/a+iKZaoW2iBWBUxkb2jH0tuCx1ZoPlkI3TU1z8EwVIBNxcvngWEbI
+	 BmAr+4A7REMFv0CrppUd61dATPzut/2e3bO2OCXfz/oauZaS9StolVHLSI6T45uJ8E
+	 ERs2Y1GVo/uSXZKcYCdFM6Rzr6+kCk6l1sdA6GVZcBNUx25kiW1RZk9fjVX+a76zrs
+	 pDnYrasLCgnYg==
+Date: Fri, 20 Jun 2025 15:17:11 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Chen-Yu Tsai <wens@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej@kernel.org>,
+	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/5] dt-bindings: arm: sunxi: Add Xunlong OrangePi 4A
+ board
+Message-ID: <20250620-bronco-stir-e1ecbea744b5@spud>
+References: <20250619173007.3367034-1-wens@kernel.org>
+ <20250619173007.3367034-2-wens@kernel.org>
+ <20250620145422.26fdd14a@donnerap.manchester.arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250619173007.3367034-1-wens@kernel.org> <20250619173007.3367034-5-wens@kernel.org>
- <20250620145508.4d483885@donnerap.manchester.arm.com>
-In-Reply-To: <20250620145508.4d483885@donnerap.manchester.arm.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Fri, 20 Jun 2025 22:10:44 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66unLq4qiWDVVOLk3Aez2FTswXGXo7BVipeE-r4uhfcaQ@mail.gmail.com>
-X-Gm-Features: AX0GCFv8LAvHWHMZ_VtGp4DmOmmFrWvOE56WxoB2hq-SW0Ou_bsSiN3oBifigJ8
-Message-ID: <CAGb2v66unLq4qiWDVVOLk3Aez2FTswXGXo7BVipeE-r4uhfcaQ@mail.gmail.com>
-Subject: Re: [PATCH 4/5] arm64: dts: allwinner: a523: Add UART1 pins
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej@kernel.org>, 
-	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="2OXM8q8Pau5maNhk"
+Content-Disposition: inline
+In-Reply-To: <20250620145422.26fdd14a@donnerap.manchester.arm.com>
+
+
+--2OXM8q8Pau5maNhk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 20, 2025 at 9:55=E2=80=AFPM Andre Przywara <andre.przywara@arm.=
-com> wrote:
->
-> On Fri, 20 Jun 2025 01:30:06 +0800
+On Fri, Jun 20, 2025 at 02:54:22PM +0100, Andre Przywara wrote:
+> On Fri, 20 Jun 2025 01:30:03 +0800
 > Chen-Yu Tsai <wens@kernel.org> wrote:
->
+>=20
+> Hi Chen-Yu,
+>=20
+> thanks for sending those patches!
+>=20
 > > From: Chen-Yu Tsai <wens@csie.org>
-> >
-> > UART1 is normally used to connect to the Bluetooth side of a Broadcom
-> > WiFi+BT combo chip. The connection uses 4 pins.
-> >
-> > Add pinmux nodes for UART1, one for the RX/TX pins, and one for the
-> > RTS/CTS pins.
->
-> Interestingly there is only one possible set of pins for UART1, so the
-> naming is correct. Which would also mean we can insert the pinctrl-0
-> property in the UART DT node in the .dtsi file already.
-
-I'd leave it to the user, since it's possible to use it in either 2 pin
-or 4 pin configuration.
-
-> Regardless, checked against the manual:
->
+> >=20
+> > The OrangePi 4A is a typical Raspberry Pi model B sized development
+> > board from Xunlong designed around an Allwinner T527 SoC.
+> >=20
+> > Add its compatible name to the list of valid ones.
+> >=20
 > > Signed-off-by: Chen-Yu Tsai <wens@csie.org>
->
+>=20
 > Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 
-Thanks!
-ChenYu
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
->
-> Cheers,
-> Andre
->
-> > ---
-> >  arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi | 14 ++++++++++++++
-> >  1 file changed, 14 insertions(+)
-> >
-> > diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi b/arch/arm6=
-4/boot/dts/allwinner/sun55i-a523.dtsi
-> > index 30613a0b1124..6f62201fd739 100644
-> > --- a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-> > +++ b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-> > @@ -168,6 +168,20 @@ uart0_pb_pins: uart0-pb-pins {
-> >                               allwinner,pinmux =3D <2>;
-> >                               function =3D "uart0";
-> >                       };
-> > +
-> > +                     /omit-if-no-ref/
-> > +                     uart1_pins: uart1-pins {
-> > +                             pins =3D "PG6", "PG7";
-> > +                             function =3D "uart1";
-> > +                             allwinner,pinmux =3D <2>;
-> > +                     };
-> > +
-> > +                     /omit-if-no-ref/
-> > +                     uart1_rts_cts_pins: uart1-rts-cts-pins {
-> > +                             pins =3D "PG8", "PG9";
-> > +                             function =3D "uart1";
-> > +                             allwinner,pinmux =3D <2>;
-> > +                     };
-> >               };
-> >
-> >               ccu: clock-controller@2001000 {
->
+--2OXM8q8Pau5maNhk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaFVtZwAKCRB4tDGHoIJi
+0suKAQDd6jGsqSTRe+mxpECzaPvfrzFdj6AgjB6HGbdTMP0WbQD/YOGeSVE8pFbP
+w/bDsvdNud0cRV2TPv76oa5kfAob8AA=
+=9v/4
+-----END PGP SIGNATURE-----
+
+--2OXM8q8Pau5maNhk--
