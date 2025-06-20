@@ -1,57 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay16.mail.gandi.net (relay16.mail.gandi.net [217.70.178.236])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3081130E85C;
-	Fri, 20 Jun 2025 07:21:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A966970825
+	for <linux-sunxi@lists.linux.dev>; Fri, 20 Jun 2025 08:34:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.236
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750404095; cv=none; b=l2vfuUxN5rv6j2bdNFDcgI2sJMdKAxZq7p7S7vareSvIQqGJtsgEo/phGOGN3/f4bjqF1LtAxNLHOOvM3/OC+FGqbbCUsLrp26/zII3goP6YQjdZSiK4Nz31tXgW3V7MA56islH0+DcFiHMTc0/2z39m+C1B7NdQN/zapePae7o=
+	t=1750408450; cv=none; b=QdGV99zz+/0mHhnlEYzXJscio8V9M2TlsPyTGDrHL+9MCCQZrYowkQihaGMY7JFFIEN5IQdxxHd9DWPQaofELGLkBHATpdS7VXTMB5oUcBuvXuLSzgZPffAHqUcJzhJe4tlj1XqPekVsCt7ea6BAjcy97vwZQCZ7n97caCZ8Ykc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750404095; c=relaxed/simple;
-	bh=Itc9ddbP7s53ig+Z8sahKa7vHJExHczg9UB74ndkSPI=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=Yf7e6LqbWcHcTdGXmxpfucVuW2jPlo0E1tE6MJqOwbK92uI4U7P4twfOkQsNDzl4LH4VMipXGUWaTm0nWiWd/u58tD96c46EMyFuwTzJmRyByVCN8p9mJTGrzLxWwapomQLIBasE+K2HPTyQ+YX3ZQeNNI2sb1UMUdXlfquJgUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l3ibzmw6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750408450; c=relaxed/simple;
+	bh=m2+1Jf63p+eryKj1QfsbNx2w8kSuf3w3Tygti8IwXz0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WRGSC6bal+PlddaTaMTHGItWeQOyvLyrZeJBLP/yLw94FOg+zymAvRHYiffcgLpBAw1c2x9ahWtlIOdupxPQxIJIDQRJfsC9bXSAxA3DUWazJp8wuKo0MkBFAlKLseD5jEbqAsTGYrFc2rFgicIWoaRmfN04HVvs3j7DV+GKbjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ZDorirDa; arc=none smtp.client-ip=217.70.178.236
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l3ibzmw6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FFE4C4CEE3;
-	Fri, 20 Jun 2025 07:21:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750404094;
-	bh=Itc9ddbP7s53ig+Z8sahKa7vHJExHczg9UB74ndkSPI=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=l3ibzmw6cfD/1zap3DXnKrGsKBbjSdP8g0Via6HC1pavu2/ECH2MlF9m04hMRtL7A
-	 JAn1iwABQotzPbFEaAPh7yXXCzjXVvRJZPg7J5lj5hXBpcTT5pecqu6Ap8h1z+qlG4
-	 +7pHonS5IHIPoOvrl9RDESnG936EtL7S9Obz6oDEURnDYFxrizS7DVcro3tfU+tL/N
-	 oRi5BZW0FUfhbMhbPSk5Ij6detl2UaZ08imnUq2iC67HH40M0FTgva+2wbeeTH2ymZ
-	 xFbXWmttm2Cb0WPzCj5GVJLJeNEE4HTeCRDTAEGVsX3rhcYMBp1+ysj6u/SASmOl83
-	 WJNvYF7qYzU1g==
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ZDorirDa"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0B77143887;
+	Fri, 20 Jun 2025 08:33:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1750408441;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4T0Z/wKoqLmnZWVx5qElF2JVZUpRD4o2zM/wrspldp0=;
+	b=ZDorirDaJiVzEhZ+Dy5FPuY8TciEHIDL8biqP15QbS75l5K+mN/9vhPvUetmMwpkDRzfOQ
+	WHb7+TFsKrBH1rRjrZR+jzIh2KfQOQ0Mq82vWl0vh8WPSNr8xmzHZiQ0V32deavtB6Ok9Y
+	DOPJz+azWbHlfM+uSiIKZ4sA+6NuKrXe1ohvO3vS/ughrEkDvC5c7zCwTdep9PWkmfGdO1
+	QHICWKbWeAgfVett5jhC2c18sCM92MjX78cWfymdnXj2SRdFgpm8isir0uDWN+o+tVg+eY
+	hQ2cniRepzW0GW0m+iIWQz54dDccAHp9LBbrgg4viHJtDjOCw6lwehfeLI81IQ==
+Date: Fri, 20 Jun 2025 10:33:53 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Anusha Srivatsa <asrivats@redhat.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang
+ <jessica.zhang@oss.qualcomm.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, Jagan
+ Teki <jagan@amarulasolutions.com>, Marek Szyprowski
+ <m.szyprowski@samsung.com>, Andrzej Hajda <andrzej.hajda@intel.com>, Robert
+ Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>, Seung-Woo Kim
+ <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar
+ <alim.akhtar@samsung.com>, Laurent Pinchart
+ <laurent.pinchart+renesas@ideasonboard.com>, Tomi Valkeinen
+ <tomi.valkeinen+renesas@ideasonboard.com>, Kieran Bingham
+ <kieran.bingham+renesas@ideasonboard.com>, Geert Uytterhoeven
+ <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, Biju Das
+ <biju.das.jz@bp.renesas.com>, Tomi Valkeinen
+ <tomi.valkeinen@ideasonboard.com>, Alain Volmat <alain.volmat@foss.st.com>,
+ Raphael Gallais-Pou <rgallaispou@gmail.com>, Stefan Agner
+ <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, Linus Walleij
+ <linus.walleij@linaro.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter
+ <jonathanh@nvidia.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v2 01/16] drm/panel: get/put panel reference in
+ drm_panel_add/remove()
+Message-ID: <20250620103353.5b43b86f@booty>
+In-Reply-To: <20250619-b4-of_drm_find_panel_part1-v2-1-0df94aecc43d@redhat.com>
+References: <20250619-b4-of_drm_find_panel_part1-v2-0-0df94aecc43d@redhat.com>
+	<20250619-b4-of_drm_find_panel_part1-v2-1-0df94aecc43d@redhat.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20250404-kconfig-defaults-clk-v1-3-4d2df5603332@linaro.org>
-References: <20250404-kconfig-defaults-clk-v1-0-4d2df5603332@linaro.org> <20250404-kconfig-defaults-clk-v1-3-4d2df5603332@linaro.org>
-Subject: Re: [PATCH 3/5] clk: stm32: Do not enable by default during compile testing
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@csie.org>, Emilio =?utf-8?q?L=C3=B3pez?= <emilio@elopez.com.ar>, Jernej Skrabec <jernej.skrabec@gmail.com>, Jerome Brunet <jbrunet@baylibre.com>, Kevin Hilman <khilman@baylibre.com>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Michael Turquette <mturquette@baylibre.com>, Neil Armstrong <neil.armstrong@linaro.org>, Samuel Holland <samuel@sholland.org>
-Date: Fri, 20 Jun 2025 00:21:33 -0700
-Message-ID: <175040409330.4372.17935739040360849030@lazor>
-User-Agent: alot/0.11
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddvgdejleefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgeelffefgfehhfdtvdefueefieevkefggfelkeeiudetkeektedvhedukefgvddvnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepgeegpdhrtghpthhtoheprghsrhhivhgrthhssehrvgguhhgrthdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhgpdhrtghpthhtohepjhgvshhsihgtrgdriihhrghnghesohhsshdrq
+ hhurghltghomhhmrdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghh
 
-Quoting Krzysztof Kozlowski (2025-04-04 04:56:59)
-> Enabling the compile test should not cause automatic enabling of all
-> drivers.  Restrict the default to ARCH also for individual driver, even
-> though its choice is not visible without selecting parent Kconfig
-> symbol, because otherwise selecting parent would select the child during
-> compile testing.
->=20
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
+Hello Anusha,
 
-Applied to clk-next
+On Thu, 19 Jun 2025 14:15:53 -0500
+Anusha Srivatsa <asrivats@redhat.com> wrote:
+
+> Take the panel reference and put it back as required.
+> drm_panel_add() and drm_panel_remove() add a panel to
+> the global registry and removes a panel respectively.
+> Use get() and put() helpers to keep up with refcounting.
+> 
+> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+
+This patch is good.
+
+I'd just point out that this must be applied only after all drivers
+have been converted to the the _alloc API, otherwise with the following
+sequence:
+
+  panel = devm_kzalloc();
+  drm_panel_init(panel);
+  drm_panel_add(panel);
+  ...
+  drm_panel_remove(panel); <-----
+
+at the drm_panel_remove() you'd have a warning:
+
+  refcount_t: addition on 0; use-after-free.
+
+So, if all panel drivers are converted:
+Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
