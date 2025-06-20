@@ -1,103 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A51028D8E5;
-	Fri, 20 Jun 2025 13:27:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 835EE28D8F7
+	for <linux-sunxi@lists.linux.dev>; Fri, 20 Jun 2025 13:54:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750426059; cv=none; b=A5JsQz8n5b8qwPdD0c4jSLUaIeIfMMPXJ/4b2htGczw9H5FxfksiD2iC5pb2U8SW2Zd/Q4i8aRqnqtQKn1FymdbD2nZLCu392pZQ86WH13cisJJWIMzHEW7KgpYk+sNOyizkUDI0xX9oouFBlUrZNaoJ3X5/3qNo5BoErKmp2gc=
+	t=1750427669; cv=none; b=m5WlQI2E2J6ToI2v6PAQ5YrH6jny8J1euTHztvYM51UyGf8UcUnTfQ7j1UihYfKtpOL9lYyhQf8HN3kDaqXv9RNkf+jk4gq/DGX3yoKwX0Fq84aJnJJQXKLZDW4CBSpUgUKnzp0mz5URer4pkBVfWdZ7ugaJTGodVknxF/KJlq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750426059; c=relaxed/simple;
-	bh=7iO3Spwl78oqvR7sBJ2s9rW+W2FFODb7uMsgMUDC2CQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CQcwkLeQtRFXIr6s5oFNbME5MNkJOJ3Glu1RYpMWC4SKbRXYOB488iPLuv/QynA5lU+WtMujTE1uNDRFtMOwwL41ZXWw6Gj6yz1azJngEHgG+33ADf81ibZDJmQdu2VZdDP3RRz77B86PbQZTbPvNdTZT15LOeyR7rcjqRucVuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fOvXj3rc; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fOvXj3rc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10046C4CEE3;
-	Fri, 20 Jun 2025 13:27:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750426058;
-	bh=7iO3Spwl78oqvR7sBJ2s9rW+W2FFODb7uMsgMUDC2CQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fOvXj3rcFOvEn7+6z2VCgBASlxMhFXHKU0pYL1+VPMPsw2hcdVW+WTzTp5F8GHa+R
-	 u0LhsP5h1Em5JyH/IPLhFcL4OeNNPJk6899oXGLsDhgfFKRNZLVBbA9p214KlHqfOx
-	 C/Uc+tZGtio6132bYstHc81NMVl65Oi/HPNqtYCizlTw7ayFFyQr+HKWDyzmNus1xP
-	 +9QEmVgYIdUaFamjX53zwHgJOfe7SYq0yO6FQ8ChzilK5h3ygRfq09C+TQfIsF4XKv
-	 0GoONah3IfiinYalyMqwADfFD4eP1rGE3Qt87rnpopKK9/PppSeF9UU10H5hKMkfNo
-	 rZHz0DLhR+zMQ==
-Date: Fri, 20 Jun 2025 15:27:36 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Anusha Srivatsa <asrivats@redhat.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
-	Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
-	Jagan Teki <jagan@amarulasolutions.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Samuel Holland <samuel@sholland.org>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
-	Kyungmin Park <kyungmin.park@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Alain Volmat <alain.volmat@foss.st.com>, Raphael Gallais-Pou <rgallaispou@gmail.com>, 
-	Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, 
-	Linus Walleij <linus.walleij@linaro.org>, Thierry Reding <thierry.reding@gmail.com>, 
-	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-samsung-soc@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v2 04/16] drm/panel/sun4i: Keep up with refcounting
-Message-ID: <20250620-groovy-imposing-reindeer-e52ed0@houat>
-References: <20250619-b4-of_drm_find_panel_part1-v2-0-0df94aecc43d@redhat.com>
- <20250619-b4-of_drm_find_panel_part1-v2-4-0df94aecc43d@redhat.com>
+	s=arc-20240116; t=1750427669; c=relaxed/simple;
+	bh=BvpOIHIHPayXbBCg+AnWxp8p+upzdU7E8EkS1HC85sU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Qbwf4uH34IweB/Op7/FGEO/URB1T5ZwMQguUngvhEvKnpB1AT3mXy0VGl7XlMX7/MW/34ij3CqMdBXgf1zhz5yKg8QlLA/BDNaoHTe/YKxDRXQlauDHgAfn7Zlv4XwxnMfVgtxTxQwORtfXgC63ykz9bW/F94ZaKOXlP5+4WD4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6700516F2;
+	Fri, 20 Jun 2025 06:54:07 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 342DF3F58B;
+	Fri, 20 Jun 2025 06:54:25 -0700 (PDT)
+Date: Fri, 20 Jun 2025 14:54:22 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Chen-Yu Tsai <wens@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
+ Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/5] dt-bindings: arm: sunxi: Add Xunlong OrangePi 4A
+ board
+Message-ID: <20250620145422.26fdd14a@donnerap.manchester.arm.com>
+In-Reply-To: <20250619173007.3367034-2-wens@kernel.org>
+References: <20250619173007.3367034-1-wens@kernel.org>
+	<20250619173007.3367034-2-wens@kernel.org>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="bdw7jb5mvkrn4ozs"
-Content-Disposition: inline
-In-Reply-To: <20250619-b4-of_drm_find_panel_part1-v2-4-0df94aecc43d@redhat.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Fri, 20 Jun 2025 01:30:03 +0800
+Chen-Yu Tsai <wens@kernel.org> wrote:
 
---bdw7jb5mvkrn4ozs
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 04/16] drm/panel/sun4i: Keep up with refcounting
-MIME-Version: 1.0
+Hi Chen-Yu,
 
-Hi,
+thanks for sending those patches!
 
-On Thu, Jun 19, 2025 at 02:15:56PM -0500, Anusha Srivatsa wrote:
-> Put the panel reference back when driver is no
-> longer using it.
->=20
-> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+> From: Chen-Yu Tsai <wens@csie.org>
+> 
+> The OrangePi 4A is a typical Raspberry Pi model B sized development
+> board from Xunlong designed around an Allwinner T527 SoC.
+> 
+> Add its compatible name to the list of valid ones.
+> 
+> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
 
-When I asked you to provide a rationale for why you think the
-drm_panel_put() call belonged where it does, it was pretty obvious it
-needed to be done for all patches with the same issue, not just a few
-random ones.
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 
-Maxime
+Cheers,
+Andre
 
---bdw7jb5mvkrn4ozs
-Content-Type: application/pgp-signature; name="signature.asc"
+> ---
+>  Documentation/devicetree/bindings/arm/sunxi.yaml | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
+> index 7807ea613258..c41d0a0b89e6 100644
+> --- a/Documentation/devicetree/bindings/arm/sunxi.yaml
+> +++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+> @@ -996,6 +996,11 @@ properties:
+>            - const: xunlong,orangepi-3
+>            - const: allwinner,sun50i-h6
+>  
+> +      - description: Xunlong OrangePi 4A
+> +        items:
+> +          - const: xunlong,orangepi-4a
+> +          - const: allwinner,sun55i-t527
+> +
+>        - description: Xunlong OrangePi Lite
+>          items:
+>            - const: xunlong,orangepi-lite
 
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaFVhwQAKCRAnX84Zoj2+
-dhZ7AYDOISUO6C76OQb9MnRtqKLlnfKoNLnLbNNJpHKiYfBhR0RN5gz9giVgJRKz
-6JU4aXoBgPNzjBXU7e39cZGKgNcl1PHMh/B8GaoCK9FIE1cDbftlr/Xb8NYNNyEU
-Z311rJJ3bA==
-=G9Cw
------END PGP SIGNATURE-----
-
---bdw7jb5mvkrn4ozs--
