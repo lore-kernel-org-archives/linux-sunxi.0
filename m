@@ -1,63 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FF2430E82B;
-	Thu, 19 Jun 2025 19:54:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA0C663CF
+	for <linux-sunxi@lists.linux.dev>; Fri, 20 Jun 2025 01:04:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750362877; cv=none; b=eMn0YNqDlBUmqZV37T3X72RUvKCXex+h9uXMMPbKRJdK+AeK4Q2XFR5xt1jY5hnD97FOw0cbM6fZeKWnfIRgy1UobAx9/vWrL9svFbUL4ykHrESl+yUJ/0/P2D/sJJZQZQHHVzpyVWsAsseeDGpqq+upyt70BbJa/fTl12fb2n8=
+	t=1750381461; cv=none; b=UBQIK5y3tnnYYkJaftRWsWX6U5Baktn8DckbnjG3oGJYO+fVCQp9hWmNVzl3l9eUo7EDpLmQcXDiw80bUmVzdLB2VwjOlxjm5JytqvjW7LJ3pUc5+e8L0EEL5RV1O1Js3Pa3uyOCrgEcYHAX5O5KqRh+y6c0c09EAwDJl3SypqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750362877; c=relaxed/simple;
-	bh=rWufee79LmCp4cY9NcorLs0fohV01FS8UrEAxvFpX8o=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=bY+4ze3IAILsE260Q0iGtDBZnWpGz4AFtYXmPQ7qsFOUDMEKC25V9ZIrtG0TBxwtg2ZCXLE7biTCSzSTQ2VV7BCTnKbAXRRnc4vVbZGy7gZj60LZjldCeMWx5RCu+2bXhxqomZjXUa6YT6WZL05l7Jv+CNttSk3svTM/Cc6n48A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SqCYK5Rz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750381461; c=relaxed/simple;
+	bh=1RU9OFwdAOgI84I9GEHqAphNSYKWAXhPW6s13EAF1Vs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Gerec16SjBUbZPWlxEBPlhmOXd3IAU0/UMZQap+XOvyOqZHgLFfvbv5VifxIzzEfSSj3NgSik9O2HB7j0yaRLUUc+p5Vh5gWhauxgBfmqtgiZVgvrdGdxRhbyfgXRRSJiDDtiUqXHZVcNOwj/25CWseZQiPwZPuYmotAdVWG+dE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=S2aHwtrP; arc=none smtp.client-ip=117.135.210.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SqCYK5Rz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 270BEC4CEEA;
-	Thu, 19 Jun 2025 19:54:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750362877;
-	bh=rWufee79LmCp4cY9NcorLs0fohV01FS8UrEAxvFpX8o=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=SqCYK5Rz8YvF0vcvtzOdxJftdiR4Ku5Kg/+UB/wt9lfIapBdM7EgslJXlwWARdpim
-	 WvT2mH7T8ciXJGF3uluweqCm3Dalpgbm7YpT9JASuSX9V+RHXPljTPtkuPZj2QnyzP
-	 9Y75A50hutA0AjWGlMXh7V9tWiuA2uvHAAPcFTvLINIACd2KYBWnDQm2hbr67FNhXs
-	 w+0K/+KIOJhuz1To6GWST7NjPRJPFULHggPbUYeR94Hfpfe8qbJXfAT4MTBK53smqp
-	 zMbTO5YDNVWIpEug9qO7Prg6iRNc1DleXUDZafIa3NPKyB8uVR9sd8qZSKhyZhIU2z
-	 6YC/4iy+AHr2A==
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="S2aHwtrP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=8/
+	2XLIJnNinS9+K18/3lu/lVK35HJN1wS4il3Erb/Fo=; b=S2aHwtrPdIB5hr7uA+
+	v2AOZf1lXUj73jKH/JRl7oJY9VIaz2wpvyfFIMUmQZehwkTlMBKHiSlgPivcRpma
+	oXoLMXd9J1QyUMbOaOqh1FJa//L9Rr8dAOaM+QvjwA6ij+MCZLnUTueve4Cpjaw5
+	A/oJpP6S/wFYOzt+bs5/foHUY=
+Received: from 163.com (unknown [])
+	by gzsmtp4 (Coremail) with SMTP id PygvCgAHrIF3s1Ro7thPAQ--.27905S2;
+	Fri, 20 Jun 2025 09:03:53 +0800 (CST)
+From: chenyuan <chenyuan_fl@163.com>
+To: linus.walleij@linaro.org,
+	wens@csie.org
+Cc: linux-gpio@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	chenyuan_fl@163.com,
+	chenyuan <chenyuan@kylinos.cn>
+Subject: [PATCH] pinctrl: sunxi: Fix memory leak on krealloc failure in sunxi_pctrl_dt_node_to_map
+Date: Fri, 20 Jun 2025 09:03:45 +0800
+Message-Id: <20250620010345.11247-1-chenyuan_fl@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20250619171025.3359384-3-wens@kernel.org>
-References: <20250619171025.3359384-1-wens@kernel.org> <20250619171025.3359384-3-wens@kernel.org>
-Subject: Re: [PATCH 2/2] clk: sunxi-ng: sun55i-a523-r-ccu: Add missing PPU0 reset
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: Andre Przywara <andre.przywara@arm.com>, Philipp Zabel <p.zabel@pengutronix.de>, devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-To: Chen-Yu Tsai <wens@csie.org>, Chen-Yu Tsai <wens@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, Samuel Holland <samuel@sholland.org>
-Date: Thu, 19 Jun 2025 12:54:36 -0700
-Message-ID: <175036287647.4372.1701190769589982450@lazor>
-User-Agent: alot/0.11
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:PygvCgAHrIF3s1Ro7thPAQ--.27905S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Zw45KF45JF17Xr1UGF48JFb_yoW8Xryxpa
+	yfGry5Ar4rJF4Sg3yay398ZFy3Gan7J3y5G3Wj934Yvrn8Arn8Xr15KFWjyw4DCrWrXr1S
+	vF4DA3429r1DA3JanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pEL0e9UUUUU=
+X-CM-SenderInfo: xfkh05pxdqswro6rljoofrz/1tbiUQxyvWhUp3X19gAAs-
 
-Quoting Chen-Yu Tsai (2025-06-19 10:10:25)
-> From: Chen-Yu Tsai <wens@csie.org>
->=20
-> There is a PPU0 reset control bit in the same register as the PPU1
-> reset control. This missing reset control is for the PCK-600 unit
-> in the SoC. Manual tests show that the reset control indeed exists,
-> and if not configured, the system will hang when the PCK-600 registers
-> are accessed.
->=20
-> Add a reset entry for it at the end of the existing ones.
->=20
-> Fixes: 8cea339cfb81 ("clk: sunxi-ng: add support for the A523/T527 PRCM C=
-CU")
-> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
-> ---
+From: chenyuan <chenyuan@kylinos.cn>
 
-Acked-by: Stephen Boyd <sboyd@kernel.org>
+In sunxi_pctrl_dt_node_to_map(), when krealloc() fails to resize the pinctrl_map
+array, the function returns -ENOMEM directly without freeing the previously
+allocated *map buffer. This results in a memory leak of the original kmalloc_array
+allocation.
+
+Fix: e11dee2e98f8 ("pinctrl: sunxi: Deal with configless pins")
+Signed-off-by: chenyuan <chenyuan@kylinos.cn>
+---
+ drivers/pinctrl/sunxi/pinctrl-sunxi.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+index bf8612d72daa..d63859a2a64e 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+@@ -408,6 +408,7 @@ static int sunxi_pctrl_dt_node_to_map(struct pinctrl_dev *pctldev,
+ 	const char *function, *pin_prop;
+ 	const char *group;
+ 	int ret, npins, nmaps, configlen = 0, i = 0;
++	struct pinctrl_map *new_map;
+ 
+ 	*map = NULL;
+ 	*num_maps = 0;
+@@ -482,9 +483,13 @@ static int sunxi_pctrl_dt_node_to_map(struct pinctrl_dev *pctldev,
+ 	 * We know have the number of maps we need, we can resize our
+ 	 * map array
+ 	 */
+-	*map = krealloc(*map, i * sizeof(struct pinctrl_map), GFP_KERNEL);
+-	if (!*map)
+-		return -ENOMEM;
++	new_map = krealloc(*map, i * sizeof(struct pinctrl_map), GFP_KERNEL);
++	if (!new_map) {
++		ret = -ENOMEM;
++		goto err_free_map;
++	}
++
++	*map = new_map;
+ 
+ 	return 0;
+ 
+-- 
+2.25.1
+
