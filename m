@@ -1,220 +1,133 @@
-Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11012014.outbound.protection.outlook.com [40.107.75.14])
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A523C2472A8
-	for <linux-sunxi@lists.linux.dev>; Mon, 23 Jun 2025 12:33:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.75.14
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750682011; cv=fail; b=CHVzai+WKgtrinB6i9lNvSCTJVfRGZhNIoW0S1gftU65gLZmCAhyiluPhrb0BLtRV2/GB7CMU5wE4Jof337yMfv9R9/wlGl5Lgr07vYKb1+VeCTXYRLWwSYCJvFK4nGOg5A6gHyHJBqnMn2DDRTg9d6aDxlH+RZJoY2mPQOV360=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750682011; c=relaxed/simple;
-	bh=83VXph4EHUxyyfRbb9VCBKeQf9fpDRjlCjdJM1mDt/g=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=BTpzCMR2lqyhJDBSI3UFdsZQ2NdDYbPiELC54/1Um/R/ztugdsYiABvlEppZYhHC6saZyr9meoC8oWb5qo2fYsY1UksthsE/msg09Wyk2nFRjTJRvJ+CD65Se2LDqzIqzV7SIUEbYbMW0ifbq3EkwEYR9pxSn2Qoc9zN0yW7+pU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=oAd5Z8KB; arc=fail smtp.client-ip=40.107.75.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64CA32750F9;
+	Mon, 23 Jun 2025 15:14:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750691645; cv=none; b=LnlgSVeCNqV/eP1kKBTxVbv+yO9dAWzTPo1/ImUHPVrQOHOqrblJ+3KqKvqBUT6x7E1D2gyHX5yB6V/F5m6K4TyfEiFBuZm6Q/rOh+ftfadWEhUVWZqxnc4o3umA3Hl87EmsCwvjr2kSjZtje2aXPGyawwbUZoC+tSvt13x4i7I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750691645; c=relaxed/simple;
+	bh=45lmqAUYpUykmyRNsOjFpkel3OPLmML527QXdh0o9zU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=hK+7gZKYSHAqxgdGA2MlGmdFsGm1Hm1pkro6djfcz3U6LmRLqLC6cPrrJ3OttmC5wKxxbRe+Pg9QRjcd+X8inaTq6LopXZBqx65izD+Zqqkr6sHIcUSeP45S7Y2NgqZDNdk/wvn3dV5ODfIsAyaCQraBygZxuFChAxwq7N9cdx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Dk4DRySe; arc=none smtp.client-ip=217.70.183.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="oAd5Z8KB"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=iTVf7/H7iQ7NoI3TOUbvmMYv6GtZOVmrxOWWQF7IgZKrYAhWVu0KzmLQQU2ZqDJn8kwE9fD2I60E1vHe5FsIZbxk1unT1RCDo/UEl2vNXEiUpuBxu5Bfup33le4NKBJUvr+jju5xCkgl8bAHx01KNLJHsigd1R2Xpn9mwieYJ2XBmBLAWKVquOhZ/waY/DQadOhtcPgusxo+WakAjU7VgnW99Q64jYprLXczllO4b84rYCbLJVO/1sCDvVOze6sR7lNJF9eqN38sYree00/9/pT/5jK4M7e5cRhcdG9O/kiShqonqCTy3L0/qhVGkykSlY+bpcXu0X/81mGm+tNEmw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=X71Qk1zOgwh+64zwLCEZ+3gp6XFQlEgHSqHur7UE9LU=;
- b=osaC7QxsQBk1m0i+OdmQ+nnL0X+8DXVO1HWRVFbux3m2X3OW9+lwPud+HOpFhGANR3oLLS8p/DmmACkMtlHzwq9cADBRZ9rLKhXIP09K1z10KswF2lKpCTvsiHjjWYuUeSetqeEJ8bal2D/FQk2cdG2bCnY69P6yXIC3CVsWL4ZlsInpF+v42HfPmWGHdEJsH/rucHjWmdcMn7hJNZjdLDEP0exFnc6C0oOYvEtwWnFWDVp/C0tuZCtlPZuLjJZcfVS95avPOWNDt1NpprJbmYGos6vrzIOCeDyZWlsodxou7luk7jV6gt1B0tj7HE7s9bf+zlOpWkgJMos1SCp6aQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=X71Qk1zOgwh+64zwLCEZ+3gp6XFQlEgHSqHur7UE9LU=;
- b=oAd5Z8KB1lpgJIXMWw/uKzZFAZCpFhKgsmCVKTu73f2ztXjHYDSvAFOEbHt5wIdShM2jILmCkFWZLXt8Snhdbt1FSDSArXd5GPJaKUvbUv/IPZ1rjJZ4Z8U/hGlV4ol71MICXpHmwwtg+AskBwaVGxITeadnSpeQsQoLQlxOiHABmiifyV2i+UoMuegdT44nSmT1uijh+7rYcyBQfokbQg+0xDssffQCw6BmJnqBli6jIGQ6iOwcyzdxeXlxXnVJ3zKPkI5GZtaHBH+D9w42tWAx+HIALx38J7Inigcj0u46aSsx4WgM/oRPichjI2Lr+xrAQkwF3dY4s81OdEeFqA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from OS8PR06MB7663.apcprd06.prod.outlook.com (2603:1096:604:2ac::8)
- by TY0PR06MB5185.apcprd06.prod.outlook.com (2603:1096:400:21f::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.26; Mon, 23 Jun
- 2025 12:33:26 +0000
-Received: from OS8PR06MB7663.apcprd06.prod.outlook.com
- ([fe80::46a5:9b06:416e:1e49]) by OS8PR06MB7663.apcprd06.prod.outlook.com
- ([fe80::46a5:9b06:416e:1e49%3]) with mapi id 15.20.8857.026; Mon, 23 Jun 2025
- 12:33:26 +0000
-From: Pan Chuang <panchuang@vivo.com>
-To: Vasily Khoruzhick <anarsoul@gmail.com>,
-	Yangtao Li <tiny.windzz@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>,
-	Lukasz Luba <lukasz.luba@arm.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-pm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Yangtao Li <frank.li@vivo.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Jonathan Cameron <Jonathan.Cameron@Huawei.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Pan Chuang <panchuang@vivo.com>
-Subject: [PATCH v6 02/24] thermal/drivers/sun8i: convert to use devm_request*_irq_probe()
-Date: Mon, 23 Jun 2025 20:33:12 +0800
-Message-Id: <20250623123312.472566-1-panchuang@vivo.com>
-X-Mailer: git-send-email 2.34.1
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SG2PR01CA0143.apcprd01.prod.exchangelabs.com
- (2603:1096:4:8f::23) To OS8PR06MB7663.apcprd06.prod.outlook.com
- (2603:1096:604:2ac::8)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Dk4DRySe"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id EC94944288;
+	Mon, 23 Jun 2025 15:13:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1750691640;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=45lmqAUYpUykmyRNsOjFpkel3OPLmML527QXdh0o9zU=;
+	b=Dk4DRySeiEHJkC5ucZz7LZZ5UhTo8qfaM+NNpNfIAmI8eb71jZ1iyZigWxGJIVUh/eddQP
+	8Xl1XY+V1ya18+kaQTE+VfNrEVges9y6YeLXaGu/C3rRQVwdpYLIzr+sV2HHzE/5UmgjzB
+	/+xepzhCWX1cw6Sjteg1eK+SyfTf1nG848+wARLHC34oEtB0GGeHyHyWCzEjD96U8cz4ZV
+	Q9lHqj9ZKe3ogELbhBMi//RQzmrzPpFKAf5qiAiUT/AZUHomVPjE09J5Bf3w9srIdSfWcY
+	Yt4Oua24qVH3rU576TSTUWjL+lZ5mN7oW47CVCJAgdJIvxqw3/Z3LAIlRF5uqQ==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Pan Chuang <panchuang@vivo.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,  Daniel Lezcano
+ <daniel.lezcano@linaro.org>,  Zhang Rui <rui.zhang@intel.com>,  Lukasz
+ Luba <lukasz.luba@arm.com>,  Markus Mayer <mmayer@broadcom.com>,  Broadcom
+ internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+  Florian Fainelli <florian.fainelli@broadcom.com>,  Shawn Guo
+ <shawnguo@kernel.org>,  Sascha Hauer <s.hauer@pengutronix.de>,
+  Pengutronix Kernel Team <kernel@pengutronix.de>,  Fabio Estevam
+ <festevam@gmail.com>,  zhanghongchen <zhanghongchen@loongson.cn>,  Yinbo
+ Zhu <zhuyinbo@loongson.cn>,  Amit Kucheria <amitk@kernel.org>,  Thara
+ Gopinath <thara.gopinath@gmail.com>,  Niklas =?utf-8?Q?S=C3=B6derlund?=
+ <niklas.soderlund@ragnatech.se>,  Geert Uytterhoeven
+ <geert+renesas@glider.be>,  Magnus Damm <magnus.damm@gmail.com>,  Heiko
+ Stuebner <heiko@sntech.de>,  Bartlomiej Zolnierkiewicz
+ <bzolnier@gmail.com>,  Krzysztof Kozlowski <krzk@kernel.org>,  Alim Akhtar
+ <alim.akhtar@samsung.com>,  Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+  Alexandre Torgue <alexandre.torgue@foss.st.com>,  Vasily Khoruzhick
+ <anarsoul@gmail.com>,  Yangtao Li <tiny.windzz@gmail.com>,  Chen-Yu Tsai
+ <wens@csie.org>,  Jernej Skrabec <jernej.skrabec@gmail.com>,  Samuel
+ Holland <samuel@sholland.org>,  Thierry Reding <thierry.reding@gmail.com>,
+  Jonathan Hunter <jonathanh@nvidia.com>,  Kunihiko Hayashi
+ <hayashi.kunihiko@socionext.com>,  Masami Hiramatsu <mhiramat@kernel.org>,
+  Thomas Gleixner <tglx@linutronix.de>,  Matthias Brugger
+ <matthias.bgg@gmail.com>,  AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>,  Srinivas Pandruvada
+ <srinivas.pandruvada@linux.intel.com>,  Greg KH
+ <gregkh@linuxfoundation.org>,  Peter Zijlstra <peterz@infradead.org>,
+  =?utf-8?Q?N=C3=ADcolas?= F. R. A. Prado <nfraprado@collabora.com>,  Conor
+ Dooley
+ <conor.dooley@microchip.com>,  Julien Panis <jpanis@baylibre.com>,  Arnd
+ Bergmann <arnd@arndb.de>,  Uwe =?utf-8?Q?Kleine-K=C3=B6nig?=
+ <u.kleine-koenig@baylibre.com>,  Colin Ian King <colin.i.king@gmail.com>,
+  Raphael Gallais-Pou <rgallaispou@gmail.com>,  Patrice Chotard
+ <patrice.chotard@foss.st.com>,  Jonathan Cameron
+ <Jonathan.Cameron@huawei.com>,  "Jiri Slaby (SUSE)"
+ <jirislaby@kernel.org>,  Sebastian Andrzej Siewior
+ <bigeasy@linutronix.de>,  Andrew Morton <akpm@linux-foundation.org>,
+  Costa Shulyupin <costa.shul@redhat.com>,  Yury Norov
+ <yury.norov@gmail.com>,  Cheng-Yang Chou <yphbchou0911@gmail.com>,  Caleb
+ Sander Mateos <csander@purestorage.com>,  linux-pm@vger.kernel.org,
+  linux-kernel@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
+  imx@lists.linux.dev,  linux-arm-msm@vger.kernel.org,
+  linux-renesas-soc@vger.kernel.org,  linux-rockchip@lists.infradead.org,
+  linux-samsung-soc@vger.kernel.org,
+  linux-stm32@st-md-mailman.stormreply.com,  linux-sunxi@lists.linux.dev,
+  linux-tegra@vger.kernel.org,  linux-mediatek@lists.infradead.org,
+  Yangtao Li <frank.li@vivo.com>,  Uwe =?utf-8?Q?Kleine-K=C3=B6nig?=
+ <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH v6 01/24] genirq/devres: Add
+ devm_request_threaded_irq_probe() and devm_request_irq_probe()
+In-Reply-To: <20250623123054.472216-2-panchuang@vivo.com> (Pan Chuang's
+	message of "Mon, 23 Jun 2025 20:30:34 +0800")
+References: <20250623123054.472216-1-panchuang@vivo.com>
+	<20250623123054.472216-2-panchuang@vivo.com>
+User-Agent: mu4e 1.12.7; emacs 30.1
+Date: Mon, 23 Jun 2025 17:13:54 +0200
+Message-ID: <87a55ywkwd.fsf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: OS8PR06MB7663:EE_|TY0PR06MB5185:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1dd9a029-0a0e-436d-dff8-08ddb2522695
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|7416014|376014|366016|1800799024|921020|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?RU5reDhiUWZkbTAvd3NRMVlwd01NcWxyREJWbnBiVTlJd2pQdTZXY3IwNkN5?=
- =?utf-8?B?dVhrcnlyMzJwSzh3cUlDM0pHbXJwNXU3cEQzM2NwMkhxWDAvMmxBU0tabXZ5?=
- =?utf-8?B?NFUvTitDdkp6Y0FkdWxXZ1Q1RElMZTYvSlFPa2ZDK3p2SEJ4NTlibm5KVjBh?=
- =?utf-8?B?VVJiRld5VjMzbmIrR3cwRWdYdTcreTlWUm1CS0ZvSkVPd3FHZ01KWjZJWk1J?=
- =?utf-8?B?Njd1N2daY2tuVTJZQXRuektLNUNGVE5JWEsxZmlNemxWUmExZElUUmQyNk9x?=
- =?utf-8?B?N3NCRitOTXgzcmdDT1ZPMHhtMHBoNkRGQzUxTGJma1JDN0JOMUswdHBGTUtx?=
- =?utf-8?B?bnArRmVzRlVhNjlQMDNWZk9IR2NRVUJpa3A5YTkwU1Y5YnhjZ1RGakw0Y3VI?=
- =?utf-8?B?Z2E2TUp1ZzB4UUtuQjBYQmZRTTFzTjgrNTNoMCtRSUJyZWxRaVU2cVdyOEVM?=
- =?utf-8?B?M0ZBV0ZWdjFSQ2hrUTdqcm9xdTkwaG1oQXFFeEZERG9TK3Fub1U4QjF5Vy8y?=
- =?utf-8?B?TmRoSE9kYTNXK0RETEFoakRnYVRGYURVL3NPZnBRSnFJN3ByOGZxdVd3ZWtr?=
- =?utf-8?B?eGo3WE03eGZCWSsweXd4dytqRGN5YkxMMkhWWGF6elVTMXZrYmtwVjJzNFFE?=
- =?utf-8?B?V1RnMDdVOVhHZGRQby96N0NWcHVITEdiWG5oaURRSVgzdnM5cUJQNFRQU040?=
- =?utf-8?B?MklFTU9ROWZjdDRoM1hkVVBVdWVuZnJzcGlsYzEvTGN2NGh1YVA2WW45ZGlM?=
- =?utf-8?B?OXBGQjdURVNPZnoveGcxemt3MFQvTnF4SnQvY0RIbGE2QVRCNDYrNllKSEpJ?=
- =?utf-8?B?UldoRGFCS054VUIzempVU2pLYlc0UlBlRXBvcGxzQWZiNXVsL2Y5ZHU3TDl6?=
- =?utf-8?B?VDA2YTNiL3FjNTQxNXdNTVlZSTBPZTNkcUJpcFRqU2FOcVZlNllIOXV2SW4y?=
- =?utf-8?B?eW1pTmNmTm5aWEhaZSt4c2xOVllIVlVPbnI0VmdXNnU3NVQ1UkJWRi9kNjRr?=
- =?utf-8?B?aFcxb1pLNFZWM1JHeDBwZEh2Q1VtSGFZMEFiOUNJUnBULy8rTnRNK21RcWJw?=
- =?utf-8?B?RWxIR1VJVE9nKzlLQm9kcW5QSnJBQzVMeWhoV0QveGE2UzE5b1MwWmxJRmY1?=
- =?utf-8?B?dHhtajZrd1lhS3E0R1Aycm9GbGJuK0RWSWZKaVFOTEhIK3hLMnBXU1lDZnhO?=
- =?utf-8?B?NWJUbXhVbVRrb05WQzRLMlkyQ2VDTGpoUGJKMzVqUXZkdXg3TzYvUzBhNVFM?=
- =?utf-8?B?a1V0KzBVck1pVHVacmh5TWlWOWFxWnp4d3lub0hhbStheVRCUVJydkJOWDhO?=
- =?utf-8?B?eHNIMUVDb3Vpa0ZlUXVRV0pIdXZxYlZ6VDV4RS94U0RFQ2kzQW00QTJvbmFR?=
- =?utf-8?B?emUyOHY0eFFZNkk0MHZIYUNpeHorYzhpTnFTbTZvZW8zYmtDSTM4SmpoWE9L?=
- =?utf-8?B?ZFZJMDJnR1ZQZWpzS1FhOTR1OGNuZEVPMTIwaG12SFgxdEw4ZDhUaDhoLzBo?=
- =?utf-8?B?bDYzaGJXVkpuOFk4dnRGZ2RxSVFmb3pZcEhRcHFkbm1Mc2FZaTFBaTM3L096?=
- =?utf-8?B?VWQrOHhTWFlTTEJKenpNRUFGM2VKT3Z6Y0llNUE3UnlKbW1jQWZYWTdEM0ty?=
- =?utf-8?B?Z0V0MXhUazY1T01oV0srSlZFc1VXSEMzMFNqajgyNDdqYkRBTUp6YnFEQXNP?=
- =?utf-8?B?UFROMmE0bytpU1FIR29sVGtQZm9Wc1JqVzBpK1l3eC8rMVVkd2JCYmZOczFs?=
- =?utf-8?B?Sjk0OVhYVGRQR2NYMkhXbzRGeEY5S0VlNGFJMUVMRHhSbnFXQ1RxVnBXTEFu?=
- =?utf-8?B?UG9FandIT0lMNWJMVzdVNHpWTnJPWTJnVzlZRWFkZ0RBRjNITldaL0lFbEpR?=
- =?utf-8?B?ZlI5NUNCNGxYU2R4R0lDWGpUU1JBdGNRZDV0K1YwdWxhbi9kcHNSTCs1ellG?=
- =?utf-8?B?a21hVHU0UE02Q1BxVkpGZE1PRXVsaVhIWTNPVEIwSkFmR0xhZ2I2RzM5WmxX?=
- =?utf-8?Q?2SqYMVDM3eBUNjvzXhIFlY5ANJhwUY=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS8PR06MB7663.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(7416014)(376014)(366016)(1800799024)(921020)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ZGlRVUs4QUJMTDNUazZUTmRCY1hPUDZtbG5Na0ZCTGcrS3ZPWmpEWTBZMm9T?=
- =?utf-8?B?N1BoSWE2aE1VUnB6dmVHYklwMFhLZXBaQ1RnUFZRc1FOczJjazljNHVSVyti?=
- =?utf-8?B?bkpYMGYyM0p4ak5JazMveWpwSXltSmFJVlZDMHRvMDdqY2xscTRWT2N6Wm1x?=
- =?utf-8?B?cTJVa3pvTkZhUVJGSW1EQjJxQWFmbkNCQTBJSzVmajJwZHRnT3hrUW1GL0Ns?=
- =?utf-8?B?TlVVaVNvN3VHelRoVHR2Y1piRDlobVNwMmdZdHkzKzM1ekNXV1ZvOGg1SjZ3?=
- =?utf-8?B?R0FpNU42Qk1VOUNFd3A1bWdySnBLUWwrWDEydWp0UTIrRDNHVEZjRzhPS0RT?=
- =?utf-8?B?dFNaWDVIa3ZxK1REVjNmQVJmNDVLMU13Y1lDSmpzeFBnVzc2S04wV1lUa3I5?=
- =?utf-8?B?aGtNU0dVV1BINnhWMnpDaFZucitQcXZGMmhvNE0yeHM4NFlwKzhhZG03NnVR?=
- =?utf-8?B?Y0FYSVgwR0VMNjdPK2MrenhPZkYwRjBFb3RGOEdZZWdXSHZRQTEyWUxQSG5M?=
- =?utf-8?B?bzNTUWZ4T3hFMlU3WE5WeVlLMHhYOFVRaG5sekl0T0JTTnlvbU1xSnQ0WUMw?=
- =?utf-8?B?TGhmYWZrd2RYbE1heDEvSG5qT1NTQThjL1VHZUZCUVNIR0hCdGE5MTl3VzVl?=
- =?utf-8?B?ekJpZWdPK1BVcjZSY2didnNBdVp4SDA5VXBrYTVKV2trbUo4dm1JRXVTUm1C?=
- =?utf-8?B?QWJNNys1ZmF2MUVrcklSczkraG9Bb2RXMnM5ajVVaHl4TUJoQWlRSkxNYmtl?=
- =?utf-8?B?ZkgvZWt4ZWk4eUUzUXlSWUxna1BlQk1wUENCNlV1d2drWE51di83RjNKc012?=
- =?utf-8?B?VjJ2QWpDYk1YelBIUDd1Zy91UWlJUWVmU2pEYTRzQklSY2JTeTJ4RTFXcGhB?=
- =?utf-8?B?djU1MUttR3FtWjFiS0lXT3U5WCtURk9oVU1xYzBCSDJMcm1CY0FuOU9veUdL?=
- =?utf-8?B?WVZMSmNRRGRkNmU0aFY2dTNmS2NhazRiQVMwN0RObVVLclhud2xHVVZxYk05?=
- =?utf-8?B?VGQ4QnNtQXlVbDVOcGZwQjZYZVJKcmw0NVNkWE5kaXM4L0p2MmI0dkxxT21N?=
- =?utf-8?B?WnhGaUcvbm5KNmY0YzZmWnduU1RPbmt4cTJ3MUtEalJLK0pYeUgzcDRYbFRU?=
- =?utf-8?B?TjVPL3JxZVozTkhERHNoelBXOVNYTlYzQi8veXRtUGxvTmZDTklyTUpRMENi?=
- =?utf-8?B?elpybjZ2eFZEbWE2Y1VLTlBXM0dZTmtXSlpTR0FkYzFjUUNlSWszcWZiNnVm?=
- =?utf-8?B?Q2pqRXZqUldYSkc1N3JaRy9HQVNuRHkySGlKeVQzUWNXaTRidVZRNEJYaldp?=
- =?utf-8?B?VWk1bW9Zd3U5S2xMVDNEWlVLNDdCcUI3N1hxeW1mQUZ0Y2pDaEdkLzhTTDFW?=
- =?utf-8?B?ZHdVT1diU2xiUVN0ZCtxTXZubmtuZjFqK0tURGJ3Q2xvajdVSmJKYllWVzFh?=
- =?utf-8?B?V2czdzJ0c3BYNFg4Qk1tK0NickxkbzlYWGtYRmRSQVNyNjViSEJuL3NsU1BK?=
- =?utf-8?B?QzQzTXExVmpTK0hkajRja2MzQjJ1S2h2VE10NkJzWXY1djNNMStUNSt2cHh1?=
- =?utf-8?B?dkpKKzBxeDR0alJlVSsvNERpdjBCQ0tOaDF4Rks3MmZxNWlBaFI1akNQNDFk?=
- =?utf-8?B?b3RkS1gzVlBtR2tiMmJKTThoaEFxS1VzZmMzMU5Nc3B3UkF4Q1kyMnZpNE5w?=
- =?utf-8?B?cFJUbm9xamJkR21nMnh1RC9MN0duajdiclRiOGs4clZKYkZZdTFDWkcrRjNC?=
- =?utf-8?B?cjZ5ODNLODY5ckxYQldwN3c3bVFpMDRHSkpnMmdlMWJJdVVMQTBzcm0ybU9a?=
- =?utf-8?B?alQ3YUdyUmpRQ2phb1I5RW1VY2xBTE1wdDN2cmV6eDFmeGlJbUJiOEVldndl?=
- =?utf-8?B?eDVLY2ZqWHBCeWkwZ1I3MHpRL2Q3QmdUdFByZ1FVVnZ0ZmlGS1ZCY0xHSGpL?=
- =?utf-8?B?NVlGNnpLSkFGdml5aGZMUkRuYVNBNXJ4RFEyNHNjcjd0NjdKb2J5MnVDV016?=
- =?utf-8?B?TjBWQWNsWGRIcm80YVZnN1d4U0xtNDNrcVFJVVhxM0lRcEh5S3pXbTd6WlVO?=
- =?utf-8?B?Wk9xVFoyRXlhSEN1KzM3VTJsaktta3hjM0ZIaml1dXBYaG52Z0EwMUVSWnRO?=
- =?utf-8?Q?Xi+i9IdRydPNGYMA2WnBxBq9Y?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1dd9a029-0a0e-436d-dff8-08ddb2522695
-X-MS-Exchange-CrossTenant-AuthSource: OS8PR06MB7663.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2025 12:33:26.3839
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rmYKem00TP7Jb0gcGy+aI3U5qGSIWaj6P2Gxrey3EMqtUlG2wP3XyHi13zs9yDEB8IwjHt5YEOVDO0MQ/Vc+wQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY0PR06MB5185
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddvgddujeefhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvefujghffgffkfggtgfgsehtqhertddtreejnecuhfhrohhmpefoihhquhgvlhcutfgrhihnrghluceomhhiqhhuvghlrdhrrgihnhgrlhessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepffeghfejtdefieeguddukedujeektdeihfelleeuieeuveehkedvleduheeivdefnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepmhhiqhhuvghlrdhrrgihnhgrlhessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepjedtpdhrtghpthhtohepphgrnhgthhhurghnghesvhhivhhordgtohhmpdhrtghpthhtoheprhgrfhgrvghlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegurghnihgvlhdrlhgviigtrghnoheslhhinhgrrhhordhorhhgpdhrtghpthhtoheprhhuihdriihhrghnghesihhnthgvlhdrtghomhdprhgtphhtthhopehluhhkrghsiidrlhhusggrsegrrhhmrdgtohhmpdhrtghpthhtohepmhhmrgihv
+ ghrsegsrhhorggutghomhdrtghomhdprhgtphhtthhopegstghmqdhkvghrnhgvlhdqfhgvvggusggrtghkqdhlihhsthessghrohgruggtohhmrdgtohhmpdhrtghpthhtohepfhhlohhrihgrnhdrfhgrihhnvghllhhisegsrhhorggutghomhdrtghomh
+X-GND-Sasl: miquel.raynal@bootlin.com
 
-From: Yangtao Li <frank.li@vivo.com>
+Hi Pan,
 
-The new devm_request_*irq_probe API prints an error message by default
-when the request fails, and consumers can provide custom error messages.
+On 23/06/2025 at 20:30:34 +08, Pan Chuang <panchuang@vivo.com> wrote:
 
-Converting drivers to use this API has the following benefits:
+> From: Yangtao Li <frank.li@vivo.com>
+>
+> There are more than 700 calls to devm_request_threaded_irq method and
+> more than 1000 calls to devm_request_irq method. Most drivers only
+> request one interrupt resource, and these error messages are basically
+> the same. If error messages are printed everywhere, more than 2000 lines
+> of code can be saved by removing the msg in the driver.
 
-  1.More than 2,000 lines of code can be saved by removing redundant error
-  messages in drivers.
+[...]
 
-  2.Upper-layer functions can directly return error codes without missing
-  debugging information.
+> So add devm_request_threaded_irq_probe() and devm_request_irq_probe(),
+> which ensure that all error handling branches print error information.
+> In this way, when this function fails, the upper-layer functions can
+> directly return an error code without missing debugging information.
+> Otherwise, the error message will be printed redundantly or missing.
 
-  3.Having proper and consistent information about why the device cannot
-  be used is useful.
+While I understand the goal and adhere to it, may I challenge the use of
+a yet another intermediate function that 99% of the users will anyway
+use? Wouldn't it be more straightforward to just add the error message
+in the existing functions directly? If we really want an alternative, it
+may be created and called in the few places where a dev_err_probe()
+might not be relevant.
 
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: "Uwe Kleine-König" <u.kleine-koenig@pengutronix.de>
-Cc: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-Cc: AngeloGioacchino Del Regno  <angelogioacchino.delregno@collabora.com>
-Signed-off-by: Yangtao Li <frank.li@vivo.com>
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Signed-off-by: Pan Chuang <panchuang@vivo.com>
----
- drivers/thermal/sun8i_thermal.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_thermal.c
-index 22674790629a..43f6a9d9bd76 100644
---- a/drivers/thermal/sun8i_thermal.c
-+++ b/drivers/thermal/sun8i_thermal.c
-@@ -587,9 +587,9 @@ static int sun8i_ths_probe(struct platform_device *pdev)
- 	 * registered yet, we deffer the registration of the interrupt to
- 	 * the end.
- 	 */
--	ret = devm_request_threaded_irq(dev, irq, NULL,
--					sun8i_irq_thread,
--					IRQF_ONESHOT, "ths", tmdev);
-+	ret = devm_request_threaded_irq_probe(dev, irq, NULL,
-+					      sun8i_irq_thread,
-+					      IRQF_ONESHOT, "ths", tmdev, NULL);
- 	if (ret)
- 		return ret;
- 
--- 
-2.39.0
-
+Thanks,
+Miqu=C3=A8l
