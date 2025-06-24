@@ -1,108 +1,95 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D19F246BD5
-	for <linux-sunxi@lists.linux.dev>; Tue, 24 Jun 2025 19:13:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00EBD1EF1D
+	for <linux-sunxi@lists.linux.dev>; Tue, 24 Jun 2025 19:16:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750792387; cv=none; b=A2MHeASgxixo6XPwjL0axCCkKqfFM0PKmSx6dG1rZgcJqfexfk3rKDdUalr63iBiaz2fyPJXjPl8QN4QWlBjTwO0VRYYzQ3PW4n5MOiaifr5kkxb74OL1vzqJPrHZydGDXYIk3xxhTXqxg3/i8//MI72FZwfiEZFI/SuBeKIO+o=
+	t=1750792573; cv=none; b=nScAMumO4tgUG6cOU5gmTppfiGpCEmoKQdGkTfwHB2ZzXRF8Gyg9Jbdcby/1kKmwIwY4XKSlKMhz/ryFEvK/w45zLvC53f8h/31Pui3t+KZJjD0g1Sxc+loxOA3geyoWMPVCZrQo40o0hvw98f8i7x3PvnLzdGs2+gYDvtGA5Zo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750792387; c=relaxed/simple;
-	bh=42g0mLF/csycd0PbqCpM2WtITkGugXfu8fIaTZhFhBc=;
+	s=arc-20240116; t=1750792573; c=relaxed/simple;
+	bh=ihWWakMukXt8Os5zOHseSTg4tzKTY1m9zw8OxkJuiHM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KXjW5CWHb2z9R7inACJ0qVYehQi1QOrSEK/od/yJvr9YCvlT8AlgyI//vTRSjp3VFB/1CUbbH/4InyRTVfNPmkZzX/BY0lUQ7CGYsHf9OzQ0OtujvEZdySvp+RrKn1t1GMp74WWjLhFDp0m8fvPUtGns3jIqEMuCPwXS+y7FQHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Y2V3dMT3; arc=none smtp.client-ip=209.85.167.41
+	 To:Cc:Content-Type; b=Q9K7aq1IeOnh6TXo0Bu0Sc0UWQMS3SorgD1XDI3j0tOYV9iOgGTxwgjTjDQPUj/xyIq7sLN2pLDRuRqItEX5YoYXKJsPLT5iiCyuHIcf0xGQe8rcrxNXtDTGKR9xmZ+A2aOs92CEONRxwvAPa+i/PJx2WUJIBZei1Nv/KqU/LzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=C3AWqq8+; arc=none smtp.client-ip=209.85.167.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Y2V3dMT3"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-553ba7f11cbso1016517e87.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 24 Jun 2025 12:13:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="C3AWqq8+"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-551fc6d4a76so778232e87.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 24 Jun 2025 12:16:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750792382; x=1751397182; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1750792570; x=1751397370; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=42g0mLF/csycd0PbqCpM2WtITkGugXfu8fIaTZhFhBc=;
-        b=Y2V3dMT3LDuzgjQnfHumlSE2frjMmLr2UXndQi/gbnGh85p/+zm5ILkmzwvP9+NE+f
-         aBlAz9Y2tkn7M/1wkXVD0iF3wgZQKRO4ss6fSdc6FyldejPeAXdtjt01sYwfOSOsM9rL
-         HC+XUmnK5UKkdAOjxv3ukLZcfOUGszdjHW6vhB2tx8c+qgeE6ahBissKgklcW1gtCoiN
-         pOanyktI0z9eR7u5OPJJSRPQCFHk7at/xUP6dzmA5Z666gIZ3vIofpsE/C4bVeIGfeez
-         aelbPvImggqAcuu5JikC+hTKKKY2sMppCjT3spaAuIOmFtMjKPKwDgxhc3ebUhBH4MdO
-         mqdg==
+        bh=ihWWakMukXt8Os5zOHseSTg4tzKTY1m9zw8OxkJuiHM=;
+        b=C3AWqq8+3ksaxJ53WqWQP3YOaF6ayJ4ZAs+WgRAB538NPnldMupiW7oHmlZD3tvmgw
+         ReAz/HGL7vqSTQe9d8yGlwcEj6ovZr6aEMdFxlotnQGcoH7DgOsWFn1hXBAbIXT5qndC
+         PfrxfMmSCXzIRsHy0vSYvQgwpaGcFoUJzlXULcCwuxURp9qxVAkT/txBxHAHsN6UkP4H
+         R/Y962OKzuUFKmq1w+sD+0q2/i6rfrDC3g9mC/enEkX1h+IFoAC87AaIEVEJ+ZfIoW2W
+         NsAP+1qgowmtA7R3xx3Tc+itBSLIbSxJbKFZgaxJvBC3VUFAd46txfCf8DaWGa4BREau
+         W95g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750792382; x=1751397182;
+        d=1e100.net; s=20230601; t=1750792570; x=1751397370;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=42g0mLF/csycd0PbqCpM2WtITkGugXfu8fIaTZhFhBc=;
-        b=GqnV+M29pMNuG27PnHLub/JnJeKRS5Yf6Ore9WMJj40o6HpulkDeRQHhplk/ca/hhZ
-         VP6LrsV+BZx0V55ROlLZpRaV1Z3kDzAMKhE5SEjZX+monOh95lI7ECNXLJlbnxOEiOUd
-         wNWVUfcGNm/O5tNuRtgc26dMd0EWHu+Pph7xna7tJ5aLtdqHq3ENItwh6KEtq4B9ylyE
-         qJXRB0Opq/01JleFnLI2gjdPHIRNxvEb9oAcYZwLnVfFU9dGa1CGxF+ejfVR2sWqvaSl
-         ofu3EpjFpYfomTvSmea//mHW8NAjIG+z5H5Om7HbsrIa75tdqMQyy3G5eoYQ3BapdTNA
-         2BPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXZGtOfG5/dzODSv8nX5nlPg8EZd8nNj+CfldfP7hBl2xOCT1hBoAd0lTkm7l/jEUY/CKz5tUUcglBBnQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxGjDRuiC9jY2kpi4JLe/p+YKtsSB4cZlpm+OODsfGdlU1pjDPW
-	DmMWrKiTWrAOFgV321tbXpkQyr2psD/bxv9+hhn68bPDIgkDUyYU+egw3yixUeRSE8JQ8SyeP17
-	cA5BhL+R/apUMQ00Y9XVXDjyAWUI0s49wBIgIaz6ykg==
-X-Gm-Gg: ASbGncvS0pjbvGtNOrZ4kQR6tfFE2+SPzD4JUCNxtOylRn7LnYQw/SzwTESO2Ku02fd
-	MJSFTSlZVc+zfnMpZOrehIHj1V7gmYPBo/gsi09jAkFD1aqgjsNA/ry1HZ+kXv8nvm+bBylRA0v
-	wV439xSZLkwmgoDKyo316Cu0jhqHyLQwzRNWHaNfr95Cs=
-X-Google-Smtp-Source: AGHT+IFcvsv4Jx0wPVU5q9HdOKD/NjVsRLZ8GzOGiSq6bCzhKJUr6IeEsytMxz0Nq3UnxW9fjOmi1xt9+Qqg6x/9RLE=
-X-Received: by 2002:a05:6512:1247:b0:553:35ad:2f45 with SMTP id
- 2adb3069b0e04-554fdf7c090mr5733e87.50.1750792382134; Tue, 24 Jun 2025
- 12:13:02 -0700 (PDT)
+        bh=ihWWakMukXt8Os5zOHseSTg4tzKTY1m9zw8OxkJuiHM=;
+        b=RhhUEofCNuVazYjSEgKgdOD1Jl9h4E+IL8Rq/hlRDSpzH6xTRQKvbdpHrx/xn1hHqO
+         lDFbwHm1zJ7H3FpnV2F5Agqm9XgrLE4n7Zf+05psZlp5kXrOk2uvWttsa/LQK59A7q5Y
+         R541G7j6Tj0TpMySP1aEYI0mAWz/IBf8k7ZLqJsidEWLfmwGWfRZEhWbDzHl20WGqbQV
+         A/dPGM9b2PueoD/nqLtqiwJ23RW4ZGQvbzJNI5CcV+tgTFD+nAnyPRMP66H9faVb8u+m
+         cP8OMKVO2YDkDZVZdrzph/Oi90bD1jFNwMGU/iHANlVgE+PlGYc/PZln/SbaP3x/Y2rS
+         HgEw==
+X-Forwarded-Encrypted: i=1; AJvYcCWOmDpwUzbXIAxNTHEbszi1OVUjupCvdazPUh1YSZeg4T25GV5e78KD86COFXBXxExMi22/+sl43ZiI8A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YypCO0YN5Fn2QTXK/IqGCBkAZcLg4w/GtEIiSldhM8t3cadPSf3
+	bwkm760DZaWzMvi5P+X6s6faMeVNTud03PR076vBFP+YiszTIPmWhieFsyvfhwDYalWuygmeOSN
+	1Lv78WnTYBSZK+yTtVn9P+ogFedtfb+rQyFmEQvNcnQ==
+X-Gm-Gg: ASbGnctZR1IW/EuVxh5tJoojBzMw1WBuYDo3Oz+4B8iAXfKHL27pkRql/nYxJkKfFg9
+	H84vrwoIBs+0zTmWIhuU5NfvvX+FmbLUfQQ4EsM+gW7vKnHMJ4YR2eDT2t440eZk1FpMDz5WEJI
+	RQw1UPzVfTSH7G8xJpuMFP/lz+hMR5HY2ZeFICUHU4wuk=
+X-Google-Smtp-Source: AGHT+IHmRRS+snn9ezdisZXjq9pNKvNF1NOIie7MqflwaPNY3SKz61GchJJ41LtKpgJIpimyXyrJyvJ1Pacxv1Ru12U=
+X-Received: by 2002:ac2:4c45:0:b0:552:1c1b:561 with SMTP id
+ 2adb3069b0e04-554fdd23ba8mr18893e87.23.1750792570121; Tue, 24 Jun 2025
+ 12:16:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250619-b4-of_drm_find_panel_part1-v2-0-0df94aecc43d@redhat.com> <20250619-b4-of_drm_find_panel_part1-v2-14-0df94aecc43d@redhat.com>
-In-Reply-To: <20250619-b4-of_drm_find_panel_part1-v2-14-0df94aecc43d@redhat.com>
+References: <20250620010345.11247-1-chenyuan_fl@163.com> <20250620012708.16709-1-chenyuan_fl@163.com>
+In-Reply-To: <20250620012708.16709-1-chenyuan_fl@163.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 24 Jun 2025 21:12:50 +0200
-X-Gm-Features: AX0GCFsyGEH8PEzLkMow539_Cj69jbmDRSN9FsVHKoXlbloZW-99abb_OrCBGA0
-Message-ID: <CACRpkdZM75HEZ0DACqC3iY7S1gLurw29Z--C7TJxUVxPUTuNqA@mail.gmail.com>
-Subject: Re: [PATCH v2 14/16] drm/mcde: Keep up with refcounting
-To: Anusha Srivatsa <asrivats@redhat.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
-	Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Samuel Holland <samuel@sholland.org>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
-	Kyungmin Park <kyungmin.park@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, 
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Alain Volmat <alain.volmat@foss.st.com>, 
-	Raphael Gallais-Pou <rgallaispou@gmail.com>, Stefan Agner <stefan@agner.ch>, 
-	Alison Wang <alison.wang@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+Date: Tue, 24 Jun 2025 21:15:58 +0200
+X-Gm-Features: AX0GCFs0q4vtQFV_NNK7FgYpbrOMY93VLrNBvqqOTi5xPuc96sQtOMY9VoZarF0
+Message-ID: <CACRpkdaA8UQYX8bFeHn4JCxLgK_-UxR_n=ZCZmgbk8tqSgnFAw@mail.gmail.com>
+Subject: Re: [PATH v2] pinctrl: sunxi: Fix memory leak on krealloc failure in sunxi_pctrl_dt_node_to_map
+To: Yuan Chen <chenyuan_fl@163.com>
+Cc: wens@csie.org, linux-gpio@vger.kernel.org, 
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-samsung-soc@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-tegra@vger.kernel.org
+	linux-kernel@vger.kernel.org, Yuan Chen <chenyuan@kylinos.cn>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 19, 2025 at 9:19=E2=80=AFPM Anusha Srivatsa <asrivats@redhat.co=
-m> wrote:
+On Fri, Jun 20, 2025 at 3:27=E2=80=AFAM Yuan Chen <chenyuan_fl@163.com> wro=
+te:
 
-> Put the panel reference returned by of_drm_find_panel()
-> back when driver is no longer using it.
+> From: Yuan Chen <chenyuan@kylinos.cn>
 >
-> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+> In sunxi_pctrl_dt_node_to_map(), when krealloc() fails to resize the pinc=
+trl_map
+> array, the function returns -ENOMEM directly without freeing the previous=
+ly
+> allocated *map buffer. This results in a memory leak of the original kmal=
+loc_array
+> allocation.
+>
+> Fixes: e11dee2e98f8 ("pinctrl: sunxi: Deal with configless pins")
+> Signed-off-by: Yuan Chen <chenyuan@kylinos.cn>
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Patch applied for fixes!
 
 Yours,
 Linus Walleij
