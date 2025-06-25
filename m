@@ -1,193 +1,73 @@
-Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00E10276054
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 Jun 2025 08:55:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5850C28689C;
+	Wed, 25 Jun 2025 09:09:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750841729; cv=none; b=lhfPDU6OJF2dAPAWgJPzw+b+lJE1cz8T7Am5Yj08sc2h7fjw4+grxY7hvPKT34m4I2/m6+xZ3GseOUTxQiHiFIM4ryQVs1PVpH/oYiHGnzhW1+kISpQnV9U9UCycPnPNE/DCvTeSVD1E9fsj42Nq6zQxaf0tZxo1NsAy4mZsuC8=
+	t=1750842559; cv=none; b=pbrxX1j3NnMXzMF32QBf8PCITQslqAEsp8WO6lsfo+ivqKudPJE3o4PRt3aUmw1tVb4Te+yhqBd4G/fHQdlvKeODOdDRF3jC17kjcIELRzM39IbnU3zaYHrrBAhtNyBW7wFvwEYocRUZUMyZnYquiDM4YETm4ywdXM7ihC4+WRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750841729; c=relaxed/simple;
-	bh=cjV9mq90c8xZ+NKkEcNZ1Gs0FultA9PRjpDMArFXJM4=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FiQXJW6UolEp/8L7gVfTzOGPDeeB0MVSOiLc3q+gKYAXCz8lpYA0kaasLMuAezZD62/RrzzBIkuRpy7vpyDo3CN5Fm6SXLKzI1UQeU7n9+67RPFNLtA5wZFP5AncLYaGM5wiCNGfkuNwbXOFQe4hA6mkaaEE4cFfRxvuxNq5Km0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=UCI6yD0e; arc=none smtp.client-ip=193.68.50.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
+	s=arc-20240116; t=1750842559; c=relaxed/simple;
+	bh=5BsdWC9xczjMvTnwn2wUphK7xUMrIoc7oipvBOeF87k=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=uvOMs9yYV7ADBRG7b10Rlz8wK0IzdR13em6pTOOpIVTT6SgPfmblvUd6RfcKJDAc9XMqBY04Ob/KWeoyLX714oSF3zFd8qGR7AJoZt3uHdIWKibJi7m3AfJL6U6aKbppBP0kYS4Lyrzd7z8VvAe4JQ0tB9T17M9Hg0GKBJHg86E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TBQh9TG1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="UCI6yD0e"
-Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
-	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id D7A1EA06EB;
-	Wed, 25 Jun 2025 10:55:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:from:from:message-id:mime-version:reply-to:subject:subject:to
-	:to; s=mail; bh=nrf5whORkfSt+oMoV6M/vem4ZwKyQ3gZRdKv2OMWRrA=; b=
-	UCI6yD0e8NDJ52qaFvJN4jMML1kfxrIrv6EOUQuzgmUwf2G+2S4GoNagDaS9AnqZ
-	2GCPFlayL0D8KLXvQLh4C7cZY6YCo248Oo2w5l12EU4tfMCNF8JG28t6flinEwCb
-	wX6l7f1r4CO65L6Mk9jNNnYAG6K1lWol3ls2xpKuUgkA/JH/aX23coa4dLIjmSvJ
-	Dhgs6KGm8veQUWQVx9dppvh4RYzrbHTvbHDtJtUp3uyTUdpK7rItblxw+0bIreey
-	3z8jcCHqUtJ9P1+otblp+eCqBmJMSvBiZ7Xpcktqag4/IBPGAsvIMWnsqUuYyDiK
-	Od6h2rcOqMLH+AXLfQFjFmoLLHHMev5Qy96ZSV+AVErsjsDl2XX0gFD5z28MP3YJ
-	yrJ0Q6l+AeyMoUu/zTyYeYVXJK3gTA64DyrfPLWJ+7v/Cv4kdVqHi/ygBnxxRAPn
-	nqeT1diYy/Syfr0DF7epuAMQWwsJIjo/hZvUx/PTtXHUNBQr7XOFMuwNdkuAqqXY
-	aM5LyO2VItY2ZYNuFP/Oy54cKHgCogw+x6gZnn+O4c1gme+QJLPc6AYD+sFpz1w1
-	/+/ndixXvIfHDWL1qdrJiKaGDGxmQp1adgdf3EHanISzvoKRHuv0Zkb/9T9/8N7N
-	iqlV+F1kSPWqvelTAutEkzg63t8z99FqspI5XCjR3LY=
-From: =?UTF-8?q?Bence=20Cs=C3=B3k=C3=A1s?= <csokas.bence@prolan.hu>
-To: <dmaengine@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-CC: =?UTF-8?q?Bence=20Cs=C3=B3k=C3=A1s?= <csokas.bence@prolan.hu>, "Chen-Yu
- Tsai" <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, "Chen-Yu
- Tsai" <wens@csie.org>, Julian Calaby <julian.calaby@gmail.com>, Vinod Koul
-	<vkoul@kernel.org>, Samuel Holland <samuel@sholland.org>
-Subject: [PATCH v11] dma-engine: sun4i: Simplify error handling in probe()
-Date: Wed, 25 Jun 2025 10:54:50 +0200
-Message-ID: <20250625085450.154280-2-csokas.bence@prolan.hu>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TBQh9TG1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42DAFC4CEF3;
+	Wed, 25 Jun 2025 09:09:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750842557;
+	bh=5BsdWC9xczjMvTnwn2wUphK7xUMrIoc7oipvBOeF87k=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=TBQh9TG1aniBSi5f3cWQ+/x6rD/Vk+D1PG7qplE+6UkJCuEdZFweZcRD1mO6IrXyo
+	 ujdDfrUbCRsachKdDg2NiHFOrdMhIvE14XBM5yToNNbcUctAPSl30Q6qdBwsdbHF1k
+	 TUCjG/swZX6JI9awMc/xUBfv2WhHcKELVHflLx6lp+2LqQllmn4I35MorjMND9mL9l
+	 OQMewdAtR/gf8MVxuvAkcIknwH7kYhOMUJJAlglP02fRmx5pApUN6J0mtC0s9iYpCI
+	 rrcHRqCjclc3fvhT6q99TjyboXG3Y3iRW8+F2jCBX+RRRGurIrddcx/6F6QaT3hb6D
+	 gQvwZ8wzLzgRw==
+From: Lee Jones <lee@kernel.org>
+To: Lee Jones <lee@kernel.org>, Chen-Yu Tsai <wens@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, linux-sunxi@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Andre Przywara <andre.przywara@arm.com>, 
+ Chris Morgan <macroalpha82@gmail.com>, 
+ Vasily Khoruzhick <anarsoul@gmail.com>
+In-Reply-To: <20250619173207.3367126-1-wens@kernel.org>
+References: <20250619173207.3367126-1-wens@kernel.org>
+Subject: Re: (subset) [PATCH] mfd: axp20x: Set explicit ID for AXP313
+ regulator
+Message-Id: <175084255601.4077397.7103143558285168372.b4-ty@kernel.org>
+Date: Wed, 25 Jun 2025 10:09:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-ESET-AS: R=OK;S=0;OP=CALC;TIME=1750841717;VERSION=7993;MC=222044062;ID=219731;TRN=0;CRV=0;IPC=;SP=0;SIPS=0;PI=3;F=0
-X-ESET-Antispam: OK
-X-EsetResult: clean, is OK
-X-EsetId: 37303A296767155D6D7C62
+X-Mailer: b4 0.15-dev-c81fc
 
-Clean up error handling by using devm functions and dev_err_probe(). This
-should make it easier to add new code, as we can eliminate the "goto
-ladder" in sun4i_dma_probe().
+On Fri, 20 Jun 2025 01:32:07 +0800, Chen-Yu Tsai wrote:
+> On newer boards featuring the A523 SoC, the AXP323 (related to the
+> AXP313) is paired with the AXP717 and serves as a secondary PMIC
+> providing additional regulator outputs. However the mfd cells are all
+> registered with PLATFORM_DEVID_NONE, which causes the regulator cells
+> to conflict with each other.
+> 
+> Commit e37ec3218870 ("mfd: axp20x: Allow multiple regulators") attempted
+> to fix this by switching to PLATFORM_DEVID_AUTO so that the device names
+> would all be different, however that broke IIO channel mapping, which is
+> also tied to the device names. As a result the change was later reverted.
+> 
+> [...]
 
-Suggested-by: Chen-Yu Tsai <wens@kernel.org>
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Acked-by: Chen-Yu Tsai <wens@csie.org>
-Reviewed-by: Julian Calaby <julian.calaby@gmail.com>
-Signed-off-by: Bence Csókás <csokas.bence@prolan.hu>
----
+Applied, thanks!
 
-Notes:
-    Changes in v2:
-    * rebase on current next
-    Changes in v3:
-    * rebase on current next
-    * collect Jernej's tag
-    Changes in v4:
-    * rebase on current next
-    * collect Chen-Yu's tag
-    Changes in v5:
-    * reformat msg to 75 cols
-    * keep `\n`s in error messages
-    Changes in v6:
-    * remove redundant braces
-    * break lines to stay under 85 cols
-    * reword subject and message
-    Changes in v7:
-    * rebase onto current next
-    * collect Julian's tag
-    Changes in v8:
-    * rebase onto current next
-    Changes in v9:
-    * rebase onto current next
-    Changes in v10:
-    * rebase onto current next
-    Changes in v11:
-    * rebase onto current next
+[1/1] mfd: axp20x: Set explicit ID for AXP313 regulator
+      commit: 77f6b46f199b8a483e0cfa176b7a629f75a2c4c4
 
- drivers/dma/sun4i-dma.c | 46 ++++++++++++-----------------------------
- 1 file changed, 13 insertions(+), 33 deletions(-)
-
-diff --git a/drivers/dma/sun4i-dma.c b/drivers/dma/sun4i-dma.c
-index 24796aaaddfa..00d2fd38d17f 100644
---- a/drivers/dma/sun4i-dma.c
-+++ b/drivers/dma/sun4i-dma.c
-@@ -1249,11 +1249,10 @@ static int sun4i_dma_probe(struct platform_device *pdev)
- 	if (priv->irq < 0)
- 		return priv->irq;
- 
--	priv->clk = devm_clk_get(&pdev->dev, NULL);
--	if (IS_ERR(priv->clk)) {
--		dev_err(&pdev->dev, "No clock specified\n");
--		return PTR_ERR(priv->clk);
--	}
-+	priv->clk = devm_clk_get_enabled(&pdev->dev, NULL);
-+	if (IS_ERR(priv->clk))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(priv->clk),
-+				     "Couldn't start the clock\n");
- 
- 	if (priv->cfg->has_reset) {
- 		priv->rst = devm_reset_control_get_exclusive_deasserted(&pdev->dev, NULL);
-@@ -1328,12 +1327,6 @@ static int sun4i_dma_probe(struct platform_device *pdev)
- 		vchan_init(&vchan->vc, &priv->slave);
- 	}
- 
--	ret = clk_prepare_enable(priv->clk);
--	if (ret) {
--		dev_err(&pdev->dev, "Couldn't enable the clock\n");
--		return ret;
--	}
--
- 	/*
- 	 * Make sure the IRQs are all disabled and accounted for. The bootloader
- 	 * likes to leave these dirty
-@@ -1343,33 +1336,23 @@ static int sun4i_dma_probe(struct platform_device *pdev)
- 
- 	ret = devm_request_irq(&pdev->dev, priv->irq, sun4i_dma_interrupt,
- 			       0, dev_name(&pdev->dev), priv);
--	if (ret) {
--		dev_err(&pdev->dev, "Cannot request IRQ\n");
--		goto err_clk_disable;
--	}
-+	if (ret)
-+		return dev_err_probe(&pdev->dev, ret, "Cannot request IRQ\n");
- 
--	ret = dma_async_device_register(&priv->slave);
--	if (ret) {
--		dev_warn(&pdev->dev, "Failed to register DMA engine device\n");
--		goto err_clk_disable;
--	}
-+	ret = dmaenginem_async_device_register(&priv->slave);
-+	if (ret)
-+		return dev_err_probe(&pdev->dev, ret,
-+				     "Failed to register DMA engine device\n");
- 
- 	ret = of_dma_controller_register(pdev->dev.of_node, sun4i_dma_of_xlate,
- 					 priv);
--	if (ret) {
--		dev_err(&pdev->dev, "of_dma_controller_register failed\n");
--		goto err_dma_unregister;
--	}
-+	if (ret)
-+		return dev_err_probe(&pdev->dev, ret,
-+				     "Failed to register translation function\n");
- 
- 	dev_dbg(&pdev->dev, "Successfully probed SUN4I_DMA\n");
- 
- 	return 0;
--
--err_dma_unregister:
--	dma_async_device_unregister(&priv->slave);
--err_clk_disable:
--	clk_disable_unprepare(priv->clk);
--	return ret;
- }
- 
- static void sun4i_dma_remove(struct platform_device *pdev)
-@@ -1380,9 +1363,6 @@ static void sun4i_dma_remove(struct platform_device *pdev)
- 	disable_irq(priv->irq);
- 
- 	of_dma_controller_free(pdev->dev.of_node);
--	dma_async_device_unregister(&priv->slave);
--
--	clk_disable_unprepare(priv->clk);
- }
- 
- static struct sun4i_dma_config sun4i_a10_dma_cfg = {
-
-base-commit: de266931dd996fc2cb8ee8b5d12e39ea463e3f36
--- 
-2.43.0
-
+--
+Lee Jones [李琼斯]
 
