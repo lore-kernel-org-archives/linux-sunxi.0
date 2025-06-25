@@ -1,71 +1,39 @@
-Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FE0D26A090
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 Jun 2025 15:37:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 691782DAFDC
+	for <linux-sunxi@lists.linux.dev>; Wed, 25 Jun 2025 16:45:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750865838; cv=none; b=JuEBO1r2+AB9TyqxogINvOVsi1RpniVCOE7rba2ftMoZhHuNjqkM0rHUjlkHOXUJ8EWS9+tzcNKid1grlJclp3wz7hjStHCSDYWnIY5uT/NUkqMUb5gfLN7YMaDz1ep4zl8T7rnMkNnFDQceNTVTgdeWRV2RuR/DQ2hAeOHg8Fg=
+	t=1750869950; cv=none; b=Pof30puaA9DROfvTHRro4eOvUQI7edmIwgkqkqqFSTXa8UCxVpzgp0gbFgz6vBobBf9AZB+NHIx1CCQJEwqQiHJ0Z/RFygu3m49BX+msH+t8AILQb3GHAXP1mtRA8MDYLMICodAQrtBI2MIbPIpJQOPEOLbLZOjdtrScPG1Sv3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750865838; c=relaxed/simple;
-	bh=GZbowAUaJHWyymfTn3z1ubteOCTZVcoXHo4ZbeCumxU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Mm4PrLEt97J6P8Hjc5e8IVF8D8INQksQo097VBLkSpO49pgP91kmZHf9LX61H1GlDGAsTfpcHjfNfbmEymobpXtjwZj3nhbTNLANdiDJtOYH7BEUvsRKT8MpouqoUuCtyyO4H4QUV681QnUHOgME0QsJZUTjJK7/Dhw+WtY59uc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=konsulko.com; spf=pass smtp.mailfrom=konsulko.com; dkim=pass (1024-bit key) header.d=konsulko.com header.i=@konsulko.com header.b=siehk02S; arc=none smtp.client-ip=209.85.161.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=konsulko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=konsulko.com
+	s=arc-20240116; t=1750869950; c=relaxed/simple;
+	bh=ih4o1cXJDJEoX+H/u65YPGMOSBTgqPs3G0/83Y/lLX4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=MD7GLvbYbkvBoIvbPQrA7lioC0BG748m4K6th43MqjQGZu25dUbVPlAeQu95ZK7STmIFmZZUcA20tZiGCWG3BFP84A3QhBwCK4VBtGXW8lB/uxyjzbxif5U/hQ19X2vy+B5J8d8aZ1sAHdQYC1YrrlsIHmXcMetoruLw2FXcI1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=fQE3MK2K; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=konsulko.com header.i=@konsulko.com header.b="siehk02S"
-Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-604ad0347f5so2403eaf.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 25 Jun 2025 08:37:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1750865836; x=1751470636; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=S8v5EXu2aDSwcRpR4btG89VkouNHXlURDaVlvOIHIlY=;
-        b=siehk02SgiOiwOz+kbpj/3tQa/Fx+BqgOu/6xRdgSLh8ISu++jcVoMqn5FZteZk31S
-         McdsBzslO0eYSzwUs1s45Mv5Sj9cQv9aRhDikk7sz4irp0Cn9/fkP71Apa5Q2G023Ww7
-         yNsQQWpEk8hRIPhEuvZAuOBzRGuDI4ydHEQQg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750865836; x=1751470636;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=S8v5EXu2aDSwcRpR4btG89VkouNHXlURDaVlvOIHIlY=;
-        b=JZrVxWufGL+V/SaygJjkgf7TFLjte/43xHSvbKc7Hc5AiMgOTh187yoLcCi4V23NKV
-         Sa7OuWOOCBi1adjAusRSzPN84Lqj3lcVk8Hm5lv4mcNmp4MXHVDEMniS23akHD2gNZG3
-         hju9IM8WYG23F1vRi9u12539ckxaesCamzYaxH/+nv8a7rXG1nWfpdiQCDYcC4ZDuOTv
-         zYfTH3Rp3zgSBhiNDk6qem1ngSbY5Ie5jT0bGunRSlFuzww/5rB5jKV2tjo/gKnuWbT/
-         u41kAnchE7lXNITGhRNFRVCkxWs+IXssW2E6jRAhvISJPtdOH4wPL2yZbuYey7x3qTlN
-         KWdA==
-X-Forwarded-Encrypted: i=1; AJvYcCUG4aT7V5OWQ2TtfF9Whyai1mJkiESc89qEZl9nfb95YWbrY7IvOvObM8iiDBLeUpkbGhPmyRAZFm+M0g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwWujgOpLqt9x6+OAAtsbloviTEO5JoXdlTLR4Qg1w7Zaa24df5
-	cSgDedIv/M8YR3gBPGlKQYOL+LtoFVgOlcjeSAeY85GYrPuovsOgqi80TavpeH76vGk1vaXc9jD
-	VKLJxp2c=
-X-Gm-Gg: ASbGncvlq2V/ZW5vOslHbpIfstJ4tlOZO0uobMfD5iQoIMD4Olw6Foy/JvC9rHflD3l
-	P/f3h4m1TbN9dArsD++4okctcGnS6wWngnM7UiEfjhTsUjgX5U9kOrwttZ0sKQtxG7SC8M+CmOH
-	CCUf+4lbZBC+ySPFtsk4SOl/f1mKjXfIIEoaGYQAnHSMvbNkVyvB0kUz+1p+odUyVIZY524bRJ2
-	fnCQ2PHFK0eN/jMycyo2ETVlGfsVQg2SskIoq7NZZJu0pDKcc72LF7q0oi9NWgrAlZFi/gQED4V
-	fgt7nWsn8lgs5ROpKUNjCP64uYkW11F5CPBz9D7Fr2wuCC+B2Sx+R2BUvpR3vc3AaLLsmY6/tjq
-	K7dDyI/3ji9AMOP42lKWh+A==
-X-Google-Smtp-Source: AGHT+IEAyrPpSzFuoZIGsziLNbizciFlK0mnzRBruSwL6Ux1COap9q0GlDEJHd16A3j3WiNxPyRddA==
-X-Received: by 2002:a05:6808:e83:b0:406:6671:6d1d with SMTP id 5614622812f47-40b05aae6b3mr2814869b6e.15.1750865836250;
-        Wed, 25 Jun 2025 08:37:16 -0700 (PDT)
-Received: from [127.0.1.1] (fixed-189-203-100-42.totalplay.net. [189.203.100.42])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-40ac6c30aa7sm2212537b6e.20.2025.06.25.08.37.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Jun 2025 08:37:15 -0700 (PDT)
-From: Tom Rini <trini@konsulko.com>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Cody Eksal <masterr3c0rd@epochal.quest>, 
- Paul Kocialkowski <contact@paulk.fr>, u-boot@lists.denx.de, 
- linux-sunxi@lists.linux.dev
-In-Reply-To: <20250624192738.13062-1-andre.przywara@arm.com>
-References: <20250624192738.13062-1-andre.przywara@arm.com>
-Subject: Re: [GIT PULL] u-boot-sunxi/next
-Message-Id: <175086583541.1401475.1224819033827719234.b4-ty@konsulko.com>
-Date: Wed, 25 Jun 2025 09:37:15 -0600
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="fQE3MK2K"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7D6C144385;
+	Wed, 25 Jun 2025 16:45:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1750869941;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AXCxhWG7+TwYnqcCH1bbu1V1drghoo3o25zXzfcMhR0=;
+	b=fQE3MK2KKKWZHSHpw/EOuCoGF8aaQpjXtXTKgLDEfZFrVd71HsENBSa9zfQ935i/ZiAr6U
+	Zue6+swKxKCX2qDuZq9nwmBMGmyS5hy0wrXRiEy7j9+DuCI8EayCfTLrQEKXCzayL8PyAm
+	DIvVkcv6iGYmlD5D/SVxrhN8rYSBRiLHYKJ7Of8/y2mpjhdivQ6a/I5fagLrezCITdcn8U
+	H1287RI3xWyRT7jN7LoiLS9M/k5XnJerLk8jLnTH5cZ/1SFEvOx00pz5RD+UGtiNuMPIfe
+	pmWjg588UvmhPsWq/PrpI1EvEoMGJkFKXfCkgti73xrJJ7SwktiqsI1k/jCcZA==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Date: Wed, 25 Jun 2025 18:45:05 +0200
+Subject: [PATCH 01/32] drm/mipi-dsi: add sanity check of lane number in
+ mipi_dsi_attach()
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -74,23 +42,61 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20250625-drm-dsi-host-no-device-ptr-v1-1-e36bc258a7c5@bootlin.com>
+References: <20250625-drm-dsi-host-no-device-ptr-v1-0-e36bc258a7c5@bootlin.com>
+In-Reply-To: <20250625-drm-dsi-host-no-device-ptr-v1-0-e36bc258a7c5@bootlin.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-sunxi@lists.linux.dev, Luca Ceresoli <luca.ceresoli@bootlin.com>
 X-Mailer: b4 0.14.2
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddvgddvfedvkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepieeiuedvffetgfeuudelheeutefggfejieettdetteekueeuueeukeevvedvueevnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegludelvddrudeikedrudejkedrjeehngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvvddprhgtphhtthhopehjohhnrghssehkfihisghoohdrshgvpdhrtghpthhtohepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohhothhlihhnrdgtohhmpdhrtghpthhtoheplhhinhhugidqshhunhigiheslhhishhtshdrlhhinhhugidruggvvhdpr
+ hgtphhtthhopehmrdhsiiihphhrohifshhkihesshgrmhhsuhhnghdrtghomhdprhgtphhtthhopehrfhhoshhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrghdprhgtphhtthhopehjrghnihdrnhhikhhulhgrsehlihhnuhigrdhinhhtvghlrdgtohhm
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-On Tue, 24 Jun 2025 20:27:38 +0100, Andre Przywara wrote:
+Several drivers do some sanity checks on the lane number. Checking it is
+non-zero will allow to remove such checks.
 
-> please pull these sunxi changes into next:
-> This concludes support for the Allwinner A133 SoC, the biggest chunk of
-> which is the DRAM init code. Also includes support for a devboard using
-> this SoC, the DT of which  got added to the kernel only recently. The same
-> is true for another H618 devboard, so add the respective devconfig as well.
-> 
-> Gitlab CI passed, and I booted that briefly on those two boards.
-> 
-> [...]
+Additionally, we are about to move to an .attach_new host op which won't
+pass a pointer that the host driver can store. This will prevent host
+drivers to check for the presence of a device by storing such pointer and
+checking whether it is NULL. As a replacement, host drivers will be able to
+check the lane number to be non-zero, so ensuring a zero value is never
+passed along will make such checks robust.
 
-Merged into u-boot/next, thanks!
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+---
+ drivers/gpu/drm/drm_mipi_dsi.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
+index a00d76443128e4972f939a8c9e26d949d2b30bb9..82d4f9c1de5fbc60f32d0b0baf41e1bd2991ebe4 100644
+--- a/drivers/gpu/drm/drm_mipi_dsi.c
++++ b/drivers/gpu/drm/drm_mipi_dsi.c
+@@ -379,6 +379,9 @@ int mipi_dsi_attach(struct mipi_dsi_device *dsi)
+ 	if (!ops || !ops->attach)
+ 		return -ENOSYS;
+ 
++	if (dsi->lanes < 1)
++		return dev_err_probe(&dsi->dev, -EINVAL, "Incorrect lanes number\n");
++
+ 	ret = ops->attach(dsi->host, dsi);
+ 	if (ret)
+ 		return ret;
 
 -- 
-Tom
-
+2.49.0
 
