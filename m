@@ -1,210 +1,193 @@
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
+Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 674A8285C9A;
-	Wed, 25 Jun 2025 08:47:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00E10276054
+	for <linux-sunxi@lists.linux.dev>; Wed, 25 Jun 2025 08:55:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750841228; cv=none; b=FwmxMMjGU99nhUhztq/s7HynQ0Vp96mhhUkGz6/RcH2pBayLjfqyj2wanpmMHnscUvDHen2hb9LYvXgjzzCkgMnh8qu6TIh6qYgW8YCyJEpzCZbjctd5k0/2cav6UAzXrTxIfs+knDfKFukeuauom/tjY0UJbtgJH6VAGCmNuLk=
+	t=1750841729; cv=none; b=lhfPDU6OJF2dAPAWgJPzw+b+lJE1cz8T7Am5Yj08sc2h7fjw4+grxY7hvPKT34m4I2/m6+xZ3GseOUTxQiHiFIM4ryQVs1PVpH/oYiHGnzhW1+kISpQnV9U9UCycPnPNE/DCvTeSVD1E9fsj42Nq6zQxaf0tZxo1NsAy4mZsuC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750841228; c=relaxed/simple;
-	bh=5DFnaMl8KPQFxZg9FtmxKd82C1J6wGByoHO9CIwmHDk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=suzJRvyKF4fghkjqBwZahJGqhofbZqac/iQQI4xt1NzSlrJcWQZdXYZ0DjSA6XI+FAJ7x7+rSC0Qje7Ij/qgmYoBc14f3A2fnvyB6sJ7auwcy5secx4nyTljQQlxes+32vBRW+hrqSgiX8OULh8C1hS0qjL1pUdl+bj098wBbdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id C48AF1F0004D;
-	Wed, 25 Jun 2025 08:46:59 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 2DBDBAC7A5D; Wed, 25 Jun 2025 08:46:56 +0000 (UTC)
-X-Spam-Level: 
-Received: from shepard (unknown [192.168.1.1])
-	by laika.paulk.fr (Postfix) with ESMTPSA id B42DBAC7A56;
-	Wed, 25 Jun 2025 08:46:54 +0000 (UTC)
-Date: Wed, 25 Jun 2025 10:46:52 +0200
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: Parthiban Nallathambi <parthiban@linumiz.com>
-Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>, iommu@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
-	linux-gpio@vger.kernel.org, linux-phy@lists.infradead.org
-Subject: Re: [PATCH 10/22] pinctrl: sunxi: add missed lvds pins for a100/a133
-Message-ID: <aFu3fAMa8KPwjPbX@shepard>
-References: <20241227-a133-display-support-v1-0-13b52f71fb14@linumiz.com>
- <20241227-a133-display-support-v1-10-13b52f71fb14@linumiz.com>
+	s=arc-20240116; t=1750841729; c=relaxed/simple;
+	bh=cjV9mq90c8xZ+NKkEcNZ1Gs0FultA9PRjpDMArFXJM4=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FiQXJW6UolEp/8L7gVfTzOGPDeeB0MVSOiLc3q+gKYAXCz8lpYA0kaasLMuAezZD62/RrzzBIkuRpy7vpyDo3CN5Fm6SXLKzI1UQeU7n9+67RPFNLtA5wZFP5AncLYaGM5wiCNGfkuNwbXOFQe4hA6mkaaEE4cFfRxvuxNq5Km0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=UCI6yD0e; arc=none smtp.client-ip=193.68.50.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="UCI6yD0e"
+Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
+	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id D7A1EA06EB;
+	Wed, 25 Jun 2025 10:55:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:from:from:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=mail; bh=nrf5whORkfSt+oMoV6M/vem4ZwKyQ3gZRdKv2OMWRrA=; b=
+	UCI6yD0e8NDJ52qaFvJN4jMML1kfxrIrv6EOUQuzgmUwf2G+2S4GoNagDaS9AnqZ
+	2GCPFlayL0D8KLXvQLh4C7cZY6YCo248Oo2w5l12EU4tfMCNF8JG28t6flinEwCb
+	wX6l7f1r4CO65L6Mk9jNNnYAG6K1lWol3ls2xpKuUgkA/JH/aX23coa4dLIjmSvJ
+	Dhgs6KGm8veQUWQVx9dppvh4RYzrbHTvbHDtJtUp3uyTUdpK7rItblxw+0bIreey
+	3z8jcCHqUtJ9P1+otblp+eCqBmJMSvBiZ7Xpcktqag4/IBPGAsvIMWnsqUuYyDiK
+	Od6h2rcOqMLH+AXLfQFjFmoLLHHMev5Qy96ZSV+AVErsjsDl2XX0gFD5z28MP3YJ
+	yrJ0Q6l+AeyMoUu/zTyYeYVXJK3gTA64DyrfPLWJ+7v/Cv4kdVqHi/ygBnxxRAPn
+	nqeT1diYy/Syfr0DF7epuAMQWwsJIjo/hZvUx/PTtXHUNBQr7XOFMuwNdkuAqqXY
+	aM5LyO2VItY2ZYNuFP/Oy54cKHgCogw+x6gZnn+O4c1gme+QJLPc6AYD+sFpz1w1
+	/+/ndixXvIfHDWL1qdrJiKaGDGxmQp1adgdf3EHanISzvoKRHuv0Zkb/9T9/8N7N
+	iqlV+F1kSPWqvelTAutEkzg63t8z99FqspI5XCjR3LY=
+From: =?UTF-8?q?Bence=20Cs=C3=B3k=C3=A1s?= <csokas.bence@prolan.hu>
+To: <dmaengine@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+CC: =?UTF-8?q?Bence=20Cs=C3=B3k=C3=A1s?= <csokas.bence@prolan.hu>, "Chen-Yu
+ Tsai" <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, "Chen-Yu
+ Tsai" <wens@csie.org>, Julian Calaby <julian.calaby@gmail.com>, Vinod Koul
+	<vkoul@kernel.org>, Samuel Holland <samuel@sholland.org>
+Subject: [PATCH v11] dma-engine: sun4i: Simplify error handling in probe()
+Date: Wed, 25 Jun 2025 10:54:50 +0200
+Message-ID: <20250625085450.154280-2-csokas.bence@prolan.hu>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="eDJzuACllP3V3fib"
-Content-Disposition: inline
-In-Reply-To: <20241227-a133-display-support-v1-10-13b52f71fb14@linumiz.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ESET-AS: R=OK;S=0;OP=CALC;TIME=1750841717;VERSION=7993;MC=222044062;ID=219731;TRN=0;CRV=0;IPC=;SP=0;SIPS=0;PI=3;F=0
+X-ESET-Antispam: OK
+X-EsetResult: clean, is OK
+X-EsetId: 37303A296767155D6D7C62
+
+Clean up error handling by using devm functions and dev_err_probe(). This
+should make it easier to add new code, as we can eliminate the "goto
+ladder" in sun4i_dma_probe().
+
+Suggested-by: Chen-Yu Tsai <wens@kernel.org>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Acked-by: Chen-Yu Tsai <wens@csie.org>
+Reviewed-by: Julian Calaby <julian.calaby@gmail.com>
+Signed-off-by: Bence Csókás <csokas.bence@prolan.hu>
+---
+
+Notes:
+    Changes in v2:
+    * rebase on current next
+    Changes in v3:
+    * rebase on current next
+    * collect Jernej's tag
+    Changes in v4:
+    * rebase on current next
+    * collect Chen-Yu's tag
+    Changes in v5:
+    * reformat msg to 75 cols
+    * keep `\n`s in error messages
+    Changes in v6:
+    * remove redundant braces
+    * break lines to stay under 85 cols
+    * reword subject and message
+    Changes in v7:
+    * rebase onto current next
+    * collect Julian's tag
+    Changes in v8:
+    * rebase onto current next
+    Changes in v9:
+    * rebase onto current next
+    Changes in v10:
+    * rebase onto current next
+    Changes in v11:
+    * rebase onto current next
+
+ drivers/dma/sun4i-dma.c | 46 ++++++++++++-----------------------------
+ 1 file changed, 13 insertions(+), 33 deletions(-)
+
+diff --git a/drivers/dma/sun4i-dma.c b/drivers/dma/sun4i-dma.c
+index 24796aaaddfa..00d2fd38d17f 100644
+--- a/drivers/dma/sun4i-dma.c
++++ b/drivers/dma/sun4i-dma.c
+@@ -1249,11 +1249,10 @@ static int sun4i_dma_probe(struct platform_device *pdev)
+ 	if (priv->irq < 0)
+ 		return priv->irq;
+ 
+-	priv->clk = devm_clk_get(&pdev->dev, NULL);
+-	if (IS_ERR(priv->clk)) {
+-		dev_err(&pdev->dev, "No clock specified\n");
+-		return PTR_ERR(priv->clk);
+-	}
++	priv->clk = devm_clk_get_enabled(&pdev->dev, NULL);
++	if (IS_ERR(priv->clk))
++		return dev_err_probe(&pdev->dev, PTR_ERR(priv->clk),
++				     "Couldn't start the clock\n");
+ 
+ 	if (priv->cfg->has_reset) {
+ 		priv->rst = devm_reset_control_get_exclusive_deasserted(&pdev->dev, NULL);
+@@ -1328,12 +1327,6 @@ static int sun4i_dma_probe(struct platform_device *pdev)
+ 		vchan_init(&vchan->vc, &priv->slave);
+ 	}
+ 
+-	ret = clk_prepare_enable(priv->clk);
+-	if (ret) {
+-		dev_err(&pdev->dev, "Couldn't enable the clock\n");
+-		return ret;
+-	}
+-
+ 	/*
+ 	 * Make sure the IRQs are all disabled and accounted for. The bootloader
+ 	 * likes to leave these dirty
+@@ -1343,33 +1336,23 @@ static int sun4i_dma_probe(struct platform_device *pdev)
+ 
+ 	ret = devm_request_irq(&pdev->dev, priv->irq, sun4i_dma_interrupt,
+ 			       0, dev_name(&pdev->dev), priv);
+-	if (ret) {
+-		dev_err(&pdev->dev, "Cannot request IRQ\n");
+-		goto err_clk_disable;
+-	}
++	if (ret)
++		return dev_err_probe(&pdev->dev, ret, "Cannot request IRQ\n");
+ 
+-	ret = dma_async_device_register(&priv->slave);
+-	if (ret) {
+-		dev_warn(&pdev->dev, "Failed to register DMA engine device\n");
+-		goto err_clk_disable;
+-	}
++	ret = dmaenginem_async_device_register(&priv->slave);
++	if (ret)
++		return dev_err_probe(&pdev->dev, ret,
++				     "Failed to register DMA engine device\n");
+ 
+ 	ret = of_dma_controller_register(pdev->dev.of_node, sun4i_dma_of_xlate,
+ 					 priv);
+-	if (ret) {
+-		dev_err(&pdev->dev, "of_dma_controller_register failed\n");
+-		goto err_dma_unregister;
+-	}
++	if (ret)
++		return dev_err_probe(&pdev->dev, ret,
++				     "Failed to register translation function\n");
+ 
+ 	dev_dbg(&pdev->dev, "Successfully probed SUN4I_DMA\n");
+ 
+ 	return 0;
+-
+-err_dma_unregister:
+-	dma_async_device_unregister(&priv->slave);
+-err_clk_disable:
+-	clk_disable_unprepare(priv->clk);
+-	return ret;
+ }
+ 
+ static void sun4i_dma_remove(struct platform_device *pdev)
+@@ -1380,9 +1363,6 @@ static void sun4i_dma_remove(struct platform_device *pdev)
+ 	disable_irq(priv->irq);
+ 
+ 	of_dma_controller_free(pdev->dev.of_node);
+-	dma_async_device_unregister(&priv->slave);
+-
+-	clk_disable_unprepare(priv->clk);
+ }
+ 
+ static struct sun4i_dma_config sun4i_a10_dma_cfg = {
+
+base-commit: de266931dd996fc2cb8ee8b5d12e39ea463e3f36
+-- 
+2.43.0
 
 
---eDJzuACllP3V3fib
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi and thanks for your work!
-
-On Fri 27 Dec 24, 16:37, Parthiban Nallathambi wrote:
-> lvds, lcd, dsi all shares the same GPIO D bank and lvds0
-> data 3 lines and lvds1 pins are missed, add them.
-
-Would it also make sense to submit device-tree pin definitions here?
-
-Thanks!
-
-Paul
-
-> Signed-off-by: Parthiban Nallathambi <parthiban@linumiz.com>
-> ---
->  drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
->=20
-> diff --git a/drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c b/drivers/pinctr=
-l/sunxi/pinctrl-sun50i-a100.c
-> index df90c75fb3c5..b97de80ae2f3 100644
-> --- a/drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c
-> +++ b/drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c
-> @@ -256,72 +256,84 @@ static const struct sunxi_desc_pin a100_pins[] =3D {
->  		  SUNXI_FUNCTION(0x0, "gpio_in"),
->  		  SUNXI_FUNCTION(0x1, "gpio_out"),
->  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D12 */
-> +		  SUNXI_FUNCTION(0x3, "lvds0"),		/* D3P */
->  		  SUNXI_FUNCTION(0x4, "dsi0"),		/* DP3 */
->  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 8)),
->  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 9),
->  		  SUNXI_FUNCTION(0x0, "gpio_in"),
->  		  SUNXI_FUNCTION(0x1, "gpio_out"),
->  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D13 */
-> +		  SUNXI_FUNCTION(0x3, "lvds0"),		/* D3N */
->  		  SUNXI_FUNCTION(0x4, "dsi0"),		/* DM3 */
->  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 9)),
->  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 10),
->  		  SUNXI_FUNCTION(0x0, "gpio_in"),
->  		  SUNXI_FUNCTION(0x1, "gpio_out"),
->  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D14 */
-> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* D0P */
->  		  SUNXI_FUNCTION(0x4, "spi1"),		/* CS */
->  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 10)),
->  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 11),
->  		  SUNXI_FUNCTION(0x0, "gpio_in"),
->  		  SUNXI_FUNCTION(0x1, "gpio_out"),
->  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D15 */
-> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* D0N */
->  		  SUNXI_FUNCTION(0x4, "spi1"),		/* CLK */
->  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 11)),
->  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 12),
->  		  SUNXI_FUNCTION(0x0, "gpio_in"),
->  		  SUNXI_FUNCTION(0x1, "gpio_out"),
->  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D18 */
-> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* D1P */
->  		  SUNXI_FUNCTION(0x4, "spi1"),		/* MOSI */
->  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 12)),
->  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 13),
->  		  SUNXI_FUNCTION(0x0, "gpio_in"),
->  		  SUNXI_FUNCTION(0x1, "gpio_out"),
->  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D19 */
-> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* D1N */
->  		  SUNXI_FUNCTION(0x4, "spi1"),		/* MISO */
->  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 13)),
->  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 14),
->  		  SUNXI_FUNCTION(0x0, "gpio_in"),
->  		  SUNXI_FUNCTION(0x1, "gpio_out"),
->  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D20 */
-> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* D2P */
->  		  SUNXI_FUNCTION(0x4, "uart3"),		/* TX */
->  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 14)),
->  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 15),
->  		  SUNXI_FUNCTION(0x0, "gpio_in"),
->  		  SUNXI_FUNCTION(0x1, "gpio_out"),
->  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D21 */
-> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* D2N */
->  		  SUNXI_FUNCTION(0x4, "uart3"),		/* RX */
->  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 15)),
->  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 16),
->  		  SUNXI_FUNCTION(0x0, "gpio_in"),
->  		  SUNXI_FUNCTION(0x1, "gpio_out"),
->  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D22 */
-> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* CKP */
->  		  SUNXI_FUNCTION(0x4, "uart3"),		/* RTS */
->  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 16)),
->  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 17),
->  		  SUNXI_FUNCTION(0x0, "gpio_in"),
->  		  SUNXI_FUNCTION(0x1, "gpio_out"),
->  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D23 */
-> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* CKN */
->  		  SUNXI_FUNCTION(0x4, "uart3"),		/* CTS */
->  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 17)),
->  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 18),
->  		  SUNXI_FUNCTION(0x0, "gpio_in"),
->  		  SUNXI_FUNCTION(0x1, "gpio_out"),
->  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* CLK */
-> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* D3P */
->  		  SUNXI_FUNCTION(0x4, "uart4"),		/* TX */
->  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 18)),
->  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 19),
->  		  SUNXI_FUNCTION(0x0, "gpio_in"),
->  		  SUNXI_FUNCTION(0x1, "gpio_out"),
->  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* DE */
-> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* D3N */
->  		  SUNXI_FUNCTION(0x4, "uart4"),		/* RX */
->  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 19)),
->  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 20),
->=20
-> --=20
-> 2.39.5
->=20
-
---=20
-Paul Kocialkowski,
-
-Independent contractor - sys-base - https://www.sys-base.io/
-Free software developer - https://www.paulk.fr/
-
-Expert in multimedia, graphics and embedded hardware support with Linux.
-
---eDJzuACllP3V3fib
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmhbt3wACgkQhP3B6o/u
-lQyEFg//TrQuoq7rBWw2GiGLkr841GKFMfwbOgCvkZ1O7uCpLuCvW5wITVjF4qW8
-flSBcs6qcLbz66ZXQS/86ukYfNUAvm1r4vfhJ3Ptf7m3ko5sCrkCNC3jtlukzG+k
-Eq4GzElnseT7TosPmjtImNkDjp3u/Vh/pxOdRnUHzi6N7+jGWLvU72LcF6LJKq4d
-ftamg9783Xb1QAjNnot6b+fLooAtozg34ftrIe2SE2KXt+U7qeiXtrxNerNAd6Br
-Ld34QB2oMk23sar7GQTPgvoJRCiLUNEV3hJexXf/FNHz9OviwE8irhf6BBjNz7eQ
-XwnsDeqkt5p2IF/ClwfrlsviI8HRAzqX1G7WDtuPqHTsDm67QJb8LztQ4hAUqpmS
-hUjh+BowsXfez8fVAqyp+onplRVK07SebprsBd026Uhb/cG5kBMtg3Z5H+ENCFXg
-TDLc46jsp32Mplo6wP3CVFHz0qurThqF6L8XyzIn6VoreU5uX/FRkN8jAuWtmXup
-rYNpDSE54yEL5c5P0bO1fLMtwBNKZlHEhgxHlZJCNvxgegJrtXT9hDJfYC0cnCoa
-mjeOwFuo2wZziH22TX/5QxhZzUZzOVR0CeMPn+TjJhX/qgTRXwS4DO8RexsKHHm2
-u2Fj8LAaR6bglReFWl4F+LKIeo2AswAzTyS6581R7n62JhNuXGk=
-=9BCo
------END PGP SIGNATURE-----
-
---eDJzuACllP3V3fib--
