@@ -1,29 +1,29 @@
 Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32E4EBA4A;
-	Wed, 25 Jun 2025 08:42:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 674A8285C9A;
+	Wed, 25 Jun 2025 08:47:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750840934; cv=none; b=ISHetnXnW6aayDttXVrbIIQW1tBzIngJ16b+1G2ei39iZl7Plw1Fu8cI5TojUYlNcFNZEnlBt3P4wXWJ1E3TTVxIqnhEyLJgzO97qumNi0YvnpxlaF4qxVG+rkbO+7Ts107/ydbDyD+1AxPd4y5Fc1hRuKcAEpg7vxn793Myb70=
+	t=1750841228; cv=none; b=FwmxMMjGU99nhUhztq/s7HynQ0Vp96mhhUkGz6/RcH2pBayLjfqyj2wanpmMHnscUvDHen2hb9LYvXgjzzCkgMnh8qu6TIh6qYgW8YCyJEpzCZbjctd5k0/2cav6UAzXrTxIfs+knDfKFukeuauom/tjY0UJbtgJH6VAGCmNuLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750840934; c=relaxed/simple;
-	bh=qqNayb7XJOOtdiN0r+72/Y4dYJQ1cosr5ilno7hGb70=;
+	s=arc-20240116; t=1750841228; c=relaxed/simple;
+	bh=5DFnaMl8KPQFxZg9FtmxKd82C1J6wGByoHO9CIwmHDk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L3PJzdhtmJAqSr1E7NTCxRpk4LWLQBPncFINvybs5W37TjMusmoliWEXX7VXkvAf5n3m05TxoF6wLlu3RqGBaHm9wV1pGF+8zBJucm5GegL95cdt661KVRHcSmEVJsnD1J/KlxRG7U5LPof5a/nmnfbTUxzbCXu3Zg0IWOKq4Ew=
+	 Content-Type:Content-Disposition:In-Reply-To; b=suzJRvyKF4fghkjqBwZahJGqhofbZqac/iQQI4xt1NzSlrJcWQZdXYZ0DjSA6XI+FAJ7x7+rSC0Qje7Ij/qgmYoBc14f3A2fnvyB6sJ7auwcy5secx4nyTljQQlxes+32vBRW+hrqSgiX8OULh8C1hS0qjL1pUdl+bj098wBbdM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
 Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 50C181F00056;
-	Wed, 25 Jun 2025 08:42:04 +0000 (UTC)
+	by leonov.paulk.fr (Postfix) with ESMTPS id C48AF1F0004D;
+	Wed, 25 Jun 2025 08:46:59 +0000 (UTC)
 Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 66894AC7A4F; Wed, 25 Jun 2025 08:42:02 +0000 (UTC)
+	id 2DBDBAC7A5D; Wed, 25 Jun 2025 08:46:56 +0000 (UTC)
 X-Spam-Level: 
 Received: from shepard (unknown [192.168.1.1])
-	by laika.paulk.fr (Postfix) with ESMTPSA id B63DAAC79CD;
-	Wed, 25 Jun 2025 08:41:58 +0000 (UTC)
-Date: Wed, 25 Jun 2025 10:41:56 +0200
+	by laika.paulk.fr (Postfix) with ESMTPSA id B42DBAC7A56;
+	Wed, 25 Jun 2025 08:46:54 +0000 (UTC)
+Date: Wed, 25 Jun 2025 10:46:52 +0200
 From: Paul Kocialkowski <paulk@sys-base.io>
 To: Parthiban Nallathambi <parthiban@linumiz.com>
 Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
@@ -46,11 +46,10 @@ Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
 	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
 	dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
 	linux-gpio@vger.kernel.org, linux-phy@lists.infradead.org
-Subject: Re: [PATCH 17/22] phy: allwinner: phy-sun6i-mipi-dphy: add LVDS
- support
-Message-ID: <aFu2VBhCIEdLIPv3@shepard>
+Subject: Re: [PATCH 10/22] pinctrl: sunxi: add missed lvds pins for a100/a133
+Message-ID: <aFu3fAMa8KPwjPbX@shepard>
 References: <20241227-a133-display-support-v1-0-13b52f71fb14@linumiz.com>
- <20241227-a133-display-support-v1-17-13b52f71fb14@linumiz.com>
+ <20241227-a133-display-support-v1-10-13b52f71fb14@linumiz.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -58,112 +57,123 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="d3aehSfkx/JP9fmi"
+	protocol="application/pgp-signature"; boundary="eDJzuACllP3V3fib"
 Content-Disposition: inline
-In-Reply-To: <20241227-a133-display-support-v1-17-13b52f71fb14@linumiz.com>
+In-Reply-To: <20241227-a133-display-support-v1-10-13b52f71fb14@linumiz.com>
 
 
---d3aehSfkx/JP9fmi
+--eDJzuACllP3V3fib
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hi and thanks for your work!
 
-Thanks for your work on this!
+On Fri 27 Dec 24, 16:37, Parthiban Nallathambi wrote:
+> lvds, lcd, dsi all shares the same GPIO D bank and lvds0
+> data 3 lines and lvds1 pins are missed, add them.
 
-On Fri 27 Dec 24, 16:38, Parthiban Nallathambi wrote:
-> DPHY in A100/A133 supports both LVDS and DSI. Combo phy register
-> have BIT(2) for enabling LVDS specifically, but enabling it alone
-> isn't functional.
->=20
-> Both MIPI and LVDS needs to be enabled in the combo phy to get
-> the display working under LVDS mode. There is no specific enable
-> bit for LVDS apart from the one in combo phy. MIPI got enable
-> control in analog 4 register which must be disabled when using
-> in LVDS mode.
->=20
-> Introduce set_mode in phy ops to control only for MIPI DSI.
+Would it also make sense to submit device-tree pin definitions here?
 
-Similar work was already submitted for D1/T113-S3 LVDS support, which seems=
- to
-be the exact same situation as the A133.
-
-See: https://patchwork.freedesktop.org/series/145276/
-
-I just made a review of that series and find it more elegant in various ways
-(especially since configuring the registers in set_mode is not the right pl=
-ace).
-So you probably want to follow-up on that series instead.
-
-Note that both D1/T113-S3 and A133 support a second LVDS output, LVDS1, whi=
-ch
-uses the traditional TCON0 LVDS PHY. It would be great to be able to support
-both outputs as well as dual-link modes!
-
-All the best,
+Thanks!
 
 Paul
 
 > Signed-off-by: Parthiban Nallathambi <parthiban@linumiz.com>
 > ---
->  drivers/phy/allwinner/phy-sun6i-mipi-dphy.c | 23 +++++++++++++++++++----
->  1 file changed, 19 insertions(+), 4 deletions(-)
+>  drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
 >=20
-> diff --git a/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c b/drivers/phy/al=
-lwinner/phy-sun6i-mipi-dphy.c
-> index 36eab95271b2..d164b2ea5dfd 100644
-> --- a/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c
-> +++ b/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c
-> @@ -314,13 +314,11 @@ static void sun50i_a100_mipi_dphy_tx_power_on(struc=
-t sun6i_dphy *dphy)
->  	/* Disable sigma-delta modulation. */
->  	regmap_write(dphy->regs, SUN50I_DPHY_PLL_REG2, 0);
-> =20
-> -	regmap_update_bits(dphy->regs, SUN6I_DPHY_ANA4_REG,
-> -			   SUN6I_DPHY_ANA4_REG_EN_MIPI,
-> -			   SUN6I_DPHY_ANA4_REG_EN_MIPI);
-> -
->  	regmap_update_bits(dphy->regs, SUN50I_COMBO_PHY_REG0,
-> +			   SUN50I_COMBO_PHY_REG0_EN_LVDS |
->  			   SUN50I_COMBO_PHY_REG0_EN_MIPI |
->  			   SUN50I_COMBO_PHY_REG0_EN_COMBOLDO,
-> +			   SUN50I_COMBO_PHY_REG0_EN_LVDS |
->  			   SUN50I_COMBO_PHY_REG0_EN_MIPI |
->  			   SUN50I_COMBO_PHY_REG0_EN_COMBOLDO);
-> =20
-> @@ -528,6 +526,22 @@ static int sun6i_dphy_exit(struct phy *phy)
->  	return 0;
->  }
-> =20
-> +static int sun6i_set_mode(struct phy *phy, enum phy_mode mode, int submo=
-de)
-> +{
-> +	struct sun6i_dphy *dphy =3D phy_get_drvdata(phy);
-> +
-> +	switch (mode) {
-> +	case PHY_MODE_MIPI_DPHY:
-> +		regmap_update_bits(dphy->regs, SUN6I_DPHY_ANA4_REG,
-> +				   SUN6I_DPHY_ANA4_REG_EN_MIPI,
-> +				   SUN6I_DPHY_ANA4_REG_EN_MIPI);
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> =20
->  static const struct phy_ops sun6i_dphy_ops =3D {
->  	.configure	=3D sun6i_dphy_configure,
-> @@ -535,6 +549,7 @@ static const struct phy_ops sun6i_dphy_ops =3D {
->  	.power_off	=3D sun6i_dphy_power_off,
->  	.init		=3D sun6i_dphy_init,
->  	.exit		=3D sun6i_dphy_exit,
-> +	.set_mode	=3D sun6i_set_mode,
->  };
-> =20
->  static const struct regmap_config sun6i_dphy_regmap_config =3D {
+> diff --git a/drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c b/drivers/pinctr=
+l/sunxi/pinctrl-sun50i-a100.c
+> index df90c75fb3c5..b97de80ae2f3 100644
+> --- a/drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c
+> +++ b/drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c
+> @@ -256,72 +256,84 @@ static const struct sunxi_desc_pin a100_pins[] =3D {
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D12 */
+> +		  SUNXI_FUNCTION(0x3, "lvds0"),		/* D3P */
+>  		  SUNXI_FUNCTION(0x4, "dsi0"),		/* DP3 */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 8)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 9),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D13 */
+> +		  SUNXI_FUNCTION(0x3, "lvds0"),		/* D3N */
+>  		  SUNXI_FUNCTION(0x4, "dsi0"),		/* DM3 */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 9)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 10),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D14 */
+> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* D0P */
+>  		  SUNXI_FUNCTION(0x4, "spi1"),		/* CS */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 10)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 11),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D15 */
+> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* D0N */
+>  		  SUNXI_FUNCTION(0x4, "spi1"),		/* CLK */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 11)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 12),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D18 */
+> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* D1P */
+>  		  SUNXI_FUNCTION(0x4, "spi1"),		/* MOSI */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 12)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 13),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D19 */
+> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* D1N */
+>  		  SUNXI_FUNCTION(0x4, "spi1"),		/* MISO */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 13)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 14),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D20 */
+> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* D2P */
+>  		  SUNXI_FUNCTION(0x4, "uart3"),		/* TX */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 14)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 15),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D21 */
+> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* D2N */
+>  		  SUNXI_FUNCTION(0x4, "uart3"),		/* RX */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 15)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 16),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D22 */
+> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* CKP */
+>  		  SUNXI_FUNCTION(0x4, "uart3"),		/* RTS */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 16)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 17),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D23 */
+> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* CKN */
+>  		  SUNXI_FUNCTION(0x4, "uart3"),		/* CTS */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 17)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 18),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* CLK */
+> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* D3P */
+>  		  SUNXI_FUNCTION(0x4, "uart4"),		/* TX */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 18)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 19),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* DE */
+> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* D3N */
+>  		  SUNXI_FUNCTION(0x4, "uart4"),		/* RX */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 19)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 20),
 >=20
 > --=20
 > 2.39.5
@@ -177,24 +187,24 @@ Free software developer - https://www.paulk.fr/
 
 Expert in multimedia, graphics and embedded hardware support with Linux.
 
---d3aehSfkx/JP9fmi
+--eDJzuACllP3V3fib
 Content-Type: application/pgp-signature; name=signature.asc
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmhbtlQACgkQhP3B6o/u
-lQzqSg//SJcn6XUET8v2oKGY0j3YQ3uzt4mVEWREtoX7QNRmIZjIBDAGhrWgBmTN
-dFlh6GJ2K+rOsj+OV+97A7mAEY9i/VFv0Dg8EQvuOvdhDtkf0WVlMAJq83QfvEob
-OQHfNljD4Aok5skavuHpLBw653kp//9ZON/+cMP2f6bZmXIAeLTUdN6ocHb7hYa+
-kyyXzDUNmSuoPqGZaDJB1WWEqxAr4Y80zzjWC8XVJhKU7q9Rp/lyypTuNC26ftK+
-vcEL/5xc3WY5mcdQzORUx8lgd1ci0KIitnXtRXJNZEYlAuiOaMiNOtSU2TO28BTM
-WGx945ro/eq7fjjqkijVHgsyRksQgIdhbCjYg6fHnpVtOF2zoxv7vwu+8PKtUdPC
-DID0fceBLNf6ETivJq5mQj+VjQ81bljq+XtKRIwVJSpU1vD9NwapX/l8R0P24AM+
-He/bymV/n1GJ+Pcr449ALxq4wM9AVSa4W3GqpUtgYhXlR4dPVJQdZkifclHAewVO
-XaksRFT7LiybP6l3zB5/oqihosU6efMnhxJjd5U1SqGxT0DCmLT4V4dpaDY4C4IX
-xncL/YSihjHW8gQlK7OHldVSHBO+yxBUoffyBxOmV1UDLFimGT7G9eHrZ6TGmiid
-E9NyPrf2JsbW+O5iukFTY4G6uPMXr7ez+HzHW9c9FD0saunYv9o=
-=BpKz
+iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmhbt3wACgkQhP3B6o/u
+lQyEFg//TrQuoq7rBWw2GiGLkr841GKFMfwbOgCvkZ1O7uCpLuCvW5wITVjF4qW8
+flSBcs6qcLbz66ZXQS/86ukYfNUAvm1r4vfhJ3Ptf7m3ko5sCrkCNC3jtlukzG+k
+Eq4GzElnseT7TosPmjtImNkDjp3u/Vh/pxOdRnUHzi6N7+jGWLvU72LcF6LJKq4d
+ftamg9783Xb1QAjNnot6b+fLooAtozg34ftrIe2SE2KXt+U7qeiXtrxNerNAd6Br
+Ld34QB2oMk23sar7GQTPgvoJRCiLUNEV3hJexXf/FNHz9OviwE8irhf6BBjNz7eQ
+XwnsDeqkt5p2IF/ClwfrlsviI8HRAzqX1G7WDtuPqHTsDm67QJb8LztQ4hAUqpmS
+hUjh+BowsXfez8fVAqyp+onplRVK07SebprsBd026Uhb/cG5kBMtg3Z5H+ENCFXg
+TDLc46jsp32Mplo6wP3CVFHz0qurThqF6L8XyzIn6VoreU5uX/FRkN8jAuWtmXup
+rYNpDSE54yEL5c5P0bO1fLMtwBNKZlHEhgxHlZJCNvxgegJrtXT9hDJfYC0cnCoa
+mjeOwFuo2wZziH22TX/5QxhZzUZzOVR0CeMPn+TjJhX/qgTRXwS4DO8RexsKHHm2
+u2Fj8LAaR6bglReFWl4F+LKIeo2AswAzTyS6581R7n62JhNuXGk=
+=9BCo
 -----END PGP SIGNATURE-----
 
---d3aehSfkx/JP9fmi--
+--eDJzuACllP3V3fib--
