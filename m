@@ -1,29 +1,29 @@
 Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCA7E3074AD
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 Jun 2025 08:09:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A602415A86B
+	for <linux-sunxi@lists.linux.dev>; Wed, 25 Jun 2025 08:24:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750838967; cv=none; b=ZIY4Vh6q/xi+oBaiG8Uycrq2MKCivG2OgVPsPfH5TtZCUSNyhOsvyTSNdVSHqdJaVvMYA5lWMbJ8jQPR07eXMGC5iCGLxgP+XYZ3C+Do7btQ1HwHLJ5ofqqFa9bYGRUBSE0iMh2K0bg90jpF0tFgNSi8CHSNCF+fKT6gbW0hfSA=
+	t=1750839860; cv=none; b=tFCfVe+Uog7QMAuCPuTqxh3pikvfXD+/IZrXjKFobvNgCVOqGdtR9L8cFdG8F7MDvcZI9Cajor31kZxKuAzM9CQwnGsrZyhD79Y3dbFvheZGpAAoL4Sk9lZPqzEOBQbu0S+TMgcGrfBSPQrIPDTAqGObEYhaCXeLakYYwoZTHKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750838967; c=relaxed/simple;
-	bh=ilhyZvA6BRCD5gISnlqFJ3xUsdlqaHhGlkwq3ALrQJ0=;
+	s=arc-20240116; t=1750839860; c=relaxed/simple;
+	bh=TX8PnO4qo6vWnYfA3fiqVkNx9f511pDFXl5ndMHza34=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tcCVR0LoP9+OlL4Hos87ZrAmLAVSXvtscp1Ek/F6xNnkvWPYpaZ4MfDmv86hEGNQhijfActKK7mXUpqjPZ+Lynr14PjaqR6WHRqX1OV8/+dExS2yUy1qAYAbTNDtrLEbrCZQMFQ+GgDM7MwuXZqD1nJ+9KfB/mFW3y83TIVhL1M=
+	 Content-Type:Content-Disposition:In-Reply-To; b=buTl4XKMumSfXgQ86bBAVYHR6y25Uc36EtemOYwuCWkCTwH+DdmXvGXgj5nNjgUgAzyJIl7tz2hYngMxkDc79m/pXz9F69DgwgtWG6Co/JJAYIbMmtPx4aXB3mMJ+nN7MzBBCae7YoJiGkBi0jE1cQzJfCzEGhkvw0Tm/j80bjU=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
 Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 21BC31F00051
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 Jun 2025 08:09:22 +0000 (UTC)
+	by leonov.paulk.fr (Postfix) with ESMTPS id 36FC01F00051
+	for <linux-sunxi@lists.linux.dev>; Wed, 25 Jun 2025 08:24:13 +0000 (UTC)
 Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id E671FAC7A08; Wed, 25 Jun 2025 08:09:20 +0000 (UTC)
+	id 58310AC7A18; Wed, 25 Jun 2025 08:24:11 +0000 (UTC)
 X-Spam-Level: 
 Received: from shepard (unknown [192.168.1.1])
-	by laika.paulk.fr (Postfix) with ESMTPSA id 37E5AAC7A00;
-	Wed, 25 Jun 2025 08:09:19 +0000 (UTC)
-Date: Wed, 25 Jun 2025 10:09:16 +0200
+	by laika.paulk.fr (Postfix) with ESMTPSA id CF3E5AC7A0B;
+	Wed, 25 Jun 2025 08:24:09 +0000 (UTC)
+Date: Wed, 25 Jun 2025 10:24:07 +0200
 From: Paul Kocialkowski <paulk@sys-base.io>
 To: Kuba =?utf-8?Q?Szczodrzy=C5=84ski?= <kuba@szczodrzynski.pl>
 Cc: Maxime Ripard <mripard@kernel.org>,
@@ -39,11 +39,10 @@ Cc: Maxime Ripard <mripard@kernel.org>,
 	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
 	linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
 	dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 4/5] riscv: dts: allwinner: d1s-t113: Add D-PHY to TCON
- LCD0
-Message-ID: <aFuurDqkJ3yaMqRS@shepard>
+Subject: Re: [PATCH 5/5] riscv: dts: allwinner: d1s-t113: Add LVDS0 pins
+Message-ID: <aFuyJ6AqTX_aOr_b@shepard>
 References: <20250221161751.1278049-1-kuba@szczodrzynski.pl>
- <20250221161751.1278049-5-kuba@szczodrzynski.pl>
+ <20250221161751.1278049-6-kuba@szczodrzynski.pl>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -51,12 +50,12 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="id1qkDeCEtzLoxTA"
+	protocol="application/pgp-signature"; boundary="kGlgOBmJpN53EYeN"
 Content-Disposition: inline
-In-Reply-To: <20250221161751.1278049-5-kuba@szczodrzynski.pl>
+In-Reply-To: <20250221161751.1278049-6-kuba@szczodrzynski.pl>
 
 
---id1qkDeCEtzLoxTA
+--kGlgOBmJpN53EYeN
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
@@ -64,38 +63,42 @@ Content-Transfer-Encoding: quoted-printable
 Hi,
 
 On Fri 21 Feb 25, 17:17, Kuba Szczodrzy=C5=84ski wrote:
-> The sun4i TCON needs a reference to the D-PHY in order to support LVDS
-> on Allwinner D1s/T113.
+> Add LVDS pins to the PIO since it's now supported on D1s/T113.
 >=20
 > Signed-off-by: Kuba Szczodrzy=C5=84ski <kuba@szczodrzynski.pl>
 > ---
->  arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi | 2 ++
->  1 file changed, 2 insertions(+)
+>  arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 >=20
 > diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/ris=
 cv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-> index e4175adb0..d241ba306 100644
+> index d241ba306..174b6d8f9 100644
 > --- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
 > +++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-> @@ -828,6 +828,8 @@ tcon_lcd0: lcd-controller@5461000 {
->  			resets =3D <&ccu RST_BUS_TCON_LCD0>,
->  				 <&ccu RST_BUS_LVDS0>;
->  			reset-names =3D "lcd", "lvds";
-> +			phys =3D <&dphy>;
-> +			phy-names =3D "dphy";
+> @@ -78,6 +78,15 @@ dsi_4lane_pins: dsi-4lane-pins {
+>  				function =3D "dsi";
+>  			};
+> =20
+> +			/omit-if-no-ref/
+> +			lvds0_pins: lvds0-pins {
 
-Like I mentionned in the other patch, I don't think the name "dphy" makes s=
-ense.
-"combo-phy" probably makes a lot more sense here.
+This usually has a lcd_ prefix (see sun7i-a20.dtsi and sun8i-a83t.dtsi).
+It should also be sorted alphabetically.
 
-Also the dt binding should be updated to reflect the introduction of the
-property.
+Thanks!
 
 Paul
 
->  			#clock-cells =3D <0>;
-> =20
->  			ports {
+> +				pins =3D "PD0", "PD1", "PD2", "PD3", "PD4", "PD5",
+> +				       "PD6", "PD7", "PD8", "PD9";
+> +				function =3D "lvds0";
+> +				drive-strength =3D <30>;
+> +				bias-disable;
+> +			};
+> +
+>  			/omit-if-no-ref/
+>  			lcd_rgb666_pins: lcd-rgb666-pins {
+>  				pins =3D "PD0", "PD1", "PD2", "PD3", "PD4", "PD5",
 > --=20
 > 2.25.1
 >=20
@@ -109,24 +112,24 @@ Free software developer - https://www.paulk.fr/
 
 Expert in multimedia, graphics and embedded hardware support with Linux.
 
---id1qkDeCEtzLoxTA
+--kGlgOBmJpN53EYeN
 Content-Type: application/pgp-signature; name=signature.asc
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmhbrqwACgkQhP3B6o/u
-lQw7sg//WLoQpyAqStd6AsRVh1QrfKNATtlAD2vpTMd1iAFGZif40Xf/eIUFKSHc
-SzaFwDnYhc5d/1hJbOJ4gs866AaSGCTexQtq4wAOHuPQE+Kk3NqJ49L26Td3MtCk
-aRmQ9brdHzvAK2DyMxWxro6Xrc5D3A7wtt0FM8Jwo5CpKJgOsC3OcAgmIx/eVkYr
-pwHh3ajrnCvcPDOLvQRaALp6OOrgL1DiAs+Y61v7nDdU7U7wWNNPXd1fh4dtQbjC
-lqsM2zbhxY8+pBU6Ec6XEKPC7yvwBYxmoah6D5ophlnyQoGJbah4nzZcJwILdlJl
-6Ptb2oaRIA5D7u+2SgPKNj4ZQbhX4hdWPXn9yRMeAnf2LGziJU4BQ/AegTPWT4Zc
-N7W1TsD/4SJ9fqsZYCu8FuKUHEWUfSLl36yROAoVOWLk6hVtEfMae/f2P3gUOUle
-XXCVmn7In8LRK8THK/40O076jqSiytSnnHl2Do5wNnb95g+Rh06BVPf3OL6Z4O8i
-hJaV4vdNSSR7ta+IenShS1fZcl15dIt1vjNFGoPUflEJUY+OVfL8zTwVRgi2KGSb
-DRFue9mLKEvEtyGkGvZKscxaLVZtqfCkDg9D6w3WZG4OOigyI+N8jVTuaoVjzcWC
-ohQ6sFkD+3w4n6uDKid8NSxD1p34DxSWphNP1vsz6OftJO/xFLM=
-=LCaF
+iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmhbsicACgkQhP3B6o/u
+lQz4gA//XMSaMwlEF955t7sMD+r2G+0gnvduzRuZ8ICdmPh5+wc5fdr8o8F4SZ9T
+lke1oY00cGYpQ8CbMd0kKJahUwHpFVZhrfBdWC/2o92/0SW9rYJk4fgrbupgOWkN
+S70jFWJ1UcPVEbNwTImFWr5DlgsJPZbmsS4d3EkzN1nMEe7WGW0syw1paZEaW7IN
+Usr7dtl5UVoFqzlKOy0foPf3pG/7Qv9UrnL6mJv4llPysXDeFHvK9X86j4ev3n6/
+5py1bS/nTLtl9a4p4iIzuOPzYQXnQ3vUOZmYDWF+7vyMrgnNX16S/lgkyWhbJdHB
+rHDelmgVbxUzPBVyLFgdKtCO6QRpUyS8cblkci/NwcSF8geQAM9Mr7N336jYDI7j
+FdZ05N5CTtwvUAmFzX6v7cPE55b0qVVusc7/f5QPEcDDuGlQaRjyjUndlT11/qOh
+wRePXbpOiaJQxrzvOMr6BSW9ir6RsF+rfvs3js2mMaiBYV3VzE2C2Blx8/ri6x90
+FfYv5GzCVcZjWU7rctdgtc1xR5mQbLHhNVbTHPDgk7yiCVFQYDGKwbnOlCLrmYI1
+JEjvbYHcQL7lV6HNzW91tTSgHrl2tiu/1v9aEirMwJDgxzNdXDXOlXEEHaPF0FTU
+1elYSGp3JdKyEbFfhXPLysq8ryn9/9/pVvwm0NKv6i9gN3KemD8=
+=S9I0
 -----END PGP SIGNATURE-----
 
---id1qkDeCEtzLoxTA--
+--kGlgOBmJpN53EYeN--
