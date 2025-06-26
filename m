@@ -1,63 +1,63 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B646F2C08CF
-	for <linux-sunxi@lists.linux.dev>; Thu, 26 Jun 2025 09:59:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF1F2DBF73
+	for <linux-sunxi@lists.linux.dev>; Thu, 26 Jun 2025 09:59:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750931972; cv=none; b=RR2aob4NgHdatBu6rPx+hnZLkotZayKF985njXAlekeotjwubFDzqxd2v91mQgY5pLtoylxPzgB2ksa1q+rfz5BWNKLiOENUXOIVFXJEAWNDskn1zPI7nWbR+LfNQYyzevSy45BCDZH15LzZpl2bm1wiwaWm9P8Bo9+B1akA6fU=
+	t=1750931973; cv=none; b=BMhzQcn4Au5O1DotP49H7tAlMpFFZy0aN5SWgUp4jQ1atm4L/tzC/udOMKYW/1d5sO5Eih5xl0qeZXtyI+8EK+Kz8d3/YX4vmmQwYa0GKRquLqOvJJDQ2Vmi1bjR3KmnU9bWgf/f97PnXYwYn3BBgC0HWwh99YhRUkwtzB5xsHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750931972; c=relaxed/simple;
-	bh=dsS+p6UvQk8Xwg+WgyOGAas3d5MTBbJN2FAK8gI6CFU=;
+	s=arc-20240116; t=1750931973; c=relaxed/simple;
+	bh=tbTFzNCpLJSVFhQmpoJbNfx1TQTTaya8gz6bH1S/uso=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RRpgfo9AVBQZuhldoDKNbHA7ugCMdA/Fm/N6cO3AhCCQe40/MREUH0UbjpatBPg8L5l3chx6xgj/6xQbYIzY91YANDr7N5wpP/fdDDK58KkwazQDyFHwFUY/QI0GJifR9P41UcCHv1don6M51POeZH3NwhL3ottn6npINlK1ybQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d+R0VjOF; arc=none smtp.client-ip=209.85.218.41
+	 MIME-Version; b=fC005zxkHhqNCfpdz1n+pPQNxs45oKuctTWSwsTRj/lh3RLOqnC+qk4VxuGe0iIE4ysKV1NCmXowX+2oU2Ne2SxcoHQboNUs6hQzTFTazp5GWFhAXF6RqisythWFdFr6yUl1xQuCS2OQfPYOKm/Oe+R+ypuXKo7t3xNK1qhzx2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N9h+dBUO; arc=none smtp.client-ip=209.85.218.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d+R0VjOF"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-ae0a0cd709bso379053766b.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 26 Jun 2025 02:59:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N9h+dBUO"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-ae0d758c3a2so95895566b.2
+        for <linux-sunxi@lists.linux.dev>; Thu, 26 Jun 2025 02:59:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750931969; x=1751536769; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1750931970; x=1751536770; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=579Q1QhHC2sKl8ad1uJdu4XVU+r2uSj185NnGxhlUu0=;
-        b=d+R0VjOFSCwp2tiJCK/TuMHlAcW6qaW5OD0x6ImlObN+Vpj8JEsfeiD5VPjePSjctX
-         Vhy0wlG0gKqkONahGEgDG2vNi1rjWvG8HMnM9iqYce+8RBuUT1BGyJFuRgezQJoPc9FX
-         x3lHC3fNx8CLJ72K3PmD0iDuYMIeBLPTubXGx6eKBtBaX4gGiTF3xk4OyO4wNNDRwBvZ
-         RAxr497PekE7p405osCS6kNA03EIyFVt8r3vzNKVz2NwniuxGw4/hrXReYz9fQvhRx2E
-         mdQzgbYiPifM3DXO7X0yPHpGQsKitMencmOz9xvGmf9JSS5E5Ep24Uc6yo7spDZnMOVZ
-         nBCw==
+        bh=P/fE/0yl8M/v8XV3CKxXJaDNwhg5S07FYLicaloeOKU=;
+        b=N9h+dBUO/aF/jRL7B9U9YfIutjxD79nw8ZT6q4k2JR6qoS4ZKe5sFpB2OhHpVHa/Ed
+         2v77fG5wOqt0VHjG05bG3JJU7OTh0QII8hp6pDx07TO8hH2jOshKjinxoHkp5f3D5pTk
+         3OdifdBLVlY8r1nqxG4RS/zW3/ArJ4cDZVkRYI3obIidzhe2W7sEu+hsPtN0XdCG9rX/
+         jGLaU6DTXqCohbll5/u6Jz9T4scRSZCIknjGn/H2vfJQZ1VrZPLouWBZKanYgtkxLApC
+         yzRXODrRUSnrLzJ35vdWATeRVqFOXSKNm1cLNZUS5dgenxlKY2GjJbatHBXM0GAQjhEu
+         ymGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750931969; x=1751536769;
+        d=1e100.net; s=20230601; t=1750931970; x=1751536770;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=579Q1QhHC2sKl8ad1uJdu4XVU+r2uSj185NnGxhlUu0=;
-        b=iI1rmQ5bkiHso+9/XUluVc7k2dNA1q/ES33UlTSu5v2cPU+GKRLbPnmsdl+FOYXvWx
-         iHHSQFAhOw//VFfi8thOu8QWI4MUSyRa5rIZKiR1YB5D3VAXfsgYbeRmlNGMeLjg4ur4
-         35w4zQJ4NuQSzTGLjfY3vFLwoAmjRue6FEfrVOHYALTIOuGiRZHQQWKH0VhR9HvZGqho
-         qfYILn8u42AsFVfc+DkV3vETfLNY3dpef3b5/89PSWD7XIcYeQ7Bc7/hWmgWzyaJgiIh
-         YkudqD/IV3x+x6k4OTCKcy3NgGOFL2dF6umN9WkZB0glwHx6RhpmKDf5zfQLZiHqcU+d
-         3tpQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWBtaQI8UBC4mGH6cwbeyk+71KDIWnszkhtATzbxBYUMzcAaQSmTe20Zvw+dnpUKU5dZCuZoFLvPe1RHQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyUqJX29zSMmaP5ZfoMOGKO/1Pdks1SatVyao5SRUmSUiplFi8z
-	bPQju4xpWEiwR4ry4Vi2NVB113Y9w5XvwBXQjYiUMmtHSa8CmDJtA69N
-X-Gm-Gg: ASbGncuT1yInAIH15+EadG3Qw3S5Ugh00tM/NDHipipTMuNghDYjzVOZqEZMglQNm5y
-	s6IViA7bh4SHV1JBSDTbftTmVuaAYeTRONe0m2q6l/9vv9vce3PzxkObIU0mcvSPW8PmqBvlWp2
-	deY1QJpAEOMNpctR0/3O7fTyCN4NJ15mvoPMGt1U3HAAuVqTSyLyfmJsB5j7Sgp0gzf+29eEJeY
-	EjFN/l9bdHvk+K0mjD0516zXKKWvtpN7rymUiw9MXjYP6orfoDKAVLWLV1/IzouFsfAc6Zv2JYP
-	2m+bNTNNYhAZdfgJG79vzGKKNJPwvFPZdzMudYKftGcBcuZiZ/+ym7YZ7AFmURxvfNxbl9C6o2P
-	XQoWZLG48h8t6Jw==
-X-Google-Smtp-Source: AGHT+IGVv+Hw7jSjoixa1/E7zQmSwh1p6WVQXmOD2Loe5VSlhlnuizOR3ugGTm+11YiJ3z+bTMozvg==
-X-Received: by 2002:a17:906:d553:b0:ae0:c4e3:e2e8 with SMTP id a640c23a62f3a-ae0d26f80f4mr322465866b.28.1750931968753;
-        Thu, 26 Jun 2025 02:59:28 -0700 (PDT)
+        bh=P/fE/0yl8M/v8XV3CKxXJaDNwhg5S07FYLicaloeOKU=;
+        b=H7jQGkw+n4WNgWRrCweu/poXpNw/Za7O5Hj9MLIKPT8uBJ/3sa7yqq9M/e20jetRuj
+         tviTAMR1Vt+42LnA1fe+kNLeJ8OQk0jbz1J7vNoDbyGoSxh7nU4kwAkUpuHC8TZ9un2J
+         q0Iz/DYty5jtNuZo9R8yQ78/6gcU+bEEHo8Bj2/5i1MfMYwX0T35UcBD/IniPeFfyO6T
+         pgrD3qw4+qq4rALJCXElP9onnVc8qkJ1H4XMLFiw8gL3iILI3TRz8cLRowFdwawrnWBj
+         JEOsDB4Jpzvo4pQ+EIJjopvFX9yMSBvgeQGf92dtvD1b9Tb/MIiVCpVdzg44uIX3yuCA
+         dcSw==
+X-Forwarded-Encrypted: i=1; AJvYcCVfF4/assRMD+Su7fXMsIisi/0ZsTlLORfQBBTiEcdJyGGqmo+lHdBnZsX+kqIcgE0vTKf1rdgtkVHOnA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzj188OsWhUtHbl8x3vikoKtKMg3TIwl64ZcpzT+Dg5JOLNz0tl
+	2OIfFn8X4IunUIQjHNqPoKLcb52oCHnl2zR5gkE4fFXd606P/67RxQ5x
+X-Gm-Gg: ASbGncv1UoxF27qt+oYveagUp4F37eKo3WX29dpiPYFELIENBad3wkLgaP30U5ZdiXm
+	cqcNv1wHysBCn0VX2g0sz0knz8iqESNAYPfK+UKlW42vYCdZbDwO7HqwHvGfiRHJejdnyM+UaCx
+	3LRhwhHX3l2aYNP7ot66JpBEv8/zadebIYWxxMoA0sdeoIplOEcD8J/kBtKipyi0mvXN+ZfOfR/
+	9ea9vh9O+XxGQepqYsP6c8iPrxUPV1oMm4HB+HOPJjmoXzfGgmvUURr6VWV9BL3ss077/v6YjY3
+	/H3Am5oPnw131zkmu1TalFqWQz7FXXDT/Jd9LMudBkNfCozJwmqE642m2xZ/ZAj1Nu7oMo/HfqJ
+	tAOD1dsBb2fs90g==
+X-Google-Smtp-Source: AGHT+IEPjb/8uofV4csnmULxi9nDFlRA8uvr4c7ZG+YY8cHUXk7++SxrX5pnt1HPos1h1UHIsCu5pg==
+X-Received: by 2002:a17:907:9615:b0:ad5:3055:784d with SMTP id a640c23a62f3a-ae0d0ccbe63mr317427366b.34.1750931970075;
+        Thu, 26 Jun 2025 02:59:30 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:2f0e:c51b:8900:a03f:12cb:72f7:9069])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae06aa5ff34sm1014106166b.40.2025.06.26.02.59.27
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae06aa5ff34sm1014106166b.40.2025.06.26.02.59.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Jun 2025 02:59:28 -0700 (PDT)
+        Thu, 26 Jun 2025 02:59:29 -0700 (PDT)
 From: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
 To: clabbe.montjoie@gmail.com,
 	herbert@gondor.apana.org.au,
@@ -70,9 +70,9 @@ Cc: wens@csie.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Ovidiu Panait <ovidiu.panait.oss@gmail.com>
-Subject: [PATCH v2 09/10] crypto: sun8i-ce - add a new function for dumping task descriptors
-Date: Thu, 26 Jun 2025 12:58:12 +0300
-Message-ID: <20250626095813.83963-10-ovidiu.panait.oss@gmail.com>
+Subject: [PATCH v2 10/10] crypto: sun8i-ce - implement request batching
+Date: Thu, 26 Jun 2025 12:58:13 +0300
+Message-ID: <20250626095813.83963-11-ovidiu.panait.oss@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250626095813.83963-1-ovidiu.panait.oss@gmail.com>
 References: <20250626095813.83963-1-ovidiu.panait.oss@gmail.com>
@@ -84,72 +84,343 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In order to remove code duplication, factor out task descriptor dumping to
-a new function sun8i_ce_dump_task_descriptors().
+The Allwinner crypto engine can process multiple requests at a time,
+if they are chained together using the task descriptor's 'next' field.
+Having multiple requests processed in one go can reduce the number
+of interrupts generated and also improve throughput.
+
+This commit introduces batching support in the sun8i-ce driver by
+enabling the retry mechanism in the crypto_engine and implementing
+the do_batch_requests() callback. Only requests of the same type
+(hash, skcipher, etc) are batched together, as the hardware doesn't
+seem to support processing multiple types of requests in the same batch.
+
+The existing do_one_request() handlers are adjusted to only fill a per-flow
+queue and set up the dma mappings. Once the queue is full or a different
+kind of request is received, -ENOSPC is returned to signal the crypto
+engine that the batch is ready to be processed. Next, do_batch_requests()
+chains the requests, sets the interrupt flag, sends the batch to hardware
+for processing and performs the cleanup.
+
+With request batching, the tcrypt multibuffer benchmark shows an increase
+in throughput of ~85% for 16 byte AES blocks (when testing with 8 data
+streams on the OrangePi Zero2 board).
 
 Signed-off-by: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
 ---
- .../crypto/allwinner/sun8i-ce/sun8i-ce-core.c    | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+ .../allwinner/sun8i-ce/sun8i-ce-cipher.c      |  15 +--
+ .../crypto/allwinner/sun8i-ce/sun8i-ce-core.c | 123 ++++++++++++++++--
+ .../crypto/allwinner/sun8i-ce/sun8i-ce-hash.c |  13 +-
+ drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h  |  31 +++++
+ 4 files changed, 155 insertions(+), 27 deletions(-)
 
+diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
+index 22b1fe72aa71..5a3fd5848fd1 100644
+--- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
++++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
+@@ -165,7 +165,7 @@ static int sun8i_ce_cipher_prepare(struct skcipher_request *areq,
+ 
+ 	cet->t_id = cpu_to_le32(rctx->flow);
+ 	common = ce->variant->alg_cipher[algt->ce_algo_id];
+-	common |= rctx->op_dir | CE_COMM_INT;
++	common |= rctx->op_dir;
+ 	cet->t_common_ctl = cpu_to_le32(common);
+ 	/* CTS and recent CE (H6) need length in bytes, in word otherwise */
+ 	if (ce->variant->cipher_t_dlen_in_bytes)
+@@ -376,16 +376,15 @@ int sun8i_ce_cipher_do_one(struct crypto_engine *engine, void *areq)
+ 	int err;
+ 
+ 	chan = &ce->chanlist[rctx->flow];
+-	cet = chan->tl;
++	cet = sun8i_ce_enqueue_one(chan, areq);
++	if (IS_ERR(cet))
++		return PTR_ERR(cet);
+ 
+ 	err = sun8i_ce_cipher_prepare(req, cet);
+-	if (err)
++	if (err) {
++		sun8i_ce_dequeue_one(chan);
+ 		return err;
+-
+-	err = sun8i_ce_run_task(ce, rctx->flow,
+-				crypto_tfm_alg_name(req->base.tfm));
+-
+-	sun8i_ce_cipher_finalize_req(areq, cet, err);
++	}
+ 
+ 	return 0;
+ }
 diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
-index 930a6579d853..b6cfc6758a5a 100644
+index b6cfc6758a5a..a2addc9f64d9 100644
 --- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
 +++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
-@@ -169,6 +169,12 @@ static const struct ce_variant ce_r40_variant = {
- 	.trng = CE_ID_NOTSUPP,
- };
+@@ -10,7 +10,7 @@
+  * You could find a link for the datasheet in Documentation/arch/arm/sunxi.rst
+  */
  
-+static void sun8i_ce_dump_task_descriptors(struct sun8i_ce_flow *chan)
-+{
-+	print_hex_dump(KERN_INFO, "TASK: ", DUMP_PREFIX_NONE, 16, 4,
-+		       chan->tl, sizeof(struct ce_task), false);
-+}
-+
- /*
-  * sun8i_ce_get_engine_number() get the next channel slot
-  * This is a simple round-robin way of getting the next channel
-@@ -183,7 +189,6 @@ int sun8i_ce_run_task(struct sun8i_ce_dev *ce, int flow, const char *name)
+-#include <crypto/engine.h>
++#include <crypto/internal/engine.h>
+ #include <crypto/internal/hash.h>
+ #include <crypto/internal/rng.h>
+ #include <crypto/internal/skcipher.h>
+@@ -171,8 +171,14 @@ static const struct ce_variant ce_r40_variant = {
+ 
+ static void sun8i_ce_dump_task_descriptors(struct sun8i_ce_flow *chan)
  {
+-	print_hex_dump(KERN_INFO, "TASK: ", DUMP_PREFIX_NONE, 16, 4,
+-		       chan->tl, sizeof(struct ce_task), false);
++	for (int i = 0; i < chan->reqs_no; ++i) {
++		struct ce_task *cet = &chan->tl[i];
++		char task[CE_MAX_TASK_DESCR_DUMP_MSG_SIZE];
++
++		snprintf(task, sizeof(task), "TASK %d:", i);
++		print_hex_dump(KERN_INFO, task, DUMP_PREFIX_NONE, 16, 4,
++			       cet, sizeof(struct ce_task), false);
++	}
+ }
+ 
+ /*
+@@ -190,10 +196,6 @@ int sun8i_ce_run_task(struct sun8i_ce_dev *ce, int flow, const char *name)
  	u32 v;
  	int err = 0;
--	struct ce_task *cet = ce->chanlist[flow].tl;
  
+-#ifdef CONFIG_CRYPTO_DEV_SUN8I_CE_DEBUG
+-	ce->chanlist[flow].stat_req++;
+-#endif
+-
+ 	mutex_lock(&ce->mlock);
+ 
+ 	v = readl(ce->base + CE_ICR);
+@@ -710,12 +712,107 @@ static int sun8i_ce_debugfs_show(struct seq_file *seq, void *v)
+ 
+ DEFINE_SHOW_ATTRIBUTE(sun8i_ce_debugfs);
+ 
++static int sun8i_ce_get_flow_from_engine(struct sun8i_ce_dev *ce,
++					 struct crypto_engine *engine)
++{
++	for (int i = 0; i < MAXFLOW; ++i)
++		if (ce->chanlist[i].engine == engine)
++			return i;
++
++	return -ENODEV;
++}
++
++static int sun8i_ce_do_batch(struct crypto_engine *engine)
++{
++	struct sun8i_ce_dev *ce;
++	struct sun8i_ce_flow *chan;
++	int err, flow;
++
++	ce = dev_get_drvdata(engine->dev);
++	flow = sun8i_ce_get_flow_from_engine(ce, engine);
++	if (flow < 0)
++		return flow;
++
++	chan = &ce->chanlist[flow];
++
++	if (!chan->reqs_no)
++		return 0;
++
++#ifdef CONFIG_CRYPTO_DEV_SUN8I_CE_DEBUG
++	ce->chanlist[flow].stat_req += chan->reqs_no;
++#endif
++
++	for (int i = 0; i < chan->reqs_no - 1; ++i) {
++		struct ce_task *task = &chan->tl[i];
++		dma_addr_t next = chan->t_phy + (i + 1) * sizeof(struct ce_task);
++
++		task->next = desc_addr_val_le32(ce, next);
++	}
++	chan->tl[chan->reqs_no - 1].next = 0;
++	chan->tl[chan->reqs_no - 1].t_common_ctl |= cpu_to_le32(CE_COMM_INT);
++
++	err = sun8i_ce_run_task(ce, flow, "BATCH");
++
++	for (int i = 0; i < chan->reqs_no; ++i) {
++		struct crypto_async_request *areq = chan->reqs[i];
++		u32 req_type = crypto_tfm_alg_type(areq->tfm);
++
++		if (req_type == CRYPTO_ALG_TYPE_SKCIPHER)
++			sun8i_ce_cipher_finalize_req(areq, &chan->tl[i], err);
++
++		if (IS_ENABLED(CONFIG_CRYPTO_DEV_SUN8I_CE_HASH) &&
++					(req_type == CRYPTO_ALG_TYPE_AHASH))
++			sun8i_ce_hash_finalize_req(areq, &chan->tl[i], err);
++
++		chan->reqs[i] = NULL;
++	}
++
++	chan->reqs_no = 0;
++
++	return err;
++}
++
++struct ce_task *sun8i_ce_enqueue_one(struct sun8i_ce_flow *chan,
++				     struct crypto_async_request *areq)
++{
++	struct ce_task *cet;
++	struct crypto_async_request *prev;
++	u32 alg_type, prev_alg_type;
++
++	if (chan->reqs_no == CE_MAX_REQS_PER_BATCH)
++		return ERR_PTR(-ENOSPC);
++
++	if (chan->reqs_no) {
++		prev = chan->reqs[chan->reqs_no - 1];
++		prev_alg_type = crypto_tfm_alg_type(prev->tfm);
++		alg_type = crypto_tfm_alg_type(areq->tfm);
++
++		if (alg_type != prev_alg_type)
++			return ERR_PTR(-ENOSPC);
++	}
++
++	cet = chan->tl + chan->reqs_no;
++	chan->reqs[chan->reqs_no] = areq;
++	chan->reqs_no++;
++
++	return cet;
++}
++
++void sun8i_ce_dequeue_one(struct sun8i_ce_flow *chan)
++{
++	if (chan->reqs_no) {
++		chan->reqs_no--;
++		chan->reqs[chan->reqs_no] = NULL;
++	}
++}
++
+ static void sun8i_ce_free_chanlist(struct sun8i_ce_dev *ce, int i)
+ {
+ 	while (i >= 0) {
+ 		crypto_engine_exit(ce->chanlist[i].engine);
+ 		if (ce->chanlist[i].tl)
+-			dma_free_coherent(ce->dev, sizeof(struct ce_task),
++			dma_free_coherent(ce->dev,
++					  CE_DMA_TASK_DESCR_ALLOC_SIZE,
+ 					  ce->chanlist[i].tl,
+ 					  ce->chanlist[i].t_phy);
+ 		i--;
+@@ -737,7 +834,9 @@ static int sun8i_ce_allocate_chanlist(struct sun8i_ce_dev *ce)
+ 	for (i = 0; i < MAXFLOW; i++) {
+ 		init_completion(&ce->chanlist[i].complete);
+ 
+-		ce->chanlist[i].engine = crypto_engine_alloc_init(ce->dev, true);
++		ce->chanlist[i].engine = crypto_engine_alloc_init_and_set(
++					 ce->dev, true, sun8i_ce_do_batch, true,
++					 CE_MAX_REQS_PER_BATCH);
+ 		if (!ce->chanlist[i].engine) {
+ 			dev_err(ce->dev, "Cannot allocate engine\n");
+ 			i--;
+@@ -750,9 +849,9 @@ static int sun8i_ce_allocate_chanlist(struct sun8i_ce_dev *ce)
+ 			goto error_engine;
+ 		}
+ 		ce->chanlist[i].tl = dma_alloc_coherent(ce->dev,
+-							sizeof(struct ce_task),
+-							&ce->chanlist[i].t_phy,
+-							GFP_KERNEL);
++						CE_DMA_TASK_DESCR_ALLOC_SIZE,
++						&ce->chanlist[i].t_phy,
++						GFP_KERNEL);
+ 		if (!ce->chanlist[i].tl) {
+ 			dev_err(ce->dev, "Cannot get DMA memory for task %d\n",
+ 				i);
+diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
+index 5d8ac1394c0c..73cfcdb2b951 100644
+--- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
++++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
+@@ -350,7 +350,6 @@ static int sun8i_ce_hash_prepare(struct ahash_request *areq, struct ce_task *cet
+ 
+ 	cet->t_id = cpu_to_le32(rctx->flow);
+ 	common = ce->variant->alg_hash[algt->ce_algo_id];
+-	common |= CE_COMM_INT;
+ 	cet->t_common_ctl = cpu_to_le32(common);
+ 
+ 	cet->t_sym_ctl = 0;
+@@ -488,15 +487,15 @@ int sun8i_ce_hash_run(struct crypto_engine *engine, void *async_req)
+ 	int err;
+ 
+ 	chan = &ce->chanlist[rctx->flow];
+-	cet = chan->tl;
++	cet = sun8i_ce_enqueue_one(chan, async_req);
++	if (IS_ERR(cet))
++		return PTR_ERR(cet);
+ 
+ 	err = sun8i_ce_hash_prepare(areq, cet);
+-	if (err)
++	if (err) {
++		sun8i_ce_dequeue_one(chan);
+ 		return err;
+-
+-	err = sun8i_ce_run_task(ce, rctx->flow, crypto_ahash_alg_name(tfm));
+-
+-	sun8i_ce_hash_finalize_req(async_req, cet, err);
++	}
+ 
+ 	return 0;
+ }
+diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h
+index 1022fd590256..53f31fff1a71 100644
+--- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h
++++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h
+@@ -104,6 +104,10 @@
+ #define CE_DIE_ID_MASK	0x07
+ 
+ #define MAX_SG 8
++#define CE_MAX_REQS_PER_BATCH			10
++#define CE_MAX_TASK_DESCR_DUMP_MSG_SIZE		18
++#define CE_DMA_TASK_DESCR_ALLOC_SIZE		\
++		(CE_MAX_REQS_PER_BATCH * sizeof(struct ce_task))
+ 
+ #define CE_MAX_CLOCKS 4
+ #define CE_DMA_TIMEOUT_MS	3000
+@@ -191,6 +195,8 @@ struct ce_task {
+  * @status:	set to 1 by interrupt if task is done
+  * @t_phy:	Physical address of task
+  * @tl:		pointer to the current ce_task for this flow
++ * @reqs:	array of requests to be processed in batch
++ * @reqs_no:	current number of requests in @reqs
+  * @stat_req:	number of request done by this flow
+  */
+ struct sun8i_ce_flow {
+@@ -199,6 +205,8 @@ struct sun8i_ce_flow {
+ 	int status;
+ 	dma_addr_t t_phy;
+ 	struct ce_task *tl;
++	struct crypto_async_request *reqs[CE_MAX_REQS_PER_BATCH];
++	int reqs_no;
  #ifdef CONFIG_CRYPTO_DEV_SUN8I_CE_DEBUG
- 	ce->chanlist[flow].stat_req++;
-@@ -225,9 +230,8 @@ int sun8i_ce_run_task(struct sun8i_ce_dev *ce, int flow, const char *name)
- 		/* Sadly, the error bit is not per flow */
- 		if (v) {
- 			dev_err(ce->dev, "CE ERROR: %x for flow %x\n", v, flow);
-+			sun8i_ce_dump_task_descriptors(&ce->chanlist[flow]);
- 			err = -EFAULT;
--			print_hex_dump(KERN_INFO, "TASK: ", DUMP_PREFIX_NONE, 16, 4,
--				       cet, sizeof(struct ce_task), false);
- 		}
- 		if (v & CE_ERR_ALGO_NOTSUP)
- 			dev_err(ce->dev, "CE ERROR: algorithm not supported\n");
-@@ -244,9 +248,8 @@ int sun8i_ce_run_task(struct sun8i_ce_dev *ce, int flow, const char *name)
- 		v &= 0xF;
- 		if (v) {
- 			dev_err(ce->dev, "CE ERROR: %x for flow %x\n", v, flow);
-+			sun8i_ce_dump_task_descriptors(&ce->chanlist[flow]);
- 			err = -EFAULT;
--			print_hex_dump(KERN_INFO, "TASK: ", DUMP_PREFIX_NONE, 16, 4,
--				       cet, sizeof(struct ce_task), false);
- 		}
- 		if (v & CE_ERR_ALGO_NOTSUP)
- 			dev_err(ce->dev, "CE ERROR: algorithm not supported\n");
-@@ -260,9 +263,8 @@ int sun8i_ce_run_task(struct sun8i_ce_dev *ce, int flow, const char *name)
- 		v &= 0xFF;
- 		if (v) {
- 			dev_err(ce->dev, "CE ERROR: %x for flow %x\n", v, flow);
-+			sun8i_ce_dump_task_descriptors(&ce->chanlist[flow]);
- 			err = -EFAULT;
--			print_hex_dump(KERN_INFO, "TASK: ", DUMP_PREFIX_NONE, 16, 4,
--				       cet, sizeof(struct ce_task), false);
- 		}
- 		if (v & CE_ERR_ALGO_NOTSUP)
- 			dev_err(ce->dev, "CE ERROR: algorithm not supported\n");
+ 	unsigned long stat_req;
+ #endif
+@@ -373,6 +381,29 @@ struct sun8i_ce_alg_template {
+ 	char fbname[CRYPTO_MAX_ALG_NAME];
+ };
+ 
++/**
++ * sun8i_ce_enqueue_one - add a request to the per-flow batch queue
++ * @chan: engine flow to enqueue the request
++ * @areq: request to be added to the batch queue
++ *
++ * This function adds request @areq to the batch queue in @chan. Should be
++ * called during do_one_request() crypto engine handler.
++ *
++ * @return - on success, task descriptor associated with the request
++ *         - on failure, ERR_PTR(-ENOSPC) if the queue was full or if the
++ *           request type is different from the requests already queued up
++ */
++struct ce_task *sun8i_ce_enqueue_one(struct sun8i_ce_flow *chan,
++				     struct crypto_async_request *areq);
++
++/**
++ * sun8i_ce_dequeue_one - remove head request from the per-flow batch queue
++ * @chan: engine flow to remove the request from
++ *
++ * This function removes the head request from the batch queue in @chan.
++ */
++void sun8i_ce_dequeue_one(struct sun8i_ce_flow *chan);
++
+ int sun8i_ce_aes_setkey(struct crypto_skcipher *tfm, const u8 *key,
+ 			unsigned int keylen);
+ int sun8i_ce_des3_setkey(struct crypto_skcipher *tfm, const u8 *key,
 -- 
 2.49.0
 
