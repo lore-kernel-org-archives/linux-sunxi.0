@@ -1,28 +1,28 @@
 Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C0A425BF08
-	for <linux-sunxi@lists.linux.dev>; Thu, 26 Jun 2025 08:14:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E364F261365
+	for <linux-sunxi@lists.linux.dev>; Thu, 26 Jun 2025 08:15:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750925648; cv=none; b=rmW/Zbm2RfWqdwpRiI/joaVyBRd1tShsaMPVCXIYtt7CuzIFHzRYhPwCv48YQ6Nr1hpPiXSvzVD71p5azM79OXpYpPJhjEhiU5B9o4VuVapt+kggWUBU3UXfqnTt2UB8YtijE3MpFqXnuYRN0RZS3wN3nMb7ley+ueysb/uNEjY=
+	t=1750925705; cv=none; b=saGCYRdv/Zjqs7A9o+otKpAiVNjGCjghbmvsBCAJTCXrRBdBoC43344UOEagURh4zCUgXKgK8lwDw8348xJ+ScXE0YahI5yZO8ucsJAa7lb6KrGFL2Ko4PRwn/nZr8Sx1p+fxSHoNEZg8vkWDFoenUUexPy9h8k10t3U+Z5pDgk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750925648; c=relaxed/simple;
-	bh=bKBKj/g6dLdmBtJ1nKja2cElFDqCQJuZbjQv2dPcf0k=;
+	s=arc-20240116; t=1750925705; c=relaxed/simple;
+	bh=PEZYGH+OI3VJSlIhgXQphteONYdoErA4jc7oo1FClP8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HUfy43LrMdgAPSo+IAqXyKdsKj007oYXWMog4EPwIXJkOryrl+DQf4+PsE6vQ+eP/8ZPsEVGBenFc9HegNruYMLaAMnREFonKzeNeoWy85e4ETpEPSmUmGXpAkHs/RlKSWHFKzyELnsOrWIAFprAcT/n8t0ByJb1f5PvNjLgWt8=
+	 MIME-Version; b=PPFaY+l02I0JmCEqJrUjWjjbZLqlF8TiEwY5Nkpr4J1YuL43Bcm7Tg0v02KW1sYIXtnM4xM6+tfer1sjB5GwzXq3NqIVp5EOuLvYGohkUQMpcg6md8VAP2jeU4Qs+ZutNd72WF7i7k7Z6ls+zjchqIJDrMyx9jnyM9FyciICe/w=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
 Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id D22D71F0004F
-	for <linux-sunxi@lists.linux.dev>; Thu, 26 Jun 2025 08:14:05 +0000 (UTC)
+	by leonov.paulk.fr (Postfix) with ESMTPS id 2B0911F00050
+	for <linux-sunxi@lists.linux.dev>; Thu, 26 Jun 2025 08:15:02 +0000 (UTC)
 Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 49EABAC7F87; Thu, 26 Jun 2025 08:14:05 +0000 (UTC)
+	id 928B5AC7F74; Thu, 26 Jun 2025 08:15:01 +0000 (UTC)
 X-Spam-Level: *
 Received: from localhost.localdomain (unknown [192.168.1.65])
-	by laika.paulk.fr (Postfix) with ESMTP id B8B27AC7F74;
-	Thu, 26 Jun 2025 08:09:41 +0000 (UTC)
+	by laika.paulk.fr (Postfix) with ESMTP id 6F66CAC7F7C;
+	Thu, 26 Jun 2025 08:09:42 +0000 (UTC)
 From: Paul Kocialkowski <paulk@sys-base.io>
 To: netdev@vger.kernel.org,
 	devicetree@vger.kernel.org,
@@ -44,9 +44,9 @@ Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
 	Linus Walleij <linus.walleij@linaro.org>,
 	Andre Przywara <andre.przywara@arm.com>,
 	Paul Kocialkowski <paulk@sys-base.io>
-Subject: [PATCH 4/5] arm64: dts: allwinner: a100: Add EMAC support
-Date: Thu, 26 Jun 2025 10:09:22 +0200
-Message-ID: <20250626080923.632789-5-paulk@sys-base.io>
+Subject: [PATCH 5/5] arm64: dts: allwinner: a133-liontron-h-a133l: Add Ethernet support
+Date: Thu, 26 Jun 2025 10:09:23 +0200
+Message-ID: <20250626080923.632789-6-paulk@sys-base.io>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250626080923.632789-1-paulk@sys-base.io>
 References: <20250626080923.632789-1-paulk@sys-base.io>
@@ -58,46 +58,52 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Allwinner A100/A133 Ethernet MAC (EMAC) is compatible with the A64
-one and needs access to the syscon register for control of the
-top-level integration of the unit.
+The Liontron H-A133L board features an Ethernet controller with a
+JLSemi JL1101 PHY. Its reset pin is tied to the PH12 GPIO.
+
+Note that the reset pin must be handled as a bus-wide reset GPIO in
+order to let the MDIO core properly reset it before trying to read
+its identification registers. There's no other device on the MDIO bus.
+
+The datasheet of the PHY mentions that the reset signal must be held
+for 1 ms to take effect. Make it 2 ms (and the same for post-delay) to
+be on the safe side without wasting too much time during boot.
 
 Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
 ---
- .../arm64/boot/dts/allwinner/sun50i-a100.dtsi | 20 +++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ .../sun50i-a133-liontron-h-a133l.dts          | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
-index 1c4e71b32911..205faa90d37b 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
-@@ -420,6 +420,26 @@ i2c3: i2c@5002c00 {
- 			#size-cells = <0>;
- 		};
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a133-liontron-h-a133l.dts b/arch/arm64/boot/dts/allwinner/sun50i-a133-liontron-h-a133l.dts
+index fe77178d3e33..04dd7f781894 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a133-liontron-h-a133l.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a133-liontron-h-a133l.dts
+@@ -65,6 +65,25 @@ &ehci1 {
+ 	status = "okay";
+ };
  
-+		emac: ethernet@5020000 {
-+			compatible = "allwinner,sun50i-a100-emac",
-+				     "allwinner,sun50i-a64-emac";
-+			reg = <0x5020000 0x10000>;
-+			interrupts = <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "macirq";
-+			clocks = <&ccu CLK_BUS_EMAC>;
-+			clock-names = "stmmaceth";
-+			resets = <&ccu RST_BUS_EMAC>;
-+			reset-names = "stmmaceth";
-+			syscon = <&syscon>;
-+			status = "disabled";
++&emac {
++	pinctrl-names = "default";
++	pinctrl-0 = <&rmii_pins>;
++	phy-handle = <&rmii_phy>;
++	phy-mode = "rmii";
++	status = "okay";
++};
 +
-+			mdio: mdio {
-+				compatible = "snps,dwmac-mdio";
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+			};
-+		};
++&mdio {
++	reset-gpios = <&pio 7 12 GPIO_ACTIVE_LOW>; /* PH12 */
++	reset-delay-us = <2000>;
++	reset-post-delay-us = <2000>;
 +
- 		ths: thermal-sensor@5070400 {
- 			compatible = "allwinner,sun50i-a100-ths";
- 			reg = <0x05070400 0x100>;
++	rmii_phy: ethernet-phy@1 {
++		compatible = "ethernet-phy-ieee802.3-c22";
++		reg = <1>;
++	};
++};
++
+ &mmc0 {
+ 	vmmc-supply = <&reg_dcdc1>;
+ 	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>; /* PF6 */
 -- 
 2.49.0
 
