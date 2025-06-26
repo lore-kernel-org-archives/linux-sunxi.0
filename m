@@ -1,70 +1,189 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6177920487E;
-	Thu, 26 Jun 2025 22:48:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C8BD2264B4;
+	Thu, 26 Jun 2025 23:43:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750978089; cv=none; b=iXjJilkhBgeWWdRNp4Tr5kiDlWYBkP0MTH3Fdaqh5YTcfI8Qqgdg706P+kaSmMtZ6EiL3xUHJcJteEocoArc7CYthsWOyjCZF7AFDkbqMI/dC+jHvd0aifsk2nn1JigcwL+51t2qeQncN5o+HUupYS4BQx47asUmnYDEslBde5Y=
+	t=1750981386; cv=none; b=gb3jNG8i2mbm2TTjvGUCqrcgixqFtKGc5lUpzWxkUyLJmIKMl+jrk/OiiWutFA04zxDR8GqXu2EU5blVan4kWx+cej+95XMP7h1s6PaJne823Uq91Iz8JGbGgEaYcDv2FFgG3NM2sTQTUVgn0LZIEZfthRLEIvKFNsMjsL0Nx08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750978089; c=relaxed/simple;
-	bh=R8CLx3lBBBA7LvBgT58Sc9bRYzTVrORcyxFh0G7ROJ4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=lb/V9dQLcgUTStPGzrCTRvE+MtjdAv7O3jpEbix79ImQKtQmo4/pwB13dJCtOXKeCDEtvM0kGssmp31dlECkq859Ra0Mwhc9q74Fd03Kz+zX4/gaRngF7LJNpvHPE6hH+CPOnifwVZdAMOl6ZJWA2GSf0CtyZvlqQdOcBXcAVgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zk/V/Q9r; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750981386; c=relaxed/simple;
+	bh=urZl6JTvJf0apVJYt9mU6sqER8QXulKfZ2pqNl0VDWg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oKNJFNHeaxK13qzqyOeLTCZSpM04lVOVCy06wOKUfSTiJlfVlkEu/ivuONWTdIQJ0H+pNPe/CEmuk3MO78sBPA8g486YJ3eIO6M+7j2zmg/4hYXkUXwcWi79uVtXCSaqBpmfnpUyPLzbXI692NoafoL4ggVeV3kQOegDjhpzgYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bua59xce; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zk/V/Q9r"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C18CC4CEF3;
-	Thu, 26 Jun 2025 22:48:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750978088;
-	bh=R8CLx3lBBBA7LvBgT58Sc9bRYzTVrORcyxFh0G7ROJ4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Zk/V/Q9r0eFXhj7iEBCs7Oehj+R3cZd2JUeipOAReEk8S3l744NsU+t+jn2Bapkyo
-	 Rh+e4lSTKlouajX/NAqfhZOYEBZ4+AFtXeXLmtVyqain1uXjng7723WJ+HWcRxL2wO
-	 SzFKq2k8XNQ8VA8d6ZHYjyVeycTPMmnlxzmH1RR1zkws4WYUH2irgcG+iOCKqJEM0B
-	 lF/ZxKdmd2yC2df1oN44OIQBFzXSXWFz73G0d5MkHB7XG1ai7kHeYR5xlJiPX/QeEX
-	 QLj20bEkI4AW6Xw8VGgrWUvE/7FYh8PDgGbx8+Zuqu3gJs5aZ2NdlLLgJ5r2PzXo1z
-	 QHhC/+PglSnvg==
-From: Vinod Koul <vkoul@kernel.org>
-To: dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- =?utf-8?q?Bence_Cs=C3=B3k=C3=A1s?= <csokas.bence@prolan.hu>
-Cc: Chen-Yu Tsai <wens@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
- Julian Calaby <julian.calaby@gmail.com>, 
- Samuel Holland <samuel@sholland.org>
-In-Reply-To: <20250625085450.154280-2-csokas.bence@prolan.hu>
-References: <20250625085450.154280-2-csokas.bence@prolan.hu>
-Subject: Re: [PATCH v11] dma-engine: sun4i: Simplify error handling in
- probe()
-Message-Id: <175097808852.79884.3766453152059490417.b4-ty@kernel.org>
-Date: Thu, 26 Jun 2025 15:48:08 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bua59xce"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750981384; x=1782517384;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=urZl6JTvJf0apVJYt9mU6sqER8QXulKfZ2pqNl0VDWg=;
+  b=Bua59xceq+Zg/aVPE+HaY49vAsfgDOcaoKszWBHHfsdYC5abpE84hqxZ
+   EmStoCrDHwfpZnhXhh/bbgl5YanLA9XjQRdt0DyQ13cvLC7uhNEg30d05
+   g8UxD0XOc0QVX/e1fW2s1Gg7c+bkGdBf6C7gS06QqcVnmieLUdw6Nj0bT
+   EOZ/JPpC4bAkI5FIuuZkMoFm3mW5XCRhENETmyxjFQPSBYcldWLigmMdK
+   3AoEKLx6RzP2cTLCcHNU0FR6sIcod7EspZ2SeeWIXWRMbQdnQUCwOUpvQ
+   pmtXDyKQyHYHqwxhTx3gweoZaO79b9yrKMnBbMmxxT/bb6Fm+1MYnE0+Q
+   w==;
+X-CSE-ConnectionGUID: hxolasd5RTyz0TZdlLLFVQ==
+X-CSE-MsgGUID: zo7ZmyDXRcejWIiwSXyfZg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="53373327"
+X-IronPort-AV: E=Sophos;i="6.16,268,1744095600"; 
+   d="scan'208";a="53373327"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2025 16:43:04 -0700
+X-CSE-ConnectionGUID: m2O60cNASlipTnztUvc2bg==
+X-CSE-MsgGUID: 4k/IXgdbQv6+NtWf8J3f4A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,268,1744095600"; 
+   d="scan'208";a="156946019"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 26 Jun 2025 16:42:59 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uUwF7-000Vde-0V;
+	Thu, 26 Jun 2025 23:42:57 +0000
+Date: Fri, 27 Jun 2025 07:42:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Inki Dae <inki.dae@samsung.com>,
+	Jagan Teki <jagan@amarulasolutions.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Dmitry Baryshkov <lumag@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Hui Pu <Hui.Pu@gehealthcare.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH 22/32] drm: renesas: rz-du: rzg2l_mipi_dsi: convert to
+ the .attach_new op
+Message-ID: <202506270718.iCW6cHYD-lkp@intel.com>
+References: <20250625-drm-dsi-host-no-device-ptr-v1-22-e36bc258a7c5@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.13.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250625-drm-dsi-host-no-device-ptr-v1-22-e36bc258a7c5@bootlin.com>
+
+Hi Luca,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 1174bf15bd601f17556f721798cd9183e169549a]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Luca-Ceresoli/drm-mipi-dsi-add-sanity-check-of-lane-number-in-mipi_dsi_attach/20250626-005002
+base:   1174bf15bd601f17556f721798cd9183e169549a
+patch link:    https://lore.kernel.org/r/20250625-drm-dsi-host-no-device-ptr-v1-22-e36bc258a7c5%40bootlin.com
+patch subject: [PATCH 22/32] drm: renesas: rz-du: rzg2l_mipi_dsi: convert to the .attach_new op
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20250627/202506270718.iCW6cHYD-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250627/202506270718.iCW6cHYD-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506270718.iCW6cHYD-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/device.h:15,
+                    from include/linux/dma-mapping.h:5,
+                    from drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c:11:
+   drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c: In function 'rzg2l_mipi_dsi_host_attach':
+>> drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c:712:33: error: 'device' undeclared (first use in this function)
+     712 |                                 device->format);
+         |                                 ^~~~~~
+   include/linux/dev_printk.h:110:37: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                                     ^~~~~~~~~~~
+   drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c:711:25: note: in expansion of macro 'dev_err'
+     711 |                         dev_err(dsi->dev, "Unsupported format 0x%04x\n",
+         |                         ^~~~~~~
+   drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c:712:33: note: each undeclared identifier is reported only once for each function it appears in
+     712 |                                 device->format);
+         |                                 ^~~~~~
+   include/linux/dev_printk.h:110:37: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                                     ^~~~~~~~~~~
+   drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c:711:25: note: in expansion of macro 'dev_err'
+     711 |                         dev_err(dsi->dev, "Unsupported format 0x%04x\n",
+         |                         ^~~~~~~
 
 
-On Wed, 25 Jun 2025 10:54:50 +0200, Bence Csókás wrote:
-> Clean up error handling by using devm functions and dev_err_probe(). This
-> should make it easier to add new code, as we can eliminate the "goto
-> ladder" in sun4i_dma_probe().
-> 
-> 
+vim +/device +712 drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
 
-Applied, thanks!
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  686  
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  687  /* -----------------------------------------------------------------------------
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  688   * Host setting
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  689   */
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  690  
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  691  static int rzg2l_mipi_dsi_host_attach(struct mipi_dsi_host *host,
+e8120e232c40c1 drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Luca Ceresoli 2025-06-25  692  				      const struct mipi_dsi_bus_fmt *bus_fmt)
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  693  {
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  694  	struct rzg2l_mipi_dsi *dsi = host_to_rzg2l_mipi_dsi(host);
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  695  	int ret;
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  696  
+e8120e232c40c1 drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Luca Ceresoli 2025-06-25  697  	if (bus_fmt->lanes > dsi->num_data_lanes) {
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  698  		dev_err(dsi->dev,
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  699  			"Number of lines of device (%u) exceeds host (%u)\n",
+e8120e232c40c1 drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Luca Ceresoli 2025-06-25  700  			bus_fmt->lanes, dsi->num_data_lanes);
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  701  		return -EINVAL;
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  702  	}
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  703  
+e8120e232c40c1 drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Luca Ceresoli 2025-06-25  704  	switch (mipi_dsi_pixel_format_to_bpp(bus_fmt->format)) {
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  705  	case 24:
+a56a6b81d80fdf drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Lad Prabhakar 2025-06-09  706  		break;
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  707  	case 18:
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  708  		break;
+a56a6b81d80fdf drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Lad Prabhakar 2025-06-09  709  	case 16:
+a56a6b81d80fdf drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Lad Prabhakar 2025-06-09  710  		if (!(dsi->info->features & RZ_MIPI_DSI_FEATURE_16BPP)) {
+a56a6b81d80fdf drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Lad Prabhakar 2025-06-09  711  			dev_err(dsi->dev, "Unsupported format 0x%04x\n",
+a56a6b81d80fdf drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Lad Prabhakar 2025-06-09 @712  				device->format);
+a56a6b81d80fdf drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Lad Prabhakar 2025-06-09  713  			return -EINVAL;
+a56a6b81d80fdf drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Lad Prabhakar 2025-06-09  714  		}
+a56a6b81d80fdf drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Lad Prabhakar 2025-06-09  715  		break;
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  716  	default:
+e8120e232c40c1 drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Luca Ceresoli 2025-06-25  717  		dev_err(dsi->dev, "Unsupported format 0x%04x\n", bus_fmt->format);
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  718  		return -EINVAL;
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  719  	}
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  720  
+e8120e232c40c1 drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Luca Ceresoli 2025-06-25  721  	dsi->lanes = bus_fmt->lanes;
+e8120e232c40c1 drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Luca Ceresoli 2025-06-25  722  	dsi->format = bus_fmt->format;
+e8120e232c40c1 drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Luca Ceresoli 2025-06-25  723  	dsi->mode_flags = bus_fmt->mode_flags;
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  724  
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  725  	dsi->next_bridge = devm_drm_of_get_bridge(dsi->dev, dsi->dev->of_node,
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  726  						  1, 0);
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  727  	if (IS_ERR(dsi->next_bridge)) {
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  728  		ret = PTR_ERR(dsi->next_bridge);
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  729  		dev_err(dsi->dev, "failed to get next bridge: %d\n", ret);
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  730  		return ret;
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  731  	}
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  732  
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  733  	drm_bridge_add(&dsi->bridge);
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  734  
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  735  	return 0;
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  736  }
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  737  
 
-[1/1] dma-engine: sun4i: Simplify error handling in probe()
-      commit: 814f047fc96d6631bb2c76557aad8e4aee8f532b
-
-Best regards,
 -- 
-~Vinod
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
