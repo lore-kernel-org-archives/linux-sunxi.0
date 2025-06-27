@@ -1,307 +1,73 @@
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCF5A19A288
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 Jun 2025 16:09:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A572125FA34;
+	Fri, 27 Jun 2025 21:21:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751040551; cv=none; b=fLwd3GJ2q1lGwHmZx1K2gBbezZaSzRTXsnBpI5tUMjIsZMSXpFv1iMgJ6Ox5fNB4qBlgLE1kgLL/+jcHO7qgisXYYV9KtUxAyHVWVXGTW/dLOkjNJrkAtfhM/rhAgLlVhln33TXObehdC1/IdatfP9uslR4T3thkpPLpLEzxJ0c=
+	t=1751059290; cv=none; b=AK/AjusXb7yvpWWZWNXJGEGeWZ+OAClUnRwL9Hfkwz9RNijukz63V4SyvCGzA5H4bE2IupaZ0cwzvx+G/spFmvhS45p5MrZSkAqzcRaV8cSWggxa2QG5tq68GqomrVWj8er5OYZI8to1akUzh2O5v4VS30TPhrCWNuprZfAytLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751040551; c=relaxed/simple;
-	bh=uV6O5HmIwzaalO/a2iRBmdUQS9q71BBclJdamW0QU60=;
+	s=arc-20240116; t=1751059290; c=relaxed/simple;
+	bh=eJ4JeujYEqEr8p7iiInQq4CDjHaLLtwxoaNgL3PVvp0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B9fg31WnPXSCuUeX4+6rvEY+1tvgQc/FGs03DJIx7RcS3YiDpIAHtadkwTWuV1KFyjVnHWiVAfBbQYFmWt82TzOn+mMkE+A5n8HVrK7G2eFMfhzyG3e1KxlDUs1By0VNawqv/x93SOt31Ki78xJczcENQBYzdIsZcXpcatR5X9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id ECFB81F00051
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 Jun 2025 16:08:54 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id AC550AC87B8; Fri, 27 Jun 2025 16:08:53 +0000 (UTC)
-X-Spam-Level: 
-Received: from collins (unknown [192.168.1.1])
-	by laika.paulk.fr (Postfix) with ESMTPSA id 11857AC87B0;
-	Fri, 27 Jun 2025 16:08:48 +0000 (UTC)
-Date: Fri, 27 Jun 2025 18:08:46 +0200
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=X56baIPlAzxPuauJfU/pTyuI+ikGJDNINfSD3XtUfSeUgAH6vv39CGxkSnzKBoYmbD68eM4AcJox49CzVtAuFuww/fMWxUPAHy910WGPnbXJscP6LwrGdRYnozGMVFDYU4LaPClhIuYj598N/XxpNc7zyQPack7jukGfYjT6FfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=psLuxavv; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="psLuxavv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19C38C4CEE3;
+	Fri, 27 Jun 2025 21:21:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751059290;
+	bh=eJ4JeujYEqEr8p7iiInQq4CDjHaLLtwxoaNgL3PVvp0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=psLuxavvIHRpyHijNtJpBPYSZpd4z1Or+RCc530bVYrLFxdjtwPN17Codm1L/WOcn
+	 e+rbD54Bx3bwH7Uh+ZPJ2P42eQx9eN8u+e4GBoJN0agDLkSgZs3SSCQWGRjJdeRkl7
+	 DLgm6dfoUUcVxoIbeNS2wiE3I01fvhgLu5WXALbMwY76Vku508KckvxCi51oX1YF6v
+	 +4txAazDN069CRN7dbiyIZaxcUAejbfraSXeqTe0A1Xp4JN/aO/pWdZyyVZNniFGrC
+	 tELVeQJuBp3Ls8JgnsVFQJYN/HWtPxsAqoWDZYr4KXsXnQ8l7N3O5WQtUusBMfgOa+
+	 WAKb7Cxk9EG9g==
+Date: Fri, 27 Jun 2025 16:21:29 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Paul Kocialkowski <paulk@sys-base.io>
+Cc: Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>,
+	Chen-Yu Tsai <wens@csie.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	Andre Przywara <andre.przywara@arm.com>,
 	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Corentin Labbe <clabbe.montjoie@gmail.com>,
-	Yixun Lan <dlan@gentoo.org>, Maxime Ripard <mripard@kernel.org>,
-	netdev@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH net-next] net: stmmac: sun8i: drop unneeded default
- syscon value
-Message-ID: <aF7CDjRCYEa0CpqH@collins>
-References: <20250423095222.1517507-1-andre.przywara@arm.com>
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Eric Dumazet <edumazet@google.com>,
+	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev,
+	linux-gpio@vger.kernel.org,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Jakub Kicinski <kuba@kernel.org>
+Subject: Re: [PATCH 3/5] dt-bindings: net: sun8i-emac: Add A100 EMAC
+ compatible
+Message-ID: <175105928901.164047.15283634095632177281.robh@kernel.org>
+References: <20250626080923.632789-1-paulk@sys-base.io>
+ <20250626080923.632789-4-paulk@sys-base.io>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="YU83H7T/fcLTVoMZ"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250423095222.1517507-1-andre.przywara@arm.com>
+In-Reply-To: <20250626080923.632789-4-paulk@sys-base.io>
 
 
---YU83H7T/fcLTVoMZ
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi Andre,
-
-Le Wed 23 Apr 25, 10:52, Andre Przywara a =C3=A9crit :
-> For some odd reason we are very picky about the value of the EMAC clock
-> register from the syscon block, insisting on a certain reset value and
-> only doing read-modify-write operations on that register, even though we
-> pretty much know the register layout.
-> This already led to a basically redundant variant entry for the H6, which
-> only differs by that value. We will have the same situation with the new
-> A523 SoC, which again is compatible to the A64, but has a different syscon
-> reset value.
->=20
-> Drop any assumptions about that value, and set or clear the bits that we
-> want to program, from scratch (starting with a value of 0). For the
-> remove() implementation, we just turn on the POWERDOWN bit, and deselect
-> the internal PHY, which mimics the existing code.
-
-I was confused about why this existed as well and think this change makes a=
- lot
-of sense!
-
-I just tested it on my V3s Lichee Pi Zero dock, which uses the internal EPHY
-(configured via this register) and it all looks good to me.
-
-Tested-by: Paul Kocialkowski <paulk@sys-base.io>
-Reviewed-by: Paul Kocialkowski <paulk@sys-base.io>
-
-Note that my previous patch fixing the PHY address retrieval conflicts with
-this, so you might want to spin up a new version, or it might be adapted wh=
-en
-this patch is picked-up. It's very straightforward to resolve.
-
-Thanks for this cleanup!
-
-Paul
-
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+On Thu, 26 Jun 2025 10:09:21 +0200, Paul Kocialkowski wrote:
+> The Allwinner A100/A133 has an Ethernet MAC (EMAC) controller that is
+> compatible with the A64 one. It features the same syscon registers for
+> control of the top-level integration of the unit.
+> 
+> Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
 > ---
-> Hi,
->=20
-> if anyone can shed some light on why we had this value and its handling
-> in the first place, I would be grateful. I don't really get its purpose,
-> and especially the warning message about the reset value seems odd.
-> I briefly tested this on A523, H3, H6, but would be glad to see more
-> testing on this.
->=20
-> Cheers,
-> Andre
->=20
->  .../net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 47 ++-----------------
->  1 file changed, 4 insertions(+), 43 deletions(-)
->=20
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/=
-net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> index 85723a78793ab..0f8d29763a909 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> @@ -31,10 +31,6 @@
->   */
-> =20
->  /* struct emac_variant - Describe dwmac-sun8i hardware variant
-> - * @default_syscon_value:	The default value of the EMAC register in sysc=
-on
-> - *				This value is used for disabling properly EMAC
-> - *				and used as a good starting value in case of the
-> - *				boot process(uboot) leave some stuff.
->   * @syscon_field		reg_field for the syscon's gmac register
->   * @soc_has_internal_phy:	Does the MAC embed an internal PHY
->   * @support_mii:		Does the MAC handle MII
-> @@ -48,7 +44,6 @@
->   *				value of zero indicates this is not supported.
->   */
->  struct emac_variant {
-> -	u32 default_syscon_value;
->  	const struct reg_field *syscon_field;
->  	bool soc_has_internal_phy;
->  	bool support_mii;
-> @@ -94,7 +89,6 @@ static const struct reg_field sun8i_ccu_reg_field =3D {
->  };
-> =20
->  static const struct emac_variant emac_variant_h3 =3D {
-> -	.default_syscon_value =3D 0x58000,
->  	.syscon_field =3D &sun8i_syscon_reg_field,
->  	.soc_has_internal_phy =3D true,
->  	.support_mii =3D true,
-> @@ -105,14 +99,12 @@ static const struct emac_variant emac_variant_h3 =3D=
- {
->  };
-> =20
->  static const struct emac_variant emac_variant_v3s =3D {
-> -	.default_syscon_value =3D 0x38000,
->  	.syscon_field =3D &sun8i_syscon_reg_field,
->  	.soc_has_internal_phy =3D true,
->  	.support_mii =3D true
->  };
-> =20
->  static const struct emac_variant emac_variant_a83t =3D {
-> -	.default_syscon_value =3D 0,
->  	.syscon_field =3D &sun8i_syscon_reg_field,
->  	.soc_has_internal_phy =3D false,
->  	.support_mii =3D true,
-> @@ -122,7 +114,6 @@ static const struct emac_variant emac_variant_a83t =
-=3D {
->  };
-> =20
->  static const struct emac_variant emac_variant_r40 =3D {
-> -	.default_syscon_value =3D 0,
->  	.syscon_field =3D &sun8i_ccu_reg_field,
->  	.support_mii =3D true,
->  	.support_rgmii =3D true,
-> @@ -130,7 +121,6 @@ static const struct emac_variant emac_variant_r40 =3D=
- {
->  };
-> =20
->  static const struct emac_variant emac_variant_a64 =3D {
-> -	.default_syscon_value =3D 0,
->  	.syscon_field =3D &sun8i_syscon_reg_field,
->  	.soc_has_internal_phy =3D false,
->  	.support_mii =3D true,
-> @@ -141,7 +131,6 @@ static const struct emac_variant emac_variant_a64 =3D=
- {
->  };
-> =20
->  static const struct emac_variant emac_variant_h6 =3D {
-> -	.default_syscon_value =3D 0x50000,
->  	.syscon_field =3D &sun8i_syscon_reg_field,
->  	/* The "Internal PHY" of H6 is not on the die. It's on the
->  	 * co-packaged AC200 chip instead.
-> @@ -933,25 +922,11 @@ static int sun8i_dwmac_set_syscon(struct device *de=
-v,
->  	struct sunxi_priv_data *gmac =3D plat->bsp_priv;
->  	struct device_node *node =3D dev->of_node;
->  	int ret;
-> -	u32 reg, val;
-> -
-> -	ret =3D regmap_field_read(gmac->regmap_field, &val);
-> -	if (ret) {
-> -		dev_err(dev, "Fail to read from regmap field.\n");
-> -		return ret;
-> -	}
-> -
-> -	reg =3D gmac->variant->default_syscon_value;
-> -	if (reg !=3D val)
-> -		dev_warn(dev,
-> -			 "Current syscon value is not the default %x (expect %x)\n",
-> -			 val, reg);
-> +	u32 reg =3D 0, val;
-> =20
->  	if (gmac->variant->soc_has_internal_phy) {
->  		if (of_property_read_bool(node, "allwinner,leds-active-low"))
->  			reg |=3D H3_EPHY_LED_POL;
-> -		else
-> -			reg &=3D ~H3_EPHY_LED_POL;
-> =20
->  		/* Force EPHY xtal frequency to 24MHz. */
->  		reg |=3D H3_EPHY_CLK_SEL;
-> @@ -965,11 +940,6 @@ static int sun8i_dwmac_set_syscon(struct device *dev,
->  		 * address. No need to mask it again.
->  		 */
->  		reg |=3D 1 << H3_EPHY_ADDR_SHIFT;
-> -	} else {
-> -		/* For SoCs without internal PHY the PHY selection bit should be
-> -		 * set to 0 (external PHY).
-> -		 */
-> -		reg &=3D ~H3_EPHY_SELECT;
->  	}
-> =20
->  	if (!of_property_read_u32(node, "allwinner,tx-delay-ps", &val)) {
-> @@ -980,8 +950,6 @@ static int sun8i_dwmac_set_syscon(struct device *dev,
->  		val /=3D 100;
->  		dev_dbg(dev, "set tx-delay to %x\n", val);
->  		if (val <=3D gmac->variant->tx_delay_max) {
-> -			reg &=3D ~(gmac->variant->tx_delay_max <<
-> -				 SYSCON_ETXDC_SHIFT);
->  			reg |=3D (val << SYSCON_ETXDC_SHIFT);
->  		} else {
->  			dev_err(dev, "Invalid TX clock delay: %d\n",
-> @@ -998,8 +966,6 @@ static int sun8i_dwmac_set_syscon(struct device *dev,
->  		val /=3D 100;
->  		dev_dbg(dev, "set rx-delay to %x\n", val);
->  		if (val <=3D gmac->variant->rx_delay_max) {
-> -			reg &=3D ~(gmac->variant->rx_delay_max <<
-> -				 SYSCON_ERXDC_SHIFT);
->  			reg |=3D (val << SYSCON_ERXDC_SHIFT);
->  		} else {
->  			dev_err(dev, "Invalid RX clock delay: %d\n",
-> @@ -1008,11 +974,6 @@ static int sun8i_dwmac_set_syscon(struct device *de=
-v,
->  		}
->  	}
-> =20
-> -	/* Clear interface mode bits */
-> -	reg &=3D ~(SYSCON_ETCS_MASK | SYSCON_EPIT);
-> -	if (gmac->variant->support_rmii)
-> -		reg &=3D ~SYSCON_RMII_EN;
-> -
->  	switch (plat->mac_interface) {
->  	case PHY_INTERFACE_MODE_MII:
->  		/* default */
-> @@ -1039,9 +1000,9 @@ static int sun8i_dwmac_set_syscon(struct device *de=
-v,
-> =20
->  static void sun8i_dwmac_unset_syscon(struct sunxi_priv_data *gmac)
->  {
-> -	u32 reg =3D gmac->variant->default_syscon_value;
-> -
-> -	regmap_field_write(gmac->regmap_field, reg);
-> +	if (gmac->variant->soc_has_internal_phy)
-> +		regmap_field_write(gmac->regmap_field,
-> +				   (H3_EPHY_SHUTDOWN | H3_EPHY_SELECT));
->  }
-> =20
->  static void sun8i_dwmac_exit(struct platform_device *pdev, void *priv)
-> --=20
-> 2.25.1
->=20
->=20
+>  .../devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml       | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
---=20
-Paul Kocialkowski,
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
-Independent contractor - sys-base - https://www.sys-base.io/
-Free software developer - https://www.paulk.fr/
-
-Expert in multimedia, graphics and embedded hardware support with Linux.
-
---YU83H7T/fcLTVoMZ
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmhewg4ACgkQhP3B6o/u
-lQyMOQ//RS+2/2CofBmwqDF0tdPx5od/nOTVjjlmfMbBiz0EMN1VutnRtQRnMj/X
-5k3xE0LZdi91+01xyGDS3JaGc/4Q5Dhmybwu5RC2a1vZ18mj2gdQBDGXzANpXUML
-m+mmq1o8bqWKecA/eYnSKjCdyYOUgWAhCCCwjNWsBrzbOpsHOmu1nYaB+lvMSFWZ
-y83uFmzkUqjWFcXlfRvRQxrYctCgMXUrSzn0nd32yIbOwTe+dk/uKSRgiU/mtTFa
-ORaxRV6Ohx6V+EZ8Sv962pqvp8xRRaBOW84OnD6wbOmgyxzgXogeaQdsEaKitc8K
-ZXl+5koviMPyQUmQzWuySSLIT2nsHBaCTH9tck6DeIqi2gcGRkHzss22OcpAtNa7
-KZ6Vfo+22CMNepDugBravEzuKfktOxz0udMBB7MYTMNiL4PHT2YXidcV7bV/WThl
-d64ghZbvLWq2kAKFIjIeUv4vg4zIICVhcheieEKdApc6KqyJV1myZ8/uTcSaJPLw
-RYWQMiyChxIkpo02HggzWO2gyhCQgkDNLZ4wzLEKJxyfan81T1leuPRZQT6XXW0P
-w+xSBrPTI8qwHxHDZLknr0mzMUSG/X86vQeDrxj+5HvL1HInIOdBhOGvvDOUHGdY
-jGbMv0cw+NfG3MUm2Jc+n1gu+QyGQYyvpIMyjwk9gzdsb6R8aM0=
-=y+k3
------END PGP SIGNATURE-----
-
---YU83H7T/fcLTVoMZ--
