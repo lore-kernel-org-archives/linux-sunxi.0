@@ -1,86 +1,113 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A856F253B40;
-	Sat, 28 Jun 2025 14:51:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1676F1FF1B5
+	for <linux-sunxi@lists.linux.dev>; Sat, 28 Jun 2025 15:03:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751122280; cv=none; b=moc2vIVIMR8BDVLdQs73pGuT2+lUM8jA/3Kg5zuyrer60evXsfv7EbsXORbFzVPTwdrwDdNZh3tQ+YjZn1lMSTjHxPA4G41stvCT7R7TAjBJIySU9bzNlmi9D9Kng6+ChKxwB8JRTLNdeiwXlcGbRS1n/qTJKrF4mcCIiuqxcr8=
+	t=1751123018; cv=none; b=E+i0Gr5Dz1uM8/tIkgX+SB20qWFiS1Dpqvfac5pK/JDYw7uN5Oxelp2N+Itw8KvOfcymlbimY5PQF9nfsnF96XDz/F8+EQMFLNA+P2bKSXXYIwq0/BSD3pr67N7cSDj3IXPp1Azq6K9cL4L0N2ZN3bROio9set8UrFjnHLiAB7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751122280; c=relaxed/simple;
-	bh=1QxAFsBgthe7+8/aWbErprguVQxwCeMWu1FhGtsOzWs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kCQ158Fjx+VDi3iP65ZsXOALRhRr0f5LCxMX7xlNhD3CcSSQBbYwNoM/Nuja5tRhmgR2LTE8v8a59wK7CAYm9fA9BGXDUSKmLUIMzgf2+nxNlL7NGNpphzt7nWPl4UnruwM4i164/tY/QKMYB9BIfbABmC0TbBxa54Q7i2MuVxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hvSYFQoW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751123018; c=relaxed/simple;
+	bh=tB/OqKZySucOavnV7IK+ZhNnC6CvdJvC7go9wFwAzyM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JDN2vaiZppBmrKfYLXm1Wv6ZeDN4JX/crTHn2/o3Ih3j6fXqwD4v4uyH9Fszf13zL63XyNGrnFH72+JraH02GAIdidpzq+Ci2XFK/wo7LFSAoO4tbHViMMTNEiQB20V17BkcLDz0vW8ZRS9Dw9NKKBqkZZ89lYaTWCo10j1QygY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K2UVeyjW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hvSYFQoW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5C4DC4CEEA;
-	Sat, 28 Jun 2025 14:51:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K2UVeyjW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9060EC4CEF1
+	for <linux-sunxi@lists.linux.dev>; Sat, 28 Jun 2025 15:03:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751122280;
-	bh=1QxAFsBgthe7+8/aWbErprguVQxwCeMWu1FhGtsOzWs=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=hvSYFQoWLpoLmZcGhTRchDq/RofWPfwVh0EmDMSpxqd6/hYh0/UD0MP6rjEUlNG+M
-	 KY4/tTlsqG0YgjRB2aIGMI1NxZv1Ub3tPhaNKnOvZA2HWhp9uD3jgLjFXZ0e50Uk6u
-	 2MCyCirSu2UNfq3Uwcj9mvO69PZG5UGbIbxMpKwywhQ/M52v2iYmQsH3UTP7lmhGPR
-	 vBiFT8eEdW4Bp8MRDBUkhFcEndIpDhF4+FUDHfkYTsjFhhGrKEGpoLgoOWShkvqLFY
-	 YS0eMqBXr1H5iI9vHbz44Uer4oeTi+gRffo2IJTZFX1ITlg2+9wOWujE5nSndZHgpK
-	 QcrpOSkt3CIwQ==
-Date: Sat, 28 Jun 2025 15:51:12 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Chen-Yu Tsai <wens@kernel.org>
-Cc: David Lechner <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?=
- <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Chen-Yu Tsai
- <wens@csie.org>, linux-iio@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] iio: adc: axp20x_adc: Add missing sentinel to AXP717
- ADC channel maps
-Message-ID: <20250628155112.2d45ffe1@jic23-huawei>
-In-Reply-To: <20250628044326.2844027-1-wens@kernel.org>
-References: <20250628044326.2844027-1-wens@kernel.org>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	s=k20201202; t=1751123017;
+	bh=tB/OqKZySucOavnV7IK+ZhNnC6CvdJvC7go9wFwAzyM=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+	b=K2UVeyjWpToVc/bXWsEiny0pDK+L1LK2VmgM2/2HG5BQfK4ENFK/Qgl/IDB++ye8Y
+	 DS2Z1UzeIL/IQcVBlPPct8bNf1+j1iiyqjG6v1OL5g0ncqGoNerCDr3qly0RK3/Lwu
+	 rJUnOE1ghNqsSiJKPopYH707YWY3lCytTjb0mUQ5Jk5HLphR2B5xegcCeYPsL8CmQm
+	 2ihbA9Uc25VFNzwyZ+s7aLUOqyU4AAbQ93+3zom8eyuFaessdsp94z9jbQvczH+8OI
+	 ISqZD5yN1N7dAkLty6+Cz2GoKgoAiWit2IxPy9kTvd+l+uIdKnHHXKYA5ZoMB6PzN/
+	 4gXBgI2bAhrVQ==
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-553b165c80cso3140261e87.2
+        for <linux-sunxi@lists.linux.dev>; Sat, 28 Jun 2025 08:03:37 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUx2+r2QfeZ9GYC7ndVMx5LKO0KdYd0leenNGnJUsRi6jV3UGoMwDmy+ro2eD7HXdZPUsELIePuzqH0AQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx6kYtlajQ0pEhxBfbICK9gm27Z1R8PhJ9WNV4O4SZpk9ZPheT1
+	IccL5oiG29U0kwiiwCk7jj+Q9Y+5IgwSc7kvFu09dTgEj/EagHbPfqrqdl0IhSJU29tCuGazUYI
+	OUNLlyIUA5xR0y+HyO9lM4zdAGFkYDQQ=
+X-Google-Smtp-Source: AGHT+IG6Rncce3KW8sf3+FKtZPvqEv33L2BKd1LTtks9HbvkhaFI7zipeaHmUVPk5QL5LmiXI2cv2XEmruNNmc875rg=
+X-Received: by 2002:a05:6512:31cd:b0:554:f76a:bab0 with SMTP id
+ 2adb3069b0e04-5550ba43369mr2248669e87.47.1751123015769; Sat, 28 Jun 2025
+ 08:03:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20250628044326.2844027-1-wens@kernel.org> <20250628155112.2d45ffe1@jic23-huawei>
+In-Reply-To: <20250628155112.2d45ffe1@jic23-huawei>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Sat, 28 Jun 2025 23:03:23 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66efw2xABohSdiMn=EfwoCvAj2-WGnGNXT5PLtCTBZo1g@mail.gmail.com>
+X-Gm-Features: Ac12FXwg6CYYFXVNkQO2sHQqUdA6gXXXxz1znZJBwnjjNXK5flWtbDfMP-80fPY
+Message-ID: <CAGb2v66efw2xABohSdiMn=EfwoCvAj2-WGnGNXT5PLtCTBZo1g@mail.gmail.com>
+Subject: Re: [PATCH] iio: adc: axp20x_adc: Add missing sentinel to AXP717 ADC
+ channel maps
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: David Lechner <dlechner@baylibre.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, linux-iio@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, 28 Jun 2025 12:43:26 +0800
-Chen-Yu Tsai <wens@kernel.org> wrote:
+On Sat, Jun 28, 2025 at 10:51=E2=80=AFPM Jonathan Cameron <jic23@kernel.org=
+> wrote:
+>
+> On Sat, 28 Jun 2025 12:43:26 +0800
+> Chen-Yu Tsai <wens@kernel.org> wrote:
+>
+> > From: Chen-Yu Tsai <wens@csie.org>
+> >
+> > The AXP717 ADC channel maps is missing a sentinel entry at the end. Thi=
+s
+> > causes a KASAN warning.
+> >
+> > Add the missing sentinel entry.
+> >
+> > Fixes: 5ba0cb92584b ("iio: adc: axp20x_adc: add support for AXP717 ADC"=
+)
+> > Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+> I picked up the version you posted on 7th June.
+> I've been a bit slow to send a fixed pull request - sorry about that; bus=
+y
+> few weeks.
 
-> From: Chen-Yu Tsai <wens@csie.org>
-> 
-> The AXP717 ADC channel maps is missing a sentinel entry at the end. This
-> causes a KASAN warning.
-> 
-> Add the missing sentinel entry.
-> 
-> Fixes: 5ba0cb92584b ("iio: adc: axp20x_adc: add support for AXP717 ADC")
-> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
-I picked up the version you posted on 7th June.
-I've been a bit slow to send a fixed pull request - sorry about that; busy
-few weeks.
+Ah, sorry about that. I was looking through my work directory and trees,
+didn't find a patch file and thought I hadn't sent it yet.
 
-Jonathan
+Good to know it's already queued up.
+
+Thanks
+ChenYu
 
 
-> ---
->  drivers/iio/adc/axp20x_adc.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/iio/adc/axp20x_adc.c b/drivers/iio/adc/axp20x_adc.c
-> index 71584ffd3632..1b49325ec1ce 100644
-> --- a/drivers/iio/adc/axp20x_adc.c
-> +++ b/drivers/iio/adc/axp20x_adc.c
-> @@ -187,6 +187,7 @@ static struct iio_map axp717_maps[] = {
->  		.consumer_channel = "batt_chrg_i",
->  		.adc_channel_label = "batt_chrg_i",
->  	},
-> +	{ }
->  };
->  
->  /*
-
+> Jonathan
+>
+>
+> > ---
+> >  drivers/iio/adc/axp20x_adc.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/drivers/iio/adc/axp20x_adc.c b/drivers/iio/adc/axp20x_adc.=
+c
+> > index 71584ffd3632..1b49325ec1ce 100644
+> > --- a/drivers/iio/adc/axp20x_adc.c
+> > +++ b/drivers/iio/adc/axp20x_adc.c
+> > @@ -187,6 +187,7 @@ static struct iio_map axp717_maps[] =3D {
+> >               .consumer_channel =3D "batt_chrg_i",
+> >               .adc_channel_label =3D "batt_chrg_i",
+> >       },
+> > +     { }
+> >  };
+> >
+> >  /*
+>
