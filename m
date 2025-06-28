@@ -1,92 +1,78 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A712A13BAE3
-	for <linux-sunxi@lists.linux.dev>; Sat, 28 Jun 2025 04:39:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3A841A0BD0;
+	Sat, 28 Jun 2025 04:43:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751085577; cv=none; b=NtGrDXRag50yyJ7+HdYgQtal825Epnqeoqe3sFrJYBKRrXvneVYqnb7/otmKjBKJnqRjmJWxhVwVmZwabbnIv6n3z6wH1WAs1aEChIVp0F3wwQmb57Fz9w4jPZW+Y1xDj106qGue4GDKDMPYamPMARQuhXlsMzIJjFYJYwcz0eQ=
+	t=1751085814; cv=none; b=Xv7wcvQILGA5yvGGRsMrurO0GuDsbUe1chyD9gs9Dj06cA1BUuFiNa4G8420ZCZ6DKhglMELItU1ic2h/Pb4cXKUpZFpK/ImjXOSVXxcsRmiRwfjyPeZ+BmRmHvbiv+Q+Jn45k8ns8H39181goy6TuaobgcpgTQjqo5JZFLbr3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751085577; c=relaxed/simple;
-	bh=XjehE0byLT6LFQc5LPjjr+h2YCj0kTxyUsbUd1G/6bU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZTtCZBSqMqsfXDZPoErj7GB2sSK6tPlFA+0aKUvlW1ms1HWHej82uHQ19Ofu54gdCMOkE3o4+kClLPspIpQVzQHfuZdmy573OAnKDA6Ze08XqZyYFQTUGlgXptRpK0S384MBRMmQd8UADBv9ZGOMC2NJSmzXVyJv4m5EdvUDa90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-32ae3e94e57so4161681fa.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 27 Jun 2025 21:39:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751085572; x=1751690372;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XjehE0byLT6LFQc5LPjjr+h2YCj0kTxyUsbUd1G/6bU=;
-        b=FeltxtUuRQMPwM96l2tTcMCObV1PT2yXPJlrHo2oe2qrDVvLGvEIU3r+36OWDzH7FZ
-         sSX1allZ/+djhfA0E4YWl7RnHTDmvTsmSAiYw7alTd9Cswjhanyjn+yGgDbmhkE2JD1X
-         cZBaSAg5u18ygaCAv8tn25TAenoHqTP3Y+AyGK0KWZVTdj9WddOXI4a1+R9WnI2NyhF9
-         78HQ/5vwrsw15ZEoJSf7Shqas+XVXFHe61a3B0KTf8ff/eLwpgKNmD3vMXswIShQ+vEc
-         lvHVIyzAhE7hjBwFpIwBr/9ftJA82kUt0uD9rF6W+JPoPQwAMG2f7x2UTDhQyRPAT8iV
-         w1sw==
-X-Forwarded-Encrypted: i=1; AJvYcCXXH80d3BWaO1KxDfuJkwVSGsqex3wDTVdP6amkIGcg85tnqzJnSJKdvKvAcaA0aoOV4lnUI5naAll0YQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzrvYOk9p9Q83R/5MvBVyS9jxBxhuAChpr7uUiNfcjqHR8vuQsr
-	84WTUxlJaf1d6J0c6csUUWe3I90gjaCiMJwHedSOlYU4diRa4YE/SmfljTZvloTD
-X-Gm-Gg: ASbGncuDktf+SBN8XDM2k0WnkxoBMvGBA2GQKMMuTmHbkhqk6To4VdbyLwFRVZQt0Sr
-	C4NgQtn1G7yAnjAychFtfQd1IPzW93rdecg4sMaF8rxHRZykbZO1kP+cFbHPZGje54VNy+lCCR0
-	pSzU5m/qbQxUci0FLXOWGeTM0TA2JH0GLwIX1WEwLLgg3lgmsxOR8OXAYSwHE1M69MEsN3AWQkV
-	A54+YjlK0rh0xfjjd0Q7jqdCVlT0w5EF7MrvCUP4+mUA0mfooUUslz3nQt9cUEBYXUroxH+KQCe
-	Qolm40rMB2pG0ffM5dAPWzYCS0aLopwRNh4fLMoI+MtYzBRT8q2cc0tb6reLQaRBgnhjo+aBLh6
-	BCuVZpi1GXDx1NKmifHA=
-X-Google-Smtp-Source: AGHT+IFsrmhrvhXBOcjeg9dXgy9h2LF2DcSxUIMPLQxNP8lYYIcbe7DXrV+YgV2UnI9rpd1gagMvyQ==
-X-Received: by 2002:a05:651c:1606:b0:32c:abf4:d486 with SMTP id 38308e7fff4ca-32cdc46419emr17168521fa.14.1751085571970;
-        Fri, 27 Jun 2025 21:39:31 -0700 (PDT)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com. [209.85.208.182])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32cd2ee7be0sm6886721fa.78.2025.06.27.21.39.30
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Jun 2025 21:39:31 -0700 (PDT)
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-32b31afa781so3794331fa.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 27 Jun 2025 21:39:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVsIo2SCozDRpfJ85k5aTfcglmO/66K7D4Rc/OUW+UlDOMWqZaiFas1iF7ApMy9ofZxGeriTGyp8LIwEg==@lists.linux.dev
-X-Received: by 2002:a05:651c:304f:b0:32a:6c63:935 with SMTP id
- 38308e7fff4ca-32cdc4480afmr15261101fa.4.1751085570044; Fri, 27 Jun 2025
- 21:39:30 -0700 (PDT)
+	s=arc-20240116; t=1751085814; c=relaxed/simple;
+	bh=2gPXD5yjmhI4B3pKH5Tr2d9zGU/Zymv5lSEf8kaV5AE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=PZoyVoJKcMu2BBvjCHBTwCxBdRU/CgN17YY5X3cW8sfQ9nLgH0lYiRcZ+6e9gCbZ9XczLH8AsTODuAthCHThAiylUpL8qzz+w1viL7PLpzl/suXwjMBYDFuo4JYa2eZqOdOCPr89U/zMvs0q7ClwpLLveaKjam3bgBVCaEwgD2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RGCDOPJK; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RGCDOPJK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32821C4CEEA;
+	Sat, 28 Jun 2025 04:43:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751085813;
+	bh=2gPXD5yjmhI4B3pKH5Tr2d9zGU/Zymv5lSEf8kaV5AE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=RGCDOPJKe/1XcMPasv8XMAFFrvY3dSYAJIg+cadek8lRmr3MLd9vF/JxWpIufBz82
+	 OL7i/x01xK7H4z57pKB9tl2JUrHiwm88hR0Y+Fi8jkvqfbNNFQujl4wT1r12N/LJHf
+	 r6bZbrVWkCWJ/dfQ9uLGPRDkkpcVUT0Gqt1SVfZVFo+34RXFKZgzDkvueANV7bcq7+
+	 WQ9mb82FzZ+r2dRGSUgAbgFagui8UTiBxdmifOh0hwaZS2lzZKxB1aAwygozjVSvqY
+	 X5MDximh/MJ1LmnHCqK6gMi88/MJztbVweBQtTGrOSbULDKeNbgqRjocqg+IczkAOH
+	 bKFyA8ulDW9DQ==
+Received: by wens.tw (Postfix, from userid 1000)
+	id 46CE95FD53; Sat, 28 Jun 2025 12:43:30 +0800 (CST)
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>,
+	linux-iio@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] iio: adc: axp20x_adc: Add missing sentinel to AXP717 ADC channel maps
+Date: Sat, 28 Jun 2025 12:43:26 +0800
+Message-Id: <20250628044326.2844027-1-wens@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250626080923.632789-1-paulk@sys-base.io> <20250626080923.632789-2-paulk@sys-base.io>
-In-Reply-To: <20250626080923.632789-2-paulk@sys-base.io>
-Reply-To: wens@csie.org
+Content-Transfer-Encoding: 8bit
+
 From: Chen-Yu Tsai <wens@csie.org>
-Date: Sat, 28 Jun 2025 12:39:17 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67VVc4ckvzy+w++wcEUPSvV9Uxju2H4qTRNhjwAgYpzXg@mail.gmail.com>
-X-Gm-Features: Ac12FXwd7he7qKrnxN9KLQmU6bishZKuh8vNiwYMugN6VxIMRflq-7o7dltAy1M
-Message-ID: <CAGb2v67VVc4ckvzy+w++wcEUPSvV9Uxju2H4qTRNhjwAgYpzXg@mail.gmail.com>
-Subject: Re: [PATCH 1/5] pinctrl: sunxi: Fix a100 emac pin function name
-To: Paul Kocialkowski <paulk@sys-base.io>
-Cc: netdev@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, "David S . Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, Andre Przywara <andre.przywara@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 26, 2025 at 4:10=E2=80=AFPM Paul Kocialkowski <paulk@sys-base.i=
-o> wrote:
->
-> The Allwinner A100/A133 only has a single emac instance, which is
-> referred to as "emac" everywhere. Fix the pin names to drop the
-> trailing "0" that has no reason to be.
->
-> Fixes: 473436e7647d ("pinctrl: sunxi: add support for the Allwinner A100 =
-pin controller")
-> Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
+The AXP717 ADC channel maps is missing a sentinel entry at the end. This
+causes a KASAN warning.
 
-Acked-by: Chen-Yu Tsai <wens@csie.org>
+Add the missing sentinel entry.
+
+Fixes: 5ba0cb92584b ("iio: adc: axp20x_adc: add support for AXP717 ADC")
+Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+---
+ drivers/iio/adc/axp20x_adc.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/iio/adc/axp20x_adc.c b/drivers/iio/adc/axp20x_adc.c
+index 71584ffd3632..1b49325ec1ce 100644
+--- a/drivers/iio/adc/axp20x_adc.c
++++ b/drivers/iio/adc/axp20x_adc.c
+@@ -187,6 +187,7 @@ static struct iio_map axp717_maps[] = {
+ 		.consumer_channel = "batt_chrg_i",
+ 		.adc_channel_label = "batt_chrg_i",
+ 	},
++	{ }
+ };
+ 
+ /*
+-- 
+2.39.5
+
