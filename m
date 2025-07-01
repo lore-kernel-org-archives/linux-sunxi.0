@@ -1,61 +1,43 @@
 Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B531C292912
-	for <linux-sunxi@lists.linux.dev>; Tue,  1 Jul 2025 20:19:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 560EF2EE5F1
+	for <linux-sunxi@lists.linux.dev>; Tue,  1 Jul 2025 20:21:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751401146; cv=none; b=AbRI9fsX0HE8/vX/W78Sl6W6W3qbOmsKpUcXgCPLiHhZ9f4X0yusxV8hmGXE25OXVgR+enWXs6joGmzE4AwAH309DAElwtxnPKuC8T/RdWeYz4BZIHcX51H43s5RDj9REyc0vhi/KPhiyStPggEcVRQlpI4nzJhpJSWj2ney1CA=
+	t=1751401266; cv=none; b=BXLNfxpN8ZemS48VPAtHH/guQ/Jr0hS4Ab5SI2kCMDyMDZ6wc4xP7uiJzX9BMUWgSSSopQrSoJzwigSnqOKA8a4cqXH0lQB73/r8TDETYZiwjopl4MZraTtCCHGldAegHMnw8jjTZAOevHj1vH69LAMuUwjOthIbdb8tStr9Pew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751401146; c=relaxed/simple;
-	bh=eTdiB+TyeObb5D0Oy2RdhXL7mUutM7cZ3MD00P9iWVE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FBVd+d5nvLd0tL/MjYBX9UdWLOUgHM+nz6Qnqd1b3wpRXNYAsk0S1i9LvzIMABspIdbU9sMIgZINBZkZa34D5yFaSPex+VVALOFPtyBcEw53tZyBZUki/toPi68GsmHMTBRGo6QA7jTqFG9myF2YCdbv5TqlZXWK9qbk3t7000I=
+	s=arc-20240116; t=1751401266; c=relaxed/simple;
+	bh=0bgfV5jh3nFou6IZgQTz8Pe4EcFyT55MeKCyz+5Tad8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZdA6rW2aN/W7PF2QoebKJDHTeoeKVefMxue+H7ddejFQttZV6Jq9RVv5ngCWr8aV1t3pusfdYhJSx88ao/iWrqexBhPE22SVNCk01GVbSgm2wlzwhC2Jp9gmb0TIi7u2DEU8cvL/TiCbHQnaK6zaI++u0efonM9q0R7hqnfs4hk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
 Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id F3B3F1F00036
-	for <linux-sunxi@lists.linux.dev>; Tue,  1 Jul 2025 20:19:02 +0000 (UTC)
+	by leonov.paulk.fr (Postfix) with ESMTPS id 4B1711F0003D
+	for <linux-sunxi@lists.linux.dev>; Tue,  1 Jul 2025 20:21:03 +0000 (UTC)
 Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 67395AC96A6; Tue,  1 Jul 2025 20:19:02 +0000 (UTC)
+	id BC0EBAC96B6; Tue,  1 Jul 2025 20:21:02 +0000 (UTC)
 X-Spam-Level: *
 Received: from localhost.localdomain (unknown [192.168.1.64])
-	by laika.paulk.fr (Postfix) with ESMTP id F0064AC9688;
-	Tue,  1 Jul 2025 20:11:38 +0000 (UTC)
+	by laika.paulk.fr (Postfix) with ESMTP id B7FD1AC9699;
+	Tue,  1 Jul 2025 20:15:43 +0000 (UTC)
 From: Paul Kocialkowski <paulk@sys-base.io>
-To: linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
+To: devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-gpio@vger.kernel.org
-Cc: Yong Deng <yong.deng@magewell.com>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Rob Herring <robh@kernel.org>,
+	linux-kernel@vger.kernel.org
+Cc: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Icenowy Zheng <icenowy@aosc.xyz>,
-	Andre Przywara <andre.przywara@arm.com>
-Subject: [PATCH 5/5] drm/sun4i: Run the mixer clock at 297 MHz on V3s
-Date: Tue,  1 Jul 2025 22:11:24 +0200
-Message-ID: <20250701201124.812882-6-paulk@sys-base.io>
+	Paul Kocialkowski <paulk@sys-base.io>
+Subject: [PATCH 1/2] ARM: dts: sun8i: v3s: Add RGB666 LCD PE pins definition
+Date: Tue,  1 Jul 2025 22:15:33 +0200
+Message-ID: <20250701201534.815513-1-paulk@sys-base.io>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250701201124.812882-1-paulk@sys-base.io>
-References: <20250701201124.812882-1-paulk@sys-base.io>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -64,61 +46,33 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The DE mixer clock is currently set to run at 150 MHz, while the
-Allwinner BSP configures it at 300 MHz and other platforms typically
-run at 297 MHz.
-
-150 MHz appears to be enough given the restricted graphics capabilities
-of the SoC (with a work area of only 1024x1024). However it typically
-causes the DE clock to be parented to the periph0 pll instead of the
-video PLL.
-
-While this should generally not be a concern, it appears (based on
-experimentation) that both the DE and TCON clocks need to be parented
-to the same PLL for these units to work. While we cannot represent this
-constraint in the clock driver, it appears that the TCON clock will
-often get parented to the video pll (typically running at 297 MHz for
-the CSI units needs), for instance when driving displays with a 33 MHz
-pixel clock (33 being a natural divider of 297).
-
-Running the DE clock at 297 MHz will typically result in parenting to
-the video pll instead of the periph0 pll, thus making the display
-output functional.
-
-This is all a bit fragile but it solves the issue with displays running
-at 33 Mhz and brings V3s to use the same frequency as other platforms,
-making support more unified.
-
-Also align and sort the fields of the v3s mixer config while at it.
+The V3s (and other packages) supports RGB666 LCD output on PE pins.
 
 Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
 ---
- drivers/gpu/drm/sun4i/sun8i_mixer.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-index 8b41d33baa30..35fdc2451060 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-@@ -670,12 +670,12 @@ static const struct sun8i_mixer_cfg sun8i_r40_mixer1_cfg = {
- };
+diff --git a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi b/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
+index e82cf312da25..fa54510319ac 100644
+--- a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
++++ b/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
+@@ -411,6 +411,15 @@ i2c1_pe_pins: i2c1-pe-pins {
+ 				function = "i2c1";
+ 			};
  
- static const struct sun8i_mixer_cfg sun8i_v3s_mixer_cfg = {
--	.vi_num = 2,
--	.ui_num = 1,
--	.scaler_mask = 0x3,
--	.scanline_yuv = 2048,
--	.ccsc = CCSC_MIXER0_LAYOUT,
--	.mod_rate = 150000000,
-+	.ccsc		= CCSC_MIXER0_LAYOUT,
-+	.mod_rate	= 297000000,
-+	.scaler_mask	= 0x3,
-+	.scanline_yuv	= 2048,
-+	.ui_num		= 1,
-+	.vi_num		= 2,
- };
- 
- static const struct sun8i_mixer_cfg sun20i_d1_mixer0_cfg = {
++			/omit-if-no-ref/
++			lcd_rgb666_pe_pins: lcd-rgb666-pe-pins {
++				pins = "PE0", "PE1", "PE2", "PE3", "PE4", "PE5",
++				       "PE6", "PE7", "PE8", "PE9", "PE10", "PE11",
++				       "PE12", "PE13", "PE14", "PE15", "PE16", "PE17",
++				       "PE18", "PE19", "PE23", "PE24";
++				function = "lcd";
++			};
++
+ 			uart0_pb_pins: uart0-pb-pins {
+ 				pins = "PB8", "PB9";
+ 				function = "uart0";
 -- 
 2.49.0
 
