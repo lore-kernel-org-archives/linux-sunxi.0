@@ -1,27 +1,28 @@
 Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 865771B95B
-	for <linux-sunxi@lists.linux.dev>; Tue,  1 Jul 2025 20:12:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A95F1B95B
+	for <linux-sunxi@lists.linux.dev>; Tue,  1 Jul 2025 20:13:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751400753; cv=none; b=bdDS6qiSCI5FUtEW6u/lVgngMZj+V3ZNMdX2rjqQ90dZdkw0gS6I8xreILTd8845eIS4QRyksY6l4v0l6Sve7Jlx0KTRMXHgjRH+nNzu7tS9o05Rt+jrq/5fXL+savcHXczxQ6EzYZ8abXmGAQgZEr4GQIMn8KBgwNb+PcYsODM=
+	t=1751400831; cv=none; b=qkK9EOsLSRjKa4Snn3Ijg09EPFAVNXBl7foPvuZ6JYj8ocV6sR3MRziFUWthH3CGLFg5FaVGAIG7JWRtpzlPXB+nTBWJ9I4GR8WOGrngspNRgIBsvFRZ/wXIU/88aEquIKhhcdg1x/qszUUEnRP1iEWJ8nEcEO6y8p5lZP28JoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751400753; c=relaxed/simple;
-	bh=dgl5hIOq6GycYqWdHrpk1fFDgkuYnSrk119emMBzkZ0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nUM+zgGhkImwMW2cjegnNisWyFY8zscbQ9rxpJexcj7PipeM6ujXB/NIUFHH2TNXuks6HpAnJgucf3b7akGmdKWDzDc/nO1SNNK56XXVbw0pO74MBLn43kEbmPRdCD0DMAAVhdU2aur1P9HtOARTnvPcJ9zlslxuaqMkdTaUmzc=
+	s=arc-20240116; t=1751400831; c=relaxed/simple;
+	bh=HFLK5CehmWjnbyd0ytHLF7MjGTcYbbrRKSw90+w8kuo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Y4FuafniRnS34CUUbuPJRqsKeNdB+t2UsnQawduHnK/rVks53E8O4YqHXmICJr+fBeReKtDUWTzLcxklPFaemSXJmf51pmWjk1gGzRlEXaS7A8wlK64rgrF/ibyqUY+0cdwGq/9hu1IBClod4ssT3hI/fqv1SGZ4plWlkvEeNJg=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
 Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 162251F00047
-	for <linux-sunxi@lists.linux.dev>; Tue,  1 Jul 2025 20:12:28 +0000 (UTC)
+	by leonov.paulk.fr (Postfix) with ESMTPS id 29AB11F00047
+	for <linux-sunxi@lists.linux.dev>; Tue,  1 Jul 2025 20:13:48 +0000 (UTC)
 Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 744F6AC968B; Tue,  1 Jul 2025 20:12:27 +0000 (UTC)
+	id AE501AC968A; Tue,  1 Jul 2025 20:13:47 +0000 (UTC)
 X-Spam-Level: *
 Received: from localhost.localdomain (unknown [192.168.1.64])
-	by laika.paulk.fr (Postfix) with ESMTP id 5A449AC967D;
-	Tue,  1 Jul 2025 20:11:30 +0000 (UTC)
+	by laika.paulk.fr (Postfix) with ESMTP id 3D736AC9681;
+	Tue,  1 Jul 2025 20:11:32 +0000 (UTC)
 From: Paul Kocialkowski <paulk@sys-base.io>
 To: linux-media@vger.kernel.org,
 	devicetree@vger.kernel.org,
@@ -49,10 +50,12 @@ Cc: Yong Deng <yong.deng@magewell.com>,
 	Linus Walleij <linus.walleij@linaro.org>,
 	Icenowy Zheng <icenowy@aosc.xyz>,
 	Andre Przywara <andre.przywara@arm.com>
-Subject: [PATCH 0/5] sunxi: Various minor V3s clock/pinctrl fixes
-Date: Tue,  1 Jul 2025 22:11:19 +0200
-Message-ID: <20250701201124.812882-1-paulk@sys-base.io>
+Subject: [PATCH 1/5] pinctrl: sunxi: v3s: Fix wrong comment about UART2 pinmux
+Date: Tue,  1 Jul 2025 22:11:20 +0200
+Message-ID: <20250701201124.812882-2-paulk@sys-base.io>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250701201124.812882-1-paulk@sys-base.io>
+References: <20250701201124.812882-1-paulk@sys-base.io>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -61,31 +64,27 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This is a mixed-bag of minor fixes for V3s clocks and pinctrl.
+The original comment doesn't match the pin attribution, probably due
+to a hasty copy/paste.
 
-The last patch is a weak attempt at accomodating using both the display
-engine and tcon along with the camera subsystem. The main issue is that
-the tcon and de need to have the same clock parent, which may not be
-the case depending on the pixel rate. Bringing the de block to the same
-clock rate as the csi block helps in some cases.
+Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
+---
+ drivers/pinctrl/sunxi/pinctrl-sun8i-v3s.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Paul Kocialkowski (5):
-  pinctrl: sunxi: v3s: Fix wrong comment about UART2 pinmux
-  clk: sunxi-ng: v3s: Fix CSI SCLK clock name
-  clk: sunxi-ng: v3s: Fix CSI1 MCLK clock name
-  clk: sunxi-ng: v3s: Fix TCON clock parents
-  drm/sun4i: Run the mixer clock at 297 MHz on V3s
-
- .../bindings/media/allwinner,sun6i-a31-csi.yaml    |  2 +-
- .../bindings/media/allwinner,sun6i-a31-isp.yaml    |  2 +-
- .../media/allwinner,sun6i-a31-mipi-csi2.yaml       |  2 +-
- arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi         |  2 +-
- drivers/clk/sunxi-ng/ccu-sun8i-v3s.c               | 14 +++++++-------
- drivers/gpu/drm/sun4i/sun8i_mixer.c                | 12 ++++++------
- drivers/pinctrl/sunxi/pinctrl-sun8i-v3s.c          |  2 +-
- include/dt-bindings/clock/sun8i-v3s-ccu.h          |  2 +-
- 8 files changed, 19 insertions(+), 19 deletions(-)
-
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sun8i-v3s.c b/drivers/pinctrl/sunxi/pinctrl-sun8i-v3s.c
+index 696d7dd8d87b..2e3bd36a4410 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sun8i-v3s.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sun8i-v3s.c
+@@ -45,7 +45,7 @@ static const struct sunxi_desc_pin sun8i_v3s_pins[] = {
+ 	SUNXI_PIN(SUNXI_PINCTRL_PIN(B, 3),
+ 		  SUNXI_FUNCTION(0x0, "gpio_in"),
+ 		  SUNXI_FUNCTION(0x1, "gpio_out"),
+-		  SUNXI_FUNCTION(0x2, "uart2"),		/* D1 */
++		  SUNXI_FUNCTION(0x2, "uart2"),		/* CTS */
+ 		  SUNXI_FUNCTION_IRQ_BANK(0x6, 0, 3)),	/* PB_EINT3 */
+ 	SUNXI_PIN(SUNXI_PINCTRL_PIN(B, 4),
+ 		  SUNXI_FUNCTION(0x0, "gpio_in"),
 -- 
 2.49.0
 
