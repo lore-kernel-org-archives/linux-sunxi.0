@@ -1,137 +1,93 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82A8A2F5E
-	for <linux-sunxi@lists.linux.dev>; Wed,  2 Jul 2025 05:01:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 346A1223DF0
+	for <linux-sunxi@lists.linux.dev>; Wed,  2 Jul 2025 07:21:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751432482; cv=none; b=L9w/Y7QnVaGc7RygYXv/zNYyAnkyb3qubJFfmv4fQUAmacpZOrwJh1kY+l17j091GgZbQ0CTUIZ6nercQ5rMCEXKRJV0y34eqOtiPdMrDHPdsxzX0McNDdgGWEWqy4PuBr64XoV/A98fY0+qynkDp/e0ibgXMube2tktQVTTiuU=
+	t=1751440912; cv=none; b=WdwjMvQCPKTSvtUR+pOri3AsRpx/y1flgqeQyZnf44WLfCFjsiblg+ifQalHhIRJUgRH/MR73iWa1oqjmeRA1u1YgRbL5fdn8CPSuuLsSOtvrXEn6GFN8TuSXohyeQwufCyjMLxHV5mb4yig8QcSa+pJQdJDytkSliuULFf3mnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751432482; c=relaxed/simple;
-	bh=aM2O311AG0MI5x8qPgoLBcOvvK+KMw4egyrI2NlTIh4=;
+	s=arc-20240116; t=1751440912; c=relaxed/simple;
+	bh=hg/fpzh0iibuHgzu9OoE8pUDa3xBOZXjJIvugVRypCg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FNWG1BqtqjPsfXE7ge7gcPMwDuU8cA63VPm+jIq7AABz0vR/cC7A/ZmeZ1KZVbnHjBRYfumFQIVqZ+q3TJMkLw/SgZlWsJfvNe8gS60Dn0JDa3xtTd55whTC8ZZclNtgkLd3eQzhoBtORf1UvFMJyV3coaUa6OUk6jz7rgr2EWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.53
+	 To:Cc:Content-Type; b=ZLkAQsXD7Sf/TTRQe2+Trf7nQcDMOGfs2qDIGEAH+D4ZMoUDjyhd1NOsvgF7GPI0Lg9dqdIO2zRyLzDhdVsG517yFt7kgaBp+Tmuj3GmHmyCtF6xqb5tyDacqIVC0GUBkrhFdBf8Zn/XUh76D/IHgI+rQap3Fw62jIxe8wfezmw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-553b82f3767so4589133e87.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 01 Jul 2025 22:01:20 -0700 (PDT)
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-54d98aa5981so6078235e87.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 02 Jul 2025 00:21:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751432478; x=1752037278;
+        d=1e100.net; s=20230601; t=1751440906; x=1752045706;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :reply-to:in-reply-to:references:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=V0rt2nH/TWlCePhqIMfxbMwVAseEB+3Yn8nvDGBHf0Y=;
-        b=iUp/0b3GHa90dNu8VSmlwdr0BUVClPusobKjs5lwZYBOgZZecwBFphUa/iUCZOErkD
-         4oJeKAt1/TdHU/yJxY5GgqYtGaPBP8Cg05m9zw8/vH8rcdoK1UZS2qAEqmlO8flW9/pK
-         9TokE48PuBz1KCpDTTLo1sk9KfCCWyz0/j9kNIHS1bYq8vb3jKhq3QGapY+eDyJfi1pd
-         EMLVshBECEnCLUdwD/Z7lAuSTVNf2jBHtSJ6gWVVpOXntw0DYeFSdjPtR8YJk6tQZV4i
-         iT47pUi0ygqO7/TrmGWWT87MfjAYPcfMIB2IN1b37u6LMEF8tfDMpcv9qU4GnPAAGQFJ
-         WSiQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWJntI7wHZuh/IsA4JerO6xBHH9i8pFOs9xbtYHnnnB1Sdile7AXclYG4jvIXnqNU0h5Qh7Vw0lWfdGeA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz/srCCTBN1QTjf7Gcr2lMFbFX7ToUWD8g2vA/MFoVGlNPIl7T1
-	+xE2LR+tNhYbjUkMmfAJni0gwHGZ1ndC0pjBgg3AWHdBQa0ou9KOnSdRv5ETkP7F
-X-Gm-Gg: ASbGnct60AC3HPU28MpGddcaneY+tJwPZKX/0tuR5hbogRdywU5f+dhIjYpWWpUc8YR
-	AHk2kuKxbyWbbN/1XAP+DCuXhPONfKCFIqj0vvmIEBKnNCyhXAFRQHzk+jyWldm2y5fia9cgHn1
-	A0pyM6iWvgwIFFJUz4mx3zsAWJNFGx5Kx6ncUwxIfRXi/BQl83QK5vSqU3KQrlPvxxazHrWpPJw
-	gM4JYFA9H01roh5xwumnr8MW4K1SlR//GbWFJwaRhEpirHIOoqM7PBZRTbHRcxZerKAtiix0nLN
-	CkCGPQLjfSpmg60hJ7ZpNjTqSxjJDi6sQRD5Keb2CmPrmy5DKAGIrT/T80YQgrvOHEjCwNTowYZ
-	l7aq4DsLpk+MVYUUMxDs=
-X-Google-Smtp-Source: AGHT+IFyVvt3cztPFfw1gr5c6WkbcWIED6/2PJ+T3+CJiaPVGboL0iQeq86Yro1fXaZHJkV+WbdzTw==
-X-Received: by 2002:a05:6512:68f:b0:553:2355:1f26 with SMTP id 2adb3069b0e04-556283872damr455383e87.50.1751432477943;
-        Tue, 01 Jul 2025 22:01:17 -0700 (PDT)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com. [209.85.208.169])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5550b24028esm2032924e87.19.2025.07.01.22.01.17
+        bh=hg/fpzh0iibuHgzu9OoE8pUDa3xBOZXjJIvugVRypCg=;
+        b=c2BDKlQIN6t7nt5dyk+Ox/GfmOT8wqRDrhHdCPgxCNH30lU8BukjYJy4iCSkeJDwMC
+         IjUL1firWEEvadsOiv1n5iKylRvwexnSF9kxyR9+s5572yNaC2HUK6dtLc52dKj0tcs5
+         kMq5YN5AQY0LfkL7p+O20jUALyZg5nU6M5DHPOIc3D3O1Nv89/WIF3oRiJ+ZAhDzhMOt
+         q+DV+VyVCy+z4beD1pI62wcMflzYIbMKe8MsQ/u4grOQDSi+XRx8CriZNqnCAXHg4YVr
+         6ZoOqf7aEPYNg9LkzR1CAiZZ9Es59XkJr7N8LRlaF+j3HZyl8wyn1SAssLm9+VpuXye+
+         b7XQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVYNgS2bEXTQyTE/WIT/vH1WkhdfNoeuGAwv/vujyij27r1AK+VVT2tRjGyqGs0mVs6FO53sEQnXhdiwA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzcz0VT8RtC9fQXBSl9exvPtrbL6H1rhWHPkR37Hosn4y05hENx
+	LE1L1/GiHdRO5QS4B+t2DNON7ATV0aRoV/GlbqweyiuhTiEm9aPkZ2YJ2OqE/Bv0
+X-Gm-Gg: ASbGncvKUXoQv/z3PoZVX0kYMHE5etMZlSHfqkGSSgqpw2xe3QyKVqRdHdIpA4QpKYV
+	R7ISjN6HkJXBWoFBha9Nm+98JmSRcRSz2RgTPKafRdHXdXETadwyN0BjnIX3e/5p6/Q33P9XpB0
+	YbH/oyk0tovhPDfJIi0gqfz6NeN4FUrhpoR0qUV7ChSCermLeukX71unI0SiWgpvPKqKeIQJS2f
+	AxnNlFTFHZp5xgP8nYB+jJCtYSXM5olmW8nJu92I+Q5REUeFgqcmnj+vCF4UoKE8EDclz12A/IG
+	1QAfKBlJE+/Vw5lC5Lm9Ipvuj+ume1Bj9XNUsqIyIuGvfTGgR52OwOIrsIDQPQaxTCjipmMj8o0
+	IU5JgzxL+l2++TwE3Daw=
+X-Google-Smtp-Source: AGHT+IFSTKzuHvzHAI/GbgFGUjBTYfsyQyRkKLsNyHtV5yGEiT1dHCpFRJDh8g8WZ+3fd3Q2++BHwA==
+X-Received: by 2002:a05:6512:3049:b0:553:2e99:c20 with SMTP id 2adb3069b0e04-5562831e0e1mr664263e87.34.1751440906160;
+        Wed, 02 Jul 2025 00:21:46 -0700 (PDT)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com. [209.85.208.174])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5550b240461sm2039217e87.1.2025.07.02.00.21.45
         for <linux-sunxi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Jul 2025 22:01:17 -0700 (PDT)
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-32b78b5aa39so38898211fa.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 01 Jul 2025 22:01:17 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU22NDjt6bcWzWTe+G77uWoOXTeA+eGsbfawHz3P+Xjp5i0u0l8J5S+Ii6aoKvcvSPdKMW04wfK/+s3+w==@lists.linux.dev
-X-Received: by 2002:a05:651c:e1b:b0:32a:6c63:92a with SMTP id
- 38308e7fff4ca-32e0004b940mr3217911fa.22.1751432477399; Tue, 01 Jul 2025
- 22:01:17 -0700 (PDT)
+        Wed, 02 Jul 2025 00:21:45 -0700 (PDT)
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-32b50f357ecso37474551fa.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 02 Jul 2025 00:21:45 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCX4tsTEjxI8OGWiWZmEzoTKHMdD+egIXRsJHH9AfnxrVInDTDN0LKoRne1xq3eY5zwMB1ERtiFJ0MlXNw==@lists.linux.dev
+X-Received: by 2002:a2e:881a:0:b0:32a:6e77:3e57 with SMTP id
+ 38308e7fff4ca-32e00059701mr5163051fa.21.1751440904870; Wed, 02 Jul 2025
+ 00:21:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250701165756.258356-1-wens@kernel.org> <20250701165756.258356-5-wens@kernel.org>
-In-Reply-To: <20250701165756.258356-5-wens@kernel.org>
+References: <20250701201124.812882-1-paulk@sys-base.io> <20250701201124.812882-2-paulk@sys-base.io>
+In-Reply-To: <20250701201124.812882-2-paulk@sys-base.io>
 Reply-To: wens@csie.org
 From: Chen-Yu Tsai <wens@csie.org>
-Date: Wed, 2 Jul 2025 13:01:04 +0800
-X-Gmail-Original-Message-ID: <CAGb2v646HvqipGd_C=WJ4LGsumFfF5P9a7XQ7UGO6t1901DDiw@mail.gmail.com>
-X-Gm-Features: Ac12FXxOhT5Y9cipxD-0Dp_WlsoVmLL1HMEja_1PgcoQyh6p3ZogoQeQ7CimJkk
-Message-ID: <CAGb2v646HvqipGd_C=WJ4LGsumFfF5P9a7XQ7UGO6t1901DDiw@mail.gmail.com>
-Subject: Re: [PATCH RFT net-next 04/10] soc: sunxi: sram: register regmap as syscon
-To: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>
-Cc: netdev@vger.kernel.org, devicetree@vger.kernel.org, 
+Date: Wed, 2 Jul 2025 15:21:32 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65KrLwM+gQEWFVrzCcGPL+Fdhmb9b0FTJGkxrDqv4ucig@mail.gmail.com>
+X-Gm-Features: Ac12FXzCUNmtlDRkeXVtg02FaWchFlhOllywrVEAHXAtLHX_qmyxYGIEnu1zURg
+Message-ID: <CAGb2v65KrLwM+gQEWFVrzCcGPL+Fdhmb9b0FTJGkxrDqv4ucig@mail.gmail.com>
+Subject: Re: [PATCH 1/5] pinctrl: sunxi: v3s: Fix wrong comment about UART2 pinmux
+To: Paul Kocialkowski <paulk@sys-base.io>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Andre Przywara <andre.przywara@arm.com>
+	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-gpio@vger.kernel.org, 
+	Yong Deng <yong.deng@magewell.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Maxime Ripard <mripard@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Linus Walleij <linus.walleij@linaro.org>, Icenowy Zheng <icenowy@aosc.xyz>, 
+	Andre Przywara <andre.przywara@arm.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 2, 2025 at 12:58=E2=80=AFAM Chen-Yu Tsai <wens@kernel.org> wrot=
-e:
+On Wed, Jul 2, 2025 at 4:13=E2=80=AFAM Paul Kocialkowski <paulk@sys-base.io=
+> wrote:
 >
-> From: Chen-Yu Tsai <wens@csie.org>
+> The original comment doesn't match the pin attribution, probably due
+> to a hasty copy/paste.
 >
-> Until now, if the system controller had a ethernet controller glue layer
-> control register, a limited access regmap would be registered and tied
-> to the system controller struct device for the ethernet driver to use.
->
-> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
-> ---
->  drivers/soc/sunxi/sunxi_sram.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/drivers/soc/sunxi/sunxi_sram.c b/drivers/soc/sunxi/sunxi_sra=
-m.c
-> index 4f8d510b7e1e..63c23bdffa78 100644
-> --- a/drivers/soc/sunxi/sunxi_sram.c
-> +++ b/drivers/soc/sunxi/sunxi_sram.c
-> @@ -12,6 +12,7 @@
->
->  #include <linux/debugfs.h>
->  #include <linux/io.h>
-> +#include <linux/mfd/syscon.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
->  #include <linux/of_address.h>
-> @@ -377,6 +378,7 @@ static int __init sunxi_sram_probe(struct platform_de=
-vice *pdev)
->         const struct sunxi_sramc_variant *variant;
->         struct device *dev =3D &pdev->dev;
->         struct regmap *regmap;
-> +       int ret;
->
->         sram_dev =3D &pdev->dev;
->
-> @@ -394,6 +396,10 @@ static int __init sunxi_sram_probe(struct platform_d=
-evice *pdev)
->                 regmap =3D devm_regmap_init_mmio(dev, base, &sunxi_sram_r=
-egmap_config);
->                 if (IS_ERR(regmap))
->                         return PTR_ERR(regmap);
-> +
-> +               ret =3D of_syscon_register_regmap(dev->of_node, regmap);
-> +               if (IS_ERR(ret))
+> Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
 
-BroderTuck on IRC pointed out that this gives a compiler warning.
-Indeed it is incorrect. It should test `ret` directly.
-
-ChenYu
-
-> +                       return ret;
->         }
->
->         of_platform_populate(dev->of_node, NULL, NULL, dev);
-> --
-> 2.39.5
->
->
+Acked-by Chen-Yu Tsai <wens@csie.org>
