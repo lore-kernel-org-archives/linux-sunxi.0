@@ -1,261 +1,150 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6687428691
-	for <linux-sunxi@lists.linux.dev>; Wed,  2 Jul 2025 02:10:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751422201; cv=none; b=nnmcJa6tRvK4UTWf5GvgFA8bfPVCpwGTD/GMMa/RJCqwp4A//Zz/U4FDD+kFm45ArV8Mk7jr3Ft77KiMWZdXvkKXuGrPaDTD6sT6UfHXGfRfgByDrQ6hhiXknbmkSDdYitIxjH84p7iTDf+98TFVJn9UPNu6JTA75I1IVYhhX3U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751422201; c=relaxed/simple;
-	bh=u+eeCAa/SMbfFXGIhPFmHKU00HmZAfkLNYG9xaYS1bc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ev9fAiF8s1biksOey+LTCdDrJO/UCbQg0zID8v2NXkLmBVqR8p/jyy08kA/WJOBa/BRLljYr/DDym4bfjUWfqn6CHdDqlYkjo3SWD6TgKa+WmpGoFGiImCJYa2AhWirTRIJADIPeOjRfzri/bORYnHzqGCUFplv+GtHDP8GY5Io=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KqcYeDqD; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D12E046BF
+	for <linux-sunxi@lists.linux.dev>; Wed,  2 Jul 2025 02:53:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751424791; cv=pass; b=tsOBd4+J2fjYfVbvzpBioQ+gCXwUvWM7Agqeo5GqAloITst+Fk/0hFH+OzqUREcN+kqZinsiAQUU4UpZDEFpADQUJzNP8zlNvkJyLncCQ+i1Dyc1fc5KvA/J60f/+VgKQKaqHvg+PMEp/PN8tnXhS6z43vh9Y8Xog4kHOFijzWo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751424791; c=relaxed/simple;
+	bh=8djG8WqbgQUjheVgZ2REIAEuyGK2m7kH11olGFqdbSU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=N+n9J2PTBeXcEWJxXX+nVQ47ybjx2HQWJWyZ91AjV4pEViT/JQfEaYnleVTMmf2i9ooJHgpcMrAtDGSEm6zN7yemzQ+nYFLEnuPzAJgHLCLp3dGv6rc7x86eDXahEj9xBjo65uWX48vpHYL1BVh0LVs7iUFuYQmXa32fqGhJUok=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me; spf=pass smtp.mailfrom=icenowy.me; dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b=aZa8P6c6; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icenowy.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KqcYeDqD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02293C4CEF1
-	for <linux-sunxi@lists.linux.dev>; Wed,  2 Jul 2025 02:10:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751422201;
-	bh=u+eeCAa/SMbfFXGIhPFmHKU00HmZAfkLNYG9xaYS1bc=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=KqcYeDqDW1mitkomoKfjt8FI7qT9C95jCYcj2ZASJbWl+skMq45qv+qjiwgZmq/Ee
-	 +TWtIiLXjpMhl8V+UQVGDCRYY181ruZsYbkF+DSOah6NGxRxbe0YIUsJoXchSBw9tW
-	 NBeFDh4V/gkG1WfJUAxwxFSbzXOQt9B90bd/mZHbtYofEFF3eZ7m4EtE65r7qJrA/O
-	 hC19xQ43uZkeU/etnY7sRyXX83dBu1UuW6F5bzaXGMTaFBn7NlSWcsueAw5MGdQhr9
-	 2juRNQBbf8vA5siWinRaNPA+H7JJLHEWt9eE2VzGyLK58/7PSpZaoSa/EF7V4FrOXM
-	 xfT8H1fSENxrQ==
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-553ba7f11cbso7436202e87.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 01 Jul 2025 19:10:00 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUJz9FdSGRR3nr4ldJZBEb9rvT3wi2V4D5WjxTwwGZsWoUxkXKPNv7DaLcgSnugVrvl430V4vV1Udgrcw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw0eTqAqhVBKgCAxJgscBmOSqpxjYXQhtbN3V/PV0IYa/R5U0cI
-	Bg4q2hzvieH/uHbpUS3xnHeqmfy1in7Nhn4pWydPRwpyKqSFxOij6Bnk75OuhnC2cTTPfuHc9Do
-	qQJhLHQ+5pKDOxlX1VpijfDsKfSbHW+g=
-X-Google-Smtp-Source: AGHT+IExQsqR+GkLIkcYZVnIhwtqeUxgvDRyCT2rsQLCgxbz7hvEKkOqilsUyV4/3BGqleecD5hg31pOgPJo1qEuhHQ=
-X-Received: by 2002:ac2:4bcb:0:b0:553:5148:5b69 with SMTP id
- 2adb3069b0e04-5562832ebd7mr288411e87.36.1751422199297; Tue, 01 Jul 2025
- 19:09:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b="aZa8P6c6"
+ARC-Seal: i=1; a=rsa-sha256; t=1751424742; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=mrA3avk9M/kuiMlSOraXS90FYqh0uN7Iwu6NapwxmSegHecv5+P4PUbEMsTeOrRusu1BagsOFD6Ft+rQJAETUjm/3BCg8x38Sngb2r3jtdxoEcJL4BbtE2vO27ELCchZgt24AWoBljLbYjwRQGS9hY2Q39s0IRn7CXVGNH+D2x8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1751424742; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=8djG8WqbgQUjheVgZ2REIAEuyGK2m7kH11olGFqdbSU=; 
+	b=HViJtwRdnwVaWMUd+/Rho9adtqSpBKBmwx4P9X5KnlMUBJvMR2rZQoDGBEQOzXNV5kjq8kaHF1LskRhdXTJ2EO0Rj0UVXg4PWI8xLebK1G2O1st7snNv4/NBnODZbaF+IdT1oPV1nzNzKg5i8wIe/SGlCMkU7v+TAY1FhCkVz80=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=icenowy.me;
+	spf=pass  smtp.mailfrom=uwu@icenowy.me;
+	dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1751424742;
+	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+	bh=8djG8WqbgQUjheVgZ2REIAEuyGK2m7kH11olGFqdbSU=;
+	b=aZa8P6c6JFbALioZzkB15M/OExk2j5KPthXbGCX9mnmtMnvLkWJNSrpIkXQoksMn
+	VrA0lPoiyXlg1YxBxyo5ALCKSqfpaTCOS/XeYEX3YMaWdJL2uqyq8/CXFgU6e1ih5K5
+	Zehy4xmgE8dWIEvBV/b+rRdid/cpmoXXrz74mXGeiDqXD/P5Xm6Cvnc0LcKr6CCT8ro
+	eDIjS9pHFy5YYrm6IzVL8pamvuqO55GB1IRDTJq0eikQYut6tjGH/nVeEHi6NyZonoN
+	q4sqIiLCTSMQzFAHkP1qterjuJrSDLais/B9aj8urMv9zLAF26BLxWs9aqTWICdbJvE
+	/l3ltWEUYg==
+Received: by mx.zohomail.com with SMTPS id 1751424740371995.4237846805278;
+	Tue, 1 Jul 2025 19:52:20 -0700 (PDT)
+Message-ID: <4bc1c1fd9aa1e97a04d964fc5601155ade52cd2d.camel@icenowy.me>
+Subject: Re: [PATCH 5/5] drm/sun4i: Run the mixer clock at 297 MHz on V3s
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Paul Kocialkowski <paulk@sys-base.io>, linux-media@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-gpio@vger.kernel.org
+Cc: Yong Deng <yong.deng@magewell.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Michael
+ Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>,  David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Linus Walleij <linus.walleij@linaro.org>,  Icenowy Zheng
+ <icenowy@aosc.xyz>, Andre Przywara <andre.przywara@arm.com>
+Date: Wed, 02 Jul 2025 10:52:10 +0800
+In-Reply-To: <20250701201124.812882-6-paulk@sys-base.io>
+References: <20250701201124.812882-1-paulk@sys-base.io>
+	 <20250701201124.812882-6-paulk@sys-base.io>
+Organization: Anthon Open-Source Community
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250701165756.258356-1-wens@kernel.org> <20250701165756.258356-3-wens@kernel.org>
- <15ba0933-b0c1-40eb-9d3c-d8837d6ee12a@linux.dev>
-In-Reply-To: <15ba0933-b0c1-40eb-9d3c-d8837d6ee12a@linux.dev>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Wed, 2 Jul 2025 10:09:45 +0800
-X-Gmail-Original-Message-ID: <CAGb2v646pxuT-nrwtDD-wvrA0eoxaee6sq2-mb0WoqUCPzpRjg@mail.gmail.com>
-X-Gm-Features: Ac12FXycPpmF1Db6tRvOloPbMgcZjGtgFpDdr0Kf5ejzMWZ9PKuxrVUm___NGNc
-Message-ID: <CAGb2v646pxuT-nrwtDD-wvrA0eoxaee6sq2-mb0WoqUCPzpRjg@mail.gmail.com>
-Subject: Re: [PATCH RFT net-next 02/10] net: stmmac: Add support for Allwinner
- A523 GMAC200
-To: Yanteng Si <si.yanteng@linux.dev>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Andre Przywara <andre.przywara@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-ZohoMailClient: External
 
-On Wed, Jul 2, 2025 at 10:00=E2=80=AFAM Yanteng Si <si.yanteng@linux.dev> w=
-rote:
->
-> =E5=9C=A8 7/2/25 12:57 AM, Chen-Yu Tsai =E5=86=99=E9=81=93:
-> > From: Chen-Yu Tsai <wens@csie.org>
-> >
-> > The Allwinner A523 SoC family has a second Ethernet controller, called
-> > the GMAC200 in the BSP and T527 datasheet, and referred to as GMAC1 for
-> > numbering. This controller, according to BSP sources, is fully
-> > compatible with a slightly newer version of the Synopsys DWMAC core.
-> > The glue layer around the controller is the same as found around older
-> > DWMAC cores on Allwinner SoCs. The only slight difference is that since
-> > this is the second controller on the SoC, the register for the clock
-> > delay controls is at a different offset. Last, the integration includes
-> > a dedicated clock gate for the memory bus and the whole thing is put in
-> > a separately controllable power domain.
-> >
-> > Add a new driver for this hardware supporting the integration layer.
-> >
-> > Signed-off-by: Chen-Yu Tsai <wens@csie.org>
-> > ---
-> >   drivers/net/ethernet/stmicro/stmmac/Kconfig   |  12 ++
-> >   drivers/net/ethernet/stmicro/stmmac/Makefile  |   1 +
-> >   .../ethernet/stmicro/stmmac/dwmac-sun55i.c    | 161 +++++++++++++++++=
-+
-> >   3 files changed, 174 insertions(+)
-> >   create mode 100644 drivers/net/ethernet/stmicro/stmmac/dwmac-sun55i.c
-> >
-> > diff --git a/drivers/net/ethernet/stmicro/stmmac/Kconfig b/drivers/net/=
-ethernet/stmicro/stmmac/Kconfig
-> > index 67fa879b1e52..38ce9a0cfb5b 100644
-> > --- a/drivers/net/ethernet/stmicro/stmmac/Kconfig
-> > +++ b/drivers/net/ethernet/stmicro/stmmac/Kconfig
-> > @@ -263,6 +263,18 @@ config DWMAC_SUN8I
-> >         stmmac device driver. This driver is used for H3/A83T/A64
-> >         EMAC ethernet controller.
-> >
-> > +config DWMAC_SUN55I
-> > +     tristate "Allwinner sun55i GMAC200 support"
-> > +     default ARCH_SUNXI
-> > +     depends on OF && (ARCH_SUNXI || COMPILE_TEST)
-> > +     select MDIO_BUS_MUX
-> > +     help
-> > +       Support for Allwinner A523/T527 GMAC200 ethernet controllers.
-> > +
-> > +       This selects Allwinner SoC glue layer support for the
-> > +       stmmac device driver. This driver is used for A523/T527
-> > +       GMAC200 ethernet controller.
-> > +
-> >   config DWMAC_THEAD
-> >       tristate "T-HEAD dwmac support"
-> >       depends on OF && (ARCH_THEAD || COMPILE_TEST)
-> > diff --git a/drivers/net/ethernet/stmicro/stmmac/Makefile b/drivers/net=
-/ethernet/stmicro/stmmac/Makefile
-> > index b591d93f8503..51e068e26ce4 100644
-> > --- a/drivers/net/ethernet/stmicro/stmmac/Makefile
-> > +++ b/drivers/net/ethernet/stmicro/stmmac/Makefile
-> > @@ -31,6 +31,7 @@ obj-$(CONFIG_DWMAC_STI)             +=3D dwmac-sti.o
-> >   obj-$(CONFIG_DWMAC_STM32)   +=3D dwmac-stm32.o
-> >   obj-$(CONFIG_DWMAC_SUNXI)   +=3D dwmac-sunxi.o
-> >   obj-$(CONFIG_DWMAC_SUN8I)   +=3D dwmac-sun8i.o
-> > +obj-$(CONFIG_DWMAC_SUN55I)   +=3D dwmac-sun55i.o
-> >   obj-$(CONFIG_DWMAC_THEAD)   +=3D dwmac-thead.o
-> >   obj-$(CONFIG_DWMAC_DWC_QOS_ETH)     +=3D dwmac-dwc-qos-eth.o
-> >   obj-$(CONFIG_DWMAC_INTEL_PLAT)      +=3D dwmac-intel-plat.o
-> > diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun55i.c b/drive=
-rs/net/ethernet/stmicro/stmmac/dwmac-sun55i.c
-> > new file mode 100644
-> > index 000000000000..7fadb90e3098
-> > --- /dev/null
-> > +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun55i.c
-> > @@ -0,0 +1,161 @@
-> > +// SPDX-License-Identifier: GPL-2.0-only
-> > +/*
-> > + * dwmac-sun55i.c - Allwinner sun55i GMAC200 specific glue layer
-> > + *
-> > + * Copyright (C) 2025 Chen-Yu Tsai <wens@csie.org>
-> > + *
-> > + * syscon parts taken from dwmac-sun8i.c, which is
-> > + *
-> > + * Copyright (C) 2017 Corentin Labbe <clabbe.montjoie@gmail.com>
-> > + */
-> > +
-> > +#include <linux/bitfield.h>
-> > +#include <linux/bits.h>
-> > +#include <linux/mfd/syscon.h>
-> > +#include <linux/module.h>
-> > +#include <linux/of.h>
-> > +#include <linux/phy.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/regmap.h>
-> > +#include <linux/regulator/consumer.h>
-> > +#include <linux/stmmac.h>
-> > +
-> > +#include "stmmac.h"
-> > +#include "stmmac_platform.h"
-> > +
-> > +#define SYSCON_REG           0x34
-> > +
-> > +/* RMII specific bits */
-> > +#define SYSCON_RMII_EN               BIT(13) /* 1: enable RMII (overri=
-des EPIT) */
-> insert a blankline.
+=E5=9C=A8 2025-07-01=E6=98=9F=E6=9C=9F=E4=BA=8C=E7=9A=84 22:11 +0200=EF=BC=
+=8CPaul Kocialkowski=E5=86=99=E9=81=93=EF=BC=9A
+> The DE mixer clock is currently set to run at 150 MHz, while the
+> Allwinner BSP configures it at 300 MHz and other platforms typically
+> run at 297 MHz.
+>=20
+> 150 MHz appears to be enough given the restricted graphics
+> capabilities
+> of the SoC (with a work area of only 1024x1024). However it typically
+> causes the DE clock to be parented to the periph0 pll instead of the
+> video PLL.
+>=20
+> While this should generally not be a concern, it appears (based on
+> experimentation) that both the DE and TCON clocks need to be parented
+> to the same PLL for these units to work. While we cannot represent
+> this
+> constraint in the clock driver, it appears that the TCON clock will
+> often get parented to the video pll (typically running at 297 MHz for
 
-OK.
+Ah I think pixel clocks are arbitary and nothing could be predicted
+about it...
 
-> > +/* Generic system control EMAC_CLK bits */
-> > +#define SYSCON_ETXDC_MASK            GENMASK(12, 10)
-> > +#define SYSCON_ERXDC_MASK            GENMASK(9, 5)
-> ditto.
+> the CSI units needs), for instance when driving displays with a 33
+> MHz
+> pixel clock (33 being a natural divider of 297).
+>=20
+> Running the DE clock at 297 MHz will typically result in parenting to
+> the video pll instead of the periph0 pll, thus making the display
+> output functional.
+>=20
+> This is all a bit fragile but it solves the issue with displays
+> running
+> at 33 Mhz and brings V3s to use the same frequency as other
+> platforms,
+> making support more unified.
+>=20
+> Also align and sort the fields of the v3s mixer config while at it.
+>=20
+> Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
+> ---
+> =C2=A0drivers/gpu/drm/sun4i/sun8i_mixer.c | 12 ++++++------
+> =C2=A01 file changed, 6 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> index 8b41d33baa30..35fdc2451060 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> @@ -670,12 +670,12 @@ static const struct sun8i_mixer_cfg
+> sun8i_r40_mixer1_cfg =3D {
+> =C2=A0};
+> =C2=A0
+> =C2=A0static const struct sun8i_mixer_cfg sun8i_v3s_mixer_cfg =3D {
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.vi_num =3D 2,
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.ui_num =3D 1,
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.scaler_mask =3D 0x3,
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.scanline_yuv =3D 2048,
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.ccsc =3D CCSC_MIXER0_LAYOUT,
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.mod_rate =3D 150000000,
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.ccsc=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=3D CCSC_MIXER0_LAYOUT,
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.mod_rate=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=3D 297000000,
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.scaler_mask=C2=A0=C2=A0=C2=A0=
+=C2=A0=3D 0x3,
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.scanline_yuv=C2=A0=C2=A0=C2=
+=A0=3D 2048,
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.ui_num=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=3D 1,
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.vi_num=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=3D 2,
+> =C2=A0};
+> =C2=A0
+> =C2=A0static const struct sun8i_mixer_cfg sun20i_d1_mixer0_cfg =3D {
 
-OK.
-
-> > +/* EMAC PHY Interface Type */
-> > +#define SYSCON_EPIT                  BIT(2) /* 1: RGMII, 0: MII */
-> > +#define SYSCON_ETCS_MASK             GENMASK(1, 0)
-> > +#define SYSCON_ETCS_MII              0x0
-> > +#define SYSCON_ETCS_EXT_GMII 0x1
-> > +#define SYSCON_ETCS_INT_GMII 0x2
-> > +
-> > +#define MASK_TO_VAL(mask)   ((mask) >> (__builtin_ffsll(mask) - 1))
-> > +
-> > +static int sun55i_gmac200_set_syscon(struct device *dev,
-> > +                                  struct plat_stmmacenet_data *plat)
-> > +{
-> > +     struct device_node *node =3D dev->of_node;
-> > +     struct regmap *regmap;
-> > +     u32 val, reg =3D 0;
-> > +
-> > +     regmap =3D syscon_regmap_lookup_by_phandle(node, "syscon");
-> > +     if (IS_ERR(regmap))
-> > +             return dev_err_probe(dev, PTR_ERR(regmap), "Unable to map=
- syscon\n");
-> > +
-> -----------
-> > +     if (!of_property_read_u32(node, "allwinner,tx-delay-ps", &val)) {
-> > +             if (val % 100) {
-> > +                     dev_err(dev, "tx-delay must be a multiple of 100\=
-n");
-> > +                     return -EINVAL;
-> > +             }
-> > +             val /=3D 100;
-> > +             dev_dbg(dev, "set tx-delay to %x\n", val);
-> > +             if (val > MASK_TO_VAL(SYSCON_ETXDC_MASK))
-> > +                     return dev_err_probe(dev, -EINVAL,
-> > +                                          "Invalid TX clock delay: %d\=
-n",
-> > +                                          val);
-> > +
-> > +             reg |=3D FIELD_PREP(SYSCON_ETXDC_MASK, val);
-> > +     }
-> > +
-> > +     if (!of_property_read_u32(node, "allwinner,rx-delay-ps", &val)) {
-> > +             if (val % 100) {
-> > +                     dev_err(dev, "rx-delay must be a multiple of 100\=
-n");
-> > +                     return -EINVAL;
-> > +             }
-> > +             val /=3D 100;
-> > +             dev_dbg(dev, "set rx-delay to %x\n", val);
-> > +             if (val > MASK_TO_VAL(SYSCON_ERXDC_MASK))
-> > +                     return dev_err_probe(dev, -EINVAL,
-> > +                                          "Invalid RX clock delay: %d\=
-n",
-> > +                                          val);
-> > +
-> > +             reg |=3D FIELD_PREP(SYSCON_ERXDC_MASK, val);
-> > +     }
-> ------------
-> These two parts of the code are highly similar.
-> Can you construct a separate function?
-
-As in, have a function that sets up either TX or RX delay based on
-a parameter? That also means constructing the property name on the
-fly or using ternary ops. And chopping up the log messages.
-
-I don't think this makes it easier to read. And chopping up the log
-message makes it harder to grep.
-
-> > +
-> > +     switch (plat->mac_interface) {
->
-> > +     case PHY_INTERFACE_MODE_MII:
-> > +             /* default */
-> > +             break;
-> This line of comment seems a bit abrupt here.
-
-Default as in this is the 0 value register default.
-
-OTOH the integration doesn't support MII, so I think I should drop this cas=
-e.
-
-
-Thanks
-ChenYu
