@@ -1,59 +1,68 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6848626E703;
-	Wed,  2 Jul 2025 13:56:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3A401D9694;
+	Thu,  3 Jul 2025 08:19:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751464569; cv=none; b=PFjFEoL5LtvFrfSOeUyKFLwAZWKD76Y/XT3vsG/o4LE9N3kMg9iu2sNFIlAb5kgM6v3BSGRSPBeXx4qMdY/QjuF7yuh4m3oKYI5cTslA1rkGVrNCDJa9WpidoJAgwuTeoFPIiDTxCKg8mZnVyiZoC+oB+6uo/5+8SDPf4fOJrnU=
+	t=1751530798; cv=none; b=MmEer1h15pYp//Eum5CQnq8ZVPQ824s7OZ4uNQzPFhq8w/d1eGM/ZRbjcO1EqWupeG6ok6rOJcgPDnHXfMBmlkYyandtkdwwG4Zh6bZvsWkmxdvQ62Xlg54/TfbImdRLveeySxbXHLph+NccohUHhP+HrpPbkoQnbMNv8EOXd60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751464569; c=relaxed/simple;
-	bh=WtBsD7bFa/td4ItScapL6sHI3Wry7a5SITse4w2Nv58=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=hf9y5GDUzsyGC0e62WkZebyAIZtkzzYhZYaU6G17oEI/C3Gh9hQloh4vFTH0+calFtsYf5i3czBNgrQ3G8blYwL6jcgiQX1toJiWNOX/Dma3vY5zx+F04CtdyBnN80ZreufmyFJtB/EcRy6YDBhKCPJzR9mS8LWXjOHXWnOPt+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8A3EC4CEE7;
-	Wed,  2 Jul 2025 13:56:08 +0000 (UTC)
-Received: from wens.tw (localhost [127.0.0.1])
-	by wens.tw (Postfix) with ESMTP id DE7D75F949;
-	Wed,  2 Jul 2025 21:56:05 +0800 (CST)
-From: Chen-Yu Tsai <wens@csie.org>
-To: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Paul Kocialkowski <paulk@sys-base.io>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>
-In-Reply-To: <20250701201534.815513-1-paulk@sys-base.io>
-References: <20250701201534.815513-1-paulk@sys-base.io>
-Subject: Re: [PATCH 1/2] ARM: dts: sun8i: v3s: Add RGB666 LCD PE pins
- definition
-Message-Id: <175146456585.641360.7859504612515623199.b4-ty@csie.org>
-Date: Wed, 02 Jul 2025 21:56:05 +0800
+	s=arc-20240116; t=1751530798; c=relaxed/simple;
+	bh=4P6DcmQKOMjuHbYAtn5JewzrRX0ciwIvTfmSjx3jKfM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hR+4L9ET4Lk0kcDVZEHp9uJGJkXhP0Hp4PB2lipbEtJBINp9GmE41piXW1D1UuBH6h62rjhkj0BFCL9Pgn9AYDccSV8pgsRr9so74oqohOrZhLr4bb1XYCDaV0S3+GfZt8YtzwQQ1JoLeQ54Prh3DHdaMTTxh+tkxtUjSmLnEyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=wBDk1hXE; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="wBDk1hXE"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=/4ehdOpzG3rPT6AGrEw+vVrqxugddJkP2hU9YmSDZpw=; b=wBDk1hXEhVm54H6DRSIHM1CyLT
+	VKMzBhKuOCJGU83rblwdomASK9nrS1GmD62Buss7WMQw9qQid2X/KV6EpWKO2dU5WeajZbLOGv5RU
+	Q5Ry7hgXkmCLGWxs8EPgkdB7QfTz+FHjjr8wo6neDeTOhfgwWs8lvUz9CPLuftJpeVss=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1uXFAT-0004f0-NH; Thu, 03 Jul 2025 10:19:41 +0200
+Date: Thu, 3 Jul 2025 10:19:41 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Chen-Yu Tsai <wens@kernel.org>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej@kernel.org>,
+	Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andre Przywara <andre.przywara@arm.com>
+Subject: Re: [PATCH RFT net-next 02/10] net: stmmac: Add support for
+ Allwinner A523 GMAC200
+Message-ID: <c464d56b-dfd2-4e8c-a77a-4a0d05588768@lunn.ch>
+References: <20250701165756.258356-1-wens@kernel.org>
+ <20250701165756.258356-3-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250701165756.258356-3-wens@kernel.org>
 
-On Tue, 01 Jul 2025 22:15:33 +0200, Paul Kocialkowski wrote:
-> The V3s (and other packages) supports RGB666 LCD output on PE pins.
-> 
-> 
+> +	if (!of_property_read_u32(node, "allwinner,tx-delay-ps", &val)) {
 
-Applied to sunxi/dt-for-6.17 in local tree, thanks!
+Please use the standard properties rx-internal-delay-ps and
+tx-internal-delay-ps.
 
-[1/2] ARM: dts: sun8i: v3s: Add RGB666 LCD PE pins definition
-      commit: fdc0682e1153a6180eaab35033b05ad4ce35b6a5
-[2/2] ARM: dts: sun8i: v3: Add RGB666 LCD PD pins definition
-      commit: 62ac3b380334ca0be4f7b2b1bfb3dbbaf2efcfa7
+Please also ensure that if the property is missing, the default is
+0ps.
 
-Best regards,
--- 
-Chen-Yu Tsai <wens@csie.org>
-
+	Andrew
