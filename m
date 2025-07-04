@@ -1,26 +1,27 @@
 Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 053774501A
-	for <linux-sunxi@lists.linux.dev>; Fri,  4 Jul 2025 15:40:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 818A9309A61
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Jul 2025 15:41:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751643658; cv=none; b=YLmzH5InsMiRGSVDzPUHWdF5DZO52Cy2Y+sx2NTPoCdEQHuhWxiIdcwTvKzh7gy/xLdCFv6YilczDt3JRePcb+vg6H697/7FnSLe1lB7jfqowx5y65WsTaiLY0sfgqofYDHK21bTiYquIZYdcRCjTgKxVpGv6vUrBWlTrx6mcDQ=
+	t=1751643683; cv=none; b=P6Ac9CvOilmW6C+RBWfYuXEB4Cfx5iksNewqelbcaVjs9U04fxWLSW4Z44kGSRhnl4njwehTfHo1fsmzg67AHPY8kKhxvijknhMsC+3gGBQgAX1Y6ZhcToS/ZBGbJeQAN1V0jensrDBqBPjH1WHLe4J1/SR+0B5V/ygeWBKKPmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751643658; c=relaxed/simple;
-	bh=vUycECx1FAV46dVJKyg/ExNOgR1wMXGEYVNv3Op+fLA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ewe2+iRrr6UcrGzrR9WbayevsbwzbwBQ6UKNGfIcbKaEPPVmgwxeYUjHiQHhD9muobrFPXedN+7eboWMOYWS/NTroRUNz4Z9PpjL0YRwWFUsNE7NLPdLqNLSZt4cHH5I7VCwU1cJfmwpP+NrlCrjrAZPFDtJLNWUqSzqCmge0Fg=
+	s=arc-20240116; t=1751643683; c=relaxed/simple;
+	bh=TPsN4jIDaCqGcxQvwW7smz2AHs80b+pwC6XHk4Ve0eQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Q2WqpRxcHyccOli2zxSj2IGApzgcOi71x++o1o/L6buB3qY8PCNpEjWnQXBuis5BLOQHddH+tnpBOwlIfPAbLMCKjAejTaW4vyycC5vhSzP62mfTrMxDQoHJ7pdiYfb4LGUIOr4ej3D3ORyI9tfkdIH6Z9YLTOab2leUrmUqWVk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
 Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 76FF71F0004B
-	for <linux-sunxi@lists.linux.dev>; Fri,  4 Jul 2025 15:40:46 +0000 (UTC)
+	by leonov.paulk.fr (Postfix) with ESMTPS id 576401F0003D
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Jul 2025 15:41:19 +0000 (UTC)
 Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id B1CC8ACA64E; Fri,  4 Jul 2025 15:40:45 +0000 (UTC)
+	id A565DACA649; Fri,  4 Jul 2025 15:41:18 +0000 (UTC)
 X-Spam-Level: *
 Received: from localhost.localdomain (unknown [192.168.1.64])
-	by laika.paulk.fr (Postfix) with ESMTP id 0F26AACA59D;
+	by laika.paulk.fr (Postfix) with ESMTP id 8BD7DACA63A;
 	Fri,  4 Jul 2025 15:40:12 +0000 (UTC)
 From: Paul Kocialkowski <paulk@sys-base.io>
 To: linux-clk@vger.kernel.org,
@@ -35,10 +36,12 @@ Cc: Michael Turquette <mturquette@baylibre.com>,
 	Icenowy Zheng <icenowy@aosc.xyz>,
 	Maxime Ripard <mripard@kernel.org>,
 	Paul Kocialkowski <paulk@sys-base.io>
-Subject: [PATCH 1/2] clk: sunxi-ng: v3s: Fix de clock definition
-Date: Fri,  4 Jul 2025 17:40:07 +0200
-Message-ID: <20250704154008.3463257-1-paulk@sys-base.io>
+Subject: [PATCH 2/2] clk: sunxi-ng: v3s: Assign the de and tcon clocks to the video pll
+Date: Fri,  4 Jul 2025 17:40:08 +0200
+Message-ID: <20250704154008.3463257-2-paulk@sys-base.io>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250704154008.3463257-1-paulk@sys-base.io>
+References: <20250704154008.3463257-1-paulk@sys-base.io>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -47,35 +50,69 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The de clock is marked with CLK_SET_RATE_PARENT, which is really not
-necessary (as confirmed from experimentation) and significantly
-restricts flexibility for other clocks using the same parent.
+It appears (based on experimentation) that both the de and tcon clocks
+need to have the same parent for the two units to work together.
 
-In addition the source selection (parent) field is marked as using
-2 bits, when it the documentation reports that it uses 3.
+Assign them both to the video pll by manually clearing the parent
+selection bits (effectively setting index 0) and marking the clocks
+with the CLK_SET_RATE_NO_REPARENT flag, which ensures that they will
+never use a different parent.
 
-Fix both issues in the de clock definition.
+The video pll is also a possible parent for the camera subsystem,
+but it can use the dedicated isp pll if needed so there should be
+no negative side-effect due to this change.
 
-Fixes: d0f11d14b0bc ("clk: sunxi-ng: add support for V3s CCU")
+Note that ccu_mux_helper_set_parent cannot be used at this stage as
+it requires the clock driver to be initialized and this configuration
+is best done before the clock driver is available to consumers.
+
 Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
 ---
- drivers/clk/sunxi-ng/ccu-sun8i-v3s.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/clk/sunxi-ng/ccu-sun8i-v3s.c | 21 +++++++++++++++++++--
+ 1 file changed, 19 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-v3s.c b/drivers/clk/sunxi-ng/ccu-sun8i-v3s.c
-index 52e4369664c5..df345a620d8d 100644
+index df345a620d8d..05595ac51b76 100644
 --- a/drivers/clk/sunxi-ng/ccu-sun8i-v3s.c
 +++ b/drivers/clk/sunxi-ng/ccu-sun8i-v3s.c
-@@ -347,8 +347,7 @@ static SUNXI_CCU_GATE(dram_ohci_clk,	"dram-ohci",	"dram",
+@@ -347,11 +347,13 @@ static SUNXI_CCU_GATE(dram_ohci_clk,	"dram-ohci",	"dram",
  
  static const char * const de_parents[] = { "pll-video", "pll-periph0" };
  static SUNXI_CCU_M_WITH_MUX_GATE(de_clk, "de", de_parents,
--				 0x104, 0, 4, 24, 2, BIT(31),
--				 CLK_SET_RATE_PARENT);
-+				 0x104, 0, 4, 24, 3, BIT(31), 0);
+-				 0x104, 0, 4, 24, 3, BIT(31), 0);
++				 0x104, 0, 4, 24, 3, BIT(31),
++				 CLK_SET_RATE_NO_REPARENT);
  
  static const char * const tcon_parents[] = { "pll-video", "pll-periph0" };
  static SUNXI_CCU_M_WITH_MUX_GATE(tcon_clk, "tcon", tcon_parents,
+-				 0x118, 0, 4, 24, 3, BIT(31), 0);
++				 0x118, 0, 4, 24, 3, BIT(31),
++				 CLK_SET_RATE_NO_REPARENT);
+ 
+ static SUNXI_CCU_GATE(csi_misc_clk,	"csi-misc",	"osc24M",
+ 		      0x130, BIT(31), 0);
+@@ -753,6 +755,21 @@ static int sun8i_v3s_ccu_probe(struct platform_device *pdev)
+ 	val &= ~GENMASK(19, 16);
+ 	writel(val, reg + SUN8I_V3S_PLL_AUDIO_REG);
+ 
++	/*
++	 * Assign the DE and TCON clock to the video PLL. Both clocks need to
++	 * have the same parent for the units to work together.
++	 */
++
++	val = readl(reg + de_clk.common.reg);
++	val &= ~GENMASK(de_clk.mux.shift + de_clk.mux.width - 1,
++			de_clk.mux.shift);
++	writel(val, reg + de_clk.common.reg);
++
++	val = readl(reg + tcon_clk.common.reg);
++	val &= ~GENMASK(tcon_clk.mux.shift + tcon_clk.mux.width - 1,
++			tcon_clk.mux.shift);
++	writel(val, reg + tcon_clk.common.reg);
++
+ 	return devm_sunxi_ccu_probe(&pdev->dev, reg, desc);
+ }
+ 
 -- 
 2.49.0
 
