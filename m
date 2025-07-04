@@ -1,217 +1,118 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B28A2F2730
-	for <linux-sunxi@lists.linux.dev>; Thu,  3 Jul 2025 23:23:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64398286415
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Jul 2025 07:54:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751585019; cv=none; b=U3BFMr0byrQ2uyBD3sJ2BwvX283C3F3cLMe86Ud0EMK1WTPoPrCi94AkwOA+yK0+DqYq5zeK7FiZOdLHMmIkqSzK8t4fwvsCj+GfWOs0fFBFKxMPhHCXogyrwfiigGkCkhaJpOgV1LgAKKsYKEzwdpM6iCiTLMYJxGxgqVH6Bu4=
+	t=1751615647; cv=none; b=aqOGSgteZAojQTSZ7+HLAoAbqR2F9ZOcKzRYEfxYD4qGE9C+s58HlTQzf6u/yOsubgjOcfn5MJVWQ4ubiYb4Y/IsY7rOJhfgS7LMyFVk0tZ50scR+30aCz0n0XJ95EYgP2031B8ZBmZbDJTasRYcj5/v8IUiVpiitUK5eVwUQVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751585019; c=relaxed/simple;
-	bh=4fRm/4wvZQWe/TuI4l5eob8PB/NYw5v9nV4VOmFwTUI=;
-	h=From:Date:Subject:MIME-Version:Message-Id:References:In-Reply-To:
-	 To:Cc:Content-Type; b=YyXD410Wfztbf3+FyNGB773p6aXFSM8eOydNOUkv9LEbe6YnGSJa2AR1sfG1NqIOtMibgZ/JIm7jFroQiCX5R6X3KO24S/nrk8yoWL0pSFC9ubIaDhgj9yoyOfn0vkVRgkxxNkbHdCZkv9BVU/vl+BcMLrIHpM5XUpZenFEK1d8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dDXwpA15; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1751615647; c=relaxed/simple;
+	bh=nHMM1O4IslvrfeqGodyglti8CaB1ROJeZIDQqlgaxII=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=dIQPvvbZo9PaQTNEni6Meojam5Zbw9MHlQt9hLhcvf2UimXxNuM20Ymh/Pi3/3BKwk5jRJR89xyU1rH24baK6k7oD29s7oxDH+2P1/KACK34kln8VLXr9h085qlJkkfjRo/xuxLowQrC/wdj1bB8aLGgyo7uLJVcnvm1f6xyQQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XjgSbj4S; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dDXwpA15"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1751585016;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vIUTPB0Xa7IujQxGdU5BbuzZFcJXYmPAbUo0ojDRNf8=;
-	b=dDXwpA15y2I93i0v8KfFVnloMDZg2k8t9As4vgZ44xQAIjcOYGhZvKnbf6m+1UokM+Y87y
-	AJ9x6W19eea5+wQSZWSTK4gxrmma8OrBVasjJPKV5FhM12WFUKltKYtPxkewcwa2P/W1/h
-	V7Ur1312mewcbNkx0/5A1IqPQiJQ6y4=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-213-39DhAYGOM16TkEkAWBXRiA-1; Thu, 03 Jul 2025 19:23:33 -0400
-X-MC-Unique: 39DhAYGOM16TkEkAWBXRiA-1
-X-Mimecast-MFC-AGG-ID: 39DhAYGOM16TkEkAWBXRiA_1751585013
-Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-6fd0a3f15daso11255086d6.2
-        for <linux-sunxi@lists.linux.dev>; Thu, 03 Jul 2025 16:23:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751585013; x=1752189813;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vIUTPB0Xa7IujQxGdU5BbuzZFcJXYmPAbUo0ojDRNf8=;
-        b=dFm/oU03gAF2WdB9tXvDfnRErbXKqOzC83eIf9uEHZ7b8L3U4Rid2M+kXbl2baBoQa
-         w3BGdk5SO2QUJ6QHcXWxYoj/QH3d3uCFoTKIuk0LTdJnh1eiGT7PByCW18YAg9UhxV4q
-         q6Y0cAPKU0W6Th6lARVoTw2W+kjsUc+6b/LY0hg/VmNQzIIN6Z+LIFqkohWXXdMKZIJR
-         +CwfvTVAZohf0hV8+J68crE662nWz4Bh2wfj/LRiKOast6NOPsZQjZk+m52vXbOmmuIY
-         3pcLuleN9glX/gLVpo1A2awUkiKR44kvRCqaAAvFwptyHBmvev628+TZDcV3khoy+8Tx
-         8NPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWJuYVpXYt5EtioCU9qdnKTj/IeUO+D2gH0zFB0aQixS3QNxJT7T4JFx5iyjCcZiGkx9ZsPwOq2ZnMnmA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx0o8sWQLTSbB6Cg7anok5N8iBdJTs5uP/fkUfDlhwNexfpy6E0
-	Vc4d/ApUhYOpUKrEEmStAWbTQdpkq9cpj8ZWqoS18leExxjF8Me0omuzMOqxqPolg8bChS2Xq5y
-	ky5mQVwUHYqUH2eWJASQ+jZCXjnEwTTj2VvYYxbw+MuSWP1NM6Mt2BGXVO8NzMXHQ
-X-Gm-Gg: ASbGncsOlcgMGGMyeK+KXQo0Q426vXNGeiSwj21R0LpPDzbyepF0n/msDsjpuzBGAG+
-	OnsNhTWxsEUgx6877c7ZhYTJNUSVd/YI8YZWW4gCTNa6xjFRQeXfAlIClmINWerFRfFZYEj8Eya
-	Tb7f8xktwJybsdBQ1ZLc84XEgG36mLpN1N0y+cnEwlf8feAwMp6HECQK8G4Z7DeF2esliI99tQY
-	48ZNVs8hdnJB3NX0klfOgc14Co6sL8yZB8yU9qJRs2yQ+ZECVMuJAIjbQkI/+X+t21lJZAQmMqA
-	Y7DpTM4DNy1KJ9msz2ee2iGR3+2VpHoPH9kuood04bIUZ82qk1Tw1nVXdUuQeA==
-X-Received: by 2002:a05:6214:400f:b0:701:945:68a0 with SMTP id 6a1803df08f44-702c6db6d72mr2550876d6.26.1751585012814;
-        Thu, 03 Jul 2025 16:23:32 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGsLP+EtTPJqTbUAM3azCv14keKHQHBVX2XiZhb2AArhva5ftrpXUEhswiQr1GgZeMTOKJdIA==
-X-Received: by 2002:a05:6214:400f:b0:701:945:68a0 with SMTP id 6a1803df08f44-702c6db6d72mr2550676d6.26.1751585012507;
-        Thu, 03 Jul 2025 16:23:32 -0700 (PDT)
-Received: from [192.168.1.15] (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-702c4d5a958sm4469956d6.84.2025.07.03.16.23.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Jul 2025 16:23:29 -0700 (PDT)
-From: Brian Masney <bmasney@redhat.com>
-Date: Thu, 03 Jul 2025 19:22:34 -0400
-Subject: [PATCH 10/10] clk: sunxi-ng: ccu_nm: convert from round_rate() to
- determine_rate()
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XjgSbj4S"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751615646; x=1783151646;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=nHMM1O4IslvrfeqGodyglti8CaB1ROJeZIDQqlgaxII=;
+  b=XjgSbj4SAIXbvAlmLFjnToeJPx1T9qdrQDUDNPEz+o2qmf2LbcuPcyzR
+   J26XdO7ntK+AZzRwpAyO4yzD8Y/PXgSXh/R15bAVNDfcmyMfKBlifwy+G
+   A0Twqexx3VaSRFQ/Ske4/9ueirHWV7D6/NaBRIkdhiWJr5u5m6j5L2lFC
+   RQTBuJ6i1KluDIkV7NL9W4rpn4KFKdvkjTPUGQthprJ9YAtT46C/0hbmY
+   Jpam6BDavHZsrF93DqEYAMSIBKS1JoO0GWKqFT7KrfDvAGHawQqMnO/Zw
+   Kp0UAXY7pqDX7AREzE/wiEd9CUjDZ9c90GO3L5tJxpWzCGyAlQWBqk81O
+   A==;
+X-CSE-ConnectionGUID: iPIrCyWgS/+41mRbSVdtAQ==
+X-CSE-MsgGUID: JAMO1PdtTSCP68MSirK/Jg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="76494462"
+X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; 
+   d="scan'208";a="76494462"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 00:54:05 -0700
+X-CSE-ConnectionGUID: 7LTrMyx/QlqWGtX+avivNw==
+X-CSE-MsgGUID: xH/cd10lR62+1jlZ97J90Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; 
+   d="scan'208";a="158924163"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO svinhufvud.fi.intel.com) ([10.245.244.244])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 00:54:01 -0700
+Received: from svinhufvud.lan (localhost [IPv6:::1])
+	by svinhufvud.fi.intel.com (Postfix) with ESMTP id 14D6944433;
+	Fri,  4 Jul 2025 10:53:59 +0300 (EEST)
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Zhang Zekun <zhangzekun11@huawei.com>,
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 04/80] bus: sunxi-rsb: Remove redundant pm_runtime_mark_last_busy() calls
+Date: Fri,  4 Jul 2025 10:53:58 +0300
+Message-Id: <20250704075358.3216894-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250704075225.3212486-1-sakari.ailus@linux.intel.com>
+References: <20250704075225.3212486-1-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <20250703-clk-cocci-drop-round-rate-v1-10-3a8da898367e@redhat.com>
-References: <20250703-clk-cocci-drop-round-rate-v1-0-3a8da898367e@redhat.com>
-In-Reply-To: <20250703-clk-cocci-drop-round-rate-v1-0-3a8da898367e@redhat.com>
-To: Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Bjorn Andersson <andersson@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@redhat.com>
-Cc: linux-clk@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, linux-sunxi@lists.linux.dev, 
- Brian Masney <bmasney@redhat.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1751584976; l=3661;
- i=bmasney@redhat.com; s=20250528; h=from:subject:message-id;
- bh=4fRm/4wvZQWe/TuI4l5eob8PB/NYw5v9nV4VOmFwTUI=;
- b=fvx7qhP1aLoIOPU3sjNvBCth81x2jcOY/I9wnn1tKMT2BbPA4cFWn1Ytapjub1E1HqAvCp+zr
- RDPpPrT6r0wCY9IQ3u30PGRfoAmv/kGQTGOqlafbNKX0lErw2qUupAD
-X-Developer-Key: i=bmasney@redhat.com; a=ed25519;
- pk=x20f2BQYftANnik+wvlm4HqLqAlNs/npfVcbhHPOK2U=
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: vFF3E5yDxfeGE46EeGVofvSvh86cOHMvemIwCWLJmIo_1751585013
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-The round_rate() clk ops is deprecated, so migrate this driver from
-round_rate() to determine_rate() using the Coccinelle semantic patch
-on the cover letter of this series.
+pm_runtime_put_autosuspend(), pm_runtime_put_sync_autosuspend(),
+pm_runtime_autosuspend() and pm_request_autosuspend() now include a call
+to pm_runtime_mark_last_busy(). Remove the now-reduntant explicit call to
+pm_runtime_mark_last_busy().
 
-I manually fixed up one minor formatting issue that occurred after
-applying the semantic patch:
-
-        req->rate = ccu_nm_find_best(&nm->common, req->best_parent_rate,
-                                     req->rate,
-                                     &_nm);
-
-I manually changed it to:
-
-        req->rate = ccu_nm_find_best(&nm->common, req->best_parent_rate,
-                                     req->rate, &_nm);
-
-Signed-off-by: Brian Masney <bmasney@redhat.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/clk/sunxi-ng/ccu_nm.c | 43 ++++++++++++++++++++++---------------------
- 1 file changed, 22 insertions(+), 21 deletions(-)
+The cover letter of the set can be found here
+<URL:https://lore.kernel.org/linux-pm/20250704075225.3212486-1-sakari.ailus@linux.intel.com>.
 
-diff --git a/drivers/clk/sunxi-ng/ccu_nm.c b/drivers/clk/sunxi-ng/ccu_nm.c
-index a4e2243b8d6b4a8fdd9ea1ff2ca06e2f1a009632..df01ed3b37a6b56e93e18cc4c1ad5909e2ba0c5b 100644
---- a/drivers/clk/sunxi-ng/ccu_nm.c
-+++ b/drivers/clk/sunxi-ng/ccu_nm.c
-@@ -116,39 +116,39 @@ static unsigned long ccu_nm_recalc_rate(struct clk_hw *hw,
- 	return rate;
- }
- 
--static long ccu_nm_round_rate(struct clk_hw *hw, unsigned long rate,
--			      unsigned long *parent_rate)
-+static int ccu_nm_determine_rate(struct clk_hw *hw,
-+				 struct clk_rate_request *req)
- {
- 	struct ccu_nm *nm = hw_to_ccu_nm(hw);
- 	struct _ccu_nm _nm;
- 
- 	if (nm->common.features & CCU_FEATURE_FIXED_POSTDIV)
--		rate *= nm->fixed_post_div;
-+		req->rate *= nm->fixed_post_div;
- 
--	if (rate < nm->min_rate) {
--		rate = nm->min_rate;
-+	if (req->rate < nm->min_rate) {
-+		req->rate = nm->min_rate;
- 		if (nm->common.features & CCU_FEATURE_FIXED_POSTDIV)
--			rate /= nm->fixed_post_div;
--		return rate;
-+			req->rate /= nm->fixed_post_div;
-+		return 0;
- 	}
- 
--	if (nm->max_rate && rate > nm->max_rate) {
--		rate = nm->max_rate;
-+	if (nm->max_rate && req->rate > nm->max_rate) {
-+		req->rate = nm->max_rate;
- 		if (nm->common.features & CCU_FEATURE_FIXED_POSTDIV)
--			rate /= nm->fixed_post_div;
--		return rate;
-+			req->rate /= nm->fixed_post_div;
-+		return 0;
- 	}
- 
--	if (ccu_frac_helper_has_rate(&nm->common, &nm->frac, rate)) {
-+	if (ccu_frac_helper_has_rate(&nm->common, &nm->frac, req->rate)) {
- 		if (nm->common.features & CCU_FEATURE_FIXED_POSTDIV)
--			rate /= nm->fixed_post_div;
--		return rate;
-+			req->rate /= nm->fixed_post_div;
-+		return 0;
- 	}
- 
--	if (ccu_sdm_helper_has_rate(&nm->common, &nm->sdm, rate)) {
-+	if (ccu_sdm_helper_has_rate(&nm->common, &nm->sdm, req->rate)) {
- 		if (nm->common.features & CCU_FEATURE_FIXED_POSTDIV)
--			rate /= nm->fixed_post_div;
--		return rate;
-+			req->rate /= nm->fixed_post_div;
-+		return 0;
- 	}
- 
- 	_nm.min_n = nm->n.min ?: 1;
-@@ -156,12 +156,13 @@ static long ccu_nm_round_rate(struct clk_hw *hw, unsigned long rate,
- 	_nm.min_m = 1;
- 	_nm.max_m = nm->m.max ?: 1 << nm->m.width;
- 
--	rate = ccu_nm_find_best(&nm->common, *parent_rate, rate, &_nm);
-+	req->rate = ccu_nm_find_best(&nm->common, req->best_parent_rate,
-+				     req->rate, &_nm);
- 
- 	if (nm->common.features & CCU_FEATURE_FIXED_POSTDIV)
--		rate /= nm->fixed_post_div;
-+		req->rate /= nm->fixed_post_div;
- 
--	return rate;
-+	return 0;
- }
- 
- static int ccu_nm_set_rate(struct clk_hw *hw, unsigned long rate,
-@@ -233,7 +234,7 @@ const struct clk_ops ccu_nm_ops = {
- 	.is_enabled	= ccu_nm_is_enabled,
- 
- 	.recalc_rate	= ccu_nm_recalc_rate,
--	.round_rate	= ccu_nm_round_rate,
-+	.determine_rate = ccu_nm_determine_rate,
- 	.set_rate	= ccu_nm_set_rate,
- };
- EXPORT_SYMBOL_NS_GPL(ccu_nm_ops, "SUNXI_CCU");
+In brief, this patch depends on PM runtime patches adding marking the last
+busy timestamp in autosuspend related functions. The patches are here, on
+rc2:
 
+        git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git \
+                pm-runtime-6.17-rc1
+
+ drivers/bus/sunxi-rsb.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/drivers/bus/sunxi-rsb.c b/drivers/bus/sunxi-rsb.c
+index 7a33c3b31d1e..82735c58be11 100644
+--- a/drivers/bus/sunxi-rsb.c
++++ b/drivers/bus/sunxi-rsb.c
+@@ -373,7 +373,6 @@ static int sunxi_rsb_read(struct sunxi_rsb *rsb, u8 rtaddr, u8 addr,
+ unlock:
+ 	mutex_unlock(&rsb->lock);
+ 
+-	pm_runtime_mark_last_busy(rsb->dev);
+ 	pm_runtime_put_autosuspend(rsb->dev);
+ 
+ 	return ret;
+@@ -417,7 +416,6 @@ static int sunxi_rsb_write(struct sunxi_rsb *rsb, u8 rtaddr, u8 addr,
+ 
+ 	mutex_unlock(&rsb->lock);
+ 
+-	pm_runtime_mark_last_busy(rsb->dev);
+ 	pm_runtime_put_autosuspend(rsb->dev);
+ 
+ 	return ret;
 -- 
-2.50.0
+2.39.5
 
