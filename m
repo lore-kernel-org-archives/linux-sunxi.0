@@ -1,112 +1,132 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D1214501A
-	for <linux-sunxi@lists.linux.dev>; Fri,  4 Jul 2025 15:55:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751644509; cv=pass; b=o/1SzF4zPT5E02aMWb0wmoLF17IZbU3JrROQFv0kSCgb6Qv69RIU9FaHJzFk0UlRS4VEkUY7EM4s4nWdxgmL6vDNv2BNeumc2z8txk99yUxe/Z8+41Cyub9Sy9hLpQ/w1PnOOMRAFFiQ28vjQkG9glBzv7mxjIdLUWffJHq5ecE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751644509; c=relaxed/simple;
-	bh=y9shy4WABjMXApP03CgNPKXgv/nf2wQ3YGULRdAM/EE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=uVGLFyJGeXxX4X/K5QQ4jZn4llh1AXy/6KK/QMcv1A8Mmn5Xb4ufeb/DHlzERDQ9MnN3u8/ZS5zgRoS1/tlIiv9pWWlVX2sziJgmvNdEVhIELSITn5Ls4RvzpVPPiYPw55QKppMk7BZr2ZLfQi+ir0VSMIV7Rz/7zd0SFeZfOsI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me; spf=pass smtp.mailfrom=icenowy.me; dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b=Zt5tu1Dj; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icenowy.me
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b="Zt5tu1Dj"
-ARC-Seal: i=1; a=rsa-sha256; t=1751644499; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=cdeygm4lRsrhT0J7mAzrQZsYAWPAovjxuALljDuK/7lWBABchyzXX/2qx+MkA8iPWWxRbq3TjLKiKCZQGGAVN4iwOgtjtYDF++UbporfluQbBytBqFp1L3L2QazuqoxB8LoPZsADrtynUIsyqaCsSaoRctloMrJiPptzlRLOLWY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1751644499; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=y9shy4WABjMXApP03CgNPKXgv/nf2wQ3YGULRdAM/EE=; 
-	b=F3i2rZPeDCiu+XbCS6U9D16xSAA/y4R8tEzJESWRI5+htDWmZJWjEpbGcjHuvA+ZlBCiJVuldRJ0gcnXCHN2oe28eibZcwGqOBm9rlgWQe9d4z9dERKa96p30+yQJkzUwTq6oiKgvta6mXd3vbWBiR/4SQZOetCdyl6aRkOXrGE=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=icenowy.me;
-	spf=pass  smtp.mailfrom=uwu@icenowy.me;
-	dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1751644499;
-	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
-	bh=y9shy4WABjMXApP03CgNPKXgv/nf2wQ3YGULRdAM/EE=;
-	b=Zt5tu1Djn9hVKTEtlodlT6YUFACQSNWam8KJRf2/fWGO/g5Rvzy0w6pRSuML46No
-	PNiGQatgAoLulpnxC96K4qPQm0aKgCFKbBWyUZMdXl+nz/rmGY0UDqMePXl24IDUtn+
-	mBXNIB2FcAVPzgmjXUjz0XbZUTPjutwvaD9Kk73l77P6iseCbEpS85/Uvp7qhWq8+Sq
-	x31HsLmnZ6Muj6VGiX1NkOivfAYEiEOE2cx27Gyg64MocBs7o9R00zjnIy7Mf0+y3/t
-	OwaFzGKk++T9s/rszaoaRfJ3LddGQZE9dZw8e1mNBE3aNdolCFLf+z/gDe/WYSYcmmT
-	sfkIZu4ATg==
-Received: by mx.zohomail.com with SMTPS id 1751644497723754.7368487298465;
-	Fri, 4 Jul 2025 08:54:57 -0700 (PDT)
-Message-ID: <4cd84b9e2227c9225d977107eb05b9c3813b8846.camel@icenowy.me>
-Subject: Re: [PATCH 1/2] clk: sunxi-ng: v3s: Fix de clock definition
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Paul Kocialkowski <paulk@sys-base.io>, linux-clk@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>,  Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Icenowy
- Zheng <icenowy@aosc.xyz>, Maxime Ripard <mripard@kernel.org>
-Date: Fri, 04 Jul 2025 23:54:50 +0800
-In-Reply-To: <20250704154008.3463257-1-paulk@sys-base.io>
-References: <20250704154008.3463257-1-paulk@sys-base.io>
-Organization: Anthon Open-Source Community
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 416CA32718D
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Jul 2025 15:58:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751644739; cv=none; b=stwU3QblW9nubD0r7LZb9huTZeOgHGuhtfW981fbrunKZUGNE9TyZDr/rad1qzxBxCFKsFrTldE8DImkw2u0k7rQWuDC3y+uMom7DE/Pm3ji/zGkclzB4sc3ETkZzV0vRyLC7c8qOH+sj7Z3LU/n/BmJ3fjqRc46eUgqfBa3+CU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751644739; c=relaxed/simple;
+	bh=Q78f1QuSFzz5rj+1pXgpOayq9ghe6QXSykrzUaECxnA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=eDj647jIAOM/qsZ9OcI+zYIzTjUJhgAde8QZz0g+QEMpzwGWvgpl5RNfx8dZfK480AyV5ZKOiknApiMSPizF+pT/x/LXuvbJaXpCgCB1AZn18Uwlve6iSn5LPiEKgxN7EINRpFe3v0kupb+xoarb/1T0/RrfPTC4C7/dzcbKTj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+	by leonov.paulk.fr (Postfix) with ESMTPS id 75C3C1F0004F
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Jul 2025 15:58:54 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+	id 520B5ACA6B4; Fri,  4 Jul 2025 15:51:42 +0000 (UTC)
+X-Spam-Level: *
+Received: from localhost.localdomain (unknown [192.168.1.64])
+	by laika.paulk.fr (Postfix) with ESMTP id C5661ACA659;
+	Fri,  4 Jul 2025 15:46:40 +0000 (UTC)
+From: Paul Kocialkowski <paulk@sys-base.io>
+To: linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-clk@vger.kernel.org
+Cc: Yong Deng <yong.deng@magewell.com>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: [PATCH v8 7/9] ARM: dts: sun8i: a83t: Add MIPI CSI-2 controller node
+Date: Fri,  4 Jul 2025 17:46:24 +0200
+Message-ID: <20250704154628.3468793-8-paulk@sys-base.io>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250704154628.3468793-1-paulk@sys-base.io>
+References: <20250704154628.3468793-1-paulk@sys-base.io>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 8bit
 
-=E5=9C=A8 2025-07-04=E6=98=9F=E6=9C=9F=E4=BA=94=E7=9A=84 17:40 +0200=EF=BC=
-=8CPaul Kocialkowski=E5=86=99=E9=81=93=EF=BC=9A
-> The de clock is marked with CLK_SET_RATE_PARENT, which is really not
-> necessary (as confirmed from experimentation) and significantly
-> restricts flexibility for other clocks using the same parent.
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
-With it not setting parent, is arbitary pixel clocks still possible?
+MIPI CSI-2 is supported on the A83T with a dedicated controller that
+covers both the protocol and D-PHY. It is connected to the only CSI
+receiver with a fwnode graph link. Note that the CSI receiver supports
+both this MIPI CSI-2 source and a parallel source.
 
->=20
-> In addition the source selection (parent) field is marked as using
-> 2 bits, when it the documentation reports that it uses 3.
->=20
-> Fix both issues in the de clock definition.
->=20
-> Fixes: d0f11d14b0bc ("clk: sunxi-ng: add support for V3s CCU")
-> Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
-> ---
-> =C2=A0drivers/clk/sunxi-ng/ccu-sun8i-v3s.c | 3 +--
-> =C2=A01 file changed, 1 insertion(+), 2 deletions(-)
->=20
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-v3s.c
-> b/drivers/clk/sunxi-ng/ccu-sun8i-v3s.c
-> index 52e4369664c5..df345a620d8d 100644
-> --- a/drivers/clk/sunxi-ng/ccu-sun8i-v3s.c
-> +++ b/drivers/clk/sunxi-ng/ccu-sun8i-v3s.c
-> @@ -347,8 +347,7 @@ static
-> SUNXI_CCU_GATE(dram_ohci_clk,=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0"dram-ohci",=C2=A0=C2=A0=C2=A0=C2=A0"dram",
-> =C2=A0
-> =C2=A0static const char * const de_parents[] =3D { "pll-video", "pll-
-> periph0" };
-> =C2=A0static SUNXI_CCU_M_WITH_MUX_GATE(de_clk, "de", de_parents,
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0x104, 0, 4, 24, 2, BIT(31),
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 CLK_SET_RATE_PARENT);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0x104, 0, 4, 24, 3, BIT(31), 0);
-> =C2=A0
-> =C2=A0static const char * const tcon_parents[] =3D { "pll-video", "pll-
-> periph0" };
-> =C2=A0static SUNXI_CCU_M_WITH_MUX_GATE(tcon_clk, "tcon", tcon_parents,
+An empty port with a label for the MIPI CSI-2 sensor input is also
+defined for convenience.
+
+Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ arch/arm/boot/dts/allwinner/sun8i-a83t.dtsi | 43 +++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
+
+diff --git a/arch/arm/boot/dts/allwinner/sun8i-a83t.dtsi b/arch/arm/boot/dts/allwinner/sun8i-a83t.dtsi
+index 6f88d8764e6a..cc107c6030de 100644
+--- a/arch/arm/boot/dts/allwinner/sun8i-a83t.dtsi
++++ b/arch/arm/boot/dts/allwinner/sun8i-a83t.dtsi
+@@ -1062,6 +1062,49 @@ csi: camera@1cb0000 {
+ 			clock-names = "bus", "mod", "ram";
+ 			resets = <&ccu RST_BUS_CSI>;
+ 			status = "disabled";
++
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				port@1 {
++					reg = <1>;
++
++					csi_in_mipi_csi2: endpoint {
++						remote-endpoint = <&mipi_csi2_out_csi>;
++					};
++				};
++			};
++		};
++
++		mipi_csi2: csi@1cb1000 {
++			compatible = "allwinner,sun8i-a83t-mipi-csi2";
++			reg = <0x01cb1000 0x1000>;
++			interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_CSI>,
++				 <&ccu CLK_CSI_SCLK>,
++				 <&ccu CLK_MIPI_CSI>,
++				 <&ccu CLK_CSI_MISC>;
++			clock-names = "bus", "mod", "mipi", "misc";
++			resets = <&ccu RST_BUS_CSI>;
++			status = "disabled";
++
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				mipi_csi2_in: port@0 {
++					reg = <0>;
++				};
++
++				mipi_csi2_out: port@1 {
++					reg = <1>;
++
++					mipi_csi2_out_csi: endpoint {
++						remote-endpoint = <&csi_in_mipi_csi2>;
++					};
++				};
++			};
+ 		};
+ 
+ 		hdmi: hdmi@1ee0000 {
+-- 
+2.49.0
 
