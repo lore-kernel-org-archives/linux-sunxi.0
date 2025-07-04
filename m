@@ -1,76 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29A0033E1;
-	Fri,  4 Jul 2025 15:37:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 053774501A
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Jul 2025 15:40:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751643447; cv=none; b=B1tfJYinqsfyjOEjYBW7RZjx5IJsRBLrQ7+SsrN8EHP2N/C8nhK81fWlbc6zsn4/kEmC2F2K7PuXyZzRGdS5q7W5YbDplU0/FB/dsIUsy553f42wfuDwjWIWgVk5KAFFsAUz5zOhl/znxUIv04yNH2qXrRoTOT2udsol21y70J4=
+	t=1751643658; cv=none; b=YLmzH5InsMiRGSVDzPUHWdF5DZO52Cy2Y+sx2NTPoCdEQHuhWxiIdcwTvKzh7gy/xLdCFv6YilczDt3JRePcb+vg6H697/7FnSLe1lB7jfqowx5y65WsTaiLY0sfgqofYDHK21bTiYquIZYdcRCjTgKxVpGv6vUrBWlTrx6mcDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751643447; c=relaxed/simple;
-	bh=PdlT5glW7R1wxHYZvaLSC9p98XKiNToqmVL6F87XuB0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=PYUxn3ZRTnUT498uExOl7VcVocyFirh18JFtQvFO/5PBPkJTWyhiku4E3zkjilsT6aG8AJ7lxQaZk2lUSw7+ouFLVA9Fg9y0pCCoqb+bYm/Ddgvmgmv7LQTlA+hibh9aqiUivUO1Fpo9Z8TMldvHLJnoZu4E6knSBvLFP2uNTeg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C025C4CEE3;
-	Fri,  4 Jul 2025 15:37:26 +0000 (UTC)
-Received: from wens.tw (localhost [127.0.0.1])
-	by wens.tw (Postfix) with ESMTP id 9A35F5FB31;
-	Fri,  4 Jul 2025 23:37:23 +0800 (CST)
-From: Chen-Yu Tsai <wens@csie.org>
-To: netdev@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
- Paul Kocialkowski <paulk@sys-base.io>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S . Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <20250626080923.632789-1-paulk@sys-base.io>
-References: <20250626080923.632789-1-paulk@sys-base.io>
-Subject: Re: (subset) [PATCH 0/5] Allwinner A100/A133 Ethernet MAC (EMAC)
- Support
-Message-Id: <175164344357.1538531.5993641377179259216.b4-ty@csie.org>
-Date: Fri, 04 Jul 2025 23:37:23 +0800
+	s=arc-20240116; t=1751643658; c=relaxed/simple;
+	bh=vUycECx1FAV46dVJKyg/ExNOgR1wMXGEYVNv3Op+fLA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ewe2+iRrr6UcrGzrR9WbayevsbwzbwBQ6UKNGfIcbKaEPPVmgwxeYUjHiQHhD9muobrFPXedN+7eboWMOYWS/NTroRUNz4Z9PpjL0YRwWFUsNE7NLPdLqNLSZt4cHH5I7VCwU1cJfmwpP+NrlCrjrAZPFDtJLNWUqSzqCmge0Fg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+	by leonov.paulk.fr (Postfix) with ESMTPS id 76FF71F0004B
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Jul 2025 15:40:46 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+	id B1CC8ACA64E; Fri,  4 Jul 2025 15:40:45 +0000 (UTC)
+X-Spam-Level: *
+Received: from localhost.localdomain (unknown [192.168.1.64])
+	by laika.paulk.fr (Postfix) with ESMTP id 0F26AACA59D;
+	Fri,  4 Jul 2025 15:40:12 +0000 (UTC)
+From: Paul Kocialkowski <paulk@sys-base.io>
+To: linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Icenowy Zheng <icenowy@aosc.xyz>,
+	Maxime Ripard <mripard@kernel.org>,
+	Paul Kocialkowski <paulk@sys-base.io>
+Subject: [PATCH 1/2] clk: sunxi-ng: v3s: Fix de clock definition
+Date: Fri,  4 Jul 2025 17:40:07 +0200
+Message-ID: <20250704154008.3463257-1-paulk@sys-base.io>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+Content-Transfer-Encoding: 8bit
 
-On Thu, 26 Jun 2025 10:09:18 +0200, Paul Kocialkowski wrote:
-> This series adds support for the Alwinner A100/A133 Ethernet MAC (EMAC)
-> and uses it in the Liontron H-A133L board.
-> 
-> Paul Kocialkowski (5):
->   pinctrl: sunxi: Fix a100 emac pin function name
->   arm64: dts: allwinner: a100: Add pin definitions for RGMII/RMII
->   dt-bindings: net: sun8i-emac: Add A100 EMAC compatible
->   arm64: dts: allwinner: a100: Add EMAC support
->   arm64: dts: allwinner: a133-liontron-h-a133l: Add Ethernet support
-> 
-> [...]
+The de clock is marked with CLK_SET_RATE_PARENT, which is really not
+necessary (as confirmed from experimentation) and significantly
+restricts flexibility for other clocks using the same parent.
 
-Applied to sunxi/dt-for-6.17 in local tree, thanks!
+In addition the source selection (parent) field is marked as using
+2 bits, when it the documentation reports that it uses 3.
 
-[2/5] arm64: dts: allwinner: a100: Add pin definitions for RGMII/RMII
-      commit: e8ce8507ecac5c4125e8d8aca147cbd7d3eae573
-[4/5] arm64: dts: allwinner: a100: Add EMAC support
-      commit: ce51ff18daca21723f97d22477416418dcfca8dc
-[5/5] arm64: dts: allwinner: a133-liontron-h-a133l: Add Ethernet support
-      commit: 1c5f20ebc46d9cf5fd19c343537de15aeeda2d36
+Fix both issues in the de clock definition.
 
-Best regards,
+Fixes: d0f11d14b0bc ("clk: sunxi-ng: add support for V3s CCU")
+Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
+---
+ drivers/clk/sunxi-ng/ccu-sun8i-v3s.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-v3s.c b/drivers/clk/sunxi-ng/ccu-sun8i-v3s.c
+index 52e4369664c5..df345a620d8d 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun8i-v3s.c
++++ b/drivers/clk/sunxi-ng/ccu-sun8i-v3s.c
+@@ -347,8 +347,7 @@ static SUNXI_CCU_GATE(dram_ohci_clk,	"dram-ohci",	"dram",
+ 
+ static const char * const de_parents[] = { "pll-video", "pll-periph0" };
+ static SUNXI_CCU_M_WITH_MUX_GATE(de_clk, "de", de_parents,
+-				 0x104, 0, 4, 24, 2, BIT(31),
+-				 CLK_SET_RATE_PARENT);
++				 0x104, 0, 4, 24, 3, BIT(31), 0);
+ 
+ static const char * const tcon_parents[] = { "pll-video", "pll-periph0" };
+ static SUNXI_CCU_M_WITH_MUX_GATE(tcon_clk, "tcon", tcon_parents,
 -- 
-Chen-Yu Tsai <wens@csie.org>
+2.49.0
 
