@@ -1,47 +1,45 @@
 Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 818A9309A61
-	for <linux-sunxi@lists.linux.dev>; Fri,  4 Jul 2025 15:41:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E846A2869E
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Jul 2025 15:42:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751643683; cv=none; b=P6Ac9CvOilmW6C+RBWfYuXEB4Cfx5iksNewqelbcaVjs9U04fxWLSW4Z44kGSRhnl4njwehTfHo1fsmzg67AHPY8kKhxvijknhMsC+3gGBQgAX1Y6ZhcToS/ZBGbJeQAN1V0jensrDBqBPjH1WHLe4J1/SR+0B5V/ygeWBKKPmk=
+	t=1751643758; cv=none; b=TrZR18/YlviM+Q/T/Jw8OXdhB9IdbPP+bUcnb+2TcdgITxHI/PL4Ok3SfOLKcZNDuo6Iq5tryY2vWsSo08V+EYPwmiDIVW4SN6YRr8FRwFlO7E2DMCP7bxS9NY5HbaGUW6qFZIh9ong0G7CgudSXdrHapwDxYS+L+2FJoQjG2SQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751643683; c=relaxed/simple;
-	bh=TPsN4jIDaCqGcxQvwW7smz2AHs80b+pwC6XHk4Ve0eQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Q2WqpRxcHyccOli2zxSj2IGApzgcOi71x++o1o/L6buB3qY8PCNpEjWnQXBuis5BLOQHddH+tnpBOwlIfPAbLMCKjAejTaW4vyycC5vhSzP62mfTrMxDQoHJ7pdiYfb4LGUIOr4ej3D3ORyI9tfkdIH6Z9YLTOab2leUrmUqWVk=
+	s=arc-20240116; t=1751643758; c=relaxed/simple;
+	bh=tZ+8W52w/OWMR5d/xHvOrl71eVGGngvIMa5K6fcZjiw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=n93zzzblzX7WVoTvTeIjrLkaAUP4nyVocyETNv4eZgbkLjd/AsqvyCMug7ArQylxaQgM0j1X3v7v72RUvk6qQzz0Gniah7pMJ/tugWc4iTJ9QvyAYB/Qg9V/+UY81VM5ChkINz1xgkQqAnxb8//n+/x8fUiXvac9HaktFQNF5iE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
 Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 576401F0003D
-	for <linux-sunxi@lists.linux.dev>; Fri,  4 Jul 2025 15:41:19 +0000 (UTC)
+	by leonov.paulk.fr (Postfix) with ESMTPS id 3A9691F00036
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Jul 2025 15:42:34 +0000 (UTC)
 Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id A565DACA649; Fri,  4 Jul 2025 15:41:18 +0000 (UTC)
+	id C2848ACA64E; Fri,  4 Jul 2025 15:42:33 +0000 (UTC)
 X-Spam-Level: *
 Received: from localhost.localdomain (unknown [192.168.1.64])
-	by laika.paulk.fr (Postfix) with ESMTP id 8BD7DACA63A;
-	Fri,  4 Jul 2025 15:40:12 +0000 (UTC)
+	by laika.paulk.fr (Postfix) with ESMTP id C45BFACA648;
+	Fri,  4 Jul 2025 15:41:50 +0000 (UTC)
 From: Paul Kocialkowski <paulk@sys-base.io>
-To: linux-clk@vger.kernel.org,
+To: dri-devel@lists.freedesktop.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Cc: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
+Cc: Maxime Ripard <mripard@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
 	Samuel Holland <samuel@sholland.org>,
-	Icenowy Zheng <icenowy@aosc.xyz>,
-	Maxime Ripard <mripard@kernel.org>,
 	Paul Kocialkowski <paulk@sys-base.io>
-Subject: [PATCH 2/2] clk: sunxi-ng: v3s: Assign the de and tcon clocks to the video pll
-Date: Fri,  4 Jul 2025 17:40:08 +0200
-Message-ID: <20250704154008.3463257-2-paulk@sys-base.io>
+Subject: [PATCH] drm/sun4i: Cleanup v3s mixer config fields ordering and indentation
+Date: Fri,  4 Jul 2025 17:41:49 +0200
+Message-ID: <20250704154149.3464461-1-paulk@sys-base.io>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250704154008.3463257-1-paulk@sys-base.io>
-References: <20250704154008.3463257-1-paulk@sys-base.io>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -50,69 +48,37 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-It appears (based on experimentation) that both the de and tcon clocks
-need to have the same parent for the two units to work together.
-
-Assign them both to the video pll by manually clearing the parent
-selection bits (effectively setting index 0) and marking the clocks
-with the CLK_SET_RATE_NO_REPARENT flag, which ensures that they will
-never use a different parent.
-
-The video pll is also a possible parent for the camera subsystem,
-but it can use the dedicated isp pll if needed so there should be
-no negative side-effect due to this change.
-
-Note that ccu_mux_helper_set_parent cannot be used at this stage as
-it requires the clock driver to be initialized and this configuration
-is best done before the clock driver is available to consumers.
+The v3s mixer config definition is a bit messy. Tidy it up.
+No function change is intended.
 
 Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
 ---
- drivers/clk/sunxi-ng/ccu-sun8i-v3s.c | 21 +++++++++++++++++++--
- 1 file changed, 19 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/sun4i/sun8i_mixer.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-v3s.c b/drivers/clk/sunxi-ng/ccu-sun8i-v3s.c
-index df345a620d8d..05595ac51b76 100644
---- a/drivers/clk/sunxi-ng/ccu-sun8i-v3s.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun8i-v3s.c
-@@ -347,11 +347,13 @@ static SUNXI_CCU_GATE(dram_ohci_clk,	"dram-ohci",	"dram",
+diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+index 8b41d33baa30..674b55f218fc 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+@@ -670,12 +670,12 @@ static const struct sun8i_mixer_cfg sun8i_r40_mixer1_cfg = {
+ };
  
- static const char * const de_parents[] = { "pll-video", "pll-periph0" };
- static SUNXI_CCU_M_WITH_MUX_GATE(de_clk, "de", de_parents,
--				 0x104, 0, 4, 24, 3, BIT(31), 0);
-+				 0x104, 0, 4, 24, 3, BIT(31),
-+				 CLK_SET_RATE_NO_REPARENT);
+ static const struct sun8i_mixer_cfg sun8i_v3s_mixer_cfg = {
+-	.vi_num = 2,
+-	.ui_num = 1,
+-	.scaler_mask = 0x3,
+-	.scanline_yuv = 2048,
+-	.ccsc = CCSC_MIXER0_LAYOUT,
+-	.mod_rate = 150000000,
++	.ccsc		= CCSC_MIXER0_LAYOUT,
++	.mod_rate	= 150000000,
++	.scaler_mask	= 0x3,
++	.scanline_yuv	= 2048,
++	.ui_num		= 1,
++	.vi_num		= 2,
+ };
  
- static const char * const tcon_parents[] = { "pll-video", "pll-periph0" };
- static SUNXI_CCU_M_WITH_MUX_GATE(tcon_clk, "tcon", tcon_parents,
--				 0x118, 0, 4, 24, 3, BIT(31), 0);
-+				 0x118, 0, 4, 24, 3, BIT(31),
-+				 CLK_SET_RATE_NO_REPARENT);
- 
- static SUNXI_CCU_GATE(csi_misc_clk,	"csi-misc",	"osc24M",
- 		      0x130, BIT(31), 0);
-@@ -753,6 +755,21 @@ static int sun8i_v3s_ccu_probe(struct platform_device *pdev)
- 	val &= ~GENMASK(19, 16);
- 	writel(val, reg + SUN8I_V3S_PLL_AUDIO_REG);
- 
-+	/*
-+	 * Assign the DE and TCON clock to the video PLL. Both clocks need to
-+	 * have the same parent for the units to work together.
-+	 */
-+
-+	val = readl(reg + de_clk.common.reg);
-+	val &= ~GENMASK(de_clk.mux.shift + de_clk.mux.width - 1,
-+			de_clk.mux.shift);
-+	writel(val, reg + de_clk.common.reg);
-+
-+	val = readl(reg + tcon_clk.common.reg);
-+	val &= ~GENMASK(tcon_clk.mux.shift + tcon_clk.mux.width - 1,
-+			tcon_clk.mux.shift);
-+	writel(val, reg + tcon_clk.common.reg);
-+
- 	return devm_sunxi_ccu_probe(&pdev->dev, reg, desc);
- }
- 
+ static const struct sun8i_mixer_cfg sun20i_d1_mixer0_cfg = {
 -- 
 2.49.0
 
