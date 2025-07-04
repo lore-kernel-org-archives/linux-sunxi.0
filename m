@@ -1,92 +1,92 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D71CC328AE2
-	for <linux-sunxi@lists.linux.dev>; Fri,  4 Jul 2025 08:01:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAE29328B1E
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Jul 2025 08:02:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751616081; cv=none; b=Bl5cg043007SscUKiN4Tdsk4ksxyb+KtNGCHjAXTs9RHxsz4W+3MSZVrsIF9ypJDTOuoft/3u9iHzReyp9UGyoksWdafd6jOmcLzU0h0YXYwJpNkuiXGMy+H6XW9i5uiHXownd+fE/E4XB/e1/jl/FjTXnTyM3iJyDD8rmbuHzM=
+	t=1751616171; cv=none; b=TjgpblQ+EEfBjkJRABT8PoL0cw/PNuwWgk/D4RkXbUyyIKY5IchBphaV79PgwKWthnEBqW3AmyPDemAIBgr+tzQBGVdFgBr/GFbu8fnwPePTDyC9FO60kOKE5N0Ga1szzvehgQjiUxOHCXthf6bwqmUHao2qZ9ZXynCK6U4a7FM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751616081; c=relaxed/simple;
-	bh=W5hy85hwlDseVRTu07tUllVYOTsjRbqVRAcm6Mv7UyA=;
+	s=arc-20240116; t=1751616171; c=relaxed/simple;
+	bh=46Q1fd2UmAUeRYeGhPM7wSGhz2EFf4uCAOpm7Lsa8zU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=J7A5xaD7xLgOLC3SO6vk3lmJPao2va0le2/xn+w1lLG8zvlAlKde2ceCHyTPtnYfLLVZKgxVLlGxuyJAZ9QrOPvNLLzdPSgVVC62mmFXEi5uOD60KLFFztJzyvBilBXXoly8uLU9B1B9rDbGnCYjR/iXdB4jV8K63yEOeoo5aMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=n/+g4tLu; arc=none smtp.client-ip=209.85.167.41
+	 To:Cc:Content-Type; b=A+KQTPK6AJTOqdmhXGIleCiMdkqYyTutrGfvWAhavIcW99mianAxkjkkAfvL4GY/e0qDMKQiAO9sVk5XySqRcZ37QuyDRRHiwg2+V2WHXjQxF3ptX3qyXEEPw+ytKreNOKQnKUCMU4tdqsotPb20cor5ZdjxyzwqASO0lxNfNyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WeZg2Sc7; arc=none smtp.client-ip=209.85.167.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="n/+g4tLu"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-556373661aaso668424e87.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 04 Jul 2025 01:01:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WeZg2Sc7"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-55516abe02cso739224e87.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 04 Jul 2025 01:02:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1751616077; x=1752220877; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1751616168; x=1752220968; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=W5hy85hwlDseVRTu07tUllVYOTsjRbqVRAcm6Mv7UyA=;
-        b=n/+g4tLuScMv9cRS/c96UbAl2oXhiwzwVuNhWASMgbivpYtrWZ+77gspRBvVjUAE+5
-         vgxpW+ClBJ9VcCaLDsFW6PVlSGnNyYdV1ZKnBmNpLMXybAbhHsnb7s7f4IN1nHb/XtwR
-         f0oaqVekHEtAUkF2YaesgS0UgY2ABxRXm4rB2d3dngi+7CcnbeAhqxsRiNcEKELomhhe
-         PDt2o6bYbE3WtOlg6YT1N+Habg44ByfPiowgQHQ44gOxpI33rplkslpmNNP07Q5kM6z1
-         wy4MDbihYWL4BNpR6DoE65rYh83D3v9VYCDdrWXeD3xUCFWvikmrR0W4Y41o7JwU5xHq
-         +56w==
+        bh=46Q1fd2UmAUeRYeGhPM7wSGhz2EFf4uCAOpm7Lsa8zU=;
+        b=WeZg2Sc7OVl8GoRkYyYz/am4ji3s0rA/yOo/W3SGM7T8owlsRdOAH0zelXB2joL2cw
+         6HiA/JW4eF3yiUCyFHQwv6tMOx+gtkiEGPWmSHDoNOAvq5H53Ic/G5ElLmuHBDfeby0v
+         g5XrypSNl/lBuEkSBPbs0YmLA4ntpMv5+rXYb7c/U8R3ea8Blcbj+2VJdbh5qwcqmLDW
+         eg3OeJ7hLivmiN9P9UeHccA5bKPeisnDy7qXYwKOXaClajMThbIhzLdpcGZUJEza+efJ
+         +y0Soe3/5AaylYrEMsvDrUahKrCsV0EnHaJFvHwR3xITMjiA+EFp6Dg134/0IE+Ahkqv
+         6umA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751616077; x=1752220877;
+        d=1e100.net; s=20230601; t=1751616168; x=1752220968;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=W5hy85hwlDseVRTu07tUllVYOTsjRbqVRAcm6Mv7UyA=;
-        b=d4ljLDLZPVpqfZNBysqI8ZSv0GpCdQAQePPgnIVOxL2KsupIzUmq4rU6cvzpOnNGVM
-         2kAFlWdfzBRi++7+MsxUOl2VWuHqN/y5vFgKkQXB3lGJU7i693iuIcWYMgqbtMtHO/Km
-         FjnWPMfMZZtCxuZcco2LY/oamMXB4LYSVcSz+kQbfQGkKuEMOt6VM9mPxrFaQwarYYXN
-         mAoCu3paIwZ8hk6Am3hKlWmPeFMhxuIApMxZK/inRdYSUQDy7yeeESjZQbzYUa5uVamz
-         HVmJmkQ74s9CdYPK6PLg1g4z/HbM/2AFZJDyAyPc1SfAT0yEauvMmt9HhXmoIaxm50Rm
-         xcyw==
-X-Forwarded-Encrypted: i=1; AJvYcCWD1d84UpTk4xVW3CtoROTvIx9hrcB3x7+RTKnZh7R8T5YUYLw0n6Z2KfubBg51pQhTuNTXeJ3ESqOKew==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxvJxkKSDZ9MdpvkzeC0qogYXaqEfpAwrvQXOxgF7pzqVZTAKtS
-	1IolK38PG12og1umN1WXhXHOBiZgyeqJ4RR1a3tyTowlJlWWyjP/C2WT8lJHCcYK2dd25N1NgKQ
-	P3pbnJC8tupAbVO7/NMl3xGDPm1z5fCx9vIqAD25dHw==
-X-Gm-Gg: ASbGncvAEaUnENO37dlfbfn7sPM9WYLeR287CxJtS7gnfUxFkjCfwdrm678xNE8BVvW
-	Ge2saGTonRFcVENHoLvTsxqhno650MHPWb0yWeSScW7aH/EZ4xQ9st5Q+leZ+PTniv+Npz8pJGM
-	cOdcOOIMZvwVYfnWJLLEQ1NguGnVk0d6YvXIBcofkAAcc=
-X-Google-Smtp-Source: AGHT+IE/4XahMx0H5K8e3G6kGLPvEJmDNT+z5yGiSFu4fWzVouleMPU8+EMqNIa7ZAvHuQVSQceFfXnXHQe0peqw8UY=
-X-Received: by 2002:a05:6512:b26:b0:553:36b7:7b14 with SMTP id
- 2adb3069b0e04-556f1f62c4amr441161e87.37.1751616076829; Fri, 04 Jul 2025
- 01:01:16 -0700 (PDT)
+        bh=46Q1fd2UmAUeRYeGhPM7wSGhz2EFf4uCAOpm7Lsa8zU=;
+        b=OrB49Zs4yuB6vQiUknK9GeCmJw0xy12SRqNt8K1WIchUkR13MQMk+us+24IQjkIhDM
+         S8W3RoJ7k59NBwfWzj19uHSJjJCjZsIsNJ985MOeNH4hUnsZyHMfTgRdUbbrTr4bTpPb
+         LhKsyqtIiQ16u8c+2JWrrzitQ+Vofp3AQ8qY+CWFgy6wva+aep5tU4t7lRYzDRiZnqhS
+         /LT/iy/uOX1kFq4pQMEps5Ij3OEvbPch9UI6J/ocGxXxFrl/xCtC5DPKiblP6btmxT+E
+         X8NGkG6wn0Onn75JzedhKDLfECJIXBrRYs32OCFJepNPZdFG9g8jXaf+TfLWlTHKb3i5
+         ZDgA==
+X-Forwarded-Encrypted: i=1; AJvYcCWeeO6GE7MBNepf3kQbv0GESz4hN7xXK0QYzdsWf6aQ54/V3va/AXcGDhX3UdhlyHW8sVkxcMl8/HXR1w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzjSszUwxfFMLhPRupj4wqS12LI01/dxdvHf9J8kRM5dl11y/rS
+	0SU0OpTF10pHJvgqcEn9tHAG5MfR6IRo8Ekir6O12hjswPKvRhR96MFXV6N+0FmZnfRypcS2ejT
+	I1XxHjjdhirJy+tJFSBWhVGyNGW5qArRiCr4HHgtc6Q==
+X-Gm-Gg: ASbGncsHRejLRYhFNMDLfpsYvIwvhCNuupVXs16uGvFMQrjWXO4jdeqGsY5XKtH7+iu
+	IuU35G+aVI5+MK2BV0u64VKb4MNNWahRAjRJYE0Z5RneaNqcaLzZrTShZQWxrHSTcoMgiiL4Kgf
+	dpI0U5Cba7MbSFbsfn3aismhwiNGqeqdaJijE3hAuYTyw=
+X-Google-Smtp-Source: AGHT+IEViFXCMcn+u4hb5R0d0ojGEnFpfDhNI4g0r3Lc44CnC/koM/mbdYAwzUnF/KlRRn9NNEY5bmwt+E5RollIb+w=
+X-Received: by 2002:a05:6512:1102:b0:550:e692:611b with SMTP id
+ 2adb3069b0e04-5565baa727cmr564962e87.16.1751616165679; Fri, 04 Jul 2025
+ 01:02:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250701201124.812882-1-paulk@sys-base.io> <20250701201124.812882-2-paulk@sys-base.io>
-In-Reply-To: <20250701201124.812882-2-paulk@sys-base.io>
+References: <20250626080923.632789-1-paulk@sys-base.io> <20250626080923.632789-2-paulk@sys-base.io>
+In-Reply-To: <20250626080923.632789-2-paulk@sys-base.io>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 4 Jul 2025 10:01:04 +0200
-X-Gm-Features: Ac12FXztT7uc15QsZMvB3fPDcO72_tN7xc565ddgY25DgxMR-aqghVzmCalro_g
-Message-ID: <CACRpkdanKtZBkH90yAOjm2+7+dcNri+j7wV5AFL7NHSXHi+bSQ@mail.gmail.com>
-Subject: Re: [PATCH 1/5] pinctrl: sunxi: v3s: Fix wrong comment about UART2 pinmux
+Date: Fri, 4 Jul 2025 10:02:34 +0200
+X-Gm-Features: Ac12FXzEoK3lIRrRhHYuQcLxyMKzE37BJ8MYgC7nOBJcQ6FysNDrbqPOTwFxTFY
+Message-ID: <CACRpkdZ+kw0=X5L90Wuno9GjEi3pEnAV_bdJX=ELUxCbk5spRA@mail.gmail.com>
+Subject: Re: [PATCH 1/5] pinctrl: sunxi: Fix a100 emac pin function name
 To: Paul Kocialkowski <paulk@sys-base.io>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+Cc: netdev@vger.kernel.org, devicetree@vger.kernel.org, 
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-gpio@vger.kernel.org, 
-	Yong Deng <yong.deng@magewell.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Maxime Ripard <mripard@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Icenowy Zheng <icenowy@aosc.xyz>, Andre Przywara <andre.przywara@arm.com>
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, "David S . Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 1, 2025 at 10:13=E2=80=AFPM Paul Kocialkowski <paulk@sys-base.i=
-o> wrote:
+On Thu, Jun 26, 2025 at 10:11=E2=80=AFAM Paul Kocialkowski <paulk@sys-base.=
+io> wrote:
 
-> The original comment doesn't match the pin attribution, probably due
-> to a hasty copy/paste.
+> The Allwinner A100/A133 only has a single emac instance, which is
+> referred to as "emac" everywhere. Fix the pin names to drop the
+> trailing "0" that has no reason to be.
 >
+> Fixes: 473436e7647d ("pinctrl: sunxi: add support for the Allwinner A100 =
+pin controller")
 > Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
 
 This patch 1/5 applied to the pin control tree.
