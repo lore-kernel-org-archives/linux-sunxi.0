@@ -1,86 +1,89 @@
-Received: from mail.netcube.li (mail.netcube.li [173.249.15.149])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B00F2356D9
-	for <linux-sunxi@lists.linux.dev>; Sat,  5 Jul 2025 22:40:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.249.15.149
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B43F18DB1C
+	for <linux-sunxi@lists.linux.dev>; Sat,  5 Jul 2025 23:23:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751755247; cv=none; b=njoZVT/kwS+J7sUzMwae2chSJLqzewueNcKYhIPv3odmbpKbpD7aXMZ7gz9cWM/RRxygiK/NyTNzskScew3OiYfWVGVye+cjvSlwpnRQtzST8HQkXwos0YWUhfix+u3nyqeS51oegpbyzwLiVOz+3YyZHP2qJENtlAoytLKoeo4=
+	t=1751757838; cv=none; b=WsKMODXhDGuJxI8wou9lvmSUTgx5KFU43NXpANR6E2/7rNWCGCYC0TnQgsbUhmRcNwijXLsMuIj0JAJ3+HmTfi5N3RGjJpPabZh0TWVk519A+3XbekPHBkkeXPtg9lDEAamUZeumBJwtwejP2gB16cncPtJVQSCRmM1NvDA938w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751755247; c=relaxed/simple;
-	bh=OT1/udH0LiMxF5Z8PEbU0qGSsawL5z+PeYOdft9WpwE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=bNwTIyFizQ+0f+a/ExZ1CLdG2xgoNYUvMAVYsFwQnLyOfjiApnTwHip1Md8XsH7eYwyMjg8QE7k8YYgxgVb/KtzjtY9K0smbwQw5Fbh82PY9RYylstLMt+HsMFBgauzY6O1sJkvTL7cuiQNT3adeqXB+cElVVVWvy9GBNeMSai4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li; spf=pass smtp.mailfrom=netcube.li; dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b=blC1gYzo; arc=none smtp.client-ip=173.249.15.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netcube.li
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b="blC1gYzo"
-dkim-signature: v=1; a=rsa-sha256; d=netcube.li; s=s1;
-	c=relaxed/relaxed; q=dns/txt; h=From:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Transfer-Encoding:In-Reply-To:References;
-	bh=qDj3M+WsTW7HyachIHYD0AhPIpwkOUh0ftW3rGGli3g=;
-	b=blC1gYzowzcq+2MeaUzdanDN06tZ+ZQCm0u2/xg+Kgr5MVUfqWXib5jxI16eLtWvIG+8H/jMWMXAFEivJvizpoNF7fGprzRH6XHRwQUGEIUxjHVP7Q1p+XUjkUBD8sBgteLgnqItQlbaqL+rcmjqEvw9Pq6Q9B9x+slexozNhgY=
-Received: from lukas-hpz440workstation.lan.sk100508.local (cm70-231.liwest.at [212.241.70.231])
-	by mail.netcube.li with ESMTPA
-	; Sat, 5 Jul 2025 23:39:42 +0200
-From: Lukas Schmid <lukas.schmid@netcube.li>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Maxime Ripard <mripard@kernel.org>
-Cc: Lukas Schmid <lukas.schmid@netcube.li>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: [PATCH v1 1/7] dt-bindings: arm: sunxi: Add NetCube Systems Nagami SoM
-Date: Sat,  5 Jul 2025 23:38:52 +0200
-Message-Id: <20250705213900.3614963-2-lukas.schmid@netcube.li>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250705213900.3614963-1-lukas.schmid@netcube.li>
-References: <20250705213900.3614963-1-lukas.schmid@netcube.li>
+	s=arc-20240116; t=1751757838; c=relaxed/simple;
+	bh=iXCNf1YB3NIwYuKMj7k0Kc8P1cVVFy/saHOWN7fQLRk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=id+PAbG90aK/PT3WYuBDbZA28p8zMQMc9loSC95SAKgIb4EqVsfiyNRv3NN6VwfkcXJA8mDOSxIBTdEDav2vtp3iLqqJyhOzgHJbdo2jVuuh872S0lCqcyt3qELiZ8i3SJiOadBYpVJwkORVNeGgX2E8cTFL+oWuMYU7MlVBqMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3520D152B;
+	Sat,  5 Jul 2025 16:23:42 -0700 (PDT)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 68AF03F66E;
+	Sat,  5 Jul 2025 16:23:53 -0700 (PDT)
+Date: Sun, 6 Jul 2025 00:22:23 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Chen-Yu Tsai <wens@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec
+ <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ netdev@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH net 0/2] allwinner: a523: Rename emac0 to gmac0
+Message-ID: <20250706002223.128ff760@minigeek.lan>
+In-Reply-To: <e9c5949d-9ac5-4b33-810d-b716ccce5fe9@lunn.ch>
+References: <20250628054438.2864220-1-wens@kernel.org>
+	<20250705083600.2916bf0c@minigeek.lan>
+	<CAGb2v64My=A_Jw+CBCsqno3SsSSTtBFKXOrgLv+Nyq_z5oeYBg@mail.gmail.com>
+	<e9c5949d-9ac5-4b33-810d-b716ccce5fe9@lunn.ch>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The NetCube Systems Nagami is an System on Module base on the Allwinner
-T113s SoC. It is intended to be used in low cost devices which require
-simple layouts and low BOM cost.
+On Sat, 5 Jul 2025 17:53:17 +0200
+Andrew Lunn <andrew@lunn.ch> wrote:
 
-Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
----
- Documentation/devicetree/bindings/arm/sunxi.yaml | 5 +++++
- 1 file changed, 5 insertions(+)
+Hi Andrew,
 
-diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
-index 7807ea613..3c4353884 100644
---- a/Documentation/devicetree/bindings/arm/sunxi.yaml
-+++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
-@@ -599,6 +599,11 @@ properties:
-           - const: netcube,kumquat
-           - const: allwinner,sun8i-v3s
- 
-+      - description: NetCube Systems Nagami SoM
-+        items:
-+          - const: netcube,nagami
-+          - const: allwinner,sun8i-t113s
-+
-       - description: NextThing Co. CHIP
-         items:
-           - const: nextthing,chip
--- 
-2.39.5
+> > So it's really whatever Allwinner wants to call it. I would rather have
+> > the names follow the datasheet than us making some scheme up.  
+> 
+> Are the datasheets publicly available?
 
+We collect them in the sunxi wiki (see the links below), but just to
+make sure:
+I am not disputing that GMAC is the name mentioned in the A523 manual,
+and would have probably been the right name to use originally - even
+though it's not very consistent, as the same IP is called EMAC in the
+older SoCs' manuals. I am also not against renaming identifiers or even
+(internal) DT labels. But the problem here is that the renaming affects
+the DT compatible string and the pinctrl function name, both of which
+are used as an interface between the devicetree and its users, which is
+not only the Linux kernel, but also U-Boot and other OSes like the BSDs.
 
+In this particular case we would probably get away with it, because
+it's indeed very early in the development cycle for this SoC, but for
+instance the "emac0" function name is already used in some U-Boot
+patch series on the list:
+https://lore.kernel.org/linux-sunxi/20250323113544.7933-18-andre.przywara@arm.com/
+
+If we REALLY need to rename this, it wouldn't be the end of the world,
+but would create some churn on the U-Boot side.
+
+I just wanted to point out that any changes to the DT bindings have
+some impact to other projects, even if they are proposed as a coherent
+series on the Linux side. Hence my question if this is really necessary.
+
+Cheers,
+Andre
+
+https://linux-sunxi.org/A64#Documentation
+https://linux-sunxi.org/H616#Documentation
+https://linux-sunxi.org/A523#Documentation
