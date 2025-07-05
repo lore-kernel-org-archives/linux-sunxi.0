@@ -1,159 +1,234 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34B2B1FE474
-	for <linux-sunxi@lists.linux.dev>; Sat,  5 Jul 2025 12:20:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4C661A3029
+	for <linux-sunxi@lists.linux.dev>; Sat,  5 Jul 2025 14:40:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751718044; cv=none; b=fhFZNxG74E6CgoHZHyjOntMStOjEkb35Ohli/xah5g14WALJU6XnFizxJOM1QhfcFotKt137bqFrG0YnYduxnkHCtqHu38B18B0pEwX+gJJWvlnLDEbd55h/tHeiUhqj0iuOV9u5mK7Hsq/bIfHAEP2ld2yOk63WQhgK/G7+tKw=
+	t=1751726406; cv=none; b=gEKc4geVurFvkHYPiZy8xDa2SgOnw056bYrsyg4Trzu++6LPkBQNNWuO8IXp5hVXhlCHLKFUqd3dT4+zjDXRszrKedZiD88bjZT+5Y6uzidFHpNv1ZOQnWrTs9hDIIO9JQ4oBZO/CkXuGlD6tJMn+Qc7HagSCp6cUgZPe69/EU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751718044; c=relaxed/simple;
-	bh=w6JVrjNC7s+w46VT5qoV9Am1SjT66OpW5xDi+rFdRiw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=n8uEW/Pq64xHI2Finazd41njOmJrDvrlQzqvtoO6Evp7s7npXYVgisDct7wvW2/XukGgO2GpYX4J6sXuecbPaHKVYZdlEhlVSRjqLJhGhw/xNS2mUt70f+ibbZh2t6GHc0Ocb/hhqgGt7NwZY8fwAgOlrTJBLzSRmh5qGwzbXz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NO97l4Uh; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NO97l4Uh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A34EFC4AF0B
-	for <linux-sunxi@lists.linux.dev>; Sat,  5 Jul 2025 12:20:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751718043;
-	bh=w6JVrjNC7s+w46VT5qoV9Am1SjT66OpW5xDi+rFdRiw=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=NO97l4Uh1TnQv0IgibQlK8jSxdy5+saaJFnqpoZJ32HXznZja1vuRpy6IEPbvBFjn
-	 U9ZDGiwSWzANC3fWbivFHWhkM9K2BrjwbNV6Lf+0PmbSRMSrPyZ8ZNdRL6pCWZnvJ6
-	 3I6skH+H3KsDvrEFB1VYPUU5v8nQDvn1vTUsZ/96mjDKVuanBfyzoU2bB3XD6felBG
-	 ksweZSvZdDnorhAx4dzGBd6rWikZ07JTWcl4q0ueZeSjKIGqgppB6oMFevOQeU2CbZ
-	 YCYMZpVTcqVfDCZQQQ9JlQs4R4kkCWpKuI634EhdyLXGu83HPKjWbs4gCXuNyC1bMj
-	 5Dz37HNSncqpA==
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-32b595891d2so13263001fa.2
-        for <linux-sunxi@lists.linux.dev>; Sat, 05 Jul 2025 05:20:43 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVhnbKGEzsDyK+zcXmt+822kaJASqm34v46gO2WlFXKH0iBF8lA4FT7UrDATVmRCHUW/ekNmctpntSrEg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzQ6EDPZY4RuSk0cKCeJi+A2FmR+Ycnkaz5uhA8rtgWebEpgSOJ
-	Wo4G9y6llQg8+JVq6hqQVY02Wfl9C59JX4gfoMpgmjplb9Z6LDN4azTnnmfqJHZWfzhVimjoUDx
-	VCa7hMSd90tEvSxrmj1Xl6/zJk7nJz3U=
-X-Google-Smtp-Source: AGHT+IE2FeBYZ8ZmnNW0SV5XaswcVwlOSGE5JRdJuwk2CAsSkNvjgDvq3feTe9kdVd6rU22ciEC8vE3JOGVj9L4sHqY=
-X-Received: by 2002:a2e:ae1c:0:b0:32a:74db:f3c1 with SMTP id
- 38308e7fff4ca-32f19ad68d4mr4847691fa.24.1751718042043; Sat, 05 Jul 2025
- 05:20:42 -0700 (PDT)
+	s=arc-20240116; t=1751726406; c=relaxed/simple;
+	bh=zggGLT3GPVJzX4edZg7k5Aw/nXLgjkQPlOWtjpbmPgk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=s2f78eTZJtNyY17g7lDZrfPsgbv5A7hMPK19ucy30Ss0VN8oKmT/Px3Sc0Eyo74O5rUI3D72EBwtpaMql++GyHqbe+ztnv4N91Au/DAgpyI6PTEZPRIEonPCbZZK0QlwlHEOavdHpm7rdhnHE7/T1k8XIr2Ps1yOEQFvP+S1URw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 73A7B152B;
+	Sat,  5 Jul 2025 07:39:43 -0700 (PDT)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 94D2C3F6A8;
+	Sat,  5 Jul 2025 07:39:54 -0700 (PDT)
+Date: Sat, 5 Jul 2025 15:38:25 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Paul Kocialkowski <paulk@sys-base.io>
+Cc: netdev@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, Andrew Lunn
+ <andrew+netdev@lunn.ch>, "David S . Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu
+ Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
+ Holland <samuel@sholland.org>, Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH 1/5] pinctrl: sunxi: Fix a100 emac pin function name
+Message-ID: <20250705153825.2be2b333@minigeek.lan>
+In-Reply-To: <20250704233535.4b026641@minigeek.lan>
+References: <20250626080923.632789-1-paulk@sys-base.io>
+	<20250626080923.632789-2-paulk@sys-base.io>
+	<20250704233535.4b026641@minigeek.lan>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250628054438.2864220-1-wens@kernel.org> <20250705083600.2916bf0c@minigeek.lan>
-In-Reply-To: <20250705083600.2916bf0c@minigeek.lan>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sat, 5 Jul 2025 21:20:29 +0900
-X-Gmail-Original-Message-ID: <CAGb2v64My=A_Jw+CBCsqno3SsSSTtBFKXOrgLv+Nyq_z5oeYBg@mail.gmail.com>
-X-Gm-Features: Ac12FXyj5gh1iUI7aiMezVsM5cn9-cQcjwImIe4vvpZrS6Hd_ny1T0St79tYcpI
-Message-ID: <CAGb2v64My=A_Jw+CBCsqno3SsSSTtBFKXOrgLv+Nyq_z5oeYBg@mail.gmail.com>
-Subject: Re: [PATCH net 0/2] allwinner: a523: Rename emac0 to gmac0
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sat, Jul 5, 2025 at 4:37=E2=80=AFPM Andre Przywara <andre.przywara@arm.c=
-om> wrote:
->
-> On Sat, 28 Jun 2025 13:44:36 +0800
-> Chen-Yu Tsai <wens@kernel.org> wrote:
->
-> Hi,
->
-> > From: Chen-Yu Tsai <wens@csie.org>
-> >
-> > Hi folks,
-> >
-> > This small series aims to align the name of the first ethernet
-> > controller found on the Allwinner A523 SoC family with the name
-> > found in the datasheets. It renames the compatible string and
-> > any other references from "emac0" to "gmac0".
->
-> To be honest I am not a big fan of those cosmetic renames when it
-> touches DT files. It seems to not break compatibility in this case,
-> since we don't use the specific compatible string, but leaves a bitter
-> taste anyway. Also I pick DT patches out of -rc releases for U-Boot,
-> and did so internally already, so it's not without churns.
+On Fri, 4 Jul 2025 23:35:35 +0100
+Andre Przywara <andre.przywara@arm.com> wrote:
 
-I'd say that new stuff shouldn't really be considered stable until
-it is actually released, hence why I wanted to get this series merged
-now. Picking from an -rc release is a tradeoff of getting new stuff
-faster vs having something changed or reverted during the -rc process.
-I'm sorry that it went the other way this time.
+Hi,
 
-> So is this really necessary, and what is the purpose of this patch?
+> On Thu, 26 Jun 2025 10:09:19 +0200
+> Paul Kocialkowski <paulk@sys-base.io> wrote:
+> 
+> Hi Paul,
+> 
+> > The Allwinner A100/A133 only has a single emac instance, which is
+> > referred to as "emac" everywhere. Fix the pin names to drop the
+> > trailing "0" that has no reason to be.  
+> 
+> Sorry, but this is wrong. There *is* a second EMAC on the A133 die: it's
+> indeed not mentioned in the manual, but you can probe its MMIO
+> registers (@0x5030000), and there is a second syscon register
+> (@0x03000034). It's mentioned in several BSP code places ([1]).
+> It seem like no suitable pins are connected on the A133
+> package, but that should not affect the A100 .dtsi (we use a similar
+> approach for the H616 and A523).
+> 
+> So I think we should keep the emac0 name.
 
-It's really about aligning the names used throughout the kernel with
-the ones seen in the datasheet.
+just thinking that it's even worse: this changes the DT visible pinctrl
+function name, so it's a DT ABI change. With the "emac0" function name,
+Ethernet would work with stable kernels already (as everything is
+compatible, it's just about DT changes). But with this change, pinctrl
+drivers in older kernels would not match.
 
-> I am fine with using GMAC for the GMAC200 part in the SoC, but the A64,
-> H6, H616, A133 all use the same IP - as the fallback compatible proves -
-> and they call it all EMAC.
+So I would very much like to see this patch moved out. Is it just in
+LinusW's tree so far? I don't see it in -next yet.
 
-There's also an EMAC in the A10 and A20 that only does up to 100 Mbps,
-and there's no lineage there. Also, not all datasheets for SoCs with
-this gigabit-capable EMAC call it the EMAC. Off the top of my head, I
-believe the R40 calls it the GMAC. And the R40's compatible string
-in this binding even uses the string "gmac".
+Cheers,
+Andre.
 
-So it's really whatever Allwinner wants to call it. I would rather have
-the names follow the datasheet than us making some scheme up. We just
-have to remember that this funky gigabit-capable Ethernet controller
-is this piece of hardware.
+> [1]
+> https://github.com/qiaoweibiao/T507_Kernel/blob/main/arch/arm64/boot/dts/sunxi/sun50iw10p1.dtsi
+> 
+> 
+> > 
+> > Fixes: 473436e7647d ("pinctrl: sunxi: add support for the Allwinner A100 pin controller")
+> > Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
+> > ---
+> >  drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c | 32 ++++++++++-----------
+> >  1 file changed, 16 insertions(+), 16 deletions(-)
+> > 
+> > diff --git a/drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c b/drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c
+> > index b97de80ae2f3..95b764ee1c0d 100644
+> > --- a/drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c
+> > +++ b/drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c
+> > @@ -546,33 +546,33 @@ static const struct sunxi_desc_pin a100_pins[] = {
+> >  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+> >  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+> >  		  SUNXI_FUNCTION(0x2, "i2c0"),		/* SCK */
+> > -		  SUNXI_FUNCTION(0x5, "emac0"),		/* RXD1 */
+> > +		  SUNXI_FUNCTION(0x5, "emac"),		/* RXD1 */
+> >  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 0)),
+> >  	SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 1),
+> >  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+> >  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+> >  		  SUNXI_FUNCTION(0x2, "i2c0"),		/* SDA */
+> > -		  SUNXI_FUNCTION(0x5, "emac0"),		/* RXD0 */
+> > +		  SUNXI_FUNCTION(0x5, "emac"),		/* RXD0 */
+> >  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 1)),
+> >  	SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 2),
+> >  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+> >  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+> >  		  SUNXI_FUNCTION(0x2, "i2c1"),		/* SCK */
+> > -		  SUNXI_FUNCTION(0x5, "emac0"),		/* RXCTL */
+> > +		  SUNXI_FUNCTION(0x5, "emac"),		/* RXCTL */
+> >  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 2)),
+> >  	SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 3),
+> >  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+> >  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+> >  		  SUNXI_FUNCTION(0x2, "i2c1"),		/* SDA */
+> >  		  SUNXI_FUNCTION(0x3, "cir0"),		/* OUT */
+> > -		  SUNXI_FUNCTION(0x5, "emac0"),		/* CLKIN */
+> > +		  SUNXI_FUNCTION(0x5, "emac"),		/* CLKIN */
+> >  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 3)),
+> >  	SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 4),
+> >  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+> >  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+> >  		  SUNXI_FUNCTION(0x2, "uart3"),		/* TX */
+> >  		  SUNXI_FUNCTION(0x3, "spi1"),		/* CS */
+> > -		  SUNXI_FUNCTION(0x5, "emac0"),		/* TXD1 */
+> > +		  SUNXI_FUNCTION(0x5, "emac"),		/* TXD1 */
+> >  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 4)),
+> >  	SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 5),
+> >  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+> > @@ -580,14 +580,14 @@ static const struct sunxi_desc_pin a100_pins[] = {
+> >  		  SUNXI_FUNCTION(0x2, "uart3"),		/* RX */
+> >  		  SUNXI_FUNCTION(0x3, "spi1"),		/* CLK */
+> >  		  SUNXI_FUNCTION(0x4, "ledc"),
+> > -		  SUNXI_FUNCTION(0x5, "emac0"),		/* TXD0 */
+> > +		  SUNXI_FUNCTION(0x5, "emac"),		/* TXD0 */
+> >  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 5)),
+> >  	SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 6),
+> >  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+> >  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+> >  		  SUNXI_FUNCTION(0x2, "uart3"),		/* RTS */
+> >  		  SUNXI_FUNCTION(0x3, "spi1"),		/* MOSI */
+> > -		  SUNXI_FUNCTION(0x5, "emac0"),		/* TXCK */
+> > +		  SUNXI_FUNCTION(0x5, "emac"),		/* TXCK */
+> >  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 6)),
+> >  	SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 7),
+> >  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+> > @@ -595,7 +595,7 @@ static const struct sunxi_desc_pin a100_pins[] = {
+> >  		  SUNXI_FUNCTION(0x2, "uart3"),		/* CTS */
+> >  		  SUNXI_FUNCTION(0x3, "spi1"),		/* MISO */
+> >  		  SUNXI_FUNCTION(0x4, "spdif"),		/* OUT */
+> > -		  SUNXI_FUNCTION(0x5, "emac0"),		/* TXCTL */
+> > +		  SUNXI_FUNCTION(0x5, "emac"),		/* TXCTL */
+> >  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 7)),
+> >  	SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 8),
+> >  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+> > @@ -611,7 +611,7 @@ static const struct sunxi_desc_pin a100_pins[] = {
+> >  		  SUNXI_FUNCTION(0x2, "dmic"),		/* DATA0 */
+> >  		  SUNXI_FUNCTION(0x3, "spi2"),		/* CLK */
+> >  		  SUNXI_FUNCTION(0x4, "i2s2"),		/* BCLK */
+> > -		  SUNXI_FUNCTION(0x5, "emac0"),		/* MDC */
+> > +		  SUNXI_FUNCTION(0x5, "emac"),		/* MDC */
+> >  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 9)),
+> >  	SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 10),
+> >  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+> > @@ -619,7 +619,7 @@ static const struct sunxi_desc_pin a100_pins[] = {
+> >  		  SUNXI_FUNCTION(0x2, "dmic"),		/* DATA1 */
+> >  		  SUNXI_FUNCTION(0x3, "spi2"),		/* MOSI */
+> >  		  SUNXI_FUNCTION(0x4, "i2s2"),		/* LRCK */
+> > -		  SUNXI_FUNCTION(0x5, "emac0"),		/* MDIO */
+> > +		  SUNXI_FUNCTION(0x5, "emac"),		/* MDIO */
+> >  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 10)),
+> >  	SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 11),
+> >  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+> > @@ -642,33 +642,33 @@ static const struct sunxi_desc_pin a100_pins[] = {
+> >  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+> >  		  SUNXI_FUNCTION(0x3, "i2c3"),		/* SCK */
+> >  		  SUNXI_FUNCTION(0x4, "i2s3"),		/* MCLK */
+> > -		  SUNXI_FUNCTION(0x5, "emac0"),		/* EPHY */
+> > +		  SUNXI_FUNCTION(0x5, "emac"),		/* EPHY */
+> >  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 13)),
+> >  	SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 14),
+> >  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+> >  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+> >  		  SUNXI_FUNCTION(0x4, "i2s3"),		/* BCLK */
+> > -		  SUNXI_FUNCTION(0x5, "emac0"),		/* RXD3 */
+> > +		  SUNXI_FUNCTION(0x5, "emac"),		/* RXD3 */
+> >  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 14)),
+> >  	SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 15),
+> >  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+> >  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+> >  		  SUNXI_FUNCTION(0x4, "i2s3"),		/* LRCK */
+> > -		  SUNXI_FUNCTION(0x5, "emac0"),		/* RXD2 */
+> > +		  SUNXI_FUNCTION(0x5, "emac"),		/* RXD2 */
+> >  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 15)),
+> >  	SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 16),
+> >  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+> >  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+> >  		  SUNXI_FUNCTION(0x3, "i2s3_dout0"),	/* DOUT0 */
+> >  		  SUNXI_FUNCTION(0x4, "i2s3_din1"),	/* DIN1 */
+> > -		  SUNXI_FUNCTION(0x5, "emac0"),		/* RXCK */
+> > +		  SUNXI_FUNCTION(0x5, "emac"),		/* RXCK */
+> >  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 16)),
+> >  	SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 17),
+> >  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+> >  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+> >  		  SUNXI_FUNCTION(0x3, "i2s3_dout1"),	/* DOUT1 */
+> >  		  SUNXI_FUNCTION(0x4, "i2s3_din0"),	/* DIN0 */
+> > -		  SUNXI_FUNCTION(0x5, "emac0"),		/* TXD3 */
+> > +		  SUNXI_FUNCTION(0x5, "emac"),		/* TXD3 */
+> >  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 17)),
+> >  	SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 18),
+> >  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+> > @@ -676,7 +676,7 @@ static const struct sunxi_desc_pin a100_pins[] = {
+> >  		  SUNXI_FUNCTION(0x2, "cir0"),		/* OUT */
+> >  		  SUNXI_FUNCTION(0x3, "i2s3_dout2"),	/* DOUT2 */
+> >  		  SUNXI_FUNCTION(0x4, "i2s3_din2"),	/* DIN2 */
+> > -		  SUNXI_FUNCTION(0x5, "emac0"),		/* TXD2 */
+> > +		  SUNXI_FUNCTION(0x5, "emac"),		/* TXD2 */
+> >  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 18)),
+> >  	SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 19),
+> >  		  SUNXI_FUNCTION(0x0, "gpio_in"),  
+> 
+> 
 
-Hope that explains things.
-
-Thanks
-ChenYu
-
-> That's not a NAK, but just wanted to bring this up.
->
-> Cheers,
-> Andre.
->
-> > When support of the hardware was introduced, the name chosen was
-> > "EMAC", which followed previous generations. However the datasheets
-> > use the name "GMAC" instead, likely because there is another "GMAC"
-> > based on a newer DWMAC IP.
-> >
-> > The first patch fixes the compatible string entry in the device tree
-> > binding.
-> >
-> > The second patch fixes all references in the existing device trees.
-> >
-> > Since this was introduced in v6.16-rc1, I hope to land this for v6.16
-> > as well.
-> >
-> > There's a small conflict in patch one around the patch context with
-> >
-> >     dt-bindings: net: sun8i-emac: Add A100 EMAC compatible
-> >
-> > that just landed in net-next today. I will leave this patch to the net
-> > mainainers to merge to avoid making a bigger mess. Once that is landed
-> > I will merge the second patch through the sunxi tree.
-> >
-> >
-> > Thanks
-> > ChenYu
-> >
-> >
-> > Chen-Yu Tsai (2):
-> >   dt-bindings: net: sun8i-emac: Rename A523 EMAC0 to GMAC0
-> >   arm64: dts: allwinner: a523: Rename emac0 to gmac0
-> >
-> >  .../devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml  | 2 +-
-> >  arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi              | 6 +++---
-> >  arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts     | 4 ++--
-> >  arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts     | 4 ++--
-> >  4 files changed, 8 insertions(+), 8 deletions(-)
-> >
->
