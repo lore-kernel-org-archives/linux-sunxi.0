@@ -1,29 +1,29 @@
 Received: from mail.netcube.li (mail.netcube.li [173.249.15.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21ADF1EF36B
-	for <linux-sunxi@lists.linux.dev>; Sun,  6 Jul 2025 09:58:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CC151FF7C5
+	for <linux-sunxi@lists.linux.dev>; Sun,  6 Jul 2025 10:08:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.249.15.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751795911; cv=none; b=jbNugC2nKCZ5zQiElhvw5e+SiSZF4jvCdUyPbz4A/P+uJP49IOsi2wxYpZU8+Su+mae1n1BAMx2MUtgSFKTCXoh3tQDqo25ashLXmHn8pQCIfhoGfzJpCCavVUjQkKZS28Y1gCUEcrrIbXd7rkpzL+m3wtjLOI7i5p2EewhpfuA=
+	t=1751796518; cv=none; b=Nwrt8TGftAJUjzf0pUScAg5K1rHEmBLTS9dliIhJbpetATtvsDk6nnTD+WqlmQ8vW/6ooKKDJS8WPdcEkK6L7n7fcaiq1KWotDqI4OvoPqDzA6TVIghUzSYXbaMsJSpSvBPguJnwE4JTnlnztXeI/fiWg2oNYqbRmtw7QeZIVL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751795911; c=relaxed/simple;
-	bh=C6qblwhf7Ipn1ASAc76zndedi6aR8+qsdrNjj1sEqWk=;
+	s=arc-20240116; t=1751796518; c=relaxed/simple;
+	bh=n77T+/3wzWMkjN3HwXQrl2Yz514wfjWWjXOH1TaiAf4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Zua+qXwNXU5qR+Y/zk8e7UIEny8SQYiCZRDTKhgJQV0Fn9rDmx56xfEIvEXIo2ZXrjGXkLQwl/ti4TKXyVbicwebZgSOjqhj2mghdmheaAdG9gS5Z6AhDBwXL1YRKTb41rzP8R4wIDGVP9LjFISymxjZ8/E9FYlcMhrZkjYULaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li; spf=pass smtp.mailfrom=netcube.li; dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b=ZCYWZFzg; arc=none smtp.client-ip=173.249.15.149
+	 MIME-Version:Content-Type; b=RyUwUQt16HnI3QQOWNDIN26YCf+IRpKfOsEVVPVNLAqKzgnv670voCvYezLASx0ZddfS02FKafterxs/rilDU/guf4ljkeIyCyU7WfBMfi6222TiGoF5BrdeeqSVcuwG+9Gle6Th3xaMiLy6Dpb4Equ1jH65cWMc+bC74iBjgAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li; spf=pass smtp.mailfrom=netcube.li; dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b=oyYJcxdv; arc=none smtp.client-ip=173.249.15.149
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netcube.li
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b="ZCYWZFzg"
+	dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b="oyYJcxdv"
 dkim-signature: v=1; a=rsa-sha256; d=netcube.li; s=s1;
 	c=relaxed/relaxed; q=dns/txt; h=From:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Type:In-Reply-To:References;
-	bh=7IFUgnPQyuVFa8Jj8ChajhgVnk7mfJFWlHVz17ozesI=;
-	b=ZCYWZFzg4P9WrTsU5d6CCna4Qga4Q/aWUCSIGZfBh+srCwNdj3w3iLVSFj478A/b5BDM7qoD+wsnt06xKUKPe1UqykDHEIDUpUno2Z7hXPAO5oX2zjP1t9FJuObAGEIEFZ52iLRYxY7WTkag5WRFMS+RXWRNl3Cztg/zmMffkuI=
+	bh=0T5ERNEDk8sZhawQuX8JVZNNOUKlYRbaNNvCcLZi7To=;
+	b=oyYJcxdvi2HSsrtA0NRNLP07hI9ZWZIgqk6i56SdDxhuilLTawGFGOSVJC912TFRMLct63t8lLnzoG7oTvvmDgV4EQBeh92HD+Ur9BHzL4r4O2nzndjBg/jeI4je5pMqv0FgdW6s+GlBpLEj4MSjeLNSdZYVlPYau+ThN9Towh0=
 Received: from lukas-hpz440workstation.localnet (cm70-231.liwest.at [212.241.70.231])
 	by mail.netcube.li with ESMTPSA
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256)
-	; Sun, 6 Jul 2025 11:58:17 +0200
+	; Sun, 6 Jul 2025 12:08:20 +0200
 From: Lukas Schmid <lukas.schmid@netcube.li>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
@@ -39,94 +39,110 @@ Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 Subject:
  Re: [PATCH v1 3/7] dt-bindings: arm: sunxi: Add NetCube Systems Nagami Keypad
  Carrier Board
-Date: Sun, 06 Jul 2025 11:58:16 +0200
-Message-ID: <8549188.T7Z3S40VBb@lukas-hpz440workstation>
-In-Reply-To: <4648f0bf-2957-45bf-a6c1-01787e5d3e88@kernel.org>
+Date: Sun, 06 Jul 2025 12:08:18 +0200
+Message-ID: <22754446.EfDdHjke4D@lukas-hpz440workstation>
+In-Reply-To: <8549188.T7Z3S40VBb@lukas-hpz440workstation>
 References:
  <20250705213900.3614963-1-lukas.schmid@netcube.li>
- <2998364.e9J7NaK4W3@lukas-hpz440workstation>
  <4648f0bf-2957-45bf-a6c1-01787e5d3e88@kernel.org>
+ <8549188.T7Z3S40VBb@lukas-hpz440workstation>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart10685525.nUPlyArG6x";
+Content-Type: multipart/signed; boundary="nextPart7824363.EvYhyI6sBW";
  micalg="pgp-sha512"; protocol="application/pgp-signature"
 
---nextPart10685525.nUPlyArG6x
+--nextPart7824363.EvYhyI6sBW
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
 From: Lukas Schmid <lukas.schmid@netcube.li>
-Date: Sun, 06 Jul 2025 11:58:16 +0200
-Message-ID: <8549188.T7Z3S40VBb@lukas-hpz440workstation>
-In-Reply-To: <4648f0bf-2957-45bf-a6c1-01787e5d3e88@kernel.org>
+Date: Sun, 06 Jul 2025 12:08:18 +0200
+Message-ID: <22754446.EfDdHjke4D@lukas-hpz440workstation>
+In-Reply-To: <8549188.T7Z3S40VBb@lukas-hpz440workstation>
 MIME-Version: 1.0
 
-On Sonntag, 6. Juli 2025 11:46:46 CEST Krzysztof Kozlowski wrote:
-> On 06/07/2025 11:41, Lukas Schmid wrote:
-> > On Sonntag, 6. Juli 2025 11:36:34 CEST Krzysztof Kozlowski wrote:
-> >> On 06/07/2025 11:07, Lukas Schmid wrote:
-> >>> On Sonntag, 6. Juli 2025 09:49:58 CEST Krzysztof Kozlowski wrote:
-> >>>> On 05/07/2025 23:38, Lukas Schmid wrote:
-> >>>>> The NetCube Systems Nagami Keypad Carrier is a custom board intended
-> >>>>> to
-> >>>>> fit a standard Ritto Intercom enclosure and provides a Keypad,
-> >>>>> NFC-Reader
-> >>>>> and Status-LED all controllable over Ethernet with PoE support.
-> >>>>> 
-> >>>>> Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
-> >>>>> ---
-> >>>>> 
-> >>>>>  Documentation/devicetree/bindings/arm/sunxi.yaml | 6 ++++++
-> >>>>>  1 file changed, 6 insertions(+)
-> >>>>> 
-> >>>>> diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml
-> >>>>> b/Documentation/devicetree/bindings/arm/sunxi.yaml index
-> >>>>> 7919b5bf5..a2f16d064 100644
-> >>>>> --- a/Documentation/devicetree/bindings/arm/sunxi.yaml
-> >>>>> +++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
-> >>>>> 
-> >>>>> @@ -610,6 +610,12 @@ properties:
-> >>>>>            - const: netcube,nagami
-> >>>>>            - const: allwinner,sun8i-t113s
-> >>>>> 
-> >>>>> +      - description: NetCube Systems Nagami Keypad Carrier Board
-> >>>>> +        items:
-> >>>>> +          - const: netcube,nagami-keypad-carrier
-> >>>> 
-> >>>> That's just enum with previous entry. Don't make it over-complicated.
-> >>>> 
-> >>>> Best regards,
-> >>>> Krzysztof
-> >>> 
-> >>> Just making sure here. The actual bindings are fine, but I should merge
-> >>> them into one patch, correct?
-> >> 
-> >> No, you got two comments what should be changed in the binding.
-> >> 
-> >> Best regards,
-> >> Krzysztof
+On Sonntag, 6. Juli 2025 11:58:16 CEST Lukas Schmid wrote:
+> On Sonntag, 6. Juli 2025 11:46:46 CEST Krzysztof Kozlowski wrote:
+> > On 06/07/2025 11:41, Lukas Schmid wrote:
+> > > On Sonntag, 6. Juli 2025 11:36:34 CEST Krzysztof Kozlowski wrote:
+> > >> On 06/07/2025 11:07, Lukas Schmid wrote:
+> > >>> On Sonntag, 6. Juli 2025 09:49:58 CEST Krzysztof Kozlowski wrote:
+> > >>>> On 05/07/2025 23:38, Lukas Schmid wrote:
+> > >>>>> The NetCube Systems Nagami Keypad Carrier is a custom board intended
+> > >>>>> to
+> > >>>>> fit a standard Ritto Intercom enclosure and provides a Keypad,
+> > >>>>> NFC-Reader
+> > >>>>> and Status-LED all controllable over Ethernet with PoE support.
+> > >>>>> 
+> > >>>>> Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
+> > >>>>> ---
+> > >>>>> 
+> > >>>>>  Documentation/devicetree/bindings/arm/sunxi.yaml | 6 ++++++
+> > >>>>>  1 file changed, 6 insertions(+)
+> > >>>>> 
+> > >>>>> diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml
+> > >>>>> b/Documentation/devicetree/bindings/arm/sunxi.yaml index
+> > >>>>> 7919b5bf5..a2f16d064 100644
+> > >>>>> --- a/Documentation/devicetree/bindings/arm/sunxi.yaml
+> > >>>>> +++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+> > >>>>> 
+> > >>>>> @@ -610,6 +610,12 @@ properties:
+> > >>>>>            - const: netcube,nagami
+> > >>>>>            - const: allwinner,sun8i-t113s
+> > >>>>> 
+> > >>>>> +      - description: NetCube Systems Nagami Keypad Carrier Board
+> > >>>>> +        items:
+> > >>>>> +          - const: netcube,nagami-keypad-carrier
+> > >>>> 
+> > >>>> That's just enum with previous entry. Don't make it over-complicated.
+> > >>>> 
+> > >>>> Best regards,
+> > >>>> Krzysztof
+> > >>> 
+> > >>> Just making sure here. The actual bindings are fine, but I should
+> > >>> merge
+> > >>> them into one patch, correct?
+> > >> 
+> > >> No, you got two comments what should be changed in the binding.
+> > >> 
+> > >> Best regards,
+> > >> Krzysztof
+> > > 
+> > > So if I understand correctly you want me to remove the
+> > > "allwinner,sun8i-t113s" from the carrier boards and keep it for the SoM?
 > > 
-> > So if I understand correctly you want me to remove the
-> > "allwinner,sun8i-t113s" from the carrier boards and keep it for the SoM?
+> > No, I spoke nothing about that compatible. My comment is EXACTLY under
+> > the line being incorrect. That entry should have been made enum with
+> > previous board compatible. Look at other vendors, because this file
+> > repeats that pattern for some reason, eh...
+> > 
+> > Best regards,
+> > Krzysztof
 > 
-> No, I spoke nothing about that compatible. My comment is EXACTLY under
-> the line being incorrect. That entry should have been made enum with
-> previous board compatible. Look at other vendors, because this file
-> repeats that pattern for some reason, eh...
+> Ah sorry. I think i understand now. You want the carrier boards in a single
+> entry with the different compatibles as the enum like:
+> 
+>       - description: NetCube Systems Nagami SoM
+>         items:
+>           - const: netcube,nagami
+>           - const: allwinner,sun8i-t113s
+> 
+>       - description: NetCube Systems Nagami SoM based boards
+>         items:
+>           - enum:
+>               - netcube,nagami-basic-carrier
+>               - netcube,nagami-keypad-carrier
+>           - const: netcube,nagami
+>           - const: allwinner,sun8i-t113s
 > 
 > Best regards,
-> Krzysztof
+> Lukas
 
-Ah sorry. I think i understand now. You want the carrier boards in a single 
-entry with the different compatibles as the enum like:
-
-      - description: NetCube Systems Nagami SoM
-        items:
-          - const: netcube,nagami
-          - const: allwinner,sun8i-t113s
+Oh, I will then drop the SoM's entry as well since the SoM is already defined 
+in the carrier boards then. So only
 
       - description: NetCube Systems Nagami SoM based boards
         items:
@@ -136,28 +152,30 @@ entry with the different compatibles as the enum like:
           - const: netcube,nagami
           - const: allwinner,sun8i-t113s
 
+correct?
+
+Sorry for the back-and-forth, and thanks for your patience.
+
 Best regards,
 Lukas
-
-
---nextPart10685525.nUPlyArG6x
+--nextPart7824363.EvYhyI6sBW
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part.
 Content-Transfer-Encoding: 7Bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEPv6dcBmn59ssZMkSJnN+drMVRtgFAmhqSLgACgkQJnN+drMV
-RtiERQgAhtJfnRb+0MWY3I9NrlK10nZqNnvJr1RrRAl3ac/hg00rMlrCjI1GWna3
-WnNjQY8ztNvMI83gXaTLDv1raTVU+6sIMcwiZcSGn8wdWSO/Cx4Rl3ziY/z3mAtc
-axXLv907yLGC62k4U/wpBJ3+wTEe49M4JaBTs868YCa1Q/vjpqZsnIun+1nWlTFR
-hH06vVJhgoV32fDePHQsGyAdn6sQoxt8bLqryu3u2aZaJLDDH/K/bcxpbSCYlSyj
-c84tM50/VIdh8/MyMXUUbas/odCS/+7Tvm6fNdlJG/BdIeWL454EJNaVlUdj+Cvp
-/4qEOroTN+xTqZNKizC7wI6uMqBkjA==
-=g2nF
+iQEzBAABCgAdFiEEPv6dcBmn59ssZMkSJnN+drMVRtgFAmhqSxMACgkQJnN+drMV
+RthYPgf7B7hvP/DGLODPXJ1qjUQvXaRZGtuTOiaLfm61dhyn2IsydYUhpwhhMViQ
+z6T4DAm9Eg8CcJqiTb1kckKS/dheJ+eom2IBK9LLb2JHbXaetlXlSvDfbWlTS1I2
+ofG6QKBDYHccjJiejjI2uEIAYALwCMjqxudUUCoMN2hz8euzwKx8dzEXfdWZmcRj
+OzeZsdwQkv8RvP+eiii1xdu/GbnMGKixs75n40v535LOdVWD/hptkJKMPW0fNe8A
+4Hd6uhLD7lZ3qIuEMZfvcCjOF/iCKafXpjCuK6CdFwfC5j+Sgrr3Z5zMAIJ3WRbr
+qCBfoSswKd8fkF5d6rVpVOBcBOPa5g==
+=JbSx
 -----END PGP SIGNATURE-----
 
---nextPart10685525.nUPlyArG6x--
+--nextPart7824363.EvYhyI6sBW--
 
 
 
