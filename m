@@ -1,182 +1,129 @@
-Received: from mail.netcube.li (mail.netcube.li [173.249.15.149])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CC151FF7C5
-	for <linux-sunxi@lists.linux.dev>; Sun,  6 Jul 2025 10:08:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.249.15.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01DDE2AD18
+	for <linux-sunxi@lists.linux.dev>; Sun,  6 Jul 2025 13:14:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751796518; cv=none; b=Nwrt8TGftAJUjzf0pUScAg5K1rHEmBLTS9dliIhJbpetATtvsDk6nnTD+WqlmQ8vW/6ooKKDJS8WPdcEkK6L7n7fcaiq1KWotDqI4OvoPqDzA6TVIghUzSYXbaMsJSpSvBPguJnwE4JTnlnztXeI/fiWg2oNYqbRmtw7QeZIVL8=
+	t=1751807665; cv=none; b=oyxxmBPC/xFAoYIpB+46OaGFm/5Mwk01HuxQXwv0lbMqWAZppIab4QEeUfN5HNuKAWowtd+lurzUqqnbESjiZADRAmRLfPrzItvfWFWEy895P4LweAfz4oVt8TYhUv9LZq+aKhXQWtOE53GwRI8nIutwqAh0HwLUBWoeU1xGT6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751796518; c=relaxed/simple;
-	bh=n77T+/3wzWMkjN3HwXQrl2Yz514wfjWWjXOH1TaiAf4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RyUwUQt16HnI3QQOWNDIN26YCf+IRpKfOsEVVPVNLAqKzgnv670voCvYezLASx0ZddfS02FKafterxs/rilDU/guf4ljkeIyCyU7WfBMfi6222TiGoF5BrdeeqSVcuwG+9Gle6Th3xaMiLy6Dpb4Equ1jH65cWMc+bC74iBjgAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li; spf=pass smtp.mailfrom=netcube.li; dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b=oyYJcxdv; arc=none smtp.client-ip=173.249.15.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netcube.li
+	s=arc-20240116; t=1751807665; c=relaxed/simple;
+	bh=u8xJci6BCA/NPXr2bGUVttu27gcVFr7isab2Lo+Nre0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=o0VcCat9uPJeXhUBjbUOIEBOkG6zl1C9Bss5nlSrB90P/yb1ZW/4jQ8PnNMAlnPkp1AJEo3nF9DdgM2N+eFHvzl2GkObXAvW6jDpbB8O9VU8bfSN0nGO54ejnmNM4s51NHGE9BgtnVqQCWIc5c/7r3Ff0wR9UOtDV1DGzGeI/+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H74tGhnO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b="oyYJcxdv"
-dkim-signature: v=1; a=rsa-sha256; d=netcube.li; s=s1;
-	c=relaxed/relaxed; q=dns/txt; h=From:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Type:In-Reply-To:References;
-	bh=0T5ERNEDk8sZhawQuX8JVZNNOUKlYRbaNNvCcLZi7To=;
-	b=oyYJcxdvi2HSsrtA0NRNLP07hI9ZWZIgqk6i56SdDxhuilLTawGFGOSVJC912TFRMLct63t8lLnzoG7oTvvmDgV4EQBeh92HD+Ur9BHzL4r4O2nzndjBg/jeI4je5pMqv0FgdW6s+GlBpLEj4MSjeLNSdZYVlPYau+ThN9Towh0=
-Received: from lukas-hpz440workstation.localnet (cm70-231.liwest.at [212.241.70.231])
-	by mail.netcube.li with ESMTPSA
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256)
-	; Sun, 6 Jul 2025 12:08:20 +0200
-From: Lukas Schmid <lukas.schmid@netcube.li>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexandre Ghiti <alex@ghiti.fr>, Maxime Ripard <mripard@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org
-Subject:
- Re: [PATCH v1 3/7] dt-bindings: arm: sunxi: Add NetCube Systems Nagami Keypad
- Carrier Board
-Date: Sun, 06 Jul 2025 12:08:18 +0200
-Message-ID: <22754446.EfDdHjke4D@lukas-hpz440workstation>
-In-Reply-To: <8549188.T7Z3S40VBb@lukas-hpz440workstation>
-References:
- <20250705213900.3614963-1-lukas.schmid@netcube.li>
- <4648f0bf-2957-45bf-a6c1-01787e5d3e88@kernel.org>
- <8549188.T7Z3S40VBb@lukas-hpz440workstation>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H74tGhnO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C78CC4CEF3
+	for <linux-sunxi@lists.linux.dev>; Sun,  6 Jul 2025 13:14:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751807664;
+	bh=u8xJci6BCA/NPXr2bGUVttu27gcVFr7isab2Lo+Nre0=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+	b=H74tGhnOnclNfDF4L3HiqPatu/Ckv4SZwOZieRM9X1HBvT72eGWkjGnmDrv7miyw9
+	 /md3SO6VV9wp5un7SLJY585Cu/xC634IOPRqKSenlFAWLasra7D84WocasA5yNAdlD
+	 truaLbkyAf1bmoInf5c1WugXZSj9/M49L3VtGnO0G/wlS3W6obpgMsPh1oh5ZBHhLa
+	 OVciZG90FoRDiu/0VBG5iGHISg1+KxXT01I0j1NFUAoFVv/Y/X1jlDlCm1VwhNH99F
+	 l5V7Z5whmNhUv3QtzTCBJdRKtGTxMvkg62s/rmxA1PI1IvYi/g1Oi0d8wu9E/jWLMx
+	 5blPMHji5owrA==
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-556373661aaso2087001e87.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 06 Jul 2025 06:14:24 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV5r0veeDqEqh9nswHYO2YK289DgnW3hI3Wm9ujJZ/NXmN8WyP3GnbfMkdldYbFLAv1iAGRC7sP9crRrA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxr9EOOCPzik94BLRrcKq6ddsCX/r+obeURYzb1kpnB+vha1kqq
+	RibbNjr4vdeOtHMUszckvP505CEBjy3D8f2oB6kCd/yEU+WAgZfAo6obcLKZtQ34FMGnxtiWmeo
+	zHpkvuAcYEE8Uusk10rQrn4u+/1JZ8gc=
+X-Google-Smtp-Source: AGHT+IEzN50658kYdEZu4z11IX1+qj76bRNUj9L9XsGay2m70Sqt76p+ZP6G4FZVEV9964rwYfujWQD+iVC6l49gAsw=
+X-Received: by 2002:a05:6512:4027:b0:553:ceed:c859 with SMTP id
+ 2adb3069b0e04-557e5537687mr1059540e87.21.1751807662868; Sun, 06 Jul 2025
+ 06:14:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart7824363.EvYhyI6sBW";
- micalg="pgp-sha512"; protocol="application/pgp-signature"
+References: <20250628054438.2864220-1-wens@kernel.org> <20250705083600.2916bf0c@minigeek.lan>
+ <CAGb2v64My=A_Jw+CBCsqno3SsSSTtBFKXOrgLv+Nyq_z5oeYBg@mail.gmail.com>
+ <e9c5949d-9ac5-4b33-810d-b716ccce5fe9@lunn.ch> <20250706002223.128ff760@minigeek.lan>
+In-Reply-To: <20250706002223.128ff760@minigeek.lan>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Sun, 6 Jul 2025 21:14:09 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64vxtAVi3QK3a=mvDz2u+gKQ6XPMN-JB46eEuwfusMG2w@mail.gmail.com>
+X-Gm-Features: Ac12FXwracJUFtxrR-geU8AnCt2mihSX7AlHGCMKyxbdZy4UN94qheE6j6Zh998
+Message-ID: <CAGb2v64vxtAVi3QK3a=mvDz2u+gKQ6XPMN-JB46eEuwfusMG2w@mail.gmail.com>
+Subject: Re: [PATCH net 0/2] allwinner: a523: Rename emac0 to gmac0
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---nextPart7824363.EvYhyI6sBW
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
-From: Lukas Schmid <lukas.schmid@netcube.li>
-Date: Sun, 06 Jul 2025 12:08:18 +0200
-Message-ID: <22754446.EfDdHjke4D@lukas-hpz440workstation>
-In-Reply-To: <8549188.T7Z3S40VBb@lukas-hpz440workstation>
-MIME-Version: 1.0
+On Sun, Jul 6, 2025 at 7:23=E2=80=AFAM Andre Przywara <andre.przywara@arm.c=
+om> wrote:
+>
+> On Sat, 5 Jul 2025 17:53:17 +0200
+> Andrew Lunn <andrew@lunn.ch> wrote:
+>
+> Hi Andrew,
+>
+> > > So it's really whatever Allwinner wants to call it. I would rather ha=
+ve
+> > > the names follow the datasheet than us making some scheme up.
+> >
+> > Are the datasheets publicly available?
+>
+> We collect them in the sunxi wiki (see the links below), but just to
+> make sure:
+> I am not disputing that GMAC is the name mentioned in the A523 manual,
+> and would have probably been the right name to use originally - even
+> though it's not very consistent, as the same IP is called EMAC in the
+> older SoCs' manuals. I am also not against renaming identifiers or even
+> (internal) DT labels. But the problem here is that the renaming affects
+> the DT compatible string and the pinctrl function name, both of which
+> are used as an interface between the devicetree and its users, which is
+> not only the Linux kernel, but also U-Boot and other OSes like the BSDs.
 
-On Sonntag, 6. Juli 2025 11:58:16 CEST Lukas Schmid wrote:
-> On Sonntag, 6. Juli 2025 11:46:46 CEST Krzysztof Kozlowski wrote:
-> > On 06/07/2025 11:41, Lukas Schmid wrote:
-> > > On Sonntag, 6. Juli 2025 11:36:34 CEST Krzysztof Kozlowski wrote:
-> > >> On 06/07/2025 11:07, Lukas Schmid wrote:
-> > >>> On Sonntag, 6. Juli 2025 09:49:58 CEST Krzysztof Kozlowski wrote:
-> > >>>> On 05/07/2025 23:38, Lukas Schmid wrote:
-> > >>>>> The NetCube Systems Nagami Keypad Carrier is a custom board intended
-> > >>>>> to
-> > >>>>> fit a standard Ritto Intercom enclosure and provides a Keypad,
-> > >>>>> NFC-Reader
-> > >>>>> and Status-LED all controllable over Ethernet with PoE support.
-> > >>>>> 
-> > >>>>> Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
-> > >>>>> ---
-> > >>>>> 
-> > >>>>>  Documentation/devicetree/bindings/arm/sunxi.yaml | 6 ++++++
-> > >>>>>  1 file changed, 6 insertions(+)
-> > >>>>> 
-> > >>>>> diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml
-> > >>>>> b/Documentation/devicetree/bindings/arm/sunxi.yaml index
-> > >>>>> 7919b5bf5..a2f16d064 100644
-> > >>>>> --- a/Documentation/devicetree/bindings/arm/sunxi.yaml
-> > >>>>> +++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
-> > >>>>> 
-> > >>>>> @@ -610,6 +610,12 @@ properties:
-> > >>>>>            - const: netcube,nagami
-> > >>>>>            - const: allwinner,sun8i-t113s
-> > >>>>> 
-> > >>>>> +      - description: NetCube Systems Nagami Keypad Carrier Board
-> > >>>>> +        items:
-> > >>>>> +          - const: netcube,nagami-keypad-carrier
-> > >>>> 
-> > >>>> That's just enum with previous entry. Don't make it over-complicated.
-> > >>>> 
-> > >>>> Best regards,
-> > >>>> Krzysztof
-> > >>> 
-> > >>> Just making sure here. The actual bindings are fine, but I should
-> > >>> merge
-> > >>> them into one patch, correct?
-> > >> 
-> > >> No, you got two comments what should be changed in the binding.
-> > >> 
-> > >> Best regards,
-> > >> Krzysztof
-> > > 
-> > > So if I understand correctly you want me to remove the
-> > > "allwinner,sun8i-t113s" from the carrier boards and keep it for the SoM?
-> > 
-> > No, I spoke nothing about that compatible. My comment is EXACTLY under
-> > the line being incorrect. That entry should have been made enum with
-> > previous board compatible. Look at other vendors, because this file
-> > repeats that pattern for some reason, eh...
-> > 
-> > Best regards,
-> > Krzysztof
-> 
-> Ah sorry. I think i understand now. You want the carrier boards in a single
-> entry with the different compatibles as the enum like:
-> 
->       - description: NetCube Systems Nagami SoM
->         items:
->           - const: netcube,nagami
->           - const: allwinner,sun8i-t113s
-> 
->       - description: NetCube Systems Nagami SoM based boards
->         items:
->           - enum:
->               - netcube,nagami-basic-carrier
->               - netcube,nagami-keypad-carrier
->           - const: netcube,nagami
->           - const: allwinner,sun8i-t113s
-> 
-> Best regards,
-> Lukas
+I reiterate my position: they are not stable until they actually hit a
+release. This provides some time to fix mistakes before they are set in
+stone.
 
-Oh, I will then drop the SoM's entry as well since the SoM is already defined 
-in the carrier boards then. So only
+> In this particular case we would probably get away with it, because
+> it's indeed very early in the development cycle for this SoC, but for
+> instance the "emac0" function name is already used in some U-Boot
+> patch series on the list:
+> https://lore.kernel.org/linux-sunxi/20250323113544.7933-18-andre.przywara=
+@arm.com/
+>
+> If we REALLY need to rename this, it wouldn't be the end of the world,
+> but would create some churn on the U-Boot side.
+>
+> I just wanted to point out that any changes to the DT bindings have
+> some impact to other projects, even if they are proposed as a coherent
+> series on the Linux side. Hence my question if this is really necessary.
 
-      - description: NetCube Systems Nagami SoM based boards
-        items:
-          - enum:
-              - netcube,nagami-basic-carrier
-              - netcube,nagami-keypad-carrier
-          - const: netcube,nagami
-          - const: allwinner,sun8i-t113s
+For the compatible string, I can live with having a comment in the binding
+stating the name used in the datasheet for reference.
 
-correct?
-
-Sorry for the back-and-forth, and thanks for your patience.
-
-Best regards,
-Lukas
---nextPart7824363.EvYhyI6sBW
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEPv6dcBmn59ssZMkSJnN+drMVRtgFAmhqSxMACgkQJnN+drMV
-RthYPgf7B7hvP/DGLODPXJ1qjUQvXaRZGtuTOiaLfm61dhyn2IsydYUhpwhhMViQ
-z6T4DAm9Eg8CcJqiTb1kckKS/dheJ+eom2IBK9LLb2JHbXaetlXlSvDfbWlTS1I2
-ofG6QKBDYHccjJiejjI2uEIAYALwCMjqxudUUCoMN2hz8euzwKx8dzEXfdWZmcRj
-OzeZsdwQkv8RvP+eiii1xdu/GbnMGKixs75n40v535LOdVWD/hptkJKMPW0fNe8A
-4Hd6uhLD7lZ3qIuEMZfvcCjOF/iCKafXpjCuK6CdFwfC5j+Sgrr3Z5zMAIJ3WRbr
-qCBfoSswKd8fkF5d6rVpVOBcBOPa5g==
-=JbSx
------END PGP SIGNATURE-----
-
---nextPart7824363.EvYhyI6sBW--
+For the pinctrl stuff, which is the contentious bit here, I thought the
+whole idea of the newer pinctrl bindings is that the driver uses
+"allwinner,pinmux" instead of "function". I think having both being valid
+is confusing, and likely to cause conflicts later on. If we're going to
+use the hardware register values in the device tree, I'd really like them
+to be the only source of truth. The commit message for the binding also
+sort of suggests that "allwinner,pinmux" is the part that matters.
 
 
+ChenYu
 
-
+> Cheers,
+> Andre
+>
+> https://linux-sunxi.org/A64#Documentation
+> https://linux-sunxi.org/H616#Documentation
+> https://linux-sunxi.org/A523#Documentation
