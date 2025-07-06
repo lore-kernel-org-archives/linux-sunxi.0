@@ -1,62 +1,62 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E5CB2E36F6
-	for <linux-sunxi@lists.linux.dev>; Sun,  6 Jul 2025 02:57:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE6782E36F6
+	for <linux-sunxi@lists.linux.dev>; Sun,  6 Jul 2025 02:57:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751770645; cv=none; b=VogV0waFjYadkkkqAL/yFYYHFS01i/6+JAhFI/0fNY09IXLylgZ8oeZHEHCWzyKURDiR8oI+FscEk/JQhWd2s3JdycW/tS4ebj5WvgZ6YI3n7vcVqz+jY5tpx9vy/GMiH872AK8qh4JR5VkXckcyVVC4nRYe+KCic2Pg/XRaKck=
+	t=1751770655; cv=none; b=sq7qIJnvyg7uOLUT1OuDhIk6wipcaXBv3zQO6THXQyc9chVGh/x3zLmXwvbJVCPbVP2mteNYJUZLdP4HdampRj8AYx1tAhNwp6LRMM0WALjvfiqWz67UGW2EyXh2fIBVRYIqszqcKaQB8gv61fpnXavAumnEYNQOv4wFFGWT8WE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751770645; c=relaxed/simple;
-	bh=qYVF5nrefqk8ZKCPwYrgT19os3rsqUvuedsH6yMaRYs=;
+	s=arc-20240116; t=1751770655; c=relaxed/simple;
+	bh=IVBiCayxxjuIoAWf7fWUyLznf6nyKVFK0/CzMq6+NGc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tz714Kzj/3FMOez+1Xb+HCr1cRs9zWCGC2/NZv7lECIr5WUud25YTfElsA236FOtpHivZXZLxgUlvcabTZSrUQVTEhVifLvfh+Yyf8b9uj98Va5WjnR65wRwaj3HIYRongFdQ+C70ntI0KrfB5GrSZrfygXpwl0PjjuqblQuTk0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TFL2Byd+; arc=none smtp.client-ip=209.85.167.54
+	 MIME-Version; b=c7lnzUFx6jmtbBDbxGjX6jLSfDIYixAUE7GqR8rlq9rjTV06DWqrVKYBPrOERw0+dPN7spm6brBxyqYCO2j3bHibsbonboZnhYqF27mX66Y0a4DxSAhveoun687NOIkvj+WStyCJYDgFrJS3mOGMDmG4WWRRb0aX+Sbwwpyl78I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LKa/gf0o; arc=none smtp.client-ip=209.85.208.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TFL2Byd+"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-553b9eb2299so2599274e87.0
-        for <linux-sunxi@lists.linux.dev>; Sat, 05 Jul 2025 19:57:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LKa/gf0o"
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-32b43c5c04fso30120251fa.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 05 Jul 2025 19:57:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751770641; x=1752375441; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1751770652; x=1752375452; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=//d0bJWkNr8qRs213bW7gb4xunennUE1PJsDFQia6Eo=;
-        b=TFL2Byd+9/Z/4dIp3Scn5nGaftRjklVZnIOInelJCZxbeSuC0KxYucjRzZCFshOZvZ
-         8jvxFICbOnCti+6T3py+mNaR2/Ahk3Jt+lVPeg+RG19dH7wDoY+cVUnGu7h+of4taQg3
-         MznxEIZ5Cy8/VNpEjH4Bna4nU6eeZJ13bK0ofWp8zcqNWDE9WI2Lk2oV0CWTIc74TjQR
-         qxg7cn17cXkzhPzxNXwZpdK+nbswghKC05YhKRVGv1F2hoj/RxoBbOziSOmUfa1Vn2Ui
-         yl7PlAaRIUbSEzbpyf2nClfX0lILqkv+smbhJ4xFO0aNzpoisqzD7urwdvsdMWqUVWlS
-         aY+g==
+        bh=85nfx4ldL54wSVT5XtoQ/mvHVV77q6rK3dhp/Wa5E+U=;
+        b=LKa/gf0oa8QiaYxPrh3l4a47F2C47C3jWLAZ1hStq4uRpbZCDJf8uQxlXSgUw6Vo+h
+         Ly65vlbGwNVOd6s3m2TMpb8zxeeqiyE13jWKoCs6RAxc3IGFaGD23SZ5NMQv6T5+aQZq
+         RWDLpb7zyYLkl7YuVdi3xZYImvSyq2MH0Dg9Y+JIpGck4WQLsoVMceekb5sDwpt4Nbz8
+         K6K11yw4dPp9tCoLeU849fEWQzpBjhDrKGrBsL6G+Z5QUymU6IJFBo07VJmZmjcFA7Dc
+         dCVrmi39KmpTfkbkSsxr13SB9KYijwVHliS+V/OxQnOcp7hxjkmyjpR7josSgGQ1Pa1T
+         0iaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751770641; x=1752375441;
+        d=1e100.net; s=20230601; t=1751770652; x=1752375452;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=//d0bJWkNr8qRs213bW7gb4xunennUE1PJsDFQia6Eo=;
-        b=mddgDI5gErY4E/xLoTPDgcWh1P/YMKXs5HZj9U+MWjZgIotsyknz0sl6Y2qesHWtlE
-         u2aqfyX6pJNN4ANdJjiEJhhq/5VKqTYki4325mcTy58qUSK0s6XBec1WFt+Ip+z+geMk
-         r6AIHitnlRd8ShIbT6h49h/jgR5/3Xxqime6hJPFuAN70CIR+SbX0LRR/y6mtMkbrF/6
-         0/AGLzxaFykxH8aitsD3uB0Jz0hfaBNa3IxKOxSCNa/t7OM9PbZ/kt27NP0ABzENRusP
-         +lKaB+zxV+l20XtBkL4fXz6H1Si6nFxtAyILP0IUmmkiG5Pk4x9V704gp1J6T9H+63VA
-         nz/g==
-X-Forwarded-Encrypted: i=1; AJvYcCUOhfkt7i0kaz9WrKPMS+h7c474xihioH+wo4QX17iB+op5pV6rHc+2OCc6M4CzZ4ueY1CDBx7hYL5W2A==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw6uPW/E7um/IEaYXfl3AK5qSMMAvoBWNe5EbndQBRfTWV+mZfx
-	nZEVYE4ZbGaJu1klfeQfe1zOrCaQWMU1yOZsZsYcGpgm83atU5cb1MPA
-X-Gm-Gg: ASbGncukeYSeZS0CJvmUqPmTi3RUP/TfMwXYMW8bxHQ19EF1DyUk7aZQjIsrRIQk5Kb
-	qgowRtnSMEXH2CcbcKgzG/hhqSFKFdaC9dRZ3tyT2hP3a2BGOQRSuRCkl1uoQ1MaSFVMXy1C19o
-	iMDO2LoAaqSLptm4pifkhHEOa7RxcfIEAKtgeIlFaRC3pFuaK7eJ6hd3J+4KPaainDv1yWSP/1O
-	cg+Sv9t/w4skXp+a2MQJ0mZahlS7w68NTBbQtYd74k2uwVDn7s+e/hrxuH+axblPRtKQOyY7MXz
-	/VX6ycey8+U8+RT998vfMy7qujWRyyAX6KGHC6DJvH3MORnKAU8JFupm01BK3lMoVE1rRkY=
-X-Google-Smtp-Source: AGHT+IFfsqkWZBN4PIBE9st3rtlbs4llavPau1ElbWPXJmYwNfgPZvdeoU9nsBN2bcLjLflD0uCNpA==
-X-Received: by 2002:a05:6512:1586:b0:550:e50a:bf49 with SMTP id 2adb3069b0e04-55643823068mr2804124e87.19.1751770641421;
-        Sat, 05 Jul 2025 19:57:21 -0700 (PDT)
+        bh=85nfx4ldL54wSVT5XtoQ/mvHVV77q6rK3dhp/Wa5E+U=;
+        b=QTwcHews2/wF5zvz7kELx9//GshFCdUkJM9j7tLfyqId3HMA4ZY4Dcx2dZnKosHZAd
+         DV1ezkjOU7iC5t1z+pQe2t5GnTiGdFHCvpPHtw6m3CQ02wzr/RuGxtmSJWLhfXtLxL/l
+         y5a8yobR+zY1buv2XtPe8lD5VbwGGq/1yFXgOVTXkXASJFBLeT4XVZib8mpO0Kfqtn4O
+         fi/h5cmHb1krFKvfPpXBWsVT2GTAoz4jaPAEZnK3vbuB2QhwSIXHZTErRemHMeXhfI8C
+         hbu8XNhH5pQzVJqryAw+sFYy5DVGY+2MZHErN6PUp9i1iTIuKVcPtO54ZbT30iaiL8Xw
+         /oKg==
+X-Forwarded-Encrypted: i=1; AJvYcCVXb1wSiUcSODHGXjHsqdaaF28OaW3FB3aBwyWngw97sVt/5A+8Yfo9UlvjL7isTzvAAPqEHJKPMk0wlw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw0SWqcIUS0pimzVc7wzApq8N23Nt/Behh2GDn5ewRDnIUl6iH6
+	+hIEEXKLiLcrz9Q09VLwGhb4tfn1K59F/UaoikIqQzQMx1Qc2rR4hnt6N/dk9+mjB9w=
+X-Gm-Gg: ASbGncs0w+pxGtTUqDcP84lwK5anrT5XXWLyvsS3dptTiK60Tz79ZeAhUl7fj9fYiAC
+	J46s80/cu2FCOJTYdFvml1dPnF23GUNvCIDXugOoRM4kJAZg5C4dyIBTJc/XO49/s0VdWP/NCfC
+	gqXp9qYFINLs+UccGVTnfsq44twnFMp2ArpJt9inNNb8Owsz1Rsi1BTwtAcIH/xCUMec4VwHkst
+	xnWwnwHcsNlnnPx4lkHy9WwAjv+aSbk1BxIV4vGyd8nygixUvHSC34gS6JJbbm4HwXLKfN1oHbW
+	rP0owAMuT+1AApGkePUErJTfaNI5vleKGjwHH7J6nVxAoBXvt6njcZd+Vv3r4mYys/SkatQ=
+X-Google-Smtp-Source: AGHT+IGN0Pll4L+siyWkYqepxKdXBDqJA09V3lw+p6WVOCV2OpsJJsEpsce/Z0TPbGFyafElS4Xm8g==
+X-Received: by 2002:a05:6512:145b:10b0:553:2bdf:8b87 with SMTP id 2adb3069b0e04-55641a4f68amr1665035e87.10.1751770651927;
+        Sat, 05 Jul 2025 19:57:31 -0700 (PDT)
 Received: from localhost.localdomain ([212.192.12.80])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-556384b7b4fsm788573e87.198.2025.07.05.19.57.11
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-556384b7b4fsm788573e87.198.2025.07.05.19.57.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Jul 2025 19:57:21 -0700 (PDT)
+        Sat, 05 Jul 2025 19:57:31 -0700 (PDT)
 From: iuncuim <iuncuim@gmail.com>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -69,9 +69,9 @@ Cc: devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] arm64: dts: allwinner: a523: add Mali GPU node
-Date: Sun,  6 Jul 2025 10:56:22 +0800
-Message-ID: <20250706025625.2707073-2-iuncuim@gmail.com>
+Subject: [PATCH 2/2] arm64: dts: allwinner: a523: enable Mali GPU for all boards
+Date: Sun,  6 Jul 2025 10:56:23 +0800
+Message-ID: <20250706025625.2707073-3-iuncuim@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250706025625.2707073-1-iuncuim@gmail.com>
 References: <20250706025625.2707073-1-iuncuim@gmail.com>
@@ -81,49 +81,88 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From: Mikhail Kalashnikov <iuncuim@gmail.com>
 
-The Allwinner A523 SoC features the Mali-G57 MC1 GPU, which belongs
-to the Mali Valhall (v9) family. There is a power domain specifically
-for this GPU that needs to be enabled to utilize it.
+All devices based on the A523/A527/H728/T527 processors contain a G57 MC1 GPU.
 
-To enable in a specific device, we need to enable the gpu node and specify
-the “mali-supply” regulator additionally in the device tree.
+Enable the DT nodes for this GPU and specify a regulator that supplies power
+to the SoC's VDD_GPU pins. The other parameters are set in the SoC dtsi,
+so are board independent.
 
 Signed-off-by: Mikhail Kalashnikov <iuncuim@gmail.com>
 ---
- arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts   | 5 +++++
+ arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts    | 5 +++++
+ arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts   | 5 +++++
+ arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts | 5 +++++
+ 4 files changed, 20 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-index dd6fa22f9..d3528d498 100644
---- a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-@@ -108,6 +108,21 @@ soc {
- 		#size-cells = <1>;
- 		ranges = <0x0 0x0 0x0 0x40000000>;
+diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
+index 8bc0f2c72..553ad774e 100644
+--- a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
++++ b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
+@@ -66,6 +66,11 @@ &gmac0 {
+ 	status = "okay";
+ };
  
-+		gpu: gpu@1800000 {
-+			compatible = "allwinner,sun55i-a523-mali",
-+				     "arm,mali-valhall-jm";
-+			reg = <0x1800000 0x10000>;
-+			interrupts = <GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "job", "mmu", "gpu";
-+			clocks = <&ccu CLK_GPU>, <&ccu CLK_BUS_GPU>;
-+			clock-names = "core", "bus";
-+			power-domains = <&pck600 PD_GPU>;
-+			resets = <&ccu RST_BUS_GPU>;
-+			status = "disabled";
-+		};
++&gpu {
++	mali-supply = <&reg_dcdc2>;
++	status = "okay";
++};
 +
- 		pio: pinctrl@2000000 {
- 			compatible = "allwinner,sun55i-a523-pinctrl";
- 			reg = <0x2000000 0x800>;
+ &mdio0 {
+ 	ext_rgmii_phy: ethernet-phy@1 {
+ 		compatible = "ethernet-phy-ieee802.3-c22";
+diff --git a/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts b/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts
+index 59db10354..a96927fbd 100644
+--- a/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts
++++ b/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts
+@@ -54,6 +54,11 @@ &ehci1 {
+ 	status = "okay";
+ };
+ 
++&gpu {
++	mali-supply = <&reg_dcdc2>;
++	status = "okay";
++};
++
+ &mmc0 {
+ 	vmmc-supply = <&reg_vcc3v3>;
+ 	cd-gpios = <&pio 5 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PF6 */
+diff --git a/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts b/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
+index 142177c1f..b9eeb6753 100644
+--- a/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
++++ b/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
+@@ -76,6 +76,11 @@ &gmac0 {
+ 	status = "okay";
+ };
+ 
++&gpu {
++	mali-supply = <&reg_dcdc2>;
++	status = "okay";
++};
++
+ &mdio0 {
+ 	ext_rgmii_phy: ethernet-phy@1 {
+ 		compatible = "ethernet-phy-ieee802.3-c22";
+diff --git a/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts b/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
+index 5f97505ec..d07bb9193 100644
+--- a/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
++++ b/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
+@@ -95,6 +95,11 @@ &ehci1 {
+ 	status = "okay";
+ };
+ 
++&gpu {
++	mali-supply = <&reg_dcdc2>;
++	status = "okay";
++};
++
+ &mmc0 {
+ 	vmmc-supply = <&reg_cldo3>;
+ 	cd-gpios = <&pio 5 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PF6 */
 -- 
 2.50.0
 
