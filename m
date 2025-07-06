@@ -1,155 +1,171 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB01D15D1;
-	Sun,  6 Jul 2025 09:46:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE0121FBE9B
+	for <linux-sunxi@lists.linux.dev>; Sun,  6 Jul 2025 09:58:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751795212; cv=none; b=DVDZqqdE5yejvDnnJ8pblcXz4qRSBA5R1tmxMFikyBGFZgT14smf5pqT67JBixzfmmqw/t/wjmiOhQIeMsk22orV9pQNenrx9zpRdfpQ/80/db4Szfo5MsYZ9iAInrVI30arzvUtUZ4TRIU3FbbFjGLvXfHEpBmVJSiM/6xzIF4=
+	t=1751795898; cv=none; b=CfZ9JVPTl3HHSqvsQtQCpqhUCjnYkWlq2u8O988dALectkXReUhY84d+C7bJKvczbNuCpGR4LeWYUR56AT/INCxab2lG3kXyrAcwH1CItEJ2SfWYymES+zpxYVeCmVPfzTWP1FsDJi6lSxuDyBiL/HBg8u5vgKp7+Hk1tt3/Bvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751795212; c=relaxed/simple;
-	bh=UD0oxINhjQwt/NrHWhMMC/ScI5PyAGgVVc3ZgWBJqMQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iILU71p2GUmyiPdYuMMoHM8BBc9/W0u/wBCV3/Qhr+YJ1Ey8ZxyLv5lzCuWWc4bZwwBZ/VQ6u4qZinaxVezqe+9R3D2Kaitzonj4A2evMfKVLDmSd/nbAQuqx5kwckie9LFSB54e+r/ghGrKF/PeLrPPpt89aD4D4J5vbvDFOdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X2AICwFe; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751795898; c=relaxed/simple;
+	bh=xEkFef12nFlLIernh+CF1AUuIuQaso5KF89j0Sbippw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mTBuHphdBeyCyAXYXSfguQ2RmQOdMD2QUSwU1G0c6BE94EG2vS9oF4xYnQBQPnzklZy9Eg5pXTRnQS61Qas/jH+HkW22JjsqFN4VdrefzylA2zPR0cH9lmPGnzTyi/ElL4s+J1grBwvaRSZh/HMb01tzMrfl6aG0tGws7Jn237g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YlGPExNU; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X2AICwFe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAC91C4CEED;
-	Sun,  6 Jul 2025 09:46:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751795211;
-	bh=UD0oxINhjQwt/NrHWhMMC/ScI5PyAGgVVc3ZgWBJqMQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=X2AICwFedVMu70rBWTcRm3rPAdw3Jc8sD/CJJCvsCjLpPVEhUq07svScQ/ym3VZsU
-	 nqyJwGOK1hCPS7xt9hjxaC/Dwqbvuo+r53qJrE9cB+pZHs029iUA13WpbIPxjqtJnB
-	 KZuwf+sRbQozxYaDzPdfJxTXYruTFc2z/33DSAl4p5Ag2eHqBFDRPcRumHkt0Xbvf4
-	 gDvQ/qr0814dteUIt+C0wBlNIpy8+9gnB3fevEbsM5IbfDvqheXSdFpupTnXAth31s
-	 INC9n6sX6RtOOMXhdscrL52/TlAhoMY08t8/o5IW9pdu1VHgbiT3HgRbn1cCpQgN5u
-	 xOQqw5n75sjpw==
-Message-ID: <4648f0bf-2957-45bf-a6c1-01787e5d3e88@kernel.org>
-Date: Sun, 6 Jul 2025 11:46:46 +0200
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YlGPExNU"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3a4eb4dfd8eso357760f8f.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 06 Jul 2025 02:58:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1751795895; x=1752400695; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rLJzcUMiXBad4V8OJNPvhYHlVWs0EasjPm7tIFAml9w=;
+        b=YlGPExNUSU3ofaONBH24PbQK23c7ns+K0mbcUPVwHfyWzHHpMgDQ1DRj/MerprDY8Q
+         dB05dX0E+7Qf0s8m97qNGCQFC8sR2oasVRVFE6sNOP/QB85aciGAocM9Y7q2/ECZU8sT
+         SSMXJ37hr4BU7ysWSnatFNRGKepjEnwKWF3Peefk5Cu5TOKRVOmvSTIcoj1LxePo1pWV
+         6qisJAvZjtatVxh28CHqI400k65FYYudHNI+Reete0m3NN4lVcqyOBr2dHQNhc+6SH6n
+         E29xoHg6ICJJAJ9ZjY1FSmzRpYWP6wdm9/XV/799SMVxs9RDoc/BqvKSGoxNvVFSABYS
+         nBTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751795895; x=1752400695;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rLJzcUMiXBad4V8OJNPvhYHlVWs0EasjPm7tIFAml9w=;
+        b=tjGr9LLG2HzTLZ/mF1ibK/BYzAd4XAge1lBDZCR2N8vGhhGoQNFMZrX9vzzEl+uyFO
+         3h5zWsJliqTXw/tHZKLnkuezaLau2Ro6bQKLkwJ4wRG+9XNwonIQV8nY2zS2z/tecEJ5
+         xFfxnf58ZFtsVkgvpk5Cxt9KBw4K86NG6yYRf5Jq7Ocdm85yIZ32FQtRCjflzl3GZYyv
+         xiAShh8Re2hZXZriJjPK8Q04CE8vWXxmFtb/d68FuFGRywznjxX5/jmpMSN2vgD7y19E
+         kRneHpLA7UTMTqV4EkOGGekA9Haso6kw69u5DIc9+bWUJ6ggI8KA8PC0S2vPNSBXq/uk
+         c2qQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUOMyotVYFuagvRwt71AEFHbIkBszPiQcfq2vo2WINPaUp/Yn2CZnmVyWPRnJ1PaTJ26TZKXe2IH0lBog==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw/JfawrWChaVJxgtJ8qhb4nm2Qq/53Do8FtnqlrrdRk2iqdCp/
+	gFAxxriL/ldzIPNrmXcWoVZ7Vp2jqMSZ37JqWQz6gEzi4XDTgu94eLrWw/WZOW0rZhs=
+X-Gm-Gg: ASbGncsUPcXZqF2eAEmhxvap9ZLYVgVFSOSjblREld3YSPRfDeX2VIJMfzRst3m9ilo
+	ZH3DHW78JtFWlxE6uyoQXVq1MgoV1Gehwdo5idD//d71QbAPeWDVNLMd7h7blyW/l28+8d0SIn4
+	QJQieLt9WcR39apLGMeregAtzoabh3YwpRHTLLLmkKvyiHjUn6F00jZ2L/xyiUb2mQPknl6J3YI
+	cqhJ21DNZC19sLiH/qpBj60c2hRZghpjZZ6pN39Igm3uz8Y2CcpAG8U89poqtkIgytBlxBdYkDw
+	JX8BrV0z6TX9fsNl2bNH/t43fNK+NqGSTmXXFmykgvzlzyUB9CLVDD05gRxKxUPWj/WbkvKXNYo
+	=
+X-Google-Smtp-Source: AGHT+IF4Ul/n9fVhzwVBg+BkNmoc/enxNYd0kHRns4nCK3XCzT0Bu7DVEcYAKqiVo/IOvxaJHXGIXg==
+X-Received: by 2002:a05:600c:1d1d:b0:453:7011:fcdb with SMTP id 5b1f17b1804b1-454b35ee163mr29792145e9.1.1751795894893;
+        Sun, 06 Jul 2025 02:58:14 -0700 (PDT)
+Received: from krzk-bin.. ([178.197.222.89])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b47225a642sm6999179f8f.80.2025.07.06.02.58.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Jul 2025 02:58:14 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	lukas.schmid@netcube.li
+Subject: [PATCH] dt-bindings: arm: sunxi: Combine board variants into enums
+Date: Sun,  6 Jul 2025 11:58:05 +0200
+Message-ID: <20250706095804.50475-2-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 3/7] dt-bindings: arm: sunxi: Add NetCube Systems
- Nagami Keypad Carrier Board
-To: Lukas Schmid <lukas.schmid@netcube.li>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexandre Ghiti <alex@ghiti.fr>, Maxime Ripard <mripard@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org
-References: <20250705213900.3614963-1-lukas.schmid@netcube.li>
- <4994705.GXAFRqVoOG@lukas-hpz440workstation>
- <6f257dd2-b88c-4dc2-a2ee-f92de4e0412b@kernel.org>
- <2998364.e9J7NaK4W3@lukas-hpz440workstation>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <2998364.e9J7NaK4W3@lukas-hpz440workstation>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2657; i=krzysztof.kozlowski@linaro.org;
+ h=from:subject; bh=xEkFef12nFlLIernh+CF1AUuIuQaso5KF89j0Sbippw=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoakisY7M+9sD/W82rRJY9pnJ5W32Esc4uTl7gm
+ diY585f+f+JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaGpIrAAKCRDBN2bmhouD
+ 13dcEACUhoM6D4bSGQjt2Ey7hYNh3NNu0aL3b1bop290qElz/yIWyx/Ed7e0ir4nWCGwfsSep/M
+ q2UTunPLsBVwyCrIMDKY2gbsSwXz4i1KRfYeyRvBgMnsju7yaMGTJ2mjuNYexZ8XshvNg2DruMC
+ ku1hpslsC3Sl1kfBnUWNWh6qyp0ujEltp7l0nV1usgwgDJU/FmgIgdQN586f7kQz07gc52epvKJ
+ sOJqc7NYwntKKe2x9K18tPjcbX91tm4tpymuj756Fmw0waFuj5kfWxcvYUXTsOdXJHQ2Tgef+9u
+ BqDLdnRYNnYXKjZ7RXernj+KGF3tWbDRk1+y+gTc0omR0gN6EFNL/9LzMn1imJj8umAs3ckxsMg
+ nPFM+rHKIJ69dhINz47oVGYY3U7wG92WOVeNbDHHqDofmE2d0r4H6JhTpyL6xWuFyUX19Uk9YQa
+ D/lhMQDim1MckV+sJ6durjiVvlKZAfqyanVh1mQJ6vK3j0NtqPaaEJTRRAgmVLin0Z0vrnVPVzb
+ eyXdwKOEG7mv98I6Mt4t0g9ygbLmFUGb4bxjyfc9CVAyDIshCvT+JhEpL94RrP5HZ/3fwt6Riub
+ pXjVbsVl+tGtDeeGemxDwWQ9y/QUwA1GqYpgnRo0QG5bgczyBU/3uy46LYEncGTnv1vjlxzuzKS 0O1UQ0NuNdsN6KQ==
+X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+Content-Transfer-Encoding: 8bit
 
-On 06/07/2025 11:41, Lukas Schmid wrote:
-> On Sonntag, 6. Juli 2025 11:36:34 CEST Krzysztof Kozlowski wrote:
->> On 06/07/2025 11:07, Lukas Schmid wrote:
->>> On Sonntag, 6. Juli 2025 09:49:58 CEST Krzysztof Kozlowski wrote:
->>>> On 05/07/2025 23:38, Lukas Schmid wrote:
->>>>> The NetCube Systems Nagami Keypad Carrier is a custom board intended to
->>>>> fit a standard Ritto Intercom enclosure and provides a Keypad,
->>>>> NFC-Reader
->>>>> and Status-LED all controllable over Ethernet with PoE support.
->>>>>
->>>>> Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
->>>>> ---
->>>>>
->>>>>  Documentation/devicetree/bindings/arm/sunxi.yaml | 6 ++++++
->>>>>  1 file changed, 6 insertions(+)
->>>>>
->>>>> diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml
->>>>> b/Documentation/devicetree/bindings/arm/sunxi.yaml index
->>>>> 7919b5bf5..a2f16d064 100644
->>>>> --- a/Documentation/devicetree/bindings/arm/sunxi.yaml
->>>>> +++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
->>>>>
->>>>> @@ -610,6 +610,12 @@ properties:
->>>>>            - const: netcube,nagami
->>>>>            - const: allwinner,sun8i-t113s
->>>>>
->>>>> +      - description: NetCube Systems Nagami Keypad Carrier Board
->>>>> +        items:
->>>>> +          - const: netcube,nagami-keypad-carrier
->>>>
->>>> That's just enum with previous entry. Don't make it over-complicated.
->>>>
->>>> Best regards,
->>>> Krzysztof
->>>
->>> Just making sure here. The actual bindings are fine, but I should merge
->>> them into one patch, correct?
->>
->> No, you got two comments what should be changed in the binding.
->>
->> Best regards,
->> Krzysztof
-> 
-> So if I understand correctly you want me to remove the "allwinner,sun8i-t113s" 
-> from the carrier boards and keep it for the SoM?
-No, I spoke nothing about that compatible. My comment is EXACTLY under
-the line being incorrect. That entry should have been made enum with
-previous board compatible. Look at other vendors, because this file
-repeats that pattern for some reason, eh...
+The common style in all bindings for enumerating similar variants is to
+use 'enum', not 'oneOf', so all boards of same variant or using same SoM
+should be grouped under enum.  It is more readable, more compact and
+makes easier to find actual devices from the same family/type.  Also
+there is completely no point to repeat the compatible in the description
+(incircuit,icnova-a20-adb4006 implies this is "ICnova A20 ADB4006" and
+pine64,pinephone-1.2 implies "Pine64 PinePhone (1.2)").
 
-Best regards,
-Krzysztof
+Combine two easily visible cases: ICnova A20 and Pine64 PinePhone.
+
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+---
+
+Cc: lukas.schmid@netcube.li
+---
+ .../devicetree/bindings/arm/sunxi.yaml        | 31 ++++++-------------
+ 1 file changed, 9 insertions(+), 22 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
+index 7807ea613258..f10c6ee6a0aa 100644
+--- a/Documentation/devicetree/bindings/arm/sunxi.yaml
++++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+@@ -341,15 +341,11 @@ properties:
+           - const: allwinner,i12-tvbox
+           - const: allwinner,sun7i-a20
+ 
+-      - description: ICnova A20 ADB4006
++      - description: ICnova A20
+         items:
+-          - const: incircuit,icnova-a20-adb4006
+-          - const: incircuit,icnova-a20
+-          - const: allwinner,sun7i-a20
+-
+-      - description: ICNova A20 SWAC
+-        items:
+-          - const: incircuit,icnova-a20-swac
++          - enum:
++              - incircuit,icnova-a20-adb4006
++              - incircuit,icnova-a20-swac
+           - const: incircuit,icnova-a20
+           - const: allwinner,sun7i-a20
+ 
+@@ -760,21 +756,12 @@ properties:
+           - const: pine64,pinebook
+           - const: allwinner,sun50i-a64
+ 
+-      - description: Pine64 PinePhone Developer Batch (1.0)
++      - description: Pine64 PinePhone
+         items:
+-          - const: pine64,pinephone-1.0
+-          - const: pine64,pinephone
+-          - const: allwinner,sun50i-a64
+-
+-      - description: Pine64 PinePhone Braveheart (1.1)
+-        items:
+-          - const: pine64,pinephone-1.1
+-          - const: pine64,pinephone
+-          - const: allwinner,sun50i-a64
+-
+-      - description: Pine64 PinePhone (1.2)
+-        items:
+-          - const: pine64,pinephone-1.2
++          - enum:
++              - pine64,pinephone-1.0 # Developer Batch (1.0)
++              - pine64,pinephone-1.1 # Braveheart (1.1)
++              - pine64,pinephone-1.2
+           - const: pine64,pinephone
+           - const: allwinner,sun50i-a64
+ 
+-- 
+2.43.0
+
