@@ -1,126 +1,134 @@
-Received: from mail.netcube.li (mail.netcube.li [173.249.15.149])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 477AD2BCF6C
-	for <linux-sunxi@lists.linux.dev>; Sun,  6 Jul 2025 18:36:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.249.15.149
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 477C21F8EEC
+	for <linux-sunxi@lists.linux.dev>; Sun,  6 Jul 2025 23:38:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751827015; cv=none; b=Rg8BOzSKAtI3VJRKBMb88oVe28FXfqNlxHiLlTb5u+W1mN/URPBqg+zckq3qN3q2cyXm+N/YqdrRIbI+gq+OiSYmhopSHs73xIoeVj97bRz1t3Yazafp7rE/h8luIC9S6GDZXSCjJDztj+oagjrUKKNqnMWRaXvrxLd1wYQo4tQ=
+	t=1751845096; cv=none; b=meqIfkJAnmKEyGDlmme59BWwnwGdid1dZA3VXeDFJmtFhBSvp5uUvGEOrw1hwXOO23N1RKLg+cqR0Na4xwddJyCAsKpFn+ibGmAuJBSLmEqY/DseojsnHqLSCu1lICM5zrsT1dXkZ00hVrLXEXTILldUxgx3yLS29ZkZAoPwNz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751827015; c=relaxed/simple;
-	bh=DRMQbRZWUhGw5/lqb+APwMKFprX1xofy2byBElLuM7Y=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=p27GNI4B+i+hG3h+H2ydI+2LFpcMn1tdnhGTYLy1zRsoCuce252Iy93FPqtcDIbm0gFRREb/FQrxaqHNoOhoMMZL82db/3aqGlKYLViukBw/SKGqbu+RBiSbJddU0RXQsYKwp5uZZTpcbOVRX8mtGD5KSAkaTAXGjK7tswGE3gc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li; spf=pass smtp.mailfrom=netcube.li; dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b=IxiNZX2V; arc=none smtp.client-ip=173.249.15.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netcube.li
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b="IxiNZX2V"
-dkim-signature: v=1; a=rsa-sha256; d=netcube.li; s=s1;
-	c=relaxed/relaxed; q=dns/txt; h=From:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Transfer-Encoding:In-Reply-To:References;
-	bh=iY45rPf6NfJfIsrjOR+vhY8BHVO+tt89pB/hI839SL0=;
-	b=IxiNZX2V7e1kYb8xWKqy97tsVTlgu3EcEdx1wo23BhXNCK5VF3YQnWSGF1xO7+wpm+VhGV8iRY05+pJTIjbVRClL3oqVrF9RtOzbGdsuO0jSBDLSxtXARo0TDZ0J54tzMljua3raN3QfwVOtXsKd34c1QWoj0hpMgdeynphtO4o=
-Received: from lukas-hpz440workstation.lan.sk100508.local (cm70-231.liwest.at [212.241.70.231])
-	by mail.netcube.li with ESMTPA
-	; Sun, 6 Jul 2025 20:36:21 +0200
-From: Lukas Schmid <lukas.schmid@netcube.li>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Maxime Ripard <mripard@kernel.org>
-Cc: Lukas Schmid <lukas.schmid@netcube.li>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: [PATCH v2 2/5] riscv: dts: allwinner: d1s-t113: Add pinctrl's required by NetCube Systems Nagami SoM
-Date: Sun,  6 Jul 2025 20:35:55 +0200
-Message-Id: <20250706183601.157523-3-lukas.schmid@netcube.li>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250706183601.157523-1-lukas.schmid@netcube.li>
-References: <20250706183601.157523-1-lukas.schmid@netcube.li>
+	s=arc-20240116; t=1751845096; c=relaxed/simple;
+	bh=GIW4M+B02meitepEZRICFQHNNiA29C676M+kLF16Q4I=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SKeiaGPuHLekL2BbkoXeZSmfngkZJGulcq13HZEkGd+uHrk573B6vMyiUidR/ctBdX9zPE5C5Kqbp3txZFaTwUXzDVngjIBD4/k91ih8v8L7fTYGthpfuOh/MfLzvH0N7/j5wmvBJV76qGLj3SZVO8NaVLC5IbKFX/k1/GiJplI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A98CB1E8D;
+	Sun,  6 Jul 2025 16:38:00 -0700 (PDT)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CB5DB3F694;
+	Sun,  6 Jul 2025 16:38:11 -0700 (PDT)
+Date: Mon, 7 Jul 2025 00:36:40 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Chen-Yu Tsai <wens@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej@kernel.org>, Samuel
+ Holland <samuel@sholland.org>, Ulf Hansson <ulf.hansson@linaro.org>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
+Subject: Re: [PATCH 1/4] dt-bindings: power: Add A523 PPU and PCK600 power
+ controllers
+Message-ID: <20250707003640.73e08911@minigeek.lan>
+In-Reply-To: <20250627152918.2606728-2-wens@kernel.org>
+References: <20250627152918.2606728-1-wens@kernel.org>
+	<20250627152918.2606728-2-wens@kernel.org>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Added the following pinctrl's used by the NetCube Systems Nagami SoM
-  * i2c2_pins
-  * i2c3_pins
-  * i2s1_pins, i2s1_din_pins, i2s1_dout_pins
-  * spi1_pins
+On Fri, 27 Jun 2025 23:29:15 +0800
+Chen-Yu Tsai <wens@kernel.org> wrote:
 
-Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
----
- .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    | 36 +++++++++++++++++++
- 1 file changed, 36 insertions(+)
+> From: Chen-Yu Tsai <wens@csie.org>
+> 
+> The A523 PPU is likely the same kind of hardware seen on previous SoCs.
+> 
+> The A523 PCK600, as the name suggests, is likely a customized version
+> of ARM's PCK-600 power controller. Comparing the BSP driver against
+> ARM's PPU datasheet shows that the basic registers line up, but
+> Allwinner's hardware has some additional delay controls in the reserved
+> register range. As such it is likely not fully compatible with the
+> standard ARM version.
+> 
+> Document A523 PPU and PCK600 compatibles.
+> 
+> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
 
-diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-index e4175adb0..8dc3deccb 100644
---- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-+++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-@@ -78,6 +78,36 @@ dsi_4lane_pins: dsi-4lane-pins {
- 				function = "dsi";
- 			};
- 
-+			/omit-if-no-ref/
-+			i2c2_pins: i2c2-pins {
-+				pins = "PD20", "PD21";
-+				function = "i2c2";
-+			};
-+
-+			/omit-if-no-ref/
-+			i2c3_pins: i2c3-pins {
-+				pins = "PG10", "PG11";
-+				function = "i2c3";
-+			};
-+
-+			/omit-if-no-ref/
-+			i2s1_pins: i2s1-pins {
-+				pins = "PG12", "PG13";
-+				function = "i2s1";
-+			};
-+
-+			/omit-if-no-ref/
-+			i2s1_din_pins: i2s1-din-pins {
-+				pins = "PG14";
-+				function = "i2s1_din";
-+			};
-+
-+			/omit-if-no-ref/
-+			i2s1_dout_pins: i2s1-dout-pins {
-+				pins = "PG15";
-+				function = "i2s1_dout";
-+			};
-+
- 			/omit-if-no-ref/
- 			lcd_rgb666_pins: lcd-rgb666-pins {
- 				pins = "PD0", "PD1", "PD2", "PD3", "PD4", "PD5",
-@@ -126,6 +156,12 @@ spi0_pins: spi0-pins {
- 				function = "spi0";
- 			};
- 
-+			/omit-if-no-ref/
-+			spi1_pins: spi1-pins {
-+				pins = "PD10", "PD11", "PD12", "PD13", "PD14", "PD15";
-+				function = "spi1";
-+			};
-+
- 			/omit-if-no-ref/
- 			uart1_pg6_pins: uart1-pg6-pins {
- 				pins = "PG6", "PG7";
--- 
-2.39.5
+Both PPUs are merely mentioned in the user manual, but do not have a
+register description. But the BSP source code confirms the mapping of
+the power domains used below, so:
 
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+
+Cheers,
+Andre
+
+> ---
+>  .../bindings/power/allwinner,sun20i-d1-ppu.yaml   |  2 ++
+>  .../power/allwinner,sun55i-a523-pck600.h          | 15 +++++++++++++++
+>  .../dt-bindings/power/allwinner,sun55i-a523-ppu.h | 12 ++++++++++++
+>  3 files changed, 29 insertions(+)
+>  create mode 100644 include/dt-bindings/power/allwinner,sun55i-a523-pck600.h
+>  create mode 100644 include/dt-bindings/power/allwinner,sun55i-a523-ppu.h
+> 
+> diff --git a/Documentation/devicetree/bindings/power/allwinner,sun20i-d1-ppu.yaml b/Documentation/devicetree/bindings/power/allwinner,sun20i-d1-ppu.yaml
+> index f578be6a3bc8..b9f550994512 100644
+> --- a/Documentation/devicetree/bindings/power/allwinner,sun20i-d1-ppu.yaml
+> +++ b/Documentation/devicetree/bindings/power/allwinner,sun20i-d1-ppu.yaml
+> @@ -18,6 +18,8 @@ properties:
+>      enum:
+>        - allwinner,sun20i-d1-ppu
+>        - allwinner,sun8i-v853-ppu
+> +      - allwinner,sun55i-a523-ppu
+> +      - allwinner,sun55i-a523-pck-600
+>  
+>    reg:
+>      maxItems: 1
+> diff --git a/include/dt-bindings/power/allwinner,sun55i-a523-pck600.h b/include/dt-bindings/power/allwinner,sun55i-a523-pck600.h
+> new file mode 100644
+> index 000000000000..6b3d8ea7bb69
+> --- /dev/null
+> +++ b/include/dt-bindings/power/allwinner,sun55i-a523-pck600.h
+> @@ -0,0 +1,15 @@
+> +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) */
+> +
+> +#ifndef _DT_BINDINGS_POWER_SUN55I_A523_PCK600_H_
+> +#define _DT_BINDINGS_POWER_SUN55I_A523_PCK600_H_
+> +
+> +#define PD_VE			0
+> +#define PD_GPU			1
+> +#define PD_VI			2
+> +#define PD_VO0			3
+> +#define PD_VO1			4
+> +#define PD_DE			5
+> +#define PD_NAND			6
+> +#define PD_PCIE			7
+> +
+> +#endif /* _DT_BINDINGS_POWER_SUN55I_A523_PCK600_H_ */
+> diff --git a/include/dt-bindings/power/allwinner,sun55i-a523-ppu.h b/include/dt-bindings/power/allwinner,sun55i-a523-ppu.h
+> new file mode 100644
+> index 000000000000..bc9aba73c19a
+> --- /dev/null
+> +++ b/include/dt-bindings/power/allwinner,sun55i-a523-ppu.h
+> @@ -0,0 +1,12 @@
+> +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) */
+> +
+> +#ifndef _DT_BINDINGS_POWER_SUN55I_A523_PPU_H_
+> +#define _DT_BINDINGS_POWER_SUN55I_A523_PPU_H_
+> +
+> +#define PD_DSP			0
+> +#define PD_NPU			1
+> +#define PD_AUDIO		2
+> +#define PD_SRAM			3
+> +#define PD_RISCV		4
+> +
+> +#endif /* _DT_BINDINGS_POWER_SUN55I_A523_PPU_H_ */
 
