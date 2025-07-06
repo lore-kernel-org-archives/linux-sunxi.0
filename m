@@ -1,91 +1,97 @@
 Received: from mail.netcube.li (mail.netcube.li [173.249.15.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D9214A60D
-	for <linux-sunxi@lists.linux.dev>; Sun,  6 Jul 2025 17:32:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 135081C5D77
+	for <linux-sunxi@lists.linux.dev>; Sun,  6 Jul 2025 18:36:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.249.15.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751823161; cv=none; b=OnVS/UmpFp5zs/Hlifo9KSUVO7qF8BDvvHZtFsNLkzN9a9fU+m8WYxTdPIoayy4LW/1+xBMgd72FoSZGjvAKPavXKMWhfNlMtk7g9QvQC8pZp1j0U+PIzYb1wGyz9zyhdjPPnrHKHFa2W1NY+ltJYeA5vIjCxfC9D+HtmV4Gcgs=
+	t=1751826987; cv=none; b=PZmFfgUcCfZ9XwcBLSzTuHTFIUEXAlWcZmFshzdFXa8HnAHE7zt++ameOLbFM9n/s6S/KYnjO3zOkJquDGsx5ijETuVnZvB+s3PsdfE2c6c1eAn8NpIBr80XbBZaB91Crf7CKo7WmNXkHNT09wTHaAYaDqyXEERbS6CsnQaFUzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751823161; c=relaxed/simple;
-	bh=n3IsK8ODlz1JKfSsL0mSiF4ZyAuv+Tgnm7BVnlfjl/Q=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ex4Rfvk4JBBSWJebKpeZnTH5OuItekBvilseCEH06seSuFszQkcHJYUWOnH+jCTMa4DN/UIWbPHsmR6zJHhmrkGvgQCs1NawgtxEehoLdd+lXCCmb2YGLFMC/ojHG0yzgvU32ww4YpSYP/LXhnNJLOoFvsdVB/Sq/+rd4UKO2hs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li; spf=pass smtp.mailfrom=netcube.li; dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b=nouCC7mK; arc=none smtp.client-ip=173.249.15.149
+	s=arc-20240116; t=1751826987; c=relaxed/simple;
+	bh=C5ipsNKqPtcZ9ZqVSlX5kWYRMwAWnRaNKaXRoPqKKus=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=QnW9x84HmykTgu8v5za9MCPTZVTyqZaEJF3aZSCiDvdPM1hb1IuVP4S/djBmhkl3dSpblFrVu8gXH4OQ0isnsnZCui0KiLcvpIF5MjyVaKVZBR1zrr4AR+iafDaX6OQTscnlsoPeXhWqlULTHHqRKlCm6SDotmDjsGC4BSKlaMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li; spf=pass smtp.mailfrom=netcube.li; dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b=gvxHfBTx; arc=none smtp.client-ip=173.249.15.149
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netcube.li
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b="nouCC7mK"
+	dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b="gvxHfBTx"
 dkim-signature: v=1; a=rsa-sha256; d=netcube.li; s=s1;
-	c=relaxed/relaxed; q=dns/txt; h=From:Subject:Date:Message-ID:To:MIME-Version:Content-Type;
-	bh=JOvAlhhL4DkQigWqZpbWJ2xKl0SuEzl+W3GKAfQHn90=;
-	b=nouCC7mK1H9um0bfh+0LEw0uYmycv0R5RrBWOxJWacoO7VXxcIsDma6ENjrx9Hr/1tSkWV3tW5zbXPIIVa4RcaAoEK8LLUoIl8tTMr3mXkVDPBsyaSh5fS20xlxUK4mNOS1Rgi2wKRUg9KFwBd5w0jFmaeYvfyMPnKPT36Xs7wY=
-Received: from lukas-hpz440workstation.localnet (cm70-231.liwest.at [212.241.70.231])
-	by mail.netcube.li with ESMTPSA
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256)
-	; Sun, 6 Jul 2025 19:32:36 +0200
+	c=relaxed/relaxed; q=dns/txt; h=From:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Transfer-Encoding:In-Reply-To:References;
+	bh=xZ7vtuj+s70PG5PkBbRCZDNfe9x5yGSFsFXGi4NYoMk=;
+	b=gvxHfBTxIOGSJjVT38nYhLnPEAj67cTiCebwQHAReVeMFmCqZJh5wzyk+SYUb9OPSn4Hm1EsQWT7gjz6Mvfy76AmZEruyYZ8gPiXt51b9D7HpoYJZnUXq9hSo2yVksONtqCpJBwaI5cpdIcAP6+O2W448Tnrv9LU7Tpjk+B47uc=
+Received: from lukas-hpz440workstation.lan.sk100508.local (cm70-231.liwest.at [212.241.70.231])
+	by mail.netcube.li with ESMTPA
+	; Sun, 6 Jul 2025 20:36:18 +0200
 From: Lukas Schmid <lukas.schmid@netcube.li>
-To: linux-sunxi@lists.linux.dev
-Subject:
- T113-S3: reboot fails unless "wdt" node is enabled =?UTF-8?B?4oCU?= safe to
- set status = "okay"?
-Date: Sun, 06 Jul 2025 19:32:35 +0200
-Message-ID: <9473157.CDJkKcVGEf@lukas-hpz440workstation>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Maxime Ripard <mripard@kernel.org>
+Cc: Lukas Schmid <lukas.schmid@netcube.li>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: [PATCH v2 1/5] dt-bindings: arm: sunxi: Add NetCube Systems Nagami SoM and carrier board bindings
+Date: Sun,  6 Jul 2025 20:35:54 +0200
+Message-Id: <20250706183601.157523-2-lukas.schmid@netcube.li>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250706183601.157523-1-lukas.schmid@netcube.li>
+References: <20250706183601.157523-1-lukas.schmid@netcube.li>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart3290565.5fSG56mABF";
- micalg="pgp-sha512"; protocol="application/pgp-signature"
+Content-Transfer-Encoding: 8bit
 
---nextPart3290565.5fSG56mABF
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
-From: Lukas Schmid <lukas.schmid@netcube.li>
-To: linux-sunxi@lists.linux.dev
-Date: Sun, 06 Jul 2025 19:32:35 +0200
-Message-ID: <9473157.CDJkKcVGEf@lukas-hpz440workstation>
-MIME-Version: 1.0
+The NetCube Systems Nagami is an System on Module base on the Allwinner
+T113s SoC. It is intended to be used in low cost devices which require
+simple layouts and low BOM cost.
 
-Hi all,
+The NetCube Systems Nagami Basic Carrier Board is a simple carrier for the
+Nagami SoM. It is intended to serve as a simple reference design for a
+custom implementation or just evaluating the module with other peripherals
 
-I'm working with a board based on the Allwinner T113-S3 and running a recent 
-mainline Linux kernel. I noticed that calling `reboot` from Linux results in:
+The NetCube Systems Nagami Keypad Carrier is a custom board intended to
+fit a standard Ritto Intercom enclosure and provides a Keypad, NFC-Reader
+and Status-LED all controllable over Ethernet with PoE support.
 
-    Reboot failed -- System halted
+Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
+---
+ Documentation/devicetree/bindings/arm/sunxi.yaml | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-After some investigation, I found that the watchdog (`wdt: watchdog@20500a0`) 
-is marked as `status = "reserved"` in the mainline device tree.
-
-If I override that node to `status = "okay"` in my board's .dts file, reboot 
-starts working as expected.
-
-Is there a specific reason why the `wdt` node is marked `"reserved"` by default 
-in mainline?
-
-Best regards,  
-Lukas Schmid
-
---nextPart3290565.5fSG56mABF
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEPv6dcBmn59ssZMkSJnN+drMVRtgFAmhqszMACgkQJnN+drMV
-Rtj+Vgf+PqRtyyZbsenPaibuZBJU0PPJduo+PI9OB9qD/HckALrOSjptXCUDX3vq
-HadOr0Wr62Vp4hyefiBzAU28RDF/qa/XTc2e4JiBMT4X/hzUFZmROyzBFQD25mZ7
-97HdHXw++iIm7bVYaDunzol07xH3c5dnC/Pc5TIqXuwuUZRZZRJ/AArE3NJrQ3vi
-9KP/OWGqxbPrOyuRlKwsNV4l+WsANleTvrMZgzWPGSn+Ljgqw7Xr42VvUk0vfu8t
-1cWsV5DTWrLw4l3ekdWbgCS7SJhip43+2/mcMxQQLCT6MMc2hp5Fgo8pZKcjkzUP
-RVy0ZSmk3LeC/EmT4rx8B+yrvqkrbQ==
-=M8YP
------END PGP SIGNATURE-----
-
---nextPart3290565.5fSG56mABF--
-
-
+diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
+index 7807ea613..50f08d8d2 100644
+--- a/Documentation/devicetree/bindings/arm/sunxi.yaml
++++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+@@ -599,6 +599,14 @@ properties:
+           - const: netcube,kumquat
+           - const: allwinner,sun8i-v3s
+ 
++      - description: NetCube Systems Nagami SoM based boards
++        items:
++          - enum:
++              - netcube,nagami-basic-carrier
++              - netcube,nagami-keypad-carrier
++          - const: netcube,nagami
++          - const: allwinner,sun8i-t113s
++
+       - description: NextThing Co. CHIP
+         items:
+           - const: nextthing,chip
+-- 
+2.39.5
 
 
