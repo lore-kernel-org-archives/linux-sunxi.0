@@ -1,87 +1,109 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.netcube.li (mail.netcube.li [173.249.15.149])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 607381C6FEC;
-	Sun,  6 Jul 2025 07:50:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3D4019D89B
+	for <linux-sunxi@lists.linux.dev>; Sun,  6 Jul 2025 09:06:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.249.15.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751788244; cv=none; b=dPb7Ihb5u1YmKi05DdeHFG+W5dFRL5RiPEshau6l+Ia20XWOkQY9pD91BuqtEh7MRDUtNrIBWEO40rY5vmqjo7sb1IDt/Nvw/LtoQv1y1EoIJHiXaOgrcjOEslFAtAEZGfVHeIKw03nEILmSBcz6mZ2hjG4hbU14XE9NAJ/LnFw=
+	t=1751792807; cv=none; b=Wkmwsix83Lz8n0hnJbbJVG3tKvtRttlzmtI3liL5w7D6WNI943qDT7KaKLMd6m4L9v8lfpDlU5soSUc5DrWALlCs1nxeOjbctmoBHix06dEEw58Bqzz4ku7GeOmfhLGxZMWpWdzRhUZiwl//heSRPwY9UDEV5Xs9QLhLcxiwS1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751788244; c=relaxed/simple;
-	bh=Wz3QIftB7ku50zhSA5I8LX3BPYD+n8UHEOY5M4mivbE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PFDi3trKpYpIaGYkd9lbSIAfk+H3LMoDwhlsoUouIuMhQuMwLEJ9CZnzhUewOLin5OX108n34294NlTimucoF43pM2YlJ8bYF2RA9mDPFOrHik6gSRw1LOVsozQkZBMfcHVs5bHW0fTzHzwIn61vVwyoPfgsu1rjtCw8lVDmCIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=wFFIirNL; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1751792807; c=relaxed/simple;
+	bh=RT4KaCOpxpPxhU+0CxbKj0+VmeZqaPtuLJG2kAASxcc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jTvPbYvaalS0nbko+PYffIOsczm1TrTPt3BngZhx0J1mHTxgFqvRII3FuNhn2UQO+c5NAMKMCrgJOhVxY1o77WBZMXsEwf+B8zJUYRnvatNaGIgSRPQth5wEpTdTvy2vsuB+KkgTZ/yXYLp8jPibma1JbSjhOMOedcX8e/HC8Qc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li; spf=pass smtp.mailfrom=netcube.li; dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b=Z+kPol28; arc=none smtp.client-ip=173.249.15.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netcube.li
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="wFFIirNL"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=tlI66Bz/sqx9wmUZBx5cdl25FDyXH6zR6tjKJVPWCsg=; b=wFFIirNLE5SoKa0/iKXE1484DW
-	r7+gZbf52dzCnHuQfy755y8Q0LISLB/oxnAoxuJ/l6I4++mdjB529Cub/3iLygRFWryyGMtLt0rIr
-	sTemlafQ52D04EZIUumCJSSwLUaLw6XexkFuUUbvKJsJXiXTzzMbItrGwT48zkdQOmyU=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1uYK8s-000X3d-K1; Sun, 06 Jul 2025 09:50:30 +0200
-Date: Sun, 6 Jul 2025 09:50:30 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Chen-Yu Tsai <wens@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH net 0/2] allwinner: a523: Rename emac0 to gmac0
-Message-ID: <0f0ca5ce-8ed2-4e07-a1c3-105d602e8cd1@lunn.ch>
-References: <20250628054438.2864220-1-wens@kernel.org>
- <20250705083600.2916bf0c@minigeek.lan>
- <CAGb2v64My=A_Jw+CBCsqno3SsSSTtBFKXOrgLv+Nyq_z5oeYBg@mail.gmail.com>
- <e9c5949d-9ac5-4b33-810d-b716ccce5fe9@lunn.ch>
- <20250706002223.128ff760@minigeek.lan>
+	dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b="Z+kPol28"
+dkim-signature: v=1; a=rsa-sha256; d=netcube.li; s=s1;
+	c=relaxed/relaxed; q=dns/txt; h=From:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Type:In-Reply-To:References;
+	bh=f9YbyZd/VkquKLsCeJc+buXmeOWhQCLEKhQGAUaZYVE=;
+	b=Z+kPol288sL8JofDkheKNemupUD5VjzDMljyelMvIg7rb/xmGurWDWWn3QNgp0+NZoKBpussttaylwyqA8IT+4bxMji0HCCqI3KgTg51cmyRuVaz8EAGiZNkyOGOJBl0MFp9qGuAwLdeGarfV76vtqAovbkArMqHglR2XTjPpPo=
+Received: from lukas-hpz440workstation.localnet (cm70-231.liwest.at [212.241.70.231])
+	by mail.netcube.li with ESMTPSA
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256)
+	; Sun, 6 Jul 2025 11:06:35 +0200
+From: Lukas Schmid <lukas.schmid@netcube.li>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>, Maxime Ripard <mripard@kernel.org>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-riscv@lists.infradead.org
+Subject:
+ Re: [PATCH v1 5/7] ARM: dts: sunxi: add support for NetCube Systems Nagami
+ SoM
+Date: Sun, 06 Jul 2025 11:06:34 +0200
+Message-ID: <5023306.31r3eYUQgx@lukas-hpz440workstation>
+In-Reply-To: <b2351675-cba2-4d8c-af6c-f341f5c77ee7@lunn.ch>
+References:
+ <20250705213900.3614963-1-lukas.schmid@netcube.li>
+ <20250705213900.3614963-6-lukas.schmid@netcube.li>
+ <b2351675-cba2-4d8c-af6c-f341f5c77ee7@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250706002223.128ff760@minigeek.lan>
+Content-Type: multipart/signed; boundary="nextPart4662866.LvFx2qVVIh";
+ micalg="pgp-sha512"; protocol="application/pgp-signature"
 
-On Sun, Jul 06, 2025 at 12:22:23AM +0100, Andre Przywara wrote:
-> On Sat, 5 Jul 2025 17:53:17 +0200
-> Andrew Lunn <andrew@lunn.ch> wrote:
+--nextPart4662866.LvFx2qVVIh
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
+From: Lukas Schmid <lukas.schmid@netcube.li>
+To: Andrew Lunn <andrew@lunn.ch>
+Date: Sun, 06 Jul 2025 11:06:34 +0200
+Message-ID: <5023306.31r3eYUQgx@lukas-hpz440workstation>
+In-Reply-To: <b2351675-cba2-4d8c-af6c-f341f5c77ee7@lunn.ch>
+MIME-Version: 1.0
+
+On Sonntag, 6. Juli 2025 09:38:00 CEST Andrew Lunn wrote:
+> > +&mdio {
+> > +	lan8720a: ethernet-phy@1 {
+> > +			compatible = "ethernet-phy-ieee802.3-c22";
+> > +			reg = <1>;
+> > +	};
+> > +};
 > 
-> Hi Andrew,
+> Just for clarification: The PHY is on the SOM? I've seen systems where
+> the PHY is on the SOM, and the magnetics and RJ45 on the carrier
+> board. I've also seen systems where the PHY, magnetics and RJ45 are on
+> the carrier.
+
+Yes that' the case here. The PHY is located on the SoM and the MDI signals
+before any magnetics are on the SoM's Card-Edge. The magnetics are required
+on the Carrier board (e.g. a MagJack or dedicated Transformer)
 > 
-> > > So it's really whatever Allwinner wants to call it. I would rather have
-> > > the names follow the datasheet than us making some scheme up.  
-> > 
-> > Are the datasheets publicly available?
-> 
-> We collect them in the sunxi wiki (see the links below), but just to
-> make sure:
+>     Andrew
 
-O.K. The point i was trying to make is that some vendors datasheets
-are not public, or very restricted, and so names don't matter, since
-nobody has the datasheets. But if they are open, names are more
-relevant.
 
-I do agree that stuff can be changed when it is in an -rcX
-kernel. However, it needs to be well justified, ABI related, or very
-broken.
+--nextPart4662866.LvFx2qVVIh
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
 
-Since this is ABI, it could be changed. But i don't want to make the
-decision of if it should be changed.
+-----BEGIN PGP SIGNATURE-----
 
-	Andrew
+iQEzBAABCgAdFiEEPv6dcBmn59ssZMkSJnN+drMVRtgFAmhqPJoACgkQJnN+drMV
+RtiE8Af9ESLIraKnrfQi55OimnR0w4/F/EGAOF6naWZtJ2WLGLsJtRxz4XtvmJg5
+uTMGqjm/hF8f7xVSadaMBGnF1ZUEN13CxXoWiqE/uggNB4/9c4AxdgjlLjFeeAD0
+A1pDHXHJJQykUpbNHtMqhNE3rLrAthy1PW/f2MG3ALh8VkFnOY5ZraFuTaxYZzA9
+wiL5UBJw6XneItZUlr7BpFweH8H7kMusHg8eoOo2XKfj4REmQn1fj4FN1XEtGR+z
+Q5N7/o6ccDVHruZve7BXIwpGXCnOOl7AmXZ1zT+FWNAI16QRm7/a8TkmP70Na67V
+MvcLoylwZbp4U4SiH11wHuENj4rIdQ==
+=pi6Q
+-----END PGP SIGNATURE-----
+
+--nextPart4662866.LvFx2qVVIh--
+
+
+
+
