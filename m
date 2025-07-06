@@ -1,129 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01DDE2AD18
-	for <linux-sunxi@lists.linux.dev>; Sun,  6 Jul 2025 13:14:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92EA22AE90
+	for <linux-sunxi@lists.linux.dev>; Sun,  6 Jul 2025 13:17:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751807665; cv=none; b=oyxxmBPC/xFAoYIpB+46OaGFm/5Mwk01HuxQXwv0lbMqWAZppIab4QEeUfN5HNuKAWowtd+lurzUqqnbESjiZADRAmRLfPrzItvfWFWEy895P4LweAfz4oVt8TYhUv9LZq+aKhXQWtOE53GwRI8nIutwqAh0HwLUBWoeU1xGT6s=
+	t=1751807860; cv=none; b=mA1CPIv0aFB3XKQ0Q5TvqPYLCoPpggkqb4Dbyf6N9tNAeO1xMglAbikyQHI370BpVHQGUqvDW7tGLAfNZvE2zBuVpQy+z0Y1+Il4+jC/E/pv2W5snfgTm54Hkj9FQAz4AwaDo4hy0ui6Jwra/8jHKVoJHCwgrXGihWu/I13dLhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751807665; c=relaxed/simple;
-	bh=u8xJci6BCA/NPXr2bGUVttu27gcVFr7isab2Lo+Nre0=;
+	s=arc-20240116; t=1751807860; c=relaxed/simple;
+	bh=Mv/shLjCKwn0QObl0EoTZZfjn3MUjEkt7hwbMWVsVCU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=o0VcCat9uPJeXhUBjbUOIEBOkG6zl1C9Bss5nlSrB90P/yb1ZW/4jQ8PnNMAlnPkp1AJEo3nF9DdgM2N+eFHvzl2GkObXAvW6jDpbB8O9VU8bfSN0nGO54ejnmNM4s51NHGE9BgtnVqQCWIc5c/7r3Ff0wR9UOtDV1DGzGeI/+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H74tGhnO; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H74tGhnO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C78CC4CEF3
-	for <linux-sunxi@lists.linux.dev>; Sun,  6 Jul 2025 13:14:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751807664;
-	bh=u8xJci6BCA/NPXr2bGUVttu27gcVFr7isab2Lo+Nre0=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=H74tGhnOnclNfDF4L3HiqPatu/Ckv4SZwOZieRM9X1HBvT72eGWkjGnmDrv7miyw9
-	 /md3SO6VV9wp5un7SLJY585Cu/xC634IOPRqKSenlFAWLasra7D84WocasA5yNAdlD
-	 truaLbkyAf1bmoInf5c1WugXZSj9/M49L3VtGnO0G/wlS3W6obpgMsPh1oh5ZBHhLa
-	 OVciZG90FoRDiu/0VBG5iGHISg1+KxXT01I0j1NFUAoFVv/Y/X1jlDlCm1VwhNH99F
-	 l5V7Z5whmNhUv3QtzTCBJdRKtGTxMvkg62s/rmxA1PI1IvYi/g1Oi0d8wu9E/jWLMx
-	 5blPMHji5owrA==
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-556373661aaso2087001e87.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 06 Jul 2025 06:14:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV5r0veeDqEqh9nswHYO2YK289DgnW3hI3Wm9ujJZ/NXmN8WyP3GnbfMkdldYbFLAv1iAGRC7sP9crRrA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxr9EOOCPzik94BLRrcKq6ddsCX/r+obeURYzb1kpnB+vha1kqq
-	RibbNjr4vdeOtHMUszckvP505CEBjy3D8f2oB6kCd/yEU+WAgZfAo6obcLKZtQ34FMGnxtiWmeo
-	zHpkvuAcYEE8Uusk10rQrn4u+/1JZ8gc=
-X-Google-Smtp-Source: AGHT+IEzN50658kYdEZu4z11IX1+qj76bRNUj9L9XsGay2m70Sqt76p+ZP6G4FZVEV9964rwYfujWQD+iVC6l49gAsw=
-X-Received: by 2002:a05:6512:4027:b0:553:ceed:c859 with SMTP id
- 2adb3069b0e04-557e5537687mr1059540e87.21.1751807662868; Sun, 06 Jul 2025
- 06:14:22 -0700 (PDT)
+	 To:Cc:Content-Type; b=eO0lete1Z+E9OJtHgiKE6qUlFtfEVu686Eotvc7hPFtgN0pqLuospdS1PfhJGC7FDWXz2nxLjz2hdABwigjIZJ+vPELcQQS6JjBaeykdX4FPslomXTxJyOF/Q27USn9r3KbnW2RCH+Ly1KEDzdPE3IckbzMY4VvaXT2fzKTJaAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-555163cd09aso2198087e87.3
+        for <linux-sunxi@lists.linux.dev>; Sun, 06 Jul 2025 06:17:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751807853; x=1752412653;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=L0y9e3VsPZwS3i8gc70lCXlWKvcLrZlEitoiyjDH0k0=;
+        b=pa8anQtS6fWyerzF4gMZPzyO/NBzi21e+oAbibvDBTJSk6J5ubCi13Wyz20bJrpvIP
+         VrTa+qvw07aBdm0HJgN094eDBxyMcb57LEIAQiCO9CGDkRVEtXeJZbImBrgaN8BhJRfx
+         U+v+kTweZMfSpU1KkqM9gBuQEBT2G3mwGoIlFf1bn/oXYuHcLpfj289Ddd+e072f0A8S
+         kSpwq/5MrqOdZkCaEXegYN79WqpFE8dsCCyvTjtSoJCG4Ab+k7tqlIcrbZ/ss+IU9g/y
+         yESIhM7Maiu4nqWftzsxUj0E2qqLBPOe6mXa3sfbq1vA3bbHkj/Mz5u8NoEt7yTyBy+E
+         hKjA==
+X-Forwarded-Encrypted: i=1; AJvYcCXlZCYho1SXrC2O6tqXooqGDxAwHsPDEP+YaQCfwvmbGQYo7C52RklZWbjAq2GaD88e3oOmy+QAxXE7rQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw1PzQsaU6SlYK0/ZwfOOKrnm85rt8tC4xnfUFo3WkZmZK+OMdT
+	YkBl6pQHKtbzWO4Ns6/XjKAqFCkpRw07jBF70L/ptd+UmlXXivs/2l86Dth3T+Gw2ak=
+X-Gm-Gg: ASbGncuUr+HOnp/1aF4DAdL5ExUzflPewOSfCEvpgdJ2u6pbSPhG4GzJ5Iu4t9z2QuQ
+	IR5RGNP8OCe2xKXyxDxaphjiijCzAa7d5StJSa9Qa8UwgvcS4eG5jPOz7smbwFlFJsEet5QWAXA
+	j2PWN333B2okN+UUwarv8w/qyplkeI1+X2M9IhqdmDeDk0yQAasoJdxObmX7Qkw8e0EI8DuhxAt
+	HpI97sHjHfZQxcReTOEEtB3HHzn4IA4L4FYMWlJKv4VVKww1vU13CvEvw+arCD694XyvaaN73wV
+	neQFyPDczFR9fcXvAWKSLcK4RSEeRXuQh+fM6f6Jew26dsXI/fadSIbwrPosLB1FcvPuvGVO4mh
+	yBB86tJDIKDTqD8wNZC8=
+X-Google-Smtp-Source: AGHT+IFfH1+9lwMxaxMryfVzoEfvdJcwajcXMx7zYjsepmqhkCXCG8C7381tUBv8Hw9iMOHrfPi3Sg==
+X-Received: by 2002:a05:6512:3181:b0:553:25e4:274b with SMTP id 2adb3069b0e04-557e5558655mr1308472e87.41.1751807852748;
+        Sun, 06 Jul 2025 06:17:32 -0700 (PDT)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com. [209.85.208.176])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-556384a86a3sm939010e87.159.2025.07.06.06.17.32
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 06 Jul 2025 06:17:32 -0700 (PDT)
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-32b8134ef6aso19939151fa.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 06 Jul 2025 06:17:32 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVKMBNiuBaVL8vNwrPBcdc4lTubxo2zvP9aXw4SD3JD4OAf1MorQ9kHeFKFkKJfSRsTPy2cBCmOF9hFIQ==@lists.linux.dev
+X-Received: by 2002:a05:651c:1104:b0:32b:755e:6cc8 with SMTP id
+ 38308e7fff4ca-32f19af1307mr14177851fa.31.1751807852041; Sun, 06 Jul 2025
+ 06:17:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250628054438.2864220-1-wens@kernel.org> <20250705083600.2916bf0c@minigeek.lan>
- <CAGb2v64My=A_Jw+CBCsqno3SsSSTtBFKXOrgLv+Nyq_z5oeYBg@mail.gmail.com>
- <e9c5949d-9ac5-4b33-810d-b716ccce5fe9@lunn.ch> <20250706002223.128ff760@minigeek.lan>
-In-Reply-To: <20250706002223.128ff760@minigeek.lan>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sun, 6 Jul 2025 21:14:09 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64vxtAVi3QK3a=mvDz2u+gKQ6XPMN-JB46eEuwfusMG2w@mail.gmail.com>
-X-Gm-Features: Ac12FXwracJUFtxrR-geU8AnCt2mihSX7AlHGCMKyxbdZy4UN94qheE6j6Zh998
-Message-ID: <CAGb2v64vxtAVi3QK3a=mvDz2u+gKQ6XPMN-JB46eEuwfusMG2w@mail.gmail.com>
-Subject: Re: [PATCH net 0/2] allwinner: a523: Rename emac0 to gmac0
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev
+References: <20250706095804.50475-2-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20250706095804.50475-2-krzysztof.kozlowski@linaro.org>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Sun, 6 Jul 2025 21:17:18 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65XF=A5Qrm8FrLQaZXLLs5T-0osBLP3Fz3UabrTi5xUXQ@mail.gmail.com>
+X-Gm-Features: Ac12FXzvgRNdcFpttWg_IhO6gnULQzwACTFMlrJqzvSYihRttnVAncFXhqPJE4A
+Message-ID: <CAGb2v65XF=A5Qrm8FrLQaZXLLs5T-0osBLP3Fz3UabrTi5xUXQ@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: arm: sunxi: Combine board variants into enums
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, lukas.schmid@netcube.li
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jul 6, 2025 at 7:23=E2=80=AFAM Andre Przywara <andre.przywara@arm.c=
-om> wrote:
+On Sun, Jul 6, 2025 at 5:58=E2=80=AFPM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
 >
-> On Sat, 5 Jul 2025 17:53:17 +0200
-> Andrew Lunn <andrew@lunn.ch> wrote:
+> The common style in all bindings for enumerating similar variants is to
+> use 'enum', not 'oneOf', so all boards of same variant or using same SoM
+> should be grouped under enum.  It is more readable, more compact and
+> makes easier to find actual devices from the same family/type.  Also
+> there is completely no point to repeat the compatible in the description
+> (incircuit,icnova-a20-adb4006 implies this is "ICnova A20 ADB4006" and
+> pine64,pinephone-1.2 implies "Pine64 PinePhone (1.2)").
 >
-> Hi Andrew,
+> Combine two easily visible cases: ICnova A20 and Pine64 PinePhone.
 >
-> > > So it's really whatever Allwinner wants to call it. I would rather ha=
-ve
-> > > the names follow the datasheet than us making some scheme up.
-> >
-> > Are the datasheets publicly available?
->
-> We collect them in the sunxi wiki (see the links below), but just to
-> make sure:
-> I am not disputing that GMAC is the name mentioned in the A523 manual,
-> and would have probably been the right name to use originally - even
-> though it's not very consistent, as the same IP is called EMAC in the
-> older SoCs' manuals. I am also not against renaming identifiers or even
-> (internal) DT labels. But the problem here is that the renaming affects
-> the DT compatible string and the pinctrl function name, both of which
-> are used as an interface between the devicetree and its users, which is
-> not only the Linux kernel, but also U-Boot and other OSes like the BSDs.
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-I reiterate my position: they are not stable until they actually hit a
-release. This provides some time to fix mistakes before they are set in
-stone.
+Reviewed-by: Chen-Yu Tsai <wens@csie.org>
 
-> In this particular case we would probably get away with it, because
-> it's indeed very early in the development cycle for this SoC, but for
-> instance the "emac0" function name is already used in some U-Boot
-> patch series on the list:
-> https://lore.kernel.org/linux-sunxi/20250323113544.7933-18-andre.przywara=
-@arm.com/
->
-> If we REALLY need to rename this, it wouldn't be the end of the world,
-> but would create some churn on the U-Boot side.
->
-> I just wanted to point out that any changes to the DT bindings have
-> some impact to other projects, even if they are proposed as a coherent
-> series on the Linux side. Hence my question if this is really necessary.
-
-For the compatible string, I can live with having a comment in the binding
-stating the name used in the datasheet for reference.
-
-For the pinctrl stuff, which is the contentious bit here, I thought the
-whole idea of the newer pinctrl bindings is that the driver uses
-"allwinner,pinmux" instead of "function". I think having both being valid
-is confusing, and likely to cause conflicts later on. If we're going to
-use the hardware register values in the device tree, I'd really like them
-to be the only source of truth. The commit message for the binding also
-sort of suggests that "allwinner,pinmux" is the part that matters.
-
-
-ChenYu
-
-> Cheers,
-> Andre
->
-> https://linux-sunxi.org/A64#Documentation
-> https://linux-sunxi.org/H616#Documentation
-> https://linux-sunxi.org/A523#Documentation
+I can take it through the sunxi tree if you prefer. We do have new
+boards coming in this cycle, but I don't think there is any overlap
+in the board binding file.
