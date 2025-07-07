@@ -1,136 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.netcube.li (mail.netcube.li [173.249.15.149])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90ED8262FF9;
-	Mon,  7 Jul 2025 17:55:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB85D13959D
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jul 2025 18:44:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.249.15.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751910928; cv=none; b=Lv9Idxod27+g/j1OZQUil+SYqOYeq/N+4l4MyvzK10Ptt557sEvP+O7Ov35PU78ralfxDc84N3Wku3sEqc6w6Y52tjVgOs8Nz/GhrPZNGQ78/uMJm0uXhw5I3L/Nc7EwAdGOkirWHftcrJshe+HEWSYVJ8sz8QBBf2WhFkPLZHw=
+	t=1751913884; cv=none; b=XNyBh8SAHeCttMp7CWbc1MSr7YL+IgXyu88oJeDpQkq8xUfi7lzR7gEJQuGy1aL55/tjht4lqYBV46csIJsYVLaboPaJPH1OWKlwyBnXoo9pUZSpZkNr09vaU8ZIoNLGOiTlJtXTo7FV9NHZEd10FEr+1j3UYoUpthIvVtYoZ9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751910928; c=relaxed/simple;
-	bh=4i3GwwYmMwd8rgyfXHO3jnhHMlDIeHEAOL0OdWiCZs0=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=DwAO9ZwII/seu+66VnQO4dNZI8aPIHqPGESuG1mGNcyASmww1dTQtLdOUlwCDH3+z/8xrVPmKcotq9UCIhgbQYklLuJLLl7iVUbR3b8cNm7wsSddt6P1JLkq9p0m5u6q9JmlFIekvIKKez8MUIVtBNoGvPgi0cnfj8euvXgRoZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZK9sXsM8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751913884; c=relaxed/simple;
+	bh=M1ZViLM7NqgbmcK3XZ6B/433qKxpj9xglo4vIziF4tI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=qN9svE3bPzF7ttmf5LLIS2krq/D2NWKiiHCUI/x5c+s8NRBOaH6p8YlPGrFBhXaimG0oA9u34HUsNBXVjJnZKdJ2CmPlksaVIvYJwt0Oz0OWZW0kYwxZG1EThgUOJicbpFO7p52+npiai/MkAzxApMc3PXmAmfU+d9BkuqkKcrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li; spf=pass smtp.mailfrom=netcube.li; dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b=0F72HcT3; arc=none smtp.client-ip=173.249.15.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netcube.li
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZK9sXsM8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0731EC4CEF1;
-	Mon,  7 Jul 2025 17:55:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751910928;
-	bh=4i3GwwYmMwd8rgyfXHO3jnhHMlDIeHEAOL0OdWiCZs0=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=ZK9sXsM8/2KLy4877qvvhXzU663uegkJK0fCwXksNxOOSx49qQic8lwOQ1jCddztZ
-	 xkXUryp9zl0ZVQUAd5SWytFQCGbNBaAOpe+z9MMasq2x06hI2Cl+5Z37wj1fbAoZrh
-	 55aHAfof3fOKnGn8LBjX1TWs7ZRHvZlgKUi2qh6vZdAJ/izndrVP68pvXxH21o85X5
-	 /HaOtlzbWOQcTDCDvxPbCHh0PdRw9xJFDOQgcDqRwCygmjk+baWyPZms4NiUew8cHb
-	 KdqSxP50knRFjCxQZIueoMEP8J/0vE12M3npqwyue4LEHAvIshFXbwEWIrToOEjJ/U
-	 VQJpIfWB/ePdw==
-Date: Mon, 07 Jul 2025 12:55:27 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b="0F72HcT3"
+dkim-signature: v=1; a=rsa-sha256; d=netcube.li; s=s1;
+	c=relaxed/relaxed; q=dns/txt; h=From:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Transfer-Encoding;
+	bh=nXnojJGU29m0hFOXhR2jYRK6bl5DCglZXHWgm+c9MAE=;
+	b=0F72HcT37nPTuXXMO/qnx25gw/sIHQi5I5J7MkjnUr++gF3GEGZ/HpviU+EQskxSn6gia62m6OnUPD76udOMgqTEbArX05JwPv3Djag+HJ5EvBVs3NmbES0L1wxBcodvmz8f9sFOcmTkbvtVohBH2rEEBihua3QaH7wQvUTmkKU=
+Received: from lukas-hpz440workstation.lan.sk100508.local (cm70-231.liwest.at [212.241.70.231])
+	by mail.netcube.li with ESMTPA
+	; Mon, 7 Jul 2025 20:44:40 +0200
+From: Lukas Schmid <lukas.schmid@netcube.li>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Maxime Ripard <mripard@kernel.org>
+Cc: Lukas Schmid <lukas.schmid@netcube.li>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: [PATCH v3 0/5] Add support for NetCube Systems Nagami SoM and its carrier boards
+Date: Mon,  7 Jul 2025 20:44:12 +0200
+Message-Id: <20250707184420.275991-1-lukas.schmid@netcube.li>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>, 
- Palmer Dabbelt <palmer@dabbelt.com>, linux-kernel@vger.kernel.org, 
- Paul Walmsley <paul.walmsley@sifive.com>, 
- Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, 
- devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Conor Dooley <conor+dt@kernel.org>, Albert Ou <aou@eecs.berkeley.edu>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-sunxi@lists.linux.dev, 
- Alexandre Ghiti <alex@ghiti.fr>, linux-riscv@lists.infradead.org
-To: Lukas Schmid <lukas.schmid@netcube.li>
-In-Reply-To: <20250706183601.157523-1-lukas.schmid@netcube.li>
-References: <20250706183601.157523-1-lukas.schmid@netcube.li>
-Message-Id: <175191074348.3364659.3018850166698272326.robh@kernel.org>
-Subject: Re: [PATCH v2 0/5] Add support for NetCube Systems Nagami SoM and
- its carrier boards
+Content-Transfer-Encoding: 8bit
 
+This series adds support for the NetCube Systems Nagami SoM and its
+associated carrier boards, the Nagami Basic Carrier and the Nagami Keypad
+Carrier.
 
-On Sun, 06 Jul 2025 20:35:53 +0200, Lukas Schmid wrote:
-> This series adds support for the NetCube Systems Nagami SoM and its
-> associated carrier boards, the Nagami Basic Carrier and the Nagami Keypad
-> Carrier.
-> 
-> Changes in v2:
->  - Squash the binding patches into one patch
->  - Fix formatting of the phy node in the SoM dtsi
->  - Add description on where the phy is located in the SoM dtsi
->  - Fix the phy address in the SoM dtsi
->  - Move the carrier bindings into the same description as enums
-> 
-> Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
-> ---
-> Lukas Schmid (5):
->   dt-bindings: arm: sunxi: Add NetCube Systems Nagami SoM and carrier
->     board bindings
->   riscv: dts: allwinner: d1s-t113: Add pinctrl's required by NetCube
->     Systems Nagami SoM
->   ARM: dts: sunxi: add support for NetCube Systems Nagami SoM
->   ARM: dts: sunxi: add support for NetCube Systems Nagami Basic Carrier
->   ARM: dts: sunxi: add support for NetCube Systems Nagami Keypad Carrier
-> 
->  .../devicetree/bindings/arm/sunxi.yaml        |  17 ++
->  arch/arm/boot/dts/allwinner/Makefile          |   3 +
->  ...n8i-t113s-netcube-nagami-basic-carrier.dts |  63 +++++
->  ...8i-t113s-netcube-nagami-keypad-carrier.dts | 165 +++++++++++++
->  .../allwinner/sun8i-t113s-netcube-nagami.dtsi | 227 ++++++++++++++++++
->  .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    |  36 +++
->  6 files changed, 511 insertions(+)
->  create mode 100644 arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-basic-carrier.dts
->  create mode 100644 arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-keypad-carrier.dts
->  create mode 100644 arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami.dtsi
-> 
-> --
-> 2.39.5
-> 
-> 
-> 
-> 
+Changes in v3:
+  - Add missing dcxo node to the SoM dtsi
 
+Changes in v2:
+ - Squash the binding patches into one patch
+ - Fix formatting of the phy node in the SoM dtsi
+ - Add description on where the phy is located in the SoM dtsi
+ - Fix the phy address in the SoM dtsi
+ - Move the carrier bindings into the same description as enums
 
-My bot found new DTB warnings on the .dts files added or changed in this
-series.
+Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
+---
+Lukas Schmid (5):
+  dt-bindings: arm: sunxi: Add NetCube Systems Nagami SoM and carrier
+    board bindings
+  riscv: dts: allwinner: d1s-t113: Add pinctrl's required by NetCube
+    Systems Nagami SoM
+  ARM: dts: sunxi: add support for NetCube Systems Nagami SoM
+  ARM: dts: sunxi: add support for NetCube Systems Nagami Basic Carrier
+  ARM: dts: sunxi: add support for NetCube Systems Nagami Keypad Carrier
 
-Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-are fixed by another series. Ultimately, it is up to the platform
-maintainer whether these warnings are acceptable or not. No need to reply
-unless the platform maintainer has comments.
+ .../devicetree/bindings/arm/sunxi.yaml        |   8 +
+ arch/arm/boot/dts/allwinner/Makefile          |   3 +
+ ...n8i-t113s-netcube-nagami-basic-carrier.dts |  63 +++++
+ ...8i-t113s-netcube-nagami-keypad-carrier.dts | 165 +++++++++++++
+ .../allwinner/sun8i-t113s-netcube-nagami.dtsi | 228 ++++++++++++++++++
+ .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    |  36 +++
+ 6 files changed, 503 insertions(+)
+ create mode 100644 arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-basic-carrier.dts
+ create mode 100644 arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-keypad-carrier.dts
+ create mode 100644 arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami.dtsi
 
-If you already ran DT checks and didn't see these error(s), then
-make sure dt-schema is up to date:
-
-  pip3 install dtschema --upgrade
-
-
-This patch series was applied (using b4) to base:
- Base: attempting to guess base-commit...
- Base: tags/next-20250704 (exact match)
-
-If this is not the correct base, please add 'base-commit' tag
-(or use b4 which does this automatically)
-
-New warnings running 'make CHECK_DTBS=y for arch/arm/boot/dts/allwinner/' for 20250706183601.157523-1-lukas.schmid@netcube.li:
-
-arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-keypad-carrier.dtb: dcxo-clk (fixed-clock): 'clock-frequency' is a required property
-	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml#
-arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-keypad-carrier.dtb: gpio@20 (microchip,mcp23008): Unevaluated properties are not allowed ('interrupt-names' was unexpected)
-	from schema $id: http://devicetree.org/schemas/pinctrl/microchip,mcp23s08.yaml#
-arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-keypad-carrier.dtb: usb@4100000 (allwinner,sun20i-d1-musb): dr_mode:0: 'device' is not one of ['host', 'otg', 'peripheral']
-	from schema $id: http://devicetree.org/schemas/usb/allwinner,sun4i-a10-musb.yaml#
-arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-keypad-carrier.dtb: status-led (leds-group-multicolor): $nodename:0: 'status-led' does not match '^multi-led(@[0-9a-f])?$'
-	from schema $id: http://devicetree.org/schemas/leds/leds-group-multicolor.yaml#
-arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-keypad-carrier.dtb: status-led (leds-group-multicolor): Unevaluated properties are not allowed ('color', 'function' were unexpected)
-	from schema $id: http://devicetree.org/schemas/leds/leds-group-multicolor.yaml#
-arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-basic-carrier.dtb: dcxo-clk (fixed-clock): 'clock-frequency' is a required property
-	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml#
-
-
-
+-- 
+2.39.5
 
 
