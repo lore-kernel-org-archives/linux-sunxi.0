@@ -1,115 +1,70 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D33B5202F87
-	for <linux-sunxi@lists.linux.dev>; Sun,  6 Jul 2025 23:38:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A70D28E7;
+	Mon,  7 Jul 2025 01:56:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751845133; cv=none; b=H4gyqO6EkfPrrnJASHzcNF8eQa6yTnTi/X12aRU+qrrjs7JvCKjdA5w4rcMA58bX403UGthtlSTudH1lhSnPKm9I1xTfxo7utd6tQ9aVuO8sqUukLcqhmWRZoJAbuKiOHEZTZG1XihLhPOwkQ35dfsSlQhO5DPm7P3rmrwXqdrg=
+	t=1751853379; cv=none; b=DK6izbCuMDbQrNlXi4faMQSPBKCdIEt7SYegVj6WoCQgUFfrNrnLqivdopQfEAJhZVmyc988b9ApR+9tEWD/8MU7fZwLvjeN1SkBgRm//h1Ks91dQ2p0d9SRLPIP+rLegGIBfDfloUm5fxdPO+Uy3rS0atUfmld2X5OKFQJytQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751845133; c=relaxed/simple;
-	bh=T5BRD9FAcEcLMux46w89iS9a0vl+S93dslNk6xYMWU0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AaNxm0Y1FqGKcflyf21hg6YVB861MkYexdoXPBez1kXG/ee14z4MsL515TztLzNA1+bNa0K6UO+VGQjFS2oWwb2w9W2+Sh09WyPYY+QKvSBdhjzkjLIEAiIoDrLv9E4LcYGOGq5LFDhn/C356sorG+xxC3zoS7Pf7kwyCYEB988=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 687E71E8D;
-	Sun,  6 Jul 2025 16:38:38 -0700 (PDT)
-Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 84A623F694;
-	Sun,  6 Jul 2025 16:38:49 -0700 (PDT)
-Date: Mon, 7 Jul 2025 00:37:10 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Chen-Yu Tsai <wens@kernel.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej@kernel.org>, Samuel
- Holland <samuel@sholland.org>, Ulf Hansson <ulf.hansson@linaro.org>, Rob
- Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>, linux-sunxi@lists.linux.dev,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH 4/4] arm64: dts: allwinner: a523: Add power controller
- device nodes
-Message-ID: <20250707003710.1d4a3ed0@minigeek.lan>
-In-Reply-To: <20250627152918.2606728-5-wens@kernel.org>
-References: <20250627152918.2606728-1-wens@kernel.org>
-	<20250627152918.2606728-5-wens@kernel.org>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	s=arc-20240116; t=1751853379; c=relaxed/simple;
+	bh=WhU0KZ3UIQUN4rUiJcwtwTnojok2iaAWunJa00LmijM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=E3hmUKXFJdsLkfamnmxeJYS7VYJJ0XXzXcRUB9NVYMMSlALL+2scmNKZGPCZNxh57yzfOOtyHciPf+SFOyVkl2XpSXu+94SsFRCxwwame/c232L87pDTT6mCE9ft3IdOEQrH5NygxHIqCZ6267lQctV2Y0Uvfc57JeeTjKv24bE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52B0EC4CEED;
+	Mon,  7 Jul 2025 01:56:18 +0000 (UTC)
+Received: from wens.tw (localhost [127.0.0.1])
+	by wens.tw (Postfix) with ESMTP id 12DC65F7C0;
+	Mon,  7 Jul 2025 09:56:16 +0800 (CST)
+From: Chen-Yu Tsai <wens@csie.org>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej@kernel.org>, 
+ Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <20250628161608.3072968-1-wens@kernel.org>
+References: <20250628161608.3072968-1-wens@kernel.org>
+Subject: Re: [PATCH v3 0/5] arm64: allwinner: t527: Add OrangePi 4A board
+Message-Id: <175185337604.2581101.17317086913285770626.b4-ty@csie.org>
+Date: Mon, 07 Jul 2025 09:56:16 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-On Fri, 27 Jun 2025 23:29:18 +0800
-Chen-Yu Tsai <wens@kernel.org> wrote:
-
-> From: Chen-Yu Tsai <wens@csie.org>
+On Sun, 29 Jun 2025 00:16:03 +0800, Chen-Yu Tsai wrote:
+> This is v3 of my OrangePi 4A series.
 > 
-> The A523 SoC family has two power controllers, one based on the existing
-> PPU, and one newer one based on ARM's PCK-600.
+> Changes since v2:
+> - Actually include cpusldo regulator name change and axp323 aldo1/dldo1
+>   comments
+> - Fix indentation of comment in usb_otg block
+> - Link to v2:
+>   https://lore.kernel.org/all/20250625131652.1667345-1-wens@kernel.org/
 > 
-> Add device nodes for both of them.
+> [...]
 
-Compared against the manual, that matches up. Might be worth to mention
-the reliance on your RST_BUS_R_PPU0 patch, otherwise some bots might
-scream.
+Applied to sunxi/dt-for-6.17 in local tree, thanks!
 
-> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+[1/5] dt-bindings: arm: sunxi: Add Xunlong OrangePi 4A board
+      commit: bbe7cf4bab161a50ce631c9dd7724df333cdf12d
+[2/5] arm64: dts: allwinner: a523: Move mmc nodes to correct position
+      commit: 6e2662c07a90e9f782158b7d6eda2766f65e9c36
+[3/5] arm64: dts: allwinner: a523: Move rgmii0 pins to correct location
+      commit: 84c4a16e00f5aadbb1a3bdecc6bbfee35b7c45c8
+[4/5] arm64: dts: allwinner: a523: Add UART1 pins
+      commit: 64f2f7bc4acb7928b39cac4a9a932e77b966f31c
+[5/5] arm64: dts: allwinner: t527: Add OrangePi 4A board
+      commit: de713ccb99345be302adf507274d1b190dd2302e
 
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-
-Cheers,
-Andre
-
-> ---
->  arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-> index 6f62201fd739..255e0ef98219 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-> @@ -7,6 +7,8 @@
->  #include <dt-bindings/clock/sun55i-a523-r-ccu.h>
->  #include <dt-bindings/reset/sun55i-a523-ccu.h>
->  #include <dt-bindings/reset/sun55i-a523-r-ccu.h>
-> +#include <dt-bindings/power/allwinner,sun55i-a523-ppu.h>
-> +#include <dt-bindings/power/allwinner,sun55i-a523-pck600.h>
->  
->  / {
->  	interrupt-parent = <&gic>;
-> @@ -576,6 +578,14 @@ mdio0: mdio {
->  			};
->  		};
->  
-> +		ppu: power-controller@7001400 {
-> +			compatible = "allwinner,sun55i-a523-ppu";
-> +			reg = <0x07001400 0x400>;
-> +			clocks = <&r_ccu CLK_BUS_R_PPU1>;
-> +			resets = <&r_ccu RST_BUS_R_PPU1>;
-> +			#power-domain-cells = <1>;
-> +		};
-> +
->  		r_ccu: clock-controller@7010000 {
->  			compatible = "allwinner,sun55i-a523-r-ccu";
->  			reg = <0x7010000 0x250>;
-> @@ -622,6 +632,14 @@ r_i2c_pins: r-i2c-pins {
->  			};
->  		};
->  
-> +		pck600: power-controller@7060000 {
-> +			compatible = "allwinner,sun55i-a523-pck-600";
-> +			reg = <0x07060000 0x8000>;
-> +			clocks = <&r_ccu CLK_BUS_R_PPU0>;
-> +			resets = <&r_ccu RST_BUS_R_PPU0>;
-> +			#power-domain-cells = <1>;
-> +		};
-> +
->  		r_i2c0: i2c@7081400 {
->  			compatible = "allwinner,sun55i-a523-i2c",
->  				     "allwinner,sun8i-v536-i2c",
+Best regards,
+-- 
+Chen-Yu Tsai <wens@csie.org>
 
