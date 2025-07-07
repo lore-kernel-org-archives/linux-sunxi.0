@@ -1,76 +1,93 @@
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53DCB28C2B6
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jul 2025 09:40:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36A98293C4B
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jul 2025 09:52:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751881224; cv=none; b=Fq2Odr5yBiE/nu0C8gcTF2ICLwfAVieZMN7Wq8wQTdFhthuIWLPZ/S6E7fUa2G9iWxRDdtCATG4xRPcUxb6BFaoFgY7euqE3t6Ul98NsnaEtHDR+6tQ6fQ8M8obcwWU8lg2yquDp020cPK58dzd5d4FSWQHONn/5GwsJ8aIcHbE=
+	t=1751881946; cv=none; b=FFzh/2LPGmBIa/QI+ePKQmvGzZIuuKA4UJVgam++oN8BhnZ9EE0/pbr/gmToc23QtIrvXN51h6SUN0JoKl3gYOuYEE0ORKCUj2Z/vCCGbf6pdJNftD4JF1cEHVUHKCJrskbXc0WWCyB7sSrVw5P+lLjevCusva7zU3J9LNvbRrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751881224; c=relaxed/simple;
-	bh=v84fEMoDI2VcuwH9/KUtgGPFA0YEYdx8z79X7P5sCjI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F0IDwOx1tf9WLCW6msT48x04giBiA49LlvdELjS4g9A2pOdBeT20jcd+yaHeu92TNU/BdG0du6upW37uSu0VFkocoFvSQDVEe4tUu6Y+galmgWWaNM3NZXrRG2vf0TRCjV3nGQpdDKmICpN9RIQswFWruKGmf3bZeU8ZW2vYTNs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 684831F00051
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jul 2025 09:40:17 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 71632ACAC7A; Mon,  7 Jul 2025 09:40:16 +0000 (UTC)
-X-Spam-Level: 
-Received: from collins (unknown [192.168.1.1])
-	by laika.paulk.fr (Postfix) with ESMTPSA id CDCCDACAC75;
-	Mon,  7 Jul 2025 09:40:14 +0000 (UTC)
-Date: Mon, 7 Jul 2025 11:40:12 +0200
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: Chen-Yu Tsai <wens@csie.org>
-Cc: Andre Przywara <andre.przywara@arm.com>, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH 1/5] pinctrl: sunxi: Fix a100 emac pin function name
-Message-ID: <aGuV_IYP9dMqUwAB@collins>
-References: <20250626080923.632789-1-paulk@sys-base.io>
- <20250626080923.632789-2-paulk@sys-base.io>
- <20250704233535.4b026641@minigeek.lan>
- <20250705153825.2be2b333@minigeek.lan>
- <aGm8n_wJPiGk85E4@collins>
- <CAGb2v66s-nWA2dFRpgX6DbDET3dWOm1jPKWm1k9SmGSqhTWoWA@mail.gmail.com>
- <CAGb2v65GeM8EDqzZ77i_iw3Kf+bCxOy6AK-TWVanwL1OXDnUBQ@mail.gmail.com>
+	s=arc-20240116; t=1751881946; c=relaxed/simple;
+	bh=rS2IvUHGDP7e41GAbVUWMoGzeRdRQt6arlmFScKX+TE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QTg/j2oJ4Yc+LFE+n2hbIaXyC6bNZPGkH/GE4sRUayPJw8mZSo5YEzMLdyknre5+OcXOKWBMFRkgJOgSd3KkcmUGvkErRgmpLXgKmXeJk5QETILC7hRn39wcgOHuGf+WwG9NJv9NF/aVderJd2317cB5dEqK95LSCsFuR4zqGzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-556373661aaso2622899e87.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 07 Jul 2025 02:52:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751881941; x=1752486741;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7+G9RXNsu4/lHuRGJgb9rsOZh1/O90NgzHuMfw5EvSM=;
+        b=WOTUL3d+k+LpNCZ8QERu6mG+h9r2IBB4KJ5p+QSn8d/AqrmVtKse/Wy3k5QCCqpSqI
+         eC+NJ6aiHRgeKKq8T8y13s5vw6rrGp+lZ222YOLAlBYIbrK1hOXKv0mfPwuIGKy3rHVa
+         4IX7w8EUok2zRHZOH5iCSgC23tfZ6flCXMzc1NnRxiQ2ljKT348zqYEKezL8Tzg/wCer
+         dA0162MtRu7kK10Ft4uqpL1zwvpwJp7P3ETKtzViHvdu/Dwz6a62ToKQn5rtLs13Jg8Q
+         02ONiOWS95dvd0a0c6nYQchGth6mWSbzwbFy8TKTMteLAqmdLxWD870LUGFBfpDiYNOQ
+         CE3A==
+X-Forwarded-Encrypted: i=1; AJvYcCX/RQG5v6Ld3tbANhB42P9IiMFO7pWZTUc3hOefbUfNqXDIvLKxqKy8MLcINnGogOyWWMk8nqqKfAA+gg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywq5Lv6pb+W7SrHLBob4R+AOLxK94FBfveCPmQnJe9tSc1srtzN
+	Yr+C4V9cWdMaPbED8oMLcBKuOlZBiIZjBwXTypuSsUizV9zQf6BcgKCLtLqaDkTz
+X-Gm-Gg: ASbGnctZgy68CuCgKg9VRHo3UFTjixBNY18JfNzgzVZiiRJOoOuqiXqq3AUZKtBJImO
+	DgAO5gA0lHlOh08IuElf+v23wG93u+D4Gr0LyLJv6+5XBSosakPqQpvCkY9Ldx5UB+EYBcTMk1W
+	oJN2QjKqqm71o6/3jnNvf8AaDeeYaEOFDELgiIDTRqRyftiNUS1cpK1YUTna2whUX8wkWiiEGDk
+	VzorC9yA5I68+ijYXiPjA1Thj7to63mcFG10sVI+ujQbR2hl55sJgcgQpptKyxIuItfNIh8+WK8
+	n/QxiPA2aVb+9wi47BbI762rHDJ8xNKpmoSxLlXNjRo/MxeJpRux/tJb77M54zpEB9qAZ6m+Q3Q
+	aBS1H5zRWg3wlmPVKpTU=
+X-Google-Smtp-Source: AGHT+IGRu/YAT/D9UOUX+x/3K0Z6Ji/x67YtNYnFTQPcNGbwYqGsNJyQKE1Hx+lCTGuhtrTxetDngw==
+X-Received: by 2002:a05:6512:12ca:b0:553:adff:87da with SMTP id 2adb3069b0e04-557e5561ec2mr1557400e87.29.1751881940515;
+        Mon, 07 Jul 2025 02:52:20 -0700 (PDT)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com. [209.85.208.182])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55638497801sm1271874e87.127.2025.07.07.02.52.20
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Jul 2025 02:52:20 -0700 (PDT)
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-32b3b250621so26921331fa.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 07 Jul 2025 02:52:20 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWkZa5t4148ROTsNeJZsiVmmfqJm+fcNzUqWaKj/0+un9ZJ24y5cXgN+6UoKwvKyz0CKA8zr1IeUOeRBg==@lists.linux.dev
+X-Received: by 2002:a2e:bc1c:0:b0:32c:a006:2a1d with SMTP id
+ 38308e7fff4ca-32f199879cbmr17915751fa.4.1751881939832; Mon, 07 Jul 2025
+ 02:52:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="h72PPscjtkEBcJqH"
-Content-Disposition: inline
-In-Reply-To: <CAGb2v65GeM8EDqzZ77i_iw3Kf+bCxOy6AK-TWVanwL1OXDnUBQ@mail.gmail.com>
-
-
---h72PPscjtkEBcJqH
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <20250626080923.632789-1-paulk@sys-base.io> <20250626080923.632789-2-paulk@sys-base.io>
+ <20250704233535.4b026641@minigeek.lan> <20250705153825.2be2b333@minigeek.lan>
+ <aGm8n_wJPiGk85E4@collins> <CAGb2v66s-nWA2dFRpgX6DbDET3dWOm1jPKWm1k9SmGSqhTWoWA@mail.gmail.com>
+ <aGuV3gcKSRIyey53@collins>
+In-Reply-To: <aGuV3gcKSRIyey53@collins>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Mon, 7 Jul 2025 17:52:07 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66U94RxVTC4O-Z9Pn2RyJK5Xz=pNZCvkFN-5Ax0wG6Cug@mail.gmail.com>
+X-Gm-Features: Ac12FXxL47gWjXZzuSKcW-0cl9NbdUx83T52e-2ARQaXs9NhvEcm9RfhLdsxmoU
+Message-ID: <CAGb2v66U94RxVTC4O-Z9Pn2RyJK5Xz=pNZCvkFN-5Ax0wG6Cug@mail.gmail.com>
+Subject: Re: [PATCH 1/5] pinctrl: sunxi: Fix a100 emac pin function name
+To: Paul Kocialkowski <paulk@sys-base.io>
+Cc: Andre Przywara <andre.przywara@arm.com>, netdev@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Linus Walleij <linus.walleij@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Chen-Yu,
-
-Le Mon 07 Jul 25, 11:07, Chen-Yu Tsai a =C3=A9crit :
-> On Sun, Jul 6, 2025 at 11:04=E2=80=AFPM Chen-Yu Tsai <wens@csie.org> wrot=
-e:
-> >
+On Mon, Jul 7, 2025 at 5:39=E2=80=AFPM Paul Kocialkowski <paulk@sys-base.io=
+> wrote:
+>
+> Hi Chen-Yu,
+>
+> Le Sun 06 Jul 25, 23:04, Chen-Yu Tsai a =C3=A9crit :
 > > On Sun, Jul 6, 2025 at 8:00=E2=80=AFAM Paul Kocialkowski <paulk@sys-bas=
 e.io> wrote:
 > > >
@@ -123,7 +140,8 @@ s keep the
 tions and
 > > > this constitues ABI that needs to remain stable.
 > > >
-> > > > So I would very much like to see this patch moved out. Is it just in
+> > > > So I would very much like to see this patch moved out. Is it just i=
+n
 > > > > LinusW's tree so far? I don't see it in -next yet.
 > > >
 > > > I don't think the patches were accepted for over a week so we can pro=
@@ -134,19 +152,45 @@ emove
 > >
 > > I can drop the dts patches from the sunxi tree. Linus might be able to
 > > drop the pinctrl patch.
->=20
-> FYI I dropped the dts patches for now, though I forgot to redo the -next
-> branch last night, so today's linux-next might not reflect it.
-
-Great, thanks for taking care of this!
-
-Paul
-
-> ChenYu
->=20
+> >
 > > You definitely need to send a revert for the DT binding patch that is
 > > already in net-next.
-> >
+>
+> Should this really affect the bindings though?
+>
+> From what Andre reported, both EMAC0 and EMAC1 should be the same block s=
+o it
+> doesn't seem particularly necessary to have a different compatible.
+>
+> Looking at Allwiner's BSP code for the A133[0], I don't see any differenc=
+e
+> between the two. While there's device_type property in Allwinner's dt, it=
+'s
+> apparently not used by the driver[1].
+>
+> So I think we're still fine with a single compatible (without the control=
+ler
+> index in it).
+
+The block is the same, but the integration is slightly different, as
+the register for the RGMII clock delays and other stuff is at a different
+offset in the system controller. The BSP handles this by directly
+including the register in the "reg" property.
+
+So yes, you do need a separate compatible string, if only to deal with
+the slight difference in the integration layer.
+
+ChenYu
+
+> [0]: https://github.com/engSinteck/A133_Image/blob/main/longan/kernel/lin=
+ux-4.9/arch/arm64/boot/dts/sunxi/sun50iw10p1.dtsi#L2016
+> [1]: https://github.com/engSinteck/A133_Image/blob/main/longan/kernel/lin=
+ux-4.9/drivers/net/ethernet/allwinner/sunxi-gmac.c
+>
+> All the best,
+>
+> Paul
+>
 > >
 > > ChenYu
 > >
@@ -327,33 +371,11 @@ s[] =3D {
 > > >
 > > > Expert in multimedia, graphics and embedded hardware support with Lin=
 ux.
-
---=20
-Paul Kocialkowski,
-
-Independent contractor - sys-base - https://www.sys-base.io/
-Free software developer - https://www.paulk.fr/
-
-Expert in multimedia, graphics and embedded hardware support with Linux.
-
---h72PPscjtkEBcJqH
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmhrlfwACgkQhP3B6o/u
-lQzFNg//bld0WF9jX9jnupUNbhSZ2ERtLt/cRepL9TU8xBS70uf8K//O3I39Eyt8
-WnU54hx8rvT3A38ENhyn9aJrCa0cmu0x4rHhyRn38BtKDpalB/j07Y7fpXoDEP4b
-evjRO1WGO/T52sqgwLVMvOJAy11GXWa538PmgqLLH2iM7kLySlmaczslLvLc4j/G
-y7CRAO0booyYQBwb5iSobzJ+/Kz8nVpgY7cNI7I/V0zCYKU/XyYT5apl9liAIEkg
-AVP1Byrl3H0GtPk/r7KhYqjsYVXCyPS/sgXQWtVsJxWEitMt+zE0t0vZMbJvaJoP
-tGl2o1nc++Nj9WyimvNMpdYzIizBzg1lMMb/hx9A/BeB0mCwZqwaCwzPVGtX3WnV
-FHgS26Jfugvry6C7bdhu4jgbCIXPgUoM+zI0o3TqOTkdUCK5gHls721qWW2mLznY
-sFE+hjYmCu+P8sIrMZYwz1P0ZTnDXoe8fMoRT01sz2IIgvBbQKClA1hoiNbui67B
-wV9uNQY7J9KfoVKLLSxWUr06TcnM63l1l/kj2jYNo8lM7jJyGEYfUW6+c0r1Tc9Y
-7+PS/KH1sOdVBj7OudupYvw0NgJsHWnY9zbVHaY5Z8n7/XyRtTTW78zS3jInsK1E
-3dPznzz+CDOsjJ0OS6HoF0hMEu+ya+zlGO7dLDCzZomH/2zpCCY=
-=cuHf
------END PGP SIGNATURE-----
-
---h72PPscjtkEBcJqH--
+>
+> --
+> Paul Kocialkowski,
+>
+> Independent contractor - sys-base - https://www.sys-base.io/
+> Free software developer - https://www.paulk.fr/
+>
+> Expert in multimedia, graphics and embedded hardware support with Linux.
