@@ -1,116 +1,458 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B8A428A1D6
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jul 2025 14:51:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E315D2701DC
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jul 2025 15:27:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751899869; cv=none; b=sFCaVcUhuy2UvOuDLP3agTe20wQVtYe9TgxGjFRCPtGMyANUL3IkOy6yPODLeUIvvi8rofdj4q6cizEjPnsrkrkhmfDEJ1Sk8draobezj9mVALB57eHB4w5ZHkSsMr5vGiX1l8lFs79NQDYm+qaSTRUejIGdKcg2fU/5j/7u7M0=
+	t=1751902059; cv=none; b=cClphGeGA/sLQyddchBxBXAmQlggq59t3JE3N2SVyLOxEUAH0w7cJTUFwBgfIq5GhMFvY1STz6paJLXe+jnBuWsH9CE6rKfqwCqOI+H6aGNYE2GjxIkOvjODQD7CYWPXw7jov08sz7FlRMiKE6v+DsCMR24Jpyt4RpVK9S/aNpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751899869; c=relaxed/simple;
-	bh=zslry4wmreMmW0pbR3PUOlqcEPkBx2BO5j57hWlanZQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BB5gqzJrUNjARPL8Ne4Z8nPUBFxqH3mTMYX9TKui/0xincJncFPcQ8R0PNwpqgRD+xiQKxDgOOK5FgDNYda1MQnzIeclKhDK2lGXHh7yY4vWg71n38AmNpcRNhGUUKL5qrQ6GOWK/ds9lZobwgfTkh99ptB/nVqMh29bK2eXrwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B35A5168F;
-	Mon,  7 Jul 2025 07:50:53 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 74E503F694;
-	Mon,  7 Jul 2025 07:51:05 -0700 (PDT)
-Date: Mon, 7 Jul 2025 15:51:03 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Lukas Schmid <lukas.schmid@netcube.li>
-Cc: linux-sunxi@lists.linux.dev, Samuel Holland <samuel@sholland.org>
-Subject: Re: T113-S3: reboot fails unless "wdt" node is enabled
- =?UTF-8?B?4oCU?= safe to set status = "okay"?
-Message-ID: <20250707155103.556a4b68@donnerap.manchester.arm.com>
-In-Reply-To: <8591557.NyiUUSuA9g@lukas-hpz440workstation>
-References: <9473157.CDJkKcVGEf@lukas-hpz440workstation>
-	<20250707140217.56955b52@donnerap.manchester.arm.com>
-	<8591557.NyiUUSuA9g@lukas-hpz440workstation>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1751902059; c=relaxed/simple;
+	bh=bCbvPv8OcDDSwGLS18hZIPniIsTnQAxmu1wE9+Jmwkk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fpx1Fpr2TLFUQZ7YeSwXAyOhUTUYNugEsKQWC8e43V2XclB4BbqpHhqAoLZekjMykuHPrwJaRS0NjpSHfUEHMr4z3OlMbHmlNCvnhDUOdx8RT7YE/e82oNL589lOOna/SRgbXhoiA/mz6zca1BqQ0VsGprOAvxHvlQRpkTH7+p0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-32ca160b4bcso39022441fa.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 07 Jul 2025 08:27:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751902050; x=1752506850;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Gq/m+uuap/74CMqzIl6lm2BPBa+nZJNp0jVRl5qDPFY=;
+        b=SM4ZXdF0xPAk93f60qaQLYXIXnvN/7+iBLfof29OkwvTbl0StA7LgJ/7DLkIj1pe32
+         19SmGPQG8+51t5zNTkyc2IqFuSWJDv9jFwdF6P+Y1ie3Tbmo7EYaMxTrjHIff7hbqQ4W
+         62Hv9MOkbdMdGfUXTI42/aFQ/pDNWo9DYr2E6xsEv8n4KNPCa38qmJjTkuygh/CyZAZV
+         fJVkliPAvcu5qc24RFxxoshzCaTYn4BpFNQlD+SVrdPsNsm9BnCt9VRkvkPaXqxW1eLy
+         Re1BTj/Y9aTomkJoPTdHVSLruKUQ+vJ8oTQaRQxaJIBXUbdEoO3cdil8vYgqyQCq9vaM
+         0f+A==
+X-Forwarded-Encrypted: i=1; AJvYcCUlFXvd1oYvlBvNxeYaN+mV2vx7h+vj7U5K/XfN5HMBKSHr+tNKeztLEADizjfVNZl6COn46SbHlz1Syw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YytxaVP7kNaYV5JOR+blstxM8Q20CBqIDeSNRUP/SPsgGyCVPNy
+	00k+R/37AE7nkEZkK5yzaeJS5vYLZXK6u5JbP5eMS8Rp2n474T3TWDTwvz6oCEP8
+X-Gm-Gg: ASbGnctDDI2JTC+RkLqZNbb6RuRgxNJRc4hchABcrrfbcuOj5OZXt570XYNH+S6o9JQ
+	J1A3na36m4V4wiE+dqD1MdbSTbKSe6Yq9PzrW3PSnrvxgpypli464zyNRvpdLt/z2ChCRBXqq3Q
+	cUng0HdAKXBCnjDAD1YtoqBkVeODHoFm0A0fhDrfjlOKq5nhvV4xCB7MyqWhJIkdBFpzNZZHJpp
+	FcoKTpGuuEk9CQ1uJhboeBG0sKtqWMhXVnHnfsmELxKPbKyOVOrl86UjbaLR3bvDsBHlX9ZnNJJ
+	9QcBy+gosBzezL4V0axv7HejP/8KyeCvUtoW7B7WQKa48htIzyg4hc4Us2UE8uCIuSf1T60sfS/
+	Yf0CAXGBaD9SG++071/E=
+X-Google-Smtp-Source: AGHT+IGN3jEo9jvmDzJ6gAI4cQuIOkfADVepe0IoyPpL/HclEVNZ//5HJ7jcardbiHxDOptSdDX8OA==
+X-Received: by 2002:a2e:a9a4:0:b0:32b:a961:804e with SMTP id 38308e7fff4ca-32f199afca7mr27793051fa.10.1751902050089;
+        Mon, 07 Jul 2025 08:27:30 -0700 (PDT)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com. [209.85.208.169])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32e1afec710sm13240471fa.43.2025.07.07.08.27.27
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Jul 2025 08:27:28 -0700 (PDT)
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-32b3c292bb4so27586801fa.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 07 Jul 2025 08:27:27 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVa2QAAFAZY9N7+ULaWNXC8l/4piFMiLo2Z7x9kglO1qMM89rRn796yqy+ZGl5QhqNgw8g2JG65mq6ysw==@lists.linux.dev
+X-Received: by 2002:a2e:bc1c:0:b0:32c:a006:2a1d with SMTP id
+ 38308e7fff4ca-32f199879cbmr21879731fa.4.1751902047688; Mon, 07 Jul 2025
+ 08:27:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20250626080923.632789-1-paulk@sys-base.io> <20250626080923.632789-2-paulk@sys-base.io>
+ <20250704233535.4b026641@minigeek.lan> <20250705153825.2be2b333@minigeek.lan>
+ <aGm8n_wJPiGk85E4@collins> <CAGb2v66s-nWA2dFRpgX6DbDET3dWOm1jPKWm1k9SmGSqhTWoWA@mail.gmail.com>
+ <aGuV3gcKSRIyey53@collins> <CAGb2v66U94RxVTC4O-Z9Pn2RyJK5Xz=pNZCvkFN-5Ax0wG6Cug@mail.gmail.com>
+ <aGud0aVLHGoql3Vj@collins> <CAGb2v64vCdsY7V2OsJVC+Qy+tbStYSWbh19mBrjuJMwZqUQ=Yw@mail.gmail.com>
+ <aGukLuQ359MOyTqT@collins> <20250707133806.5bdaa536@donnerap.manchester.arm.com>
+In-Reply-To: <20250707133806.5bdaa536@donnerap.manchester.arm.com>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Mon, 7 Jul 2025 23:27:12 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65--6xh-nyFEqo1xOp3hDgHAXpE8zhJ3yyD5A11J5eG3g@mail.gmail.com>
+X-Gm-Features: Ac12FXwiFCZSyLXcmIIR6tnFY5t_cCAiUdzAbmkyD4wbVfCGAj0_snduGWwU3UE
+Message-ID: <CAGb2v65--6xh-nyFEqo1xOp3hDgHAXpE8zhJ3yyD5A11J5eG3g@mail.gmail.com>
+Subject: Re: [PATCH 1/5] pinctrl: sunxi: Fix a100 emac pin function name
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Paul Kocialkowski <paulk@sys-base.io>, netdev@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, "David S . Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Linus Walleij <linus.walleij@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 07 Jul 2025 15:08:04 +0200
-Lukas Schmid <lukas.schmid@netcube.li> wrote:
+On Mon, Jul 7, 2025 at 8:38=E2=80=AFPM Andre Przywara <andre.przywara@arm.c=
+om> wrote:
+>
+> On Mon, 7 Jul 2025 12:40:46 +0200
+> Paul Kocialkowski <paulk@sys-base.io> wrote:
+>
+> > Chen-Yu,
+> >
+> > > > > The block is the same, but the integration is slightly different,=
+ as
+> > > > > the register for the RGMII clock delays and other stuff is at a d=
+ifferent
+> > > > > offset in the system controller. The BSP handles this by directly
+> > > > > including the register in the "reg" property.
+> > > >
+> > > > Ah I see, I forgot about the syscon register. However it doesn't se=
+em like a
+> > > > very good approach to have a different compatible to express the id=
+ea that an
+> > > > external resource is different. Just like we do for clocks, resets =
+and other
+> > > > things, we should probably find a way to express the offset via som=
+e dedicated
+> > > > property instead of spinning a different compatible each time it ch=
+anges.
+> > > >
+> > > > > So yes, you do need a separate compatible string, if only to deal=
+ with
+> > > > > the slight difference in the integration layer.
+> > > >
+> > > > So maybe an additional allwinner,syscon-offset property or a new
+> > >
+> > > If you can get that accepted, I think that works?
+> > >
+> > > > allwinner,syscon that takes the syscon phandle first and the offset=
+ second?
+> > >
+> > > I would prefer to avoid any changes to the syscon reference that woul=
+d
+> > > require more custom code. I only just recently found that we could us=
+e
+> > > the standard syscon code with the provider registering the syscon. We
+> > > could drop the of_parse_phandle() + find device + dev_get_regmap() bi=
+ts.
+> > > This is partially covered in my GMAC200 series.
+> >
+> > There is already syscon_regmap_lookup_by_phandle_args which supports ge=
+neric
+> > extra arguments to a syscon node. It just requires a custom syscon prop=
+erty.
+> >
+> > I personally find this cleaner than adding a property just for the offs=
+et.
+>
+> Well, I proposed that already for the H616, where the second EMAC has the
+> same problem with the syscon at 0x34 instead of 0x30:
+>
+> https://lore.kernel.org/linux-sunxi/20210615110636.23403-10-andre.przywar=
+a@arm.com/
 
-Hi Lukas,
+Nice.
 
-> On Montag, 7. Juli 2025 15:02:17 CEST Andre Przywara wrote:
-> > On Sun, 06 Jul 2025 19:32:35 +0200
-> > Lukas Schmid <lukas.schmid@netcube.li> wrote:
-> > 
-> > (CC:ing Samuel who probably knows more)  
-> 
-> Hi Andre,
-> 
-> > 
-> > Hi Lukas,
-> >   
-> > > I'm working with a board based on the Allwinner T113-S3 and running a  
-> > > recent>   
-> > > mainline Linux kernel. I noticed that calling `reboot` from Linux results   
-> in:
-> > >     Reboot failed -- System halted
-> > > 
-> > > After some investigation, I found that the watchdog (`wdt:
-> > > watchdog@20500a0`) is marked as `status = "reserved"` in the mainline
-> > > device tree.
-> > > 
-> > > If I override that node to `status = "okay"` in my board's .dts file,
-> > > reboot starts working as expected.
-> > > 
-> > > Is there a specific reason why the `wdt` node is marked `"reserved"` by
-> > > default in mainline?  
-> > 
-> > Yes, that is deliberate. The T113s uses the same base devicetree as the
-> > D1(s), so we share a number of watchdogs. I cannot remember the details,
-> > but I think the idea was to pick the right watchdog for each SoC variant,
-> > and dedicate one for firmware.
-> > Consequently we fix this up in U-Boot, see the commit message here:
-> > https://source.denx.de/u-boot/u-boot/-/commit/95168d77d391b1464
-> > 
-> > So if you just use the DT from U-Boot (by just using $fdtcontroladdr on
-> > the bootz command line, instead of loading a DT from some storage), you
-> > will get the fix for free.  
-> 
-> So if I need to load the dtb from storage (because I have different trees for 
-> my carrier boards) I need to patch the device tree specifically for my devices? 
+> I don't remember the details, but it got eventually dropped, partly
+> because the 2nd EMAC isn't supported yet due to missing AC200/AC300
+> support.
+> My plan was to let <&syscon> be the same as <&syscon 0>, which would
+> preserve compatibility. Though I am not sure the fallback compatible is
+> then correct, because it typically means that older driver can cope with
+> those devices, which isn't really the case here.
+>
+> But we could postpone this issue as well for the A133, to the day when
+> there will be a device using this 2nd MAC.
 
-Conceptually there is one devicetree for any particular board. You
-upstream that to the kernel, then it will be picked up automatically, into
-the U-Boot tree.
-Even if it's not upstream, you can just copy your DTs into
-dts/upstream/src/arm/allwinner, to get the same effect.
+I guess I could maybe use it for the GMAC200 as well? Then if the GMAC200
+is used in future chips we don't have to add another compatible string to
+the driver.
 
-> Or have a custom U-Boot built for each carrier board instead of the SoM?
+ChenYu
 
-Traditionally we build U-Boot for one particular *board*, not a SoM. That
-the board DT then includes a shared SoM .dtsi is just an implementation
-detail.
-Alternatively you can implement board auto-detection in U-Boot: either by
-including all possible .dtb files in the FIT image, and pick the right one
-in the SPL (like we do for the original Pine64 board, check
-CONFIG_PINE64_DT_SELECTION), or by manually patching the DTB already in
-memory, see U-Boot commit a4fc1e3e27fb0956.
-
-> Would it be possible for me to enable the watchdog in my SoM's dt as I do not 
-> intend to have the RISC-V variant on my SoM due to the missing CAN interfaces?
-
-Well, I proposed that back then: to enable it in Arm specific .dtsi, but
-Samuel denied that, and asked for firmware to set this up. I cannot
-quickly find that conversation in the archives, and don't remember the
-exact details, but it was convincing enough for me back then to deploy the
-U-Boot solution ;-)
-
-Cheers,
-Andre.
+> Cheers,
+> Andre
+>
+>
+> >
+> > Paul
+> >
+> > > ChenYu
+> > >
+> > > > It seems that various other platforms are doing similar things (e.g=
+.
+> > > > ti,syscon-pcie-mode).
+> > > >
+> > > > Thanks
+> > > >
+> > > > Paul
+> > > >
+> > > > >
+> > > > > ChenYu
+> > > > >
+> > > > > > [0]: https://github.com/engSinteck/A133_Image/blob/main/longan/=
+kernel/linux-4.9/arch/arm64/boot/dts/sunxi/sun50iw10p1.dtsi#L2016
+> > > > > > [1]: https://github.com/engSinteck/A133_Image/blob/main/longan/=
+kernel/linux-4.9/drivers/net/ethernet/allwinner/sunxi-gmac.c
+> > > > > >
+> > > > > > All the best,
+> > > > > >
+> > > > > > Paul
+> > > > > >
+> > > > > > >
+> > > > > > > ChenYu
+> > > > > > >
+> > > > > > >
+> > > > > > > > Cheers,
+> > > > > > > >
+> > > > > > > > Paul
+> > > > > > > >
+> > > > > > > > > Cheers,
+> > > > > > > > > Andre.
+> > > > > > > > >
+> > > > > > > > > > [1]
+> > > > > > > > > > https://github.com/qiaoweibiao/T507_Kernel/blob/main/ar=
+ch/arm64/boot/dts/sunxi/sun50iw10p1.dtsi
+> > > > > > > > > >
+> > > > > > > > > >
+> > > > > > > > > > >
+> > > > > > > > > > > Fixes: 473436e7647d ("pinctrl: sunxi: add support for=
+ the Allwinner A100 pin controller")
+> > > > > > > > > > > Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
+> > > > > > > > > > > ---
+> > > > > > > > > > >  drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c | 32 +++=
++++++++-----------
+> > > > > > > > > > >  1 file changed, 16 insertions(+), 16 deletions(-)
+> > > > > > > > > > >
+> > > > > > > > > > > diff --git a/drivers/pinctrl/sunxi/pinctrl-sun50i-a10=
+0.c b/drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c
+> > > > > > > > > > > index b97de80ae2f3..95b764ee1c0d 100644
+> > > > > > > > > > > --- a/drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c
+> > > > > > > > > > > +++ b/drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c
+> > > > > > > > > > > @@ -546,33 +546,33 @@ static const struct sunxi_desc_=
+pin a100_pins[] =3D {
+> > > > > > > > > > >             SUNXI_FUNCTION(0x0, "gpio_in"),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x1, "gpio_out"),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x2, "i2c0"),          /* =
+SCK */
+> > > > > > > > > > > -           SUNXI_FUNCTION(0x5, "emac0"),         /* =
+RXD1 */
+> > > > > > > > > > > +           SUNXI_FUNCTION(0x5, "emac"),          /* =
+RXD1 */
+> > > > > > > > > > >             SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 0)),
+> > > > > > > > > > >   SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 1),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x0, "gpio_in"),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x1, "gpio_out"),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x2, "i2c0"),          /* =
+SDA */
+> > > > > > > > > > > -           SUNXI_FUNCTION(0x5, "emac0"),         /* =
+RXD0 */
+> > > > > > > > > > > +           SUNXI_FUNCTION(0x5, "emac"),          /* =
+RXD0 */
+> > > > > > > > > > >             SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 1)),
+> > > > > > > > > > >   SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 2),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x0, "gpio_in"),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x1, "gpio_out"),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x2, "i2c1"),          /* =
+SCK */
+> > > > > > > > > > > -           SUNXI_FUNCTION(0x5, "emac0"),         /* =
+RXCTL */
+> > > > > > > > > > > +           SUNXI_FUNCTION(0x5, "emac"),          /* =
+RXCTL */
+> > > > > > > > > > >             SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 2)),
+> > > > > > > > > > >   SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 3),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x0, "gpio_in"),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x1, "gpio_out"),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x2, "i2c1"),          /* =
+SDA */
+> > > > > > > > > > >             SUNXI_FUNCTION(0x3, "cir0"),          /* =
+OUT */
+> > > > > > > > > > > -           SUNXI_FUNCTION(0x5, "emac0"),         /* =
+CLKIN */
+> > > > > > > > > > > +           SUNXI_FUNCTION(0x5, "emac"),          /* =
+CLKIN */
+> > > > > > > > > > >             SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 3)),
+> > > > > > > > > > >   SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 4),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x0, "gpio_in"),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x1, "gpio_out"),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x2, "uart3"),         /* =
+TX */
+> > > > > > > > > > >             SUNXI_FUNCTION(0x3, "spi1"),          /* =
+CS */
+> > > > > > > > > > > -           SUNXI_FUNCTION(0x5, "emac0"),         /* =
+TXD1 */
+> > > > > > > > > > > +           SUNXI_FUNCTION(0x5, "emac"),          /* =
+TXD1 */
+> > > > > > > > > > >             SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 4)),
+> > > > > > > > > > >   SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 5),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x0, "gpio_in"),
+> > > > > > > > > > > @@ -580,14 +580,14 @@ static const struct sunxi_desc_=
+pin a100_pins[] =3D {
+> > > > > > > > > > >             SUNXI_FUNCTION(0x2, "uart3"),         /* =
+RX */
+> > > > > > > > > > >             SUNXI_FUNCTION(0x3, "spi1"),          /* =
+CLK */
+> > > > > > > > > > >             SUNXI_FUNCTION(0x4, "ledc"),
+> > > > > > > > > > > -           SUNXI_FUNCTION(0x5, "emac0"),         /* =
+TXD0 */
+> > > > > > > > > > > +           SUNXI_FUNCTION(0x5, "emac"),          /* =
+TXD0 */
+> > > > > > > > > > >             SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 5)),
+> > > > > > > > > > >   SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 6),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x0, "gpio_in"),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x1, "gpio_out"),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x2, "uart3"),         /* =
+RTS */
+> > > > > > > > > > >             SUNXI_FUNCTION(0x3, "spi1"),          /* =
+MOSI */
+> > > > > > > > > > > -           SUNXI_FUNCTION(0x5, "emac0"),         /* =
+TXCK */
+> > > > > > > > > > > +           SUNXI_FUNCTION(0x5, "emac"),          /* =
+TXCK */
+> > > > > > > > > > >             SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 6)),
+> > > > > > > > > > >   SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 7),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x0, "gpio_in"),
+> > > > > > > > > > > @@ -595,7 +595,7 @@ static const struct sunxi_desc_pi=
+n a100_pins[] =3D {
+> > > > > > > > > > >             SUNXI_FUNCTION(0x2, "uart3"),         /* =
+CTS */
+> > > > > > > > > > >             SUNXI_FUNCTION(0x3, "spi1"),          /* =
+MISO */
+> > > > > > > > > > >             SUNXI_FUNCTION(0x4, "spdif"),         /* =
+OUT */
+> > > > > > > > > > > -           SUNXI_FUNCTION(0x5, "emac0"),         /* =
+TXCTL */
+> > > > > > > > > > > +           SUNXI_FUNCTION(0x5, "emac"),          /* =
+TXCTL */
+> > > > > > > > > > >             SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 7)),
+> > > > > > > > > > >   SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 8),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x0, "gpio_in"),
+> > > > > > > > > > > @@ -611,7 +611,7 @@ static const struct sunxi_desc_pi=
+n a100_pins[] =3D {
+> > > > > > > > > > >             SUNXI_FUNCTION(0x2, "dmic"),          /* =
+DATA0 */
+> > > > > > > > > > >             SUNXI_FUNCTION(0x3, "spi2"),          /* =
+CLK */
+> > > > > > > > > > >             SUNXI_FUNCTION(0x4, "i2s2"),          /* =
+BCLK */
+> > > > > > > > > > > -           SUNXI_FUNCTION(0x5, "emac0"),         /* =
+MDC */
+> > > > > > > > > > > +           SUNXI_FUNCTION(0x5, "emac"),          /* =
+MDC */
+> > > > > > > > > > >             SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 9)),
+> > > > > > > > > > >   SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 10),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x0, "gpio_in"),
+> > > > > > > > > > > @@ -619,7 +619,7 @@ static const struct sunxi_desc_pi=
+n a100_pins[] =3D {
+> > > > > > > > > > >             SUNXI_FUNCTION(0x2, "dmic"),          /* =
+DATA1 */
+> > > > > > > > > > >             SUNXI_FUNCTION(0x3, "spi2"),          /* =
+MOSI */
+> > > > > > > > > > >             SUNXI_FUNCTION(0x4, "i2s2"),          /* =
+LRCK */
+> > > > > > > > > > > -           SUNXI_FUNCTION(0x5, "emac0"),         /* =
+MDIO */
+> > > > > > > > > > > +           SUNXI_FUNCTION(0x5, "emac"),          /* =
+MDIO */
+> > > > > > > > > > >             SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 10)),
+> > > > > > > > > > >   SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 11),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x0, "gpio_in"),
+> > > > > > > > > > > @@ -642,33 +642,33 @@ static const struct sunxi_desc_=
+pin a100_pins[] =3D {
+> > > > > > > > > > >             SUNXI_FUNCTION(0x1, "gpio_out"),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x3, "i2c3"),          /* =
+SCK */
+> > > > > > > > > > >             SUNXI_FUNCTION(0x4, "i2s3"),          /* =
+MCLK */
+> > > > > > > > > > > -           SUNXI_FUNCTION(0x5, "emac0"),         /* =
+EPHY */
+> > > > > > > > > > > +           SUNXI_FUNCTION(0x5, "emac"),          /* =
+EPHY */
+> > > > > > > > > > >             SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 13)),
+> > > > > > > > > > >   SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 14),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x0, "gpio_in"),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x1, "gpio_out"),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x4, "i2s3"),          /* =
+BCLK */
+> > > > > > > > > > > -           SUNXI_FUNCTION(0x5, "emac0"),         /* =
+RXD3 */
+> > > > > > > > > > > +           SUNXI_FUNCTION(0x5, "emac"),          /* =
+RXD3 */
+> > > > > > > > > > >             SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 14)),
+> > > > > > > > > > >   SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 15),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x0, "gpio_in"),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x1, "gpio_out"),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x4, "i2s3"),          /* =
+LRCK */
+> > > > > > > > > > > -           SUNXI_FUNCTION(0x5, "emac0"),         /* =
+RXD2 */
+> > > > > > > > > > > +           SUNXI_FUNCTION(0x5, "emac"),          /* =
+RXD2 */
+> > > > > > > > > > >             SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 15)),
+> > > > > > > > > > >   SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 16),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x0, "gpio_in"),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x1, "gpio_out"),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x3, "i2s3_dout0"),    /* =
+DOUT0 */
+> > > > > > > > > > >             SUNXI_FUNCTION(0x4, "i2s3_din1"),     /* =
+DIN1 */
+> > > > > > > > > > > -           SUNXI_FUNCTION(0x5, "emac0"),         /* =
+RXCK */
+> > > > > > > > > > > +           SUNXI_FUNCTION(0x5, "emac"),          /* =
+RXCK */
+> > > > > > > > > > >             SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 16)),
+> > > > > > > > > > >   SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 17),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x0, "gpio_in"),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x1, "gpio_out"),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x3, "i2s3_dout1"),    /* =
+DOUT1 */
+> > > > > > > > > > >             SUNXI_FUNCTION(0x4, "i2s3_din0"),     /* =
+DIN0 */
+> > > > > > > > > > > -           SUNXI_FUNCTION(0x5, "emac0"),         /* =
+TXD3 */
+> > > > > > > > > > > +           SUNXI_FUNCTION(0x5, "emac"),          /* =
+TXD3 */
+> > > > > > > > > > >             SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 17)),
+> > > > > > > > > > >   SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 18),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x0, "gpio_in"),
+> > > > > > > > > > > @@ -676,7 +676,7 @@ static const struct sunxi_desc_pi=
+n a100_pins[] =3D {
+> > > > > > > > > > >             SUNXI_FUNCTION(0x2, "cir0"),          /* =
+OUT */
+> > > > > > > > > > >             SUNXI_FUNCTION(0x3, "i2s3_dout2"),    /* =
+DOUT2 */
+> > > > > > > > > > >             SUNXI_FUNCTION(0x4, "i2s3_din2"),     /* =
+DIN2 */
+> > > > > > > > > > > -           SUNXI_FUNCTION(0x5, "emac0"),         /* =
+TXD2 */
+> > > > > > > > > > > +           SUNXI_FUNCTION(0x5, "emac"),          /* =
+TXD2 */
+> > > > > > > > > > >             SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 18)),
+> > > > > > > > > > >   SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 19),
+> > > > > > > > > > >             SUNXI_FUNCTION(0x0, "gpio_in"),
+> > > > > > > > > >
+> > > > > > > > > >
+> > > > > > > > >
+> > > > > > > >
+> > > > > > > > --
+> > > > > > > > Paul Kocialkowski,
+> > > > > > > >
+> > > > > > > > Independent contractor - sys-base - https://www.sys-base.io=
+/
+> > > > > > > > Free software developer - https://www.paulk.fr/
+> > > > > > > >
+> > > > > > > > Expert in multimedia, graphics and embedded hardware suppor=
+t with Linux.
+> > > > > >
+> > > > > > --
+> > > > > > Paul Kocialkowski,
+> > > > > >
+> > > > > > Independent contractor - sys-base - https://www.sys-base.io/
+> > > > > > Free software developer - https://www.paulk.fr/
+> > > > > >
+> > > > > > Expert in multimedia, graphics and embedded hardware support wi=
+th Linux.
+> > > >
+> > > > --
+> > > > Paul Kocialkowski,
+> > > >
+> > > > Independent contractor - sys-base - https://www.sys-base.io/
+> > > > Free software developer - https://www.paulk.fr/
+> > > >
+> > > > Expert in multimedia, graphics and embedded hardware support with L=
+inux.
+> >
+>
+>
