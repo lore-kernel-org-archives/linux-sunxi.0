@@ -1,133 +1,173 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82A9B1C7017
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jul 2025 17:15:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 450F11DEFD2
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jul 2025 17:35:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751908521; cv=none; b=CgfIu0TJyg7WWrn62vp+YHZs8OMn33AFT45W+zFB4bcKE3F4Q25MsHZ7oFiF0zuaBNf7db4gjYkdZTwuw7P2OZ0FzXqL0BbptNw+PWgwrc/b6MpISUBdZAZZA1rpGuna9+CX/Ip0YS1L9mmbVLERPnhw/61d3GaCMB/d3iyCuGE=
+	t=1751909703; cv=none; b=P4QugemOmJ92axjJrPY+eHG5o9lPXoWom15ptMDQ0h797HYADw1IUtDiTgxk7v9w/i+Cp/IjqZjN/f9dLz6jsQEsF+PEh8vCmrsWCF8eNWhuQlvwUYgdKVxsYSGRXtWQFZHRB3Bfg2iYtCCQ57PA9ZHPktL/i0vjRk5vP7M8SjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751908521; c=relaxed/simple;
-	bh=ZSCK7w44JmsX0Wyn5E85NYbQ0N5E71LQIaQGd0NzzGM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JJ8+XJuRK6HbHHnxdj4KmyWs8ZQ8mN/cfRaXZr0f0iPxTTE4cUT0NTnUPsJgLZ78RbKQ/2jEiBcD6i9mL9JJrrftQUw7gvwaKrvW8YnCO/L7kaLS576dIsaGfE9sUuM0gtkAvHrVCmxZ6+YnlepNZMijqzQtsCiZjODK5oCA9FI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 259CC168F;
-	Mon,  7 Jul 2025 10:15:06 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E195F3F66E;
-	Mon,  7 Jul 2025 10:15:15 -0700 (PDT)
-Date: Mon, 7 Jul 2025 18:15:13 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Chen-Yu Tsai <wens@kernel.org>
-Cc: Andrew Lunn <andrew@lunn.ch>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec
- <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>,
- netdev@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH net 0/2] allwinner: a523: Rename emac0 to gmac0
-Message-ID: <20250707181513.6efc6558@donnerap.manchester.arm.com>
-In-Reply-To: <CAGb2v64vxtAVi3QK3a=mvDz2u+gKQ6XPMN-JB46eEuwfusMG2w@mail.gmail.com>
-References: <20250628054438.2864220-1-wens@kernel.org>
-	<20250705083600.2916bf0c@minigeek.lan>
-	<CAGb2v64My=A_Jw+CBCsqno3SsSSTtBFKXOrgLv+Nyq_z5oeYBg@mail.gmail.com>
-	<e9c5949d-9ac5-4b33-810d-b716ccce5fe9@lunn.ch>
-	<20250706002223.128ff760@minigeek.lan>
-	<CAGb2v64vxtAVi3QK3a=mvDz2u+gKQ6XPMN-JB46eEuwfusMG2w@mail.gmail.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1751909703; c=relaxed/simple;
+	bh=O2JN6S7yUjtZ5614ufaGRXdRQ2/PylgFkAVfo9SYR1g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PRnqnbQSK8m2OZh5mLejYd77x+a5sfOB1Dsc0OFHy/j5ob6AQWTWsVCBvuxrhQyXi9NwBebFD8c0XXWBvdSFK709xBhhcY+G0rPyl5CZqc00ZY1b6cpM7lcrBRmppO/2Vlh1Ob8Fn+0fG+W3yQbPt69v0y+fNzBjHRMYNLUf/NA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F+RNW+Bz; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F+RNW+Bz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF130C4CEF8
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jul 2025 17:35:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751909702;
+	bh=O2JN6S7yUjtZ5614ufaGRXdRQ2/PylgFkAVfo9SYR1g=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+	b=F+RNW+BzPadulCJB0CA09JWF7YO/MhLLMmXvUZgJvf/x1srOti75U+WFxwcIFoACB
+	 2PaB/91o05oay79AMwei4NgUYYiMVwsXviilybgrz/6HDnwiwNt7UDkvQ5wTgQ315M
+	 RKQX0Ns/E0L2FeNlMQhVjQ+dKWk410GKFICJga/AusDSc344LRemaLm/VhNLFpg2Z7
+	 gRk2jb/QuqFbRsRKuyuS88xSfee6GclfhqdB6vVTSfibH2MrgLsYJqcTiTg7of1QfE
+	 RdsP+ZZAvPZXl3KuvKw06S+cqWc/Ajnavcs549+pdXgY8VTw3lq4VVLgVAjPhq8Xtd
+	 J83SnFi4nGrGw==
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-553b6a349ccso4184311e87.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 07 Jul 2025 10:35:02 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXSBhc2PHT54/2hjLp9E3ABtFtyIoX/JCmmjABxTIrnStmF2pivPLPP/raJhccC1GZ1GgcZd5YQ0uq9dw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyVOYaOSWYSKeb1YBIkdh5JRodwgE5qZml3jlbOpuH75kHOqZcu
+	0wmSO1TjATdZwqWBMvfmsluguinm5wzU3/x5jyIFNbAjdv1NG0A+1TmkqjkGiRvYnLzIrHg7jD+
+	ivFFmPiBnJHOBFn0PVS7v7VWQnP7ClPg=
+X-Google-Smtp-Source: AGHT+IGOttXp/lkLoXck4zz9g7NH+hpLyXdxDc6Zd3dXWLU0JpEMOgZlssrJ930cSWYiNmZYPR2XYxUcHWoDaQuCREs=
+X-Received: by 2002:a05:6512:3c84:b0:553:297b:3d4e with SMTP id
+ 2adb3069b0e04-556de363d36mr3692791e87.52.1751909701165; Mon, 07 Jul 2025
+ 10:35:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20250628054438.2864220-1-wens@kernel.org> <20250705083600.2916bf0c@minigeek.lan>
+ <CAGb2v64My=A_Jw+CBCsqno3SsSSTtBFKXOrgLv+Nyq_z5oeYBg@mail.gmail.com>
+ <e9c5949d-9ac5-4b33-810d-b716ccce5fe9@lunn.ch> <20250706002223.128ff760@minigeek.lan>
+ <CAGb2v64vxtAVi3QK3a=mvDz2u+gKQ6XPMN-JB46eEuwfusMG2w@mail.gmail.com> <20250707181513.6efc6558@donnerap.manchester.arm.com>
+In-Reply-To: <20250707181513.6efc6558@donnerap.manchester.arm.com>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Tue, 8 Jul 2025 01:34:46 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64UTr1YSm7VXtzk5jmD_J_20ddPcWww_NPzx-e5HvaOpQ@mail.gmail.com>
+X-Gm-Features: Ac12FXyqsURdwW8NxdfSatuYRJXxqkCB1KgR0rqYcDDm60yVTu4owZ1DToV_pqQ
+Message-ID: <CAGb2v64UTr1YSm7VXtzk5jmD_J_20ddPcWww_NPzx-e5HvaOpQ@mail.gmail.com>
+Subject: Re: [PATCH net 0/2] allwinner: a523: Rename emac0 to gmac0
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, 6 Jul 2025 21:14:09 +0800
-Chen-Yu Tsai <wens@kernel.org> wrote:
-
-Hi,
-
-> On Sun, Jul 6, 2025 at 7:23=E2=80=AFAM Andre Przywara <andre.przywara@arm=
-.com> wrote:
-> >
-> > On Sat, 5 Jul 2025 17:53:17 +0200
-> > Andrew Lunn <andrew@lunn.ch> wrote:
-> >
-> > Hi Andrew,
-> > =20
-> > > > So it's really whatever Allwinner wants to call it. I would rather =
-have
-> > > > the names follow the datasheet than us making some scheme up. =20
+On Tue, Jul 8, 2025 at 1:15=E2=80=AFAM Andre Przywara <andre.przywara@arm.c=
+om> wrote:
+>
+> On Sun, 6 Jul 2025 21:14:09 +0800
+> Chen-Yu Tsai <wens@kernel.org> wrote:
+>
+> Hi,
+>
+> > On Sun, Jul 6, 2025 at 7:23=E2=80=AFAM Andre Przywara <andre.przywara@a=
+rm.com> wrote:
 > > >
-> > > Are the datasheets publicly available? =20
+> > > On Sat, 5 Jul 2025 17:53:17 +0200
+> > > Andrew Lunn <andrew@lunn.ch> wrote:
+> > >
+> > > Hi Andrew,
+> > >
+> > > > > So it's really whatever Allwinner wants to call it. I would rathe=
+r have
+> > > > > the names follow the datasheet than us making some scheme up.
+> > > >
+> > > > Are the datasheets publicly available?
+> > >
+> > > We collect them in the sunxi wiki (see the links below), but just to
+> > > make sure:
+> > > I am not disputing that GMAC is the name mentioned in the A523 manual=
+,
+> > > and would have probably been the right name to use originally - even
+> > > though it's not very consistent, as the same IP is called EMAC in the
+> > > older SoCs' manuals. I am also not against renaming identifiers or ev=
+en
+> > > (internal) DT labels. But the problem here is that the renaming affec=
+ts
+> > > the DT compatible string and the pinctrl function name, both of which
+> > > are used as an interface between the devicetree and its users, which =
+is
+> > > not only the Linux kernel, but also U-Boot and other OSes like the BS=
+Ds.
 > >
-> > We collect them in the sunxi wiki (see the links below), but just to
-> > make sure:
-> > I am not disputing that GMAC is the name mentioned in the A523 manual,
-> > and would have probably been the right name to use originally - even
-> > though it's not very consistent, as the same IP is called EMAC in the
-> > older SoCs' manuals. I am also not against renaming identifiers or even
-> > (internal) DT labels. But the problem here is that the renaming affects
-> > the DT compatible string and the pinctrl function name, both of which
-> > are used as an interface between the devicetree and its users, which is
-> > not only the Linux kernel, but also U-Boot and other OSes like the BSDs=
-. =20
->=20
-> I reiterate my position: they are not stable until they actually hit a
-> release. This provides some time to fix mistakes before they are set in
-> stone.
->=20
-> > In this particular case we would probably get away with it, because
-> > it's indeed very early in the development cycle for this SoC, but for
-> > instance the "emac0" function name is already used in some U-Boot
-> > patch series on the list:
-> > https://lore.kernel.org/linux-sunxi/20250323113544.7933-18-andre.przywa=
-ra@arm.com/
+> > I reiterate my position: they are not stable until they actually hit a
+> > release. This provides some time to fix mistakes before they are set in
+> > stone.
 > >
-> > If we REALLY need to rename this, it wouldn't be the end of the world,
-> > but would create some churn on the U-Boot side.
+> > > In this particular case we would probably get away with it, because
+> > > it's indeed very early in the development cycle for this SoC, but for
+> > > instance the "emac0" function name is already used in some U-Boot
+> > > patch series on the list:
+> > > https://lore.kernel.org/linux-sunxi/20250323113544.7933-18-andre.przy=
+wara@arm.com/
+> > >
+> > > If we REALLY need to rename this, it wouldn't be the end of the world=
+,
+> > > but would create some churn on the U-Boot side.
+> > >
+> > > I just wanted to point out that any changes to the DT bindings have
+> > > some impact to other projects, even if they are proposed as a coheren=
+t
+> > > series on the Linux side. Hence my question if this is really necessa=
+ry.
 > >
-> > I just wanted to point out that any changes to the DT bindings have
-> > some impact to other projects, even if they are proposed as a coherent
-> > series on the Linux side. Hence my question if this is really necessary=
-. =20
->=20
-> For the compatible string, I can live with having a comment in the binding
-> stating the name used in the datasheet for reference.
+> > For the compatible string, I can live with having a comment in the bind=
+ing
+> > stating the name used in the datasheet for reference.
+>
+> For the compatible string going with a fallback name, I can live with
+> renaming it ;-)
+>
+> > For the pinctrl stuff, which is the contentious bit here, I thought the
+> > whole idea of the newer pinctrl bindings is that the driver uses
+> > "allwinner,pinmux" instead of "function". I think having both being val=
+id
+> > is confusing, and likely to cause conflicts later on. If we're going to
+> > use the hardware register values in the device tree, I'd really like th=
+em
+> > to be the only source of truth. The commit message for the binding also
+> > sort of suggests that "allwinner,pinmux" is the part that matters.
+>
+> Yes, it should be, but it turns out to be convenient for U-Boot to
+> continue using the old method - until someone writes a driver for the new
+> schema. And a function name is still mandatory, it's just mostly for
+> reference now (so would indeed be fine to rename).
 
-For the compatible string going with a fallback name, I can live with
-renaming it ;-)
+Hmm. Could we somehow make it clear in the binding that the function name
+is for reference only?
 
-> For the pinctrl stuff, which is the contentious bit here, I thought the
-> whole idea of the newer pinctrl bindings is that the driver uses
-> "allwinner,pinmux" instead of "function". I think having both being valid
-> is confusing, and likely to cause conflicts later on. If we're going to
-> use the hardware register values in the device tree, I'd really like them
-> to be the only source of truth. The commit message for the binding also
-> sort of suggests that "allwinner,pinmux" is the part that matters.
+> So if you really insist on this: please go ahead and merge it, so that
+> the 6.16 release contains the new name.
 
-Yes, it should be, but it turns out to be convenient for U-Boot to
-continue using the old method - until someone writes a driver for the new
-schema. And a function name is still mandatory, it's just mostly for
-reference now (so would indeed be fine to rename).
+I'm afraid I insist.
 
-So if you really insist on this: please go ahead and merge it, so that
-the 6.16 release contains the new name.
+I think we still need an ack from the DT maintainers though, and then
+the binding change would go through the net tree?
 
-But please note my silent protest about those cosmetic name changes in the
-DT realm, which establishes an interface reaching beyond just the Linux
-kernel. When it comes to new boards, the U-Boot DT sync process is rather
-slow, so I really am eager to cherry-pick -rc1 DTs already, instead of
-waiting another 7 weeks - which bites me in this case. It's not merged
-yet, so is fine in this case, but I would really like to avoid similar
-hiccups in the future.
+> But please note my silent protest about those cosmetic name changes in th=
+e
+> DT realm, which establishes an interface reaching beyond just the Linux
+> kernel. When it comes to new boards, the U-Boot DT sync process is rather
+> slow, so I really am eager to cherry-pick -rc1 DTs already, instead of
+> waiting another 7 weeks - which bites me in this case. It's not merged
+> yet, so is fine in this case, but I would really like to avoid similar
+> hiccups in the future.
 
-Cheers,
-Andre.
+Noted. I will try to be more vigilant during the review process.
+
+
+Thanks
+ChenYu
