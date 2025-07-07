@@ -1,173 +1,136 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 450F11DEFD2
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jul 2025 17:35:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90ED8262FF9;
+	Mon,  7 Jul 2025 17:55:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751909703; cv=none; b=P4QugemOmJ92axjJrPY+eHG5o9lPXoWom15ptMDQ0h797HYADw1IUtDiTgxk7v9w/i+Cp/IjqZjN/f9dLz6jsQEsF+PEh8vCmrsWCF8eNWhuQlvwUYgdKVxsYSGRXtWQFZHRB3Bfg2iYtCCQ57PA9ZHPktL/i0vjRk5vP7M8SjU=
+	t=1751910928; cv=none; b=Lv9Idxod27+g/j1OZQUil+SYqOYeq/N+4l4MyvzK10Ptt557sEvP+O7Ov35PU78ralfxDc84N3Wku3sEqc6w6Y52tjVgOs8Nz/GhrPZNGQ78/uMJm0uXhw5I3L/Nc7EwAdGOkirWHftcrJshe+HEWSYVJ8sz8QBBf2WhFkPLZHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751909703; c=relaxed/simple;
-	bh=O2JN6S7yUjtZ5614ufaGRXdRQ2/PylgFkAVfo9SYR1g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PRnqnbQSK8m2OZh5mLejYd77x+a5sfOB1Dsc0OFHy/j5ob6AQWTWsVCBvuxrhQyXi9NwBebFD8c0XXWBvdSFK709xBhhcY+G0rPyl5CZqc00ZY1b6cpM7lcrBRmppO/2Vlh1Ob8Fn+0fG+W3yQbPt69v0y+fNzBjHRMYNLUf/NA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F+RNW+Bz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751910928; c=relaxed/simple;
+	bh=4i3GwwYmMwd8rgyfXHO3jnhHMlDIeHEAOL0OdWiCZs0=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=DwAO9ZwII/seu+66VnQO4dNZI8aPIHqPGESuG1mGNcyASmww1dTQtLdOUlwCDH3+z/8xrVPmKcotq9UCIhgbQYklLuJLLl7iVUbR3b8cNm7wsSddt6P1JLkq9p0m5u6q9JmlFIekvIKKez8MUIVtBNoGvPgi0cnfj8euvXgRoZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZK9sXsM8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F+RNW+Bz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF130C4CEF8
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jul 2025 17:35:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZK9sXsM8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0731EC4CEF1;
+	Mon,  7 Jul 2025 17:55:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751909702;
-	bh=O2JN6S7yUjtZ5614ufaGRXdRQ2/PylgFkAVfo9SYR1g=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=F+RNW+BzPadulCJB0CA09JWF7YO/MhLLMmXvUZgJvf/x1srOti75U+WFxwcIFoACB
-	 2PaB/91o05oay79AMwei4NgUYYiMVwsXviilybgrz/6HDnwiwNt7UDkvQ5wTgQ315M
-	 RKQX0Ns/E0L2FeNlMQhVjQ+dKWk410GKFICJga/AusDSc344LRemaLm/VhNLFpg2Z7
-	 gRk2jb/QuqFbRsRKuyuS88xSfee6GclfhqdB6vVTSfibH2MrgLsYJqcTiTg7of1QfE
-	 RdsP+ZZAvPZXl3KuvKw06S+cqWc/Ajnavcs549+pdXgY8VTw3lq4VVLgVAjPhq8Xtd
-	 J83SnFi4nGrGw==
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-553b6a349ccso4184311e87.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 07 Jul 2025 10:35:02 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXSBhc2PHT54/2hjLp9E3ABtFtyIoX/JCmmjABxTIrnStmF2pivPLPP/raJhccC1GZ1GgcZd5YQ0uq9dw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyVOYaOSWYSKeb1YBIkdh5JRodwgE5qZml3jlbOpuH75kHOqZcu
-	0wmSO1TjATdZwqWBMvfmsluguinm5wzU3/x5jyIFNbAjdv1NG0A+1TmkqjkGiRvYnLzIrHg7jD+
-	ivFFmPiBnJHOBFn0PVS7v7VWQnP7ClPg=
-X-Google-Smtp-Source: AGHT+IGOttXp/lkLoXck4zz9g7NH+hpLyXdxDc6Zd3dXWLU0JpEMOgZlssrJ930cSWYiNmZYPR2XYxUcHWoDaQuCREs=
-X-Received: by 2002:a05:6512:3c84:b0:553:297b:3d4e with SMTP id
- 2adb3069b0e04-556de363d36mr3692791e87.52.1751909701165; Mon, 07 Jul 2025
- 10:35:01 -0700 (PDT)
+	s=k20201202; t=1751910928;
+	bh=4i3GwwYmMwd8rgyfXHO3jnhHMlDIeHEAOL0OdWiCZs0=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=ZK9sXsM8/2KLy4877qvvhXzU663uegkJK0fCwXksNxOOSx49qQic8lwOQ1jCddztZ
+	 xkXUryp9zl0ZVQUAd5SWytFQCGbNBaAOpe+z9MMasq2x06hI2Cl+5Z37wj1fbAoZrh
+	 55aHAfof3fOKnGn8LBjX1TWs7ZRHvZlgKUi2qh6vZdAJ/izndrVP68pvXxH21o85X5
+	 /HaOtlzbWOQcTDCDvxPbCHh0PdRw9xJFDOQgcDqRwCygmjk+baWyPZms4NiUew8cHb
+	 KdqSxP50knRFjCxQZIueoMEP8J/0vE12M3npqwyue4LEHAvIshFXbwEWIrToOEjJ/U
+	 VQJpIfWB/ePdw==
+Date: Mon, 07 Jul 2025 12:55:27 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250628054438.2864220-1-wens@kernel.org> <20250705083600.2916bf0c@minigeek.lan>
- <CAGb2v64My=A_Jw+CBCsqno3SsSSTtBFKXOrgLv+Nyq_z5oeYBg@mail.gmail.com>
- <e9c5949d-9ac5-4b33-810d-b716ccce5fe9@lunn.ch> <20250706002223.128ff760@minigeek.lan>
- <CAGb2v64vxtAVi3QK3a=mvDz2u+gKQ6XPMN-JB46eEuwfusMG2w@mail.gmail.com> <20250707181513.6efc6558@donnerap.manchester.arm.com>
-In-Reply-To: <20250707181513.6efc6558@donnerap.manchester.arm.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 8 Jul 2025 01:34:46 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64UTr1YSm7VXtzk5jmD_J_20ddPcWww_NPzx-e5HvaOpQ@mail.gmail.com>
-X-Gm-Features: Ac12FXyqsURdwW8NxdfSatuYRJXxqkCB1KgR0rqYcDDm60yVTu4owZ1DToV_pqQ
-Message-ID: <CAGb2v64UTr1YSm7VXtzk5jmD_J_20ddPcWww_NPzx-e5HvaOpQ@mail.gmail.com>
-Subject: Re: [PATCH net 0/2] allwinner: a523: Rename emac0 to gmac0
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Jul 8, 2025 at 1:15=E2=80=AFAM Andre Przywara <andre.przywara@arm.c=
-om> wrote:
->
-> On Sun, 6 Jul 2025 21:14:09 +0800
-> Chen-Yu Tsai <wens@kernel.org> wrote:
->
-> Hi,
->
-> > On Sun, Jul 6, 2025 at 7:23=E2=80=AFAM Andre Przywara <andre.przywara@a=
-rm.com> wrote:
-> > >
-> > > On Sat, 5 Jul 2025 17:53:17 +0200
-> > > Andrew Lunn <andrew@lunn.ch> wrote:
-> > >
-> > > Hi Andrew,
-> > >
-> > > > > So it's really whatever Allwinner wants to call it. I would rathe=
-r have
-> > > > > the names follow the datasheet than us making some scheme up.
-> > > >
-> > > > Are the datasheets publicly available?
-> > >
-> > > We collect them in the sunxi wiki (see the links below), but just to
-> > > make sure:
-> > > I am not disputing that GMAC is the name mentioned in the A523 manual=
-,
-> > > and would have probably been the right name to use originally - even
-> > > though it's not very consistent, as the same IP is called EMAC in the
-> > > older SoCs' manuals. I am also not against renaming identifiers or ev=
-en
-> > > (internal) DT labels. But the problem here is that the renaming affec=
-ts
-> > > the DT compatible string and the pinctrl function name, both of which
-> > > are used as an interface between the devicetree and its users, which =
-is
-> > > not only the Linux kernel, but also U-Boot and other OSes like the BS=
-Ds.
-> >
-> > I reiterate my position: they are not stable until they actually hit a
-> > release. This provides some time to fix mistakes before they are set in
-> > stone.
-> >
-> > > In this particular case we would probably get away with it, because
-> > > it's indeed very early in the development cycle for this SoC, but for
-> > > instance the "emac0" function name is already used in some U-Boot
-> > > patch series on the list:
-> > > https://lore.kernel.org/linux-sunxi/20250323113544.7933-18-andre.przy=
-wara@arm.com/
-> > >
-> > > If we REALLY need to rename this, it wouldn't be the end of the world=
-,
-> > > but would create some churn on the U-Boot side.
-> > >
-> > > I just wanted to point out that any changes to the DT bindings have
-> > > some impact to other projects, even if they are proposed as a coheren=
-t
-> > > series on the Linux side. Hence my question if this is really necessa=
-ry.
-> >
-> > For the compatible string, I can live with having a comment in the bind=
-ing
-> > stating the name used in the datasheet for reference.
->
-> For the compatible string going with a fallback name, I can live with
-> renaming it ;-)
->
-> > For the pinctrl stuff, which is the contentious bit here, I thought the
-> > whole idea of the newer pinctrl bindings is that the driver uses
-> > "allwinner,pinmux" instead of "function". I think having both being val=
-id
-> > is confusing, and likely to cause conflicts later on. If we're going to
-> > use the hardware register values in the device tree, I'd really like th=
-em
-> > to be the only source of truth. The commit message for the binding also
-> > sort of suggests that "allwinner,pinmux" is the part that matters.
->
-> Yes, it should be, but it turns out to be convenient for U-Boot to
-> continue using the old method - until someone writes a driver for the new
-> schema. And a function name is still mandatory, it's just mostly for
-> reference now (so would indeed be fine to rename).
-
-Hmm. Could we somehow make it clear in the binding that the function name
-is for reference only?
-
-> So if you really insist on this: please go ahead and merge it, so that
-> the 6.16 release contains the new name.
-
-I'm afraid I insist.
-
-I think we still need an ack from the DT maintainers though, and then
-the binding change would go through the net tree?
-
-> But please note my silent protest about those cosmetic name changes in th=
-e
-> DT realm, which establishes an interface reaching beyond just the Linux
-> kernel. When it comes to new boards, the U-Boot DT sync process is rather
-> slow, so I really am eager to cherry-pick -rc1 DTs already, instead of
-> waiting another 7 weeks - which bites me in this case. It's not merged
-> yet, so is fine in this case, but I would really like to avoid similar
-> hiccups in the future.
-
-Noted. I will try to be more vigilant during the review process.
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, linux-kernel@vger.kernel.org, 
+ Paul Walmsley <paul.walmsley@sifive.com>, 
+ Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, 
+ devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Conor Dooley <conor+dt@kernel.org>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-sunxi@lists.linux.dev, 
+ Alexandre Ghiti <alex@ghiti.fr>, linux-riscv@lists.infradead.org
+To: Lukas Schmid <lukas.schmid@netcube.li>
+In-Reply-To: <20250706183601.157523-1-lukas.schmid@netcube.li>
+References: <20250706183601.157523-1-lukas.schmid@netcube.li>
+Message-Id: <175191074348.3364659.3018850166698272326.robh@kernel.org>
+Subject: Re: [PATCH v2 0/5] Add support for NetCube Systems Nagami SoM and
+ its carrier boards
 
 
-Thanks
-ChenYu
+On Sun, 06 Jul 2025 20:35:53 +0200, Lukas Schmid wrote:
+> This series adds support for the NetCube Systems Nagami SoM and its
+> associated carrier boards, the Nagami Basic Carrier and the Nagami Keypad
+> Carrier.
+> 
+> Changes in v2:
+>  - Squash the binding patches into one patch
+>  - Fix formatting of the phy node in the SoM dtsi
+>  - Add description on where the phy is located in the SoM dtsi
+>  - Fix the phy address in the SoM dtsi
+>  - Move the carrier bindings into the same description as enums
+> 
+> Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
+> ---
+> Lukas Schmid (5):
+>   dt-bindings: arm: sunxi: Add NetCube Systems Nagami SoM and carrier
+>     board bindings
+>   riscv: dts: allwinner: d1s-t113: Add pinctrl's required by NetCube
+>     Systems Nagami SoM
+>   ARM: dts: sunxi: add support for NetCube Systems Nagami SoM
+>   ARM: dts: sunxi: add support for NetCube Systems Nagami Basic Carrier
+>   ARM: dts: sunxi: add support for NetCube Systems Nagami Keypad Carrier
+> 
+>  .../devicetree/bindings/arm/sunxi.yaml        |  17 ++
+>  arch/arm/boot/dts/allwinner/Makefile          |   3 +
+>  ...n8i-t113s-netcube-nagami-basic-carrier.dts |  63 +++++
+>  ...8i-t113s-netcube-nagami-keypad-carrier.dts | 165 +++++++++++++
+>  .../allwinner/sun8i-t113s-netcube-nagami.dtsi | 227 ++++++++++++++++++
+>  .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    |  36 +++
+>  6 files changed, 511 insertions(+)
+>  create mode 100644 arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-basic-carrier.dts
+>  create mode 100644 arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-keypad-carrier.dts
+>  create mode 100644 arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami.dtsi
+> 
+> --
+> 2.39.5
+> 
+> 
+> 
+> 
+
+
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
+
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
+
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
+
+  pip3 install dtschema --upgrade
+
+
+This patch series was applied (using b4) to base:
+ Base: attempting to guess base-commit...
+ Base: tags/next-20250704 (exact match)
+
+If this is not the correct base, please add 'base-commit' tag
+(or use b4 which does this automatically)
+
+New warnings running 'make CHECK_DTBS=y for arch/arm/boot/dts/allwinner/' for 20250706183601.157523-1-lukas.schmid@netcube.li:
+
+arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-keypad-carrier.dtb: dcxo-clk (fixed-clock): 'clock-frequency' is a required property
+	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml#
+arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-keypad-carrier.dtb: gpio@20 (microchip,mcp23008): Unevaluated properties are not allowed ('interrupt-names' was unexpected)
+	from schema $id: http://devicetree.org/schemas/pinctrl/microchip,mcp23s08.yaml#
+arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-keypad-carrier.dtb: usb@4100000 (allwinner,sun20i-d1-musb): dr_mode:0: 'device' is not one of ['host', 'otg', 'peripheral']
+	from schema $id: http://devicetree.org/schemas/usb/allwinner,sun4i-a10-musb.yaml#
+arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-keypad-carrier.dtb: status-led (leds-group-multicolor): $nodename:0: 'status-led' does not match '^multi-led(@[0-9a-f])?$'
+	from schema $id: http://devicetree.org/schemas/leds/leds-group-multicolor.yaml#
+arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-keypad-carrier.dtb: status-led (leds-group-multicolor): Unevaluated properties are not allowed ('color', 'function' were unexpected)
+	from schema $id: http://devicetree.org/schemas/leds/leds-group-multicolor.yaml#
+arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-basic-carrier.dtb: dcxo-clk (fixed-clock): 'clock-frequency' is a required property
+	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml#
+
+
+
+
+
