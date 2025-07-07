@@ -1,70 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A70D28E7;
-	Mon,  7 Jul 2025 01:56:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F41017E0
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jul 2025 03:03:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751853379; cv=none; b=DK6izbCuMDbQrNlXi4faMQSPBKCdIEt7SYegVj6WoCQgUFfrNrnLqivdopQfEAJhZVmyc988b9ApR+9tEWD/8MU7fZwLvjeN1SkBgRm//h1Ks91dQ2p0d9SRLPIP+rLegGIBfDfloUm5fxdPO+Uy3rS0atUfmld2X5OKFQJytQg=
+	t=1751857393; cv=none; b=LiNbRzQDxZIR+yWNwA6rCfvS8Y4iKLwPWqlyxPBXf1mHXzrmS7+KyhaCmcY89ngXfGuQKVM8O5HgqILVlBZCZcN1kaezPb3OHo69lOWcpBS/fFmVMbwgq6AsMuTnIHKlo1nG51c0bnRLpNmLJPt//e1Ox1Ow/zaD2Xl7kHiE6HE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751853379; c=relaxed/simple;
-	bh=WhU0KZ3UIQUN4rUiJcwtwTnojok2iaAWunJa00LmijM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=E3hmUKXFJdsLkfamnmxeJYS7VYJJ0XXzXcRUB9NVYMMSlALL+2scmNKZGPCZNxh57yzfOOtyHciPf+SFOyVkl2XpSXu+94SsFRCxwwame/c232L87pDTT6mCE9ft3IdOEQrH5NygxHIqCZ6267lQctV2Y0Uvfc57JeeTjKv24bE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52B0EC4CEED;
-	Mon,  7 Jul 2025 01:56:18 +0000 (UTC)
-Received: from wens.tw (localhost [127.0.0.1])
-	by wens.tw (Postfix) with ESMTP id 12DC65F7C0;
-	Mon,  7 Jul 2025 09:56:16 +0800 (CST)
-From: Chen-Yu Tsai <wens@csie.org>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej@kernel.org>, 
- Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <20250628161608.3072968-1-wens@kernel.org>
-References: <20250628161608.3072968-1-wens@kernel.org>
-Subject: Re: [PATCH v3 0/5] arm64: allwinner: t527: Add OrangePi 4A board
-Message-Id: <175185337604.2581101.17317086913285770626.b4-ty@csie.org>
-Date: Mon, 07 Jul 2025 09:56:16 +0800
+	s=arc-20240116; t=1751857393; c=relaxed/simple;
+	bh=XXrDjKkn+I7HQXaUYwBZC9+hak0veYwk0GFoTZswCgI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZVuJA6DvtJJGfuLkZb2NlSTc3ricqFOVsSIjG5LaX1zGEuMF3IDkb1mzQNMjVFlJIp5i35YfNIojnWmt5/hUW/jtJmeAqB+uy0ULrfQBaXuOClk7gcCHnBCx70zmLnPXd4CEmst3s2Af6/TLAFVN9jXr674Ynb9urdpNxKhrqQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=LjXN5o+Y; arc=none smtp.client-ip=95.215.58.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="LjXN5o+Y"
+Message-ID: <ef56c834-0e8c-410c-ada0-dc2b8be34cab@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1751857387;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ywlnlRGZ0Kdlw+99ZDcpRUHN/MXyl9e/75luEMxwyak=;
+	b=LjXN5o+YS0pU591RwbFe58yEnnr9sjYfhpJjLC8fZnQj9Ofh3OWmnzE0IqQBuO3IRWpSPU
+	6Kp5Nj7bgM90OatBXy1Ly5YEvixDo6QnXJ/CpsnyNVsF7Yd3AC2CQB3lBEzoHDrgMRqGko
+	BVjA8hj7yH8eCrJ9zeazg1Oxo5ZSVbo=
+Date: Mon, 7 Jul 2025 11:02:59 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+Subject: Re: [PATCH RFT net-next 02/10] net: stmmac: Add support for Allwinner
+ A523 GMAC200
+To: wens@kernel.org
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej@kernel.org>,
+ Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Andre Przywara <andre.przywara@arm.com>
+References: <20250701165756.258356-1-wens@kernel.org>
+ <20250701165756.258356-3-wens@kernel.org>
+ <15ba0933-b0c1-40eb-9d3c-d8837d6ee12a@linux.dev>
+ <CAGb2v646pxuT-nrwtDD-wvrA0eoxaee6sq2-mb0WoqUCPzpRjg@mail.gmail.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yanteng Si <si.yanteng@linux.dev>
+In-Reply-To: <CAGb2v646pxuT-nrwtDD-wvrA0eoxaee6sq2-mb0WoqUCPzpRjg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Sun, 29 Jun 2025 00:16:03 +0800, Chen-Yu Tsai wrote:
-> This is v3 of my OrangePi 4A series.
+在 7/2/25 10:09 AM, Chen-Yu Tsai 写道:
+>>> +/* EMAC PHY Interface Type */
+>>> +#define SYSCON_EPIT                  BIT(2) /* 1: RGMII, 0: MII */
+>>> +#define SYSCON_ETCS_MASK             GENMASK(1, 0)
+>>> +#define SYSCON_ETCS_MII              0x0
+>>> +#define SYSCON_ETCS_EXT_GMII 0x1
+>>> +#define SYSCON_ETCS_INT_GMII 0x2
+>>> +
+>>> +#define MASK_TO_VAL(mask)   ((mask) >> (__builtin_ffsll(mask) - 1))
+>>> +
+>>> +static int sun55i_gmac200_set_syscon(struct device *dev,
+>>> +                                  struct plat_stmmacenet_data *plat)
+>>> +{
+>>> +     struct device_node *node = dev->of_node;
+>>> +     struct regmap *regmap;
+>>> +     u32 val, reg = 0;
+>>> +
+>>> +     regmap = syscon_regmap_lookup_by_phandle(node, "syscon");
+>>> +     if (IS_ERR(regmap))
+>>> +             return dev_err_probe(dev, PTR_ERR(regmap), "Unable to map syscon\n");
+>>> +
+>> -----------
+>>> +     if (!of_property_read_u32(node, "allwinner,tx-delay-ps", &val)) {
+>>> +             if (val % 100) {
+>>> +                     dev_err(dev, "tx-delay must be a multiple of 100\n");
+>>> +                     return -EINVAL;
+>>> +             }
+>>> +             val /= 100;
+>>> +             dev_dbg(dev, "set tx-delay to %x\n", val);
+>>> +             if (val > MASK_TO_VAL(SYSCON_ETXDC_MASK))
+>>> +                     return dev_err_probe(dev, -EINVAL,
+>>> +                                          "Invalid TX clock delay: %d\n",
+>>> +                                          val);
+>>> +
+>>> +             reg |= FIELD_PREP(SYSCON_ETXDC_MASK, val);
+>>> +     }
+>>> +
+>>> +     if (!of_property_read_u32(node, "allwinner,rx-delay-ps", &val)) {
+>>> +             if (val % 100) {
+>>> +                     dev_err(dev, "rx-delay must be a multiple of 100\n");
+>>> +                     return -EINVAL;
+>>> +             }
+>>> +             val /= 100;
+>>> +             dev_dbg(dev, "set rx-delay to %x\n", val);
+>>> +             if (val > MASK_TO_VAL(SYSCON_ERXDC_MASK))
+>>> +                     return dev_err_probe(dev, -EINVAL,
+>>> +                                          "Invalid RX clock delay: %d\n",
+>>> +                                          val);
+>>> +
+>>> +             reg |= FIELD_PREP(SYSCON_ERXDC_MASK, val);
+>>> +     }
+>> ------------
+>> These two parts of the code are highly similar.
+>> Can you construct a separate function?
+> As in, have a function that sets up either TX or RX delay based on
+> a parameter? That also means constructing the property name on the
+> fly or using ternary ops. And chopping up the log messages.
 > 
-> Changes since v2:
-> - Actually include cpusldo regulator name change and axp323 aldo1/dldo1
->   comments
-> - Fix indentation of comment in usb_otg block
-> - Link to v2:
->   https://lore.kernel.org/all/20250625131652.1667345-1-wens@kernel.org/
-> 
-> [...]
+> I don't think this makes it easier to read. And chopping up the log
+> message makes it harder to grep.
+I've looked through other driver codes, and it seems they
+are all written this way, so let's keep it as it is for now.
 
-Applied to sunxi/dt-for-6.17 in local tree, thanks!
-
-[1/5] dt-bindings: arm: sunxi: Add Xunlong OrangePi 4A board
-      commit: bbe7cf4bab161a50ce631c9dd7724df333cdf12d
-[2/5] arm64: dts: allwinner: a523: Move mmc nodes to correct position
-      commit: 6e2662c07a90e9f782158b7d6eda2766f65e9c36
-[3/5] arm64: dts: allwinner: a523: Move rgmii0 pins to correct location
-      commit: 84c4a16e00f5aadbb1a3bdecc6bbfee35b7c45c8
-[4/5] arm64: dts: allwinner: a523: Add UART1 pins
-      commit: 64f2f7bc4acb7928b39cac4a9a932e77b966f31c
-[5/5] arm64: dts: allwinner: t527: Add OrangePi 4A board
-      commit: de713ccb99345be302adf507274d1b190dd2302e
-
-Best regards,
--- 
-Chen-Yu Tsai <wens@csie.org>
+Thanks,
+Yanteng
 
