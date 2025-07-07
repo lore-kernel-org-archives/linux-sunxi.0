@@ -1,41 +1,38 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5B3D1F462C
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jul 2025 23:23:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A939202997
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jul 2025 23:35:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751930626; cv=none; b=ROeIYW1EBR7PB3kydn10fqVPdiKuJNEO5+irZCklb+/Y0uSnkkHhEeRSWcBk5mmGNAmct8zmE30hfQK/fJlxSSg4Nhd75FlMmrackovURFQRUN9TA3qv11+9UAtCAtSmM6TXf7WbJJfvxC9k6dTJYwNv/rGl3eMbW927u2/YR7M=
+	t=1751931305; cv=none; b=bj8kI1jDVoM1b9dTt+2iHFoob3XeH7326a4SGdtD9c9+UpOTJOFdjy24LdW04yaZ30Go/VUIvcx8zcblQJUNZJ8I3noZnOCug2nbV4ehbHNPwEsdBNDbYjnzHOXF5jnjV1N6aobIJLLjITvHEbEb3V/ryJjg+RZ2PuQO996B+7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751930626; c=relaxed/simple;
-	bh=py/XeTWWGhYzvslP+bZCb5aZEbZ+ThUc0h54ulSL24o=;
+	s=arc-20240116; t=1751931305; c=relaxed/simple;
+	bh=jllk3ECRy57R++hyZui+sBkMaYBcXVsk4S64WOzIt4U=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LYM+qupvhmVDc9uOAlO4i36Ry87t5t4B0t1C+z+LgdF/EYpo2uEIw1I08mO/waxcRz4Mw7PTHJPdt5sWk+kmKJ8rwbJ1O3Bna4IBC9wL0cOH9TUfDydtv+ff5I8QBtcfHF2QGmdn5liKdJbUETv4XVjW41wTX0+oXygVnat2leo=
+	 MIME-Version:Content-Type; b=pMkCpfiU1EG1+lUv7OVC6X6foZxInJGtoUYR2ZvfJSgsB/mfx+9gdXLScpnlrqIczOzeJ5K5QS59md+KiraZkw6QGeNNnkmhcezkhcWhHJ42KVYRVcqa/E6qHeXNRo9RIZE8R5FHwk3vpDQUWuB2O7gk4PupNouWj3ak9KlMelo=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 27C431595;
-	Mon,  7 Jul 2025 16:23:32 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D41201595;
+	Mon,  7 Jul 2025 16:34:49 -0700 (PDT)
 Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 57BC63F66E;
-	Mon,  7 Jul 2025 16:23:42 -0700 (PDT)
-Date: Tue, 8 Jul 2025 00:22:05 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 57B293F66E;
+	Mon,  7 Jul 2025 16:35:00 -0700 (PDT)
+Date: Tue, 8 Jul 2025 00:33:19 +0100
 From: Andre Przywara <andre.przywara@arm.com>
-To: Lukas Schmid <lukas.schmid@netcube.li>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti
- <alex@ghiti.fr>, Maxime Ripard <mripard@kernel.org>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+To: Paul Kocialkowski <paulk@sys-base.io>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v3 3/5] ARM: dts: sunxi: add support for NetCube Systems
- Nagami SoM
-Message-ID: <20250708002205.70ec9097@minigeek.lan>
-In-Reply-To: <20250707184420.275991-4-lukas.schmid@netcube.li>
-References: <20250707184420.275991-1-lukas.schmid@netcube.li>
-	<20250707184420.275991-4-lukas.schmid@netcube.li>
+ linux-gpio@vger.kernel.org, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu
+ Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
+ Holland <samuel@sholland.org>, Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH v2 1/4] Revert "pinctrl: sunxi: Fix a100 emac pin
+ function name"
+Message-ID: <20250708003236.059ba94d@minigeek.lan>
+In-Reply-To: <20250707165155.581579-2-paulk@sys-base.io>
+References: <20250707165155.581579-1-paulk@sys-base.io>
+	<20250707165155.581579-2-paulk@sys-base.io>
 Organization: Arm Ltd.
 X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
@@ -47,303 +44,175 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Mon,  7 Jul 2025 20:44:15 +0200
-Lukas Schmid <lukas.schmid@netcube.li> wrote:
+On Mon,  7 Jul 2025 18:51:52 +0200
+Paul Kocialkowski <paulk@sys-base.io> wrote:
 
-Hi Lukas,
+Hi Paul,
 
-please try to refrain from sending subsequent patches too quickly, that
-might just put off and confuse reviewers. To acknowledge a change
-request, it is probably sufficient to just reply to the mail with a
-confirmation.
-
-> NetCube Systems Nagami SoM is a module based around the Allwinner T113s
-> SoC. It includes the following features and interfaces:
+> While the A100/A133 chips only expose a single EMAC, the sun50iw10 die
+> that they share actually has two such controllers.
 > 
-> - 128MB DDR3 included in SoC
-> - 10/100 Mbps Ethernet using LAN8720A phy
-> - One USB-OTG interface
-> - One USB-Host interface
-> - One I2S interface with in and output support
-> - Two CAN interfaces
-> - ESP32 over SDIO
-> - One SPI interface
-> - I2C EEPROM for MAC address
-> - One QWIIC I2C Interface with dedicated interrupt pin shared with EEPROM
-> - One external I2C interface
-> - SD interface for external SD-Card
+> One specific package, the T509 is reported to expose both ports.
 > 
-> Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
-> ---
->  .../allwinner/sun8i-t113s-netcube-nagami.dtsi | 233 ++++++++++++++++++
->  1 file changed, 233 insertions(+)
->  create mode 100644 arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami.dtsi
+> Since we want to keep the pinctrl function names unique accross
+> packages of the same die to share a single common base dtsi, keep the
+> emac0 naming in order to allow the introduction of the emac1 function
+> in the future.
 > 
-> diff --git a/arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami.dtsi b/arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami.dtsi
-> new file mode 100644
-> index 000000000..0db867b47
-> --- /dev/null
-> +++ b/arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami.dtsi
-> @@ -0,0 +1,233 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> +/*
-> + * Copyright (C) 2025 Lukas Schmid <lukas.schmid@netcube.li>
-> + */
-> +
-> +/dts-v1/;
-> +#include "sun8i-t113s.dtsi"
-> +
-> +#include <dt-bindings/gpio/gpio.h>
-> +#include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +/ {
-> +	model = "NetCube Systems Nagami SoM";
-> +	compatible = "netcube,nagami", "allwinner,sun8i-t113s";
-> +
-> +	aliases {
-> +		serial1 = &uart1; // ESP32 Bootloader UART
-> +		serial3 = &uart3; // Console UART on Card Edge
-> +		ethernet0 = &emac;
-> +	};
-> +
-> +	chosen {
-> +		stdout-path = "serial3:115200n8";
-> +	};
-> +
-> +	/* module wide 3.3V supply directly from the card edge */
-> +	reg_vcc3v3: regulator-3v3 {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vcc-3v3";
-> +		regulator-min-microvolt = <3300000>;
-> +		regulator-max-microvolt = <3300000>;
-> +		regulator-always-on;
-> +	};
-> +
-> +	/* SY8008 DC/DC regulator on the board, also supplying VDD-SYS */
-> +	reg_vcc_core: regulator-core {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vcc-core";
-> +		regulator-min-microvolt = <880000>;
-> +		regulator-max-microvolt = <880000>;
-> +		vin-supply = <&reg_vcc3v3>;
-> +	};
-> +};
-> +
-> +&cpu0 {
-> +	cpu-supply = <&reg_vcc_core>;
-> +};
-> +
-> +&cpu1 {
-> +	cpu-supply = <&reg_vcc_core>;
-> +};
-> +
-> +&dcxo {
-> +	clock-frequency = <24000000>;
-> +};
-> +
-> +&emac {
-> +	nvmem-cells = <&eth0_macaddress>;
-> +	nvmem-cell-names = "mac-address";
-> +	phy-handle = <&lan8720a>;
-> +	phy-mode = "rmii";
-> +	pinctrl-0 = <&rmii_pe_pins>;
-> +	pinctrl-names = "default";
-> +	status = "okay";
-> +};
-> +
-> +/* Exposed as I2C on the card edge */
-> +&i2c2 {
-> +	pinctrl-0 = <&i2c2_pins>;
-> +	pinctrl-names = "default";
+> Note that the original commit also breaks the ABI between the driver
+> and the device-tree. It's however unlikely that anybody would have
+> complained about that since the a100/a133 port is still very early
+> and experimental.
+> 
+> Fixes: d4775ba60b55 ("pinctrl: sunxi: Fix a100 emac pin function name")
+> Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
 
-I wonder if this belongs here. In general we don't describe
-pins/devices that are on generic connectors (like pin headers), because
-the connection is determined by the user, not by the board.
-In this case PD20 and PD21 could be used as generic GPIOs or as PWMs.
-IIUC, even for the basic carrier those pins end up on headers, so even
-there I wouldn't describe it. On the keypad carrier it's of course a
-different story, since the MCP23008 is apparently soldered there.
+many thanks for sending this, it looks good to me now. I just wonder if
+the original patch can be still backed out, I think it would be still
+time before the v6.17 PR?
 
-> +};
-> +
-> +/* Exposed as the QWIIC connector and used by the internal EEPROM */
-> +&i2c3 {
-> +	pinctrl-0 = <&i2c3_pins>;
-> +	pinctrl-names = "default";
-> +	status = "okay";
-> +
-> +	eeprom0: eeprom@50 {
-> +		compatible = "atmel,24c02";		/* actually it's a 24AA02E48 */
-> +		reg = <0x50>;
-> +		pagesize = <16>;
-> +		read-only;
-> +		vcc-supply = <&reg_vcc3v3>;
-> +
-> +		#address-cells = <1>;
-> +		#size-cells = <1>;
-> +
-> +		eth0_macaddress: macaddress@fa {
-> +			reg = <0xfa 0x06>;
-> +		};
-> +	};
-> +};
-> +
-> +/* Exposed as I2S on the card edge */
-> +&i2s1 {
-> +	pinctrl-0 = <&i2s1_pins>, <&i2s1_din_pins>, <&i2s1_dout_pins>;
-> +	pinctrl-names = "default";
-
-Same story here, what prevents a user from using those edge pins as
-GPIO or PWM?
-
-> +};
-> +
-> +/* Phy is on SoM. MDI signals pre-magentics are on the card edge */
-> +&mdio {
-> +	lan8720a: ethernet-phy@0 {
-> +		compatible = "ethernet-phy-ieee802.3-c22";
-> +		reg = <0>;
-> +	};
-> +};
-> +
-> +/* Exposed as SD on the card edge */
-> +&mmc0 {
-> +	pinctrl-0 = <&mmc0_pins>;
-> +	pinctrl-names = "default";
-> +	vmmc-supply = <&reg_vcc3v3>;
-> +	broken-cd;
-> +	disable-wp;
-> +	bus-width = <4>;
-> +};
-
-I think this node doesn't belong into the SoM .dtsi, as many details
-are not set here, but on the carrier board: card detect, write protect,
-Vmmc supply, and even bus width (could be 1 as well). So please move
-this node to where the SD card connector sits. You might want to keep
-the pinctrl nodes in here.
-
-> +
-> +/* Connected to the on-board ESP32 */
-> +&mmc1 {
-> +	pinctrl-0 = <&mmc1_pins>;
-> +	pinctrl-names = "default";
-> +	vmmc-supply = <&reg_vcc3v3>;
-> +	bus-width = <4>;
-> +	non-removable;
-> +	status = "okay";
-> +};
-> +
-> +/* Connected to the on-board eMMC */
-> +&mmc2 {
-> +	pinctrl-0 = <&mmc2_pins>;
-> +	pinctrl-names = "default";
-> +	vmmc-supply = <&reg_vcc3v3>;
-> +	vqmmc-supply = <&reg_vcc3v3>;
-> +	bus-width = <4>;
-> +	non-removable;
-> +	status = "okay";
-> +};
-> +
-> +&pio {
-> +	vcc-pb-supply = <&reg_vcc3v3>;
-> +	vcc-pc-supply = <&reg_vcc3v3>;
-> +	vcc-pd-supply = <&reg_vcc3v3>;
-> +	vcc-pe-supply = <&reg_vcc3v3>;
-> +	vcc-pf-supply = <&reg_vcc3v3>;
-> +	vcc-pg-supply = <&reg_vcc3v3>;
-> +
-> +	gpio-line-names = "", "", "", "", // PA
-> +					  "", "", "", "",
-> +					  "", "", "", "",
-> +					  "", "", "", "",
-> +					  "", "", "", "",
-> +					  "", "", "", "",
-> +					  "", "", "", "",
-> +					  "", "", "", "",
-> +					  "", "", "CAN0_TX", "CAN0_RX", // PB
-> +					  "CAN1_TX", "CAN1_RX", "UART3_TX", "UART3_RX",
-> +					  "", "", "", "",
-> +					  "", "", "", "",
-> +					  "", "", "", "",
-> +					  "", "", "", "",
-> +					  "", "", "", "",
-> +					  "", "", "", "",
-> +					  "", "", "eMMC_CLK", "eMMC_CMD", // PC
-> +					  "eMMC_D2", "eMMC_D1", "eMMC_D0", "eMMC_D3",
-> +					  "", "", "", "",
-> +					  "", "", "", "",
-> +					  "", "", "", "",
-> +					  "", "", "", "",
-> +					  "", "", "", "",
-> +					  "", "", "", "",
-> +					  "", "", "", "", // PD
-> +					  "", "", "", "",
-> +					  "", "", "SPI1_CS", "SPI1_CLK",
-> +					  "SPI1_MOSI", "SPI1_MISO", "SPI1_HOLD", "SPI1_WP",
-> +					  "PD16", "", "", "",
-> +					  "I2C2_SCL", "I2C2_SDA", "PD22", "",
-> +					  "", "", "", "",
-> +					  "", "", "", "",
-> +					  "ETH_CRSDV", "ETH_RXD0", "ETH_RXD1", "ETH_TXCK", // PE
-> +					  "ETH_TXD0", "ETH_TXD1", "ETH_TXEN", "",
-> +					  "ETH_MDC", "ETH_MDIO", "QWIIC_nINT", "",
-> +					  "", "", "", "",
-> +					  "", "", "", "",
-> +					  "", "", "", "",
-> +					  "", "", "", "",
-> +					  "", "", "", "",
-> +					  "SD_D1", "SD_D0", "SD_CLK", "SD_CLK", // PF
-> +					  "SD_D3", "SD_D2", "PF6", "",
-> +					  "", "", "", "",
-> +					  "", "", "", "",
-> +					  "", "", "", "",
-> +					  "", "", "", "",
-> +					  "", "", "", "",
-> +					  "", "", "", "",
-> +					  "ESP_CLK", "ESP_CMD", "ESP_D0", "ESP_D1", // PG
-> +					  "ESP_D2", "ESP_D3", "UART1_TXD", "UART1_RXD",
-> +					  "ESP_nBOOT", "ESP_nRST", "I2C3_SCL", "I2C3_SDA",
-> +					  "I2S1_WS", "I2S1_CLK", "I2S1_DIN0", "I2S1_DOUT0",
-> +					  "", "", "", "",
-> +					  "", "", "", "",
-> +					  "", "", "", "",
-> +					  "", "", "", "";
-> +};
-> +
-> +/* Remove the unused CK pin from the pinctl as it is unconnected */
-> +&rmii_pe_pins {
-> +	pins = "PE0", "PE1", "PE2", "PE3", "PE4",
-> +		   "PE5", "PE6", "PE8", "PE9";
-> +};
-> +
-> +/* Exposed as SPI on the card-edge */
-> +&spi1 {
-> +	#address-cells = <1>;
-> +	#size-cells = <0>;
-> +	pinctrl-0 = <&spi1_pins>;
-> +	pinctrl-names = "default";
-> +	cs-gpios = <0>;
-> +};
-
-I wonder if this belongs here as well, since it's again just generic
-edge pins.
+Good to have an explicit revert anyway, to make this case clear.
 
 Cheers,
 Andre
 
-
-> +
-> +/* Connected to the Bootloader/Console of the ESP32 */
-> +&uart1 {
-> +	pinctrl-0 = <&uart1_pg6_pins>;
-> +	pinctrl-names = "default";
-> +	status = "okay";
-> +};
-> +
-> +/* Exposed as the Console/Debug UART on the card-edge */
-> +&uart3 {
-> +	pinctrl-0 = <&uart3_pb_pins>;
-> +	pinctrl-names = "default";
-> +	status = "okay";
-> +};
+> ---
+>  drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c | 32 ++++++++++-----------
+>  1 file changed, 16 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c b/drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c
+> index 95b764ee1c0d..b97de80ae2f3 100644
+> --- a/drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c
+> +++ b/drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c
+> @@ -546,33 +546,33 @@ static const struct sunxi_desc_pin a100_pins[] = {
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x2, "i2c0"),		/* SCK */
+> -		  SUNXI_FUNCTION(0x5, "emac"),		/* RXD1 */
+> +		  SUNXI_FUNCTION(0x5, "emac0"),		/* RXD1 */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 0)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 1),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x2, "i2c0"),		/* SDA */
+> -		  SUNXI_FUNCTION(0x5, "emac"),		/* RXD0 */
+> +		  SUNXI_FUNCTION(0x5, "emac0"),		/* RXD0 */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 1)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 2),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x2, "i2c1"),		/* SCK */
+> -		  SUNXI_FUNCTION(0x5, "emac"),		/* RXCTL */
+> +		  SUNXI_FUNCTION(0x5, "emac0"),		/* RXCTL */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 2)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 3),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x2, "i2c1"),		/* SDA */
+>  		  SUNXI_FUNCTION(0x3, "cir0"),		/* OUT */
+> -		  SUNXI_FUNCTION(0x5, "emac"),		/* CLKIN */
+> +		  SUNXI_FUNCTION(0x5, "emac0"),		/* CLKIN */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 3)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 4),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x2, "uart3"),		/* TX */
+>  		  SUNXI_FUNCTION(0x3, "spi1"),		/* CS */
+> -		  SUNXI_FUNCTION(0x5, "emac"),		/* TXD1 */
+> +		  SUNXI_FUNCTION(0x5, "emac0"),		/* TXD1 */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 4)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 5),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+> @@ -580,14 +580,14 @@ static const struct sunxi_desc_pin a100_pins[] = {
+>  		  SUNXI_FUNCTION(0x2, "uart3"),		/* RX */
+>  		  SUNXI_FUNCTION(0x3, "spi1"),		/* CLK */
+>  		  SUNXI_FUNCTION(0x4, "ledc"),
+> -		  SUNXI_FUNCTION(0x5, "emac"),		/* TXD0 */
+> +		  SUNXI_FUNCTION(0x5, "emac0"),		/* TXD0 */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 5)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 6),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x2, "uart3"),		/* RTS */
+>  		  SUNXI_FUNCTION(0x3, "spi1"),		/* MOSI */
+> -		  SUNXI_FUNCTION(0x5, "emac"),		/* TXCK */
+> +		  SUNXI_FUNCTION(0x5, "emac0"),		/* TXCK */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 6)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 7),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+> @@ -595,7 +595,7 @@ static const struct sunxi_desc_pin a100_pins[] = {
+>  		  SUNXI_FUNCTION(0x2, "uart3"),		/* CTS */
+>  		  SUNXI_FUNCTION(0x3, "spi1"),		/* MISO */
+>  		  SUNXI_FUNCTION(0x4, "spdif"),		/* OUT */
+> -		  SUNXI_FUNCTION(0x5, "emac"),		/* TXCTL */
+> +		  SUNXI_FUNCTION(0x5, "emac0"),		/* TXCTL */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 7)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 8),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+> @@ -611,7 +611,7 @@ static const struct sunxi_desc_pin a100_pins[] = {
+>  		  SUNXI_FUNCTION(0x2, "dmic"),		/* DATA0 */
+>  		  SUNXI_FUNCTION(0x3, "spi2"),		/* CLK */
+>  		  SUNXI_FUNCTION(0x4, "i2s2"),		/* BCLK */
+> -		  SUNXI_FUNCTION(0x5, "emac"),		/* MDC */
+> +		  SUNXI_FUNCTION(0x5, "emac0"),		/* MDC */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 9)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 10),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+> @@ -619,7 +619,7 @@ static const struct sunxi_desc_pin a100_pins[] = {
+>  		  SUNXI_FUNCTION(0x2, "dmic"),		/* DATA1 */
+>  		  SUNXI_FUNCTION(0x3, "spi2"),		/* MOSI */
+>  		  SUNXI_FUNCTION(0x4, "i2s2"),		/* LRCK */
+> -		  SUNXI_FUNCTION(0x5, "emac"),		/* MDIO */
+> +		  SUNXI_FUNCTION(0x5, "emac0"),		/* MDIO */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 10)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 11),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+> @@ -642,33 +642,33 @@ static const struct sunxi_desc_pin a100_pins[] = {
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x3, "i2c3"),		/* SCK */
+>  		  SUNXI_FUNCTION(0x4, "i2s3"),		/* MCLK */
+> -		  SUNXI_FUNCTION(0x5, "emac"),		/* EPHY */
+> +		  SUNXI_FUNCTION(0x5, "emac0"),		/* EPHY */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 13)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 14),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x4, "i2s3"),		/* BCLK */
+> -		  SUNXI_FUNCTION(0x5, "emac"),		/* RXD3 */
+> +		  SUNXI_FUNCTION(0x5, "emac0"),		/* RXD3 */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 14)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 15),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x4, "i2s3"),		/* LRCK */
+> -		  SUNXI_FUNCTION(0x5, "emac"),		/* RXD2 */
+> +		  SUNXI_FUNCTION(0x5, "emac0"),		/* RXD2 */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 15)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 16),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x3, "i2s3_dout0"),	/* DOUT0 */
+>  		  SUNXI_FUNCTION(0x4, "i2s3_din1"),	/* DIN1 */
+> -		  SUNXI_FUNCTION(0x5, "emac"),		/* RXCK */
+> +		  SUNXI_FUNCTION(0x5, "emac0"),		/* RXCK */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 16)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 17),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x3, "i2s3_dout1"),	/* DOUT1 */
+>  		  SUNXI_FUNCTION(0x4, "i2s3_din0"),	/* DIN0 */
+> -		  SUNXI_FUNCTION(0x5, "emac"),		/* TXD3 */
+> +		  SUNXI_FUNCTION(0x5, "emac0"),		/* TXD3 */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 17)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 18),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+> @@ -676,7 +676,7 @@ static const struct sunxi_desc_pin a100_pins[] = {
+>  		  SUNXI_FUNCTION(0x2, "cir0"),		/* OUT */
+>  		  SUNXI_FUNCTION(0x3, "i2s3_dout2"),	/* DOUT2 */
+>  		  SUNXI_FUNCTION(0x4, "i2s3_din2"),	/* DIN2 */
+> -		  SUNXI_FUNCTION(0x5, "emac"),		/* TXD2 */
+> +		  SUNXI_FUNCTION(0x5, "emac0"),		/* TXD2 */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 6, 18)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(H, 19),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
 
