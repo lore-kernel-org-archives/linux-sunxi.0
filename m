@@ -1,116 +1,76 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC14E20E6E2
-	for <linux-sunxi@lists.linux.dev>; Tue,  8 Jul 2025 09:20:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C2A42C17A8;
+	Tue,  8 Jul 2025 12:48:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751966445; cv=none; b=f+odY5QKkB9djAhiGByUIpbnWRh8Iyc1NG9D/qs8MYvsEPgABOmbfHBo1nsi/jCtMIwfuQ5SJ9Fs2CioMpVY4GjGKNe8Qf6mgGtUb80z406LejFmSmLW+UQ4xkUsV5RfJI11/zWgL8pZgSimjQDswZddLlXZCwRZvxwAbZE7rns=
+	t=1751978923; cv=none; b=gl+SgTQ2/RQ4M/JHjTZXcFAx7RfQnC3VhHTneLo+0MCJOohAQUhQTZWJx8iF8ptOY/DFpYzgdMBL1jc3ZMrmvVYHcGRtn+5+o7i5gOwU6oxzbPsB/jvBXTMtNrhAQluJD/GnJLwnIdDChtep/u6weXUDCKaDyea+uoW9v3YD9/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751966445; c=relaxed/simple;
-	bh=l1p9E+2xD7IPs8x4YgdT+UmoalDBU43AFSMeGpgmz6k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kSJ7PkIJmV7QfuQpN+EApxDckjJt3vXiuyVB6DGaQO2AFg7mqkfDTHZr3WRm5t6S1l+uJfnbP5ltXbPdsCq8XfqfomYpDXTcPu3b4jSZ3Hp8haxmGJPczMdYLpJVoGaGkS+sFvc/9KWATN0dSymZRAALdF/ifVkWINhgivqRopw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CgperA7C; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1751978923; c=relaxed/simple;
+	bh=g28q4NZzgjbR8MHAVRF184NIvjRYYLJKJLr/vf5Xqa0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GXCU1h3uA03g70r667haXjXaPb1pIjLAsCbEjEMXxCi0aeZGadDzvmxkdjT97ktr6Fq0I2mDmNKM92GbKYcRa8YxiQD1T7PZdZOw+IIZlqf7vQ6l+0idWUg04GjxP17AXLN8X+w3JWUNfel/oATQtGyD4IY+3itTpoxW0zJCdug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DvfZfLAN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CgperA7C"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1751966442;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WlFrHWCBZ0GRvhfqPcMu6mVAR9pzqmTshDoLe8nyLtA=;
-	b=CgperA7C9IUvRXD5rN3JRI4rRW1Au1JZ3NQ9tRVy5a+NfYs+ODh3+kcd+ZZ7lJAflVpH3z
-	+VfmxpcOhZwz3Q6kdR1CQADi0kkhqzRvHallbRLxROHiuaBr/OAFWoiqn2/WdZXymxOqQx
-	xA3OZB6yg2OMIrULtrXfVGL01Ep17+Q=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-596-41bBzK1GNy60nanWkElvaQ-1; Tue, 08 Jul 2025 05:20:41 -0400
-X-MC-Unique: 41bBzK1GNy60nanWkElvaQ-1
-X-Mimecast-MFC-AGG-ID: 41bBzK1GNy60nanWkElvaQ_1751966440
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-3a4fabcafecso1825965f8f.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 08 Jul 2025 02:20:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751966440; x=1752571240;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WlFrHWCBZ0GRvhfqPcMu6mVAR9pzqmTshDoLe8nyLtA=;
-        b=fJAf3U95LRcVsfR9DIwWQc6ycsx7N2V5Dik4cB09CizQvPcUhFQEWFAqcSVA70TeiZ
-         J7MaAcuCp5H1xLJtF66r4+3A/9HiTkag0n4/l0Wl7vK9MaRH5f/ZExgi6+zm++2lNBeL
-         XtB9bk3QIngJRsS1+n63EnKzooMuNM7d3ZxnHixUWNnI73Rq6ror9dyKrEjIIYQyS8+8
-         9QMYqeZHn+hlnOEZ27IXuqNEFI/wLWDCu1Q20ecRZFG8GyP1IX4Co2GA5eA/hUfXHgmO
-         sZ1lpj1u0QiWNlyfN1UJMr3RNlNySIxbrDsjeTkZI2zjtX3aVTe+wZuEFZYJBoIkqU8U
-         2zMw==
-X-Forwarded-Encrypted: i=1; AJvYcCV9HSNJo9sOub4mCLzWbnRTXAG4M2YKW+2f0AmWsKjH7B1S7LA8w95D3aLgUVlTVo3czhBwYU0VYaOfug==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwkUkNWA49cslQAwxIUSb3M+ZwICkeTXD3YqFBSyd2mN929yIf4
-	UiI3zNEIJtE+lYFTAO6dYJe5vzc4c0JUXGqv8hjKrlBRD3uUZz8xgJ96UJWauNZJRwG+BPMZCyp
-	xkyz6yCC0o5zPKDYmogtmqUzFK6/qSHmQV3mpr/MwY9R9UweUeb/397GKcraU4PeX
-X-Gm-Gg: ASbGncudHAF/WJxaNQNKJlKRLw6DX3kzn3xRg+D3e88DuMYuW765GH50jp8DJgEesfR
-	tSofEZoQjUdI0qqEkFmYguQByu/+kbeinTIXEHD4PigWZA8T+QlBpJXdVYMi5X12Ik40MenotBR
-	L7vDhemWeHfBR/GaZjp5+NCP/VyP9BlFkzmTs+facf5xv4JEdFV41G7IwifN4138wmv63ZirI5I
-	mx8ZPX8/7WXcQIT7jwjTeN+dW6Vd/+ADdjSq8xQa/gNglJhwYFImr1xIx5si6+7POrmutpSnryH
-	8ayYdHIwQqQmI6y+DNQyG4bEj2AUh6YzVfz3ywAhicUG7RHuxH6GeeX0i0GlUQVT0pSWcA==
-X-Received: by 2002:a05:6000:4a10:b0:3a3:67bb:8f3f with SMTP id ffacd0b85a97d-3b5ddea1c51mr2238706f8f.53.1751966440099;
-        Tue, 08 Jul 2025 02:20:40 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGh8nD1EiPG7m0mg6QXkWYeptqjWcfmnci5Vnj6Jp422MialDVXM6maHNA8ghrBApwgmMdE1Q==
-X-Received: by 2002:a05:6000:4a10:b0:3a3:67bb:8f3f with SMTP id ffacd0b85a97d-3b5ddea1c51mr2238665f8f.53.1751966439672;
-        Tue, 08 Jul 2025 02:20:39 -0700 (PDT)
-Received: from ?IPV6:2a0d:3344:2717:8910:b663:3b86:247e:dba2? ([2a0d:3344:2717:8910:b663:3b86:247e:dba2])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b47285d3c6sm12548795f8f.95.2025.07.08.02.20.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Jul 2025 02:20:39 -0700 (PDT)
-Message-ID: <b676eb1b-265a-4647-b340-be88559a3561@redhat.com>
-Date: Tue, 8 Jul 2025 11:20:17 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DvfZfLAN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE67AC4CEED;
+	Tue,  8 Jul 2025 12:48:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751978922;
+	bh=g28q4NZzgjbR8MHAVRF184NIvjRYYLJKJLr/vf5Xqa0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DvfZfLAN6D+0IltIX1CfxRC4LV3nqjMMYob8x+k/tq5lZH2vSghsXQkcSbA6EkQ9s
+	 s53PpjKI1lcBbHdI2NcG7YgWNJD/umeQ7hSWowRigX5AajnQC6NZjd9SQJ85h8FmSo
+	 wobXcIJYzu0qP0EQhLQ8udcdZ/mYPIfpbFoHyvSqPtGkaOA2HwGwFKncmjgrsafVHG
+	 mqInBklOngKJlfwPJWyWKU7XKPTRszd4I+D9E00vA3NnpyjzWjFWxkEYd7yJWJNFJO
+	 F+2MumPHbe9KOXGyWz3qSk6k3QXW78S74nC4IwI+IJFiwEFM/w6t5DGsrBXr42/RLm
+	 4I+YmUWHiFGTg==
+Date: Tue, 8 Jul 2025 07:48:41 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Chen-Yu Tsai <wens@kernel.org>
+Cc: netdev@vger.kernel.org, Jernej Skrabec <jernej@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>, Conor Dooley <conor+dt@kernel.org>,
+	devicetree@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-arm-kernel@lists.infradead.org,
+	Jakub Kicinski <kuba@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	linux-sunxi@lists.linux.dev, Andrew Lunn <andrew+netdev@lunn.ch>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Eric Dumazet <edumazet@google.com>
+Subject: Re: [PATCH net 1/2] dt-bindings: net: sun8i-emac: Rename A523 EMAC0
+ to GMAC0
+Message-ID: <175197892100.398224.11294321138188145975.robh@kernel.org>
+References: <20250628054438.2864220-1-wens@kernel.org>
+ <20250628054438.2864220-2-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net 0/2] allwinner: a523: Rename emac0 to gmac0
-To: wens@kernel.org, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: Andrew Lunn <andrew@lunn.ch>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Jernej Skrabec <jernej@kernel.org>,
- Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, Andre Przywara <andre.przywara@arm.com>
-References: <20250628054438.2864220-1-wens@kernel.org>
- <20250705083600.2916bf0c@minigeek.lan>
- <CAGb2v64My=A_Jw+CBCsqno3SsSSTtBFKXOrgLv+Nyq_z5oeYBg@mail.gmail.com>
- <e9c5949d-9ac5-4b33-810d-b716ccce5fe9@lunn.ch>
- <20250706002223.128ff760@minigeek.lan>
- <CAGb2v64vxtAVi3QK3a=mvDz2u+gKQ6XPMN-JB46eEuwfusMG2w@mail.gmail.com>
- <20250707181513.6efc6558@donnerap.manchester.arm.com>
- <CAGb2v64UTr1YSm7VXtzk5jmD_J_20ddPcWww_NPzx-e5HvaOpQ@mail.gmail.com>
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <CAGb2v64UTr1YSm7VXtzk5jmD_J_20ddPcWww_NPzx-e5HvaOpQ@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: azcnVqdC6Ak0oPCEu0Gm7Lmfv2j7MvoaRweWQOqdIkE_1751966440
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250628054438.2864220-2-wens@kernel.org>
 
-On 7/7/25 7:34 PM, Chen-Yu Tsai wrote:
-> On Tue, Jul 8, 2025 at 1:15 AM Andre Przywara <andre.przywara@arm.com> wrote:
->> So if you really insist on this: please go ahead and merge it, so that
->> the 6.16 release contains the new name.
+
+On Sat, 28 Jun 2025 13:44:37 +0800, Chen-Yu Tsai wrote:
+> From: Chen-Yu Tsai <wens@csie.org>
 > 
-> I'm afraid I insist.
+> The datasheets refer to the first Ethernet controller as GMAC0, not
+> EMAC0.
 > 
-> I think we still need an ack from the DT maintainers though, and then
-> the binding change would go through the net tree?
+> Rename the compatible string to align with the datasheets. A fix for
+> the device trees will be sent separately.
+> 
+> Fixes: 0454b9057e98 ("dt-bindings: net: sun8i-emac: Add A523 EMAC0 compatible")
+> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+> ---
+>  .../devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml      | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
 
-Note that such ack could require a bit of time more, as there are a few
-patches in the DT backlog.
-
-/P
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
