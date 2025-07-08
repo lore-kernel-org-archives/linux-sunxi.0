@@ -1,127 +1,150 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFC5326059D
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jul 2025 23:49:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B24B823C4FC
+	for <linux-sunxi@lists.linux.dev>; Tue,  8 Jul 2025 03:43:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751932197; cv=none; b=AReIJkthDrHFQeUFhmKP1z5meEEjI2mKWe+xorJKVJR1xeYwCgANNiBIZXXQq6oRoiA5HdQzV0OrgQunxZLFkSw7QhjGgCHekj0GR8601BhR+AAWAUqT+8YrM2zm3QgE+0vFHF9xVQxTfuf2fRN+KXZ1ROuAoY2SJ+Nk4UW9DTY=
+	t=1751946235; cv=none; b=hCPmwAAByvr8zNa5zJBDkGlwYTPgtK60IqBIIDzjrbVVyJiX2sE6gCQZeR3+kD+EB1gPX09q3PievkBokEDtqBaVPl5KbFAc8O97w/uaEbaJbToV4bg3wj2dDv0nng5mCzhstEgAJwI7DwAsXt8G8pDqdDsJipOteNtPisEr3Wg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751932197; c=relaxed/simple;
-	bh=nvlO7Fdtn64jOtSo2h4M4ZpFo2+iKqrUOJuCkBaPvaA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uDbwCxlFeA5nA6pA9IyBkfVkbWpsjOYX1rFOekaySzrVaeejCO12gqVAJCac9ENgtowE5sQX+MhPuUKT8/PS/VSGRvUOjCydjO+p5L6VOaMFxd+wc2ArhK7tFxq8fGlkw/fYhEx4ZCxZKp8mjDTdYJ3OvGshNttIMi0jsbwK0O8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0E22E1515;
-	Mon,  7 Jul 2025 16:49:43 -0700 (PDT)
-Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6EFC13F66E;
-	Mon,  7 Jul 2025 16:49:53 -0700 (PDT)
-Date: Tue, 8 Jul 2025 00:48:09 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Paul Kocialkowski <paulk@sys-base.io>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-gpio@vger.kernel.org, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu
- Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
- Holland <samuel@sholland.org>, Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH v2 4/4] arm64: dts: allwinner: a133-liontron-h-a133l:
- Add Ethernet support
-Message-ID: <20250708004731.37fa5129@minigeek.lan>
-In-Reply-To: <20250708003348.58fe509f@minigeek.lan>
-References: <20250707165155.581579-1-paulk@sys-base.io>
-	<20250707165155.581579-5-paulk@sys-base.io>
-	<20250708003348.58fe509f@minigeek.lan>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	s=arc-20240116; t=1751946235; c=relaxed/simple;
+	bh=qDuUJYM1LJXP6KqTu/ry7W53Diu11Fscq4h73EvMeUU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kdlaKrLoahMCDRXSs1CPwgyaKakKYV2qP1JvlOyJHfXTqz5XEDu9gn2/SfWotNsdZykyopvdpbsZvMClQqQr6FHd6rfKYG/TaXW8qsmQwScAACI5Y9NOJlRUec34KMOPZKr0/aAfmmJSdNHy93/gfSLF1GH5+L0XgtG+7v8Nd2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-553b60de463so3920827e87.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 07 Jul 2025 20:43:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751946229; x=1752551029;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=t6qI+uivx+bnd0zwfJl1YVkWkeyiKKg4Fij4wbpWozY=;
+        b=b+7L7ZUdRLKixnKa3ngyUroTEH831QvVwHHNd9nG3RuxV/Zuq69MXp/z2q4it0GlZG
+         pENEFdUkVMbb6jvJy4/re9z1TXvWFkndi4W0DTLAas3eGMV5E4BK2kOwTV4ow1w7ZLfz
+         JaF0iDDiPE9yXILOdVXs8B4jrp6z+MXoP206+08vH444mLMds8MxiUEpPiAgVYez97uU
+         5/+FEF76pAEqXY7R9YvzQhbu6DJ8igMFnaghcXXYwQ1t+WqJ86meUYWLO0LHY2v6ECtA
+         KYtdQiG1XlcD97gkjrpwxAfCAndPCCfB+jzAku738V2dI+oSn3ejlNHzD3RSLs/gcY+i
+         pE3A==
+X-Forwarded-Encrypted: i=1; AJvYcCU4XPNtr+Xowj8unwWyeuY+faYEHu6juIGKa8Kp+m49r2JLjc+go2+Z1nqTklo7XotDgLBc51WTc7SdVQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YytW+r5atHU2xdMAVFQytQcgZtF8CGpZvhN1QQP+DbvGe68mK16
+	r/K4Gu4xVe4HT7QKh6j6cqjuSIH/tsClutBUhewofHft0n+FVtjeOBImOP28AkWi
+X-Gm-Gg: ASbGncuXK10+L+pcF7EAQtbaEr5swLQnHMX8KPQR+agqK7yVw+WDiezr+xyFWcAk2Rr
+	OZ6w9YlL+q8YnTLqwiIlKY+6k3tEfBbyqYX6AN6wtbvEGdCeGAyAGWq74MjcUjf7yi3paAj5y+s
+	B4CfzYtKLiQzixOQz2u1Ke0z1JWT0mz+F1jH4nxr4x90EvgaXeUxeWShuYvh5Dh2H3QM81wPEvv
+	WevTDQpd32z+T4/jD/vhFI3uG0+xL3LJQ6HrGCt5mwm3OzKuqtvNm7kd6/d3BQ9zsT+Fs62kNXg
+	AiFIvaBfXKLI4LrvCYsseZrDt796fmfr447h9Lsd1UeiAnhoPhTyNkrSyTtdLNFZbiNiQpL4EFC
+	43b+cD+/S7S38P3GOtZ4=
+X-Google-Smtp-Source: AGHT+IENATEMEbwAzO3JXXEnwae+q8xITanDuSazNL/R2kbiOv8Wk1BoLt2zTzvbUd9GEkj6MXuoQw==
+X-Received: by 2002:a05:6512:6193:b0:553:3a0a:1892 with SMTP id 2adb3069b0e04-556e6e2e504mr4272926e87.15.1751946228929;
+        Mon, 07 Jul 2025 20:43:48 -0700 (PDT)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com. [209.85.208.170])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-556384d5e71sm1526513e87.259.2025.07.07.20.43.48
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Jul 2025 20:43:48 -0700 (PDT)
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-32e14cf205cso31362001fa.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 07 Jul 2025 20:43:48 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXuQXWiEev7/VEC017H+LN6+zxkDi7OjBE71CzLsIvdhmWCtwfzc/FgVfVq2n1iT+nw+kPVMDJiUTjRXg==@lists.linux.dev
+X-Received: by 2002:a2e:a7ca:0:b0:32c:102a:f02d with SMTP id
+ 38308e7fff4ca-32e5f61e89emr40266751fa.30.1751946228111; Mon, 07 Jul 2025
+ 20:43:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20250706025625.2707073-1-iuncuim@gmail.com> <20250708004458.15a2feae@minigeek.lan>
+In-Reply-To: <20250708004458.15a2feae@minigeek.lan>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Tue, 8 Jul 2025 11:43:34 +0800
+X-Gmail-Original-Message-ID: <CAGb2v67Pu7CTJx3K=3CVSbQ9mNB-4Vrq+iaA+hUWtxdwS2aD0Q@mail.gmail.com>
+X-Gm-Features: Ac12FXyZmm99FipGMPnPhGzlT7tlbKyfxwlUr8RD3z4V1vxu7PoX_X4yAfDEgUg
+Message-ID: <CAGb2v67Pu7CTJx3K=3CVSbQ9mNB-4Vrq+iaA+hUWtxdwS2aD0Q@mail.gmail.com>
+Subject: Re: [PATCH 0/2] arm64: sunxi: a523: Enable Mali GPU
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: iuncuim <iuncuim@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 8 Jul 2025 00:34:25 +0100
-Andre Przywara <andre.przywara@arm.com> wrote:
+On Tue, Jul 8, 2025 at 7:46=E2=80=AFAM Andre Przywara <andre.przywara@arm.c=
+om> wrote:
+>
+> On Sun,  6 Jul 2025 10:56:21 +0800
+> iuncuim <iuncuim@gmail.com> wrote:
+>
+> > From: Mikhail Kalashnikov <iuncuim@gmail.com>
+> >
+> > This patch adds gpu support on devices with a523 processor. Since there=
+ is
+> > no support for image output yet, the gpu is disabled after boot up.
+> >
+> > $ dmesg | grep panfrost
+> > [    3.826968] panfrost 1800000.gpu: clock rate =3D 432000000
+> > [    3.832305] panfrost 1800000.gpu: bus_clock rate =3D 200000000
+> > [    3.838353] panfrost 1800000.gpu: mali-g57 id 0x9091 major 0x0 minor=
+ 0x1
+> >                status 0x0
+> > [    3.846050] panfrost 1800000.gpu: features: 00000000,000019f7, issue=
+s:
+> >                00000001,80000400
+> > [    3.854134] panfrost 1800000.gpu: Features: L2:0x07110206 Shader:0x0=
+0000000
+> >                Tiler:0x00000809 Mem:0x1 MMU:0x00002830 AS:0xff JS:0x7
+> > [    3.866011] panfrost 1800000.gpu: shader_present=3D0x1 l2_present=3D=
+0x1
+> > [    3.874108] [drm] Initialized panfrost 1.3.0 for 1800000.gpu on mino=
+r 0
+>
+> So what confidence do we have that this really works, apart from these
+> successful initialisation messages? Has this been shown to work with
+> some (yet-out-of-tree) DRM patches, to produce 3D rendered output? I
+> wonder if we should wait with upstreaming until we can really test this
+> on some kind of screen.
 
-Hi Paul,
+I ran glmark2-es2-drm using vkms, and it seemed to run correctly.
+The GPU job interrupt was triggering frequently, and the GPU mmu
+interrupt was triggered twice for each run. This was with Mesa
+25.0.2 from Debian bookworm backports.
 
-forgot to mention: can you please add an ethernet0 alias, to make
-U-Boot generate a MAC address, from the SID?
+So this is sort of
 
-Cheers,
-Andre
+Tested-by: Chen-Yu Tsai <wens@csie.org>
 
-> On Mon,  7 Jul 2025 18:51:55 +0200
-> Paul Kocialkowski <paulk@sys-base.io> wrote:
-> 
-> Hi Paul,
-> 
-> > The Liontron H-A133L board features an Ethernet controller with a
-> > JLSemi JL1101 PHY. Its reset pin is tied to the PH12 GPIO.
-> > 
-> > Note that the reset pin must be handled as a bus-wide reset GPIO in
-> > order to let the MDIO core properly reset it before trying to read
-> > its identification registers. There's no other device on the MDIO bus.  
-> 
-> putting the PHY reset GPIO into the MDIO node is a clever solution, I
-> was struggling with putting it either in the MAC or PHY node, though
-> conceptually it would still belong in the latter, I think. But this
-> might be a more generic problem: for most other devices we activate
-> reset and clock gates *before* trying to access them, though this might
-> be historically different for Ethernet PHYs.
->  
-> > The datasheet of the PHY mentions that the reset signal must be held
-> > for 1 ms to take effect. Make it 2 ms (and the same for post-delay) to
-> > be on the safe side without wasting too much time during boot.
-> > 
-> > Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>  
-> 
-> Despite the above, this looks fine, and works for me:
-> 
-> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-> Tested-by: Andre Przywara <andre.przywara@arm.com>
-> 
+If anyone has some idea about how to capture the output, I can give that
+a try.
+
 > Cheers,
 > Andre
-> 
-> > ---
-> >  .../sun50i-a133-liontron-h-a133l.dts          | 19 +++++++++++++++++++
-> >  1 file changed, 19 insertions(+)
-> > 
-> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a133-liontron-h-a133l.dts b/arch/arm64/boot/dts/allwinner/sun50i-a133-liontron-h-a133l.dts
-> > index fe77178d3e33..90a50910f07b 100644
-> > --- a/arch/arm64/boot/dts/allwinner/sun50i-a133-liontron-h-a133l.dts
-> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-a133-liontron-h-a133l.dts
-> > @@ -65,6 +65,25 @@ &ehci1 {
-> >  	status = "okay";
-> >  };
-> >  
-> > +&emac0 {
-> > +	pinctrl-names = "default";
-> > +	pinctrl-0 = <&rmii0_pins>;
-> > +	phy-handle = <&rmii_phy>;
-> > +	phy-mode = "rmii";
-> > +	status = "okay";
-> > +};
-> > +
-> > +&mdio0 {
-> > +	reset-gpios = <&pio 7 12 GPIO_ACTIVE_LOW>; /* PH12 */
-> > +	reset-delay-us = <2000>;
-> > +	reset-post-delay-us = <2000>;
-> > +
-> > +	rmii_phy: ethernet-phy@1 {
-> > +		compatible = "ethernet-phy-ieee802.3-c22";
-> > +		reg = <1>;
-> > +	};
-> > +};
-> > +
-> >  &mmc0 {
-> >  	vmmc-supply = <&reg_dcdc1>;
-> >  	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>; /* PF6 */  
-> 
-
+>
+> >
+> > Tested on x96qproplus and walnutpi 2b devices.
+> >
+> > Based on v6.16-rc4 with patches:
+> > https://lore.kernel.org/all/20250628054438.2864220-1-wens@kernel.org
+> > https://lore.kernel.org/linux-sunxi/20250628161608.3072968-1-wens@kerne=
+l.org
+> > https://lore.kernel.org/linux-sunxi/20250627152918.2606728-1-wens@kerne=
+l.org/
+> >
+> >
+> > iuncuim (2):
+> >   arm64: dts: allwinner: a523: add Mali GPU node
+> >   arm64: dts: allwinner: a523: enable Mali GPU for all boards
+> >
+> >  arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi    | 15 +++++++++++++++
+> >  .../boot/dts/allwinner/sun55i-a527-cubie-a5e.dts  |  5 +++++
+> >  .../boot/dts/allwinner/sun55i-h728-x96qpro+.dts   |  5 +++++
+> >  .../boot/dts/allwinner/sun55i-t527-avaota-a1.dts  |  5 +++++
+> >  .../dts/allwinner/sun55i-t527-orangepi-4a.dts     |  5 +++++
+> >  5 files changed, 35 insertions(+)
+> >
+>
