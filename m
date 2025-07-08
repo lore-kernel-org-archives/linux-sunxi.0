@@ -1,150 +1,161 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B24B823C4FC
-	for <linux-sunxi@lists.linux.dev>; Tue,  8 Jul 2025 03:43:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14C3C29B224
+	for <linux-sunxi@lists.linux.dev>; Tue,  8 Jul 2025 08:18:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751946235; cv=none; b=hCPmwAAByvr8zNa5zJBDkGlwYTPgtK60IqBIIDzjrbVVyJiX2sE6gCQZeR3+kD+EB1gPX09q3PievkBokEDtqBaVPl5KbFAc8O97w/uaEbaJbToV4bg3wj2dDv0nng5mCzhstEgAJwI7DwAsXt8G8pDqdDsJipOteNtPisEr3Wg=
+	t=1751962739; cv=none; b=dhYxEa/YseNSRseTrdywVXzs6UpiI7eZopFRPCAxKNasES8zi91H2HFyGhnNIeuR+aXINSQMdvWW/cr6XRzFJeM3rzLqUohA+XI2gs8eoWwJMnZaLuo2XHn+fpY/hNdz9tTKJe2B9o4W7Fal/oPKuf1GgH0Yb/rz9nnNT7cGnuM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751946235; c=relaxed/simple;
-	bh=qDuUJYM1LJXP6KqTu/ry7W53Diu11Fscq4h73EvMeUU=;
+	s=arc-20240116; t=1751962739; c=relaxed/simple;
+	bh=403iFXS8Ya0K6jMaeM+1AN9CNalmRymO+IoXF72ZOak=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kdlaKrLoahMCDRXSs1CPwgyaKakKYV2qP1JvlOyJHfXTqz5XEDu9gn2/SfWotNsdZykyopvdpbsZvMClQqQr6FHd6rfKYG/TaXW8qsmQwScAACI5Y9NOJlRUec34KMOPZKr0/aAfmmJSdNHy93/gfSLF1GH5+L0XgtG+7v8Nd2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.53
+	 To:Cc:Content-Type; b=Fm40/FVBVRImMqsedijg/oJRVf33Gy5IQt7PoAIcKT7hQ0Wrekg+7u6U2rttwUQnMKefOJ4BnSIuhql7napvD0T0eC/66WRS10bMPaDNeTJ4YgfU+2snrmwvzFOuDbU48VrmNK3tLQpYV0Yzpd1K8vtrjWEbLCagrAkmHmZQaVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-553b60de463so3920827e87.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 07 Jul 2025 20:43:53 -0700 (PDT)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-553d771435fso3345044e87.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 08 Jul 2025 01:18:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751946229; x=1752551029;
+        d=1e100.net; s=20230601; t=1751962729; x=1752567529;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :reply-to:in-reply-to:references:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=t6qI+uivx+bnd0zwfJl1YVkWkeyiKKg4Fij4wbpWozY=;
-        b=b+7L7ZUdRLKixnKa3ngyUroTEH831QvVwHHNd9nG3RuxV/Zuq69MXp/z2q4it0GlZG
-         pENEFdUkVMbb6jvJy4/re9z1TXvWFkndi4W0DTLAas3eGMV5E4BK2kOwTV4ow1w7ZLfz
-         JaF0iDDiPE9yXILOdVXs8B4jrp6z+MXoP206+08vH444mLMds8MxiUEpPiAgVYez97uU
-         5/+FEF76pAEqXY7R9YvzQhbu6DJ8igMFnaghcXXYwQ1t+WqJ86meUYWLO0LHY2v6ECtA
-         KYtdQiG1XlcD97gkjrpwxAfCAndPCCfB+jzAku738V2dI+oSn3ejlNHzD3RSLs/gcY+i
-         pE3A==
-X-Forwarded-Encrypted: i=1; AJvYcCU4XPNtr+Xowj8unwWyeuY+faYEHu6juIGKa8Kp+m49r2JLjc+go2+Z1nqTklo7XotDgLBc51WTc7SdVQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YytW+r5atHU2xdMAVFQytQcgZtF8CGpZvhN1QQP+DbvGe68mK16
-	r/K4Gu4xVe4HT7QKh6j6cqjuSIH/tsClutBUhewofHft0n+FVtjeOBImOP28AkWi
-X-Gm-Gg: ASbGncuXK10+L+pcF7EAQtbaEr5swLQnHMX8KPQR+agqK7yVw+WDiezr+xyFWcAk2Rr
-	OZ6w9YlL+q8YnTLqwiIlKY+6k3tEfBbyqYX6AN6wtbvEGdCeGAyAGWq74MjcUjf7yi3paAj5y+s
-	B4CfzYtKLiQzixOQz2u1Ke0z1JWT0mz+F1jH4nxr4x90EvgaXeUxeWShuYvh5Dh2H3QM81wPEvv
-	WevTDQpd32z+T4/jD/vhFI3uG0+xL3LJQ6HrGCt5mwm3OzKuqtvNm7kd6/d3BQ9zsT+Fs62kNXg
-	AiFIvaBfXKLI4LrvCYsseZrDt796fmfr447h9Lsd1UeiAnhoPhTyNkrSyTtdLNFZbiNiQpL4EFC
-	43b+cD+/S7S38P3GOtZ4=
-X-Google-Smtp-Source: AGHT+IENATEMEbwAzO3JXXEnwae+q8xITanDuSazNL/R2kbiOv8Wk1BoLt2zTzvbUd9GEkj6MXuoQw==
-X-Received: by 2002:a05:6512:6193:b0:553:3a0a:1892 with SMTP id 2adb3069b0e04-556e6e2e504mr4272926e87.15.1751946228929;
-        Mon, 07 Jul 2025 20:43:48 -0700 (PDT)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com. [209.85.208.170])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-556384d5e71sm1526513e87.259.2025.07.07.20.43.48
+        bh=F8a42AL8Gvhq3V8KbpdB8ciKkimXt8q0Er3Jq8Vtdrk=;
+        b=uvw9wwOcC1rywlF/RLDR2ycfHwng8VVFenGZf+BAByAo+7oAbkvytl/PmrLk8+3YMW
+         66GwEZ99/UU7nXHqCeVZJW95lopcjAeWWbmiS5Ljb+oZWgbvkUErpa04lAxb13b05AIh
+         Dcn7BHCqnbm89MKXnq7w8B0gJzQNPG2OuodhraA3DMg7N4e3Lk9WyxsEspaksT+2X8Od
+         p6cIUP5jF8SgWy75F1t5ERjRjoc5IOLRqgt9IneOl3xydk5BVK5DdCvEwDqlADFP+IT4
+         Op1EyMqvDODbRXnWPkjXg7lTivOTpfEQv8ezC9gxnnoHjrFJSS6Xh+qSRCEFM34/94UN
+         tAVw==
+X-Forwarded-Encrypted: i=1; AJvYcCVd9faD3WClNrRVwJYGpo+35yxdFbvlo5covMmdJfQq9nKmz+cUPZxYVSnX+A8mgMRoYhSFhg/Ij0WJIQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyYDCbHmbJEbmgUBtMXPyfRu3/CxzpIrHVlHLFhJoVQBoF7nA8x
+	q9SzDxxc36kGFpH7hR7v8X73iEIAgpP2RcrK5aoBsDi3DI7pAIXSPLJhSxCTjsYv
+X-Gm-Gg: ASbGnctKRRMfqp9ZBkiKgoiHTEYXPs0yDarrhaSLE0FVhwo4rwg3V+vDigihATRzB3L
+	lOFiZrEK05Pb3pnOSD8mRqE9nZwJ8nJ4tvuSb2f3OCmmwozXfb6QElgLg76mDmFHNSIAgPy91Gk
+	BbiQ+o/g/jvjBCXAhDxARMYzRPP2z1LuWBgeP7yBwN8YZwDEcGvNkoNRVj27w8+4u3/yOPzr/GW
+	EBUrlsH2eqzh3mdbj2MgsAFIe3lDmfGyDM09wD9D7wQWDS/tR+L4V5ep5Vog/8TifkMs1PdwO4I
+	aiV+96/bvst/5+2dyN1NNq4qlt0Ypg7S9ciQaTtQ6PMgXaDtY10tmAeqFjmLnNMuE+6MsZhq111
+	t0Xgpq5mlUEUv90vKNRo=
+X-Google-Smtp-Source: AGHT+IF7qDCUnnrQIw+W24TCad/y51OX7FVVK8hGFb/OYtU124frQ28s7Fsr3wstmxW6+TF/MCLDAw==
+X-Received: by 2002:ac2:568a:0:b0:553:acbf:e003 with SMTP id 2adb3069b0e04-557f8304874mr694651e87.13.1751962728665;
+        Tue, 08 Jul 2025 01:18:48 -0700 (PDT)
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com. [209.85.208.173])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-558f64aca06sm16213e87.207.2025.07.08.01.18.47
         for <linux-sunxi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Jul 2025 20:43:48 -0700 (PDT)
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-32e14cf205cso31362001fa.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 07 Jul 2025 20:43:48 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXuQXWiEev7/VEC017H+LN6+zxkDi7OjBE71CzLsIvdhmWCtwfzc/FgVfVq2n1iT+nw+kPVMDJiUTjRXg==@lists.linux.dev
-X-Received: by 2002:a2e:a7ca:0:b0:32c:102a:f02d with SMTP id
- 38308e7fff4ca-32e5f61e89emr40266751fa.30.1751946228111; Mon, 07 Jul 2025
- 20:43:48 -0700 (PDT)
+        Tue, 08 Jul 2025 01:18:48 -0700 (PDT)
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-32f1df5703aso20481901fa.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 08 Jul 2025 01:18:47 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXH9ox83BqH1rUKJYAS1Sl3nQnGtkHFgf1AKMnqe2yoMsuIuOwQUsr4x7x2KaBMr0uPNQxC05/gH2xMiA==@lists.linux.dev
+X-Received: by 2002:a05:651c:1a0a:b0:32c:b83d:64ab with SMTP id
+ 38308e7fff4ca-32f39b07025mr4745291fa.24.1751962727665; Tue, 08 Jul 2025
+ 01:18:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250706025625.2707073-1-iuncuim@gmail.com> <20250708004458.15a2feae@minigeek.lan>
-In-Reply-To: <20250708004458.15a2feae@minigeek.lan>
+References: <20250707165155.581579-1-paulk@sys-base.io> <20250707165155.581579-5-paulk@sys-base.io>
+ <20250708003348.58fe509f@minigeek.lan>
+In-Reply-To: <20250708003348.58fe509f@minigeek.lan>
 Reply-To: wens@csie.org
 From: Chen-Yu Tsai <wens@csie.org>
-Date: Tue, 8 Jul 2025 11:43:34 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67Pu7CTJx3K=3CVSbQ9mNB-4Vrq+iaA+hUWtxdwS2aD0Q@mail.gmail.com>
-X-Gm-Features: Ac12FXyZmm99FipGMPnPhGzlT7tlbKyfxwlUr8RD3z4V1vxu7PoX_X4yAfDEgUg
-Message-ID: <CAGb2v67Pu7CTJx3K=3CVSbQ9mNB-4Vrq+iaA+hUWtxdwS2aD0Q@mail.gmail.com>
-Subject: Re: [PATCH 0/2] arm64: sunxi: a523: Enable Mali GPU
+Date: Tue, 8 Jul 2025 16:18:33 +0800
+X-Gmail-Original-Message-ID: <CAGb2v650h05aNvsQeQOjg63Ljcarxy2zqXnvNnjJ5+5ooGOELQ@mail.gmail.com>
+X-Gm-Features: Ac12FXxSawVr5l8DSW2OyggsnlD_AQQGgECd75bIDcC2Q3K6HqehhpaNB0rYrHE
+Message-ID: <CAGb2v650h05aNvsQeQOjg63Ljcarxy2zqXnvNnjJ5+5ooGOELQ@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] arm64: dts: allwinner: a133-liontron-h-a133l: Add
+ Ethernet support
 To: Andre Przywara <andre.przywara@arm.com>
-Cc: iuncuim <iuncuim@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+Cc: Paul Kocialkowski <paulk@sys-base.io>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
 	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+	Linus Walleij <linus.walleij@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 8, 2025 at 7:46=E2=80=AFAM Andre Przywara <andre.przywara@arm.c=
+On Tue, Jul 8, 2025 at 7:36=E2=80=AFAM Andre Przywara <andre.przywara@arm.c=
 om> wrote:
 >
-> On Sun,  6 Jul 2025 10:56:21 +0800
-> iuncuim <iuncuim@gmail.com> wrote:
+> On Mon,  7 Jul 2025 18:51:55 +0200
+> Paul Kocialkowski <paulk@sys-base.io> wrote:
 >
-> > From: Mikhail Kalashnikov <iuncuim@gmail.com>
-> >
-> > This patch adds gpu support on devices with a523 processor. Since there=
- is
-> > no support for image output yet, the gpu is disabled after boot up.
-> >
-> > $ dmesg | grep panfrost
-> > [    3.826968] panfrost 1800000.gpu: clock rate =3D 432000000
-> > [    3.832305] panfrost 1800000.gpu: bus_clock rate =3D 200000000
-> > [    3.838353] panfrost 1800000.gpu: mali-g57 id 0x9091 major 0x0 minor=
- 0x1
-> >                status 0x0
-> > [    3.846050] panfrost 1800000.gpu: features: 00000000,000019f7, issue=
-s:
-> >                00000001,80000400
-> > [    3.854134] panfrost 1800000.gpu: Features: L2:0x07110206 Shader:0x0=
-0000000
-> >                Tiler:0x00000809 Mem:0x1 MMU:0x00002830 AS:0xff JS:0x7
-> > [    3.866011] panfrost 1800000.gpu: shader_present=3D0x1 l2_present=3D=
-0x1
-> > [    3.874108] [drm] Initialized panfrost 1.3.0 for 1800000.gpu on mino=
-r 0
+> Hi Paul,
 >
-> So what confidence do we have that this really works, apart from these
-> successful initialisation messages? Has this been shown to work with
-> some (yet-out-of-tree) DRM patches, to produce 3D rendered output? I
-> wonder if we should wait with upstreaming until we can really test this
-> on some kind of screen.
+> > The Liontron H-A133L board features an Ethernet controller with a
+> > JLSemi JL1101 PHY. Its reset pin is tied to the PH12 GPIO.
+> >
+> > Note that the reset pin must be handled as a bus-wide reset GPIO in
+> > order to let the MDIO core properly reset it before trying to read
+> > its identification registers. There's no other device on the MDIO bus.
+>
+> putting the PHY reset GPIO into the MDIO node is a clever solution, I
+> was struggling with putting it either in the MAC or PHY node, though
+> conceptually it would still belong in the latter, I think. But this
+> might be a more generic problem: for most other devices we activate
+> reset and clock gates *before* trying to access them, though this might
+> be historically different for Ethernet PHYs.
 
-I ran glmark2-es2-drm using vkms, and it seemed to run correctly.
-The GPU job interrupt was triggering frequently, and the GPU mmu
-interrupt was triggered twice for each run. This was with Mesa
-25.0.2 from Debian bookworm backports.
+The phylib core has code to deal with reset GPIOs listed under the PHY node=
+.
+It might be worth checking why that doesn't work.
 
-So this is sort of
+OOTH, there's no code to deal with regulator supplies for PHYs.
 
-Tested-by: Chen-Yu Tsai <wens@csie.org>
+ChenYu
 
-If anyone has some idea about how to capture the output, I can give that
-a try.
-
+> > The datasheet of the PHY mentions that the reset signal must be held
+> > for 1 ms to take effect. Make it 2 ms (and the same for post-delay) to
+> > be on the safe side without wasting too much time during boot.
+> >
+> > Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
+>
+> Despite the above, this looks fine, and works for me:
+>
+> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+> Tested-by: Andre Przywara <andre.przywara@arm.com>
+>
 > Cheers,
 > Andre
 >
+> > ---
+> >  .../sun50i-a133-liontron-h-a133l.dts          | 19 +++++++++++++++++++
+> >  1 file changed, 19 insertions(+)
 > >
-> > Tested on x96qproplus and walnutpi 2b devices.
+> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a133-liontron-h-a133l=
+.dts b/arch/arm64/boot/dts/allwinner/sun50i-a133-liontron-h-a133l.dts
+> > index fe77178d3e33..90a50910f07b 100644
+> > --- a/arch/arm64/boot/dts/allwinner/sun50i-a133-liontron-h-a133l.dts
+> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-a133-liontron-h-a133l.dts
+> > @@ -65,6 +65,25 @@ &ehci1 {
+> >       status =3D "okay";
+> >  };
 > >
-> > Based on v6.16-rc4 with patches:
-> > https://lore.kernel.org/all/20250628054438.2864220-1-wens@kernel.org
-> > https://lore.kernel.org/linux-sunxi/20250628161608.3072968-1-wens@kerne=
-l.org
-> > https://lore.kernel.org/linux-sunxi/20250627152918.2606728-1-wens@kerne=
-l.org/
-> >
-> >
-> > iuncuim (2):
-> >   arm64: dts: allwinner: a523: add Mali GPU node
-> >   arm64: dts: allwinner: a523: enable Mali GPU for all boards
-> >
-> >  arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi    | 15 +++++++++++++++
-> >  .../boot/dts/allwinner/sun55i-a527-cubie-a5e.dts  |  5 +++++
-> >  .../boot/dts/allwinner/sun55i-h728-x96qpro+.dts   |  5 +++++
-> >  .../boot/dts/allwinner/sun55i-t527-avaota-a1.dts  |  5 +++++
-> >  .../dts/allwinner/sun55i-t527-orangepi-4a.dts     |  5 +++++
-> >  5 files changed, 35 insertions(+)
-> >
+> > +&emac0 {
+> > +     pinctrl-names =3D "default";
+> > +     pinctrl-0 =3D <&rmii0_pins>;
+> > +     phy-handle =3D <&rmii_phy>;
+> > +     phy-mode =3D "rmii";
+> > +     status =3D "okay";
+> > +};
+> > +
+> > +&mdio0 {
+> > +     reset-gpios =3D <&pio 7 12 GPIO_ACTIVE_LOW>; /* PH12 */
+> > +     reset-delay-us =3D <2000>;
+> > +     reset-post-delay-us =3D <2000>;
+> > +
+> > +     rmii_phy: ethernet-phy@1 {
+> > +             compatible =3D "ethernet-phy-ieee802.3-c22";
+> > +             reg =3D <1>;
+> > +     };
+> > +};
+> > +
+> >  &mmc0 {
+> >       vmmc-supply =3D <&reg_dcdc1>;
+> >       cd-gpios =3D <&pio 5 6 GPIO_ACTIVE_LOW>; /* PF6 */
+>
 >
