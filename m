@@ -1,145 +1,117 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C2452E8DF9;
-	Wed,  9 Jul 2025 15:38:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED62F23B60A;
+	Wed,  9 Jul 2025 15:53:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752075493; cv=none; b=lUaBiNqbD/kMpIWjY7nAHwunvq+/HmAVrjAFbJ7oik+HCj1z1nQnJVigoLfJl7QSzfZLGZmxPzKqL26aGb1eIR/EopDXRxHyQ8fkXHVB3YvPSLtgL0MfTljRmyjA8OjlooJx4Z+G6ucBTTQWfryCxv9rpS8sxiqZGPOGcMTVvog=
+	t=1752076427; cv=none; b=I+CMo4YYzAmpVmgZTNVJeCdwPU1mSM4i4L0kby9MHg98afk/+hE/U+/Q4N7DjgUputsMUSNZQOqtpXCDz/73btulxik20y+Lu+tecAfhneLYAEG3hGGaOdXCP0cqYEdKWnc7XA6O9MLV5jDMK40iL3FNjqf5y1QMPUZPM4jcaeY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752075493; c=relaxed/simple;
-	bh=Xl25DKWUzLXWpg5KhyYoRSsxahTDR5DpYlzJd9W9CaA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fyHtDB+h+A/7RS4zSzAET0uWqAf1JtXMqbJ/JGJly5koUjQh7+gwKxeg6RfVaCGdAeRzxI2hu/8vKG31D5MZZQNh8Z7vl3MRDJCl1Zr2hvbzZGl0THmlDixsMjDYBA8TSlU0CwQBNbFizvhIB158vKq50KUma5rtekxy4HQTE5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uYdDGgmo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752076427; c=relaxed/simple;
+	bh=auLp4VPpxKVh9axnEXKMdMv55v6kyflUZ74PwOJ/8jI=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Bseqt6vshyt1pkPoOh4nfy8BP/FuJCbmxbYPy6VderZ28uX1qZM7UDmwAI9RpV4zxjpGcSvs7t3VrxEtL+bDJd2YjSDincJV4N+EgTTVYtQqziegTVF80U8oBg5lnVVsST6S1Nn75gotzdB/kNOVIiKsYAxvyJEaAqXRFVqm4hw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LG1dnL7n; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uYdDGgmo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1C79C4CEEF;
-	Wed,  9 Jul 2025 15:38:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LG1dnL7n"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CD4CC4CEF1;
+	Wed,  9 Jul 2025 15:53:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752075492;
-	bh=Xl25DKWUzLXWpg5KhyYoRSsxahTDR5DpYlzJd9W9CaA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=uYdDGgmoD68kb2rNpNP/hz5SiwAXDsyvezTzMSDMKDb2YClMAF2yt/AxOjTPs7sNl
-	 ZTOE8jKrng1ejwdimLIcfCR+DZXhizhMc2qXzwb7YBRhhYhR+Xnf7h120quqvHtuXQ
-	 vwH5eiko3xNTUaDORSLeGHicywXRuFhftgO6XszyBy6kDg/HN0KkQYjiYK9KT3zzls
-	 T5Wx4zQYlggDBTLa0AXA3d8QhmsyQveEUAZY1P8m2i8gSq2eYriSLniXhAiyw5Yn+g
-	 o8IjE8LQibgIjGnYjnHpSjOCrrGvcXASgZXGde0dgcLjH93VVyf4X6KUiYxOt+Ess8
-	 Oo5M4FmCysnGA==
-Date: Wed, 9 Jul 2025 16:37:56 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, David Lechner
- <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
- Shevchenko <andy@kernel.org>, Eugen Hristev <eugen.hristev@linaro.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Cai Huoqing <cai.huoqing@linux.dev>, Haibo Chen <haibo.chen@nxp.com>, Shawn
- Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam
- <festevam@gmail.com>, Marek Vasut <marek.vasut@gmail.com>, Geert
- Uytterhoeven <geert+renesas@glider.be>, Magnus Damm
- <magnus.damm@gmail.com>, Lad Prabhakar
- <prabhakar.mahadev-lad.rj@bp.renesas.com>, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- Francesco Dolcini <francesco@dolcini.it>, =?UTF-8?B?Sm/Do28=?= Paulo
- =?UTF-8?B?R29uw6dhbHZlcw==?= <jpaulo.silvagoncalves@gmail.com>, "Jiri Slaby
- (SUSE)" <jirislaby@kernel.org>, Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?=
- <u.kleine-koenig@baylibre.com>, Thomas Gleixner <tglx@linutronix.de>,
- Fabrice Gasnier <fabrice.gasnier@foss.st.com>, "Rob Herring (Arm)"
- <robh@kernel.org>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Julien Stephan <jstephan@baylibre.com>,
- linux-arm-kernel@lists.infradead.org, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, imx@lists.linux.dev,
- linux-renesas-soc@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 02/12] iio: adc: Remove redundant
- pm_runtime_mark_last_busy() calls
-Message-ID: <20250709163756.32b0e1d1@jic23-huawei>
-In-Reply-To: <20250708231152.971398-1-sakari.ailus@linux.intel.com>
-References: <20250708231144.971170-1-sakari.ailus@linux.intel.com>
-	<20250708231152.971398-1-sakari.ailus@linux.intel.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-pc-linux-gnu)
+	s=k20201202; t=1752076426;
+	bh=auLp4VPpxKVh9axnEXKMdMv55v6kyflUZ74PwOJ/8jI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=LG1dnL7nG4nUS3ck9K7yd8b+l1y6z5ShY5H86pQPSZSjlx5yUkdgGMC4c+lLZKmkL
+	 rcY2xYW7ZdP3a+dPejo0S5Qrk+wwzEX9HO0pc8m6wJZ4mHqM6cEYkS78AVjUrC/FIA
+	 B/DdrJPbYb+7C50teX7uiTZfhdkR9FEDuCLh5vQA1oDbK4iX5Nv5PTyzei/w4DJ/hn
+	 1p+joPPlAt8JeaCEjOOSo0CalTl1AejkZi50+79N7Fck+E4blkD74VptzBQtW5GeDh
+	 /Hw50Ptt0/pymZz/DTIDXipeRl4/YHZC+lofDlBWvicZR9JiYe8joTTmblaQarbIKr
+	 1FnG7jaXZgT9g==
+Received: by wens.tw (Postfix, from userid 1000)
+	id 51A1C5FF71; Wed,  9 Jul 2025 23:53:44 +0800 (CST)
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: linux-sunxi@lists.linux.dev,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	Andre Przywara <andre.przywara@arm.com>
+Subject: [PATCH v2 4/4] arm64: dts: allwinner: a523: Add power controller device nodes
+Date: Wed,  9 Jul 2025 23:53:43 +0800
+Message-Id: <20250709155343.3765227-5-wens@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250709155343.3765227-1-wens@kernel.org>
+References: <20250709155343.3765227-1-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Wed,  9 Jul 2025 02:11:52 +0300
-Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+From: Chen-Yu Tsai <wens@csie.org>
 
-> pm_runtime_put_autosuspend(), pm_runtime_put_sync_autosuspend(),
-> pm_runtime_autosuspend() and pm_request_autosuspend() now include a call
-> to pm_runtime_mark_last_busy(). Remove the now-reduntant explicit call to
-> pm_runtime_mark_last_busy().
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+The A523 SoC family has two power controllers, one based on the existing
+PPU, and one newer one based on ARM's PCK-600.
 
-Some comments for the future as more about what can be improved on the back
-of this than what you have here.
+Add device nodes for both of them.
 
->
-> diff --git a/drivers/iio/adc/rcar-gyroadc.c b/drivers/iio/adc/rcar-gyroadc.c
-> index cc326f21d398..3a17b3898bf6 100644
-> --- a/drivers/iio/adc/rcar-gyroadc.c
-> +++ b/drivers/iio/adc/rcar-gyroadc.c
-> @@ -163,12 +163,10 @@ static int rcar_gyroadc_set_power(struct rcar_gyroadc *priv, bool on)
->  {
->  	struct device *dev = priv->dev;
->  
-This is a very clear example of where the *_set_power() pattern is a bad idea.
-There are two calls of this function, one with it hard coded as on and one with it
-hard coded as off.  We can just push the pm_runtime_resume_and_get()
-to the on case etc.
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+---
+ arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-I don't mind that much if we do so as a follow up patch so this one can
-be the mechanical change and then we follow up with the enabled simplification.
-
-> -	if (on) {
-> +	if (on)
->  		return pm_runtime_resume_and_get(dev);
-> -	} else {
-> -		pm_runtime_mark_last_busy(dev);
-> -		return pm_runtime_put_autosuspend(dev);
-> -	}
-> +
-> +	return pm_runtime_put_autosuspend(dev);
->  }
->  
->  static int rcar_gyroadc_read_raw(struct iio_dev *indio_dev,
->> diff --git a/drivers/iio/adc/ti-ads1015.c b/drivers/iio/adc/ti-ads1015.c
-> index 48549d617e5f..f2a93c63ca14 100644
-> --- a/drivers/iio/adc/ti-ads1015.c
-> +++ b/drivers/iio/adc/ti-ads1015.c
-> @@ -374,12 +374,10 @@ static int ads1015_set_power_state(struct ads1015_data *data, bool on)
->  	int ret;
->  	struct device *dev = regmap_get_device(data->regmap);
->  
-> -	if (on) {
-> +	if (on)
->  		ret = pm_runtime_resume_and_get(dev);
-> -	} else {
-> -		pm_runtime_mark_last_busy(dev);
-> +	else
->  		ret = pm_runtime_put_autosuspend(dev);
-> -	}
->  
->  	return ret < 0 ? ret : 0;
-So this one has a stub version which only brings benefits because
-we have checks on the pm_runtime_put_autosuspend() path failing
-(which it does if we have !CONFIG_PM).
-
-I think the right option there is check the return value is < 0
-for the resume_and_get() and don't check the _put_autosuspend()
-return value at all.  Then we can just push this down to the
-call sites as all of them hard code the bool value.
-
->  }
+diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
+index cf0bc39aab04..dd6fa22f960f 100644
+--- a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
+@@ -7,6 +7,8 @@
+ #include <dt-bindings/clock/sun55i-a523-r-ccu.h>
+ #include <dt-bindings/reset/sun55i-a523-ccu.h>
+ #include <dt-bindings/reset/sun55i-a523-r-ccu.h>
++#include <dt-bindings/power/allwinner,sun55i-a523-ppu.h>
++#include <dt-bindings/power/allwinner,sun55i-a523-pck600.h>
+ 
+ / {
+ 	interrupt-parent = <&gic>;
+@@ -576,6 +578,14 @@ mdio0: mdio {
+ 			};
+ 		};
+ 
++		ppu: power-controller@7001400 {
++			compatible = "allwinner,sun55i-a523-ppu";
++			reg = <0x07001400 0x400>;
++			clocks = <&r_ccu CLK_BUS_R_PPU1>;
++			resets = <&r_ccu RST_BUS_R_PPU1>;
++			#power-domain-cells = <1>;
++		};
++
+ 		r_ccu: clock-controller@7010000 {
+ 			compatible = "allwinner,sun55i-a523-r-ccu";
+ 			reg = <0x7010000 0x250>;
+@@ -622,6 +632,14 @@ r_i2c_pins: r-i2c-pins {
+ 			};
+ 		};
+ 
++		pck600: power-controller@7060000 {
++			compatible = "allwinner,sun55i-a523-pck-600";
++			reg = <0x07060000 0x8000>;
++			clocks = <&r_ccu CLK_BUS_R_PPU0>;
++			resets = <&r_ccu RST_BUS_R_PPU0>;
++			#power-domain-cells = <1>;
++		};
++
+ 		r_i2c0: i2c@7081400 {
+ 			compatible = "allwinner,sun55i-a523-i2c",
+ 				     "allwinner,sun8i-v536-i2c",
+-- 
+2.39.5
 
