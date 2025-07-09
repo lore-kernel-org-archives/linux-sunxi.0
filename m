@@ -1,109 +1,364 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BF9626B778;
-	Wed,  9 Jul 2025 07:26:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22E68290D96
+	for <linux-sunxi@lists.linux.dev>; Wed,  9 Jul 2025 10:50:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752045986; cv=none; b=k4l8bbcvcUwA+C4fm7PYijkChewD2OeCeGGTAac4WZIuaGRflLPvfaAEVxsMsbNzCaCgP9SwrSecNDWP94Rf5zRcoHVMvNQsEkLXo0nmpIza96DYncx/Gt+hrXkstbE963hDxR3QHzTAGh4tA2HeZdpkw5v51lExOb78fj2jeEE=
+	t=1752058236; cv=none; b=I4HR8aQj6KSoiJs3pfhV3UBLFKDTIlaoiXcr9QBBEypxniwjzpgFu+VydXlH3zl1lJY+c799/E9QtB7ZBwgsmOCF+9mitK4yBCniAVgfpUorzkkbQD0unQ7WMzSYm8LhxuXZ1Ti5afxDpd3CAjLgEQVgilu2VTdgYwLrzT/5rFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752045986; c=relaxed/simple;
-	bh=XGJO1qF1W88jDv2eYg4J5OBrEhD7F5oGqMlB4fWt0hQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pcd6shxap76dYbGUwF7wY7Dpi4SseIZMa+TDorvvbOrZqPHaxVFQD/kMYIsxSFaV7wBrME1xvpnJxBIY+t/hZEZPTM5cq/MudboSwE2UoNQxTdRQqtxBAp/XUhzA8Er8x4O4zt6NdWkDEzLyRaXMALkKTR+8YNgvu9v/N1BoOoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ArGgHdYC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752058236; c=relaxed/simple;
+	bh=20MhIzRY2AyJ9XJ1/eBU5b/g3UY03b/8twJbvERsAxM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mdyvVE7dTkMaI2f14DPjSPNPD3Lmx4jgDNXuWWsFzlAD/vWhGTgDqR90MvVlPNxGjb1wcvneMy1Xp1/oyyqtaoNAjJZiFCSpBk8HUKc/0L1i8PsTRH26rCqdCYeYfpInZFB5UDVZBSP4wR0BYFd2CGwqj2IHaCDQ8aKogW7SlK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wvOIi7Lu; arc=none smtp.client-ip=209.85.219.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ArGgHdYC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE05EC4CEF0;
-	Wed,  9 Jul 2025 07:26:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752045986;
-	bh=XGJO1qF1W88jDv2eYg4J5OBrEhD7F5oGqMlB4fWt0hQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ArGgHdYCKZHsx/nbUhRZhct5u/CYQqQXkROnnVmQgUpnfnLwDBWZl2erF0xvtbu+z
-	 3IX8+1MzKkeL5/NrksE78L5M8ciRQzZjAWXcF6sdvSgtPPfKttGcUokP1Zbv/JfKP0
-	 RngaMY2AK3Votb88feOEXLXj5/xxYSKmePwl4/NUBpbEDBcTxZ9bKu0zAoOr5muHLg
-	 CCuVzmR7GIJIImbeN5Ki635W7gHy30bbZYEdevgkoZnsTI/o7vzM9GnXMGwk8t/+1A
-	 Eo+ymv0XAJ0u46oXlN7DPQtr2erqhFq967A9PSD12h7G6yo02PbfoT5ALlMuMkLTMR
-	 UcVXDNBgOOzGQ==
-Date: Wed, 9 Jul 2025 09:26:23 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Paul Kocialkowski <paulk@sys-base.io>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-clk@vger.kernel.org, Yong Deng <yong.deng@magewell.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>
-Subject: Re: [PATCH v8 1/9] dt-bindings: media: sun6i-a31-csi: Add optional
- interconnect properties
-Message-ID: <20250709-misty-coot-of-fantasy-cfadfa@houat>
-References: <20250704154628.3468793-1-paulk@sys-base.io>
- <20250704154628.3468793-2-paulk@sys-base.io>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wvOIi7Lu"
+Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-e8259b783f6so4477518276.3
+        for <linux-sunxi@lists.linux.dev>; Wed, 09 Jul 2025 03:50:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1752058233; x=1752663033; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=H/pT7QtJ2y0Yr0sbQcrQgyeiPZXfJWqL9UzWbCaU/Ws=;
+        b=wvOIi7LuqN62Z+UlY8vOrm9fcb+CynSCaUFRVqewIrSBezu/pFO6iIuaP+AOikB6PH
+         jfDnJlUWkrM7hsYNO6xYeN7AEp+zDfMrCp3cfAwrQoeXNCr0F4wQdia42vBUp9rNrzAI
+         esnHWOeua9HNWJLcbhg1GY7bIbb4uku3ZzZVLZHZf70042gFMfoQ9SWr+9o8QpwnHcYX
+         evllrO2yfJpKuNkkb0nF9GrT5YXC/HcXFp8t8w5RIKej+3YNJgmJPNuaC+RoMN7fDqqB
+         zAHwR6wUbNrlaNKSWU7xKoTbVyuQTwe8qCwdtrLNQ1uuh+hm3yYjqUIB1ZguvClrM/1u
+         1+pQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752058233; x=1752663033;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=H/pT7QtJ2y0Yr0sbQcrQgyeiPZXfJWqL9UzWbCaU/Ws=;
+        b=N588H+Erpe6rVplArpft5x+RJsf6HUPAVU52eYkKm5SPqgNJ0vyK85bMMc2XW/q01e
+         56VEffE3nOdl9RUygF7AXDcFk2yt7g48VWLuaqUtWjXPz5yxCr69ZDacErqEG95cwQi+
+         PsNTP5zKrjMJcc9At4ik27qa0ihPeA8mkfadLOVCgzI25XEEs7k+hW/UsQa5UyULMbdu
+         AN0MTqr/6C3KHXyh4wcdJ/G/MN5Sn0aarWNoLAKMWWFrTDFFyUbH6ItMyfDH44LIIO6o
+         Osm3obPrUsCJh1sJRx001HKBgX4kwn2RqXHzFll2dVQx9qdMsuhRoMRpWRglXapJa1Ks
+         aQyA==
+X-Forwarded-Encrypted: i=1; AJvYcCX2H14PEhuw7ToySTHihwAdV9QIPdiNrE8OWkP23r7SMzkCMSG1eoEWwRIj4XikSNo3GEZfIgUgpFL4fw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzMB67b6Sxcf4jqMKpiour71200dvXNtEFk7eqvaGKNc4450Hj9
+	w80yqhiOwWhrl85d5tIi0ciIB7Mj8VG7UUgiMp92suT17ClSJegqvOhXw/yAG5SJ2q//Jh+cVwS
+	3DgC2RZxxF3cjj6+CUCZBJMcnU61R0IbHnaRwdDeAuQ==
+X-Gm-Gg: ASbGncv+lAGmKukPs4nzGCEqoCvcZ6WIu75DIjJE+C0eKqDWTwWq303pv/pn6qoMU88
+	5d6Z5kxwwjbT2At9fW06ehisEzDvWeg2XTshilctMxMK+TQGr+gAV4YwG6FOxk+dGl429Q/Yv58
+	d8epa5d2vw7NhNrfBtll02XeKYHvz2zdFhwsRYVj9ACPvP
+X-Google-Smtp-Source: AGHT+IHAPAQxqp/QmTpsCbt8oJ83U9lsBh3ufrR1BZRofloQKbNtdV7YaGBiyqejPkvhxc8BDmk63wAJKW/bpKUN3RQ=
+X-Received: by 2002:a05:690c:9a8b:b0:710:e8a8:771d with SMTP id
+ 00721157ae682-717b1984909mr29729677b3.24.1752058232542; Wed, 09 Jul 2025
+ 03:50:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="3dp6stoy65fmjbt7"
-Content-Disposition: inline
-In-Reply-To: <20250704154628.3468793-2-paulk@sys-base.io>
+References: <20250627152918.2606728-1-wens@kernel.org> <20250627152918.2606728-4-wens@kernel.org>
+In-Reply-To: <20250627152918.2606728-4-wens@kernel.org>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Wed, 9 Jul 2025 12:49:56 +0200
+X-Gm-Features: Ac12FXyZZo_gyxde5PGaFmAK7RtmqIBsI-DO5q6_JvOlmtCvpbCBgiSF25u2wFY
+Message-ID: <CAPDyKFpqjd-KapYizxPD_=6TmNd7ZHZQVtVTPq_3u+ZutiO0pg@mail.gmail.com>
+Subject: Re: [PATCH 3/4] pmdomain: sunxi: add driver for Allwinner A523's
+ PCK-600 power controller
+To: Chen-Yu Tsai <wens@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej@kernel.org>, 
+	Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Andre Przywara <andre.przywara@arm.com>, linux-sunxi@lists.linux.dev, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+On Fri, 27 Jun 2025 at 17:29, Chen-Yu Tsai <wens@kernel.org> wrote:
+>
+> From: Chen-Yu Tsai <wens@csie.org>
+>
+> Allwinner A523 family has a second power controller, named PCK-600 in
+> the datasheets and BSP. It is likely based on ARM's PCK-600 hardware
+> block, with some additional delay controls. The only documentation for
+> this hardware is the BSP driver. The standard registers defined in ARM's
+> Power Policy Unit Architecture Specification line up. Some extra delay
+> controls are found in the reserved range of registers.
+>
+> Add a driver for this power controller. Delay control register values
+> and power domain names are from the BSP driver.
+>
+> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
 
---3dp6stoy65fmjbt7
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v8 1/9] dt-bindings: media: sun6i-a31-csi: Add optional
- interconnect properties
-MIME-Version: 1.0
+FYI, this looks good to me.
 
-Hi,
+Kind regards
+Uffe
 
-On Fri, Jul 04, 2025 at 05:46:18PM +0200, Paul Kocialkowski wrote:
-> An interconnect can be attached to the sun6i-a31-csi device, which is
-> useful to attach the dma memory offset. Add related properties.
->=20
-> Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
 > ---
->  .../devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml  | 6 ++++++
->  1 file changed, 6 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-=
-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.=
-yaml
-> index 1aa5775ba2bc..978ef2dc0ae7 100644
-> --- a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
-> +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
-> @@ -40,6 +40,12 @@ properties:
->    resets:
->      maxItems: 1
-> =20
-> +  interconnects:
-> +    maxItems: 1
+>  drivers/pmdomain/sunxi/Kconfig         |   8 +
+>  drivers/pmdomain/sunxi/Makefile        |   1 +
+>  drivers/pmdomain/sunxi/sun55i-pck600.c | 225 +++++++++++++++++++++++++
+>  3 files changed, 234 insertions(+)
+>  create mode 100644 drivers/pmdomain/sunxi/sun55i-pck600.c
+>
+> diff --git a/drivers/pmdomain/sunxi/Kconfig b/drivers/pmdomain/sunxi/Kconfig
+> index 43eecb3ea981..3e2b77cd9a2b 100644
+> --- a/drivers/pmdomain/sunxi/Kconfig
+> +++ b/drivers/pmdomain/sunxi/Kconfig
+> @@ -18,3 +18,11 @@ config SUN50I_H6_PRCM_PPU
+>           Say y to enable the Allwinner H6/H616 PRCM power domain driver.
+>           This is required to enable the Mali GPU in the H616 SoC, it is
+>           optional for the H6.
 > +
-> +  interconnect-names:
-> +    const: dma-mem
+> +config SUN55I_PCK600
+> +       bool "Allwinner A523 PCK-600 power domain driver"
+> +       depends on PM
+> +       select PM_GENERIC_DOMAINS
+> +       help
+> +         Say y to enable the PCK-600 power domain driver. This saves power
+> +         when certain peripherals, such as the video engine, are idle.
+> diff --git a/drivers/pmdomain/sunxi/Makefile b/drivers/pmdomain/sunxi/Makefile
+> index c1343e123759..e344b232fc9f 100644
+> --- a/drivers/pmdomain/sunxi/Makefile
+> +++ b/drivers/pmdomain/sunxi/Makefile
+> @@ -1,3 +1,4 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  obj-$(CONFIG_SUN20I_PPU)               += sun20i-ppu.o
+>  obj-$(CONFIG_SUN50I_H6_PRCM_PPU)       += sun50i-h6-prcm-ppu.o
+> +obj-$(CONFIG_SUN55I_PCK600)            += sun55i-pck600.o
+> diff --git a/drivers/pmdomain/sunxi/sun55i-pck600.c b/drivers/pmdomain/sunxi/sun55i-pck600.c
+> new file mode 100644
+> index 000000000000..7248f6113665
+> --- /dev/null
+> +++ b/drivers/pmdomain/sunxi/sun55i-pck600.c
+> @@ -0,0 +1,225 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Allwinner PCK-600 power domain support
+> + *
+> + * Copyright (c) 2025 Chen-Yu Tsai <wens@csie.org>
+> + */
 > +
-
-Is it really optional? My experience (despite being a bit outdated by
-now) was that it was required for some SoCs, and missing for others.
-
-Maxime
-
---3dp6stoy65fmjbt7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaG4ZmwAKCRAnX84Zoj2+
-dpfVAX4m0wIWlJi7yTBavd5fvPfWar3XkMuz34mrDcOQKDkPGg6ob/DSG06XQSRv
-JJDzvQQBfiDmcqsRoWtB2xTB/bD41pJBDgPdtqT5a0O13DZ464l3NFGDW16/98ZH
-pKK5MMhi4w==
-=m340
------END PGP SIGNATURE-----
-
---3dp6stoy65fmjbt7--
+> +#include <linux/bitfield.h>
+> +#include <linux/clk.h>
+> +#include <linux/container_of.h>
+> +#include <linux/device.h>
+> +#include <linux/dev_printk.h>
+> +#include <linux/err.h>
+> +#include <linux/io.h>
+> +#include <linux/iopoll.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_domain.h>
+> +#include <linux/reset.h>
+> +#include <linux/slab.h>
+> +#include <linux/string_choices.h>
+> +
+> +#define PPU_PWPR    0x0
+> +#define PPU_PWSR    0x8
+> +#define        PPU_DCDR0   0x170
+> +#define PPU_DCDR1   0x174
+> +
+> +#define PPU_PWSR_PWR_STATUS    GENMASK(3, 0)
+> +#define PPU_POWER_MODE_ON      0x8
+> +#define PPU_POWER_MODE_OFF     0x0
+> +
+> +#define PPU_REG_SIZE   0x1000
+> +
+> +struct sunxi_pck600_desc {
+> +       const char * const *pd_names;
+> +       unsigned int num_domains;
+> +       u32 logic_power_switch0_delay_offset;
+> +       u32 logic_power_switch1_delay_offset;
+> +       u32 off2on_delay_offset;
+> +       u32 device_ctrl0_delay;
+> +       u32 device_ctrl1_delay;
+> +       u32 logic_power_switch0_delay;
+> +       u32 logic_power_switch1_delay;
+> +       u32 off2on_delay;
+> +};
+> +
+> +struct sunxi_pck600_pd {
+> +       struct generic_pm_domain genpd;
+> +       struct sunxi_pck600 *pck;
+> +       void __iomem *base;
+> +};
+> +
+> +struct sunxi_pck600 {
+> +       struct device *dev;
+> +       struct genpd_onecell_data genpd_data;
+> +       struct sunxi_pck600_pd pds[];
+> +};
+> +
+> +#define to_sunxi_pd(gpd) container_of(gpd, struct sunxi_pck600_pd, genpd)
+> +
+> +static int sunxi_pck600_pd_set_power(struct sunxi_pck600_pd *pd, bool on)
+> +{
+> +       struct sunxi_pck600 *pck = pd->pck;
+> +       struct generic_pm_domain *genpd = &pd->genpd;
+> +       int ret;
+> +       u32 val, reg;
+> +
+> +       val = on ? PPU_POWER_MODE_ON : PPU_POWER_MODE_OFF;
+> +
+> +       reg = readl(pd->base + PPU_PWPR);
+> +       FIELD_MODIFY(PPU_PWSR_PWR_STATUS, &reg, val);
+> +       writel(reg, pd->base + PPU_PWPR);
+> +
+> +       /* push write out to hardware */
+> +       reg = readl(pd->base + PPU_PWPR);
+> +
+> +       ret = readl_poll_timeout_atomic(pd->base + PPU_PWSR, reg,
+> +                                       FIELD_GET(PPU_PWSR_PWR_STATUS, reg) == val,
+> +                                       0, 10000);
+> +       if (ret)
+> +               dev_err(pck->dev, "failed to turn domain \"%s\" %s: %d\n",
+> +                       genpd->name, str_on_off(on), ret);
+> +
+> +       return ret;
+> +}
+> +
+> +static int sunxi_pck600_power_on(struct generic_pm_domain *domain)
+> +{
+> +       struct sunxi_pck600_pd *pd = to_sunxi_pd(domain);
+> +
+> +       return sunxi_pck600_pd_set_power(pd, true);
+> +}
+> +
+> +static int sunxi_pck600_power_off(struct generic_pm_domain *domain)
+> +{
+> +       struct sunxi_pck600_pd *pd = to_sunxi_pd(domain);
+> +
+> +       return sunxi_pck600_pd_set_power(pd, false);
+> +}
+> +
+> +static void sunxi_pck600_pd_setup(struct sunxi_pck600_pd *pd,
+> +                                 const struct sunxi_pck600_desc *desc)
+> +{
+> +       writel(desc->device_ctrl0_delay, pd->base + PPU_DCDR0);
+> +       writel(desc->device_ctrl1_delay, pd->base + PPU_DCDR1);
+> +       writel(desc->logic_power_switch0_delay,
+> +              pd->base + desc->logic_power_switch0_delay_offset);
+> +       writel(desc->logic_power_switch1_delay,
+> +              pd->base + desc->logic_power_switch1_delay_offset);
+> +       writel(desc->off2on_delay, pd->base + desc->off2on_delay_offset);
+> +}
+> +
+> +static int sunxi_pck600_probe(struct platform_device *pdev)
+> +{
+> +       struct device *dev = &pdev->dev;
+> +       const struct sunxi_pck600_desc *desc;
+> +       struct genpd_onecell_data *genpds;
+> +       struct sunxi_pck600 *pck;
+> +       struct reset_control *rst;
+> +       struct clk *clk;
+> +       void __iomem *base;
+> +       int i, ret;
+> +
+> +       desc = of_device_get_match_data(dev);
+> +
+> +       pck = devm_kzalloc(dev, struct_size(pck, pds, desc->num_domains), GFP_KERNEL);
+> +       if (!pck)
+> +               return -ENOMEM;
+> +
+> +       pck->dev = &pdev->dev;
+> +       platform_set_drvdata(pdev, pck);
+> +
+> +       genpds = &pck->genpd_data;
+> +       genpds->num_domains = desc->num_domains;
+> +       genpds->domains = devm_kcalloc(dev, desc->num_domains,
+> +                                      sizeof(*genpds->domains), GFP_KERNEL);
+> +       if (!genpds->domains)
+> +               return -ENOMEM;
+> +
+> +       base = devm_platform_ioremap_resource(pdev, 0);
+> +       if (IS_ERR(base))
+> +               return PTR_ERR(base);
+> +
+> +       rst = devm_reset_control_get_exclusive_released(dev, NULL);
+> +       if (IS_ERR(rst))
+> +               return dev_err_probe(dev, PTR_ERR(rst), "failed to get reset control\n");
+> +
+> +       clk = devm_clk_get_enabled(dev, NULL);
+> +       if (IS_ERR(clk))
+> +               return dev_err_probe(dev, PTR_ERR(clk), "failed to get clock\n");
+> +
+> +       for (i = 0; i < desc->num_domains; i++) {
+> +               struct sunxi_pck600_pd *pd = &pck->pds[i];
+> +
+> +               pd->genpd.name = desc->pd_names[i];
+> +               pd->genpd.power_off = sunxi_pck600_power_off;
+> +               pd->genpd.power_on = sunxi_pck600_power_on;
+> +               pd->base = base + PPU_REG_SIZE * i;
+> +
+> +               sunxi_pck600_pd_setup(pd, desc);
+> +               ret = pm_genpd_init(&pd->genpd, NULL, false);
+> +               if (ret) {
+> +                       dev_err_probe(dev, ret, "failed to initialize power domain\n");
+> +                       goto err_remove_pds;
+> +               }
+> +
+> +               genpds->domains[i] = &pd->genpd;
+> +       }
+> +
+> +       ret = of_genpd_add_provider_onecell(dev_of_node(dev), genpds);
+> +       if (ret) {
+> +               dev_err_probe(dev, ret, "failed to add PD provider\n");
+> +               goto err_remove_pds;
+> +       }
+> +
+> +       return 0;
+> +
+> +err_remove_pds:
+> +       for (i--; i >= 0; i--)
+> +               pm_genpd_remove(genpds->domains[i]);
+> +
+> +       return ret;
+> +}
+> +
+> +static const char * const sun55i_a523_pck600_pd_names[] = {
+> +       "VE", "GPU", "VI", "VO0", "VO1", "DE", "NAND", "PCIE"
+> +};
+> +
+> +static const struct sunxi_pck600_desc sun55i_a523_pck600_desc = {
+> +       .pd_names = sun55i_a523_pck600_pd_names,
+> +       .num_domains = ARRAY_SIZE(sun55i_a523_pck600_pd_names),
+> +       .logic_power_switch0_delay_offset = 0xc00,
+> +       .logic_power_switch1_delay_offset = 0xc04,
+> +       .off2on_delay_offset = 0xc10,
+> +       .device_ctrl0_delay = 0xffffff,
+> +       .device_ctrl1_delay = 0xffff,
+> +       .logic_power_switch0_delay = 0x8080808,
+> +       .logic_power_switch1_delay = 0x808,
+> +       .off2on_delay = 0x8
+> +};
+> +
+> +static const struct of_device_id sunxi_pck600_of_match[] = {
+> +       {
+> +               .compatible     = "allwinner,sun55i-a523-pck-600",
+> +               .data           = &sun55i_a523_pck600_desc,
+> +       },
+> +       {}
+> +};
+> +MODULE_DEVICE_TABLE(of, sunxi_pck600_of_match);
+> +
+> +static struct platform_driver sunxi_pck600_driver = {
+> +       .probe = sunxi_pck600_probe,
+> +       .driver = {
+> +               .name   = "sunxi-pck-600",
+> +               .of_match_table = sunxi_pck600_of_match,
+> +               /* Power domains cannot be removed if in use. */
+> +               .suppress_bind_attrs = true,
+> +       },
+> +};
+> +module_platform_driver(sunxi_pck600_driver);
+> +
+> +MODULE_DESCRIPTION("Allwinner PCK-600 power domain driver");
+> +MODULE_AUTHOR("Chen-Yu Tsai <wens@csie.org>");
+> +MODULE_LICENSE("GPL");
+> --
+> 2.39.5
+>
