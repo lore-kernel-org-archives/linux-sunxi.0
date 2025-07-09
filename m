@@ -1,243 +1,368 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA9DF230BC9;
-	Wed,  9 Jul 2025 21:23:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 207651B3925
+	for <linux-sunxi@lists.linux.dev>; Wed,  9 Jul 2025 23:46:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752096221; cv=none; b=mm2UZQJnkqu3WNLzxoZPVIG7xKEyN4Xgovtpi3EdOS7TfSkvhLDJh3k/F1J5iQTNio1HLdvZ+pjtfqPYnbg4WHZyx7BxG947ubKxz1vSeTIkF+wNywXoHLEj26t5x5ishtvpMcyjZBQbpX1T8IJUhL0SViLg/J8jx+NA0f1x7IU=
+	t=1752104807; cv=none; b=PcfJ3a4m+n0tCkfeu3RBHLbhntaRKbJVqmpslynKXFcX20EF+el7V93lDxnxeTYlSl0WidMHvoCHFwWOL0z4w/uTfugVccnaWQ20z7nrVk4jk4OUispUb+3MsnYj5lNfPwrjl2xSlZ4qEE4fwYyGTPxGOU5L6w+irakzHx2eIws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752096221; c=relaxed/simple;
-	bh=iCSfrE/TrVxc40nJx3JknRKRMdnt/HKs/yUc5oeLvDM=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=WRTRybOe3b5zhUpHlO4ZB/y+IHaZnLBPVEbYsSPpBl7nCkJ6CQ8PYhF0EZJYP8p9BuXknqYCsoXY3/rFhKJlQt+SeUpn8bn74G7vcMjtfXT8Fc/bv9tgeXBlX95Z+KZwy8rDG962gBkm8V2JJMmNHQPeJfh+dlU03Yd/+uakvO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K0oGw1LV; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K0oGw1LV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12BA6C4CEEF;
-	Wed,  9 Jul 2025 21:23:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752096220;
-	bh=iCSfrE/TrVxc40nJx3JknRKRMdnt/HKs/yUc5oeLvDM=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=K0oGw1LVnTlhK/zhMAXC0oVNJhwIUbPRBfJVwTX38u2orLbrEXKGBAFnwSSd7rpZ/
-	 pxpJBb+G/EQ7zVa4E+r8I4U0sUQ5oXqxJ1SAGdcaX/XD82Sl8gJ7b13tPlsbaVbEqI
-	 63TKIs1vrIQBwaIFfDkafCs6AfMeNYRuzgn0G+orhvB0Y0ep9VvxL6N5KBxHlKM641
-	 JK6PQZmlfG+d0uwbxkOGQi2VV8iiS+Wn3/xJzFdPPfYop+rIXrQdjwmsWJBzxBCFG6
-	 Dl+ttzPmmStjbCSfx5uxzylt4YLROlJfNm5zbhgSKJOyCOs965+y23W2HhFIdONIf5
-	 oxR948zhqhLbQ==
-Date: Wed, 09 Jul 2025 16:23:38 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=arc-20240116; t=1752104807; c=relaxed/simple;
+	bh=rH3qA85caV2LQXZRaSQAurqA/DMEoKvuFh9sKxnPZB0=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=eiMOFhF3RKbjqh3vNk77ueLz+Gx2o52BDmM+Yw/GQz7Won+meHMQ1pHjVyIM7znP9p07ckB3tIdolMc1jYtE2KLdMM82pQzoVpKwkAy0yqIN4I0euFbfimBZparmcYPjZKzP6YqaeYygd0eGy7PYoS/8WKMut9EBT6G7y0MyNgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D4560150C;
+	Wed,  9 Jul 2025 16:46:32 -0700 (PDT)
+Received: from [10.43.3.235] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 186AE3F66E;
+	Wed,  9 Jul 2025 16:46:41 -0700 (PDT)
+Message-ID: <043e5826-b68a-4289-bf22-79587bcdad26@arm.com>
+Date: Thu, 10 Jul 2025 00:46:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, 
- Ulf Hansson <ulf.hansson@linaro.org>, Samuel Holland <samuel@sholland.org>, 
- Chen-Yu Tsai <wens@csie.org>, Conor Dooley <conor+dt@kernel.org>, 
- Jernej Skrabec <jernej@kernel.org>
-To: Chen-Yu Tsai <wens@kernel.org>
-In-Reply-To: <20250709155343.3765227-1-wens@kernel.org>
+User-Agent: Mozilla Thunderbird
+From: Andre Przywara <andre.przywara@arm.com>
+Subject: Re: [PATCH v2 3/4] pmdomain: sunxi: add driver for Allwinner A523's
+ PCK-600 power controller
+To: Chen-Yu Tsai <wens@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org
 References: <20250709155343.3765227-1-wens@kernel.org>
-Message-Id: <175209617694.3636022.5179038032273986646.robh@kernel.org>
-Subject: Re: [PATCH v2 0/4] allwinner: a523: Add power controllers
+ <20250709155343.3765227-4-wens@kernel.org>
+Content-Language: en-US
+In-Reply-To: <20250709155343.3765227-4-wens@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+Hi Chen-Yu,
 
-On Wed, 09 Jul 2025 23:53:39 +0800, Chen-Yu Tsai wrote:
+thanks for posting this! This is a quick first view, haven't compared 
+against the BSP bits yet....
+
+On 09/07/2025 16:53, Chen-Yu Tsai wrote:
 > From: Chen-Yu Tsai <wens@csie.org>
 > 
-> Hi folks,
+> Allwinner A523 family has a second power controller, named PCK-600 in
+> the datasheets and BSP. It is likely based on ARM's PCK-600 hardware
+> block, with some additional delay controls. The only documentation for
+> this hardware is the BSP driver. The standard registers defined in ARM's
+> Power Policy Unit Architecture Specification line up. Some extra delay
+> controls are found in the reserved range of registers.
 > 
-> This is v2 of my A523 power controllers series.
+> Add a driver for this power controller. Delay control register values
+> and power domain names are from the BSP driver.
 > 
-> Changes since v1:
-> - Re-order compatible string entries
-> - Fix name of header file to match compatible string
-> - Link to v1:
->   https://lore.kernel.org/all/20250627152918.2606728-1-wens@kernel.org/
+> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+> ---
+>   drivers/pmdomain/sunxi/Kconfig         |   8 +
+>   drivers/pmdomain/sunxi/Makefile        |   1 +
+>   drivers/pmdomain/sunxi/sun55i-pck600.c | 225 +++++++++++++++++++++++++
+>   3 files changed, 234 insertions(+)
+>   create mode 100644 drivers/pmdomain/sunxi/sun55i-pck600.c
 > 
-> This series adds the power controllers found in the Allwinner A523
-> family of SoCs. There are two power controllers. One is the same type
-> as those found in the D1 SoC, just with a different number of valid
-> power domains. The second is (I assume) a unit based on ARM's PCK-600
-> power controller. Some of the registers and values match up, but there
-> are extra registers for delay controls in the PCK-600's reserved
-> register range.
-> 
-> Patch 1 adds new compatible string entries for both of these
-> controllers.
-> 
-> Patch 2 adds support for the A523 PPU to the existing D1 PPU driver.
-> 
-> Patch 3 adds a new driver of the PCK-600 unit in the A523 SoC.
-> 
-> Patch 4 adds device nodes for both of these controllers.
-> 
-> 
-> Please have a look. The power controllers are critical for enabling more
-> peripherals, such as display output, camera input, video codecs, the NPU,
-> and a second DWMAC-compatible ethernet interface.
-> 
-> 
-> Thanks
-> ChenYu
-> 
-> 
-> Chen-Yu Tsai (4):
->   dt-bindings: power: Add A523 PPU and PCK600 power controllers
->   pmdomain: sunxi: sun20i-ppu: add A523 support
->   pmdomain: sunxi: add driver for Allwinner A523's PCK-600 power
->     controller
->   arm64: dts: allwinner: a523: Add power controller device nodes
-> 
->  .../power/allwinner,sun20i-d1-ppu.yaml        |   4 +-
->  .../arm64/boot/dts/allwinner/sun55i-a523.dtsi |  18 ++
->  drivers/pmdomain/sunxi/Kconfig                |   8 +
->  drivers/pmdomain/sunxi/Makefile               |   1 +
->  drivers/pmdomain/sunxi/sun20i-ppu.c           |  17 ++
->  drivers/pmdomain/sunxi/sun55i-pck600.c        | 225 ++++++++++++++++++
->  .../power/allwinner,sun55i-a523-pck-600.h     |  15 ++
->  .../power/allwinner,sun55i-a523-ppu.h         |  12 +
->  8 files changed, 299 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/pmdomain/sunxi/sun55i-pck600.c
->  create mode 100644 include/dt-bindings/power/allwinner,sun55i-a523-pck-600.h
->  create mode 100644 include/dt-bindings/power/allwinner,sun55i-a523-ppu.h
-> 
-> --
-> 2.39.5
-> 
-> 
-> 
+> diff --git a/drivers/pmdomain/sunxi/Kconfig b/drivers/pmdomain/sunxi/Kconfig
+> index 43eecb3ea981..3e2b77cd9a2b 100644
+> --- a/drivers/pmdomain/sunxi/Kconfig
+> +++ b/drivers/pmdomain/sunxi/Kconfig
+> @@ -18,3 +18,11 @@ config SUN50I_H6_PRCM_PPU
+>   	  Say y to enable the Allwinner H6/H616 PRCM power domain driver.
+>   	  This is required to enable the Mali GPU in the H616 SoC, it is
+>   	  optional for the H6.
+> +
+> +config SUN55I_PCK600
+> +	bool "Allwinner A523 PCK-600 power domain driver"
 
+Any particular reason this is not tristate? The driver advertises itself 
+as a platform driver module?
 
-My bot found new DTB warnings on the .dts files added or changed in this
-series.
+> +	depends on PM
+> +	select PM_GENERIC_DOMAINS
+> +	help
+> +	  Say y to enable the PCK-600 power domain driver. This saves power
+> +	  when certain peripherals, such as the video engine, are idle.
 
-Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-are fixed by another series. Ultimately, it is up to the platform
-maintainer whether these warnings are acceptable or not. No need to reply
-unless the platform maintainer has comments.
+If I understand correctly, this driver is *required* to make use of 
+those peripherals, and the video engine is not even the most prominent 
+user. So regardless of the reset state of the power domain, I think the 
+wording should be changed, to make sure distributions activate this 
+option. At the moment it sounds highly optional. I wonder if we should 
+use "default y if ARCH_SUNXI" even.
 
-If you already ran DT checks and didn't see these error(s), then
-make sure dt-schema is up to date:
+> diff --git a/drivers/pmdomain/sunxi/Makefile b/drivers/pmdomain/sunxi/Makefile
+> index c1343e123759..e344b232fc9f 100644
+> --- a/drivers/pmdomain/sunxi/Makefile
+> +++ b/drivers/pmdomain/sunxi/Makefile
+> @@ -1,3 +1,4 @@
+>   # SPDX-License-Identifier: GPL-2.0-only
+>   obj-$(CONFIG_SUN20I_PPU)		+= sun20i-ppu.o
+>   obj-$(CONFIG_SUN50I_H6_PRCM_PPU)	+= sun50i-h6-prcm-ppu.o
+> +obj-$(CONFIG_SUN55I_PCK600)		+= sun55i-pck600.o
+> diff --git a/drivers/pmdomain/sunxi/sun55i-pck600.c b/drivers/pmdomain/sunxi/sun55i-pck600.c
+> new file mode 100644
+> index 000000000000..7248f6113665
+> --- /dev/null
+> +++ b/drivers/pmdomain/sunxi/sun55i-pck600.c
+> @@ -0,0 +1,225 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Allwinner PCK-600 power domain support
 
-  pip3 install dtschema --upgrade
+Can you please mention here that this device is based on the Arm PCK-600 
+IP, as done in the commit message. And say that this is a minimal 
+implementaton, just supporting the off/on states.
 
+Maybe also mention the relevant documentation: the "ARM CoreLink PCK‑600 
+Power Control Kit" TRM and the "Arm Power Policy Unit" architecture 
+specification (DEN0051E).
 
-This patch series was applied (using b4) to base:
- Base: attempting to guess base-commit...
- Base: tags/next-20250709 (exact match)
+> + *
+> + * Copyright (c) 2025 Chen-Yu Tsai <wens@csie.org>
+> + */
+> +
+> +#include <linux/bitfield.h>
+> +#include <linux/clk.h>
+> +#include <linux/container_of.h>
+> +#include <linux/device.h>
+> +#include <linux/dev_printk.h>
+> +#include <linux/err.h>
+> +#include <linux/io.h>
+> +#include <linux/iopoll.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_domain.h>
+> +#include <linux/reset.h>
+> +#include <linux/slab.h>
+> +#include <linux/string_choices.h>
+> +
+> +#define PPU_PWPR    0x0
+> +#define PPU_PWSR    0x8
+> +#define	PPU_DCDR0   0x170
 
-If this is not the correct base, please add 'base-commit' tag
-(or use b4 which does this automatically)
+white space issue?
 
-New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/allwinner/' for 20250709155343.3765227-1-wens@kernel.org:
+> +#define PPU_DCDR1   0x174
+> +
+> +#define PPU_PWSR_PWR_STATUS	GENMASK(3, 0)
 
-In file included from arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts:8:
-arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:11:10: fatal error: dt-bindings/power/allwinner,sun55i-a523-pck600.h: No such file or directory
-   11 | #include <dt-bindings/power/allwinner,sun55i-a523-pck600.h>
-      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-compilation terminated.
-make[3]: *** [scripts/Makefile.dtbs:131: arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dtb] Error 1
-make[2]: *** [scripts/Makefile.build:554: arch/arm64/boot/dts/allwinner] Error 2
-make[2]: Target 'arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dtb' not remade because of errors.
-make[1]: *** [/home/rob/proj/linux-dt-testing/Makefile:1478: allwinner/sun55i-t527-orangepi-4a.dtb] Error 2
-In file included from arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts:6:
-arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:11:10: fatal error: dt-bindings/power/allwinner,sun55i-a523-pck600.h: No such file or directory
-   11 | #include <dt-bindings/power/allwinner,sun55i-a523-pck600.h>
-      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-compilation terminated.
-make[3]: *** [scripts/Makefile.dtbs:131: arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dtb] Error 1
-make[2]: *** [scripts/Makefile.build:554: arch/arm64/boot/dts/allwinner] Error 2
-make[2]: Target 'arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dtb' not remade because of errors.
-make[1]: *** [/home/rob/proj/linux-dt-testing/Makefile:1478: allwinner/sun55i-h728-x96qpro+.dtb] Error 2
-In file included from arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts:6:
-arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:11:10: fatal error: dt-bindings/power/allwinner,sun55i-a523-pck600.h: No such file or directory
-   11 | #include <dt-bindings/power/allwinner,sun55i-a523-pck600.h>
-      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-compilation terminated.
-make[3]: *** [scripts/Makefile.dtbs:131: arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dtb] Error 1
-make[2]: *** [scripts/Makefile.build:554: arch/arm64/boot/dts/allwinner] Error 2
-make[2]: Target 'arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dtb' not remade because of errors.
-make[1]: *** [/home/rob/proj/linux-dt-testing/Makefile:1478: allwinner/sun55i-a527-cubie-a5e.dtb] Error 2
-In file included from arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts:6:
-arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:11:10: fatal error: dt-bindings/power/allwinner,sun55i-a523-pck600.h: No such file or directory
-   11 | #include <dt-bindings/power/allwinner,sun55i-a523-pck600.h>
-      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-compilation terminated.
-make[3]: *** [scripts/Makefile.dtbs:131: arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dtb] Error 1
-make[2]: *** [scripts/Makefile.build:554: arch/arm64/boot/dts/allwinner] Error 2
-make[2]: Target 'arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dtb' not remade because of errors.
-make[1]: *** [/home/rob/proj/linux-dt-testing/Makefile:1478: allwinner/sun55i-t527-avaota-a1.dtb] Error 2
-make: *** [Makefile:248: __sub-make] Error 2
-make: Target 'allwinner/sun50i-h616-bigtreetech-cb1-manta.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-h5-libretech-all-h3-it.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-h6-tanix-tx6.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-h616-x96-mate.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-h5-orangepi-pc2.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-h5-libretech-all-h3-cc.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-h700-anbernic-rg35xx-plus.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-h5-orangepi-zero-plus2.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-a64-pinephone-1.1.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-h618-orangepi-zero2w.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-h618-longanpi-3h.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-h6-pine-h64.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-h616-orangepi-zero2.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-a64-olinuxino-emmc.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-a64-sopine-baseboard.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-h5-emlid-neutis-n5-devboard.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-h6-beelink-gs1.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-h616-bigtreetech-pi.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-a100-allwinner-perf1.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-a64-orangepi-win.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-a64-pinephone-1.2.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-h700-anbernic-rg35xx-h.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-a64-pine64.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-a64-pinetab-early-adopter.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-h5-nanopi-neo-plus2.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-h5-bananapi-m2-plus-v1.2.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-h618-yuzukihd-chameleon.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-h6-orangepi-3.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-a64-amarula-relic.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-a64-pine64-lts.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-h5-bananapi-m2-plus.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-a64-bananapi-m64.dtb' not remade because of errors.
-make: Target 'allwinner/sun55i-t527-orangepi-4a.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-h5-orangepi-zero-plus.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-a64-olinuxino.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-a64-pinebook.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-a64-oceanic-5205-5inmfd.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-a64-pine64-plus.dtb' not remade because of errors.
-make: Target 'allwinner/sun55i-h728-x96qpro+.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-a64-teres-i.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-a64-pinetab.dtb' not remade because of errors.
-make: Target 'allwinner/sun55i-a527-cubie-a5e.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-h700-anbernic-rg35xx-sp.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-h6-pine-h64-model-b.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-h5-orangepi-prime.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-a64-nanopi-a64.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-h618-transpeed-8k618-t.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-h5-libretech-all-h5-cc.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-a64-pinephone-1.0.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-h6-orangepi-lite2.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-h6-tanix-tx6-mini.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-h618-orangepi-zero3.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-h5-nanopi-r1s-h5.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-h64-remix-mini-pc.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-a133-liontron-h-a133l.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-h5-nanopi-neo2.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-h313-tanix-tx1.dtb' not remade because of errors.
-make: Target 'allwinner/sun55i-t527-avaota-a1.dtb' not remade because of errors.
-make: Target 'allwinner/sun50i-h6-orangepi-one-plus.dtb' not remade because of errors.
+Would just PPU_PWR_STATUS be a better name, since it's used by both the 
+PWPR and PWSR registers?
 
+> +#define PPU_POWER_MODE_ON	0x8
+> +#define PPU_POWER_MODE_OFF	0x0
+> +
+> +#define PPU_REG_SIZE	0x1000
+> +
+> +struct sunxi_pck600_desc {
+> +	const char * const *pd_names;
+> +	unsigned int num_domains;
+> +	u32 logic_power_switch0_delay_offset;
+> +	u32 logic_power_switch1_delay_offset;
+> +	u32 off2on_delay_offset;
+> +	u32 device_ctrl0_delay;
+> +	u32 device_ctrl1_delay;
+> +	u32 logic_power_switch0_delay;
+> +	u32 logic_power_switch1_delay;
+> +	u32 off2on_delay;
 
+Is there any indication that those parameters are different between 
+different SoCs? I appreciate the idea of making this future-proof, but 
+this might be a bit premature, if all SoCs use the same values?
 
+> +};
+> +
+> +struct sunxi_pck600_pd {
+> +	struct generic_pm_domain genpd;
+> +	struct sunxi_pck600 *pck;
+> +	void __iomem *base;
+> +};
+> +
+> +struct sunxi_pck600 {
+> +	struct device *dev;
+> +	struct genpd_onecell_data genpd_data;
+> +	struct sunxi_pck600_pd pds[];
+> +};
+> +
+> +#define to_sunxi_pd(gpd) container_of(gpd, struct sunxi_pck600_pd, genpd)
+> +
+> +static int sunxi_pck600_pd_set_power(struct sunxi_pck600_pd *pd, bool on)
+> +{
+> +	struct sunxi_pck600 *pck = pd->pck;
+> +	struct generic_pm_domain *genpd = &pd->genpd;
+> +	int ret;
+> +	u32 val, reg;
+> +
+> +	val = on ? PPU_POWER_MODE_ON : PPU_POWER_MODE_OFF;
+> +
+> +	reg = readl(pd->base + PPU_PWPR);
+> +	FIELD_MODIFY(PPU_PWSR_PWR_STATUS, &reg, val);
+> +	writel(reg, pd->base + PPU_PWPR);
 
+Don't we need a lock here, or is this covered by the power domain framework?
+
+Cheers,
+Andre
+
+> +
+> +	/* push write out to hardware */
+> +	reg = readl(pd->base + PPU_PWPR);
+> +
+> +	ret = readl_poll_timeout_atomic(pd->base + PPU_PWSR, reg,
+> +					FIELD_GET(PPU_PWSR_PWR_STATUS, reg) == val,
+> +					0, 10000);
+> +	if (ret)
+> +		dev_err(pck->dev, "failed to turn domain \"%s\" %s: %d\n",
+> +			genpd->name, str_on_off(on), ret);
+> +
+> +	return ret;
+> +}
+> +
+> +static int sunxi_pck600_power_on(struct generic_pm_domain *domain)
+> +{
+> +	struct sunxi_pck600_pd *pd = to_sunxi_pd(domain);
+> +
+> +	return sunxi_pck600_pd_set_power(pd, true);
+> +}
+> +
+> +static int sunxi_pck600_power_off(struct generic_pm_domain *domain)
+> +{
+> +	struct sunxi_pck600_pd *pd = to_sunxi_pd(domain);
+> +
+> +	return sunxi_pck600_pd_set_power(pd, false);
+> +}
+> +
+> +static void sunxi_pck600_pd_setup(struct sunxi_pck600_pd *pd,
+> +				  const struct sunxi_pck600_desc *desc)
+> +{
+> +	writel(desc->device_ctrl0_delay, pd->base + PPU_DCDR0);
+> +	writel(desc->device_ctrl1_delay, pd->base + PPU_DCDR1);
+> +	writel(desc->logic_power_switch0_delay,
+> +	       pd->base + desc->logic_power_switch0_delay_offset);
+> +	writel(desc->logic_power_switch1_delay,
+> +	       pd->base + desc->logic_power_switch1_delay_offset);
+> +	writel(desc->off2on_delay, pd->base + desc->off2on_delay_offset);
+> +}
+> +
+> +static int sunxi_pck600_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	const struct sunxi_pck600_desc *desc;
+> +	struct genpd_onecell_data *genpds;
+> +	struct sunxi_pck600 *pck;
+> +	struct reset_control *rst;
+> +	struct clk *clk;
+> +	void __iomem *base;
+> +	int i, ret;
+> +
+> +	desc = of_device_get_match_data(dev);
+> +
+> +	pck = devm_kzalloc(dev, struct_size(pck, pds, desc->num_domains), GFP_KERNEL);
+> +	if (!pck)
+> +		return -ENOMEM;
+> +
+> +	pck->dev = &pdev->dev;
+> +	platform_set_drvdata(pdev, pck);
+> +
+> +	genpds = &pck->genpd_data;
+> +	genpds->num_domains = desc->num_domains;
+> +	genpds->domains = devm_kcalloc(dev, desc->num_domains,
+> +				       sizeof(*genpds->domains), GFP_KERNEL);
+> +	if (!genpds->domains)
+> +		return -ENOMEM;
+> +
+> +	base = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(base))
+> +		return PTR_ERR(base);
+> +
+> +	rst = devm_reset_control_get_exclusive_released(dev, NULL);
+> +	if (IS_ERR(rst))
+> +		return dev_err_probe(dev, PTR_ERR(rst), "failed to get reset control\n");
+> +
+> +	clk = devm_clk_get_enabled(dev, NULL);
+> +	if (IS_ERR(clk))
+> +		return dev_err_probe(dev, PTR_ERR(clk), "failed to get clock\n");
+> +
+> +	for (i = 0; i < desc->num_domains; i++) {
+> +		struct sunxi_pck600_pd *pd = &pck->pds[i];
+> +
+> +		pd->genpd.name = desc->pd_names[i];
+> +		pd->genpd.power_off = sunxi_pck600_power_off;
+> +		pd->genpd.power_on = sunxi_pck600_power_on;
+> +		pd->base = base + PPU_REG_SIZE * i;
+> +
+> +		sunxi_pck600_pd_setup(pd, desc);
+> +		ret = pm_genpd_init(&pd->genpd, NULL, false);
+> +		if (ret) {
+> +			dev_err_probe(dev, ret, "failed to initialize power domain\n");
+> +			goto err_remove_pds;
+> +		}
+> +
+> +		genpds->domains[i] = &pd->genpd;
+> +	}
+> +
+> +	ret = of_genpd_add_provider_onecell(dev_of_node(dev), genpds);
+> +	if (ret) {
+> +		dev_err_probe(dev, ret, "failed to add PD provider\n");
+> +		goto err_remove_pds;
+> +	}
+> +
+> +	return 0;
+> +
+> +err_remove_pds:
+> +	for (i--; i >= 0; i--)
+> +		pm_genpd_remove(genpds->domains[i]);
+> +
+> +	return ret;
+> +}
+> +
+> +static const char * const sun55i_a523_pck600_pd_names[] = {
+> +	"VE", "GPU", "VI", "VO0", "VO1", "DE", "NAND", "PCIE"
+> +};
+> +
+> +static const struct sunxi_pck600_desc sun55i_a523_pck600_desc = {
+> +	.pd_names = sun55i_a523_pck600_pd_names,
+> +	.num_domains = ARRAY_SIZE(sun55i_a523_pck600_pd_names),
+> +	.logic_power_switch0_delay_offset = 0xc00,
+> +	.logic_power_switch1_delay_offset = 0xc04,
+> +	.off2on_delay_offset = 0xc10,
+> +	.device_ctrl0_delay = 0xffffff,
+> +	.device_ctrl1_delay = 0xffff,
+> +	.logic_power_switch0_delay = 0x8080808,
+> +	.logic_power_switch1_delay = 0x808,
+> +	.off2on_delay = 0x8
+> +};
+> +
+> +static const struct of_device_id sunxi_pck600_of_match[] = {
+> +	{
+> +		.compatible	= "allwinner,sun55i-a523-pck-600",
+> +		.data		= &sun55i_a523_pck600_desc,
+> +	},
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(of, sunxi_pck600_of_match);
+> +
+> +static struct platform_driver sunxi_pck600_driver = {
+> +	.probe = sunxi_pck600_probe,
+> +	.driver = {
+> +		.name   = "sunxi-pck-600",
+> +		.of_match_table = sunxi_pck600_of_match,
+> +		/* Power domains cannot be removed if in use. */
+> +		.suppress_bind_attrs = true,
+> +	},
+> +};
+> +module_platform_driver(sunxi_pck600_driver);
+> +
+> +MODULE_DESCRIPTION("Allwinner PCK-600 power domain driver");
+> +MODULE_AUTHOR("Chen-Yu Tsai <wens@csie.org>");
+> +MODULE_LICENSE("GPL");
 
