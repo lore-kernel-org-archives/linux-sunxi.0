@@ -1,336 +1,599 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21D202E92C3;
-	Wed,  9 Jul 2025 15:53:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8910828EBFE;
+	Wed,  9 Jul 2025 15:55:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752076427; cv=none; b=XEAKFpCs0188Ca4DoTv16on//8ndOx4H41ZZPQgjZDXMx/l4ns0seIEf5g1veuJhNxKJu9umBRxuL2ybXfOdxYAVq+DyLiC7VY7bRH/c9MlXOhpXd0zvWSdR6XOJMSrFUdXwv3P7El6lbpeJIIpKY/kJUCZZTHcUkX2KIRLfGAM=
+	t=1752076537; cv=none; b=MQeZlBi9rh5pII66+IOxv/ujERJySpv6gvsnVpCpTikwy1zndLGGsjAU1S3VuwdyQ9JSyFs3dD8i4Kgw/DoI5mYxLSdNE9HckU/rsVQwGqY/XdDn1bm17uuHcn92V0hqT2osLWmx9EfWzBhlMmr1nHA66n88e3Xl1Zicg1SG/PI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752076427; c=relaxed/simple;
-	bh=bhvlZxpF344s3Cn9ppDtECocZaX1zt5idxwPfkm+U2o=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=prPb9SHjlSqPW6EcjZpYUYR2ybil5HVFINYQjEaE0vXrZVb/Psa6JLyuLt0yqIurcxvBt5QEj9Ehyo5OF8xFv0vOsiaPuliWtCoZXY/eA4sBRJwVxAE2BYXsz2G0LFGJuFp7PYgZyg7OHsQlRGdvDJiwdJLA7l/iOhdvEnggp3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U327POfd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752076537; c=relaxed/simple;
+	bh=mVjXPOAg9weKqqM+utmP+Waw+D2zBYFJmdCUm7iSM5o=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=YWlNkr1Iz7mFcMskNq+8oKR4flo7UXq7FpX5szeDrbRTCdAMK/Wn+s3XGNmYEuWXXBeHCvvObyzTZyTs3xrHL+V0lOHb2ULRKyBFsxgTQzAkb3VRhECxAAHbw3TFlVxfCDPELqReBEpnJJF4PnLsq2uHUjsVhYfvLdP04SFtb/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DQv6dVFP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U327POfd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CD1AC4CEEF;
-	Wed,  9 Jul 2025 15:53:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DQv6dVFP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6226CC4CEEF;
+	Wed,  9 Jul 2025 15:55:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752076426;
-	bh=bhvlZxpF344s3Cn9ppDtECocZaX1zt5idxwPfkm+U2o=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=U327POfdPOi8fE11KxgEtuCd102NY8ngw5i99vLiJql9ESB8/eTeWEKVW9qQsggoE
-	 FJ0uMO3yrN9GVsDJx/hGKjOuH81XuZRUoFAgEsVKpsZTn9ljCRjRrgxCKR+Q9QMmvx
-	 WEJ884zPlGOrc6Z5WtNfO65MhTWHiZOnR0NJHdfznU//QOmmDmAA68QDp9M636esJF
-	 Ffc1qenOFAy2lsm0a3di9KS4L/kXFgsVOOyrcSL/qS0dnlKBqBwrol66d27GgoXXE+
-	 mCwsHbtDa9FnpNWD7AvHQttLOWu1BaSOvKyOR/fCTIUgCRgCqhGDQ6GwuCG5gv67Vt
-	 /UkgM8x303avg==
-Received: by wens.tw (Postfix, from userid 1000)
-	id 45DBF5FEA4; Wed,  9 Jul 2025 23:53:44 +0800 (CST)
-From: Chen-Yu Tsai <wens@kernel.org>
-To: Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: linux-sunxi@lists.linux.dev,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org
-Subject: [PATCH v2 3/4] pmdomain: sunxi: add driver for Allwinner A523's PCK-600 power controller
-Date: Wed,  9 Jul 2025 23:53:42 +0800
-Message-Id: <20250709155343.3765227-4-wens@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250709155343.3765227-1-wens@kernel.org>
-References: <20250709155343.3765227-1-wens@kernel.org>
+	s=k20201202; t=1752076537;
+	bh=mVjXPOAg9weKqqM+utmP+Waw+D2zBYFJmdCUm7iSM5o=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=DQv6dVFPZXnWE5mVdchUmWOcZLDHoNqBxVcKwbyfhuPmhN1bPeSvfkbFeyoUtGemI
+	 d4cV6c3FBbbx6vCprlLSmKzsrCJ5lXnaI6qs/WLCUbEtWs1+RJjxBH3qhSNsrQj1N+
+	 2P8quu4CqsOkamxBMNWqusLJs3QM4W+4C6ce5HQ9c305eEXsI7AXoRFF1luQhaHsyp
+	 9SqugPT0/U1S1GdcGeQ/psqB7nHV8wo91lErIdWgWfPxo395g2YTR+Xl1xFetzxbhs
+	 shSuolxW66i12vJbGZu+AHjMn1zes9CsjagUBld/Zik1pilmcSfkVUiyUVcQOVQMGl
+	 n5MVfYJcxgphw==
+Date: Wed, 9 Jul 2025 16:55:10 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: David Lechner <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?=
+ <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Linus Walleij
+ <linus.walleij@linaro.org>, Eugen Hristev <eugen.hristev@linaro.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Cai Huoqing <cai.huoqing@linux.dev>, Haibo Chen <haibo.chen@nxp.com>, Shawn
+ Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam
+ <festevam@gmail.com>, Marek Vasut <marek.vasut@gmail.com>, Geert
+ Uytterhoeven <geert+renesas@glider.be>, Magnus Damm
+ <magnus.damm@gmail.com>, Lad Prabhakar
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@csie.org>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ Francesco Dolcini <francesco@dolcini.it>, =?UTF-8?B?Sm/Do28=?= Paulo
+ =?UTF-8?B?R29uw6dhbHZlcw==?= <jpaulo.silvagoncalves@gmail.com>, Rui Miguel
+ Silva <rmfrfs@gmail.com>, Jean-Baptiste Maneyrol
+ <jean-baptiste.maneyrol@tdk.com>, Subhajit Ghosh
+ <subhajit.ghosh@tweaklogic.com>, Gerald Loacker
+ <gerald.loacker@wolfvision.net>, Andreas Klinger <ak@it-klinger.de>, Crt
+ Mori <cmo@melexis.com>, Waqar Hameed <waqar.hameed@axis.com>, Julien
+ Stephan <jstephan@baylibre.com>, Peter Zijlstra <peterz@infradead.org>,
+ Greg KH <gregkh@linuxfoundation.org>, Bo Liu <liubo03@inspur.com>, Al Viro
+ <viro@zeniv.linux.org.uk>, Sean Nyekjaer <sean@geanix.com>, Frank Li
+ <Frank.Li@nxp.com>, Han Xu <han.xu@nxp.com>, Rayyan Ansari
+ <rayyan@ansari.sh>, Gustavo Vaz <gustavo.vaz@usp.br>, Matti Vaittinen
+ <mazziesaccount@gmail.com>, Alexandru Ardelean <aardelean@baylibre.com>,
+ "Jiri Slaby (SUSE)" <jirislaby@kernel.org>, "Rob Herring (Arm)"
+ <robh@kernel.org>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Uwe
+ =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@baylibre.com>, Olivier
+ Moysan <olivier.moysan@foss.st.com>, Christophe JAILLET
+ <christophe.jaillet@wanadoo.fr>, Marcelo Schmitt
+ <marcelo.schmitt1@gmail.com>, Vasileios Amoiridis <vassilisamir@gmail.com>,
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, Hans de Goede
+ <hansg@kernel.org>, Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+ Abhash Jha <abhashkumarjha123@gmail.com>, chuguangqing
+ <chuguangqing@inspur.com>, Shreeya Patel <shreeya.patel@collabora.com>,
+ Per-Daniel Olsson <perdaniel.olsson@axis.com>, =?UTF-8?B?QmFybmFiw6FzIEN6?=
+ =?UTF-8?B?w6ltw6Fu?= <barnabas.czeman@mainlining.org>, Neil Armstrong
+ <neil.armstrong@linaro.org>, David Laight <david.laight@aculab.com>, Jakob
+ Hauser <jahau@rocketmail.com>, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 00/12] iio: Remove redundant
+ pm_runtime_mark_last_busy() calls
+Message-ID: <20250709165510.61fc852d@jic23-huawei>
+In-Reply-To: <20250708231144.971170-1-sakari.ailus@linux.intel.com>
+References: <20250708231144.971170-1-sakari.ailus@linux.intel.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Chen-Yu Tsai <wens@csie.org>
+On Wed,  9 Jul 2025 02:11:44 +0300
+Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
 
-Allwinner A523 family has a second power controller, named PCK-600 in
-the datasheets and BSP. It is likely based on ARM's PCK-600 hardware
-block, with some additional delay controls. The only documentation for
-this hardware is the BSP driver. The standard registers defined in ARM's
-Power Policy Unit Architecture Specification line up. Some extra delay
-controls are found in the reserved range of registers.
+> Hello everyone,
+> 
+> Late last year I posted a set to switch to __pm_runtime_mark_last_busy()
+> and gradually get rid of explicit pm_runtime_mark_last_busy() calls in
+> drivers, embedding them in the appropriate pm_runtime_*autosuspend*()
+> calls. The overall feedback I got at the time was that this is an
+> unnecessary intermediate step, and removing the
+> pm_runtime_mark_last_busy() calls can be done after adding them to the
+> relevant Runtime PM autosuspend related functions. The latter part has
+> been done and is present in Rafael's tree at the moment, also see
+> <URL:https://lore.kernel.org/linux-pm/CAJZ5v0g7-8UWp6ATOy+=oGdxDaCnfKHBG_+kbiTr+VeuXZsUFQ@mail.gmail.com/>:
+> 
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git \
+> 		pm-runtime-6.17-rc1
+> 
+> So before merging these, please pull Rafael's tag. My thinking is indeed
+> these would be best merged via the respective trees as there's some
+> potential for conflicts (there are around 920 call sites modified here).
+> 
+> These patches are on next-20250701.
+> 
+> since v1:
+> 
+> - Drop unneeded braces.
+> 
+> - Further rework call sites that simply assigned a local variable (ret) to
+>   return it, by removing that local variable and the redundant else
+>   clause.
+> 
+> The diff from v1 (<20250704075225.3212486-1-sakari.ailus@linux.intel.com>)
+> for iio patches is:
 
-Add a driver for this power controller. Delay control register values
-and power domain names are from the BSP driver.
+Looking at all these patches, I wonder if the time is correct for introducing
+appropriate wrappers to be able to either do a __free() or guard() based
+auto suspending.   That would however want to be a follow up series
+as many of the drivers would need other rework to take full advantage of that.
 
-Signed-off-by: Chen-Yu Tsai <wens@csie.org>
----
- drivers/pmdomain/sunxi/Kconfig         |   8 +
- drivers/pmdomain/sunxi/Makefile        |   1 +
- drivers/pmdomain/sunxi/sun55i-pck600.c | 225 +++++++++++++++++++++++++
- 3 files changed, 234 insertions(+)
- create mode 100644 drivers/pmdomain/sunxi/sun55i-pck600.c
+It would end up looking something like
 
-diff --git a/drivers/pmdomain/sunxi/Kconfig b/drivers/pmdomain/sunxi/Kconfig
-index 43eecb3ea981..3e2b77cd9a2b 100644
---- a/drivers/pmdomain/sunxi/Kconfig
-+++ b/drivers/pmdomain/sunxi/Kconfig
-@@ -18,3 +18,11 @@ config SUN50I_H6_PRCM_PPU
- 	  Say y to enable the Allwinner H6/H616 PRCM power domain driver.
- 	  This is required to enable the Mali GPU in the H616 SoC, it is
- 	  optional for the H6.
-+
-+config SUN55I_PCK600
-+	bool "Allwinner A523 PCK-600 power domain driver"
-+	depends on PM
-+	select PM_GENERIC_DOMAINS
-+	help
-+	  Say y to enable the PCK-600 power domain driver. This saves power
-+	  when certain peripherals, such as the video engine, are idle.
-diff --git a/drivers/pmdomain/sunxi/Makefile b/drivers/pmdomain/sunxi/Makefile
-index c1343e123759..e344b232fc9f 100644
---- a/drivers/pmdomain/sunxi/Makefile
-+++ b/drivers/pmdomain/sunxi/Makefile
-@@ -1,3 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0-only
- obj-$(CONFIG_SUN20I_PPU)		+= sun20i-ppu.o
- obj-$(CONFIG_SUN50I_H6_PRCM_PPU)	+= sun50i-h6-prcm-ppu.o
-+obj-$(CONFIG_SUN55I_PCK600)		+= sun55i-pck600.o
-diff --git a/drivers/pmdomain/sunxi/sun55i-pck600.c b/drivers/pmdomain/sunxi/sun55i-pck600.c
-new file mode 100644
-index 000000000000..7248f6113665
---- /dev/null
-+++ b/drivers/pmdomain/sunxi/sun55i-pck600.c
-@@ -0,0 +1,225 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Allwinner PCK-600 power domain support
-+ *
-+ * Copyright (c) 2025 Chen-Yu Tsai <wens@csie.org>
-+ */
-+
-+#include <linux/bitfield.h>
-+#include <linux/clk.h>
-+#include <linux/container_of.h>
-+#include <linux/device.h>
-+#include <linux/dev_printk.h>
-+#include <linux/err.h>
-+#include <linux/io.h>
-+#include <linux/iopoll.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+#include <linux/pm_domain.h>
-+#include <linux/reset.h>
-+#include <linux/slab.h>
-+#include <linux/string_choices.h>
-+
-+#define PPU_PWPR    0x0
-+#define PPU_PWSR    0x8
-+#define	PPU_DCDR0   0x170
-+#define PPU_DCDR1   0x174
-+
-+#define PPU_PWSR_PWR_STATUS	GENMASK(3, 0)
-+#define PPU_POWER_MODE_ON	0x8
-+#define PPU_POWER_MODE_OFF	0x0
-+
-+#define PPU_REG_SIZE	0x1000
-+
-+struct sunxi_pck600_desc {
-+	const char * const *pd_names;
-+	unsigned int num_domains;
-+	u32 logic_power_switch0_delay_offset;
-+	u32 logic_power_switch1_delay_offset;
-+	u32 off2on_delay_offset;
-+	u32 device_ctrl0_delay;
-+	u32 device_ctrl1_delay;
-+	u32 logic_power_switch0_delay;
-+	u32 logic_power_switch1_delay;
-+	u32 off2on_delay;
-+};
-+
-+struct sunxi_pck600_pd {
-+	struct generic_pm_domain genpd;
-+	struct sunxi_pck600 *pck;
-+	void __iomem *base;
-+};
-+
-+struct sunxi_pck600 {
-+	struct device *dev;
-+	struct genpd_onecell_data genpd_data;
-+	struct sunxi_pck600_pd pds[];
-+};
-+
-+#define to_sunxi_pd(gpd) container_of(gpd, struct sunxi_pck600_pd, genpd)
-+
-+static int sunxi_pck600_pd_set_power(struct sunxi_pck600_pd *pd, bool on)
-+{
-+	struct sunxi_pck600 *pck = pd->pck;
-+	struct generic_pm_domain *genpd = &pd->genpd;
-+	int ret;
-+	u32 val, reg;
-+
-+	val = on ? PPU_POWER_MODE_ON : PPU_POWER_MODE_OFF;
-+
-+	reg = readl(pd->base + PPU_PWPR);
-+	FIELD_MODIFY(PPU_PWSR_PWR_STATUS, &reg, val);
-+	writel(reg, pd->base + PPU_PWPR);
-+
-+	/* push write out to hardware */
-+	reg = readl(pd->base + PPU_PWPR);
-+
-+	ret = readl_poll_timeout_atomic(pd->base + PPU_PWSR, reg,
-+					FIELD_GET(PPU_PWSR_PWR_STATUS, reg) == val,
-+					0, 10000);
-+	if (ret)
-+		dev_err(pck->dev, "failed to turn domain \"%s\" %s: %d\n",
-+			genpd->name, str_on_off(on), ret);
-+
-+	return ret;
-+}
-+
-+static int sunxi_pck600_power_on(struct generic_pm_domain *domain)
-+{
-+	struct sunxi_pck600_pd *pd = to_sunxi_pd(domain);
-+
-+	return sunxi_pck600_pd_set_power(pd, true);
-+}
-+
-+static int sunxi_pck600_power_off(struct generic_pm_domain *domain)
-+{
-+	struct sunxi_pck600_pd *pd = to_sunxi_pd(domain);
-+
-+	return sunxi_pck600_pd_set_power(pd, false);
-+}
-+
-+static void sunxi_pck600_pd_setup(struct sunxi_pck600_pd *pd,
-+				  const struct sunxi_pck600_desc *desc)
-+{
-+	writel(desc->device_ctrl0_delay, pd->base + PPU_DCDR0);
-+	writel(desc->device_ctrl1_delay, pd->base + PPU_DCDR1);
-+	writel(desc->logic_power_switch0_delay,
-+	       pd->base + desc->logic_power_switch0_delay_offset);
-+	writel(desc->logic_power_switch1_delay,
-+	       pd->base + desc->logic_power_switch1_delay_offset);
-+	writel(desc->off2on_delay, pd->base + desc->off2on_delay_offset);
-+}
-+
-+static int sunxi_pck600_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	const struct sunxi_pck600_desc *desc;
-+	struct genpd_onecell_data *genpds;
-+	struct sunxi_pck600 *pck;
-+	struct reset_control *rst;
-+	struct clk *clk;
-+	void __iomem *base;
-+	int i, ret;
-+
-+	desc = of_device_get_match_data(dev);
-+
-+	pck = devm_kzalloc(dev, struct_size(pck, pds, desc->num_domains), GFP_KERNEL);
-+	if (!pck)
-+		return -ENOMEM;
-+
-+	pck->dev = &pdev->dev;
-+	platform_set_drvdata(pdev, pck);
-+
-+	genpds = &pck->genpd_data;
-+	genpds->num_domains = desc->num_domains;
-+	genpds->domains = devm_kcalloc(dev, desc->num_domains,
-+				       sizeof(*genpds->domains), GFP_KERNEL);
-+	if (!genpds->domains)
-+		return -ENOMEM;
-+
-+	base = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(base))
-+		return PTR_ERR(base);
-+
-+	rst = devm_reset_control_get_exclusive_released(dev, NULL);
-+	if (IS_ERR(rst))
-+		return dev_err_probe(dev, PTR_ERR(rst), "failed to get reset control\n");
-+
-+	clk = devm_clk_get_enabled(dev, NULL);
-+	if (IS_ERR(clk))
-+		return dev_err_probe(dev, PTR_ERR(clk), "failed to get clock\n");
-+
-+	for (i = 0; i < desc->num_domains; i++) {
-+		struct sunxi_pck600_pd *pd = &pck->pds[i];
-+
-+		pd->genpd.name = desc->pd_names[i];
-+		pd->genpd.power_off = sunxi_pck600_power_off;
-+		pd->genpd.power_on = sunxi_pck600_power_on;
-+		pd->base = base + PPU_REG_SIZE * i;
-+
-+		sunxi_pck600_pd_setup(pd, desc);
-+		ret = pm_genpd_init(&pd->genpd, NULL, false);
-+		if (ret) {
-+			dev_err_probe(dev, ret, "failed to initialize power domain\n");
-+			goto err_remove_pds;
-+		}
-+
-+		genpds->domains[i] = &pd->genpd;
-+	}
-+
-+	ret = of_genpd_add_provider_onecell(dev_of_node(dev), genpds);
-+	if (ret) {
-+		dev_err_probe(dev, ret, "failed to add PD provider\n");
-+		goto err_remove_pds;
-+	}
-+
-+	return 0;
-+
-+err_remove_pds:
-+	for (i--; i >= 0; i--)
-+		pm_genpd_remove(genpds->domains[i]);
-+
-+	return ret;
-+}
-+
-+static const char * const sun55i_a523_pck600_pd_names[] = {
-+	"VE", "GPU", "VI", "VO0", "VO1", "DE", "NAND", "PCIE"
-+};
-+
-+static const struct sunxi_pck600_desc sun55i_a523_pck600_desc = {
-+	.pd_names = sun55i_a523_pck600_pd_names,
-+	.num_domains = ARRAY_SIZE(sun55i_a523_pck600_pd_names),
-+	.logic_power_switch0_delay_offset = 0xc00,
-+	.logic_power_switch1_delay_offset = 0xc04,
-+	.off2on_delay_offset = 0xc10,
-+	.device_ctrl0_delay = 0xffffff,
-+	.device_ctrl1_delay = 0xffff,
-+	.logic_power_switch0_delay = 0x8080808,
-+	.logic_power_switch1_delay = 0x808,
-+	.off2on_delay = 0x8
-+};
-+
-+static const struct of_device_id sunxi_pck600_of_match[] = {
-+	{
-+		.compatible	= "allwinner,sun55i-a523-pck-600",
-+		.data		= &sun55i_a523_pck600_desc,
-+	},
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, sunxi_pck600_of_match);
-+
-+static struct platform_driver sunxi_pck600_driver = {
-+	.probe = sunxi_pck600_probe,
-+	.driver = {
-+		.name   = "sunxi-pck-600",
-+		.of_match_table = sunxi_pck600_of_match,
-+		/* Power domains cannot be removed if in use. */
-+		.suppress_bind_attrs = true,
-+	},
-+};
-+module_platform_driver(sunxi_pck600_driver);
-+
-+MODULE_DESCRIPTION("Allwinner PCK-600 power domain driver");
-+MODULE_AUTHOR("Chen-Yu Tsai <wens@csie.org>");
-+MODULE_LICENSE("GPL");
--- 
-2.39.5
+	guard(pm_runtime_autosuspend)(dev);
+
+> 
+> diff --git a/drivers/iio/accel/bmc150-accel-core.c b/drivers/iio/accel/bmc150-accel-core.c
+> index f45beae83f8b..fe1783d439de 100644
+> --- a/drivers/iio/accel/bmc150-accel-core.c
+> +++ b/drivers/iio/accel/bmc150-accel-core.c
+> @@ -332,11 +332,10 @@ static int bmc150_accel_set_power_state(struct bmc150_accel_data *data, bool on)
+>  	struct device *dev = regmap_get_device(data->regmap);
+>  	int ret;
+>  
+> -	if (on) {
+> +	if (on)
+>  		ret = pm_runtime_resume_and_get(dev);
+> -	} else {
+> +	else
+>  		ret = pm_runtime_put_autosuspend(dev);
+> -	}
+>  
+>  	if (ret < 0) {
+>  		dev_err(dev,
+> diff --git a/drivers/iio/accel/kxcjk-1013.c b/drivers/iio/accel/kxcjk-1013.c
+> index 44d770729186..2823ddde4bf2 100644
+> --- a/drivers/iio/accel/kxcjk-1013.c
+> +++ b/drivers/iio/accel/kxcjk-1013.c
+> @@ -636,9 +636,8 @@ static int kxcjk1013_set_power_state(struct kxcjk1013_data *data, bool on)
+>  
+>  	if (on)
+>  		ret = pm_runtime_resume_and_get(&data->client->dev);
+> -	else {
+> +	else
+>  		ret = pm_runtime_put_autosuspend(&data->client->dev);
+> -	}
+>  	if (ret < 0) {
+>  		dev_err(&data->client->dev,
+>  			"Failed: %s for %d\n", __func__, on);
+> diff --git a/drivers/iio/accel/mma8452.c b/drivers/iio/accel/mma8452.c
+> index 5863478bab62..393294df02db 100644
+> --- a/drivers/iio/accel/mma8452.c
+> +++ b/drivers/iio/accel/mma8452.c
+> @@ -224,11 +224,10 @@ static int mma8452_set_runtime_pm_state(struct i2c_client *client, bool on)
+>  #ifdef CONFIG_PM
+>  	int ret;
+>  
+> -	if (on) {
+> +	if (on)
+>  		ret = pm_runtime_resume_and_get(&client->dev);
+> -	} else {
+> +	else
+>  		ret = pm_runtime_put_autosuspend(&client->dev);
+> -	}
+>  
+>  	if (ret < 0) {
+>  		dev_err(&client->dev,
+> diff --git a/drivers/iio/accel/mma9551_core.c b/drivers/iio/accel/mma9551_core.c
+> index 22768f43fd24..247c2eda8420 100644
+> --- a/drivers/iio/accel/mma9551_core.c
+> +++ b/drivers/iio/accel/mma9551_core.c
+> @@ -671,9 +671,8 @@ int mma9551_set_power_state(struct i2c_client *client, bool on)
+>  
+>  	if (on)
+>  		ret = pm_runtime_resume_and_get(&client->dev);
+> -	else {
+> +	else
+>  		ret = pm_runtime_put_autosuspend(&client->dev);
+> -	}
+>  
+>  	if (ret < 0) {
+>  		dev_err(&client->dev,
+> diff --git a/drivers/iio/adc/at91-sama5d2_adc.c b/drivers/iio/adc/at91-sama5d2_adc.c
+> index 67846fefe21a..b4c36e6a7490 100644
+> --- a/drivers/iio/adc/at91-sama5d2_adc.c
+> +++ b/drivers/iio/adc/at91-sama5d2_adc.c
+> @@ -1140,9 +1140,8 @@ static int at91_adc_configure_trigger(struct iio_trigger *trig, bool state)
+>  
+>  	at91_adc_configure_trigger_registers(st, state);
+>  
+> -	if (!state) {
+> +	if (!state)
+>  		pm_runtime_put_autosuspend(st->dev);
+> -	}
+>  
+>  	return 0;
+>  }
+> diff --git a/drivers/iio/adc/rcar-gyroadc.c b/drivers/iio/adc/rcar-gyroadc.c
+> index 467c6a9213ab..3a17b3898bf6 100644
+> --- a/drivers/iio/adc/rcar-gyroadc.c
+> +++ b/drivers/iio/adc/rcar-gyroadc.c
+> @@ -163,11 +163,10 @@ static int rcar_gyroadc_set_power(struct rcar_gyroadc *priv, bool on)
+>  {
+>  	struct device *dev = priv->dev;
+>  
+> -	if (on) {
+> +	if (on)
+>  		return pm_runtime_resume_and_get(dev);
+> -	} else {
+> -		return pm_runtime_put_autosuspend(dev);
+> -	}
+> +
+> +	return pm_runtime_put_autosuspend(dev);
+>  }
+>  
+>  static int rcar_gyroadc_read_raw(struct iio_dev *indio_dev,
+> diff --git a/drivers/iio/adc/rzg2l_adc.c b/drivers/iio/adc/rzg2l_adc.c
+> index 29264a410def..39389091ee29 100644
+> --- a/drivers/iio/adc/rzg2l_adc.c
+> +++ b/drivers/iio/adc/rzg2l_adc.c
+> @@ -588,9 +588,8 @@ static int rzg2l_adc_resume(struct device *dev)
+>  	return 0;
+>  
+>  rpm_restore:
+> -	if (adc->was_rpm_active) {
+> +	if (adc->was_rpm_active)
+>  		pm_runtime_put_autosuspend(dev);
+> -	}
+>  resets_restore:
+>  	reset_control_bulk_assert(ARRAY_SIZE(resets), resets);
+>  	return ret;
+> diff --git a/drivers/iio/adc/ti-ads1015.c b/drivers/iio/adc/ti-ads1015.c
+> index d3920fcb131b..f2a93c63ca14 100644
+> --- a/drivers/iio/adc/ti-ads1015.c
+> +++ b/drivers/iio/adc/ti-ads1015.c
+> @@ -374,11 +374,10 @@ static int ads1015_set_power_state(struct ads1015_data *data, bool on)
+>  	int ret;
+>  	struct device *dev = regmap_get_device(data->regmap);
+>  
+> -	if (on) {
+> +	if (on)
+>  		ret = pm_runtime_resume_and_get(dev);
+> -	} else {
+> +	else
+>  		ret = pm_runtime_put_autosuspend(dev);
+> -	}
+>  
+>  	return ret < 0 ? ret : 0;
+>  }
+> diff --git a/drivers/iio/dac/stm32-dac.c b/drivers/iio/dac/stm32-dac.c
+> index 7d47c7dddbf8..0988c991cf60 100644
+> --- a/drivers/iio/dac/stm32-dac.c
+> +++ b/drivers/iio/dac/stm32-dac.c
+> @@ -95,16 +95,14 @@ static int stm32_dac_set_enable_state(struct iio_dev *indio_dev, int ch,
+>  	if (en && dac->common->hfsel)
+>  		udelay(1);
+>  
+> -	if (!enable) {
+> +	if (!enable)
+>  		pm_runtime_put_autosuspend(dev);
+> -	}
+>  
+>  	return 0;
+>  
+>  err_put_pm:
+> -	if (enable) {
+> +	if (enable)
+>  		pm_runtime_put_autosuspend(dev);
+> -	}
+>  
+>  	return ret;
+>  }
+> diff --git a/drivers/iio/gyro/bmg160_core.c b/drivers/iio/gyro/bmg160_core.c
+> index 4dbe3c0cc5eb..38394b5f3275 100644
+> --- a/drivers/iio/gyro/bmg160_core.c
+> +++ b/drivers/iio/gyro/bmg160_core.c
+> @@ -309,9 +309,8 @@ static int bmg160_set_power_state(struct bmg160_data *data, bool on)
+>  
+>  	if (on)
+>  		ret = pm_runtime_get_sync(dev);
+> -	else {
+> +	else
+>  		ret = pm_runtime_put_autosuspend(dev);
+> -	}
+>  
+>  	if (ret < 0) {
+>  		dev_err(dev, "Failed: bmg160_set_power_state for %d\n", on);
+> diff --git a/drivers/iio/imu/kmx61.c b/drivers/iio/imu/kmx61.c
+> index 42016d56c852..3cd91d8a89ee 100644
+> --- a/drivers/iio/imu/kmx61.c
+> +++ b/drivers/iio/imu/kmx61.c
+> @@ -747,11 +747,10 @@ static int kmx61_set_power_state(struct kmx61_data *data, bool on, u8 device)
+>  		data->mag_ps = on;
+>  	}
+>  
+> -	if (on) {
+> +	if (on)
+>  		ret = pm_runtime_resume_and_get(&data->client->dev);
+> -	} else {
+> +	else
+>  		ret = pm_runtime_put_autosuspend(&data->client->dev);
+> -	}
+>  	if (ret < 0) {
+>  		dev_err(&data->client->dev,
+>  			"Failed: kmx61_set_power_state for %d, ret %d\n",
+> diff --git a/drivers/iio/light/isl29028.c b/drivers/iio/light/isl29028.c
+> index 5ff20d423def..374bccad9119 100644
+> --- a/drivers/iio/light/isl29028.c
+> +++ b/drivers/iio/light/isl29028.c
+> @@ -336,15 +336,11 @@ static int isl29028_ir_get(struct isl29028_chip *chip, int *ir_data)
+>  static int isl29028_set_pm_runtime_busy(struct isl29028_chip *chip, bool on)
+>  {
+>  	struct device *dev = regmap_get_device(chip->regmap);
+> -	int ret;
+>  
+> -	if (on) {
+> -		ret = pm_runtime_resume_and_get(dev);
+> -	} else {
+> -		ret = pm_runtime_put_autosuspend(dev);
+> -	}
+> +	if (on)
+> +		return pm_runtime_resume_and_get(dev);
+>  
+> -	return ret;
+> +	return pm_runtime_put_autosuspend(dev);
+>  }
+>  
+>  /* Channel IO */
+> diff --git a/drivers/iio/light/pa12203001.c b/drivers/iio/light/pa12203001.c
+> index 93823421f42f..98a1f1624c75 100644
+> --- a/drivers/iio/light/pa12203001.c
+> +++ b/drivers/iio/light/pa12203001.c
+> @@ -185,14 +185,10 @@ static int pa12203001_set_power_state(struct pa12203001_data *data, bool on,
+>  		mutex_unlock(&data->lock);
+>  	}
+>  
+> -	if (on) {
+> -		ret = pm_runtime_resume_and_get(&data->client->dev);
+> +	if (on)
+> +		return pm_runtime_resume_and_get(&data->client->dev);
+>  
+> -	} else {
+> -		ret = pm_runtime_put_autosuspend(&data->client->dev);
+> -	}
+> -
+> -	return ret;
+> +	return pm_runtime_put_autosuspend(&data->client->dev);
+>  
+>  err:
+>  	mutex_unlock(&data->lock);
+> diff --git a/drivers/iio/light/rpr0521.c b/drivers/iio/light/rpr0521.c
+> index 15e2cca22e4d..fd538aec4819 100644
+> --- a/drivers/iio/light/rpr0521.c
+> +++ b/drivers/iio/light/rpr0521.c
+> @@ -358,11 +358,10 @@ static int rpr0521_set_power_state(struct rpr0521_data *data, bool on,
+>  	 * Note: If either measurement is re-enabled before _suspend(),
+>  	 * both stay enabled until _suspend().
+>  	 */
+> -	if (on) {
+> +	if (on)
+>  		ret = pm_runtime_resume_and_get(&data->client->dev);
+> -	} else {
+> +	else
+>  		ret = pm_runtime_put_autosuspend(&data->client->dev);
+> -	}
+>  	if (ret < 0) {
+>  		dev_err(&data->client->dev,
+>  			"Failed: rpr0521_set_power_state for %d, ret %d\n",
+> diff --git a/drivers/iio/light/tsl2583.c b/drivers/iio/light/tsl2583.c
+> index d3a4923e5adc..8801a491de77 100644
+> --- a/drivers/iio/light/tsl2583.c
+> +++ b/drivers/iio/light/tsl2583.c
+> @@ -641,15 +641,10 @@ static const struct iio_chan_spec tsl2583_channels[] = {
+>  
+>  static int tsl2583_set_pm_runtime_busy(struct tsl2583_chip *chip, bool on)
+>  {
+> -	int ret;
+> +	if (on)
+> +		return pm_runtime_resume_and_get(&chip->client->dev);
+>  
+> -	if (on) {
+> -		ret = pm_runtime_resume_and_get(&chip->client->dev);
+> -	} else {
+> -		ret = pm_runtime_put_autosuspend(&chip->client->dev);
+> -	}
+> -
+> -	return ret;
+> +	return pm_runtime_put_autosuspend(&chip->client->dev);
+>  }
+>  
+>  static int tsl2583_read_raw(struct iio_dev *indio_dev,
+> diff --git a/drivers/iio/light/us5182d.c b/drivers/iio/light/us5182d.c
+> index 8f0f85e98f3a..d2f5a44892a8 100644
+> --- a/drivers/iio/light/us5182d.c
+> +++ b/drivers/iio/light/us5182d.c
+> @@ -361,18 +361,13 @@ static int us5182d_shutdown_en(struct us5182d_data *data, u8 state)
+>  
+>  static int us5182d_set_power_state(struct us5182d_data *data, bool on)
+>  {
+> -	int ret;
+> -
+>  	if (data->power_mode == US5182D_ONESHOT)
+>  		return 0;
+>  
+> -	if (on) {
+> -		ret = pm_runtime_resume_and_get(&data->client->dev);
+> -	} else {
+> -		ret = pm_runtime_put_autosuspend(&data->client->dev);
+> -	}
+> +	if (on)
+> +		return pm_runtime_resume_and_get(&data->client->dev);
+>  
+> -	return ret;
+> +	return pm_runtime_put_autosuspend(&data->client->dev);
+>  }
+>  
+>  static int us5182d_read_value(struct us5182d_data *data,
+> diff --git a/drivers/iio/light/vcnl4000.c b/drivers/iio/light/vcnl4000.c
+> index 39e2cf20038a..7d70bb71b432 100644
+> --- a/drivers/iio/light/vcnl4000.c
+> +++ b/drivers/iio/light/vcnl4000.c
+> @@ -576,15 +576,11 @@ static bool vcnl4010_is_in_periodic_mode(struct vcnl4000_data *data)
+>  static int vcnl4000_set_pm_runtime_state(struct vcnl4000_data *data, bool on)
+>  {
+>  	struct device *dev = &data->client->dev;
+> -	int ret;
+>  
+> -	if (on) {
+> -		ret = pm_runtime_resume_and_get(dev);
+> -	} else {
+> -		ret = pm_runtime_put_autosuspend(dev);
+> -	}
+> +	if (on)
+> +		return pm_runtime_resume_and_get(dev);
+>  
+> -	return ret;
+> +	return pm_runtime_put_autosuspend(dev);
+>  }
+>  
+>  static int vcnl4040_read_als_it(struct vcnl4000_data *data, int *val, int *val2)
+> diff --git a/drivers/iio/light/vcnl4035.c b/drivers/iio/light/vcnl4035.c
+> index 079fb49bf73b..963747927425 100644
+> --- a/drivers/iio/light/vcnl4035.c
+> +++ b/drivers/iio/light/vcnl4035.c
+> @@ -141,16 +141,12 @@ static const struct iio_trigger_ops vcnl4035_trigger_ops = {
+>  
+>  static int vcnl4035_set_pm_runtime_state(struct vcnl4035_data *data, bool on)
+>  {
+> -	int ret;
+>  	struct device *dev = &data->client->dev;
+>  
+> -	if (on) {
+> -		ret = pm_runtime_resume_and_get(dev);
+> -	} else {
+> -		ret = pm_runtime_put_autosuspend(dev);
+> -	}
+> +	if (on)
+> +		return pm_runtime_resume_and_get(dev);
+>  
+> -	return ret;
+> +	return pm_runtime_put_autosuspend(dev);
+>  }
+>  
+>  static int vcnl4035_read_info_raw(struct iio_dev *indio_dev,
+> diff --git a/drivers/iio/magnetometer/bmc150_magn.c b/drivers/iio/magnetometer/bmc150_magn.c
+> index 53d860e640a9..7c5fef79ad04 100644
+> --- a/drivers/iio/magnetometer/bmc150_magn.c
+> +++ b/drivers/iio/magnetometer/bmc150_magn.c
+> @@ -260,11 +260,10 @@ static int bmc150_magn_set_power_state(struct bmc150_magn_data *data, bool on)
+>  #ifdef CONFIG_PM
+>  	int ret;
+>  
+> -	if (on) {
+> +	if (on)
+>  		ret = pm_runtime_resume_and_get(data->dev);
+> -	} else {
+> +	else
+>  		ret = pm_runtime_put_autosuspend(data->dev);
+> -	}
+>  
+>  	if (ret < 0) {
+>  		dev_err(data->dev,
+> diff --git a/drivers/iio/proximity/srf04.c b/drivers/iio/proximity/srf04.c
+> index f2e2c638a2b6..310467ce39e2 100644
+> --- a/drivers/iio/proximity/srf04.c
+> +++ b/drivers/iio/proximity/srf04.c
+> @@ -117,9 +117,8 @@ static int srf04_read(struct srf04_data *data)
+>  	udelay(data->cfg->trigger_pulse_us);
+>  	gpiod_set_value(data->gpiod_trig, 0);
+>  
+> -	if (data->gpiod_power) {
+> +	if (data->gpiod_power)
+>  		pm_runtime_put_autosuspend(data->dev);
+> -	}
+>  
+>  	/* it should not take more than 20 ms until echo is rising */
+>  	ret = wait_for_completion_killable_timeout(&data->rising, HZ/50);
+> 
+> 
+> Sakari Ailus (12):
+>   iio: accel: Remove redundant pm_runtime_mark_last_busy() calls
+>   iio: adc: Remove redundant pm_runtime_mark_last_busy() calls
+>   iio: chemical: Remove redundant pm_runtime_mark_last_busy() calls
+>   iio: common: Remove redundant pm_runtime_mark_last_busy() calls
+>   iio: dac: Remove redundant pm_runtime_mark_last_busy() calls
+>   iio: gyro: Remove redundant pm_runtime_mark_last_busy() calls
+>   iio: imu: Remove redundant pm_runtime_mark_last_busy() calls
+>   iio: light: Remove redundant pm_runtime_mark_last_busy() calls
+>   iio: magnetometer: Remove redundant pm_runtime_mark_last_busy() calls
+>   iio: pressure: Remove redundant pm_runtime_mark_last_busy() calls
+>   iio: proximity: Remove redundant pm_runtime_mark_last_busy() calls
+>   iio: temperature: Remove redundant pm_runtime_mark_last_busy() calls
+> 
+>  drivers/iio/accel/bmc150-accel-core.c               |  6 ++----
+>  drivers/iio/accel/bmi088-accel-core.c               |  3 ---
+>  drivers/iio/accel/fxls8962af-core.c                 |  1 -
+>  drivers/iio/accel/kxcjk-1013.c                      |  4 +---
+>  drivers/iio/accel/kxsd9.c                           |  3 ---
+>  drivers/iio/accel/mma8452.c                         |  6 ++----
+>  drivers/iio/accel/mma9551_core.c                    |  4 +---
+>  drivers/iio/accel/msa311.c                          |  6 ------
+>  drivers/iio/adc/ab8500-gpadc.c                      |  1 -
+>  drivers/iio/adc/at91-sama5d2_adc.c                  | 13 +------------
+>  drivers/iio/adc/imx8qxp-adc.c                       |  2 --
+>  drivers/iio/adc/imx93_adc.c                         |  1 -
+>  drivers/iio/adc/rcar-gyroadc.c                      |  8 +++-----
+>  drivers/iio/adc/rzg2l_adc.c                         |  6 +-----
+>  drivers/iio/adc/stm32-adc-core.c                    |  1 -
+>  drivers/iio/adc/stm32-adc.c                         |  7 -------
+>  drivers/iio/adc/sun4i-gpadc-iio.c                   |  2 --
+>  drivers/iio/adc/ti-ads1015.c                        |  6 ++----
+>  drivers/iio/adc/ti-ads1100.c                        |  1 -
+>  drivers/iio/adc/ti-ads1119.c                        |  2 --
+>  drivers/iio/chemical/atlas-sensor.c                 |  2 --
+>  drivers/iio/chemical/bme680_core.c                  |  3 ---
+>  drivers/iio/common/hid-sensors/hid-sensor-trigger.c |  1 -
+>  drivers/iio/dac/stm32-dac.c                         |  9 ++-------
+>  drivers/iio/gyro/bmg160_core.c                      |  4 +---
+>  drivers/iio/gyro/fxas21002c_core.c                  |  2 --
+>  drivers/iio/gyro/mpu3050-core.c                     |  3 ---
+>  drivers/iio/gyro/mpu3050-i2c.c                      |  1 -
+>  drivers/iio/imu/inv_icm42600/inv_icm42600_accel.c   |  5 -----
+>  drivers/iio/imu/inv_icm42600/inv_icm42600_buffer.c  |  1 -
+>  drivers/iio/imu/inv_icm42600/inv_icm42600_gyro.c    |  5 -----
+>  drivers/iio/imu/inv_icm42600/inv_icm42600_temp.c    |  1 -
+>  drivers/iio/imu/inv_mpu6050/inv_mpu_core.c          |  6 ------
+>  drivers/iio/imu/inv_mpu6050/inv_mpu_trigger.c       |  1 -
+>  drivers/iio/imu/kmx61.c                             |  6 ++----
+>  drivers/iio/light/apds9306.c                        |  2 --
+>  drivers/iio/light/apds9960.c                        |  1 -
+>  drivers/iio/light/bh1780.c                          |  1 -
+>  drivers/iio/light/gp2ap002.c                        |  2 --
+>  drivers/iio/light/isl29028.c                        | 11 +++--------
+>  drivers/iio/light/ltrf216a.c                        |  1 -
+>  drivers/iio/light/pa12203001.c                      | 11 +++--------
+>  drivers/iio/light/rpr0521.c                         |  6 ++----
+>  drivers/iio/light/tsl2583.c                         | 12 +++---------
+>  drivers/iio/light/tsl2591.c                         |  2 --
+>  drivers/iio/light/us5182d.c                         | 12 +++---------
+>  drivers/iio/light/vcnl4000.c                        | 11 +++--------
+>  drivers/iio/light/vcnl4035.c                        | 11 +++--------
+>  drivers/iio/magnetometer/ak8974.c                   |  2 --
+>  drivers/iio/magnetometer/ak8975.c                   |  1 -
+>  drivers/iio/magnetometer/als31300.c                 |  2 --
+>  drivers/iio/magnetometer/bmc150_magn.c              |  6 ++----
+>  drivers/iio/magnetometer/tmag5273.c                 |  2 --
+>  drivers/iio/magnetometer/yamaha-yas530.c            |  2 --
+>  drivers/iio/pressure/bmp280-core.c                  |  5 -----
+>  drivers/iio/pressure/icp10100.c                     |  1 -
+>  drivers/iio/pressure/mpl115.c                       |  2 --
+>  drivers/iio/pressure/zpa2326.c                      |  2 --
+>  drivers/iio/proximity/pulsedlight-lidar-lite-v2.c   |  1 -
+>  drivers/iio/proximity/srf04.c                       |  4 +---
+>  drivers/iio/temperature/mlx90614.c                  |  1 -
+>  drivers/iio/temperature/mlx90632.c                  |  1 -
+>  drivers/iio/temperature/mlx90635.c                  |  1 -
+>  63 files changed, 41 insertions(+), 208 deletions(-)
+> 
 
