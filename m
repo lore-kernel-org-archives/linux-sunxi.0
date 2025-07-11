@@ -1,79 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 038FA2EA15D;
-	Fri, 11 Jul 2025 16:42:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 407242F1FDB
+	for <linux-sunxi@lists.linux.dev>; Fri, 11 Jul 2025 17:44:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752252164; cv=none; b=gmKwGge5m89dTrQzimy83DKgaQpsLRiHNXnx26ZY7BfSplyN4dWKwRj747Mwd+FtHccYdsKCSf1dhUUpxEG79ysTyObZqqVak/bi+8x7jsyGy8fbPI73kJL1yY6FXMcOB3Cg9gNtEMXnc38cv8GTbEqvQJJey7uxepDAZD2Lv3k=
+	t=1752255872; cv=none; b=O8sUu7aSEqFpb/hBHkAfj3CIObTaRTyGwNjStxnMkVUX/zhZx02bhjoAf0/jw+nsu+ITNrdoqe7lWflBvVDGiBrIen2fTg2OUXQlAm5ez4ASdEIHGxxYQrrJReHi3fJjQ9rTpOh9glq882lbiIHEkGedGaZuX2TN4ELMSsaBmaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752252164; c=relaxed/simple;
-	bh=eV0bXu0s/ddHR0HdGKgiSiUP56+lEzZpkmznMpgiK90=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=aQxIzzfeSId053J07o7Afk5P5MyUEK3NdVZNzDt8yMgqpFXI/f8YLsJx877MO4xi0BtoTrzXp+bCdMdp7d1Ohp05h33JImA8X0tpr9f2VS4JAwggammgaEXNuNDkSChzrXGJqpL35lhtmGxIKIa1LYuTDapLeZF0gsrf/RBqxE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=boaL7Oh5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752255872; c=relaxed/simple;
+	bh=u+ZM5SO8L4rZ2xYIS3dtWrMrDyHsyXlquIkrSDaXE+w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Y87NKmv+/iq+iuHsnrrLfYbD18S3TEHJPShfKAHHNI0nlGZqrWRsk1A12Gft5eanEwx3YsNjkcms5zURrv2n1ooPjssWocnEyqK6J/O2aH1qhpmD7u6nXeFDcL79bbyVLbnqvli0QJzc2AMF8pSUOcHKMCW58EO/R9Qi2EUJuRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wXRqJh5x; arc=none smtp.client-ip=209.85.208.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="boaL7Oh5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C7CAC4CEED;
-	Fri, 11 Jul 2025 16:42:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752252163;
-	bh=eV0bXu0s/ddHR0HdGKgiSiUP56+lEzZpkmznMpgiK90=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=boaL7Oh5uFTJc5XNOsKYGpgRXWYYqO+5tJ9zlsmEtmitNvf17xAzHf3NJTSM9VpWT
-	 Thu3qngZ8CWlriz9qVNUFysV/cuw3upRpTC58L4DhtMKye9AUO97rHtXyhURfbZlak
-	 P6+1a+oLkZcFxtX29waqUtePgd3A4dkaLAR2+2H6UB04nuqTskKNSI4Nsz4KOsP6T1
-	 gBLOF6OQLOywkP8erliyTOrgjWqzx15hfGWR6fxP6X4VMcsukXcPUXCuXqGjbnaDrs
-	 YYr+5reZ8tH1LGltVCRpb9//kHpUxwi50qXEC8fohubCKlE3EUrhKATWV7Of/WMJGi
-	 2vZbqd3aMPkpA==
-From: Srinivas Kandagatla <srini@kernel.org>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>, 
- "Rafael J . Wysocki" <rafael@kernel.org>, 
- Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>, 
- Lukasz Luba <lukasz.luba@arm.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
- Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
- iuncuim <iuncuim@gmail.com>
-In-Reply-To: <20250703151132.2642378-1-iuncuim@gmail.com>
-References: <20250703151132.2642378-1-iuncuim@gmail.com>
-Subject: Re: (subset) [PATCH v2 0/8] Allwinner: A523: add support for A523
- THS0/1 controllers
-Message-Id: <175225215900.5938.11774376916669080411.b4-ty@kernel.org>
-Date: Fri, 11 Jul 2025 17:42:39 +0100
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wXRqJh5x"
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-32b78b5aa39so21804621fa.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 11 Jul 2025 10:44:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1752255868; x=1752860668; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=u+ZM5SO8L4rZ2xYIS3dtWrMrDyHsyXlquIkrSDaXE+w=;
+        b=wXRqJh5xlrlNaISTsneVCRmR6Y8v1Mxcqcyj3GMV2UICfjrqdFBlEi9YZ1wfhH522B
+         qZ/+oprGZ1mswX9EATAa5pjrR0/zsWRGudJmfbF0SFC5x6WsDfvbacVmx9b4fMuzRyeY
+         o7tbzcD8ys5liHF7EQmQkWiYv7neKYSs5m69NXmtLMByzAoQY/J9+NHBq6T8CDQnR6W9
+         wuxv3wvRjg7D/u6GVzHhC3qwO8PTTRQ8ED140BhgEdmtN06MVKYKxGs6lf3pMtCM9PUt
+         Am2kphJDiskt8oC6p6woOj0kaGvAVX6/vZoYAMfP/XisJFGPufWJwuqLN5zEvxmp9CYd
+         9XsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752255868; x=1752860668;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=u+ZM5SO8L4rZ2xYIS3dtWrMrDyHsyXlquIkrSDaXE+w=;
+        b=Cm03WbgG9/rLqEREmVokAV2qXfRpyBM006LfddrjC7Dj2B8KdbC8r94yzh0cPaMMxL
+         e8k0LfnApQOTzsliTNs5TDE2sf3K5egywmeRJUKAq4TM1PDZ5fKs8wJVxgjP3GJmcESD
+         06AAcxoBc/khlMWqF3k9NFpVoT8uU7EO3YrtwKuEFh39jTn7r6HLCN+eWs39PbRc71h0
+         gRASC6v+j6VflLwsAB3m5F3swpoZa6iQROM9JU+DnChkZXh6d1SRqM4p0nKUad+ZZ6ii
+         sf9RZlfIN8Ay0JLYLKFwV89TOAEX3j9o10Pp50yUwsNJSGaq27xznp8qKxuiT5Is5xxC
+         3X+g==
+X-Forwarded-Encrypted: i=1; AJvYcCXriEH7Nm3LwLYgOueEbaqVDJWuCbZg4iZ+YVmqR3x8MCsqTo4fsE2K4CewfUhgcZs03fP0IGaZx6VQmQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YztENw7H4bB+eE5YvnSLZovIU21/ldMhJoyw2JkE3GFVwVdEvkd
+	CEMbCo6esbgYlTnVqth4/SB4cU0TYIQiEqkCHwfQAE5/nvYguHM2+kSW/aWvGPw7EKNrXfdrWuj
+	iqY1RyE47SVZUsGxFkM2isQCAtYEE3BLG5/c2v+3Mxg==
+X-Gm-Gg: ASbGncudUkdadGVQAPZvUp160y0D62EOUdAlbipeFOwojAa/i8zJh19ZnLm+ZxwXnao
+	eWgqx/z4+GWBoAuvnLJM92kQxhDR//s1zATSGaLIN4dTkpycFsZPVMTdcxQZGKzG5vv8hT2NCRQ
+	xyUOxO6kI4IejVcexvT467JifDYRxsqHgXlA5rs0P8VcIBt6ieryukqH48ObDILDPfGq3eR08Ve
+	VxFfWQ=
+X-Google-Smtp-Source: AGHT+IHCwFbr6hM4SofCoKFNuaGsZexul62ZHJaP09xPkxTc5K3eZJNMRyy9Lqm+DJrLEpWrNm0Dt8rNW5UZHZ3ILnk=
+X-Received: by 2002:a05:651c:111b:b0:32a:6b23:d3cc with SMTP id
+ 38308e7fff4ca-3305341163emr16031911fa.25.1752255868348; Fri, 11 Jul 2025
+ 10:44:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
+References: <20250710-drm-clk-round-rate-v1-0-601b9ea384c3@redhat.com> <20250710-drm-clk-round-rate-v1-2-601b9ea384c3@redhat.com>
+In-Reply-To: <20250710-drm-clk-round-rate-v1-2-601b9ea384c3@redhat.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Fri, 11 Jul 2025 19:44:17 +0200
+X-Gm-Features: Ac12FXy5w5LZfYTJ16GWumg6iWoXPYqfrbZ0euf79O43X2SKG618Bj4k3h1lAGY
+Message-ID: <CACRpkdZus86rP1BiSw2j24eaSuMrCEorZU9Rc4ouWmmz8iaqhA@mail.gmail.com>
+Subject: Re: [PATCH 2/9] drm/mcde/mcde_clk_div: convert from round_rate() to determine_rate()
+To: Brian Masney <bmasney@redhat.com>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
+	Abhinav Kumar <abhinav.kumar@linux.dev>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
+	Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+	Yannick Fertre <yannick.fertre@foss.st.com>, 
+	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
+	Philippe Cornu <philippe.cornu@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Stephen Boyd <sboyd@kernel.org>, dri-devel@lists.freedesktop.org, imx@lists.linux.dev, 
+	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Jul 10, 2025 at 7:43=E2=80=AFPM Brian Masney <bmasney@redhat.com> w=
+rote:
 
-On Thu, 03 Jul 2025 23:11:24 +0800, iuncuim wrote:
-> From: Mikhail Kalashnikov <iuncuim@gmail.com>
-> 
-> This patch series adds temperature sensor support for the Allwinner A523
-> family of processors (same die with H728/A527/T527)
-> 
-> Changes:
-> 1) dt-bindings: nvmem: SID: Add binding for A523 SID controller
->  - added new patch
-> 
-> [...]
+> The round_rate() clk ops is deprecated, so migrate this driver from
+> round_rate() to determine_rate() using the Coccinelle semantic patch
+> on the cover letter of this series.
+>
+> Signed-off-by: Brian Masney <bmasney@redhat.com>
 
-Applied, thanks!
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-[1/8] dt-bindings: nvmem: SID: Add binding for A523 SID controller
-      commit: 68d386fb1ca01ddb4f70f07e3e7b8d51ef9743ac
-
-Best regards,
--- 
-Srinivas Kandagatla <srini@kernel.org>
-
+Yours,
+Linus Walleij
