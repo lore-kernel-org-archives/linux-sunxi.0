@@ -1,104 +1,106 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A2A52F1FF5
-	for <linux-sunxi@lists.linux.dev>; Fri, 11 Jul 2025 17:44:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D171654758
+	for <linux-sunxi@lists.linux.dev>; Fri, 11 Jul 2025 18:13:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752255893; cv=none; b=LOHRzdxhvZfmrzFycARHAA+ypFUnEEhASy0L20iE+56yJpSX+hlmxxPtHBC3Zw4XbCPIyfVyzbzEajzLuIjOHJFBg3WTAcaTeXZ/9rG8P6EMXonbHfFXoAC25/Q/5+qJlletaMeGniSVgNb/VgzFO3vQz2hT8M09fiTXMdW+J08=
+	t=1752257614; cv=none; b=Vr9ZK8AhnLvMvquTEBZdpBXcG/bfowl56z24ouUdF1zV+xV7XM9j/iUgkJqHgNzGYcEqNKrLhYDcvcXNRblI8TFaAS2BiqVixoHBGpF/Hahn7Tr7azDaV5/mszh9BUJyishmvoWaZwI/EnrqYRoYeH+wxXeZAnRZgLlskB2pECc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752255893; c=relaxed/simple;
-	bh=u+ZM5SO8L4rZ2xYIS3dtWrMrDyHsyXlquIkrSDaXE+w=;
+	s=arc-20240116; t=1752257614; c=relaxed/simple;
+	bh=z0FAINHMrT/mXWSwLLS5ITQiWYyUydXHEsbDIHwLkNQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=m/Nhx8Ze4qjp9vtgZ0xGAQ1UYszeQorhE2L9+MaWjIKevsY6vDJ0wETsufh6+j7gx+DdtsjVGcZH9X6s25OtRxq70Hix7v/BDD9dWv3nsEoK6RC3c7Leq/ocZ0GuOFooLshyfEJtA4pSmjErmBpZT8Ah8zCoe5JkCWF3iKDrGr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZmlJqgCi; arc=none smtp.client-ip=209.85.208.176
+	 To:Cc:Content-Type; b=svFcpDhflPYYIJhSkLKDolcrY+x1PwMWMy33inrlWYI3L+JaWA0j6gOwoobSNL3RgTQaDknhufELgCV1uaPD0SWMgkOC43iK2TY5mJY/63s4eUiZ/tCwoKGG8rjCWegEACkAPAFLGYGIBpj87v8bTKjR1W8eOT3f7ARkuyp25vk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cRWiUnIn; arc=none smtp.client-ip=209.85.208.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZmlJqgCi"
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-32b7113ed6bso20235531fa.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 11 Jul 2025 10:44:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cRWiUnIn"
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-32f1aaf0d60so21417991fa.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 11 Jul 2025 11:13:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1752255889; x=1752860689; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1752257611; x=1752862411; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=u+ZM5SO8L4rZ2xYIS3dtWrMrDyHsyXlquIkrSDaXE+w=;
-        b=ZmlJqgCiOeV4wcvG7HayFmQKcrOVuqzb84wxA055LciQjwqRXasYyuDuAhP0c2VplX
-         G69DKZnXbhVJpJIAGSq0GGvGq8bC7PTUZvhekhk+cKz5oYQFItjoFNVs17tBU3K+Iud4
-         FEK7UKH2Mgllv3/mTcrvDmTOxqO3EYASuDdUTomd9dMyYj27EptODn5gNEJaXQKefhQP
-         QFU95YggZW9LoLUIDR3jMg8vRvJRMXruNnadwT8ih3bmeNIB1AoQ1Iie05hSY439qxA5
-         qC9cZEIWMZFCwfuYk+SBcopbxky+KBI1TD9glb6ulFuTMP9qdAsPtNTEBZ391/BvP4Ai
-         P9lw==
+        bh=z0FAINHMrT/mXWSwLLS5ITQiWYyUydXHEsbDIHwLkNQ=;
+        b=cRWiUnIn2BjEwLrJjsc7ceBZPCCkVCpweK2SwcoA7oBVbKSFPlTcEFQefILaVtrS6y
+         2EhRykiGZTjcVTibEVro2YSjYD/0qkPU7Z6vWj2MweV1RjWuAJU9m7q2TpQE39pcOawN
+         ZsMip4Qua7XIZ2b3PViB2PWAFDKtQPQbp7QS7EGV5fwT5k7NZNp5/q81F4Lv6BtZvJBF
+         CY40rpQAygU7c6mEiqGoqMeswqaUAOvASNyDhEFSJv+Y9tHhMY0jaMzS7E6LwStqya1u
+         vNeClvtasRR7Xj1YMdv1+Oak3wCqUtnJdq/gdUD2fzUFMWtx0PYiA5LAhnHBo3rAqRCE
+         iChQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752255889; x=1752860689;
+        d=1e100.net; s=20230601; t=1752257611; x=1752862411;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=u+ZM5SO8L4rZ2xYIS3dtWrMrDyHsyXlquIkrSDaXE+w=;
-        b=iL0sMPpronJe2TDXt/7Dp1MIA0M1cUKdq4wV+DiZYB6l5fGCDaBZQICSG579U1QKOb
-         ynKOPsXwwEtYVCrFcVlltt46Z+GSxYWID4WOwA+aK45GisKHTJS9AnzudwofVK7Iudok
-         Lr5RS9MD6PbYO/QtdEmo7jw0nhxfxYPXom25Ufqfn74MVMJmXZlmYe8dwLCYvDoDSV7V
-         z575XShuNmqRyoUkhcvjy1N7ckM5buCx3v8vV9ck9mgiVK1hgk980Zv4DS6KC0NeKStC
-         3LOm0JFmSlD2Po7w0AnztFsZhSvq2u35Evcj0TemLSTlYcvZ0csrrXtskqRspCiuvzqn
-         BfVg==
-X-Forwarded-Encrypted: i=1; AJvYcCXYFYSRVG+LKbRccfZA5rhcET0CihNgo9iXZGZ+0HDr87x0eLYq+iiU4MLLBJ5VWD5AksIT4M7cCx2cnQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxkU14QoktNzanM3up0nerHR9g9E6CLwcior9nilTNPvd5maFGW
-	pOXU028VKtNn2aRJ0++xZN+fnmrVMk/8W6acSqH0aNEtn4iAh7YUP+Vmzk8aJLnOgMmmLSYZDDB
-	SKdde3fuK83HeBjO99hZcNfnbU/9tpRLylTY4r/Hq0A==
-X-Gm-Gg: ASbGncsnWsznZ8kUvB7F0wz94Pq04HNU404PVyLbQbZXUcBBZ0qP1C0vaakbHKTejWN
-	Ukwi/Igg+LHpcaFJoAvg7Y8J+FMyHvXLgIwAcrku8tOgN0itxTOHPRs0l+2n5OryXFJfck1Zkc+
-	OBcrn2Q4T1kr1jsiAoQ0ANDZxH3MLeDVdrK+WjGpslMKg1N+IdTPUDBzyb9hF1FmGaOuJCLDDSX
-	NCgwA4=
-X-Google-Smtp-Source: AGHT+IH6ZOzBfHIgYUwgOc3NHyt2gji+Em8NzLEp8xFU4pLvltizLDn2SrTtw5BwtYgzrpRFDHd1anYmDStmm3/BYxA=
-X-Received: by 2002:a2e:ae05:0:b0:32b:75f0:cfa4 with SMTP id
- 38308e7fff4ca-3305343ffbdmr14799021fa.25.1752255889239; Fri, 11 Jul 2025
- 10:44:49 -0700 (PDT)
+        bh=z0FAINHMrT/mXWSwLLS5ITQiWYyUydXHEsbDIHwLkNQ=;
+        b=CyYcTPdqUP1dUrJqLLi+Ti/7WJD59f82ThXokymKRgj1967zlShBbv+XLFD8yo8nrk
+         XVTBbqUq76BSSc1HSwy9iLqTgwtND8yXCV4zfft+V6zyyuE5J63icoaYVdyIRgUlXRqW
+         oUKVQEy6+xVQlO/FLMF0M6ve0uVQCf+eFR6aBIyUfNT0Yanz2gRkt2T2oUJp78/aB07I
+         Ob4g7AnaYN3bYezfVAt6GXBAxQxMVsZwrZCQC8yPK/Ee4g5fffj+HAiUkB2bfj2555bI
+         4LwH5D/TkcNMvLAm8UV91x0g8Kzela8vFo8i3pmW2vgkisLMN5kKPyNXt+4c2IxTbA2N
+         +oYg==
+X-Forwarded-Encrypted: i=1; AJvYcCW893nG888U8oGOtniPRI3NpMpWnSMQB8kBC2fcscpWUWBuwSpNGxZENP/F4zOljxQ81ZHlRGLgBYfUEg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzXV/Y6zMB6c4h5aJd8Xzp6FC+5qke9XoQOtP5zTbFgcNelEkOS
+	Og/SfzPIzrJVq8ga5+hJtNrtqShPk5jbEzyqlkdFZ3+r0t7a8z0JfPFXkWPKGP4VTuLQoXugSGf
+	de9tLATa4uhtfsLc1WQqEYDuSnR4kqRHLFSKwdrYEEQ==
+X-Gm-Gg: ASbGnctRpI22M19uNiuqRPXtBrMuuilRxBWwR5IB8gaQsXQg0m4r7UKLGUqL145L6by
+	jibGTyxuPfMARSq8w0lenDS/E+8rDarKbmJmYwdo2TFGpcTW4ADVmQw9CktanH7Ld7qootFxGjj
+	TPQEs1Kkl1lsTi3iS5bnGrPYT8ltPEmzej058WPeCWkhcN+j2g8E1kR4Sn8TC3yxQIRuqbAUW8l
+	iLC6BPIldKUCnzy+Q==
+X-Google-Smtp-Source: AGHT+IFMuBYHoAN7PSAu45/CxJxrRKT9IAF0+U0X5QcMw4v0k+dSQgdIENHIG/kIkaAP4cg8rAILHrMXlK3Z+M3lDSE=
+X-Received: by 2002:a2e:be83:0:b0:32a:85ad:2162 with SMTP id
+ 38308e7fff4ca-330532d0602mr13483321fa.7.1752257611064; Fri, 11 Jul 2025
+ 11:13:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250710-drm-clk-round-rate-v1-0-601b9ea384c3@redhat.com> <20250710-drm-clk-round-rate-v1-5-601b9ea384c3@redhat.com>
-In-Reply-To: <20250710-drm-clk-round-rate-v1-5-601b9ea384c3@redhat.com>
+References: <20250626080923.632789-1-paulk@sys-base.io> <20250626080923.632789-2-paulk@sys-base.io>
+ <20250704233535.4b026641@minigeek.lan> <20250705153825.2be2b333@minigeek.lan>
+ <aGm8n_wJPiGk85E4@collins> <CAGb2v66s-nWA2dFRpgX6DbDET3dWOm1jPKWm1k9SmGSqhTWoWA@mail.gmail.com>
+In-Reply-To: <CAGb2v66s-nWA2dFRpgX6DbDET3dWOm1jPKWm1k9SmGSqhTWoWA@mail.gmail.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 11 Jul 2025 19:44:38 +0200
-X-Gm-Features: Ac12FXxUNTUQvVOGg3MoOkpShRe7WywXW6kbpP4WvN3P-CcJwwv5gR7MoObTWCg
-Message-ID: <CACRpkda3R+2hhzvd+snkTGrRb-gZ8OUvzAhFE5Cg6yXfZ+E4nQ@mail.gmail.com>
-Subject: Re: [PATCH 5/9] drm/pl111: convert from round_rate() to determine_rate()
-To: Brian Masney <bmasney@redhat.com>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
-	Abhinav Kumar <abhinav.kumar@linux.dev>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
-	Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
-	Yannick Fertre <yannick.fertre@foss.st.com>, 
-	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
-	Philippe Cornu <philippe.cornu@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Stephen Boyd <sboyd@kernel.org>, dri-devel@lists.freedesktop.org, imx@lists.linux.dev, 
-	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-sunxi@lists.linux.dev
+Date: Fri, 11 Jul 2025 20:13:19 +0200
+X-Gm-Features: Ac12FXygNb9Ktxv1UdTrJbOKhH4l5d3j_PT8j5_pIzh_inLuA-iMK4HxDAsC-Wg
+Message-ID: <CACRpkdZSXRxhNORJv5TTaf=B5dpUgXfL-PBW1qH7uKC24o=Heg@mail.gmail.com>
+Subject: Re: [PATCH 1/5] pinctrl: sunxi: Fix a100 emac pin function name
+To: wens@csie.org
+Cc: Paul Kocialkowski <paulk@sys-base.io>, Andre Przywara <andre.przywara@arm.com>, netdev@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 10, 2025 at 7:43=E2=80=AFPM Brian Masney <bmasney@redhat.com> w=
-rote:
+On Sun, Jul 6, 2025 at 5:04=E2=80=AFPM Chen-Yu Tsai <wens@csie.org> wrote:
+> On Sun, Jul 6, 2025 at 8:00=E2=80=AFAM Paul Kocialkowski <paulk@sys-base.=
+io> wrote:
 
-> The round_rate() clk ops is deprecated, so migrate this driver from
-> round_rate() to determine_rate() using the Coccinelle semantic patch
-> on the cover letter of this series.
+> > > So I would very much like to see this patch moved out. Is it just in
+> > > LinusW's tree so far? I don't see it in -next yet.
+> >
+> > I don't think the patches were accepted for over a week so we can proba=
+bly
+> > still act. I will send reverts, unless maintainers want to manually rem=
+ove
+> > these commits?
 >
-> Signed-off-by: Brian Masney <bmasney@redhat.com>
+> I can drop the dts patches from the sunxi tree. Linus might be able to
+> drop the pinctrl patch.
+>
+> You definitely need to send a revert for the DT binding patch that is
+> already in net-next.
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+I dropped the patch from the pinctrl tree, no problem.
 
 Yours,
 Linus Walleij
