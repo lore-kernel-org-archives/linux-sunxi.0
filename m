@@ -1,143 +1,108 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD27713D8B1
-	for <linux-sunxi@lists.linux.dev>; Fri, 11 Jul 2025 18:45:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 247B522A4CC;
+	Fri, 11 Jul 2025 23:57:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752259531; cv=none; b=mIMG4+v22X/1b0CqunYUyU3k+29P3e3+s5vU1yrlhHwEkW1vNhdO0E4RaAuEM7DNlGCSA3+O1gfKzjFcASMoyXg1LL3Vx9JNkIOKXFBsde+NlozEGM4FQaRi4kBHYXlBLVs6QOgdeZ0ara4dWQT3dq/4mVKVmgqq87cLTbm3H7w=
+	t=1752278258; cv=none; b=XanRhgSWVVOYX+muR1xZO/gw4v1h+2fY+x+Dt/1qxsDcvVHo4JFmb2j7bbrRpSyKYL6AVnYWbDEW/IMNly5MaV7t4WoTxf6xGDfFjjgmdZCJMp/SFE3HcI6MKwebHTtnI4lx5xzdBgToSv730KlV9P0sRENdTU8Dlx+N8bzDiis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752259531; c=relaxed/simple;
-	bh=TXAh5cyeJbfSOXxY8gFolHNGXXjw3jndn5t9U7NmQ7A=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=i7AAQmHsCtULnnvp1dyHStQW/PJap23dn1vQGaFwdyhRD4K8VPMBlVBlmdoRI3/MP8lFH1pmLDK0XO+tdD7k4qb0Q1pFNQH/YbjQOkf8H1rlHuggDppd0FVEXtJR/gxv54vzunEBnObTZPgYUKainIG2WLJc6F7JvfrZRH3xiEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9BFCA16F8;
-	Fri, 11 Jul 2025 11:45:18 -0700 (PDT)
-Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 037533F694;
-	Fri, 11 Jul 2025 11:45:26 -0700 (PDT)
-Date: Fri, 11 Jul 2025 19:43:38 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: iuncuim <iuncuim@gmail.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.or>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 3/3] arm64: dts: allwinner: a523: enable Mali GPU for
- all boards
-Message-ID: <20250711194338.52532eca@minigeek.lan>
-In-Reply-To: <20250711035730.17507-4-iuncuim@gmail.com>
-References: <20250711035730.17507-1-iuncuim@gmail.com>
-	<20250711035730.17507-4-iuncuim@gmail.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	s=arc-20240116; t=1752278258; c=relaxed/simple;
+	bh=5tT9ORXucLaTLjjDZNriJx1evuX5cza/Yehns8ks1zc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LOSEPrzGA1sM/lxtxgCDou0+olRfxzyC2EIw0vjPfcQtR139KWUvNtZohoQaHXE+Vnvc90YW6lI4Ly7EtSdBZ0Pyv+adNdrWgD4SuTGd57XGbQwS5kQlslLLsFg9E9+rNFdg6U552ODzPxec+vqb3P3A07fVs+o84zLZgccZ88s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OTkpEGDm; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OTkpEGDm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752278256; x=1783814256;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5tT9ORXucLaTLjjDZNriJx1evuX5cza/Yehns8ks1zc=;
+  b=OTkpEGDmnezAW0cUFj4O1uuxp2dy//GzFEGwpk6Ppsxt0WEtnuaW1Gz4
+   xz5fIx9XMymU7cE3a0+4ZvuCZTAvL0GtSp7BZMbHVTRSzyd7KJG0rNH4m
+   sEXcXWWIb72weCtd7Nymirkgmm9wROja/hf6RE1OfgCEV1002oroKB86n
+   +54q1YYw7XKsEjilW/FijZprWr+xQlUMRtMXNvm0+LpvlkjDgiUnu7z8w
+   siIDEPQlTIutVEYoW3T4UCVhSsIHljKtG567kq9GZ2xHywlq0v0KheNgf
+   1/BCOTClPuyLD8WIqeotYHf0ms+rA9yV+TTC17ZFnqXuzXjFB1KqgOPWQ
+   w==;
+X-CSE-ConnectionGUID: KBbETxKHTYaO5v29NcTAgQ==
+X-CSE-MsgGUID: VPvWe4bcR0+h/i+PLNSe7g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="54436380"
+X-IronPort-AV: E=Sophos;i="6.16,305,1744095600"; 
+   d="scan'208";a="54436380"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2025 16:57:35 -0700
+X-CSE-ConnectionGUID: OqbzDUo+S4e1ZPXqnfb15g==
+X-CSE-MsgGUID: /djIIIW1RIyf+YXjuYsB/w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,305,1744095600"; 
+   d="scan'208";a="156572850"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 11 Jul 2025 16:57:32 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uaNcP-0006uV-37;
+	Fri, 11 Jul 2025 23:57:29 +0000
+Date: Sat, 12 Jul 2025 07:57:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: iuncuim <iuncuim@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.or>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 2/3] arm64: dts: allwinner: a523: add Mali GPU node
+Message-ID: <202507120723.0s2u9rLs-lkp@intel.com>
+References: <20250711035730.17507-3-iuncuim@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250711035730.17507-3-iuncuim@gmail.com>
 
-On Fri, 11 Jul 2025 11:57:29 +0800
-iuncuim <iuncuim@gmail.com> wrote:
+Hi iuncuim,
 
-> From: Mikhail Kalashnikov <iuncuim@gmail.com>
-> 
-> All devices based on the A523/A527/H728/T527 processors contain a G57 MC1 GPU.
-> 
-> Enable the DT nodes for this GPU and specify a regulator that supplies power
-> to the SoC's VDD_GPU pins. The other parameters are set in the SoC dtsi,
-> so are board independent.
+kernel test robot noticed the following build errors:
 
-Checked the schematics of the three boards where those are available,
-and it's indeed DCDC2 there providing the voltage. For the X96QPro+,
-regulators.txt in debugs confirms this as well.
+[auto build test ERROR on sunxi/sunxi/for-next]
+[also build test ERROR on robh/for-next linus/master v6.16-rc5 next-20250711]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> Signed-off-by: Mikhail Kalashnikov <iuncuim@gmail.com>
+url:    https://github.com/intel-lab-lkp/linux/commits/iuncuim/dt-bindings-gpu-mali-bifrost-Add-Allwinner-A523-compatible/20250711-120104
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
+patch link:    https://lore.kernel.org/r/20250711035730.17507-3-iuncuim%40gmail.com
+patch subject: [PATCH v2 2/3] arm64: dts: allwinner: a523: add Mali GPU node
+config: arm64-randconfig-001-20250712 (https://download.01.org/0day-ci/archive/20250712/202507120723.0s2u9rLs-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250712/202507120723.0s2u9rLs-lkp@intel.com/reproduce)
 
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507120723.0s2u9rLs-lkp@intel.com/
 
-Cheers,
-Andre
+All errors (new ones prefixed by >>):
 
-> ---
->  arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts   | 5 +++++
->  arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts    | 5 +++++
->  arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts   | 5 +++++
->  arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts | 5 +++++
->  4 files changed, 20 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-> index 8bc0f2c72..553ad774e 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-> @@ -66,6 +66,11 @@ &gmac0 {
->  	status = "okay";
->  };
->  
-> +&gpu {
-> +	mali-supply = <&reg_dcdc2>;
-> +	status = "okay";
-> +};
-> +
->  &mdio0 {
->  	ext_rgmii_phy: ethernet-phy@1 {
->  		compatible = "ethernet-phy-ieee802.3-c22";
-> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts b/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts
-> index 59db10354..a96927fbd 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts
-> @@ -54,6 +54,11 @@ &ehci1 {
->  	status = "okay";
->  };
->  
-> +&gpu {
-> +	mali-supply = <&reg_dcdc2>;
-> +	status = "okay";
-> +};
-> +
->  &mmc0 {
->  	vmmc-supply = <&reg_vcc3v3>;
->  	cd-gpios = <&pio 5 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PF6 */
-> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts b/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
-> index 142177c1f..b9eeb6753 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
-> @@ -76,6 +76,11 @@ &gmac0 {
->  	status = "okay";
->  };
->  
-> +&gpu {
-> +	mali-supply = <&reg_dcdc2>;
-> +	status = "okay";
-> +};
-> +
->  &mdio0 {
->  	ext_rgmii_phy: ethernet-phy@1 {
->  		compatible = "ethernet-phy-ieee802.3-c22";
-> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts b/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
-> index 5f97505ec..d07bb9193 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
-> @@ -95,6 +95,11 @@ &ehci1 {
->  	status = "okay";
->  };
->  
-> +&gpu {
-> +	mali-supply = <&reg_dcdc2>;
-> +	status = "okay";
-> +};
-> +
->  &mmc0 {
->  	vmmc-supply = <&reg_cldo3>;
->  	cd-gpios = <&pio 5 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PF6 */
+>> Error: arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:119.29-30 syntax error
+   FATAL ERROR: Unable to parse input tree
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
