@@ -1,154 +1,72 @@
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63D3225A342
-	for <linux-sunxi@lists.linux.dev>; Mon, 14 Jul 2025 15:28:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF1F277CB6;
+	Mon, 14 Jul 2025 21:22:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752506935; cv=none; b=DtiKsJsF6Zg9/YXtmgCWOcgRGhiBIBx8D5SJs5IsGtlkOu/ezSudumXbgkP4he/7LdvFuQIZ/i+mD26PIImjMUMZVVSPtK8JtbHEZafigpB1ljxnjuSeTbyCF179mcDIfEFNMdeJRnlafdu5awOq32QGeMdsxoJwXRdRgnOGVmw=
+	t=1752528149; cv=none; b=UenrXNgtFejmS2LphOpnz5W5D78heEt1TZsYTiCasSopq3WV6QHLszr6NEH/a5DFXY889OYUKNua+H09L97Fuurt+zn+AUGx+7IC0WnxUa4mciEffFadpX65IFo6ZqU+YFkLZgapGb89mro0+3KYBTpVwyB2WQ03mFFt8MaeZOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752506935; c=relaxed/simple;
-	bh=lTkgOT/mVYRWV0jBajzFx1hlDK9iwts3ugakHaagITQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Uds8h2cAXXwWxg75vzR3H1/WtR0I1meSQum4I7EVgEBhXaUUFrRoRavwSD5V4/FKNQEA+fUEcihtiETKlEq5OMGzpY5+eDb3PHbmcSIpP4fzUcqX4WGEjzbPTcVbu8gtCtbVhxvNYRR7thGCc7flw4NIPJjOPqzXg5rSHM4P6KU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Ya44pY77; arc=none smtp.client-ip=217.70.183.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1752528149; c=relaxed/simple;
+	bh=XWvyEJu17/NYmt5lKHJpnUX0PIhb311yUkoU6DfI3wU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kCMZRI203WgFN6diGg4MIV6ir/+fu3RwlrrVTrLSJX1UrwWNsQn8Rfre/iTOJneDZgCjBw7w4MX0DHKYhwxtWRmG6kNaux04ZCBKo3Z0Wrvq1TN/d+OB/wVrygD1EO4Spz9WpidUrZZbDebi5X7KZjtmSQeZpdAfgkDsyXG27l8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BvoMcceW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Ya44pY77"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 8729F442A2;
-	Mon, 14 Jul 2025 15:28:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1752506930;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FH7mbmy9dxnMHrp8nr70Ezf/5UVtiIiZlJSsEGAGlLs=;
-	b=Ya44pY77iHOQNF60LEEuM+0Eyg6Nn9Ip9xr+EVnEcKDdwS2wCBAAisJGaRKqT8ShlWuHmz
-	KlljPt9MzYtpAhUIVpmcvEq/NAPApnq83ZlfLb/MLBRDkr2ZHruyaXvFN/vaenjyV36VSM
-	TIgYWLCHaUCKahpcakMBnFFcjeuhxLhG4CashqCrx4rigem23MCmXl4pZikHkaJFHdlJa4
-	vRvGcSCtjYwWEYzHMXzacL3XbtIUyu701ikDh0wALD2gC8e8WHycvcyZp0Bj4fZ9Ni9gDU
-	bf76krJLFiByvbOqRZWXo+VhKCfTgkzIOrMEzEdNf9Z6LpvaJQiPU2Yfrj5EaA==
-Date: Mon, 14 Jul 2025 17:28:45 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Inki Dae
- <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, Marek
- Szyprowski <m.szyprowski@samsung.com>, Jani Nikula
- <jani.nikula@linux.intel.com>, Dmitry Baryshkov <lumag@kernel.org>, Hui Pu
- <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev, Kevin Hilman <khilman@baylibre.com>, Jerome
- Brunet <jbrunet@baylibre.com>, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, linux-amlogic@lists.infradead.org
-Subject: Re: [PATCH 00/32] drm/mipi-dsi: avoid DSI host drivers to have
- pointers to DSI devices
-Message-ID: <20250714172845.1432972f@booty>
-In-Reply-To: <20250707121319.1e40a73a@booty>
-References: <20250625-drm-dsi-host-no-device-ptr-v1-0-e36bc258a7c5@bootlin.com>
-	<20250707-strange-warm-bear-cb4ee8@houat>
-	<20250707115853.128f2e6f@booty>
-	<20250707121319.1e40a73a@booty>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BvoMcceW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86C3DC4CEED;
+	Mon, 14 Jul 2025 21:22:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752528148;
+	bh=XWvyEJu17/NYmt5lKHJpnUX0PIhb311yUkoU6DfI3wU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BvoMcceWv1Y6tF61U88roTUWlaNIqhWe/DqowtENh0zvk+4MWV1j3cMWFwYHttF/Y
+	 UuvxMs5JqKQDgeJqqv1PwxSNDnq+nobMH6BW91rOqgo+W9RaZfzlgy0xLQymd8wq/h
+	 OLtfnMf1xHtD3XVRiFBBMUUyByiryS60CL+gi0WSsucdf3JYGScxsO1d/SVXYZhO9u
+	 6pUzFqIrpBOgodGDqQ+shI8uUwNvx7rEF+BHh1tP3pBxlBZjCSfEkTwW1AQM+bXBKE
+	 eijRQ/V8mVvJSwur+UYSibH9tMi7VYjn56cipMASCVu/Mei73KqUlomr/26Gu6h0Jl
+	 0pOnmP1G58bGA==
+Date: Mon, 14 Jul 2025 16:22:27 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: iuncuim <iuncuim@gmail.com>
+Cc: Samuel Holland <samuel@sholland.or>, linux-kernel@vger.kernel.org,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	David Airlie <airlied@gmail.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Conor Dooley <conor+dt@kernel.org>, linux-sunxi@lists.linux.dev,
+	Chen-Yu Tsai <wens@csie.org>, Simona Vetter <simona@ffwll.ch>,
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+	Maxime Ripard <mripard@kernel.org>,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 1/3] dt-bindings: gpu: mali-bifrost: Add Allwinner
+ A523 compatible
+Message-ID: <175252718830.3073791.16346905793933146110.robh@kernel.org>
+References: <20250711035730.17507-1-iuncuim@gmail.com>
+ <20250711035730.17507-2-iuncuim@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdehvdefudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthejredtredtvdenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeglefffefghefhtddvfeeufeeiveekgffgleekieduteekkeetvdehudekgfdvvdenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvhedprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepthiiihhmmhgvrhhmrghnn
- hesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrghdprhgtphhtthhopehrfhhoshhssehkvghrnhgvlhdrohhrgh
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250711035730.17507-2-iuncuim@gmail.com>
 
-Hi Maxime,
 
-On Mon, 7 Jul 2025 12:13:19 +0200
-Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
-
-...
-
-> > Post scriptum. The very initial issue that led to all this discussion
-> > when writing the hotplug-bridge driver is that the samsung-dsim driver
-> > will not drm_bridge_add() until a DSI device does .attach to it. Again,
-> > see the comments before hotplug_bridge_dsi_attach() in [0] for details.
-> > However by re-examining the driver for the N-th time now from a new
-> > POV, I _think_ this is not correct and potentially easy to solve. But this leads to one fundamental question:  
+On Fri, 11 Jul 2025 11:57:27 +0800, iuncuim wrote:
+> From: Mikhail Kalashnikov <iuncuim@gmail.com>
 > 
-> The question is: should a DSI host bridge driver:
+> Add a compatible for the Allwinner A523 SoC, with an integrated
+> ARM Mali G57 MC1 (Valhall-JM) GPU.
 > 
->  A) wait for a DSI device to .attach before drm_bridge_add()ing itself,
->     or
->  B) drm_bridge_add() itself unconditionally, and let the DSI device
->     .attach whenever it happens?
+> Signed-off-by: Mikhail Kalashnikov <iuncuim@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> A) is what many drivers (IIRC the majority) does. It implies the card
-> will not be populated until .attach, which in the hotplug case could
-> happen very late
-> 
-> B) is done by a few drivers and allows the card to appear in the
-> hotplug case without the device, which is needed for hotplug.
 
-I haven't received any reply to this e-mail. Should this be due to the
-fuzzyness of what I wrote, you're perfectly understood. :-)
+Applied, thanks!
 
-Let me try to start cleaner, and focus only on the question quoted here
-above. It is very relevant to the hotplug work, so I'd like any informed
-opinions about it in the first place. Many other things depend on it.
-
-The samsung-dsim driver, which is in the hardware I'm working on, falls
-in the A) case, and this is problematic.
-
-> I had tried simply moving drm_bridge_add() from .attach to probe in
-> the samsung-dsim driver in the pase but that would not work. Now I did
-> yet another check at the code and I suspect it can be done with a small
-> additional change, but cannot access the hardware to test it currently.
-
-I managed to try today and test on hardware, and I can confirm that the
-samsung-dsim driver can be moved from A) to B). In other words the
-drm_bridge_add() call to add the samsung-dsim bridge can be moved from
-the mipi_dsi_host_ops.attach op to the probe function, but this
-requires an additional change, at least when using the imx8mp LCDIF:
-
-@@ -1645,6 +1645,9 @@ static int samsung_dsim_attach(struct drm_bridge *bridge,
- {
-        struct samsung_dsim *dsi = bridge_to_dsi(bridge);
- 
-+       if (!dsi->out_bridge)
-+               return -EPROBE_DEFER;
-+
-        return drm_bridge_attach(encoder, dsi->out_bridge, bridge,
-                                 flags);
- }
-
-Without the above change, the mxsfb driver will hard-fail because
-mxsfb_attach_bridge() [0] finds the next bridge (the samsung-dsim
-bridge, which is now added earlier, in probe) but cannot attach it to
-the encoder chain (the samsung-dsim bridge still hasn't got an
-out_bridge).
-
-I have a working draft of the above samsung-dsim changes working with
-the hotplug-bridge, and it makes the hotplug code one relevant step
-simpler.
-
-Your opinion would be appreciated before I proceed to cleaning up and
-sending such change.
-
-[0] https://elixir.bootlin.com/linux/v6.16-rc5/source/drivers/gpu/drm/mxsfb/mxsfb_drv.c#L128-L145
-
-Luca
-
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
