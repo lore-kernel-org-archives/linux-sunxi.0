@@ -1,170 +1,126 @@
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C45D292B58
-	for <linux-sunxi@lists.linux.dev>; Tue, 15 Jul 2025 14:09:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B592720A5C4;
+	Tue, 15 Jul 2025 14:35:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752588576; cv=none; b=EcOFUvN+n4ht9Fmz5h1NNcgOruEeXqrOUKvtdcjLtXsrcOBsUOn8fs58o1MriLKZD0TbLxQxP1bLzObb6B97sR662BVhbvu7Cgoxy5PzIIJcVyEa4asNl0pxjEMjdeErdjHT9ntGGUwvpwt96MT+gO3ozG4hkYO03LVXNuYxcOQ=
+	t=1752590111; cv=none; b=bqEKIQr2xJkp9S+SMhHwgaRhTeuep11CF2wyPASVKMddOPmhvrzbjoEi+ktKNapbTh8Iq37SouhdamUL7cCp7qir1RrlSNjTF2KMsYx7kCZMwkIWXKKG/UTXc4cQbV+XTni0DuD+NMtR388XN552f8AoqvyghnQvEI2IbhKXFAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752588576; c=relaxed/simple;
-	bh=jJTBj4fac1bgJaznP0nVpLk5OWhiPHvmPDoBk2KvbXA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LzMB1BwttBZM2pwBcZ3fx24I9+iB7NLaerjP4HiXXRpApV6ILETeUQeh46tHnylQ6X8EL1hLBYPERBqdRDbqzHXLSnqGb/h2WmMFbK5bWG2jd17Umxob5bSMzQqT5JKOzWvck8ed8oSgYuSoawcqO7EqlCVEhWJ4hEotGcnrmwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wHPbq+Ly; arc=none smtp.client-ip=209.85.219.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1752590111; c=relaxed/simple;
+	bh=dgu36HNp6Ey5tbWJzea7xTs+Q7Z2LXx/xuvpNQ1pA7w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=O6R3lXCH1doStLfDBLuisYeo+ZZnCCywAKEQxps9ZmG9mmpu60dUQvHcT0XFbmYnaHD4nvoVYTbgusMmf+A8poa+80Ik97Aw1NIvGxo47PwOFyvuEx6CyHFoT/jeUBzafbhBJ4ob5wQqq3JPj+IEZF72OTtzNNlgfhKTkwAcfic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=EDaNcNLd; arc=none smtp.client-ip=185.132.182.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wHPbq+Ly"
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e8275f110c6so4049074276.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 15 Jul 2025 07:09:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1752588573; x=1753193373; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=rdR+LRqRBkJBUvCkbRrJJULDxmBDkmzUM6UrN84Yku0=;
-        b=wHPbq+Ly+qXGeBTjpqJD3vUQCB6P42CIwwkIFOflj0PHSSvUikT8qpDjwbXIWCt6e3
-         D1sSNzGY+dqiJgQl3XwwuFZdns5VmDPKhoOg0EqJpbmVXARxDJA6pK1m9a05Eckq6I4g
-         cN1gbcYjB/pxNZ5ndinFzT8YvIPUs7JIMhVGjFrXOIQNlvko+1aQDObUCzmB3geHiypD
-         BC/U8HTAgpTL8Wdk+bktJryzp0Dbt6bunkJg6IgK2omvLvS7AgcoO67nwpaO7Z9eWt9B
-         QD5U3DTiG6ZDbNy/pIbYfd6QtguSsgpSPD4blq3HdFPk1g3EtI1/TDLdifMaWY5y9ttd
-         y+Vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752588573; x=1753193373;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rdR+LRqRBkJBUvCkbRrJJULDxmBDkmzUM6UrN84Yku0=;
-        b=ADeqzgyWw3+784Vz2VJbNZz3l0+myIrPHNXfsS9z3xvqc+G5IVr8lcljwJNEH1LZhh
-         1F6qCxb8aqSoilRdA1s9e50SlUtLcdvWR0Q3ZxmuGFajjdW+1BIjBH6l2Z7HYw8Y7h1o
-         Z//HNMkjgg1ORjMlBB4TWM67ll7WH+4GlmP0MT8GwOOH99In+PQFgwBMG0QfePYT2Cet
-         8BOJhM7sZCQTSkYvTlO/7vXVubPGfbAzLMwq6c2gjDmrB6NC4scsbHqDcW7wCSQWegMg
-         M+fkk+FL4uij4r8KxXefjP6nksnKX1gv1IVNsA2ThDuXPFDVUBdAPaaYyGuK1CyEEeNC
-         nHaQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUxMZA+E0ra7J4hFt4GI/FgKLPf5umRY1p0xwSm7SWcg/o5tpn9/ZoM3iv6CiYsBZHj1w3b+oSRt2qJqA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxzUGuoAUgYBaE+WCZRy08cXS8Vkge+t04QkKcGjbe+rqStgAWb
-	ozFd9tDGLMuIKHlsbch4ZXDNfO5MscgJPEVfcKRLHHzwP1vUk65ouonGD7C7mKD33+htIo6UQKi
-	8xXV7UBEagQUPtt/Fszk+CUyu/i2tuWqwcHp4G7PtCQ==
-X-Gm-Gg: ASbGncuJymCVnQmN0cnkrIHphN4Id9vRxHUiJ+U1q8TNspixo6DWcZ2Yq02FkAnjq/U
-	GO1xtUHFPMQtobF2a+qgRuyJ8hSlgE448cKfLp6vXQJ4rAMW1s+NHsQa2Vf+tcmAXVO4ncsBfvk
-	a71OZ22cIkdOM5zvJpo2Y79c+v3gBYPAv+T5Cw28GuwMeP+oAhsnNZNXN5YkiwOUUMr0Z4CfMnd
-	fE1LEwo
-X-Google-Smtp-Source: AGHT+IFr5aZe129SXty/aUauZ98iCrC5028PDfP3/dwd83DOGHiwFr2/EEOsdifr9IoyiESxKl68x3MmFGTyJODgVvM=
-X-Received: by 2002:a05:690c:b82:b0:712:c295:d010 with SMTP id
- 00721157ae682-717d5e2848bmr255785147b3.33.1752588573210; Tue, 15 Jul 2025
- 07:09:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="EDaNcNLd"
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56FE4gGV025660;
+	Tue, 15 Jul 2025 16:34:36 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=selector1; bh=
+	dgu36HNp6Ey5tbWJzea7xTs+Q7Z2LXx/xuvpNQ1pA7w=; b=EDaNcNLd5XIOq7Sr
+	WEFVM9cWVQkLDtI+tD5DoTxUM1/PjExjGSx895DC4+l386R7fL28nPGPptNoSqxq
+	eAdz2y9fmkQPer6/hLzzgavwPgIVa+JQIJbEd2TgJiw2sMrN3uCfIma3AeiVT9+y
+	GKX/c3E236Qy1buK2A4KGTLtvfS5A0A9SI+WYNctil/EZO1NOz59AVfITTfdHEHc
+	xZZL0kRPox+X+93cIKfd+woucWbm2t4V3Ecc6BfuuUZBQMZy7qhUG7ZnWmvUrscN
+	6rWp21CgMYxQ+5IhN3Lzaq1gzMSuLq6lcYk1SnIt2d1VE1Enh8n7zGKsmnWkq6tp
+	muaJoA==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 47ud4mp9pr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 15 Jul 2025 16:34:36 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id B01FE40045;
+	Tue, 15 Jul 2025 16:31:51 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id E1DE1BAFFBB;
+	Tue, 15 Jul 2025 16:29:28 +0200 (CEST)
+Received: from [10.130.74.78] (10.130.74.78) by SHFDAG1NODE2.st.com
+ (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 15 Jul
+ 2025 16:29:27 +0200
+Message-ID: <1df0432a-b950-4baf-93f1-25ced11ab243@foss.st.com>
+Date: Tue, 15 Jul 2025 16:29:27 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250712074021.805953-1-wens@kernel.org>
-In-Reply-To: <20250712074021.805953-1-wens@kernel.org>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Tue, 15 Jul 2025 16:08:57 +0200
-X-Gm-Features: Ac12FXzjyKVG9YpXDr4ujfp7DHXXwLEZE6WjntfBOMpvZOZeuC_qP0opUlbqcZM
-Message-ID: <CAPDyKFoSe3sch1ooP7e-TOiB91y=_Q=-FaSooc2ROoMwfEsP+g@mail.gmail.com>
-Subject: Re: [PATCH v3 0/5] allwinner: a523: Add power controllers
-To: Chen-Yu Tsai <wens@kernel.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej@kernel.org>, 
-	Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Andre Przywara <andre.przywara@arm.com>, linux-sunxi@lists.linux.dev, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/9] drm/stm/dw_mipi_dsi-stm: convert from round_rate() to
+ determine_rate()
+To: Brian Masney <bmasney@redhat.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard
+	<mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie
+	<airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Shawn Guo
+	<shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix
+ Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Rob Clark
+	<robin.clark@oss.qualcomm.com>,
+        Dmitry Baryshkov <lumag@kernel.org>,
+        Abhinav
+ Kumar <abhinav.kumar@linux.dev>,
+        Jessica Zhang
+	<jessica.zhang@oss.qualcomm.com>,
+        Sean Paul <sean@poorly.run>,
+        Marijn Suijten
+	<marijn.suijten@somainline.org>,
+        Yannick Fertre <yannick.fertre@foss.st.com>,
+        Philippe Cornu <philippe.cornu@foss.st.com>,
+        Maxime Coquelin
+	<mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>, Stephen Boyd <sboyd@kernel.org>
+CC: <dri-devel@lists.freedesktop.org>, <imx@lists.linux.dev>,
+        <linux-clk@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <freedreno@lists.freedesktop.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-sunxi@lists.linux.dev>
+References: <20250710-drm-clk-round-rate-v1-0-601b9ea384c3@redhat.com>
+ <20250710-drm-clk-round-rate-v1-6-601b9ea384c3@redhat.com>
+Content-Language: en-US
+From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+In-Reply-To: <20250710-drm-clk-round-rate-v1-6-601b9ea384c3@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE2.st.com
+ (10.75.129.70)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-15_03,2025-07-15_01,2025-03-28_01
 
-On Sat, 12 Jul 2025 at 09:40, Chen-Yu Tsai <wens@kernel.org> wrote:
->
-> From: Chen-Yu Tsai <wens@csie.org>
->
-> Hi folks,
->
-> This is v3 of my A523 power controllers series.
->
-> Changes since v2:
-> - pck600 driver:
->   - Fixed whitespace issue
->   - Added explanation about possible PCK-600 lineage and document
->     references to driver
->   - Changed Kconfig option to tristate
->   - Rewrote Kconfig option help text to make it clear that the driver
->     is required for certain peripherals to work
->   - Made it depend on ARCH_SUNXI or COMPILE_TEST
->   - Made it enabled by default for ARCH_SUNXI
->   - Renamed PPU_PWSR_PWR_STATUS to PPU_PWR_STATUS, and added a comment
->     to note the macro is shared between two registers
-> - New patch changing sun20i-ppu driver to tristate, and enable by
->   default for ARCH_SUNXI
-> - Fixed pck-600 header path in dtsi file
-> - Link to v2:
->   https://lore.kernel.org/all/20250709155343.3765227-1-wens@kernel.org/
->
-> Changes since v1:
-> - Re-order compatible string entries
-> - Fix name of header file to match compatible string
-> - Link to v1:
->   https://lore.kernel.org/all/20250627152918.2606728-1-wens@kernel.org/
->
-> This series adds the power controllers found in the Allwinner A523
-> family of SoCs. There are two power controllers. One is the same type
-> as those found in the D1 SoC, just with a different number of valid
-> power domains. The second is (I assume) a unit based on ARM's PCK-600
-> power controller. Some of the registers and values match up, but there
-> are extra registers for delay controls in the PCK-600's reserved
-> register range.
->
-> Patch 1 adds new compatible string entries for both of these
-> controllers.
->
-> Patch 2 adds support for the A523 PPU to the existing D1 PPU driver.
->
-> Patch 3 adds a new driver of the PCK-600 unit in the A523 SoC.
->
-> Patch 4 aligns Kconfig dependencies and default for SUN20I_PPU with the
-> new PCK-600 driver.
->
-> Patch 5 adds device nodes for both of these controllers.
->
->
-> Please have a look. The power controllers are critical for enabling more
-> peripherals, such as display output, camera input, video codecs, the NPU,
-> and a second DWMAC-compatible ethernet interface.
->
->
-> Thanks
-> ChenYu
->
->
-> Chen-Yu Tsai (5):
->   dt-bindings: power: Add A523 PPU and PCK600 power controllers
->   pmdomain: sunxi: sun20i-ppu: add A523 support
->   pmdomain: sunxi: add driver for Allwinner A523's PCK-600 power
->     controller
->   pmdomain: sunxi: sun20i-ppu: change to tristate and enable for
->     ARCH_SUNXI
->   arm64: dts: allwinner: a523: Add power controller device nodes
->
->  .../power/allwinner,sun20i-d1-ppu.yaml        |   4 +-
->  .../arm64/boot/dts/allwinner/sun55i-a523.dtsi |  18 ++
->  drivers/pmdomain/sunxi/Kconfig                |  19 +-
->  drivers/pmdomain/sunxi/Makefile               |   1 +
->  drivers/pmdomain/sunxi/sun20i-ppu.c           |  17 ++
->  drivers/pmdomain/sunxi/sun55i-pck600.c        | 234 ++++++++++++++++++
->  .../power/allwinner,sun55i-a523-pck-600.h     |  15 ++
->  .../power/allwinner,sun55i-a523-ppu.h         |  12 +
->  8 files changed, 316 insertions(+), 4 deletions(-)
->  create mode 100644 drivers/pmdomain/sunxi/sun55i-pck600.c
->  create mode 100644 include/dt-bindings/power/allwinner,sun55i-a523-pck-600.h
->  create mode 100644 include/dt-bindings/power/allwinner,sun55i-a523-ppu.h
->
-> --
-> 2.39.5
->
 
-Patch 1->4 applied for next (the dt patch is also available on the
-immutable dt branch), thanks!
 
-Kind regards
-Uffe
+On 7/10/25 19:43, Brian Masney wrote:
+> The round_rate() clk ops is deprecated, so migrate this driver from
+> round_rate() to determine_rate() using the Coccinelle semantic patch
+> on the cover letter of this series.
+>
+> Signed-off-by: Brian Masney <bmasney@redhat.com>
+> ---
+
+Hi Brian,
+
+Acked-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+
+Thanks !
+
+Best regards,
+Raphaël
+
