@@ -1,23 +1,23 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C1AC22258E
-	for <linux-sunxi@lists.linux.dev>; Thu, 17 Jul 2025 23:57:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5B8549641
+	for <linux-sunxi@lists.linux.dev>; Thu, 17 Jul 2025 23:57:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752796626; cv=none; b=sYR9jSswcCwzUm/Zijl60pzL1ZBimADt1pnVJVgKAzLdp5nnoYxQsEzCehPa3bfu/YPoBvn+ofItBu3nAAzbPgBFnD1qKRhK+uQx26Nal4ZVUsXu2Wsqd4u/sg065Ul/TV+pKyViLyofrnhwi5S/uuJhwGS0A6UcaCDeLw5V5jo=
+	t=1752796627; cv=none; b=G0ILUn5hxGV4JQaQBaCdj/0bHaGVrpFYGtkN30BSPxtdSJe9FV3pVvASiwcSq/7p2jitHci6zU4hDa+hKZ/8jtQgp9M8jBNvz8PTBPNjUQxStgevCAYi9Eia6JQ0DBBgzbrZ+Ze9jFuFBR2EAzSzthdSVe+vSt6P0WTAfG6wZoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752796626; c=relaxed/simple;
-	bh=wNT4ad4nuipyupNjlCtk6rfA1fQn/WRHCL702eyjRS0=;
+	s=arc-20240116; t=1752796627; c=relaxed/simple;
+	bh=naCF9nhj7Ao0ka8Rj2IE+Pv0gl0my/N3H8S18o2S1nE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=S6EwOy7gdq1B6i0GXkIUhVonWjTgQx9YeRI4r9t21gIy2jCeObsG8zEmr7TV+VN6RWiqvxmLtPIyHDq0kxtGl50SsXKl7Rl6JujVR2Vuk7Tuo7GTi2yz1IkeGzV8hdQUzjmbSOiupN7ev7Y+AMr7kUvVM0eiCsF+DymdG8Kv+2Q=
+	 MIME-Version; b=d68sTxKJMCQG+74QdX3Mw9n8KPLhxGlPxR72RS+gcYsN54Y/Wts7wuhAcqXfRWr9cq0V4ggPn/IXfgG5VDUzFkbBor8pFCxi+K7ZwzMAk/I/j9Wnt1HJ7tfM4HhmTT3Hnlg3Bmet+5/e5hsGrttIFx30LgW+M5v51bsf0ErTnO8=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 786921762;
-	Thu, 17 Jul 2025 16:56:57 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D3C27168F;
+	Thu, 17 Jul 2025 16:56:58 -0700 (PDT)
 Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E59683F694;
-	Thu, 17 Jul 2025 16:57:03 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4A0643F694;
+	Thu, 17 Jul 2025 16:57:05 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: u-boot@lists.denx.de
 Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -26,9 +26,9 @@ Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Paul Kocialkowski <paulk@sys-base.io>,
 	linux-sunxi@lists.linux.dev,
 	Tom Rini <trini@konsulko.com>
-Subject: [PATCH v2 10/20] power: regulator: add AXP323 support
-Date: Fri, 18 Jul 2025 00:54:45 +0100
-Message-ID: <20250717235455.32528-11-andre.przywara@arm.com>
+Subject: [PATCH v2 11/20] sunxi: update cpu_sunxi_ncat2.h
+Date: Fri, 18 Jul 2025 00:54:46 +0100
+Message-ID: <20250717235455.32528-12-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.46.3
 In-Reply-To: <20250717235455.32528-1-andre.przywara@arm.com>
 References: <20250717235455.32528-1-andre.przywara@arm.com>
@@ -40,55 +40,58 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The X-Powers AXP323 is very close sibling to the AXP313A, only that it
-adds support for dual-phasing the first two DC/DC converters.
+The cpu_sunxi_ncat2.h header file contains addresses of some peripherals
+that are needed for the SPL, for chips that belong to the "NCAT2"
+generation.
+The Allwinner A523 is a member of this group, but a few addresses
+differ, and we need a few more addresses, for playing with the core
+reset, for instance.
 
-We do not really care about this particular feature, so just add the new
-compatible string and tie it to the existing AXP313A support code.
+Add the new addresses needed for the A523 and guard existing definitions
+that conflict with that new chip.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- drivers/power/pmic/axp.c                | 1 +
- drivers/power/regulator/axp_regulator.c | 1 +
- include/axp_pmic.h                      | 1 +
- 3 files changed, 3 insertions(+)
+ .../include/asm/arch-sunxi/cpu_sunxi_ncat2.h   | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/drivers/power/pmic/axp.c b/drivers/power/pmic/axp.c
-index c300fd2bbc2..1204ec00f8d 100644
---- a/drivers/power/pmic/axp.c
-+++ b/drivers/power/pmic/axp.c
-@@ -89,6 +89,7 @@ static const struct udevice_id axp_pmic_ids[] = {
- 	{ .compatible = "x-powers,axp221", .data = AXP221_ID },
- 	{ .compatible = "x-powers,axp223", .data = AXP223_ID },
- 	{ .compatible = "x-powers,axp313a", .data = AXP313_ID },
-+	{ .compatible = "x-powers,axp323", .data = AXP323_ID },
- 	{ .compatible = "x-powers,axp717", .data = AXP717_ID },
- 	{ .compatible = "x-powers,axp803", .data = AXP803_ID },
- 	{ .compatible = "x-powers,axp806", .data = AXP806_ID },
-diff --git a/drivers/power/regulator/axp_regulator.c b/drivers/power/regulator/axp_regulator.c
-index 75cdbca30f6..7794a4f5d92 100644
---- a/drivers/power/regulator/axp_regulator.c
-+++ b/drivers/power/regulator/axp_regulator.c
-@@ -318,6 +318,7 @@ static const struct axp_regulator_plat *const axp_regulators[] = {
- 	[AXP221_ID]	= axp22x_regulators,
- 	[AXP223_ID]	= axp22x_regulators,
- 	[AXP313_ID]	= axp313_regulators,
-+	[AXP323_ID]	= axp313_regulators,
- 	[AXP717_ID]	= axp717_regulators,
- 	[AXP803_ID]	= axp803_regulators,
- 	[AXP806_ID]	= axp806_regulators,
-diff --git a/include/axp_pmic.h b/include/axp_pmic.h
-index ae62ef0d76d..1806a7270a0 100644
---- a/include/axp_pmic.h
-+++ b/include/axp_pmic.h
-@@ -33,6 +33,7 @@ enum {
- 	AXP221_ID,
- 	AXP223_ID,
- 	AXP313_ID,
-+	AXP323_ID,
- 	AXP717_ID,
- 	AXP803_ID,
- 	AXP806_ID,
+diff --git a/arch/arm/include/asm/arch-sunxi/cpu_sunxi_ncat2.h b/arch/arm/include/asm/arch-sunxi/cpu_sunxi_ncat2.h
+index c04ddb3f1d4..bcfdc0a41c5 100644
+--- a/arch/arm/include/asm/arch-sunxi/cpu_sunxi_ncat2.h
++++ b/arch/arm/include/asm/arch-sunxi/cpu_sunxi_ncat2.h
+@@ -21,14 +21,32 @@
+ #define SUNXI_SID_BASE			0x03006200
+ #define SUNXI_GIC400_BASE		0x03020000
+ 
++#ifdef CONFIG_MACH_SUN55I_A523
++#define SUNXI_DRAM_COM_BASE		0x03120000
++#define SUNXI_DRAM_CTL0_BASE		0x03130000
++#define SUNXI_DRAM_PHY0_BASE		0x03140000
++#endif
++
+ #define SUNXI_MMC0_BASE			0x04020000
+ #define SUNXI_MMC1_BASE			0x04021000
+ #define SUNXI_MMC2_BASE			0x04022000
+ 
++#ifndef CONFIG_MACH_SUN55I_A523
+ #define SUNXI_R_CPUCFG_BASE		0x07000400
++#endif
+ #define SUNXI_PRCM_BASE			0x07010000
++#define SUNXI_R_WDOG_BASE		0x07020400
++#ifdef CONFIG_MACH_SUN55I_A523
++#define SUNXI_R_CPUCFG_BASE		0x07050000
++#endif
++#define SUNXI_R_TWI_BASE		0x07081400
++#define SUNXI_RTC_BASE			0x07090000
+ 
++#ifdef CONFIG_MACH_SUN55I_A523
++#define SUNXI_CPUCFG_BASE		0x08815000
++#else
+ #define SUNXI_CPUCFG_BASE		0x09010000
++#endif
+ 
+ #define SUNXI_CPU_PLL_CFG_BASE		0x08817000
+ 
 -- 
 2.46.3
 
