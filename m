@@ -1,49 +1,34 @@
-Received: from mail.netcube.li (mail.netcube.li [173.249.15.149])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2307298CCD
-	for <linux-sunxi@lists.linux.dev>; Thu, 17 Jul 2025 18:21:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.249.15.149
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EBD049641
+	for <linux-sunxi@lists.linux.dev>; Thu, 17 Jul 2025 23:56:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752776522; cv=none; b=pri5UDKCFrATl+VWID2yC1+rNuxRUpxcumFhK1nrx/juJC70oylYhy2csTOSrDlE/LXbZlGr/cDwq3KY8NiQd/OUz/miMNL30sF1sbOkwBPKqBCfgnrJlSfSOfUjPvF/rudpmYOtbMj+UrTFwSceetXLzNgb6DcCwKXG6/m0aK4=
+	t=1752796615; cv=none; b=sZnI0sd3tsviPC6tfe8lS4mlLm1SUgeWkStsbezBgsz4ydKTuJl2sVtRXEdHF5/w38cttLKbTpiHLcO3Y8m7MR204wituYgqwWOdD9yGwVvSnrLcQf4ObegVo3IWHakLdbQvSWn2+r/7uHwJKN+++cFst97c2cAbMQTQCBNo42s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752776522; c=relaxed/simple;
-	bh=BC87w3BDNtlqvEOIYm0LnN+qw/D8xM/tzbFGW9nQjo4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=qvXFZH/HGNcwhaz+vrapfd4O7xeuj90KIBsoCwdgyDYGr6vyqfQG1bXLyoH0OM3wSzwPQLDSH156uVd+30PBY3kztruofJ8YDIEWblhAQQcl4hOdEylqfjFm1almxzlmroesCKZV88lz6zXY6lp/Ua+9a1w4X4fR3k/lo83rsGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li; spf=pass smtp.mailfrom=netcube.li; dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b=yF0aXylH; arc=none smtp.client-ip=173.249.15.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netcube.li
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b="yF0aXylH"
-dkim-signature: v=1; a=rsa-sha256; d=netcube.li; s=s1;
-	c=relaxed/relaxed; q=dns/txt; h=From:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Transfer-Encoding;
-	bh=flkrw68MjJZnRHTgaCTuAAE9V9fABxNnM+3EBSfDpyo=;
-	b=yF0aXylHmh5jq94WFyMbEbUmDXeI0HzOd+2CGRVAwrdQ865zSnzcEXcO7EECZNL2leVgUjdUz84m8LaqqpW1Ptqqli6Q8B0ZKSIX/ILeZ70FL066WuSMCGIyLKJPZ7r02r0vVwXUYiiZ7D5BzbnVjNDqSO7E+RSro42T0z4YD0E=
-Received: from lukas-hpz440workstation.lan.sk100508.local (cm70-231.liwest.at [212.241.70.231])
-	by mail.netcube.li with ESMTPA
-	; Thu, 17 Jul 2025 19:20:54 +0200
-From: Lukas Schmid <lukas.schmid@netcube.li>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Maxime Ripard <mripard@kernel.org>
-Cc: Lukas Schmid <lukas.schmid@netcube.li>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
+	s=arc-20240116; t=1752796615; c=relaxed/simple;
+	bh=GdM5NbnIP/5z0oCtWuJgtFh/3tANlMiPMTE6x/RE0VY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=luipFJVMERdKla2g0fg8ljosYoCirm/sVLXaTVSqQhRgwvi2BL0OHu8mR7mbnz9BL5PjIWZv+OIS+UdUTIyBTU2j7KnLFqz7NCi5IRSrBPL2vO8LnSwi/fZ5U+34brDyflzzc+s66thb2IrbGHEGiB2b+0YrEbkXHmkjEQDvB3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CDF471596;
+	Thu, 17 Jul 2025 16:56:43 -0700 (PDT)
+Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 449D13F694;
+	Thu, 17 Jul 2025 16:56:50 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: u-boot@lists.denx.de
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Mikhail Kalashnikov <iuncuim@gmail.com>,
+	Yixun Lan <dlan@gentoo.org>,
+	Paul Kocialkowski <paulk@sys-base.io>,
 	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: [PATCH v5 0/5] Add support for NetCube Systems Nagami SoM and its carrier boards
-Date: Thu, 17 Jul 2025 19:20:27 +0200
-Message-Id: <20250717172035.3508831-1-lukas.schmid@netcube.li>
-X-Mailer: git-send-email 2.39.5
+	Tom Rini <trini@konsulko.com>
+Subject: [PATCH v2 00/20] sunxi: Add Allwinner A523 support
+Date: Fri, 18 Jul 2025 00:54:35 +0100
+Message-ID: <20250717235455.32528-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.46.3
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -52,60 +37,142 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series adds support for the NetCube Systems Nagami SoM and its
-associated carrier boards, the Nagami Basic Carrier and the Nagami Keypad
-Carrier.
+Hi,
 
-Changes in v5:
-  - Re-add the non-removable property to the ESP32 interface
-  - Add the mmc-pwrseq node for the ESP32 to initialize the ESP32 correctly
-  - Remove the unused ehci0 and ohci0 nodes from the Keypad Carrier since
-    USB port is peripheral only
+(Mikhail and Jernej: please reply with S-o-b: lines for your patches!)
 
-Changes in v4:
-  - Disable the default interfaces on the card-edge but keep the pinctrl
-    definitions for them
-  - Split the pinctrl definitions for the SPI interface into the basic spi 
-    pins and the hold/wp pins
-  - Move some mmc0 properties to the Basic Carrier dts
-  - Remove non-removable property from the ESP32 interface
-  - Fix typo in the keypad matrix definition
+this series introduces support for the Allwinner A523 SoC family.
+Compared to v1, a good chunk of those patches have been merged, so we are
+down from 34 to 20 patches now. There are some small fixes to the
+pinctrl driver, and the SPL clock bits got updated to fix the conflicts
+with the now merged A133 support. I rewrote the SPL watchdog code, to
+avoid the MMIO register C struct. The DRAM driver lost one MMIO register
+struct. The DT files have now landed in the DT rebasing repo, so we can
+cherry-pick them from there.
 
-Changes in v3:
-  - Add missing dcxo node to the SoM dtsi
-  - Rename the multi-led node
-  - Change dr_mode to "peripheral" for the Keypad Carrier
+Otherwise this now based on latest U-Boot master, which hopefully makes
+testing easier. If people don't shout, I would like to merge it still
+during this merge window, since the patches have been around for a while,
+and people want to use them, alongside the now supported mainline Linux
+code. So please test and review!
 
-Changes in v2:
- - Squash the binding patches into one patch
- - Fix formatting of the phy node in the SoM dtsi
- - Add description on where the phy is located in the SoM dtsi
- - Fix the phy address in the SoM dtsi
- - Move the carrier bindings into the same description as enums
+==================================
+This series introduces support for the Allwinner A523 SoC family. The
+same die is used in different packages: the A523, A527, T527, and H728:
+they connect a different set of peripherals to the pins, or enable extra
+goodies like an NPU. From a U-Boot perspective those chips do not differ
+much, all the differences are described in the board DT files.
 
-Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
----
-Lukas Schmid (5):
-  dt-bindings: arm: sunxi: Add NetCube Systems Nagami SoM and carrier
-    board bindings
-  riscv: dts: allwinner: d1s-t113: Add pinctrl's required by NetCube
-    Systems Nagami SoM
-  ARM: dts: sunxi: add support for NetCube Systems Nagami SoM
-  ARM: dts: sunxi: add support for NetCube Systems Nagami Basic Carrier
-  ARM: dts: sunxi: add support for NetCube Systems Nagami Keypad Carrier
+To be able to share the SPL clock code, the existing H6 code gets
+refactored in patches 01-04. This unifies the (CPU) PLL handling across
+the SoCs supported by this code (H6, H616, A133), and adds support for
+the separate CPU PLLs on the A523.
 
- .../devicetree/bindings/arm/sunxi.yaml        |   8 +
- arch/arm/boot/dts/allwinner/Makefile          |   3 +
- ...n8i-t113s-netcube-nagami-basic-carrier.dts |  67 +++++
- ...8i-t113s-netcube-nagami-keypad-carrier.dts | 164 ++++++++++++
- .../allwinner/sun8i-t113s-netcube-nagami.dtsi | 242 ++++++++++++++++++
- .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    |  48 ++++
- 6 files changed, 532 insertions(+)
- create mode 100644 arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-basic-carrier.dts
- create mode 100644 arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-keypad-carrier.dts
- create mode 100644 arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami.dtsi
+Patches 05-10 extend the existing Allwinner U-Boot drivers to cope with
+some of the changed peripherals, this includes the mandatory clock and
+pinctrl drivers, but also some clock tweaks for the MMC controller
+driver, and support for the new-ish AXP323 PMIC used on most boards.
+
+Patches 11 updates some SPL bits to be able to cope with the A523.
+Patches 12-15 add the new SPL bits for the A523, most prominently the DRAM
+initialisation code. Many thanks to Jernej and Mikhail for providing
+this part, there is a great reverse engineering and testing effort behind
+this.
+
+Patches 16-19 cherry-pick the DT files from the DT rebasing repo. There
+are more fix patches queued, I will update them once they hit the repo.
+
+The final patch adds defconfig files for the three boards that seem to be
+the most popular at the moment, they include two development boards and
+one TV box. The most interesting bits in there are the DRAM parameters.
+
+Please have a look, review, and test.
+
+Cheers,
+Andre
+
+Andre Przywara (17):
+  sunxi: clock: H6: unify PLL control bit definitions
+  sunxi: clock: H6: factor out clock_set_pll()
+  sunxi: clock: H6: factor out H6/H616 CPU clock setup
+  sunxi: clock: H6: add A523 CPU PLL support
+  sunxi: spl: add support for Allwinner A523 watchdog
+  clk: sunxi: Add support for the A523 CCU
+  clk: sunxi: Add support for the A523 -R CCU
+  pinctrl: sunxi: add Allwinner A523 pinctrl description
+  sunxi: mmc: add support for Allwinner A523 MMC mod clock
+  power: regulator: add AXP323 support
+  sunxi: update cpu_sunxi_ncat2.h
+  sunxi: add basic A523 support
+  arm64: dts: allwinner: Add Allwinner A523 .dtsi file
+  arm64: dts: allwinner: a523: add X96Q-Pro+ support
+  arm64: dts: allwinner: a523: add Radxa A5E support
+  arm64: dts: allwinner: a523: add Avaota-A1 router support
+  sunxi: A523: add defconfigs for three boards
+
+Jernej Skrabec (2):
+  sunxi: sun50i_h6: add A523 SPL clock setup code
+  sunxi: A523: add DRAM initialisation routine
+
+Mikhail Kalashnikov (1):
+  sunxi: A523: add DDR3 DRAM support
+
+ arch/arm/cpu/armv8/fel_utils.S                |    5 +-
+ .../include/asm/arch-sunxi/clock_sun50i_h6.h  |   49 +-
+ .../include/asm/arch-sunxi/cpu_sunxi_ncat2.h  |   20 +
+ arch/arm/include/asm/arch-sunxi/dram.h        |    2 +
+ .../include/asm/arch-sunxi/dram_sun55i_a523.h |  153 ++
+ arch/arm/include/asm/arch-sunxi/watchdog.h    |    2 +
+ arch/arm/mach-sunxi/Kconfig                   |   54 +-
+ arch/arm/mach-sunxi/Makefile                  |    2 +
+ arch/arm/mach-sunxi/board.c                   |   11 +
+ arch/arm/mach-sunxi/clock_sun50i_h6.c         |  153 +-
+ arch/arm/mach-sunxi/cpu_info.c                |    2 +
+ arch/arm/mach-sunxi/dram_sun50i_a133.c        |   10 +-
+ arch/arm/mach-sunxi/dram_sun50i_h6.c          |    6 +-
+ arch/arm/mach-sunxi/dram_sun50i_h616.c        |    6 +-
+ arch/arm/mach-sunxi/dram_sun55i_a523.c        | 1590 +++++++++++++++++
+ arch/arm/mach-sunxi/dram_timings/Makefile     |    2 +
+ arch/arm/mach-sunxi/dram_timings/a523_ddr3.c  |  134 ++
+ .../arm/mach-sunxi/dram_timings/a523_lpddr4.c |  119 ++
+ board/sunxi/MAINTAINERS                       |   15 +
+ board/sunxi/board.c                           |    7 +-
+ common/spl/Kconfig                            |    4 +-
+ configs/avaota-a1_defconfig                   |   31 +
+ configs/radxa-a5e_defconfig                   |   30 +
+ configs/x96q_pro_plus_defconfig               |   32 +
+ drivers/clk/sunxi/Kconfig                     |   14 +
+ drivers/clk/sunxi/Makefile                    |    2 +
+ drivers/clk/sunxi/clk_a523.c                  |   85 +
+ drivers/clk/sunxi/clk_a523_r.c                |   39 +
+ drivers/clk/sunxi/clk_sunxi.c                 |   10 +
+ drivers/mmc/sunxi_mmc.c                       |   16 +-
+ drivers/pinctrl/sunxi/Kconfig                 |   10 +
+ drivers/pinctrl/sunxi/pinctrl-sunxi.c         |   50 +
+ drivers/power/pmic/axp.c                      |    1 +
+ drivers/power/regulator/axp_regulator.c       |    1 +
+ .../src/arm64/allwinner/sun55i-a523.dtsi      |  598 +++++++
+ .../arm64/allwinner/sun55i-a527-cubie-a5e.dts |  299 ++++
+ .../arm64/allwinner/sun55i-h728-x96qpro+.dts  |  287 +++
+ .../arm64/allwinner/sun55i-t527-avaota-a1.dts |  308 ++++
+ include/axp_pmic.h                            |    1 +
+ include/configs/sun55i.h                      |   11 +
+ 40 files changed, 4109 insertions(+), 62 deletions(-)
+ create mode 100644 arch/arm/include/asm/arch-sunxi/dram_sun55i_a523.h
+ create mode 100644 arch/arm/mach-sunxi/dram_sun55i_a523.c
+ create mode 100644 arch/arm/mach-sunxi/dram_timings/a523_ddr3.c
+ create mode 100644 arch/arm/mach-sunxi/dram_timings/a523_lpddr4.c
+ create mode 100644 configs/avaota-a1_defconfig
+ create mode 100644 configs/radxa-a5e_defconfig
+ create mode 100644 configs/x96q_pro_plus_defconfig
+ create mode 100644 drivers/clk/sunxi/clk_a523.c
+ create mode 100644 drivers/clk/sunxi/clk_a523_r.c
+ create mode 100644 dts/upstream/src/arm64/allwinner/sun55i-a523.dtsi
+ create mode 100644 dts/upstream/src/arm64/allwinner/sun55i-a527-cubie-a5e.dts
+ create mode 100644 dts/upstream/src/arm64/allwinner/sun55i-h728-x96qpro+.dts
+ create mode 100644 dts/upstream/src/arm64/allwinner/sun55i-t527-avaota-a1.dts
+ create mode 100644 include/configs/sun55i.h
 
 -- 
-2.39.5
-
+2.46.3
 
