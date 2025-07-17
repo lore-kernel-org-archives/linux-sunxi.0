@@ -1,23 +1,23 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9687622258E
-	for <linux-sunxi@lists.linux.dev>; Thu, 17 Jul 2025 23:57:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E14F624110F
+	for <linux-sunxi@lists.linux.dev>; Thu, 17 Jul 2025 23:57:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752796624; cv=none; b=S/DFe6T5v3hcApNurW8ylqqe+QrWgJMyMjz6gsP14Ae7O5Gor3OqsFG6B0J19BPktBDeAxreDw/LpnphwVAEDnPZLdBny69HBGu5BICv0+H8XJNncSuVhI94quD6uqcVdhDbBm08rXCYpdl9yVRGwhjVxrAo7AMtZt+IRDaVIw8=
+	t=1752796625; cv=none; b=hWrk80CPkda4K88qCEtI7R0wqDAhIlIXo6FAn0D9Ez4GzdCdmrxTVTeffEx9RSSmawIkDvhOaAgEdIC1DKkIdnfY83Idllc19IMxXgakYmGafNj8jNRnTNxkT4OzfLzzvwFYkxlpPWcnCJRL0zWeMLLhb+PFw2WFWdV7k+A41Ys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752796624; c=relaxed/simple;
-	bh=0647fBcTLTekn8ivIcNk2hkhaiIHhuo+fOPixkHnxmE=;
+	s=arc-20240116; t=1752796625; c=relaxed/simple;
+	bh=e+fzUfOLNaspTfeOMXji/0vP39FJQIS2YP1IvstdOWE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eXmf+QC28YFNEiBuAxRDQ/yJX6uCGW2WWRttASqS7+50BeRz3rze9Dr1BrlZZvZuNHDgCJOvpRlQuOXozkWrGgIhp1MZrfhytnjEGGjS5Z6Wti6BU6WjIqTTLVsgJ9UgNgg3q7gGg3tMhd+Jl7hMVUcZDosMbNDBjqGOLcBejFU=
+	 MIME-Version; b=eN5Nn6RPHQhCRyrRcHwwkafrzr7LsDEvXAo8S7E+PHD0INuw3fAdS4/tMebTGKcsIc4E4D8F7iTEgL/pFJzfc1x792Fje+fPehqAEU6Zgq5dAyxf0WgbvP5XqjOr2oGI8mVjvGl6YqwO3ySi3vYyuUalvIOyKu8CGRxW2MyW7os=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BEDB01596;
-	Thu, 17 Jul 2025 16:56:54 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 21B8E168F;
+	Thu, 17 Jul 2025 16:56:56 -0700 (PDT)
 Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 302203F694;
-	Thu, 17 Jul 2025 16:57:01 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8D52A3F694;
+	Thu, 17 Jul 2025 16:57:02 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: u-boot@lists.denx.de
 Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -26,9 +26,9 @@ Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Paul Kocialkowski <paulk@sys-base.io>,
 	linux-sunxi@lists.linux.dev,
 	Tom Rini <trini@konsulko.com>
-Subject: [PATCH v2 08/20] pinctrl: sunxi: add Allwinner A523 pinctrl description
-Date: Fri, 18 Jul 2025 00:54:43 +0100
-Message-ID: <20250717235455.32528-9-andre.przywara@arm.com>
+Subject: [PATCH v2 09/20] sunxi: mmc: add support for Allwinner A523 MMC mod clock
+Date: Fri, 18 Jul 2025 00:54:44 +0100
+Message-ID: <20250717235455.32528-10-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.46.3
 In-Reply-To: <20250717235455.32528-1-andre.przywara@arm.com>
 References: <20250717235455.32528-1-andre.przywara@arm.com>
@@ -40,112 +40,57 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The new DT pinctrl binding would allow us to read the pinmux values from
-the DT, but it is actually easier to just continue with hardcoding the
-mux values in the driver, and matching them against the "function" name.
-
-Add the values for the primary and secondary pin controller on the A523.
+The Allwinner A523 SoC has a slightly changed mod clock, where the P
+factor, formerly a shift value, is now a second divider value.
+Also the input clock is not PLL_PERIPH0_2X (1200MHz) anymore, but
+PLL_PERIPH0_400M, so adjust the input rate calculation accordingly.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- drivers/pinctrl/sunxi/Kconfig         | 10 ++++++
- drivers/pinctrl/sunxi/pinctrl-sunxi.c | 50 +++++++++++++++++++++++++++
- 2 files changed, 60 insertions(+)
+ drivers/mmc/sunxi_mmc.c | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/pinctrl/sunxi/Kconfig b/drivers/pinctrl/sunxi/Kconfig
-index 65e8192a99a..54314992299 100644
---- a/drivers/pinctrl/sunxi/Kconfig
-+++ b/drivers/pinctrl/sunxi/Kconfig
-@@ -139,4 +139,14 @@ config PINCTRL_SUN20I_D1
- 	default MACH_SUN8I_R528
- 	select PINCTRL_SUNXI
+diff --git a/drivers/mmc/sunxi_mmc.c b/drivers/mmc/sunxi_mmc.c
+index 06c1e09bf26..7c85030be16 100644
+--- a/drivers/mmc/sunxi_mmc.c
++++ b/drivers/mmc/sunxi_mmc.c
+@@ -99,6 +99,15 @@ static int mmc_set_mod_clk(struct sunxi_mmc_priv *priv, unsigned int hz)
+ 		 */
+ 		if (IS_ENABLED(CONFIG_MACH_SUN8I_R528))
+ 			pll_hz /= 2;
++
++		/*
++		 * The A523/T527 uses PERIPH0_400M as the MMC input clock,
++		 * which is the PERIPH0 nominal rate (1200MHz) / 3.
++		 * Together with the fixed post-divider of 2 of the MMC mod
++		 * clock, that gives a divider of 6.
++		 */
++		if (IS_ENABLED(CONFIG_MACH_SUN55I_A523))
++			pll_hz /= 6;
+ 	}
  
-+config PINCTRL_SUN55I_A523
-+	bool "Support for the Allwinner A523 PIO"
-+	default MACH_SUN55I_A523
-+	select PINCTRL_SUNXI
-+
-+config PINCTRL_SUN55I_A523_R
-+	bool "Support for the Allwinner A523 R-PIO"
-+	default MACH_SUN55I_A523
-+	select PINCTRL_SUNXI
-+
- endif
-diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-index c38edf7d4f5..03cfe23aaf8 100644
---- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-+++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-@@ -759,6 +759,29 @@ static const struct sunxi_pinctrl_desc __maybe_unused sun50i_h616_pinctrl_desc =
- 	.num_banks	= 9,
- };
+ 	div = pll_hz / hz;
+@@ -153,6 +162,10 @@ static int mmc_set_mod_clk(struct sunxi_mmc_priv *priv, unsigned int hz)
+ 			CCM_MMC_CTRL_SCLK_DLY(sclk_dly);
+ 	}
  
-+static const struct sunxi_pinctrl_function sun55i_a523_pinctrl_functions[] = {
-+	{ "emac0",	5 },	/* PI0-PI16 */
-+	{ "gpio_in",	0 },
-+	{ "gpio_out",	1 },
-+	{ "mmc0",	2 },	/* PF0-PF5 */
-+	{ "mmc1",	2 },	/* PG0-PG5 */
-+	{ "mmc2",	3 },	/* PC0-PC16 */
-+	{ "spi0",	4 },	/* PC0-PC7, PC15-PC16 */
-+#if IS_ENABLED(CONFIG_UART0_PORT_F)
-+	{ "uart0",	3 },	/* PF2-PF4 */
-+#else
-+	{ "uart0",	2 },	/* PH0-PH1 */
-+#endif
-+	{ "uart1",	2 },	/* PG6-PG7 */
-+};
++	/* The A523 has a second divider, not a shift. */
++	if (IS_ENABLED(CONFIG_MACH_SUN55I_A523))
++		n = (1U << n) - 1;
 +
-+static const struct sunxi_pinctrl_desc __maybe_unused sun55i_a523_pinctrl_desc = {
-+	.functions	= sun55i_a523_pinctrl_functions,
-+	.num_functions	= ARRAY_SIZE(sun55i_a523_pinctrl_functions),
-+	.first_bank	= SUNXI_GPIO_A,
-+	.num_banks	= 11,
-+};
-+
- static const struct sunxi_pinctrl_function sun50i_h616_r_pinctrl_functions[] = {
- 	{ "gpio_in",	0 },
- 	{ "gpio_out",	1 },
-@@ -809,6 +832,21 @@ static const struct sunxi_pinctrl_desc __maybe_unused sun50i_a100_r_pinctrl_desc
- 	.num_banks	= 1,
- };
+ 	writel(CCM_MMC_CTRL_ENABLE| pll | CCM_MMC_CTRL_N(n) |
+ 	       CCM_MMC_CTRL_M(div) | val, priv->mclkreg);
  
-+static const struct sunxi_pinctrl_function sun55i_a523_r_pinctrl_functions[] = {
-+	{ "gpio_in",	0 },
-+	{ "gpio_out",	1 },
-+	{ "r_i2c0",	2 },	/* PL0-PL1 */
-+	{ "r_spi",	6 },	/* PL10-PL13 */
-+	{ "r_uart",	2 },	/* PL2-PL3 */
-+};
-+
-+static const struct sunxi_pinctrl_desc __maybe_unused sun55i_a523_r_pinctrl_desc = {
-+	.functions	= sun55i_a523_r_pinctrl_functions,
-+	.num_functions	= ARRAY_SIZE(sun55i_a523_r_pinctrl_functions),
-+	.first_bank	= SUNXI_GPIO_L,
-+	.num_banks	= 2,
-+};
-+
- static const struct udevice_id sunxi_pinctrl_ids[] = {
- #ifdef CONFIG_PINCTRL_SUNIV_F1C100S
- 	{
-@@ -983,6 +1021,18 @@ static const struct udevice_id sunxi_pinctrl_ids[] = {
- 		.compatible = "allwinner,sun50i-a100-r-pinctrl",
- 		.data = (ulong)&sun50i_a100_r_pinctrl_desc,
- 	},
-+#endif
-+#ifdef CONFIG_PINCTRL_SUN55I_A523
-+	{
-+		.compatible = "allwinner,sun55i-a523-pinctrl",
-+		.data = (ulong)&sun55i_a523_pinctrl_desc,
-+	},
-+#endif
-+#ifdef CONFIG_PINCTRL_SUN55I_A523_R
-+	{
-+		.compatible = "allwinner,sun55i-a523-r-pinctrl",
-+		.data = (ulong)&sun55i_a523_r_pinctrl_desc,
-+	},
- #endif
- 	{}
- };
+@@ -559,7 +572,8 @@ struct mmc *sunxi_mmc_init(int sdc_no)
+ 	cfg->host_caps = MMC_MODE_4BIT;
+ 
+ 	if ((IS_ENABLED(CONFIG_MACH_SUN50I) || IS_ENABLED(CONFIG_MACH_SUN8I) ||
+-	    IS_ENABLED(CONFIG_SUN50I_GEN_H6)) && (sdc_no == 2))
++	    IS_ENABLED(CONFIG_SUN50I_GEN_H6) || IS_ENABLED(CONFIG_MACH_SUN55I_A523)) &&
++	    (sdc_no == 2))
+ 		cfg->host_caps = MMC_MODE_8BIT;
+ 
+ 	cfg->host_caps |= MMC_MODE_HS_52MHz | MMC_MODE_HS;
 -- 
 2.46.3
 
