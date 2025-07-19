@@ -1,36 +1,35 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 248E849641
-	for <linux-sunxi@lists.linux.dev>; Thu, 17 Jul 2025 23:57:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07D582576
+	for <linux-sunxi@lists.linux.dev>; Sat, 19 Jul 2025 02:05:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752796640; cv=none; b=S7oRhhBYlrlACTor71WPdiqx3tv2AcPSM6y0yhEagSow2RGpoaFZQKVtgUBaO+mi7l+a1ycLhJ6pT8hA/oztK3s4vQ0sWirbJFvNbE6BUAp+0tQTzqYIsRNGBXXggohosUEYIIg8Oq78SCUlUHPGrlqeZfGYoVTP3I22kxwueAE=
+	t=1752890754; cv=none; b=IiYfpL/B7NSrTTR1iOdZNdsIis3QlMlBx+HINOpcLQnQtqXX0HtTEASE5jBATx76wJ0VUZs7Ywg6xBCkuCwXtho8avLynT/CbXR5BWG9k6LQkxDMgPcXTvTD/a5zZReNDR5l2bf+ml9m9AKR7aKx5TQ9OjJ48eN4TGe3iKOaoho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752796640; c=relaxed/simple;
-	bh=/t2h+O3D9+cGR0/A6BRBZ68TCA59hhJkMDfH1aoQbS4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ro9x9FW2PC4MmMDlScNCqZdzhhC+ciihkoP/O3ovo96J+M8N3kL46WjpGpr8yZdlTxD+zxaYBMfFCFQEhtPvMoik6ScwOg7ansG8vH6nhJE3bPw7U8e+Lkyka1slIX0kiyTPHpILk6miCedyEIgkNjrIuSi5Nj5hpcdZWjY3q6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5F8EE1762;
-	Thu, 17 Jul 2025 16:57:11 -0700 (PDT)
-Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CC9773F694;
-	Thu, 17 Jul 2025 16:57:17 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: u-boot@lists.denx.de
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+	s=arc-20240116; t=1752890754; c=relaxed/simple;
+	bh=4I5wGqzLeQe95/AxYHeIbenG0/LgIJySPniPjMewcxM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EbjRdfRU+B2gNJ+mGzxpFySOWiBifvkSfFcf2JKrF66M5UvrG06N4ECFK1DQZl5kOm+5XSEJDStrVoj1vI3J35d+xFNHjwnCkbk48nLQj3kFX+K0qbRKmZF2kC56VVDmMrjYMw/kash8LZu6w8512IouALgy6MrCBHnmrjrROKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
+Received: from localhost (unknown [116.232.48.207])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: dlan)
+	by smtp.gentoo.org (Postfix) with ESMTPSA id C1B9C3408F9;
+	Sat, 19 Jul 2025 02:05:51 +0000 (UTC)
+Date: Sat, 19 Jul 2025 10:05:47 +0800
+From: Yixun Lan <dlan@gentoo.org>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: u-boot@lists.denx.de, Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Mikhail Kalashnikov <iuncuim@gmail.com>,
-	Yixun Lan <dlan@gentoo.org>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	linux-sunxi@lists.linux.dev,
+	Paul Kocialkowski <paulk@sys-base.io>, linux-sunxi@lists.linux.dev,
 	Tom Rini <trini@konsulko.com>
-Subject: [PATCH v2 20/20] sunxi: A523: add defconfigs for three boards
-Date: Fri, 18 Jul 2025 00:54:55 +0100
-Message-ID: <20250717235455.32528-21-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.46.3
-In-Reply-To: <20250717235455.32528-1-andre.przywara@arm.com>
+Subject: Re: [PATCH v2 00/20] sunxi: Add Allwinner A523 support
+Message-ID: <20250719020547-GYA702644@gentoo>
 References: <20250717235455.32528-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -38,178 +37,67 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250717235455.32528-1-andre.przywara@arm.com>
 
-So far developers seem to use three popular boards:
-- Avaota A1: dev board with USB 3.0, dual Ethernet, small display
-- X96QPro+: TV box with Gigabit Ethernet, USB 3.0, eMMC
-- Radxa A5E: small dev board with USB3/M.2 2230 (muxed), dual Ethernet
+Hi Andre,
 
-Add the defconfig files for those boards, containing the DRAM parameters
-and the usual Kconfig options.
+On 00:54 Fri 18 Jul     , Andre Przywara wrote:
+> Hi,
+> 
+> (Mikhail and Jernej: please reply with S-o-b: lines for your patches!)
+> 
+> this series introduces support for the Allwinner A523 SoC family.
+> Compared to v1, a good chunk of those patches have been merged, so we are
+> down from 34 to 20 patches now. There are some small fixes to the
+> pinctrl driver, and the SPL clock bits got updated to fix the conflicts
+> with the now merged A133 support. I rewrote the SPL watchdog code, to
+> avoid the MMIO register C struct. The DRAM driver lost one MMIO register
+> struct. The DT files have now landed in the DT rebasing repo, so we can
+> cherry-pick them from there.
+> 
+> Otherwise this now based on latest U-Boot master, which hopefully makes
+> testing easier. If people don't shout, I would like to merge it still
+> during this merge window, since the patches have been around for a while,
+> and people want to use them, alongside the now supported mainline Linux
+> code. So please test and review!
+> 
+> ==================================
+> This series introduces support for the Allwinner A523 SoC family. The
+> same die is used in different packages: the A523, A527, T527, and H728:
+> they connect a different set of peripherals to the pins, or enable extra
+> goodies like an NPU. From a U-Boot perspective those chips do not differ
+> much, all the differences are described in the board DT files.
+> 
+> To be able to share the SPL clock code, the existing H6 code gets
+> refactored in patches 01-04. This unifies the (CPU) PLL handling across
+> the SoCs supported by this code (H6, H616, A133), and adds support for
+> the separate CPU PLLs on the A523.
+> 
+> Patches 05-10 extend the existing Allwinner U-Boot drivers to cope with
+> some of the changed peripherals, this includes the mandatory clock and
+> pinctrl drivers, but also some clock tweaks for the MMC controller
+> driver, and support for the new-ish AXP323 PMIC used on most boards.
+> 
+> Patches 11 updates some SPL bits to be able to cope with the A523.
+> Patches 12-15 add the new SPL bits for the A523, most prominently the DRAM
+> initialisation code. Many thanks to Jernej and Mikhail for providing
+> this part, there is a great reverse engineering and testing effort behind
+> this.
+> 
+> Patches 16-19 cherry-pick the DT files from the DT rebasing repo. There
+> are more fix patches queued, I will update them once they hit the repo.
+> 
+> The final patch adds defconfig files for the three boards that seem to be
+> the most popular at the moment, they include two development boards and
+> one TV box. The most interesting bits in there are the DRAM parameters.
+> 
+> Please have a look, review, and test.
+> 
+for the series, I've only got one clk warning, but otherwise works for me..
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- board/sunxi/MAINTAINERS         | 15 +++++++++++++++
- configs/avaota-a1_defconfig     | 31 +++++++++++++++++++++++++++++++
- configs/radxa-a5e_defconfig     | 30 ++++++++++++++++++++++++++++++
- configs/x96q_pro_plus_defconfig | 32 ++++++++++++++++++++++++++++++++
- 4 files changed, 108 insertions(+)
- create mode 100644 configs/avaota-a1_defconfig
- create mode 100644 configs/radxa-a5e_defconfig
- create mode 100644 configs/x96q_pro_plus_defconfig
+Tested-by: Yixun Lan <dlan@gentoo.org> # Radxa A5E
 
-diff --git a/board/sunxi/MAINTAINERS b/board/sunxi/MAINTAINERS
-index 1b4b7d87163..66e6a8ff962 100644
---- a/board/sunxi/MAINTAINERS
-+++ b/board/sunxi/MAINTAINERS
-@@ -137,6 +137,11 @@ M:	Chris Morgan <macromorgan@hotmail.com>
- S:	Maintained
- F:	configs/anbernic_rg35xx_h700_defconfig
- 
-+AVAOTA A1 BOARD
-+M:	Andre Przywara <andre.przywara@arm.com>
-+S:	Maintained
-+F:	configs/avaota-a1_defconfig
-+
- BANANAPI M1 PLUS
- M:	Jagan Teki <jagan@amarulasolutions.com>
- S:	Maintained
-@@ -531,6 +536,11 @@ M:	Quentin Schulz <quentin.schulz@free-electrons.com>
- S:	Maintained
- F:	configs/parrot_r16_defconfig
- 
-+RADXA CUBIE A5E BOARD
-+M:	Andre Przywara <andre.przywara@arm.com>
-+S:	Maintained
-+F:	configs/radxa-a5e_defconfig
-+
- SINLINX SINA31s BOARD
- M:	Chen-Yu Tsai <wens@csie.org>
- S:	Maintained
-@@ -591,6 +601,11 @@ M:	Andre Przywara <andre.przywara@arm.com>
- S:	Maintained
- F:	configs/x96_mate_defconfig
- 
-+X96Q PRO+ TV BOX
-+M:	Andre Przywara <andre.przywara@arm.com>
-+S:	Maintained
-+F:	configs/x96q_pro_plus_defconfig
-+
- YONES TOPTECH BD1078 BOARD
- M:	Paul Kocialkowski <contact@paulk.fr>
- S:	Maintained
-diff --git a/configs/avaota-a1_defconfig b/configs/avaota-a1_defconfig
-new file mode 100644
-index 00000000000..55457edd3b3
---- /dev/null
-+++ b/configs/avaota-a1_defconfig
-@@ -0,0 +1,31 @@
-+CONFIG_ARM=y
-+CONFIG_ARCH_SUNXI=y
-+CONFIG_DEFAULT_DEVICE_TREE="allwinner/sun55i-t527-avaota-a1"
-+CONFIG_SPL=y
-+CONFIG_DRAM_SUNXI_DX_ODT=0x07070707
-+CONFIG_DRAM_SUNXI_DX_DRI=0x0d0d0d0d
-+CONFIG_DRAM_SUNXI_CA_DRI=0x0e0e
-+CONFIG_DRAM_SUNXI_ODT_EN=0x84848484
-+CONFIG_DRAM_SUNXI_TPR0=0x80808080
-+CONFIG_DRAM_SUNXI_TPR1=0x06060606
-+CONFIG_DRAM_SUNXI_TPR6=0x38000000
-+CONFIG_DRAM_SUNXI_TPR10=0x802f3333
-+CONFIG_DRAM_SUNXI_TPR11=0xc7c5c4c2
-+CONFIG_DRAM_SUNXI_TPR12=0x3533302f
-+CONFIG_MACH_SUN55I_A523=y
-+CONFIG_MMC_SUNXI_SLOT_EXTRA=2
-+CONFIG_R_I2C_ENABLE=y
-+# CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
-+CONFIG_SPL_I2C=y
-+CONFIG_SPL_SYS_I2C_LEGACY=y
-+CONFIG_SYS_I2C_MVTWSI=y
-+CONFIG_SYS_I2C_SLAVE=0x7f
-+CONFIG_SYS_I2C_SPEED=400000
-+CONFIG_SUPPORT_EMMC_BOOT=y
-+CONFIG_REGULATOR_AXP=y
-+CONFIG_AXP717_POWER=y
-+CONFIG_AXP_I2C_ADDRESS=0x35
-+CONFIG_AXP_DCDC2_VOLT=920
-+CONFIG_AXP_DCDC3_VOLT=1160
-+CONFIG_USB_EHCI_HCD=y
-+CONFIG_USB_OHCI_HCD=y
-diff --git a/configs/radxa-a5e_defconfig b/configs/radxa-a5e_defconfig
-new file mode 100644
-index 00000000000..012e7b4eeaf
---- /dev/null
-+++ b/configs/radxa-a5e_defconfig
-@@ -0,0 +1,30 @@
-+CONFIG_ARM=y
-+CONFIG_ARCH_SUNXI=y
-+CONFIG_DEFAULT_DEVICE_TREE="allwinner/sun55i-a527-cubie-a5e"
-+CONFIG_SPL=y
-+CONFIG_DRAM_SUNXI_DX_ODT=0x07070707
-+CONFIG_DRAM_SUNXI_DX_DRI=0x0d0d0d0d
-+CONFIG_DRAM_SUNXI_CA_DRI=0x0e0e
-+CONFIG_DRAM_SUNXI_ODT_EN=0x84848484
-+CONFIG_DRAM_SUNXI_TPR0=0x80808080
-+CONFIG_DRAM_SUNXI_TPR1=0x06060606
-+CONFIG_DRAM_SUNXI_TPR6=0x38000000
-+CONFIG_DRAM_SUNXI_TPR10=0x802f3333
-+CONFIG_DRAM_SUNXI_TPR11=0xc7c5c4c2
-+CONFIG_DRAM_SUNXI_TPR12=0x3533302f
-+# BSP value: CONFIG_DRAM_SUNXI_TPR11=0xc6c4c2c0
-+# BSP value: CONFIG_DRAM_SUNXI_TPR12=0x3a373233
-+CONFIG_MACH_SUN55I_A523=y
-+CONFIG_R_I2C_ENABLE=y
-+# CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
-+CONFIG_SPL_I2C=y
-+CONFIG_SPL_SYS_I2C_LEGACY=y
-+CONFIG_SYS_I2C_MVTWSI=y
-+CONFIG_SYS_I2C_SLAVE=0x7f
-+CONFIG_SYS_I2C_SPEED=400000
-+CONFIG_REGULATOR_AXP=y
-+CONFIG_AXP717_POWER=y
-+CONFIG_AXP_DCDC2_VOLT=920
-+CONFIG_AXP_DCDC3_VOLT=1100
-+CONFIG_USB_EHCI_HCD=y
-+CONFIG_USB_OHCI_HCD=y
-diff --git a/configs/x96q_pro_plus_defconfig b/configs/x96q_pro_plus_defconfig
-new file mode 100644
-index 00000000000..07d3b078bef
---- /dev/null
-+++ b/configs/x96q_pro_plus_defconfig
-@@ -0,0 +1,32 @@
-+CONFIG_ARM=y
-+CONFIG_ARCH_SUNXI=y
-+CONFIG_DEFAULT_DEVICE_TREE="allwinner/sun55i-h728-x96qpro+"
-+CONFIG_SPL=y
-+CONFIG_DRAM_SUNXI_DX_ODT=0x07070707
-+CONFIG_DRAM_SUNXI_DX_DRI=0x0c0c0c0c
-+CONFIG_DRAM_SUNXI_CA_DRI=0x0e0e
-+CONFIG_DRAM_SUNXI_ODT_EN=0x90909090
-+CONFIG_DRAM_SUNXI_TPR0=0x80808080
-+CONFIG_DRAM_SUNXI_TPR1=0x06060606
-+CONFIG_DRAM_SUNXI_TPR6=0x3380807e
-+CONFIG_DRAM_SUNXI_TPR10=0x802f7788
-+CONFIG_DRAM_SUNXI_TPR11=0x8f919190
-+CONFIG_DRAM_SUNXI_TPR12=0x22222723
-+CONFIG_MACH_SUN55I_A523=y
-+CONFIG_SUNXI_DRAM_A523_DDR3=y
-+CONFIG_DRAM_CLK=792
-+CONFIG_MMC_SUNXI_SLOT_EXTRA=2
-+CONFIG_R_I2C_ENABLE=y
-+# CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
-+CONFIG_SPL_I2C=y
-+CONFIG_SPL_SYS_I2C_LEGACY=y
-+CONFIG_SYS_I2C_MVTWSI=y
-+CONFIG_SYS_I2C_SLAVE=0x7f
-+CONFIG_SYS_I2C_SPEED=400000
-+CONFIG_SUPPORT_EMMC_BOOT=y
-+CONFIG_REGULATOR_AXP=y
-+CONFIG_AXP717_POWER=y
-+CONFIG_AXP_DCDC2_VOLT=920
-+CONFIG_AXP_DCDC3_VOLT=1360
-+CONFIG_USB_EHCI_HCD=y
-+CONFIG_USB_OHCI_HCD=y
 -- 
-2.46.3
-
+Yixun Lan (dlan)
