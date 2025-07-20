@@ -1,103 +1,159 @@
-Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07D582576
-	for <linux-sunxi@lists.linux.dev>; Sat, 19 Jul 2025 02:05:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BC261E7C18
+	for <linux-sunxi@lists.linux.dev>; Sun, 20 Jul 2025 08:51:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752890754; cv=none; b=IiYfpL/B7NSrTTR1iOdZNdsIis3QlMlBx+HINOpcLQnQtqXX0HtTEASE5jBATx76wJ0VUZs7Ywg6xBCkuCwXtho8avLynT/CbXR5BWG9k6LQkxDMgPcXTvTD/a5zZReNDR5l2bf+ml9m9AKR7aKx5TQ9OjJ48eN4TGe3iKOaoho=
+	t=1753001472; cv=none; b=Fg+3ILnt5MJ7hQqx45GDSLo8gdOF1t/63wIqLGSLNuLDCtgnEpnO6XU3DbrV87kQ7iL0MeqYf+ZnLvB6IgnQgh6xeM3xLIk91cmqV70K2cM721Z6pwO7H2mK9yvCuJmaVhDAI43JYznC03n6mrL2qsaGZsKkJxE4PqUTgaDHhu0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752890754; c=relaxed/simple;
-	bh=4I5wGqzLeQe95/AxYHeIbenG0/LgIJySPniPjMewcxM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EbjRdfRU+B2gNJ+mGzxpFySOWiBifvkSfFcf2JKrF66M5UvrG06N4ECFK1DQZl5kOm+5XSEJDStrVoj1vI3J35d+xFNHjwnCkbk48nLQj3kFX+K0qbRKmZF2kC56VVDmMrjYMw/kash8LZu6w8512IouALgy6MrCBHnmrjrROKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-Received: from localhost (unknown [116.232.48.207])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: dlan)
-	by smtp.gentoo.org (Postfix) with ESMTPSA id C1B9C3408F9;
-	Sat, 19 Jul 2025 02:05:51 +0000 (UTC)
-Date: Sat, 19 Jul 2025 10:05:47 +0800
-From: Yixun Lan <dlan@gentoo.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: u-boot@lists.denx.de, Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Mikhail Kalashnikov <iuncuim@gmail.com>,
-	Paul Kocialkowski <paulk@sys-base.io>, linux-sunxi@lists.linux.dev,
-	Tom Rini <trini@konsulko.com>
-Subject: Re: [PATCH v2 00/20] sunxi: Add Allwinner A523 support
-Message-ID: <20250719020547-GYA702644@gentoo>
-References: <20250717235455.32528-1-andre.przywara@arm.com>
+	s=arc-20240116; t=1753001472; c=relaxed/simple;
+	bh=Uf2sZTLAXlQT/ASKsHIj6ZLWQf8O+RxSnJWpM10dOqM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hpxwZVN0tkmbgGNhi5T1w77OTZYNDbAGN/SULa+y5wzqHW1UyUSS/NzvyfdSYoGQX+BfCbgwdj7mWZtHjKUIFfV1uzHtppILXPAjQmrz70GGrEIYzofJ7IC8ZC3IsYkYlvncbIM/RFdL6+BaugW8qAEnzSh4RiibRjjYatFtf7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=L6mJtI9u; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=RbJxu4Aj; arc=none smtp.client-ip=202.12.124.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="L6mJtI9u";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="RbJxu4Aj"
+Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
+	by mailfout.stl.internal (Postfix) with ESMTP id 058F01D00127;
+	Sun, 20 Jul 2025 04:51:08 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-09.internal (MEProxy); Sun, 20 Jul 2025 04:51:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
+	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
+	:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to; s=fm2; t=1753001468; x=1753087868; bh=gQV59Aievl
+	/LHsII52zjTNCqSuGz5fExZsMExKq04hU=; b=L6mJtI9u0DIJzIFzES6RUxC6QM
+	nOXOwy892BeOgiSBCkNqfsHBWKukdfgnfdkT1EVFc2ZCi41DtWTyJ1aTGIXe/EJe
+	n/mTi4JhMAAvxnE4716Tl4enwxvyA0V7XrP9hM2vV0sEiTnLHCpD3wpsJPhnWq4Z
+	D9hA+OxZEwEOkNNoLAq+ZTE5paeOKtlTEkTd/2+uPh6odv8iKUP6Ut7SOyV5eNyj
+	JLFhN/hrRUvYSdPMmBQdfDNNABgCqx8hhhVdNrmtOuLeFccHvvuZodhrSA+xaVgF
+	1Z4FF7Gpya1BGYEhiomDHJDSKvq2qTGIdOVdRc1gZM6DZko8CyKP4Do+wRgA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1753001468; x=1753087868; bh=gQV59Aievl/LHsII52zjTNCqSuGz5fExZsM
+	ExKq04hU=; b=RbJxu4AjYWHWGO4Xti0Kan6IjgghWZpt5gx/58ZxJg40ok4PHXz
+	QgPcpy+D7eCLdrpVIEpknRBLD8YvR1069xlCM3mGkvgOtCbzCPN6QAZ+Qc8eE+BA
+	Ce8+Uct8z+eRYvbf3fiLVXe4/rZjj3c1L4W5adxnKt4eCbpsM8N4g2Py4c/EE41Y
+	U3UjmgSmpdoCVYd8/ceO78lQ8LUaMFIsEB7SCeYriEMEpby5eAC4/c9Pc5zzdSmJ
+	MresWbmCc9CmafExSzDnxdpGtabn8qLpL7shBa0HL/8scbLrWNuwJQMEUCuN8JsS
+	swVDCsFXgxx8GZnnsyq7xkol2/55/djxnjA==
+X-ME-Sender: <xms:-618aNAwOZt92zal1_CFhaLA1qzd89iBE_WfT7Zo_8Ft96EEEnY42A>
+    <xme:-618aMIY2DmpguQqvbYoOzN4asaZ4Yvh8S1biHv_-BGd40b3cY5FLKzHU0jIGgvh4
+    1APrvrZWBYNKLlnhw>
+X-ME-Received: <xmr:-618aDumqiz37U_wXkz9mL1dksN5UiD28M5bcvXe-S2OmHYe9FhGXEtGf3fh99OJm-gTApSUWnhd6JedgxBHzuLFWDx9aQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdeikeejjecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefthigrnhcuhggrlhhk
+    lhhinhcuoehrhigrnhesthgvshhtthhorghsthdrtghomheqnecuggftrfgrthhtvghrnh
+    epfeejjefhjefhgfeitdellefhueekfeetueektdejvdeuueegudehudffkeevudeunecu
+    ffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurf
+    grrhgrmhepmhgrihhlfhhrohhmpehrhigrnhesthgvshhtthhorghsthdrtghomhdpnhgs
+    pghrtghpthhtohepudehpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehrohgshh
+    eskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdho
+    rhhgpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtth
+    hopeifvghnshestghsihgvrdhorhhgpdhrtghpthhtohepjhgvrhhnvghjrdhskhhrrggs
+    vggtsehgmhgrihhlrdgtohhmpdhrtghpthhtohepshgrmhhuvghlsehshhholhhlrghnug
+    drohhrghdprhgtphhtthhopegrnhgurhgvrdhprhiihiifrghrrgesrghrmhdrtghomhdp
+    rhgtphhtthhopehmrggtrhhorghlphhhrgekvdesghhmrghilhdrtghomhdprhgtphhtth
+    hopehkihhkuhgthhgrnhelkeesghhmrghilhdrtghomh
+X-ME-Proxy: <xmx:-618aMXTENndXGA_6xrbCkrXOv3WPuZabdw3SfGnJrqDJ31BPnTG3Q>
+    <xmx:-618aGKIvE3F3HpGJatCw5N-_DS3ZcBIxP-49rTD8VoIv4IBLSAElw>
+    <xmx:-618aJ-ld0ahDCW-UIPPoySWYcnZmtn3M4n8V8J2Aq6v092xt4orRw>
+    <xmx:-618aMOc2O_9EoAc2MbWzdlSFG7NEbm24S9oWQWmrnNyJ06_Si4swQ>
+    <xmx:_K18aELd15twgm1QngICr-FB1pgniyT_ZH2OxV46XAUzztVOO4y_YRjY>
+Feedback-ID: idc0145fc:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 20 Jul 2025 04:51:03 -0400 (EDT)
+From: Ryan Walklin <ryan@testtoast.com>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: Andre Przywara <andre.przywara@arm.com>,
+	Chris Morgan <macroalpha82@gmail.com>,
+	Hironori KIKUCHI <kikuchan98@gmail.com>,
+	Philippe Simons <simons.philippe@gmail.com>,
+	linux-sunxi@lists.linux.dev,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	dri-devel@lists.freedesktop.org,
+	Ryan Walklin <ryan@testtoast.com>
+Subject: [PATCH v2 00/12] arm64: dts: allwinner: h616: add LCD timing controller and display engine support
+Date: Sun, 20 Jul 2025 20:48:38 +1200
+Message-ID: <20250720085047.5340-1-ryan@testtoast.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250717235455.32528-1-andre.przywara@arm.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Andre,
+Hi All,
 
-On 00:54 Fri 18 Jul     , Andre Przywara wrote:
-> Hi,
-> 
-> (Mikhail and Jernej: please reply with S-o-b: lines for your patches!)
-> 
-> this series introduces support for the Allwinner A523 SoC family.
-> Compared to v1, a good chunk of those patches have been merged, so we are
-> down from 34 to 20 patches now. There are some small fixes to the
-> pinctrl driver, and the SPL clock bits got updated to fix the conflicts
-> with the now merged A133 support. I rewrote the SPL watchdog code, to
-> avoid the MMIO register C struct. The DRAM driver lost one MMIO register
-> struct. The DT files have now landed in the DT rebasing repo, so we can
-> cherry-pick them from there.
-> 
-> Otherwise this now based on latest U-Boot master, which hopefully makes
-> testing easier. If people don't shout, I would like to merge it still
-> during this merge window, since the patches have been around for a while,
-> and people want to use them, alongside the now supported mainline Linux
-> code. So please test and review!
-> 
-> ==================================
-> This series introduces support for the Allwinner A523 SoC family. The
-> same die is used in different packages: the A523, A527, T527, and H728:
-> they connect a different set of peripherals to the pins, or enable extra
-> goodies like an NPU. From a U-Boot perspective those chips do not differ
-> much, all the differences are described in the board DT files.
-> 
-> To be able to share the SPL clock code, the existing H6 code gets
-> refactored in patches 01-04. This unifies the (CPU) PLL handling across
-> the SoCs supported by this code (H6, H616, A133), and adds support for
-> the separate CPU PLLs on the A523.
-> 
-> Patches 05-10 extend the existing Allwinner U-Boot drivers to cope with
-> some of the changed peripherals, this includes the mandatory clock and
-> pinctrl drivers, but also some clock tweaks for the MMC controller
-> driver, and support for the new-ish AXP323 PMIC used on most boards.
-> 
-> Patches 11 updates some SPL bits to be able to cope with the A523.
-> Patches 12-15 add the new SPL bits for the A523, most prominently the DRAM
-> initialisation code. Many thanks to Jernej and Mikhail for providing
-> this part, there is a great reverse engineering and testing effort behind
-> this.
-> 
-> Patches 16-19 cherry-pick the DT files from the DT rebasing repo. There
-> are more fix patches queued, I will update them once they hit the repo.
-> 
-> The final patch adds defconfig files for the three boards that seem to be
-> the most popular at the moment, they include two development boards and
-> one TV box. The most interesting bits in there are the DRAM parameters.
-> 
-> Please have a look, review, and test.
-> 
-for the series, I've only got one clk warning, but otherwise works for me..
+V2 of this patch adding display engine and timing controller support for the H616 and related SoCs, and enabling LCD output for the RG35XX series of handheld gaming devices using this SoC. V2 updates with feedback and Acks from the previous v1, with changes largely improving consistency of DT compatible and fallback strings, and removing the temporary GPIO switched backlight from v1 in favour of waiting for proper PWM support.
 
-Tested-by: Yixun Lan <dlan@gentoo.org> # Radxa A5E
+Regards,
+
+Ryan
+
+Original blurb below:
+
+The H616 series of SoCs has an LCD timing controller as part of its display pipeline, capable of outputting to an LCD display, as well as HDMI and (depending on the SoC) composite TV signals. The pins are not exposed on all die variants, but the H700 variant is exposes RGB and LVDS pins. Building on the DE33 display engine patches on the list (https://lore.kernel.org/linux-sunxi/20250216085432.6373-2-ryan@testtoast.com), this patch series:
+
+- adds the required device tree configuration for the display pipeline to the H616 (bus, display engine, mixer and timing controller)
+- adds a quirk to the sun4i TCON driver for the Allwinner R40 (compatible with the H616/H618/H700/T507)
+- describes the H616 RGB and LVDS GPIO pins
+- adds the required pipeline endpoints to the device tree for the Anbernic RG35XX devices featuring this SoC
+- adds LCD panel description, and required power supply configuration for the panel, backlight and GPIO pins for the RG35XX
+
+Thanks to Jernej Skrabec for the initial out-of-tree patch for the T507.
+
+Regards,
+
+Ryan
+
+Chris Morgan (1):
+  dt-bindings: allwinner: add H616 DE33 bus binding
+
+Jernej Skrabec (1):
+  drm/sun4i: tcon: add support for R40
+
+Ryan Walklin (10):
+  dt-bindings: allwinner: Add TCON_TOP_LCD clock defines
+  dt-bindings: display: sun4i: Add compatible strings for H616 DE
+  dt-bindings: display: sun4i: Add compatible strings for H616 TCON TOP
+  dt-bindings: display: sun4i: add allwinner R40 and H616 tcon
+    compatible strings
+  dt-bindings: sram: sunxi-sram: Add H616 SRAM C compatible
+  drm: sun4i: add compatible for h616 display engine
+  arm64: dts: allwinner: h616: add display engine, bus and mixer nodes
+  arm64: dts: allwinner: h616: Add LCD timing controller nodes
+  arm64: dts: allwinner: h616: add LCD and LVDS pins
+  arm64: dts: allwinner: rg35xx: Enable LCD output
+
+ .../bus/allwinner,sun50i-a64-de2.yaml         |   7 +-
+ .../allwinner,sun4i-a10-display-engine.yaml   |   1 +
+ .../display/allwinner,sun4i-a10-tcon.yaml     |  10 +
+ .../display/allwinner,sun8i-r40-tcon-top.yaml |  13 +-
+ .../allwinner,sun4i-a10-system-control.yaml   |   4 +-
+ .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 225 ++++++++++++++++++
+ .../sun50i-h700-anbernic-rg35xx-2024.dts      |  56 +++++
+ drivers/gpu/drm/sun4i/sun4i_drv.c             |   1 +
+ drivers/gpu/drm/sun4i/sun4i_tcon.c            |   9 +
+ include/dt-bindings/clock/sun8i-tcon-top.h    |   2 +
+ 10 files changed, 319 insertions(+), 9 deletions(-)
 
 -- 
-Yixun Lan (dlan)
+2.50.1
+
