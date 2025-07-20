@@ -1,55 +1,55 @@
-Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
+Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08AA51E32A2
-	for <linux-sunxi@lists.linux.dev>; Sun, 20 Jul 2025 08:51:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A10A61E51EC
+	for <linux-sunxi@lists.linux.dev>; Sun, 20 Jul 2025 08:51:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753001477; cv=none; b=M25E5A7KJJc5/JuiVx9YXMNCZ3xtEfAzcuzoe/Q53us2Ge2PNUIZDe2Botlb+vE5wKB1HIqJ+3ci7wY6vQa+AT4fwo2dYqE3mMg1dD1HgGQ8OZncYNEAeX0UJstdA43LbwQcvpWI7WdS0RhtDXC3Ec0CcNeSruy9mP2dDVDKOQM=
+	t=1753001484; cv=none; b=fmpUYLRFV9/klfB2Z8tm/gyRlFabacX2DCAnJkn2QpeXOx74tmgAY/qeuLpmyD60JaFYG0j5X0pcxaMuSWNaF92rdfNDvysrM4VUdjnkbLsKyn1JcoHziGXF+o2Mua+PQjGc6oQBjFjxG/nOLekKMtwV1Jd+7tWF/I49k7iEUts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753001477; c=relaxed/simple;
-	bh=dOz/O+Fmr0MrO8uf6IeSnuEwB6n0QZHNUM7Aubvi7Ug=;
+	s=arc-20240116; t=1753001484; c=relaxed/simple;
+	bh=tooDNa1YspogcOFTMTXgTuMgtT+jql4at8socFhjjlQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aIR7yyFfsZjYCzSMW6WbehAU/wnRije48wFEMrZgkyPJrAd6jIMQoFUP9H37NbZmJwQXthukG6SePMfOLkYY+s2z9MrThlhRhqrh3QvTdiOjt/ZPLfWZmtSOQihFfvxcL+C80lfY6Gvl/LFjlzN7Yn6nYUSU7r/xi4eGEvXKBnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=KwIyqXfo; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=G0rpmCGt; arc=none smtp.client-ip=202.12.124.146
+	 MIME-Version; b=usf+f+sO0sKOCo/pTmiqnEpmTRW8x4SpxrL/v2CFH6YxYQ3l2g2AZJS6S46iM5eXv1AXKevp3roZBfS/QIq0kqJlNhcWh1EBRLEsKV5/kjr8Ud4Y/9MdKLg0av7FXePBPNS2gFwFwTRxhibRbGZs5WhK/LCGBC4K7Vm2hbWk7BY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=Krau3LBY; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ELuXtyxe; arc=none smtp.client-ip=202.12.124.159
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="KwIyqXfo";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="G0rpmCGt"
-Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
-	by mailfout.stl.internal (Postfix) with ESMTP id E7E3C1D00121;
-	Sun, 20 Jul 2025 04:51:14 -0400 (EDT)
+	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="Krau3LBY";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ELuXtyxe"
+Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 599377A015F;
+	Sun, 20 Jul 2025 04:51:20 -0400 (EDT)
 Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-12.internal (MEProxy); Sun, 20 Jul 2025 04:51:15 -0400
+  by phl-compute-03.internal (MEProxy); Sun, 20 Jul 2025 04:51:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
 	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
 	:from:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1753001474; x=
-	1753087874; bh=/BGi5ucU1o2+iAEAe5eZtkdao45tn34zo5WJJl1KkNs=; b=K
-	wIyqXfoPvyrZVS1a68agipuehvKjP9dJT+pqqP+FM3bwve61xU2PqqiSIaLQpp11
-	2zpkM1oOFAMhpCGIbiecOZ0sh758BG5BZrfv1oSQafYdmqwSlK1f6YHYrDcISAVF
-	ZWe2nrQncnCSRO2fO7qqHQl4OHxrWvBeH9xDXsz4jgWCBQJZEHeitShGngNvOfO0
-	zUOplTIpgAXfH/HPnmnnuPeZAeL5juHIeYegBU8hNqMYFaV1OaClHHUrYi+k1KR0
-	Gj8BqjuNsEjZG9zaickeL6O2d+NlNKLyPGvmObsBad1IMKEhyqLE3fNSo0GPfP23
-	/9C2lQc8xbFSzXMxUClKA==
+	:reply-to:subject:subject:to:to; s=fm2; t=1753001480; x=
+	1753087880; bh=0Udlp4ocv8KpmIVXbeOHVNYW3cA1AnHLAImNbn95Z4I=; b=K
+	rau3LBYoueXNHUOx/gE6C7dS8wdOmCgr+85KqQVn6LPvIJjxA6qCU4/3XJuk8dAB
+	3pnqj2uZ9OgC2PFrEob84DG0d+/kFEfRlqZKChM9SubL0Er6DRtSsn4LPJ8+5OJU
+	0F89JCbgEwu4Btbe3thYH3c4mPcpQclzLlMV5yhPswthvHGHXUm4KWfI/JKR2W+Y
+	REUSqhIUsRaTdVKT8v0QDeacA23axZWNCT3ZxoUb7JY7PhXz7e3brDqI8rGNctjW
+	Cw8eF73zBiBMSSSijcJJ5OwK6ygDpItBOndH08tP4jDXbpg5v1atjlnc41/Frw41
+	Tr6lFldPDN869dMJj648A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm2; t=1753001474; x=1753087874; bh=/
-	BGi5ucU1o2+iAEAe5eZtkdao45tn34zo5WJJl1KkNs=; b=G0rpmCGtIxqM+R1Uj
-	mSugcY9gDpNbp1nd8qK7ia0a5leAZcWZ8kl5j0i7Lqxd3TMj6XkVH9D9yEoGz97O
-	XaW6IXwtj+Hes4cGQfqBhk3CuOfwNmdgvRJD0BG4wRK6vruBJe9jvs0dnm1p2sZH
-	tVCYuzZNPckRGLu47e0olPYl0LZMS+DsqxwegtmMgxp2Mazif0sMYQ/LUAt3t6LF
-	DoBR7EKlCi/Q/GvG+Skl9hn+LxbObjosroLNi4vEvS6kubWglfQuQWFV9khHfums
-	FeYxymgF67qU0D6EvlPer2CKLZjqXEJfvYx7u++Th6/iaolGfljZ6L8F7RKjkKgX
-	iZpSA==
-X-ME-Sender: <xms:Aa58aLXs4agY2z3zt3Q5FF9PkqcJTnjPkg3xWiSnkNJRhnw9mLGbIw>
-    <xme:Aa58aLI2SmZzGR-GfxokaNu1qSNHgoAWFaS2Uf2qyNVh3R8UaS8bBPIJPV9e2BmKT
-    0BOufjJIA9IlAu49Q>
-X-ME-Received: <xmr:Aa58aHBAgB0eeFfRSzqaiXxRYLPVURu8-oGqhx1SmygZE_K0IL24YtPaBapEUalbLVmD5R2hOxpnUTEX2xYovo-ZbsJBmw>
+	:x-me-sender:x-sasl-enc; s=fm2; t=1753001480; x=1753087880; bh=0
+	Udlp4ocv8KpmIVXbeOHVNYW3cA1AnHLAImNbn95Z4I=; b=ELuXtyxeQSEI8FrXK
+	FiYoOlmkmviYMMxyVYERgY6H9gS1Vqhhrje7H34pANINJasEXTBaff/TuSv7TW1n
+	ZkH60GzCyX4q78epp0sXAvIwBbWA1z3Rxtd+SGgtzJ/bgwch+wPCSwo/K57jQH+E
+	Tr07bHJgp6qtf2wBfM7exoMA2ykmhMos095o/4cLMzmsoVf/AjU6MgZUZJsgbCQ7
+	kxm1xRxAw0QU5PanbJVUjsx1yM2teJAINmz5Fk6J02zOQmtIDBhw3soy+JizczCi
+	r1nIStWNC1OmDiAWFkytK+cTIBh4A2i88922lc0tGhE6k8uZVPp4+716WkbVIA3n
+	s4kQA==
+X-ME-Sender: <xms:B658aL5GVUVwgP_wUiXwFZyeVPxQOO-klUmfKASnP7WnZUDCMCNZFg>
+    <xme:B658aLzuAZS2M-eK3MvwsXaulTz23z1QbseHNxQaenxJRpSliexDF-wqhXpkgecmO
+    bH7KsF4-VwU6YoRiA>
+X-ME-Received: <xmr:B658aMrZBbDf8NqHumHzHSp4XdxUZnR0I_Jg4-FpouqIsYJWy3xmt_Hqzx6fhdYVmYAyFFJCK1tVM9nqLMmlQDt-2d7QcA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdeikeejiecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
     ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
@@ -57,7 +57,7 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdeikeejiecutefuodetgg
     lhhklhhinhcuoehrhigrnhesthgvshhtthhorghsthdrtghomheqnecuggftrfgrthhtvg
     hrnhepffehieffgedtgfffjeetveegfeekleeileekveeuteffteetudffveegieeiheet
     necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprhihrg
-    hnsehtvghsthhtohgrshhtrdgtohhmpdhnsggprhgtphhtthhopeduhedpmhhouggvpehs
+    hnsehtvghsthhtohgrshhtrdgtohhmpdhnsggprhgtphhtthhopeduiedpmhhouggvpehs
     mhhtphhouhhtpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtth
     hopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrodgu
     theskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepfigvnhhssegtshhivgdrohhrghdprh
@@ -66,14 +66,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdeikeejiecutefuodetgg
     drphhriiihfigrrhgrsegrrhhmrdgtohhmpdhrtghpthhtohepmhgrtghrohgrlhhphhgr
     kedvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepkhhikhhutghhrghnleeksehgmhgrih
     hlrdgtohhm
-X-ME-Proxy: <xmx:Aa58aDFvcwRooZ_KA72kuTnwN8fjxTuEAcesu37azzUfEn2ZDw8Diw>
-    <xmx:Aa58aMLlia4t9420gwrxf4NPUxp4gCfzkFLDGFpqRwsM_oA_dXIGRg>
-    <xmx:Aa58aKpdgR9UhZfNYRrCR8KAgS0vIzP9mWyP4NrHSDKn7xAPYDhmuA>
-    <xmx:Aa58aDi579743aJQG1eh7CYG8O0GWptCAl7A_NH2X8-E5pXeZ5TWKw>
-    <xmx:Aq58aNX1vUrrOtcFSsXXNv1uSdoECT2LNLDUOz-K3yDkHnFxJEa6Lc1Q>
+X-ME-Proxy: <xmx:B658aN10YPYrjfe8o-N3-zsj3UfpC9ERSTvmFHAXFErcRdRhiE5npw>
+    <xmx:B658aFDOBC6NC2fbcOocCvLxswbGShz7oMUTha-LTKwOzI97DeHSjw>
+    <xmx:B658aOO91FledQP2aWMUMBLKy-pfrJ3Us8Hk8zmetSwn4F929-fd2w>
+    <xmx:B658aJSV9PYKHAY1uyPLWdPs47imEK-SqMzJU56UoFa-TkRSfkTFfA>
+    <xmx:CK58aI3SvIxdFtBWEV-8WcS45Z3RfXcvuAmpCgKuUXfO-dA_jS2Erv5o>
 Feedback-ID: idc0145fc:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 20 Jul 2025 04:51:09 -0400 (EDT)
+ 20 Jul 2025 04:51:15 -0400 (EDT)
 From: Ryan Walklin <ryan@testtoast.com>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -89,10 +89,11 @@ Cc: Andre Przywara <andre.przywara@arm.com>,
 	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	dri-devel@lists.freedesktop.org,
+	Chris Morgan <macromorgan@hotmail.com>,
 	Ryan Walklin <ryan@testtoast.com>
-Subject: [PATCH v2 01/12] dt-bindings: allwinner: Add TCON_TOP_LCD clock defines
-Date: Sun, 20 Jul 2025 20:48:39 +1200
-Message-ID: <20250720085047.5340-2-ryan@testtoast.com>
+Subject: [PATCH v2 02/12] dt-bindings: allwinner: add H616 DE33 bus binding
+Date: Sun, 20 Jul 2025 20:48:40 +1200
+Message-ID: <20250720085047.5340-3-ryan@testtoast.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250720085047.5340-1-ryan@testtoast.com>
 References: <20250720085047.5340-1-ryan@testtoast.com>
@@ -104,28 +105,48 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Allwinner H700 exposes RGB and LVDS pins as well as a HDMI
-connector. This requires additional clocks for the TCON_TOP as per the
-T507 datasheet (which shares the same die).
+From: Chris Morgan <macromorgan@hotmail.com>
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+The Allwinner H616 and variants have a new display engine revision
+(DE33).
+
+Add a display engine bus binding for the DE33. Note that the DE33
+requires 3 register blocks instead of 1. To keep things simple
+remove the maxItems value for registers for the child nodes and instead
+rely on the bindings for the child nodes such as
+allwinner,sun8i-a83t-de2-mixer.yaml to enforce the max values.
+
+Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 Signed-off-by: Ryan Walklin <ryan@testtoast.com>
 ---
- include/dt-bindings/clock/sun8i-tcon-top.h | 2 ++
- 1 file changed, 2 insertions(+)
+ .../devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml  | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/include/dt-bindings/clock/sun8i-tcon-top.h b/include/dt-bindings/clock/sun8i-tcon-top.h
-index 25164d767835..2a12d047d2e1 100644
---- a/include/dt-bindings/clock/sun8i-tcon-top.h
-+++ b/include/dt-bindings/clock/sun8i-tcon-top.h
-@@ -7,5 +7,7 @@
- #define CLK_TCON_TOP_TV0	0
- #define CLK_TCON_TOP_TV1	1
- #define CLK_TCON_TOP_DSI	2
-+#define CLK_TCON_TOP_LCD0	3
-+#define CLK_TCON_TOP_LCD1	4
+diff --git a/Documentation/devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml b/Documentation/devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml
+index 9845a187bdf6..9d9418c40b95 100644
+--- a/Documentation/devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml
++++ b/Documentation/devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml
+@@ -24,7 +24,9 @@ properties:
+     oneOf:
+       - const: allwinner,sun50i-a64-de2
+       - items:
+-          - const: allwinner,sun50i-h6-de3
++          - enum:
++              - allwinner,sun50i-h6-de3
++              - allwinner,sun50i-h616-de33
+           - const: allwinner,sun50i-a64-de2
  
- #endif /* _DT_BINDINGS_CLOCK_SUN8I_TCON_TOP_H_ */
+   reg:
+@@ -47,9 +49,6 @@ patternProperties:
+   "^[a-zA-Z][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+$":
+     type: object
+     additionalProperties: true
+-    properties:
+-      reg:
+-        maxItems: 1
+ 
+     required:
+       - reg
 -- 
 2.50.1
 
