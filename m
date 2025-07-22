@@ -1,65 +1,169 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D635521421A;
-	Mon, 21 Jul 2025 17:28:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6FAB195
+	for <linux-sunxi@lists.linux.dev>; Tue, 22 Jul 2025 00:16:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753118900; cv=none; b=H4gzgSwBx/I4L9V/8D//SDk1ITXgGg4Qb2r6X/UnsX4FOoOn6MqMseX08nOGFEFQZ2FXaMvk1wXmbVGuii6vlLkQxIiP7RXNU0zTJxrGehXB1sl4SeskOJc03eQsJlxCJOcAgInkzpXZWkH06UfMiyybKDQPsaFfv83Kvi0pQcE=
+	t=1753143409; cv=none; b=Pg5uum752M1HGRfEVT2puu0pZw3sMEP00mKsxtzRJ2jN8TotETM0nyS51aFSu63nBucujRm6u/oWC8JAyG+I5Ey8sjgGMdQRmBLdHWLDF4LdJQxfDYhOgzTCJby7ANvcxL4zDF5wtw6vLdtBs0bCUgqotkbN7Zk3tdDIFpmQI6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753118900; c=relaxed/simple;
-	bh=HRBRYF2/NyCb0Fsivpiz9bVx1nweWWT51S0yLpD6Sek=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=f4+ZjkFvi9wZig5MXwL8v3DXcEAsyC8UN3xr05WYlQJmAzZ9erNGm/Tw3/5gpXnxz7B1dUEhcqjVS7HrMfE98vMbexpkNV7H04Mndxxwrsj1pSB3eyUYQB+DvKcGsyQeFrilzeOSD0gWDOlk8sJdZgZ16tOJGfSwbjP+pefSuA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XHEnloKb; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XHEnloKb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45EABC4CEED;
-	Mon, 21 Jul 2025 17:28:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753118900;
-	bh=HRBRYF2/NyCb0Fsivpiz9bVx1nweWWT51S0yLpD6Sek=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=XHEnloKbOOka8/yBo8DlG9sc0haxuEAL4z2khqKhwv6WhCqTtScVklmZzu15YO5iE
-	 1fqawpGazU/t8OUXp9z0Yw4uX8ahUu+Kl47XZEEgljnsaCVLXl1OVDutKgGfvuw6Bx
-	 5YUunPuwPz3Uu6fzscEO/AhcXV2twgWgELwTGdTqbjVVlyztBom2ZOrZ12qrQmNB/N
-	 dra3819WxJ1zD1C1vj6BQnMjc6ymXLuLUmkdy132SiWriaNhY3GGWcbPTQHZ5hcYbT
-	 FVD6Rb2/dkQsCprZZEgUgjDaQTvEGf1aqlZk9vIIKXctc4Yoa6NNH2JVy1VgY/de8e
-	 /yItfRIWtQXVQ==
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1753143409; c=relaxed/simple;
+	bh=PqaFn4BJV0KiXvlP75Ss/bGOaDDQCSiWbU29UqjgFdo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZHLNegAHXaqsYFPR3GkpVF+xvyWZ3pj0hG2lHPzOtF+F8elup9NbBw/ZflOMY5uWxje4UMht/OhzgdMP8X0JdAhh37BFScDdJfFUjmvVQvHuwIqCMsLHwh/+JDT3rmAh4d/bQWtYf6+2YATceHbyRx1khPUJFuOkaD7qaEc4liA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B87C81595;
+	Mon, 21 Jul 2025 17:16:34 -0700 (PDT)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 61CCC3F66E;
+	Mon, 21 Jul 2025 17:16:39 -0700 (PDT)
+Date: Tue, 22 Jul 2025 01:14:39 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: u-boot@lists.denx.de
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Mikhail Kalashnikov
+ <iuncuim@gmail.com>, Yixun Lan <dlan@gentoo.org>, Paul Kocialkowski
+ <paulk@sys-base.io>, linux-sunxi@lists.linux.dev, Tom Rini
+ <trini@konsulko.com>
+Subject: Re: [PATCH v2 12/20] sunxi: sun50i_h6: add A523 SPL clock setup
+ code
+Message-ID: <20250722011439.401e1125@minigeek.lan>
+In-Reply-To: <20250717235455.32528-13-andre.przywara@arm.com>
+References: <20250717235455.32528-1-andre.przywara@arm.com>
+	<20250717235455.32528-13-andre.przywara@arm.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <aHaIfP2TJ_zkWv3G@wens.tw>
-References: <aHaIfP2TJ_zkWv3G@wens.tw>
-Subject: Re: [GIT PULL] Allwinner clock changes for 6.17
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev, linux-clk@vger.kernel.org
-To: Chen-Yu Tsai <wens@kernel.org>
-Date: Mon, 21 Jul 2025 10:28:18 -0700
-Message-ID: <175311889817.4111.10122993217327312049@lazor>
-User-Agent: alot/0.11
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Quoting Chen-Yu Tsai (2025-07-15 09:57:32)
-> The following changes since commit 19272b37aa4f83ca52bdf9c16d5d81bdd13544=
-94:
->=20
->   Linux 6.16-rc1 (2025-06-08 13:44:43 -0700)
->=20
-> are available in the Git repository at:
->=20
->   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/su=
-nxi-clk-for-6.17
->=20
-> for you to fetch changes up to 80395c3b47577c12121d4e408e7b9478f7f88d02:
->=20
->   clk: sunxi-ng: ccu_nm: convert from round_rate() to determine_rate() (2=
-025-07-14 11:56:18 +0800)
->=20
-> ----------------------------------------------------------------
+On Fri, 18 Jul 2025 00:54:47 +0100
+Andre Przywara <andre.przywara@arm.com> wrote:
 
-Thanks. Pulled into to clk-next
+> From: Jernej Skrabec <jernej.skrabec@gmail.com>
+> 
+> ---
+>  .../include/asm/arch-sunxi/clock_sun50i_h6.h  | 10 ++++++
+>  arch/arm/mach-sunxi/clock_sun50i_h6.c         | 32 ++++++++++++++-----
+>  2 files changed, 34 insertions(+), 8 deletions(-)
+> 
+> diff --git a/arch/arm/include/asm/arch-sunxi/clock_sun50i_h6.h b/arch/arm/include/asm/arch-sunxi/clock_sun50i_h6.h
+> index 5881ab88573..699d75f37c4 100644
+> --- a/arch/arm/include/asm/arch-sunxi/clock_sun50i_h6.h
+> +++ b/arch/arm/include/asm/arch-sunxi/clock_sun50i_h6.h
+> @@ -108,6 +108,13 @@
+>  #define CCM_PSI_AHB1_AHB2_DEFAULT	0x03000002
+>  #define CCM_AHB3_DEFAULT		0x03000002
+>  #define CCM_APB1_DEFAULT		0x03000102
+> +
+> +#elif CONFIG_MACH_SUN55I_A523				/* A523 */
+> +
+> +#define CCM_PLL6_DEFAULT		0xe8116310	    /* 1200 MHz */
+
+This value is wrong, it must be 0xe8216310. Bits [22:20] program the 800
+MHz sub-clock, divided down from the nominal 2.4GHz base frequency. So
+the divider must be 3, encoded as 0b010. This is also the reset value.
+Linux will calculate the actual frequency, but won't change the
+setting, so it keeps and sees that clock as 1200 MHz, not 800 MHz. So
+things might still work correctly, but I guess it's called
+PLL_PERIPH0_800M for a reason, so let's keep it at this value.
+
+Cheers,
+Andre
+
+
+> +#define CCM_PSI_AHB1_AHB2_DEFAULT	0x03000002	    /* 200 MHz */
+> +#define CCM_APB1_DEFAULT		0x03000005	    /* APB0 really */
+> +#define CCM_APB2_DEFAULT		0x03000005	    /* APB1 really */
+>  #endif
+>  
+>  /* apb2 bit field */
+> @@ -127,6 +134,7 @@
+>  /* MBUS clock bit field */
+>  #define MBUS_ENABLE			BIT(31)
+>  #define MBUS_RESET			BIT(30)
+> +#define MBUS_UPDATE			BIT(27)
+>  #define MBUS_CLK_SRC_MASK		GENMASK(25, 24)
+>  #define MBUS_CLK_SRC_OSCM24		(0 << 24)
+>  #define MBUS_CLK_SRC_PLL6X2		(1 << 24)
+> @@ -139,10 +147,12 @@
+>  #define GATE_SHIFT			(0)
+>  
+>  /* DRAM clock bit field */
+> +#define DRAM_CLK_ENABLE			BIT(31)
+>  #define DRAM_MOD_RESET			BIT(30)
+>  #define DRAM_CLK_UPDATE			BIT(27)
+>  #define DRAM_CLK_SRC_MASK		GENMASK(25, 24)
+>  #define DRAM_CLK_SRC_PLL5		(0 << 24)
+> +#define DRAM_CLK_M_MASK			(0x1f)
+>  #define DRAM_CLK_M(m)			(((m)-1) << 0)
+>  
+>  /* MMC clock bit field */
+> diff --git a/arch/arm/mach-sunxi/clock_sun50i_h6.c b/arch/arm/mach-sunxi/clock_sun50i_h6.c
+> index 3a4399a9c6c..80004f13a1e 100644
+> --- a/arch/arm/mach-sunxi/clock_sun50i_h6.c
+> +++ b/arch/arm/mach-sunxi/clock_sun50i_h6.c
+> @@ -16,15 +16,22 @@ void clock_init_safe(void)
+>  	void *const ccm = (void *)SUNXI_CCM_BASE;
+>  	void *const prcm = (void *)SUNXI_PRCM_BASE;
+>  
+> -	if (IS_ENABLED(CONFIG_MACH_SUN50I_H616)) {
+> -		/* this seems to enable PLLs on H616 */
+> +	if (IS_ENABLED(CONFIG_MACH_SUN50I_H616))
+>  		setbits_le32(prcm + CCU_PRCM_SYS_PWROFF_GATING, 0x10);
+> +	if (IS_ENABLED(CONFIG_MACH_SUN55I_A523))
+> +		setbits_le32(prcm + CCU_PRCM_SYS_PWROFF_GATING, 0x200);
+> +	udelay(1);
+> +
+> +	if (IS_ENABLED(CONFIG_MACH_SUN50I_H616) ||
+> +	    IS_ENABLED(CONFIG_MACH_SUN55I_A523))
+>  		setbits_le32(prcm + CCU_PRCM_RES_CAL_CTRL, 2);
+> -	}
+> +	udelay(1);
+>  
+>  	if (IS_ENABLED(CONFIG_MACH_SUN50I_H616) ||
+> -	    IS_ENABLED(CONFIG_MACH_SUN50I_H6)) {
+> +	    IS_ENABLED(CONFIG_MACH_SUN50I_H6) ||
+> +	    IS_ENABLED(CONFIG_MACH_SUN55I_A523)) {
+>  		clrbits_le32(prcm + CCU_PRCM_RES_CAL_CTRL, 1);
+> +		udelay(1);
+>  		setbits_le32(prcm + CCU_PRCM_RES_CAL_CTRL, 1);
+>  	}
+>  
+> @@ -41,9 +48,10 @@ void clock_init_safe(void)
+>  	while (!(readl(ccm + CCU_H6_PLL6_CFG) & CCM_PLL_LOCK))
+>  		;
+>  
+> -	clrsetbits_le32(ccm + CCU_H6_CPU_AXI_CFG,
+> -			CCM_CPU_AXI_APB_MASK | CCM_CPU_AXI_AXI_MASK,
+> -			CCM_CPU_AXI_DEFAULT_FACTORS);
+> +	if (!IS_ENABLED(CONFIG_MACH_SUN55I_A523))
+> +		clrsetbits_le32(ccm + CCU_H6_CPU_AXI_CFG,
+> +				CCM_CPU_AXI_APB_MASK | CCM_CPU_AXI_AXI_MASK,
+> +				CCM_CPU_AXI_DEFAULT_FACTORS);
+>  
+>  	writel(CCM_PSI_AHB1_AHB2_DEFAULT, ccm + CCU_H6_PSI_AHB1_AHB2_CFG);
+>  #ifdef CCM_AHB3_DEFAULT
+> @@ -55,7 +63,15 @@ void clock_init_safe(void)
+>  	 * The mux and factor are set, but the clock will be enabled in
+>  	 * DRAM initialization code.
+>  	 */
+> -	writel(MBUS_CLK_SRC_PLL6X2 | MBUS_CLK_M(3), ccm + CCU_H6_MBUS_CFG);
+> +	if (IS_ENABLED(CONFIG_MACH_SUN55I_A523)) {
+> +		writel(MBUS_RESET, ccm + CCU_H6_MBUS_CFG);
+> +		udelay(1);
+> +		writel(MBUS_UPDATE | MBUS_CLK_SRC_OSCM24 | MBUS_CLK_M(4),
+> +		       ccm + CCU_H6_MBUS_CFG);
+> +	} else {
+> +		writel(MBUS_CLK_SRC_PLL6X2 | MBUS_CLK_M(3),
+> +		       ccm + CCU_H6_MBUS_CFG);
+> +	}
+>  }
+>  
+>  void clock_init_uart(void)
+
