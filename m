@@ -1,137 +1,55 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 901982E06DC
-	for <linux-sunxi@lists.linux.dev>; Tue, 22 Jul 2025 10:30:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90C141F0E29;
+	Thu, 24 Jul 2025 21:32:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753180248; cv=none; b=ISZmLAII1Er7RsHZyI/b4fwke8tEsa0nKj2f4TtkENpCwD7sFWjB9ZMYvXST5Otc1VYl2exdH5frfWzYtDpcHh2h4wHeWSmpbVATmywhxP2L81MvTJy+f7FgS/DA3crdtXRSJOTzYSvMD4dDpi9Ybeb6GHTf5oOzaMflYFM2BTk=
+	t=1753392763; cv=none; b=AaKKbVQHs7d9dX9mQ653T6J8Vs38ED6KQdZyFqqSNBMAWoKoGxo4/8Q+gCzFykvmVvbUbgEQgMVwfY3PlDDvPXavmMWlJmdPCOtHx2xcdt6593SvnGMaZVqnQYfPrZd/yRH9WoxSByGHTQndvyNXq+M5+gH2KJzotZpmzGef+5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753180248; c=relaxed/simple;
-	bh=gXMVkyk4JsU0g50rc9Kt10SjC5H3yjNHSEKNwkZXVTw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ogGIR54A4eQudt/Ry3i7u39NoRp7mviPd0TghjeuYsGNHB4r3MPZLQRkqer0qvK3QfgCtuW0V3fWcorMzEsNH1twZKQ6HHckBpfvSsXeV7BxjwCFy3yazyn019Lb69xiuTNiyS5bUBYq6p/eDg6pgXt0AuAkn/atggFzl+gJwIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5A3BD152B;
-	Tue, 22 Jul 2025 03:30:40 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9256B3F59E;
-	Tue, 22 Jul 2025 03:30:44 -0700 (PDT)
-Date: Tue, 22 Jul 2025 11:30:36 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Yixun Lan <dlan@gentoo.org>
-Cc: <u-boot@lists.denx.de>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Mikhail Kalashnikov <iuncuim@gmail.com>, Paul Kocialkowski
- <paulk@sys-base.io>, <linux-sunxi@lists.linux.dev>, Tom Rini
- <trini@konsulko.com>
-Subject: Re: [PATCH v2 20/20] sunxi: A523: add defconfigs for three boards
-Message-ID: <20250722113036.790447c0@donnerap.manchester.arm.com>
-In-Reply-To: <20250722024932-GYA724801@gentoo>
-References: <20250717235455.32528-1-andre.przywara@arm.com>
-	<20250717235455.32528-21-andre.przywara@arm.com>
-	<20250722013526.6297858c@minigeek.lan>
-	<20250722024932-GYA724801@gentoo>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1753392763; c=relaxed/simple;
+	bh=IAOBmpOtdxPPvzIH6qwDi7+1fhSxZmdUYE8fD3ANbBY=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=TmA8voSsuKLPwX8D6HgYD4m22cZF2ExU2hidALnvdEYQRkXlHkDTVqEuSN32AyFzNCzDVgqudajeKdUYM/T3ZHaoqtsNB8vCL5mD8s+bli0JseIIIYInw8Fn7c1ElJ4sFR1+M0B6egih/XjC0x0JMraKh/3s3Ydq4Xr3Gg4wTRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XoAd06lj; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XoAd06lj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 084B7C4CEED;
+	Thu, 24 Jul 2025 21:32:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753392762;
+	bh=IAOBmpOtdxPPvzIH6qwDi7+1fhSxZmdUYE8fD3ANbBY=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=XoAd06lj/eeWJ5GgSpM3NPc4Gg5SL9Ui2VIAcWKfe0A5rQYrPaLmc/w3iBbtgJhG8
+	 PiYAsjXvUM6mBRCPoQ87yptu0fhZI8AIdC8cU9cTAXsyVKWO61xmJFDZhBc5bClgnq
+	 VMAFx4NsXVc5UtG34o2+VqZYmdBB73mMOeD+o16ECbBSrS6+eTJJsigpzQAZ+XNOE/
+	 Y6rgXQqyOBpuZkHU/tgfRLaFwCuIyGw3NPHIensUHPMKdtZOnTCBB4wHaTwkGfy7Cl
+	 +z4F8N6h+9twETCo5BHwYlBYcIUV8lU6Gu9WV5aucfP6ThpWcxq5b7o+01LB98dw7a
+	 sfyhTzvr6MgBg==
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250703-clk-cocci-drop-round-rate-v1-1-3a8da898367e@redhat.com>
+References: <20250703-clk-cocci-drop-round-rate-v1-0-3a8da898367e@redhat.com> <20250703-clk-cocci-drop-round-rate-v1-1-3a8da898367e@redhat.com>
+Subject: Re: [PATCH 01/10] clk: bcm: bcm2835: convert from round_rate() to determine_rate()
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: linux-clk@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-sunxi@lists.linux.dev, Brian Masney <bmasney@redhat.com>
+To: Bjorn Andersson <andersson@kernel.org>, Brian Masney <bmasney@redhat.com>, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Chen-Yu Tsai <wens@csie.org>, Florian Fainelli <florian.fainelli@broadcom.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maxime Ripard <mripard@redhat.com>, Michael Turquette <mturquette@baylibre.com>, Ray Jui <rjui@broadcom.com>, Samuel Holland <samuel@sholland.org>, Scott Branden <sbranden@broadcom.com>
+Date: Thu, 24 Jul 2025 14:32:41 -0700
+Message-ID: <175339276117.3513.1051998064079293542@lazor>
+User-Agent: alot/0.11
 
-On Tue, 22 Jul 2025 10:49:32 +0800
-Yixun Lan <dlan@gentoo.org> wrote:
+Quoting Brian Masney (2025-07-03 16:22:25)
+> The round_rate() clk ops is deprecated, so migrate this driver from
+> round_rate() to determine_rate() using the Coccinelle semantic patch
+> on the cover letter of this series.
+>=20
+> Signed-off-by: Brian Masney <bmasney@redhat.com>
+> ---
 
-Hi!
-
-> On 01:35 Tue 22 Jul     , Andre Przywara wrote:
-> > On Fri, 18 Jul 2025 00:54:55 +0100
-> > Andre Przywara <andre.przywara@arm.com> wrote:
-> > 
-> > Hi Yixun,
-> > 
-> > see below for a comment on the missing eMMC support for the Radxa
-> > defconfig. My board doesn't have eMMC, so can you please check this on
-> > your end?
-> >   
-> sure
->
-> > > So far developers seem to use three popular boards:
-> > > - Avaota A1: dev board with USB 3.0, dual Ethernet, small display
-> > > - X96QPro+: TV box with Gigabit Ethernet, USB 3.0, eMMC
-> > > - Radxa A5E: small dev board with USB3/M.2 2230 (muxed), dual Ethernet
-> > > 
-> > > Add the defconfig files for those boards, containing the DRAM parameters
-> > > and the usual Kconfig options.
-> > > 
-> > > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > > ---
-> > >  board/sunxi/MAINTAINERS         | 15 +++++++++++++++
-> > >  configs/avaota-a1_defconfig     | 31 +++++++++++++++++++++++++++++++
-> > >  configs/radxa-a5e_defconfig     | 30 ++++++++++++++++++++++++++++++
-> > >  configs/x96q_pro_plus_defconfig | 32 ++++++++++++++++++++++++++++++++
-> > >  4 files changed, 108 insertions(+)
-> > >  create mode 100644 configs/avaota-a1_defconfig
-> > >  create mode 100644 configs/radxa-a5e_defconfig
-> > >  create mode 100644 configs/x96q_pro_plus_defconfig
-> > >   
-> ...
-> > > diff --git a/configs/radxa-a5e_defconfig b/configs/radxa-a5e_defconfig
-> > > new file mode 100644
-> > > index 00000000000..012e7b4eeaf
-> > > --- /dev/null
-> > > +++ b/configs/radxa-a5e_defconfig
-> > > @@ -0,0 +1,30 @@
-> > > +CONFIG_ARM=y
-> > > +CONFIG_ARCH_SUNXI=y
-> > > +CONFIG_DEFAULT_DEVICE_TREE="allwinner/sun55i-a527-cubie-a5e"
-> > > +CONFIG_SPL=y
-> > > +CONFIG_DRAM_SUNXI_DX_ODT=0x07070707
-> > > +CONFIG_DRAM_SUNXI_DX_DRI=0x0d0d0d0d
-> > > +CONFIG_DRAM_SUNXI_CA_DRI=0x0e0e
-> > > +CONFIG_DRAM_SUNXI_ODT_EN=0x84848484
-> > > +CONFIG_DRAM_SUNXI_TPR0=0x80808080
-> > > +CONFIG_DRAM_SUNXI_TPR1=0x06060606
-> > > +CONFIG_DRAM_SUNXI_TPR6=0x38000000
-> > > +CONFIG_DRAM_SUNXI_TPR10=0x802f3333
-> > > +CONFIG_DRAM_SUNXI_TPR11=0xc7c5c4c2
-> > > +CONFIG_DRAM_SUNXI_TPR12=0x3533302f
-> > > +# BSP value: CONFIG_DRAM_SUNXI_TPR11=0xc6c4c2c0
-> > > +# BSP value: CONFIG_DRAM_SUNXI_TPR12=0x3a373233
-> > > +CONFIG_MACH_SUN55I_A523=y
-> > > +CONFIG_R_I2C_ENABLE=y
-> > > +# CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
-> > > +CONFIG_SPL_I2C=y
-> > > +CONFIG_SPL_SYS_I2C_LEGACY=y
-> > > +CONFIG_SYS_I2C_MVTWSI=y
-> > > +CONFIG_SYS_I2C_SLAVE=0x7f
-> > > +CONFIG_SYS_I2C_SPEED=400000
-> > > +CONFIG_REGULATOR_AXP=y
-> > > +CONFIG_AXP717_POWER=y
-> > > +CONFIG_AXP_DCDC2_VOLT=920
-> > > +CONFIG_AXP_DCDC3_VOLT=1100
-> > > +CONFIG_USB_EHCI_HCD=y
-> > > +CONFIG_USB_OHCI_HCD=y  
-> > 
-> > This is missing CONFIG_MMC_SUNXI_SLOT_EXTRA=2 and
-> > CONFIG_SUPPORT_EMMC_BOOT=y, as there are Radxa boards with eMMC.  
-> confirmed, the two configs are exactly what I've added to make eMMC work
-
-Many thanks for testing!
-
-> > The DT describes this, so we should follow suit here, to allow eMMC
-> > booting. Should not harm boards without the eMMC chip.
-> >   
-> agree!
-> 
-> I'd assume you would take care of the config? and send out an updated
-> version next time?
-
-Yes, I will now include those two lines in the version I will merge.
-
-Cheers,
-Andre
+Applied to clk-next
