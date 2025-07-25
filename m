@@ -1,63 +1,36 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 591C8B676
-	for <linux-sunxi@lists.linux.dev>; Fri, 25 Jul 2025 15:33:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C82F7126C1E
+	for <linux-sunxi@lists.linux.dev>; Fri, 25 Jul 2025 23:50:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753457585; cv=none; b=OPMbd7ViPY2JSV93CUroX4i+j1lRLWV3W2tp41WQABtWXtvJjlBBe/3Er7Byt3sK66jnsN5fDreiDlQLzwAqVUWUSrAhChsd3BhevqZyaRmYYFOPiyIRZqqiHUqUzwDUrxskyiEicg1xOtDysjtwEm+KZP1jUCfnUOrhwITIiJ0=
+	t=1753487445; cv=none; b=RAqnkh2bWByg72b10Q041aaeYS/PnGvyNTC+5xD3nL9WprQHJhzgDikg4P52G0ECtxFJ4j9ev6zmGGD+gIYrC1bvQCMTx8MiQsCIlMXkYvxpKlvZfzjcXqL57sIdWTD6xp6MvgAsI2Uvx0cn8lEp83DHmjpLNYX8ugi/lX+BBVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753457585; c=relaxed/simple;
-	bh=anQbCV1o/PZdSHFN0mhA9yp1DbOS2JLpNl+NXQjo0i8=;
+	s=arc-20240116; t=1753487445; c=relaxed/simple;
+	bh=2ObZA0VbDFCMiBMJ8xBZDUILAgVlXgccfNLk8287UIM=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Im/Yl55lodNjJbrWVCDNQCGe8QLQeqRAFjMyHpjJ2/8nlOyy2b8T57+k0/NwEhqbv3b2KhHMN0F5JkwLH3I9De1u5k7Z1GgOi3mrKJ5krf99hkBKqN2tQ0QC/ZUTwLowzhMk6zVoJo0OnLEgVyMAtUhVwds6j7pVznxcs8X5Mbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=gOe7LK/f; arc=none smtp.client-ip=217.70.183.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="gOe7LK/f"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id BC9F443370;
-	Fri, 25 Jul 2025 15:32:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1753457574;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VUw48bVGzQDtnzpFCZ6F0zUPopLUUADYRFUd0lfoHsE=;
-	b=gOe7LK/fGYNTmz+SyIELCjPFaJaCHIQ1cZCxpO6F/7sKlMOxRRHmUVPl7IAXCdbmAmgzzJ
-	qhK1BlYOirxaOuv7zUtH+7p+NHrT7W6MoGw6U1vHfQA3q6tieo1SqT5AB7M/5eaJxkGkDh
-	83V53TpmJLyk2exzGH7/QY3Nr79ar/ovL9WHSEUPkTnM/j18kUW2laDfMW3XjN4q70C7Bn
-	d4RvcOiRc1ArRt3EaCCaQHPmX90dMQCNFor+oGojqc5TmT1eBTWfPQ7A+mhqaGcjJZp8H7
-	E3OoJs+8MH+AAVPMtTkqeQ2oGKbCKz9KUKrzwRmSNF45iIk+nck7NEh0a/V7Dg==
-Date: Fri, 25 Jul 2025 17:32:48 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Inki Dae
- <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, Marek
- Szyprowski <m.szyprowski@samsung.com>, Jani Nikula
- <jani.nikula@linux.intel.com>, Dmitry Baryshkov <lumag@kernel.org>, Hui Pu
- <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev, Kevin Hilman <khilman@baylibre.com>, Jerome
- Brunet <jbrunet@baylibre.com>, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, linux-amlogic@lists.infradead.org
-Subject: Re: [PATCH 00/32] drm/mipi-dsi: avoid DSI host drivers to have
- pointers to DSI devices
-Message-ID: <20250725173248.4cdca9e4@booty>
-In-Reply-To: <20250725-juicy-falcon-of-climate-d87ea6@houat>
-References: <20250625-drm-dsi-host-no-device-ptr-v1-0-e36bc258a7c5@bootlin.com>
-	<20250707-strange-warm-bear-cb4ee8@houat>
-	<20250707115853.128f2e6f@booty>
-	<20250707121319.1e40a73a@booty>
-	<20250725-juicy-falcon-of-climate-d87ea6@houat>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	 MIME-Version:Content-Type; b=HvfJ3XCR7+OiUlcauzqgPrx3NDFozZE3yqyAY3JyrBrpULPgmRcaZu5pp+Q0xv2YZmYX0txiP1FIiBpn0ZfNgK/9UrBCO9ajKbw/m+JSgQuow4+qBA0EioGFCLshRGSM1loGTChSqq3G5mgx5Ykayr9z/3XlaC7gncraPxcS980=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CFE681764;
+	Fri, 25 Jul 2025 16:50:33 -0700 (PDT)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B54073F66E;
+	Fri, 25 Jul 2025 16:50:39 -0700 (PDT)
+Date: Sat, 26 Jul 2025 00:48:31 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Mikhail Kalashnikov <iuncuim@gmail.com>
+Cc: u-boot@lists.denx.de, Jernej Skrabec <jernej.skrabec@gmail.com>, Yixun
+ Lan <dlan@gentoo.org>, Paul Kocialkowski <paulk@sys-base.io>,
+ linux-sunxi@lists.linux.dev, Tom Rini <trini@konsulko.com>
+Subject: Re: [PATCH v2 14/20] sunxi: A523: add DDR3 DRAM support
+Message-ID: <20250726004831.5e2d90ff@minigeek.lan>
+In-Reply-To: <20250717235455.32528-15-andre.przywara@arm.com>
+References: <20250717235455.32528-1-andre.przywara@arm.com>
+	<20250717235455.32528-15-andre.przywara@arm.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -66,63 +39,228 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdekfeeltdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthejredtredtvdenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpedtleejjeduvddutefftdduleefudfgudeltdeuffeuudefgfdugeekgedtieehudenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdehpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhop
- ehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhgpdhrtghpthhtoheprhhfohhssheskhgvrhhnvghlrdhorhhg
-X-GND-Sasl: luca.ceresoli@bootlin.com
 
-Hi Maxime,
+On Fri, 18 Jul 2025 00:54:49 +0100
+Andre Przywara <andre.przywara@arm.com> wrote:
 
-On Fri, 25 Jul 2025 17:22:47 +0200
-Maxime Ripard <mripard@kernel.org> wrote:
+Hi Mikhail,
 
+> From: Mikhail Kalashnikov <iuncuim@gmail.com>
+
+many thanks for the Signed-off-by: line in the other mail, I added this
+now. And also not sure I thanked you already for providing the code in
+the first place, that's much appreciated, since it enables this neat TV
+box ;-)
+
+So when this was running in the U-Boot gitlab CI, which every patch has
+to pass for getting merged, it complained about the compiler warnings,
+which I was tempted to ignore before (because I saw they weren't easy to
+fix). Since this isn't an option now (the CI runs with -Werror), I bit
+the bullet and looked into the problem, see below ...
+ 
+> Add reverse engineered code to add support for DDR3 DRAM chips on the
+> Allwinner A523 DRAM controller.
+> ---
+>  arch/arm/mach-sunxi/Kconfig                  |   8 ++
+>  arch/arm/mach-sunxi/dram_sun55i_a523.c       | 136 ++++++++++++++++++-
+>  arch/arm/mach-sunxi/dram_timings/Makefile    |   1 +
+>  arch/arm/mach-sunxi/dram_timings/a523_ddr3.c | 134 ++++++++++++++++++
+>  4 files changed, 273 insertions(+), 6 deletions(-)
+>  create mode 100644 arch/arm/mach-sunxi/dram_timings/a523_ddr3.c
+
+[ .... ] 
+
+> diff --git a/arch/arm/mach-sunxi/dram_timings/a523_ddr3.c b/arch/arm/mach-sunxi/dram_timings/a523_ddr3.c
+> new file mode 100644
+> index 00000000000..6db0ea30f7c
+> --- /dev/null
+> +++ b/arch/arm/mach-sunxi/dram_timings/a523_ddr3.c
+> @@ -0,0 +1,134 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * sun55i A523 DDR3 timings, as programmed by Allwinner's boot0
+> + *
+> + * (C) Copyright 2024 Mikhail Kalashnikov <iuncuim@gmail.com>
+> + *   Based on H6 DDR3 timings:
+> + *   (C) Copyright 2020 Jernej Skrabec <jernej.skrabec@siol.net>
+> + */
+> +
+> +#include <asm/arch/dram.h>
+> +#include <asm/arch/cpu.h>
+> +
+> +void mctl_set_timing_params(u32 clk)
+> +{
+> +	struct sunxi_mctl_ctl_reg * const mctl_ctl =
+> +			(struct sunxi_mctl_ctl_reg *)SUNXI_DRAM_CTL0_BASE;
+> +	u8 tcl, tcwl, t_rdata_en, trtp, twr, tphy_wrlat;
+> +	unsigned int mr1, mr2;
+> +
+> +	u8 tccd		= 4;
+> +	u8 tfaw		= ns_to_t(40, clk);
+> +	u8 trrd		= max(ns_to_t(10, clk), 2);
+> +	u8 twtr		= max(ns_to_t(10, clk), 4);
+> +	u8 trcd		= max(ns_to_t(18, clk), 2);
+> +	u8 trc		= ns_to_t(65, clk);
+> +	u8 txp		= max(ns_to_t(8, clk), 2);
+> +	u8 trp		= ns_to_t(21, clk);
+> +	u8 tras		= ns_to_t(42, clk);
+> +	u16 trefi	= ns_to_t(3904, clk) / 32;
+> +	u16 trfc	= ns_to_t(280, clk);
+> +	u16 txsr	= ns_to_t(290, clk);
+> +
+> +	u8 tmrw		= max(ns_to_t(14, clk), 5);
+> +	u8 tmod		= 12;
+> +	u8 tcke		= max(ns_to_t(15, clk), 2);
+> +	u8 tcksrx	= max(ns_to_t(2, clk), 2);
+> +	u8 tcksre	= max(ns_to_t(5, clk), 2);
+> +	u8 trasmax	= (trefi * 9) / 32;
+> +
+> +	if (clk <= 936) {
+
+This and the even higher frequencies below make me think you copied
+Jernej's LPDDR4 timings code, but the timing values, frequencies and
+equation are LPDDR4 specific, and don't work for DDR3.
+Which explains why ...
+
+> +		mr1 = 0x34;
+> +		mr2 = 0x1b;
+> +		tcl = 10;
+> +		tcwl = 5;
+> +		t_rdata_en = 17;
+> +		trtp = 4;
+> +		tphy_wrlat = 5;
+> +		twr = 10;
+> +	} else if (clk <= 1200) {
+> +		mr1 = 0x54;
+> +		mr2 = 0x2d;
+> +		tcl = 14;
+> +		tcwl = 7;
+> +		t_rdata_en = 25;
+> +		trtp = 6;
+> +		tphy_wrlat = 9;
+> +		twr = 15;
+> +	} else {
+> +		mr1 = 0x64;
+> +		mr2 = 0x36;
+> +		tcl = 16;
+> +		tcwl = 8;
+> +		t_rdata_en = 29;
+> +		trtp = 7;
+> +		tphy_wrlat = 11;
+> +		twr = 17;
+> +	}
+> +
+> +	u8 tmrd		= tmrw;
+> +	u8 tckesr	= tcke;
+> +	u8 twtp		= twr + 9 + tcwl;
+> +	u8 twr2rd	= twtr + 9 + tcwl;
+> +	u8 trd2wr	= ns_to_t(4, clk) + 7 - ns_to_t(1, clk) + tcl;
+> +	u8 txs		= 4;
+> +	u8 txsdll	= 16;
+> +	u8 txsabort	= 4;
+> +	u8 txsfast	= 4;
+> +
+> +	/* set DRAM timing */
+> +	// writel((twtp << 24) | (tfaw << 16) | (trasmax << 8) | tras,
+> +	//        &mctl_ctl->dramtmg[0]);
+> +	// writel((txp << 16) | (trtp << 8) | trc, &mctl_ctl->dramtmg[1]);
+> +	// writel((tcwl << 24) | (tcl << 16) | (trd2wr << 8) | twr2rd,
+> +	//        &mctl_ctl->dramtmg[2]);
+> +	// writel((tmrw << 20) | (tmrd << 12) | tmod, &mctl_ctl->dramtmg[3]);
+> +	// writel((trcd << 24) | (tccd << 16) | (trrd << 8) | trp,
+> +	//        &mctl_ctl->dramtmg[4]);
+> +	// writel((tcksrx << 24) | (tcksre << 16) | (tckesr << 8) | tcke,
+> +	//        &mctl_ctl->dramtmg[5]);
+
+... you ignore the calculated values right here ^^^, since they don't
+match at all with what boot0 wrote into those registers. Instead those
+values are hardcoded below here.
+
+So I had a look at the H616 and H6 DDR3 code, and found the equations
+much more meaningful there, to the point where they almost perfectly
+match the values you force here.
+So I went through all the registers, and corrected the calculation of
+the timing parameters to match the other DDR3 code, so I could use the
+commented lines above. As an example, those are the changes for the
+first register:
+
+-	u8 twtp		= twr + 9 + tcwl;
++	u8 twtp		= twr + 2 + tcwl;
+-	u8 tfaw		= ns_to_t(40, clk);
++	u8 tfaw		= ns_to_t(50, clk);
+-	u8 trasmax	= (trefi * 9) / 32;
++	u8 trasmax	= (clk / 2) / 15;		/* tREFI * 9 */
+-	u8 tras		= ns_to_t(42, clk);
++	u8 tras		= ns_to_t(38, clk);
 ...
+-	// writel((twtp << 24) | (tfaw << 16) | (trasmax << 8) | tras,
+-	//        &mctl_ctl->dramtmg[0]);
+-	writel(0x0e141a10, &mctl_ctl->dramtmg[0]);
++	writel((twtp << 24) | (tfaw << 16) | (trasmax << 8) | tras,
++	       &mctl_ctl->dramtmg[0]);
 
-> > The question is: should a DSI host bridge driver:
-> > 
-> >  A) wait for a DSI device to .attach before drm_bridge_add()ing itself,
-> >     or
-> >  B) drm_bridge_add() itself unconditionally, and let the DSI device
-> >     .attach whenever it happens?
-> > 
-> > A) is what many drivers (IIRC the majority) does. It implies the card
-> > will not be populated until .attach, which in the hotplug case could
-> > happen very late
-> > 
-> > B) is done by a few drivers and allows the card to appear in the
-> > hotplug case without the device, which is needed for hotplug.
-> > 
-> > I had tried simply moving drm_bridge_add() from .attach to probe in
-> > the samsung-dsim driver in the pase but that would not work. Now I did
-> > yet another check at the code and I suspect it can be done with a small
-> > additional change, but cannot access the hardware to test it currently.
-> > 
-> > Answering this last question might change and simplify the requirements
-> > discussed in the (very lengthy, sorry about that) discussion above.  
-> 
-> You're not going to like the answer too much, but I think that it is
-> that "nobody knows".
-> 
-> The bad news is that I can't give you an answer, but the good one is
-> that it gives us some leeway.
-> 
-> As I said in my previous mail, we should probably figure it out,
-> document it, and then make it work for your drivers. Once we have a
-> documentation we can point to, the rest will fall in line.
+I verified that the timing values now calculated for the used 792 MHz
+were identical to those hardcoded before. Of course the values are
+different for the preliminary 360 MHz setup during the probing runs,
+but it still works nicely for me.
+I even managed to boot with 912 MHz (DDR3-1866), and with slightly
+shorter tCL and tCWL latencies (matching those described for
+DDR3-1600), but haven't done any benchmarking or stability tests yet.
 
-Thanks for taking time to reply this!
+So I have changed your patch to accommodate the proper DDR3
+calculations, which now compiles without warnings, so should pass the CI.
 
-I just sent a patch to do the mentioned change in samsung-dsim [0] to
-start discussion on real code. I'd appreciate if you could prioritize
-that patch over all other patches I have sent.
+Hope that's fine for you, I will post the diff for your reference in a
+separate reply mail.
 
-[0] https://lore.kernel.org/all/20250725-drm-bridge-samsung-dsim-add-in-probe-v1-1-b23d29c23fbd@bootlin.com/
+Cheers,
+Andre
 
-Best regards,
-Luca
 
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+
+> +	writel(0x0e141a10, &mctl_ctl->dramtmg[0]);
+> +	writel(0x00040415, &mctl_ctl->dramtmg[1]);
+> +	writel(0x0507050b, &mctl_ctl->dramtmg[2]);
+> +	writel(0x0000400c, &mctl_ctl->dramtmg[3]);
+> +	writel(0x06020406, &mctl_ctl->dramtmg[4]);
+> +	writel(0x04040504, &mctl_ctl->dramtmg[5]);
+> +	/* Value suggested by ZynqMP manual and used by libdram */
+> +	writel((txp + 2) | 0x02020000, &mctl_ctl->dramtmg[6]);
+> +	writel((txsfast << 24) | (txsabort << 16) | (txsdll << 8) | txs,
+> +	       &mctl_ctl->dramtmg[8]);
+> +	writel(0x00020208, &mctl_ctl->dramtmg[9]);
+> +	writel(0xE0C05, &mctl_ctl->dramtmg[10]);
+> +	writel(0x440C021C, &mctl_ctl->dramtmg[11]);
+> +	writel(8, &mctl_ctl->dramtmg[12]);
+> +	writel(0xA100002, &mctl_ctl->dramtmg[13]);
+> +	//writel(txsr, &mctl_ctl->dramtmg[14]);
+> +	writel(4, &mctl_ctl->dramtmg[14]);
+> +
+> +	//clrsetbits_le32(&mctl_ctl->init[0], 0xC0000FFF, 0x558);
+> +	clrsetbits_le32(&mctl_ctl->init[0], 0xC0000FFF, 0x156);
+> +	writel(0x01f20000, &mctl_ctl->init[1]);
+> +	//writel(0x00001705, &mctl_ctl->init[2]);
+> +	writel(0x00001700, &mctl_ctl->init[2]);
+> +	writel(0, &mctl_ctl->dfimisc);
+> +	//writel((mr1 << 16) | mr2, &mctl_ctl->init[3]);
+> +	writel(0x1f140004, &mctl_ctl->init[3]);
+> +	//writel(0x00330000, &mctl_ctl->init[4]);
+> +	//writel(0x00040072, &mctl_ctl->init[6]);
+> +	//writel(0x00260008, &mctl_ctl->init[7]);
+> +	writel(0x00200000, &mctl_ctl->init[4]);
+> +	writel(0, &mctl_ctl->init[6]);
+> +	writel(0, &mctl_ctl->init[7]);
+> +
+> +	clrsetbits_le32(&mctl_ctl->rankctl, 0xff0, 0x660);
+> +
+> +	/* Configure DFI timing */
+> +	//writel(tphy_wrlat | 0x2000000 | (t_rdata_en << 16) | 0x808000,
+> +	//       &mctl_ctl->dfitmg0);
+> +	writel(0x02898005, &mctl_ctl->dfitmg0);
+> +	writel(0x100202, &mctl_ctl->dfitmg1);
+> +
+> +	/* set refresh timing */
+> +	//writel((trefi << 16) | trfc, &mctl_ctl->rfshtmg);
+> +	writel(0x008c0000, &mctl_ctl->rfshtmg);
+> +}
+
