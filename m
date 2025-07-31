@@ -1,162 +1,223 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A889D23ED76;
-	Wed, 30 Jul 2025 23:46:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69CC51E51D;
+	Thu, 31 Jul 2025 10:00:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753919193; cv=none; b=tAwPUWwl6mJxi2gitAMtDBHpCBUiQ+QOOLXlMyXa9iw1bIDXEtjbiGkqb/78I3Ok6x64u+maRES53/uOPIwBe92KBfZuABdFQZgaRz6AF8QCluYI3510kFWDKZQ+Bcg5aOYirfeis1sL4VRggGxuWctGPamAbnWzW/eLtzz1x7I=
+	t=1753956036; cv=none; b=taRFpT2hHwxR38+gNOxxaC6V3cRIyN9IkbPXq/JpfnvvXU8T3lkFKfnp0kXcCGjVRutA3cZbXLAs6xFvlDSd/eRCRzbi/FWEjXg/MPjBGGoMsiYMrFlGqcjBZT0Pud+BXsvNcRR4nFkwkY35+RBQWKTvA34p/e4No6LLFfMVins=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753919193; c=relaxed/simple;
-	bh=lVT1wO7Gp792FLsRAdREUHlRgKkz5jzpbMWb3qz8oAY=;
+	s=arc-20240116; t=1753956036; c=relaxed/simple;
+	bh=nIIy3EtagONm9o7fIocsy3fvnqj5DKyDI9AvQpz+YsA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gPB/MkVNtCMEG6TUrVqcoqD6vhQ/tG9tQfzK0z7kDcIIWU7mEHlLAbozIIPcmyfeNcTghomvjhm/kMKpIy1TXoT6at0zhLd7vru1haB2dTk9sPzyZJl2W4NEUdce9VyMco8iI0pwGFdmSi6jFA9cSBI9FQfZwZCoRgK8gY4Jjyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N6aMB3CE; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=rUZE+qaC0IXxPo8Qbo6tWTYbK/GsZymMlWDSToPzIaObboKbRGdBWJS2lLORzN/xJgiXkhvaB2NpsiG+kH6u65VLVwTIXBEFfifb63+EmVQcjxuElsVXyq/Jwj3b5QTDCGlmSFps+IpY4dgutiX1FCtz0KN/EvRdDUnlVuYtHl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eLC7+6ij; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N6aMB3CE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DE60C4CEEB;
-	Wed, 30 Jul 2025 23:46:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eLC7+6ij"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96C17C4CEEF;
+	Thu, 31 Jul 2025 10:00:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753919193;
-	bh=lVT1wO7Gp792FLsRAdREUHlRgKkz5jzpbMWb3qz8oAY=;
+	s=k20201202; t=1753956036;
+	bh=nIIy3EtagONm9o7fIocsy3fvnqj5DKyDI9AvQpz+YsA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N6aMB3CEnMYdRMvFhM0HoWxdlsfSHx5m9Bk/+p1Tu0UGicuWCsqhq19gp+dX0Al9h
-	 ufzZFFn01VVIdroTIq4MKl0fZ/jXA0kQi1QCdTjqDcwTjZxYoyfU/uuJyEJFJ07qA3
-	 JeevVFdeYuOabfOwyqTlFCWN1dNkch6m/kOPdEHig9UkogvqR0kkVlL3sW42idySmr
-	 x7aqCguqpUrMz8Z85WFv4WuLtwZBipysMMnejHZV3hwlBdm9je7Ql0SKF+YJtdXmhy
-	 NHQOsrp+G1CwLUn1GZ0rWyOwYzqJkYhvDIzHrpoYxleGqrTIE6mU0fyubuC2rc1aQK
-	 gJh+uVlo0psBg==
-Date: Wed, 30 Jul 2025 18:46:31 -0500
-From: Rob Herring <robh@kernel.org>
-To: Konrad Dybcio <konradybcio@kernel.org>
-Cc: Vinod Koul <vkoul@kernel.org>, Sven Peter <sven@kernel.org>,
-	Janne Grunau <j@jannau.net>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>,
-	Ludovic Desroches <ludovic.desroches@microchip.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
-	Viresh Kumar <vireshk@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Frank Li <Frank.Li@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Taichi Sugaya <sugaya.taichi@socionext.com>,
-	Takao Orito <orito.takao@socionext.com>,
-	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Patrice Chotard <patrice.chotard@foss.st.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	=?iso-8859-1?Q?Am=E9lie?= Delaunay <amelie.delaunay@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Laxman Dewangan <ldewangan@nvidia.com>,
-	Jon Hunter <jonathanh@nvidia.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>,
-	Viken Dadhaniya <quic_vdadhani@quicinc.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-	imx@lists.linux.dev, linux-actions@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-i2c@vger.kernel.org, linux-spi@vger.kernel.org,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH RFC 1/6] dt-bindings: dma: qcom,gpi: Retire passing the
- protocol ID
-Message-ID: <20250730234631.GA1899887-robh@kernel.org>
-References: <20250730-topic-dma_genise_cookie-v1-0-b505c1238f9f@oss.qualcomm.com>
- <20250730-topic-dma_genise_cookie-v1-1-b505c1238f9f@oss.qualcomm.com>
+	b=eLC7+6ijyBPGKVEMVLfwY+Uw6w5la+YyHP/0svxYWWgTFagJusQ8YCt5h4K9Qtm0W
+	 fbrDqzIHcEFwXtz/8R1k+qnVGmHJN5o8B7/o2YJiD3ybv9+NhnnPJrBUd2iuVkpUa8
+	 YYYqqfimZw0V4cfMDJIpaQjmGJiF4wX1cAEABFHg8Z8oTrFq9Q54sseSj4nJXfyJHX
+	 EYltQcNTEyRH/UM9T21J0eGc3M9obqQuaUxWHB4BPHCl0GPUHmT76oqYxuQ03M1kEz
+	 qe1lxG2BGYaCC71S+ehz0G2qPrCwVtDYWeuiROsBXwFkBUc87nrnR91ESTs81SFsj6
+	 858ooeFMMIHTQ==
+Date: Thu, 31 Jul 2025 12:00:33 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Aleksandr Shubin <privatesub2@gmail.com>, linux-kernel@vger.kernel.org, 
+	Conor Dooley <conor.dooley@microchip.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Cheo Fusi <fusibrandon13@gmail.com>, linux-pwm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v12 1/3] dt-bindings: pwm: Add binding for Allwinner
+ D1/T113-S3/R329 PWM controller
+Message-ID: <6d2cq657lkwrzntlwwyc5drgkh4vsetkppugrhjedpp7hlvdh5@lqwe34oyuuvb>
+References: <20250427142500.151925-1-privatesub2@gmail.com>
+ <20250427142500.151925-2-privatesub2@gmail.com>
+ <20250512235619.30cff739@minigeek.lan>
+ <20250619094407c4c849f3@mail.local>
+ <20250619131044.20b45d8d@donnerap.manchester.arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="xadqunur2iav4gmf"
 Content-Disposition: inline
-In-Reply-To: <20250730-topic-dma_genise_cookie-v1-1-b505c1238f9f@oss.qualcomm.com>
+In-Reply-To: <20250619131044.20b45d8d@donnerap.manchester.arm.com>
 
-On Wed, Jul 30, 2025 at 11:33:28AM +0200, Konrad Dybcio wrote:
-> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> 
-> This is a software construct that has no business being expressed in
-> dt-bindings. Drivers can be constructed to retrieve the protocol ID at
-> runtime or hardcode them per protocol.
-> 
-> Remove it, as a pre-requisite for further simplifying the GENI
-> bindings.
-> 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> ---
->  Documentation/devicetree/bindings/dma/qcom,gpi.yaml | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/dma/qcom,gpi.yaml b/Documentation/devicetree/bindings/dma/qcom,gpi.yaml
-> index bbe4da2a11054f0d272017ddf5d5f7e47cf7a443..745613b93b210afd38946030f7477e91e08c907a 100644
-> --- a/Documentation/devicetree/bindings/dma/qcom,gpi.yaml
-> +++ b/Documentation/devicetree/bindings/dma/qcom,gpi.yaml
-> @@ -61,14 +61,13 @@ properties:
->      maxItems: 13
->  
->    "#dma-cells":
-> -    const: 3
-> +    const: 2
 
-I think you need to keep 3 and note it is deprecated. Does an existing 
-kernel support this being 2 already. If not, ABI break...
+--xadqunur2iav4gmf
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v12 1/3] dt-bindings: pwm: Add binding for Allwinner
+ D1/T113-S3/R329 PWM controller
+MIME-Version: 1.0
 
->      description: >
->        DMA clients must use the format described in dma.txt, giving a phandle
->        to the DMA controller plus the following 3 integer cells:
->        - channel: if set to 0xffffffff, any available channel will be allocated
->          for the client. Otherwise, the exact channel specified will be used.
->        - seid: serial id of the client as defined in the SoC documentation.
-> -      - client: type of the client as defined in dt-bindings/dma/qcom-gpi.h
->  
->    iommus:
->      maxItems: 1
-> @@ -98,7 +97,7 @@ examples:
->      #include <dt-bindings/dma/qcom-gpi.h>
->      gpi_dma0: dma-controller@800000 {
->          compatible = "qcom,sdm845-gpi-dma";
-> -        #dma-cells = <3>;
-> +        #dma-cells = <2>;
->          reg = <0x00800000 0x60000>;
->          iommus = <&apps_smmu 0x0016 0x0>;
->          dma-channels = <13>;
-> 
-> -- 
-> 2.50.1
-> 
+Hello Andre,
+
+On Thu, Jun 19, 2025 at 01:10:44PM +0100, Andre Przywara wrote:
+> On Thu, 19 Jun 2025 11:44:07 +0200
+> Alexandre Belloni <alexandre.belloni@bootlin.com> wrote:
+>=20
+> Hi Alexandre,
+>=20
+> > On 12/05/2025 23:56:19+0100, Andre Przywara wrote:
+> > > On Sun, 27 Apr 2025 17:24:53 +0300
+> > > Aleksandr Shubin <privatesub2@gmail.com> wrote:
+> > >=20
+> > > Hi,
+> > >  =20
+> > > > Allwinner's D1, T113-S3 and R329 SoCs have a new pwm
+> > > > controller witch is different from the previous pwm-sun4i.
+> > > >=20
+> > > > The D1 and T113 are identical in terms of peripherals,
+> > > > they differ only in the architecture of the CPU core, and
+> > > > even share the majority of their DT. Because of that,
+> > > > using the same compatible makes sense.
+> > > > The R329 is a different SoC though, and should have
+> > > > a different compatible string added, especially as there
+> > > > is a difference in the number of channels.
+> > > >=20
+> > > > D1 and T113s SoCs have one PWM controller with 8 channels.
+> > > > R329 SoC has two PWM controllers in both power domains, one of
+> > > > them has 9 channels (CPUX one) and the other has 6 (CPUS one).
+> > > >=20
+> > > > Add a device tree binding for them.
+> > > >=20
+> > > > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> > > > Signed-off-by: Aleksandr Shubin <privatesub2@gmail.com>
+> > > > ---
+> > > >  .../bindings/pwm/allwinner,sun20i-pwm.yaml    | 84 +++++++++++++++=
+++++
+> > > >  1 file changed, 84 insertions(+)
+> > > >  create mode 100644 Documentation/devicetree/bindings/pwm/allwinner=
+,sun20i-pwm.yaml
+> > > >=20
+> > > > diff --git a/Documentation/devicetree/bindings/pwm/allwinner,sun20i=
+-pwm.yaml b/Documentation/devicetree/bindings/pwm/allwinner,sun20i-pwm.yaml
+> > > > new file mode 100644
+> > > > index 000000000000..4b25e94a8e46
+> > > > --- /dev/null
+> > > > +++ b/Documentation/devicetree/bindings/pwm/allwinner,sun20i-pwm.ya=
+ml
+> > > > @@ -0,0 +1,84 @@
+> > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > > +%YAML 1.2
+> > > > +---
+> > > > +$id: http://devicetree.org/schemas/pwm/allwinner,sun20i-pwm.yaml#
+> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > +
+> > > > +title: Allwinner D1, T113-S3 and R329 PWM
+> > > > +
+> > > > +maintainers:
+> > > > +  - Aleksandr Shubin <privatesub2@gmail.com>
+> > > > +  - Brandon Cheo Fusi <fusibrandon13@gmail.com>
+> > > > +
+> > > > +properties:
+> > > > +  compatible:
+> > > > +    oneOf:
+> > > > +      - const: allwinner,sun20i-d1-pwm
+> > > > +      - items:
+> > > > +          - const: allwinner,sun50i-r329-pwm
+> > > > +          - const: allwinner,sun20i-d1-pwm
+> > > > +
+> > > > +  reg:
+> > > > +    maxItems: 1
+> > > > +
+> > > > +  "#pwm-cells":
+> > > > +    const: 3
+> > > > +
+> > > > +  clocks:
+> > > > +    items:
+> > > > +      - description: Bus clock
+> > > > +      - description: 24 MHz oscillator
+> > > > +      - description: APB clock
+> > > > +
+> > > > +  clock-names:
+> > > > +    items:
+> > > > +      - const: bus
+> > > > +      - const: hosc
+> > > > +      - const: apb
+> > > > +
+> > > > +  resets:
+> > > > +    maxItems: 1
+> > > > +
+> > > > +  allwinner,npwms:
+> > > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > > +    description: The number of PWM channels configured for this in=
+stance
+> > > > +    enum: [6, 8, 9] =20
+> > >=20
+> > > Do we really need to be so restrictive here? The IP has an
+> > > "architectural" limit of 16 channels (due to the MMIO register layout
+> > > and status/control bits usage in some registers), so can't we just le=
+ave
+> > > this value to be anything between 1 and 16 here? If people configure
+> > > this wrongly, it's their fault, I'd say? Without confining this furth=
+er
+> > > based on the respective compatible strings this enum is less useful
+> > > anyway, I think. The Allwinner A523 uses the same IP, and supports all
+> > > 16 channels, the V853 implements 12, that's what I quickly found
+> > > already, and there might be more examples in the future, so I'd rather
+> > > open this up.
+> > >  =20
+> >=20
+> > Do we really need this property? I feel like the number of PWM channels=
+ should be
+> > something the driver could infer from the compatible string as we are g=
+oing to
+> > have one compatible string per SoC anyway.
+>=20
+> Well yes, this would work, but I feel like it creates unnecessary churn to
+> touch the driver every time some new SoC with the same IP pops up, and
+> where just the number of channels is different - see above for a list of
+> SoCs we already know about, and there are more in the pipe. It also means
+> stable kernels would already work.
+
+Having a property that specifies the number of PWM outputs is fine for
+me.
+
+There is some prior art for that: mxs-pwm.yaml has fsl,pwm-number;
+pwm-st.txt has st,pwm-num-chan with that semantic.
+
+Given that this is a fundamental concept of a pwm chip, I'd say giving
+that a generic name without vendor prefix is justified. I suggest to go
+for
+
+	npwms =3D <..>;
+
+which matches ngpios that is specified for gpio chips.
+
+Best regards
+Uwe
+
+--xadqunur2iav4gmf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmiLPr4ACgkQj4D7WH0S
+/k6qWwf/UfJJoL8d1i9SVPk/Syl4ySb6I9d8VOpLaDSJfkSpXLfkxhBEvlXyOXAn
+FzlTMz893YPQTTpTeuEmFMebZhM62aQoFwRTw8NecOLepM3Y/3ia5Q+wS/goyNf3
+NKMXMcqIeyF2BiQc1PvBTInND72IGsRqzuScnGVZtoAgz8IOEgigclMY5cc4mbGX
+CsbLwoTC9F9MXYHQp2j+2VpL3qf89ug6zXdXq+j4YSRYaBj9LuPCFhTN921V6MfP
+18OK7KI7rfJpJUuVPcpnmM0nH7Z9hTXM3kQFdiSwGd6QexuESuw3KBCdfDwuRpoI
+4nSRBPbwtqh1Eq7AwAuqT07vbY/DRQ==
+=JDZ2
+-----END PGP SIGNATURE-----
+
+--xadqunur2iav4gmf--
