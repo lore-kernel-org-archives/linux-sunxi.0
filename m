@@ -1,106 +1,65 @@
-Received: from mail.netcube.li (mail.netcube.li [173.249.15.149])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24B0C1EA65
-	for <linux-sunxi@lists.linux.dev>; Fri,  1 Aug 2025 20:48:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.249.15.149
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 966FF2376FC
+	for <linux-sunxi@lists.linux.dev>; Fri,  1 Aug 2025 23:51:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754081294; cv=none; b=IKlw2v5pnFV8puYRvB6CG15cvQMgn6QOGMbNwaFLQcid1ZPZE8VVq3Byu2rshL9kh+ICv69Icmk8yC0iqqaSYePSMvReW7ELa2BbxJT0HPcK3+XCzKrtkdKe+kkCsxDleQ678gQKSObexhVG9GSMprcJGRq3FVt0UHPjAg2UAQ8=
+	t=1754092306; cv=none; b=h5YMQD9pjfaFnRzYp4Wfnt84R7DYf5fnsZ4iTqEpaNFIgwh/nA8cQxHPuYB7myCQ3QyileJk+6kYqmYvkb7+4WvXy+Ll1VoQ/zuo5J3a0ygh7PeEsX1paTcRugbDj0FXLIQEKeTR+Zs7CBbIOlv2u8sswAuvvATt2pxJhLwXW4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754081294; c=relaxed/simple;
-	bh=+CEjMxEd48FPH4oziDqPTJv4As3eOOd4id3bwTdmC+k=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ZQ9BiqspJAjP18sfAallNAfYfObpQL+GnX+hMYahwWQZc5vICQHkvA0x3bKlRn9KooU2vy4Xx7mY1XyTvNIDM2MOg5e4XdFPSzeEnSgikkWGQkRO2VqmKxrvYPZBmBnyWhR/Qp/8Pu2zp7T4IXGSwbF29PUGLu5m1fXTYg3yI7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li; spf=pass smtp.mailfrom=netcube.li; dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b=LU6a4jtr; arc=none smtp.client-ip=173.249.15.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netcube.li
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b="LU6a4jtr"
-dkim-signature: v=1; a=rsa-sha256; d=netcube.li; s=s1;
-	c=relaxed/relaxed; q=dns/txt; h=From:Subject:Date:Message-ID:To:MIME-Version:Content-Type;
-	bh=+CEjMxEd48FPH4oziDqPTJv4As3eOOd4id3bwTdmC+k=;
-	b=LU6a4jtrT+q+dFQIQFSGv4oHLOxOcISmLWYj5NuuKfxu+7UXFd2QPzOR62fjOc2nU8Ir3/iuleTD66XEnPyNeIGfd1DEUBdW18QHmjoHeg7KF9lkIgeNxHqcUVKzSWU4LQzn8yCwEcAiUOH8gpOzBh73qC/vFJKkSSmCXrsDspQ=
-Received: from lukas-hpz440workstation.localnet (cm70-231.liwest.at [212.241.70.231])
-	by mail.netcube.li with ESMTPSA
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256)
-	; Fri, 1 Aug 2025 22:33:19 +0200
-From: Lukas Schmid <lukas.schmid@netcube.li>
-To: linux-sunxi@lists.linux.dev
-Subject: T113-S3: Secure Boot
-Date: Fri, 01 Aug 2025 22:33:19 +0200
-Message-ID: <4693897.cEBGB3zze1@lukas-hpz440workstation>
+	s=arc-20240116; t=1754092306; c=relaxed/simple;
+	bh=SFmqGsZB/i/BzfM3ep3YLgtRtgpPF+74U4lUBL+CF+M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RH76CBiz8eqZgIi07gFMTabuxmx0KTvRN7lxeTZ4ep/8nwVQBkevxfA/LdI2buCdX0BuiO27xytrRJxricHaVoV52kZCVSmqa+3LFgzHEwmxq3azSvONNzPdm8EczpaRBrx6+FqK+epPxSSBYFY2/w5NR5gvWuZdEIC6xrPMtrs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6B2E81515;
+	Fri,  1 Aug 2025 16:51:34 -0700 (PDT)
+Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8A8DC3F673;
+	Fri,  1 Aug 2025 16:51:41 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: u-boot@lists.denx.de
+Cc: Tom Rini <trini@konsulko.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Cody Eksal <masterr3c0rd@epochal.quest>,
+	Chris Morgan <macromorgan@hotmail.com>,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH 0/3] sunxi: assorted fixes to DRAM and clock init
+Date: Sat,  2 Aug 2025 00:49:15 +0100
+Message-ID: <20250801234918.19176-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.46.3
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart5102913.0VBMTVartN";
- micalg="pgp-sha512"; protocol="application/pgp-signature"
+Content-Transfer-Encoding: 8bit
 
---nextPart5102913.0VBMTVartN
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"; protected-headers="v1"
-From: Lukas Schmid <lukas.schmid@netcube.li>
-To: linux-sunxi@lists.linux.dev
-Subject: T113-S3: Secure Boot
-Date: Fri, 01 Aug 2025 22:33:19 +0200
-Message-ID: <4693897.cEBGB3zze1@lukas-hpz440workstation>
-MIME-Version: 1.0
+Some assorted fixes for bugs I found while debugging and researching
+the boot and DRAM init process on some chips.
+Patch 1 and 2 fix bugs hidden by the fact that the code in question
+would ever be compiled for arm64 only, but for an experiment I compiled
+the A133 SPL for 32-bit, which revealed those issues.
+Patch 3 fixes the mode register setup for the H616 boards with LPDDR3,
+this was found when wrapping the mode register accesses into some
+functions, for a later cleanup patch.
 
-Hi all,
+Please have a look!
 
-I=E2=80=99m working on enabling secure boot on the Allwinner T113-S3 (as pa=
-rt of=20
-preparing my SoM design for EU CRA compliance).
+Cheers,
+Andre
 
-I=E2=80=99ve successfully fused the SoC with secure boot enabled and burned=
- the=20
-ROTPK_HASH. The SoC correctly boots a TOC0-signed image from SD card, and U-
-Boot starts up and behaves as expected.
+Andre Przywara (3):
+  sunxi: a133: dram: fix data type for address variable
+  sunxi: spl: initialise timer before clocks
+  sunxi: H616: dram: fix LPDDR3 mode register settings
 
-However, when I try to load and boot the kernel from U-Boot, the board hang=
-s=20
-right after U-Boot hands over control, no further progress. The same kernel=
-=20
-image worked fine before enabling secure boot, so I suspect it might be rel=
-ated=20
-to the secure boot configuration or runtime expectations.
+ arch/arm/mach-sunxi/board.c            |  2 +-
+ arch/arm/mach-sunxi/dram_sun50i_a133.c |  2 +-
+ arch/arm/mach-sunxi/dram_sun50i_h616.c | 12 ++++++------
+ 3 files changed, 8 insertions(+), 8 deletions(-)
 
-I=E2=80=99ve already tried debugging U-Boot and confirmed that the kernel i=
-s loaded and=20
-`bootm` is called; the system hangs at that point.
-
-Here are the versions I=E2=80=99m using:
-=2D **Kernel:** Linux 6.15.4 (mainline)
-=2D **U-Boot:** 2025.07-rc5 (with custom devicetree and I2C3 modifications)
-
-Is there anything specific I might be missing when running the kernel under=
-=20
-secure boot on the T113-S3? Any guidance, common pitfalls, or pointers woul=
-d=20
-be appreciated.
-
-Best regards, =20
-Lukas
---nextPart5102913.0VBMTVartN
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEPv6dcBmn59ssZMkSJnN+drMVRtgFAmiNJI8ACgkQJnN+drMV
-Rti/3AgAnCmVSZD0xH+Esz+7FtT4r6w3oJT4qXgVqQkggEoLt5TqvRLq5QImIynO
-DXLak3hn5uDK31xYk8Ks1Z88oDz4nCHjfnHcdikqlKgpeUJcJ9Lt8260j9LPw7Ks
-AX/osXneXWMUjv31jmFrJhcYhPOHK70itDwJmvW0lOYR/vdZVPGvZ95Bpx1Cuf0I
-dSweRQBqrp8VnU5lJK+/CzxIAEnxF6AFqvO7U1lel1IusEFA92YtuhFzNXpWeCvK
-Mqs/GMqynT/aE35O4NhJjJBukTmMQcZRNhEVdIQ9Wh32pLCgXwrbxZsaivHM40Mt
-a130rPZLW3cSQICEVvTCpwMzwwe6rw==
-=fDLF
------END PGP SIGNATURE-----
-
---nextPart5102913.0VBMTVartN--
-
-
-
+-- 
+2.46.3
 
