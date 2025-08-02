@@ -1,73 +1,73 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D07A22B8CF
-	for <linux-sunxi@lists.linux.dev>; Sat,  2 Aug 2025 12:38:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87CB0230BC8
+	for <linux-sunxi@lists.linux.dev>; Sat,  2 Aug 2025 12:40:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754138290; cv=none; b=sarB42UZd0g52sgK7oM2zTvJ/gh65D6fz6ro0LZ9RwLKfsuEYCLMuOAzOSMCoDBe4Utyi0E/UfICGAJcTxs95Sf3quyQRnuPfHj40aH9BvwYyw6MBWFy1TWyLVttg05KR9yqyLXbwAXhiFH5w4nYYQkfbNAMHb0oIXeo+D/U1O4=
+	t=1754138402; cv=none; b=jAaniAAMnaL1rmTSzBj+8iYdNlgwWXyFn/4gdBIgQk0RWoJTU5VbLOC9XRz35wy59PHM+4NdgG0atH2Rt6Z3TfOA4CHjFtTuiNsB64MWRrxR6XHGnn3F98iSLkOAm4wQuPy19jpjX79sHMlhCrU+jKldfuNZiijz1LlIc0HjY4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754138290; c=relaxed/simple;
-	bh=kjNMGi0IvuVGXF8RnqYfZcDE+z5GAU+wzdFjcp7iLnM=;
+	s=arc-20240116; t=1754138402; c=relaxed/simple;
+	bh=20GZjV/9etu8Dh+QrGksTZEKnBLbOiAfPjovI45mWjE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sTjq4nEN6r3gt4P1EFf5gtNAVdyZeYWyiy6qGyAQFHCVq6ljAZ98KPU7hOJ397/yTrYTNY6PIirye62+iKxBnh6eYlR+lXlrxH+UkQ9s0Onti4q41Az/gUi9t7ASE0sNX33H35Xb3/esvg00vbXjZSKmugKKnnwQuFxZWHiiKCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=iLj+yzbI; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:Content-Type; b=PfvzpQQ7sgNg0kjkN4Vnrpr87/x1YQwBDsHLhcZJYxx6Ez5pAN78/7Vdy928ziq+hmioPj67WbV2hlmajQwumCNPhl39OGJx94h8ESelzfugzKaNWGxW4+6RaINjW5oyyGZ2UVJf4XBh+O+qJ0+rO6+ztWA7A8vH+h3kyv6lPds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=DOQMtJD9; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="iLj+yzbI"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5725fFs0009630
-	for <linux-sunxi@lists.linux.dev>; Sat, 2 Aug 2025 12:38:07 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="DOQMtJD9"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 572BBq9O006546
+	for <linux-sunxi@lists.linux.dev>; Sat, 2 Aug 2025 12:39:59 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	yY+5Vc4wWCp8Q+lqkXgyh1f1Eka3dbE6PZDRDj30axM=; b=iLj+yzbIUQdJmpPE
-	HSCMNc/WukNLpBT4WQTMuU2Elh3jlNsbdJ3wd7gziWpdQ65t+tBxIrNYtMU+MFuJ
-	HkIflk49HRXLBE2e9aKmEFEMADiJXGpyVkCfWqzZ2oRbpsC/Is+DUfmvIOCD1CL7
-	+su5CJLM5ymQuGWntuLQlXV8emoqlaA1Boot08Xzssob33f1R3HI/ecNvYw7Rexb
-	A0P7DlMACxYME3GtSMcdlQDuCabxpvlQxkQpGykwEkKpz6XKqy0U5VviVBINJlk4
-	vqmrWlp/XyTcfHt6AsjKW9089optU/83B4pIoedJbH9vwu6CHrl90A4PA/AyXS0L
-	8x2ZGA==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 489byc0nme-1
+	r9VK3kXUy5TNVKQthyOGQ0SFCHNZ+dt1IH8nz2OWv34=; b=DOQMtJD9xjdE7K4H
+	vt+tAL+ijFCF/Ppx46PTq6wc0Tn4/X98XLLrGBLGuzMvbAxreC3RezQp8EyPZa0+
+	UzJW6dPZmAIDc6+9IQeviwcJmVcn12IlqcBecAfYSutXBJr+KyZvSqxFtgMMo9du
+	llmeNIzI2yHwmB8wloQBV8amiGbLg6kLeWquA++hJ11zyqHDF33b7slzh3B0tFYr
+	A1fOQ+7KHo3LhiJjF1ji/no0ao8zJy6eh31X7yiFpqa2FD+ip3SBTFBwj/8a5s4d
+	xvZZXb4ZGPo/7wRpiihVK7awCZ1GbbBUY6miBEig1e3yCvdFUp5HadPxMnra5b45
+	h8VRQw==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48981rh2rm-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sunxi@lists.linux.dev>; Sat, 02 Aug 2025 12:38:06 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-4aef8afd26bso7088181cf.0
-        for <linux-sunxi@lists.linux.dev>; Sat, 02 Aug 2025 05:38:06 -0700 (PDT)
+	for <linux-sunxi@lists.linux.dev>; Sat, 02 Aug 2025 12:39:59 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-4abc1e8bd11so9122291cf.3
+        for <linux-sunxi@lists.linux.dev>; Sat, 02 Aug 2025 05:39:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754138285; x=1754743085;
+        d=1e100.net; s=20230601; t=1754138398; x=1754743198;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yY+5Vc4wWCp8Q+lqkXgyh1f1Eka3dbE6PZDRDj30axM=;
-        b=TeDSBTUryTpgGt30MZ67PJRkZqgVo6+LN4VRcsrBlse+pMYudaxX3MvM/X/8c3ngDD
-         X+7PqZ5lK3u5hm7zNcRADmV5Te5dScosjxPVzKtwFNNVPlYhxXGOWKjNA9DWpymBDw+L
-         7/GTi7rjCuOVJUyQ2LbUS0xPb7+7rQsa3XfUEFd2a4xmTXu+1OpM/eKVmdYoZ5x2WrJT
-         hu1YYG5eha6NY8J6mE+qmVn9nFEvXaPjPobrsWlhyKJP7brr0BN6eqrayit1CXyV7ngQ
-         YS9YTWqdeM7BOhEBGS5mxdyT3pwhuOuevFdrtSHwenRNNNI52yLYUvLDR6JSfjJEymja
-         pkvQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUg6acZ2ttGiorAEagMj854OV2nY5kkJIrhyoavIUgWKSM+7QzXVNVOtXWUFGwIdQNlbUiNoC8YuMgY3w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YykHNBBNANCZ95UsqBY/f61Q2sWBrg1GUS1FSn68SDztdaM+aFM
-	jYX/HWElHc9GtsFbbKB476K9Vj6C7+hI4p0MLPRmqHNwrlzD0oM6RWF6zhd6o+D+u8JtQSmo34J
-	4PlA+cKNsqgUNnLLpMN2B+H7Lm79tm3b8QY9nBocRjSS9eu1w10Phh5MCdsLvhwaygg==
-X-Gm-Gg: ASbGnctkhZty+1oPpNMqpSPR1BNBOEDIPCDhI62l5uipFAOYduj1dIjo0hiwwJ78M+Q
-	b+M5EhKKeskqUO0q/RAyunyY7HPxSnKbcfOzHbklQeTub/pcmwg5O6kZd72xw4zfhKn1xMvJQah
-	pqgqgSYy9Jfz/G7T0MOQE3osQ0pXkNr30ZuYWL3kHxu/RswlHvxviKRjWVaOYjmml5EtOZsU0t3
-	m7918OWN33W3TltSUYYL5BoX9rUfCMKU+p6Icq/V170YhwCLb8LsBUXYntSXVxbnSQK/tTw3gxa
-	ySRl0Z97DKhNZp9FFf4/bYbDimV6WGzA0S/R3vC6gC/wV948cWVprlSVRAWUCqaNVpkk44KoBcp
-	xS89/RTKEbzOTvlwbTA==
-X-Received: by 2002:a05:622a:54e:b0:4ab:67a3:ec09 with SMTP id d75a77b69052e-4af1094cd78mr22382371cf.6.1754138285268;
-        Sat, 02 Aug 2025 05:38:05 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGFPF9qOzJpGO98jPyAvuhk/RML1vSf6VMcwdOoFpMcr/LQVR1VYdVHuTAn5xus4wthkO0plg==
-X-Received: by 2002:a05:622a:54e:b0:4ab:67a3:ec09 with SMTP id d75a77b69052e-4af1094cd78mr22381721cf.6.1754138284551;
-        Sat, 02 Aug 2025 05:38:04 -0700 (PDT)
+        bh=r9VK3kXUy5TNVKQthyOGQ0SFCHNZ+dt1IH8nz2OWv34=;
+        b=hiV3BIJjenvUjHkE4TKqbOd7UMPt6LNapw/iMXVMjV3P8v1JWTohg7Ha4lE/YgBuRH
+         hgScYb4rQ2MWOdI/xo/govVNJt0Keb63fD0d+DzoAO/iOSLWUr/R0a3hmbUKf9rDdyV8
+         s4j9s4VznqO/BH4lq2MF9jzyLzRhjAJ/1ApZP0nVuDXoiEXsHzngGmtfuH7tpJSR73JP
+         zb8D0Z0UMJrT34nUexMCeHXkSX9mBPEYhL7WAADQmL0wmJcA+rDuQ40z1hL2eq4z3TKl
+         ALuxwajf6Bgsdn5dfAM0CewJfvSAq2kXj2WFWpLPbH+7+E80fBeqLZSVveMzcD6DvMBd
+         0XXg==
+X-Forwarded-Encrypted: i=1; AJvYcCVcc55sFMNnyl0eWOwmvJg/wSzNBMfDfj+QAGbSprUsZ1q7KD+CH7rImKZiYeOqDUSJRLOCFz54TfHNKA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxgBQpqVYMYXWdo9PyDL8yG1qe5Pga1VRcmmnSnDVR2lKZy67km
+	0WRWWYxvtQC6LPWBcHQiMkEtpTldKsRCW9rc5iHGqVxAVW0lDZjSrahZmGDdgGd7S11XXf1eZdc
+	2QLHj9iKMrchc8zTDaZ/BCuQX7rxuRuf9uAIbSY6fkC33BVUshryRC8ZTXLTs0a2eCQ==
+X-Gm-Gg: ASbGnct6OXZlQNFeBFK3QTyv+nlGP0HCYIa540tDWEPwSGwwuryzGU+L2uKwQKtR8b3
+	zsC6+fWlZmyEVW+ENTZ6cbjvjkvK/XuYfDDPDC75+aqcK+3Ym9gnS5I48fqZDfBZV8cHCcucow6
+	+deS08sIW2zQwkwzuBbEiFZxGDqSiDyo+4CZf2cT6Mpyc70K27u74Ufb6GiFwkcOGVuNW7biXn7
+	cwXrV4Kzi62JO8wn9WoNA8t4Q1IcgIaAoLD+p7Xp9J701QJvV+0o3VqVeRCsK54qMp6c075T8HC
+	UlhEPW5n3Rsjy4+zjp8AWadSkaqtxtgFK5zSGRiySYAgLZyD7z0CRgyYBWZTz5RaxNWiGRbH3EG
+	2mGusZG3Ikp2kqVkfhg==
+X-Received: by 2002:ac8:5f90:0:b0:4ab:5ac3:1347 with SMTP id d75a77b69052e-4af10a84c91mr23334271cf.13.1754138398274;
+        Sat, 02 Aug 2025 05:39:58 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEm4NEl6EUx3LCCGFmAhcLGEPc2/M/pvg1mmL0vg2ErLHKHgVKDYHB4PV/P/gfOCagScMPDYw==
+X-Received: by 2002:ac8:5f90:0:b0:4ab:5ac3:1347 with SMTP id d75a77b69052e-4af10a84c91mr23333291cf.13.1754138397693;
+        Sat, 02 Aug 2025 05:39:57 -0700 (PDT)
 Received: from [192.168.43.16] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a0761f2sm434931766b.11.2025.08.02.05.37.55
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-615a8fe77cfsm4167407a12.42.2025.08.02.05.39.49
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 02 Aug 2025 05:38:03 -0700 (PDT)
-Message-ID: <0c2cc631-21fd-41fd-9293-fd86dd09a2d2@oss.qualcomm.com>
-Date: Sat, 2 Aug 2025 14:37:54 +0200
+        Sat, 02 Aug 2025 05:39:57 -0700 (PDT)
+Message-ID: <e0886f9e-bcc1-48dc-a175-2147d8d4fc3e@oss.qualcomm.com>
+Date: Sat, 2 Aug 2025 14:39:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -75,13 +75,12 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 2/6] dmaengine: Make of_dma_request_slave_channel pass
- a cookie to of_xlate
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Frank Li <Frank.li@nxp.com>
-Cc: Konrad Dybcio <konradybcio@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-        Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>,
+Subject: Re: [PATCH RFC 3/6] dmaengine: qcom: gpi: Accept protocol ID hints
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+        Konrad Dybcio <konradybcio@kernel.org>
+Cc: Vinod Koul <vkoul@kernel.org>, Sven Peter <sven@kernel.org>,
+        Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Neal Gompa <neal@gompa.dev>,
         Ludovic Desroches <ludovic.desroches@microchip.com>,
         Florian Fainelli <florian.fainelli@broadcom.com>,
         Broadcom internal kernel review list
@@ -91,7 +90,8 @@ Cc: Konrad Dybcio <konradybcio@kernel.org>, Vinod Koul <vkoul@kernel.org>,
         Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
         Viresh Kumar <vireshk@kernel.org>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+        Frank Li <Frank.Li@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
         Pengutronix Kernel Team <kernel@pengutronix.de>,
         Fabio Estevam <festevam@gmail.com>,
         Taichi Sugaya <sugaya.taichi@socionext.com>,
@@ -120,8 +120,9 @@ Cc: Konrad Dybcio <konradybcio@kernel.org>, Vinod Koul <vkoul@kernel.org>,
         Peter Ujfalusi <peter.ujfalusi@gmail.com>,
         Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
         Masami Hiramatsu <mhiramat@kernel.org>,
-        Michal Simek <michal.simek@amd.com>, Rob Herring <robh@kernel.org>,
-        Saravana Kannan <saravanak@google.com>,
+        Michal Simek <michal.simek@amd.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
         =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>,
         Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
         Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
@@ -144,150 +145,73 @@ Cc: Konrad Dybcio <konradybcio@kernel.org>, Vinod Koul <vkoul@kernel.org>,
         linux-sound@vger.kernel.org, linux-i2c@vger.kernel.org,
         linux-spi@vger.kernel.org
 References: <20250730-topic-dma_genise_cookie-v1-0-b505c1238f9f@oss.qualcomm.com>
- <20250730-topic-dma_genise_cookie-v1-2-b505c1238f9f@oss.qualcomm.com>
- <aIpKz495WI1SJTeB@lizhi-Precision-Tower-5810>
- <20250730180417.GC21430@pendragon.ideasonboard.com>
- <aIpmgpXME1BmThxU@lizhi-Precision-Tower-5810>
- <20250801120007.GB4906@pendragon.ideasonboard.com>
+ <20250730-topic-dma_genise_cookie-v1-3-b505c1238f9f@oss.qualcomm.com>
+ <CAMuHMdV0JO=qtregrrHsBZ-6tpNdPUj3G1_LWRfRsj0vBb+qyw@mail.gmail.com>
 Content-Language: en-US
 From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250801120007.GB4906@pendragon.ideasonboard.com>
+In-Reply-To: <CAMuHMdV0JO=qtregrrHsBZ-6tpNdPUj3G1_LWRfRsj0vBb+qyw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: gNaUeRQxCiJuWNdSekl358jib0Wh00uA
-X-Authority-Analysis: v=2.4 cv=Y6D4sgeN c=1 sm=1 tr=0 ts=688e06ae cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=Hh3C_mqfd76DgmRPW0UA:9
- a=QEXdDO2ut3YA:10 a=a_PwQJl-kcHnX1M80qC6:22
-X-Proofpoint-GUID: gNaUeRQxCiJuWNdSekl358jib0Wh00uA
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODAyMDEwNiBTYWx0ZWRfX6/rqCTTPh7e6
- zqlfsjw2SzfagrUlKfYhNLKSy19DIvLVdzkGf6gEFlQVsPQ9meCUaNGHbz5yyNlZYFGbZx5GKpt
- tIKYCPnF5Cay/QozB0/9JSfVTkZf8SDpwPrMUIwFjQ87ZdHrR4wfMXwvaqiwdFcGowyzbpjoS40
- WCJ3YLQg9JzuKcO6JCR14ywijLHIwPqKDbBQIJkeRr7erlFsTOy8Vc7p2rc3Ocpo+BJQm7ahZFt
- pRHrFlBxxDohmnhI4Rr42yI5mgZr6+70XBUwgbRBk+2eY9ETftMNTtUlsSpN+UB+aEKeN8+BP4F
- WtfrPM+MjvmNgK8/0USHhJFL3orEa6ZfuFHAXe0NnT+a4jo7cXAGcJteESejrttMJYkf/dhIDs8
- xiCUJx3uZOGc/0nWurRsrtXZvAqu+eGq3vCeDtCoThaD3R5xIfC8D1NNXzv/xrVk//gGbaJD
+X-Proofpoint-ORIG-GUID: U4dy6cYWJY7nY07Tx9sJeYNjroaLgIEf
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODAyMDEwNSBTYWx0ZWRfX2ImiTrz0cHL+
+ SzekxCmq8vuuPksmFTcYlzXkplRiOfYqnd0z+I6QeBM4pQE87/APWIglY5B3v24+ZiDKQ6WBb33
+ eW1gwosSyGeZ+2n37Sy5JETfudJrxi0cH+1GjT0S65VR6BWT5GbCsCVMwAiGsKMQmx7b/793s8A
+ ZRteVqXsIuRShlW0I8Qu9QcsOLiYorNUryJIF2Ep0TSpqVr6ahazNy5YZgX7rh+Na0ct31S8fIJ
+ PPssKIQZ0H16AKbLafdgPKri+y7HekLbROtlS0OZiL53Uz56woevZERdrYFJJUZu+f1L8KkO8vS
+ 3zCXvPWuweUsW1QJ/NApHgQJdklRx4WXZEFtl3+ceTMOcafTJc+dMm9+0dcVBkZJh0Syopv4Pb2
+ kiqo+mxc5J+yMWMmafniyIS6y5zPCWeUfCUemkeLTboCxh4ug391drzxPYK9F7qHXD+J9zOX
+X-Proofpoint-GUID: U4dy6cYWJY7nY07Tx9sJeYNjroaLgIEf
+X-Authority-Analysis: v=2.4 cv=a8Mw9VSF c=1 sm=1 tr=0 ts=688e071f cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=sidZTQT7lcrlHK7IIakA:9 a=QEXdDO2ut3YA:10 a=dawVfQjAaf238kedN5IG:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-08-01_08,2025-08-01_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 mlxlogscore=999 suspectscore=0 clxscore=1015 lowpriorityscore=0
- phishscore=0 malwarescore=0 adultscore=0 spamscore=0 impostorscore=0
- priorityscore=1501 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ lowpriorityscore=0 priorityscore=1501 bulkscore=0 clxscore=1015 phishscore=0
+ spamscore=0 mlxlogscore=908 mlxscore=0 malwarescore=0 impostorscore=0
+ suspectscore=0 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2508020106
+ definitions=main-2508020105
 
-On 8/1/25 2:00 PM, Laurent Pinchart wrote:
-> Hi Frank,
+On 7/30/25 1:32 PM, Geert Uytterhoeven wrote:
+> Hi Konrad,
 > 
-> On Wed, Jul 30, 2025 at 02:37:54PM -0400, Frank Li wrote:
->> On Wed, Jul 30, 2025 at 09:04:17PM +0300, Laurent Pinchart wrote:
->>> On Wed, Jul 30, 2025 at 12:39:43PM -0400, Frank Li wrote:
->>>> On Wed, Jul 30, 2025 at 11:33:29AM +0200, Konrad Dybcio wrote:
->>>>> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
->>>>>
->>>>> The DMA subsystem attempts to make it theoretically possible to pair
->>>>> any DMA block with any user. While that's convenient from a
->>>>> codebase sanity perspective, some blocks are more intertwined.
->>>>>
->>>>> One such case is the Qualcomm GENI, where each wrapper contains a
->>>>> number of Serial Engine instances, each one of which can be programmed
->>>>> to support a different protocol (such as I2C, I3C, SPI, UART, etc.).
->>>>>
->>>>> The GPI DMA it's designed together with, needs to receive the ID of the
->>>>> protocol that's in use, to adjust its behavior accordingly. Currently,
->>>>> that's done through passing that ID through device tree, with each
->>>>> Serial Engine expressed NUM_PROTOCOL times, resulting in terrible
->>>>> dt-bindings that are full of useless copypasta.
->>>>>
->>>>> In a step to cut down on that, let the DMA user give the engine driver
->>>>> a hint at request time.
->>>>>
->>>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
->>>>> ---
+> On Wed, 30 Jul 2025 at 11:35, Konrad Dybcio <konradybcio@kernel.org> wrote:
+>> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+>>
+>> Client drivers may now pass hints to dmaengine drivers. GPI DMA's only
+>> consumers (GENI SEs) need to pass a protocol (I2C, I3C, SPI, etc.) ID
+>> to the DMA engine driver, for it to take different actions.
+>>
+>> Currently, that's done through passing that ID through device tree,
+>> with each Serial Engine expressed NUM_PROTOCOL times, resulting in
+>> terrible dt-bindings that are full of useless copypasta.
+>>
+>> To help get rid of that, accept the driver cookie instead, while
+>> keeping backwards compatibility.
+>>
+>> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> 
+> Thanks for your patch!
+> 
+>> --- a/drivers/dma/qcom/gpi.c
+>> +++ b/drivers/dma/qcom/gpi.c
+>> @@ -2145,7 +2151,8 @@ static struct dma_chan *gpi_of_dma_xlate(struct of_phandle_args *args,
+>>         }
+>>
+>>         gchan->seid = seid;
+>> -       gchan->protocol = args->args[2];
+>> +       /* The protocol ID is in the teens range, simply ignore the higher bits */
+>> +       gchan->protocol = (u32)((u64)proto);
+> 
+> A single cast "(uintptr_t)" should be sufficient.
+> Casing the pointer to u64 on 32-bit may trigger:
+> 
+>     warning: cast from pointer to integer of different size
+> [-Wpointer-to-int-cast]
 
-[...]
-
->>>>> diff --git a/include/linux/of_dma.h b/include/linux/of_dma.h
->>>>> index fd706cdf255c61c82ce30ef9a2c44930bef34bc8..9f9bc4207b85d48d73c25aad4b362e7c84c01756 100644
->>>>> --- a/include/linux/of_dma.h
->>>>> +++ b/include/linux/of_dma.h
->>>>> @@ -19,7 +19,7 @@ struct of_dma {
->>>>>  	struct list_head	of_dma_controllers;
->>>>>  	struct device_node	*of_node;
->>>>>  	struct dma_chan		*(*of_dma_xlate)
->>>>> -				(struct of_phandle_args *, struct of_dma *);
->>>>> +				(struct of_phandle_args *, struct of_dma *, void *);
->>>>
->>>> I suggest pass down more informaiton, like client's dev point. So we can
->>>> auto create device link between client's dev and dma chan's device.
->>>
->>> Is .of_dma_xlate() really the right place to do that ? If you want to
->>> create a device link for PM reasons, isn't it better created when the
->>> channel is requested ? It should also be removed when the channel is
->>> freed.
->>
->> I remember just need record client device pointer here.
->>
->>>>
->>>> DMA Engineer device
->>>>    DMA chan device
->>>>        consumer clients' device.
->>>>
->>>> If consumer device runtime pm suspend can auto trigger DMA chan's device's
->>>> runtime pm function.
->>>>
->>>> It will simplifly DMA engine's run time pm manage. Currently many DMA run
->>>> time pm implement as, runtime_pm_get() when alloc and runtime_pm_put() at
->>>> free channel.  But many devices request dma channel at probe, which make
->>>> dma engine work at always 'on' state.
->>>>
->>>> But ideally, dma chan should be resume only when it is used to transfer.
->>>
->>> This is exactly what I was going to mention after reading the last
->>> paragraph. Is there anything that prevents a DMA engine driver to
->>> perform a rutime PM get() when a transfer is submitted
->>
->> DMA description is a queue, It is hard to track each descriptor submit and
->> finished. espcially cycle buffer case.
->>
->> And according to dma engine API defination, submit a descriptor not
->> neccessary to turn on clock, maybe just pure software operation, such as
->> enqueue it to a software list.
->>
->> Many driver call dmaengine_submit() in irq context,  submit new descriptor
->> when previous descriptor finished. runtime_pm_get() can NOT be called in
->> atomic context.
->>
->> And some driver submit many descripor advance. Only issue_transfer() is
->> actually trigger hardware to start transfer.
->>
->> Some client use cycle descripor, such audio devices.  Some audio devices
->> have not free descriptor at their run time suspend function, just disable
->> audio devices's clocks.  Audio devices run time suspend, which means no
->> one use this dma channel, dma channel can auto suspend if built device link
->> between audio device and dma chan devices.
->>
->> Some DMA client have not devices, such as memory to memory. for this kind
->> case, it need keep chan always on.
->>
->> issue_transfer() can be call in atomic context. but trigger hardware transfer
->> need clock and runtime_pm_get() can't be called in atomic context.
->>
->> Most case issue_transfer() is call in irq handle, which means device should
->> already be in runtime resume statue.  DMA engine can safely access their
->> register if using device link.
-> 
-> You have good points there, in particular the fact the issue_transfer()
-> can be called in interrupt context.
-> 
-> For me this calls for new DMA engine operations to "start/stop" the DMA
-> engine (better names are likely needed) from a client perspective.
-> 
->>> and a put() when
->>> it completes ? (Logically speaking, the actual implementation would
->>> likely be a bit different in drivers, but the result would be similar.)
-
-So.. do you folks want me to alter the patch in any way?
+Good point, not compiling for 32-bit always ends up biting.. thanks
 
 Konrad
