@@ -1,193 +1,393 @@
-Received: from mail.netcube.li (mail.netcube.li [173.249.15.149])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFC7C1DDA1E
-	for <linux-sunxi@lists.linux.dev>; Sat,  2 Aug 2025 08:37:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.249.15.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C47C93C465;
+	Sat,  2 Aug 2025 09:23:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754123858; cv=none; b=d1BGITlnPlpfmh7UB0tQPAIeCsKchUZlw/T0zfylEH1VeKpUaHPRvlECN0kqH3VtSXSMV0X7Sj57tQmsnzDPu7roTE9DVUE6hnqE0IR6GV/RSj4u4cgjZGWsGmzuRUXDRo1lBA5oeqX77TPMvaDRDBxixBYOke46qtsWzduWMx8=
+	t=1754126615; cv=none; b=L51nKth6JBoaMWwxiN6gw3ni7srw4HQnPNAd1fGOYGO/ER6Pwa5JKj3+4x06DFs030QZLWCt0tx2ycDl/SV9+XTgYXbK9BuAV8y905oG+ww1joSY81EuM9cmVxUzAQfHPt3qgAK3ybFcSGfMpaEYognajyTqa2KHI5NP2bc1BLQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754123858; c=relaxed/simple;
-	bh=VRmEQehT13hoav9UV+YGv07MztSVBFa12ZZsP4vejgk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EjlMNgKI3NcRCkNeXqm/3p286Kn43W3NpapebbewbGRezuUyuqQ8QwY/2+RvNKyMjceteozgjVLoR8dLTqkVUfCBkxr7oEZBTe/eTl7gizevXy7mHK6Dv5i9Tb2iyFfo4pEMIFpgWcG3rjPj5MQxLa400eL+SpPuRdXY9DNFjkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li; spf=pass smtp.mailfrom=netcube.li; dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b=0sHXMFW8; arc=none smtp.client-ip=173.249.15.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netcube.li
+	s=arc-20240116; t=1754126615; c=relaxed/simple;
+	bh=/CwucPoTSB8D3As+zjvoiuc4x93zR6gcvXt9/Ab/ivI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=WrZojRHGziWZ2a6XDKsN6/d2S03jZGkoMtnSSKzOc3XMMRyUjtaPC/ExTrG5Btk/aFbfIKjvS8iGdI/y8Cf3vasn4AlA2yZJ6W71tLjln+M25EDVkfCLaS26c1+Xp7xs+5fY6fX8AQkR0qi1p6NlHjX9Cr1H1nHWW3y99dIisjg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LZZyMdaF; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b="0sHXMFW8"
-dkim-signature: v=1; a=rsa-sha256; d=netcube.li; s=s1;
-	c=relaxed/relaxed; q=dns/txt; h=From:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Type:In-Reply-To:References;
-	bh=KQZZ+0jK1+XLkNRJOHK8URDiCs8iQhKqRqCZUWjluyQ=;
-	b=0sHXMFW84qP+Rjpn6EcUH/MqgjtNmdP5tnX201cpAIS3ipdVTNwSCEI2g7D9d9Lz+C7QAhsHnqC1wKFe+uHHT+Ko/Q5jwIzFH2yCRSlF5XI5KNk9rX2YSWCyPZ4jqyjuq968W/xRYdSWZ72Bxbdy2lFRp0ojiW3B9Pyj4+jcyVY=
-Received: from lukas-hpz440workstation.localnet (cm70-231.liwest.at [212.241.70.231])
-	by mail.netcube.li with ESMTPSA
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256)
-	; Sat, 2 Aug 2025 10:37:33 +0200
-From: Lukas Schmid <lukas.schmid@netcube.li>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: linux-sunxi@lists.linux.dev
-Subject: Re: T113-S3: Secure Boot
-Date: Sat, 02 Aug 2025 10:37:32 +0200
-Message-ID: <6179940.lOV4Wx5bFT@lukas-hpz440workstation>
-In-Reply-To: <20250802010939.4d345876@minigeek.lan>
-References:
- <4693897.cEBGB3zze1@lukas-hpz440workstation>
- <20250802010939.4d345876@minigeek.lan>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LZZyMdaF"
+Received: from [192.168.0.172] (mob-5-90-138-121.net.vodafone.it [5.90.138.121])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CDE1F379;
+	Sat,  2 Aug 2025 11:22:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1754126560;
+	bh=/CwucPoTSB8D3As+zjvoiuc4x93zR6gcvXt9/Ab/ivI=;
+	h=From:Subject:Date:To:Cc:From;
+	b=LZZyMdaFWHa6y26iE7y4JE05rPB8CXeZCDhhOcwCqussrJCfnIHsciuVBPN5t9jkg
+	 5kYEpgw+FbMmd9rb/1xghUjwPkrZH1/sEfUxVuWv05Fy889OkWsy4rpJClsTFCDOyE
+	 fwvaj0WUscP/5nbJH4GLQgdU54/9lq2NtkH9Kd6Y=
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: [PATCH 00/65] media: Rationalise usage of v4l2_fh
+Date: Sat, 02 Aug 2025 11:22:22 +0200
+Message-Id: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart5029590.31r3eYUQgx";
- micalg="pgp-sha512"; protocol="application/pgp-signature"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAM/YjWgC/x3MSwqAMAxF0a1IxgYasShuRRwE+9QM/NCKCOLeL
+ Q7P4N6HEqIhUVc8FHFZsn3LkLKgcdFtBlvIpspV3rVOeEUw5SPapSc46Klce/GtFzSQQDk8Iia
+ 7/2k/vO8HBMBr1GQAAAA=
+X-Change-ID: 20250801-media-private-data-4515851e7e1d
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Devarsh Thakkar <devarsht@ti.com>, Benoit Parrot <bparrot@ti.com>, 
+ Hans Verkuil <hverkuil@kernel.org>, Mike Isely <isely@pobox.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Hans de Goede <hansg@kernel.org>, 
+ Parthiban Veerasooran <parthiban.veerasooran@microchip.com>, 
+ Christian Gromm <christian.gromm@microchip.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
+ Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>, 
+ Tomasz Figa <tfiga@chromium.org>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Andy Walls <awalls@md.metrocast.net>, 
+ Michael Tretter <m.tretter@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Bin Liu <bin.liu@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Dmitry Osipenko <digetx@gmail.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Mirela Rabulea <mirela.rabulea@nxp.com>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Michal Simek <michal.simek@amd.com>, Ming Qian <ming.qian@nxp.com>, 
+ Zhou Peng <eagle.zhou@nxp.com>, 
+ Xavier Roumegue <xavier.roumegue@oss.nxp.com>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Vikash Garodia <quic_vgarodia@quicinc.com>, 
+ Dikshita Agarwal <quic_dikshita@quicinc.com>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Sylwester Nawrocki <sylvester.nawrocki@gmail.com>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Nas Chung <nas.chung@chipsnmedia.com>, 
+ Jackson Lee <jackson.lee@chipsnmedia.com>, 
+ Minghsiu Tsai <minghsiu.tsai@mediatek.com>, 
+ Houlong Wei <houlong.wei@mediatek.com>, 
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>, 
+ Tiffany Lin <tiffany.lin@mediatek.com>, 
+ Yunfei Dong <yunfei.dong@mediatek.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, 
+ Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>, 
+ Jacob Chen <jacob-chen@iotwrt.com>, 
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
+ Heiko Stuebner <heiko@sntech.de>, 
+ Detlev Casanova <detlev.casanova@collabora.com>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, 
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+ =?utf-8?q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>, 
+ Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>, 
+ Jacek Anaszewski <jacek.anaszewski@gmail.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Fabien Dessenne <fabien.dessenne@foss.st.com>, 
+ Hugues Fruchet <hugues.fruchet@foss.st.com>, 
+ Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+ Steve Longerbeam <slongerbeam@gmail.com>, 
+ Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski <paulk@sys-base.io>, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, 
+ Corentin Labbe <clabbe@baylibre.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>, 
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-staging@lists.linux.dev, linux-doc@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ linux-tegra@vger.kernel.org, imx@lists.linux.dev, 
+ linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+ linux-usb@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, 
+ linux-stm32@st-md-mailman.stormreply.com, mjpeg-users@lists.sourceforge.net, 
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=14022;
+ i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
+ bh=/CwucPoTSB8D3As+zjvoiuc4x93zR6gcvXt9/Ab/ivI=;
+ b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBojdj3I2azCFFgaF5K6ecFezAiX2zQ8xa8jLP7u
+ NmvbEkTWUuJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaI3Y9wAKCRByNAaPFqFW
+ PHCVD/9zYdUbtLqCkT3NJEuFfmWvle2Q57iJBekEF2Do+o01RwzCVM2Iy8pzMjQgapnuAXhhEhb
+ FLamEfL0yAUFEGZSp5h/SMxm5G7f8dttq5rLwtAkkMSw+dUp2jcfyNyZeBBHEbCokFzHyzg4Ekb
+ fjGFdutDiZWm/ScUGv6aMFntJuhhB+Z37FWGlX3MjBpPo1VRW9vS92Dxz2RD+Bd5yqUWzO6i6N8
+ o+CE47nbf9zpN8LlJnVOm+nFy22mJOsd6e7Nlord9dmQeqEo4QjTWHtGn+9nKJUzJI3CoR6I+Jj
+ 7YE6H08QKJ9PwoD+mfEQKulTOukxsbjPCs5yy6FX+PXBEGN0irJIYmckSd0XhlIjeO4b6ZBw9en
+ ifZrtu1v0kemCQ+CGaHv3Dzddx1ZHVJiTEuBEDWj82rXYcReLNzeLZCk42ilo8t3rzdJne9Ss7H
+ nnk8y5QZxIMuyU+HpDcgw1zIgVDZ4qzjxslIajnCfmmDxJ5QbrDg8Lq2lacqfaUTcKlNiI77FWe
+ PQoxa9OQItgTzQTBWo34a3dq46YBNAkPlziZA4QMdfRQ45McDNw7+AVsGhVwmCTkFYtmTet9cRE
+ Bu2277ABCKu7ZaTuF/khVf02/5utDenATBy+PiKz6L8kO0TlD7g/x4dgvzYMysYiJHWVT6uwgqA
+ 68mU6u+20OC9CmQ==
+X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
+ fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
---nextPart5029590.31r3eYUQgx
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"; protected-headers="v1"
-From: Lukas Schmid <lukas.schmid@netcube.li>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: linux-sunxi@lists.linux.dev
-Subject: Re: T113-S3: Secure Boot
-Date: Sat, 02 Aug 2025 10:37:32 +0200
-Message-ID: <6179940.lOV4Wx5bFT@lukas-hpz440workstation>
-In-Reply-To: <20250802010939.4d345876@minigeek.lan>
-MIME-Version: 1.0
+The v4l2_fh abstraction layer provides to drivers support to represent
+per-open file handle context and associate driver-specific data to them.
 
-On Samstag, 2. August 2025 02:09:39 CEST Andre Przywara wrote:
-> On Fri, 01 Aug 2025 22:33:19 +0200
-> Lukas Schmid <lukas.schmid@netcube.li> wrote:
->=20
-> Hi Lukas,
->=20
-> > I=E2=80=99m working on enabling secure boot on the Allwinner T113-S3 (a=
-s part of
-> > preparing my SoM design for EU CRA compliance).
-> >=20
-> > I=E2=80=99ve successfully fused the SoC with secure boot enabled and bu=
-rned the
-> > ROTPK_HASH.
->=20
-> Brave! I think so far we rarely have seen people actually written the
-> ROTPK hash, but apparently that worked for you!
->=20
-> > The SoC correctly boots a TOC0-signed image from SD card, and U-
-> > Boot starts up and behaves as expected.
->=20
-> Ah, nice!
->=20
-> > However, when I try to load and boot the kernel from U-Boot, the board
-> > hangs right after U-Boot hands over control, no further progress. The
-> > same kernel image worked fine before enabling secure boot, so I suspect
-> > it might be related to the secure boot configuration or runtime
-> > expectations.
->=20
-> I think so. The common problem is that without the secure boot fuse
-> burnt, some devices that are documented as being accessible from secure
-> world only are actually usable even from non-secure world, at least
-> that's the case on the A64. The SID is one example, hence U-Boot
-> (already running in non-secure EL2 on that chip) cannot read the serial
-> number and thus fails to calculate a MAC address, when using secure
-> boot.
+Currently drivers that do not require custom per-file handle data can
+use the v4l2_fh_open() and v4l2_fh_release() helpers as handlers
+v4l2_file_operations open() and close() functions. The two helpers
+set the file->private_data pointer to the newly allocated v4l2_fh.
 
-So I actually know when I am in U-Boot and try to memory-dump the SID's mem=
-ory=20
-range (the shadow register? at offset 0x200) I can actually read it fully, =
-that=20
-is as long U-Boot was loaded over the signed image. If I load U-Boot over F=
-EL=20
-and try to dump it I only get the first 16-ish words.
+Drivers that instead store per-file handle data and represent them with
+driver-specific types that embed an instance of struct v4l2_fh have
+instead to use different helpers: v4l2_fh_init() and v4l2_fh_add() it's
+their responsibility to initialize file->private_data with what they
+consider more opportune.
 
-> Another thing that is different is access to secure SRAM. That's
-> supposed to only work from secure, but works from non-secure as well
-> (on the A64), when the secure fuse is not burnt.
->=20
-> So I would check those two things (SRAM + SID). Can you enable
-> earlyprintk in the kernel config, to get really early output from the
-> kernel? You would need to set the UART address and such in the config.
+Unfortunately this leads to inconsistencies and slightly different
+implementations in drivers, which increase the maintenance burden.
 
-I'm building a kernel right now with earlyprintk, but I am unsure as what I=
-=20
-should set for the config. Since the T113-s3 has it's "Console" on UART3 I'=
-d=20
-need to specify the 8250 on a custom address. The base address is probably=
-=20
-then 0x02500C00 but do i also need a Virtual address and if so what does it=
-=20
-need to be set to?
+The series starts with patches from Laurent to address some of
+these inconsistencies. Some drivers in-facts set the file->private_data
+pointer to their own driver-specific types that embed the v4l2_fh.
+As the driver-specific type can be accessed with a simple container_of
+we can make all drivers set file->private_data to point to the v4l2_fh
+to make all the code base use the same pattern.
 
-> The first code to run on an arch/arm kernel is the decompressor, that's
-> a rabbit hole of its own, but I doubt that it's triggering any of those
-> devices.
-> You could try to add "pings" in the early code to output a life sign on
-> the UART, to see how far into the code you come.
-> In assembly:
-> 	mov	r1, #0x2500000
-> 	orr	r1, r1, #0xc000
-> 	mov	r0, #"1"
-> 	str	r0, [r1]
-> In C:
-> 	volatile u32 *uart =3D (void *)(0x250c000UL);
-> 	*uart =3D '2';
->=20
-> I also have some simple bare-metal C runtime, that allows to compile
-> into something that looks like a kernel, and would allow you to verify
-> that the kernel image is loaded correctly and executed at all. Let me
-> know if you'd need that, I can then make you a simple version that says
-> "Hello".
->=20
-> Hope that helps!
->=20
-> Oh, and please join us on IRC: #linux-sunxi on OFTC, that makes this
-> kind of debugging much easier.
+Once all drivers have been made consistent we can modify the framework
+to automate the file->private_data initialisation by modifying
+v4l2_fh_add() to set file->private_data to the v4l2_fh allocated by
+drivers as part of their private structures. Once that's done we can now
+remove all direct accesses to file->private_data by providing the
+file_to_v4l2_fh helper.
 
-Sure thing. However I had tried it on there once and somehow the IRC Chat=20
-didn't actually send my message. I did see it in the Browser but not on the=
-=20
-archive or any other IRC Chat...
+Now that all drivers that use v4l2_fh are guaranteed to have
+file->private_data initialised we can remove accesses to the 'void
+*priv' filed provided by v4l2-ioctl to drivers to make sure they always
+go through the file * and retrieve the driver specific type from the
+v4l2_fh there embedded. This guarantees a more robust data type layout
+and make usage of v4l2_fh more consistent and clear across the code
+base.
 
->=20
-> Cheers,
-> Andre
->=20
-> > I=E2=80=99ve already tried debugging U-Boot and confirmed that the kern=
-el is
-> > loaded and `bootm` is called; the system hangs at that point.
-> >=20
-> > Here are the versions I=E2=80=99m using:
-> > - **Kernel:** Linux 6.15.4 (mainline)
-> > - **U-Boot:** 2025.07-rc5 (with custom devicetree and I2C3 modification=
-s)
-> >=20
-> > Is there anything specific I might be missing when running the kernel
-> > under
-> > secure boot on the T113-S3? Any guidance, common pitfalls, or pointers
-> > would be appreciated.
-> >=20
-> > Best regards,
-> > Lukas
+Once that's done, the v4l2-ioctl layer can be modified to stop passing
+file->private_data as the second argument to all ioctl handlers, as it
+is not ideal to have access to the same data through two different entry
+point.
 
+As mentioned in the commit message of the last patch, there are plans to
+re-use the second ioctl argument to provide drivers a
+video_device_state. This patch series paves the way for that by making
+sure the argument can be re-used safely.
 
---nextPart5029590.31r3eYUQgx
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
+Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+---
+Jacopo Mondi (36):
+      media: rcar-vin: Do not set file->private_data
+      media: rzg2l-cru: Do not set file->private_data
+      media: camss: Remove custom .release fop()
+      media: v4l2-ioctl: Access v4l2_fh from private_data
+      media: allegro: Access v4l2_fh from file
+      media: meson-ge2d: Access v4l2_fh from file
+      media: coda: Access v4l2_fh from file
+      media: wave5: Access v4l2_fh from file
+      media: m2m-deinterlace: Access v4l2_fh from file
+      media: mtk: jpeg: Access v4l2_fh from file->private_data
+      media: mtk_mdp_m2m: Access v4l2_fh from file
+      media: mtk: mdp3: Access v4l2_fh from file
+      media: mtk: vcodec: Access v4l2_fh from file
+      media: tegra-vde: Access v4l2_fh from file
+      media: imx-jpeg: Access v4l2_fh from file
+      media: imx-isi: Access v4l2_fh from file
+      media: nxp: mx2: Access v4l2_fh from file
+      media: renesas: Access v4l2_fh from file
+      media: rockhip: rga: Access v4l2_fh from file
+      media: rockchip: rkvdec: Access v4l2_fh from file
+      media: exynos-gsc: Access v4l2_fh from file
+      media: exynos4-is: Access v4l2_fh from file
+      media: s3c-camif: Set queue owner using file
+      media: s5p-g2d: Access v4l2_fh from file
+      media: s5p-jpeg: Access v4l2_fh from file
+      media: s5p-mfc: Access v4l2_fh from file
+      media: bdisp: Access v4l2_fh from file
+      media: st: delta: Access v4l2_fh from file
+      media: stm32: dma2d: Access v4l2_fh from file
+      media: omap3isp: Access v4l2_fh from file
+      media: cx18:  Access v4l2_fh from file
+      media: ivtv: Access v4l2_fh from file
+      media: zoran: Remove access to __fh
+      media: usb: hdpvr: Access v4l2_fh from file
+      media: usb: uvc: Access v4l2_fh from file
+      media: staging: imx: Access v4l2_fh from file
 
------BEGIN PGP SIGNATURE-----
+Laurent Pinchart (29):
+      media: pci: saa7164: Store v4l2_fh pointer in file->private_data
+      media: imagination: Store v4l2_fh pointer in file->private_data
+      media: ti: vpe: Store v4l2_fh pointer in file->private_data
+      media: usb: hdpvr: Store v4l2_fh pointer in file->private_data
+      media: usb: pvrusb2: Store v4l2_fh pointer in file->private_data
+      media: usb: uvcvideo: Store v4l2_fh pointer in file->private_data
+      media: staging: most: Store v4l2_fh pointer in file->private_data
+      media: Wrap file->private_data access with a helper function
+      media: Replace file->private_data access with file_to_v4l2_fh()
+      media: nvidia: tegra-vde: Replace file->private_data access
+      media: Replace file->private_data access with custom functions
+      media: pci: ivtv: Don't create fake v4l2_fh
+      media: amphion: Make some vpu_v4l2 functions static
+      media: amphion: Delete v4l2_fh synchronously in .release()
+      media: visl: Drop visl_v4l2fh_to_ctx() function
+      media: v4l2-fh: Move piece of documentation to correct function
+      media: camss: Replace .open() file operation with v4l2_fh_open()
+      media: chips-media: wave5: Pass file pointer to wave5_cleanup_instance()
+      media: qcom: iris: Pass file pointer to iris_v4l2_fh_(de)init()
+      media: qcom: iris: Set file->private_data in iris_v4l2_fh_(de)init()
+      media: qcom: iris: Drop unused argument to iris_get_inst()
+      media: qcom: venus: Pass file pointer to venus_close_common()
+      media: Set file->private_data in v4l2_fh_add()
+      media: Reset file->private_data to NULL in v4l2_fh_del()
+      media: hantro: Access v4l2_fh from file->private_data
+      media: v4l2-ctrls: Move v4l2_fh retrieval after V4L2_FL_USES_V4L2_FH check
+      media: ipu6: isys: Don't set V4L2_FL_USES_V4L2_FH manually
+      media: staging: ipu7: isys: Don't set V4L2_FL_USES_V4L2_FH manually
+      media: v4l2-ioctl: Stop passing fh pointer to ioctl handlers
 
-iQEzBAABCgAdFiEEPv6dcBmn59ssZMkSJnN+drMVRtgFAmiNzkwACgkQJnN+drMV
-RthIZwf/U+3hycs3IPKv58jqU5UDyJA5OtoqSM/0nL+4/ha4d6I73KVO6gFtGxpq
-/i5zAq0XGG+eUjWplOqwm6ThmnG7MRT9K5Sg9VP48Dl0q3FgvPk2l+e3dPExSOsK
-pyuTJG2doUXbnobQjOaXkzaAdb8lheo7KLrMjt59aAxsUM8dmtdPYjLflAZHptL3
-qHCFAInMzV5w0RV2TNSPqEq90R9mKFi4etAjnoU7dralw+6uCi9gwUqtrB2/Z3ol
-laMnXsCiCuwhyiWMPVXwLEKoIYKPOBkaYfTF3xN/j9lj3JrSY/PvdKRVqadrEmKI
-CFOyNLKP1tt5Ry4r5CzhsnYl0YP6eA==
-=2EYS
------END PGP SIGNATURE-----
+ Documentation/driver-api/media/v4l2-fh.rst         |  56 ++---
+ .../zh_CN/video4linux/v4l2-framework.txt           |  11 +-
+ drivers/media/common/videobuf2/videobuf2-v4l2.c    |   2 +-
+ drivers/media/pci/cx18/cx18-driver.h               |   2 +-
+ drivers/media/pci/cx18/cx18-fileops.c              |  11 +-
+ drivers/media/pci/cx18/cx18-ioctl.c                |  64 +++---
+ drivers/media/pci/intel/ipu6/ipu6-isys-video.c     |   1 -
+ drivers/media/pci/ivtv/ivtv-alsa-pcm.c             |   2 -
+ drivers/media/pci/ivtv/ivtv-driver.h               |   7 +-
+ drivers/media/pci/ivtv/ivtv-fileops.c              |  40 ++--
+ drivers/media/pci/ivtv/ivtv-ioctl.c                | 124 +++++------
+ drivers/media/pci/ivtv/ivtv-irq.c                  |   4 +-
+ drivers/media/pci/saa7164/saa7164-encoder.c        |  30 ++-
+ drivers/media/pci/saa7164/saa7164-vbi.c            |  25 ++-
+ drivers/media/pci/saa7164/saa7164.h                |  10 +
+ drivers/media/pci/zoran/zoran.h                    |   6 -
+ drivers/media/pci/zoran/zoran_driver.c             |   3 +-
+ drivers/media/platform/allegro-dvt/allegro-core.c  |  32 +--
+ drivers/media/platform/amlogic/meson-ge2d/ge2d.c   |  25 ++-
+ drivers/media/platform/amphion/vpu.h               |   2 +-
+ drivers/media/platform/amphion/vpu_v4l2.c          |  22 +-
+ drivers/media/platform/amphion/vpu_v4l2.h          |   8 -
+ .../media/platform/chips-media/coda/coda-common.c  |  50 +++--
+ .../platform/chips-media/wave5/wave5-helper.c      |  10 +-
+ .../platform/chips-media/wave5/wave5-helper.h      |   2 +-
+ .../platform/chips-media/wave5/wave5-vpu-dec.c     |  23 +-
+ .../platform/chips-media/wave5/wave5-vpu-enc.c     |  29 ++-
+ .../media/platform/chips-media/wave5/wave5-vpu.h   |   5 +
+ .../media/platform/imagination/e5010-jpeg-enc.c    |  23 +-
+ .../media/platform/imagination/e5010-jpeg-enc.h    |   5 +
+ drivers/media/platform/m2m-deinterlace.c           |  26 ++-
+ .../media/platform/mediatek/jpeg/mtk_jpeg_core.c   |  37 ++--
+ drivers/media/platform/mediatek/mdp/mtk_mdp_m2m.c  |  29 ++-
+ .../media/platform/mediatek/mdp3/mtk-mdp3-m2m.c    |  25 ++-
+ .../mediatek/vcodec/decoder/mtk_vcodec_dec.c       |  36 ++--
+ .../mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c   |   9 +-
+ .../mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h   |   5 +
+ .../mediatek/vcodec/encoder/mtk_vcodec_enc.c       |  37 ++--
+ .../mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c   |   9 +-
+ .../mediatek/vcodec/encoder/mtk_vcodec_enc_drv.h   |   4 +-
+ drivers/media/platform/nvidia/tegra-vde/v4l2.c     |  35 ++-
+ drivers/media/platform/nxp/dw100/dw100.c           |   7 +-
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c     |  45 ++--
+ drivers/media/platform/nxp/imx-pxp.c               |   7 +-
+ drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c |  21 +-
+ drivers/media/platform/nxp/mx2_emmaprp.c           |  24 ++-
+ drivers/media/platform/qcom/camss/camss-video.c    |  43 +---
+ drivers/media/platform/qcom/iris/iris_vidc.c       |  36 ++--
+ drivers/media/platform/qcom/venus/core.c           |   4 +-
+ drivers/media/platform/qcom/venus/core.h           |   4 +-
+ drivers/media/platform/qcom/venus/vdec.c           |   5 +-
+ drivers/media/platform/qcom/venus/venc.c           |   5 +-
+ .../media/platform/renesas/rcar-vin/rcar-v4l2.c    |   2 -
+ drivers/media/platform/renesas/rcar_fdp1.c         |  17 +-
+ drivers/media/platform/renesas/rcar_jpu.c          |  27 ++-
+ .../media/platform/renesas/rzg2l-cru/rzg2l-video.c |   1 -
+ drivers/media/platform/renesas/vsp1/vsp1_histo.c   |   6 +-
+ drivers/media/platform/renesas/vsp1/vsp1_video.c   |  18 +-
+ drivers/media/platform/rockchip/rga/rga.c          |  16 +-
+ drivers/media/platform/rockchip/rga/rga.h          |   5 +
+ drivers/media/platform/rockchip/rkvdec/rkvdec.c    |  21 +-
+ drivers/media/platform/rockchip/rkvdec/rkvdec.h    |   4 +-
+ .../media/platform/samsung/exynos-gsc/gsc-core.h   |   6 +-
+ .../media/platform/samsung/exynos-gsc/gsc-m2m.c    |  37 ++--
+ .../media/platform/samsung/exynos4-is/fimc-core.h  |   5 +-
+ .../media/platform/samsung/exynos4-is/fimc-m2m.c   |  19 +-
+ .../platform/samsung/s3c-camif/camif-capture.c     |  26 +--
+ drivers/media/platform/samsung/s5p-g2d/g2d.c       |  22 +-
+ .../media/platform/samsung/s5p-jpeg/jpeg-core.c    |  33 ++-
+ drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c   |  13 +-
+ .../platform/samsung/s5p-mfc/s5p_mfc_common.h      |   6 +
+ .../media/platform/samsung/s5p-mfc/s5p_mfc_dec.c   |  22 +-
+ .../media/platform/samsung/s5p-mfc/s5p_mfc_enc.c   |  24 +--
+ drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c   |  30 +--
+ drivers/media/platform/st/sti/delta/delta-v4l2.c   |  41 ++--
+ drivers/media/platform/st/sti/hva/hva-v4l2.c       |  38 ++--
+ drivers/media/platform/st/sti/hva/hva.h            |   2 -
+ drivers/media/platform/st/stm32/dma2d/dma2d.c      |  18 +-
+ drivers/media/platform/sunxi/sun8i-di/sun8i-di.c   |  10 +-
+ .../platform/sunxi/sun8i-rotate/sun8i_rotate.c     |  10 +-
+ drivers/media/platform/ti/omap3isp/ispvideo.c      |  36 ++--
+ drivers/media/platform/ti/omap3isp/ispvideo.h      |   6 +-
+ drivers/media/platform/ti/vpe/vpe.c                |  21 +-
+ drivers/media/platform/verisilicon/hantro.h        |   4 +-
+ drivers/media/platform/verisilicon/hantro_drv.c    |  10 +-
+ drivers/media/platform/verisilicon/hantro_v4l2.c   |  22 +-
+ drivers/media/platform/xilinx/xilinx-dma.c         |  10 +-
+ drivers/media/test-drivers/vicodec/vicodec-core.c  |   7 +-
+ drivers/media/test-drivers/vim2m.c                 |   7 +-
+ drivers/media/test-drivers/visl/visl-core.c        |   5 +-
+ drivers/media/test-drivers/visl/visl.h             |   7 +-
+ drivers/media/test-drivers/vivid/vivid-core.c      |   4 +-
+ drivers/media/test-drivers/vivid/vivid-radio-rx.c  |   4 +-
+ drivers/media/test-drivers/vivid/vivid-radio-tx.c  |   4 +-
+ drivers/media/usb/hdpvr/hdpvr-video.c              |  39 ++--
+ drivers/media/usb/pvrusb2/pvrusb2-v4l2.c           |  69 +++---
+ drivers/media/usb/uvc/uvc_metadata.c               |  10 +-
+ drivers/media/usb/uvc/uvc_v4l2.c                   |  47 ++--
+ drivers/media/usb/uvc/uvcvideo.h                   |   5 +
+ drivers/media/v4l2-core/v4l2-compat-ioctl32.c      |   2 +-
+ drivers/media/v4l2-core/v4l2-ctrls-api.c           |   9 +-
+ drivers/media/v4l2-core/v4l2-fh.c                  |  16 +-
+ drivers/media/v4l2-core/v4l2-ioctl.c               |  53 ++---
+ drivers/media/v4l2-core/v4l2-mem2mem.c             |  34 +--
+ drivers/media/v4l2-core/v4l2-subdev.c              |  16 +-
+ drivers/staging/media/imx/imx-media-csc-scaler.c   |  26 +--
+ drivers/staging/media/ipu7/ipu7-isys-video.c       |   1 -
+ drivers/staging/media/meson/vdec/vdec.c            |  29 +--
+ drivers/staging/media/meson/vdec/vdec.h            |   5 +
+ drivers/staging/media/sunxi/cedrus/cedrus.c        |   8 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.h        |   5 +
+ drivers/staging/media/sunxi/cedrus/cedrus_video.c  |   5 -
+ drivers/staging/most/video/video.c                 |  19 +-
+ drivers/usb/gadget/function/uvc.h                  |   5 +
+ drivers/usb/gadget/function/uvc_v4l2.c             |   8 +-
+ include/media/v4l2-fh.h                            |  28 ++-
+ include/media/v4l2-ioctl.h                         | 236 ++++++++++-----------
+ 117 files changed, 1203 insertions(+), 1185 deletions(-)
+---
+base-commit: d968e50b5c26642754492dea23cbd3592bde62d8
+change-id: 20250801-media-private-data-4515851e7e1d
 
---nextPart5029590.31r3eYUQgx--
-
-
-
+Best regards,
+-- 
+Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
