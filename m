@@ -1,226 +1,238 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 522741514DC;
-	Tue,  5 Aug 2025 09:59:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5233827F171
+	for <linux-sunxi@lists.linux.dev>; Tue,  5 Aug 2025 14:05:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754387966; cv=none; b=SARgzC+BCKIWwet8ajcHEntdfyOZBfg8Vpr/c3eQE4SIbeGqFrjDCtooPdBk+Yd6PTjGJjD7yyBZAcBneobs0vDEzmV7hG0CGrL9wBCezQuZ0/oofahkdxmMlVHbgVLA91pOyWkzikCOYZnQOPHiSZ2NHoaDe/GoODimTCwFSZ8=
+	t=1754402713; cv=none; b=MGbi88mVgCEUZA3rF+tTGaIgTQ/N7zxF7OFEvatkSHskH4vszwmmeyGUzs9NSdCXKEBS4NwmqmmATwykPs/cCuESnVTAO7D36rnUlE+0AvIZ8T2f8t8um5yFR2EtMbF3JYLYgPraNp+ojVTYL6UYq8dOxx0LIgigNGUGlxSnpRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754387966; c=relaxed/simple;
-	bh=RV+XSnddoBH4JRWHZZy+4T5rBIZcZFEquw455N0WQVA=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=dcxVRrlpdK0TjPDV+scV6CbPMN9i/WoLiOvwJ03BBgmctmgOCyla7ggh0O6VjzPP0YdKR80wPpMgl5XJ9wPIs035GbPV81mnRDwp9ZaEQ9ARXvDQ0AFaNpDfcY5VMebtPzobOE1AmFnYXjkuJJEBtGvEFmjwUEX/RdZKO+PlqEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=aPIOyP3C; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1754402713; c=relaxed/simple;
+	bh=VwwDGPh3ds9A+awGPqwqcnNh6Gh4WFl0HqGJuWyvkkU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bGkkhO1Jg0S9CuhbSPJHyfAbFg21oBWk0Na5ypLCRhapEYhXlYueJUnpjibja1rEUbpNRE6+DhpT+b9NIK4xlJOWIQp1UxPtzicdwrvIdY3/7e3RohYgLtnLvkwsK7yTI8KPqoJUmITDWjotuEsFLCyrZ0B2b4R7UshecvCrZeY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=JswbVhN9; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="aPIOyP3C"
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D96F2AD0;
-	Tue,  5 Aug 2025 11:58:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754387915;
-	bh=RV+XSnddoBH4JRWHZZy+4T5rBIZcZFEquw455N0WQVA=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=aPIOyP3CCN60ghQ95OYLB9emUWH/n0b6O3gtc9ZoA+uMAITK5524gPFOoFe3iPgrR
-	 PeGZgkGvvmEIfAIjVWqinSJN2vlhZuO+XIf+jbLxH1tzVI09y3TIRrSaAcZCkteW9d
-	 f9FcX+PdukMOKmU3dXioC96DYHeFg17Pwv6UxHrs=
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="JswbVhN9"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5757Hsnm003472
+	for <linux-sunxi@lists.linux.dev>; Tue, 5 Aug 2025 14:05:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	FUcLnureUr1s/7YsNTnvW5Csv2CIZeOY1lQ56p5/Cj8=; b=JswbVhN9EiO/3bXB
+	KFFT2FK5zmrdDsAM9Z4O6z5zh7QsngVwmJQyJVPLIRQZy9tXuLlXFzx5q8QeK24Z
+	UuASYCo8lC5r5kPQilhktpk99gMDFXxhv/dT55dfFGKBCQXaaStS6SqslNBHs+Pk
+	6lpCnGjbmxM9hWGEUq1bYfANmhL1k2BCrodCT2z4jODPS9GZvl5Ka+gigTeBZa4j
+	hrLEdMvf9GRA+didrRj1V7EI/VkbiYXs7SbD328oyEfQp3RkEeUY0iTi8A1CYyOi
+	HGtkEWfS1GX9/TR+jdWzEglaT9vngedtZgPPmRClZ0L8g80N1lRCZfR6JAq2vIX7
+	73cJtw==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48b3j3tm7t-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sunxi@lists.linux.dev>; Tue, 05 Aug 2025 14:05:09 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7e80acb8a6fso11220685a.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 05 Aug 2025 07:05:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754402707; x=1755007507;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FUcLnureUr1s/7YsNTnvW5Csv2CIZeOY1lQ56p5/Cj8=;
+        b=lVkYxVeldpujcDPgu/rAU/+W1zNz+erBi9uOvITMssTXAS6nmNLg9TS/oc8yrNViCj
+         rs3O0R8vxeeFoZpCed/Uy40rRXQz0LL3uSmBMaMoqOuvQoXL/upgSjZXi00XflCYsXhq
+         bpZ2A2YJyhngvhT640UnhcboICJJXn79pzHNWQZ/usuNG1veDo6HSVdgj3XCke9KalBn
+         xLQQ14XyV5uxZZ49ikPDlZB7O3eD56La8BnrGNz9IYX+uDeE5TdlhOCO5OR1OfR7go7c
+         hRxGb7MFW15ZF73CiWwe2FE3OdrXx8tmFx7ExHWmAMfMs4sr83m0FQxD2rVhqip4oMTj
+         MGng==
+X-Forwarded-Encrypted: i=1; AJvYcCU4dpdv83SLQZ/aifg+CNA/cB1x8KqrYSD2A9951WsAxGNlgQRWdesExXwpMTnz2nEoo+3Gh+0Trap7Lw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyj0zSsf04WEX+Wygnuuofe0nnOGwobUYgZoXb+FbXwIt6sU2IQ
+	xiO4FNKqB2163h+Mu9vUTsXOG++7iV1csyGoiXoEcNDZ0yBQZVYrQ1yPdFPUowWOXprs6YQVLsq
+	IizfnYP6JcDWNHzxkN5lCo/iq7+I9qVczVIpPtTaPxvgnT24dEbOmP3JoFJeMYZhjNQ==
+X-Gm-Gg: ASbGncst8+NHsFVnz+ukRawTIuGs4Os7cr4oyXixw4YBNk/l3iUNOC8Ug3Pd8SdBhkQ
+	R6BFEjJ9Yum9EeIsVk4iq110sS4h5MZFygAc10VnFiiceg8pIrXN3uCIOmcYCn3BsqO/Z8LivLB
+	cDNfEl74EdgxjwDQR3GzwufWmAYdGa5ooxDHahHf6XDgrvO3Z24P7YY26J7Okf3EVftT4fwvlu1
+	L0bs4D0nW+5aNJF4rQ8zFhRJ9sJaQj6btNSbMy8gXjPhxUwXOjz//gQCqbxvxtfSvD/vdhZkD85
+	DAsHvRFR+BLgsXeBicJxYi4PeOJ1laAHD+JjXWeSr9tWbWWPVJk1IHNsx57yzJI/tQKOEwuZ/JV
+	lO8nHTGoqMhzoe+WsOA==
+X-Received: by 2002:a05:620a:2a14:b0:7e7:fbbe:a193 with SMTP id af79cd13be357-7e7fbbea796mr612196785a.3.1754402706921;
+        Tue, 05 Aug 2025 07:05:06 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGu0CtTCnSeovH7oZZIpOsR6SihrS+IeJBeYEWKx2ZbtzZuol650T7aTGGDwlvwPzoxkQZS7A==
+X-Received: by 2002:a05:620a:2a14:b0:7e7:fbbe:a193 with SMTP id af79cd13be357-7e7fbbea796mr612187885a.3.1754402706081;
+        Tue, 05 Aug 2025 07:05:06 -0700 (PDT)
+Received: from [192.168.43.16] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-615a8f17829sm8316020a12.19.2025.08.05.07.04.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 Aug 2025 07:05:05 -0700 (PDT)
+Message-ID: <96cf6022-ef69-4749-88b0-e18a07bb8427@oss.qualcomm.com>
+Date: Tue, 5 Aug 2025 16:04:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20250802-media-private-data-v1-42-eb140ddd6a9d@ideasonboard.com>
-References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com> <20250802-media-private-data-v1-42-eb140ddd6a9d@ideasonboard.com>
-Subject: Re: [PATCH 42/65] media: renesas: Access v4l2_fh from file
-From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org, imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org, linux-amlogic@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, mjpeg-users@lists.sourceforge.net
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Tue, 05 Aug 2025 10:59:19 +0100
-Message-ID: <175438795943.1641235.15440393062572657340@ping.linuxembedded.co.uk>
-User-Agent: alot/0.9.1
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 2/6] dmaengine: Make of_dma_request_slave_channel pass
+ a cookie to of_xlate
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Frank Li <Frank.li@nxp.com>, Konrad Dybcio <konradybcio@kernel.org>,
+        Vinod Koul <vkoul@kernel.org>, Sven Peter <sven@kernel.org>,
+        Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Neal Gompa <neal@gompa.dev>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Florian Fainelli <florian.fainelli@broadcom.com>,
+        Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>,
+        Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Taichi Sugaya <sugaya.taichi@socionext.com>,
+        Takao Orito <orito.takao@socionext.com>,
+        =?UTF-8?Q?Andreas_F=C3=A4rber?=
+ <afaerber@suse.de>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Patrice Chotard <patrice.chotard@foss.st.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        =?UTF-8?Q?Am=C3=A9lie_Delaunay?= <amelie.delaunay@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Chen-Yu Tsai
+ <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Laxman Dewangan
+ <ldewangan@nvidia.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Michal Simek <michal.simek@amd.com>, Rob Herring <robh@kernel.org>,
+        Saravana Kannan <saravanak@google.com>,
+        =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>,
+        Viken Dadhaniya <quic_vdadhani@quicinc.com>,
+        Andi Shyti <andi.shyti@kernel.org>,
+        Krzysztof Kozlowski
+ <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
+        asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+        linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+        imx@lists.linux.dev, linux-actions@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
+        linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-sound@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-spi@vger.kernel.org
+References: <20250730-topic-dma_genise_cookie-v1-0-b505c1238f9f@oss.qualcomm.com>
+ <20250730-topic-dma_genise_cookie-v1-2-b505c1238f9f@oss.qualcomm.com>
+ <aIpKz495WI1SJTeB@lizhi-Precision-Tower-5810>
+ <20250730180417.GC21430@pendragon.ideasonboard.com>
+ <aIpmgpXME1BmThxU@lizhi-Precision-Tower-5810>
+ <20250801120007.GB4906@pendragon.ideasonboard.com>
+ <0c2cc631-21fd-41fd-9293-fd86dd09a2d2@oss.qualcomm.com>
+ <20250804235140.GB12087@pendragon.ideasonboard.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20250804235140.GB12087@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: FF792ap3HLbRRyLFfNyv9An6nq1HOy74
+X-Authority-Analysis: v=2.4 cv=TZ+WtQQh c=1 sm=1 tr=0 ts=68920f95 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=IUwAV-ZVHCOG9dU_XxAA:9
+ a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA1MDEwMiBTYWx0ZWRfXw5h2cQVWoGEK
+ j+21SA5iFrtGBDfualbkj64NuotJ9KFzHat6kAMhJwAb4nPy+qXqGeOwfCtxfQRRpWq7cQTL0Pb
+ dav3DYG/eq9n0Et95xHGUZJs22kkFpFaF0AhSQwwn2WtTGBvIeeoAYmcUCpOhw+h0OIn+nigcHW
+ uP5Wk6klKXXEvEWhzwPEIMxrGlpmsm9Wm4VwkoWPPUjgitaDHirwr7IeVqqCKniZ0jnjenex4O6
+ hgedvzB1PvmtXiI0JkvbVIHHE1/yxlXFrgX/3nHRp6iKDU5thleKZjX+JX7XgIohH4Kr4B7HgjW
+ IxJ2nNEIDOhHwNtGnY6Um4trWjqcaH44Tv8DtlBI1GJsvS0eiXEGvEnp4OZaHMXZh/hVfisGytL
+ puU2ImCOjzDd8xccm9h3u737XL0dnzec7O3Tb4veXZ4gnUz8HotmBPOkU0IoJwHwozpZXHCl
+X-Proofpoint-ORIG-GUID: FF792ap3HLbRRyLFfNyv9An6nq1HOy74
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-05_04,2025-08-04_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 priorityscore=1501 mlxscore=0 suspectscore=0 impostorscore=0
+ spamscore=0 adultscore=0 lowpriorityscore=0 malwarescore=0 mlxlogscore=999
+ phishscore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2508050102
 
-Quoting Jacopo Mondi (2025-08-02 10:23:04)
-> The v4l2_fh associated with an open file handle is now guaranteed
-> to be available in file->private_data, initialised by v4l2_fh_add().
->=20
-> Access the v4l2_fh, and from there the driver-specific structure,
-> from the file * in all ioctl handlers.
->=20
-> While at it, remove the now unused fh_to_ctx() macro.
->=20
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+On 8/5/25 1:51 AM, Laurent Pinchart wrote:
+> On Sat, Aug 02, 2025 at 02:37:54PM +0200, Konrad Dybcio wrote:
+>> On 8/1/25 2:00 PM, Laurent Pinchart wrote:
+>>> On Wed, Jul 30, 2025 at 02:37:54PM -0400, Frank Li wrote:
+>>>> On Wed, Jul 30, 2025 at 09:04:17PM +0300, Laurent Pinchart wrote:
+>>>>> On Wed, Jul 30, 2025 at 12:39:43PM -0400, Frank Li wrote:
+>>>>>> On Wed, Jul 30, 2025 at 11:33:29AM +0200, Konrad Dybcio wrote:
+>>>>>>> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+>>>>>>>
+>>>>>>> The DMA subsystem attempts to make it theoretically possible to pair
+>>>>>>> any DMA block with any user. While that's convenient from a
+>>>>>>> codebase sanity perspective, some blocks are more intertwined.
+>>>>>>>
+>>>>>>> One such case is the Qualcomm GENI, where each wrapper contains a
+>>>>>>> number of Serial Engine instances, each one of which can be programmed
+>>>>>>> to support a different protocol (such as I2C, I3C, SPI, UART, etc.).
+>>>>>>>
+>>>>>>> The GPI DMA it's designed together with, needs to receive the ID of the
+>>>>>>> protocol that's in use, to adjust its behavior accordingly. Currently,
+>>>>>>> that's done through passing that ID through device tree, with each
+>>>>>>> Serial Engine expressed NUM_PROTOCOL times, resulting in terrible
+>>>>>>> dt-bindings that are full of useless copypasta.
+>>>>>>>
+>>>>>>> In a step to cut down on that, let the DMA user give the engine driver
+>>>>>>> a hint at request time.
+>>>>>>>
+>>>>>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+>>>>>>> ---
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+[...]
 
-> ---
->  drivers/media/platform/renesas/rcar_fdp1.c | 11 +++--------
->  drivers/media/platform/renesas/rcar_jpu.c  | 21 ++++++++-------------
->  2 files changed, 11 insertions(+), 21 deletions(-)
->=20
-> diff --git a/drivers/media/platform/renesas/rcar_fdp1.c b/drivers/media/p=
-latform/renesas/rcar_fdp1.c
-> index e78d8fb104e9544d27c8ace38888995ca170483f..84c3901a2e5dc3e7ccfb3b440=
-62e839f8f19ee02 100644
-> --- a/drivers/media/platform/renesas/rcar_fdp1.c
-> +++ b/drivers/media/platform/renesas/rcar_fdp1.c
-> @@ -630,11 +630,6 @@ struct fdp1_ctx {
->         struct fdp1_field_buffer        *previous;
->  };
-> =20
-> -static inline struct fdp1_ctx *fh_to_ctx(struct v4l2_fh *fh)
-> -{
-> -       return container_of(fh, struct fdp1_ctx, fh);
-> -}
-> -
->  static inline struct fdp1_ctx *file_to_ctx(struct file *filp)
->  {
->         return container_of(file_to_v4l2_fh(filp), struct fdp1_ctx, fh);
-> @@ -1411,8 +1406,8 @@ static int fdp1_enum_fmt_vid_out(struct file *file,=
- void *priv,
-> =20
->  static int fdp1_g_fmt(struct file *file, void *priv, struct v4l2_format =
-*f)
->  {
-> +       struct fdp1_ctx *ctx =3D file_to_ctx(file);
->         struct fdp1_q_data *q_data;
-> -       struct fdp1_ctx *ctx =3D fh_to_ctx(priv);
-> =20
->         if (!v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type))
->                 return -EINVAL;
-> @@ -1589,7 +1584,7 @@ static void fdp1_try_fmt_capture(struct fdp1_ctx *c=
-tx,
-> =20
->  static int fdp1_try_fmt(struct file *file, void *priv, struct v4l2_forma=
-t *f)
->  {
-> -       struct fdp1_ctx *ctx =3D fh_to_ctx(priv);
-> +       struct fdp1_ctx *ctx =3D file_to_ctx(file);
-> =20
->         if (f->type =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
->                 fdp1_try_fmt_output(ctx, NULL, &f->fmt.pix_mp);
-> @@ -1660,7 +1655,7 @@ static void fdp1_set_format(struct fdp1_ctx *ctx,
-> =20
->  static int fdp1_s_fmt(struct file *file, void *priv, struct v4l2_format =
-*f)
->  {
-> -       struct fdp1_ctx *ctx =3D fh_to_ctx(priv);
-> +       struct fdp1_ctx *ctx =3D file_to_ctx(file);
->         struct v4l2_m2m_ctx *m2m_ctx =3D ctx->fh.m2m_ctx;
->         struct vb2_queue *vq =3D v4l2_m2m_get_vq(m2m_ctx, f->type);
-> =20
-> diff --git a/drivers/media/platform/renesas/rcar_jpu.c b/drivers/media/pl=
-atform/renesas/rcar_jpu.c
-> index 058fcfb967bd98440f33272db42f0d973299d572..9c70a74a2969fce6446b0f26e=
-0637a68eade3942 100644
-> --- a/drivers/media/platform/renesas/rcar_jpu.c
-> +++ b/drivers/media/platform/renesas/rcar_jpu.c
-> @@ -480,11 +480,6 @@ static struct jpu_ctx *ctrl_to_ctx(struct v4l2_ctrl =
-*c)
->         return container_of(c->handler, struct jpu_ctx, ctrl_handler);
->  }
-> =20
-> -static struct jpu_ctx *fh_to_ctx(struct v4l2_fh *fh)
-> -{
-> -       return container_of(fh, struct jpu_ctx, fh);
-> -}
-> -
->  static struct jpu_ctx *file_to_ctx(struct file *filp)
->  {
->         return container_of(file_to_v4l2_fh(filp), struct jpu_ctx, fh);
-> @@ -661,7 +656,7 @@ static u8 jpu_parse_hdr(void *buffer, unsigned long s=
-ize, unsigned int *width,
->  static int jpu_querycap(struct file *file, void *priv,
->                         struct v4l2_capability *cap)
->  {
-> -       struct jpu_ctx *ctx =3D fh_to_ctx(priv);
-> +       struct jpu_ctx *ctx =3D file_to_ctx(file);
-> =20
->         if (ctx->encoder)
->                 strscpy(cap->card, DRV_NAME " encoder", sizeof(cap->card)=
-);
-> @@ -719,7 +714,7 @@ static int jpu_enum_fmt(struct v4l2_fmtdesc *f, u32 t=
-ype)
->  static int jpu_enum_fmt_cap(struct file *file, void *priv,
->                             struct v4l2_fmtdesc *f)
->  {
-> -       struct jpu_ctx *ctx =3D fh_to_ctx(priv);
-> +       struct jpu_ctx *ctx =3D file_to_ctx(file);
-> =20
->         return jpu_enum_fmt(f, ctx->encoder ? JPU_ENC_CAPTURE :
->                             JPU_DEC_CAPTURE);
-> @@ -728,7 +723,7 @@ static int jpu_enum_fmt_cap(struct file *file, void *=
-priv,
->  static int jpu_enum_fmt_out(struct file *file, void *priv,
->                             struct v4l2_fmtdesc *f)
->  {
-> -       struct jpu_ctx *ctx =3D fh_to_ctx(priv);
-> +       struct jpu_ctx *ctx =3D file_to_ctx(file);
-> =20
->         return jpu_enum_fmt(f, ctx->encoder ? JPU_ENC_OUTPUT : JPU_DEC_OU=
-TPUT);
->  }
-> @@ -828,7 +823,7 @@ static int __jpu_try_fmt(struct jpu_ctx *ctx, struct =
-jpu_fmt **fmtinfo,
-> =20
->  static int jpu_try_fmt(struct file *file, void *priv, struct v4l2_format=
- *f)
->  {
-> -       struct jpu_ctx *ctx =3D fh_to_ctx(priv);
-> +       struct jpu_ctx *ctx =3D file_to_ctx(file);
-> =20
->         if (!v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type))
->                 return -EINVAL;
-> @@ -839,7 +834,7 @@ static int jpu_try_fmt(struct file *file, void *priv,=
- struct v4l2_format *f)
->  static int jpu_s_fmt(struct file *file, void *priv, struct v4l2_format *=
-f)
->  {
->         struct vb2_queue *vq;
-> -       struct jpu_ctx *ctx =3D fh_to_ctx(priv);
-> +       struct jpu_ctx *ctx =3D file_to_ctx(file);
->         struct v4l2_m2m_ctx *m2m_ctx =3D ctx->fh.m2m_ctx;
->         struct jpu_fmt *fmtinfo;
->         struct jpu_q_data *q_data;
-> @@ -868,8 +863,8 @@ static int jpu_s_fmt(struct file *file, void *priv, s=
-truct v4l2_format *f)
-> =20
->  static int jpu_g_fmt(struct file *file, void *priv, struct v4l2_format *=
-f)
->  {
-> +       struct jpu_ctx *ctx =3D file_to_ctx(file);
->         struct jpu_q_data *q_data;
-> -       struct jpu_ctx *ctx =3D fh_to_ctx(priv);
-> =20
->         if (!v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type))
->                 return -EINVAL;
-> @@ -902,8 +897,8 @@ static const struct v4l2_ctrl_ops jpu_ctrl_ops =3D {
-> =20
->  static int jpu_streamon(struct file *file, void *priv, enum v4l2_buf_typ=
-e type)
->  {
-> -       struct jpu_ctx *ctx =3D fh_to_ctx(priv);
->         struct jpu_q_data *src_q_data, *dst_q_data, *orig, adj, *ref;
-> +       struct jpu_ctx *ctx =3D file_to_ctx(file);
->         enum v4l2_buf_type adj_type;
-> =20
->         src_q_data =3D jpu_get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPL=
-ANE);
-> @@ -1284,8 +1279,8 @@ static int jpu_open(struct file *file)
-> =20
->  static int jpu_release(struct file *file)
->  {
-> -       struct jpu *jpu =3D video_drvdata(file);
->         struct jpu_ctx *ctx =3D file_to_ctx(file);
-> +       struct jpu *jpu =3D video_drvdata(file);
-> =20
->         v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
->         v4l2_ctrl_handler_free(&ctx->ctrl_handler);
->=20
-> --=20
-> 2.49.0
->
+>> So.. do you folks want me to alter the patch in any way?
+> 
+> I think the runtime PM issue is orthogonal to the problem this series
+> addresses. It can be addressed separately.
+> 
+> That being said, I'm not a big fan of passing a void pointer to
+> .of_xlate() to carry device-specific information, in a device-specific
+> format. This seems prone to mismatch between clients and DMA engines.
+> .of_xlate() also seems the wrong place to do this. It would be cleaner
+> if we could use another operation, such as dmaengine_slave_config() for
+> instance.
+
+Right, I noticed that the drivers in question already apparently do the
+very same thing (passing data through a voidptr), inside slave_config
+(via the peripheral_config/_size fields)..
+But that doesn't solve the issue this series is trying to tackle, since
+every DMA consumer driver passes its own structure (or NULL).
+
+My immediate idea is to add yet another field, but that's lame. The other
+immediate idea would be to put an `u8 variant` at the start of all of 
+these structs ("we have tagged enums at home"), but that's lame *and*
+dangerous.
+
+Ideas?
+
+Konrad
