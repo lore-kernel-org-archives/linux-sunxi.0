@@ -1,219 +1,144 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03371238C26;
-	Thu,  7 Aug 2025 13:18:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AC792638AF;
+	Thu,  7 Aug 2025 15:25:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754572724; cv=none; b=aDf086oprbcXKiFpp9n+rxgdGCU0Ckwu+D8E9LGTgAiIy1mwW7U7hX0omrWrQu3WfHtsU3K3ghGvNVh0b/yv7QE/sLVtJdG9G/3zIDBbNSMOdxiYgOik9ZsAuoWm8pcedjXJpuo1c+zpXS6JSPk7Ri3HZSxblExpn7sigy0khw0=
+	t=1754580307; cv=none; b=EY60VDVQl7tQdZqsBJUpc7jXl3vz5UTyqxHkOYlEeriv0ggTh7gqWni6o1o++KIzZKFawlKraaDYCQZCl6uuFo9QsMMDqbtBa1dAgkf0MwK0yhj3jKv4E2S+TAPb2O3jh7G4Bl36cVTnEzx/c633FNjto9kHBPBC+V76CE2ObSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754572724; c=relaxed/simple;
-	bh=jhZGuKs+VTL1EX9JQsLLNKW9dU7Cq1mi1XfmDpxGgmo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AGT/DfvD9gGdlmfcdAziBCe8fsiivrt5X0MW/T/lxJCcx7A/IV88SEBgX32Gbqs/OYaNMnY0+ZzTqgeQW1gQxMK1UUcUaCBGsDxPaOLeqYDVWvmOhSXvBVd/o6JOPDpcCyhjEPtkqvKrxTH4CqSUc0WxIyaNPVN9IfviZGG1Paw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JrXszesK; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JrXszesK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E7EEC4CEEB;
-	Thu,  7 Aug 2025 13:18:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754572721;
-	bh=jhZGuKs+VTL1EX9JQsLLNKW9dU7Cq1mi1XfmDpxGgmo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=JrXszesK5tUM43V2eGqUN+jLW7uAsSpNpdAmHts3xnx9QnJBpsYabAVOkIMuN0hlu
-	 vzSFO46kPooQ1U2SGy2fglffZP201jX0qjnxVu3is1h2rPaX0wgEZlqC1slHgg6arf
-	 yfim2V/46ZQzB6iWcvcGW/VFgwkYTHHWrZeMvCx5Q571Hhw5KHIT3k0pRTF/MjEovO
-	 ZwltMIlwKlapLaLNAQpAk4dMiYSWyUMDBcDlSWqJ56K+t555RJyDC/bTgOZ+V4Nys1
-	 PFvalFsiCbVAcywS7w3AHHACq/81AbcrBbBOyU/09/Ie/BhylPBBz3NbkFZV04DH0t
-	 fUmdplWqOQxWQ==
-Message-ID: <8c24481d-dfdf-4923-9629-3f6b074c27da@kernel.org>
-Date: Thu, 7 Aug 2025 15:18:19 +0200
+	s=arc-20240116; t=1754580307; c=relaxed/simple;
+	bh=3Po1l4gYu0MHsFuaauDmTk7PLri0Rg6elR2hBPzCJbM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LJjFZifk6Lj+gBvpWx9N5XYqEIEhTo3UEr18tLT4aHoKPqiTqi9wgqv3DOfWFyRa38SRDZxsrkafFsbIgJm+QpIumgfPgD4BO9IBs+kj6qArHoGEZW3bFyTt8cyeS5/5MIW9NJXF18iu5LJElg8ZfFFK/OhCwR5/OMQ8Erbc3VA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+	by leonov.paulk.fr (Postfix) with ESMTPS id 45E7F1F00057;
+	Thu,  7 Aug 2025 15:24:50 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+	id 5782EB012B4; Thu,  7 Aug 2025 15:24:47 +0000 (UTC)
+X-Spam-Level: 
+Received: from shepard (unknown [192.168.1.1])
+	by laika.paulk.fr (Postfix) with ESMTPSA id 92918B012AF;
+	Thu,  7 Aug 2025 15:24:44 +0000 (UTC)
+Date: Thu, 7 Aug 2025 17:24:41 +0200
+From: Paul Kocialkowski <paulk@sys-base.io>
+To: Parthiban Nallathambi <parthiban@linumiz.com>
+Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>, iommu@lists.linux.dev,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-phy@lists.infradead.org
+Subject: Re: [PATCH 07/22] dt-bindings: vendor-prefixes: Shenzhen Baijie
+ Technology
+Message-ID: <aJTFOV_MK4GftLWu@shepard>
+References: <20241227-a133-display-support-v1-0-13b52f71fb14@linumiz.com>
+ <20241227-a133-display-support-v1-7-13b52f71fb14@linumiz.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 58/65] media: zoran: Remove access to __fh
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Devarsh Thakkar
- <devarsht@ti.com>, Benoit Parrot <bparrot@ti.com>,
- Hans Verkuil <hverkuil@kernel.org>, Mike Isely <isely@pobox.com>,
- Hans de Goede <hansg@kernel.org>,
- Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
- Christian Gromm <christian.gromm@microchip.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alex Shi
- <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
- Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>,
- Tomasz Figa <tfiga@chromium.org>, Marek Szyprowski
- <m.szyprowski@samsung.com>, Andy Walls <awalls@md.metrocast.net>,
- Michael Tretter <m.tretter@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Bin Liu <bin.liu@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Dmitry Osipenko <digetx@gmail.com>, Thierry Reding
- <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Mirela Rabulea <mirela.rabulea@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Michal Simek <michal.simek@amd.com>, Ming Qian <ming.qian@nxp.com>,
- Zhou Peng <eagle.zhou@nxp.com>, Xavier Roumegue
- <xavier.roumegue@oss.nxp.com>, Philipp Zabel <p.zabel@pengutronix.de>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Dikshita Agarwal <quic_dikshita@quicinc.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Nas Chung <nas.chung@chipsnmedia.com>,
- Jackson Lee <jackson.lee@chipsnmedia.com>,
- Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
- Houlong Wei <houlong.wei@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Tiffany Lin <tiffany.lin@mediatek.com>,
- Yunfei Dong <yunfei.dong@mediatek.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
- Jacob Chen <jacob-chen@iotwrt.com>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Heiko Stuebner <heiko@sntech.de>,
- Detlev Casanova <detlev.casanova@collabora.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar
- <alim.akhtar@samsung.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>,
- =?UTF-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>,
- Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
- Jacek Anaszewski <jacek.anaszewski@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Fabien Dessenne <fabien.dessenne@foss.st.com>,
- Hugues Fruchet <hugues.fruchet@foss.st.com>,
- Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Steve Longerbeam <slongerbeam@gmail.com>, Maxime Ripard
- <mripard@kernel.org>, Paul Kocialkowski <paulk@sys-base.io>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Corentin Labbe <clabbe@baylibre.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>,
- Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-tegra@vger.kernel.org, imx@lists.linux.dev,
- linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-usb@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-rockchip@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, mjpeg-users@lists.sourceforge.net
-References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
- <20250802-media-private-data-v1-58-eb140ddd6a9d@ideasonboard.com>
- <d8875dea-aa04-41fc-b1b4-519d06ed6cba@kernel.org>
- <20250807123157.GF11583@pendragon.ideasonboard.com>
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Content-Language: en-US
-In-Reply-To: <20250807123157.GF11583@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ho7mfi0SoROEEEAS"
+Content-Disposition: inline
+In-Reply-To: <20241227-a133-display-support-v1-7-13b52f71fb14@linumiz.com>
 
-On 8/7/25 14:31, Laurent Pinchart wrote:
-> On Thu, Aug 07, 2025 at 08:58:01AM +0200, Hans Verkuil wrote:
->> On 02/08/2025 11:23, Jacopo Mondi wrote:
->>> The __fh parameter is assigned to an unsued variable. Remove it
->>> and remove the unused struct zoran_fh type.
->>>
->>> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
->>> ---
->>>  drivers/media/pci/zoran/zoran.h        | 6 ------
->>>  drivers/media/pci/zoran/zoran_driver.c | 3 +--
->>>  2 files changed, 1 insertion(+), 8 deletions(-)
->>>
->>> diff --git a/drivers/media/pci/zoran/zoran.h b/drivers/media/pci/zoran/zoran.h
->>> index 1cd990468d3de9db8b14b72483972041c57bfee2..d05e222b392156bf1b3b4c83c6591db642c3c377 100644
->>> --- a/drivers/media/pci/zoran/zoran.h
->>> +++ b/drivers/media/pci/zoran/zoran.h
->>> @@ -154,12 +154,6 @@ struct zoran_jpg_settings {
->>>  
->>>  struct zoran;
->>>  
->>> -/* zoran_fh contains per-open() settings */
->>> -struct zoran_fh {
->>> -	struct v4l2_fh fh;
->>> -	struct zoran *zr;
->>> -};
->>> -
->>>  struct card_info {
->>>  	enum card_type type;
->>>  	char name[32];
->>> diff --git a/drivers/media/pci/zoran/zoran_driver.c b/drivers/media/pci/zoran/zoran_driver.c
->>> index f42f596d3e6295e31e3b33cd83c5f7243911bd30..ec7fc1da4cc02f5a344cb49bb9a783c41c758195 100644
->>> --- a/drivers/media/pci/zoran/zoran_driver.c
->>> +++ b/drivers/media/pci/zoran/zoran_driver.c
->>> @@ -511,12 +511,11 @@ static int zoran_s_fmt_vid_cap(struct file *file, void *__fh,
->>
->> This driver uses __fh as the name for the second argument of the ioctl
->> callbacks. Can you take this opportunity to rename it to either 'fh' or 'priv'?
-> 
-> It's a bit of yak shaving, but not too difficult so it will be addressed
-> in the next version (Jacopo already wrote the patches, thanks).
-> 
->> Generally it's not a good idea to prefix variables with __ for no good reason.
->>
->> Grepping for __fh also shows two other drivers:
->>
->> drivers/media/platform/chips-media/coda/coda-common.c:#define fh_to_ctx(__fh)   container_of(__fh, struct coda_ctx, fh)
->> drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h:#define fh_to_ctx(__fh) container_of(__fh, struct s5p_mfc_ctx, fh)
->>
->> I think it is a good idea to rename __fh to fh there as well.
-> 
-> That can't be done, otherwise things like
-> 
-> #define fh_to_ctx(fh)	container_of(fh, struct coda_ctx, fh)
-> 
-> static inline struct coda_ctx *file_to_ctx(struct file *filp)
-> {
-> 	return fh_to_ctx(file_to_v4l2_fh(filp));
-> }
-> 
-> will expand in the file_to_ctx() function to
-> 
-> 	return container_of(file_to_v4l2_fh(filp), struct coda_ctx, file_to_v4l2_fh(filp))
 
-If the fh_to_ctx #define is changed to a static inline, then there is no problem.
+--ho7mfi0SoROEEEAS
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-That said, it is overkill.
+Hi,
 
-Regards,
+On Fri 27 Dec 24, 16:37, Parthiban Nallathambi wrote:
+> Add entry for Shenzhen Baijie Technology (https://szbaijie.com)
+>=20
+> Signed-off-by: Parthiban Nallathambi <parthiban@linumiz.com>
+> ---
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Doc=
+umentation/devicetree/bindings/vendor-prefixes.yaml
+> index da01616802c7..81cbc8b6b195 100644
+> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> @@ -1466,6 +1466,8 @@ patternProperties:
+>    "^synopsys,.*":
+>      description: Synopsys, Inc. (deprecated, use snps)
+>      deprecated: true
+> +  "^szbaijie,.*":
 
-	Hans
+It's quite common for Chinese companies to have their main location as a pr=
+efix
+in their name, for example Rockchip's full name is Fuzhou Rockchip Electron=
+ics
+Co., Ltd.
 
-> 
-> We could rename the __fh argument to vfh or v4l2fh, but I think __fh is
-> equally good there. It's just the macro argument name.
-> 
->>>  			       struct v4l2_format *fmt)
->>>  {
->>>  	struct zoran *zr = video_drvdata(file);
->>> -	struct zoran_fh *fh = __fh;
->>>  	int i;
->>>  	int res = 0;
->>>  
->>>  	if (fmt->fmt.pix.pixelformat == V4L2_PIX_FMT_MJPEG)
->>> -		return zoran_s_fmt_vid_out(file, fh, fmt);
->>> +		return zoran_s_fmt_vid_out(file, __fh, fmt);
->>>  
->>>  	for (i = 0; i < NUM_FORMATS; i++)
->>>  		if (fmt->fmt.pix.pixelformat == zoran_formats[i].fourcc)
-> 
+Since the company here calls itself "Baijie Technology" I think the "sz" pa=
+rt
+should be dropped from the vendor prefix and just be "baijie,.*".
 
+All the best,
+
+Paul
+
+> +    description: Shenzhen Baijie Technology Co., Ltd.
+>    "^tbs,.*":
+>      description: TBS Technologies
+>    "^tbs-biometrics,.*":
+>=20
+> --=20
+> 2.39.5
+>=20
+>=20
+
+--=20
+Paul Kocialkowski,
+
+Independent contractor - sys-base - https://www.sys-base.io/
+Free software developer - https://www.paulk.fr/
+
+Expert in multimedia, graphics and embedded hardware support with Linux.
+
+--ho7mfi0SoROEEEAS
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmiUxTkACgkQhP3B6o/u
+lQwopA/+OeQYWbpgzDlU7JSXZXYWbcSY72g6g2qNUV8nGT5ut5lkOdPpDbag40ll
+kW45uiqEwvjAqNjfNv2jP1oIIZJ/OzRfJ+5rFc0e5iskSa4bd8NOv8AHZMF0ibL6
+Qc9N+qH1HdFiL/7e0btMZKjWTPTyoBqSLN2oJbEPrI14E/YyOpnmi0FQwP9tSBvD
+GJHPXfijHfK/JJnlIV70cJSUugUvmcLzpy3JxoiuW8PModhutaIYXdZiyDsqWxBK
+d+kxznL9QDfnY1qtQkse38eigagjwswfQXmSjTAXXNTFl+sQXFsKoxDZ21HBgd7X
+3rwxa/hqesqIe6EPAs5xDQi6F2BOBa+ZLzLnjqmlj5FEZttLx/c8IePLqPHlKcg2
+ycEsXE4XE0hpqs676aUwb/xVjVXbchBriZYX9ftKokBhRw/8AkRAUE6O4RNS4sGR
+X+rhGpoaFKBiI2kcu1aF7cAjv6BhYfOhs9d6wFVfF0dDVsC2Cf+9pBMysCc0zSXX
+/OLwkZj3sucRQHpNV5ZVsSQqR/ZUlae8K4INMLaMZFt97nW4EyCaHdmHlHrM7A7D
+dp3NaIPkts0QyUswwDFY0Ahn/dqLKRxCVlUBix05YuGy0gbfigILHXxcERddkoyq
+SG3VlZcyst6/ryITN66ZxWnPBrhxVFGN1NheSCPPe6E93GYPfuc=
+=jRKT
+-----END PGP SIGNATURE-----
+
+--ho7mfi0SoROEEEAS--
