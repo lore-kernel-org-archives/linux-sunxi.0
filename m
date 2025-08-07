@@ -1,173 +1,171 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE612609D9;
-	Thu,  7 Aug 2025 09:07:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5A811E8328
+	for <linux-sunxi@lists.linux.dev>; Thu,  7 Aug 2025 10:34:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754557650; cv=none; b=F1y5D9QWTZKv3XVINTePunJy/2lH55RQek6Fhhqan6oSgs0Ou0MIzGXOdZU1lXKS1r+VdVLfNdp2ttHU3q1pRpu29yaBcXIbdMnkclDJNl+oNjPS2xYhT8b9VdV1hk/moibXDz+6uyxeBx5NhrcnYslBj53La/BuULGo8MNRl9c=
+	t=1754562896; cv=none; b=Q6NZYh291wUcXomE+WbPlsDIcca6LTjJjcVKX0TsdWFXJ7UDHGCvn13XN5eBxcXT3xMvk/wXvIB8659eQYeMECAcK8oQgmuM+mV5m92jJ+3JeAMnD8PIPFKhlBKzIDYTq7gIaO5wWGldP/LzFkYCW+Jx8zeVVmsFDELFZYCWpdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754557650; c=relaxed/simple;
-	bh=LdyIokBuO7Un8obo21ibvQiKDOlr/VJXcK2c42DetEE=;
+	s=arc-20240116; t=1754562896; c=relaxed/simple;
+	bh=gwjFiegsOP4xcnWbW0X5ifEkq0MsOmbvf2Z95Us2gCM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TbxTfCn7FLNDHEhYYt58uIL3TeN/IMOjgIh8Rdo7rdZfdOj/J80YZk1yKRXTwsFUF4xN/IJEZyLBmH5s5CsmNcGs+ZoFqiGv+Vm+RLSEID2TyjGsuXhjhk6r0B+BPXXgRTfppAitWEiLNEIu4NrizUVErgEo4Bop70q4ErkrPWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cw8Dulap; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=aM4oUD29NFGO4pu8KOC5vm77MsmX8xrOMbT1iVFpxPk8nYnA7i2SKmCrejTi2pUXx1JrG7mHQFz+Wx/y5c91/iqJdi71UTOe9TwKR17yL/D5nto3BN/pbEedBtkypPx7qBT7tgdtBshjq1bZqHDp2nhfE4QaVJNCWwIZkUSFUlQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zSjelgR7; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cw8Dulap"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754557648; x=1786093648;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LdyIokBuO7Un8obo21ibvQiKDOlr/VJXcK2c42DetEE=;
-  b=cw8Dulap25ByJpc137n0CP99OxH+yvd3XX2WBpIoE/ARbYCcEV1uwTrU
-   MXSj8PTh/Je4K18K6i0SswfPidmFljdcAzdoJR+v77mrJc+jg3Q//D9K/
-   F/iSzBVpgKS+N0YfMdeC1QX3cuV4MnTGXcGpd1OSqMqyPn+CJCXue9Z9Q
-   8QuylB0Z1l3cD0nPlDvs7Dl1YhV2gD790+38dEXM+dmTZvh6w7M5WuRKV
-   lPf0Px354GTSPYgggeBxQk7kq7vIVRCgsphuiovCyV/4Z2QfquJd8bhLx
-   J/dAb3sMXkCHVH3EMiFv8XgiVZ8m2ynkNZgjmBZlA34TScvNH5Ez44yK4
-   A==;
-X-CSE-ConnectionGUID: Ssu07C0BRYGbDRleIDeByA==
-X-CSE-MsgGUID: ENNmcRusRpaOC9BpI7f0Jw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="68340087"
-X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="68340087"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 02:07:27 -0700
-X-CSE-ConnectionGUID: HkVbQkL0THy+UJOo9yzC6A==
-X-CSE-MsgGUID: KJ6iZxlSSOyomEAi+j3fxw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="169473134"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.255])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 02:07:16 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 79BBB11FC45;
-	Thu,  7 Aug 2025 12:07:13 +0300 (EEST)
-Date: Thu, 7 Aug 2025 09:07:13 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Devarsh Thakkar <devarsht@ti.com>, Benoit Parrot <bparrot@ti.com>,
-	Hans Verkuil <hverkuil@kernel.org>, Mike Isely <isely@pobox.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-	Christian Gromm <christian.gromm@microchip.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
-	Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>,
-	Tomasz Figa <tfiga@chromium.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Andy Walls <awalls@md.metrocast.net>,
-	Michael Tretter <m.tretter@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Bin Liu <bin.liu@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Michal Simek <michal.simek@amd.com>, Ming Qian <ming.qian@nxp.com>,
-	Zhou Peng <eagle.zhou@nxp.com>,
-	Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Dikshita Agarwal <quic_dikshita@quicinc.com>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Nas Chung <nas.chung@chipsnmedia.com>,
-	Jackson Lee <jackson.lee@chipsnmedia.com>,
-	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-	Houlong Wei <houlong.wei@mediatek.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Tiffany Lin <tiffany.lin@mediatek.com>,
-	Yunfei Dong <yunfei.dong@mediatek.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
-	Jacob Chen <jacob-chen@iotwrt.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Detlev Casanova <detlev.casanova@collabora.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	=?utf-8?Q?=C5=81ukasz?= Stelmach <l.stelmach@samsung.com>,
-	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Fabien Dessenne <fabien.dessenne@foss.st.com>,
-	Hugues Fruchet <hugues.fruchet@foss.st.com>,
-	Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
-	Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Corentin Labbe <clabbe@baylibre.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
-	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	mjpeg-users@lists.sourceforge.net
-Subject: Re: [PATCH 64/65] media: staging: ipu7: isys: Don't set
- V4L2_FL_USES_V4L2_FH manually
-Message-ID: <aJRswZIVKCuzqCpr@kekkonen.localdomain>
-References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
- <20250802-media-private-data-v1-64-eb140ddd6a9d@ideasonboard.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zSjelgR7"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3b78127c5d1so461081f8f.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 07 Aug 2025 03:34:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1754562893; x=1755167693; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=+jqpfHFtr9RJd+Rj5jDYwLXh+hHq7pFdE9Sw57Atqmk=;
+        b=zSjelgR76w47JxdApvtszwaWQpvt6MGFjbIEDpG4fzBzYYVJhlq7niKdj0g0lxSdes
+         pnQxI+bk8iDHLalqfsWV2OLbXwJy+7znx67CNLZCUCrKhFJNFdeB9YwlQqw7G4AvdtOV
+         irgKQu5mFlfZ2obwyB55b2JUDpgF2wCFvGJJ2vlYSUpvk3t5H5wjeDVQcGIAwMZUFCLv
+         iqRjxkn86zUWDGBLprWDcN9dcWbjh40R1CgBRE5HQQsHmTCKYzOQL8vIGgUAKyUiyhga
+         j8s5987arOI5g7rA/Vwg3FadgCwHAoInIBlG1suhAzTt6IpLaKxqgC+GFtj8AqCoc6zK
+         VzlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754562893; x=1755167693;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+jqpfHFtr9RJd+Rj5jDYwLXh+hHq7pFdE9Sw57Atqmk=;
+        b=QPmp+PsmLDzWVA6iab5g6nWtpCiN0n6H5YEcPRrJp9ay9vgyvPqlMmAfOjNEJ9sqHb
+         b7bb8Z/bTNLTQJgT/u3ngb2XqeORqjMLbBESo88Alx3DI8C9ohIQ0ClbEnS9QPKUgCao
+         Pd0sVKhnEmINQ3MBhYN13qiXwa0zIFoQZkRW4OAmevP39vY/zEy053j3ZPBkmlWOw9Pl
+         P6ZVoXoZ4pzIq838wfDT/7CPV/57vFUgZ2eOo2DeGUnULwf3fb/V23IIN41wOI8aJkRV
+         6vsCLR3VcG3jiUA0a4JG1vCbwXSSmR/sQHk5Oi81/pUk5jlswwa6rhKy9JiJUMla8FeV
+         CHwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCULHo5TOiP69OQQ0uAphjbStMMh7i46KZCj92BSWKFe0A7Vd4epUocYdon5MEPdOS/PEC77syOQ7CKZmw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw0qIdX1sPaojo+dAsjwQPT5WdS6WJzDTU4r+nqe23pnHBOBgTv
+	BvXQmX34Tzy3HDfw9bHXvNF9/2AaLhC1FO9VNq+f7ZmOBUWwFBLl9gU5iMIQ9YtOjpA=
+X-Gm-Gg: ASbGncuyyM/MvWNDbco5DDD7RG1uGjpNN+tQF65Npi86DQk73fBHBwx/ukoTo9J4f0s
+	Vj4XJQWwzg5C2oxg9ojqJfZCd2Ag3u0j2z47k94Y4bEHXED63VIep6+yqIVP+kqpjBtVRBQTsoE
+	82SIaPFhr/zMb/GwVqSSmgQE4lu/XWdJpXfDX/tJzrANYrcA2O6vHgin+oY90/Ifkx0FqtUH0uc
+	Q+5FZEQRp1t7ncHbiM859unzL6YSa1eCDg25yYdG+nZLXIHLXbXYADOx3qOSpSgCpH3hG2xDyF2
+	OFDI8zQUNxcwkJhbTF+RGpeh7p9AiVOxNJEiyJQfsUwtTkPuXPq2jVx/l01nw+yeUmGRGQPNNnP
+	m6emASt5wzgNy0zFy6/9ENtT2i2A=
+X-Google-Smtp-Source: AGHT+IEJZFFSnC6OyV3Ckz3ldGk5h0RG3Okc+NeFrocarUAZUjxcjd1haqhnntbT67+wRuAV6TUqug==
+X-Received: by 2002:a05:6000:2f86:b0:3a0:b84d:60cc with SMTP id ffacd0b85a97d-3b8f41a837fmr5055520f8f.2.1754562892893;
+        Thu, 07 Aug 2025 03:34:52 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3b8ff860acbsm70000f8f.51.2025.08.07.03.34.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Aug 2025 03:34:52 -0700 (PDT)
+Date: Thu, 7 Aug 2025 13:34:48 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Chenyuan Yang <chenyuan0y@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>, wens@csie.org,
+	maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
+	airlied@gmail.com, simona@ffwll.ch, jernej.skrabec@gmail.com,
+	samuel@sholland.org, neil.armstrong@linaro.org,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/sun4i: backend: Fix error pointers in
+ sun4i_backend_atomic_check
+Message-ID: <aJSBSLvIeSpvaYpK@stanley.mountain>
+References: <20250314012029.668306-1-chenyuan0y@gmail.com>
+ <20250314-prophetic-attentive-platypus-3ab214@houat>
+ <CALGdzurT1_fY_o8Hv92j4+XFQHu1iHRzqVtZAM8upHYBPfA1BA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250802-media-private-data-v1-64-eb140ddd6a9d@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALGdzurT1_fY_o8Hv92j4+XFQHu1iHRzqVtZAM8upHYBPfA1BA@mail.gmail.com>
 
-On Sat, Aug 02, 2025 at 11:23:26AM +0200, Jacopo Mondi wrote:
-> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+On Fri, Mar 14, 2025 at 11:00:26AM -0500, Chenyuan Yang wrote:
+> HI Maxime.
 > 
-> The V4L2_FL_USES_V4L2_FH flag is set by v4l2_fh_init(). It is not meant
-> to be set manually by drivers. Drop it from the ipu7-isys driver.
+> Thanks so much for pointing that out!
 > 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> How about such a patch?
+> 
 
-Thanks, Jacopo!
+This patch is corrupted so we can't review it.
 
-Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_backend.c
+> b/drivers/gpu/drm/sun4i/sun4i_backend.c
+> index 2dded3b828df..5ad0e90d3e6b 100644
+> --- a/drivers/gpu/drm/sun4i/sun4i_backend.c
+> +++ b/drivers/gpu/drm/sun4i/sun4i_backend.c
+> @@ -490,9 +490,14 @@ static int sun4i_backend_atomic_check(struct
+> sunxi_engine *engine,
+>   drm_for_each_plane_mask(plane, drm, crtc_state->plane_mask) {
+>   struct drm_plane_state *plane_state =
+>   drm_atomic_get_plane_state(state, plane);
+> - struct sun4i_layer_state *layer_state =
+> - state_to_sun4i_layer_state(plane_state);
+> - struct drm_framebuffer *fb = plane_state->fb;
+> + struct sun4i_layer_state *layer_state = NULL;
+> + struct drm_framebuffer *fb = NULL;
 
--- 
-Sakari Ailus
+No need to initialize things like this.  NULL isn't a valid pointer.
+This just disables static checker tools from finding uninitialized
+variable warnings so all the expense of writing the checker tools is
+now wasted.
+
+regards,
+dan carpenter
+
+> +
+> + if (IS_ERR(plane_state))
+> + return PTR_ERR(plane_state);
+> +
+> + layer_state = state_to_sun4i_layer_state(plane_state);
+> + fb = plane_state->fb;
+> 
+>   if (!sun4i_backend_plane_is_supported(plane_state,
+>         &layer_state->uses_frontend))
+> -- 
+> 
+> -Chenyuan
+> 
+> On Fri, Mar 14, 2025 at 2:17 AM Maxime Ripard <mripard@kernel.org> wrote:
+> >
+> > Hi,
+> >
+> > On Thu, Mar 13, 2025 at 08:20:29PM -0500, Chenyuan Yang wrote:
+> > > The function sun4i_backend_atomic_check was dereferencing pointers
+> > > returned by drm_atomic_get_plane_state without checking for errors. This
+> > > could lead to undefined behavior if the function returns an error pointer.
+> > >
+> > > This commit adds checks using IS_ERR to ensure that plane_state is
+> > > valid before dereferencing them.
+> > >
+> > > Similar to commit da29abe71e16
+> > > ("drm/amd/display: Fix error pointers in amdgpu_dm_crtc_mem_type_changed").
+> > >
+> > > Fixes: 96180dde23b7 ("drm/sun4i: backend: Add a custom atomic_check for the frontend")
+> > > Signed-off-by: Chenyuan Yang <chenyuan0y@gmail.com>
+> > > ---
+> > >  drivers/gpu/drm/sun4i/sun4i_backend.c | 4 ++++
+> > >  1 file changed, 4 insertions(+)
+> > >
+> > > diff --git a/drivers/gpu/drm/sun4i/sun4i_backend.c b/drivers/gpu/drm/sun4i/sun4i_backend.c
+> > > index 2dded3b828df..a8e0e2123764 100644
+> > > --- a/drivers/gpu/drm/sun4i/sun4i_backend.c
+> > > +++ b/drivers/gpu/drm/sun4i/sun4i_backend.c
+> > > @@ -490,6 +490,10 @@ static int sun4i_backend_atomic_check(struct sunxi_engine *engine,
+> > >       drm_for_each_plane_mask(plane, drm, crtc_state->plane_mask) {
+> > >               struct drm_plane_state *plane_state =
+> > >                       drm_atomic_get_plane_state(state, plane);
+> > > +
+> > > +             if (IS_ERR(plane_state))
+> > > +                     return PTR_ERR(plane_state);
+> > > +
+> >
+> > This introduces a build warning. You shouldn't mix declarations and code.
+> >
+> > Maxime
