@@ -1,183 +1,204 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6E58246BD5;
-	Fri,  8 Aug 2025 07:22:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BE87277CA5
+	for <linux-sunxi@lists.linux.dev>; Sat,  9 Aug 2025 07:25:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754637766; cv=none; b=NXJF35xBAGVp9Slrmhoqf/fh4ZHrUGZEc1+nROKZb21JdaGV85pRVyKu0LK8323sfZJEWHS+SPoL8xmWEw4lln1zT2g+SbT/1C7HVMSLvi4F805gwWVYFVqOr4WmG5llySy8/uTM5HFeN/fKuB5u/gDAFuqS4FI7tNQwFyoWo+Q=
+	t=1754724339; cv=none; b=kUQbMKjb/O1khjnxLq65J12anRWptG6UxKlgp3ArveqvQj/apibnY0/hdBqhkBmlAdimYuJ8v0LysSk3fPg3phxzxecSAT7OAncN2GvRKDQ71JVyQgE+IQ16vz7X+OlMb0T8IXQ16TaPeL/UQdij8QMmk42kNn9gyRVYNNjPoPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754637766; c=relaxed/simple;
-	bh=fbLBorPezoJWXQtvSg4WV87SLfHofuZpGSIX8FwjR+A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ms1iq8uOCjvB/FKC1QIIwifZ+kmurlPsMzYDgElzbUydOMZBQ1BdMm10ThL49eWkgukouhuqmohoH9zMKQmrN/wz9jlS5H14B5xoDA04/7edggjEupUvBC1bGBvZkoEk+uZjUvhgymlT47tjhjxjPxzaRd9Bx5I9C+l2ECTtxJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SjoHuh8E; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1754724339; c=relaxed/simple;
+	bh=Yz+i5FQslQsUtwK+nDCiUKQt+7XZHV02A+u3AT/7/SQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=t6iTzF+mD75gjj0ICW6xdq0gLXDSqk0FupHWohYULXYyGcvVlQpWZ6SXOTW/N+7f7KsSe17ZW7ENV9qPlnwwC0pAn5SkiknJ2TpMFz82gUF/6eRAJJzAhjuUSJCnS2/0J27yIGlDMu5eYPfRn8XlR97OCb/AGIqnqn3EmWKoxy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net; spf=pass smtp.mailfrom=posteo.net; dkim=pass (3072-bit key) header.d=posteo.net header.i=@posteo.net header.b=Rou4xzen; arc=none smtp.client-ip=185.67.36.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SjoHuh8E"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754637765; x=1786173765;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fbLBorPezoJWXQtvSg4WV87SLfHofuZpGSIX8FwjR+A=;
-  b=SjoHuh8EtHrM7tgnpeCISrbn+ybxjw+1nTrgNHifhOx0XgOgVkr5Cuuq
-   QTgS2euRU21K08ExSx6XWM4R3aJ8MHoCdI5B9BeUSigO294lBNzoUbC4s
-   3qTDTaw6I8B2rpsik9gfMzELmwTRBR+1lR0r0bH9lLTXcB1xJXhtfCPts
-   GUjZiAOGkr3QPNoN903b6dHEavWdVXdEAoHumJnWb5Km9bjKoCgAv4RBG
-   GYMoPvvKd/s0yCUtz03HPgpoiRDbPr4wOkEFMm+Ux/OF22JWdWGT1dBHz
-   +oR2ceLdD6cLS/EVyr8iFK4KlFzt2aF94wG5fzNrbwYTdMRt9scHowyn5
-   g==;
-X-CSE-ConnectionGUID: bAIiAh+oRdCOguhB7yoT7w==
-X-CSE-MsgGUID: B1yS/pezQKuMbxtn4zwhXA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="82427442"
-X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
-   d="scan'208";a="82427442"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2025 00:22:44 -0700
-X-CSE-ConnectionGUID: OdNPlVlrR9m1H28JVd9Cfw==
-X-CSE-MsgGUID: 6MIOtN9XTOqpGi12upForA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
-   d="scan'208";a="188944168"
-Received: from fpallare-mobl4.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.151])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2025 00:22:33 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 7FB8211FC97;
-	Fri,  8 Aug 2025 10:22:31 +0300 (EEST)
-Date: Fri, 8 Aug 2025 07:22:31 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Devarsh Thakkar <devarsht@ti.com>, Benoit Parrot <bparrot@ti.com>,
-	Hans Verkuil <hverkuil@kernel.org>, Mike Isely <isely@pobox.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-	Christian Gromm <christian.gromm@microchip.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
-	Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>,
-	Tomasz Figa <tfiga@chromium.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Andy Walls <awalls@md.metrocast.net>,
-	Michael Tretter <m.tretter@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Bin Liu <bin.liu@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Michal Simek <michal.simek@amd.com>, Ming Qian <ming.qian@nxp.com>,
-	Zhou Peng <eagle.zhou@nxp.com>,
-	Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Dikshita Agarwal <quic_dikshita@quicinc.com>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Nas Chung <nas.chung@chipsnmedia.com>,
-	Jackson Lee <jackson.lee@chipsnmedia.com>,
-	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-	Houlong Wei <houlong.wei@mediatek.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Tiffany Lin <tiffany.lin@mediatek.com>,
-	Yunfei Dong <yunfei.dong@mediatek.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
-	Jacob Chen <jacob-chen@iotwrt.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Detlev Casanova <detlev.casanova@collabora.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	=?utf-8?Q?=C5=81ukasz?= Stelmach <l.stelmach@samsung.com>,
-	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Fabien Dessenne <fabien.dessenne@foss.st.com>,
-	Hugues Fruchet <hugues.fruchet@foss.st.com>,
-	Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
-	Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Corentin Labbe <clabbe@baylibre.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
-	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	mjpeg-users@lists.sourceforge.net
-Subject: Re: [PATCH 64/65] media: staging: ipu7: isys: Don't set
- V4L2_FL_USES_V4L2_FH manually
-Message-ID: <aJWltxB6NfXg53KI@kekkonen.localdomain>
-References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
- <20250802-media-private-data-v1-64-eb140ddd6a9d@ideasonboard.com>
- <aJRswZIVKCuzqCpr@kekkonen.localdomain>
- <20250807170135.GH11583@pendragon.ideasonboard.com>
+	dkim=pass (3072-bit key) header.d=posteo.net header.i=@posteo.net header.b="Rou4xzen"
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout02.posteo.de (Postfix) with ESMTPS id 7E047240103
+	for <linux-sunxi@lists.linux.dev>; Sat,  9 Aug 2025 09:25:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.net;
+	s=1984.ea087b; t=1754724329;
+	bh=PnOBJp/dCmnaAVtEczBA0DMOWb+q7+EVB4/c2xyrUM8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:From;
+	b=Rou4xzenIuode5Do3awcl5z3VhgrbTTW/tCbo9z0pzui0UiSbEl4x7HTmGo2mQo4A
+	 sM6cravd4fnjo+R09JVMrikPSEYUPSx+Br0zbPqcNYpbv2QfWqs/gvtOjfZm6GWQeb
+	 ttzn5YeRxeChPoO+yTzMwblVSIrlAiIHQv9OXg9sQHzwVjD2J7CTwMCffJm9ZQNokE
+	 6lL0AJQrUkZnoijghDQpSww6rSjOgEH5I2kwCSJTzilnORypJddG9IwI2qxVtlN7Hh
+	 ciIawjN7IxA5baZm0gos3jIDRNv5gC7gW3OVBi1LI6RH6yxyQO0K9GQqUCoIPDIP3e
+	 3jm/CTX+btzjY0J0upfyPvwwsHargKgRb/Z+5wsOfNitMRYVJEOVs0YQ8ZdxDTfvpK
+	 9W8kU12E89XTPBnaYGmCB9Xoo9+ykTQ8FOEmaI4afIXV3q4HVTNDn/sm2ziYalVyQr
+	 gzpnidCqnTf3wKWUmy7+hcAl6Om5ZHOsflKNKeAGrlOJte5/poN
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4bzXVb1kmTz9rxD;
+	Sat,  9 Aug 2025 09:25:27 +0200 (CEST)
+Date: Sat, 09 Aug 2025 07:25:29 +0000
+From: =?utf-8?Q?J=2E_Neusch=C3=A4fer?= <j.ne@posteo.net>
+To: linux-sunxi@lists.linux.dev, linux-sound@vger.kernel.org
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: [BISECTED] NULL pointer dereference while probing sun8i-codec
+Message-ID: <aJb311bMDc9x-dpW@probook>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250807170135.GH11583@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Aug 07, 2025 at 08:01:35PM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> On Thu, Aug 07, 2025 at 09:07:13AM +0000, Sakari Ailus wrote:
-> > On Sat, Aug 02, 2025 at 11:23:26AM +0200, Jacopo Mondi wrote:
-> > > From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > 
-> > > The V4L2_FL_USES_V4L2_FH flag is set by v4l2_fh_init(). It is not meant
-> > > to be set manually by drivers. Drop it from the ipu7-isys driver.
-> > > 
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > 
-> > Thanks, Jacopo!
-> > 
-> > Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> 
-> Can we get you review on patch 63/65 too (for the IPU6 driver) too ?
+When booting the Allwinner H2+ SoC (Orange Pi Zero) with the audio codec
+enabled, recent kernels crash with a NULL pointer dereference:
 
-Done.
+[    0.976256] 8<--- cut here ---
+[    0.979398] Unable to handle kernel NULL pointer dereference at virtual address 00000000 when read
+[    0.988365] [00000000] *pgd=00000000
+[    0.991955] Internal error: Oops: 5 [#1] SMP ARM
+[    0.996572] Modules linked in:
+[    0.999632] CPU: 3 UID: 0 PID: 1 Comm: swapper/0 Not tainted 6.15.0-rc5-00242-gc208844ffc64 #56 NONE
+[    1.008846] Hardware name: Allwinner sun8i Family
+[    1.013545] PC is at strcmp+0x0/0x34
+[    1.017135] LR is at snd_soc_lookup_component_nolocked+0x64/0xa4
+[    1.023151] pc : [<c08bf8e4>]    lr : [<c073f82c>]    psr: 00000013
+[    1.029412] sp : e0821de8  ip : 00000000  fp : 00000000
+[    1.034632] r10: c0c65f4c  r9 : c0c49834  r8 : 0000001b
+[    1.039853] r7 : c0aff7e0  r6 : c165b810  r5 : c10dc614  r4 : c1df6340
+[    1.046374] r3 : c09b1994  r2 : 0000006e  r1 : c0aff7e0  r0 : 00000000
+[    1.052896] Flags: nzcv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment none
+[    1.060027] Control: 10c5387d  Table: 4000406a  DAC: 00000051
+[    1.065767] Register r0 information: NULL pointer
+[    1.070473] Register r1 information: non-slab/vmalloc memory
+[    1.076132] Register r2 information: non-paged memory
+[    1.081183] Register r3 information: non-slab/vmalloc memory
+[    1.086840] Register r4 information: slab kmalloc-256 start c1df6300 pointer offset 64 size 256
+[    1.095552] Register r5 information: non-slab/vmalloc memory
+[    1.101210] Register r6 information: slab kmalloc-1k start c165b800 pointer offset 16 size 1024
+[    1.109919] Register r7 information: non-slab/vmalloc memory
+[    1.115576] Register r8 information: non-paged memory
+[    1.120626] Register r9 information: non-slab/vmalloc memory
+[    1.126284] Register r10 information: non-slab/vmalloc memory
+[    1.132027] Register r11 information: NULL pointer
+[    1.136817] Register r12 information: NULL pointer
+[    1.141607] Process swapper/0 (pid: 1, stack limit = 0x(ptrval))
+[    1.147610] Stack: (0xe0821de8 to 0xe0822000)
+[    1.151969] 1de0:                   c0aff7e0 c165b810 c165b810 e0821e20 0000001b c0741fa4
+[    1.160142] 1e00: c1df650c c165b810 c165b810 c07557d0 c1df5f80 c17e1000 c165b810 c056dad8
+[    1.168315] 1e20: c1dbab40 c1df6600 00000007 d3dfed03 c165b810 00000205 c10dc9fc 00000000
+[    1.176487] 1e40: c1df5738 c0567cf0 c165b810 c05684a0 c165b810 c10dc9fc c165b810 00000000
+[    1.184660] 1e60: c1df5738 c05685d0 60000013 c0c49834 c1125878 c10dc9fc c165b810 00000000
+[    1.192833] 1e80: c1df5738 c05687b4 c165b810 c10dc9fc c165b854 c1416000 c1df5738 c0568a2c
+[    1.201005] 1ea0: 00000000 c10dc9fc c056899c c0566490 c1416000 c1416058 c1542ab4 d3dfed03
+[    1.209178] 1ec0: c1416000 c10dc9fc c1df5700 00000000 c1416000 c05676b4 c0aff880 00000000
+[    1.217351] 1ee0: c10dc9fc c1450000 00000000 c0b0df40 c10e9000 c0569738 c0c2e2bc c1450000
+[    1.225523] 1f00: 00000000 c010e26c 000004c4 00000000 00000000 00000000 00000000 00000000
+[    1.233695] 1f20: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[    1.241867] 1f40: 00000000 00000000 00000000 00000000 00000000 d3dfed03 c15a1980 000000f4
+[    1.250040] 1f60: c15a1980 00000006 c0b0df40 c0c49854 c0c49834 c0c01220 00000006 00000006
+[    1.258212] 1f80: 00000000 c0c004d0 c1004e00 c08ca784 00000000 00000000 00000000 00000000
+[    1.266384] 1fa0: 00000000 c08ca7a0 00000000 c010014c 00000000 00000000 00000000 00000000
+[    1.274556] 1fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[    1.282728] 1fe0: 00000000 00000000 00000000 00000000 00000013 00000000 00000000 00000000
+[    1.290896] Call trace:
+[    1.290910]  strcmp from snd_soc_lookup_component_nolocked+0x64/0xa4
+[    1.299807]  snd_soc_lookup_component_nolocked from snd_soc_unregister_component_by_driver+0x2c/0x44
+[    1.308948]  snd_soc_unregister_component_by_driver from snd_dmaengine_pcm_unregister+0x28/0x64
+[    1.317654]  snd_dmaengine_pcm_unregister from devres_release_all+0x98/0xfc
+[    1.324625]  devres_release_all from device_unbind_cleanup+0xc/0x60
+[    1.330899]  device_unbind_cleanup from really_probe+0x220/0x2c8
+[    1.336913]  really_probe from __driver_probe_device+0x88/0x1a0
+[    1.342841]  __driver_probe_device from driver_probe_device+0x30/0x110
+[    1.349375]  driver_probe_device from __driver_attach+0x90/0x178
+[    1.355390]  __driver_attach from bus_for_each_dev+0x7c/0xcc
+[    1.361056]  bus_for_each_dev from bus_add_driver+0xcc/0x1ec
+[    1.366720]  bus_add_driver from driver_register+0x80/0x11c
+[    1.372301]  driver_register from do_one_initcall+0x58/0x23c
+[    1.377973]  do_one_initcall from kernel_init_freeable+0x198/0x1f4
+[    1.384168]  kernel_init_freeable from kernel_init+0x1c/0x12c
+[    1.389925]  kernel_init from ret_from_fork+0x14/0x28
+[    1.394982] Exception stack(0xe0821fb0 to 0xe0821ff8)
+[    1.400033] 1fa0:                                     00000000 00000000 00000000 00000000
+[    1.408205] 1fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[    1.416376] 1fe0: 00000000 00000000 00000000 00000000 00000013 00000000
+[    1.422991] Code: e5e32001 e3520000 1afffffb e12fff1e (e4d03001)
+[    1.429166] ---[ end trace 0000000000000000 ]---
+[    1.433797] Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b
+[    1.441577] ---[ end Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b ]---
 
--- 
-Sakari Ailus
+
+This particular error path is taken after platform_probe returns -EPROBE_DEFER
+to call_driver_probe and really_probe calls device_unbind_cleanup.
+
+The parameters to the strcmp call in snd_soc_lookup_component_nolocked are
+component->driver->name = NULL and driver_name = "snd_dmaengine_pcm".
+
+I have bisected this to:
+
+commit 144d6dfc7482455eabf8e8caa974a6e8d9572705
+Author: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Date:   Mon May 12 02:33:16 2025 +0000
+
+    ASoC: soc-core: merge snd_soc_unregister_component() and snd_soc_unregister_component_by_driver()
+
+    We have below 2 functions, but these are very similar
+
+    (A)     snd_soc_unregister_component_by_driver()
+    (B)     snd_soc_unregister_component()
+
+    (A)     void snd_soc_unregister_component_by_driver(...)
+            {
+                    ...
+
+    (a)             mutex_lock(&client_mutex);
+     ^ (X)          component = snd_soc_lookup_component_nolocked(dev, component_driver->name);
+     |              if (!component)                                    ^^^^^^^^^^^^^^^^^^^^^^
+     |                      goto out;
+    (b)
+     |              snd_soc_del_component_unlocked(component);
+     v
+            out:
+    (c)             mutex_unlock(&client_mutex);
+            }
+
+    (B)     void snd_soc_unregister_component_by_driver(...)
+            {
+    (a)             mutex_lock(&client_mutex);
+     ^              while (1) {
+     | (X)                  struct snd_soc_component *component = snd_soc_lookup_component_nolocked(dev, NULL);
+     |                                                                                                   ^^^^
+    (b)                     if (!component)
+     |                              break;
+     |
+     |                      snd_soc_del_component_unlocked(component);
+     v              }
+    (c)             mutex_unlock(&client_mutex);
+            }
+
+    Both are calling lock (a), find component and remove it (b), and
+    unlock (c). The big diff is whether use driver name for lookup() or
+    not (X).
+
+    Merge these into snd_soc_unregister_component_by_driver() (B), and
+    snd_soc_unregister_component_by_driver() (A) can be macro.
+
+    Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+    Link: https://patch.msgid.link/87h61qy2vn.wl-kuninori.morimoto.gx@renesas.com
+    Signed-off-by: Mark Brown <broonie@kernel.org>
+
+ include/sound/soc.h  |  2 +-
+ sound/soc/soc-core.c | 30 +++++-------------------------
+ 2 files changed, 6 insertions(+), 26 deletions(-)
+
+
+Reverting this commit on top of almost-v6.17-rc1 (v6.16-12250-gc30a13538d9f8b)
+results in a successful boot. sun8i-codec's probe returns -EPROBE_DEFER
+the first time, and success the second time.
+
+
+Best regards,
+J. Neuschäfer
