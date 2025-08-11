@@ -1,36 +1,32 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBF5D2153C1
-	for <linux-sunxi@lists.linux.dev>; Mon, 11 Aug 2025 23:04:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E0BF1E47CC
+	for <linux-sunxi@lists.linux.dev>; Mon, 11 Aug 2025 23:33:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754953455; cv=none; b=CN5bdtReOsHlPLkoLnQtS1VazA0gfZbDA63Xpc6Czf1/Ot/83xP/26SE45f3VURiKdx4xTr5LkaEkO+c27m6sLZWVXmcQ6k57+mE1Ns174vmDD3P1uwNm/bYPIpqj2ViWYl0jgHIWhGKvgILqDb7GzEaJ3P+Q+feLG9bjryAI4o=
+	t=1754955221; cv=none; b=nolXH5IPx3Mx2gXyyuhATDpq42tFSRSVVB2qGnvOoKxk01St+DejGdLuRWgtWCvjCn96uAKwbSk3ElNuFFakL5uF6sUIqYzdtx3+r4D7LZAjKKVZNyzTDq2m1fu9xj1B0pxpnWU3RKRZ3vqYG8ZcBUKouUAATnYbp1BkXCxLXjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754953455; c=relaxed/simple;
-	bh=AFuWzhF5ZHfKoi0p8XNaojngAbUoaevLOrjwXZj07tM=;
+	s=arc-20240116; t=1754955221; c=relaxed/simple;
+	bh=la4rlq1A82VeAE9olPe0HoA4QaqtDZ/HfL3AWWGyqw4=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mZaND30JdNpAfWuHDmOJlhnpsuq4+4WHa0wZeTVxCXR05vFmlJ8RglqBQfAfs2NnL3OuSnXZ8zaI3haepCnANN5/WlTqtu46Ry41uEd89QDBNafOK52B9q0B+T8mY81aqbOGyB6RwSeWEE58Hf6ufeSYmD759rl5+BVImSDb2tE=
+	 MIME-Version:Content-Type; b=ejhHT3wrVgqjxOFf4TABYDdQ/krLVoMtel2uY+LoH8DlzcGHCuY0xP90rmjYHiJXjgQzd+JOTqkot5I70m7K0PAfxLaTmXPY9fwiGjlYrD6AaDoEc6qPuxQ1HAgOkKXA5Z4P0wyS/ftgXJV2WFp0Z6t/o00egm07ZKD0dm3pRRQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A5860150C;
-	Mon, 11 Aug 2025 16:03:57 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 63C53106F;
+	Mon, 11 Aug 2025 16:33:30 -0700 (PDT)
 Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D2F7C3F63F;
-	Mon, 11 Aug 2025 16:04:04 -0700 (PDT)
-Date: Tue, 12 Aug 2025 00:01:14 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BAA0D3F63F;
+	Mon, 11 Aug 2025 16:33:37 -0700 (PDT)
+Date: Tue, 12 Aug 2025 00:30:57 +0100
 From: Andre Przywara <andre.przywara@arm.com>
-To: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-Cc: u-boot@lists.denx.de, Tom Rini <trini@konsulko.com>, Cody Eksal
- <masterr3c0rd@epochal.quest>, Chris Morgan <macromorgan@hotmail.com>,
- linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 2/3] sunxi: spl: initialise timer before clocks
-Message-ID: <20250812000114.602f53c2@minigeek.lan>
-In-Reply-To: <20250811165225.2a01a93d@donnerap.manchester.arm.com>
-References: <20250801234918.19176-1-andre.przywara@arm.com>
-	<20250801234918.19176-3-andre.przywara@arm.com>
-	<3363499.aeNJFYEL58@jernej-laptop>
-	<20250811165225.2a01a93d@donnerap.manchester.arm.com>
+To: Eric Anderson <ejona86@gmail.com>
+Cc: u-boot@lists.denx.de, linux-sunxi <linux-sunxi@lists.linux.dev>, Stefan
+ Mavrodiev <stefan@olimex.com>
+Subject: Re: [PATCH] sunxi: Enable SPL/SPI boot for OLinuXino Lime2
+Message-ID: <20250812003057.0068a65e@minigeek.lan>
+In-Reply-To: <20250713002741.367252-1-ejona86@gmail.com>
+References: <20250713002741.367252-1-ejona86@gmail.com>
 Organization: Arm Ltd.
 X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
@@ -39,78 +35,61 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, 11 Aug 2025 16:52:25 +0100
-Andre Przywara <andre.przywara@arm.com> wrote:
+On Sat, 12 Jul 2025 17:27:41 -0700
+Eric Anderson <ejona86@gmail.com> wrote:
 
 Hi,
 
-> On Mon, 11 Aug 2025 17:34:47 +0200
-> Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
->=20
-> > Dne sobota, 2. avgust 2025 ob 01:49:17 Srednjeevropski poletni =C4=8Das=
- je Andre Przywara napisal(a): =20
-> > > Recent changes in the H6 clock code added delay() calls into the SPL =
-clock
-> > > setup routine, which requires the timers to work. When compiling for
-> > > AArch64, we are always using the Arm Generic Timer (aka. arch timer),
-> > > which does not require further setup, hence having an empty timer_ini=
-t()
-> > > routine.
-> > > However for 32-bit SoCs we use the Allwinner timers, which require so=
-me
-> > > setup routine, and hence we need timer_init() to be called before
-> > > clock_init().
-> > >=20
-> > > Swap the order of the two calls, to be more robust when compiling the=
- H6
-> > > clock code for AArch32 or when using the Allwinner timers for whatever
-> > > reason.
-> > >=20
-> > > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > > ---
-> > >  arch/arm/mach-sunxi/board.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/arch/arm/mach-sunxi/board.c b/arch/arm/mach-sunxi/board.c
-> > > index fb4837c2082..432b1c10f92 100644
-> > > --- a/arch/arm/mach-sunxi/board.c
-> > > +++ b/arch/arm/mach-sunxi/board.c
-> > > @@ -476,8 +476,8 @@ void board_init_f(ulong dummy)
-> > >  	/* Enable non-secure access to some peripherals */
-> > >  	tzpc_init();
-> > > =20
-> > > -	clock_init();
-> > >  	timer_init();
-> > > +	clock_init();   =20
-> >=20
-> > I contemplated similar change in past. It works fine for 64-bit archite=
-ctures,
-> > but I'm unsure for 32-bit. If you take a look at A83t clock code, it us=
-es
-> > sdelay() exactly because timer is not initialized at that time.
-> >=20
-> > So, are you sure that this change has no unwanted side effects? =20
->=20
-> No, I am not ;-)
-> I was about to test this on some more boards. But I think with the
-> change in that direction, the only issue would be if the timer_init() code
-> relies on the clocks being set up already. And since timer_init() is only
-> *one* rather small function, just doing MMIO accesses, I think the risk is
-> quite low.
->=20
-> Thanks for having a look anyway, I will report back how the test goes.
+> 58e9502e6 "arm: sunxi: Enable SPL/SPI boot for Olinuxino Lime2-eMMC
+> boards" enabled SPI boot for the eMMC variant. Olimex offers the
+> "s16MB" variant with SPI flash populated but without eMMC populated.
+> Tested on board rev L.
 
-Alright, I booted this patch on:
-A10, A20, A33, V40, A80, A83T, T113s3, F1C100s, H3
-(/me puts the mini-USB cables back into the shelf now)
+Indeed there is a config without eMMC and with SPI flash in their shop.
 
-For the A83T specifically, as a test, I replaced the sdelay() calls with
-udelay() ones, and it hangs with mainline, but works with this patch.
+But actually I wonder why Olimex has two different DTs for the
+eMMC-less boards and the board with eMMC. Many other boards make eMMC
+optional, either as separate SKUs, or when eMMC is on a module. And we
+just go with one DT, describing the eMMC, the code will just skip the
+initialisation if no "card" is found. That affects the A20 and A64
+boards.
 
-So unless someone speaks up now, I am tempted to merge this patch.
+So I wonder if anyone wants to clean this up, because I think we would
+only need the A20-OLinuXino-Lime2-eMMC_defconfig,
+A20-OLinuXino_MICRO-eMMC_defconfig and a64-olinuxino_defconfig.
+
+> Signed-off-by: Eric Anderson <ejona86@gmail.com>
+> ---
+>  configs/A20-OLinuXino-Lime2_defconfig | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/configs/A20-OLinuXino-Lime2_defconfig b/configs/A20-OLinuXino-Lime2_defconfig
+> index f885fc01e6e..a2c3dade795 100644
+> --- a/configs/A20-OLinuXino-Lime2_defconfig
+> +++ b/configs/A20-OLinuXino-Lime2_defconfig
+> @@ -2,6 +2,7 @@ CONFIG_ARM=y
+>  CONFIG_ARCH_SUNXI=y
+>  CONFIG_DEFAULT_DEVICE_TREE="sun7i-a20-olinuxino-lime2"
+>  CONFIG_SPL=y
+> +CONFIG_SPL_SPI_SUNXI=y
+
+This needs to go further down below. After configuring for a board, run
+"make savedefconfig", then compare the generated "defconfig" file
+with your ..._defconfig version (or just copy ./defconfig over).
+
+With this fixed:
+
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+
+Will fix this up while committing, so no further action needed.
 
 Cheers,
 Andre
+
+>  CONFIG_MACH_SUN7I=y
+>  CONFIG_DRAM_CLK=384
+>  CONFIG_I2C1_ENABLE=y
+
