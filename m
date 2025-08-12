@@ -1,33 +1,44 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C8A52ECD0A
-	for <linux-sunxi@lists.linux.dev>; Tue, 12 Aug 2025 10:56:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FBDF23D7E6;
+	Tue, 12 Aug 2025 17:59:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754996188; cv=none; b=sijAcVS36Ka91u4XXyH3TNEq85nB4gBcLsmc8fB+IUKw7x6Mkt5k6jrokE7EC7160Lpq18gghPiKAeuTwjGc1dQ3eMux/97Za77a8jaw69aD/R7c8WqIZybYLfUBBQnolPLAqZJFkOy5+g+5HJ7iU5amzLJ/vWpesaPV1uH+XYI=
+	t=1755021575; cv=none; b=tVRanKmw7vIRUqtzQSU8qaxDX00CHikNIkbFcQfZBu3zMChaAySAIyouPnZ2FpDY4MAMbRVhsmE+6MhRgXLhve5+slKtNt3chV+lh5ZXPbDQA3iIzZyvXjnBiZ2LyiYW21W1fnQr3xIxgzxgA0cGK8Z9wSvpslcjvs7qDYnpCj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754996188; c=relaxed/simple;
-	bh=qTHHtUA/A2HE7xxnbG6ePuhVeiiquEG5xMw2t3BFPes=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YSlY+K7u6HIByN4bXnV2UXvXiLNuk6Vw+yd3amNhB0J/G/QJ9MCz+aohjcC+ax3DvOwHu8Shs9yXBpv0NOOcMq93eOv6ukllfHTixlHYuMRJ23X7wCQnzqP8EAQ5cdf52dxiZK3WkdDofL685J2y9eb/WVbSNIhe9Dz5lfln3GM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 18E171A32;
-	Tue, 12 Aug 2025 03:56:18 -0700 (PDT)
-Received: from donnerap.arm.com (donnerap.manchester.arm.com [10.32.101.27])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 037653F63F;
-	Tue, 12 Aug 2025 03:56:24 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Tom Rini <trini@konsulko.com>
-Cc: u-boot@lists.denx.de,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Paul Kocialkowski <contact@paulk.fr>,
-	Eric Anderson <ejona86@gmail.com>,
-	linux-sunxi@lists.linux.dev
-Subject: [GIT PULL] u-boot-sunxi/master for v2025.10
-Date: Tue, 12 Aug 2025 11:56:05 +0100
-Message-Id: <20250812105605.1344927-1-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1755021575; c=relaxed/simple;
+	bh=gTNQRpJNsegfD6QsXYbhdr6zYCeN0parfn9aqx8WjLg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=tx1q0aGyum+sRhvmHFJaZVArTth6e+jXB5grPJmA0pX0U83ArB3WQJuvkhlCPv/CW6oRQYFuAAA+6utQ+aBgYJJ8xGHx9K3hSSsW4QCF7EzPi9Jeh5m5o5+6n0AL1HG7S86Zq/3Enu4lu+XBHyviYvY9d+JlzKDdSKKw34JNDzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LrFQOx2S; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LrFQOx2S"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2CC1C4CEF0;
+	Tue, 12 Aug 2025 17:59:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755021575;
+	bh=gTNQRpJNsegfD6QsXYbhdr6zYCeN0parfn9aqx8WjLg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=LrFQOx2SO2nY7CFh4Qngy3zJq8WfeEvwK/TFxKW2h9PQx1L+bFj92wt1Q0cC5xuz1
+	 NYIbuaHqzir7bDKPjpUbikXuv1IBGPgPW4xGA3XvDaJjoLQNHfDF4JNsHMxi+M1Et2
+	 sWJ+JIlSzQtzSd/r+kDK4mGSettZfapmCWib73E8ulCSbDRT8+D8rVd0+tIITBi5lM
+	 8JWSoN4tZ+y0GNnt2PxEIov08e1HRO4Kczx2gy9R1FymE+w2Jm6tC/NwMo7W6UxJLv
+	 xle2EMKeMX2ngR4TMrM6Yq62phLrD4/bx9AT/4iQahF9ZtZuKtW58gp/O08fMBmgV/
+	 Xof+Os5herYNQ==
+Received: by wens.tw (Postfix, from userid 1000)
+	id 328315FBD7; Wed, 13 Aug 2025 01:59:32 +0800 (CST)
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej@kernel.org>,
+	Samuel Holland <samuel@sholland.org>
+Cc: linux-sunxi@lists.linux.dev,
+	devicetree@vger.kernel.org,
+	Andre Przywara <andre.przywara@arm.com>,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] arm64: dts: allwinner: a527: cubie-a5e: Add LEDs
+Date: Wed, 13 Aug 2025 01:59:27 +0800
+Message-Id: <20250812175927.2199219-1-wens@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -36,82 +47,60 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi Tom,
+From: Chen-Yu Tsai <wens@csie.org>
 
-please pull these sunxi changes into v2025.10. It's mostly smaller fixes,
-and some additions that were dependent on recent DT updates:
-We switch the S3/V3/V3s over to OF_UPSTREAM, the DTs were already
-identical anyway. While at it, Paul sent more fixes for this SoC, I am
-pulling in two easy fixes that were ready and low risk. Apart from other
-assorted fixes, this PR also enables Ethernet on the new A527/T527 boards,
-made possible by the DT update from the DT rebasing repository.
+The Radxa Cubie A5E has a 3-color LED. The green and blue LEDs are wired
+to GPIO pins on the SoC, and the green one is lit by default to serve as
+a power indicator. The red LED is wired to the M.2 slot.
 
-This passed the CI, and was boot tested on boards with Allwinner A10, A20,
-A33, V40, A80, A83T, T113s3, F1C100s, H3, A64, H6, H616, A133 and T527 SoCs.
+Add device nodes for the green and blue LEDs.
 
-Thanks,
-Andre
+A default "heartbeat" trigger is set for the green power LED, though in
+practice it might be better if it were inverted, i.e. lit most of the
+time.
 
-===========================================================
-The following changes since commit acfacf452441d0a659e3afbd55fd6061aa17e647:
+Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+---
+ .../dts/allwinner/sun55i-a527-cubie-a5e.dts   | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-  Prepare v2025.10-rc2 (2025-08-11 13:47:46 -0600)
+diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
+index fce2b7d1ba3d..cb2a2b62a2b2 100644
+--- a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
++++ b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
+@@ -6,6 +6,7 @@
+ #include "sun55i-a523.dtsi"
+ 
+ #include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/leds/common.h>
+ 
+ / {
+ 	model = "Radxa Cubie A5E";
+@@ -28,6 +29,24 @@ ext_osc32k: ext-osc32k-clk {
+ 		clock-output-names = "ext_osc32k";
+ 	};
+ 
++	leds {
++		compatible = "gpio-leds";
++
++		power-led {
++			function = LED_FUNCTION_POWER;
++			color = <LED_COLOR_ID_GREEN>;
++			gpios = <&r_pio 0 4 GPIO_ACTIVE_LOW>; /* PL4 */
++			default-state = "on";
++			linux,default-trigger = "heartbeat";
++		};
++
++		use-led {
++			function = LED_FUNCTION_ACTIVITY;
++			color = <LED_COLOR_ID_BLUE>;
++			gpios = <&r_pio 0 5 GPIO_ACTIVE_LOW>; /* PL5 */
++		};
++	};
++
+ 	reg_vcc5v: vcc5v {
+ 		/* board wide 5V supply from the USB-C connector */
+ 		compatible = "regulator-fixed";
+-- 
+2.39.5
 
-are available in the Git repository at:
-
-  https://source.denx.de/u-boot/custodians/u-boot-sunxi.git master
-
-for you to fetch changes up to 553c5a69a5f1e36c8c6cd654e48601322979b8fb:
-
-  sunxi: H616: dram: fix LPDDR3 mode register settings (2025-08-12 00:50:57 +0100)
-
-----------------------------------------------------------------
-Andre Przywara (5):
-      pinctrl: sunxi: a523: change Ethernet pin function name
-      sunxi: a527: radxa/avaota: enable Ethernet
-      sunxi: a133: dram: fix data type for address variable
-      sunxi: spl: initialise timer before clocks
-      sunxi: H616: dram: fix LPDDR3 mode register settings
-
-Eric Anderson (1):
-      sunxi: Enable SPL/SPI boot for OLinuXino Lime2
-
-Paul Kocialkowski (3):
-      sunxi: Switch V3/V3s device-tree source to OF_UPSTREAM
-      sunxi: Kconfig: Fix default order for V3s DRAM clock
-      sunxi: pinecube: Enable EMAC and network support
-
- arch/arm/dts/Makefile                         |   5 -
- arch/arm/dts/sun8i-s3-elimo-impetus.dtsi      |  44 --
- arch/arm/dts/sun8i-s3-elimo-initium.dts       |  29 --
- arch/arm/dts/sun8i-s3-lichee-zero-plus.dts    |  53 ---
- arch/arm/dts/sun8i-s3-pinecube.dts            | 228 ---------
- arch/arm/dts/sun8i-v3-sl631-imx179.dts        |  12 -
- arch/arm/dts/sun8i-v3-sl631.dtsi              | 138 ------
- arch/arm/dts/sun8i-v3.dtsi                    |  63 ---
- arch/arm/dts/sun8i-v3s-anbernic-rg-nano.dts   | 276 -----------
- arch/arm/dts/sun8i-v3s-licheepi-zero-dock.dts | 105 -----
- arch/arm/dts/sun8i-v3s-licheepi-zero.dts      | 101 ----
- arch/arm/dts/sun8i-v3s.dtsi                   | 656 --------------------------
- arch/arm/mach-sunxi/Kconfig                   |   3 +-
- arch/arm/mach-sunxi/board.c                   |   2 +-
- arch/arm/mach-sunxi/dram_sun50i_a133.c        |   2 +-
- arch/arm/mach-sunxi/dram_sun50i_h616.c        |  12 +-
- configs/A20-OLinuXino-Lime2_defconfig         |   1 +
- configs/LicheePi_Zero_defconfig               |   3 +-
- configs/avaota-a1_defconfig                   |   2 +
- configs/pinecube_defconfig                    |   4 +-
- configs/radxa-cubie-a5e_defconfig             |   2 +
- drivers/pinctrl/sunxi/pinctrl-sunxi.c         |   2 +-
- 22 files changed, 19 insertions(+), 1724 deletions(-)
- delete mode 100644 arch/arm/dts/sun8i-s3-elimo-impetus.dtsi
- delete mode 100644 arch/arm/dts/sun8i-s3-elimo-initium.dts
- delete mode 100644 arch/arm/dts/sun8i-s3-lichee-zero-plus.dts
- delete mode 100644 arch/arm/dts/sun8i-s3-pinecube.dts
- delete mode 100644 arch/arm/dts/sun8i-v3-sl631-imx179.dts
- delete mode 100644 arch/arm/dts/sun8i-v3-sl631.dtsi
- delete mode 100644 arch/arm/dts/sun8i-v3.dtsi
- delete mode 100644 arch/arm/dts/sun8i-v3s-anbernic-rg-nano.dts
- delete mode 100644 arch/arm/dts/sun8i-v3s-licheepi-zero-dock.dts
- delete mode 100644 arch/arm/dts/sun8i-v3s-licheepi-zero.dts
- delete mode 100644 arch/arm/dts/sun8i-v3s.dtsi
