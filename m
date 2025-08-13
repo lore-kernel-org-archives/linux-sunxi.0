@@ -1,101 +1,119 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40FDE29CB47
-	for <linux-sunxi@lists.linux.dev>; Wed, 13 Aug 2025 16:16:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FE14280CFB
+	for <linux-sunxi@lists.linux.dev>; Wed, 13 Aug 2025 16:39:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755101802; cv=none; b=FCvfdrtQ+X9fXypv4DfHWBrY4zsasbeFCAvcd+1yRKQueL2jbhDIgTJOlcD8sGiOXSRLBY8J7aaa1UM7sDAlQtOGiwF6LjNfBRFXI0fyIJ4DcJ/H47/tDHsrekkZk1Hjtt0ACQq6ajZ82cOHoTOFLDnnmgc3uuI5kID7HSQD18c=
+	t=1755103171; cv=none; b=vBEzX4ccMNZ2KtC0wThbRdgpXverfo+iewbBk9H5EsP6cSeq3bz1cKc6rn1ov7kr/39fyBh4x40L3ud472+4Beczl777V5qW0JNnXA5sjPpYTeQY7/C2JPkhYSs2SxBVSfOyX28HMp5DeTvdiGnShq4Wtyp27NZRXsxWH6q31w4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755101802; c=relaxed/simple;
-	bh=dXAFOJV0SGBUatGoNYRvGk5QTJnQjgRKttoy4t0T+eg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Iw5TQk4KYQI20Nhrv0eIvZytcqcoNx5tu7uFvI0hzeaJ3WGITZOvvuXXFsanMKXaJJWfannBe6ckIR13bMgrn+r3ZCU7Fjda/oV92RiA1SxaLSEmLUwHexBj3J6wyZ7qmtOKQ8ZE3W2+I3ILGJl1PBAsBzEVKtKQismLPTsiY5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=ISvYTgWh; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1755103171; c=relaxed/simple;
+	bh=6jhThN3V5Sy9HAQLake0C0yKwgeTlss8RsoaPr0/fIY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HVRfeTAOUvmoZ987xhNM8nxb/bbxtThr4gx5nTNTLJm3uSYZ2NW3b1zvqirKbi6TtVlT2CPtedcyRnfV9CNjpBat5cAWffgCwTuecbwe2P2xOCVrGas/49JJyWn/4SNHQZ8YiNTph+nthm2/yHeTvQFxSlEEqL938uSjx1wvxM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=sLdiBpUQ; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="ISvYTgWh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=rSNYE0+8wGItL53UywO960XlXbzNXz6cVLTWx6ycvcQ=; b=ISvYTg
-	WhDGx+Wy35plAXwYUFhPtCCl8PJ7ohyke+YARSl/rdaBMTQW3aCYHG03tjxQ3RL5
-	lS+Qt6fczyFDZiUyiSsLcOqjcPnHweE45GquDtv3yDwOOfJeYqX+FO04280N2not
-	qNchAZ5650rZh7EQu6rRzKGoSADIcpQhBz80xUCVduS4Du5I+EMJhGuv8Yq0Z39i
-	5J72ESW08BF/zWZ9VMrTzGrzFYsdgA8xRK1ieDgD1AMY0mQvc1NIvwMO8n3wT90R
-	7v2ibIbmJc/R/xdY1JWKehrd2NVpNVmXDKcn9IwCnPHabtpqVE+Y8XbYFgnTkCz+
-	TRfrV52Gre5fOrPA==
-Received: (qmail 695845 invoked from network); 13 Aug 2025 18:16:32 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 13 Aug 2025 18:16:32 +0200
-X-UD-Smtp-Session: l3s3148p1@1HHeekE8Er1tKLKq
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-kernel@vger.kernel.org
-Cc: Mark Brown <broonie@kernel.org>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>,
-	Lukasz Luba <lukasz.luba@arm.com>,
-	Vasily Khoruzhick <anarsoul@gmail.com>,
-	Yangtao Li <tiny.windzz@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-pm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH 20/21] thermal: remove unneeded 'fast_io' parameter in regmap_config
-Date: Wed, 13 Aug 2025 18:15:06 +0200
-Message-ID: <20250813161517.4746-21-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250813161517.4746-1-wsa+renesas@sang-engineering.com>
-References: <20250813161517.4746-1-wsa+renesas@sang-engineering.com>
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="sLdiBpUQ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=0RmjA/0wiM4s7TkHx13AGbryUZlazMaMKFUlnrneZd8=; b=sLdiBpUQ6Yi+E7x3xU6hlF9M8i
+	PnCofosIIGDvBfpg1eNpOM7+bfa0aFRmpvdr80QrtJ4ZAihQqJI/yt8SHMhnaL94kqYLIq/Vl7sZ0
+	z3r12w8VXITbqpgNB981DFKF4qjjhw8HfynZBRCAj8z4okX0Ycn1Rz3UiGNTrvHkkME9mEPB7FNWZ
+	BBgiPuymq90exhf6beW9yubxMbXDTN8qvjdqdrtcLR8kcITjAccHv0uuZQXY6Eitdn/sEdYKOe8Dn
+	5ijge/Vtvg4pvrx9GIfPJI9NslD/y4GbqhV+tGVBGiBoVPEPbcCojGZJgv1lX+SULMrBi/WpbjN5e
+	wE7F558w==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:34320)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1umEVL-00073q-0M;
+	Wed, 13 Aug 2025 17:39:11 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.96)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1umEVF-0005uD-34;
+	Wed, 13 Aug 2025 17:39:06 +0100
+Date: Wed, 13 Aug 2025 17:39:05 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Chen-Yu Tsai <wens@kernel.org>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jernej Skrabec <jernej@kernel.org>,
+	Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andre Przywara <andre.przywara@arm.com>
+Subject: Re: [PATCH net-next v2 06/10] arm64: dts: allwinner: a527:
+ cubie-a5e: Add ethernet PHY reset setting
+Message-ID: <aJy_qUbmqoOG-GBC@shell.armlinux.org.uk>
+References: <20250813145540.2577789-1-wens@kernel.org>
+ <20250813145540.2577789-7-wens@kernel.org>
+ <aJyraGJ3JbvfGfEw@shell.armlinux.org.uk>
+ <CAGb2v67cKrQygew2CVaq5GCGvzcpkSdU_12Gjq9KR7tFFBow0Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGb2v67cKrQygew2CVaq5GCGvzcpkSdU_12Gjq9KR7tFFBow0Q@mail.gmail.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-When using MMIO with regmap, fast_io is implied. No need to set it
-again.
+On Wed, Aug 13, 2025 at 11:51:18PM +0800, Chen-Yu Tsai wrote:
+> On Wed, Aug 13, 2025 at 11:12 PM Russell King (Oracle)
+> <linux@armlinux.org.uk> wrote:
+> >
+> > On Wed, Aug 13, 2025 at 10:55:36PM +0800, Chen-Yu Tsai wrote:
+> > > diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
+> > > index 70d439bc845c..d4cee2222104 100644
+> > > --- a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
+> > > +++ b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
+> > > @@ -94,6 +94,9 @@ &mdio0 {
+> > >       ext_rgmii_phy: ethernet-phy@1 {
+> > >               compatible = "ethernet-phy-ieee802.3-c22";
+> > >               reg = <1>;
+> > > +             reset-gpios = <&pio 7 8 GPIO_ACTIVE_LOW>; /* PH8 */
+> > > +             reset-assert-us = <10000>;
+> > > +             reset-deassert-us = <150000>;
+> >
+> > Please verify that kexec works with this, as if the calling kernel
+> > places the PHY in reset and then kexec's, and the reset remains
+> > asserted, the PHY will not be detected.
+> 
+> I found this to be a bit confusing to be honest.
+> 
+> If I put the reset description in the PHY (where I think it belongs),
+> then it wouldn't work if the reset isn't by default deasserted (through
+> some pull-up). This would be similar to the kexec scenario.
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
-No dependencies, can be applied directly to the subsystem tree. Buildbot is
-happy, too.
+The reason for this is quite simple. While it's logical to put it in
+there, the problem is that the PHY doesn't respond on the MDIO bus
+while it's reset pin is asserted.
 
- drivers/thermal/armada_thermal.c | 1 -
- drivers/thermal/sun8i_thermal.c  | 1 -
- 2 files changed, 2 deletions(-)
+Consequently, when we probe the MDIO bus to detect PHYs and discover
+the PHY IDs, we get no response, and thus we believe there isn't a
+device at the address. That means we don't create a device, and thus
+there's no mdio device for the address.
 
-diff --git a/drivers/thermal/armada_thermal.c b/drivers/thermal/armada_thermal.c
-index c2fbdb534f61..252d5afecea1 100644
---- a/drivers/thermal/armada_thermal.c
-+++ b/drivers/thermal/armada_thermal.c
-@@ -722,7 +722,6 @@ static const struct regmap_config armada_thermal_regmap_config = {
- 	.reg_bits = 32,
- 	.reg_stride = 4,
- 	.val_bits = 32,
--	.fast_io = true,
- };
- 
- static int armada_thermal_probe_legacy(struct platform_device *pdev,
-diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_thermal.c
-index 22674790629a..284684137c43 100644
---- a/drivers/thermal/sun8i_thermal.c
-+++ b/drivers/thermal/sun8i_thermal.c
-@@ -149,7 +149,6 @@ static const struct regmap_config config = {
- 	.reg_bits = 32,
- 	.val_bits = 32,
- 	.reg_stride = 4,
--	.fast_io = true,
- 	.max_register = 0xfc,
- };
- 
+There is a work-around, which is to encode the PHY ID in the DT
+compatible (check the ethernet-phy binding). However, note that we
+will then not read the actual PHY ID (maybe we should?) which means
+if the driver wants to know e.g. the revision, or during production
+the PHY changes, it will require DT to change.
+
 -- 
-2.47.2
-
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
