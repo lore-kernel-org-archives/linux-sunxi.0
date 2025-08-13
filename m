@@ -1,64 +1,64 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E98B4235362
-	for <linux-sunxi@lists.linux.dev>; Wed, 13 Aug 2025 15:26:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC216238142
+	for <linux-sunxi@lists.linux.dev>; Wed, 13 Aug 2025 15:27:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755098782; cv=none; b=JBarrtUuZDllOfLiuvMYHd5D706vsWKFf1/CvmBOLh0bsy3U53YLYS5WUcdRwwhTe51BcC0J7tfSJ3yZSdiCqs4KmuvtFsXMVZSCteTf9oFZFikigIoPt+K5HFvFnHCQBcBzr+qXtrC4zMWg/kY2er9cjsxU9WylKUh2mpAtU/w=
+	t=1755098832; cv=none; b=EcderNlvdb382lU+hlYKVIPXUdjuixnQJ65gyIrcw95taizlDBrLZsAU4AC9xczJ3g7j2Fi2JvqJZGcP0Fgi5QLltNu3AA6rEzSKlVwtjQffueGpY64XnTxa60avPZ6ZwnSLOGV+RWUiGPqYgG7gkflLTlRuWXXW+i9hyT6qs2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755098782; c=relaxed/simple;
-	bh=T9ew6vV7It536VuL2qh0FYOmync27BJ+NqE+bgI6NO4=;
+	s=arc-20240116; t=1755098832; c=relaxed/simple;
+	bh=alzjLEe2fEl8rrt5jUx+xc9uy3t9RY8ZhInQDMnJePA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bxeJDHNU9yO85QB5yrw9AHUVqQehKCsG6Eoiynr1mS6or0wlI83KpvmwZDcRVekB/E2r9/UVRHwRm1dbuQh2yS6OnkG7O7I7n2+orVSCvl5+8CigYl0ZEB+Cl5uIRzDxacVJ98fYeVycFOTzYYqeAdGO3svWbY0RGeFgGADtJCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kGuq4iBX; arc=none smtp.client-ip=209.85.128.44
+	 MIME-Version:Content-Type; b=KGefHnZhOOXQu2lMl73rgeciOxKBnOiV9h2iIPdDf/W0ct65UhkrP5nVGYrQZiwlXOQCVI5tFQBP2GtfsZhlVe7sLTxa9zuGYKuj+XYMgJ/cIU+5ykBK983UF5TraRGLYcVf5unugjzw2SP1JWejSnhoMPdoqahYTLDnX8yAzDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TNDChBc2; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kGuq4iBX"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-459ddf8acf1so56971085e9.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 13 Aug 2025 08:26:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TNDChBc2"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-458bf6d69e4so60658975e9.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 13 Aug 2025 08:27:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755098778; x=1755703578; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1755098829; x=1755703629; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bHmzj/owjBnWQXccQqjtqoeZzUsvFVlqZRdyc+4n9B0=;
-        b=kGuq4iBXJsK5/omKLtlwfcnUpEY9qV/vyU8Tx8RkjN5UxI3VDRuxBEynk4mP7H8hRG
-         qJYbf3cowC35ne+ApdhAzY+Ffhb2hvDCLjGEmUp5mCMWu3YWqaC96IDpH4/erWNPHpHc
-         HfZpHwGbbSq0XPNlhTxX1rBXVgHzr2BQuUIQ0mT+o/Wfp6EDeNqc1FiTQSkyX8Kbx+BH
-         mADbmCMBwfOLhypuaYW9VtqyRKZpJ9KA/TUK/9dcrzAcneXLRWrsMDCzNjHZ6MjN5R4+
-         iYCvyJlB62ghwxmp+KCsUqgIjO378Q6+l6H60A5gjBuW/w49FomhL4TU29lKFY18iG8/
-         vApg==
+        bh=LZIyAAVxGkCRQr9BUYAZ8nPgNM4Ndhfq5a5jE1scOa0=;
+        b=TNDChBc2R8z06laga27b27eFQExnUKFmyprQ5HDsK4xGLq5QeODzWWpP5BIjpy1kBi
+         8F5524/eAvxHMacBtH8xsMyQj/L0JQFd6cwM+vH1dOV4oHf1GftWOzGhxeGYUs6OqC0m
+         xGFU+p7pTrQYZMIEAuD2kVxqbtPwUaIb09MIG8FW0jsEdoKdaDlWdQXOLdIQIxgS9Pbm
+         pV23qbmJNcs0Z5IXmyVZbX66fBm4BxUyAt9FJYGkzs5jUgtZCNfaAQQoHMshAs77AzsF
+         SF6CmDlVJjTp8Tq4NrD/nJKK4kOh7uadBEIuqMmcGg/f0b7xj5D1b/at5RaEZJdKJKy8
+         FK6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755098778; x=1755703578;
+        d=1e100.net; s=20230601; t=1755098829; x=1755703629;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bHmzj/owjBnWQXccQqjtqoeZzUsvFVlqZRdyc+4n9B0=;
-        b=cMtUm53OsjDxI1wG4izLI5CmDXME36Uu2HoZ/AbDI7mCbCP48121K3LKDvVZqEHjtS
-         rHBx1gQXHpeQICfO4fg1GT4NO/jcUtJDJOo2pNrv1a+u3XaE+WRzOm9eLtfmO00T3z47
-         A92PbTww6VpOHm6/iAD3y1qkkcvDgB4ZMVgVnSHO4j4zwEPPTj36ySnh6/5BCjrDcTIW
-         ocdm/lJ1ZWuKSFFHfwNZ5LvsZDmDLSx2XDrHjfKSHotdOWfTCjAW1vDXpwPvAtVhLm2y
-         mTA/EL5D3jwVKInIm5wOmvnkX9WHkM/gN6R+8EUnKlGjIJ+zR+DPmst/QuczkwxSMGl0
-         2E0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUCf2GD9QGAUr9QdOyhMM9Vi2/3XlJFGrW8gRcGSfE0COzZIr/z/fXgZVL4zOBEzbY8fulw13pKQa9ZLQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YykIfJsH0orGUL8LYByMoF2LCBcFUbkBzfMqOdszf0UxtBXuFsd
-	YB3Tq9kBYg/K3xI65hy5CVWB9b0salsu5lGDnYfD+C+t9J0GM/R4k6tp
-X-Gm-Gg: ASbGncubl5GDFRIn2qiFAD/Qu0xqHCfa2RhioIThc76DYuxiFfKbFrPm4eH6bZqXK+q
-	mTitQ4XUUHnLwu9WYVXOOJyHe4t9hoE9U9fyxTPXpAigR5g2WF4Cfl58BROqDre1/EsBtS9PlCS
-	W/haznyZml75zMHrHCjem+kie/xkLhL19X7A5TA0d/2QHTNZcOZFHhYlbmjcAiPxejHDGrlEai5
-	iFZCuHUZHnUm53XhPicZlJCVhhRyJY5i8Zv0tM1p2OmZBZelCKV/zc3Xeg6Heo+ziUtJ//+atqz
-	+CLi4g3fAmoO4o3deNbh6Y2i/tBQV6f54n7GPCeSznHpSlj+KQanNLs8YyWgQkHkRquq1nCudOx
-	dJIu8yj+02Fq01oH1J5wuvHdpWfvu+CUx6aMrkBsMrgm8ppdqrAN0JrcI9s1QI25mWbAOoxxFch
-	Z0uQ8m1wFQ
-X-Google-Smtp-Source: AGHT+IHUC2ftwzSvSylSdT06ajBela8u5SU+ijYkDLGHo9/q750n74l021ps+CiYV2OdEDDglYn8Pw==
-X-Received: by 2002:a05:600c:19cf:b0:458:bfe1:4a91 with SMTP id 5b1f17b1804b1-45a166350a2mr28993085e9.20.1755098778076;
-        Wed, 13 Aug 2025 08:26:18 -0700 (PDT)
+        bh=LZIyAAVxGkCRQr9BUYAZ8nPgNM4Ndhfq5a5jE1scOa0=;
+        b=Lz6z3xzkkOm/nKkntmQ5olnHcgvFUfmKnfe2q/kl+NOp1CIpkJeU0d0ue0De/3N+fk
+         idsICsm3XlyLIhINvbg7woycA7kdvkerF+PGu9rUj++YiAVO60wtKiyOSezw9j45u52L
+         49R9l3HTm5BF4It+EBR7YJOOcidvoxcGVAHP23bngOyZ9iu62maSnR5gNkEOr20ocfQz
+         9sHFGpEAISzQ4YMsF6yhDGrFmNUpjqOyM1c7/qL0Lp06cw17z4/lbHCpIH2LWbnpDYS1
+         l2VSccbq0ss3IjD626rTu5hr4FJTE4ndzO9wbhTYDUHJHIdk8hIg7I9x1c7E4x4sgOmL
+         PNcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXBmEyfxbVh72WlC3w3ZyOWCyYgZXRgu+12D/a2c7mPsXv6UIhSB1qN3gFjzwcswtfOBbS5FQcL8dukKA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz620KeXyiSeZ2WvEQ6YnveYanoZhrWSrGa/HeUDMEP03+nBZ1w
+	1Go/BB2TyPHHz2t9mfDpuYExaBxElNdTliz95OcX+sxHaB8gm8ivojlB
+X-Gm-Gg: ASbGncsVMJq68VY8PecJy+RJOZQ48vnjqqUQN4HR6BUqkZivqEuQ6Li1S897277YYLr
+	q6iX1ozM8kPuWpJ/alwnP1SZd5TSLpzWwgiKF0VDryjA+r+AuAC+/08pfu3M+WDGsvlIReieGTe
+	K5VAPgLXQC2o9SFepf5jlcIKQARfFEuNjenO0q9Zv4J+GEqrF+VC77mL7KXiRXlvSm8RiVjnH5p
+	Kb4qAoa62kg4pMxcf1UVZx2lTtUCZ7D1yopXP4SQeC+sOO1Rzj9wEx1brj6DtM1w7ZXpHNlVRw/
+	MiUCLbj/0DX/ipzxmbWv7leuhyA2VkbNwgR3C6v/mw/cDjo8NvUrs1EDKxHujm8vDqAQoq/x2OH
+	VzWQv+v975CDYQLqxdIrTupEZY/y/5jQ5Spe2wShTc+G0D9mw5iTKsfRyjLSotrufar6KlV+Dld
+	mmJYF/WZHj
+X-Google-Smtp-Source: AGHT+IEX4BDNa5mzqwSGmhUw6KuEqvUFZNcO+D5WjOPXTrwn2jJiUF7/1VKfEyNQ34hedf4mE52tig==
+X-Received: by 2002:a05:600c:5254:b0:459:ddad:a3bd with SMTP id 5b1f17b1804b1-45a165d4d2emr30205835e9.15.1755098829053;
+        Wed, 13 Aug 2025 08:27:09 -0700 (PDT)
 Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a1a50b99bsm6611325e9.5.2025.08.13.08.26.16
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a1a509b9bsm6560505e9.6.2025.08.13.08.27.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Aug 2025 08:26:17 -0700 (PDT)
+        Wed, 13 Aug 2025 08:27:08 -0700 (PDT)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Andrew Lunn <andrew+netdev@lunn.ch>,
  "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
@@ -71,14 +71,14 @@ Cc: netdev@vger.kernel.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
  linux-kernel@vger.kernel.org, Andre Przywara <andre.przywara@arm.com>
 Subject:
- Re: [PATCH net-next v2 05/10] arm64: dts: allwinner: a523: Add GMAC200
- ethernet controller
-Date: Wed, 13 Aug 2025 17:26:15 +0200
-Message-ID: <5030505.31r3eYUQgx@jernej-laptop>
-In-Reply-To: <20250813145540.2577789-6-wens@kernel.org>
+ Re: [PATCH net-next v2 07/10] arm64: dts: allwinner: a527: cubie-a5e: Enable
+ second Ethernet port
+Date: Wed, 13 Aug 2025 17:27:06 +0200
+Message-ID: <2376533.ElGaqSPkdT@jernej-laptop>
+In-Reply-To: <20250813145540.2577789-8-wens@kernel.org>
 References:
  <20250813145540.2577789-1-wens@kernel.org>
- <20250813145540.2577789-6-wens@kernel.org>
+ <20250813145540.2577789-8-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -88,15 +88,19 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne sreda, 13. avgust 2025 ob 16:55:35 Srednjeevropski poletni =C4=8Das je =
+Dne sreda, 13. avgust 2025 ob 16:55:37 Srednjeevropski poletni =C4=8Das je =
 Chen-Yu Tsai napisal(a):
 > From: Chen-Yu Tsai <wens@csie.org>
 >=20
-> The A523 SoC family has a second ethernet controller, called the
-> GMAC200. It is not exposed on all the SoCs in the family.
+> On the Radxa Cubie A5E board, the second Ethernet controller, aka the
+> GMAC200, is connected to a second external Maxio MAE0621A PHY. The PHY
+> uses an external 25MHz crystal, and has the SoC's PJ16 pin connected to
+> its reset pin.
 >=20
-> Add a device node for it. All the hardware specific settings are from
-> the vendor BSP.
+> Enable the second Ethernet port. Also fix up the label for the existing
+> external PHY connected to the first Ethernet port. An enable delay for the
+> PHY supply regulator is added to make sure the PHY's internal regulators
+> are fully powered and the PHY is operational.
 >=20
 > Signed-off-by: Chen-Yu Tsai <wens@csie.org>
 
@@ -108,85 +112,86 @@ Jernej
 > ---
 >=20
 > Changes since v1:
-> - Fixed typo in tx-queues-config
+> - Switch to generic (tx|rx)-internal-delay-ps properties
+> - Add PHY regulator delay
 > ---
->  .../arm64/boot/dts/allwinner/sun55i-a523.dtsi | 55 +++++++++++++++++++
->  1 file changed, 55 insertions(+)
+>  .../dts/allwinner/sun55i-a527-cubie-a5e.dts   | 28 +++++++++++++++++--
+>  1 file changed, 26 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi b/arch/arm64/=
-boot/dts/allwinner/sun55i-a523.dtsi
-> index 6b6f2296bdff..449bcafbddcd 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-> @@ -180,6 +180,16 @@ rgmii0_pins: rgmii0-pins {
->  				bias-disable;
+> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts b/ar=
+ch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
+> index d4cee2222104..e96a419faf21 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
+> +++ b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
+> @@ -14,6 +14,7 @@ / {
+> =20
+>  	aliases {
+>  		ethernet0 =3D &gmac0;
+> +		ethernet1 =3D &gmac1;
+>  		serial0 =3D &uart0;
+>  	};
+> =20
+> @@ -76,7 +77,7 @@ &ehci1 {
+> =20
+>  &gmac0 {
+>  	phy-mode =3D "rgmii-id";
+> -	phy-handle =3D <&ext_rgmii_phy>;
+> +	phy-handle =3D <&ext_rgmii0_phy>;
+>  	phy-supply =3D <&reg_cldo3>;
+> =20
+>  	allwinner,tx-delay-ps =3D <300>;
+> @@ -85,13 +86,24 @@ &gmac0 {
+>  	status =3D "okay";
+>  };
+> =20
+> +&gmac1 {
+> +	phy-mode =3D "rgmii-id";
+> +	phy-handle =3D <&ext_rgmii1_phy>;
+> +	phy-supply =3D <&reg_cldo4>;
+> +
+> +	tx-internal-delay-ps =3D <300>;
+> +	rx-internal-delay-ps =3D <400>;
+> +
+> +	status =3D "okay";
+> +};
+> +
+>  &gpu {
+>  	mali-supply =3D <&reg_dcdc2>;
+>  	status =3D "okay";
+>  };
+> =20
+>  &mdio0 {
+> -	ext_rgmii_phy: ethernet-phy@1 {
+> +	ext_rgmii0_phy: ethernet-phy@1 {
+>  		compatible =3D "ethernet-phy-ieee802.3-c22";
+>  		reg =3D <1>;
+>  		reset-gpios =3D <&pio 7 8 GPIO_ACTIVE_LOW>; /* PH8 */
+> @@ -100,6 +112,16 @@ ext_rgmii_phy: ethernet-phy@1 {
+>  	};
+>  };
+> =20
+> +&mdio1 {
+> +	ext_rgmii1_phy: ethernet-phy@1 {
+> +		compatible =3D "ethernet-phy-ieee802.3-c22";
+> +		reg =3D <1>;
+> +		reset-gpios =3D <&pio 9 16 GPIO_ACTIVE_LOW>; /* PJ16 */
+> +		reset-assert-us =3D <10000>;
+> +		reset-deassert-us =3D <150000>;
+> +	};
+> +};
+> +
+>  &mmc0 {
+>  	vmmc-supply =3D <&reg_cldo3>;
+>  	cd-gpios =3D <&pio 5 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PF6 */
+> @@ -240,6 +262,8 @@ reg_cldo4: cldo4 {
+>  				regulator-min-microvolt =3D <3300000>;
+>  				regulator-max-microvolt =3D <3300000>;
+>  				regulator-name =3D "vcc-pj-phy";
+> +				/* enough time for the PHY to fully power on */
+> +				regulator-enable-ramp-delay =3D <150000>;
 >  			};
 > =20
-> +			rgmii1_pins: rgmii1-pins {
-> +				pins =3D "PJ0", "PJ1", "PJ2", "PJ3", "PJ4",
-> +				       "PJ5", "PJ6", "PJ7", "PJ8", "PJ9",
-> +				       "PJ11", "PJ12", "PJ13", "PJ14", "PJ15";
-> +				allwinner,pinmux =3D <5>;
-> +				function =3D "gmac1";
-> +				drive-strength =3D <40>;
-> +				bias-disable;
-> +			};
-> +
->  			uart0_pb_pins: uart0-pb-pins {
->  				pins =3D "PB9", "PB10";
->  				allwinner,pinmux =3D <2>;
-> @@ -601,6 +611,51 @@ mdio0: mdio {
->  			};
->  		};
-> =20
-> +		gmac1: ethernet@4510000 {
-> +			compatible =3D "allwinner,sun55i-a523-gmac200",
-> +				     "snps,dwmac-4.20a";
-> +			reg =3D <0x04510000 0x10000>;
-> +			clocks =3D <&ccu CLK_BUS_EMAC1>, <&ccu CLK_MBUS_EMAC1>;
-> +			clock-names =3D "stmmaceth", "mbus";
-> +			resets =3D <&ccu RST_BUS_EMAC1>;
-> +			reset-names =3D "stmmaceth";
-> +			interrupts =3D <GIC_SPI 47 IRQ_TYPE_LEVEL_HIGH>;
-> +			interrupt-names =3D "macirq";
-> +			pinctrl-names =3D "default";
-> +			pinctrl-0 =3D <&rgmii1_pins>;
-> +			power-domains =3D <&pck600 PD_VO1>;
-> +			syscon =3D <&syscon>;
-> +			snps,fixed-burst;
-> +			snps,axi-config =3D <&gmac1_stmmac_axi_setup>;
-> +			snps,mtl-rx-config =3D <&gmac1_mtl_rx_setup>;
-> +			snps,mtl-tx-config =3D <&gmac1_mtl_tx_setup>;
-> +			status =3D "disabled";
-> +
-> +			mdio1: mdio {
-> +				compatible =3D "snps,dwmac-mdio";
-> +				#address-cells =3D <1>;
-> +				#size-cells =3D <0>;
-> +			};
-> +
-> +			gmac1_mtl_rx_setup: rx-queues-config {
-> +				snps,rx-queues-to-use =3D <1>;
-> +
-> +				queue0 {};
-> +			};
-> +
-> +			gmac1_stmmac_axi_setup: stmmac-axi-config {
-> +				snps,wr_osr_lmt =3D <0xf>;
-> +				snps,rd_osr_lmt =3D <0xf>;
-> +				snps,blen =3D <256 128 64 32 16 8 4>;
-> +			};
-> +
-> +			gmac1_mtl_tx_setup: tx-queues-config {
-> +				snps,tx-queues-to-use =3D <1>;
-> +
-> +				queue0 {};
-> +			};
-> +		};
-> +
->  		ppu: power-controller@7001400 {
->  			compatible =3D "allwinner,sun55i-a523-ppu";
->  			reg =3D <0x07001400 0x400>;
+>  			reg_cpusldo: cpusldo {
 >=20
 
 
