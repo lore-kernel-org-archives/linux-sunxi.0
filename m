@@ -1,44 +1,44 @@
 Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 128E22FE59F
-	for <linux-sunxi@lists.linux.dev>; Wed, 13 Aug 2025 15:11:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4176D2FAC18
+	for <linux-sunxi@lists.linux.dev>; Wed, 13 Aug 2025 15:12:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755097904; cv=none; b=A9y1tQ1+yQc0sPkU8XC+MNhrBNTZrpBcrVOrT8f/sERdCZ5lGAfUq2e7ML4yDpyeDWhBKc98/9AW2bgMdMIihO/QMjkpb0DU+sNC6F9sfsvlT/vkbNoDuJUqDl6tmMPcsITE8q/YduLO3h80poA3y98OALNH30meYZwpQikvLSk=
+	t=1755097980; cv=none; b=Ha4YG0qaUpH4WOjsfIvnoRm0qV/7rk4eV2wibNGTrhUjSU4VU7ITENusrycFqG8tWal7LPJki9aKKeXTp2AtpJgsa5sTXY5y1Z7DCswtwTddnR1K5gtRmFnU+Qns/wIVH4MDerbJuqj7HO70njxOOjbba0cuw9pzt9kPVSraey4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755097904; c=relaxed/simple;
-	bh=2yskElXrJjNSFbolXxtSWkQFTJIr/Kri1xcUA4o5Qzw=;
+	s=arc-20240116; t=1755097980; c=relaxed/simple;
+	bh=z0nf7nEe5UmaN9hhZAnvfuPeleKckGUCNgev9gRMPlQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kJMgqrccXFMmffaXyTqa/UVEZYMo1OgaelpwQSSTEo7YlH2UHqY1UFXIwGG8EhMlHM9tU+AbCa/UESkH7b+SHUAbbMFBnXziKjVkZi2fLKbwUiuKv5Xdfk9JiD2rXi5jAk1MnJoVAf3yCKq4YryeU2EaUkJsb8jZF4jR1x9puic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=L6UQnLWY; arc=none smtp.client-ip=78.32.30.218
+	 Content-Type:Content-Disposition:In-Reply-To; b=sVxNJ8qnEAxHYfgatS/mjdBCqbDapal9msGcOAnGmj4UAyRN4pDQOBg9YhFq3wXHkJj52PtbCLTt7rDRt2P2gUgD5hJqfJstfjP4e46VGtrqwQdIB+1c5leoh0bkQOrTTT/sC2cOlmExbZ3X52rWfyOfSh1fID8Zc/FiYALryc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=u3E8TZj8; arc=none smtp.client-ip=78.32.30.218
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="L6UQnLWY"
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="u3E8TZj8"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
 	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=LMlJoJUN3z4TOoymhV2DtpiX1kn0KKwfF8qPS2pcmHU=; b=L6UQnLWYrMlrHVT3n8xXDG3ugN
-	clQ5In+uwWVsNFgc44r3T6JBSoeithf5pdO5bYJGi1SNHXSa859qL48xo4P+WGC8oTKTZ+S1cKZsx
-	R0s06h2ClWJrEkADXDVw+O2g2EWybz1HUf/XWR0qkCz4qX1VsC0OJw6rYh1bZqibWYazJDjG+7yYu
-	WUm0nDmFWiDSLyB8XwL7NoKWhfKQ9yCfF9H9BFhfQDjb3A3kwqrChLNB6gvVDaTmQeVqzk4B1VoG/
-	WVnrLBoGPUthcPiu19DKeUP9pZZmkJr71epoNgBMUw/1Rax1GMKOjyp5W5wnNFG/Kj5vZkAaJeMs5
-	z2SpHfyA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:35072)
+	bh=0MR5T/hYqkDcwtTShdWjbf89ggneYNcFMBTM7A8bZyQ=; b=u3E8TZj8BCALAXtWNYOZqfhkw1
+	cVibrwPJIj9GaRoSLvXFyJ9Cmr4V62gFGMwCPmzV54apr0vKhsWCA113sW+yaYxxbCHzlJkooNKf4
+	HV8b3oyR5bB+gaD5RSjl3KOK6fxxVMbuw2WjIwt7ioxXsxG9P+P/3++k1Fu2+FjhJF+zQ1yAFq9tD
+	MjqjmTuF8qHsLds0r2a0I34tm3W50qv4LyemyMt838zZfZfRRHJqj7e8Sobx5DOICPGs3cizAi7Bn
+	7q5/KtycVIrEM7HyAf8kA/wmZTJwLyFuu9JFw0j2qJcAxoIuqXxuH3OiSCO3LTLb9JWH6m38sHRwF
+	mWKxFRBQ==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:37712)
 	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <linux@armlinux.org.uk>)
-	id 1umD8L-0006tD-0T;
-	Wed, 13 Aug 2025 16:11:21 +0100
+	id 1umD9g-0006th-1R;
+	Wed, 13 Aug 2025 16:12:44 +0100
 Received: from linux by shell.armlinux.org.uk with local (Exim 4.96)
 	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1umD8C-0005rA-2x;
-	Wed, 13 Aug 2025 16:11:12 +0100
-Date: Wed, 13 Aug 2025 16:11:12 +0100
+	id 1umD9c-0005rJ-2X;
+	Wed, 13 Aug 2025 16:12:40 +0100
+Date: Wed, 13 Aug 2025 16:12:40 +0100
 From: "Russell King (Oracle)" <linux@armlinux.org.uk>
 To: Chen-Yu Tsai <wens@kernel.org>
 Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
@@ -53,11 +53,11 @@ Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
 	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
 	Andre Przywara <andre.przywara@arm.com>
-Subject: Re: [PATCH net-next v2 02/10] net: stmmac: Add support for Allwinner
- A523 GMAC200
-Message-ID: <aJyrECCOPTZP81Sx@shell.armlinux.org.uk>
+Subject: Re: [PATCH net-next v2 06/10] arm64: dts: allwinner: a527:
+ cubie-a5e: Add ethernet PHY reset setting
+Message-ID: <aJyraGJ3JbvfGfEw@shell.armlinux.org.uk>
 References: <20250813145540.2577789-1-wens@kernel.org>
- <20250813145540.2577789-3-wens@kernel.org>
+ <20250813145540.2577789-7-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -66,87 +66,25 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250813145540.2577789-3-wens@kernel.org>
+In-Reply-To: <20250813145540.2577789-7-wens@kernel.org>
 Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-Hi,
+On Wed, Aug 13, 2025 at 10:55:36PM +0800, Chen-Yu Tsai wrote:
+> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
+> index 70d439bc845c..d4cee2222104 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
+> +++ b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
+> @@ -94,6 +94,9 @@ &mdio0 {
+>  	ext_rgmii_phy: ethernet-phy@1 {
+>  		compatible = "ethernet-phy-ieee802.3-c22";
+>  		reg = <1>;
+> +		reset-gpios = <&pio 7 8 GPIO_ACTIVE_LOW>; /* PH8 */
+> +		reset-assert-us = <10000>;
+> +		reset-deassert-us = <150000>;
 
-A few comments on this...
-
-On Wed, Aug 13, 2025 at 10:55:32PM +0800, Chen-Yu Tsai wrote:
-> +#include "stmmac.h"
-> +#include "stmmac_platform.h"
-> +
-> +#define SYSCON_REG		0x34
-> +
-> +/* RMII specific bits */
-> +#define SYSCON_RMII_EN		BIT(13) /* 1: enable RMII (overrides EPIT) */
-> +/* Generic system control EMAC_CLK bits */
-> +#define SYSCON_ETXDC_MASK		GENMASK(12, 10)
-> +#define SYSCON_ERXDC_MASK		GENMASK(9, 5)
-> +/* EMAC PHY Interface Type */
-> +#define SYSCON_EPIT			BIT(2) /* 1: RGMII, 0: MII */
-> +#define SYSCON_ETCS_MASK		GENMASK(1, 0)
-> +#define SYSCON_ETCS_MII		0x0
-> +#define SYSCON_ETCS_EXT_GMII	0x1
-> +#define SYSCON_ETCS_INT_GMII	0x2
-> +
-> +#define MASK_TO_VAL(mask)   ((mask) >> (__builtin_ffsll(mask) - 1))
-
-Is FIELD_GET() not sufficient?
-
-> +
-> +static int sun55i_gmac200_set_syscon(struct device *dev,
-> +				     struct plat_stmmacenet_data *plat)
-> +{
-> +	struct device_node *node = dev->of_node;
-> +	struct regmap *regmap;
-> +	u32 val, reg = 0;
-> +	int ret;
-> +
-> +	regmap = syscon_regmap_lookup_by_phandle(node, "syscon");
-> +	if (IS_ERR(regmap))
-> +		return dev_err_probe(dev, PTR_ERR(regmap), "Unable to map syscon\n");
-> +
-> +	if (!of_property_read_u32(node, "tx-internal-delay-ps", &val)) {
-> +		if (val % 100)
-> +			return dev_err_probe(dev, -EINVAL,
-> +					     "tx-delay must be a multiple of 100\n");
-
-	"tx-delay must be a multiple of 100ps\n"
-
-would be a bit better.
-
-> +		val /= 100;
-> +		dev_dbg(dev, "set tx-delay to %x\n", val);
-> +		if (val > MASK_TO_VAL(SYSCON_ETXDC_MASK))
-> +			return dev_err_probe(dev, -EINVAL,
-> +					     "Invalid TX clock delay: %d\n",
-> +					     val);
-
-		if (!FIELD_FIT(SYSCON_ETXDC_MASK, val))
-			return dev_err_probe(dev, -EINVAL,
-					    "TX clock delay exceeds maximum (%d00ps > %d00ps)\n",
-					    val, FIELD_MAX(SYSCON_ETXDC_MASK));
-
-> +
-> +		reg |= FIELD_PREP(SYSCON_ETXDC_MASK, val);
-> +	}
-> +
-> +	if (!of_property_read_u32(node, "rx-internal-delay-ps", &val)) {
-> +		if (val % 100)
-> +			return dev_err_probe(dev, -EINVAL,
-> +					     "rx-delay must be a multiple of 100\n");
-> +		val /= 100;
-> +		dev_dbg(dev, "set rx-delay to %x\n", val);
-> +		if (val > MASK_TO_VAL(SYSCON_ERXDC_MASK))
-> +			return dev_err_probe(dev, -EINVAL,
-> +					     "Invalid RX clock delay: %d\n",
-> +					     val);
-
-all the same points in this block.
-
-Thanks.
+Please verify that kexec works with this, as if the calling kernel
+places the PHY in reset and then kexec's, and the reset remains
+asserted, the PHY will not be detected.
 
 -- 
 RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
