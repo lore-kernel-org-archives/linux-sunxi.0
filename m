@@ -1,64 +1,64 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FCD6237707
-	for <linux-sunxi@lists.linux.dev>; Wed, 13 Aug 2025 15:28:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 765F317D2
+	for <linux-sunxi@lists.linux.dev>; Wed, 13 Aug 2025 15:28:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755098884; cv=none; b=mEa20u7hHgEugnbovzp/Vo6MYQxhkgse4r4IuLDB+yrd0BPJhIPeA4PymMJ+sGd32VMMqtUS6CT5pKRhO5+oA7u1uUwEIXxpYLOl5pA+UvViwJ4IroSIrGhX0TcadjMkw7TXIeNjOUK8HmMb8FMne9i4Xy3dI/0V5YxQkF+zM7A=
+	t=1755098899; cv=none; b=ZQyO2xUuuJTNC+ALOE1l7QvUzl5DxMuB9RFth1aPYX3jvosvsmjRvNnkbOeqbmGW6vac9ppEe293MigHgm0UG3bqveWUDsUp/UT4KxPNudbiCt/WVvJX8YjJCd+yN+7ANKdJek1Ib4ejRYOkvSbv34jdkUybaIl2preeR20Oamg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755098884; c=relaxed/simple;
-	bh=CP8upqvVtn9Z3m5+ff43o5AJYwx/FwOQd/acka/t9P4=;
+	s=arc-20240116; t=1755098899; c=relaxed/simple;
+	bh=bjUfZArd1dIc7xzYB2XLMMwVGzBdfmOFwXw1/SOljyM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=I2vPycotmAxSRxJ9e2Lhq5K2CG9Ts8ahBhu0yMqyY/CQa8xBQQ9XJyu8IN43bCIOGy3TsopzAjsnHaTJ0BbKtAsJxmjEX/N/5uftSNKI3GOyRYh2yR5UorJJDyrYTVFx9XugGbwS7GBt3BBawu8fmYc5yZhIFkL2kL/8AOlIOME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FBFUGeTl; arc=none smtp.client-ip=209.85.128.50
+	 MIME-Version:Content-Type; b=P+ASyL2/BCOhUI42TmOtI4OHnNEsVYL2ZxLYkOgUM+zgFrPKpl1A/T1hR0jkDrdF8Sw3UI9EV97RJzPupKYQMIOuDpffW9vspBgNFfsq18CdUutsszfj2+GjUz/h5Ql2UY0QVvz6JbAlFSsPvFTFQxztcg+U777TxjNiZkqDi9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O/xDqjm0; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FBFUGeTl"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-458b885d6eeso43914045e9.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 13 Aug 2025 08:28:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O/xDqjm0"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3b7886bee77so4819427f8f.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 13 Aug 2025 08:28:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755098881; x=1755703681; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1755098896; x=1755703696; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9dCXGQ3wCen5hO/RhZ9y8kY2psIxwBZyCJWwI1Ahh5o=;
-        b=FBFUGeTlorneS0Jf/xrSHa9WSOTSq3E3qXF9laWvDFVy7/E7qOGdvenb/ilo99Wk0l
-         oAy/uBYjQRTWX8UVC6GBfWttVezVmuC512oNA/oqJzfSi2EpPPihtp1SxYsEVTgL38XK
-         UCU12e+gudJOJGtsGkarhEy/TGXRyuhIpZLC5Rx3MinpPB77ZWAxWMrpO4uXVDsF6aR8
-         RInc3XrmnIveIQyYdLKRfBWsxv3IVSNU7ZpL6yp9sWiK5pdlGnvSa7yCQrlToeeUKjXN
-         8+0tNHzJNeHVGtF0jLYX4EpWA+Sty7G6r89O8YnDP8PkbTXlUn/mZVVXO4w/YpJD9Nc3
-         i32Q==
+        bh=KR4hoVadqu8aUTOVreHxSaRU8mKdTHXFpDokGXEFHMw=;
+        b=O/xDqjm0CxbB9CiMNrNLZlrI22+JA0i2Y4UcG2TE4HanSCV9Wkbam7/pCKMuNm3O1L
+         Db2TVbh68xvBLAqo7mC8bI9n35FhBtQ9ne08mshDXy1jg8NyKPfFcP2YH2JbrENBfeQg
+         b6gZG2FpcnzfkWBqf4/ifEOtQ93t3xvDSq9mknnJQkug+LZXW/2JeDBybW6dtkaT0Nnq
+         8OhVndpSm1v4clfEeygnRX7tbXPMb7JjuJSKKw1y18Z+OWvXfjHDmvioKpUxgGpXuuy8
+         6sQtGxBLg8SCUpkoiQ6Dd4OgqFXmqbSEtWtGryAucVYmZu+GKPQ0iIMkzBumQTojTCXe
+         5qjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755098881; x=1755703681;
+        d=1e100.net; s=20230601; t=1755098896; x=1755703696;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9dCXGQ3wCen5hO/RhZ9y8kY2psIxwBZyCJWwI1Ahh5o=;
-        b=NqDYEGr7O/oAEVFsLEmqhXfUs2LObzTSvUMj8bTLi8grChZGbe2ORH7LVh0P6+Stj5
-         9YGJpW9sjrq1tTR7C6OERcGNiRvpEeXJXdlQSVCmc+22mw9wdDA/vv8ZJJ/drWxER93y
-         kdWusWpPCQ9V4qOyV90a/9OcmMDLSR3UnAOmxC8HtVrQMEtrJp7GoUSGDKyw8woQRbCk
-         IfE6ARMwlZNKQkbhCk9YHjOJHapjuxa4wCtpboU7MNsp8QTo+BfR5j+QeFipNRVZ4Equ
-         C+8F97RabHu8CVnm301i3UNMG6q64ryD5oeaT/0IycOvyFwiLJGbKWat0ObKq+BLv360
-         l76g==
-X-Forwarded-Encrypted: i=1; AJvYcCUB2xPyI14XExj3L6PCDmhVwyE79Czzl1cKL6v7lzGWAA4SsdCVwz1NC3RVCCMD3yMyllPDogUxoOKWPQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywg5rGnEAxjLLML7++wN4qgot34mI1h5RCZVrpQLlWFa2xMOFKB
-	T7TlKm4Y08f33Y9ao8nQBl6ZyNcjHORAVYTD0yTAMXOT60I2snGtEeC6
-X-Gm-Gg: ASbGnctUqMD46310VVFQFPTPIEIUYq8CNbrleF6nyA7JabxHMl8jJO+AyApKHGWDyUL
-	BPsRy2NyIPfUU43mT47IzANcA50O9c4hDcLpesU7y7d684sTewuF1lVvClW1qPpWiqiokAiWWvJ
-	B1Ua56/5BWiZUcTHszpvjjE5O1vpxB/A6FBbVYhCV1kPFCWNA2IaZVvYsp/tOTaccWaKuXjGUt0
-	cA0Gv/Vlf9XzLCtfM8C3YsOeKjb6o9rC7XdkLZxw4ZfOW6CUzxDdrQzDaNtgycMj7NBUQj8ENbS
-	wmO5AQlHF6jkMy7Nu6id2ck35BwD0sUyVDlpERTaYSLLlA5y/B8makUaNmhkC6rP21msiPcQKT9
-	EsdQ2BJcbhlxKNetsMBcQJuPRvcX4jCmFLRCvU4/5+8MWjroDC8VN6Tixe593fg5hNZgztKF0df
-	D4j/f4lUvR
-X-Google-Smtp-Source: AGHT+IGvCYpe77xXC4O8RNzirUxA7cMzbuFpGjarjyQuF4h4e0X7kLLiXN7Oa7TmkKyvCs586LY0fA==
-X-Received: by 2002:a05:6000:2dc8:b0:3b8:d955:c598 with SMTP id ffacd0b85a97d-3b917e90664mr2385608f8f.30.1755098880683;
-        Wed, 13 Aug 2025 08:28:00 -0700 (PDT)
+        bh=KR4hoVadqu8aUTOVreHxSaRU8mKdTHXFpDokGXEFHMw=;
+        b=iOP4QOsCnJCX99ZQ8e/Zk+LMcGfI62Rmt75jd9tbrXH4q68MLdsLWsww+fxyVb7w4d
+         QcCgWB0zDC7mgujY4msrupmdxRbfkWMwDQaZaWyJT+Czh951ianhMESORaXDcDkfYDkP
+         7P5ELTUoMLKZL8cpWzCiump54JiYc/7gkO/7DRuNrvac9cKTUuPQBTwzeqqcoJpvTuMo
+         YKZb+3tKiGmwSrFJCEhqCOHgWYa4JaQzvtChue8L3IVEgCNKHZ3/R9f7mrFIgonQdiRR
+         o6yHXbEk62cYxJXx4Ztk9XnHvd7mnLKIxAg/LUiMpWkzKv4SZqWxyCES82bbKAF2aFA3
+         WlQg==
+X-Forwarded-Encrypted: i=1; AJvYcCVSeT1qjx202PON6XCpQIAYA9m8fhyQHN8+z4Sf7Yfd26siLguhcCt4Ud9EB17rCxidlkJ615hSuDjMoA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwmG+Rn2/cWN4ZBycI2gMmNqTCj4vTB4VnAgxLST+ukUnoZPPWk
+	Sn9jhsa/oY0hS/TuuL/M4mIl1e+TtKuS5i3l5xAclB9tD77CQrYKJDnf
+X-Gm-Gg: ASbGncs8l0adbEcMkCbTIUGW9C2CotT6+3NKcemzcyMJRvjIzZb42XamBUviminPbLd
+	D0BKRn1Bdjlo+S3UwsAQpUAVf+Ob0hRr6dhX4Sb0w7B1EDG3i3J7fISp4DVKLY7QHkiyEqaj3Yj
+	snzLTqx5Af7ig18m29EAnr89WK/jzJgKG94dKnWcGyc5jt0O30vJutq3OaLLSOH1c7im5XrHB9W
+	FnXkVpl6AQETCBdo6SOLaLwa7GUgT9IAfPSZJUGxqpmqzCbwrYHVmvwxz6aXZEVJbXb07orOOYK
+	qjJ7hBgDcMHStXpGhyE4Q1aofnUAMx1W/H5r/KKwdC6uD47th8xEPHy2RJaNNHWuTy3N6iRahQ7
+	0S9GSgf/723lxODmOScO12YLSW48M8ISwIUx7EL4SCqVHYMFL83+flMQ89FGfT1FoMOeQEj8bEt
+	Q02HmpTGk=
+X-Google-Smtp-Source: AGHT+IHE0fucbXsrHkFdPEfs8yK736j25+deb3oJqHtDVR3z1PaujgH3AAxRRrD0UXP0szDCxxOwTw==
+X-Received: by 2002:a05:6000:22ca:b0:3b8:893f:a184 with SMTP id ffacd0b85a97d-3b917ecd302mr2496485f8f.52.1755098895560;
+        Wed, 13 Aug 2025 08:28:15 -0700 (PDT)
 Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a1a53905asm6336365e9.22.2025.08.13.08.27.59
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c466838sm50661600f8f.49.2025.08.13.08.28.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Aug 2025 08:28:00 -0700 (PDT)
+        Wed, 13 Aug 2025 08:28:15 -0700 (PDT)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Andrew Lunn <andrew+netdev@lunn.ch>,
  "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
@@ -71,14 +71,14 @@ Cc: netdev@vger.kernel.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
  linux-kernel@vger.kernel.org, Andre Przywara <andre.przywara@arm.com>
 Subject:
- Re: [PATCH net-next v2 09/10] arm64: dts: allwinner: t527: avaota-a1: enable
- second Ethernet port
-Date: Wed, 13 Aug 2025 17:27:58 +0200
-Message-ID: <13821245.uLZWGnKmhe@jernej-laptop>
-In-Reply-To: <20250813145540.2577789-10-wens@kernel.org>
+ Re: [PATCH net-next v2 10/10] arm64: dts: allwinner: t527: orangepi-4a:
+ Enable Ethernet port
+Date: Wed, 13 Aug 2025 17:28:13 +0200
+Message-ID: <3363827.aeNJFYEL58@jernej-laptop>
+In-Reply-To: <20250813145540.2577789-11-wens@kernel.org>
 References:
  <20250813145540.2577789-1-wens@kernel.org>
- <20250813145540.2577789-10-wens@kernel.org>
+ <20250813145540.2577789-11-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -88,17 +88,16 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne sreda, 13. avgust 2025 ob 16:55:39 Srednjeevropski poletni =C4=8Das je =
+Dne sreda, 13. avgust 2025 ob 16:55:40 Srednjeevropski poletni =C4=8Das je =
 Chen-Yu Tsai napisal(a):
 > From: Chen-Yu Tsai <wens@csie.org>
 >=20
-> On the Avaota A1 board, the second Ethernet controller, aka the GMAC200,
-> is connected to a second external RTL8211F-CG PHY. The PHY uses an
-> external 25MHz crystal, and has the SoC's PJ16 pin connected to its
-> reset pin.
+> On the Orangepi 4A board, the second Ethernet controller, aka the GMAC200,
+> is connected to an external Motorcomm YT8531 PHY. The PHY uses an external
+> 25MHz crystal, has the SoC's PI15 pin connected to its reset pin, and
+> the PI16 pin for its interrupt pin.
 >=20
-> Enable the second Ethernet port. Also fix up the label for the existing
-> external PHY connected to the first Ethernet port.
+> Enable it.
 >=20
 > Signed-off-by: Chen-Yu Tsai <wens@csie.org>
 
@@ -112,42 +111,33 @@ Jernej
 > Changes since v1:
 > - Switch to generic (tx|rx)-internal-delay-ps properties
 > ---
->  .../dts/allwinner/sun55i-t527-avaota-a1.dts   | 26 +++++++++++++++++--
->  1 file changed, 24 insertions(+), 2 deletions(-)
+>  .../dts/allwinner/sun55i-t527-orangepi-4a.dts | 23 +++++++++++++++++++
+>  1 file changed, 23 insertions(+)
 >=20
-> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts b/ar=
-ch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
-> index e7713678208d..f540965ffaa4 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
-> @@ -13,6 +13,7 @@ / {
+> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts b/=
+arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
+> index d07bb9193b43..b604d961c4fd 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
+> +++ b/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
+> @@ -15,6 +15,7 @@ / {
+>  	compatible =3D "xunlong,orangepi-4a", "allwinner,sun55i-t527";
 > =20
 >  	aliases {
->  		ethernet0 =3D &gmac0;
-> +		ethernet1 =3D &gmac1;
+> +		ethernet0 =3D &gmac1;
 >  		serial0 =3D &uart0;
 >  	};
 > =20
-> @@ -67,7 +68,7 @@ &ehci1 {
-> =20
->  &gmac0 {
->  	phy-mode =3D "rgmii-id";
-> -	phy-handle =3D <&ext_rgmii_phy>;
-> +	phy-handle =3D <&ext_rgmii0_phy>;
->  	phy-supply =3D <&reg_dcdc4>;
-> =20
->  	allwinner,tx-delay-ps =3D <100>;
-> @@ -76,13 +77,24 @@ &gmac0 {
+> @@ -95,11 +96,33 @@ &ehci1 {
 >  	status =3D "okay";
 >  };
 > =20
 > +&gmac1 {
 > +	phy-mode =3D "rgmii-id";
-> +	phy-handle =3D <&ext_rgmii1_phy>;
-> +	phy-supply =3D <&reg_dcdc4>;
+> +	phy-handle =3D <&ext_rgmii_phy>;
+> +	phy-supply =3D <&reg_cldo4>;
 > +
-> +	tx-internal-delay-ps =3D <100>;
-> +	rx-internal-delay-ps =3D <100>;
+> +	tx-internal-delay-ps =3D <0>;
+> +	rx-internal-delay-ps =3D <300>;
 > +
 > +	status =3D "okay";
 > +};
@@ -157,21 +147,12 @@ ch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
 >  	status =3D "okay";
 >  };
 > =20
->  &mdio0 {
-> -	ext_rgmii_phy: ethernet-phy@1 {
-> +	ext_rgmii0_phy: ethernet-phy@1 {
->  		compatible =3D "ethernet-phy-ieee802.3-c22";
->  		reg =3D <1>;
->  		reset-gpios =3D <&pio 7 8 GPIO_ACTIVE_LOW>; /* PH8 */
-> @@ -91,6 +103,16 @@ ext_rgmii_phy: ethernet-phy@1 {
->  	};
->  };
-> =20
 > +&mdio1 {
-> +	ext_rgmii1_phy: ethernet-phy@1 {
+> +	ext_rgmii_phy: ethernet-phy@1 {
 > +		compatible =3D "ethernet-phy-ieee802.3-c22";
 > +		reg =3D <1>;
-> +		reset-gpios =3D <&pio 9 16 GPIO_ACTIVE_LOW>; /* PJ16 */
+> +		interrupts-extended =3D <&pio 8 16 IRQ_TYPE_LEVEL_LOW>; /* PI16 */
+> +		reset-gpios =3D <&pio 8 15 GPIO_ACTIVE_LOW>; /* PI15 */
 > +		reset-assert-us =3D <10000>;
 > +		reset-deassert-us =3D <150000>;
 > +	};
