@@ -1,155 +1,153 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 889902FFDDC;
-	Wed, 13 Aug 2025 14:55:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 128E22FE59F
+	for <linux-sunxi@lists.linux.dev>; Wed, 13 Aug 2025 15:11:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755096950; cv=none; b=UA9SZs0ukGEDIzQxHEm2Ysd4rKrg1c6UHF6feW2jmiT8vDW3bBj/UMaRlUiXzUG1j5dXuXexbuG4NbHOg3u1o4KibWtulJu9WAwp7yW3M1rxwiojnbrvFMxvkHzriYCUdvmjaClO3whvNCrqA4upAsw3KwvirvJWYBM+kYBNfUA=
+	t=1755097904; cv=none; b=A9y1tQ1+yQc0sPkU8XC+MNhrBNTZrpBcrVOrT8f/sERdCZ5lGAfUq2e7ML4yDpyeDWhBKc98/9AW2bgMdMIihO/QMjkpb0DU+sNC6F9sfsvlT/vkbNoDuJUqDl6tmMPcsITE8q/YduLO3h80poA3y98OALNH30meYZwpQikvLSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755096950; c=relaxed/simple;
-	bh=yKrAHC0riAXESr1YT7TRrWp4LLqyhsj+D6V4VUG4krM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=PQp0IAIJUR64+7qtXe2I9eLHlvHC+ji3kbx4mhTSh9rMqPiOryF0yjI2YcAZEJQRW5zVySrXRj0H1R0VQrpvzq5cI0qQWcLOKcfW7dT30DpOI5iXp+/d7B7zdws6frHBP9gYUlCLfRX0xZD0aLp50GX9b7qmKQHRQuJkSXQX0RM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aRn5niKh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755097904; c=relaxed/simple;
+	bh=2yskElXrJjNSFbolXxtSWkQFTJIr/Kri1xcUA4o5Qzw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kJMgqrccXFMmffaXyTqa/UVEZYMo1OgaelpwQSSTEo7YlH2UHqY1UFXIwGG8EhMlHM9tU+AbCa/UESkH7b+SHUAbbMFBnXziKjVkZi2fLKbwUiuKv5Xdfk9JiD2rXi5jAk1MnJoVAf3yCKq4YryeU2EaUkJsb8jZF4jR1x9puic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=L6UQnLWY; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aRn5niKh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C95EC4CEEF;
-	Wed, 13 Aug 2025 14:55:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755096950;
-	bh=yKrAHC0riAXESr1YT7TRrWp4LLqyhsj+D6V4VUG4krM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=aRn5niKhjq2Lr784ZyGMYtj4dP5OyKaAccRzguObTv7W4Sc/RbtOv3LjL57ayXrU/
-	 78WOYTPUMq8EbhBQuRUTYNQKM+TYCstHvrw/FlUCsyyJ67Ja9OqbUeRPc/NzvwkQs2
-	 g3mOu0LRsw60EqW1JPt3SMufrSys39+DP+o4T69EsKuN4NVyjuNiyfNZMBNdkgY2dE
-	 GQvZPTne4nMKSAJFO5LclIqSl+xdpLhOjDq6HfP3czTfYrnG0tHNU7BQiG5OhbglBo
-	 4fZoQNi6q/h8Gk3qr8xf8sMS49PXUbF3AyIAMvZhT9QolKqNcH7LvXIV56LyXfLNX8
-	 26bS6VUl2vJLQ==
-Received: by wens.tw (Postfix, from userid 1000)
-	id 38A3E5FEEF; Wed, 13 Aug 2025 22:55:45 +0800 (CST)
-From: Chen-Yu Tsai <wens@kernel.org>
-To: Andrew Lunn <andrew+netdev@lunn.ch>,
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="L6UQnLWY"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=LMlJoJUN3z4TOoymhV2DtpiX1kn0KKwfF8qPS2pcmHU=; b=L6UQnLWYrMlrHVT3n8xXDG3ugN
+	clQ5In+uwWVsNFgc44r3T6JBSoeithf5pdO5bYJGi1SNHXSa859qL48xo4P+WGC8oTKTZ+S1cKZsx
+	R0s06h2ClWJrEkADXDVw+O2g2EWybz1HUf/XWR0qkCz4qX1VsC0OJw6rYh1bZqibWYazJDjG+7yYu
+	WUm0nDmFWiDSLyB8XwL7NoKWhfKQ9yCfF9H9BFhfQDjb3A3kwqrChLNB6gvVDaTmQeVqzk4B1VoG/
+	WVnrLBoGPUthcPiu19DKeUP9pZZmkJr71epoNgBMUw/1Rax1GMKOjyp5W5wnNFG/Kj5vZkAaJeMs5
+	z2SpHfyA==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:35072)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1umD8L-0006tD-0T;
+	Wed, 13 Aug 2025 16:11:21 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.96)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1umD8C-0005rA-2x;
+	Wed, 13 Aug 2025 16:11:12 +0100
+Date: Wed, 13 Aug 2025 16:11:12 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Chen-Yu Tsai <wens@kernel.org>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
 	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.org>
-Cc: netdev@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
+	Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
 	Andre Przywara <andre.przywara@arm.com>
-Subject: [PATCH net-next v2 05/10] arm64: dts: allwinner: a523: Add GMAC200 ethernet controller
-Date: Wed, 13 Aug 2025 22:55:35 +0800
-Message-Id: <20250813145540.2577789-6-wens@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250813145540.2577789-1-wens@kernel.org>
+Subject: Re: [PATCH net-next v2 02/10] net: stmmac: Add support for Allwinner
+ A523 GMAC200
+Message-ID: <aJyrECCOPTZP81Sx@shell.armlinux.org.uk>
 References: <20250813145540.2577789-1-wens@kernel.org>
+ <20250813145540.2577789-3-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250813145540.2577789-3-wens@kernel.org>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-From: Chen-Yu Tsai <wens@csie.org>
+Hi,
 
-The A523 SoC family has a second ethernet controller, called the
-GMAC200. It is not exposed on all the SoCs in the family.
+A few comments on this...
 
-Add a device node for it. All the hardware specific settings are from
-the vendor BSP.
+On Wed, Aug 13, 2025 at 10:55:32PM +0800, Chen-Yu Tsai wrote:
+> +#include "stmmac.h"
+> +#include "stmmac_platform.h"
+> +
+> +#define SYSCON_REG		0x34
+> +
+> +/* RMII specific bits */
+> +#define SYSCON_RMII_EN		BIT(13) /* 1: enable RMII (overrides EPIT) */
+> +/* Generic system control EMAC_CLK bits */
+> +#define SYSCON_ETXDC_MASK		GENMASK(12, 10)
+> +#define SYSCON_ERXDC_MASK		GENMASK(9, 5)
+> +/* EMAC PHY Interface Type */
+> +#define SYSCON_EPIT			BIT(2) /* 1: RGMII, 0: MII */
+> +#define SYSCON_ETCS_MASK		GENMASK(1, 0)
+> +#define SYSCON_ETCS_MII		0x0
+> +#define SYSCON_ETCS_EXT_GMII	0x1
+> +#define SYSCON_ETCS_INT_GMII	0x2
+> +
+> +#define MASK_TO_VAL(mask)   ((mask) >> (__builtin_ffsll(mask) - 1))
 
-Signed-off-by: Chen-Yu Tsai <wens@csie.org>
----
+Is FIELD_GET() not sufficient?
 
-Changes since v1:
-- Fixed typo in tx-queues-config
----
- .../arm64/boot/dts/allwinner/sun55i-a523.dtsi | 55 +++++++++++++++++++
- 1 file changed, 55 insertions(+)
+> +
+> +static int sun55i_gmac200_set_syscon(struct device *dev,
+> +				     struct plat_stmmacenet_data *plat)
+> +{
+> +	struct device_node *node = dev->of_node;
+> +	struct regmap *regmap;
+> +	u32 val, reg = 0;
+> +	int ret;
+> +
+> +	regmap = syscon_regmap_lookup_by_phandle(node, "syscon");
+> +	if (IS_ERR(regmap))
+> +		return dev_err_probe(dev, PTR_ERR(regmap), "Unable to map syscon\n");
+> +
+> +	if (!of_property_read_u32(node, "tx-internal-delay-ps", &val)) {
+> +		if (val % 100)
+> +			return dev_err_probe(dev, -EINVAL,
+> +					     "tx-delay must be a multiple of 100\n");
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-index 6b6f2296bdff..449bcafbddcd 100644
---- a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-@@ -180,6 +180,16 @@ rgmii0_pins: rgmii0-pins {
- 				bias-disable;
- 			};
- 
-+			rgmii1_pins: rgmii1-pins {
-+				pins = "PJ0", "PJ1", "PJ2", "PJ3", "PJ4",
-+				       "PJ5", "PJ6", "PJ7", "PJ8", "PJ9",
-+				       "PJ11", "PJ12", "PJ13", "PJ14", "PJ15";
-+				allwinner,pinmux = <5>;
-+				function = "gmac1";
-+				drive-strength = <40>;
-+				bias-disable;
-+			};
-+
- 			uart0_pb_pins: uart0-pb-pins {
- 				pins = "PB9", "PB10";
- 				allwinner,pinmux = <2>;
-@@ -601,6 +611,51 @@ mdio0: mdio {
- 			};
- 		};
- 
-+		gmac1: ethernet@4510000 {
-+			compatible = "allwinner,sun55i-a523-gmac200",
-+				     "snps,dwmac-4.20a";
-+			reg = <0x04510000 0x10000>;
-+			clocks = <&ccu CLK_BUS_EMAC1>, <&ccu CLK_MBUS_EMAC1>;
-+			clock-names = "stmmaceth", "mbus";
-+			resets = <&ccu RST_BUS_EMAC1>;
-+			reset-names = "stmmaceth";
-+			interrupts = <GIC_SPI 47 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "macirq";
-+			pinctrl-names = "default";
-+			pinctrl-0 = <&rgmii1_pins>;
-+			power-domains = <&pck600 PD_VO1>;
-+			syscon = <&syscon>;
-+			snps,fixed-burst;
-+			snps,axi-config = <&gmac1_stmmac_axi_setup>;
-+			snps,mtl-rx-config = <&gmac1_mtl_rx_setup>;
-+			snps,mtl-tx-config = <&gmac1_mtl_tx_setup>;
-+			status = "disabled";
-+
-+			mdio1: mdio {
-+				compatible = "snps,dwmac-mdio";
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+			};
-+
-+			gmac1_mtl_rx_setup: rx-queues-config {
-+				snps,rx-queues-to-use = <1>;
-+
-+				queue0 {};
-+			};
-+
-+			gmac1_stmmac_axi_setup: stmmac-axi-config {
-+				snps,wr_osr_lmt = <0xf>;
-+				snps,rd_osr_lmt = <0xf>;
-+				snps,blen = <256 128 64 32 16 8 4>;
-+			};
-+
-+			gmac1_mtl_tx_setup: tx-queues-config {
-+				snps,tx-queues-to-use = <1>;
-+
-+				queue0 {};
-+			};
-+		};
-+
- 		ppu: power-controller@7001400 {
- 			compatible = "allwinner,sun55i-a523-ppu";
- 			reg = <0x07001400 0x400>;
+	"tx-delay must be a multiple of 100ps\n"
+
+would be a bit better.
+
+> +		val /= 100;
+> +		dev_dbg(dev, "set tx-delay to %x\n", val);
+> +		if (val > MASK_TO_VAL(SYSCON_ETXDC_MASK))
+> +			return dev_err_probe(dev, -EINVAL,
+> +					     "Invalid TX clock delay: %d\n",
+> +					     val);
+
+		if (!FIELD_FIT(SYSCON_ETXDC_MASK, val))
+			return dev_err_probe(dev, -EINVAL,
+					    "TX clock delay exceeds maximum (%d00ps > %d00ps)\n",
+					    val, FIELD_MAX(SYSCON_ETXDC_MASK));
+
+> +
+> +		reg |= FIELD_PREP(SYSCON_ETXDC_MASK, val);
+> +	}
+> +
+> +	if (!of_property_read_u32(node, "rx-internal-delay-ps", &val)) {
+> +		if (val % 100)
+> +			return dev_err_probe(dev, -EINVAL,
+> +					     "rx-delay must be a multiple of 100\n");
+> +		val /= 100;
+> +		dev_dbg(dev, "set rx-delay to %x\n", val);
+> +		if (val > MASK_TO_VAL(SYSCON_ERXDC_MASK))
+> +			return dev_err_probe(dev, -EINVAL,
+> +					     "Invalid RX clock delay: %d\n",
+> +					     val);
+
+all the same points in this block.
+
+Thanks.
+
 -- 
-2.39.5
-
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
