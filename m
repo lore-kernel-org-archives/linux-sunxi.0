@@ -1,105 +1,280 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C7341D54D8
-	for <linux-sunxi@lists.linux.dev>; Wed, 13 Aug 2025 15:51:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65F7E287249
+	for <linux-sunxi@lists.linux.dev>; Wed, 13 Aug 2025 16:16:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755100294; cv=none; b=gz0IiqSxJbELQsaNBL+H4rtinAUB6++3jqmIxzh0MOFHGrQBbHPtLl1GcHc4mdPYZFlvI4axfztLgB/WX+DQL85Cp6EZDZBsG5nEFMSZh8+Urg4bquWqQQuS46rYJY6657MRxT4+UklAfu50KWn+EpwVmPWsbAv2CNYat6jMzEo=
+	t=1755101773; cv=none; b=IBYFh60e5N5inqOJCNBFSxQ7qMy62/wiH+WzUy/7CE07MwI6CEWaERP1ISS0fsa2MkQfM4fkQb7Uo34YSZa4BaLHm5AuTne0cnRuUuSB6FvJbc1ZOOSpHX1BmYo3JSl2t0pMHMpSPQ4MPY2mlAs8n/w4WKDPkWtImrhbhYkf/LI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755100294; c=relaxed/simple;
-	bh=Nned+2OXLAR4zbMBIAOqe5xsNi80BA2aVmJkwOizo/A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IKkKMNM92gvEoO3E2qzk6/2aTQEep3zJt5rTwSJ4zOgT8H+kTH8OMqRmtmm1KKMnN5+YxtKdWaGmJka/Y+lz34n6I9enah+wmuqQFi1iyi0Zhd50JobfEZpGH25WwpBV26KmSvkmBrS3x/IqzWAcxBvRcgR379t+J2ak5gtGLRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i/jlqWEG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755101773; c=relaxed/simple;
+	bh=KmcwvgRJ1zt5K4wDAvtiaw17GSzeXpuI2dv9vCkYQUg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gGqX2Anh0nSRukSsczFQE289HDa7KOHS0rcdbKwH8vXoKWaBjd6aUI5wiGBGNt6ioq02GFH6y4Z96pfj1xfRJLGlX7GNWQLqXaJ1i8CTMV0uGMvLnAbGnJL6wG0qVxhP8KlFDM2g7/42vNUKX5xtf25P2lCtUjuHvJHQYwWl31g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=QCJ48aON; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i/jlqWEG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06FE4C4CEFC
-	for <linux-sunxi@lists.linux.dev>; Wed, 13 Aug 2025 15:51:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755100294;
-	bh=Nned+2OXLAR4zbMBIAOqe5xsNi80BA2aVmJkwOizo/A=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=i/jlqWEG2qrnzPbOAkn2pwy/ONAMApmORy6Hcv9pxZFQVqswqUP1H+G1evZke+33I
-	 FJ6/+D/0HY40qcpoM/rkOknERVPvGNGN3fUmcTkfaKj5Ob06Ind2VR6bmjGC16sDV0
-	 ogmjo0Y6BnY9SMKqN0w9ZOX0VXvj3d3tayjvpxXem+zc/hwV3xFYbzVAkX0RX6mkDt
-	 4bcHHoBWDLQ2KF7fb3q77jgK8QzoWmHM6+T/aEXR1jjpW0JqhwtNEYftLG40UN9wOQ
-	 DrxQiQsDQMPq1MvBwXuiGXcZYLD1Q/JZldBn7EHyTBz7a2IFCzJPzgFXqkNgsw0dJc
-	 5KBKkl10clslA==
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-3322a34e84fso57752801fa.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 13 Aug 2025 08:51:33 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXaog1/Xv6HCm4VVVpyfznX0GQoVVKAzpgF+uoOGPlgZ6dG9tSMcxxoo0pWJ5+cndry0srNX/qoC3pitg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YysNCP5v9/8HPaWUsK1mzUvcb3FuhoqPUD3+ztmd9ei4uW9c+HR
-	H0cH82TPaGISaUAehCxyvTKjt9gy3saAdGKMQB6tsa5G6JmJ1JU3oIAX42jenXfuQGBY2rxqjxo
-	DBrNczpQMln2AnQAJb4VukROVgXO8IyY=
-X-Google-Smtp-Source: AGHT+IF/AlFvjXg9axEmXPnPSPFeb7xCGFHKQ17NbUjRATjXnSeff8Hv94XSiaaI3kXUimdVd3Yinhj/CTkIyHUENJo=
-X-Received: by 2002:a05:651c:20cf:20b0:332:6304:3076 with SMTP id
- 38308e7fff4ca-333e9548740mr7131671fa.1.1755100292240; Wed, 13 Aug 2025
- 08:51:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="QCJ48aON"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=8r/LCX9rzyog3y
+	rylwFjwRMpIaemTxzslMXi3Wwcda8=; b=QCJ48aONHnHPI67IOJ/3D8OQB3Cd/k
+	va3dqQAxVecMFTPLNQfZkeRCBnr21f5AP85A+ko/Co2kn3d1vUsGdjjGnQSoqHT/
+	XhtDURAzo7LNMG2Hw6aJkJP1nHKCJDt/I4UFOhqYSkFA3npSGKStA4S5hsN3gfb8
+	C8iP/CLkf5T/WRnlry5E/M4rY/ikuUABioRBeFix0sZAgPzikWKDzZXwcrM/PlZn
+	9QF5GBzn0iIdqib/tI3qtiZXmnTMTK2djC7YMTKPNRHBv7OXt7TeyHMZFzQFHHD9
+	4yuXLJeM/fwFHXJlvGUnp8QGyn4bljRJZaBZSVKQgiNlixK49bkom2HA==
+Received: (qmail 694422 invoked from network); 13 Aug 2025 18:15:54 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 13 Aug 2025 18:15:54 +0200
+X-UD-Smtp-Session: l3s3148p1@6vOVeEE8NodtKLKq
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-kernel@vger.kernel.org
+Cc: Mark Brown <broonie@kernel.org>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Andrea della Porta <andrea.porta@suse.com>,
+	=?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Andy Yan <andy.yan@rock-chips.com>,
+	Avi Fishman <avifishman70@gmail.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Benjamin Fair <benjaminfair@google.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	David Airlie <airlied@gmail.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Drew Fustini <fustini@kernel.org>,
+	dri-devel@lists.freedesktop.org,
+	Fabio Estevam <festevam@gmail.com>,
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+	Fu Wei <wefu@redhat.com>,
+	Guo Ren <guoren@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	=?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+	imx@lists.linux.dev,
+	Iwona Winiarska <iwona.winiarska@intel.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Lee Jones <lee@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-actions@lists.infradead.org,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-mmc@vger.kernel.org,
+	linux-phy@lists.infradead.org,
+	linux-pm@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-pwm@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-rtc@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,
+	Liu Ying <victor.liu@nxp.com>,
+	Lukasz Luba <lukasz.luba@arm.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Nancy Yuen <yuenn@google.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	openbmc@lists.ozlabs.org,
+	Patrick Venture <venture@google.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Takashi Iwai <tiwai@suse.com>,
+	Tali Perry <tali.perry1@gmail.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tomer Maimon <tmaimon77@gmail.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+	Vasily Khoruzhick <anarsoul@gmail.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Xiubo Li <Xiubo.Lee@gmail.com>,
+	Yangtao Li <tiny.windzz@gmail.com>,
+	Zhang Rui <rui.zhang@intel.com>
+Subject: [PATCH 00/21] treewide: remove unneeded 'fast_io' parameter in regmap_config
+Date: Wed, 13 Aug 2025 18:14:46 +0200
+Message-ID: <20250813161517.4746-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250813145540.2577789-1-wens@kernel.org> <20250813145540.2577789-7-wens@kernel.org>
- <aJyraGJ3JbvfGfEw@shell.armlinux.org.uk>
-In-Reply-To: <aJyraGJ3JbvfGfEw@shell.armlinux.org.uk>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Wed, 13 Aug 2025 23:51:18 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67cKrQygew2CVaq5GCGvzcpkSdU_12Gjq9KR7tFFBow0Q@mail.gmail.com>
-X-Gm-Features: Ac12FXym9NQN41ia2Vqvuf9FmKIFWMrTnliSDOIAEvwEtKHt0VT0y1bsZEx7Lbg
-Message-ID: <CAGb2v67cKrQygew2CVaq5GCGvzcpkSdU_12Gjq9KR7tFFBow0Q@mail.gmail.com>
-Subject: Re: [PATCH net-next v2 06/10] arm64: dts: allwinner: a527: cubie-a5e:
- Add ethernet PHY reset setting
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Andre Przywara <andre.przywara@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 13, 2025 at 11:12=E2=80=AFPM Russell King (Oracle)
-<linux@armlinux.org.uk> wrote:
->
-> On Wed, Aug 13, 2025 at 10:55:36PM +0800, Chen-Yu Tsai wrote:
-> > diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts b/=
-arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-> > index 70d439bc845c..d4cee2222104 100644
-> > --- a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-> > +++ b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-> > @@ -94,6 +94,9 @@ &mdio0 {
-> >       ext_rgmii_phy: ethernet-phy@1 {
-> >               compatible =3D "ethernet-phy-ieee802.3-c22";
-> >               reg =3D <1>;
-> > +             reset-gpios =3D <&pio 7 8 GPIO_ACTIVE_LOW>; /* PH8 */
-> > +             reset-assert-us =3D <10000>;
-> > +             reset-deassert-us =3D <150000>;
->
-> Please verify that kexec works with this, as if the calling kernel
-> places the PHY in reset and then kexec's, and the reset remains
-> asserted, the PHY will not be detected.
+While working on a driver using regmap with MMIO, I wondered if I need
+to set 'fast_io' in the config. Turned out I don't need to, so I added
+documentation for it with commit ffc72771ff6e ("regmap: Annotate that
+MMIO implies fast IO").
 
-I found this to be a bit confusing to be honest.
+This series fixes the existing users in the tree which needlessly set
+the flag. They have been found using this coccinelle script:
 
-If I put the reset description in the PHY (where I think it belongs),
-then it wouldn't work if the reset isn't by default deasserted (through
-some pull-up). This would be similar to the kexec scenario.
+===
 
-Whereas if I put the reset under the MDIO bus, then the core would
-deassert the reset before scanning the bus.
+@ match @
+expression dev, clk, regs;
+identifier config;
+@@
 
-It's confusing to me because the code already goes through the MDIO bus
-device tree node and *knows* that there are PHYs under it, and that the
-PHYs might have a reset. And it can even handle them _after_ the initial
-bus scan.
+(
+	regmap_init_mmio(dev, regs, &config)
+|
+	devm_regmap_init_mmio(dev, regs, &config)
+|
+	regmap_init_mmio_clk(dev, clk, regs, &config)
+|
+	devm_regmap_init_mmio_clk(dev, clk, regs, &config)
+)
 
-Describing the PHY reset as a bus reset IMHO isn't correct.
+@ fix depends on match @
+identifier match.config;
+@@
+
+	struct regmap_config config = {
+-	.fast_io = true,
+	};
+
+===
+
+It misses occasions where 'config' is an expression and not an
+identifier. These are rare, though, I can fix them manually later. The
+advantage of this approach is that it produces no false positives to the
+best of my knowledge.
+
+Please apply individually per subsystem. There are no dependencies and
+buildbot is happy. Patches are based on 6.17-rc1
+
+Happy hacking,
+
+   Wolfram
 
 
-ChenYu
+Wolfram Sang (21):
+  bus: remove unneeded 'fast_io' parameter in regmap_config
+  clk: remove unneeded 'fast_io' parameter in regmap_config
+  gpio: remove unneeded 'fast_io' parameter in regmap_config
+  drm: remove unneeded 'fast_io' parameter in regmap_config
+  iio: remove unneeded 'fast_io' parameter in regmap_config
+  Input: remove unneeded 'fast_io' parameter in regmap_config
+  mailbox: remove unneeded 'fast_io' parameter in regmap_config
+  media: remove unneeded 'fast_io' parameter in regmap_config
+  mfd: remove unneeded 'fast_io' parameter in regmap_config
+  mmc: remove unneeded 'fast_io' parameter in regmap_config
+  peci: remove unneeded 'fast_io' parameter in regmap_config
+  phy: remove unneeded 'fast_io' parameter in regmap_config
+  pinctrl: remove unneeded 'fast_io' parameter in regmap_config
+  pmdomain: remove unneeded 'fast_io' parameter in regmap_config
+  regulator: remove unneeded 'fast_io' parameter in regmap_config
+  reset: remove unneeded 'fast_io' parameter in regmap_config
+  rtc: remove unneeded 'fast_io' parameter in regmap_config
+  soc: remove unneeded 'fast_io' parameter in regmap_config
+  spi: remove unneeded 'fast_io' parameter in regmap_config
+  thermal: remove unneeded 'fast_io' parameter in regmap_config
+  ASoC: remove unneeded 'fast_io' parameter in regmap_config
+
+ drivers/bus/bt1-apb.c                             | 1 -
+ drivers/clk/actions/owl-common.c                  | 1 -
+ drivers/clk/clk-axm5516.c                         | 1 -
+ drivers/clk/nxp/clk-lpc32xx.c                     | 1 -
+ drivers/clk/qcom/a53-pll.c                        | 1 -
+ drivers/clk/qcom/a7-pll.c                         | 1 -
+ drivers/clk/qcom/apss-ipq-pll.c                   | 1 -
+ drivers/clk/qcom/clk-cbf-8996.c                   | 1 -
+ drivers/clk/qcom/clk-cpu-8996.c                   | 1 -
+ drivers/clk/qcom/hfpll.c                          | 1 -
+ drivers/clk/qcom/ipq-cmn-pll.c                    | 1 -
+ drivers/clk/thead/clk-th1520-ap.c                 | 1 -
+ drivers/gpio/gpio-mvebu.c                         | 1 -
+ drivers/gpio/gpio-sifive.c                        | 1 -
+ drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c    | 1 -
+ drivers/gpu/drm/imx/dc/dc-cf.c                    | 1 -
+ drivers/gpu/drm/imx/dc/dc-de.c                    | 1 -
+ drivers/gpu/drm/imx/dc/dc-ed.c                    | 2 --
+ drivers/gpu/drm/imx/dc/dc-fg.c                    | 1 -
+ drivers/gpu/drm/imx/dc/dc-fl.c                    | 1 -
+ drivers/gpu/drm/imx/dc/dc-fw.c                    | 2 --
+ drivers/gpu/drm/imx/dc/dc-ic.c                    | 1 -
+ drivers/gpu/drm/imx/dc/dc-lb.c                    | 2 --
+ drivers/gpu/drm/imx/dc/dc-tc.c                    | 1 -
+ drivers/gpu/drm/imx/ipuv3/imx-tve.c               | 2 --
+ drivers/gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c  | 1 -
+ drivers/iio/adc/sun4i-gpadc-iio.c                 | 1 -
+ drivers/input/touchscreen/fsl-imx25-tcq.c         | 1 -
+ drivers/mailbox/qcom-apcs-ipc-mailbox.c           | 1 -
+ drivers/media/cec/platform/stm32/stm32-cec.c      | 1 -
+ drivers/mfd/exynos-lpass.c                        | 1 -
+ drivers/mfd/fsl-imx25-tsadc.c                     | 1 -
+ drivers/mfd/stm32-lptimer.c                       | 1 -
+ drivers/mfd/sun4i-gpadc.c                         | 1 -
+ drivers/mmc/host/sdhci_am654.c                    | 1 -
+ drivers/peci/controller/peci-npcm.c               | 1 -
+ drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c | 1 -
+ drivers/phy/rockchip/phy-rockchip-usbdp.c         | 1 -
+ drivers/phy/ti/phy-am654-serdes.c                 | 1 -
+ drivers/phy/ti/phy-j721e-wiz.c                    | 1 -
+ drivers/pinctrl/pinctrl-rp1.c                     | 1 -
+ drivers/pmdomain/imx/gpc.c                        | 1 -
+ drivers/regulator/qcom-refgen-regulator.c         | 1 -
+ drivers/reset/reset-intel-gw.c                    | 1 -
+ drivers/reset/reset-qcom-pdc.c                    | 1 -
+ drivers/reset/reset-th1520.c                      | 1 -
+ drivers/rtc/rtc-meson.c                           | 1 -
+ drivers/soc/qcom/llcc-qcom.c                      | 1 -
+ drivers/soc/qcom/ramp_controller.c                | 1 -
+ drivers/spi/spi-altera-platform.c                 | 1 -
+ drivers/thermal/armada_thermal.c                  | 1 -
+ drivers/thermal/sun8i_thermal.c                   | 1 -
+ sound/soc/fsl/fsl_sai.c                           | 1 -
+ 53 files changed, 57 deletions(-)
+
+-- 
+2.47.2
+
