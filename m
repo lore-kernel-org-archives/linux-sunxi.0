@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1D472F39B2;
-	Thu, 14 Aug 2025 11:14:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3933E15B0EC;
+	Thu, 14 Aug 2025 14:18:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755170054; cv=none; b=Ut15ndK9suyWTvlPi7DRjKmO94cmLLVDWMaRypWKxuWA8pHu+VadjJ6yv6l6yEZp82zCdcyPcg7J2QmL6NLM/Mn/GPL9gb4POPCN2yXj2gwqSWNVcr1EyFTdvAOID7POMYFRvLQ3eEjz5vah/gFkgjO6Bm6y49ViemAkEAi2Xws=
+	t=1755181118; cv=none; b=GuJ60s1sw2PuD2Hm2Oy1NK/2lwYRnyLIr5JPHAOBdKVKFni/s03wMw3l9KeQwvFhpPJI8HY4EWdzK/OdvrVbeeLFBntPnnQLCgmEJuWe/KlJjyXNYVHIzWmwPLzilxwUNv2owq0fW8X9hnggJJFxIZNNI8EH/ROjsEKtmVWSsxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755170054; c=relaxed/simple;
-	bh=tEQmYgzbbnDyqDEJWRtGvNd+F5EzBR/vQBdSyaJQhYo=;
+	s=arc-20240116; t=1755181118; c=relaxed/simple;
+	bh=aIOvB7Z2yTByNAFttZWfPG8POEc6396jSKH09BJ+/Lw=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=f8zoWRljDaUtkBEG9jh9Akue/JgQHMQF2UYUfm6gU4hT/joe+akAkfpcd0ZHLLYz2KzJli0+FGfjLaIpZN4Vt1/8xS3graQCyQD/V4f92xGOE0q/i4rZPBfKTyrijFZMf6hOgat7utoV3U51SBti+RH3jtwtejtHqLftwZnUyC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nNpjrfeQ; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=kxK8yANVQDT4+6zKzNWO9ULNnCSB10yROVDfE0eGUDsaC5McpGAXdBYmzSybesQb8g6KEcUCTcl1Dkzo4Eu1qjLYZeyMjSHDkTKOXVG3Ov5WwU1RurfL52iwkC3ha1qPXUHPx92JX66qPE/l0whPWXvD1oOof3GzK7wq5D4+X6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EqgU/EDu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nNpjrfeQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBF02C4CEED;
-	Thu, 14 Aug 2025 11:13:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EqgU/EDu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 140DFC4CEEF;
+	Thu, 14 Aug 2025 14:18:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755170053;
-	bh=tEQmYgzbbnDyqDEJWRtGvNd+F5EzBR/vQBdSyaJQhYo=;
+	s=k20201202; t=1755181116;
+	bh=aIOvB7Z2yTByNAFttZWfPG8POEc6396jSKH09BJ+/Lw=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=nNpjrfeQtIacQG0WEX7mhSYTd7hQlnB7xgoGgJ3v0sCDCZTw/gWywOLfqOYZY4LEw
-	 5E1vCRzlD1L7yPW24oE8hMcbLDvBgKF7UglcpNWQtk+d21igAN/jkLiw4vfw95mmaO
-	 Wy7Aqpr6pD43wwMPVYuuHLtW+Bl/6xetkfjwBZUQFNWFgaJ0eeIdJk6JAFWM+nmE53
-	 +kHohC9FP8zxW9RrnA7dkwqqcgSuN4MKh4R6jlzu+aBiOCgoS1PQtvycwFenFDAKSf
-	 8NGwtU+raJOCaLGmFHJD4RvJXWWS3gsAOxCpMzRtcOJrdMPkcN8DQ2NiQbSAuAjRLj
-	 ccmAEOd0wNzVg==
+	b=EqgU/EDu3oDCYRt1Si13BRghMkcwK5LqN9GkAcGcfcrhFTazE34zUUq8Od+e5oGUJ
+	 GNx5ulPcFgtO5ZyiSpwIBr8FUNyAthpqEJ1HFf9GnjWHY+qIpiLzwl5jpRBrlolPn2
+	 z6xjKGXo4jawDOcpqGnCDN73BGfqRqAyieck88qD94UdpBJX7zr50+UVyAUEIFPEy1
+	 8iZ5/OdecI+vpH1tXXE5PIrAiCENDSW7wdju78QYNBO7tccEMhyLT5/PeO3ORXivtj
+	 sVMKdqgvEftfF5s9YxpUhwR00ND4s4PmT0wxP/dvrTnBxT6CdvlYHRM7ommRoJA5zP
+	 uiUsOyuYlg5Jw==
 From: Mark Brown <broonie@kernel.org>
 To: linux-kernel@vger.kernel.org, 
  Wolfram Sang <wsa+renesas@sang-engineering.com>
@@ -103,8 +103,8 @@ In-Reply-To: <20250813161517.4746-1-wsa+renesas@sang-engineering.com>
 References: <20250813161517.4746-1-wsa+renesas@sang-engineering.com>
 Subject: Re: (subset) [PATCH 00/21] treewide: remove unneeded 'fast_io'
  parameter in regmap_config
-Message-Id: <175517003454.17441.365944262533574232.b4-ty@kernel.org>
-Date: Thu, 14 Aug 2025 12:13:54 +0100
+Message-Id: <175518109481.47921.1666131365484481268.b4-ty@kernel.org>
+Date: Thu, 14 Aug 2025 15:18:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -128,12 +128,12 @@ On Wed, 13 Aug 2025 18:14:46 +0200, Wolfram Sang wrote:
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
 Thanks!
 
-[19/21] spi: remove unneeded 'fast_io' parameter in regmap_config
-        commit: 48124569bbc6bfda1df3e9ee17b19d559f4b1aa3
+[21/21] ASoC: remove unneeded 'fast_io' parameter in regmap_config
+        commit: d578faf7096affc036fd16333f1bfbe4991a22f7
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
