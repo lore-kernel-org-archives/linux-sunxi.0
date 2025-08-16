@@ -1,78 +1,119 @@
-Received: from abb.hmeau.com (abb.hmeau.com [180.181.231.80])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A51D21B9FD;
-	Sat, 16 Aug 2025 09:09:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=180.181.231.80
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 534C6242D84;
+	Sat, 16 Aug 2025 09:30:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755335371; cv=none; b=YxrOOckyYCRy7vZsbwOtw80YWHNUz8yOU7Kgrekbx8JEc4rbqKVramYzElWcFgOk9g5DhCPVTt5LcWGAijcCKco8P+gzxM7CpTfcexN6IicPKNtzmR+S+bhuUhcolYftazKuWc8ZJt7wtFQPW5rh5Em5N4kvLOuea+s+Q3mheS4=
+	t=1755336608; cv=none; b=R1GN0L6rTydThwVqdmE5gCFDw1+8+nEJfXVexAukOUYWpKH9xPrkdc7RwC0Tb4rBIYne3opJ4v85A6jubQ9o4vv2s1n/W+ZK0Us4NAo8MInzjNKbvwkh31qmq2LTYYNOLi867RuWYo4YJKrlhGcIVvoE/kHzpFw9xC2UUPDm79I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755335371; c=relaxed/simple;
-	bh=sZeCxT7RWN2dvDA/asN0c7waJmCLwx4WyPAavexkuAE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p7EPoXzvX4/roc1wH4Ucs7i4aEmCmqNSGDR6gkjG08XIbSYPfZJ+sd403q8w/oeiW+fBnEFhya5DoJ5J9UzjpVYVeyucXaFzqSGRV6/zPrVGXbF8ZfXh/UTmmkn1+RcdkEEkqD64utN2OzfZ3vxfEfe0TOQDhzOHQFR/UC8vaVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b=ZiQi59f9; arc=none smtp.client-ip=180.181.231.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
+	s=arc-20240116; t=1755336608; c=relaxed/simple;
+	bh=L2pDXt7Di7jsWWHk1cqmaqgT51d11o638zJ41+YNieA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nM40YSF7Ngayt35WkHPg8Ik/Na9TYDY8zTnGxxT9jdKYYFT2u3MV3FgbThmH/I/RXf0uRb/UWqIdY/+szVTPpuiKOdD1heYxmTNvgKt6zlN21z75X8EhrHmiz4nLU9hDdNqWZ64XfrZBFimIVnD/1eN/2LEyeiefHwrarn25K3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dxn2Ubou; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b="ZiQi59f9"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hmeau.com;
-	s=formenos; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=PsG18bRLbzBDlWWJBWH8shg+HfW363Y8h4z4QtNnMgU=; b=ZiQi59f9VWa4kBg1fzLxkP2ppo
-	jrHvLfuXVbTM9njC9u0q55rZzV9M6hIzYUZZt3Hnf4BLqMnUeLURy/BDr07PtNgiXKwt9f8wdp4iB
-	D7dpftrau1AEU0atNdINFlPZIaH8Zl3r5U7cBQ8oPFOtDZ0sKLu6fBdlznmQg9hZtbNpY1PZrikZs
-	BZ5e0SIba6tYlAyjrhmI2eF9og6XMoaepr6sQ5+q6FgaL3FovP58B0TIMGvtwLdM7gu6ksZXg1WIX
-	x29TXp40jIb0D//FJauHhJ+VwUkXVfp6sLaoTtzytc2ZacKiIKS/QTGpqt3QSQI5o/BC7+vKlJOYm
-	sqyHPrRg==;
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
-	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
-	id 1unCf7-00Em8c-2p;
-	Sat, 16 Aug 2025 17:09:15 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Sat, 16 Aug 2025 17:09:14 +0800
-Date: Sat, 16 Aug 2025 17:09:14 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
-Cc: clabbe.montjoie@gmail.com, davem@davemloft.net,
-	linux-crypto@vger.kernel.org, wens@csie.org,
-	jernej.skrabec@gmail.com, samuel@sholland.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 8/9] crypto: sun8i-ce - save hash buffers and dma info to
- request context
-Message-ID: <aKBKul0unf06oBiV@gondor.apana.org.au>
-References: <20250728060701.1787607-1-ovidiu.panait.oss@gmail.com>
- <20250728060701.1787607-9-ovidiu.panait.oss@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dxn2Ubou"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91131C4CEEF;
+	Sat, 16 Aug 2025 09:30:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755336607;
+	bh=L2pDXt7Di7jsWWHk1cqmaqgT51d11o638zJ41+YNieA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=dxn2Ubou6yl9kFWMgk/D7RxcLoM2tDpKhszvc4dgSOULYOESiXAGX0J6gYgEa2anA
+	 bSyFjMdc/kk5DAIuSMix4zeJtOITqNGpIFUbSJYZqlSWlD+yrNwoNz+1fgbRBomRfr
+	 zNn4CvsRYzpm4PgZpQP2cXDTx53/Lkzrno+9UMT24isuxs7NaoqX97rtVI7LTxRyxI
+	 cLI1CGXEUeLE0VS2kUSVcj38Jli0NZNNSLsvG/2+cdWDMccLxF4HBRbqEohMLUO9xz
+	 8pbhAVLVVUtd/BoYUqvHtgrBhFGwo4S0er/oFx2XxMzOKdXG50ykdBqX5WVi2n2HNY
+	 WEi8RSTQnoRWg==
+Message-ID: <0e149bdb-8830-42a2-927b-a489b4195015@kernel.org>
+Date: Sat, 16 Aug 2025 11:30:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250728060701.1787607-9-ovidiu.panait.oss@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/7] clk: sunxi-ng: a523: add missing usb related clocks
+To: iuncuim <iuncuim@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Andre Przywara
+ <andre.przywara@arm.com>, Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
+ linux-clk@vger.kernel.org, linux-sunxi@lists.linux.dev
+References: <20250816084700.569524-1-iuncuim@gmail.com>
+ <20250816084700.569524-2-iuncuim@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250816084700.569524-2-iuncuim@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jul 28, 2025 at 09:07:00AM +0300, Ovidiu Panait wrote:
->
-> +	u8 result[CE_MAX_HASH_DIGEST_SIZE] ____cacheline_aligned;
+On 16/08/2025 10:46, iuncuim wrote:
+> From: Mikhail Kalashnikov <iuncuim@gmail.com>
+> 
+> Several clocks were omitted when adding the original driver. These clocks
+> are necessary for USB 3.0 to work correctly. I added these declarations
+> according to the driver's BSP code.
+> 
+> Signed-off-by: Mikhail Kalashnikov <iuncuim@gmail.com>
+> ---
+>  drivers/clk/sunxi-ng/ccu-sun55i-a523.c      | 32 +++++++++++++++++++++
+>  drivers/clk/sunxi-ng/ccu-sun55i-a523.h      |  2 +-
+>  include/dt-bindings/clock/sun55i-a523-ccu.h |  4 +++
 
-To get proper alignment for the reqctx, the driver should use
-the ahash_request_ctx_dma helper.  Of course, the reqsize should
-also be increased by CRYPTO_DMA_PADDING.
 
-For the struct member, instead of __cacheline_aligned use
-__aligned(CRYPTO_DMA_ALIGN).
+Bindings should be a separate patch. Checkpatch should also suggest that.
 
-> +	u8 pad[2 * CE_MAX_HASH_BLOCK_SIZE] ____cacheline_aligned;
-
-This is to-devce only, right? If so it doesn't need to be aligned.
-
-Cheers,
--- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+Best regards,
+Krzysztof
