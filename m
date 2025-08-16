@@ -1,24 +1,24 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 987162E5D38
-	for <linux-sunxi@lists.linux.dev>; Sat, 16 Aug 2025 13:52:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EDFA2E610D
+	for <linux-sunxi@lists.linux.dev>; Sat, 16 Aug 2025 14:13:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755352348; cv=none; b=Of9dOPVzPUbd/p0hBS87NINmdRc8LIkR7txnfRn+8LmJs+4BwMF4Dv2P7u5z/uyBSR1Kk6yPmcZLtEdfNqgblpuVL2Sbzk8TzTXwt53a3Gh/gUrgp7OWoin3PtB8mP5q8SHT82XS0v9noGlui47BAo8Vr0ls02Q/8vwIyyPvj8o=
+	t=1755353592; cv=none; b=Zso8JKbCQWHZLi3SSSv4YrYACQP4ctITu4xx9kwBdGfqqZwLDv/OcUalYmV/t6sk8l96GFb+EsEEPCDDPsQgAAE0QzM9k7wPiS9puikpRVQrMlPNR/N378x3llSdnOjYI6Hx04a/W+A4yMQBOUBmxL7ONinFwvZZYIe8wj3Baig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755352348; c=relaxed/simple;
-	bh=oZ5Cc4xVoSeWb9U0ObX76KpGY9hzQGHcznmOMyGx1+Y=;
+	s=arc-20240116; t=1755353592; c=relaxed/simple;
+	bh=MCwup8/VMzm2vt/sg3v0hqhdOZGr4LtLR5MBWmocvfU=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eO2jINYnSK7tmeRN5UzPjBIjRp7R1jrX11Cp/kHyI5GveuT0nJryc18cpdtr321AnW8IQ78zdowiTRiZY5WTrnsPLeMpXADUAanBtFJ/+U+8ovKXYZ90m/93hlXt6DTgav0eE5IOM2DBsPDRkGjqT+kLJ6PWwTJysN7tXgLO2fA=
+	 MIME-Version:Content-Type; b=fdLs+1/AeE4Ymtv1IhK/lKuV0PK41VA4o3Wf2bYkjaPBOzIKV6+AWQ16rKXsi9mu5QhQsyFCIXhRWABIkX3LbA3rsy7U0jvn/0xI/egy6MJfOl/SltEitn8FFqZAIdmIAK97BA61RxA0h+joeXYD+DIZUR8DHYneeIVopH3wpJo=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D964F1691;
-	Sat, 16 Aug 2025 06:52:18 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2C1AA1595;
+	Sat, 16 Aug 2025 07:13:02 -0700 (PDT)
 Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6CF773F738;
-	Sat, 16 Aug 2025 06:52:24 -0700 (PDT)
-Date: Sat, 16 Aug 2025 14:49:36 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BA4543F738;
+	Sat, 16 Aug 2025 07:13:07 -0700 (PDT)
+Date: Sat, 16 Aug 2025 15:10:15 +0100
 From: Andre Przywara <andre.przywara@arm.com>
 To: iuncuim <iuncuim@gmail.com>
 Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -30,11 +30,11 @@ Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
  linux-clk@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 5/7] arm64: dts: allwinner: a523: add USB3.0 phy node
-Message-ID: <20250816144936.3f2738cc@minigeek.lan>
-In-Reply-To: <20250816084700.569524-6-iuncuim@gmail.com>
+Subject: Re: [PATCH 6/7] arm64: dts: allwinner: a523: add DWC3 USB3.0 node
+Message-ID: <20250816151015.621f8da4@minigeek.lan>
+In-Reply-To: <20250816084700.569524-7-iuncuim@gmail.com>
 References: <20250816084700.569524-1-iuncuim@gmail.com>
-	<20250816084700.569524-6-iuncuim@gmail.com>
+	<20250816084700.569524-7-iuncuim@gmail.com>
 Organization: Arm Ltd.
 X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
@@ -46,61 +46,76 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Sat, 16 Aug 2025 16:46:58 +0800
+On Sat, 16 Aug 2025 16:46:59 +0800
 iuncuim <iuncuim@gmail.com> wrote:
 
 Hi,
 
 > From: Mikhail Kalashnikov <iuncuim@gmail.com>
 > 
-> After adding the phy driver, we can also add phy node. In addition to the
-> clk and reset lines, the power domain PD_PCIE is declared in this node
-> according to the bsp dtb. So let's mention it. 
-> Currently, phy driver does not support role selection and only works in
-> USB3.0 mode.
-
-That's the current limitation of the proposed Linux driver, but should
-not affect the binding or DT:
-
+> After adding the phy bindings, we can also add dwc3 node, which uses the
+> previously added usbphy2 and part of usb3 from combophy.
+> All settings declared in dwc3 node are obtained from the x96qproplus' dtb.
+> BSP contains an additional glue driver for dwc3, but it seems that it is
+> not needed.
 > 
 > Signed-off-by: Mikhail Kalashnikov <iuncuim@gmail.com>
 > ---
->  arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+>  .../arm64/boot/dts/allwinner/sun55i-a523.dtsi | 21 +++++++++++++++++++
+>  1 file changed, 21 insertions(+)
 > 
 > diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-> index e4ed4fa82..233365496 100644
+> index 233365496..ec170888a 100644
 > --- a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
 > +++ b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-> @@ -606,6 +606,16 @@ mdio0: mdio {
+> @@ -606,6 +606,27 @@ mdio0: mdio {
 >  			};
 >  		};
 >  
-> +		combophy: phy@4f00000 {
-> +			compatible = "allwinner,sun55i-a523-usb3-pcie-phy";
-> +			reg = <0x04f00000 0x100000>;
-> +			clocks = <&ccu CLK_USB3>;
+> +		dwc3: usb@4d00000 {
+> +			compatible = "snps,dwc3";
 
-Will we need more clocks (or resets) when supporting PCIe later? If
-yes, we should add them already now, even if they are not used by the
-current driver.
+Wouldn't we need an A523 specific compatible string first?
 
-> +			resets = <&ccu RST_BUS_PCIE_USB3>;
-> +			#phy-cells = <0>;
+> +			reg = <0x04d00000 0x100000>;
+> +			interrupts = <GIC_SPI 35 IRQ_TYPE_LEVEL_HIGH>;
+> +			dr_mode = "host";
+> +			clocks = <&ccu CLK_MBUS_USB3>, <&ccu CLK_USB3>,
+> +				 <&ccu CLK_USB2>, <&ccu CLK_USB3_SUSPEND>;
+> +			clock-names = "bus_clk", "ref_clk3", "ref_clk2", "suspend";
 
-I think we should use one PHY cell here, to allow users to select the
-PHY path they need. A USB3.0-only driver implementation could choose to
-ignore it, or require the number to be 0 only, rejecting anything else.
-But this way we keep compatibility with newer DTs.
+How does this work, exactly? I see "bus_clk" (deprecated, should be
+"bus_early") and "suspend" in the bindings and the Linux driver, but
+where do ref_clk3 and ref_clk2 come from, and more importantly who is
+going to use them? IIUC, the binding hints that certain implementations
+could need more clocks, but then it's their responsibility to parse and
+enable them, in platform specific glue code, I think.
+
+
+
+> +			maximum-speed = "super-speed";
+> +			phy_type = "utmi";
+> +			snps,dis_enblslpm_quirk;
+> +			snps,dis-u1-entry-quirk;
+> +			snps,dis-u2-entry-quirk;
+> +			snps,dis_u3_susphy_quirk;
+> +			snps,dis_u2_susphy_quirk;
+> +			snps,dis_rxdet_inp3_quirk;
+> +			phys = <&usbphy 2>, <&combophy>;
+
+Related to my comment on the other DT patch, this should be
+"<&combophy 0>" (with "#phy-cells = <1>;" in the PHY node, to be forward
+compatible.
 
 Cheers,
 Andre
 
-> +			power-domains = <&pck600 PD_PCIE>;
+
+> +			phy-names = "usb2-phy", "usb3-phy";
 > +			status = "disabled";
 > +		};
 > +
->  		ppu: power-controller@7001400 {
->  			compatible = "allwinner,sun55i-a523-ppu";
->  			reg = <0x07001400 0x400>;
+>  		combophy: phy@4f00000 {
+>  			compatible = "allwinner,sun55i-a523-usb3-pcie-phy";
+>  			reg = <0x04f00000 0x100000>;
 
