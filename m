@@ -1,165 +1,78 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from abb.hmeau.com (abb.hmeau.com [180.181.231.80])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32D5D23BCEE
-	for <linux-sunxi@lists.linux.dev>; Sat, 16 Aug 2025 08:48:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A51D21B9FD;
+	Sat, 16 Aug 2025 09:09:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=180.181.231.80
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755334112; cv=none; b=PXS9hVmGZnP9siyjF+2r+1tZV/50R7sH56H2G8Hv8lEMMFECaq7j/UCXtKWJZr77NsAELTW1z3ym8X4viitHipWMt3Z74OmZMuBRTU+SNnSSqqAXZPE3YoedsgQLFqS3dWGyyI54BI7ZHuKA6OtxW5ONQU8OQLYBWE7j0VwN02E=
+	t=1755335371; cv=none; b=YxrOOckyYCRy7vZsbwOtw80YWHNUz8yOU7Kgrekbx8JEc4rbqKVramYzElWcFgOk9g5DhCPVTt5LcWGAijcCKco8P+gzxM7CpTfcexN6IicPKNtzmR+S+bhuUhcolYftazKuWc8ZJt7wtFQPW5rh5Em5N4kvLOuea+s+Q3mheS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755334112; c=relaxed/simple;
-	bh=pzJn+y3ubulKFb+XrVV1kazkT/PrWOp3C67NiveIlbM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SbzXHyONCc/JMzxhtYJnmoVQAPj+EHrk8tGO0XgK5WzcS3yOfq73Om+mOFXp1QmqyWw4IuEezPYlWQ1zAmjk04AWuL/llNJ/X5fgCJ1fGvMCzrGCisiBks1zNG3bSi6ntwTOvlb0wwRjAGA4XjBbfvolnzWlZyGRLsDS/Um95XY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZxKqsD6U; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755335371; c=relaxed/simple;
+	bh=sZeCxT7RWN2dvDA/asN0c7waJmCLwx4WyPAavexkuAE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p7EPoXzvX4/roc1wH4Ucs7i4aEmCmqNSGDR6gkjG08XIbSYPfZJ+sd403q8w/oeiW+fBnEFhya5DoJ5J9UzjpVYVeyucXaFzqSGRV6/zPrVGXbF8ZfXh/UTmmkn1+RcdkEEkqD64utN2OzfZ3vxfEfe0TOQDhzOHQFR/UC8vaVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b=ZiQi59f9; arc=none smtp.client-ip=180.181.231.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZxKqsD6U"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-76e1fc69f86so2679993b3a.0
-        for <linux-sunxi@lists.linux.dev>; Sat, 16 Aug 2025 01:48:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755334110; x=1755938910; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EDWOGAR/V8qhS+DEW6fYz84GWwsYflwCKKabdx3FCTA=;
-        b=ZxKqsD6UTUnoXv206rZGG1kNDjt9+Q+Aoo/3xabhgwCe6x5FL/3k1jZzgwWrc11rI6
-         j1EHM7RfjEgCNcDC+drdbn0d/S2pg8aa4MVBUwuElf1eSuHudqnVoZ1BTwBIS/+sLQ+O
-         YXEE0Xy6rRMXsSVNFe66GTpftXhoWu7Iq/y+zWDJRnX6jJ9cCT+l2Bgbr9JioxwITAYM
-         OcCurOVDzSXp8PU3FLsQiVGLRg7Q/ttx8YGBfEgCJkct0LSNKHPbeif4rMV+z4wiGHU3
-         o4/1B6om/xsp2F6CSLZGSe+R365oHmD08wDubdIRXrrTZz7+jKQp5sUl0nYumcyJFWch
-         8fEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755334110; x=1755938910;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EDWOGAR/V8qhS+DEW6fYz84GWwsYflwCKKabdx3FCTA=;
-        b=vslhas+uqkKiDMroLq9SzGJRCjcnwaq4n1BXWeW8A8dJs646m8TFe24af7J0QLP4S7
-         RfmLEpHrMLM/0ovSfkRcqJ73QSdrlMkCdd6Llgpg4Axohqx3itA26qzI4GALwM/IfqCq
-         wuaWRCe7jf96yMhMa4DkKvofaGjVkY71wg/SoC4XXde2miRQRs3pJDzoSpWcNGIp5AkR
-         IwfyJT8EZ3jjcYUI8xO3HnPCl11ggu499HBWtzw9/RxK74gVsCeZf/+P3TccCvZt0WWF
-         zlVfGTN4DNNFZxv21UgTMMfycBWyx/OTZRmsGraSyoziA9L8VenmpWRf9aQle9HXswBV
-         aD8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWQdmsw9JD/2gyC2zurp+C3c9NLY9Ro3QnkYuqscU+uuMMw9w2fLyqHGLDCrYUx7tL502vOiswF4EWVbQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxnLjIrtyhUYxUIoTanQKC5TUKpzSLsRxU0cvSI793SK2fSeIXD
-	DC963h1YeaBdeP1yOeWoeWpeh13LdxzAKF3GBH03X61rF3YPK9qKWXB/
-X-Gm-Gg: ASbGnctUiRsfCzsWsaXgBw/Vj45r8iWhZov6kFXaRUcUJ1g1mgxnawS2PlhHYHE24hK
-	1w7nNYJc0nhHieOHJkQGYXzFqpnsE0IiscT0kPMYpymog/RkSpySVwBe70xo9iYQmS+LjVsdX3b
-	CWs89PspqOovZxJMpqsJ335lOeQuaziE4+iujomxiE3MaFHFGtMUWeSxNXxanCLYOPq0ntFQqXo
-	cKTuZXYcU/JzTVkN6QS3HdVRTLeU+vLxjaUsi33aC7jFDX4pa/FSlVdqli0VyXErp5p7kN8bX1O
-	zgdUAZUzKfMMmR92mbVLFDKd0UHlWYAVpIqynyyixtiX0NLyChmZxi8zpvLcNVmK5P5hX13Qz3m
-	+Ue1q8FdaqTo=
-X-Google-Smtp-Source: AGHT+IGsQHajlRxkkJKhsBN5q8Xue9SzeHzYvWpvVEasktK/+7UqcjxhnXytQgxkbXL5divXvBb2fw==
-X-Received: by 2002:a17:902:d50b:b0:242:b138:8110 with SMTP id d9443c01a7336-244598679d7mr146468085ad.24.1755334110487;
-        Sat, 16 Aug 2025 01:48:30 -0700 (PDT)
-Received: from junAIR ([212.192.12.80])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2446d57f12esm31048215ad.157.2025.08.16.01.48.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Aug 2025 01:48:30 -0700 (PDT)
-From: iuncuim <iuncuim@gmail.com>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Cc: devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-phy@lists.infradead.org,
-	linux-clk@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH 7/7] arm64: dts: allwinner: a523: activate USB3 for all boards
-Date: Sat, 16 Aug 2025 16:47:00 +0800
-Message-ID: <20250816084700.569524-8-iuncuim@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250816084700.569524-1-iuncuim@gmail.com>
-References: <20250816084700.569524-1-iuncuim@gmail.com>
+	dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b="ZiQi59f9"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hmeau.com;
+	s=formenos; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=PsG18bRLbzBDlWWJBWH8shg+HfW363Y8h4z4QtNnMgU=; b=ZiQi59f9VWa4kBg1fzLxkP2ppo
+	jrHvLfuXVbTM9njC9u0q55rZzV9M6hIzYUZZt3Hnf4BLqMnUeLURy/BDr07PtNgiXKwt9f8wdp4iB
+	D7dpftrau1AEU0atNdINFlPZIaH8Zl3r5U7cBQ8oPFOtDZ0sKLu6fBdlznmQg9hZtbNpY1PZrikZs
+	BZ5e0SIba6tYlAyjrhmI2eF9og6XMoaepr6sQ5+q6FgaL3FovP58B0TIMGvtwLdM7gu6ksZXg1WIX
+	x29TXp40jIb0D//FJauHhJ+VwUkXVfp6sLaoTtzytc2ZacKiIKS/QTGpqt3QSQI5o/BC7+vKlJOYm
+	sqyHPrRg==;
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
+	id 1unCf7-00Em8c-2p;
+	Sat, 16 Aug 2025 17:09:15 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Sat, 16 Aug 2025 17:09:14 +0800
+Date: Sat, 16 Aug 2025 17:09:14 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
+Cc: clabbe.montjoie@gmail.com, davem@davemloft.net,
+	linux-crypto@vger.kernel.org, wens@csie.org,
+	jernej.skrabec@gmail.com, samuel@sholland.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 8/9] crypto: sun8i-ce - save hash buffers and dma info to
+ request context
+Message-ID: <aKBKul0unf06oBiV@gondor.apana.org.au>
+References: <20250728060701.1787607-1-ovidiu.panait.oss@gmail.com>
+ <20250728060701.1787607-9-ovidiu.panait.oss@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250728060701.1787607-9-ovidiu.panait.oss@gmail.com>
 
-From: Mikhail Kalashnikov <iuncuim@gmail.com>
+On Mon, Jul 28, 2025 at 09:07:00AM +0300, Ovidiu Panait wrote:
+>
+> +	u8 result[CE_MAX_HASH_DIGEST_SIZE] ____cacheline_aligned;
 
-Currently, these devices have a USB 3.0 port. Therefore, we can activate
-it.
+To get proper alignment for the reqctx, the driver should use
+the ahash_request_ctx_dma helper.  Of course, the reqsize should
+also be increased by CRYPTO_DMA_PADDING.
 
-Signed-off-by: Mikhail Kalashnikov <iuncuim@gmail.com>
----
- arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts | 8 ++++++++
- arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts  | 8 ++++++++
- arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts | 8 ++++++++
- 3 files changed, 24 insertions(+)
+For the struct member, instead of __cacheline_aligned use
+__aligned(CRYPTO_DMA_ALIGN).
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-index 553ad774e..6842f8e8d 100644
---- a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-@@ -47,6 +47,14 @@ reg_usb_vbus: vbus {
- 	};
- };
- 
-+&combophy {
-+	status = "okay";
-+};
-+
-+&dwc3 {
-+	status = "okay";
-+};
-+
- &ehci0 {
- 	status = "okay";
- };
-diff --git a/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts b/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts
-index a96927fbd..19388bc11 100644
---- a/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts
-@@ -46,6 +46,14 @@ reg_vcc3v3: vcc3v3 {
- 	};
- };
- 
-+&combophy {
-+	status = "okay";
-+};
-+
-+&dwc3 {
-+	status = "okay";
-+};
-+
- &ehci0 {
- 	status = "okay";
- };
-diff --git a/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts b/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
-index b9eeb6753..6f05cd297 100644
---- a/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
-@@ -57,6 +57,14 @@ reg_usb_vbus: vbus {
- 	};
- };
- 
-+&combophy {
-+	status = "okay";
-+};
-+
-+&dwc3 {
-+	status = "okay";
-+};
-+
- &ehci0 {
- 	status = "okay";
- };
+> +	u8 pad[2 * CE_MAX_HASH_BLOCK_SIZE] ____cacheline_aligned;
+
+This is to-devce only, right? If so it doesn't need to be aligned.
+
+Cheers,
 -- 
-2.50.1
-
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
