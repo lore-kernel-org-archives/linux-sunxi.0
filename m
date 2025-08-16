@@ -1,172 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32DDD1DD9AC;
-	Fri, 15 Aug 2025 14:42:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA5EA156237
+	for <linux-sunxi@lists.linux.dev>; Sat, 16 Aug 2025 08:47:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755268932; cv=none; b=SNhpiggnkyeE9A40sTIS95MDv1GE+NrbqcxwEUJI6oJej7AM2cdvzeCFScha1rZK+f/f/Z3Vto/lRpVbPEEb0uvlbXjXrtna2B3INUDpqC6zffP78GwWZK+tg8NEm3lZorToO1CTgrz2utfyFe82d9NHJiBDnmdFLOYya1vf9As=
+	t=1755334046; cv=none; b=op1o1Q8Ll1IdSYRiKXk6RatkFOMQ85JT4pCgwzobEbT8T5Pl/gkEKqGidBYUKhno2poFXW5F5Ptfm5/v5DbxZQAy9RYcpatTXBSErlSkXURu2/N9fhmhwGKVTqLTfl2lDygtmlgEVvPe+JzzNbneENMooi43fbAgkVzr17slKCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755268932; c=relaxed/simple;
-	bh=3eUf4UXirGpUX0gw3VvalDgnQQxUYuzOa7d+Bn86Fb0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uoFmnoQUiiydNZvBSIwjw1eFMinxeq2dGKl6YT05B4duAUcyXIcx+CZ7jQuJ5taxR7mj7ziRg1uLszZAQ4/r/WbMrgUwP7rVOSMDZcEBij0JMWC0f41d7cXPPdoszmT7Q+eNY2Dl1gb2xUtotHKAg+E5n1JbABVeQWDAIsFn52o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QGhHpuiS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755334046; c=relaxed/simple;
+	bh=8PCZnzyRTidqnHyCuNwmg93j5EhJWu3LK3bWlpzsKUE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dznkfeg+yRg4uXxjXP3ylFxzZPB1SNER2AHmoYQcXQqnfz7rJqbCLUI894QTMG6pBkB+f2U6PdZcj41FsdGSCjV7ub7XOhkzW8mzf+aqxzNNDZ5T86hXPuJtDlbAySNrjXhvRoyiPDyJz8EavsVg5poiiHqTyzQqyXNpmR/oIxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kNYKF0Vf; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QGhHpuiS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3B35C4CEEB;
-	Fri, 15 Aug 2025 14:42:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755268931;
-	bh=3eUf4UXirGpUX0gw3VvalDgnQQxUYuzOa7d+Bn86Fb0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=QGhHpuiSTtGAbt/6dlTCnnoTA4ZplxFC8Tro0GJAdbAh12tMNEUSLu07z11OvQBvk
-	 oHTf5TJS/YKStrrrPHeWRzwJ0jGE6j5AZ1tbRvaZy3dDmEE9KCuVb15MPpzSH6J/gw
-	 2nlRciQR5ILTUmZcjfPb8Wftcr9/dguuRdUZKw9cWJDeaG76YAPPH1GvTVv9P/kSEx
-	 wLYcS3eJZ7unChNgWOYh7wQNPjdRjal2zeZDCWKyPnLkisSlJQ+WGVCBgVhn2LIrAt
-	 +qG7XHhqCY/zS15DuM72YtrsT2tpKSGGxqzGtUU2p/oH3AF5g3+H8o04kc5YGhgMBJ
-	 knwp+/59e078g==
-From: Bjorn Andersson <andersson@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Mark Brown <broonie@kernel.org>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Andrea della Porta <andrea.porta@suse.com>,
-	=?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Avi Fishman <avifishman70@gmail.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Benjamin Fair <benjaminfair@google.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kNYKF0Vf"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-24457f581aeso20754545ad.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 16 Aug 2025 01:47:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755334044; x=1755938844; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=n00OWL+w8sWdTdOAmEeus4NBoquiXkV9tCtbNCC3Db4=;
+        b=kNYKF0VfGEzKtj2oCu2A6H49RqkEPkU7SXHZF3ZFuWgZdOssepKAzTI213SpPmMAig
+         FSbkMCrRu/bgMzp92uyG9QENIQDGTvs1drXBXiHRXUx48dKoatavRUVSTTBV4+iAFWi9
+         gPWhHFtm8pR+vRnDT2xik7XYsTV2+fghQqfaYNIY1ULV4jA+vaeYm272of9HQJQnTOqI
+         rwQkET8eae7IUHGZ1oOj3tiNbwyFKuzlEft4kyr1HqvYmJCt9jr6voZieCb5R5KUbtxw
+         YUNzfDo+VB5ovDd039YAq2fg3aCQXxxEUweo2wFlSpmLvNNgy25xbhCkm9d+kgPf8xzo
+         tq2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755334044; x=1755938844;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=n00OWL+w8sWdTdOAmEeus4NBoquiXkV9tCtbNCC3Db4=;
+        b=UxXy16ZaEb6EE1SwNYjBRNfurESVkjQwDJDupjtGFKh60HLOrrEO5wDEzFGaVv//LE
+         /Q25B73GW0hRQ/jFMXmcI3OPMaRnGXItYP6sHsLlthbsN117yHeCI92dqrckwLX3fuQu
+         yBxKzORlWq3Dw5AxMhr1HoIxmbStO2F/qn0mGEnELE9tY51S1UO9F2q+X/SNxJ5FwrKO
+         PHda39doX/rhNBw3fcE/HRElhhAuHtsAyzfX4BLfOLhx58BZtSEtePNR6YMnK8PXBsce
+         cDWm/f83GkJhBWwhBgoBccxqSBilquki3yI8+wWiQHA76coDSSFDCULXqGhx+iWN/30V
+         2PAw==
+X-Forwarded-Encrypted: i=1; AJvYcCXpX2PQusW2N60lDhuUmA6OVdAq8hUtpOrU5pcdFmpH9DCn77DA694bUAbUcNdcs4V5xQMKpeVq3chq+w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzIS16pfdOVrHv2FMrLRwreFPFJolQgPL+5+sYitzYLFbzmbTq0
+	wWgqy4rVFTHTKZS51NSlBtqezJ3TyMk+h9CrGTgiV1PP3F2Pd7g/atq1
+X-Gm-Gg: ASbGncvRTmXHHGlOrB+BwAlwkr4LKBDc8q9hehC4emZIX6jIdCnLXHAOaGQYt8sjc3b
+	+++uWMx0iwesdEuzp5k4RKc4MfsEXJ0eFCMcAWIWspLXNiSp3sKwu9cDEWrkUOOhdOAPnPMqXHR
+	UULXHX8d4ihLcY5OkXgpx9lB8J3g1SNU0pk5nHPZtGrBijF/WheGYMuOtdjy/t3zQiCcxvFP0DN
+	9q4Ey/iYStIxehf3qVOnr9je88QG6t/S/eYQDBdVz5BjprCIHXEQaGZeWg5YR72nqC6rfQYaZ9f
+	M/QKXqJlmKvLGqKk+DPTIG2J3xYr5vZrnNLiDoirzAbmaTwiz8B3wJl/wlD2kzR3UyO/8dQ/03e
+	gJocWeyYvicc=
+X-Google-Smtp-Source: AGHT+IHRLGNB8SYXmPKw81D1VOKbz4q3gvNOhwVUuxSt8mOuivVjupipoQ1fbt8d5uqOtt3TGwriuA==
+X-Received: by 2002:a17:903:22c6:b0:242:9bc4:f1c7 with SMTP id d9443c01a7336-2447909bfd5mr31610805ad.54.1755334044121;
+        Sat, 16 Aug 2025 01:47:24 -0700 (PDT)
+Received: from junAIR ([212.192.12.80])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2446d57f12esm31048215ad.157.2025.08.16.01.47.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 Aug 2025 01:47:23 -0700 (PDT)
+From: iuncuim <iuncuim@gmail.com>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	David Airlie <airlied@gmail.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Drew Fustini <fustini@kernel.org>,
-	dri-devel@lists.freedesktop.org,
-	Fabio Estevam <festevam@gmail.com>,
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-	Fu Wei <wefu@redhat.com>,
-	Guo Ren <guoren@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	=?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
-	imx@lists.linux.dev,
-	Iwona Winiarska <iwona.winiarska@intel.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Lee Jones <lee@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	linux-actions@lists.infradead.org,
-	linux-amlogic@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-mmc@vger.kernel.org,
-	linux-phy@lists.infradead.org,
-	linux-pm@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-pwm@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-rtc@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-spi@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev,
-	Liu Ying <victor.liu@nxp.com>,
-	Lukasz Luba <lukasz.luba@arm.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Nancy Yuen <yuenn@google.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
-	openbmc@lists.ozlabs.org,
-	Patrick Venture <venture@google.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Michael Turquette <mturquette@baylibre.com>,
 	Stephen Boyd <sboyd@kernel.org>,
-	Takashi Iwai <tiwai@suse.com>,
-	Tali Perry <tali.perry1@gmail.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomer Maimon <tmaimon77@gmail.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
-	Vasily Khoruzhick <anarsoul@gmail.com>,
 	Vinod Koul <vkoul@kernel.org>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>,
-	Yangtao Li <tiny.windzz@gmail.com>,
-	Zhang Rui <rui.zhang@intel.com>
-Subject: Re: (subset) [PATCH 00/21] treewide: remove unneeded 'fast_io' parameter in regmap_config
-Date: Fri, 15 Aug 2025 09:42:02 -0500
-Message-ID: <175526892008.370600.8859545110801188375.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250813161517.4746-1-wsa+renesas@sang-engineering.com>
-References: <20250813161517.4746-1-wsa+renesas@sang-engineering.com>
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>
+Cc: devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-phy@lists.infradead.org,
+	linux-clk@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH 0/7] arm64: allwinner: a523: add USB3.0 support
+Date: Sat, 16 Aug 2025 16:46:53 +0800
+Message-ID: <20250816084700.569524-1-iuncuim@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
+From: Mikhail Kalashnikov <iuncuim@gmail.com>
 
-On Wed, 13 Aug 2025 18:14:46 +0200, Wolfram Sang wrote:
-> While working on a driver using regmap with MMIO, I wondered if I need
-> to set 'fast_io' in the config. Turned out I don't need to, so I added
-> documentation for it with commit ffc72771ff6e ("regmap: Annotate that
-> MMIO implies fast IO").
-> 
-> This series fixes the existing users in the tree which needlessly set
-> the flag. They have been found using this coccinelle script:
-> 
-> [...]
+This series is a draft and does not include patches for dt-bindings.
+The first series is necessary for testing on other devices and
+initiating discussion.
 
-Applied, thanks!
+This series of patches adds USB 3.0 functionality for the
+A523/A527/H728/T527 processor.Most of the code is derived from the BSP,
+ as the datasheet does not fully describe this feature.
 
-[18/21] soc: remove unneeded 'fast_io' parameter in regmap_config
-        commit: 5d8a9c8401648d338d072a488d455ed4611c5d4b
+I have verified functionality on two of my boards, walnutpi 2b (t527)
+and x96qproplus (h728). When testing usb3.0 on x96qproplus, I get
+reconnections of my nvme, it looks like the port does not provide enough
+ current to work. I have encountered similar complaints from users of the
+  device on Android. In the case of walnutpi, there is no such problem.
 
-Best regards,
+Based on 6.17-rc1
+
+Mikhail Kalashnikov (7):
+  clk: sunxi-ng: a523: add missing usb related clocks
+  arm64: dts: allwinner: a523: add third usb2 phy
+  phy: sun4i-usb: a523: add support for the USB2 PHY
+  phy: allwinner: a523: add USB3/PCIe PHY driver
+  arm64: dts: allwinner: a523: add USB3.0 phy node
+  arm64: dts: allwinner: a523: add DWC3 USB3.0 node
+  arm64: dts: allwinner: a523: activate USB3 for all boards
+
+ .../arm64/boot/dts/allwinner/sun55i-a523.dtsi |  52 +++-
+ .../dts/allwinner/sun55i-a527-cubie-a5e.dts   |   8 +
+ .../dts/allwinner/sun55i-h728-x96qpro+.dts    |   8 +
+ .../dts/allwinner/sun55i-t527-avaota-a1.dts   |   8 +
+ drivers/clk/sunxi-ng/ccu-sun55i-a523.c        |  32 +++
+ drivers/clk/sunxi-ng/ccu-sun55i-a523.h        |   2 +-
+ drivers/phy/allwinner/Kconfig                 |   9 +
+ drivers/phy/allwinner/Makefile                |   1 +
+ drivers/phy/allwinner/phy-sun4i-usb.c         |  10 +
+ drivers/phy/allwinner/phy-sun55i-usb3-pcie.c  | 267 ++++++++++++++++++
+ include/dt-bindings/clock/sun55i-a523-ccu.h   |   4 +
+ 11 files changed, 392 insertions(+), 9 deletions(-)
+ create mode 100644 drivers/phy/allwinner/phy-sun55i-usb3-pcie.c
+
 -- 
-Bjorn Andersson <andersson@kernel.org>
+2.50.1
+
