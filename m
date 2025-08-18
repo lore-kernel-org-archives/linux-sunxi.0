@@ -1,121 +1,154 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EDFA2E610D
-	for <linux-sunxi@lists.linux.dev>; Sat, 16 Aug 2025 14:13:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 925BA334712;
+	Mon, 18 Aug 2025 14:10:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755353592; cv=none; b=Zso8JKbCQWHZLi3SSSv4YrYACQP4ctITu4xx9kwBdGfqqZwLDv/OcUalYmV/t6sk8l96GFb+EsEEPCDDPsQgAAE0QzM9k7wPiS9puikpRVQrMlPNR/N378x3llSdnOjYI6Hx04a/W+A4yMQBOUBmxL7ONinFwvZZYIe8wj3Baig=
+	t=1755526247; cv=none; b=nh8YR0NuG+j2WsE2bBCoYe+qG1jH1RxAig2GXk3lx8WxW8IZSPvK8VPyiGY/YCetp5/FuBzmaRcKxecZ4c7JIFoZF997zG4tCjK7SZBm/mwtXpkp3Lv1DsTho4W8fJui9kgy7sfvyjFTCuP+ZDlhVOmtY7OTnHOdjEC2SO/G+zE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755353592; c=relaxed/simple;
-	bh=MCwup8/VMzm2vt/sg3v0hqhdOZGr4LtLR5MBWmocvfU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fdLs+1/AeE4Ymtv1IhK/lKuV0PK41VA4o3Wf2bYkjaPBOzIKV6+AWQ16rKXsi9mu5QhQsyFCIXhRWABIkX3LbA3rsy7U0jvn/0xI/egy6MJfOl/SltEitn8FFqZAIdmIAK97BA61RxA0h+joeXYD+DIZUR8DHYneeIVopH3wpJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2C1AA1595;
-	Sat, 16 Aug 2025 07:13:02 -0700 (PDT)
-Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BA4543F738;
-	Sat, 16 Aug 2025 07:13:07 -0700 (PDT)
-Date: Sat, 16 Aug 2025 15:10:15 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: iuncuim <iuncuim@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I
- <kishon@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
- linux-clk@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 6/7] arm64: dts: allwinner: a523: add DWC3 USB3.0 node
-Message-ID: <20250816151015.621f8da4@minigeek.lan>
-In-Reply-To: <20250816084700.569524-7-iuncuim@gmail.com>
-References: <20250816084700.569524-1-iuncuim@gmail.com>
-	<20250816084700.569524-7-iuncuim@gmail.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	s=arc-20240116; t=1755526247; c=relaxed/simple;
+	bh=j0lyo02IFV4zcgXPYgENMtO59Au22hO0nmUipu26tPk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:Message-ID:MIME-Version:
+	 Content-Type:References; b=elExSWWS/R2HB5U8rlvPjkIkvwPR2ABgz5XH5yexSjf6egfZ0DloPYyh55+xTEu00CBO0qcwCp8W5LZNe6jhxqygAvcXV+QuMwMqDyS8cyfJAlVCc1N85TXJhujWAvwA7WYa1cMt+GTzOY9ohz8ffNXVOPqTLQMle+6m8S17yGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=nweMstTk; arc=none smtp.client-ip=210.118.77.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="nweMstTk"
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20250818141041euoutp01198781292bd5d26e9ea7136d3d3d73e8~c4dDIkjfs2135921359euoutp01S;
+	Mon, 18 Aug 2025 14:10:41 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20250818141041euoutp01198781292bd5d26e9ea7136d3d3d73e8~c4dDIkjfs2135921359euoutp01S
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1755526241;
+	bh=ts3A4MvB+pLF9b1fYr1OaRKHsIG9rXzjaSyR872fx0Q=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=nweMstTkqZUfTDcgSuzWRYVoV9JvbPK+l2fq2+I3gRx0SKOetrGBglidgci/XLRHG
+	 yKiRGPTghNY65ZYuW+rQetbaj0UlX84N/HJy2tuH4Qs0xmThMbES7YZyWuK/y2EQwa
+	 pANBPLppgOKGZUguwTqkajXJsHrX4XbKh4XzMW6k=
+Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20250818141040eucas1p12598f376bdd8cfcb984a8a799373111d~c4dCdErup2133021330eucas1p1j;
+	Mon, 18 Aug 2025 14:10:40 +0000 (GMT)
+Received: from localhost (unknown [106.120.51.111]) by eusmtip1.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20250818141040eusmtip168497366a830534395c067398c2a3939~c4dCY3Ph_0814408144eusmtip1d;
+	Mon, 18 Aug 2025 14:10:40 +0000 (GMT)
+From: Lukasz Stelmach <l.stelmach@samsung.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org,  linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,  linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-tegra@vger.kernel.org, imx@lists.linux.dev, 
+	linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-usb@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com, mjpeg-users@lists.sourceforge.net
+Subject: Re: [PATCH 11/65] media: Replace file->private_data access with
+ custom functions
+Date: Mon, 18 Aug 2025 16:10:40 +0200
+In-Reply-To: <20250802-media-private-data-v1-11-eb140ddd6a9d@ideasonboard.com>
+	(Jacopo Mondi's message of "Sat, 02 Aug 2025 11:22:33 +0200")
+Message-ID: <oypijda53wra8v.fsf%l.stelmach@samsung.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="=-=-="; micalg="pgp-sha256";
+	protocol="application/pgp-signature"
+X-CMS-MailID: 20250818141040eucas1p12598f376bdd8cfcb984a8a799373111d
+X-Msg-Generator: CA
+X-RootMTR: 20250802092520eucas1p2d0edfe269d3c423e6157bd7a0ec0b43c
+X-EPHeader: CA
+X-CMS-RootMailID: 20250802092520eucas1p2d0edfe269d3c423e6157bd7a0ec0b43c
+References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
+	<CGME20250802092520eucas1p2d0edfe269d3c423e6157bd7a0ec0b43c@eucas1p2.samsung.com>
+	<20250802-media-private-data-v1-11-eb140ddd6a9d@ideasonboard.com>
 
-On Sat, 16 Aug 2025 16:46:59 +0800
-iuncuim <iuncuim@gmail.com> wrote:
+--=-=-=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-> From: Mikhail Kalashnikov <iuncuim@gmail.com>
-> 
-> After adding the phy bindings, we can also add dwc3 node, which uses the
-> previously added usbphy2 and part of usb3 from combophy.
-> All settings declared in dwc3 node are obtained from the x96qproplus' dtb.
-> BSP contains an additional glue driver for dwc3, but it seems that it is
-> not needed.
-> 
-> Signed-off-by: Mikhail Kalashnikov <iuncuim@gmail.com>
+It was <2025-08-02 sob 11:22>, when Jacopo Mondi wrote:
+> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
+> Accessing file->private_data manually to retrieve the v4l2_fh pointer is
+> error-prone, as the field is a void * and will happily cast implicitly
+> to any pointer type.
+>
+> Replace all remaining locations that read the v4l2_fh pointer directly
+> from file->private_data and cast it to driver-specific file handle
+> structures with driver-specific functions that use file_to_v4l2_fh() and
+> perform the same cast.
+>
+> No functional change is intended, this only paves the way to remove
+> direct accesses to file->private_data and make V4L2 drivers safer.
+> Other accesses to the field will be addressed separately.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 > ---
->  .../arm64/boot/dts/allwinner/sun55i-a523.dtsi | 21 +++++++++++++++++++
->  1 file changed, 21 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-> index 233365496..ec170888a 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-> @@ -606,6 +606,27 @@ mdio0: mdio {
->  			};
->  		};
->  
-> +		dwc3: usb@4d00000 {
-> +			compatible = "snps,dwc3";
 
-Wouldn't we need an A523 specific compatible string first?
+[...]
 
-> +			reg = <0x04d00000 0x100000>;
-> +			interrupts = <GIC_SPI 35 IRQ_TYPE_LEVEL_HIGH>;
-> +			dr_mode = "host";
-> +			clocks = <&ccu CLK_MBUS_USB3>, <&ccu CLK_USB3>,
-> +				 <&ccu CLK_USB2>, <&ccu CLK_USB3_SUSPEND>;
-> +			clock-names = "bus_clk", "ref_clk3", "ref_clk2", "suspend";
-
-How does this work, exactly? I see "bus_clk" (deprecated, should be
-"bus_early") and "suspend" in the bindings and the Linux driver, but
-where do ref_clk3 and ref_clk2 come from, and more importantly who is
-going to use them? IIUC, the binding hints that certain implementations
-could need more clocks, but then it's their responsibility to parse and
-enable them, in platform specific glue code, I think.
-
-
-
-> +			maximum-speed = "super-speed";
-> +			phy_type = "utmi";
-> +			snps,dis_enblslpm_quirk;
-> +			snps,dis-u1-entry-quirk;
-> +			snps,dis-u2-entry-quirk;
-> +			snps,dis_u3_susphy_quirk;
-> +			snps,dis_u2_susphy_quirk;
-> +			snps,dis_rxdet_inp3_quirk;
-> +			phys = <&usbphy 2>, <&combophy>;
-
-Related to my comment on the other DT patch, this should be
-"<&combophy 0>" (with "#phy-cells = <1>;" in the PHY node, to be forward
-compatible.
-
-Cheers,
-Andre
+> diff --git a/drivers/media/platform/samsung/s5p-g2d/g2d.c b/drivers/media=
+/platform/samsung/s5p-g2d/g2d.c
+> index ffed16a34493be2edbdaee13619467417487c1e7..44fcedbbc90a9863827aacbcd=
+5f56d850cb552ea 100644
+> --- a/drivers/media/platform/samsung/s5p-g2d/g2d.c
+> +++ b/drivers/media/platform/samsung/s5p-g2d/g2d.c
+> @@ -25,7 +25,10 @@
+>  #include "g2d.h"
+>  #include "g2d-regs.h"
+>=20=20
+> -#define fh2ctx(__fh) container_of(__fh, struct g2d_ctx, fh)
+> +static inline struct g2d_ctx *file2ctx(struct file *filp)
+> +{
+> +	return container_of(file_to_v4l2_fh(filp), struct g2d_ctx, fh);
+> +}
+>=20=20
+>  static struct g2d_fmt formats[] =3D {
+>  	{
+> @@ -272,7 +275,7 @@ static int g2d_open(struct file *file)
+>  static int g2d_release(struct file *file)
+>  {
+>  	struct g2d_dev *dev =3D video_drvdata(file);
+> -	struct g2d_ctx *ctx =3D fh2ctx(file->private_data);
+> +	struct g2d_ctx *ctx =3D file2ctx(file);
+>=20=20
+>  	mutex_lock(&dev->mutex);
+>  	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
 
 
-> +			phy-names = "usb2-phy", "usb3-phy";
-> +			status = "disabled";
-> +		};
-> +
->  		combophy: phy@4f00000 {
->  			compatible = "allwinner,sun55i-a523-usb3-pcie-phy";
->  			reg = <0x04f00000 0x100000>;
+Acked-by: Lukasz Stelmach <l.stelmach@samsung.com>
 
+
+[...]
+
+
+=2D-=20
+=C5=81ukasz Stelmach
+Samsung R&D Institute Poland
+Samsung Electronics
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEXpuyqjq9kGEVr9UQsK4enJilgBAFAmijNGAACgkQsK4enJil
+gBDoIQgAm0zhFQfQO2pDJE9DC0t6P4lrJ//jtdrQJtVSYpcaXDYP9Oq1iygQ3s54
+2wjf/n/+kXlE2cUM5pvbFc0c1qeuZipb+lexBpwBdogDE3njAsinDf4ohsWPGhJC
+TMOuWPadHmM0CXjuSWpeF+MoKtOJYJjdyVizq8ZoFwgGHssYApRxGVuXx6DRlsZK
+aqNXp4P9HNaVsxLl5JOCaeEaJLBkU++5rhIooxbmm/jPuM6WuOWil+jQKADaODeJ
+UfkLjfRCLFc4WdsXOBZuwqUiyU4imB8qJOlrjosCChiqKqr7up+cyr3YZ7PJEXPv
+jN4MErP/mPjxbYUi+bON3CbY2FlWfw==
+=alRq
+-----END PGP SIGNATURE-----
+--=-=-=--
