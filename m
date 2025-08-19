@@ -1,324 +1,173 @@
-Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TYDPR03CU002.outbound.protection.outlook.com (mail-japaneastazon11013019.outbound.protection.outlook.com [52.101.127.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC486340DAE
-	for <linux-sunxi@lists.linux.dev>; Tue, 19 Aug 2025 13:37:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755610625; cv=none; b=jDVy5cxWjK6bOJ28gyWjZdVAxGv9hJF9NX2lK+aAjL8TtcOvrKPplSsJaGOvxIV4Xgj589mElhWdM/u6eoTix2q9Fkoixf98aA4xC2cciBBpznHNp0uErb3O0gRaAaZmThWNeZfBPgOJDtj54IpqY6Qfk4wBArBB9MZDSnMqxzw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755610625; c=relaxed/simple;
-	bh=UXtEVc56OuhXFuSxXMf+eKV6B1c2HY0ChAi1tMRN8Mg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RwaZsovNWHinIF4xHWewn3P+oaLULTVL1RmBCJuseVBdEAjbZexHbrLa3x6FsWHzz7r3qcOuOoaFKDxIgJUIjRE5xhj9y9QM5FWB5GPIzTj67n+SpdVzBcL179tNW0WjGHp9Wro7K2A4ueR/0zE30T/B4Yt8b2wTNWgvNqEk31E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-Received: from localhost (unknown [180.158.240.122])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: dlan)
-	by smtp.gentoo.org (Postfix) with ESMTPSA id B56D234227A;
-	Tue, 19 Aug 2025 13:37:02 +0000 (UTC)
-Date: Tue, 19 Aug 2025 21:36:50 +0800
-From: Yixun Lan <dlan@gentoo.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Lee Jones <lee@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FCA41DA60F
+	for <linux-sunxi@lists.linux.dev>; Tue, 19 Aug 2025 14:39:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.127.19
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755614393; cv=fail; b=ecd0EdQvoOrSjfcddhzvIvP+0HWFTVBmPdIiovXxqhPU9VPxvtmP+zt6f0pExUGoORhXX5Rn89KVWJUeT5oaOwgK8+E3HFNKBujhRiTkQQHznD3dfkJQGgtN4WZsFyoVPbWuiv7vmW+FomYS6obDrMYrA84/Y8892uGb3qW6lZ8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755614393; c=relaxed/simple;
+	bh=luixxGRR0VZ3vtWKqqXucyRiNqJX9C/WEnt90TQLWaE=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=J8y2zNP53pAh6wfj6aYQxrOnayODLZrXBcORNi0LaVtViEbxt8ozVSkaqMzdiZmi0x2LB4mBrNvvrZ3rBMtjhu8gP11mqG8aGfZkNSc0z9WGFNgzPvNHMHKbP58zGq3N01vqhADEZQ54jpJWsqcOIVyP1dCa2BERRXXc7dlJ4ek=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=M2a4yvPW; arc=fail smtp.client-ip=52.101.127.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="M2a4yvPW"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jtAEHj4UZWQZcRqGqMQtOY5sWWpGjhWm2l+P2fQZCtmhckLMqGls5SshLDPL5tsrJ+MTiuG506gpmSnwXp44eTDF6T0XaSc6xMUjT8/GZo6aLN7e07WFzx+7oVElxcQmdeO/sro3oVgzSQDFvUxyvTJnrrbv3n7fqlvkG7A6GBbWq9KnNfiUXUHKIuEgoV6kpsFFtFAXI7hoMkY4jTjFD73SeNMmzhpD6OJiQXhXCmI9Hcue496+LvQSsMXuDxd5luZIrzMJILCyNEyD4rUtG1WEs7g3CeluVp0VkovpP3Aket+1YnpOju0qhY7gDuoGRDH36zfE7RGipPtdQ0dIxg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oxCN3CFvHQMy+khGTm0bfg0RocR3deOgqKbP7/TIq+E=;
+ b=MMzUk93TL2ZPISWssFMCaENhV4tB4xb7EHHfkkl4pexL/V1exsPHYbrOejQbCdl/eXxuZwHfB0U7wCvWjd/qREcPT4q9XelJIEZwaWBjffh1hqOxoJMtdsLWXZe3qedkimLS5/TVu3MYtnfzEzVCdHK/MZ80yJjW+xSsIYQSHpcafr818jmY4PcAbCU4COqfxvhzxN6kpIyOSgtQgz6See26ih8gwtvGbJ0Tj0qpB13kWGd59mrrjP7i8n640LfETlnsDt4pENhTLkdNglzZMMmYHxqPGUUXfE3v6KxMFA7nInDKEHLHvUYRelqtn+obqhfkgCpqF+MR79Fh7Ut4hw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oxCN3CFvHQMy+khGTm0bfg0RocR3deOgqKbP7/TIq+E=;
+ b=M2a4yvPWv3VB3EGT1T5900AUp2Fofon4x9ok63nC+Gyw4SShPM4JgvMwqRowvFZQR52nF59eJQ37V5ANGHMCZNwJulOWE54ilX2zOKcLxZuZU3MALVhMNIxb3JKmGbM5NGnwKQaZGtgNJxkUef88NP0DJt5eZroStTpF/AY/zBp1n3/3CGeX57TsHFHvOCAKLa5wQo78PnWZMqDwWbdh8qLkFDmY28K55Ho0rSD4VCYriM/gzNs/0pD5tsMn9KRv0RbMsqihJ7x8JGRb+hRCV5VZohAYJppumpxvfMSlQJQYJ756cR5zbSjRYMvItUmbJfYKcNaS8BjYu5dz8qWAzQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SI2PR06MB5140.apcprd06.prod.outlook.com (2603:1096:4:1af::9) by
+ JH0PR06MB6679.apcprd06.prod.outlook.com (2603:1096:990:3d::11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9052.13; Tue, 19 Aug 2025 14:39:46 +0000
+Received: from SI2PR06MB5140.apcprd06.prod.outlook.com
+ ([fe80::468a:88be:bec:666]) by SI2PR06MB5140.apcprd06.prod.outlook.com
+ ([fe80::468a:88be:bec:666%5]) with mapi id 15.20.9031.023; Tue, 19 Aug 2025
+ 14:39:46 +0000
+From: Qianfeng Rong <rongqianfeng@vivo.com>
+To: Steen Hegelund <Steen.Hegelund@microchip.com>,
+	Daniel Machon <daniel.machon@microchip.com>,
+	UNGLinuxDriver@microchip.com (maintainer:ARM/Microchip Sparx5 SoC support),
+	Linus Walleij <linus.walleij@linaro.org>,
+	Michal Simek <michal.simek@amd.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 3/3] regulator: axp20x: add support for the AXP318W
-Message-ID: <20250819133650-GYA1055626@gentoo>
-References: <20250813235330.24263-1-andre.przywara@arm.com>
- <20250813235330.24263-4-andre.przywara@arm.com>
+	Samuel Holland <samuel@sholland.org>,
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Microchip Sparx5 SoC support),
+	linux-gpio@vger.kernel.org (open list:PIN CONTROL SUBSYSTEM),
+	linux-kernel@vger.kernel.org (open list),
+	linux-arm-msm@vger.kernel.org (open list:ARM/QUALCOMM MAILING LIST),
+	linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support)
+Cc: Qianfeng Rong <rongqianfeng@vivo.com>
+Subject: [PATCH 0/4] pinctrl: use kcalloc() instead of kzalloc()
+Date: Tue, 19 Aug 2025 22:39:31 +0800
+Message-Id: <20250819143935.372084-1-rongqianfeng@vivo.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR01CA0020.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:192::6) To SI2PR06MB5140.apcprd06.prod.outlook.com
+ (2603:1096:4:1af::9)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250813235330.24263-4-andre.przywara@arm.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SI2PR06MB5140:EE_|JH0PR06MB6679:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6b2f2c63-1dde-43c8-5ae3-08dddf2e3e79
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|52116014|376014|7416014|1800799024|38350700014|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?HLSt0KuK44TGsqQC2eGdVfLNTe9K3eCI4KkbkDf9BxQxnpoyo7sM85cF4njv?=
+ =?us-ascii?Q?AiJNB02wjcUuAS4J3blMgtrpyAmhCLrArfJtva23HD+mo5lGyrclWyUjqgNy?=
+ =?us-ascii?Q?sCyRtAQqaDAzR7A5u6UKKyW2xD7hqpWfBGwot+X6sLKr21snPPaLtvk9goh9?=
+ =?us-ascii?Q?6Q4GMPdJo7LclBoWaWhb/3/qwG34TftD12V2MaMZBx4DiR9IB5dHOpWtk8JS?=
+ =?us-ascii?Q?U7siev/UDRyn0Wbzr2VD/rqC/X3lwy3CIUqTL9yyexTO4O89NwSi7opk2zG/?=
+ =?us-ascii?Q?BF+nbSNqzrJLrfaYfLTyILIbxF9K/ShHDRVFsD3m77aSXMlPTDVh7sSF/mLW?=
+ =?us-ascii?Q?SUqcd/AeJMs311wjM2rndrrNf47mAvaDWStO/sWvLeNFM7dFGICLs4ksEnDW?=
+ =?us-ascii?Q?OOqs26fAPpL5BrTzfYyVhsIS7vUYbrZTV48r/XW4Ygww0pIe3fuNyyUJfUFd?=
+ =?us-ascii?Q?ymSdFLJGfmSj9Pux3Hn+w3GCNZVkYG7UulxM0FToulr+xMVRjBXWiCj8E6Y8?=
+ =?us-ascii?Q?I1XvQ0+kbntLeueYsizRDnZCgISYIIHKOuJf+lXTw0SNkwXm5VxC42FPLQHu?=
+ =?us-ascii?Q?M1UIEgIAdi9q9wpSO/ArawUI5tpTj+rbUBJznZ6C350XqW8vKvVk0+UNUnqh?=
+ =?us-ascii?Q?Ug8hTtsk/YX8iFRQ70N/3KoTZyBx20LOJZ97B0v7eifMVifU4uooh8iey5jS?=
+ =?us-ascii?Q?yulP2+aMSjtCrhs1y+C260/5GG582x24Fb5RywduEr0yi3gHvYjzD3WeplDE?=
+ =?us-ascii?Q?yfpacJmpTz5m71OVYcwn5CLdR+Q4gOEGgHcOWPwvf02azRWKa5OElNDzp2zg?=
+ =?us-ascii?Q?WNOdPwkICHVZxDg4MpBRRm/xd+YKrmUdZ8cXN3EGtWFfoQrVbRLNWkOdXYlx?=
+ =?us-ascii?Q?8Zu4gp5aHW7sY/10xYenhEXRSHqdThEFLqP0637Jj6M90riNa/zEGvhnJ3ZE?=
+ =?us-ascii?Q?IbIzT636bMrNUU4nkx/Ajg2pBBMfpm00oj2LdHqpKb0foP2yBS1CfinFrMXL?=
+ =?us-ascii?Q?kNzy7yzNyvNa8pySAW3yaJcNEnt4QY6rBhh+6Vo4PohDn4P4I5CO9+iJzRHt?=
+ =?us-ascii?Q?ZBk4uY/63A1GC1FScygOBXF8hPb8H5bWM8ZRg5MyebKn0PbECr87kAucECpX?=
+ =?us-ascii?Q?Rbf8iGfK0snxCPEITQMHLHBa8VEBDmViz/yJhTJPC6wGbiU0XeZiW9nSYsRg?=
+ =?us-ascii?Q?fLqm/oAsW/7oXfX1I5D3Insz7scpbXzmUk0UksKn1U2U5n0JHdkb6L1pQPVl?=
+ =?us-ascii?Q?Ens7fH1rpEaPChJ15gvKKmCDuY1YgFHzTj79PFNlaAclnGNs9rTJ0dD0GsAZ?=
+ =?us-ascii?Q?WIvldC7OKXtNt0lkwFk7qFbHbSwbxK+s7PLocnKM+8psMbNhNjcZHqHnnrUC?=
+ =?us-ascii?Q?KAUym5Uzjixn0OGrw8q12kpGCAuXOSfzMxrIDkHadBuyRjfjFLUYRpNOfMCF?=
+ =?us-ascii?Q?I4Z3tZ1rbNJNlRx9D7RZtoX3F8S/RGM+?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SI2PR06MB5140.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(376014)(7416014)(1800799024)(38350700014)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?3j/yMGLNdGolM0XqTfE+KB/n2UQQL2Zx/CI7u9VIhNtUXPUzPIKCKTxKs0Rb?=
+ =?us-ascii?Q?HwJ006jQaA88PA31YPZRhPrcCaM/RgYEqC/q40ehLHRGxLbCfIu21XXxqxGY?=
+ =?us-ascii?Q?FU7NSs8iI701IIOUivbKgsJPP4dBuP/6g2GGTQ89wO1+HL9hMZPQ8/dfkzc3?=
+ =?us-ascii?Q?7WfMiGemrZsUhsvd1kBisng9G+R4Rf4OjDSqgFH0zLW+4WPBCLc3oD4UlLep?=
+ =?us-ascii?Q?Xx4Mz6Uk8Uj4o8anrRQLL1V196WNoNgrXSJ/WXqW+xcT1NC39xl/YuJ0jCR+?=
+ =?us-ascii?Q?REavGs3tiVksNnQJaOhioqIHdWeGJim3A+i4ePkbfKmMDvYBnpjHKpwD+jpr?=
+ =?us-ascii?Q?83UXzvAd+gwO8SjezUrdet3eTgenWoYfAucy7bLaAvLfoxPk5Dau4jOG3aEk?=
+ =?us-ascii?Q?cq7ioCO2Awci385Yw6PMjHvJnP6Ee3MO7bVlviQzwujVr34e8uaAU1L68mNZ?=
+ =?us-ascii?Q?tvyHDqe1Ygj9O/5CpW1buuzXZ4cshhHzr179zhsT7c/Dww/L5p2gWbyzRY+6?=
+ =?us-ascii?Q?rWALiLCu0pEiiu4WhfdMWVOYjzCQz1IEnHq5YyqIaRkrS8z1J4onB+sH2o+n?=
+ =?us-ascii?Q?oYtMRoIKalbSQEIMWqImU8U9yXvXNQgBxnLdGlszO6IV9sJFUFiLLyoJx+po?=
+ =?us-ascii?Q?IJIP7dGGwJu9wIzKnF98heZULivVqyb8Am2QoleN0Fd5ZYlIoDFhK/y7rmuD?=
+ =?us-ascii?Q?ZTkFHZvbNYa2ERjNqrbWsEltDNyBtqupaF5PnbaGaKUSt/ZRZ5197lg69aP6?=
+ =?us-ascii?Q?f7SnWDthg6GyxBbzRdMPuLQtnHRmzk0UXZ4IcU2yu7T+F9dgaAQPB6Uc/hDe?=
+ =?us-ascii?Q?frCiGFU5BpEALHW/8HGPIJ5W0QExljziL2sRr2Z6iDBtVQfHrYqhvF2dyCrT?=
+ =?us-ascii?Q?pTjPTg+RC5oqquRDJElNM3i//6NJiE5tBulDt8c9WgXCgiZXtbQ7WERhP1d1?=
+ =?us-ascii?Q?FZ4smS5nd/hmJQRUIiYA4dwUkzHJwhiYOpc4zaSRMBUr//eCLrrgRnkJDSuj?=
+ =?us-ascii?Q?+4h441RsSSCLRpZRC5AIhl+zhHZXDOsMOXD8jt7ZJapWFsKpq6KQW8Xkb7fI?=
+ =?us-ascii?Q?AtypgojlmeL46abznaFsGCnVK/tTEeOf7qnIZmaRlIW9pYOa4GG0hSkrjnQZ?=
+ =?us-ascii?Q?/MppHHLNVWlk1h2mTq7V5bDWqRMrbMjCqNFs4qVkV8p6DDi+nj2KW9y0uQKh?=
+ =?us-ascii?Q?AhQwoTxXyviPHbVwHv9r53cRUwNDON/mtomPAN4jWRS+dipXFg/Q/VxvUpl7?=
+ =?us-ascii?Q?Zpo/8/+7jVYfAjJgpLYdpf+556xNup9gM089YUH6w4R06cnOjoOZQxqp4mkd?=
+ =?us-ascii?Q?LzHjfVYJVLEZtfaNjSDkrLnywd+x11NauEQXDlS9u1X9KcC6ePqBP6qUHuEm?=
+ =?us-ascii?Q?Ch+mlZGqX6OFbrRA5yHzA9enIXF0s6BhxYqdjyCputBUdchCVTJKtdlmb7Y1?=
+ =?us-ascii?Q?78Cvc3OfgtbXria7kEMeQs2ynPC19U8n44DJEpV41rPvR++ZOaIjGqxh4F6W?=
+ =?us-ascii?Q?dhTMncvlOc2rdRS1h+ML/v6euvbGZ5m8xRGYmzbBwP0Z9TJFaHdCydAINv3M?=
+ =?us-ascii?Q?/kUrmYprznfW/b50RwB0Lf449xepKJya3ECzaAuj?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6b2f2c63-1dde-43c8-5ae3-08dddf2e3e79
+X-MS-Exchange-CrossTenant-AuthSource: SI2PR06MB5140.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2025 14:39:46.8178
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EeVajSIxNmmRNnoLpiuNnnEhBA/a4PYWEs5UTFTj0vQ8OOqejN57vTwXkM96RK7Ynglg+7vX4j8CiVjmpdpdpQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: JH0PR06MB6679
 
-Hi Andre,
+Replace devm_kzalloc() with devm_kcalloc() in drivers/pinctrl.  As noted
+in the kernel documentation [1], open-coded multiplication in allocator
+arguments is discouraged because it can lead to integer overflow.
 
-On 00:53 Thu 14 Aug     , Andre Przywara wrote:
-> The X-Powers AXP318W is a typical PMIC from X-Powers, featuring nine
-> DC/DC converters and 28 LDOs, on the regulator side.
-> 
-> Describe the chip's voltage settings and switch registers, how the
-> voltages are encoded, and connect this to the MFD device via its
-> regulator ID.
-> We use just "318" for the internal identifiers, for easier typing and
-> less churn. If something else other than the "AXP318W" shows up, that's
-> an easy change, externally visible strings carry the additional letter
-> already.
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  drivers/regulator/axp20x-regulator.c | 159 +++++++++++++++++++++++++++
->  include/linux/mfd/axp20x.h           |  41 +++++++
->  2 files changed, 200 insertions(+)
-> 
-> diff --git a/drivers/regulator/axp20x-regulator.c b/drivers/regulator/axp20x-regulator.c
-> index da891415efc0b..eb2c45b5b9eb0 100644
-> --- a/drivers/regulator/axp20x-regulator.c
-> +++ b/drivers/regulator/axp20x-regulator.c
-> @@ -138,6 +138,15 @@
->  #define AXP313A_DCDC_V_OUT_MASK		GENMASK(6, 0)
->  #define AXP313A_LDO_V_OUT_MASK		GENMASK(4, 0)
->  
-> +#define AXP318_DCDC1_V_OUT_MASK		GENMASK(4, 0)
-> +#define AXP318_DCDC2_V_OUT_MASK		GENMASK(6, 0)
-> +#define AXP318_LDO_V_OUT_MASK		GENMASK(4, 0)
-> +#define AXP318_ELDO_V_OUT_MASK		GENMASK(5, 0)
-> +#define AXP318_DCDC2_NUM_VOLTAGES	88
-> +#define AXP318_DCDC6_NUM_VOLTAGES	128
-> +#define AXP318_DCDC7_NUM_VOLTAGES	103
-> +#define AXP318_DCDC8_NUM_VOLTAGES	119
-> +
->  #define AXP717_DCDC1_NUM_VOLTAGES	88
->  #define AXP717_DCDC2_NUM_VOLTAGES	107
->  #define AXP717_DCDC3_NUM_VOLTAGES	103
-> @@ -765,6 +774,151 @@ static const struct regulator_desc axp313a_regulators[] = {
->  	AXP_DESC_FIXED(AXP313A, RTC_LDO, "rtc-ldo", "vin1", 1800),
->  };
->  
-> +static const struct linear_range axp318_dcdc2_ranges[] = {
-> +	REGULATOR_LINEAR_RANGE(500000,   0, 70, 10000),
-> +	REGULATOR_LINEAR_RANGE(1220000, 71, 87, 20000),
-> +};
-> +
-> +static const struct linear_range axp318_dcdc6_ranges[] = {
-> +	REGULATOR_LINEAR_RANGE(500000,    0,  70,  10000),
-> +	REGULATOR_LINEAR_RANGE(1220000,  71,  87,  20000),
-> +	REGULATOR_LINEAR_RANGE(1800000,  88, 118,  20000),
-> +	REGULATOR_LINEAR_RANGE(2440000, 119, 127,  40000),
-> +};
-> +
-> +static const struct linear_range axp318_dcdc7_ranges[] = {
-> +	REGULATOR_LINEAR_RANGE(500000,   0,  70, 10000),
-> +	REGULATOR_LINEAR_RANGE(1220000, 71, 102, 20000),
-> +};
-> +
-> +static const struct linear_range axp318_dcdc8_ranges[] = {
-> +	REGULATOR_LINEAR_RANGE(500000,    0,  70,  10000),
-> +	REGULATOR_LINEAR_RANGE(1220000,  71, 102,  20000),
-> +	REGULATOR_LINEAR_RANGE(1900000, 103, 118, 100000),
-> +};
-> +
-> +static const struct regulator_desc axp318_regulators[] = {
-> +	AXP_DESC(AXP318, DCDC1, "dcdc1", "vin1", 1000, 3400, 100,
-> +		 AXP318_DCDC1_CONTROL, AXP318_DCDC1_V_OUT_MASK,
-> +		 AXP318_DCDC_OUTPUT_CONTROL1, BIT(0)),
-> +	AXP_DESC_RANGES(AXP318, DCDC2, "dcdc2", "vin2",
-> +			axp318_dcdc2_ranges, AXP318_DCDC2_NUM_VOLTAGES,
-> +			AXP318_DCDC2_CONTROL, AXP318_DCDC2_V_OUT_MASK,
-> +			AXP318_DCDC_OUTPUT_CONTROL1, BIT(1)),
-> +	AXP_DESC_RANGES(AXP318, DCDC3, "dcdc3", "vin3",
-> +			axp318_dcdc2_ranges, AXP318_DCDC2_NUM_VOLTAGES,
-> +			AXP318_DCDC3_CONTROL, AXP318_DCDC2_V_OUT_MASK,
-> +			AXP318_DCDC_OUTPUT_CONTROL1, BIT(2)),
-> +	AXP_DESC_RANGES(AXP318, DCDC4, "dcdc4", "vin4",
-> +			axp318_dcdc2_ranges, AXP318_DCDC2_NUM_VOLTAGES,
-> +			AXP318_DCDC4_CONTROL, AXP318_DCDC2_V_OUT_MASK,
-> +			AXP318_DCDC_OUTPUT_CONTROL1, BIT(3)),
-> +	AXP_DESC_RANGES(AXP318, DCDC5, "dcdc5", "vin5",
-> +			axp318_dcdc2_ranges, AXP318_DCDC2_NUM_VOLTAGES,
-> +			AXP318_DCDC5_CONTROL, AXP318_DCDC2_V_OUT_MASK,
-> +			AXP318_DCDC_OUTPUT_CONTROL1, BIT(4)),
-> +	AXP_DESC_RANGES(AXP318, DCDC6, "dcdc6", "vin6",
-> +			axp318_dcdc6_ranges, AXP318_DCDC6_NUM_VOLTAGES,
-> +			AXP318_DCDC6_CONTROL, AXP318_DCDC2_V_OUT_MASK,
-> +			AXP318_DCDC_OUTPUT_CONTROL1, BIT(5)),
-> +	AXP_DESC_RANGES(AXP318, DCDC7, "dcdc7", "vin7",
-> +			axp318_dcdc7_ranges, AXP318_DCDC7_NUM_VOLTAGES,
-> +			AXP318_DCDC7_CONTROL, AXP318_DCDC2_V_OUT_MASK,
-> +			AXP318_DCDC_OUTPUT_CONTROL1, BIT(6)),
-> +	AXP_DESC_RANGES(AXP318, DCDC8, "dcdc8", "vin8",
-> +			axp318_dcdc8_ranges, AXP318_DCDC8_NUM_VOLTAGES,
-> +			AXP318_DCDC8_CONTROL, AXP318_DCDC2_V_OUT_MASK,
-> +			AXP318_DCDC_OUTPUT_CONTROL1, BIT(7)),
-> +	AXP_DESC_RANGES(AXP318, DCDC9, "dcdc9", "vin9",
-> +			axp318_dcdc8_ranges, AXP318_DCDC8_NUM_VOLTAGES,
-> +			AXP318_DCDC9_CONTROL, AXP318_DCDC2_V_OUT_MASK,
-> +			AXP318_DCDC_OUTPUT_CONTROL2, BIT(0)),
-I think there are two switches missing (which is SWOUT1/2 in datsheet)
-it's BIT(3), BIT(4) of AXP318_DCDC_OUTPUT_CONTROL2
+Use devm_kcalloc() to gain built-in overflow protection, making memory
+allocation safer when calculating allocation size compared to explicit
+multiplication.
 
-btw, I don't understand what's the meaning of BIT(1) BIT(2) - DCDC_EN1/2
-or if they has any connection with those two switches..
+[1]: https://www.kernel.org/doc/html/next/process/deprecated.html#open-coded-arithmetic-in-allocator-arguments
 
-> +	AXP_DESC(AXP318, ALDO1, "aldo1", "aldo156in", 500, 3400, 100,
-> +		 AXP318_ALDO1_CONTROL, AXP318_LDO_V_OUT_MASK,
-> +		 AXP318_LDO_OUTPUT_CONTROL1, BIT(0)),
-> +	AXP_DESC(AXP318, ALDO2, "aldo2", "aldo234in", 500, 3400, 100,
-> +		 AXP318_ALDO2_CONTROL, AXP318_LDO_V_OUT_MASK,
-> +		 AXP318_LDO_OUTPUT_CONTROL1, BIT(1)),
-> +	AXP_DESC(AXP318, ALDO3, "aldo3", "aldo234in", 500, 3400, 100,
-> +		 AXP318_ALDO3_CONTROL, AXP318_LDO_V_OUT_MASK,
-> +		 AXP318_LDO_OUTPUT_CONTROL1, BIT(2)),
-> +	AXP_DESC(AXP318, ALDO4, "aldo4", "aldo234in", 500, 3400, 100,
-> +		 AXP318_ALDO4_CONTROL, AXP318_LDO_V_OUT_MASK,
-> +		 AXP318_LDO_OUTPUT_CONTROL1, BIT(3)),
-> +	AXP_DESC(AXP318, ALDO5, "aldo5", "aldo156in", 500, 3400, 100,
-> +		 AXP318_ALDO5_CONTROL, AXP318_LDO_V_OUT_MASK,
-> +		 AXP318_LDO_OUTPUT_CONTROL1, BIT(4)),
-> +	AXP_DESC(AXP318, ALDO6, "aldo6", "aldo156in", 500, 3400, 100,
-> +		 AXP318_ALDO6_CONTROL, AXP318_LDO_V_OUT_MASK,
-> +		 AXP318_LDO_OUTPUT_CONTROL1, BIT(5)),
-> +	AXP_DESC(AXP318, BLDO1, "bldo1", "bldoin", 500, 3400, 100,
-> +		 AXP318_BLDO1_CONTROL, AXP318_LDO_V_OUT_MASK,
-> +		 AXP318_LDO_OUTPUT_CONTROL1, BIT(6)),
-> +	AXP_DESC(AXP318, BLDO2, "bldo2", "bldoin", 500, 3400, 100,
-> +		 AXP318_BLDO2_CONTROL, AXP318_LDO_V_OUT_MASK,
-> +		 AXP318_LDO_OUTPUT_CONTROL1, BIT(7)),
-> +	AXP_DESC(AXP318, BLDO3, "bldo3", "bldoin", 500, 3400, 100,
-> +		 AXP318_BLDO3_CONTROL, AXP318_LDO_V_OUT_MASK,
-> +		 AXP318_LDO_OUTPUT_CONTROL2, BIT(0)),
-> +	AXP_DESC(AXP318, BLDO4, "bldo4", "bldoin", 500, 3400, 100,
-> +		 AXP318_BLDO4_CONTROL, AXP318_LDO_V_OUT_MASK,
-> +		 AXP318_LDO_OUTPUT_CONTROL2, BIT(1)),
-> +	AXP_DESC(AXP318, BLDO5, "bldo5", "bldoin", 500, 3400, 100,
-> +		 AXP318_BLDO5_CONTROL, AXP318_LDO_V_OUT_MASK,
-> +		 AXP318_LDO_OUTPUT_CONTROL2, BIT(2)),
-> +	AXP_DESC(AXP318, CLDO1, "cldo1", "cldoin", 500, 3400, 100,
-> +		 AXP318_CLDO1_CONTROL, AXP318_LDO_V_OUT_MASK,
-> +		 AXP318_LDO_OUTPUT_CONTROL2, BIT(3)),
-> +	AXP_DESC(AXP318, CLDO2, "cldo2", "cldoin", 500, 3400, 100,
-> +		 AXP318_CLDO2_CONTROL, AXP318_LDO_V_OUT_MASK,
-> +		 AXP318_LDO_OUTPUT_CONTROL2, BIT(4)),
-> +	AXP_DESC(AXP318, CLDO3, "cldo3", "cldoin", 500, 3400, 100,
-> +		 AXP318_CLDO3_CONTROL, AXP318_LDO_V_OUT_MASK,
-> +		 AXP318_LDO_OUTPUT_CONTROL2, BIT(5)),
-> +	AXP_DESC(AXP318, CLDO4, "cldo4", "cldoin", 500, 3400, 100,
-> +		 AXP318_CLDO4_CONTROL, AXP318_LDO_V_OUT_MASK,
-> +		 AXP318_LDO_OUTPUT_CONTROL2, BIT(6)),
-> +	AXP_DESC(AXP318, CLDO5, "cldo5", "cldoin", 500, 3400, 100,
-> +		 AXP318_CLDO5_CONTROL, AXP318_LDO_V_OUT_MASK,
-> +		 AXP318_LDO_OUTPUT_CONTROL2, BIT(7)),
-> +	AXP_DESC(AXP318, DLDO1, "dldo1", "dldoin", 500, 3400, 100,
-> +		 AXP318_DLDO1_CONTROL, AXP318_LDO_V_OUT_MASK,
-> +		 AXP318_LDO_OUTPUT_CONTROL3, BIT(0)),
-> +	AXP_DESC(AXP318, DLDO2, "dldo2", "dldoin", 500, 3400, 100,
-> +		 AXP318_DLDO2_CONTROL, AXP318_LDO_V_OUT_MASK,
-> +		 AXP318_LDO_OUTPUT_CONTROL3, BIT(1)),
-> +	AXP_DESC(AXP318, DLDO3, "dldo3", "dldoin", 500, 3400, 100,
-> +		 AXP318_DLDO3_CONTROL, AXP318_LDO_V_OUT_MASK,
-> +		 AXP318_LDO_OUTPUT_CONTROL3, BIT(2)),
-> +	AXP_DESC(AXP318, DLDO4, "dldo4", "dldoin", 500, 3400, 100,
-> +		 AXP318_DLDO4_CONTROL, AXP318_LDO_V_OUT_MASK,
-> +		 AXP318_LDO_OUTPUT_CONTROL3, BIT(3)),
-> +	AXP_DESC(AXP318, DLDO5, "dldo5", "dldoin", 500, 3400, 100,
-> +		 AXP318_DLDO5_CONTROL, AXP318_LDO_V_OUT_MASK,
-> +		 AXP318_LDO_OUTPUT_CONTROL3, BIT(4)),
-> +	AXP_DESC(AXP318, DLDO6, "dldo6", "dldoin", 500, 3400, 100,
-> +		 AXP318_DLDO6_CONTROL, AXP318_LDO_V_OUT_MASK,
-> +		 AXP318_LDO_OUTPUT_CONTROL3, BIT(5)),
-> +	AXP_DESC(AXP318, ELDO1, "eldo1", "eldoin", 500, 1500, 25,
-> +		 AXP318_ELDO1_CONTROL, AXP318_ELDO_V_OUT_MASK,
-> +		 AXP318_LDO_OUTPUT_CONTROL3, BIT(6)),
-> +	AXP_DESC(AXP318, ELDO2, "eldo2", "eldoin", 500, 1500, 25,
-> +		 AXP318_ELDO2_CONTROL, AXP318_ELDO_V_OUT_MASK,
-> +		 AXP318_LDO_OUTPUT_CONTROL3, BIT(7)),
-> +	AXP_DESC(AXP318, ELDO3, "eldo3", "eldoin", 500, 1500, 25,
-> +		 AXP318_ELDO3_CONTROL, AXP318_ELDO_V_OUT_MASK,
-> +		 AXP318_LDO_OUTPUT_CONTROL4, BIT(0)),
-> +	AXP_DESC(AXP318, ELDO4, "eldo4", "eldoin", 500, 1500, 25,
-> +		 AXP318_ELDO4_CONTROL, AXP318_ELDO_V_OUT_MASK,
-> +		 AXP318_LDO_OUTPUT_CONTROL4, BIT(1)),
-> +	AXP_DESC(AXP318, ELDO5, "eldo5", "eldoin", 500, 1500, 25,
-> +		 AXP318_ELDO5_CONTROL, AXP318_ELDO_V_OUT_MASK,
-> +		 AXP318_LDO_OUTPUT_CONTROL4, BIT(2)),
-> +	AXP_DESC(AXP318, ELDO6, "eldo6", "eldoin", 500, 1500, 25,
-> +		 AXP318_ELDO6_CONTROL, AXP318_ELDO_V_OUT_MASK,
-> +		 AXP318_LDO_OUTPUT_CONTROL4, BIT(3)),
-> +};
-> +
->  static const struct linear_range axp717_dcdc1_ranges[] = {
->  	REGULATOR_LINEAR_RANGE(500000,   0, 70, 10000),
->  	REGULATOR_LINEAR_RANGE(1220000, 71, 87, 20000),
-> @@ -1347,6 +1501,7 @@ static int axp20x_set_dcdc_freq(struct platform_device *pdev, u32 dcdcfreq)
->  		step = 150;
->  		break;
->  	case AXP313A_ID:
-> +	case AXP318_ID:
->  	case AXP323_ID:
->  	case AXP717_ID:
->  	case AXP15060_ID:
-> @@ -1585,6 +1740,10 @@ static int axp20x_regulator_probe(struct platform_device *pdev)
->  		regulators = axp313a_regulators;
->  		nregulators = AXP313A_REG_ID_MAX;
->  		break;
-> +	case AXP318_ID:
-> +		regulators = axp318_regulators;
-> +		nregulators = AXP318_REG_ID_MAX;
-> +		break;
->  	case AXP717_ID:
->  		regulators = axp717_regulators;
->  		nregulators = AXP717_REG_ID_MAX;
-> diff --git a/include/linux/mfd/axp20x.h b/include/linux/mfd/axp20x.h
-> index a871789f6cfa9..f4217c4763669 100644
-> --- a/include/linux/mfd/axp20x.h
-> +++ b/include/linux/mfd/axp20x.h
-> @@ -559,6 +559,47 @@ enum {
->  	AXP313A_REG_ID_MAX,
->  };
->  
-> +enum {
-> +	AXP318_DCDC1 = 0,
-> +	AXP318_DCDC2,
-> +	AXP318_DCDC3,
-> +	AXP318_DCDC4,
-> +	AXP318_DCDC5,
-> +	AXP318_DCDC6,
-> +	AXP318_DCDC7,
-> +	AXP318_DCDC8,
-> +	AXP318_DCDC9,
-> +	AXP318_ALDO1,
-> +	AXP318_ALDO2,
-> +	AXP318_ALDO3,
-> +	AXP318_ALDO4,
-> +	AXP318_ALDO5,
-> +	AXP318_ALDO6,
-> +	AXP318_BLDO1,
-> +	AXP318_BLDO2,
-> +	AXP318_BLDO3,
-> +	AXP318_BLDO4,
-> +	AXP318_BLDO5,
-> +	AXP318_CLDO1,
-> +	AXP318_CLDO2,
-> +	AXP318_CLDO3,
-> +	AXP318_CLDO4,
-> +	AXP318_CLDO5,
-> +	AXP318_DLDO1,
-> +	AXP318_DLDO2,
-> +	AXP318_DLDO3,
-> +	AXP318_DLDO4,
-> +	AXP318_DLDO5,
-> +	AXP318_DLDO6,
-> +	AXP318_ELDO1,
-> +	AXP318_ELDO2,
-> +	AXP318_ELDO3,
-> +	AXP318_ELDO4,
-> +	AXP318_ELDO5,
-> +	AXP318_ELDO6,
-> +	AXP318_REG_ID_MAX,
-> +};
-> +
->  enum {
->  	AXP717_DCDC1 = 0,
->  	AXP717_DCDC2,
-> -- 
-> 2.46.3
-> 
+Qianfeng Rong (4):
+  pinctrl: microchip-sgpio: use kcalloc() instead of kzalloc()
+  pinctrl: pinctrl-zynqmp: use kcalloc() instead of kzalloc()
+  pinctrl: qcom: sc8180x: use kcalloc() instead of kzalloc()
+  pinctrl: sunxi: use kcalloc() instead of kzalloc()
+
+ drivers/pinctrl/pinctrl-microchip-sgpio.c | 2 +-
+ drivers/pinctrl/pinctrl-zynqmp.c          | 2 +-
+ drivers/pinctrl/qcom/pinctrl-sc8180x.c    | 2 +-
+ drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c  | 4 ++--
+ 4 files changed, 5 insertions(+), 5 deletions(-)
 
 -- 
-Yixun Lan (dlan)
+2.34.1
+
