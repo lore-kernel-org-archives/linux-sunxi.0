@@ -1,180 +1,207 @@
-Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11012023.outbound.protection.outlook.com [40.107.75.23])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 791D527C145
-	for <linux-sunxi@lists.linux.dev>; Tue, 19 Aug 2025 14:39:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.75.23
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755614401; cv=fail; b=MMNwDGMOAYVZTalYose7ELT/4vCnUStcWv/+t6k039h/3i9rH0xww4dozZw8ua+J6qLa2Tn+wPe6LKdgfhO3i2Kf05LDnClQgOozZ04sG4W9ioJ71EyCImA9Q//jZOuJR9qcZ9JjTHF7Uvp6Fyjyfg+k2Hs4u02/R54wU+OiiPc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755614401; c=relaxed/simple;
-	bh=fooL+MqjdghT8Y0lU6EUehezRs7mJWQ8o+9RkYJO0l4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=XnCVJVAt8Tz/vHIQ+49GjpM3UEiJ/q0oFEdxORGicLprkc3i5fqAW4l/BWO85evR047k8Hp/22TE2AE9yfy8BTYRvIrP3AFRkLsanNqQNsbAKnAFkU4HzPPyYioKRMAhhoHhhqxWNhBCFFSvmFs3etiC+rbFsgTuqBVZCoIlBdo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=UGvRp8Hq; arc=fail smtp.client-ip=40.107.75.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E76A30C35E
+	for <linux-sunxi@lists.linux.dev>; Tue, 19 Aug 2025 18:57:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755629858; cv=none; b=Igmo6mN+MQ06A21sjBhoZnUKKz4mi5Tbl1U8QY7Nk4WH/FpAMCNrwlgkYn/tn/AmorlDJ1Binf0Scm21EvJTTekpcHGg42RC/kxfs500QkYAaqWXvlcJ0a7Gkjti4N8VAwkV4gVsJNlrs63R0kVtV+hYtl7C/cLe5LYTmBLwlns=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755629858; c=relaxed/simple;
+	bh=4snEPQfJfU4oBtKfJvvluAVI10o6iuDrs8O3eQOi2C8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=n65QRXflyMYsuc3JFOmV48aKRqDbk70NlKXmfwz4Fb3yhV8Pc3D/839lq0IHKqfN/e/2IAHMuYB1sFZmUqtADzsigeFm/LupzZ0R49J7ywN1HTLQpBq3nLETgdzyM0ce6TVglLx4/T1ZYmoC4kWy6mDm5fZZjKTKyVqK6ra7ADo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=mSV4tk+C; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="UGvRp8Hq"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CVU/q7wtLK+yr8Jk8O65ybQoezqDuvq1AArrzG58/pPyCYpy+vGdn3eHIhl7Sr/b1faa5dO4hpKvtu9qfqfxDBTj3kOmrgpMy05sBKjdt2NWDA1qO48jEpUN1Ag96RH4kcM1/Y49y2JroWSOWMOIbaT5OnXcAbYFpy5jfM86wzXvRjUETmprxJSczaDSwz3RxuwAr3zd+Dyu6s6sEXPpnfJmB5CxTCv2QqEEHD+081o6AiOoFEbDqvxbwn3ZHPZrL4msIosG1in/lx1DNcK/H69HndrWzycip++GsqCO4QDQXOB0f5jrnWSngi98Wb9jlY+B6GjEJfIxDa45PZa0ZA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BvlvEbvTJ5P5m7Y8ZVsEm09crm+IPMCjXXedbs+6FKo=;
- b=rEjUDPRabkXTpwYQzKaYiljXYGVdRXIkaPm2jMGdj6hkMbENrzmwnjpqT/V9iQzSxgeIQqIoPAPbaKnV5WRPi6eteqbt/LgaG2n8CYJu0LVBaOgjJ6uRNRQbgO/dVRDVBGHAV5njgKLWJ/G905n76YvZLC07nIYrIhVOfYP1xyhQ3yjW+ZBoS4Mp+JTkwDjh1snHeflufGLYwxdw22McCFi+VRrJ4O/8uzCMBlK42f8iHzhXB77Db+/OyNsZeEfXrDIWkh0OCKCQfXegSmMX2cdvOgaiBcyFcbD+ofNOglmBUjSmfLVEkj17kg1t30LuMes/RaKexONCcZ+BmMvwkQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BvlvEbvTJ5P5m7Y8ZVsEm09crm+IPMCjXXedbs+6FKo=;
- b=UGvRp8Hqixge0B+n3MvJ6XMuf1XDGi2LBMMRi4bSDc7U+kJq6IbQx7JOV+jk3hFk4wlne1qc2wY1iA4h02ZJZXHSlqCSCE+1hN5LlOY04W+aM8OL4gdvP15JEA4zsoyc/R0pzGUO7i2UNMfcwMpy9QpWq1TezGnFJqPzyxlNEx8GevfJ8mqIwlhH4xAyaJQbpPhLyDjZ2l/fC0qKapmYXY468SnskRpQ3J04NpYxuc2Hgn9v0JWewRgXjne3H+BHiamVfdBe3o42FudWC6MboIHOQJncOFZ9Xg3OIGFJfcrne26wi7wZtT2DG9Fd8DhGcJdkG2bAxHSfZ9SSQr/DHQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SI2PR06MB5140.apcprd06.prod.outlook.com (2603:1096:4:1af::9) by
- JH0PR06MB6679.apcprd06.prod.outlook.com (2603:1096:990:3d::11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9052.13; Tue, 19 Aug 2025 14:39:56 +0000
-Received: from SI2PR06MB5140.apcprd06.prod.outlook.com
- ([fe80::468a:88be:bec:666]) by SI2PR06MB5140.apcprd06.prod.outlook.com
- ([fe80::468a:88be:bec:666%5]) with mapi id 15.20.9031.023; Tue, 19 Aug 2025
- 14:39:56 +0000
-From: Qianfeng Rong <rongqianfeng@vivo.com>
-To: Linus Walleij <linus.walleij@linaro.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-gpio@vger.kernel.org (open list:PIN CONTROL SUBSYSTEM),
-	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi SoC support),
-	linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support),
-	linux-kernel@vger.kernel.org (open list)
-Cc: Qianfeng Rong <rongqianfeng@vivo.com>
-Subject: [PATCH 4/4] pinctrl: sunxi: use kcalloc() instead of kzalloc()
-Date: Tue, 19 Aug 2025 22:39:35 +0800
-Message-Id: <20250819143935.372084-5-rongqianfeng@vivo.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250819143935.372084-1-rongqianfeng@vivo.com>
-References: <20250819143935.372084-1-rongqianfeng@vivo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI2PR01CA0020.apcprd01.prod.exchangelabs.com
- (2603:1096:4:192::6) To SI2PR06MB5140.apcprd06.prod.outlook.com
- (2603:1096:4:1af::9)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="mSV4tk+C"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57JHpctn027019
+	for <linux-sunxi@lists.linux.dev>; Tue, 19 Aug 2025 18:57:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=oqOjX77awAS/zrhT5FXwno
+	4UdMuKMxJTGpgJwd+TfEc=; b=mSV4tk+CZ+IF6h3GcePTADtySr/5lOcA4Z0Vxg
+	i88WmaFoiQfjhN+BqKpqtADYy8fmfQ8qF3Lh9npdQSi7PHPHh1e4z8jozFvEkIb2
+	pA5qQ+HZfvSgq7T9uV1UVdWI9J0LIzaS1i2M666WcsPa1XHIFj+nkEh+pJBFPKME
+	bkY5LvKayarB/Qn7UReaoyXqaCMGK0VgZIAre+nwNYrcGTfjDJt8hhZHXD5mtJeP
+	I8uXyM5USpCbBXikoTxtkfpVrXHF9/kPPv/uJWDB+FO1+RoBcnV0y/p1Zr+V++pI
+	tju3D3nWmAZU0GbqmXEtwj+ZyIWkw0fr1jbo0xlQ+AMsf2qw==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48jhjyhna3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sunxi@lists.linux.dev>; Tue, 19 Aug 2025 18:57:35 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-70ba7aa13dbso106644746d6.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 19 Aug 2025 11:57:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755629855; x=1756234655;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oqOjX77awAS/zrhT5FXwno4UdMuKMxJTGpgJwd+TfEc=;
+        b=MSVCJ6xYANThYpMlAe1mWN0FrgLRkkJ1cYGmJH7ViicoeEziQmJvniNJR31RgKVFFa
+         LIhZl2+hBjoIzkbwXGvk1RFccXBZfTyoRpzJM1P6z1PMjqd6VzRB3xCXe8h//UcyqnG7
+         C4X8uBtD3uFgOaaZ6fwLzbgJsvGbNf8iKoC7bhSwKLCl1nG09Ph7GwoJjCg1L9QiWkaX
+         9/gpz6ZlPWfy8O7WQZwAmqiACPGD4J9v7ELFDrR2jM+7Ew5VCrtAC0ABcsN1KqLSjpUU
+         CtEmXzfcWjXqB0XjDLgZj5HD6NSiAfzVGEuCxeSHo51p9KL7yX8E2sbZ5lVAWM3H6WAU
+         8hPA==
+X-Forwarded-Encrypted: i=1; AJvYcCVvlSzJLEXyOSgkG8lsmWPDp7YsKx4p7h5E6dj3veEBWi4lDT5mD7LNSiAnhDejuniQ/CvqKY2HAHgpQg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyq2GSUOAQzDn8ZVadcp133bdbnah4XP2xULttsQYp5qT0fJWBf
+	Jgq4exURu6a/LbmDB0IGyFw5LHXLlm4g1dxbEHGUfAUTj9NX996IxJxquwfJ2lvv7h0ewjBQfE8
+	m+flaUwvc7xHGE5HTLgitsjEyK+q/Qy5laXS6lBBTykkO7vaYq/GOxmw1LiMlaXI8xQ==
+X-Gm-Gg: ASbGncsZm4CIHGIHQ7OJZDNUvXxFDWPt5F+QS17feNwvlx4QFVqMWbNdT0oDTuYeg1F
+	k+1+VEF7KsuROizJyBUA/tTynzxzUlbg0pCUkaszg0IoW5Gr8Pmf9aO3lGOgcosQDLaYw7AWTU/
+	5zfh5bbhPY7bggy90Bf7eFfMiQTcP3EufsboaHC7lZ/vopYHkv2bOYqCUfyyMbxzH096RP6EuD4
+	MvcvuqGbM7Yvl52y1C8z++U4p2WIhU7qIg8YGvx/MY4cxyZxdZcRTlxbt1RSo0tpSQwRN/zUJav
+	t6z0dZO0sM3WvFR8ldqmPna6VPUmjfdKGnP//7t9p1yjBg4G9++vH58RasmIODtcYk+Efb3AqjC
+	eT4o6zu9pt9umBmrgtaKRmGFV/++xfj4OlMeLC5mSP6dlJDk026wX
+X-Received: by 2002:a05:6214:5011:b0:707:5ff2:ae87 with SMTP id 6a1803df08f44-70d76fb03ecmr1180446d6.18.1755629854737;
+        Tue, 19 Aug 2025 11:57:34 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE5UH/CsaY1tu+iFGGIuXK7C4OrWbOsLF5EbSr4M5CMsV+dCVwfAZTb8EJovJissA5wfj2R9A==
+X-Received: by 2002:a05:6214:5011:b0:707:5ff2:ae87 with SMTP id 6a1803df08f44-70d76fb03ecmr1179906d6.18.1755629854186;
+        Tue, 19 Aug 2025 11:57:34 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55cef35f11csm2207314e87.51.2025.08.19.11.57.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Aug 2025 11:57:33 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Subject: [PATCH v2 0/8] drm/connector: hdmi: limit infoframes per driver
+ capabilities
+Date: Tue, 19 Aug 2025 21:57:29 +0300
+Message-Id: <20250819-drm-limit-infoframes-v2-0-7595dda24fbd@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SI2PR06MB5140:EE_|JH0PR06MB6679:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2a813cdd-e88b-4c26-ed70-08dddf2e4426
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|52116014|376014|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?KJk9kkX78fH7cP1bGta8ZyghiS/CLPCzTtNZybezNZO3nEpyZIMrXeSgT1tX?=
- =?us-ascii?Q?SPRSJ55JxGBjOuHPio3WEHsKt/IYhoMCN4QLeLLzNNODVuGJ2JE0rk8M5zOb?=
- =?us-ascii?Q?7NFyN+tXB7li7v7LMc8wlaOySps6A/qxMrDRSNrTQ3bEbIpWA4V3AOMxDkdy?=
- =?us-ascii?Q?JL/ZoNlHxZBvzh5NhXOEwLX4jRmpmK8U5gC1b7Q1ywcE6t0NiLOdCQRNb+Ps?=
- =?us-ascii?Q?RgJ80kQWaRex/gv9opWabg5NtDFuZ02KbYps88He7mcWYTsOZWn0+ZDgpTJC?=
- =?us-ascii?Q?E7Lz4vR9BI+jXory+u6iLQuorMGjGRk4vY6bFdQ/TxCnryDVh6WqACVPORlp?=
- =?us-ascii?Q?i9lBerKwq0MQ+af1QuNpqnW8uSuL+AvdSwsxEeWUzHguxAIW+2XMiOI7T+db?=
- =?us-ascii?Q?FJEe0SQc3T4t6JW72RApxdj0nAizmlBiJpRz8E8XWKbzAYJ5s5grLNO6lw84?=
- =?us-ascii?Q?phZtFYEHRWtdLaej04LviARwsYtbzMExqHuzlR4Jqt+quOfGNOY3NAefBoTn?=
- =?us-ascii?Q?zHf7aGykzN6DoV/EPnTqid5dgJCPeaymIqFAc7vMSnYH6DYLJ5LE8j+vg9Fi?=
- =?us-ascii?Q?IYCxrWl5Klsk/FbEj0lnX51ZSMtS/+99KzC8ZDGP+E/13GrFzKcAONYdYS1X?=
- =?us-ascii?Q?mzhlWmEh2+d8hcO/BSv7HO03zcNOM04KEW3Q11OJjGLjw7rc7jPGBUJSZHZr?=
- =?us-ascii?Q?eSIqDYFuLgY5VxCNqhkG8rSgVD5rIHKjTXqHYlB9DaVfCo9QYAW7kCua7wvz?=
- =?us-ascii?Q?o7rNweOmNIbZ/UNkY5N3ttBjjN4T6oe41H/7niGr0EAh+afBv9hfnx/YhKHW?=
- =?us-ascii?Q?6M4SL+C9bBKWw0Xju9vtSAxggR5GwiBPPxyUf4XT2EVET2OlAmsaMSoR7y89?=
- =?us-ascii?Q?ZcWGoMD1knPPLAQ/PGyAxdSMslRDGgPJPYQzGEssLwbjBtAyHYTZJoRhKujg?=
- =?us-ascii?Q?HuHtTjUQr9N4vyq1rPDKTydbJoSJ1ZsadKvbwpmz+wqS1AXU1GkWVA5q45tV?=
- =?us-ascii?Q?eAsD52RQeClf4HMuUn9jvBq6Q6qLqVo5VfdpgXa4wkmkm2pQfySVpf9sbEkl?=
- =?us-ascii?Q?kJCV4EzmwYDy6h9PfGPN4sfcATJT29odoP/FWMYpEEL30ABe5QTc0jpUFios?=
- =?us-ascii?Q?l7otkSTwj8pOCjDri0gW8BEoqvBwJEEImrDez8ZS9fDTUjFXonxGIOtSuphS?=
- =?us-ascii?Q?6ykp2/+WW0wfx87iQ2x4M6JS3AT02nn+ASbQdZ04T1ddBFXhRAAWO/Gq8jKW?=
- =?us-ascii?Q?sNQ6LtZiRKiBOrS1HI1Pfl38ezthyDrHplEWnY9B0VJb3szJ6XK4WbNs6kPI?=
- =?us-ascii?Q?uYOEa/WvihUShjPeh/Ppj4l3Mtwr7tlycOZiqHev/QGXU4Lh3uIqt4dBspVD?=
- =?us-ascii?Q?kckeJgHyOHfu0rhkI1u7Te97KK3LJNhsW8zfOvlNDWJ/bwGoHDlwGrxUpoQf?=
- =?us-ascii?Q?/zwWy8KEKSrzZRlA4hmRXJ42zuVurzVaPhq9+LFnMxsM1aZ/v2w+Bsu7M1Bf?=
- =?us-ascii?Q?7jnv3/BJLkg03VE=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SI2PR06MB5140.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(376014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?H6LqHGNxHCgoapM2suB5FjCcyLXq7ENDoYoVMYOOPw4HTaoGcfvi38IxZGpz?=
- =?us-ascii?Q?9Go61sbz49GjN1A3MXPe63jknOwPlOoVZ3m1KxG217GIgKC72m4nExYVqal9?=
- =?us-ascii?Q?dZc23zai43iKpW2LyuqX3hksYipKiO93blFGQK2M/tTU7++HiyNuIwXN5Nog?=
- =?us-ascii?Q?Ny4YwUyxz+TKX8dDaUavCCgP+Gu6GZjU+JejRRLbKL3xJxCji5rhknOMtMuq?=
- =?us-ascii?Q?NO0aT3L3mT/uZCC3BBqNFoLL4AfGEHgfiXiKiS+1kQcNWJjxR4cw2gWTozc0?=
- =?us-ascii?Q?QvQIAQM3nD1ZI+6BqRVHcnJFyg7dmaq5cB/XPZesceF1qAsRRULSTkB6TL7X?=
- =?us-ascii?Q?n76f3yVax1bBwyzakim06TOCM/4FtAwjbUHKwbjETCKi3QLo2OA5EawxE2Zu?=
- =?us-ascii?Q?1vUnUH9ZtItounlkBCkHcWmmGpespmQGdBroUi2Zvi7ugSyn6XWYmyiFWz8Y?=
- =?us-ascii?Q?gXt/WRGATJcnJZLhs15Z1EdPNadcKwpmlT4TU2BJgdgYcEebI9tHltRC4sJa?=
- =?us-ascii?Q?ryZ8lfoMmtSiesfGbZQRnunBDKI2eHkLZMyoWQrHfize9hn9aPMUB6qIkev9?=
- =?us-ascii?Q?ZqJsZmNplYn7DeaMMQaB+TvKKBU2eKbtW6/llRTtpbyU52gBBrNf6L5ZKBOi?=
- =?us-ascii?Q?p5SMBY/1IjNTOi1N1oMWxXJsE+kbbtH6bJiL76DMGoMRqN3bW2BkamWz+vVy?=
- =?us-ascii?Q?m8MSBUKB26gY8S3OxfGegwCGdJKkRM2QLVdA7xZCTGU/CCTcsF3ActUBoqTl?=
- =?us-ascii?Q?YZ6p/csZuAjNzriPwf2jJX/D7c52nIMgdwATUb8BGSqqUi4btjMgKKE0/jcm?=
- =?us-ascii?Q?urteHzx/pyB/F9nosRuci0C+lGktCou22w5O5jiaypV5iJ0N0swyh9+6YFbn?=
- =?us-ascii?Q?qI3SXdJXxubnWKrc8yowwpAP913YsYpWEjgGPT0jn62oYofHQDBuuG2BuGzw?=
- =?us-ascii?Q?SJkncO7SbEBmaS18WZU9aTskdBRCDclRTLyVXn0ykaGxldFw9w2xwNudi5+/?=
- =?us-ascii?Q?h+wO0pv1a5KK+nIkR+rHbRV0+7kmTs7fIW0h6ailWdX1sfAETFgC4RAS8Dam?=
- =?us-ascii?Q?JV45TBuj4PW2UYjn26ZcQV0zHX+042GxdgzvQiUz2g20AVWATb63YXqYxh9k?=
- =?us-ascii?Q?tDuotQmchO5MBntfevsCUznWI9Y9OplGC5g8mS4iEDZMLGTfMbUZLG05+rmT?=
- =?us-ascii?Q?h3Nh97eeg6dko/t2ynRIHgqH//3I9g/w/6nUDIdyADtgnp1wDjIFUt/pdsaS?=
- =?us-ascii?Q?hq+oqwgFzueIN4OJwDOq/+gW8RYUjNroFPPKZcuBFUWDkRyyTBYuxD3cMdNQ?=
- =?us-ascii?Q?OvMLUxpM5xDB+R8/q8xa9054AjvO/naMXjuXPbbTW9QnVGSPgkioGgYNatxO?=
- =?us-ascii?Q?67AQZLfk6xkT1e8WHptqT1rhIbZC7g/tvh8Pb/9QtaEIufGI0/Kqy48Llexi?=
- =?us-ascii?Q?svSFaPkcRsbEYtffWr2gmHuSv9en2A+Wf3eTLZf8wavmt5S00jCwHTu1c8o3?=
- =?us-ascii?Q?QV1/9kWsThBRLFjVk2AhszXGsO17gdBy2IuKxMcb6hvo7v864cmt1QOj43FO?=
- =?us-ascii?Q?0oS/nNjzb+f96cHQ4VTB0GXm9wrGboM8YG11pd9N?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2a813cdd-e88b-4c26-ed70-08dddf2e4426
-X-MS-Exchange-CrossTenant-AuthSource: SI2PR06MB5140.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2025 14:39:56.2965
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mV9Z3vo3iz3QUNFVXQ5HFRelWMGs6ZmQapX5ZuArafHiCBpPla2tKQ0XGrsBZfUdmMEalE8x9vEu0UJz5KXb8Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: JH0PR06MB6679
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABnJpGgC/22NwQqDMBBEf0Vy7koS0die+h/FQzCbumBMzVppE
+ f+9qdBbLwNvYN5sgjERsrgUm0i4ElOcMuhTIfrBTncEcpmFlrqWrarBpQAjBVqAJh99sgEZ0LT
+ aW+OrqpEiTx8JPb0O7a3LPBAvMb2Pl1V925+w+S9cFUhoXK+Mq700eL5G5nJ+2rGPIZQ5RLfv+
+ wc4eO/LvwAAAA==
+X-Change-ID: 20250815-drm-limit-infoframes-e782fa7f3360
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Sandy Huang <hjc@rock-chips.com>,
+        =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+        Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+        Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+        Liu Ying <victor.liu@nxp.com>,
+        Rob Clark <robin.clark@oss.qualcomm.com>,
+        Dmitry Baryshkov <lumag@kernel.org>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+        Sean Paul <sean@poorly.run>,
+        Marijn Suijten <marijn.suijten@somainline.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2828;
+ i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
+ bh=4snEPQfJfU4oBtKfJvvluAVI10o6iuDrs8O3eQOi2C8=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBopMkb63HDxqJrxIQYe1NyexPzL9xIHdWdRrTXA
+ Fyvk8wsxq6JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaKTJGwAKCRCLPIo+Aiko
+ 1fF2CACeVmUe9+BfdVASI3ZBc7dYSjYTv32FsbJb0wBdBiQ33bgUKXg7CUEUY4lzQ/Ej6RXQR+6
+ tW6bD53HFX14S9dmZ3NLffKRyDYjECDps2zvX33zgL6VRulVaQQVEBICIGjgPzFVtxOUONgWhfF
+ TOuqp/AVZTNFF/ZAZ1dROMQctWzPTfMTh5LJ4MVzogwY7q8+pDks6SUFop4idL7K4Ueqvus+ZWd
+ g/lyjbhqqYB2b6A91fUC86essJ+mg6xZ9ni9Yo/OMHcQwdPEVTai0WuNOJfEe78kI37R2uyLzn4
+ JB+AND2NaG77Gfk8DRYzlNZRV5s5JXJemZXYvg31cNBuUQRM
+X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+X-Proofpoint-ORIG-GUID: wNUAvWZyPELfz9EJ-hpBFUBsezNipwM5
+X-Authority-Analysis: v=2.4 cv=ZJHXmW7b c=1 sm=1 tr=0 ts=68a4c91f cx=c_pps
+ a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=lTUuHy-DAZNZ5WD40gMA:9
+ a=QEXdDO2ut3YA:10 a=1HOtulTD9v-eNWfpl4qZ:22
+X-Proofpoint-GUID: wNUAvWZyPELfz9EJ-hpBFUBsezNipwM5
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE2MDAyOCBTYWx0ZWRfXzjCxuDdm4QEd
+ 5OZgBEuVnxK+vgH6PELqe1qYH/uH5MdLaK3oa6q5dh2UljwDPJUQnWDUV5Xc4CzpIxz+w6Fo0uI
+ 7KTWRWuieRc3BAeaH9WflcrwFeluBs0wu2/n87EK8JsiN/lwbwT5Pv72ACoGuLvRXWm2PlcMZaP
+ d3e4k+BxfkaOmeJMwKH4Na38hGhrV3CiXVJPPS87W/kosjCp2qJqmYzkzSC0iTAh6wOcK19v1eX
+ o7Pff9l1tvUb0/fToIRlfhIlsUQcett3TDpDa9bULWpbnnJnsIudKcjoOywW0pngVPAT9BZtt9M
+ fZMTHsCNfCaIttuIc8ifVwvr+hPOemtzlukpMMhdYpckr66J7vRrTBeVimXxZAdJ8pdosRz0SOr
+ B+DoPhJs
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-19_02,2025-08-14_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 adultscore=0 phishscore=0 suspectscore=0 clxscore=1015
+ bulkscore=0 spamscore=0 impostorscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508160028
 
-Use devm_kcalloc() in init_pins_table() and prepare_function_table() to
-gain built-in overflow protection, making memory allocation safer when
-calculating allocation size compared to explicit multiplication.
+It's not uncommon for the particular device to support only a subset of
+HDMI InfoFrames. It's not a big problem for the kernel, since we adopted
+a model of ignoring the unsupported Infoframes, but it's a bigger
+problem for the userspace: we end up having files in debugfs which do
+mot match what is being sent on the wire.
 
-Signed-off-by: Qianfeng Rong <rongqianfeng@vivo.com>
+Sort that out, making sure that all interfaces are consistent.
+
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Changes in v2:
+- Corrected whitespace / newline issues & other small syntax fixes (Liu
+  Ying)
+- Added audio to the list of InfoFrames supported by the VC4 driver (Liu
+  Ying)
+- Changed drm_dbg_kms() to drm_warn_once() in the Audio InfoFrame update
+  code (Liu Ying)
+- Corrected subject for ITE IT6263 patch (Liu Ying)
+- Added patch, dropping default list of InfoFrames in
+  drm_bridge_connector.
+- Link to v1: https://lore.kernel.org/r/20250816-drm-limit-infoframes-v1-0-6dc17d5f07e9@oss.qualcomm.com
 
-diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c b/drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c
-index 4e34b0cd3b73..5f13315ebff3 100644
---- a/drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c
-+++ b/drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c
-@@ -103,7 +103,7 @@ static struct sunxi_desc_pin *init_pins_table(struct device *dev,
- 		return ERR_PTR(-EINVAL);
- 	}
- 
--	pins = devm_kzalloc(dev, desc->npins * sizeof(*pins), GFP_KERNEL);
-+	pins = devm_kcalloc(dev, desc->npins, sizeof(*pins), GFP_KERNEL);
- 	if (!pins)
- 		return ERR_PTR(-ENOMEM);
- 
-@@ -199,7 +199,7 @@ static int prepare_function_table(struct device *dev, struct device_node *pnode,
- 	 * Allocate the memory needed for the functions in one table.
- 	 * We later use pointers into this table to mark each pin.
- 	 */
--	func = devm_kzalloc(dev, num_funcs * sizeof(*func), GFP_KERNEL);
-+	func = devm_kcalloc(dev, num_funcs, sizeof(*func), GFP_KERNEL);
- 	if (!func)
- 		return -ENOMEM;
- 
+---
+Dmitry Baryshkov (8):
+      drm/connector: let drivers declare infoframes as unsupported
+      drm/bridge: adv7511: declare supported infoframes
+      drm/bridge: ite-it6263: declare supported infoframes
+      drm/bridge: lontium-lt9611: declare supported infoframes
+      drm/bridge: synopsys/dw-hdmi-qp: declare supported infoframes
+      drm/msm: hdmi: declare supported infoframes
+      drm/rockchip: rk3066: declare supported infoframes
+      drm/display: bridge_connector: drop default list for HDMI Infoframes
+
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c       |  1 +
+ drivers/gpu/drm/bridge/ite-it6263.c                |  1 +
+ drivers/gpu/drm/bridge/lontium-lt9611.c            |  4 +++
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c       |  3 ++
+ drivers/gpu/drm/display/drm_bridge_connector.c     |  1 +
+ drivers/gpu/drm/display/drm_hdmi_state_helper.c    | 37 ++++++++++++++++++++--
+ drivers/gpu/drm/drm_connector.c                    |  4 +++
+ drivers/gpu/drm/drm_debugfs.c                      | 16 +++++++---
+ drivers/gpu/drm/msm/hdmi/hdmi_bridge.c             |  4 +++
+ drivers/gpu/drm/rockchip/inno_hdmi.c               |  1 +
+ drivers/gpu/drm/rockchip/rk3066_hdmi.c             |  1 +
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c             |  1 +
+ drivers/gpu/drm/tests/drm_connector_test.c         | 28 ++++++++++++++++
+ drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c |  8 +++++
+ drivers/gpu/drm/vc4/vc4_hdmi.c                     |  5 +++
+ include/drm/drm_bridge.h                           |  7 ++++
+ include/drm/drm_connector.h                        | 22 +++++++++++++
+ 17 files changed, 137 insertions(+), 7 deletions(-)
+---
+base-commit: cb640b2ca54617f4a9d4d6efd5ff2afd6be11f19
+change-id: 20250815-drm-limit-infoframes-e782fa7f3360
+
+Best regards,
 -- 
-2.34.1
+With best wishes
+Dmitry
 
