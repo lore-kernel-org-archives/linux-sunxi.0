@@ -1,81 +1,87 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28E673375C0;
-	Thu, 21 Aug 2025 13:29:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B543343206;
+	Thu, 21 Aug 2025 18:14:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755782979; cv=none; b=H3OBRPAeHUJFFeDKoi4RjJPjHm+55dAMExAxmv6iUTUTPt6xHf3pnruckIzttqm8WUO1In89BWI6sWWnzlA0G/6YOy4U1dU1EzB7kd5MRk6aXedWrWAFK2Wd9cUMFNZLiJCfCKWwLt5tvQ7FAMDxotj8xI8sYAZGyQbOJu5Ntuk=
+	t=1755800053; cv=none; b=LVs+4nhGp72gGTgLpFRseVLO3lRyhnRiBcBgGE6p96ypU4y1nZAPrlNwE/kKectILTL4UG870zm2yDfg7awCcJTBk4tc0Isa/z3TonGDy9sotrkTlTvDQ6sLQTO8RITrjc8Fl4fSCiwXQKZoemFLxue7lzsJc5+UxLRNM9d5QtM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755782979; c=relaxed/simple;
-	bh=4lsn6zYQJrvb7f4Ds42ABsF1Tgx+YnLe14EVYJURbf4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=UXqW0A4dr6kuo76Q9sY01ykPUNPqOonZKSHj3dVhXyLpoKWdbdtpThjdsY2qYyf5BBdPigDh62QJfL8aRVwOaWLXN9vXZsV4cJ56ANR4guw5DLZg9+/TlwT9gsC7DUmqBijI7R1xAPYpFMBjMuD5ziPeyP7WDku/qCsI0NRM/5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cFlrrDYk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755800053; c=relaxed/simple;
+	bh=nBWsjCFrH9n831mWGNuiepEV6u0UFeNqezMi0WiliNU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aUhd2P1LdGWpfabtveJnpoxAnoTszYYjcrUpGJdU+VBsqV17BCe+peHc7hlbGgr2jRrH1F8moCppUiSSAhDlExPtM+oJQl1rNoE6KExf8IecSRhL5cw4r2oHpMVJvH5CxCreBfb5d1vb5mAaflHkrBHWbGMjJ9pZyB5gU1ERaaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u8QczOCu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cFlrrDYk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6CAEC4CEEB;
-	Thu, 21 Aug 2025 13:29:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u8QczOCu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC7FEC4CEEB;
+	Thu, 21 Aug 2025 18:14:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755782978;
-	bh=4lsn6zYQJrvb7f4Ds42ABsF1Tgx+YnLe14EVYJURbf4=;
-	h=From:To:Cc:Subject:Date:From;
-	b=cFlrrDYkAa5RI82Aibh3oOTFJJUwpJAnbeBK8ZlUveuAF5lpXvtZkOFrIQ8G36aph
-	 B1mHna8bFKp7d/W+Y/HC/L0iBVQYjc5fkXMOguDnO92Fjij5fgcQem31YfI7Bt8cCE
-	 Ekf9Pam2R0uvLRrZLRVxnLs6s0hflTa0qg0I1+8rvVEpRiiOUZTmjVaF9ClIIGqQIi
-	 egaUTDBdrm7gM8w9sbCjXIvew9GZteuyCXw+K6rME3MkHvj5IYT4GluPppTeqGdQyB
-	 zAk69i6F8TAY8sA0XkRjxIJxaZd/a7oQCAXVAnmIvkviPs1Oz46y6/O2i4IvEfikyR
-	 AyHcDNzaYiAEg==
-Received: by wens.tw (Postfix, from userid 1000)
-	id 48ED65FC7E; Thu, 21 Aug 2025 21:29:36 +0800 (CST)
-From: Chen-Yu Tsai <wens@kernel.org>
-To: Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.org>
-Cc: linux-sunxi@lists.linux.dev,
-	Andre Przywara <andre.przywara@arm.com>,
-	linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] arm64: dts: allwinner: t527: orangepi-4a: Limit eMMC clock to 75 MHz
-Date: Thu, 21 Aug 2025 21:29:35 +0800
-Message-Id: <20250821132935.2070398-1-wens@kernel.org>
-X-Mailer: git-send-email 2.39.5
+	s=k20201202; t=1755800053;
+	bh=nBWsjCFrH9n831mWGNuiepEV6u0UFeNqezMi0WiliNU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=u8QczOCu3hUV3EkOPZUZoDb6NG/gF9OkmSC6u9l6/LSrHjBoxfoLrnSur8aZwduuU
+	 3iBm5CHqlpmIp88XTqjKZmv56SEDkoMIwKB2Ury1FTapOrxBWHEbdLwRuYdKd4AUOK
+	 ECVewGg3dzWJSlvysrqItlyGL5U4TaDsfXFPOCohGVwnOhM2K98k5wSsBVdjuWHWwL
+	 lkmvza+LcbhIy1RtJ698Ce0Vdty77capjEf3jmeFMQbXOGb4BG146PftJmWFViZxV+
+	 x+Z36fIOs9cMxtOvAtI1JXK12jGd7IBeIFKv8Sn3QrmQ+N4fMSYSUUAvERID6foUmk
+	 UM/Dc2Lidj0Rw==
+Date: Thu, 21 Aug 2025 19:14:08 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, Chen-Yu Tsai <wens@csie.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@gentoo.org>,
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [RFC PATCH 7/9] dt-bindings: pinctrl: add compatible for
+ Allwinner A733
+Message-ID: <20250821-pancreas-unadvised-301d1c97d893@spud>
+References: <20250821004232.8134-1-andre.przywara@arm.com>
+ <20250821004232.8134-8-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="fN0j2auDIV16SvDf"
+Content-Disposition: inline
+In-Reply-To: <20250821004232.8134-8-andre.przywara@arm.com>
 
-From: Chen-Yu Tsai <wens@csie.org>
 
-The eMMC on the Orange Pi 4A doesn't function correctly at full speed
-of 150 MHz under HS200 mode. Either the traces on the board or module
-aren't great, or the SoC's internal delays are incorrect. Tuning the
-pin drive strength did not help.
+--fN0j2auDIV16SvDf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-After some experimenting, 75 MHz was found to be stable enough. Use this
-as the maximum frequency for now.
+On Thu, Aug 21, 2025 at 01:42:30AM +0100, Andre Przywara wrote:
+> The A733 contains a pin controller similar to previous SoCs, although
+> with a change in the MMIO register frame layout.
+> This SoC uses the new style of DT binding, where the pinmux values for
+> each pin group are stored in the new "allwinner,pinmux" property in the
+> DT node.
+>=20
+> Add the new compatible to the existing A523 binding, since they share a
+> lot of features, including the number of banks and clocks.
+>=20
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-Fixes: de713ccb9934 ("arm64: dts: allwinner: t527: Add OrangePi 4A board")
-Signed-off-by: Chen-Yu Tsai <wens@csie.org>
----
- arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts | 1 +
- 1 file changed, 1 insertion(+)
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts b/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
-index c52d09cf0888..fb5311a46c2e 100644
---- a/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
-@@ -160,6 +160,7 @@ &mmc2 {
- 	mmc-ddr-1_8v;
- 	mmc-hs200-1_8v;
- 	non-removable;
-+	max-frequency = <75000000>;
- 	vmmc-supply = <&reg_cldo3>;
- 	vqmmc-supply = <&reg_cldo1>;
- 	status = "okay";
--- 
-2.39.5
+--fN0j2auDIV16SvDf
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaKdh8AAKCRB4tDGHoIJi
+0lKcAQD8RyJydvqrkR+jJa3Wl0CkRS+neXINdwjdjqrN8vpVvwEA5y2g4dnXspVS
+iaMQLZXHzU4D05bspJveUFNNS+RimgQ=
+=OXBk
+-----END PGP SIGNATURE-----
+
+--fN0j2auDIV16SvDf--
