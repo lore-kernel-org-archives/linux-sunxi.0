@@ -1,178 +1,180 @@
-Received: from TYDPR03CU002.outbound.protection.outlook.com (mail-japaneastazon11013065.outbound.protection.outlook.com [52.101.127.65])
+Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89EEF2EE5F8
-	for <linux-sunxi@lists.linux.dev>; Thu, 21 Aug 2025 09:17:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.127.65
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755767856; cv=fail; b=F/9eJi6GmwH/QvX7WhDToouxVUWkB9WMwc7PIy/gp0pL7msoC5BZ6nw/t8X8Qbr3JwyBcQFmj4kRa264x3LCoircEmFqJg7Jq5J43AlrKmyk822SHy1HAwCjyMyQBVdlaUOm14M869X+wMlBNZFP2C1k6tTmvSAxXbWPBbaZLeU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755767856; c=relaxed/simple;
-	bh=bP7QGoFOtmdOtA5b4ZaVelpMRMVQBAS/2ClIEeEuTLQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=gE0uCMX9eetLf4+5x8b8DhcHnAJhL9fJwGBk8QGKzHvSf2UkjSY08UXjz3FYg7X/3sx62NHnFsgFxyoOFwRjPabkVNOIf77OpevXyDg1ueAR5rJVnrEHAAWNHDzn7nG5DSRdAtdGR+aZntN1m/fViIIoOI1/AiAwcSPL/lb69yQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=h+YtfX7Z; arc=fail smtp.client-ip=52.101.127.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D53982D9ED8;
+	Thu, 21 Aug 2025 09:39:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755769196; cv=none; b=liCS1WexEBTqL6j4aEpzWlkURdFcklp4uQByiy6cHnpP2XLjM7+2TzEc/JL922VtkZ+1NelOHH7CBq3kB6WqnEk3SFN6THumS8EKsejf9zZl9a73Lg4K1nxT8x/QDai39Hhlctfyn44HZIRWlnauNnHJnNN11w1E4QOu3JTDPGk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755769196; c=relaxed/simple;
+	bh=fW45PNHK/J993qQlytHQ9XXEMMWn/NrRcHqFiD5whj0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=JiuxGIjVxxNGe1ojGTdkgTmcZZIGGUmZXkEpf4+QXBVHQLRv5aJoyps2DpYesIKgkreQvLVy8OI6QRUp7U7RaGma1ENUuuPRkqfzcLKSwCcyNDhE1aFh+wAhDog05doIYkCIqyJRD6pPz+ttygJ3loNUXZMM+Mg7GSGrJ05onZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=x54WHZWt; arc=none smtp.client-ip=91.207.212.93
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="h+YtfX7Z"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=b84mimz7RTW+TiMi6yjYj+kuv45SNiRF3LqhFdW0DeNI7o1AZs4ENmVQRRI19VSbkkWr2f1ldsA0o+6TEC+ruMDAykM6R21vqgC3rdo9Vl3qpqYSX7SuVqR4qBAqV0jjPlONPSiCZTn2Thr7SvyUM7wOxnnR98NEh6o/ybUTrWDu7JwwUtCJm6rsekRwZnAVZ6mXSkD9bUTeMUF5m65rhQayST0uJatcSED5MM3+wjyPrT9qGRULVsJJrhwzAcv6AqvO6fXd8A0kr7XOyb9WWaDPv9KK5pjvZQ5WzfMj4tpZJrDS9tG5HjM4KDK9WCY4j3PodaaqkKXY4A53aJvR5w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cfaCJBcqXkUCsjXVs4C0mGa3BUrhL6G7ZGR4V6uXWr8=;
- b=XYD1EzXgVaqAAvnDciViBM4ltozRNqb5eZnlhc9V0Yta0+3hcpQzRtyJj53UHH5xGnCdamr94qAgwRTlTTAlBykEPPfNshkR3DC+OU2xMmLGFd7vjk5G7eTBVXCMfHz8kblUCZ30J7UCZBkMqedf2ke7rYo2PJ6Xqth2wIcKsaTFmIz+LYs0Yt2Qo2bDK5D+u/KMJFO+uc4P2za+SvvsZFOSY9WZFEfxeuIc06iw4NSkCcWhDZzsTCTiatfP6EPkp1UDXuk/LkG0nponkA+eFtWRceluBt8jsTw4EXCmUHOhGvlXeC6HW4jkuOoOPK1Q9EmGAxczqCMkd5Q3sIfpwA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cfaCJBcqXkUCsjXVs4C0mGa3BUrhL6G7ZGR4V6uXWr8=;
- b=h+YtfX7ZAQWQ89hTn9si5h1YVPDXSwebhZz5XR5IdH63AMwZ9214+cBvvHyXLD2YnGkIru7uHYMYBIvCNiN96i8s0nQTiqudbMQuFV89hx/6tGBMzkGmTEtdORk3sDuwcUTwTwVPk0EUyAxatIhY0vk3rKY9HCXDs3pBEGi79YyhM+JcU7JYI/lBt7mctEVtKtultPbPYtSbCm+MQVksOulolsmKV3FjlPr3AzNGD1iBU4Le9MEp7lFJqGrRjJ30h6tyU7sY/6C3mUnjkeWYCM9zIk+V7Wq93PFnhP3LNuNyTO+XaM9vWpC0gF4ym8MtBNGyy4uwg6WMgDK0crD49w==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from KL1PR06MB6020.apcprd06.prod.outlook.com (2603:1096:820:d8::5)
- by TY1PPF6B208127B.apcprd06.prod.outlook.com (2603:1096:408::918) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.19; Thu, 21 Aug
- 2025 09:17:29 +0000
-Received: from KL1PR06MB6020.apcprd06.prod.outlook.com
- ([fe80::4ec9:a94d:c986:2ceb]) by KL1PR06MB6020.apcprd06.prod.outlook.com
- ([fe80::4ec9:a94d:c986:2ceb%5]) with mapi id 15.20.9052.012; Thu, 21 Aug 2025
- 09:17:29 +0000
-From: Xichao Zhao <zhao.xichao@vivo.com>
-To: ulf.hansson@linaro.org,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org
-Cc: linux-mmc@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Xichao Zhao <zhao.xichao@vivo.com>
-Subject: [PATCH] mmc: sunxi: Remove dev_err_probe() if error is -ENOMEM
-Date: Thu, 21 Aug 2025 17:17:21 +0800
-Message-Id: <20250821091721.546580-1-zhao.xichao@vivo.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR06CA0193.apcprd06.prod.outlook.com (2603:1096:4:1::25)
- To KL1PR06MB6020.apcprd06.prod.outlook.com (2603:1096:820:d8::5)
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="x54WHZWt"
+Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57L8uf03028719;
+	Thu, 21 Aug 2025 11:39:25 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=selector1; bh=
+	kHxcorhp5czLlBBNNIvPxeZEYbfShmd+8rRbKqHVLQc=; b=x54WHZWtHoVtnKSh
+	GwXIq32qEehSt5QN4pnCvtl8/TiFHUGkCVxLDpTAaQktot64B36wulxk1ei+r5EB
+	q4oJU0m5ApNcrcGtHJTtGKf8JmVGtpf2P+Nqv7T7elfSWoaqyewnWBbT/y30hkyM
+	QztQ5odjdA0mMraCkgbl+w7JGJlgWV4xAyEG9fI/kLcwVxziU/qGhGPxTAw20d6i
+	hM/4vG1IQ1AxUrf3PLjbdmzhAQKlbABlritN7UG4B85uzMmfNcd9IrPQzWD/XlfS
+	/PHF7fjxPPYQDRwv1ACERxT7tPpV8bBLheQgLG2lpZ+jXslc/76fxC3S4Xlo4gTt
+	cUUJxA==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48n81wnyun-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 21 Aug 2025 11:39:25 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 50FE64002D;
+	Thu, 21 Aug 2025 11:36:50 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node3.st.com [10.75.129.71])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id C3FF873DB4E;
+	Thu, 21 Aug 2025 11:35:26 +0200 (CEST)
+Received: from [10.48.87.178] (10.48.87.178) by SHFDAG1NODE3.st.com
+ (10.75.129.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 21 Aug
+ 2025 11:35:25 +0200
+Message-ID: <ea6b8999-4f5d-4cc2-b92b-b0776c2b1363@foss.st.com>
+Date: Thu, 21 Aug 2025 11:35:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: KL1PR06MB6020:EE_|TY1PPF6B208127B:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0d0ed54f-6292-49bb-43a3-08dde0938d78
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|52116014|366016|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?kNV7qQhfQy61MFyo22UmUJebURFqTuyI1jtlsFML9eCfWvSx3b3UxAvXHWnW?=
- =?us-ascii?Q?EKX6g4zWJIYPK/khxqq30uk3AQ0EChnPaWte9Ng/UH7ApxhobI+NGd3vrVY0?=
- =?us-ascii?Q?JPnfIsQrHdI/7mrm0Q/e7cT1OaVh1JkkFNsn+bBunSLbjilXafpLOnWd0DAL?=
- =?us-ascii?Q?IW5MIrXeXeffCRldbl6yRimcKMQCSAmcqu8sAMYVsBvLCkbVjveg4+WjaguN?=
- =?us-ascii?Q?lJSo1RLJ/eWYRZWD17RSrl+mTsL+ACF2vYXj2TYDUVFh/7dXO1y3QH/ZENxw?=
- =?us-ascii?Q?pfdxDicEJMI/n+S8cHvqn04fvBJd2Far4Y7ZDWVsGtWxzFpTdqMkT2/mDih1?=
- =?us-ascii?Q?BTLbRCNNgykVAqP8qqOLaPIPUkwbvaAVnwldeTYMNeKM8unxPrdHfjl+mCJ/?=
- =?us-ascii?Q?YsuxH0qU8Wxi769AugKcyWHso9wzsqILkOjtuc4BJOzsuyYY/Jf1f2hRd7J7?=
- =?us-ascii?Q?iWnTbFd6Tu58bhouV0ISmhZZ2VVUbHWE5bEoKIFhpCEmve9bV9tOnxgiWQK/?=
- =?us-ascii?Q?FaT9FlK1MdcSO4RhZIYeieBGw3KeMVV6v1FaIh1NiWXRpstJXJFMmql9g7f0?=
- =?us-ascii?Q?rRGAaVX23bwxVeqCbSemD4MkYdx1CLnOGKn3Po654v57DJRCONHYQ+4pltPW?=
- =?us-ascii?Q?zyuP7Cc3B75FoeaMJBcxeE1CnpYQIgabTThkRq/xInFnjD+RgfW4nirFBPcq?=
- =?us-ascii?Q?Jev86CFEsYugN1sQWYjmLnfZr3FBJK6K9GanU6sxqQg75iEPUJiR7Wfc+M7E?=
- =?us-ascii?Q?GTOMktUexSeqoMCrqhuRtDs64ko+D8jp+MhBuaNewY3IkfxegeWxiIOdYUPF?=
- =?us-ascii?Q?N/2632A0QaHJIg0sWSUKKakQdfY5tca/eS/Nuc5zp27HIJTpKredaArzzDtl?=
- =?us-ascii?Q?l9KXO/kLWnqNHBMOuJ3Ys/k4mU993jy1zW2QKqfO8mWeZyL3hmywVQ7PlYGG?=
- =?us-ascii?Q?q7FEcPDCmQeIBZJyJYTxMLkkA0dDGn2tMHjjVxCI/44sswTE+Gs5HsysWwy1?=
- =?us-ascii?Q?EDLOeBE0eehs2ybs9dGWHhCycgeU9i0Y0G/GOmw4bTOs721g3h3SH1Gqd2m/?=
- =?us-ascii?Q?QRQHqS72mZVXf0Q4Z2S0kfq8sA4SDKCsvALFDOBZP82pB3YOmGL6n2GFi4TG?=
- =?us-ascii?Q?xim9E/4FzkMhXPm0h9frPIDH+ivakfrH0ZOVDCjJfMpgya9TF1z5BK0Iqb5I?=
- =?us-ascii?Q?DclQgXxncxW/5vezVyK//xgkyWlc5cDKKkPyySm6qEoCVpXiZxWo+G/9HfE0?=
- =?us-ascii?Q?HlcOze6YmXMIVKGHKlyFhH5bohnEssUHkxz4duogns4JVylqcB8NgCIP9Hbg?=
- =?us-ascii?Q?TLuC/Rm65wLkVfLybNNYhMbFWRBwJVHD33iEOWCu0s8NudH9wb/2q/7bMz8M?=
- =?us-ascii?Q?+GOxkSSDnVL/ZOZ1zvcAVZUJr6kzCqOm8y70NSv6H32ARudmXZgw7LVCy3Fj?=
- =?us-ascii?Q?2g3WpXCDClIBym3atMHLIA8RuKx59zJR+meP+17/eRgYZn52OnO7Mw=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:KL1PR06MB6020.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?lrb1Ag4FzXF/b1kAOqOBSNPpBzUAci7sNL7hROE4M7WsZhm20kNZ9673nwda?=
- =?us-ascii?Q?4jc3radc0anDahdSzQleF/4RuyaFupnOwAY3E3tFe2JzEA49fo4gZo9iO7eZ?=
- =?us-ascii?Q?CruoiWZLi+UBuwE0udxCGqx71JCTC8UOVKa4Kz018lwdyEMShIXIYdwa7cHS?=
- =?us-ascii?Q?tRH0Mz7a/F/gbgkuPGt+D1kZ5iuZRbweRQ9OwqARfMOLh6NnpKdsKhRWKWRj?=
- =?us-ascii?Q?WDMhbu1DHmGKLrZpP4/dBd/8zhFua1TWyoug/QL5raI9f8OovlExeDQQRw0N?=
- =?us-ascii?Q?JExeVraSzY/EFNhlDa4VE2Pek0pYtxn+fHmjankh5vLUVFoOIcGSUMBjQHKz?=
- =?us-ascii?Q?gh0gzmit13559/2d4PqQkhRCVzKh84sYjiiZIFcFbiAq3geDstwgLRSSsmVD?=
- =?us-ascii?Q?GWloJ7IrwIv2jvYy94VlUbCx7YI8B0yEfeaN9zLw5RaBH+eyJ1ci4pSZKxwC?=
- =?us-ascii?Q?wwO8zK5BS7kgmds5NeyTEcBuD0J2hiCORV0wjng+AIm10Se1jT5zDR2YNXzS?=
- =?us-ascii?Q?WhEVsSmVh/+XzDsmkY6W61+0hiNIbpNkuEQTGLqyO109KX9tCwpa7wHBImRn?=
- =?us-ascii?Q?5i4tDWzL2IKBgQpFpKy43DZkFHC6oP2wqsRyprVwLk4uYhMijeHHKd6mooIH?=
- =?us-ascii?Q?aYu6YbpNiNaQc6gK91rmXMcm6/B8m6PgdxfFu9ySkszt6dwTyicorQSJ7G9+?=
- =?us-ascii?Q?jo5OFfkJicoekLHTirP6zU0rQIO+I9Le+4jH2l7e3OtEt+VB8FM1tsfGY/Ai?=
- =?us-ascii?Q?HUyi+3ZGmvFj7Tc/nUL1XGRr3X7dryErM07o84YUUnvy+z05ZBYrCWJ4dIWz?=
- =?us-ascii?Q?g5eELLo1QsJxy2yyJTp6B8G1Ubh5sgA+l9aaPdnGC5YrAy8RXf6hninM06P1?=
- =?us-ascii?Q?idMoj7yOTNCB372PcoTwZK4u4XDj+ic9QfqpbqCltwnf5VtG2FevJz0dr0TY?=
- =?us-ascii?Q?T5uhta8CchkDhAgxEx+rDZFE8BXl/CiYrOfuoQAURnpCJQdgCHvVqIbK5lYQ?=
- =?us-ascii?Q?nEWbUqrc8Lx7n7p3hbefD+q2XqrocU6owE8Q6/Cw4PhrtKbA2hwMbroxd3T0?=
- =?us-ascii?Q?In2zL5IbJx6ov7Fs8VzkrTkr3NqJHLCaiO9u7pH8CI+CZqT9VI+3qyNtlFw8?=
- =?us-ascii?Q?p2xK7F8flhKwQHJBqdKdmBNs7KZaqtPB21UnRJG3s5dNyoIkjoawo8pudvYq?=
- =?us-ascii?Q?btFM+IvHuOqU+C99ghOJPA8ecccB3/vqa7Kcf/PjxSGs/5OnLhRUGGJGHr3R?=
- =?us-ascii?Q?lGwEdnxIxl1lsGOFNKSh6c+nKgQ5KezGJkJN/rviyo9VXbzWXMT37ph+vF2U?=
- =?us-ascii?Q?mpJaDTlgm7mUsHIJ3Ri/WvUQt4uf53MZwYPM8JsspQN4hGRtFT7onlRcL5sW?=
- =?us-ascii?Q?15dnz51Uzu4zuFJui63E5KwIsFTo4gjE5gfoXaTaSeBgf7Blu2nhNGZ/y3yL?=
- =?us-ascii?Q?swNg8k6X8ZZFMk09ZEfeDzVxpeIeEJHoZnaNIv3bdYoNUvCeauFHiASU86Z2?=
- =?us-ascii?Q?kFKNNRr1mTf0a5KwfXeZ3dv+l/iA8TKzOnQtjY0boSoab7u7wtx0xfJAszIh?=
- =?us-ascii?Q?Xk8NkoC6n0x8qaymt5FEstrVsNfP39AvmwPMaXVl?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0d0ed54f-6292-49bb-43a3-08dde0938d78
-X-MS-Exchange-CrossTenant-AuthSource: KL1PR06MB6020.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2025 09:17:29.6293
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /7CihriUHXymOhhzC3Kk/Hzhu7HpuZzQ2iPC3OhQ2WRhhExK1mi9nXKhtrUYqfKB97ho8QC1eOChycTOXaa2EQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PPF6B208127B
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 6/9] drm/stm/dw_mipi_dsi-stm: convert from round_rate()
+ to determine_rate()
+To: Brian Masney <bmasney@redhat.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard
+	<mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie
+	<airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Shawn Guo
+	<shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        "Pengutronix
+ Kernel Team" <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Rob Clark
+	<robin.clark@oss.qualcomm.com>,
+        Dmitry Baryshkov <lumag@kernel.org>,
+        "Abhinav
+ Kumar" <abhinav.kumar@linux.dev>,
+        Jessica Zhang
+	<jessica.zhang@oss.qualcomm.com>,
+        Sean Paul <sean@poorly.run>,
+        Marijn Suijten
+	<marijn.suijten@somainline.org>,
+        Raphael Gallais-Pou
+	<raphael.gallais-pou@foss.st.com>,
+        Philippe Cornu
+	<philippe.cornu@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Chen-Yu Tsai
+	<wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland
+	<samuel@sholland.org>, Stephen Boyd <sboyd@kernel.org>
+CC: <linux-clk@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <imx@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <freedreno@lists.freedesktop.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-sunxi@lists.linux.dev>
+References: <20250811-drm-clk-round-rate-v2-0-4a91ccf239cf@redhat.com>
+ <20250811-drm-clk-round-rate-v2-6-4a91ccf239cf@redhat.com>
+Content-Language: en-US
+From: Yannick FERTRE <yannick.fertre@foss.st.com>
+In-Reply-To: <20250811-drm-clk-round-rate-v2-6-4a91ccf239cf@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE3.st.com
+ (10.75.129.71)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-21_02,2025-08-20_03,2025-03-28_01
 
-The dev_err_probe() doesn't do anything when error is '-ENOMEM'.
-Therefore, remove the useless call to dev_err_probe(), and just
-return the value instead.
+Hi Brian,
 
-Signed-off-by: Xichao Zhao <zhao.xichao@vivo.com>
----
- drivers/mmc/host/sunxi-mmc.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+thanks for the patch.
 
-diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mmc.c
-index ee4a65b0a22d..8dd1d2409a26 100644
---- a/drivers/mmc/host/sunxi-mmc.c
-+++ b/drivers/mmc/host/sunxi-mmc.c
-@@ -1371,8 +1371,8 @@ static int sunxi_mmc_probe(struct platform_device *pdev)
- 
- 	mmc = devm_mmc_alloc_host(&pdev->dev, sizeof(*host));
- 	if (!mmc)
--		return dev_err_probe(&pdev->dev, -ENOMEM,
--				     "mmc alloc host failed\n");
-+		return -ENOMEM;
-+
- 	platform_set_drvdata(pdev, mmc);
- 
- 	host = mmc_priv(mmc);
-@@ -1387,8 +1387,7 @@ static int sunxi_mmc_probe(struct platform_device *pdev)
- 	host->sg_cpu = dma_alloc_coherent(&pdev->dev, PAGE_SIZE,
- 					  &host->sg_dma, GFP_KERNEL);
- 	if (!host->sg_cpu)
--		return dev_err_probe(&pdev->dev, -ENOMEM,
--				     "Failed to allocate DMA descriptor mem\n");
-+		return -ENOMEM;
- 
- 	if (host->cfg->ccu_has_timings_switch) {
- 		/*
--- 
-2.34.1
+Acked-by: Yannick Fertre <yannick.fertre@foss.st.com>
 
+Le 11/08/2025 à 12:56, Brian Masney a écrit :
+> The round_rate() clk ops is deprecated, so migrate this driver from
+> round_rate() to determine_rate() using the Coccinelle semantic patch
+> on the cover letter of this series.
+>
+> Acked-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+> Signed-off-by: Brian Masney <bmasney@redhat.com>
+> ---
+>   drivers/gpu/drm/stm/dw_mipi_dsi-stm.c | 14 ++++++++------
+>   1 file changed, 8 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
+> index 2c7bc064bc66c6a58903a207cbe8091a14231c2b..58eae6804cc82d174323744206be7046568b905c 100644
+> --- a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
+> +++ b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
+> @@ -274,8 +274,8 @@ static unsigned long dw_mipi_dsi_clk_recalc_rate(struct clk_hw *hw,
+>   	return (unsigned long)pll_out_khz * 1000;
+>   }
+>   
+> -static long dw_mipi_dsi_clk_round_rate(struct clk_hw *hw, unsigned long rate,
+> -				       unsigned long *parent_rate)
+> +static int dw_mipi_dsi_clk_determine_rate(struct clk_hw *hw,
+> +					  struct clk_rate_request *req)
+>   {
+>   	struct dw_mipi_dsi_stm *dsi = clk_to_dw_mipi_dsi_stm(hw);
+>   	unsigned int idf, ndiv, odf, pll_in_khz, pll_out_khz;
+> @@ -283,14 +283,14 @@ static long dw_mipi_dsi_clk_round_rate(struct clk_hw *hw, unsigned long rate,
+>   
+>   	DRM_DEBUG_DRIVER("\n");
+>   
+> -	pll_in_khz = (unsigned int)(*parent_rate / 1000);
+> +	pll_in_khz = (unsigned int)(req->best_parent_rate / 1000);
+>   
+>   	/* Compute best pll parameters */
+>   	idf = 0;
+>   	ndiv = 0;
+>   	odf = 0;
+>   
+> -	ret = dsi_pll_get_params(dsi, pll_in_khz, rate / 1000,
+> +	ret = dsi_pll_get_params(dsi, pll_in_khz, req->rate / 1000,
+>   				 &idf, &ndiv, &odf);
+>   	if (ret)
+>   		DRM_WARN("Warning dsi_pll_get_params(): bad params\n");
+> @@ -298,7 +298,9 @@ static long dw_mipi_dsi_clk_round_rate(struct clk_hw *hw, unsigned long rate,
+>   	/* Get the adjusted pll out value */
+>   	pll_out_khz = dsi_pll_get_clkout_khz(pll_in_khz, idf, ndiv, odf);
+>   
+> -	return pll_out_khz * 1000;
+> +	req->rate = pll_out_khz * 1000;
+> +
+> +	return 0;
+>   }
+>   
+>   static int dw_mipi_dsi_clk_set_rate(struct clk_hw *hw, unsigned long rate,
+> @@ -351,7 +353,7 @@ static const struct clk_ops dw_mipi_dsi_stm_clk_ops = {
+>   	.disable = dw_mipi_dsi_clk_disable,
+>   	.is_enabled = dw_mipi_dsi_clk_is_enabled,
+>   	.recalc_rate = dw_mipi_dsi_clk_recalc_rate,
+> -	.round_rate = dw_mipi_dsi_clk_round_rate,
+> +	.determine_rate = dw_mipi_dsi_clk_determine_rate,
+>   	.set_rate = dw_mipi_dsi_clk_set_rate,
+>   };
+>   
+>
