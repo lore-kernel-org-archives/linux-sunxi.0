@@ -1,132 +1,104 @@
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65F362EFD8E
-	for <linux-sunxi@lists.linux.dev>; Fri, 22 Aug 2025 10:29:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7644320C461
+	for <linux-sunxi@lists.linux.dev>; Sat, 23 Aug 2025 23:09:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755858587; cv=none; b=RU6R9ZBQF/niJ3C3aGPyic0oHAqQjeFRkAyWmPLgztGlSFUglpMnyQMFp9C6va58EgUojYaUA0ESkNCNhf2iHAdZvap7F3D65yzXaCB3qrMUd3NBIAhwbh+PUlwO9RGFzk6jcW3s68+66kHz1LlWjpGc+rKPcNb7HCd4sWzjKCI=
+	t=1755990582; cv=none; b=VjA7qFBi1qwZca+UWbRnrusr1wB+Xp7TBqt7Nf3k68voqIfKdqtlHdmr5gB4fYIkuL3Rv/tHoWP/yalVnR61eIyOaiG/qvlZZYRbtWwJhQo9aqDR6fXsVD7gNcE9j5unEVI4snp82AJFjbSpo9XhSiQOjM4O3ZAPNec8PAl9DwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755858587; c=relaxed/simple;
-	bh=kB0xCrcZ1sA4vsR286bIAX6688rH45wxCTl4GDxP2S4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IMZRUVCc+6m8WqzWDq4bbMwzpyBFJIakwUP94dK2s+R2WqnijYq8IrUppVaCMVnfVEj/WYdLZwk0iO4RBXugI8gVmI9BLSlmdMn02NIZvvNiGY1mVAGE2w4OPt+Gk8RcIxliMCVfHjMzf759qOAihQVdx2/8txqPcv5LnxaZEX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id B130F1F00066
-	for <linux-sunxi@lists.linux.dev>; Fri, 22 Aug 2025 10:24:03 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id BF13CB01C61; Fri, 22 Aug 2025 10:24:01 +0000 (UTC)
-X-Spam-Level: 
-Received: from shepard (unknown [192.168.1.1])
-	by laika.paulk.fr (Postfix) with ESMTPSA id C43A7B01C52;
-	Fri, 22 Aug 2025 10:23:59 +0000 (UTC)
-Date: Fri, 22 Aug 2025 12:23:57 +0200
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH] drm/sun4i: Cleanup v3s mixer config fields ordering and
- indentation
-Message-ID: <aKhFPRP8ILNkKAvy@shepard>
-References: <20250704154149.3464461-1-paulk@sys-base.io>
+	s=arc-20240116; t=1755990582; c=relaxed/simple;
+	bh=p2pU3fFxLFScSmj2hUqBJ8RqBm9xy2DQkrm9ol/p+Ro=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SryaBUCxayWZZPy1Bh7cq25doVCC4/Y82wEnhtIUDALmZTTVpJPQXKbUHoqFdUkXwkw+VeNOft7dSSHoUrqEG8cyi25GcN4FEm33xl1r3ugaBg0ZWSCoweSCLIk1HMpbvNjOkspJ7oaOnHVr3+ab8HX6ODksSx05Wg8OEoDcH+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZCXtl0Qc; arc=none smtp.client-ip=209.85.160.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZCXtl0Qc"
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4b297962b24so32014561cf.2
+        for <linux-sunxi@lists.linux.dev>; Sat, 23 Aug 2025 16:09:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755990578; x=1756595378; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=p2pU3fFxLFScSmj2hUqBJ8RqBm9xy2DQkrm9ol/p+Ro=;
+        b=ZCXtl0QcWAUdQS7UqU4Ba8VjTZhqUAjdEVrQW8cuskJnhufZQIl/KSfwa0bvTLSASc
+         2aaljZ+NvtF6guGDII2Pra7/nv/EnjR3lfAEVEm3/w+H5d5GkySv+1xuelhZw2VqhlrK
+         rXD4hAT68IQdSwfwveNSSxQecGkPJWZSX1AIUdzSkLQF2ZWC4HzSWdY/Uv+r2JiW4v5h
+         H+wlOS3TvrXVLnKW0UYqDU+67R+SP6fbbl/y61JP+lbOXtsScKsCm7TMSZ0ftzcDlC1z
+         /u0Xq04jXHwbVKecOZmtmNuB86JcTKhX0Moud6M/47uT2FDENpA8cUYOtxYDjhghmmGb
+         XVNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755990578; x=1756595378;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=p2pU3fFxLFScSmj2hUqBJ8RqBm9xy2DQkrm9ol/p+Ro=;
+        b=qo9Jpdnzg4Uk40Agtyamj70kF52vLCXDOvH12EavIBy7qD9H3MS3i8czxrz5a6JWR7
+         mVAUMjO7wwDbslKKYRGxMA4JJowFiHCz7w3iCly3XmYAM6r5bC387h3DMHrKxVi4Z8xT
+         F4f8NO96Fezqyi704LVgRXBb03pzZtyHPB0JMNgKGXyetXoX37nkdxNGzwJ1vW1CwDHi
+         5nkS18CKOAUubIl+x4g3mKv9XHxNX8x7pBa3ZzU3PTHibgzVNcuS5n+XIDcR9tcjdeYE
+         GTmIOU4mJGhwQ5IwMgIA86vLbeVdjWVkkb9p7Nz2bTUmdF0TACig9auovyHlJt+9+xHX
+         3z+g==
+X-Forwarded-Encrypted: i=1; AJvYcCXFDEs1FLkfIB5lj2oK18Nl4oAfantdk36cBZpne5qO9JlGUsdVS4uctlWLr/Oy8j6WQtHcc0XefKJuTw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx6kkEpAPRbkQ0JzmuhziNwty4+jmv8HnGShlNj1UfrjJms39BP
+	s5VYwsaljse5DcwTfOfxCFlaVj5LxmWabel7nOzIkXidQjyKolfnUZifBWcs4kxhe2s56zCOv+m
+	8LrzUdsMdae+cupaSxfYu7aw2xUe6qF8=
+X-Gm-Gg: ASbGncunK5HBOHlaQTcghNLr4Toe+EviEQkS2RkeIi7G+jOCJBTk01TCaWHW3VbkZUd
+	J9b/3kCOn2JobdOPUxdBgzjjHBp3tklXJ3LIVNud1Bmnqyg4N2tl9si1kmsoIu0h86CEr0kLCBz
+	wUamlXXfFypIVqLTtGLEVZi2ssE0kymz6iocKi23FzW/lI7REy5CeAxLp0zVCwxaa81ShYiInwo
+	Y+Y7Kg=
+X-Google-Smtp-Source: AGHT+IEkAzV8H+clwN6tL7gqmSvk56dPwvIVT4gQVPsLgXNkLSqtTBC6lbcVlarR1iUNCNSl5l1xmo1oxjBxcJoE0Ac=
+X-Received: by 2002:a05:622a:1449:b0:4b2:8ac4:ef76 with SMTP id
+ d75a77b69052e-4b2aab27f7fmr97527041cf.69.1755990578167; Sat, 23 Aug 2025
+ 16:09:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="MlV5q36HRY4ckIBP"
-Content-Disposition: inline
-In-Reply-To: <20250704154149.3464461-1-paulk@sys-base.io>
-
-
---MlV5q36HRY4ckIBP
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <20250821004232.8134-1-andre.przywara@arm.com> <20250821004232.8134-9-andre.przywara@arm.com>
+In-Reply-To: <20250821004232.8134-9-andre.przywara@arm.com>
+From: Julian Calaby <julian.calaby@gmail.com>
+Date: Sun, 24 Aug 2025 09:09:24 +1000
+X-Gm-Features: Ac12FXwXg3BBSbryJoDW3xmfP_LFIAOgrCsFqUWYjsCuW9pa0DyK6tp1OMBe8g0
+Message-ID: <CAGRGNgXsG5FmwFTSE1BM5qDHz_Jovb4EuRtt-=ipavBDf7AzJQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 8/9] pinctrl: sunxi: a523-r: add a733-r compatible string
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Samuel Holland <samuel@sholland.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Yixun Lan <dlan@gentoo.org>, linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hi Andre,
 
-On Fri 04 Jul 25, 17:41, Paul Kocialkowski wrote:
-> The v3s mixer config definition is a bit messy. Tidy it up.
-> No function change is intended.
+On Thu, Aug 21, 2025 at 10:46=E2=80=AFAM Andre Przywara <andre.przywara@arm=
+.com> wrote:
+>
+> The secondary Allwinner A733 pincontroller ("-r") is interestingly not
+> using the same new MMIO frame layout as the main controller, but is in
+> fact very similar to the A523-r one: it has two banks, with 14 and 6 pins
+> each. From the driver's perspective, this is all we care about, so we can
+> re-use the a523-r pinctrl driver for the a733-r, too.
+>
+> The individual pinmux settings are different, so we must not use the
+> a523-r compatible string as a fallback, but we can surely let the same
+> driver care for both the a523-r and a733-r IP, as the pinmux values will
+> be provided by the DT.
 
-This patch didn't make it in the previous cycle.
-Would it be possible to pick it up this time?
+If the bank and pin counts are the same and the pinmux values are
+provided by the DT, that means they _are_ compatible, right?
 
-Thanks!
-
-Paul
-
-> Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
-> ---
->  drivers/gpu/drm/sun4i/sun8i_mixer.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/=
-sun8i_mixer.c
-> index 8b41d33baa30..674b55f218fc 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> @@ -670,12 +670,12 @@ static const struct sun8i_mixer_cfg sun8i_r40_mixer=
-1_cfg =3D {
->  };
-> =20
->  static const struct sun8i_mixer_cfg sun8i_v3s_mixer_cfg =3D {
-> -	.vi_num =3D 2,
-> -	.ui_num =3D 1,
-> -	.scaler_mask =3D 0x3,
-> -	.scanline_yuv =3D 2048,
-> -	.ccsc =3D CCSC_MIXER0_LAYOUT,
-> -	.mod_rate =3D 150000000,
-> +	.ccsc		=3D CCSC_MIXER0_LAYOUT,
-> +	.mod_rate	=3D 150000000,
-> +	.scaler_mask	=3D 0x3,
-> +	.scanline_yuv	=3D 2048,
-> +	.ui_num		=3D 1,
-> +	.vi_num		=3D 2,
->  };
-> =20
->  static const struct sun8i_mixer_cfg sun20i_d1_mixer0_cfg =3D {
-> --=20
-> 2.49.0
->=20
+Thanks,
 
 --=20
-Paul Kocialkowski,
+Julian Calaby
 
-Independent contractor - sys-base - https://www.sys-base.io/
-Free software developer - https://www.paulk.fr/
-
-Expert in multimedia, graphics and embedded hardware support with Linux.
-
---MlV5q36HRY4ckIBP
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmioRT0ACgkQhP3B6o/u
-lQzkTg//WFiyxqhfUY6FczVWL/ImHTtICZrkvrBZX0dJV2uHqYzypnnyT6NxmMxk
-SDXCSLmVFsSMoND1aiqS5dc4eYOPlSmo/hpJib1+nfo+1VTrB7dgafngaUpgcEXh
-JBfaN92tUfhO+Aw/XSDY3Bh1vdYJt4LH/IfSpN7OFnULBw6/VVwVkOYUm/UvSFzf
-RUGZ3WCqf/N9pVUDCTV8uRU104hhbZk8l6N4afTKcR3X6ol399SLZzZz+7y0UJWl
-fU9229JlB9ndl1Pg5LsQz/eclJA0KFNAe6+EN1lHxDqReaiAtziTtIVzgdQLtpga
-AUYSqY9oVinh0Bl2ENP5MmFFCBTduNN6/HK6IXH6wPIdMUpmU24w/Rw+MtUl/c4+
-xkZ5L6U5idcFfEW/R+Tv8fyOVeCLXxDGg0gAhyo6wcf9k2HKDI1IV/FVeCaCs5wD
-ztKSieqm6mr6xBIvdL9vKeLEAik1AmlNkpYQo4HFirxRCr+M/UlUeFf3NSlWhfx4
-9WyDwMcctDD8ESW3V2Q3oYAPmQPh84oX2uMDyd19djNwcy+rxwvWmQc4X4ESFZDe
-nE7BYg6g1UvJlLBIpWxEACNoX+oBJ/AIVtReJmmWB2wXFpTTZo5jOobrDnYHxOe1
-ck45AXtCLJVrvt+LfBPR3XxAYalBQfW6zYsLjXUh+OlC7yq9Giw=
-=aSaL
------END PGP SIGNATURE-----
-
---MlV5q36HRY4ckIBP--
+Email: julian.calaby@gmail.com
+Profile: http://www.google.com/profiles/julian.calaby/
