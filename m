@@ -1,128 +1,175 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CC13188000
-	for <linux-sunxi@lists.linux.dev>; Sun, 24 Aug 2025 07:18:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A69213237
+	for <linux-sunxi@lists.linux.dev>; Sun, 24 Aug 2025 19:04:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756019890; cv=none; b=SMMOJFUOE9TBV7g/mugCucGThc8Sus2Wi1VesIBa3rr7YJMfbRjL6gpS5KXonVyRzvWVvV94GW6L/ogA6m404N+MV6YVAnVCKxfuAqvWIoRSexEnRJBiEVrC+Cfo7OQwzAUshu5a0y9pFVvosboMvewUAZMNdjegwMN9MNAEya8=
+	t=1756062292; cv=none; b=KQFa9viEo/N2IGAVJQHhR9/8hWdZL4hM9d63+RV5k6xMrvRB3k7jiDLGsXQFPYTkDjKq19W/Tl7CYr9MRNBslXtZdFKaHyI3xf/V38vFCnFUzJn+YhOTlI0nXNYXLskGdtcTbIi+krEHYzeW7UoH882NflmI9oxs+bUvdjpsH2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756019890; c=relaxed/simple;
-	bh=0fh0gGpu0t//MXZ11+UqTS4MNTzyq/dz/PwrJz2CL/g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=p4bN8idnVpO27vRGPhB1M0FuWTOWfeVblrOwK3FveC0GJNFlNEa3lw6rn6I33EwfxsqcmLYXdDtefOU2/qk2OtstilDgFAGn/yJaad0QMQk1/jMxrWwYtfudd9oukfvArFMxbv3BWJIwuzRKGdtVlMIasjNjXbjdrXn0CAQEsWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GpY7tpEm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756062292; c=relaxed/simple;
+	bh=UP+AYol+DY8UTEmT5RaSgfZsggShtTb7514fxVj9jCY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FSglRV22jFWKJXt670jPtCBSDd8hQdUAWA0Ayq+Z5TV402PmFhObcTPtlfH0hgFsO9P85zo2LwSDJVOJnDEu8MpEoxYCuObCa3SUmOmeRlGN5Ni/jJIZpDLEWhS17XrWu6HgQHWs6zT8sGgbixnZ4kpQe7AX669RY9hfTHapZE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=P4L7yZcN; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GpY7tpEm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58747C116B1
-	for <linux-sunxi@lists.linux.dev>; Sun, 24 Aug 2025 07:18:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756019890;
-	bh=0fh0gGpu0t//MXZ11+UqTS4MNTzyq/dz/PwrJz2CL/g=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=GpY7tpEmUzWQ22Ku/8Aky16LAV3UD5t3Z971mEpzjCUmAoio4DZ7IA4GlDl4szkk3
-	 h8v2g+R4zUzOcepxb89+3pSTHdO67PEjvXym3zcGjr4bThbWkFDowPpE6ukY3xpEYz
-	 bA4WsCdIKq8HR9j8nQAJgbKyzc3+fxwwY38X9cTQ0fI+cC9quWaEVeW7+xUxSr54Is
-	 I4bD38wF7zSwtS02Ndp+9HkZMT3D3PrsYl33GxopTuesUKzRLcm47hCCZF9VO27i9e
-	 /lILvLBNVZS4IavTMLQ9nMg8uvnAxKhuLTYFUh3ayol2R7wm6T6rcHpyZ/A3Hp/GV4
-	 xO5ZjLFsli/qg==
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-3352212fefdso26871191fa.3
-        for <linux-sunxi@lists.linux.dev>; Sun, 24 Aug 2025 00:18:10 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXmD3ReQTX4qJNo/vl500Z+/kte/t4O+KZ1jL8SyNXjrUFMW0ZWqFy63+UV5gWTyM7d9bCmQ37WtTIo4w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxKgYljS1UbOl7KiNlskJrnRUb6e/YXWzCj8k7OFYoXcmxXCR/9
-	4Qob4nWNdwaQuY6ddLiLoI1jon/541Je7hLUslH1qgHa53cO+QW9X3AtXwmrkp96uuDaEzNohaI
-	tTlzAjYNmOeePuxRdHQJSpytQPk8+93s=
-X-Google-Smtp-Source: AGHT+IEJYKJm9oxMtoKhPUUIqoRJqzRy7kx4QCxWtWwOw/B6CTvUqPHyV5enNtb9irkZ5kRX/OIWTP9CV/YtH0uF8lM=
-X-Received: by 2002:a05:651c:31ca:20b0:30b:edfc:5d8a with SMTP id
- 38308e7fff4ca-33650b8a25fmr13646791fa.0.1756019888725; Sun, 24 Aug 2025
- 00:18:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="P4L7yZcN"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-55ce52718abso291763e87.3
+        for <linux-sunxi@lists.linux.dev>; Sun, 24 Aug 2025 12:04:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1756062289; x=1756667089; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6yqEEUlIDSc/+3KFB8fDmfBaOKciQCNwulQzIyyj/3k=;
+        b=P4L7yZcNpqrC66RTa4wKr5ziDhdTKlaUxAMugosCfXLRq6QeU+xeeIc7IIacO28Igu
+         QoFlFzDDxT5uSiyLFXY0pbCuatXhIXG04CeXTlt+ppf4nnIKhGb8pmR7oTdyyou5sx89
+         kbwvBAPS06ETaTLzTpFk26dLIzJoOUQDu/RdfGB6t9vuSMKMLCA/etxJZX+05YtxDsWm
+         FnTuwnZiRxi8X9CbRBpKfb+Jg8DxHj0Ng7VAmaMj9TNh2rWarcbXP1MQhkFs+Shj/Uri
+         8w9mGQ7zOZmIQPpz9d9AizFDLOc7kaIvpWjN+QG/96r4+5utX/+qADwrgyrQeDrQs6Mk
+         B21g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756062289; x=1756667089;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=6yqEEUlIDSc/+3KFB8fDmfBaOKciQCNwulQzIyyj/3k=;
+        b=AJLj+kQN3xKhFlBqmuDxECIB2T5hou78g/xtt+SclLPl3aCdqmNo6ApFx2Fitr/4mh
+         eYovCM5kFPWn7hu3/Il+cfsxZgoFDRQxHnjZllgL5CCn/XeDnjMOaAOKJHuqApY/JEys
+         Mm4TMKkPGKcTaYJeC6sNo+uyUdbblwP4GZGApZvGMg4JwwjEtviXpT32z9NzfjSEHEmv
+         UgpbncGKLjJbF0MH1c+xkCEVHqJrsHsbVi2Q4zCHdPUIyDb0BwaScBCSN5CaEtH96KHs
+         cReoA+WjSqQbuFCxjY58OyolxY/zQtw8aHOpIwl5K83V8Ts+Ol4ySs5yPl/ktgqOzaA2
+         7e6w==
+X-Forwarded-Encrypted: i=1; AJvYcCXWemxvYymNYDKpHAg9LTkHnv2ehiFT95GW0RpHT59c15B6uBXOPchuo6S+sXhYYx9GdLR/KgaqNVBn4g==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy3NCsWy9ovjOGnXxGo1tacbTdave0xQ4aLE2PZnT4GaoXQOlQP
+	JMEFVaGPdIZFMVDzWJMLtFtuXfvEuzZW505qHNt8vk+ytwy8fDkbmOcgPz+5nHAyOGU=
+X-Gm-Gg: ASbGncsa5nqNdujpctTnskzMLgVtbOGihXp40vv7Pr8UW/HCEmf85cO/pNA+aenqpe3
+	N8Lb44UsffekM3OiAOD4LPwpB56alpoF3TqnU9XdZeTbadAXxFS2jA0LyPwX69Ly5vfabJQ0okS
+	v1Yg6byfGp8TnSlEp6PQ9s9k/enxoWGa28q1zpmZ0A8eTqF8a8dyAkMxXh1eW4X9RO7kzS+w10M
+	jxazgczYOU+9hzekNh3Z6Ms7t2cz4ZXzYjkYBXf7S063TvJRKLfwndF1nUtGthr05rBEIhwuTst
+	v0YN70BK0RKOL+gbu+NyXzx+WC5CHzeLUTLbizpLmHi4n7xBNhIIZGZAEqoBirFw7/YWFpAuj6i
+	l11zEg50FpmCcJCXJY9yRhJ8QKnCkGkARRKAts+3/LGLuCL80H2skKaxWl+4uAwwuZnaBCa95Um
+	BI
+X-Google-Smtp-Source: AGHT+IFyrm2w79r4qu/FnmHu4qBJdoxQ8tpCUb7HA7mtPlKxjeyzi9xJQ9J7AuBmZ4uek0zzq2ON9Q==
+X-Received: by 2002:a05:6512:a85:b0:553:24b4:6492 with SMTP id 2adb3069b0e04-55f0cd6ef0bmr1246189e87.5.1756062288277;
+        Sun, 24 Aug 2025 12:04:48 -0700 (PDT)
+Received: from [192.168.1.100] (88-112-128-43.elisa-laajakaista.fi. [88.112.128.43])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55f35c8bb4esm1204996e87.75.2025.08.24.12.04.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 24 Aug 2025 12:04:47 -0700 (PDT)
+Message-ID: <fb733991-857c-4a5b-ba20-d8bd557a4339@linaro.org>
+Date: Sun, 24 Aug 2025 22:04:45 +0300
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250813145540.2577789-1-wens@kernel.org> <20250813145540.2577789-7-wens@kernel.org>
- <aJyraGJ3JbvfGfEw@shell.armlinux.org.uk> <CAGb2v67cKrQygew2CVaq5GCGvzcpkSdU_12Gjq9KR7tFFBow0Q@mail.gmail.com>
- <aJy_qUbmqoOG-GBC@shell.armlinux.org.uk>
-In-Reply-To: <aJy_qUbmqoOG-GBC@shell.armlinux.org.uk>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sun, 24 Aug 2025 09:17:56 +0200
-X-Gmail-Original-Message-ID: <CAGb2v6532sc3tk99OYWu5A92NYgPF3J51vsDGnMM=TtrS4TQCw@mail.gmail.com>
-X-Gm-Features: Ac12FXxzg5NyZyTyJnQtY_4IH-x_XLg3gCT00louWNGK9on2RVQmjCu1YaIrTDY
-Message-ID: <CAGb2v6532sc3tk99OYWu5A92NYgPF3J51vsDGnMM=TtrS4TQCw@mail.gmail.com>
-Subject: Re: [PATCH net-next v2 06/10] arm64: dts: allwinner: a527: cubie-a5e:
- Add ethernet PHY reset setting
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Andre Przywara <andre.przywara@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 19/65] media: camss: Replace .open() file operation with
+ v4l2_fh_open()
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Devarsh Thakkar
+ <devarsht@ti.com>, Benoit Parrot <bparrot@ti.com>,
+ Hans Verkuil <hverkuil@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Hans de Goede <hansg@kernel.org>,
+ Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+ Christian Gromm <christian.gromm@microchip.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alex Shi
+ <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+ Jonathan Corbet <corbet@lwn.net>, Tomasz Figa <tfiga@chromium.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Andy Walls <awalls@md.metrocast.net>,
+ Michael Tretter <m.tretter@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Bin Liu <bin.liu@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Dmitry Osipenko <digetx@gmail.com>, Thierry Reding
+ <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Mirela Rabulea <mirela.rabulea@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Michal Simek <michal.simek@amd.com>, Ming Qian <ming.qian@nxp.com>,
+ Zhou Peng <eagle.zhou@nxp.com>, Xavier Roumegue
+ <xavier.roumegue@oss.nxp.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+ Houlong Wei <houlong.wei@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Tiffany Lin <tiffany.lin@mediatek.com>,
+ Yunfei Dong <yunfei.dong@mediatek.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
+ Jacob Chen <jacob-chen@iotwrt.com>, Heiko Stuebner <heiko@sntech.de>,
+ Detlev Casanova <detlev.casanova@collabora.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ =?UTF-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>,
+ Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+ Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Fabien Dessenne <fabien.dessenne@foss.st.com>,
+ Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Steve Longerbeam <slongerbeam@gmail.com>, Maxime Ripard
+ <mripard@kernel.org>, Paul Kocialkowski <paulk@sys-base.io>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Corentin Labbe <clabbe@baylibre.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-tegra@vger.kernel.org, imx@lists.linux.dev,
+ linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-usb@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ linux-rockchip@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, mjpeg-users@lists.sourceforge.net
+References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
+ <20250802-media-private-data-v1-19-eb140ddd6a9d@ideasonboard.com>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <20250802-media-private-data-v1-19-eb140ddd6a9d@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Aug 13, 2025 at 6:39=E2=80=AFPM Russell King (Oracle)
-<linux@armlinux.org.uk> wrote:
->
-> On Wed, Aug 13, 2025 at 11:51:18PM +0800, Chen-Yu Tsai wrote:
-> > On Wed, Aug 13, 2025 at 11:12=E2=80=AFPM Russell King (Oracle)
-> > <linux@armlinux.org.uk> wrote:
-> > >
-> > > On Wed, Aug 13, 2025 at 10:55:36PM +0800, Chen-Yu Tsai wrote:
-> > > > diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dt=
-s b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-> > > > index 70d439bc845c..d4cee2222104 100644
-> > > > --- a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-> > > > +++ b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-> > > > @@ -94,6 +94,9 @@ &mdio0 {
-> > > >       ext_rgmii_phy: ethernet-phy@1 {
-> > > >               compatible =3D "ethernet-phy-ieee802.3-c22";
-> > > >               reg =3D <1>;
-> > > > +             reset-gpios =3D <&pio 7 8 GPIO_ACTIVE_LOW>; /* PH8 */
-> > > > +             reset-assert-us =3D <10000>;
-> > > > +             reset-deassert-us =3D <150000>;
-> > >
-> > > Please verify that kexec works with this, as if the calling kernel
-> > > places the PHY in reset and then kexec's, and the reset remains
-> > > asserted, the PHY will not be detected.
-> >
-> > I found this to be a bit confusing to be honest.
-> >
-> > If I put the reset description in the PHY (where I think it belongs),
-> > then it wouldn't work if the reset isn't by default deasserted (through
-> > some pull-up). This would be similar to the kexec scenario.
->
-> The reason for this is quite simple. While it's logical to put it in
-> there, the problem is that the PHY doesn't respond on the MDIO bus
-> while it's reset pin is asserted.
->
-> Consequently, when we probe the MDIO bus to detect PHYs and discover
-> the PHY IDs, we get no response, and thus we believe there isn't a
-> device at the address. That means we don't create a device, and thus
-> there's no mdio device for the address.
+Hi Jacopo, Laurent,
 
-It feels like a limitation of the implementation though. With the split
-of mdio_device and phy_device, maybe it's possible to add some API that
-registers mdio_device first based on information from the DT, have its
-reset deasserted, read back the PHY ID, then create the PHY device?
+thank you for the nice clean-up.
 
-This limitation also applies to handling regulator supplies for the PHY,
-which we currently resort to sticking under the MAC, which is even worse?
+On 8/2/25 12:22, Jacopo Mondi wrote:
+> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> The custom video_open() function in the camss driver open-codes the
+> v4l2_fh_open() helper, with an additional mutex that protects the whole
+> function. Given that the function does not modify any data guarded by
+> the lock, there's no need for using the mutex and the function can be
+> replaced by v4l2_fh_open().
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
-> There is a work-around, which is to encode the PHY ID in the DT
-> compatible (check the ethernet-phy binding). However, note that we
-> will then not read the actual PHY ID (maybe we should?) which means
-> if the driver wants to know e.g. the revision, or during production
-> the PHY changes, it will require DT to change.
+Tested-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
 
-Judging from previous board iterations, I think this is quite likely
-to happen. If the additional SoC internal delay values stay the same,
-I would prefer we not run into this.
-
-
-Thanks
-ChenYu
+-- 
+Best wishes,
+Vladimir
