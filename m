@@ -1,104 +1,128 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7644320C461
-	for <linux-sunxi@lists.linux.dev>; Sat, 23 Aug 2025 23:09:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CC13188000
+	for <linux-sunxi@lists.linux.dev>; Sun, 24 Aug 2025 07:18:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755990582; cv=none; b=VjA7qFBi1qwZca+UWbRnrusr1wB+Xp7TBqt7Nf3k68voqIfKdqtlHdmr5gB4fYIkuL3Rv/tHoWP/yalVnR61eIyOaiG/qvlZZYRbtWwJhQo9aqDR6fXsVD7gNcE9j5unEVI4snp82AJFjbSpo9XhSiQOjM4O3ZAPNec8PAl9DwY=
+	t=1756019890; cv=none; b=SMMOJFUOE9TBV7g/mugCucGThc8Sus2Wi1VesIBa3rr7YJMfbRjL6gpS5KXonVyRzvWVvV94GW6L/ogA6m404N+MV6YVAnVCKxfuAqvWIoRSexEnRJBiEVrC+Cfo7OQwzAUshu5a0y9pFVvosboMvewUAZMNdjegwMN9MNAEya8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755990582; c=relaxed/simple;
-	bh=p2pU3fFxLFScSmj2hUqBJ8RqBm9xy2DQkrm9ol/p+Ro=;
+	s=arc-20240116; t=1756019890; c=relaxed/simple;
+	bh=0fh0gGpu0t//MXZ11+UqTS4MNTzyq/dz/PwrJz2CL/g=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SryaBUCxayWZZPy1Bh7cq25doVCC4/Y82wEnhtIUDALmZTTVpJPQXKbUHoqFdUkXwkw+VeNOft7dSSHoUrqEG8cyi25GcN4FEm33xl1r3ugaBg0ZWSCoweSCLIk1HMpbvNjOkspJ7oaOnHVr3+ab8HX6ODksSx05Wg8OEoDcH+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZCXtl0Qc; arc=none smtp.client-ip=209.85.160.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=p4bN8idnVpO27vRGPhB1M0FuWTOWfeVblrOwK3FveC0GJNFlNEa3lw6rn6I33EwfxsqcmLYXdDtefOU2/qk2OtstilDgFAGn/yJaad0QMQk1/jMxrWwYtfudd9oukfvArFMxbv3BWJIwuzRKGdtVlMIasjNjXbjdrXn0CAQEsWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GpY7tpEm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZCXtl0Qc"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4b297962b24so32014561cf.2
-        for <linux-sunxi@lists.linux.dev>; Sat, 23 Aug 2025 16:09:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755990578; x=1756595378; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=p2pU3fFxLFScSmj2hUqBJ8RqBm9xy2DQkrm9ol/p+Ro=;
-        b=ZCXtl0QcWAUdQS7UqU4Ba8VjTZhqUAjdEVrQW8cuskJnhufZQIl/KSfwa0bvTLSASc
-         2aaljZ+NvtF6guGDII2Pra7/nv/EnjR3lfAEVEm3/w+H5d5GkySv+1xuelhZw2VqhlrK
-         rXD4hAT68IQdSwfwveNSSxQecGkPJWZSX1AIUdzSkLQF2ZWC4HzSWdY/Uv+r2JiW4v5h
-         H+wlOS3TvrXVLnKW0UYqDU+67R+SP6fbbl/y61JP+lbOXtsScKsCm7TMSZ0ftzcDlC1z
-         /u0Xq04jXHwbVKecOZmtmNuB86JcTKhX0Moud6M/47uT2FDENpA8cUYOtxYDjhghmmGb
-         XVNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755990578; x=1756595378;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=p2pU3fFxLFScSmj2hUqBJ8RqBm9xy2DQkrm9ol/p+Ro=;
-        b=qo9Jpdnzg4Uk40Agtyamj70kF52vLCXDOvH12EavIBy7qD9H3MS3i8czxrz5a6JWR7
-         mVAUMjO7wwDbslKKYRGxMA4JJowFiHCz7w3iCly3XmYAM6r5bC387h3DMHrKxVi4Z8xT
-         F4f8NO96Fezqyi704LVgRXBb03pzZtyHPB0JMNgKGXyetXoX37nkdxNGzwJ1vW1CwDHi
-         5nkS18CKOAUubIl+x4g3mKv9XHxNX8x7pBa3ZzU3PTHibgzVNcuS5n+XIDcR9tcjdeYE
-         GTmIOU4mJGhwQ5IwMgIA86vLbeVdjWVkkb9p7Nz2bTUmdF0TACig9auovyHlJt+9+xHX
-         3z+g==
-X-Forwarded-Encrypted: i=1; AJvYcCXFDEs1FLkfIB5lj2oK18Nl4oAfantdk36cBZpne5qO9JlGUsdVS4uctlWLr/Oy8j6WQtHcc0XefKJuTw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx6kkEpAPRbkQ0JzmuhziNwty4+jmv8HnGShlNj1UfrjJms39BP
-	s5VYwsaljse5DcwTfOfxCFlaVj5LxmWabel7nOzIkXidQjyKolfnUZifBWcs4kxhe2s56zCOv+m
-	8LrzUdsMdae+cupaSxfYu7aw2xUe6qF8=
-X-Gm-Gg: ASbGncunK5HBOHlaQTcghNLr4Toe+EviEQkS2RkeIi7G+jOCJBTk01TCaWHW3VbkZUd
-	J9b/3kCOn2JobdOPUxdBgzjjHBp3tklXJ3LIVNud1Bmnqyg4N2tl9si1kmsoIu0h86CEr0kLCBz
-	wUamlXXfFypIVqLTtGLEVZi2ssE0kymz6iocKi23FzW/lI7REy5CeAxLp0zVCwxaa81ShYiInwo
-	Y+Y7Kg=
-X-Google-Smtp-Source: AGHT+IEkAzV8H+clwN6tL7gqmSvk56dPwvIVT4gQVPsLgXNkLSqtTBC6lbcVlarR1iUNCNSl5l1xmo1oxjBxcJoE0Ac=
-X-Received: by 2002:a05:622a:1449:b0:4b2:8ac4:ef76 with SMTP id
- d75a77b69052e-4b2aab27f7fmr97527041cf.69.1755990578167; Sat, 23 Aug 2025
- 16:09:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GpY7tpEm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58747C116B1
+	for <linux-sunxi@lists.linux.dev>; Sun, 24 Aug 2025 07:18:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756019890;
+	bh=0fh0gGpu0t//MXZ11+UqTS4MNTzyq/dz/PwrJz2CL/g=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+	b=GpY7tpEmUzWQ22Ku/8Aky16LAV3UD5t3Z971mEpzjCUmAoio4DZ7IA4GlDl4szkk3
+	 h8v2g+R4zUzOcepxb89+3pSTHdO67PEjvXym3zcGjr4bThbWkFDowPpE6ukY3xpEYz
+	 bA4WsCdIKq8HR9j8nQAJgbKyzc3+fxwwY38X9cTQ0fI+cC9quWaEVeW7+xUxSr54Is
+	 I4bD38wF7zSwtS02Ndp+9HkZMT3D3PrsYl33GxopTuesUKzRLcm47hCCZF9VO27i9e
+	 /lILvLBNVZS4IavTMLQ9nMg8uvnAxKhuLTYFUh3ayol2R7wm6T6rcHpyZ/A3Hp/GV4
+	 xO5ZjLFsli/qg==
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-3352212fefdso26871191fa.3
+        for <linux-sunxi@lists.linux.dev>; Sun, 24 Aug 2025 00:18:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXmD3ReQTX4qJNo/vl500Z+/kte/t4O+KZ1jL8SyNXjrUFMW0ZWqFy63+UV5gWTyM7d9bCmQ37WtTIo4w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxKgYljS1UbOl7KiNlskJrnRUb6e/YXWzCj8k7OFYoXcmxXCR/9
+	4Qob4nWNdwaQuY6ddLiLoI1jon/541Je7hLUslH1qgHa53cO+QW9X3AtXwmrkp96uuDaEzNohaI
+	tTlzAjYNmOeePuxRdHQJSpytQPk8+93s=
+X-Google-Smtp-Source: AGHT+IEJYKJm9oxMtoKhPUUIqoRJqzRy7kx4QCxWtWwOw/B6CTvUqPHyV5enNtb9irkZ5kRX/OIWTP9CV/YtH0uF8lM=
+X-Received: by 2002:a05:651c:31ca:20b0:30b:edfc:5d8a with SMTP id
+ 38308e7fff4ca-33650b8a25fmr13646791fa.0.1756019888725; Sun, 24 Aug 2025
+ 00:18:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250821004232.8134-1-andre.przywara@arm.com> <20250821004232.8134-9-andre.przywara@arm.com>
-In-Reply-To: <20250821004232.8134-9-andre.przywara@arm.com>
-From: Julian Calaby <julian.calaby@gmail.com>
-Date: Sun, 24 Aug 2025 09:09:24 +1000
-X-Gm-Features: Ac12FXwXg3BBSbryJoDW3xmfP_LFIAOgrCsFqUWYjsCuW9pa0DyK6tp1OMBe8g0
-Message-ID: <CAGRGNgXsG5FmwFTSE1BM5qDHz_Jovb4EuRtt-=ipavBDf7AzJQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 8/9] pinctrl: sunxi: a523-r: add a733-r compatible string
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Samuel Holland <samuel@sholland.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+References: <20250813145540.2577789-1-wens@kernel.org> <20250813145540.2577789-7-wens@kernel.org>
+ <aJyraGJ3JbvfGfEw@shell.armlinux.org.uk> <CAGb2v67cKrQygew2CVaq5GCGvzcpkSdU_12Gjq9KR7tFFBow0Q@mail.gmail.com>
+ <aJy_qUbmqoOG-GBC@shell.armlinux.org.uk>
+In-Reply-To: <aJy_qUbmqoOG-GBC@shell.armlinux.org.uk>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Sun, 24 Aug 2025 09:17:56 +0200
+X-Gmail-Original-Message-ID: <CAGb2v6532sc3tk99OYWu5A92NYgPF3J51vsDGnMM=TtrS4TQCw@mail.gmail.com>
+X-Gm-Features: Ac12FXxzg5NyZyTyJnQtY_4IH-x_XLg3gCT00louWNGK9on2RVQmjCu1YaIrTDY
+Message-ID: <CAGb2v6532sc3tk99OYWu5A92NYgPF3J51vsDGnMM=TtrS4TQCw@mail.gmail.com>
+Subject: Re: [PATCH net-next v2 06/10] arm64: dts: allwinner: a527: cubie-a5e:
+ Add ethernet PHY reset setting
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
 	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Yixun Lan <dlan@gentoo.org>, linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+	Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Andre Przywara <andre.przywara@arm.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Andre,
-
-On Thu, Aug 21, 2025 at 10:46=E2=80=AFAM Andre Przywara <andre.przywara@arm=
-.com> wrote:
+On Wed, Aug 13, 2025 at 6:39=E2=80=AFPM Russell King (Oracle)
+<linux@armlinux.org.uk> wrote:
 >
-> The secondary Allwinner A733 pincontroller ("-r") is interestingly not
-> using the same new MMIO frame layout as the main controller, but is in
-> fact very similar to the A523-r one: it has two banks, with 14 and 6 pins
-> each. From the driver's perspective, this is all we care about, so we can
-> re-use the a523-r pinctrl driver for the a733-r, too.
+> On Wed, Aug 13, 2025 at 11:51:18PM +0800, Chen-Yu Tsai wrote:
+> > On Wed, Aug 13, 2025 at 11:12=E2=80=AFPM Russell King (Oracle)
+> > <linux@armlinux.org.uk> wrote:
+> > >
+> > > On Wed, Aug 13, 2025 at 10:55:36PM +0800, Chen-Yu Tsai wrote:
+> > > > diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dt=
+s b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
+> > > > index 70d439bc845c..d4cee2222104 100644
+> > > > --- a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
+> > > > +++ b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
+> > > > @@ -94,6 +94,9 @@ &mdio0 {
+> > > >       ext_rgmii_phy: ethernet-phy@1 {
+> > > >               compatible =3D "ethernet-phy-ieee802.3-c22";
+> > > >               reg =3D <1>;
+> > > > +             reset-gpios =3D <&pio 7 8 GPIO_ACTIVE_LOW>; /* PH8 */
+> > > > +             reset-assert-us =3D <10000>;
+> > > > +             reset-deassert-us =3D <150000>;
+> > >
+> > > Please verify that kexec works with this, as if the calling kernel
+> > > places the PHY in reset and then kexec's, and the reset remains
+> > > asserted, the PHY will not be detected.
+> >
+> > I found this to be a bit confusing to be honest.
+> >
+> > If I put the reset description in the PHY (where I think it belongs),
+> > then it wouldn't work if the reset isn't by default deasserted (through
+> > some pull-up). This would be similar to the kexec scenario.
 >
-> The individual pinmux settings are different, so we must not use the
-> a523-r compatible string as a fallback, but we can surely let the same
-> driver care for both the a523-r and a733-r IP, as the pinmux values will
-> be provided by the DT.
+> The reason for this is quite simple. While it's logical to put it in
+> there, the problem is that the PHY doesn't respond on the MDIO bus
+> while it's reset pin is asserted.
+>
+> Consequently, when we probe the MDIO bus to detect PHYs and discover
+> the PHY IDs, we get no response, and thus we believe there isn't a
+> device at the address. That means we don't create a device, and thus
+> there's no mdio device for the address.
 
-If the bank and pin counts are the same and the pinmux values are
-provided by the DT, that means they _are_ compatible, right?
+It feels like a limitation of the implementation though. With the split
+of mdio_device and phy_device, maybe it's possible to add some API that
+registers mdio_device first based on information from the DT, have its
+reset deasserted, read back the PHY ID, then create the PHY device?
 
-Thanks,
+This limitation also applies to handling regulator supplies for the PHY,
+which we currently resort to sticking under the MAC, which is even worse?
 
---=20
-Julian Calaby
+> There is a work-around, which is to encode the PHY ID in the DT
+> compatible (check the ethernet-phy binding). However, note that we
+> will then not read the actual PHY ID (maybe we should?) which means
+> if the driver wants to know e.g. the revision, or during production
+> the PHY changes, it will require DT to change.
 
-Email: julian.calaby@gmail.com
-Profile: http://www.google.com/profiles/julian.calaby/
+Judging from previous board iterations, I think this is quite likely
+to happen. If the additional SoC internal delay values stay the same,
+I would prefer we not run into this.
+
+
+Thanks
+ChenYu
