@@ -1,169 +1,190 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDCD22D0606
-	for <linux-sunxi@lists.linux.dev>; Mon, 25 Aug 2025 09:42:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BF312C3745;
+	Mon, 25 Aug 2025 11:57:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756114966; cv=none; b=buHgSInBgJUZknQOAZ5OStZPOqTwIeR2rq3OQVbi3f7bdMF4AOeVwL1ng1lzpYC6IsQqiwvvCKADJmyKxMQnL5KrXZ7p9WyoQhb6jGC07F39CC9o/bFf6S8Aq+8hviWUeMAxB9iJpZ4TNHlrAipWmgMedP1lfXeHzuEZ+GzHZfk=
+	t=1756123058; cv=none; b=gbmYv8b4ICpXZTd/N+4AkbmGUJNcHgghInieBaZoAjZGPag+FXQm7K7X3O2U5VJehO9lx+ymG2IzCRWZHmxYw4Sx5CRuRHstQDhb25LsqNuwCl06MSWjT23fQJwtxzX5y+X44c8wTZy7nIHbX5csimqJVu0tbfB5jWLO/XFSgfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756114966; c=relaxed/simple;
-	bh=3+/JTEg9+GBOONNinTNtovlxE5BUHOyMnR9VshLWROY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=MUlAOxxeJ7v+6zdwKiD4Ao20GA7kQSJGLkg7SlQLo0Tnkaf7VtHqC61k5w2dva91EtNCI9Wb2a8D1+U21hs+c46tSOBYpYOGVEJ1MbtExIh3S29wr9VCDfZc6hNp5+F2k3tWoNOoDue6A8CwyggUD162ds4uuJtNff1Ru0x3/ME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1uqTiU-0002bt-GY; Mon, 25 Aug 2025 11:42:18 +0200
-Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1uqTiS-0022ru-2W;
-	Mon, 25 Aug 2025 11:42:16 +0200
-Received: from pza by lupine with local (Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1uqTiS-000J5K-2C;
-	Mon, 25 Aug 2025 11:42:16 +0200
-Message-ID: <0501e21d1b6c99d18fe7e660f38b9bfafc76de53.camel@pengutronix.de>
-Subject: Re: [PATCH 4/7] phy: allwinner: a523: add USB3/PCIe PHY driver
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: iuncuim <iuncuim@gmail.com>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu
- Tsai <wens@csie.org>,  Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
- Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>,
- Michael Turquette <mturquette@baylibre.com>,  Stephen Boyd
- <sboyd@kernel.org>, Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I
- <kishon@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org, 
-	linux-clk@vger.kernel.org, linux-sunxi@lists.linux.dev
-Date: Mon, 25 Aug 2025 11:42:16 +0200
-In-Reply-To: <20250816084700.569524-5-iuncuim@gmail.com>
-References: <20250816084700.569524-1-iuncuim@gmail.com>
-	 <20250816084700.569524-5-iuncuim@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	s=arc-20240116; t=1756123058; c=relaxed/simple;
+	bh=u2aZrMHjp5VNoFtmPYT/Q13ILrdcSo4FSZG4TtJl/mU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dRJAk7bb8xYpgUzBGpov6r6bsyMaF/BBIsBDALdeZqh/iJbdgUoaKC0daXAOFkNBkqlmKId5TF3iD/QHART/3hngbHnavM4XWOcCtSdtypOZF7PFmqbDOhbOkcEbT0/qr7QnMlBdScpdt7z1PrJ0RWaPJoFl4f9hAuzLDuQ4fp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GCuoi/2x; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GCuoi/2x"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756123057; x=1787659057;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=u2aZrMHjp5VNoFtmPYT/Q13ILrdcSo4FSZG4TtJl/mU=;
+  b=GCuoi/2xqcWJNHEWuT365QuUw1DYy8VlxyTdgrhea24GfHgILpwlYt9s
+   4IKqI5PHbkwxL4ZRdPbfsVtfbmsyYoCiIcACr/vFfMY+OIjPolwZocOw+
+   qa5jx4y9s2sYlAqJ1SGYkWybMN2E+EuCBaJP+SSrUdLpt/V9B7+nV3uWk
+   Irs+FushW+V4f/Zh0wFdK+8folHlPqVgMsrhAcik5oAyekevS6tRmLMhf
+   Hu7DXQmVqbySG6rto/dTtFT947Zt73IMOC50gZp5TiL3v9albIvjfiqKa
+   gUi9gHHR4fGtaMnTz2D41U041YwKb2Qc8xroaIw26LsJRTC9+Ug8+Eix3
+   A==;
+X-CSE-ConnectionGUID: Z6YNC1pGQJysy12M745u6w==
+X-CSE-MsgGUID: T/DQk7HJSJCdSYcI+fDOOQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11532"; a="58479712"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="58479712"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 04:57:36 -0700
+X-CSE-ConnectionGUID: hdTgoxMQSJ63eWNqPKthrA==
+X-CSE-MsgGUID: +r8EtaYQTHi9Cnk+LVEvvA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="169178170"
+Received: from vpanait-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.7])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 04:57:27 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id F1E361203CE;
+	Mon, 25 Aug 2025 14:57:23 +0300 (EEST)
+Date: Mon, 25 Aug 2025 14:57:23 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Eugen Hristev <eugen.hristev@linaro.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Cai Huoqing <cai.huoqing@linux.dev>,
+	Haibo Chen <haibo.chen@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Marek Vasut <marek.vasut@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Francesco Dolcini <francesco@dolcini.it>,
+	=?iso-8859-1?Q?Jo=E3o_Paulo_Gon=E7alves?= <jpaulo.silvagoncalves@gmail.com>,
+	"Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+	"Rob Herring (Arm)" <robh@kernel.org>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Stephan <jstephan@baylibre.com>,
+	linux-arm-kernel@lists.infradead.org, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+	linux-renesas-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 02/12] iio: adc: Remove redundant
+ pm_runtime_mark_last_busy() calls
+Message-ID: <aKxPo3Kg0ppOcczG@kekkonen.localdomain>
+References: <20250708231144.971170-1-sakari.ailus@linux.intel.com>
+ <20250708231152.971398-1-sakari.ailus@linux.intel.com>
+ <20250709163756.32b0e1d1@jic23-huawei>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250709163756.32b0e1d1@jic23-huawei>
 
-On Sa, 2025-08-16 at 16:46 +0800, iuncuim wrote:
-> From: Mikhail Kalashnikov <iuncuim@gmail.com>
->=20
-> The A523 family of processors features a combophy for USB 3.0 and PCIe,
-> developed by Innosilicon. Simultaneous operation of both interfaces is
-> not supported by design.
-> Currently, the driver only adds support for USB 3.0. PCIe support is
-> currently unavailable and will be added later.
-> All data on phy configuration is taken from the manufacturer's BSP driver=
-.
->=20
-> Signed-off-by: Mikhail Kalashnikov <iuncuim@gmail.com>
-> ---
->  drivers/phy/allwinner/Kconfig                |   9 +
->  drivers/phy/allwinner/Makefile               |   1 +
->  drivers/phy/allwinner/phy-sun55i-usb3-pcie.c | 267 +++++++++++++++++++
->  3 files changed, 277 insertions(+)
->  create mode 100644 drivers/phy/allwinner/phy-sun55i-usb3-pcie.c
->=20
-> diff --git a/drivers/phy/allwinner/Kconfig b/drivers/phy/allwinner/Kconfi=
-g
-> index fb584518b..af2a82e51 100644
-> --- a/drivers/phy/allwinner/Kconfig
-> +++ b/drivers/phy/allwinner/Kconfig
-> @@ -57,3 +57,12 @@ config PHY_SUN50I_USB3
->  	  part of Allwinner H6 SoC.
-> =20
->  	  This driver controls each individual USB 2+3 host PHY combo.
-> +
-> +config PHY_SUN55I_USB3_PCIE
-> +	tristate "Allwinner A523 Innosilicon USB3/PCIe Combophy Driver"
-> +	depends on ARCH_SUNXI || COMPILE_TEST
-> +	depends on RESET_CONTROLLER
+Hi Jonathan,
 
-This dependency is not necessary. The reset controller API is stubbed
-out in case  RESET_CONTROLLER is disabled.
+Thanks for the review.
 
-ARCH_SUNXI selects ARCH_HAS_RESET_CONTROLLER, which default-enables
-RESET_CONTROLLER.
+On Wed, Jul 09, 2025 at 04:37:56PM +0100, Jonathan Cameron wrote:
+> On Wed,  9 Jul 2025 02:11:52 +0300
+> Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+> 
+> > pm_runtime_put_autosuspend(), pm_runtime_put_sync_autosuspend(),
+> > pm_runtime_autosuspend() and pm_request_autosuspend() now include a call
+> > to pm_runtime_mark_last_busy(). Remove the now-reduntant explicit call to
+> > pm_runtime_mark_last_busy().
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> 
+> Some comments for the future as more about what can be improved on the back
+> of this than what you have here.
+> 
+> >
+> > diff --git a/drivers/iio/adc/rcar-gyroadc.c b/drivers/iio/adc/rcar-gyroadc.c
+> > index cc326f21d398..3a17b3898bf6 100644
+> > --- a/drivers/iio/adc/rcar-gyroadc.c
+> > +++ b/drivers/iio/adc/rcar-gyroadc.c
+> > @@ -163,12 +163,10 @@ static int rcar_gyroadc_set_power(struct rcar_gyroadc *priv, bool on)
+> >  {
+> >  	struct device *dev = priv->dev;
+> >  
+> This is a very clear example of where the *_set_power() pattern is a bad idea.
+> There are two calls of this function, one with it hard coded as on and one with it
+> hard coded as off.  We can just push the pm_runtime_resume_and_get()
+> to the on case etc.
+> 
+> I don't mind that much if we do so as a follow up patch so this one can
+> be the mechanical change and then we follow up with the enabled simplification.
 
-> +	select GENERIC_PHY
-> +	help
-> +	  Enable this to support the Allwinner PCIe/USB3.0 combo PHY
-> +	  with Innosilicon IP block founded in A523/A527/H728/T527 SOC
-> diff --git a/drivers/phy/allwinner/Makefile b/drivers/phy/allwinner/Makef=
-ile
-> index bd74901a1..5948a27ef 100644
-> --- a/drivers/phy/allwinner/Makefile
-> +++ b/drivers/phy/allwinner/Makefile
-> @@ -3,3 +3,4 @@ obj-$(CONFIG_PHY_SUN4I_USB)		+=3D phy-sun4i-usb.o
->  obj-$(CONFIG_PHY_SUN6I_MIPI_DPHY)	+=3D phy-sun6i-mipi-dphy.o
->  obj-$(CONFIG_PHY_SUN9I_USB)		+=3D phy-sun9i-usb.o
->  obj-$(CONFIG_PHY_SUN50I_USB3)		+=3D phy-sun50i-usb3.o
-> +obj-$(CONFIG_PHY_SUN55I_USB3_PCIE)		+=3D phy-sun55i-usb3-pcie.o
-> diff --git a/drivers/phy/allwinner/phy-sun55i-usb3-pcie.c b/drivers/phy/a=
-llwinner/phy-sun55i-usb3-pcie.c
-> new file mode 100644
-> index 000000000..905c54a67
-> --- /dev/null
-> +++ b/drivers/phy/allwinner/phy-sun55i-usb3-pcie.c
-> @@ -0,0 +1,267 @@
-[...]
-> +static int sun55i_usb3_pcie_phy_init(struct phy *_phy)
-> +{
-> +	struct sun55i_usb3_pcie_phy *phy =3D phy_get_drvdata(_phy);
-> +
-> +	sun55i_usb3_phy_open(phy);
+Ack. I presume this pattern is due to one driver having used it first and
+then other drivers copying that. I haven't seen it elsewhere, or at least
+not being used as widely.
 
-Given that sun55i_usb3_pcie_phy_exit() asserts the reset and disables
-the clock, why isn't the clock enabled and the reset deasserted here?
+> 
+> > -	if (on) {
+> > +	if (on)
+> >  		return pm_runtime_resume_and_get(dev);
+> > -	} else {
+> > -		pm_runtime_mark_last_busy(dev);
+> > -		return pm_runtime_put_autosuspend(dev);
+> > -	}
+> > +
+> > +	return pm_runtime_put_autosuspend(dev);
+> >  }
+> >  
+> >  static int rcar_gyroadc_read_raw(struct iio_dev *indio_dev,
+> >> diff --git a/drivers/iio/adc/ti-ads1015.c b/drivers/iio/adc/ti-ads1015.c
+> > index 48549d617e5f..f2a93c63ca14 100644
+> > --- a/drivers/iio/adc/ti-ads1015.c
+> > +++ b/drivers/iio/adc/ti-ads1015.c
+> > @@ -374,12 +374,10 @@ static int ads1015_set_power_state(struct ads1015_data *data, bool on)
+> >  	int ret;
+> >  	struct device *dev = regmap_get_device(data->regmap);
+> >  
+> > -	if (on) {
+> > +	if (on)
+> >  		ret = pm_runtime_resume_and_get(dev);
+> > -	} else {
+> > -		pm_runtime_mark_last_busy(dev);
+> > +	else
+> >  		ret = pm_runtime_put_autosuspend(dev);
+> > -	}
+> >  
+> >  	return ret < 0 ? ret : 0;
+> So this one has a stub version which only brings benefits because
+> we have checks on the pm_runtime_put_autosuspend() path failing
+> (which it does if we have !CONFIG_PM).
+> 
+> I think the right option there is check the return value is < 0
+> for the resume_and_get() and don't check the _put_autosuspend()
+> return value at all.  Then we can just push this down to the
+> call sites as all of them hard code the bool value.
 
-As is, it looks like the code in sun55i_usb3_phy_open() could be just
-folded into sun55i_usb3_pcie_phy_init().
+Ack.
 
-> +	return 0;
-> +}
-[...]
-> +static int sun55i_usb3_pcie_phy_probe(struct platform_device *pdev)
-> +{
-> +	struct sun55i_usb3_pcie_phy *phy;
-> +	struct device *dev =3D &pdev->dev;
-> +	struct phy_provider *phy_provider;
-> +	int ret;
-> +
-> +	phy =3D devm_kzalloc(dev, sizeof(*phy), GFP_KERNEL);
-> +	if (!phy)
-> +		return -ENOMEM;
-> +
-> +	phy->dev =3D dev;
-> +	phy->clk =3D devm_clk_get(dev, NULL);
-> +	if (IS_ERR(phy->clk)) {
-> +		if (PTR_ERR(phy->clk) !=3D -EPROBE_DEFER)
-> +			dev_err(dev, "failed to get phy clock\n");
-> +		return PTR_ERR(phy->clk);
-> +	}
-> +
-> +	phy->reset =3D devm_reset_control_get(dev, NULL);
+-- 
+Regards,
 
-Please use devm_reset_control_get_exclusive() directly.
-
-> +	if (IS_ERR(phy->reset)) {
-> +		dev_err(dev, "failed to get reset control\n");
-
-Consider using dev_err_probe().
-
-regards
-Philipp
+Sakari Ailus
