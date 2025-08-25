@@ -1,174 +1,169 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65215230BF8
-	for <linux-sunxi@lists.linux.dev>; Sun, 24 Aug 2025 19:07:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDCD22D0606
+	for <linux-sunxi@lists.linux.dev>; Mon, 25 Aug 2025 09:42:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756062444; cv=none; b=qScMvl4dQIeSdfpVZXbpXyz2bmPmgBVRy1WlsewEHfI/yvM3w1Gay2yO3Bg/GE/87n9N2KOEZePV3u9O6UJsFvm1k0se2dvmERPk8o+Xv+4Guk/QoEm8bV7kfZYEjGyWmygky/wAWcuriMVmU4V49Iqlvl9yf0qs3Ij8h87a6io=
+	t=1756114966; cv=none; b=buHgSInBgJUZknQOAZ5OStZPOqTwIeR2rq3OQVbi3f7bdMF4AOeVwL1ng1lzpYC6IsQqiwvvCKADJmyKxMQnL5KrXZ7p9WyoQhb6jGC07F39CC9o/bFf6S8Aq+8hviWUeMAxB9iJpZ4TNHlrAipWmgMedP1lfXeHzuEZ+GzHZfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756062444; c=relaxed/simple;
-	bh=Or9relOdtZKZQi+PZvyFmONuNwHiY1OaMP7l/cQpXAE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ISvr7/pSsYw++ZR8csFPABV8tUucO2EFSY5GwEcI8XJiWXnixCC1r9X4kRXhmD5ijxMSOBqOaBBQiH5t1npOaQlQ5CTd9L/grx1A7l+HfXKX1cXgyVTxFVgZ4qEeVm99wUinITYytXE40lSXcqH4S85Q6x88HgqTgQnMz4e3jSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Z/EoWCj+; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Z/EoWCj+"
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-55e00f938dfso539313e87.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 24 Aug 2025 12:07:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1756062440; x=1756667240; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=kRFerQraihZIanmomm0IKhmbjfbkS3W8YtjfgYvp2fw=;
-        b=Z/EoWCj+0A0vHrx6g2PHQ0xedYmejwMPwHuufrHWVF1QmCNwJFAzuUini74F4lpyBP
-         YeO3FAQs+xhV2D1PqCIS9bSqfTTUUudAF9Aipm4Q/9lavJrc2d5B114rlGhVWo10Ijrx
-         Q7Mdh1DL+LbSwozxP7zjpKwtcTihGJGc9rmTUYcwhH5Ajp3jW7g8Bls9sOO2H3+psM0W
-         0MvYx6R28FwMVNPQeh0mbYk0aWOF6yov1ANpMnW0BrOdsebn2YEsm+MBGo/k37sHo6bN
-         Hv7EMYfrYPaRsh2ntBh5VxqS/BJm0jjEjwWb7/+JqB9Ib/JNtjsxfNmTAwEU4y9V1dlO
-         1X3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756062440; x=1756667240;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kRFerQraihZIanmomm0IKhmbjfbkS3W8YtjfgYvp2fw=;
-        b=VYPuJUEuyQYjIikJiioOstfwAx0qBypI4BP9dJWW5u4TiDsz+LdgQPnqzpJeqVbGak
-         sz9pSzMZRAt9A3/ZkSDK8jBmp4p91LX2z4u++tn7P5OF8cWyHftE80k4MAf0yj0byYTr
-         gCcNXl5xi3K5fO9h1bI6uVlh7gzT8FzxL4eV5kP7qD09VMA6gK2ib1+jStgZYHLppEFK
-         N8KSjKuJlirISPTvT3KsasxlyQPXXh3OuOIZfaqfFVvPuT+0Jgeu5DYRntkkpiz6Zwgb
-         /RPr05HEB20+SLeaQyHzVaRpK/hx3NBnLVl2BK7u3D3n+TBOfvhvWPm3IMVifnfr0jXb
-         9Fwg==
-X-Forwarded-Encrypted: i=1; AJvYcCUqxfazMDXJJlSiBw2R8smT49z5z/l/lnQgUSazQ82qbARN+7a3m2WQ+YF+oYArtFr62HJLpHAKnTQ1eg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy3+uq8Qsa6jkYofJ7G2DH+22Rk5udZ71furWDDKhzj3/vVvaSI
-	sajBXbUNf0paXhnsWXhlDpWqs+uKVuJNBC5yKZyIxhzwDhPgdfsU3FlRwZ++MKoTE0A=
-X-Gm-Gg: ASbGncunMeQefhE2/5diyizsvwKNduPwfQrbxku2LBRKNjGoOPAiUsV6mi98HxRD+GJ
-	BgyaMVNgzOOxpMA3BLbN+4nvTiefudxV5AQ7+IuC+rgTnS18RKrXtDpulkcQ1cUJkmZmvvKk2w6
-	PhXbrGWvUxA8tcA6ZOT8LuJYsXviOGHqLcrSYuw9Hy8ALA0178If+A788Cv3BENCRZpPOZlCPC/
-	n0vulcuvjovL7NZCexUPVBIFRLsfhr2AmgBtXPaB/jDwkq0qbaqF42GHpz0xtNO0DQAKAwJErt2
-	GZr8xWFDPe9S28usgLZz7dcvPnwOGKZGJWO/cmom/BD+6q/m13ZAzkfq3AhOUBwyGks3vPOffyY
-	KIymetKNXUt/FG0ugmI1Mn0BkCmbemDfqkNR9OsdwHkYX7Pcqgj6cVtcL8CaKLEsbWUR+6gwPHv
-	YLSDMHhC1a7Zs=
-X-Google-Smtp-Source: AGHT+IH13MoxmrDQetMznYo3yow5OENe/3UHzqm8TZjVRtSQjRA+4ERWWZasIRoFRuhqFpxTrCVdqA==
-X-Received: by 2002:a05:6512:2391:b0:55f:44eb:ea92 with SMTP id 2adb3069b0e04-55f44ebec0cmr134730e87.7.1756062439301;
-        Sun, 24 Aug 2025 12:07:19 -0700 (PDT)
-Received: from [192.168.1.100] (88-112-128-43.elisa-laajakaista.fi. [88.112.128.43])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55f35ca6713sm1206429e87.136.2025.08.24.12.07.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 24 Aug 2025 12:07:18 -0700 (PDT)
-Message-ID: <b4221eca-7977-47b3-a563-f392d7dafb8b@linaro.org>
-Date: Sun, 24 Aug 2025 22:07:16 +0300
+	s=arc-20240116; t=1756114966; c=relaxed/simple;
+	bh=3+/JTEg9+GBOONNinTNtovlxE5BUHOyMnR9VshLWROY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=MUlAOxxeJ7v+6zdwKiD4Ao20GA7kQSJGLkg7SlQLo0Tnkaf7VtHqC61k5w2dva91EtNCI9Wb2a8D1+U21hs+c46tSOBYpYOGVEJ1MbtExIh3S29wr9VCDfZc6hNp5+F2k3tWoNOoDue6A8CwyggUD162ds4uuJtNff1Ru0x3/ME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1uqTiU-0002bt-GY; Mon, 25 Aug 2025 11:42:18 +0200
+Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1uqTiS-0022ru-2W;
+	Mon, 25 Aug 2025 11:42:16 +0200
+Received: from pza by lupine with local (Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1uqTiS-000J5K-2C;
+	Mon, 25 Aug 2025 11:42:16 +0200
+Message-ID: <0501e21d1b6c99d18fe7e660f38b9bfafc76de53.camel@pengutronix.de>
+Subject: Re: [PATCH 4/7] phy: allwinner: a523: add USB3/PCIe PHY driver
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: iuncuim <iuncuim@gmail.com>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu
+ Tsai <wens@csie.org>,  Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
+ Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>,
+ Michael Turquette <mturquette@baylibre.com>,  Stephen Boyd
+ <sboyd@kernel.org>, Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I
+ <kishon@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org, 
+	linux-clk@vger.kernel.org, linux-sunxi@lists.linux.dev
+Date: Mon, 25 Aug 2025 11:42:16 +0200
+In-Reply-To: <20250816084700.569524-5-iuncuim@gmail.com>
+References: <20250816084700.569524-1-iuncuim@gmail.com>
+	 <20250816084700.569524-5-iuncuim@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 20/65] media: camss: Remove custom .release fop()
-Content-Language: ru-RU
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Devarsh Thakkar
- <devarsht@ti.com>, Benoit Parrot <bparrot@ti.com>,
- Hans Verkuil <hverkuil@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hans de Goede <hansg@kernel.org>,
- Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
- Christian Gromm <christian.gromm@microchip.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alex Shi
- <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
- Jonathan Corbet <corbet@lwn.net>, Tomasz Figa <tfiga@chromium.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Andy Walls <awalls@md.metrocast.net>,
- Michael Tretter <m.tretter@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Bin Liu <bin.liu@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Dmitry Osipenko <digetx@gmail.com>, Thierry Reding
- <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Mirela Rabulea <mirela.rabulea@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Michal Simek <michal.simek@amd.com>, Ming Qian <ming.qian@nxp.com>,
- Zhou Peng <eagle.zhou@nxp.com>, Xavier Roumegue
- <xavier.roumegue@oss.nxp.com>, Philipp Zabel <p.zabel@pengutronix.de>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Dikshita Agarwal <quic_dikshita@quicinc.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Nas Chung <nas.chung@chipsnmedia.com>,
- Jackson Lee <jackson.lee@chipsnmedia.com>,
- Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
- Houlong Wei <houlong.wei@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Tiffany Lin <tiffany.lin@mediatek.com>,
- Yunfei Dong <yunfei.dong@mediatek.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Heiko Stuebner <heiko@sntech.de>,
- Detlev Casanova <detlev.casanova@collabora.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar
- <alim.akhtar@samsung.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>,
- =?UTF-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>,
- Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
- Jacek Anaszewski <jacek.anaszewski@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Fabien Dessenne <fabien.dessenne@foss.st.com>,
- Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Steve Longerbeam <slongerbeam@gmail.com>, Maxime Ripard
- <mripard@kernel.org>, =?UTF-8?Q?Niklas_S=C3=B6derlund?=
- <niklas.soderlund@ragnatech.se>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>, Corentin Labbe <clabbe@baylibre.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Bingbu Cao <bingbu.cao@intel.com>,
- Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-tegra@vger.kernel.org, imx@lists.linux.dev,
- linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-usb@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-rockchip@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, mjpeg-users@lists.sourceforge.net
-References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
- <20250802-media-private-data-v1-20-eb140ddd6a9d@ideasonboard.com>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <20250802-media-private-data-v1-20-eb140ddd6a9d@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
-Hi Jacopo,
+On Sa, 2025-08-16 at 16:46 +0800, iuncuim wrote:
+> From: Mikhail Kalashnikov <iuncuim@gmail.com>
+>=20
+> The A523 family of processors features a combophy for USB 3.0 and PCIe,
+> developed by Innosilicon. Simultaneous operation of both interfaces is
+> not supported by design.
+> Currently, the driver only adds support for USB 3.0. PCIe support is
+> currently unavailable and will be added later.
+> All data on phy configuration is taken from the manufacturer's BSP driver=
+.
+>=20
+> Signed-off-by: Mikhail Kalashnikov <iuncuim@gmail.com>
+> ---
+>  drivers/phy/allwinner/Kconfig                |   9 +
+>  drivers/phy/allwinner/Makefile               |   1 +
+>  drivers/phy/allwinner/phy-sun55i-usb3-pcie.c | 267 +++++++++++++++++++
+>  3 files changed, 277 insertions(+)
+>  create mode 100644 drivers/phy/allwinner/phy-sun55i-usb3-pcie.c
+>=20
+> diff --git a/drivers/phy/allwinner/Kconfig b/drivers/phy/allwinner/Kconfi=
+g
+> index fb584518b..af2a82e51 100644
+> --- a/drivers/phy/allwinner/Kconfig
+> +++ b/drivers/phy/allwinner/Kconfig
+> @@ -57,3 +57,12 @@ config PHY_SUN50I_USB3
+>  	  part of Allwinner H6 SoC.
+> =20
+>  	  This driver controls each individual USB 2+3 host PHY combo.
+> +
+> +config PHY_SUN55I_USB3_PCIE
+> +	tristate "Allwinner A523 Innosilicon USB3/PCIe Combophy Driver"
+> +	depends on ARCH_SUNXI || COMPILE_TEST
+> +	depends on RESET_CONTROLLER
 
-thank you for the change!
+This dependency is not necessary. The reset controller API is stubbed
+out in case  RESET_CONTROLLER is disabled.
 
-On 8/2/25 12:22, Jacopo Mondi wrote:
-> The 'file->private_data' pointer is reset in the vb2_fop_release()
-> call path. For this reason a custom handler for the .release
-> file operation is not needed and the driver can use
-> vb2_fop_release() directly.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+ARCH_SUNXI selects ARCH_HAS_RESET_CONTROLLER, which default-enables
+RESET_CONTROLLER.
 
-Tested-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+> +	select GENERIC_PHY
+> +	help
+> +	  Enable this to support the Allwinner PCIe/USB3.0 combo PHY
+> +	  with Innosilicon IP block founded in A523/A527/H728/T527 SOC
+> diff --git a/drivers/phy/allwinner/Makefile b/drivers/phy/allwinner/Makef=
+ile
+> index bd74901a1..5948a27ef 100644
+> --- a/drivers/phy/allwinner/Makefile
+> +++ b/drivers/phy/allwinner/Makefile
+> @@ -3,3 +3,4 @@ obj-$(CONFIG_PHY_SUN4I_USB)		+=3D phy-sun4i-usb.o
+>  obj-$(CONFIG_PHY_SUN6I_MIPI_DPHY)	+=3D phy-sun6i-mipi-dphy.o
+>  obj-$(CONFIG_PHY_SUN9I_USB)		+=3D phy-sun9i-usb.o
+>  obj-$(CONFIG_PHY_SUN50I_USB3)		+=3D phy-sun50i-usb3.o
+> +obj-$(CONFIG_PHY_SUN55I_USB3_PCIE)		+=3D phy-sun55i-usb3-pcie.o
+> diff --git a/drivers/phy/allwinner/phy-sun55i-usb3-pcie.c b/drivers/phy/a=
+llwinner/phy-sun55i-usb3-pcie.c
+> new file mode 100644
+> index 000000000..905c54a67
+> --- /dev/null
+> +++ b/drivers/phy/allwinner/phy-sun55i-usb3-pcie.c
+> @@ -0,0 +1,267 @@
+[...]
+> +static int sun55i_usb3_pcie_phy_init(struct phy *_phy)
+> +{
+> +	struct sun55i_usb3_pcie_phy *phy =3D phy_get_drvdata(_phy);
+> +
+> +	sun55i_usb3_phy_open(phy);
 
--- 
-Best wishes,
-Vladimir
+Given that sun55i_usb3_pcie_phy_exit() asserts the reset and disables
+the clock, why isn't the clock enabled and the reset deasserted here?
+
+As is, it looks like the code in sun55i_usb3_phy_open() could be just
+folded into sun55i_usb3_pcie_phy_init().
+
+> +	return 0;
+> +}
+[...]
+> +static int sun55i_usb3_pcie_phy_probe(struct platform_device *pdev)
+> +{
+> +	struct sun55i_usb3_pcie_phy *phy;
+> +	struct device *dev =3D &pdev->dev;
+> +	struct phy_provider *phy_provider;
+> +	int ret;
+> +
+> +	phy =3D devm_kzalloc(dev, sizeof(*phy), GFP_KERNEL);
+> +	if (!phy)
+> +		return -ENOMEM;
+> +
+> +	phy->dev =3D dev;
+> +	phy->clk =3D devm_clk_get(dev, NULL);
+> +	if (IS_ERR(phy->clk)) {
+> +		if (PTR_ERR(phy->clk) !=3D -EPROBE_DEFER)
+> +			dev_err(dev, "failed to get phy clock\n");
+> +		return PTR_ERR(phy->clk);
+> +	}
+> +
+> +	phy->reset =3D devm_reset_control_get(dev, NULL);
+
+Please use devm_reset_control_get_exclusive() directly.
+
+> +	if (IS_ERR(phy->reset)) {
+> +		dev_err(dev, "failed to get reset control\n");
+
+Consider using dev_err_probe().
+
+regards
+Philipp
