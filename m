@@ -1,240 +1,160 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F4E730102E
-	for <linux-sunxi@lists.linux.dev>; Mon, 25 Aug 2025 17:21:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE94D293C44;
+	Mon, 25 Aug 2025 20:27:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756142470; cv=none; b=mc8Dk7bXxpfuObh7ol2C+acm4qHfNEx7FRM8PA4Ls2ZXMYwpvd8JNT9i5UXdkCphg7F+bjIqCeDW6buiHMmsz1022MOZdGJbtkEdaxZuZcTYUv34FEeXSxGVk1QEMwOWURa5WRvaiIPNVmbPatboxgfv0wq6E0ywOc7TDeIlF5c=
+	t=1756153644; cv=none; b=Xlme6a/dHBLKnVc4WzEG0C8REmqZ1Wyo2pkSgaFiodrnbEebHLL8MsVznZRyWfWKQpgyCadi1r7uIXkNsSB9VeNK97/xbtJ3wfOPpGSL9KbWAl7ai0wPjbMJ9iwCdfWtBAGzI8w8oshE1IBV1/GZYcnjy0jAZcZKYuwkFhGtcS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756142470; c=relaxed/simple;
-	bh=Fef28QFM3pdzEgYJzMjoY0eLAKp2+6l3JqBjikHmbRI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=E8Puoa1NENqSKhxmUGibqSa9d5Gs1QUEbiPMQvFk+4dDBIA14XyLtgMP0mnRDE0LlBAWldcnw76XWrjOI3vIE9zZbxNUbRgstIEahphqzOXbLjSmJOkY22HGxRscY1WONmHX76ky4Yy0ZMz2byoBUVhHHya3b+vYMFMhHFVON6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7AEC51D70;
-	Mon, 25 Aug 2025 10:20:58 -0700 (PDT)
-Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BB4CE3F63F;
-	Mon, 25 Aug 2025 10:21:04 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
+	s=arc-20240116; t=1756153644; c=relaxed/simple;
+	bh=FHQO1qIi2frWsYih6E50v+BhkfadCKotC8hnJWvlN0w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sGYd62AgFQY7o4EPi+D4xXTmayv70aDfMEjov4A58JWRTjmbkYJPTlrgpKE/H68ryyb1XXY69sllfzlGu9FXvwJtwXvjAg1gPcZ0oS018kivBap0+Qjj1n9ul5YZcStb2pECXm3QMGDBln9Q70l4msk2CQ1rBdKnlAhO6Bgk80M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YKXgdt4G; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YKXgdt4G"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756153643; x=1787689643;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FHQO1qIi2frWsYih6E50v+BhkfadCKotC8hnJWvlN0w=;
+  b=YKXgdt4G0pRpd8TyM1A0DHQLaW8HdRWvxl2bOHLCbVr/d0xXJrRdX9b5
+   kUvKU4fbDXAwOZ7zujoqJPqcH8vI4qSc4bn3cWD0GkBzb7tWGduwxuG+u
+   96t4AMIm8wrQ/hw1dyeNwpvZGZAO4RvLsATHLAUi6fAY7zWs29RrNaJah
+   NJ0CMTM2UXozNzEUw9FkQfHO1+3fMrxhk7pNX8zGcu+MLqHang+KFuKp+
+   Uw+YOivxa6Ziu5va94NjYL+cc5r9mxiScADEVMVE8rsLmFZDSRcu+DueC
+   sFnzmzT3qE5Q26ABpsvBRmqXPDnk67JFeE5kw/PcH0k8/dBHrGvJ2Hl4q
+   g==;
+X-CSE-ConnectionGUID: TM3Ax8fVQ72pjilvrwNhvA==
+X-CSE-MsgGUID: 3q6CnvtVSiGW7dc4COzD1Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="69091779"
+X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
+   d="scan'208";a="69091779"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 13:27:22 -0700
+X-CSE-ConnectionGUID: YE42RwvDQ1q8EEEGZm/Fzg==
+X-CSE-MsgGUID: 4f0lYBFsQNCvAitTLdcEKQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
+   d="scan'208";a="200282208"
+Received: from rvuia-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.157])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 13:27:11 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 2961711FB0F;
+	Mon, 25 Aug 2025 23:27:09 +0300 (EEST)
+Date: Mon, 25 Aug 2025 23:27:09 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Eugen Hristev <eugen.hristev@linaro.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Cai Huoqing <cai.huoqing@linux.dev>,
+	Haibo Chen <haibo.chen@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Marek Vasut <marek.vasut@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: Chen-Yu Tsai <wens@csie.org>,
-	Samuel Holland <samuel@sholland.org>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Corentin LABBE <clabbe.montjoie@gmail.com>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+	Samuel Holland <samuel@sholland.org>,
+	Francesco Dolcini <francesco@dolcini.it>,
+	=?iso-8859-1?Q?Jo=E3o_Paulo_Gon=E7alves?= <jpaulo.silvagoncalves@gmail.com>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Jean-Baptiste Maneyrol <jean-baptiste.maneyrol@tdk.com>,
+	Subhajit Ghosh <subhajit.ghosh@tweaklogic.com>,
+	Gerald Loacker <gerald.loacker@wolfvision.net>,
+	Andreas Klinger <ak@it-klinger.de>, Crt Mori <cmo@melexis.com>,
+	Waqar Hameed <waqar.hameed@axis.com>,
+	Julien Stephan <jstephan@baylibre.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Greg KH <gregkh@linuxfoundation.org>, Bo Liu <liubo03@inspur.com>,
+	Al Viro <viro@zeniv.linux.org.uk>, Sean Nyekjaer <sean@geanix.com>,
+	Frank Li <Frank.Li@nxp.com>, Han Xu <han.xu@nxp.com>,
+	Rayyan Ansari <rayyan@ansari.sh>, Gustavo Vaz <gustavo.vaz@usp.br>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Alexandru Ardelean <aardelean@baylibre.com>,
+	"Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
+	"Rob Herring (Arm)" <robh@kernel.org>,
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Olivier Moysan <olivier.moysan@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Marcelo Schmitt <marcelo.schmitt1@gmail.com>,
+	Vasileios Amoiridis <vassilisamir@gmail.com>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	Abhash Jha <abhashkumarjha123@gmail.com>,
+	chuguangqing <chuguangqing@inspur.com>,
+	Shreeya Patel <shreeya.patel@collabora.com>,
+	Per-Daniel Olsson <perdaniel.olsson@axis.com>,
+	=?iso-8859-1?B?QmFybmFi4XMgQ3rpbeFu?= <barnabas.czeman@mainlining.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	David Laight <david.laight@aculab.com>,
+	Jakob Hauser <jahau@rocketmail.com>, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH net-next] net: stmmac: sun8i: drop unneeded default syscon value
-Date: Mon, 25 Aug 2025 18:20:55 +0100
-Message-ID: <20250825172055.19794-1-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.46.3
+Subject: Re: [PATCH v3 05/12] iio: dac: Remove redundant
+ pm_runtime_mark_last_busy() calls
+Message-ID: <aKzHHZ4y-lA-b5YW@kekkonen.localdomain>
+References: <20250825135401.1765847-1-sakari.ailus@linux.intel.com>
+ <20250825135401.1765847-6-sakari.ailus@linux.intel.com>
+ <20250825160023.4070bbc1@jic23-huawei>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250825160023.4070bbc1@jic23-huawei>
 
-For some odd reason we were very jealous about the value of the EMAC
-clock register from the syscon block, insisting on a reset value and
-only doing read-modify-write operations on that register, even though we
-pretty much know the register layout.
-This already led to a basically redundant entry for the H6, which only
-differs by that value. We seem to have the same situation with the new
-A523 SoC, which again is compatible to the A64, but has a different
-syscon reset value.
+Hi Jonathan,
 
-Drop any assumptions about that value, and set or clear the bits that we
-want to program, from scratch (starting with a value of 0). For the
-remove() implementation, we just turn on the POWERDOWN bit, and deselect
-the internal PHY, which mimics the existing code.
+On Mon, Aug 25, 2025 at 04:00:23PM +0100, Jonathan Cameron wrote:
+> > @@ -95,18 +95,8 @@ static int stm32_dac_set_enable_state(struct iio_dev *indio_dev, int ch,
+> >  	if (en && dac->common->hfsel)
+> >  		udelay(1);
+> >  
+> > -	if (!enable) {
+> > -		pm_runtime_mark_last_busy(dev);
+> > -		pm_runtime_put_autosuspend(dev);
+> > -	}
+> > -
+> > -	return 0;
+> > -
+> > -err_put_pm:
+> > -	if (enable) {
+> > -		pm_runtime_mark_last_busy(dev);
+> > -		pm_runtime_put_autosuspend(dev);
+> > -	}
+> > +err_pm_put:
+> > +	pm_runtime_put_autosuspend(dev);
+> 
+> now the put is here, whether or not there was ever a get as the get is
+> gated on enable()
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Acked-by: Corentin LABBE <clabbe.montjoie@gmail.com>
-Tested-by: Corentin LABBE <clabbe.montjoie@gmail.com>
-Tested-by: Paul Kocialkowski <paulk@sys-base.io>
-Reviewed-by: Paul Kocialkowski <paulk@sys-base.io>
----
-Hi,
+Oops. I'll fix this in v4, with just this patch as the rest are merged.
 
-this follows up on my RFC post from April[1]. We figured that the old
-approach (insisting on a certain reset value) was never really needed, and
-some people tested this on various hardware, many thanks for that!
-
-No real changes except solving one conflict after rebasing on top of
-v6.17-rc1, and adding the tags from the diligent reviewers!
-
-Cheers,
-Andre
-
-[1] https://lore.kernel.org/netdev/20250423095222.1517507-1-andre.przywara@arm.com/
-
- .../net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 47 ++-----------------
- 1 file changed, 4 insertions(+), 43 deletions(-)
-
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-index 2796dc426943e..690f3650f84ed 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-@@ -31,10 +31,6 @@
-  */
- 
- /* struct emac_variant - Describe dwmac-sun8i hardware variant
-- * @default_syscon_value:	The default value of the EMAC register in syscon
-- *				This value is used for disabling properly EMAC
-- *				and used as a good starting value in case of the
-- *				boot process(uboot) leave some stuff.
-  * @syscon_field		reg_field for the syscon's gmac register
-  * @soc_has_internal_phy:	Does the MAC embed an internal PHY
-  * @support_mii:		Does the MAC handle MII
-@@ -48,7 +44,6 @@
-  *				value of zero indicates this is not supported.
-  */
- struct emac_variant {
--	u32 default_syscon_value;
- 	const struct reg_field *syscon_field;
- 	bool soc_has_internal_phy;
- 	bool support_mii;
-@@ -94,7 +89,6 @@ static const struct reg_field sun8i_ccu_reg_field = {
- };
- 
- static const struct emac_variant emac_variant_h3 = {
--	.default_syscon_value = 0x58000,
- 	.syscon_field = &sun8i_syscon_reg_field,
- 	.soc_has_internal_phy = true,
- 	.support_mii = true,
-@@ -105,14 +99,12 @@ static const struct emac_variant emac_variant_h3 = {
- };
- 
- static const struct emac_variant emac_variant_v3s = {
--	.default_syscon_value = 0x38000,
- 	.syscon_field = &sun8i_syscon_reg_field,
- 	.soc_has_internal_phy = true,
- 	.support_mii = true
- };
- 
- static const struct emac_variant emac_variant_a83t = {
--	.default_syscon_value = 0,
- 	.syscon_field = &sun8i_syscon_reg_field,
- 	.soc_has_internal_phy = false,
- 	.support_mii = true,
-@@ -122,7 +114,6 @@ static const struct emac_variant emac_variant_a83t = {
- };
- 
- static const struct emac_variant emac_variant_r40 = {
--	.default_syscon_value = 0,
- 	.syscon_field = &sun8i_ccu_reg_field,
- 	.support_mii = true,
- 	.support_rgmii = true,
-@@ -130,7 +121,6 @@ static const struct emac_variant emac_variant_r40 = {
- };
- 
- static const struct emac_variant emac_variant_a64 = {
--	.default_syscon_value = 0,
- 	.syscon_field = &sun8i_syscon_reg_field,
- 	.soc_has_internal_phy = false,
- 	.support_mii = true,
-@@ -141,7 +131,6 @@ static const struct emac_variant emac_variant_a64 = {
- };
- 
- static const struct emac_variant emac_variant_h6 = {
--	.default_syscon_value = 0x50000,
- 	.syscon_field = &sun8i_syscon_reg_field,
- 	/* The "Internal PHY" of H6 is not on the die. It's on the
- 	 * co-packaged AC200 chip instead.
-@@ -933,25 +922,11 @@ static int sun8i_dwmac_set_syscon(struct device *dev,
- 	struct sunxi_priv_data *gmac = plat->bsp_priv;
- 	struct device_node *node = dev->of_node;
- 	int ret;
--	u32 reg, val;
--
--	ret = regmap_field_read(gmac->regmap_field, &val);
--	if (ret) {
--		dev_err(dev, "Fail to read from regmap field.\n");
--		return ret;
--	}
--
--	reg = gmac->variant->default_syscon_value;
--	if (reg != val)
--		dev_warn(dev,
--			 "Current syscon value is not the default %x (expect %x)\n",
--			 val, reg);
-+	u32 reg = 0, val;
- 
- 	if (gmac->variant->soc_has_internal_phy) {
- 		if (of_property_read_bool(node, "allwinner,leds-active-low"))
- 			reg |= H3_EPHY_LED_POL;
--		else
--			reg &= ~H3_EPHY_LED_POL;
- 
- 		/* Force EPHY xtal frequency to 24MHz. */
- 		reg |= H3_EPHY_CLK_SEL;
-@@ -965,11 +940,6 @@ static int sun8i_dwmac_set_syscon(struct device *dev,
- 		 * address. No need to mask it again.
- 		 */
- 		reg |= ret << H3_EPHY_ADDR_SHIFT;
--	} else {
--		/* For SoCs without internal PHY the PHY selection bit should be
--		 * set to 0 (external PHY).
--		 */
--		reg &= ~H3_EPHY_SELECT;
- 	}
- 
- 	if (!of_property_read_u32(node, "allwinner,tx-delay-ps", &val)) {
-@@ -980,8 +950,6 @@ static int sun8i_dwmac_set_syscon(struct device *dev,
- 		val /= 100;
- 		dev_dbg(dev, "set tx-delay to %x\n", val);
- 		if (val <= gmac->variant->tx_delay_max) {
--			reg &= ~(gmac->variant->tx_delay_max <<
--				 SYSCON_ETXDC_SHIFT);
- 			reg |= (val << SYSCON_ETXDC_SHIFT);
- 		} else {
- 			dev_err(dev, "Invalid TX clock delay: %d\n",
-@@ -998,8 +966,6 @@ static int sun8i_dwmac_set_syscon(struct device *dev,
- 		val /= 100;
- 		dev_dbg(dev, "set rx-delay to %x\n", val);
- 		if (val <= gmac->variant->rx_delay_max) {
--			reg &= ~(gmac->variant->rx_delay_max <<
--				 SYSCON_ERXDC_SHIFT);
- 			reg |= (val << SYSCON_ERXDC_SHIFT);
- 		} else {
- 			dev_err(dev, "Invalid RX clock delay: %d\n",
-@@ -1008,11 +974,6 @@ static int sun8i_dwmac_set_syscon(struct device *dev,
- 		}
- 	}
- 
--	/* Clear interface mode bits */
--	reg &= ~(SYSCON_ETCS_MASK | SYSCON_EPIT);
--	if (gmac->variant->support_rmii)
--		reg &= ~SYSCON_RMII_EN;
--
- 	switch (plat->mac_interface) {
- 	case PHY_INTERFACE_MODE_MII:
- 		/* default */
-@@ -1039,9 +1000,9 @@ static int sun8i_dwmac_set_syscon(struct device *dev,
- 
- static void sun8i_dwmac_unset_syscon(struct sunxi_priv_data *gmac)
- {
--	u32 reg = gmac->variant->default_syscon_value;
--
--	regmap_field_write(gmac->regmap_field, reg);
-+	if (gmac->variant->soc_has_internal_phy)
-+		regmap_field_write(gmac->regmap_field,
-+				   (H3_EPHY_SHUTDOWN | H3_EPHY_SELECT));
- }
- 
- static void sun8i_dwmac_exit(struct platform_device *pdev, void *priv)
 -- 
-2.46.3
+Regards,
 
+Sakari Ailus
