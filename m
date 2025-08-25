@@ -1,107 +1,151 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7230F217705;
-	Mon, 25 Aug 2025 15:19:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC06E1F4E57
+	for <linux-sunxi@lists.linux.dev>; Mon, 25 Aug 2025 15:41:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756135141; cv=none; b=VXWwhewalE4tr3XFc/Gn7dJcX3zBs3vCS4ckrFfTBJu+Yd2sor+tUhgmzuWGS3NigUNPPyxmFRV6QzhGDKgZ40uWshEM68Au7O5puJxDtccbrBsUnrDV6eAWy3roDm2T/iEXYSQGou21O99cvq27NJxt9zhp6h7LxbqlOfWhcto=
+	t=1756136492; cv=none; b=LGksUlm00CxkI5TnfdtMW9u/TKxRkKRW2r+7hO7sUIIh147CVWaV1sR7Fj9kr0f/F0j9fCeUz4u1eAFchJSdCBVNvCgT2nNmh+0BVILAJ6rfu3mxK+g7EwgNvijZBl8rBhBk6Rh44nnoAfwe4eV8MlWhRZT7RygGDkdCQB0LXmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756135141; c=relaxed/simple;
-	bh=nHuCQbrTPbcmXuutp5NmWaPpQuYwRH2Nm0kKtyCKxVM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HuacGNtuqsoEQ0pzuy/eR3zU9GuKxCxJRWnQBl5UHVU1tGD4kbPe+vL0JT36JnARUjV1AQ4wYk3xp9FRHCkgoHQG+yvy3PIdu7TWvtWvKqfqiS3NMEya+UZCr/5twYxbq1XuGEr7ywVp7Jdu+9uFIRPX+CRRVwxc+55CtwghKec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UsZXTCZj; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UsZXTCZj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 074AEC4CEED;
-	Mon, 25 Aug 2025 15:18:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756135141;
-	bh=nHuCQbrTPbcmXuutp5NmWaPpQuYwRH2Nm0kKtyCKxVM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=UsZXTCZjKhznSyvwbIwFCXFzkzdukSZhWWYbG9lxGvSvJzJBOe+Ewe3WcdE/tQQqZ
-	 /RtW7YibalaIbJQzl+CTwjFQ3gzC1FdzJCt8wwf0QgIpR9NEPXJ1VKFPMDHd/9ymk5
-	 moD4K3zdtMRteagNBPxWyHoAhc24Q50iFbLY8a0fdFOuV5nHSyw0r+NwkmQlwRxCw+
-	 UjGCUXYJPXJStm3A/lIhB/p+Wuetp/GZGNwmrCidRdah+JuDcTuk3T/4cWL1eySU8K
-	 B1FXGQx4uyiZiiZZIdgQIaq/kPnuDtefDextHVnHCtxo78OVgeRhsC+FcxEGSm2JV2
-	 HAD08Xp0UiCbg==
-Date: Mon, 25 Aug 2025 16:18:32 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: David Lechner <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?=
- <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Linus Walleij
- <linus.walleij@linaro.org>, Eugen Hristev <eugen.hristev@linaro.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Cai Huoqing <cai.huoqing@linux.dev>, Haibo Chen <haibo.chen@nxp.com>, Shawn
- Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam
- <festevam@gmail.com>, Marek Vasut <marek.vasut@gmail.com>, Geert
- Uytterhoeven <geert+renesas@glider.be>, Magnus Damm
- <magnus.damm@gmail.com>, Lad Prabhakar
- <prabhakar.mahadev-lad.rj@bp.renesas.com>, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- Francesco Dolcini <francesco@dolcini.it>, =?UTF-8?B?Sm/Do28=?= Paulo
- =?UTF-8?B?R29uw6dhbHZlcw==?= <jpaulo.silvagoncalves@gmail.com>, Rui Miguel
- Silva <rmfrfs@gmail.com>, Jean-Baptiste Maneyrol
- <jean-baptiste.maneyrol@tdk.com>, Subhajit Ghosh
- <subhajit.ghosh@tweaklogic.com>, Gerald Loacker
- <gerald.loacker@wolfvision.net>, Andreas Klinger <ak@it-klinger.de>, Crt
- Mori <cmo@melexis.com>, Waqar Hameed <waqar.hameed@axis.com>, Julien
- Stephan <jstephan@baylibre.com>, Peter Zijlstra <peterz@infradead.org>,
- Greg KH <gregkh@linuxfoundation.org>, Bo Liu <liubo03@inspur.com>, Al Viro
- <viro@zeniv.linux.org.uk>, Sean Nyekjaer <sean@geanix.com>, Frank Li
- <Frank.Li@nxp.com>, Han Xu <han.xu@nxp.com>, Rayyan Ansari
- <rayyan@ansari.sh>, Gustavo Vaz <gustavo.vaz@usp.br>, Matti Vaittinen
- <mazziesaccount@gmail.com>, Alexandru Ardelean <aardelean@baylibre.com>,
- "Jiri Slaby (SUSE)" <jirislaby@kernel.org>, "Rob Herring (Arm)"
- <robh@kernel.org>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Uwe
- =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@baylibre.com>, Olivier
- Moysan <olivier.moysan@foss.st.com>, Christophe JAILLET
- <christophe.jaillet@wanadoo.fr>, Marcelo Schmitt
- <marcelo.schmitt1@gmail.com>, Vasileios Amoiridis <vassilisamir@gmail.com>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, Hans de Goede
- <hansg@kernel.org>, Javier Carrasco <javier.carrasco.cruz@gmail.com>,
- Abhash Jha <abhashkumarjha123@gmail.com>, chuguangqing
- <chuguangqing@inspur.com>, Shreeya Patel <shreeya.patel@collabora.com>,
- Per-Daniel Olsson <perdaniel.olsson@axis.com>, =?UTF-8?B?QmFybmFiw6FzIEN6?=
- =?UTF-8?B?w6ltw6Fu?= <barnabas.czeman@mainlining.org>, Neil Armstrong
- <neil.armstrong@linaro.org>, David Laight <david.laight@aculab.com>, Jakob
- Hauser <jahau@rocketmail.com>, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v3 12/12] iio: temperature: Remove redundant
- pm_runtime_mark_last_busy() calls
-Message-ID: <20250825161739.292542bf@jic23-huawei>
-In-Reply-To: <20250825135401.1765847-13-sakari.ailus@linux.intel.com>
-References: <20250825135401.1765847-1-sakari.ailus@linux.intel.com>
-	<20250825135401.1765847-13-sakari.ailus@linux.intel.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.50; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1756136492; c=relaxed/simple;
+	bh=iVJ9I3QV2otLbWWjQsCxDOsmCPvi3IMzSx/d+b1GE/Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UCT2epgcnHqoAOuoQfb6CmL/R5ufIJMffZts+1FmjECaqhrQPoePx2ljp5IsvDwy2hUkKUvC/UgYwkhv3yknvEuW7jOpAgaG75mTjng5yWmyK4BYusxoDM8NBWOjhqhRzZ6lFYZ+Jey7gF1j4gWsppGUjuQB0NvCIz28YmkHFZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-33670e8c975so9675041fa.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 25 Aug 2025 08:41:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756136487; x=1756741287;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lf0SerB/BddtiPRZt6oTCzK0uyEGO4TRGC1HhfQpBU4=;
+        b=luUAbmkF5X2vTtTxTcNQxHj58EzKP0Os45CKFAmrzk1y1q/0lDEfEGSVyGPWOKfriv
+         oXRGJSIH7y+5DcmvJaU/lde9RUszYwZV8LsIlGgQLCZhRUG+BBn5qY+WLOcNV7GquAuR
+         6Vv8vfnn6zZhrKpWUz3LqJTkjY5tBdZ0dkbqK1USiAAtOsRoqligVxe+UYPZodcr2zv7
+         EB0mCoR6aG4RU4Mcf3KAksWB2q59Uu0jor8zmpdWNeJM0njle7IJEIISBrnJoGMjD2Jw
+         hbl3Pfna4rZWuPGAgJlLeODCqM+tCJA7lNJMLNlHnJlxciOWv6Q1eL9sjviKEaWmMOjQ
+         V7eg==
+X-Forwarded-Encrypted: i=1; AJvYcCW9rL5PaDNTYdH7UI2KcoPStC5Tmhzuz7LsZiHRTwPWlMGNVsaijTFTpgCQuvB2GFOI4OFal8WXQ3REFw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzktFDD6uOGZDwb5ijSHJ+YUKbAmEcsvPlb+83MvdsD4ACyNaht
+	kcykjtQSfWNv+o/nPLRCbh+Duft+pZxvGMHN+8Nkp8KOSnjEV31VCi52UuByfNx23Xc=
+X-Gm-Gg: ASbGnct8ipjWEC09iWksf78JmI3md3t1lvyX2UYRkuktqkJ2UfFwwlRZel9payJdAvk
+	DdnN7L47ztOF9o1pOUMTLhpB+GGDcG+pU3efyVuoXKdYljiKpzrIsKfpen9nnEFYdxIuSA4xwke
+	PKZCI18ZToREOs1mF3/fBP8pJQ5czKR+NGWzQBeh7w2dC6r4wpt8gW+/JaLCX1yADjq4ilqepPL
+	3yAX/1tjcOS1PnDGHcZGjiq5hc8dKCfm4b1ubWBCyDonlVj/IaNONmhT0hr1Kkrq4M9e3O7yfms
+	9B9a8C4fgX7UGHZBmIjCKJm0npSFsIZREzzqCvGg5eKJqoMQRcMbgmptHznCRmQfwXv2Uqv1YZr
+	eDdgIQqYYPACg1pK3LN6K59pMk2SW+9xRgenkh1U8NdbRp+DXLI9yW7trptZJN2mQhQ==
+X-Google-Smtp-Source: AGHT+IHhJgq7JjBIa5VB6T8/dwA9f+N7bjOZOvoP+3kmj4Upv7gEuxp+BT2gXyWzFdd5OMQ0NyFfXw==
+X-Received: by 2002:a05:651c:31c5:b0:333:b656:a685 with SMTP id 38308e7fff4ca-33650e3812dmr36900161fa.1.1756136486692;
+        Mon, 25 Aug 2025 08:41:26 -0700 (PDT)
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com. [209.85.208.181])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3365e263928sm15981891fa.31.2025.08.25.08.41.24
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 Aug 2025 08:41:24 -0700 (PDT)
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-33670e8c975so9674491fa.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 25 Aug 2025 08:41:24 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVOOBEZIpVeUkB2RAogRdCT4BykK3D78SLZt4RCzdfp6EA1UXSGoHF5BavWOS7eG3XC2Yzrb2S7fWnGkg==@lists.linux.dev
+X-Received: by 2002:a05:651c:31c5:b0:333:b656:a685 with SMTP id
+ 38308e7fff4ca-33650e3812dmr36899791fa.1.1756136484611; Mon, 25 Aug 2025
+ 08:41:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20250816084700.569524-1-iuncuim@gmail.com> <20250816084700.569524-6-iuncuim@gmail.com>
+ <20250816144936.3f2738cc@minigeek.lan>
+In-Reply-To: <20250816144936.3f2738cc@minigeek.lan>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Mon, 25 Aug 2025 17:41:12 +0200
+X-Gmail-Original-Message-ID: <CAGb2v64vMvs+UN4AJWZAGnU+ZQRBQBheqnRKzbMmd10UMdOxCw@mail.gmail.com>
+X-Gm-Features: Ac12FXyXTRSXu5z7cM1Z4ILcGzs0omRgBCqYp8gycWr1OzOdi7Cz8MsXeBWG_GU
+Message-ID: <CAGb2v64vMvs+UN4AJWZAGnU+ZQRBQBheqnRKzbMmd10UMdOxCw@mail.gmail.com>
+Subject: Re: [PATCH 5/7] arm64: dts: allwinner: a523: add USB3.0 phy node
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: iuncuim <iuncuim@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-phy@lists.infradead.org, linux-clk@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 25 Aug 2025 16:54:01 +0300
-Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+On Sat, Aug 16, 2025 at 3:52=E2=80=AFPM Andre Przywara <andre.przywara@arm.=
+com> wrote:
+>
+> On Sat, 16 Aug 2025 16:46:58 +0800
+> iuncuim <iuncuim@gmail.com> wrote:
+>
+> Hi,
+>
+> > From: Mikhail Kalashnikov <iuncuim@gmail.com>
+> >
+> > After adding the phy driver, we can also add phy node. In addition to t=
+he
+> > clk and reset lines, the power domain PD_PCIE is declared in this node
+> > according to the bsp dtb. So let's mention it.
+> > Currently, phy driver does not support role selection and only works in
+> > USB3.0 mode.
+>
+> That's the current limitation of the proposed Linux driver, but should
+> not affect the binding or DT:
+>
+> >
+> > Signed-off-by: Mikhail Kalashnikov <iuncuim@gmail.com>
+> > ---
+> >  arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi | 10 ++++++++++
+> >  1 file changed, 10 insertions(+)
+> >
+> > diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi b/arch/arm6=
+4/boot/dts/allwinner/sun55i-a523.dtsi
+> > index e4ed4fa82..233365496 100644
+> > --- a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
+> > +++ b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
+> > @@ -606,6 +606,16 @@ mdio0: mdio {
+> >                       };
+> >               };
+> >
+> > +             combophy: phy@4f00000 {
+> > +                     compatible =3D "allwinner,sun55i-a523-usb3-pcie-p=
+hy";
+> > +                     reg =3D <0x04f00000 0x100000>;
+> > +                     clocks =3D <&ccu CLK_USB3>;
+>
+> Will we need more clocks (or resets) when supporting PCIe later? If
+> yes, we should add them already now, even if they are not used by the
+> current driver.
+>
+> > +                     resets =3D <&ccu RST_BUS_PCIE_USB3>;
+> > +                     #phy-cells =3D <0>;
+>
+> I think we should use one PHY cell here, to allow users to select the
+> PHY path they need. A USB3.0-only driver implementation could choose to
+> ignore it, or require the number to be 0 only, rejecting anything else.
+> But this way we keep compatibility with newer DTs.
 
-> pm_runtime_put_autosuspend(), pm_runtime_put_sync_autosuspend(),
-> pm_runtime_autosuspend() and pm_request_autosuspend() now include a call
-> to pm_runtime_mark_last_busy(). Remove the now-reduntant explicit call to
-> pm_runtime_mark_last_busy().
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Acked-by: Crt Mori <cmo@melexis.com>
-Applied.
+Agreed. It seems this is the common case for combined PHYs. The last
+cell tells which type of PHY is to be used.
 
-thanks
+ChenYu
 
-Jonathan
+> Cheers,
+> Andre
+>
+> > +                     power-domains =3D <&pck600 PD_PCIE>;
+> > +                     status =3D "disabled";
+> > +             };
+> > +
+> >               ppu: power-controller@7001400 {
+> >                       compatible =3D "allwinner,sun55i-a523-ppu";
+> >                       reg =3D <0x07001400 0x400>;
+>
