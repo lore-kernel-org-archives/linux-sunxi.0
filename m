@@ -1,248 +1,250 @@
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010064.outbound.protection.outlook.com [52.101.84.64])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A57532F546E
-	for <linux-sunxi@lists.linux.dev>; Wed, 27 Aug 2025 13:10:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.64
-ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756300205; cv=fail; b=Bqoz948xIFreDWex5MH+5WuDIqS+wVymzeKqqW15WIhkB5ioxcBWgJN7Xzpl5QjVK/6FmDYJwBZj1XvqHiH4QM++gb9L9a2Tgd26EjLv1b+R3mv+Evj3FNvdpbUzjL8hzlHOlBbeDDkmcQiXu09yq3Ls3Hbw8mZI1bAR/UW6Kcw=
-ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756300205; c=relaxed/simple;
-	bh=D3+PuIC2hj+Z79JjrDH0FHlZ91TH9OUwHrcIMtATjIo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=LKcj9w9SvAGBoqeAvFE7kjF9dGQrCS/I7pF/tQGyN55Lm/TSl+UOuCU5osQF6P5ADxpVIXQ3qtS+2IaU8Z4Mpl/uKgX5PLuXpR7MgRRb9FMD/omRGNus+mcPFn5LmZdYajl+hkc/4DzdjcaBRIILEgiAr0QfLUxOhAi9sbfP5dk=
-ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=n2L8TiJF; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=n2L8TiJF; arc=fail smtp.client-ip=52.101.84.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AFEC302760
+	for <linux-sunxi@lists.linux.dev>; Wed, 27 Aug 2025 14:05:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756303503; cv=none; b=c4oWvWDgOuqLkNsVR5Gjht99HAafItTSCGCZSIizPGEDWr2wXJOmUjcPTLmPxmz5O2caOOlulROnizt5u3W/OLpRi4Uim3Dlgp47q0nDF01hLbpmT6MyJKCgIsbnec/x0j593YXOoDDybDpdlaog/K4KwEChIfO49KZBsix8tuQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756303503; c=relaxed/simple;
+	bh=t12YjdhsTGpQKfc4B42sBiYKoH2eblSNKJiu1uWwT/4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OI9JjUc8OyYf0fJQE5el0oegPwBN0DN8hftf/nOZb7u9hJ5xV4DGLuuWNFjftXjRPf1G9pa3GEiuG1DYAcEWIdxZ+hmmDgKCswGCubOwSipF1aXSiIA0vaMUiB0vrEEj2Ag+Hn5NmvrZkcBcSMEbb0NYFYyM4NWPMpzzS8AHgoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=H9ALsPMi; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="n2L8TiJF";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="n2L8TiJF"
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=w3AHWS22w2yTbFkNQ1XAAZ+XThVWukRnyDXeolZ/xpl9vvHpQpziKB9ROPbh8K8k8aWHtBbLsZd8mRgHpv7RDg+LhEp21olDpH31NAKxH8pke2K5zUpdYTvWm0+Kn8egA5vQV4Ram5l9oijk0lW1G88ngbUqyOl/E8STowaRdXfwM0gJnT1Lhuiw5DLuZvdaEVOdUBlrUwlf/Gv9B8DhD+Ww4Z2kzz2h+/2GYRSPHJff+Z5zhoMxBQ+YRbR5ZSojwkK65JXQcAOWO29C0DIYBUAUkQUQ/ez9zH8J+AZlmUph2pG49uIVIq1lAWbwkEerkcp8UxZHD0L4OKxqrWqesA==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=duT0L2r7FaIbAZcTRZtdLlCsYnyVOXhLkCrUjVK0CJg=;
- b=B8jdoVeG6dncSXG+RDHJrRtY7dXdor7w+coHlMuxPlsQDKSTLICr75f3eJCffAcz2TUptjNyAZsA45wjx9z8c3cemARic1OGnUlURZVwey7NAtwjBM0jWzO5bimhDaPyN/QbDFfx7a0s5nqK2TDeR8joluaEbXKV7PmuLW4SF5le0uTEBhTVxCoolyqOCx43v5PGJq9MOXqvC2BfjQMwDi7SbLQn0dM8tjHO0tyxhLi5T62K/aleDR3HVGTDgRnNN3Bkj6WVNlmkyDRwFwcHDD6LuqHpRLS8zNsz9KyoHU0AOmqptdQ/OtEFAs+iRNfOEmpOc+oZ/ASfq3KdowRb3A==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=kernel.org smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=duT0L2r7FaIbAZcTRZtdLlCsYnyVOXhLkCrUjVK0CJg=;
- b=n2L8TiJFW4D91XkWTVM8CCUYI0OJGaP03X0/LhxHEBZxBcR/uEH8Y8Cjpd13ceBF4kS7GTx7l6M5HoIU42jRxgVaLzOgpjyMknPfs2+dkxhrbU3SDHYmX29J2b8YfUS35z+HGK9sz8LpvXwoiTlxilL3CAOCVzHPYR6EIoRLkuM=
-Received: from AM0PR10CA0065.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:15::18)
- by AS2PR08MB9000.eurprd08.prod.outlook.com (2603:10a6:20b:5fd::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.20; Wed, 27 Aug
- 2025 13:09:58 +0000
-Received: from AM2PEPF0001C70E.eurprd05.prod.outlook.com
- (2603:10a6:208:15:cafe::ca) by AM0PR10CA0065.outlook.office365.com
- (2603:10a6:208:15::18) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9052.21 via Frontend Transport; Wed,
- 27 Aug 2025 13:09:58 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- AM2PEPF0001C70E.mail.protection.outlook.com (10.167.16.202) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9073.11
- via Frontend Transport; Wed, 27 Aug 2025 13:09:58 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aKVr0FJPeLZMDVJgr2373bcgSSshw14GtZROmalXFMvF6Rz2ciKvhsZPHHfOI/cKzWcxcZRcUZuQwwbkt9OpFRA/ae9CMRqYJeV7fbp0i4q+PBhh7xo8FPeN+jEdHSFkqSsGS9Sxq6dMlcGXz4C0BXrPWdiWcaV8+uxwW2QSYpq8/zwu8N/RHgqfiH/06VwemaGXE55pDtdHUHjMc/DHXkR0EbxZVfNoPVENTNDyl8d6x9TmNEdVctA6a5eMqgpjtHMy3PfxrkEMBf+Xjm0bmeATi2Y0kKufzoxGhhbvFiLIejuOf11Q43K2qEyoGd/dIYvSu+4xY0j6DB1mQiGf0Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=duT0L2r7FaIbAZcTRZtdLlCsYnyVOXhLkCrUjVK0CJg=;
- b=FBIdJnJQ6GQW7xVwHZf7YEPFY/IQzEnEUN0XMXzOAcUt8vL4ngg8tnTgKVh4wvKmssF/t9dSOcJi8+Dsg0vx3pv7izoEqZaJvLHa4TFscKfx7WTEmS4ne3qR4HutcrHZhleEAz9G0ITbfPUf4OW2aglUCDvFseVawLFX9BBAaWrSMl0HfbSibLX93kLyoT9SJhSIXiJv1nHhIUp92rdQrlFHnLEbMOESqgOZeWJKvDw3PncpWBCpxFVDNM4H2lRMnJan/XXkzzKID7q1UzxdNuqBPq/Llh8kCtnpRNVeFZXPq7iUK0koBojD7HESreccOdU12suJBKOzlAi0KrU8xg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=duT0L2r7FaIbAZcTRZtdLlCsYnyVOXhLkCrUjVK0CJg=;
- b=n2L8TiJFW4D91XkWTVM8CCUYI0OJGaP03X0/LhxHEBZxBcR/uEH8Y8Cjpd13ceBF4kS7GTx7l6M5HoIU42jRxgVaLzOgpjyMknPfs2+dkxhrbU3SDHYmX29J2b8YfUS35z+HGK9sz8LpvXwoiTlxilL3CAOCVzHPYR6EIoRLkuM=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from AM8PR08MB6372.eurprd08.prod.outlook.com (2603:10a6:20b:369::5)
- by DU0PR08MB7567.eurprd08.prod.outlook.com (2603:10a6:10:317::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.24; Wed, 27 Aug
- 2025 13:09:26 +0000
-Received: from AM8PR08MB6372.eurprd08.prod.outlook.com
- ([fe80::bc26:1950:c684:41d3]) by AM8PR08MB6372.eurprd08.prod.outlook.com
- ([fe80::bc26:1950:c684:41d3%5]) with mapi id 15.20.9073.010; Wed, 27 Aug 2025
- 13:09:26 +0000
-Date: Wed, 27 Aug 2025 14:09:24 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Chen-Yu Tsai <wens@kernel.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej@kernel.org>, Samuel
- Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Mikhail Kalashnikov <iuncuim@gmail.com>
-Subject: Re: [PATCH] arm64: dts: allwinner: t527: orangepi-4a: Limit eMMC
- clock to 75 MHz
-Message-ID: <20250827140924.1340417f@donnerap.manchester.arm.com>
-In-Reply-To: <20250821132935.2070398-1-wens@kernel.org>
-References: <20250821132935.2070398-1-wens@kernel.org>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO0P123CA0005.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:354::17) To AM8PR08MB6372.eurprd08.prod.outlook.com
- (2603:10a6:20b:369::5)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="H9ALsPMi"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57R6kG22027484
+	for <linux-sunxi@lists.linux.dev>; Wed, 27 Aug 2025 14:05:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=3n2g0Y56LJ8V+gTCm6izqR6c
+	NmLrEHV5/R5UXj9u9s4=; b=H9ALsPMiECpSZnQXU2DW4FIqnnpUD94/ULdoZiy0
+	qN2lzn8VtL6uoNXZdnR2C+U1A1sUExlCx6MMlJrN4HKN3V6S8a7w07U238xpL4mb
+	y1qQ0jXaTUHWT/mm4aT5sztcNM0AQpow3HRi6R2SYZGgKC78TFHp/WYXicXa7BEi
+	JciTR8mHsb3HCI0x/eOnk6vF9lBZ16987ABMFpPF3ov4RJlGcgEZ45aO6720q+8o
+	YazMiJVLwznoljH6k+S9oQfFgOn1gD/1SFCRjT3up7GVWiVlBP05MBYGx7SONp//
+	yKrzgMxsvrKdmDYIT0tbeoaGU6i+Lh5zyKpk+ZsgzPfflg==
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com [209.85.166.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48se16uv6u-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sunxi@lists.linux.dev>; Wed, 27 Aug 2025 14:05:00 +0000 (GMT)
+Received: by mail-io1-f70.google.com with SMTP id ca18e2360f4ac-88432d8ddb1so683785939f.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 27 Aug 2025 07:05:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756303500; x=1756908300;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3n2g0Y56LJ8V+gTCm6izqR6cNmLrEHV5/R5UXj9u9s4=;
+        b=HO+cGXLUTu8EO2W96LVTHavWN+rCHNy/yZonM6Rbq1OCB0xdzaNWhb8ZZ/ZSIn0FGb
+         oqYDzDFB8x9ZjMtcCUYYnF5JTnA+ctoO/x3BI4004veviz3RQtwaOn550faod3RTDJIF
+         7sg5L/+fs4QpDu+S8AGjvdHVvazV8oOVnCZ3lBRFAFtyhKdNSBYT0x94kQGPwSNCz38X
+         wplBTc72VpFbxRaQv1eajFyKe4vclxCLnzzzUZcXjPk7rd+Ktz5jLkZ9AmdFegB+SEcY
+         h1LIlaSSMvuFTZ1DmpYf2wTrLgBOJ8NBY4RWES7gzQhFD2us3jAgGhpTkYnU13mY7sno
+         QSQg==
+X-Forwarded-Encrypted: i=1; AJvYcCXLWjR4dLgVwMC3eE2aQbLURxW2+S/ChIm8OW1EWU9TeJHaJcHoNf6qqmmxDbslI9CpoYAXnLIzdN7JBA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwzJx2o6+Xvl/V/e3I84U8TtpMwybq8uTiFKEjG/JfjGyIh5jjy
+	nphH78yAOyRTR/4w8m7B+TPBuPPOgem53z7RR4hn7Ix7kBuvUfdMjHRK3fVhRFSIQsdvLFfxAY8
+	zoPiXyr1uiSgIOIKpWGfbYB5xhS2AdoYbAe/WglRZ/faDpBXRao94zyZETUKufv7y3g==
+X-Gm-Gg: ASbGncvnK927joQv6qXvXOFvI21rxeRvgMvVnWrTvriG1lN9aKZ7p9Vg4hxmK6Wo1jC
+	bRn1SjPFUxJ6lEyeAMXmIrqY9QP4k/L98o7Xg4riw7d8kcZeFrQip0r3JJULF6NzvMZT1Rk5Yda
+	lJSauuITQRUtac1d09mzw4a2nrAb8m+fvh2VSQ413cQMvhQEfu/PrRckFsXqC7qSThJrABDXEjk
+	lW9DM+7af8MmqMlYqC21zsrOBq/+zwJCThVJGUvjtSRJ5PW+oGfqC80RjzMjshqf/arwEQlNCpB
+	+0n7zIPfyZ9RtULIyo8ON9HMIDaRQ5BYJk804oa8onMwxIuyCYyRBAbZwTVLUyJuox+8ILO6qwi
+	GV+LzyXlZWs4EQW4gnmqV87ziSZezUJpNj4BPYPnh8/3wStcx2tzu
+X-Received: by 2002:a05:6e02:1b0c:b0:3ef:1b56:c8ea with SMTP id e9e14a558f8ab-3ef1b56c9f9mr67415835ab.11.1756303498893;
+        Wed, 27 Aug 2025 07:04:58 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE/xsdrf+XrjtSQ2K8ar35ewr1T+sNBP+/hCqgRfZjcDR4oY8KJbZTP/1e4Kh/mCkfx80z06g==
+X-Received: by 2002:a05:6e02:1b0c:b0:3ef:1b56:c8ea with SMTP id e9e14a558f8ab-3ef1b56c9f9mr67415045ab.11.1756303498104;
+        Wed, 27 Aug 2025 07:04:58 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55f35c11ffesm2878362e87.40.2025.08.27.07.04.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Aug 2025 07:04:56 -0700 (PDT)
+Date: Wed, 27 Aug 2025 17:04:53 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Sandy Huang <hjc@rock-chips.com>,
+        Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+        Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+        Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+        Liu Ying <victor.liu@nxp.com>,
+        Rob Clark <robin.clark@oss.qualcomm.com>,
+        Dmitry Baryshkov <lumag@kernel.org>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+        Sean Paul <sean@poorly.run>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
+Subject: Re: [PATCH v2 1/8] drm/connector: let drivers declare infoframes as
+ unsupported
+Message-ID: <jrvjvayhjczgb4yx3xshbv3e6ndzkmb7uu3ynoes2maniwjg37@hamxu5mzqmf7>
+References: <20250819-drm-limit-infoframes-v2-0-7595dda24fbd@oss.qualcomm.com>
+ <20250819-drm-limit-infoframes-v2-1-7595dda24fbd@oss.qualcomm.com>
+ <20250820-artichoke-silkworm-of-election-521b5e@houat>
+ <v7w7xkefm6ap7delx7wsvxmc76fwptqhe4ehokzfh4baueb7hr@acrx36exv42v>
+ <20250827-adorable-ocelot-of-adventure-ba88b7@houat>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic:
-	AM8PR08MB6372:EE_|DU0PR08MB7567:EE_|AM2PEPF0001C70E:EE_|AS2PR08MB9000:EE_
-X-MS-Office365-Filtering-Correlation-Id: f1a9d58b-ebd2-442f-f737-08dde56b064e
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted:
- BCL:0;ARA:13230040|1800799024|366016|376014|7053199007;
-X-Microsoft-Antispam-Message-Info-Original:
- =?us-ascii?Q?Re8vdMuKEczcfJtw/eJdXLjhZSYUif+eCaYELF2fx/FvEhAFLubR+lNbFwlQ?=
- =?us-ascii?Q?igjtqZmQYM1DutQZk4FMhDaRVfColDbS+BPa+8pt/TUXqNyPsGHrIoWWW+ZY?=
- =?us-ascii?Q?ci+JgP7lguI3ugjEJluhybZInzccIAFW+bjmWb+dwP79Vpo6yzJUOY4kEO/z?=
- =?us-ascii?Q?O85jEpVYNNn4vnTs9ozwSnA5Hc5C6P+dkAOuI26jr9U9RmCCVaataEOercRS?=
- =?us-ascii?Q?LLRO9xPP7VlXiMQUJBhIqeUSz/phlt8Mx1OT/scOQtMGmIwOicbNWrIP3O6W?=
- =?us-ascii?Q?2wfiGdWbYsRDX2NSi1ri5QK/+Vu8izzFlWTcpn4epQRTVelOx9lUjBl3gBHA?=
- =?us-ascii?Q?uhUoAmQ2ISvrXnxtqO41X71J/+qe7iJOUgfjsHdnljG5XF2lGr7NhMNzbcuW?=
- =?us-ascii?Q?TLJiYrX1a06Ae9YMthhGp2F9orcMuxxGXdbbv7HGAUT8iXw1WkAdNOhop9AT?=
- =?us-ascii?Q?oEVUrNhl2TUsUjWRvPcASuMT6pyLtQZ7Oi7+Xmnli8GpNPkspDYNkdcFyzFF?=
- =?us-ascii?Q?koSS1aGf9coSgZQ9XTcxuo709Rwo6+BxId8Lm6sM5hYYA5pKsSyPaIlLUGKW?=
- =?us-ascii?Q?8swUu0u+hvwkNcp/+2449caoP0Q79mKJGzig+MkCXSGn417PYM+Vzwv41s3G?=
- =?us-ascii?Q?SCk6kf3L6Fo+sCX2V9GfV/jxAXSwn3XoKsXwxms21zCtQFX3vDwweCjKWIMb?=
- =?us-ascii?Q?jvsD87sOEFmqTZbTl6g5fmShb2NNQJmaCiaY4ZN+pK/Vi0a9yhceXk2TGvY9?=
- =?us-ascii?Q?7K2fECucy1aRVN09/W3nL593gOAjXzmYdG6KOl5JMB9grKpSRyCTG6jzJ3IF?=
- =?us-ascii?Q?mTd4gT/ILLD8lqFPMXk3qGZqhTGUs2Bc9JgJQOki2OXcDvSkT2jNDzYBrA4q?=
- =?us-ascii?Q?QpDFjfUc1KAJwqEAAJq8d5CrIo+EpnAOBpwLOdoiOilf7cOE0cwkx9FKya2W?=
- =?us-ascii?Q?JIw7kUpvzHmR4mFtEw/YmDZu7MzEo+CMi16l6WfDagxTaI62pgNyk88N3zfV?=
- =?us-ascii?Q?1G5yxAnpNp7DvDCpIOZSZYh5eU+m0g93RHn9XF3RP8318i0sKguUftkdCS8T?=
- =?us-ascii?Q?8bR4yFIXs+LSCa9Dd4bw2Fp7b1H3njHDQIUaeJTRWn2yq28xxgDYCV/6Edq0?=
- =?us-ascii?Q?9EqPxZm0q8lsjoQnwA/G5InyFWOfiiV4dOpOnjaUIId18RUKOVAhtgiIKqIu?=
- =?us-ascii?Q?RYn7omLv0ZwIcLspZWDQ1q9TZHGapL0o3O6fW4wmuVouIIgNh2oxszFXqDvO?=
- =?us-ascii?Q?UlmCcGS4+s5H4sOK4WfZLlwKIg6yFMgD7B8KU40TAe68QR7bUzabIxthWpEb?=
- =?us-ascii?Q?BEg8EW0wQdwfeVVIKpIEcvrvPudVtUREXCAHCsPcI2SdyK+9Ja9PaLdaSBX9?=
- =?us-ascii?Q?fkFt7NiJxXL7VynJRzz2k3LKe31LhJ59vm5T9ZDmHXFQfdMjXNf+au6XKQ5F?=
- =?us-ascii?Q?r10KOyl539c=3D?=
-X-Forefront-Antispam-Report-Untrusted:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM8PR08MB6372.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB7567
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped:
- AM2PEPF0001C70E.eurprd05.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs:
-	d23feea8-6e7c-4938-6a05-08dde56af320
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|35042699022|1800799024|376014|36860700013|82310400026|14060799003|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?PPQL4TylmxYn4Olnlf0HRyWLFHNBgnsOfjsa/63kThzHBNrdDNrdMs+CBx7u?=
- =?us-ascii?Q?yYQajjbQgHJBUtyrKkGMWC5tLW4K2u2m29YguIMOmu7B3BVL5EEkD55eOPbu?=
- =?us-ascii?Q?z6ZHz6xOTL8c4wpKZTa8ic3z2jSLaVfpDfFjSET5YSNrqjL8Df+u10OWLfoV?=
- =?us-ascii?Q?oUA96ZPfxtAd9xZ5DSe8ls5UGIkW8Dv+PVUPWbyXKGW18IDfRxqdAEDTp2Ih?=
- =?us-ascii?Q?yUjIWHyDqHLPUt78JDuNIQxehwbodcbvmtITJdDEkrttMP78DDRTrEnSLO8+?=
- =?us-ascii?Q?5ytigPqxTQ+ZDdLDV8+4yEEfbl/ydOB+91nEgeNZqVlCIMRQqYlwBKz4m27D?=
- =?us-ascii?Q?bM+GgxcLOn+sG5g3fM7kuYtCXsWLOIH0aJ6SlQP3yawqZ/2MLVot5SMztcZU?=
- =?us-ascii?Q?Oc+Vje06TfvjIuV0FAHin0TQziI96QrgazFpqJtJVnuevF/E1thgvVrYPY2i?=
- =?us-ascii?Q?rUuWz+hwNbKTyLH6i7WEMvcLMTGvy0Z+o1TtzYbWMfcC6W/iW/7w6kSOvCIh?=
- =?us-ascii?Q?/WZMFR7rmMUAlwU26dpnLGpj1xy7qB9P1v9E4g28HxOMVpbXbjHdx4DtRjfl?=
- =?us-ascii?Q?gwZX+5RBbjYfv0lCBUGTH4nlOGk4Ni57uOLmrGygfL0xWNkgwN7eWSMjoZGh?=
- =?us-ascii?Q?629b0y63CNEYnuFr1h0hCOEixQcPwLY87tXeym3DM/Ug+tOzVqDaQnlYvhIQ?=
- =?us-ascii?Q?ltBwgNHPGR4geMOFRmTiw4mnL5V4EEGvDT0Fu4VqOCGwXre1YhNUY9WWJFPQ?=
- =?us-ascii?Q?LW4CTSlySOevqnIdjFy3F8P/kRRsNmlkwoB9iuT9q+Ls/pRNDwPL48ey87JF?=
- =?us-ascii?Q?61/7VE65bbXlgajZFkwcCD2E5zw/wQm0puAU34hqEqopmtem07nXDR7JG5Oc?=
- =?us-ascii?Q?nmmRzFEEKDoDJWPFL7h+rjcruNTqRaie3sUpkvV9YI1gvisq8/p7EB4F1Kq1?=
- =?us-ascii?Q?PjnN5R/cu4Y1acryheFbnre1Hf6uDHUgvLTFkSmKJSvhc/OvLswPgiM0+rQt?=
- =?us-ascii?Q?7s8dQBy535ZNt+LZrobWVZiDVcbos+1I5PDLesi2Yf6Q60xSHbmfOxmi3cMn?=
- =?us-ascii?Q?qJ0UlA/WfY0cV3y7SID8lU65vCL0G/7+3h1sVwh1GQdqYAakWzRpOH/rp4N+?=
- =?us-ascii?Q?HVusJU9yvNlWc8IruwZt97qCU7yNehzRTW3VArZX+mEV9DhIdZKuBWHAJChc?=
- =?us-ascii?Q?sW8GXX8Lr+w6dXk8AHQkIm61DrH4NtKiWut1mtT8IY1RRnwl6J0ARKPAMJpU?=
- =?us-ascii?Q?UKqCw97jHYllXDBThwVOUIBhKxYIIV8YUt3Gz/HhbODD8UMkeTrUYiyQBaxF?=
- =?us-ascii?Q?lKclACvxd3sCa8uKThVyXNDkcqQw8iE4yY21EitK9ukbAOSPK2sQ//ILWTD+?=
- =?us-ascii?Q?7NkON+R3/Mahe5Vuze3oVhshZY4/kFO6nyEH5xWLhtJFVyf3fGB3By/uBsPR?=
- =?us-ascii?Q?aViqgvNxHw/iZxyXDLpLf74MgGJdg312cjnJ9j0ascaNT9AQwebpzBEw0wRN?=
- =?us-ascii?Q?W0wxCZhzWudJPnCza3rw9/iXZy0Ef8CsPSM1?=
-X-Forefront-Antispam-Report:
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(35042699022)(1800799024)(376014)(36860700013)(82310400026)(14060799003)(7053199007);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2025 13:09:58.5728
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f1a9d58b-ebd2-442f-f737-08dde56b064e
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	AM2PEPF0001C70E.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB9000
-Message-ID: <20250827130924.K2uma0vh3ZEHix5T-Qj8dezrPW8COfweDlZsQx1AHNw@z>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250827-adorable-ocelot-of-adventure-ba88b7@houat>
+X-Proofpoint-GUID: yn_XffROrkJbdCCLC1sIQPrOwnlV3FvW
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODI2MDEyMCBTYWx0ZWRfX+NBCW15VOE0u
+ eNLzvpAXLW1Y3tPmIco3m2+U0cElbq7gNmMtLm6cmWRlYE+o/6kr5iNdPxwHyyVrIU/yVICV+5d
+ KOHpbkmKKOlcUauTNIw9x0fMKprvVypc/R6Z9N5fJAYPYCFZlQi6SwA9NDE0QBPiwr+eRHnLtbV
+ Ep9U0y4Ch+tWNwCg9+/AAKfRioYijn+662XP004irDOeiqQx/H6RS0Ts25ohrftU1me6bg5EvNO
+ C1GwzUPcIHawcyDcUwGQ6kWUPXFFMizNB+4azwAJCiHukO/emV8ycobt5JWiB9l6Gx+S6y8mFXV
+ EpIojB8lPrc/g45IqdD+DQBvwyS9hYEIJgi5jt7HQ7K1ISlGSZ6SlEA8J1AnQR+9TfVAnsAVxLL
+ M1Gs8Hdu
+X-Proofpoint-ORIG-GUID: yn_XffROrkJbdCCLC1sIQPrOwnlV3FvW
+X-Authority-Analysis: v=2.4 cv=CNYqXQrD c=1 sm=1 tr=0 ts=68af108c cx=c_pps
+ a=x6q9Wowz3da5qcMoR2tSzg==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=WI-fMjCVXOxGoBDYoyYA:9 a=CjuIK1q_8ugA:10
+ a=TsFzuV67ciA61D7d30EA:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-27_03,2025-08-26_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 impostorscore=0 priorityscore=1501 adultscore=0 spamscore=0
+ phishscore=0 suspectscore=0 bulkscore=0 malwarescore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508260120
 
-On Thu, 21 Aug 2025 21:29:35 +0800
-Chen-Yu Tsai <wens@kernel.org> wrote:
-
-Hi Chen-Yu,
-
-> From: Chen-Yu Tsai <wens@csie.org>
+On Wed, Aug 27, 2025 at 09:30:20AM +0200, Maxime Ripard wrote:
+> Hi,
 > 
-> The eMMC on the Orange Pi 4A doesn't function correctly at full speed
-> of 150 MHz under HS200 mode. Either the traces on the board or module
-> aren't great, or the SoC's internal delays are incorrect. Tuning the
-> pin drive strength did not help.
+> On Wed, Aug 20, 2025 at 12:52:44PM +0300, Dmitry Baryshkov wrote:
+> > On Wed, Aug 20, 2025 at 09:15:36AM +0200, Maxime Ripard wrote:
+> > > Hi,
+> > > 
+> > > On Tue, Aug 19, 2025 at 09:57:30PM +0300, Dmitry Baryshkov wrote:
+> > > > Currently DRM framework expects that the HDMI connector driver supports
+> > > > all infoframe types: it generates the data as required and calls into
+> > > > the driver to program all of them, letting the driver to soft-fail if
+> > > > the infoframe is unsupported. This has a major drawback on userspace
+> > > > API: the framework also registers debugfs files for all Infoframe types,
+> > > > possibly surprising the users when infoframe is visible in the debugfs
+> > > > file, but it is not visible on the wire.
+> > > > 
+> > > > Let drivers declare that they support only a subset of infoframes,
+> > > > creating a more consistent interface.
+> > > > 
+> > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> > > 
+> > > I'm not really convinced. Infoframes aren't really something you should
+> > > ignore, AVI is effectively mandatory, HDMI kind of is too, AUDIO is if
+> > > audio support is enabled, DRM is mandatory if HDR is used.
+> > 
+> > Nevertheless, sun4i, innohdmi, adv7511, it6263 and rk3066 drivers
+> > provide support only for the AVI infoframe.
 > 
-> After some experimenting, 75 MHz was found to be stable enough. Use this
-> as the maximum frequency for now.
+> Yes, but it's still something we shouldn't paper over. The spec mandates
+> it, if drivers want to deviate from it it's something we should warn
+> about, not silence.
 > 
-> Fixes: de713ccb9934 ("arm64: dts: allwinner: t527: Add OrangePi 4A board")
-> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
-> ---
->  arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts | 1 +
->  1 file changed, 1 insertion(+)
+> sun4i is a good example, to me at least since I have the doc. The
+> hardware supports AVI, Audio, ACP, and SPD. HDR isn't supported, so DRM
+> isn't either. The only missing one is HDMI, but the documentation isn't
+> the best so it might still be supported. In short, it's a driver issue.
 > 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts b/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
-> index c52d09cf0888..fb5311a46c2e 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
-> @@ -160,6 +160,7 @@ &mmc2 {
->  	mmc-ddr-1_8v;
->  	mmc-hs200-1_8v;
->  	non-removable;
-> +	max-frequency = <75000000>;
+> adv7511 supports AVI, Audio, ACP, SPD, ACP, and looks to have a
+> mechanism to send any infoframe as is. So, again, driver issue.
 
-I am not a big fan of this change, as it looks like we are papering over
-something. I think the BSP runs it as a higher frequency just fine, can
-you check that? Traditionally the BSP uses HS400, IIRC, maybe we should
-finally bite the bullet and enable that?
+I've send a patch, enabling SPD and VSI (HDMI) InfoFrames on ADV7511.
 
-Mikhail has some other assorted changes to beat his WalnutPi into
-submission, among others a slight increase of the voltage, both I/O (1.9V)
-and supply (3.4V). Also he increased the pins driving capability to 40mA,
-did you try that?
+> 
+> I couldn't find the other datasheet, but I'd be very surprised if it
+> wasn't the case for these too.
+> 
+> > Some of them can be extended to support other infoframe kinds (e.g.
+> > ADV7511 has two spare infoframes which can be used for HDMI and SPD).
+> > 
+> > > SPD is indeed optional though.
+> > > 
+> > > So, it's really dynamic in essence, and not really something we should
+> > > expect drivers to ignore.
+> > > 
+> > > I do acknowledge that a lot of drivers just silently ignore the
+> > > infoframes they don't support at the moment, which isn't great either.
+> > > 
+> > > Maybe we should standardize and document what drivers should do when
+> > > they don't support a given infoframe type?
+> > 
+> > The chips might be generating infoframes internally. This series was
+> > triggered by LT9611UXC, which does all HDMI work under the hood in the
+> > firmware. See [1]. The series I posted hooks HDMI audio directly into
+> > the bridge driver, but I'd really prefer to be able to use
+> > drm_atomic_helper_connector_hdmi_hotplug(), especially if I ever get to
+> > implementing CEC support for it.
+> > 
+> > ADV7511 likewise generates audio infoframe without Linux
+> > help (audio-related fields are programmed, but it's not the
+> > infoframe itself).
+> 
+> Implementing the write_infoframe hooks as a nop with a comment in those
+> case is totally reasonable to me.
+> 
+> I'd still like to document that drivers should only return 0 if they
+> programmed the infoframe, and -ENOTSUPP (and the core logging a warning)
+> otherwise.
+> 
+> That way, we would be able to differentiate between the legimitate
+> LT9611UXC case, and the "driver is broken" sun4i (and others) case.
 
-On my boards I tried to lower the frequency as well, but didn't get
-consistent results, though there was *some* improvement (at least probed
-the block device and read the partition table). And I needed to go much
-lower (40 MHz), so I wonder if this is all related to some bigger
-underlying issue.
+I don't want to end up in a sitation where userspace has a different
+idea of the InfoFrame being sent than the actual one being present on
+the wire. It seems, we need several states per the infoframe:
 
-Cheers,
-Andre
+- Not supported
+- Autogenerated
+- Generated by software
 
->  	vmmc-supply = <&reg_cldo3>;
->  	vqmmc-supply = <&reg_cldo1>;
->  	status = "okay";
+E.g. in case of ADV7511 we can declare that Audio InfofFrame is
+autogenerated, AVI, HDMI and SPD as 'software-generated' and DRM (HDR)
+as unsupported. LT9611UXC will declare all (need to check) frame types
+as auto.
 
+This way we can implement the checks and still keep userspace from
+having irrelevant data in debugfs.
+
+I will update my patchset to implement this, but I have another question
+beforehand: should we just declare VSI support or should it be more exact,
+specifying that the driver support HVS (00:0c:03), HVFS (c4:5d:d8), etc?
+
+I'm asking, because e.g. MSM HDMI controller has hardware support for
+generating HVS frames (but only HVS, the OUI is not programmed, register
+format doesn't match 1:1 frame contents, etc). I instead ended up using
+GENERIC0, because it was more flexible (it's like SPARE packets on
+ADV7511, the contents is being sent as is). However if we ever need to
+send DRM infoframes, we might need to switch from GENERIC0 to HVS, for
+the price of being unable to send HVFS frames.
+
+WDYT?
+
+-- 
+With best wishes
+Dmitry
