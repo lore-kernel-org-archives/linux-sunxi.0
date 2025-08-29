@@ -1,35 +1,49 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.netcube.li (mail.netcube.li [173.249.15.149])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4A4C13EFF3;
-	Thu, 28 Aug 2025 00:49:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 303A42C374B
+	for <linux-sunxi@lists.linux.dev>; Fri, 29 Aug 2025 12:38:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.249.15.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756342199; cv=none; b=sysCplvEC0jXoZodJ4IcQtgxmkNwB/a3YgttjhdfQr6qO24PJZz47F3RrpkQF8Krs9QLqJxq5Qp2GVyzuazdCyrN2Vj8QHSAt8XhEMFw/LFYVc6kGLjelGqo+Yl+ac0LSgjHF+y+378TeQS8WQ2MtUkjD5cUrkZ/61Um7gBGQQU=
+	t=1756471127; cv=none; b=QUYqlO6UjvEDFq/fUnN4lsDpB6drlJ6eL4apYs70iRoBML4BTdW69RztW9GH8tBBPU3nw7FMcJGML9uRQmfAqBslaWfieT2pb7c6+WuYa21nbIYo1dZy+nXms92hxTkJYRxRs9AlQAorvDAWPtI7WxM2v9ktFhzYkC+dvL+yo1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756342199; c=relaxed/simple;
-	bh=qOJT2O/P45y1TMQ19RbfaBGaSVM7euzDXVZ+E+zezvU=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=dJY2y3BYjj49p6Hpd3K/4GD+lAoCZewNy5nNuXvvAQTkXhsFdC84AE0dYTHGUv6equ3U8+6MnzusHAGKN43IiO7srh+vv0uyPyZ2K40k+6HXp3C3PVYjP+UmftYQw8uQFp6cTLgWP6PidJHAAr+caHx0L+Pay/6UA79YIzf+92Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bBDH3p+P; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756471127; c=relaxed/simple;
+	bh=7BNpBu9b2sUH6ir7bUA43BaeIXlNBITrGb35OkTTR18=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MGcHBzUW1Fi3pAWLUlV+iDBiqI2XUo+9d5U0CqGFDxZsoQY9IFiGVbyT+KUvEpDtIZis25e4vTwlgjjIt94iNCALEF2PQgEMffzbr6ItDelhlzz+Te/75fv629GcJI+i0EEbMBakjSjcg/7Dij0g/8elSsVdcNNJNb0EX9RvXMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li; spf=pass smtp.mailfrom=netcube.li; dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b=upQ5FnUz; arc=none smtp.client-ip=173.249.15.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netcube.li
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bBDH3p+P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35693C4CEEB;
-	Thu, 28 Aug 2025 00:49:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756342199;
-	bh=qOJT2O/P45y1TMQ19RbfaBGaSVM7euzDXVZ+E+zezvU=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=bBDH3p+P2+FEn+Axe0gXs9DyscQRI25EcxY6ZamYBueHYgiipm+bu40cS4vHRJVbF
-	 pwURqylxH5UeYXNkrsEhUXq7+2OtEL2//QQaA64bwX0ZVIzJh7vW3KsayshGZvy6qD
-	 ChOn5xOdeid2fYzrkzxeCds/qt6MIz9h8GH0CSnoE0IeLniZ4d9kDJfyE0u4Om9DjO
-	 2cf6HnuyQIJAuhzqlL2AlY+7n+tBwMMOwa0qSME8WPXAQpp3jZJv762qFcb64QKpQ0
-	 doEEKsUtArrp87qIiocyiVnkttzQixC79vQT9/I2xegnqQwdv5thNMn67b14qr3OUc
-	 mhex8l5fOce/g==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id ADE08383BF76;
-	Thu, 28 Aug 2025 00:50:07 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b="upQ5FnUz"
+dkim-signature: v=1; a=rsa-sha256; d=netcube.li; s=s1;
+	c=relaxed/relaxed; q=dns/txt; h=From:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Transfer-Encoding;
+	bh=QGCsL5CWNo2quuzA92eMX1ttrRuPJrcLfsoBh4qqiCg=;
+	b=upQ5FnUzZmw3kbFeCSlXVSGV0QqYtH4Oi9HmeGDqi+/OLbdy2wKc45WsJ+ZkxzDBnJaPssA1uBXJAnHNapmlcwJncyjj2LeXABZWT283p+AhRDapfP/7v2edTCHl0VKkHVN57ESKH/CnZs29Oa7QZFCj21GcMe+kSnmHdWc+0ew=
+Received: from lukas-hpz440workstation.lan.sk100508.local (cm70-231.liwest.at [212.241.70.231])
+	by mail.netcube.li with ESMTPA
+	; Fri, 29 Aug 2025 14:38:24 +0200
+From: Lukas Schmid <lukas.schmid@netcube.li>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Maxime Ripard <mripard@kernel.org>
+Cc: Lukas Schmid <lukas.schmid@netcube.li>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: [PATCH v6 0/5] Add support for NetCube Systems Nagami SoM and its carrier boards
+Date: Fri, 29 Aug 2025 14:37:53 +0200
+Message-Id: <20250829123800.1232645-1-lukas.schmid@netcube.li>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -37,46 +51,65 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next] net: stmmac: sun8i: drop unneeded default syscon
- value
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <175634220652.891202.7808539694253002110.git-patchwork-notify@kernel.org>
-Date: Thu, 28 Aug 2025 00:50:06 +0000
-References: <20250825172055.19794-1-andre.przywara@arm.com>
-In-Reply-To: <20250825172055.19794-1-andre.przywara@arm.com>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, mcoquelin.stm32@gmail.com,
- alexandre.torgue@foss.st.com, wens@csie.org, samuel@sholland.org,
- jernej.skrabec@gmail.com, clabbe.montjoie@gmail.com, paulk@sys-base.io,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev
 
-Hello:
+This series adds support for the NetCube Systems Nagami SoM and its
+associated carrier boards, the Nagami Basic Carrier and the Nagami Keypad
+Carrier.
 
-This patch was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+Changes in v6:
+  - Add 'usb0-enable-hog' to the som to enable the USB-OTG port by default
+  - Update the keypad carrier dts to match actual board revision
 
-On Mon, 25 Aug 2025 18:20:55 +0100 you wrote:
-> For some odd reason we were very jealous about the value of the EMAC
-> clock register from the syscon block, insisting on a reset value and
-> only doing read-modify-write operations on that register, even though we
-> pretty much know the register layout.
-> This already led to a basically redundant entry for the H6, which only
-> differs by that value. We seem to have the same situation with the new
-> A523 SoC, which again is compatible to the A64, but has a different
-> syscon reset value.
-> 
-> [...]
+Changes in v5:
+  - Re-add the non-removable property to the ESP32 interface
+  - Add the mmc-pwrseq node for the ESP32 to initialize the ESP32 correctly
+  - Remove the unused ehci0 and ohci0 nodes from the Keypad Carrier since
+    USB port is peripheral only
 
-Here is the summary with links:
-  - [net-next] net: stmmac: sun8i: drop unneeded default syscon value
-    https://git.kernel.org/netdev/net-next/c/330355191a2d
+Changes in v4:
+  - Disable the default interfaces on the card-edge but keep the pinctrl
+    definitions for them
+  - Split the pinctrl definitions for the SPI interface into the basic spi 
+    pins and the hold/wp pins
+  - Move some mmc0 properties to the Basic Carrier dts
+  - Remove non-removable property from the ESP32 interface
+  - Fix typo in the keypad matrix definition
 
-You are awesome, thank you!
+Changes in v3:
+  - Add missing dcxo node to the SoM dtsi
+  - Rename the multi-led node
+  - Change dr_mode to "peripheral" for the Keypad Carrier
+
+Changes in v2:
+ - Squash the binding patches into one patch
+ - Fix formatting of the phy node in the SoM dtsi
+ - Add description on where the phy is located in the SoM dtsi
+ - Fix the phy address in the SoM dtsi
+ - Move the carrier bindings into the same description as enums
+
+Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
+---
+Lukas Schmid (5):
+  dt-bindings: arm: sunxi: Add NetCube Systems Nagami SoM and carrier
+    board bindings
+  riscv: dts: allwinner: d1s-t113: Add pinctrl's required by NetCube
+    Systems Nagami SoM
+  ARM: dts: sunxi: add support for NetCube Systems Nagami SoM
+  ARM: dts: sunxi: add support for NetCube Systems Nagami Basic Carrier
+  ARM: dts: sunxi: add support for NetCube Systems Nagami Keypad Carrier
+
+ .../devicetree/bindings/arm/sunxi.yaml        |   8 +
+ arch/arm/boot/dts/allwinner/Makefile          |   3 +
+ ...n8i-t113s-netcube-nagami-basic-carrier.dts |  67 +++++
+ ...8i-t113s-netcube-nagami-keypad-carrier.dts | 156 +++++++++++
+ .../allwinner/sun8i-t113s-netcube-nagami.dtsi | 249 ++++++++++++++++++
+ .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    |  48 ++++
+ 6 files changed, 531 insertions(+)
+ create mode 100644 arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-basic-carrier.dts
+ create mode 100644 arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-keypad-carrier.dts
+ create mode 100644 arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami.dtsi
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+2.39.5
 
 
