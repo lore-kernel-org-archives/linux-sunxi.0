@@ -1,74 +1,74 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17747155A30
-	for <linux-sunxi@lists.linux.dev>; Sat, 30 Aug 2025 00:23:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAD9216DC28
+	for <linux-sunxi@lists.linux.dev>; Sat, 30 Aug 2025 00:23:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756513393; cv=none; b=StrcYxmPzb+mN5bO0GQHh9dECGRWd+1eQbVttcZe4xY74Xlr4g3g8k8AfiO7g2IoQmLFUYG3UFVVnuLERLyQpTAJnFVHDIT+PEEQWpRgxyZXKCo8YSE+tBlHpsdpWyH/lPIKrIdPWYXdoz9Th+ro2/SrzPUl53VyPoA9L/mBIEM=
+	t=1756513395; cv=none; b=s5fE407anEpfdc1Rbc9Jfcc8bfKvorDmpQxwLYdCp3oYVul78S+M7Tc9D2AbeZ7nadjEvsZeXFbztki77MqdmXw3iIYMhlhZWf5TEgE7y9PwqVuLJDGaNdo2dBW55Pu16nm8+nN5ahJ6rmmEhIL1Wv/TlHVIFn6qyE5WI1Tr7cw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756513393; c=relaxed/simple;
-	bh=Ehca0mnSJRD6ppoLiHXuwtaX4XwYLAYeehZSVf/evtI=;
+	s=arc-20240116; t=1756513395; c=relaxed/simple;
+	bh=4s8HKYSS0MgM6zvdVaXPrA7S2HD2NH/k39knkirGVZc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=FzI+6c4thQV/mkzUNFeVce7erhUjzc4vVbMqSe52n33L89LoeNGdZHxhoOn2sErSWD+8t25zcskf0d7oO8iT0P3cXi6JXozuuzd3MdmRkpoSaB0eD5WH2jtd34tfPC5Uqs4Z9lBB6NjONAw2weTOHZWRTM/Ij6AHUq1dxEU2xpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=UClwzVJg; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:To:Cc; b=Kv/KGmgoEe++usf9x2S0x5NHpENnAAr2206GemavijAf0JStK5RAwHyjS4At2MlJo+zwpLts9oZDdesXeykDGRk3McN9KAPzPOl5B9QomVofgtFhHKxfkktApKNLLqiPXAfCles72DU9dtwDxbK29Fm/NLkgKsjcdPwwTmVkfHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=UMrWNzqM; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="UClwzVJg"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="UMrWNzqM"
 Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57TFaWVg011710
-	for <linux-sunxi@lists.linux.dev>; Sat, 30 Aug 2025 00:23:11 GMT
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57T85TQk008060
+	for <linux-sunxi@lists.linux.dev>; Sat, 30 Aug 2025 00:23:12 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	yR8ojpGZaE3dckXhUPm62p+tv8/S+wacYcr4NjEKkXY=; b=UClwzVJgdHkDXZo7
-	w3HM0F5aHQ2GZ+oRT5p8dn1CO2MLAhjgATxyxp+iakcyr9esh6YHe4ZUpZpeBRjj
-	Ik2Gx3v21Yc/5quAu0rD8AjaWkB7FynQ2yGPMT2sdTyQ3p5dLi+8ZWH62WowuuuQ
-	lg7kaEmnDKL6WOmc/CutjHol/YWAAKRaPGcX0+g4IoSL8xB/2y4pXhsf9pkzoN3k
-	uaoECza7pCvR2bLDT7xtmVAzjw8p+bqzfThSU38R4ssxQrWFLJBYrG4U01wOm8HT
-	w6VFuVebCKhIDl8dtJ1o4oJwxidP72REwLXT55tq1sT8XlSEQmJWC1hfwv92yHFu
-	UtD4/w==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48rtpf7e64-1
+	5Ph9fpMKwyVh1QpkoJDUD9CEJnYrcgjdCLeyqaq6qOo=; b=UMrWNzqMYMrZjeNx
+	lYnPwFSM1DlBJnTfCbOVORANqwmE5ZANTNLbCQxA5h0Nihow7ScdskL6QJWkOmuA
+	vnTrj/HyOKDAAoCio5lvtPu2sVEiE6uo+b2Oa+dSqVYs8/PdXmgfmnbY/2CVWKu7
+	au00EnICgrvEGxh90n950pV+jSVJxRMi6paAXydM1QJMZxlHRArTP5rFcL+zkMET
+	eCRlTP71YCJ9UQ/aErsHTmz9dI16r7nTObvARC+BLZ6KlbnzRfMcOsK6wEfqjWA1
+	u+1Rhv4VrkJ3tnGz7xDgal9Bh7h+5oliTjISg7i5WV8VA7v91eEL/Jc5u68XCOZ9
+	ClPVBg==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48rtpf7e6g-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sunxi@lists.linux.dev>; Sat, 30 Aug 2025 00:23:10 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-4b109bc103bso56209701cf.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 29 Aug 2025 17:23:10 -0700 (PDT)
+	for <linux-sunxi@lists.linux.dev>; Sat, 30 Aug 2025 00:23:12 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-4b3081bcba4so39773151cf.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 29 Aug 2025 17:23:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756513390; x=1757118190;
+        d=1e100.net; s=20230601; t=1756513392; x=1757118192;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=yR8ojpGZaE3dckXhUPm62p+tv8/S+wacYcr4NjEKkXY=;
-        b=VJfIQjqcVcedr4hGNaWDOVA7850A3OgYfQIAKzV6vaVkXUrIWh6Ll+r7vsujy6OeSy
-         ksOJ+7ugQM4kZNVYkTjRclpTTb22t0h5Vq2uagH+Z3iQZbXhv9vDa4ZlkS/Zd/ExTfL5
-         ffaM5MBKQvZgEmKb/Qb81STtMaC7JM0BLoCgPUJptP/OD3qJkI9g4IUoy9HndMwghcI7
-         Q/etRacv3sgO2x0Urs6FrFOGehY8sSp13bxAw1nIFLQ0MuO3UkAg3A9oT0bxTWnbkEzH
-         2druNvzfa8s5ZpZmLJYRHe6Cq6IYBxM2hqnMbtgz08kreOK16x2AIpL+bTOkONifmKEl
-         ZsLw==
-X-Forwarded-Encrypted: i=1; AJvYcCU8huIe7S8gp1vtbs5cNZuggmCipXUA2X/Ds2KzJwDNrHFtYbRW2+/KjGOoIQJtRUmPUGIMs9mUgvozeg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwHvsg2KDHood0PwxO/pNbep5jr6QL0w9Bo2KmIQYdRQ4pKUTLZ
-	web8rW65Fie7RKD7otUEnyI2mKcTnusviSTnDRs+FI80oYqPE5FrdQexaWCFLCA96vbU0kA1J97
-	2iVdDCyvLYglLkq68LRg2cOm6M570k7o5Bmk2evu0CizPGol93yEQr0rmbmL+df5Zzg==
-X-Gm-Gg: ASbGncs5LJhC/oH2ZK6FFzY8Vo0qQqh7/qo1vEF2ElpL4uQQUE6ocHWH8Ly8Mzxd44I
-	9Erouo7sHZx8IRY7xqFyKrAJSUyGxxs5HKbdGF1ed5fhCdP8RtFRjP+SZuZ4dS7VVkXP2WDoSxp
-	srbjHSStmir096cxutHF94VnSQuV3Zi1V39BsXTfYc4fY7BF7rk+dR03gc43M9g73CUEWZWhI2n
-	BhVOrsnVOzcWtvQnv958V6KwMX1ZCCZ7hhojmK/8DUfjkDiqpMjxI3t1+IgnUIlwVaREAiddkPV
-	FmkVnrs8CIOolJyEKRunaDUmumbEIPDlvPDXHK/T6uvvOsoKqs9h8uyf5UK2Y/BU9IulLeBqhcP
-	Hj5UCrAOWiXTRhUeXBi7PRZsQBpj/jJw7nnttAF1n+IGkkch2jB8K
-X-Received: by 2002:a05:622a:1806:b0:4b2:f786:92dd with SMTP id d75a77b69052e-4b31da700f5mr6049081cf.57.1756513390036;
-        Fri, 29 Aug 2025 17:23:10 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF7MI5AgeDyZIhBXp4nqzUlr+O9xa2caPrlb9g34SvQBLOsNrDgnfALkKyRc05CDcviHb65Vw==
-X-Received: by 2002:a05:622a:1806:b0:4b2:f786:92dd with SMTP id d75a77b69052e-4b31da700f5mr6048661cf.57.1756513389582;
-        Fri, 29 Aug 2025 17:23:09 -0700 (PDT)
+        bh=5Ph9fpMKwyVh1QpkoJDUD9CEJnYrcgjdCLeyqaq6qOo=;
+        b=wKNlOgg73tnpUoVwz6pwTmj1HcWH4VXm49QznhTmgXAKdr199yh352PTZDY+3aRIb3
+         P+XnsX3x7EupPdkZgXiKev+OviOYya60mV4VCjMZ7J1aGFZ8w5kes/HOACrNph3kbZuj
+         0K2tbDJZ+CFkgfNZS4jzRmIgmXxZCgKztiK700zFux3ocL/R5y3CbrZCVAjx600439yo
+         F0ubrSsbNpod9BEaXEKWZ9SmwcsOrG7oGr5kUI8ZMlAjS/Ev9fj3XeKeLBs7Y7zpp25n
+         9zbSWnB3qYQTgJg1N5iVTRZWkfDUdE8mDcWLj9TjREL0F0oh21fu9dvgNlBM01D1vKtv
+         27qA==
+X-Forwarded-Encrypted: i=1; AJvYcCVhpz/bY5y5CleJZWfi66EdxmAy3aJQ/Ym3rwWKuoiBc4953kjwCVCHCyBhmgw7v3TDv1spxr5lxzDfIw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyDJ9nxXsalN553IASBZIgijV3rtdSl4zbuDY2ZuWKUcV8B7iv5
+	U3SRfCVwHf366CT1uvlVbNhWthcrjAfPowClHmEnQD8kzqQaIBhwjWZ89etVsKiVrv2OUIzhi+r
+	EYQSCyyopy4LAVDVlfNTTMRgVX5kQqHwZ+xYvLLcJVRAjhCU0qrsIIUzmE2UTvg2zUw==
+X-Gm-Gg: ASbGncscUS6WKnetAw/eoacg15BjTUwTnTqGaya0POXbfcFnGKxL2xRooai7RutoKBU
+	oKzjsBYyw4CKVhjFyC5VCJq35JGDYXEIai71tQd/6kDAhZy8k1qO9qMZa/x5PCGxu4YVNJep52q
+	xNLHWXXNhjDLf1iEfLt1fnVvSwoJ2wFf9IotDjpDsZwRe5dhF0k3oGhr1Q47DwHbb8yGBnoRpeb
+	7020nBpTIHvt4cIm5LhN+lYQDuDgRG9MTEbvjFM4+5+CSWlyxTZLOEVYHkQEFPvvOHNCEq4pF/7
+	GnEQSQHlci9uubZe11yrwXubv8AjWhxkAxjpRY/vHIIg6FeNP9hsPdIS+26F8s27RmZeBVZVuA9
+	rZxhQNsl6Gu758HqfW2yCPJ9YdCZMxHO682nSLZYi0LZ10egfb4ic
+X-Received: by 2002:ac8:7d4e:0:b0:4b0:7989:13db with SMTP id d75a77b69052e-4b31dd21723mr4241591cf.58.1756513391692;
+        Fri, 29 Aug 2025 17:23:11 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEHd0n8qaUqx1S4BeHPfs6IpVe24aic04/cEgU1Am0csv+xPy83xFNb93VjtGw3hJtcKfrI7A==
+X-Received: by 2002:ac8:7d4e:0:b0:4b0:7989:13db with SMTP id d75a77b69052e-4b31dd21723mr4241371cf.58.1756513391171;
+        Fri, 29 Aug 2025 17:23:11 -0700 (PDT)
 Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55f676dc52esm1019907e87.8.2025.08.29.17.23.05
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55f676dc52esm1019907e87.8.2025.08.29.17.23.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Aug 2025 17:23:06 -0700 (PDT)
+        Fri, 29 Aug 2025 17:23:10 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Sat, 30 Aug 2025 03:22:59 +0300
-Subject: [PATCH v3 03/11] drm/bridge: ite-it6263: declare supported
+Date: Sat, 30 Aug 2025 03:23:00 +0300
+Subject: [PATCH v3 04/11] drm/bridge: lontium-lt9611: declare supported
  infoframes
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -78,7 +78,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250830-drm-limit-infoframes-v3-3-32fcbec4634e@oss.qualcomm.com>
+Message-Id: <20250830-drm-limit-infoframes-v3-4-32fcbec4634e@oss.qualcomm.com>
 References: <20250830-drm-limit-infoframes-v3-0-32fcbec4634e@oss.qualcomm.com>
 In-Reply-To: <20250830-drm-limit-infoframes-v3-0-32fcbec4634e@oss.qualcomm.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -110,31 +110,31 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
         linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
         linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1689;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1606;
  i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
- bh=Ehca0mnSJRD6ppoLiHXuwtaX4XwYLAYeehZSVf/evtI=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBoskRj11vVN09hllSph2xCMLc0Do8yrAjG7XStQ
- fWhXkyDAaaJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaLJEYwAKCRCLPIo+Aiko
- 1TWWB/4rD0vAi94fpXgnZ/MAOGSejRTzdVcbXAhKRnofFOaPhsGaS/JXnirro1+t0KnU3RTBpDT
- qUILqYS/Jzl/1JMqs/TPPLURpwv0RrtFpmc/HAZYEcLS2ptOq9zgkpx6EKA3Vu0Q5UjMKra/mNg
- TILceD4EvuFfESWUcc2cjZJtjIIwayFwgP+f0GbyaYK7Tg9o6vR7kh37CYQiAVa8c1Gm1YcK3b1
- C/0Mhu0uJEkwcXFROdPZmEItNVR7kZMZOmfUjYFmjVBcYIwIDe69U7eLVRhFCPqPYKs/1Fb2kPY
- E8QdgsNmJMHRw8efstr7kx/kBQWYWUxXpKZuhf6DFZnhA5B+
+ bh=4s8HKYSS0MgM6zvdVaXPrA7S2HD2NH/k39knkirGVZc=;
+ b=owGbwMvMwMXYbdNlx6SpcZXxtFoSQ8Yml2SbZ896twlcmpFYdb3yiNI2XV4x9X7bfjcNlm3zv
+ ms+vfKyk9GYhYGRi0FWTJHFp6Blasym5LAPO6bWwwxiZQKZwsDFKQATOSfN/s+U70GO8d2+Db0p
+ /pN1z9m/2y0T0DMvz+NpxuZFXmJBn23ZPKsfs4svW+bYZGf3LKdbWyZn2nKFlVejZz2vP7r9Z/E
+ E00Bj9pPP38rLZN7Tvp3K2hfeFrhHkWnmKekpb8/mXYoVCMt1+Bztn71ONMRryfo44T1JLy72t2
+ 33iGl60Wy8bMEafuegeTlLzM3L0y9GWe6c+N9EwnKpp7bm3UdPVlnL3nDd+b/+WJjb1GCZ9u/p1
+ y3s+bO9rkc2R5mJrn+TnqR/ZbLwAfuupdoV7uu8bBZYc1hFTWANWLtK7OHNXc0HrV/U/p8bupdz
+ 16WmTMsyI75JubpRa48wq2S455fpPNVdaKP4xvHWk+oNAA==
 X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
-X-Proofpoint-GUID: i88SB3SRs-S70ef8YSjkwrtZe1z4QRtV
-X-Proofpoint-ORIG-GUID: i88SB3SRs-S70ef8YSjkwrtZe1z4QRtV
-X-Authority-Analysis: v=2.4 cv=Hd8UTjE8 c=1 sm=1 tr=0 ts=68b2446e cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=2OwXVqhp2XgA:10 a=8AirrxEcAAAA:8 a=EUspDBNiAAAA:8 a=HkIXcrnrDl8JFVr2q_4A:9
- a=QEXdDO2ut3YA:10 a=dawVfQjAaf238kedN5IG:22 a=ST-jHhOKWsTCqRlWije3:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODI1MDE0MiBTYWx0ZWRfX4Mla30EwxBaf
- L5KHzAIpr391SaPnGAkRiaqPyXaC4CmLWl00tF7kYjsojNEngCZBKhISDZ2mUhzQOG6gZ45XX4Z
- 1nbdqPiNCYFzuBFExGZ1tfJgY2dvVzW3j3xzL839qScAhnPmvqVhgp6x54MGqCtcMkS5s7RFDJP
- k2MhoE7/lxlNRW2p6eMhUXNcsG5p6te6CE6R5Xf4abqsx9/4lZXkghQkGnEOqPkslBxIEIxKeqQ
- UyMxQDiFwM/QlLg9qq7fXTFa6iccNYCVyp2UK6GKGv8d8dhmLEW6vqaiaMgQB8Y9JZ2k2aqItJM
- Pa1EHE3oYx056Ik3yPScmNFwytzw9mqqMsY7nvP12vuTd3qDR5twVPdXvbovGsRDwpSkqSNxDr0
- B01In+8F
+X-Proofpoint-GUID: rlr3Z3d6AFivxseAsH3a9Gr2RgY_uCqf
+X-Proofpoint-ORIG-GUID: rlr3Z3d6AFivxseAsH3a9Gr2RgY_uCqf
+X-Authority-Analysis: v=2.4 cv=Hd8UTjE8 c=1 sm=1 tr=0 ts=68b24470 cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=AMvF8s34Jxw15HKoVo4A:9 a=QEXdDO2ut3YA:10
+ a=kacYvNCVWA4VmyqE58fU:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODI1MDE0MiBTYWx0ZWRfX0OmW885zuQcS
+ 06q1rUB50UXxGoPcTOVjg3MpyL6PMYmv/kb0PEtcTTGiYChEaDaMmJD952YAAK/z4cFFQ8fXznT
+ 1Ar6FYvQb+U8lAsEiTQYUsRkjB11SdaY4Rrj1ptvVzd9tbNoV2NkuLHmz7FlqgFCXQ+B9k4MhCx
+ U6qt/LLYxT1mGFcoz3FqMt6h6n7I+3R24ws4Gjh/Mbg/mlOMB7J7fOUyG9BiPWb6xUNYyt60jtF
+ DNVpnxcqrjy8toOzMyfuib+B1Esy2dK1t4kP64CyK2X4CUrk0crxgscEcLB6WF2W25qLkvcCe7J
+ y8xwDxj4ssmgyYKHgURzE+i1ucizHFpL40RdfLiZaEFcDdncSqXCJY8ux8BWHi4erbC7e83oLBV
+ bOtkFhwJ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-08-29_07,2025-08-28_01,2025-03-28_01
@@ -147,49 +147,47 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
 Declare which infoframes are supported via the .hdmi_write_infoframe()
 interface.
 
-Reviewed-by: Liu Ying <victor.liu@nxp.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- drivers/gpu/drm/bridge/ite-it6263.c | 11 +++++++----
+ drivers/gpu/drm/bridge/lontium-lt9611.c | 11 +++++++----
  1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/ite-it6263.c b/drivers/gpu/drm/bridge/ite-it6263.c
-index cf813672b4ffb8ab5c524c6414ee7b414cebc018..f2d54ad8fb64254747f2e8e301f19accf337128f 100644
---- a/drivers/gpu/drm/bridge/ite-it6263.c
-+++ b/drivers/gpu/drm/bridge/ite-it6263.c
-@@ -755,10 +755,12 @@ static int it6263_hdmi_clear_infoframe(struct drm_bridge *bridge,
- {
- 	struct it6263 *it = bridge_to_it6263(bridge);
+diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
+index a2d032ee4744715b88eb66883edf69bab4c274b0..271295e1549885ea054647b06cb95d483e352f4d 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt9611.c
++++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
+@@ -870,8 +870,7 @@ static int lt9611_hdmi_clear_infoframe(struct drm_bridge *bridge,
  
--	if (type == HDMI_INFOFRAME_TYPE_AVI)
--		regmap_write(it->hdmi_regmap, HDMI_REG_AVI_INFOFRM_CTRL, 0);
--	else
-+	if (type != HDMI_INFOFRAME_TYPE_AVI) {
- 		dev_dbg(it->dev, "unsupported HDMI infoframe 0x%x\n", type);
-+		return -EOPNOTSUPP;
-+	}
-+
-+	regmap_write(it->hdmi_regmap, HDMI_REG_AVI_INFOFRM_CTRL, 0);
- 
- 	return 0;
- }
-@@ -772,7 +774,7 @@ static int it6263_hdmi_write_infoframe(struct drm_bridge *bridge,
- 
- 	if (type != HDMI_INFOFRAME_TYPE_AVI) {
- 		dev_dbg(it->dev, "unsupported HDMI infoframe 0x%x\n", type);
--		return 0;
+ 	default:
+ 		drm_dbg_driver(lt9611->bridge.dev, "Unsupported HDMI InfoFrame %x\n", type);
+-		mask = 0;
+-		break;
 +		return -EOPNOTSUPP;
  	}
  
- 	/* write the first AVI infoframe data byte chunk(DB1-DB5) */
-@@ -875,6 +877,7 @@ static int it6263_probe(struct i2c_client *client)
- 	it->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
- 	it->bridge.vendor = "ITE";
- 	it->bridge.product = "IT6263";
-+	it->bridge.software_infoframes = DRM_CONNECTOR_INFOFRAME_AVI;
+ 	if (mask)
+@@ -911,8 +910,7 @@ static int lt9611_hdmi_write_infoframe(struct drm_bridge *bridge,
  
- 	return devm_drm_bridge_add(dev, &it->bridge);
- }
+ 	default:
+ 		drm_dbg_driver(lt9611->bridge.dev, "Unsupported HDMI InfoFrame %x\n", type);
+-		mask = 0;
+-		break;
++		return -EOPNOTSUPP;
+ 	}
+ 
+ 	if (mask) {
+@@ -1136,6 +1134,11 @@ static int lt9611_probe(struct i2c_client *client)
+ 	lt9611->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
+ 	lt9611->bridge.vendor = "Lontium";
+ 	lt9611->bridge.product = "LT9611";
++	lt9611->bridge.software_infoframes =
++		DRM_CONNECTOR_INFOFRAME_AUDIO |
++		DRM_CONNECTOR_INFOFRAME_AVI |
++		DRM_CONNECTOR_INFOFRAME_SPD |
++		DRM_CONNECTOR_INFOFRAME_VENDOR;
+ 	lt9611->bridge.hdmi_audio_dev = dev;
+ 	lt9611->bridge.hdmi_audio_max_i2s_playback_channels = 8;
+ 	lt9611->bridge.hdmi_audio_dai_port = 2;
 
 -- 
 2.47.2
