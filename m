@@ -1,103 +1,119 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+Received: from mail.netcube.li (mail.netcube.li [173.249.15.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C69D23F413
-	for <linux-sunxi@lists.linux.dev>; Sat, 30 Aug 2025 07:39:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE9E91C3F0C
+	for <linux-sunxi@lists.linux.dev>; Sat, 30 Aug 2025 09:47:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.249.15.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756539550; cv=none; b=AqH1N27tCe5loOWiWj/RWNh66i+Asvc5ETQu3djir89dys/2UbchK1IIuFMyeM+j/jIgYqoSDUDTPJJnxxuSmV2D6X5zKmjj2g2Je5sjJgVgMvyXN/To5evQI7NPF/UzGTqN8IKlqOse+qgO1gPwNNuv5uXkwJVzUwKtgcyGJTU=
+	t=1756547256; cv=none; b=td4f79Jl29p6cWKQ6R0SVV6/kyQplhqVIL/Pb5feSr/R8XPKQm0Landpk5GHIW07JF6dqWtmbh3YPZa/W4hb/OD0Q0o6tg2Ah39kh5+C5UMAa95uNnIo7De9HDYyDKN+l7OSNu4KRD2Opaf7r0dTk8LVgQHidCdz/7hrnvAeovU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756539550; c=relaxed/simple;
-	bh=7fzjqNbnl1FH7mVwqP6ExvQ8qLgU7/T3+Fqhp2L/qAI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JzXd6dvM7u84CiaNQLY87WtNuY7/kiXraykDd2mj7kb74oSMtBUnglVLFN0uO8sEujmk/fHUKTymxdo+1ZWKAzjq0LAcYlVRYMz5ygMF38Jat2138w4nCkr8EWy5Hdu503cKG8fmab+MgwX6EWeN1Sl1a2dnFXUfN6kydMnnnkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fooishbar.org; spf=pass smtp.mailfrom=fooishbar.org; dkim=pass (2048-bit key) header.d=fooishbar.org header.i=@fooishbar.org header.b=bdf59L4h; arc=none smtp.client-ip=209.85.222.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fooishbar.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fooishbar.org
+	s=arc-20240116; t=1756547256; c=relaxed/simple;
+	bh=O1fBk5jffFqjCHIFcOHG4vHijhyhO9U7OQyqaQYwbj8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VPyhNa//kHRXwk+QdIE+JETi7gu9xfYJtML+KDFXCQjLhL8DPtIdhWIR6yJR7AlikMliWXMLvG4CKZ+TBzD3CUf0R6M07axYRiBgpcWr1BpD8cAmj1frPRHzACgeADJQj9ruyfYaxSCKPIV0sbIF/bqOnmjJcu+mV/jzNYlbFbk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li; spf=pass smtp.mailfrom=netcube.li; dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b=o+dctFqz; arc=none smtp.client-ip=173.249.15.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netcube.li
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fooishbar.org header.i=@fooishbar.org header.b="bdf59L4h"
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-7e8704cdc76so286302985a.1
-        for <linux-sunxi@lists.linux.dev>; Sat, 30 Aug 2025 00:39:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fooishbar.org; s=google; t=1756539547; x=1757144347; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=7fzjqNbnl1FH7mVwqP6ExvQ8qLgU7/T3+Fqhp2L/qAI=;
-        b=bdf59L4hWcnQ/PGfTnPpewUjkA91n3BC8EmeZfq0CodzGirCiQr2iM5fESsPcIhiyQ
-         zXHHgBr6uOjw6ThRH6/F5xp7cgVrhV9+PI7Y3hPNHb7fPOhXPaCSS4a5J8Mk5aOn3AWZ
-         xe93YkjzkjpYG96p6t9TSbNlua9uCgkFBbtTmRYD/Mgj0ZMSaNyx4zOZSnLJOogQlMOE
-         uIsT7razpJm3zA1O3BnO1yIupr3h8ODjyrJDkXfDFzNxe0TKTtPWJJSA45v6DCfa41AR
-         GjwB8lO9zQjMRTOL4T2FAylIetbtCiY7Ef4dtnwB93GYizXkxDGMgK2p2cSURX89aIoL
-         mOoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756539547; x=1757144347;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7fzjqNbnl1FH7mVwqP6ExvQ8qLgU7/T3+Fqhp2L/qAI=;
-        b=qkZ0+rdnLtNHrfP5BhIiF1UtQkRdk+aOYv2x2wgEEZ/PEWl7a84uIbjce9n9kpDmjO
-         EsqER01yp5nys1Wfd7OyI5ByF2BfcHwPEddmVGV5HX+7wtd6sVZVK1Yc1sa3g6CIjUFO
-         Tpm84GYn9BAwPByqVgoX7PL7PMu4SRFflJzCSklRc1qdhWhGH2HbPZRG7onb/8K/buh3
-         V3glQjSwwHbolEPgZRoReXPU5nwc6b0S+WrPSPDqYkkMYj7hMt9pZ18u1PB6E/i3U+Ek
-         rdH2caAoSfk4HL+2A1KIsAihh/qJ2d7nUgZgMPaNbKfBc6LDs/2udnbzYNkxDwOktIPa
-         3E7A==
-X-Forwarded-Encrypted: i=1; AJvYcCWoMZgOsiqpqdM4Jr8hxNVuBiX1ldjUH9+WL1tMMj7v9DKJVcBwNyUftxvQqPwpj26DeBm8jWWOzu7UeQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxsfXiXbD8fAwW++HMHERMio2hZbwLIsunJqBI+q74L7Jx9Sfry
-	O/xkHqrTt7qRh7rga31Ue9MjYaq8u06Fm6USdlYC+xUeyajzcJlYwEWSwtQ0CB0whGJtVgIr0WX
-	AaFKlUffjc0Sk/mNH6wVrpnaJqxrJMFyduAC74jamdg==
-X-Gm-Gg: ASbGncu481Egj32X//P6LtMMiKO6FlGVeIhxQM+wc9NSY0VKhFGgqm71SyDOWjEpFrR
-	TCTP3jQGkMdnomZEQQ6lPYRCfWDscrSBZqHl4KfgQgg/k6d6r6eSKLudPj0//j43hXrUHrWwToz
-	1s1iapp+EcAL63E0jPGs9x1lrtENXCMTxRhDFHddoemKfDRGt0nq5dthos+QDWUWv2xNnTghE53
-	SXBAO9y6kL0U812
-X-Google-Smtp-Source: AGHT+IGcdIb5Bh5zrCRPBVL3fLoDcfNzuR05JRese/yFeQ6WZnki9GRGlAQtC8Gf4B7czjKl7GD5FNu5efT2Tyeq4FE=
-X-Received: by 2002:a05:620a:3194:b0:7e9:f820:2b72 with SMTP id
- af79cd13be357-7ff2c51b1dfmr138787485a.72.1756539547138; Sat, 30 Aug 2025
- 00:39:07 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b="o+dctFqz"
+dkim-signature: v=1; a=rsa-sha256; d=netcube.li; s=s1;
+	c=relaxed/relaxed; q=dns/txt; h=From:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Transfer-Encoding;
+	bh=uKji/FCmBwfqWJNW5C1m3HN1FANNuZMTcCJ632t2uJw=;
+	b=o+dctFqz3HX0r7Gm3jrCpKcguejk68zXpPYlNn76Mjs1/DFLP/uXv8/k3QZsf1aTVP8oyHqiwXJ1AqldCOVwMY7lLi9U1sg7xaZK8mBBhF72acr7VZMrLDFxzljWC6EKZxT0c+OPKCCuI9GdiV6vgSNjLSC2eFCJkgMkBxDQrtk=
+Received: from lukas-hpz440workstation.lan.sk100508.local (cm70-231.liwest.at [212.241.70.231])
+	by mail.netcube.li with ESMTPA
+	; Sat, 30 Aug 2025 11:47:27 +0200
+From: Lukas Schmid <lukas.schmid@netcube.li>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Maxime Ripard <mripard@kernel.org>
+Cc: Lukas Schmid <lukas.schmid@netcube.li>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: [PATCH v7 0/5] Add support for NetCube Systems Nagami SoM and its carrier boards
+Date: Sat, 30 Aug 2025 11:46:52 +0200
+Message-Id: <20250830094700.1715658-1-lukas.schmid@netcube.li>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250830-drm-limit-infoframes-v3-0-32fcbec4634e@oss.qualcomm.com> <CAPj87rNDtfEYV88Ue0bFXJwQop-zy++Ty7uQ9XfrQ2TbAijeRg@mail.gmail.com>
-In-Reply-To: <CAPj87rNDtfEYV88Ue0bFXJwQop-zy++Ty7uQ9XfrQ2TbAijeRg@mail.gmail.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Sat, 30 Aug 2025 09:38:55 +0200
-X-Gm-Features: Ac12FXzM9U8oA3u3fX5rkC_Acspb1Bpg3nyPrRsz__oJ7apEVkNTDxD29-I5hyE
-Message-ID: <CAPj87rNz7PPqZ7P4JSKdnizFaEoaBMf2VFBYbpVn3VNt1giU0w@mail.gmail.com>
-Subject: Re: [PATCH v3 00/11] drm/connector: hdmi: limit infoframes per driver capabilities
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
-	Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Samuel Holland <samuel@sholland.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	=?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Liu Ying <victor.liu@nxp.com>, 
-	Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
-	Abhinav Kumar <abhinav.kumar@linux.dev>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
-	Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
-	freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Sat, 30 Aug 2025 at 09:30, Daniel Stone <daniel@fooishbar.org> wrote:
-> On Sat, 30 Aug 2025 at 02:23, Dmitry Baryshkov
-> <dmitry.baryshkov@oss.qualcomm.com> wrote:
-> > It's not uncommon for the particular device to support only a subset of
-> > HDMI InfoFrames. It's not a big problem for the kernel, since we adopted
-> > a model of ignoring the unsupported Infoframes, but it's a bigger
-> > problem for the userspace: we end up having files in debugfs which do
-> > mot match what is being sent on the wire.
-> >
-> > Sort that out, making sure that all interfaces are consistent.
->
-> Thanks for the series, it's a really good cleanup.
+This series adds support for the NetCube Systems Nagami SoM and its
+associated carrier boards, the Nagami Basic Carrier and the Nagami Keypad
+Carrier.
 
-FWIW, the rest of the series is:
-Acked-by: Daniel Stone <daniels@collabora.com>
+Changes in v7:
+  - Fix the gpio numbering for the USB_SEC_EN gpio hog
+  - Fix the gpio-line-names for the keypad carrier
+
+Changes in v6:
+  - Add 'usb0-enable-hog' to the som to enable the USB-OTG port by default
+  - Update the keypad carrier dts to match actual board revision
+
+Changes in v5:
+  - Re-add the non-removable property to the ESP32 interface
+  - Add the mmc-pwrseq node for the ESP32 to initialize the ESP32 correctly
+  - Remove the unused ehci0 and ohci0 nodes from the Keypad Carrier since
+    USB port is peripheral only
+
+Changes in v4:
+  - Disable the default interfaces on the card-edge but keep the pinctrl
+    definitions for them
+  - Split the pinctrl definitions for the SPI interface into the basic spi 
+    pins and the hold/wp pins
+  - Move some mmc0 properties to the Basic Carrier dts
+  - Remove non-removable property from the ESP32 interface
+  - Fix typo in the keypad matrix definition
+
+Changes in v3:
+  - Add missing dcxo node to the SoM dtsi
+  - Rename the multi-led node
+  - Change dr_mode to "peripheral" for the Keypad Carrier
+
+Changes in v2:
+ - Squash the binding patches into one patch
+ - Fix formatting of the phy node in the SoM dtsi
+ - Add description on where the phy is located in the SoM dtsi
+ - Fix the phy address in the SoM dtsi
+ - Move the carrier bindings into the same description as enums
+
+Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
+---
+Lukas Schmid (5):
+  dt-bindings: arm: sunxi: Add NetCube Systems Nagami SoM and carrier
+    board bindings
+  riscv: dts: allwinner: d1s-t113: Add pinctrl's required by NetCube
+    Systems Nagami SoM
+  ARM: dts: sunxi: add support for NetCube Systems Nagami SoM
+  ARM: dts: sunxi: add support for NetCube Systems Nagami Basic Carrier
+  ARM: dts: sunxi: add support for NetCube Systems Nagami Keypad Carrier
+
+ .../devicetree/bindings/arm/sunxi.yaml        |   8 +
+ arch/arm/boot/dts/allwinner/Makefile          |   3 +
+ ...n8i-t113s-netcube-nagami-basic-carrier.dts |  67 +++++
+ ...8i-t113s-netcube-nagami-keypad-carrier.dts | 129 +++++++++
+ .../allwinner/sun8i-t113s-netcube-nagami.dtsi | 249 ++++++++++++++++++
+ .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    |  48 ++++
+ 6 files changed, 504 insertions(+)
+ create mode 100644 arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-basic-carrier.dts
+ create mode 100644 arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-keypad-carrier.dts
+ create mode 100644 arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami.dtsi
+
+-- 
+2.39.5
+
+
