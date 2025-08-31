@@ -1,28 +1,27 @@
 Received: from mail.netcube.li (mail.netcube.li [173.249.15.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E225267B89
-	for <linux-sunxi@lists.linux.dev>; Sun, 31 Aug 2025 16:27:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1E2E27057D
+	for <linux-sunxi@lists.linux.dev>; Sun, 31 Aug 2025 16:27:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.249.15.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756657625; cv=none; b=FBjOX+ymGQOR755g6B+6Xwjsrre0yEokiJGtBRAI9PYF/pakZp19H6STGR56iX0K3xbwrWJrClibpWejg4J7uezBaIewMgtHsIMO3HxrEa73woUgHKgNipnCVVXKl1XS4+je16JopWX4lLLMeCu5pkMbKT6WWQczqkZoj7tfsfs=
+	t=1756657627; cv=none; b=idPYuWvSKcj/c4GsouAPurPlERnMmtZvi8Jwij2M/wcxzhM2ZJlPKuvXmaBPxPQRSX7/vmXYHeNUSsY4X4kDL5S+WnBbiUj1rMsbw+EhNNjHFx9QnuI9uYm2lk5v+BJzgdvRrtFRQcKaadd9Sr56c+/KqOVD4Qwg87UBI2qRmd4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756657625; c=relaxed/simple;
-	bh=aPFJ7zltPnll+XDwh3aFc9GcQl4STel55e2vTeqqCK0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=tkuQrQmsV6P7lwWRuyeYIQFs3NBlOPOHUqnSePQOm39Q4myid8ekLNxfvgi3vzX03+zOq4Dtx+H/WGlfhFzhtVKZ7Nvrste8KEh/9Oq/oeXxnirsNmQUD3YvAKnG7NrwCnluGjKdDHg1orXB9ODcPNXxFp0/NxLusiyw2XB2MWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li; spf=pass smtp.mailfrom=netcube.li; dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b=dVqm6EOg; arc=none smtp.client-ip=173.249.15.149
+	s=arc-20240116; t=1756657627; c=relaxed/simple;
+	bh=4phlBbgBNFAzq2caa1c6gtsQQiS3M/vxr+sbRZ2zcf0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NN45HNSt6wSI7G2sbGf2kC2K63nyXdNDnweCLH4ilflJ0YQMBIy/DCXwJdOsb/7mtdco9Nos84JArAbIxmomgJVEbYFMVF9qwLVk1syewSDkWJ1oWB9Bnu3BjJa0lxsLtmxgUfysR1Iq6n451toygglDN07FNAZ0lHjjnN9XsGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li; spf=pass smtp.mailfrom=netcube.li; dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b=cZi0dDX1; arc=none smtp.client-ip=173.249.15.149
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netcube.li
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b="dVqm6EOg"
+	dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b="cZi0dDX1"
 dkim-signature: v=1; a=rsa-sha256; d=netcube.li; s=s1;
-	c=relaxed/relaxed; q=dns/txt; h=From:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Transfer-Encoding:In-Reply-To:References;
-	bh=MBwE6Fz8jW8S6qRfZG7ebV4ExSgfdhPu/bVH7xzFbMs=;
-	b=dVqm6EOgySfINo9XZ2fj+dcVEnSLlAEQayqAFb4tk8q/RtlGJAzZJmhNQbHjhWQrpLeIVfkCeDtTDQYeE0C0aYvrf1g4hh0oTR8Am4YG3q+iQv5t9kR39qRD/GKqPwsLWmfLmZlcw/t0jCBUp7rRJ3zHEiSX9WTusInijCDMHNc=
+	c=relaxed/relaxed; q=dns/txt; h=From:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Transfer-Encoding;
+	bh=sdiZNlFdFrCeOjv+QMPaCswLDzXBuVlIMvUDGjhN5kc=;
+	b=cZi0dDX1ZQsL3iKPObkmfAs7jhUUeLjhaddFrv+tnqizB1AMInVpsuBNApWsu3X29xpBA3oldlCbT/PoX/0OOX0WcRwrwvs0LUvm5zxCRdpLon/4n1f78gF7LlNQvV3OugfL5SXh1VoGstqlnf+KTEuByjbeebQJlyQuvICvFSg=
 Received: from lukas-hpz440workstation.lan.sk100508.local (cm70-231.liwest.at [212.241.70.231])
 	by mail.netcube.li with ESMTPA
-	; Sun, 31 Aug 2025 18:26:50 +0200
+	; Sun, 31 Aug 2025 18:26:34 +0200
 From: Lukas Schmid <lukas.schmid@netcube.li>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -41,12 +40,10 @@ Cc: Lukas Schmid <lukas.schmid@netcube.li>,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	linux-riscv@lists.infradead.org
-Subject: [PATCH v8 5/5] ARM: dts: sunxi: add support for NetCube Systems Nagami Keypad Carrier
-Date: Sun, 31 Aug 2025 18:25:34 +0200
-Message-Id: <20250831162536.2380589-6-lukas.schmid@netcube.li>
+Subject: [PATCH v8 0/5] Add support for NetCube Systems Nagami SoM and its carrier boards
+Date: Sun, 31 Aug 2025 18:25:29 +0200
+Message-Id: <20250831162536.2380589-1-lukas.schmid@netcube.li>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250831162536.2380589-1-lukas.schmid@netcube.li>
-References: <20250831162536.2380589-1-lukas.schmid@netcube.li>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -55,166 +52,71 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The NetCube Systems Nagami Keypad Carrier uses the Nagami SoM and contains
-a TCA8418 connected to a 4x4 matrix keypad. The I2C2 interface is connected
-to said TCA8418 and also a header for an PN532 NFC-Module. It also provides
-a pin-header for a bi-color status led. Ethernet with PoE support is
-available on a screwterminal after magnetics.
+This series adds support for the NetCube Systems Nagami SoM and its
+associated carrier boards, the Nagami Basic Carrier and the Nagami Keypad
+Carrier.
+
+Changes in v8:
+  - Use a gpio-mux instead of the gpio-hog for the USB0_SEC_EN signal
+  - Fix the dt-schema issues
+
+Changes in v7:
+  - Fix the gpio numbering for the USB_SEC_EN gpio hog
+  - Fix the gpio-line-names for the keypad carrier
+
+Changes in v6:
+  - Add 'usb0-enable-hog' to the som to enable the USB-OTG port by default
+  - Update the keypad carrier dts to match actual board revision
+
+Changes in v5:
+  - Re-add the non-removable property to the ESP32 interface
+  - Add the mmc-pwrseq node for the ESP32 to initialize the ESP32 correctly
+  - Remove the unused ehci0 and ohci0 nodes from the Keypad Carrier since
+    USB port is peripheral only
+
+Changes in v4:
+  - Disable the default interfaces on the card-edge but keep the pinctrl
+    definitions for them
+  - Split the pinctrl definitions for the SPI interface into the basic spi 
+    pins and the hold/wp pins
+  - Move some mmc0 properties to the Basic Carrier dts
+  - Remove non-removable property from the ESP32 interface
+  - Fix typo in the keypad matrix definition
+
+Changes in v3:
+  - Add missing dcxo node to the SoM dtsi
+  - Rename the multi-led node
+  - Change dr_mode to "peripheral" for the Keypad Carrier
+
+Changes in v2:
+ - Squash the binding patches into one patch
+ - Fix formatting of the phy node in the SoM dtsi
+ - Add description on where the phy is located in the SoM dtsi
+ - Fix the phy address in the SoM dtsi
+ - Move the carrier bindings into the same description as enums
 
 Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
 ---
- arch/arm/boot/dts/allwinner/Makefile          |   1 +
- ...8i-t113s-netcube-nagami-keypad-carrier.dts | 129 ++++++++++++++++++
- 2 files changed, 130 insertions(+)
- create mode 100644 arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-keypad-carrier.dts
+Lukas Schmid (5):
+  dt-bindings: arm: sunxi: Add NetCube Systems Nagami SoM and carrier
+    board bindings
+  riscv: dts: allwinner: d1s-t113: Add pinctrl's required by NetCube
+    Systems Nagami SoM
+  ARM: dts: sunxi: add support for NetCube Systems Nagami SoM
+  ARM: dts: sunxi: add support for NetCube Systems Nagami Basic Carrier
+  ARM: dts: sunxi: add support for NetCube Systems Nagami Keypad Carrier
 
-diff --git a/arch/arm/boot/dts/allwinner/Makefile b/arch/arm/boot/dts/allwinner/Makefile
-index af287bb3231c8..a2137bbe22307 100644
---- a/arch/arm/boot/dts/allwinner/Makefile
-+++ b/arch/arm/boot/dts/allwinner/Makefile
-@@ -259,6 +259,7 @@ dtb-$(CONFIG_MACH_SUN8I) += \
- 	sun8i-s3-pinecube.dtb \
- 	sun8i-t113s-mangopi-mq-r-t113.dtb \
- 	sun8i-t113s-netcube-nagami-basic-carrier.dtb \
-+	sun8i-t113s-netcube-nagami-keypad-carrier.dtb \
- 	sun8i-t3-cqa3t-bv3.dtb \
- 	sun8i-v3-sl631-imx179.dtb \
- 	sun8i-v3s-anbernic-rg-nano.dtb \
-diff --git a/arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-keypad-carrier.dts b/arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-keypad-carrier.dts
-new file mode 100644
-index 0000000000000..048a6245684aa
---- /dev/null
-+++ b/arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-keypad-carrier.dts
-@@ -0,0 +1,129 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+/*
-+ * Copyright (C) 2025 Lukas Schmid <lukas.schmid@netcube.li>
-+ */
-+
-+/dts-v1/;
-+#include "sun8i-t113s-netcube-nagami.dtsi"
-+
-+#include <dt-bindings/input/input.h>
-+#include <dt-bindings/leds/common.h>
-+
-+/ {
-+	model = "NetCube Systems Nagami Keypad Carrier Board";
-+	compatible = "netcube,nagami-keypad-carrier", "netcube,nagami",
-+				 "allwinner,sun8i-t113s";
-+
-+	leds {
-+		compatible = "gpio-leds";
-+
-+		led_status_red: led-status-red {
-+			gpios = <&pio 3 16 GPIO_ACTIVE_HIGH>;  /* PD16 */
-+			color = <LED_COLOR_ID_RED>;
-+			function = LED_FUNCTION_STATUS;
-+		};
-+
-+		led_status_green: led-status-green {
-+			gpios = <&pio 3 22 GPIO_ACTIVE_HIGH>;  /* PD22 */
-+			color = <LED_COLOR_ID_GREEN>;
-+			function = LED_FUNCTION_STATUS;
-+		};
-+	};
-+};
-+
-+&i2c2 {
-+	status = "okay";
-+
-+	tca8418: keypad@34 {
-+		compatible = "ti,tca8418";
-+		reg = <0x34>;
-+		interrupts-extended = <&pio 5 6 IRQ_TYPE_EDGE_FALLING>;  /* PF6 */
-+		linux,keymap = <MATRIX_KEY(0x03, 0x00, KEY_NUMERIC_A)
-+						MATRIX_KEY(0x03, 0x01, KEY_NUMERIC_1)
-+						MATRIX_KEY(0x03, 0x02, KEY_NUMERIC_2)
-+						MATRIX_KEY(0x03, 0x03, KEY_NUMERIC_3)
-+						MATRIX_KEY(0x02, 0x00, KEY_NUMERIC_B)
-+						MATRIX_KEY(0x02, 0x01, KEY_NUMERIC_4)
-+						MATRIX_KEY(0x02, 0x02, KEY_NUMERIC_5)
-+						MATRIX_KEY(0x02, 0x03, KEY_NUMERIC_6)
-+						MATRIX_KEY(0x01, 0x00, KEY_NUMERIC_C)
-+						MATRIX_KEY(0x01, 0x01, KEY_NUMERIC_7)
-+						MATRIX_KEY(0x01, 0x02, KEY_NUMERIC_8)
-+						MATRIX_KEY(0x01, 0x03, KEY_NUMERIC_9)
-+						MATRIX_KEY(0x00, 0x00, KEY_NUMERIC_D)
-+						MATRIX_KEY(0x00, 0x01, KEY_CLEAR)
-+						MATRIX_KEY(0x00, 0x02, KEY_NUMERIC_0)
-+						MATRIX_KEY(0x00, 0x03, KEY_OK)
-+		>;
-+		keypad,num-rows = <4>;
-+		keypad,num-columns = <4>;
-+	};
-+};
-+
-+&pio {
-+	gpio-line-names = "", "", "", "", // PA
-+					  "", "", "", "",
-+					  "", "", "", "",
-+					  "", "", "", "",
-+					  "", "", "", "",
-+					  "", "", "", "",
-+					  "", "", "", "",
-+					  "", "", "", "",
-+					  "", "", "", "", // PB
-+					  "", "", "UART3_TX", "UART3_RX",
-+					  "", "", "", "",
-+					  "", "", "", "",
-+					  "", "", "", "",
-+					  "", "", "", "",
-+					  "", "", "", "",
-+					  "", "", "", "",
-+					  "", "", "eMMC_CLK", "eMMC_CMD", // PC
-+					  "eMMC_D2", "eMMC_D1", "eMMC_D0", "eMMC_D3",
-+					  "", "", "", "",
-+					  "", "", "", "",
-+					  "", "", "", "",
-+					  "", "", "", "",
-+					  "", "", "", "",
-+					  "", "", "", "",
-+					  "", "", "", "", // PD
-+					  "", "", "", "",
-+					  "", "USB_SEC_EN", "", "",
-+					  "", "", "", "",
-+					  "LED_STATUS_RED", "", "", "",
-+					  "I2C2_SCL", "I2C2_SDA", "LED_STATUS_GREEN", "",
-+					  "", "", "", "",
-+					  "", "", "", "",
-+					  "ETH_CRSDV", "ETH_RXD0", "ETH_RXD1", "ETH_TXCK", // PE
-+					  "ETH_TXD0", "ETH_TXD1", "ETH_TXEN", "",
-+					  "ETH_MDC", "ETH_MDIO", "QWIIC_nINT", "",
-+					  "", "", "", "",
-+					  "", "", "", "",
-+					  "", "", "", "",
-+					  "", "", "", "",
-+					  "", "", "", "",
-+					  "", "", "", "", // PF
-+					  "", "", "KEY_nINT", "",
-+					  "", "", "", "",
-+					  "", "", "", "",
-+					  "", "", "", "",
-+					  "", "", "", "",
-+					  "", "", "", "",
-+					  "", "", "", "",
-+					  "ESP_CLK", "ESP_CMD", "ESP_D0", "ESP_D1", // PG
-+					  "ESP_D2", "ESP_D3", "UART1_TXD", "UART1_RXD",
-+					  "ESP_nBOOT", "ESP_nRST", "I2C3_SCL", "I2C3_SDA",
-+					  "", "", "", "",
-+					  "", "", "", "",
-+					  "", "", "", "",
-+					  "", "", "", "",
-+					  "", "", "", "";
-+};
-+
-+&usb_otg {
-+	dr_mode = "peripheral";
-+	status = "okay";
-+};
-+
-+&usbphy {
-+	status = "okay";
-+};
+ .../devicetree/bindings/arm/sunxi.yaml        |   8 +
+ arch/arm/boot/dts/allwinner/Makefile          |   3 +
+ ...n8i-t113s-netcube-nagami-basic-carrier.dts |  67 +++++
+ ...8i-t113s-netcube-nagami-keypad-carrier.dts | 129 +++++++++
+ .../allwinner/sun8i-t113s-netcube-nagami.dtsi | 250 ++++++++++++++++++
+ .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    |  48 ++++
+ 6 files changed, 505 insertions(+)
+ create mode 100644 arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-basic-carrier.dts
+ create mode 100644 arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-keypad-carrier.dts
+ create mode 100644 arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami.dtsi
+
 -- 
 2.39.5
 
