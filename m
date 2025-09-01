@@ -1,70 +1,70 @@
-Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33AF7EEDE
-	for <linux-sunxi@lists.linux.dev>; Mon,  1 Sep 2025 12:01:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55431277CB4;
+	Mon,  1 Sep 2025 21:29:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756728074; cv=none; b=ciJksZ7qIrEczwtJ+zDbJ3QpnJhhgjpOZ6WdBAWKkp9P2yatzOADmxtvWsARmBsxATa9fVsB5lIExZa8oFX+9IGwoahSczMNNh8NUSwYCfBgrdGIqEpJ2YN0Z6QXeH5X3VCY9XpEIUw5WZoepfikTTLH9iMfJeVHuQlA7Oi1rLM=
+	t=1756762176; cv=none; b=aTYA7CBgVY4kmDDfjbJBb+1TC9vTLHjBYxPc1uA02tJJVFK0ZCWOyZpXdha6CGYkvlsWGNvo5sygNwJHA19Zhlw+eoW3S3baieeEqkoMpiNxk9HQrZMJWT/N/ZAJnLn3MpZTkopgN7Os4jyor9aDF0/kHQDS6BtNXxH+I1V9MsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756728074; c=relaxed/simple;
-	bh=Sd/4Fn/fDhIJR8eH4u+iA98zALhcB4J6HidnQDDkU3c=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SUOfAeb0FPp2sBe8em/G67w4+99f/huffaWG9vjxSdtSCzBvWf4EerojsWsbO9yGDEN3EsWIEwXFlwIpKXUIyMN/FK+m1pNCLoFLf+lBuhjGtbbb/aatS+UeH9SBrL3ffvMuZPU/9saV/PYxD55iRokDKOGcx363fpHedCV4BYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jmu.edu.cn; spf=pass smtp.mailfrom=jmu.edu.cn; arc=none smtp.client-ip=101.71.155.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jmu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jmu.edu.cn
-Received: from localhost.localdomain (unknown [119.122.212.9])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 214c55591;
-	Mon, 1 Sep 2025 20:01:07 +0800 (GMT+08:00)
-From: Chukun Pan <amadeus@jmu.edu.cn>
-To: Chen-Yu Tsai <wens@csie.org>
-Cc: Rob Herring <robh@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	s=arc-20240116; t=1756762176; c=relaxed/simple;
+	bh=ZGsW6Cp4Ck4odWBXZ5+9TBl7XqmtalvaRxUlMKXaYDw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AfsJV4LKT1NbX5dFbsYPXYWawggN7M+iN69YmxD5kdzBlXFnz3fBPbiEfs2zGf08o2OQL/XQ1DVEAyh5pFcQPvGchkVKXck/MBJT6oU2ZRZoZITBeDFm3sW9cVehA0HyJChKMu4/Ouapfh0xsbmybxdNFXMuDhqxZKZUSLv/erQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FnX6XK/k; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FnX6XK/k"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 774FDC4CEF0;
+	Mon,  1 Sep 2025 21:29:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756762175;
+	bh=ZGsW6Cp4Ck4odWBXZ5+9TBl7XqmtalvaRxUlMKXaYDw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FnX6XK/kJwr4KXTTulE927esfbGKIfTFa9LMyQOAnCxQe4R3CLqISXTaig0QMwmNh
+	 OvnPUQUHKKNzkm3VHCsAlS4Q7Etp5UjxS3MKpqyif8YWPfWBfXeFoJylWxKCnC49uE
+	 nKm1qCf4FWpoDJkRSdIxB1zkWBlgQZA7tWjPUg+bW1+ecvwVfKZAYqMh/ltU1QeXzB
+	 FaqfaLtnMa/peObR9YdewZYGWengxAvZrAfB7WOTFUtivGSLikE5OHv4gEPDwsnoUB
+	 /aP2qYLucTSbEbhKomRcfmhYau/FN27iU39gRqiMXGkDa3r0FVdKAWsNWKoIpboTzY
+	 8xD7XBi1yP5Dw==
+Date: Mon, 1 Sep 2025 16:29:34 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Chen-Yu Tsai <wens@kernel.org>
+Cc: linux-clk@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	Jernej Skrabec <jernej@kernel.org>, devicetree@vger.kernel.org,
+	Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
 	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	devicetree@vger.kernel.org,
-	Chukun Pan <amadeus@jmu.edu.cn>
-Subject: [PATCH 1/1] arm64: dts: allwinner: a523: drop redundant status=okay
-Date: Mon,  1 Sep 2025 20:00:20 +0800
-Message-Id: <20250901120020.181414-1-amadeus@jmu.edu.cn>
-X-Mailer: git-send-email 2.25.1
+	Conor Dooley <conor+dt@kernel.org>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>
+Subject: Re: [PATCH 1/8] dt-bindings: clock: sun55i-a523-ccu: Add missing NPU
+ module clock
+Message-ID: <175676217387.375469.10664750906350656739.robh@kernel.org>
+References: <20250830170901.1996227-1-wens@kernel.org>
+ <20250830170901.1996227-2-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a990527058503a2kunm4ecba7364004
-X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZSU5DVkNNHkhPQxoYQxpCHlYeHw5VEwETFhoSFy
-	QUDg9ZV1kYEgtZQVlKSkJVSklJVUlKSVVCWVdZFhoPEhUdFFlBWU9LSFVKS0hKTkxOVUpLS1VKQk
-	tLWQY+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250830170901.1996227-2-wens@kernel.org>
 
-Device nodes are enabled by default, so no need for
-status="okay" property.
 
-Signed-off-by: Chukun Pan <amadeus@jmu.edu.cn>
----
- arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi | 1 -
- 1 file changed, 1 deletion(-)
+On Sun, 31 Aug 2025 01:08:54 +0800, Chen-Yu Tsai wrote:
+> From: Chen-Yu Tsai <wens@csie.org>
+> 
+> The main clock controller on the A523/T527 has the NPU's module clock.
+> It was missing from the original submission, likely because that was
+> based on the A523 user manual; the A523 is marketed without the NPU.
+> 
+> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+> ---
+>  include/dt-bindings/clock/sun55i-a523-ccu.h | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-index 6b6f2296bdff..cdf844eb8e05 100644
---- a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-@@ -218,7 +218,6 @@ wdt: watchdog@2050000 {
- 			interrupts = <GIC_SPI 63 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&osc24M>, <&rtc CLK_OSC32K>;
- 			clock-names = "hosc", "losc";
--			status = "okay";
- 		};
- 
- 		uart0: serial@2500000 {
--- 
-2.25.1
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
