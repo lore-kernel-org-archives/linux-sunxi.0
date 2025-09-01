@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB1D1273FD;
-	Mon,  1 Sep 2025 06:54:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01384D531;
+	Mon,  1 Sep 2025 07:03:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756709662; cv=none; b=ScbOMXSztmwI5oDaC1gcr0lgWxaIZv2+eLFac0/zjehZpK1kiHBxmcUOUzrQAG6hpnDoWuldgTebwSgyxVKwmRUNArJzvdn2mFGTvknPvvRuX/4xiDGTVeBPPEiiE9vOs1MLYanzCJaqkYtpbxtbVvF1AbagWhhlb8aG/wkwJ/E=
+	t=1756710213; cv=none; b=ShmO7U/bz2bpFBZqCEw2mWzNe5Ze22svtB4SslzNFLHPcygRWIM93H3bsWBrU5vwB+qNNWTFQ5K2XyPNrD8MXw6g5BxhXuicGYD3hq291SQO3dgJb7yr1Y29yWl5h9O9baRD62WodWrLGqZrlkv/x30sAhIQGMqZUJkD3kGgwNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756709662; c=relaxed/simple;
-	bh=fwrdXGVjUYTBQheWc/IsdqXrl6C9veTKc/wEeMzy6Ro=;
+	s=arc-20240116; t=1756710213; c=relaxed/simple;
+	bh=0sWYT/ZaAhbNgFwFtfXmdwfjqQLZ2xdw0LRrPXgMr24=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s9u0rtesyckOHfDf+ZTvb9au48XZcUDDScW+ztlck0qEgGk67vim/oKyNw9oSRKjFcBM8RcbF8XnKCHfj2R7GWJ3GuPRD5BzKIm+YZ0U1Fq4xwLW5fpme5PdHm+5jNk4/lAc/OTUPr5dE5j0zXDv+pqMkTrAd5LW+7idrvXwLGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LmFUTpLl; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=McExSvxUkBV/MTqJ5M6TUN8XPJMWfYCUlHurln3Ych7894lL5QIy1jF884gQ9SMYQEDPpLahPdZsKm9kwvG9qWOOBcpSSnFwExVqs0kubae/1DdIRBL5osSVjlanh8oXgln5XlYdn43pzjSgDJOcGwZwCk8v7htTUO8Oc90woEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rP/Q0WPi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LmFUTpLl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDC11C4AF0C;
-	Mon,  1 Sep 2025 06:54:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rP/Q0WPi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F408EC4CEF0;
+	Mon,  1 Sep 2025 07:03:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756709661;
-	bh=fwrdXGVjUYTBQheWc/IsdqXrl6C9veTKc/wEeMzy6Ro=;
+	s=k20201202; t=1756710212;
+	bh=0sWYT/ZaAhbNgFwFtfXmdwfjqQLZ2xdw0LRrPXgMr24=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LmFUTpLl5iNLL2/TUwx1oABydVV7GBecXV4IgcoopSl28MYX7ugia5dDbWbet1kRl
-	 2cUHjwsW3S1ULyP/3pVqmTKsG83ZwlsxcbqtcoS+Ri4DqcNDsJfc5SRP4tYq2CRoF6
-	 PIv881LCWriz19Xc0NTpcm53tr9N6JTq6TOgM1EX+vSkoTNFJkBm2apRhZs+a6qXnw
-	 SJE+f2KobYNeXxhWHfGsDH23e5HjX092guokAQUjSCOhALU8BWA2+TOe6hrmoORmJd
-	 LVmQpsWHJLRV97+Xaco5MOtBzfHz0xWnXt9F8njQLdoj1v42qRayegs8nHKmE2UEGC
-	 7NppgdOlpgS9A==
-Date: Mon, 1 Sep 2025 08:54:18 +0200
+	b=rP/Q0WPi2UZ19fxbGP6Sge18m+HOXvCRKlJC5/jutB0TV8oWdx8o/teLpYtmawJ/H
+	 1fuOzy0RG8cFHr9OVhlcz58RDr9fkYh86fScJj3jIGZ4rQWCW47N1JI4GQrrDPRRxR
+	 9oJtgtXNyNSfMd7ldwhWmhg6YlVwbB2opwCmoxilOW0D9/T8z6fA91caao6eCCYrGe
+	 98rWo+iCqKaIIEIk86c6awjMAjDQaeLd4idRzKqsiBNXPRcO9ElA+fFslpuIRxaWyu
+	 n0MBUgUhjUqalKWxsbYswBMLi+UnTzICE8SgGuP96DTGVMGYlQ2kd3Zm4FKvIP0yVB
+	 pLGw9PNX3n+xQ==
+Date: Mon, 1 Sep 2025 09:03:30 +0200
 From: Maxime Ripard <mripard@kernel.org>
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -44,15 +44,11 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
 	Marijn Suijten <marijn.suijten@somainline.org>, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
 	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
 	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v2 1/8] drm/connector: let drivers declare infoframes as
- unsupported
-Message-ID: <20250901-illustrious-dark-kagu-f4ef76@houat>
-References: <20250819-drm-limit-infoframes-v2-0-7595dda24fbd@oss.qualcomm.com>
- <20250819-drm-limit-infoframes-v2-1-7595dda24fbd@oss.qualcomm.com>
- <20250820-artichoke-silkworm-of-election-521b5e@houat>
- <v7w7xkefm6ap7delx7wsvxmc76fwptqhe4ehokzfh4baueb7hr@acrx36exv42v>
- <20250827-adorable-ocelot-of-adventure-ba88b7@houat>
- <jrvjvayhjczgb4yx3xshbv3e6ndzkmb7uu3ynoes2maniwjg37@hamxu5mzqmf7>
+Subject: Re: [PATCH v3 01/11] drm/connector: let drivers declare infoframes
+ as unsupported
+Message-ID: <20250901-precious-observant-kiwi-cc5283@houat>
+References: <20250830-drm-limit-infoframes-v3-0-32fcbec4634e@oss.qualcomm.com>
+ <20250830-drm-limit-infoframes-v3-1-32fcbec4634e@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -60,192 +56,48 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="y4s6v275ws7f4w3b"
+	protocol="application/pgp-signature"; boundary="d2n7j42lzxyhexut"
 Content-Disposition: inline
-In-Reply-To: <jrvjvayhjczgb4yx3xshbv3e6ndzkmb7uu3ynoes2maniwjg37@hamxu5mzqmf7>
+In-Reply-To: <20250830-drm-limit-infoframes-v3-1-32fcbec4634e@oss.qualcomm.com>
 
 
---y4s6v275ws7f4w3b
+--d2n7j42lzxyhexut
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 1/8] drm/connector: let drivers declare infoframes as
- unsupported
+Subject: Re: [PATCH v3 01/11] drm/connector: let drivers declare infoframes
+ as unsupported
 MIME-Version: 1.0
 
-On Wed, Aug 27, 2025 at 05:04:53PM +0300, Dmitry Baryshkov wrote:
-> On Wed, Aug 27, 2025 at 09:30:20AM +0200, Maxime Ripard wrote:
-> > On Wed, Aug 20, 2025 at 12:52:44PM +0300, Dmitry Baryshkov wrote:
-> > > On Wed, Aug 20, 2025 at 09:15:36AM +0200, Maxime Ripard wrote:
-> > > > Hi,
-> > > >=20
-> > > > On Tue, Aug 19, 2025 at 09:57:30PM +0300, Dmitry Baryshkov wrote:
-> > > > > Currently DRM framework expects that the HDMI connector driver su=
-pports
-> > > > > all infoframe types: it generates the data as required and calls =
-into
-> > > > > the driver to program all of them, letting the driver to soft-fai=
-l if
-> > > > > the infoframe is unsupported. This has a major drawback on usersp=
-ace
-> > > > > API: the framework also registers debugfs files for all Infoframe=
- types,
-> > > > > possibly surprising the users when infoframe is visible in the de=
-bugfs
-> > > > > file, but it is not visible on the wire.
-> > > > >=20
-> > > > > Let drivers declare that they support only a subset of infoframes,
-> > > > > creating a more consistent interface.
-> > > > >=20
-> > > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.co=
-m>
-> > > >=20
-> > > > I'm not really convinced. Infoframes aren't really something you sh=
-ould
-> > > > ignore, AVI is effectively mandatory, HDMI kind of is too, AUDIO is=
- if
-> > > > audio support is enabled, DRM is mandatory if HDR is used.
-> > >=20
-> > > Nevertheless, sun4i, innohdmi, adv7511, it6263 and rk3066 drivers
-> > > provide support only for the AVI infoframe.
-> >=20
-> > Yes, but it's still something we shouldn't paper over. The spec mandates
-> > it, if drivers want to deviate from it it's something we should warn
-> > about, not silence.
-> >=20
-> > sun4i is a good example, to me at least since I have the doc. The
-> > hardware supports AVI, Audio, ACP, and SPD. HDR isn't supported, so DRM
-> > isn't either. The only missing one is HDMI, but the documentation isn't
-> > the best so it might still be supported. In short, it's a driver issue.
-> >=20
-> > adv7511 supports AVI, Audio, ACP, SPD, ACP, and looks to have a
-> > mechanism to send any infoframe as is. So, again, driver issue.
+On Sat, Aug 30, 2025 at 03:22:57AM +0300, Dmitry Baryshkov wrote:
+> Currently DRM framework expects that the HDMI connector driver supports
+> all infoframe types: it generates the data as required and calls into
+> the driver to program all of them, letting the driver to soft-fail if
+> the infoframe is unsupported. This has a major drawback on userspace
+> API: the framework also registers debugfs files for all Infoframe types,
+> possibly surprising the users when infoframe is visible in the debugfs
+> file, but it is not visible on the wire.
 >=20
-> I've send a patch, enabling SPD and VSI (HDMI) InfoFrames on ADV7511.
+> Let drivers declare that they support only a subset of infoframes,
+> creating a more consistent interface.
 >=20
-> >=20
-> > I couldn't find the other datasheet, but I'd be very surprised if it
-> > wasn't the case for these too.
-> >=20
-> > > Some of them can be extended to support other infoframe kinds (e.g.
-> > > ADV7511 has two spare infoframes which can be used for HDMI and SPD).
-> > >=20
-> > > > SPD is indeed optional though.
-> > > >=20
-> > > > So, it's really dynamic in essence, and not really something we sho=
-uld
-> > > > expect drivers to ignore.
-> > > >=20
-> > > > I do acknowledge that a lot of drivers just silently ignore the
-> > > > infoframes they don't support at the moment, which isn't great eith=
-er.
-> > > >=20
-> > > > Maybe we should standardize and document what drivers should do when
-> > > > they don't support a given infoframe type?
-> > >=20
-> > > The chips might be generating infoframes internally. This series was
-> > > triggered by LT9611UXC, which does all HDMI work under the hood in the
-> > > firmware. See [1]. The series I posted hooks HDMI audio directly into
-> > > the bridge driver, but I'd really prefer to be able to use
-> > > drm_atomic_helper_connector_hdmi_hotplug(), especially if I ever get =
-to
-> > > implementing CEC support for it.
-> > >=20
-> > > ADV7511 likewise generates audio infoframe without Linux
-> > > help (audio-related fields are programmed, but it's not the
-> > > infoframe itself).
-> >=20
-> > Implementing the write_infoframe hooks as a nop with a comment in those
-> > case is totally reasonable to me.
-> >=20
-> > I'd still like to document that drivers should only return 0 if they
-> > programmed the infoframe, and -ENOTSUPP (and the core logging a warning)
-> > otherwise.
-> >=20
-> > That way, we would be able to differentiate between the legimitate
-> > LT9611UXC case, and the "driver is broken" sun4i (and others) case.
->=20
-> I don't want to end up in a sitation where userspace has a different
-> idea of the InfoFrame being sent than the actual one being present on
-> the wire.
+> Acked-by: Liu Ying <victor.liu@nxp.com>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-It's not ideal, sure, but also, what's wrong with it? We're doing it
-*all the time*. Modes programmed by userspace are adjusted for the
-hardware, and thus the mode reported by the CRTC turns out different
-than the one actually used in hardware. Audio sampling rates might not
-match exactly what we're doing. The quirks infrastructure disables part
-of the EDID the userspace has access to, etc.
-
-And all those are under the userspace control, which the infoframes
-aren't.
-
-> It seems, we need several states per the infoframe:
->=20
-> - Not supported
-
-Honestly, I'm not sure we need a state for that one. If that infoframe
-was set by the framework, then the driver must support it. And if it
-wasn't, then there's nothing in debugfs.
-
-> - Autogenerated
-
-Do we have any way to read them back on those?
-
-> - Generated by software
->=20
-> E.g. in case of ADV7511 we can declare that Audio InfofFrame is
-> autogenerated, AVI, HDMI and SPD as 'software-generated' and DRM (HDR)
-> as unsupported. LT9611UXC will declare all (need to check) frame types
-> as auto.
->=20
-> This way we can implement the checks and still keep userspace from
-> having irrelevant data in debugfs.
-
-If the only thing you're after is to prevent inconsistent data in
-userpace for devices that can generate it automatically, then I guess we
-could just implement an (optional) callback to read an infoframe from
-the hardware when reading from debugfs. Would that work?
-
-> I will update my patchset to implement this, but I have another question
-> beforehand: should we just declare VSI support or should it be more exact,
-> specifying that the driver support HVS (00:0c:03), HVFS (c4:5d:d8), etc?
-
-I guess you're talking about HDMI 1.4 Vendor specific Infoframe vs HDMI
-2.0 HF-VSIF here?
-
-If so, the toggle should be HDMI 2.0 support. We'll need that toggle for
-other things anyway (scrambler, YUV420, etc.)
-
-> I'm asking, because e.g. MSM HDMI controller has hardware support for
-> generating HVS frames (but only HVS, the OUI is not programmed, register
-> format doesn't match 1:1 frame contents, etc). I instead ended up using
-> GENERIC0, because it was more flexible (it's like SPARE packets on
-> ADV7511, the contents is being sent as is). However if we ever need to
-> send DRM infoframes, we might need to switch from GENERIC0 to HVS, for
-> the price of being unable to send HVFS frames.
-
-Section 10.2 of the HDMI 2.0 states:
-
-  Transmission of the HF-VSIF by Source Devices is optional unless one (or
-  more) of the features listed in Table 10-1 is active 1. If such features
-  are active, transmission of the HF-VSIF is mandatory.
-
-The features in question being 3d.
-
-So unless you're supporting 3d, suppporting VSI only seems ok to me.
+I still don't think it's a good idea on principle, see my answer to your v2.
 
 Maxime
 
---y4s6v275ws7f4w3b
+--d2n7j42lzxyhexut
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaLVDFgAKCRAnX84Zoj2+
-dsW/AX0U83PxVz2ZFGRVhJWXbdOSlFJaS3ZJB3hJQHhEvUxAjMDyEmsQtJpab64J
-jlTA8AgBgJFA5ObmVPWx35prpq51wIE1WmPfaEIYnyIy9Nwy/I77gfqMjdFA5fGb
-bQYMz+U6mQ==
-=xcRb
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaLVFQQAKCRAnX84Zoj2+
+dqWLAX4+87bZ7fsBevn2MdqNcQfYWCtBzCpIt7Ur2RMiKoK90YPBq18Wjbz7XTPj
+6eoW9gUBf1/qZoIAUuLYXaWhDcYy/kgyI7+UbRWoALTKdYd+i3+BpclRaOQ4KZuy
+jWcl9fVvJQ==
+=xP3w
 -----END PGP SIGNATURE-----
 
---y4s6v275ws7f4w3b--
+--d2n7j42lzxyhexut--
