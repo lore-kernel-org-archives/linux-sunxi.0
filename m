@@ -1,124 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out203-205-221-173.mail.qq.com (out203-205-221-173.mail.qq.com [203.205.221.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC989262FFF;
-	Mon,  1 Sep 2025 07:12:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6A1C2F067E
+	for <linux-sunxi@lists.linux.dev>; Mon,  1 Sep 2025 09:04:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756710769; cv=none; b=qPgcpdpfeu4n+AqLBazPadBTgcFfi8rVB+NatXtvy3QQTjR72CyXRrD4RD8OX3aX2NMyHkMyY50OzlofrFeVneynK0/yyfkG1oh4tYKk5nN5TUJeOOmg34AvNpZ46tBEXxHphLiiuRTlsJ/3ZAFksa79B3O6bBI9YXalQnBFKQA=
+	t=1756717479; cv=none; b=Q2RZm5Fiu8/4yFmnZfZW+kYHyWx2rIAUPOqcgNwTT4OVOiL6W145+niR8dRox16SqWz3wIWP0FtyLEmMF0E4XKQ61znvgsYbR9N1O49VPM0bTvByio6XCt6S77JkaHWVdxM15Vtc4I4HHsTI850ZjZeSj85M4YeiIZC7HaLR4bU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756710769; c=relaxed/simple;
-	bh=sqbENlpFH5Ccvd/AgXy87AdCw0HQL2r94DTlakLOXkE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZVe7NFEfifZ2yWJm7tBu2RHhIDbZgZyfs+Wy1F8A6gzSHUFaLV5J1zdUO8YP/hfH450egCgKfIoDY+qWcqemDUg1zbfTswcSYfrQM4Q463HgdsGrDbEiodMQxfTzpEo4ALUP9AidQWLudGa5DSA1SqVflxbxlHqz81kxbpFJx2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qvRDcRrJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756717479; c=relaxed/simple;
+	bh=T8ihf112g9u2f1A9yPNf17Zec+yVLlF4arukt8xeoQs=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=ixkK4UyHsdwdYlJKCM+46rjVaEBp8l9e2TqzyH5SAY2xmQpnZSC+00BH6AeCit12688+XsQjNn8YYiUuvGFWksTFRjqd3u1g5mfxZ5fe4+iQQTd+Jx15kgajcy4mODDMnnMvmZcA+Ut/B20yUJrPpFJDhqbQ5AwdoGwEgFqplkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=cljPwtmr; arc=none smtp.client-ip=203.205.221.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qvRDcRrJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E41B7C4CEF0;
-	Mon,  1 Sep 2025 07:12:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756710768;
-	bh=sqbENlpFH5Ccvd/AgXy87AdCw0HQL2r94DTlakLOXkE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qvRDcRrJ3D2orbIXD7WnuTXHeCCjdEyWTuDs2ehGvhH6g092TdwffObCqw6c3uPLj
-	 /LyQnIM2gYrkY8DFOfIK0y8o9dXYqaB/y6NMyGkRxKvMlT3K9spwFFMDYRtxMCKJej
-	 1wrFpvr9L++WHzsNl28uYkEvkhaQTo3ziwnt7z0yMtJCHEWdaOMCxn8TX4Jvo9oQPX
-	 fYB3jIhQEdxqsmSzY+6qM25gbImIAMBuY2woXO5cFVs9o3SpRem6K0tuRgzRzeu/NI
-	 DR/Ca/K5KgS2GLJQRe0egTW1bfKVOFXUd2fX+2D36zBgNZ0ccw7or48CslrIcmF8Or
-	 A5QRwxc+l8WBw==
-Date: Mon, 1 Sep 2025 09:12:45 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Sandy Huang <hjc@rock-chips.com>, 
-	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Samuel Holland <samuel@sholland.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
-	Liu Ying <victor.liu@nxp.com>, Rob Clark <robin.clark@oss.qualcomm.com>, 
-	Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
-	Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
-	Marijn Suijten <marijn.suijten@somainline.org>, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v3 02/11] drm/bridge: adv7511: declare supported
- infoframes
-Message-ID: <20250901-tidy-auburn-tarsier-e7b1e7@houat>
-References: <20250830-drm-limit-infoframes-v3-0-32fcbec4634e@oss.qualcomm.com>
- <20250830-drm-limit-infoframes-v3-2-32fcbec4634e@oss.qualcomm.com>
+	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="cljPwtmr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+	s=s201512; t=1756717455;
+	bh=yaTeFtLRO5tvXwPuK3rKpMfJKgvbP8eLKfJv8XhYE/E=;
+	h=From:To:Cc:Subject:Date;
+	b=cljPwtmrAkZeg8IkGCVBuGqJPAgyLgrV6xteO5Jd2rdpEwZVwqjx4d/rOQ/7UJ+fm
+	 dU4lDMh/0QHzqKGIPDMG9r88STauudtDsjU5p5n+YgEqd+UyzipY/Hkc3fz3WQ28Mv
+	 eTcNagklQwIxyt1dAKuz5OZgLBKnqRAdVw2Z+Upw=
+Received: from localhost.localdomain ([112.94.77.11])
+	by newxmesmtplogicsvrsza36-0.qq.com (NewEsmtp) with SMTP
+	id 10D1883F; Mon, 01 Sep 2025 17:04:13 +0800
+X-QQ-mid: xmsmtpt1756717453t5ocrcnwm
+Message-ID: <tencent_64909A540A8CD9063D28DEFD0A684AF9B709@qq.com>
+X-QQ-XMAILINFO: NRYSeI3Ux+UPKBqenge/iM5apnt4JgNSf6hICTmL6hwIFOvHFwQt6jEpO5mfZ7
+	 ff7W+zARH/K2ohCTAQtNOZ9K/+dzervwNbcHVb7ZOPLd7PFftSOx24rKqtKjN+SI/46ipWyJp+mf
+	 N3Vw6kZdPI4mUdaLfxCn+zYw1OSGkXo3qA/OwlYGCwxG91UYkF3Cy1JKiXIKAyo20QP36SsvL0ed
+	 tQFXw+789q+0a+vxtOOjcO6tatqpp0YuagsZ8T32dJvGzouFltZSPd2V3hpo0+F9s4ltPnnkbJ/n
+	 aXqtwu6CUGo8ihauxjnGFUKOePrn0m008hP4OBzwYE6/ZCb+d4RiuwfLymeh7VllGN1tGTCIA+Fb
+	 bIvDpbgBCz2zZdxUZh3IO0gxHZGK9wssu6IfrSi/NC6ocMWQkqI3oAHnEjwwnAB/pWr/vCQbYKTw
+	 4l8FPj2hLZ/TJU8jaNnfWyiyt9PGFwZOYiGbuZoI+CbqC8gTSFodeRYfl5jmRcv2JX/BjNDXCtpN
+	 UwBeMQqqVwn8IXoFrkFZFWBlozXZt0cEkaB6axoiIAA/5Q1FD4mJJvugXIaT7EJjP+SvF/yq32FS
+	 LeocQal7ou8z3QjpOcPDH4OXXRNmJr7d42lY3tl1sC+b+Dy7WKdekCzJ0It5GumRrocnY4XEytUe
+	 ux78PRYagET3mDYgss9ymWWPySrgAAQJy4U26Q5NEJLvxAfwCr4omlw3m+5hsez52WvPj6KpRBan
+	 3quRgn7OWzmeMGfxM0hcpX5i75UBVnGquZfJP/TQQ5fcAswl0X4ioJj6cGPADKxMu39Q8Q5DulYE
+	 rOa7nDnNzIcF0qYoxlJRs/zSd3DsxjQhvEgwE5zbE2+YqF/TCM5J06JlKgrzDQ1ULxkewBgMXQSn
+	 LRqY5L7U+FK+w6pFRr83xq+rDeKAgaQJV+txukzFb1nEzRnU8hvFEgK8Wpzp0mMjUHV0nDa+XtcT
+	 5ehyRPrRKcKkW14IUAaGrNdTGrZOAPY6NsT2JaevrDdeiH5NrQ/3tIA5Yzz9O9zu8923LMv+h8PR
+	 ktlx0pYv/6fKaJI8SqHQ7rc1dXt6w=
+X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
+From: Conley Lee <conleylee@foxmail.com>
+To: kuba@kernel.org,
+	davem@davemloft.net,
+	wens@csie.org,
+	mripard@kernel.org
+Cc: netdev@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	Conley Lee <conleylee@foxmail.com>
+Subject: [PATCH] arm: dts: sun4i-emac enable dma rx in sun4i
+Date: Mon,  1 Sep 2025 17:04:03 +0800
+X-OQ-MSGID: <20250901090403.533184-1-conleylee@foxmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="pqxavipok3t73ium"
-Content-Disposition: inline
-In-Reply-To: <20250830-drm-limit-infoframes-v3-2-32fcbec4634e@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
+
+The current sun4i-emac driver supports receiving data packets using DMA,
+but this feature is not enabled in the device tree (dts) configuration.
+This patch enables the DMA receive option in the dts file.
+
+Signed-off-by: Conley Lee <conleylee@foxmail.com>
+---
+ arch/arm/boot/dts/allwinner/sun4i-a10.dtsi | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/arch/arm/boot/dts/allwinner/sun4i-a10.dtsi b/arch/arm/boot/dts/allwinner/sun4i-a10.dtsi
+index 51a6464aa..b20ef5841 100644
+--- a/arch/arm/boot/dts/allwinner/sun4i-a10.dtsi
++++ b/arch/arm/boot/dts/allwinner/sun4i-a10.dtsi
+@@ -317,6 +317,8 @@ emac: ethernet@1c0b000 {
+ 			allwinner,sram = <&emac_sram 1>;
+ 			pinctrl-names = "default";
+ 			pinctrl-0 = <&emac_pins>;
++			dmas = <&dma SUN4I_DMA_DEDICATED 7>;
++			dma-names = "rx";
+ 			status = "disabled";
+ 		};
+ 
+-- 
+2.25.1
 
 
---pqxavipok3t73ium
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 02/11] drm/bridge: adv7511: declare supported
- infoframes
-MIME-Version: 1.0
-
-On Sat, Aug 30, 2025 at 03:22:58AM +0300, Dmitry Baryshkov wrote:
-> Declare which infoframes are supported via the .hdmi_write_infoframe()
-> interface. Audio infoframe is handled separately.
->=20
-> Reviewed-by: Liu Ying <victor.liu@nxp.com>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
->  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/d=
-rm/bridge/adv7511/adv7511_drv.c
-> index 26f8ef4824235a9a85b57a9a3a816fe26a59e45c..fe30567b56b4f600683f0545e=
-d270665e692b12c 100644
-> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> @@ -904,7 +904,7 @@ static int adv7511_bridge_hdmi_clear_infoframe(struct=
- drm_bridge *bridge,
->  		break;
->  	default:
->  		drm_dbg_driver(adv7511->bridge.dev, "Unsupported HDMI InfoFrame %x\n",=
- type);
-> -		break;
-> +		return -EOPNOTSUPP;
->  	}
-> =20
->  	return 0;
-> @@ -938,7 +938,7 @@ static int adv7511_bridge_hdmi_write_infoframe(struct=
- drm_bridge *bridge,
->  		break;
->  	default:
->  		drm_dbg_driver(adv7511->bridge.dev, "Unsupported HDMI InfoFrame %x\n",=
- type);
-> -		break;
-> +		return -EOPNOTSUPP;
-
-We do need to document that it's what drivers must return though.
-
-Maxime
-
---pqxavipok3t73ium
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaLVHbQAKCRAnX84Zoj2+
-dt3KAX0ZWp21D5I1WfwgyhTb7vH2ZBY8xOTpHJNqK0/JL81whZT+fJo0wz4+NRJx
-iBLn7D4BfRsIiD6leCOIITTZsJxThT9rcAz5duWccxLZ5gpctOvKi1BZ0t0qCcPY
-yc40IvF47Q==
-=adUS
------END PGP SIGNATURE-----
-
---pqxavipok3t73ium--
